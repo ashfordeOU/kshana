@@ -2732,3 +2732,479 @@ js-geo-count-used = В решении
 js-geo-cursor-live = Азимут { $az }°, скайлайн { $el }°.
 
 js-geo-dated-sky = Датированное небо настолько хорошо, насколько хороши элементы и их возраст; наборы настроек исключены.
+
+js-geo-dop-geometric = геометрический
+
+js-geo-dop-geometric-title = геометрический фактор ухудшения точности
+
+js-geo-dop-horizontal = горизонтальный
+
+js-geo-dop-horizontal-title = горизонтальный фактор ухудшения точности
+
+js-geo-dop-position = положение, 3D
+
+js-geo-dop-position-title = пространственный (3D) фактор ухудшения точности положения
+
+js-geo-dop-time = время
+
+js-geo-dop-time-title = временной фактор ухудшения точности
+
+js-geo-dop-vertical = вертикальный
+
+js-geo-dop-vertical-title = вертикальный фактор ухудшения точности
+
+js-geo-east = E
+
+js-geo-engine-not-running = Движок не работает в этом браузере ({ $reason }).
+
+js-geo-err-geometry-object = ответ движка с геометрией не является объектом
+
+js-geo-err-mc-object = ответ движка с расчётом Монте-Карло не является объектом
+
+js-geo-err-no-sentences = в ответе движка нет предложений
+
+js-geo-err-reply-kind-not-json = ответ движка ({ $what }) не является JSON
+
+js-geo-err-reply-not-json = ответ движка не является JSON
+
+js-geo-error-line = При σ_UERE = { $uere } m, в рамках заданной модели ошибок (данные движка): { $bits }.
+
+js-geo-error-line-needs = Ошибка положения ≈ σ_UERE × HDOP по горизонтали и σ_UERE × VDOP по вертикали; для этого показателя нужен движок 0.36.
+
+js-geo-error-rms-3d = 3D RMS σ_UERE × PDOP = { $m } m
+
+js-geo-error-rms-h = горизонтальная RMS σ_UERE × HDOP = { $m } m
+
+js-geo-error-sigma = ошибка 1-сигма: восток { $east } m, север { $north } m
+
+js-geo-fact-ellipse-1s = Эллипс, 1-сигма
+
+js-geo-fact-ellipse-1s-value = { $major } m × { $minor } m, большая ось { $deg }° от севера
+
+js-geo-fact-ellipse-pct = Эллипс, { $pct } %
+
+js-geo-fact-ellipse-pct-scaled = { $major } m × { $minor } m (1-сигма × { $k })
+
+js-geo-fact-ellipse-pct-value = { $major } m × { $minor } m
+
+js-geo-fact-inside = Внутри эллипса 95 %
+
+js-geo-fact-inside-value = { $pct } % точек
+
+js-geo-fact-line = { $key }: { $value }.
+
+js-geo-fact-mc = Монте-Карло
+
+js-geo-fact-mc-value = решений методом наименьших квадратов: { $n }, начальное значение { $seed }
+
+js-geo-fact-rms-3d = RMS облака, 3D
+
+js-geo-fact-rms-3d-beside = { $rms } m, для сравнения σ_UERE × PDOP = { $predicted } m
+
+js-geo-fact-rms-h = RMS облака, горизонтальная
+
+js-geo-fact-rms-h-beside = { $rms } m, для сравнения σ_UERE × HDOP = { $predicted } m
+
+js-geo-fact-rms-value = { $rms } m
+
+js-geo-gj-not-geojson = { $name }: не GeoJSON (ожидался FeatureCollection, Feature или геометрия).
+
+js-geo-gj-not-json = { $name }: не JSON ({ $reason }).
+
+js-geo-gj-not-object = { $name }: не объект GeoJSON.
+
+js-geo-gj-too-many = { $name }: объектов — { $count }; эта страница рисует не более { $max }.
+
+js-geo-legend-item = { $label }: в решении { $used } из { $total }
+
+js-geo-link-copied = Ссылка скопирована.
+
+js-geo-link-copied-no-tle = Ссылка скопирована (без ваших вставленных элементов: ссылка открывает наборы настроек).
+
+js-geo-mc-off = Выкл.
+
+js-geo-missing-ellipse = эллипс ошибок
+
+js-geo-missing-gdop = GDOP
+
+js-geo-missing-leo = LEO
+
+js-geo-missing-monte-carlo = облако Монте-Карло
+
+js-geo-missing-open-sky = доля открытого неба
+
+js-geo-missing-skyline = скайлайн
+
+js-geo-missing-tdop = TDOP
+
+js-geo-needs = нужен движок 0.36
+
+js-geo-needs-cap = Нужен движок 0.36
+
+js-geo-no = Нет
+
+js-geo-no-ellipse = Нет эллипса
+
+js-geo-no-sats = Нет спутников для показа.
+
+js-geo-north = N
+
+js-geo-not-given = не задано
+
+js-geo-note-elements-skipped = Пропущено наборов элементов — { $count }: { $list }.
+
+js-geo-note-latitude-limited = Эта сборка движка моделирует площадки в пределах 89° от экватора; широта ограничена этим значением.
+
+js-geo-note-leo-left-out = LEO: нужен движок 0.36; исключено.
+
+js-geo-note-no-engine = Движок не работает в этом браузере, поэтому показывать нечего. Он работает как WebAssembly; браузер или узел, блокирующие WebAssembly, не могут запустить это представление.
+
+js-geo-note-pick-one = Выберите хотя бы одну из систем GPS, Galileo и BeiDou.
+
+js-geo-note-skyline-not-applied = Скайлайн нарисован, но не применён: для его применения нужен движок 0.36. Спутники за ним здесь по-прежнему учитываются.
+
+js-geo-note-skyline-source = Скайлайн: { $source }.
+
+js-geo-note-training-model = Модель учебного неба движка { $version } (nmea_training) на { $instant }: углы в целых градусах и DOP с одним десятичным знаком, как их несут предложения приёмника; определение положения использует не более 12 спутников, выбранных по мощности сигнала.
+
+js-geo-note-unknown-systems = Пропущено записей спутников из систем, которые это представление не рисует: { $count }.
+
+js-geo-off-leo = LEO: нужен движок 0.36.
+
+js-geo-off-monte-carlo = Для облака Монте-Карло нужен движок 0.36.
+
+js-geo-off-skyline = Для применения скайлайна нужен движок 0.36: здесь он только нарисован.
+
+js-geo-offset-own = Смещение от эпохи ваших элементов ({ $epoch })
+
+js-geo-offset-ref = Смещение от опорной эпохи орбитальных группировок
+
+js-geo-open-sky-share = { $pct } % верхней полусферы
+
+js-geo-out-of-range = Вне диапазона, поэтому оставлено последнее допустимое значение: { $names }.
+
+js-geo-own-elements-at = Ваши собственные элементы на { $epoch }.
+
+js-geo-pick-constellation = Выберите хотя бы одну орбитальную группировку.
+
+js-geo-place-geiranger = Фьорд Гейрангер, Норвегия
+
+js-geo-place-manhattan = Мидтаун Манхэттена, США
+
+js-geo-place-oslo = Гавань Осло, Норвегия
+
+js-geo-place-rotterdam = Порт Роттердама, Нидерланды
+
+js-geo-place-singapore = Сингапурский пролив
+
+js-geo-place-tallinn = Гавань Таллина, Эстония
+
+js-geo-place-tromso = Тромсё, Норвегия
+
+js-geo-plot-desc = Спутников на графике: { $total }, в решении: { $used }.
+
+js-geo-preset-illustrative = Иллюстративный контур, нарисованный этой страницей; для применения скайлайна нужен движок 0.36.
+
+js-geo-ready = Готово.
+
+js-geo-ready-needs = Готово. Нужен движок 0.36: { $list }.
+
+js-geo-sat-masked = { $label } { $id }: азимут { $az }°, возвышение { $el }°, скрыт скайлайном
+
+js-geo-sat-unused = { $label } { $id }: азимут { $az }°, возвышение { $el }°, не используется
+
+js-geo-sat-used = { $label } { $id }: азимут { $az }°, возвышение { $el }°, в решении
+
+js-geo-scenarios-under = Сценарии движка под этим скайлайном:
+
+js-geo-sky-canyon = Городской каньон
+
+js-geo-sky-drawn = Нарисовано на скайплоте
+
+js-geo-sky-open = Открытый горизонт
+
+js-geo-sky-preset = Набор: { $name }
+
+js-geo-sky-source = Небо: { $source }.
+
+js-geo-skyline-city-street = Городская улица
+
+js-geo-skyline-container = Контейнерный терминал
+
+js-geo-skyline-fjord = Фьорд
+
+js-geo-skyline-harbour = Подход к гавани
+
+js-geo-skyline-load-failed = Не удалось загрузить скайлайн ({ $reason }).
+
+js-geo-skyplot-downloaded = Скайплот скачан.
+
+js-geo-skyplot-export-failed = Не удалось экспортировать скайплот ({ $reason }).
+
+js-geo-source-geometry = Движок Kshana { $version }, sky_geometry
+
+js-geo-source-line = { $source }.
+
+js-geo-source-training = Движок Kshana { $version }, модель учебного неба
+
+js-geo-south = S
+
+js-geo-style-own-elements = Ваши элементы
+
+js-geo-svg-refused = SVG движка был отклонён
+
+js-geo-table-count = Спутников: { $n }, столько же, сколько на скайплоте.
+
+js-geo-tle-epoch = Укажите эпоху UTC с 2000 по 2099 год.
+
+js-geo-tle-paste-first = Сначала вставьте один или несколько двухстрочных наборов элементов.
+
+js-geo-tle-too-large = Вставленные элементы больше 4 MiB — предела входных данных движка.
+
+js-geo-used-masked = Нет: скрыт скайлайном
+
+js-geo-using-own = Используются ваши собственные элементы. Ссылка содержит лишь сведение о том, что вы их использовали, но не сами элементы.
+
+js-geo-wasm-blocked = WebAssembly заблокирован
+
+js-geo-west = W
+
+js-geo-why = Почему
+
+js-geo-why-interim = Для эллипса ошибок и облака Монте-Карло нужен движок 0.36 (его функции sky_geometry и sky_monte_carlo); движок на этой странице старее.
+
+js-geo-why-no-ellipse = Движок не дал эллипса для этой геометрии (слишком мало спутников для определения положения или вырожденная геометрия).
+
+js-geo-why-no-ellipse-reason = Движок не дал эллипса для этой геометрии (слишком мало спутников для определения положения или вырожденная геометрия): { $reason }.
+
+js-geo-why-waiting = Ожидание движка.
+
+js-geo-yes = Да
+
+js-hold-axis-seconds = секунды от первого отсчёта
+
+js-hold-axis-tau = время наблюдения τ, s (лог.)
+
+js-hold-axis-te = ошибка времени, ns
+
+js-hold-band-title = Полоса восстановления ±{ $band } ns
+
+js-hold-blurb-example = Отсчёты каждые 5 s: 600 s захват, GNSS отключён на 600 s, holdover, GNSS восстановлен на 2400 s. Запись сгенерирована для примера; это не измерение.
+
+js-hold-blurb-ptp4l = Те же четыре шага, считанные из журнала сервопривода ptp4l (собственное смещение демона, в ns). Журнал написан для примера; демон не запускался.
+
+js-hold-budget-exceeded = { $name } впервые превышен через { $s } s после отключения
+
+js-hold-chip-baseline = Базовый уровень относительно масок
+
+js-hold-chip-envelope = Огибающая holdover ePRTC-A
+
+js-hold-chip-holdover = Holdover относительно масок
+
+js-hold-chip-measured = измерено относительно маски
+
+js-hold-chip-recovery = Восстановление
+
+js-hold-chip-words = Слова
+
+js-hold-curve-title = { $step }: { $which }, ns
+
+js-hold-curves-aria = { $which } в зависимости от времени наблюдения, с пределами масок
+
+js-hold-envelope-exceeded = Огибающая holdover ePRTC-A впервые превышена через { $s } s после отключения
+
+js-hold-envelope-exceeded-short = { $verdict }, впервые превышена через { $s } s после отключения (запись короче периода огибающей)
+
+js-hold-envelope-exceeded-value = { $verdict }, впервые превышена через { $s } s после отключения
+
+js-hold-envelope-short = { $verdict } (запись короче периода огибающей)
+
+js-hold-file-error = { $name }: { $error }.
+
+js-hold-file-not-json = { $name }: не JSON.
+
+js-hold-file-read-here = { $name } прочитан здесь; ничего не отправлялось.
+
+js-hold-file-too-large = { $name } больше, чем читает эта страница.
+
+js-hold-from-record = запись результата
+
+js-hold-from-record-decimated =
+    запись результата, прореженная до { $have } из { $total ->
+        [one] { $total } отсчёта
+        [few] { $total } отсчётов
+        [many] { $total } отсчётов
+       *[other] { $total } отсчёта
+    }
+
+js-hold-gnss-removed = GNSS отключён
+
+js-hold-gnss-removed-stated = GNSS отключён (указано оператором)
+
+js-hold-gnss-restored = GNSS восстановлен
+
+js-hold-gnss-restored-stated = GNSS восстановлен (указано оператором)
+
+js-hold-largest-at = { $value } при T+{ $time } s
+
+js-hold-limit-label = маска ±{ $ns } ns, { $step }
+
+js-hold-limit-title = { $id }: ±{ $ns } ns, максимальная абсолютная ошибка времени на шаге { $step }
+
+js-hold-mark-title = { $id } предел { $limit } ns при τ { $tau } s ({ $verdict }; { $source })
+
+js-hold-marker-time = { $name }, T+{ $time } s
+
+js-hold-na = н/д
+
+js-hold-no-curve = Нет кривой ошибки времени: запись не удалось воспроизвести для построения.
+
+js-hold-no-which-curve = В этом результате нет кривой { $which }.
+
+js-hold-not-exceeded = не превышена
+
+js-hold-not-recovered = не оставался в пределах полосы
+
+js-hold-not-result = это не результат испытания holdover
+
+js-hold-open-failed = Не удалось открыть { $title }: { $reason }.
+
+js-hold-opening = Открытие { $title }…
+
+js-hold-phase-baseline = Базовый уровень: захват
+
+js-hold-phase-holdover = Holdover: GNSS отключён
+
+js-hold-phase-recovery = Восстановление: GNSS восстановлен
+
+js-hold-phase-title = { $phase }, от T+{ $from } s до { $to } s
+
+js-hold-read-failed = Не удалось прочитать или нарисовать ({ $reason }).
+
+js-hold-recorded = { $title }: записанный результат движка (версия { $version }).
+
+js-hold-recovered = в пределах ±{ $band } ns в течение { $dwell } s, через { $after } s после возвращения GNSS
+
+js-hold-result-not-json = результат не является JSON ({ $reason })
+
+js-hold-result-not-loaded = записанный результат не загрузился
+
+js-hold-row-envelope = Огибающая holdover ePRTC-A
+
+js-hold-row-frequency = Удерживаемое смещение частоты (подогнанный наклон)
+
+js-hold-row-largest = Наибольшая абсолютная ошибка времени
+
+js-hold-row-length = Длительность holdover
+
+js-hold-row-margin = Наименьший запас внутри огибающей
+
+js-hold-row-peak = Пик после восстановления
+
+js-hold-row-recovery = Восстановление
+
+js-hold-row-recovery-step = Наибольший шаг при восстановлении
+
+js-hold-row-residual = Остаток относительно этой линии (RMS)
+
+js-hold-row-step = Шаг в момент отключения
+
+js-hold-status-final = { $status } { $label }; измерено относительно маски.
+
+js-hold-step-span = T+{ $from } до { $to } s
+
+js-hold-te-aria = Ошибка времени по записи, с фазами и пределами масок
+
+js-hold-te-line-title = Ошибка времени, ns
+
+js-hold-te-note = Ошибка времени из { $from }. Два момента времени указал { $by }.
+
+js-hold-th-budget = Бюджет
+
+js-hold-th-budget-limit = Предел |TE|, ns
+
+js-hold-th-first-exceeded = Впервые превышено после отключения, s
+
+js-hold-th-largest = Наибольшее |TE|, ns
+
+js-hold-th-limit = Предел, ns
+
+js-hold-th-margin = Запас, ns
+
+js-hold-th-mask = Маска
+
+js-hold-th-mean = Среднее, ns
+
+js-hold-th-measured-on = Измерено на
+
+js-hold-th-metric = Метрика
+
+js-hold-th-rms = RMS, ns
+
+js-hold-th-samples = Отсчёты
+
+js-hold-th-source = Источник
+
+js-hold-th-span = Интервал
+
+js-hold-th-step = Шаг
+
+js-hold-th-value = Значение, ns
+
+js-hold-th-verdict = Вердикт
+
+js-hold-th-worst-at = Худшее при τ или T+, s
+
+js-hold-title-example = Запись ошибки времени
+
+js-hold-title-ptp4l = Журнал linuxptp
+
+js-hold-why-no-samples = результат не содержит отсчётов ошибки времени (record.series), поэтому кривая не рисуется
+
+js-hold-why-not-series = ряд в результате не является временным рядом (менее двух отсчётов или время не возрастает), поэтому кривая не рисуется
+
+js-hold-why-sentence = { $why }.
+
+js-hold-why-too-many = в ряду результата отсчётов: { $have }, а движок оценил { $scored }, поэтому кривая не рисуется
+
+js-interf-attribution = Атрибуция
+
+js-interf-build-failed = { $name }: не удалось построить ({ $reason }).
+
+js-interf-built-day-maps =
+    { $n ->
+        [one] Построена { $n } карта за день по { $name } движком { $version } в этом браузере.
+        [few] Построены { $n } карты за день по { $name } движком { $version } в этом браузере.
+        [many] Построено { $n } карт за день по { $name } движком { $version } в этом браузере.
+       *[other] Построены { $n } карты за день по { $name } движком { $version } в этом браузере.
+    }
+
+js-interf-built-detail = { $date }: опубликовано ячеек — { $published }, помечено — { $flagged }
+
+js-interf-built-from-sample = Построено из синтетического образца { $kind } движком в этом браузере. Выдуманные донесения; никакого реального самолёта, судна или дня.
+
+js-interf-built-maps =
+    { $n ->
+        [one] Построена { $n } карта ({ $detail }). Только агрегат: помеченная ячейка не называет помехи причиной.
+        [few] Построены { $n } карты ({ $detail }). Только агрегат: помеченная ячейка не называет помехи причиной.
+        [many] Построено { $n } карт ({ $detail }). Только агрегат: помеченная ячейка не называет помехи причиной.
+       *[other] Построены { $n } карты ({ $detail }). Только агрегат: помеченная ячейка не называет помехи причиной.
+    }
+
+js-interf-built-none = { $name }: движок не построил ни одной карты.
+
+js-interf-caveat-coverage = Покрытие определяется источником данных; прочтите примечания о покрытии.
+
+js-interf-caveat-no-colour = Ячейка без цвета не наблюдалась. Это не доказательство того, что район был чист.
+
+js-interf-caveat-not-finding = Ухудшенная или аномальная ячейка не является выводом о помехах. Существуют другие причины.
+
+js-interf-caveat-past-reports = Это описание прошлых донесений о положении, а не прогноз и не измерение какого-либо приёмника.
+
+js-interf-caveats = Оговорки
+
+js-interf-cell-size-rule = Размер ячейки должен быть числом градусов больше 0 и не более 10 либо пустым (тогда 0.5).
+
+js-interf-check-failed = { $name }: не удалось проверить ({ $reason }).
+
+js-interf-click-cell = Щёлкните ячейку или переведите фокус на карту и используйте клавиши со стрелками, чтобы увидеть её показатели.
