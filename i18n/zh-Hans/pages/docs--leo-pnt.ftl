@@ -15,3 +15,5 @@ seg-f63dd3d7aad4 = 来源
 seg-587beeccaa11 = 预设
 
 seg-e305279d5b11 = 内容
+
+seg-b03d56f501c3 = 类别

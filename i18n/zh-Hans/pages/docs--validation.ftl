@@ -41,3 +41,5 @@ seg-f63dd3d7aad4 = 来源
 seg-638b8d451550 = 传感器
 
 seg-04f69a0edb2f = 类型
+
+seg-b03d56f501c3 = 类别
