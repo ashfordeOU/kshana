@@ -113,7 +113,7 @@ studio-ledger-rows =
 studio-recorded-in-english = Registrerad på engelska
 studio-lang-engine-fallback = Motortexten för det här språket kunde inte läsas in; engelska visas.
 
-studio-geometry-kshana-home = { -brand } startsida
+studio-geometry-kshana-home = Kshana startsida
 
 studio-geometry-back-to-the-studio = Tillbaka till Studio
 
@@ -627,7 +627,7 @@ studio-trust-the-satellite-geometry-always-shown = Satellitgeometrin, alltid vis
 
 studio-trust-the-receiver-s-own-flag = Mottagarens egen flagga
 
-studio-trust-what-the-receiver-itself-says = Vad mottagaren själv säger om spoofing och jamming (u-blox UBX-NAV-STATUS och UBX-SEC-SIG), bredvid övervakarna i { -brand }. Koderna är mottagarens; ingen av detektorerna är referens, och samstämmighet är inte validering. Flaggan ändrar ingen poäng.
+studio-trust-what-the-receiver-itself-says = Vad mottagaren själv säger om spoofing och jamming (u-blox UBX-NAV-STATUS och UBX-SEC-SIG), bredvid övervakarna i Kshana. Koderna är mottagarens; ingen av detektorerna är referens, och samstämmighet är inte validering. Flaggan ändrar ingen poäng.
 
 studio-trust-over-the-run = Över körningen
 
@@ -679,7 +679,7 @@ studio-main-how-many-navigation-satellites-can = Hur många navigeringssatellite
 
 studio-main-loading-the-recorded-result = Läser in det registrerade resultatet…
 
-studio-main-everything-kshana-can-do = Allt { -brand } kan göra
+studio-main-everything-kshana-can-do = Allt Kshana kan göra
 
 studio-main-each-area-shows-a-real = Varje område visar ett verkligt registrerat resultat och den blandning av evidens som ligger bakom det.
 
@@ -717,7 +717,7 @@ studio-main-what-your-runs-evidence-against = Vad dina körningar utgör evidens
 
 studio-main-whether-recorded-galileo-data-is = Om inspelade Galileo-data är autentiserade, tagg för tagg.
 
-studio-main-use-kshana-from-your-assistant = Använd { -brand } från din assistent via MCP-servern.
+studio-main-use-kshana-from-your-assistant = Använd Kshana från din assistent via MCP-servern.
 
 studio-main-all-scenarios = Alla scenarier
 
@@ -823,9 +823,9 @@ studio-main-every-panel-and-field = Varje panel och fält
 
 studio-main-the-advanced-view-is-the = Den avancerade vyn är hela instrumentpanelen: varje panel i den här körningen sida vid sida, varje fält i scenariot, svep, jämförelser och motorns egen rapport. Den öppnas på det här scenariot, med dina inställningar.
 
-studio-main-kshana-pro = { -brand } Pro
+studio-main-kshana-pro = Kshana Pro
 
-studio-main-kshana-studio = { -brand } Studio
+studio-main-kshana-studio = Kshana Studio
 
 studio-main-request-an-evaluation = Begär en utvärdering
 

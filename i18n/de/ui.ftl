@@ -113,7 +113,7 @@ studio-ledger-rows =
 studio-recorded-in-english = Auf Englisch aufgezeichnet
 studio-lang-engine-fallback = Der Engine-Text für diese Sprache konnte nicht geladen werden; Englisch wird angezeigt.
 
-studio-geometry-kshana-home = { -brand } Startseite
+studio-geometry-kshana-home = Kshana Startseite
 
 studio-geometry-back-to-the-studio = Zurück zum Studio
 
@@ -625,7 +625,7 @@ studio-trust-geometry-at-the-cursor = Geometrie am Cursor
 
 studio-trust-the-receiver-s-own-flag = Das eigene Flag des Empfängers
 
-studio-trust-what-the-receiver-itself-says = Was der Empfänger selbst über Spoofing und Jamming sagt (u-blox UBX-NAV-STATUS und UBX-SEC-SIG), neben den Monitoren von { -brand } gestellt. Die Codes sind die des Empfängers; keiner der Detektoren ist Ground Truth, und Übereinstimmung ist keine Validierung. Das Flag ändert keinen Wert.
+studio-trust-what-the-receiver-itself-says = Was der Empfänger selbst über Spoofing und Jamming sagt (u-blox UBX-NAV-STATUS und UBX-SEC-SIG), neben den Monitoren von Kshana gestellt. Die Codes sind die des Empfängers; keiner der Detektoren ist Ground Truth, und Übereinstimmung ist keine Validierung. Das Flag ändert keinen Wert.
 
 studio-trust-over-the-run = Über den Lauf
 
@@ -677,7 +677,7 @@ studio-main-how-many-navigation-satellites-can = Wie viele Navigationssatelliten
 
 studio-main-loading-the-recorded-result = Das aufgezeichnete Ergebnis wird geladen …
 
-studio-main-everything-kshana-can-do = Alles, was { -brand } kann
+studio-main-everything-kshana-can-do = Alles, was Kshana kann
 
 studio-main-each-area-shows-a-real = Jeder Bereich zeigt ein echtes aufgezeichnetes Ergebnis und die Mischung der Nachweise dahinter.
 
@@ -715,7 +715,7 @@ studio-main-what-your-runs-evidence-against = Wofür Ihre Läufe gegenüber ver�
 
 studio-main-whether-recorded-galileo-data-is = Ob aufgezeichnete Galileo-Daten authentifiziert sind, Tag für Tag.
 
-studio-main-use-kshana-from-your-assistant = { -brand } über den MCP-Server aus Ihrem Assistenten verwenden.
+studio-main-use-kshana-from-your-assistant = Kshana über den MCP-Server aus Ihrem Assistenten verwenden.
 
 studio-main-all-scenarios = Alle Szenarien
 
@@ -821,9 +821,9 @@ studio-main-every-panel-and-field = Jedes Panel und jedes Feld
 
 studio-main-the-advanced-view-is-the = Die erweiterte Ansicht ist das vollständige Dashboard: jedes Panel dieses Laufs nebeneinander, jedes Feld des Szenarios, Durchläufe, Vergleiche und der eigene Bericht der Engine. Sie öffnet sich mit diesem Szenario und Ihren Einstellungen.
 
-studio-main-kshana-pro = { -brand } Pro
+studio-main-kshana-pro = Kshana Pro
 
-studio-main-kshana-studio = { -brand } Studio
+studio-main-kshana-studio = Kshana Studio
 
 studio-main-request-an-evaluation = Eine Evaluierung anfragen
 
