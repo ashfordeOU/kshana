@@ -7919,3 +7919,447 @@ js-t35data-card-land-why = Це єдина команда, що відкрива
 js-t35data-card-marine-title = Морські інтеграції
 
 js-t35data-card-marine-what = Плагін сервера Signal K і OpenCPN через NMEA у режимі шлюзу по TCP виводять оцінку довіри на програмне забезпечення, яким судноводії-любителі вже користуються; еталонна збірка виводить її на невеликий комп'ютер поруч із приймачем.
+
+js-t35data-card-marine-why = Вони споживають працюючий живий процес і його шлюз TCP: це розгортання на комп'ютері судна.
+
+js-t35data-card-telemetry-title = Довіра як телеметрія безпеки
+
+js-t35data-card-telemetry-what = Перетворює потік довіри (оцінка, смуга, причини) на метрики Prometheus, події syslog у CEF або LEEF для SIEM і на OpenTelemetry. Лише читає потік і ніколи не змінює оцінку.
+
+js-t35data-card-telemetry-why = Це процес, що віддає метрики та надсилає до ваших систем моніторингу, тому він працює поруч із приймачем, а не на сторінці.
+
+js-t35data-card-training-stream-title = Навчальні потоки на адресу TCP або UDP
+
+js-t35data-card-training-stream-what = Надсилає згенерований навчальний потік до мостового симулятора або картплотера в реальному часі чи швидше. Навчальна сторінка Studio генерує той самий текст і дає змогу його завантажити.
+
+js-t35data-card-training-stream-why = Надсилати на мережеву адресу сторінка браузера не може. Потік — лише текст і ніколи не призначений для живих навігаційних систем судна.
+
+js-t35data-feat-ai-ai = Варіанти встановлення сервера MCP із запитаннями, на які відповідає кожен інструмент
+
+js-t35data-feat-ai-name = Використання з ШІ-асистента (сервер MCP)
+
+js-t35data-feat-bench-bench = Експортуйте тут рух, NMEA, шляхові точки та події сценарію
+
+js-t35data-feat-bench-name = Експорт test-bench для лабораторного симулятора
+
+js-t35data-feat-compliance-compliance = Дивіться тут, для яких рядків рамок ваші прогони підтримують докази (supports evidence for), і таблиці зіставлення
+
+js-t35data-feat-compliance-name = Зіставлення compliance з публічними рамками стійкості
+
+js-t35data-feat-evidence-evidence = Перевірте тут пакет і додайте токен позначки часу
+
+js-t35data-feat-evidence-name = Підписані пакети доказів
+
+js-t35data-feat-evidence-why = Створення пакета потребує приватного ключа підпису, який не повинен проходити через вебсторінку. Пакети створюють командним рядком, Python або інструментами ШІ-асистента.
+
+js-t35data-feat-interference-map-interference = Відкрийте файли карт або побудуйте тут карту з CSV і перевірте за нею маршрут
+
+js-t35data-feat-interference-map-name = Карта завад (ADS-B і AIS) та вплив на маршрут
+
+js-t35data-feat-iq-name = Монітори й інструменти IQ GNSS (сцена, захоплення, супроводження, перебір, вхідний каскад, монітор, кампанії)
+
+js-t35data-feat-iq-why = Запис — це гігабайти відліків, які сторінка не може вмістити, а деякі команди переписують записи на диску. Збірка для браузера не має функцій IQ.
+
+js-t35data-feat-jammertest-jammertest = Імпортуйте план для часового проміжку журналу або оцініть журнал приймача (UBX, RINEX, Android, NMEA чи Septentrio SBF) за кожним тестом: затримка виявлення, пропущені, хибні тривоги, час відновлення; MODELLED
+
+js-t35data-feat-jammertest-name = Jammertest як суддя: опублікований план тестів як запланована істина, журнал приймача, оцінений за ним (0.38)
+
+js-t35data-feat-live-gate-name = Живий потік довіри, шлюз і слухач (stdin, файл, TCP, UDP, --gate, --listen)
+
+js-t35data-feat-live-gate-why = Це працюючий процес на шляху даних. Сторінка повертається, коли завершується, і не може тримати сокет відкритим для картплотера, а також позначити визначення недійсним у живому потоці. Studio натомість оцінює обмежений уривок у тому самому живому форматі, без шлюзу.
+
+js-t35data-feat-machines-imufit = Підігнати параметри акселерометра й гіроскопа гібридних сценаріїв і сценаріїв об'єднання за журналом нерухомого IMU; MODELLED
+
+js-t35data-feat-machines-name = Входи приймача й датчиків: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, IMU для курсу та підгонка IMU для гібридних сценаріїв і сценаріїв об'єднання (0.38)
+
+js-t35data-feat-machines-trust = Відкрийте журнал в одному з цих форматів (і необов'язковий файл IMU) у загальному прогоні довіри до приймача; власний прапорець глушника NovAtel порівнюється з тривогами Kshana
+
+js-t35data-feat-marine-name = Морські інтеграції: плагін Signal K і OpenCPN
+
+js-t35data-feat-marine-why = Вони споживають працюючий живий процес і його шлюз TCP, тож це розгортання на комп'ютері судна, а не те, що може виконати сторінка.
+
+js-t35data-feat-maritime-trust-name = Морська оцінка довіри для судна в русі (від 0 до 100, з причинами)
+
+js-t35data-feat-maritime-trust-trust = Відкрийте результат або живий прогін JSON-lines і дивіться трасу, оцінку, причини та шлюз; оцініть тут журнал NMEA
+
+js-t35data-feat-nmea-training-name = Навчальні потоки NMEA з журналом інструктора
+
+js-t35data-feat-nmea-training-training = Згенеруйте тут потік і його журнал інструктора, завантажте їх і проведіть розбір для тренера
+
+js-t35data-feat-osnma-name = Перевірка Galileo OSNMA (вхід UBX SFRBX)
+
+js-t35data-feat-osnma-osnma = Завантажте записаний файл і дивіться стан автентифікації для кожного супутника й кожного тега
+
+js-t35data-feat-telemetry-name = Експорт телеметрії: метрики Prometheus, syslog CEF і LEEF, OpenTelemetry
+
+js-t35data-feat-telemetry-why = Він віддає метрики, надсилає syslog і експортує OpenTelemetry із працюючого потоку: це процес, що спілкується з вашими системами моніторингу, чим сторінка бути не може.
+
+js-t35data-feat-training-stream-name = Потокове передавання навчального потоку на адресу TCP або UDP
+
+js-t35data-feat-training-stream-why = Він надсилає на мережеву адресу, чого вебсторінка не робить. Studio генерує текст, а ви його завантажуєте.
+
+js-t35data-page-ai = Використання з вашого ШІ-асистента
+
+js-t35data-page-bench = Експорт test-bench
+
+js-t35data-page-cli = Можливості командного рядка
+
+js-t35data-page-compliance = Зіставлення compliance
+
+js-t35data-page-evidence = Пакети доказів
+
+js-t35data-page-geometry = Геометрія: скайплот, скайлайн і DOP
+
+js-t35data-page-imufit = Підгонка IMU
+
+js-t35data-page-interference = Карта завад
+
+js-t35data-page-jammertest = Оцінка Jammertest
+
+js-t35data-page-osnma = Перевірка OSNMA
+
+js-t35data-page-training = Розбір навчання
+
+js-t35data-page-trust = Морська довіра
+
+js-t35data-sample-iq-help = Список команд IQ
+
+js-t35data-sample-telemetry-cef = Syslog у CEF для демонстраційного прогону
+
+js-t35data-sample-telemetry-leef = Syslog у LEEF для демонстраційного прогону
+
+js-t35data-sample-telemetry-metrics = Метрики Prometheus для демонстраційного прогону
+
+js-tools-ai-group-engine = Встановіть рушій і його бібліотеки
+
+js-tools-ai-group-integrations = Морські інтеграції, плагіни та інформаційні панелі
+
+js-tools-ai-group-mcp = Встановіть сервер MCP для вашого асистента
+
+js-tools-ai-heading = Використовуйте Kshana зі свого ШІ-асистента
+
+js-tools-ai-install-mcp = Встановити сервер MCP
+
+js-tools-ai-intro = Сервер MCP Kshana дає змогу ШІ-асистентові запускати рушій замість того, щоб вгадувати числа. Він працює на вашому комп'ютері; нічого не надсилається до Kshana. Оберіть спосіб, що пасує вашому інструменту.
+
+js-tools-ai-load-failed = Варіанти встановлення не завантажилися ({ $reason }). Дивіться документацію сервера MCP.
+
+js-tools-ai-mcp-docs = Документація сервера MCP
+
+js-tools-ai-more-ways = Інші способи встановлення
+
+js-tools-ai-none-listed = У цій збірці немає переліку варіантів встановлення.
+
+js-tools-ai-other-ways = Інші способи встановити Kshana
+
+js-tools-ai-read-agent-guide = Прочитати посібник для агентів
+
+js-tools-ai-rule = Правило для кожної відповіді: асистент запускає рушій і повідомляє те, що повернув інструмент, з одиницею та рівнем доказів (перевірено за зовнішнім оракулом, або змодельовано), сценарієм, зерном (seed) і версією рушія, щоб прогін можна було повторити. Застереження результату лишаються з ним. Сервер MCP не читає й не записує файлів поза однією папкою, яку ви вмикаєте самі.
+
+js-tools-ai-what-to-ask = Що питати і який інструмент відповідає
+
+js-tools-ai-where-reachable = Де доступна кожна можливість
+
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } файл записано в пам'ять вашого браузера
+        [few] { $n } файли записано в пам'ять вашого браузера
+        [many] { $n } файлів записано в пам'ять вашого браузера
+       *[other] { $n } файлу записано в пам'ять вашого браузера
+    }
+
+js-tools-bench-note = Лише рух і позначені інтервали подій. Завантажте їх, щоб відкрити в лабораторному симуляторі.
+
+js-tools-bench-wrong-kind = { $name } — сценарій виду { $kind }. Траєкторія апарата існує для видів { $kinds }; інші види пояснюють, чому її немає.
+
+js-tools-building-report = Будується звіт…
+
+js-tools-choose-catalogue-first = Спершу виберіть JSON каталогу.
+
+js-tools-choose-file-first = Спершу виберіть файл.
+
+js-tools-choose-imu-log = Спершу виберіть журнал нерухомого IMU.
+
+js-tools-choose-pack-first = Спершу виберіть файли пакета.
+
+js-tools-choose-pack-first-above = Спершу виберіть файли пакета (вище).
+
+js-tools-choose-plan-file = Виберіть принаймні один файл плану.
+
+js-tools-choose-receiver-log = Спершу виберіть журнал приймача.
+
+js-tools-choose-result-first = Спершу виберіть принаймні один файл результату (*.result.json).
+
+js-tools-choose-scenario-first = Спершу виберіть сценарій.
+
+js-tools-choose-tsr-first = Спершу виберіть відповідь із позначкою часу (.tsr).
+
+js-tools-chosen = Вибрано
+
+js-tools-col-check = Перевірка
+
+js-tools-col-detail = Подробиці
+
+js-tools-col-first-monitors = Перші монітори
+
+js-tools-col-gap-that-stays = Розрив, що лишається
+
+js-tools-col-last-auth-tag = Останній автентифікований тег (час системи Galileo)
+
+js-tools-col-latency = Затримка, s
+
+js-tools-col-name = Назва
+
+js-tools-col-outcome = Підсумок
+
+js-tools-col-question = Запитання
+
+js-tools-col-recovered = Відновлено
+
+js-tools-col-reference = Еталон
+
+js-tools-col-result = Результат
+
+js-tools-col-row = Рядок
+
+js-tools-col-satellite = Супутник
+
+js-tools-col-slot = Слот, s
+
+js-tools-col-status = Статус
+
+js-tools-col-tags = Теги
+
+js-tools-col-test = Тест
+
+js-tools-col-these-runs = Ці прогони
+
+js-tools-col-tool = Інструмент
+
+js-tools-col-what-is-missing = Чого бракує
+
+js-tools-col-what-it-asks = Що вимагається
+
+js-tools-col-why-not-auth = Чому не автентифіковано
+
+js-tools-copied = Скопійовано
+
+js-tools-copy = Копіювати
+
+js-tools-copy-command-aria = Копіювати: { $cmd }
+
+js-tools-copy-labelled-aria = Копіювати { $label }: { $text }
+
+js-tools-did-not-work = Не спрацювало
+
+js-tools-documentation = Документація
+
+js-tools-download = Завантажити
+
+js-tools-download-all-zip = Завантажити все (zip)
+
+js-tools-download-events-toml = Завантажити події (TOML)
+
+js-tools-download-md = Завантажити (Markdown)
+
+js-tools-download-report-json = Завантажити звіт (JSON)
+
+js-tools-download-report-md = Завантажити звіт (Markdown)
+
+js-tools-download-scorecard-json = Завантажити таблицю оцінок (JSON)
+
+js-tools-download-table-toml = Завантажити таблицю (TOML)
+
+js-tools-download-updated-pack = Завантажити оновлений пакет (zip)
+
+js-tools-download-whole-report-json = Завантажити весь звіт (JSON)
+
+js-tools-engine-lacks-error = Ця збірка рушія (версія { $version }) не має { $need }, тому ще не може виконати це тут. Записані результати та командний рядок усе ще працюють.
+
+js-tools-engine-lacks-status = Ця збірка рушія (версія { $version }) не має { $need }: вона старша за версію, якої потребує цей інструмент. Еквівалент у командному рядку є на вкладці «Командний рядок».
+
+js-tools-engine-running = Рушій (версія { $version }) працює в цьому браузері. Нічого не завантажується.
+
+js-tools-engine-starting = Рушій запускається в цьому браузері…
+
+js-tools-engine-unavailable = Рушій не вдалося запустити тут ({ $reason }). Відкриття файлів працює; для запуску інструментів потрібен WebAssembly.
+
+js-tools-epoch-format = Використовуйте YYYY-MM-DDTHH:MM:SS, за потреби із Z (UTC).
+
+js-tools-epoch-not-real = Це не справжній момент UTC між 2000 і 2099 роками.
+
+js-tools-every-check = Кожна перевірка
+
+js-tools-evidence-disclaimer = Пакет доказів — це технічний запис того, що рушій обчислив зі вказаного журналу за вказаних налаштувань. Це не юридичний висновок, не встановлення фактів про будь-яку подію і не сертифікація. Успішна перевірка означає, що запис не змінено.
+
+js-tools-example-pack = Синтетичний приклад пакета
+
+js-tools-example-pack-note = Синтетичний пакет, створений командним рядком рушія з демонстраційного журналу порома за допомогою демонстраційного ключа. Ключ підставлено нижче; ключ справжнього підписувача надходить від підписувача іншим шляхом.
+
+js-tools-example-pack-tampered = Приклад пакета зі зміною одного байта в epochs.json
+
+js-tools-example-runs = Синтетичні приклади прогонів
+
+js-tools-example-tampered-note = Один байт файлу в пакеті змінено після підписання. Перевірте його: перевірка назве цей файл.
+
+js-tools-exporting = Експортується…
+
+js-tools-field-whole-number = { $field } має бути цілим числом
+
+js-tools-file-not-chosen = { $file } немає серед вибраних файлів
+
+js-tools-file-too-large = { $name } більший за 64 MiB
+
+js-tools-files-selected = { $label }: { $files }
+
+js-tools-fingerprint-not-pinned = Відбиток підписувача: { $fingerprint } (не закріплено: ключ, який називає сам пакет)
+
+js-tools-fingerprint-pinned = Відбиток підписувача: { $fingerprint } (закріплено)
+
+js-tools-fitting = Підгонка…
+
+js-tools-framework-summary = { $name }: підкріплено доказами — { $evidenced }, частково — { $partly }, без доказів — { $notEvidenced }, поза обсягом — { $outOfScope }
+
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+js-tools-fw-easa-aviation = Настанова EASA щодо завад GNSS для авіації
+
+js-tools-fw-en-16803 = EN 16803 (лише за номером частини та пункту)
+
+js-tools-fw-imo-ships = Настанова IMO щодо завад GNSS для суден
+
+js-tools-fw-nis2-art21 = Директива ЄС NIS2, стаття 21
+
+js-tools-gst-none = немає
+
+js-tools-gst-text = тиждень { $week }, { $tow } s
+
+js-tools-how-to-run = Як запустити
+
+js-tools-imu-file-too-large = { $name } більший за 32 MiB; відкрийте уривок.
+
+js-tools-imu-mean-not-number = Питома сила в спокої не є числом (0 для горизонтальної осі, близько 9.80665 для вертикальної).
+
+js-tools-imu-notice = { $evidence }: оцінювач перевірено на синтетичних журналах білого шуму з відомими коефіцієнтами, а не за зовнішнім оракулом. Таблиця називає SHA-256 журналу ({ $sha }…).
+
+js-tools-imu-selected = { $name } ({ $size }), прочитано тут, ніколи не завантажується.
+
+js-tools-jt-events-count =
+    { $n ->
+        [one] { $n } запланована подія
+        [few] { $n } заплановані події
+        [many] { $n } запланованих подій
+       *[other] { $n } запланованої події
+    }
+
+js-tools-jt-events-note = як запланована істина: заплановані слоти, а не записані часи ефіру. Не RF: { $nonRf }; поза журналом: { $outside }; невідомі ідентифікатори: { $unknown }.
+
+js-tools-jt-guard-hold = Охоронний інтервал { $guard } s, утримання відновлення { $hold } s.
+
+js-tools-jt-guard-hold-overlap = Охоронний інтервал { $guard } s, утримання відновлення { $hold } s. Базовий рівень калібрування перекрився із запланованим слотом.
+
+js-tools-jt-import-needs-start = Для імпорту потрібна перша епоха журналу в UTC (ISO 8601), бо план указано за місцевим часом.
+
+js-tools-jt-sel-catalogue = каталог { $name }
+
+js-tools-jt-sel-log = журнал { $name } ({ $size })
+
+js-tools-jt-sel-no-catalogue = немає каталогу
+
+js-tools-jt-sel-no-log = немає журналу
+
+js-tools-jt-sel-no-plan = немає плану
+
+js-tools-jt-sel-plans =
+    { $n ->
+        [one] { $n } файл плану
+        [few] { $n } файли плану
+        [many] { $n } файлів плану
+       *[other] { $n } файлу плану
+    }
+
+js-tools-jt-slot-range = від { $from } до { $to }
+
+js-tools-jt-what-area = Ділянка тесту
+
+js-tools-jt-what-guard = Охоронний інтервал
+
+js-tools-jt-what-hold = Утримання відновлення
+
+js-tools-jt-what-offset = Зсув від UTC
+
+js-tools-jt-what-year = Рік плану
+
+js-tools-label-command = команда
+
+js-tools-label-pinned-command = закріплена команда
+
+js-tools-label-settings-example = приклад налаштувань { $n }
+
+js-tools-loading = Завантаження…
+
+js-tools-max-runs = Щонайбільше { $max } прогонів.
+
+js-tools-merkle-root-format = Корінь Меркла — це 64 шістнадцяткові цифри.
+
+js-tools-must-be-number = { $what } має бути числом
+
+js-tools-must-be-whole-zero = { $what } має бути цілим числом, 0 означає «не задано»
+
+js-tools-na = н/д
+
+js-tools-needs = Потрібно: { $requires }
+
+js-tools-no = ні
+
+js-tools-none = немає
+
+js-tools-none-in-build = немає в цій збірці
+
+js-tools-not-in-browser = Не в браузері.
+
+js-tools-not-osnma = Не результат OSNMA
+
+js-tools-not-used = Не використано: { $item }
+
+js-tools-notes = Примітки
+
+js-tools-open = Відкрити
+
+js-tools-osnma-advisory = Лише консультативно: це результат аналізу та моніторингу, а не навігаційне обладнання із затвердженням типу. Стан автентифікації, поданий тут, не є послугою цілісності навігації й не може бути єдиною підставою для будь-якого навігаційного рішення або рішення щодо безпеки.
+
+js-tools-osnma-authenticated = Автентифіковано
+
+js-tools-osnma-caption = Стан автентифікації для кожного супутника
+
+js-tools-osnma-demo-note = Підставлено одноразовий публічний ключ; натисніть «Перевірити», щоб запустити тут верифікатор, або покажіть записаний результат.
+
+js-tools-osnma-discarded = Відкинуто
+
+js-tools-osnma-events = Що бачив верифікатор
+
+js-tools-osnma-examples-missing = синтетичних прикладів у цій збірці ще немає
+
+js-tools-osnma-failed = Збій
+
+js-tools-osnma-nma-alert = Статус NMA { $status }; система подала повідомлення-тривогу.
+
+js-tools-osnma-nma-status = Статус NMA { $status }.
+
+js-tools-osnma-not-json = Це не JSON від kshana osnma verify --json (потрібні overall і satellites).
+
+js-tools-osnma-overall = Загалом: { $status }
+
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] Прочитано { $n } сторінку.
+        [few] Прочитано { $n } сторінки.
+        [many] Прочитано { $n } сторінок.
+       *[other] Прочитано { $n } сторінки.
+    }
+
+js-tools-osnma-pending = Очікує
+
+js-tools-osnma-recorded-failed = записаний результат не завантажився
+
+js-tools-osnma-recorded-result = Записаний результат kshana osnma verify --json для { $file }.
