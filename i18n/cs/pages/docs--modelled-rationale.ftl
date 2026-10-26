@@ -666,3 +666,141 @@ seg-68caf86157c2 = Balíček receiver-trust pro ROS { "2" } a most gnss_lib_py
 seg-e7d7d99fe538 = Most bez ROS, který zapisuje zprávy o určení polohy a družicích jako NMEA a hodnotí je přes vazbu pro Python (integrations/ros2/kshana_trust), a most z gnss_lib_py NavData do receiver-trust přes formát rtklib-pos (integrations/gnss_lib_py).
 
 seg-c3c260b7063e = Testy
+
+seg-845e9f5eec81 = Ochranná úroveň společného módu a celková obálka integrity
+
+seg-38cabd4921c1 = Opětovný růst kovariance po předání vůči mezi pro výstrahu
+
+seg-9287268bbada = Zpráva hybrid-optical-rf zpřístupňuje model procesního šumu filtru a uvádí, jak dlouho zůstává řešení po předání uvnitř meze pro výstrahu: pro oba směry předání nese kovarianci po jednotlivých osách, kterou po sobě předání zanechalo, šíří ji dopředu při uvedeném procesním šumu typu náhodná procházka a hlásí okamžik, kdy 1σ přepočtená koeficientem pokrytí dosáhne horizontální, vertikální a časové meze pro výstrahu, která mez zabere první, časovou konstantu zdvojnásobení rozptylu a vzorkovaný profil doběhu, který překročení uzavírá do intervalu. Spektrální hustoty výkonu procesního šumu, koeficient pokrytí a meze pro výstrahu jsou vesměs vstupy s dokumentovanými výchozími hodnotami
+
+seg-a3b8272862aa = Mimoosový diagram antény v exportu lunární geometrie
+
+seg-27d246503a48 = Export geometrie po jednotlivých družicích nese pro každou dvojici (epocha, družice) úhel mimo osu NA DRUŽICI a vysílací zisk směrem k místu ze skutečného diagramu rovnoměrně osvětlené kruhové apertury (Airy) a uvádí počet družic v paprsku podle tohoto diagramu VEDLE počtu družic v paprsku podle symetrické aproximace zisku k šířce svazku (θ_3dB[deg] = √(31000/G_lin)), přičemž rozdíl se vydává jako explicitní korekce v počtu spojů, v družicích na epochu a jako nejhorší jednotlivá epocha. Vydávají se obě implikované účinnosti apertury u aproximace ({ "0.641" } proti pravidlu { "70" }·λ/D stupňů, s nímž se uvádí, { "0.920" } proti rovnoměrné kruhové apertuře), takže účinnost, kterou mlčky předpokládá, je uvedena a nikoli dovozována. Ve výchozím stavu vypnuto: blok se objeví jen tehdy, když jsou zadány exportní místo i apertura
+
+seg-6fbfa234ef3e = Ztráta zachycení ve sledovací smyčce a vtažení spoofingu při interferenci
+
+seg-f78c1f28a3f7 = Ztráta zachycení vypočtená z dynamiky smyčky namísto poměru výkonů: tepelný jitter 1σ nosné (Costas) a kódu (nekoherentní early/late) proti C/N₀ se ztrátou kvadrováním, proti uvedeným pravidlům 3σ_PLL + θ_e ≤ { "45" }° a 3σ_DLL + zpoždění rampy ≤ d/2 chipu; prahy C/N₀ pro pád a opětovné zachycení s pojmenovanou rozhodující smyčkou a hysterezí ODVOZENOU z širší šířky pásma vtažení, nikoli prohlášenou; deklarovaný čas do ztráty zachycení z dvouprahového detektoru zachycení s potvrzovacími prodlevami, uváděný odděleně od fyzikálního času úniku fáze (střední doba mezi proklouznutími cyklů podle Viterbiho, v log₁₀ s, protože se rozpíná přes stovky dekád); největší rychlost posunu kódu a Dopplerovu rychlost nosné, které smyčky oběti dokážou sledovat; a POLOMĚR POPŘENÍ (denial radius), který dynamika smyčky implikuje, uváděný vedle stávajícího poloměru z poměru výkonů, s jejich znaménkovým rozdílem jako samostatně pojmenovaným polem. Spustitelné jako druh scénáře <c1/>
+
+seg-0f4d023fe2d4 = Kovariance souřadnic bodu na povrchu Měsíce z plánu zpoždění VLBI, vedená odděleně od kovariance pozemské stanice
+
+seg-47352405133b = Třetí volba datumu, <c1/>, která drží všechny pozemské stanice a odhaduje samotné souřadnice MAJÁKU vázané k Měsíci, tedy konfigurace, pro niž se nejistota bodu na lunárním povrchu skutečně uvádí, protože souřadnice pozemských stanic jsou vstupem modelu zpoždění, nikoli jeho neznámou. Existuje proto, že kovariance na úrovni stanice a kovariance bodu na povrchu jsou RŮZNÉ VELIČINY oddělené poměrem ramene ρ/B a dosud nic nebránilo tomu, aby se jedna uváděla místo druhé. Vydávaný blok <c2/> nese ρ, nejdelší základnu, rameno, tvar ekvipartiční vazby pro bod na povrchu c·σ_τ·(ρ/B)·√(g/N), vypočtenou sigmu majáku pro každou souřadnici a jejich poměr; poměr je null, nikoli zavádějící, kdykoli maják není odhadován nebo je matice s deficitem hodnosti. B se bere jako NEJDELŠÍ přítomná základna, tedy nejpříznivější, takže poměr může být jen podhodnocen. Spustitelné jako <c3/> s <c4/>, což je odmítnuto zprávou jmenující chybějící vstup, pokud maják není odhadován
+
+seg-0315968c8214 = Lunární diferenciální PNT: rozpočet reziduí korekčního spoje
+
+seg-c6785166a44c = Tři členy, které diferenciální korekce nabere mezi epochou, v níž je vypočtena, a epochou, v níž je použita, každý dosud ponechaný jako nemodelovaná rezerva: chyba zaměření referenční stanice (korelovaná napříč družicemi, nezávislá na základně, přenos polohy ~{ "1" }:{ "1" } a prokazatelně nezesilovaná DOP), stárnutí korekce (zmrazený vektor chyby dráhy znovu promítnutý na zorný směr, na který vlastní propagátor enginu umístí družici o jednu latenci později, plus drift hodin c·σ_y(τ)·τ z kalibrovaného mocninného zákona) a rovnoměrná kvantizace spoje v přesném plném rozsahu ±(orbit_err + clock_err) s rozptylem step²/12. Uváděno v oblasti vzdáleností i polohy, vedle stávajícího rezidua a ochranné úrovně, nikdy místo nich, s křivkou latence vedle jediného čísla
+
+seg-c42646ae4707 = Mapa pokrytí a přesnosti lunární referenční stanice
+
+seg-1f9834b32629 = Monte Carlo průchod lunárním modelem diferenciálního PNT přes jihopolární mřížku uživatelů a den epoch (druh <c1/>): pro diferenciální referenční stanici na známém jihopolárním místě, pro každý bod i pro celou oblast, percentilová korigovaná a nekorigovaná chyba polohy (3D, horizontální, vertikální), dostupnost s důvodem pro každou nedostupnou epochu (user_lt4, station_missing_sat), pokrytí vůči prahu stanovenému před během, ochranné úrovně DO-229E, poloměr pokrytí pro každý azimutový sektor a rozpočet korekčního spoje na stanici a v nejhorším bodě. Nejde o tvrzení o výkonu žádného skutečného systému; bez příslušnosti k žádné agentuře a bez jejího schválení
+
+seg-7ecf4b0038b0 = Lunární terénní masky horizontu ze zadaného profilu nebo z polárního DEM
+
+seg-7102948907bc = Masky horizontu závislé na azimutu pro jednotlivá místa u druhu lunar-station-coverage (referenční stanice a každý bod uživatele) a u mřížky moonlight-service-volume a jejího exportního místa pro jednotlivé družice (každý exportní řádek získává clears_terrain), ve formátu tabulky obzoru { "0.36" } (skyline::Skyline, lineární v azimutu s přechodem při { "360" } stupních; zadaný profil a horizont z DEM na jednom místě se kombinují jako bodové maximum): zadaný [terrain] station_horizon nebo user_horizon označený svým zdrojem, a/nebo horizont sledovaný paprskem po jihopolárním stereografickém DEM (rozvržení polární mřížky LRO LOLA, čtené z deskriptoru, který určuje její velikost a SHA-256, nebo dlaždice realdata::lola_dem v zeměpisné šířce a délce s [terrain] dem_tile_path, vypsaná se svým SHA-256) po velkých kružnicích lunární koule s přesnou křivostí, z uvedené výšky stožáru, při uvedeném azimutovém kroku a dosahu. Družice se na místě počítá, když překoná plochou masku mask_deg i horizont v jejím azimutu (lunar_service::topocentric); epocha, kterou horizont v bodě omezí na méně než čtyři družice, kde plochá maska dává čtyři, se počítá jako důvod nedostupnosti terrain_masked. Dodaný DEM je výřez produktu LDEM_75S_240M z LOLA, který je volným dílem (public domain), převzorkovaný blokovým průměrem { "5" } x { "5" } na { "1200" } m (data/lunar-dem/NOTICE.md). Pokud chybí, každé místo si ponechává plochou masku a každý dokument je bajt po bajtu totožný
+
+seg-d37bb01e270b = Členy vícecestného šíření a hardwaru přijímače lunární referenční stanice
+
+seg-1103199f019b = Volitelná sekce [receiver] u lunar-station-coverage (LRS-02): sigma vícecestného šíření závislá na elevaci sigma(el) = a + b exp(-el / el0) u uživatele i u stanice (funkční tvar RTCA DO-229 pro letadla, jeho výchozí a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } stupňů; na Měsíci je každá hodnota ILUSTRATIVNÍ), bílé u uživatele a Gaussův-Markovův proces prvního řádu přes epochy u stanice (rho = exp(-dt / tau)); tepelný šum kódu DLL early-minus-late sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); biasy mezi kanály pro každý kanál konstantní během pokusu, u uživatele i u stanice. Členy stanice vstupují do jejích korekcí, členy uživatele do surových a korigovaných měření, každý na vlastním seedovaném proudu. Pokud chybí, každý dokument zůstává beze změny
+
+seg-03796cb741b6 = Růst chyby efemerid lunární referenční stanice po dobu latence korekce
+
+seg-13b0ae9a874a = Volitelný vstup orbit_err_growth_m_per_s u lunar-station-coverage (LRS-03): korekce použitá latency_s po svém výpočtu mine růst g latency_s vysílané chyby dráhy, g izotropní s 3D rychlostí RMS, losované pro každou družici a pokus na vlastním seedovaném proudu (rychlost 1-sigma tau / sqrt({ "3" })), nad rámec přeprojekce zmrazené chyby na zorný směr. Pokud chybí, každý dokument zůstává beze změny. Dodatek K5 k porovnání publikovaných tvrzení, předregistrovaný samostatně, spouští K5 při { "0.001" }, { "0.01" } a { "0.1" } m/s (ILUSTRATIVNÍ)
+
+seg-6d722c176052 = Klasifikace problému datumu vnitřního měření vzdálenosti: jediné pozorování vzdálenosti přispívá hodností { "1" } (6rozměrný nulový prostor); dvojice počátek-X a měřítko je téměř nulová a fyzikální librace DE440 sníží defekt na nulu, zatímco dvojice zůstává téměř degenerovaná
+
+seg-23d0dd7d0666 = Řádky jakobiánu datumu pro měření vzdálenosti LLR od Země k odražeči, diferenciální zpoždění dvou stanic lunárního VLBI a vzdálenost orbiteru k majáku nad 7parametrickým datumem, sloučené do jedné konzistentně předpodmíněné Fisherovy informace; dokládá, že tracking mimo radiálu (orbiter / hloubkově různorodý) prolamuje degeneraci mezi počátkem X a měřítkem, zatímco příčné VLBI pomáhá jen nepřímo
+
+seg-40e91288f81a = Pět odražečových polí na přivrácené straně v metrech v tělesové soustavě PA a pozemní stanice LLR v geodetických souřadnicích; umístění odražečů z tělesové do inerciální soustavy přes orientaci PA z DE440; analytické parciální derivace vzdálenosti Země–odražeč podle 4parametrického datumu; a Fisherova matice pouze z LLR, vykazující degeneraci lunocentrum-X a měřítko, která motivuje analýzu se 7 parametry
+
+seg-ebb827739614 = Byzantská mez detekce/identifikace z blokového sparku na autonomní lunární síti s uzly (T3)
+
+seg-4fb935e6193d = byzantine_bound instanciuje kódovací mez / mez řídké pozorovatelnosti pro bezpečný odhad stavu na geometrii sítě s uzly: byzantský peer vkládá libovolnou lineární kombinaci měření, kterých se účastní, a síť DETEKUJE každou koalici ≤ f = block_spark − { "1" } peerů a jednoznačně IDENTIFIKUJE každou koalici ≤ ⌊(block_spark − { "1" })/2⌋, kde block_spark je nejmenší koalice peerů, jejíž naskládané efektivní signatury P⊥·B_T mají sloupcově deficitní hodnost. Detekovatelnost peera je PLNÁ SLOUPCOVÁ HODNOST P⊥·B_j (nenulový, ale hodnostně deficitní blok je nenulový útok, který dopadne do range(G) a nezanechá žádné rezíduum), nikoli pouze P⊥·B_j ≠ { "0" }
+
+seg-4f57f586cf82 = Dolní mez časového gauge pro autonomní holdover u sebereferenční lunární konstelace (T4)
+
+seg-eb690e8f5c9b = holdover_floor stanoví, že v souboru autonomních uzlů propojených pouze měřeními mezi uzly je společná rychlost hodin (δα_j += { "1" } ∀j) volným parametrem časové stupnice souboru ležícím v N(GᵀWG): žádné další měření vzdálenosti mezi uzly ji nemůže pozorovat (rate_in_gauge = true, temporal_gauge_dim = { "2" } se společným posunem). To je skutečná dolní mez holdoveru, časový protějšek polohového gauge tuhé soustavy. Přidání jedné vnější vazby na absolutní rychlost (přímý spoj na referenci mimo síť) vyhodí společnou rychlost z nulového prostoru (rate_in_gauge = false, temporal_gauge_dim = { "1" }), čímž se dokazuje, že dolní mez je skutečný gauge, nikoli artefakt modelu oscilátoru
+
+seg-25ffd6e1979c = Rozdělení poskytovatelů na společnou/diferenciální část, sjednocení jedné hodnostní deficience a sklon mezery v ochraně (T5 / §{ "0" } / g7)
+
+seg-72c7ec3724bf = Tři stránky jediného rozkladu ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) s 8rozměrným gauge datum⊕časová stupnice jako N(G) a state_dim − { "8" } = { "32" } pozorovatelnými směry jako range(G): (T5) provider_mismatch_split klasifikuje společný bias více poskytovatelů (∈ range(G)) jako NEDETEKOVATELNÝ, vyžadující vnější vazbu, a diferenciální bias (∉ range(G)) jako samomonitorovaný / DETEKOVATELNÝ; (§{ "0" }) sjednocení spočívá v tom, že TENTÝŽ slepý podprostor range(G) řídí nedetekovatelnou třídu poruch, takže gauge datumu N(G) a podprostor slepý vůči poruchám range(G) jsou jedna geometrie, nikoli dvě; (g7) slope vrací Brownův sklon mezery v ochraně ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ pro poruchu b ∈ range(G) (odhad poškozen s nulovou paritou) a konečný pro detekovatelnou poruchu
+
+seg-632add2dbd3c = Telekomunikační synchronizační masky ITU-T s PASS/FAIL a rezervou
+
+seg-47687529aee7 = Přepsané meze ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC v zachyceném stavu a holdover ePRTC-A (včetně obálky časové chyby z tabulky { "3" }), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) třídy T-BC/T-TSC A–D a G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) referenční bod C, každý otevřený nebo uzavřený interval tak, jak jej tabulka uvádí, s vynecháním každé položky „for further study“; verdikt a rezerva v rozhodujícím bodě pro každou kontrolu a čas do překročení každého rozpočtu. Spustitelné jako druh scénáře <c1/>
+
+seg-165ed2bc771a = Masky generování wanderu pro frekvenční synchronizaci ITU-T (G.811, G.812, G.8262, G.8262.1)
+
+seg-953793d4446a = Sedm masek generování wanderu MTIE a TDEV při konstantní teplotě pro druh <c1/>: G.811 (09/1997) PRC (autonomní), G.812 (06/2004) typy I, II a III, G.8262 (10/2024) EEC možnosti { "1" } a { "2" } a G.8262.1 (11/2025) eEEC (zachycený režim), včetně částí s mocninným zákonem, které tabulky zapisují (<c2/> a podobně), každý interval otevřený nebo uzavřený tak, jak je vytištěn, měřený přes filtr { "10" } Hz, který články uvádějí (bráno jako použité před vzorkováním); referenční scénář scenarios/telecom-synce-eec.toml staví volně běžící OCXO proti třem maskám EEC. Neimplementováno: příspěvky při proměnné teplotě, holdover, přechodové jevy, jitter a přesnost frekvence podle G.811
+
+seg-5fc2ad88faf0 = Formáty záznamů hodin (hodiny RINEX, ASCII TimeLab, TAPR TICC) načtené do normalizované fázové řady
+
+seg-5b5bcbdea166 = clock_log::read_input: jedna vrstva parseru, která mění soubor hodin RINEX (záznamy AS/AR jedněch pojmenovaných hodin, verze { "2" } a { "3.00" } až { "3.04" }), záznam fáze nebo frekvence ve stylu ASCII TimeLab nebo záznam časových značek či intervalů TAPR TICC na jednotnou fázovou mřížku s uvedeným tau0, z hlavičky, nebo s mediánem rozestupu, přičemž se počítá každá mezera, údaj mimo mřížku i duplicita, s politikou mezer odmítnout, nejdelší souvislý úsek, nebo lineární; zapojeno dobrovolně do řady telecom-timing (<c1/>, s přidáním bloku <c2/>) a do druhu clock (<c3/>, s přidáním bloku <c4/> s ADEV, TDEV a MTIE, SHA-256 tabulky a SHA-256 fáze; runs = { "1" }). Bez tabulky jsou oba druhy bajt po bajtu totožné
+
+seg-acdb0337bce7 = Formáty záznamů hodin linuxptp (ptp4l, phc2sys, ts2phc) a chrony (tracking, statistics) načtené do normalizované fázové řady
+
+seg-e87b3dba2072 = clock_log::read_input s formáty ptp4l, phc2sys, ts2phc, chrony-tracking a chrony-statistics: zaznamenaný offset řádku serva linuxptp (ns, vlastní časová značka řádku v hranatých závorkách, údaje před prvním hlášením s2 ze serva vynechány a započítány) nebo záznamu chrony tracking či statistics (s, podle pozice sloupce, datum a čas UTC) se stává jednotnou fázovou mřížkou přes tytéž politiky mezer jako ostatní formáty; volič zdroje (<c1/>) pojmenuje jedno z několika rozhraní, hodin nebo adres; záznamy vstupují do řady telecom-timing, druhu clock a druhu holdover-test
+
+seg-97aebb84576e = Test holdoveru vyhodnocený ze záznamu časové chyby dodaného operátorem
+
+seg-ab533cf99c56 = Druh <c1/>: záznam časové chyby (záznam hodin linuxptp, chrony, TICC, TimeLab nebo RINEX, nebo dvojice time_s,time_error_ns) se rozdělí ve dvou časech, které operátor uvede pro odebrání a obnovení GNSS, na krok základní linie, holdoveru a zotavení; základní linie se měří proti maskám ITU-T psaným pro zachycené hodiny a holdover proti těm psaným pro holdover nebo autonomní hodiny, obálce holdoveru ePRTC-A a rozpočtům časové chyby; holdover uvádí frekvenční offset podle nejmenších čtverců, který systém držel, a zotavení uvádí, zda a kdy |TE| vešla do uvedeného pásma a zůstala v něm po uvedenou prodlevu, s maximem a největším skokem. Každá mez je ta, kterou druh telecom-timing přepisuje; oba časy jsou prohlášením operátora a neověřují se
+
+seg-94cbac97a1aa = Dostupnost signálů GNSS v prostoru služby pro kosmické prostředky (Space Service Volume) a za ním, porovnaná s brožurou ICG SSV
+
+seg-c59e349fdc9e = Průchody dostupností druhu <c1/>: pro každou konstelaci (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) i kombinovaně podíl dvojic (uživatel, epocha) s alespoň jedním a alespoň čtyřmi signály a nejdelší výpadek, pro uživatele na kouli (globální skořepina brožury o 2 562 bodech, { "14" } dní po { "1" } minutě) nebo na trajektorii (GEO, HEO, lunární přechod), z keplerovských drah z přílohy C brožury, konstantní minimální vyzářený výkon uvnitř referenčního úhlu mimo osu, zastínění Zemí koulí plus { "50" } km a práh C/N0; antény uživatelů z tabulky B10 brožury
+
+seg-d2f04991c8a4 = Vlivy ionosféry, plazmasféry a atmosféry na paprsky podél limbu na signály GNSS za mezním zákrytem a návrh přijímače pro slabé signály v druhu <c1/>
+
+seg-1a1786ba90b6 = Chapmanova ionosféra, plazmasféra typu Gallagher a neutrální atmosféra (ohyb podle refraktivity, absorpce kyslíkem, defokusace) integrované podél přímého paprsku mezi vysílačem a uživatelem: šikmý celkový elektronový obsah, jeho plazmasférická část, nadbytečné zpoždění, tečná výška a ztráta na spojích v těsné blízkosti limbu; a návrh přijímače pro slabé signály (koherentní a nekoherentní integrace, mez datového bitu, podpora, hledání Dopplera), který stanoví práh C/N0 z modelů akvizice a sledovací smyčky
+
+seg-6b8f9f3ca2a3 = Palubní navigační filtr GNSS pro kosmické lodě na vysoké oběžné dráze a při lunárním přechodu
+
+seg-39ddc494f103 = Režim <c2/> druhu <c1/>: devítistavový rozšířený Kalmanův filtr (poloha, rychlost, bias a drift hodin přijímače, měřítko tlaku slunečního záření) na pseudovzdálenostech, jejichž dostupnost, šum a C/N0 pocházejí ze stejné geometrie spojů jako průchody; pravda je integrována s J2, třetími tělesy Slunce a Měsíc a tlakem záření se stínem, filtr modeluje J2 a třetí tělesa a odhaduje tlak záření; uvádí chyby polohy a rychlosti uvnitř drah GNSS i nad nimi, nejdelší mezeru v měření a střední NEES
+
+seg-5fc242476828 = Relativní navigace formace více kosmických lodí na vysoce eliptické dráze z GNSS
+
+seg-f67eb29d4483 = Režim <c2/> druhu <c1/>: hlavní loď a pomocné lodě provozují každá absolutní filtr; poloha pomocné lodi vůči hlavní se odhaduje odečtením absolutních odhadů a relativním filtrem na jednoduchých diferencích pseudovzdáleností signálů, které sledují obě lodě, přičemž relativní dynamika je rozdílem dvou nelineárních trajektorií
+
+seg-7038f6902820 = Členy chyby interferometru se studenými atomy: fázový šum Ramanova laseru, zkreslení zakřivením vlnoplochy a řešení nejednoznačnosti proužků
+
+seg-4d9690207607 = inertial::cai_error_terms (knihovní funkce, dosud nedosažitelné z druhu scénáře): váhová funkce Ramanovy fáze třípulzního interferometru se čtvercovými pulzy (Cheinet a spol. { "2008" }, rov. { "8" }) s uzavřeným tvarem pro bílou fázi (pi/2)^{ "2" } S_phi0/tau_R a numerickou cestou pro libovolné spektrum; frekvenční šum laseru, který zpoždění zpětného odrazu nevyruší (Le Gouet a spol. { "2007" }, rov. { "9" } až { "11" }); zkreslení vlnoplochy čistým rozostřením sigma_v^2/R tepelného oblaku a jeho snížení poloměrem detekce; pravděpodobnost chybného indexu proužku erfc(pi/(sqrt({ "2" }) s)) pro podporu klasickým akcelerometrem a pro dvě interrogační doby a její inverze
+
+seg-363705e03bac = Předvolby holdoveru oscilátorů z veřejných datasheetů
+
+seg-9750d9e0ec7a = Čtyři předvolby: OCXO (Microchip OX-208), rubidium (Microchip 8040C), cesium (Microchip 5071A, vysoce výkonná trubice) a CSAC (Microchip SA.45s), každá nese maxima Allanovy odchylky, stárnutí a mez teploty ze svého datasheetu; nezáporné proložení šumu frekvence bílý + flicker + náhodná procházka metodou nejmenších čtverců, škálované tak, aby obalilo každý bod datasheetu, flickerová podlaha nikdy pod hodnotou pro nejdelší τ, lineární stárnutí a sinusový člen teploty, syntetizované jako seedovaný holdover po ztrátě GNSS
+
+seg-d7e03158b972 = Sekundy, než volně běžící hodiny opustí ochranný interval časově indexovaného slotu, a kadence korekcí, která je v něm udrží
+
+seg-0b4d8815f756 = Druh <c1/>: předpovězená chyba E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² invertovaná pro překročení, zbývající čas, interval resynchronizace po odečtení latence korekce a počet korekcí za den, každý člen rozepsaný s pojmenovaným dominantním; hodiny ze šesti výchozích hodnot ClockClass (TCXO, OCXO a RAFS přidány, každá s odkazem na jeden datasheet), předvolby telekomunikačního časování, vložený datasheet nebo naměřený záznam; překročení za nejdelším průměrovacím časem zdroje označené jako extrapolované
+
+seg-1fdbb476c8ab = Námořní skóre důvěry: agregace důkazů z monitorů do skóre 0–100 a jeho tří pásem
+
+seg-0d76b33144f1 = Každý monitor převede své důkazy na poměr statistiky k prahu; skóre je { "100" } minus součet přes monitory váhy krát omezená lineární rampa poměru ({ "0" } až { "0.5" }, { "1" } při { "1.5" }), omezené na { "0" } až { "100" } a zaokrouhlené na { "0.1" }, s pásmy při { "90" } a { "55" }; každá epocha uvádí monitory, které odečetly, a jejich body.
+
+seg-51640405c9b7 = Události SIEM telemetrie důvěry: Log Event Extended Format (LEEF) přes syslog
+
+seg-1b3245506847 = Události změny pásma (nebo na epochu) jako užitečný obsah Log Event Extended Format { "2.0" } v obálce RFC { "5424" } přes UDP nebo TCP, s dokumentovaným mapováním polí.
+
+seg-c04042b0270a = Prahy interference v důvěře v přijímač kalibrované na datové sadě JammerTest { "2024" }
+
+seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: předregistrovaná kalibrace monitorů poklesu C/N0, AGC a indikátoru rušení na veřejné datové sadě JammerTest { "2024" } (Zenodo { "15911589" }, GPL-3.0-or-later, stahovaná za běhu, nikdy nedodávaná): pro každou složku { "1" } s časová osa z mon_rf.csv a rinex.csv, monitory spuštěné jednou, každá epocha po kalibraci označená jako čistá nebo rušení podle attack_log složky (posunuto z CEST do UTC, ochranný interval { "60" } s), každý práh prohledán po pevné mřížce, vybrán nejmenší práh se souhrnnou pravděpodobností falešného poplachu na čistých epochách nejvýše { "0.01" } a počty při vynechání jedné složky (leave-one-folder-out) na zadržených datech; křížová kontrola čtečky UBX. Výběr se dodává pouze jako dobrovolný profil [monitors] profile = "jammertest-2024-calibrated" (cn0_drop_db { "1.5" }, agc_k_sigma { "3.5" }, jam_ind_threshold { "29" }); výchozí pravidlo a každý výstup bez něj zůstávají beze změny
+
+seg-65a8361b4a22 = Hodnocení Jammertestu: záznam přijímače hodnocený po každém plánovaném testu (latence detekce, zmeškané poplachy, falešné poplachy, doba zotavení) proti publikovanému plánu testů
+
+seg-98d8c39f47ae = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): katalog testů NPRA a plán vysílání (MIT, stahováno se zafixovaným SHA-256, nikdy nedodáváno) čtené jako plánovaná pravda se zachovanými identifikátory katalogu; běh receiver-trust hodnocený po jednotlivých testech (první poplach minus plánovaný začátek, detekováno/pozdě/zmeškáno vůči toleranci, doba do prvního úseku bez poplachu, poplachy mimo každý slot a jeho ochranný interval), s podepsaným balíčkem důkazů, který nese výsledkovou kartu. Rozvrh jsou plánované sloty, nikoli zaznamenané časy vysílání
+
+seg-ee99388f7b15 = compliance (kshana compliance-report): mapování výstupů Kshany na články veřejných rámců pouze podle čísla, vyplněné z uvedených běhů; výsledek se započítává ke schopnosti jen tehdy, když nese důkaz, který mapování jmenuje, prázdná množina nedokládá nic a formulace je „podporuje důkazy pro (supports evidence for)“; zpráva není zjištěním, že je jakýkoli rámec splněn, a není hodnocením ani schválením nikým.
+
+seg-98c360d82d56 = Námořní integrace: zásuvný modul Signal K, proud brány a panel skóre pro OpenCPN, referenční sestavení
+
+seg-7af9ce566646 = Skóre důvěry, pásmo, důvody, stav brány a poloha hlášená přijímačem zveřejněné pod navigation.gnss.kshana na serveru Signal K s upozorněním typu varování, alarm a normální (integrations/signalk); hradlovaný proud NMEA, s polohou označenou za neplatnou, dokud je důvěra zhroucena, a větou PKSHT na cyklus, poskytovaný do OpenCPN přes TCP samotnou branou nebo malým relé, a nativní panel skóre OpenCPN, který čte větu PKSHT (integrations/opencpn); a jednotky systemd a kontejner, které bránu provozují (deploy/reference-build). Kde tyto integrace zobrazují výstup, nesou poradní prohlášení: Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC { "61108" }, IEC { "61162" }): za navigaci plavidla zůstává odpovědný provozovatel.
+
+seg-89ab9ef155eb = Sledování BOC({ "1,1" }): škálování DLL a řešení nejednoznačnosti bump-jump (dobrovolné)
+
+seg-ef24be9b5917 = Pole boc v iq::track::LoopConfig (dobrovolné, ve výchozím stavu None): tři diskriminátory DLL přeškálované tak, aby četly chybu kódu v chipech s jednotkovým sklonem na hlavním vrcholu sinusového BOC({ "1,1" }), a monitor bump-jump na velmi předbíhajících a velmi zpožďujících korelátorech v jedné poloperiodě subnosné ({ "0.5" } chipu), který skočí s NCO kódu k hlavnímu vrcholu, když čítač nahoru/dolů dosáhne N ({ "8" } ve výchozím stavu). Bez této volby je každý výstup beze změny.
+
+seg-2c32955cbfb3 = Kanál ionosférické scintilace IQ (model Cornell) proti naměřené scintilaci GPS L1 s { "50" } Hz
+
+seg-2fdcb373ab25 = iq::channel::scint, scintilační model Cornell (Riceova intenzita, spektrum Butterworth druhého řádu, fáze arg z) poháněný S4 a dobou dekorelace intenzity naměřeného okna, porovnávaný na tom, co generuje nad rámec těchto dvou vstupů; realdata::scint50 čte naměřený záznam, odstraní z něj trend a provede porovnání.
+
+seg-160507ac3702 = Volba CFAR s průměrováním buněk v akvizici IQ
+
+seg-7c0a1adc9ae6 = iq::acq::ca_cfar a ca_cfar_cells (dobrovolné): buňka akviziční mřížky se porovnává s průměrem referenčních buněk své Dopplerovy řady (ochranné a krokové zpoždění, zalomené kolem periody) při faktoru alpha stanoveném z uzavřeného tvaru pravděpodobnosti falešného poplachu CA-CFAR pro M nekoherentních bloků (ca_cfar_pfa, ca_cfar_alpha). Detektor výkonu vzorku zůstává výchozí a každý stávající výstup je beze změny.
