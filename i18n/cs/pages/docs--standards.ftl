@@ -1,0 +1,9 @@
+# docs--standards: translations (cs)
+
+seg-4a2ce9f33ab2 = zápis
+
+seg-9120d3e96e5e = čtení
+
+seg-5ad814c7ef9e = Poznámky
+
+seg-aab745a65e76 = Modul
