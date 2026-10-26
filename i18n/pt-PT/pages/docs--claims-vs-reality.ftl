@@ -14,3 +14,6 @@ seg-ad856ad710eb = Estado
 
 # text
 seg-98d0bc6b40ce = Mapeamento de compliance de referenciais públicos
+
+# text
+seg-80f3f0aae42c = Mapa de interferência

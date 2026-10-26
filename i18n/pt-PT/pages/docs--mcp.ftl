@@ -35,3 +35,9 @@ seg-d6476863f862 = Capacidade
 
 # text
 seg-fdbb9db68f1d = none
+
+# text
+seg-1759a8cce7d6 = Tipos de cenário
+
+# text
+seg-564133d6a0c4 = Constelações em torno de qualquer corpo

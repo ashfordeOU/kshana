@@ -151,3 +151,6 @@ seg-7994e9983f27 = Determinista a partir do cenário, da semente e da versão do
 
 # attr:aria-label, text
 seg-9d3ee6a5613e = Execuções
+
+# text
+seg-94de9433d99f = Ficheiros de cenário

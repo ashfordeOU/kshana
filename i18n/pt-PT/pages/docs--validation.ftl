@@ -47,3 +47,6 @@ seg-20fee61b3107 = Biblioteca de modelos de erro de dispositivos quânticos
 
 # text
 seg-eaf341ff4522 = Navegação quântica sem GNSS
+
+# text
+seg-75636f9419b2 = Limitações conhecidas
