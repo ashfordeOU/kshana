@@ -12002,3 +12002,187 @@ js-trust-reasons-ran-free = 実行済み、減点なし
 js-trust-reasons-ratio = 比率 { $ratio }
 
 js-trust-reasons-row-title = { $name }：{ $text } クリックすると、開始しきい値を超えていた箇所に印を付けます。
+
+js-trust-reasons-weight = 重み { $weight }
+
+js-trust-reduced-motion = 動きの軽減が設定されているため、リプレイは 1x で始まります。アニメーションなしで移動するには、スライダーまたは矢印キーを使ってください。
+
+js-trust-say-gate = ゲート { $gate }
+
+js-trust-say-gate-derived = ゲート { $gate }（導出）
+
+js-trust-say-monitor-points = { $monitor } { $points } 点
+
+js-trust-say-position-from-true = 報告された位置は真値から { $m } m
+
+js-trust-say-reasons = 理由：{ $list }
+
+js-trust-say-score = スコア { $score }
+
+js-trust-scored-label = { $name } の { $count } エポックを、エンジン { $version } で、このブラウザー内で採点しました。
+
+js-trust-scored-summary = { $count } エポックを、エンジン { $version } で採点しました：{ $summary }。助言のみ。
+
+js-trust-scoring = エンジンを起動して採点しています…
+
+js-trust-self-code-meaning = { $code }：{ $meaning }
+
+js-trust-self-none-at-time = この時刻に、ログには受信機のフラグがありません。
+
+js-trust-self-not-in-log = ログにありません
+
+js-trust-self-row-flags = 受信機のフラグ
+
+js-trust-self-row-jamming = 受信機のジャミング状態
+
+js-trust-self-row-kshana-alarms = Kshana のモニターがアラームを出す
+
+js-trust-self-row-spoofing = 受信機のスプーフィング状態
+
+js-trust-self-unknown-agreement = このページが把握していない一致状況（{ $odd }）
+
+js-trust-self-yes-state-2 = はい（状態 2 以上）
+
+js-trust-set-degraded-edge = 劣化の境界
+
+js-trust-set-degraded-min = 劣化となる下限
+
+js-trust-set-epochs = エポック
+
+js-trust-set-epochs-counts = 合計 { $total }：キャリブレーション中 { $calibrating }、正常 { $nominal }、劣化 { $degraded }、信頼できない { $untrusted }。
+
+js-trust-set-epochs-counts-class = 合計 { $total }：キャリブレーション中 { $calibrating }、正常 { $nominal }、劣化 { $degraded }、信頼できない { $untrusted }。減点の区分別：ジオメトリ { $geometry }、環境 { $environment }、不整合 { $inconsistency }。
+
+js-trust-set-evidence-hold = 証拠の保持、s
+
+js-trust-set-full-ratio = 全重みとなる比率
+
+js-trust-set-geo-counts = 空：良好 { $good }、劣化 { $degraded }、不明 { $unknown }。ラベル：良好 { $lgood }、可 { $fair }、不良 { $poor }（不良のみ減点）。区分がジオメトリの減点のあるエポック { $geometry }、環境 { $environment }、不整合 { $inconsistency }。
+
+js-trust-set-geo-counts-odd = 空：良好 { $good }、劣化 { $degraded }、不明 { $unknown }（このページが把握していない値を持つもの { $odd } を、不明として読み取っています）。ラベル：良好 { $lgood }、可 { $fair }、不良 { $poor }（不良のみ減点）。区分がジオメトリの減点のあるエポック { $geometry }、環境 { $environment }、不整合 { $inconsistency }。
+
+js-trust-set-geometry = ジオメトリ（[geometry] 設定）
+
+js-trust-set-gloss = 各検査が見ているもの
+
+js-trust-set-live-geometry = ライブストリームはジオメトリのしきい値を示しません。文書化された既定値を適用します（HDOP 4 または PDOP 6 を超える、または衛星 5 機未満で不良。最大 15 点で、劣化の帯より下には決して下がりません）。
+
+js-trust-set-no-geometry = この実行にはジオメトリがありません。0.36 より前のエンジン、または trust.csv から得たものです。空については何も表示せず、良好として表示するものもありません。
+
+js-trust-set-nominal-min = 正常となる下限
+
+js-trust-set-onset-ratio = 減点が始まる比率
+
+js-trust-set-provenance = しきい値の出どころと、減点の区分の決め方
+
+js-trust-set-ran = 実行した検査
+
+js-trust-set-weights = 各検査の重み、点
+
+js-trust-settings-assumed = このストリームはスコアモデルを示しません。表示しているバンドの境界は、文書化された既定値で、仮定したものです。
+
+js-trust-show-in-replay = 下のリプレイでこの実行を表示（航跡、スコア、受信機自身のフラグ）
+
+js-trust-sky-no-gsv = GSV なし
+
+js-trust-sky-none = 空なし：その実行の NMEA ログ（またはデモ）を開くと、そこに載っている衛星を見られます。
+
+js-trust-span-title = { $what }、{ $from } から { $to }
+
+js-trust-state-0 = 不明または無効
+
+js-trust-state-1 = 表示なし
+
+js-trust-state-2 = 表示あり
+
+js-trust-state-3 = 複数の表示、または確認済み
+
+js-trust-strip-band = バンド
+
+js-trust-strip-class = 区分
+
+js-trust-strip-gate = ゲート
+
+js-trust-strip-marked = 印
+
+js-trust-strip-receiver = 受信機
+
+js-trust-strip-sky = 空
+
+js-trust-strips-none = このファイルにモニターの比率はありません。
+
+js-trust-strips-note-ran = 統計量としきい値の比。破線は 1 でのアラーム
+
+js-trust-strips-note-seen = 減点したことが確認されたモニターのみ。しきい値に対する比
+
+js-trust-sum-both-flag = 両方が警告
+
+js-trust-sum-epochs-compared = 比較したエポック（キャリブレーション後）
+
+js-trust-sum-first-kshana = それらのエポックのうち最初の Kshana のアラーム
+
+js-trust-sum-first-receiver = 最初の受信機のフラグ
+
+js-trust-sum-jamming-flag = 受信機のジャミングのフラグ（状態 2 以上）
+
+js-trust-sum-neither = どちらもなし
+
+js-trust-sum-only-kshana = Kshana のみがアラーム
+
+js-trust-sum-only-receiver = 受信機のみが警告
+
+js-trust-sum-spoofing-flag = 受信機のスプーフィングのフラグ（状態 2 以上）
+
+js-trust-thr-azimuth-gap = 空が部分的に遮られているとみなす方位角の隙間、度、この値以上
+
+js-trust-thr-cap-in-force = この実行でジオメトリの減点が取る最大の点数
+
+js-trust-thr-cap-points = ジオメトリの減点が取り得る最大の点数
+
+js-trust-thr-floor = ジオメトリだけで残り得る最低のスコア（空欄：劣化の帯の境界）
+
+js-trust-thr-floor-in-force = この実行でジオメトリだけで残り得る最低のスコア
+
+js-trust-thr-full-ratio = ジオメトリの減点が上限に達する比率
+
+js-trust-thr-hdop-good = ジオメトリが良好となる HDOP、この値以下
+
+js-trust-thr-hdop-max = ジオメトリが不良となる HDOP、この値を超える
+
+js-trust-thr-hold = 空の位置と GSA が、到着後も有効とみなされる時間、s
+
+js-trust-thr-low-elev = 失われた衛星を空のせいとみなす仰角、度、この値未満
+
+js-trust-thr-min-used = ジオメトリが不良となる使用衛星の最少数
+
+js-trust-thr-pdop-good = ジオメトリが良好となる PDOP、この値以下
+
+js-trust-thr-pdop-max = ジオメトリが不良となる PDOP、この値を超える
+
+js-trust-thr-reported-rel = 同じものを、導出した HDOP に対する割合で
+
+js-trust-thr-reported-tol = 両者が不一致とみなされるまでの、示された HDOP と導出した HDOP の差
+
+js-trust-thr-sigma-uere = しきい値が前提とするユーザー等価距離誤差、メートル
+
+js-trust-thr-used-good = ジオメトリが良好となる使用衛星数、この値以上
+
+js-trust-track-desc = 報告された位置 { $positions } 個の航跡、上が北。{ $untrusted } 個のエポックが信頼できません。
+
+js-trust-track-desc-none = 航跡なし：ファイルに位置が含まれていません。
+
+js-trust-track-desc-truth = 報告された位置 { $positions } 個の航跡、上が北。{ $untrusted } 個のエポックが信頼できません。細い灰色の線が真の航跡です。
+
+js-trust-track-end = 終了
+
+js-trust-track-no-positions = 開いたファイルに位置がありません
+
+js-trust-track-note = 上が北で、両軸とも同じ縮尺です。線は受信機が示した船の位置で、各エポックの信頼バンドで色分けしています。
+
+js-trust-track-note-none = このファイルには位置が含まれていません。航跡を描くには、その実行の元になった NMEA ログ（または位置を含む v1.1 ストリーム）を追加してください。
+
+js-trust-track-start = 開始
+
+js-trust-unknown-agreement = このページが把握していない一致状況
+
+js-trust-yes = はい
