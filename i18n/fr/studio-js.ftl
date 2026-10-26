@@ -7871,7 +7871,7 @@ js-t35data-card-marine-title = Intégrations maritimes
 
 js-t35data-card-marine-what = Un plugin pour serveur Signal K et OpenCPN via du NMEA en mode passerelle sur TCP mettent le score de confiance dans des logiciels que les plaisanciers utilisent déjà ; une version de référence le met sur un petit ordinateur à côté du récepteur.
 
-js-t35data-card-marine-why = Ils consomment le processus en direct en cours d'exécution et sa passerelle TCP : ce sont des déploiements sur l'ordinateur du bateau.
+js-t35data-card-marine-why = Ils consomment le processus en direct en cours d'exécution et sa barrière TCP : ce sont des déploiements sur l'ordinateur du bateau.
 
 js-t35data-card-telemetry-title = La confiance comme télémétrie de sécurité
 
@@ -7915,9 +7915,9 @@ js-t35data-feat-jammertest-jammertest = Importer le plan pour la période couver
 
 js-t35data-feat-jammertest-name = Jammertest comme arbitre : le plan d'essai publié comme vérité planifiée, un journal de récepteur évalué par rapport à lui (0.38)
 
-js-t35data-feat-live-gate-name = Flux de confiance en direct, passerelle et écoute (stdin, fichier, TCP, UDP, --gate, --listen)
+js-t35data-feat-live-gate-name = Flux de confiance en direct, barrière et écoute (stdin, fichier, TCP, UDP, --gate, --listen)
 
-js-t35data-feat-live-gate-why = C'est un processus en cours d'exécution dans le chemin des données. Une page rend la main quand elle se termine : elle ne peut ni garder un socket ouvert pour un traceur de cartes, ni marquer une position comme invalide dans un flux en direct. Le Studio évalue à la place un extrait borné, dans le même format en direct, sans passerelle.
+js-t35data-feat-live-gate-why = C'est un processus en cours d'exécution dans le chemin des données. Une page rend la main quand elle se termine : elle ne peut ni garder un socket ouvert pour un traceur de cartes, ni marquer une position comme invalide dans un flux en direct. Le Studio évalue à la place un extrait borné, dans le même format en direct, sans barrière.
 
 js-t35data-feat-machines-imufit = Ajuster les paramètres d'accéléromètre et de gyroscope des scénarios hybrides et de fusion à partir d'un journal d'IMU immobile ; MODELLED
 
@@ -7927,11 +7927,11 @@ js-t35data-feat-machines-trust = Ouvrir un journal dans l'un de ces formats (et 
 
 js-t35data-feat-marine-name = Intégrations maritimes : plugin Signal K et OpenCPN
 
-js-t35data-feat-marine-why = Elles consomment le processus en direct en cours d'exécution et sa passerelle TCP : ce sont donc des déploiements sur un ordinateur de bateau, pas quelque chose qu'une page peut exécuter.
+js-t35data-feat-marine-why = Elles consomment le processus en direct en cours d'exécution et sa barrière TCP : ce sont donc des déploiements sur un ordinateur de bateau, pas quelque chose qu'une page peut exécuter.
 
 js-t35data-feat-maritime-trust-name = Score de confiance maritime pour un navire en mouvement (de 0 à 100, avec les motifs)
 
-js-t35data-feat-maritime-trust-trust = Ouvrir un résultat ou une exécution JSON-lines en direct et voir la trace, le score, les motifs et la passerelle ; évaluer ici un journal NMEA
+js-t35data-feat-maritime-trust-trust = Ouvrir un résultat ou une exécution JSON-lines en direct et voir la trace, le score, les motifs et la barrière ; évaluer ici un journal NMEA
 
 js-t35data-feat-nmea-training-name = Flux de formation NMEA avec un journal d'instructeur
 
@@ -8207,7 +8207,7 @@ js-tools-jt-guard-hold = Garde { $guard } s, maintien de récupération { $hold 
 
 js-tools-jt-guard-hold-overlap = Garde { $guard } s, maintien de récupération { $hold } s. La référence d'étalonnage chevauchait un créneau planifié.
 
-js-tools-jt-import-needs-start = L'import exige le premier epoch du journal en UTC (ISO 8601), car le plan est en heure locale.
+js-tools-jt-import-needs-start = L'import exige la première époque du journal en UTC (ISO 8601), car le plan est en heure locale.
 
 js-tools-jt-sel-catalogue = catalogue { $name }
 
@@ -8411,7 +8411,7 @@ js-tools-tab-jammertest = Jammertest
 
 js-tools-tab-osnma = OSNMA
 
-js-tools-tele-all-events = Un événement syslog par epoch (par défaut : un par changement de bande)
+js-tools-tele-all-events = Un événement syslog par époque (par défaut : un par changement de bande)
 
 js-tools-tele-file-aria = Fichier de résultat ou JSON-lines
 
@@ -8819,3 +8819,487 @@ js-trust-agree-calibrating = dans la fenêtre d'étalonnage : non comparé
 js-trust-agree-kshana-only = seul Kshana alarme : le récepteur ne signale rien
 
 js-tools-ubx-ignored-sfrbx = Messages SFRBX ignorés (autres systèmes, E5b, alertes, sommes de contrôle erronées) : { $n }.
+
+js-trust-agree-neither = aucun ne signale
+
+js-trust-agree-receiver-only = seul le récepteur signale : aucun moniteur Kshana n'alarme
+
+js-trust-assessed = { $name } évalué avec le moteur { $version }, dans ce navigateur.
+
+js-trust-assessed-as = { $name } évalué comme { $format }, avec le moteur, dans ce navigateur. Rien n'a été téléversé.
+
+js-trust-assessing = Démarrage du moteur et évaluation…
+
+js-trust-class-also-costing = { $class } (coûte aussi des points)
+
+js-trust-class-environment = environnement : le signal (puissance, brouillage, satellites perdus alors que le ciel est dégagé)
+
+js-trust-class-geometry = géométrie : le ciel, pas le signal
+
+js-trust-class-inconsistency = incohérence : de type attaque, non expliquée par le ciel ni par le signal
+
+js-trust-dl-result-json = Télécharger le résultat (JSON)
+
+js-trust-dl-table-csv = Télécharger la table par époque (CSV)
+
+js-trust-edge-degraded = { $v } dégradé
+
+js-trust-edge-nominal = { $v } nominal
+
+js-trust-err-assess = { $name } : n'a pas pu être évalué ({ $reason }).
+
+js-trust-err-demo-files = les fichiers de démonstration n'ont pas pu être chargés
+
+js-trust-err-demo-log-open = Le journal de démonstration n'a pas pu être ouvert : { $reason }.
+
+js-trust-err-demo-open = La démonstration n'a pas pu être ouverte : { $reason }.
+
+js-trust-err-engine-no-receiver-trust = Cette version du moteur (version { $version }) n'a pas de receiver_trust.
+
+js-trust-err-engine-no-scorer = Cette version du moteur (version { $version }) n'a pas d'évaluateur de journal ; elle est antérieure à cette page. La commande est { $command }.
+
+js-trust-err-engine-start = Le moteur n'a pas pu démarrer ici ({ $reason }).
+
+js-trust-err-engine-start-open = Le moteur n'a pas pu démarrer ici ({ $reason }). L'ouverture des fichiers de résultat ci-dessus fonctionne toujours.
+
+js-trust-err-example-files = les fichiers d'exemple n'ont pas pu être chargés
+
+js-trust-err-example-open = L'exemple n'a pas pu être ouvert : { $reason }.
+
+js-trust-err-file-2mib = { $name } : plus grand que 2 MiB. Ouvrez un extrait.
+
+js-trust-err-file-too-large = { $name } : plus grand que { $max }. Cette page lit des fichiers jusqu'à cette taille ; ouvrez un extrait.
+
+js-trust-err-gen-too-large = { $name } : plus grand que 2 MiB. Ouvrez un extrait (l'outil en ligne de commande accepte un journal entier).
+
+js-trust-err-imu-format = « { $format } » n'est pas un format d'IMU que lit cette page (csv ou euroc)
+
+js-trust-err-imu-heading = le cap de l'IMU à son premier échantillon n'est pas un nombre
+
+js-trust-err-log-format = « { $format } » n'est pas un format de journal que cette page peut envoyer au moteur
+
+js-trust-err-no-epochs = Le fichier ne contient aucune époque.
+
+js-trust-err-no-epochs-result = Ce fichier de résultat n'a pas de epochs[]. Il doit provenir de `{ $command }` pour une session de navire.
+
+js-trust-err-no-epochs-returned = { $name } : le moteur n'a renvoyé aucune époque.
+
+js-trust-err-no-score-model = Ce résultat n'a pas de score_model : c'est donc une exécution de plateforme statique, sans score de confiance. La vue dessine des exécutions de navire (plateforme mobile).
+
+js-trust-err-not-readable = { $name } : n'est pas un fichier que lit cette vue (un JSON de résultat, des lignes JSON, trust.csv, un journal NMEA ou un fichier de vérité).
+
+js-trust-err-nothing-to-draw = Rien à dessiner : choisissez un JSON de résultat, des lignes JSON ou trust.csv.
+
+js-trust-err-read = { $name } : n'a pas pu être lu ({ $reason }).
+
+js-trust-err-read-or-draw = { $name } : n'a pas pu être lu ni dessiné ({ $reason }).
+
+js-trust-err-score = { $name } : n'a pas pu être évalué ({ $reason }).
+
+js-trust-err-score-file-too-large = { $name } : plus grand que 2 MiB. L'évaluateur dans le navigateur accepte un extrait qui contient la fenêtre d'étalonnage de cinq minutes.
+
+js-trust-err-score-too-large = { $name } : plus grand que 2 MiB. L'évaluateur dans le navigateur accepte un extrait (la commande { $command } accepte un journal entier) ; ouvrez un extrait qui contient la fenêtre d'étalonnage de cinq minutes.
+
+js-trust-err-scorecard-too-large = { $name } : plus grand que 8 MiB ; cette page lit une fiche de score jusqu'à cette taille.
+
+js-trust-err-session-empty = Les réglages de session sont vides. Ils déclarent le navire ({ $setting }).
+
+js-trust-err-too-many-epochs = Le fichier compte { $count } époques ; cette page en dessine au plus { $max }. Ouvrez un extrait.
+
+js-trust-err-triple-quote = { $what } contient trois apostrophes simples à la suite, qui ne peuvent pas être intégrées dans les réglages
+
+js-trust-err-what-file = le fichier
+
+js-trust-err-what-imu = le fichier d'IMU
+
+js-trust-event-label = événement : { $label }
+
+js-trust-event-onset = début
+
+js-trust-evt-col-first-alarm = Première alarme, s
+
+js-trust-evt-col-latency = Latence, s
+
+js-trust-evt-col-onset = Début, s
+
+js-trust-evt-col-outcome = Issue
+
+js-trust-evt-col-stated = Événement déclaré
+
+js-trust-fmt-android = Android GNSS Logger (texte)
+
+js-trust-fmt-gnss-sdr = Lignes JSON relayées par GNSS-SDR (texte)
+
+js-trust-fmt-nmea = NMEA 0183 (texte)
+
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII ou binaire)
+
+js-trust-fmt-rinex = Observation RINEX (texte)
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binaire)
+
+js-trust-fmt-rtklib-pos = Solution RTKLIB .pos (texte)
+
+js-trust-fmt-sbf = Septentrio SBF (binaire)
+
+js-trust-fmt-ubx = u-blox UBX (binaire)
+
+js-trust-gate-note-derived = Cette exécution n'a pas d'enregistrement de barrière. La bande montre où une barrière aurait retenu la position calculée : les époques de la bande non fiable, retenues jusqu'à 30 s après l'avoir quittée. Dérivé ici, non lu depuis une barrière. Une barrière est facultative et ajoute de la latence.
+
+js-trust-gate-note-read = La barrière de chaque époque telle que le flux en direct l'a rapportée : désactivée, passée ou retenue (la position calculée a été marquée invalide dans le cycle transmis).
+
+js-trust-gate-now-derived = { $gate } · dérivé
+
+js-trust-gate-off = Désactivée
+
+js-trust-gate-off-cal = Désactivée (étalonnage)
+
+js-trust-gate-passed = Passée : la position calculée est transmise inchangée
+
+js-trust-gate-span = barrière { $gate }, de { $from } à { $to }
+
+js-trust-gate-span-derived = barrière { $gate } (dérivée), de { $from } à { $to }
+
+js-trust-gate-withheld = Retenue : la position calculée serait marquée invalide en aval
+
+js-trust-gen-chart-label = Le graphique du moteur pour l'exécution : densité porteuse sur bruit, état et alarmes dans le temps
+
+js-trust-gen-epochs =
+    Époques : { $nominal } nominales, { $degraded } dégradées, { $untrusted } non fiables après la fenêtre d'étalonnage de { $window ->
+        [one] { $window } époque
+        [many] { $window } d'époques
+       *[other] { $window } époques
+    }.
+
+js-trust-gen-self-heading = Les indicateurs propres du récepteur, face aux alarmes de Kshana
+
+js-trust-gen-self-note = Une comparaison, et non une vérification de l'un ou de l'autre : l'indicateur du récepteur est son propre rapport.
+
+js-trust-geo-deduction-class =
+    { $points ->
+        [one] { $points } point ({ $class })
+        [many] { $points } de points ({ $class })
+       *[other] { $points } points ({ $class })
+    }
+
+js-trust-geo-deduction-points =
+    { $points ->
+        [one] { $points } point
+        [many] { $points } de points
+       *[other] { $points } points
+    }
+
+js-trust-geo-flag-mismatch = Le HDOP indiqué par le récepteur est en désaccord avec celui dérivé du ciel qu'il rapporte : une déduction de géométrie compte comme incohérence.
+
+js-trust-geo-flag-signal-loss = Perte de signal : des satellites en vue ne sont pas suivis alors que leur géométrie est bonne ; une déduction de géométrie compte donc comme environnement.
+
+js-trust-geo-heading-label = géométrie { $label }
+
+js-trust-geo-label-fair = { $label } (non évalué)
+
+js-trust-geo-label-poor = { $label } (la seule étiquette pour laquelle le score déduit)
+
+js-trust-geo-none-in-run = Aucune géométrie dans cette exécution (un moteur antérieur à 0.36 n'en écrit aucune).
+
+js-trust-geo-reason-few-satellites = moins de satellites que le minimum
+
+js-trust-geo-reason-high-hdop = HDOP au-dessus de son seuil
+
+js-trust-geo-reason-high-pdop = PDOP au-dessus de son seuil
+
+js-trust-geo-reason-sky-blocked = les satellites suivis laissent un large vide en azimut (un côté du ciel obstrué)
+
+js-trust-geo-row-deduction = Déduction de géométrie
+
+js-trust-geo-row-from = Depuis
+
+js-trust-geo-row-gap = Plus grand écart en azimut
+
+js-trust-geo-row-label = Étiquette
+
+js-trust-geo-row-open-sky = Ciel dégagé
+
+js-trust-geo-row-reported-hdop = HDOP indiqué par le récepteur
+
+js-trust-geo-row-sats-used = Satellites utilisés
+
+js-trust-geo-row-sky-age = Ancienneté du ciel
+
+js-trust-geo-row-status = État
+
+js-trust-geo-say-deduction =
+    { $points ->
+        [one] déduction de géométrie { $points } point
+        [many] déduction de géométrie { $points } de points
+       *[other] déduction de géométrie { $points } points
+    }
+
+js-trust-geo-say-label-hdop = géométrie { $label } (HDOP { $hdop })
+
+js-trust-geo-say-mismatch = le HDOP indiqué est en désaccord
+
+js-trust-geo-source-derived = dérivée des satellites que rapporte le journal (GSV)
+
+js-trust-geo-source-none = rien
+
+js-trust-geo-source-reported = le DOP indiqué par le récepteur (GSA)
+
+js-trust-geo-status-reasons = { $status } : { $reasons }
+
+js-trust-geo-status-title = géométrie { $status }
+
+js-trust-geo-unknown-no-gsv = géométrie inconnue : ni GSV ni GSA dans le journal
+
+js-trust-geo-unknown-no-gsv-sentence = Géométrie inconnue : ni GSV ni GSA dans le journal.
+
+js-trust-geo-unknown-odd = Géométrie inconnue (le fichier indique « { $odd } », que cette page ne connaît pas).
+
+js-trust-geo-used-of-view = { $used } sur { $inView } en vue
+
+js-trust-got-file-kind = { $name } : { $kind }
+
+js-trust-got-lines-skipped =
+    { $count ->
+        [one] { $count } ligne de { $name } n'était pas une époque et a été ignorée
+        [many] { $count } de lignes de { $name } n'étaient pas des époques et ont été ignorées
+       *[other] { $count } lignes de { $name } n'étaient pas des époques et ont été ignorées
+    }
+
+js-trust-imu-csv = CSV avec une ligne d'en-tête
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = Fichier d'IMU : { $name } ({ $chars } caractères). Utilisé à la prochaine évaluation.
+
+js-trust-imu-file-press = Fichier d'IMU : { $name } ({ $chars } caractères). Utilisé à la prochaine évaluation ; appuyez sur Évaluer le fichier choisi.
+
+js-trust-imu-none = Aucun fichier d'IMU.
+
+js-trust-jt-col-latency = Latence, s
+
+js-trust-jt-col-monitors = Premiers moniteurs
+
+js-trust-jt-col-name = Nom
+
+js-trust-jt-col-outcome = Issue
+
+js-trust-jt-col-recovered = Récupéré
+
+js-trust-jt-col-slot = Créneau, s
+
+js-trust-jt-col-test = Test
+
+js-trust-jt-label = { $label } Garde { $guard } s, maintien de récupération { $hold } s.
+
+js-trust-jt-label-contaminated = { $label } Garde { $guard } s, maintien de récupération { $hold } s. La référence d'étalonnage chevauchait un créneau planifié.
+
+js-trust-jt-opened =
+    { $count ->
+        [one] { $name } ouvert : { $count } test. Lu ici ; rien n'a été téléversé.
+        [many] { $name } ouvert : { $count } de tests. Lu ici ; rien n'a été téléversé.
+       *[other] { $name } ouvert : { $count } tests. Lu ici ; rien n'a été téléversé.
+    }
+
+js-trust-kind-batch-result = résultat par lot
+
+js-trust-kind-json-lines = lignes JSON
+
+js-trust-kind-nmea-log = journal NMEA
+
+js-trust-kind-truth-file = fichier de vérité
+
+js-trust-label-demo = Démonstration synthétique : un journal de ferry inventé avec un entraînement progressif de position inventé, évalué par Kshana. Enregistré à partir du moteur ; le journal est du texte, pas une mesure.
+
+js-trust-label-example = Exemple illustratif : un journal NMEA inventé avec un brouilleur inventé de 120 s à 240 s, évalué ici par le moteur. Du texte, pas une mesure.
+
+js-trust-label-geo-demo = Démonstration synthétique de ciel masqué : le journal du ferry avec la moitié ouest du ciel effacée à partir de 600 s (dégradation naturelle, attribuée à la géométrie) et le même entraînement progressif inventé à partir de 1500 s (de type attaque). Enregistré à partir d'un moteur avec la géométrie 0.36 ; du texte, pas une mesure.
+
+js-trust-label-score-demo = Journal de démonstration synthétique, évalué ici par le moteur. Journal de ferry et entraînement progressif inventés ; du texte, pas une mesure.
+
+js-trust-legend-calibrating = Étalonnage (jamais évalué)
+
+js-trust-legend-class = Classe de déduction :
+
+js-trust-legend-class-environment = environnement : le signal
+
+js-trust-legend-class-geometry = géométrie : le ciel, pas le signal
+
+js-trust-legend-class-inconsistency = incohérence (de type attaque)
+
+js-trust-legend-degraded = Dégradé
+
+js-trust-legend-demo = Dans cette démonstration, le récepteur rapporte une position valide tout du long (qualité GGA 1, état RMC A). C'est le score qui chute.
+
+js-trust-legend-geo-degraded = géométrie dégradée
+
+js-trust-legend-geo-good = géométrie bonne
+
+js-trust-legend-geo-unknown = géométrie inconnue (ni GSV ni GSA ; pas bonne)
+
+js-trust-legend-nominal = Nominal
+
+js-trust-legend-self = Indicateur propre du récepteur face aux alarmes de Kshana :
+
+js-trust-legend-self-both = les deux signalent
+
+js-trust-legend-self-kshana = seulement Kshana
+
+js-trust-legend-self-neither = aucun
+
+js-trust-legend-self-receiver = seulement le récepteur
+
+js-trust-legend-sky = Ciel :
+
+js-trust-legend-true-track = Trace réelle (données synthétiques seulement)
+
+js-trust-legend-underline = souligné : la géométrie coûte aussi des points
+
+js-trust-legend-untrusted = Non fiable
+
+js-trust-marks-cleared = Repères effacés.
+
+js-trust-marks-set =
+    { $count ->
+        [one] { $name } était au-dessus de son seuil de début dans { $count } époque ; elles sont marquées sur la chronologie et la trace.
+        [many] { $name } était au-dessus de son seuil de début dans { $count } d'époques ; elles sont marquées sur la chronologie et la trace.
+       *[other] { $name } était au-dessus de son seuil de début dans { $count } époques ; elles sont marquées sur la chronologie et la trace.
+    }
+
+js-trust-mon-agc = Le contrôle automatique de gain s'est écarté de sa référence de base.
+
+js-trust-mon-clock = Le moniteur assisté par l'horloge : l'horloge du récepteur par rapport à sa droite prédite.
+
+js-trust-mon-cn0-drop = Déni de puissance : force du signal tombée par rapport à la référence de base d'étalonnage.
+
+js-trust-mon-cn0-rise = Recherche la signature d'un seul émetteur : la force du signal sur les satellites qui monte de concert par rapport à la référence de base.
+
+js-trust-mon-cn0-spread = Recherche la signature d'un seul émetteur : la force du signal sur les satellites qui s'effondre de concert par rapport à la référence de base d'étalonnage.
+
+js-trust-mon-geometry = La géométrie des satellites (0.36) : ne coûte des points que lorsque la géométrie est mauvaise (HDOP, PDOP ou satellites utilisés au-delà de leurs seuils), plafonnée et jamais en dessous de la bande dégradée.
+
+js-trust-mon-heading-course = Compare la direction de la trace avec la direction vers laquelle pointe le navire, dans la limite de l'angle de dérive indiqué.
+
+js-trust-mon-jam-ind = L'indicateur de brouillage propre du récepteur.
+
+js-trust-mon-kinematic = Compare chaque pas de position avec la vitesse et la route rapportées, et avec les limites de vitesse, d'accélération et de vitesse de giration indiquées pour le navire.
+
+js-trust-mon-loss-of-lock = Perte de satellites suivis.
+
+js-trust-mon-osnma = Lit un échec d'authentification OSNMA rapporté. L'état est lu, non vérifié.
+
+js-trust-mon-position-jump = Un saut de la position rapportée plus grand que ce que permet la référence de base.
+
+js-trust-mon-raim = La statistique de test de la surveillance autonome de l'intégrité par le récepteur par rapport à son seuil.
+
+js-trust-mon-receiver-self-report = L'indicateur propre du récepteur de leurrage ou de brouillage (par exemple u-blox UBX-SEC-SIG ou NAV-STATUS spoofDetState), affiché à côté des moniteurs de Kshana. Lu depuis le journal, non vérifié ; l'emplacement est prêt pour le moniteur du moteur 0.38 et se dessine comme une bande dès qu'un résultat le porte.
+
+js-trust-mon-sea-level = Vérifie que l'altitude est là où la surface de la mer et la hauteur d'antenne indiquée la placent.
+
+js-trust-mon-solve-failure = La solution de position n'a pas pu être calculée.
+
+js-trust-mon-speed-log = Compare la vitesse fond avec la vitesse surface, dans la limite du courant admis indiqué.
+
+js-trust-mon-time-consistency = Vérifie que l'heure du récepteur ne présente ni pas irréguliers ni retour en arrière, et la compare à l'horloge de cet ordinateur pour les flux en temps réel.
+
+js-trust-mon-unknown = Un moniteur pour lequel cette vue n'a pas de description (plus récent que la page). Traitez-le comme un moniteur.
+
+js-trust-na = s. o.
+
+js-trust-name-colon-text = { $name } : { $text }
+
+js-trust-never = jamais
+
+js-trust-no = non
+
+js-trust-no-deduction = aucune déduction
+
+js-trust-none = aucun
+
+js-trust-north = N
+
+js-trust-not-stated = non indiqué
+
+js-trust-note-advisories =
+    { $count ->
+        [one] Les lignes portent { $count } mention indicative différente ; la première est affichée.
+        [many] Les lignes portent { $count } de mentions indicatives différentes ; la première est affichée.
+       *[other] Les lignes portent { $count } mentions indicatives différentes ; la première est affichée.
+    }
+
+js-trust-note-csv-limits = trust.csv porte des scores et des motifs, mais ni rapports ni positions.
+
+js-trust-note-live-no-model = Un flux en direct n'indique ni les moniteurs exécutés ni le modèle de score ; les bords de bande ci-dessous sont les valeurs par défaut documentées, et les bandes de moniteurs ne montrent que les moniteurs qui coûtent des points.
+
+js-trust-note-nmea-no-match = Aucune position NMEA n'a pu être associée à une époque par l'heure.
+
+js-trust-note-nmea-skipped =
+    { $count ->
+        [one] { $count } phrase NMEA dont la somme de contrôle ou les champs étaient erronés a été ignorée.
+        [many] { $count } de phrases NMEA dont la somme de contrôle ou les champs étaient erronés ont été ignorées.
+       *[other] { $count } phrases NMEA dont la somme de contrôle ou les champs étaient erronés ont été ignorées.
+    }
+
+js-trust-note-skipped-epochs =
+    { $count ->
+        [one] { $count } époque sans t_s numérique a été ignorée.
+        [many] { $count } d'époques sans t_s numérique ont été ignorées.
+       *[other] { $count } époques sans t_s numérique ont été ignorées.
+    }
+
+js-trust-note-truth-no-match = Les heures du fichier de vérité ne correspondent à aucune époque.
+
+js-trust-note-unknown-state =
+    { $count ->
+        [one] { $count } époque porte un état que cette page ne connaît pas ({ $states }) ; elle est dessinée comme en étalonnage, jamais évaluée.
+        [many] { $count } d'époques portent un état que cette page ne connaît pas ({ $states }) ; elles sont dessinées comme en étalonnage, jamais évaluées.
+       *[other] { $count } époques portent un état que cette page ne connaît pas ({ $states }) ; elles sont dessinées comme en étalonnage, jamais évaluées.
+    }
+
+js-trust-offset-at = À { $time }, la position rapportée par le récepteur est à { $m } m de l'endroit où se trouvait réellement le navire (vérité synthétique).
+
+js-trust-offset-no-truth = Aucune position réelle à cet instant.
+
+js-trust-opened =
+    { $count ->
+        [one] { $count } époque ouverte ({ $source }).
+        [many] { $count } d'époques ouvertes ({ $source }).
+       *[other] { $count } époques ouvertes ({ $source }).
+    }
+
+js-trust-opening-demo = Ouverture de la démonstration synthétique…
+
+js-trust-opening-demo-log = Ouverture du journal de démonstration synthétique…
+
+js-trust-opening-example = Ouverture de l'exemple illustratif…
+
+js-trust-opening-geo-demo = Ouverture de la démonstration de ciel masqué…
+
+js-trust-pause = Pause
+
+js-trust-play = Lecture
+
+js-trust-reading = Lecture…
+
+js-trust-reasons-calibrating = Étalonnage : les premières secondes forment la référence de base et ne sont jamais évaluées.
+
+js-trust-reasons-class-note = Chaque déduction porte la classe du moteur : géométrie (le ciel), environnement (le signal) ou incohérence (de type attaque)
+
+js-trust-reasons-live-unknown = Les moniteurs exécutés ne sont pas indiqués dans un flux en direct ; un contrôle absent ici peut ne pas avoir été exécuté.
+
+js-trust-reasons-marked-none = marqué ; aucune déduction ici
+
+js-trust-reasons-no-score = Aucun score à cette époque.
+
+js-trust-reasons-no-score-note = Aucun score à cette époque : { $note }.
+
+js-trust-reasons-not-run = Non exécuté (pas un succès)
+
+js-trust-reasons-nothing = Rien n'a été déduit à cette époque. Ce n'est pas une preuve que la position calculée est bonne : voyez ce que les contrôles ne peuvent pas voir, ci-dessous.
+
+js-trust-reasons-pts = { $points } pts
+
+js-trust-reasons-ran-free = Exécuté, sans coût
+
+js-trust-reasons-ratio = rapport { $ratio }
+
+js-trust-reasons-row-title = { $name } : { $text } Cliquez pour marquer où il dépassait son seuil de début.

@@ -6042,3 +6042,489 @@ js-meaning-integrity-line-hv-some =
         [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
        *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
     }
+
+js-meaning-spectrum-line-none-thr = Nenhum sinal se mantém acima do limiar de seguimento de { $thr } dB-Hz do recetor durante toda a execução.
+
+js-meaning-spectrum-weakest-label = Sinal mais fraco, { $name }
+
+js-meaning-whole-run = ao longo de toda a execução
+
+js-meaning-your-setting = a sua definição
+
+js-meankind-acm-line = Modo fixo { $mode }; { $dur } de interrupção.
+
+js-meankind-anomaly-big = O monitor de falhas quântico obtém { $q } contra { $c } do clássico (área sob a curva, 1 é perfeito).
+
+js-meankind-anomaly-line = A menor falha detetável é { $q } contra { $c }.
+
+js-meankind-aocs-big-open = A rotação de { $slew } graus não estabiliza abaixo de { $threshold } graus.
+
+js-meankind-aocs-big-settles = A rotação de { $slew } graus estabiliza abaixo de { $threshold } graus após { $dur }.
+
+js-meankind-aocs-line = Erro final de apontamento de { $final } graus.
+
+js-meankind-aocs-line-filter = Erro final de apontamento de { $final } graus. Um filtro de atitude na malha tem um desvio de { $arcsec } arcsec RMS.
+
+js-meankind-aocs-line-wheel = Erro final de apontamento de { $final } graus. Binário máximo da roda { $torque } N m.
+
+js-meankind-aocs-line-wheel-filter = Erro final de apontamento de { $final } graus. Binário máximo da roda { $torque } N m. Um filtro de atitude na malha tem um desvio de { $arcsec } arcsec RMS.
+
+js-meankind-aperture-big = A navegação usa { $nav } % do tempo da antena e as comunicações { $comms } %.
+
+js-meankind-aperture-big-idle = A navegação usa { $nav } % do tempo da antena e as comunicações { $comms } %; { $idle } % está inativo.
+
+js-meankind-aperture-line-nocount = As aberturas.
+
+js-meankind-aperture-line-nocount-all = As aberturas sob a regra { $policy }, com { $dur } de contenção.
+
+js-meankind-aperture-line-nocount-contention = As aberturas, com { $dur } de contenção.
+
+js-meankind-aperture-line-nocount-policy = As aberturas sob a regra { $policy }.
+
+js-meankind-araim-big-no = Não: os níveis de proteção do motor falham a referência publicada.
+
+js-meankind-araim-big-yes = Sim: os níveis de proteção do motor coincidem com a referência publicada.
+
+js-meankind-araim-line = A pior diferença é { $worst } m face à tolerância da própria referência de { $tol } m.
+
+js-meankind-arc-big = O estimador recupera a órbita quando dispõe de { $dur } do arco de { $h } h.
+
+js-meankind-arc-line =
+    { $n ->
+        [one] { $n } nave espacial, medições de { $observable }.
+        [many] { $n } de naves espaciais, medições de { $observable }.
+       *[other] { $n } naves espaciais, medições de { $observable }.
+    }
+
+js-meankind-ascent-big = A gravidade, o arrasto, a orientação e a contrapressão retiram { $loss } m/s dos { $ideal } m/s de ganho ideal de velocidade.
+
+js-meankind-ascent-line = Fim da queima a { $km } km e { $speed } m/s; pressão dinâmica máxima { $kpa } kPa.
+
+js-meankind-attack-big-no = Um spoofer na superfície não consegue capturar um recetor lunar.
+
+js-meankind-attack-big-yes = Um spoofer na superfície consegue capturar um recetor lunar.
+
+js-meankind-attack-line = Um transmissor na superfície alcança { $km } km antes de o horizonte o bloquear.
+
+js-meankind-attitude-big = O erro de apontamento totaliza { $total } segundos de arco.
+
+js-meankind-attitude-big-from = O erro de apontamento totaliza { $total } segundos de arco, sobretudo devido a { $from }.
+
+js-meankind-attitude-line = O maior binário de gradiente gravítico é { $torque } N·m.
+
+js-meankind-beacon-big = As balizas na superfície melhoram a qualidade da geometria (PDOP) { $x } vezes.
+
+js-meankind-beacon-line = Acrescentar antes satélites melhora-a { $x } vezes.
+
+js-meankind-bodypnt-big = Só os retransmissores dão uma solução de posição em { $share } % do tempo em torno de { $body }.
+
+js-meankind-bodypnt-big-earth = Só os retransmissores dão uma solução de posição em { $share } % do tempo em torno de { $body }; { $earth } % com ligações à Terra.
+
+js-meankind-bodypnt-line = { $mean } retransmissores estão à vista em média.
+
+js-meankind-by = { $a } por { $b }
+
+js-meankind-campaign-compose-line = Cada membro é uma execução normal do motor; a campanha lê os seus resultados lado a lado.
+
+js-meankind-campaign-mission-alarm = O alarme é ativado durante { $alarm } da missão de { $dur }.
+
+js-meankind-campaign-mission-phases =
+    { $phases ->
+        [one] Uma missão de { $phases } fase ao longo de { $dur }, encadeada num só relógio.
+        [many] Uma missão de { $phases } de fases ao longo de { $dur }, encadeadas num só relógio.
+       *[other] Uma missão de { $phases } fases ao longo de { $dur }, encadeadas num só relógio.
+    }
+
+js-meankind-campaign-mission-quiet = Nenhum alarme em toda a missão de { $dur }.
+
+js-meankind-campaign-montecarlo-line = A dispersão é um desvio-padrão sobre as execuções.
+
+js-meankind-campaign-optimize-at = Em { $at }.
+
+js-meankind-campaign-sweep-flat-line = O gráfico mostra todas as execuções.
+
+js-meankind-campaign-sweep-goes-line = O gráfico mostra todas as execuções; varia de { $min } a { $max }.
+
+js-meankind-classical-link = ligação clássica
+
+js-meankind-clock-word = relógio
+
+js-meankind-conflict-big = A arquitetura em camadas sobrevive { $ratio } vezes melhor do que uma única camada.
+
+js-meankind-conflict-line-threats = Um Monte Carlo das ameaças dá { $ratio } vezes.
+
+js-meankind-conflict-line-threats-corr = Um Monte Carlo das ameaças dá { $ratio } vezes; com ameaças correlacionadas pode descer para { $low } vezes.
+
+js-meankind-contacts-line = { $sats } satélites e { $stations } estações ao longo de { $hours } h.
+
+js-meankind-dpnt-big = As correções diferenciais reduzem o erro de { $from } m para { $to } m.
+
+js-meankind-dpnt-line = Com uma estação de referência a { $km } km de distância.
+
+js-meankind-earthgnss-line = O melhor sinal é { $best } dB-Hz face a um limiar de seguimento de { $threshold } dB-Hz.
+
+js-meankind-entry-big = A desaceleração máxima é { $g } g a { $km } km, com um fluxo de calor máximo de { $flux } W/cm².
+
+js-meankind-entry-line = Entrada a { $speed } m/s, { $angle } graus abaixo do horizonte.
+
+js-meankind-eo-big = A câmara vê uma faixa de { $swath } km com resolução de { $gsd } m.
+
+js-meankind-eo-line-contiguous = Os traços no solo estão a { $km } km de distância no equador, pelo que a cobertura é contígua.
+
+js-meankind-eo-line-gapped = Os traços no solo estão a { $km } km de distância no equador, pelo que a cobertura tem lacunas.
+
+js-meankind-eop-big = À distância da Lua, a rotação da Terra desloca { $m } m a cada segundo, pelo que a idade dos dados de orientação da Terra ({ $dur } aqui) importa.
+
+js-meankind-eop-line = Entrada: { $source }.
+
+js-meankind-ephemeris-big = O satélite voa entre { $min } e { $max } km, até { $lat }° de latitude.
+
+js-meankind-ephemeris-line = Visto da estação, sobe até { $deg }°.
+
+js-meankind-ephemeris-line-doppler = Visto da estação, sobe até { $deg }°, com até { $khz } kHz de Doppler.
+
+js-meankind-framecampaign-big-yes = Sim: a campanha fixa totalmente o datum do referencial lunar.
+
+js-meankind-framecampaign-line = Número de condição { $n }.
+
+js-meankind-framereal-big = O referencial lunar é realizado com { $m } m de erro residual.
+
+js-meankind-framereal-big-open = O referencial lunar é realizado com { $m } m de erro residual, embora o ajuste não tenha convergido.
+
+js-meankind-framereal-line = Erro de translação { $trans } m, erro de escala { $scale } partes por mil milhões.
+
+js-meankind-gnsssim-big = A monitorização da integridade protege a solução de posição em { $share } % do tempo.
+
+js-meankind-gnsssim-line = A ionosfera acrescenta { $iono } m e a troposfera { $tropo } m a cada distância, em média.
+
+js-meankind-headline-figure = valor principal
+
+js-meankind-holdovertest-big = Medido face às máscaras, o holdover do registo de { $dur } s atinge { $te } ns de erro de tempo.
+
+js-meankind-holdovertest-big-open = Medido face às máscaras, o holdover do registo de { $dur } s atinge { $te } ns de erro de tempo, e não recuperou dentro da banda.
+
+js-meankind-holdovertest-big-recovered = Medido face às máscaras, o holdover do registo de { $dur } s atinge { $te } ns de erro de tempo, e recuperou { $recover } s depois de o GNSS regressar.
+
+js-meankind-holdovertest-line = Medido face à máscara, nunca uma declaração de que um sistema está em conformidade; os dois tempos são a declaração do operador.
+
+js-meankind-holdovertest-line-masks = { $masks }. Medido face à máscara, nunca uma declaração de que um sistema está em conformidade; os dois tempos são a declaração do operador.
+
+js-meankind-impairment-big = O detetor separa sinais degradados de sinais limpos com uma área sob a curva de { $auc } (1 é perfeito).
+
+js-meankind-impairment-line = Em casos diferentes do seu conjunto de treino obtém { $auc }.
+
+js-meankind-infra-carrier = A fixação de inteiros da fase da portadora entre uma estação à superfície e um orbitador fixou { $share } % dos ensaios no arco mais longo ({ $days } dias).
+
+js-meankind-infra-frame = As ligações orbitador-estação elevam { $x } vezes o menor valor próprio da informação do datum lunar e reduzem o traço de Cramér-Rao para { $share } %, se a órbita for conhecida nos eixos lunares.
+
+js-meankind-infra-geodesy = Com as quatro famílias em conjunto, h2, k2 e l2 ficam fixados em { $h2 } %, { $k2 } % e { $l2 } % dos seus valores nominais.
+
+js-meankind-infra-od = A determinação de órbita a bordo com GNSS terrestre em órbita lunar tem uma exatidão de { $gnss } m, o seguimento terrestre independente de { $ground } m; a estatística de consistência tem média { $mean } ({ $expected } esperado).
+
+js-meankind-infra-tail = MODELLED: um modelo restrito com entradas ilustrativas, não uma declaração sobre qualquer missão.
+
+js-meankind-inside-spec = dentro de { $spec }
+
+js-meankind-instrn-big = Em deslocamento só com navegação inercial, o erro de posição ultrapassa { $threshold } m após { $dur }.
+
+js-meankind-instrn-dom = { $dominant } domina.
+
+js-meankind-instrn-line = Ultrapassa { $passes }.
+
+js-meankind-instrn-line-dom = Ultrapassa { $passes }; { $dominant } domina.
+
+js-meankind-instrn-pass = { $threshold } m após { $dur }
+
+js-meankind-interop-big-no = Não: o ficheiro de efemérides lunares não faz o percurso de ida e volta sem perdas.
+
+js-meankind-interop-big-yes = Sim: o ficheiro de efemérides lunares faz o percurso de ida e volta intacto.
+
+js-meankind-interop-line =
+    { $n ->
+        [one] { $n } estado no referencial { $frame }, tempo { $time }.
+        [many] { $n } de estados no referencial { $frame }, tempo { $time }.
+       *[other] { $n } estados no referencial { $frame }, tempo { $time }.
+    }
+
+js-meankind-its-spec = a sua especificação
+
+js-meankind-jointod-big = Acrescentar um atraso de interferometria baseado na Terra torna a posição da estação { $x } vezes mais nítida.
+
+js-meankind-jointod-line = A estação passa então a ser conhecida com { $m } m.
+
+js-meankind-launch-line = A rotação da Terra dá { $speed } m/s de graça.
+
+js-meankind-layer-agc = AGC (controlo automático de ganho)
+
+js-meankind-layer-raim = RAIM (monitorização autónoma da integridade pelo recetor)
+
+js-meankind-layer-sqm = SQM (monitorização da qualidade do sinal)
+
+js-meankind-leochain-big = De ponta a ponta, o sistema de órbita baixa reduz o erro de posição de { $from } m para { $to } m.
+
+js-meankind-leochain-line = O seu sinal é seguido até { $cn0 } dB-Hz.
+
+js-meankind-leopass-big-many = Os satélites passam a { $elev }° de altura e ficam acima da máscara durante { $dur } (o primeiro de { $n }).
+
+js-meankind-leopass-big-one = O satélite passa a { $elev }° de altura e fica acima da máscara durante { $dur }.
+
+js-meankind-leopass-line = No seu pico, o sinal de órbita baixa chega { $db } dB mais forte do que um sinal típico de navegação por satélite.
+
+js-meankind-leoppp-big = O posicionamento preciso converge em { $best } min com a maior camada de órbita baixa, face a { $base } min só com navegação por satélite.
+
+js-meankind-leoppp-line = Mediana das execuções por caso, até { $m } m.
+
+js-meankind-leopvt-doppler-big = O posicionamento por Doppler a partir de satélites de órbita baixa fica a { $m } m da referência (horizontal).
+
+js-meankind-leopvt-joint-big = Acrescentar a camada de órbita baixa reduz o erro de { $from } m para { $to } m (valor quadrático médio 3D).
+
+js-meankind-leopvt-joint-line = A qualidade da geometria (PDOP) passa de { $from } para { $to }.
+
+js-meankind-leopvt-polar-big = Perto do polo, a camada de órbita baixa melhora a qualidade da geometria (PDOP) de { $from } para { $to }.
+
+js-meankind-leopvt-timing-big = A transferência de tempo de órbita baixa mantém o melhor relógio a menos de { $ns } ns do UTC (valor quadrático médio).
+
+js-meankind-acm-big =
+    { $n ->
+        [one] A codificação adaptativa move { $gain } vezes os dados do melhor modo fixo: { $acm } Gbit contra { $ccm } Gbit em { $n } passagem.
+        [many] A codificação adaptativa move { $gain } vezes os dados do melhor modo fixo: { $acm } Gbit contra { $ccm } Gbit em { $n } de passagens.
+       *[other] A codificação adaptativa move { $gain } vezes os dados do melhor modo fixo: { $acm } Gbit contra { $ccm } Gbit em { $n } passagens.
+    }
+
+js-meankind-aperture-line-all =
+    { $n ->
+        [one] { $n } abertura sob a regra { $policy }, com { $dur } de contenção.
+        [many] { $n } de aberturas sob a regra { $policy }, com { $dur } de contenção.
+       *[other] { $n } aberturas sob a regra { $policy }, com { $dur } de contenção.
+    }
+
+js-meankind-aperture-line-contention =
+    { $n ->
+        [one] { $n } abertura, com { $dur } de contenção.
+        [many] { $n } de aberturas, com { $dur } de contenção.
+       *[other] { $n } aberturas, com { $dur } de contenção.
+    }
+
+js-meankind-aperture-line-count =
+    { $n ->
+        [one] { $n } abertura.
+        [many] { $n } de aberturas.
+       *[other] { $n } aberturas.
+    }
+
+js-meankind-aperture-line-policy =
+    { $n ->
+        [one] { $n } abertura sob a regra { $policy }.
+        [many] { $n } de aberturas sob a regra { $policy }.
+       *[other] { $n } aberturas sob a regra { $policy }.
+    }
+
+js-meankind-araim-line-vectors =
+    { $n ->
+        [one] A pior diferença é { $worst } m face à tolerância da própria referência de { $tol } m, em { $n } vetor de referência.
+        [many] A pior diferença é { $worst } m face à tolerância da própria referência de { $tol } m, em { $n } de vetores de referência.
+       *[other] A pior diferença é { $worst } m face à tolerância da própria referência de { $tol } m, em { $n } vetores de referência.
+    }
+
+js-meankind-campaign-compose-range =
+    { $n ->
+        [one] Em { $n } cenário nas mesmas condições, { $what } varia de { $low } a { $high }.
+        [many] Em { $n } de cenários nas mesmas condições, { $what } varia de { $low } a { $high }.
+       *[other] Em { $n } cenários nas mesmas condições, { $what } varia de { $low } a { $high }.
+    }
+
+js-meankind-campaign-compose-same =
+    { $n ->
+        [one] Em { $n } cenário nas mesmas condições, { $what } é { $value } em todos.
+        [many] Em { $n } de cenários nas mesmas condições, { $what } é { $value } em todos.
+       *[other] Em { $n } cenários nas mesmas condições, { $what } é { $value } em todos.
+    }
+
+js-meankind-campaign-line =
+    { $n ->
+        [one] { $n } fase.
+        [many] { $n } de fases.
+       *[other] { $n } fases.
+    }
+
+js-meankind-campaign-line-all =
+    { $n ->
+        [one] { $n } fase e { $events }, de { $runs }; no fim, { $label } é { $value }.
+        [many] { $n } de fases e { $events }, de { $runs }; no fim, { $label } é { $value }.
+       *[other] { $n } fases e { $events }, de { $runs }; no fim, { $label } é { $value }.
+    }
+
+js-meankind-campaign-line-end =
+    { $n ->
+        [one] { $n } fase; no fim, { $label } é { $value }.
+        [many] { $n } de fases; no fim, { $label } é { $value }.
+       *[other] { $n } fases; no fim, { $label } é { $value }.
+    }
+
+js-meankind-campaign-line-events =
+    { $n ->
+        [one] { $n } fase e { $events }.
+        [many] { $n } de fases e { $events }.
+       *[other] { $n } fases e { $events }.
+    }
+
+js-meankind-campaign-line-events-end =
+    { $n ->
+        [one] { $n } fase e { $events }; no fim, { $label } é { $value }.
+        [many] { $n } de fases e { $events }; no fim, { $label } é { $value }.
+       *[other] { $n } fases e { $events }; no fim, { $label } é { $value }.
+    }
+
+js-meankind-campaign-line-events-runs =
+    { $n ->
+        [one] { $n } fase e { $events }, de { $runs }.
+        [many] { $n } de fases e { $events }, de { $runs }.
+       *[other] { $n } fases e { $events }, de { $runs }.
+    }
+
+js-meankind-campaign-line-runs =
+    { $n ->
+        [one] { $n } fase, de { $runs }.
+        [many] { $n } de fases, de { $runs }.
+       *[other] { $n } fases, de { $runs }.
+    }
+
+js-meankind-campaign-line-runs-end =
+    { $n ->
+        [one] { $n } fase, de { $runs }; no fim, { $label } é { $value }.
+        [many] { $n } de fases, de { $runs }; no fim, { $label } é { $value }.
+       *[other] { $n } fases, de { $runs }; no fim, { $label } é { $value }.
+    }
+
+js-meankind-campaign-montecarlo =
+    { $n ->
+        [one] Em { $n } execução com semente, { $name } tem média { $mean }, com uma dispersão de { $std }.
+        [many] Em { $n } de execuções com semente, { $name } tem média { $mean }, com uma dispersão de { $std }.
+       *[other] Em { $n } execuções com semente, { $name } tem média { $mean }, com uma dispersão de { $std }.
+    }
+
+js-meankind-campaign-optimize =
+    { $n ->
+        [one] A pesquisa estabiliza em { $name } igual a { $value } após { $n } execução.
+        [many] A pesquisa estabiliza em { $name } igual a { $value } após { $n } de execuções.
+       *[other] A pesquisa estabiliza em { $name } igual a { $value } após { $n } execuções.
+    }
+
+js-meankind-campaign-optimize-kind =
+    { $n ->
+        [one] A pesquisa estabiliza em { $name } igual a { $value } após { $n } execução de { $kind }.
+        [many] A pesquisa estabiliza em { $name } igual a { $value } após { $n } de execuções de { $kind }.
+       *[other] A pesquisa estabiliza em { $name } igual a { $value } após { $n } execuções de { $kind }.
+    }
+
+js-meankind-campaign-sweep-flat =
+    { $n ->
+        [one] Em { $n } execução de { $axis } de { $from } a { $to }, { $metric } mantém-se em { $value }.
+        [many] Em { $n } de execuções de { $axis } de { $from } a { $to }, { $metric } mantém-se em { $value }.
+       *[other] Em { $n } execuções de { $axis } de { $from } a { $to }, { $metric } mantém-se em { $value }.
+    }
+
+js-meankind-campaign-sweep-goes =
+    { $n ->
+        [one] Em { $n } execução de { $axis } de { $from } a { $to }, { $metric } vai de { $first } a { $last }.
+        [many] Em { $n } de execuções de { $axis } de { $from } a { $to }, { $metric } vai de { $first } a { $last }.
+       *[other] Em { $n } execuções de { $axis } de { $from } a { $to }, { $metric } vai de { $first } a { $last }.
+    }
+
+js-meankind-conflict-line-trials =
+    { $n ->
+        [one] Um Monte Carlo de { $n } ensaio dá { $ratio } vezes.
+        [many] Um Monte Carlo de { $n } de ensaios dá { $ratio } vezes.
+       *[other] Um Monte Carlo de { $n } ensaios dá { $ratio } vezes.
+    }
+
+js-meankind-conflict-line-trials-corr =
+    { $n ->
+        [one] Um Monte Carlo de { $n } ensaio dá { $ratio } vezes; com ameaças correlacionadas pode descer para { $low } vezes.
+        [many] Um Monte Carlo de { $n } de ensaios dá { $ratio } vezes; com ameaças correlacionadas pode descer para { $low } vezes.
+       *[other] Um Monte Carlo de { $n } ensaios dá { $ratio } vezes; com ameaças correlacionadas pode descer para { $low } vezes.
+    }
+
+js-meankind-contacts-big =
+    { $n ->
+        [one] O plano mantém { $kept } de { $n } contacto candidato e entrega { $gbit } Gbit.
+        [many] O plano mantém { $kept } de { $n } de contactos candidatos e entrega { $gbit } Gbit.
+       *[other] O plano mantém { $kept } de { $n } contactos candidatos e entrega { $gbit } Gbit.
+    }
+
+js-meankind-contacts-big-waiting =
+    { $n ->
+        [one] O plano mantém { $kept } de { $n } contacto candidato e entrega { $gbit } Gbit dos { $waiting } Gbit em espera.
+        [many] O plano mantém { $kept } de { $n } de contactos candidatos e entrega { $gbit } Gbit dos { $waiting } Gbit em espera.
+       *[other] O plano mantém { $kept } de { $n } contactos candidatos e entrega { $gbit } Gbit dos { $waiting } Gbit em espera.
+    }
+
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } dia
+        [many] { $days } de dias
+       *[other] { $days } dias
+    }
+
+js-meankind-earthgnss-big =
+    { $n ->
+        [one] À distância da Lua, { $visible } de { $n } satélite está à vista, mas { $trackable } pode ser seguido.
+        [many] À distância da Lua, { $visible } de { $n } de satélites estão à vista, mas { $trackable } podem ser seguidos.
+       *[other] À distância da Lua, { $visible } de { $n } satélites estão à vista, mas { $trackable } podem ser seguidos.
+    }
+
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } execução do motor
+        [many] { $n } de execuções do motor
+       *[other] { $n } execuções do motor
+    }
+
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } evento
+        [many] { $n } de eventos
+       *[other] { $n } eventos
+    }
+
+js-meankind-framecampaign-big-open =
+    { $n ->
+        [one] A campanha deixa { $n } direção do datum por determinar.
+        [many] A campanha deixa { $n } de direções do datum por determinar.
+       *[other] A campanha deixa { $n } direções do datum por determinar.
+    }
+
+js-meankind-infra-tie =
+    { $n ->
+        [one] Uma ligação local de { $mm } mm numa só nave espacial liga os referenciais GNSS, VLBI e de telemetria laser ao longo de { $n } erro de ligação varrido.
+        [many] Uma ligação local de { $mm } mm numa só nave espacial liga os referenciais GNSS, VLBI e de telemetria laser ao longo de { $n } de erros de ligação varridos.
+       *[other] Uma ligação local de { $mm } mm numa só nave espacial liga os referenciais GNSS, VLBI e de telemetria laser ao longo de { $n } erros de ligação varridos.
+    }
+
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } oportunidade de lançamento por dia permite atingir uma órbita de { $incl }° a partir da latitude { $lat }°.
+        [many] { $n } de oportunidades de lançamento por dia permitem atingir uma órbita de { $incl }° a partir da latitude { $lat }°.
+       *[other] { $n } oportunidades de lançamento por dia permitem atingir uma órbita de { $incl }° a partir da latitude { $lat }°.
+    }
+
+js-meankind-leoppp-line-runs =
+    { $n ->
+        [one] Mediana de { $n } execução por caso, até { $m } m.
+        [many] Mediana de { $n } de execuções por caso, até { $m } m.
+       *[other] Mediana de { $n } execuções por caso, até { $m } m.
+    }
+
+js-meankind-leopvt-doppler-line =
+    { $n ->
+        [one] { $n } satélite usado.
+        [many] { $n } de satélites usados.
+       *[other] { $n } satélites usados.
+    }
+
+js-meankind-leopvt-polar-line =
+    { $n ->
+        [one] Em { $n } latitude.
+        [many] Em { $n } de latitudes.
+       *[other] Em { $n } latitudes.
+    }
