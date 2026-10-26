@@ -2834,3 +2834,411 @@ dat-7a8163ea53f2 = Unabhängige Gegenprüfung gegen die sgp4-Crate
 dat-a3c0d41e4b56 = Unabhängige numpy-Monte-Carlo-SDE-Integration von doppelt integriertem weißem Beschleunigungsrauschen (validiert die analytische VRW-Varianz durch einen wirklich unabhängigen Algorithmus) + ein veröffentlichter Ankerwert von Groves { "2013" } für die Bias-/Skalenfaktor-Terme; die CAI-Gerätezahlen quantifizieren Partner-Hardware und bleiben MODELLED
 
 dat-76097bbb6a19 = hybrid_integrity::tests (das Verhältnis ist gleich den beiden ausgegebenen Teilen, durcheinander geteilt, auf { "1e-15" } relativ, und sein Kehrwert und seine Dezibelform stimmen überein; Entfernungs- und Zeit-Sigma jedes Teils hängen genau über c zusammen; die ausgegebene gemeinsame Konfiguration wird als gleich der eigenen Entfernung und Integrationszeit des Szenarios behauptet, und die Entfernung des RF-Teils wird als gleich der des optischen Teils behauptet; das C/N0 des RF-Teils ist bitgenau das des Verfügbarkeitsblocks, aus einem Linkbudget, keine Neuableitung; die Eigenschaft LIKE-FOR-LIKE ist MEASURED statt behauptet -- eine Vervierfachung der gemeinsamen Akkumulationszeit halbiert den optischen Teil auf { "1e-12" } und den RF-Teil auf { "1e-7" } und lässt das Verhältnis auf { "3.19e-9" } relativ unverändert, was ein Teil, der heimlich über etwas anderes mittelt, nicht könnte; eine Überschreibung rf_dll_bandwidth_hz, die die gemeinsame Mittelungszeit bricht, macht das Verhältnis null mit einer Begründung, die beide Zeiten nennt, während beide Teile weiterhin ausgegeben werden; ein Einweg-Lauf macht den Vergleichsteil bitgenau zum freigegebenen Hauptwert mit einem Straffaktor von genau { "1" }, und ein Zweiweg-Lauf reproduziert die Strafe 0.5/sqrt(geometrischer Verlust des Rückwegs), neu berechnet aus dem eigenen geometric_loss_db des Berichts, auf { "1e-12" })
+
+dat-43824928dcfa = Unabhängige numpy-Neuimplementierung der Vier-Regionen-Regel (scripts/gen_tib_scorer_reference.py) auf demselben Stichprobensatz; Methode zitiert aus dem Stanford–ESA-Integritätsdiagramm (Tossaint et al., ION GNSS { "2007" }) und RTCA DO-229 WAAS MOPS. KEINE Genauigkeitsreferenz auf einem ExternalDataset — der Benchmark ist gegen Ehrlichkeitsfragen immun.
+
+dat-ad2f021526e3 = Unabhängiges numpy-Nachzählen der Regionen in tests/fixtures/tib/reference.json; nur Gegenprüfung der Bewertungsmaschinerie, keine Genauigkeitsaussage.
+
+dat-074151140053 = Unabhängige numpy-Reproduktion der Kreuzkovarianz und der Ungleichung für den korrelierten gegenüber dem unabhängigen fusionierten Bias (InternalConsistency). Repräsentativer Quellensatz; modelliertes Szenario.
+
+dat-329d1a3f6406 = Unabhängige numpy-Reproduktion der Statistik + Eigenschaftstest, dass eine Gleichtakt-Einspeisung sie aufbläht (InternalConsistency). Modelliertes Szenario. { "0.30" } Runde { "2" } (vorab festgelegt f9aa360d), blockiert (bleibt MODELLED): numpy { "2.3.5" } LAPACK gesv reproduziert den Statistikwert auf { "261" } eingecheckten Fällen (innerhalb von { "3.5e-15" } bei guter Konditionierung, { "1.2e-9" } bei Kondition bis { "6.1e7" }); das Chi-Quadrat({ "1" })-Nullgesetz ist ein zitierter Satz und die flachen paarweisen Trennungen eine Identität ohne Engine-Ausgabe zum Vergleichen, daher wartet die Eingrenzung auf eine Entscheidung des Verantwortlichen
+
+dat-c445be3a080f = Unabhängige numpy/scipy-Reproduktion der linearen Algebra auf realen Sichtlinienzeilen des DE440-Mond-PA-Systems (P⊥ aus der SVD des gewhitenten Designs W^{ "{" }1/2{ "}" }G; die MDB-Nichtzentralität aus der klassischen Parameterraum-Quadratnorm nach Baarda ({ "1968" }) im Paritätsunterraum; der Blockrang aus einer numpy-SVD-Zählung der Singulärwerte) — ein wirklich anderer numerischer Weg als die zyklische Jacobi-Eigenzerlegung von GᵀWG in der Crate. Umfang (gemäß tests/fixtures/faultobs/NOTICE.md): Dies validiert NUR die LINEARE-ALGEBRA-PIPELINE auf diesen Zeilen. Die Knotengeometrie ist modelliert. Es ist KEINE betriebliche Integritätsgarantie, KEINE Zertifizierung eines Schutzniveaus und KEINE Aussage über die RAIM-/ARAIM-Verfügbarkeit, und KEINE Garantie byzantinischer Fehlertoleranz für eine Mission — die ANZAHL der tolerierten Fehler für dieses Netz ist modelliert, während die Block-Spark-SCHRANKE für Erkennung>f / Identifikation>2f zitiert ist (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; blockweiser Spark von Donoho–Elad { "2003" }) und im Code als Instanziierung bewiesen
+
+dat-3ed8c34dff65 = Unabhängige SciPy/NumPy-Referenz (scripts/gen_datum_identifiability_ref.py -> tests/fixtures/datum_identifiability/scipy_ref.csv): das Schur-Komplement, seine Eigenwerte und die 2x2-Inverse, berechnet von einer unabhängigen Bibliothek. Begrenzt auf die LINEARE ALGEBRA der Zerlegung; die GRÖSSEN der lunaren Korrelation/CRLB aus realer Geometrie bleiben MODELLED.
+
+dat-bf70dda05c83 = Unabhängige Instanz eines Dritten, der Kepler-Propagator ANISE { "0.10.2" } astro::Orbit (Nyx Space, MPL-2.0) — ein äquinoktialer Zweikörper-Codepfad, verschieden vom Newton-Raphson-Kepler von kshana; die MCI-Position je Satellit stimmt auf <{ "1e-3" } m überein, und die abgeleitete Zahl/Menge sichtbarer Satelliten stimmt an jedem Rasterpunkt exakt überein. Der DOP-Kern ist gegen gnss_lib_py validiert; die Integrität nutzt veröffentlichte LunaNet-/LCNS-Parameter
+
+dat-ca139c503573 = Bestätigung der cislunaren Bogenlängenschwelle durch einen unabhängigen Schätzer
+
+dat-7ca7bc5655ea = Test der cislunaren Bogenlängen-Beobachtbarkeitsschwelle durch einen unabhängigen Schätzer (R6, Paper B).
+
+dat-83303f0fc1bf = LEO-PNT in Gebäuden: warum ein UHF-Träger in ein Gebäude hineinreicht, wenn L-, S- und C-Band Mühe haben.
+
+dat-03c73c444454 = inertial (Szenarioart)
+
+dat-d3955f70a9bb = Inertiale und alternative Navigation
+
+dat-8787bea4d490 = Inertiales und geländebezogenes Überbrücken eines Ausfalls
+
+dat-2894be3c02c4 = Lageregelung mit Inertialausrichtung einer starren Nabe mit drei oder mehr ausbalancierten Reaktionsrädern: das MRP-Rückführgesetz L_r = -K sigma_BR - P omega_BR (Schaub und Junkins), minimalnormige Radmotormomente G_s u = -L_r, auf die Grenze jedes Rads begrenzt, die gekoppelte Dynamik von Nabe und Rädern mit der Nabenträgheit, die die Spinträgheit der Räder trägt, Quaternionenkinematik, RK4 mit Zero-Order-Hold. Lauffähig als Szenarioart `aocs` (Schleife mit wahrem Zustand).
+
+dat-b7887b8f1d7f = Inertial-, Fusions- und Quantensensoren
+
+dat-ec0ad7fe6b01 = Inertial-, Fusions- und Quantensensoren (Familie der Szenarioarten)
+
+dat-1452f6145884 = inertial::cai_error_terms (Bibliotheksfunktionen, aus einer Szenarioart noch nicht erreichbar): die Raman-Phasengewichtungsfunktion eines Dreipuls-Interferometers mit Rechteckpulsen (Cheinet et al. { "2008" }, Gl. { "8" }) mit der geschlossenen Form für weiße Phase (pi/2)^{ "2" } S_phi0/tau_R und einem numerischen Weg für jedes Spektrum; das Laserfrequenzrauschen, das die Verzögerung der Retroreflexion nicht aufhebt (Le Gouet et al. { "2007" }, Gl. { "9" } bis { "11" }); der reine Defokus-Wellenfrontbias sigma_v^2/R einer thermischen Wolke und seine Verringerung durch einen Detektionsradius; die Wahrscheinlichkeit eines falschen Streifenindex erfc(pi/(sqrt({ "2" }) s)) für eine klassische Beschleunigungsmesser-Stütze und für zwei Abfragezeiten, und ihre Inverse
+
+dat-ead1f2200ecb = inertial::cai_params (über inertial::quantum_imu)
+
+dat-af4b2f25c3ce = inertial::cai_params::tests (das physikalische VRW liegt bei allen { "3" } Stufen innerhalb der zitierten VRW-Klammer; der rohe Streifenmehrdeutigkeitsbereich aus k_eff·T² berechnet; das konservative Budget driftet mehr als das beste; jede Klammer mit Quelle + mit Bestätigungsmarkierung; Klammerordnungs-Schutz)
+
+dat-673e1254c2ad = inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario); Szenarioart `ins-trn-coast`
+
+dat-a6a78dab5cde = Eingabeformate
+
+dat-333776404b68 = INS-/IMU-Fehlermodell — an Datenblättern ausgerichtete Validierung (src/inertial/)
+
+dat-822d746ee607 = ins-trn-coast (Szenarioart)
+
+dat-fc4e1821dbe2 = ins-trn-coast | Navigations-IMU, { "250" } m/s, Kombination rss | { "10" } m bei { "251.0" } s (accel_bias) | { "50" } m bei { "608.8" } s (accel_bias) | TRN nur Position, Spitze { "44.7" } m über { "1200" } s
+
+dat-2c655ce6782d = Fehlerwachstum und Schwellenüberschreitungen beim INS-/TRN-Überbrücken
+
+dat-7a2fe446d5ad = Fehlermodell für das INS-/TRN-Überbrücken — Positionsfehler gegen Überbrückungsdauer, und die Überbrückung
+
+dat-69702698b049 = Fehlermodell für das INS-/TRN-Überbrücken: Positionsfehler gegen Überbrückungsdauer, aus IMU-Koeffizienten aufgebaut statt…
+
+dat-c2f78c59827d = In VS Code installieren (Docker)
+
+dat-6a1ec92e0f29 = In VS Code installieren (npx)
+
+dat-c90e197be374 = In VS Code Insiders installieren (npx)
+
+dat-7863d678c01a = Den Kshana-MCP-Server installieren (v{ $version })
+
+dat-e51de9c804bb = Den MCP-Server installieren
+
+dat-26a9ba641009 = Ganzzahlige Kleinste-Quadrate-Mehrdeutigkeitsfixierung nach dem LAMBDA-Weg: eine volumenerhaltende ganzzahlige (Z) Dekorrelationstransformation (Größenreduktion nach ganzzahligem Gauß des Faktors L D Lᵀ) + eine exakte Schnorr–Euchner-Branch-and-Bound-Suche der ganzzahligen Kleinsten Quadrate mit Tiefensuche, mit dem Ratio-Test auf den beiden besten Kandidaten (die validierte Aussage); plus die geschlossene Bootstrap-Erfolgsrate P_s=∏(2Φ(1/(2σ_{ "{" }i|I{ "}" }))−{ "1" }), nur intern geprüft und außerhalb der validierten Aussage
+
+dat-6ce706901c78 = integrity (Szenarioart)
+
+dat-50ed1429c00d = integrity | { "24" } Satelliten | 344/361 Epochen verfügbar ({ "95.3" }%) | HAL { "40" } m VAL { "50" } m | sigma { "1.0" } m | Stanford(V): { "0" } Integritätsereignisse, { "0" } HMI
+
+dat-b2d1da3f9b5d = Integrität und Störung
+
+dat-40295695fd8f = Integrität und Sicherheit: was Kshana modelliert und was nicht
+
+dat-22adaac4cae5 = Integritäts-FoM — Selbstkonsistenz des Filters
+
+dat-7d09993d482a = Integritätsauswirkung
+
+dat-9f121a93c2f1 = integrity_impact (über raim)
+
+dat-a85d215fe8dd = integrity_impact::tests (dasselbe Fehlen kippt Available→MI→HMI, wenn der Kontext enger wird; konservatives PL→Unavailable; HMI je Achse; Eingabeschutz)
+
+dat-6bf0e08e0072 = integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling, every_nonzero_direction_under_pd_omega_has_a_finite_ceiling); tests/gls_outside_omega_bound_numpy_oracle.rs::undetectable_common_mode_ceiling_matches_numpy_lapack ({ "256" } eingecheckte Fälle: alpha_ss, alpha_cm und das Minimum innerhalb von { "1e-12" } relativ auf { "210" } gut konditionierten und Randfällen, schlechtester Wert { "3.3e-15" }; { "40" } schlecht konditionierte bis Kondition { "1.3e8" } innerhalb einer angegebenen konditionsskalierten Schranke, schlechtester Wert { "1.1e-9" }; sechs exakte Unendlichkeiten)
+
+dat-4f6cc44e6aa0 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack ({ "201" } eingecheckte SPD-Fälle: Faktor, gewhiteneter Residualvektor, Whitening-Operator und Mahalanobis-Quadrat gegen numpy LAPACK innerhalb von { "1e-12" } relativ, schlechtester Wert { "7.9e-16" })
+
+dat-e8f307bea5aa = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (datenabhängig: überspringt mit einer Meldung, wenn die BIPM-Reihe fehlt); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (D9 Runde { "3" }, prospektiv, noch nicht ausgeführt: Circular T { "465" } erschien am 2026-10-12, und die vorab festgelegte Regel mit 1000 Werten braucht Ausgaben bis etwa { "468" })
+
+dat-a821706da637 = integrity::lil_envelope::tests (Divergenz, Schwelle, Dominanz der IR-Verschärfung)
+
+dat-83de804247c2 = integrity::tpl_scalar::tests (Rang 1, fusionieren/ausschließen, Bias-Dominanz, IR-Gegenprüfung); tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy ({ "300" } eingecheckte Fälle: numpy-lstsq-Teilmengenschätzer, allgemeine Trennungskovarianz, scipy-brentq-PL; PL innerhalb von { "1e-9" } relativ, schlechtester Wert { "1.2e-10" }; treibende Teilmenge exakt)
+
+dat-11a8b72872b7 = Nutzer von IntelliJ, PyCharm und CLion
+
+dat-9eb185e5cb6c = Austauschhülle (KIF, das Kshana Interchange Format) — ein Artefakt erkennen und seine Version prüfen
+
+dat-7904abaf02c5 = Störungskarte
+
+dat-151056634773 = Störungskarte und Routenexposition
+
+dat-efa77bd2f599 = Validierung der Störungskarte
+
+dat-c7e45641ff55 = Störungskarte: Bedeutung der Genauigkeitscodes, AIS-Nicht-verfügbar-Werte, Zuordnung der Rasterzellen, Routenlänge je Zellenzustand und Binnenland-Maskierung
+
+dat-5ce9214818d0 = Störungskarte: Lizenzprüfung der Datenquelle
+
+dat-b76c44dec57e = Störungs-Observatorium
+
+dat-eeea3f30179b = Störungs-Observatorium: Methodenhinweis
+
+dat-f04a17478c6f = Interne Konsistenz (InternalConsistency): Die Schutzniveaus sind die von snapshot_raim, das in seiner eigenen Zeile gegen RTKLIB validiert ist, auf derselben Geometrie neu berechnet; Verhalten ohne und mit eingespeistem Fehler. Der Himmel ist eine repräsentative voreingestellte Geometrie (kein datierter Almanach), die Residuen sind synthetisch, und Sigma, die Alarmgrenzen und die Wahrscheinlichkeiten sind angegebene Eingaben; nichts davon ist eine Aussage über die Verfügbarkeit eines realen Empfängers
+
+dat-a1c78ee97d2d = Interne Konsistenz (die Sprungidentität und die Kegelschranke gegen Brute-Force-Stichproben). Die Schwelle ist eine Eingabe; keine veröffentlichte LEO-Kontinuitätsanforderung ist festgehalten
+
+dat-6bed622b120d = Interne Konsistenz gegen eingespeiste Wahrheit und geschlossene Formen, unter Zielwerten, die bei 6b68f6cc vorab festgelegt wurden (docs/design/evidence/boc-bump-jump/). Ein BeiDou-B1C-Datensignal (PRN { "19" }, { "5" } MS/s), erzeugt von iq::scene: Bei ausgeschalteter Option bleibt ein Start auf der Nebenspitze falsch eingerastet bei den vorhergesagten ±({ "0.5" } + d/4) Chip (gemessen ±{ "0.549" }); bei eingeschalteter Option ein Sprung zur Hauptspitze bei { "0.08" } s und ein RMS im späten Fenster von { "0.0008" } Chip bei { "45" } dB-Hz und { "0.0048" } Chip bei { "35" } dB-Hz; kein Sprung von der Hauptspitze bei { "35" }, { "40" } und { "45" } dB-Hz über { "4" } s; die skalierte EMLP-Steigung { "0.94" } bis { "0.99" } auf dem abgetasteten Signal (unskaliert { "3.6" } bis { "3.8" }). Der Bump-Jump-Detektor allein, auf Korrelator-Tripeln mit der exakten BOC({ "1,1" })-Rauschkovarianz, machte in { "100 000" } Aktualisierungen bei { "25" } bis { "45" } dB-Hz keinen falschen Sprung und erkannte { "1000" } von { "1000" } Starts auf der Nebenspitze bei { "35" } dB-Hz. NOT MET (Befund F1): Das vorab festgelegte Unit-Test-Raster für die Skalierung enthält Offsets außerhalb des linearen Bereichs der Diskriminatoren, wo die skalierten Messwerte den Offset um bis zu { "48" } % verfehlen. WAS NICHT GEPRÜFT WIRD: Feld-IQ, bandbegrenzte Frontends, zusammengesetzte MBOC-/QMBOC-Replikate und jeder externe Empfänger.
+
+dat-01f9118b836e = Interne Konsistenz gegen eingespeiste Wahrheit: eine synthetische datenfreie GPS-L1-C/A-Quelle (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, zehn Rausch-Seeds), deren Trägerphase bekannt ist, unter Zielwerten, die bei 58789af0 vorab festgelegt wurden (docs/design/evidence/fll-handover-floor/). MET: die Kontrolle (der unbegrenzte Standard übergibt bei { "33" } dB-Hz in { "9" } von { "10" } Seeds nie); Additivität (Standard-Hash und die bestehenden Tracking-Tests unverändert); Einschwingen einer um { "100" } Hz versetzten Übergabe bei { "45" } dB-Hz. NOT MET: mit einer Begrenzung von { "1.0" } s Übergabe und Halten in jedem Lauf ({ "16" } von { "20" } bei { "33" } dB-Hz, { "8" } von { "20" } bei { "31" } dB-Hz; der Rest wechselt zwischen erzwungenen Übergaben und der Rückkehr des FLL) und Phasenjitter innerhalb von { "25" } % der PLL allein ({ "10.8" } gegenüber { "6.1" } Grad bei { "33" } dB-Hz). WAS NICHT GEPRÜFT WIRD: Datenbits, andere Signale und Abtastraten, Feldaufzeichnungen. Der Standard ist unverändert; die Zeile bleibt MODELLED.
+
+dat-a9e65b1c6f91 = Interne Konsistenz eines angegebenen Entwurfsmodells: Jede Leistungs-, Schwellen- und Suchwahl ist eine Eingabe, und das Modell ignoriert Bitflanken-Mehrdeutigkeit, verpasste Detektion und Wiedererfassung. Nicht mit einem gemessenen Empfänger verglichen
+
+dat-97c728c1d687 = Nur interne Konsistenz; es wird KEINE externe Referenz beansprucht, und für eine Wetterrealisierung gibt es keine. Die Prüfungen vergleichen eine Ziehung mit der statistischen Ausgabe desselben Modells, daher sagt ein Bestehen, dass der Generator die angegebenen Verteilungen abtastet (die Verfügbarkeit und der Wolkenanteil der Ziehung liegen innerhalb vorab festgelegter Toleranzen der angegebenen Werte), nicht, dass sich irgendein realer Standort so verhält. Die Reihe ist eine Realisierung, nicht das Klima: Ihre Verfügbarkeit weicht um den Stichprobenfehler der Ziehung von der angegebenen ab, und die Szintillation ist bei verschiedenen Schritten unabhängig, eine angegebene Vereinfachung eines Prozesses, der in Millisekunden dekorreliert. Die Wettereingaben bleiben Annahmen des Szenarios.
+
+dat-bdfafbf7deee = Nur interne Konsistenz: Jeder hinzugefügte Standort ist ein eigener Punkt, und eine Laserentfernung oder eine VLBI-Verzögerung einer festen Station berührt einen Punkt, daher ist seine Information A_p^T M_p A_p positiv semidefinit und addiert sich; der Test prüft die Fisher-Differenz und jede Varianz dagegen. Das Ergebnis mit fünf Arrays ist die bestehende Zeile mit realen Daten und unverändert. Der hinzugefügte Reflektor verwendet Epochen wieder, die für die fünf bestehenden Arrays geplant sind, ein ILLUSTRATIVE Plan, und Netz, Plan und Verzögerungs-Sigma der hinzugefügten Bake sind die ILLUSTRATIVE Eingaben der Kampagne für das Mondsystem; der Standort ist eine ILLUSTRATIVE südpolare Position. Ein südpolarer Standort sieht die Erde tief an seinem Horizont oder gar nicht, was die bestehenden Blickwinkel-Tests ausdrücken; keiner der beiden Standorte wird durchgehend mit Entfernungsmessungen bedient. Die Werte sind Cramér-Rao-Schranken für einen reduzierten Parametersatz, kein gelöstes Datum und keine Aussage über irgendeine reale Station
+
+dat-244c19d279a3 = Nur interne Konsistenz: Die per Bisektion bestimmte Zeit bis zur Schwelle wird gegen die geschlossene Inverse des dominanten Rauschtyps der Uhr geprüft und der Term der freilaufenden Uhr gegen den eigenen Uhrenterm des Budgets. Die Uhrenklassen beruhen auf veröffentlichten Eintages-Spezifikationen (ihre eigenen Zeilen); die LTC-Rate wird hier nicht neu abgeleitet und behält ihre eigene VALIDATED-Zeile (Lunare Koordinatenzeit); das Steuerresiduum ist ILLUSTRATIVE, das Realisierungsresiduum ist eine Budgetzuweisung, und es ist kein thermisches Modell enthalten. Das Nanosekunden-Ziel, das im Lunar-PNT-Material der ICG WG-B vom Juni { "2024" } beschrieben ist, wird als Quellenaussage zitiert, nicht als Anspruch übernommen; nichts davon ist eine Aussage über irgendeine reale Stationsuhr
+
+dat-687e3bd46ba8 = Nur interne Konsistenz. Jedes veröffentlichte Feld ist im körperfesten System seines Erzeugers definiert (GMM-3 im Mars-System von Konopliv et al. { "2006" }, GL0660B im Mond-Hauptachsensystem DE421), während das Feld im IAU-System ausgewertet wird; der Versatz ist nicht modelliert
+
+dat-c3a2c7e69283 = Interne Konsistenz mit dem Holdover-Modul, bitgenau; es wird KEINE externe Referenz beansprucht. Die Klassen-PSDs sind die synthetisierten Langzeit-Untergrenzen, die das Holdover-Modul bereits trägt, daher erben die Werte dessen angegebenen Vorbehalt, dass Holdover bis zu einer engen Schwelle von der angenommenen Untergrenze des roten Rauschens bestimmt wird und nicht von der zitierten Allan-Abweichung. Die Ausfalldauern sind ein lognormales Modell mit angegebenen Parametern, kein gemessener Wolken-Verweildauer-Datensatz
+
+dat-81c69cadba70 = Interne Konsistenz: geschlossene Grenzwerte und Monotonie des Diversitätsmodells, die geschlossene Form der Wolkenobergrenze und die lognormalen Ausfallidentitäten. Es wird KEINE externe Referenz beansprucht, und keine wurde verglichen: Es wird keine gemessene Verfügbarkeit einer optischen Bodenstation und kein Datensatz wolkenfreier Sichtlinien verwendet. WARUM MODELLED: Das Wolkenklima (Wolkenwahrscheinlichkeit, Median und Streuung der Flüssigwassersäule, Ausfalldauern), die Unabhängigkeit von Wolke und Turbulenz, die Gauß-Copula-Form, die Dekorrelationslänge und jeder Technikgewinn sind Annahmen; die mitgelieferten Szenarien geben ILLUSTRATIVE Klimata an, keinen Datensatz. Für ein Hochstufen dieser Zeile braucht es einen zitierten gemessenen Verfügbarkeitsdatensatz und einen vor dem Vergleich registrierten Zielwert
+
+dat-b7287210bebc = Interne Konsistenz: rauschfreie Rückgewinnung, die kinematische Identität rho_ddot = (|v|^{ "2" } - rho_dot^{ "2" } + d.a)/rho, numerisch differenziert, Doppler null im nächsten Punkt der Annäherung, die Spiegellösung eines einzelnen Überflugs und Fehler mit Seed gegen die formale Kovarianz. Der Starlink-Wert von Kozhaya, Saroufim und Kassas (NAVIGATION { "72" }({ "1" }), { "2025" }: etwa { "2" } m in { "20" } s mit drei Satelliten) ist nur ein Vergleich: Der modellierte Empfänger mit perfekter Ephemeride und jedem Fehler in einem Doppler-Sigma von { "30" } Hz ist über dasselbe Fenster um ein Mehrfaches ungenauer, und der Empfänger und die Messrate der Veröffentlichung werden nicht reproduziert
+
+dat-90e7c3f0b089 = Interne Konsistenz: die zitierte VRW-Klammer, gegengeprüft mit der Physik von CaiAccelerometer::accel_asd + roher Dynamikbereich, berechnet aus der Streifenmehrdeutigkeitsgrenze; die Zahlen sind MODELLED-Klammern aus einer Literaturübersicht (needs_source_confirmation), kein Gerät validiert, kein Validierungs-Heiligenschein
+
+dat-f95438b160b3 = Interne Konsistenz: Die Klassifikation wird gegen die von ihr angegebenen Regeln und gegen von Hand abgeleitete Verhältnisse auf synthetischen Änderungen des eingecheckten Demo-Logs geprüft, und die Keine-Änderung-Festlegungen halten die Ausgaben von { "0.35.0" }: Kein Wert ändert sich, außer wenn die Geometrie schlecht ist; das Label wird immer berichtet. WARUM MODELLED: Die Schwellen sind gewählt, nicht angepasst (Herkunft in geometry_model jedes Laufs; die Werte von IEC 61108-1 und GPS SPS wie zitiert, gegen den Text der Normen zu prüfen), und es gibt keinen externen gelabelten Datensatz natürlicher Geometrieverschlechterung gegen Angriffe, an dem die Klassifikation zu validieren wäre. Das abgeleitete DOP verwendet den Kern orbit::dop wieder, VALIDATED gegen gnss_lib_py, dessen Status diese Zeile nicht borgt. Eine Geometrieklasse ist eine Aussage über den Himmel, kein Befund, dass kein Angriff stattfand
+
+dat-e0a40eb480ea = Interne Konsistenz: Das exakte Branch-and-Bound stimmt auf kleinen Zufallsmengen mit der Brute-Force-Aufzählung überein, jeder Plan wird gegen die Konfliktregeln als zulässig geprüft, und das Greedy-Verfahren schlägt nie das exakte Optimum. WAS NICHT: Es wurde kein externer Planer oder Betriebsplan verglichen; Kontakte werden ganz genommen (keine Aufteilung), der Rückstau ist am Fensterbeginn festgelegt, Schwenkzeit über die feste Umlaufzeit hinaus und Bordspeicher sind nicht modelliert.
+
+dat-de38b3520ddd = Interne Konsistenz: die exakte Identität Brennschlussgeschwindigkeit = Summe Isp g0 ln(m0/mf) minus die vier integrierten Verluste (Residuum unter { "1e-6" } m/s), die Gleichung von Ziolkowski bei einem senkrechten Brennen im Vakuum, bei dem die Schwerkraft der einzige Verlust ist, und die US76-Druckwerte auf Meereshöhe und an der Tropopause. WAS NICHT: Es wurden keine Verluste eines veröffentlichten Fahrzeugs verglichen; keine Erdrotation, kein Coast, keine Drosselung oder Führung jenseits des Kicks; konstantes C_D; kein Trajektorienoptimierer.
+
+dat-56c420c02926 = Interne Konsistenz: der normierte quadrierte Schätzfehler des Filters gegen Wahrheit, simuliert aus denselben Sensormodellen über Monte-Carlo-Seeds, und die Konvergenz der Lage- und Bias-Schätzungen. WAS NICHT: Es wurde kein externer Schätzer und keine Flugdaten verglichen (Basilisk { "2.9.1" } hat kein MEKF-Modul); die Sensormodelle sind die aus dem Lehrbuch, ohne Fehlausrichtung, Skalenfaktor oder Gesichtsfeldeffekte des Sternsensors.
+
+dat-f698f5ba7ab8 = Interne Konsistenz: Das Vorwärtsmodell und die gelöste Gleichung stimmen auf { "1e-15" } s überein, der Sagnac-Term ist gleich der unabhängigen BIPM-Schleifenform 2A omega/c^{ "2" } des Moduls, der ionosphärische Term ist { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, und die Rauschprozesse zeigen ihre erwarteten TDEV-Formen. WAS NICHT: Es wurde keine reale TWSTFT-Messung oder kein Kalibrierbericht verglichen; die angegebenen Verzögerungen und Unsicherheiten sind Eingaben, nicht gemessen; die Stabilitäten gelieferter Reihen werden berichtet, nicht validiert.
+
+dat-52ecbc039055 = Interne Konsistenz: Die Messungen werden aus den Modellen synthetisiert, die der Filter verwendet (χ²-NEES/NIS über Seeds, eine rauschfreie Konvergenz, Slip-Einspeisung). MODELLED; es werden keine realen Empfängerdaten oder Filter eines Dritten verglichen
+
+dat-a64be9ada5d8 = Interne Konsistenz: der veröffentlichte Ausdruck für den Offset, von Hand ausgewertet, der normierte Fehler über { "40" } Seeds und die Untergrenze, die durch die Offset-Unsicherheit gesetzt wird. Der NIST-Wert für Iridium-Zeitempfänger mit einer Miniatur-Atomuhr (unter { "40" } ns von UTC(NIST) über { "40" } Tage) ist nur ein Vergleich; das mitgelieferte Iridium-Szenario liefert { "10" } bis { "11" } ns RMS bei Nennleistung mit seinem repräsentativen Entfernungsfehler von { "5" } m. Flicker-Frequenzrauschen und ionosphärische Verzögerung werden nicht simuliert
+
+dat-c0b1c86ee380 = Interne Konsistenz: die Beziehung und die Konstanten wie in NASA TR R-376 gedruckt, eine Halbschritt-Konvergenzprüfung und die erwartete Ordnung der Spitzen von Erwärmung und Verzögerung. WAS NICHT: Es wurde kein veröffentlichter Erwärmungswert verglichen (die Stardust-Veröffentlichungen geben eine Auslegungsgrenze und eine konvektiv-plus-strahlende Schätzung von etwa { "1200" } W/cm2 an, die eine rein konvektive Beziehung nicht erreichen kann); keine Korrektur für Strahlungserwärmung, Wandtemperatur oder Katalyzität und keine Reaktion des Hitzeschutzes.
+
+dat-d473850d6518 = Interne Konsistenz: Die in geschlossener Form aus Tabelle 5a K_bch und den Rahmenlängen berechnete spektrale Effizienz stimmt mit den Effizienzen überein, die Tabelle { "13" } druckt (eine Transkriptionsprüfung der Schwellentabelle); die Teile des Linkbudgets stimmen mit ihren geschlossenen Formen überein; die Auswahl ist monoton in Es/N0 und hält die Reserve ein; ACM bewegt mindestens das Volumen mit konstanter Kodierung. Die Überflug-Geometrie stammt vom separat VALIDATED scheinbaren Überflugprädiktor. WAS NICHT: Es wurde kein externes Werkzeug und keine gemessene Strecke verglichen; die Schwellen sind die idealen AWGN-Werte der Norm, nicht die eines Modems; Regendämpfung, Zeigeverlust entlang des Überflugs und Piloten sind nicht modelliert.
+
+dat-2d9d8880f4f0 = Interne Konsistenz: Wahrheit, simuliert aus den eigenen Modellen der Filter (χ²-NEES über Monte-Carlo-Seeds, das entkoppelte Paket auf identischen Sensoren). MODELLED
+
+dat-daeea93cf98c = Nur intern: die exakte geschlossene Form -20 log10(Entfernung) der Streckengleichung, ein unabhängiges Brute-Force-Raster über dieselbe Art und die Rosenbrock-Funktion. Der 1D-Zielwert aus Runde { "1" } ist NOT MET (die vorab festgelegte Box schloss die Lösung bei { "3" } dB aus; der Optimierer hielt an der Grenze an), festgehalten in docs/design/evidence/cap32-optimize/RESULTS.md und nicht neu bewertet. Das Optimum ist lokal zur Box und zum Start; keine Aussage über ein globales Optimum
+
+dat-706d8ac94114 = Unabhängiger CCSDS-502-Parser eines Dritten `oem` { "0.4.5" } (MIT, https://pypi.org/project/oem/) — eine getrennte Codebasis, die das von kshana ausgegebene EME2000/UTC-OEM byteidentisch dekodiert ({ "24" } Zustände über { "2" } Fixtures, Pos./Geschw. Δ = { "0" }) und deren strenger Leser die Metadaten-Token bestätigt; der Parser von kshana stimmt ebenso mit ihr auf einem eingebundenen externen OEM überein. Zwei ehrliche Interop-Befunde (die oem-Bibliothek lehnt die Multi-Segment-Konvention je Satellit von kshana und deren Kovarianzzeilen mit mehreren Einträgen ab) sind im Test dokumentiert — damit wird der Einzelobjekt-Austausch nach der Norm validiert, nicht die volle CCSDS-502-Konformität jeder kshana-Variante
+
+dat-3ea7167853e6 = Interne Konsistenz (InternalConsistency): die Reduktion der Ordnung 2 auf den MAAST-geprüften ADD-v4.2-Pfad, unabhängige Neuableitung der Prioren und ein konstruierter Fehler an zwei Satelliten. Über Paare hinaus wurde kein MAAST- oder RTKLIB-Lauf gemacht, daher sind die tieferen Hypothesenmengen und die Schutzniveaus des Subset-RAIM nicht extern geprüft. araim_subset_raim teilt die Vereinfachungen von araim_dual_raim (ein Sigma für Integrität und Genauigkeit, eine Uhr, der einfache Normalschwanz): Es ist nicht ADD-konform
+
+dat-a29f8eefacae = Interne Hin- und Rückrechnung und bekannte ICD-Antworten; es wurde kein Dekoder eines Dritten ausgeführt (das RTKLIB-/GNSS-SDR-Harness, das KSHANA_NAVMSG_ORACLE_JSON liest, ist datenabhängig). MODELLED
+
+dat-aaf97798d80e = Intern: die Gütezahlen jedes Pakets gegen seine eigene Wahrheit und ein Vergleich lose/eng auf identischen Eingaben. MODELLED; der NaveGo-Vergleich des Audits wurde nicht ausgeführt
+
+dat-202435a7c894 = Intern: Identitäten der Starrkörperkinematik, die CSV-Hin- und Rückrechnung und die eigene Kovarianz des Filters. MODELLED (es wird kein reales Fahrlog verglichen)
+
+dat-7a31016388bf = Intern: Die geschlossenen Formen werden gegen von Hand berechnete Werte geprüft (Elevationen der Wandoberkanten einer angegebenen Straße, die Bedingung des offenen Endes, der Krümmungsabfall eines angegebenen Punkts). Keine externe Referenz: Die Entwurfsnotiz fasst diese Reduktionen als MODELLED, und das ElevationMask von Orekit nimmt eine Tabelle, daher liest der Vergleich der Zeile „Azimutabhängige Horizontmaske: sichtbare Menge, Azimut und Elevation sowie DOP unter der Maske“ deren 360-Punkte-Tabellen als Eingaben und prüft sie nicht
+
+dat-d89068397b90 = interop_budget: Aufteilung in reduzierbar (gemeinsame Rahmenbindung) und nicht reduzierbar (Dynamik) unter den Konventionen PerProvider / CommonFrameTie / CommonEphemeris, mit der Entwurfsgesetz-Metrik des nicht reduzierbaren Anteils (~{ "0.69" } auf realen DE440/INPOP/EPM: Ein gemeinsames Rahmen-Tag allein lässt die dominante Untergrenze bestehen)
+
+dat-135f9f077d50 = Interoperabilitäts-Exporte und -Importe
+
+dat-8b90f6e29b1d = Mehrfachzugriffsstörung innerhalb eines Systems zwischen Satelliten eines Bandes
+
+dat-ea398366399a = Inverser Simpson-Diversitätskern
+
+dat-facb1472c0a6 = IONEX-{ "1.0" }-Leser (Header, I5-Werte mit fester Spalte, TEC- und RMS-Karten, absolute Epochen, fehlende Werte) mit bilinearer räumlicher Interpolation, der Zeitinterpolation des Formats nach nächster / aufeinanderfolgender / gedrehter Karte (Gl. 1-3) und Dünnschicht-Schräg-TEC
+
+dat-fd4e4555a123 = IONEX-Leser für globale Ionosphärenkarten und Interpolation auf einer realen CODE-GIM
+
+dat-090bdd3a20d7 = Ionosphäre und UTC
+
+dat-e84294bda6aa = Ionosphärensondierung
+
+dat-cf7623f8cc77 = Ionosphärensondierung: Schräg-TEC aus der Zweiband-Verzögerung eines LEO-Überflugs
+
+dat-56e6f4f45539 = IQ-Kanal für ionosphärische Szintillation (Cornell-Modell) gegen gemessene { "50" }-Hz-GPS-L1-Szintillation
+
+dat-59bb00916102 = IQ-Monitore, bewertet in Laborwiedergabe-Kampagnen: Detektion, Fehlmeldungen, Fehlalarme und Fehlalarmwerte in geschlossener Form
+
+dat-77d4bf93fd63 = IQ-Tracking-Engine gegen GNSS-SDR { "0.0.19" } auf unabhängigen Aufzeichnungen
+
+dat-9f6c2ea4b900 = IQ, SigMF und Welch
+
+dat-82972761ec44 = iq::acq::acquire (parallele FFT-Codephasensuche mit der Marcum-Q-Schwelle des Quadratgesetzes) mit dem GpsL1Ca-Replikat, auf { "20" } ms der eigenen 8-Bit-I/Q-Ausgabe von gps-sdr-sim, dekodiert vom Abtastdekoder iq::io (ci8, { "2.6" } MHz, { "11" } Satelliten, kein Rauschen): jede PRN { "1" } bis { "32" } in zwei { "10" }-ms-Fenstern gesucht, das Ergebnis verglichen mit der Codephase und dem Doppler, die gps-sdr-sim moduliert hat
+
+dat-11650ae9d344 = iq::acq::ca_cfar und ca_cfar_cells (optional): Eine Zelle eines Akquisitionsrasters wird mit dem Mittel der Referenzzellen ihrer Doppler-Zeile verglichen (Schutz- und Schrittlags, über die Periode umlaufend), bei einem Faktor alpha, der aus der geschlossenen CA-CFAR-Fehlalarmwahrscheinlichkeit für M nichtkohärente Blöcke gesetzt wird (ca_cfar_pfa, ca_cfar_alpha). Der Abtastleistungs-Detektor bleibt der Standard, und jede bestehende Ausgabe ist unverändert.
+
+dat-0199997adc84 = iq::campaign::detect (windows, roc) und iq::campaign::report::rocs: Jede Zelle einer Kampagne mit Monitoren behält je Alarmart und Kanal das Maximum der eigenen Teststatistik des Monitors über jedes angegebene Ereignisfenster (positiv) und über gekachelte roc_window_s-Fenster außerhalb der Ereignisse (negativ). Die Statistiken sind die Blockleistungsabweichung, der PSD-Überschuss, die Kurtosis z, das SQM |z| der gemittelten Metrik und der C/N0-CUSUM. Der Bericht fasst sie nach Art zu einer empirischen ROC auf Fensterebene mit ihrer AUC und dem Arbeitspunkt bei der konfigurierten Schwelle zusammen, geschrieben als roc.json (kshana.campaign-roc/1) und als Abschnitt Detection ROC von report.html. Eine Kampagne ohne Monitore schreibt keines von beiden
+
+dat-d1b249ae6ffb = iq::campaign::detect und der Kampagnen-Runner: Eine optionale Tabelle [monitors] lässt die IQ-Monitore auf jeder Zelle im einzelnen Durchlauf des Runners laufen. Die Leistungs- und Spektralmonitore sehen die Abtastwerte nach jeder Frontend-Kette; die C/N0-, SQM- und Lock-Monitore sehen die Schleifenaktualisierungen jedes verfolgten Kanals. Jeder Alarm wird gegen die angegebenen Ereignisse bewertet: erkannt oder verpasst je (Ereignis, Alarmart, Kanal), Zeit bis zur Erkennung und Fehlalarme außerhalb der Ereignisse über ihre Exposition. Der Fehlalarmwert in geschlossener Form jedes Tests ist angegeben: Leistung je Block (exakter Gamma-Schwanz), spektraler Überschuss je Block (Näherung), Kurtosis (einseitig gaußsch), Pulse (binomiale Obergrenze), SQM je gemittelter Aktualisierung (2Q(k) = Q(1/2, k^2/2), neu) und ARL0 des C/N0-CUSUM (Siegmund). Ohne die Tabelle sind Zellen, Schlüssel und Digests unverändert. Es wird keine Störwellenform synthetisiert
+
+dat-6c1b33814763 = iq::channel::scint, das Cornell-Szintillationsmodell (Rice-Intensität, Butterworth-Spektrum zweiter Ordnung, Phase arg z), getrieben mit dem S4 und der Intensitäts-Dekorrelationszeit eines gemessenen Fensters, verglichen an dem, was es über diese beiden Eingaben hinaus erzeugt; realdata::scint50 liest das gemessene Log, entfernt den Trend und führt den Vergleich aus.
+
+dat-afcaffa37013 = iq::signals::beidou::b1i_bits und b1i: die Gold-Codes nach BDS-SIS-ICD-B1I-3.0, auf { "2046" } Chips gekürzt, PRN { "1" } bis { "63" }, wie die IQ-Schicht sie erzeugt, erfasst und verfolgt.
+
+dat-3200312cc2f5 = iq::signals::gps::l1c_p_bits, l1c_d_bits und l1c_o_bits: die Weil-Ranging-Codes L1CP und L1CD (berechnete Legendre-Folge, Weil-Index, vor Chip p eingefügte Erweiterungsfolge) und die S1-Overlay-Codes L1CO, PRN { "1" } bis { "63" }.
+
+dat-a24e4b9ee5c8 = iq::signals::lunanet::afs_i_bits und afs_q_primary_bits (Signalnamen lunanet-afs-i und lunanet-afs-q in kshana iq): der AFS-I-Gold-Code ({ "2047" } auf { "2046" } kurzzyklisch gekürzt, G2 je PRN verzögert) und der primäre AFS-Q-Weil-Code (berechnete Legendre-Folge, Weil-Index, vor Chip p eingefügte Erweiterungsfolge), PRN { "1" } bis { "210" }.
+
+dat-55fd4b161c14 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: Synchronisationsmuster, SB1-BCH({ "51,8" })-Kodierer und Dekoder mit 256 Hypothesen, CRC-24Q, der Blockinterleaver { "60" } x { "98" }, ein Symbolstrom-Prüfer (kshana lunanet-afs-check) und ein Teststrom-Generator mit Platzhalter-Subframes. Die LDPC-Kodierung der Rate 1/2 der Subframes { "2" } bis { "4" } ist nicht implementiert (ihre Matrizen stehen in einem getrennten Anhang).
+
+dat-e365c476045e = iq::track (LoopConfig, FllGate, design); iq::track::channel (das FLL-Gate)
+
+dat-4b34cc7a4d00 = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (die Bump-Jump-Abgriffe und Channel::bump_jumps)
+
+dat-b8db16d3eb7d = das optionale carrier.fll_pull_in_max_s von iq::track (das Feld fll_pull_in_max_s von iq::track::LoopConfig): Bei fll_assist = pull-in übergibt der FLL nach einer festen Einschwingzeit an die PLL, unabhängig vom PLI, mit einer passenden Rückkehr-Verweilzeit, bis der PLI erstmals fll_off_pli erreicht.
+
+dat-f6eb7f5b0879 = Iridium-STL-Bursts (Satellitenzeit und -ort), von einem Flugzeug aus gesehen.
+
+dat-84fa351fb984 = Keplersche Broadcast-Ephemeride nach IS-GPS-200 / Galileo-OS / BeiDou-OS → ECEF-Satellitenposition aus einem geparsten RINEX-3-Navigationsdatensatz
+
+dat-2bbce8b617b0 = IS-GPS-200-LNAV-Subframes 1-3 (gps_lnav::encode_subframes: Quantisierung jedes Uhren- und Bahnparameters mit Rundung zum Nächsten bei den Skalenfaktoren und dem Wert von pi der Spezifikation, Zweierkomplement-Packung, TLM- und HOW-Wörter, Parität nach Tabelle 20-XIV mit D29*/D30*-Inversion, die paritätslösenden Bits der Wörter { "2" } und { "10" }), die Nachricht, die ein GPS-L1-C/A-Signalgenerator sendet
+
+dat-817d2e90e97c = IS-GPS-200 Abschnitt { "20.3.3.3.3.2" }, der das Gruppenlaufzeitverhältnis L1/L2 gamma = (77/60)^{ "2" } angibt, das aus der Skalierung 1/f^{ "2" } erster Ordnung folgt, und die Friis-Übertragungsformel (Proc. IRE, { "1946" }). Validiert die Skalierungsgesetze, kein Schräg-TEC
+
+dat-fe11c7ba2e68 = IS-GPS-200 Tabelle 3-Ia „Code Phase Assignments“ — die maßgeblichen, gemeinfreien, von der US-Regierung veröffentlichten OKTALEN Verifikationsvektoren der ersten 10 Chips (GPS Directorate, navcen.uscg.gov); der eigene G1/G2-LFSR von kshana erzeugt jeden Vektor der PRN { "1" }–{ "9" } exakt neu. Die nachgelagerten geschlossenen Formen für Modulation/SSC/DLL bleiben modelliert (eigene Zeile)
+
+dat-5e6cd6a5fd6c = IS-GPS-800J (01-AUG-2022, Verteilungsvermerk A), die Prüfspalten, die sie neben den Generatorparametern druckt: Tabelle 3.2-2 die ersten und letzten { "24" } Chips jedes L1CP- und L1CD-Codes, Tabelle 3.2-3 die ersten und letzten { "11" } Bits jedes L1CO-Codes, Tabelle 6.2-1 die Legendre-Folge der Länge 10223; von scripts/extract_is_gps_800_tables.py aus dem PDF transkribiert (SHA-256 c4aad710...). Zielwerte vorab festgelegt bei fe372e26 (docs/design/evidence/l1c-codes/): { "252" } von { "252" } Spalten, { "63" } von { "63" } Overlays und { "10 223" } von { "10 223" } Legendre-Bits identisch; die Extraktion --check besteht; eine Negativkontrolle schlägt bei umbenannten, invertierten und verschobenen Codes fehl. WAS NICHT GEPRÜFT WIRD: die Generatorparameter selbst (sie stammen aus denselben Tabellen), die Chips zwischen den gedruckten Spalten, das TMBOC-Unterträgermuster und die L1CO-S2-Codes.
+
+dat-d80cdd567de9 = sein Träger
+
+dat-93fc08e65d73 = ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 Gleichungen ({ "1" }) bis ({ "5" }): k_H, alpha_H, k_V, alpha_V aus den Kurvenanpassungen der Tabellen { "1" } bis { "4" }, das pfad- und polarisationsabhängige (k, alpha) und die spezifische Dämpfung k R^alpha; verwendet vom Regenterm der Art `leo-pass`
+
+dat-9ef4b4d3d9e0 = ITU-R P.2109-2 Anhang { "1" } Gleichungen ({ "1" }) bis ({ "10" }) mit Tabelle { "1" }: der Verlust, der mit der Wahrscheinlichkeit P nicht überschritten wird, für traditionelle und thermisch effiziente Gebäude bei der Elevation des Pfads an der Fassade, { "80" } MHz bis { "100" } GHz; von der Art `leo-pass` je Band und Epoche auf einen Innenraumnutzer angewendet (der UHF-Innenraumfall)
+
+dat-afe2285e9326 = ITU-R P.618-14 Abschnitt { "2.2.1.1" } Schritte { "2" } bis { "10" } (Schräg- und Horizontalpfad unterhalb der Regenhöhe, Faktoren für horizontale Reduktion und vertikale Anpassung, A0.01 und seine Skalierung auf { "0.001" } % bis { "5" } % eines mittleren Jahres), mit der Regenhöhe (P.839) und R0.01 (P.837) als Eingaben, weil die Engine keine der beiden digitalen Karten mitführt; je Band und Epoche von der Art `leo-pass` angewendet
+
+dat-7ef27622d182 = ITU-R P.618-14 Abschnitt { "2.4.1" } Schritte { "3" } bis { "9" } (Referenz-Sigma aus N_wet, effektive Pfadlänge, Antennenmittelungsfaktor, Fadetiefe für { "0.01" } % bis { "50" } % der Zeit), mit N_wet als Eingabe oder aus Temperatur, Feuchte und Druck nach den Ausdrücken von ITU-R P.453-14 berechnet; unterhalb von { "4" } GHz kennzeichnet die Art `leo-pass` den Wert als Extrapolation
+
+dat-6ecd38f18c23 = ITU-R P.838-3 (03/2005) Tabelle { "5" }, die eigenen tabellierten k_H, alpha_H, k_V, alpha_V der Empfehlung, eingecheckt in tests/fixtures/leo_link/p838_3_table5.csv mit der PDF-URL und dem Abrufdatum. Die Tabelle ist auf ihre gedruckten Stellen gerundet, daher ist der Zielwert diese Rundung
+
+dat-2a28f86695ef = Validierungsbeispiele der ITU-R Study Group { "3" } (CG-3M3J-13-ValEx-Rev8.3.0) für die Szintillation nach P.618-14, mit dem N_wet nach P.453-14 jedes Standorts aus denselben Beispielen; eingecheckt in tests/fixtures/leo_link/p618_14_scintillation.csv mit den URLs und dem Abrufdatum. Der Ausdruck für die feuchte Refraktivität aus Temperatur und Feuchte wird von dieser Zeile nicht abgedeckt
+
+dat-a886222f05f9 = Datei mit Validierungsbeispielen der ITU-R Study Group { "3" } CG-3M3J-13-ValEx-Rev8.3.0 für P.618-14, wie auf den Validierungsseiten von ITU-Rpy tabelliert, mit der Regenhöhe nach P.839-4 jedes Standorts aus denselben Beispielen; eingecheckt in tests/fixtures/leo_link/p618_14_rain_attenuation.csv mit den URLs und dem Abrufdatum. Validiert das Verfahren bei gegebenem h_R und R0.01, nicht die Karten
+
+dat-df4578d82419 = Wander-Erzeugungsmasken der ITU-T für Frequenzsynchronisation (G.811, G.812, G.8262, G.8262.1)
+
+dat-cff162d9187f = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) Klausel { "7.3.1" } (max|TE_L|, ungefiltert verglichen)
+
+dat-77c2200d4d5d = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) Tabelle V.1, Ausfallszenario (b) (eine Beispielzuweisung)
+
+dat-6e29e623b912 = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025): Netzgrenzwerte am Referenzpunkt C
+
+dat-bcbed1d0d924 = ITU-T G.8272 (07/2025): PRTC-A und PRTC-B, gesperrter Modus
+
+dat-b5a1c2e5c1f7 = ITU-T-Masken für Telekom-Synchronisation mit PASS/FAIL und Reserve
+
+dat-d90380668de8 = Lambert-Löser nach Izzo-2015 für eine einzelne Umdrehung (r1, r2, Flugzeit → Randgeschwindigkeiten) über LEO→GEO→heliozentrische Transfers, prograd und retrograd
+
+dat-8fbc07c76b3d = Jacchia-71 validiert gegen veröffentlichte Werte bei Sonnenminimum / -mittel / -maximum
+
+dat-c217fb165af1 = Sweep der Störerleistung: Verfügbarkeit und J/S gegen Sendeleistung
+
+dat-8c1089d909db = Jammertest-Bewertung
+
+dat-47968885d24d = Jammertest-Bewertung: ein Empfängerlog, bewertet je geplantem Test (Detektionslatenz, verpasste Alarme, Fehlalarme, Zeit bis zur Erholung) gegen den veröffentlichten Testplan
+
+dat-89081dfce977 = Jammertest-Bewertung: der veröffentlichte Plan als geplante Wahrheit
+
+dat-344bf5abab35 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): der NPRA-Testkatalog und -Sendeplan (MIT, mit festgelegtem SHA-256 geholt, nie eingebunden), als geplante Wahrheit gelesen, mit erhaltenen Katalog-IDs; ein Lauf des Empfänger-Vertrauenswerts, je Test bewertet (erster Alarm minus geplanter Start, erkannt/spät/verpasst gegen eine Toleranz, Zeit bis zur ersten alarmfreien Strecke, Alarme außerhalb jedes Slots und seiner Schutzzeit), mit einem signierten Nachweispaket, das die Scorecard trägt. Der Plan sind geplante Slots, keine aufgezeichneten Sendezeiten
+
+dat-ec34bb92d750 = jamming (Szenarioart)
+
+dat-9cb9f9eb4c7a = Jamming und mehrschichtige Spoofing-Erkennung
+
+dat-e93b98801604 = Jamming, Spoofing und das Spektrum
+
+dat-213d714a2567 = Jamming, Spoofing und das Spektrum (Familie der Szenarioarten)
+
+dat-80368debe8fa = Jamming, Spoofing, Holdover und Integrität: eine verkettete Mission
+
+dat-a510ab4b17fb = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form und cw_q_equals_the_spectral_separation_closed_form: die Q-Tabelle, CW und Schmalband { "1" }, Breitband und gewobbelt { "2" }, auf die geschlossenen Formen von navsignal festgehalten; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs (FSPL/J-S/effektives C-N₀ gegen eine unabhängige numpy-Neuableitung des Linkbudgets von Kaplan & Hegarty §{ "9.4" }; reales JammerTest-C/N₀ fällt monoton durch die Schwelle von { "25" } dB-Hz); tests/jamming_jammertest_cn0_oracle.rs (vorab festgelegt, blockiert, nicht ausgeführt)
+
+dat-484eb9503fdb = JavaScript und WebAssembly
+
+dat-8291eea5a66e = JetBrains-IDE-Plugin
+
+dat-bd7fb71b8ded = JetBrains Marketplace
+
+dat-3620b9b6002e = JetBrains-Plugin
+
+dat-06d2559e26c3 = Gemeinsame GNSS- und LEO-Pseudorange-Positionierung mit Inter-System-Biases und Fehlermodellen je Signal
+
+dat-7d1a4f4e5a0a = Gemeinsame Kalman-Sensorfusion-PNT über dieselben Hybrid-Eingaben.
+
+dat-bbc595a0c9e4 = Gemeinsame Sensorfusion-PNT: Ein einziges Kalman-Filter ist der Navigator und fusioniert die
+
+dat-2ed75c9110e0 = Gemeinsamer UT1- und Polbewegungsfehler über eine gemeinsame Zeilenmenge
+
+dat-1c4f5655c567 = JPL Horizons DE441 geometrische heliozentrische Vektoren (ekliptikal und ICRF), geholt nach den Commits der Vorabfestlegung { "80451866" }, 8d38a28b und 558cc807. Zielwert: je Planet und Komponente RMS höchstens 1.0x die ungefähren Fehler der Explanatory Supplement 3. Aufl. Tabelle { "8.10.1" } (die EMB-Zeile für die Erde); die Aufteilung Erde-EMB wird direkt gegen DE441 { "399" } minus { "3" } geprüft, höchstens { "0.3" } Grad und { "8.1" } km bei jeder Epoche 1950-2050 (der Längenzielwert von { "8.1" } km stammt aus der in der eigenen Ephemeridendokumentation von Kshana angegebenen Genauigkeit der Mondreihe unter Berufung auf Montenbruck und Gill und wurde nicht gegen das Buch geprüft; die gemessenen { "6.09" } km liegen dicht darunter). Die RMS-Statistik wurde in dem Wissen gewählt, dass ein früherer Vergleich mit 27 Epochen im Maximum das 1.87x des Nennwerts erreichte; Einzelepochenfehler erreichen 3.83x (3.87x im ICRF-Fall). Das Supplement definiert seine Werte nicht als RMS. Fall B dreht beide Seiten mit der im Test getippten IAU-{ "1976" }-Schiefe, sodass die Drehung nicht gegen sich selbst geprüft wird. Die Standard-Tabellenauswahl von AnalyticSolarSystem wird nicht geübt (die Tests erzwingen Tabelle { "1" }). Uranus und Neptun aus Tabelle { "1" } sind eine eigene MODELLED-Zeile
+
+dat-2708eb1195c9 = JPL Horizons DE441 newtonsche Lichtlaufzeit LT des einfachen Abwärtswegs (VEC_CORR=LT, Beobachter im Erdzentrum), vorab festgelegt (480037d3, Änderung 54d5c86f, die nur den Knotenabstand der Interpolation änderte, nachdem der erste Abruf seine Interpolationsvoraussetzung von { "10" } m verfehlt hatte, vor dem Vergleich irgendeiner Lichtlaufzeit) mit einem Zielwert von { "1e-6" } s je Lichtlaufzeit, wobei dem Löser barycentrische DE441-Positionen zugeführt wurden, sodass die Iteration des zurückliegenden Senders sichtbar ist (ein Löser mit erster Iterierter verfehlt bis zu { "0.1" } s). Auf den analytischen Standish-Positionen ist die Lichtlaufzeit nur so gut wie diese Positionen (siehe die Zeile der Planetenpositionen); die ausgelieferte Strecke behandelt die Sonne als inertiales Zentrum, was innerhalb dieses Positionsfehlers bleibt, aber nicht gesondert validiert ist. two_way_range und shapiro_delay werden nicht extern verglichen
+
+dat-06c0e0912c84 = mittlere JPL-Elemente in der Laplace-Ebene, Rate der mittleren Länge aus der IAU-Rate der synchronen Rotation, seinem Planeten aus Standish-Tabelle { "1" } ({ "1800" } n. Chr. bis { "2050" } n. Chr.) hinzugefügt
+
+dat-308200212f26 = JSON-Felder (Schema kshana-nmea-training/1)
+
+dat-fbd2f7c7c5df = JSON-Lines-Schema (Version { "1.1" })
+
+dat-0edf2112b963 = Wichtige Referenzen
+
+dat-a839e105d911 = Klobuchar-L1-Verzögerung gegen RTKLIB-ionmodel · IONEX-TEC-Karten-Leser nachsichtig, noch keine externe Referenz
+
+dat-bc161bde4fd2 = Klobuchar-Einfrequenz-L1-Schräg-Gruppenlaufzeit der Ionosphäre aus den acht gesendeten α/β-Koeffizienten
+
+dat-a3c71b90162b = Bekannte Einschränkungen
+
+dat-6634dc6d0f3e = kshana <scenario.toml> führt ein Szenario aus; jeder andere Befehl ist ein Unterbefehl. kshana --help gibt die Verwendung aus…
+
+dat-24cf378f970d = Kshana-Dokumentation
+
+dat-1d9bf86b5165 = Kshana betreibt keinen Endpunkt. Es gibt keinen gemeinsamen kshana-Server, auf den ein Client zeigen könnte.
+
+dat-7aa638d6f7f5 = Kshana für JetBrains-IDEs
+
+dat-952551ceada8 = Kshana-Governance
+
+dat-5173065af4e3 = Kshana implementiert die Spreizcodes und die Nachrichtenschicht des LunaNet Augmented Forward Signal (AFS) als…
+
+dat-49082d942568 = Kshana Interchange Format (KIF)
+
+dat-35e47d84ddbb = kshana interference-map erstellt ein Tagesbild davon, wo Flugzeuge und Schiffe eine verschlechterte Navigation meldeten…
+
+dat-c87066c769f2 = Kshana ist eine Evidenz-Engine für PNT-Leistung und -Resilienz (Positionierung, Navigation und Zeitgebung), kein vollständiges…
+
+dat-3ba3df57e8ff = Kshana ist ein PNT-Resilienzsimulator (PNT: Positionierung, Navigation und Zeitgebung) mit Quantensensor…
+
+dat-8987b327f921 = Kshana ist beratende Software für Forschung, Simulation und Test.
+
+dat-101c892cc9ee = Kshana ist eine offene, reproduzierbare Evidenz-Engine für die Resilienz von PNT (Positionierung, Navigation und Zeitgebung).
+
+dat-9d579b82c0da = Kshana ist auf Reproduzierbarkeit ausgelegt: Dieselben Eingaben liefern dieselben Ergebnisse, und die Build-Artefakte können…
+
+dat-41e9ab084c3f = Kshana hat eine Doppellizenz. Sie können die offene Engine entweder unter der offenen Lizenz (AGPL-3.0) oder einer…
+
+dat-f7d7345b9571 = Kshana ist eine Engine, die in Schichten über einem gemeinsamen Kern organisiert ist: die Sensorpakete (Uhr, Inertial…
+
+dat-c458ec382804 = kshana jammertest import liest den Jammertest-Testkatalog und -Sendeplan und macht aus dem Bereich eines Tests…
+
+dat-56cb5c1f531b = kshana lunanet-afs-check
+
+dat-65e9f25fb026 = Kshana-Szenario zur Mondinfrastruktur: Trägerphase, das QUICK-Beispiel (zwei kurze Bögen, { "10" } Ziehungen, Sekunden;
+
+dat-80999e400f4f = Kshana-Szenario zur Mondinfrastruktur: Rahmen-Koschätzung. MODELLED; Entwurf, Eingaben und Zielwerte sind
+
+dat-4d06c8c660d7 = Kshana-Szenario zur Mondinfrastruktur: Geodäsie-Sensitivität. MODELLED; Entwurf, Eingaben und Zielwerte sind
+
+dat-f72ee9ad542b = Kshana-Szenario zur Mondinfrastruktur: od-consistency mit einer nicht modellierten Beschleunigung. MODELLED; Entwurf, Eingaben und Zielwerte sind
+
+dat-94631dd6553d = Kshana-Szenario zur Mondinfrastruktur: od-consistency. MODELLED; Entwurf, Eingaben und Zielwerte sind
+
+dat-d81c2d0b95b9 = Kshana-Szenario zur Mondinfrastruktur: space-tie. MODELLED; Entwurf, Eingaben und Zielwerte sind
+
+dat-b8fc6290e9b9 = Kshana Pro
+
+dat-c3cf36041fa0 = kshana receiver-trust kann für ein bewegtes Schiff eine laufende Vertrauenszahl von 0-100 für jede Positionslösung bewerten, aus…
+
+dat-355baa93b96b = kshana receiver-trust liest ein Log eines realen Empfängers für globale Navigationssatellitensysteme (GNSS), führt Vertrauens-…
+
+dat-69924ca5c4b3 = Kshana-Referenzszenario: Lauf über { "2" } h, { "10" } min GNSS-Synchronisation, danach ~{ "1.8" } h ohne GNSS.
+
+dat-733d86587cfa = Kshana spielt Jamming, Spoofing und Uhren-Holdover nach, wenn Signale von GNSS (Global Navigation Satellite System)…
+
+dat-241d1d4d3d04 = Kshana berichtet zwei Gütezahlen (FoMs) — Integrität und Sicherheit —, die leicht mit dem…
+
+dat-28bded6f1c5f = Kshana liefert eine erstklassige Python-Programmierschnittstelle (API), gebaut mit PyO3 und maturin.
+
+dat-11b55b025a73 = Kshana spricht die Standard-Austauschformate des GNSS (Global Navigation Satellite System)…
+
+dat-2b2d76637268 = Kshana Studio
+
+dat-64058caf6bf1 = Kshana Studio: die Engine im Browser ausführen, ohne Installation.
+
+dat-a4f1502412f6 = kshana trust-telemetry macht aus dem GNSS-Vertrauensstrom je Epoche (Wert 0-100, Band, Gründe) Signale, die ein…
+
+dat-b009ca1db730 = kshana-mcp ist ein Model-Context-Protocol-(MCP-)Server für Kshana, den Open-Source-Simulator für PNT…
+
+dat-2560462eb5c9 = kshana-mcp: Fragen Sie Ihren KI-Assistenten, und die Engine antwortet
+
+dat-88477cc0d773 = Die zentrale Ehrlichkeitsdisziplin von Kshana ist, dass jeder Sensorparameter, jedes physikalische Modell und jeder Validierungsdatensatz…
+
+dat-d0f998c80b79 = Die Full-Force-Engine von Kshana (src/precise_od.rs), angepasst an reale präzise Bahnprodukte von Agenturen, mit ehrlichen…
+
+dat-620214b6e277 = Die LNAV-Subframes 1-3 von Kshana (gps_lnav::encode_subframes) für die { "32" } Ephemeriden brdc0010.22n, die an decode_word und decode_frame von RTKLIB übergeben werden: Parität jedes Wortes, Subframe-Dekodierung mit konsistentem Datenstand und jeder dekodierte Parameter gegen die Ganzzahl von Kshana und gegen den Eingabewert
+
+dat-6e7521634ff6 = der Mond-OEM-Export von kshana, neu geparst von der unabhängigen Bibliothek `oem` eines Dritten (R. J. Anderson): Rahmen-/Zeit-Token und Zustand je Epoche stimmen auf Schreibpräzision überein ({ "1" } mm / { "1e-9" } km/s), und ein Export ohne TIME_SYSTEM wird abgelehnt — eine strukturelle Austausch-Hin- und Rückrechnung; die physikalische Semantik von Mondrahmen und -zeit wird von deren eigenen Zeilen validiert, daher bleibt dies MODELLED. { "0.30" } externer Vergleich, ein Befund (bleibt MODELLED): ein zweiter unabhängiger Leser, der CCSDS-OEM-Parser Orekit { "12.2" } (Apache-2.0, strenge Standardwerte), lehnt beide Monddateien ab, weil er die Zeitsysteme LTC und TCL nicht implementiert (er dekodiert das EME2000/UTC-OEM der Crate und dekodiert die Monddateien, sobald TIME_SYSTEM durch TDB ersetzt wird); oem { "0.4.5" } dekodiert sie nur durch Zurückfallen vom nicht unterstützten Zeitsystem innerhalb der geschriebenen Präzision. Der Austausch dieser Monddateien mit gängigen CCSDS-Lesern ist nicht belegt
+
+dat-af85235a485a = Der maritime Vertrauenswert von Kshana (MARITIME-TRUST.md) ist aus Software erreichbar, die Bootsfahrer bereits nutzen: ein Signal K…
+
+dat-b3b0b32a29d2 = Der Bahnpropagator von Kshana ist gegen die maßgebliche Community-Referenz für SGP4/SDP4 validiert (SGP4…
+
+dat-11bb1751b520 = L-Band-Spektrummodell und Wasserfall: das gesamte GNSS-L-Band als eine spektrale Leistungsdichte (PSD), Frequenz…
+
+dat-ec2500acdc0f = L-Band-Spektrum-Wasserfall mit J/S je Band und effektivem C/N0 unter einer geskripteten Störer-Zeitleiste
