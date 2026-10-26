@@ -4951,3 +4951,1271 @@ js-lib-views-position-error-axis = 位置误差（{ $unit }）
 js-lib-views-position-error-m = 位置误差 (m)
 
 js-lib-views-position-error-run = 运行期间的位置误差
+
+js-lib-views-position-m = 位置 (m)
+
+js-lib-views-predicted-time-error = 自上次定位以来的预测钟差
+
+js-lib-views-protection-level-m = 保护级 (m)
+
+js-lib-views-protection-levels = 保护级与告警限值的对比
+
+js-lib-views-quantum = 量化步长
+
+js-lib-views-relay-error-bound = 中继导航位置误差及其 3 倍标准差界
+
+js-lib-views-satellites = 卫星
+
+js-lib-views-satellites-tracking = 可见且仍在跟踪的卫星
+
+js-lib-views-shaded-gnss-denied = 阴影：GNSS 拒止
+
+js-lib-views-slot-guard = 时隙保护
+
+js-lib-views-spoofed-offset = 欺骗时间偏移与检测界的对比
+
+js-lib-views-sweep-of = { $parameter } 的扫描：{ $metric }
+
+js-lib-views-sync-error-axis = 同步误差（{ $unit }）
+
+js-lib-views-sync-error-run = 运行期间的同步误差
+
+js-lib-views-threshold = 门限
+
+js-lib-views-time-error-ns = 钟差 (ns)
+
+js-lib-views-time-ns = 时间 (ns)
+
+js-lib-views-time-s = 时间 (s)
+
+js-lib-views-time-since-fix = 自上次定位起的时间 (s)
+
+js-lib-views-timing-error-axis = 授时误差（{ $unit }）
+
+js-lib-views-timing-error-run = 运行期间的授时误差
+
+js-lib-views-tracking = 跟踪
+
+js-lib-views-value = 数值
+
+js-lib-views-vertical-vpl = 垂直（VPL）
+
+js-lib-views-visible = 可见
+
+js-lib-views-word-enbw = 等效噪声带宽
+
+js-lib-views-word-nfft = FFT 长度
+
+js-lib-views-word-stec = 斜向 TEC
+
+js-lib-views-word-toa = 到达时间
+
+js-lib-views-word-ttff = 首次定位时间
+
+js-lib-views-word-tx = 发射
+
+js-lib-views-word-zwd = 天顶湿延迟
+
+js-lunar-address-outside-range = { $label }："{ $raw }" 超出 { $min } 至 { $max } 的范围；改用文件中的值。
+
+js-lunar-address-too-long = 地址过长；显示默认值。
+
+js-lunar-address-unknown-source = 地址中的来源未知；显示记录。
+
+js-lunar-alert-limit = 告警限值 { $value }（示意）
+
+js-lunar-alert-not-stated = 未给出告警限值
+
+js-lunar-bearing-east = 东 90°
+
+js-lunar-bearing-west = 西 90°
+
+js-lunar-cell-title = { $lat }°，{ $lon }°：校正后 { $corrected }，可用性 { $availability }，覆盖 { $coverage }
+
+js-lunar-copy-address = 请从地址栏复制地址。
+
+js-lunar-counts = { $sats } 颗卫星，{ $points } 个网格点，{ $epochs } 个历元，每个历元 { $trials } 次蒙特卡罗试验。标签：{ $label }。
+
+js-lunar-engine-no-start = 引擎无法在此浏览器中启动（{ $reason }）。请改为打开结果文件。
+
+js-lunar-engine-unknown-kind = 此引擎（{ $version }）不认识 { $kind } 类型；它需要引擎 0.36。
+
+js-lunar-fig-availability-region = 区域内的可用性
+
+js-lunar-fig-corrected-3d = 校正后误差，{ $n } %，3-D
+
+js-lunar-fig-coverage = 覆盖
+
+js-lunar-fig-epochs-within = 在 { $value } 以内的历元
+
+js-lunar-fig-horizontal-vertical = 水平 { $h }，垂直 { $v }
+
+js-lunar-fig-hpl-below-alert = HPL 低于告警限值
+
+js-lunar-fig-hpl-vpl = HPL、VPL 至多
+
+js-lunar-fig-improvement = 改善倍数
+
+js-lunar-fig-lowest-point = 某一点的最低值
+
+js-lunar-fig-points-always-available = 每个历元都可用的点
+
+js-lunar-fig-uncorrected-3d = 未校正误差，{ $n } %，3-D
+
+js-lunar-fig-worst-point = 最差点
+
+js-lunar-file-not-json = 此文件不是 JSON。
+
+js-lunar-file-not-object = 此文件不是 JSON 对象。
+
+js-lunar-file-too-large = { $name }：大于 32 MiB；本页面读取不超过该大小的结果文件。
+
+js-lunar-file-value = 文件：{ $value }
+
+js-lunar-full-of-total = { $total } 中的 { $full }
+
+js-lunar-give-value = { $label }：请给出 { $min } 至 { $max } 之间的值。
+
+js-lunar-give-whole-value = { $label }：请给出 { $min } 至 { $max } 之间的值（整数）。
+
+js-lunar-honesty-affiliation = 与任何机构无隶属关系，也未获任何机构认可。
+
+js-lunar-honesty-assumptions = 基于所述公开假设，并不说明任何真实系统的性能。
+
+js-lunar-in-grid-spacing = 网格环间距，度
+
+js-lunar-in-latency = 校正延迟，秒
+
+js-lunar-in-seed = 随机种子
+
+js-lunar-in-station-lat = 站点纬度，度
+
+js-lunar-in-station-lon = 站点经度，度
+
+js-lunar-in-survey-error = 站点测量误差（1-sigma），米
+
+js-lunar-in-threshold = 精度门限，米
+
+js-lunar-in-time-step = 时间步长，秒
+
+js-lunar-in-trials = 每个历元的蒙特卡罗试验次数
+
+js-lunar-input-out-of-range = { $label }超出范围。
+
+js-lunar-json-field-not-json = 文件的 json 字段不是 JSON。
+
+js-lunar-key-50-or-more = 50 % 或以上
+
+js-lunar-key-90-or-more = 90 % 或以上
+
+js-lunar-key-95-or-more = 95 % 或以上
+
+js-lunar-key-99-or-more = 99 % 或以上
+
+js-lunar-key-above = 高于 { $value }
+
+js-lunar-key-above-threshold = 高于 { $value } × 门限
+
+js-lunar-key-below-50 = 低于 50 %
+
+js-lunar-key-between = { $from } 至 { $to }
+
+js-lunar-key-between-threshold = { $from } 至 { $to } × 门限
+
+js-lunar-key-up-to = 至多 { $value }
+
+js-lunar-key-up-to-threshold = 至多 { $value } × 门限
+
+js-lunar-layer-availability = 可用性
+
+js-lunar-layer-coverage = 覆盖
+
+js-lunar-layer-error = 校正后误差
+
+js-lunar-layer-range = 按其自身范围的校正后误差
+
+js-lunar-legend-no-figure = 无数值（全程不可用）
+
+js-lunar-legend-radius = 覆盖半径
+
+js-lunar-legend-threshold = 门限，{ $value }
+
+js-lunar-legend-worst = 最差点
+
+js-lunar-link-copied = 链接已复制。
+
+js-lunar-map-desc = 从极点到纬度 { $rim }° 的 { $points } 个网格点。其中 { $meet } 个点校正后的第 { $percentile } 百分位误差在 { $threshold } 的门限以内。按 { $layer } 着色。站点位于 { $lat }°，{ $lon }°。
+
+js-lunar-map-note-one-band = { $share } % 的点落在门限刻度的同一个区间内，因此地图变化很小：请按“其自身范围”着色，以查看误差在区域内如何变化。
+
+js-lunar-needs-newer-engine = 此研究需要引擎 { $need } 或更高版本；此处运行的引擎为 v{ $version }。仍可显示记录或结果文件。
+
+js-lunar-no = 否
+
+js-lunar-no-recording = 此研究的记录尚未随附：它将在发布时用 0.36 引擎生成。请用带有该类型的引擎在此运行，或打开结果文件。
+
+js-lunar-no-scenario = 本站点尚无 { $file }：它将随 0.36 引擎提供。请改为打开结果文件。
+
+js-lunar-no-scenario-note = 本站点尚无 { $file }（它将随 0.36 引擎提供），因此无法在此运行；请改为打开结果文件。
+
+js-lunar-not-report = 这不是 { $kind } 报告。
+
+js-lunar-not-stated = 未说明
+
+js-lunar-note-none = 文件未给出说明。
+
+js-lunar-note-withheld = 文件自带的说明提到了某个计划或机构，因此本页面不予显示；以页面顶部的声明为准。
+
+js-lunar-point-epochs-reason = 点-历元：{ $reason }
+
+js-lunar-radius-desc = 在 { $count } 个方位角上的覆盖半径：最短 { $lo } km，位于 { $loAz }°；最长 { $hi } km，位于 { $hiAz }°。
+
+js-lunar-radius-desc-limited = 有 { $count } 个到达网格边缘，因此覆盖在该处至少延伸到那么远。
+
+js-lunar-radius-hollow = 空心点到达网格边缘：覆盖沿该方位至少延伸到那么远。
+
+js-lunar-radius-none = 报告未给出覆盖半径。
+
+js-lunar-radius-per-azimuth = 各方位角的覆盖半径
+
+js-lunar-radius-point = { $az }°：{ $km } km
+
+js-lunar-radius-point-limited = { $az }°：{ $km } km（到达网格边缘：至少延伸到这么远）
+
+js-lunar-radius-zero = 在每个方位上，覆盖在站点处就已低于 95 %，因此半径为 0 km：该处校正后误差超过 { $value } 的门限。
+
+js-lunar-reason-station-missing = 站点看不到用户所用的每一颗卫星
+
+js-lunar-reason-user-lt4 = 用户可见的卫星少于四颗
+
+js-lunar-run-stopped = 运行已停止：{ $message }
+
+js-lunar-running = 正在此浏览器中运行研究…
+
+js-lunar-running-elapsed = 正在此浏览器中运行研究… { $seconds } s
+
+js-lunar-scenario-missing-keys = 场景文件中没有 { $keys }；无法在此更改。
+
+js-lunar-set-inputs = 设置输入，然后按“在此运行”。
+
+js-lunar-showing = 显示 { $what }。
+
+js-lunar-showing-engine = 显示 { $what }（引擎 { $version }）。
+
+js-lunar-source-error = { $what }：{ $error }
+
+js-lunar-station = 站点
+
+js-lunar-station-title = 站点 { $lat }°，{ $lon }°
+
+js-lunar-table-count = { $n } 个点，离站点最近的排在前面。
+
+js-lunar-th-corrected = 校正后误差，{ $n } %
+
+js-lunar-threshold-title = 校正后误差 { $value }（门限）
+
+js-lunar-what-file = 文件 { $name }
+
+js-lunar-what-recording = 随 Studio 一同提供的记录
+
+js-lunar-what-run = 在此浏览器中的一次运行（引擎 { $version }）
+
+js-lunar-worst-at = 位于 { $lat }°，{ $lon }°
+
+js-lunar-worst-title = 最差点 { $lat }°，{ $lon }°：{ $value }
+
+js-lunar-yes-at-least = 是：至少延伸到这么远
+
+js-lunarinfra-above-95-point = 高于 95 % 点
+
+js-lunarinfra-advisory = 仅供参考的软件，不是经型式认可的设备；没有任何形式的发射路径。
+
+js-lunarinfra-arc-note = 载波波长 { $value } m。
+
+js-lunarinfra-arc-title = 每段弧
+
+js-lunarinfra-bars-not-loaded = 判据文件未能加载
+
+js-lunarinfra-bars-not-shown = 无法显示预先登记的判据（{ $reason }）。
+
+js-lunarinfra-bars-note = 在对任何研究评分之前即已固定，并附有记录在案的判定（引擎提交 { $commit }）。没有任何内容为 VALIDATED；标为 NOT MET 的判据由断言该未达标的测试固定，且没有任何一条被放宽。
+
+js-lunarinfra-bars-title = 对照预先登记的判据
+
+js-lunarinfra-bars-wrong-file = 该判据文件不是本页面所读取的文件
+
+js-lunarinfra-blurb-carrier-phase = 一个地面站和一个轨道器，使用地球 GNSS 信号的双差载波相位：能否固定整周模糊度，这对位置界有何影响？快速示例运行。
+
+js-lunarinfra-blurb-frame-coestimation = 由地球站激光测距得到的月球基准七参数，分别在有和没有轨道器到地面站测距的情况下：信息量改善多少？
+
+js-lunarinfra-blurb-geodesy-sensitivity = 激光测距、轨道器跟踪、重力仪和地面时钟对月球潮汐勒夫数 h2、k2、l2 及其物理天平动有多敏感？
+
+js-lunarinfra-blurb-od-consistency = 近直线晕轨道上的星载地球 GNSS 定轨，与同一弧段的独立地面无线电测量解对照：两者在各自所述的不确定度范围内是否一致？注入建模误差时，一致性检验能否发现？并排显示。
+
+js-lunarinfra-blurb-space-tie = 同一航天器上的 GNSS、VLBI 和激光测距：三种技术之间的偏移能以多高的精度连接起来，与航天器上局部连接的误差相比如何？
+
+js-lunarinfra-bound-label = 位置不确定度，浮点解与固定解，对数刻度
+
+js-lunarinfra-bound-note = 站点和轨道器的一倍标准差位置不确定度，分别为模糊度保持浮点和已固定的情形（若能达到固定，固定后会得到的结果）。
+
+js-lunarinfra-bound-title = 位置界，浮点解与固定解
+
+js-lunarinfra-chip-na = 不适用
+
+js-lunarinfra-comp-normal = 法向
+
+js-lunarinfra-comp-position = 位置（3-D）
+
+js-lunarinfra-comp-radial = 径向
+
+js-lunarinfra-comp-transverse = 横向
+
+js-lunarinfra-compare-note = 在 { $sets } 组随机站点集合上，加入轨道器链路后最小特征值在 { $lambda } 组中没有变小，迹在 { $trace } 组中没有变大；最小特征值上升的中位数为 { $median } 倍。
+
+js-lunarinfra-compare-title = 以数字呈现的对比
+
+js-lunarinfra-crsigma-label = 克拉美-罗 sigma，对数刻度
+
+js-lunarinfra-crsigma-note = 以地表处的米为单位。
+
+js-lunarinfra-crsigma-title = 各参数的克拉美-罗 sigma
+
+js-lunarinfra-days = { $n } 天
+
+js-lunarinfra-direction = 方向 { $n }
+
+js-lunarinfra-disclosures = 披露
+
+js-lunarinfra-eig-label = 信息特征值，对数刻度
+
+js-lunarinfra-eig-note = 信息矩阵的七个特征值，由小到大，分别为没有和加入轨道器到地面站链路的情形。最小特征值上升 { $times } 倍，克拉美-罗迹降至其原值的 { $share }。这假定轨道在月球坐标轴中已知（其误差由轨道器距离 sigma 承载）。
+
+js-lunarinfra-eig-title = 基准各方向上的信息
+
+js-lunarinfra-fact-arc = 弧段
+
+js-lunarinfra-fact-hash = 场景哈希
+
+js-lunarinfra-fact-llr-rows = 激光测距行数
+
+js-lunarinfra-fact-orbit-family = 轨道族
+
+js-lunarinfra-fact-orbiter-arc = 轨道器弧段
+
+js-lunarinfra-fact-orbiter-rows = 轨道器行数
+
+js-lunarinfra-fact-study = 研究
+
+js-lunarinfra-fact-wavelength = 载波波长
+
+js-lunarinfra-families-note = 各参数的偏导数在该族各行上的 RMS，以及行数。零表示该族对该参数无感。轨道器族的 k2 灵敏度是上限值。
+
+js-lunarinfra-families-title = 各族能看到什么
+
+js-lunarinfra-findings = 发现
+
+js-lunarinfra-fix-note-a = 正确固定了全部整数模糊度的蒙特卡罗试验所占比例（附标准误差），以及自举估计所预测的比率。
+
+js-lunarinfra-fix-note-b = 在此输入下，整数固定并未实现：最好的弧段只固定了 { $share } 的试验。
+
+js-lunarinfra-fix-note-c = 由于未能达到固定，没有可显示的固定时间。
+
+js-lunarinfra-fix-rate-label = 整数固定率与弧段长度的关系
+
+js-lunarinfra-fix-title = 固定率与弧段长度的关系
+
+js-lunarinfra-fixed = 固定
+
+js-lunarinfra-float = 浮点
+
+js-lunarinfra-fraction-above-95 = 高于 95 % 点的试验所占比例
+
+js-lunarinfra-ground-radiometric = 独立地面无线电测量
+
+js-lunarinfra-injected-error = 注入误差 { $value } m/s²
+
+js-lunarinfra-mean-consistency = 一致性统计量均值
+
+js-lunarinfra-mean-q = q 均值
+
+js-lunarinfra-miss-line = { $id } 为 { $status }：{ $value }
+
+js-lunarinfra-miss-no-fix = 在此输入下，整周模糊度固定并未实现：最好的弧段只固定了 { $share } 的蒙特卡罗试验。
+
+js-lunarinfra-na = 不适用
+
+js-lunarinfra-nominal = 标称
+
+js-lunarinfra-not-result = 这不是月球基础设施的结果
+
+js-lunarinfra-not-verified = 未验证
+
+js-lunarinfra-offset-precision-label = 偏移精度与局部连接的关系，双对数
+
+js-lunarinfra-offsets-note = 每个轴的平移 sigma，以及地表处的尺度和旋转 sigma，单位为米。
+
+js-lunarinfra-offsets-title = 各连接误差下的偏移（{ $days } 天弧段，{ $epochs } 个历元）
+
+js-lunarinfra-onboard-gnss = 星载地球 GNSS
+
+js-lunarinfra-open-failed = 无法打开 { $title }：{ $reason }。
+
+js-lunarinfra-opening = 正在打开 { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = 按分量划分的轨道不确定度，对数刻度
+
+js-lunarinfra-orbiter-days = 轨道器，{ $days } 天
+
+js-lunarinfra-q-note = 一致性统计量 q 在 { $trials } 次试验上的均值；{ $expected } 是一对一致的解所给出的值。高于 95 % 点的试验所占比例即该检验的检测率。
+
+js-lunarinfra-q-title = 一致性检验，标称与注入误差对比
+
+js-lunarinfra-recorded =
+    { $n ->
+       *[other] { $title }：引擎的已记录结果（版本 { $version }）。
+    }
+
+js-lunarinfra-rel-label = 相对标称值的 sigma，对数刻度
+
+js-lunarinfra-rel-note = 克拉美-罗 sigma 占标称值的百分比，四个族合并计算。h2 和 l2 是线性化点，不是经验证的值；k2 取自已发表的拟合结果。
+
+js-lunarinfra-rel-title = 每个参数相对其标称值能被确定到何种程度
+
+js-lunarinfra-result-not-json = 结果不是 JSON（{ $reason }）
+
+js-lunarinfra-result-not-loaded = 已记录的结果 { $file } 未能加载
+
+js-lunarinfra-row-above-95 = 高于 95 % 点的试验（卡方 95 % = { $chi }）
+
+js-lunarinfra-row-crtrace = 克拉美-罗迹
+
+js-lunarinfra-row-degeneracy = 退化度量
+
+js-lunarinfra-row-formal-diff = 该差值的形式 sigma
+
+js-lunarinfra-row-ground-meas = 地面：测量数，有站点的历元数
+
+js-lunarinfra-row-mean-diff = 两条轨道的平均差值
+
+js-lunarinfra-row-mean-q = q 均值（预期为 6）
+
+js-lunarinfra-row-observations = 观测数
+
+js-lunarinfra-row-onboard-epochs = 星载：有一颗或更多 / 四颗或更多卫星的历元数
+
+js-lunarinfra-row-onboard-meas = 星载：测量数，平均跟踪卫星数
+
+js-lunarinfra-row-origin-scale = 原点-尺度相关性
+
+js-lunarinfra-row-origin-sigma = 原点 sigma，m
+
+js-lunarinfra-row-rank-defect = 秩（亏秩）
+
+js-lunarinfra-row-smallest-eig = 最小特征值
+
+js-lunarinfra-row-trace-ground = 样本迹与形式迹之比，地面
+
+js-lunarinfra-row-trace-onboard = 样本迹与形式迹之比，星载
+
+js-lunarinfra-row-within-95 = 在 95 % 点以内的试验
+
+js-lunarinfra-series-bootstrapped = 自举
+
+js-lunarinfra-series-floor = 下限
+
+js-lunarinfra-series-monte-carlo = 蒙特卡罗
+
+js-lunarinfra-side-note = 轨道：{ $family }，周期为 { $period } 天的轨道上一段 { $arc } 天的弧段，每 { $sample } s 采样一次。
+
+js-lunarinfra-side-title = 并排对比
+
+js-lunarinfra-sigma-note = 同一弧段的两个估计所得的各分量一倍标准差位置不确定度，单位为米。
+
+js-lunarinfra-sigma-over-nominal = sigma / 标称值
+
+js-lunarinfra-sigma-title = 双方各自对轨道的了解程度
+
+js-lunarinfra-station-days = 站点，{ $days } 天
+
+js-lunarinfra-status-verdict = { $status }：{ $verdict }
+
+js-lunarinfra-subsets-note = 加入一个族从未使最小特征值变小（{ $pairs } 次加入中的 { $lambda } 次），但伪逆的迹在 { $pairs } 次中只有 { $trace } 次没有变大，因为加入的族可能提高秩。
+
+js-lunarinfra-subsets-title = 各族的所有组合
+
+js-lunarinfra-sweep-note = 随着航天器上三种技术之间连接的误差被扫描，各偏移最差的平移分量，单位为米。在已登记的各技术 sigma（GNSS { $gnss } m、VLBI { $vlbi } m、激光 { $slr } m）下，偏移受测量噪声限制，而不受连接限制；只有对近乎完美的技术，连接才决定下限。
+
+js-lunarinfra-sweep-title = 技术偏移的精度与局部连接的关系（{ $days } 天弧段）
+
+js-lunarinfra-th-arc-days = 弧段，天
+
+js-lunarinfra-th-bar = 判据
+
+js-lunarinfra-th-bootstrapped = 自举比率
+
+js-lunarinfra-th-budget-exhausted = 搜索预算已耗尽（试验）
+
+js-lunarinfra-th-common-sats = 有 2 颗或更多共同卫星的历元
+
+js-lunarinfra-th-crtrace = 克拉美-罗迹
+
+js-lunarinfra-th-dd-ambiguities = 双差模糊度
+
+js-lunarinfra-th-epochs = 历元
+
+js-lunarinfra-th-families = 族
+
+js-lunarinfra-th-family = 族
+
+js-lunarinfra-th-local-tie = 局部连接 sigma，m
+
+js-lunarinfra-th-mc-fix-rate = 蒙特卡罗固定率
+
+js-lunarinfra-th-median-ambiguity = 模糊度 sigma 中位数，周
+
+js-lunarinfra-th-offset = 偏移
+
+js-lunarinfra-th-quantity = 量
+
+js-lunarinfra-th-rank = 秩
+
+js-lunarinfra-th-rotation = 地表处的旋转，m
+
+js-lunarinfra-th-rows = 行数
+
+js-lunarinfra-th-scale = 地表处的尺度，m
+
+js-lunarinfra-th-smallest-eig = 最小特征值
+
+js-lunarinfra-th-translation = 平移 x、y、z，m
+
+js-lunarinfra-th-value = 数值
+
+js-lunarinfra-th-verdict = 判定
+
+js-lunarinfra-th-with-links = 有轨道器链路
+
+js-lunarinfra-th-without-links = 无轨道器链路
+
+js-lunarinfra-title-carrier-phase = 载波相位，地面与轨道器
+
+js-lunarinfra-title-frame-coestimation = 坐标系联合估计
+
+js-lunarinfra-title-geodesy-sensitivity = 勒夫数与天平动
+
+js-lunarinfra-title-od-consistency = 定轨一致性
+
+js-lunarinfra-title-space-tie = 空间连接
+
+js-lunarinfra-unknown-study = 此月球基础设施结果属于研究“{ $study }”，本页面不读取该研究
+
+js-lunarinfra-where-missed = 此研究未达标之处。
+
+js-lunarinfra-with-links = 有轨道器链路
+
+js-lunarinfra-without-links = 无轨道器链路
+
+js-lunarinfra-x-arc-length = 弧段长度，天
+
+js-lunarinfra-x-local-tie = 局部连接 sigma，m（对数）
+
+js-lunarinfra-y-fixed-correctly = 固定正确，%
+
+js-lunarinfra-y-offset-sigma = 偏移 sigma，m（对数）；虚线下限仅为连接本身，即 sqrt(2) × 连接误差
+
+js-meaning-body-generic = 该天体
+
+js-meaning-body-the = { $name }
+
+js-meaning-card-label-sub = { $k }，{ $sub }
+
+js-meaning-checks-of =
+    { $n ->
+       *[other] { $n } 次检查中的 { $av } 次
+    }
+
+js-meaning-coverage-average-label = 平均可见数
+
+js-meaning-coverage-big-min =
+    { $n ->
+       *[other] 每个地点至少可见 { $n } 颗卫星，平均 { $mean } 颗。
+    }
+
+js-meaning-coverage-big-none = 有些地点有时看不到任何卫星；平均可见 { $mean } 颗。
+
+js-meaning-coverage-fewest-label = 任何地点的最少可见数
+
+js-meaning-coverage-line-many = 在 { $names } 共同作用下，{ $body }周围 { $share } % 的地点和时间可以定位。
+
+js-meaning-coverage-line-many-pdop = 在 { $names } 共同作用下，{ $body }周围 { $share } % 的地点和时间可以定位（几何质量，PDOP，低于 { $thr }）。
+
+js-meaning-coverage-line-none = { $body }周围 { $share } % 的地点和时间可以定位。
+
+js-meaning-coverage-line-none-pdop = { $body }周围 { $share } % 的地点和时间可以定位（几何质量，PDOP，低于 { $thr }）。
+
+js-meaning-coverage-line-one = 在 { $names } 下，{ $body }周围 { $share } % 的地点和时间可以定位。
+
+js-meaning-coverage-line-one-pdop = 在 { $names } 下，{ $body }周围 { $share } % 的地点和时间可以定位（几何质量，PDOP，低于 { $thr }）。
+
+js-meaning-coverage-places-label = 可以定位的地点
+
+js-meaning-duration-days =
+    { $n ->
+       *[other] { $days } 天
+    }
+
+js-meaning-ensemble-big-many = 在多次噪声抽样中，{ $q } 平均可在 { $thr } ns 内维持 { $qd }；{ $c } 为 { $cd }。
+
+js-meaning-ensemble-big-runs =
+    { $n ->
+       *[other] 在 { $n } 次噪声抽样中，{ $q } 平均可在 { $thr } ns 内维持 { $qd }；{ $c } 为 { $cd }。
+    }
+
+js-meaning-ensemble-line = { $name }：十次抽样中有九次保持 { $band }。
+
+js-meaning-ensemble-mean = 均值
+
+js-meaning-ensemble-mean-band = 均值；90 % 区间 { $band }
+
+js-meaning-error-p95-label = 误差，95 % 的时间，{ $name }
+
+js-meaning-generic-big = { $label }：{ $value }。
+
+js-meaning-generic-line-one = 本次运行还给出：{ $a }。
+
+js-meaning-generic-line-two = 本次运行还给出：{ $a }和 { $b }。
+
+js-meaning-generic-none = 本次运行没有单一的头条数据；下方图表显示其结果。
+
+js-meaning-holdover-label = 守时（holdover），{ $name }
+
+js-meaning-hpl-sub = 水平保护级
+
+js-meaning-inside-budget = 在 { $budget } 以内
+
+js-meaning-integrity-big-checks-mostly = 是，大体如此：在 { $share } % 的检查中。
+
+js-meaning-integrity-big-checks-no = 否：在 { $share } % 的检查中。
+
+js-meaning-integrity-big-checks-partly = 仅部分如此：在 { $share } % 的检查中。
+
+js-meaning-integrity-big-checks-yes = 是：在 { $share } % 的检查中。
+
+js-meaning-integrity-big-span-mostly = 是，大体如此：占 { $span } 的 { $share } %。
+
+js-meaning-integrity-big-span-no = 否：占 { $span } 的 { $share } %。
+
+js-meaning-integrity-big-span-partly = 仅部分如此：占 { $span } 的 { $share } %。
+
+js-meaning-integrity-big-span-yes = 是：占 { $span } 的 { $share } %。
+
+js-meaning-integrity-bound-label = 典型误差界
+
+js-meaning-integrity-bound-sub = 水平 / 垂直，中位数
+
+js-meaning-integrity-gap-all-passed = 每次检查均通过
+
+js-meaning-integrity-gap-label = 最长间断
+
+js-meaning-integrity-gap-none = 无
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+       *[other] 自 { $from } 起连续 { $n } 次检查
+    }
+
+js-meaning-integrity-line-h =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（水平 { $h } m）以下。
+    }
+
+js-meaning-integrity-line-h-clean =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（水平 { $h } m）以下，且没有产生误导性的定位。
+    }
+
+js-meaning-integrity-line-h-some =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（水平 { $h } m）以下；有 { $n } 次定位具有误导性。
+    }
+
+js-meaning-integrity-line-hv =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（水平 { $h } m，垂直 { $v } m）以下。
+    }
+
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（水平 { $h } m，垂直 { $v } m）以下，且没有产生误导性的定位。
+    }
+
+js-meaning-integrity-line-hv-some =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（水平 { $h } m，垂直 { $v } m）以下；有 { $n } 次定位具有误导性。
+    }
+
+js-meaning-integrity-line-none =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值以下。
+    }
+
+js-meaning-integrity-line-none-clean =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值以下，且没有产生误导性的定位。
+    }
+
+js-meaning-integrity-line-none-some =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值以下；有 { $n } 次定位具有误导性。
+    }
+
+js-meaning-integrity-line-v =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（垂直 { $v } m）以下。
+    }
+
+js-meaning-integrity-line-v-clean =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（垂直 { $v } m）以下，且没有产生误导性的定位。
+    }
+
+js-meaning-integrity-line-v-some =
+    { $n ->
+       *[other] 接收机的误差界（其保护级）在 { $tot } 次检查中的 { $av } 次保持在告警限值（垂直 { $v } m）以下；有 { $n } 次定位具有误导性。
+    }
+
+js-meaning-integrity-misleading-label = 误导性定位
+
+js-meaning-integrity-misleading-sub = 实际误差高于误差界
+
+js-meaning-integrity-trusted-label = 定位可信的时间
+
+js-meaning-jamming-above-label = 干扰机高于信号
+
+js-meaning-jamming-above-sub = 平均干信比
+
+js-meaning-jamming-big-gone = 干扰机使定位完全丧失。
+
+js-meaning-jamming-big-share = 有干扰机时，{ $share } % 的时间可以定位。
+
+js-meaning-jamming-clear-label = 无干扰机时可定位
+
+js-meaning-jamming-fewest-label = 跟踪卫星数最少
+
+js-meaning-jamming-fewest-sub = 在最差时刻
+
+js-meaning-jamming-jammed-label = 受干扰时可定位
+
+js-meaning-jamming-line = 没有干扰机时，{ $share } % 的时间可以定位。
+
+js-meaning-jamming-line-js = 没有干扰机时，{ $share } % 的时间可以定位；干扰机平均比信号高 { $db } dB。
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+       *[other] 是：{ $n } 次检查中每一次都满足。
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+       *[other] 否：{ $n } 次检查中没有一次满足。
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+       *[other] { $n } 次检查中的 { $av } 次满足（{ $share } %）。
+    }
+
+js-meaning-lunar-largest-label = 最大误差界
+
+js-meaning-lunar-line = 保护级范围为 { $min } 至 { $max } m，告警限值为 { $limit } m。
+
+js-meaning-lunar-meet-label = 满足限值的检查
+
+js-meaning-lunar-meet-value = { $tot } 中的 { $av }
+
+js-meaning-lunar-smallest-label = 最小误差界
+
+js-meaning-median-lower-better = 中位数，越低越好
+
+js-meaning-of-the-time = 的时间
+
+js-meaning-orbit-best-label = 最佳几何（PDOP）
+
+js-meaning-orbit-best-sub = 运行期间的最低值
+
+js-meaning-orbit-big-always = 全程都可以定位。
+
+js-meaning-orbit-big-share = { $share } % 的时间可以定位。
+
+js-meaning-orbit-error-label = 典型位置误差
+
+js-meaning-orbit-error-sub = 1-sigma，中位数
+
+js-meaning-orbit-line =
+    { $n ->
+       *[other] 在 { $n } 个时刻中的 { $fix } 个，可见卫星数足够。
+    }
+
+js-meaning-orbit-line-pdop =
+    { $n ->
+       *[other] 在 { $n } 个时刻中的 { $fix } 个，可见卫星数足够；典型几何质量（PDOP，位置精度因子）为 { $pdop }，越低越好。
+    }
+
+js-meaning-orbit-moments =
+    { $n ->
+       *[other] { $n } 个时刻中的 { $fix } 个
+    }
+
+js-meaning-orbit-time-label = 可以定位的时间
+
+js-meaning-pair-big-diff-pos = { $best } 在 { $budget } 以内可维持 { $bestDur }；{ $other } 为 { $otherDur }。
+
+js-meaning-pair-big-diff-time = { $best } 可将时间保持在 { $budget } 以内达 { $bestDur }；{ $other } 为 { $otherDur }。
+
+js-meaning-pair-big-same-pos = { $q } 和 { $c } 都能在 { $budget } 以内维持 { $dur }。
+
+js-meaning-pair-big-same-time = { $q } 和 { $c } 都能将时间保持在 { $budget } 以内达 { $dur }。
+
+js-meaning-pair-line-clock = 守时（holdover）是指卫星导航丢失后，每个时钟保持在 { $budget } 预算以内的时长。
+
+js-meaning-pair-line-navigator = 守时（holdover）是指卫星导航丢失后，每个导航器保持在 { $budget } 预算以内的时长。
+
+js-meaning-pdop-label = 几何质量（PDOP）
+
+js-meaning-places-times = 的地点和时间
+
+js-meaning-range-to = { $from } 至 { $to }
+
+js-meaning-satellites =
+    { $n ->
+       *[other] 颗卫星
+    }
+
+js-meaning-spectrum-above = 高于门限
+
+js-meaning-spectrum-below = 低于门限：已失锁
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+       *[other] { $n } 个信号全部保持跟踪。
+    }
+
+js-meaning-spectrum-big-lost =
+    { $n ->
+       *[other] 干扰机使 { $n } 个信号中的 { $lost } 个丢失：{ $names }。
+    }
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+       *[other] { $names } 在整个运行期间保持在接收机跟踪门限以上。
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+       *[other] { $names } 在整个运行期间保持在接收机 { $thr } dB-Hz 跟踪门限以上。
+    }
+
+js-meaning-spectrum-line-none = 没有任何信号在整个运行期间保持在接收机跟踪门限以上。
+
+js-meaning-spectrum-line-none-thr = 没有任何信号在整个运行期间保持在接收机 { $thr } dB-Hz 跟踪门限以上。
+
+js-meaning-spectrum-weakest-label = 最弱信号，{ $name }
+
+js-meaning-whole-run = 在整个运行期间
+
+js-meaning-your-setting = 用户设置
+
+js-meankind-acm-big =
+    { $n ->
+       *[other] 自适应编码传输的数据量是最佳固定模式的 { $gain } 倍：在 { $n } 次过境中为 { $acm } Gbit，对比 { $ccm } Gbit。
+    }
+
+js-meankind-acm-line = 固定模式 { $mode }；中断 { $dur }。
+
+js-meankind-anomaly-big = 量子故障监测器得分为 { $q }，经典监测器为 { $c }（曲线下面积，1 为完美）。
+
+js-meankind-anomaly-line = 可检测的最小故障为 { $q }，对比 { $c }。
+
+js-meankind-aocs-big-open = { $slew } 度的转动没有稳定到 { $threshold } 度以下。
+
+js-meankind-aocs-big-settles = { $slew } 度的转动在 { $dur } 后稳定到 { $threshold } 度以下。
+
+js-meankind-aocs-line = 最终指向误差 { $final } 度。
+
+js-meankind-aocs-line-filter = 最终指向误差 { $final } 度。回路中的姿态滤波器偏差为 { $arcsec } 角秒 RMS。
+
+js-meankind-aocs-line-wheel = 最终指向误差 { $final } 度。飞轮力矩峰值 { $torque } N m。
+
+js-meankind-aocs-line-wheel-filter = 最终指向误差 { $final } 度。飞轮力矩峰值 { $torque } N m。回路中的姿态滤波器偏差为 { $arcsec } 角秒 RMS。
+
+js-meankind-aperture-big = 导航占用 { $nav } % 的天线时间，通信占用 { $comms } %。
+
+js-meankind-aperture-big-idle = 导航占用 { $nav } % 的天线时间，通信占用 { $comms } %；{ $idle } % 空闲。
+
+js-meankind-aperture-line-all =
+    { $n ->
+       *[other] { $policy } 规则下的 { $n } 个天线孔径，争用时间 { $dur }。
+    }
+
+js-meankind-aperture-line-contention =
+    { $n ->
+       *[other] { $n } 个天线孔径，争用时间 { $dur }。
+    }
+
+js-meankind-aperture-line-count =
+    { $n ->
+       *[other] { $n } 个天线孔径。
+    }
+
+js-meankind-aperture-line-nocount = 各天线孔径。
+
+js-meankind-aperture-line-nocount-all = { $policy } 规则下的各天线孔径，争用时间 { $dur }。
+
+js-meankind-aperture-line-nocount-contention = 各天线孔径，争用时间 { $dur }。
+
+js-meankind-aperture-line-nocount-policy = { $policy } 规则下的各天线孔径。
+
+js-meankind-aperture-line-policy =
+    { $n ->
+       *[other] { $policy } 规则下的 { $n } 个天线孔径。
+    }
+
+js-meankind-araim-big-no = 否：引擎的保护级与已发表的参考值不符。
+
+js-meankind-araim-big-yes = 是：引擎的保护级与已发表的参考值一致。
+
+js-meankind-araim-line = 最大差值为 { $worst } m，参考值自身的容差为 { $tol } m。
+
+js-meankind-araim-line-vectors =
+    { $n ->
+       *[other] 在 { $n } 个参考向量上，最大差值为 { $worst } m，参考值自身的容差为 { $tol } m。
+    }
+
+js-meankind-arc-big = 估计器在获得 { $h } h 弧段中的 { $dur } 后即可恢复轨道。
+
+js-meankind-arc-line = { $n } 个航天器，{ $observable } 测量。
+
+js-meankind-ascent-big = 重力、阻力、转向和背压损耗了 { $ideal } m/s 理想速度增量中的 { $loss } m/s。
+
+js-meankind-ascent-line = 在 { $km } km、{ $speed } m/s 时关机；动压峰值 { $kpa } kPa。
+
+js-meankind-attack-big-no = 地表上的欺骗干扰源无法捕获月球接收机。
+
+js-meankind-attack-big-yes = 地表上的欺骗干扰源可以捕获月球接收机。
+
+js-meankind-attack-line = 地表发射机在被地平线遮挡之前可达 { $km } km。
+
+js-meankind-attitude-big = 指向误差合计 { $total } 角秒。
+
+js-meankind-attitude-big-from = 指向误差合计 { $total } 角秒，主要来自 { $from }。
+
+js-meankind-attitude-line = 最大重力梯度力矩为 { $torque } N·m。
+
+js-meankind-beacon-big = 地表信标使几何质量（PDOP）改善 { $x } 倍。
+
+js-meankind-beacon-line = 改为增加卫星则改善 { $x } 倍。
+
+js-meankind-bodypnt-big = 仅靠中继，{ $body }周围 { $share } % 的时间可以定位。
+
+js-meankind-bodypnt-big-earth = 仅靠中继，{ $body }周围 { $share } % 的时间可以定位；加上与地球的链路为 { $earth } %。
+
+js-meankind-bodypnt-line = 平均可见 { $mean } 个中继。
+
+js-meankind-by = { $a } × { $b }
+
+js-meankind-campaign-compose-line = 每个成员都是一次普通的引擎运行；该测评活动把它们的结果并排读取。
+
+js-meankind-campaign-compose-range =
+    { $n ->
+       *[other] 在相同条件下的 { $n } 个场景中，{ $what } 的范围为 { $low } 至 { $high }。
+    }
+
+js-meankind-campaign-compose-same =
+    { $n ->
+       *[other] 在相同条件下的 { $n } 个场景中，每一个的 { $what } 均为 { $value }。
+    }
+
+js-meankind-campaign-line =
+    { $n ->
+       *[other] { $n } 个阶段。
+    }
+
+js-meankind-campaign-line-all =
+    { $n ->
+       *[other] { $n } 个阶段和 { $events }，来自 { $runs }；结束时，{ $label } 为 { $value }。
+    }
+
+js-meankind-campaign-line-end =
+    { $n ->
+       *[other] { $n } 个阶段；结束时，{ $label } 为 { $value }。
+    }
+
+js-meankind-campaign-line-events =
+    { $n ->
+       *[other] { $n } 个阶段和 { $events }。
+    }
+
+js-meankind-campaign-line-events-end =
+    { $n ->
+       *[other] { $n } 个阶段和 { $events }；结束时，{ $label } 为 { $value }。
+    }
+
+js-meankind-campaign-line-events-runs =
+    { $n ->
+       *[other] { $n } 个阶段和 { $events }，来自 { $runs }。
+    }
+
+js-meankind-campaign-line-runs =
+    { $n ->
+       *[other] { $n } 个阶段，来自 { $runs }。
+    }
+
+js-meankind-campaign-line-runs-end =
+    { $n ->
+       *[other] { $n } 个阶段，来自 { $runs }；结束时，{ $label } 为 { $value }。
+    }
+
+js-meankind-campaign-mission-alarm = 在 { $dur } 的任务中，有 { $alarm } 处于告警状态。
+
+js-meankind-campaign-mission-phases = 一项 { $phases } 阶段的任务，历时 { $dur }，串接在同一个时钟上。
+
+js-meankind-campaign-mission-quiet = 在整个 { $dur } 的任务中没有告警。
+
+js-meankind-campaign-montecarlo =
+    { $n ->
+       *[other] 在 { $n } 次带随机种子的运行中，{ $name } 平均为 { $mean }，离散度为 { $std }。
+    }
+
+js-meankind-campaign-montecarlo-line = 离散度是各次运行上的一倍标准差。
+
+js-meankind-campaign-optimize =
+    { $n ->
+       *[other] 经过 { $n } 次运行后，搜索收敛到 { $name } 为 { $value }。
+    }
+
+js-meankind-campaign-optimize-at = 位于 { $at }。
+
+js-meankind-campaign-optimize-kind =
+    { $n ->
+       *[other] 经过 { $n } 次 { $kind } 运行后，搜索收敛到 { $name } 为 { $value }。
+    }
+
+js-meankind-campaign-sweep-flat =
+    { $n ->
+       *[other] 在 { $axis } 从 { $from } 到 { $to } 的 { $n } 次运行中，{ $metric } 保持为 { $value }。
+    }
+
+js-meankind-campaign-sweep-flat-line = 图表显示每一次运行。
+
+js-meankind-campaign-sweep-goes =
+    { $n ->
+       *[other] 在 { $axis } 从 { $from } 到 { $to } 的 { $n } 次运行中，{ $metric } 从 { $first } 变为 { $last }。
+    }
+
+js-meankind-campaign-sweep-goes-line = 图表显示每一次运行；范围为 { $min } 至 { $max }。
+
+js-meankind-classical-link = 经典链路
+
+js-meankind-clock-word = 时钟
+
+js-meankind-conflict-big = 分层架构的存活能力比单层好 { $ratio } 倍。
+
+js-meankind-conflict-line-threats = 对威胁的蒙特卡罗给出 { $ratio } 倍。
+
+js-meankind-conflict-line-threats-corr = 对威胁的蒙特卡罗给出 { $ratio } 倍；威胁相关时可降至 { $low } 倍。
+
+js-meankind-conflict-line-trials =
+    { $n ->
+       *[other] { $n } 次试验的蒙特卡罗给出 { $ratio } 倍。
+    }
+
+js-meankind-conflict-line-trials-corr =
+    { $n ->
+       *[other] { $n } 次试验的蒙特卡罗给出 { $ratio } 倍；威胁相关时可降至 { $low } 倍。
+    }
+
+js-meankind-contacts-big =
+    { $n ->
+       *[other] 该计划在 { $n } 个候选接触中保留 { $kept } 个，传送 { $gbit } Gbit。
+    }
+
+js-meankind-contacts-big-waiting =
+    { $n ->
+       *[other] 该计划在 { $n } 个候选接触中保留 { $kept } 个，在等待传送的 { $waiting } Gbit 中传送 { $gbit } Gbit。
+    }
+
+js-meankind-contacts-line = { $hours } h 内有 { $sats } 颗卫星和 { $stations } 个站点。
+
+js-meankind-dpnt-big = 差分改正使误差从 { $from } m 降到 { $to } m。
+
+js-meankind-dpnt-line = 参考站在 { $km } km 之外。
+
+js-meankind-duration-days =
+    { $n ->
+       *[other] { $days } 天
+    }
+
+js-meankind-earthgnss-big =
+    { $n ->
+       *[other] 在月球的距离上，{ $n } 颗卫星中有 { $visible } 颗可见，但只有 { $trackable } 颗可以被跟踪。
+    }
+
+js-meankind-earthgnss-line = 最佳信号为 { $best } dB-Hz，跟踪门限为 { $threshold } dB-Hz。
+
+js-meankind-engine-run-count =
+    { $n ->
+       *[other] { $n } 次引擎运行
+    }
+
+js-meankind-entry-big = 峰值减速度为 { $g } g，位于 { $km } km，热流峰值为 { $flux } W/cm²。
+
+js-meankind-entry-line = 以 { $speed } m/s 进入，在地平线以下 { $angle } 度。
+
+js-meankind-eo-big = 相机在 { $gsd } m 分辨率下可见 { $swath } km 的幅宽。
+
+js-meankind-eo-line-contiguous = 赤道处星下点轨迹相距 { $km } km，因此覆盖是连续的。
+
+js-meankind-eo-line-gapped = 赤道处星下点轨迹相距 { $km } km，因此覆盖有缺口。
+
+js-meankind-eop-big = 在月球的距离上，地球自转每秒扫过 { $m } m，因此地球定向数据的龄期（此处为 { $dur }）很重要。
+
+js-meankind-eop-line = 输入：{ $source }。
+
+js-meankind-ephemeris-big = 卫星飞行高度在 { $min } 至 { $max } km 之间，最高纬度达 { $lat }°。
+
+js-meankind-ephemeris-line = 从站点看，它升到 { $deg }°。
+
+js-meankind-ephemeris-line-doppler = 从站点看，它升到 { $deg }°，多普勒最高达 { $khz } kHz。
+
+js-meankind-event-count =
+    { $n ->
+       *[other] { $n } 个事件
+    }
+
+js-meankind-framecampaign-big-open =
+    { $n ->
+       *[other] 该测量方案使基准的 { $n } 个方向未能确定。
+    }
+
+js-meankind-framecampaign-big-yes = 是：该测量方案完全确定了月球坐标系基准。
+
+js-meankind-framecampaign-line = 条件数 { $n }。
+
+js-meankind-framereal-big = 实现的月球坐标系有 { $m } m 的残余误差。
+
+js-meankind-framereal-big-open = 实现的月球坐标系有 { $m } m 的残余误差，但拟合没有收敛。
+
+js-meankind-framereal-line = 平移误差 { $trans } m，尺度误差 { $scale } 十亿分之一。
+
+js-meankind-gnsssim-big = 完好性监测在 { $share } % 的时间内保护定位。
+
+js-meankind-gnsssim-line = 电离层平均给每个距离增加 { $iono } m，对流层增加 { $tropo } m。
+
+js-meankind-headline-figure = 头条数据
+
+js-meankind-holdovertest-big = 对照模板衡量，该记录的 { $dur } s 守时（holdover）达到 { $te } ns 的钟差。
+
+js-meankind-holdovertest-big-open = 对照模板衡量，该记录的 { $dur } s 守时（holdover）达到 { $te } ns 的钟差，并且没有在该范围内恢复。
+
+js-meankind-holdovertest-big-recovered = 对照模板衡量，该记录的 { $dur } s 守时（holdover）达到 { $te } ns 的钟差，并在 GNSS 恢复后 { $recover } s 恢复。
+
+js-meankind-holdovertest-line = 对照模板衡量，绝不表示某个系统符合要求；这两个时间是操作人员的声明。
+
+js-meankind-holdovertest-line-masks = { $masks }。对照模板衡量，绝不表示某个系统符合要求；这两个时间是操作人员的声明。
+
+js-meankind-impairment-big = 该检测器区分受损信号与干净信号，曲线下面积为 { $auc }（1 为完美）。
+
+js-meankind-impairment-line = 在与其训练集不同的情形下，得分为 { $auc }。
+
+js-meankind-infra-carrier = 地面站与轨道器之间的整数载波相位固定，在最长的弧段（{ $days } 天）上固定了 { $share } % 的试验。
+
+js-meankind-infra-frame = 若轨道在月球坐标轴中已知，轨道器到地面站的链路使月球基准的最小信息特征值提高 { $x } 倍，并将克拉美-罗迹降至 { $share } %。
+
+js-meankind-infra-geodesy = 四个族合并时，h2、k2 和 l2 分别被确定到其标称值的 { $h2 } %、{ $k2 } % 和 { $l2 } %。
+
+js-meankind-infra-od = 月球轨道上的星载地球 GNSS 定轨精度为 { $gnss } m，独立地面跟踪为 { $ground } m；一致性统计量平均为 { $mean }（预期 { $expected }）。
+
+js-meankind-infra-tail = MODELLED：采用受限模型和示意性输入，不说明任何任务。
+
+js-meankind-infra-tie =
+    { $n ->
+       *[other] 在扫描 { $n } 个连接误差的过程中，单个航天器上 { $mm } mm 的局部连接把 GNSS、VLBI 和激光测距坐标系连接起来。
+    }
+
+js-meankind-inside-spec = 在 { $spec } 以内
+
+js-meankind-instrn-big = 仅靠惯性滑行时，位置误差在 { $dur } 后超过 { $threshold } m。
+
+js-meankind-instrn-dom = 以 { $dominant } 为主。
+
+js-meankind-instrn-line = 超过 { $passes }。
+
+js-meankind-instrn-line-dom = 超过 { $passes }；以 { $dominant } 为主。
+
+js-meankind-instrn-pass = { $dur } 后 { $threshold } m
+
+js-meankind-interop-big-no = 否：月球星历文件无法往返转换。
+
+js-meankind-interop-big-yes = 是：月球星历文件往返转换后完好无损。
+
+js-meankind-interop-line = { $frame } 坐标系中的 { $n } 个状态，{ $time } 时间。
+
+js-meankind-its-spec = 其规格
+
+js-meankind-jointod-big = 加入基于地球的干涉测量时延，使站点位置更精确 { $x } 倍。
+
+js-meankind-jointod-line = 此时站点位置已知到 { $m } m。
+
+js-meankind-launch-big =
+    { $n ->
+       *[other] 每天有 { $n } 个发射窗口可从纬度 { $lat }° 到达 { $incl }° 的轨道。
+    }
+
+js-meankind-launch-line = 地球自转免费提供 { $speed } m/s。
+
+js-meankind-layer-agc = AGC（自动增益控制）
+
+js-meankind-layer-raim = RAIM（接收机自主完好性监测）
+
+js-meankind-layer-sqm = SQM（信号质量监测）
+
+js-meankind-leochain-big = 端到端地看，低轨系统使位置误差从 { $from } m 降到 { $to } m。
+
+js-meankind-leochain-line = 其信号最高以 { $cn0 } dB-Hz 被跟踪。
+
+js-meankind-leopass-big-many = 这些卫星过境高度为 { $elev }°，在截止角之上停留 { $dur }（{ $n } 颗中的第一颗）。
+
+js-meankind-leopass-big-one = 该卫星过境高度为 { $elev }°，在截止角之上停留 { $dur }。
+
+js-meankind-leopass-line = 在峰值处，低轨信号到达时比典型的卫星导航信号强 { $db } dB。
+
+js-meankind-leoppp-big = 采用最大的低轨层时，精密定位在 { $best } min 内收敛，而仅用卫星导航为 { $base } min。
+
+js-meankind-leoppp-line = 每种情形各次运行的中位数，收敛到 { $m } m。
+
+js-meankind-leoppp-line-runs =
+    { $n ->
+       *[other] 每种情形 { $n } 次运行的中位数，收敛到 { $m } m。
+    }
+
+js-meankind-leopvt-doppler-big = 由低轨卫星做多普勒定位，与真值相距 { $m } m（水平）。
+
+js-meankind-leopvt-doppler-line =
+    { $n ->
+       *[other] 使用了 { $n } 颗卫星。
+    }
+
+js-meankind-leopvt-joint-big = 加入低轨层使误差从 { $from } m 降到 { $to } m（3-D 均方根）。
+
+js-meankind-leopvt-joint-line = 几何质量（PDOP）从 { $from } 变为 { $to }。
+
+js-meankind-leopvt-polar-big = 在极点附近，低轨层使几何质量（PDOP）从 { $from } 改善到 { $to }。
+
+js-meankind-leopvt-polar-line =
+    { $n ->
+       *[other] 跨 { $n } 个纬度。
+    }
+
+js-meankind-leopvt-timing-big = 低轨时间传递使最好的时钟保持在 UTC 的 { $ns } ns 以内（均方根）。

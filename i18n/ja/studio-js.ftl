@@ -4598,3 +4598,1314 @@ js-interf-check-failed = { $name }：チェックできませんでした（{ $r
 
 # 2026-10-01-studio-rebuild/interference/interference.js:152
 js-interf-click-cell = セルをクリックするか、マップにフォーカスして矢印キーを使うと、そのセルの数値を表示します。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:137
+js-interf-close = 閉じる
+
+# 2026-10-01-studio-rebuild/interference/interference.js:137
+js-interf-close-file = { $name } を閉じる
+
+# 2026-10-01-studio-rebuild/interference/interference.js:230
+js-interf-col-affected = 影響あり
+
+# 2026-10-01-studio-rebuild/interference/interference.js:230
+js-interf-col-cell-area = セル面積
+
+# 2026-10-01-studio-rebuild/interference/interference.js:231
+js-interf-col-detectors = 検出器
+
+# 2026-10-01-studio-rebuild/interference/interference.js:230
+js-interf-col-observed = 観測数
+
+# 2026-10-01-studio-rebuild/interference/interference.js:230
+js-interf-col-sampled = サンプル数
+
+# 2026-10-01-studio-rebuild/interference/interference.js:230
+js-interf-col-share = 割合
+
+# 2026-10-01-studio-rebuild/interference/interference.js:230
+js-interf-col-status = ステータス
+
+# 2026-10-01-studio-rebuild/interference/interference.js:181
+js-interf-coverage-limits = このソースのカバレッジの限界
+
+# 2026-10-01-studio-rebuild/interference/interference.js:397
+js-interf-csv-too-big = { $name }：24 MiB を超えています。抜粋から作成してください（コマンドラインツールならファイル全体を扱えます）。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:438
+js-interf-csv-too-big-short = { $name }：24 MiB を超えています。抜粋から作成してください。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:403
+js-interf-custom-needs-licence = カスタムデータセットには、ライセンス、その URL、帰属表示のテキストが必要です。これらはマップファイルに書き込まれます。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:179
+js-interf-dataset = データセット
+
+# 2026-10-01-studio-rebuild/interference/interference.js:421
+js-interf-dates-rule = 日付は YYYY-MM-DD の形式で指定します。空欄にすると制限なしになります。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:123
+js-interf-day = 日
+
+# 2026-10-01-studio-rebuild/interference/interference.js:120
+js-interf-day-aria = { $kind } の日
+
+# 2026-10-01-studio-rebuild/interference/interference.js:206
+js-interf-day-confounded-note = この日は交絡しています。その日のバックグラウンドのため、劣化と判定されたセルはありません。本来なら目立っていたはずのセルは、未評価として表示されます。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:205
+js-interf-day-figures-aria = その日の数値
+
+# 2026-10-01-studio-rebuild/interference/interference.js:446
+js-interf-demo-csv-name = { $file }（合成サンプル）
+
+# 2026-10-01-studio-rebuild/interference/interference.js:98
+js-interf-demo-failed = デモを開けませんでした：{ $reason }。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:97
+js-interf-demo-opened = 合成デモ：架空の外洋領域に対する、架空の 3 つのファイル（ADS-B の 2 日分、うち 1 日は交絡、および AIS の 1 日分）です。実在の航空機、船舶、日付は一切関係ありません。ADS-B レイヤーの日付ピッカーを使ってください。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:450
+js-interf-demo-route-name = route.csv（合成）
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:197
+js-interf-describe-map = { $date } の { $kind } マップ：描画したセルは { $cells } 個、{ $parts }。描画していないセルは観測されていません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:96
+js-interf-did-not-load = { $url } を読み込めませんでした
+
+# 2026-10-01-studio-rebuild/interference/interference.js:385
+js-interf-engine-no-fn = このエンジンビルド（バージョン { $version }）には { $fn } がありません。このページより前のものです。コマンドラインでの同等の操作は「ツール」ページにあります。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:384
+js-interf-engine-start-failed = ここではエンジンを起動できませんでした（{ $reason }）。上のマップファイルを開く操作は引き続き使えます。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:90
+js-interf-err-format-version = { $name }：サポート対象の { -brand } 干渉マップではありません（format_version { $version }。このページがサポートするのは { $supported } です）。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:224
+js-interf-err-no-rows = { $name }：このレポートに rows[] がありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:220
+js-interf-err-not-json = { $name }：JSON ではありません（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:87
+js-interf-err-not-map = { $name }：GeoJSON ですが、{ -brand } 干渉マップではありません（kshana_interference_map メンバーがありません）。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:222
+js-interf-err-not-route = { $name }：{ -brand } 経路暴露レポートではありません（kshana_route_exposure メンバーがありません）。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:223
+js-interf-err-route-schema = { $name }：スキーマ { $schema } は、このページが読み込む { $expected } ではありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:89
+js-interf-err-source-kind = { $name }：source_kind { $kind } は adsb でも ais でもありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:88
+js-interf-err-unknown-schema = { $name }：不明なスキーマ { $schema } です。このページが読み込むのは { $supported } です。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:269
+js-interf-foot-attribution = 帰属表示：{ $text }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:269
+js-interf-foot-coverage = カバレッジ：{ $notes }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:269
+js-interf-foot-layer = { $kind } レイヤー、{ $date }。描画していないセルは観測されていません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:269
+js-interf-foot-licence = ライセンス：{ $licence }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:269
+js-interf-foot-licence-url = ライセンス：{ $licence }（{ $url }）
+
+# 2026-10-01-studio-rebuild/interference/interference.js:221
+js-interf-grid = グリッド：緯度・経度とも { $size }° の正方形セル（{ $type }）。東西方向の幅は緯度が高いほど狭くなります。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:217
+js-interf-guards = ほかの原因に対する除外措置
+
+# 2026-10-01-studio-rebuild/interference/interference.js:219
+js-interf-input = 入力
+
+# 2026-10-01-studio-rebuild/interference/interference.js:437
+js-interf-land-set = 陸地ポリゴン：{ $name }。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:437
+js-interf-land-too-big = その陸地ファイルは 24 MiB を超えています。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:53
+js-interf-larger-than = { $name }：{ $limit } を超えています。このページが読み込めるマップファイルは、そのサイズまでです。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:117
+js-interf-layer-adsb-sub = 航空機が低い航法精度を報告したセル
+
+# 2026-10-01-studio-rebuild/interference/interference.js:117
+js-interf-layer-ais-sub = 船舶が不自然な位置または動きを報告したセル
+
+# 2026-10-01-studio-rebuild/interference/interference.js:117
+js-interf-layer-heading = { $kind } レイヤー
+
+# 2026-10-01-studio-rebuild/interference/interference.js:126
+js-interf-layer-hidden = { $kind } レイヤーは非表示です。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:108
+js-interf-layers-separate = ADS-B と AIS は別々のレイヤーで、それぞれ独自の切り替え、凡例、ライセンス表記を持ちます。1 つの色分けや 1 つの件数に統合されることはありません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:188
+js-interf-legend-aria = 各セル状態の意味。チェックを外すとそのセルが薄く表示されます
+
+# 2026-10-01-studio-rebuild/interference/interference.js:177
+js-interf-licence = ライセンス
+
+# 2026-10-01-studio-rebuild/interference/interference.js:170
+js-interf-licence-aria = { $name } のデータライセンス
+
+# 2026-10-01-studio-rebuild/interference/interference.js:171
+js-interf-licence-heading = データライセンスと帰属表示
+
+# 2026-10-01-studio-rebuild/interference/interference.js:147
+js-interf-map-aria = { $summary } 矢印キーで、描画されたセル間を移動します。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:138
+js-interf-maps-open =
+    { $n ->
+       *[other] { $n } 件のマップを開いています。
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:213
+js-interf-method-summary = 手法と注意事項
+
+# 2026-10-01-studio-rebuild/interference/interference.js:315
+js-interf-no-cell-at = { $lat }、{ $lon } にセルはありません：観測されていません。これは、その領域が問題なかったことの証拠ではありません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:196
+js-interf-no-cell-drawn = 描画されたセルなし
+
+# 2026-10-01-studio-rebuild/interference/interference.js:273
+js-interf-no-cells-draw = このファイルには描画するセルがありません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:207
+js-interf-no-day-figures = このファイルには、日単位の数値が記載されていません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:70
+js-interf-no-file-opened = 開けたファイルはありません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:423
+js-interf-no-file-text = 開いているマップには、確認できるファイルテキストがありません（ファイルとして開かれていません）。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:240
+js-interf-none = なし
+
+# 2026-10-01-studio-rebuild/interference/interference.js:366
+js-interf-none-stated = （記載なし）
+
+# 2026-10-01-studio-rebuild/interference/interference.js:174
+js-interf-none-stated-file = （このファイルには記載なし）
+
+# 2026-10-01-studio-rebuild/interference/interference.js:299
+js-interf-north-abbr = N
+
+# 2026-10-01-studio-rebuild/interference/interference.js:204
+js-interf-not-evaluated = 未評価
+
+# 2026-10-01-studio-rebuild/interference/interference.js:52
+js-interf-not-opened-full = { $name }：開けませんでした。すでに { $max } 件のマップが開いています。先にいくつか閉じてください。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:138
+js-interf-nothing-open = まだ何も開いていません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:70
+js-interf-nothing-opened = 何も開きませんでした。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:123
+js-interf-one-day = 1 日ずつ
+
+# 2026-10-01-studio-rebuild/interference/interference.js:42
+js-interf-opened-file-map = { $files } 件のファイルを開き、{ $maps } 件のマップが開いています。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:41
+js-interf-opened-file-maps = { $files } 件のファイルを開き、{ $maps } 件のマップが開いています。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:40
+js-interf-opened-files-map = { $files } 件のファイルを開き、{ $maps } 件のマップが開いています。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:39
+js-interf-opened-files-maps = { $files } 件のファイルを開き、{ $maps } 件のマップが開いています。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:92
+js-interf-opening-demo = 合成デモを開いています…
+
+# 2026-10-01-studio-rebuild/interference/interference.js:218
+js-interf-parameters = パラメーター（データを読み込む前に固定）
+
+# 2026-10-01-studio-rebuild/interference/interference.js:73
+js-interf-read-draw-failed = { $name }：読み込みまたは描画ができませんでした（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:89
+js-interf-read-failed = { $name }：読み込めませんでした（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:156
+js-interf-read-with-map = マップと併せてお読みください
+
+# 2026-10-01-studio-rebuild/interference/interference.js:79
+js-interf-reading = 読み込み中…
+
+# 2026-10-01-studio-rebuild/interference/interference.js:358
+js-interf-route-aria = 経路暴露 { $name }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:359
+js-interf-route-chip = 経路
+
+# 2026-10-01-studio-rebuild/interference/interference.js:428
+js-interf-route-done =
+    { $n ->
+       *[other] 経路暴露を、{ $n } 件のマップとエンジン { $version } から計算しました。レポートは下に表示されます。
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:360
+js-interf-route-explain = 経路の長さのうち、日別・ソース別に各状態が占める割合です。4 つの割合の合計は 1 で、あわせて読みます。degraded の割合が低くても not-observed の割合が高い場合、問題がないことは示されていません。ADS-B と AIS の行が統合されることはありません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:359
+js-interf-route-exposure = 経路暴露
+
+# 2026-10-01-studio-rebuild/interference/interference.js:418
+js-interf-route-needs-map = 先にマップを少なくとも 1 件、開くか作成してください。経路は、このページのマップと照合されます。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:450
+js-interf-route-open-failed = 経路を開けませんでした：{ $reason }。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:359
+js-interf-route-range = { $from } から { $to }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:419
+js-interf-route-too-big = { $name }：24 MiB を超えています。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:155
+js-interf-row-affected-share = 影響を受けた割合
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:155
+js-interf-row-aircraft-affected = 影響を受けた航空機
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:155
+js-interf-row-aircraft-observed = 観測した航空機
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:155
+js-interf-row-aircraft-sampled = サンプルした航空機
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:163
+js-interf-row-area = 面積
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:163
+js-interf-row-cell = セル
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:160
+js-interf-row-detectors = 基準を満たした検出器
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:159
+js-interf-row-flagged = フラグ付き：{ $detector }
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:153
+js-interf-row-status = ステータス
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:157
+js-interf-row-vessels-observed = 観測した船舶
+
+# 2026-10-01-studio-rebuild/interference/interference.js:370
+js-interf-rows-skipped = 無効な行が { $count } 件あり、スキップしました。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:361
+js-interf-rt-day = 日
+
+# 2026-10-01-studio-rebuild/interference/interference.js:361
+js-interf-rt-km = 経路 km
+
+# 2026-10-01-studio-rebuild/interference/interference.js:361
+js-interf-rt-licence = マップのライセンスと帰属表示
+
+# 2026-10-01-studio-rebuild/interference/interference.js:361
+js-interf-rt-shares = 経路に占める割合
+
+# 2026-10-01-studio-rebuild/interference/interference.js:361
+js-interf-rt-source = ソース
+
+# 2026-10-01-studio-rebuild/interference/interference.js:447
+js-interf-sample-failed = サンプルを開けませんでした：{ $reason }。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:410
+js-interf-save = 保存：
+
+# 2026-10-01-studio-rebuild/interference/interference.js:429
+js-interf-save-report = レポートを保存（JSON）
+
+# 2026-10-01-studio-rebuild/interference/interference.js:118
+js-interf-show-layer = このレイヤーを表示
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:38
+js-interf-st-anomalous-label = 異常
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:38
+js-interf-st-anomalous-text = その日、ここで少なくとも 1 つの検出器が、十分な数の異なる船舶にフラグを立てました（少なくとも 3 隻で、かつ観測された船舶の 20%）。考えられる原因には干渉も含まれますが、ごく一般的な原因も多数あります。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:34
+js-interf-st-confounded-label = 日が交絡
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:34
+js-interf-st-confounded-text = その日全体のセル割合の中央値が高く、広域の原因が示唆されます。このような日には、どのセルも劣化とは判定されません。このセルは、本来なら目立っていたはずです。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:31
+js-interf-st-degraded-label = 劣化
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:31
+js-interf-st-degraded-text = その日、ここでサンプルした航空機の高い割合が低い航法精度を報告しており、その日の中央値のセルを大きく上回っています。理由は示されていません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:35
+js-interf-st-no-background-label = バックグラウンド推定なし
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:35
+js-interf-st-no-background-text = その日のバックグラウンド（低い精度を報告する航空機の典型的な割合）を、十分な数のセルから推定できませんでした。そのため、どのセルもそれと比較されず、判定もされません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:39
+js-interf-st-not-anomalous-label = 異常なし
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:39
+js-interf-st-not-anomalous-text = 観測され、基準を満たした検出器はありませんでした。何も起きなかったことの証明ではありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:32
+js-interf-st-not-degraded-label = 劣化なし
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:32
+js-interf-st-not-degraded-text = サンプルされ、低い精度を報告した航空機の割合は目立ちませんでした。何も起きなかったことの証明ではありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:33
+js-interf-st-too-few-label = 航空機が少なすぎる
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:33
+js-interf-st-too-few-text = 公開されています（観測された異なる航空機が少なくとも 5 機）が、サンプルできた航空機が 10 機未満のため、判定は行いません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:404
+js-interf-starting-build = エンジンを起動して作成しています…
+
+# 2026-10-01-studio-rebuild/interference/interference.js:424
+js-interf-starting-route = エンジンを起動して経路を確認しています…
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:50
+js-interf-state-clear-adsb = 問題なし
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:51
+js-interf-state-clear-adsb-text = 十分な数の航空機で観測され、フラグは立っていません。何も起きなかったことの証明ではありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:50
+js-interf-state-clear-ais = 問題なし
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:51
+js-interf-state-clear-ais-text = 十分な数の船舶で観測され、フラグは立っていません。何も起きなかったことの証明ではありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:47
+js-interf-state-degraded-adsb = 劣化
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:48
+js-interf-state-degraded-adsb-text = その日、ここでサンプルした航空機の高い割合が低い航法精度を報告しており、その日の中央値のセルを大きく上回っています。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:47
+js-interf-state-degraded-ais = 異常
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:48
+js-interf-state-degraded-ais-text = その日、ここで少なくとも 1 つの検出器が、十分な数の異なる船舶にフラグを立てました（少なくとも 3 隻で、かつ観測された船舶の 20%）。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:56
+js-interf-state-notobs-adsb = 未観測
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:57
+js-interf-state-notobs-adsb-text = セルは描画されていません。公開するには観測された航空機が少なすぎました。これは、その領域が問題なかったことの証拠ではありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:56
+js-interf-state-notobs-ais = 未観測
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:57
+js-interf-state-notobs-ais-text = セルは描画されていません。公開するには観測された船舶が少なすぎました。これは、その領域が問題なかったことの証拠ではありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:53
+js-interf-state-unassessed-adsb = 未評価
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:54
+js-interf-state-unassessed-adsb-text = 観測されましたが、サンプルできた航空機が少なすぎる、その日が交絡している、またはその日のバックグラウンドを推定できなかったため、判定は行いません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:53
+js-interf-state-unassessed-ais = 未評価
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:54
+js-interf-state-unassessed-ais-text = 観測されましたが、判定は行いません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:135
+js-interf-status-unknown = このページが説明していないステータスです。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:228
+js-interf-table-first = { $total } 個のセルのうち最初の { $shown } 個を表示しています。重要な判定を先に並べています。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:226
+js-interf-table-summary = 描画されたすべてのセルを表で表示（{ $n }）
+
+# 2026-10-01-studio-rebuild/interference/interference.js:205
+js-interf-the-day = その日
+
+# 2026-10-01-studio-rebuild/interference/interference.js:141
+js-interf-unknown-date = 日付不明
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:113
+js-interf-warn-cell-size = このファイルは { $size }° のセルサイズを使っていますが、これは事前登録されたものではありません。事前登録された手法ではないため、その判定は、事前登録されたセルサイズを使うファイルとは比較できません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:112
+js-interf-warn-cell-size-known = このファイルは { $size }° のセルサイズを使っていますが、これは事前登録されたもの（{ $registered }°）ではありません。事前登録された手法ではないため、その判定は、事前登録されたセルサイズを使うファイルとは比較できません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:115
+js-interf-warn-day-confounded = この日は交絡しています。その日のバックグラウンドのため、劣化と判定されたセルはありません（セル割合の中央値自体が高かったためです）。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:105
+js-interf-warn-flag-disagrees = { $count } 個のセルで、「degraded」フラグがステータスと一致していません。描画されるのはステータスです。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:109
+js-interf-warn-no-licence = このファイルには { $fields } のテキストがありません。表示はされますが、ライセンスと帰属表示のないマップは再公開しないでください。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:116
+js-interf-warn-on-land-off = このファイルでは、陸上検出器がオフでした（陸地ポリゴンが提供されていません）。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:103
+js-interf-warn-skipped = 有効な GeoJSON ではないフィーチャーが { $count } 件あり、スキップしました。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:106
+js-interf-warn-unknown-status = このページが認識しないステータス値：{ $values }。これらは「判定なし」として描画されます。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:145
+js-interf-withheld = 非開示（5 未満）
+
+# 2026-10-01-studio-rebuild/interference/interference.js:214
+js-interf-written-by = { -brand } { $version } が書き出し
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:440
+js-kind-axis-3-d-position-error-m = 3 次元位置誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:304
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:509
+js-kind-axis-code-jitter-m = コードジッター (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:304
+js-kind-axis-code-tracking-jitter-m = コード追跡ジッター (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:346
+js-kind-axis-doppler-shift-hz = ドップラーシフト (Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:164
+js-kind-axis-effective-c-n0-db-hz = 実効 C/N0 (dB-Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:347
+js-kind-axis-elevation = 仰角 (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:391
+js-kind-axis-fit-interval-s = フィット区間 (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:199
+js-kind-axis-formal-position-sigma-m = 形式的位置シグマ (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:463
+js-kind-axis-latitude = 緯度 (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:443
+js-kind-axis-leo-satellites-added-to-the = 測位解に加えた LEO 衛星
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:464
+js-kind-axis-mean-satellites-in-view = 可視衛星数の平均
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:443
+js-kind-axis-median-dilution-of-precision = DOP（精度低下率）の中央値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:478
+js-kind-axis-median-error-m = 誤差の中央値 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:463
+js-kind-axis-median-pdop = PDOP の中央値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:448
+js-kind-axis-metres = メートル
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:448
+js-kind-axis-observation-window-s = 観測ウィンドウ (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:298
+js-kind-axis-offset-from-the-signal-s = 信号の中心からのオフセット (MHz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:170
+js-kind-axis-offset-from-the-snapshot-centre = スナップショットの中心からのオフセット (MHz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:441
+js-kind-axis-pdop = PDOP
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:200
+js-kind-axis-position-error-m = 位置誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:298
+js-kind-axis-power-spectral-density-db-hz = 電力スペクトル密度（dB/Hz、単位電力）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:170
+js-kind-axis-power-spectral-density-dbw-hz = 電力スペクトル密度 (dBW/Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:365
+js-kind-axis-probability-of-detection = 検出確率
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:406
+js-kind-axis-range-error-m = 距離誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:201
+js-kind-axis-relays = 中継局
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:391
+js-kind-axis-sisre-root-mean-square-m = SISRE、二乗平均平方根 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:457
+js-kind-axis-time-error-ns = 時刻誤差 (ns)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:164
+js-kind-axis-time-s = 時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:478
+js-kind-axis-time-since-the-start-min = 開始からの時間 (min)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:393
+js-kind-axis-update-period-s = 更新周期 (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:551
+js-kind-cap-body-pnt-label = 中継測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:553
+js-kind-cap-campaign-label = キャンペーン
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:552
+js-kind-cap-constellation-design-label = カバレッジ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:556
+js-kind-cap-leo-navmsg-label = 航法メッセージ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:555
+js-kind-cap-leo-pass-label = パスとリンク
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:560
+js-kind-cap-leo-pnt-chain-label = エンドツーエンドのチェーン
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:558
+js-kind-cap-leo-ppp-label = 測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:557
+js-kind-cap-leo-pvt-label = 測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:554
+js-kind-cap-leo-signal-label = 信号設計
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:561
+js-kind-cap-lunar-llr-datum-label = レーザー測距データ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:559
+js-kind-cap-ntn-positioning-label = 測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:550
+js-kind-cap-solar-system-label = 太陽系
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:549
+js-kind-cap-spectrum-label = スペクトラム
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:740
+js-kind-guided-doppler-error-hz = ドップラー誤差 (Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:686
+js-kind-guided-duration-s = 継続時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:695
+js-kind-guided-earth-range-error-m = 地球距離誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:698
+js-kind-guided-elevation-mask = 仰角マスク (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:685
+js-kind-guided-first-jammer-bandwidth-mhz = 最初のジャマーの帯域幅 (MHz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:682
+js-kind-guided-first-jammer-power-dbw = 最初のジャマーの電力 (dBW)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:684
+js-kind-guided-first-jammer-range-m = 最初のジャマーの距離 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:683
+js-kind-guided-first-jammer-received-power-dbw = 最初のジャマーの受信電力 (dBW)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:711
+js-kind-guided-first-phase-length-s = 最初のフェーズの長さ (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:701
+js-kind-guided-first-shell-altitude-km = 最初のシェルの高度 (km)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:702
+js-kind-guided-first-shell-inclination = 最初のシェルの軌道傾斜角 (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:750
+js-kind-guided-first-signal-bandwidth-hz = 最初の信号の帯域幅 (Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:737
+js-kind-guided-first-system-range-error-m = 最初のシステムの距離誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:731
+js-kind-guided-fit-interval-s = フィット区間 (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:733
+js-kind-guided-gravity-field-degree = 重力場の次数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:700
+js-kind-guided-grid-step = グリッド間隔 (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:751
+js-kind-guided-integration-time-s = 積分時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:741
+js-kind-guided-leo-satellites-in-the-sweep = スイープ内の LEO 衛星
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:715
+js-kind-guided-loop-bandwidth-hz = ループ帯域幅 (Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:705
+js-kind-guided-monte-carlo-runs = モンテカルロ実行回数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:752
+js-kind-guided-network-synchronisation-error-m = ネットワーク同期誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:718
+js-kind-guided-orbit-altitude-km = 軌道高度 (km)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:756
+js-kind-guided-orbit-determination-error-m = 軌道決定誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:730
+js-kind-guided-orbit-inclination = 軌道傾斜角 (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:699
+js-kind-guided-pdop-threshold = PDOP のしきい値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:722
+js-kind-guided-peak-elevation-of-the-pass = パスの最大仰角 (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:688
+js-kind-guided-points-per-orbit-track = 軌道トラックあたりの点数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:681
+js-kind-guided-receiver-noise-figure-db = 受信機の雑音指数 (dB)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:726
+js-kind-guided-receiver-power-when-awake-mw = 受信機の起動時消費電力 (mW)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:714
+js-kind-guided-reference-c-n0-db-hz = 基準 C/N0 (dB-Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:692
+js-kind-guided-relay-altitude-km = 中継局の高度 (km)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:693
+js-kind-guided-relay-inclination = 中継局の軌道傾斜角 (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:690
+js-kind-guided-relay-planes = 中継局の軌道面
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:694
+js-kind-guided-relay-range-error-m = 中継局の距離誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:691
+js-kind-guided-relays-per-plane = 軌道面あたりの中継局数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:746
+js-kind-guided-runs-per-case = ケースあたりの実行回数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:757
+js-kind-guided-satellite-altitude-km = 衛星の高度 (km)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:738
+js-kind-guided-second-system-range-error-m = 第二のシステムの距離誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:709
+js-kind-guided-shared-condition = 共通条件
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:716
+js-kind-guided-slant-electron-content-tecu = 斜め方向の電子数 (TECU)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:717
+js-kind-guided-slant-range-km = スラントレンジ (km)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:724
+js-kind-guided-spoofed-offset-m = スプーフィングによるオフセット (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:725
+js-kind-guided-spoofing-starts-s = スプーフィング開始 (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:706
+js-kind-guided-sweep-from = スイープ開始値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:708
+js-kind-guided-sweep-steps = スイープのステップ数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:707
+js-kind-guided-sweep-to = スイープ終了値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:710
+js-kind-guided-timeline-step-s = タイムラインのステップ (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:680
+js-kind-guided-tracking-threshold-db-hz = 追跡しきい値 (dB-Hz)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:759
+js-kind-guided-transmit-power-dbw = 送信電力 (dBW)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:732
+js-kind-guided-update-period-s = 更新周期 (s)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:723
+js-kind-guided-user-latitude = ユーザーの緯度 (°)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:680
+js-kind-hint-a-band-under-this-carrier = この搬送波雑音密度度を下回る帯域は、ロックを失う
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:699
+js-kind-hint-a-grid-point-is-available = 位置の DOP（精度低下率）がこれを下回る間、グリッド点は利用可能
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:698
+js-kind-hint-a-satellite-must-be-this = 衛星が可視とみなされるために必要な高さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:721
+js-kind-hint-a-satellite-must-be-this-2 = 衛星が使用されるために必要な高さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:739
+js-kind-hint-a-satellite-of-the-first = 最初のシステムの衛星に必要な高さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:731
+js-kind-hint-arc-one-message-is-fitted = 1 つのメッセージをフィットする区間
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:715
+js-kind-hint-code-tracking-loop-noise-bandwidth = コード追跡ループの雑音帯域幅
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:733
+js-kind-hint-detail-of-the-truth-orbit = 真値軌道の重力モデルの詳細度
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:684
+js-kind-hint-distance-from-the-first-jammer = 最初のジャマーから受信機までの距離
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:717
+js-kind-hint-distance-to-the-satellite-in = 帯域トレードにおける衛星までの距離
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:726
+js-kind-hint-drawn-while-acquiring-and-tracking = 捕捉中および追跡中に消費される
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:682
+js-kind-hint-equivalent-isotropically-radiated-power-of = 最初のジャマーの等価等方放射電力
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:759
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = 帯域の等価等方放射電力
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:746
+js-kind-hint-filter-runs-averaged-for-each = ケースごとに平均するフィルターの実行回数（多いほど遅くなる）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:706
+js-kind-hint-first-value-of-the-swept = スイープするパラメーターの最初の値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:757
+js-kind-hint-height-of-the-chain-s = チェーンの衛星の高さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:701
+js-kind-hint-height-of-the-first-shell = 最初のシェルの軌道の高さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:692
+js-kind-hint-height-of-the-relay-orbits = 天体上空における中継局軌道の高さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:729
+js-kind-hint-height-of-the-satellite-whose = メッセージをフィットする衛星の高さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:724
+js-kind-hint-how-far-the-spoofer-moves = スプーファーが計算位置をどれだけずらすか
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:688
+js-kind-hint-how-finely-each-orbit-is = 描画のために各軌道をどれだけ細かくサンプルするか
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:722
+js-kind-hint-how-high-the-satellite-climbs = 衛星がどこまで高く昇るか
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:711
+js-kind-hint-how-long-the-first-phase = 最初のフェーズが続く時間
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:751
+js-kind-hint-how-long-the-receiver-integrates = 受信機が 1 つの距離のために積分する時間
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:741
+js-kind-hint-how-many-low-orbit-satellites = ジオメトリのスイープで追加する低軌道衛星の数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:705
+js-kind-hint-how-many-seeded-runs-make = アンサンブルを構成するシード付き実行の回数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:708
+js-kind-hint-how-many-values-are-run = 実行する値の数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:732
+js-kind-hint-how-often-a-new-message = 新しいメッセージを発行する頻度
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:685
+js-kind-hint-how-wide-the-first-jammer = 最初のジャマーが電力を広げる幅
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:716
+js-kind-hint-ionosphere-along-the-path-in = 経路に沿った電離圏（全電子数の単位）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:707
+js-kind-hint-last-value-of-the-swept = スイープするパラメーターの最後の値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:745
+js-kind-hint-length-of-each-filter-run = 各フィルター実行の長さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:742
+js-kind-hint-length-of-the-run = 実行の長さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:686
+js-kind-hint-length-of-the-timeline = タイムラインの長さ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:750
+js-kind-hint-occupied-bandwidth-of-the-first = 最初の基準信号の占有帯域幅
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:740
+js-kind-hint-one-sigma-doppler-measurement-error = ドップラー測定誤差（一シグマ）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:694
+js-kind-hint-one-sigma-error-of-a = 中継局までの距離の誤差（一シグマ）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:695
+js-kind-hint-one-sigma-error-of-the = 地球からの往復距離の誤差（一シグマ）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:690
+js-kind-hint-orbital-planes-of-the-navigation = 航法中継局の軌道面
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:683
+js-kind-hint-power-of-the-first-jammer = 受信機での最初のジャマーの電力
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:681
+js-kind-hint-raises-the-noise-floor-under = すべての帯域の下の雑音フロアを引き上げる
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:691
+js-kind-hint-satellites-in-each-plane = 各軌道面の衛星数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:718
+js-kind-hint-sets-the-doppler-range-a = コールドサーチが網羅すべきドップラー範囲を決める
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:737
+js-kind-hint-signal-in-space-range-error = 最初のシステムのシグナルインスペース距離誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:738
+js-kind-hint-signal-in-space-range-error-2 = 第二のシステムのシグナルインスペース距離誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:714
+js-kind-hint-signal-level-the-tracking-figures = 追跡の数値を示す際の信号レベル
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:700
+js-kind-hint-spacing-of-the-latitude-and = 緯度・経度グリッドの間隔
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:710
+js-kind-hint-spacing-of-the-shared-mission = 共通のミッション時間グリッドの間隔
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:756
+js-kind-hint-the-part-of-the-range = メッセージでは除去できない距離誤差の部分
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:709
+js-kind-hint-the-value-every-member-runs = すべてのメンバーが実行時に用いる値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:730
+js-kind-hint-tilt-of-that-orbit = その軌道の傾き
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:702
+js-kind-hint-tilt-of-the-first-shell = 最初のシェルの軌道面の傾き
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:693
+js-kind-hint-tilt-of-the-relay-planes = 中継局の軌道面の傾き
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:752
+js-kind-hint-timing-error-between-satellites-as = 衛星間のタイミング誤差（距離に換算）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:725
+js-kind-hint-when-the-spoofer-captures-the = スプーファーが受信機を捕捉する時刻
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:736
+js-kind-hint-where-the-receiver-stands = 受信機の位置
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:723
+js-kind-hint-where-the-user-stands = ユーザーの位置
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:645
+js-kind-label-3-d-error = 3 次元誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:650
+js-kind-label-3-d-error-time-of = 3 次元誤差、到達時刻
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:414
+js-kind-label-a-corrupted-frame-is-rejected = 破損したフレームは拒否される
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:364
+js-kind-label-all-channels = 全チャネル
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:635
+js-kind-label-availability = 可用性
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:166
+js-kind-label-band = 帯域
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:633
+js-kind-label-bodies = 天体
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:186
+js-kind-label-body = 天体
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:464
+js-kind-label-both = 両方
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:483
+js-kind-label-case = ケース
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:314
+js-kind-label-class = クラス
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:509
+js-kind-label-code-jitter = コードジッター
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:218
+js-kind-label-constellation = 衛星コンステレーション
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:510
+js-kind-label-doppler = ドップラー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:232
+js-kind-label-event = イベント
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:186
+js-kind-label-evidence = エビデンス
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:635
+js-kind-label-fewest-in-view = 可視数の最小
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:420
+js-kind-label-field = フィールド
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:640
+js-kind-label-first-detection-after-onset = 発生後の最初の検出
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:644
+js-kind-label-frame-length = フレーム長
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:440
+js-kind-label-fused = 融合
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:442
+js-kind-label-fused-cap = 融合
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:464
+js-kind-label-gnss = GNSS
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:463
+js-kind-label-gnss-and-leo = GNSS と LEO
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:364
+js-kind-label-gnss-channels = GNSS チャネル
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:340
+js-kind-label-gnss-highest-in-sky = GNSS { $id }（空で最も高い位置）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:440
+js-kind-label-gnss-only = GNSS のみ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:442
+js-kind-label-gnss-only-cap = GNSS のみ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:311
+js-kind-label-gnss-signal = GNSS 信号
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:443
+js-kind-label-hdop = HDOP
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:638
+js-kind-label-highest = 最高
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:448
+js-kind-label-horizontal-error = 水平誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:646
+js-kind-label-horizontal-error-2 = 水平誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:168
+js-kind-label-jammer = ジャマー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:643
+js-kind-label-jump-threshold = ジャンプのしきい値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:643
+js-kind-label-largest-range-jump = 最大の距離ジャンプ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:405
+js-kind-label-largest-range-jump-against-the = しきい値に対する最大の距離ジャンプ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:464
+js-kind-label-leo = LEO
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:364
+js-kind-label-leo-channels = LEO チャネル
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:440
+js-kind-label-leo-only = LEO のみ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:186
+js-kind-label-light-time-from-observer = { $observer } からの光行時間
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:186
+js-kind-label-light-time-from-the-observer = 観測者からの光行時間
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:633
+js-kind-label-light-time-one-way = 光行時間（片道）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:638
+js-kind-label-lowest = 最低
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:632
+js-kind-label-lowest-c-n0 = 最低 C/N0
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:637
+js-kind-label-mean = 平均
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:635
+js-kind-label-mean-in-view = 可視数の平均
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:649
+js-kind-label-median-convergence = 収束の中央値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:635
+js-kind-label-median-pdop = PDOP の中央値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:636
+js-kind-label-member-runs = メンバーの実行
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:406
+js-kind-label-message-switch-iod = メッセージ切り替え、データ版数 { $old } から { $new }
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:636
+js-kind-label-mission-length = ミッション期間
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:169
+js-kind-label-model = モデル
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:636
+js-kind-label-monte-carlo-runs = モンテカルロ実行回数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:631
+js-kind-label-noise-floor = 雑音フロア
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:300
+js-kind-label-parameters = パラメーター
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:644
+js-kind-label-payload = ペイロード
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:443
+js-kind-label-pdop = PDOP
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:635
+js-kind-label-pdop-95th-percentile = PDOP、95 パーセンタイル
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:640
+js-kind-label-peak-elevation = 最大仰角
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:651
+js-kind-label-peak-tracked-c-n0 = 追跡した C/N0 の最大値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:231
+js-kind-label-phase = フェーズ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:448
+js-kind-label-predicted-horizontal-sigma = 予測水平シグマ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:644
+js-kind-label-quantisation-position = 量子化、位置
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:406
+js-kind-label-range-error = 距離誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:201
+js-kind-label-relays-above-the-mask = マスク上の中継局
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:198
+js-kind-label-relays-and-earth-link = 中継局と地球リンク
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:198
+js-kind-label-relays-only = 中継局のみ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:351
+js-kind-label-satellite = 衛星
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:635
+js-kind-label-satellites = 衛星
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:646
+js-kind-label-satellites-used = 使用した衛星
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:300
+js-kind-label-signal = 信号
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:291
+js-kind-label-signal-chip-spacing = { $name }（{ $spacing } のチップ間隔）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:644
+js-kind-label-sisre-after-quantisation = 量子化後の SISRE
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:641
+js-kind-label-sisre-root-mean-square = SISRE、二乗平均平方根
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:365
+js-kind-label-spoofing-starts = スプーフィング開始
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:637
+js-kind-label-standard-deviation = 標準偏差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:186
+js-kind-label-sun-separation = 太陽との離角
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:636
+js-kind-label-sweep-runs = スイープの実行回数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:467
+js-kind-label-system = システム
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:640
+js-kind-label-time-above-the-mask = マスク上にある時間
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:647
+js-kind-label-time-error-root-mean-square = 時刻誤差、二乗平均平方根
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:508
+js-kind-label-tracked-component = 追跡した成分
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:631
+js-kind-label-tracking-threshold = 追跡しきい値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:639
+js-kind-label-transmit-bandwidth = 送信帯域幅
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:443
+js-kind-label-vdop = VDOP
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:169
+js-kind-label-welch-estimate-of-the-synthesised = 合成サンプルの Welch 推定
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:508
+js-kind-label-whole-signal = 信号全体
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:639
+js-kind-label-wideband-j-s-tolerated = 許容される広帯域 J/S
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:90
+js-kind-label-with-unit = { $label } ({ $unit })
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:635
+js-kind-label-worst-site-availability = 最悪地点の可用性
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:75
+js-kind-no = なし
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:199
+js-kind-note-a-gap-is-an-epoch = 途切れは、中継局の可視数が測位に足りないエポックです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:533
+js-kind-note-a-helmert-transform-is-the = ヘルマート変換は、2 つの座標系の間にある、7 パラメーターの移動、回転、スケールです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:345
+js-kind-note-a-low-earth-orbit-leo = 低軌道（LEO）衛星は数分で空を横切るため、その C/N0（搬送波雑音密度比）は釣鐘状に上下します。GNSS 衛星は、同じ時間ではほとんど動きません。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:422
+js-kind-note-a-receiver-independent-exchange-format = Receiver Independent Exchange Format（RINEX）4 形式の記録です。LEO の記録タイプは、ヘッダーに記載のとおり { -brand } の拡張です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:450
+js-kind-note-a-single-pass-fixes-the = 1 回のパスで決まるのは、クロストラック方向よりもアロングトラック方向のほうがはるかに良好です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:352
+js-kind-note-aos-is-acquisition-of-signal = AOS は信号捕捉、TCA は最接近時刻、LOS は信号消失です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:165
+js-kind-note-c-n0-is-the-carrier = C/N0 は搬送波雑音密度比です。受信機の追跡しきい値を下回る帯域は、ロックを失っています。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:306
+js-kind-note-cells-are-the-code-and = セルは、コールドサーチが試すべきコードとドップラーのビンです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:359
+js-kind-note-cold-is-a-first-fix = コールドは事前知識のない最初の測位、ホットは直前の測位の直後の測位です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:216
+js-kind-note-dilution-of-precision-dop-scales = DOP（精度低下率）は距離誤差を位置誤差に変換します。G は幾何、P は位置、H は水平、V は垂直です。パーセンタイルは、すべてのグリッド点とエポックにわたるものです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:458
+js-kind-note-drawn-at-the-strongest-signal = 実行中で最も強い信号レベルで描画しています。途切れは、可視の衛星がない区間です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:187
+js-kind-note-each-body-carries-its-own = 各天体は、それぞれ独自のエビデンスラベルを持ちます。光行時間は片道で、シナリオで指定した観測者からのものです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:256
+js-kind-note-each-row-is-one-full = 各行は、スイープしたシナリオに対するエンジンの完全な実行 1 回分です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:407
+js-kind-note-each-rule-is-a-switch = 各ルールは、パスの途中でより新しいメッセージに切り替えるものです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:299
+js-kind-note-each-signal-is-drawn-about = 各信号は、それぞれの中心周波数を基準に描画しています。途切れはスペクトルのヌルです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:168
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP は等価等方放射電力です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:236
+js-kind-note-every-phase-is-an-ordinary = すべてのフェーズは通常のシナリオ実行です。ハッシュは、各メンバーの入力とその結果ドキュメントを識別します。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:408
+js-kind-note-iod-is-the-issue-of = IOD はデータ版数、すなわちメッセージの通し番号です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:167
+js-kind-note-j-s-is-the-jammer = J/S はジャマー対信号の電力比です。追跡率は、実行のうち帯域がしきい値を上回っていた時間の割合です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:264
+js-kind-note-p05-p50-and-p95-are = p05、p50、p95 は、5、50、95 パーセンタイルです。ci95 は、平均の 95% 信頼区間です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:301
+js-kind-note-parameters-are-public-with-a = パラメーターは、各プリセットに記載のとおり、PUBLIC（出典付き）、REPRESENTATIVE、または WORKSHOP です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:484
+js-kind-note-precise-point-positioning-ppp-converges = 精密単独測位（PPP）は、誤差が基準を下回り続けた時点で収束したとみなします。NEES は正規化推定誤差の二乗で、フィルターの整合性の確認に使います。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:383
+js-kind-note-sisre-defined = SISRE はシグナルインスペース距離誤差で、放送メッセージがユーザーの距離に加える誤差です。ここでは、エンジン自身の真値軌道に対するメッセージの表現誤差を指します。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:468
+js-kind-note-sisre-is-the-signal-in = SISRE は、各システムの放送軌道とクロックについて想定したシグナルインスペース距離誤差です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:312
+js-kind-note-ssc-is-the-spectral-separation = SSC はスペクトル分離係数で、一方の信号の電力のうち、もう一方の受信機の帯域内に入る量です。ダッシュは、両者が重ならないことを意味します。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:507
+js-kind-note-the-chain-runs-the-signal = チェーンは、信号、パス、航法メッセージ、測位、精密測位の各段階を順に実行します。各行は、ある段階が計算した数値を次の段階が使うものです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:366
+js-kind-note-the-doppler-and-pass-geometry = ドップラーとパスジオメトリのモニターは、測定した距離変化率を、軌道から予測した値と比較します。このルールは、スプーファーの開始時点を示します。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:171
+js-kind-note-the-engine-draws-its-spectrum = エンジンは、スペクトルモデルをある瞬間の同相・直交（IQ）サンプルとして生成し、そこからスペクトルを推定し直します。同じサンプルが SigMF（Signal Metadata Format）エクスポートです。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:417
+js-kind-note-the-engine-s-own-documented = エンジン独自の文書化されたバイナリフレームで、24 ビットの巡回冗長検査（CRC-24Q）で閉じられています。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:303
+js-kind-note-the-gabor-root-mean-square = Gabor（二乗平均平方根）帯域幅は、信号でどれだけ鋭く測距できるかを決めます。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:308
+js-kind-note-the-largest-jammer-to-signal = 連続波（CW）、スペクトル整合、広帯域の各ジャマーに対して、各信号が追跡を維持できる最大のジャマー対信号比（J/S）です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:189
+js-kind-note-the-shapiro-delay-is-the = シャピロ遅延は、経路に沿った太陽の重力による追加の光行時間です。
