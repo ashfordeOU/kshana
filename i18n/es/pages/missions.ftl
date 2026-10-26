@@ -154,3 +154,48 @@ seg-9d3ee6a5613e = Ejecuciones
 
 # text
 seg-94de9433d99f = Archivos de escenario
+
+# text
+seg-99a7944884ce = Sector
+
+# text
+seg-b37002818547 = Defensa y seguridad
+
+# text
+seg-5d7a6650872e = Aviación y drones
+
+# text
+seg-75d7d1930515 = Carretera
+
+# text
+seg-ea4149746f7b = Ferrocarril
+
+# text
+seg-e7a61033ec40 = Infraestructuras críticas y temporización
+
+# text
+seg-f246644479d0 = Ciencia e investigación
+
+# text
+seg-f2f6717849a7 = Espacio: órbita terrestre
+
+# text
+seg-d038a1e09683 = ¿Ve mi nave espacial suficientes satélites de navegación, cuánto tiempo mantiene la hora su reloj entre soluciones de posición y qué aportaría una capa de navegación en órbita baja?
+
+# text
+seg-6010770a2bf6 = Luna y espacio profundo
+
+# text
+seg-33641ef6761c = Carretera y automoción
+
+# text
+seg-94cca6b24bb2 = ¿Cuántos segundos después de entrar en un túnel puede un tren seguir sabiendo en qué vía está?
+
+# text
+seg-2d2a4afa2708 = Telecomunicaciones y 5G
+
+# text
+seg-af94e7a93923 = Si se pierde la referencia de tiempo GNSS, ¿se mantiene el reloj de mi red dentro de las máscaras de la ITU-T y durante cuánto tiempo?
+
+# text
+seg-36d838421b86 = ¿Puedo reproducir, ampliar y citar un resultado PNT, hasta la semilla?

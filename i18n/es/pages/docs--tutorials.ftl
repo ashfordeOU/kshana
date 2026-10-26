@@ -35,3 +35,12 @@ seg-b03d56f501c3 = Tipo
 
 # text
 seg-ec26df467b88 = PNT con fusión de sensores mediante un filtro de Kalman conjunto sobre las mismas entradas híbridas.
+
+# text
+seg-4f19d4fb1341 = Barrido genérico N-D sobre cualquier paquete mediante claves TOML con puntos o rutas de métricas JSON.
+
+# text
+seg-e7ab7b55c969 = Barrido 1-D de estudio de compromisos sobre un parámetro del paquete de relojes.
+
+# text
+seg-e43910de5fd8 = Cuadernos

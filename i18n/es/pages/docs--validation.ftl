@@ -65,3 +65,15 @@ seg-638b8d451550 = Sensor
 
 # text
 seg-b03d56f501c3 = Tipo
+
+# text
+seg-35bf9a48e566 = Término
+
+# text
+seg-f3526b0d95f8 = Medido
+
+# text
+seg-7634c6f4b32c = Enlace
+
+# text
+seg-b966dd26caa6 = Conjunto de datos

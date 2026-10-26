@@ -17,3 +17,52 @@ seg-a8beb8dfc757 = El presupuesto de errores de transferencia de tiempo es MODEL
 
 # text
 seg-37a77f49f048 = ps
+
+# text
+# c1: docs/kinds/by-kind/timetransfer.md
+seg-2ccebbc74d9f = Fuente: <c1/>
+
+# text
+# c1: timetransfer
+seg-289a9f8dc990 = <c1/> (tipo de escenario)
+
+# text
+seg-ccb244e60d60 = Transferencia bidireccional de tiempo y frecuencia óptica frente a RF.
+
+# text
+# c1: scenarios/timetransfer.toml
+seg-59347fda6c66 = Una ejecución de <c1/> se resume así: escenario 8f9c2e0e31a5 | óptico sync_rms 0.98ps range_rms 0.293mm adev(1s) { "1.73e-12" } | RF sync_rms 1137.3ps range_rms 341.0mm adev(1s) { "8.65e-10" }
+
+# text
+# c1: seed
+# c2: samples
+# c3: step_s
+# c4: range_spec_mm
+# c5: link_quantum
+# c6: link_classical
+seg-890040dd3d96 = Campos obligatorios: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+# text
+# c1: scenarios/timetransfer.toml
+seg-7b887ea27a86 = El ejemplo <c1/> establece, entre otros:
+
+# text
+seg-2485eaa6dbf4 = Transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT, banda Ku
+
+# text
+seg-fa54f1a81b57 = Enlace óptico entre satélites, sincronización a nivel de picosegundos
+
+# text
+seg-a30fe2b87ee2 = mm
+
+# attr:alt
+seg-bd76bd68eab3 = El gráfico que el motor genera para scenarios/timetransfer.toml, tipo de escenario timetransfer
+
+# text
+seg-3c9d28692f9f = <b>MODELLED</b> Bidireccional/TWSTFT (Sagnac), vista común de GNSS, PPP; fluctuación del enlace→distancia Pruebas: <a1>time_transfer_error_budgeting_reference.rs</a1>.
+
+# text
+seg-84fcf20588fb = <s1>Anterior</s1>time-transfer-budget
+
+# text
+seg-149ad280a1f9 = <s1>Siguiente</s1>tracking-loop

@@ -8,3 +8,45 @@ seg-a07990e776cb = Campaña: tipos de escenario existentes compuestos en una sol
 
 # attr:alt
 seg-b2c7cd1f9712 = El gráfico que escribe el motor para scenarios/campaign-sweep-jammer-power.toml, tipo de escenario campaign
+
+# text
+# c1: docs/kinds/campaigns.md
+seg-ea93f81fa08b = Fuente: <c1/>
+
+# text
+seg-7f8e8af56bc0 = Campañas (familia de tipos de escenario)
+
+# text
+seg-c8012ee549ea = { "1" } tipo de escenario del motor v{ $version }. De carácter consultivo: salida de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana. Todas las etiquetas de aquí son las del motor o las de la matriz de verificación; un tipo es MODELLED salvo que la matriz diga otra cosa (cómo se gana una etiqueta: la sección Evidence del README).
+
+# text
+# c1: kshana scenarios/campaign-jam-spoof-holdover-integrity.toml
+seg-09ed7c4e175c = Páginas temáticas: <a1>CAMPAIGNS</a1>. Ejecute una: <c1/>. Todas las familias: <a2>KINDS.md</a2>.
+
+# attr:alt
+seg-b49ec180e810 = Hoja de contactos de los gráficos que el motor genera para los tipos de escenario de la familia Campañas
+
+# text
+seg-4e31c8daf798 = Registro
+
+# text
+seg-b2016159c9d0 = Campaña: tipos de escenario existentes compuestos en una sola ejecución, con cada número leído de una ejecución real del tipo indicado.
+
+# text
+# c1: title
+# c2: seed
+# c3: timeline
+# c4: phases
+# c5: sweep
+# c6: monte_carlo
+# c7: compose
+seg-25148644a262 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>.
+
+# text
+seg-e0334a6899b6 = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>campaign</a1>.
+
+# text
+seg-906f63ffbc30 = <s1>Anterior</s1>Código de conducta
+
+# text
+seg-cdf23ced49bd = <s1>Siguiente</s1>Relojes, temporización y holdover

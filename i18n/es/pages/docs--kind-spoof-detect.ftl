@@ -33,3 +33,49 @@ seg-304496607bd7 = Tipo de escenario del motor v{ $version }, familia <a1>Jammin
 
 # text
 seg-5d23d7f8f872 = Página de familia: <a1>Jamming, spoofing y el espectro</a1>
+
+# text
+seg-7707c45d1d30 = dBm
+
+# text
+# c1: docs/kinds/by-kind/spoof-detect.md
+seg-f92f902bd8f4 = Fuente: <c1/>
+
+# text
+# c1: spoof-detect
+seg-1fd6a1cc7ca0 = <c1/> (tipo de escenario)
+
+# text
+seg-f43fe94d84e0 = Detector combinado de spoofing por RF y por medidas (consistencia RAIM multi-SV + AGC + SQM, fusionados) frente a un ataque parametrizado (ventaja de potencia, alineación de fase de portadora, empuje de tiempo o de posición; al estilo TEXBAT).
+
+# text
+# c1: scenarios/spoof-detect.toml
+seg-9a8e92a0d5ba = Una ejecución de <c1/> se resume así: escenario e046ee4ca90a | spoof-detect | { "8" } SV, +{ "1.5" } dB | Empuje de posición | puntuación fusionada { "0.70" } (umbral { "0.50" }) | SPOOF DETECTED (fusionada) — capas: RAIM+SQM
+
+# text
+# c1: attack
+seg-9e54f6406cef = Campos obligatorios: <c1/>
+
+# text
+# c1: satellites
+# c2: detector
+seg-cd7217fd359f = Campos opcionales: <c1/>, <c2/>
+
+# text
+# c1: scenarios/spoof-detect.toml
+seg-6776ea465261 = El ejemplo <c1/> establece, entre otros:
+
+# text
+seg-0e3bc92db34e = position
+
+# attr:alt
+seg-268ebf4cba99 = El gráfico que el motor genera para scenarios/spoof-detect.toml, tipo de escenario spoof-detect
+
+# text
+seg-03d8dc3de7ca = <b>MODELLED</b> χ² asistido por reloj, RAIM, AGC y SQM fusionados en una cifra de mérito de seguridad por época Pruebas: <a1>spoof_texbat_validation.rs</a1>.
+
+# text
+seg-24e4aebb09eb = <s1>Anterior</s1>spectrum
+
+# text
+seg-40e934a7d78f = <s1>Siguiente</s1>spoof

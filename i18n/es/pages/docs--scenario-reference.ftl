@@ -479,3 +479,261 @@ seg-25455a33523c = Datum de marco lunar de Helmert de siete parámetros obtenido
 
 # text
 seg-f7ea776e70c9 = Cobertura modelada de estaciones de referencia lunares: un barrido de Monte Carlo del modelo de PNT diferencial lunar sobre una cuadrícula de usuarios del polo sur y un día de épocas. Una estación de referencia diferencial en un emplazamiento conocido del polo sur corrige una constelación declarada (kepleriana ilustrativa o unas efemérides tabuladas) con un error declarado de señal en el espacio, un error de topografía, una latencia de corrección y una cuantización del enlace; por punto y sobre la región informa del percentil del error de posición corregido y sin corregir (3D, horizontal, vertical), la disponibilidad, la cobertura frente a un umbral declarado, los niveles de protección DO-229E, el radio de cobertura por acimut y el presupuesto del enlace de corrección en la estación y en el peor punto. No es una afirmación sobre el rendimiento de ningún sistema real; sin afiliación ni respaldo de ninguna agencia. MODELLED.
+
+# text
+seg-cac3a0bcbfc6 = Presupuesto de error de tiempo MODELLED de extremo a extremo del Tiempo Lunar Coordinado (LTC): los siete términos de error del LTC reunidos como curvas de error de tiempo x_i(τ) sobre toda una cuadrícula de tiempos de promediado, sumados en raíz cuadrática en x_Σ(τ), y el τ de CRUCE reloj-marco en el que el término creciente del reloj supera al término constante de realización del marco en tiempo real (por debajo de él el presupuesto está limitado por el marco, por encima, por el reloj): la respuesta honesta al artefacto de un único τ. Las pendientes en τ son de forma cerrada y comprobables analíticamente (reloj τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, suelos τ^{ "0" }, medida τ^{ "{" }-1/2{ "}" }) y las filas de reloj reproducen las especificaciones publicadas de reloj a un día (crate::clock_specs); las MAGNITUDES de los suelos del enlace de RF u óptico, de la realización del marco, del residuo relativista y de las efemérides son asignaciones de presupuesto modeladas (valores por defecto documentados, sustituibles por quien llama), no mediciones. La aportación es el τ de cruce reproducible, no una cifra por término certificada; no certificado para la medición del tiempo operativa.
+
+# text
+seg-7f3e13712f10 = Tasa relativista modelada del reloj Tierra-Luna (Tiempo Coordenado Lunar, LTC/TCL): la tasa secular LTC−TT a partir de la diferencia de potencial propio y del término cinético de la Luna, indicada con la banda publicada de { "56" }–{ "59" } µs/día, más el desfase acumulado a lo largo de un horizonte.
+
+# text
+seg-e01f77d493a0 = Observable modelada del retardo de VLBI geodésico lunar: una línea base terrestre (dos estaciones en tierra, GCRS) observa una señal unidireccional de una baliza de superficie lunar de clase NovaMoon. Emite el retardo de campo cercano como diferencia de dos distancias, su tasa y la corrección de campo cercano por curvatura del frente de onda a lo largo de un pase, contrastada con la observable Δ-DOR de onda plana del mismo código en el límite de campo lejano, con derivadas parciales verificadas por diferencias finitas. La vía analítica por defecto es MODELLED y lleva las salvedades de coherencia de marcos, de movimiento polar xp=yp={ "0" } y de onda plana frente a campo cercano. Si se establecen planetary_kernel_path, earth_orientation_kernel_path y moon_orientation_kernel_path, se ejecuta en su lugar la vía de núcleos (DE440, MOON_PA_DE440, ITRF93; tiempos de luz baricéntricos convergidos; añade las derivadas parciales de la baliza y de la estación de la época), cuyo retardo newtoniano y cuyas derivadas parciales coinciden con los tiempos de luz convergidos de NAIF SPICE hasta { "0.06" } ps y { "7.4e-9" }. No validado con datos reales de VLBI.
+
+# text
+seg-3f749aef8d89 = PNT de espacio profundo en Marte: una constelación simulada de relés MARCONI (relés areoestacionarios e inclinados que emiten en un sentido y retransmiten en ambos sentidos a una estación de espacio profundo) navega a un usuario de referencia (transfer | lmo | surface) mediante el estimador de fusión radiométrica conjunta unidireccional y bidireccional. Indica la geometría y la visibilidad por época, el RMS alcanzado frente a la verdad, y la covarianza formal (posición 1σ / 3σ): una cifra de mérito simulada honesta, NO un nivel de protección certificado.
+
+# text
+seg-28c6a5644152 = Análisis modelado del volumen de servicio de navegación lunar a partir de una constelación en órbita lunar ILUSTRATIVA, de fuentes públicas, de clase Moonlight/LCNS (sin afiliación con la ESA): barre una cuadrícula selenográfica de latitud y longitud a lo largo de un horizonte temporal e indica DOP, cobertura y disponibilidad (≥{ "4" } satélites Y PDOP < umbral), además de una envolvente generalizada de nivel de protección (HPL/VPL) de ARAIM lunar sobre el volumen. La geometría de DOP REUTILIZA el núcleo VALIDATED con gnss_lib_py (crate::orbit::dop); el nivel de protección REUTILIZA la maquinaria de ARAIM lunar LNIS de LunaNet (crate::lunar, σ_URE≈{ "30" } m) y se reduce al nivel de protección del polo sur existente como caso particular. Composición MODELLED: un conjunto de relés kepleriano circular o elíptico (no las efemérides reales LCNS/NRHO corregidas diferencialmente), una Luna de rotación media (sin libración ni polo con precesión). Determinista (geometría pura). Sin TRL, herencia de vuelo ni respaldo de agencia alguna.
+
+# text
+seg-4f0edb786a35 = Posicionamiento a partir de un enlace descendente de una red no terrestre (NTN) 5G en la banda S del servicio móvil por satélite (MSS) (banda n256 de 3GPP, enlace descendente de { "2170" } a { "2200" } MHz; portadora por defecto { "2172.5" } MHz): la cota de Cramér-Rao (CRB) del tiempo de llegada, c / ({ "2" } pi beta sqrt({ "2" } (C/N0) T)) con beta el ancho de banda cuadrático medio (de Gabor) del espectro OFDM plano (B/sqrt({ "12" })), y del Doppler de un tono complejo, sqrt({ "3" } / ({ "2" } pi^{ "2" } (C/N0) T^{ "3" })), para cada señal (por defecto un canal New Radio de { "5" } MHz con { "4.5" } MHz ocupados y un canal de banda estrecha de { "200" } kHz con { "180" } kHz ocupados); a continuación, sobre cualquier constelación LEO, fijaciones por tiempo de llegada del enlace descendente con un reloj de receptor desconocido (con semilla, con la cota más un error de sincronización de la red como sigma), su PDOP y su sigma 3D formal, y una fijación Doppler de un solo satélite sobre el pase más largo con la altura fija. MODELLED: el paso del ancho de banda a la cota es la forma cerrada de los libros de texto, comprobada frente a la integración numérica de los espectros BPSK plano y de banda limitada (autoconsistencia interna, sin ninguna cifra publicada de referencia fijada), y la precisión de posicionamiento es una cota sobre un canal sin multitrayecto con un error de sincronización indicado, no un resultado alcanzado.
+
+# text
+seg-dbffff25b57f = Puente de interoperabilidad CCSDS OEM: importa un Orbit Ephemeris Message producido por una herramienta externa de dinámica de vuelo (GMAT/Orekit/STK emiten todas OEM) e indica sus segmentos, objetos, marcos y rango de épocas, más una comprobación de coherencia de velocidad; sin entrada, hace un recorrido de ida y vuelta de una órbita de referencia generada e indica la fidelidad entre importación y exportación. Comprobación de ingesta estructural y física MODELLED, NO una validación de la precisión orbital de la fuente.
+
+# text
+seg-a878d9be65b7 = PNT óptico MODELLED a través de la atmósfera: para un enlace óptico y un conjunto de emplazamientos terrestres con climas nubosos indicados, indica la pérdida de aire despejado dependiente de la longitud de onda y de la elevación (ley de visibilidad de Kim más Rayleigh), el estado de turbulencia de Hufnagel-Valley (varianza de Rytov, índice de centelleo, parámetros gamma-gamma, promediado de apertura), la disponibilidad condicionada por el tiempo meteorológico frente al margen del enlace (profundidad óptica de las nubes a partir de un clima de agua líquida lognormal, extinción de óptica geométrica, desvanecimiento por turbulencia independiente), el margen de enlace necesario para las disponibilidades objetivo, la distribución de la duración de las interrupciones, el crecimiento del error de temporización y de distancia por interrupción mediante el modelo de holdover del reloj, la disponibilidad por diversidad de emplazamientos correlacionada con la distancia, y las ganancias hipotéticas de las técnicas de mejora (longitud de onda, apertura de recepción, reducción del centelleo mediante óptica adaptativa, margen adicional). VALIDATED como implementación de las fórmulas indicadas frente a una referencia independiente de mpmath: varianza de Rytov, índice de centelleo, probabilidad de desvanecimiento gamma-gamma, factor de promediado de apertura, profundidad óptica de nubes y de aire despejado. MODELLED: todas las entradas de tiempo meteorológico, de técnica y de reloj y los supuestos de independencia y de cópula; no se ha comparado ningún registro medido de disponibilidad. Análisis de carácter consultivo, no un producto certificado de disponibilidad ni de navegación.
+
+# text
+seg-cb4262b66b8f = Disponibilidad de GNSS y DOP a partir de una constelación orbital (Walker / TLE / RINEX).
+
+# text
+seg-a4bdfc291fce = Predicción de pases sobre una estación terrestre: los pases de visibilidad en el dominio del tiempo (AOS/TCA/LOS, elevación aparente máxima, duración) de una órbita circular, como elementos medios SGP4 al inicio de la ventana, sobre una estación por encima de una máscara de elevación a lo largo de una ventana, con el tiempo total de acceso. Propagación SGP4/SDP4 en el marco fijo a la Tierra IAU 2006/2000A (UT1 - UTC y movimiento polar opcionales), refracción troposférica ITU-R P.834-9 y tiempo de luz del enlace descendente (ambos activados por defecto), cruces resueltos hasta { "1e-7" } s y la culminación mediante búsqueda por sección áurea. La geometría de los pases está VALIDATED frente a Orekit { "13.1.8" } en estaciones a nivel del mar; la órbita y la estación del escenario son entradas ilustrativas.
+
+# text
+seg-b7b67e03f125 = Posicionamiento de punto único con observaciones reales: resuelve la posición de un receptor a partir de un archivo de observación RINEX { "3" } y un archivo de navegación de difusión (pseudodistancias de código, efemérides de difusión, ionosfera de Klobuchar, troposfera de Saastamoinen/Niell), validado opcionalmente frente a una coordenada topografiada.
+
+# text
+seg-04310cd6cbec = Detección de fallos y anomalías MODELLED para sistemas de PNT cuántico: un catálogo etiquetado de fallos (salto de frecuencia, deriva y pérdida de enganche del reloj; escalón de sesgo y pérdida de señal del sensor), un AUC de la ROC del estadístico de detección (con un IC bootstrap de eval_stats, validado externamente) y un fallo mínimo detectable con una tasa fija de falsas alarmas, con el monitor asistido por reloj cuántico (menor ruido) detectando fallos más pequeños, como TradeEvidence honesta + representatividad. Modelo gaussiano del estadístico de detección (AUC = Phi(mu/(sigma*sqrt2))); modela la clase, con parámetros ilustrativos de fuentes públicas, sin TRL, vuelo ni certificación.
+
+# text
+seg-790fbfdd80f0 = Navegación cuántica sin GNSS MODELLED: durante una interrupción de GNSS, un presupuesto inercial cuántico (interferómetro de átomos fríos) frente a un INS clásico de grado de navegación: crecimiento del error de posición durante la deriva, holdover hasta un umbral de posición, y la comparación cuántico-frente-a-clásico como TradeEvidence honesta con representatividad. Nota honesta de observabilidad: sin una fijación externa, el sesgo del acelerómetro no es observable, por lo que el error crece; el sensor cuántico reduce esa brecha pero no la cierra. Parámetros de dispositivo ilustrativos de fuentes públicas; modela la clase, sin TRL, vuelo ni certificación.
+
+# text
+seg-540545e6f846 = Cadena de temporización cuántica de confianza MODELLED: un presupuesto de transferencia de tiempo de extremo a extremo cuántico (reloj de red óptica + enlace de entrelazamiento o de fotón único) frente a clásico (CSAC + bidireccional por RF), un nivel de protección de temporización reutilizado + una cifra de mérito de seguridad frente a ataques de retardo o repetición (1-P_md), una probabilidad de detección de anomalías del reloj + latencia de CUSUM, y la comparación cuántico-frente-a-clásico como TradeEvidence honesta con un registro de representatividad y de brechas hasta el vuelo. Parámetros ilustrativos de dispositivo y enlace de fuentes públicas; modela la clase, sin TRL, vuelo ni certificación reclamados.
+
+# text
+# c1: candidate_adev_taus
+# c2: candidate_adev_values
+# c3: candidate_clock_class
+seg-eb55d253dd11 = Comparación de PNT cuántico frente a clásico ({ "13503" }): beneficio en holdover de temporización y en holdover inercial de un reloj candidato (una curva de ADEV medida, el eje de la defendibilidad, o una clase de reloj cuántico) frente a una clase de línea base clásica, con la salvedad del supuesto de suelo de tau largo incluida en el artefacto, más una envolvente de resiliencia frente al tiempo sin GNSS. MODELLED; cuantifica (nunca valida) un dispositivo de socio. El reloj candidato es una curva medida (<c1/> + <c2/>, de igual longitud, con al menos { "2" } puntos; prevalece cuando se dan ambas formas) o una <c3/>.
+
+# text
+seg-edfcb546d9de = Presupuesto de predicción del marco lunar y de la orientación terrestre en tiempo real: Tabla { "1" } de P4 (la comprobación de consistencia del error de marco: posprocesado ~{ "0.27" } m ↔ ~{ "0.010" } ms y tiempo real ~{ "15" } m ↔ ~{ "0.5" } ms, cada posición de marco expresada como su error de UT1 equivalente mediante el brazo de palanca L19 Δr = D_EM·ω⊕·ΔUT1) y Tabla { "2" } (error medido de predicción de UT1 frente al horizonte: la curva L18 leída directamente de la serie real finals2000A del IERS: el suelo final de Bulletin A − Bulletin B y el error del predictor de persistencia a varios días, cada uno proyectado a una posición del marco lunar mediante L19), más el presupuesto de error de marco en tiempo real L21 por suma en raíz cuadrática (EOP + efemérides + suelo de realización). Forma cerrada VALIDATED (el brazo de palanca L19, con ω⊕ contrastada con el ángulo de rotación terrestre del CIO) y datos reales VALIDATED (la curva L18 a partir de las filas reales de finals2000A); MODELLED son las magnitudes de covarianza de la determinación de órbita del relé lunar y el suelo de realización del marco (asignaciones representativas) y el predictor de persistencia (no el algoritmo operativo de Bulletin A del IERS). No es un producto certificado de marco en tiempo real.
+
+# text
+seg-039f77066d97 = Corredor de reentrada balística de Allen-Eggers: desaceleración máxima (independiente del coeficiente balístico, V_e^{ "2" } sin|γ|/(2eH)), la velocidad y la altitud en el máximo de g, y la velocidad de calentamiento máximo, para una velocidad de entrada, un ángulo de trayectoria y un coeficiente balístico a través de una atmósfera exponencial, más una integración plana de masa puntual de la misma entrada balística con gravedad, curvatura terrestre y la Atmósfera Estándar de EE. UU. de { "1976" } (desaceleración máxima, velocidad, altitud y tiempo en el máximo). Entrada balística (sin sustentación) MODELLED; la salida de calentamiento es la VELOCIDAD de calentamiento máximo, no un flujo de calor (sin modelo aerotérmico ni de TPS).
+
+# text
+seg-1b61962464c5 = Temporización de ranuras: segundos hasta que un reloj libre sale de la guarda de una ranura de enrutamiento o de asignación de tareas indexada en el tiempo (el mayor error de tiempo absoluto que tolera la ranura), la contribución de cada término en ese momento con el dominante nombrado (incertidumbre de la fijación, ruido de fase blanco, ruido de frecuencia blanco, de parpadeo, de paseo aleatorio y de carrera aleatoria, desfase de frecuencia residual, temperatura, envejecimiento), el tiempo restante desde la última fijación y el mayor intervalo de fijación que mantiene al reloj dentro, descontada la latencia de la fijación. El oscilador es un valor por defecto de CLASE (csac, uso, dsac, tcxo, ocxo o rafs: una desviación de Allan citada a un segundo y un suelo de ruido rojo supuesto), un PRESET DE HOJA DE DATOS de temporización de telecomunicaciones o una HOJA DE DATOS en línea (máximos de desviación de Allan ajustados como envolvente, más envejecimiento y un coeficiente de temperatura), o un REGISTRO DE FASE MEDIDO en línea (su desviación de Allan superpuesta ajustada por mínimos cuadrados ponderados en la base de fase blanca y de modulación de frecuencia de IEEE Std { "1139" }, de modo que el suelo de ruido rojo es medido y no supuesto). Una rotura de la guarda más allá del mayor tiempo de promediado que admite la hoja de datos o el registro se marca como extrapolado. Una sección opcional de spoofing añade el nivel de protección de temporización para un receptor en órbita: velocidad y periodo orbitales, cuánto tiempo puede alcanzar al satélite por pase un único spoofer terrestre, el suelo del monitor asistido por reloj y la latencia de detección de CUSUM, la cota condicional, el arrastre que acumula un spoofer con una tasa de rampa máxima indicada antes de que el satélite salga de su alcance o se ejecute una comprobación independiente, y si cada comprobación de contacto con tierra o de enlace cruzado es independiente de ese spoofer. VALIDATED: la inversión de holdover a partir de un registro ajustado, reservada sobre un reloj real de cesio medido frente a un máser de hidrógeno (tests/slot_timing_cs5071a_holdout.rs, condicionada a los datos); sobre un oscilador de cuarzo medido, la predicción reservada es conservadora pero no queda dentro del umbral, de modo que el caso del cuarzo es MODELLED. MODELLED: las fuentes de clase y de hoja de datos, los términos deterministas y la evaluación del spoofing.
+
+# text
+seg-0549bc926a9b = Todo el sistema solar en una época, para PNT (posicionamiento, navegación y temporización) alrededor de cualquier cuerpo. Para el Sol, los ocho planetas, Plutón, la Luna, Fobos, Deimos, Ío, Europa, Ganímedes, Calisto y Titán indica la posición y la velocidad heliocéntricas en el ICRF (Marco de Referencia Celeste Internacional, ecuatorial J2000), la distancia heliocéntrica y la longitud y latitud eclípticas J2000, el parámetro gravitacional, el radio ecuatorial y medio, J2 donde está publicado y su radio de referencia, el periodo de rotación sidéreo, el polo de la IAU y el meridiano origen en la época, una traza orbital muestreada a lo largo de una revolución (heliocéntrica para los planetas, centrada en el cuerpo principal para las lunas), y el tiempo de luz, la distancia unidireccional y bidireccional, el retardo de Shapiro solar y la separación del Sol desde un cuerpo observador (por defecto la Tierra); los enlaces adicionales de origen a destino reciben el mismo tratamiento. Posiciones: los elementos keplerianos de JPL de Standish y Williams (Tabla { "1" } para { "1800" } d. C. a { "2050" } d. C., Tablas 2a/2b para { "3000" } a. C. a { "3000" } d. C.) con el error nominal de cada planeta, la serie lunar de Montenbruck & Gill para la separación Tierra-Luna, los elementos medios de JPL con la tasa de rotación síncrona de la IAU para las lunas de Marte y las galileanas, y el modelo de rotación de la IAU para Titán. Tiempo de luz: la resolución radiométrica de punto fijo, con el transmisor en su posición retardada; newtoniano, con el retardo de Shapiro indicado por separado. VALIDATED frente a JPL Horizons (DE441) dentro del doble del error nominal: de Mercurio a Saturno y la Tierra a partir de la Tabla { "1" } (peor caso { "1.87" } veces el nominal) y los ocho planetas a partir de las Tablas 2a/2b (peor caso { "1.71" } veces), y el tiempo de luz de la Tierra a Marte y a Júpiter. MODELLED, con cada fila etiquetada: Urano y Neptuno a partir de la Tabla { "1" } ({ "2.0" } y { "5.2" } veces el error nominal frente a DE441), Plutón (la fila de { "1992" }; sin error indicado), la Luna y las siete lunas (medidas frente a Horizons, sin cota publicada).
+
+# text
+seg-de2448d74c2b = Entramado del CCSDS 133.0-B Space Packet Protocol: codifica un flujo sintético de paquetes TM/TC (cabecera primaria de 6 octetos + campo de datos) e indica la decodificación de la cabecera por paquete, el total de octetos y un recorrido de ida y vuelta exacto de codificación↔decodificación. Entramado determinista de disposición exacta de bits: la capa de interoperabilidad de formato de paquete de las agencias; NO una certificación de ajuste a la norma (sin lógica de cabecera secundaria, CRC ni segmentación más allá de los indicadores).
+
+# text
+seg-5f25c5b71f0c = Modelo del entorno de clima espacial: índices de actividad solar (F10.7/F10.7a) y geomagnética (Kp, con la tabla definicional Kp↔ap), la temperatura exosférica de Jacchia-1971 que estos determinan (validada frente a los mínimos, medios y máximos solares publicados), y la densidad neutra termosférica de Jacchia-1971 a la temperatura exosférica media diurna frente al perfil estático sin actividad en un conjunto de altitudes: la dependencia de la densidad respecto del ciclo solar que omite la atmósfera estática. MODELLED: la densidad coincide con las densidades derivadas de acelerómetros (TOLEOS CHAMP y GRACE) dentro de un factor { "2" } en el máximo solar, pero es unas 1.7x demasiado densa en el mínimo solar de { "2008" }.
+
+# text
+seg-fef00c827c6a = Modelo de espectro en banda L y cascada: toda la banda L de GNSS como una única densidad espectral de potencia (PSD), con la frecuencia en horizontal y el tiempo hacia abajo, sobre una cronología programada de inhibidores. SEÑALES: GPS L1 C/A y L2C (BPSK({ "1" })), servicio abierto Galileo E1 (MBOC(6,1,1/11) o BOC({ "1,1" })), GPS L5 y Galileo E5a (BPSK({ "10" })), cada una en su portadora con la potencia recibida mínima de la especificación de interfaz (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) salvo que se sustituya; GLONASS, BeiDou y Galileo E6 no se modelan. INHIBIDORES: tono de onda continua, ruido de banda estrecha plano, chirp lineal en diente de sierra y ruido de banda ancha adaptado a la propia modulación de una banda, cada uno con un centro, un ancho de banda, una potencia recibida (directa, o PIRE y distancia mediante la pérdida de trayecto en espacio libre del tipo de escenario de jamming) y tiempos de encendido y apagado. Cada inhibidor se puntúa frente a cada banda por su coeficiente de separación espectral kappa sobre el ancho de banda del receptor, y (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; para un inhibidor, esto equivale a la ecuación antiinterferencia del tipo de escenario de jamming con Q = 1/(R_c kappa), y el informe lleva esa comprobación cruzada (y la cifra de Q representativa del tipo de escenario de jamming a su lado). El suelo de ruido es k T_sys con T_sys = T_ant + { "290" } K (F - { "1" }). La cascada promedia cada celda sobre su intervalo y su fila (los chirps con exactitud, barridos completos más el parcial; los inhibidores que conmutan a mitad de fila, según su ciclo de trabajo), de modo que la cronología de C/N0 y la imagen salen de los mismos números; result.json lleva la cuadrícula promediada por bloques en potencia, C/N0 y J/S por banda y fila, y por inhibidor y banda el SSC, Q, J/S, J/S en banda y C/N0 estacionaria. [iq] opcional: el modelo dibujado como IQ complejo en un instante, escrito y leído de vuelta desde una grabación SigMF (cf32_le o ci16_le) y comparado con una estimación de Welch. [recording] opcional (compilaciones nativas): la PSD de Welch de una grabación SigMF real junto al modelo. VALIDATED: las PSD de las señales frente a los anchos de lóbulo principal de los libros de texto (BPSK(n) 2n x { "1.023" } MHz de nulo a nulo; lóbulos de BOC({ "1,1" }) centrados en +/-1.023 MHz) y los coeficientes de separación espectral frente a sus formas cerradas de Parseval y la Q de Kaplan & Hegarty = { "1" } (CW) y { "1.5" } (adaptada). MODELLED: las potencias de los inhibidores, la cronología, los anchos de banda del frontal, el tratamiento de espectro continuo (sin líneas de código) y la ausencia de AGC, supresión y diagrama de antena.
+
+# text
+seg-f43fe94d84e0 = Detector combinado de spoofing por RF y por medidas (consistencia RAIM multi-SV + AGC + SQM, fusionados) frente a un ataque parametrizado (ventaja de potencia, alineación de fase de portadora, empuje de tiempo o de posición; al estilo TEXBAT).
+
+# text
+seg-cbd77f6ffd63 = Detector estocástico de spoofing de tiempo (Neyman–Pearson / χ²₁) con P_fa/P_md por Monte Carlo.
+
+# text
+seg-4f19d4fb1341 = Barrido genérico N-D sobre cualquier paquete mediante claves TOML con puntos o rutas de métricas JSON.
+
+# text
+seg-e7ab7b55c969 = Barrido 1-D de estudio de compromisos sobre un parámetro del paquete de relojes.
+
+# text
+seg-a448b24ded2b = Temporización de telecomunicaciones: error de tiempo, error máximo de intervalo de tiempo (MTIE) y desviación de tiempo (TDEV) de un holdover de GNSS, comprobados frente a las máscaras de ITU-T con un PASS o FAIL y un margen por máscara. La entrada es un HOLDOVER SINTÉTICO (un preajuste de oscilador -- ocxo, rubidio, cesio o csac, cada uno con las cifras de estabilidad, envejecimiento y temperatura de una hoja de datos pública de Microchip con nombre -- más el tiempo de pérdida de GNSS, la longitud del registro y el intervalo de muestreo; el reloj libre lleva ruido de frecuencia blanco, de parpadeo y, donde el ajuste a la hoja de datos lo necesita, de paseo aleatorio, envejecimiento lineal y un término de temperatura sinusoidal) o una SERIE INGERIDA de pares [time_s, time_error_ns] dada en línea (y, solo en compilaciones nativas, un archivo CSV). Máscaras: ITU-T G.8272 (07/2025) PRTC-A y PRTC-B (max|TE| { "100" } / { "40" } ns, MTIE Tablas 1-2, TDEV Tablas 3-4); G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC enganchado ({ "30" } ns, Tablas 1-2) y holdover de ePRTC-A (la envolvente de error de tiempo de la Tabla { "3" } que crece de { "30" } ns a { "100" } ns durante el periodo de holdover H fijado por la duración de enganche, MTIE Tabla { "4" }, TDEV Tabla { "5" }); G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) clases A-C de T-BC/T-TSC (max|TE|, error de tiempo constante, MTIE y TDEV filtrados paso bajo) y clase D (max|TE_L| { "5" } ns, la única cifra de la clase D no dejada para estudio posterior); G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) punto de referencia C (max|TE_L| { "1100" } / { "600" } / { "100" } ns con MTIE Tablas 7-1 a 7-3). Toda entrada que una Recomendación marca para estudio posterior está ausente y no rellenada, y cada informe enumera lo que no está implementado. También indica el tiempo hasta superar cada presupuesto de error máximo de tiempo (por defecto: { "100" } ns de max|TE_HO| de ePRTC, { "400" } ns de asignación de holdover de red, { "1100" } ns de punto C, { "1.5" } us de clase { "4" }), las curvas de MTIE y TDEV como tabla CSV con cada límite de máscara, y una entrada de unidades y procedencia por campo numérico. VALIDATED: los estimadores de MTIE y TDEV frente al paquete allantools sobre una serie de holdover confirmada. MODELLED: las tablas de máscaras son transcripciones, y un holdover sintético es un modelo construido a partir de máximos de hojas de datos, no una medición de ninguna unidad. No es una prueba de ajuste a la norma.
+
+# text
+seg-0d7bf5a4f07e = Navegación por referencia al terreno sin GPS (TERCOM/SITAN): un altímetro radar o barométrico contrasta el perfil de elevación del terreno con un DEM de estilo SRTM para recuperar la deriva del INS.
+
+# text
+seg-6bdc150ab25b = Navegación secuencial (recursiva) por referencia al terreno sin GPS: un filtro de partículas ejecuta el modelo de medida de correlación con el terreno época a época (SITAN como filtro en ejecución), de modo que se sigue a lo largo de la trayectoria una deriva del INS variable en el tiempo, mientras que el terrain-nav por lotes solo recupera un único desfase constante.
+
+# text
+seg-9a2bb9809aed = Transferencia bidireccional de tiempo y frecuencia por satélite entre dos estaciones a través de un relé geoestacionario: la ecuación bidireccional resuelta para T_A - T_B con cada término no recíproco (retardos del equipo de estación, ionosfera en banda Ku, transpondedor, Sagnac), un presupuesto de incertidumbre en cuadratura cuyo término de tipo A es la TDEV del enlace simulado al tiempo de promediado, un enlace simulado con ruido de fase blanco y de parpadeo y una no reciprocidad diurna, y la estabilidad (tasa, RMS residual, TDEV, ADEV) de cualquier serie suministrada de la Sección { "1" } de la Circular T del BIPM, CSV de MJD,ns o registros de reloj de estación RINEX del IGS. MODELLED.
+
+# text
+seg-ccb244e60d60 = Transferencia bidireccional de tiempo y frecuencia óptica frente a RF.
+
+# text
+seg-1e4d5b2f4810 = Cada archivo de escenario incluido ({ "182" }), agrupado por tipo de escenario. La descripción es el comentario de cabecera del propio archivo; los parámetros clave son sus ajustes de nivel superior. El estado se lee de la matriz de verificación para el módulo del tipo de escenario. <b>Abrir en Kshana Studio</b> abre la ejecución registrada.
+
+# text
+seg-e701392324d0 = tipo de escenario acm-link
+
+# text
+seg-c4d65df7ab98 = no se asoció por nombre a un módulo del registro
+
+# text
+seg-7b09a77bfada = Codificación y modulación adaptativas (ACM) de DVB-S2 a lo largo de las pasadas de un satélite sobre una estación. A lo largo de una pasada cambian la distancia oblicua y la elevación, de modo que cambia la Es/N0 del enlace descendente. En cada paso, la ejecución elige el MODCOD más eficiente cuyo umbral de ETSI EN { "302" } 307-1 Tabla { "13" } más un margen de implementación supera el enlace. Informa del intervalo de Es/N0 de cada pasada y del volumen de datos que mueve la ACM, frente a la línea base de codificación constante que cierra a la elevación de la máscara y a la mayor distancia.
+
+# text
+seg-c36379e65043 = <a1>Abrir en Kshana Studio</a1> · <a2>Ver en GitHub</a2>
+
+# text
+seg-b6ddd25a35c3 = tipo de escenario aocs
+
+# text
+seg-944f5a95638f = tipo de escenario aperture-duty-cycle
+
+# text
+seg-2c27404856f6 = tipo de escenario araim-reference-check
+
+# text
+seg-6fc2c7863922 = tipo de escenario ascent-losses
+
+# text
+seg-6ad78e934bec = Pérdidas de ascenso por viraje gravitatorio de un lanzador bietapa ILLUSTRATIVE de queroseno/oxígeno (ningún vehículo real): ascenso vertical hasta { "1" } km, un impulso de cabeceo de { "3" } deg durante { "10" } s y después empuje a lo largo de la velocidad. La ejecución integra las pérdidas por gravedad, resistencia, guiado y contrapresión y comprueba que el dv ideal menos las pérdidas es igual a la velocidad de apagado. MODELLED: plano, Tierra sin rotación, C_D constante, sin tramo balístico, sin más guiado que el impulso.
+
+# text
+seg-602ac3a69ef9 = tipo de escenario attitude-budget
+
+# text
+seg-01ed69f79080 = el tipo de escenario tiene filas validadas en el registro · { "1" } de { "1" } filas validadas
+
+# text
+seg-be0ff8b9fe3b = tipo de escenario body-pnt
+
+# text
+seg-eb1f3742071d = tipo de escenario campaign
+
+# text
+seg-a40718a9a53e = Una misión encadenada: nominal, jamming, spoofing, pérdida de GNSS con holdover de reloj y navegación inercial, una alarma de integridad y recuperación, en una misma cronología.
+
+# text
+# c1: link-budget
+# c2: trace
+seg-e745211204ab = Una optimización a través de una campaña: el enlace en banda X del ejemplo link-budget ({ "55" } dBW de PIRE, { "53" } dB/K de G/T, { "3" } dB de otras pérdidas, { "4.5" } dB de Eb/N0 requerida), buscado sobre distancia y velocidad de datos para el punto de operación que deja exactamente { "3" } dB de margen. Cada evaluación es una ejecución <c1/> ordinaria. El símplex de Nelder-Mead trabaja en coordenadas lognormalizadas dentro de los límites indicados, y cada evaluación figura en el <c2/> del resultado.
+
+# text
+seg-decc6966e201 = Composición entre dominios: un jammer, dos plataformas. Un buque en el golfo de Finlandia ({ "59.80" } N, { "24.90" } E, el receptor del ejemplo maritime-strait-jamming) y un coche en una carretera costera de Helsinki ({ "60.17" } N, { "24.94" } E) están bajo el mismo jammer de banda ancha, situado en { "59.80" } N, { "25.44" } E, a { "30" } m de altura (a unos { "30" } km del buque y { "50" } km del coche).
+
+# text
+seg-f2588213d3d3 = Una misión encadenada conducida por el espectro de banda L: un jammer de chirrido se lleva GPS L1 C/A y Galileo E1, el reloj mantiene el holdover, y un tono de onda continua (CW) dejado en la portadora L1 mantiene caído el C/A mientras E1 se recupera, de modo que el receptor recurre a Galileo y su monitor de integridad funciona con un cielo solo de Galileo.
+
+# text
+# c1: jamming
+seg-031c509abbfa = Un barrido de parámetros a través de una campaña: el receptor del ejemplo jamming ({ "52" } N, { "4" } E, capa Walker de 24 satélites tipo GPS) bajo un jammer de banda ancha a { "1" } km, con la potencia de transmisión del jammer barrida de -50 dBW ({ "10" } nW) a +{ "10" } dBW ({ "10" } W) en pasos de { "5" } dB. Cada nodo es una ejecución <c1/> ordinaria; la campaña registra, por nodo, la fracción de épocas con al menos cuatro satélites todavía en seguimiento, la relación jammer-señal media (J/S) y el menor número de satélites en seguimiento.
+
+# text
+seg-ef32cd18fab5 = tipo de escenario cislunar-arc-recovery
+
+# text
+seg-e9866967471c = tipo de escenario cislunar-observability
+
+# text
+seg-9c3bc8bbd361 = tipo de escenario clock
+
+# text
+seg-ddd9856d154a = Escenario de referencia de Kshana: ejecución de { "2" } h, { "10" } min de sincronización GNSS y después ~{ "1.8" } h denegado. Ruido blanco de FM del reloj calibrado con el sigma_y({ "1" } s) publicado: q_wf = sigma_y(1s)^{ "2" }. Validado frente a la desviación de Allan simulada en tests/calibration.rs (~{ "2" }%).
+
+# text
+seg-460f63835b3f = Variante: reloj óptico de estroncio de grado de laboratorio frente a CSAC. Los relojes de Sr de laboratorio alcanzan sigma_y({ "1" } s) = { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics).
+
+# text
+seg-092f76e5d820 = tipo de escenario combined-altpnt
+
+# text
+seg-3455b653ea6f = tipo de escenario conflict-resilience
+
+# text
+seg-c6b21e897ce0 = Diseño de constelaciones a escala: patrones Walker DELTA y Walker STAR en la convención i: T/P/F (nodos repartidos en { "360" } o { "180" } deg, separación en el plano { "360" }*P/T, desfase entre planos { "360" }*F/T), listas explícitas de elementos y diseños multicapa, varias constelaciones en una misma ejecución, alrededor de la Tierra, la Luna, Marte o cualquier otro planeta, Plutón o una luna importante, usando las constantes del módulo body (las mismas que usan los tipos de escenario solar-system y body-pnt). PREAJUSTES a partir de elementos nominales publicados: gps-baseline y gps-expandable (las { "24" } posiciones y los seis pares expandibles delantero/trasero del GPS Standard Positioning Service Performance Standard, 5.ª edición { "2020" }, Tablas 3.2-1 a 3.2-3), galileo (Walker 24/3/1 a { "29 599.801" } km y { "56" } deg, Galileo Open Service Service Definition Document edición { "1.1" } Tablas { "1" } y { "23" }), beidou y beidou-meo (Walker 24/3/1 a { "21 528" } km y { "55" } deg más tres satélites geoestacionarios a { "80" }, { "110.5" } y { "140" } deg E y tres satélites geosíncronos inclinados a { "55" } deg, BeiDou Open Service Performance Standard { "3.0" } sección { "4.1" }; la fase MEO y el cruce geosíncrono inclinado a { "118" } deg E se modelan porque la norma no los establece) y glonass (24/3/1 a { "19 100" } km y { "64.8" } deg a partir de la fórmula de posiciones del GLONASS Interface Control Document edición { "5.1" } sección { "5.2" }). COBERTURA Y DILUCIÓN DE LA PRECISIÓN: sobre una cuadrícula de latitud/longitud y una ventana muestreada con máscara de elevación, el número de satélites a la vista, GDOP, PDOP, HDOP y VDOP por celda, la disponibilidad (una solución con PDOP igual o inferior a un umbral, { "6" } por defecto) por celda, globalmente (ponderada por área) y en el peor emplazamiento, con un reloj de receptor por constelación salvo que clock = "common". Escala a miles de satélites: la visibilidad es un producto escalar frente al semiángulo de cobertura de cada satélite, y los satélites se agrupan en bandas por latitud subsatélite en cada época, de modo que una fila de la cuadrícula comprueba solo los que pueden estar a la vista; el informe cuenta las comprobaciones de pares ahorradas. El JSON contiene los mapas de la cuadrícula y trazas terrestres por satélite submuestreadas. VALIDATED: el generador Walker frente a la Tabla { "23" } del SDD del OS de Galileo y a la fórmula de posiciones del ICD de GLONASS, el preajuste GPS frente a la columna publicada de cruce ecuatorial de la Tabla 3.2-1 del SPS PS, y la distribución global de HDOP de la línea base GPS frente al Apéndice B del SPS PS (mediana { "0.94" }, { "95" }% { "1.25" }, media { "0.96" }, tolerancia { "0.03" }). MODELLED: órbitas de dos cuerpos con J2 secular opcional, un cuerpo esférico, solo visibilidad geométrica (sin potencia de señal, estado de salud ni terreno), y la fase relativa entre sistemas distintos, que no es una instantánea de ninguna fecha real.
+
+# text
+seg-fa78684a644d = tipo de escenario constellation-design
+
+# text
+seg-22e4cbe23fb2 = Cobertura multiconstelación: los cuatro sistemas globales de navegación por satélite (GNSS) juntos, como un mapa de satélites a la vista, dilución de la precisión (DOP) y disponibilidad en toda la Tierra durante un día.
+
+# text
+seg-cd74615ba3dd = Una megaconstelación de posicionamiento, navegación y temporización (PNT) de órbita terrestre baja: { "5 000" } satélites en cuatro capas Walker, puntuada como un mapa de cobertura y de dilución de la precisión (DOP).
+
+# text
+seg-59bb18c802a3 = Una constelación lunar de retransmisión y navegación: satélites en órbitas lunares congeladas elípticas (ELFO) más una capa circular de órbita lunar baja, puntuada como un mapa de cobertura y de dilución de la precisión (DOP) sobre toda la Luna durante un día.
+
+# text
+seg-64e634b04436 = tipo de escenario contact-schedule
+
+# text
+seg-b6736838f1d6 = Planificación de contactos con tierra: tres satélites ilustrativos sobre tres estaciones ilustrativas durante { "12" } horas. La ejecución da a cada pasada satélite-estación su ventana de acceso y el volumen de datos que la codificación y modulación adaptativas (ACM) de DVB-S2 pueden mover en ella (umbrales de ETSI EN { "302" } 307-1 Tabla { "13" } más un margen de implementación). Después construye un plan de contactos sin conflictos en el que cada antena atiende a un satélite a la vez, con un tiempo de reorientación entre contactos, y cada satélite descarga a una estación a la vez. La entrega se pondera por prioridad y se limita a la cola pendiente de cada satélite. Se informa de tres planes en paralelo: un voraz de valor marginal, una línea base por orden de llegada y, cuando el conjunto de candidatos es pequeño, el óptimo exacto, con la brecha de optimalidad del voraz.
+
+# text
+seg-12fb09af17f6 = tipo de escenario earth-gnss-lunar
+
+# text
+seg-0f550587e7e0 = las filas del registro del tipo de escenario son modeladas · { "0" } de { "1" } filas validadas
+
+# text
+seg-435e296b48ab = tipo de escenario entry-heating
+
+# text
+# c1: entry-heating
+seg-d7ec70cdbcfc = Entrada de la cápsula de retorno de muestras Stardust: el caso publicado frente al que se comprueba el tipo de escenario <c1/> (xval/entry-stardust/PREREGISTRATION.md; tests/entry_stardust_published.rs).
+
+# text
+seg-c2dc08297b0f = tipo de escenario eo-coverage
+
+# text
+seg-fbb405d27780 = tipo de escenario eo-radiometry
+
+# text
+seg-f178d4dbb034 = Radiometría y calidad de imagen de un generador de imágenes en nadir para una pequeña cámara de observación de la Tierra ILLUSTRATIVE (ningún diseño de operador): apertura de { "0.40" } m, distancia focal de { "3.6" } m (F/9), píxeles de { "5.5" } um, desde { "500" } km. La ejecución da el presupuesto de relación señal/ruido de una escena de reflectancia del { "15" } %, la MTF del sistema en Nyquist, la respuesta relativa de borde y el NIIRS de la versión { "4" } de GIQE. MODELLED: el NIIRS es una regresión empírica evaluada sobre entradas modeladas, no una imagen calificada.
+
+# text
+seg-2487ebfca518 = tipo de escenario ephemeris
+
+# text
+seg-2771a42a30a7 = tipo de escenario fusion
+
+# text
+seg-6452c9a86abf = PNT de fusión conjunta de sensores: un único filtro de Kalman es el navegador, que fusiona los estados del reloj y los inerciales y se apoya en la transferencia de tiempo óptica entre satélites, en lugar de componer predictores independientes. GNSS denegado { "1.8" } h.
+
+# text
+# c1: fusion-pnt.toml
+# c2: [coupled]
+# c3: rho = g * position + c * clock phase + noise
+# c4: fusion-pnt.toml
+# c5: fusion-pnt.toml
+seg-9b62a8213db0 = PNT de fusión conjunta de sensores acoplada: las mismas suites y la misma interrupción de GNSS que <c1/>, pero el navegador es UN filtro de Kalman apilado sobre posición, velocidad, fase del reloj, frecuencia del reloj y sesgo del acelerómetro (la tabla <c2/>). Mientras el GNSS es nominal, toma pseudodistancias, cada una <c3/> a lo largo de un factor de línea de visión g, de modo que una única medición restringe a la vez la posición y el reloj y el filtro lleva su covarianza cruzada; las resincronizaciones de transferencia de tiempo óptica durante la interrupción son pseudodistancias solo de reloj. Aquí los acelerómetros llevan un sesgo constante, que el estado de sesgo aprende antes de la interrupción (<c4/> pone los sesgos a cero porque sus filtros no tienen estado de sesgo). Neutral respecto a fabricantes; los parámetros de reloj y de ruido son como en <c5/>, los sesgos son ilustrativos. MODELLED.
+
+# text
+seg-8e5c015bcaf4 = tipo de escenario gnss-ins
+
+# text
+seg-8f43fc2f8b71 = Vehículo de carretera a través de un cañón urbano: navegación por estima GNSS/INS a través de un paso inferior y de un jammer junto a la carretera, frente a un presupuesto a nivel de carril.
+
+# text
+# c1: inertial
+seg-8eefd1c4bea9 = GNSS/INS débilmente acoplado: el navegador strapdown de tres ejes disciplinado por un EKF de estado de error de 15 estados, que después navega a la deriva durante una interrupción de GNSS de { "60" } s. A diferencia del paquete <c1/> (un navegador por estima escalar de 1 grado de libertad con un reinicio a la verdad en cada solución), este ejecuta el auténtico filtro de lazo cerrado: aprende de soluciones ruidosas mientras hay GNSS y navega a la deriva sobre el estado corregido durante el hueco. El error informado es el residuo horizontal real frente a la verdad; cada sensor lleva además su RMS INS libre de lazo abierto para que el valor del filtro sea explícito.
+
+# text
+# c1: aircraft
+# c2: [tight]
+seg-e0a3e777d810 = GNSS/INS de aviación con acoplamiento fuerte: una aeronave ligera despega, asciende a { "6" } deg, nivela y vuela un viraje coordinado con alabeo de { "25" } deg (perfil de trayectoria <c1/>); el GNSS se deniega durante dos minutos que cubren el viraje, la parte más difícil de un tramo a la deriva porque entonces los errores de rumbo y de actitud se proyectan sobre la horizontal. Acoplamiento fuerte (<c2/>) sobre una constelación Walker SGP4 de tipo GPS.
+
+# text
+# c1: gnss-ins.toml
+# c2: [trajectory]
+# c3: figure8
+seg-736606e5f26d = GNSS/INS marítimo: una embarcación a { "8" } m/s (unos { "15.5" } nudos) trazando círculos completos a { "1" } deg/s, y después una interrupción de GNSS de cinco minutos, sobre el mismo filtro GNSS/INS de lazo cerrado de 15 estados que <c1/>. El movimiento procede de la biblioteca de trayectorias (<c2/>, perfil <c3/>): giro lento y constante, el régimen de un buque y no de un coche.

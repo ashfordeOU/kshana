@@ -26,3 +26,9 @@ seg-f63dd3d7aad4 = Fuente
 
 # text
 seg-587beeccaa11 = Preajuste
+
+# text
+seg-edb7b16b6c0e = Validación
+
+# text
+seg-3c513ef2fd3b = Magnitud

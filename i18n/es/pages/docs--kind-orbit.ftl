@@ -54,3 +54,67 @@ seg-ae15d15bf151 = Página temática: <a1>LEO-PASS.md</a1>
 # text
 # c1: scenarios/
 seg-99a3c57c7926 = { "7" } escenarios incluidos usan este tipo de escenario; los demás están en <a1><c1/></a1>.
+
+# text
+# c1: docs/kinds/by-kind/orbit.md
+seg-0e3518dc3ddb = Fuente: <c1/>
+
+# text
+# c1: orbit
+seg-1428025a91e1 = <c1/> (tipo de escenario)
+
+# text
+seg-cb4262b66b8f = Disponibilidad de GNSS y DOP a partir de una constelación orbital (Walker / TLE / RINEX).
+
+# text
+# c1: scenarios/orbit-rinex.toml
+seg-97680b4587c8 = Una ejecución de <c1/> se resume así: escenario bffc887db977 | 77/361 muestras GNSS nominales | mejor PDOP { "2.53" } pos 2.53m | holdover cuántico 0s p95 6.49e-5ns integridad { "1.000" } seguridad n/a (sin ataque) | holdover clásico 0s p95 25.0ns integridad { "1.000" } seguridad n/a (sin ataque)
+
+# text
+# c1: seed
+# c2: threshold_ns
+# c3: mask_deg
+# c4: time
+# c5: user|user_site
+# c6: constellation
+# c7: clock_quantum
+# c8: clock_classical
+seg-b3a080b98bd9 = Campos obligatorios: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>
+
+# text
+# c1: sigma_uere_m
+# c2: constellations
+# c3: epoch
+# c4: export_sp3
+# c5: export_omm
+# c6: export_oem
+# c7: skyline
+seg-c818cc4f87da = Campos opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
+
+# text
+# c1: scenarios/orbit-rinex.toml
+seg-364139ff447d = El ejemplo <c1/> establece, entre otros:
+
+# text
+seg-d5063dda3971 = Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)
+
+# text
+seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
+
+# attr:alt
+seg-3b652c0da6de = El gráfico que el motor genera para scenarios/orbit-rinex.toml, tipo de escenario orbit
+
+# text
+seg-a150aaacf072 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP a partir de la geometría de línea de visión mediante Q=(HᵀH)⁻¹ con una descomposición ENU local Pruebas: <a1>dop_reference.rs</a1>.
+
+# text
+seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry y check: una simulación Monte Carlo con semilla (N = { "20,000" } épocas por geometría, sigma = { "1.5" } m, semilla ChaCha8 { "36" } + i) de la propia fijación por mínimos cuadrados iterados del motor (pvt::solve_spp, pesos unitarios, resuelta desde la posición verdadera) sobre Pruebas: <a1>uere_dop_monte_carlo.rs</a1>.
+
+# text
+seg-a3d71dd306b3 = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sky_geometry: el acimut y la elevación geodésicos (WGS-84) de un satélite desde un emplazamiento terrestre, una tabla de máscara de acimut y elevación interpolada linealmente en acimut con cierre a { "360" } grados, el conjunto visible el Pruebas: <a1>skyline_orekit_oracle.rs</a1>.
+
+# text
+seg-d86884be3f98 = <s1>Anterior</s1>optical-atmosphere
+
+# text
+seg-da202333ae8d = <s1>Siguiente</s1>passes
