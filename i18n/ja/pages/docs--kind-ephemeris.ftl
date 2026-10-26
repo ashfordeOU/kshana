@@ -35,3 +35,15 @@ seg-f19ce44dc0c0 = トピックページ：<a1>AGENCY-ORBIT-VALIDATION.md</a1>
 seg-a8ea4ba6e244 = <s1>前へ</s1>eo-radiometry
 
 seg-971864553611 = <s1>次へ</s1>fusion
+
+seg-37d29d8303fe = km
+
+seg-3068552e4ab4 = VALIDATED：この種類を挙げている<a1>検証マトリクス</a1>の行。
+
+seg-c33e3cbba749 = arcsec
+
+seg-11e8c29ecb45 = エンジンv{ $version }のシナリオの種類。ファミリー：<a1>コンステレーション、カバレッジ、幾何</a1>。助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。ここにあるラベルはすべてエンジンまたは検証マトリクスによるものです。検証マトリクスに別の記載がない限り、シナリオの種類はMODELLEDです（ラベルの付与のされ方：READMEのEvidenceセクション）。
+
+seg-a4f1e7d2041e = ファミリーページ：<a1>コンステレーション、カバレッジ、幾何</a1>
+
+seg-670191cf797f = トピックページ：<a1>SOLAR-SYSTEM.md</a1>

@@ -59,3 +59,11 @@ seg-bb07c8ee153f = <b>PARTNER</b> 提供しません — 性能モデルのみ�
 seg-fab4c926e628 = <s1>前へ</s1>impairment-eval
 
 seg-aa783749183d = <s1>次へ</s1>ins-trn-coast
+
+seg-51362910dcb7 = 同梱のシナリオのうち{ "2" }個がこの種類を使用しています。その他は<a1><c1/></a1>にあります。
+
+seg-b054c73f22e5 = 値なし
+
+seg-98151954f217 = false
+
+seg-be831b52a339 = マトリクスにはさらに{ "4" }件あります。

@@ -35,3 +35,17 @@ seg-090415eca3b7 = さらに{ "6" }件が検証マトリクスにあります。
 seg-b4bc9ccbcee2 = <s1>前へ</s1>ins-trn-coast
 
 seg-f1ba804baade = <s1>次へ</s1>jamming
+
+seg-37d29d8303fe = km
+
+seg-8e845ce908ee = エンジンv{ $version }のシナリオの種類。ファミリー：<a1>GNSSの測定、測位、インテグリティ</a1>。助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。ここにあるラベルはすべてエンジンまたは検証マトリクスによるものです。検証マトリクスに別の記載がない限り、シナリオの種類はMODELLEDです（ラベルの付与のされ方：READMEのEvidenceセクション）。
+
+seg-f6b7ca020692 = ファミリーページ：<a1>GNSSの測定、測位、インテグリティ</a1>
+
+seg-f4cf8b629797 = トピックページ：<a1>INTEGRITY.md</a1>
+
+seg-5b3dbe0aed82 = <b>MODELLED</b>クロック種類の任意の[integrity]セクション（clock_integrity::run）：指定した地点とコンステレーションのプリセット（geometry::sky_geometry）から、GNSSのタイムラインが拒否されていない間のすべてのインテグリティエポックで、スナップショットRAIM（raim::snapshot_ テスト：<a1>clock_integrity.rs</a1>。
+
+seg-ee7dd15019d0 = トピックページ：<a1>CAMPAIGNS.md</a1>
+
+seg-3bc1761c76ab = 同梱のシナリオのうち{ "3" }個がこの種類を使用しています。その他は<a1><c1/></a1>にあります。

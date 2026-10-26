@@ -51,3 +51,19 @@ seg-a9c56fc9608a = トピックページ：<a1>MACHINE-INPUTS.md</a1>
 seg-cc86939900fe = <s1>前へ</s1>hybrid-ukf
 
 seg-53b95026bf54 = <s1>次へ</s1>impairment-eval
+
+seg-f4cf8b629797 = トピックページ：<a1>INTEGRITY.md</a1>
+
+seg-98151954f217 = false
+
+seg-f70076ea4a77 = <b>VALIDATED</b>アラン偏差／修正アラン偏差／アダマール偏差と、χ² 信頼区間付きのべき乗則ノイズの同定。オラクル（ExternalDataset）：NIST SP { "1065" }（Riley）／NBS14に対するStable32の参照偏差
+
+seg-5278ccdaf16f = <b>MODELLED</b>閉形式の惰性誤差増大としきい値までのホールドオーバー、量子時計のクラス。オラクル（ReferenceImpl）：複数ステップのclock_stateの共分散漸化（同じコードベース内でのクロスチェック）。基礎となる惰性分散とホールドオーバー逆算のカーネルは、scipyに対して外部で照合済みです（「Clock-holdover coast-variance & threshold inversion」を参照）。クラスごとのレッドノイズフロアのホールドオーバーの数値はMODELLEDのままです
+
+seg-3ea0aa9b3907 = <b>MODELLED</b> 3状態（位相／周波数／ドリフト）のvan-Loanカルマン時計、ジョセフ形で安定化。オラクル（ReferenceImpl）：filterpy { "1.4.5" }のKalmanFilter（R. Labbe、MIT）、Fはscipy.linalg.expm、QはVan-Loan { "1978" }のブロック行列によるもの。kshanaのフィルター軌跡全体を再現する、独立した参照実装です。実装間の整合性：時計の物理とアラン偏差の較正は外部の参照とは照合されていないため、これはMODELLEDのままです。{ "0.30" }外部比較、所見（MODELLEDのまま）：IGSの最終{ "30" }秒クロック、{ "11" }機のGPS Blo
+
+seg-e12f672ae71d = GNSSが使えない状況での時計のホールドオーバーはMODELLEDであり、独立した外部の参照との照合はされていません。同じコードベース内の別個の実装に照らして確認しており、テスト対象のユニットからは独立していますが、外部の権威あるものではありません。（検証マトリクス（docs/MODELLED-RATIONALE.md））
+
+seg-8de95b3a9229 = 搭載時計の状態推定はMODELLEDであり、独立した外部の参照との照合はされていません。同じコードベース内の別個の実装に照らして確認しており、テスト対象のユニットからは独立していますが、外部の権威あるものではありません。（検証マトリクス（docs/MODELLED-RATIONALE.md））
+
+seg-e4b64d7277da = スプーフィングの検出はMODELLEDであり、独立した外部の参照との照合はされていません。サブクレームの一つは外部で確認されていますが、機能全体はモデルから計算した要素を組み合わせているため、この機能はモデルから計算したものにとどまります。（検証マトリクス（docs/MODELLED-RATIONALE.md））

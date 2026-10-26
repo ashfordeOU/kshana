@@ -47,3 +47,7 @@ seg-6cf4bb2d7f7a = トピックページ：<a1>BENCH.md</a1>
 seg-dde90de4270b = <s1>前へ</s1>hybrid
 
 seg-1e68310f2dc6 = <s1>次へ</s1>inertial
+
+seg-98151954f217 = false
+
+seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }：この種類を挙げている<a1>検証マトリクス</a1>の行。

@@ -43,3 +43,15 @@ seg-98af076be1ac = 3-DoF 突入における淀み点対流突入加熱（Sutton-
 seg-77c073cd5d67 = <s1>前へ</s1>earth-gnss-lunar
 
 seg-20ce5d56783c = <s1>次へ</s1>eo-coverage
+
+seg-99ef7c1d552c = エンジンv{ $version }のシナリオの種類。ファミリー：<a1>ミッション解析、リンク、宇宙運用</a1>。助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。ここにあるラベルはすべてエンジンまたは検証マトリクスによるものです。検証マトリクスに別の記載がない限り、シナリオの種類はMODELLEDです（ラベルの付与のされ方：READMEのEvidenceセクション）。
+
+seg-8f1e7d3f5a07 = ファミリーページ：<a1>ミッション解析、リンク、宇宙運用</a1>
+
+seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }：この種類を挙げている<a1>検証マトリクス</a1>の行。
+
+seg-a44edb1eb84d = kg
+
+seg-8e62cc4af6ea = トピックページ：<a1>ENTRY-EO-ASCENT.md</a1>
+
+seg-d72b4c5393e0 = earth
