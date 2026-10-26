@@ -8,6 +8,22 @@ seg-a4f1e7d2041e = Familieside: <a1>Konstellationer, dækning og geometri</a1>
 
 seg-be831b52a339 = og { "4" } flere i matrixen.
 
+seg-a8d92406e428 = Strontium-optisk gitterur, rumorienteret mål sigma_y
+
+seg-f70076ea4a77 = <b>VALIDATED</b> Allan-/modificeret/Hadamard-afvigelse + identifikation af potenslovsstøj med χ²-konfidensintervaller. Uafhængig reference (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32-referenceafvigelser på NBS14
+
+seg-5278ccdaf16f = <b>MODELLED</b> Lukket form for vækst i fejl under frit løb + holdover til tærskel; kvanteurklasser. Uafhængig reference (ReferenceImpl): Flertrins clock_state-kovariansrekursion (krydskontrol i samme kodebase); selve kernen for frit-løb-varians og holdover-inversion er eksternt valideret mod scipy (se 'Clock-holdover coast-variance & threshold inversion'). Tallene for holdover pr. klasse ved rødstøjsgulvet forbliver MODELLED
+
+seg-3ea0aa9b3907 = <b>MODELLED</b> 3-tilstands (fase/frekvens/drift) van Loan-Kalman-ur, Joseph-stabiliseret. Uafhængig reference (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), med F via scipy.linalg.expm og Q via Van-Loan { "1978" }-blokmatrixen — en uafhængig referenceimplementering, der gengiver kshanas fulde filterforløb. Konsistens mellem implementeringer: urfysikken / Allan-kalibreringen er ikke eksternt valideret, så dette forbliver MODELLED. { "0.30" } ekstern sammenligning, et fund (forbliver MODELLED): på IGS final { "30" } s-ure fra { "11" } GPS Blo
+
+seg-b9174c70772f = <b>MODELLED</b> Urstøttet χ², RAIM, AGC, SQM sammenlagt sikkerhedskvalitetsmål pr. epoke. Uafhængig reference (ExternalDataset): TEXBAT-scenarieparametre (Humphreys { "2012" }) — karakterisering, ikke fastlåste vektorer. { "0.30" } ekstern sammenligning, et fund (forbliver MODELLED): på JammerTest { "2024" } (Bleik; GPL-3.0-data) udløste monitorerne på observabelniveau (urstøttet chi-i-anden, RAIM, løsningsfejl) ingen alarm inden for { "10" } s af nogen af de { "8" } evaluerbare publicerede spoofing-starter (hvor vinduet før starten var rent, kom den første alarm { "10.2" } til { "39" } s efter pu
+
+seg-e12f672ae71d = Ur-holdover i GNSS-nægtede miljøer er MODELLED, ikke valideret: kontrolleret mod en separat implementering i denne samme kodebase — uafhængig af den enhed, der afprøves, men ikke eksternt autoritativ. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+seg-8de95b3a9229 = Tilstandsestimering af ombordur er MODELLED, ikke valideret: kontrolleret mod en separat implementering i denne samme kodebase — uafhængig af den enhed, der afprøves, men ikke eksternt autoritativ. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+seg-e4b64d7277da = Detektion af spoofing er MODELLED, ikke valideret: en delpåstand kontrolleres eksternt, men hele funktionen sammensættes af modellerede dele, så funktionen forbliver modelleret. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
 seg-d291f20074f0 = <b>VALIDATED</b> Jordens rotation ud fra en todelt juliansk UT1-dato på banestien, så den jordfaste position bevarer det mikrosekund, som en enkelt f64-dato mister (omkring { "3e-9" } rad ved { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, TEME-konventionen, på de to dele), cio:
 
 seg-5c031aaa3a33 = MODELLED { "4" } · VALIDATED { "4" }: rækkerne i <a1>verifikationsmatrixen</a1>, der nævner denne type.

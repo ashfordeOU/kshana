@@ -8,6 +8,10 @@ seg-6cb7a787ac67 = Referencer
 
 seg-6e0cb6acc073 = VALIDATED
 
+seg-60cd077d82a7 = Model
+
 seg-c5ce76c91ff7 = Mærkat
+
+seg-430edd66bda0 = Ikke modelleret
 
 seg-7670cf4ceda3 = Standard

@@ -10,6 +10,8 @@ seg-2bd2101ce454 = Flade
 
 seg-d6476863f862 = Funktion
 
+seg-e0426ffe2628 = Bemærkning
+
 seg-de6c33774c9c = CLI
 
 seg-98f4f946a7ac = WASM

@@ -1,5 +1,19 @@
 # docs--licensing: translations (da)
 
+seg-a1bee28d1dfd = Kilde: <c1/>
+
+seg-b8dd205e82c4 = Kshana er <b>dobbeltlicenseret</b>. Du kan bruge den åbne motor under <b>enten</b> den åbne licens (AGPL-3.0) <b>eller</b> en <b>kommerciel licens</b> fra Ashforde OÜ. Vælg den, der passer til, hvordan du har tænkt dig at bruge den.
+
+seg-5faea0aba960 = Dette dokument forklarer modellen i almindeligt sprog. Det er en vejledning, ikke juridisk rådgivning, og det ændrer ikke selve licenserne. De bindende vilkår står i <a1><c1/></a1> (GNU AGPL-3.0) og i enhver kommerciel aftale, du underskriver med Ashforde OÜ. Hvis de to nogensinde er i strid, er det disse dokumenter, der gælder.
+
+seg-89bd60937f0b = Mulighed A — åben kildekode: GNU AGPL-3.0-only
+
+seg-785200a5419a = Standarden. Den fulde tekst står i <a1><c1/></a1>. Kort sagt lader AGPL dig bruge, studere, ændre og videredistribuere Kshana gratis, <b>forudsat</b> at:
+
+seg-5bc05999ee9d = hvis du <b>distribuerer</b> Kshana eller en afledt version, gør du den <b>komplette tilsvarende kildekode</b> tilgængelig under AGPL; og
+
+seg-5c9136766fdf = hvis du lader brugere interagere med en <b>ændret</b> Kshana <b>over et netværk</b> (AGPL's særlige klausul, §{ "13" }), skal du tilbyde <b>disse brugere</b> den tilsvarende kildekode til din ændrede version under AGPL.
+
 seg-234be920d38f = AGPL er en <a1>af OSI godkendt open source-licens</a1> og en stærk copyleft. Den er det rigtige valg til akademisk arbejde, open source-projekter, intern evaluering og forskning og til alle, der gerne holder deres eget afledte værk åbent.
 
 seg-16c9cc91e4eb = Mulighed B — kommerciel licens (fra Ashforde OÜ)

@@ -18,6 +18,340 @@ seg-a7d59ba6e225 = rad
 
 seg-02dc0d42fb21 = sfu
 
+seg-0f2d3faa9934 = Kilde: <c1/>
+
+seg-d8aaee95aa44 = Scenarietypen <c1/> bygger den udsendte efemeride- og urmeddelelse for en PNT-satellit (positionering, navigation og tidssynkronisering) i lav jordbane (LEO) og besvarer de spørgsmål, en meddelelsesudformer stiller: hvor længe kan én meddelelse dække, hvad køber hver ekstra parameter, hvad ser en bruger, når meddelelsen skifter midt i en passage, og hvor mange bits kræver det at bære den til centimeteren.
+
+seg-e61283b1e1a5 = Den er systemuafhængig. Enhver bane, enhver bærebølge og enhver af fire efemeridemodeller kører helt uden forudindstilling; de navngivne forudindstillinger er valgfrie data (se <a1>Presets</a1>).
+
+seg-1271cd4ad822 = Udskriv et medfølgende eksempel med <c1/> (ét navn pr. kald) og kør det med <c2/>: <c3/>, <c4/>, <c5/> og <c6/>. Typen er også meddelelsestrinnet i typen <c7/> (<a1>LEO-PNT.md</a1>) og medlem af kampagnen <c8/>, som sammensætter fire meddelelseskonfigurationer og rapporterer hver ens rammelængde ({ "146" }, { "154" }, { "159" } og { "171" } bytes).
+
+seg-51da9ffaa0ec = Kode: <c1/> — <c2/> (poster og brugeralgoritme), <c3/> (sand bane og sandt ur), <c4/> (tilpasningsrutine), <c5/> (afstandsfejl for signal i rummet), <c6/> (ionosfære og Coordinated Universal Time (UTC)), <c7/> (binært format), <c8/> (eksport i Receiver Independent Exchange Format (RINEX)-stil og kommasepareret (CSV) form), <c9/> (én fil pr. forudindstilling), <c10/> (selve typen).
+
+seg-0505113a62e3 = Hvad en meddelelse indeholder
+
+seg-6752521002b2 = Del
+
+seg-cf6ae60eea4f = Hjælpedata
+
+seg-00eae74cb1e6 = rumfartøjsidentifikator (SVID), dataudgave (IOD), båndidentifikator, signalets sundhedsstatus (Galileo-konvention: { "0" } OK, { "1" } ude af drift, { "2" } udvidet drift, { "3" } under test)
+
+seg-0bdbdd2c923b = Synkronisering
+
+seg-8120237b02ea = ugenummer, ugetid (TOW) for afsendelsen og et andenordens urpolynomium <c1/>
+
+seg-b09dc4b322d3 = Efemeride
+
+seg-bbb3225e1d19 = én af de fire modeller nedenfor
+
+seg-3a835a49b43f = Andre tjenester
+
+seg-2a13461cb60c = et udsendt Klobuchar-ionosfærisk sæt, Galileo NeQuick-G-koefficienter <c1/> med fem stormflag og parametre fra systemtid til UTC <c2/>
+
+seg-6b899ef63047 = Efemeridemodeller
+
+seg-60cd077d82a7 = Model
+
+seg-2afa300864a9 = Parametre
+
+seg-3e8a1cf183cc = Galileo Open Service Signal-in-Space Interface Control Document (OS SIS ICD) Keplerske sæt: <c1/>
+
+seg-b1416ba3472f = det samme plus polynomier for korrektion langs banen, på tværs af banen og radialt (RAC) <c1/>, <c2/>, <c3/> i <c4/>, koefficienter i meter, <c5/> toerpotensen ved eller over halvdelen af tilpasningsintervallet (udsendt), grader fastsat af <c6/> (standard { "7" }, { "5" }, { "6" })
+
+seg-9c0643152bbf = { "16" } + { "21" } som standard, plus tidsskalaen
+
+seg-e0afd541d64c = 22-parametermodellen af Liu, Su, Xie, Zhou og Qu ({ "2025" }, <em>Remote Sensing</em> { "17" }({ "16" }):{ "2894" }, doi <a1>10.3390/rs17162894</a1>): de { "16" } plus <c1/>
+
+seg-a6042071a03f = ATOMIC-modellen (Autonomous Time and Orbit Determination for Microsatellite Constellations) med "nul-ur": et jordcentreret jordfast (ECEF) polynomium pr. akse i <c1/> (standardgrad { "6" }), ingen urled, fordi satellitens ur styres mod systemtid (<a1>InsideGNSS</a1>)
+
+seg-5869d6f65796 = { "22" } som standard
+
+seg-6663aa3eeebc = Brugeralgoritmen (<c1/>) er Galileo-ICD-sekvensen (Keplers ligning, andenharmoniske korrektioner, jordfast knude) efterfulgt, for <c2/>, af de tre polynomier langs den Keplerske banes eget system: radialt langs den evaluerede position, på tværs af banen langs banenormalen ud fra den korrigerede inklinering og knude, langs banen, så triaden fuldføres. Uret tilføjer ICD'ets relativistiske led <c3/>; for <c4/> er det den generelle form <c5/> ud fra polynomiet og dets afledede.
+
+seg-b3935a85a7b2 = Leddene fra Liu et al. følger artiklens brugeralgoritme (Section { "2.2" }, Eq. 1-7): <c1/>, <c2/> (udgivelser før { "0.30" } brugte konventionen for Global Positioning System (GPS) civil navigation <c3/>, så en <c4/>, de skrev, er det dobbelte af artiklens), og <c5/> lagt til radius, <c6/> det ukorrigerede breddegradsargument. Skalakonventionen for <c7/> er afskrevet fra artiklens Eq. { "1" }; sammenligningen med artiklen på reelle baner afhænger ikke af den (en faktor ½ på <c8/> lader alle tilpassede tal være uændrede), så betydningen af en udsendt <c9/>-værdi er ikke valideret dér.
+
+seg-9a83292bffcf = To aflæsninger er Kshanas egne og angives som sådan:
+
+seg-0e42fd0d5cf9 = RAC-systemet og normaliseringen <c1/>. Intet offentligt dokument definerer et korrektionssystem for LEO til en udsendt meddelelse.
+
+seg-1b8aaed09de8 = Et nul-urs meddelelse har i alt nul ur: styresløjfen antages at holde det tilsyneladende ur, relativistisk led inklusive, på systemtid.
+
+seg-3472ce139588 = Tilpasningsrutinen
+
+seg-4404a677d185 = <c1/> integrerer banen med en fjerdeordens Runge–Kutta med fast trin i et system, der drejes over i jordfaste akser ved én rotation, <c2/>, den samme enkelte rotation, som en udsendt brugeralgoritme anvender. Tyngdekraften er tolegeme (<c3/>), de zonale harmoniske J2 til J6 ({ "2" } til { "6" }), eller feltet Earth Gravitational Model { "2008" } (EGM2008) til grad og orden { "7" } til { "70" }, hvis tesserale led bærer det kortperiodiske aftryk, der gør en LEO-tilpasning svær. Luftmodstand er valgfri (statisk eksponentiel massefylde). Uret er frit løbende (bias, drift, driftrate og hvid frekvensstøj ved en angiven Allan-deviation på ét sekund, plus det periodiske relativistiske led) eller styret (en førsteordens Gauss–Markov-residual).
+
+seg-ae3052e66b2a = <c1/> tilpasser det Keplerske sæt med Levenberg–Marquardt på ikke-singulære elementer (<c2/>, <c3/>, <c4/>): en LEO-bane er næsten cirkulær, så <c5/> og <c6/> hver for sig er næsten umulige at skelne. Den starter fra den oskulerende tilstand ved <c7/> med J2-knuderaten. Svage nul-centrerede apriorier begrænser de rater og harmoniske, som en kort bue ikke kan opløse; med en observationsvægt på { "1" } cm virker de kun i disse nulretninger. Tilpasningen <c8/> tager i stedet artiklens Section { "2.3" } start og estimator: den starter med alle korrektionsled lig nul, har ingen apriorier (almindelig mindste kvadraters metode) og beholder artiklens loft på 100 iterationer. Den stopper efter Kshanas egen konvergensregel for parametre, når hvert parametertrin er under { "1e-3" } af dets formelle standardafvigelse; artiklen stopper i stedet, når RMS ændrer sig med mindre end { "0.1" } mm. RAC-polynomierne tilpasses derefter til residualerne langs/på tværs/radialt med lineær mindste kvadraters metode, og urpolynomiet til det sande ur minus det relativistiske led, som brugeren lægger til igen.
+
+seg-020f45edcae1 = Et fund, som standardværdierne afspejler: efter en Keplersk tilpasning med mindste kvadrater er residualen pr. konstruktion det, som de { "16" } parametre ikke kan spænde over, så den svinger hen over vinduet (flere nulgennemgange i hver komponent) frem for at drive. Et korrektionspolynomium fjerner den kun, når dets grad overstiger det, det Keplerske sæt allerede spænder over: langs banen { "7" }, på tværs af banen { "5" } og radialt { "6" } bringer en 15-minutters residual fra centimeter til omkring en millimeter, mens lavere grader på tværs af banen fjerner næsten intet (residualen på tværs af banen er ulige om vinduets midte). Et system, der udleder sin Keplerske del på anden vis, efterlader en residual af en anden form, og de grader, det kræver, følger heraf. Forudindstillingen Celestes egne korrektionsgrader (lavere end disse; de findes kun i forudindstillingsfilen, <c1/>) kører her på Kshanas mindste-kvadraters-grundlag, hvorfor dens led på tværs af banen bidrager lidt i denne motor: en udtalelse om Kshanas tilpasningsrutine, ikke om noget reelt system. <c2/> og <c3/> er hele sekunder, som det binære format bærer dem.
+
+seg-f3538e6651fa = Hver meddelelse bruges over en periode centreret i sit tilpasningsvindue (den første afvejningstabel bruger hele vinduet). Det, tallene for signal-i-rummet-afstandsfejl (SISRE) måler, er meddelelsens <b>repræsentationsfejl</b> mod den sandhed, den blev tilpasset til, som root mean square (RMS) og et maksimum over spændet. Fejlen ved banebestemmelse og baneprædiktion, som et reelt jord- eller ombordsegment tilføjer ovenpå, er ikke modelleret.
+
+seg-c2b181269367 = Afstandsfejl for signal i rummet
+
+seg-63462a1abc95 = <c1/> bruger den globale gennemsnitlige SISRE fra Montenbruck, Steigenberger og Hauschild ({ "2018" }, <em>Advances in Space Research</em> { "61" }({ "12" }):{ "3020" }–{ "3038" }, doi <a1>10.1016/j.asr.2018.03.041</a1>):
+
+seg-c4f654264c42 = Vægtene er gennemsnittene over brugere jævnt fordelt på den synlige jordkalot af <c1/> og <c2/>, hvor <c3/> er synslinjens nadirvinkel ved satellitten, beregnet for banens egen radius og elevationsmaske. Ved en maske på { "0" }° gengiver beregningen artiklens tabel for mellemhøj jordbane (GPS { "0.98" } og 1/49, GLONASS 1/45, Galileo 1/61, BeiDou 1/54) og geostationær bane ({ "0.99" } og 1/126): det er den <b>VALIDATED</b> kontrol. I LEO giver det samme gennemsnit
+
+seg-66b488889b10 = Højde
+
+seg-c07128592d7b = nadirvinkel ved horisonten
+
+seg-a4e04d9a23a5 = { "320" } km
+
+seg-002adc24471f = { "510" } km
+
+seg-fe2f70c29806 = { "550" } km
+
+seg-4dee38ff0811 = { "786" } km
+
+seg-cfc3c6939861 = { "1080" } km
+
+seg-102de0413553 = { "1336" } km
+
+seg-1b11819c8b2f = så en LEO-bruger, der ser satellitten langt fra nadir, mærker fejl langs og på tværs af banen langt mere end en bruger i mellemhøj bane.
+
+seg-b7a844ab6135 = Analyser
+
+seg-17111fe25e04 = <c1/> vælger en hvilken som helst af de fire (standard alle).
+
+seg-d0c1b335af73 = Afvejning af tilpasningsinterval
+
+seg-f65e99c0d8b2 = <c1/> angiver spændet, tilpasningsintervallerne, opdateringsperioderne og modellerne. <c2/> ({ "550" } km, { "97.6" }°, EGM2008 til grad { "20" } og luftmodstand, { "30" } minutters meddelelser) giver, med brugsperioden lig tilpasningsintervallet:
+
+seg-f1a94c795c18 = Tilpasningsinterval
+
+seg-c6b034712788 = SISRE bane-RMS
+
+seg-55c287c93940 = SISRE bane-maks.
+
+seg-ad604a608329 = SISRE med ur-RMS
+
+seg-28723ab60ae0 = radial / langs / på tværs RMS
+
+seg-911a62245e80 = { "60" } s
+
+seg-1a35a89c1a34 = { "0.041" } cm
+
+seg-7cf9e6e3178f = { "0.179" } cm
+
+seg-d8a7f4c080dd = { "0.069" } cm
+
+seg-93773d45092a = { "0.09" } / { "0.01" } / { "0.00" } cm
+
+seg-64015edf42d8 = { "120" } s
+
+seg-a1070c338686 = { "0.032" } cm
+
+seg-cdacf90f8ce8 = { "0.160" } cm
+
+seg-29aeee696ad2 = { "0.079" } cm
+
+seg-1d2d7b57af6b = { "0.06" } / { "0.01" } / { "0.01" } cm
+
+seg-8fa4e4ccc5cc = { "180" } s
+
+seg-13182ae6d536 = { "0.093" } cm
+
+seg-fc692062aaa8 = { "0.540" } cm
+
+seg-9ef760f0777c = { "0.134" } cm
+
+seg-9a7db44eb20e = { "0.18" } / { "0.06" } / { "0.00" } cm
+
+seg-bbd4f2685bee = { "300" } s
+
+seg-93410318239b = { "0.310" } cm
+
+seg-4af8f1c977eb = { "1.033" } cm
+
+seg-0921a535896a = { "0.329" } cm
+
+seg-d50195d4cbea = { "0.09" } / { "0.49" } / { "0.02" } cm
+
+seg-8de43db30454 = { "450" } s
+
+seg-ec7f9ca7654b = { "1.690" } cm
+
+seg-1ad55674fab9 = { "7.542" } cm
+
+seg-a022913c956d = { "1.696" } cm
+
+seg-31564c73398d = { "0.72" } / { "2.65" } / { "0.04" } cm
+
+seg-21b0c99fbda4 = { "600" } s
+
+seg-6840aea9ff12 = { "2.875" } cm
+
+seg-798c8c1d0190 = { "10.219" } cm
+
+seg-6b3b442069d8 = { "2.866" } cm
+
+seg-8a53398e1999 = { "1.72" } / { "4.42" } / { "0.26" } cm
+
+seg-4dabf1faddfc = { "900" } s
+
+seg-d733d3fdac02 = { "9.345" } cm
+
+seg-3334d120521b = { "34.032" } cm
+
+seg-4d4a2cc180d0 = { "9.349" } cm
+
+seg-7651a43f1f33 = { "6.46" } / { "14.14" } / { "0.91" } cm
+
+seg-f1d733b03f45 = { "0.000" } cm
+
+seg-81a60d921ce9 = { "0.057" } cm
+
+seg-724c7750b1ca = { "0.00" } / { "0.00" } / { "0.00" } cm
+
+seg-c8a720a6f160 = { "0.074" } cm
+
+seg-b13f5539e4b1 = { "0.001" } cm
+
+seg-1c9d3ee30ac7 = { "0.090" } cm
+
+seg-7dd08c671dc7 = { "0.004" } cm
+
+seg-740e69fcd85e = { "0.014" } cm
+
+seg-c0db4312d8a0 = { "0.106" } cm
+
+seg-e971c2fe0bb2 = { "0.00" } / { "0.00" } / { "0.01" } cm
+
+seg-f3bda174cbef = { "0.037" } cm
+
+seg-5a5bb868e8ff = { "0.176" } cm
+
+seg-02b99fcb9fee = { "0.127" } cm
+
+seg-e6c45fda719f = { "0.05" } / { "0.01" } / { "0.04" } cm
+
+seg-ec1e77bc5be9 = { "0.214" } cm
+
+seg-d3c1ed834802 = { "0.643" } cm
+
+seg-23482e7c028f = { "0.229" } cm
+
+seg-8f71690a7139 = { "0.28" } / { "0.09" } / { "0.26" } cm
+
+seg-bfec9407ffae = { "1.015" } cm
+
+seg-f295ad6efcf4 = { "3.695" } cm
+
+seg-2cd92d16edfc = { "1.062" } cm
+
+seg-4626119411c4 = { "1.52" } / { "0.70" } / { "0.91" } cm
+
+seg-4e19f776d1b7 = Og med en tilpasning på { "300" } s, idet det varieres, hvor ofte en ny meddelelse overtager:
+
+seg-89810ffbeff3 = Opdateringsperiode
+
+seg-d4d1fa05e1a8 = { "0.314" } cm
+
+seg-828b7488993b = { "0.850" } cm
+
+seg-edb934c1419f = { "0.288" } cm
+
+seg-52c8f821a7d2 = { "0.859" } cm
+
+seg-e135107af135 = { "150" } s
+
+seg-e7ce46d74f3e = { "0.219" } cm
+
+seg-3391df1cf909 = { "0.830" } cm
+
+seg-d6eb4f554461 = { "0.009" } cm
+
+seg-22c68874002b = { "0.010" } cm
+
+seg-2172d9ea618e = Det Keplerske sæt med 16 parametre forringes fra { "0.04" } cm ved { "60" } s til { "9.35" } cm ved { "900" } s: ét Kepler-sæt med harmoniske to gange pr. omløb kan ikke følge tyngdekraftens højfrekvente led og luftmodstanden på en LEO-bue i mere end nogle få minutter, og dets residual efter mindste kvadrater svinger hen over vinduet. Polynomierne langs/på tværs/radialt (grader { "7" }, { "5" }, { "6" }) optager det, der er tilbage: { "1.01" } cm ved { "900" } s, { "0.21" } cm ved { "600" } s. Ved de korteste intervaller er de Keplerske tal under en millimeter og ikke længere strengt ordnede (tilpasningen er da begrænset af kondition, ikke af modellen).
+
+seg-aca262796570 = Modelsammenligning
+
+seg-fdf2368d0210 = <c1/> kører de fire modeller ved { "1" }, { "5" } og { "10" } minutter på samme bane, med antallet af parametre og efemeride- og urbits i Kshanas kodning:
+
+seg-7d3c6c43390d = Efemeride- og urbits
+
+seg-f7f60c66d89e = { "0.022" } cm
+
+seg-f7bcb8a44fde = { "0.049" } cm
+
+seg-2972b631701e = { "0.230" } cm
+
+seg-cc42e8dc7238 = { "0.260" } cm
+
+seg-67e50069c6f7 = { "3.061" } cm
+
+seg-780954ab9d7f = { "3.071" } cm
+
+seg-de81d6550264 = { "0.044" } cm
+
+seg-fb171bf75f27 = { "0.005" } cm
+
+seg-c8c067631f7a = { "0.120" } cm
+
+seg-2dc41855c245 = { "0.208" } cm
+
+seg-6ef79938dd22 = { "0.046" } cm
+
+seg-7e96d7e34e63 = { "0.142" } cm
+
+seg-c43199891163 = { "0.258" } cm
+
+seg-f9a9fdebc114 = { "0.290" } cm
+
+seg-f157ff5b40b1 = <c1/> (nul-ur)
+
+seg-9474a775dc5e = { "28.784" } cm
+
+seg-5098c8b6f813 = { "0.561" } cm
+
+seg-5e7fdc441b03 = { "28.774" } cm
+
+seg-82d3fa2e27ef = Rækken med nul-ur bedømmes mod et ur styret med en residual på { "0.24" } m (ATOMIC-tallet), de øvrige mod det frit løbende ur, de tilpasser.
+
+seg-769db176020f = <b>Liu et al. { "2025" }, SISRE som funktion af højde (MODELLED).</b> Det samme scenarie tilpasser Kshanas 22-parametermodel over 20-minutters buer i artiklens fem højder, ved hver satellits inklinering:
+
+seg-01e587427a7e = Satellit
+
+seg-f6bbd3d5d75c = Inklinering
+
+seg-c54d0bd7d498 = Liu et al. { "2025" }
+
+seg-16c489b75f44 = Kshana (kun bane-RMS)
+
+seg-ee4816ca13c1 = forhold
+
+seg-510349500d23 = { "8.88" } cm
+
+seg-a97bde451ec2 = { "4.25" } cm
+
+seg-b6c1d48847d9 = { "475" } km
+
+seg-f79249e9bd75 = { "6.21" } cm
+
+seg-9b6757a674a5 = { "2.87" } cm
+
+seg-62008169ca69 = { "2.20" } cm
+
+seg-06a4bcde0ea3 = { "966" } km
+
+seg-9e5e06ec23c3 = { "2.11" } cm
+
+seg-41ce80bc0b62 = { "1.25" } cm
+
+seg-c9f63cd8bd07 = { "0.75" } cm
+
+seg-f11a960a1d52 = { "0.51" } cm
+
+seg-0376cf5f98f0 = Dette er <b>ikke</b> en validering. Artiklen tilpassede reelle præcise videnskabelige baner for de nævnte satellitter (med deres fulde tyngde-, luftmodstands- og ikke-gravitationelle historik); Kshana tilpasser sin egen integrerede bane, evaluerer de seks tilføjede parametre som beskrevet ovenfor og bruger sine egne SISRE-vægte. Sammenligningen viser tendensen og størrelsesordenen. Sammenligningen på de samme reelle baner, som artiklen tilpassede, er <c1/> (siden { "0.30" } stemmer 22-parametertilpasningen dér inden for den på forhånd fastsatte faktor { "1.5" }, på artiklens dage og på otte tilbageholdte dage).
+
+seg-d82887c766e3 = Opdatering midt i passagen
+
+seg-d1104b6ea7fa = <c1/> placerer en bruger (standard { "45" }° N, { "10" }° E), finder den højeste passage over masken inden for <c2/> og planlægger meddelelser hver <c3/>. Ved hvert skift inden i passagen rapporterer den positionsspringet, urspringet, brugerens pseudoafstandsspring (ny meddelelse minus gammel), det største spring, en synlig bruger kunne se (lukket form over nadirkeglen), afstandsfejlen før og efter, og PASS eller FAIL mod <c4/>. <c5/> ({ "300" } s tilpasninger opdateret hver { "150" } s):
+
+seg-7d91304c87e3 = Den højeste passage på et døgn når { "43.7" }° og varer { "455" } s. Dens skift:
+
 seg-289e8da49cc8 = Skift
 
 seg-e80d12ee2259 = Elevation

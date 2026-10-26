@@ -4,6 +4,8 @@ seg-8e845ce908ee = Scenarietype i motoren v{ $version }, familie <a1>GNSS-målin
 
 seg-f6b7ca020692 = Familieside: <a1>GNSS-målinger, positionsbestemmelse og integritet</a1>
 
+seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: rækkerne i <a1>verifikationsmatrixen</a1>, som nævner denne type.
+
 seg-a2889fb2b42a = Emneside: <a1>integrations.md</a1>
 
 seg-1ad013ffb9d1 = Kilde: <c1/>
