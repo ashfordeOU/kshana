@@ -1459,3 +1459,841 @@ seg-48460c0538b9 = 韧性 PNT 符合性框架，按条款编号对应
 seg-e51289a1e835 = EASA GNSS 干扰指南（航空）
 
 seg-4fa26d67951e = 面向航空的 EASA 指南，按条款编号对应
+
+seg-966e15acb385 = 3-D 轨道
+
+seg-d01db1c2710a = 参考
+
+seg-bca397f050df = 每个场景、能力和标准。
+
+seg-2acae285e611 = 完整目录，由引擎自身的文件生成：场景图集、能力卡片，以及引擎所实现的标准。
+
+seg-629113989840 = 每个内置文件
+
+seg-945048f2eae8 = 每项均附证明
+
+seg-b4cdec39f4f5 = 标准与格式
+
+seg-58a8a796c8cb = 参考核对
+
+seg-3cbba5a3ab3b = v{ $version } 新增内容
+
+seg-850aca04de28 = 每种类型、每条命令，以及基准测试中未达到判据之处。
+
+seg-c530da682cca = 没有新的引擎功能：结果与 { "0.38.0" } 相同。文档现在为每种场景类型提供一个页面，并列出每条命令和每个入口，基准测试页面注明每一条未达到的判据。命令行在输出管道关闭时也会安静退出。每项能力都带有台账（ledger）中为其记录的标签，而标签只说明已核对过的内容。仅供参考的软件。
+
+seg-c5fc0ca71fae = 每种场景类型，各有一页
+
+seg-86ff766b2c1d = 全部 { "87" } 种场景类型按系列归档，每种类型有一个页面：它做什么、输入、示例运行的结果、其标签背后的台账（ledger）行和参考基准（oracle，独立参照）、其报告所述的局限，以及引擎生成的图表。
+
+seg-a0b63210b807 = 阅读更多
+
+seg-ccee5886cf25 = 每条命令，每个入口
+
+seg-6630acb722ae = 每条命令均附可在代码检出副本中运行的示例，每个入口（命令行、Python、Rust、WebAssembly、MCP 服务器、插件命令、技能和 Studio 页面）均列出其所支持的命令和类型，不支持之处则注明原因。
+
+seg-4ef6dcd0a58b = 哪个入口支持哪项能力
+
+seg-678872a862dc = 一个页面针对每条命令和每种类型列出哪些入口支持、哪些不支持并说明原因，旁边是能力领域及其台账（ledger）标签。
+
+seg-29e58493fdd4 = 由模型计算得出
+
+seg-8e092e49bdeb = kshana-bench：未达到的判据，逐一列明
+
+seg-df8f792ffa97 = 基准测试页面现在列出每一条未达到的判据，与结果文件的记录一致，并说明没有任何判据被放宽。
+
+seg-54dce6366d5a = 每个内置场景，汇于一张地图。
+
+seg-761213eb3ce0 = 共 { "183" } 个场景文件，涵盖 { "87" } 种类型，按领域分组；其中 { "173" } 个内置于引擎，而 <c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/> 通过命令行从代码仓库运行。圆点显示台账（ledger）中列出该类型模块时所记录的状态。有已记录运行的文件会在 Kshana Studio 中打开该运行；其余文件则打开其在场景参考中的条目，并附有文件及运行它的命令。
+
+seg-f53c36555404 = 按台账（ledger）状态筛选
+
+seg-3cedc38ae9d5 = 每种类型
+
+seg-6e281402a22f = 已独立核对的行
+
+seg-2d8e88c7238b = 未匹配
+
+seg-c49969c426c8 = 筛选场景
+
+seg-3e9fb6d3b8b8 = 按文件、类型或关键词筛选
+
+seg-5145797da84a = 地球 GNSS 与干扰
+
+seg-aff54a75319b = 集装箱码头上跨运车的伪距与 RAIM，含船岸
+
+seg-facafec08ae3 = 测量域 GNSS 仿真：含电离层的伪距，以及
+
+seg-879b02ba5afb = <c1/><a1>gnss-sim-container-terminal-skyline</a1><a2>gnss-sim-raim</a2>
+
+seg-4725f2524e57 = 机器学习射频损伤检测评估试验平台（ESA AO/1-13494 演示器）。
+
+seg-cbd16d8d6f19 = <c1/><a1>impairment-eval</a1>
+
+seg-38d0df73da5f = 射频压制干扰（jamming）：地面宽带干扰机使附近接收机无法使用 GNSS。
+
+seg-8358cd1f20e2 = 一艘船在岸基干扰机下驶入港口，前方的码头建筑遮挡了
+
+seg-666ab58e14bc = 海事 GNSS 压制干扰（jamming）：岸基或船载宽带干扰机使全球
+
+seg-b0ea321f426a = <c1/><a1>jamming-demo</a1><a2>jamming-harbour-approach-skyline</a2><a3>maritime-strait-jamming</a3>
+
+seg-3645d0f6dfc1 = 压制干扰（jamming）下的 L 波段瀑布图：整个全球导航卫星系统（GNSS）
+
+seg-ed0374fa4677 = 基于接收功率的 LEO-PNT 韧性：干扰信号比（J/S）裕度。
+
+seg-6b2338be39ce = 多频段压制干扰（jamming）瀑布图：低地球轨道（LEO）定位、导航与授时
+
+seg-41956b525b84 = <c1/><a1>l-band-waterfall-jamming</a1><a2>leo-resilience-js-margin</a2><a3>multi-band-jamming-waterfall</a3>
+
+seg-e4cfedcd8a7f = 海事 GNSS 欺骗干扰（spoofing）：检测拖拽船舶报告位置的发射机。
+
+seg-991f79d3fc13 = 射频/测量组合欺骗检测器：多颗卫星的 RAIM 一致性 + AGC + SQM，融合。
+
+seg-d3d17ae9163e = <c1/><a1>maritime-spoof-position-push</a1><a2>spoof-detect</a2>
+
+seg-65c6fa3d75df = 基于已勘测 IGS 站实测观测的单点定位（SPP）。
+
+seg-c58b4f92c258 = <c1/><a1>pvt-abmf</a1>
+
+seg-12a0c4e3eb5b = 主动时间欺骗干扰（spoofing）攻击：各时钟的完好性监测器能否发现该欺骗
+
+seg-cb0f7b2ff50b = 具有明确攻击形态和随机检测器的时间欺骗干扰（spoofing）检测。
+
+seg-5e02024d9ecf = <c1/><a1>spoof-attack</a1><a2>spoof-meaconing</a2>
+
+seg-0f0c4a546563 = 跟踪环失锁：C/N0 -> 带迟滞的锁定/失锁，所需时间
+
+seg-8519d1ec52b4 = <c1/><a1>tracking-loop</a1>
+
+seg-c4d82487d4c8 = 完好性与 ARAIM
+
+seg-e1006bf1324b = 双星座 ARAIM 可用性：GPS + Galileo，采用先进的
+
+seg-f798ed829930 = 船舶驶入港口的 ARAIM 可用性：带地面站点的 `integrity` 类型
+
+seg-224a6f0365a0 = 类 GPS 星座上的 GNSS 完好性（RAIM）可用性。
+
+seg-581df183189a = <c1/><a1>araim-gps-galileo</a1><a2>integrity-harbour-approach</a2><a3>integrity-raim</a3>
+
+seg-7dcfd56b402b = 引擎的 ARAIM 保护级，对照 WG-C 小组自己的算例。
+
+seg-ee599ae71b16 = <c1/><a1>araim-reference-check</a1>
+
+seg-4f71f8ba67d4 = 替代 PNT 与融合
+
+seg-195beccd601f = 道路车辆穿越城市峡谷：穿过地下通道时的 GNSS/INS 航位推算，以及
+
+seg-66ecd7fcc1d5 = 松耦合 GNSS/INS：三轴捷联导航器，由
+
+seg-8baa1cf7de75 = 紧耦合航空 GNSS/INS：一架轻型飞机起飞，以 { "6" } 度爬升，改平
+
+seg-97d88976d6d0 = 海事 GNSS/INS：一艘船以 { "8" } m/s（约 { "15.5" } 节）的速度做整圈蛇形航行，
+
+seg-a4a176be56bb = 紧耦合铁路 GNSS/INS：一列火车以 { "30" } m/s 的速度在站间运行，伴有轻微的 { "20" } 度
+
+seg-29cf20730f10 = 小型无人机在 GNSS 压制干扰（jamming）下：飞控级
+
+seg-b663a10b099d = <c1/><a1>automotive-urban-canyon</a1><a2>gnss-ins</a2><a3>gnss-ins-aviation</a3><a4>gnss-ins-maritime</a4><a5>gnss-ins-rail</a5><a6>small-uas-jammed-nav</a6>
+
+seg-3a39e513f8af = 重力 + 磁场 + 地形组合的 GPS 拒止导航器：融合的替代 PNT。
+
+seg-5a205098ae36 = <c1/><a1>combined-altpnt</a1>
+
+seg-ead07b8cda1f = 联合传感器融合 PNT：单个卡尔曼滤波器作为导航器，融合
+
+seg-0793bf62d210 = 耦合的联合传感器融合 PNT：与 `fusion-pnt.toml` 相同的套件和 GNSS 中断，但
+
+seg-ee3eb04bbddd = <c1/><a1>fusion-pnt</a1><a2>fusion-pnt-coupled</a2>
+
+seg-475d6eb44bb7 = 60 分钟 GPS 拒止重力图匹配基准测试（量子替代 PNT）。
+
+seg-1590168660bf = 基于真实重力场的 60 分钟 GPS 拒止重力图匹配基准测试（WP-10，RM-17）。
+
+seg-b084af0ebe06 = 60 分钟 GPS 拒止重力图基准测试的地图误差蒙特卡罗（WP-10，RM-15）。
+
+seg-37d9e60021db = 量子重力图匹配导航场景（GPS 拒止替代 PNT）。
+
+seg-0675c2d7bed3 = <c1/><a1>gps-denied-gravity-nav</a1><a2>gps-denied-gravity-nav-egm2008</a2><a3>gravity-map-error-mc</a3><a4>gravity-map-nav</a4>
+
+seg-2d8e0508a5a5 = 异构光学 + 射频 PNT 联合可用性/精度/完好性（P5）。
+
+seg-2177fe105d1c = <c1/><a1>hybrid-optical-rf</a1>
+
+seg-7d89b1c17bc9 = 混合 PNT 综合方案：全量子套件（光钟 + 冷原子 IMU + 光学星间链路
+
+seg-d6fe497b9360 = <c1/><a1>hybrid-pnt</a1>
+
+seg-70f528b547d4 = 17 状态混合量子 + 经典紧耦合 GNSS/INS UKF（MODELLED）。
+
+seg-e3c74123ff5a = <c1/><a1>hybrid-ukf</a1>
+
+seg-1d4d4e681ef6 = GNSS 中断期间的航位推算：冷原子量子加速度计与导航级加速度计对比。
+
+seg-e69683145bb7 = 量子预设：冷原子干涉仪（CAI）加速度计，由其
+
+seg-40d5b6ef47f0 = <c1/><a1>imu-deadreckoning</a1><a2>quantum-cai-coast</a2>
+
+seg-460929d61988 = INS/TRN 滑行误差模型：位置误差随滑行时长的变化，以及滑行
+
+seg-32701fe3852c = GNSS 被压制的海事进港：惯性导航系统能维持多久
+
+seg-979fb46a1ac8 = 铁路隧道滑行：列车的惯性导航系统（INS）能使其保持
+
+seg-6d592347a45a = <c1/><a1>ins-trn-coast</a1><a2>maritime-port-approach-coast</a2><a3>rail-tunnel-coast</a3>
+
+seg-588092c0b828 = 穿过大气层的光学 PNT：三个示意性地面站点（一个云量较多的北方站点，一个
+
+seg-d9110ecdc1a0 = 针对一个示意性地面站点的增强技术假设分析：波长变更，更大的
+
+seg-67d9aed36283 = <c1/><a1>optical-atmosphere-network</a1><a2>optical-atmosphere-techniques</a2>
+
+seg-36a3e2b3fb7d = 地形参考导航（TERCOM/SITAN）：GPS 拒止替代 PNT。
+
+seg-374a9b5e72d5 = <c1/><a1>terrain-nav</a1>
+
+seg-6e578a14dc30 = 序贯（递归）地形参考导航：GPS 拒止替代 PNT。
+
+seg-eb15b725f77d = <c1/><a1>terrain-slam</a1>
+
+seg-7d2d780c5649 = 守时（holdover）场景的蒙特卡罗集合。
+
+seg-6f80bcd98ce4 = Kshana 参考场景：运行 { "2" } h，{ "10" } min GNSS 同步，随后约 { "1.8" } h 拒止。
+
+seg-4a194573e324 = 变体：实验室级锶光钟与 CSAC 对比。
+
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+seg-ef238a2781ad = 守时（holdover）测试，导入示例：由 holdover-test 类型评分的钟差（时间误差）记录
+
+seg-f72e79279526 = linuxptp 日志的守时（holdover）测试：与 holdover-test-example.toml 相同的四个步骤，记录
+
+seg-447fb044f200 = <c1/><a1>holdover-test-example</a1><a2>holdover-test-ptp4l</a2>
+
+seg-b287f9a2cdeb = 时隙授时：低地球轨道上的恒温晶体振荡器（OCXO）能维持多久
+
+seg-324250b93dd9 = <c1/><a1>slot-timing-ocxo-leo</a1>
+
+seg-f851ee7b2c6e = 权衡研究：守时（holdover）如何随时钟稳定度变化？
+
+seg-4c81130e972d = <c1/><a1>sweep-clock-stability</a1>
+
+seg-6aa8b3c42e79 = 电信授时基准：失去全球导航卫星系统的铷钟
+
+seg-4835574df68e = 电信授时，频率同步：自由运行的恒温晶体
+
+seg-d58a6084c08d = 电信授时，导入示例：内联给出的时间间隔误差（TIE）序列，并
+
+seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
+
+seg-a9d9e45f2147 = 两个示意性站点之间的卫星双向时间频率传递（TWSTFT），其中一个
+
+seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
+
+seg-af67eb7dfe4e = 光学星间时间传递与经典射频（TWSTFT）对比。
+
+seg-fcded162ad2f = <c1/><a1>timetransfer</a1>
+
+seg-dc615023797b = 轨道与任务分析
+
+seg-5ed1d98451b7 = 一颗卫星过境一个地面站期间的 DVB-S2 自适应编码调制（ACM）。
+
+seg-527ca565e523 = <c1/><a1>acm-link</a1>
+
+seg-2756cca2bbd2 = MRP 反馈下的反作用轮姿态机动，基于真实状态闭环。
+
+seg-37ce0a2fdedb = MRP 反馈下的反作用轮姿态机动，基于 MEKF 估计闭环。
+
+seg-f7a4fbc90ce2 = <c1/><a1>aocs-slew</a1><a2>aocs-slew-mekf</a2>
+
+seg-b9192c83fdf7 = 孔径占空比演示器（地面段与运行）。
+
+seg-e40da530a08a = <c1/><a1>aperture-duty-cycle</a1>
+
+seg-e671128cedbc = 示意性两级煤油/液氧运载火箭的重力转弯上升损失（无真实
+
+seg-17e5ec4d18bc = <c1/><a1>ascent-losses</a1>
+
+seg-a0f7fd8c3838 = 3-DOF 姿态与指向误差预算演示器（硬件前 AOCS/GNC）。
+
+seg-9d1e79cee987 = <c1/><a1>attitude-budget</a1>
+
+seg-8e33f294d29f = 多星座覆盖：四大全球导航卫星系统（GNSS）合在一起，
+
+seg-ddfd491a5b00 = 低地球轨道定位、导航与授时（PNT）巨型星座：{ "5 000" }
+
+seg-3b48e542f360 = 月球中继与导航星座：处于椭圆月球冻结轨道的卫星
+
+seg-4ad15809ddef = <c1/><a1>constellation-multi-gnss-coverage</a1><a2>leo-pnt-mega-shell</a2><a3>lunar-relay-constellation</a3>
+
+seg-9baca3fa1d6c = 地面接触规划：三个示意性卫星过境三个示意性站点，为期
+
+seg-109e2fabbe72 = <c1/><a1>contact-schedule</a1>
+
+seg-9999c795cd03 = 星尘号样品返回舱再入：已发表的案例，`entry-heating` 类型据此核对
+
+seg-14ae55dfc955 = <c1/><a1>entry-heating-stardust</a1>
+
+seg-a38ba5ac0cda = 对地观测载荷足迹与覆盖演示器（SMAD 空间三角形）。
+
+seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
+
+seg-966c1090da5a = 示意性小型对地观测相机的星下点成像器辐射测量与图像质量
+
+seg-53d1e190c57d = <c1/><a1>eo-radiometry</a1>
+
+seg-b07667365e9d = 星历与星下点轨迹：“卫星此刻在哪里”。
+
+seg-cd3c42866076 = <c1/><a1>ephemeris</a1>
+
+seg-d0f273803537 = 手册所述高椭圆轨道中三航天器编队的相对导航。
+
+seg-f24f61f373d1 = 穿过 GNSS 轨道的高椭圆轨道：用户从近地点到远地点所见。
+
+seg-ecd09f913362 = 地月转移段上的 GNSS，使用能发挥其灵敏度的弱信号接收机。
+
+seg-8ffd90d739b7 = 前往月球途中的星载 GNSS 导航：仅基于伪距的扩展卡尔曼滤波器。
+
+seg-f62338a1dd4a = 上层 SSV 壳层上的 GNSS 信号可用性：手册的全球指标，规模小到一秒即可运行。
+
+seg-03f56ab6b9b3 = <c1/><a1>gnss-ssv-formation-heo</a1><a2>gnss-ssv-heo</a2><a3>gnss-ssv-lunar-weak</a3><a4>gnss-ssv-nav-lunar</a4><a5>gnss-ssv-shell</a5>
+
+seg-41e78567f229 = 发射窗口与上升段几何演示器（任务分析，权衡研究等级）。
+
+seg-14974e3fe6df = <c1/><a1>launch-window</a1>
+
+seg-a1cb069aec22 = 单向链路预算演示器（通信与链路预算，权衡研究等级）。
+
+seg-fb8345aba877 = <c1/><a1>link-budget</a1>
+
+seg-97847b33c55b = CCSDS OEM 互操作桥接演示器（GMAT / Orekit / STK 互操作）。
+
+seg-4962f009e264 = <c1/><a1>oem-interop</a1>
+
+seg-d181d6872589 = 由轨道几何推导的 GNSS 可用性（而非手工设定的窗口）。
+
+seg-2b9c92371e24 = 高偏心率（Molniya）用户的 GNSS 可用性，由轨道几何得出。
+
+seg-05ede69e3c0a = 由轨道几何得出的多 GNSS 可用性：GPS + Galileo 组合。
+
+seg-af8a828667bb = 通过两行根数集，基于真实卫星几何的 GNSS 可用性。
+
+seg-573056b960e6 = 基于真实 RINEX { "3" } 广播星历的 GNSS 可用性。
+
+seg-3540e43e3910 = 以 SGP4/SDP4 外推的真实 GPS 星座的 GNSS 可用性。
+
+seg-1230b34789c7 = 城市街道底部的 GNSS 可用性与精度因子（DOP）：`orbit`
+
+seg-ad5285a34897 = <c1/><a1>orbit-gnss-challenged</a1><a2>orbit-molniya</a2><a3>orbit-multignss</a3><a4>orbit-real-tle</a4><a5>orbit-rinex</a5><a6>orbit-sgp4-gps</a6><a7>orbit-urban-canyon-skyline</a7>
+
+seg-2b96d360ceda = 地面站过境预测演示器（地面段与运行）。
+
+seg-84615b07a989 = <c1/><a1>passes</a1>
+
+seg-b3f5010bc0f0 = 弹道再入走廊演示器（Allen-Eggers，任务分析）。
+
+seg-3612d1148781 = <c1/><a1>reentry</a1>
+
+seg-8321be113ab1 = CCSDS 133.0-B 空间包组帧演示器（TM/TC 互操作）。
+
+seg-808aa922a117 = <c1/><a1>space-packet</a1>
+
+seg-7c4a93b81a2f = 空间天气环境模型演示器。
+
+seg-5478de1beaca = <c1/><a1>space-weather</a1>
+
+seg-333828ec3da1 = 低地球轨道（LEO）PNT
+
+seg-838ef26e570a = Celeste IOD 信号设计：频段与“Classical Pilot”信号
+
+seg-0480440f8b6a = LEO-PNT 频段权衡，从 UHF 到宽 C 波段：低地球轨道（LEO）定位、
+
+seg-27df5b15667f = Xona Pulsar 信号：一个商业低轨星座的 X1（L1 频段）和 X5（L5 频段）信号
+
+seg-c52da20bade1 = <c1/><a1>celeste-iod-classical-pilot-signals</a1><a2>leo-band-trade</a2><a3>xona-pulsar-signals</a3>
+
+seg-6c7c2de33eec = Celeste IOD 端到端（可选预设）：E5 配置 #1 信号 -> 一条 Celeste IOD
+
+seg-90cd20e7a97a = 通用星座上的 LEO-PNT 端到端：信号设计 -> 过境链路预算 ->
+
+seg-799264427221 = Xona Pulsar 端到端：公开的 X5 信号 -> 一次 Pulsar 过境 -> 一条 LEO 导航电文
+
+seg-d69f1dbfbd28 = <c1/><a1>celeste-iod-end-to-end</a1><a2>leo-pnt-end-to-end</a2><a3>xona-pulsar-end-to-end</a3>
+
+seg-f04402f0a621 = 两颗 ESA Celeste 在轨演示卫星加入的 GNSS 定位。
+
+seg-a1dd93651ffd = 仅凭 LEO 多普勒，基于通用 LEO 导航星座的定位。
+
+seg-07921f20441f = 峡湾深处船舶的 MEO 与 LEO 融合定位，那里的山谷壁遮挡了
+
+seg-00769450ebaa = 来自 LEO 卫星的对 UTC 时间传递，随 C/N0 和接收机振荡器而变。
+
+seg-f8551465a470 = MEO 与 LEO 融合伪距定位：GPS 和 Galileo 加一层 LEO 导航层。
+
+seg-c77e839b9912 = 从赤道到极地的可见卫星数与精度因子（DOP）：仅 MEO GNSS，
+
+seg-6634bdeb434b = 以宽带星座作为机会信号的纯多普勒定位。
+
+seg-e993eafc4640 = <c1/><a1>celeste-iod-fused-pvt</a1><a2>leo-doppler-positioning</a2><a3>leo-pvt-fjord-skyline</a3><a4>leo-timing-utc</a4><a5>meo-leo-fused-pvt</a5><a6>polar-arctic-leo-coverage</a6><a7>starlink-sop-doppler-positioning</a7>
+
+seg-075f98a32d53 = LEO-PNT 重点领域：LEO-PNT 科学，由双频段延迟进行电离层探测。
+
+seg-e9da73670beb = 室内 LEO-PNT：为什么 L、S 和 C 波段难以穿透时，UHF 载波仍能进入建筑物。
+
+seg-6dfada2dacb6 = 面向物联网（IoT）追踪器的低能耗 LEO-PNT：每次定位的能耗与占空比的关系。
+
+seg-1007e9b9abdc = ESA Celeste IOD，信号配置 #1，一次过境中的所有频段。研讨会预设。
+
+seg-d3b4252da1ee = 从飞机上看到的 Iridium STL（卫星时间与位置）突发信号。
+
+seg-78cd6f0c1950 = LEO-PNT 过境与可见 Galileo 卫星的对比：一次过境中的 C/N0。
+
+seg-d1f7a761386a = 一次过境中的 Xona Pulsar X1 和 X5，以及 Pulsar 星座的最高过境。
+
+seg-21c99010d2fe = LEO-PNT 对抗欺骗干扰（spoofing）的韧性：多普勒与过境几何的一致性。
+
+seg-4255777ae74c = <c1/><a1>leo-focus-science-iono-sounding</a1><a2>leo-indoor-uhf</a2><a3>leo-iot-energy</a3><a4>leo-pass-celeste-iod-multiband</a4><a5>leo-pass-iridium</a5><a6>leo-pass-vs-gnss-cn0</a6><a7>leo-pass-xona-pulsar</a7><a8>leo-resilience-spoof-doppler</a8>
+
+seg-03c8a8dbf6eb = ESA Celeste 在轨演示（IOD）预设：唯一使用材料的场景
+
+seg-7ee7b986aa07 = LEO 导航电文：Kshana 的二进制编码、其量化预算，以及
+
+seg-6d352d85fb32 = LEO 导航电文：空间信号测距误差（SISRE）与拟合区间的关系。
+
+seg-2fd9ba378d2f = LEO 导航电文：一次过境中途的电文更新，以及用户是否
+
+seg-7dc0b21a0f60 = LEO 导航电文：同一轨道上的四种星历模型，以及 Liu 等人 { "2025" }
+
+seg-9eeaa71b71d4 = <c1/><a1>leo-navmsg-celeste-iod</a1><a2>leo-navmsg-encode-decode</a2><a3>leo-navmsg-fit-interval-trade</a3><a4>leo-navmsg-midpass-update</a4><a5>leo-navmsg-model-comparison</a5>
+
+seg-41aaf4d3b4dd = 带 LEO 增强的精密单点定位（PPP）收敛。
+
+seg-8d4c43fa97b3 = <c1/><a1>leo-ppp-convergence</a1>
+
+seg-3ac4d50d5106 = 基于移动卫星 S 波段中 5G 非地面网络（NTN）下行链路的定位。
+
+seg-0fada2849dbc = <c1/><a1>ntn-5g-positioning</a1>
+
+seg-cc6d08589341 = 地月空间弧长可观测性阈值的独立估计器检验（R6，论文 B）。
+
+seg-f2269e7f6e62 = <c1/><a1>cislunar-arc-recovery</a1>
+
+seg-1c3d6e1ff20d = 跟踪弧段上的平面地月空间星座可观测性（P6）。
+
+seg-96fcfc99887c = <c1/><a1>cislunar-observability</a1>
+
+seg-b7880bc50fd3 = 月球距离处的地球 GNSS 接收。
+
+seg-770d8c4c3745 = <c1/><a1>earth-gnss-lunar</a1>
+
+seg-358425c82db5 = 月球南极完好性：阿尔忒弥斯区域的着陆接收机对照
+
+seg-88f11ae051f7 = <c1/><a1>lunanet-araim</a1>
+
+seg-7a9b909b0918 = 月面导航信号安全攻击面（论文 P1）。
+
+seg-ef83a6a7e263 = <c1/><a1>lunar-attack-surface</a1>
+
+seg-7cc84b0d7998 = 月球轨道导航服务的地面信标增强。
+
+seg-ed5c4a79b454 = <c1/><a1>lunar-beacon</a1>
+
+seg-cda1df2b3136 = 月球差分 PNT：月球 DGNSS / SBAS 的类比。
+
+seg-cf6a61aa12d7 = <c1/><a1>lunar-differential-pnt</a1>
+
+seg-9b4eae21eb95 = 由模拟观测活动驱动的七参数 Helmert 月球坐标系基准（G9）。
+
+seg-5b5b4af83ee2 = <c1/><a1>lunar-frame-campaign</a1>
+
+seg-c92e66cebc74 = 月球参考坐标系实现：7 参数 Helmert（相似变换）基准拟合。
+
+seg-9399f0bfc7e9 = <c1/><a1>lunar-frame-realisation</a1>
+
+seg-38628d33bf93 = Kshana 月球基础设施场景：载波相位，快速示例（两段短弧，{ "10" } 次抽样，数秒；
+
+seg-218213050f5a = Kshana 月球基础设施场景：坐标系联合估计。MODELLED；其设计、输入和判据
+
+seg-dcf44f509000 = Kshana 月球基础设施场景：大地测量灵敏度。MODELLED；其设计、输入和判据
+
+seg-89278918d014 = Kshana 月球基础设施场景：定轨一致性。MODELLED；其设计、输入和判据
+
+seg-6fa634c35008 = Kshana 月球基础设施场景：存在未建模加速度的定轨一致性。MODELLED；其设计、输入和判据
+
+seg-0a8712706317 = Kshana 月球基础设施场景：空间连接（space-tie）。MODELLED；其设计、输入和判据
+
+seg-5ccccbd50a0c = <c1/><a1>lunar-infrastructure-carrier-phase</a1><a2>lunar-infrastructure-frame-coestimation</a2><a3>lunar-infrastructure-geodesy-sensitivity</a3><a4>lunar-infrastructure-od-consistency</a4><a5>lunar-infrastructure-od-consistency-model-error</a5><a6>lunar-infrastructure-space-tie</a6>
+
+seg-043647362b56 = 月球互操作导出：与 LunaNet / IOAG 对齐、基于 CCSDS 的交换格式。
+
+seg-ad9c4b176c99 = <c1/><a1>lunar-interop-export</a1>
+
+seg-7e27d737f4e5 = 月球原生射频压制干扰（jamming）：月面用户的逐卫星 J/S。
+
+seg-9386cc6b40be = <c1/><a1>lunar-jamming</a1>
+
+seg-b832efa33b26 = 月球多技术联合定轨 + 时钟确定（模拟网络）。
+
+seg-9f0cc8078028 = <c1/><a1>lunar-joint-od-clock</a1>
+
+seg-cf209fe904f0 = 基于真实的、已存档观测活动的七参数 Helmert 月球坐标系基准（V3）。
+
+seg-f0aad2150389 = 月球参考站大地测量，基线：仅用目前的五个后向反射器阵列。
+
+seg-af84db25497a = 月球参考站大地测量，含站点：五个后向反射器阵列加一个
+
+seg-e99cc7996d2a = <c1/><a1>lunar-llr-datum</a1><a2>lunar-station-geodesy-baseline</a2><a3>lunar-station-geodesy-with-station</a3>
+
+seg-388c71d9a21a = 月球参考站覆盖：用户能得到怎样的定位精度和保护级
+
+seg-b1b071573c04 = 在公开声明的假设下的月球参考站覆盖：与
+
+seg-74da705bbb4a = 含地形的月球参考站覆盖：内置的 lunar-station-coverage 场景
+
+seg-ba1584648763 = <c1/><a1>lunar-station-coverage</a1><a2>lunar-station-coverage-public-sources</a2><a3>lunar-station-coverage-terrain</a3>
+
+seg-fccc874e86c9 = 月球参考站时间实验室：一台微型铷钟（miniRAFS）被牵引至
+
+seg-8ea4372cb851 = 协调月球时（LTC）在 tau 网格上的端到端钟差（时间误差）预算。
+
+seg-a37050edde94 = <c1/><a1>lunar-station-time-lab</a1><a2>lunar-time-budget</a2>
+
+seg-b1989c67a1b5 = 月球坐标时（LTC/TCL）：地月相对论时钟速率。
+
+seg-e78863b02a32 = <c1/><a1>lunar-time-offset</a1>
+
+seg-3dd816ab3e2a = 月球大地测量 VLBI：地球基线观测月面信标。
+
+seg-b22415c31fea = <c1/><a1>lunar-vlbi</a1>
+
+seg-ef34999556df = 由明确观测计划得到的月球 VLBI 站坐标协方差（G8，论文 D3）。
+
+seg-07f805cdc160 = <c1/><a1>lunar-vlbi-fim</a1>
+
+seg-e9b0a88ff0f9 = 月球导航服务区分析：Moonlight / LCNS 级星座。
+
+seg-410df140b2ac = <c1/><a1>moonlight-service-volume</a1>
+
+seg-a11177c21b94 = 实时月球坐标系 / 地球定向（EOP）预测预算。
+
+seg-2cb38c250144 = <c1/><a1>realtime-frame-eop</a1>
+
+seg-33223ead7ec0 = 火星与太阳系
+
+seg-a9e68b95994d = 在木卫二上为着陆器定位：木星卫星案例。
+
+seg-6e1713545914 = 借助火星导航星座和深空链路，为低火星轨道器定位。
+
+seg-493b5843625f = <c1/><a1>europa-surface-pnt</a1><a2>mars-orbit-pnt</a2>
+
+seg-6f1b4c8d1686 = 火星 PNT：低火星轨道用户依据模拟的 MARCONI 中继导航
+
+seg-d15098341ac2 = 火星 PNT：固定的地表用户（旋转的火星表面上的着陆器 / 巡视器）
+
+seg-8d6976cfc360 = 火星 PNT：火星转移 / 捕获用户（一段高偏心率的火心弧段，
+
+seg-2d0160d8dfd0 = <c1/><a1>mars-pnt-lmo</a1><a2>mars-pnt-surface</a2><a3>mars-pnt-transfer</a3>
+
+seg-58fd71afc7b3 = 同一历元的整个太阳系。
+
+seg-92bcbe1c28d5 = <c1/><a1>solar-system-tour</a1>
+
+seg-d31afe1e48e3 = 量子传感器与权衡研究
+
+seg-c768cfa1127f = 分层 PNT 的冲突韧性（论文 P7）。
+
+seg-9ae1e6b6e7a9 = <c1/><a1>conflict-resilience</a1>
+
+seg-093024c87c43 = 量子 PNT 系统的故障/异常检测：带标签的故障目录 +
+
+seg-7373aaea2cc6 = <c1/><a1>quantum-anomaly-detect</a1>
+
+seg-e0f2d42e9a58 = 无 GNSS 的量子导航：量子（冷原子干涉仪）与经典
+
+seg-0d225315252d = <c1/><a1>quantum-gnss-free-nav</a1>
+
+seg-f005b07bd5d3 = 可信量子授时：端到端时间传递链、安全分发，
+
+seg-c9b18cd44d6f = <c1/><a1>quantum-time-transfer</a1>
+
+seg-66e430c55836 = 含实测 ADEV 导入的量子与经典 PNT 权衡（ESA AO/1-13503 演示器）。
+
+seg-7ce8ca98238c = <c1/><a1>quantum-trade</a1>
+
+seg-b6daece3fdf4 = 针对任意场景类型的通用 N 维参数扫描。与仅限时钟的
+
+seg-75dddac2e882 = <c1/><a1>sweep-nd-inertial</a1>
+
+seg-73ee91ed7ce2 = 一个串联任务：正常、压制干扰（jamming）、欺骗干扰（spoofing）、带时钟守时（holdover）的 GNSS 丢失，以及
+
+seg-1e0ae3e165af = 贯穿一次测评活动的带随机种子的蒙特卡罗集合，针对一个有闭式解的案例。
+
+seg-f176fb8d9cf9 = 贯穿一次测评活动的优化：链路预算示例的 X 波段链路
+
+seg-f3a091d760fd = 跨领域组合：一台干扰机，两个平台。芬兰湾中的一艘船
+
+seg-5222d145a446 = 由 L 波段频谱驱动的串联任务：一台啁啾干扰机使 GPS L1 C/A 和
+
+seg-9a40718a397f = 贯穿一次测评活动的参数扫描：压制干扰（jamming）示例的接收机（{ "52" } N，{ "4" } E，
+
+seg-da7647613c60 = LEO-PNT 重点领域：导航电文中的附加 PNT 数据服务。
+
+seg-108d1486ec7b = LEO-PNT 重点领域：MEO + LEO 融合 PNT。
+
+seg-a2beff2ebaa4 = LEO-PNT 重点领域：使用 UHF 的室内导航。
+
+seg-c61db40d4251 = LEO-PNT 重点领域：面向物联网（IoT）和移动设备的低能耗定位。
+
+seg-85b70e840ab6 = LEO-PNT 重点领域：5G/6G 非地面网络（NTN）兼容性。
+
+seg-2d409c46b492 = LEO-PNT 重点领域：高精度定位（精密单点定位，PPP）。
+
+seg-5b1936c7d338 = LEO-PNT 韧性任务：GNSS 被压制，LEO-PNT 承载用户，完好性得以维持。
+
+seg-d238fbcc1f84 = 通过频段分集实现的 LEO-PNT 韧性：一台干扰机，一台四频段接收机。
+
+seg-4a60598e908a = LEO-PNT 对抗欺骗干扰（spoofing）的韧性：哪个监测器能发现哪种欺骗源。
+
+seg-45e191fe3971 = LEO-PNT 垂直行业：无线网络，5G/6G 基站授时。
+
+seg-2466e0a2b0ad = LEO-PNT 垂直行业：资产追踪与物联网（IoT），每次定位的能耗。
+
+seg-81df59dd795b = LEO-PNT 垂直行业：自动驾驶车辆，带 LEO 层的城市峡谷。
+
+seg-7cbec18ce36b = LEO-PNT 垂直行业：自动驾驶车辆的城市峡谷，分别作为平面截止角和街道。
+
+seg-c5cbb50f640e = LEO-PNT 垂直行业：关键基础设施授时，借助 LEO 时间守时（holdover）。
+
+seg-abf58b089d72 = LEO-PNT 垂直行业：极地和北极用户。
+
+seg-a7de37959bb9 = LEO-PNT 垂直行业：铁路与海事，内置的海事和铁路场景加上 LEO。
+
+seg-d40bc29ddd65 = <c1/><a1>campaign-jam-spoof-holdover-integrity</a1><a2>campaign-monte-carlo-clock-holdover</a2><a3>campaign-optimize-link-budget</a3><a4>campaign-shared-jammer-sea-road</a4><a5>campaign-spectrum-holdover-integrity</a5><a6>campaign-sweep-jammer-power</a6><a7>leo-focus-data-services</a7><a8>leo-focus-fused-pnt-sisre</a8><a9>leo-focus-indoor-uhf</a9><a10>leo-focus-iot-eirp</a10><a11>leo-focus-ntn-bandwidth</a11><a12>leo-focus-ppp-altitude</a12><a13>leo-resilience-gnss-jammed-leo-carries</a13><a14>leo-resilience-multiband-diversity</a14><a15>leo-resilience-spoof-monitors</a15><a16>leo-vertical-5g-network-timing</a16><a17>leo-vertical-asset-tracking-iot</a17><a18>leo-vertical-autonomous-vehicle</a18><a19>leo-vertical-autonomous-vehicle-skyline</a19><a20>leo-vertical-critical-infrastructure-timing</a20><a21>leo-vertical-polar-arctic</a21><a22>leo-vertical-rail-maritime</a22>
+
+seg-5e0d224192c9 = 其他
+
+seg-1358411799c7 = 研究套件：kshana --study 运行它
+
+seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
+
+seg-6cb4a75cb2f0 = 没有符合该筛选条件的内容。
+
+seg-ec1a22002e13 = <b>Pro：校准时钟孪生</b>以 <c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/> 为基础。<a1>查看它新增了什么</a1>
+
+seg-cc88295c3e2e = <b>Pro：排序权衡研究</b>以 <c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/> 为基础。<a1>查看它新增了什么</a1>
+
+seg-62942b0a2127 = <b>定制研究</b>以 <c1/> 为基础。<a1>查看它新增了什么</a1>
+
+seg-8cec53de04c5 = <b>Pro：设计优化器</b>以 <c1/> 为基础。<a1>查看它新增了什么</a1>
+
+seg-4bdca619acb5 = <b>Pro：不确定度与灵敏度</b>以 <c1/>、<c2/> 为基础。<a1>查看它新增了什么</a1>
+
+seg-35d8381e7605 = <b>Pro：任务档案</b>以 <c1/>、<c2/>、<c3/>、<c4/>、<c5/> 为基础。<a1>查看它新增了什么</a1>
+
+seg-08d3c155a74d = <b>Pro：测评活动监视</b>以 <c1/> 为基础。<a1>查看它新增了什么</a1>
+
+seg-ff9c1f190eb6 = <b>Pro：频谱共存</b>以 <c1/>、<c2/> 为基础。<a1>查看它新增了什么</a1>
+
+seg-219302489147 = 该类型有已独立核对的台账（ledger）行
+
+seg-07e6a0ac17ff = 该类型的行由模型计算得出
+
+seg-26f60db72dc5 = 未按名称匹配到台账（ledger）模块
+
+seg-cda8db6840d7 = { "61" } 项能力，每项均附证明。
+
+seg-fb17b5b2f47b = 能力卡片来自引擎自身的能力文件。<b>在 Kshana Studio 中运行</b>会打开相应场景的已记录运行。
+
+seg-85db75e49de8 = 按状态筛选
+
+seg-cf90e18aa5ea = 全部 { "61" }
+
+seg-1a60c5cff31e = 已独立核对 { "24" }
+
+seg-28c662f116f7 = 由模型计算 { "37" }
+
+seg-5c0f7a68bdf7 = 按分组筛选
+
+seg-e516a1a887b0 = 所有分组
+
+seg-298cc35fe9d1 = 惯性
+
+seg-b03984610dc0 = 月球
+
+seg-56bb928f3a90 = GNSS
+
+seg-f1f903f1b9ff = 韧性
+
+seg-40c7e792f2f0 = 互操作
+
+seg-f7ed808fa0de = 机器学习
+
+seg-6f253e0464fe = 海事
+
+seg-d3c33a1905dd = 搜索能力
+
+seg-bfbaae7044c8 = 搜索能力、领域或证明
+
+seg-bd64cfb4dc52 = 轨道外推与星座设计
+
+seg-a7cfe6f135f1 = 轨道与几何
+
+seg-3060564c3e21 = 666/666 个 AIAA 向量 · { "4.12" } mm
+
+seg-5b265eaf8f29 = 基于真实两行根数（已提交的 Celestrak GPS 快照）或合成 Walker 星座的 SGP4/SDP4 外推，后者的平均根数实现 i:T/P/F 公式，{ "24" } h 内偏差小于 { "1" } km。包括多星座可见性、精度因子和 GNSS 可用性，星座设计优化器，覆盖带尺寸设计，以及在轨道面数 × 卫星数网格上报告帕累托最优设计的 Walker 设计扫描。
+
+seg-531d7504639d = <b>AIAA</b> 美国航空航天学会 · <b>SGP4</b> 简化通用摄动 { "4" }，一种轨道模型 · <b>SDP4</b> 简化深空摄动 { "4" }，一种轨道模型 · <b>GPS</b> 全球定位系统 · <b>GNSS</b> 全球导航卫星系统
+
+seg-bbe75ebfb50d = 在 Kshana Studio 中运行 orbit-sgp4-gps
+
+seg-66e33b899daf = Cowell 外推器与六摄动力模型
+
+seg-a5a572db3bed = 数值外推器
+
+seg-52a4410a54da = 保守等级 < { "0.08" } m / { "24" } h，对照 Orekit { "12.2" }
+
+seg-463ed85c6e40 = 一个与解析 SGP4/SDP4 路径互补的数值（Cowell）外推器，采用分层力模型：二体 + 完整的 J2–J6 带谐场，可选的 EGM2008 田谐地球重力位（阶/次至 { "70" }），由历元驱动的太阳和月球第三体引力（内置星历，不用 DE/SPK 核），带锥形本影/半影的太阳辐射压，大气阻力，后牛顿 Schwarzschild 相对论修正，以及 Lense–Thirring 框架拖曳项；由 RK4 步长倍增或 Dormand–Prince RK5({ "4" }) 自适应积分器两者择一驱动。
+
+seg-67666da1a889 = <b>SGP4</b> 简化通用摄动 { "4" }，一种轨道模型 · <b>SDP4</b> 简化深空摄动 { "4" }，一种轨道模型 · <b>EGM2008</b> 地球重力场模型 { "2008" }
+
+seg-797370a2faef = 点火、Lambert 与 porkchop
+
+seg-57b120fb0aac = 机动与轨迹设计
+
+seg-5081c84dfdd7 = Tsiolkovsky < { "0.01" } % · Lambert 往返回到二体真值
+
+seg-da6b16ebd59b = 带 { "6" }×{ "6" } 协方差传播的脉冲 ΔV 节点，对照 Tsiolkovsky 火箭方程核对到误差小于 { "0.01" } % 的有限推力点火积分，Izzo-2015 单圈 Lambert 求解器和精确的通用变量 Kepler 外推器，以及以 JSON 等值线网格输出的 porkchop（发射 × 到达）C3 / 到达 V∞ 扫描：位于 GMAT/Orekit 之上的性能仿真层。
+
+seg-ea491e4871a7 = <b>JSON</b> JavaScript 对象表示法
+
+seg-831552a45712 = 时间尺度与地球定向坐标系
+
+seg-76b323512350 = 时间系统
+
+seg-60208bd726eb = 与 SOFA/ERFA 逐位一致 · Vallado 端到端 { "4" } mm
+
+seg-42373dd9ca64 = IERS 含闰秒的 UTC / TAI / TT / UT1 时间尺度，儒略日 API，IAU-2000 地球自转角，基于 GMST 的 TEME ↔ ECEF 与 WGS-84 大地坐标系，完整的 IAU 2000A/2000B 章动和 IAU { "2006" } 岁差，以及基于 CIO 的无春分点 IAU 2006/2000A GCRS↔ITRS 归算（含 IERS 极移）：已与 SOFA/ERFA 向量逐位核对一致，并与 ANISE（纯 Rust 的 SPICE）独立交叉核对：GCRS→ITRS 对照 ANISE ITRF93，使用相同的 IERS EOP，地面处相符至 ≤ { "0.86" } m，GNSS 轨道处相符至 ≤ { "3.6" } m。
+
+seg-e62bd32dc89e = <b>SOFA</b> 基础天文学标准 · <b>ERFA</b> 基础天文学基本例程 · <b>IERS</b> 国际地球自转与参考系统服务 · <b>UTC</b> 协调世界时 · <b>TAI</b> 国际原子时 · <b>TT</b> 地球时 · <b>UT1</b> 世界时 { "1" }，由地球自转确定 · <b>API</b> 应用程序接口 · <b>IAU</b> 国际天文学联合会 · <b>GMST</b> 格林尼治平恒星时 · <b>TEME</b> 真赤道平春分点坐标系 · <b>ECEF</b> 地心地固 · <b>WGS-84</b> 世界大地测量系统 { "1984" } · <b>CIO</b> 天球中间零点 · <b>GCRS</b> 地心天球参考系 · <b>ITRS</b> 国际地球参考系 · <b>SPICE</b> NASA 的航天器、行星、仪器、相机矩阵和事件工具包 · <b>ITRF93</b> 国际地球参考框架 { "1993" } · <b>EOP</b> 地球定向参数 · <b>GNSS</b> 全球导航卫星系统
+
+seg-dd766880e73a = 实时地球定向预测
+
+seg-54169bca19e9 = 对照已存档 Bulletin A 的 { "12" } 个提前期：UT1 { "2.93" } ms，极移 { "1.76" } mas
+
+seg-81be07e41d1c = 一个运行级风格的地球定向预测器：在尾随窗口内对偏置、速率和主要周期项做最小二乘，并对照真正已存档的 Bulletin A 预测来衡量，而不是对照持续性。离线默认输入是一份带有 Bulletin A 预测行的真实 IERS finals2000A 产品，因此直接运行即可输出填充好的各提前期表格，而不是空表。UT1 与极移连同它们的组合在同一组行上报告，所以联合数字是一个统计量，而不是两个不同样本的二次和。
+
+seg-ecffa83dc257 = <b>UT1</b> 世界时 { "1" }，由地球自转确定 · <b>IERS</b> 国际地球自转与参考系统服务
+
+seg-99080ef2f06d = 在 Kshana Studio 中运行 realtime-frame-eop
+
+seg-0e18bc4add10 = 捷联 INS 与地图辅助导航
+
+seg-26561c9a96a7 = 第一性原理 CAI 加速度计 · 推导的 VRW 与独立积分器交叉核对
+
+seg-d18714ee32fb = 三轴捷联 INS：四元数姿态，WGS-84 NED 机械编排，圆锥/划桨补偿，以及完整的确定性 IMU 误差模型；外加第一性原理冷原子干涉仪加速度计（Mach–Zehnder 相位、投影噪声、对比度衰减、振动耦合），以及用于地形/重力参考 GPS 拒止导航的粒子滤波器。
+
+seg-f7266d7f37a0 = <b>INS</b> 惯性导航系统 · <b>CAI</b> 冷原子干涉仪 · <b>VRW</b> 速度随机游走 · <b>WGS-84</b> 世界大地测量系统 { "1984" } · <b>NED</b> 北东地坐标系 · <b>IMU</b> 惯性测量单元 · <b>GPS</b> 全球定位系统
+
+seg-e79f36c2013b = 在 Kshana Studio 中运行 imu-deadreckoning
+
+seg-0e44bdf12d16 = 中断期间的惯性与地形相对滑行
+
+seg-07cb40aa5cd1 = { "10" } m 出现在 { "249" } s，{ "50" } m 出现在 { "595" } s，两处均以加速度计偏置为主
+
+seg-d5df17e4425b = 由 IMU 误差预算得到的位置误差随滑行时长的变化：偏置、随机游走和比例因子，各有自己的增长规律和各自在越限中所占的份额，因此导航中断的代价是一条计算出的曲线，而不是扫描出的漂移率。阈值越限是引擎输出，每一处都注明主导贡献，涵盖四个 IMU 等级；地形修正间隔在自己的块中评分，因此主要的越限结果保持无辅助。
+
+seg-c58f30be2468 = <b>IMU</b> 惯性测量单元
+
+seg-9cf68651e126 = 在 Kshana Studio 中运行 ins-trn-coast
+
+seg-6631a5d69c84 = 重力、地形与磁场地图匹配
+
+seg-6af8e99df46d = 替代 PNT（GPS 拒止）
+
+seg-72527f4459c7 = 60 分钟 GPS 拒止 · ~{ "145" } m（< { "500" } m）
+
+seg-89bd5fb3e90b = 一个冷原子重力仪测量模型，其白噪声下限由 CAI 加速度计物理推导而来；一个低阶全归一化球谐重力异常场外加合成质量瘤；以及一个重力图匹配粒子滤波器；并扩展到对照 SRTM 高程 DEM 的地形参考导航（TERCOM/SITAN）、阶/次至 { "13" } 的 IGRF-14 地磁主场，以及融合全部三个标量通道的重力 + 磁场 + 地形组合导航器。一个 60 分钟 GPS 拒止基准测试：约 { "700" } km、持续一小时的中断，其间惯性解漂移到约 { "70" } km；由分层由粗到精的匹配器恢复到约 { "145" } m：即 ESA NAVISP Quantum Wayfarer 目标。
+
+seg-bdd65fb9dd76 = <b>PNT</b> 定位、导航与授时 · <b>GPS</b> 全球定位系统 · <b>CAI</b> 冷原子干涉仪 · <b>SRTM</b> 航天飞机雷达地形测绘任务 · <b>DEM</b> 数字高程模型 · <b>TERCOM</b> 地形等高线匹配 · <b>SITAN</b> 桑迪亚惯性地形辅助导航 · <b>IGRF-14</b> 国际地磁参考场，第 14 代 · <b>ESA</b> 欧洲航天局
+
+seg-24eb5b048c45 = 在 Kshana Studio 中运行 gps-denied-gravity-nav
+
+seg-dbd63be796ff = GNSS / INS 传感器融合
+
+seg-f9582184adea = 融合
+
+seg-f2166e96405f = 紧耦合 UKF · { "0.77" } m RMS
+
+seg-d6ad19d1d47b = 一个 15 状态误差状态 EKF，在 GNSS 中断期间依靠已校准的惯性解滑行；一种紧耦合伪距模式，在可见卫星少于四颗时仍持续修正；一个耦合的时钟 + 位置滤波器；一个通用的无迹（sigma 点）卡尔曼估计器；一个紧耦合 GNSS/INS UKF 导航器，在弯曲的 LEO 过境上经过 { "120" } s 中断验证达到 { "0.77" } m RMS；以及一个完整的 17 状态紧耦合 GNSS/INS UKF，其量子 CAI 航位推算依靠冷原子加速度计推导出的速度随机游走来滑行通过中断。
+
+seg-c081d9b84125 = <b>GNSS</b> 全球导航卫星系统 · <b>INS</b> 惯性导航系统 · <b>UKF</b> 无迹卡尔曼滤波器 · <b>RMS</b> 均方根 · <b>EKF</b> 扩展卡尔曼滤波器 · <b>LEO</b> 低地球轨道 · <b>CAI</b> 冷原子干涉仪
+
+seg-b1a268894f4c = 在 Kshana Studio 中运行 gnss-ins
+
+seg-4af862bd1307 = 批处理与序贯定轨
+
+seg-ca67c864635c = 定轨
+
+seg-948441304a32 = 批处理 + 序贯定轨，对照 Orekit { "12.2" } BatchLSEstimator/KalmanEstimator
+
+seg-22e738b2ab57 = 由地面站测距跟踪恢复轨道状态，将二体 + J2 力模型和 RK4 积分器与高斯–牛顿批处理微分校正器（无噪声测距下为亚米级 / mm·s⁻¹，{ "5" } m 噪声下限下约 { "2" } m）以及序贯无迹滤波器变体组合起来。
+
+seg-c876fc6a7893 = <b>OD</b> 定轨
+
+seg-06406b3d0b88 = Fisher 信息与可观测性
+
+seg-4e28248ef77b = 可观测性与估计理论
+
+seg-a5b38d0a8d64 = 特征值对照 numpy.linalg.eigh · CRLB 对照经 numpy.linalg.inv 得到的 σ²(XᵀX)⁻¹ · 由信息矩阵得到的 GNSS DOP，均到 { "1e-9" } · Kay（{ "1993" }）闭式解 + 蒙特卡罗 CRLB 达到情况
+
+seg-3ee5597d6f8a = 一个通用、可复用的 Fisher 信息 / Cramér–Rao 层（src/fim.rs）：信息矩阵 M = HᵀWH、Cramér–Rao 下界、可观测性秩和基准缺陷零空间（Moore–Penrose 伪逆），以及由对称 Jacobi 特征值求解器得到的 D/A/E/T 最优实验设计标量。它支撑 DOP 引擎、被动地理定位界限，以及月球绝对站点可观测性结果：内部测距会留下六自由度刚体基准缺陷，对稀疏星座而言，地球基线 VLBI 连接可将其恢复，对丰富星座则可使其更锐化，绝对基准在三个不共线的地球站处闭合。
+
+seg-9566c694b6fd = <b>CRLB</b> Cramér–Rao 下界 · <b>GNSS</b> 全球导航卫星系统 · <b>DOP</b> 精度因子 · <b>DOF</b> 自由度 · <b>VLBI</b> 甚长基线干涉测量
+
+seg-ed467622dbd0 = CR3BP 外推与 LunaNet 完好性
+
+seg-e386dced1d16 = 月球与地月空间
+
+seg-f444bc39efbe = 复现已发表的 L2 { "9" }:{ "2" } NRHO（周期约 { "6.57" } d · 近月点约 { "3,250" } km）；STM 对照有限差分核对
+
+seg-272afbca5e48 = 一个旋转坐标系中的地月圆形限制性三体（CR3BP）外推器：守恒的 Jacobi 常数和全部五个拉格朗日点，带 { "6" }×{ "6" } 状态转移矩阵和单次打靶微分校正器，可生成真正周期性的晕轨道 / 近直线晕轨道（NRHO）：它复现已发表的 L2 南向 { "9" }:{ "2" } NRHO（Gateway 轨道），周期约 { "6.57" } 天，近月点约 { "3,250" } km。外加 LunaNet / LNIS 地月空间 PNT 几何（MCI↔MCMF 归算、月面坐标），以及一次月球南极 ARAIM 过境，它如实暴露出完好性缺口：约 { "30" } m 的 σ_URE 使保护级远高于 { "50" } m 的告警限值。
+
+seg-cfec509023dc = <b>CR3BP</b> 圆形限制性三体问题 · <b>NRHO</b> 近直线晕轨道 · <b>STM</b> 状态转移矩阵 · <b>PNT</b> 定位、导航与授时 · <b>MCI</b> 月心惯性坐标系 · <b>MCMF</b> 月心月固坐标系 · <b>ARAIM</b> 先进接收机自主完好性监测
+
+seg-2671102679a1 = 在 Kshana Studio 中运行 lunanet-araim
+
+seg-619f89bf160c = 月球参考坐标系实现
+
+seg-c6b12768a219 = 对照 numpy/scipy Umeyama–Horn SVD
+
+seg-29327b86ea27 = 由观测活动实现月固坐标系：对站点–反射器几何做加权高斯–牛顿相似变换拟合，报告基准、其协方差和确定得最差的坐标轴。耦合的坐标系与时间尺度规范被明确保留而不是被吸收，因此秩亏在报告中清晰可见，而不是埋没在伪逆里。
+
+seg-fb071ff8e1ed = <b>SVD</b> 奇异值分解
+
+seg-ad891e3678e4 = 在 Kshana Studio 中运行 lunar-frame-realisation
+
+seg-b3ba1e7b197d = 月球导航服务区与 ARAIM
+
+seg-353878596468 = ANISE { "0.10.2" } 轨道 · RTKLIB 2.4.2-p13
+
+seg-70b9c02c1f6a = 在月面坐标网格上扫描一个示意性的 Moonlight/LCNS 级星座：可见性、精度因子、覆盖，以及对照可配置告警限值的逐历元 ARAIM 保护级。空间信号测距精度是一个参数，因此该扫描回答的是整个服务区内的测距要求，而不是在某个固定值上的通过/不通过。
+
+seg-8304ca0e00e5 = <b>ARAIM</b> 先进接收机自主完好性监测 · <b>RTKLIB</b> 一个开源 GNSS 定位库
+
+seg-ee2f1f95951d = 在 Kshana Studio 中运行 moonlight-service-volume
+
+seg-a94db5b03c9c = 跨提供方的月球互操作预算
+
+seg-a2e8a8dfd666 = DE440 · INPOP21a · EPM2021，经 calceph
+
+seg-646a00230694 = 衡量三种独立的权威月球星历实际相差多远，并将其转化为一条设计规律：混合提供方用户所继承的坐标系与星历误差预算，以及提供方为将该预算保持在规定界限内必须维持的一致性容差。
+
+seg-d2cc1c282efa = 在 Kshana Studio 中运行 lunar-interop-export
+
+seg-0f359c118090 = 自主自由网故障可观测性
+
+seg-ae99396c03bd = 对照独立的 numpy/scipy 奇偶代数
+
+seg-51828c93731b = 自参照月球星座在没有地面真值时检测自身故障所需的线性代数：以秩亏伪逆形式给出的、在基准与时间尺度规范下仍然成立的加权奇偶投影，逐节点可检测性，Baarda 最小可检测偏差，以及基于真实 DE440 节点间几何的拜占庭块火花检测/识别计数。
+
+seg-8e69193ca540 = 一个与框架对齐的评分引擎（DHS RPCF 类别），把某个架构的仿真行为映射为各维度的子分数，然后检验任何单一的综合分数或成熟度等级是否构成稳定的决策依据：通过 Dirichlet 权重单纯形、Kendall-tau 排序不稳定性、top-1 胜者翻转率和共模多样性坍缩（Hill-N2），并给出带完整性哈希的保障报告。可通过 cargo run --example resilience_report 复现。由模型计算的合成架构，与 RPCF v2.0 对齐；这是一项自我评估，不是认证。
