@@ -351,3 +351,71 @@ seg-1a26d420ba67 = 另请参阅
 seg-c4f4b2ca0647 = 取值
 
 seg-e8968e86f31b = 局限
+
+seg-7dc0fcd6ef77 = aocs
+
+seg-c6ced184b8eb = campaign
+
+seg-bcc7452b7e9c = clock
+
+seg-00593bd8a3ed = ephemeris
+
+seg-0cb65c6c4f53 = fusion
+
+seg-dbe8c830ef6c = hybrid
+
+seg-eae62828dc7a = inertial
+
+seg-8af88a0e2a69 = integrity
+
+seg-9a63fde1d8b1 = jamming
+
+seg-f8450911ddd6 = orbit
+
+seg-6dd5a0d55f18 = passes
+
+seg-786068921d01 = pvt
+
+seg-63f112536118 = reentry
+
+seg-f79dad339a1e = spectrum
+
+seg-8ea9f458185d = spoof
+
+seg-460826ea7719 = sweep
+
+seg-55f3ac33d883 = timetransfer
+
+seg-a37260157d35 = 输入
+
+seg-0ffd6d4b0d8c = 来自模式（<c1/>）：
+
+seg-7a473d2b9b37 = 必填字段：无
+
+seg-0484c5d57886 = 未说明
+
+seg-619be4963365 = 文本
+
+seg-15636cc68f72 = 标志
+
+seg-473eb8189015 = 运行
+
+seg-8b01aa51263e = 给出什么
+
+seg-5aa75472f59d = 该次运行的标量结果，单位为引擎所给出的单位：
+
+seg-dfd41abc16b5 = 结果
+
+seg-0df8f55cbe06 = deg
+
+seg-4798bca2d7a7 = MODELLED：列出此类型的<a1>验证矩阵</a1>各行。
+
+seg-6338a873ee85 = 本次运行实际涉及的各行，以及矩阵为每行给出的参考基准（oracle）（公开来源在矩阵中列出）：
+
+seg-fe24dcc6971f = <b>MODELLED</b> 确定性、场景哈希、SBOM 加跨平台 golden 门限。参考基准（ExternalDataset）：SBOM 与官方 CycloneDX { "1.5" } JSON Schema（加有效的 SPDX 标识符）一致，这是已发布的外部标准，整个依赖图上零验证错误；FoM 确定性与逐字节可复现性部分仍是固定的自洽性检查，因此该行仍为 MODELLED
+
+seg-1fc08d2f0209 = 本次运行自身的报告所说的未建模或未经独立验证的内容：
+
+seg-58c4d7218e70 = 可复现性与软件保障为 MODELLED，而不是经独立验证：其中一项子声明经过外部核对，但整项能力由模型计算的部分组合而成，因此该能力仍属于由模型计算得出一级。（验证矩阵（docs/MODELLED-RATIONALE.md））
+
+seg-1bf3d5817274 = 所有类型：<a1>KINDS.md</a1>
