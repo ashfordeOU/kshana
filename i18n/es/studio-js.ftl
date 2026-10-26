@@ -5024,3 +5024,1501 @@ js-lib-guided-seed-label = Semilla aleatoria
 js-lib-guided-sigma-uere-m-hint = error de distancia equivalente del usuario de 1 σ para el resumen de posición
 
 js-lib-guided-sigma-uere-m-label = Error de distancia σ (m)
+
+js-lib-guided-station-lat-deg-hint = latitud de la estación terrestre: determina la geometría del paso
+
+js-lib-guided-station-lat-deg-label = Latitud de la estación (°)
+
+js-lib-guided-station-lon-deg-hint = longitud de la estación terrestre
+
+js-lib-guided-station-lon-deg-label = Longitud de la estación (°)
+
+js-lib-guided-step-s-hint = cadencia de muestreo de la traza en tierra
+
+js-lib-guided-step-s-label = Paso de tiempo (s)
+
+js-lib-guided-threshold-ns-hint = presupuesto dentro de especificación; "disponible" mientras el error se mantiene por debajo
+
+js-lib-guided-threshold-ns-label = Umbral de especificación (ns)
+
+js-lib-guided-time-duration-s-hint = duración total de la ejecución
+
+js-lib-guided-time-duration-s-label = Duración (s)
+
+js-lib-guided-time-step-s-hint = cadencia de integración y de muestreo
+
+js-lib-guided-time-step-s-label = Paso de tiempo (s)
+
+js-lib-guided-user-altitude-km-hint = la altitud orbital de la nave espacial del usuario
+
+js-lib-guided-user-altitude-km-label = Altitud del usuario (km)
+
+js-lib-guided-user-inclination-deg-hint = la inclinación de la órbita del usuario
+
+js-lib-guided-user-inclination-deg-label = Inclinación del usuario (°)
+
+js-lib-imufit-card-accel-slope = Pendiente de Allan del acelerómetro, inicial (cerca de -0.5 para ruido blanco)
+
+js-lib-imufit-card-bias = Sesgo del acelerómetro, media (m/s²)
+
+js-lib-imufit-card-bias-instability = Inestabilidad del sesgo del acelerómetro (m/s²), 0 cuando la curva no tiene suelo
+
+js-lib-imufit-card-gyro-bias = Sesgo del giroscopio, media (rad/s)
+
+js-lib-imufit-card-gyro-slope = Pendiente de Allan del giroscopio, inicial (cerca de -0.5 para ruido blanco)
+
+js-lib-imufit-card-note-n = Nota { $n }
+
+js-lib-imufit-card-q-arw = Paseo aleatorio de ángulo del giroscopio, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Paseo aleatorio de velocidad del acelerómetro, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Frecuencia de muestreo
+
+js-lib-imufit-card-samples = Muestras
+
+js-lib-imufit-card-span = Intervalo
+
+js-lib-jammertest-card-clean-epochs = Épocas limpias
+
+js-lib-jammertest-card-clean-hours = Horas limpias
+
+js-lib-jammertest-card-detected = Detectado dentro de la tolerancia
+
+js-lib-jammertest-card-detection-rate = Tasa de detección (cualquier alarma)
+
+js-lib-jammertest-card-evaluable = Evaluable
+
+js-lib-jammertest-card-fa-epochs = Épocas de falsa alarma
+
+js-lib-jammertest-card-fa-per-hour = Ejecuciones de falsa alarma por hora
+
+js-lib-jammertest-card-fa-runs = Ejecuciones de falsa alarma
+
+js-lib-jammertest-card-in-tol-rate = Detectado dentro de la tolerancia, tasa
+
+js-lib-jammertest-card-late = Tardío
+
+js-lib-jammertest-card-median-latency = Latencia mediana de detección
+
+js-lib-jammertest-card-median-recover = Tiempo mediano de recuperación
+
+js-lib-jammertest-card-missed = Omitido
+
+js-lib-jammertest-card-na = n/d
+
+js-lib-jammertest-card-not-assessable = Ninguna prueba fue evaluable en este registro, así que no se puede indicar ninguna tasa de detección ni latencia. Eso es un resultado, no un fallo de la página: nada de esto es un aprobado.
+
+js-lib-jammertest-card-not-json = { $name }: no es JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: no es una tarjeta de puntuación de jammertest (necesita tests[] y summary).
+
+js-lib-jammertest-card-tests = Pruebas del tramo del plan
+
+js-lib-jammertest-card-too-large = { $name }: mayor de 8 MiB; esta página lee una tarjeta de puntuación de hasta ese tamaño.
+
+js-lib-kpi-available-everywhere = disponible en todas partes, en cada época
+
+js-lib-kpi-available-everywhere-pdop = disponible en todas partes, en cada época (PDOP, dilución de la precisión de posición, por debajo de { $thr })
+
+js-lib-kpi-drops-under = cae por debajo del umbral de seguimiento de { $thr } dB-Hz: enganche perdido
+
+js-lib-kpi-end-of-mission = al final de la misión
+
+js-lib-kpi-figure-tiers = Niveles de las cifras: { $parts }.
+
+js-lib-kpi-n-modelled =
+    { $n ->
+        [one] { $n } modelada
+        [many] { $n } de modeladas
+       *[other] { $n } modeladas
+    }
+
+js-lib-kpi-n-partner =
+    { $n ->
+        [one] { $n } a cargo del socio
+        [many] { $n } a cargo del socio
+       *[other] { $n } a cargo del socio
+    }
+
+js-lib-kpi-n-validated =
+    { $n ->
+        [one] { $n } validada
+        [many] { $n } de validadas
+       *[other] { $n } validadas
+    }
+
+js-lib-kpi-no-change = sin cambios
+
+js-lib-kpi-no-fix = { $pct } % del tiempo o de los lugares sin solución
+
+js-lib-kpi-no-fix-pdop = { $pct } % del tiempo o de los lugares sin solución con PDOP por debajo de { $thr }
+
+js-lib-kpi-over-jump = por encima del umbral de salto de { $thr } m
+
+js-lib-kpi-over-pdop = por encima del umbral de PDOP { $thr }
+
+js-lib-kpi-stays-above = se mantiene por encima del umbral de seguimiento de { $thr } dB-Hz
+
+js-lib-kpi-under-jump = por debajo del umbral de salto de { $thr } m
+
+js-lib-kpi-under-pdop = por debajo del umbral de PDOP { $thr }
+
+js-lib-orbit3d-apogee = apogeo
+
+js-lib-orbit3d-perigee = perigeo
+
+js-lib-orbit3d-prov-scenario = escenario { $hash }
+
+js-lib-orbit3d-title = Órbita (ECI, ortográfica)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Sesgo del reloj
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Posición 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Posición RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Posición σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = σ de frecuencia del reloj
+
+js-lib-overlay-meta-mean-relays-in-view = Relés a la vista
+
+js-lib-overlay-meta-pos-p95-m = Posición p95
+
+js-lib-overlay-meta-pos-rms-m = Posición RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS posajuste
+
+js-lib-overlay-prov-scenario = escenario { $hash }
+
+js-lib-overlay-subtitle =
+    |error| (ns) frente al tiempo — { $n ->
+        [one] { $n } ejecución
+        [many] { $n } de ejecuciones
+       *[other] { $n } ejecuciones
+    }
+
+js-lib-overlay-time-s = tiempo (s)
+
+js-lib-overlay-title = Superposición: error de temporización durante la interrupción
+
+js-lib-packs-cannot-unpack = este navegador no puede descomprimir el archivo registrado
+
+js-lib-replay-demos-below-130 = Solo se conservan los acimuts por debajo de 130° (declarado)
+
+js-lib-replay-demos-coastal-drag-off = Arrastre costero
+
+js-lib-replay-demos-combined-event = Evento combinado
+
+js-lib-replay-demos-drag-off-stated = Arrastre de la posición (declarado por la demostración)
+
+js-lib-replay-demos-ferry-drag-off = Travesía en ferri, arrastre de la posición
+
+js-lib-replay-demos-ferry-drag-off-description = Un registro de ferri inventado, de Tallin a Helsinki, a 1 Hz. Desde los 1500 s un arrastre de la posición aleja la posición notificada mientras el receptor sigue notificando una solución válida.
+
+js-lib-replay-demos-fjord = Degradación natural en un fiordo
+
+js-lib-replay-demos-masked-sky = Travesía en ferri, la mitad del cielo enmascarada
+
+js-lib-replay-demos-masked-sky-description = El mismo registro de ferri con la mitad occidental del cielo silenciada desde los 600 s, un cielo más estrecho de los 900 s a los 1200 s y el arrastre desde los 1500 s: una ejecución en la que fallan por turnos el cielo, la señal y la posición.
+
+js-lib-replay-demos-open-sea-jamming = Jamming en mar abierto
+
+js-lib-replay-demos-port-approach = Spoofing de tiempo en la aproximación a puerto
+
+js-lib-replay-demos-source-training = Escenario sintético { $id }: el flujo nmea_training y el registro de instructor del motor, puntuados por su receiver-trust.
+
+js-lib-replay-demos-source-trust = Registro sintético { $id }: NMEA inventado, puntuado por el receiver-trust del motor.
+
+js-lib-replay-demos-west-masked = Mitad occidental del cielo enmascarada (declarado)
+
+js-lib-replay-demos-west-masked-again = Mitad occidental enmascarada otra vez (declarado)
+
+js-lib-report-charts = Gráficos
+
+js-lib-report-eyebrow = el instante preciso
+
+js-lib-report-figures-of-merit = Cifras de mérito
+
+js-lib-report-footer = Kshana { $version } · escenario { $hash } · generado { $iso }. Reproducible a partir del escenario, la semilla y la versión del motor. Se ejecuta en local; no se sube nada.
+
+js-lib-report-not-applicable = no aplicable (ningún ataque configurado)
+
+js-lib-report-scenario-definition = Definición del escenario (TOML)
+
+js-lib-report-th-clock = Reloj
+
+js-lib-report-th-metric = Métrica
+
+js-lib-report-th-validation = Validación
+
+js-lib-report-th-value = Valor
+
+js-lib-report-tier-note = Cada cifra de mérito lleva la etiqueta { $validated } (comprobada frente a una referencia independiente externa) o { $modelled } (de primeros principios, probada internamente), derivada de la matriz de verificación.
+
+js-lib-report-title = Kshana — informe del escenario
+
+js-lib-skydraw-azimuth-range = acimut de { $from } a { $to } grados
+
+js-lib-skydraw-describe =
+    { $listed ->
+        [one] { $listed } satélite listado
+        [many] { $listed } de satélites listados
+       *[other] { $listed } satélites listados
+    }, { $heard } con señal
+
+js-lib-skydraw-describe-mean =
+    { $listed ->
+        [one] { $listed } satélite listado
+        [many] { $listed } de satélites listados
+       *[other] { $listed } satélites listados
+    }, { $heard } con señal, media { $snr } dB-Hz
+
+js-lib-skydraw-east = E
+
+js-lib-skydraw-no-signal-from = sin señal de { $sectors }
+
+js-lib-skydraw-none-listed = Ningún satélite listado en el registro en este momento.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: elevación { $el }, acimut { $az }, señal { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: elevación { $el }, acimut { $az }, listado, sin señal
+
+js-lib-skydraw-south = S
+
+js-lib-skydraw-unheard-sector = Satélites listados entre los acimuts { $from } y { $to } grados, ninguno con señal
+
+js-lib-skydraw-west = O
+
+js-lib-skyline-edit-describe = Perfil del horizonte sobre { $blocked } de 360 grados de acimut; el más alto { $el }° en el acimut { $az }°.
+
+js-lib-skyline-edit-open = Horizonte abierto: sin perfil.
+
+js-lib-stages-all-planets = Todos los planetas
+
+js-lib-stages-au-from-sun = { $d } au del Sol
+
+js-lib-stages-band-carrier = portadora { $name }, { $mhz } MHz
+
+js-lib-stages-bin-title =
+    { $from } a { $to }{ $unit }: { $count ->
+        [one] { $count } ejecución
+        [many] { $count } de ejecuciones
+       *[other] { $count } ejecuciones
+    }
+
+js-lib-stages-body-and-moons = { $name } y sus lunas
+
+js-lib-stages-cell-title = lat { $lat }°, lon { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Mensaje de navegación
+
+js-lib-stages-chain-pass = Paso y enlace
+
+js-lib-stages-chain-ppp = Posicionamiento preciso de punto
+
+js-lib-stages-chain-pvt = Posicionamiento fusionado
+
+js-lib-stages-chain-signal = Diseño de la señal
+
+js-lib-stages-coverage-aria = { $field } sobre { $body }, por latitud y longitud
+
+js-lib-stages-feature-n = elemento { $n }
+
+js-lib-stages-flag = indicador
+
+js-lib-stages-frequency-mhz = frecuencia (MHz)
+
+js-lib-stages-from-to = { $from } a { $to }
+
+js-lib-stages-geojson-aria = La exportación GeoJSON dibujada en un mapa
+
+js-lib-stages-histogram = Histograma
+
+js-lib-stages-inner-planets = Planetas interiores
+
+js-lib-stages-km-from-centre = { $d } km de { $centre }
+
+js-lib-stages-linear-scale = escala lineal
+
+js-lib-stages-link-light-time = { $from } a { $to }: tiempo de luz de ida { $time } s
+
+js-lib-stages-longitude-axis = longitud · latitud en el lateral
+
+js-lib-stages-mission-time = tiempo de misión (s)
+
+js-lib-stages-noise-floor = piso de ruido
+
+js-lib-stages-orrery-note = { $scale } · plano x-y del marco, visto desde su polo norte
+
+js-lib-stages-panel-n = Panel { $n }
+
+js-lib-stages-plan-view-aria = Vista en planta de { $centre } y de los cuerpos que lo rodean, { $scale }
+
+js-lib-stages-psd-at-t = Densidad espectral de potencia en t = { $t } s
+
+js-lib-stages-psd-axis = densidad espectral de potencia (dBW/Hz)
+
+js-lib-stages-runs = ejecuciones
+
+js-lib-stages-sat-title = { $constellation } { $id } · lat { $lat }°, lon { $lon }°
+
+js-lib-stages-satellites = satélites
+
+js-lib-stages-spectrum-at-t = espectro en t = { $t } s
+
+js-lib-stages-sqrt-scale = escala de distancia de raíz cuadrada
+
+js-lib-stages-the-body = el cuerpo
+
+js-lib-stages-time-s = tiempo (s)
+
+js-lib-stages-unit-alarm = Alarma
+
+js-lib-stages-unit-cn0 = Densidad de portadora a ruido
+
+js-lib-stages-unit-position = Posición y protección
+
+js-lib-stages-unit-satellites = Satélites
+
+js-lib-stages-unit-time-error = Error de tiempo
+
+js-lib-stages-waterfall-aria = Cascada de densidad espectral de potencia: frecuencia en horizontal, tiempo hacia abajo
+
+js-lib-stages-whole-band = Toda la banda
+
+js-lib-sweep-clock-availability = Disponibilidad de { $who }
+
+js-lib-sweep-clock-holdover = Holdover de { $who } (s)
+
+js-lib-sweep-clock-timing-p95 = Temporización p95 de { $who } (ns)
+
+js-lib-sweep-clock-timing-rms = Temporización RMS de { $who } (ns)
+
+js-lib-sweep-max-altitude = altitud máxima (km)
+
+js-lib-sweep-max-elevation = elevación máxima (°)
+
+js-lib-sweep-max-speed = velocidad máxima (m/s)
+
+js-lib-sweep-min-altitude = altitud mínima (km)
+
+js-lib-sweep-peak-doppler = Doppler máximo (Hz)
+
+js-lib-sweep-prov-scenario = escenario { $hash }
+
+js-lib-sweep-y-vs-x = { $y } frente a { $x }
+
+js-lib-tabs-3d-orbit = Órbita 3D
+
+js-lib-tabs-figures-of-merit = Cifras de mérito
+
+js-lib-tabs-stability = Estabilidad
+
+js-lib-tabs-sweep = Barrido
+
+js-lib-tabs-time-series = Serie temporal
+
+js-lib-tour-ashforde-body = Gracias por explorar Kshana. Construimos ingeniería abierta, reproducible y basada primero en la evidencia para misiones que no pueden fallar, con honestidad sobre lo que está validado y lo que está modelado. ¿Preguntas, una colaboración o un estudio? Escríbanos a contact@ashforde.org.
+
+js-lib-tour-ashforde-title = De Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Elija una pestaña de dominio (Órbitas, Temporización, Inercial, GNSS, Resiliencia, Lunar, IA/ML, Interoperabilidad) para ver sus capacidades, cada una rotulada Validado o Modelado, con un botón ▸ ejecutar para los escenarios trabajados. Abra “Evidencia y procedencia” en cualquier dominio para rastrear la prueba, o active “Solo validado” para mostrar solo lo que se comprueba frente a una referencia independiente externa.
+
+js-lib-tour-capabilities-title = Explore el motor, un dominio a la vez
+
+js-lib-tour-cite-body = Kshana está hecho para ser citado: una versión de software citable con un DOI, además de artículos de estilo académico sobre la brecha de optimismo de las degradaciones de RF y un nivel de protección de temporización condicional. Copie la cita directamente desde aquí.
+
+js-lib-tour-cite-title = Publicaciones y cómo citar
+
+js-lib-tour-download-report-body = La pestaña Barrido varía un parámetro a lo largo de un rango; “Fijar para comparar” superpone dos o más ejecuciones una junto a otra con la Δ entre ellas (funciona entre tipos de escenario: reloj, PNT en Marte, posicionamiento…); y este botón descarga la ejecución como un informe HTML autónomo y sin conexión.
+
+js-lib-tour-download-report-title = Barrer, comparar y exportar
+
+js-lib-tour-guided-body = Los controles guiados se adaptan al escenario (semilla, umbral de especificación, duración, máscara de elevación, altitud de la órbita) y cada cambio vuelve a ejecutar al instante.
+
+js-lib-tour-guided-title = Ajuste los controles deslizantes
+
+js-lib-tour-mcp-body = Un servidor MCP permite que los asistentes de IA ejecuten el motor validado en lugar de adivinar; un complemento de JetBrains ejecuta escenarios con un clic derecho.
+
+js-lib-tour-mcp-title = Úselo desde un agente de IA o su IDE
+
+js-lib-tour-playground-body = Elija un escenario en el menú desplegable, o pulse ▸ ejecutar en cualquier capacidad de arriba, y el motor se ejecuta como WebAssembly en su máquina. No se sube nada.
+
+js-lib-tour-playground-title = Ejecútelo en su navegador
+
+js-lib-tour-run-body = Ejecute el escenario actual. Abra “Avanzado” para editar el TOML y cambiar lo que quiera; “Copiar enlace para compartir” reproduce esta misma ejecución para otra persona.
+
+js-lib-tour-run-title = Ejecútelo
+
+js-lib-tour-tabs-body = Cambie entre las cifras de mérito, el gráfico de serie temporal, la estabilidad del reloj (desviación de Allan) y, en las ejecuciones de órbita, una vista 3D interactiva de la órbita.
+
+js-lib-tour-tabs-title = Lea los resultados
+
+js-lib-tour-validation-body = El mismo explorador es también el registro de evidencias: cada dominio lleva un cajón de “Evidencia y procedencia” con la cifra, la referencia independiente externa frente a la que se comprueba y un estado honesto de Validado o Modelado por afirmación. “Solo validado” filtra a las filas comprobadas con conjuntos de datos.
+
+js-lib-tour-validation-title = Evidencia, no adjetivos
+
+js-lib-views-3-sigma-bound = cota de 3 sigma
+
+js-lib-views-3d-position-error = error de posición 3D
+
+js-lib-views-a-parameter = un parámetro
+
+js-lib-views-band-runs =
+    Banda de error de tiempo en { $runs ->
+        [one] { $runs } ejecución de Monte Carlo
+        [many] { $runs } de ejecuciones de Monte Carlo
+       *[other] { $runs } ejecuciones de Monte Carlo
+    }
+
+js-lib-views-band-the-runs = Banda de error de tiempo en las ejecuciones de Monte Carlo
+
+js-lib-views-below-tracking = por debajo del umbral de seguimiento
+
+js-lib-views-chart = gráfico
+
+js-lib-views-classical = clásico
+
+js-lib-views-epoch = época
+
+js-lib-views-four-needed = se necesitan 4 para una solución
+
+js-lib-views-free-inertial = inercial libre
+
+js-lib-views-gnss-denied = GNSS denegado
+
+js-lib-views-ground-track = Traza en tierra
+
+js-lib-views-heatmap-effective = Densidad de portadora a ruido efectiva por satélite y tiempo
+
+js-lib-views-heatmap-nominal = Densidad de portadora a ruido nominal (sin jammer) por satélite y tiempo
+
+js-lib-views-horizontal-alert-limit = límite de alerta horizontal
+
+js-lib-views-horizontal-hpl = horizontal (HPL)
+
+js-lib-views-id-bound = cota de { $id }
+
+js-lib-views-id-median = mediana de { $id }
+
+js-lib-views-id-offset = desfase de { $id }
+
+js-lib-views-id-p95 = p95 de { $id }
+
+js-lib-views-map-matched = ajustado al mapa
+
+js-lib-views-map-matched-title = Ajustado al mapa frente al error de posición inercial libre
+
+js-lib-views-metric = métrica
+
+js-lib-views-oscillator = oscilador
+
+js-lib-views-oscillator-source = oscilador ({ $source })
+
+js-lib-views-position-error-axis = error de posición ({ $unit })
+
+js-lib-views-position-error-m = error de posición (m)
+
+js-lib-views-position-error-run = Error de posición a lo largo de la ejecución
+
+js-lib-views-position-m = posición (m)
+
+js-lib-views-predicted-time-error = Error de tiempo previsto desde la última solución
+
+js-lib-views-protection-level-m = nivel de protección (m)
+
+js-lib-views-protection-levels = Niveles de protección frente al límite de alerta
+
+js-lib-views-quantum = cuanto
+
+js-lib-views-relay-error-bound = Error de posición de la navegación por relés y su cota de 3 sigma
+
+js-lib-views-satellites = satélites
+
+js-lib-views-satellites-tracking = Satélites visibles y aún en seguimiento
+
+js-lib-views-shaded-gnss-denied = sombreado: GNSS denegado
+
+js-lib-views-slot-guard = guarda de ranura
+
+js-lib-views-spoofed-offset = Desfase de tiempo suplantado frente a la cota de detección
+
+js-lib-views-sweep-of = Barrido de { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = error de sincronización ({ $unit })
+
+js-lib-views-sync-error-run = Error de sincronización a lo largo de la ejecución
+
+js-lib-views-threshold = umbral
+
+js-lib-views-time-error-ns = error de tiempo (ns)
+
+js-lib-views-time-ns = tiempo (ns)
+
+js-lib-views-time-s = tiempo (s)
+
+js-lib-views-time-since-fix = tiempo desde la última solución (s)
+
+js-lib-views-timing-error-axis = error de temporización ({ $unit })
+
+js-lib-views-timing-error-run = Error de temporización a lo largo de la ejecución
+
+js-lib-views-tracking = en seguimiento
+
+js-lib-views-value = valor
+
+js-lib-views-vertical-vpl = vertical (VPL)
+
+js-lib-views-visible = visible
+
+js-lib-views-word-enbw = ancho de banda equivalente de ruido
+
+js-lib-views-word-nfft = longitud de la FFT
+
+js-lib-views-word-stec = TEC oblicuo
+
+js-lib-views-word-toa = tiempo de llegada
+
+js-lib-views-word-ttff = tiempo hasta la primera solución
+
+js-lib-views-word-tx = transmisión
+
+js-lib-views-word-zwd = retardo húmedo cenital
+
+js-lunar-address-outside-range = { $label }: "{ $raw }" está fuera del intervalo de { $min } a { $max }; se usa el valor del archivo.
+
+js-lunar-address-too-long = La dirección era demasiado larga; se muestran los valores por defecto.
+
+js-lunar-address-unknown-source = Fuente desconocida en la dirección; se muestra la grabación.
+
+js-lunar-alert-limit = límite de alerta { $value } (ilustrativo)
+
+js-lunar-alert-not-stated = límite de alerta no indicado
+
+js-lunar-bearing-east = 90° E
+
+js-lunar-bearing-west = 90° O
+
+js-lunar-cell-title = { $lat }°, { $lon }°: corregido { $corrected }, disponibilidad { $availability }, cobertura { $coverage }
+
+js-lunar-copy-address = Copie la dirección de la barra de direcciones.
+
+js-lunar-counts =
+    { $sats ->
+        [one] { $sats } satélite
+        [many] { $sats } de satélites
+       *[other] { $sats } satélites
+    }, { $points ->
+        [one] { $points } punto de la cuadrícula
+        [many] { $points } de puntos de la cuadrícula
+       *[other] { $points } puntos de la cuadrícula
+    }, { $epochs ->
+        [one] { $epochs } época
+        [many] { $epochs } de épocas
+       *[other] { $epochs } épocas
+    }, { $trials ->
+        [one] { $trials } ensayo de Monte Carlo
+        [many] { $trials } de ensayos de Monte Carlo
+       *[other] { $trials } ensayos de Monte Carlo
+    } por época. Etiqueta: { $label }.
+
+js-lunar-engine-no-start = El motor no pudo iniciarse en este navegador ({ $reason }). Abra un archivo de resultados en su lugar.
+
+js-lunar-engine-unknown-kind = Este motor ({ $version }) no conoce el tipo { $kind }; necesita el motor 0.36.
+
+js-lunar-fig-availability-region = Disponibilidad en la región
+
+js-lunar-fig-corrected-3d = Error corregido, { $n } %, 3‑D
+
+js-lunar-fig-coverage = Cobertura
+
+js-lunar-fig-epochs-within = épocas dentro de { $value }
+
+js-lunar-fig-horizontal-vertical = horizontal { $h }, vertical { $v }
+
+js-lunar-fig-hpl-below-alert = HPL por debajo del límite de alerta
+
+js-lunar-fig-hpl-vpl = HPL, VPL como máximo
+
+js-lunar-fig-improvement = Factor de mejora
+
+js-lunar-fig-lowest-point = Mínimo en un punto
+
+js-lunar-fig-points-always-available = Puntos disponibles en todas las épocas
+
+js-lunar-fig-uncorrected-3d = Error sin corregir, { $n } %, 3‑D
+
+js-lunar-fig-worst-point = Peor punto
+
+js-lunar-file-not-json = Este archivo no es JSON.
+
+js-lunar-file-not-object = Este archivo no es un objeto JSON.
+
+js-lunar-file-too-large = { $name }: mayor de 32 MiB; esta página lee archivos de resultados de hasta ese tamaño.
+
+js-lunar-file-value = archivo: { $value }
+
+js-lunar-full-of-total = { $full } de { $total }
+
+js-lunar-give-value = { $label }: indique un valor de { $min } a { $max }.
+
+js-lunar-give-whole-value = { $label }: indique un valor de { $min } a { $max } (un número entero).
+
+js-lunar-honesty-affiliation = Sin afiliación ni respaldo de ningún organismo.
+
+js-lunar-honesty-assumptions = Bajo los supuestos públicos indicados; no es una afirmación sobre el rendimiento de ningún sistema real.
+
+js-lunar-in-grid-spacing = Separación de los anillos de la cuadrícula, grados
+
+js-lunar-in-latency = Latencia de la corrección, segundos
+
+js-lunar-in-seed = Semilla
+
+js-lunar-in-station-lat = Latitud de la estación, grados
+
+js-lunar-in-station-lon = Longitud de la estación, grados
+
+js-lunar-in-survey-error = Error de levantamiento de la estación (1 sigma), metros
+
+js-lunar-in-threshold = Umbral de exactitud, metros
+
+js-lunar-in-time-step = Paso de tiempo, segundos
+
+js-lunar-in-trials = Ensayos de Monte Carlo por época
+
+js-lunar-input-out-of-range = { $label } está fuera de rango.
+
+js-lunar-json-field-not-json = El campo json del archivo no es JSON.
+
+js-lunar-key-50-or-more = 50 % o más
+
+js-lunar-key-90-or-more = 90 % o más
+
+js-lunar-key-95-or-more = 95 % o más
+
+js-lunar-key-99-or-more = 99 % o más
+
+js-lunar-key-above = por encima de { $value }
+
+js-lunar-key-above-threshold = por encima de { $value } × el umbral
+
+js-lunar-key-below-50 = por debajo de 50 %
+
+js-lunar-key-between = { $from } a { $to }
+
+js-lunar-key-between-threshold = { $from } a { $to } × el umbral
+
+js-lunar-key-up-to = hasta { $value }
+
+js-lunar-key-up-to-threshold = hasta { $value } × el umbral
+
+js-lunar-layer-availability = disponibilidad
+
+js-lunar-layer-coverage = cobertura
+
+js-lunar-layer-error = error corregido
+
+js-lunar-layer-range = error corregido en su propio rango
+
+js-lunar-legend-no-figure = sin cifra (no disponible en ningún momento)
+
+js-lunar-legend-radius = radio de cobertura
+
+js-lunar-legend-threshold = umbral, { $value }
+
+js-lunar-legend-worst = peor punto
+
+js-lunar-link-copied = Enlace copiado.
+
+js-lunar-map-desc =
+    { $points ->
+        [one] { $points } punto de la cuadrícula
+        [many] { $points } de puntos de la cuadrícula
+       *[other] { $points } puntos de la cuadrícula
+    } desde el polo hasta { $rim }° de latitud. { $meet } de ellos tienen un error corregido del percentil { $percentile } dentro del umbral de { $threshold }. Coloreado por { $layer }. La estación está en { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % de los puntos caen en una sola banda de la escala de umbral, así que el mapa muestra poca variación: coloree por "su propio rango" para ver cómo varía el error a lo largo de la región.
+
+js-lunar-needs-newer-engine = Este estudio necesita el motor { $need } o posterior; el motor que se ejecuta aquí es v{ $version }. Aun así se puede mostrar la grabación o un archivo de resultados.
+
+js-lunar-no = no
+
+js-lunar-no-recording = Todavía no se incluye ninguna grabación de este estudio: se hace en la versión con el motor 0.36. Ejecútelo aquí con un motor que tenga el tipo, o abra un archivo de resultados.
+
+js-lunar-no-scenario = Este sitio aún no tiene { $file }: llega con el motor 0.36. Abra un archivo de resultados en su lugar.
+
+js-lunar-no-scenario-note = Este sitio aún no tiene { $file } (llega con el motor 0.36), así que no es posible una ejecución aquí; abra un archivo de resultados en su lugar.
+
+js-lunar-not-report = Esto no es un informe de { $kind }.
+
+js-lunar-not-stated = no indicado
+
+js-lunar-note-none = El archivo no indica ninguna nota.
+
+js-lunar-note-withheld = La propia declaración del archivo nombra un programa o un organismo, así que esta página no la muestra; se aplica la declaración de la parte superior de la página.
+
+js-lunar-point-epochs-reason = puntos-épocas: { $reason }
+
+js-lunar-radius-desc =
+    Radio de cobertura en { $count ->
+        [one] { $count } acimut
+        [many] { $count } de acimuts
+       *[other] { $count } acimuts
+    }: el más corto { $lo } km a { $loAz }°, el más largo { $hi } km a { $hiAz }°.
+
+js-lunar-radius-desc-limited =
+    { $count ->
+        [one] { $count } llega al borde de la cuadrícula, así que la cobertura se extiende al menos hasta ahí.
+        [many] { $count } de ellos llegan al borde de la cuadrícula, así que la cobertura se extiende al menos hasta ahí.
+       *[other] { $count } llegan al borde de la cuadrícula, así que la cobertura se extiende al menos hasta ahí.
+    }
+
+js-lunar-radius-hollow = Los puntos huecos llegan al borde de la cuadrícula: la cobertura se mantiene al menos hasta esa distancia en ese rumbo.
+
+js-lunar-radius-none = El informe no indica ningún radio de cobertura.
+
+js-lunar-radius-per-azimuth = radio de cobertura por acimut
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (llega al borde de la cuadrícula: al menos hasta aquí)
+
+js-lunar-radius-zero = En todos los rumbos la cobertura ya es inferior a 95 % en la propia estación, así que el radio es 0 km: allí el error corregido supera el umbral de { $value }.
+
+js-lunar-reason-station-missing = la estación no ve todos los satélites que usa el usuario
+
+js-lunar-reason-user-lt4 = menos de cuatro satélites a la vista del usuario
+
+js-lunar-run-stopped = La ejecución se detuvo: { $message }
+
+js-lunar-running = Ejecutando el estudio en este navegador…
+
+js-lunar-running-elapsed = Ejecutando el estudio en este navegador… { $seconds } s
+
+js-lunar-scenario-missing-keys = El archivo de escenario no tiene { $keys }; no se puede cambiar aquí.
+
+js-lunar-set-inputs = Fije las entradas y pulse Ejecutar aquí.
+
+js-lunar-showing = Mostrando { $what }.
+
+js-lunar-showing-engine = Mostrando { $what } (motor { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = estación
+
+js-lunar-station-title = estación { $lat }°, { $lon }°
+
+js-lunar-table-count =
+    { $n ->
+        [one] { $n } punto, el más cercano a la estación primero.
+        [many] { $n } de puntos, los más cercanos a la estación primero.
+       *[other] { $n } puntos, los más cercanos a la estación primero.
+    }
+
+js-lunar-th-corrected = Error corregido, { $n } %
+
+js-lunar-threshold-title = error corregido { $value } (el umbral)
+
+js-lunar-what-file = el archivo { $name }
+
+js-lunar-what-recording = la grabación que se incluye con el Studio
+
+js-lunar-what-run = una ejecución en este navegador (motor { $version })
+
+js-lunar-worst-at = en { $lat }°, { $lon }°
+
+js-lunar-worst-title = peor punto { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = sí: al menos hasta ahí
+
+js-lunarinfra-above-95-point = por encima del punto de 95 %
+
+js-lunarinfra-advisory = Software de carácter consultivo, no un equipo homologado; ninguna vía de transmisión de ningún tipo.
+
+js-lunarinfra-arc-note = Longitud de onda de la portadora { $value } m.
+
+js-lunarinfra-arc-title = Cada arco
+
+js-lunarinfra-bars-not-loaded = el archivo de umbrales no se cargó
+
+js-lunarinfra-bars-not-shown = No se pudieron mostrar los umbrales fijados de antemano ({ $reason }).
+
+js-lunarinfra-bars-note = Fijados antes de puntuar ningún estudio, con los veredictos registrados (commit del motor { $commit }). Nada es VALIDATED; un umbral marcado NOT MET está fijado por una prueba que afirma el fallo, y ninguno se aflojó.
+
+js-lunarinfra-bars-title = Frente a los umbrales fijados de antemano
+
+js-lunarinfra-bars-wrong-file = el archivo de umbrales no es el que lee esta página
+
+js-lunarinfra-blurb-carrier-phase = Una estación de superficie y un orbitador que usan la fase de portadora de doble diferencia de las señales GNSS de la Tierra: ¿se pueden fijar las ambigüedades enteras y qué efecto tiene eso en la cota de posición? El ejemplo de ejecución rápida.
+
+js-lunarinfra-blurb-frame-coestimation = Los siete parámetros del datum lunar a partir de mediciones láser de distancia desde estaciones de la Tierra, con y sin distancias entre el orbitador y las estaciones de superficie: ¿cuánto mejora la información?
+
+js-lunarinfra-blurb-geodesy-sensitivity = ¿Qué tan sensibles son la medición láser de distancia, el seguimiento de orbitadores, un gravímetro y un reloj de superficie a los números de Love de marea h2, k2 y l2 de la Luna y a su libración física?
+
+js-lunarinfra-blurb-od-consistency = Determinación de órbita a bordo con GNSS de la Tierra en una órbita de halo casi rectilínea, frente a una solución radiométrica independiente desde tierra del mismo arco: ¿coinciden las dos dentro de sus incertidumbres indicadas y la comprobación de coherencia advierte un error de modelado cuando se inyecta uno? Se muestran lado a lado.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI y medición láser de distancia en una misma nave: ¿con qué precisión se pueden vincular los desfases entre las tres técnicas, frente al error del vínculo local en la nave?
+
+js-lunarinfra-bound-label = Incertidumbre de posición, flotante y fija, escala logarítmica
+
+js-lunarinfra-bound-note = Incertidumbre de posición de una sigma de la estación y del orbitador con las ambigüedades flotantes y con ellas fijadas (lo que daría la fijación si se lograra).
+
+js-lunarinfra-bound-title = Cota de posición, flotante y fija
+
+js-lunarinfra-chip-na = n/d
+
+js-lunarinfra-comp-normal = normal
+
+js-lunarinfra-comp-position = posición (3D)
+
+js-lunarinfra-comp-radial = radial
+
+js-lunarinfra-comp-transverse = transversal
+
+js-lunarinfra-compare-note =
+    En { $sets ->
+        [one] { $sets } conjunto aleatorio de estaciones
+        [many] { $sets } de conjuntos aleatorios de estaciones
+       *[other] { $sets } conjuntos aleatorios de estaciones
+    } el menor autovalor no fue menor con los enlaces del orbitador en { $lambda } y la traza no fue mayor en { $trace }; el aumento mediano del menor autovalor fue de { $median } veces.
+
+js-lunarinfra-compare-title = La comparación en números
+
+js-lunarinfra-crsigma-label = Sigma de Cramér-Rao, escala logarítmica
+
+js-lunarinfra-crsigma-note = En metros en la superficie.
+
+js-lunarinfra-crsigma-title = Sigma de Cramér-Rao por parámetro
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } día
+        [many] { $n } de días
+       *[other] { $n } días
+    }
+
+js-lunarinfra-direction = dirección { $n }
+
+js-lunarinfra-disclosures = Declaraciones
+
+js-lunarinfra-eig-label = Autovalores de la información, escala logarítmica
+
+js-lunarinfra-eig-note = Los siete autovalores de la matriz de información, del menor al mayor, sin y con los enlaces entre el orbitador y las estaciones. El menor sube { $times } veces y la traza de Cramér-Rao baja hasta { $share } de su valor. Esto supone que la órbita se conoce en los ejes lunares (su error lo lleva la sigma de distancia del orbitador).
+
+js-lunarinfra-eig-title = Información en cada dirección del datum
+
+js-lunarinfra-fact-arc = Arco
+
+js-lunarinfra-fact-hash = Hash del escenario
+
+js-lunarinfra-fact-llr-rows = Filas de medición láser de distancia
+
+js-lunarinfra-fact-orbit-family = Familia de órbita
+
+js-lunarinfra-fact-orbiter-arc = Arco del orbitador
+
+js-lunarinfra-fact-orbiter-rows = Filas del orbitador
+
+js-lunarinfra-fact-study = Estudio
+
+js-lunarinfra-fact-wavelength = Longitud de onda de la portadora
+
+js-lunarinfra-families-note = El RMS de la derivada parcial de cada parámetro sobre las filas de la familia, y el número de filas. Un cero es un parámetro al que esa familia es ciega. La sensibilidad de k2 de la familia del orbitador es una cifra del extremo superior.
+
+js-lunarinfra-families-title = Qué ve cada familia
+
+js-lunarinfra-findings = Hallazgos
+
+js-lunarinfra-fix-note-a = La proporción de ensayos de Monte Carlo que fijaron correctamente todas las ambigüedades enteras (con su error estándar), y la tasa que predice la estimación con bootstrap.
+
+js-lunarinfra-fix-note-b = La fijación de enteros NO se logra con esta entrada: el mejor arco fija { $share } de los ensayos.
+
+js-lunarinfra-fix-note-c = No hay tiempo hasta la fijación que mostrar, porque no se llega a fijar.
+
+js-lunarinfra-fix-rate-label = Tasa de fijación de enteros frente a la longitud del arco
+
+js-lunarinfra-fix-title = Tasa de fijación frente a la longitud del arco
+
+js-lunarinfra-fixed = fija
+
+js-lunarinfra-float = flotante
+
+js-lunarinfra-fraction-above-95 = Proporción de ensayos por encima del punto de 95 %
+
+js-lunarinfra-ground-radiometric = radiométrica independiente desde tierra
+
+js-lunarinfra-injected-error = error inyectado { $value } m/s²
+
+js-lunarinfra-mean-consistency = Estadístico medio de coherencia
+
+js-lunarinfra-mean-q = q media
+
+js-lunarinfra-miss-line = { $id } es { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = La fijación de la ambigüedad entera NO se logra con esta entrada: el mejor arco fija { $share } de los ensayos de Monte Carlo.
+
+js-lunarinfra-na = n/d
+
+js-lunarinfra-nominal = nominal
+
+js-lunarinfra-not-result = esto no es un resultado de infraestructura lunar
+
+js-lunarinfra-not-verified = No verificado
+
+js-lunarinfra-offset-precision-label = Precisión del desfase frente al vínculo local, log-log
+
+js-lunarinfra-offsets-note = Sigma de traslación por eje, sigma de escala y de rotación en la superficie, en metros.
+
+js-lunarinfra-offsets-title = Los desfases con cada error de vínculo (arco de { $days } días, { $epochs } épocas)
+
+js-lunarinfra-onboard-gnss = GNSS de la Tierra a bordo
+
+js-lunarinfra-open-failed = No se pudo abrir { $title }: { $reason }.
+
+js-lunarinfra-opening = Abriendo { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Incertidumbre de la órbita por componente, escala logarítmica
+
+js-lunarinfra-orbiter-days = orbitador, { $days } d
+
+js-lunarinfra-q-note =
+    Media del estadístico de coherencia q en { $trials ->
+        [one] { $trials } ensayo
+        [many] { $trials } de ensayos
+       *[other] { $trials } ensayos
+    }; { $expected } es lo que da un par coherente de soluciones. La proporción de ensayos por encima del punto de 95 % es la tasa de detección de la comprobación.
+
+js-lunarinfra-q-title = La comprobación de coherencia, nominal frente a error inyectado
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: el resultado registrado del motor (versión { $version }).
+        [many] { $title }: los resultados registrados del motor (versión { $version }).
+       *[other] { $title }: los resultados registrados del motor (versión { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma sobre el valor nominal, escala logarítmica
+
+js-lunarinfra-rel-note = Sigma de Cramér-Rao como porcentaje del valor nominal, con las cuatro familias juntas. h2 y l2 son puntos de linealización, no valores verificados; k2 procede de un ajuste publicado.
+
+js-lunarinfra-rel-title = Con qué precisión se puede fijar cada parámetro, frente a su valor nominal
+
+js-lunarinfra-result-not-json = el resultado no es JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = el resultado registrado { $file } no se cargó
+
+js-lunarinfra-row-above-95 = Ensayos por encima del punto de 95 % (chi cuadrado 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Traza de Cramér-Rao
+
+js-lunarinfra-row-degeneracy = Métrica de degeneración
+
+js-lunarinfra-row-formal-diff = Sigma formal de esa diferencia
+
+js-lunarinfra-row-ground-meas = Tierra: mediciones, épocas con una estación
+
+js-lunarinfra-row-mean-diff = Diferencia media de las dos órbitas
+
+js-lunarinfra-row-mean-q = q media (se esperan 6)
+
+js-lunarinfra-row-observations = Observaciones
+
+js-lunarinfra-row-onboard-epochs = A bordo: épocas con uno o más / cuatro o más satélites
+
+js-lunarinfra-row-onboard-meas = A bordo: mediciones, satélites seguidos de media
+
+js-lunarinfra-row-origin-scale = Correlación origen-escala
+
+js-lunarinfra-row-origin-sigma = Sigma del origen, m
+
+js-lunarinfra-row-rank-defect = Rango (defecto)
+
+js-lunarinfra-row-smallest-eig = Menor autovalor
+
+js-lunarinfra-row-trace-ground = Muestral sobre traza formal, tierra
+
+js-lunarinfra-row-trace-onboard = Muestral sobre traza formal, a bordo
+
+js-lunarinfra-row-within-95 = Ensayos dentro del punto de 95 %
+
+js-lunarinfra-series-bootstrapped = con bootstrap
+
+js-lunarinfra-series-floor = piso
+
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+js-lunarinfra-side-note =
+    La órbita: { $family }, un arco de { $arc } { $arc ->
+        [one] día
+        [many] de días
+       *[other] días
+    } de una órbita de { $period } { $period ->
+        [one] día
+        [many] de días
+       *[other] días
+    }, muestreado cada { $sample } s.
+
+js-lunarinfra-side-title = Lado a lado
+
+js-lunarinfra-sigma-note = Incertidumbre de posición de una sigma por componente, en metros, a partir de las dos estimaciones del mismo arco.
+
+js-lunarinfra-sigma-over-nominal = sigma / nominal
+
+js-lunarinfra-sigma-title = Qué tan bien conoce cada lado la órbita
+
+js-lunarinfra-station-days = estación, { $days } d
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note =
+    Añadir una familia nunca bajó el menor autovalor ({ $lambda } de { $pairs } { $pairs ->
+        [one] adición
+        [many] de adiciones
+       *[other] adiciones
+    }), pero la traza de la pseudoinversa no fue mayor solo en { $trace } de { $pairs }, porque una familia añadida puede subir el rango.
+
+js-lunarinfra-subsets-title = Cada combinación de familias
+
+js-lunarinfra-sweep-note = El peor componente de traslación de cada desfase, en metros, al barrer el error del vínculo entre las tres técnicas en la nave. Con las sigmas registradas de las técnicas (GNSS { $gnss } m, VLBI { $vlbi } m, láser { $slr } m) los desfases están limitados por el ruido de medición, no por el vínculo; el vínculo fija el piso solo para técnicas casi perfectas.
+
+js-lunarinfra-sweep-title =
+    Precisión de los desfases de las técnicas frente al vínculo local (arco de { $days } { $days ->
+        [one] día
+        [many] de días
+       *[other] días
+    })
+
+js-lunarinfra-th-arc-days = Arco, días
+
+js-lunarinfra-th-bar = Umbral
+
+js-lunarinfra-th-bootstrapped = Tasa con bootstrap
+
+js-lunarinfra-th-budget-exhausted = Presupuesto de búsqueda agotado (ensayos)
+
+js-lunarinfra-th-common-sats = Épocas con 2 o más satélites comunes
+
+js-lunarinfra-th-crtrace = Traza de Cramér-Rao
+
+js-lunarinfra-th-dd-ambiguities = Ambigüedades de doble diferencia
+
+js-lunarinfra-th-epochs = Épocas
+
+js-lunarinfra-th-families = Familias
+
+js-lunarinfra-th-family = Familia
+
+js-lunarinfra-th-local-tie = Sigma del vínculo local, m
+
+js-lunarinfra-th-mc-fix-rate = Tasa de fijación de Monte Carlo
+
+js-lunarinfra-th-median-ambiguity = Sigma mediana de la ambigüedad, ciclos
+
+js-lunarinfra-th-offset = Desfase
+
+js-lunarinfra-th-quantity = Magnitud
+
+js-lunarinfra-th-rank = Rango
+
+js-lunarinfra-th-rotation = Rotación en la superficie, m
+
+js-lunarinfra-th-rows = Filas
+
+js-lunarinfra-th-scale = Escala en la superficie, m
+
+js-lunarinfra-th-smallest-eig = Menor autovalor
+
+js-lunarinfra-th-translation = Traslación x, y, z, m
+
+js-lunarinfra-th-value = Valor
+
+js-lunarinfra-th-verdict = Veredicto
+
+js-lunarinfra-th-with-links = Con enlaces del orbitador
+
+js-lunarinfra-th-without-links = Sin enlaces del orbitador
+
+js-lunarinfra-title-carrier-phase = Fase de portadora, superficie y orbitador
+
+js-lunarinfra-title-frame-coestimation = Coestimación del marco
+
+js-lunarinfra-title-geodesy-sensitivity = Números de Love y libración
+
+js-lunarinfra-title-od-consistency = Coherencia de la determinación de órbita
+
+js-lunarinfra-title-space-tie = Vínculo espacial
+
+js-lunarinfra-unknown-study = este resultado de infraestructura lunar es el estudio "{ $study }", que esta página no lee
+
+js-lunarinfra-where-missed = Dónde falló este estudio.
+
+js-lunarinfra-with-links = con enlaces del orbitador
+
+js-lunarinfra-without-links = sin enlaces del orbitador
+
+js-lunarinfra-x-arc-length = longitud del arco, días
+
+js-lunarinfra-x-local-tie = sigma del vínculo local, m (log)
+
+js-lunarinfra-y-fixed-correctly = fijados correctamente, %
+
+js-lunarinfra-y-offset-sigma = sigma del desfase, m (log); el piso discontinuo es solo el vínculo, sqrt(2) × el error del vínculo
+
+js-meaning-body-generic = este cuerpo
+
+js-meaning-body-the = { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of =
+    { $av } de { $n } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }
+
+js-meaning-coverage-average-label = Promedio a la vista
+
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Al menos { $n } satélite a la vista en cada lugar, { $mean } de media.
+        [many] Al menos { $n } de satélites a la vista en cada lugar, { $mean } de media.
+       *[other] Al menos { $n } satélites a la vista en cada lugar, { $mean } de media.
+    }
+
+js-meaning-coverage-big-none = Algunos lugares no ven ningún satélite a veces; { $mean } están a la vista de media.
+
+js-meaning-coverage-fewest-label = Menos a la vista, en cualquier lugar
+
+js-meaning-coverage-line-many = Con { $names } juntos, es posible una solución de posición en { $share } % de los lugares y momentos alrededor de { $body }.
+
+js-meaning-coverage-line-many-pdop = Con { $names } juntos, es posible una solución de posición en { $share } % de los lugares y momentos alrededor de { $body } (calidad de la geometría, PDOP, por debajo de { $thr }).
+
+js-meaning-coverage-line-none = Es posible una solución de posición en { $share } % de los lugares y momentos alrededor de { $body }.
+
+js-meaning-coverage-line-none-pdop = Es posible una solución de posición en { $share } % de los lugares y momentos alrededor de { $body } (calidad de la geometría, PDOP, por debajo de { $thr }).
+
+js-meaning-coverage-line-one = Con { $names }, es posible una solución de posición en { $share } % de los lugares y momentos alrededor de { $body }.
+
+js-meaning-coverage-line-one-pdop = Con { $names }, es posible una solución de posición en { $share } % de los lugares y momentos alrededor de { $body } (calidad de la geometría, PDOP, por debajo de { $thr }).
+
+js-meaning-coverage-places-label = Lugares que obtienen una solución
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } día
+        [many] { $days } de días
+       *[other] { $days } días
+    }
+
+js-meaning-ensemble-big-many = Entre muchos sorteos de ruido, con { $q } se mantiene dentro de { $thr } ns durante { $qd } de media; con { $c }, durante { $cd }.
+
+js-meaning-ensemble-big-runs =
+    En { $n } { $n ->
+        [one] sorteo
+        [many] de sorteos
+       *[other] sorteos
+    } de ruido, con { $q } se mantiene dentro de { $thr } ns durante { $qd } de media; con { $c }, durante { $cd }.
+
+js-meaning-ensemble-line = Nueve de cada diez sorteos de { $name } se mantienen de { $band }.
+
+js-meaning-ensemble-mean = media
+
+js-meaning-ensemble-mean-band = media; banda de 90 % { $band }
+
+js-meaning-error-p95-label = Error, 95 % del tiempo, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = También de esta ejecución: { $a }.
+
+js-meaning-generic-line-two = También de esta ejecución: { $a } y { $b }.
+
+js-meaning-generic-none = Esta ejecución no tiene una única cifra principal; el gráfico de abajo muestra su resultado.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = nivel de protección horizontal
+
+js-meaning-inside-budget = dentro de { $budget }
+
+js-meaning-integrity-big-checks-mostly = Sí, en su mayoría: en { $share } % de las comprobaciones.
+
+js-meaning-integrity-big-checks-no = No: en { $share } % de las comprobaciones.
+
+js-meaning-integrity-big-checks-partly = Solo en parte: en { $share } % de las comprobaciones.
+
+js-meaning-integrity-big-checks-yes = Sí: en { $share } % de las comprobaciones.
+
+js-meaning-integrity-big-span-mostly = Sí, en su mayoría: durante { $share } % del intervalo de { $span }.
+
+js-meaning-integrity-big-span-no = No: durante { $share } % del intervalo de { $span }.
+
+js-meaning-integrity-big-span-partly = Solo en parte: durante { $share } % del intervalo de { $span }.
+
+js-meaning-integrity-big-span-yes = Sí: durante { $share } % del intervalo de { $span }.
+
+js-meaning-integrity-bound-label = Cota de error típica
+
+js-meaning-integrity-bound-sub = horizontal / vertical, mediana
+
+js-meaning-integrity-gap-all-passed = todas las comprobaciones se superaron
+
+js-meaning-integrity-gap-label = Intervalo más largo
+
+js-meaning-integrity-gap-none = ninguno
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } comprobación seguida, desde { $from }
+        [many] { $n } de comprobaciones seguidas, desde { $from }
+       *[other] { $n } comprobaciones seguidas, desde { $from }
+    }
+
+js-meaning-integrity-line-h =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $h } m en horizontal) en { $av } de { $tot } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }.
+
+js-meaning-integrity-line-h-clean =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $h } m en horizontal) en { $av } de { $tot } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }, y ninguna solución fue engañosa.
+
+js-meaning-integrity-line-h-some =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $h } m en horizontal) en { $av } de { $tot } comprobaciones; { $n ->
+        [one] { $n } solución fue engañosa
+        [many] { $n } de soluciones fueron engañosas
+       *[other] { $n } soluciones fueron engañosas
+    }.
+
+js-meaning-integrity-line-hv =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $h } m en horizontal y { $v } m en vertical) en { $av } de { $tot } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }.
+
+js-meaning-integrity-line-hv-clean =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $h } m en horizontal y { $v } m en vertical) en { $av } de { $tot } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }, y ninguna solución fue engañosa.
+
+js-meaning-integrity-line-hv-some =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $h } m en horizontal y { $v } m en vertical) en { $av } de { $tot } comprobaciones; { $n ->
+        [one] { $n } solución fue engañosa
+        [many] { $n } de soluciones fueron engañosas
+       *[other] { $n } soluciones fueron engañosas
+    }.
+
+js-meaning-integrity-line-none =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo del límite de alerta en { $av } de { $tot } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }.
+
+js-meaning-integrity-line-none-clean =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo del límite de alerta en { $av } de { $tot } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }, y ninguna solución fue engañosa.
+
+js-meaning-integrity-line-none-some =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo del límite de alerta en { $av } de { $tot } comprobaciones; { $n ->
+        [one] { $n } solución fue engañosa
+        [many] { $n } de soluciones fueron engañosas
+       *[other] { $n } soluciones fueron engañosas
+    }.
+
+js-meaning-integrity-line-v =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $v } m en vertical) en { $av } de { $tot } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }.
+
+js-meaning-integrity-line-v-clean =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $v } m en vertical) en { $av } de { $tot } { $n ->
+        [one] comprobación
+        [many] de comprobaciones
+       *[other] comprobaciones
+    }, y ninguna solución fue engañosa.
+
+js-meaning-integrity-line-v-some =
+    La cota de error del receptor (su nivel de protección) se mantuvo por debajo de los límites de alerta ({ $v } m en vertical) en { $av } de { $tot } comprobaciones; { $n ->
+        [one] { $n } solución fue engañosa
+        [many] { $n } de soluciones fueron engañosas
+       *[other] { $n } soluciones fueron engañosas
+    }.
+
+js-meaning-integrity-misleading-label = Soluciones engañosas
+
+js-meaning-integrity-misleading-sub = error real por encima de la cota
+
+js-meaning-integrity-trusted-label = Tiempo en que se puede confiar en la solución
+
+js-meaning-jamming-above-label = Jammer por encima de la señal
+
+js-meaning-jamming-above-sub = relación jammer-señal media
+
+js-meaning-jamming-big-gone = El jammer elimina por completo la solución de posición.
+
+js-meaning-jamming-big-share = Con el jammer, hay solución disponible { $share } % del tiempo.
+
+js-meaning-jamming-clear-label = Solución disponible, sin jammer
+
+js-meaning-jamming-fewest-label = Menos satélites seguidos
+
+js-meaning-jamming-fewest-sub = en el peor momento
+
+js-meaning-jamming-jammed-label = Solución disponible, con jammer
+
+js-meaning-jamming-line = Sin el jammer hay solución disponible { $share } % del tiempo.
+
+js-meaning-jamming-line-js = Sin el jammer hay solución disponible { $share } % del tiempo; el jammer llega { $db } dB por encima de la señal de media.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Sí: en la única comprobación ({ $n }).
+        [many] Sí: en cada una de las { $n } de comprobaciones.
+       *[other] Sí: en cada una de las { $n } comprobaciones.
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] No: en la única comprobación ({ $n }).
+        [many] No: en ninguna de las { $n } de comprobaciones.
+       *[other] No: en ninguna de las { $n } comprobaciones.
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] En { $av } de { $n } comprobación ({ $share } %).
+        [many] En { $av } de { $n } de comprobaciones ({ $share } %).
+       *[other] En { $av } de { $n } comprobaciones ({ $share } %).
+    }
+
+js-meaning-lunar-largest-label = Mayor cota de error
+
+js-meaning-lunar-line = El nivel de protección varió de { $min } a { $max } m frente a un límite de alerta de { $limit } m.
+
+js-meaning-lunar-meet-label = Comprobaciones que cumplen el límite
+
+js-meaning-lunar-meet-value = { $av } de { $tot }
+
+js-meaning-lunar-smallest-label = Menor cota de error
+
+js-meaning-median-lower-better = mediana, menor es mejor
+
+js-meaning-of-the-time = del tiempo
+
+js-meaning-orbit-best-label = Mejor geometría (PDOP)
+
+js-meaning-orbit-best-sub = el mínimo durante la ejecución
+
+js-meaning-orbit-big-always = Una solución es posible todo el tiempo.
+
+js-meaning-orbit-big-share = Una solución es posible { $share } % del tiempo.
+
+js-meaning-orbit-error-label = Error de posición típico
+
+js-meaning-orbit-error-sub = 1 sigma, mediana
+
+js-meaning-orbit-line =
+    Había satélites suficientes a la vista en { $fix } de { $n } { $n ->
+        [one] momento
+        [many] de momentos
+       *[other] momentos
+    }.
+
+js-meaning-orbit-line-pdop =
+    Había satélites suficientes a la vista en { $fix } de { $n } { $n ->
+        [one] momento
+        [many] de momentos
+       *[other] momentos
+    }; la calidad típica de la geometría (PDOP, dilución de la precisión de posición) es { $pdop }, menor es mejor.
+
+js-meaning-orbit-moments =
+    { $fix } de { $n } { $n ->
+        [one] momento
+        [many] de momentos
+       *[other] momentos
+    }
+
+js-meaning-orbit-time-label = Tiempo en que una solución es posible
+
+js-meaning-pair-big-diff-pos = Con { $best }, la posición se mantiene dentro de { $budget } durante { $bestDur }; con { $other }, durante { $otherDur }.
+
+js-meaning-pair-big-diff-time = Con { $best }, el tiempo se mantiene dentro de { $budget } durante { $bestDur }; con { $other }, durante { $otherDur }.
+
+js-meaning-pair-big-same-pos = Tanto con { $q } como con { $c }, la posición se mantiene dentro de { $budget } durante { $dur }.
+
+js-meaning-pair-big-same-time = Tanto con { $q } como con { $c }, el tiempo se mantiene dentro de { $budget } durante { $dur }.
+
+js-meaning-pair-line-clock = Holdover es el tiempo que cada reloj se mantiene dentro del presupuesto de { $budget } después de perderse la navegación por satélite.
+
+js-meaning-pair-line-navigator = Holdover es el tiempo que cada navegador se mantiene dentro del presupuesto de { $budget } después de perderse la navegación por satélite.
+
+js-meaning-pdop-label = Calidad de la geometría (PDOP)
+
+js-meaning-places-times = de los lugares y momentos
+
+js-meaning-range-to = { $from } a { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] satélite
+        [many] de satélites
+       *[other] satélites
+    }
+
+js-meaning-spectrum-above = por encima del umbral
+
+js-meaning-spectrum-below = por debajo del umbral: perdida
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] La señal ({ $n }) sigue en seguimiento.
+        [many] Cada una de las { $n } de señales sigue en seguimiento.
+       *[other] Cada una de las { $n } señales sigue en seguimiento.
+    }
+
+js-meaning-spectrum-big-lost =
+    Los jammers eliminan { $lost } de { $n } { $n ->
+        [one] señal
+        [many] de señales
+       *[other] señales
+    }: { $names }.
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } se mantiene por encima del umbral de seguimiento del receptor durante toda la ejecución.
+        [many] { $names } se mantienen por encima del umbral de seguimiento del receptor durante toda la ejecución.
+       *[other] { $names } se mantienen por encima del umbral de seguimiento del receptor durante toda la ejecución.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } se mantiene por encima del umbral de seguimiento de { $thr } dB-Hz del receptor durante toda la ejecución.
+        [many] { $names } se mantienen por encima del umbral de seguimiento de { $thr } dB-Hz del receptor durante toda la ejecución.
+       *[other] { $names } se mantienen por encima del umbral de seguimiento de { $thr } dB-Hz del receptor durante toda la ejecución.
+    }
+
+js-meaning-spectrum-line-none = Ninguna señal se mantiene por encima del umbral de seguimiento del receptor durante toda la ejecución.
