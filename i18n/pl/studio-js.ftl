@@ -4033,3 +4033,708 @@ js-geo-cursor-live = Azymut { $az }°, skyline { $el }°.
 
 # 2026-10-01-studio-rebuild/geometry/geometry.js:186
 js-geo-dated-sky = Datowane niebo jest tyle warte, ile elementy i ich wiek; ustawienia wstępne są pominięte.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:322
+js-geo-dop-geometric = geometryczne
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:322
+js-geo-dop-geometric-title = geometryczne rozmycie dokładności
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:324
+js-geo-dop-horizontal = poziome
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:324
+js-geo-dop-horizontal-title = poziome rozmycie dokładności
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:323
+js-geo-dop-position = położenie, 3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:323
+js-geo-dop-position-title = rozmycie dokładności położenia, 3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:326
+js-geo-dop-time = czas
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:326
+js-geo-dop-time-title = rozmycie dokładności czasu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:325
+js-geo-dop-vertical = pionowe
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:325
+js-geo-dop-vertical-title = pionowe rozmycie dokładności
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-east = E
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:463
+js-geo-engine-not-running = Silnik nie działa w tej przeglądarce ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:243
+js-geo-err-geometry-object = odpowiedź silnika dotycząca geometrii nie jest obiektem
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:279
+js-geo-err-mc-object = odpowiedź silnika dotycząca Monte Carlo nie jest obiektem
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:172
+js-geo-err-no-sentences = odpowiedź silnika nie zawiera zdań
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:317
+js-geo-err-reply-kind-not-json = odpowiedź silnika ({ $what }) nie była JSON
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:171
+js-geo-err-reply-not-json = odpowiedź silnika nie była JSON
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:358
+js-geo-error-line = Przy σ_UERE = { $uere } m, w podanym modelu błędu (wartości z silnika): { $bits }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:353
+js-geo-error-line-needs = Błąd położenia ≈ σ_UERE × HDOP w poziomie i σ_UERE × VDOP w pionie; ta wartość wymaga silnika 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:357
+js-geo-error-rms-3d = RMS 3D σ_UERE × PDOP = { $m } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:356
+js-geo-error-rms-h = RMS poziomy σ_UERE × HDOP = { $m } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:355
+js-geo-error-sigma = Błąd 1-sigma: wschód { $east } m, północ { $north } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:401
+js-geo-fact-ellipse-1s = Elipsa, 1-sigma
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:401
+js-geo-fact-ellipse-1s-value = { $major } m × { $minor } m, oś wielka { $deg }° od północy
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct = Elipsa, { $pct } %
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct-scaled = { $major } m × { $minor } m (1-sigma × { $k })
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct-value = { $major } m × { $minor } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:408
+js-geo-fact-inside = Wewnątrz elipsy 95 %
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:408
+js-geo-fact-inside-value = { $pct } % punktów
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:411
+js-geo-fact-line = { $key }: { $value }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:405
+js-geo-fact-mc = Monte Carlo
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:405
+js-geo-fact-mc-value =
+    { $n ->
+        [one] { $n } rozwiązanie metodą najmniejszych kwadratów, ziarno (seed) { $seed }
+        [few] { $n } rozwiązania metodą najmniejszych kwadratów, ziarno (seed) { $seed }
+        [many] { $n } rozwiązań metodą najmniejszych kwadratów, ziarno (seed) { $seed }
+       *[other] { $n } rozwiązania metodą najmniejszych kwadratów, ziarno (seed) { $seed }
+    }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:407
+js-geo-fact-rms-3d = RMS chmury, 3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:407
+js-geo-fact-rms-3d-beside = { $rms } m, obok σ_UERE × PDOP = { $predicted } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-h = RMS chmury, poziomy
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-h-beside = { $rms } m, obok σ_UERE × HDOP = { $predicted } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-value = { $rms } m
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:29
+js-geo-gj-not-geojson = { $name }: to nie jest GeoJSON (oczekiwano FeatureCollection, Feature lub geometrii).
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:23
+js-geo-gj-not-json = { $name }: to nie jest JSON ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:24
+js-geo-gj-not-object = { $name }: to nie jest obiekt GeoJSON.
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:32
+js-geo-gj-too-many = { $name }: liczba obiektów: { $count }; ta strona rysuje ich co najwyżej { $max }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:314
+js-geo-legend-item = { $label }: w rozwiązaniu { $used } z { $total }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:199
+js-geo-link-copied = Skopiowano link.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:199
+js-geo-link-copied-no-tle = Skopiowano link (bez wklejonych przez Ciebie elementów: link otwiera ustawienia wstępne).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:74
+js-geo-mc-off = Wył.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-ellipse = elipsa błędu
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-gdop = GDOP
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-leo = LEO
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-monte-carlo = chmura Monte Carlo
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-open-sky = udział otwartego nieba
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-skyline = skyline
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-tdop = TDOP
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:328
+js-geo-needs = wymaga silnika 0.36
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:377
+js-geo-needs-cap = Wymaga silnika 0.36
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-no = Nie
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:377
+js-geo-no-ellipse = Brak elipsy
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:417
+js-geo-no-sats = Brak satelitów do pokazania.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-north = N
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:328
+js-geo-not-given = nie podano
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:263
+js-geo-note-elements-skipped = Pominięto zestawy elementów (liczba: { $count }): { $list }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:164
+js-geo-note-latitude-limited = Ta kompilacja silnika modeluje miejsca w odległości do 89° od równika; szerokość geograficzną ograniczono do tej wartości.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:162
+js-geo-note-leo-left-out = LEO: wymaga silnika 0.36; pominięto.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:346
+js-geo-note-no-engine = Silnik nie działa w tej przeglądarce, więc nie ma czego pokazać. Działa jako WebAssembly; przeglądarka lub host, który blokuje WebAssembly, nie może uruchomić tego widoku.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:168
+js-geo-note-pick-one = Wybierz co najmniej jeden z systemów GPS, Galileo i BeiDou.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:163
+js-geo-note-skyline-not-applied = Skyline jest narysowany, ale nie zastosowany: jego zastosowanie wymaga silnika 0.36. Satelity za nim nadal są tutaj liczone.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:261
+js-geo-note-skyline-source = Skyline: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:165
+js-geo-note-training-model = Model nieba szkoleniowego silnika { $version } (nmea_training) w chwili { $instant }: kąty w pełnych stopniach, a DOP z jednym miejscem po przecinku, tak jak niosą je zdania odbiornika; wyznaczenie pozycji używa co najwyżej 12 satelitów, wybranych według siły sygnału.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:259
+js-geo-note-unknown-systems = Pominięto rekordy satelitów systemu, którego ten widok nie rysuje (liczba: { $count }).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:107
+js-geo-off-leo = LEO: wymaga silnika 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:112
+js-geo-off-monte-carlo = Chmura Monte Carlo wymaga silnika 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:108
+js-geo-off-skyline = Zastosowanie skyline wymaga silnika 0.36: tutaj jest tylko narysowany.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:88
+js-geo-offset-own = Przesunięcie względem epoki Twoich elementów ({ $epoch })
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:88
+js-geo-offset-ref = Przesunięcie względem epoki odniesienia konstelacji
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:341
+js-geo-open-sky-share = { $pct } % górnej półkuli
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:141
+js-geo-out-of-range = Poza zakresem, więc zachowano ostatnią dobrą wartość: { $names }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:186
+js-geo-own-elements-at = Twoje własne elementy w epoce { $epoch }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:138
+js-geo-pick-constellation = Wybierz co najmniej jedną konstelację.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-geiranger = Geirangerfjord, Norwegia
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-manhattan = Midtown Manhattan, Stany Zjednoczone
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-oslo = Port w Oslo, Norwegia
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-rotterdam = Port w Rotterdamie, Holandia
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-singapore = Cieśnina Singapurska
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-tallinn = Port w Tallinie, Estonia
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-tromso = Tromsø, Norwegia
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:262
+js-geo-plot-desc = Satelity na wykresie: { $total }, w rozwiązaniu: { $used }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:336
+js-geo-preset-illustrative = Ilustracyjny zarys narysowany przez tę stronę; zastosowanie skyline wymaga silnika 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:436
+js-geo-ready = Gotowe.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:436
+js-geo-ready-needs = Gotowe. Wymaga silnika 0.36: { $list }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-masked = { $label } { $id }: azymut { $az }°, elewacja { $el }°, zasłonięty przez skyline
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-unused = { $label } { $id }: azymut { $az }°, elewacja { $el }°, nieużywany
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-used = { $label } { $id }: azymut { $az }°, elewacja { $el }°, w rozwiązaniu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:66
+js-geo-scenarios-under = Scenariusze silnika pod tym skyline:
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-canyon = Kanion uliczny
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-drawn = Narysowany na skyplocie
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-open = Otwarty horyzont
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-preset = Ustawienie wstępne: { $name }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:434
+js-geo-sky-source = Niebo: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:58
+js-geo-skyline-city-street = Ulica miejska
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:61
+js-geo-skyline-container = Terminal kontenerowy
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:60
+js-geo-skyline-fjord = Fiord
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:59
+js-geo-skyline-harbour = Wejście do portu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:160
+js-geo-skyline-load-failed = Nie udało się wczytać skyline ({ $reason }).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:213
+js-geo-skyplot-downloaded = Skyplot pobrany.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:214
+js-geo-skyplot-export-failed = Nie udało się wyeksportować skyplotu ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:267
+js-geo-source-geometry = Silnik Kshana { $version }, sky_geometry
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:434
+js-geo-source-line = { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:174
+js-geo-source-training = Silnik Kshana { $version }, model nieba szkoleniowego
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-south = S
+
+# 2026-10-01-studio-rebuild/lib/skyplot.mjs:17
+js-geo-style-own-elements = Twoje elementy
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:207
+js-geo-svg-refused = SVG z silnika został odrzucony
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:416
+js-geo-table-count = Satelity: { $n }, te same co na skyplocie.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:48
+js-geo-tle-epoch = Podaj epokę UTC od 2000 do 2099.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:44
+js-geo-tle-paste-first = Najpierw wklej jeden lub więcej dwuwierszowych zestawów elementów.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:45
+js-geo-tle-too-large = Wklejone elementy są większe niż 4 MiB, czyli limit wejścia silnika.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-used-masked = Nie: zasłonięty przez skyline
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:192
+js-geo-using-own = Używane są Twoje własne elementy. Link zawiera tylko informację, że ich użyto, a nie same elementy.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:463
+js-geo-wasm-blocked = WebAssembly jest zablokowane
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-west = W
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:379
+js-geo-why = Dlaczego
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-interim = Elipsa błędu i chmura Monte Carlo wymagają silnika 0.36 (jego funkcji sky_geometry i sky_monte_carlo); silnik na tej stronie jest starszy.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-no-ellipse = Silnik nie podał elipsy dla tej geometrii (zbyt mało satelitów do wyznaczenia pozycji albo geometria osobliwa).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-no-ellipse-reason = Silnik nie podał elipsy dla tej geometrii (zbyt mało satelitów do wyznaczenia pozycji albo geometria osobliwa): { $reason }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-waiting = Oczekiwanie na silnik.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-yes = Tak
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:105
+js-hold-axis-seconds = sekundy od pierwszej próbki
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:129
+js-hold-axis-tau = czas obserwacji τ, s (log)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:103
+js-hold-axis-te = błąd czasu, ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:89
+js-hold-band-title = Pasmo odzyskania ±{ $band } ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:21
+js-hold-blurb-example = Próbki co 5 s: 600 s z zablokowanym sygnałem, GNSS usunięty w 600 s, holdover, GNSS przywrócony w 2400 s. Zapis jest wygenerowany na potrzeby przykładu; nie jest pomiarem.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:22
+js-hold-blurb-ptp4l = Te same cztery kroki odczytane z logu serwa ptp4l (własne przesunięcie demona, w ns). Log jest napisany na potrzeby przykładu; żaden demon nie działał.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:95
+js-hold-budget-exceeded = { $name } po raz pierwszy przekroczono { $s } s po odłączeniu
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-baseline = Punkt odniesienia względem jego masek
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-envelope = Obwiednia holdover ePRTC-A
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-holdover = Holdover względem jego masek
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+js-hold-chip-measured = zmierzone względem maski
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-recovery = Odzyskanie
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+js-hold-chip-words = Słowa
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:124
+js-hold-curve-title = { $step }: { $which }, ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:119
+js-hold-curves-aria = { $which } względem czasu obserwacji, z granicami masek
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:94
+js-hold-envelope-exceeded = Obwiednię holdover ePRTC-A po raz pierwszy przekroczono { $s } s po odłączeniu
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:141
+js-hold-envelope-exceeded-short = { $verdict }, po raz pierwszy przekroczono { $s } s po odłączeniu (zapis jest krótszy niż okres obwiedni)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:142
+js-hold-envelope-exceeded-value = { $verdict }, po raz pierwszy przekroczono { $s } s po odłączeniu
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:143
+js-hold-envelope-short = { $verdict } (zapis jest krótszy niż okres obwiedni)
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:43
+js-hold-file-error = { $name }: { $error }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:40
+js-hold-file-not-json = { $name }: to nie jest JSON.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:46
+js-hold-file-read-here = { $name }, odczytano tutaj; nic nie zostało wysłane.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:38
+js-hold-file-too-large = { $name } jest większy, niż ta strona odczytuje.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:67
+js-hold-from-record = zapis z wyniku
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:67
+js-hold-from-record-decimated = zapis z wyniku, zredukowany do { $have } z { $total } próbek
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-removed = GNSS usunięty
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-removed-stated = GNSS usunięty (podane przez operatora)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-restored = GNSS przywrócony
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-restored-stated = GNSS przywrócony (podane przez operatora)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-largest-at = { $value } w T+{ $time } s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:91
+js-hold-limit-label = maska { $step } ±{ $ns } ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:91
+js-hold-limit-title = { $id }: ±{ $ns } ns, maksymalny bezwzględny błąd czasu na kroku { $step }
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:128
+js-hold-mark-title = { $id }: granica { $limit } ns przy τ { $tau } s ({ $verdict }; { $source })
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-marker-time = { $name }, T+{ $time } s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:15
+js-hold-na = b/d
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:102
+js-hold-no-curve = Brak krzywej błędu czasu: zapisu nie udało się odtworzyć do narysowania.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:115
+js-hold-no-which-curve = Brak krzywej { $which } w tym wyniku.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-not-exceeded = nieprzekroczona
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-not-recovered = nie pozostał w paśmie
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:29
+js-hold-not-result = to nie jest wynik testu holdover
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:32
+js-hold-open-failed = { $title }: nie udało się otworzyć ({ $reason }).
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:23
+js-hold-opening = Otwieranie: { $title }…
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-baseline = Punkt odniesienia: zablokowany
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-holdover = Holdover: GNSS usunięty
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-recovery = Odzyskanie: GNSS przywrócony
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:87
+js-hold-phase-title = { $phase }, T+{ $from } s do { $to } s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:47
+js-hold-read-failed = Nie udało się odczytać ani narysować ({ $reason }).
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:30
+js-hold-recorded = { $title }: zapisany wynik silnika (wersja { $version }).
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-recovered = w granicach ±{ $band } ns przez { $dwell } s, { $after } s po powrocie GNSS
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:28
+js-hold-result-not-json = wynik nie jest JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:26
+js-hold-result-not-loaded = zapisany wynik nie został wczytany
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:150
+js-hold-row-envelope = Obwiednia holdover ePRTC-A
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-frequency = Utrzymane przesunięcie częstotliwości (dopasowane nachylenie)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-largest = Największy bezwzględny błąd czasu
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-length = Długość holdover
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:150
+js-hold-row-margin = Najmniejszy margines wewnątrz obwiedni
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-peak = Szczyt po przywróceniu
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-recovery = Odzyskanie
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-recovery-step = Największy skok podczas odzyskiwania
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-residual = Reszta względem tej prostej (rms)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-step = Skok w chwili odłączenia
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:68
+js-hold-status-final = { $status } { $label }; zmierzone względem maski.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:136
+js-hold-step-span = T+{ $from } do { $to } s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:86
+js-hold-te-aria = Błąd czasu w całym zapisie, z fazami i granicami masek
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:101
+js-hold-te-line-title = Błąd czasu, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+js-hold-te-note = Błąd czasu z: { $from }. Oba czasy podane przez: { $by }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-budget = Budżet
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-budget-limit = Granica |TE|, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-first-exceeded = Pierwsze przekroczenie po odłączeniu, s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-largest = Największy |TE|, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-limit = Granica, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-margin = Margines, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-mask = Maska
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-mean = Średnia, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-measured-on = Zmierzone na
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-metric = Miara
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-rms = RMS, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-samples = Próbki
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-source = Źródło
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-span = Zakres
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-step = Krok
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-value = Wartość, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-verdict = Werdykt
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-worst-at = Najgorsze przy τ lub T+, s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:21
+js-hold-title-example = Zapis błędu czasu
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:22
+js-hold-title-ptp4l = Log linuxptp
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:64
+js-hold-why-no-samples = wynik nie zawiera próbek błędu czasu (record.series), więc krzywa nie jest rysowana
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:65
+js-hold-why-not-series = seria w wyniku nie jest szeregiem czasowym (mniej niż dwie próbki albo czas nie rośnie), więc krzywa nie jest rysowana
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+js-hold-why-sentence = { $why }.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:66
+js-hold-why-too-many = liczba próbek w serii wyniku: { $have }, liczba ocenionych przez silnik: { $scored }, więc krzywa nie jest rysowana
+
+# 2026-10-01-studio-rebuild/interference/interference.js:178
+js-interf-attribution = Przypisanie
+
+# 2026-10-01-studio-rebuild/interference/interference.js:413
+js-interf-build-failed = { $name }: nie udało się zbudować ({ $reason }).
+
+# 2026-10-01-studio-rebuild/interference/interference.js:409
+js-interf-built-day-maps =
+    { $n ->
+        [one] Zbudowano { $n } mapę dzienną z { $name } silnikiem { $version }, w tej przeglądarce.
+        [few] Zbudowano { $n } mapy dzienne z { $name } silnikiem { $version }, w tej przeglądarce.
+        [many] Zbudowano { $n } map dziennych z { $name } silnikiem { $version }, w tej przeglądarce.
+       *[other] Zbudowano { $n } mapy dziennej z { $name } silnikiem { $version }, w tej przeglądarce.
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:411
+js-interf-built-detail = { $date }: opublikowane komórki: { $published }, oflagowane: { $flagged }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:446
+js-interf-built-from-sample = Zbudowano z syntetycznej próbki { $kind } silnikiem, w tej przeglądarce. Wymyślone raporty; żaden rzeczywisty samolot, statek ani dzień.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:411
+js-interf-built-maps =
+    { $n ->
+        [one] Zbudowano { $n } mapę ({ $detail }). Tylko dane zagregowane: oflagowana komórka nie wskazuje zakłóceń jako przyczyny.
+        [few] Zbudowano { $n } mapy ({ $detail }). Tylko dane zagregowane: oflagowana komórka nie wskazuje zakłóceń jako przyczyny.
+        [many] Zbudowano { $n } map ({ $detail }). Tylko dane zagregowane: oflagowana komórka nie wskazuje zakłóceń jako przyczyny.
+       *[other] Zbudowano { $n } mapy ({ $detail }). Tylko dane zagregowane: oflagowana komórka nie wskazuje zakłóceń jako przyczyny.
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:407
+js-interf-built-none = { $name }: silnik nie zbudował żadnej mapy.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:73
+js-interf-caveat-coverage = Pokrycie zależy od źródła danych; przeczytaj uwagi o pokryciu.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:71
+js-interf-caveat-no-colour = Komórka bez koloru nie była obserwowana. Nie jest to dowód, że obszar był czysty.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:70
+js-interf-caveat-not-finding = Komórka pogorszona lub anomalna nie jest stwierdzeniem zakłóceń. Istnieją inne przyczyny.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:72
+js-interf-caveat-past-reports = To jest opis minionych raportów pozycji, a nie prognoza ani pomiar żadnego odbiornika.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:216
+js-interf-caveats = Zastrzeżenia
+
+# 2026-10-01-studio-rebuild/interference/interference.js:400
+js-interf-cell-size-rule = Rozmiar komórki musi być liczbą stopni większą niż 0 i nie większą niż 10, albo pusty dla 0.5.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:431
+js-interf-check-failed = { $name }: nie udało się sprawdzić ({ $reason }).
+
+# 2026-10-01-studio-rebuild/interference/interference.js:152
+js-interf-click-cell = Kliknij komórkę albo ustaw fokus na mapie i użyj klawiszy strzałek, aby zobaczyć jej wartości.
