@@ -2024,3 +2024,333 @@ dat-84df77a11730 = Responsabilités d'application
 
 # data/verification-matrix.json
 dat-3ce71fc10565 = Structure géométrique reproduite par le moteur plus l'identité de Schur 2x2 en forme analytique ; cohérente en STRUCTURE avec Sosnica et al. { "2025" } (arXiv:{ "2510.15484" }), dont les amplitudes rapportées ne sont PAS reproduites ici. La classification est structurelle ; les amplitudes de corrélation/CRLB sous géométrie réelle sont MODELLED (coordonnées et orientation des réflecteurs maintenues fixes). Comparaison externe { "0.30" }, un constat (reste MODELLED) : par rapport à Sosnica et al. { "2025" }, la corrélation origine-échelle de Fisher de distance (-0.993 / -0.988) est à { "0.05" } du -0.97 publié, mais sur la propre géométrie à cinq réflecteurs de l'article, la corrélation de Helmert à 7 paramètres à poids égaux est de -0.78 (la valeur publiée repose sur des erreurs par réflecteur que l'article n'imprime pas), et la CRLB d'origine ({ "0.6" } à { "1.2" } mm pour un bruit de distance de { "3" } mm) est inférieure de { "96" } à { "98" } % aux { "3.07" } cm de l'article pour une tolérance de { "20" } %. Amplitudes non reproduites
+
+# data/verification-matrix.json
+dat-2e99758516b0 = crpa::tests (identités de l'arithmétique complexe dont z/z={ "1" }, |exp(jθ)|={ "1" }, zᴴz=|z|² ; le pointage de nuls déterministe donne exactement le gain unité vers le SV et des nuls de brouilleur <{ "1e-9" } sur un réseau linéaire uniforme à 4 éléments avec { "3" } brouilleurs ; un réseau à N éléments rejette >N−{ "1" } brouilleurs et annule à norme minimale les moins nombreux ; MVDR reste sans distorsion vers le SV tandis que le nul du brouilleur se creuse de façon monotone avec la puissance du brouilleur jusqu'à <{ "1e-3" } à { "60" } dB) ; tests/crpa_reference.rs (les vecteurs de poids MVDR et de pointage de nuls à norme minimale et les gains de réponse du réseau qui en résultent concordent avec un calcul LAPACK numpy/scipy indépendant à ~{ "1e-9" } près)
+
+# studio/channels.json
+dat-71ce324b5c15 = ingénieurs qui veulent la commande kshana
+
+# data/search.json
+dat-400bc19c3a9f = Scénarios hypothétiques de techniques d'amélioration pour un site au sol ILLUSTRATIVE : un changement de longueur d'onde, un plus grand
+
+# data/verification-matrix.json
+dat-9a47544497fb = Argument du paramètre libre du temps d'ensemble (Percival { "1978" } ; Lewandowski & Thomas { "1991" }) instancié sur le réseau par nœud représentatif DE440 réel : un test de nullité à résidu relatif du générateur de taux commun analytique par rapport à GᵀWG, le contraste à égalités départagées distinguant la véritable jauge d'un artefact du modèle d'oscillateur. Géométrie représentative modélisée, et non un budget de synchronisation temporelle certifié
+
+# data/verification-matrix.json
+dat-c6e592f3097e = entry_eo_ascent::entry_heating::tests::heat_flux_relation_has_the_published_form_and_constants ; entry_eo_ascent::entry_heating::tests::lift_lowers_peak_deceleration_and_heat_flux_of_a_shallow_entry ; entry_eo_ascent::entry_heating::tests::mars_entry_runs_with_the_mars_constants ; tests/entry_stardust_published.rs (enregistre { "746" } W/cm2 pour Stardust sans seuil)
+
+# data/search.json
+dat-1c384f6889ae = entry-heating (type de scénario)
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-8f68cf228b03 = Géométrie d'empreinte et de couverture d'une charge utile d'observation de la Terre
+
+# data/verification-matrix.json
+dat-9c217e1fa930 = eo_payload::tests (rayon angulaire { "64" }° à { "700" } km + diminue avec l'altitude, nadir→zénith/distance nulle, horizon→ε=0/angle central maximal, erreurs au-delà de l'horizon, la fauchée croît avec le champ de vue / le GSD avec l'altitude, espacement de nœuds d'environ { "2750" } km, scénario reproductible/MODELLED + rejet des entrées erronées) ; dominance_demonstrators (atteignable + reproductible + rayon angulaire de { "64" }° + MODELLED et non VALIDATED) ; tests/eo_payload_coverage_orekit_oracle.rs::eo_coverage_matches_orekit_and_geographiclib (altitudes 400-1500 km, inclinaisons 1-98 deg, demi-champ de vue 7.5-50 deg, IFOV 10-50 microrad, dépointage { "30" } et { "89" } deg : chaque grandeur dans son seuil préenregistré, indicateur de contiguïté 168/168) ; tests/eo_payload_coverage_orekit_oracle.rs::exempt_flag_points_are_the_engines ; régression tests/eo_payload_coverage_reference.rs
+
+# data/search.json
+dat-aa34cd815b82 = eo-coverage (type de scénario)
+
+# data/search.json
+dat-832954e1ab06 = eo-radiometry (type de scénario)
+
+# data/verification-matrix.json
+dat-43edc76409df = ephem::moon_position, la série lunaire géocentrique de basse précision sur laquelle la crate se rabat quand aucun noyau DE/SPK n'est présent, mesurée par rapport à de vraies mesures laser sur la Lune et à une éphéméride planétaire publiée sur la même durée. Cette ligne valide la borne que le module énonce sur lui-même, et NON une précision : il est confirmé que la série n'est pas pire qu'elle ne le dit, non qu'elle est bonne
+
+# data/search.json
+dat-56ac091b7946 = ephemeris (type de scénario)
+
+# data/search.json
+dat-dfdb8b1830d4 = Éphéméride et trace au sol — « où est le satellite en ce moment ».
+
+# data/search.json
+dat-0a5f0ccea300 = Éphéméride et trace au sol : propager un satellite (TLE→SGP4 ou orbite analytique) et émettre son état TEME/GCRS…
+
+# data/search.json
+dat-7537824e5fa4 = Modèles d'éphéméride
+
+# data/series.json
+dat-467c38cefe09 = ePRTC par défaut max|TE_HO|
+
+# data/verification-matrix.json
+dat-93491417cbd1 = EKF à états d'erreur sur { "15" } états INS, une horloge de récepteur à deux états et une ambiguïté de phase porteuse flottante par satellite poursuivi ; pseudodistance, phase porteuse et vitesse de distance facultative à partir d'une constellation Walker SGP4 (temps de lumière et Sagnac), corrections de Klobuchar et de Saastamoinen/Niell appliquées dans la boucle à la propre position du filtre ; détection de sauts par porteuse à différence temporelle avec un seuil par satellite élargi par l'incertitude de vitesse ; réinitialisation de l'ambiguïté lors des sauts et de la réacquisition
+
+# data/search.json
+dat-974cec6ca18d = Préréglage de démonstration en orbite (IOD) ESA Celeste : l'unique scénario qui utilise du matériel
+
+# data/search.json
+dat-ba165ef085c4 = IOD ESA Celeste, configuration de signal n° 1, toutes les bandes sur un passage. PRÉRÉGLAGE WORKSHOP.
+
+# data/search.json
+dat-ff5b73c0368c = Directive NIS2 de l'UE, article { "21" } : ce en faveur de quoi Kshana apporte des éléments de preuve
+
+# data/verification-matrix.json
+dat-0d03e418ffb7 = Équations du mouvement de rotation d'Euler (I ω̇ = τ − ω × Iω, axes principaux et tenseur d'inertie général) couplées à la cinématique d'attitude par quaternion (q̇ = ½ q ⊗ ω) et propagées avec un intégrateur RK4 à pas fixe qui renormalise le quaternion à chaque pas
+
+# data/search.json
+dat-5bbbf431e6ab = Chaque fichier de scénario fourni ({ "182" }), regroupé par type, avec ses principaux réglages.
+
+# data/search.json
+dat-aad102ace39c = Chaque capacité est disponible sur les surfaces où elle a du sens ; là où l'une ne peut pas porter une capacité, le…
+
+# data/search.json
+dat-41b0cdc1970e = Chaque capacité de la carte publique, par domaine, avec son étiquette du registre.
+
+# data/search.json
+dat-4047554f9246 = Chaque canal
+
+# data/search.json
+dat-f207df64c582 = Chaque commande
+
+# data/search.json
+dat-ef3d1e821ab5 = Chaque sous-commande de la ligne de commande, et qui la couvre
+
+# data/search.json
+dat-307e233de9a9 = Chaque type
+
+# data/search.json
+dat-ec6240868245 = Chaque type est accessible
+
+# studio/channels.json
+dat-3ed5e2e671f4 = Chaque extrait d'installation MCP
+
+# studio/data/capabilities.json
+dat-73f2b3a67364 = Chaque champ numérique qu'émet un scénario porte une unité et une classe de provenance tirée d'un vocabulaire fermé, avec une définition là où il en existe une, publiées sous forme de schéma lisible par machine à côté du moteur. Une barrière à cliquet exécute chaque type intégré et échoue sur un champ qui n'en porte aucune ; les types pas encore complets sont nommés un par un avec la raison pour laquelle chacun reste ouvert, et la liste ne peut que rétrécir. Les rapports qui énoncent leurs propres constantes — le bilan de liaison à sens unique, le bilan optique et RF — permettent à un lecteur de recalculer le chiffre principal à partir du seul rapport.
+
+# data/search.json
+dat-3758e7e92c29 = Toutes les autres abréviations, de A à Z
+
+# data/search.json
+dat-850eaeab84a6 = Chaque exécution de l'interface en ligne de commande (CLI) écrit un rapport à côté de son résultat : un HyperText imprimable…
+
+# data/search.json
+dat-11ec1dec50d3 = Chaque exécution écrit un artefact JSON (JavaScript Object Notation) versionné et autodescriptif à côté du scénario.
+
+# data/search.json
+dat-77715c30e206 = Chaque fichier de scénario
+
+# data/search.json
+dat-616604728e4a = Chaque type de scénario par famille
+
+# data/search.json
+dat-969cb32dcc07 = Chaque type de scénario que le moteur v{ $version } répartit ({ "87" }), classés en { "12" } familles.
+
+# data/verification-matrix.json
+dat-7f43add9cf63 = Chaque solution du problème de Lambert jusqu'à trois révolutions complètes (maneuver::lambert_multirev : la solution à une révolution, puis les branches gauche et droite de chaque nombre de révolutions, Izzo { "2015" }), avec les vitesses aux bornes v1 et v2, pour des transferts prograde et rétrograde, en unités canoniques et en unités SI héliocentriques, y compris les transferts à { "1" } % du temps de vol minimal d'un nombre de révolutions et les géométries proches de 180 deg. Un solveur à deux corps seulement (sans perturbations)
+
+# data/search.json
+dat-eb7aa5b77168 = Chaque surface
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-a66b5cd13708 = Intégrité d'un paquet de preuves : signature, chaîne de hachage et procédure de vérification
+
+# data/search.json
+dat-7ff30b2bd9df = Paquets de preuves : un enregistrement signé d'un événement de confiance GNSS
+
+# data/search.json
+dat-d05fbf248c20 = Niveaux de preuve et réserves sur chaque surface
+
+# data/search.json
+dat-90d604b9625f = Niveaux de preuve : VALIDATED, MODELLED, PARTNER
+
+# data/verification-matrix.json
+dat-e072a69b96e7 = evidence::roundtrip (kshana evidence round-trip) et l'export de journal de récepteur kshana.test-conditions/1 de kshana bench-export : un paquet signé qui consigne le hachage du scénario, le hachage des conditions énoncées, le hachage du journal et le score par rapport aux événements énoncés, et refuse des conditions qui divergent des événements de notation ou un journal dont le hachage n'est pas celui énoncé. Aucun signal n'est écrit, rejoué ni planifié.
+
+# data/verification-matrix.json
+dat-8286d0105f8c = evidence::tsa::verify_token, et `kshana evidence verify --tsa-ca <anchors.pem>` facultatif pour le timestamp.tsr d'un paquet : un TimeStampResp RFC { "3161" } ou TimeStampToken nu (CMS SignedData sur un TSTInfo) vérifié hors ligne par rapport à des ancres de confiance comme le vérifie `openssl ts -verify` : le type de contenu des attributs signés et le condensé du message sur le TSTInfo ; la signature sur les attributs signés (RSA PKCS#1 v1.5, RSASSA-PSS, ECDSA P-256 et P-384 ; opérations publiques RSA sur crypto-bigint) ; le hachage ESS signing-certificate v1 (SHA-1) ou v2 nommant le certificat du signataire, trouvé parmi les certificats non fiables du jeton et de l'appelant ; l'usage de clé étendu timeStamping, critique et unique, du signataire ; la chaîne jusqu'à une ancre auto-émise de confiance avec la signature, le statut d'AC et l'usage de clé de chaque certificat, et chaque certificat valide au genTime du jeton ; et l'empreinte du message par rapport aux données. Non vérifiés : la révocation (CRL, OCSP), les contraintes de nom et de politique, le nonce
+
+# studio/data/capabilities.json
+dat-5fc6684d0d96 = Identité exacte du mode commun · décorrélation modélisée
+
+# data/verification-matrix.json
+dat-4a07db4dbd5c = Séparation exacte en sous-espace de parité d'une erreur de mesure en la part que le RAIM ne peut pas voir et la part qu'il peut voir. Pour le modèle instantané linéarisé y = G·x + e, toute erreur dy se décompose de façon unique en une composante AVEUGLE dans range(G) — absorbée comme une erreur d'état S·dy et annihilée par le projecteur de résidu Pperp = I − G·S, donc invisible à TOUT test de résidu, et non simplement à un seuil particulier — et une composante DÉTECTABLE dans l'espace de parité. Le module renvoie le projecteur, la séparation et la fraction aveugle, de sorte qu'un appelant peut quantifier la part d'une erreur précise qu'un moniteur instantané est structurellement incapable de signaler. Appliqué au vrai plancher inter-éphémérides : le désaccord de niveau métrique DE440-contre-INPOP21a et DE440-contre-EPM2021 sur la position géocentrique de la Lune est absorbé presque entièrement comme erreur de position de l'utilisateur (fraction aveugle médiane { "1.000000" } ; erreur de position aveugle médiane { "2.3955" } m et { "2.0050" } m) contre un résidu de parité au niveau de { "1e-15" } m
+
+# data/verification-matrix.json
+dat-f537bd68f028 = Vitesse de distance exacte d'un satellite dont la position et la vitesse dans le référentiel terrestre proviennent d'une orbite à deux corps avec la dérive séculaire J2 et la rotation de la Terre (leo_fusion::geom::EarthOrbit::state, la vitesse étant la dérivée temporelle exacte de la position), convertie en Doppler à une porteuse ; le plus grand Doppler absolu, taux de Doppler et à-coup au-dessus d'un masque d'élévation sur une fenêtre (leo_fusion::doppler::doppler_envelope), rapporté par système LEO par le type `leo-pvt` en mode Doppler
+
+# data/search.json
+dat-7d66430cac56 = Exemple de ce que lit une journée : le 2026-09-15, l'archive contenait { "110,619,797" } lignes de position dans { "79,826" } fichiers de trace…
+
+# data/search.json
+dat-b2315ae1399b = Lignes VALIDATED existantes réexaminées selon la règle
+
+# js/developers-data.mjs
+dat-f1a39ad85134 = Exporter un scénario Kshana dans un seul format d'interopérabilité : `czml` (Cesium Language, pour CesiumJS), `kml` (Keyhole Markup Language, pour Google Earth et les outils de système d'information géographique), `geojson` (RFC { "7946" }), `stk` (éphéméride Systems Tool Kit `.e`, un fichier par satellite) ou `sigmf` (enregistrement Signal Metadata Format des échantillons synthétisés d'un scénario `spectrum`).
+
+# js/developers-data.mjs
+dat-208fcbd85f84 = Exporter le mouvement et les événements du véhicule d'un scénario pour un simulateur GNSS de laboratoire (`kshana bench-export`, docs/TEST-BENCH.md) : un CSV de mouvement et sa description JSON (position dans le référentiel terrestre et géodésique, vitesse, attitude, UTC), des phrases NMEA { "0183" } GGA/RMC, un texte de points de passage lorsque la grille d'échantillons est régulière à la milliseconde, et les événements du scénario en CSV et en TOML `[[events]]` pour un scénario `receiver-trust`.
+
+# js/developers-data.mjs
+dat-a8d63bc86950 = Exporter les éléments moyens d'un scénario `orbit` sous forme de catalogue CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message) — un OMM par satellite.
+
+# js/developers-data.mjs
+dat-36de1c0dc4eb = Exporter la constellation propagée d'un scénario `orbit` sous forme de texte d'éphéméride CCSDS OEM { "2.0" } — la série temporelle d'états inertiels (TEME) portant la position ET la vitesse, que lisent les outils de dynamique de vol (GMAT / Orekit / STK).
+
+# js/developers-data.mjs
+dat-7d5167ead5f7 = Exporter la constellation propagée d'un scénario `orbit` sous forme de texte d'éphéméride précise SP3-c (le format standard de post-traitement GNSS).
+
+# data/search.json
+dat-cc130a30c4bc = Contrôle des exportations
+
+# data/search.json
+dat-3a4c43b5bf27 = Contrôle des exportations / note sur le double usage
+
+# studio/data/capabilities.json
+dat-2ca20377e3ba = Exporte le flux de confiance sous forme de métriques Prometheus, d'OpenTelemetry (OTLP/HTTP) et d'événements syslog CEF ou LEEF sur stdout, HTTP, UDP ou TCP, de sorte qu'un centre d'opérations de sécurité voit un défaut de navigation à côté de ses autres alertes. Un collecteur mort ne bloque pas l'évaluation et ne passe pas inaperçu. Prometheus, OTLP et CEF sont relus par des analyseurs indépendants ; LEEF n'est vérifié que par rapport à sa propre spécification.
+
+# data/verification-matrix.json
+dat-5ced49135e1b = Stabilité de fréquence à portée étendue (Theo1 / TOTDEV)
+
+# data/search.json
+dat-7417992b5612 = Étendre Kshana avec un paquet externe
+
+# data/search.json
+dat-8adb938b0ec9 = Validation externe
+
+# data/search.json
+dat-dbd8d18fa40a = Détection de défauts / d'anomalies pour les systèmes PNT quantiques (src/quantum_faults.rs)
+
+# studio/data/capabilities.json
+dat-bacb005cc742 = L'injection de défauts donne au moniteur intermodalités une puissance de détection plutôt qu'un simple passage sans défaut : un biais minimal détectable par axe à un budget de fausse alarme et de détection manquée énoncé. Après un transfert, la recroissance de la covariance est propagée par rapport aux limites d'alerte, de sorte que le rapport énonce combien de temps la solution à modalité unique reste à l'intérieur de celles-ci plutôt que seulement que le transfert était continu. Les branches de mesure de distance optique et RF ne sont comparées qu'à temps d'accumulation et trajet appariés, et le rapport refuse de former un rapport par rapport à une valeur qui a été choisie plutôt que mesurée.
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-67830b359edc = Détection de défauts/d'anomalies pour les systèmes PNT quantiques
+
+# data/search.json
+dat-270cf09d3f50 = Détection de défauts/d'anomalies pour les systèmes PNT quantiques — catalogue de défauts étiqueté +
+
+# js/developers-data.mjs
+dat-c86cb649be68 = Acquisition par FFT d'un ou plusieurs PRN sur un enregistrement IQ du répertoire de travail (`kshana iq acquire`).
+
+# js/developers-data.mjs
+dat-c5dcfc24a46c = Remplir la mise en correspondance avec les cadres publics à partir des documents de résultat de Kshana (`kshana compliance-report`) : pour quelles lignes de six cadres et normes de résilience (le cadre US DHS Resilient PNT v2.0, les recommandations de l'OMI pour les navires, les recommandations de l'EASA pour l'aviation, NIS2 article { "21" }, EN { "16803" }, NIST IR 8323r1) les exécutions fournies apportent des éléments de preuve en faveur de la ligne, pour lesquelles elles n'en apportent pas, et l'écart que conserve chaque ligne.
+
+# data/verification-matrix.json
+dat-2cc31a09464e = CONSTAT par rapport à la coordonnée ITRF2020 publiée de WTZR : les seuils préenregistrés (médiane lissée et p95 au plus { "0.6" } x brut ; tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_HATCH.md) n'ont pas été atteints, rapports { "0.718" } et { "0.923" } ; l'erreur résiduelle de niveau métrique est de type biais (biais de code C1C, antenne, marée, trajets multiples à longue période), et non le bruit blanc que le lissage retire. MODELLED : les statistiques du filtre sont vérifiées en interne
+
+# js/missions-runs.mjs
+dat-bfb797420441 = gigue de code la plus fine à C/N0 égal
+
+# data/verification-matrix.json
+dat-8fce41a44ee9 = Retard ionosphérique au premier ordre par bande, combinaison sans ionosphère et affaiblissement en espace libre
+
+# studio/data/capabilities.json
+dat-1e096cfcd7a5 = Budgets de conception de mission au premier ordre, chacun un scénario exécutable : géométrie de lancement et d'ascension à deux corps (azimut de lancement, inclinaison minimale, bonus de rotation de la Terre, Δv de changement de plan en dogleg, opportunités quotidiennes), un couloir de rentrée balistique d'Allen–Eggers (décélération maximale, vitesses de g maximal et de chauffage maximal), géométrie de couverture d'observation de la Terre (fauchée / GSD au nadir / accès hors nadir / revisite via le triangle spatial SMAD), un budget d'erreur d'attitude et de pointage à 3-DOF (couple de gradient de gravité + budget de pointage RSS), prédiction de passage de station au sol (AOS/TCA/LOS, élévation maximale, accès), et un bilan de liaison à sens unique sur l'équation de liaison CCSDS { "401" } / DSN 810-005 (FSPL, C/N₀, Eb/N₀, marge, fermeture). La couche analytique d'avant-matériel en dessous de STK/GMAT/Basilisk — des budgets modélisés au premier ordre, et non un remplacement 6-DoF ou radiométrique.
+
+# studio/data/capabilities.json
+dat-704f88840a7b = accéléromètre CAI à partir des premiers principes · VRW dérivé recoupé avec un intégrateur indépendant
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-f0e89ca3d3a3 = Information de Fisher et observabilité de Cramér–Rao
+
+# studio/data/capabilities.json
+dat-0327cec1f316 = Information de Fisher et observabilité
+
+# data/verification-matrix.json
+dat-dd058b375937 = Information de Fisher M=HᵀWH, borne inférieure de Cramér–Rao, rang d'observabilité / espace nul du défaut de datum (pseudo-inverse de Moore–Penrose), et scalaires de plan d'expériences D/A/E/T-optimaux issus d'un solveur propre de Jacobi symétrique
+
+# data/verification-matrix.json
+dat-2af9930fb955 = Information de Fisher de h2, k2, l2 et des amplitudes de libration physique à partir de la mesure laser de distance (déplacement de marée radial et horizontal, rotation du réflecteur), du suivi d'orbiteur (l'accélération k2 de degré 2 intégrée le long de la ligne de visée, tendance retirée), d'un gravimètre de surface (facteur gravimétrique { "1" } + h2 - { "1.5" } k2) et d'une horloge de surface (taux fractionnaire ({ "1" } + k2 - h2) W2/c2, lié aux constantes du temps lunaire). Les valeurs nominales de h2 et l2 sont des points de linéarisation ; l'étude dit ce qui est sensible à quoi, non ce que valent les nombres.
+
+# data/verification-matrix.json
+dat-57f1e8fd30f8 = Information de Fisher du datum de référentiel lunaire à sept paramètres à partir de la mesure laser de distance depuis des stations terrestres vers les cinq réflecteurs seuls et avec des distances orbiteur-station de surface ajoutées : la matrice d'information, le rang, les sigmas de Cramer-Rao, la métrique de dégénérescence du module d'identifiabilité lunaire et des ensembles aléatoires de stations à graine fixée. L'orbite est tenue connue dans les axes lunaires (son erreur est portée par le sigma de distance de l'orbiteur).
+
+# data/verification-matrix.json
+dat-d9c6cdc0d9c5 = Observabilité par information de Fisher de la résolution lunaire conjointe : sans lignes de base terrestres, le datum de référentiel absolu se situe dans l'espace nul de HᵀWH (position de station inobservable) ; ≥{ "3" } lignes de base rétablissent le rang plein et bornent l'erreur de Cramér–Rao des stations, que l'estimateur atteint
+
+# js/developers-data.mjs
+dat-f447d405ebe2 = Ajuster les paramètres de capteur des scénarios `hybrid` et `fusion` à partir d'un journal IMU stationnaire (`kshana imu-fit`, docs/MACHINE-INPUTS.md).
+
+# js/developers-data.mjs
+dat-42945e827ef2 = Ajuster le modèle de perte d'accrochage de la boucle de poursuite à des exécutions de laboratoire (`kshana iq labfit`) : un TOML de scénario `iq-labfit` nomme une ou plusieurs exécutions, chacune étant un journal de récepteur plus ses conditions de test énoncées ; le moteur charge chaque journal, ajuste les modèles de boucle et empiriques, estime l'incertitude par bootstrap et calcule l'erreur sur le jeu réservé.
+
+# studio/data/capabilities.json
+dat-b8e5ec121c6e = ajusté sur de vraies orbites précises ESA/ESOC
+
+# data/search.json
+dat-ebf65964bc6f = Compromis d'intervalle d'ajustement
+
+# data/series.json
+dat-1f3a45325a7c = ajusté sur les maxima d'écart d'Allan de la fiche technique de l'oscillateur à quartz thermostaté Microchip (Vectron) OX-208, rév. 12-1-2021, mis à l'échelle pour se situer à ou au-dessus de chaque point
+
+# studio/data/capabilities.json
+dat-501ee15a17bf = Cinq études dans un modèle restreint à trois corps : une détermination d'orbite embarquée GNSS terrestre sur une orbite en halo quasi rectiligne par rapport à une détermination indépendante de distance et de vitesse de distance au sol ; la fixation conjointe des ambiguïtés entières de phase porteuse d'une station de surface et d'un orbiteur (LAMBDA) ; l'information de Fisher d'un datum lunaire à sept paramètres avec et sans distances orbiteur-surface ; les décalages GNSS, VLBI et de mesure laser par rapport à la liaison locale ; et la sensibilité aux paramètres de marée et de libration lunaires. MODELLED avec des entrées illustratives : la numérique est vérifiée par rapport à des programmes numpy et scipy indépendants, et non la physique. Sous les seuils préenregistrés, trois sont NOT MET : une erreur de force injectée n'est pas détectée au taux énoncé (C3), le taux de succès bootstrap diffère de la référence numpy de { "1.7e-6" } pour un seuil de { "1e-9" } (Q3), et l'ajout d'une famille de mesures de distance ne diminue pas toujours la trace du pseudo-inverse (G3, moitié trace).
+
+# data/verification-matrix.json
+dat-51fbca73345c = Jeux de test écrits pour Kshana à partir des dispositions de lignes publiques des démons, avec des valeurs inventées (NOTICE.md dans le dossier des jeux de test) ; aucun journal d'une vraie installation n'a été lu et aucune référence indépendante ne compare l'analyse à un autre lecteur, de sorte qu'une disposition qui diffère selon les versions du démon peut encore être refusée ou mal lue. Les estimateurs alimentés par la série de phase sont ceux validés par rapport à allantools dans les lignes ci-dessus
+
+# data/verification-matrix.json
+dat-3cd10418c5a4 = Assurance produit du matériel de vol (radiations/EEE/MAIT)
+
+# data/verification-matrix.json
+dat-8381d0919ccf = Positionnement ponctuel précis flottant sur de vraies observations RINEX
+
+# studio/data/areas.json
+dat-0637629a0c8f = Suit la physique énoncée et passe les contrôles internes ; pas encore comparé à une référence extérieure.
+
+# data/search.json
+dat-ef9cc14902d4 = FoMScores (l'objet fom)
+
+# studio/data/capabilities.json
+dat-c704e14dcf3c = Pour un vaisseau spatial sur une sphère (la couche globale du livret ICG Space Service Volume) ou sur une trajectoire képlérienne de la LEO au transfert lunaire, compte par constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) et pour toutes ensemble les signaux au-dessus d'un seuil de C/N0 : disponibilité d'un signal et de quatre signaux, plus longue interruption, C/N0 reçu, dilution de précision, et liaisons du lobe principal par rapport aux lobes secondaires. Les diagrammes d'émission sont ceux du livret, un substitut paramétrique ou un que vous fournissez ; un modèle d'ionosphère, de plasmasphère et d'atmosphère en rayon rasant et une conception de récepteur à signal faible sont facultatifs ; un filtre GNSS embarqué pour les orbites hautes et de transfert lunaire et la navigation relative en formation sont inclus. MODELLED : comparées aux tableaux du livret sous un préenregistrement consigné avant l'exécution, les constantes de puissance rayonnée minimale et le seuil lunaire concordent, les autres seuils sont NOT MET selon la lecture préenregistrée (presque tous à cause de l'angle de faisceau GLONASS incohérent du livret), et le substitut paramétrique de lobes secondaires ne reproduit pas les diagrammes mesurés des panneaux GPS.
+
+# data/verification-matrix.json
+dat-a1979d51f7e2 = Pour un navire, `receiver_trust` décode les phrases NMEA { "0183" } qu'émettent un récepteur et ses instruments (GGA, RMC, VTG, HDT, VHW, VBW, ZDA, GSV), forme le décalage est-nord entre positions (`maritime::en_offset_m`), et à partir de là les statistiques sur lesquelles ses moniteurs décident : la vitesse implicite, le résidu d'estime, l'accélération implicite et le taux de virage implicite sur des fenêtres de { "30" } s, les résidus cap-contre-route, loch-contre-vitesse-sol et altitude d'antenne (médianes de { "10" } s), et la dispersion et la hausse du rapport signal/bruit des satellites.
+
+# data/search.json
+dat-9814a5e133fb = Pour un agent (ou la personne qui en dirige un) : quel outil appeler pour quelle question, ce que les outils feront et…
+
+# data/verification-matrix.json
+dat-416c090dc463 = Pour chaque paire de bandes d'un satellite `leo-pass`, le rapport donne le contenu électronique total oblique que la combinaison de code sans géométrie restitue au pic du passage, (P2 - P1) f1^{ "2" } f2^{ "2" } / ({ "40.3" } (f1^{ "2" } - f2^{ "2" })), et son 1-sigma issu du bruit de code thermique des deux bandes, de sorte que toute conception LEO-PNT multibande peut être arbitrée comme sondeur ionosphérique
+
+# data/verification-matrix.json
+dat-97d9d30e725b = Pour chaque satellite LEO et chaque paire de bandes de mesure de distance, la section `[spoofer]` forme la combinaison de pseudodistances sans géométrie, retire le modèle ionosphérique du récepteur et teste son saut d'une époque à l'autre par rapport au bruit de code des deux bandes et à un taux ionosphérique non modélisé toléré énoncé (gaussien bilatéral, probabilité de détection exacte) ; un leurreur qui contrefait certaines bandes et pas d'autres, ou toutes les bandes sans l'ionosphère, est vu à son début ; celui qui contrefait toutes les bandes et simule l'ionosphère ne l'est pas, ce que le résultat énonce
+
+# data/search.json
+dat-0669507306b7 = Validation du modèle de forces par ajustement d'éphéméride — méthodologie et résidus validés
+
+# data/search.json
+dat-8a504682bc0b = Validation du modèle de forces par ajustement d'éphéméride (src/precise_od.rs)
+
+# data/verification-matrix.json
+dat-0629a6a5359f = forces::DensityModel (Exponential par défaut, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) et propagator::ForceModel::drag_density : traînée quadratique par rapport à l'atmosphère en co-rotation avec la densité NRLMSISE-00 au point géodésique WGS-84 (angle de rotation de la Terre avec UT1 = TT, heure solaire locale UT + lon/15), météo spatiale constante par modèle ; désactivé par défaut et identique bit à bit
+
+# data/verification-matrix.json
+dat-a20b66db9189 = Respect du format sur un vrai fichier RINEX { "4.00" } publié (les valeurs relues égalent les littéraux imprimés du fichier) et un en-tête dérivé de la spécification ; aucun lecteur indépendant n'a été exécuté, donc MODELLED
+
+# data/search.json
+dat-bd6169063ab6 = Version du format et champs
+
+# data/search.json
+dat-503ed22693cf = Mode formation : navigation relative
+
+# data/search.json
+dat-8fac1150529a = Formats que parle le moteur
+
+# studio/data/capabilities.json
+dat-7eaefdd4a9c0 = Synthèse directe de pseudodistances / Doppler avec ionosphère de Klobuchar (diffusée) et IONEX / grille de TEC (mesurée) — y compris un analyseur de fichier IONEX, l'interpolation temporelle et la projection d'obliquité oblique en couche mince — troposphère de Saastamoinen + Niell, et RAIM instantané.
+
+# data/verification-matrix.json
+dat-72a0705bd82f = Quatre préréglages — OCXO (Microchip OX-208), rubidium (Microchip 8040C), césium (Microchip 5071A, tube haute performance) et CSAC (Microchip SA.45s) — portant chacun les maxima d'écart d'Allan, le vieillissement et la borne de température de sa fiche technique ; un ajustement non négatif par moindres carrés du bruit de fréquence blanc + de scintillation + à marche aléatoire mis à l'échelle pour envelopper chaque point de la fiche technique, un plancher de scintillation jamais inférieur au chiffre du plus long τ, un vieillissement linéaire et un terme de température sinusoïdal, synthétisés comme un holdover à graine fixée après une perte du GNSS
+
+# data/verification-matrix.json
+dat-a676a683f30b = Matrices de référentiel par rapport à des vecteurs ERFA : biais-précession IAU { "2006" }, TEME vers GCRS, et la chaîne CIO avec décalages du pôle céleste
+
+# data/search.json
+dat-a10174fa0280 = Référentiels et conventions
+
+# data/search.json
+dat-d36daebd0efc = Référentiels et temps
+
+# data/series.json
+dat-1be00e3f7219 = inertiel libre
+
+# data/verification-matrix.json
+dat-e910c86d9cbe = Affaiblissement en espace libre, C/N₀, Eb/N₀, marge et fermeture sur l'équation de liaison CCSDS { "401" } / DSN 810-005 pour PIRE/G·T/distance/débit/bande par rapport à un Eb/N₀ requis. Exécutable depuis la CLI/les liaisons comme type de scénario `link-budget` (scenarios/link-budget.toml)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-27e53cda32db = Caractérisation de la stabilité de fréquence
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-f329e4558e9f = Stabilité de fréquence sur une horloge mesurée réelle
