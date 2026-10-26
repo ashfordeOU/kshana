@@ -23,3 +23,7 @@ seg-842b77a21c5f = 通道
 seg-d6476863f862 = 能力
 
 seg-fdbb9db68f1d = 无
+
+seg-1759a8cce7d6 = 类型
+
+seg-564133d6a0c4 = 围绕任意天体的星座

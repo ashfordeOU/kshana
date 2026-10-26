@@ -159,3 +159,17 @@ seg-2247a2344710 = 含义
 seg-b2689beaba9e = Galileo OSNMA验证器
 
 seg-80f3f0aae42c = 干扰地图
+
+seg-1759a8cce7d6 = 类型
+
+seg-fdd674722717 = 频谱
+
+seg-68ff97cfdc03 = DOI
+
+seg-564133d6a0c4 = 围绕任意天体的星座
+
+seg-c611ee59301a = 动画
+
+seg-c01b78b64065 = 报告
+
+seg-c60dc5b92a60 = 互操作导出
