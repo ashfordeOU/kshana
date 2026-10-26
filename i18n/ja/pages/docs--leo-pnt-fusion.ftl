@@ -32,31 +32,31 @@ seg-9872e31ebd72 = 出典
 
 seg-e20c823f36f3 = X1 は { "1593.3225" } MHz、{ "1.023" } Mchip/s、受信電力 −{ "148.2" } から −{ "139.1" } dBW。X5 は { "1190.51625" } MHz、{ "10.23" } Mchip/s、−{ "144.9" } から −{ "136.2" } dBW。{ "1080" } km に { "18" } 面で { "258" } 機、{ "53" } と { "97" } 度
 
-seg-57b56c874c9b = 公開：<a1>arXiv:{ "2509.19551" }</a1>。代表的：二つの軌道傾斜角の配分、位相配置、距離誤差
+seg-57b56c874c9b = PUBLIC：<a1>arXiv:{ "2509.19551" }</a1>。代表的：二つの軌道傾斜角の配分、位相配置、距離誤差
 
 seg-b0c5e502c21b = Iridium Satellite Time and Location（STL）：{ "66" } 機、{ "780" } km、{ "86.4" } 度の六つの準極軌道面。{ "1616" } から { "1626" } MHz のバースト、{ "25 000" } symbol/s の四位相偏移変調（QPSK）。受信電力は GPS の最小値の { "300" } から { "2400" } 倍
 
-seg-d65ae64607c1 = 公開：<a1>Resilient Navigation and Timing Foundation（RNTF）</a1>、<a2>米国国立標準技術研究所（NIST）</a2>、<a3>コンステレーション</a3>。導出：dBW での電力。代表的：帯域中央の搬送波、距離誤差
+seg-d65ae64607c1 = PUBLIC：<a1>Resilient Navigation and Timing Foundation（RNTF）</a1>、<a2>米国国立標準技術研究所（NIST）</a2>、<a3>コンステレーション</a3>。導出：dBW での電力。代表的：帯域中央の搬送波、距離誤差
 
 seg-36771f73c21f = ドップラーのみ：{ "11.325" } GHz、{ "240" } MHz の直交周波数分割多重（OFDM）ビーコン、C/N0 は最大 { "57.07" } dB-Hz、ドップラー誤差 { "30" } Hz。{ "550" } km、{ "53" } 度の最初のシェルは { "1584" } 機
 
-seg-44d4dd41848a = 公開：<a1>Kozhaya、Saroufim、Kassas { "2025" }</a1>、<a2>米連邦通信委員会（FCC）21-48</a2>。代表的：位相配置、水平線での C/N0
+seg-44d4dd41848a = PUBLIC：<a1>Kozhaya、Saroufim、Kassas { "2025" }</a1>、<a2>米連邦通信委員会（FCC）21-48</a2>。代表的：位相配置、水平線での C/N0
 
 seg-2e13de07f9e9 = L1 と L5 の近くの { "2.046" } Mchip/s の二位相偏移変調（BPSK）。センチメートル級の軌道決定
 
-seg-dd94a3839cb3 = 公開：<a1>初期評価</a1>、<a2>GPS Solutions</a2>。代表的：搬送波、電力、運用コンステレーション全体
+seg-dd94a3839cb3 = PUBLIC：<a1>初期評価</a1>、<a2>GPS Solutions</a2>。代表的：搬送波、電力、運用コンステレーション全体
 
 seg-a34d6a186a36 = { "5010" } から { "5030" } MHz の無線航行衛星業務（RNSS）割り当てにある C バンドのシステム。パラメーターが公開されていないシステム向け
 
-seg-7712896ff69a = 公開：<a1>国際電気通信連合（ITU）無線通信規則</a1>の割り当て。それ以外はすべて<b>代表的</b>
+seg-7712896ff69a = PUBLIC：<a1>国際電気通信連合（ITU）無線通信規則</a1>の割り当て。それ以外はすべて<b>代表的</b>
 
 seg-89ebc32469d9 = エフェメリスと時計のモデル：六次の多項式エフェメリス、{ "30" } s ごとの更新、GNSS 時刻に同期した時計。SISRE は { "0.26" } m
 
-seg-ddbefb8a6723 = 公開：<a1>InsideGNSS</a1>。導出：SISRE。<c1/> を通じて任意のコンステレーションと組み合わせられます
+seg-ddbefb8a6723 = PUBLIC：<a1>InsideGNSS</a1>。導出：SISRE。<c1/> を通じて任意のコンステレーションと組み合わせられます
 
 seg-6389c92e07d4 = 欧州宇宙機関（ESA）の Celeste 軌道上実証（IOD）。パラメーター化された信号設計の一つの構成
 
-seg-b8bd6e76aeb2 = 公開の軌道（<a1>ESA</a1>、<a2>Institute of Navigation（ION）abstract { "16907" }</a2>）。ワークショップの信号パラメーター。ESA Navigation Innovation and Support Programme（NAVISP）の LEO-PNT ワークショップ（{ "2026" }）で発表
+seg-b8bd6e76aeb2 = PUBLICの軌道（<a1>ESA</a1>、<a2>Institute of Navigation（ION）abstract { "16907" }</a2>）。WORKSHOPの信号パラメーター。ESA Navigation Innovation and Support Programme（NAVISP）の LEO-PNT ワークショップ（{ "2026" }）で発表
 
 seg-bd7fb6eb444a = ワークショップ由来の数値はすべて <c2/> の <c1/> モジュールにあり、<c3/> が使用します（どこに現れてよいかは <c4/> が強制します）。プリセットを外す方法：エンジンのワークショップ由来の数値はすべて一つのファイル <c5/> にあり、<c6/> はそれが存在する場合にのみコンパイルに含め、リポジトリ専用のシナリオ <c7/> にもあります。このファイルとこれらのシナリオを削除すると、ソースを編集せずにプリセットを外せます。ほかのすべてのテスト、オラクル、シナリオは、それなしで動作します。README のシナリオファイル数には、外したファイルも引き続き含まれます。
 

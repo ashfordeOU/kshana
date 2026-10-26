@@ -16,7 +16,7 @@ seg-6752521002b2 = 部分
 
 seg-2b0d77219437 = プリセット
 
-seg-125aac68d94f = 公開、<a1>arXiv { "2509.19551" }</a1>
+seg-125aac68d94f = PUBLIC、<a1>arXiv { "2509.19551" }</a1>
 
 seg-c5ce76c91ff7 = ラベル
 
@@ -60,7 +60,7 @@ seg-4c22d21ea8f0 = 基準および最大の受信電力、軌道高度、ドッ�
 
 seg-c6b46532af9a = シナリオは、信号を <c1/> とインラインの <c2/> テーブルから取ります。どちらもない場合は <c3/> プリセットを解析します。
 
-seg-a917a5ccfb79 = <c1/> の下にファイルが一つずつあり、コンパイルに含まれ、それぞれが出典 URL を引用しています。出典が公表していない値は、ファイルとレポートの中で代表的と表示されます。
+seg-a917a5ccfb79 = <c1/> の下にファイルが一つずつあり、コンパイルに含まれ、それぞれが出典 URL を引用しています。出典が公表していない値は、ファイルとレポートの中でREPRESENTATIVEと表示されます。
 
 seg-7159574bf255 = 信号
 
@@ -72,29 +72,29 @@ seg-332a08bef0de = enhanced Feher 四位相偏移変調（EFQPSK）を矩形チ�
 
 seg-d37420c5c9f5 = <c1/> Satellite Time and Location（STL）バースト、{ "25" } ksymbol/s の四位相偏移変調（QPSK）、{ "780" } km、ドップラーとタイミングのみ
 
-seg-a765878134e2 = 公開、<a1>Resilient Navigation and Timing Foundation（RNTF）のレポート</a1>
+seg-a765878134e2 = PUBLIC、<a1>Resilient Navigation and Timing Foundation（RNTF）のレポート</a1>
 
 seg-5ca54b21f017 = 搬送波は { "1616" } から { "1626" } MHz の中央。受信電力は、全球測位システム（GPS）の { "300" } から { "2400" } 倍という公表値から導出
 
 seg-e43d1db73131 = <c1/>、{ "240" } MHz の OFDM ビーコン、ドップラーのみ
 
-seg-ff9e0075e868 = 公開、<a1>NAVIGATION { "72" }({ "1" })</a1>
+seg-ff9e0075e868 = PUBLIC、<a1>NAVIGATION { "72" }({ "1" })</a1>
 
-seg-fee9a553c9ae = 平坦なスペクトル。チャネル中心とシェル高度は代表的。公表された約 { "57" } dB-Hz の搬送波対雑音密度比（C/N₀）は、受信機を通じて設定
+seg-fee9a553c9ae = 平坦なスペクトル。チャネル中心とシェル高度はREPRESENTATIVE。公表された約 { "57" } dB-Hz の搬送波対雑音密度比（C/N₀）は、受信機を通じて設定
 
 seg-f89372b5231e = <c1/>、<c2/>、{ "2.046" } Mchip/s の BPSK
 
-seg-2e6475b25d55 = 公開、<a1>PubMed Central PMC10301026</a1>
+seg-2e6475b25d55 = PUBLIC、<a1>PubMed Central PMC10301026</a1>
 
-seg-ac53cebe5303 = 搬送波は GPS L1 と L5 の搬送波の位置に置いています（出典では「近く」）。コード長は代表的
+seg-ac53cebe5303 = 搬送波は GPS L1 と L5 の搬送波の位置に置いています（出典では「近く」）。コード長はREPRESENTATIVE
 
 seg-cb1420efc108 = <c1/>、{ "5020" } MHz、{ "20" } MHz 内の BPSK({ "10" })
 
-seg-895f6039fce2 = 代表的。パラメーターが公開されていない C バンドシステム向け（TrustPoint など）
+seg-895f6039fce2 = REPRESENTATIVE。パラメーターが公開されていない C バンドシステム向け（TrustPoint など）
 
 seg-a407aaab864c = 設計全体
 
-seg-2f679a429dae = 代表的。割り当ては <a1>ITU 無線通信規則</a1>から。{ "465" } MHz の UHF 搬送波は、公開の <s1>LEO-PNT 信号の openRECEIVER 調査</s1>から
+seg-2f679a429dae = REPRESENTATIVE。割り当ては <a1>ITU 無線通信規則</a1>から。{ "465" } MHz の UHF 搬送波は、公開の <s1>LEO-PNT 信号の openRECEIVER 調査</s1>から
 
 seg-2054d9ce8a0d = 設計全体（UHF の帯域幅と変調も含む）
 

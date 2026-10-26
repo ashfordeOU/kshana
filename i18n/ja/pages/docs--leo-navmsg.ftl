@@ -486,7 +486,7 @@ seg-33f4c7af9c53 = 搬送波
 
 seg-f4510e898031 = メッセージモデル
 
-seg-125aac68d94f = 公開、<a1>arXiv { "2509.19551" }</a1>
+seg-125aac68d94f = PUBLIC、<a1>arXiv { "2509.19551" }</a1>
 
 seg-890aa92157e4 = { "1080" } km、{ "53" }°
 
@@ -494,11 +494,11 @@ seg-1eca13ba2309 = X1 { "1593.3225" } MHz
 
 seg-ee9947222a30 = 非公開
 
-seg-77af616c1f6e = 公開、arXiv { "2509.19551" }
+seg-77af616c1f6e = PUBLIC、arXiv { "2509.19551" }
 
 seg-f016786d7755 = { "520" } km、{ "97" }°
 
-seg-780e931bf88d = 公開、<a1>RNTF レポート</a1>、コンステレーションの説明
+seg-780e931bf88d = PUBLIC、<a1>RNTF レポート</a1>、コンステレーションの説明
 
 seg-d5df094a5f89 = { "781" } km、{ "86.4" }°
 
@@ -506,7 +506,7 @@ seg-94bc78cee128 = { "1621" } MHz（{ "1616" }–{ "1626" } MHz 帯）
 
 seg-3f5de7f74502 = 放送なし
 
-seg-4944294c230f = 公開、<a1>NAVIGATION { "72" }({ "1" })</a1>、コンステレーションの説明
+seg-4944294c230f = PUBLIC、<a1>NAVIGATION { "72" }({ "1" })</a1>、コンステレーションの説明
 
 seg-c2a2761f73b1 = { "550" } km、{ "53" }°
 
@@ -514,19 +514,19 @@ seg-2ef501f97eff = Ku バンド、帯域中央の値（代表的）
 
 seg-567fab40bd24 = なし（機会信号）
 
-seg-a76527ba66b6 = 公開、<a1>Sensors { "2023" }</a1>、<a2>Satellite Navigation { "2026" }</a2>
+seg-a76527ba66b6 = PUBLIC、<a1>Sensors { "2023" }</a1>、<a2>Satellite Navigation { "2026" }</a2>
 
 seg-f5dd5086eedd = { "700" } km、{ "55" }°
 
 seg-5fa6b60f66b4 = B1 付近（出典ではマスクされており、代用として L1）
 
-seg-5ebbf0042d7c = 代表的
+seg-5ebbf0042d7c = REPRESENTATIVE
 
 seg-4f3e5a683682 = { "600" } km、{ "97.8" }°
 
 seg-c06f62ca5173 = { "5020" } MHz（RNSS C バンドの中心）
 
-seg-884c81e55e79 = 公開、<a1>InsideGNSS</a1>
+seg-884c81e55e79 = PUBLIC、<a1>InsideGNSS</a1>
 
 seg-3b1fd041f9ba = { "500" } km（代表的）
 
@@ -534,7 +534,7 @@ seg-522c85402d84 = L1（代表的）
 
 seg-064b03765e4d = <c1/>、次数 { "6" }、{ "60" } s、{ "30" } s ごとに更新、ゼロクロック、{ "0.24" } m の同期残差
 
-seg-5619bc61b958 = ワークショップと公開
+seg-5619bc61b958 = WORKSHOPとPUBLIC
 
 seg-20572d7e348d = { "510" } km、{ "97.4" }°
 
