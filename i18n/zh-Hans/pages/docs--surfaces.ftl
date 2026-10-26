@@ -13,3 +13,5 @@ seg-e0426ffe2628 = 备注
 seg-2bd2101ce454 = 界面
 
 seg-de6c33774c9c = CLI
+
+seg-98f4f946a7ac = WASM
