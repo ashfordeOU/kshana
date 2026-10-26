@@ -2533,3 +2533,457 @@ seg-8980b5ae869b = 数値
 seg-f4d1ec6fc464 = 引用
 
 seg-d0566d4db829 = 再現する
+
+seg-9544831a5a89 = <s1>tests/araim_reference_vectors.rs（公開済みベクトル{ "2" }件と負の対照{ "6" }件、フィクスチャ tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt：公称バイアスを除くと、公開されている VPL を{ "2.6457" } m外し、{ "10" }…</s1>
+
+seg-cbb5fec70449 = <s1>tests/raim_multi_sv_subsets.rs（deeper_orders_change_nothing_when_pairs_suffice、triples_are_refused_at_order_two_and_planned_deeper：N_fault,max >= { "3" }、P_THRES 以内の未監視リスク、三つ以上を除去する部分集合…</s1>
+
+seg-a6a5b0b81816 = <s1>tests/clock_integrity.rs（the_block_is_separate_and_absent_by_default：ホールドオーバーの数値は変わらず、{ "111" }個の拒否されたエポックは保護レベルなしで利用不可、runs > { "1" } では 拒否…</s1>
+
+seg-1f02e6ff390a = <s1>cislunar_observability::tests と observability_gramian::tests（既定のドキュメントは、その JSON、サマリー、SVG の FNV-1a でビット単位まで固定され、明示した既定値は何も変えないことを確認し、八つの…</s1>
+
+seg-ddd33dc7406d = <s1>lunar_frame_campaign::tests（ライブラリテスト{ "21" }件：Helmert 設計を lunar_frame_realise::apply_helmert の中心有限差分と比較。このモジュールは測地系の対象そのものであり、導関数を計算しないため [p]ₓ を固定する…</s1>
+
+seg-0f4208761aa1 = <s1>cislunar_arc_recovery::tests と tests/cislunar_arc_recovery_reference.rs（公開されたグリッド上で両方の境界とその比を固定。測定誤差曲線を、行ごとに公式の共分散行と比較し…</s1>
+
+seg-0af954b5a4f8 = <s1>lunar_ephemeris::tests（形式と座標系の解析、ノードで厳密かつノード外では線形軌跡で厳密なラグランジュ補間、ICRF の要素は IAU { "2015" } 簡約を採用し、明示的な icrf_to_iau_moon とバイト単位で一致…</s1>
+
+seg-6fc822a083e1 = <s1>tests/field_units_global.rs（登録済みの{ "61" }種類すべてを実行、各一つのドキュメント形式：すべての数値の葉は、そのドキュメント自身の units ブロックのエントリに解決されなければならず、不正なエントリはすべての種類で欠落として数える…</s1>
+
+seg-97e468fe62a1 = <s1>tests/lunar_llr_real_data.rs（テスト{ "11" }件：コミット済みの CRD ファイル{ "15" }件すべてが記録済みのダイジェストとバイト単位で同一、全{ "349" }レコードを説明済みで、{ "337" }件を使用し、{ "12" }件を理由を明示してスキップ、アーカイブされたすべてのレンジが…</s1>
+
+seg-be4e192d09c8 = <s1>tests/lunar_station_geodesy.rs（empty_or_absent_extra_lists_are_bit_identical：空のリストとベースラインの例は、既定のレポートとサマリーをバイト単位で同一に出力、an_added_site_never_increases_any_variance：…</s1>
+
+seg-3a90aaa2bab4 = <s1>tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points（未使用の2019-Q2ノーマルポイント{ "447" }件、シグマとノルムは{ "1e-2" }の{ "4.0e-5" }以内、条件数は{ "2e-2" }の{ "1.6e-5" }以内…</s1>
+
+seg-8e49f59ab515 = <s1>tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount（週次の地心状態{ "12" }件、最悪エポックの角度は < { "0.3" }°、RMS は < { "5e5" } m と断言、モジュール自身の文書化された主張に対して…</s1>
+
+seg-405a4baa18c2 = <s1>tests/source_guards.rs（テスト{ "9" }件：ソースツリー全体に対する両方のガードに加え、各ガードを両方向で評価するミューテーションフィクスチャ。衝突する両方のパスで報告された F22 パターン、出荷済みのアトミックシーケンス…</s1>
+
+seg-97bf39b8d423 = <s1>tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference（条件の良いものから{ "{" }{ "0,3" }{ "}" }の準縮退に至る合成7x7 SPD 行列{ "16" }個。Schur lambda_min / 原点 CRLB / |corr| 対…</s1>
+
+seg-d9143b8478b2 = <s1>tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic（ILRS ノーマルポイント{ "192" }件：RMS { "2.81" } m、ITRF2020 の二局のみでは{ "2.96" } m、両方とも最大{ "10" } m）…</s1>
+
+seg-cd923a61d85b = <s1>tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows（固有値{ "9" }個、defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm、および well_posed の{ "{" }scale,offset{ "}" } Schur 周辺分布…</s1>
+
+seg-359b0ae05111 = <s1>tests/lunar_rate_frame_coupling_preregistered.rs（entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields：L_m は Ashby と Patla { "2024" } に対して{ "2.8e-6" }以内、J2 は AIUB-GRL350A/B から…</s1>
+
+seg-c5530b3416de = <s1>lunar_gauge::tests（classify_is_invariant_under_null_basis_rotation - 軸に沿った零空間基底とその{ "0.6" } rad の回転は、同一の defect、dim_spatial、dim_temporal、coupled_dim、p_st_norm を与える…</s1>
+
+seg-f2d1f7f911eb = <s1>lunar_techniques::tests（combine_is_additive_order_independent_and_empty_is_zero - 空の選択はゼロ行列を与え、単一の選択は単位行列、二つの選択は独立に書いた要素ごとの和に等しく、さらに…</s1>
+
+seg-192a66dd5837 = <s1>tests/lunar_interop_budget_reference.rs（raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible を、プロバイダーの組{ "3" }つについて、独立した SciPy SVD lstsq フィットと比較…</s1>
+
+seg-f43b88acb648 = <s1>lunar_interop_budget::tests（バジェットに対する単調性、プロバイダーごとの CRLB の下での RSS バジェット低減、月のレバーアームでの回転許容差の実例、支配項 = 回転）</s1>
+
+seg-286a2e81f845 = <s1>lunar_interop_budget::tests（CommonEphemeris はバジェットをゼロにする、CommonFrameTie < PerProvider、実際の分割での irreducible_fraction > { "0.5" }、規約の順序）</s1>
+
+seg-240b8520d6bc = <s1>tests/lunar_faultobs_reference.rs（faultobs_matches_numpy_scipy_on_real_de440_rows：{ "84" }×{ "84" } の P⊥ を要素ごとに、trace(P⊥) = parity_dim = { "52" } および rank(G) = { "32" }、検出可能性ノルムとフラグ、MDB の二次形式 cᵀWP⊥c +…</s1>
+
+seg-c00b93a0b0fd = <s1>tests/telecom_timing_reference.rs（エージング、フリッカー、温度を含む、コミット済みの{ "2" } 048サンプルのチップスケール原子時計ホールドオーバー系列に対する MTIE の平均化係数{ "17" }個と TDEV の平均化係数{ "12" }個を、allantools { "2024.06" } と <{ "1e-12" } / <{ "1e-9" } で比較…</s1>
+
+seg-f370ba86f559 = <s1>telecom_timing::tests（mask_boundaries_follow_the_tables_exactly - 開端と閉端、G.8271.1 表7-3の τ = { "400" } s のギャップ、表が示すすべてのブレークポイントでの連続性…</s1>
+
+seg-54f65105891a = <s1>clock_log::tests（形式ごとの手書きログ：ヘッダー、区切り文字、単位、周波数の積分、TICC のチャネルとモード、欠損とポリシー、拒否）、tests/clock_log_allantools.rs（事前登録した比較…</s1>
+
+seg-626117af9cdf = <s1>telecom_timing::tests（every_preset_carries_a_named_datasheet_and_figures、the_noise_fit_envelopes_every_datasheet_point、pure_aging_matches_its_closed_form - 離散的なエージングのランプは、(1/2)·D·t² の閉形式の{ "0.1" } %以内…</s1>
+
+seg-b8eed1ebd82a = <s1>tests/slot_timing_cs5071a_holdout.rs（holdover_inversion_predicts_the_held_out_caesium_record：記録の最初の三分の一でフィットし、{ "0.5" }、{ "0.75" }、{ "1" }、{ "1.5" }、{ "2" }、{ "2.5" } ns での一シグマ超過を予測し、測定値と比較…</s1>
+
+seg-75b0ef8ae233 = <s1>tests/slot_timing_igs_holdout.rs（GPS Block IIF 衛星時計{ "10" }個、IGS 最終クロックの{ "14" }日分：{ "8" }個は{ "1.5" }の合格基準以内、G25 と G30 は最大約2倍楽観的で、固定済み）、tests/slot_timing_ocxo_holdout.rs（測定された…</s1>
+
+seg-5b4b3588e36c = <s1>orbital_timing::tests（reduces_to_the_terrestrial_tpl - 時計にフリッカー、ホワイト位相、ランダムランの項がない場合は、まさに tpl::timing_protection_level_ns となる、leo_geometry_matches_its_closed_forms…</s1>
+
+seg-bd9967650e32 = <s1>spectrum::tests（bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz - BPSK({ "1" }) の{ "2.046" } MHz と BPSK({ "10" }) の{ "20.46" } MHz を閉形式上で数値的に特定、boc11_lobes_are_centred_at_plus_minus_1_023_mhz - 搬送波ヌル…</s1>
+
+seg-48672b24258c = <s1>spectrum::tests（agrees_with_the_jamming_kind_chain - J/S は jamming::j_over_s_db に等しく、実効 C/N0 は jamming::effective_cn0_dbhz に等しい。Q = 1/(R_c kappa)、誤差は{ "1e-9" } dB 以内、ジャミングの{ "32.105" } dB のアンカー…</s1>
+
+seg-7ecf03ff1966 = <s1>tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1（1800-2050年の重心は表{ "1" }から、紀元前{ "3000" }年から紀元後3000年は表{ "2" }から、{ "8908" }と{ "21857" }のエポック、最悪の RMS…</s1>
+
+seg-fd1cc8019558 = <s1>tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs（1973-2026年の UTC エポック{ "200" }個での位置{ "600" }件、事前登録のハッシュから抽出、最悪値は合格基準の{ "0.66" }、{ "2.96" } m）…</s1>
+
+seg-d44a18dac6a9 = <s1>tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s（水星、金星、火星、木星、土星の重心、太陽、月から地球まで…</s1>
+
+seg-457d0bb2fc18 = <s1>tests/solar_system_horizons_reference.rs（standish_table1_uranus_and_neptune_exceed_the_nominal_error：公称の経度誤差の{ "2.04" }倍と{ "5.16" }倍で固定、六倍未満…</s1>
+
+seg-97266912f59e = <s1>tests/solar_system_horizons_reference.rs（moons_track_horizons_to_the_measured_angles：{ "2000" }年から{ "2040" }年にかけて惑星から見た最悪の角度誤差は、フォボス{ "5.65" }度、ダイモス{ "0.38" }、イオ{ "0.40" }、エウロパ{ "1.63" }、ガニメデ{ "0.22" }…</s1>
+
+seg-130434c29134 = <s1>tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies（{ "1955" }年から{ "2044" }年のエポック{ "41" }個、{ "574" }個の行列が{ "1e-9" } rad 以内、最悪はフォボスの{ "1.43e-10" } rad）…</s1>
+
+seg-f0f5cad2f3b9 = <s1>constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23（RAAN と平均近点角の全{ "24" }行を{ "1e-9" }度まで）、constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1（ICD のスロット式と…</s1>
+
+seg-1589b9b655fa = <s1>constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard（HDOP の中央値{ "0.940" }、{ "90" } %値{ "1.165" }、{ "95" } %値{ "1.255" }、{ "98" } %値{ "1.370" }、平均{ "0.965" }を、{ "0.94" }、{ "1.16" }、{ "1.25" }、{ "1.37" }、{ "0.96" }に対して比較、合格基準は{ "0.03" }、各固定…</s1>
+
+seg-0df9c964e180 = <s1>constellation::tests（prefilter_matches_brute_force_exactly - すべてのマップとカウンターは、直接の仰角テストによる走査と一致する、five_thousand_satellites_on_a_coarse_grid - { "5 000" }機の衛星、実行時間を出力し…</s1>
+
+seg-44fa74f15217 = <s1>tests/campaign_composition_reference.rs（a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number - 一メンバーの合成は、単独実行の数値と結果ダイジェストを読み取る）</s1>
+
+seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs（事前登録 fbe6c8b3、および第1ラウンドのプロトコル上の未達の後の 441f31bc：p2_prime_interior_target_range_matches_the_closed_form - 1次元のターゲット解は r* = r0 { "10" }^((m(r0)… の{ "6.1e-15" }以内…</s1>
+
+seg-898a76c2719d = <s1>navsignal::band_limited_tests（sine_integral_matches_tables_and_its_limit - Si({ "1" })、Si(pi)、Si({ "2" } pi) を{ "1e-12" }まで、bpsk_power_in_band_closed_form_matches_textbook_and_numeric - メインローブの電力の{ "0.9028" }、…</s1>
+
+seg-38df494c0225 = <s1>tests/leo_signal_reference.rs（マルチバンドのウォーターフォールは四パネルで実行され、UHF、L5帯、S、C のジャマーはそれぞれ自分の帯域だけを妨害し、単一帯域の実行は拡張によって変わらない）…</s1>
+
+seg-5b584f66b1b9 = <s1>tests/leo_link_reference.rs（p838_coefficients_reproduce_table5_to_its_printed_digits：表{ "5" }の全{ "115" }行、{ "1" } GHz から{ "1000" } GHz、すべての係数が最後に印刷された桁の{ "0.6" }以内、観測された最悪値は{ "0.51" }）</s1>
+
+seg-fcf54e4d09c3 = <s1>tests/leo_link_reference.rs（p618_rain_attenuation_matches_the_itu_validation_examples：五地点で{ "56" }ケース、{ "14.25" }と{ "29" } GHz、{ "0.001" } %から{ "1" } %、{ "1e-4" } dB 以内、観測値は{ "5e-6" } dB）</s1>
+
+seg-f6b9a637b0d5 = <s1>tests/leo_link_reference.rs（p618_scintillation_matches_the_itu_validation_examples：七地点で{ "42" }ケース、{ "14.25" }と{ "20" } GHz、{ "1e-5" } dB 以内、観測値は{ "5e-7" } dB）</s1>
+
+seg-a0b65a73f2a4 = <s1>tests/leo_link_reference.rs（p2109_building_entry_loss_matches_the_itu_workbook：{ "568" }個の値、{ "0" }度で{ "28" } GHz、{ "45" }度で{ "2" } GHz、両方のクラス、P は{ "1e-7" }から{ "0.998" }、{ "0.001" } dB 以内）</s1>
+
+seg-53943b608329 = <s1>tests/leo_link_reference.rs（doppler_envelope_reproduces_the_pulsar_paper_table_1：Pulsar IOV { "520" } km { "97" }度、Pulsar FOC 極軌道{ "1080" } km { "97" }度、Pulsar FOC 傾斜軌道{ "1080" } km { "53" }度、GPS { "20180" } km { "55" }度、軌道速度…</s1>
+
+seg-d34f65fbc0f2 = <s1>leo_navmsg::sisre::tests（weights_reproduce_the_published_meo_and_geo_table - GPS { "0.979" }と1/48.9、GLONASS 1/45.0、Galileo { "0.984" }と1/61.1、BeiDou MEO 1/54.2、静止軌道{ "0.992" }と1/126.2、マスク角{ "0" }度、それぞれ…</s1>
+
+seg-658e7640260b = <s1>tests/leo_navmsg_reference.rs（the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre - 実際の Galileo 放送エフェメリス E10、E19、E24、E25 の四件を tk = { "0" }、+/-600、+/-1800、+/-3600 s で、すべての軸が{ "1" } mm 以内で…</s1>
+
+seg-bbde673e86b7 = <s1>leo_navmsg::codec::tests（crc24q_matches_the_catalogue_check_value - ASCII 文字列{ "123456789" }に対して 0xCDE703、crc24q_matches_the_rtcm_1005_example_frame - RTCM { "10403" }メッセージタイプの三つのチェックバイト 0x360B98…</s1>
+
+seg-026c16b76bc5 = <s1>leo_navmsg::tests::a_mid_pass_update_is_continuous（切り替えごとのレンジのジャンプはレンジ誤差の変化に等しく、{ "150" } s ごとに更新される補正済みの{ "300" } s フィットは{ "5" } cm のしきい値を通過する）…</s1>
+
+seg-206c8fedb40a = <s1>leo_navmsg::text::tests（calendar_round_trips_and_knows_the_gps_origin、d19_is_rinex_shaped）、leo_navmsg::tests::rinex_and_csv_round_trips（テキストブロックの後ですべてのモデルが{ "0.1" } mm 以内、CSV は完全一致）</s1>
+
+seg-09284032f3ff = <s1>tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre（論文の四日分：Liu ら{ "2025" }に対する along、cross、radial、SISRE の比は{ "0.755" }から{ "1.138" }、1.5x 以内）…</s1>
+
+seg-bdf321af446a = <s1>tests/leo_doppler_reference.rs（iridium_doppler_reaches_the_published_36_khz：{ "780" } km、{ "86.4" }度の衛星一機を{ "1621" } MHz で一日飛行させ、四つの緯度で、最大値は{ "36" } kHz の{ "5" }%以内…</s1>
+
+seg-1408cfaef991 = <s1>leo_fusion::doppler::tests（range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach、noise_free_multi_satellite_doppler_recovers_the_user：{ "1" } mm まで、ドリフトは{ "1e-6" } m/s まで…</s1>
+
+seg-9cedbeb3d672 = <s1>leo_fusion::ppp::tests（the_filter_is_consistent_over_monte_carlo_seeds：{ "24" }個のシード、実行平均の NEES の平均は [{ "2.4" }, { "3.6" }] の範囲、かつエポックの少なくとも{ "75" }%が両側{ "95" }%カイ二乗帯域の内側。{ "150" }個のシードで測定した平均…</s1>
+
+seg-1191202e90ca = <s1>tests/leo_polar_coverage_on_path_orekit_oracle.rs（構成 A と B、{ "4040" }サンプル：地球固定の位置は{ "6.8e-5" } m 以内、合格基準は{ "0.2" } m、可視数は4040/4040で一致、DOP の中央値は相対で{ "2.3e-11" }以内、合格基準…</s1>
+
+seg-d9a4ae25b196 = <s1>leo_pnt_chain::tests（a_sine_line_fit_recovers_its_line）、tests/leo_pnt_chain.rs（every_upstream_change_moves_the_downstream_figures：より強い EIRP、より長いフィット区間、より大きな軌道決定項がそれぞれ…</s1>
+
+seg-85d961f50587 = <s1>tests/leo_resilience_verticals.rs（the_geometry_free_tec_is_the_pass_slant_tec：ピークでのパスのスラント TEC に{ "1e-9" }まで等しく、そのシグマは{ "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" }) にわたるコード雑音の RSS に等しい）…</s1>
+
+seg-a17cc61fffba = <s1>tests/lunar_frame_campaign_mpmath_oracle.rs（lunar_frame_campaign_datum_matches_mpmath_extended_precision：三つのシナリオ - 新しいキャンペーン日 2026-03-18 に推定した観測局（拘束あり）、その日に固定した観測局…</s1>
+
+seg-b2e472a6691a = <s1>tests/lunar_frame_campaign_srif_mpmath_oracle.rs（srif_datum_matches_mpmath_extended_precision：四つのシナリオ - 新しいキャンペーン日 2026-06-09 に推定した観測局（拘束あり）、その日に固定した観測局（対照）…</s1>
+
+seg-a71282a84212 = <s1>telemetry::syslog::tests（LEEF 文字列の完全一致、エスケープ、重大度、RFC { "5424" } エンベロープ、配信タイムアウトと再接続）、tests/telemetry_cli.rs</s1>
+
+seg-0f6ad892e199 = <s1>tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces（無視対象、KSHANA_JAMMERTEST_DIR によるデータ条件付き：記録された選択、ホールドアウトの件数、合格基準の判定と総合判定）…</s1>
+
+seg-fa68aadcc812 = <s1>tests/jammertest_plan_roundtrip.rs（KSHANA_JAMMERTEST_PLAN_DIR によるデータ条件付き：{ "2025" }年計画の試験エリアごとのスロット数、カタログ ID、TOML の往復）、tests/jammertest_score.rs（既知の欠落を持つ合成ログ…</s1>
+
+seg-9029e168db2d = <s1>tests/receiver_trust_live_cli.rs（ゲートとその TCP リスナー、Rust 側）、integrations/signalk/test/adapter.test.js、integrations/signalk/test/model.test.js、integrations/signalk/test/plugin.test.js（Node テスト{ "24" }件…</s1>
+
+seg-33067eb81d16 = <s1>tests/iq_scint_malindi_measured.rs（cornell_model_verdict_is_the_recorded_one、登録済みの判定を記録どおりに断言、所見 F1、finding_model_fades_are_deeper_and_longer_than_measured…</s1>
+
+seg-a7d806eca846 = <s1>tests/standards_packs.rs（pinned_outcomes：すべてのテストの状態。未達の L4-T1 と IMO の精度テスト四件を含む）、standards_pack::tests</s1>
+
+seg-b2e460fe9109 = <s1>receiver_trust::machines::novatel::tests（固定された CRC、ASCII とバイナリのレコード、不正な CRC のスキップ、悪意ある入力）、tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report</s1>
+
+seg-af38bd301f7a = <s1>receiver_trust::machines::rtcm3::tests（CRC-24Q のカタログのチェック値、MSM4/MSM7 の C/N0 とエポックの統合、GLONASS 時刻と SBAS ID のマッピング、不正な CRC とその他のメッセージ）</s1>
+
+seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs（rtklib_pos_runs_as_a_receiver_log：gnss_lib_py ブリッジが書き出す形式を receiver-trust に通す）、ブリッジの Python テストは…</s1>
+
+seg-17ab1aee875b = エンジンの検証マトリクスから生成され、テストによって固定されています。リストをスクロールするか、行を開くと、その機能、オラクル、テストを確認できます。すべての列を一度に並べた完全な表は、ドキュメントにあります：<a1>機能リファレンス</a1>。
+
+seg-41da0459d87a = この台帳を、審査委員会向けの監査グレードで再現可能なエビデンスパックとして必要ですか？<a1>Kshana Pro がパッケージ化します</a1>。
+
+seg-72a49f4a8a52 = 既定で再現可能
+
+seg-fa37e615f55e = もう一度実行しても、同じ数値が得られます。
+
+seg-ed2388d71f8d = <s1>無償のコア</s1> 結果は、シナリオ、シード、エンジンのバージョンからビット単位で再現できます。ここではライセンスもアカウントも、私たちも必要ありません。
+
+seg-37c1e99ec1ea = <c1/> に必ず付くスタンプ
+
+seg-87d1a7bd3204 = これは、記録済みの時計ホールドオーバーの実行のものです。Kshana Studio で開くか、自分で再実行してください：
+
+seg-006d9a3357c7 = シード
+
+seg-477ec417d61a = エンジンをインストールします。
+
+seg-972d68eb7cb0 = または <c1/>、あるいは<a1>ほかの入手方法</a1>。
+
+seg-a8676830c911 = コピー：kshana scenarios/clock-holdover.toml
+
+seg-c1c85d7f2577 = 同じシナリオを実行します。
+
+seg-b6c702bf5a99 = kshana scenarios/<s1>clock-holdover.toml</s1>
+
+seg-42c1c8edda64 = シナリオの隣に <c1/>、<c2/>、<c3/>、<c4/> を書き出します。
+
+seg-f250e52e31a2 = スタンプを比較します。
+
+seg-270867e3758d = シナリオハッシュは、正規化したシナリオ（シード、しきい値、モデルパラメーター）に対する SHA-256（256-bit Secure Hash Algorithm）ダイジェストです。入力を一つでも変えると、ハッシュも変わります。すべてのグラフのフッターには、その先頭{ "12" }桁の十六進文字が記載されています。
+
+seg-67a40345e62e = エンジンに自己検査させます。
+
+seg-0ce40c687cec = tests/published_figures_still_reproduce.rs
+
+seg-349b9f41ae53 = tests/verification_rows_name_a_test_that_exists.rs
+
+seg-bc1e2f2efa37 = tests/verification_rows_cite_evidence_that_exists.rs
+
+seg-27b8a76b5377 = ビルドのたびに、公開済みの数値が引き続き再現できること（<c1/>）、また、台帳のすべての行が、存在するテストを挙げ、存在するエビデンスを引用していること（<c2/>、<c3/>）を、テストで確認しています。
+
+seg-c9bd26fbb336 = 標準規格の一覧
+
+seg-48fb720acd5b = すでにお使いの形式に対応しています。
+
+seg-4f2bf101ab05 = エンジンが実装している標準規格と形式は{ "18" }件です。緑のマークは、実データ、公開されている例、または独立した参照実装に照らして検査済みであることを示します。
+
+seg-4dbf9694677e = 審査でさらに必要になったとき
+
+seg-481e625b04be = 同じエビデンスを、パッケージ化して、または代行して提供します。
+
+seg-d2c76b1353a9 = エンジンと上記のすべては無償のままです。それを土台にした有償の二つの方法を、契約に基づいて提供します。
+
+seg-1e1e6d431868 = Kshana Pro：ミッションドシエとエビデンスパック
+
+seg-20582558a93f = Kshana Pro は、レビューや調達委員会が求めるエビデンスを、再現可能な形でパッケージ化します。その土台は、すべての機能がオラクルとテストを明示するこの台帳と、すべての結果に付くスタンプです。一つのコマンドで、ミッションドシエがすべての要件を実際の実行に照らして確認し、未解決項目を含む検証マトリクスと PDF（Portable Document Format）を書き出します。
+
+seg-1c8effb9400a = 実際のドシエを見る
+
+seg-c24f4ecd4d42 = カスタム調査：あなたの問いに答えます
+
+seg-bead5a126394 = カスタム調査は、同じラベルを用いて、あなた自身の問いに答えます。すべての数値は、独立した参照と照合して確認したものか、モデルから計算したものかが示され、認証ではありません。輸出管理の対象となる作業は、クリアランスと NDA（秘密保持契約）のもとで扱います。
+
+seg-6df96ca25c68 = 理由と対象者
+
+seg-1aff28e3a49a = 同じログで手法を比較します。
+
+seg-5c0bc250857a = kshana-bench は、GNSS の干渉検出と時刻のホールドオーバーについて、タスク、分割、指標を固定しており、ベースラインの合格基準は最初のスコア付き実行の前に書き留められています。スコアが表すのはログやコーパスであり、製品ではありません。
+
+seg-fa599e1294b9 = 研究と引用
+
+seg-9bff81726f3f = 公開された研究。
+
+seg-7563b76b2e24 = 公開エンジンをもとにした、オープンなプレプリントアーカイブ arXiv 上の論文{ "6" }本。それぞれ、エンジンで再実行した図、その所見、コマンド、DOI（デジタルオブジェクト識別子）を開けます。
+
+seg-71fadc5b5a0b = 月面航法
+
+seg-99f49da3e2c2 = <s1>{ "2026" }年九月{ "18" }日</s1> · arXiv:{ "2610.23871" }
+
+seg-4215aedbd38b = 地球・月間空間（シスルナー）の航法は可観測性の問題である：弧長のしきい値、グラミアンの条件、ドップラーのレバー
+
+seg-b98018947305 = 地球・月間空間（シスルナー）では DOP（精度低下率）は当てはまりません。レンジのみのリンクでは、どの瞬間にも速度が可観測にならないため、要件は弧長、条件、測定タイプのバジェットで表すのが適切です。
+
+seg-d44879bf12ee = 要旨
+
+seg-4f7300f35cc4 = DOI 10.48550/arXiv.2610.23871
+
+seg-d1e4312d649c = 4状態（平面内の位置と速度）の可観測ランク。高いほど良い
+
+seg-f5cb4cb0ab34 = 空間的でノイズを含む複数ファミリーの地球・月間空間（シスルナー）の弧長可観測性：検証マトリクスのラベル
+
+seg-24861a829697 = エンジン v{ $version } · <c1/> · 決定論的、シードなし
+
+seg-53ec3ceb08e3 = 主な所見
+
+seg-97a4147e002c = エンジンの実行では、ある瞬間のレンジのみのジオメトリのランクは{ "4" }のうち{ "2" }であるため、DOP は定義されません。{ "2.09" } h の弧の後に、状態全体が可観測になります。
+
+seg-879b68e63984 = レンジレートを加えると、瞬時のランクが{ "2" }から{ "4" }に上がります。ドップラー対応のリンクでは、レンジのみのリンクにはできないスナップショット解が成立します。
+
+seg-59fe2106ff19 = しきい値を超えると、弧長とともに条件が改善するため、要件は弧長、条件、測定タイプのバジェットとして読むほうが適切です。
+
+seg-c39dad75b1db = Kshana による再現方法
+
+seg-88d62c0eb522 = cislunar-observability の種類は、平面内の遠方逆行軌道四つを微分補正し、三体問題の状態遷移行列を通じてレンジとレンジレートのヤコビアンを組み立て、成長する追跡弧にわたる可観測ランク、可観測性グラミアンの条件数、そして同じ量を別の経路で再計算する平方根情報フィルターを報告します。
+
+seg-4199e285c1ce = <b>図について。</b>同梱のシナリオ：微分補正した平面内の遠方逆行軌道四つを、{ "0.26" } h ごとにサンプリングした{ "6" } h の弧にわたって、衛星間レンジングで追跡します。
+
+seg-641d437e44cf = インストール済みのエンジンで、シナリオの種類 <c1/>（<c2/>）を実行します。
+
+seg-2d7cee52688b = コピー：kshana example cislunar-observability > cislunar-observability.toml
+
+seg-8bcfbf1acc34 = kshana example cislunar-observability > cislunar-observability.toml
+
+seg-819350dc7d89 = コピー：kshana cislunar-observability.toml
+
+seg-0805c0fa877a = kshana cislunar-observability.toml
+
+seg-8542b85104f5 = 引用する
+
+seg-e1324f491348 = BibTeX · baweja2026cislunar
+
+seg-02ae60696338 = BibTeX をコピー
+
+seg-814e10300308 = <s1>{ "2026" }年七月{ "7" }日</s1> · arXiv:{ "2607.06212" }
+
+seg-cb5ae69b24b2 = 月の南極域のジオメトリのコストと、その効率的な解決策としての表面ビーコン：精度低下率の解析
+
+seg-2d8cdfcc974c = 計画された軌道は、月の南極のユーザーの頭上に集中します。近くの高地に置いた少数の測距ビーコンのほうが、衛星を増やすよりも安価にジオメトリを改善します。
+
+seg-15862a1146a0 = DOI 10.48550/arXiv.2607.06212
+
+seg-5b774fbf8cf4 = 南極のユーザーにおける幾何学的な精度低下率（低いほど良い）
+
+seg-3534626980e2 = 月面ビーコンによる DOP の補強：検証マトリクスのラベル
+
+seg-1a81055d9da3 = エンジン v{ $version } · <c1/> · 決定論的、シードなし
+
+seg-da361b259315 = 同梱の実行では、地平線を越えている唯一のビーコンが、幾何学的な精度低下率を{ "11.66" }から{ "4.998" }に引き下げます。代わりに24機の衛星コンステレーションを使うと{ "2.893" }になります。
+
+seg-53df3c2b7e42 = 南極のユーザーから見える衛星は頭上の狭い範囲に集まるため、ジオメトリは衛星の数ではなく、その広がりによって制限されます。
+
+seg-cbbaada97ad4 = 高所にある少数のビーコンで、軌道のみの設計であればはるかに大規模な衛星群でなければ到達できないジオメトリに届きます。
+
+seg-89f424090012 = lunar-beacon の種類は、軌道上のコンステレーションの測距ジオメトリと、大気のない地平線を越える測量済みの地表ビーコンを、独立したライブラリと照合して確認した精度低下率カーネル上で構築し、各構成の精度低下率とメートル単位の精度を報告します。
+
+seg-9a9dd41c0880 = <b>図について。</b>同梱のシナリオの一つのエポックを、その既定のジオメトリで示します。衛星のみ、衛星と地平線を越えるビーコン、代わりに24機の衛星コンステレーションを使った場合の三つです。
+
+seg-5425a567ce90 = インストール済みのエンジンで、シナリオの種類 <c1/>（<c2/>）を実行します。
+
+seg-e117d65ea93b = コピー：kshana example lunar-beacon > lunar-beacon.toml
+
+seg-51991939e727 = kshana example lunar-beacon > lunar-beacon.toml
+
+seg-a635fe4b7597 = コピー：kshana lunar-beacon.toml
+
+seg-c3952de0ac25 = kshana lunar-beacon.toml
+
+seg-3863c17f1d12 = BibTeX · baweja2026cost
+
+seg-756a63fd185f = <s1>{ "2026" }年六月{ "29" }日</s1> · arXiv:{ "2607.02566" }
+
+seg-75c6caf87321 = 地球基線の VLBI は、軌道とクロックの同時決定における月面局の可観測性を回復する
+
+seg-e58a7d860d50 = 月ネットワーク内の測距は相対ジオメトリしか確定しません。地球基線の超長基線電波干渉法の遅延は、衛星が少なくても、月面局を地球の座標系に結び付けます。<s1><b>VLBI</b> 超長基線電波干渉法</s1>
+
+seg-1d5d779fec56 = DOI 10.48550/arXiv.2607.02566
+
+seg-4d34307e4008 = フィットの局の絶対位置誤差、メートル（対数目盛）
+
+seg-1427dd0d24c1 = 月面の局の絶対位置の可観測性（データム欠損）：検証マトリクスのラベル
+
+seg-dd9cc689ae2b = エンジン v{ $version } · <c1/> · シード{ "42" }
+
+seg-473a7f364ad8 = 公開時のとおり macOS で記録したものです。新規の Linux x86-64 での実行では{ "2184" } m / { "3.537" } m になります（ソルバーの反復の、ホストへの依存。issue #36 の行{ "6" }）。
+
+seg-36052dbf6e6d = 月ネットワーク内の測距では、クラスターが見えないまま平行移動や回転をする自由度が残ります。クロックは可観測のままなので、欠損は位置に限られます。
+
+seg-b734ac9c732e = エンジンの実行（衛星{ "3" }機）では、干渉計の区間を除いたフィッシャー情報量のランクは{ "16" }のうち{ "15" }です。含めるとフルランクになり、クラメール・ラオ下限は{ "20.1" } mです。
+
+seg-e18724ed23f7 = 豊富なコンステレーションでは、干渉計による拘束は下限を鋭くするだけです。疎なコンステレーションでは、局の絶対位置を回復します。
+
+seg-d626b2e1fb1c = lunar-joint-od-clock の種類は、地球基線の干渉計遅延、月面ローカルのレンジ、衛星間レンジを一つのバッチ最小二乗フィットで融合し、同じシードで干渉計の区間ありとなしの両方を実行して、フィッシャー情報量のランク、データム欠損、クラメール・ラオ下限を報告します。
+
+seg-16e6ed9268fb = <b>図について。</b>同梱のシミュレーションネットワーク：月の衛星{ "3" }機、地球局{ "6" }局、地表局一局、両方のフィットで同じシードと真値。
+
+seg-4ed8d3407015 = インストール済みのエンジンで、シナリオの種類 <c1/>（<c2/>）を実行します。
+
+seg-825f9c694f75 = コピー：kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+seg-b39180e5bad6 = kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+seg-e37077cef2d2 = コピー：kshana lunar-joint-od-clock.toml
+
+seg-4d7b3cc885e1 = kshana lunar-joint-od-clock.toml
+
+seg-4a67b5769164 = BibTeX · baweja2026earth
+
+seg-7334fb10a58d = <s1>{ "2026" }年六月{ "23" }日</s1> · arXiv:{ "2606.24210" }
+
+seg-d919ca966a9e = 条件付きタイミング保護レベル：GNSS スプーフィング下の、ホールドオーバーで制限される未検出の時刻誤差
+
+seg-913d89357229 = 記録されたスプーフィングでは、タイミング受信機が、自ら報告する値よりはるかに大きく誤った時刻を供給していました。無条件の上限は存在しないため、この論文は未検出の誤差を条件付きで上限づけます。<s1><b>GNSS</b> 全球測位衛星システム</s1>
+
+seg-6de2dc8a5fb7 = DOI 10.48550/arXiv.2606.24210
+
+seg-b3ea3697c2c0 = ナノ秒（対数目盛）と検出遅延（秒）
+
+seg-0cbe8e77cc1c = スプーフィング下のタイミング保護レベル：検証マトリクスのラベル
+
+seg-83a7b4fac0b6 = エンジン v{ $version } · <c1/> · 決定論的、シードなし
+
+seg-77c4b79f3e91 = 公開された記録済みのスプーフィングは、受信機が最大でも{ "51" } nsしか報告していない間に、供給される時刻を約{ "1.01" } ms引き寄せました。
+
+seg-f49dcc8cddcc = 十分に緩やかなランプに対しては、有限の無条件の上限は存在しないため、上限は、独立した衛星間の相互チェックが攻撃を検出することを条件とします。
+
+seg-548b29459f87 = エンジンのタイミング保護レベルは、検出遅延{ "1" } sで{ "114" } ns、{ "60" } sで{ "458" } nsです。
+
+seg-ceb4239784a5 = タイミング保護レベルのモジュールは、モニターの検出下限に、検出遅延の間の発振器のコースト（惰行）を加えます。この例では、公開されている JammerTest { "2024" } の記録から復元したスカラーで較正します。生の記録は同梱していません。
+
+seg-723ada08a5da = <b>図について。</b>この例の出力：五つの検出遅延での条件付きタイミング保護レベルと、公開されている JammerTest { "2024" } の記録から復元した二つのスカラーです。
+
+seg-72b36b33149c = リポジトリのクローン内で、<c1/> から調査のアーティファクトを再生成します。
+
+seg-1bbc7e2ec752 = コピー：cargo run --release --example tpl_jammertest
+
+seg-f9d26d561e77 = cargo run --release --example tpl_jammertest
+
+seg-1e7f0f12f1d8 = BibTeX · baweja2026conditional
+
+seg-71f2b94fc8ed = レジリエンススコアリング
+
+seg-0bf6d80a9ac4 = <s1>{ "2026" }年六月{ "22" }日</s1> · arXiv:{ "2607.05415" }
+
+seg-e1901a8f71a6 = PNT レジリエンススコアはどれほど安定か？フレームワークに沿った重み付けのもとでの、単一の数値によるレジリエンス評価の判断不安定性
+
+seg-0c986779c8c0 = 測位・航法・時刻の単一の数値によるレジリエンス評価が安定しているのは、一つの設計が他を圧倒する場合に限られます。重み付け、脅威、申告された技術によって、順位が入れ替わることがあります。<s1><b>PNT</b> 測位・航法・時刻</s1>
+
+seg-fa0b79c90793 = DOI 10.48550/arXiv.2607.05415
+
+seg-fe88f96641c0 = 重みの付け直しだけで最上位のアーキテクチャが変わる試行、パーセント
+
+seg-4fcd1d447d03 = レジリエンススコアの判断不安定性の調査：検証マトリクスのラベル
+
+seg-44773d6f6133 = エンジン v{ $version } · <c1/> · シード{ "12345" }
+
+seg-8b90bfea6f24 = 重みの付け直しだけで最上位のアーキテクチャが変わるのは、公称の条件下では試行の{ "22" }%、各脅威が有効な場合でも最大で{ "1.25" }%です。
+
+seg-d8e47cf40fdd = 最弱リンク方式の成熟度レベルは、アーキテクチャだけでなく、想定する脅威にも依存します。
+
+seg-1df0aa1cd5d4 = 総合スコアは申告された技術を評価するため、より多くを申告する設計が、よりレジリエントな設計を上回ることがあります。
+
+seg-fe2d2c2ed9ec = レジリエンスモジュールは、七つの参照アーキテクチャを、七つのフレームワークカテゴリと五つの脅威にわたって採点し、カテゴリの重みをディリクレ分布から無作為に抽出して、最上位が入れ替わる頻度を数えます。この例は、調査全体を一つの決定論的なファイルとして書き出します。
+
+seg-83a738bd9ab5 = <b>図について。</b>参照アーキテクチャ{ "7" }個、脅威ごとに無作為のカテゴリ重み付け{ "2,000" }通り。
+
+seg-a1c2bf9c21a4 = リポジトリのクローン内で、<c1/> から調査のアーティファクトを再生成します。
+
+seg-b9a73904adfc = コピー：cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+seg-164b725640f2 = cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+seg-068c8bc02d18 = BibTeX · baweja2026stable
+
+seg-bc499c388907 = 無線周波数干渉
+
+seg-0411e7a125dd = <s1>{ "2026" }年六月{ "20" }日</s1> · arXiv:{ "2606.22054" } · バージョン{ "2" }
+
+seg-1a9e30bfff32 = 楽観ギャップの予測：分布内の統計量から、RF 障害検出器の分布シフトによる劣化を予測する
+
+seg-1a5fd51bad12 = 干渉検出器がシフトした条件下でどれだけ性能を失うかは、その検出器自身の分布内スコアから予測できます。合成データによる結果であり、公開されたフィールド記録で確認しています。<s1><b>RF</b> 無線周波数</s1>
+
+seg-0484b37344e2 = DOI 10.48550/arXiv.2606.22054
+
+seg-2ead6f7b689b = 楽観ギャップ（シフト下で失われた曲線下面積）の予測値と実測値
+
+seg-412b53a9eeb4 = AI/ML による RF 障害の楽観ギャップ調査と、分布内データのみのギャップ予測器：検証マトリクスのラベル
+
+seg-852f52ca41c7 = エンジン v{ $version } · <c1/> · シード{ "1" }、{ "2" }、{ "3" }、{ "4" }、{ "5" }
+
+seg-e316b9177880 = 分布内と、シフト後の曲線下面積との差は、シフトが深まるにつれて広がり、検出器が学習ベースかどうかではなく、検出器が使う観測量の数に依存します。
+
+seg-4761136935f9 = エンジンの実行では、分布内のスコア統計量に対するリッジモデルが、見たことのない検出器（R² { "0.46" }）と、見たことのない干渉クラス（R² { "0.33" }）について、そのギャップを予測します。
+
+seg-72cdba8fbe98 = 主要な所見は合成データによるものです。論文は続いて、それを公開されたフィールド記録で確認しています。
+
+seg-61d0f43db2e3 = この障害調査は、四つの干渉クラスについて、合成のパラメーター根拠付きコーパスを生成し、十三の検出器を、五つのシードにわたる四つのシフトの強さで採点し、一つ抜き交差検証と順列検定でギャップ予測器をフィットします。
+
+seg-300c322d4ba2 = <b>図について。</b>検出器、クラス、強さの組み合わせ{ "260" }セル。各予測は、フィットから外した検出器について行われます。
+
+seg-296fc672c52b = リポジトリのクローン内で、<c1/> から調査のアーティファクトを再生成します。
+
+seg-99072a1940f0 = コピー：cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+seg-66c4d9424478 = cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+seg-c2e48bf2916b = BibTeX · baweja2026anticipating
+
+seg-96fe472ae234 = エンジンを引用する
+
+seg-47c92ffeaa12 = すべてのリリースは、引用可能な DOI とともに Zenodo にアーカイブされ、リポジトリには CITATION.cff が同梱されています。エンジンのバージョン、シナリオ、シードを明記して引用してください。
+
+seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em> (Version { $version }). Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
+
+seg-c97e87cbcdd5 = エンジンの BibTeX
+
+seg-24ff0a7466d6 = BibTeX
