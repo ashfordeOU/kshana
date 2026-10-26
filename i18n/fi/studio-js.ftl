@@ -2690,3 +2690,493 @@ js-geo-count-used = Ratkaisussa
 js-geo-cursor-live = Atsimuutti { $az }°, horisonttiviiva { $el }°.
 
 js-geo-dated-sky = Päivätty taivas on vain niin hyvä kuin elementit ja niiden ikä; esiasetukset on jätetty pois.
+
+js-geo-dop-geometric = geometrinen
+
+js-geo-dop-geometric-title = geometrinen tarkkuuden heikkenemiskerroin
+
+js-geo-dop-horizontal = vaakasuora
+
+js-geo-dop-horizontal-title = vaakasuora tarkkuuden heikkenemiskerroin
+
+js-geo-dop-position = paikka, 3D
+
+js-geo-dop-position-title = paikan, 3D tarkkuuden heikkenemiskerroin
+
+js-geo-dop-time = aika
+
+js-geo-dop-time-title = ajan tarkkuuden heikkenemiskerroin
+
+js-geo-dop-vertical = pystysuora
+
+js-geo-dop-vertical-title = pystysuora tarkkuuden heikkenemiskerroin
+
+js-geo-east = I
+
+js-geo-engine-not-running = Moottori ei toimi tässä selaimessa ({ $reason }).
+
+js-geo-err-geometry-object = moottorin geometriavastaus ei ole objekti
+
+js-geo-err-mc-object = moottorin Monte Carlo -vastaus ei ole objekti
+
+js-geo-err-no-sentences = moottorin vastauksessa ei ole lauseita
+
+js-geo-err-reply-kind-not-json = moottorin { $what }-vastaus ei ollut JSON-muodossa
+
+js-geo-err-reply-not-json = moottorin vastaus ei ollut JSON-muodossa
+
+js-geo-error-line = Kun σ_UERE = { $uere } m, ilmoitetun virhemallin mukaan (moottorin luvut): { $bits }.
+
+js-geo-error-line-needs = Paikkavirhe ≈ σ_UERE × HDOP vaakasuunnassa ja σ_UERE × VDOP pystysuunnassa; luku vaatii moottorin 0.36.
+
+js-geo-error-rms-3d = 3D RMS σ_UERE × PDOP = { $m } m
+
+js-geo-error-rms-h = vaakasuora RMS σ_UERE × HDOP = { $m } m
+
+js-geo-error-sigma = 1-sigma-virhe itään { $east } m, pohjoiseen { $north } m
+
+js-geo-fact-ellipse-1s = Ellipsi, 1-sigma
+
+js-geo-fact-ellipse-1s-value = { $major } m × { $minor } m, pääakseli { $deg }° pohjoisesta
+
+js-geo-fact-ellipse-pct = Ellipsi, { $pct } %
+
+js-geo-fact-ellipse-pct-scaled = { $major } m × { $minor } m (1-sigma × { $k })
+
+js-geo-fact-ellipse-pct-value = { $major } m × { $minor } m
+
+js-geo-fact-inside = 95 %:n ellipsin sisällä
+
+js-geo-fact-inside-value = { $pct } % pisteistä
+
+js-geo-fact-line = { $key }: { $value }.
+
+js-geo-fact-mc = Monte Carlo
+
+js-geo-fact-mc-value =
+    { $n ->
+        [one] { $n } pienimmän neliösumman ratkaisu, siemenluku { $seed }
+       *[other] { $n } pienimmän neliösumman ratkaisua, siemenluku { $seed }
+    }
+
+js-geo-fact-rms-3d = Pilven RMS, 3D
+
+js-geo-fact-rms-3d-beside = { $rms } m, verrattuna arvoon σ_UERE × PDOP = { $predicted } m
+
+js-geo-fact-rms-h = Pilven RMS, vaakasuora
+
+js-geo-fact-rms-h-beside = { $rms } m, verrattuna arvoon σ_UERE × HDOP = { $predicted } m
+
+js-geo-fact-rms-value = { $rms } m
+
+js-geo-gj-not-geojson = { $name }: ei GeoJSON (odotettiin FeatureCollection-, Feature- tai geometriaobjektia).
+
+js-geo-gj-not-json = { $name }: ei JSON ({ $reason }).
+
+js-geo-gj-not-object = { $name }: ei GeoJSON-objekti.
+
+js-geo-gj-too-many =
+    { $count ->
+        [one] { $name }: { $count } kohde; tämä sivu piirtää enintään { $max }.
+       *[other] { $name }: { $count } kohdetta; tämä sivu piirtää enintään { $max }.
+    }
+
+js-geo-legend-item = { $label }: { $used } / { $total } ratkaisussa
+
+js-geo-link-copied = Linkki kopioitu.
+
+js-geo-link-copied-no-tle = Linkki kopioitu (ilman liittämiäsi elementtejä: linkki avaa esiasetukset).
+
+js-geo-mc-off = Pois
+
+js-geo-missing-ellipse = virhe-ellipsi
+
+js-geo-missing-gdop = GDOP
+
+js-geo-missing-leo = LEO
+
+js-geo-missing-monte-carlo = Monte Carlo -pilvi
+
+js-geo-missing-open-sky = avoimen taivaan osuus
+
+js-geo-missing-skyline = horisonttiviiva
+
+js-geo-missing-tdop = TDOP
+
+js-geo-needs = vaatii moottorin 0.36
+
+js-geo-needs-cap = Vaatii moottorin 0.36
+
+js-geo-no = Ei
+
+js-geo-no-ellipse = Ei ellipsiä
+
+js-geo-no-sats = Ei näytettäviä satelliitteja.
+
+js-geo-north = P
+
+js-geo-not-given = ei annettu
+
+js-geo-note-elements-skipped =
+    { $count ->
+        [one] { $count } elementtijoukko ohitettiin: { $list }.
+       *[other] { $count } elementtijoukkoa ohitettiin: { $list }.
+    }
+
+js-geo-note-latitude-limited = Tämä moottoriversio mallintaa paikat 89° sisällä päiväntasaajasta; leveysaste rajattiin siihen.
+
+js-geo-note-leo-left-out = LEO: vaatii moottorin 0.36; jätetty pois.
+
+js-geo-note-no-engine = Moottori ei toimi tässä selaimessa, joten näytettävää ei ole. Se toimii WebAssemblyna; selain tai isäntä, joka estää WebAssemblyn, ei voi ajaa tätä näkymää.
+
+js-geo-note-pick-one = Valitse vähintään yksi: GPS, Galileo ja BeiDou.
+
+js-geo-note-skyline-not-applied = Horisonttiviiva piirretään mutta ei oteta käyttöön: sen käyttöönotto vaatii moottorin 0.36. Sen takana olevat satelliitit lasketaan tässä silti mukaan.
+
+js-geo-note-skyline-source = Horisonttiviiva: { $source }.
+
+js-geo-note-training-model = Moottorin { $version } harjoitustaivasmalli (nmea_training) hetkellä { $instant }: kulmat kokonaisina asteina ja DOP:t yhden desimaalin tarkkuudella, kuten vastaanottimen lauseet ne kantavat; paikkaratkaisu käyttää enintään 12 satelliittia, jotka on valittu signaalin voimakkuuden mukaan.
+
+js-geo-note-unknown-systems =
+    { $count ->
+        [one] { $count } sellaisen järjestelmän satelliittitietue, jota tämä näkymä ei piirrä, jätettiin pois.
+       *[other] { $count } sellaisen järjestelmän satelliittitietuetta, jota tämä näkymä ei piirrä, jätettiin pois.
+    }
+
+js-geo-off-leo = LEO: vaatii moottorin 0.36.
+
+js-geo-off-monte-carlo = Monte Carlo -pilvi vaatii moottorin 0.36.
+
+js-geo-off-skyline = Horisonttiviivan käyttöönotto vaatii moottorin 0.36: tässä se vain piirretään.
+
+js-geo-offset-own = Poikkeama omien elementtiesi epookista ({ $epoch })
+
+js-geo-offset-ref = Poikkeama satelliittitähdistöjen vertailuepookista
+
+js-geo-open-sky-share = { $pct } % ylemmästä puolipallosta
+
+js-geo-out-of-range = Alueen ulkopuolella, joten pidetty viimeisessä hyvässä arvossa: { $names }.
+
+js-geo-own-elements-at = Omat elementtisi epookissa { $epoch }.
+
+js-geo-pick-constellation = Valitse vähintään yksi satelliittitähdistö.
+
+js-geo-place-geiranger = Geirangerfjord, Norja
+
+js-geo-place-manhattan = Midtown Manhattan, Yhdysvallat
+
+js-geo-place-oslo = Oslon satama, Norja
+
+js-geo-place-rotterdam = Rotterdamin satama, Alankomaat
+
+js-geo-place-singapore = Singaporensalmi
+
+js-geo-place-tallinn = Tallinnan satama, Viro
+
+js-geo-place-tromso = Tromssa, Norja
+
+js-geo-plot-desc =
+    { $total ->
+        [one] Kaaviossa { $total } satelliitti, ratkaisussa { $used }.
+       *[other] Kaaviossa { $total } satelliittia, ratkaisussa { $used }.
+    }
+
+js-geo-preset-illustrative = Tämän sivun piirtämä havainnollistava ääriviiva; horisonttiviivan käyttöönotto vaatii moottorin 0.36.
+
+js-geo-ready = Valmis.
+
+js-geo-ready-needs = Valmis. Vaatii moottorin 0.36: { $list }.
+
+js-geo-sat-masked = { $label } { $id }: atsimuutti { $az }°, korkeuskulma { $el }°, horisonttiviivan peitossa
+
+js-geo-sat-unused = { $label } { $id }: atsimuutti { $az }°, korkeuskulma { $el }°, ei käytössä
+
+js-geo-sat-used = { $label } { $id }: atsimuutti { $az }°, korkeuskulma { $el }°, ratkaisussa
+
+js-geo-scenarios-under = Moottorin skenaariot tämän horisonttiviivan alla:
+
+js-geo-sky-canyon = Katukanjoni
+
+js-geo-sky-drawn = Piirretty taivaskarttaan
+
+js-geo-sky-open = Avoin horisontti
+
+js-geo-sky-preset = Esiasetus: { $name }
+
+js-geo-sky-source = Taivas: { $source }.
+
+js-geo-skyline-city-street = Kaupungin katu
+
+js-geo-skyline-container = Konttiterminaali
+
+js-geo-skyline-fjord = Vuono
+
+js-geo-skyline-harbour = Satamaan saapuminen
+
+js-geo-skyline-load-failed = Horisonttiviivaa ei voitu ladata ({ $reason }).
+
+js-geo-skyplot-downloaded = Taivaskartta ladattu.
+
+js-geo-skyplot-export-failed = Taivaskarttaa ei voitu viedä ({ $reason }).
+
+js-geo-source-geometry = Kshana-moottori { $version }, sky_geometry
+
+js-geo-source-line = { $source }.
+
+js-geo-source-training = Kshana-moottori { $version }, harjoitustaivasmalli
+
+js-geo-south = E
+
+js-geo-style-own-elements = Omat elementtisi
+
+js-geo-svg-refused = moottorin SVG hylättiin
+
+js-geo-table-count =
+    { $n ->
+        [one] { $n } satelliitti, sama kuin taivaskartassa.
+       *[other] { $n } satelliittia, sama kuin taivaskartassa.
+    }
+
+js-geo-tle-epoch = Anna UTC-epookki väliltä 2000–2099.
+
+js-geo-tle-paste-first = Liitä ensin yksi tai useampi kaksirivinen elementtijoukko.
+
+js-geo-tle-too-large = Liitetyt elementit ovat suurempia kuin 4 MiB, moottorin syötteen raja.
+
+js-geo-used-masked = Ei: horisonttiviivan peitossa
+
+js-geo-using-own = Käytetään omia elementtejäsi. Linkki kertoo vain, että käytit niitä, ei itse elementtejä.
+
+js-geo-wasm-blocked = WebAssembly on estetty
+
+js-geo-west = L
+
+js-geo-why = Miksi
+
+js-geo-why-interim = Virhe-ellipsi ja Monte Carlo -pilvi vaativat moottorin 0.36 (sen sky_geometry- ja sky_monte_carlo-funktiot); tämän sivun moottori on vanhempi.
+
+js-geo-why-no-ellipse = Moottori ei antanut ellipsiä tälle geometrialle (liian vähän satelliitteja paikkaratkaisuun tai singulaarinen geometria).
+
+js-geo-why-no-ellipse-reason = Moottori ei antanut ellipsiä tälle geometrialle (liian vähän satelliitteja paikkaratkaisuun tai singulaarinen geometria): { $reason }.
+
+js-geo-why-waiting = Odotetaan moottoria.
+
+js-geo-yes = Kyllä
+
+js-hold-axis-seconds = sekuntia ensimmäisestä näytteestä
+
+js-hold-axis-tau = havaintoaika τ, s (log)
+
+js-hold-axis-te = aikavirhe, ns
+
+js-hold-band-title = Toipumiskaista ±{ $band } ns
+
+js-hold-blurb-example = Näytteet 5 s välein: 600 s lukittuna, GNSS poistetaan hetkellä 600 s, holdover, GNSS palautetaan hetkellä 2400 s. Tallenne on tuotettu esimerkkiä varten; se ei ole mittaus.
+
+js-hold-blurb-ptp4l = Samat neljä vaihetta luettuna ptp4l-servolokista (demonin oma poikkeama, ns). Loki on kirjoitettu esimerkkiä varten; mitään demonia ei ajettu.
+
+js-hold-budget-exceeded = { $name } ylittyi ensimmäisen kerran { $s } s poiston jälkeen
+
+js-hold-chip-baseline = Lähtötaso maskeja vasten
+
+js-hold-chip-envelope = ePRTC-A-holdoverin verhokäyrä
+
+js-hold-chip-holdover = Holdover maskeja vasten
+
+js-hold-chip-measured = mitattu maskia vasten
+
+js-hold-chip-recovery = Toipuminen
+
+js-hold-chip-words = Sanat
+
+js-hold-curve-title = { $step }: { $which }, ns
+
+js-hold-curves-aria = { $which } suhteessa havaintoaikaan, maskirajoineen
+
+js-hold-envelope-exceeded = ePRTC-A-holdoverin verhokäyrä ylittyi ensimmäisen kerran { $s } s poiston jälkeen
+
+js-hold-envelope-exceeded-short = { $verdict }, ylittyi ensimmäisen kerran { $s } s poiston jälkeen (tallenne on lyhyempi kuin verhokäyrän jakso)
+
+js-hold-envelope-exceeded-value = { $verdict }, ylittyi ensimmäisen kerran { $s } s poiston jälkeen
+
+js-hold-envelope-short = { $verdict } (tallenne on lyhyempi kuin verhokäyrän jakso)
+
+js-hold-file-error = { $name }: { $error }.
+
+js-hold-file-not-json = { $name }: ei JSON.
+
+js-hold-file-read-here = { $name }, luettu tässä; mitään ei lähetetty minnekään.
+
+js-hold-file-too-large = { $name } on suurempi kuin mitä tämä sivu lukee.
+
+js-hold-from-record = tuloksen tallenteesta
+
+js-hold-from-record-decimated = tuloksen tallenteesta, harvennettuna { $have } / { $total } näytteeseen
+
+js-hold-gnss-removed = GNSS poistettu
+
+js-hold-gnss-removed-stated = GNSS poistettu (operaattorin ilmoittama)
+
+js-hold-gnss-restored = GNSS palautettu
+
+js-hold-gnss-restored-stated = GNSS palautettu (operaattorin ilmoittama)
+
+js-hold-largest-at = { $value } hetkellä T+{ $time } s
+
+js-hold-limit-label = ±{ $ns } ns { $step }-maski
+
+js-hold-limit-title = { $id }: ±{ $ns } ns, suurin absoluuttinen aikavirhe vaiheessa { $step }
+
+js-hold-mark-title = { $id } raja { $limit } ns kohdassa τ { $tau } s ({ $verdict }; { $source })
+
+js-hold-marker-time = { $name }, T+{ $time } s
+
+js-hold-na = ei saatavilla
+
+js-hold-no-curve = Ei aikavirhekäyrää: tallennetta ei voitu toistaa piirtämistä varten.
+
+js-hold-no-which-curve = Tässä tuloksessa ei ole käyrää: { $which }.
+
+js-hold-not-exceeded = ei ylitetty
+
+js-hold-not-recovered = ei pysynyt kaistan sisällä
+
+js-hold-not-result = tämä ei ole holdover-testin tulos
+
+js-hold-open-failed = Kohdetta { $title } ei voitu avata: { $reason }.
+
+js-hold-opening = Avataan: { $title }…
+
+js-hold-phase-baseline = Lähtötaso: lukittuna
+
+js-hold-phase-holdover = Holdover: GNSS poistettu
+
+js-hold-phase-recovery = Toipuminen: GNSS palautettu
+
+js-hold-phase-title = { $phase }, T+{ $from }–{ $to } s
+
+js-hold-read-failed = Ei voitu lukea tai piirtää ({ $reason }).
+
+js-hold-recorded = { $title }: moottorin tallennettu tulos (versio { $version }).
+
+js-hold-recovered = ±{ $band } ns:n sisällä { $dwell } s ajan, { $after } s GNSS:n paluun jälkeen
+
+js-hold-result-not-json = tulos ei ole JSON-muodossa ({ $reason })
+
+js-hold-result-not-loaded = tallennettua tulosta ei ladattu
+
+js-hold-row-envelope = ePRTC-A-holdoverin verhokäyrä
+
+js-hold-row-frequency = Pidetty taajuuspoikkeama (sovitettu kulmakerroin)
+
+js-hold-row-largest = Suurin absoluuttinen aikavirhe
+
+js-hold-row-length = Holdoverin pituus
+
+js-hold-row-margin = Pienin marginaali verhokäyrän sisällä
+
+js-hold-row-peak = Huippu palautuksen jälkeen
+
+js-hold-row-recovery = Toipuminen
+
+js-hold-row-recovery-step = Suurin askel toipumisen aikana
+
+js-hold-row-residual = Jäännös tämän suoran ympäri (rms)
+
+js-hold-row-step = Askel poiston hetkellä
+
+js-hold-status-final = { $status } { $label }; mitattu maskia vasten.
+
+js-hold-step-span = T+{ $from }–{ $to } s
+
+js-hold-te-aria = Aikavirhe tallenteen yli, vaiheineen ja maskirajoineen
+
+js-hold-te-line-title = Aikavirhe, ns
+
+js-hold-te-note = Aikavirhe lähteestä { $from }. Kaksi ajanhetkeä ilmoitti { $by }.
+
+js-hold-th-budget = Budjetti
+
+js-hold-th-budget-limit = Raja |TE|, ns
+
+js-hold-th-first-exceeded = Ensimmäinen ylitys poiston jälkeen, s
+
+js-hold-th-largest = Suurin |TE|, ns
+
+js-hold-th-limit = Raja, ns
+
+js-hold-th-margin = Marginaali, ns
+
+js-hold-th-mask = Maski
+
+js-hold-th-mean = Keskiarvo, ns
+
+js-hold-th-measured-on = Mitattu kohteella
+
+js-hold-th-metric = Mittari
+
+js-hold-th-rms = RMS, ns
+
+js-hold-th-samples = Näytteet
+
+js-hold-th-source = Lähde
+
+js-hold-th-span = Jänne
+
+js-hold-th-step = Vaihe
+
+js-hold-th-value = Arvo, ns
+
+js-hold-th-verdict = Tuomio
+
+js-hold-th-worst-at = Pahin kohdassa τ tai T+, s
+
+js-hold-title-example = Aikavirhetallenne
+
+js-hold-title-ptp4l = linuxptp-loki
+
+js-hold-why-no-samples = tulos ei sisällä aikavirhenäytteitä (record.series), joten käyrää ei piirretä
+
+js-hold-why-not-series = tuloksen sarja ei ole aikasarja (alle kaksi näytettä tai aika ei kasva), joten käyrää ei piirretä
+
+js-hold-why-sentence = { $why }.
+
+js-hold-why-too-many = tuloksen sarjassa on { $have } näytettä, kun moottori pisteytti { $scored }, joten käyrää ei piirretä
+
+js-interf-attribution = Attribuutio
+
+js-interf-build-failed = { $name }: ei voitu rakentaa ({ $reason }).
+
+js-interf-built-day-maps =
+    { $n ->
+        [one] Rakennettiin { $n } vuorokausikartta lähteestä { $name } moottorilla { $version } tässä selaimessa.
+       *[other] Rakennettiin { $n } vuorokausikarttaa lähteestä { $name } moottorilla { $version } tässä selaimessa.
+    }
+
+js-interf-built-detail = { $date }: { $published } solua julkaistu, { $flagged } merkitty
+
+js-interf-built-from-sample = Rakennettu synteettisestä { $kind }-näytteestä moottorilla tässä selaimessa. Keksittyjä ilmoituksia; ei todellista ilma-alusta, alusta eikä päivää.
+
+js-interf-built-maps =
+    { $n ->
+        [one] Rakennettiin { $n } kartta ({ $detail }). Vain koonti: merkitty solu ei nimeä häirintää syyksi.
+       *[other] Rakennettiin { $n } karttaa ({ $detail }). Vain koonti: merkitty solu ei nimeä häirintää syyksi.
+    }
+
+js-interf-built-none = { $name }: moottori ei rakentanut karttaa.
+
+js-interf-caveat-coverage = Kattavuus seuraa datalähdettä; lue kattavuushuomautukset.
+
+js-interf-caveat-no-colour = Solua, jolla ei ole väriä, ei havaittu. Se ei ole todiste siitä, että alue oli vapaa.
+
+js-interf-caveat-not-finding = Heikentynyt tai poikkeava solu ei ole havainto häirinnästä. Muitakin syitä on.
+
+js-interf-caveat-past-reports = Tämä on kuvaus aiemmista paikkailmoituksista, ei ennuste eikä minkään vastaanottimen mittaus.
+
+js-interf-caveats = Varaumat
+
+js-interf-cell-size-rule = Solun koon on oltava asteluku, joka on suurempi kuin 0 ja enintään 10, tai tyhjä arvolle 0.5.
+
+js-interf-check-failed = { $name }: ei voitu tarkistaa ({ $reason }).
+
+js-interf-click-cell = Napsauta solua tai kohdista kartta ja käytä nuolinäppäimiä nähdäksesi sen luvut.
