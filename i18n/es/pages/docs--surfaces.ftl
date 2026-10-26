@@ -550,11 +550,6 @@ seg-65ffc53b15fa = el archivo de escenario
 seg-74fac0bacb76 = Run Kshana Scenario
 
 # text
-# c1: optical-atmosphere
-# c2: docs/OPTICAL-ATMOSPHERE.md
-seg-f71e5e2eb4f3 = Enlace óptico de temporización a través de la atmósfera: disponibilidad por emplazamiento, diversidad de emplazamientos, técnicas de mejora, acoplamiento entre interrupción y holdover (tipo de escenario <c1/>; <c2/>; MODELLED, emplazamientos ILLUSTRATIVE, orientativo)
-
-# text
 seg-490147c5e7ec = <b>pending</b>: aún no hay vista de Studio; el escenario se ejecuta en el ejecutor de escenarios de Studio y en la tarjeta Command line de Tools
 
 # text
@@ -595,12 +590,6 @@ seg-126a59c992d9 = <c1/> (solo en línea; <c2/> se rechaza)
 # text
 # c1: run
 seg-2010eb196565 = <b>N/A</b> (no hay notebook en { "0.38" }; los escenarios se ejecutan en cualquier notebook mediante <c1/>)
-
-# text
-# c1: lunar-infrastructure
-# c2: study = ...
-# c3: docs/LUNAR-INFRASTRUCTURE.md
-seg-593b7761803d = Órbita y superficie lunares como infraestructura de navegación y geodésica: coherencia de la determinación de órbita, resolución de ambigüedades de fase de portadora, coestimación de marcos, vínculo espacial y sensibilidad a los números de Love (tipo de escenario <c1/>, <c2/>; <c3/>; MODELLED, entradas ILLUSTRATIVE, orientativo)
 
 # text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
@@ -1109,3 +1098,14 @@ seg-4e3bbacda9ac = <s1>Anterior</s1>Uso de Kshana desde un agente
 
 # text
 seg-c5fbfab85e01 = <s1>Siguiente</s1>Plugin de JetBrains
+
+# text
+# c1: lunar-infrastructure
+# c2: study = ...
+# c3: docs/LUNAR-INFRASTRUCTURE.md
+seg-593b7761803d = Órbita y superficie lunares como infraestructura de navegación y geodésica: coherencia de la determinación de órbita, resolución de ambigüedades de fase de portadora, coestimación de marcos, vínculo espacial y sensibilidad a los números de Love (tipo de escenario <c1/>, <c2/>; <c3/>; MODELLED, entradas ILUSTRATIVAS, orientativo)
+
+# text
+# c1: optical-atmosphere
+# c2: docs/OPTICAL-ATMOSPHERE.md
+seg-f71e5e2eb4f3 = Enlace óptico de temporización a través de la atmósfera: disponibilidad por emplazamiento, diversidad de emplazamientos, técnicas de mejora, acoplamiento entre interrupción y holdover (tipo de escenario <c1/>; <c2/>; MODELLED, emplazamientos ILUSTRATIVOS, orientativo)
