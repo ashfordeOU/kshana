@@ -6,7 +6,7 @@ seg-fdf560e675f4 = <c1/>（シナリオ種別）
 
 seg-5a4dcb93a643 = モデルから計算した月面の相互運用性エクスポート：月の座標系、月の時刻系、月のエフェメリスを、LunaNet/IOAG に整合した CCSDS ベースの交換形式で出力し、往復 / フィールド適合性を確認します。このクレートの CCSDS OEM { "2.0" } のエミッター + パーサー（crate::oem）を月面の文脈向けに付け替えて再利用します — OEM の REF_FRAME は IAU { "2015" } WGCCRE の月の天体座標系（MOON_ME / MOON_PA）、TIME_SYSTEM は月の時刻系（LTC / TCL / UTC）、CENTER_NAME = MOON を持ち、例示的な LCNS クラスのエフェメリスのサンプル（位置は crate::lunar_service から、速度は有限差分による）に適用します。また、serde_json で往復できる LunaNet/IOAG に整合した月の時刻の記述子（時刻系 ID、crate::lunar_time からの永年変化率 µs/day、公表された帯域、基準面）も出力し、既存の KIF エンベロープ（crate::interchange）に MODELLED の誠実性ラベルを付けて成果物を包みます。出力した成果物、OEM の行数、フィールド適合性の合格と存在 / 欠落フィールドの一覧、OEM の往復 ok、時刻メタデータの往復 ok、KIF のバイトサイズを報告します。MODELLED — オラクルは、決定論的な往復と、公表された CCSDS OEM および LunaNet/IOAG のフィールド意味論に対するフィールド名の適合性です。認証済みの相互運用性適合試験ではありません。例示的で公開情報に基づくエフェメリスであり、ESA とは無関係です。TRL、飛行実績、機関による承認はありません。
 
-seg-1726861e444f = <c1/> の 一回の実行の要約：lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | 状態 { "9" } 個、OEM { "23" } 行 | 適合性 合格（存在 { "9" } / 欠落 { "0" }）| OEM の往復 ok | 時刻メタの往復 ok | KIF { "1640" } バイト | MODELLED
+seg-1726861e444f = <c1/> の 一回の実行の要約：lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | 状態 { "9" } 個、OEM { "23" } 行 | 適合性 PASS（存在 { "9" } / 欠落 { "0" }）| OEM の往復 ok | 時刻メタの往復 ok | KIF { "1640" } バイト | MODELLED
 
 seg-f8353e15aabd = 任意フィールド：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>
 
