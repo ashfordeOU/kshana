@@ -6553,3 +6553,2338 @@ seg-962b75c38735 = <b>Motor de simulación determinista</b> para PNT híbrido cu
 
 # text
 seg-16e574edc3a8 = <b>Cuatro paquetes de sensores</b>, cada uno calibrado con datos publicados y validado frente a la relación estándar:
+
+# text
+seg-8f1cbbae84aa = ITU, ITU-R
+
+# text
+# c1: <scenario>.report.html
+# c2: wrote …
+# c3: <scenario>.report.json
+# c4: RunOutput::html_report()
+# c5: OracleKind::modelled_reason()
+# c6: docs/MODELLED-RATIONALE.md
+seg-e06522ca762e = <b><c1/> es ahora el informe avanzado de la ejecución</b> descrito en Añadido, y la línea <c2/> de la CLI nombra también <c3/>. El cuadro de mando de una página al que sustituye no cambia y sigue siendo <c4/>, que los enlaces de Python y WebAssembly siguen devolviendo. <c5/> expone la frase que <c6/> imprime para cada fila MODELLED; ese documento no cambia.
+
+# text
+# c1: result.json
+# c2: report.json
+seg-77a6f35c5c9a = <b>El README dice sobre qué se apoya Kshana Pro.</b> La sección Ediciones y la línea de Kshana Pro bajo «Soporte y servicios profesionales» indican ahora qué hacen las herramientas de ingeniería de sistemas basada en modelos (MBSE) y de programa de Pro y cuáles de las salidas publicadas del motor abierto lee (los <c1/> y <c2/> de cada ejecución, el archivo de escenario, el esquema de unidades de campo y las etiquetas de la matriz de verificación), y en qué se apoyan en el motor abierto los gemelos digitales de reloj, los estudios comparativos y los paquetes de evidencias. Solo cambia la redacción: no cambia ninguna salida del motor ni ningún número publicado.
+
+# text
+# c1: navsignal::Modulation
+# c2: Mboc
+# c3: ephemeris
+# c4: gcrs_r_m
+# c5: gcrs_v_m_s
+seg-1a19675ffa3b = <b>Compatibilidad.</b> El enum público <c1/> incorpora una variante <c2/>, lo que supone un cambio incompatible para quien lo compare de forma exhaustiva. Cambian las columnas <c4/> y <c5/> del tipo <c3/> (véase «Revisiones de números publicados»). Una ejecución se sigue reproduciendo con la versión del motor que la produjo.
+
+# text
+# c1: export_table_csv
+# c2: telecom-timing
+# c3: leo-navmsg
+# c4: encode-decode
+# c5: kepler16
+# c6: kepler-rac
+seg-e7c5f77a6602 = <b><c1/> en el servidor MCP nombraba cuatro tipos como los únicos con una tabla CSV (valores separados por comas); seis la publican.</b> La herramienta siempre devolvía la tabla de <c2/> y de <c3/> (su análisis <c4/> sobre un modelo de mensaje <c5/> o <c6/>), pero su descripción, su mensaje de rechazo y los documentos que enumeran los tipos omitían ambos, de modo que a un agente se le decía que no la pidiera. Ahora se nombran, y una prueba de ida y vuelta obtiene ambas tablas.
+
+# text
+seg-4094f58a5f4b = La trama del mensaje de navegación en órbita terrestre baja (LEO) no tenía los mismos bytes en todas las plataformas, ni en todas las compilaciones de una misma plataforma.
+
+# text
+# c1: scenarios/leo-navmsg-encode-decode.toml
+# c2: 0x110315
+# c3: 0x898BD8
+# c4: 0x6A82D9
+# c5: leo-navmsg-celeste-iod.toml
+# c6: 0x6EDB2D
+# c7: 0xC6E4F0
+seg-5191262de022 = <c1/> codificó una trama con comprobación de redundancia cíclica <c2/> en la compilación de lanzamiento en aarch64 macOS, <c3/> en una compilación de depuración del mismo código fuente en la misma máquina, y <c4/> en la compilación de WebAssembly (WASM); <c5/> dio <c6/> de forma nativa frente a <c7/> en el navegador. Tres causas, cada una rastreada hasta el primer valor divergente:
+
+# text
+# c1: truth::state_to_elements
+# c2: acos
+# c3: atan2
+seg-f6501c3cd89d = <em>Entre plataformas.</em> La órbita de referencia fue idéntica bit a bit en ambas; el punto de partida del ajuste no. <c1/> toma la inclinación osculatriz de un <c2/> y el argumento del perigeo de un <c3/>, y las dos bibliotecas matemáticas los redondean de forma distinta en el último lugar (sobre { "20 000" } argumentos discrepan en { "781" } senos, { "858" } cosenos, { "1 931" } exponenciales y { "1 899" } arcotangentes de dos argumentos).
+
+# text
+# c1: sin
+seg-cd6f05096b8b = <em>Entre perfiles de compilación.</em> Una compilación optimizada en macOS fusiona un seno y un coseno de un mismo argumento en una única llamada a la rutina combinada del sistema, y su seno no es el del <c1/> aislado en { "379" } de { "200 000" } argumentos; una compilación sin optimizar hace las dos llamadas. El tipo toma un seno y un coseno juntos en trece lugares.
+
+# text
+# c1: rand_distr
+# c2: exp
+# c3: ln
+seg-91b0700dcb30 = <em>En el reloj.</em> El muestreador normal de <c1/> llama a <c2/> y <c3/> del anfitrión en sus dos ramas poco frecuentes: de cuatro millones de extracciones con semilla, tres diferían en el último bit entre la compilación nativa y la de WASM.
+
+# text
+# c1: src/portable_math.rs
+# c2: libm
+# c3: Cargo.toml
+# c4: leo_navmsg::{truth, fit, elements, codec, sisre, services}
+# c5: f64::powi
+# c6: portable_math::standard_normal
+# c7: _portable
+# c8: leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform
+# c9: the_kind_never_calls_the_host_mathematics_library
+# c10: rand_distr
+# c11: leo-navmsg
+# c12: leo-navmsg
+# c13: leo-navmsg
+# c14: navmsg
+# c15: leo-pnt-chain
+# c16: docs/LEO-NAVMSG.md
+# c17: 0x110315
+# c18: 0x19105F
+seg-0a4724333429 = El ajuste de Levenberg–Marquardt, que en este arco se detiene en su límite de 80 iteraciones y no en un mínimo, arrastra una unidad en el último lugar a campos cuantizados distintos. El tipo calcula ahora toda función trascendente mediante el nuevo <c1/>, que llama a la biblioteca <c2/> en Rust puro (ya presente en el árbol de dependencias, ahora nombrada en <c3/>), compilada desde un único código fuente para todos los destinos y no una llamada a biblioteca que el optimizador reescriba: <c4/> y el código del escenario. Las potencias enteras de esa ruta se escriben explícitamente como elevación al cuadrado y multiplicación, porque <c5/> tiene una precisión no especificada, y el reloj de referencia extrae sus desviaciones normales de <c6/> (método polar de Marsaglia sobre la salida bruta del generador). Las rutinas compartidas por las que se integra la órbita de referencia se escriben una sola vez, genéricas sobre la biblioteca matemática, con un punto de entrada <c7/> interno al crate junto al existente: la aceleración por armónicos esféricos, las aceleraciones zonal y de arrastre, las tasas seculares de J2 y el retardo de Klobuchar. Los puntos de entrada existentes no cambian ni en el último bit, de modo que no se mueve el número de ningún otro tipo. <c8/> fija la trama completa de 171 bytes y un valor de comprobación por modelo de efemérides, en el perfil de pruebas ordinario (sin optimizar), en todas las plataformas y sin puerta de equipo de referencia; <c9/> lee del disco el código fuente del tipo y falla ante una llamada trascendente inherente, ante un muestreador <c10/> o ante una llamada a un módulo que no se ha revisado. Tras el cambio, una compilación de depuración, una de lanzamiento y la de WASM producen documentos de resultados idénticos byte a byte para los cinco escenarios de <c11/>. <b>Esto mueve números, y se registra aquí como una revisión.</b> El tipo <c12/> es nuevo en esta versión, así que no se mueve nada publicado en una versión anterior, pero sí se mueve toda cifra de <c13/>, de forma nativa y en la compilación de WASM, y con ella la etapa <c14/> de <c15/>: las cifras de órbita porque el ajuste parte ahora de los elementos portables, las cifras de reloj porque el reloj de referencia es otra realización del mismo proceso. <c16/> se regenera a partir de los nuevos resultados; su valor de comprobación publicado para el escenario de codificación y decodificación era <c17/> y es <c18/> (posición a { "1.126" } mm del mensaje exacto donde antes estaba a { "0.665" } mm, reloj a { "0.185" } mm donde antes estaba a { "0.451" } mm). La magnitud de los cambios en las cifras submilimétricas es la sensibilidad del ajuste, no un error de ninguno de los dos conjuntos: el ajuste no cambia y sigue deteniéndose en su límite de iteraciones.
+
+# text
+seg-c30f4cef4797 = El remuestreo con semilla extraía índices distintos en un destino de 32 bits.
+
+# text
+# c1: Rng::gen_range
+# c2: usize
+# c3: eval_stats
+# c4: bootstrap_ci
+# c5: bootstrap_auc_ci
+# c6: impairment_ml
+# c7: impairment_study
+# c8: portable_math::uniform_index
+# c9: u64
+# c10: quantum-anomaly-detect
+# c11: quantum_auc_ci
+# c12: trade.foms[0].ci95
+# c13: [0.9901265, 0.9938305]
+# c14: [0.99035875, 0.993861]
+seg-2bf668e23ec1 = <c1/> sobre <c2/> toma { "64" } bits del generador en un anfitrión de 64 bits y { "32" } bits en uno de 32, de modo que la misma semilla daba otros índices, y dejaba el flujo en otro punto, en la compilación de WASM. Tres lugares extraían así: los bootstraps por percentiles de <c3/> (<c4/>, <c5/>), el barajado previo a cada pasada de entrenamiento en <c6/> y la prueba de permutación en <c7/>. Ahora extraen mediante <c8/>, que siempre muestrea como <c9/>: exactamente lo que hacía un anfitrión de 64 bits, así que no se mueve ningún número nativo. <b>Esto mueve números publicados del paquete WASM, y se registra aquí como una revisión:</b> el intervalo bootstrap de <c10/> para el área bajo la curva (<c11/>, <c12/>) era <c13/> en el navegador y ahora es el nativo <c14/>.
+
+# text
+# c1: /
+# c2: Pulsar inclined/S1-0163
+# c3: --export stk
+# c4: -
+# c5: _
+seg-80f783da1d4f = <b>Nombres de archivo de efemérides STK a partir de identificadores de móvil.</b> Un identificador de móvil que contenía un <c1/> o un espacio (una capa de constelación y un satélite, <c2/>) hacía que la CLI entrara en pánico con <c3/>; ahora cada identificador pasa por una parte de archivo segura (letras, dígitos, <c4/>, <c5/>).
+
+# text
+seg-a0dc5729d5e9 = <b>El signo de la nutación TEME→GCRS</b>, descrito arriba en «Revisiones de números publicados» porque mueve una salida publicada.
+
+# text
+# c1: slot-timing
+# c2: src/slot_timing.rs
+# c3: slot-timing-ocxo-leo
+# c4: docs/SLOT-TIMING.md
+seg-5ecbf0787f39 = <b>Tipo de escenario <c1/></b> (<c2/>): segundos hasta que un reloj en funcionamiento libre sale de la guarda de una ranura de encaminamiento o de tareas indexada en el tiempo, todos los términos que contribuyen en ese momento con el dominante nombrado, el tiempo restante desde la última corrección y el mayor intervalo entre correcciones que mantiene el reloj dentro, descontada la latencia de la corrección. El reloj procede de un valor por defecto de su clase, de un preajuste de hoja de datos de telecom-timing, de una hoja de datos en línea (máximos de desviación de Allan, envejecimiento, coeficiente de temperatura) o de un registro de fase medido. Una superación más allá del mayor tiempo de promediado que admite la fuente se marca como extrapolada. Ejemplo incluido: <c3/>. Véase <c4/>.
+
+# text
+# c1: slot_timing::fit_weighted
+seg-40dd4c16b760 = <b>Suelo de ruido rojo medido.</b> La desviación de Allan solapada de un registro de fase se ajusta por mínimos cuadrados ponderados en la base de modulación de fase blanca y de frecuencia de IEEE Std { "1139" } (<c1/>), con cada punto ponderado por sus grados de libertad equivalentes, de modo que una respuesta de holdover pueda apoyarse en el suelo propio del reloj en lugar de en la suposición de su clase. Un ajuste sin ponderar puso un suelo de ruido flicker espurio en un registro de prueba de ruido blanco y acortó en un { "30" } % una superación de { "2 000" } s.
+
+# text
+# c1: tests/slot_timing_cs5071a_holdout.rs
+# c2: realdata-clock
+seg-22c09748488b = <b>Validación con datos reservados de la inversión de holdover en un reloj real</b> (<c1/>): ajustadas con el primer tercio del registro de cesio 5071A frente a máser de hidrógeno, las superaciones predichas de un sigma en seis umbrales de { "0.5" } a { "2.5" } ns quedan entre { "0.84" } y { "1.03" } de las superaciones medidas en los otros dos tercios, frente a un umbral de { "1.5" } fijado antes de la primera ejecución de la prueba. Un control (la desviación de Allan a un segundo leída como ruido blanco) falla por un factor de aproximadamente { "1 000" } y no alcanza el umbral. Nueva fila VALIDATED del registro; el flujo de trabajo <c2/> la ejecuta ahora.
+
+# text
+# c1: tests/slot_timing_ocxo_holdout.rs
+# c2: scripts/fetch_ocxo.sh
+# c3: fix_frequency_sigma
+seg-cd73dc87a22f = <b>La misma predicción en un oscilador de cuarzo real</b> (<c1/>, <c2/>): en un oscilador de cuarzo termostatizado medido, la predicción con datos reservados es conservadora, entre { "0.59" } y { "0.70" } de la superación medida y nunca más tarde, y en su mayor parte queda fuera del umbral de { "1.5" }, porque el suelo de ruido de ese oscilador se redujo a la mitad durante el registro de 5,5 horas; ajustada con la propia muestra queda entre { "0.98" } y { "1.17" }. El caso del cuarzo no está validado y sigue siendo MODELLED. La ejecución también puso de manifiesto un término ausente: la frecuencia de un cuarzo deriva, así que el modelo incorpora ahora la incertidumbre de la frecuencia conocida en la corrección (<c3/>); sin él, la predicción era optimista hasta en { "2.5" }×.
+
+# text
+# c1: tests/slot_timing_igs_holdout.rs
+# c2: scripts/fetch_igs_clocks.sh
+seg-8519979d184c = <b>La misma predicción en relojes atómicos en órbita</b> (<c1/>, <c2/>): { "14" } días de relojes finales del International GNSS Service para los satélites GPS Block IIF, con el protocolo escrito antes de descargar los datos. Ocho de diez satélites quedan dentro del umbral de { "1.5" }; G25 y G30 predicen superaciones hasta unas dos veces más tardías de lo medido. El protocolo exige que todos los satélites lo superen, así que el caso orbital no está validado y sigue siendo MODELLED; el resultado queda fijado.
+
+# text
+# c1: ClockClass::Tcxo
+# c2: Ocxo
+# c3: Rafs
+# c4: ClockClass::source
+# c5: ClockClass::ALL
+# c6: id
+# c7: from_id
+# c8: quantum-trade
+# c9: baseline_clock_class
+seg-0d666a725b77 = <b>Clases de reloj de cuarzo compensado en temperatura (TCXO), cuarzo termostatizado (OCXO) y patrón atómico de frecuencia de rubidio (RAFS)</b> (<c1/>, <c2/>, <c3/>), los componentes que vuelan en un bus comercial de satélite pequeño o en una pasarela terrestre, cada uno con cita de una hoja de datos pública (<c4/>). Se añaden <c5/>, <c6/> y <c7/>. El <c9/> de <c8/> acepta los tres identificadores nuevos. Añadir variantes a un enum público es un cambio incompatible para quien lo compare de forma exhaustiva.
+
+# text
+# c1: src/orbital_timing.rs
+# c2: slot-timing
+# c3: spoofing
+# c4: tpl::timing_protection_level_ns
+seg-24ae82b115f5 = <b>Nivel de protección de temporización para un receptor en órbita</b> (<c1/>, la sección opcional <c3/> del tipo <c2/>): durante cuánto tiempo puede un suplantador desde tierra alcanzar a un satélite de órbita terrestre baja en cada pasada, el arrastre que acumula un suplantador con una tasa máxima de rampa indicada antes de que el satélite salga de su alcance o se ejecute una comprobación independiente, y si cada comprobación de contacto con tierra o de enlace cruzado es independiente de ese suplantador. Se reduce exactamente a <c4/> para un reloj sin ruido flicker, de fase blanca ni de recorrido aleatorio. MODELLED.
+
+# text
+# c1: docs/SLOT-TIMING.md
+# c2: docs/DECEIVED-TIME.md
+# c3: docs/DEPLOYMENT-TARGETS.md
+# c4: no_std
+seg-4032bc03fad5 = <b>Tres notas</b>: <c1/> (incluida la métrica de deriva con la que debería aceptarse una ranura: error de tiempo máximo absoluto, no error máximo de intervalo de tiempo ni desviación de tiempo, y por qué), <c2/> (una orden firmada aplicada en un tiempo engañado sigue encaminándose mal) y <c3/> (dónde se ejecuta Kshana; no se ofrece un núcleo de vuelo <c4/>).
+
+# text
+# c1: kshana
+# c2: kshana-mcp
+seg-712035e19515 = La versión { "v0.27.3" } llegó a crates.io (<c1/> y <c2/>) y a PyPI, y se detuvo en npm, de modo que npm, la imagen MCP de ghcr.io, el registro MCP, el JetBrains Marketplace y kshana.dev nunca la recibieron. { "0.27.4" } lleva el mismo motor, con la corrección de la publicación que se describe a continuación, a todos los canales.
+
+# text
+# c1: npm-dist/kshana-0.27.3.tgz
+# c2: owner/repo
+# c3: github.com/npm-dist/kshana-0.27.3.tgz
+# c4: ./npm-dist/*.tgz
+seg-bab8d4d1bc54 = <b>El paso de publicación de npm nombra el tarball con una ruta explícita.</b> npm lee un <c1/> sin ruta como la abreviatura de GitHub <c2/>, de modo que el trabajo de npm de { "v0.27.3" } intentó clonar <c3/> y falló con «Permission denied (publickey)». El tarball en sí se había compilado y atestado. El paso publica ahora <c4/>. Todo lo posterior a npm en el orden de publicación (la imagen MCP, el complemento de JetBrains, la comprobación de paridad de canales y el sitio) se omitió, tal como está diseñado.
+
+# text
+# c1: gnss-ins
+seg-f9a112755eb1 = <b>Los catálogos de unidades de telecom-timing y <c1/> quedan exentos de la detección de copiar y pegar</b>, con la misma política y la misma prueba de justificación que los demás catálogos. La puerta de calidad de SonarCloud se había puesto en rojo por duplicación en código nuevo ({ "4.0" } % frente a { "3" } %), y cada bloque duplicado era una fila de unidades o una entrada de máscara de ITU-T.
+
+# text
+# c1: scenarios/small-uas-jammed-nav.toml
+# c2: jamming-demo.toml
+# c3: kshana example small-uas-jammed-nav
+seg-3c3dacae06d6 = <b><c1/>: cuánto aguanta la navegación de un dron pequeño tras sufrir jamming en GNSS.</b> Ejecuta una unidad inercial microelectromecánica (MEMS) de clase controlador de vuelo, una Bosch BMI088, frente a una unidad de grado táctico. La señal GNSS (Sistema Global de Navegación por Satélite) es nominal durante { "100" } s y luego se deniega durante { "60" } s (<c2/> muestra por qué lo hace un inhibidor cercano). Los sesgos del BMI088 son los residuos que quedan tras la calibración de arranque, tomados de los coeficientes de temperatura de su hoja de datos (BST-BMI088-DS000-19 rev { "1.9" }): { "0.015" } °/s por K para el giroscopio y < { "0.2" } mg por K para el acelerómetro. En el archivo se señalan dos suposiciones: un calentamiento de { "10" } K tras la calibración y un calentamiento continuado de { "1" } K por minuto en vuelo. La deriva en vuelo es el error que el filtro no puede aprender antes de que empiece el jamming, y es lo que pone fin a la navegación a ciegas. Todas las cifras son modeladas; validarlo requiere registros de vuelo de un entorno con jamming. <c3/> lo imprime.
+
+# text
+# c1: gnss-ins
+# c2: [imu_quantum.filter_prior]
+# c3: [imu_classical.filter_prior]
+# c4: sigma_accel_bias
+# c5: sigma_gyro_bias
+seg-7154f69a2b8a = <b>Cada sensor de <c1/> puede fijar su propio prior de filtro</b> (<c2/> o <c3/>, con <c4/> y <c5/>). El valor por defecto no cambia, de modo que todo escenario existente da el mismo resultado. El sesgo residual del giroscopio de una unidad de grado de consumo queda unas { "26" } sigmas fuera del valor por defecto de grado táctico, donde el filtro nunca lo aprendería. Se rechaza un prior que no sea finito y positivo, y el resultado repite el prior cuando se ha fijado uno.
+
+# text
+# c1: kshana example [<name>]
+# c2: cargo install kshana
+# c3: scenarios/
+# c4: scenarios/
+# c5: src/bundled_scenarios.rs
+# c6: kshana example
+# c7: kshana example clock-holdover > clock-holdover.toml
+# c8: lunar-llr-datum
+# c9: quantum-pnt-demonstrator.suite
+# c10: --study
+# c11: tests/cli_first_run.rs
+seg-2b54735b19aa = <b><c1/> entrega a quien usa el registro un escenario que ejecutar.</b> Quien usa <c2/> tiene el ejecutable y ningún directorio <c3/>, así que el primer comando que daba cada guía de inicio rápido le fallaba. La interfaz de línea de comandos (CLI) incorpora ahora los { "75" } escenarios de referencia que se ejecutan por sí solos, byte a byte, compilados desde <c4/> (<c5/>; la tabla reside en el binario de la CLI, así que ni el wheel de Python ni el módulo de WebAssembly crecen). <c6/> los enumera; <c7/> escribe uno. Los otros dos archivos son solo del repositorio: <c8/> lee datos archivados de telemetría láser lunar que se distribuyen únicamente con el repositorio, y <c9/> es un manifiesto de estudio que ejecuta tres archivos hermanos con <c10/>. Pedir cualquiera de los dos explica por qué y termina con { "2" } en lugar de imprimir algo que no puede ejecutarse por sí solo. <c11/> mantiene la tabla alineada con el directorio en ambos sentidos, de modo que un archivo de escenario nuevo que ni está incluido ni se nombra como solo del repositorio falla.
+
+# text
+# c1: figure_tiers
+# c2: quantum.fom.timing_p95_ns
+# c3: src/verification.rs
+# c4: src/fom_label.rs
+# c5: hybrid
+# c6: fusion
+# c7: untiered
+# c8: tests/registry_golden.rs
+# c9: tests/cross_platform_golden.rs
+seg-43249b6a1f3c = <b>Cada figura de mérito de un resultado de reloj, órbita, hybrid o fusion indica ahora si es VALIDATED o MODELLED, en el propio resultado.</b> El documento de resultados incorpora un bloque <c1/>, siempre su última clave. Enumera cada cifra notificada (por ejemplo <c2/>) con su nivel (VALIDATED significa comprobado frente a una referencia independiente externa, MODELLED significa un modelo de primeros principios que se prueba internamente) y la fila de la matriz de verificación de la que se lee el nivel. El nivel procede de <c3/> a través de <c4/>, de modo que no hay una segunda tabla que se desfase. Antes, las palabras «validated» y «modelled» aparecían cero veces en un resultado de clock-holdover, y quien leyera el JSON (JavaScript Object Notation) en bruto no tenía forma de distinguirlos. Las cifras de posición de <c5/> y <c6/> no tienen una fila de la matriz que las posea, así que se enumeran bajo <c7/> en lugar de asignarles un nivel. El bloque no contiene números. Está demostrado que es aditivo, no supuesto: quitarlo devuelve el documento anterior al cambio byte a byte, para los cinco tipos (una prueba del motor), y los dos arneses golden (<c8/>, <c9/>) eliminan ahora exactamente esta clave, y solo cuando es la última, y luego calculan el hash del resto frente a sus constantes congeladas <b>sin cambios</b>. Una lista en cada arnés fija qué escenarios deben llevar el bloque, de modo que la exclusión no pueda ampliarse sin que se note.
+
+# text
+# c1: telecom-timing
+# c2: docs/TELECOM-TIMING.md
+seg-8faf1981d797 = <b>Un tipo <c1/> responde en las unidades de un ingeniero de temporización: error de tiempo, error máximo de intervalo de tiempo (MTIE) y desviación de tiempo (TDEV), cada uno con un PASS o un FAIL y un margen frente a las máscaras del Sector de Normalización de las Telecomunicaciones de la Unión Internacional de Telecomunicaciones (ITU-T).</b> Las máscaras se transcriben de las ediciones en vigor: G.8272 (07/2025) para las clases A y B del reloj de referencia de tiempo primario (PRTC), G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) para el PRTC mejorado en modo bloqueado y en holdover (incluida su envolvente de error de tiempo, que sube de { "30" } ns a { "100" } ns a lo largo de un periodo de holdover que fija el tiempo que el reloj estuvo bloqueado), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) para los relojes de frontera y esclavos de tiempo de telecomunicaciones, clases A a D, y G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) para los límites de red en el punto de referencia C. Toda entrada que esas Recomendaciones dejan «para estudio posterior» está ausente, no estimada, y <c2/> enumera cada número con su tabla o cláusula y cada elemento que se dejó fuera. El informe también da el tiempo hasta superar cada presupuesto de error de tiempo: por defecto, el valor por defecto de holdover del ePRTC de { "100" } ns, una asignación de holdover de red de { "400" } ns, el límite del punto C de { "1 100" } ns y el requisito extremo a extremo de clase { "4" } de { "1.5" } microsegundos.
+
+# text
+# c1: [time_s, time_error_ns]
+seg-9e5325e1b0ca = La entrada es un holdover sintético o una serie propia. El sintético usa uno de cuatro preajustes de oscilador (un oscilador de cuarzo termostatizado, un patrón de rubidio, un patrón de cesio y un reloj atómico a escala de chip), cada uno con las cifras de estabilidad, envejecimiento y temperatura de una hoja de datos de Microchip concreta. Cómo esas cifras se convierten en ruido de frecuencia blanco, flicker y de recorrido aleatorio, en envejecimiento y en un término de temperatura se indica en cada informe y se etiqueta como MODELLED. Una serie propia son pares <c1/>, en línea (así se ejecuta en el navegador) o, en las compilaciones nativas, desde un archivo de valores separados por comas. La tabla MTIE/TDEV, con el límite de cada máscara seleccionada a su lado, se escribe como el artefacto CSV de la ejecución.
+
+# text
+# c1: scenarios/telecom-prtc-holdover-24h.toml
+# c2: scenarios/telecom-tie-ingest.toml
+seg-a23a96819dee = <c1/> es un holdover de rubidio de 24 horas con envejecimiento, flicker y un ciclo diario de temperatura: su mayor error de tiempo es { "603.2" } ns, cruza { "100" } ns a los { "8 206" } s de la pérdida y se mantiene dentro de { "1.5" } microsegundos todo el día, y no satisface la envolvente de holdover del PRTC mejorado, como corresponde a un reloj que no es de clase cesio. <c2/> muestra la entrada en línea. El MTIE y el TDEV que informa el tipo se comprueban con el paquete allantools sobre una serie de holdover de { "2" } 048 muestras incorporada al repositorio, exactamente para el MTIE y con { "1.1e-15" } para el TDEV, de modo que la matriz gana una fila VALIDATED y dos MODELLED (la transcripción de las máscaras y los preajustes) y queda ahora en <b>{ "171" } filas: { "65" } VALIDATED, { "102" } MODELLED, { "4" } PARTNER</b>. La cobertura de unidades de campo pasa de { "60" } de { "61" } tipos a { "61" } de { "62" }, y de { "1,742" } a { "1,788" } campos descritos. El tipo es nuevo y aditivo: no se mueve ningún escenario existente, fijación ni cifra publicada.
+
+# text
+seg-5bb1ad9a34ec = El playground ejecuta el motor en un Web Worker en segundo plano, de modo que un escenario lento ya no congela la página.
+
+# text
+# c1: web/engine-worker.mjs
+# c2: web/engine.mjs
+# c3: cislunar-arc-recovery
+seg-b1ab3546f131 = <c1/> aloja el motor de WebAssembly y <c2/> le reenvía toda ejecución de escenario: ejecuciones, barridos de parámetros y las exportaciones SP3 / OMM / OEM / CSV. Una ejecución que dura más de { "150" } ms muestra un estado de ocupado (Run desactivado, «Running… N s») y un botón Cancel que termina y vuelve a crear el worker; un navegador que no puede iniciar un worker de módulo recurre a la antigua ruta del hilo principal. <c3/>, que se dejó fuera del catálogo porque congelaba la página, vuelve a estar en él, etiquetado como lento: tarda unos { "13" } s en Chrome (cuatro llamadas al motor de unos { "3" } s cada una), durante los cuales la página sigue respondiendo.
+
+# text
+# c1: cislunar-observability
+seg-146200dfac7e = <b>Cada magnitud notificada de <c1/> lleva ahora una unidad, una clase de procedencia y una definición: es el penúltimo tipo de la lista de exenciones de todo el crate.</b> Los { "41" } campos numéricos del documento RELEASED están descritos, de modo que la cobertura de unidades de campo pasa de { "59" } de { "61" } tipos a { "60" } de { "61" } y de { "1,698" } a { "1,742" } campos descritos, con el trabajo pendiente sin definición sin cambios en { "239" }.
+
+# text
+# c1: units
+# c2: units
+# c3: expect_summary
+seg-61b1219ae0e3 = Esto estaba bloqueado por la fijación que congela el documento publicado, que nombraba <c1/> como una clave que el documento nunca debía ganar. Añadir una habría supuesto eliminar esa aserción y volver a establecer la línea base de tres hashes en tres archivos, algo indistinguible de encubrir una regresión. En su lugar, las dos fijaciones que miden este documento <em>demuestran</em> ahora que la adición es aditiva: cada una retira de nuevo el bloque <c2/> y vuelve a calcular el hash frente a la constante congelada antes de que existiera el bloque, y <b>ambas constantes no cambian</b>. Una mutación confirma que la garantía es real: si se mueve un valor publicado y se restablece la línea base del hash del documento completo como haría una corrección descuidada, la retirada y el nuevo cálculo del hash siguen fallando. La tercera fijación, en el arnés genérico del registro golden, se restablece en línea con las seis hermanas que se restablecieron por exactamente este motivo, y su literal <c3/>, que sí contiene valores, no se mueve.
+
+# text
+# c1: realtime-frame-eop
+seg-a73409e0b664 = <c1/> informa de con qué verdad de referencia se puntuó cada fila de orientación de la Tierra y con qué frecuencia se activó la alternativa.
+
+# text
+# c1: table3_joint_eop[].{ut1, polar_motion,combined}
+# c2: truth_source
+# c3: truth_fallback_rows
+# c4: final
+# c5: dN
+# c6: truth_pm()
+# c7: truth_ut1()
+seg-6e0493a39f1a = <c1/> ganan <c2/> y <c3/>. El suelo <c4/> se puntúa frente al final del Bulletin B y solo puede usar épocas que publiquen uno; cada fila <c5/> se puntúa frente a <c6/>/<c7/>, que recurren al valor rápido del Bulletin A. En el extracto incluido de { "2026" } eso son { "12" } de { "31" } muestras a un día, frente a { "0" } en el suelo, de modo que la fila del suelo y las filas de predicción contiguas se apoyan en una verdad de referencia mensurablemente distinta, algo que el informe ahora declara en lugar de dejarlo para inferirlo de un recuento de muestras que sube donde los horizontes anidados dicen que no puede.
+
+# text
+# c1: moonlight-service-volume
+seg-7ba5be07fa8c = <c1/> emite una línea base kepleriana de tamaño equiparado.
+
+# text
+# c1: ephemeris_comparison.keplerian_matched
+# c2: 360k/n
+seg-f9dc8fae6452 = <c1/> vuelve a ejecutar la constelación ilustrativa con el número de satélites propio del conjunto RETRIEVED, y solo está presente cuando los números difieren. El número forma parte de la geometría de ese diseño (RAAN y anomalía media se reparten ambos como <c2/>), de modo que sin él un conjunto recuperado de cinco satélites se puntuaba frente a uno ilustrativo de ocho y el diseño se confundía con el tamaño. Para el conjunto de referencia LANS de cinco satélites, { "8.68" } de los 14,24 puntos de la brecha de cobertura resultan ser los tres satélites que faltan y solo { "5.56" } puntos el diseño; para las cuatro naves que de verdad están en órbita lunar, un conjunto de cuatro satélites diseñado a propósito alcanza el { "4.86" } % donde ellas alcanzan el { "0" } %. Una prueba fija que la fila equiparada es una constelación reconstruida y no la configurada con otra etiqueta, que es como se escribió al principio y lo que entonces informaba la ejecución.
+
+# text
+seg-2e7e4dbbb7f6 = <b>Nueve tarjetas de capacidades en el sitio público, que cubren { "22" } filas de la matriz de verificación que se publicaron sin una tarjeta a nivel de producto.</b> El motor había acumulado una familia de capacidades (la comprobación ARAIM frente a vectores de referencia publicados del Working Group C, la geometría real de constelaciones lunares recuperadas, el contorno de denegación lunar con una banda de C/N₀ medida, el paso de la planificación VLBI a la covarianza de estación, el traspaso óptico y de RF con inyección de fallos entre modalidades, la predicción en tiempo real de la orientación de la Tierra frente al Bulletin A archivado, el reparto de apertura entre navegación y comunicaciones, la navegación a ciegas INS/TRN y la cobertura de unidades y procedencia), cada una con una fila de la matriz y un escenario incluido, y ninguna nombrada en kshana.dev. La cobertura de tarjeta a fila pasa de { "72" } de { "168" } filas a { "94" }.
+
+# text
+# c1: web/app.js
+# c2: tests/scenario_examples_doc_sync.rs
+# c3: run
+# c4: scenarios/
+seg-3dc189224fe8 = <b>Ocho escenarios añadidos al catálogo del playground.</b> El botón Run de una tarjeta de capacidad solo aparece cuando <c1/> también contiene el archivo; seis tarjetas nombraban un escenario que no contenía, de modo que se mostraban sin forma de ejecutarlas; una de ellas, la referencia de telemetría láser real, estaba en ese estado desde que se publicó. <c2/> controla ahora la invariante en ambas mitades: el destino <c3/> de una tarjeta debe estar incluido en <c4/> <em>y</em> ofrecido por el catálogo. Probado por mutación frente a ambos modos de fallo.
+
+# text
+# c1: moonlight-service-volume
+# c2: <scenario>.table.csv
+seg-2d69334516e9 = <b><c1/> emite su geometría por satélite como <c2/></b> cuando se configura un sitio de exportación (G11). Es el mayor array que publica el crate ({ "2304" } filas en la tabla conjunta de comunicaciones y navegación publicada) y solo llegaba a los consumidores dentro de JSON, la forma que truncó la curva de 57 puntos de un escenario hermano a { "23" } puntos bajo una columna que afirmaba contenerlos todos. Una fila por enlace, el número de filas en la línea de cabecera, las columnas de antena presentes solo cuando se configuró una antena. Una ejecución sin sitio de exportación no cambia ni un byte y no escribe ningún archivo.
+
+# text
+seg-7958d26072f7 = El SBOM describe ahora lo que se distribuye: { "60" } componentes pasaron a ser { "66" }.
+
+# text
+# c1: scripts/gen-sbom.sh
+# c2: sgp4
+# c3: chrono
+# c4: --features python
+# c5: pyo3
+# c6: pyo3-ffi
+# c7: pyo3-macros
+# c8: pyo3-macros-backend
+# c9: pyo3-build-config
+# c10: portable-atomic
+# c11: target-lexicon
+# c12: heck
+# c13: python
+# c14: wasm
+# c15: expression
+seg-219cd333b000 = <c1/> enumeraba todos los paquetes de la resolución con las características por defecto, incluidas las dev-dependencies. Eso incluía <c2/> y <c3/>, crates solo de prueba que no se compilan en ningún artefacto, en la lista de materiales, y dejaba fuera la cadena <c4/> que enlaza el wheel de PyPI (<c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>), que es la frontera de funciones externas de ese wheel. El script recorre ahora el grafo de resolución desde el paquete kshana solo por aristas normales y de compilación, sobre la unión de los conjuntos de características por defecto, <c13/> y <c14/> (el paquete de npm lleva este mismo SBOM), para todas las plataformas de destino. El veredicto fijado de ajuste a la norma de CycloneDX se restablece como nueva línea base mediante su generador incorporado al repositorio: { "60" } → { "66" } componentes, { "53" } → { "60" } expresiones de licencia compuestas, y sigue sin haber errores de esquema una vez que estas se colocan en la forma estándar <c15/>.
+
+# text
+# c1: export_table_csv
+# c2: <scenario>.table.csv
+# c3: realtime-frame-eop
+# c4: lunar-time-budget
+# c5: lunar-jamming
+# c6: moonlight-service-volume
+# c7: export_site_lat_deg
+# c8: export_site_lon_deg
+# c9: table_csv
+# c10: undefined
+# c11: tests/golden/realtime-frame-eop.csv
+# c12: RunOutput.write_csv
+seg-23c98d31f749 = <b>La tabla CSV de reproducibilidad llega a todas las puertas de entrada, no solo a la CLI y al wheel de Python.</b> El servidor MCP gana una séptima herramienta, <c1/>, que ejecuta un escenario y devuelve la tabla estable byte a byte que escribe la CLI como <c2/>, o un error que nombra los tipos que publican una (<c3/>, <c4/>, <c5/> y <c6/> solo cuando se fijan <c7/> + <c8/>). El módulo de WebAssembly gana <c9/>, que devuelve el mismo texto o <c10/>. La prueba de ida y vuelta de MCP y las pruebas del enlace de Python fijan ahora el CSV devuelto byte a byte frente a <c11/>, y fijan que <c12/> devuelve los bytes escritos, y { "0" } sin crear ningún archivo para un tipo sin tabla. Toda superficie que indica el número de herramientas de MCP o las enumera dice ahora siete.
+
+# text
+# c1: run_all
+seg-86c3fed5e23a = <c1/> en el módulo de WebAssembly: una ejecución del motor para todas las salidas.
+
+# text
+# c1: run
+# c2: chart_svg
+# c3: summary
+# c4: table_csv
+# c5: cislunar-arc-recovery
+# c6: run_all
+# c7: {json, svg, summary, csv}
+seg-3f2677cd280b = <c1/>, <c2/>, <c3/> y <c4/> ejecutan cada una el escenario desde cero, de modo que el playground pagaba cuatro ejecuciones completas por clic: unos { "12" } s en lugar de { "3" } s para <c5/> en un navegador. <c6/> devuelve <c7/> a partir de una sola ejecución, y el playground la usa ahora. Coincide byte a byte con las cuatro llamadas separadas.
+
+# text
+# c1: gnss-ins
+# c2: +C_b^n b_a
+# c3: −C_b^n b_g
+# c4: +C_b^n b_g
+# c5: scenarios/gnss-ins.toml
+seg-fa05c9ee0c6a = <b>REVISIÓN: el acoplamiento del sesgo del giroscopio en el filtro GNSS/INS tenía el signo equivocado, y cambian las cifras de corte de <c1/>.</b> El filtro de Kalman extendido (EKF) de estado de error mantiene ambos sesgos inerciales como residuos (valor verdadero menos la estimación en curso, realimentados sumando). La columna del acelerómetro impulsaba el error de velocidad con <c2/>, pero la columna del giroscopio impulsaba el error de actitud con <c3/>. Un sesgo residual del giroscopio hace girar en realidad la actitud calculada en <c4/>, de modo que cada estimación del sesgo del giroscopio empujaba en el sentido equivocado. El paquete solo se mantenía estable porque su prior por defecto del sesgo del giroscopio ({ "1e-4" } rad/s, 1 sigma) era lo bastante estrecho para mantener quietos esos estados. Con un prior más amplio el filtro divergía incluso cuando el sesgo real del giroscopio era cero: { "93" } m de error fusionado en el corte pasaron a ser { "4.3" } km. Las cifras publicadas de <c5/> cambian como sigue:
+
+# text
+seg-47e22e713df6 = antes (≤ { "0.27.2" })
+
+# text
+seg-5215a0a41b89 = después
+
+# text
+seg-f58aecc6864c = IMU de átomos fríos, RMS del corte fusionado
+
+# text
+seg-c4fbd933ddb2 = { "96.1" } m
+
+# text
+seg-002d765fca02 = { "1.9" } m
+
+# text
+seg-d14616d4ea1b = IMU de átomos fríos, navegación a ciegas dentro de especificación ({ "50" } m)
+
+# text
+seg-35f8f623ea28 = { "30" } s
+
+# text
+seg-91645c14401b = { "60" } s (todo el corte)
+
+# text
+seg-f297a2652cf8 = IMU táctica, RMS del corte fusionado
+
+# text
+seg-0ac27c6d4206 = { "62.5" } m
+
+# text
+seg-eda895cc3b86 = { "3.1" } m
+
+# text
+seg-e0ab83f1d8d7 = IMU táctica, navegación a ciegas dentro de especificación ({ "50" } m)
+
+# text
+seg-5c526991a521 = { "37" } s
+
+# text
+# c1: tests/gnss_ins_sensor_fusion_reference.rs
+# c2: closed_loop.rs
+# c3: gnss-ins
+seg-743060da5543 = Las cifras en funcionamiento libre ({ "130.7" } m y { "314.3" } m) no cambian; nunca usaron el filtro. La lectura anterior del paquete, según la cual la navegación a ciegas fusionada está limitada por un suelo de actitud en el traspaso y por tanto no mejora con un sensor mejor, era un artefacto de este error y se retira. Con sesgos constantes y sin ruido, el filtro los aprende mientras hay GNSS, de modo que la navegación a ciegas fusionada es un mejor caso. La referencia externa de filterpy (<c1/>) solo comprueba las actualizaciones de medida, por lo que nunca vio la propagación. Dos pruebas comprueban ahora el signo directamente y ambas fallan con el antiguo. La primera, en <c2/>, introduce un sesgo residual conocido del giroscopio a través del strapdown y exige que el filtro prediga el error de actitud resultante con una diferencia de { "2" } % como máximo. La segunda exige que un prior amplio aprenda un sesgo del giroscopio de { "1e-3" } rad/s y se mantenga dentro de { "6" } m. El golden multiplataforma de <c3/> se vuelve a fijar por este motivo y por ningún otro.
+
+# text
+# c1: scenarios/clock-holdover.toml
+# c2: TypeError: fetch failed
+# c3: init()
+# c4: fetch
+seg-f764678e3376 = <b>Cada guía de inicio rápido de los registros se ejecuta ahora tal como está escrita en una máquina limpia.</b> Medido antes de este cambio, los ejemplos de crates.io y de PyPI (Python Package Index) leían <c1/>, que una instalación desde el registro no tiene, y el ejemplo de npm fallaba en Node.js con <c2/>, porque el <c3/> del paquete obtiene su binario de WebAssembly y el <c4/> de Node no puede leer un archivo local. Ahora:
+
+# text
+# c1: README.crates.md
+# c2: README.pypi.md
+# c3: README.npm.md
+# c4: main
+# c5: # Ok::<…>
+# c6: tests/readme_code_fences_doc_sync.rs
+seg-e77a540d2f90 = <c1/> y <c2/> llevan ese escenario en línea, como ya hacía <c3/>. El bloque de Rust es un programa completo con su propio <c4/>, porque la línea <c5/> oculta para rustdoc con la que terminaba se muestra en crates.io y no compila al pegarla. <c6/> lo sigue compilando byte a byte, y ahora también rechaza una línea oculta en el bloque.
+
+# text
+# c1: README.npm.md
+# c2: initSync
+# c3: initSync
+seg-ea5204ced0d2 = <c1/> separa el navegador de Node.js y ofrece una receta para Node que lee el binario del disco y lo pasa a <c2/>. La prueba de sincronización de documentos acepta <c3/> como el cargador que genera wasm-bindgen.
+
+# text
+# c1: 5ba83a232b94
+seg-ebb763695c59 = Los tres incorporan el escenario con sus cadenas de procedencia sin abreviar, de modo que el hash del escenario es <c1/> en todas las superficies. El ejemplo de npm las abreviaba, lo que le daba un hash distinto del de la CLI.
+
+# text
+# c1: cargo new
+# c2: wasm-pack --target web
+seg-dc52363432f8 = Reproducido a partir de compilaciones locales de este árbol: un proyecto nuevo de <c1/> con una dependencia por ruta del crate empaquetado compiló y ejecutó el ejemplo de Rust; un wheel compilado con maturin a partir de los fuentes empaquetados, instalado en un entorno virtual nuevo, ejecutó el ejemplo de Python; y el paquete de <c2/>, empaquetado e instalado con npm, ejecutó la receta de Node. Los tres imprimieron la misma línea de resumen.
+
+# text
+# c1: cargo run -- <scenario.toml>
+seg-07e465a602f1 = <c1/> funciona desde un clon.
+
+# text
+# c1: Cargo.toml
+# c2: default-run = "kshana"
+# c3: cargo run --
+seg-77ce31300b69 = <c1/> fija <c2/>. Sin ello, cargo se negaba con «could not determine which binary to run», lo que ocurría con cada línea <c3/> de la documentación.
+
+# text
+# c1: kshana example
+# c2: --help
+# c3: --version
+# c4: --validate
+# c5: ok:
+# c6: tests/cli_first_run.rs
+seg-2d516597b5f5 = <b>Los errores del primer minuto de la CLI dicen qué hacer a continuación.</b> Una ruta de escenario que no existe añade ahora una indicación que apunta a <c1/>, y un segundo argumento posicional imprime el texto de uso además de nombrar el argumento. <c2/>, <c3/>, el error de opción desconocida (salida { "2" }) y el <c5/> de una línea de <c4/> en caso de éxito ya estaban en main. <c6/> los cubre ahora todos, ya que antes ninguna prueba ejecutaba el binario para ninguno de ellos.
+
+# text
+# c1: list_kinds()
+# c2: scenario_kinds()
+# c3: kshana.pyi
+# c4: docs/PYTHON_API.md
+# c5: README.pypi.md
+# c6: scenario_kinds()
+seg-fdd9a27ccfc4 = <b><c1/> en Python está documentado como que devuelve una única cadena JSON, no una lista.</b> Devuelve los mismos metadatos que <c2/>, serializados, de modo que iterarla recorre caracteres. Conserva su retorno de cadena para no romper a los llamadores existentes. <c3/>, el comentario de documentación del enlace, <c4/> y <c5/> lo indican ahora y remiten a <c6/>.
+
+# text
+seg-f0e0c8c12f8a = <b>Los tres README de los registros desarrollan cada abreviatura en su primer uso.</b> PNT se desarrolla ahora en el eslogan, donde aparece por primera vez, y CLI, TOML, JSON, SVG, CSV, CSAC, HTML, URL y API se desarrollan en los archivos que los usan. El encabezado de la tabla de referencias independientes ya no dice «CI-gated» antes de que se defina CI.
+
+# text
+seg-554c5b0c9c60 = Se corrigió una cifra publicada: la disponibilidad de ARAIM de doble constelación sobre los TLE de GPS + Galileo de Celestrak incorporados al repositorio.
+
+# text
+# c1: docs/CAPABILITY.md
+# c2: tests/araim_dual_real_data.rs
+# c3: parse_propagators
+# c4: parse_tle
+# c5: araim_dual_constellation_availability
+# c6: docs/CAPABILITY.md
+# c7: docs/REAL_TLE_GUIDE.md
+seg-1f023a822c91 = <c1/> indicaba que agrupar Galileo eleva la disponibilidad de { "0.21" } a { "0.67" } con un VAL de { "12" } m y que el modo robusto a fallos de constelación está limitado con solo dos constelaciones. Eso procedía de <c2/> propagando cada satélite desde su propia época de TLE (<c3/> descarta la época), y las épocas de esos archivos abarcan { "70.6" } h (GPS) y { "335.7" } h (Galileo), de modo que los satélites estaban en instantes mutuamente inconsistentes. La prueba conserva ahora cada época (<c4/>) y evalúa cada satélite en un mismo instante UTC común, la última época de TLE del conjunto (2026-06-07T07:{ "21" }:{ "04" }). La disponibilidad medida sobre la misma cuadrícula de { "24" } h y 289 muestras pasa a ser { "0.993" } solo con GPS (era { "0.208" }), { "1.000" } agrupada (era { "0.671" }) y { "0.990" } en doble robusto a fallos de constelación (era { "0.031" }); en el límite APV-I el modo doble pasa de { "0.180" } a { "1.000" }. La conclusión se invierte: en un cielo consistente, dos constelaciones sostienen la hipótesis de fallo de constelación con un VAL de { "12" } m. Se obtienen las mismas cifras con la primera época de TLE como referencia. Una autocomprobación de la prueba fija su bucle de disponibilidad muestra a muestra a <c5/>, de modo que la única diferencia es la alineación temporal. <c6/> y <c7/> §{ "3" } llevan las nuevas cifras; la entrada de { "0.13.0" } de más abajo se deja como se publicó.
+
+# text
+# c1: docs/CAPABILITY.md
+# c2: docs/STANDARDS.md
+# c3: ROADMAP.md
+seg-3173a2e03521 = <b>Las superficies públicas ya no anuncian RINEX { "4" } como validado.</b> El motor rechaza ahora un archivo de navegación RINEX { "4" } por su nombre en lugar de decodificarlo mal, pero la cuadrícula de normas seguía mostrando una tarjeta «RINEX { "3" } / { "4" }» con una etiqueta <em>validated</em>, ligada a la evidencia RINEX 3 del analizador de navegación. La tarjeta es ahora «RINEX { "3" }», y el README, <c1/>, <c2/>, <c3/> y el resumen de capacidades indican lo que es cierto: los archivos de observación RINEX 3.0x se analizan, se espera que el formato de observación { "4.00" } también, pero no se ha leído con el código ningún archivo { "4.00" }, y los archivos de navegación RINEX { "4" } se rechazan.
+
+# text
+# c1: --validate
+seg-c9bb514acb7a = <b><c1/> indica cuándo «ok» significa que no había nada que comprobar.</b> Aproximadamente dos tercios del catálogo no publican ningún campo obligatorio (esos paquetes ejecutan su configuración de referencia desde un cuerpo vacío), de modo que el lint solo podía imprimir «ok» para ellos, con las mismas palabras que usaba tras comprobar seis campos. La línea de éxito indica ahora el número de campos obligatorios que encontró presentes, o que el tipo no exige ninguno.
+
+# text
+# c1: scripts/gate.sh
+# c2: REPEAT
+# c3: TEST_THREADS
+# c4: REPEAT=no
+seg-06b324d00285 = <b><c1/> rechaza un <c2/> o <c3/> no numérico.</b> Con bash { "3.2" }, <c4/> hacía que la comparación numérica diera error y se evaluara como falsa, de modo que la puerta anunciaba «repeatability loop SKIPPED (REPEAT={ "0" })» para un valor que no era { "0" } y aun así escribía un recibo. Ahora ambos parámetros terminan con { "2" } salvo que sean enteros simples.
+
+# text
+seg-09d04ffdd9ac = La MSRV se indica como { "1.85" } en todos los lugares donde una persona la lee.
+
+# text
+# c1: Cargo.toml
+# c2: codemeta.json
+seg-dafc23725315 = <c1/> pasó a { "1.85" } en la última versión; la insignia del README, el texto de instalación y de resolución de problemas, <c2/> y la propia justificación del crate MCP seguían diciendo { "1.75" }.
+
+# text
+# c1: RunOutput.__repr__
+# c2: len()
+seg-c2fa8a31058c = <b><c1/> en el enlace de Python informa de bytes, no de «chars».</b> Imprimía <c2/> de cadenas UTF-8, que es un recuento de bytes: { "710" } «chars» para una tabla de 708 caracteres.
+
+# text
+# c1: --study --study-name
+seg-6b4452a4e340 = El README ya no documenta <c1/> juntos.
+
+# text
+# c1: --study-name
+# c2: --study
+seg-47d83e4d847b = <c1/> es un indicador de un solo escenario, ignorado con <c2/> (el binario avisa). Los dos ejemplos para copiar y pegar de README.md y README.crates.md muestran ahora solo el comando de estudio.
+
+# text
+seg-5ed7f8330b2d = <b>La evidencia de estabilidad de reloj del sitio indica ambas tolerancias observadas.</b> La serie de cesio 5071A se reproduce hasta ≤ { "3e-5" } y PHASE.DAT hasta ≤ { "5e-5" }; el párrafo daba { "3e-5" } para ambas.
+
+# text
+seg-8bba7f1171f3 = Dos archivos de salida del motor ya no se rastrean.
+
+# text
+# c1: scenarios/quantum-pnt-demonstrator.study.{json,html}
+# c2: *.study.json
+# c3: *.study.html
+seg-ea9bf1d14371 = <c1/> fueron estampados por el motor { "0.20.0" } con todas las figuras de mérito vacías, y el propio comando de estudio del README los sobrescribía, ensuciando el árbol y bloqueando la puerta de envío. <c2/> / <c3/> se ignoran ahora como las otras cuatro salidas del motor.
+
+# text
+# c1: seed
+# c2: u64
+seg-77ce9b90859d = <b>Un barrido de semilla en el playground ya no falla en cada ejecución.</b> El barrido recorría linealmente el parámetro entero <c1/> ({ "1" }, { "10.9" }, { "20.8" }, …), y el motor, al leerlo como <c2/>, rechazaba cada valor fraccionario. Los parámetros enteros recorren ahora números enteros distintos.
+
+# text
+# c1: realtime-frame-eop
+# c2: engine_version
+# c3: scenario_hash
+# c4: kshana-csv.csv
+seg-e1b1e1360eb9 = <b>Cada descarga del playground dice qué motor y qué entrada la produjeron.</b> Unos pocos tipos (p. ej. <c1/>) no emiten <c2/> ni <c3/>, así que sus descargas se llamaban simplemente <c4/>. El nombre recurre ahora a la versión del motor cargado y a una huella FNV-1a-64 de 12 caracteres hexadecimales del texto del escenario.
+
+# text
+# c1: cargo install kshana
+# c2: docs/
+# c3: src/bin/
+# c4: crossover_study
+# c5: gen_validation_artifacts
+# c6: validation_report
+# c7: kshana
+# c8: cargo run --bin <name>
+# c9: validation_report
+# c10: cargo package
+# c11: cargo install --path
+# c12: kshana
+seg-0181e86b576a = <b>El crate publicado tiene menos de la mitad de su tamaño anterior, y <c1/> compila solo la CLI.</b> El paquete incluía los artículos, sus paquetes de envío, los artefactos de las figuras de los artículos, los cuadernos, <c2/>, los scripts de mantenimiento y los programas de ejemplo. Ninguno de ellos lo compila la biblioteca ni la CLI. También incluía los tres generadores internos de <c3/> (<c4/>, <c5/>, <c6/>), de modo que una instalación desde el registro compilaba e instalaba cuatro ejecutables, tres de ellos útiles solo dentro de un checkout. Esos árboles y los tres fuentes de generador quedan ahora excluidos. Cargo enumera los binarios de un paquete a partir de los archivos que contiene, así que el manifiesto publicado nombra solo <c7/>. En un clon los generadores se siguen encontrando automáticamente, de modo que <c8/> y el trabajo de versión que ejecuta <c9/> no cambian. Medido con <c10/>: { "763" } archivos, { "16.7" } MiB, { "6.8" } MiB comprimidos antes; { "591" } archivos, { "10.5" } MiB, { "3.0" } MiB comprimidos después. Su compilación de verificación, que compila solo los archivos empaquetados, pasa. <c11/> sobre el crate empaquetado instaló un ejecutable, <c12/>.
+
+# text
+# c1: p95 0.0ns
+# c2: security 0.000
+seg-567c7059286f = <b>Una salida que un ingeniero de temporización puede leer: se acabó <c1/>, se acabó <c2/> sin ataque, y los recuentos del sitio coinciden con los README.</b> Es una revisión de presentación. No cambia ningún número publicado; los valores JSON son idénticos, como demuestran los hashes golden de más arriba.
+
+# text
+# c1: 0.0ns
+# c2: p95 1.20e-4ns
+# c3: 0.0
+# c4: 0.000
+seg-849fa9a29f07 = El resumen de una línea imprimía el error de temporización del percentil 95 (p95) del reloj óptico como <c1/> mientras la tabla contigua mostraba { "1.20e-4" } ns. Una cifra de temporización distinta de cero demasiado pequeña para un decimal se imprime ahora con tres cifras significativas (<c2/>); un cero exacto sigue imprimiéndose como <c3/>. El informe HTML (HyperText Markup Language), la tabla comparativa del estudio y el informe descargable del playground usan la misma regla, de modo que ninguna cifra distinta de cero se imprime tampoco como <c4/>.
+
+# text
+# c1: security
+# c2: clock
+# c3: orbit
+# c4: hybrid
+# c5: fusion
+# c6: security n/a (no attack)
+# c7: 0.000
+# c8: fom.security
+# c9: applicable: false
+# c10: figure_tiers
+# c11: spoof
+seg-c44323babd1e = <c1/> es una cota analítica de detectabilidad de suplantación que solo significa algo frente a un ataque configurado. Los tipos <c2/>, <c3/>, <c4/> y <c5/> no configuran ninguno, así que su resumen imprime ahora <c6/> en lugar de un número como <c7/> que se lee como una detección fallida. El valor permanece en <c8/>, marcado <c9/> con el motivo en <c10/>, y las tablas del informe muestran «not applicable». El tipo <c11/> sigue puntuando la detección.
+
+# text
+# c1: tests/registry_golden.rs
+# c2: golden_clock
+# c3: security
+# c4: golden_orbit
+# c5: security
+# c6: tests/tutorials.rs
+seg-f54d5ffb7dff = Dos fijaciones de resumen en <c1/> se movieron exactamente por estos dos motivos y por ningún otro: <c2/> (el p95 cuántico y ambos valores de <c3/>) y <c4/> (ambos valores de <c5/>; sus valores p95 son exactamente cero). Sus hashes de documento completo no se movieron. Los resúmenes esperados del README, de los tres tutoriales y de sus escenarios didácticos se actualizan para coincidir, y <c6/> comprueba las copias didácticas frente al motor.
+
+# text
+seg-e8e012376fa3 = El recorrido guiado del playground ya no se abre en la primera carga. Su modal capturaba los primeros clics y su foco desplazaba la página lejos de donde había aterrizado el visitante. Se inicia desde el botón «Take the 60-second tour» o desde el botón flotante Tour.
+
+# text
+seg-4d60d4ea4d7d = La página ya no se desplaza hacia los lados en un teléfono. A { "390" } px, la fila de la marca y el botón de GitHub sumaban unos { "410" } px de contenido, un desbordamiento de { "4" } px; la cabecera encaja ahora desde { "320" } px, y la tabla de figuras de mérito se desplaza dentro de su propia caja en lugar de ensanchar la página.
+
+# text
+# c1: web/data/verification-matrix.json
+# c2: web/counts.test.mjs
+# c3: tests/web_validation_counts_doc_sync.rs
+seg-f6ec6a64071d = El explorador de capacidades encabezaba con su propio recuento de tarjetas («{ "46" } capability cards … { "17" } backed by an external oracle») junto a README que dicen { "64" } de { "168" }. Ahora encabeza con la matriz de verificación, leída del <c1/> generado (la misma matriz a la que están fijados los recuentos del README), y nombra después las tarjetas como la capa de resumen que son. <c2/>, un paso nuevo del flujo de integración continua (CI), comprueba la aritmética y contrasta README.md y las descripciones de la página; <c3/> fija el cableado desde el lado de Rust.
+
+# text
+# c1: docs/POSITIONING.md
+# c2: telecom-timing
+# c3: docs/TELECOM-TIMING.md
+# c4: ROADMAP.md
+seg-606098743e57 = <b>La descripción pública encabeza ahora con temporización y holdover, el dominio mejor validado.</b> La apertura del README y <c1/> presentan Kshana como un motor de evidencias de resiliencia PNT abierto, reproducible y con etiquetas de procedencia: primero la temporización y el holdover de infraestructuras críticas (los estimadores de Allan, Allan modificada, desviación de tiempo y error máximo de intervalo de tiempo, y la inversión de la varianza de la deriva en holdover, son las filas VALIDATED que lo respaldan), lo cuántico como un método neutral de comparación cuántico frente a clásico cuyos resultados se etiquetan MODELLED, y la navegación lunar / cislunar y de espacio profundo como capacidades mantenidas y no como titular. Ambas páginas dicen ahora lo que Kshana no es (no es un simulador de señal de radiofrecuencia ni un banco con hardware en el bucle, ni un sustituto de MATLAB/Simulink, STK u Orekit) y remiten al nuevo tipo <c2/> y a <c3/>. Se elimina la antigua frase «no existe una buena herramienta abierta»: una búsqueda que no encuentra nada no es evidencia de que no exista nada. <c4/> gana un orden de prioridades sin fechas (primero la temporización, segundo la comparación cuántica, lo lunar mantenido) y elimina tres elementos obsoletos (las sistemáticas de Coriolis y de desplazamiento lumínico, las condiciones iniciales NRHO y el escenario lunar, todos ya publicados); la línea del README «Coriolis y desplazamiento lumínico siguen en la hoja de ruta» se corrige de la misma manera.
+
+# text
+# c1: docs/CAPABILITY.md
+# c2: src/verification.rs
+# c3: oem
+seg-7bc48692be0b = <b><c1/> dejó de quedarse corto.</b> La fila de marcos fijos a la Tierra decía «none» mientras la matriz califica GCRS→ITRS como VALIDATED; ahora dice «full», y la fila de marcos básicos registra la comprobación cruzada con ANISE como entregada. El modo guiado figuraba como hoja de ruta; el playground ha publicado controles deslizantes guiados y un recorrido guiado. Un barrido frente a <c2/> corrigió cinco filas más que eran anteriores a sus validaciones: el modelo de fuerzas de Cowell y la determinación de órbita por lotes/secuencial frente a Orekit { "12.2" }, los pases de estación terrestre frente al detector de elevación de Orekit, el núcleo de dilución de la precisión frente a gnss_lib_py, y la importación OEM frente al analizador independiente <c3/>; la fila de verificación y validación nombra ahora las protecciones que comprueban que existe cada prueba citada.
+
+# text
+seg-9d144df304ca = El glosario explica qué dice un archivo de resultados.
+
+# text
+# c1: docs/GLOSSARY.md
+# c2: sigma_y
+# c3: q_wf
+seg-eed672b2f8fd = <c1/> incorpora entradas en lenguaje llano para los términos de salida (holdover, p95, integridad, la puntuación de seguridad, PDOP, <c2/>, <c3/>), los términos de temporización de telecomunicaciones (error de tiempo, max|TE|, cTE, dTE, MTIE, TDEV, PRTC, ePRTC, T-BC, T-TSC, OCXO, CSAC) y los tres niveles de evidencia (VALIDATED, MODELLED, PARTNER).
+
+# text
+# c1: docs/
+# c2: docs/VERIFICATION-MATRIX.md
+# c3: docs/MODELLED-RATIONALE.md
+# c4: docs/SCENARIOS.md
+# c5: src/verification.rs
+# c6: api::list_scenario_kinds()
+seg-1a4f9d5eef96 = <b>Las abreviaturas se desarrollan en su primer uso en todos los documentos públicos escritos a mano.</b> El README y { "24" } archivos de <c1/> tenían varios cientos de abreviaturas usadas antes de su expansión, o sin ella; cada una se expande ahora donde aparece por primera vez en ese archivo. Los tres archivos generados (<c2/>, <c3/>, <c4/>) se dejan como están: se escriben a partir de <c5/> y <c6/>, de modo que su redacción tiene que cambiar en el origen.
+
+# text
+seg-2889ce118381 = La cobertura de líneas tiene una medición de registro.
+
+# text
+# c1: docs/COVERAGE.md
+# c2: coverage
+# c3: b1d350d
+# c4: tests/coverage_figure_doc_sync.rs
+seg-9c4684c0a4ef = <c1/> registra { "95.63" } % ({ "37,697" } de { "39,419" } líneas) del trabajo <c2/> de CI en <c3/>, y <c4/> fija a él las cinco superficies públicas «~{ "96" }%»: la única cifra de titular que se mantenía a mano, y que ya se había movido una vez sin que nadie lo notara.
+
+# text
+seg-ebd36b7291df = Nuevas puertas de sincronización de documentos para superficies que nada leía.
+
+# text
+# c1: tests/readme_code_fences_doc_sync.rs
+# c2: import { … } from "kshana"
+# c3: tests/security_md_doc_sync.rs
+# c4: src/lib.rs
+# c5: #![forbid(unsafe_code)]
+# c6: tests/no_overclaims.rs
+# c7: web/README.md
+# c8: proof
+seg-3dd44fc69a28 = <c1/> comprueba cada <c2/> de un bloque JavaScript frente a las exportaciones de WebAssembly, y fija byte a byte el ejemplo de Rust de README.crates.md a una copia que compila el binario de pruebas. <c3/> falla si <c4/> pierde <c5/> o si SECURITY.md deja de indicarlo. <c6/> analiza ahora también <c7/> y los tres README de los registros, y toda norma del sitio debe indicar explícitamente su <c8/>.
+
+# text
+seg-a506d14f3447 = Las dos comprobaciones de reloj con hardware real se ejecutan en un runner.
+
+# text
+# c1: realdata-clock.yml
+# c2: KSHANA_REQUIRE_REALDATA=1
+seg-c7f8b8627137 = <c1/> (mensual y bajo demanda) obtiene las series 5071A y PHASE.DAT y ejecuta ambas pruebas con <c2/>, de modo que una entrada ausente hace fallar en lugar de omitirse. Ambos scripts de obtención están fijados a un único commit de allantools y verifican SHA-256.
+
+# text
+# c1: mypy.stubtest
+# c2: csv
+# c3: write_csv
+seg-3b4a7fee3cd0 = <b>El stub de tipos de Python se comprueba frente al wheel compilado</b> (<c1/> en el trabajo de enlaces), que es como <c2/>/<c3/> se publicaron sin stub.
+
+# text
+seg-24c2ccf3634a = <b>El glosario define URE, EOP, FoM, CTI y TIB</b>, que el README y el registro usaban sin desarrollar.
+
+# text
+# c1: required_fields
+# c2: ephemeris
+# c3: tle|orbit+epoch
+# c4: kind = "ephemeris"
+# c5: --validate
+# c6: quantum-trade
+# c7: candidate_adev_taus+candidate_adev_values|candidate_clock_class
+# c8: |
+# c9: +
+# c10: --validate
+# c11: lunar-joint-od-clock
+# c12: pvt
+# c13: earth-gnss-lunar
+# c14: docs/SCENARIOS.md
+# c15: kind
+# c16: clock
+# c17: tests/required_fields_are_true.rs
+seg-ae044195cd47 = <b>El contrato de campos publicado de cada tipo es ahora cierto, y una prueba lo mantiene así.</b> Cambiaron cinco de los { "61" } tipos. Los tipos con un <c1/> no vacío pasan de { "21" } a { "22" }: <c2/> exige ahora <c3/> (un <c4/> desnudo solía pasar <c5/> y luego fallar la ejecución), y <c6/> añade <c7/>, que su ejecución ya exigía. Una entrada obligatoria puede usar <c8/> (uno de estos) y <c9/> (todos estos juntos); <c10/> entiende ambos. <c11/>, <c12/> y <c13/> publican { "9" } campos opcionales reales que habían omitido. <c14/> dice ahora que <c15/> es obligatorio para todo tipo excepto <c16/>. <c17/> comprueba cada tipo frente a su escenario incluido: quitar cualquier entrada obligatoria debe hacer fallar la ejecución, y un documento que contenga solo los campos obligatorios debe ejecutarse.
+
+# text
+seg-09ba716f3e97 = Las notas de JetBrains Marketplace están controladas por una puerta.
+
+# text
+# c1: scripts/check-version-sync.sh
+# c2: <change-notes>
+# c3: plugin.xml
+seg-938ff48e7a2d = <c1/> falla ahora salvo que la entrada <c2/> más reciente de <c3/> nombre la versión que se distribuye; siete versiones publicadas habían servido sin cambios las notas de { "0.22.0" }.
+
+# text
+seg-3d38550854e0 = La cifra de cobertura del informe técnico es la medida.
+
+# text
+# c1: paper/kshana-technical-report.md
+# c2: docs/COVERAGE.md
+seg-bd312cd26746 = <c1/> decía «cerca del { "97" } %»; ahora dice cerca del { "96" } % ({ "95.63" } % medido, <c2/>) y es la sexta superficie que fija la prueba de cobertura.
+
+# text
+# c1: web/engine.test.mjs
+seg-934680d402da = <b>El cliente del motor fuera del hilo principal está probado</b> (<c1/>, en CI): lista de despacho permitido, cancelación y reaparición, las tres rutas alternativas al hilo principal y recuperación tras fallo, frente a un worker simulado.
+
+# text
+# c1: release.yml
+# c2: docs/RELEASING.md
+seg-fd5f9a8a4f43 = <b>No se publica nada hasta que la confirmación etiquetada haya pasado sus pruebas, y una versión no está terminada hasta que todos los registros la sirven.</b> El orden es ahora etiquetar, verificar, publicar, paridad, sitio, en una sola ejecución de <c1/> (<a1><c2/></a1>).
+
+# text
+seg-745b11c8ed74 = La publicación espera al veredicto.
+
+# text
+# c1: publish.yml
+# c2: mcp-publish.yml
+# c3: jetbrains-plugin.yml
+# c4: release.yml
+# c5: needs: verify
+# c6: verify
+# c7: scripts/check-release-verdict.sh
+# c8: verify
+seg-e66c890cf6c0 = <c1/>, <c2/> y <c3/> ya no se inician con el envío de la etiqueta; <c4/> los invoca desde trabajos que tienen <c5/>. Antes competían con él: en { "v0.27.2" }, crates.io, npm y el Python Package Index (PyPI) habían publicado todos dentro de los { "4.5" } minutos posteriores a la etiqueta, y <c6/> terminó { "84" } minutos después; en { "v0.27.0" }, npm y PyPI publicaron mientras fallaba el trabajo de crates.io. Un reintento manual sobre una etiqueta queda retenido por el nuevo <c7/>, que exige un <c8/> en verde para esa confirmación exacta desde la interfaz de Actions y falla cerrado ante cualquier otra cosa.
+
+# text
+seg-3800247c81f2 = <em>Todo se compila antes de subir nada</em>, y crates.io, cuyo paso de empaquetado es el que falló a mitad de una versión, publica primero.
+
+# text
+seg-6929a7608da7 = <em>La ausencia de un token de registro hace fallar el trabajo</em> en lugar de omitir la subida y notificar éxito.
+
+# text
+seg-460811602293 = Una comprobación de paridad tras la publicación.
+
+# text
+# c1: scripts/check_channel_parity.py
+# c2: kshana
+# c3: kshana-mcp
+seg-86eb0fab2f7c = <c1/> consulta crates.io (<c2/> y <c3/>), npm, PyPI (la distribución de código fuente y los seis wheels de plataforma) y ghcr.io hasta que cada uno sirve la versión, o hace fallar la ejecución; docs.rs y el registro del Model Context Protocol (MCP) se informan, pero no son obligatorios. Ejecutada contra versiones pasadas, encuentra que { "0.22.0" } falta en npm y PyPI, { "0.23.0" } en PyPI y { "0.27.0" } en crates.io.
+
+# text
+# c1: kshana-aarch64-apple-darwin
+# c2: kshana
+# c3: SHA256SUMS
+# c4: verify-release
+seg-79578a00fd78 = <em>Binarios de línea de comandos precompilados para macOS (Apple silicon e Intel) y Windows x86-64</em>, nombrados por destino (<c1/> y así sucesivamente), junto al <c2/> de Linux, cuyo nombre no cambia. Un archivo <c3/> cubre todos los recursos, y <c4/> lo comprueba y ejecuta los binarios de macOS y Windows en sus propios sistemas.
+
+# text
+# c1: main
+# c2: main
+# c3: pages.yml
+seg-3e1f5afa9f2a = <em>kshana.dev muestra una versión, no <c1/>.</em> Antes se volvía a desplegar con cada envío a <c2/> mientras sus páginas nombraban la última versión. <c3/> compila ahora solo una etiqueta de versión: la versión lo lanza una vez que todos los canales sirven la versión, y un lanzamiento manual vuelve a desplegar la última versión (o una indicada).
+
+# text
+seg-43da8f3f171e = Una única fuente de wheels.
+
+# text
+# c1: publish.yml
+# c2: wheels.yml
+seg-b911ac65e231 = La matriz de seis destinos copiada a mano de <c1/> desaparece; ahora invoca <c2/>, de modo que la puerta de etiquetas de auditwheel y la comprobación de reproducibilidad byte a byte evalúan los wheels que recibe PyPI, y un fallo en cualquiera de las dos detiene la versión.
+
+# text
+# c1: publish.yml
+# c2: pages.yml
+# c3: @stable
+# c4: rust-toolchain.toml
+# c5: scripts/check-toolchain.sh
+seg-194c4b019a4c = <em>Herramientas de compilación fijadas.</em> Cada flujo de trabajo solicita Rust { "1.93.0" } (el trabajo msrv, su propia versión); <c1/> y <c2/> habían solicitado <c3/>, y el registro de { "v0.27.2" } muestra a rustup instalando { "1.98.1" } y luego compilando con { "1.93.0" } solo porque <c4/> tiene prioridad sobre él. wasm-pack se fija a { "0.13.1" } (la versión que compiló { "v0.27.2" }, que eligió el script instalador sin fijar) con una comprobación de suma de verificación, y mcp-publisher a { "1.8.1" } con su SHA-256 publicado. <c5/> falla ahora si un flujo de trabajo pide otro compilador o canaliza un script descargado a un shell. No se eliminó ni se relajó ningún trabajo de verificación, fijación golden ni script de puerta local.
+
+# text
+# c1: dtolnay/rust-toolchain
+seg-9e2a7376367e = <b>Cada GitHub Action de terceros se fija por SHA de commit</b>: { "93" } referencias en { "15" } flujos de trabajo, { "92" } de ellas nuevas, con la etiqueta conservada como comentario final para que Dependabot la actualice. La excepción es <c1/>, cuya etiqueta es el selector de la cadena de herramientas.
+
+# text
+# c1: mcp/kshana-mcp
+seg-6afb4a8770b0 = <b>Las capas base de la imagen del servidor MCP se fijan por digest multiarquitectura</b>, y Dependabot vigila ahora el Dockerfile de <c1/>, de modo que las capas del sistema operativo siguen recibiendo actualizaciones de seguridad, mediante un PR revisado.
+
+# text
+seg-4ea8b158b408 = La comprobación de etiqueta frente a manifiesto se ejecuta en los dos flujos de publicación que distribuyen la versión de la etiqueta.
+
+# text
+# c1: mcp-publish.yml
+# c2: jetbrains-plugin.yml
+# c3: publish.yml
+# c4: scripts/check-version-sync.sh
+seg-4b77764e955d = <c1/> (imagen ghcr, registro MCP) y <c2/> (Marketplace) compiten con <c3/> en lugar de esperarlo, de modo que una etiqueta mal cortada solo se controlaba en uno de los hermanos. Ahora ambos ejecutan <c4/> antes de compilar.
+
+# text
+# c1: rmcp
+# c2: rmcp
+# c3: rmcp
+# c4: kshana-mcp
+# c5: rust-version = "1.88"
+# c6: kshana
+# c7: Content
+# c8: ContentBlock
+seg-bf90c4063843 = <b>Se corrigen cuatro avisos de seguridad que Dependabot emitió el día en que se activaron sus alertas.</b> El servidor MCP pasa de <c1/> { "1.7" } a { "2.2" }: tres avisos contra <c2/> < { "2.1" } (una fuga de la tabla de sesiones de Streamable-HTTP, la falta de validación de recurso protegido de OAuth, y cabeceras personalizadas que siguen una redirección entre orígenes), ninguno alcanzable aquí, ya que el servidor habla solo stdio, pero un crate publicado no debería fijar un SDK vulnerable. Las macros de <c3/> { "2" } necesitan Rust { "1.88" }, así que ahora solo <c4/> declara <c5/>; la biblioteca <c6/> se queda en { "1.85" }. Se aplica el único cambio de API (<c7/> → <c8/>), y las pruebas de ida y vuelta pasan. La acción de análisis de SonarQube pasa de v5 a v6, lo que corrige un aviso de inyección de argumentos (≥ { "4.0" }, < { "6.0" }).
+
+# text
+# c1: navsignal::code_tests
+# c2: integrity::tpl_scalar::tests
+# c3: api::tests::tracking_loop_kind_round_trips_through_the_dispatch
+# c4: .rs
+seg-2652aaad177e = <b>Cada elemento de Rust que cita una fila de la matriz de verificación se resuelve ahora contra el crate.</b> La protección existente comprobaba las citas con forma de ruta de archivo; { "63" } de las { "164" } filas que no son del socio nombran su evidencia como un elemento del propio crate: <c1/>, <c2/>, <c3/>, y un token sin sufijo <c4/> era invisible para un analizador de rutas. Esas filas podrían haber nombrado un módulo renombrado, un módulo de pruebas vaciado o una función que nunca existió, y todas las puertas habrían seguido en verde.
+
+# text
+# c1: tests/verification_rows_name_a_test_that_exists.rs
+# c2: #[test]
+# c3: mod tests
+# c4: #[test]
+seg-01eee5115e3f = <c1/> resuelve a través del árbol de módulos las { "339" } citas de este tipo, exige que toda fila que no sea del socio nombre al menos una prueba que lleve realmente <c2/>, y exige que las filas del socio no nombren ninguna. Se usaron cuatro mutaciones para evaluarla: renombrar un módulo citado, apuntar la única cita de prueba de una fila a una función que no es una prueba, renombrar el <c3/> real y quitarle los atributos <c4/>; cada una se pone en rojo en la aserción que le corresponde.
+
+# text
+# c1: tests/*
+# c2: tests/alternative_complementary_pnt_reference.rs
+seg-7731d549c739 = Una fila ya estaba mal: <em>Alternative / complementary PNT</em> citaba <c1/>, un glob, que no es una cita. Ahora nombra <c2/> y los tres módulos de prueba del propio crate que la respaldan.
+
+# text
+# c1: tests/published_figures_still_reproduce.rs
+# c2: chart.svg
+# c3: scenario-fom.png
+seg-cf6fd64368de = <b>Las figuras publicadas se vuelven a comprobar contra el motor en cada compilación</b> (<c1/>). Los tres gráficos de demostración del README son la propia salida <c2/> del motor y nada volvió a ejecutar el escenario; los dos estudios de cruce del artículo se generaron una vez y se incorporaron al repositorio; y el README indica cuatro figuras de mérito en prosa junto a <c3/>. Las tres están ahora fijadas a la salida del motor en vivo.
+
+# text
+seg-276b65a8f76a = Conciliarlas sacó a la luz el resultado útil: los gráficos de demostración se habían dibujado con el motor { "0.22.0" } y el JSON de cruce del artículo con { "0.20.0" }, y con { "0.27.1" } <b>todos los valores representados en los cinco artefactos son idénticos</b>: los tres SVG de gráficos difieren de una ejecución nueva exactamente en dos caracteres cada uno, el sello de versión del pie. Los gráficos se han vuelto a renderizar para que el pie sea cierto. El JSON del artículo se deja deliberadamente sellado como { "0.20.0" }: es el registro de la ejecución cuya figura incorpora un artículo publicado, y volver a sellarlo afirmaría una procedencia que el PDF no tiene. La protección afirma en su lugar la propiedad más fuerte: que el motor actual sigue reproduciendo cada valor publicado.
+
+# text
+# c1: VERSION=not provided
+# c2: previous_version
+# c3: FieldUnit
+# c4: ensemble
+# c5: hybrid
+# c6: fusion
+# c7: inertial
+# c8: report
+seg-c88647c5f2fc = Los análisis de SonarCloud se registraban como <c1/>, de modo que el periodo de código nuevo <c2/> nunca avanzaba: seguía anclado en el análisis del 2026-07-02, evaluando ochenta y dos días de trabajo como un único delta y midiendo { "7877" } líneas duplicadas «nuevas» frente a un umbral del { "3" } %. El análisis pasa ahora la versión del crate. La duplicación subyacente es real y esto no la oculta: se concentra en los registros declarativos de <c3/> repetidos en <c4/>, <c5/>, <c6/>, <c7/> y <c8/>, y en la tabla de verificación de 168 filas, y se nombra aquí como trabajo pendiente en lugar de excluirla de la medición.
+
+# text
+# c1: scripts/gate.sh
+# c2: integration_binaries
+# c3: tests_passed
+# c4: tests_ignored
+# c5: target/gate-run.log
+seg-f2a0960a6f11 = <b><c1/> no tenía un bloqueo de escritor único, y cada ejecución escribía el mismo registro.</b> No es una cuestión de orden: los campos <c2/>, <c3/> y <c4/> del recibo se leen DE ese registro, y el gancho de pre-push confía en el recibo. Una puerta que se había matado pero cuyo binario de pruebas seguía vivo siguió escribiendo en el archivo que la ejecución siguiente acababa de truncar, de modo que los recuentos de una ejecución podían haberse dado por buenos como los de otra, autorizando un envío con el respaldo de una suite que nunca se ejecutó sobre el árbol que se enviaba. Ahora hay una puerta por checkout (se niega con salida { "75" } junto a una viva, y borra un bloqueo obsoleto cuyo pid ya no existe) y un registro por ejecución, con <c5/> actualizado a partir de la ejecución que termina al salir. Se prueban ambos sentidos: un pid vivo rechaza, uno muerto se borra.
+
+# text
+# c1: src/verification.rs
+# c2: verification::gen
+# c3: artifacts
+seg-687d6fe87221 = <c1/> afirmaba que sus pruebas «do <b>not</b> prove the named test/oracle strings resolve to live code». Ahora dos protecciones hacen exactamente eso, de modo que el documento del módulo decía lo contrario de la verdad; ahora indica qué se comprueba por máquina y qué se deja al juicio humano. Una referencia obsoleta a <c2/> (el módulo es <c3/>) se corrige en la propia documentación de la protección hermana.
+
+# text
+# c1: main
+# c2: main
+seg-014070f0873c = <b><c1/> se reescribió el 2026-09-22 y se envió con force-push.</b> Diez commits pasaron a ser cuatro. La reescritura integró cada commit que dejó una puerta en rojo en el commit que la puso en verde, de modo que todo commit de <c2/> tiene ahora un árbol que pasa, y eliminó las ejecuciones canceladas que un grupo de concurrencia de toda la rama había ido dejando en cada commit sustituido.
+
+# text
+# c1: git diff
+seg-b48d6cfc3b42 = No se descartó nada. Los commits anteriores a la reescritura siguen siendo alcanzables mediante las etiquetas que apuntan a ellos, y el árbol final es idéntico byte a byte al árbol del que partió la reescritura: <c1/> entre la antigua punta y la nueva está vacío salvo por los tres archivos de flujo de trabajo que cambia esta versión.
+
+# text
+seg-0549cfdc6d69 = Los SHA sustituidos, para quien conserve una referencia a alguno:
+
+# text
+seg-14812deb1b6b = antiguo
+
+# text
+seg-c63f549e6a1d = asunto
+
+# text
+seg-57bfbb773299 = docs(changelog): disclose the authorship rewrite and the two dangling crate sha1s
+
+# text
+seg-02aa1be872d2 = fix(docs): the engine-flow diagram said { "6" } figures of merit; the engine scores { "7" }
+
+# text
+seg-f3a598ff3349 = fix(test): two more cross-platform pins, and two wrong assumptions of my own
+
+# text
+seg-e9054c4801ff = feat(web): surface the lunar cluster on the site — seven capability cards
+
+# text
+seg-3f1f16502fdf = docs(lunar): document { "42" } public fields and ratchet the ceiling down to { "985" }
+
+# text
+seg-f97ce0978cc3 = chore(release): { "v0.27.0" }
+
+# text
+seg-cbe63ab92c6a = test(docs): guard the distribution diagram, the last unguarded one
+
+# text
+seg-70c84ea0a5bd = chore(release): { "v0.27.1" }
+
+# text
+# c1: 7bba514
+# c2: 7864142
+# c3: .cargo_vcs_info.json
+# c4: main
+# c5: main
+seg-9c220336c895 = <b>Las etiquetas { "v0.27.0" } y { "v0.27.1" } deliberadamente NO se movieron.</b> Siguen apuntando a <c1/> y <c2/>, los commits exactos cuyos árboles produjeron los artefactos que ahora están en vivo en crates.io, npm, PyPI, ghcr.io y el registro MCP. El <c3/> de un crate registra el sha1 desde el que se empaquetó, los registros son inmutables, y la atestación de procedencia de compilación SLSA sobre los recursos de la versión { "v0.27.1" } está ligada a ese commit. Mover las etiquetas habría dejado cada uno de esos artefactos publicados apuntando a un commit que ya no existe. Dejarlas mantiene alcanzables los commits antiguos y resolviéndose cada cadena de procedencia publicada, al precio de dos etiquetas que ya no son ancestros de <c4/>, razón por la cual existe esta versión: { "v0.27.2" } da a <c5/> una etiqueta propia, empaquetada desde un commit que está en ella.
+
+# text
+seg-3c644384256f = Esta es la segunda reescritura divulgada de este historial; la primera, el 2026-09-21, canonicalizó la autoría y consta en las notas de { "0.27.0" } con sus propios dos sha1 de crate colgantes. Aquí se divulga cada reescritura, porque un repositorio que vende procedencia verificable no puede mover en silencio el suelo bajo un artefacto publicado.
+
+# text
+seg-d82d7a3c9054 = El crate publicado no compilaba.
+
+# text
+# c1: src/lunar_orientation.rs
+# c2: include_str!
+# c3: tests/fixtures/llr_geometry/de440_moon_pa.csv
+# c4: /tests/fixtures
+seg-ebc99c9df1ef = <c1/> contiene un <c2/> de nivel superior de <c3/>, y el manifiesto excluye <c4/> del paquete, de modo que al tarball que recibía crates.io le faltaba un archivo que la propia biblioteca incorpora. La publicación de { "v0.27.0" } falló su compilación de verificación por ese motivo y ninguna { "0.27.0" } llegó a crates.io; npm y PyPI, cuyos trabajos no dependen de él, publicaron con normalidad. La exclusión lleva ahora una excepción para ese único catálogo.
+
+# text
+# c1: include_str!
+# c2: src/
+# c3: #[cfg(test)]
+seg-6ff9cdb976e8 = Cualquier otro <c1/> de un fixture en <c2/> está dentro de un módulo <c3/> y por tanto nunca llega a la biblioteca empaquetada. Solo lo hace uno de nivel superior.
+
+# text
+# c1: cargo package
+# c2: package
+seg-7f0975453b8f = <b>Nada en CI ejecutaba <c1/>,</b> por lo que un tarball que no puede compilar lo descubrió primero el trabajo de publicación, después de que otros dos registros ya lo hubieran distribuido. Un trabajo <c2/> compila ahora el tarball exacto en cada envío.
+
+# text
+seg-1f2df48821fc = Las fijaciones de emisión de lunar-frame-realisation ya no se mueven con un cambio de versión. El pie del SVG lleva la versión del motor, de modo que cada versión restablecía tres hashes (dos veces en un día) y una fijación que se vuelve a tomar por rutina deja de leerse. La cadena de versión se normaliza a un marcador antes de calcular el hash, y se afirma por separado que la emisión indica la versión en ejecución, de modo que ese hecho se comprueba con más precisión de la que el hash lo comprobó nunca.
+
+# text
+# c1: lunar-llr-datum
+seg-56309487ea7e = <c1/>: el datum del marco lunar a partir de una campaña de observación real.
+
+# text
+# c1: lunar-frame-campaign
+# c2: bin_rms / sqrt(n_raw)
+# c3: realdata::llr_crd
+# c4: lunar_llr
+seg-966a2cc4e40d = <c1/> sustituyó una transformación de Helmert inyectada por una campaña <em>simulada</em> y lo dijo: su red de estaciones, su calendario y su sigma por observación son entradas ilustrativas. Este escenario elimina la simulación de los dos lugares donde un calendario y un modelo de error entran en la respuesta. Las épocas son los tiempos de transmisión de { "337" } puntos normales archivados de telemetría láser lunar de ILRS (2015-04-08 .. 2015-06-27, Grasse MeO { "7845" } y Matera MLRO { "7941" }, los cinco conjuntos de retrorreflectores), y cada peso de observación es la propia precisión archivada de ese punto normal, <c2/>: una mediana de { "5.13" } mm de distancia de ida, tomada del archivo y no elegida aquí. Las coordenadas de estación proceden de IERS ITRF2020 y las de los reflectores de la Tabla { "7" } de JPL DE430; cada fixture registra una URL, una fecha de obtención y un SHA-256 y se regenera desde su fuente mediante un generador incorporado al repositorio que verifica la fuente y aborta en lugar de emitir un número. El informe nombra qué enlaces están medidos y cuáles siguen modelados, y los modelados están <em>medidos</em>: la distancia de ida observada menos calculada sobre los datos reales es de { "156 494" } m RMS, lo que el mismo conjunto de pruebas confirma frente a JPL Horizons en el mismo intervalo ({ "195 655" } m RMS vector, peor época { "0.054" }°, dentro de los ~{ "0.3" }° que la serie lunar analítica incorporada se atribuye a sí misma). Aditivo: un tipo nuevo, un lector nuevo (<c3/>) y un módulo nuevo (<c4/>); los paquetes existentes de marco lunar quedan fijados bit a bit.
+
+# text
+# c1: sigma_ure_m
+# c2: lunar-integrity
+# c3: moonlight-service-volume
+# c4: LUNAR_SIGMA_URE_M
+seg-7fcd2af0a688 = <b><c1/> como parámetro de escenario</b> en <c2/> y <c3/>. La precisión de distancia de la señal en el espacio era una constante en tiempo de compilación (<c4/>), de modo que un barrido del volumen de servicio solo podía responder supera/no supera con un único valor fijo. Los niveles de protección son exactamente lineales en ella, así que exponerla convierte el barrido en un <b>requisito</b> de precisión de distancia sobre todo el volumen. El valor por defecto reproduce el comportamiento anterior bit a bit.
+
+# text
+# c1: moonlight-service-volume
+# c2: export_site_lat_deg
+# c3: export_site_lon_deg
+# c4: per_sat_geometry
+seg-c3ccc1e89a2d = <b>Exportación de geometría por satélite</b> en <c1/>: <c2/> + <c3/> añaden un array <c4/> que da azimut, elevación y distancia oblicua a cada satélite en cada época para un sitio selenográfico indicado, más el indicador de visibilidad. El resumen agregado de cobertura colapsa deliberadamente la geometría por satélite, pero la distancia oblicua es exactamente lo que consume un balance de enlace, de modo que un análisis conjunto de comunicaciones y navegación no podía hacerse solo con el resumen. Desactivado salvo que se den ambas coordenadas; puramente aditivo.
+
+# text
+# c1: lunar_service::topocentric
+seg-ae7886fbca9d = <c1/>, el asistente público de ángulos de visión que hay detrás de la exportación.
+
+# text
+seg-b187bade5f04 = Una fila de la matriz de verificación para la nueva capacidad de geometría.
+
+# text
+# c1: antenna::pattern_gain_dbi
+# c2: [2·J₁(x)/x]²
+# c3: antenna.rs
+# c4: export_antenna
+# c5: moonlight-service-volume
+# c6: antenna_pattern
+# c7: θ₃dB[deg] = √(31000/G_lin)
+# c8: 70·λ/D
+seg-14ef785b6c12 = <b>El diagrama de antena real en la exportación de geometría.</b> El motor lleva desde P1 un diagrama de apertura circular con iluminación uniforme (<c1/>, la forma de Airy <c2/>) y <b>nada fuera de <c3/> lo usaba</b>: en su lugar hacía el trabajo una ganancia en el eje combinada con una regla empírica de ganancia a ancho de haz. Una tabla opcional <c4/> en <c5/> (leída solo cuando se fija el sitio de exportación) da ahora a cada fila exportada el <b>ángulo fuera del eje en el satélite</b> y la <b>ganancia de transmisión hacia el sitio según ese diagrama</b>, y añade un bloque <c6/> que informa del <b>recuento dentro del haz con el diagrama real junto al recuento dentro del haz con la aproximación simétrica</b> (<c7/>), con la diferencia como corrección nombrada. Se emiten ambos números; ninguno sustituye al otro. Medidos con la propia apertura lunar representativa del motor (plato de { "1" } m, { "2.4" } GHz, η = { "0.60" }) sobre un sitio polar sur y la capa ilustrativa de clase LCNS, los dos <b>difieren en más de un satélite</b>: el diagrama real sitúa { "0" } de { "76" } enlaces visibles dentro del haz de potencia mitad, y la aproximación afirma { "28" }: una corrección de −{ "2.33" } satélites por época, con { "3" } en la peor época. La aproximación lleva una eficiencia de apertura propia ({ "0.641" } frente a la regla de <c8/> grados con la que normalmente se cita, { "0.920" } frente a una apertura circular uniforme), de modo que en un plato con η = { "0.60" } devuelve un haz { "1.238" }× demasiado ancho; el bloque emite ambas eficiencias implícitas en lugar de dejarlas para inferirlas. Puramente aditivo: medido sobre el punto de trabajo documentado, { "597" } hojas preexistentes, <b>{ "0" } cambiadas, { "0" } eliminadas, { "494" } añadidas</b>.
+
+# text
+# c1: antenna::symmetric_beamwidth_rad
+# c2: antenna::symmetric_relation_implied_efficiency
+# c3: antenna::within_half_power_beam
+# c4: antenna::HALF_POWER_DROP_DB
+# c5: antenna::SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2
+# c6: antenna::UNIFORM_APERTURE_HPBW_COEFF
+# c7: lunar_service::nadir_off_boresight_rad
+# c8: x = 1.61634
+# c9: 1.02899·λ/D
+# c10: 1.02
+# c11: pattern_gain_dbi
+seg-3149d17a8ffa = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/> y <c7/>, las piezas públicas que hay detrás. El diagrama también está ahora anclado frente a las constantes de Airy publicadas y no solo frente a sí mismo: el cruce de potencia mitad se localiza por bisección y se compara con <c8/>, lo que hace que el ancho exacto de potencia mitad sea <c9/> y registra con honestidad que el coeficiente convencional <c10/> sitúa <c11/> en <b>−{ "2.955" } dB</b>, no en −{ "3.010" } dB.
+
+# text
+# c1: lunar-time-budget
+# c2: x(τ)
+# c3: <scenario>.table.csv
+# c4: τ
+# c5: x
+seg-bac7217bb128 = <b>Una tabla de reproducibilidad en formato largo para <c1/>.</b> Las salidas con valores de array del escenario (la cuadrícula de tiempos de promediado, las siete curvas <c2/> por término y su total de raíz de la suma de cuadrados) solo llegaban a los consumidores como arrays JSON. Una tabla publicada se truncó a { "400" } caracteres y publicó { "23" } de sus { "57" } tiempos de promediado bajo una columna que afirmaba contenerlos todos, y el manuscrito reconstruyó las curvas por término a partir de formas cerradas porque el motor nunca las emitía. Una ejecución normal escribe ahora también <c3/> con una fila por (índice de cuadrícula, tiempo de promediado, término), que no puede truncarse en algo que aún parezca completo. El índice de cuadrícula es una clave de unión exacta; <c4/> se escribe con { "13" } cifras significativas y cada <c5/> con { "7" }, de modo que los bytes no se bifurcan entre compilaciones del mismo código fuente. Puramente aditivo: el JSON del informe es idéntico byte a byte.
+
+# text
+# c1: hybrid-optical-rf
+# c2: link_configuration
+# c3: units
+# c4: variance
+seg-ab9209297ec2 = <b>El informe de <c1/> se describe ahora a sí mismo.</b> Un bloque <c2/> repite las entradas de enlace resueltas (longitud de onda de la portadora, apertura de transmisión y de recepción, distancia, anchura de pulso, tiempo de integración, eficiencias y pérdidas) con los valores por defecto aplicados, de modo que un artículo indica la configuración con la que se ejecutó en lugar de citar un valor por defecto leído del código fuente. Un bloque <c3/> da la unidad y la clase de procedencia de cada magnitud que un artículo probablemente citará. Las trazas de covarianza del traspaso son la razón de que exista: se emitían como un <c4/> desnudo y un manuscrito dedujo metros cuadrados a partir de una comprobación de consistencia interna. La deducción era correcta, que es exactamente por lo que era un defecto: nada habría detectado que estuviera mal. Puramente aditivo: medido en cuatro configuraciones, { "456" } campos preexistentes, <b>{ "0" } cambiados, { "0" } eliminados, { "196" } añadidos</b>.
+
+# text
+# c1: InternalConsistency
+seg-5c810155300c = Una fila de la matriz de verificación para la tabla de reproducibilidad del presupuesto de tiempo, con honestidad <c1/> / <b>MODELLED</b>: el total se comprueba frente a la raíz de la suma de cuadrados de los términos del mismo archivo, que comparte las definiciones de términos del propio motor y por tanto no es una referencia independiente. En conjunto, estas añaden tres filas. El total acumulado de esta sección sin publicar es <b>{ "168" } filas: { "64" } VALIDATED, { "100" } MODELLED, { "4" } PARTNER</b>.
+
+# text
+# c1: ashfordeOU <236818772+ashfordeOU@users.noreply.github.com>
+# c2: ashfordeOU <contact@ashforde.org>
+# c3: Chakshu Baweja <contact@ashforde.org>
+# c4: dependabot[bot]
+seg-ed290a85ab0e = <b>La autoría de los commits en todo el historial es ahora una única identidad, y dos crates publicados apuntan a un commit que ya no existe.</b> El 2026-09-21 se reescribió el historial de git de modo que todo commit humano está escrito y confirmado por <c1/>. Antes llevaba tres grafías de una misma persona: { "688" } commits como <c2/>, { "34" } como <c3/> y { "94" } ya canónicos. El único commit de <c4/> se dejó deliberadamente con su propio autor: reetiquetar la actualización de dependencias de un bot afirmaría la autoría de un trabajo que nadie hizo aquí.
+
+# text
+# c1: v0.26.0
+# c2: 92284e9420605568f1bfabb78cd95d383b40f3e2
+seg-ec4e75f94462 = <b>No cambió ningún contenido.</b> La reescritura tocó solo las cabeceras de autor y de committer, y eso es comprobable en lugar de afirmado: el árbol de cada etiqueta y de cada rama es idéntico bit a bit a lo que era antes. <c1/> sigue resolviéndose al árbol <c2/>, exactamente como antes.
+
+# text
+# c1: v0.26.0
+# c2: dce2dbf7700788cf6de46260c14673c0e5347360
+# c3: d4921f3025569e00e425e1747d0acfc261e96e18
+seg-bc0f4fa0a009 = <b>Lo que costó.</b> El nombre de un commit es un hash sobre su árbol, sus padres y sus cabeceras de autor, de modo que cambiar un ancestro renombra a todos sus descendientes. El commit de la versión <c1/> era <c2/> y ahora es <c3/>. Dos artefactos registraron el nombre antiguo en el momento de la publicación y no pueden corregirse, porque una versión publicada en un registro es inmutable por diseño:
+
+# text
+# c1: kshana
+# c2: .cargo_vcs_info.json
+# c3: dce2dbf…
+seg-52e096332738 = <c1/> { "0.26.0" } en crates.io: <c2/> registra <c3/>
+
+# text
+# c1: kshana-mcp
+# c2: path_in_vcs: mcp/kshana-mcp
+seg-8ec39d2f136c = <c1/> { "0.26.0" } en crates.io: el mismo sha1, <c2/>
+
+# text
+# c1: gitHead
+seg-9a21b7c7b41c = Nada más resulta afectado. El paquete de npm no registra ningún <c1/>, y la distribución de PyPI no registra ningún commit; ambos se comprobaron en lugar de suponerse.
+
+# text
+# c1: dce2dbf…
+seg-9c51c5fb0d80 = No hay ninguna reparación que haga que <c1/> nombre el commit reescrito: esa cadena <em>es</em> la ascendencia antigua, y la única forma de que se resuelva es mantener publicado el historial anterior a la reescritura, lo que restablecería la autoría que la reescritura eliminó. La procedencia de { "0.26.0" } pasa por tanto por la etiqueta y no por el sha1 registrado, y la etiqueta entrega los mismos bytes con los que se compiló el crate. La siguiente versión registra un commit válido sin que haga falta ninguna acción.
+
+# text
+# c1: realtime-frame-eop
+# c2: finals2000A
+# c3: predicted_rows.n = 0
+# c4: tools/finals2000A_2026.txt
+# c5: predicted_rows.n = 12
+# c6: predicted_rows.n
+# c7: p4_frame_eop.csv
+# c8: tests/golden/realtime-frame-eop.csv
+# c9: docs/revisions/G12-default-eop-cell-changes.md
+seg-30ecea86118a = <b><c1/> tomaba por defecto un archivo de EOP sin filas de predicción (G12).</b> El escenario incorporaba como valor por defecto sin conexión un extracto <c2/> de cinco filas <em>solo finales</em>, de modo que una ejecución simple informaba <c3/> y la tabla por horizonte se apoyaba en pares de { "5" }, { "4" }, { "3" } y { "2" }. El motor siempre podía leer una fila de predicción: la entrada simplemente no tenía ninguna. El valor por defecto es ahora el extracto IERS { "2026" } literal (<c4/>, MJD { "61173" }–{ "61204" }): { "20" } finales del Bulletin B y <b>{ "12" } filas del Bulletin A solo de predicción</b>, de modo que una ejecución simple sin argumento de archivo y sin red informa <c5/> y una tabla por horizonte con n = { "20" } / { "31" } / { "30" } / { "29" }, y también se rellenan la comparación con el predictor operativo y la concordancia con las predicciones publicadas del propio producto. El extracto de 45 filas de largo intervalo se midió como alternativa y se descartó: también es solo final, de modo que habría dejado <c6/> en { "0" }. <b>Esto mueve números publicados</b>, bajo la regla R4 y con autorización del fundador: diez de las { "22" } celdas del <c7/> publicado y { "24" } de las { "42" } celdas rellenas de <c8/>. El suelo de polo medido rápido menos final pasa a { "0.0678" } mas (desde { "0.0769" } mas), que es el valor que la propia tabla de movimiento polar del artículo P4 ya publica con n = { "20" }: ambos coinciden ahora en lugar de diferir en un { "13.5" } %. Todas las demás cifras que P4 imprime de esta tabla no cambian con la precisión impresa. La enumeración completa de antiguo → nuevo, incluidos los campos que <em>no</em> se movieron, está en <a1><c9/></a1>. El extracto solo final sigue distribuyéndose, fijado byte a byte y ejercitado: un recuento nulo de filas de predicción en él es una propiedad del archivo, y una prueba lo sigue demostrando.
+
+# text
+# c1: api::list_scenario_kinds().len()
+# c2: scenario_count_doc_sync
+seg-62c3efb54991 = <b>Exactitud de la documentación y de los recuentos.</b> Los recuentos de tipos de escenario del README están ahora fijados a <c1/> mediante una prueba <c2/>, de modo que el recuento documentado ya no puede desviarse del despachador.
+
+# text
+# c1: Body{mu, re, zonals, gravity, rotation, IAU-pole}
+# c2: EphemerisProvider
+# c3: mars-pnt
+# c4: xval/anise-mars-od
+# c5: cargo deny
+seg-5f0f497aa643 = <b>PNT de espacio profundo y de Marte: motor abierto de navegación radiométrica + simulación GSE.</b> Un eje de capacidad nuevo y totalmente aditivo sobre el núcleo validado en la Tierra (todo escenario terrestre existente es <b>idéntico byte a byte</b>: los golden de reproducibilidad pasan sin cambios y sin regeneración). Añade: un núcleo de dinámica multicuerpo (<c1/> con gravedad teseral GMM-3 de Marte, un marco de Marte fijo al cuerpo según la IAU, una costura <c2/> enchufable, fechas julianas en dos partes con precisión submicrosegundo y TT↔TDB); observables radiométricos (tiempo de luz iterativo + retardo de Shapiro, Doppler y distancia a dos, una y tres vías mediante la resolución de dos tramos de Moyer, retorno coherente del transpondedor, medición de distancia regenerativa/PN según CCSDS { "414" }, Δ-DOR según CCSDS { "506" }, medios de plasma solar/tropo/iono); análisis y emisión de CCSDS-TDM ({ "503" }); un filtro de información de raíz cuadrada de dinámica reducida con aceleraciones empíricas RTN, un reloj de a bordo de tres estados y un modelo de arrastre de Marte; un estimador de fusión conjunta de una vía + dos vías; la superficie de escenarios <c3/> (constelación de relé + LMO/transferencia/ superficie) en CLI, Python, WASM, MCP y el playground; y un simulador de rendimiento GSE de extremo a extremo (geometría → balance de enlace → observables → SRIF → covarianza). <b>Nivel de validación: validado por simulación:</b> OD sintética en bucle cerrado (Mars-LMO ≈ { "0.2" } m) y autoconsistencia analítica, con la dinámica de Marte centrada en el Sol comprobada de forma independiente frente a <b>DE440</b> de JPL (<c4/>, condicionada a los kernels: { "137" } m en un arco de 1 día, el residuo honesto de n-cuerpos no modelados). Las precisiones de espacio profundo notificadas son <b>figuras de mérito de simulación / covarianza</b>, no resultados de misiones reales; la validación con datos reales de seguimiento de DSN/ESTRACK sigue en la hoja de ruta. ANISE (MPL-2.0, edition-2024) queda confinado a un crate de comprobación cruzada excluido del workspace, de modo que la puerta de licencias de <c5/> y el trabajo MSRV-1.75 no se tocan.
+
+# text
+# c1: ephemeris
+# c2: eop_finals2000a
+# c3: finals2000A
+# c4: EopSeries
+# c5: precise_od
+# c6: dut1_s
+# c7: xp_arcsec
+# c8: yp_arcsec
+# c9: kshana --eop <finals2000A>
+# c10: precise_od
+seg-2ab34100a2d7 = <b>Trazas en tierra con la exactitud de una agencia a partir de la orientación terrestre real del IERS.</b> El escenario <c1/> admite un campo opcional <c2/> (el cuerpo incorporado de un archivo <c3/> real del IERS) y reduce la traza en tierra mediante el UT1−UTC y el movimiento polar por época interpolados a partir de él (la misma <c4/> que usa <c5/>), sustituyendo los escalares nominales <c6/>/<c7/>/<c8/>. Los datos viajan en el escenario, de modo que la ejecución sigue siendo reproducible y no necesita sistema de archivos (funciona en el playground de WASM). Un indicador <c9/> incorpora un archivo real al escenario desde la CLI. Cierra la asimetría por la que solo <c10/> consumía datos reales de orientación terrestre.
+
+# text
+# c1: frames::itrf_to_teme
+seg-e778245e7d8f = <b>Consistencia de marco en la tasa de distancia.</b> La estación terrestre se proyecta ahora al marco inercial mediante la inversa exacta de la reducción del satélite (<c1/>, deshaciendo el movimiento polar <em>y</em> la rotación sidérea) en lugar de una rotación GMST ciega al movimiento polar, de modo que ambos extremos comparten un marco. El efecto sobre el Doppler notificado queda por debajo del suelo de validación, pero elimina una discrepancia real de marco y una afirmación excesiva de «exacto» en el código fuente.
+
+# text
+# c1: carrier_hz
+# c2: step_s
+seg-3b912d8a819d = <b><c1/> se valida.</b> Una frecuencia de portadora nula o no finita devuelve ahora un error en lugar de producir en silencio un Doppler nulo (había hecho infinito λ = c/portadora), igual que la protección ya existente de <c2/>.
+
+# text
+# c1: src/precise_od.rs
+# c2: PreciseForceModel
+# c3: finals2000A
+seg-7d70317ca717 = <b>Validación del modelo de fuerzas por ajuste de efemérides, contrastada con productos reales de agencias.</b> Un nuevo estimador por lotes de mínimos cuadrados (<c1/>) con matriz de transición de estado variacional y edición de valores atípicos, impulsado por un modelo de fuerzas completo (<c2/>: geopotencial EGM2008, terceros cuerpos, mareas sólidas + oceánicas + atmosféricas y aceleraciones empíricas CPR/2 por revolución), alimentado por un analizador real de orientación terrestre IERS <c3/>. Validado frente a órbitas de referencia publicadas: <b>Galileo MEO hasta { "13" } cm tras el ajuste</b>, <b>Swarm-A LEO</b> de ESA y <b>LRO lunar</b> (selenocéntrico, gravedad GRAIL, marco del cuerpo IAU-2015; dinámica reducida { "6.6" } m, honestamente por encima del objetivo de { "5" } m en la vía abierta; la vía ANISE/DE440 de grado DE que lo alcanza es un crate excluido del workspace).
+
+# text
+# c1: spoof-detect
+seg-bf88a3eb4733 = <b>Escenario <c1/></b>: un detector integrado de suplantación multicapa que combina paridad RAIM por época, monitores de AGC y de calidad de señal (SQM) y una decisión fusionada, validado frente a los parámetros publicados de escenario de <b>TEXBAT</b> (Humphreys et al., ION GNSS { "2012" }), incluido el caso difícil alineado con la portadora.
+
+# text
+# c1: ephemeris
+seg-976036ba124b = <b>Escenario <c1/>: estado, marcos, traza en tierra y Doppler.</b> Propaga un satélite (TLE→SGP4 o una órbita analítica) y emite, en cada paso, el estado inercial TEME y GCRS (<b>posición <em>y</em> velocidad</b>), la posición terrestre fija ITRF/ECEF, la <b>traza en tierra</b> subsatélite WGS-84 (latitud / longitud / altitud) y el acimut / elevación / distancia topocéntricos con tasa de distancia y <b>Doppler</b> desde una estación terrestre. Accesible desde la CLI, Python, WASM y el servidor MCP, y distribuido como el <b>preajuste «Ground track»</b> del playground web, donde la traza se dibuja <b>sobre un mapa del mundo real</b> (costas Natural Earth { "1" }:110m, incorporadas; sin red ni dependencia externa).
+
+# text
+# c1: --export-oem
+# c2: export_oem = true
+seg-761c95f2ede5 = <b>Exportación CCSDS OEM</b> (<c1/> / <c2/>): el Orbit Ephemeris Message con velocidad que consumen GMAT / Orekit / STK, a la par de los exportadores SP3 y OMM existentes.
+
+# text
+seg-111b0896fdd4 = <b>Mareas terrestres sólidas, oceánicas (FES2004) y atmosféricas (Ray { "2001" } S2)</b> sobre el geopotencial (IERS Conventions cap. { "6" }), integradas en el modelo de fuerzas.
+
+# text
+seg-7e392131261a = <b>Wheels ARM64</b>: la compilación de PyPI produce ahora también wheels de Linux aarch64 (manylinux_2_28), macOS arm64 y Windows arm64.
+
+# text
+seg-7cc04ea3362b = <b>Informe técnico ampliado (preprint)</b> enlazado desde el README, y el artículo de JOSS preparado para su envío (ORCID del autor, compilado a PDF en CI en cada cambio).
+
+# text
+seg-3b1e95acc728 = <b>Marcos validados al milímetro frente a vectores publicados de Vallado.</b> La reducción TEME→PEF/ITRF, la cadena completa GCRS→ITRS CIO IAU 2006/2000A y la conversión ECEF→geodésica WGS-84 están ahora fijadas al ejemplo resuelto de Vallado et al. (AIAA 2006-6753) con sus EOP del IERS, y no solo a la autoconsistencia interna.
+
+# text
+# c1: hifitime
+seg-fd9818877a6c = <b>Comprobaciones cruzadas independientes de escalas de tiempo.</b> ERA y las escalas UTC/TAI/TT coinciden con <c1/> a menos de { "1" } µs, y las efemérides planetarias DE440 coinciden con JPL Horizons (posiciones geocéntricas de la Luna y el Sol), ambas como puertas de CI siempre activas.
+
+# text
+seg-75aeec4cd6d0 = El playground web oculta la pestaña de figuras de mérito cuando un resultado no lleva filas de figuras de mérito, de modo que los paquetes solo de gráfico (ephemeris, RAIM, spoof) se abren en su gráfico (en ephemeris, la traza en tierra) en lugar de una tabla vacía.
+
+# text
+seg-b8ab0cc3ce7f = Los controles deslizantes guiados del playground <b>y el barrido de parámetros funcionan ahora para el escenario de efemérides / traza en tierra</b>: sus parámetros (latitud / longitud de la estación, paso de tiempo, duración, UT1−UTC) son ajustables, y un barrido puede representar la geometría del paso (elevación máxima, Doppler máximo, altitud, velocidad) frente a cualquiera de ellos, por ejemplo la elevación máxima frente a la latitud de la estación. La pestaña Sweep se muestra ahora solo cuando un escenario es realmente barrible, de modo que ningún paquete ofrece un control que no representa nada.
+
+# text
+# c1: DUT1 ≈ 0
+# c2: CAPABILITY.md
+seg-9e7a37e51940 = Se documentó la aproximación SGP4 <c1/> en el punto de llamada a GMST (un error de rotación ≤ ~{ "13" }″, muy dentro del propio error de modelo de SGP4) y se actualizó <c2/>.
+
+# text
+# c1: kshana.dev
+seg-174a75e840b0 = El complemento de JetBrains <b>Kshana — PNT simulator</b> está ya publicado y aceptado en el <a1>JetBrains Marketplace</a1>. El README, <c1/> y la documentación de distribución enlazan a él directamente.
+
+# text
+# c1: server.json
+# c2: description
+# c3: io.github.ashfordeOU/kshana-mcp
+seg-4deaf7918fff = <b>La publicación en el registro MCP</b> ya se completa con éxito: el <c2/> de <c1/> superaba el límite de 100 caracteres del registro (HTTP { "422" }). Se acortó, y se alineó el nombre del servidor (y la etiqueta de propiedad de la imagen) con el espacio de nombres canónico <c3/>.
+
+# text
+# c1: 0.1.1
+seg-1408961042a1 = <b>La publicación en JetBrains Marketplace</b> ya se completa con éxito: CI volvía a subir la misma versión del complemento que se había listado a mano, algo que el Marketplace rechaza. La versión del complemento sube a <c1/>, y la protección de idempotencia trata ahora también una respuesta «already contains version» como un éxito sin efecto.
+
+# text
+# c1: kshana.dev
+# c2: style.css
+# c3: app.js
+seg-74e8cab2f10e = <b>Invalidación de caché de <c1/></b>: las cadenas de consulta con sello de versión de <c2/>/<c3/> siguen la versión, de modo que los visitantes que vuelven siempre reciben la compilación actual.
+
+# text
+# c1: kshana-mcp
+# c2: mcp/kshana-mcp/
+# c3: rmcp
+# c4: run_scenario
+# c5: list_scenario_kinds
+# c6: validate_scenario
+# c7: export_sp3
+# c8: export_omm
+# c9: kshana::api
+seg-65949229eed7 = <b><c1/>: Kshana como servidor del Model Context Protocol (MCP)</b> (<c2/>). Un crate independiente, excluido del workspace (el SDK <c3/> es edition { "2024" }), que expone el motor validado a agentes y asistentes de IA (Cursor, JetBrains AI Assistant / Junie y cualquier cliente MCP) por stdio. Herramientas: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, cada una un envoltorio fino sobre <c9/>.
+
+# text
+# c1: ide/jetbrains/
+# c2: .toml
+seg-bd792f66363c = <b>Complemento para IDE de JetBrains</b> (<c1/>). Clic derecho en un escenario <c2/> → <b>Run Kshana Scenario</b>; las figuras de mérito y el JSON de resultados llegan en flujo a una ventana de herramientas de Kshana. Complemento de Kotlin de plataforma pura, que funciona con cualquier IDE de JetBrains { "2024.3" }+.
+
+# text
+seg-755358390517 = <b>Distribución pública + autopublicación en cada versión</b> para ambos:
+
+# text
+# c1: kshana-mcp
+# c2: cargo install kshana-mcp
+# c3: publish.yml
+seg-14fc2fd73553 = <c1/> en <b>crates.io</b> (<c2/>) mediante <c3/>.
+
+# text
+# c1: kshana-mcp
+# c2: ghcr.io
+# c3: docker run ghcr.io/ashfordeou/kshana-mcp
+# c4: mcp-publish.yml
+seg-2b39bbfc0581 = <c1/> como <b>imagen OCI</b> multiarquitectura en <c2/> (<c3/>) mediante un nuevo <c4/>.
+
+# text
+# c1: kshana-mcp
+# c2: server.json
+seg-c824d1532eb6 = <c1/> en el <b>registro MCP oficial</b> mediante GitHub OIDC (cero secretos); la entrada del registro (<c2/>) usa el tipo de paquete OCI con un propietario verificado por etiqueta.
+
+# text
+# c1: publishPlugin
+seg-f90da0c61aac = el complemento de IDE en el <b>JetBrains Marketplace</b> mediante <c1/> (condicionado a token, firma opcional de desarrollador) en cada etiqueta de versión.
+
+# text
+# c1: xval/anise-frames/
+# c2: kshana
+# c3: kshana::cio::gcrs_to_itrs_matrix
+# c4: earth_latest_high_prec.bpc
+# c5: finals2000A
+# c6: anise
+# c7: hifitime
+# c8: kshana
+# c9: Cargo.lock
+# c10: cargo deny
+# c11: default-features = false
+# c12: frame-xval
+# c13: report.{json,md}
+# c14: workflow_dispatch
+# c15: main
+# c16: docs/VALIDATION.md
+# c17: ROADMAP.md
+seg-21d7457dad23 = <b>Validación cruzada independiente de marcos de referencia con ANISE/SPICE</b> (<c1/>). Un crate independiente, excluido del workspace, contrasta la reducción CIO IAU 2006/2000A de <c2/> (<c3/>, GCRS→ITRS) con <b>ANISE</b> (la reimplementación en Rust puro de NAIF/SPICE), que rota GCRF→ITRF93 a partir de <c4/> de JPL, con los <b>mismos parámetros de orientación terrestre IERS <c5/> aplicados a ambos lados</b>, en ocho épocas trimestrales { "2020" }–{ "2023" }. Las dos realizaciones independientes del marco coinciden con una <b>rotación relativa máxima de { "0.028" }″: ≤ { "0.86" } m en tierra, ≤ { "0.93" } m en LEO, ≤ { "3.6" } m en órbita GNSS</b>, alcanzando con amplio margen la comprobación cruzada de marcos «< { "10" } m» que figura desde hace tiempo en la ROADMAP (complementa, y no sustituye, a los anclajes bit a bit existentes de SOFA/ERFA). El crate está aislado porque <c6/> + <c7/> son MPL-2.0 / edition-2024 y nunca deben entrar en el grafo de dependencias de <c8/> publicado, en su <c9/>, en la puerta de licencias de <c10/> ni en la compilación MSRV; ANISE se fija con <c11/>. Incluye un binario <c12/> (obtiene el BPC de ~{ "5" } MB, imprime una tabla, escribe <c13/>), una puerta de pruebas que se omite sola sin kernel o sin red, y un trabajo de CI opcional solo <c14/> (nunca bloquea <c15/>). Documentado en <c16/> (fila CIO) y <c17/>.
+
+# text
+# c1: .panel
+# c2: min-width: auto
+# c3: min-width: 0
+seg-eb45b43dacc2 = <b>Playground apto para móviles.</b> Se corrigió el desbordamiento horizontal de <c1/> del playground en teléfonos (un elemento de rejilla CSS con <c2/> por defecto se renderizaba ~{ "100" } px más ancho que el viewport) mediante <c3/> y controles con ancho protegido; verificado limpio a { "360" } / { "390" } / { "414" } / { "768" } px. Se alinearon los botones de acción «Pin to compare» / «Download report» (cajas de margen iguales en la fila flex). Se agrandaron los botones de ejecución, los controles deslizantes, los selectores y los enlaces de navegación hasta el mínimo de objetivo táctil de ~{ "44" } px de WCAG { "2.5.5" } / Apple-HIG en teléfonos y dispositivos táctiles, sin cambiar el tamaño en escritorio.
+
+# text
+# c1: sbas_protection_level
+# c2: Some
+# c3: propagate
+# c4: propagate_dopri
+# c5: lunar_look_angle
+# c6: [0, 360)
+# c7: SphericalHarmonicField::from_gfc
+# c8: GM
+seg-fe5095d5e61f = <b>Refuerzo de robustez a partir de una pasada adversaria de pruebas de choque.</b> ({ "1" }) <c1/> rechaza ahora elevación/acimut/varianza no finitos y diagonales de covarianza negativas o no finitas (una geometría casi singular ampliada por una σ pequeña podía antes colarse por la puerta del pivote absoluto y devolver un VPL NaN / un HPL absurdo como un <c2/> <em>válido</em>: un fallo silencioso de integridad). ({ "2" }) El propagador numérico (<c3/>/<c4/>) falla cerrado ante un estado inicial no finito en lugar de hacer girar el controlador adaptativo para siempre. ({ "3" }) El asistente de celdas DEM ya no entra en pánico con una rejilla de una sola muestra ({ "1" }×N). ({ "4" }) El acimut de <c5/> se mantiene estrictamente en <c6/>. ({ "5" }) <c7/> rechaza <c8/>/radio no físicos (NaN / no positivos).
+
+# text
+# c1: validation_report
+# c2: kshana-validation-summary.html
+seg-9ca339d8977a = <b>Binario <c1/> + artefacto de versión</b>: un generador sin dependencias que emite un resumen de validación HTML de una página, listo para imprimir, que indexa cada validación impuesta por CI (SGP4 666/666, EGM2008, marcos bit a bit, Allan del NIST, hojas de datos de IMU, ARAIM/SBAS, reproducibilidad en 3 SO, cobertura) con su prueba y su referencia independiente externa. El flujo de trabajo de versión genera <c2/> y lo adjunta (con procedencia SLSA) a cada versión etiquetada.
+
+# text
+# c1: tests/python/test_numpy_interop.py
+# c2: auditwheel show
+seg-bd231d07658f = <b>pytest de interoperabilidad con numpy + refuerzo de wheels</b>: <c1/> (ejecutado en CI) más un contenedor manylinux fijado y un paso de verificación <c2/> en la compilación de wheels.
+
+# text
+# c1: docs/tutorials/
+# c2: tests/tutorials.rs
+seg-5427cae6fc39 = <b>Tutoriales y formación</b>: <c1/> (tres tutoriales resueltos, escenarios anotados por dominio, ejercicios Tier-1/2/3) con <c2/> fijando cada número citado a la salida del motor en vivo.
+
+# text
+# c1: paper/
+# c2: notebooks/
+# c3: submissions/
+# c4: FUNDING.yml
+seg-2fad9124c5a6 = <b>Artefactos de envío externo</b> (<c1/>, <c2/>, <c3/>): un borrador de artículo de JOSS, un cuaderno cuántico frente a clásico y kits listos para presentar a awesome-gnss / ESA Navipedia / NASA ASCL / ESA ESSR / ION/IAC, además de <c4/>, que preparan los pasos externos del envío.
+
+# text
+# c1: altpnt
+# c2: .hgt
+# c3: terrain-nav
+# c4: combined-altpnt
+seg-0f88f8bccbc1 = <b>Navegación alt-PNT referenciada al terreno y combinada</b> (módulo <c1/>): un navegador de correlación de terreno TERCOM/SITAN sobre un DEM (cargador <c2/> + generador de fixtures sintéticos) y un navegador combinado de gravedad + magnético (IGRF) + terreno sin GPS, expuestos como los tipos de escenario <c3/> y <c4/>. Validado por la convergencia de la correlación de terreno (se recupera un desplazamiento inyectado conocido) y por un error acotado del filtro combinado sobre una ventana sin GPS.
+
+# text
+# c1: lunar
+seg-bd01ec72fa2a = <b>Geometría LunaNet LANS</b> (<c1/>): sitios lunares de superficie con nombre (Apollo 11/15/16, borde de Shackleton) con coordenadas selenográficas de referencia, ángulos de visión desde la superficie (az/el/distancia), visibilidad/cobertura y DOP del sitio, validados frente al radio de la Luna, las coordenadas publicadas de los sitios y la identidad de elevación de { "90" }° para la vertical radial.
+
+# text
+# c1: eci_track
+seg-2dad9cf59ea9 = <b>Playground guiado en el navegador</b>: controles deslizantes de modo guiado, un panel de salida con pestañas, una superposición de recorrido de primera ejecución, modos de barrido de parámetros y de superposición de varias ejecuciones, una vista de órbita 3D en canvas/SVG sin dependencias (el paquete de órbita emite ahora un <c1/> aditivo), un modo de incrustación/iframe y la descarga como informe HTML, cada uno con pruebas unitarias de node en CI.
+
+# text
+# c1: tests/imu_allan_spec.rs
+seg-261604603d67 = <b>Modelo de error de IMU validado con hoja de datos</b> (<c1/>): ARW/VRW/inestabilidad de sesgo de ADIS16465/16488/16460 recuperados de la desviación de Allan sintetizada y comprobados frente a las especificaciones del fabricante (identificación NIST SP1065 / IEEE { "952" }).
+
+# text
+# c1: tests/allan_nist_sp1065_1000point.rs
+seg-dc7b9bdb3076 = <b>Validación de los estimadores de Allan de NIST SP1065</b> (<c1/>): los cuatro estimadores reproducen las desviaciones de referencia publicadas de 1000 puntos y los límites de confianza de la Tabla 32.
+
+# text
+# c1: sbas
+# c2: sbas_protection_level
+# c3: orbit::invert4
+# c4: iono_free_l1l5
+# c5: γ₁₅ = 1.79327
+# c6: do316_compliance_map
+# c7: inv(GᵀG)
+# c8: docs/COMPLIANCE.md
+seg-5d50be22aacd = <b>Niveles de protección SBAS / DO-229E, libre de ionosfera L1/L5 y un mapa de compliance DO-316</b> (módulo <c1/>). <c2/> forma la matriz de geometría ponderada a partir de la elevación/acimut de cada satélite y de su presupuesto de error UDRE/GIVE/aerotransportado/tropo, invierte la matriz normal (<c3/> compartida) y proyecta las varianzas a HPL/VPL mediante los factores K de DO-229E (PA 6.0/5.33, NPA { "6.18" }). <c4/> añade la pseudodistancia GPS L1/L5 libre de ionosfera (IS-GPS-705, <c5/>), validada para cancelar el retardo ionosférico de primer orden independiente del motor. <c6/> traza los requisitos de DO-316/DO-229E hasta las funciones que los implementan. Validado frente a las definiciones cerradas de los factores K, la geometría de referencia <c7/> de numpy y la identidad de covarianza por dos vías; la comprobación cruzada de ajuste a la norma de los PL publicados con RTKLIB/gLAB está documentada como pendiente de revisión en <c8/>.
+
+# text
+# c1: gravity_sh::SphericalHarmonicField
+# c2: C̄_nm, S̄_nm
+# c3: egm2008_data.rs
+# c4: tools/gen_egm2008.py
+# c5: tools/egm2008_to70.gfc
+# c6: .gfc
+# c7: from_gfc
+# c8: C̄00
+# c9: −μr/|r|³
+# c10: forces::zonal_accel
+seg-e9e60b40e42a = <b>Gravedad completa de armónicos esféricos teserales: el campo EGM2008 hasta grado/orden { "70" }.</b> Un nuevo <c1/> evalúa el geopotencial y su aceleración en el marco terrestre fijo a partir de coeficientes <c2/> totalmente normalizados, usando la estable recurrencia normalizada de Legendre de Holmes–Featherstone (desnormalizar desbordaría con este grado). Los coeficientes incluidos son el producto EGM2008 de NGA (dominio público, vía ICGEM), incorporados en <c3/> y reproducidos bit a bit por <c4/> a partir de <c5/>, que está en el repositorio; cualquier modelo ICGEM <c6/> se carga mediante <c7/>. Validado frente a tres referencias independientes: el colapso a masa puntual (solo <c8/> = <c9/>), un campo solo zonal que reproduce el <c10/> existente hasta ~{ "1e-9" }, y la aceleración analítica que coincide con el gradiente por diferencias finitas del potencial sumado directamente hasta <{ "1e-6" }.
+
+# text
+# c1: forces::lense_thirring_accel
+# c2: ForceModel::lense_thirring()
+seg-c33a2dbf851d = <b>Aceleración de Lense–Thirring (arrastre de marcos) de relatividad general</b> (<c1/>, IERS { "2010" } Ec. { "10.12" }), el término gravitomagnético más allá de la corrección de Schwarzschild existente, integrado en el propagador numérico mediante un nuevo indicador <c2/>. Validada como lineal en el momento angular de la Tierra y de { "1" } a { "2" } órdenes de magnitud por debajo del término de Schwarzschild, el régimen de las mediciones de LAGEOS / Gravity Probe B.
+
+# text
+# c1: Propagator
+# c2: NumericalPropagator
+# c3: ForceModel
+# c4: Tolerance
+# c5: Integrator
+# c6: Sgp4
+# c7: propagator::Propagator
+# c8: state_at(t_seconds) -> StateVector
+# c9: Box<dyn Propagator>
+# c10: PropagatorError
+seg-909562023109 = <b>Un trait <c1/> que unifica los propagadores de órbita analítico y numérico.</b> El propagador numérico de modelo de fuerzas de Cowell es ahora un par de primera clase de SGP4: un nuevo tipo <c2/> (estado inicial + <c3/> + <c4/> + elección de duplicación de paso o <c5/> de Dormand–Prince) y <c6/> implementan ambos <c7/>, cuyo <c8/> devuelve el estado TEME inercial en unidades del SI (m, m/s), de modo que los dos son intercambiables tras un <c9/>. La implementación de SGP4 es la conversión exacta de km/min a SI del método inherente (verificada por una prueba de igualdad); la implementación numérica supera la misma puerta submétrica de Kepler exacto a través del trait, los dos controladores adaptativos coinciden y un <c10/> expone el código SGP4 subyacente.
+
+# text
+seg-d094880df57b = Esta versión cierra la mayor brecha de corrección del motor: la orientación terrestre y la reducción de marcos de referencia se hacen ahora con calidad de implementación de referencia (validadas <b>bit a bit frente a ERFA/SOFA</b>), la pila de integridad gana <b>ARAIM de doble constelación</b> sobre TLE reales de GPS+Galileo, y las capas de propagación, sensor cuántico, lunar/cislunar y geomagnética se profundizan, junto con una API de Python tipada, un playground de navegador más rico y una matriz de reproducibilidad en tres SO. Aspectos destacados:
+
+# text
+seg-bfe1d4a7cabd = <b>Marcos de referencia, bit a bit.</b> Nutación IAU 2000A y 2000B completas, precesión IAU { "2006" }, reducción GCRS↔ITRS IAU 2006/2000A basada en CIO (X, Y, s), movimiento polar del IERS y marcos de salida TEME→GCRS/ITRS, cada uno validado bit a bit frente a rutinas de referencia ERFA/SOFA.
+
+# text
+# c1: docs/ARAIM_REFERENCE.md
+seg-bb5705347a24 = <b>ARAIM de doble constelación</b> (GPS + Galileo) sobre TLE reales, con HPL/VPL, salida de diagrama de Stanford y un <c1/> abierto.
+
+# text
+seg-2865dadcd4c8 = <b>PNT cislunar</b>: un propagador CR3BP Tierra–Luna, marcos MCI↔MCMF, coordenadas selenográficas y un escenario ejecutable de integridad lunar de LunaNet.
+
+# text
+seg-3b636707a158 = <b>Sensado cuántico</b>: sistemáticas de Coriolis y de AC-Stark para el interferómetro de átomos fríos, un barrido de deriva y validación frente al presupuesto de Freier ({ "2016" }).
+
+# text
+seg-10bc94801a6a = Modelo geomagnético de campo principal <b>IGRF-14</b>, autocontenido y validado.
+
+# text
+# c1: RunOutput
+# c2: ScenarioMeta
+# c3: .data()
+# c4: scenario_kinds
+# c5: validate_toml
+seg-6485f627d793 = <b>API de Python tipada</b> (PyO3 <c1/>/<c2/>, <c3/>, <c4/>, <c5/>, stubs de tipos) con una compilación de wheels en CI, además de salida de propagador GCRS/ITRS de primera clase y exportación CCSDS OMM.
+
+# text
+# c1: sgp4
+# c2: src/
+# c3: ubuntu
+# c4: macos
+# c5: windows
+seg-2b7693641333 = <b>Credibilidad y reproducibilidad</b>: una comparación directa de exactitud de SGP4 con el crate independiente <c1/>, una puerta de cobertura en CI (~{ "97" }% de líneas en <c2/>) y una matriz de reproducibilidad en tres SO (<c3/>/<c4/>/<c5/>).
+
+# text
+# c1: src/report.rs
+# c2: src/chart.rs
+# c3: web/app.js
+# c4: src/hybrid.rs
+# c5: jamming.rs
+# c6: timetransfer.rs
+# c7: spoof.rs
+# c8: raim.rs
+# c9: lunar.rs
+# c10: ensemble.rs
+# c11: sweep.rs
+# c12: gnss_sim.rs
+# c13: fusion/pack.rs
+# c14: inertial/mod.rs
+# c15: #0e131b
+# c16: --bg
+# c17: --line
+# c18: --fg
+# c19: --accent-bright
+# c20: --partial
+# c21: --crit
+seg-32e53ac66056 = <b>Todos los gráficos del playground coinciden ahora con el tema del sitio.</b> Los doce generadores de gráficos SVG (el gráfico de resultado/holdover (<c1/> + <c2/>), el gráfico de desviación de Allan (<c3/>) y cada gráfico de escenario (<c4/>, <c5/>, <c6/>, <c7/>, <c8/> Stanford + disponibilidad, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>)) usaban paneles azul marino fríos (<c15/>), ejes/texto gris frío y una paleta de series rojo/azul/púrpura discordante. Ahora usan en todas partes la paleta cálida de grafito: paneles <c16/>, cuadrícula cálida <c17/>, etiquetas <c18/>, con una asignación coherente de series: cuántico = dorado miel (<c19/>), clásico = ámbar cálido (<c20/>), especificación/límite = <c21/>. Las vistas con codificación de seguridad conservan su significado: el diagrama de Stanford de RAIM sigue siendo verde (disponible) / ámbar (engañoso) / rojo (peligroso) / acero apagado (no disponible), y HPL/VPL se leen como dorado/bronce.
+
+# text
+# c1: Kshana v<version> · <scenario-hash> · kshana.dev
+seg-2bb31dfc7756 = <b>Los gráficos se describen ahora a sí mismos al guardarse o descargarse.</b> Ambos gráficos incorporan su título en el SVG (el título del gráfico de Allan + el subtítulo «lower is better» antes eran solo HTML alrededor de la imagen, de modo que una imagen guardada no tenía pie), y ambos llevan un pie de procedencia, <c1/>, de modo que un gráfico descargado se sostiene por sí solo y sigue siendo reproducible.
+
+# text
+# c1: Kshana v<version> · scenario <hash> · kshana.dev
+# c2: api::run_toml
+# c3: .chart.svg
+# c4: scenario
+# c5: scenario_hash
+# c6: docs/PROVENANCE.md
+seg-9f528e334cd8 = <b>Todos los gráficos llevan ahora el pie de procedencia.</b> El pie, <c1/>, se estampa de forma centralizada para todos los tipos de escenario en <c2/> (antes solo estaba en los gráficos de holdover y de Allan), de modo que cualquier imagen guardada o descargada (desde el playground, desde la exportación <c3/> de la CLI o desde el cuadro de mando HTML) identifica su versión, la huella del escenario y la fuente. El hash se etiqueta <c4/> por claridad y procede del <c5/> del resultado cuando existe, con un respaldo de hash de la fuente para los informes de integridad/lunares. Qué es la huella y por qué está ahí se documenta en la sección «Output» del README y en <a1><c6/></a1>.
+
+# text
+# c1: raim::chi2_quantile
+# c2: read_dir
+# c3: chi2_quantile
+# c4: p
+# c5: k
+# c6: normal_quantile
+# c7: assert!
+# c8: Normal
+seg-635697ed3fb1 = <b><c1/> y el muestreador de ruido de Stanford de RAIM ya no entran en pánico con entradas fuera de rango / no finitas</b> (un hallazgo de fuzzing dependiente del orden de <c2/> procedente de los nuevos escenarios ARAIM). <c3/> protege ahora <c4/>/<c5/> como <c6/> (devolviendo un valor de frontera en lugar de entrar en pánico con <c7/>), y el <c8/> del ruido de Stanford de disponibilidad se limita a una σ estrictamente positiva, de modo que la pila de integridad/ARAIM nunca entra en pánico con escenarios mutados o mal configurados.
+
+# text
+# c1: reproducibility-matrix
+# c2: tests/golden/
+# c3: tests/cross_platform_golden.rs
+# c4: golden.rs
+# c5: sgp4_verification.rs
+# c6: determinism.rs
+# c7: docs/REPRODUCIBILITY.md
+seg-b36a0c42845e = <b>Matriz de CI de reproducibilidad multiplataforma.</b> Un nuevo trabajo <c1/> ejecuta las pruebas de reproducibilidad en <b>ubuntu-latest, macos-latest y windows-latest</b> en cada envío. Como el JSON de resultados completo no es idéntico byte a byte entre sistemas operativos (divergencia de libm en la última ULP), afirma exactamente la proyección invariante a la plataforma (la huella de la entrada más la forma de la salida, fijada por escenario como golden SHA-256 en <c2/> por el nuevo <c3/>) junto con las fijaciones numéricas (<c4/>, hasta { "1e-6" }), los estados SGP4 (<c5/>, hasta { "2e-5" } km) y el determinismo en un mismo proceso (<c6/>). En conjunto demuestran la reproducibilidad multiplataforma en tres SO sin la fragilidad de calcular hashes exactos de la salida completa byte a byte. <c7/> documenta la división.
+
+# text
+# c1: coverage
+# c2: cargo-tarpaulin
+# c3: src/
+# c4: src/
+seg-9b8c0a407387 = <b>Puerta de cobertura de código en CI.</b> Un nuevo trabajo <c1/> ejecuta <c2/> con el motor basado en fuente de LLVM, publica un informe lcov como artefacto de compilación e impone un suelo de cobertura de líneas sobre <c3/> (excluidas las tablas de datos generadas, el punto de entrada de la CLI, las pruebas y los recursos web). La cobertura de líneas medida es de ~{ "97" }% en <c4/> (SGP4 y los módulos de reloj ≥{ "95" }%); la puerta se fija en { "85" }%, por encima del objetivo de ≥{ "80" }% y alejada del valor medido, de modo que detecta regresiones sin fallar de forma intermitente. Se publica una insignia de cobertura en el README.
+
+# text
+# c1: sgp4
+# c2: tests/sgp4_crate_comparison.rs
+# c3: tcppver.out
+# c4: tests/fixtures/sgp4_comparison.md
+# c5: KSHANA_REGEN_FIXTURES=1
+# c6: from_elements
+seg-1dfc4beb239a = <b>SGP4/SDP4 cara a cara con el crate independiente <c1/>.</b> Una prueba nueva (<c2/>) contrasta el propagador de Kshana con la biblioteca SGP4 de Rust más usada (neuromorphicsystems/sgp4, añadida como dev-dependency solo para pruebas) sobre los mismos { "666" } vectores de AIAA 2006-6753. Con ambos operando con el modelo de gravedad WGS72 que usan los vectores, las dos implementaciones independientes coinciden a nivel <b>submicrométrico</b> en órbitas cercanas a la Tierra y resonantes y a <b>{ "4.12" } mm en el peor caso</b> en todos los regímenes, y ambas reproducen la tabla de referencia <c3/>. La tabla de comparación incorporada al repositorio (<c4/>, regenerada mediante <c5/>) desglosa el resultado por régimen (LEO/MEO, espacio profundo, resonancia de ½ día y de 1 día) y anota los cuatro casos deliberadamente patológicos que el crate rechaza en la construcción. Las aserciones en vivo mantienen a ambos dentro de { "2e-5" } km de la referencia y coincidiendo entre sí dentro de { "4e-5" } km: una protección contra regresiones, no un hecho aislado. Esto es linaje competitivo: corrección frente a una base de código independiente, no solo frente a una tabla estática. (El <c6/> por defecto del crate usa WGS84 y por tanto difiere de la referencia WGS72 en ~km, algo que se señala con honestidad en la prosa de la tabla.)
+
+# text
+# c1: src/omm.rs
+# c2: orbit
+# c3: kshana <orbit.toml> --export-omm out.omm
+# c4: export_omm = true
+# c5: <scenario>.omm
+# c6: --export-sp3
+# c7: YYYY-NNNP
+# c8: tle::parse_tle_identity
+# c9: OBJECT_NAME
+# c10: OBJECT <id>
+# c11: CREATION_DATE
+# c12: api::export_omm
+# c13: api::auto_export_omm
+# c14: OmmFile::from_tle_block
+# c15: OrbitClockScenario::to_omm_string
+# c16: gps-ops
+# c17: tests/sp3_export_roundtrip.rs
+seg-dc75162ecd64 = <b>La exportación CCSDS OMM es ahora accesible de extremo a extremo.</b> El escritor de OMM (<c1/>) no tenía antes ninguna ruta de CLI/API; los elementos medios de un escenario <c2/> pueden publicarse ahora como un catálogo OMM CCSDS 502.0-B-2 (un mensaje OMM KVN por satélite definido por TLE) mediante <c3/>, o bien <c4/> en el escenario escribe automáticamente <c5/> (a imagen del <c6/> existente). Cada mensaje lleva el número de catálogo NORAD <b>real</b> del satélite, el designador internacional COSPAR (<c7/>) y la época (en forma CCSDS de día del año), analizados de la línea { "1" } del TLE por el nuevo <c8/>; la línea de nombre se convierte en <c9/> (o, si no, en <c10/>). <c11/> es la época del escenario, no la hora de reloj, de modo que la salida es reproducible. API nueva: <c12/> / <c13/>, <c14/>, <c15/>. Un escenario sintético Walker o RINEX (sin elementos medios de TLE) da error en lugar de emitir un archivo vacío. Validado frente a la instantánea incorporada de 30 satélites <c16/> (<c17/>).
+
+# text
+# c1: web/hover.mjs
+# c2: web/app.js
+# c3: <img>
+# c4: web/hover.test.mjs
+seg-036782a2b65e = <b>Lecturas interactivas al pasar el cursor por los gráficos del playground.</b> Mover el cursor sobre un gráfico ajusta una retícula a la muestra más cercana y muestra una información emergente con el valor (<c1/>, integrada en <c2/>). En el gráfico de Allan lee τ y el σ_y(τ) de cada reloj; en los gráficos de escenarios de series temporales (clock holdover, dead-reckoning, time-transfer, PNT híbrido, GNSS/INS) lee el tiempo y el valor de cada suite en las unidades propias del gráfico (ns / m / ps / utilización), analizado del resultado para que la lectura coincida con la curva. Los diagramas especializados (RAIM, spoof, sweep) no reciben superposición. Los gráficos siguen siendo <c3/> blob autodescriptivos: la superposición es una retícula transparente + información emergente por encima, de modo que la descarga, la comparación y la exportación no se tocan. La matemática de coordenadas (muestra más cercana, cursor→fracción del gráfico, análisis de polilíneas) tiene pruebas unitarias (<c4/>, ejecutadas en CI).
+
+# text
+# c1: web/compare.mjs
+# c2: web/app.js
+# c3: web/compare.test.mjs
+# c4: <img>
+seg-1588ae024e5d = <b>Modo de comparación A/B en el playground.</b> Se fija cualquier ejecución como línea base A, se ejecuta un segundo escenario y ambos se muestran lado a lado con una tabla de diferencias de figuras de mérito (holdover, RMS/p95 de temporización, disponibilidad) que colorea al ganador por métrica (<c1/>, integrada en <c2/>; lógica de diferencias con pruebas unitarias en <c3/>, ejecutadas en CI). Todos los valores se insertan como texto y todos los gráficos mediante <c4/> blob, de modo que nada de una cadena de escenario se inyecta nunca como marcado.
+
+# text
+# c1: web/chartdl.mjs
+# c2: web/app.js
+# c3: kshana-<chart>-v<version>-<scenario-hash>.<ext>
+# c4: web/chartdl.test.mjs
+seg-6e7a99f8f275 = <b>Botones de descarga de gráficos (SVG + PNG).</b> Cada gráfico del playground tiene ahora una barra de herramientas «Download SVG / PNG» acorde con el tema (<c1/>, integrada en <c2/>). SVG devuelve el original fiel y escalable; PNG rasteriza esa misma imagen autodescriptiva a 2x para diapositivas y documentos. Los archivos se nombran con su procedencia (<c3/>) y la lógica de nombre de archivo y tamaño tiene pruebas unitarias (<c4/>, ejecutadas en CI).
+
+# text
+# c1: src/igrf.rs
+# c2: igrf14coeffs.txt
+# c3: tools/gen_igrf.py
+# c4: src/igrf_data.rs
+seg-4cb87e7dc892 = <b>Modelo geomagnético de campo principal IGRF-14 (<c1/>).</b> El campo estándar de armónicos esféricos de la IAGA (grado/orden { "13" }, época { "2025.0" } + variación secular { "2025" }–{ "2030" }; coeficientes generados por máquina a partir del <c2/> oficial mediante <c3/> en <c4/>, reproducibles bit a bit). Una síntesis normalizada de Schmidt devuelve el vector de campo (norte/este/abajo) y los elementos derivados (declinación, inclinación, intensidad horizontal/total) en cualquier lugar/fecha geodésicos, además del polo geomagnético y la intensidad del dipolo: la contrapartida magnética del correlador de mapas de gravedad para la navegación PNT alternativa. Validado de forma autocontenida: la síntesis coincide con el dipolo inclinado exacto en forma cerrada, el campo analítico completo de grado 13 coincide con una diferencia finita del potencial escalar, el eje del dipolo reproduce el polo geomagnético conocido (~{ "80.7" }°N, −{ "72.7" }°E) y una intensidad de ~{ "29.7" } µT, y el campo global es físico.
+
+# text
+# c1: src/python.rs
+# c2: run
+# c3: run_full
+# c4: RunOutput
+# c5: .json
+# c6: .svg
+# c7: .summary
+# c8: .data()
+# c9: run_typed
+# c10: scenario_kinds()
+# c11: validate_toml()
+# c12: kshana.pyi
+# c13: py.typed
+# c14: docs/PYTHON_API.md
+seg-c69d50031da4 = <b>Enlaces de Python tipados (<c1/>).</b> Además de <c2/>/<c3/>, de cadena de entrada y cadena de salida, el módulo expone ahora una clase tipada <c4/> (<c5/>, <c6/>, <c7/> y un acceso <c8/> que devuelve el resultado analizado a un dict nativo de Python, sin volver a analizar JSON y envolvible en NumPy), además de <c9/>, <c10/> (lista analizada de dicts de metadatos) y <c11/> (una lista de mensajes de error que no lanza excepciones). Incluye un stub de tipos PEP { "561" } (<c12/> + <c13/>) para mypy/pyright/editores y una guía de inicio rápido <c14/>. Las funciones existentes no cambian.
+
+# text
+# c1: src/orbit.rs
+# c2: Frame
+# c3: position_in_frame
+# c4: state_gcrs
+# c5: Propagator
+# c6: gcrs_to_itrs
+# c7: state_gcrs
+seg-fb65ac14344c = <b>Marcos de salida de primera clase para los propagadores (enum <c2/> de <c1/> + <c3/> + <c4/>).</b> Cualquier <c5/> (Kepler, SGP4, RINEX, GLONASS, SP3) puede ahora emitir su posición en TEME, <b>GCRS</b> (≈ J2000) o <b>ITRS</b> (fijo a la Tierra): TEME de forma nativa, GCRS mediante la reducción validada TEME→GCRS e ITRS encadenándola con la rotación <c6/> CIO IAU 2006/2000A, y su estado GCRS completo (posición + velocidad) mediante <c7/>. La salida inercial de la fecha ya no es solo TEME.
+
+# text
+# c1: src/cio.rs
+# c2: X, Y
+# c3: eraNut06a
+# c4: s
+# c5: eraS06
+# c6: tools/gen_s06.py
+# c7: src/cio_s06_data.rs
+# c8: eraC2ixys
+# c9: eraEra00
+# c10: eraC2tcio
+# c11: eraXys06a
+# c12: eraC2ixys
+# c13: eraEra00
+seg-8f596733c439 = <b>Reducción celeste a terrestre IAU 2006/2000A basada en CIO (<c1/>).</b> La cadena GCRS↔CIRS↔ITRS moderna y sin equinoccio: coordenadas del CIP <c2/> leídas de la matriz de sesgo-precesión-nutación IAU 2006/2000A (reutilizando la precesión FW validada + la nutación 2000A con el ajuste P03 de <c3/>), la serie de 66 términos del localizador de CIO <c4/> (<c5/>, generada por máquina a partir de la referencia ERFA mediante <c6/> en <c7/>, reproducible bit a bit), la matriz GCRS→CIRS (<c8/>), el ángulo de rotación de la Tierra (<c9/>) y la rotación completa GCRS→ITRS (<c10/>, compuesta con el movimiento polar del IERS existente). Validada <b>bit a bit</b> frente a los vectores de prueba publicados de <c11/> (X={ "0.5791308482835292617e-3" }, Y={ "0.4020580099454020310e-4" }, s=-0.1220032294164579896e-7 a JD_TT { "2453736.5" }), <c12/> y <c13/>. Se muestra que la cadena CIO y la reducción TEME heredada de equinoccio/GMST-1982 coinciden salvo por su diferencia documentada de convención de tiempo sidéreo de ≈{ "2" }·(ecuación de los equinoccios). Esta es la reducción rigurosa que la vía de equinoccio/GMST aproximaba.
+
+# text
+# c1: src/nutation.rs
+# c2: nutation_iau2000a
+# c3: nutation_matrix_2000a
+# c4: nut00a
+# c5: tools/gen_nut00a.py
+# c6: src/nutation_iau2000a_data.rs
+# c7: eraNut00a
+# c8: nutation_matrix_2000a
+seg-32e6d8dfcebc = <b>Serie completa de nutación IAU 2000A (<c2/> de <c1/>, <c3/>).</b> El modelo MHB2000 completo, con { "678" } términos lunisolares + { "687" } planetarios, exacto a < { "0.1" } mas, junto a la truncación 2000B de 77 términos existente. Las tablas se generan por máquina a partir de la referencia <c4/> de IAU SOFA / ERFA mediante <c5/> en <c6/> (el generador reproduce el archivo incorporado bit a bit), y toda la serie, incluidos los dos conjuntos de argumentos fundamentales IERS-2003 y MHB2000 y las longitudes planetarias, está validada <b>bit a bit</b> frente al vector de prueba publicado de <c7/> (Δψ = −{ "0.9630909107115518e-5" }, Δε = { "0.4063239174001679e-4" } a JD_TT { "2453736.5" }, hasta { "1e-13" } rad). La reducción TEME→GCRS por defecto conserva la serie 2000B (~{ "1" } mas, por debajo de la simplificación de rotación del marco de velocidad de la cadena); <c8/> expone la matriz de la fecha de < { "0.1" } mas para quien la necesite.
+
+# text
+# c1: kind = "lunar-integrity"
+# c2: scenarios/lunanet-araim.toml
+# c3: src/lunar.rs
+# c4: LunarScenario
+# c5: south_pole_hpl_pass
+# c6: LunarReport
+seg-35e9e419d2ae = <b>Escenario ejecutable de integridad lunar (<c1/>, <c2/>).</b> Conecta el paso de nivel de protección del polo sur lunar (<c3/> <c4/> → <c5/>) con el ejecutor de escenarios, con un <c6/> JSON y un gráfico SVG de HPL frente al tiempo, de modo que el caso de integridad cislunar es accesible directamente desde la CLI. Deja ver con honestidad la brecha: con el σ_URE de LANS de { "30" } m, el HPL del polo sur (≈ { "260" }–{ "450" } m) supera un límite de alerta de { "50" } m ({ "0" } % disponible); la integridad PNT lunar aún no se alcanza.
+
+# text
+# c1: src/raim.rs
+# c2: src/orbit.rs
+# c3: scenarios/araim-gps-galileo.toml
+# c4: araim_dual_constellation_availability
+# c5: visible_positions_labeled
+# c6: IntegrityScenario
+# c7: araim_dual
+# c8: tests/araim_dual_real_data.rs
+seg-1910e8110b43 = <b>Disponibilidad de ARAIM de doble constelación sobre TLE reales de GPS+Galileo y conexión con el ejecutor de escenarios (<c1/>, <c2/>, <c3/>).</b> Añade <c4/> (el motor ARAIM avanzado, con fallos de un solo satélite <em>y</em> de toda la constelación, ejecutado sobre una cuadrícula de tiempo) y <c5/>, y lo conecta con el ejecutor <c6/> mediante un indicador <c7/>, de modo que un estudio ARAIM multi-GNSS es accesible directamente desde TOML. Una prueba con datos reales (<c8/>) sobre instantáneas incorporadas de Celestrak GPS+Galileo del 2026-06-07 muestra que agrupar Galileo eleva la disponibilidad de ARAIM de { "0.21" } a { "0.67" } con un VAL exigente de { "12" } m ({ "10.5" }→{ "21.8" } satélites a la vista), mientras que el modo robusto a fallos de constelación queda fundamentalmente limitado con solo dos constelaciones: la razón cuantitativa por la que la integridad robusta de doble constelación empuja hacia una tercera constelación o hacia SBAS. Residuo honesto: la reproducción numéricamente exacta de la Tabla A-3 de la EU ARAIM TN frente a una única época fijada a una versión, y un registro de fixture en Zenodo.
+
+# text
+# c1: src/cr3bp.rs
+# c2: cr3bp_accel
+# c3: propagate_cr3bp
+# c4: jacobi_constant
+# c5: lagrange_points
+# c6: src/lunar.rs
+seg-78ab887a4543 = <b>Problema circular restringido de tres cuerpos (CR3BP) para el sistema Tierra–Luna (<c1/>).</b> Un núcleo nuevo de dinámica cislunar que los propagadores de dos cuerpos/SGP4 no pueden ofrecer: ecuaciones de movimiento en marco rotatorio (<c2/>), un propagador RK4 (<c3/>), la integral de la constante de Jacobi (<c4/>) y los cinco puntos de Lagrange (<c5/>). Validado frente a anclajes en forma cerrada / publicados: los puntos colineales Tierra–Luna (L1 ≈ { "0.83692" }, L2 ≈ { "1.15568" }, L3 ≈ −{ "1.00506" }), los equiláteros exactos L4/L5 = (½−μ, ±√3/2, { "0" }), los cinco confirmados como equilibrios del campo, Jacobi conservada a la precisión del integrador durante la propagación, y la fuerza restauradora fuera del plano que hace posibles las órbitas halo/NRHO. Esta es la base para representar una NRHO real. Residuo honesto: condiciones iniciales NRHO { "9" }:{ "2" } periódicas corregidas diferencialmente, el modelo excéntrico/de efemérides (DE) y la transformación desnormalizada a los marcos selenocéntricos de <c6/>.
+
+# text
+# c1: src/frames.rs
+# c2: polar_motion_matrix
+# c3: iauPom00
+# c4: W = Rx(−y_p)·Ry(−x_p)·Rz(s′)
+# c5: s′
+# c6: pef_to_itrf
+# c7: itrf_to_pef
+# c8: teme_to_itrf
+# c9: teme_to_ecef
+# c10: x_p
+# c11: y_p
+seg-14f4572144f3 = <b>Movimiento polar del IERS y reducción TEME→ITRF (<c1/>).</b> Añade <c2/> (<c3/> de SOFA: <c4/> con el localizador TIO <c5/>), <c6/> / <c7/> y <c8/>, la rotación TEME→PEF basada en GMST seguida del movimiento polar, que completa una posición terrestre fija con precisión ITRF sobre el <c9/> solo de GMST (el movimiento polar es un efecto de decenas de metros al radio orbital). <c10/>/<c11/> son magnitudes observadas del IERS que aporta quien llama. Residuo honesto: una cadena totalmente basada en CIO (X, Y, s) y una comprobación cruzada numérica de ANISE/SPICE de <{ "10" } m siguen siendo trabajo posterior.
+
+# text
+# c1: src/inertial/quantum_imu.rs
+# c2: docs/QUANTUM.md
+# c3: Φ_cor = 2·k_eff·v_⊥·Ω·T²
+# c4: coriolis_phase
+# c5: 2·Ω×v
+# c6: coriolis_accel_bias
+# c7: Φ_LS = (δ_LS,1 − δ_LS,3)/Ω_eff
+# c8: ac_stark_phase
+# c9: cai_drift_sweep
+# c10: docs/QUANTUM.md
+seg-b5e84faf880c = <b>Sistemáticas del interferómetro de átomos fríos, barrido de deriva y validación con un dispositivo publicado (<c1/>, <c2/>).</b> Amplía el acelerómetro CAI de primeros principios con las dos sistemáticas deterministas principales: la fase de <b>Coriolis/rotación</b> <c3/> (<c4/>, con el sesgo de aceleración equivalente <c5/> mediante <c6/>) y la fase de <b>desplazamiento lumínico AC-Stark</b> <c7/> (<c8/>, que se cancela por simetría π/2–π–π/2 para un desplazamiento constante). Añade <c9/> (deriva de posición por navegación a ciegas frente al tiempo de ciclo, el núcleo de una comparación cuántico frente a clásico) y una prueba de validación frente al gravímetro móvil de Freier et al. { "2016" } (arXiv:{ "1512.05660" }): el suelo de ruido de proyección cuántica modelado queda por debajo del ruido de corto plazo publicado de { "96" } nm/s²/√Hz, y a unos ~{ "2" } órdenes de magnitud de él. <c10/> actualizado. Residuo honesto: sistemáticas de frente de onda/apuntamiento del haz, resolución de la ambigüedad de franjas, la reproducción exacta de las pruebas de vuelo de CARIOQA-PMP / Boeing-AOSense (requiere PSD de plataforma publicadas) y un preajuste para el playground de JS.
+
+# text
+# c1: src/lunar.rs
+# c2: mci_to_mcmf
+# c3: mcmf_to_mci
+# c4: mcmf_to_selenographic
+# c5: selenographic_to_mcmf
+# c6: south_pole_hpl_pass
+seg-f32829ed9cf1 = <b>Reducción de marcos cislunares y un paso de integridad en el polo sur lunar (<c1/>).</b> Amplía el motor ARAIM lunar con la rotación MCI↔MCMF (inercial centrado en la Luna ↔ fijo a la Luna) (<c2/> / <c3/>, un modelo simplificado de rotación media a la tasa sidérea lunar), latitud/longitud/altitud selenográficas (<c4/> / <c5/>) y <c6/>: un receptor aterrizado en la región Artemis frente a un conjunto representativo de relés LunaNet durante un paso de { "24" } h, que cuantifica con honestidad la brecha de integridad: con el σ_URE nominal de LANS de { "30" } m, el nivel de protección es finito pero supera un límite de alerta de operaciones de superficie de { "50" } m. Residuo honesto: la efeméride precisa de la NRHO de LANS (una órbita cislunar de 3 cuerpos), la libración física / el polo lunar con precesión (DE421/SPICE) y un escenario TOML de LunaNet siguen siendo trabajo posterior.
+
+# text
+# c1: src/raim.rs
+# c2: docs/ARAIM_REFERENCE.md
+# c3: IntegritySupportMessage
+# c4: .fault_priors()
+# c5: .dual_fault_priors()
+# c6: araim_raim
+# c7: araim_dual_raim
+# c8: stanford_svg
+# c9: PL = error
+# c10: docs/ARAIM_REFERENCE.md
+# c11: araim_dual_raim
+seg-5ef720855cc4 = <b>Mensaje de soporte de integridad ARAIM, SVG del diagrama de Stanford y la referencia abierta de ARAIM (<c1/>, <c2/>).</b> Añade un <c3/> explícito (σ_URA / σ_URE / b_nom / P_sat / P_const, con los valores de referencia GPS+Galileo de WG-C y conversores <c4/> / <c5/> hacia los motores <c6/> de fallo único y <c7/> de toda la constelación), un renderizador autónomo <c8/> del diagrama de integridad de Stanford (las cuatro zonas, el límite <c9/>, las guías del límite de alerta, un marcador codificado por color por época) y <c10/>, que documenta el algoritmo, el ISM, las hipótesis de fallo, el contrato de nivel de protección y el beneficio de la doble constelación. Las pruebas demuestran la ganancia de geometría/redundancia (agrupar una segunda constelación estrecha el HPL de fallo único) y la tolerancia a fallos de constelación (el usuario de doble constelación sobrevive a la pérdida de una constelación entera; un usuario de una sola constelación no). Residuo honesto: reproducir numéricamente la Tabla A-3 de la EU ARAIM TN / la cifra de disponibilidad del { "15" }–{ "25" } % frente a una instantánea real de TLE fijada a una versión, un registro de fixture en Zenodo y conectar <c11/> con el ejecutor de archivos de escenario.
+
+# text
+# c1: src/nutation.rs
+# c2: nutation_iau2000b
+# c3: iauNumat
+# c4: teme_to_gcrs(r, v, jd_tt)
+# c5: gcrs_to_teme
+# c6: nut00b
+# c7: eraNut00b
+# c8: ROADMAP.md
+seg-3607eb34acd9 = <b>Nutación IAU 2000B y reducción inercial completa TEME→GCRS/J2000 (<c1/>).</b> Añade la segunda y la tercera pieza de una reducción inercial de marcos verdadera sobre la precesión IAU { "2006" } ya incluida: la serie de nutación lunisolar MHB2000 de 77 términos (<c2/>, la truncación estándar IAU 2000B exacta a ~{ "1" } mas) con los argumentos fundamentales de Delaunay y la matriz de nutación <c3/> de SOFA, y la cadena de Vallado AIAA-2006-6980 TEME→TOD (ecuación de los equinoccios) → TOD→MOD (nutación) → MOD→GCRS (sesgo-precesión) expuesta como <c4/> / <c5/>. La serie, los argumentos y las constantes de unidades se transcriben de la referencia <c6/> de IAU SOFA / ERFA y se validan <b>bit a bit</b> frente al vector de prueba publicado de <c7/> (Δψ, Δε hasta { "1e-13" } rad). Residuo honesto: la serie completa IAU 2000A de 678 términos (<{ "0.1" } mas), una comprobación cruzada numérica de ANISE/SPICE de <{ "10" } m y el movimiento polar siguen siendo trabajo posterior (véase <c8/>).
+
+# text
+seg-d9b5e459f6eb = Esta versión incorpora el primer <b>propagador de órbita no analítico</b> de Kshana: un integrador de Cowell con un modelo de fuerzas jerárquico de seis perturbaciones (dos cuerpos + zonal J2–J6 + tercer cuerpo Sol/Luna impulsado por la época + presión de radiación solar con sombra cónica de umbra/penumbra + arrastre atmosférico + la corrección relativista postnewtoniana de Schwarzschild) impulsado por la elección de dos integradores adaptativos (duplicación de paso RK4 y el par embebido Dormand–Prince RK5({ "4" })), junto con una capa de maniobras / diseño de trayectorias (impulsos instantáneos y finitos, un resolvedor de Lambert de Izzo y un barrido porkchop), una capa alt-PNT de correlación de mapas de gravedad que recupera una traza de 60 minutos sin GPS con menos de { "500" } m, una cadena de determinación de órbita por lotes + secuencial y un UKF completo GNSS/INS fuertemente acoplado de 17 estados con navegación a ciegas CAI cuántica. Toda capacidad numérica está fijada frente a la verdad analítica o a una forma cerrada deducida a mano; las perturbaciones desactivadas por defecto dejan intactos los golden publicados.
+
+# text
+# c1: forces::relativistic_accel
+# c2: propagator::ForceModel::relativity
+# c3: β = γ = 1
+# c4: a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}
+# c5: (r, v)
+# c6: accel_rv
+# c7: 3μ²/(c²r³)·r̂
+# c8: ≈1.9·10⁻⁹
+# c9: μ/(c²r)
+# c10: μ(4μ + 3v²r)/(c²r³)
+# c11: β
+# c12: γ
+seg-aa8d478f5c10 = <b>Corrección relativista postnewtoniana (de Schwarzschild) (<c1/> + <c2/>).</b> Añade la perturbación de relatividad general dominante en una órbita cercana a la Tierra, el principal motor del avance relativista del perigeo, en la forma <c3/> de IERS / Montenbruck–Gill <c4/>. Como el arrastre atmosférico, es <b>dependiente de la velocidad</b>, de modo que viaja en el miembro derecho del integrador <c5/> mediante [<c6/>], opcional y desactivada por defecto. Validada de forma autocontenida: en una órbita circular se reduce a la forma cerrada <c7/> (puramente radial y <b>hacia fuera</b>, con componentes fuera del eje exactamente cero); su <b>razón respecto a los dos cuerpos es el <c8/> de los manuales en LEO</b> (la firma de <c9/>); un caso de velocidad radial coincide con el <c10/> simplificado a mano; y en el propagador <b>perturba la órbita sin disiparla</b>: el semieje mayor se conserva muy por debajo de un metro/día, lo contrario estructural de la caída monótona del arrastre. Como está desactivada por defecto, los golden de dos cuerpos/J2/zonales no se tocan. El ajuste de parámetros PPN (<c11/>,<c12/>) y el término de arrastre de marcos de Lense–Thirring siguen siendo trabajo posterior.
+
+# text
+# c1: forces::conical_shadow
+# c2: ν ∈ [0,1]
+# c3: a = asin(R☉/d☉)
+# c4: b = asin(Rₑ/|r|)
+# c5: c
+# c6: ν
+# c7: c ≥ a+b
+# c8: c ≤ b−a
+# c9: c ≤ a−b
+# c10: srp_accel
+# c11: forces::SOLAR_RADIUS
+# c12: ν = 1
+# c13: ν = 0
+# c14: ν
+# c15: c = b
+# c16: [b−a, b+a]
+# c17: 0 < ν < 1
+# c18: cylindrical_shadow
+seg-043e831224ab = <b>Modelo de sombra cónica de umbra+penumbra (<c1/>), ahora usado por la presión de radiación solar.</b> Mejora el eclipse binario de cilindro umbral a un factor <c2/> suave: el Sol y la Tierra se modelan como discos de radios angulares aparentes <c3/>, <c4/> con separación aparente de centros <c5/>, y <c6/> es uno menos la fracción del disco del Sol que oculta el disco de la Tierra (el área de solapamiento lenticular entre círculos): sol pleno para <c7/>, umbra total para <c8/>, anular para <c9/> y una penumbra continua entre medias. <c10/> lo usa ahora, de modo que la fuerza SRP se atenúa suavemente a través del eclipse en lugar de activarse y desactivarse. Añade el <c11/> nominal de la IAU. Validado de forma autocontenida: <c12/> a pleno sol y <c13/> en lo profundo de la umbra (exacto), una <b>penumbra suave y monótona</b> (<c14/> sube de { "0" } → ~½ en <c15/> → { "1" } a lo largo de la banda <c16/>), y la penumbra cónica <b>se extiende más allá del cilindro umbral</b> (un punto que el cilindro binario considera plenamente iluminado es <c17/> para el cono). El <c18/> más simple sigue disponible; el oscurecimiento del limbo solar y la sombra de la Tierra achatada siguen siendo trabajo posterior.
+
+# text
+# c1: integrator::dopri54_step
+# c2: integrator::integrate_dopri
+# c3: propagator::propagate_dopri
+# c4: 0.9·(1/err)^(1/5)
+# c5: propagator::propagate_dopri
+# c6: y' = y
+# c7: e
+# c8: propagate_dopri
+seg-8d1c16019f3c = <b>Integrador embebido Dormand–Prince RK5({ "4" }) (<c1/> / <c2/> + <c3/>).</b> Añade el par embebido estándar de tableau de Butcher de Dormand–Prince ({ "1980" }) junto al controlador existente de duplicación de paso RK4: siete etapas FSAL dan una solución de 5.º orden y una estimación de error de 4.º orden a partir de un mismo conjunto de evaluaciones ({ "7" } frente a { "11" } llamadas de función por paso), una estimación de error local más barata. El controlador adaptativo reutiliza la misma norma de error RMS y el controlador de paso <c4/>, de modo que es una alternativa directa; <c5/> lo expone en el modelo de fuerzas de la órbita. Validado de forma autocontenida: la estimación de error embebida es <b>O(h⁵)</b> (reducir a la mitad el paso la reduce unas ~{ "32" }×); DP5({ "4" }) integra <c6/> hasta <c7/> y el oscilador armónico durante { "50" } periodos conservando la energía hasta <{ "1e-6" }; alcanza el mismo punto final con la misma tolerancia en <b>menos evaluaciones de función</b> que la duplicación de paso (sin sacrificar exactitud); y <c8/> supera la misma puerta de verdad analítica que la vía RK4 (<b>submétrico frente a la solución exacta de Kepler de variable universal en una órbita LEO de { "24" } h</b>), mientras que los dos controladores coinciden a <{ "1" } m en una órbita J2..J6 (sin forma cerrada). Pares embebidos superiores (RKF7({ "8" }) / DOP853) siguen siendo trabajo posterior.
+
+# text
+# c1: forces::atmospheric_density
+# c2: forces::drag_accel
+# c3: propagator::ForceModel::drag
+# c4: ρ = ρ0·exp(−(h−h0)/H)
+# c5: a = −½ · ρ(h) · (C_D·A/m) · |v_rel| · v_rel
+# c6: v_rel = v − ωₑ ẑ × r
+# c7: forces::EARTH_ROTATION_RATE = 7.2921151467e-5
+# c8: ForceModel
+# c9: accel_rv(t, r, v)
+# c10: f(t,[r;v]) = [v; a(t,r,v)]
+# c11: accel_at
+# c12: C_D·A/m = 0.02 m²/kg
+seg-cca3c00757d6 = <b>Arrastre atmosférico incorporado al propagador como su primera fuerza dependiente de la velocidad (<c1/> + <c2/> + <c3/>).</b> Añade la atmósfera <b>exponencial por tramos de la Tabla 8-4 de Vallado</b> <c4/> ({ "28" } bandas desde el nivel del mar hasta más allá de { "1000" } km, acotada por debajo de la superficie) y el arrastre cuadrático <c5/> frente a la <b>atmósfera corrotante</b> <c6/> (<c7/>). Como el arrastre depende de la velocidad, <c8/> gana un nuevo <c9/> y el miembro derecho del integrador pasa ahora la velocidad (<c10/>); el <c11/> solo de posición no cambia, de modo que los términos conservativos y los golden no se tocan. Validado de forma autocontenida: la densidad <b>se ancla en el valor de { "1.225" } kg/m³ a nivel del mar</b>, se acota por debajo de la superficie, <b>decrece monótonamente</b> a través de LEO, se sitúa en la banda de media solar de ~{ "1e-12" } kg/m³ a { "400" } km, y su <b>altura de escala local recuperada (≈ { "58" } km a { "400" } km)</b> es física; el arrastre <b>se opone a la velocidad relativa corrotante</b> con la magnitud LEO de ~{ "2e-6" } m/s² para <c12/>; y, la firma clave, el arrastre es <b>disipativo</b>: una órbita de { "300" } km pierde energía específica <b>monótonamente</b> y su semieje mayor <b>decae unos ~km/día acotados</b>, mientras que la línea base en vacío conserva la energía hasta <{ "1e-9" }. La densidad termosférica NRLMSISE-00 (la cláusula de densidad de arrastre de < { "5" } %) sigue siendo trabajo posterior.
+
+# text
+# c1: forces::srp_accel
+# c2: propagator::ForceModel::solar_radiation
+# c3: a = ν · P☉ · cᵣ · (A/m) · (AU/d)² · d̂
+# c4: forces::cylindrical_shadow
+# c5: P☉ = Φ☉/c
+# c6: (AU/d)²
+# c7: ephem
+# c8: epoch_jd_tt + t/86400
+# c9: with_zonals_j2_j6().third_body(true, true, epoch).solar_radiation(1.5, 0.02)
+seg-0d20f02ef85f = <b>Presión de radiación solar incorporada, impulsada por la época, al modelo de fuerzas del propagador (<c1/> + <c2/>).</b> Añade el <b>modelo SRP de bola de cañón</b> <c3/> con un <b>factor de eclipse de sombra cilíndrica</b> (<c4/>, ν ∈ { "{" }{ "0,1" }{ "}" }): la presión de radiación <c5/> a partir de la irradiancia solar total moderna de { "1361" } W/m² (≈ { "4.5398" }·{ "10" }⁻⁶ N/m²), la caída de flujo <c6/> inversa del cuadrado y el empuje radial <b>alejándose del Sol</b>. Viaja en el <b>mismo miembro derecho impulsado por la época</b> que el tercer cuerpo, muestreando el Sol <c7/> una sola vez en la época avanzada <c8/> compartida entre el tercer cuerpo del Sol y la SRP. Componible: <c9/>. Validado de forma autocontenida frente a firmas deducidas a mano: la <b>presión de radiación a 1 AU se fija en sus ≈ { "4.5398" }·{ "10" }⁻⁶ N/m² de los manuales</b>; la SRP de un satélite LEO plenamente iluminado es <b>idéntica bit a bit</b> a la fórmula de bola de cañón, apunta <b>alejándose del Sol</b> y se sitúa en la <b>banda de ~{ "1.36" }·{ "10" }⁻⁷ m/s²</b> para cᵣ = { "1.5" }, A/m = { "0.02" } m²/kg; <b>duplicar la distancia al Sol divide la magnitud por cuatro</b> (inverso del cuadrado); la <b>sombra cilíndrica eclipsa solo el cilindro umbral</b> (en sentido antisolar <em>y</em> a menos de un radio terrestre de la línea Tierra–Sol) y da una SRP <b>exactamente cero</b> en eclipse; y en el propagador la SRP <b>perturba una órbita LEO en una cantidad pequeña y acotada que escala ~linealmente con A/m</b>, mientras que un modelo sin perturbaciones sigue siendo independiente del tiempo bit a bit, dejando intactos los golden de dos cuerpos/J2/zonales. La umbra/penumbra cónica (ν suave ∈ [{ "0,1" }]), el arrastre atmosférico y la validación cruzada externa con GMAT/Orekit siguen siendo trabajo posterior.
+
+# text
+# c1: propagator::ForceModel::third_body
+# c2: accel_at
+# c3: ephem
+# c4: epoch_jd_tt + t/86400
+# c5: precession::julian_centuries_tt
+# c6: ForceModel::with_zonals_j2_j6().third_body(true, true, epoch)
+# c7: third_body_accel
+# c8: t = 0
+# c9: t = 1 day
+seg-d3f819c21660 = <b>Tercer cuerpo Sol/Luna impulsado por la época, incorporado al miembro derecho variable en el tiempo del propagador (<c1/> / <c2/>).</b> La perturbación de tercer cuerpo ya no es un término de fuerza independiente: ahora el propagador de Cowell la integra como una fuerza genuinamente <em>variable en el tiempo</em>: cada evaluación del miembro derecho muestrea las posiciones del Sol/Luna de <c3/> en la <b>época avanzada <c4/></b> (reutilizando <c5/> para la conversión día↔siglo), de modo que los perturbadores se mueven a lo largo de sus órbitas durante la integración en lugar de quedar congelados al comienzo. Componible con cualquier modelo de gravedad (<c6/>). Validado de forma autocontenida: el término del Sol del miembro derecho es <b>idéntico bit a bit</b> a <c7/> evaluado en la posición de la efeméride para ese instante tanto en <c8/> como en <c9/> (lo que demuestra exactamente el cableado { "86400" } s ↔ { "1" } día ↔ 1/36525 siglo), el perturbador <b>avanza ~{ "2.6" }·10⁹ m/día</b> entre muestras (no está congelado), las <b>magnitudes mareales instantáneas en LEO</b> alcanzan las bandas de los manuales de ~{ "5" }·{ "10" }⁻⁷ m/s² (Sol) y ~{ "1.1" }·{ "10" }⁻⁶ m/s² (Luna, ≈ { "2" }× el Sol), cada cuerpo <b>perturba de forma medible la trayectoria de un día y permanece acotado</b>, y el mismo estado inicial propagado en <b>épocas separadas un cuarto de año da una trayectoria distinta</b> (el eje mareal gira { "90" }°), mientras que un modelo sin ninguno de los dos cuerpos activado es independiente del tiempo bit a bit, dejando intactos los golden de dos cuerpos/J2/zonales. La exactitud de efemérides de grado DE y la validación cruzada externa con GMAT/Orekit siguen siendo trabajo posterior.
+
+# text
+# c1: ephem::moon_position
+# c2: §3.3.2
+# c3: forces::third_body_accel
+seg-0a517f6c4b1b = <b>Efeméride lunar de baja precisión (<c1/>), que completa el par de tercer cuerpo Sol/Luna.</b> Añade la serie lunar de baja precisión de Montenbruck & Gill (<c2/>) junto al modelo del Sol, de modo que <c3/>, agnóstico respecto al cuerpo, puede ahora ser impulsado por cualquiera de los dos astros <b>sin ningún kernel DE/SPK externo</b>. Validada de forma autocontenida frente a firmas lunares deducidas a mano: la distancia geocéntrica se mantiene dentro de la <b>envolvente real de perigeo/apogeo (~{ "356 500" }–{ "406 700" } km)</b> a lo largo de un mes y su <b>media mensual recupera el semieje mayor de ~{ "384 400" } km</b>; la <b>latitud eclíptica nunca supera la inclinación orbital lunar de ~{ "5.3" }°</b> (comprobado proyectando sobre el polo de la eclíptica en coordenadas ecuatoriales, lo que valida a la vez la serie de latitud y la rotación de la oblicuidad); la <b>dirección de la Luna regresa a menos de { "1" }° tras un mes sidéreo ({ "27.3217" } d)</b> y su <b>movimiento diario se mantiene en la banda física de { "12" }–{ "15" }°/día</b>; y la perturbación lunar de tercer cuerpo sobre un satélite LEO tiene la <b>magnitud de los manuales de ~{ "1.1" }·{ "10" }⁻⁶ m/s²</b> (≈ el doble que la del Sol). La exactitud de posición de grado DE, el arrastre atmosférico y la SRP siguen siendo trabajo posterior.
+
+# text
+# c1: forces::third_body_accel
+# c2: ephem::sun_position
+# c3: a = GM₃·((s−r)/|s−r|³ − s/|s|³)
+# c4: ephem
+# c5: third_body_potential
+seg-8b7025e00dd1 = <b>Gravedad de tercer cuerpo (Sol) con una efeméride incorporada de baja precisión (<c1/>, <c2/>).</b> Añade la perturbación de tercer cuerpo al modelo de fuerzas: <c3/> (atracción directa menos el término indirecto que debe restar el marco geocéntrico), con la posición del Sol aportada por la serie analítica de baja precisión de Montenbruck & Gill del nuevo módulo <c4/>: <b>sin necesidad de ningún kernel DE/SPK externo</b> para una ejecución de baja fidelidad. Validada de forma autocontenida: la aceleración <b>coincide con el gradiente exacto de su propio potencial perturbador</b> (<c5/>), la perturbación <b>se anula en el geocentro</b> y tiene la <b>magnitud de los manuales de ~{ "5" }·{ "10" }⁻⁷ m/s² en un satélite LEO</b>, y la efeméride del Sol alcanza anclajes J2000 deducidos a mano: <b>distancia del perihelio ≈ { "1.471" }·10¹¹ m</b>, <b>declinación ≈ −{ "23" }° cerca del solsticio de diciembre</b>, un movimiento aparente de <b>≈ { "1" }°/día</b> (≈ { "90" }° por cuarto de año) y una distancia que permanece dentro de la envolvente de órbita terrestre de { "0.983" }–{ "1.017" } AU a lo largo de un año completo. Entrega la mitad de tercer cuerpo del paso de modelo de fuerzas del hito del propagador numérico (la Luna se entrega en una entrada complementaria más arriba); la exactitud de posición de grado DE, el arrastre atmosférico y la SRP siguen siendo trabajo posterior.
+
+# text
+# c1: forces::zonal_accel
+# c2: zonal_potential
+# c3: J2..J6
+# c4: ForceModel::with_zonals_j2_j6()
+# c5: R(r) = −(μ/r)·Σ Jₙ(Re/r)ⁿPₙ(z/r)
+# c6: j2_accel
+# c7: [J2]
+# c8: J3
+# c9: J2
+# c10: J4..J6
+# c11: z → −z
+seg-99fd6ae1ea09 = <b>Modelo de fuerzas de armónicos zonales J2–J6 (<c1/> / <c2/>).</b> Amplía el modelo de fuerzas del propagador de Cowell más allá de J2 hasta el campo zonal completo de la Tierra hasta el grado { "6" } (el <c3/> no normalizado estándar publicado de EGM-96), integrado en el propagador como <c4/>. La aceleración es el <b>gradiente analítico exacto</b> del potencial perturbador zonal <c5/> (polinomios de Legendre por recurrencia ascendente), validado de tres maneras independientes: <b>se reduce al <c6/> validado con 666 vectores hasta la precisión de máquina</b> cuando se restringe a <c7/>; <b>coincide con el gradiente numérico de su propio potencial</b> en todo el campo J2..J6 (la comprobación de referencia de los campos conservativos); y los términos impares de <c8/> frente a los pares de <c9/>/<c10/> muestran su <b>(anti)simetría norte–sur característica</b> bajo <c11/>, la asimetría en forma de pera. Una órbita J2..J6 propagada conserva la energía total (cinética + central + potencial zonal) hasta ~{ "1e-8" } en un día y perturba la órbita solo J2 en una cantidad pequeña distinta de cero. Esto entrega el paso 2 («armónicos zonales J2–J6») del hito del propagador numérico; el campo teseral EGM de alto grado, el arrastre, la SRP, el tercer cuerpo y la validación cruzada externa con GMAT/Orekit siguen siendo trabajo posterior.
+
+# text
+# c1: src/propagator.rs
+# c2: src/forces.rs
+# c3: src/integrator.rs
+# c4: f(t,[r;v]) = [v; a(r)]
+# c5: ForceModel
+# c6: j2_secular_rates
+# c7: solve_kepler_checked
+# c8: Err
+# c9: e = 0.999
+seg-59f0ba5a6269 = <b>Propagador numérico de órbita (de Cowell) (<c1/>).</b> El primer propagador <b>no analítico</b> de Kshana (el resto de la pila de órbitas es SGP4/SDP4 analítico): conecta el modelo de fuerzas de dos cuerpos + J2 (<c2/>) con el controlador adaptativo RK4 de duplicación de paso (<c3/>) como <c4/>, con un interruptor <c5/>. Validado frente a una <b>verdad analítica más fuerte de lo que sería una herramienta numérica cruzada</b>: la órbita sin perturbar reproduce la <b>solución exacta de Kepler de variable universal a nivel submétrico en una órbita LEO de 24 horas</b> (una puerta más estricta que el «frente a una referencia numérica < { "10" } m» con que se formula el hito), la energía específica y el momento angular se conservan hasta ~{ "1e-9" } en términos relativos, y la regresión nodal de J2 reproduce la <c6/> en forma cerrada hasta la teoría de primer orden (dentro del { "2" } %, el residuo O(J2²)). Añade también <c7/>, un resolvedor de Newton de la ecuación de Kepler que <b>devuelve <c8/> en lugar de una respuesta silenciosamente errónea</b> cuando no converge dentro de un presupuesto acotado de iteraciones (el caso <c9/> cercano al perigeo). Alcance honesto: el modelo de fuerzas es solo de dos cuerpos + J2; el campo teseral EGM de alto grado ({ "200" }×{ "200" } + cargador), el arrastre (NRLMSISE-00), la SRP, las fuerzas de tercer cuerpo y una validación cruzada externa con GMAT/Orekit siguen siendo trabajo posterior.
+
+# text
+# c1: run_gps_denied_gravity_nav
+# c2: scenarios/gps-denied-gravity-nav.toml
+# c3: docs/CAPABILITY.md
+seg-d4c7c29f09d1 = <b>Correlación de mapas de gravedad sin GPS de 60 minutos hasta < { "500" } m (<c1/>).</b> Profundiza la capa alt-PNT hasta el objetivo de validación <em>Quantum Wayfarer</em> de ESA NAVISP: un vehículo recorre una traza de ~{ "700" } km durante una interrupción de GNSS de una hora completa, con su solución inercial derivando hasta <b>≈ { "70" } km</b>, y un gravímetro de átomos fríos más un correlador de partículas/rejilla <b>jerárquico de grueso a fino</b> recupera la deriva constante del INS hasta <b>≈ { "145" } m</b> (< { "500" } m), una reducción de > { "480" }×. El suelo real de ruido blanco del gravímetro se inyecta como una secuencia <b>determinista con semilla</b>, de modo que al correlador nunca se le entrega una verdad sin ruido y aun así la ejecución es exactamente reproducible (verificado idéntico bit a bit, y estable a unos pocos metros entre realizaciones de ruido). Una prueba de grado de regresión muestra que el refinamiento es <em>necesario</em>: una única rejilla gruesa se estanca en ~{ "2" } km, y solo el refinamiento de tres etapas rompe la barrera de { "500" } m. Escenario nuevo incorporado al repositorio <c2/>. La fila <c3/> sigue siendo con honestidad <b>parcial</b> (todavía sin mapa EGM2008 incluido), con su evidencia actualizada al resultado de 60 min < { "500" } m. El alcance honesto no cambia: campo de armónicos esféricos de grado bajo + mascons sintéticos; un Monte-Carlo sobre realizaciones del error de representación del mapa es trabajo posterior.
+
+# text
+# c1: docs/CLAIMS-VS-REALITY.md
+# c2: tests/no_overclaims.rs
+# c3: OC-0
+# c4: OC-13
+# c5: OC-0
+# c6: OC-2
+# c7: OC-7
+# c8: OC-8
+# c9: README
+# c10: CAPABILITY
+# c11: GLOSSARY
+# c12: web/
+seg-4262a99328bb = <b>Registro de afirmaciones excesivas + protección contra regresiones (<c1/>, <c2/>).</b> Cierra la línea de honestidad/retirada de afirmaciones: las catorce afirmaciones excesivas que catalogó una auditoría anterior (<c3/>…<c4/>) están ya todas en GREEN: las afirmaciones fuertes (<c5/> Kalman acoplado de reloj+posición, <c6/> jamming J/S→C/N₀→pérdida de enganche, <c7/> física CAI de Mach–Zehnder, <c8/> HPL/VPL de ARAIM) están <b>sustituidas por capacidades distribuidas y probadas</b> y no por una redacción suavizada, y las demás filas se han corregido para coincidir con el código. Una nueva prueba de CI analiza las superficies públicas en vivo (<c9/>, <c10/>, <c11/>, <c12/>) y falla si reaparece sin matices alguna frase retirada de afirmación excesiva simple, de modo que una fila GREEN no pueda retroceder en silencio. La FoM de «integridad» por ejecución sigue etiquetada con honestidad como <em>autoconsistencia del filtro</em> (no integridad aeronáutica); el HPL/VPL real de ARAIM se presenta por separado para que nunca se confundan.
+
+# text
+# c1: src/gravimeter.rs
+# c2: σ = ASD/√τ
+# c3: P̄₁₁=√3·cosφ
+# c4: P̄₂₀=(√5/2)(3sin²φ−1)
+# c5: P̄₂₂=(√15/2)cos²φ
+# c6: mapmatch
+# c7: particle_filter
+# c8: scenarios/gravity-map-nav.toml
+# c9: kind=
+# c10: docs/CAPABILITY.md
+seg-27da62a7ff63 = <b>Navegación por correlación de mapas de gravedad (alt-PNT sin GPS).</b> El nuevo <c1/> añade la capa de capacidad alt-PNT que reclaman los estudios de correlación de mapas de gravedad <em>Quantum Wayfarer</em> / QT-CCI de ESA NAVISP: un <b>modelo de medida de gravímetro</b> de átomos fríos cuyo suelo de ruido blanco se deriva de la ASD del acelerómetro CAI (<c2/>); un <b>campo de anomalías de gravedad de armónicos esféricos</b> de grado bajo y totalmente normalizado (validado frente a las funciones de Legendre en forma cerrada <c3/>, <c4/>, <c5/> y una anomalía de un solo término deducida a mano de { "1.897" } mGal) más <b>mascons</b> sintéticos para los rasgos locales de grado alto; y un <b>filtro de partículas de correlación de mapas de gravedad</b> (que compone <c6/> + <c7/>) que recupera una traza sin GPS a partir de la secuencia de anomalías que atraviesa. Un benchmark NAVISP incorporado al repositorio (<c8/>) reduce una deriva inercial libre de ~{ "73" } km a unos pocos km. Alcance honesto: Kshana <b>no</b> incluye el conjunto completo de coeficientes EGM2008 de { "2190" }°; el campo es de grado bajo + mascons, no un mapa real de alta resolución; el cargador EGM/EIGEN, el mapa magnético, el SLAM asistido por terreno y la conexión <c9/> del motor de escenarios con un gráfico SVG de deriva siguen siendo trabajo posterior. <c10/> «Gravity-map / alt-PNT navigation» → <b>parcial</b>.
+
+# text
+# c1: src/maneuver.rs
+# c2: r1
+# c3: r2
+# c4: v1
+# c5: v2
+# c6: r2
+seg-d028a2db7837 = <b>Modelado de maniobras y cabeza de puente del diseño de trayectorias.</b> El nuevo <c1/> añade la primera capa de diseño de trayectorias por encima de SGP4: nodos de ΔV impulsivos que aplican una discontinuidad de velocidad y propagan una covarianza de { "6" }×{ "6" } (quemado determinista ⇒ transición de estado identidad; la covarianza del error de ejecución rota desde el marco del quemado, ECI o LVLH, hacia el bloque de velocidad), una integración de quemado finito (empuje constante sobre un arco de quemado con la masa como estado) cuyo ΔV logrado se comprueba frente a la ecuación del cohete de <b>Tsiolkovsky</b> en forma cerrada con una diferencia inferior al { "0.01" } %, un resolvedor de <b>Lambert</b> de una sola revolución de <b>Izzo-2015</b> (<c2/>, <c3/>, tiempo de vuelo ⇒ <c4/>, <c5/>), un <b>propagador de Kepler</b> exacto de variable universal (verdad de dos cuerpos) y un barrido <b>porkchop</b> que traza una cuadrícula de época de lanzamiento × época de llegada hasta C3 de salida y V∞ de llegada, emitido como un array JSON 2-D para el renderizado de contornos en el navegador. La validación es autocontenida y más fuerte que una lectura de tutorial: cada salida de Lambert se devuelve por el propagador de Kepler (debe volver a aterrizar en <c6/>), y el mínimo del porkchop se comprueba frente al suelo analítico de C3 de la transferencia de Hohmann para dos órbitas circulares coplanarias. Kshana la sitúa como la capa de simulación de rendimiento por encima de GMAT/Orekit, no como un sustituto (las ramas de varias revoluciones y una efeméride planetaria real quedan fuera de alcance). Diez pruebas.
+
+# text
+# c1: src/fusion/tightly_coupled17.rs
+# c2: [position, velocity, attitude-error, accelerometer bias, gyro bias, clock bias, clock drift]
+# c3: C ≈ I + [ψ×]
+# c4: q_va
+# c5: crate::inertial::quantum_imu
+seg-cbdd0e56d89f = <b>UKF GNSS/INS fuertemente acoplado completo de 17 estados con navegación a ciegas CAI cuántica.</b> El nuevo <c1/> lleva el estado completo de navegación inercial que estima un filtro fuertemente acoplado, <c2/> ({ "17" } estados), propagado por la mecanización strapdown impulsada por la fuerza específica y la velocidad angular medidas, con la rotación cuerpo→inercial de ángulo pequeño <c3/> de modo que el error de actitud se acopla a la aceleración horizontal (el acoplamiento estándar de inclinación del INS). Durante una interrupción de GNSS navega a ciegas solo con la IMU; el ruido de proceso de paseo aleatorio de la velocidad es el <c4/> derivado del acelerómetro de interferómetro de átomos fríos (<c5/>), de modo que la deriva de la navegación a ciegas es la limitada por el sensor cuántico: una interrupción de 120 segundos queda acotada a unos cientos de metros frente a los kilómetros que alcanzaría un INS libre de grado de navegación. La actualización de pseudodistancia/tasa de distancia se ejecuta por el filtro de Kalman unscented (UKF) compartido (con α = { "1" } para pesos bien condicionados con este tamaño de estado). Cinco pruebas: identidad del modelo de medida, integración a velocidad constante con IMU perfecta, ayuda de GNSS, estimación del sesgo del acelerómetro y el benchmark de interrupción de 120 s limitada por CAI.
+
+# text
+# c1: CITATION.cff
+# c2: ROADMAP.md
+seg-087521bb32b7 = <b>Un encuadre honesto para el posicionamiento cuántico.</b> El descriptor principal es ahora un <b>«simulador de resiliencia PNT con modelos de rendimiento de sensores cuánticos»</b> de forma coherente en el eslogan del README, la línea de cita, <c1/> (título + resumen) y la ilustración del banner, en sustitución de la redacción comercial más laxa «simulador PNT híbrido cuántico/clásico». La sección <em>What it is / is not</em> del README gana una declaración de alcance explícita <b>«It is not (yet)»</b> (no es un motor de física de interferometría atómica de primeros principios, no es un receptor GNSS/solucionador PVT, no es una herramienta de diseño de misiones), y un nuevo <c2/> de nivel superior convierte la <b>capa de física cuántica en un elemento P2</b> (fase CAI de Mach–Zehnder, ruido de proyección, tensor de vibración) para que los lectores sepan que la física de primeros principios está prevista y por llegar, no abandonada. Sin cambio de comportamiento ni de API.
+
+# text
+seg-f8fa36190ec7 = Estudio comparativo de diseño de constelaciones: barrido de diseños Walker con un frente de Pareto, JSON de tiempo de revisita y una validación submétrica de la fórmula de Walker.
+
+# text
+# c1: src/walker.rs
+# c2: walker_design_sweep
+# c3: planes × sats_per_plane
+# c4: pareto_front
+# c5: WalkerDesignReport::to_json
+# c6: i:T/P/F
+# c7: R_z(2π/P)
+# c8: 2π/S
+# c9: gps-ops
+# c10: scenarios/orbit-sgp4-gps.toml
+seg-31518e92d8cf = <c1/> gana <c2/>, que ejecuta una cuadrícula <c3/> (p. ej. un estudio de { "3" }×{ "3" }) con una inclinación fija y tabula, por diseño, la fracción de cobertura, el PDOP del peor caso y el intervalo de revisita máximo/medio; <c4/> marca los diseños no dominados (menos satélites, más cobertura, menor PDOP, revisita más corta), y <c5/> serializa las celdas y el frente de Pareto, con los campos de tiempo de revisita incluidos, como JSON. Una validación nueva fija el generador a la fórmula de Walker <c6/>: se muestra que los satélites de la misma ranura en planos adyacentes se transforman unos en otros mediante una rotación exacta <c7/> con <b>menos de { "1" } km a lo largo de { "24" } h completas</b> de propagación SGP4 (la respiración de corto periodo de J2 es de modo común y se cancela), y se confirma que las ranuras dentro del plano están espaciadas <c8/> en media. Se apoya en la instantánea real de Celestrak <c9/> del 2021-07-28 incorporada al repositorio (<c10/>, ejercitada por las pruebas de cobertura de escenarios y de ida y vuelta de SP3).
+
+# text
+# c1: src/timetransfer_adv.rs
+# c2: twstft_sagnac
+# c3: Δt = 2·A·ω_E/c²
+# c4: twstft_sagnac_bipm
+# c5: run_twstft
+# c6: T_A − T_B
+# c7: gnss_common_view_series
+# c8: iono_free_combination
+# c9: ppp_receiver_clock
+# c10: rytov_variance
+# c11: fried_parameter
+# c12: lognormal_fading
+# c13: fit_power_law_psd
+# c14: h_α
+# c15: ensemble_timescale
+seg-71d257587c28 = <b>Transferencia avanzada de tiempo y frecuencia: TWSTFT, vista común GNSS, PPP, óptica, ajuste de ley de potencias IEEE-1139 y un conjunto de relojes.</b> El nuevo <c1/> construye los métodos operativos de transferencia sobre las formas cerradas de Sagnac/vista común incluidas y las herramientas de estabilidad de Allan. <c2/> da la corrección de Sagnac de la transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT) como la suma del bucle de tres saltos, igual a la forma cerrada del BIPM <c3/> exactamente (contrastada con el independiente <c4/>); <c5/> emite una serie <c6/> de un día y su TDEV. <c7/> toma diferencias simples de dos estaciones terrestres sintéticas para que el reloj del satélite se cancele. <c8/> + <c9/> son la combinación libre de ionosfera de PPP y la resolución del reloj del receptor frente a una verdad sintética de grado SP3, cancelando exactamente la ionosfera de primer orden. <c10/>, <c11/> y el modelo <c12/> de media unitaria modelan el centelleo inducido por turbulencia de un enlace óptico en espacio libre. <c13/> es un ajuste completo por mínimos cuadrados de <c14/> de cinco coeficientes IEEE-1139 de la curva de varianza de Allan (los cinco procesos de ruido canónicos a la vez) con el proceso dominante informado por década de τ. <c15/> forma una escala de tiempo en papel ponderada por la inversa de la varianza cuya desviación de Allan queda estrictamente por debajo del mejor reloj que contribuye. { "31" } pruebas unitarias; los objetivos de validación son formas cerradas y una verdad sintética: sigue pendiente una ingesta real de Circular-T del BIPM / SP3 del IGS.
+
+# text
+seg-c3ab93e7324f = Mapas de ionosfera IONEX: analizador de archivos, interpolación temporal y mapeo de oblicuidad de la trayectoria oblicua.
+
+# text
+# c1: src/ionex.rs
+# c2: parse_ionex
+# c3: START/END OF TEC MAP
+# c4: IonexMap
+# c5: TecGrid
+# c6: 10^EXPONENT
+# c7: interpolate_tec_in_time
+# c8: obliquity_factor
+# c9: slant_tec
+# c10: M(z) = 1/cos z′
+# c11: sin z′ = (Rₑ/(Rₑ+H))·sin z
+seg-7b94a515ce2b = <c1/> gana <c2/>, que lee el formato de archivo IONEX (definición de la rejilla de cabecera + bloques <c3/>) en una secuencia de <c4/>, normalizando el orden de latitudes de norte a sur del archivo en una <c5/> de paso positivo y escalando los valores por <c6/>. <c7/> mezcla dos mapas sucesivos hasta una época de consulta, y <c8/> / <c9/> proyectan el TEC vertical sobre un rayo oblicuo mediante el factor de capa fina de una sola capa <c10/> (<c11/>). Junto con el modelo de rejilla incluido, esto convierte un mapa global de ionosfera medido del IGS en un retardo oblicuo utilizable.
+
+# text
+seg-2ed90763cf11 = Diseño de constelaciones: dimensionado de calles de cobertura + comparación de multiconstelaciones.
+
+# text
+# c1: src/walker.rs
+# c2: min_satellites_streets_of_coverage
+# c3: λ
+# c4: c
+# c5: p = ⌈π/(2c)⌉
+# c6: None
+# c7: compare_constellations
+# c8: pdop_sweep
+seg-326e8957bb10 = <c1/> gana <c2/>, un resolvedor idealizado del mínimo de satélites de calles de cobertura: a partir del semiángulo de cobertura incluido <c3/> y del semiancho de calle <c4/>, dimensiona la constelación casi polar para cobertura global continua simple como <c5/> planos (p. ej. un plano de 4 satélites a altitud GPS necesita { "2" } planos, { "8" } satélites), e informa <c6/> cuando los satélites son demasiado dispersos para formar una calle continua. <c7/> es la herramienta de comparación de multiconstelaciones: puntúa cada diseño Walker con nombre sobre la misma estación/ventana mediante <c8/> y devuelve su cobertura / PDOP / tamaño lado a lado. Alcance honesto: la corrección exacta de la costura de Rider en el límite de planos contrarrotantes y un globo de cobertura 3-D son trabajo posterior.
+
+# text
+seg-90f5ec9ff4ae = Detección de spoofing multicapa: detector de paridad de consistencia RAIM + fusión de capas.
+
+# text
+# c1: src/spoof_monitors.rs
+# c2: parity_raim_test
+# c3: (m−4)
+# c4: fuse_spoof_layers
+seg-a0e4878bea45 = <c1/> gana la tercera y última capa de detección y la etapa de fusión: <c2/> ajusta por mínimos cuadrados la solución de posición/reloj a un conjunto redundante de pseudodistancias y contrasta la suma de cuadrados de los residuos ponderados restantes con su umbral χ²<c3/>: señala un <em>subconjunto</em> sesgado de satélites mientras deja correctamente un sesgo de <em>modo común</em> (absorbido por el reloj del receptor) invisible para RAIM, sin disimularlo. <c4/> combina las capas de paridad, AGC y SQM en una única decisión ponderada que registra qué capas se activaron. Un Monte-Carlo caracteriza el detector: <b>P_fa ≈ { "0.068" }</b> empírica frente a un punto de diseño de { "0.05" }, con la <b>detección fallida cayendo de { "0.885" } con un sesgo de spoofing de 2σ a { "0.16" } con 8σ</b>. Alcance honesto: la validación cruzada frente a vectores de prueba de spoofing publicados concretos (Spirent / ION GNSS+) necesita esos conjuntos de datos externos y sigue siendo trabajo posterior.
+
+# text
+# c1: src/fusion/coupled.rs
+# c2: CoupledPntFilter
+seg-2413b3d10f5b = <b>Conjunto de validación de Kalman acoplado frente a desacoplado.</b> Un Monte-Carlo de 100 ensayos en <c1/> cuantifica el valor de llevar la covarianza cruzada posición↔reloj: una línea base desacoplada fiel en línea (validada bit a bit frente al <c2/> incluido) procesa los mismos datos con los bloques cruzados a cero, y tras pseudodistancias casi degeneradas más una corrección solo de reloj, el filtro acoplado recupera la posición con <b>{ "2.97" } m RMS frente a los { "48.8" } m del filtro desacoplado, ganando en { "97" } de { "100" } ensayos</b>: la corrección de reloj afina la posición solo a través de la correlación que descarta el paquete desacoplado. Esto completa el conjunto de validación de corrección de Kalman (forma de Joseph, seguridad PSD, consistencia NEES/NIS y ahora el conjunto del filtro acoplado).
+
+# text
+# c1: src/orbit_determination.rs
+# c2: [r, v]
+# c3: src/forces.rs
+# c4: src/integrator.rs
+# c5: src/batch_ls.rs
+# c6: determine_orbit_batch
+# c7: determine_orbit_sequential
+seg-804f35695553 = <b>Cadena de determinación de órbita (por lotes + secuencial).</b> Un nuevo <c1/> recupera el estado orbital <c2/> de un satélite a partir del seguimiento de distancia desde estaciones terrestres, componiendo tres piezas incluidas: el modelo de fuerzas de dos cuerpos + J2 (<c3/>) y el integrador RK4 (<c4/>) propagan un estado candidato a lo largo del arco, un modelo de medida de distancia predice la distancia a cada estación, y el corrector por lotes de Gauss–Newton (<c5/>) lleva el candidato al estado de mejor ajuste (<c6/>). La misma dinámica y el mismo modelo de distancia impulsan también una determinación recursiva <b>secuencial</b> con el filtro de Kalman unscented (UKF) incluido (<c7/>). Cuatro pruebas lo validan: predicción de distancia a lo largo del arco; <b>recuperación por lotes a nivel submétrico / mm·s⁻¹ con distancias sin ruido</b>; recuperación por lotes a <b>~{ "2" } m con un residuo posterior al ajuste en el suelo de ruido de { "5" } m</b> (la firma de un ajuste de mínimos cuadrados consistente); y recuperación secuencial a decenas de metros. Alcance honesto: las mediciones de tasa de distancia/Doppler y de ángulo, una matriz analítica de transición de estado J2 y el enmascaramiento de visibilidad de estaciones son trabajo posterior.
+
+# text
+# c1: src/fusion/tightly_coupled.rs
+# c2: src/fusion/ukf.rs
+# c3: [px,py,pz,vx,vy,vz,b,d]
+# c4: pseudorange
+# c5: ρ = |p − sᵢ| + b
+# c6: range_rate
+# c7: ρ̇ = (p − sᵢ)·(v − ṡᵢ)/|p − sᵢ| + d
+# c8: TightlyCoupled
+# c9: propagate
+# c10: propagate_orbital
+# c11: update_gnss
+# c12: src/forces.rs
+# c13: src/integrator.rs
+# c14: propagate_orbital
+seg-0a81039e510c = <b>Navegador UKF GNSS/INS fuertemente acoplado.</b> Un nuevo <c1/> conecta el núcleo de Kalman unscented incluido (<c2/>) con un navegador fuertemente acoplado operativo sobre el <c3/> de ocho estados (posición/velocidad ECEF más sesgo y deriva del reloj del receptor en unidades de distancia). Ingiere las <b>mediciones brutas de los satélites</b>, <c4/> (<c5/>) y <c6/>/Doppler (<c7/>), en lugar de una corrección de posición ya formada, de modo que <c8/> (con <c9/>/<c10/>/ <c11/>) sigue corrigiendo <b>con menos de cuatro satélites</b> y navega a ciegas por las interrupciones de GNSS con su dinámica propagada. Cinco pruebas lo validan de extremo a extremo, incluidos los escenarios de aceptación del hito: la geometría de pseudodistancia/Doppler frente a valores calculados a mano; convergencia sin ruido a <b>nivel submétrico</b> con cinco satélites; un caso de <b>tres satélites</b> que converge de ~{ "212" } m a ~{ "13" } m donde ni siquiera puede formarse un PVT instantáneo; una <b>interrupción de 120 segundos</b> a velocidad constante dentro de { "50" } m; y, la aceptación principal, un <b>paso LEO curvo de 30 minutos</b> (órbita real de dos cuerpos + J2) con una <b>interrupción de GNSS de 120 segundos</b>, mantenido en <b>{ "0.77" } m RMS en el paso</b> y <b>{ "2.9" } m en el peor caso durante la interrupción</b>. Esa navegación a ciegas orbital compone el modelo de fuerzas de gravedad incluido (<c12/>) y el integrador RK4 (<c13/>) en el modelo de proceso del UKF (<c14/>), de modo que el filtro sigue la curvatura de la órbita, algo que una navegación a ciegas a velocidad constante no puede (la curvatura sola es de ~{ "58" } km en { "120" } s en LEO). Alcance honesto: la navegación a ciegas orbital usa el modelo de fuerzas de dos cuerpos + J2 en lugar de la fuerza específica bruta de la IMU (para una plataforma orbital sin propulsión coinciden); incorporar un estado de error de IMU strapdown y correcciones iono/tropo en el bucle es trabajo posterior.
+
+# text
+# c1: src/mapmatch.rs
+# c2: src/particle_filter.rs
+# c3: field_likelihood
+# c4: map_match_likelihood
+# c5: Fn(lat, lon) -> value
+# c6: src/ionex.rs
+# c7: e^(−½)
+seg-792f25a4a1da = <b>Modelo de medida de correlación de mapas (navegación referenciada al terreno / a la gravedad).</b> Un nuevo <c1/> aporta el modelo de medida que convierte el filtro de partículas de remuestreo por importancia secuencial incluido (<c2/>) en un navegador operativo sin GPS: <c3/> (una verosimilitud gaussiana de coincidencia de campo) y <c4/>, que muestrea cualquier campo de referencia georreferenciado, elevación del terreno (TRN) o anomalía de gravedad, en la posición de una partícula y la pondera por su acuerdo con el valor medido del vehículo. El campo es cualquier muestreador <c5/>, de modo que se compone con la rejilla bilineal de <c6/> o con una clausura. Dos pruebas lo anclan: la verosimilitud alcanza su pico (={ "1" }) con una coincidencia perfecta y cae a <c7/> a una sigma, y un filtro de partículas sobre un parche distintivo de terreno sintético recupera la posición verdadera con una diferencia de { "0.1" }. Alcance honesto: los mapas de referencia reales (elevación SRTM, anomalía de gravedad EGM/EIGEN) y sus cargadores son trabajo posterior.
+
+# text
+# c1: src/lunar.rs
+# c2: σ_URE ≈ 30 m
+# c3: P_sat ≈ 1e-4
+# c4: lunar_araim
+# c5: σ_URE
+seg-9240e95a5058 = <b>Integridad PNT cislunar (ARAIM lunar).</b> Un nuevo <c1/> aplica el motor ARAIM MHSS del lado terrestre a un servicio de navegación lunar de estilo LunaNet con los parámetros lunares (<c2/> frente a los { "0.6" } m de GPS, <c3/>): constantes lunares, una base Este/Norte/Arriba selenocéntrica y un asistente de geometría del cielo, y <c4/> (HPL/VPL). Tres pruebas lo anclan: la base selenocéntrica ortonormal, la geometría de distancia oblicua y el escalado lineal exacto del nivel de protección con <c5/> (los { "30" } m lunares dan un nivel de protección { "50" }× mayor que la misma geometría con los { "0.6" } m de GPS: la razón cuantitativa de que la integridad PNT lunar sea difícil). Alcance honesto: la efeméride precisa de la NRHO de LANS, el presupuesto de error de la señal en el espacio y la reducción de marcos MCI↔MCMF son trabajo posterior.
+
+# text
+# c1: src/jd2.rs
+# c2: Jd2
+# c3: day
+# c4: frac
+# c5: [0,1)
+# c6: new
+# c7: from_parts
+# c8: add_seconds
+# c9: diff_seconds
+# c10: total
+# c11: f64
+# c12: f64
+# c13: f64
+seg-4a43e2ff83d7 = <b>Fechas julianas en dos partes (de alta precisión).</b> Un nuevo <c1/> añade <c2/>, una fecha juliana dividida en un <c3/> entero y un <c4/> fraccionario en <c5/> (la convención de SOFA/hifitime), con <c6/>/<c7/>/<c8/>/<c9/>/<c10/>. Las diferencias de épocas cercanas siguen siendo exactas hasta el suelo de <c11/> donde una JD de un solo <c12/> pierde ~{ "50" } µs cerca de J2000. Cuatro pruebas lo anclan: el viaje de ida y vuelta, la normalización de la fracción, la recuperación exacta del microsegundo (con el fallo del <c13/> único demostrado al lado) y la aritmética de segundos aditiva/reversible.
+
+# text
+# c1: src/omm.rs
+# c2: oem
+# c3: OmmFile::from_tle
+# c4: BSTAR
+# c5: to_omm_kvn
+# c6: ndm/omm
+seg-8eef92a85711 = <b>Escritor CCSDS OMM (Orbit Mean-Elements Message).</b> Un nuevo <c1/> complementa el escritor de efemérides <c2/> con el mensaje de elementos medios: <c3/> proyecta los elementos medios SGP4/TLE a las unidades de OMM (movimiento medio en rev/día, ángulos en grados, más <c4/>), y <c5/> serializa la forma KVN CCSDS 502.0-B-2 de la vía de normalización, de modo que una órbita de Kshana pueda ser consumida por cualquier herramienta que reconozca OMM en lugar de como un TLE a medida. Dos pruebas anclan la conversión de unidades TLE→OMM (≈ { "15.5" } rev/día, inclinación de { "51.6" }°, etc.) y la presencia de las palabras clave KVN obligatorias. Alcance honesto: aquí se entregan la forma KVN y la correspondencia con TLE; la representación XML (<c6/>) y un viaje de ida y vuelta con un analizador de referencia son trabajo posterior.
+
+# text
+# c1: src/particle_filter.rs
+# c2: predict
+# c3: update
+# c4: resample
+# c5: effective_sample_size
+# c6: ionex
+seg-ca2b730b5cc3 = <b>Filtro de partículas de remuestreo por importancia secuencial.</b> Un nuevo <c1/> añade el estimador no lineal y no gaussiano que está detrás de la navegación asistida por mapas y sin GPS (correlación de mapas referenciados al terreno o a la gravedad): <c2/> (propagar partículas por la dinámica + ruido de proceso gaussiano), <c3/> (repesar por una verosimilitud de medida por partícula), <c4/> sistemático, el monitor de degeneración <c5/> y la estimación de media ponderada. Seis pruebas anclan exactamente el núcleo determinista: ESS que abarca { "1" }…N, remuestreo sistemático que elige índices en proporción al peso, la combinación convexa de la media ponderada, una verosimilitud gaussiana que atrae la estimación hacia la medida, el comportamiento de remuestreo a uniforme y el determinismo de predict con semilla. Alcance honesto: aquí se entrega el motor; los mapas de referencia (elevación SRTM, anomalía de gravedad EGM) y el modelo de medida de mapa son trabajo posterior (el muestreador de rejilla+bilineal de <c6/> serviría igualmente para un mapa de gravedad/terreno).
+
+# text
+# c1: src/ionex.rs
+# c2: TecGrid
+# c3: vtec_at
+# c4: Δ = 40.3·TEC/f²
+# c5: vtec_to_delay_m
+# c6: delay_at
+# c7: 1 TECU ≈ 0.162 m
+# c8: 1/f²
+seg-564ad319685e = <b>Mapas de TEC de la ionosfera de estilo IONEX.</b> Un nuevo <c1/> añade la alternativa de ionosfera medida al modelo de Klobuchar difundido: una <c2/> (una cuadrícula regular de latitud/longitud de TEC vertical, un mapa global de la ionosfera del IGS) con interpolación bilineal en un punto de perforación (<c3/>, acotada fuera de la cuadrícula) y el retardo de primer orden <c4/> (<c5/>, <c6/>). Cuatro pruebas lo respaldan: <c7/> en L1 con el escalado <c8/>, interpolación exacta en los nodos, puntos medios bilineales que promedian las esquinas y consultas fuera de la cuadrícula acotadas en el borde. Alcance honesto: aquí se incluyen la cuadrícula y la interpolación; el análisis del formato de archivo IONEX, la interpolación temporal entre mapas y la función de mapeo oblicuo quedan como trabajo posterior.
+
+# text
+# c1: src/timegeo.rs
+# c2: timetransfer
+# c3: sagnac_correction
+# c4: Δt = (ω_E/c²)·(x₁y₂ − x₂y₁)
+# c5: common_view_offset
+seg-26c7b53cbc8c = <b>Correcciones geométricas de transferencia de tiempo (Sagnac + vista común GNSS).</b> Un nuevo <c1/> añade los dos efectos deterministas que debe tener en cuenta una comparación real de relojes, como complemento del modelo estocástico bidireccional de <c2/>: <c3/> (<c4/>, el retardo de la Tierra en rotación: decenas de ns para líneas base continentales) y <c5/>, la diferencia simple de vista común GNSS que cancela exactamente el error de reloj del satélite y recupera el desfase entre estaciones. Tres pruebas los respaldan con referencias exactas: el efecto Sagnac de ≈ { "33" } ns de un cuarto de vuelta ecuatorial, la antisimetría y los casos radial/polar nulos, y la cancelación exacta del reloj del satélite. Alcance honesto: un presupuesto completo de retardos de transpondedor/hardware de TWSTFT y una solución de transferencia de tiempo PPP libre de ionosfera quedan como trabajo posterior.
+
+# text
+# c1: src/forces.rs
+# c2: two_body_accel
+# c3: −μ·r/|r|³
+# c4: j2_accel
+# c5: gravity_accel
+# c6: src/integrator.rs
+# c7: f(t,[r;v]) = [v; a(r)]
+# c8: j2_secular_rates
+# c9: Ω̇
+# c10: ω̇
+# c11: Ṁ
+# c12: μ/r²
+# c13: ω̇ = 0
+# c14: Ω̇ ≈ −5°/day
+seg-098e7ea0ee13 = <b>Modelo de fuerzas orbitales (dos cuerpos + J2).</b> Un nuevo <c1/> añade el modelo de aceleración que integra un propagador numérico: <c2/> (<c3/>), la perturbación de achatamiento <c4/> (la forma cerrada en ECI) y <c5/>, que las suma; se combina con <c6/> como <c7/>. También expone las <b>tasas seculares</b> analíticas de J2 (<c8/>): la regresión nodal <c9/>, la rotación apsidal <c10/> y la deriva de la anomalía media <c11/>. Seis pruebas respaldan la física con referencias exactas: <c12/> para el término de dos cuerpos, la forma cerrada de J2 en el ecuador (~{ "10" }⁻³ de la magnitud de dos cuerpos), la <b>inclinación crítica</b> ({ "63.4349" }°) que congela el perigeo (<c13/>), la regresión nodal de la ISS (<c14/>) y la deriva hacia el este de una órbita heliosíncrona retrógrada. Alcance honesto: solo dos cuerpos + J2; J3–J6, la resistencia atmosférica, la SRP y el tercer cuerpo quedan como trabajo posterior.
+
+# text
+# c1: src/permalink.rs
+# c2: +/
+# c3: -_
+# c4: encode_scenario
+# c5: decode_scenario
+# c6: ?s=
+# c7: encode_permalink
+# c8: decode_permalink
+# c9: "foobar"
+# c10: "Zm9vYmFy"
+# c11: +
+# c12: /
+# c13: =
+seg-d5c03ebc5707 = <b>Enlaces permanentes compartibles de escenarios.</b> Un nuevo <c1/> añade un códec Base64 RFC { "4648" } sin dependencias (alfabeto estándar <c2/> con relleno y un alfabeto seguro para URL <c3/> sin relleno) y envoltorios <c4/> / <c5/>, de modo que un TOML del playground pueda codificarse en un parámetro de consulta <c6/> y compartirse como URL. Se expone al navegador como los enlaces wasm <c7/> / <c8/>. Cuatro pruebas lo respaldan con los vectores canónicos de la RFC { "4648" } (<c9/> → <c10/>, etc.), un viaje de ida y vuelta de un escenario seguro para URL (sin <c11/>/<c12/>/<c13/> que escapar), el rechazo de símbolos no válidos y un viaje de ida y vuelta de los 256 bytes. Alcance honesto: aquí se incluyen el códec y los enlaces; la interfaz del botón Compartir del playground, el gráfico multiserie Plotly/D3 y el modo de comparación A/B quedan como trabajo posterior.
+
+# text
+# c1: src/batch_ls.rs
+# c2: gauss_newton
+# c3: h(x)
+# c4: (HᵀWH)·Δx = HᵀW·(z − h(x))
+# c5: a·exp(b·t)
+seg-b615fb16d547 = <b>Mínimos cuadrados por lotes de Gauss–Newton (el corrector diferencial por lotes).</b> Un nuevo <c1/> añade el núcleo de estimación en el que se apoya una <em>determinación de órbita</em> por lotes (o cualquier ajuste de parámetros): <c2/> linealiza un modelo <c3/> suministrado por el usuario con un jacobiano de diferencias finitas centrales, forma y resuelve las ecuaciones normales ponderadas <c4/> (reutilizando la inversa de matriz ya probada) e itera hasta la convergencia con pesos por medida. Cuatro pruebas lo respaldan: un ajuste lineal de una recta que alcanza la solución exacta de mínimos cuadrados ponderados, un ajuste no lineal <c5/> que recupera los parámetros verdaderos, una multilateración de distancias en 3-D que recupera una posición conocida a partir de distancias sin ruido (la variante de determinación de órbita) y el rechazo de entradas subdeterminadas o incoherentes. Alcance honesto: este es el motor genérico del corrector; el modelo de medida específico de órbita (distancia/tasa de distancia/azimut-elevación), la matriz de transición de estado analítica de J2 y la validación con casos publicados quedan como trabajo posterior.
+
+# text
+# c1: src/spoof_monitors.rs
+# c2: spoof
+# c3: combine_power_dbm
+# c4: AgcMonitor
+# c5: bpsk_autocorr
+# c6: SqmMonitor
+# c7: 10·log10(N)
+# c8: R(τ)=1−|τ|
+seg-0ada87934135 = <b>Monitores de spoofing en la capa de RF (potencia AGC y SQM).</b> Un nuevo <c1/> añade dos detectores independientes de spoofing en el extremo de entrada del receptor, que complementan el monitor de spoofing temporal asistido por reloj de <c2/>: un <b>monitor de potencia AGC</b> (suma incoherente de potencias <c3/> + <c4/>) que señala el exceso de potencia recibida que añade un transmisor de spoofing por encima de un margen configurable en dB, y un <b>monitor de calidad de señal</b> (autocorrelación triangular del código <c5/> + <c6/>) que señala el desequilibrio del correlador Early-menos-Late que introducen el multitrayecto, el meaconing o la repetición. Cuatro pruebas respaldan las formas cerradas exactas ({ "3.01" } dB para una duplicación de la potencia, el agregado <c7/>, el <c8/> triangular y el umbral de alerta Early/Late del { "10" } %). Alcance honesto: el detector completo de spoofing por paridad de coherencia RAIM, la fusión multicapa de las salidas de los monitores y la validación con vectores de spoofing publicados de Spirent/ION GNSS+ quedan como trabajo posterior.
+
+# text
+# c1: src/integrator.rs
+# c2: rk4_step
+# c3: y' = f(t, y)
+# c4: integrate
+# c5: 0.9·(tol/err)^(1/5)
+# c6: y' = y → e
+# c7: < 1e-9
+# c8: NumericalPropagator
+seg-b1ff62d88cd2 = <b>Integrador numérico adaptativo de EDO.</b> Un nuevo <c1/> añade la primera pieza de un propagador <em>numérico</em> (la propagación orbital de Kshana es, por lo demás, analítica SGP4/SDP4): un paso genérico de Runge–Kutta de cuarto orden (<c2/>) sobre cualquier sistema de primer orden <c3/> y un controlador adaptativo (<c4/>) que controla el error local mediante <b>duplicación de paso</b> (extrapolación de Richardson) con el controlador de paso estándar <c5/> y la lógica de aceptación/rechazo. Seis pruebas lo respaldan con soluciones exactas: la exponencial <c6/> hasta <c7/>, la reducción del error de ~{ "16" }× por cada paso reducido a la mitad que demuestra la convergencia de cuarto orden, la conservación de la energía y del retorno del oscilador armónico durante un período completo y el controlador adaptativo que alcanza una tolerancia estricta con pasos variables. Alcance honesto: este es el núcleo del integrador y su control de error; las tablas encajadas Dormand–Prince RK5({ "4" })/RKF7({ "8" }) y el modelo jerárquico de fuerzas orbitales (dos cuerpos + J2–J6 + resistencia atmosférica + SRP + tercer cuerpo) que lo convierten en un <c8/> quedan como trabajo posterior.
+
+# text
+# c1: src/fusion/ukf.rs
+# c2: n
+# c3: P⁺ = P⁻ − K S Kᵀ
+seg-ca53c62839d8 = <b>Filtro de Kalman unscented (UKF, de puntos sigma).</b> Un nuevo <c1/> añade el filtro de Kalman unscented escalado (Julier y Uhlmann; Wan y van der Merwe) como estimador general de <c2/> estados sobre funciones de proceso y de medida suministradas por el usuario: el estimador de puntos sigma que usa un navegador GNSS/INS fuertemente acoplado cuando el modelo de pseudodistancia/Doppler es muy no lineal y el jacobiano de un EKF se degrada. Incluye el álgebra lineal densa de apoyo (factor de Cholesky para la dispersión de los puntos sigma, inversa de Gauss–Jordan para la covarianza de la innovación) y una actualización <c3/> sin forma de Joseph. Seis pruebas lo fijan, y las principales aprovechan la propiedad exacta de que, para un modelo <em>lineal</em>, la transformada unscented reproduce el filtro de Kalman con precisión numérica (predicción, actualización y un ciclo completo de predicción + actualización, todos contrastados con un KF lineal calculado a mano, además de una comprobación analítica de la posterior bayesiana en 1-D y las identidades de Cholesky/inversa). Alcance honesto: este es el motor del estimador; el navegador GNSS/INS fuertemente acoplado de 17 estados, el modelo de medida de pseudodistancia/Doppler y el escenario de validación de interrupciones siguen como trabajo posterior.
+
+# text
+# c1: araim_dual_raim
+# c2: araim_raim
+# c3: P_const
+# c4: DualFaultPriors { p_sat, p_const }
+# c5: P_HMI
+# c6: N + C
+# c7: P_const = 0
+# c8: araim_raim
+# c9: None
+seg-da92d32b5715 = <b>Niveles de protección ARAIM de doble constelación.</b> Un nuevo <c1/> amplía el RAIM avanzado de fallo único (<c2/>) con el <b>modo de fallo de toda la constelación</b> del ARAIM de la UE / DO-316: junto a las hipótesis sin fallo y por satélite, cada constelación (etiquetada por satélite) aporta una hipótesis que elimina todos sus satélites a la vez, con a priori <c3/> (un nuevo <c4/>). Cada hipótesis añade un término a la misma suma de integridad MHSS, de modo que VPL/HPL son las cotas más pequeñas cuyo <c5/> total satisface el presupuesto sobre los fallos sin fallo + de SV único + por constelación (el reparto de falsas alertas de Bonferroni se hace sobre las <c6/> hipótesis). Con <c7/> el resultado es idéntico bit a bit a <c8/>; un usuario de una sola constelación obtiene <c9/> frente al fallo de su propia constelación (no se la puede excluir), que es precisamente la razón por la que importa la cobertura de doble constelación. Cuatro pruebas cubren la equivalencia, el ensanchamiento del nivel de protección, la indisponibilidad de una sola constelación y la validación de entradas, reutilizando la maquinaria existente de subsoluciones por separación de soluciones.
+
+# text
+# c1: src/precession.rs
+# c2: (γ̄, φ̄, ψ̄, ε̄_A)
+# c3: fw_angles
+# c4: iauFw2m
+# c5: precession_matrix
+# c6: gcrs_to_mod
+# c7: mod_to_gcrs
+# c8: frames
+# c9: ε̄ = 84381.406″ = 23.4392794°
+# c10: ψ̄ ≈ 5039.998″
+# c11: det = +1
+# c12: ≈ 1.40°
+# c13: ROADMAP.md
+seg-d06c5f88282b = <b>Precesión IAU { "2006" } (ángulos de Fukushima–Williams y matriz de sesgo-precesión).</b> Un nuevo <c1/> implementa la precesión IAU { "2006" } (P03; Capitaine, Wallace y Chapront { "2003" }): los cuatro ángulos de Fukushima–Williams <c2/> como polinomios en siglos julianos TT (<c3/>) y la matriz de rotación de sesgo-precesión de GCRS a media de la fecha construida con ellos mediante la construcción <c4/> de SOFA (<c5/>, con auxiliares <c6/> / <c7/>). Es la primera pieza de marco inercial sobre la reducción <c8/> ya existente basada en GMST. Ocho pruebas validan con anclajes de forma cerrada: la oblicuidad media de J2000 <c9/>, los términos constantes publicados de los ángulos, la acumulación de la precesión general <c10/> a lo largo de un siglo, la ortonormalidad de la matriz y <c11/>, el valor casi identidad (solo sesgo del marco) en J2000 y el ángulo de rotación neto de <c12/> por siglo. Alcance honesto (<c13/>): solo precesión; la nutación IAU 2000A de 678 términos, la cadena completa TEME→GCRS y una comprobación numérica cruzada con SOFA/ANISE de µas/<{ "10" } m quedan como trabajo posterior.
+
+# text
+seg-14c0a863eef1 = Física de primeros principios del acelerómetro de interferómetro de átomos fríos (CAI).
+
+# text
+# c1: src/inertial/quantum_imu.rs
+# c2: k_eff = 4π/λ
+# c3: Φ = k_eff·a·T²
+# c4: σ_Φ = 1/(C·√N)
+# c5: C(t) = C₀·e^(−t/τ)
+# c6: CaiAccelerometer::q_va()
+# c7: AccelModel
+# c8: |H(ω)| = (4/ω²)sin²(ωT/2)
+# c9: accel_transfer_function
+# c10: σ_Φ² = k_eff²·S_a·T³/3
+# c11: vibration_phase_variance_white
+# c12: vibration_phase_variance_band
+# c13: beam_axis_projection
+# c14: CaiAccelerometer::vibration_phase_noise
+# c15: vibration_limited_accel
+# c16: k_eff
+# c17: √(S_a/(3T))
+# c18: k_eff ≈ 1.61×10⁷
+# c19: Φ(1 g) ≈ 1.58×10⁴ rad
+# c20: σ_a ≈ 0.13 µg
+# c21: 1/T²
+# c22: 1/√N
+# c23: T³
+# c24: docs/QUANTUM.md
+seg-408fc6feb284 = <c1/> modela desde primeros principios, y no a partir de una hoja de datos, un interferómetro atómico Mach–Zehnder de tres pulsos: vector de onda efectivo <c2/>, fase del interferómetro <c3/>, ruido de proyección cuántica (shot) <c4/>, sensibilidad a la aceleración por disparo, caída del contraste <c5/> y, lo esencial, <c6/>, que <b>deriva</b> la PSD de aceleración blanca que el <c7/> clásico ya consume a partir del número de átomos, el tiempo de interrogación y el contraste. El modelo cubre ahora también el <b>acoplamiento de vibraciones</b>, el término dominante en los dispositivos reales: la función de transferencia aceleración→fase del interferómetro <c8/> (<c9/>), la varianza de fase para PSD blanca <c10/> (<c11/>, con una comprobación cruzada numérica por integral de banda <c12/>), la <c13/> de rango 1 a lo largo del haz y <c14/> / <c15/> (esta última se reduce al suelo <c17/>, independiente de <c16/>). Once pruebas verifican a mano la física (Rb-87 <c18/>, <c19/>, <c20/>/disparo de suelo de ruido shot frente a un suelo de vibración de ≈ { "5.9" } µg, y las leyes de escala <c21/>, <c22/> y <c23/>). Alcance honesto en <c24/>: abarca el suelo de ruido de proyección y el régimen limitado por vibraciones por encima de él; el ruido de fase del láser, los sistemáticos de Coriolis y de desplazamiento luminoso y los escenarios de validación PHARAO/CARIOQA quedan como trabajo posterior.
+
+# text
+# c1: ImuKind
+# c2: Classical
+# c3: QuantumCai
+# c4: [cai]
+# c5: CaiCfg
+# c6: vibration_psd
+# c7: quantum_cai
+# c8: q_va
+# c9: cai
+# c10: skip_serializing_if = "Option::is_none"
+# c11: Classical
+# c12: QuantumCai
+seg-ed668459d019 = <b>Acelerómetro cuántico CAI integrado en el escenario inercial.</b> Un acelerómetro de un escenario de navegación inercial a estima se resuelve ahora en un nuevo <c1/>: <c2/> (el sensor existente con coeficientes de hoja de datos) o <c3/> cuando lleva un bloque opcional <c4/> (<c5/>: longitud de onda, separación de pulsos, número de átomos, contraste, tiempo de ciclo y una <c6/> opcional de la plataforma). La PSD de paseo aleatorio de velocidad <c8/> de un sensor <c7/> se <b>deriva</b> de la física del interferómetro (el suelo de ruido shot más, cuando se da una PSD de vibración, la contribución limitada por vibraciones en cuadratura) en lugar de un coeficiente suministrado, y la procedencia de la ejecución registra que el ruido se deriva de la física. El campo <c9/> es <c10/>, de modo que los escenarios existentes lo omiten y se serializan de forma idéntica byte a byte (el hash del escenario no cambia). Cinco pruebas cubren la derivación, la suma cuadrática de vibraciones, la selección <c11/>/<c12/>, la serialización estable del hash y una ejecución de extremo a extremo impulsada por CAI.
+
+# text
+seg-c3978a122010 = Optimizador de diseño de constelaciones y geometría de calles de cobertura.
+
+# text
+# c1: src/walker.rs
+# c2: optimize_walker_design
+# c3: {planes × sats × inclination}
+# c4: DesignObjective
+# c5: MinSatellitesForCoverage
+# c6: MaxCoverage
+# c7: MinWorstPdop
+# c8: coverage_half_angle_rad
+# c9: λ = arccos(Re/r·cos ε) − ε
+# c10: street_half_width_rad
+# c11: cos c = cos λ / cos(π/s)
+seg-aae519e71c00 = <c1/> incorpora <c2/>, un optimizador de cuadrícula sin gradiente que recorre el espacio de diseño <c3/> y devuelve el mejor diseño Walker bajo un <c4/> elegido (<c5/>, <c6/> o <c7/>) sobre el barrido de PDOP ya validado (una prueba confirma que devuelve el ganador por fuerza bruta). A ello se suman las formas cerradas analíticas de <b>calles de cobertura</b> <c8/> (<c9/>) y <c10/> (<c11/>, Rider/Beste), verificadas a mano con la geometría de los manuales y que detectan el hueco por falta de población. El solucionador completo de Rider de cobertura global con mínimo de satélites, un globo 3-D en el playground y una comprobación cruzada de DOP con una herramienta externa siguen como trabajo posterior.
+
+# text
+# c1: kshana <orbit.toml> --export-sp3 out.sp3
+# c2: export_sp3 = true
+# c3: <scenario>.sp3
+# c4: api::export_sp3
+# c5: auto_export_sp3
+# c6: OrbitClockScenario::to_sp3_string
+# c7: epoch
+# c8: tests/sp3_export_roundtrip.rs
+# c9: gps-ops
+seg-7b8468636dea = <b>Exportación de efemérides precisas SP3 desde la CLI.</b> Un escenario de órbita/constelación propagado puede ahora escribirse en un archivo SP3-c: <c1/>, o bien <c2/> en el escenario escribe automáticamente <c3/> (<c4/> / <c5/>, <c6/>, <c7/> opcional). Una prueba de ida y vuelta (<c8/>) propaga la instantánea real de Celestrak <c9/>, la exporta, la vuelve a analizar y confirma que las posiciones ECEF recuperadas coinciden con la referencia SGP4 durante { "24" } h con <b>< { "0.5" } m</b> (muy por debajo de la tolerancia de { "10" } m propia de TLE). El README documenta el papel de interoperabilidad (RINEX → RTKLIB/gLAB, SP3 → productos de órbita precisa de Ginan).
+
+# text
+seg-56c729ba110f = Filtro de Kalman acoplado de reloj + posición (covarianza entre bloques).
+
+# text
+# c1: CoupledPntFilter
+# c2: [pos, vel, phase, freq]
+# c3: ρ = g·pos + c·phase + noise
+# c4: P[pos,phase]
+seg-0a424875131d = <c1/> es un único filtro apilado <c2/> (actualizaciones en forma de Joseph) cuya medida de <b>pseudodistancia</b> <c3/> acopla de verdad los bloques de posición y de reloj, a diferencia de los dos filtros independientes de dos estados del paquete de fusión heredado, que mantienen la covarianza entre bloques exactamente en cero. Validado: una pseudodistancia compartida hace que <c4/> sea distinto de cero; dos geometrías distintas resuelven conjuntamente desfases inyectados de posición y reloj que una sola distancia no puede separar; una <b>corrección solo de reloj afina la posición</b> mediante la covarianza cruzada (la ventaja que los filtros desacoplados no pueden ofrecer); y el NEES de Monte Carlo es <b>coherente con χ²({ "4" })</b>. Esta es la realización de 1 grado de libertad (la dimensionalidad del paquete de fusión); la extensión 3-D de 8 estados y su integración en el paquete ejecutable se registran como trabajo posterior.
+
+# text
+seg-3983794a9584 = <b>Monitorización de la salud por coherencia del filtro de Kalman (NIS/NEES).</b> La actualización de covarianza del filtro de reloj de dos estados está ahora en <b>forma estabilizada de Joseph</b> `P⁺ = (I−KH)P(I−KH)ᵀ
+
+# text
+# c1: , which stays positive-semidefinite under extreme Q/R ratios (Cholesky-checked in CI at
+# c2: ). A new
+# c3: runs a Monte-Carlo consistency assessment (Bar-Shalom §5.4): pooled **NIS** (normalised innovation², target 1) and **NEES** (normalised estimation error², target 2) against 95% χ² bands, surfaced as a
+# c4: block in the clock result JSON and as a green/amber card in the playground. A Q/R-mismatch sweep test proves the monitor flips to inconsistent when the process noise is mistuned by ×0.1–×10. Adds a general χ² quantile (
+seg-a60a8c0fb6b0 = KRKᵀ<c1/>R={ "1e-26" } / Q≈{ "1e-30" }<c2/>src/filter_health.rs<c3/>filter_health { "{" } nis_mean, nis_chi2_lower_95, nis_chi2_upper_95, nees_mean, nees_chi2_lower_95, nees_chi2_upper_95, consistent { "}" }<c4/>detection::chi2_inv_cdf`, Wilson–Hilferty, table-checked).
+
+# text
+# c1: docs/PROVENANCE.md
+# c2: gps-ops
+# c3: provenance
+seg-f9689061a1d2 = <b><c1/>: una tabla de procedencia citable.</b> Reúne todos los parámetros de sensores (relojes, inerciales, transferencia de tiempo), los modelos físicos/algorítmicos (órbita, sistemas de tiempo, marcos, iono/tropo, integridad, detección, jamming, Allan) y los conjuntos de datos de validación (AIAA 2006-6753, Celestrak <c2/>) con su fuente publicada (hoja de datos, artículo, ICD o norma) y una etiqueta honesta de madurez (calificado para vuelo / laboratorio en tierra / objetivo espacial sobre hardware en tierra). Se enlaza desde la introducción del README y la tabla de documentación; complementa las cadenas <c3/> por ejecución que ya viajan en el JSON de resultados.
+
+# text
+# c1: ScenarioKind
+# c2: kind
+# c3: ScenarioKind::classify
+# c4: run_toml
+# c5: run_scenario(src) -> Result<RunOutput, KshanaError>
+# c6: InvalidInput
+# c7: NonConvergence
+# c8: Unsupported
+# c9: IoError
+# c10: kind_tag()
+# c11: Scenario
+# c12: ExternalPack
+# c13: jamming
+# c14: list_scenario_kinds()
+# c15: list_kinds()
+# c16: error_kind()
+# c17: docs/ARCHITECTURE.md
+seg-55c7b52b5fdb = <b>API tipada de escenarios.</b> El despacho se hace ahora sobre una enumeración tipada <c1/> en lugar de una comparación de cadenas <c2/> sin tipo (<c3/> + despacho exhaustivo), de modo que añadir un paquete queda comprobado en compilación. Nuevas superficies tipadas junto a <c4/>, que sigue devolviendo cadenas sin cambios: <c5/> con una taxonomía de errores estructurada (<c6/> / <c7/> / <c8/> / <c9/>, cada una con un <c10/> estable); un rasgo <c11/> y un punto de extensión <c12/> (el paquete <c13/> se conecta a través de él como ejemplo resuelto); y la introspección <c14/> (nombre, descripción y campos obligatorios/opcionales por tipo de escenario). Los enlaces de Python y WebAssembly incorporan <c15/> y <c16/>. Documentado en <c17/>.
+
+# text
+seg-2b86391b753e = Constelación GPS real + cobertura de la envolvente operativa.
+
+# text
+# c1: scenarios/orbit-sgp4-gps.toml
+# c2: gps-ops
+# c3: strict_checksum = true
+# c4: scripts/fetch_tles.sh
+# c5: tests/scenario_coverage.rs
+# c6: docs/VALIDATION.md
+seg-288f2b1872c8 = <c1/> incluye ahora una <b>instantánea real de Celestrak <c2/></b> (2021-07-28, { "30" } satélites) en lugar de TLE Walker sintéticos, con <c3/> para que solo se cargue cuando todas las sumas de comprobación de los TLE sean válidas; <c4/> documenta la actualización reproducible y el README atribuye el crédito a la fuente de datos abiertos. El nuevo <c5/> ejercita cada paquete con ≥{ "5" } variantes de la envolvente comprobando que la salida sea finita y acotada, confirma que el <b>suelo de flicker-FM degrada de forma medible la marcha libre de un reloj</b> cuando está activado (ahora fijado en tres escenarios incluidos) y confirma que el <b>filtro de fusión converge con un sesgo de acelerómetro realista distinto de cero</b> (dentro de { "3" }× del caso con sesgos nulos), con lo que se cierra la brecha de realismo de que «la fusión solo funciona con sesgos puestos a cero». <c6/> incorpora una tabla de Envolvente operativa.
+
+# text
+# c1: gnss-sim
+# c2: ρ = geometric range + c·δt_rx − c·δt_sv + I + T + noise + multipath
+# c3: [iono]
+# c4: [tropo]
+# c5: gnss_measurements[]
+# c6: src/gnss_sim.rs
+# c7: scenarios/gnss-sim-raim.toml
+seg-f78d7dce7bfa = <b>Simulación GNSS en el dominio de las medidas (tipo de escenario <c1/>).</b> Un modelo directo a nivel de pseudodistancia: por cada satélite visible sintetiza <c2/> y el Doppler en L1, con la ionosfera monofrecuencia de <b>Klobuchar</b> (IS-GPS-200 §{ "20.3.3.5.2.5" }) y la troposfera cenital de <b>Saastamoinen</b> proyectada con la función de mapeo de <b>Niell ({ "1996" })</b>, expuestas como bloques TOML <c3/> y <c4/>. Los residuos alimentan el RAIM instantáneo para obtener HPL/VPL por época, y una matriz JSON <c5/> recoge la pseudodistancia, el Doppler, el C/N₀ y las correcciones iono/tropo de cada SV. Una ejecución sin ruido reproduce la geometría y las correcciones con precisión submilimétrica (prueba de CI). Nuevos <c6/> y <c7/>.
+
+# text
+# c1: spoof
+# c2: linear_ramp
+# c3: step_jump
+# c4: meaconing
+# c5: replay
+# c6: target_pfa
+# c7: P_md
+# c8: mc_runs
+# c9: 1 − P_md
+# c10: src/detection.rs
+# c11: scenarios/spoof-meaconing.toml
+# c12: [attack] rate_ns_per_s
+seg-833249802c56 = <b>Detector estocástico de spoofing temporal (tipo de escenario <c1/>).</b> El paquete de spoofing ejecuta ahora un detector real en lugar de una comparación determinista entre rampa y cota: cuatro formas de inyección (<c2/>, <c3/>, <c4/>, <c5/>), una prueba de energía χ²₁ bilateral / Neyman–Pearson sobre el estadístico del monitor asistido por reloj, con el umbral fijado a partir de un presupuesto objetivo de falsa alarma <c6/>, y la probabilidad de detección fallida <c7/> notificada tanto en forma cerrada como por Monte Carlo (<c8/> ensayos por hipótesis; ambas coinciden hasta unos pocos ×1/√N). La cifra de mérito de Seguridad es ahora <c9/> a la magnitud operativamente dañina (la de la especificación). Nuevos <c10/> (funciones de cola gaussiana, prueba NP/de energía, P_fa/P_md por Monte Carlo) y <c11/>. Compatible con versiones anteriores: un <c12/> a secas se sigue aceptando como rampa lineal.
+
+# text
+# c1: spoof
+# c2: 1 − min_detectable/threshold
+# c3: 1 − P_md
+# c4: security
+seg-b3f3d2ca8a3d = <b>Definición de la cifra de mérito de Seguridad (tipo de escenario <c1/>):</b> de la cota analítica de detectabilidad <c2/> a <c3/> del detector estocástico. El campo <c4/> del paquete de reloj sigue siendo el proxy analítico más rápido.
+
+# text
+seg-ee1268975b2c = Añadido (continuación)
+
+# text
+# c1: jamming
+# c2: Q
+# c3: availability_under_jamming
+# c4: src/jamming.rs
+# c5: scenarios/jamming-demo.toml
+# c6: docs/CAPABILITY.md
+# c7: docs/VALIDATION.md
+seg-f71696b7fa20 = <b>Modelo de jamming de RF (tipo de escenario <c1/>).</b> Un modelo de interferencia basado en el balance del enlace que convierte la potencia y la geometría de un jammer en pérdida de enganche por satélite: la relación jammer-señal a partir de la pérdida de trayecto en espacio libre y la ganancia de la antena receptora por dirección, el C/N₀ efectivo mediante la ecuación estándar antijamming (ganancia de procesamiento por desensanchamiento × el factor de separación espectral <c2/>; Kaplan y Hegarty §{ "9.4" }) y un umbral de seguimiento configurable, puntuado sobre una constelación Walker como cifra de mérito <c3/>. Nuevos <c4/> y <c5/>. El alcance honesto (sin multitrayecto, sombra del terreno, AGC ni anulación adaptativa) está documentado en <c6/> / <c7/>.
+
+# text
+# c1: sweep-nd
+# c2: sweep-nd
+# c3: [base]
+# c4: scenarios/sweep-nd-inertial.toml
+seg-d4dc36011ea1 = <b>Barrido genérico de parámetros N-D sobre cualquier tipo de escenario (<c1/>).</b> El barrido N-D anterior era solo del paquete de reloj. <c2/> varía claves TOML con puntos de un escenario <c3/> sobre el producto cartesiano de sus ejes, vuelve a despachar cada nodo de la cuadrícula por la ruta de ejecución normal y lee una o varias métricas del resultado mediante una ruta JSON con puntos, de modo que funciona con todos los paquetes (inercial, gnss-ins, integridad, spoof, …) sin acoplarse al tipo Rust de cada paquete. Los nodos de la cuadrícula se evalúan en paralelo entre hilos del SO en destinos nativos (sin dependencias añadidas); wasm recurre a la ejecución secuencial. Determinista y por filas, con independencia del número de hilos. Nuevo ejemplo <c4/>.
+
+# text
+# c1: gnss-ins
+# c2: [imu_*.error_model]
+# c3: gnss-ins
+seg-1c42e15d65a9 = <b>Modelo determinista de errores de IMU configurable por TOML en el paquete <c1/>.</b> La cadena de errores strapdown de tres ejes (factor de escala, desalineación, sensibilidad a g, cuantización, rampa de velocidad; IEEE Std 952-1997 §A.2, Groves { "2013" } §{ "4.3" }) es ahora accesible por sensor desde un archivo de escenario mediante un bloque opcional <c2/>, superpuesto a los sesgos constantes de arranque. Si se omite el bloque, cada sensor queda como una fuente pura de sesgo constante, de modo que las ejecuciones <c3/> existentes no cambian. Así se conecta el modelo de errores, antes solo de biblioteca, a un paquete ejecutable y a una cifra de mérito.
+
+# text
+# c1: tests/fixtures/igs/NOTICE
+seg-e035371fbe58 = <b>Validación con datos reales.</b> El analizador de navegación RINEX multi-GNSS, el propagador RK4 de GLONASS y el lector de SP3 se ejercitan ahora con archivos genuinos del IGS/DLR (un archivo real de navegación difundida RINEX { "3" } mixto y un producto de órbitas IGS SP3-c), y no solo con muestras de elaboración propia, comprobando conjuntos de satélites no vacíos y posiciones ECEF finitas y de tamaño físicamente razonable. Los archivos de prueba son solo para pruebas (excluidos del crate publicado); véase <c1/>.
+
+# text
+# c1: P_HMI
+seg-2a807ae8e194 = <b>RAIM sobre geometría de órbitas de referencia reales.</b> Los núcleos de RAIM instantáneo, de separación de soluciones (MHSS) y de niveles de protección ARAIM están ahora validados con la geometría real de órbitas precisas IGS (SP3), y no solo con constelaciones sintéticas: la geometría de línea de visión se construye a partir de la primera época SP3 en una estación terrestre real, y las pruebas comprueban niveles de protección de orden métrico y disponibles para APV-I, que un sesgo de pseudodistancia de { "60" } m dispara el monitor χ², que la separación de soluciones <b>identifica</b> el satélite con fallo y que los niveles de ARAIM satisfacen el <c1/> asignado. Se cierra así la brecha de validado solo sobre geometría sintética (la paridad de gLAB en el dominio del receptor sobre un arco RINEX completo sigue siendo un elemento de la hoja de ruta: requiere una solución de pseudodistancia).
+
+# text
+# c1: sweep::nd_sweep_ensemble
+# c2: metric_stat
+# c3: runs = 1
+# c4: nd_sweep
+seg-651cc4af4872 = <b>Intervalos de confianza por nodo para el barrido de parámetros N-D</b> (<c1/>). Cada nodo de la cuadrícula del barrido cartesiano N-dimensional puede evaluarse ahora como un conjunto Monte Carlo de semillas, que notifica la media, los percentiles y un IC bootstrap por percentiles del { "95" } % de la métrica en cada nodo (para ambos relojes): un barrido estadísticamente honesto en lugar de una sola realización por nodo. Reutiliza la maquinaria de conjunto/bootstrap (<c2/>); determinista; <c3/> se reduce exactamente al <c4/> de una sola semilla. (Queda por generalizar el barrido a todos los paquetes, ligado al refactor del Scenario tipado, y la ejecución en paralelo.)
+
+# text
+seg-b49bbb60c2cd = <b>Holdover de reloj</b>: FM blanca, FM de paseo aleatorio y envejecimiento lineal; validado mediante la desviación de Allan solapada (Riley, NIST SP { "1065" }). Reloj atómico a escala de chip frente a reloj óptico de red de estroncio.
+
+# text
+seg-be2c5f28b256 = <b>Navegación inercial a estima</b>: sesgo residual + paseo aleatorio de velocidad, integrados dos veces hasta el error de posición; validado frente a las relaciones de crecimiento del error de Groves. Acelerómetro de átomos fríos frente a acelerómetro de grado de navegación.
+
+# text
+seg-fcb0f72db736 = <b>Transferencia de tiempo</b>: jitter de temporización de un enlace óptico frente a uno de RF → precisión de sincronización → medida de distancia unidireccional.
+
+# text
+seg-93e5f2f70b58 = <b>Fusión híbrida (colofón)</b>: un conjunto PNT combinado que debe mantener tanto la temporización como la posición, con asistencia opcional del reloj mediante transferencia óptica de tiempo entre satélites.
+
+# text
+# c1: scenarios/
+# c2: provenance
+seg-e0a8cbe0c105 = <b>Un escenario de referencia citado por paquete</b> en <c1/>, con cada parámetro numérico acompañado de una <c2/> revisada por pares.
+
+# text
+seg-8f1cc09b2513 = <b>Salvaguardas de reproducibilidad y de higiene del repositorio</b>; CI (formato, clippy, pruebas, salvaguardas, MSRV) y un flujo de publicación condicionado por etiqueta que vuelve a ejecutar todas las comprobaciones.
+
+# text
+seg-8b4e21f56334 = <b>Documentación</b>: README con diagramas de arquitectura, informe del estado de validación, guía de contribución, política de seguridad y código de conducta; licencia Apache-2.0; plantillas de incidencias/PR y configuración de Dependabot.
+
+# text
+seg-e26d94f06ead = Neutral respecto a los proveedores en todo el proyecto; se conservan las citas científicas y metrológicas revisadas por pares.
+
+# text
+# c1: NOTICE
+# c2: cargo-deny
+seg-84cb67686edf = Higiene de la licencia Apache-2.0: cabeceras SPDX en todas las fuentes, un archivo <c1/> con aviso de marcas, firma de Developer Certificate of Origin (DCO) en las contribuciones y aplicación por <c2/> de las licencias y avisos de las dependencias en CI.
+
+# text
+seg-a0f14bea7532 = Posicionamiento de núcleo abierto (README): un motor Apache-2.0 gratuito más soporte comercial, integración y extensiones propietarias disponibles de Ashforde OÜ, sostenido por servicios y no por cuotas de licencia.
+
+# text
+# c1: CITATION.cff
+seg-899815063eb1 = <c1/> para que el software pueda citarse.
+
+# text
+seg-15f45d8ccb0f = <s1>Anterior</s1>Dónde se sitúa Kshana
+
+# text
+seg-cd8a14a9e8ec = <s1>Siguiente</s1>Licencias

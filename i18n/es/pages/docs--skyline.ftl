@@ -32,3 +32,18 @@ seg-2c53381d48ae = Elipse de error horizontal y cofactor por sistema a partir de
 
 # text
 seg-de6c33774c9c = CLI
+
+# text
+seg-d1e9715513b4 = Ejemplo
+
+# text
+seg-587beeccaa11 = Preajuste
+
+# text
+seg-98f4f946a7ac = WASM
+
+# text
+seg-b03d56f501c3 = Tipo
+
+# text
+seg-4dbf41c0ec3b = Función
