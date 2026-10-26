@@ -3878,3 +3878,6 @@ seg-e7d7d99fe538 = Un puente sin ROS que escribe mensajes de solución y de sat�
 
 # text
 seg-05ded40b17d2 = Ninguna externa: el nodo ROS no se ejecutó en un grafo ROS { "2" } en vivo, y los nombres de campo de ublox_ubx_msgs no se comprobaron contra un controlador en ejecución. gnss_lib_py (MIT) se ejecutó para la prueba del puente
+
+# text
+seg-c3c260b7063e = Pruebas

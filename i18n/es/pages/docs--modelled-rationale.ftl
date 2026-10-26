@@ -1335,3 +1335,6 @@ seg-68caf86157c2 = Paquete ROS { "2" } receiver-trust y puente gnss_lib_py
 
 # text
 seg-e7d7d99fe538 = Un puente sin ROS que escribe mensajes de solución y de satélites como NMEA y los puntúa mediante el binding de Python (integrations/ros2/kshana_trust), y un puente de NavData de gnss_lib_py a receiver-trust mediante el formato rtklib-pos (integrations/gnss_lib_py).
+
+# text
+seg-c3c260b7063e = Pruebas

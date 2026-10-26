@@ -29,3 +29,6 @@ seg-bbb1828b3db1 = Reducciones de cañón urbano, sectores y terreno a una tabla
 
 # text
 seg-2c53381d48ae = Elipse de error horizontal y cofactor por sistema a partir de la covarianza de la geometría
+
+# text
+seg-de6c33774c9c = CLI

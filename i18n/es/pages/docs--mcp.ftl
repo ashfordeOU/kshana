@@ -35,3 +35,9 @@ seg-d6476863f862 = Capacidad
 
 # text
 seg-fdbb9db68f1d = ninguna
+
+# text
+seg-1759a8cce7d6 = Tipos
+
+# text
+seg-564133d6a0c4 = Constelaciones alrededor de cualquier cuerpo
