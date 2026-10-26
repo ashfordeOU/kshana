@@ -10,6 +10,8 @@ seg-49a994d77d2f = temperaturkompenseret krystaloscillator
 
 seg-2247a2344710 = Betydning
 
+seg-5770537524d3 = Område
+
 seg-40d4fc0d3922 = Kilde: <c1/>
 
 seg-7333b85d448f = Alle væsentlige ændringer i Kshana dokumenteres her.

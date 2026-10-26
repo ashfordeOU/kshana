@@ -6,6 +6,8 @@ seg-1f17ef6a853e = Scenarietype i motoren v{ $version }, familie <a1>Måne og ci
 
 seg-1c1eeb2dcaa0 = Familieside: <a1>Måne og cislunart rum</a1>
 
+seg-619127334cf3 = Ingen matrixrække nævner denne type ved navn; mærkaten på dens resultat er motorens egen, ovenfor.
+
 seg-593938ee5995 = Kilde: <c1/>
 
 seg-d54a85227f43 = <c1/> (scenarietype)

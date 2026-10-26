@@ -2,6 +2,8 @@
 
 seg-d01db1c2710a = Reference
 
+seg-fdbb9db68f1d = ingen
+
 seg-ff0e00610721 = Hver række siger, hvilke Kshana-outputs der <b>leverer belæg for</b> kravet, og hvad der er tilbage. Intet her siger, at et rammeværk er opfyldt, eller at et produkt er vurderet eller godkendt af nogen. Kør <c1/> på dine egne resultatfiler for at se, hvilke rækker dine kørsler faktisk dokumenterer; se <a1>README.md</a1>.
 
 seg-30c8cabb6e90 = Kildedokumenter

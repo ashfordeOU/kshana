@@ -6,6 +6,8 @@ seg-59afd80736c5 = <b>PARTNER</b> Ikke leveret — Kshana modellerer signalydels
 
 seg-cb91473bfdda = Emneside: <a1>LEO-PNT.md</a1>
 
+seg-3bc1761c76ab = { "3" } medfølgende scenarier bruger denne type; de øvrige findes i <a1><c1/></a1>.
+
 seg-a3697ad561db = Hz
 
 seg-304496607bd7 = Scenarietype i motoren v{ $version }, familie <a1>Jamming, spoofing og spektret</a1>. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Hver mærkat her er motorens eller verifikationsmatrixens; en type er MODELLED, medmindre matrixen siger andet (hvordan en mærkat opnås: afsnittet Evidens i README).

@@ -8,6 +8,16 @@ seg-51362910dcb7 = { "2" } medfølgende scenarier bruger denne type; de øvrige 
 
 seg-f4cf8b629797 = Emneside: <a1>INTEGRITY.md</a1>
 
+seg-b0a5473bec67 = Microchip SA65 / SA.45s CSAC-datablad sigma_y(1s)={ "3e-10" }; q_
+
+seg-a8d92406e428 = Strontium-optisk gitterur, rumorienteret mål sigma_y
+
+seg-b9174c70772f = <b>MODELLED</b> Urstøttet χ², RAIM, AGC, SQM sammenlagt sikkerhedskvalitetsmål pr. epoke. Uafhængig reference (ExternalDataset): TEXBAT-scenarieparametre (Humphreys { "2012" }) — karakterisering, ikke fastlåste vektorer. { "0.30" } ekstern sammenligning, et fund (forbliver MODELLED): på JammerTest { "2024" } (Bleik; GPL-3.0-data) udløste monitorerne på observabelniveau (urstøttet chi-i-anden, RAIM, løsningsfejl) ingen alarm inden for { "10" } s af nogen af de { "8" } evaluerbare publicerede spoofing-starter (hvor vinduet før starten var rent, kom den første alarm { "10.2" } til { "39" } s efter pu
+
+seg-e4b64d7277da = Detektion af spoofing er MODELLED, ikke valideret: en delpåstand kontrolleres eksternt, men hele funktionen sammensættes af modellerede dele, så funktionen forbliver modelleret. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+seg-ee7dd15019d0 = Emneside: <a1>CAMPAIGNS.md</a1>
+
 seg-5a70fcb097dc = Valgfrie felter: ingen
 
 seg-304496607bd7 = Scenarietype i motoren v{ $version }, familie <a1>Jamming, spoofing og spektret</a1>. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Hver mærkat her er motorens eller verifikationsmatrixens; en type er MODELLED, medmindre matrixen siger andet (hvordan en mærkat opnås: afsnittet Evidens i README).

@@ -2,6 +2,8 @@
 
 seg-98151954f217 = false
 
+seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: rækkerne i <a1>verifikationsmatrixen</a1>, som nævner denne type.
+
 seg-2e6b437f3e99 = Kilde: <c1/>
 
 seg-134407946837 = <c1/> (scenarietype)

@@ -14,6 +14,10 @@ seg-59afd80736c5 = <b>PARTNER</b> Ikke leveret — Kshana modellerer signalydels
 
 seg-143f3f1cc521 = Modstandsdygtighed over for jamming i GNSS-nægtede miljøer er MODELLED, ikke valideret: kontrolleret mod sin egen lukkede/analytiske identitet — fanger transskriptions- og koefficientfejl, men er ikke en ekstern uafhængig reference. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
+seg-ee7dd15019d0 = Emneside: <a1>CAMPAIGNS.md</a1>
+
+seg-3bc1761c76ab = { "3" } medfølgende scenarier bruger denne type; de øvrige findes i <a1><c1/></a1>.
+
 seg-9521a296d617 = dBi
 
 seg-55ee4fdf9240 = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>

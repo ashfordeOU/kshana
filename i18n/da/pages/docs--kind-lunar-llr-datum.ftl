@@ -6,6 +6,8 @@ seg-1f17ef6a853e = Scenarietype i motoren v{ $version }, familie <a1>Måne og ci
 
 seg-1c1eeb2dcaa0 = Familieside: <a1>Måne og cislunart rum</a1>
 
+seg-3bc1761c76ab = { "3" } medfølgende scenarier bruger denne type; de øvrige findes i <a1><c1/></a1>.
+
 seg-8f8871ac8a0f = Emneside: <a1>LUNAR-REFERENCE-STATION.md</a1>
 
 seg-fd34d760edb1 = <b>VALIDATED</b> Kovariansen for Helmert-referencesystemet med syv parametre, hvor de to simulerede input er erstattet af målte: planen er jordsendingsepokerne for { "337" } arkiverede ILRS-normalpunkter fra månelaserafstandsmåling (2015-04-08 til 2015-06-27, Grasse MeO { "7" } Tests: <a1>lunar_llr_real_data.rs</a1>.

@@ -8,6 +8,12 @@ seg-f6b7ca020692 = Familieside: <a1>GNSS-målinger, positionsbestemmelse og inte
 
 seg-f4cf8b629797 = Emneside: <a1>INTEGRITY.md</a1>
 
+seg-5b3dbe0aed82 = <b>MODELLED</b> Den valgfrie [integrity]-sektion i urtypen (clock_integrity::run): ud fra et angivet sted og konstellationsforudindstillinger (geometry::sky_geometry), ved hver integritetsepoke, mens GNSS-tidslinjen ikke er nægtet, snapshot-RAIM (raim::snapshot_ Tests: <a1>clock_integrity.rs</a1>.
+
+seg-ee7dd15019d0 = Emneside: <a1>CAMPAIGNS.md</a1>
+
+seg-3bc1761c76ab = { "3" } medfølgende scenarier bruger denne type; de øvrige findes i <a1><c1/></a1>.
+
 seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-løsningsseparation med flere hypoteser efter ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels og add_v42_protecti. Uafhængig reference (ExternalDataset): Tre uafhængige værktøjer, præregistreret (0123cee1), før noget fixture- eller referenceoutput fandtes, med tolerancer fastsat dengang. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, kørt som et separat program under GNU Octave { "8.4" } med en kompatibilitets-shim for unique() på driversiden (oplyst, ingen algoritmeændring), ved ADD TOL_PL på { "0.05" } m: Rust gengiver ADD-referenceimplementeringen på
 
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP ud fra sigtelinjegeometri via Q=(HᵀH)⁻¹ med en lokal ENU-opdeling. Uafhængig reference (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP, uafhængigt bibliotek, stemmer til { "1e-6" } relativt

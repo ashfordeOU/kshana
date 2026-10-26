@@ -6,6 +6,10 @@ seg-37d29d8303fe = km
 
 seg-cb91473bfdda = Emneside: <a1>LEO-PNT.md</a1>
 
+seg-c61e88721556 = Scenarietype i motoren v{ $version }, familie <a1>Ure, tidssynkronisering og holdover</a1>. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Hver mærkat her er motorens eller verifikationsmatrixens; en type er MODELLED, medmindre matrixen siger andet (hvordan en mærkat opnås: README'ens afsnit Evidence).
+
+seg-849c08d3ce70 = Familieside: <a1>Ure, tidssynkronisering og holdover</a1>
+
 seg-09644e40e2d8 = Kilde: <c1/>
 
 seg-ec92d03eaa6c = <c1/> (scenarietype)
