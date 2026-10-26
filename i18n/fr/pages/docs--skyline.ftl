@@ -41,3 +41,15 @@ seg-587beeccaa11 = Préréglage
 
 # text
 seg-98f4f946a7ac = WASM
+
+# text
+seg-b03d56f501c3 = Type
+
+# text
+seg-4dbf41c0ec3b = Fonction
+
+# text
+seg-2b0d77219437 = Préréglages
+
+# text
+seg-7338b6210228 = Ligne

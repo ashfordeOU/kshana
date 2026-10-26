@@ -311,3 +311,39 @@ seg-c4fc43121c22 = <s1>Horloges, synchronisation temporelle et holdover</s1><s2>
 
 # text
 seg-d4b063147d18 = <s1>Constellations, couverture et géométrie</s1><s2>{ "7" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, pas…</s2>
+
+# text
+seg-c46df00b4c34 = <s1>Mesures GNSS, positionnement et intégrité</s1><s2>{ "6" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-ec2b7abf2d82 = <s1>PNT alternatif en l'absence de GPS</s1><s2>{ "5" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-bfa814d38dca = <s1>Fusion inertielle et capteurs quantiques</s1><s2>{ "9" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-69525243f8f1 = <s1>Brouillage, leurrage et spectre</s1><s2>{ "6" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-0541e0421253 = <s1>Navigation en orbite basse</s1><s2>{ "7" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-1da177a1654b = <s1>Lunaire et cislunaire</s1><s2>{ "20" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-671dc0d705c5 = <s1>Analyse de mission, liaisons et opérations spatiales</s1><s2>{ "14" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-5de091b18fe4 = <s1>PNT optique</s1><s2>{ "2" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-35db5b51a590 = <s1>Navigation de l'utilisateur spatial</s1><s2>{ "1" } type de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+# text
+seg-0144518c94fc = { "87" } pages, une pour chaque type de scénario, accessibles depuis <a1>Chaque type de scénario, par famille</a1>.
+
+# text
+seg-1acf60cff708 = Non inclus
+
+# text
+seg-188c6e41f434 = Les documents relatifs aux processus des mainteneurs restent dans le dépôt : docs/RELEASING.md (procédure de publication) ; docs/WHEEL_TAGS.md (détail du packaging) ; docs/revisions/ (notes de modification internes) ; docs/design/ (notes de conception internes) ; README.pypi.md (la page PyPI ; la documentation de l'API Python la couvre) ; modèles .github/ ; docs/integrations.md (organisé autour de produits d'IA tiers nommés, que ce site ne nomme pas).

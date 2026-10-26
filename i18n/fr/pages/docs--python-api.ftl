@@ -8,3 +8,6 @@ seg-2bd2101ce454 = Surface
 
 # text
 seg-fffbeccd4266 = Symbole
+
+# text
+seg-a129b9e613d0 = Type

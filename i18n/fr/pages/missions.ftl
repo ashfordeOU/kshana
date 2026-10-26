@@ -154,3 +154,48 @@ seg-9d3ee6a5613e = Exécutions
 
 # text
 seg-94de9433d99f = Fichiers de scénario
+
+# text
+seg-99a7944884ce = Secteur
+
+# text
+seg-b37002818547 = Défense et sécurité
+
+# text
+seg-5d7a6650872e = Aviation et drones
+
+# text
+seg-75d7d1930515 = Route
+
+# text
+seg-ea4149746f7b = Rail
+
+# text
+seg-e7a61033ec40 = Infrastructures critiques et synchronisation temporelle
+
+# text
+seg-f246644479d0 = Science et recherche
+
+# text
+seg-f2f6717849a7 = Espace : orbite terrestre
+
+# text
+seg-d038a1e09683 = Mon engin spatial voit-il assez de satellites de navigation, combien de temps son horloge garde-t-elle l'heure entre deux positions, et qu'apporterait une couche de navigation en orbite basse ?
+
+# text
+seg-6010770a2bf6 = Lune et espace lointain
+
+# text
+seg-33641ef6761c = Route et automobile
+
+# text
+seg-94cca6b24bb2 = Combien de secondes après l'entrée dans un tunnel un train peut-il encore dire sur quelle voie il se trouve ?
+
+# text
+seg-2d2a4afa2708 = Télécoms et 5G
+
+# text
+seg-af94e7a93923 = Si la référence de temps GNSS est perdue, l'horloge de mon réseau reste-t-elle dans les masques ITU-T, et pendant combien de temps ?
+
+# text
+seg-36d838421b86 = Puis-je reproduire, étendre et citer un résultat PNT, jusqu'à la graine ?
