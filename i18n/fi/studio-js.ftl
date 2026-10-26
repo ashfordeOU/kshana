@@ -6412,3 +6412,2276 @@ js-meankind-leopvt-polar-line =
     }
 
 js-meankind-leopvt-timing-big = Matalan radan ajansiirto pitää parhaan kellon { $ns } ns:n sisällä UTC:stä (neliökeskiarvo).
+
+js-meankind-leopvt-timing-line =
+    { $n ->
+        [one] { $n } kellon ja signaalin tapaus vertailtu.
+       *[other] { $n } kellon ja signaalin tapausta vertailtu.
+    }
+
+js-meankind-leosignal-big =
+    { $n ->
+        [one] { $n } signaalimallista { $best } sietää eniten häirintää: { $db } dB signaalin yläpuolella.
+       *[other] { $n } signaalimallista { $best } sietää eniten häirintää: { $db } dB signaalin yläpuolella.
+    }
+
+js-meankind-leosignal-line-fail = Spektrin muodon tarkistukset eivät läpäisty.
+
+js-meankind-leosignal-line-pass = Spektrin muodon tarkistukset läpäistiin.
+
+js-meankind-link-big-closes = Yhteys toimii, ja marginaalia jää { $margin } dB.
+
+js-meankind-link-big-open = Yhteys ei toimi: marginaali on { $margin } dB.
+
+js-meankind-link-line = { $km } km:n matkalla.
+
+js-meankind-link-line-band = { $band }-kaista { $km } km:n matkalla.
+
+js-meankind-link-line-band-rate = { $band }-kaista { $km } km:n matkalla nopeudella { $rate } bit/s.
+
+js-meankind-link-line-rate = { $km } km:n matkalla nopeudella { $rate } bit/s.
+
+js-meankind-list-and = { $head } ja { $last }
+
+js-meankind-llr-big = Todellinen laseretäisyysmittaus sitoo Kuun koordinaatiston { $mm } mm:n tarkkuuteen.
+
+js-meankind-llr-line = Mittakaava { $ppb } miljardisosaa.
+
+js-meankind-mapmatch-altimeter = Korkeusmittari mittaa { $sigma } m:n tarkkuudella.
+
+js-meankind-mapmatch-big = Karttasovitus pitää sijainnin { $matched } m:n tarkkuudessa, kun pelkällä inertiaalimittauksella ajautuma on { $free } m.
+
+js-meankind-mapmatch-gravimeter = Gravimetri mittaa { $sigma } mGal:n tarkkuudella.
+
+js-meankind-mapmatch-sources = Pelkkä painovoima antaa { $gravity } m, magneettikenttä { $magnetic } m ja maasto { $terrain } m.
+
+js-meankind-marspnt-big = { $user }-navigaattori asettuu { $m } m:n tarkkuuteen (neliöllinen keskiarvo).
+
+js-meankind-marspnt-line =
+    { $n ->
+        [one] Keskimäärin { $mean } releen näkyvissä { $n } epookin aikana.
+       *[other] Keskimäärin { $mean } releen näkyvissä { $n } epookin aikana.
+    }
+
+js-meankind-moonlight-big = Palvelu kattaa { $share } % tarkistetuista paikoista ja ajankohdista.
+
+js-meankind-moonlight-line =
+    { $n ->
+        [one] Näkyvissä on { $min }–{ $n } satelliitti; geometrian laatu (PDOP) vaihtelee välillä { $pmin }–{ $pmax }.
+       *[other] Näkyvissä on { $min }–{ $n } satelliittia; geometrian laatu (PDOP) vaihtelee välillä { $pmin }–{ $pmax }.
+    }
+
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Yksi navigointiviesti mahtuu { $n } tavuun.
+       *[other] Yksi navigointiviesti mahtuu { $n } tavuun.
+    }
+
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] { $n } tapauksessa lähetetyn radan etäisyysvirhe on { $min }–{ $max } mm.
+       *[other] { $n } tapauksessa lähetetyn radan etäisyysvirhe on { $min }–{ $max } mm.
+    }
+
+js-meankind-navmsg-cases-line = Etäisyysvirhe avaruussignaalissa, neliöllinen keskiarvo.
+
+js-meankind-navmsg-line = Pyöristys viestin muotoon maksaa { $mm } mm etäisyysvirhettä.
+
+js-meankind-navmsg-midpass-big = Viestin päivitys ohituksen aikana saa etäisyyden hyppäämään enintään { $mm } mm.
+
+js-meankind-navmsg-midpass-line = Raja on { $mm } mm.
+
+js-meankind-ntn-big = 5G-paikannus kiertoradalta yltää { $m } m:n tarkkuuteen signaalilla { $signal }.
+
+js-meankind-ntn-line = Doppler yhden ohituksen aikana antaa { $m } m.
+
+js-meankind-obs-big-full = Rata tulee täysin havaittavaksi { $dur } seurannan jälkeen.
+
+js-meankind-obs-big-partly = Rata pysyy osittain havaittavana { $h } h:n kaarella.
+
+js-meankind-obs-line = Aste { $rank } / { $dim } kaaren lopussa.
+
+js-meankind-oem-big = Efemeridi-tiedosto kiertää edestakaisin enintään { $mm } mm:n sijaintivirheellä.
+
+js-meankind-oem-line =
+    { $n ->
+        [one] { $states } tilaa { $n } jaksossa.
+       *[other] { $states } tilaa { $n } jaksossa.
+    }
+
+js-meankind-optical-big-alone = Paras yksittäinen asema pitää optisen yhteyden toiminnassa { $best } % ajasta (pilvettömän taivaan katto { $ceiling } %); mikään pilvettömän taivaan marginaali ei nosta sitä arvon { $ceiling } % yläpuolelle.
+
+js-meankind-optical-big-team = Paras yksittäinen asema pitää optisen yhteyden toiminnassa { $best } % ajasta (pilvettömän taivaan katto { $ceiling } %); { $n } asemaa yhdessä saavuttavat { $independent } %, jos niiden sää on riippumaton, ja { $correlated } % ilmoitetulla korrelaatiolla.
+
+js-meankind-optical-line-sites =
+    { $n ->
+        [one] { $n } asema mallinnettu; pilvisyysilmastot ovat havainnollistavia.
+       *[other] { $n } asemaa mallinnettu; pilvisyysilmastot ovat havainnollistavia.
+    }
+
+js-meankind-optical-line-tech = { $name }: { $base } % muuttuu arvoksi { $with } %.
+
+js-meankind-opticalrf-big = Optisen ja radioetäisyysmittauksen yhdistelmä antaa suojaustasot { $h } m vaakasuunnassa ja { $v } m pystysuunnassa.
+
+js-meankind-opticalrf-line-fault = Johdonmukaisuustesti antaa arvon { $stat } kynnysarvoa { $threshold } vasten: vika havaitaan.
+
+js-meankind-opticalrf-line-ok = Johdonmukaisuustesti antaa arvon { $stat } kynnysarvoa { $threshold } vasten: vikaa ei havaita.
+
+js-meankind-packet-big-no = Ei: dekoodattu virta poikkeaa lähetetystä.
+
+js-meankind-packet-big-yes = Kyllä: pakettivirta dekoodautuu takaisin bitti bitiltä.
+
+js-meankind-packet-line =
+    { $n ->
+        [one] { $n } paketti, yhteensä { $octets } oktettia.
+       *[other] { $n } pakettia, yhteensä { $octets } oktettia.
+    }
+
+js-meankind-passes-big-day =
+    { $n ->
+        [one] { $n } ohitus päivässä, yhteensä { $dur } yhteysaikaa.
+       *[other] { $n } ohitusta päivässä, yhteensä { $dur } yhteysaikaa.
+    }
+
+js-meankind-passes-big-window =
+    { $n ->
+        [one] { $n } ohitus { $hours } tunnin ikkunassa, yhteensä { $dur } yhteysaikaa.
+       *[other] { $n } ohitusta { $hours } tunnin ikkunassa, yhteensä { $dur } yhteysaikaa.
+    }
+
+js-meankind-passes-line = Paras ohitus nousee { $deg }°:een.
+
+js-meankind-percentile-word = prosenttipiste
+
+js-meankind-pnt-big = Kvanttipaketti pitää sijainnin ja ajan ajalle { $q }; klassinen paketti ajalle { $c }.
+
+js-meankind-pnt-classical-label = Holdover, klassinen paketti
+
+js-meankind-pnt-line = Holdover tarkoittaa, kuinka kauan kukin paketti (kello { $q }, kelloa { $c } vasten) pysyy rajan { $spec } sisällä satelliittinavigoinnin menetyksen jälkeen.
+
+js-meankind-pnt-quantum-label = Holdover, kvanttipaketti
+
+js-meankind-pnt-timing-classical-label = Ajoitusvirhe, 95 %, klassinen
+
+js-meankind-pnt-timing-quantum-label = Ajoitusvirhe, 95 %, kvantti
+
+js-meankind-pvt-big =
+    { $n ->
+        [one] Sijainti ratkaistaan { $solved } epookissa { $n } epookista, { $rms } m:n tarkkuudella (3D-neliöllinen keskiarvo).
+       *[other] Sijainti ratkaistaan { $solved } epookissa { $n } epookista, { $rms } m:n tarkkuudella (3D-neliöllinen keskiarvo).
+    }
+
+js-meankind-pvt-line = Keskimäärin { $mean } satelliitista, luettuna todellisista vastaanottimen mittauksista.
+
+js-meankind-qnav-big = Katkon jälkeen kylmäatominavigaattori on { $q } m pielessä; navigointiluokan { $c } m.
+
+js-meankind-qnav-big-outage = Kun satelliitteja ei ole ollut { $dur }, kylmäatominavigaattori on { $q } m pielessä; navigointiluokan { $c } m.
+
+js-meankind-qnav-line = Budjetin sisällä: { $q } verrattuna arvoon { $c }.
+
+js-meankind-qnav-line-threshold = Rajan { $threshold } m sisällä: { $q } verrattuna arvoon { $c }.
+
+js-meankind-qtt-big = Kvanttiajansiirto pitää { $q } ps (1-sigma) verrattuna klassisen ketjun { $c } ns:ään.
+
+js-meankind-qtt-line = Turvallisuusvalvonta havaitsee { $pd } % hyökkäyksistä.
+
+js-meankind-qtt-line-pfa = Turvallisuusvalvonta havaitsee { $pd } % hyökkäyksistä väärien hälytysten osuudella { $pfa }.
+
+js-meankind-quantum-link = kvanttiyhteys
+
+js-meankind-radiometry-big = Kamera saavuttaa NIIRS-luokan { $niirs } maastoerotuskyvyllä { $gsd } m ja signaali-kohinasuhteella { $snr }.
+
+js-meankind-radiometry-line = Järjestelmän MTF Nyquistin taajuudella { $mtf }.
+
+js-meankind-reentry-big = Huippuhidastuvuus on { $g } g korkeudella { $km } km.
+
+js-meankind-reentry-line = Ajoneuvon nopeus on tällöin { $speed } m/s.
+
+js-meankind-slam-big = Maastosovitus päättyy { $matched } m pielessä, kun pelkällä inertiaalimittauksella virhe on { $free } m.
+
+js-meankind-slam-line =
+    { $n ->
+        [one] { $n } reittipisteen aikana sovitettu maastokarttaan { $sigma } m:n korkeusmittarikohinalla.
+       *[other] { $n } reittipisteen aikana sovitettu maastokarttaan { $sigma } m:n korkeusmittarikohinalla.
+    }
+
+js-meankind-slot-big = Kello poistuu aikavälin suojauksestaan { $dur } viimeisen satelliittipaikannuksen jälkeen.
+
+js-meankind-slot-line = Siksi se tarvitsee paikannuksen { $interval } välein, noin { $perDay } päivässä.
+
+js-meankind-solar-big =
+    { $n ->
+        [one] { $n } kappale sijoitettu yhdelle epookille.
+       *[other] { $n } kappaletta sijoitettu yhdelle epookille.
+    }
+
+js-meankind-solar-big-link =
+    { $n ->
+        [one] { $n } kappale sijoitettu yhdelle epookille; valolta kuluu { $dur } kohteesta { $from } kohteeseen { $to }.
+       *[other] { $n } kappaletta sijoitettu yhdelle epookille; valolta kuluu { $dur } kohteesta { $from } kohteeseen { $to }.
+    }
+
+js-meankind-solar-line = Yhteensä { $n } yhteyttä ajoitetaan.
+
+js-meankind-spoof-caught = Harhautus havaitaan ennen kuin se rikkoo ajoitusmäärityksen.
+
+js-meankind-spoof-caught-both = Harhautus havaitaan ennen kuin se rikkoo ajoitusmäärityksen, kummallakin kellolla.
+
+js-meankind-spoof-caught-label = Havaittu myöhemmin, { $name }
+
+js-meankind-spoof-caught-thr = Harhautus havaitaan ennen kuin se rikkoo { $thr } ns:n ajoitusmäärityksen.
+
+js-meankind-spoof-caught-thr-both = Harhautus havaitaan ennen kuin se rikkoo { $thr } ns:n ajoitusmäärityksen, kummallakin kellolla.
+
+js-meankind-spoof-detects = { $name } havaitsee sen { $dur } kuluttua, { $offset } ns:n poikkeamalla.
+
+js-meankind-spoof-missed =
+    { $n ->
+        [one] Harhautus rikkoo ajoitusmäärityksen ennen kuin { $names } havaitsee sen.
+       *[other] Harhautus rikkoo ajoitusmäärityksen ennen kuin { $names } havaitsee sen.
+    }
+
+js-meankind-spoof-offset = poikkeama { $offset } ns
+
+js-meankind-spoofdetect-big-by = Kyllä: harhautus havaitaan, havaitsija { $by }.
+
+js-meankind-spoofdetect-big-no = Ei: yhdistetty valvonta ei havaitse harhautusta.
+
+js-meankind-spoofdetect-big-yes = Kyllä: harhautus havaitaan.
+
+js-meankind-spoofdetect-line =
+    { $n ->
+        [one] { $on } / { $n } havaitsemiskerroksesta hälyttää.
+       *[other] { $on } / { $n } havaitsemiskerroksesta hälyttää.
+    }
+
+js-meankind-spoofdetect-line-score =
+    { $n ->
+        [one] { $on } / { $n } havaitsemiskerroksesta hälyttää; yhdistetty pistemäärä on { $score }.
+       *[other] { $on } / { $n } havaitsemiskerroksesta hälyttää; yhdistetty pistemäärä on { $score }.
+    }
+
+js-meankind-ssv-formation = { $km } km:n etäisyydellä suodatin tuntee suhteellisen sijainnin { $filter } m:n RMS-tarkkuudella, kun kahden absoluuttisen paikannuksen erotuksesta saadaan { $absolute } m.
+
+js-meankind-ssv-navigation = Aluksella oleva suodatin pitää sijainnin { $inside } m:n RMS-tarkkuudessa GNSS-ratojen sisäpuolella ja { $above } m:ssä niiden yläpuolella.
+
+js-meankind-ssv-shell = Kuorella kaikki tähdistöt yhdessä antavat vähintään yhden signaalin { $one } % ajasta ja vähintään neljä { $four } % ajasta (L1).
+
+js-meankind-ssv-tail = MODELLED: geometrinen ja yhteysbudjetin pyyhkäisy, ei minkään avaruudessa olevan signaalin mittaus.
+
+js-meankind-ssv-trajectory = Korkeudesta { $from } korkeuteen { $to } km vähintään yksi signaali on näkyvissä { $one } % epookeista ja vähintään neljä { $four } % (L1, kaikki tähdistöt).
+
+js-meankind-station-big = Kuun etelänapa-alueella kuun vertailuaseman korjaukset laskevat virheen { $percentile } arvosta { $from } m arvoon { $to } m (mallinnettu).
+
+js-meankind-station-line = Tarkkuuskynnyksen sisällä { $share } % epookeista; ei väite mistään todellisesta järjestelmästä.
+
+js-meankind-sweep-big =
+    { $n ->
+        [one] { $n } arvolla parametrille { $param }, { $parts }.
+       *[other] { $n } arvolla parametrille { $param }, { $parts }.
+    }
+
+js-meankind-sweep-line = { $param } kulkee arvosta { $from } arvoon { $to }.
+
+js-meankind-sweep-line-log = { $param } kulkee arvosta { $from } arvoon { $to } logaritmisella asteikolla.
+
+js-meankind-sweep-part-flat = { $key }, { $metric } pysyy arvossa { $value }
+
+js-meankind-sweep-part-goes = { $key }, { $metric } muuttuu arvosta { $first } arvoon { $last }
+
+js-meankind-sweep-result-word = tulos
+
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] { $n } yhdistelmällä parametreista { $keys }, { $metric } vaihtelee välillä { $min }–{ $max }.
+       *[other] { $n } yhdistelmällä parametreista { $keys }, { $metric } vaihtelee välillä { $min }–{ $max }.
+    }
+
+js-meankind-sweepnd-line = Ruudukko moottoriajoja: { $shape }.
+
+js-meankind-telecom-fail =
+    { $n ->
+        [one] Kello ei läpäise { $fail } / { $n } telekommunikaation aikavirhetarkistuksesta.
+       *[other] Kello ei läpäise { $fail } / { $n } telekommunikaation aikavirhetarkistuksesta.
+    }
+
+js-meankind-telecom-line = MTIE (suurin aikavälivirhe), TDEV (aikapoikkeama) ja holdover-verhokäyrä tarkistetaan kullakin rivillä mainittuja ITU-T-maskeja vasten.
+
+js-meankind-telecom-line-margin = MTIE (suurin aikavälivirhe), TDEV (aikapoikkeama) ja holdover-verhokäyrä tarkistetaan kullakin rivillä mainittuja ITU-T-maskeja vasten. Pienin marginaali holdover-verhokäyrään on { $margin } ns.
+
+js-meankind-telecom-pass =
+    { $n ->
+        [one] Kello läpäisee kaikki { $n } telekommunikaation aikavirhetarkistusta.
+       *[other] Kello läpäisee kaikki { $n } telekommunikaation aikavirhetarkistusta.
+    }
+
+js-meankind-the-best = paras
+
+js-meankind-the-body = kappale
+
+js-meankind-the-first = ensimmäinen
+
+js-meankind-the-name = { $name }
+
+js-meankind-the-second = toinen
+
+js-meankind-the-widest-signal = leveä signaali
+
+js-meankind-timebudget-big = Kellon { $clock } virhe ja vertailukehyksen virhe leikkaavat keskiarvoistusajalla { $tau }.
+
+js-meankind-timebudget-line = Tässä leikkauspisteessä aikavirhe on { $x } s.
+
+js-meankind-timeoffset-big = Kuussa oleva kello käy { $rate } µs vuorokaudessa edellä Maassa olevaa.
+
+js-meankind-timeoffset-line = Julkaistu vaihteluväli on { $low }–{ $high } µs vuorokaudessa.
+
+js-meankind-timetransfer-big = { $q } pitää kaksi asemaa { $qps } ps:n sisällä (neliöllinen keskiarvo); { $c } { $cps } ps:n sisällä.
+
+js-meankind-timetransfer-line = Etäisyysmittausmäärityksen sisällä { $q } % ajasta, kun vertailussa { $c } %.
+
+js-meankind-timetransfer-line-mm = { $mm } mm:n etäisyysmittausmäärityksen sisällä { $q } % ajasta, kun vertailussa { $c } %.
+
+js-meankind-tracking-big = Harhauttaja voi vallata vastaanottimen jopa { $km } km:n päästä.
+
+js-meankind-tracking-line = Vastaanottimen oman silmukkadynamiikan alla lukitus menetetään, kun häirintälähetin on { $db } dB signaalin yläpuolella.
+
+js-meankind-trade-big = Kvanttianturit ovat { $timing } kertaa parempia ajoituksessa ja { $inertial } kertaa parempia inertiaalinavigoinnissa kuin klassinen lähtötaso.
+
+js-meankind-trade-line = Ilman satelliitteja kvanttipaketti jatkaa { $dur }.
+
+js-meankind-ttbudget-big = Kaksisuuntainen poikkeama on { $offset } ns, yhteenlaskettu epävarmuus { $uncertainty } ns.
+
+js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ionosfääri { $iono } ns.
+
+js-meankind-ukf-big-no = Ei: suodatin ei ole itsejohdonmukainen.
+
+js-meankind-ukf-big-yes = Kyllä: suodatin on itsejohdonmukainen.
+
+js-meankind-ukf-line-in = Sen normalisoitu innovaationeliö on keskimäärin { $mean }, 95 %:n vaihteluvälin { $low }–{ $high } sisällä. Tämä tarkistaa johdonmukaisuuden, ei tarkkuutta.
+
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+        [one] Sen normalisoitu innovaationeliö on keskimäärin { $mean }, 95 %:n vaihteluvälin { $low }–{ $high } sisällä, { $n } siemenluvulla. Tämä tarkistaa johdonmukaisuuden, ei tarkkuutta.
+       *[other] Sen normalisoitu innovaationeliö on keskimäärin { $mean }, 95 %:n vaihteluvälin { $low }–{ $high } sisällä, { $n } siemenluvulla. Tämä tarkistaa johdonmukaisuuden, ei tarkkuutta.
+    }
+
+js-meankind-ukf-line-out = Sen normalisoitu innovaationeliö on keskimäärin { $mean }, 95 %:n vaihteluvälin { $low }–{ $high } ulkopuolella. Tämä tarkistaa johdonmukaisuuden, ei tarkkuutta.
+
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+        [one] Sen normalisoitu innovaationeliö on keskimäärin { $mean }, 95 %:n vaihteluvälin { $low }–{ $high } ulkopuolella, { $n } siemenluvulla. Tämä tarkistaa johdonmukaisuuden, ei tarkkuutta.
+       *[other] Sen normalisoitu innovaationeliö on keskimäärin { $mean }, 95 %:n vaihteluvälin { $low }–{ $high } ulkopuolella, { $n } siemenluvulla. Tämä tarkistaa johdonmukaisuuden, ei tarkkuutta.
+    }
+
+js-meankind-user-word = käyttäjä
+
+js-meankind-vlbi-big = { $km } km:n kantaviivalla majakan signaali saapuu kahdelle asemalle { $ms } ms:n erolla.
+
+js-meankind-vlbi-line = Lähikentän korjaus on { $us } µs.
+
+js-meankind-vlbifim-big = Kunkin aseman koordinaatti tunnetaan { $m } m:n tarkkuudella tästä havaintoaikataulusta.
+
+js-meankind-vlbifim-line = Yksinkertainen tasajaon arvio väittäisi { $m } m.
+
+js-meankind-weather-big = Ylempi ilmakehä lämpenee { $k } K:iin.
+
+js-meankind-weather-big-ref = Ylempi ilmakehä lämpenee { $k } K:iin, kun vertailussa { $ref } K.
+
+js-meankind-weather-line = Geomagneettisen aktiivisuuden indeksi ap on { $ap }.
+
+js-meankind-whole-run = koko ajon aikana
+
+js-mthread-bcol-label = Nimike
+
+js-mthread-bcol-share = Suhde suurimpaan sijaintitermiin
+
+js-mthread-bcol-sigma = 1-sigma
+
+js-mthread-bcol-source = Osuus
+
+js-mthread-budget-caption = { $phase }: 1-sigma sisääntulossa { $entry }, huipussa { $peak }, ulosmenossa { $exit } (sijainti); kukin osuus alla, suurin ensin.
+
+js-mthread-chart-title = { $metric } tehtävän kuluneeseen aikaan nähden, yksi kaista vaihetta kohti
+
+js-mthread-col-kind = Laji
+
+js-mthread-col-label = Nimike
+
+js-mthread-col-limit = Suurin osuus
+
+js-mthread-col-margin = Rajaa vasten
+
+js-mthread-col-peak-pos = Sijainnin huippu
+
+js-mthread-col-peak-time = Kellon harhan huippu
+
+js-mthread-col-peak-vel = Nopeuden huippu
+
+js-mthread-col-phase = Vaihe
+
+js-mthread-col-window = Tehtävän aika
+
+js-mthread-example-not-loaded = tallennettua tulosta ei ladattu
+
+js-mthread-file-failed = Tiedostoa { $name } ei voitu lukea: { $reason }.
+
+js-mthread-kv-elapsed = Tehtävän kulunut aika
+
+js-mthread-kv-engine = Moottori
+
+js-mthread-kv-epoch = Epookki (UTC)
+
+js-mthread-kv-limits = Vaiheet, joilla on ilmoitettu raja
+
+js-mthread-kv-limits-value = { $n } ({ $met } täyttyi, { $missed } ei täyttynyt)
+
+js-mthread-kv-phases = Vaiheet
+
+js-mthread-kv-seed = Siemenluku
+
+js-mthread-kv-title = Ketju
+
+js-mthread-layout-phases = Yhtä leveä jokaiselle vaiheelle
+
+js-mthread-layout-time = Todellinen tehtäväaika
+
+js-mthread-limit-title = { $phase }: ilmoitettu raja, { $limit }
+
+js-mthread-log-scale = logaritminen asteikko
+
+js-mthread-margin-met = { $m }× raja, täyttyi
+
+js-mthread-margin-missed = { $m }× raja, ei täyttynyt
+
+js-mthread-metric-pos = Sijainti, 1-sigma
+
+js-mthread-metric-time = Kellon harha, 1-sigma
+
+js-mthread-metric-vel = Nopeus, 1-sigma
+
+js-mthread-na = ei saatavilla
+
+js-mthread-no-events = Tässä vaiheessa ei ole tapahtumia.
+
+js-mthread-no-phases = tulos ei sisällä vaiheita
+
+js-mthread-no-requirement = rajaa ei ilmoitettu
+
+js-mthread-no-series = Tulos ei sisällä tämän suureen näytteitä.
+
+js-mthread-no-weak = Tulos ei nimeä heikointa lenkkiä.
+
+js-mthread-not-json = tulos ei ole JSON ({ $reason })
+
+js-mthread-not-thread = tämä ei ole tehtäväketjun tulos (odotettiin skeemaa { $schema })
+
+js-mthread-note-phases = Jokainen vaihe piirretään samalla leveydellä, jotta lyhyt vaihe näkyy yhtä hyvin kuin pitkä; kunkin vaiheen alkamisaika on kaistan alla. Vaihda todelliseen tehtäväaikaan nähdäksesi todelliset mittasuhteet. Katkoviivat ovat dokumentin ilmoittamat rajat; viivan katkos on luovutus.
+
+js-mthread-note-time = Todellinen tehtäväaika: muutaman minuutin vaihe voi olla liian kapea nähtäväksi. Vaihda yhtä leveisiin vaiheisiin lukeaksesi sen. Katkoviivat ovat dokumentin ilmoittamat rajat; viivan katkos on luovutus.
+
+js-mthread-open-failed = Esimerkkiä ei voitu avata: { $reason }.
+
+js-mthread-opened = { $name } luettu tällä sivulla; mitään ei lähetetty minnekään.
+
+js-mthread-opening = Avataan Artemis-luokan esimerkkiä…
+
+js-mthread-prov = Jokainen tämän sivun nimike on moottorin oma; sivu kopioi jokaisen luvun tuloksesta ja vain skaalaa sen.
+
+js-mthread-recorded = Moottorin tallentama tulos (versio { $version }): havainnollistava ketju, joka on rakennettu julkisista tehtäväkuvauksista; luvut on mallinnettu, eivätkä ne vastaa mitään todellista.
+
+js-mthread-sets-peak = määrää huipun
+
+js-mthread-too-large = Tiedosto on suurempi kuin { $mb } MB; sitä ei lueta.
+
+js-mthread-weak-line = Heikoin lenkki on vaihe <b>{ $phase }</b>: { $margin }× sen ilmoitettu raja, jonka asettaa { $source }. Marginaali on ilmoitetun rajan ja vaiheen huipun pienin suhde; yli 1 täyttää vaatimuksen.
+
+js-mthread-weakest-flag = heikoin lenkki
+
+js-mthread-weakest-mark = heikoin lenkki
+
+js-obs-cell-extent = { $south }°–{ $north }° N, { $west }°–{ $east }° E
+
+js-obs-cell-read = { $state }: { $cell }. Otos { $sampled }, vaikutuksen alaisia { $affected }.
+
+js-obs-cell-title = { $state }; otos { $sampled }, vaikutuksen alaisia { $affected }
+
+js-obs-cell-title-reason = { $state } ({ $reason }); otos { $sampled }, vaikutuksen alaisia { $affected }
+
+js-obs-clear-note = { $notClear } Ruutu, jolla ei ole merkintää, nähtiin alle 5 eri ilma-aluksella ja pidätetään; sitä ei piirretä. Väri ei ole koskaan ainoa vihje: ei havaittu on vinoviivoitettu, ja taulukko kirjoittaa auki jokaisen tilan.
+
+js-obs-col-affected = Vaikutuksen alaiset ilma-alukset
+
+js-obs-col-bbox = Rajauslaatikko (S, W, N, E)
+
+js-obs-col-bytes = Tavua
+
+js-obs-col-cause = Syy
+
+js-obs-col-cell = Ruutu (leveysaste, pituusaste)
+
+js-obs-col-cells = Ruudut
+
+js-obs-col-check = Tarkistus
+
+js-obs-col-file = Tiedosto
+
+js-obs-col-incident = Tapaus
+
+js-obs-col-sampled = Otokseen kuuluneet ilma-alukset
+
+js-obs-col-sha = SHA-256 (manifesti)
+
+js-obs-col-share = Vaikutuksen alainen osuus
+
+js-obs-col-state = Tila
+
+js-obs-col-why = Miksi ei havaittu
+
+js-obs-day-alt = { $degraded } ruutua heikentynyt, { $notDegraded } ei heikentynyt, { $notObserved } ei havaittu, päivänä { $date }.
+
+js-obs-day-heading = Päivä { $date } (UTC)
+
+js-obs-ds-attribution = Lähdetiedot
+
+js-obs-ds-coverage = Kattavuus
+
+js-obs-ds-dataset = Aineisto
+
+js-obs-ds-licence = Lisenssi
+
+js-obs-ds-licence-address = Lisenssin osoite
+
+js-obs-ds-product = Tuote
+
+js-obs-ds-written-by = Kshanan kirjoittama
+
+js-obs-err-cause = { $name } ilmoittaa muun syyn kuin ”ei kohdistettu”; tämä sivu ei näytä sellaista
+
+js-obs-err-feature-polygon = { $name }: kohde { $n } ei ole ruutumonikulmio
+
+js-obs-err-feature-state = { $name }: kohteen { $n } tila on ”{ $state }”, joka ei ole yksi arvoista { $states }
+
+js-obs-err-incident-object = { $name }: tapaus { $n } ei ole objekti
+
+js-obs-err-no-date = { $name } ei ilmoita päivämäärää
+
+js-obs-err-no-features = { $name } ei sisällä kohteita
+
+js-obs-err-no-incidents = { $name } ei sisällä tapausluetteloa
+
+js-obs-err-not-day = { $name } ei ole { $schema }-tiedosto
+
+js-obs-err-not-incident = { $name } ei ole { $schema }-tiedosto
+
+js-obs-err-not-json = { $what } ei ole JSON ({ $reason })
+
+js-obs-err-not-manifest = { $name } ei ole { $schema }-tiedosto
+
+js-obs-err-not-object = { $what } ei ole JSON-objekti
+
+js-obs-err-not-text = { $what } ei ole tekstiä tai on suurempi kuin { $mib } MiB
+
+js-obs-err-states = { $name } nimeää muita tiloja kuin nämä kolme, jotka tämä sivu näyttää
+
+js-obs-file-matches = täsmää
+
+js-obs-file-mismatch = ei täsmää
+
+js-obs-file-no-hash = tiivistettä ei ilmoitettu
+
+js-obs-file-not-opened = ei avattu
+
+js-obs-files-note = Menetelmä { $method }. Kunkin tiedoston SHA-256 lasketaan täällä avaamastasi tiedostosta ja verrataan manifestiin; tiedostoa, jota et avannut, ei tarkisteta.
+
+js-obs-incident = tapaus
+
+js-obs-incident-note = Toisiinsa koskettavat heikentyneet ruudut (viistot naapurit mukaan lukien) muodostavat yhden tapauksen. Jokaisen tapauksen syy on: ei kohdistettu. Tämä ei ole vahvistus eikä NOTAM.
+
+js-obs-kv-cells = Julkaistut ruudut
+
+js-obs-kv-day-wide = Koko päivän vaikutus
+
+js-obs-kv-degraded = Heikentynyt
+
+js-obs-kv-not-degraded = Ei heikentynyt
+
+js-obs-kv-not-observed = Ei havaittu (julkaistu)
+
+js-obs-kv-scope = Laajuus
+
+js-obs-map-aria = { $summary } Alla oleva taulukko luettelee jokaisen ruudun.
+
+js-obs-means-degraded = Suuri osuus ruudussa otokseen kuuluneista ilma-aluksista ilmoitti sinä päivänä heikon navigointitarkkuuden, selvästi yli kyseisen päivän taustatason.
+
+js-obs-means-not-degraded = Ilma-aluksia oli otoksessa riittävästi, eikä osuus täyttänyt sääntöä.
+
+js-obs-means-not-observed = Data ei mahdollistanut arviota. Tämä ei tarkoita ”selvä”.
+
+js-obs-na = ei saatavilla
+
+js-obs-no = ei
+
+js-obs-no-cells = Tässä tiedostossa ei ole ruutuja
+
+js-obs-no-day-file = Päivän { $date } tiedostoissa ei ole päivätiedostoa (.geojson), joten siitä ei ole mitään näytettävää.
+
+js-obs-no-degraded = Tänä päivänä ei ole heikentyneitä ruutuja.
+
+js-obs-no-file-read = Yhtään tiedostoa ei voitu lukea.
+
+js-obs-no-incident-file = Tälle päivälle ei avattu tapaustiedostoa.
+
+js-obs-no-manifest = Tälle päivälle ei avattu manifestia, joten tiedostoja ei voi tarkistaa tiivisteitä vasten.
+
+js-obs-no-notice = Tässä tiedostossa ei ole huomautusta. Tämän sivun yläreunan ohjeellinen lausuma pätee silti.
+
+js-obs-no-reason = syytä ei ilmoitettu
+
+js-obs-not-clear = Ei havaittu ei tarkoita selvää.
+
+js-obs-not-readable = { $name }: ei ole tiedosto, jonka tämä sivu lukee (.geojson, .incidents.json, .manifest.json tai .png).
+
+js-obs-not-stated = ei ilmoitettu
+
+js-obs-note-day-wide = Tämä oli koko päivän vaikutuksen päivä: päivän taustataso oli itsessään korkea, joten yhtään ruutua ei voitu arvioida sinä päivänä. Tämä ei ole väite siitä, että taivas oli puhdas.
+
+js-obs-note-summary-mismatch = Tiedoston ilmoittama yhteenveto ei täsmää sen luettelemiin ruutuihin; luvut näytetään sellaisina kuin ne on kirjoitettu.
+
+js-obs-nothing-yet = Ei vielä mitään näytettävää: avaa myös päivän .geojson-tiedosto.
+
+js-obs-notice = Tiedoston mukana tuleva huomautus: { $notice }
+
+js-obs-opened-day-file = Avattu { $days } päivä { $files } tiedostosta. Luettu täällä; mitään ei ladattu palvelimelle.
+
+js-obs-opened-day-files = Avattu { $days } päivä { $files } tiedostosta. Luettu täällä; mitään ei ladattu palvelimelle.
+
+js-obs-opened-days-file = Avattu { $days } päivää { $files } tiedostosta. Luettu täällä; mitään ei ladattu palvelimelle.
+
+js-obs-opened-days-files = Avattu { $days } päivää { $files } tiedostosta. Luettu täällä; mitään ei ladattu palvelimelle.
+
+js-obs-read-failed = { $name }: ei voitu lukea ({ $reason }).
+
+js-obs-reason-day-wide = päivän taustataso oli itsessään korkea, joten yhtään ruutua ei voitu arvioida sinä päivänä
+
+js-obs-reason-insufficient = otoksessa oli liian vähän ilma-aluksia arvion tekemiseen
+
+js-obs-reason-no-background = päivälle ei ollut taustatasoa, johon ruutua olisi voitu verrata
+
+js-obs-release = Julkaistu aikaisintaan { $when }: tuotteet julkaistaan vähintään { $hours } tuntia päivän päättymisen jälkeen, { $deg } asteen ruuduilla. Tämä ei ole reaaliaikainen näkymä.
+
+js-obs-release-default = päivän loppu lisättynä viiveellä
+
+js-obs-show-all = Näytä kaikki { $n } ruutua
+
+js-obs-state-degraded = Heikentynyt
+
+js-obs-state-not-degraded = Ei heikentynyt
+
+js-obs-state-not-observed = Ei havaittu
+
+js-obs-the-day-file = päivätiedosto
+
+js-obs-the-incident-file = tapaustiedosto
+
+js-obs-the-manifest = manifesti
+
+js-obs-too-large = { $name }: suurempi kuin { $mib } MiB; avaa pienempi tiedosto.
+
+js-obs-unstated-number = ilmoittamaton määrä
+
+js-obs-withheld = pidätetty
+
+js-obs-yes-no-call = kyllä: yhtään ruutua ei voitu arvioida
+
+js-opt-avail-label = Saatavuus, katto ja kirkkaan taivaan saatavuus asemakohtaisesti
+
+js-opt-avail-note = Asemakohtaisesti: yhteyden saatavuus pilvi- ja turbulenssivaimennusta vasten, katto, jota mikään lisämarginaali ei nosta (pilvi ja suuntaus), sekä saatavuus ilman pilviä lainkaan.
+
+js-opt-avail-title = Saatavuus kattoa vasten
+
+js-opt-bar-available = { $name }: saatavilla
+
+js-opt-bar-ceiling = { $name }: katto
+
+js-opt-bar-clear-sky = { $name }: kirkas taivas
+
+js-opt-blurb-network = Pilvisempi pohjoinen, keskitasoinen keskinen ja kirkkaampi eteläinen asema näkevät LEO-optisen päätteen 30 asteen kulmassa: kuinka usein yhteys toimii, ja mitä lisäasemat tuovat?
+
+js-opt-blurb-techniques = Yksi ylälinkki 25 asteen kulmassa pilvessä ja turbulenssissa: mitä toinen aallonpituus, suurempi apertuuri, adaptiivinen optiikka tai lisämarginaali tuovat?
+
+js-opt-cloud-episode = pilvijakso
+
+js-opt-correlated = korreloiva
+
+js-opt-default-bars = palkit
+
+js-opt-default-chart = kaavio
+
+js-opt-direction-wave = { $direction }, { $wave }-aalto
+
+js-opt-diversity-label = Verkon saatavuus asemien lukumäärää vasten
+
+js-opt-diversity-note = Parhaan 1, 2 ja 3 aseman saatavuus riippumattomalla säällä ja { $km } km:n yli korreloivalla säällä.
+
+js-opt-diversity-title = Asemadiversiteetti
+
+js-opt-fact-capture-loss = Geometrinen kaappaushäviö
+
+js-opt-fact-direction = Suunta
+
+js-opt-fact-elevation = Korkeuskulma
+
+js-opt-fact-footprint = Keilan jalanjälki
+
+js-opt-fact-margin = Marginaali ilman ilmakehää
+
+js-opt-fact-received = Vastaanotettu teho, ei ilmakehää
+
+js-opt-fact-sensitivity = Vastaanottimen herkkyys
+
+js-opt-fact-wavelength = Aallonpituus
+
+js-opt-gain-points = +{ $n } pistettä
+
+js-opt-hours = tuntia
+
+js-opt-independent = riippumaton
+
+js-opt-link-down = yhteys poikki
+
+js-opt-margin-label = Kunkin saatavuustavoitteen tarvitsema lisämarginaali
+
+js-opt-margin-line-title = { $name }: yhteysmarginaali, dB
+
+js-opt-margin-note = Lisäyhteysmarginaali dB:nä nykyisen yhteyden päälle kullekin saatavuustavoitteelle; negatiivinen tarkoittaa, että yhteydellä on jo enemmän kuin se tarvitsee. Aseman kattoa korkeammalle tavoitteelle ei ole marginaalia, joka sen saavuttaisi (moottori jättää sen pois).
+
+js-opt-margin-title = Kunkin saatavuustavoitteen tarvitsema marginaali
+
+js-opt-model-output = Mallin tuloste
+
+js-opt-na = ei saatavilla
+
+js-opt-no-data = Tässä tuloksessa ei ole dataa.
+
+js-opt-no-series = Tässä tuloksessa ei ole aikasarjaa.
+
+js-opt-no-source = lähdettä ei ilmoitettu
+
+js-opt-not-result = tämä ei ole optisen ilmakehän tulos, jossa on asemia
+
+js-opt-open-failed = Kohdetta { $title } ei voitu avata: { $reason }.
+
+js-opt-opening = Avataan: { $title }…
+
+js-opt-outage-label = Todennäköisyys, että katko kestää pidempään kuin tietty kesto
+
+js-opt-outage-note = Todennäköisyys, että katko kestää pidempään kuin tietty kesto, asemakohtaisesti (logaritminen aika-akseli).
+
+js-opt-outage-title = Kuinka pitkään katkot kestävät
+
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-opt-prov = { $label } Asemat: { $sites }.
+
+js-opt-realised-up = { $value } toiminnassa
+
+js-opt-recorded = { $title }: moottorin tallentama tulos (versio { $version }). Mallin tuloste, ei mittaus.
+
+js-opt-result-not-json = tulos ei ole JSON ({ $reason })
+
+js-opt-result-not-loaded = tallennettua tulosta ei ladattu
+
+js-opt-series-label = Yhteysmarginaali ajan funktiona
+
+js-opt-series-note = Yksi siemenluvulla tuotettu realisaatio ilmoitetusta asemamallista (siemenluku { $seed }, { $hours } h { $step } s:n askelin): pilvijaksot, kullekin nestemäisen veden pilari, yksi skintillaationäyte askelta kohti. Marginaali on vaimennusbudjetti miinus pilvi- ja skintillaatiovaimennukset; yhteys on poikki alle 0 dB:n. Se on yksi otos, ei ilmasto: sen saatavuus poikkeaa ilmoitetusta otoksen otantavirheen verran. Marginaali rajataan piirtämistä varten arvoon −40 dB.
+
+js-opt-series-title = Yhteysmarginaali ajan funktiona
+
+js-opt-stated = ilmoitettu { $value }
+
+js-opt-stripe-cloud = pilvi
+
+js-opt-stripe-down = poikki
+
+js-opt-stripe-title = { $what }, tunti { $from }–{ $to }
+
+js-opt-techniques-label = Saatavuuden parannus tekniikkaa kohti
+
+js-opt-techniques-note = Saatavuuden parannus prosenttiyksikköinä lähtötasoon nähden, yhdelle asemalle.
+
+js-opt-techniques-title = Mitä kukin tekniikka tuo
+
+js-opt-th-availability = Saatavuus
+
+js-opt-th-ceiling = Katto
+
+js-opt-th-clear-air = Kirkkaan ilman häviö
+
+js-opt-th-cloud-prob = Pilven todennäköisyys (syöte)
+
+js-opt-th-fade-budget = Vaimennusbudjetti
+
+js-opt-th-latlon = Leveysaste, pituusaste
+
+js-opt-th-mean-outage = Keskimääräinen katko
+
+js-opt-th-outages-year = Katkoja vuodessa
+
+js-opt-th-scint = Skintillaatioindeksi
+
+js-opt-th-site = Asema
+
+js-opt-timing-label = Ajoituksen saatavuus asemaa ja kelloa kohti
+
+js-opt-timing-note = Osuus kokonaisajasta, jona ajoitusvirhe pysyy kynnyksen sisällä, asemaa ja kelloluokkaa kohti: kellon holdover katkojen kestoja vasten.
+
+js-opt-timing-title = Ajoitus säilytetty katkojen läpi
+
+js-opt-title-network = Kolme maa-asemaa, asemadiversiteetti
+
+js-opt-title-techniques = Yksi ylälinkki, parannustekniikat
+
+js-opt-x-best-n = parhaat n asemaa
+
+js-opt-x-outage-duration = katkon kesto, h (log)
+
+js-opt-x-target = saatavuustavoite, %
+
+js-opt-y-availability = saatavuus, %
+
+js-opt-y-extra-margin = lisämarginaali, dB
+
+js-opt-y-p-longer = P(pidempi)
+
+js-replay-band-calibrating = kalibroidaan
+
+js-replay-band-degraded = heikentynyt
+
+js-replay-band-nominal = nimellinen
+
+js-replay-band-run-ended = { $band } · ajo päättyi
+
+js-replay-band-untrusted = ei luotettava
+
+js-replay-clock = T+{ $t } / { $max }
+
+js-replay-coast-hidden = rannikko piilotettu: tämän lokin keksityt sijainnit osuvat maalle
+
+js-replay-coast-note = Rannikko: { $source }, vain havainnollistus.
+
+js-replay-coast-note-hidden = { $reason }.
+
+js-replay-coast-window = Natural Earth 1:10 miljoonaa, { $window }-ikkuna
+
+js-replay-coast-world = Natural Earth 1:110 miljoonaa (Studion maailmankartan ääriviivat), karkea
+
+js-replay-demo-trust-log = { $title } (luottamusloki)
+
+js-replay-dir-east = itä
+
+js-replay-dir-north = pohjoinen
+
+js-replay-dir-south = etelä
+
+js-replay-dir-west = länsi
+
+js-replay-dirs-and = { $list } ja { $last }
+
+js-replay-drawing-animation = Piirretään animaatiota…
+
+js-replay-drawing-frames = Piirretään kuvia…
+
+js-replay-every-direction = kaikki suunnat
+
+js-replay-file-error = { $name }: { $error }
+
+js-replay-kinds-convergence-horizontal = Konvergenssi: vaakavirheen mediaani
+
+js-replay-kinds-convergence-vertical = Konvergenssi: pystyvirheen mediaani
+
+js-replay-kv-course = Ilmoitettu kurssi
+
+js-replay-kv-heading = Suunta (gyro)
+
+js-replay-kv-position-error = Sijaintivirhe
+
+js-replay-kv-receiver = Vastaanotin
+
+js-replay-kv-run-time = Ajon aika
+
+js-replay-kv-satellites = Käytetyt satelliitit / näkyvissä
+
+js-replay-kv-sky = Taivas
+
+js-replay-legend = Selite
+
+js-replay-legend-no-fix = ei paikannusta
+
+js-replay-legend-true-track = todellinen reitti
+
+js-replay-moment = Hetki T+{ $t }:
+
+js-replay-no-coast = Rannikkoa ei piirretä: tälle ikkunalle ei ole mukana rannikkoa.
+
+js-replay-no-gsv = tässä lokissa ei ole GSV-sanomia
+
+js-replay-not-json = { $name }: ei ole JSON.
+
+js-replay-not-scored = ei pisteytetty
+
+js-replay-obs-not-attributed = ei kohdistettu
+
+js-replay-open-failed = Kohdetta { $id } ei voitu avata: { $reason }.
+
+js-replay-open-file = Avaa tiedosto…
+
+js-replay-opened = Avattu { $name } paneelissa { $n }. Luettu täällä; mitään ei ladattu palvelimelle.
+
+js-replay-opening = Avataan: { $id }…
+
+js-replay-pause = Tauko
+
+js-replay-play = Toista
+
+js-replay-read-failed = { $name }: ei voitu lukea tai piirtää ({ $reason }).
+
+js-replay-reading = Luetaan: { $name }…
+
+js-replay-reduced-motion = Vähennetty liike on valittuna, joten toisto alkaa nopeudella 1x eikä käynnisty itsestään.
+
+js-replay-run = Ajo
+
+js-replay-run-shown = Paneelissa { $n } näytetty ajo
+
+js-replay-saved-svg = Tallennettu { $name } ({ $size } kB): jokainen kuva yhdessä tiedostossa, piirretty samoista riveistä kuin tämä sivu.
+
+js-replay-saved-zip = Tallennettu { $name } ({ $size } MB): yksi SVG kuvaa kohti, kunkin taustalla olevien rivien manifesti ja README.
+
+js-replay-src-instructor = Tiedostosi { $name }: pelkän ohjaajan lokin mukana ei tule moottorin pistemäärää eikä taivasta.
+
+js-replay-src-trust = Tiedostosi { $name }: luottamustulos ei sisällä taivasta eikä suuntaa, joten niitä ei piirretä.
+
+js-replay-status-ready = { $a } ja { $b }: synteettisiä ajoja, moottorin pisteyttämiä. Paina Toista tai siirrä kelloa.
+
+js-replay-status-synthetic = { $titles }: synteettisiä ajoja, moottorin pisteyttämiä.
+
+js-replay-status-synthetic-no-coast = { $titles }: synteettisiä ajoja, moottorin pisteyttämiä. Rantaviiva ei ole saatavilla.
+
+js-replay-strip-label = Luottamuspistemäärä ajon aikana
+
+js-replay-titles-and = { $a } ja { $b }
+
+js-replay-too-large = { $name } on suurempi kuin tämä sivu lukee.
+
+js-replay-track = { $n } lokirivin reitti, pohjoinen ylhäällä.
+
+js-replay-track-widened = { $n } lokirivin reitti, pohjoinen ylhäällä, laajennettu näyttämään lähin rannikko.
+
+js-replay-verdict = Tuomio
+
+js-replay-verdict-degraded = { $dur } heikentynyt, ei lainkaan epäluotettava
+
+js-replay-verdict-early = Tuomio (alustava)
+
+js-replay-verdict-fine = Vain lokista ja moottorin pistemäärästä; synteettinen, ohjeellinen, ei havaitsemissuorituskyvyn luku.
+
+js-replay-verdict-first = ensimmäisen kerran nimellisen alapuolella hetkellä T+{ $t }
+
+js-replay-verdict-first-after = ensimmäisen kerran nimellisen alapuolella hetkellä T+{ $t }, { $dur } ensimmäisen tapahtuman alkamisen jälkeen (T+{ $onset })
+
+js-replay-verdict-first-before = ensimmäisen kerran nimellisen alapuolella hetkellä T+{ $t }, ennen ensimmäisen tapahtuman alkua (T+{ $onset })
+
+js-replay-verdict-lowest = Alin luottamuspistemäärä { $score } ({ $band }) hetkellä T+{ $t }
+
+js-replay-verdict-never-left = pistemäärä ei poistunut nimellisestä kaistasta
+
+js-replay-verdict-no-fix = ei paikannusta ajan { $dur } aikana
+
+js-replay-verdict-not-scored = Ei pisteytetty: moottorin luottamuspistemäärä näytetään kirjastoajoille
+
+js-replay-verdict-peak-error = suurin lokattu sijaintivirhe { $err } m hetkellä T+{ $t }
+
+js-replay-verdict-untrusted = { $dur } epäluotettavalla kaistalla
+
+js-replay-verdict-wait = Näytetään, kun tämä ajo päättyy, hetkellä T+{ $t }.
+
+js-ssv-altitude-label = Korkeus ja käytetyt mittaukset
+
+js-ssv-at-least-1 = vähintään 1 signaali
+
+js-ssv-at-least-4 = vähintään 4 signaalia
+
+js-ssv-avail-label = Saatavuus, { $band }
+
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+js-ssv-blurb-formation-heo = Päällikkö ja sijainen kilometrin päässä toisistaan erittäin elliptisellä radalla: kuinka hyvin suodatin tuntee niiden suhteellisen sijainnin verrattuna siihen, mitä kaksi absoluuttista paikannusta antaisivat.
+
+js-ssv-blurb-heo = Erittäin elliptinen rata (apogeum noin 58 600 km) korkeahyötyisellä nadir- ja zenit-laastariantennilla sekä parametrisella sivukeilamallilla: näkyvät signaalit, paras C/N0, pääkeila sivukeilaa vasten, tarkkuuden heikkenemiskerroin ja ilmakehää sivuavat signaalit.
+
+js-ssv-blurb-lunar-weak = Kuun siirtoradan lentorata vastaanottimella, joka on rakennettu toimimaan heikoimmilla signaaleilla: mitä se tarvitsee lukitukseen ja seurantaan ja kuinka suurta osaa lentoradasta se voi käyttää.
+
+js-ssv-blurb-nav-lunar = Aluksella oleva navigointisuodatin Kuun siirtoradalla: sen sijaintivirhe ilmoitettua rajaa vasten, GNSS-satelliittien omien ratojen alapuolella ja yläpuolella.
+
+js-ssv-blurb-shell = Geostationaarisella korkeudella oleva pallokuori, otokseen poimittu ruudukolla: kuinka usein siellä oleva avaruusalus kuulee vähintään yhden ja vähintään neljä signaalia tasolla 20 dB-Hz, taajuuksilla L1 ja L5, kunkin tähdistön osalta ja kaikki yhdessä?
+
+js-ssv-cn0-altitude-label = Paras C/N0 ja korkeus ajan funktiona, { $band }
+
+js-ssv-cn0-label = Paras C/N0, { $band }
+
+js-ssv-cn0-note = Näkyvissä olevista signaaleista voimakkain kullakin epookilla: pienimmästä suurimpaan epookkien yli, keskiarvo merkittynä.
+
+js-ssv-cn0-title = Paras kantoaalto-kohinatiheys, { $band }
+
+js-ssv-comparison-failed = Vertailua ei voitu näyttää ({ $reason }).
+
+js-ssv-comparison-not-loaded = vertailutiedostoa ei ladattu
+
+js-ssv-default-bars = palkit
+
+js-ssv-default-chart = kaavio
+
+js-ssv-default-ranges = vaihteluvälit
+
+js-ssv-deputies-note = Päällikön absoluuttinen RMS { $rms } m { $epochs } epookin aikana.
+
+js-ssv-deputies-title = Kukin sijainen
+
+js-ssv-dop-note = Mediaani, 95. prosenttipiste ja huonoin PDOP niiden epookkien yli, joilla on paikannus, sekä, kun skenaario asettaa ilmakehän, sitä sivuavat signaalit.
+
+js-ssv-dop-title = Tarkkuuden heikkenemiskerroin ja ilmakehä, { $band }
+
+js-ssv-err-label = Sijaintivirhe ilmoitettua rajaa vasten
+
+js-ssv-err-note = Katkoviiva on suodattimen ilmoittama yhden sigman raja; yhtenäinen viiva on sen virhe skenaarion tuntemaa totuutta vasten. Moottorin harventama.
+
+js-ssv-err-title = Sijaintivirhe suodattimen oman rajan suhteen
+
+js-ssv-fact-antenna = Antenni
+
+js-ssv-fact-apogee = Apogeumin korkeus
+
+js-ssv-fact-cn0-threshold = Kantoaalto-kohinatiheyden kynnys
+
+js-ssv-fact-duration = Kesto
+
+js-ssv-fact-eccentricity = Eksentrisyys
+
+js-ssv-fact-grid-points = Ruudukon pisteet
+
+js-ssv-fact-inclination = Inklinaatio
+
+js-ssv-fact-mode = Tila
+
+js-ssv-fact-perigee = Perigeumin korkeus
+
+js-ssv-fact-period = Kiertoaika
+
+js-ssv-fact-shell-altitude = Kuoren korkeus
+
+js-ssv-fact-sma = Isoakseli (puolikas)
+
+js-ssv-fact-step = Askel
+
+js-ssv-filter = suodatin
+
+js-ssv-formation-note = Suhteellisen sijainnin RMS-virhe suodattimesta ja kahden absoluuttisen paikannuksen erotuksesta, koko ajon aikana ja GNSS-ratojen yläpuolella.
+
+js-ssv-formation-title = Sijaisten suhteellinen sijainti
+
+js-ssv-from-absolute = kahdesta absoluuttisesta paikannuksesta
+
+js-ssv-group-combined = kaikki yhdessä
+
+js-ssv-icg-note = { $label }; moottorin tallennettujen tulostiedostojen kynnystason tuomiot (moottorin commit { $commit }). Kirjasen taulukot ovat julkisia; mikään tässä ei ole VALIDATED.
+
+js-ssv-icg-wrong-file = ICG-vertailutiedosto ei ole se, jota tämä sivu lukee
+
+js-ssv-lobe-note = Kuinka monta käyttökelpoisista yhteyksistä tuli pääkeilan kautta ja kuinka monta sivukeilan kautta, moottorin laskemana.
+
+js-ssv-lobe-title = Pääkeila ja sivukeila, { $band }
+
+js-ssv-na = ei saatavilla
+
+js-ssv-nav-note = Käytetyt ja karsitut mittaukset, pisin aukko alle neljällä signaalilla, lopullinen virhe ja aurinkosäteilypaineen estimaatti skenaarion tuntemaa totuutta vasten.
+
+js-ssv-nav-title = Ajo lukuina
+
+js-ssv-never = ei koskaan
+
+js-ssv-never-had-four = ei koskaan neljää
+
+js-ssv-never-had-one = ei koskaan yhtä
+
+js-ssv-no-range = Tässä tuloksessa ei ole vaihteluväliä.
+
+js-ssv-no-series = Tulos ei sisällä sarjaa tälle kaaviolle.
+
+js-ssv-not-in-variant = ei kuulu varianttiin
+
+js-ssv-not-result = tämä ei ole gnss-ssv-tulos
+
+js-ssv-of = { $n } / { $total }
+
+js-ssv-offset = { $deg }° poikkeama
+
+js-ssv-open-failed = Kohdetta { $title } ei voitu avata: { $reason }.
+
+js-ssv-opening = Avataan: { $title }…
+
+js-ssv-outage-note = Minuutteina, ajon aikana. ”Ei koskaan” merkitsee ryhmää, jolla ei koskaan ollut niin montaa signaalia missään kuoren pisteessä.
+
+js-ssv-outage-title = Pisimmät katkot kuorella
+
+js-ssv-phases-note = Suodattimen tunnusluku ajon ja sen kahden osan yli. Keskimääräinen sijainnin NEES lähellä arvoa 3 tarkoittaa, että suodattimen ilmoittama raja on johdonmukainen sen virheen kanssa.
+
+js-ssv-phases-title = Sijaintivirhe vaiheittain
+
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-ssv-range-title = { $label }: pienin { $min }, keskiarvo { $mean }, suurin { $max } { $unit }
+
+js-ssv-range-value = { $min }–{ $max }
+
+js-ssv-recorded = { $title }: moottorin tallentama tulos (versio { $version }).
+
+js-ssv-relative-label = Suhteellinen sijaintivirhe
+
+js-ssv-result-not-json = tulos ei ole JSON ({ $reason })
+
+js-ssv-result-not-loaded = tallennettua tulosta ei ladattu
+
+js-ssv-row-acquires = Lukitsee jopa tasolle
+
+js-ssv-row-carrier = Kantoaallon seuranta jopa tasolle
+
+js-ssv-row-code = Koodiseuranta jopa tasolle
+
+js-ssv-row-coherent = Koherentti integrointi
+
+js-ssv-row-delay-mean = Viive, keskiarvo
+
+js-ssv-row-detection = Havaitsemiskynnys
+
+js-ssv-row-false-alarm = Väärän hälytyksen todennäköisyys solua kohti
+
+js-ssv-row-final-error = Lopullinen sijaintivirhe
+
+js-ssv-row-gap = Pisin aukko
+
+js-ssv-row-gated = Karsitut mittaukset
+
+js-ssv-row-grazing = Sivuaa alle 100 km:ssä
+
+js-ssv-row-limb-links = Reunan kautta kulkevat yhteydet
+
+js-ssv-row-loss-mean = Häviö, keskiarvo
+
+js-ssv-row-lost = Ilmakehään menetetty
+
+js-ssv-row-pdop-median = PDOP, mediaani
+
+js-ssv-row-pdop-p95 = PDOP, 95. prosenttipiste
+
+js-ssv-row-pdop-worst = PDOP, huonoin
+
+js-ssv-row-plasma-mean = Plasmasfäärin TEC, keskiarvo
+
+js-ssv-row-search-cells = Hakusolut
+
+js-ssv-row-search-time = Hakuaika
+
+js-ssv-row-srp-est = Aurinkosäteilypaine, estimoitu
+
+js-ssv-row-srp-truth = Aurinkosäteilypaine, totuus
+
+js-ssv-row-stec-mean = Vinon suunnan TEC, keskiarvo
+
+js-ssv-row-tangent = Tangenttikorkeus, pienin–suurin
+
+js-ssv-row-tracking = Käytetty seurantakynnys
+
+js-ssv-row-used = Käytetyt mittaukset
+
+js-ssv-series-altitude = korkeus/1000
+
+js-ssv-series-altitude-name = korkeus
+
+js-ssv-series-best-cn0 = paras C/N0
+
+js-ssv-series-error = virhe
+
+js-ssv-series-measurements = mittaukset
+
+js-ssv-series-note = Yksi harvennettu sarja kaikkien tähdistöjen yhteenlasketusta määrästä. Moottori ei kirjoita tähdistökohtaista sarjaa, joten sitä ei piirretä.
+
+js-ssv-series-signals = näkyvät signaalit
+
+js-ssv-series-signals-label = Näkyvät signaalit ajan funktiona, { $band }
+
+js-ssv-series-stated-bound = ilmoitettu raja
+
+js-ssv-series-title = Signaalit ja paras C/N0 radan varrella, { $band }
+
+js-ssv-shell-avail-note = Niiden ruudukon pisteiden ja ajankohtien osuus, joissa on vähintään yksi ja vähintään neljä signaalia tason { $cn0 } dB-Hz yläpuolella.
+
+js-ssv-shell-avail-title = Saatavuus kuorella, { $band }
+
+js-ssv-tangent-value = { $min }–{ $max } km
+
+js-ssv-th-above-absolute = GNSS:n yläpuolella: absoluuttisista, m
+
+js-ssv-th-above-filter = GNSS:n yläpuolella: suodatin, m
+
+js-ssv-th-band-group = Kaista ja ryhmä
+
+js-ssv-th-bar = Kynnys
+
+js-ssv-th-baseline = Kantaviiva, km
+
+js-ssv-th-common-4 = Epookit, joilla 4 yhteistä signaalia
+
+js-ssv-th-common-mean = Yhteisten signaalien keskiarvo
+
+js-ssv-th-compares = Mitä se vertaa
+
+js-ssv-th-deputy = Sijainen
+
+js-ssv-th-epochs = Epookit
+
+js-ssv-th-group = Ryhmä
+
+js-ssv-th-main-lobe = Pääkeilan yhteydet
+
+js-ssv-th-nees = Sijainnin NEES, keskiarvo
+
+js-ssv-th-phase = Vaihe
+
+js-ssv-th-pos-p95 = Sijainnin 95. prosenttipiste, m
+
+js-ssv-th-pos-rms = Sijainnin RMS, m
+
+js-ssv-th-quantity = Suure
+
+js-ssv-th-rel-absolute = Suhteellinen RMS, absoluuttisista, m
+
+js-ssv-th-rel-filter = Suhteellinen RMS, suodatin, m
+
+js-ssv-th-rel-vel = Suhteellisen nopeuden RMS, m/s
+
+js-ssv-th-run1-cells = Ajo 1: solut toleranssin sisällä
+
+js-ssv-th-run1-verdict = Ajon 1 tuomio
+
+js-ssv-th-sidelobe = Sivukeilan yhteydet
+
+js-ssv-th-sidelobe-share = Sivukeilan osuus
+
+js-ssv-th-value = Arvo
+
+js-ssv-th-variant = Variantti (diagnostiikka, GLONASSin vertailukulmat taulukosta 4.2)
+
+js-ssv-th-vel-rms = Nopeuden RMS, m/s
+
+js-ssv-th-with-4 = 4 tai useammalla signaalilla
+
+js-ssv-th-without-1 = Pisin ilman 1 signaalia
+
+js-ssv-th-without-4 = Pisin ilman 4 signaalia
+
+js-ssv-title-formation-heo = Muodostelma, erittäin elliptinen rata
+
+js-ssv-title-heo = Erittäin elliptinen rata
+
+js-ssv-title-lunar-weak = Kuun siirtorata, heikon signaalin vastaanotin
+
+js-ssv-title-nav-lunar = Aluksella oleva suodatin, Kuun siirtorata
+
+js-ssv-title-shell = Kuori 36 000 km:n korkeudella
+
+js-ssv-traj-avail-note = Niiden epookkien osuus, joilla on vähintään yksi ja vähintään neljä signaalia tason { $cn0 } dB-Hz yläpuolella.
+
+js-ssv-traj-avail-title = Saatavuus lentoradan varrella, { $band }
+
+js-ssv-transmit-pattern = Lähetyskuvio: { $pattern }
+
+js-ssv-unit-signals = signaalia
+
+js-ssv-unknown-mode = tämän gnss-ssv-tuloksen tila on ”{ $mode }”, jota tämä sivu ei lue
+
+js-ssv-variant-met = { $n } / { $total }, täyttyisi
+
+js-ssv-variant-not-met = { $n } / { $total }, ei edelleenkään täyty
+
+js-ssv-view-note = Pienimmästä suurimpaan näkyvien määrä epookkien yli, keskiarvo merkittynä.
+
+js-ssv-view-title = Näkyvät signaalit, { $band }
+
+js-ssv-weak-note = Mitä vastaanottimen suunnittelu tarvitsee, sellaisena kuin moottori sen laskee ilmoitetusta integroinnista.
+
+js-ssv-weak-title = Heikon signaalin vastaanotin
+
+js-ssv-x-minutes = minuuttia
+
+js-ssv-y-altitude-measurements = korkeus, tuhatta km; käytetyt mittaukset
+
+js-ssv-y-cn0-altitude = dB-Hz; korkeus tuhansina km
+
+js-ssv-y-position-log = sijainti, metriä (log)
+
+js-ssv-y-signals-all = näkyvät signaalit, kaikki tähdistöt
+
+js-t35data-ai-q-bench-export = Vie skenaarion liike ja tapahtumat laboratoriosimulaattorille
+
+js-t35data-ai-q-compliance-rows = Mille julkisen viitekehyksen riveille nämä ajot tukevat todisteita (supports evidence for)?
+
+js-t35data-ai-q-evidence-pack = Tarkista tai luo luottamustapahtuman todistepaketti
+
+js-t35data-ai-q-interference-route = Missä GNSS on näyttänyt heikentyneeltä, ja kuinka suuri osa tästä reitistä on siinä?
+
+js-t35data-ai-q-iq-recordings = GNSS IQ -tallenteet (näkymä, lukitus, seuranta, etupää, kampanjat)
+
+js-t35data-ai-q-osnma-satellites = Minkä Galileo-satelliittien navigointidatan tämä vastaanottimen virta todentaa (OSNMA)?
+
+js-t35data-ai-q-run-scenario = Aja tai selitä PNT-skenaario (radat, GNSS, ajoitus, fuusio, Kuu)
+
+js-t35data-ai-q-training-nmea = Tarvitsen synteettistä NMEA:ta, jossa on häirintä-, drag-off-, aikaharhautus- tai toistotapahtuma koulutukseen
+
+js-t35data-ai-q-trustworthy-log = Oliko tämä vastaanottimen loki tai tämän aluksen NMEA luotettava, ja milloin se lakkasi olemasta?
+
+js-t35data-ai-tool-osnma-satellites = ei MCP:ssä: käytä osnma_verify (OSNMA-korttia täällä, WebAssembly), kshana osnma verify (CLI) tai kshana.osnma_verify (Python)
+
+js-t35data-card-evidence-create-title = Luo todistepaketti
+
+js-t35data-card-evidence-create-what = Allekirjoittaa vastaanottimen lokin ikkunan ja sen, mitä moottori siitä laski, jotta kuka tahansa voi tarkistaa, ettei mitään muutettu jälkikäteen. Studio varmentaa paketit.
+
+js-t35data-card-evidence-create-why = Allekirjoittaminen vaatii yksityisen avaimen, jonka ei pidä kulkea verkkosivun kautta.
+
+js-t35data-card-iq-title = GNSS IQ -monitorit ja työkalut
+
+js-t35data-card-iq-what = Rakenna näkymä, lukitse ja seuraa signaaleja, pyyhkäise parametreja, mallinna etupää, aja IQ-monitoreja ja kampanjoita, sovita laboratorioloki. Saatavilla myös Pythonista ja yhden työkansion sisällä tekoälyavustajan työkaluista.
+
+js-t35data-card-iq-why = Tallenne on gigatavuja näytteitä. Sivu ei voi pitää sitä, ja muuntavat, poimivat ja harventavat komennot kirjoittavat tallenteita uusiksi levyllä.
+
+js-t35data-card-land-title = Maapolygonien lataus maalla olevan AIS-ilmaisimen käyttöön
+
+js-t35data-card-land-what = Hakee yhden kiinnitetyn maatiedoston (Natural Earth, public domain) ja tarkistaa sen SHA-256:n. Karttarakentaja ottaa maatiedoston sen sijaan tekstinä.
+
+js-t35data-card-land-why = Se on ainoa komento, joka avaa verkkoyhteyden, ja se tarvitsee järjestelmän curlin ja eksplisiittisen lipun.
+
+js-t35data-card-marine-title = Merenkulun integraatiot
+
+js-t35data-card-marine-what = Signal K -palvelimen lisäosa ja OpenCPN gate-mode-NMEA:n kautta TCP:llä tuovat luottamuspistemäärän ohjelmistoon, jota veneilijät jo käyttävät; viitetoteutus tuo sen vastaanottimen viereiseen pieneen tietokoneeseen.
+
+js-t35data-card-marine-why = Ne käyttävät käynnissä olevaa live-prosessia ja sen TCP-porttia: käyttöönottoja veneen tietokoneella.
+
+js-t35data-card-telemetry-title = Luottamus tietoturvatelemetriana
+
+js-t35data-card-telemetry-what = Muuntaa luottamusvirran (pistemäärä, kaista, syyt) Prometheus-mittareiksi, CEF- tai LEEF-muotoisiksi syslog-tapahtumiksi SIEM-järjestelmälle ja OpenTelemetryksi. Se lukee virtaa eikä koskaan muuta arviota.
+
+js-t35data-card-telemetry-why = Se on prosessi, joka tarjoaa mittareita ja lähettää valvontajärjestelmiisi, joten se toimii vastaanottimen vieressä eikä sivulla.
+
+js-t35data-card-training-stream-title = Koulutusvirrat TCP- tai UDP-osoitteeseen
+
+js-t35data-card-training-stream-what = Lähettää luodun koulutusvirran siltasimulaattoriin tai merikartta-plotteriin reaaliajassa tai nopeammin. Studion koulutussivu luo saman tekstin ja antaa sinun ladata sen.
+
+js-t35data-card-training-stream-why = Lähettäminen verkko-osoitteeseen ei ole jotain, mitä selainsivu tekee. Virta on pelkkää tekstiä eikä koskaan aluksen live-navigointijärjestelmiin.
+
+js-t35data-feat-ai-ai = MCP-palvelimen asennusvaihtoehdot sekä kysymykset, joihin kukin työkalu vastaa
+
+js-t35data-feat-ai-name = Käyttö tekoälyavustajasta (MCP-palvelin)
+
+js-t35data-feat-bench-bench = Vie skenaarion liike, NMEA, reittipisteet ja tapahtumat täällä
+
+js-t35data-feat-bench-name = Test-bench-vienti laboratoriosimulaattorille
+
+js-t35data-feat-compliance-compliance = Katso, mille viitekehyksen riveille ajosi tukevat todisteita (supports evidence for), ja vastaavuustaulukot täällä
+
+js-t35data-feat-compliance-name = Compliance-vastaavuus julkisiin kestävyysviitekehyksiin
+
+js-t35data-feat-evidence-evidence = Varmenna paketti ja liitä aikaleimatunniste täällä
+
+js-t35data-feat-evidence-name = Allekirjoitetut todistepaketit
+
+js-t35data-feat-evidence-why = Paketin luominen vaatii yksityisen allekirjoitusavaimen, jonka ei pidä kulkea verkkosivun kautta. Paketit tehdään komentorivillä, Pythonilla tai tekoälyavustajan työkaluilla.
+
+js-t35data-feat-interference-map-interference = Avaa karttatiedostoja tai rakenna kartta CSV:stä täällä ja tarkista reitti sitä vasten
+
+js-t35data-feat-interference-map-name = Häiriökartta (ADS-B ja AIS) ja reitin altistuminen
+
+js-t35data-feat-iq-name = GNSS IQ -monitorit ja työkalut (näkymä, lukitus, seuranta, pyyhkäisy, etupää, monitori, kampanjat)
+
+js-t35data-feat-iq-why = Tallenne on gigatavuja näytteitä, joita sivu ei voi pitää, ja jotkin komennot kirjoittavat tallenteita uusiksi levyllä. Selainversiossa ei ole IQ-toimintoja.
+
+js-t35data-feat-jammertest-jammertest = Tuo suunnitelma lokin aikavälille tai pisteytä vastaanottimen loki (UBX, RINEX, Android, NMEA tai Septentrio SBF) testeittäin: havaitsemisviive, havaitsematta jääneet, väärät hälytykset, palautumisaika; MODELLED
+
+js-t35data-feat-jammertest-name = Jammertest erotuomarina: julkaistu testisuunnitelma aikataulutettuna totuutena, sitä vasten pisteytetty vastaanottimen loki (0.38)
+
+js-t35data-feat-live-gate-name = Live-luottamusvirta, portti ja kuuntelija (stdin, tiedosto, TCP, UDP, --gate, --listen)
+
+js-t35data-feat-live-gate-why = Se on käynnissä oleva prosessi datapolulla. Sivu palaa, kun se on valmis, eikä voi pitää pistoketta auki merikartta-plotterille eikä merkitä paikannusta virheelliseksi live-virrassa. Studio pisteyttää sen sijaan rajatun otteen samassa live-muodossa, ilman porttia.
+
+js-t35data-feat-machines-imufit = Sovita hybridi- ja fuusioskenaarioiden kiihtyvyysmittarin ja gyron parametrit paikallaan olevasta IMU-lokista; MODELLED
+
+js-t35data-feat-machines-name = Vastaanottimen ja anturien syötteet: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, IMU suuntaa varten sekä IMU-sovitus hybridi- ja fuusioskenaarioille (0.38)
+
+js-t35data-feat-machines-trust = Avaa loki jossakin näistä muodoista (ja valinnainen IMU-tiedosto) yleisessä vastaanottimen luottamusajossa; NovAtelin oma häirintälippu verrataan Kshanan hälytyksiin
+
+js-t35data-feat-marine-name = Merenkulun integraatiot: Signal K -lisäosa ja OpenCPN
+
+js-t35data-feat-marine-why = Ne käyttävät käynnissä olevaa live-prosessia ja sen TCP-porttia, joten ne ovat käyttöönottoja veneen tietokoneella eivätkä jotain, mitä sivu voi ajaa.
+
+js-t35data-feat-maritime-trust-name = Merenkulun luottamuspistemäärä liikkuvalle alukselle (0–100, syineen)
+
+js-t35data-feat-maritime-trust-trust = Avaa tulos tai live-JSON-lines-ajo ja katso reitti, pistemäärä, syyt ja portti; pisteytä NMEA-loki täällä
+
+js-t35data-feat-nmea-training-name = NMEA-koulutusvirrat ohjaajan lokilla
+
+js-t35data-feat-nmea-training-training = Luo virta ja sen ohjaajan loki täällä, lataa ne ja suorita kouluttajan purku
+
+js-t35data-feat-osnma-name = Galileo OSNMA -varmennus (UBX SFRBX -syöte)
+
+js-t35data-feat-osnma-osnma = Lataa tallennettu tiedosto ja katso satelliittikohtainen, tunnistekohtainen todennustila
+
+js-t35data-feat-telemetry-name = Telemetrian vienti: Prometheus-mittarit, syslog CEF ja LEEF, OpenTelemetry
+
+js-t35data-feat-telemetry-why = Se tarjoaa mittareita, lähettää syslogia ja vie OpenTelemetryä käynnissä olevasta virrasta: prosessi, joka puhuu valvontajärjestelmillesi, mitä sivu ei voi olla.
+
+js-t35data-feat-training-stream-name = Koulutusvirran suoratoisto TCP- tai UDP-osoitteeseen
+
+js-t35data-feat-training-stream-why = Se lähettää verkko-osoitteeseen, mitä verkkosivu ei tee. Studio luo tekstin, ja sinä lataat sen.
+
+js-t35data-page-ai = Käyttö tekoälyavustajastasi
+
+js-t35data-page-bench = Test-bench-vienti
+
+js-t35data-page-cli = Komentorivin ominaisuudet
+
+js-t35data-page-compliance = Compliance-vastaavuus
+
+js-t35data-page-evidence = Todistepaketit
+
+js-t35data-page-geometry = Geometria: taivaskartta, horisonttiprofiili ja DOP
+
+js-t35data-page-imufit = IMU-sovitus
+
+js-t35data-page-interference = Häiriökartta
+
+js-t35data-page-jammertest = Jammertest-pisteytys
+
+js-t35data-page-osnma = OSNMA-varmennus
+
+js-t35data-page-training = Harjoituksen purku
+
+js-t35data-page-trust = Merenkulun luottamus
+
+js-t35data-sample-iq-help = IQ-komentoluettelo
+
+js-t35data-sample-telemetry-cef = Syslog CEF-muodossa demoajolle
+
+js-t35data-sample-telemetry-leef = Syslog LEEF-muodossa demoajolle
+
+js-t35data-sample-telemetry-metrics = Prometheus-mittarit demoajolle
+
+js-tools-ai-group-engine = Asenna moottori ja sen kirjastot
+
+js-tools-ai-group-integrations = Merenkulun, lisäosien ja kojelautojen integraatiot
+
+js-tools-ai-group-mcp = Asenna MCP-palvelin avustajallesi
+
+js-tools-ai-heading = Käytä Kshanaa tekoälyavustajastasi
+
+js-tools-ai-install-mcp = Asenna MCP-palvelin
+
+js-tools-ai-intro = Kshanan MCP-palvelin antaa tekoälyavustajan ajaa moottoria sen sijaan, että se arvailisi lukuja. Se toimii tietokoneellasi; mitään ei lähetetä Kshanalle. Valitse työkaluusi sopiva tapa.
+
+js-tools-ai-load-failed = Asennusvaihtoehtoja ei ladattu ({ $reason }). Katso MCP-palvelimen dokumentaatio.
+
+js-tools-ai-mcp-docs = MCP-palvelimen dokumentaatio
+
+js-tools-ai-more-ways = Lisää asennustapoja
+
+js-tools-ai-none-listed = Tässä versiossa ei ole lueteltuja asennusvaihtoehtoja.
+
+js-tools-ai-other-ways = Muita tapoja asentaa Kshana
+
+js-tools-ai-read-agent-guide = Lue agenttiopas
+
+js-tools-ai-rule = Sääntö jokaiselle vastaukselle: avustaja ajaa moottorin ja raportoi, mitä työkalu palautti, yksikön ja todistetason (validoitu ulkoista oraakkelia vasten tai mallinnettu), skenaarion, siemenluvun ja moottorin version kanssa, jotta ajo voidaan toistaa. Tuloksen omat varaumat pysyvät sen mukana. MCP-palvelin ei lue eikä kirjoita tiedostoja yhden erikseen sallitun kansion ulkopuolella.
+
+js-tools-ai-what-to-ask = Mitä kysyä ja mikä työkalu vastaa
+
+js-tools-ai-where-reachable = Mistä kukin ominaisuus on tavoitettavissa
+
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } tiedosto kirjoitettu selaimesi muistiin
+       *[other] { $n } tiedostoa kirjoitettu selaimesi muistiin
+    }
+
+js-tools-bench-note = Vain liike ja nimetyt tapahtumavälit. Lataa ne ladattavaksi laboratoriosimulaattoriin.
+
+js-tools-bench-wrong-kind = { $name } on { $kind }-skenaario. Ajoneuvon lentorata on olemassa lajeille { $kinds }; muut lajit kertovat, miksi niillä ei ole sellaista.
+
+js-tools-building-report = Rakennetaan raporttia…
+
+js-tools-choose-catalogue-first = Valitse ensin luettelo-JSON.
+
+js-tools-choose-file-first = Valitse ensin tiedosto.
+
+js-tools-choose-imu-log = Valitse ensin paikallaan olevan IMU:n loki.
+
+js-tools-choose-pack-first = Valitse ensin paketin tiedostot.
+
+js-tools-choose-pack-first-above = Valitse ensin paketin tiedostot (yllä).
+
+js-tools-choose-plan-file = Valitse vähintään yksi suunnitelmatiedosto.
+
+js-tools-choose-receiver-log = Valitse ensin vastaanottimen loki.
+
+js-tools-choose-result-first = Valitse ensin vähintään yksi tulostiedosto (*.result.json).
+
+js-tools-choose-scenario-first = Valitse ensin skenaario.
+
+js-tools-choose-tsr-first = Valitse ensin aikaleimavastaus (.tsr).
+
+js-tools-chosen = Valittu
+
+js-tools-col-check = Tarkistus
+
+js-tools-col-detail = Yksityiskohta
+
+js-tools-col-first-monitors = Ensimmäiset monitorit
+
+js-tools-col-gap-that-stays = Jäljelle jäävä aukko
+
+js-tools-col-last-auth-tag = Viimeinen todennettu tunniste (Galileo System Time)
+
+js-tools-col-latency = Viive, s
+
+js-tools-col-name = Nimi
+
+js-tools-col-outcome = Lopputulos
+
+js-tools-col-question = Kysymys
+
+js-tools-col-recovered = Palautunut
+
+js-tools-col-reference = Viite
+
+js-tools-col-result = Tulos
+
+js-tools-col-row = Rivi
+
+js-tools-col-satellite = Satelliitti
+
+js-tools-col-slot = Aikaväli, s
+
+js-tools-col-status = Tila
+
+js-tools-col-tags = Tunnisteet
+
+js-tools-col-test = Testi
+
+js-tools-col-these-runs = Nämä ajot
+
+js-tools-col-tool = Työkalu
+
+js-tools-col-what-is-missing = Mitä puuttuu
+
+js-tools-col-what-it-asks = Mitä se kysyy
+
+js-tools-col-why-not-auth = Miksi ei todennettu
+
+js-tools-copied = Kopioitu
+
+js-tools-copy = Kopioi
+
+js-tools-copy-command-aria = Kopioi: { $cmd }
+
+js-tools-copy-labelled-aria = Kopioi { $label }: { $text }
+
+js-tools-did-not-work = Se ei toiminut
+
+js-tools-documentation = Dokumentaatio
+
+js-tools-download = Lataa
+
+js-tools-download-all-zip = Lataa kaikki (zip)
+
+js-tools-download-events-toml = Lataa tapahtumat (TOML)
+
+js-tools-download-md = Lataa (Markdown)
+
+js-tools-download-report-json = Lataa raportti (JSON)
+
+js-tools-download-report-md = Lataa raportti (Markdown)
+
+js-tools-download-scorecard-json = Lataa pistekortti (JSON)
+
+js-tools-download-table-toml = Lataa taulukko (TOML)
+
+js-tools-download-updated-pack = Lataa päivitetty paketti (zip)
+
+js-tools-download-whole-report-json = Lataa koko raportti (JSON)
+
+js-tools-engine-lacks-error = Tässä moottoriversiossa (versio { $version }) ei ole kohdetta { $need }, joten se ei voi vielä ajaa tätä täällä. Tallennetut tulokset ja komentorivi toimivat edelleen.
+
+js-tools-engine-lacks-status = Tässä moottoriversiossa (versio { $version }) ei ole kohdetta { $need }: se on vanhempi kuin versio, jota tämä työkalu tarvitsee. Komentorivin vastine on Komentorivi-välilehdellä.
+
+js-tools-engine-running = Moottori (versio { $version }) toimii tässä selaimessa. Mitään ei ladata palvelimelle.
+
+js-tools-engine-starting = Käynnistetään moottoria tässä selaimessa…
+
+js-tools-engine-unavailable = Moottoria ei voitu käynnistää täällä ({ $reason }). Tiedostojen avaaminen toimii; työkalujen ajaminen vaatii WebAssemblyn.
+
+js-tools-epoch-format = Käytä muotoa YYYY-MM-DDTHH:MM:SS, valinnaisella Z:llä (UTC).
+
+js-tools-epoch-not-real = Se ei ole todellinen UTC-hetki vuosien 2000 ja 2099 välillä.
+
+js-tools-every-check = Jokainen tarkistus
+
+js-tools-evidence-disclaimer = Todistepaketti on tekninen tallenne siitä, mitä moottori laski ilmoitetusta lokista ilmoitetuilla asetuksilla. Se ei ole oikeudellinen lausunto, tosiseikkoja koskeva päätelmä mistään tapahtumasta eikä sertifiointi. Läpäisy kertoo, että tallenne on muuttumaton.
+
+js-tools-example-pack = Synteettinen esimerkkipaketti
+
+js-tools-example-pack-note = Moottorin komentorivillä demolautan lokista demoavaimella tehty synteettinen paketti. Avain on täytetty alle; todellisen allekirjoittajan avain tulee allekirjoittajalta toista kautta.
+
+js-tools-example-pack-tampered = Esimerkkipaketti, jossa epochs.json:n yhtä tavua on muutettu
+
+js-tools-example-runs = Synteettiset esimerkkiajot
+
+js-tools-example-tampered-note = Paketin yhtä tiedostoa on muutettu yhden tavun verran allekirjoituksen jälkeen. Varmenna se: tarkistus nimeää tiedoston.
+
+js-tools-exporting = Viedään…
+
+js-tools-field-whole-number = { $field } on oltava kokonaisluku
+
+js-tools-file-not-chosen = { $file } ei kuulu valittuihin tiedostoihin
+
+js-tools-file-too-large = { $name } on suurempi kuin 64 MiB
+
+js-tools-files-selected = { $label }: { $files }
+
+js-tools-fingerprint-not-pinned = Allekirjoittajan sormenjälki: { $fingerprint } (ei kiinnitetty: avain, jonka paketti itse nimeää)
+
+js-tools-fingerprint-pinned = Allekirjoittajan sormenjälki: { $fingerprint } (kiinnitetty)
+
+js-tools-fitting = Sovitetaan…
+
+js-tools-framework-summary = { $name }: { $evidenced } todisteilla katettu, { $partly } osittain, { $notEvidenced } ilman todisteita, { $outOfScope } soveltamisalan ulkopuolella
+
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+js-tools-fw-easa-aviation = EASAn ohjeistus GNSS-häiriöistä ilmailussa
+
+js-tools-fw-en-16803 = EN 16803 (vain osan ja kohdan numeron mukaan)
+
+js-tools-fw-imo-ships = IMOn ohjeistus GNSS-häiriöistä aluksilla
+
+js-tools-fw-nis2-art21 = EU:n NIS2-direktiivi, 21 artikla
+
+js-tools-gst-none = ei mitään
+
+js-tools-gst-text = viikko { $week }, { $tow } s
+
+js-tools-how-to-run = Miten se ajetaan
+
+js-tools-imu-file-too-large = { $name } on suurempi kuin 32 MiB; avaa ote.
+
+js-tools-imu-mean-not-number = Ominaisvoima levossa ei ole luku (0 vaaka-akselille, noin 9.80665 pystyakselille).
+
+js-tools-imu-notice = { $evidence }: estimaattori on tarkistettu synteettisillä valkoisen kohinan lokeilla, joiden kertoimet tunnetaan, ei ulkoista oraakkelia vasten. Taulukko nimeää lokin SHA-256:n ({ $sha }…).
+
+js-tools-imu-selected = { $name } ({ $size }), luettu täällä, ei koskaan ladattu palvelimelle.
+
+js-tools-jt-events-count =
+    { $n ->
+        [one] { $n } ajoitettu tapahtuma
+       *[other] { $n } ajoitettua tapahtumaa
+    }
+
+js-tools-jt-events-note = aikataulutettuna totuutena: suunniteltuja aikavälejä, ei tallennettuja lähetysaikoja. Ei RF: { $nonRf }; lokin ulkopuolella: { $outside }; tuntemattomat tunnisteet: { $unknown }.
+
+js-tools-jt-guard-hold = Suoja-aika { $guard } s, palautumisen pito { $hold } s.
+
+js-tools-jt-guard-hold-overlap = Suoja-aika { $guard } s, palautumisen pito { $hold } s. Kalibroinnin lähtötaso osui päällekkäin ajoitetun aikavälin kanssa.
+
+js-tools-jt-import-needs-start = Tuonti tarvitsee lokin ensimmäisen epookin UTC:ssä (ISO 8601), koska suunnitelma on paikallisessa ajassa.
+
+js-tools-jt-sel-catalogue = luettelo { $name }
+
+js-tools-jt-sel-log = loki { $name } ({ $size })
+
+js-tools-jt-sel-no-catalogue = ei luetteloa
+
+js-tools-jt-sel-no-log = ei lokia
+
+js-tools-jt-sel-no-plan = ei suunnitelmaa
+
+js-tools-jt-sel-plans =
+    { $n ->
+        [one] { $n } suunnitelmatiedosto
+       *[other] { $n } suunnitelmatiedostoa
+    }
+
+js-tools-jt-slot-range = { $from }–{ $to }
+
+js-tools-jt-what-area = Testialue
+
+js-tools-jt-what-guard = Suoja-aika
+
+js-tools-jt-what-hold = Palautumisen pito
+
+js-tools-jt-what-offset = Poikkeama UTC:stä
+
+js-tools-jt-what-year = Suunnitelman vuosi
+
+js-tools-label-command = komento
+
+js-tools-label-pinned-command = kiinnitetty komento
+
+js-tools-label-settings-example = asetusesimerkki { $n }
+
+js-tools-loading = Ladataan…
+
+js-tools-max-runs = Enintään { $max } ajoa.
+
+js-tools-merkle-root-format = Merkle-juuri on 64 heksadesimaalinumeroa.
+
+js-tools-must-be-number = { $what } on oltava luku
+
+js-tools-must-be-whole-zero = { $what } on oltava kokonaisluku, 0 tarkoittaa ”ei annettu”
+
+js-tools-na = ei saatavilla
+
+js-tools-needs = Tarvitsee: { $requires }
+
+js-tools-no = ei
+
+js-tools-none = ei mitään
+
+js-tools-none-in-build = ei tässä versiossa
+
+js-tools-not-in-browser = Ei selaimessa.
+
+js-tools-not-osnma = Ei OSNMA-tulos
+
+js-tools-not-used = Ei käytetty: { $item }
+
+js-tools-notes = Huomautukset
+
+js-tools-open = Avaa
+
+js-tools-osnma-advisory = Ohjeellinen: tämä on analyysi- ja seurantatuloste eikä tyyppihyväksytty navigointilaite. Tässä ilmoitettu todennustila ei ole navigoinnin eheyspalvelu, eikä sitä saa käyttää ainoana perusteena navigointia tai turvallisuutta koskevalle päätökselle.
+
+js-tools-osnma-authenticated = Todennettu
+
+js-tools-osnma-caption = Todennustila satelliittia kohti
+
+js-tools-osnma-demo-note = Kertakäyttöinen julkinen avain on täytetty; paina Varmenna ajaaksesi varmentimen täällä tai näytä tallennettu tulos.
+
+js-tools-osnma-discarded = Hylätty
+
+js-tools-osnma-events = Mitä varmennin näki
+
+js-tools-osnma-examples-missing = synteettiset esimerkit eivät ole vielä tässä versiossa
+
+js-tools-osnma-failed = Epäonnistui
+
+js-tools-osnma-nma-alert = NMA-tila { $status }; järjestelmä antoi hälytysviestin.
+
+js-tools-osnma-nma-status = NMA-tila { $status }.
+
+js-tools-osnma-not-json = Tämä ei ole komennon kshana osnma verify --json JSON (se tarvitsee kentät overall ja satellites).
+
+js-tools-osnma-overall = Kokonaisuus: { $status }
+
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] { $n } sivu luettu.
+       *[other] { $n } sivua luettu.
+    }
+
+js-tools-osnma-pending = Odottaa
+
+js-tools-osnma-recorded-failed = tallennettua tulosta ei ladattu
+
+js-tools-osnma-recorded-result = Komennon kshana osnma verify --json tallennettu tulos tiedostolle { $file }.
+
+js-tools-osnma-tag-counts = { $authenticated } todennettu, { $failed } epäonnistui, { $pending } odottaa, { $discarded } hylätty
+
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } tunniste: { $authenticated } todennettu, { $failed } epäonnistui, { $pending } odottaa, { $discarded } hylätty.
+       *[other] { $n } tunnistetta: { $authenticated } todennettu, { $failed } epäonnistui, { $pending } odottaa, { $discarded } hylätty.
+    }
+
+js-tools-osnma-time-caveat = Aika: jokainen tarkistus on suhteessa varmentimelle annettujen sivujen aikaleimoihin, jotka tässä tulevat itse datasta eivätkä suojaa toistetulta vanhalta datalta. Todennus kertoo, että data tuli järjestelmästä; se ei kerro mitään signaalista, jolla se saapui, eikä paikannuksen laadusta.
+
+js-tools-osnma-unavailable = Ei saatavilla
+
+js-tools-osnma-word-authenticated = Vähintään yksi satelliitti on todennettu, eikä yksikään epäonnistunut
+
+js-tools-osnma-word-failed = Jonkin satelliitin datan tarkistus epäonnistui
+
+js-tools-osnma-word-unavailable = Yhtään satelliittia ei ole todennettu
+
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+js-tools-pinned-to-release = Kiinnitetty tähän julkaisuun:
+
+js-tools-preview = Esikatselu
+
+js-tools-public-key-format = Julkinen avain on 64 heksadesimaalinumeroa (32 tavua). Mitään muuta ei hyväksytä.
+
+js-tools-read-documentation = Lue dokumentaatio
+
+js-tools-reading-plan = Luetaan suunnitelmaa…
+
+js-tools-refused-file-name = hylätty tiedostonimi: { $name }
+
+js-tools-run = Aja
+
+js-tools-runs-read =
+    { $n ->
+        [one] { $n } ajo luettu: { $runs }
+       *[other] { $n } ajoa luettu: { $runs }
+    }
+
+js-tools-runs-read-engine =
+    { $n ->
+        [one] { $n } ajo luettu, moottorilla { $engine }: { $runs }
+       *[other] { $n } ajoa luettu, moottorilla { $engine }: { $runs }
+    }
+
+js-tools-sample-load-failed = Näytettä ei ladattu ({ $reason }).
+
+js-tools-sample-note = Komennon todellinen tuloste, tallennettu moottorilta synteettisestä demoajosta. Ei minkään mittaus.
+
+js-tools-sample-output = Esimerkkituloste: { $label }
+
+js-tools-scenario-list-failed = Skenaarioluetteloa ei ladattu
+
+js-tools-scoring = Pisteytetään…
+
+js-tools-select-and-copy = Valitse ja kopioi
+
+js-tools-settings-example = Asetusesimerkki { $n }:
+
+js-tools-status-evidenced-label = Ajot tukevat todisteita (supports evidence for) tälle riville
+
+js-tools-status-evidenced-short = Todisteilla katettu
+
+js-tools-status-not-evidenced-label = Nämä ajot eivät näytä tälle riville mitään
+
+js-tools-status-not-evidenced-short = Ei todisteita
+
+js-tools-status-out-of-scope-label = Sen ulkopuolella, mitä Kshana voi osoittaa
+
+js-tools-status-out-of-scope-short = Soveltamisalan ulkopuolella
+
+js-tools-status-partly-label = Ajot tukevat todisteita (supports evidence for) tämän rivin osalle
+
+js-tools-status-partly-short = Osittain
+
+js-tools-tab-ai = Tekoälyavustaja
+
+js-tools-tab-bench = Test bench
+
+js-tools-tab-cli = Komentorivi
+
+js-tools-tab-compliance = Compliance
+
+js-tools-tab-evidence = Todistepaketit
+
+js-tools-tab-imufit = IMU-sovitus
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = Yksi syslog-tapahtuma epookkia kohti (oletus: yksi kaistan vaihtumista kohti)
+
+js-tools-tele-file-aria = Tulos- tai JSON-lines-tiedosto
+
+js-tools-tele-fmt-cef = Syslog, CEF
+
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+js-tools-tele-fmt-mqtt = MQTT, Home Assistant -löytö (aihe, sarkain, hyötykuorma)
+
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+js-tools-tele-fmt-prometheus = Prometheus-mittarit
+
+js-tools-tele-format-aria = Muoto
+
+js-tools-tele-host = Isäntä
+
+js-tools-tele-host-aria = Syslog-tapahtumiin kirjoitettava isäntänimi
+
+js-tools-tele-include-position = Sisällytä ilmoitettu sijainti (oletuksena pois)
+
+js-tools-tele-intro = Muunna tulostiedosto (session.result.json) tai live-JSON-lines johonkin muodoista tässä selaimessa. Vaatii moottoriversion, jossa on telemetriavienti (0.35 ja uudemmat viennillä); yllä olevat komennot toimivat kaikkialla.
+
+js-tools-tele-note = Syslog-riveillä ei tässä ole aikaleimaa (sivu ei lue kelloa); komentorivityökalu leimaa ne. Prometheus antaa lopputilan. MQTT antaa yhden rivin viestiä kohti: aihe, sarkain ja hyötykuorma; täältä ei julkaista mitään. Teksti on sama, jonka komento tulostaa.
+
+js-tools-tele-run-here = Aja täällä
+
+js-tools-that-file-too-large = Tuo tiedosto on suurempi kuin 64 MiB.
+
+js-tools-token-attached = Tunniste liitetty
+
+js-tools-token-attached-note = Päivitetty paketti on alla. Aikaleimapalvelun allekirjoitusta EI tarkistettu täällä: aja openssl ts -verify.
+
+js-tools-trust-monitor-sentence = Luottamusmonitorin lause: { $sentence }
+
+js-tools-two-files-same-name = kaksi tiedostoa on nimeltään { $name }
+
+js-tools-ubx-bad-crc = { $n } sivun CRC epäonnistui.
+
+js-tools-ubx-file = UBX-tiedosto
+
+js-tools-ubx-frames-pages = { $frames } UBX-kehystä; { $pages } I/NAV-sivua dekoodattu.
+
+js-tools-ubx-ignored-sfrbx = { $n } SFRBX-viestiä ohitettiin (muut järjestelmät, E5b, hälytykset, virheelliset tarkistussummat).
+
+js-tools-ubx-skipped-bytes = { $n } tavua ohitettiin kehysten välillä.
+
+js-tools-ubx-time-conflicts = { $n } sivun aika oli ristiriidassa naapureidensa kanssa.
+
+js-tools-ubx-unstamped = { $n } sivua ei voitu sijoittaa aikaan.
+
+js-tools-unknown = tuntematon
+
+js-tools-unused-scenarios = Skenaariotiedostoja, joille ei ollut vastaavaa tulosta, ei käytetty: { $files }.
+
+js-tools-verdict-failed-text = Varmennus epäonnistui.
+
+js-tools-verdict-failed-title = Epäonnistui
+
+js-tools-verdict-intact-text = Paketti on ehjä sen itse nimeämää avainta vasten, jonka kuka tahansa voi luoda. Hanki allekirjoittajan julkinen avain allekirjoittajalta toista kautta ja kiinnitä se.
+
+js-tools-verdict-intact-title = Ehjä, mutta allekirjoittajaa ei ole kiinnitetty
+
+js-tools-verdict-verified-text = Paketti on muuttumaton ja kiinnittämäsi avaimen allekirjoittama.
+
+js-tools-verdict-verified-title = Varmennettu
+
+js-tools-verifying = Varmennetaan…
+
+js-tools-what-failed = Mikä epäonnistui
+
+js-tools-why-not-browser = Miksi ei selaimessa:
+
+js-tools-yes = kyllä
+
+js-training-active-events = Aktiiviset tapahtumat
+
+js-training-band-large = yli 100 m
+
+js-training-band-medium = 25–100 m
+
+js-training-band-small = alle 25 m
+
+js-training-chart-max = enint. { $v }
+
+js-training-chart-mean-cn0 = keskimääräinen C/N0
+
+js-training-chart-position-error = sijaintivirhe
+
+js-training-chart-s-reported-minus-true = s, ilmoitettu miinus todellinen
+
+js-training-chart-satellites = satelliitit
+
+js-training-chart-time-offset = aikapoikkeama
+
+js-training-chart-used-tracked = käytetty / seurattu
+
+js-training-col-reported = Vastaanottimen ilmoittama
+
+js-training-col-true = Todellinen
+
+js-training-cue-course = Gyrosuunta ja lokin nopeus eivät muutu minkään tapahtuman vaikutuksesta. Tässä ilmoitettu kurssi poikkeaa gyrosuunnasta { $course }. Myös virtaus erottaa suunnan kurssista, joten vertaa ajon alkuun.
+
+js-training-cue-course-speed = Gyrosuunta ja lokin nopeus eivät muutu minkään tapahtuman vaikutuksesta. Tässä ilmoitettu kurssi poikkeaa gyrosuunnasta { $course } ja ilmoitettu nopeus todellisesta nopeudesta { $speed } kn. Myös virtaus erottaa suunnan kurssista, joten vertaa ajon alkuun.
+
+js-training-cue-title = Purun vihje.
+
+js-training-cue-unknown-amount = tuntematon määrä
+
+js-training-debrief-now = Pura se nyt
+
+js-training-default-warning = Synteettistä harjoitusdataa. Vain harjoitus- ja testikäyttöön: älä koskaan syötä tätä virtaa aluksen live-navigointijärjestelmiin.
+
+js-training-demo-coastal-drag-off = Rannikon drag-off
+
+js-training-demo-combined-event = Yhdistetty tapahtuma
+
+js-training-demo-fjord-degradation = Vuonon luonnollinen heikentyminen
+
+js-training-demo-open-sea-jamming = Avomeren häirintä
+
+js-training-demo-port-time-spoof = Satamaan lähestymisen aikaharhautus
+
+js-training-dl-log-json = Lataa ohjaajan loki (JSON)
+
+js-training-dl-log-text = Lataa ohjaajan loki (teksti)
+
+js-training-dl-nmea = Lataa NMEA-virta
+
+js-training-err-demo-open = Kohdetta { $title } ei voitu avata: { $reason }.
+
+js-training-err-engine-old = Tässä moottoriversiossa (versio { $version }) ei ole NMEA-harjoitusgeneraattoria; se on tätä sivua vanhempi. Komento on { $command }.
+
+js-training-err-engine-start = Moottoria ei voitu käynnistää täällä ({ $reason }). Yllä olevat kirjastoskenaariot avautuvat silti ilman sitä.
+
+js-training-err-file-not-loaded = tiedostoa ei ladattu
+
+js-training-err-generate = Luominen epäonnistui: { $reason }.
+
+js-training-err-newer-schema = { $name }: skeema { $schema } on uudempi tai eri kuin { $supported }, jota tämä sivu lukee. Päivitä Studio sen sijaan, että arvailisit sen kenttiä.
+
+js-training-err-no-schema = { $name }: ei ole Kshanan harjoituksen ohjaajan loki (ei skeematunnistetta).
+
+js-training-err-no-track = { $name }: lokissa ei ole piirrettäviä reittirivejä.
+
+js-training-err-no-usable-rows = { $name }: ei käyttökelpoisia reittirivejä.
+
+js-training-err-not-json = { $name }: ei ole JSON ({ $reason }).
+
+js-training-err-read = { $name }: ei voitu lukea ({ $reason }).
+
+js-training-err-read-or-draw = { $name }: ei voitu lukea tai piirtää ({ $reason }).
+
+js-training-err-scenario-not-loaded = skenaariotiedostoa ei ladattu
+
+js-training-err-seed = Siemenluvun on oltava kokonaisluku, tai tyhjä, jolloin käytetään skenaarion omaa.
+
+js-training-err-too-large = { $name }: suurempi kuin { $max }. Tämä sivu lukee enintään sen kokoisia lokeja.
+
+js-training-err-too-many-rows = { $name }: lokissa on { $count } reittiriviä; tämä sivu piirtää enintään { $max }. Kirjaa harvemmin (log_interval_s) tai avaa ote.
+
+js-training-err-unknown-schema = { $name }: tuntematon skeema { $schema }; tämä sivu lukee { $supported }.
+
+js-training-event-n = Tapahtuma { $id }
+
+js-training-event-onset = Alku { $utc }
+
+js-training-extra-bearing = Käytetty suuntima, astetta todellinen
+
+js-training-extra-peak-accel = Huippukiihtyvyys, jonka vetäminen lisää, m/s²
+
+js-training-extra-peak-speed = Huippunopeus, jonka vetäminen lisää, m/s
+
+js-training-fact-duration = Kesto
+
+js-training-fact-events = Lisätyt tapahtumat
+
+js-training-fact-max-error = Suurin sijaintivirhe
+
+js-training-fact-max-time-offset = Suurin aikapoikkeama
+
+js-training-fact-no-fix = Aika ilman paikannusta
+
+js-training-fact-peak-accel = Huippukiihtyvyys, todellinen / ilmoitettu
+
+js-training-fact-peak-speed = Huippunopeus, todellinen / ilmoitettu
+
+js-training-fact-seed = Siemenluku
+
+js-training-fact-start = Alku (UTC)
+
+js-training-fix-reported-span = paikannus ilmoitettu, { $from }–{ $to }
+
+js-training-generated = Luotu ”{ $title }” moottorilla { $version }: { $lines } NMEA-lausetta. Synteettinen: vain harjoitus- ja testikäyttöön; älä koskaan syötä sitä aluksen live-navigointijärjestelmiin.
+
+js-training-generated-here = Moottorin täällä luoma (”{ $title }”). Synteettinen: keksityt sijainnit ja päivämäärät.
+
+js-training-generating = Käynnistetään moottoria ja luodaan…
+
+js-training-kind-drag-off = Sijainnin drag-off
+
+js-training-kind-jamming = Häirintä
+
+js-training-kind-natural-degradation = Luonnollinen heikentyminen (estetty taivas)
+
+js-training-kind-replay-delay = Toistoviive
+
+js-training-kind-time-spoof = Aikaharhautus
+
+js-training-legend-no-fix = Ei paikannusta: vastaanotin ei ilmoittanut mitään
+
+js-training-legend-reported = Ilmoitettu, { $band } todellisesta
+
+js-training-legend-true = Todellinen reitti
+
+js-training-library-label = Synteettinen kirjastoskenaario ”{ $title }”, komennon { $command } kirjoittama. Keksityt sijainnit ja päivämäärät; ei todellista alusta eikä tallennetta.
+
+js-training-log-row = Lokirivi { $row } / { $total }, { $utc }
+
+js-training-max-error-at = { $m } m hetkellä T+{ $s } s
+
+js-training-moment-event = (tapahtuma { $id })
+
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+js-training-moments-shown = Näytetään ensimmäiset { $shown } / { $total } hetkestä.
+
+js-training-no-events = Ei yhtään: tämä on puhdas ajo.
+
+js-training-no-fix-nothing = ei paikannusta: mitään ei ilmoitettu
+
+js-training-no-fix-span = ei paikannusta, { $from }–{ $to }
+
+js-training-no-moments = Hetkiä ei ole tallennettu.
+
+js-training-none = ei mitään
+
+js-training-none-now = Ei yhtään tällä hetkellä.
+
+js-training-none-reported = ei ilmoitettu
+
+js-training-north = P
+
+js-training-not-touched = minkään tapahtuman koskematon
+
+js-training-opened = Avattu { $name }: { $rows } lokiriviä { $secs } s:n ajalta.
+
+js-training-opening = Avataan: { $title }…
+
+js-training-param-affect-time = Vaikuttaa aikaan
+
+js-training-param-bearing-deg = Suuntima, astetta todellinen
+
+js-training-param-cn0-drop-db = C/N0-pudotus, dB
+
+js-training-param-counterfeit-cn0-dbhz = Väärennetty C/N0, dB-Hz
+
+js-training-param-delay-s = Viive, s
+
+js-training-param-duration-s = Kesto, s
+
+js-training-param-final-offset-m = Lopullinen poikkeama, m
+
+js-training-param-kind = Laji
+
+js-training-param-label = Nimike
+
+js-training-param-offset-s = Aikapoikkeama, s
+
+js-training-param-ramp-s = Alun nousuaika, s
+
+js-training-param-recovery-s = Palautumisen laskuaika, s
+
+js-training-param-relative-bearing-deg = Suuntima kurssiin nähden, astetta
+
+js-training-param-skyline = Horisonttiprofiili
+
+js-training-param-spread-db = Satelliittikohtainen hajonta, dB
+
+js-training-param-start-s = Alku, s
+
+js-training-pause = Keskeytä
+
+js-training-play = Toista
+
+js-training-reading = Luetaan…
+
+js-training-readout-fix = paikannus
+
+js-training-readout-no-fix = ei paikannusta
+
+js-training-reduced-motion = Vähennetty liike on valittuna, joten toisto alkaa nopeudella 1x. Käytä liukusäädintä tai nuolinäppäimiä liikkuaksesi ilman animaatiota.
+
+js-training-row-cn0 = Keskimääräinen C/N0, dB-Hz
+
+js-training-row-cog = Kurssi maan suhteen, astetta
+
+js-training-row-error = Sijaintivirhe, m
+
+js-training-row-fix = paikannus
+
+js-training-row-heading = Suunta (gyro), astetta
+
+js-training-row-moments = hetkeä
+
+js-training-row-position = Sijainti
+
+js-training-row-sats = Käytetyt / seuratut satelliitit
+
+js-training-row-sog = Nopeus maan suhteen, kn
+
+js-training-row-time-offset = Aikapoikkeama, s
+
+js-training-say-active = aktiivinen: { $list }
+
+js-training-say-event-id = tapahtuma { $id }
+
+js-training-say-fix = vastaanotin ilmoittaa paikannuksen
+
+js-training-say-mean-cn0 = keskimääräinen C/N0 { $cn0 } dB-Hz
+
+js-training-say-no-fix = ei paikannusta
+
+js-training-say-position-from-true = ilmoitettu sijainti { $m } m:n päässä todellisesta
+
+js-training-say-sats-used = { $used } / { $tracked } satelliitista käytössä
+
+js-training-say-time-ahead = ilmoitettu aika { $s } s todellisen edellä
+
+js-training-say-time-behind = ilmoitettu aika { $s } s todellisen jäljessä
+
+js-training-sky-no-gsv = ei GSV:tä
+
+js-training-sky-none = Tälle lokille ei ole taivasta: pelkässä ohjaajan lokissa ei ole satelliitteja. Avaa kirjastoskenaario tai luo virta täällä ja pura se nähdäksesi satelliitit, jotka sen GSV luettelee.
+
+js-training-skyline-preset = esiasetus { $name }
+
+js-training-skyline-stated = ilmoitettu profiili
+
+js-training-span-no-fix = T+{ $from }–{ $to } s
+
+js-training-track-desc = Todellinen reitti ja ilmoitettu reitti, pohjoinen ylhäällä. Suurin sijaintivirhe { $error }. { $periods ->
+        [one] { $periods } jakso
+       *[other] { $periods } jaksoa
+    } ilman paikannusta.
+
+js-training-track-end = loppu
+
+js-training-track-start = alku
+
+js-training-trainer-note = Kouluttajan huomautus
+
+js-training-warn-no-warning-text = Tämä tiedosto ei sisällä varoitustekstiä. Se on harjoituksen loki: älä syötä sen virtaa live-navigointiin.
+
+js-training-warn-rows-skipped =
+    { $count ->
+        [one] { $count } reittirivi ei ollut kelvollinen ja ohitettiin.
+       *[other] { $count } reittiriviä ei ollut kelvollisia ja ne ohitettiin.
+    }
+
+js-training-what-fix-lost = Paikannus menetetty
+
+js-training-what-fix-regained = Paikannus palautui
+
+js-training-what-full-effect = Täysi vaikutus
+
+js-training-what-onset = Alku
+
+js-training-what-recovered = Palautunut
+
+js-training-what-recovery-begins = Palautuminen alkaa
+
+js-trust-adv-carried = Tämän tiedoston mukana tuleva ohjeellinen lausuma:
+
+js-trust-adv-none = Tämän tiedoston mukana ei tule ohjeellista lausumaa
+
+js-trust-adv-none-rest = (vanhemmissa tulosteissa ei tule). Tämän sivun yläreunan ohjeellinen lausuma pätee siihen silti kokonaan.
+
+js-trust-agree-both = molemmat liputtavat: vastaanottimen oma lippu ja Kshanan monitori
+
+js-trust-agree-calibrating = kalibrointi-ikkunan sisällä: ei verrata
+
+js-trust-agree-kshana-only = vain Kshana hälyttää: vastaanotin ei liputa
