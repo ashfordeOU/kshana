@@ -123,3 +123,41 @@ seg-02926579bdbf = Opgenomen run
 seg-7635e731e2ed = Kopiëren: cargo install kshana
 
 seg-a438a9c22d93 = cargo install kshana
+
+seg-abd931555717 = Klokken en tijdsynchronisatie
+
+seg-daf25c6479c1 = Standaarden
+
+seg-471aa43dbb88 = Edities op deze pagina
+
+seg-ea7fba14ee58 = Gratis kern
+
+seg-a613a7447e3f = Studie op maat
+
+seg-501d3a72ea43 = Integriteit
+
+seg-9a86ef058d27 = Openen in Kshana Studio
+
+seg-34a0cf94d83d = De exports van de run openen in Kshana Studio: reproduceerbaar HTML-rapport, JSON, CSV
+
+seg-92ab4fe6f441 = De getekende gegevens downloaden als kommagescheiden waarden
+
+seg-3a93f60a7714 = <s1><a1>Rapport</a1></s1>
+
+seg-c851aa23ea42 = kommagescheiden waarden
+
+seg-366c59b03b4f = CSV
+
+seg-678c8daa51e9 = Engine v{ $version } · <c1/> · seed { "42" }
+
+seg-74f2a730d13a = Allan-deviatie
+
+seg-20db2c79b998 = Getoetst
+
+seg-29e58493fdd4 = Berekend uit een model
+
+seg-6cb4a75cb2f0 = Niets komt overeen met dat filter.
+
+seg-85db75e49de8 = Filteren op status
+
+seg-619f89bf160c = Realisatie van het lunaire referentiestelsel
