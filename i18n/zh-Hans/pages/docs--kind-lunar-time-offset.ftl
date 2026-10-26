@@ -25,3 +25,9 @@ seg-3843825d0733 = us
 seg-e9deb6ed41c1 = 引擎为 scenarios/lunar-time-offset.toml（类型 lunar-time-offset）生成的图表
 
 seg-982426693747 = <b>VALIDATED</b> 地月相对论钟速（LTC/TCL）+ TT/TAI/UTC 链接 + 集合。参考基准（oracle，ExternalDataset）：Ashby & Patla { "2024" }，'A Relativistic Framework to Estimate Clock Rates on the Moon'，Astronomical Journal { "167" }:{ "149" }（NIST；IAU/IAG LunaNet LTC 的依据）：月面自身势 L_m = { "3.13881e-11" } 以及长期总量 { "56.02" } µs/天，均作为已发布的数值核对一致；地心月球速度对照 JPL DE440（经 SPICE 取自 de440s.bsp）交叉检查
+
+seg-96b65f604cc2 = 诚实声明：MODELLED，未经认证。头条的us/天数值取决于参考选择（地球大地水准面W0与月球选择面、时间平均窗口、被忽略的亚us/天离心力/J2修正），因此如实的输出是一个区间，而不是单个数字。此处没有任何结果已与独立参考核对到亚纳秒级绝对精度，也没有任何结果经认证可用于业务授时。报告还给出在整个时间范围内累积的LTC-TT偏移（场景文件注释，第{ "11" }至{ "16" }行）
+
+seg-e4552368a6a7 = <s1>上一页</s1>lunar-time-budget
+
+seg-777dc23bac6a = <s1>下一页</s1>lunar-vlbi-fim

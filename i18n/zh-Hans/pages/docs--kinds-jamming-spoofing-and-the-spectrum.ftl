@@ -71,3 +71,7 @@ seg-d14fa8348a2a = <b>台账：</b>MODELLED { "1" } · VALIDATED { "2" }。完�
 seg-5242026d2998 = <s1>上一页</s1>惯性、融合与量子传感器
 
 seg-6b9b04e59491 = <s1>下一页</s1>低地球轨道导航
+
+seg-fef00c827c6a = L波段频谱模型与瀑布图：把整个GNSS L波段作为一张功率谱密度（PSD），横向为频率，纵向为时间，覆盖一条脚本化的干扰机时间线。信号：GPS L1 C/A和L2C（BPSK({ "1" })）、Galileo E1开放服务（MBOC(6,1,1/11)，或BOC({ "1,1" })）、GPS L5和Galileo E5a（BPSK({ "10" })），各自位于其载波，除非另行指定，均取接口规范的最小接收功率（IS-GPS-200、IS-GPS-705、Galileo OS SIS ICD）；未对GLONASS、北斗和Galileo E6建模。干扰机：连续波单音、平坦窄带噪声、线性锯齿啁啾，以及与某个频带自身调制匹配的宽带噪声，各有中心频率、带宽、接收功率（直接给定，或通过jamming类型的自由空间路径损耗由EIRP和距离得出）以及开关时间。每个干扰机按其在接收机带宽上的频谱分离系数kappa对每个频带评分，且(C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1；对单个干扰机，这等于jamming类型的抗干扰方程，其中Q = 1/(R_c kappa)，报告载有这一交叉核对（以及jamming类型的代表性Q数值，并列给出）。噪声底限为k T_sys，其中T_sys = T_ant + { "290" } K (F - { "1" })。瀑布图把每个单元在其频率栅格和所在行上取平均（啁啾精确处理，含整次扫频加上不完整的一次；行中途开关的干扰机按其占空比处理），因此C/N0时间线和图像来自同样的数字；result.json载有按功率做块平均的栅格、每行每个频带的C/N0和J/S，以及每个干扰机每个频带的SSC、Q、J/S、带内J/S和稳态C/N0。可选的[iq]：模型在某一时刻绘制为复IQ，写入SigMF记录（cf32_le或ci16_le）再读回，并与Welch估计比较。可选的[recording]（原生构建）：真实SigMF记录的Welch PSD与模型并列。VALIDATED：信号PSD对照教科书的主瓣宽度（BPSK(n)零点到零点为2n x { "1.023" } MHz；BOC({ "1,1" })瓣中心在 +/-1.023 MHz），频谱分离系数对照其帕塞瓦尔闭式解以及Kaplan与Hegarty的Q = { "1" }（CW）和{ "1.5" }（匹配）。MODELLED：干扰机功率、时间线、前端带宽、连续谱（无码线）处理，以及不含AGC、消隐和天线方向图。
+
+seg-ea1678eb9e84 = 引擎为scenarios/l-band-waterfall-jamming.toml（类型spectrum）绘制的图表

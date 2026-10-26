@@ -67,3 +67,15 @@ seg-1c244958d3c4 = <b>台账：</b>MODELLED { "1" } · VALIDATED { "2" }。完�
 seg-d4adf4283480 = <s1>上一页</s1>星座、覆盖与几何
 
 seg-2cdfd7f8bfb3 = <s1>下一页</s1>GPS 拒止环境下的替代 PNT
+
+seg-b7b67e03f125 = 基于真实观测的单点定位：由RINEX { "3" }观测文件和广播导航文件（码伪距、广播星历、Klobuchar电离层、Saastamoinen/Niell对流层）解算接收机位置，并可选地与测量坐标进行核对验证。
+
+seg-d76d59644d84 = 引擎为scenarios/pvt-abmf.toml（类型pvt）绘制的图表
+
+seg-edfcb546d9de = 实时月球坐标系 /地球定向预测预算：P4表{ "1" }（坐标系误差一致性检查：后处理约{ "0.27" } m ↔ 约{ "0.010" } ms，实时约{ "15" } m ↔ 约{ "0.5" } ms，每个坐标系位置都经L19杠杆臂 Δr = D_EM·ω⊕·ΔUT1表示为其等效UT1误差）与表{ "2" }（实测UT1预测误差随预测时长的变化：L18曲线直接取自真实的IERS finals2000A序列，即Bulletin A − Bulletin B最终底限和多日持续性预测器误差，各经L19映射为月球坐标系位置），外加L21的均方根合成实时坐标系误差预算（EOP + 星历 + 框架实现底限）。VALIDATED的闭式解（L19杠杆臂，ω⊕ 与CIO地球自转角交叉核对）和VALIDATED的真实数据（取自真实finals2000A行的L18曲线）；MODELLED的是月球中继定轨协方差量级和坐标系实现底限（代表性分配值）以及持续性预测器（不是IERS业务化的Bulletin A算法）。不是经认证的实时坐标系产品。
+
+seg-2721ed7727bb = 引擎为scenarios/realtime-frame-eop.toml（类型realtime-frame-eop）绘制的图表
+
+seg-5f25c5b71f0c = 空间天气环境模型：太阳（F10.7/F10.7a）与地磁（Kp，附定义性的Kp↔ap对照表）活动指数、由它们驱动的Jacchia-1971外逸层温度（与已发表的太阳活动极小/平均/极大值做了核对验证），以及在一组高度上，Jacchia-1971热层中性密度（取昼夜平均外逸层温度）相对于不含活动的静态剖面，即静态大气所忽略的太阳周期密度依赖。MODELLED：该密度与加速度计反演的密度（TOLEOS CHAMP和GRACE）在太阳活动极大期相符到{ "2" }倍以内，但在{ "2008" }年太阳活动极小期偏高约1.7x。
+
+seg-c1c6f2f73fb5 = 引擎为scenarios/space-weather.toml（类型space-weather）绘制的图表
