@@ -2553,3 +2553,7 @@ seg-68caf86157c2 = ROS-{ "2" }-pakket voor receiver-trust en gnss_lib_py-brug
 seg-e7d7d99fe538 = Een ROS-vrije brug die positie- en satellietberichten als NMEA schrijft en ze via de Python-binding beoordeelt (integrations/ros2/kshana_trust), en een brug van gnss_lib_py NavData naar receiver-trust via het rtklib-pos-formaat (integrations/gnss_lib_py).
 
 seg-05ded40b17d2 = Geen externe: de ROS-node is niet uitgevoerd op een live ROS-{ "2" }-graaf en de veldnamen van ublox_ubx_msgs zijn niet gecontroleerd tegen een draaiende driver. gnss_lib_py (MIT) is uitgevoerd voor de brugtest
+
+seg-e3bf7fd64c35 = Raamwerk voor veerkrachtige PNT van het Amerikaanse DHS
+
+seg-f4a311f936de = Langetermijnregendemping op het schuine pad van een aarde-ruimteverbinding
