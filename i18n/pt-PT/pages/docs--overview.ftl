@@ -260,3 +260,48 @@ seg-c01b78b64065 = Relatórios
 
 # text
 seg-c60dc5b92a60 = Exportações de interoperabilidade
+
+# text
+seg-3d770dd786e4 = Utilização
+
+# text
+seg-fe1abd564200 = Jammertest
+
+# text
+seg-6fcb41643035 = Telemetria de confiança
+
+# text
+seg-82155b5d0408 = Test bench
+
+# text
+seg-e35fff011b24 = Compliance
+
+# text
+seg-a50180a66dba = LunaNet AFS
+
+# text
+seg-028684a0cf3d = Pacotes de normas
+
+# text
+seg-9c0eb89a2fbe = Pacote
+
+# attr:alt
+seg-e98e25897176 = Todos os testes dos três pacotes de normas pontuados, a partir de execuções reais do motor v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } atingidos, { "1" } não atingido, { "2" } precisam de uma entrada; imo-circ-1575: { "1" } atingido, { "4" } não atingidos, { "2" } precisam de uma entrada; icao-doc9849-appf: { "6" } atingidos, { "0" } não atingidos, { "2" } precisam de uma entrada. No total, { "13" } atingidos, { "5" } não atingidos e { "6" } precisam de uma entrada que o motor não tem (um registo de recetor ou documentação do equipamento). Cada limiar foi fixado antes da execução; uma falha é mantida como falha. Um limiar atingido indica que um cenário modelado atingiu um limiar fixado, nada sobre um produto. Os pacotes fornecem elementos de prova em apoio das linhas que citam; não são uma avaliação. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado nem um serviço de salvaguarda da vida humana; não deve ser a única base de nenhuma decisão de navegação ou de segurança.
+
+# text
+seg-f891ee876b96 = A que responde
+
+# attr:alt
+seg-7cf2608b2b2f = A estrutura de um pacote de evidências. Um registo de recetor (NMEA, u-blox UBX, RINEX { "3" } ou um registo Android) e uma janela temporal entram em kshana receiver-trust evidence, que escreve sete ficheiros: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig e um timestamp.tsr opcional. O manifesto regista o SHA-256 do registo completo e de cada ficheiro e uma cadeia de hashes sobre os ficheiros; a assinatura cobre o manifesto. kshana evidence verify verifica a assinatura, o hash de cada ficheiro, a cadeia e que não está presente nenhum ficheiro não listado, e termina com { "0" } quando verificado, { "1" } quando algo falhou e { "3" } quando o signatário não estava fixado. Um pacote é um registo técnico, não um parecer jurídico.
+
+# text
+seg-13fc009b947c = FAQ
+
+# text
+seg-d4a762001549 = Licença
+
+# attr:alt
+seg-e251b385ff46 = Dois dias sintéticos do mapa de interferência, desenhados a partir das amostras submetidas em examples/interference-map/output, cada um com a sua própria rota sintética e as parcelas de exposição da rota que o motor comunica. À esquerda, um dia ADS-B: { "1" } célula degradada, { "6" } não degradadas, { "4" } não avaliadas (a tracejado) e células sem entrada, desenhadas vazias, que não foram observadas. A rota tem { "525" } km: { "11.5" }% do seu comprimento em células degradadas, { "38.3" }% não degradadas, { "9.1" }% não avaliadas e { "41.1" }% não observadas. À direita, um dia AIS: células assinaladas pelos detetores de círculo e de terra firme, células não anómalas e células vazias; a rota tem { "454" } km, com { "10.5" }% em células anómalas, { "21.2" }% não anómalas, { "0.0" }% não avaliadas e { "68.3" }% não observadas. ADS-B e AIS são camadas separadas, nunca combinadas. Uma célula assinalada não é uma constatação de interferência, e uma célula sem cor não foi observada, o que não é o mesmo que livre. Todos os dados são inventados, em pleno meio do Atlântico, e não constituem uma medição.
+
+# attr:alt
+seg-af0edceb1503 = Pontuação de um registo sintético de recetor face a um calendário de três testes, a partir de uma execução real do motor v{ $version } (`kshana jammertest score`). O registo é inventado: { "1800" } s de NMEA com uma queda de C/N0 de { "20" } dB em dois intervalos. O calendário enumera três slots; o slot do meio não tem jammer no registo. A pontuação marca { "2" } de { "3" } testes detetados (latência mediana de { "0" } s) e { "1" } falhado, com { "0" } execuções de falso alarme ao longo de { "0.25" } h de tempo limpo. Nada aqui diz seja o que for sobre um recetor real. Software de caráter consultivo, não um equipamento de navegação homologado (IEC { "61108" }, IEC { "61162" }): o operador continua a ser responsável pela navegação da embarcação.

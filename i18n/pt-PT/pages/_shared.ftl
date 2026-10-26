@@ -518,3 +518,118 @@ seg-37f058c4e1c3 = contagem
 
 # text
 seg-e88d3dbcfe0c = MODELLED
+
+# text
+seg-852814f107a7 = Páginas dos tipos de cenário
+
+# text
+seg-1a26d420ba67 = Ver também
+
+# text
+seg-c4f4b2ca0647 = Valor
+
+# text
+seg-e8968e86f31b = Limitações
+
+# text
+seg-7dc0fcd6ef77 = aocs
+
+# text
+seg-c6ced184b8eb = campaign
+
+# text
+seg-bcc7452b7e9c = clock
+
+# text
+seg-00593bd8a3ed = ephemeris
+
+# text
+seg-0cb65c6c4f53 = fusion
+
+# text
+seg-dbe8c830ef6c = hybrid
+
+# text
+seg-eae62828dc7a = inertial
+
+# text
+seg-8af88a0e2a69 = integrity
+
+# text
+seg-9a63fde1d8b1 = jamming
+
+# text
+seg-f8450911ddd6 = orbit
+
+# text
+seg-6dd5a0d55f18 = passes
+
+# text
+seg-786068921d01 = pvt
+
+# text
+seg-63f112536118 = reentry
+
+# text
+seg-f79dad339a1e = spectrum
+
+# text
+seg-8ea9f458185d = spoof
+
+# text
+seg-460826ea7719 = sweep
+
+# text
+seg-55f3ac33d883 = timetransfer
+
+# text
+seg-a37260157d35 = Entradas
+
+# text
+# c1: kshana kinds --json
+seg-0ffd6d4b0d8c = A partir do esquema (<c1/>):
+
+# text
+seg-7a473d2b9b37 = Campos obrigatórios: nenhum
+
+# text
+seg-0484c5d57886 = não indicado
+
+# text
+seg-619be4963365 = texto
+
+# text
+seg-15636cc68f72 = sinalizador
+
+# text
+seg-473eb8189015 = Execute-o
+
+# text
+seg-8b01aa51263e = O que dá
+
+# text
+seg-5aa75472f59d = Os resultados escalares dessa execução, com as unidades que o motor indica:
+
+# text
+seg-dfd41abc16b5 = Resultado
+
+# text
+seg-0df8f55cbe06 = deg
+
+# text
+seg-4798bca2d7a7 = MODELLED: as linhas da <a1>matriz de verificação</a1> que nomeiam este tipo.
+
+# text
+seg-6338a873ee85 = As linhas que a própria execução exercitou, com a referência independente que a matriz dá a cada uma (as fontes públicas estão aí nomeadas):
+
+# text
+seg-fe24dcc6971f = <b>MODELLED</b> Determinista, com hash do cenário, SBOM + portões de referência multiplataforma. Referência independente (ExternalDataset): aderência à norma do SBOM ao esquema JSON oficial CycloneDX { "1.5" } (+ identificadores SPDX válidos) — uma norma externa publicada, zero erros de validação em todo o grafo de dependências; a parte de determinismo das FoM / reprodutibilidade byte a byte permanece uma verificação de autoconsistência fixada, pelo que a linha permanece MODELLED
+
+# text
+seg-1fc08d2f0209 = O que o próprio relatório da execução diz que não está modelado ou não está validado:
+
+# text
+seg-58c4d7218e70 = A reprodutibilidade e a garantia de software são MODELLED, não validadas: uma subafirmação é verificada externamente, mas a capacidade no seu conjunto compõe partes modeladas, pelo que a capacidade permanece modelada. (matriz de verificação (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-1bf3d5817274 = Todos os tipos: <a1>KINDS.md</a1>

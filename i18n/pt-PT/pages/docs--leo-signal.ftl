@@ -11,3 +11,9 @@ seg-cbf0f9bcd2d8 = Referência independente
 
 # text
 seg-6e0cb6acc073 = VALIDATED
+
+# text
+seg-f63dd3d7aad4 = Fonte
+
+# text
+seg-587beeccaa11 = Predefinição
