@@ -5248,3 +5248,173 @@ dat-b0df8ec2da5c = scikit-learn roc_auc_score auf dem Test-Split von OPSSAT-AD (
 dat-2af5f540cc70 = scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), beide BSD-3-Clause — unabhängige Bibliotheken, die dieselben eindeutig definierten Größen für gaußsche Tails und AUC berechnen, abgeglichen auf den Boden der A&S-erf (~{ "7e-8" }). Der darauf aufgebaute Vorteil Quanten gegen klassisch bleibt MODELLED
 
 dat-04ea5481c128 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — unabhängige Bibliothek (Cephes/Boost), ein anderer Algorithmus als die Reihe der unvollständigen Gammafunktion von Kshana; abgeglichen auf ≤{ "1e-6" } rel. Nur der Kern. Die *Zuteilung* des Budgets P_HMI bei ARAIM MHSS ist nicht mehr ohne veröffentlichtes numerisches Orakel — das eigene durchgerechnete Beispiel der ARAIM Technical Subgroup der WG-C stützt nun die getrennte Zeile 'ARAIM MHSS protection levels against published reference vectors', abgeglichen am eigenen TOL_PL = { "5e-2" } m der Referenz — daher ist der Geltungsbereich dieser Zeile der statistische Kern, und jene Zeile trägt die Zuteilung (siehe docs/ARAIM_REFERENCE.md)
+
+dat-828c020a30e1 = scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exakt, χ² <{ "5e-4" } bei den Freiheitsgraden im Betrieb. Nur Kerne — Zahlen zur Leistung von Geräten bleiben modelliert (nächste Zeile)
+
+dat-7c9bfa5ab641 = scipy { "1.18" } (BSD-3-Clause): linalg.expm berechnet das diskrete Prozessrauschen Q₀₀ = ∫₀ᵗ ΦQcΦᵀds nach Van Loan { "1978" } über Padé-Skalierung mit Quadrierung auf der erweiterten Matrix { "6" }×{ "6" } — ein unabhängiger Weg, der die polynomialen Koeffizienten von kshana nie sieht; dazu optimize.brentq, das dieselbe monotone Kurve invertiert, gegenüber der Bisektion von kshana. Die Werte des Rotrauschbodens je Klasse (ClockClass) bleiben MODELLED
+
+dat-c1c604f3caec = scipy { "1.18" } (stats.kendalltau variant='b', rankdata) + numpy.percentile (BSD-3-Clause) — unabhängige Implementierungen (Merge-Sort-τ) der eindeutig definierten Rangstatistiken, abgeglichen auf { "1e-12" }. Die auf diesen Kernen aufgebaute Studie zur Entscheidungsinstabilität bleibt MODELLED
+
+dat-44fe7f2f9c8e = SciPy { "1.18.1" } (BSD-3-Clause) solve_ivp(method=DOP853) und seine Routinen für Einzelschritt, Fehlernorm, dichte Ausgabe und Anfangsschritt, eine unabhängige Implementierung; exakte Zweikörperzustände aus mpmath { "1.3.0" } mit { "40" } Stellen. Zielwerte vorab registriert in xval/dop853-scipy/PREREGISTRATION.md (ae1b25e) vor dem ersten Vergleich; alle erreicht (xval/dop853-scipy/RESULTS.md). Der erste Schritt von SciPy wird in den vollständigen Läufen beiden Lösern vorgegeben; die Routine für den Anfangsschritt wird getrennt verglichen. Nicht abgedeckt: RKF7({ "8" }), Erkennung von Steifheit, Ereignislokalisierung
+
+dat-296dc4051c11 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) mit demselben periodischen Hann-Fenster, derselben Überlappung, Dichteskalierung, ohne Detrend und mit zweiseitigem Mittelwert: jeder Bin innerhalb von { "1e-12" } relativ (beobachtet { "6.0e-14" }) über { "27" } Fälle, mit Segmentzahlen aus dem eigenen Spektrogramm von scipy. sigmf-python { "1.13.0" } (LGPL-3.0, als Werkzeug ausgeführt) schreibt fünf Aufzeichnungen von Dritten (cf32_le, ci16_le, ci8, zwei Aufnahmen mit Annotationen, ein von null verschiedenes erstes sample_start), die das Crate bitgenau mit identischen Kernfeldern dekodiert, und liest die Aufzeichnungen des Crates bitgenau zurück; das Metadatenschema von SigMF { "v1.2.6" } meldet null Fehler bei den Metadaten des Crates. Toleranzen vor dem ersten Vergleich festgelegt. Außerhalb der Aussage: spectrum::synthesise_iq und die Vergleiche von [iq] und [recording] mit dem Modell (eine Synthese hat keine einzige richtige Antwort; ein periodischer Chirp zeigt Linien, Fresnel-Welligkeit und Randausläufer, die das glatte Modell auslässt, Gesamtleistung innerhalb von { "2" } %), die Konvention der Skalierung von Ganzzahl zu Gleitkomma (das Crate teilt durch { "32767" } und { "127" }, die Autoskalierung von sigmf-python durch { "2" }^{ "15" } und { "2" }^{ "7" }, was die Spezifikation offenlässt; der Vergleich nutzt Rohcodes), Aufzeichnungen mit mehreren Kanälen und die Datentypen, die der Leser abweist
+
+dat-577e00a866ab = SciPy stats chi2/ncx2/norm (unabhängige Bibliothek) — tests/raim_reference.rs (statistischer Kern; Wert des ARAIM-MHSS-PL nicht festgeschrieben)
+
+dat-ad6236daddef = scipy.spatial.transform.Rotation.align_vectors (SciPy { "1.13" }; Virtanen et al., Nature Methods { "2020" }) — die SVD-Lösung nach Kabsch/Markley für das Problem von Wahba, ein wirklich unabhängiger Algorithmus (SVD der Lageprofilmatrix) und eine andere Codebasis als die Eigenwertlösung Davenport-K / die Methode der charakteristischen Wurzel von QUEST in kshana, die DIESELBE eindeutig definierte Wahba-optimale Lage berechnet. Auf rauschfreien gewichteten Mengen von Vektorbeobachtungen reproduzieren TRIAD, die q-Methode und QUEST die optimale Rotation von scipy auf <{ "1e-9" } rad (verglichen über den vorzeicheninvarianten Lagefehlerwinkel). Die verrauschte statistische Monte-Carlo-Aussage 'optimal schlägt TRIAD' bleibt MODELLED (kein externes Orakel); nur Einheitsvektor-Beobachtungen von Punktrichtungen — keine Modellierung von Sichtfeld, Bias oder zeitlicher Korrelation des Sensors, und QUEST ist bei { "180" }° singulär (die q-Methode deckt diesen Fall ab)
+
+dat-dc7c003995cc = scipy.stats.ncx2 / scipy.stats.chi2 (SciPy { "1.13" }; Cephes/Boost) — ein unabhängiger Algorithmus (Kettenbruch für nichtzentrale/zentrale χ²) gegenüber der Reihe der unvollständigen Gammafunktion von kshana (raim::chi2_cdf / noncentral_chi2_cdf), der denselben eindeutig definierten KERN der Detektionsstatistik berechnet: das verallgemeinerte Marcum Q_M(a,b)=ncx2.sf(b²,2M,a²), die Detektionswahrscheinlichkeit P_d, die Falschalarmwahrscheinlichkeit P_fa und die Inversion P_fa→Schwelle, abgeglichen auf ~{ "1e-6" } — dieselbe Grundlage der Unabhängigkeit wie die validierte Zeile 'RAIM/ARAIM integrity statistical kernel'. NUR der KERN: die Zellmittelung der CFAR je Zelle und der Verlust durch Überlappung von Code-/Doppler-Bins bleiben MODELLED
+
+dat-00b7ebc0a018 = SciPy/NumPy (BSD-3-Clause; scipy.linalg.null_space und numpy.linalg.svd, LAPACK gesdd) klassifizieren dieselben eingecheckten Matrizen durch Schnitt von Unterräumen, dim null([F; E_T]) und dim null([F; E_S]), und den Nullraumprojektor aus der SVD, der sich von den Jacobi-Eigenvektoren und den Gram-Rang-Formeln von Kshana unterscheidet; vorab registriert (d429993c): ganze Zahlen exakt, p_st_norm auf { "1e-9" } (P2, eine unabhängige numerische Bibliothek), mit vorab festgelegter Rangschwelle und einer zugesicherten spektralen Lücke von mindestens { "1e6" }. Die Aussage der Zeile ist die Klassifikation einer genannten Matrix, daher deckt P2 sie vollständig ab. Die konstruierten Fälle umfassen direkte Summen, gekoppelte und gemischte Nullräume und zufällige Basiswechsel; die Dimensionen des realen Netzes der Zeile zur gekoppelten Eichung werden hier nicht neu gezählt. Der Invarianztest im Crate (eine rotierte Nullraumbasis liefert identische Ergebnisse) bleibt erhalten
+
+dat-ecdfcb899baa = Scoop-Bucket
+
+dat-a18e70a6324e = Einen begrenzten Ausschnitt eines NMEA-{ "0183" }-Stroms eines Schiffes so bewerten, wie `kshana receiver-trust live` ihn bewertet, und je Epoche den Vertrauenszustand (calibrating, nominal, degraded, untrusted) und die Bewertung 0-100 mit den Monitoren zurückgeben, die abgezogen haben (Live-JSON-Lines-Schema { "1.3" }: Jede Epoche trägt `position`, eine Angabe `advisory`, dass die Ausgabe beratend ist, und ihre Satellitengeometrie `geometry` (gut, degradiert mit Gründen wie few-satellites oder high-pdop, oder unbekannt, wenn der Ausschnitt kein GSV oder GSA hat) mit einem `label` (gut, mittel, schlecht; die Geometrie zieht nur ab, wenn sie schlecht ist); jeder Abzug trägt eine `class`: Geometrie (der Himmel, kein Befund, dass kein Angriff stattfand), Umgebung oder Inkonsistenz (angriffsähnlich)), die Zusammenfassung (Zählungen nach Zustand, Geometrie und Klasse, niedrigste und letzte Bewertung, wann die erste nicht vertrauenswürdige Epoche kam) und den letzten Satz `$PKSHT`.
+
+dat-b0851170eab0 = Eine Einreichung bei kshana-bench bewerten (`kshana bench score`, bench/SPEC.md, docs/BENCH.md): eine Datei mit Vorhersagen (`kshana-bench-predictions/1`) gegen eine Datei mit der Wahrheit (`kshana-bench-truth/1`), beide JSON-Text, höchstens je { "4" } MiB, und die Ergebnisdatei (`kshana-bench-result/1`) zurückgeben mit der Version der Spezifikation, der Aufgabe (a Detektion auf Empfängerlogs, b Detektion auf IQ, c Vorhersage des Holdover der Zeit, d Optimismuslücke außerhalb der Verteilung), dem Split, dem SHA-256 beider Eingaben und den Metriken der Aufgabe (AUC, Detektionswahrscheinlichkeit bei einer Obergrenze der Falschalarme, RMSE je Horizont oder die Optimismuslücke).
+
+dat-e4e75b47727c = Ein Empfängerlog gegen den Zeitplan von Jammertest bewerten (`kshana jammertest score`): je geplantem Test die Detektionslatenz (erster Alarm minus geplanter Beginn), ob er innerhalb der Toleranz, zu spät oder gar nicht erkannt wurde, und die Zeit bis zur Erholung (eine alarmfreie Strecke von `recover_hold_s`), dazu die Falschalarme außerhalb jedes Slots und seiner Schutzzeit.
+
+dat-5b577627cdf9 = Bewertungsstatistik ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 für eine Gleichtaktverschiebung, die die Lösungstrennung (Kontraste orthogonal zu { "1" }) nicht sehen kann; eine Gleichtaktverschiebung bläht sie auf, während die paarweisen Trennungen flach bleiben
+
+dat-4a9189f161fe = Bewertet, ob der Navigationsfix eines Schiffes vertrauenswürdig ist, anhand der NMEA { "0183" }, die sein Empfänger und seine Instrumente ohnehin ausgeben: ein Wert von 0-100, drei Bänder und die Gründe dahinter, je Epoche, im Batch, live oder als Gate. Monitore vergleichen den Fix mit der eigenen Bewegung des Schiffes, dem Kurssensor, dem Fahrtlog und den Signalpegeln der Satelliten. Beratende Software, keine typzugelassene Navigationsausrüstung: Der Betreiber bleibt verantwortlich. Die Arithmetik der Monitore wird gegen unabhängige Bibliotheken geprüft; die Regel und die Schwellen des Wertes sind die des Projekts selbst und bleiben modelliert.
+
+dat-389c8d89137d = sdr::code_tests (ca_first_ten_chips_match_is_gps_200_octal — PRN { "1" }–{ "9" } die ersten 10 Chips reproduzieren die Oktalzahlen aus IS-GPS-200 Tabelle 3-Ia 1440/1620/1710/1744/1133/1455/1131/1454/1626 exakt; ca_code_has_1023_chips_and_is_balanced; ca_periodic_autocorrelation_is_three_valued)
+
+dat-f8b4b933bb97 = io.github.ashfordeOU/kshana-mcp suchen.
+
+dat-3842550f02d0 = Sekunden, bis eine freilaufende Uhr den Guard eines zeitindizierten Slots verlässt, und die Fix-Kadenz, die sie darin hält
+
+dat-9101fe90af84 = Sicherheits-FoM — analytische Schranke der Erkennbarkeit von Spoofing
+
+dat-5929ef9641ba = Sicherheitsrichtlinie
+
+dat-2fa97693b70f = Siehe auch
+
+dat-0ef56cdaefab = Selbstkonsistenz von Schätzer und Geometrie: Rundläufe vorwärts→invers, die Identität von Fisher/CRLB J·CRLB=I, Monotonie von GDOP und das Erreichen der eigenen Cramér-Rao-Schranke durch den Schätzer unter Monte-Carlo-Rauschen — Prüfungen der internen Konsistenz, KEIN externer Datensatz, daher bleibt die Zeile InternalConsistency. MODELLED passive Geolokalisierung — Modell der Sichtlinie einer Punktquelle; keine Terme für Mehrwege / NLOS, Uhrenbias des Empfängers oder atmosphärische Refraktion. Runde { "2" } in { "0.30" }, gegen Ho und Chan { "1993" } und Ho und Xu { "2004" } (vorab registriert f89018b8, { "1" } % jedes gedruckten Wertes), ein Befund (bleibt MODELLED): Die durch die Oberfläche beschränkte TDOA-Schranke reproduziert die geometrischen Faktoren für { "40" } N (-0.11 %, -0.02 %) und das maximale TDOA; die gemeinsame Schranke aus TDOA+FDOA reproduziert Abb. { "6" } (+{ "0.06" } %, -0.17 %) und, an der Quelle, die der eigene Code der Autoren für Abb. { "7" } nennt (Änderung geschrieben, nachdem dieses Ergebnis gesehen wurde, offengelegt), Abb. { "7" } (+{ "0.11" } %, -0.02 %); sie entspricht dem veröffentlichten Code der Autoren für die Schranke (BSD-Stil, unter GNU Octave ausgeführt) auf { "3e-12" }; der kovarianzgewichtete Maximum-Likelihood-Löser erreicht die gedruckte Schranke (+{ "0.3" } bis +{ "0.4" } %). Die Faktoren für Ottawa, die die Arbeit aus einer Monte-Carlo-Simulation druckt ({ "251" }, { "7.1" }), weichen um +{ "1.3" } % und +{ "4.4" } % ab, außerhalb des Zielwerts von { "1" } %
+
+dat-48c06a69f626 = Selbstkonsistenz der Übergaben: Jeder weitergereichte Wert entspricht der eigenen Ausgabe der vorgelagerten Stufe, und das Verändern einer vorgelagerten Eingabe verschiebt jede nachgelagerte Zahl, die von ihr abhängt. Die Stufen behalten ihre eigenen Labels; die Kette fügt keine Physik und kein externes Orakel hinzu
+
+dat-c66a398789c3 = Selbstkonsistenz des Streifenmodells des Interferometers: der Rand des Halbstreifens, die 2π-periodische Aliasstruktur und die Kürzung des Skalenfaktors im Verhältnis von Bereich und Auflösung sind algebraische Identitäten in geschlossener Form, geprüft gegen die eigenen Funktionen der Engine für Phase und Empfindlichkeit nach Mach–Zehnder — Prüfungen der internen Konsistenz, KEIN externer Datensatz, daher bleibt die Zeile InternalConsistency. MODELLED ideale Streifenmehrdeutigkeit mit drei Pulsen; keine Schranken für Wellenfrontaberration oder Kontrastverlust beim eindeutigen Bereich
+
+dat-1edd3707cfc5 = Nur Selbstkonsistenz: Die veröffentlichte Summe wird gegen die Wurzel der Quadratsumme der Terme in derselben Datei geprüft, und die ausgegebene Kurve reproduziert die veröffentlichte p3_time_budget_curve.csv über alle { "57" } Punkte. Beide Prüfungen teilen die eigenen Termdefinitionen dieser Engine, daher ist keine unabhängig. Der Uhrenterm beruht auf veröffentlichten Spezifikationen von Uhren, aber die GRÖSSENORDNUNGEN der Böden für Verbindung, Bezugssystem, Relativistik und Ephemeride sind dokumentierte Budgetzuteilungen ohne externes Orakel
+
+dat-65858866917e = Leitfaden zum Selbsthosting
+
+dat-9ac614e8f945 = Sensitivitätsstudie
+
+dat-da902218b92d = Sensitivitätsstudie (drei Tage)
+
+dat-c884dc5cd017 = Septentrio SBF (format = "sbf")
+
+dat-f21f6312d77b = Sequenzielle (rekursive) geländebezogene Navigation — GPS-verweigertes Alt-PNT.
+
+dat-af686833dcf2 = Den Block COVARIANCE_START…COVARIANCE_STOP des CCSDS-{ "502.0" }-OEM serialisieren und parsen — die Kovarianz { "6" }×{ "6" } aus Position und Geschwindigkeit, geschrieben als ihr unteres Dreieck mit 21 Elementen (kanonische Reihenfolge CX_X … CZ_DOT_Z_DOT) mit dem optionalen COV_REF_FRAME, als Ergänzung zum bestehenden Schreiber/Parser für OEM-Zustandsvektoren, sodass Kovarianzen aus Bahnbestimmung und Filtern im Standardformat Rundläufe durchlaufen
+
+dat-d5e280fe1d19 = Ein Limit für CPU und Speicher auf der Plattform setzen
+
+dat-f7f7c4ac51b3 = Mengeninklusion: Das Verhältnis von Jammer zu Signal geht als einheitlicher Versatz in Dezibel ein, sodass die erfasste Menge bei höherer Sendeleistung die Menge bei niedrigerer enthält und der Anteil nur steigen kann -- eine Eigenschaft, die das Airy-Muster bei Strahlbreite oder Höhe NICHT liefert, wo die erfasste Region in Ringe zerfällt und der Anteil tatsächlich nicht monoton ist. Keine veröffentlichte Tabelle gibt den erfassten Flächenanteil eines orbitalen Senders am Mond gegenüber Höhe und Strahlbreite an, daher gibt es nichts Externes, gegen das sich diese Zellen prüfen ließen; das darunterliegende Muster ist getrennt gegen veröffentlichte Bessel-Werte validiert und behält seine eigene Zeile
+
+dat-b499b8e2c8f2 = Einstellungen → Plugins → Marketplace → nach "Kshana" suchen (Plugin-ID dev.kshana.ide). Mit der rechten Maustaste auf eine Szenario-.toml klicken und Run Kshana Scenario wählen.
+
+dat-5f452eb6f36c = Sieben Masken für Wander-Erzeugung von MTIE und TDEV bei konstanter Temperatur für die Art `telecom-timing`: G.811 (09/1997) PRC (autonom), G.812 (06/2004) Typen I, II und III, G.8262 (10/2024) EEC Optionen { "1" } und { "2" } und G.8262.1 (11/2025) eEEC (verriegelter Modus), einschließlich der Potenzgesetz-Stücke, die die Tabellen schreiben (`{ "8" } τ^{ "0.5" }` und dergleichen), jedes Intervall offen oder geschlossen wie gedruckt, gemessen durch das Filter mit { "10" } Hz, das die Klauseln nennen (als vor dem Abtasten angewandt genommen); das Referenzszenario scenarios/telecom-synce-eec.toml setzt einen freilaufenden OCXO gegen die drei EEC-Masken. Nicht umgesetzt: die Zugaben bei veränderlicher Temperatur, Holdover, Transienten, Jitter und die Frequenzgenauigkeit nach G.811
+
+dat-c154e22f0463 = Rahmendatum mit sieben Parametern nach Helmert (Ähnlichkeit), getrieben von einer SIMULIERTEN BEOBACHTUNGSKAMPAGNE statt durch eine …
+
+dat-5edf07579980 = Mondrahmendatum mit sieben Parametern nach Helmert, getrieben von einer REALEN, ARCHIVIERTEN Beobachtungskampagne statt einer …
+
+dat-4b89cb3df611 = Mondrahmendatum mit sieben Parametern nach Helmert, getrieben von einer SIMULIERTEN BEOBACHTUNGSKAMPAGNE (G9).
+
+dat-ce78e41f321f = Mondrahmendatum mit sieben Parametern nach Helmert aus einer REALEN, ARCHIVIERTEN Beobachtungskampagne (V3).
+
+dat-d55cb71472c4 = Mehrere Szenarien unter gemeinsamen Bedingungen, mit einer zusammengefassten Übersicht
+
+dat-2fbb120bffe0 = SGP4/SDP4-Propagation aus realen Zweizeilen-Elementen (ein eingechecker Celestrak-GPS-Schnappschuss) oder synthetische Walker-Konstellationen, deren mittlere Elemente die Formel i:T/P/F auf unter { "1" } km über { "24" } h realisieren. Sichtbarkeit mehrerer Konstellationen, Dilution of Precision und GNSS-Verfügbarkeit, ein Optimierer für den Konstellationsentwurf, Dimensionierung nach Streets of Coverage und ein Durchlauf des Walker-Entwurfs, der die Pareto-optimalen Entwürfe über ein Gitter aus Ebenen × Satelliten meldet.
+
+dat-e82ed37686f0 = Validierung von SGP4/SDP4 gegen die Referenz der Community
+
+dat-e58ad5dbbc32 = SGP4/SDP4, Cowell mit 6 Freiheitsgraden + Störungen, Batch-/sequenzielle Bahnbestimmung
+
+dat-d458c3670e24 = Schalenmodus: die globale Metrik des Hefts
+
+dat-09e67d38f482 = Relative Positionierung auf kurzer Basislinie aus realem Code und realer Trägerphase von GPS mit zwei Frequenzen: Doppeldifferenzen gegen den höchsten Satelliten mit ihrer vollen Kovarianz, ein Float-Kalman-Filter über die Basislinie und Einzeldifferenz-Mehrdeutigkeiten mit Neuinitialisierung bei Sprüngen, ganzzahlige Methode der kleinsten Quadrate nach LAMBDA mit dem Verhältnistest und die auf die festgelegten ganzen Zahlen konditionierte Basislinie
+
+dat-2d5c1f5c13a3 = Ein- und Ausgabe von SigMF-Aufzeichnungen und spektrale Schätzung komplexer IQ-Daten nach Welch
+
+dat-e466797c6633 = sigmf: Aufzeichnungen im Signal Metadata Format lesen und schreiben (JSON .sigmf-meta mit den Kernfeldern global, captures und annotations; rohes .sigmf-data als cf32_le, ci16_le oder ci8, wobei die Ganzzahl-Dekoder mit realdata::iqif::load_iq geteilt werden), alles auf Strings und Bytepuffern. spectrum::welch_psd: Periodogramme mit Hann-Fenster, überlappend, gemittelt, dichteskaliert, auf einer Radix-2-Transformation im Crate (spectrum::fft_in_place). Diese beiden sind die validierte Aussage. spectrum::synthesise_iq zeichnet das Modell als IQ, und der Abschnitt [iq] der Art `spectrum` führt Modell zu IQ zu SigMF zu Welch aus und vergleicht mit dem Modell; sein Abschnitt [recording] schätzt eine reale Aufzeichnung (native Builds); die Synthese und diese Modellvergleiche liegen außerhalb der validierten Aussage
+
+dat-ca38e49660ad = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — Boden innerhalb von { "2" } % der Varianz über der Abtastrate, Gesamtsumme nach Parseval innerhalb von { "2" } %, äquivalente Rauschbandbreite von Hann { "1.5" } Bins; noise_like_synthesis_is_unbiased_through_welch — Median von Welch minus Modell innerhalb von { "0.1" } dB über einen Rundlauf ci16_le; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch-PSD gegen scipy { "1.18.1" } signal.welch je Bin auf { "1e-12" } relativ über { "27" } Fälle, beobachtet { "6.0e-14" }; fünf Aufzeichnungen von sigmf-python { "1.13.0" } bitgenau mit identischen Metadaten dekodiert; vom Crate geschriebene Aufzeichnungen von sigmf-python bitgenau zurückgelesen und schemagültig gegen SigMF { "v1.2.6" })
+
+dat-9cd9dd4c33e3 = Voreinstellungen für Signale und Systeme
+
+dat-b00bcd626c85 = Signalentwürfe
+
+dat-0345ce0c3308 = Leitfaden zum Plugin für Signal K
+
+dat-d59d6f542e93 = Entfernungsfehler des Signals im Raum
+
+dat-ec7503f282d5 = Entfernungsfehler des Signals im Raum, RMS
+
+dat-9c6a9341490c = Signierte Nachweispakete
+
+dat-18a2db656f97 = Simulierte Wahrheit gegen die eigene Schätzung des Filters (der mittlere normierte quadrierte Schätzfehler eines konsistenten Filters beträgt für die Position etwa { "3" }) und Determinismus bei festem Seed. Es werden keine Flugdaten und keine aufgezeichneten GNSS-Daten hoher Bahnen verglichen; Sonne und Mond sind kreisförmige Platzhalter geringer Präzision
+
+dat-d56763338043 = Durch Simulation validiert (Gütezahlen aus Kovarianz und geschlossener Regelung, keine zertifizierten Schutzniveaus); die Dynamik des Mars mit der Sonne als Zentrum ist gegen JPL DE440 auf { "137" } m @ einem 1-Tage-Bogen gegengeprüft; Mars-LMO-OD ≈ { "0.2" } m.
+
+dat-d4776382a489 = Einfrequenz-Dienste für Ionosphäre und UTC in einer Navigationsnachricht für LEO
+
+dat-531887b91757 = Resilienzwerte aus einer einzigen Zahl für Positionierung, Navigation und Zeitgebung sind nur dort stabil, wo ein Entwurf dominiert; Gewichtung, Bedrohung und deklarierte Verfahren können sie umkehren.
+
+dat-d541692e383b = Einzelpunktbestimmung (PVT)
+
+dat-b668016e1890 = Himmelsgeometrie
+
+dat-2d7d60357e41 = Funktionen der Himmelsgeometrie: Sichtbarkeit, DOP, Kovarianz, Fehlerellipse, Monte-Carlo-Wolke
+
+dat-12c10c0617b0 = Himmelsgeometrie unter einer vom Azimut abhängigen Skyline (eine Straßenschlucht, ein Hafen, ein Fjord, ein Containerterminal): aus einem Standort, einer Zeit und Voreinstellungen für Konstellationen, Zweizeilen-Elementsätzen (`tle`, mit einer UTC-`epoch`) oder Satelliten, die als Azimut/Elevation oder ECEF gegeben sind, welche Satelliten sichtbar sind und welche durch die Skyline verdeckt werden, GDOP/PDOP/HDOP/VDOP/TDOP aus dem mit gnss_lib_py geprüften DOP-Kern, die Kofaktor- und Kovarianzmatrix in Ost-Nord-Oben mit einer Empfängeruhr je System (oder einer gemeinsamen), und die horizontale Fehlerellipse bei einem Sigma und bei einem genannten Konfidenzniveau für ein genanntes UERE.
+
+dat-39b1bcfec069 = Skyfield { "1.54" } (MIT), mit eigener Schaltsekundentabelle, eigenem TDB-TT und eigenem Leser derselben NAIF de440s.bsp (jplephem), als eigenes Programm zu UTC-Epochen ausgeführt. Vorab registriert (0bfafe6d), bevor die Fixture existierte, das Gitter mit dem Hash dieses Commits als Seed, mit einem Zielwert von { "5e-5" } s mal relative Geschwindigkeit (die genannte Genauigkeit der Engine mit zwei Termen für TDB-TT) plus { "1e-13" } der baryzentrischen Entfernung plus { "1e-5" } m, je Komponente. Ergebnis: alle { "600" } innerhalb, am ungünstigsten { "0.66" } des Zielwerts ({ "2.96" } m bei einem schnellen Paar, der eigene Fehler der Reihe TDB-TT). Mutation: TT statt TDB verwendet scheitert beim { "33" }-Fachen des Zielwerts. Beide Seiten lesen DE440: Dies validiert den Provider und seine Zeitkette, nicht DE440. Außerhalb der Aussage: die Planeten jenseits der Venus als Körper (de440s führt nur ihre Baryzentren), die Planetenmonde und eine Präzision unterhalb der Reihe TDB-TT mit zwei Termen (einige Meter bei den schnellsten Paaren)
+
+dat-a746656c3f42 = skyline + frames::look_angles + geometry::sky_geometry: der geodätische (WGS-84) Azimut und die Elevation eines Satelliten von einem Bodenstandort, eine Maskentabelle für Azimut/Elevation, linear im Azimut interpoliert mit Umbruch bei { "360" } Grad, die sichtbare Menge el >= max(mask_deg, mask(az)) und die DOP bei gemeinsamer Uhr und die Kofaktormatrix aus ENU und Uhr dieser Menge (der Kern hinter orbit::dop). So entscheidet der Abschnitt [skyline] über die Sichtbarkeit in den Arten gnss-sim, jamming, leo-pvt, leo-pass und nmea-scenario und, mit dem Bodenstandort user_site, in orbit und integrity
+
+dat-7d7fce0709c1 = Skyline-Masken und Himmelsgeometrie
+
+dat-f409aed2c1fd = Voreinstellungen für Skylines (Straße in der Stadt, Hafeneinfahrt, Fjord, Containerterminal)
+
+dat-127c914f92b1 = Voreinstellungen für Skylines und die Funktionen der Himmelsgeometrie
+
+dat-a2f8ef765eed = Sichtbarkeit, DOP und Fehlerellipse mit Skyline-Maske
+
+dat-f408f01299bd = skyline: die Straßenschlucht in geschlossener Form (Schnitt atan((h - a) / d) mit d = (w/2) / abs(sin(az - s)), offene Enden für eine endliche Länge), scharfkantige Sektoren im Uhrzeigersinn mit Umbruch, und Geländepunkte auf eine Tabelle reduziert mit dem Krümmungsabfall d^2/({ "2" } * 4/3 R); die Skyline ist ihr punktweises Maximum mit jeder Tabelle
+
+dat-7969ca4fa6ac = Slot-Timing
+
+dat-581da7573890 = Slot-Timing: wie lange ein ofenstabilisierter Quarzoszillator (OCXO) auf einer Umlaufbahn um die Erde, niedrig
+
+dat-42d4c827caff = Slot-Timing: Sekunden, bis eine freilaufende Uhr den Guard eines zeitindizierten Routing- oder Tasking-Slots verlässt …
+
+dat-296ef4327c8b = slot-timing (Szenarioart)
+
+dat-111439f50e53 = Geometrie des Raumdreiecks nach SMAD: Winkelradius der Erde, Streifenbreite, Nadir-GSD, maximaler Zugriff außerhalb des Nadirs und kreisförmige Periode, dazu die nodale Periode erster Ordnung durch J2 (eo_payload::j2_nodal_period) und der äquatoriale Abstand der Bodenspur R_e (omega_E - dOmega/dt) T_nodal (eo_payload::ground_track_spacing_equator_j2) mit einem Flag für zusammenhängende Abdeckung, für eine Bahnhöhe, Neigung und ein FOV/IFOV des Sensors. Ausführbar über CLI und Bindings als Szenarioart `eo-coverage` (scenarios/eo-coverage.toml); ihre Standardneigung ist die sonnensynchrone aus eo_payload::sun_synchronous_inclination, eine Komfortvorgabe, die nicht Teil der validierten Aussage ist
+
+dat-31d991caf4b7 = Kleines unbemanntes Luftfahrzeug unter GNSS-Jamming: wie weit ein Flugregler der
+
+dat-2d806ce82e15 = RAIM mit Schnappschuss / Lösungstrennung / ARAIM mit HPL/VPL und einem Stanford-Diagramm.
+
+dat-c02622d843b3 = RAIM mit Schnappschuss und Lösungstrennung mit horizontalen und vertikalen Schutzniveaus (HPL/VPL), Fehlererkennung und -ausschluss und Stanford-Integritätsdiagrammen — dazu ein ausdrückliches Schutzniveau mit Budget des Integritätsrisikos (MHSS) mit dem konstellationsweiten Fehlermodus für zwei und mehr Konstellationen (EU ARAIM / DO-316).
+
+dat-07e36468d18e = Kern der Schnappschuss-Detektion (χ²/nichtzentrale χ²/Normalverteilung) gegen SciPy · Budget von ARAIM MHSS durch die Gründer freizugeben
+
+dat-ac6e25381f04 = Software-Stückliste (SBOM)
+
+dat-dfdd58c878cd = SRP-Schatten mit Randverdunklung der Sonne (wählbar)
+
+dat-4cae6d94c5e5 = Sonnensystem
+
+dat-9b14e3a637d5 = Sonnensystem und Positionierung um andere Körper
+
+dat-aeceaa175523 = Sonnensystem am 2026-09-28T00:{ "00" }:{ "00" } (JD { "2461311.50080" } TDB), { "18" } Körper, Beobachter Erde
+
+dat-b60237034eb8 = Wählbare Bewegungsprofile für das Paket gnss-ins (geradeaus, Figur 8, städtisches Anfahren und Anhalten, Steigflug und koordinierte Kurve eines Flugzeugs, Vermessungsdrohne), definiert durch Befehle für Euler-Rate und Beschleunigung entlang der Spur, auf dem wahren Zustand mit der kinematischen IMU geschlossen (Terme für Zentripetal-, Schwere- und Coriolisbeschleunigung), und importierte CSV-Wahrheit, in die IMU umgewandelt, die sie reproduziert; die historische Fahrt bleibt unverändert, wenn kein Profil angegeben wird
+
+dat-54d387cbe183 = skyline::PRESETS: vier REPRESENTATIVE Geometrien mit den genannten Abmessungen der Entwurfsnotiz und je einer Herkunftszeile: city-street (eine Schlucht, Straße { "0" } Grad, { "20" } m zwischen { "30" } m hohen Wänden, Antenne { "1.5" } m), harbour-approach (Sektoren: offen zur Seeseite über { "180" } Grad, Kaigebäude { "8" } Grad über { "90" } Grad, der Wellenbrecher { "3" } Grad), fjord (Gelände: Wände { "600" } m über der Antenne in { "1.5" } km Abstand zu beiden Seiten eines Nord-Süd-Kanals, Krümmungsabfall angewandt), container-terminal (Sektoren: Stapel { "12" } Grad über der landseitigen Hälfte, Kranausleger { "35" } Grad und { "25" } Grad über zwei schmalen Sektoren); Feld für Feld überschreibbar
