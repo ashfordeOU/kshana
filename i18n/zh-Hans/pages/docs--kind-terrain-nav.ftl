@@ -9,3 +9,23 @@ seg-0df60ac6343f = <b>MODELLED</b> 重力地图匹配、地形参考（TERCOM/SI
 seg-d776abd5691c = 替代/互补 PNT 为 MODELLED，而不是经独立验证：它对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）。（验证矩阵（docs/MODELLED-RATIONALE.md））
 
 seg-98133e74f88a = 类别页面：<a1>GPS 拒止下的替代 PNT</a1>
+
+seg-1d36a7dc3fd0 = 来源：<c1/>
+
+seg-7bfd6d049799 = <c1/>（场景类型）
+
+seg-0d7bf5a4f07e = GPS 拒止环境下的地形参考导航（TERCOM/SITAN）：雷达/气压高度计将地面高程剖面与 SRTM 式 DEM 匹配，以修正 INS 漂移。
+
+seg-54690375328b = <c1/> 的一次运行汇总为：terrain-nav | free-inertial drift { "70659" } m | terrain-matched { "53" } m (1342x cut) | matching sigma { "17.0" } m
+
+seg-db286a072e43 = 必填字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>、<c12/>
+
+seg-efc57f43bd6f = 可选字段：<c1/>、<c2/>、<c3/>
+
+seg-96e3607379e0 = 示例 <c1/> 设置了以下各项（节选）：
+
+seg-c5e33c7122e2 = 引擎为 scenarios/terrain-nav.toml（场景类型 terrain-nav）生成的图表
+
+seg-0fcad0016c78 = <s1>上一页</s1>telecom-timing
+
+seg-fa50992f818f = <s1>下一页</s1>terrain-slam

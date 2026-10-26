@@ -27,3 +27,69 @@ seg-90361a6f4e3c = 引擎为 scenarios/leo-pvt-fjord-skyline.toml（类型 leo-p
 seg-97b8d07150d4 = LEO-PNT 信号设计：适用于任意系统、频段和结构的参数化低地球轨道（LEO）定位、导航与授时（PNT）信号。信号（SIGNAL）由一个频段（中心频率、发射带宽、ITU 频率划分 RNSS/RDSS/MSS/EESS/non-RNSS/other）和若干分量（捕获、数据、导频；可取任意子集）构成，每个分量各有调制方式（n 可为分数的 BPSK(n)、BOC(m,n)、MBOC({ "6,1" },p) 或类 OFDM 的平坦频带）、功率份额、可选的 FDMA 子载波偏移、码长和数据速率。信号来自编译内置的公开预设文件（xona-pulsar、iridium-stl、starlink-soo、centispace、generic-c-band、generic-bands；每个都附来源 URL，且每个未公开的数值均标注为 REPRESENTATIVE），或以内联方式书写。逐信号（PER SIGNAL）给出：带限功率谱密度，以及发射频带所通过的各分量功率的比例（BPSK 闭式与数值并列），RMS（Gabor）带宽，延迟锁定环码跟踪热噪声抖动随 C/N0 和超前-滞后间距的变化（取自 Betz & Kolodziejski { "2009" } 的带限相干（或非相干）超前-滞后公式，并附其不限带宽的教科书形式及其间距趋于零时的 Gabor 界），以米计的测距精度，捕获搜索空间（由轨道最大多普勒加上振荡器和用户项得到的多普勒单元，乘以码单元），平方律检测概率以及串行和码并行的平均捕获时间，该信号对 GPS L1 C/A、Galileo E1、GPS L5、Galileo E5a、E5b 和 E5 AltBOC 的谱分离系数，以及上述各信号对该信号的谱分离系数及 C/N0 劣化，还有被跟踪分量可容忍的 CW、宽带和匹配 J/S，均取自频谱类型自身的 SSC 机制。频段权衡（BAND TRADE）：一阶电离层延迟（{ "40.3" } TEC/f^{ "2" }）、自由空间损耗、等 C/N0 和等 EIRP 下的测距精度，以及干扰机容限。可选的形状检查（SHAPE CHECKS）将设计的频谱与某次所述测量比对（MODELLED 一致性）。VALIDATED：BPSK 带内功率（主瓣内 { "90.3" } %）和 Gabor 带宽闭式，带限抖动可还原为教科书的相干超前-滞后形式及其 Gabor 界，偏移 BPSK 谱分离系数对照其 Parseval 闭式，AltBOC 频谱的单位面积，以及 LEO 最大多普勒对照已发表的 Xona Pulsar（32-34 kHz）和 Iridium（{ "36" } kHz）数据。MODELLED：每一个设计、功率分配、C/N0 和干扰机电平；EFQPSK、CSK 和 OFDM 的频谱为近似。
 
 seg-8bf45b6989d1 = 引擎为 scenarios/leo-band-trade.toml（类型 leo-signal）生成的图表
+
+seg-4e31c8daf798 = 台账
+
+seg-6800289a282d = { "7" } 个场景类型，来自引擎 v{ $version }。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处的每个标签都来自引擎或验证矩阵；除非矩阵另有说明，否则某个类型为 MODELLED（标签如何获得，见 README 的“证据”一节）。
+
+seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
+
+seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+seg-22eb3a688624 = 来源：<c1/>
+
+seg-561a783e9516 = 低地球轨道导航（场景类型族）
+
+seg-47751d798019 = 专题页面：<a1>LEO-PNT</a1>、<a2>LEO-SIGNAL</a2>、<a3>LEO-PASS</a3>、<a4>LEO-NAVMSG</a4>。运行一个：<c1/>。所有类型族：<a5>KINDS.md</a5>。
+
+seg-4867ae5d108b = 引擎为“低地球轨道导航”类型族的各类型生成的图表缩略总览
+
+seg-1e724b481e67 = LEO-PNT 信号设计：适用于任意系统、频段和结构的参数化低地球轨道（LEO）定位、导航与授时（PNT）信号。
+
+seg-82ad7da67939 = LEO 过境与链路预算，逐频段，面向 LEO-PNT（来自低地球轨道的定位、导航与授时），与具体系统无关：一个用户（地面、海上、空中或室内，静止或运动）以及一个或多
+
+seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
+
+seg-c20a76308fb3 = LEO 导航电文：低地球轨道（LEO）定位、导航与授时卫星的广播星历和时钟，适用于任意轨道、载波和模型，带可选的具名预设（Xona P
+
+seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+
+seg-06236b581684 = 对任意星座的中地球轨道（MEO）与低地球轨道（LEO）融合定位、导航与授时（PNT）：每个 [[system]] 是 constellation-design 类型的一个 GNSS 预设、一个 LEO 预
+
+seg-d9e5f4726bbb = 仅用 GNSS 以及加入 LEO 增强的精密单点定位（PPP）收敛：对无电离层组合的码和载波相位以及静态站坐标运行浮点扩展卡尔曼滤波器，一个
+
+seg-44f4148f4a5f = 利用移动卫星服务（MSS）S 波段中的 5G 非地面网络（NTN）下行链路定位（3GPP 频段 n256，下行 { "2170" } 至 { "2200" } MHz；默认载波 { "2172.5" } MHz）：克拉美-罗界
+
+seg-1ee838a551ef = 端到端的一个 LEO-PNT（来自低地球轨道的定位、导航与授时）系统，适用于任意星座和信号：由 signal_design 指名的 leo-signal 设计（公开预设或内联 [s
+
+seg-70d1ac6ddc95 = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>。
+
+seg-472d9e86ee20 = <b>台账：</b>MODELLED { "2" } · VALIDATED { "2" }。完整页面（含输入、结果、证据与局限）：<a1>leo-signal</a1>。
+
+seg-17d1c06ba5c5 = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>、<c12/>、<c13/>、<c14/>、<c15/>。
+
+seg-9a7671c30d7e = <b>台账：</b>MODELLED { "7" } · VALIDATED { "5" }。完整页面（含输入、结果、证据与局限）：<a1>leo-pass</a1>。
+
+seg-cba2c7f7050a = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>。
+
+seg-7ba3e667487d = <b>台账：</b>MODELLED { "5" } · VALIDATED { "6" }。完整页面（含输入、结果、证据与局限）：<a1>leo-navmsg</a1>。
+
+seg-8ca53a87d092 = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>、<c12/>。
+
+seg-389c67090de1 = <b>台账：</b>MODELLED { "3" } · VALIDATED { "2" }。完整页面（含输入、结果、证据与局限）：<a1>leo-pvt</a1>。
+
+seg-e004092d6056 = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>。
+
+seg-e485df9372e6 = <b>台账：</b>MODELLED。完整页面（含输入、结果、证据与局限）：<a1>leo-ppp</a1>。
+
+seg-089266c42199 = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>。
+
+seg-e0a3133f468f = <b>台账：</b>VALIDATED。完整页面（含输入、结果、证据与局限）：<a1>ntn-positioning</a1>。
+
+seg-ea759d0040db = 必填字段：<c1/>、<c2/>、<c3/>。可选字段：<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>。
+
+seg-db08b7916378 = <b>台账：</b>MODELLED。完整页面（含输入、结果、证据与局限）：<a1>leo-pnt-chain</a1>。
+
+seg-534d13455a76 = <s1>上一页</s1>压制干扰、欺骗干扰与频谱
+
+seg-ec3fb19fb5bd = <s1>下一页</s1>月球与地月空间
