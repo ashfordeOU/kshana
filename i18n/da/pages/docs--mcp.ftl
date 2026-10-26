@@ -21,3 +21,7 @@ seg-d107bc8e1950 = MCP-register
 seg-842b77a21c5f = Kanal
 
 seg-d6476863f862 = Funktion
+
+seg-1759a8cce7d6 = Typer
+
+seg-564133d6a0c4 = Konstellationer omkring ethvert legeme
