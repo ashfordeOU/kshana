@@ -1996,7 +1996,7 @@ js-cat-entry-heating-stardust-question = Gengiver indtrædensmodellen den offent
 
 js-cat-entry-heating-stardust-title = Stardust-kapslens indtræden
 
-js-cat-eo-coverage-question = Hvilken skadebredde, jordopløsning og genbesøgstid giver en EO-bane?
+js-cat-eo-coverage-question = Hvilken strimmelbredde, jordopløsning og genbesøgstid giver en EO-bane?
 
 js-cat-eo-coverage-title = EO-dækning
 
@@ -2120,7 +2120,7 @@ js-cat-integrity-raim-question = Opfylder geometrien alarmgrænserne (HPL / VPL)
 
 js-cat-integrity-raim-title = RAIM-integritet
 
-js-cat-jamming-demo-question = Ved hvilket jammer-til-signal-forhold mister modtageren sit lås?
+js-cat-jamming-demo-question = Ved hvilket jammer-til-signal-forhold mister modtageren låsningen?
 
 js-cat-jamming-demo-title = Jamming
 
