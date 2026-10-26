@@ -55,3 +55,11 @@ seg-ab895b157152 = <b>Registr:</b> žádný řádek matice tento druh neuvádí;
 seg-c0ef7d676ec1 = <s1>Předchozí</s1>Měření GNSS určování polohy a integrita
 
 seg-54b45b00a2f0 = <s1>Další</s1>Inerciální fúze a kvantové senzory
+
+seg-0d7bf5a4f07e = Navigace podle terénu bez GPS (TERCOM/SITAN): radarový/barometrický výškoměr porovnává profil výšky terénu s DEM ve stylu SRTM, aby odstranil drift INS.
+
+seg-c5e33c7122e2 = Graf, který engine zapisuje pro scenarios/terrain-nav.toml, druh terrain-nav
+
+seg-6bdc150ab25b = Sekvenční (rekurzivní) navigace podle terénu bez GPS: částicový filtr spouští měřicí model shody s terénem epochu po epoše (SITAN jako běžící filtr), takže se podél trasy sleduje časově proměnný drift INS, zatímco dávkový terrain-nav obnoví pouze jediný konstantní posun.
+
+seg-4aca87f022dc = Graf, který engine zapisuje pro scenarios/terrain-slam.toml, druh terrain-slam

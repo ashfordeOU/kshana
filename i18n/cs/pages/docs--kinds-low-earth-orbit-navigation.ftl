@@ -95,3 +95,5 @@ seg-db08b7916378 = <b>Registr:</b> MODELLED. Celá stránka se vstupy, výsledky
 seg-534d13455a76 = <s1>Předchozí</s1>Rušení, spoofing a spektrum
 
 seg-ec3fb19fb5bd = <s1>Další</s1>Lunární a cislunární
+
+seg-c200240dd65e = Graf, který engine zapisuje pro scenarios/ntn-5g-positioning.toml, druh ntn-positioning

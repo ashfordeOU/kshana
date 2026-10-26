@@ -27,3 +27,21 @@ seg-5fef5e8cc64e = Odolnost kvantové inerciální dead-reckoning navigace je MO
 seg-5a70fcb097dc = Volitelná pole: žádná
 
 seg-bb07c8ee153f = <b>PARTNER</b> Neposkytuje se — pouze modely výkonu; hardware se studenými atomy a hodinami je záležitostí partnera. Orákulum (NoneKind): žádné: disciplína ve vlastnictví partnera, záměrně bez modulu a bez testu
+
+seg-792218eac075 = Zdroj: <c1/>
+
+seg-c7e5582d0b24 = <c1/> (druh scénáře)
+
+seg-4f19d4fb1341 = Obecný N-rozměrný průchod libovolným balíčkem přes klíče TOML s tečkami / cesty metrik JSON.
+
+seg-cd907c72698b = Jeden běh <c1/> se shrnuje takto: obecný průchod <c2/> přes [threshold_m, accel_classical.bias] | { "15" } uzlů (tvar [{ "5" }, { "3" }]) | metriky [classical.fom.holdover_s, classical.fom.pos_rms_m]
+
+seg-502ba2c57a5f = Povinná pole: <c1/>, <c2/>, <c3/>
+
+seg-c372e390bb4f = Příklad <c1/> mimo jiné nastavuje:
+
+seg-621a18c07044 = Graf, který engine zapisuje pro scenarios/sweep-nd-inertial.toml, druh sweep-nd
+
+seg-ce006a6715e9 = <s1>Předchozí</s1>spoof
+
+seg-b9f8771ffd3d = <s1>Další</s1>sweep
