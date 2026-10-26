@@ -2479,3 +2479,375 @@ seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_cl
 seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
 
 seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs（TEXBAT のパラメーターの特性評価）; tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement（所見を固定）; tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+seg-fde8247097c3 = campaign (run_campaign_detailed, run_chain, presets, extract, to_svg)
+
+seg-d8d3a3893423 = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — メンバーの結果は単独実行とバイト単位で同一であり、整列したすべての値は単独実行の系列と等しい。the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
+
+seg-59eda109a298 = campaign (run_sweep, run_monte_carlo, ensemble); sweep (GenericAxis, coords_of, set_dotted_value); inertial (metric_stat)
+
+seg-3b9aa486bb66 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — 白色周波数雑音の時計が tau = { "3010" } s のコースティングを行う { "200" } 個のシード：真の平均 { "0" } が報告区間の内側にあり、区間の半幅が { "1.96" } sigma/sqrt(n) の { "25" }% 以内、標本分散が sigma = sqrt(q_wf tau) = { "16.459" } ns の両側 { "99" }% カイ二乗区間の内側にある；較正アンサンブル (CAP-10, 事前登録 ea451cb5, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs)：{ "200" } 個の独立したアンサンブルのうち、区間が真の平均を含んだのは { "192" } 個（Binomial({ "200" }, { "0.95" }) の { "99" } % 領域 [{ "181" }, { "197" }] の内側）、カイ二乗検定に合格したのは { "196" } 個であるのに対し、単一シードのパーセンタイル許容差（p05 と p95 が { "0.3" } sigma 以内）に合格したのは { "200" } 個中 { "183" } 個にとどまり、事前登録した { "190" } に対して NOT MET である。これはシードに脆弱な検査であり、基準を緩めずにそのまま記録している；a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+
+seg-c0c2439ee1f6 = campaign (run_compose)
+
+seg-b238a6b2bbdd = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — メンバーが一つの合成は、単独実行の数値と結果ダイジェストを読み取る)
+
+seg-a032de3144fe = campaign::optimize (run_optimize, nelder_mead)
+
+seg-94a984382eee = tests/campaign_optimize_reference.rs (事前登録 fbe6c8b3 と、ラウンド 1 のプロトコル上の未達を受けた 441f31bc：p2_prime_interior_target_range_matches_the_closed_form — 1 次元の目標解が r* = r0 { "10" }^((m(r0) - { "3" })/20) の { "6.1e-15" } 以内、{ "96" } 回の評価；p3_prime_contour_target_grid_and_nelder_mead と p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — グリッド法の最良値が run_toml 上の独立した { "41" } x { "41" } の総当たりループとビット単位で等しく、Nelder-Mead は { "177" } 回と { "161" } 回の評価で同等以上；p4_nelder_mead_reaches_the_corner_maximum；p5_the_document_is_byte_stable_and_counts_agree；p2_round1_not_met_the_box_excludes_the_closed_form（記録済みのラウンド 1 の未達を固定する）)；campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" }、{ "234" } 回の評価；a_non_finite_score_is_never_the_best；the_grid_mapping_is_the_sweeps)
+
+seg-a0c6fa7dbb46 = leo_signal (LeoSignalScenario, SignalDesign, Component, Shape, code_jitter_m, gabor_bandwidth_hz, detection_probability, threshold_for_pfa, mean_acquisition_time_s, ssc_leo_into_gnss, ssc_gnss_into_leo, jammer_tolerance, gnss_victim, preset, public_signal)
+
+seg-6d9eb1dc2a11 = leo_signal::tests (every_public_preset_parses_and_cites_a_url; detector_reduces_to_pfa_and_grows_with_snr; detection_probability_with_several_looks_matches_the_noncentral_chi_square; mean_time_of_a_perfect_detector_is_half_the_cells; compatibility_ssc_magnitudes_match_independent_quadrature; to_spectrum_band_is_consistent_with_the_design; jammer_tolerance_orders_cw_matched_wideband; e5_centred_signal_hits_e5a_and_e5b_equally; defaults_run_on_the_generic_band_preset; inline_signal_and_bad_inputs)；tests/leo_signal_reference.rs (同梱のシステム非依存シナリオはすべてワークショップのデータなしで実行できる、バンドトレードの電離圏比は (f_ref/f)^{ "2" } に等しく自由空間の差は { "20" } log10(f/f_ref) に等しい、基準 C/N0 でのジッタはそのガボール限界と帯域無制限の形式の間に収まる、ワークショップのパラメーターを使うシナリオの E5 形状検査は当該ファイルが存在する場合に整合する、そして当該ファイルをコンパイルするソースファイルはない)
+
+seg-e31094573516 = spectrum (Band::unit_psd, Band::tracked_power_dbw, BandDesign, BandCfg, PanelCfg, SpectrumScenario, Waveform, multi_band_svg); leo_signal (SignalDesign::to_spectrum_band)
+
+seg-17f462b8768d = tests/leo_signal_reference.rs (マルチバンドのウォーターフォールは 四つのパネルで実行され、UHF、L5 バンド、S、C のジャマーはそれぞれ自分のバンドだけを妨害し、単一バンドの実行は拡張によって変化しない)；leo_signal::tests::to_spectrum_band_is_consistent_with_the_design；spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+seg-8749534ecbbb = leo_pass (LeoPassScenario); leo_link::geometry (design_pass, link_geometry, numerical_check, SatMotion, UserMotion); leo_link::antenna; leo_link::itu (p676_gaseous_attenuation_db); leo_link (system_noise_temperature_k, cn0_dbhz)
+
+seg-eec596b8749d = leo_pass::tests (the_leo_pass_is_a_bell_above_flat_gnss; closed_form_doppler_agrees_with_the_numerical_derivative: { "0.01" } Hz と { "0.01" } Hz/s の未満；indoor_uhf_suffers_less_building_loss_than_c_band; rain_attenuates_c_band_more_than_s_band; iono_delay_scales_as_one_over_f_squared_across_bands; a_fully_custom_band_needs_no_preset; a_walker_constellation_and_a_tle_satellite_both_run; defaults_run_with_no_preset_named_and_every_number_has_a_unit)；leo_link::geometry::tests (kepler_velocity_is_the_derivative_of_the_position; a_designed_pass_reaches_the_requested_elevation; closed_form_range_rate_and_accel_match_central_differences_for_two_body_motion)；leo_link::antenna::tests
+
+seg-a6cfe1d09891 = leo_link::presets (SystemPreset, BandPreset, all, by_id, gnss_meo); leo_pass (resolve_bands)
+
+seg-09ebe92cc5c1 = leo_link::presets::tests (every_preset_is_sourced_and_self_consistent; only_the_celeste_preset_is_sourced_from_the_workshop)；leo_link::presets::xona_pulsar::tests (the_eirps_reproduce_the_published_minimum_power_at_ten_degrees; a_flat_pattern_lands_the_zenith_power_near_the_published_maximum: -139.1 dBW と -136.2 dBW の { "0.5" } dB 以内)；leo_link::presets::iridium::tests；leo_pass::tests (a_fully_custom_band_needs_no_preset)
+
+seg-8c33a02f0aa9 = leo_link::energy (fix_budget, duty_curve, IotReceiver, IotSignal); leo_pass (iot_section)
+
+seg-981819c1af62 = leo_link::energy::tests (stronger_signals_and_smaller_doppler_windows_fix_faster; the_doppler_rate_caps_the_coherent_time; battery_life_grows_with_the_fix_interval_toward_the_sleep_floor)；leo_pass::tests (the_run_is_deterministic_and_bad_inputs_are_rejected)
+
+seg-a8d152bb385d = leo_navmsg (LeoNavmsgScenario::midpass, worst_case_jump, elevation, geodetic_to_ecef)
+
+seg-af0e339c4fae = leo_navmsg::tests::a_mid_pass_update_is_continuous (切り替えごとの距離のジャンプは距離誤差の変化に等しく、{ "150" } s ごとに更新する補正済みの { "300" } s フィットは { "5" } cm のしきい値に合格する)；leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged；leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight (閉形式が円錐の密なサンプリングを上から抑える)
+
+seg-d8d04f2ffd50 = leo_navmsg::codec (encode, decode, write_payload, read_payload, field_table, quantisation_budget)
+
+seg-4040a549f1c1 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer; week8_resolves_near_the_reference)；leo_navmsg::tests::every_model_round_trips_through_the_binary_frame (すべてのモデルが、復号後に正確なメッセージの { "2" } mm 以内、再エンコードでビット単位で同一、反転したビットは CRC で拒否される)；leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+seg-a6f36f62a02d = leo_navmsg::text (rinex_export, rinex_import, csv_export, csv_import, calendar, from_calendar)
+
+seg-14ee5fa96ce7 = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped)；leo_navmsg::tests::rinex_and_csv_round_trips (すべてのモデルがテキストブロックの後で { "0.1" } mm 以内、CSV は完全に一致)
+
+seg-3f5b07cc8c81 = leo_navmsg::elements (EcefPoly, ephemeris_at); leo_navmsg (liu_comparison, LIU2025_TABLE)
+
+seg-1ffa5a792c36 = leo_navmsg::tests::liu22_beats_the_16_parameter_set_over_a_20_minute_arc; leo_navmsg::tests::the_ecef_polynomial_fits_a_minute_to_millimetres; leo_navmsg::tests::every_preset_resolves_and_the_atomic_preset_selects_the_zero_clock_polynomial
+
+seg-fc9c5d5b1511 = leo_fusion::doppler (solve, formal_covariance, single_pass_geometry, offset_site, closest_approach); leo_fusion::pvt_kind (run_doppler)
+
+seg-6cb8d56c57d6 = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: 位置は { "1" } mm まで、ドリフトは { "1e-6" } m/s まで；a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user)；leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: 重み付き残差 RMS が [{ "0.8" }, { "1.2" }] の範囲にあり、誤差が四つの形式 sigma 未満)；tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging)；tests/starlink_doppler_published_proxy.rs ("Unveiling Starlink for PNT" の公表されたデータセット 3 のパーセンタイル（doi:10.33012/navi.685）に対する事前登録の代替指標：衛星 { "3" } 機（マスク { "47" } deg）、高度補助なし、{ "30" } Hz で、p90 の 3 次元誤差は { "20" } s で { "92.2" } m、{ "8" } s で { "870" } m であり、公表値の { "2" } m と { "10" } m に対して、二倍以内という両方の基準は NOT MET である。いずれも高い側に外れており、未達としてアサートしている；docs/design/evidence/cap11-starlink-doppler-proxy/)
+
+seg-95f8dcd6247e = leo_fusion::joint_pvt (solve, dop, code_sigma_dll_m, SystemClock); leo_fusion::system (SystemCfg, System); leo_fusion::pvt_kind (run_joint)
+
+seg-7a8b0b7b8a37 = leo_fusion::joint_pvt::tests (dop_matches_the_hand_derived_zenith_plus_three_horizon_case: HDOP = VDOP = sqrt(4/3), TDOP = sqrt(1/3), PDOP = sqrt(8/3), GDOP = sqrt({ "3" }) が { "1e-9" } まで一致；a_lone_satellite_with_its_own_clock_adds_nothing_and_a_known_offset_does; a_noise_free_fix_recovers_position_clock_and_inter_system_bias; seeded_fixes_agree_with_their_formal_covariance; dll_noise_is_the_textbook_figure_for_gps_l1_ca)；leo_fusion::pvt_kind::tests (fusing_leo_never_worsens_the_median_pdop_and_the_isb_is_recovered)；tests/leo_fusion_scenarios.rs (meo_leo_fusion_beats_gnss_alone_and_recovers_the_leo_bias)；tests/joint_pvt_dual_freq_itrf_rtklib_oracle.rs::dual_frequency_finding_is_pinned；tests/joint_pvt_precise_itrf_rtklib_oracle.rs::precise_product_finding_is_pinned
+
+seg-d98c7b399230 = leo_fusion::ppp (run, PppScenario, LI_2019)
+
+seg-51a43af7f6b5 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } 個のシード、実行平均の NEES 平均が [{ "2.4" }, { "3.6" }] にあり、少なくとも { "75" }% のエポックが両側 { "95" }% カイ二乗帯域の内側；{ "150" } 個のシードで測定した平均は GNSS のみで { "2.84" }、LEO ありで { "2.87" }；leo_augmentation_shortens_convergence; same_seed_same_answer_and_every_number_has_a_unit)；tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+seg-c42e3bd4a4c1 = leo_fusion::timing (simulate, utc_offset_s, system_to_utc_s); leo_fusion::pvt_kind (run_timing)
+
+seg-061a0510c35c = leo_fusion::timing::tests (the_utc_offset_follows_the_is_gps_200_expression; continuous_tracking_approaches_the_measurement_floor_and_gaps_cost_time; the_filter_is_consistent_over_seeds; the_utc_offset_uncertainty_sets_a_floor)；tests/leo_fusion_scenarios.rs (leo_timing_error_grows_as_the_c_n0_falls)
+
+seg-16fa5fabfb50 = leo_fusion::presets (all, by_id, cn0_range_dbhz, noise_density_dbw_hz); leo_fusion::system (SystemCfg::build)
+
+seg-df22b3cb00fa = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url; only_one_preset_uses_workshop_material; noise_density_at_290_k_is_minus_204_dbw_per_hz)；tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios: src、scenarios、tests のソーステキストのスキャン)；leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out; a_system_needs_no_preset; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+seg-6478ad7d09eb = leo_pnt_chain (LeoPntChainScenario); leo_pass (BandCfg::signal, design_tracking); leo_navmsg (LeoNavmsgScenario::broadcast_sisre); leo_fusion::pvt_kind; leo_fusion::ppp
+
+seg-02ef52ba69f0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line)；tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: より強い EIRP、より長いフィット間隔、より大きな軌道決定の項は、それぞれ受け渡される値と融合した測位解を動かす；the_handed_on_values_are_the_stage_outputs; a_band_design_splits_the_eirp_and_reports_the_design_jitter; the_pass_export_reproduces_the_engine_range)
+
+seg-4070df5af5e4 = leo_link::spoof (range_rate_position_gradient, line_of_sight, fll_frequency_jitter_hz, doppler_consistency_window, doppler_consistency); leo_pass (SpooferCfg, spoof_section)
+
+seg-0a123a80693f = leo_link::spoof::tests (the_gradient_is_the_derivative_of_the_range_rate; fll_jitter_matches_the_formula_by_hand; a_common_mode_residual_is_a_clock_drift_and_is_not_detected; with_no_prior_and_equal_noise_the_statistic_is_the_scatter_about_the_mean; a_push_the_prior_explains_is_not_detected; a_velocity_push_is_hidden_by_a_loose_velocity_prior_only; the_information_form_equals_the_covariance_form)；tests/leo_resilience_verticals.rs (the_monitors_are_silent_before_the_onset; the_doppler_statistic_is_quadratic_in_the_jump; leo_range_rates_see_a_jump_that_gnss_range_rates_do_not)
+
+seg-8fbcf1ccbe16 = leo_link::spoof (cross_band_step); leo_pass (spoof_section: pairs, cross_band)
+
+seg-aa91bdc483b1 = leo_link::spoof::tests (the_cross_band_threshold_and_power)；tests/leo_resilience_verticals.rs (a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does_not; a_one_band_spoofer_is_seen_by_the_cross_band_monitor_at_the_onset; the_monitors_are_silent_before_the_onset)
+
+seg-b91ca5a2bd9c = leo_pass (IonoFreePair::geometry_free_stec_tecu, geometry_free_stec_sigma_tecu); leo_link::iono::geometry_free_stec_tecu
+
+seg-5d00a19cfac2 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: ピークでパスのスラント TEC に { "1e-9" } まで等しく、その sigma は { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" }) で割ったコード雑音の RSS に等しい)；tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+seg-aa2667aa0296 = receiver_trust (score, monitors, live)
+
+seg-58fcb2ec63c5 = tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests (あらゆる統計量について単調、モニターを追加してもスコアは決して上がらない、健全な統計量は { "100" } にとどまる)
+
+seg-7adaa23ce920 = telemetry (syslog: leef, rfc5424, SyslogSink; time)
+
+seg-fe08580cd8d3 = telemetry::syslog::tests (厳密な LEEF 文字列、エスケープ、重大度、RFC { "5424" } のエンベロープ、配信タイムアウトと再接続)；tests/telemetry_cli.rs
+
+seg-3b0543727850 = receiver_trust::calibration (run_dataset); receiver_trust::monitors (MonitorConfig::profile, JAMMERTEST_2024_CALIBRATED); realdata::jammertest; examples/jammertest_trust_calibration.rs
+
+seg-1a452a47b9d0 = tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (無効化、KSHANA_JAMMERTEST_DIR によるデータゲート：記録済みの選択、ホールドアウトの件数、基準ごとの判定と全体の判定)；receiver_trust::calibration::tests (タイムスタンプ、ウィンドウの対応付けとタイムゾーンのずれ、ラベル、ガードバンド、除外、選択)；receiver_trust::monitors::tests::threshold_profile_is_opt_in
+
+seg-bf0fa5e2343c = jammertest::plan (parse_catalog, parse_plan, import, import_attack_log, events_toml); jammertest::score (score_run); jammertest::dataset (run_dataset); jammertest (score_log, score_pack); examples/jammertest_score_2024.rs
+
+seg-cf2f1a572c34 = tests/jammertest_plan_roundtrip.rs (KSHANA_JAMMERTEST_PLAN_DIR によるデータゲート：{ "2025" } の計画の試験領域ごとのスロット数、カタログ ID、TOML のラウンドトリップ)；tests/jammertest_score.rs (既知の低下を含む合成ログ：検出、見逃し、評価不能、誤警報の実行、スコアカードを載せた署名付きパック)；jammertest::plan::tests；tests/jammertest_score_2024.rs (KSHANA_JAMMERTEST_DIR によるデータゲート：記録済みの実行)
+
+seg-bf1156de0226 = compliance
+
+seg-af47f52e5c9e = tests/compliance_report.rs::mapping_is_well_formed; tests/compliance_report.rs::wording_rule_holds_in_mapping_report_and_docs; tests/compliance_report.rs::empty_set_evidences_nothing; tests/compliance_report.rs::statuses_follow_the_runs_present; tests/compliance_references.rs
+
+seg-5614947f4e8e = receiver_trust (live: the gate, its TCP listener, PKSHT); outside the crate: integrations/signalk (JavaScript), integrations/opencpn (JavaScript relay, C++ native plugin), deploy/reference-build (systemd units, container)
+
+seg-e917651d5c45 = tests/receiver_trust_live_cli.rs (ゲートとその TCP リスナー、Rust 側)；integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js and integrations/signalk/test/plugin.test.js (記録した合成出力に対する { "24" } 件の Node テスト)；integrations/opencpn/test/relay.test.mjs ({ "5" } 件の Node テスト)；integrations/opencpn/test/e2e-live.mjs (実際のバイナリから TCP の受信側まで、手動と CI で実行)；integrations/opencpn/plugin/test/pksht_test.cpp and integrations/opencpn/plugin/test/trust_state_test.cpp (PKSHT パーサーとパネル状態の C++ による検査)；deploy/reference-build/check-units.sh and deploy/reference-build/test-entrypoint.sh
+
+seg-729d14cb230a = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (the bump-jump taps and Channel::bump_jumps)
+
+seg-ac14fcbe3119 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level)；iq::track::boc の単体テスト (b4_unit_grid_misses_are_the_recorded_ones：事前登録した B4 の単体テストの基準は記載のまま保持し、記録済みの未達を所見 F1 としてアサートする)
+
+seg-371e708b8b8f = iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare)
+
+seg-0e1032d7c879 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one：登録した判定を記録どおりにアサート、所見 F1；finding_model_fades_are_deeper_and_longer_than_measured；posthoc_b3_with_the_model_phase_unwrapped：報告のみ；データゲート、scripts/fetch_scint_malindi.sh で取得)；realdata::scint50 の単体テスト (model_data_through_the_harness_shows_the_wrapped_phase_finding、所見 F2)
+
+seg-98c86c10352b = iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha)
+
+seg-7b8247a4ca76 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale；c4_noise_free_two_bit_signal_verdict_is_the_recorded_one：登録した判定を記録どおりにアサート、所見 F1、finding_noise_free_sidelobes_exceed_the_cfar_rate で固定)；iq::acq の単体テスト ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
+
+seg-3e8c364433b7 = spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS)
+
+seg-e24276b8b422 = tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands；s2_closed_form_densities_verdict_is_the_recorded_one、所見 F1、finding_s2_areas_are_the_closed_form_in_band_fraction で固定；s3_iq_layer_verdict_is_the_recorded_one、所見 F2、finding_s3_per_bin_errors_follow_the_code_line_spectrum で固定；posthoc_s3_band_averaged_shape：報告のみ)
+
+seg-010ad441a092 = iq::lunanet_afs; iq::signals::lunanet (afs_q_tertiary_bits, afs_q_overlay_bits, afs_q_tiered); surface (lunanet_afs_check_spec, lunanet_afs_check_symbols, lunanet_afs_generate)
+
+seg-2d72ec7c3695 = tests/lunanet_afs_codes.rs (b4_legendre_1499_matches_and_tertiary_codes_match_except_one_printed_column, the_spec_check_reports_every_bar_and_pins_the_b4_miss)；iq::lunanet_afs::tests (sb1_round_trips_every_field_and_corrects_flipped_symbols, generated_streams_pass_and_damage_is_found)；tests/lunanet_afs_cli.rs
+
+seg-662887e17adb = standards_pack; compliance (standards-pack facts in compliance-report)
+
+seg-e2d8a0f6daa5 = tests/standards_packs.rs (pinned_outcomes：L4-T1 の未達と四件の IMO 精度テストを含む、すべてのテストのステータス)；standards_pack::tests
+
+seg-012acc12567b = evidence::roundtrip, evidence::assemble, interop::testbench (write_conditions_json), iq::campaign::conditions
+
+seg-b92c6dde9c2b = tests/round_trip_pack.rs (pack_links_scenario_conditions_log_and_score_and_verifies, conditions_that_disagree_with_the_scoring_events_are_refused, a_stated_log_hash_that_does_not_match_is_refused, published_schema_names_every_field_the_engine_writes)
+
+seg-d9eab5e90d10 = iq::track (Channel, LoopCore, design); iq::cli::track
+
+seg-a99bb0c28b00 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned)、tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py が導出した数値に対して
+
+seg-6c01cedc4ca7 = jamming (CrpaCfg, crpa_weights, run_jamming); crpa (null_steering_weights, mvdr_weights, covariance)
+
+seg-efdc3da9e0ad = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr)。照合先は xval/crpa-jamming/oracle.py から生成した xval/crpa-jamming/expected.json
+
+seg-05b174fab8a1 = jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky)
+
+seg-5adec86a588b = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression)。照合先は xval/jamming-terrain/oracle.py から生成した xval/jamming-terrain/expected.json
+
+seg-0417fac0e7e2 = jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma)
+
+seg-ca7aa6592c0d = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop)。照合先は xval/jamming-acq-agc/expected_hysteresis.json、expected_hysteresis_s1.json、expected_quantiser.json
+
+seg-80753cdc89bc = iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate)
+
+seg-96b2276484ed = tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error)、tests/fixtures/fll_handover_floor/results.csv に対して
+
+seg-e322b10ec19c = receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos
+
+seg-b5f5f47b5608 = receiver_trust::machines::rtklib::tests (緯度・経度のエポック、週/TOW と ECEF、dms は拒否、悪意のある入力)；tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log；integrations/gnss_lib_py/test_bridge.py
+
+seg-97eac8ec4604 = receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel
+
+seg-d935af6c8c6a = receiver_trust::machines::novatel::tests (固定した CRC、ASCII とバイナリのレコード、不正な CRC はスキップ、悪意のある入力)；tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report
+
+seg-d151880c7268 = receiver_trust::machines::rtcm3 (read_rtcm3, crc24q); receiver_trust::LogFormat::Rtcm3
+
+seg-68a47a4f7e3f = receiver_trust::machines::rtcm3::tests (CRC-24Q のカタログのチェック値、MSM4/MSM7 の C/N0 とエポックの統合、GLONASS 時刻と SBAS ID のマッピング、不正な CRC とその他のメッセージ)
+
+seg-a2c51966ce9e = receiver_trust::machines::gnss_sdr (read_gnss_sdr_monitor); receiver_trust::LogFormat::GnssSdr
+
+seg-696b76cdaf9a = receiver_trust::machines::gnss_sdr::tests; integrations/gnss-sdr/example.jsonl
+
+seg-2977aaca1688 = receiver_trust::machines::imu, imu_fit; surface::imu_fit; scenario [log.imu]
+
+seg-10715c98eaae = receiver_trust::machines::imu::tests; receiver_trust::machines::imu_fit::tests (既知の白色雑音係数を { "10" } % 以内で復元、拒否、TOML は AccelCfg として解析される)；tests/receiver_trust_machines.rs (方位の一致と不一致、インラインの搬送波、imu_fit)
+
+seg-6ad9867cec5c = telemetry::mqtt (discovery, state_json, connect_packet, publish_packet, MqttSink); surface::TelemetryFormat::Mqtt
+
+seg-21059291ea8b = telemetry::mqtt::tests (パケットのバイト列、ループバックのブローカー、停止したブローカーを数える)；tests/receiver_trust_machines.rs::trust_telemetry_mqtt_text_has_discovery_then_state
+
+seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py
+
+seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log：gnss_lib_py のブリッジが書き出す形式を receiver-trust に通す)；ブリッジの Python テストは、integrations/ros2/kshana_trust/test/test_bridge.py（モックエンジンによるブリッジ）、integrations/ros2/kshana_trust/test/test_engine_integration.py（実際の wheel が、定常的な測位解を nominal、{ "1.1" } km のジャンプを untrusted と採点する）、integrations/gnss_lib_py/test_bridge.py（実際の gnss_lib_py { "1.1.0" } と wheel）で、cargo ではなく pytest で実行します
+
+seg-f9767a6109d5 = hybrid_integrity::tests（コーストは、両方向とも、ハンドオフブロックが報告する共分散のトレースからちょうど始まるため、再生した対角成分が報告済みのハンドオーバーからずれることはありません。報告された交差時刻は、レポート自身のハンドオーバー sigma、プロセスノイズ PSD、カバレッジ係数から再計算され、その直前では境界が警報限界の内側に、直後では外側にあります。コースト時間はプロセスノイズ PSD にちょうど反比例してスケールし、警報限界が厳しくなると短くなります。PSD がゼロのコーストは、ゼロ時間ではなく null を報告します。「決して」は「直ちに」ではないためです。出力されるプロファイルはちょうど 一回だけ交差し、報告された交差時刻を挟みます。分散の倍増時間と警報限界の交差時刻は切り離して固定されており、精密な光学段の後では 八桁、緩い RF 段の後では 一桁以内の差になります。光学モダリティを外れるほうが RF を外れるよりコースト時間が長くなり、その差は共分散の差を水平方向の増加率で割った値にちょうど等しくなります。また random_walk_time_to_limit は、すでに外側にある場合、時刻 t で交差する場合、交差しない場合を区別します）
+
+seg-6d2b55212f40 = lunar_service, antenna
+
+seg-730b359e2c3f = antenna::tests と lunar_service::tests（パターン上で二分法により求めた半値交差は、公表されているエアリーの x = { "1.61634" } と一致し、厳密な { "1.02899" }·λ/D の幅が得られます。これにより、慣例の { "1.02" } 係数は −{ "3.010" } dB ではなく −{ "2.955" } dB に位置することが記録されます。パターンは、ボアサイトから最初のヌルまでの { "400" } 点にわたって厳密に減少します。暗黙の効率の代数は { "1e-12" } まで往復一致し、{ "0.641" } / { "0.920" } を再現します。軸外角は { "20" } 点で tan θ = R·sin γ/(r − R·cos γ) と一致し、両方の極限も { "1e-12" } まで一致します。近似コーンは、行ごとに実ビームを含みます。見出しのカウントは、それが要約する行ごとのフラグと等しく、補正値はその差に等しくなります。各行の判定は、出力されたレポートだけから再計算できます。出力される数値フィールドと真偽値フィールドにはすべて単位と出所クラスがあります。不可能な開口では、ブロックは出力されません。アンテナが未設定の場合、エクスポートは従来の 六つのキーをそのまま保ち、変更された葉は { "0" }、削除された葉は { "0" } です）、tests/validate_lunar_export_offboresight_spice.rs（flown_orbiter_export_matches_spice_geometry_and_scipy_pattern、documented_working_point_matches_anise_propagation_and_scipy_pattern）
+
+seg-9910640b7886 = tracking_loop（sdr、jamming を合成）
+
+seg-a3538a1ff1f4 = tracking_loop::tests（開ループの Costas 弁別器ジッタを、シード付き合成 IF 上で進めた sdr::correlate と照合しています。{ "3" } 回分の雑音実現をプールし、{ "900" } エポックで、35〜45 dB-Hz にわたり { "0.63" }% まで一致します。二乗損失項は、分解可能な範囲ではどこでも、二乗損失のない形より少なくとも { "3" } 倍よく合うことが求められます。約 { "32" } dB-Hz の atan 弁別器の飽和は、述べるだけでなく表明（アサート）されているため、有効範囲の限界は固定されています。閉ループの σ は、{ "4000" } エポックにわたる sdr Costas ループの実行と { "3.7" }% まで一致します。一次 DLL のランプ遅れは、sdr DLL の実行と { "0.17" }% まで一致します。bessel_i0 は表値の I₀ と { "7.4e-8" } まで一致します。ヒステリシス幅は、{ "4" } 通りの比 × { "2" } 通りの積分時間 × { "3" } 通りの帯域幅のすべてで、[{ "5" }·log₁₀ r, { "10" }·log₁₀ r] に収まることが求められます）、api::tests::tracking_loop_kind_round_trips_through_the_dispatch、tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+seg-e6236f142dae = lunar_vlbi_fim（lunar_vlbi、fim、cio、lunar_frame、frames を合成）
+
+seg-5744a8471387 = lunar_vlbi_fim::tests（lib テスト { "7" } 件：すべてのデータム表記は parse/as_str で往復一致し、未知の表記は拒否されます。ビーコンなしですべての局を固定すると、<c1/> を名指しするエラーとともに拒否されます。レバーアームは ρ/B に等しいと表明され、ビーコンの等分配は局の等分配にそれを掛けたものに等しいと表明されます。どちらも { "1e-15" } まで一致し、さらに、この幾何で 二つの予算が混同されないよう、レバーアームが { "10" } を超えるという表明もあります。フィクスチャの公表基線は { "10726.748" } km に固定され、49 サンプルのスケジュールは、相互に可視の観測が { "49" } 未満であることが表明されています。単一基線上のビーコンスペクトルは少なくとも 五桁にわたることが測定され、結果の比は AM-HM により { "1" } を、実際には { "100" } を超えることが表明されています。局とビーコンのレイアウトは、計算されたフィールドが両方とも null のまま、モデル上の比較対象は引き続き報告される、階数不足であることが表明されています。さらに、フィクスチャ自体への保護策があります。テーブル配列の後に挿入されたトップレベルのキーは、代わりに局データになってしまうため、挿入位置が表明され、解析されたシナリオがそのキーを保持していることが確認されます。失敗モードは、テストが名指しするものとは異なる構成を黙って使う実行です）
+
+seg-08708f044bb5 = lunar_dpnt::tests（純粋に加算的なガード：キー集合の差分はちょうど { "{" }correction_link, units{ "}" } であり、既存の値はすべて、変更前に取得したリテラルとビット単位で同一です。測量誤差は基線とともに非相関化しませんが、軌道項は非相関化し、また、軌道項がちょうどゼロとなるゼロ基線でも残ります。これは、その項を誤った場所に配線した場合に検出する構造的な確認です。{ "1" } m の局誤差は { "1" }:{ "1" } で伝達し、DOP で増幅されないことが証明されています。ゼロ遅延では、エイジングのない残差がビット単位で再現され、残差は遅延に対して単調で、出力される曲線は直接の実行と等しくなります。量子化ステップはビットごとにちょうど半分になり、σ² = step²/12 で、フルスケールは注入した大きさに追従します。各項を順にオフにすると、残りの 二つが直交和で回復します。衛星ごとに等しい σ は、ちょうど σ·PDOP に伝搬し、その PDOP は orbit::dop と一致します。出力されるすべてのフィールドには単位と出所クラスがあり、両方向で確認されています）
+
+seg-810a6946b5cd = lunar_station（lunar_dpnt、lunar_service の上）
+
+seg-ef86901b5985 = tests/lunar_station_coverage_reference.rs（one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt：受信機ノイズの有無にかかわらず { "1e-12" } m まで。zero_baseline_floor_is_zero_in_every_trial：{ "0" } から { "1e-9" } m まで。survey_floor_matches_the_survey_transfer_prediction：p95 は実行前に述べた { "5" } % の帯の内側。coverage_is_non_decreasing_in_the_threshold。corrected_error_grows_with_distance_along_an_azimuth。three_satellites_are_unavailable_with_a_reason_and_no_error。a_satellite_the_station_does_not_see_is_reported。deterministic_for_a_seed_and_moved_by_another。the_work_guard_refuses_an_oversized_grid。the_bundled_scenario_states_a_source_for_every_input。the_result_is_labelled_modelled_with_the_honesty_statement）、tests/lunar_station_numpy_oracle.rs（事前登録した numpy による再計算で、未達とともに記録）、lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid、tests/lunar_differential_pnt_reference.rs と、レジストリおよびクロスプラットフォームのゴールデンは変更なし（加算性）、tests/field_units_global.rs（出力されるすべてのフィールドが記述されており、免除なし）
+
+seg-641b41572fd9 = lunar_terrain（skyline、lunar_service::topocentric_basis の上）、lunar_station、lunar_service（coverage_masked、masked_visible）
+
+seg-44e74fb6a0a1 = lunar_terrain::tests（bare_sphere_horizon_is_the_dip：レイマーチは、すべての方位角で -acos(R / (R + a)) を { "1e-3" } deg まで再現します。a_cone_on_a_lat_lon_tile_matches_the_analytic_cone：同じコーンを { "0.005" } deg の緯度/経度タイルにサンプリングすると、解析的なコーンと { "0.25" } deg まで一致します。a_lat_lon_tile_is_none_outside_and_wraps_longitude。crater_in_plateau_matches_the_closed_form：球面上の平らな床のクレーターで、観測者が中心にいる場合と、中心から { "4" } km および { "7" } km の位置にいる場合について、球面のリム交差方程式から得た s を用いた閉形式のリム仰角 atan2((R + H) cos s - (R + a), (R + H) sin s) と、すべての方位角で { "0.01" } deg まで一致します。rasterised_cone_matches_the_analytic_cone：{ "200" } m の極ステレオグラフィックグリッドにラスタライズし、グリッドサンプラー経由で読み取ったコーンは、解析的なコーンと { "0.25" } deg まで一致します。projection_round_trips_through_the_rasteriser_layout。bilinear_reproduces_a_plane_exactly。stated_horizon_goes_through_the_skyline_rules。an_empty_skyline_is_exactly_the_flat_test）、tests/lunar_station_terrain.rs（without_terrain_the_document_has_no_terrain_keys。a_zero_horizon_under_a_positive_mask_is_the_flat_run（両方の種別について）。a_horizon_only_removes_satellites_and_a_wall_removes_everything：user_lt4 は平地の本数を保ち、水平線によって失われるエポックは terrain_masked となり（水平線が、局には見えない衛星を隠すことがあるため、可用性自体は上がりうる）、局での { "89" } deg の水平線では何も可用になりません。bad_terrain_sections_are_refused。the_vendored_crop_loads_and_is_oriented_as_the_source：シャクルトンとハワースのクレーター床は低く、マラパート山塊は高く、鏡像ではありません。the_station_site_horizon_from_the_crop。service_volume_dem_points_outside_the_crop_keep_the_flat_mask。a_lat_lon_dem_tile_gives_the_station_the_crop_horizon：同梱のクロップから再サンプリングしたタイルは、局にクロップの水平線を { "0.22" } deg まで与えます（上限 { "0.5" } deg、実行前に固定）。タイルのエコーと単位が付き、dem_path と dem_tile_path の併用は拒否されます。the_export_site_is_masked_by_the_terrain：エクスポートのすべての行は、可視であり、かつその方位角での地点の水平線以上であるときにだけ、地形をクリアします。幾何は動かず、CSV は地形がある場合にのみ列が増えます。the_horizon_matches_the_preregistered_numpy_ray_cast）、tests/prediction_frozen.rs と、レジストリおよびクロスプラットフォームのゴールデンは変更なし（加算性）
+
+seg-27acdf36c5da = lunar_receiver、lunar_station
+
+seg-8fa2f3da879e = lunar_receiver::tests（multipath_is_the_do229_form。dll_noise_matches_a_hand_computation：{ "45" } dB-Hz、{ "0.5" } Hz、d = { "1" }、{ "20" } ms で { "0.825279" } m。bad_sections_are_refused）、tests/lunar_station_ext.rs（receiver_absent_or_silent_is_the_plain_run。zero_baseline_multipath_is_the_difference_of_two_receivers：サンプル sigma sqrt({ "2" }) a が { "6" } % 以内。station_multipath_is_gauss_markov：ラグ 1 相関 exp(-dt / tau) が { "0.01" } 以内、単位分散が { "2" } % 以内。inter_channel_biases_are_constant_over_a_trial）、tests/prediction_frozen.rs とゴールデンは変更なし（加算性）
+
+seg-304fd4238326 = lunar_station（orbit_growth_range_sigma_m）
+
+seg-c3a151ee3d10 = tests/lunar_station_ext.rs（growth_absent_or_zero_is_the_frozen_error_run。the_growth_term_has_the_closed_form_sigma：増加あり・なしのリンク誤差の差は、{ "1600" } 回の乱数で、サンプル sigma が rate tau / sqrt({ "3" }) の { "6" } % 以内。linear_growth_is_the_first_order_propagated_error：速度誤差 dv を、ツリー内の二体問題積分器でシナリオ軌道から伝搬させると、位置は { "60" } s と { "600" } s で dv tau の { "1" } % 以内で動きます）、tests/lunar_station_published_oracle.rs::k5_growth_addendum_run（無視（ignored）、記録された補遺）
+
+seg-a866350f7eb2 = lunar_solution、lunar_station（solution_figures）
+
+seg-41f22cf8dd08 = lunar_solution::tests（one_epoch_without_height_is_the_snapshot_solve：lunar_dpnt::position_error_vector_from_range_errors と { "1e-8" } m まで等しく、ゆるい高度行は何も変えず、厳しい行は高度誤差を固定します。three_satellites_need_the_height_row。a_window_shares_the_position。bad_sections_are_refused）、tests/lunar_station_ext.rs（the_default_solution_mode_is_the_snapshot_solve：すべての数値が相対 { "1e-6" } まで一致。height_aiding_and_a_window_do_what_they_say）、tests/lunar_station_published_oracle.rs::solution_style_addendum_run（無視（ignored）、記録された補遺）
+
+seg-7217c3bf841e = tests/lunar_station_published_oracle.rs::recorded_finding_one_of_six_bars_passes（記録された数値と登録済みの合格基準の照合）、tests/lunar_station_published_oracle.rs::published_claims_comparison_run（無視（ignored）、リリースビルドで約 { "7" } s：登録済みの六つのケースを再実行し、記録された数値を表明します）
+
+seg-9b655d02dc39 = araim_reference（add_v42_subset_plan、add_v42_protection_levels_to_order）、raim（araim_subset_raim、SubsetRule）
+
+seg-feaea6cb2b12 = tests/raim_multi_sv_subsets.rs（deeper_orders_change_nothing_when_pairs_suffice。triples_are_refused_at_order_two_and_planned_deeper：N_fault,max >= { "3" }、監視されないリスクは P_THRES 以内、三つ以上の衛星を除くサブセットは監視対象、十を超える監視対象の事前確率は P_no fault q^k として { "1e-12" } まで独立に再導出されます。a_two_satellite_fault_is_found_as_a_pair：故障なしでは警報なし、二つの衛星に { "30" } m のバイアスがあるときは、正規化した分離が最大のサブセットとしてのペアとともに検出されます）、tests/araim_reference_vectors.rs と tests/integrity_araim_stanford_oracle.rs は変更なし（2 次の経路は MAAST で確認済みのものです）
+
+seg-7fa54ce845e3 = clock_integrity（run、sky_at、IntegrityCfg）、scenario（Scenario::integrity）、report（RunResult::integrity_fom）、api（clock dispatch）
+
+seg-b9a184f14d5a = tests/clock_integrity.rs（the_block_is_separate_and_absent_by_default：ホールドオーバーの数値は変わらず、拒否された { "111" } エポックは保護レベルなしで利用不可となり、runs > { "1" } では拒否されます。protection_levels_are_the_snapshot_raims_on_the_same_sky：サンプルしたすべてのエポックの HPL と VPL は、同じプリセットの空での残差ゼロの snapshot_raim とちょうど等しく、故障なしの実行は警報を発しません。a_stated_bias_is_detected_while_it_lasts：{ "60" } m のバイアスは、それが及ぶ { "10" } エポックのちょうどそこで警報を発します。every_integrity_field_has_a_unit）、clock_integrity::tests、clock のゴールデンは変更なし
+
+seg-3ba62864dd31 = cislunar_observability、observability_gramian、intersat_range、cislunar_srif
+
+seg-02de44e48cf6 = cislunar_observability::tests と observability_gramian::tests（既定の文書は、その JSON、サマリー、SVG の FNV-1a によってビット単位で固定されており、明示した既定値が何も変えないこと、および拡張キー八つが不在であることが表明されているため、キャプチャが自己比較に再生成されることはありません。加算的な <c1/> ブロックは、取り除いたうえで、それが存在する前に固定した定数と照らして再ハッシュすることで、凍結の対象から外しており、リリース済みのものが何も動いていないことを、仮定ではなく証明しています。同次の sigma のもとでの階数の不変性は、σ = { "0" }、{ "0.1" }、{ "1" }、{ "10" }、{ "100" } m で表明されています。σ_pos は σ に対してちょうど線形にスケールすることが、相対 { "1e-6" } まで表明されています。DRO の零空間はちょうど z と ż の座標軸であることが表明され、二つの原因が分離されています。同一平面上の宇宙機間の距離行は û_z = { "0" } であり、CR3BP の面外ブロックは z = { "0" } でちょうど分離します。空間ヤコビアンは、中心有限差分、およびこのクレートの独立した3 次元の距離変化率の観測量と照合されています。面外のファミリーは、平面モードでは拒否されます）
+
+seg-455bea44de27 = frame_eop、realtime_frame_eop
+
+seg-faacca83ed58 = frame_eop::tests、realtime_frame_eop::tests、tests/operational_eop_predictor_reference.rs（解析信号の係数の回復は、365 日ウィンドウで { "1e-9" } まで。バイアスとレートのフィットは、実際の行での閉形式の通常最小二乗の傾きと切片に { "1e-12" } まで等しい。発行エポック以降のすべての行の速報 UT1 と極の列を破壊する二つの先読み検出器は、Bulletin B の最終値には手を触れず、ビット単位で同一の出力を要求し、フィットの障壁をちょうど一日緩めると { "10" } 件のテストが赤になることがミューテーションで確認されています。独立に再構築したエポック一覧。対象の Bulletin B ブロックを空にし、エポックが表から外れることを示す。項の採用は、{ "6" }、{ "15" }、{ "150" }、365 日のウィンドウで確認。行数は単調。そして、既定のレポートの変更前に凍結したキャプチャを、許容差なしでフィールドごとに表明し、さらに、キャプチャに新しいキーが含まれていないことも表明するため、自己比較に黙って再生成されることはありません）、tests/operational_eop_predictor_bulletin_a_oracle.rs::predictor_mae_against_bulletin_a_and_the_pcc_range_finding、tests/operational_eop_ls_ar_bulletin_a_oracle.rs::ls_ar_predictor_against_bulletin_a_finding、tests/eop_prediction_beyond_table.rs（最後の行を超える、オプトインの EopSeries::with_ls_ar_prediction 拡張：表内の答えはビット単位で同一、予測行は ls_ar_predict に等しく、表を超える座標系の引数はクランプされず予測に従います。内部整合性）
+
+seg-c77bd56a0619 = lunar_frame_campaign（lunar_vlbi、lunar_vlbi_fim、fim、lunar、lunar_frame_realise、frames、cio、lunar_frame を合成）
+
+seg-98fa9786f0c9 = lunar_frame_campaign::tests（lib テスト { "21" } 件：ヘルマート設計を lunar_frame_realise::apply_helmert の中心有限差分と照合しています。このモジュールはデータムのためのものであり、導関数を計算しないため、[p]ₓ の符号の規約を固定します。{ "84" } 件の設計要素がすべて < { "1e-6" } まで一致します。純粋なネットワークの並進は、他の六つのパラメータへの漏れが < { "1e-6" } の純粋な並進として読み戻されます。データムの sigma は、七つのパラメータすべてで、遅延 sigma の { "3" } 倍の変化に対して { "1e-8" } までちょうど線形です。{ "16" } h の弧は { "24" } h より悪く、{ "48" } h の弧は良いと測定され、出力される秤動の掃引も同じ順序になります。最悪の並進軸は、別に測定した地球への天体固定方向の支配的な軸であり、他より > { "5" } 倍悪いと表明されます。これは、ソルバーに一切伝えていない物理のオラクルです。三つの共線ビーコンは、すべてのデータム sigma が NULL の欠陥を生じ、零方向は七パラメータの基底で出力されます。offblock_fraction とビーコン間相関は、局が固定のときはちょうど { "0.0" }、局を推定するときはどちらも > { "0" } です。比較ブロックの注入変換の数値は、転記ではなく、そのシナリオの独立した実行と相対 { "1e-14" } まで等しいことが示されています。注入/回復したデータムが文書のどこにも現れないことの保護策。月面座標系実現の出力は、作業開始前に指紋を取った、三つの入力形状に対する json‖summary‖svg の FNV-1a-64 によってバイト単位で固定されています）、tests/lunar_vlbi_campaign_spice_oracle.rs::lunar_frame_campaign_finding_stations_estimated_p2_precision（ゲート付き。厳格な lunar_frame_campaign_matches_spice_geometry_and_numpy は無視（ignored）のまま）、tests/lunar_frame_campaign_mpmath_oracle.rs::lunar_frame_campaign_datum_matches_mpmath_extended_precision（所見。創設者の決定 2026-10-02、選択肢 A：この行は MODELLED のままで、別の行の位置づけは借用しません。50 桁の mpmath オラクル（事前登録 804662d5）に対して、エンジンの局推定のデータム sigma は、事前の後退誤差の上限以内にあり、2024-01-01 で { "9.7e-6" } の差があり、{ "1e-9" } の合格基準は、どの倍精度の経路も達成できる水準を下回っていました。最良の NumPy QR 射影でも { "5.5e-9" } の差があります。この証拠は、別の行「Lunar frame datum covariance with the stations estimated, against 50-digit extended precision」を裏付けます）、tests/lunar_frame_campaign_pinv_fallback.rs::finding_step0_fresh_beacon_information_falls_back（固定）、tests/lunar_frame_campaign_cond_bar_oracle.rs::finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios（固定）
+
+seg-f3fcc6b9e10a = cislunar_arc_recovery、batch_ls
+
+seg-457a19842691 = cislunar_arc_recovery::tests と tests/cislunar_arc_recovery_reference.rs（公表されたグリッド上で、二つの境界とその比が固定されています。測定した誤差曲線は、形式的な共分散と行ごとに比較され、行ごとの二倍の上限と幾何平均の上限が課されます。陰性対照（平面 DRO の六状態）は、基準が失敗しうること、および正則化されていない推定器が、もっともらしい小さな誤差を返すのではなく { "1e6" } km を超えて発散することを表明します。パラメータ化への不変性は、すべてのプレフィックスで相対 { "1e-3" } まで表明されています。コメント、文字列リテラル、テストモジュールを取り除いたソーステキストのガードは、ヤコビアン、STM、SVD 階数、SRIF の仕組みへの言及があれば失敗し、禁止された呼び出しを注入することでミューテーションの確認がなされています。テスト専用の確認により、有限差分が解析的な行に等しいことが示されるため、解析的な経路が推定器に存在しない一方で、線形化が正しいことがわかっています。決定性はバイト単位で表明されています。リリース済みの cislunar-observability の文書は、キー集合、正規のフィンガープリント、サマリー行によって固定されています）
+
+seg-b6b73589032f = lunar_ephemeris、lunar_service
+
+seg-4cab37e82f00 = lunar_ephemeris::tests（形式と座標系の解析。ラグランジュ補間はノードで厳密で、ノード外の線形軌跡でも厳密。ICRF の要素は IAU { "2015" } の縮約を受け、明示的な icrf_to_iau_moon の適用とバイト単位で等しい。真近点角↔平均近点角は、順方向のケプラー解法に対して往復一致する。不正な形式のファイルは、理由を名指しして拒否されます）。lunar_service::tests（<c1/> が未設定のとき、レポートのキー集合と SHA-256 は固定されます。ケプラー要素の行は、単独のケプラー実行とフィールドごとに等しくなります。恒等式 σ_required · HPL_max / σ_URE = AL、その後、計算した要件でのエンドツーエンドの再実行は保護レベルの可用性 { "100" } % に達し、それを { "1" } % 上回る値での再実行は達しません。新しい二つのブロックの出力されるすべての数値フィールドは、生成された JSON から、単位と出所クラスを求めて走査されます。コミット済みのフィクスチャは、元の表と衛星ごとに一致します。表の末尾を超える期間は拒否されます）、tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged、tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+seg-34bff3218a01 = tests/field_units_global.rs（登録済みの { "61" } 種別すべてを実行し、それぞれ一つの文書形状で確認します。すべての数値の葉は、その文書自身の units ブロックの項目に解決されなければなりません。不正な形式の項目は、免除かどうかにかかわらずすべての種別で欠落として数えられるため、プレースホルダーでカバレッジを得ることはできません。免除リストは固定した上限を超えてはならず、完全にカバーされていると判明した掲載種別はゲートを不合格にするため、リストを水増しできません。また、ランナーのテーブルにない登録済みの種別は不合格となるため、新しいパックが検討されないまま紛れ込むことはできません。実際に、この作業の開始後に加わった二つの種別の両方を捕捉しました。記述されているが未定義のバックログに対する一方向のラチェット。そして、コミット済みのスキーマ文書に対する陳腐化チェック）、field_schema::tests
+
+seg-926c069f8a2e = lunar_llr（lunar_frame_campaign::beacon_information、schedule_for、solve_datum_information、lunar_vlbi_fim の上）
+
+seg-9c29f0e9a061 = tests/lunar_station_geodesy.rs（empty_or_absent_extra_lists_are_bit_identical：空のリストとベースラインの例は、既定のレポートとサマリーをバイト単位で与えます。an_added_site_never_increases_any_variance：H_after - H_before の最小固有値は、最大固有値の { "1e-9" } まで非負で、after/before のすべての sigma 比は一以下であり、追加された二つの地点はどちらも観測されます。the_rest_of_the_report_is_the_five_array_result。every_station_geodesy_field_has_a_unit。a_beacon_list_inside_the_campaign_block_is_refused）、scenarios/lunar-station-geodesy-baseline.toml と scenarios/lunar-station-geodesy-with-station.toml（同じアーカイブ済みスケジュールと同じ VLBI キャンペーンブロック）
+
+seg-c56512172ce5 = scripts/gate.sh、scripts/check-gate-receipt.sh、scripts/check-repeatability.sh、scripts/install-gate-hook.sh
+
+seg-94641c011229 = tests/source_guards.rs（{ "9" } 件のテスト：ソースツリー全体に対する両方のガード、および各ガードを両方向で採点するミューテーションフィクスチャ。衝突する両方のパスで報告される F22 パターン、出荷済みの原子的シーケンスの修正が受理されること、一意な構成要素を失ったパスでのみ報告される中途半端な修正、一時ファイルのハンドルと継承された一意なディレクトリが受理されること、壁時計が拒否されること。宣言のないピンが報告され、宣言されたものが受理され、除外のないスコープが拒否され、囲んでいるテストのドキュメントコメントでの宣言が受理されて次のテストに漏れないことが示されること。そして、ピンの各表記（十六進、十進、ダイジェスト文字列、バイト長、名前付きのバイト数、ゴールデンファイル）が検出される一方で、アルゴリズム定数、RNG のシード、小さな基数のチェックは検出されないこと）
+
+seg-416def055790 = integrity::composed_pl::tests（単調性、P0 下限、K(IR/2)、指数、下半連続性）
+
+seg-3d4a4ed81148 = integrity::lil_envelope::tests（発散、しきい値、IR による引き締めの支配性）
+
+seg-0a2804cefee1 = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs、tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding（データ依存：BIPM の系列がないときは、メッセージを出してスキップ）、tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding、tests/utck_bound_prospective_oracle.rs（D9 のラウンド { "3" }、前向き、未実行：Circular T { "465" } は 2026-10-12 に現れ、事前登録した 1000 値の規則には約 { "468" } 号までの発行が必要です）
+
+seg-477c4bbb36ab = integrity::hetero_budget::tests（correlated_fused_bias_dominates_independent_when_correlated、rho_one_single_realizer_recovers_linear_sum）+ tests/hetero_budget_reference.rs
+
+seg-75e4936b4c2d = integrity::gls_commonmode::tests（common_mode_shift_inflates_statistic_but_not_contrasts、post_fit_common_mode_statistic_is_zero）+ tests/gls_reference.rs、tests/gls_common_mode_statistic_numpy_oracle.rs::common_mode_statistic_matches_numpy_lapack
+
+seg-7bbbfeb6e7b9 = lunar_identifiability、lunar_datum
+
+seg-6ac21ece8e3d = tests/lunar_datum_identifiability_reference.rs（single_internal_range_row_has_six_dim_datum_null_space、extending_the_librating_arc_lifts_the_origin_scale_degeneracy）、tests/lunar_datum_sosnica_oracle.rs::origin_scale_correlation_and_crlb_disagree_with_the_published_geometry
+
+seg-36da2dd8d3db = lunar_datum、lunar_identifiability
+
+seg-12c2f3ad1982 = lunar_datum::tests（LLR/VLBI/周回機の解析的な偏微分と有限差分の比較）、lunar_identifiability::tests（adding_an_offradial_technique_collapses_the_origin_scale_degeneracy、crlb_diag による横方向と動径方向の比較）
+
+seg-13c488ae75a6 = lunar_llr_geometry::tests（reflector_and_station_catalogs_are_well_formed、analytic_partials_match_finite_difference、llr_one_way_range_is_earth_moon_scale、zero_datum_reproduces_nominal_range、llr_only_fisher_shows_strong_com_x_scale_degeneracy）、tests/lunar_pa_frame_realisation_guard.rs、tests/llr_datum_degeneracy_reference.rs、tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_against_ilrs_normal_points
+
+seg-f741d9570b10 = lunar_gauge::tests（coupled_marginal_well_posed_network_is_psd、coupled_marginal_twoway_equals_more_oneway_in_diverse_network、coupled_marginal_twoway_lift_three_orders、oneway_range_row_has_correct_temporal_entries、twoway_range_row_has_zero_at_offset_and_rate、time_tie_row_equals_pure_offset_vector、rate_tie_row_has_correct_structure）
+
+seg-c4c5426a700b = lunar_techniques::tests（combine_is_additive_order_independent_and_empty_is_zero - 空の選択はゼロ行列を与え、単一の選択は恒等で、ペアは独立に書いた要素ごとの和に等しく、結果は選択順序に対して不変です。adding_a_block_never_reduces_the_degeneracy_metric - 情報を加えたときの単調性。radial_diversity_beats_transverse_for_breaking_the_degeneracy - 月の裏側の周回機のブロックは、横方向の VLBI ブロックよりも縮退指標を大きく引き上げます）
+
+seg-c5ebc071ce3e = lunar_interop_budget::tests（予算に対する単調性、プロバイダーごとの CRLB のもとでの RSS 予算の削減、月面のレバーアームでの回転許容差の計算例、支配項 = 回転）
+
+seg-f4fbaefa3a11 = lunar_interop_budget::tests（CommonEphemeris は予算をゼロにします。CommonFrameTie < PerProvider。irreducible_fraction は実際の分割で > { "0.5" }。規約の順序）
+
+seg-0b39643e9152 = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable（非ゼロだが階数不足のブロック ⇒ block_spark { "1" }、f_detect { "0" }。独立な列 ⇒ block_spark { "2" }、f_detect { "1" }）、byzantine_real_network_uniform_bias_is_clock_offset（ノードの測定をすべて所有するピア = range(G) に属する時計オフセット誤差で、検出不能であり、明確なグラムのスペクトルギャップを伴う）、byzantine_redundant_net_identifies_at_least_one（独立な単一測定のピア六つ ⇒ block_spark { "7" }、f_identify { "3" }）、byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations（P⊥ = I の手計算ケースが f_detect = block_spark − { "1" }、f_identify = ⌊(block_spark − { "1" })/2⌋ を固定します）
+
+seg-70a340255eb6 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored（自己参照ネット：共通レートは N(GᵀWG) にあり、temporal_gauge_dim { "2" }。外部レートタイ行を一つ加えた後：レートはゲージから排除され、共通オフセットが残って temporal_gauge_dim { "1" }）
+
+seg-11fe79ac46b3 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable（共通バイアスは検出不能、差分は検出可能）、slope_infinity_in_range_finite_detectable（g7：b ∈ range(G) では傾き ∞、b ∉ range(G) では有限）、pernode_rank_is_state_dim_minus_eight（§{ "0" }：rank(GᵀWG) = state_dim − { "8" }、8 次元のゲージが零空間全体で、>{ "1e6" } のスペクトルギャップがある）
+
+seg-95c049581604 = telecom_timing（MASKS、eprtc_a_holdover_limit_ns、check_curve、check_mask）
+
+seg-35e253f27caa = telecom_timing::tests（mask_boundaries_follow_the_tables_exactly — 開端と閉端、G.8271.1 表 7-3 の τ = { "400" } s の間隙、表が含意するすべてのブレークポイントでの連続性。a_curve_exactly_on_the_limit_passes_and_just_above_fails。eprtc_a_holdover_envelope_follows_table_3。a_coarse_record_is_not_evaluated_against_a_filtered_mask）、tests/telecom_timing_reference.rs（telecom_timing_kind_round_trips_through_the_dispatch）、tests/telecom_masks_itu_printed_values.rs（mask_values_match_the_numbers_the_recommendations_print、figure_7_2_label_at_1_3_s_is_not_its_own_table_value）
+
+seg-f8b7bc046be6 = telecom_timing（MASKS、Segment::tau_exponent、MeasurementFilter::LowPass10HzAtSource、MaskCondition::Autonomous）
+
+seg-3ae5550f6aaa = telecom_timing::tests（g811_prc_masks_follow_clause_6_1、g812_masks_follow_tables_3_4_6_and_7、g8262_masks_follow_tables_1_3_4_and_5、g8262_1_eeec_masks_follow_tables_1_and_3、a_linear_piece_is_evaluated_without_powf、wander_masks_pass_a_quiet_white_fm_flicker_series、wander_masks_fail_the_same_series_scaled_up）
+
+seg-82af02048968 = clock_log（read_input、MeasuredPhaseReport、MEASURED_UNITS、TELECOM_LOG_UNITS）、telecom_timing（SeriesInput::clock_log）、api（clock kind [clock_log]）
+
+seg-df411365b9ab = clock_log::tests（形式ごとの手書きログ：ヘッダー、区切り文字、単位、周波数の積分、TICC のチャネルとモード、欠測とポリシー、拒否）、tests/clock_log_allantools.rs（事前登録した比較：b1_each_log_reads_to_the_reference_phase、b2_adev_tdev_and_mtie_agree_with_allantools、b3_a_telecom_series_read_from_a_log_equals_the_same_samples、b3_the_clock_kind_measured_block_is_opt_in）
+
+seg-0a789b9f3db1 = clock_log（parse_linuxptp、parse_chrony、grid_timed_offsets）
+
+seg-b1a8738d620b = clock_log::tests（ptp4l_reads_the_locked_offsets_in_ns、linuxptp_reads_only_the_named_program、ts2phc_gap_is_refused_or_filled、linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface、linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps、chrony_tracking_reads_the_local_offset_in_seconds、chrony_statistics_needs_a_source_when_there_are_two、chrony_columns_of_the_other_log_are_not_read、clock_selector_is_refused_for_timelab_and_ticc_only）。対象は tests/fixtures/clock_log/linuxptp_chrony/ のフィクスチャです
+
+seg-5fb2f4812479 = holdover_test（HoldoverTestScenario、recovery、linear_fit）、telecom_timing（check_mask、check_envelope、budget_results）
+
+seg-d028f2b41fe8 = holdover_test::tests（the_record_is_split_at_the_stated_times、holdover_figures_match_a_hand_computation、recovery_is_timed_from_the_restoration、masks_are_measured_on_the_step_their_condition_names、a_record_with_no_baseline_says_so、bad_inputs_are_refused_with_the_reason、the_report_carries_the_label_the_units_and_no_conformance_word、a_ptp4l_log_is_scored_end_to_end）
+
+seg-ea770cfea799 = ssv（constellations、geom、sweep、pattern、check）
+
+seg-9a49009f27cd = ssv::geom::tests（the_grid_has_the_booklets_2562_points_on_the_unit_sphere、the_interval_form_equals_the_general_predicate、a_user_behind_the_earth_is_blocked_and_one_beside_the_limb_is_not）、ssv::sweep::tests（a_small_shell_run_is_internally_consistent、pdop_of_a_regular_tetrahedron_like_set_is_finite_and_a_flat_set_is_not）、ssv::pattern::tests（table_b10_antenna_reads_as_gain_against_angle_from_the_boresight）
+
+seg-05a12f571867 = ssv（limb、weak）
+
+seg-4b5cbdee9714 = ssv::limb::tests（the_chapman_layer_peaks_at_its_height_with_its_density、the_surface_limb_bends_about_one_and_a_third_degrees、plasmaspheric_tec_is_a_few_tecu_for_an_equatorial_gps_to_geo_ray）、ssv::weak::tests（longer_integration_lowers_the_acquisition_threshold、aiding_narrows_the_search_and_the_loop、a_conventional_receiver_is_far_above_the_ssv_signal_levels）、ssv::scenario::tests（the_limb_medium_adds_statistics_and_can_cost_signals、a_weak_signal_receiver_replaces_the_fixed_threshold）
+
+seg-89cac0893981 = ssv::nav（run_nav、Ekf）
+
+seg-18bbbb4578fc = ssv::nav::tests（the_filter_converges_where_signals_are_plentiful_and_is_deterministic、the_covariance_is_consistent_with_the_error、without_signals_the_filter_coasts_and_the_gap_is_reported）、ssv::scenario::tests（navigation_and_formation_run_and_report）
+
+seg-59bd0b502622 = ssv::formation（run_formation、RelEkf）
+
+seg-70f8b2a10f03 = ssv::formation::tests（differencing_beats_subtracting_absolute_estimates_and_is_deterministic）、ssv::scenario::tests（navigation_and_formation_run_and_report、formation_needs_navigation_and_one_mode_only）
+
+seg-9f89545da2ca = inertial::cai_error_terms::tests（raman_transfer_short_pulse_limit_matches_the_acceleration_transfer_function、white_raman_phase_closed_form_matches_quadrature、short_pulse_band_limited_closed_form_matches_quadrature、cheinet_2008_white_phase_noise_requirement_is_reproduced、delay_term_closed_form_matches_exact_filter_quadrature、defocus_phase_is_position_independent_and_tilt_cancels、curvature_bias_monte_carlo_matches_closed_form、curvature_bias_limiting_cases、classical_aided_resolution_monte_carlo_matches_closed_form、multi_t_resolution_monte_carlo_matches_closed_form、ambiguity_limits_and_inverse）
+
+seg-869454221ef4 = telecom_timing（PRESETS、fit_noise、with_flicker_floor、synthesize_holdover）、models（ClockModel）
+
+seg-2fb7b4c2396c = telecom_timing::tests（every_preset_carries_a_named_datasheet_and_figures、the_noise_fit_envelopes_every_datasheet_point、pure_aging_matches_its_closed_form — 離散的なエイジングのランプが、一日にわたって (1/2)·D·t² の { "0.1" } % 以内、same_seed_same_series_and_hash_different_seed_different_series）、tests/oscillator_presets_measured.rs（caesium_finding_pinned、rubidium_finding_pinned、csac_finding_pinned、ocxo_preset_has_no_measured_record）
+
+seg-d31b872adcb6 = slot_timing（predicted_error_s、breach_after_sync_s、terms_at、slot_budget、ClockNoise::from_datasheet、SlotTimingScenario）、clock_state（ClockClass::Tcxo、Ocxo、Rafs、source）
+
+seg-8eba4f60f78e = tests/slot_timing_igs_holdout.rs（{ "10" } 基の GPS Block IIF 衛星クロック、IGS 最終クロックの { "14" } 日間：{ "8" } 基は { "1.5" } の合格基準以内で、G25 と G30 は最大約 2x まで楽観的、固定）、tests/slot_timing_ocxo_holdout.rs（測定した OCXO：ホールドアウトした予測は決して楽観的でなく、測定した逸脱の { "0.59" } 〜 { "0.70" }。サンプル内では { "0.98" } 〜 { "1.17" } 以内。fix 周波数項がなければ、サンプル内の予測はすべてのしきい値で楽観的）、slot_timing::tests（fix_frequency_uncertainty_alone_is_linear_in_time、reduces_to_the_holdover_inversion — すべてのクラスが holdover::holdover_seconds と { "1e-9" } まで一致、white_fm_with_fix_error_has_its_closed_form、flicker_floor_alone_is_linear_in_time、ageing_alone_is_quadratic_in_time、frequency_offsets_add_in_magnitude、the_error_at_the_breach_is_the_guard、datasheet_fit_envelopes_every_point、datasheet_classes_match_their_presets_at_one_second、a_breach_beyond_the_datasheet_is_flagged_as_extrapolated、the_report_carries_the_result_and_a_unit_for_each_field）
+
+seg-a1318b5603cd = orbital_timing（orbital_timing、visibility_half_angle_rad、max_pass_s、crosslink_neighbour_is_outside_footprint）
+
+seg-4c4e4d92c416 = orbital_timing::tests（reduces_to_the_terrestrial_tpl — 時計にフリッカー、白色位相、ランダムラン項がないとき、tpl::timing_protection_level_ns とちょうど一致、leo_geometry_matches_its_closed_forms、crosslink_independence_follows_the_footprint、an_independent_check_caps_the_ramp_before_the_pass_ends、a_crosslink_inside_the_footprint_does_not_count、a_ramp_below_the_reference_is_never_detected）
+
+seg-06c475d7eb73 = spectrum（SpectrumScenario、SpectrumModel::bin_psd_w_per_hz、SpectrumModel::band_state、effective_cn0_multi_dbhz、system_temp_k、Jammer::power_fraction_in、Jammer::duty）
+
+seg-266d9c05d9be = spectrum::tests（agrees_with_the_jamming_kind_chain — J/S は jamming::j_over_s_db と、実効 C/N0 は jamming::effective_cn0_dbhz と、Q = 1/(R_c kappa) で { "1e-9" } dB まで等しく、jamming 種別自身のテストの { "32.105" } dB のアンカーとも一致、noise_floor_is_kt0f、chirp_window_splits_whole_and_partial_sweeps、duty_weights_partial_rows、demo_scenario_runs_and_denies_l1_while_l5_survives、defaults_run_with_no_jammer、bad_inputs_are_refused）
+
+seg-1d43f89b7a30 = ephem（standish_state、StandishElements::state_at_mean_anomaly、Planet::Pluto）、solar_system（position_label）
+
+seg-1af48aec2408 = tests/solar_system_horizons_reference.rs（standish_table1_uranus_and_neptune_exceed_the_nominal_error：公称の経度誤差の { "2.04" } 倍と { "5.16" } 倍で固定され、六倍未満。pluto_from_the_1992_row_is_measured_not_validated：{ "39" } 秒角と { "1.14e9" } m 以内。standish_velocities_track_horizons_to_one_percent：最悪で速さの { "3.7e-3" }）、ephem::tests（standish_velocity_is_the_derivative_of_the_position、pluto_has_no_table2_row_and_no_stated_error）
+
+seg-de8a26ea4d61 = ephem（satellite_state、Satellite、SatelliteMethod、moon_icrf、moon_icrf_velocity）、ephem_provider（AnalyticSolarSystem）
+
+seg-06601f6fb837 = tests/solar_system_horizons_reference.rs（moons_track_horizons_to_the_measured_angles：{ "2000" } から { "2040" } にわたって惑星から見た最悪の角度誤差は、フォボス { "5.65" } deg、ダイモス { "0.38" }、イオ { "0.40" }、エウロパ { "1.63" }、ガニメデ { "0.22" }、カリスト { "0.27" }、タイタン { "3.31" }。geocentric_moon_tracks_horizons：{ "0.046" } deg）、ephem::tests（moons_sit_at_their_mean_distance_and_move_at_their_mean_speed）、ephem_provider::tests（earth_and_moon_balance_about_their_barycentre）
+
+seg-24749f350eb2 = body（Body::by_name、Body::facts、Body::prime_meridian、SOLAR_SYSTEM、BodyFacts）、solar_system（SolarSystemScenario、position_label）
+
+seg-a2ffe20b07aa = body::tests（every_catalogue_body_resolves_by_name_and_carries_its_record、a_zonal_field_is_referenced_to_its_sources_radius、retrograde_rotators_have_negative_rates_and_periods_match_the_iau_rate）、solar_system::tests（defaults_report_all_eighteen_bodies_with_tracks、earth_heliocentric_distance_is_one_au_and_period_one_year、a_planet_track_closes_on_its_orbit_and_starts_at_the_epoch_position、moons_orbit_their_planets_at_their_mean_distance、pluto_outside_its_table_is_an_error_not_a_guess、every_emitted_number_has_a_unit）、tests/body_constants_naif_oracle.rs::only_the_conventional_constants_of_other_rows_differ
+
+seg-0de56af96b3e = body_pnt（BodyPntScenario、formal_sigma、fix_error）、orbit（dop）、batch_ls（gauss_newton）、mars_pnt（chord_clears_sphere）、mars_frame（bodyfixed_to_inertial）
+
+seg-92943f4850b5 = body_pnt::tests（relay_period_is_keplers_third_law_for_the_body、an_orbiter_keeps_its_radius_and_a_lander_sits_on_the_surface、the_earth_range_never_worsens_the_formal_uncertainty、seeded_fix_errors_are_consistent_with_the_formal_sigma：各 fix 誤差の二乗平均平方根を、それ自身の形式的な sigma で割った値が [{ "0.6" }, { "1.5" }] に入ること、earth_light_time_is_minutes_at_mars_and_the_run_is_deterministic、defaults_run_around_mars_and_every_number_has_a_unit）
+
+seg-17bf1df86b49 = constellation（coverage、ConstellationDesignScenario、beidou_slots、body_by_name）
+
+seg-4d15849bdf7c = constellation::tests（prefilter_matches_brute_force_exactly — すべてのマップとカウンターは、直接の仰角テストによるスキャンと等しい、five_thousand_satellites_on_a_coarse_grid — { "5 000" } 基の衛星で、実行時間と保持したペアテストを出力する、a_clock_per_constellation_needs_one_more_satellite、beidou_geo_and_igso_geometry、lunar_shell_runs_around_the_moon、presets_are_earth_only_and_errors_are_clear、preset_counts）、tests/constellation_availability_published_spec_oracle.rs::presets_meet_the_published_dop_availability（回帰チェックのみ）、tests/coverage_dop_full_oracle.rs::finding_is_pinned、tests/coverage_dop_gnss_lib_py_oracle.rs（回帰）
