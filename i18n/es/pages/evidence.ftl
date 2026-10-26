@@ -3893,3 +3893,2733 @@ seg-8980b5ae869b = Cifra
 
 # text
 seg-f4d1ec6fc464 = Citar
+
+# attr:aria-label, text
+seg-d0566d4db829 = Reproducirlo
+
+# text
+seg-1d45f4717196 = Desde el repositorio
+
+# text
+seg-b366150de755 = Solicitar un estudio
+
+# text
+seg-ac7e1a5e344a = Pro
+
+# text
+seg-6d3d0f8c9b7c = Solicitar una evaluación de Pro
+
+# text
+seg-8f101c803442 = Cada capacidad lleva <s1>su evidencia.</s1>
+
+# text
+seg-9ef28b622a43 = { "388" } capacidades, cada una calificada. <b>{ "176" } validadas</b> frente a referencias independientes externas. <b>{ "208" } etiquetadas con honestidad como modeladas.</b> { "4" } son del socio. Nada se redondea al alza.
+
+# text
+seg-4f6445e5dd61 = Matriz de verificación <b>v{ $version }</b>
+
+# attr:aria-label
+seg-d9f0aabb4262 = Pausar el barrido
+
+# text
+seg-ae9e2459836c = capacidades
+
+# attr:aria-label
+seg-4adb5411062e = Matriz de verificación, una celda por capacidad en el orden del registro: { "176" } validadas (cuadrados rellenos), { "208" } modeladas (cuadrados huecos), { "4" } del socio (rombos). Las teclas de flecha mueven entre celdas; la capacidad y su referencia independiente se leen debajo.
+
+# text
+seg-f97cb6bf8202 = Pase el cursor por una celda o enfóquela para leer su capacidad y la referencia independiente que la califica.
+
+# text
+seg-8a1cef0b9561 = Validada: una referencia independiente externa coincide
+
+# text
+# c1: web/data/verification-matrix.json
+# c2: src/verification.rs
+seg-582c4a762fc5 = Motor v{ $version } · <c1/>, generado a partir de <c2/> · { "388" } filas · sin escenario ni semilla: el propio registro del motor
+
+# text
+seg-d5c32303297d = Leer el registro
+
+# text
+seg-f6112ab2dfdf = El registro, los resultados, el sello de reproducibilidad y las pruebas que los respaldan están todos en el motor abierto.
+
+# text
+seg-69df15091cab = Empaqueta la evidencia en un paquete de evidencias reproducible y apto para auditoría, destinado a un comité de revisión. <a1>Véase más abajo</a1>
+
+# text
+seg-9906d9824f3e = Responde a su propia pregunta con las mismas etiquetas, no es una certificación. <a1>Véase más abajo</a1>
+
+# text
+seg-f6a6cca2263c = Matriz
+
+# attr:aria-label, text
+seg-78e5feea4a80 = Resultados validados
+
+# text
+seg-b3b972c50b99 = Glosario (documentación)
+
+# text
+seg-92e427f220c0 = Resultados validados · cada valor comparado
+
+# text
+seg-a92d57eddda0 = Comprobado frente a la respuesta de otro.
+
+# text
+seg-978c14c0cbd8 = Cada recuadro representa todos los valores que el motor comparó con una referencia independiente: vectores publicados, una biblioteca de dinámica de vuelo distinta, efemérides precisas, una biblioteca de estadística, una publicación de normas y un registro de reloj medido reservado fuera del ajuste. Pase el cursor por una marca o enfóquela para ver su valor.
+
+# text
+seg-2b49d76005fd = Órbitas · analíticas
+
+# text
+seg-0155cf46a133 = Propagación de órbita SGP4 (Simplified General Perturbations { "4" })
+
+# text
+# c1: 4.12
+seg-3d4fd2b6704a = Se reprodujo cada vector de referencia de la AIAA (American Institute of Aeronautics and Astronautics), incluidos los casos de espacio profundo SDP4 (Simplified Deep-space Perturbations { "4" }). Peor caso: <c1/> mm.
+
+# text
+seg-dbb66386afbf = Un cuadrado por vector comparado, coloreado según su error de posición.
+
+# text
+seg-55fc928e19ae = referencia independiente · vectores de verificación AIAA 2006-6753
+
+# text
+seg-1d60624d525d = Cómo se comprobó
+
+# text
+# c1: fc21ac4
+# c2: tests/sgp4_verification.rs
+seg-6adbc42697f9 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+# text
+# c1: orbit-sgp4-gps.toml
+# c2: 17
+seg-58ca3da25e69 = Abrir en Kshana Studio: el mismo propagador, <c1/><s1> · semilla <c2/></s1>
+
+# attr:title
+seg-813d6d41b891 = Copiar el comando que lo reproduce
+
+# text
+seg-a0ef302e2458 = Copiar comando
+
+# text
+seg-3b6c7858f32d = { "171" } de { "171" } casos de umbral de RAIM (receiver autonomous integrity monitoring, monitorización autónoma de la integridad por el receptor) coinciden con SciPy dentro de la banda. Semilla { "7" }.
+
+# text
+seg-0921da0d292e = Integridad · estadística
+
+# text
+seg-6f311aef88fe = casos
+
+# text
+seg-36b744b97026 = Umbrales de detección de RAIM
+
+# text
+seg-db13900bdd77 = El núcleo estadístico de RAIM (receiver autonomous integrity monitoring, monitorización autónoma de la integridad por el receptor) frente a SciPy, caso por caso.
+
+# text
+seg-87734f6c52a2 = Un cuadrado por caso de SciPy, agrupados por núcleo.
+
+# text
+seg-4957eddb39ed = referencia independiente · SciPy
+
+# text
+# c1: fc21ac4
+# c2: tests/raim_reference.rs
+seg-c5d5cf50c8a9 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+# text
+# c1: integrity-raim.toml
+# c2: 7
+seg-011e33e27f59 = Abrir en Kshana Studio: el núcleo en funcionamiento, <c1/><s1> · semilla <c2/></s1>
+
+# text
+seg-e02df7620fc7 = Propagación numérica de órbita (Cowell) frente a Orekit en un arco de 24 horas: diferencia máxima de { "0.08" } m en los niveles de fuerzas { "1" } a { "5" }.
+
+# text
+seg-d52f564b4af8 = Órbitas · numéricas
+
+# text
+seg-e204506056b8 = Propagación numérica (Cowell)
+
+# text
+seg-16e820be9d20 = Frente a la biblioteca de dinámica de vuelo Orekit { "12.2" } en cada época de un arco de 24 horas, nivel de fuerzas por nivel de fuerzas.
+
+# text
+seg-2b1ea60e99a7 = Diferencia de posición frente al tiempo, por nivel de fuerzas.
+
+# text
+seg-75344d6c427a = referencia independiente · Orekit { "12.2" }
+
+# text
+# c1: fc21ac4
+# c2: tests/numerical_cowell_propagator_reference.rs
+seg-2e80a89ee20a = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+# text
+seg-44988f3835ce = Sin vista en Kshana Studio: esta comparación se ejecuta como una prueba del motor.
+
+# text
+seg-6e9e7897bbc0 = Órbitas · de milímetros a metros
+
+# text
+seg-dcde8c6ec76a = m Galileo
+
+# text
+seg-f09e813feeb3 = m Swarm-A
+
+# text
+seg-3c258b4d5ac7 = Todos los residuos orbitales en una misma escala
+
+# text
+seg-211a071c2017 = Desde las comprobaciones del propagador hasta los ajustes frente a efemérides precisas de la ESA (European Space Agency). También se muestra el orbitador lunar, por encima del umbral.
+
+# text
+seg-f5b078c26ba8 = Cada residuo en escala logarítmica, desde un milímetro hasta veinte metros.
+
+# text
+seg-6670ead3fa91 = referencia independiente · efemérides precisas de la ESA, trayectoria reconstruida del orbitador lunar, Orekit { "12.2" }, vectores de la AIAA
+
+# text
+# c1: docs/AGENCY-ORBIT-VALIDATION.md
+# c2: fc21ac4
+seg-6ce9be05ab08 = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
+
+# text
+seg-57c9f4e60efa = Sin vista en Kshana Studio: la determinación precisa de órbita se ejecuta como pruebas del motor.
+
+# text
+seg-f8f25ec2345b = Relojes · estabilidad
+
+# text
+# c1: 12
+seg-912dbb14d171 = de <c1/> valores publicados
+
+# text
+seg-e0c144321893 = Reproduce los valores de referencia de la NIST (National Institute of Standards and Technology) Special Publication (SP) { "1065" }, Tabla { "31" }, sobre su propio conjunto de datos de 1000 puntos.
+
+# text
+seg-5d3372dbff1f = Cuatro desviaciones frente al tiempo de promediado, con los valores publicados como anillos.
+
+# text
+seg-9993e306ae64 = referencia independiente · NIST SP { "1065" }
+
+# text
+# c1: fc21ac4
+# c2: tests/allan_nist_sp1065_1000point.rs
+seg-2a2794bda50f = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+# text
+# c1: clock-holdover.toml
+# c2: 42
+seg-fc6a00946a11 = Abrir en Kshana Studio: los estimadores sobre un reloj, <c1/><s1> · semilla <c2/></s1>
+
+# text
+seg-4f484b09471e = Predicción de holdover sobre un registro medido de reloj de cesio: predicho frente a medido entre { "0.84" } y { "1.03" }, dentro del factor prefijado de { "1.5" }.
+
+# text
+seg-4321e1b6bc12 = Relojes · holdover
+
+# text
+seg-7e2bad702e68 = a
+
+# text
+seg-62cf63a7bec7 = Predicción de holdover sobre un reloj de cesio real
+
+# text
+# c1: 1.5
+seg-1f59d5bb3cff = Ajustado sobre el primer tercio de un registro medido de cesio y predicho sobre los otros dos tercios: dentro del factor prefijado de <c1/>.
+
+# text
+seg-46c1dbe5c6bc = Error de tiempo medido y predicho frente al tiempo de funcionamiento a la deriva, y la ventana de la razón.
+
+# text
+seg-449f52c56c67 = referencia independiente · registro medido de cesio
+
+# text
+# c1: fc21ac4
+# c2: tests/slot_timing_cs5071a_holdout.rs
+seg-275351654591 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+# text
+# c1: slot-timing-ocxo-leo.toml
+seg-c131867720cc = Abrir en Kshana Studio: la misma inversión, <c1/><s1> · determinista</s1>
+
+# text
+seg-05dd599ce14a = Una celda por capacidad.
+
+# text
+seg-b19592bc5242 = Validado significa que coincide una fuente externa independiente: vectores de referencia publicados, otra herramienta o datos medidos. Todo lo demás dice Modelado. Elija una etiqueta para iluminar sus celdas.
+
+# text
+seg-800e31fc8f7d = Capacidades calificadas
+
+# text
+seg-1d2c8132218d = { "176" }<s1>de { "388" } validadas</s1>
+
+# text
+seg-e61158f71854 = Pase el cursor por una celda
+
+# attr:aria-label
+seg-b66d124aa8dd = Matriz de verificación: { "176" } validadas, { "208" } modeladas, { "4" } del socio, { "388" } en total
+
+# attr:title
+seg-d814d33d2b1e = allan::lag1_noise_id: la autocorrelación de retardo 1 de Riley y Greenhall ({ "2004" }) para identificar el ruido… · Validado
+
+# attr:title
+seg-3f806067da69 = osnma + kshana osnma verify: un verificador abierto, en Rust puro, del lado del receptor para Galileo OSNMA… · Validado
+
+# attr:title
+seg-10698a330a88 = Desviación de Allan/modificada/de Hadamard + identificación de ruido de ley de potencias con IC χ² · Validado
+
+# attr:title
+seg-b1508c42341f = Desviación de Allan solapada + desviación de Hadamard solapada sobre un patrón real de cesio · Validado
+
+# attr:title
+seg-a8462102ee02 = Desviación de Allan solapada + Allan modificada + desviación de tiempo en toda la escalera de AF · Validado
+
+# attr:title
+seg-29e7bbbe508c = Theo1 y desviación total (TOTVAR): estimadores de estabilidad de tau largo y rango ampliado… · Validado
+
+# attr:title
+seg-1e52731cd30d = MTIE(τ): la máxima oscilación pico a pico del error de tiempo en cualquier ventana deslizante de τ =… · Validado
+
+# attr:title
+seg-0bdb8a3e7052 = MDEV(τ): la desviación de Allan modificada solapada (ventana deslizante de segunda diferencia… · Validado
+
+# attr:title
+seg-e5651d7b5236 = Recuperación NNLS de ley de potencias (white-FM + suelo de ruido rojo) a partir de un ⁸⁸Sr medido y publicado… · Validado
+
+# attr:title
+seg-e7ada48a7ff9 = Solución de separación por hipótesis múltiples de ARAIM según el ARAIM Airborne Design Document… · Validado
+
+# attr:title
+seg-a74e42c59d5f = SGP4/SDP4, Cowell 6-DOF + perturbaciones, OD por lotes/secuencial · Validado
+
+# attr:title
+seg-4f8eeede9609 = Propagador numérico de Cowell con un modelo de fuerzas jerárquico (dos cuerpos, zonal J2–J6… · Validado
+
+# attr:title
+seg-1fecb2c8c5d7 = Fracción iluminada por SRP con el elipsoide WGS-84 como cuerpo ocultante (radio aparente de la Tierra… · Validado
+
+# attr:title
+seg-da94fc5e3b03 = SRP no esférica: un modelo de placas planas de caja y alas (Vallado ec. 8-44; cuerpo de una sola cara… · Validado
+
+# attr:title
+seg-bf16e7dc6637 = Fracción iluminada por SRP como la fracción no ocultada del flujo solar con oscurecimiento de limbo… · Modelado
+
+# attr:title
+seg-5ccaafbaf99c = Una adaptación de la termosfera empírica NRLMSISE-00 (gtd7 y gtd7d: densidades de especies… · Validado
+
+# attr:title
+seg-2fd4e498e5d6 = forces::DensityModel (Exponential por defecto, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) y… · Validado
+
+# attr:title
+seg-8c1643833e02 = La resistencia por defecto del propagador de Cowell: resistencia cuadrática frente a la co-rotación… · Validado
+
+# attr:title
+seg-c88dad1395e5 = Nivel de efemérides opcional para los términos de tercer cuerpo y SRP del Cowell numérico… · Modelado
+
+# attr:title
+seg-fc85378484a6 = La marea de presión atmosférica diurna S1 como perturbación geopotencial: Biancale y Bode… · Modelado
+
+# attr:title
+seg-5d41c94116ae = Armónicos de presión atmosférica S2 de Ray ({ "2001" }) (n <= { "4" }, prógrados y retrógrados) convertidos al… · Validado
+
+# attr:title
+seg-4e94ef6bbaf3 = Campo teseral EGM2008 opcional (hasta grado/orden { "70" }) como gravedad central del… · Validado
+
+# attr:title
+seg-1b8ba1d23a4f = Evaluación segura frente a desbordamiento inferior y a los polos de un campo totalmente normalizado hasta el grado { "2190" }… · Modelado
+
+# attr:title
+seg-ece10758305d = Runge-Kutta explícito DOP853 de Hairer { "8" }({ "5,3" }) con el error combinado de orden 5/3… · Validado
+
+# attr:title
+seg-c29a1f584c92 = Resolutor elíptico de Kepler para todo { "0" } <= e < { "1" } y todas las anomalías medias: cúbica de Markley ({ "1995" })… · Validado
+
+# attr:title
+seg-ae484d7c73e7 = Recuperar un estado de época a partir de seguimiento mixto de distancia, velocidad de distancia y acimut/elevación sobre… · Modelado
+
+# attr:title
+seg-7166587b7af6 = Asignar los códigos de exactitud de SP3 (exponentes de cabecera ++ en { "2" }^n mm, la base %f, base^n mm por registro… · Modelado
+
+# attr:title
+seg-a352259cb1c3 = Leer tablas de armónicos esféricos PDS SHADR (from_shadr, en SphericalHarmonicField en… · Validado
+
+# attr:title
+seg-bbdb377981c4 = with_gravity_field (en Body, en src/gravity_pds.rs): adjunta cualquier campo cargado… · Modelado
+
+# attr:title
+seg-0dad0a6df1ba = Recuperar un estado de época [r,v] a partir de distancias de estaciones terrestres mediante un lote de Gauss–Newton… · Validado
+
+# attr:title
+seg-9aa6eccb7941 = Solución retardada (tramo descendente) de tiempo de luz unidireccional τ = |r_rx − r_target(t−τ)|/c para… · Validado
+
+# attr:title
+seg-44b327dce46e = Efemérides de difusión IS-GPS-200 / Galileo-OS / BeiDou-OS, de keplerianas a satélite ECEF… · Validado
+
+# attr:title
+seg-b2291e777ac3 = Interpolación de Lagrange estándar del IGS de posiciones de satélite de efemérides precisas SP3 con… · Validado
+
+# attr:title
+seg-e64d4f89e37d = Mensajes CNAV de GPS tipos 10/11/30, palabras I/NAV de Galileo tipos 1-5 en páginas pares/impares nominales… · Modelado
+
+# attr:title
+seg-30fbb32b73fa = Lector de IONEX { "1.0" } (cabecera, valores I5 de columna fija, mapas de TEC y RMS, épocas absolutas… · Validado
+
+# attr:title
+seg-851595dfa46e = Filtro de Hatch sin divergencia (código libre de ionosfera transportado por el libre de ionosfera… · Modelado
+
+# attr:title
+seg-f22ecff347b8 = Posicionamiento relativo de línea base corta a partir de código y fase de portadora GPS reales de doble frecuencia… · Validado
+
+# attr:title
+seg-53b900e15215 = El reloj del receptor estimado por el filtro PPP estático de flotantes sobre GPS real de doble frecuencia… · Validado
+
+# attr:title
+seg-53508398f315 = Filtro de Kalman extendido PPP estático de flotantes sobre código y fase de portadora GPS reales de doble frecuencia… · Validado
+
+# attr:title
+seg-135f709cabd6 = Archivos de navegación RINEX 4.00-4.02: registros > EPH de GPS LNAV, Galileo I/NAV y F/NAV… · Validado
+
+# attr:title
+seg-8217e6dad5f4 = Cabeceras de observación RINEX 4.0x (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE… · Modelado
+
+# attr:title
+seg-5064320fefbc = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } posición de satélite geoestacionario a partir de una difusión… · Modelado
+
+# attr:title
+seg-b3a6e424d368 = Desfase de reloj de satélite entre los nodos de reloj tabulados de SP3 por interpolación lineal… · Validado
+
+# attr:title
+seg-f3c33c897d1c = EKF de estado de error sobre { "15" } estados INS, un reloj de receptor de dos estados y una portadora flotante… · Modelado
+
+# attr:title
+seg-d18e059df2c0 = Tres escenarios gnss-ins sobre la biblioteca de trayectorias (un buque que zigzaguea a { "8" } m/s con un… · Modelado
+
+# attr:title
+seg-94ad91994306 = Un filtro de Kalman apilado sobre posición, velocidad, fase y frecuencia del reloj alimentado… · Modelado
+
+# attr:title
+seg-6d46cb5414e3 = El EKF de estado de error de 15 estados en lazo cerrado, impulsado por incrementos de IMU con antena GNSS… · Validado
+
+# attr:title
+seg-be8fb95782af = Los archivos de movimiento bench-export entregados a los lectores propios de un simulador GNSS de código abierto proceden… · Validado
+
+# attr:title
+seg-46797187781a = Perfiles de movimiento seleccionables para el paquete gnss-ins (recta, figura-8, urbano con paradas y arranques… · Modelado
+
+# attr:title
+seg-0d1622691877 = Mecanización inercial strapdown NED WGS-84 con actitud en cuaterniones… · Validado
+
+# attr:title
+seg-6c2952f49754 = Magnitud de gravedad por armónicos esféricos + perturbación (mGal) a partir de cualquier modelo ICGEM .gfc… · Validado
+
+# attr:title
+seg-41ca7eec4a62 = La órbita de halo casi rectilínea meridional L2 { "9" }:{ "2" } del problema restringido circular que… · Modelado
+
+# attr:title
+seg-42c26212e2c9 = cr3bp::to_moon_centred_icrf transforma un estado rotatorio adimensional Tierra-Luna del CR3BP a un… · Validado
+
+# attr:title
+seg-35b2be544d26 = El tipo de escenario solar-system con planetary_kernel_path: cada cuerpo informado cuyo propio código NAIF… · Validado
+
+# attr:title
+seg-ad3763136cc7 = maneuver::porkchop_kernel: el barrido fecha de lanzamiento x fecha de llegada de C3 de salida (km²/s²)… · Validado
+
+# attr:title
+seg-0f5ae623905f = maneuver::optimise_transfer_kernel: las fechas de salida y llegada de una… · Validado
+
+# attr:title
+seg-0ae19001fe4b = Toda solución del problema de Lambert con hasta tres revoluciones completas… · Validado
+
+# attr:title
+seg-7eafc10ca9dc = Resolutor de Lambert de una revolución de Izzo-2015 (r1, r2, tiempo de vuelo → condiciones de contorno… · Validado
+
+# attr:title
+seg-a8818aea1c75 = Precesión-nutación IAU 2006/2000A, CIO GCRS↔ITRS, escalas de tiempo con segundos intercalares · Validado
+
+# attr:title
+seg-3713cbb8eb72 = Una fecha y hora de calendario UTC a una fecha juliana UTC de dos partes con el dtf2d de SOFA… · Validado
+
+# attr:title
+seg-822cd40b49f9 = Rotación terrestre a partir de una fecha juliana UT1 de dos partes en la ruta orbital, de modo que el sistema fijo a la Tierra… · Validado
+
+# attr:title
+seg-c846d8ec2e5e = Tres matrices de marco comparadas elemento a elemento o por ángulo de rotación con ERFA en… · Validado
+
+# attr:title
+seg-853ce09df9d5 = UTC de 1960-01-01 a 1971-12-31, cuando UTC corría con una tasa desplazada respecto a TAI y daba saltos… · Validado
+
+# attr:title
+seg-a0c473abd3ff = El sesgo de reloj de satélite difundido por GLONASS -tau_n + gamma_n (t - t_b) a una hora leída en… · Validado
+
+# attr:title
+seg-ca16d26f1ebe = La ruta de propagación y de marcos que comparten todos los tipos de escenario de órbita terrestre enrutados: una media SGP4… · Validado
+
+# attr:title
+seg-15ce16875e3a = Cotas de lóbulos laterales y de correlación cruzada de secuencias m/Gold, longitud↔ambigüedad · Validado
+
+# attr:title
+seg-044da209dd61 = GDOP/PDOP/HDOP/VDOP/TDOP a partir de la geometría de línea de visión mediante Q=(HᵀH)⁻¹ con una descomposición ENU local · Validado
+
+# attr:title
+seg-a9fda54b3df8 = dop_error_mc::run_geometry y check: un Monte Carlo con semilla (N = { "20,000" } épocas por… · Modelado
+
+# attr:title
+seg-cd50aaf86375 = receiver_trust::geometry: geometría de satélites por época (buena, degradada con motivos… · Modelado
+
+# attr:title
+seg-d39aa1ea5121 = Retardo de grupo ionosférico oblicuo de L1 monofrecuencia de Klobuchar a partir de los ocho α/β difundidos… · Validado
+
+# attr:title
+seg-ab6ef0477bea = El núcleo distribucional en el que descansa todo nivel de protección: la detección de fallos de instantánea… · Validado
+
+# attr:title
+seg-08740f67bcf2 = Niveles de protección por mínimos cuadrados ponderados del Apéndice J de DO-229E: D=(GᵀWG)⁻¹ a partir de… · Validado
+
+# attr:title
+seg-0597fb2464d0 = AUC (Mann-Whitney, empates ½), matriz de confusión en el umbral… · Validado
+
+# attr:title
+seg-76f7a9a22d70 = AUC de ROC + IC por bootstrap que separa anomalías reales etiquetadas; detector transparente… · Validado
+
+# attr:title
+seg-f3d7926d7464 = Ajuste NNLS de ADEV medida, bandas de consistencia χ² de NEES/NIS y el van-Loan discreto del reloj… · Validado
+
+# attr:title
+seg-cf029efb7438 = Síntesis por armónicos esféricos del campo principal IGRF-14: componentes X/Y/Z/F, declinación… · Validado
+
+# attr:title
+seg-ba97bae9110c = AUC de ROC binormal analítica = Φ(μ/(σ√{ "2" })) y el fallo mínimo detectable… · Validado
+
+# attr:title
+seg-fa9b946507f8 = Núcleos de correlación de rangos y de remuestreo del estudio de inestabilidad de decisión de resiliencia… · Validado
+
+# attr:title
+seg-c0267817b05a = Pesos de prioridad del Analytic Hierarchy Process = autovector principal (Perron) normalizado… · Validado
+
+# attr:title
+seg-3780fbf75fa5 = Weighted Sum Model (agregado aditivo normalizado min–max + clasificación) y Weighted… · Validado
+
+# attr:title
+seg-e90b04f6ed22 = Technique for Order of Preference by Similarity to Ideal Solution: min–max… · Validado
+
+# attr:title
+seg-b66a72295a62 = VlseKriterijumska Optimizacija: utilidad de grupo Sᵢ, pesar individual Rᵢ y el… · Validado
+
+# attr:title
+seg-8e3355350914 = Preference Ranking Organization METHod: índice de preferencia por pares con las seis… · Validado
+
+# attr:title
+seg-edc8867a5ae6 = ELimination Et Choix Traduisant la REalité: matrices de concordancia/discordancia, el… · Validado
+
+# attr:title
+seg-85bc967357d6 = Weighted Aggregated Sum Product ASSessment (combinación convexa normalizada linealmente… · Validado
+
+# attr:title
+seg-69652cbd7eb5 = COmplex PRoportional ASsessment: significancia de beneficio S⁺ normalizada por suma de columnas más el… · Validado
+
+# attr:title
+seg-14a9c267153c = Latencia de detección en el peor caso del detector CUSUM tabular (⌊h/(z−k)⌋+{ "1" }) y fuera de control… · Validado
+
+# attr:title
+seg-559361559e00 = Crecimiento de la varianza del error de fase en funcionamiento a la deriva q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 y su monótona… · Validado
+
+# attr:title
+seg-f35ada98dcce = Diversidad arquitectónica efectiva = número de Simpson inverso / de Hill de orden 2, 1/Σpᵢ², sobre… · Validado
+
+# attr:title
+seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry: el acimut geodésico (WGS-84)… · Validado
+
+# attr:title
+seg-f5a8c861b566 = skyline: el cañón urbano en forma cerrada (corte atan((h - a) / d) con d = (w/2) /… · Modelado
+
+# attr:title
+seg-6f4ab2e589a4 = skyline::PRESETS: cuatro geometrías REPRESENTATIVAS con lo que la nota de diseño declara… · Modelado
+
+# attr:title
+seg-206fd57a3ac7 = geometry::sky_geometry: el cofactor ENU y reloj (H^T H)^-1 con un reloj de receptor en… · Validado
+
+# attr:title
+seg-d01c7735f171 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg… · Modelado
+
+# attr:title
+seg-443eb5d0c060 = Crecimiento del error de funcionamiento a la deriva en forma cerrada + holdover hasta el umbral; clases de relojes cuánticos · Modelado
+
+# attr:title
+seg-82fc65142759 = clock_library: una ficha de dispositivo (ruido blanco de fase, FM blanco, de flicker y de paseo aleatorio más un… · Modelado
+
+# attr:title
+seg-18704e564ea4 = clock_library::card::DeviceCard::fit_phase_periodic: una ficha de dispositivo que lleva el… · Modelado
+
+# attr:title
+seg-b3a0ab1e8725 = Reloj de Kalman van-Loan de 3 estados (fase/frecuencia/deriva), estabilizado con Joseph · Modelado
+
+# attr:title
+seg-065f31b5656e = Bidireccional/TWSTFT (Sagnac), vista común GNSS, PPP; jitter del enlace→distancia · Modelado
+
+# attr:title
+seg-f66464be680e = PSD de BPSK-R/BOC, separación espectral κ, ancho de banda de Gabor, jitter del DLL, multitrayecto · Modelado
+
+# attr:title
+seg-93c350e230ed = Generador de código C/A con LFSR G1/G2 que reproduce los primeros 10 chips octales publicados en IS-GPS-200… · Validado
+
+# attr:title
+seg-934de63c594b = Acelerómetro interferométrico de átomos fríos desde primeros principios (k_eff·T², QPN) · Modelado
+
+# attr:title
+seg-c1b7c7c18be6 = Rango dinámico de ambigüedad de franjas de Mach–Zehnder: la lectura de franjas periódica en 2π fija un… · Modelado
+
+# attr:title
+seg-0b04febfad29 = Presupuesto de posición compuesto de sesgo + factor de escala + VRW + decaimiento de estabilidad durante el holdover · Modelado
+
+# attr:title
+seg-9f1d13017c2b = EKF de estado de error de 15 estados, acoplamiento débil (validado en una conducción real IMU/GNSS frente a… · Validado
+
+# attr:title
+seg-7de0c3292c0b = Balance de enlace J/S geométrico, C/N₀ antiinterferencia, pérdida de enganche por satélite · Modelado
+
+# attr:title
+seg-4c976ce425d1 = χ² asistido por reloj, RAIM, AGC, SQM fusionados en una figura de mérito de seguridad por época · Modelado
+
+# attr:title
+seg-94aef965251e = Cota en forma cerrada del error de tiempo no detectado en el peor caso = umbral del monitor + oscilador… · Modelado
+
+# attr:title
+seg-f94c1547b98c = STM del CR3BP + corrector diferencial de disparo único; NRHO meridional L2 · Validado
+
+# attr:title
+seg-ed2d780e3d9e = Correlación con mapa de gravedad, referenciada al terreno (TERCOM/SITAN), anomalía magnética · Modelado
+
+# attr:title
+seg-486011306ab7 = Anomalía de gravedad en aproximación esférica (Barthelmes STR09/02 ec. { "126" }, ICGEM… · Validado
+
+# attr:title
+seg-4483cf6d6e1b = Analizador SRTM .hgt escrito a mano (16 bits big-endian, primero la fila norte, con tratamiento de huecos) + bilineal… · Validado
+
+# attr:title
+seg-00ca5de4ee1f = Determinista, con hash de escenario, SBOM + puertas de referencia multiplataforma · Modelado
+
+# attr:title
+seg-8e59c3e84e80 = Corpus sintético etiquetado de degradaciones + ROC/AUC/confusión/Pfa-Pmd independientes del detector… · Modelado
+
+# attr:title
+seg-ee1c310ec3f1 = Estudio sintético controlado de la brecha de optimismo de AUC de dentro de la distribución→fuera de la distribución… · Modelado
+
+# attr:title
+seg-901571509bd6 = Ingestión de ADEV medida (NNLS), tabla de compromisos (holdover de temporización/inercial + beneficio)… · Modelado
+
+# attr:title
+seg-5662e2e5895c = Índices solares/geomagnéticos (tabla definicional Kp↔ap), la exosférica de Jacchia-1971… · Modelado
+
+# attr:title
+seg-c537da9d8e79 = Importador OEM CCSDS { "502.0" } (parse_oem), tolerante a líneas COMMENT / metadatos adicionales… · Validado
+
+# attr:title
+seg-beeb7d7b6dd4 = Acimut(s) de lanzamiento de dos cuerpos (sin Az = cos i / cos lat), inclinación mínima alcanzable… · Modelado
+
+# attr:title
+seg-c45e3519a7a5 = Deceleración máxima (independiente del coeficiente balístico), velocidad + altitud en el pico de g… · Modelado
+
+# attr:title
+seg-da36dafae1a0 = Geometría del triángulo espacial de SMAD: radio angular de la Tierra, ancho de franja, GSD en nadir, máximo… · Validado
+
+# attr:title
+seg-3ad96d6deb18 = Codificación/decodificación de la cabecera primaria de Space Packet CCSDS 133.0-B… · Validado
+
+# attr:title
+seg-8310f0595525 = Extensiones de Space Packet CCSDS 133.0-B-2 junto a la cabecera primaria: una cabecera secundaria… · Validado
+
+# attr:title
+seg-5bb33fefb658 = Escritor y lector de núcleos NAIF SPICE SPK de tipo { "9" } (Lagrange, pasos de tiempo desiguales)… · Validado
+
+# attr:title
+seg-0e3ee73f6878 = Escritor y lector de segmentos NAIF SPICE SPK de tipo { "3" } (polinomios de Chebyshev para… · Validado
+
+# attr:title
+seg-f7030d62e793 = Escritor y lector de los Attitude Data Messages CCSDS 504.0-B-2 en KVN y NDM/XML: AEM… · Validado
+
+# attr:title
+seg-c50a40ca4cc3 = Escritor y lector de los Orbit Data Messages CCSDS 502.0-B-3 en KVN y NDM/XML: OPM { "3.0" }… · Validado
+
+# attr:title
+seg-26a88c235d95 = Par perturbador de gradiente de gravedad en el peor caso ((3/2)(μ/R³)ΔI) como el máximo sobre actitud… · Validado
+
+# attr:title
+seg-87c35f71a0ad = Pasadas de visibilidad en el dominio del tiempo (AOS/TCA/LOS, elevación máxima, duración) de un motor… · Validado
+
+# attr:title
+seg-52b6d079e92c = Pasadas de visibilidad (AOS, TCA, LOS, elevación aparente máxima, duración) de un SGP4… · Validado
+
+# attr:title
+seg-399a6180ad73 = Es/N0 de enlace descendente a lo largo de cada pasada de un satélite sobre una estación (EIRP, pérdida en espacio libre… · Modelado
+
+# attr:title
+seg-39ce06b45cb9 = Contactos candidatos de cada pasada satélite-estación con su volumen de datos ACM; conflictos… · Modelado
+
+# attr:title
+seg-3fba182b5716 = Pérdida de trayecto en espacio libre, C/N₀, Eb/N₀, margen y cierre sobre el CCSDS { "401" } / DSN 810-005… · Validado
+
+# attr:title
+seg-c4474a20a256 = Coste por porcentaje de cobertura + ROI de cobertura por euro sobre el motor de dimensionado de constelaciones… · Modelado
+
+# attr:title
+seg-f7455ff3cea7 = Asigna un sesgo de spoofing/jamming no detectado a error efectivo → región de Stanford… · Modelado
+
+# attr:title
+seg-3b6f9365b858 = Rendimiento acotado (mejor/nominal/conservador) del interferómetro de átomos fríos: sesgo… · Modelado
+
+# attr:title
+seg-487540fed42b = Clasificación de épocas del diagrama de integridad de Stanford de TIB (nominal / no disponible / MI / HMI) · Modelado
+
+# attr:title
+seg-fdacd291d688 = Puntuación de cobertura de integridad de TIB (tasas HMI/MI/disponibilidad + veredicto de cobertura de sobrecota) · Modelado
+
+# attr:title
+seg-55b7d4cb0733 = Menú de fallos de TIB (divergencia de dominio, golpe de reloj, funcionamiento a la deriva en holdover… · Modelado
+
+# attr:title
+seg-deb93b385e06 = Veredicto de absorción no detectable de TIB (el simétrico/de repetición debe ser absorbido por el PL, nunca… · Modelado
+
+# attr:title
+seg-71e991a2fb5e = No se proporciona: Kshana es un simulador de prestaciones de navegación, no una casa de plataformas · Socio
+
+# attr:title
+seg-aad5d920d276 = No se proporciona: Kshana modela las prestaciones de la señal, no el hardware de carga útil/antena · Socio
+
+# attr:title
+seg-635ca7bf37f6 = No se proporciona: solo modelos de prestaciones; el hardware de átomos fríos/relojes es del socio · Socio
+
+# attr:title
+seg-cf461832e017 = No se proporciona: Kshana solo trata con PA de software; el PA de vuelo es del socio · Socio
+
+# attr:title
+seg-b12d70afce58 = Tasa de reloj relativista Tierra-Luna (LTC/TCL) + encadenamiento TT/TAI/UTC + conjunto · Validado
+
+# attr:title
+seg-2196751179d2 = El informe hybrid-optical-rf declara la configuración de enlace con la que realmente se ejecutó (portadora… · Modelado
+
+# attr:title
+seg-c4ba60f69a92 = El informe hybrid-optical-rf declara una disponibilidad del enlace RF, compuesta a partir de magnitudes… · Modelado
+
+# attr:title
+seg-e35847b3472a = El informe hybrid-optical-rf emite la razón de medición de distancia óptica frente a RF con el ÚNICO… · Modelado
+
+# attr:title
+seg-f2a51c1899b1 = El informe link-budget declara cada constante absoluta a partir de la cual se calculó su propio margen… · Modelado
+
+# attr:title
+seg-8f6469a6120f = Una ejecución de lunar-time-budget emite una fila de cruce reloj-frente-a-marco por clase de reloj frente a un… · Modelado
+
+# attr:title
+seg-0539c66f5cf0 = Una tabla informa del error de predicción de UT1, del error del polo del movimiento polar y su… · Validado
+
+# attr:title
+seg-a3f939d488fb = El valor por defecto en ejecución de realtime-frame-eop es la propia copia incorporada de la biblioteca de una versión literal… · Validado
+
+# attr:title
+seg-8f02a2501455 = Barrido en dos ejes de la huella de captura de superficie ponderada por patrón y limitada por altitud sobre… · Modelado
+
+# attr:title
+seg-8a1340c7c9c7 = El escenario lunar-time-budget publica sus salidas con valores de matriz en forma larga (cuadrícula… · Modelado
+
+# attr:title
+seg-4ab4a61e8167 = El bloque opcional [time_lab] del escenario lunar-time-budget modela una referencia lunar… · Modelado
+
+# attr:title
+seg-57abfe8d677e = Retardo VLBI de campo cercano para una línea base terrestre que observa una baliza lunar + parciales · Modelado
+
+# attr:title
+seg-d30dd4a12006 = Retardo VLBI de campo cercano para una línea base terrestre que observa una baliza lunar, con baliza y… · Validado
+
+# attr:title
+seg-3aa60b9c6b3c = El propio lector en Rust puro del motor para núcleos binarios NAIF (naif_kernel): el DAF… · Validado
+
+# attr:title
+seg-2acd73a9ac2d = Recepción GNSS terrestre a distancia lunar: la capa de señal débil que nombra la Tabla { "1" } de P7 y el… · Modelado
+
+# attr:title
+seg-33d1304a0519 = Determinación de órbita en una órbita de halo casi rectilínea (o en una órbita elíptica congelada)… · Modelado
+
+# attr:title
+seg-c1ee9a353523 = Fase de portadora y código GNSS terrestres de diferencia simple entre receptores en una superficie lunar… · Modelado
+
+# attr:title
+seg-69aedd00f9a3 = Información de Fisher del datum de marco lunar de siete parámetros a partir de láser desde estaciones terrestres… · Modelado
+
+# attr:title
+seg-1fbf7618a692 = Precisión de Cramer-Rao de los desfases de traslación, escala y rotación entre técnicas… · Modelado
+
+# attr:title
+seg-e415b5a77676 = Información de Fisher de h2, k2, l2 y de las amplitudes físicas de libración a partir de láser… · Modelado
+
+# attr:title
+seg-8f2d14dd394e = Dilución de la precisión aumentada con balizas para un usuario en la superficie lunar: el satélite visible… · Modelado
+
+# attr:title
+seg-d76d65cb95c5 = División exacta en el subespacio de paridad de un error de medición en la parte que RAIM no puede ver y la… · Validado
+
+# attr:title
+seg-90c252c7df52 = cmpl_horizontal acota el error de posición horizontal de k sigma aportado por el ciego… · Modelado
+
+# attr:title
+seg-92fc824c4b83 = Fusión por lotes de VLBI + distancia local lunar + distancia entre satélites para recuperar… · Validado
+
+# attr:title
+seg-4cf20252f448 = Información de Fisher M=HᵀWH, cota inferior de Cramér–Rao, rango de observabilidad / defecto de datum… · Validado
+
+# attr:title
+seg-f71ccda9ffde = Observabilidad por información de Fisher de la solución lunar conjunta: sin líneas base terrestres el… · Modelado
+
+# attr:title
+seg-cd6e8589ff01 = Ajuste de datum de Helmert de 7 parámetros + enlace de orientación ICRF a partir de una red de puntos · Validado
+
+# attr:title
+seg-04e2dd96ebd4 = DOP lunar de clase Moonlight / cobertura / disponibilidad + nivel de protección ARAIM lunar generalizado… · Validado
+
+# attr:title
+seg-b4800672c176 = Los códigos de Augmented Forward Signal de LSIS V1.0 ({ "29" } de enero de { "2025" }): el AFS-Q de 10230 chips… · Modelado
+
+# attr:title
+seg-e663cd51a1af = El núcleo de generación de la banda base AFS (LSIS-130: envolvente compleja I + jQ, I = el AFS-I… · Validado
+
+# attr:title
+seg-088515ff0767 = La trama FID { "0" } de LSIS V1.0 de { "12" } s y 6000 símbolos: patrón de sincronización de 68 símbolos, BCH… · Validado
+
+# attr:title
+seg-2e3079616926 = Una grabación AFS de Kshana adquirida, seguida y decodificada por un receptor de software independiente… · Modelado
+
+# attr:title
+seg-437e67bb2bed = Códigos de ensanchamiento GPS L1 C/A (sdr::CaCode) y subtramas LNAV 1-3 (gps_lnav: IS-GPS-200… · Modelado
+
+# attr:title
+seg-ffd1b13b8e08 = La verdad por satélite del generador de escenas IQ para una escena de efemérides de difusión GPS L1 C/A… · Validado
+
+# attr:title
+seg-f93a7f8acc5a = iq::acq::acquire (búsqueda paralela de fase de código por FFT con el umbral Marcum-Q de ley cuadrática)… · Modelado
+
+# attr:title
+seg-eef6607ed2cf = iq::campaign::detect y el ejecutor de campañas: una tabla opcional [monitors] ejecuta el IQ… · Modelado
+
+# attr:title
+seg-ee78cb937e79 = iq::campaign::detect (windows, roc) e iq::campaign::report::rocs: cada celda de una… · Modelado
+
+# attr:title
+seg-47782cefbb89 = iq::labfit (campaign, cn0, iqfit, iqreport) y [input] campaign en kshana iq labfit… · Modelado
+
+# attr:title
+seg-14e8ca05c35a = Subtramas LNAV 1-3 de Kshana (gps_lnav::encode_subframes) para los { "32" } brdc0010.22n… · Modelado
+
+# attr:title
+seg-030d1fa37f79 = Subtramas LNAV 1-3 de IS-GPS-200 (gps_lnav::encode_subframes: cuantización al más cercano… · Modelado
+
+# attr:title
+seg-e53b50d716c2 = Búsqueda paralela de fase de código (acquisition::pcps_acquire: FFT portable, plegado coherente… · Modelado
+
+# attr:title
+seg-dd83610c7054 = acquisition::pcps_acquire con su decisión por potencia de muestra sobre los nueve LuGRE no de superficie… · Modelado
+
+# attr:title
+seg-39dfb5c00daf = acquisition::pcps_acquire con la decisión por promediado de celdas (pico sobre la media de la cuadrícula… · Modelado
+
+# attr:title
+seg-c75576fbf7dc = acquisition::pcps_acquire (decisión por promediado de celdas, probabilidad de falsa alarma { "1e-7" }) con… · Modelado
+
+# attr:title
+seg-7b80adb2f3c1 = Ángulos de mirada topocéntricos por satélite (acimut en sentido horario desde el norte, elevación) y… · Validado
+
+# attr:title
+seg-8682a18623a0 = Estación de referencia diferencial de clase NovaMoon: cancelación de modo común +… · Modelado
+
+# attr:title
+seg-22e6954fe97f = Exportación de marco + tiempo + efemérides lunares alineada con LunaNet/IOAG (CCSDS OEM + KIF) con… · Modelado
+
+# attr:title
+seg-ef1f98adc881 = Subpuntuaciones por dimensión sobre las siete categorías de resiliencia propias de Kshana (no términos del DHS)… · Modelado
+
+# attr:title
+seg-a4b986bb7414 = Cuantifica cómo una única puntuación compuesta / nivel RPCF reordena las arquitecturas bajo un… · Modelado
+
+# attr:title
+seg-2c46a0ac9d47 = Registro de honestidad por resultado que califica una salida de demostración: sus anclajes externos… · Modelado
+
+# attr:title
+seg-3cf7f27d3357 = Un objeto TradeEvidence reproducible (marco fijo: escenario+semilla+motor; FoM común por… · Modelado
+
+# attr:title
+seg-24f99198842b = Fichas de dispositivo (relojes ópticos/de iones atrapados/de iones de mercurio + relojes clásicos reutilizados de… · Modelado
+
+# attr:title
+seg-acd180a7e9c1 = Cadena de transferencia de tiempo cuántica frente a clásica de extremo a extremo (funcionamiento a la deriva del reloj + precisión del enlace en… · Modelado
+
+# attr:title
+seg-cd23c8f87bd6 = Navegación por estima con INS cuántico (interferómetro de átomos fríos) frente a INS clásico de grado de navegación durante… · Modelado
+
+# attr:title
+seg-843a2f5c9332 = Catálogo etiquetado de fallos cuánticos (salto de frecuencia/deriva/pérdida de enganche del reloj; sensor… · Modelado
+
+# attr:title
+seg-cc543b168360 = Ecuaciones de movimiento rotacional de Euler (I ω̇ = τ − ω × Iω, eje principal y general… · Validado
+
+# attr:title
+seg-1cb6f416c032 = Movimiento relativo de un perseguidor alrededor de un objetivo en una órbita de referencia circular en el LVLH… · Validado
+
+# attr:title
+seg-af4f665f008c = Localizar un emisor (jammer/spoofer, o una fuente oportunista para PNT inverso) a partir de… · Modelado
+
+# attr:title
+seg-537695276e2e = Una entrada de masa puntual de 3 grados de libertad sobre una Tierra esférica en rotación a través de la Atmósfera Estándar de EE. UU.… · Validado
+
+# attr:title
+seg-325aee4e883b = Flujo de calor convectivo en el punto de estancamiento q = k sqrt(rho/R_n) V^{ "3" } con el Sutton-Graves… · Modelado
+
+# attr:title
+seg-1d456a0c1722 = Presupuesto de relación señal-ruido de un generador de imágenes en nadir (radiancia lambertiana de la escena, ecuación de la cámara, disparo… · Modelado
+
+# attr:title
+seg-177b656af61c = Ascenso plano por giro gravitatorio de un vehículo de varias etapas sobre una Tierra esférica sin rotación… · Modelado
+
+# attr:title
+seg-ef8c91c82ae6 = La ecuación bidireccional TWSTFT resuelta para T_A - T_B con transmisión y recepción de estación… · Modelado
+
+# attr:title
+seg-1d0b4b4e110f = Cn2 de Hufnagel-Valley integrada a lo largo de una trayectoria oblicua para las ondas plana y esférica… · Modelado
+
+# attr:title
+seg-c4ee04146fdd = Disponibilidad de un enlace óptico frente a un margen de enlace declarado a partir de una nube log-normal… · Modelado
+
+# attr:title
+seg-028c12c10cb9 = La distribución de la duración de interrupciones de un emplazamiento óptico acoplada al funcionamiento a la deriva en forma cerrada… · Modelado
+
+# attr:title
+seg-c3d99589cc05 = Una tabla opcional [timeseries] (duración, paso, semilla) hace que el tipo de escenario optical-atmosphere… · Modelado
+
+# attr:title
+seg-0c7d7f31e4d6 = Un lector de DSN Orbit Data Files (TRK-2-18): los grupos de registros de 36 bytes (etiqueta de archivo… · Modelado
+
+# attr:title
+seg-7956a36bcade = Control de actitud de apuntamiento inercial de un cubo rígido con tres o más ruedas de reacción equilibradas… · Validado
+
+# attr:title
+seg-84a5fe5a3fbe = El EKF multiplicativo de Lefferts-Markley-Shuster: error de actitud en ejes cuerpo y sesgo del giróscopo… · Modelado
+
+# attr:title
+seg-193da3371e11 = Actitud óptima de tres ejes a partir de observaciones vectoriales ponderadas (estrella/sol/magnetómetro… · Validado
+
+# attr:title
+seg-8da56e79e751 = Detector de adquisición de ley cuadrática (no coherente) sobre una búsqueda de fase de código × Doppler… · Validado
+
+# attr:title
+seg-d5849ac6bc94 = Fijación de ambigüedades por mínimos cuadrados enteros al estilo LAMBDA: un entero (Z) que conserva el volumen… · Validado
+
+# attr:title
+seg-2d96783440cc = Geometría de sobrevuelo hiperbólico (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, ángulo de giro δ={ "2" }·asin(1/e), impacto… · Validado
+
+# attr:title
+seg-e7d3b969f076 = Anulación de antena de patrón de recepción controlado: vectores de apuntamiento complejos de agrupación… · Validado
+
+# attr:title
+seg-dd7b728fe2b4 = La conversión IEEE-1139 de cinco coeficientes PSD↔varianza de Allan S_y(f)=Σh_α f^α → σ_y²(τ)… · Validado
+
+# attr:title
+seg-f8adbffd71d8 = Serializar y analizar el bloque COVARIANCE_START…COVARIANCE_STOP del OEM CCSDS { "502.0" }: el { "6" }×{ "6" }… · Validado
+
+# attr:title
+seg-d67d03452c0a = Presupuesto de error de posición frente a duración de funcionamiento a la deriva construido a partir de coeficientes de IMU, cada fuente de error… · Validado
+
+# attr:title
+seg-4b154bf6e19f = Una ejecución toma un plan de contactos (una lista de ventanas aos_s/los_s, cada una pidiendo a la apertura… · Modelado
+
+# attr:title
+seg-f760b89fb9f2 = Razón interferencia-señal nativa lunar, C/N₀ efectivo y pérdida de enganche para un selenográfico… · Modelado
+
+# attr:title
+seg-4f9161cdf3ee = El informe lunar-jamming ya no apoya su contorno de denegación en un solo escalar. Emite el… · Modelado
+
+# attr:title
+seg-c9d6d3cf2935 = El informe hybrid-optical-rf declara lo que el monitor chi-cuadrado de modalidad cruzada puede… · Modelado
+
+# attr:title
+seg-59df9a43a6b8 = El informe hybrid-optical-rf expone el modelo de ruido de proceso del filtro y declara cómo… · Modelado
+
+# attr:title
+seg-8b261efc9e1c = La exportación de geometría por satélite lleva, por (época, satélite), el fuera de la boresight… · Modelado
+
+# attr:title
+seg-128f88766721 = Pérdida de enganche calculada a partir de la dinámica del lazo en lugar de una razón de potencias: portadora (Costas) y… · Modelado
+
+# attr:title
+seg-dc1fcd97c3a7 = Parciales de retardo acumuladas sobre un calendario de líneas base × épocas en una Fisher… · Validado
+
+# attr:title
+seg-c17542136645 = Una tercera elección de datum, todas-las-estaciones-fijas, que mantiene fijas todas las estaciones terrestres y estima… · Modelado
+
+# attr:title
+seg-5c8e2fa3bbbf = La covarianza de baliza todas-las-estaciones-fijas del escenario lunar-vlbi-fim (cada estación terrestre… · Validado
+
+# attr:title
+seg-ce38279b5aa8 = Los tres términos que recoge una corrección diferencial entre la época en que se calcula y… · Modelado
+
+# attr:title
+seg-156151ec109a = Barrido Monte Carlo del modelo PNT diferencial lunar sobre una cuadrícula de usuarios del polo sur y un… · Modelado
+
+# attr:title
+seg-1705f4ce1f56 = Máscaras de horizonte dependientes del acimut por emplazamiento para el tipo de escenario lunar-station-coverage (el… · Modelado
+
+# attr:title
+seg-e93ebeff92a8 = La sección opcional [receiver] de lunar-station-coverage (LRS-02): dependiente de la elevación… · Modelado
+
+# attr:title
+seg-b294dec61e30 = La entrada opcional orbit_err_growth_m_per_s de lunar-station-coverage (LRS-03): un… · Modelado
+
+# attr:title
+seg-a68d82cb0c1e = La sección opcional [solution] de lunar-station-coverage (LRS-06): una altura… · Modelado
+
+# attr:title
+seg-b4996f005ec1 = El tipo de escenario lunar-station-coverage ejecutado bajo los supuestos públicos de la publicada… · Modelado
+
+# attr:title
+seg-bd66869079b4 = El paso de geometría a covarianza del nivel de protección lunar: (GᵀG)⁻¹ sobre todos-en-vista… · Validado
+
+# attr:title
+seg-f9bc824806f8 = La propia ecuación del nivel de protección por separación de soluciones de hipótesis múltiples… · Validado
+
+# attr:title
+seg-23900b097b2f = araim_reference::add_v42_subset_plan: la regla de determinación de subconjuntos del ADD v4.2 (P_THRES… · Modelado
+
+# attr:title
+seg-e5cfbf8661ff = La sección opcional [integrity] del tipo de escenario clock (clock_integrity::run): a partir de un declarado… · Modelado
+
+# attr:title
+seg-b07a36e5c271 = El umbral de observabilidad por longitud de arco cislunar en el CR3BP ESPACIAL de seis estados en lugar… · Modelado
+
+# attr:title
+seg-f88fcbfa22cf = Un ajuste por mínimos cuadrados de sesgo más tasa sobre una ventana final más el periódico principal… · Modelado
+
+# attr:title
+seg-fd5f35f76c57 = El datum de Helmert de siete parámetros propagado a partir de una CAMPAÑA DE OBSERVACIÓN SIMULADA en lugar de… · Modelado
+
+# attr:title
+seg-2c8d43fe11c7 = Un estimador por lotes de mínimos cuadrados que RECUPERA el estado inicial del jefe a partir de simulados… · Modelado
+
+# attr:title
+seg-a10c3602ff80 = Acepta una efeméride de estado tabulada centrada en la Luna (la evaluación de un núcleo SPK/BSP)… · Modelado
+
+# attr:title
+seg-4b77b4198030 = Un esquema legible por máquina que da unidad, clase de procedencia y definición de cada numérico… · Modelado
+
+# attr:title
+seg-735a5f9d5762 = La covarianza del datum de Helmert de siete parámetros, con sus dos entradas simuladas sustituidas por… · Validado
+
+# attr:title
+seg-ea7ecbe4ec1e = Las entradas opcionales extra_reflectors y extra_beacons del escenario lunar-llr-datum añaden un… · Modelado
+
+# attr:title
+seg-e55351a3a757 = La covarianza del datum de Helmert de siete parámetros de lunar-llr-datum a partir de ILRS archivados normales… · Validado
+
+# attr:title
+seg-e84dedc612c4 = ephem::moon_position, la serie lunar geocéntrica de baja precisión a la que recurre el crate… · Validado
+
+# attr:title
+seg-1af4030e7dde = Tres salvaguardas estructurales sobre el propio proceso de verificación, cada una cerrando una clase de… · Modelado
+
+# attr:title
+seg-5b9dda92c158 = TPL de separación de soluciones de tiempo escalar sobre fuentes heterogéneas; PL impulsado por… · Validado
+
+# attr:title
+seg-a1f93440e60e = PL(τ)=max(TPL_handover,HPL(τ)); PL semicontinuo inferiormente({ "0" }+)≥PL({ "0" }−); K(IR/2) máximo acumulado… · Modelado
+
+# attr:title
+seg-54d612592d08 = La envolvente de máximo acumulado sobrecubre (sin perforación en cero) una serie metrológica real en… · Validado
+
+# attr:title
+seg-54f4e009c7d5 = Sin holdover finito en el peor caso (el supremo browniano diverge); HPL asignado por IR coherente con… · Modelado
+
+# attr:title
+seg-2f43298d88c8 = Sobrecota de sesgo por fuente b = (U/k_cov)·Phi^-1(1-tail/2) + envejecimiento, que infla un publicado… · Modelado
+
+# attr:title
+seg-76baa53b1b6e = Covarianza cruzada de sesgos N×N con fuera de diagonal rho·b_i·b_j para fuentes que comparten un UTC(k)… · Modelado
+
+# attr:title
+seg-b2396f1b8e9d = Cholesky escrito a mano Omega=LL^T y blanqueo por sustitución hacia delante z=L^-1 r (Cov(z)=I… · Validado
+
+# attr:title
+seg-e7ad7dc222c3 = Estadístico de puntuación ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 para un desplazamiento de modo común… · Modelado
+
+# attr:title
+seg-91e04ed91d06 = Techo de modo común no detectable: la mayor magnitud de fallo a lo largo de una dirección d que… · Validado
+
+# attr:title
+seg-39ee9f0b7b11 = Marginal por complemento de Schur del bloque { "{" }lunocenter-X, scale{ "}" } del Helmert de 7 parámetros… · Validado
+
+# attr:title
+seg-9eaa1f56a3b7 = Clasificación del problema de datum de medición interna de distancia: una única observación de distancia… · Modelado
+
+# attr:title
+seg-e97d57d71169 = Filas jacobianas de datum para distancia LLR Tierra-reflector, diferencial VLBI lunar de dos estaciones… · Modelado
+
+# attr:title
+seg-8f2f47d609a1 = Rotación de MOON_PA_DE440 a J2000 en épocas arbitrarias dentro de 2014-01-01 a 2030-12-31 TDB… · Validado
+
+# attr:title
+seg-58aa8583d165 = Los cinco conjuntos de retrorreflectores de la cara visible en metros del marco propio PA y la tierra LLR… · Modelado
+
+# attr:title
+seg-2c37f225dfbd = La distancia unidireccional de estación terrestre a reflector de un punto normal de medición láser a la Luna: el… · Validado
+
+# attr:title
+seg-5bd57078f7ca = assemble_coupled_info construye la Fisher acoplada de 9 parámetros sobre [t_x, t_y, t_z, s… · Validado
+
+# attr:title
+seg-2cc77f037f08 = La degeneración por nodo entre distancia radial y desfase de reloj del receptor es exacta en { "1" } m a { "3.336" }… · Modelado
+
+# attr:title
+seg-193fb9b9adcf = rate_frame_jacobian(_with) da la sensibilidad de la tasa de la escala de tiempo lunar al… · Validado
+
+# attr:title
+seg-54e36f7a21b4 = classify_null_space descompone el espacio nulo del datum en solo espacial (dimensión d menos… · Validado
+
+# attr:title
+seg-f719cc938742 = MeasurementBlock contiene una campaña de medición candidata como una información de Fisher de 7x7… · Modelado
+
+# attr:title
+seg-9a8d751557dc = descomposición solo de rotación (traslación+rotación de 6 parámetros) del… · Validado
+
+# attr:title
+seg-37a04d53055c = consistency_tolerance: invierte un presupuesto de posición del usuario a un presupuesto por parámetro entre proveedores… · Modelado
+
+# attr:title
+seg-99b19ea76ee8 = interop_budget: división en reducible (enlace de marco común) e irreducible (dinámica) bajo… · Modelado
+
+# attr:title
+seg-0bdcdf560cb2 = Sobre la red lunar por nodos real con DE440 (cada fila un diferencial unidireccional entre nodos… · Validado
+
+# attr:title
+seg-5ebd7b35bd1f = byzantine_bound instancia la codificación de estimación de estado segura / observabilidad dispersa… · Modelado
+
+# attr:title
+seg-3899180aa58b = holdover_floor establece que en un conjunto de nodos autónomos conectados solo por… · Modelado
+
+# attr:title
+seg-d323b519c245 = Tres facetas de la descomposición única ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) con el… · Modelado
+
+# attr:title
+seg-94d22b2503a8 = El error máximo de intervalo de tiempo y la desviación de tiempo que el tipo de escenario telecom-timing… · Validado
+
+# attr:title
+seg-a84558dbbbfe = Límites transcritos de ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Enm. { "1" } (07/2025)… · Modelado
+
+# attr:title
+seg-e1d85bd6b885 = Siete máscaras de generación de wander MTIE y TDEV a temperatura constante para el telecom-timing… · Modelado
+
+# attr:title
+seg-fb20760cdc4c = clock_log::read_input: una capa de análisis que convierte un archivo de reloj RINEX (registros AS/AR de… · Modelado
+
+# attr:title
+seg-f786d891bc94 = clock_log::read_input con los formatos ptp4l, phc2sys, ts2phc, chrony-tracking y… · Modelado
+
+# attr:title
+seg-a208919126f0 = El tipo de escenario holdover-test: un registro de error de tiempo (un linuxptp, chrony, TICC, TimeLab o RINEX… · Modelado
+
+# attr:title
+seg-a9f96c67a8ea = Los barridos de disponibilidad del tipo de escenario gnss-ssv: por constelación (GPS, GLONASS, Galileo, BDS… · Modelado
+
+# attr:title
+seg-7beec1fba869 = Una ionosfera de Chapman, una plasmasfera de tipo Gallagher y una atmósfera neutra… · Modelado
+
+# attr:title
+seg-9bd04213bd7b = El modo [navigation] del tipo de escenario gnss-ssv: un filtro de Kalman extendido de nueve estados (posición… · Modelado
+
+# attr:title
+seg-59b78f3897ba = El modo [formation] del tipo de escenario gnss-ssv: un jefe y sus adjuntos ejecutan cada uno el filtro absoluto… · Modelado
+
+# attr:title
+seg-41d36946a448 = inertial::cai_error_terms (funciones de biblioteca, aún no accesibles desde un tipo de escenario)… · Modelado
+
+# attr:title
+seg-5960aff23d31 = allan::edf_greenhall (con los envoltorios edf_greenhall_adev, _mdev y _hdev): el completo… · Validado
+
+# attr:title
+seg-27745ffd98ee = Cuatro preajustes: OCXO (Microchip OX-208), rubidio (Microchip 8040C), cesio (Microchip… · Modelado
+
+# attr:title
+seg-f2e36db87617 = La ruta de registro medido del tipo de escenario slot-timing: la desviación de Allan solapada de una fase… · Validado
+
+# attr:title
+seg-109907bc9864 = El tipo de escenario slot-timing: el error predicho E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| +… · Modelado
+
+# attr:title
+seg-1365b5beea5d = orbital_timing::orbital_timing, accesible como la sección de spoofing del tipo de escenario slot-timing… · Modelado
+
+# attr:title
+seg-cf3bc790331a = Densidades espectrales de potencia de área unitaria de GPS L1 C/A y L2C (BPSK({ "1" })), GPS L5 y Galileo… · Validado
+
+# attr:title
+seg-7c8f9549667b = El tipo de escenario spectrum: una cuadrícula frecuencia por tiempo de la densidad espectral de potencia en banda L… · Modelado
+
+# attr:title
+seg-21a27551f400 = sigmf: leer y escribir grabaciones de Signal Metadata Format (JSON .sigmf-meta con el núcleo… · Validado
+
+# attr:title
+seg-cbf9461da030 = Posiciones heliocéntricas de Mercurio, Venus, el baricentro Tierra-Luna, la Tierra, Marte… · Validado
+
+# attr:title
+seg-6f84829bf6f5 = Posiciones geométricas del Sol, Mercurio, Venus, la Tierra y la Luna relativas a un… · Validado
+
+# attr:title
+seg-2d4dc39d352b = El tiempo de luz newtoniano unidireccional de cualquier cuerpo a cualquier otro, recibido en una época… · Validado
+
+# attr:title
+seg-ced7622e838b = Posiciones de Urano y Neptuno de la Tabla { "1" } de Standish (el valor por defecto dentro de { "1800" } d. C. a… · Modelado
+
+# attr:title
+seg-abe80edcb2c5 = La Luna geocéntrica de la serie de Montenbruck & Gill (cuyos -1.3972 grados por siglo… · Modelado
+
+# attr:title
+seg-56cf1bcf8251 = Body incorpora Mercurio, Venus, Júpiter, Saturno, Urano, Neptuno, Plutón, Fobos, Deimos, Ío… · Modelado
+
+# attr:title
+seg-c5fc2a8e4753 = Body::iau_rotation_et, la rotación de J2000 al marco fijo al cuerpo de la IAU de Mercurio… · Validado
+
+# attr:title
+seg-175fb15dc664 = El tipo de escenario body-pnt: un orbitador o un módulo de aterrizaje en superficie alrededor de un cuerpo elegido por nombre navega… · Modelado
+
+# attr:title
+seg-fdefacb7aa4b = Los generadores del tipo de escenario constellation-design: patrones Walker delta y estrella en la notación T/P/F… · Validado
+
+# attr:title
+seg-fc12c5b5204d = El motor de cobertura de constellation-design sobre el preajuste de línea base GPS de 24 ranuras bajo el… · Validado
+
+# attr:title
+seg-49e9a81112bf = El tipo de escenario constellation-design más allá de los dos casos fijados: explícito y de varias capas… · Modelado
+
+# attr:title
+seg-430480ee3de0 = Las fases del tipo de escenario campaign: cada fase ejecuta uno o más escenarios de tipos existentes… · Modelado
+
+# attr:title
+seg-4d47d2917133 = El barrido del tipo de escenario campaign (de una a tres claves con puntos de cualquier tipo, en el del barrido genérico… · Modelado
+
+# attr:title
+seg-05fe232e052e = La sección compose del tipo de escenario campaign: valores compartidos con nombre (por ejemplo la potencia de un jammer… · Modelado
+
+# attr:title
+seg-61e08d3722d8 = La sección optimize del tipo de escenario campaign (CAP-32): de una a tres claves de escenario con puntos acotadas… · Modelado
+
+# attr:title
+seg-6d032eaa4ecd = navsignal: la integral seno (sine_integral), la fracción de potencia BPSK-R dentro de una… · Validado
+
+# attr:title
+seg-0344008faf5c = leo_signal::max_doppler_hz: el mayor Doppler de satélite en una pasada cenital a la… · Validado
+
+# attr:title
+seg-1384d9815030 = El tipo de escenario leo-signal: diseños de señal parametrizados (banda, ancho de banda de transmisión, ITU… · Modelado
+
+# attr:title
+seg-bb691aa3e054 = El tipo de escenario spectrum ampliado más allá de la banda L: bandas dadas como un diseño de señal preajustado… · Modelado
+
+# attr:title
+seg-91cfb0c491d8 = ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3… · Validado
+
+# attr:title
+seg-c3262bd28ad8 = ITU-R P.618-14 sección { "2.2.1.1" } pasos { "2" } a { "10" } (trayecto oblicuo y horizontal por debajo de la lluvia… · Validado
+
+# attr:title
+seg-16f9554a4a2b = ITU-R P.618-14 sección { "2.4.1" } pasos { "3" } a { "9" } (sigma de referencia a partir de N_wet, trayecto efectivo… · Validado
+
+# attr:title
+seg-7398db38da80 = ITU-R P.2109-2 Anexo { "1" } ecuaciones ({ "1" }) a ({ "10" }) con la Tabla { "1" }: la pérdida no superada con… · Validado
+
+# attr:title
+seg-d8aa9e586ecf = Retardo de grupo { "40.3" } STEC/f^{ "2" } por banda; los coeficientes libres de ionosfera f1^2/(f1^{ "2" } - f2^{ "2" })… · Validado
+
+# attr:title
+seg-c131312392cb = leo_link::geometry::max_static_user_range_rate: una búsqueda sobre cada posición orbital y… · Validado
+
+# attr:title
+seg-10357ae7c9b3 = El tipo de escenario leo-pass: satélites a partir de una pasada diseñada, elementos, un TLE mediante SGP4 o un… · Modelado
+
+# attr:title
+seg-0b4a68a05199 = leo_link::presets: multibanda genérico (UHF, L, S, C), banda C genérica, Xona Pulsar X1/X5… · Modelado
+
+# attr:title
+seg-f5e2c76caa01 = leo_link::energy y la sección [iot] del tipo de escenario leo-pass: integración coherente limitada por… · Modelado
+
+# attr:title
+seg-43c4c2808e47 = leo_navmsg::sisre::sisre_weights: el peso radial w_R y el transversal al cuadrado… · Validado
+
+# attr:title
+seg-5bc0db905ba3 = leo_navmsg::elements::kepler_point: la evaluación kepleriana del SIS ICD de Galileo OS… · Validado
+
+# attr:title
+seg-4b5b2e636eaa = leo_navmsg::codec::crc24q: polinomio generador 0x1864CFB, valor inicial { "0" }, sin… · Validado
+
+# attr:title
+seg-aa475ec1f38b = El ajustador y el estudio comparativo del tipo de escenario leo-navmsg: una órbita de referencia integrada con J2-J6 zonal o… · Validado
+
+# attr:title
+seg-a8d1a0c8aa20 = El análisis de actualización a mitad de pasada de leo-navmsg: la pasada más alta sobre un usuario dentro de una búsqueda… · Modelado
+
+# attr:title
+seg-9877e2306ec7 = leo_navmsg::codec: la trama propia de Kshana (preámbulo, versión, modelo, longitud, carga útil… · Modelado
+
+# attr:title
+seg-b3674570d6c9 = leo_navmsg::text: un bloque de estilo RINEX-4 (> cabecera de registro EPH, línea de satélite y época… · Modelado
+
+# attr:title
+seg-30ece7b6f10e = la variante Liu22 de leo_navmsg::elements::EphemerisModel, evaluada por kepler_point… · Validado
+
+# attr:title
+seg-24e95ef0c9ee = la variante EcefPoly de leo_navmsg::elements::EphemerisModel: un polinomio ECEF por eje… · Modelado
+
+# attr:title
+seg-89d02bcdf9e8 = leo_navmsg::services: el retardo difundido de Klobuchar a cualquier portadora (el L1 del motor… · Validado
+
+# attr:title
+seg-26334e3d6bc5 = Velocidad de distancia exacta de un satélite cuya posición y velocidad fijas a la Tierra proceden de un… · Validado
+
+# attr:title
+seg-5ac58c46dbbd = Posicionamiento por lotes de Gauss-Newton a partir de la velocidad de distancia con parciales analíticas (d rho_dot / d r =… · Modelado
+
+# attr:title
+seg-1e63f2b7a7eb = Soluciones de Gauss-Newton por mínimos cuadrados ponderados sobre cualquier mezcla de sistemas, un reloj de receptor… · Modelado
+
+# attr:title
+seg-a0252001355f = Un filtro de Kalman extendido PPP de flotantes sobre código y fase libres de ionosfera: estático… · Modelado
+
+# attr:title
+seg-b2e485b4ead5 = La cota de Cramér-Rao del tiempo de llegada a partir del ancho de banda cuadrático medio (Gabor)… · Validado
+
+# attr:title
+seg-4a487a69e0f4 = Mediciones de reloj de cada satélite LEO a la vista en una posición conocida, combinadas por… · Modelado
+
+# attr:title
+seg-9750a328ac46 = Satélites a la vista y PDOP, HDOP y VDOP medianos con disponibilidad frente a la latitud… · Validado
+
+# attr:title
+seg-a584bac9a33d = Entradas independientes del sistema: cada sistema es capas Walker, elementos explícitos o un GNSS… · Modelado
+
+# attr:title
+seg-cbfc7ff68128 = El tipo de escenario leo-pnt-chain: un diseño leo-signal (preajuste público o en línea) fija un leo-pass… · Modelado
+
+# attr:title
+seg-36860c10b4d0 = La sección [spoofer] del tipo de escenario leo-pass: un spoofer falsifica, de forma autoconsistente en… · Modelado
+
+# attr:title
+seg-db029e7a6cc7 = Para cada satélite LEO y cada par de bandas de medición de distancia, la sección [spoofer] forma el… · Modelado
+
+# attr:title
+seg-8c87558cbceb = Para cada par de bandas de un satélite leo-pass el informe da el contenido total de electrones oblicuo… · Modelado
+
+# attr:title
+seg-c047f25ef400 = La covarianza del datum de Helmert de siete parámetros del escenario lunar-frame-campaign con… · Validado
+
+# attr:title
+seg-fd628e182c3e = Un resolutor de información de raíz cuadrada opcional (lunar-frame-campaign solver = "srif"; por defecto… · Validado
+
+# attr:title
+seg-e95295d74586 = Para un buque, receiver_trust decodifica las sentencias NMEA { "0183" } que un receptor y su… · Validado
+
+# attr:title
+seg-1d3aab6d8554 = Cada monitor reduce su evidencia a una razón entre estadístico y umbral; la puntuación es { "100" }… · Modelado
+
+# attr:title
+seg-43a58d2f2e32 = Flujos NMEA { "0183" } sintéticos de puente para formación de tripulaciones (kshana nmea-scenario): GGA, RMC… · Validado
+
+# attr:title
+seg-b53303d52991 = La lectura de los códigos de exactitud e integridad de navegación ADS-B que usa el mapa (el EPU… · Validado
+
+# attr:title
+seg-3e274aa29264 = Confianza GNSS (puntuación, banda, motivos, puerta y, si se solicita, posición) como texto de Prometheus… · Validado
+
+# attr:title
+seg-16f2bbb013f5 = Eventos de cambio de banda (o por época) como cargas Common Event Format en un RFC { "5424" }… · Validado
+
+# attr:title
+seg-b8601543ee77 = Eventos de cambio de banda (o por época) como cargas Log Event Extended Format { "2.0" } en un RFC… · Modelado
+
+# attr:title
+seg-001347eb4f7e = Un paquete de evidencias firmado y encadenado por hash de un evento de confianza GNSS: SHA-256 sobre cada archivo y… · Validado
+
+# attr:title
+seg-7d9a0122ebcf = evidence::tsa::verify_token, y kshana evidence verify --tsa-ca <anchors.pem> opcional… · Validado
+
+# attr:title
+seg-cfc6c2986f15 = receiver_trust::calibration::run_dataset: la calibración preregistrada del… · Modelado
+
+# attr:title
+seg-7f6d9ae684a1 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): la prueba NPRA… · Modelado
+
+# attr:title
+seg-a0f30d0040c6 = La posición fija a la Tierra, la posición geodésica y la velocidad fija a la Tierra del CSV de movimiento… · Validado
+
+# attr:title
+seg-ceb7d7c4aa9a = compliance (kshana compliance-report): una correspondencia entre las salidas de Kshana y las cláusulas de… · Modelado
+
+# attr:title
+seg-7a4ba53202ae = La puntuación de confianza, la banda, los motivos, el estado de la puerta y la posición informada por el receptor publicados… · Modelado
+
+# attr:title
+seg-5618f7c6904c = El campo boc de iq::track::LoopConfig (opcional, None por defecto): los tres DLL… · Modelado
+
+# attr:title
+seg-b9c85204d2be = iq::channel::scint, el modelo de centelleo de Cornell (intensidad de Rice, de segundo orden… · Modelado
+
+# attr:title
+seg-962ef2cf8ab0 = iq::acq::ca_cfar y ca_cfar_cells (opcional): una celda de una cuadrícula de adquisición se compara… · Modelado
+
+# attr:title
+seg-b30aadd2c937 = spectrum::default_band resuelve, solo por nombre (MORE_BAND_NAMES), GLONASS L1OF y L2OF… · Modelado
+
+# attr:title
+seg-ef32d4666b43 = iq::signals::beidou::b1i_bits y b1i: los códigos Gold de BDS-SIS-ICD-B1I-3.0 truncados a… · Validado
+
+# attr:title
+seg-08e2f936c1c3 = iq::signals::gps::l1c_p_bits, l1c_d_bits y l1c_o_bits: los códigos de distancia Weil L1CP y L1CD… · Validado
+
+# attr:title
+seg-449f1fd5a4a0 = iq::signals::lunanet::afs_i_bits y afs_q_primary_bits (nombres de señal lunanet-afs-i y… · Validado
+
+# attr:title
+seg-a2f797219cd6 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs… · Modelado
+
+# attr:title
+seg-1780616b8677 = standards_pack (kshana standards-pack): los perfiles de prueba del marco Resilient PNT del DHS… · Modelado
+
+# attr:title
+seg-499dcb74620c = evidence::roundtrip (kshana evidence round-trip) y el kshana.test-conditions/1… · Modelado
+
+# attr:title
+seg-e885c4b88ddb = El motor de seguimiento completo de la capa IQ (iq::track a través de kshana iq track: adquisición… · Modelado
+
+# attr:title
+seg-9444c0bd9a44 = La sección opcional [crpa] del tipo de escenario jamming: un haz por canal hacia cada satélite… · Modelado
+
+# attr:title
+seg-01e2f93ebd7c = La sección opcional [terrain] del tipo de escenario jamming: el perfil de terreno de círculo máximo entre… · Modelado
+
+# attr:title
+seg-de5a2ace5291 = La sección opcional [acquisition] del tipo de escenario jamming (un satélite se adquiere en o por encima de… · Modelado
+
+# attr:title
+seg-337acb9b46a7 = carrier.fll_pull_in_max_s opcional de iq::track (el campo fll_pull_in_max_s de… · Modelado
+
+# attr:title
+seg-731c77d5b154 = Lee un archivo de solución de RTKLIB (hora de calendario o de semana GPS/TOW, latitud/longitud o ECEF… · Modelado
+
+# attr:title
+seg-c55fdbe431b5 = Lee BESTPOS (posición), RANGE (C/No por señal) y RXSTATUS (el jammer del receptor… · Modelado
+
+# attr:title
+seg-c4e9eae15690 = Lee el C/N0 de cada celda de señal de los mensajes RTCM { "3" } MSM4 y MSM7 (GPS, GLONASS… · Modelado
+
+# attr:title
+seg-1a0d48096470 = Lee los mensajes de GNSS-SDR Monitor (Gnss_Synchro) y de PVT-monitor, retransmitidos como líneas JSON… · Modelado
+
+# attr:title
+seg-c9e7077311e2 = Lee un CSV de IMU (columnas documentadas, o el formato EuRoC); integra la velocidad de guiñada en… · Modelado
+
+# attr:title
+seg-0a44618c7e98 = Un documento de estado JSON y mensajes de descubrimiento MQTT de Home Assistant para el flujo de confianza… · Modelado
+
+# attr:title
+seg-2c0eeca292e0 = Un puente sin ROS que escribe mensajes de posición y de satélites como NMEA y los puntúa mediante… · Modelado
+
+# attr:aria-label
+seg-83dc4863b9cb = Iluminar las celdas de una etiqueta
+
+# text
+seg-52696b2fa099 = Validada frente a una referencia independiente externa
+
+# text
+seg-1e3ba1b099ba = Modelada: implementada, aún no validada externamente
+
+# text
+seg-97b628450f8c = Del socio: fuera de lo que hace el motor
+
+# text
+seg-eef053d8c686 = Los recuentos son exactos, tomados de la matriz de verificación del motor. Las celdas siguen el orden de filas del registro.
+
+# text
+seg-2ef0ba031af3 = Tres palabras, usadas con rigor
+
+# text
+seg-7a23624246c0 = Salida de Kshana<s1>ejecución del motor</s1>
+
+# text
+seg-7042922a4050 = Referencia independiente<s1>referencia publicada</s1>
+
+# text
+seg-f402715031f4 = Solo con una referencia independiente externa: vectores de referencia publicados, una implementación aparte o datos medidos reservados fuera del ajuste. El registro nombra la referencia independiente y la prueba, y las pruebas de invariantes de la matriz imponen la regla.
+
+# text
+seg-7091847e1c77 = Un modelo publicado o una decisión de modelado documentada, probada internamente, todavía sin referencia independiente externa. Dicho en voz alta, no redondeado al alza.
+
+# text
+seg-1d17589ad647 = Ingeniería de plataformas de nave espacial, carga útil de navegación y hardware de antena, hardware de carga útil cuántica y aseguramiento del producto de hardware de vuelo. Kshana no afirma nada de ello; lo posee un socio.
+
+# text
+seg-5af3d58e83fa = <b>Con Pro:</b> un <b>dosier de misión</b> comprueba cada requisito frente a ejecuciones reales y conserva estas etiquetas en su matriz de verificación: se señala un requisito satisfecho sobre una base MODELLED o PARTNER. <a1>Ver un dosier real</a1>
+
+# text
+seg-400016e22379 = Registro de validación
+
+# text
+seg-6ef0eb045293 = Las { "388" } filas, una línea cada una.
+
+# text
+seg-20ec758fe328 = Cada fila nombra su requisito, su estado y el módulo que lo implementa. Abra una fila para ver su referencia independiente y sus pruebas, o elija un dominio para acotar.
+
+# attr:aria-label
+seg-08f2354cb22b = Filtrar por dominio
+
+# text
+seg-f5a2e020b47e = Por dominio: la longitud de la barra son las filas, el color es el estado. Elija uno para filtrar.
+
+# text
+seg-d8691ddf3170 = de { "93" } validadas
+
+# text
+seg-0272bc18f675 = de { "19" } validadas
+
+# text
+seg-d6687397eae9 = de { "73" } validadas
+
+# text
+seg-38ec110ef886 = Órbitas, marcos y geometría
+
+# text
+seg-8d3ad903cd18 = de { "76" } validadas
+
+# text
+seg-a1c022c60fb6 = Inercial, fusión y PNT alternativo
+
+# text
+seg-223bf21e1d9b = de { "25" } validadas
+
+# text
+seg-b355dc732d29 = Señales e interferencia
+
+# text
+seg-fb01a581d5ee = de { "28" } validadas
+
+# text
+seg-d6c43e56d4cc = Análisis de misión, aseguramiento y otros
+
+# text
+seg-5516d9825527 = de { "55" } validadas
+
+# text
+seg-d5b6224d2ec4 = Todas { "388" }
+
+# text
+seg-7038fab8b00c = Validadas { "176" }
+
+# text
+seg-2bca452c28dd = Modeladas { "208" }
+
+# text
+seg-ba89c1119b21 = Del socio { "4" }
+
+# text
+seg-cd12d85e2beb = Buscar en el registro
+
+# attr:placeholder
+seg-f014d784ebe3 = Buscar requisito, referencia independiente, módulo o prueba
+
+# attr:aria-label
+seg-d0352364053e = Registro de validación, { "388" } filas, desplazable
+
+# text
+seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } casos: diez registros de ley de potencias de Kasdin, b = { "0" } a -4, como datos de fase y de frecuencia, af = { "1" } a { "64" }; alpha_int y d idénticos, peor |d alpha| { "9.6e-13" } y |d rho| { "4.8e-13" }…</s1>
+
+# text
+seg-06e5bf24f6cb = <s1>tests/osnma_official_vectors.rs (opcional, KSHANA_OSNMA_VECTORS: los { "18" } conjuntos de vectores, { "186,382" } etiquetas autenticadas, { "0" } fallidas, mínimos por conjunto, cadenas anunciadas, ADKD 0/4/12, alerta verificada, autenticación que se reanuda tras…</s1>
+
+# text
+seg-59f1fce2addc = <s1>tests/cs5071a_reference.rs (Cs 5071A real frente a máser de H, { "556 990" } puntos, { "16" } factores de promediado frente a Stable32 hasta { "1e-3" }; condicionado a datos mediante scripts/fetch_cs5071a.sh)</s1>
+
+# text
+seg-c99e283fa971 = <s1>tests/theo1_totvar_reference.rs (Theo1 + TOTDEV sobre el conjunto de datos LCG de 1000 puntos de NIST SP { "1065" } §{ "12.4" }, { "6" } + { "6" } factores de promediado frente a allantools { "2024.06" } hasta <{ "1e-9" }); allan::tests (seguimiento en forma cerrada de FM blanco; TOTVAR=ADEV…</s1>
+
+# text
+seg-fd99ba5338f1 = <s1>tests/mtie_reference.rs (MTIE sobre la serie de fase hermética LCG de 1000 puntos de NIST SP { "1065" } §{ "12.4" }, { "9" } factores de promediado m={ "1" }..256 frente a mtie de allantools { "2024.06" } hasta <{ "1e-9" }, observado ≤{ "4e-15" }); allan::tests (pico a pico derivado a mano…</s1>
+
+# text
+seg-4ffcb6d162ba = <s1>tests/mdev_tdev_reference.rs (MDEV + TDEV sobre la serie de fase hermética LCG de 1000 puntos de NIST SP { "1065" } §{ "12.4" }, { "8" } factores de promediado m={ "1" }..200 frente a mdev/tdev de allantools { "2024.06" } hasta <{ "1e-9" } relativo, más la identidad τ/√{ "3" } sobre la…</s1>
+
+# text
+seg-32f89bf69b73 = <s1>tests/optical_clock_adev_reference.rs (σ_y(τ) del reloj de pinzas de ⁸⁸Sr de Norcia et al., { "8" } tiempos de promediado { "0.92" }–{ "117.76" } s incorporados literalmente bajo CC-BY-4.0: NNLS reconstruye la curva con ~{ "10" }% RMS / ≤{ "21" }% en el peor punto; recuperado…</s1>
+
+# text
+seg-734313a995c1 = <s1>tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } casos de geometría real, Celestrak GPS+Galileo e IGS SP3: peor |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m frente al ADD…</s1>
+
+# text
+seg-f48dbf60fb99 = <s1>tests/numerical_cowell_propagator_reference.rs ({ "275" } épocas = { "11" } casos × { "25" } estados horarios, LEO+GTO, frente a Orekit { "12.2" } DormandPrince853; niveles conservadores T1–T5 peor |Δr| { "0.08" } m en { "24" } h; nivel de resistencia caracterizado en { "333" } m)</s1>
+
+# text
+seg-2b6ce8db9bb0 = <s1>tests/srp_oblate_shadow_orekit_oracle.rs ({ "2400" } geometrías a través del borde de la sombra, { "884" } en penumbra, de LEO a GEO, declinación solar { "0" } y +-23.44 grados, { "8" } acimutes: peor |dnu| { "7.41e-9" } para WGS-84 y { "2.24e-9" } para el esférico…</s1>
+
+# text
+seg-df6d6c97de09 = <s1>tests/srp_boxwing_orekit_oracle.rs ({ "252" } geometrías de órbita Galileo, { "7" } casos solares incluidas las distancias de perihelio y afelio, { "100" } actitudes aleatorias; suma de placa plana peor { "2.05e-15" } relativo sobre { "1056" } casos; de extremo a extremo con…</s1>
+
+# text
+seg-352cf0bd15a5 = <s1>srp_shadow::tests (la forma cerrada anular, la ley uniforme que reproduce la sombra cónica, los límites de pleno sol y de umbra)</s1>
+
+# text
+seg-fec5921215cf = <s1>tests/nrlmsise00_reference.rs ({ "720" } puntos de cuadrícula, { "90" } a { "1000" } km, { "4" } latitudes, { "2" } horas locales, { "3" } días, actividad baja/moderada/alta: densidad dentro de { "1.866e-6" } relativo y temperatura dentro de { "1.97e-4" } K de pymsis; idéntico bit a bit…</s1>
+
+# text
+seg-0861267dffb1 = <s1>tests/drag_tier_orekit_oracle.rs ({ "4" } casos x { "25" } estados horarios en { "24" } h, circular { "51.6" } grados, { "400" } km con actividad baja/moderada/alta y { "300" } km: peor |dr| { "0.0303" } m y |dv| { "3.36e-5" } m/s frente a { "3.3" } a { "141.8" } km de resistencia…</s1>
+
+# text
+seg-f288a564c842 = <s1>tests/drag_exponential_gmat_oracle.rs (casos ecuatoriales E400, E300 y E250x600 en J2000.0, { "25" } estados horarios en { "24" } h: el desplazamiento inducido por la resistencia coincide con el de GMAT en como máximo { "0.016" } del umbral { "0.5" } m + { "1e-3" }|D|…</s1>
+
+# text
+seg-f495c3fe4b80 = <s1>tests/propagator_de440_orekit_oracle.rs ({ "5" } casos x { "25" } estados horarios en { "24" } h, LEO, GEO y HEO, tercer cuerpo y tercer cuerpo + SRP: peor |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; el control de serie analítica falla por { "9.96" } m; Sol…</s1>
+
+# text
+seg-ffd928487a96 = <s1>tides::tests (el término S1 es diurno, gira { "90" } grados en un cuarto de día y tiene la amplitud del factor de carga de cada fila; magnitud física en LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration</s1>
+
+# text
+seg-34fa42e9a136 = <s1>tests/s2_air_tide_gfz_table5.rs ({ "21" } de { "21" } ondas coinciden con el modelo publicado A2: peor { "0.00050" } cm, { "0.050" } grados frente a umbrales de { "0.0006" } cm, { "0.1" } grados); tests/tides_iers.rs (banda de amplitud S2)</s1>
+
+# text
+seg-018bfa0a86ca = <s1>tests/cowell_tesseral_orekit_oracle.rs ({ "6" } casos x { "25" } estados horarios en { "24" } h: EGM2008 8x8 y 70x70 en LEO { "45" } grados, polar { "89.9" } grados, heliosíncrona { "98.2" } grados, GTO, y 70x70 con Sol/Luna y SRP; peor |dr| { "0.0355" } m…</s1>
+
+# text
+seg-c44a64c16085 = <s1>tests/gravity_sh_high_degree.rs (Orekit en { "8" } puntos fuera de eje: máx. |da| { "2.2e-17" } m/s^{ "2" } con N = { "70" }, se ejecuta siempre; { "3.5e-17" }, { "3.9e-17" } y { "7.3e-17" } m/s^{ "2" } con N = { "200" }, { "360" }, { "2190" }, condicionado a datos mediante KSHANA_EGM2008_GFC)…</s1>
+
+# text
+seg-3f5f546d8f02 = <s1>tests/dop853_scipy_oracle.rs ({ "8" } pasos individuales: estado dentro de { "5.55e-15" } relativo, derivada FSAL { "3.46e-15" }, salida densa { "1.99e-14" }, decisiones de aceptar/rechazar idénticas; { "3" } ejecuciones completas con rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" }…</s1>
+
+# text
+seg-5bea85df4628 = <s1>tests/kepler_mpmath_oracle.rs ({ "405" } puntos de cuadrícula, e de { "0" } a { "0.999999" }, M en [-pi, pi] hasta { "1e-12" }: peor |E - E_ref| { "0.898" } eps|E| frente a un umbral de { "8" } eps|E|; { "9" } puntos de M enrollada en el peor { "0.013" } de su umbral; sin Newton…</s1>
+
+# text
+seg-3408741d4f83 = <s1>tests/od_tracking_measurements_reference.rs ({ "8" } escenarios: velocidad de distancia, az/el y mixto, LEO y MEO, sin ruido y con sigma sembrada { "5" } m / { "5" } mm/s / { "1e-4" } rad, máscaras de { "5" } y { "10" } grados, frente a Orekit { "12.2" }: conjuntos visibles idénticos…</s1>
+
+# text
+seg-e7ea69e06ac4 = <s1>tests/planetary_gravity_pds.rs (los recortes de grado 20 se ejecutan siempre: peor |dg|/|g| { "9.7e-16" }, relativo a la perturbación { "3.4e-11" }; GMM-3 g/o { "120" } sobre toda la esfera { "3.7e-15" } / { "6.3e-12" } y GL0660B g/o { "660" } a |lat| <= { "60" } grados { "5.0e-14" } /…</s1>
+
+# text
+seg-32a31bdc95c9 = <s1>tests/deep_space_mars_radiometric_reference.rs ({ "24" } tramos en { "8" } épocas { "2020" }–{ "2027" } frente a ANISE DE440; peor |Δτ| { "1.03e-9" } s, |Δdistancia| { "0.31" } m hasta { "2.5" } UA)</s1>
+
+# text
+seg-6eab5fdef15e = <s1>gnss_navmsg::tests (valor de comprobación CRC-24Q 0xCDE703; respuesta al impulso convolucional; Viterbi corrige errores inyectados; anchos de disposición); tests/gnss_navmsg_roundtrip.rs (los bits de inicio de campo coinciden con los números de bit del ICD; codificar ->…</s1>
+
+# text
+seg-8b30719c93a3 = <s1>tests/ionex_code_gim_oracle.rs (mapa IONEX sintético confirmado frente a la referencia de fórmula: { "20 075" } nodos exactos, interpolación máx. |Δ| { "3.5e-13" } TECU; condicionado a datos mediante KSHANA_IONEX_CODE_GIM_DIR, el GIM final real de CODE…</s1>
+
+# text
+seg-260f56f3a4cf = <s1>tests/rtk_real_wettzell_oracle.rs (estaciones IGS WTZR base / WTZZ móvil, { "1.4" } m, 2025-02-24 00-03 h, { "30" } s: { "359" } épocas, soluciones fijas al { "100" } % desde las { "00" }:{ "10" }, error de línea base fija mediana { "4.5" } mm, p95 { "5.5" } mm; primeros { "10" } min fija { "2.6" } mm…</s1>
+
+# text
+seg-323c83de82d9 = <s1>tests/ppp_real_wettzell_oracle.rs (estación IGS WTZR, 2025-02-24 00-06 h, { "30" } s, reservada fuera del desarrollo: horizontal en la última época { "1.5" } mm, vertical −{ "2.9" } cm; 04-06 h 240/240 épocas dentro de { "0.10" } m en 3-D, p95 { "6.7" } cm; solo código p95…</s1>
+
+# text
+seg-1f7a4468e913 = <s1>tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } frente a BRDM00DLR_S RINEX { "3.04" } de 2026-07-19, tramo 00-02 h: registros G { "37" } / E { "478" } / C { "72" } emparejados en ambos sentidos, todos los campos idénticos, posición en Toe { "0" } m; día completo…</s1>
+
+# text
+seg-0c54a0c29630 = <s1>tests/rinex4_obs_mao0.rs (primeras { "4" } épocas del archivo IGS MGEX RINEX { "4.00" } MAO000USA_R_20231980000_01D_30S_MO, { "58" } satélites, { "7" } sistemas: los registros de cabecera y los valores de la primera época son iguales a los literales publicados)…</s1>
+
+# text
+seg-ebf5ac05182a = <s1>tests/bds_geo_broadcast_oracle.rs (registros reales C01-C04: radio geoestacionario, longitudes 140.02/80.04/110.55/159.99 grados en las ranuras publicadas, |latitud| { "2.13" } grados con la inclinación frente a { "6.65" } sin ella; el preregistrado…</s1>
+
+# text
+seg-00d9f55700d8 = <s1>tests/sp3_clock_igs_oracle.rs (SP3 final de IGS de { "15" } min de 2025-02-24 frente a los relojes finales de IGS de { "30" } s, { "32" } satélites GPS: mediana en los nodos |Δ| { "2.6e-13" } s; { "3038" } registros de punto medio RMS { "0.121" } ns, p95 { "0.265" } ns; manteniendo el nodo en su lugar…</s1>
+
+# text
+seg-58cc844d35d1 = <s1>tests/fusion_carrier_tc.rs (recorrido en figura-8: RMS estable en 3-D de { "0.025" } m con portadora frente a { "0.470" } m con código sobre las mismas mediciones; { "12" } semillas NIS/gdl medio { "1.00" } y NEES/gdl estable { "0.92" }; un salto de ciclo de 1 ciclo detectado en su época sin…</s1>
+
+# text
+seg-9e2c501c7027 = <s1>tests/gnss_ins_packs.rs (cada paquete: fusionado por debajo del INS libre durante la interrupción para ambos sensores; rail: acoplamiento estrecho { "5.3" } m frente a laxo { "12.9" } m de grado de navegación y { "15.6" } m frente a { "18.8" } m de grado táctico durante la interrupción, disponibilidad { "0.97" } frente a { "0.95" }…</s1>
+
+# text
+seg-2d1083cc0d20 = <s1>tests/fusion_coupled_filters.rs (filtro 3-D sobre { "60" } semillas: NEES medio de la segunda mitad { "8.12" } para { "8" } estados, suma de χ² de la última época dentro de su banda del { "95" } %; una corrección de reloj de { "0.1" } ns reduce la sigma de posición 3-D de { "5.58" } m a { "3.07" } m; sesgo…</s1>
+
+# text
+seg-2de7638c3fc3 = <s1>tests/fusion_kfgins_dataset_oracle.rs (cargadores sintéticos y pruebas de brazo de palanca de plataforma giratoria siempre; condicionado a datos mediante KSHANA_KFGINS_DIR, ejecución 2026-10-13 sobre el conjunto de datos de demostración de KF-GINS: RMS horizontal / vertical { "0.0109" } /…</s1>
+
+# text
+seg-b3d67427253e = <s1>tests/testbench_gpssdrsim_oracle.rs ({ "6" } pruebas: referencia independiente y escenarios, bytes de exportación fijados, lectores NMEA y LLH, corte ECEF de cuatro columnas, HALLAZGO de la ejecución 1 sobre el CSV de ancho completo, cuadrícula de filas de { "10" } Hz)</s1>
+
+# text
+seg-7670442550b0 = <s1>fusion::trajectory::tests (el giro coordinado no tiene fuerza lateral y su factor de carga es 1/cos φ; la importación CSV reproduce un perfil volado hasta { "1e-3" } m/s y { "1" } m); tests/gnss_ins_trajectory_library.rs (cada perfil se ejecuta y la fusión…</s1>
+
+# text
+seg-43684d842873 = <s1>tests/classical_strapdown_ins_reference.rs (perfiles estático/giro/coning, { "30" } épocas cada uno, frente a NaveGo: actitud idéntica bit a bit { "0" } rad; velocidad/posición dentro de cotas analíticas nombradas)</s1>
+
+# text
+seg-9a888143b12b = <s1>tests/icgem_gravity_reference.rs (la síntesis GRS80 reproduce Somigliana hasta { "3.5e-12" }; mapa real de perturbación EGM2008 de ICGEM físico)</s1>
+
+# text
+seg-16180ad1a02e = <s1>tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE marzo de { "2023" }, { "4" } perilunios y { "5" } apolunios: período { "6.5004" } d frente a { "6.5699" } d ({ "1.07" } %, umbral { "3" } %), apolunio { "71 182" } frente a { "71 215" } km ({ "0.05" } %, umbral { "5" } %)…</s1>
+
+# text
+seg-88442c3f67b7 = <s1>tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } casos: { "12" } épocas de enero de { "2025" } x los puntos L1 y L2, dos estados iniciales de halo meridional L2 y uno de DRO del JPL Three-Body…</s1>
+
+# text
+seg-ce1903930dae = <s1>tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Mercurio, Venus, la Tierra y la Luna en 2026-01-01, 2030-06-15 y 2040-12-31: peor { "3.3e-5" } m y { "1.0e-11" } m/s frente a { "1" } mm y { "1e-6" } m/s…</s1>
+
+# text
+seg-5475e346272a = <s1>tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (de la Tierra al baricentro de Marte, { "16" } salidas 2026-09-01..2027-01-29 x { "19" } llegadas 2027-06-01..2028-02-26: { "304" } celdas finitas en ambos lados, peor C3…</s1>
+
+# text
+seg-d85e4cdff95b = <s1>tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (de la Tierra al baricentro de Marte, salidas 2026-09-15..2027-01-15 x llegadas 2027-05-01..2028-03-01, Tipo I/II x C3 mínimo / V-infinito mínimo…</s1>
+
+# text
+seg-8a7000ddbb4e = <s1>tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } casos: { "300" } aleatorios 3-D, { "18" } cerca de { "180" } grados, { "24" } cerca del tiempo mínimo de M = { "1" }..3, { "40" } heliocéntricos; { "1058" } soluciones; recuentos y…</s1>
+
+# text
+seg-d15a1c6e17c9 = <s1>tests/jd2_sofa_time_oracle.rs ({ "224" } instantes UTC: seis alrededor de cada uno de los { "27" } segundos intercalares 1972-2016, dos fijos, { "60" } con semilla repartidos en 1972-2026; dtf2d, utctai y taiutc cada uno dentro de { "1e-6" } s, peor { "1.9e-11" } s); jd2::tests…</s1>
+
+# text
+seg-7fd1d47c6025 = <s1>tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } fechas UT1/TT de dos partes 1980-2050 incluidos saltos de +{ "1" }, +{ "10" }, +{ "50" } us en dos fechas: gmst82 dentro de { "1e-12" } rad, peor { "0" }; GCRS a ITRS…</s1>
+
+# text
+seg-4450a3324ae4 = <s1>tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } épocas TT 1950-2100, dX y dY hasta { "0.5" } mas: elementos de precesión dentro de { "1e-13" }, peor { "0" }; TEME a GCRS dentro de { "5e-10" } rad, peor { "1.10e-10" } rad…</s1>
+
+# text
+seg-684ae107a510 = <s1>tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } instantes UTC: cuatro alrededor de cada uno de los { "15" } inicios de una expresión TAI-UTC 1960-1972 y { "60" } con semilla repartidos en 1960-1971; dtf2d, utctai y taiutc…</s1>
+
+# text
+seg-9447c09c6106 = <s1>tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } casos: los { "4" } registros GLONASS del archivo de difusión real IGS MGEX de 2013-01-01 x { "73" } desfases dentro de +/-900 s; reloj dentro de { "1e-14" }…</s1>
+
+# text
+seg-540374d8dc58 = <s1>tests/earth_orbit_path_sgp4_erfa_oracle.rs (tramo { "1" }: { "4432" } posiciones TEME de los { "232" } conjuntos de elementos confirmados frente a python-sgp4 { "2.24" }, peor { "6.1e-8" } m, umbral { "1" } cm; tramo { "2" }: { "108" } instantes, { "23" } de ellos con orientación terrestre…</s1>
+
+# text
+seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: las { "104" } comprobaciones se superan en la primera ejecución tras el preregistro e50c88d2, peor varianza { "3.2" } %, RMS { "1.6" } %, correlación { "0.012" }…</s1>
+
+# text
+seg-57f448ea3c8d = <s1>tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: en el paso sintético por el fiordo de scenarios/training/fjord-natural-degradation.toml se descuentan las mismas { "624" } épocas con y sin…</s1>
+
+# text
+seg-b8d1d3c43935 = <s1>tests/opssat_ad_reference.rs (ESA OPS-SAT real, el AUC reproduce scikit-learn hasta { "1e-9" }); tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } casos sobre la partición de prueba real de OPSSAT-AD: punto de operación completo…</s1>
+
+# text
+seg-e7d3a0262133 = <s1>tests/resilience_score_decision_instability_reference.rs ({ "124" } casos frente a scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendall τ-b hasta { "2e-16" }, clasificación exacta, media de Dirichlet + IC por percentiles hasta { "1e-12" })</s1>
+
+# text
+seg-1a7fab04a137 = <s1>tests/mcda_ahp_reference.rs (tabla de Índice Aleatorio de Saaty { "1980" } n={ "1" }..10 EXACTA; vector de prioridad + λ_max + CR frente a eig de SciPy/LAPACK sobre una { "3" }×{ "3" } consistente y una { "3" }×{ "3" } / { "4" }×{ "4" } inconsistentes, coincidentes hasta <{ "1e-9" })</s1>
+
+# text
+seg-893579639f36 = <s1>tests/mcda_wsm_reference.rs (puntuaciones WSM + clasificación) y tests/mcda_wpm_reference.rs (puntuaciones WPM + clasificación), cada uno frente a pymcdm hasta <{ "1e-9" } sobre una matriz de decisión fija de beneficio/coste { "4" }×{ "3" }</s1>
+
+# text
+seg-824021181461 = <s1>tests/mcda_topsis_reference.rs (coeficientes de cercanía + clasificación frente a pymcdm hasta <{ "1e-9" } sobre una matriz fija de beneficio/coste { "4" }×{ "3" })</s1>
+
+# text
+seg-bd60ed86fd18 = <s1>tests/mcda_vikor_reference.rs (índice Q + clasificación frente a pymcdm hasta <{ "1e-9" } sobre una matriz fija de beneficio/coste { "4" }×{ "3" })</s1>
+
+# text
+seg-8552a96ec65d = <s1>tests/mcda_promethee_reference.rs (flujo neto de superación + clasificación, criterio usual, frente a pymcdm hasta <{ "1e-9" } sobre una matriz fija de beneficio/coste { "4" }×{ "3" })</s1>
+
+# text
+seg-b8e7db47be3c = <s1>tests/mcda_electre_reference.rs (matrices de concordancia, discordancia y dominancia elemento a elemento + conjunto núcleo/dominado frente a pyDecision hasta <{ "1e-9" } sobre un conjunto de datos fijo de solo beneficio { "4" }×{ "3" })</s1>
+
+# text
+seg-4fb626bb143d = <s1>tests/mcda_waspas_reference.rs (preferencias WASPAS + clasificación) y tests/mcda_moora_reference.rs (puntuaciones MOORA + clasificación), cada uno frente a pymcdm hasta <{ "1e-9" } sobre una matriz de decisión fija de beneficio/coste { "4" }×{ "3" }</s1>
+
+# text
+seg-74495891f53d = <s1>tests/mcda_copras_reference.rs (grados de utilidad + clasificación frente a pyDecision hasta <{ "1e-9" } sobre una matriz fija de beneficio/coste { "4" }×{ "3" })</s1>
+
+# text
+seg-e42773002f0d = <s1>tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } casos de latencia determinista EXACTOS frente a una referencia independiente de primer paso; { "8" } casos de ARL₁, Monte Carlo con 60k pruebas frente a la aproximación de Siegmund + Montgomery publicado…</s1>
+
+# text
+seg-d963a63ff219 = <s1>tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } ángulos de mirada en seis emplazamientos y cuatro épocas, seis tablas de máscara, { "142" } conjuntos visibles; peor |d el| { "1.3e-13" } grados y |d az|…</s1>
+
+# text
+seg-f44b2e44dd69 = <s1>tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } casos, los { "142" } conjuntos visibles confirmados de la comparación skyline con un reloj común y con un reloj por sistema; peor…</s1>
+
+# text
+seg-857773027c1e = <s1>holdover::tests (frente a la recursión de covarianza de Kalman de varios pasos; FM blanco exacto; ida y vuelta); núcleo de varianza en funcionamiento a la deriva validado externamente en tests/gnss_denied_clock_holdover_reference.rs (frente a scipy Van-Loan/brentq)</s1>
+
+# text
+seg-2642a03475ff = <s1>clock_state::tests (Q de van-Loan analítica; NEES; positividad de PSD); tests/clock_state_reference.rs (trayectoria completa de predicción+actualización: estado x y covarianza P de { "3" }×{ "3" } sobre { "1925" } pasos / { "4" } conjuntos de parámetros frente a filterpy { "1.4.5" }; peor…</s1>
+
+# text
+seg-56b3dcc8f005 = <s1>timetransfer::tests (cancelación recíproca; identidad de Sagnac de dos formas); tests/time_transfer_error_budgeting_reference.rs (Sagnac de circunnavegación ecuatorial = { "207.386" } ns frente a los { "207.4" } ns publicados de Ashby hasta <{ "0.05" } ns…</s1>
+
+# text
+seg-a7eec0b252c2 = <s1>quantum_imu::tests (k_eff; Mach-Zehnder T²; banda de suelo de Freier-2016); tests/quantum_inertial_sensor_reference.rs (función de transferencia |H(ω)|, k_eff·T² y ASD de ruido de disparo frente a Cheinet { "2008" } / Peters / Freier publicados…</s1>
+
+# text
+seg-8cf49f65ae5e = <s1>quantum_imu::tests (a_max se sitúa en el borde de semifranja ±π con el escalado de rango 1/T²; la recuperación de fase envuelta es exacta dentro de [−a_max,a_max] y produce aliasing de exactamente { "2" }·a_max fuera de él; el rango dinámico no ambiguo…</s1>
+
+# text
+seg-a4ab1740caf1 = <s1>budget_tests (sesgo frente al integrador AccelModel; VRW frente a la integral analítica); tests/quantum_inertial_dead_reckoning_reference.rs (VRW frente a una doble integración Monte Carlo independiente en numpy de ruido de aceleración blanco, peor…</s1>
+
+# text
+seg-b56e2e538e2b = <s1>fusion::tests (identidad UKF==KF lineal; funcionamiento a la deriva en interrupción; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } casos frente a filterpy { "1.4.5" }: EKF lineal laxo/estrecho + posteriores PNT acoplados hasta ≤{ "2.4e-12" }; ejecución UKF de 40 épocas peor…</s1>
+
+# text
+seg-97be148ec2ab = <s1>jamming::tests (broadband_q_equals_the_spectral_separation_closed_form y cw_q_equals_the_spectral_separation_closed_form: la tabla Q, CW y banda estrecha { "1" }, banda ancha y barrido { "2" }, fijada a las formas cerradas de navsignal…</s1>
+
+# text
+seg-67272ab552dd = <s1>cr3bp::tests (STM frente a diferencias finitas); tests/cislunar_mission_analysis_reference.rs ({ "5" } miembros NRHO L2-S del JPL: el { "9" }:{ "2" } + { "4" } vecinos; peor |ΔC| { "1.5e-5" }, |ΔT|/T { "9.6e-5" }, perilunio { "0.7" } km en unidades de longitud del JPL)</s1>
+
+# text
+seg-4a73fb2c75bf = <s1>tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values en CI sobre diez nodos ICGEM citados; egm2008_n70_gravity_anomaly_sa_matches_icgem sobre las cuadrículas completas de 0.25 grados obtenidas de Chad 9-15N 19-25E y…</s1>
+
+# text
+seg-0b579dcb5998 = <s1>tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief: la decimación confirmada de 6 segundos de arco de la tesela SRTM v3 N36W117, de dominio público, sitúa Badwater Basin, el punto más bajo de Norte…</s1>
+
+# text
+seg-21b8048577a6 = <s1>impairment_study::tests (AUC de referencia independiente por clase ≈{ "1" }, brecha de optimismo aprendida>{ "0" }, forma de cuadrícula + el IC por bootstrap encierra la media + tendencia de escalado positiva, características ID finitas, el predictor de la brecha supera a predecir la media bajo AMBAS…</s1>
+
+# text
+seg-bb1a73581a82 = <s1>space_weather::tests (Kp↔ap exacto en los puntos de la cuadrícula + ida y vuelta + monótono, media de Ap diaria, T exosférica frente a anclajes publicados de mínimo/media/máximo solar + incremento por tormenta, densidad unitaria en la referencia, oscilación del ciclo solar en la…</s1>
+
+# text
+seg-7c3b6a03e34f = <s1>tests/ccsds_oem_interop_reference.rs ({ "24" } estados / { "2" } archivos de prueba decodificados byte a byte por el analizador oem independiente, pos/vel Δ = { "0" }); oem::tests (analizar un OEM de una herramienta externa con palabras clave/comentarios/covarianza adicionales…</s1>
+
+# text
+seg-01273c1047bc = <s1>reentry::tests (g máximo independiente del coeficiente balístico + banda física de g, crece con γ más pronunciado / entrada más rápida, velocidad en el g máximo = V_e·e^(−1/2) y calentamiento máximo = V_e·e^(−1/6) más rápida, altitud física del g máximo +…</s1>
+
+# text
+seg-670306801d75 = <s1>eo_payload::tests (radio angular { "64" }° a { "700" } km + se reduce con la altitud, nadir→cenit/distancia cero, horizonte→ε=0/ángulo central máximo, errores más allá del horizonte, la franja crece con el FOV / el GSD con la altitud, separación de nodos de ~{ "2750" } km…</s1>
+
+# text
+seg-5292634e1534 = <s1>space_packet::tests (los bits de cabecera coinciden con la disposición CCSDS-133, codificar→decodificar recupera todos los campos, se rechaza lo fuera de rango/truncado); tests/ccsds_space_packet_reference.rs ({ "33" } casos frente a spacepackets { "0.32.0" }, incl. { "12" }…</s1>
+
+# text
+seg-c64d7ee3b5d3 = <s1>tests/space_packet_ext_oracle.rs (cinco umbrales preregistrados: CRC, códigos de tiempo, flujos, hueco y orden, PUS TM; cero discrepancias); space_packet::tests</s1>
+
+# text
+seg-68e5424ed6ae = <s1>tests/spk_writer_spice_oracle.rs (inventario, evaluación, identidad de bit y de byte, conversión de época OEM; cuatro comprobaciones de mutación previstas lo ponen en rojo)</s1>
+
+# text
+seg-3ec80b15b047 = <s1>tests/odm_orekit_oracle.rs (L1 Orekit lee { "30" } archivos de Kshana, L2 Kshana lee { "25" } archivos de Orekit; hallazgos fijados y afirmados como recurrentes); odm::tests</s1>
+
+# text
+seg-08ddb272bbf1 = <s1>attitude_budget::tests (el par GG se anula para un cuerpo simétrico, crece a menor altitud, lineal en ΔI, suma cuadrática RSS, las fracciones de varianza suman 1); tests/attitude_gg_torque_reference.rs ({ "20" } casos frente a un independiente…</s1>
+
+# text
+seg-6f9fcbb8c941 = <s1>integrity_impact::tests (el mismo fallo pasa de Available→MI→HMI al endurecerse el contexto; PL conservador→Unavailable; HMI por eje; protecciones de entrada)</s1>
+
+# text
+seg-73dd2999b16a = <s1>inertial::cai_params::tests (el VRW físico cae dentro de la banda de VRW citada en los { "3" } niveles; el rango de ambigüedad de franja bruto calculado a partir de k_eff·T²; el presupuesto conservador deriva más que el mejor; cada banda con fuente +…</s1>
+
+# text
+seg-d1e5a6bf11d7 = <s1>src/benchmark/stanford.rs::tests (cuatro regiones + límites inclusivos + |error| + PL>AL no disponibilidad); tests/tib_scorer_reference.rs (recuentos de clasificación frente a numpy independiente sobre un conjunto sintético fijo)</s1>
+
+# text
+seg-12f523034ea5 = <s1>src/benchmark/scorecard.rs::tests (el PL de referencia absorbe; el PL roto no absorbido, nunca detectado; veredicto de cobertura detectable; la propiedad de honestidad de que no es alcanzable ningún veredicto de cobertura/detección para un no detectable…</s1>
+
+# text
+seg-2de847f37e06 = Ninguna: etiquetado como del socio
+
+# text
+seg-863d635911ac = <s1>hybrid_integrity::tests (la configuración resuelta se repite tanto para los valores por defecto como para los reemplazos, sin pasar la longitud de onda por metros de ida y vuelta; cada entrada de unidades lleva tanto una unidad como una clase de procedencia; cada…</s1>
+
+# text
+seg-ec8482ccf5c5 = <s1>hybrid_integrity::tests (la disponibilidad es igual al producto de los dos indicadores recalculados a partir de los márgenes del propio informe, y esos márgenes se reensamblan a su vez a partir del EIRP del propio informe, la pérdida en espacio libre…</s1>
+
+# text
+seg-1d720b86fed9 = <s1>hybrid_integrity::tests (la razón es igual a los dos tramos emitidos divididos, hasta { "1e-15" } relativo, y sus formas recíproca y en decibelios coinciden; la distancia y la sigma de tiempo de cada tramo se relacionan exactamente por c; el común emitido…</s1>
+
+# text
+seg-a5e09c5baf6c = <s1>linkbudget::tests (en tres bandas, cuatro décadas de distancia y ambos veredictos de cierre, el margen y la pérdida en espacio libre que lo sustenta se recalculan solo a partir del informe con mejor de { "1e-9" } dB; el G/T requerido…</s1>
+
+# text
+seg-b15cce3f2860 = <s1>lunar_time_budget::tests y lunar_time_budget_scenario::tests (las cuatro clases presentes en una ejecución y en un subconjunto solicitado en orden; cada fila coincide con su propia forma cerrada con mejor de { "1e-12" } relativo; escalar el…</s1>
+
+# text
+seg-5afae1521f9f = <s1>frame_eop::tests y realtime_frame_eop::tests (los tres componentes llevan conjuntos de épocas iguales, idénticos elemento a elemento y estrictamente ascendentes en ambos extractos reales de IERS; el conjunto conjunto se reduce a la intersección cuando el…</s1>
+
+# text
+seg-55130d929fc6 = <s1>tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (seis criterios exactos: los bytes del extracto; { "174" } filas; recuentos por vintage y listas MJD completas…</s1>
+
+# text
+seg-4319252c1932 = <s1>antenna::tests y attack_surface::tests (la cuadrícula está completa y toda fracción capturada está en [{ "0,1" }]; la fracción capturada no decrece con la potencia de transmisión en ningún nodo; NO es monótona en el ancho de haz ni…</s1>
+
+# text
+seg-373635b17f69 = <s1>lunar_time_budget_scenario::tests (los { "57" } tiempos de promediado x { "8" } términos presentes, el índice de la cuadrícula va de { "0" }..={ "56" } y lleva { "8" } filas cada uno; la fila total es igual a la raíz de la suma de cuadrados de los siete términos que la acompañan en cada tau; el…</s1>
+
+# text
+seg-273fc9f39f91 = <s1>lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term: con la dirección desactivada el término de reloj es igual al término de reloj del presupuesto bit a bit para las cuatro clases; bisection_matches_the_closed_form dentro de { "1e-9" }…</s1>
+
+# text
+seg-6d60a3c0bffa = <s1>tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } retardos en { "25" } épocas cerca de J2000 sobre DSS-14, DSS-43 y DSS-63: retardos dentro de { "1" } ps, peor { "0.06" } ps; baliza en ejes cuerpo…</s1>
+
+# text
+seg-f986e2e5c8f2 = <s1>tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } estados de de440s.bsp y { "200" } rotaciones MOON_PA_DE440 en { "200" } épocas 1849-2150 y pares de cuerpos aleatorios tomados de la…</s1>
+
+# text
+seg-0280fb2b8502 = <s1>earth_gnss_lunar::tests ({ "11" } pruebas de biblioteca: el semiángulo del limbo terrestre frente a su forma cerrada asin(R/r) con una aserción adicional de que TODO enlace no ocultado queda fuera de ese cono, de modo que la prueba de ocultación y el ángulo del limbo…</s1>
+
+# text
+seg-bd5a02ba059e = <s1>tests/lunar_infra_od_consistency.rs (umbral O1: la matriz de transición de estado encadenada durante tres días y durante un período es igual a scipy DOP853 hasta un relativo de { "1e-6" }; umbral C1: q media y la fracción dentro del 95 %; umbral C2: muestra sobre…</s1>
+
+# text
+seg-a0bc9ccc18e0 = <s1>tests/lunar_infra_carrier_phase.rs (umbral Q1: éxito Monte Carlo al menos la cota bootstrap menos tres errores estándar; Q2: sin caída con la longitud del arco más allá de tres errores estándar; Q4: LAMBDA es igual a la fuerza bruta…</s1>
+
+# text
+seg-a351ba6299d6 = <s1>tests/lunar_infra_studies_3_5.rs (umbral F1: la traza de la CRLB no sube y el menor autovalor no baja con los enlaces del orbitador, en el ejemplo y en { "20" } conjuntos aleatorios con semilla; umbral F2: las parciales de distancia son iguales a un…</s1>
+
+# text
+seg-7c519c33e94d = <s1>tests/lunar_infra_studies_3_5.rs (umbral T1: las sigmas de traslación no bajan al aflojarse el enlace local; T2: con las sigmas de las técnicas escaladas por { "1e-6" } la sigma de traslación de cada par está dentro del { "1" } % de sqrt({ "2" }) veces el enlace local…</s1>
+
+# text
+seg-d45bfe637f5c = <s1>tests/lunar_infra_studies_3_5.rs (umbral G1: las parciales analíticas son iguales a una diferencia finita central de cada modelo directo hasta { "1e-8" }; G2: la información de 5x5 es igual a un ensamblado independiente en numpy hasta { "1e-6" }; G4: la marea del reloj…</s1>
+
+# text
+seg-548d662e2903 = <s1>lunar_beacon::tests (visibilidad de horizonte frente a la forma cerrada L01; el DOP aumentado con balizas frente al desnudo; la raíz de la suma de cuadrados del presupuesto de error; la relación DOP-a-metros)…</s1>
+
+# text
+seg-16dacba36610 = <s1>lunar_common_mode::tests ({ "8" } pruebas de biblioteca: la división es aditiva y reconstruye dy; una covarianza de modo común da un nivel de protección de modo común positivo mientras que una covarianza solo de paridad da uno casi nulo; el…</s1>
+
+# text
+seg-f7d33a13cf7b = <s1>lunar_combination::tests (recupera la verdad simulada; VLBI restablece la observabilidad 3-D de la estación; determinista); tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } geometrías × { "16" } parámetros, { "31" } observaciones cada una, frente a Orekit { "12.2" } /…</s1>
+
+# text
+seg-38aa194db570 = <s1>tests/fim_observability_reference.rs (autovalores frente a numpy.linalg.eigh; covarianza CRLB frente a σ²(XᵀX)⁻¹ mediante numpy.linalg.inv; GDOP/PDOP/HDOP/VDOP/TDOP de GNSS a partir de la matriz de información frente a numpy: todo coincidente hasta { "1e-9" })…</s1>
+
+# text
+seg-b9ba2c91b976 = <s1>lunar_combination::tests (rango deficiente sin líneas base terrestres; tres líneas base restablecen el rango completo: el umbral de 3 estaciones a partir del rango de información, no del error de resolución; CRLB de estación alcanzada por el estimador en…</s1>
+
+# text
+seg-e66fab330a70 = <s1>lunar_frame_realise::tests (recupera la transformación de Helmert inyectada); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } casos frente a un resolutor independiente de forma cerrada Umeyama-SVD; peor |Δ| de traslación { "2.0e-5" } m…</s1>
+
+# text
+seg-d64c7d12097d = <s1>lunar_service::tests (el DOP reutiliza el núcleo validado; el PL se reduce al caso del polo sur); tests/lunar_navigation_service_volume_reference.rs (posición MCI por satélite hasta <{ "1e-3" } m + conjunto EXACTO de satélites visibles sobre…</s1>
+
+# text
+seg-2869e5710360 = <s1>lunar_afs::codes::tests (registros de longitud máxima, equilibrio de Legendre, ida y vuelta del retardo G2, composición de niveles); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (sin la caché LSIS…</s1>
+
+# text
+seg-ae3ebfe11427 = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (los { "210" } códigos primarios AFS-Q siempre; con KSHANA_LANS_RUN y la caché LSIS los { "630" } códigos, cero discrepancias de chip)…</s1>
+
+# text
+seg-295278a84ccf = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (con la caché LSIS: las { "3" } tramas que transmite LANS-AFS-SIM, construidas con los mismos FID, TOI y bits de datos: cero de { "18 000" } símbolos…</s1>
+
+# text
+seg-f24c41c419fc = <s1>tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satélites del archivo de difusión de IGS del { "2" } de marzo de { "2025" }: { "960" } de { "960" } palabras superan la paridad de RTKLIB, { "96" } de { "96" }…</s1>
+
+# text
+seg-15ee42ed7c97 = <s1>lunar_service::tests (topocéntrico frente a geometría calculada a mano: cenital, justo al norte/este/oeste, antipodal y la dirección este polar degenerada; la bandera de visible exportada coincide con la visibilidad independiente…</s1>
+
+# text
+seg-77da0b3e0b1c = <s1>lunar_dpnt::tests (el modo común de reloj se cancela exactamente; el residuo crece con la línea base; reutiliza el PL de SBAS; el recuento de satélites se respeta hasta el límite del constructor de { "24" }, de modo que una constelación mayor no pueda devolver en silencio un…</s1>
+
+# text
+seg-5db769e82e5c = <s1>lunar_interop::tests (el OEM lleva REF_FRAME/TIME_SYSTEM lunares; los metadatos de tiempo hacen ida y vuelta; sobre KIF); tests/lunar_interoperability_export_reference.rs (el OEM lunar emitido por kshana reanalizado por el oem independiente…</s1>
+
+# text
+seg-4f6e54e86d48 = <s1>qtrade::tests (polaridad de beneficio mayor/menor-es-mejor, envuelve fielmente un TradeResult real, se rechaza la evidencia deshonesta, la FoM validada necesita anclaje externo, JSON determinista)</s1>
+
+# text
+seg-f5bacc1a6bd7 = <s1>timetransfer_chain::tests (la precisión mejora con la integración; lo cuántico puede ganar Y perder; PL finito-positivo; FoM de seguridad en [{ "0,1" }] y crece con el retardo del ataque; Pd de anomalía monótona; el estudio comparativo es is_honest)</s1>
+
+# text
+seg-e31dc5eb9af0 = <s1>quantum_nav_od::tests (lo cuántico supera a lo clásico en una interrupción larga; la ventaja depende de la interrupción; el estudio comparativo es is_honest); tests/gnss_free_quantum_navigation_reference.rs (crecimiento de la posición por estima frente a un independiente…</s1>
+
+# text
+seg-a591da195f89 = <s1>quantum_faults::tests (valores conocidos de AUC analítica; el AUC bootstrap empírico encierra la forma cerrada; lo cuántico detecta fallos más pequeños / mayor AUC; la ventaja desaparece con fallos enormes; catálogo de 5 clases; el estudio comparativo es is_honest)</s1>
+
+# text
+seg-5f53e711c909 = <s1>cw_dynamics::tests (Φ({ "0" })=I, MAS desacoplado transversal); tests/cw_dynamics_reference.rs (Φ de forma cerrada frente a una integración RK4 independiente de paso fijo de las mismas EDO de Hill hasta <{ "1e-6" } durante un tercio de órbita; Φ(t)Φ(−t)=I hasta…</s1>
+
+# text
+seg-62ce807669f8 = <s1>geolocation::tests (TDOA sin ruido directa→inversa hasta { "1e-6" } m; J·CRLB=I con una covarianza PD simétrica; la traza de la varianza de posición de la CRLB no crece al añadir un receptor; TDOA+FDOA conjuntas recuperan un móvil…</s1>
+
+# text
+seg-046805e51094 = <s1>tests/entry_stardust_published.rs (pico de { "35.44" } g frente a los { "33.4" } g publicados, +{ "6.1" } %, umbral { "10" } %; velocidad de entrada relativa al planeta { "12.551" } km/s frente a { "12.6" }, umbral { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (marco rotatorio…</s1>
+
+# text
+seg-ac52f93507b3 = <s1>twstft_budget::tests (la ecuación bidireccional recupera el desfase exactamente; el término de Sagnac es igual a la forma cerrada del lazo BIPM; el término ionosférico sigue la separación de frecuencias y la troposfera se cancela; la fase de flicker tiene…</s1>
+
+# text
+seg-a9b476c32f84 = <s1>tests/optical_atmosphere_reference.rs (umbrales preregistrados A1-A3 frente a la referencia independiente de mpmath: { "216" } puntos de cuadrícula de Rytov, peor error relativo { "3.4e-7" } frente a un umbral de { "1e-6" }, centelleo peor { "4.5e-16" }, factor de apertura…</s1>
+
+# text
+seg-6ee49f7de98e = <s1>tests/optical_atmosphere_identities.rs (umbral A4: rho = { "0" } es igual a la unión independiente y rho = { "1" } al mejor emplazamiento individual hasta { "1e-12" }, y cero violaciones de monotonía en el número de emplazamientos y en la correlación; el primero…</s1>
+
+# text
+seg-a1da08c8ab20 = <s1>tests/optical_atmosphere_identities.rs (umbral A6: el error de temporización por interrupción es igual a holdover::coast_phase_sigma y el error de distancia es igual a phase_to_range_m bit a bit sobre { "9" } relojes, { "3" } duraciones medias, { "3" } dispersiones y { "4" }…</s1>
+
+# text
+seg-760c332254b9 = <s1>tests/optical_atmosphere_timeseries.rs (umbrales T1-T6 de xval/optical-atmosphere/PREREGISTRATION-timeseries.md, fijados antes de la primera ejecución: misma semilla mismos bytes y otra semilla otros bytes; ninguna clave sin la tabla; sobre…</s1>
+
+# text
+seg-5f819ec42753 = <s1>tests/mro_odf_reader_label_oracle.rs (un ODF real de MRO, 2007-304/305, frente a su etiqueta PDS: recuento de registros, posiciones de grupo, estaciones, horas de inicio y fin y tipos de datos coinciden; el recuento de filas de la tabla de fin de archivo falla por…</s1>
+
+# text
+seg-0f5890150b2a = <s1>tests/aocs_basilisk_oracle.rs ({ "3" } casos, { "601" } muestras cada uno: MRP peor { "2.4e-14" }, umbral { "1e-9" }; velocidad angular del cuerpo { "1.6e-15" } rad/s, umbral { "1e-9" }; velocidad de rueda { "2.9e-11" } rad/s, umbral { "1e-6" }; par motor aplicado { "1.2e-13" } N m, umbral { "1e-9" }; pares en t = { "0" }…</s1>
+
+# text
+seg-7a953365327a = <s1>aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds ({ "40" } semillas, NEES medio de seis grados de libertad en la segunda mitad entre { "4.5" } y { "7.5" }); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error…</s1>
+
+# text
+seg-a54d1b51ac52 = <s1>wahba::tests (A(cuaternión identidad)=I; el resolutor de autovalores de Jacobi satisface Kv=λv y conserva la traza en una matriz simétrica conocida; K es simétrica); tests/wahba_reference.rs (TRIAD, el método q de Davenport y QUEST…</s1>
+
+# text
+seg-ea40d0a1466d = <s1>acquisition::tests (caso central de Marcum-Q Q_1({ "0" },b)=exp(−b²/2); la identidad P_d=Q_M(√(2Mρ),√γ); ida y vuelta P_fa↔umbral en M y P_fa; monotonía de la ROC: P_d crece con la SNR, cae con el umbral, P_d→P_fa cuando…</s1>
+
+# text
+seg-68cac50395e0 = <s1>lambda::tests (L D Lᵀ reconstruye Q); tests/lambda_reference.rs (la transformada Z es unimodular |det Z|={ "1" } con Q_z=ZᵀQZ SPD, conserva el determinante y tiene menor correlación total fuera de la diagonal; el ILS de Schnorr–Euchner coincide con…</s1>
+
+# text
+seg-6c4c83ade953 = <s1>bplane::tests (los escalares de sobrevuelo satisfacen las formas cerradas con dos identidades de |B| coincidentes y |B|>r_p; el ángulo de giro decrece con el radio del periapsis y alcanza los límites δ→{ "0" } / δ→π; la deflexión conserva la velocidad v∞ y…</s1>
+
+# text
+seg-2a5411e17787 = <s1>crpa::tests (identidades de aritmética compleja incl. z/z={ "1" }, |exp(jθ)|={ "1" }, zᴴz=|z|²; la anulación determinista da exactamente ganancia unitaria de SV y nulos de jammer <{ "1e-9" } en un ULA de 4 elementos con { "3" } jammers; una agrupación de N elementos rechaza…</s1>
+
+# text
+seg-9439176716b3 = <s1>powerlaw::tests (cada tipo puro de ruido muestra la pendiente log-log de ADEV que lo caracteriza: FM blanco −½, FM de flicker { "0" }, FM de paseo aleatorio +½, PM blanco −{ "1" }; el término de FM de flicker es un suelo plano igual a √({ "2" } ln2·h_{ "{" }-1{ "}" }) a lo largo de cinco décadas…</s1>
+
+# text
+seg-d0ba60840a33 = <s1>oem::tests (una covarianza PD simétrica hace ida y vuelta KVN→análisis hasta el redondeo f64 y sigue siendo simétrica; el bloque emite exactamente las { "21" } entradas triangulares inferiores, i+{ "1" } por fila de matriz, con/sin COV_REF_FRAME; un bloque con…</s1>
+
+# text
+seg-b9cedff90c5f = <s1>tests/ins_coast_schuler_navego_oracle.rs::coast_error_model_matches_the_corrected_navego_runs ({ "48" } puntos, seis términos de error de { "30" } s a { "3600" } s, grado táctico, { "45" } grados N, nivelado y apuntando al norte: cada punto dentro del { "5" } %…</s1>
+
+# text
+seg-8d4441a16bbf = <s1>aperture_duty::tests (una ventana que termina exactamente cuando empieza la siguiente no compite, y adelantarla un segundo cuesta exactamente un segundo: la protección contra el error de uno; las ventanas solapadas más allá del número de aperturas…</s1>
+
+# text
+seg-9c561cfdd542 = <s1>hybrid_integrity::tests (la curva de potencia de detección va de la tasa de falsas alarmas con fallo cero a { "1" } − P_md en el sesgo mínimo detectable; el sesgo mínimo detectable realimentado por noncentral_chi2_cdf en el…</s1>
+
+# text
+seg-e82ac3e32317 = <s1>hybrid_integrity::tests (la deriva parte exactamente de la traza de covarianza que informa el bloque de traspaso, en ambos sentidos, de modo que la diagonal reproducida no pueda desviarse del traspaso informado; el tiempo de cruce informado…</s1>
+
+# text
+seg-193ac8bc7a82 = <s1>antenna::tests y lunar_service::tests (el cruce de media potencia localizado por bisección sobre el patrón coincide con el x = { "1.61634" } de Airy publicado y da el ancho exacto de { "1.02899" }·λ/D, registrando que el convencional { "1.02" }…</s1>
+
+# text
+seg-67b8e74543ed = <s1>tracking_loop::tests (jitter del discriminador Costas en lazo abierto frente a sdr::correlate avanzado sobre FI sintética con semilla, { "3" } realizaciones de ruido agrupadas × { "900" } épocas, coincidentes hasta { "0.63" }% sobre 35-45 dB-Hz, con el…</s1>
+
+# text
+seg-45f00cdcecc4 = <s1>lunar_vlbi_fim::tests ({ "24" } pruebas de biblioteca: el jacobiano analítico frente a una diferencia finita central de lunar_vlbi::vlbi_delay_s tomada por una ruta que rota hacia delante las propias coordenadas del estado y nunca toca un…</s1>
+
+# text
+seg-c94c1bafd6bb = <s1>lunar_vlbi_fim::tests ({ "7" } pruebas de biblioteca: cada grafía de datum hace ida y vuelta por parse/as_str y se rechaza una desconocida; mantener fijas todas las estaciones sin la baliza se rechaza con un error que nombra estimate_beacon; el…</s1>
+
+# text
+seg-7802e95f2bc6 = <s1>lunar_dpnt::tests (una protección puramente aditiva cuyo delta de conjunto de claves es exactamente { "{" }correction_link, units{ "}" } con todo valor preexistente idéntico bit a bit frente a literales capturados antes del cambio; el error de levantamiento NO…</s1>
+
+# text
+seg-3358e5d2ce66 = <s1>tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: hasta { "1e-12" } m con y sin ruido del receptor; zero_baseline_floor_is_zero_in_every_trial: { "0" } hasta { "1e-9" } m…</s1>
+
+# text
+seg-97ad6389fa09 = <s1>lunar_terrain::tests (bare_sphere_horizon_is_the_dip: el trazado de rayos reproduce -acos(R / (R + a)) hasta { "1e-3" } grados en cada acimut; a_cone_on_a_lat_lon_tile_matches_the_analytic_cone: el mismo cono muestreado sobre una de { "0.005" } grados…</s1>
+
+# text
+seg-576b1eda3bf4 = <s1>tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: el error de enlace con crecimiento activado menos con crecimiento desactivado tiene una sigma muestral tasa tau / sqrt({ "3" }) dentro del { "6" } % sobre { "1600" }…</s1>
+
+# text
+seg-c18cef305fc2 = <s1>lunar_solution::tests (one_epoch_without_height_is_the_snapshot_solve: es igual a lunar_dpnt::position_error_vector_from_range_errors hasta { "1e-8" } m, una fila de altura laxa no cambia nada, una estricta fija el error de altura…</s1>
+
+# text
+seg-fd1f10c41a66 = <s1>tests/lunar_protection_level_reference.rs ({ "7" } casos de volumen de servicio (polar sur, latitud media, ecuatorial, meseta elevada), de { "6" } a { "19" } satélites, σ_URE 10/30/60 m, P_HMI de { "1e-3" } a { "1e-7" }, niveles de protección que abarcan…</s1>
+
+# text
+seg-9544831a5a89 = <s1>tests/araim_reference_vectors.rs ({ "2" } vectores publicados + { "6" } controles negativos, archivo de prueba tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: eliminar el sesgo nominal falla el VPL publicado por { "2.6457" } m, un { "10" }…</s1>
+
+# text
+seg-cbb5fec70449 = <s1>tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= { "3" }, el riesgo no monitorizado dentro de P_THRES, un subconjunto que elimina tres o…</s1>
+
+# text
+seg-a6a5b0b81816 = <s1>tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: cifras de holdover sin cambios, { "111" } épocas denegadas no disponibles sin nivel de protección, rechazado con ejecuciones > { "1" }…</s1>
+
+# text
+seg-1f02e6ff390a = <s1>cislunar_observability::tests y observability_gramian::tests (el documento por defecto fijado bit a bit mediante FNV-1a de su JSON, resumen y SVG, con valores por defecto explícitos afirmados como sin efecto y los ocho…</s1>
+
+# text
+seg-ddd33dc7406d = <s1>lunar_frame_campaign::tests ({ "21" } pruebas de biblioteca: el diseño de Helmert frente a una diferencia finita central de lunar_frame_realise::apply_helmert, el módulo PARA el que es el datum, que no calcula ninguna derivada y por tanto fija el [p]ₓ…</s1>
+
+# text
+seg-0f4208761aa1 = <s1>cislunar_arc_recovery::tests y tests/cislunar_arc_recovery_reference.rs (ambas fronteras y sus razones fijadas sobre la cuadrícula publicada; la curva de error medida comparada con la covarianza formal fila a fila con un…</s1>
+
+# text
+seg-0af954b5a4f8 = <s1>lunar_ephemeris::tests (análisis de formato y de marco; interpolación de Lagrange exacta en los nodos y sobre una pista lineal fuera de nodo; los elementos ICRF adoptan la reducción IAU { "2015" } y son iguales byte a byte a un icrf_to_iau_moon explícito…</s1>
+
+# text
+seg-6fc822a083e1 = <s1>tests/field_units_global.rs (los { "61" } tipos de escenario registrados se ejecutan, una forma de documento cada uno: toda hoja numérica debe resolverse a una entrada del bloque de unidades de su propio documento; una entrada mal formada cuenta como ausente para TODO tipo de escenario…</s1>
+
+# text
+seg-97e468fe62a1 = <s1>tests/lunar_llr_real_data.rs ({ "11" } pruebas: los { "15" } archivos CRD confirmados idénticos byte a byte a sus resúmenes registrados; los { "349" } registros contabilizados, { "337" } usados y { "12" } omitidos por un motivo nombrado; toda distancia archivada dentro del…</s1>
+
+# text
+seg-be4e192d09c8 = <s1>tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: las listas vacías y el ejemplo de línea base dan el informe y el resumen por defecto byte a byte; an_added_site_never_increases_any_variance: el…</s1>
+
+# text
+seg-3a90aaa2bab4 = <s1>tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } puntos normales de 2019-Q2 no vistos; sigmas y normas dentro de { "4.0e-5" } de { "1e-2" }, condición { "1.6e-5" } de { "2e-2" }…</s1>
+
+# text
+seg-8e49f59ab515 = <s1>tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } estados geocéntricos semanales, ángulo de la peor época afirmado < { "0.3" }° y RMS < { "5e5" } m frente a la afirmación documentada del propio módulo…</s1>
+
+# text
+seg-405a4baa18c2 = <s1>tests/source_guards.rs ({ "9" } pruebas: ambas protecciones sobre todo el árbol de código fuente, más fixtures de mutación que califican cada protección en ambos sentidos: el patrón F22 informado en ambas rutas en colisión, la secuencia atómica entregada…</s1>
+
+# text
+seg-97bf39b8d423 = <s1>tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } matrices SPD 7x7 sintéticas que van de bien condicionadas a casi degeneradas en { "{" }{ "0,3" }{ "}" }; lambda_min de Schur / CRLB de origen / |corr| frente a…</s1>
+
+# text
+seg-d9143b8478b2 = <s1>tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } puntos normales de ILRS: RMS { "2.81" } m; las dos estaciones ITRF2020 solas { "2.96" } m; ambas como máximo { "10" } m)…</s1>
+
+# text
+seg-cd923a61d85b = <s1>tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } autovalores, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm y el marginal de Schur { "{" }scale,offset{ "}" } para el well_posed…</s1>
+
+# text
+seg-359b0ae05111 = <s1>tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m dentro de { "2.8e-6" } de Ashby y Patla { "2024" } con J2 de AIUB-GRL350A/B…</s1>
+
+# text
+seg-c5530b3416de = <s1>lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation: una base nula alineada con los ejes y su rotación de { "0.6" } rad dan defect, dim_spatial, dim_temporal, coupled_dim y p_st_norm idénticos…</s1>
+
+# text
+seg-f2d1f7f911eb = <s1>lunar_techniques::tests (combine_is_additive_order_independent_and_empty_is_zero: una selección vacía da la matriz cero, una selección única es la identidad, un par es igual a una suma elemento a elemento escrita de forma independiente, y…</s1>
+
+# text
+seg-192a66dd5837 = <s1>tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible para { "3" } pares de proveedores frente al ajuste lstsq por SVD de SciPy independiente en…</s1>
+
+# text
+seg-f43b88acb648 = <s1>lunar_interop_budget::tests (monotonía en el presupuesto; reducción del presupuesto RSS bajo una CRLB por proveedor; tolerancia de rotación desarrollada en el brazo de palanca lunar; término vinculante = rotación)</s1>
+
+# text
+seg-286a2e81f845 = <s1>lunar_interop_budget::tests (CommonEphemeris pone a cero el presupuesto; CommonFrameTie < PerProvider; irreducible_fraction > { "0.5" } en las divisiones reales; orden de convenciones)</s1>
+
+# text
+seg-240b8520d6bc = <s1>tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: el P⊥ de { "84" }×{ "84" } elemento a elemento, trace(P⊥) = parity_dim = { "52" } y rank(G) = { "32" }, normas de detectabilidad + banderas, la forma cuadrática MDB cᵀWP⊥c +…</s1>
+
+# text
+seg-c00b93a0b0fd = <s1>tests/telecom_timing_reference.rs ({ "17" } factores de promediado de MTIE y { "12" } de TDEV sobre una serie de holdover de reloj atómico a escala de chip de { "2" } 048 muestras confirmada con envejecimiento, flicker y temperatura, frente a allantools { "2024.06" } hasta <{ "1e-12" } / <{ "1e-9" }…</s1>
+
+# text
+seg-f370ba86f559 = <s1>telecom_timing::tests (mask_boundaries_follow_the_tables_exactly: extremos abiertos y cerrados, el hueco τ = { "400" } s de la Tabla 7-3 de G.8271.1, continuidad en cada punto de ruptura que implican las tablas…</s1>
+
+# text
+seg-54f65105891a = <s1>clock_log::tests (registros escritos a mano por formato: cabeceras, separadores, unidades, integración de frecuencia, canales y modos TICC, huecos y políticas, rechazos); tests/clock_log_allantools.rs (la comparación preregistrada…</s1>
+
+# text
+seg-626117af9cdf = <s1>telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form: la rampa discreta de envejecimiento dentro del { "0.1" } % de (1/2)·D·t² sobre un…</s1>
+
+# text
+seg-b8eed1ebd82a = <s1>tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: ajuste sobre el primer tercio del registro, predicción de la superación de una sigma en { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } y { "2.5" } ns, medida sobre el…</s1>
+
+# text
+seg-75b0ef8ae233 = <s1>tests/slot_timing_igs_holdout.rs ({ "10" } relojes de satélites GPS Block IIF, { "14" } días de relojes finales de IGS: { "8" } dentro del umbral de { "1.5" }, G25 y G30 optimistas hasta aproximadamente 2x, fijado); tests/slot_timing_ocxo_holdout.rs (un medido…</s1>
+
+# text
+seg-5b4b3588e36c = <s1>orbital_timing::tests (reduces_to_the_terrestrial_tpl: exactamente tpl::timing_protection_level_ns cuando el reloj no tiene término de flicker, de fase blanca ni de paseo aleatorio; leo_geometry_matches_its_closed_forms…</s1>
+
+# text
+seg-bd9967650e32 = <s1>spectrum::tests (bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz: BPSK({ "1" }) { "2.046" } MHz y BPSK({ "10" }) { "20.46" } MHz localizados numéricamente sobre la forma cerrada; boc11_lobes_are_centred_at_plus_minus_1_023_mhz: nulo de portadora…</s1>
+
+# text
+seg-48672b24258c = <s1>spectrum::tests (agrees_with_the_jamming_kind_chain: J/S igual a jamming::j_over_s_db y C/N0 efectivo igual a jamming::effective_cn0_dbhz con Q = 1/(R_c kappa) hasta { "1e-9" } dB, y el ancla de { "32.105" } dB de la jamming…</s1>
+
+# text
+seg-7ecf03ff1966 = <s1>tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (baricentros 1800-2050 de la Tabla { "1" } y { "3000" } a. C.-3000 d. C. de la Tabla { "2" }, { "8908" } y { "21857" } épocas, peor RMS…</s1>
+
+# text
+seg-fd1cc8019558 = <s1>tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } posiciones en { "200" } épocas UTC 1973-2026 tomadas del hash de preregistro; peor { "0.66" } del umbral, { "2.96" } m)…</s1>
+
+# text
+seg-d44a18dac6a9 = <s1>tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s (los baricentros de Mercurio, Venus, Marte, Júpiter y Saturno, el Sol y la Luna hasta la Tierra…</s1>
+
+# text
+seg-457d0bb2fc18 = <s1>tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: fijado en { "2.04" } y { "5.16" } veces el error nominal de longitud, por debajo de seis veces…</s1>
+
+# text
+seg-97266912f59e = <s1>tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: peor error angular visto desde el planeta entre { "2000" } y { "2040" }, Fobos { "5.65" } grados, Deimos { "0.38" }, Ío { "0.40" }, Europa { "1.63" }, Ganímedes { "0.22" }…</s1>
+
+# text
+seg-130434c29134 = <s1>tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } épocas de { "1955" } a { "2044" }, { "574" } matrices dentro de { "1e-9" } rad, peor Fobos { "1.43e-10" } rad)…</s1>
+
+# text
+seg-f0f5cad2f3b9 = <s1>constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (las { "24" } filas de RAAN y anomalía media hasta { "1e-9" } grados); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (la fórmula de ranura del ICD y un…</s1>
+
+# text
+seg-1589b9b655fa = <s1>constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP mediana { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, media { "0.965" } frente a { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } y { "0.96" }, umbral { "0.03" } en cada fijo…</s1>
+
+# text
+seg-0df9c964e180 = <s1>constellation::tests (prefilter_matches_brute_force_exactly: cada mapa y contador es igual a un barrido con la prueba directa de elevación; five_thousand_satellites_on_a_coarse_grid: { "5 000" } satélites, imprime el tiempo de ejecución y…</s1>
+
+# text
+seg-44fa74f15217 = <s1>tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number: una composición de un miembro lee el número independiente y el resumen del resultado)</s1>
+
+# text
+seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (preregistrado fbe6c8b3 y, tras un fallo de protocolo en la ronda 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form: resolución de objetivo 1-D dentro de { "6.1e-15" } de r* = r0 { "10" }^((m(r0)…</s1>
+
+# text
+seg-898a76c2719d = <s1>navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit: Si({ "1" }), Si(pi), Si({ "2" } pi) hasta { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric: { "0.9028" } de la potencia en el lóbulo principal para…</s1>
+
+# text
+seg-38df494c0225 = <s1>tests/leo_signal_reference.rs (la cascada multibanda se ejecuta con cuatro paneles, los jammers de UHF, banda L5, S y C deniegan cada uno solo su propia banda, y una ejecución de banda simple no cambia con la ampliación)…</s1>
+
+# text
+seg-5b584f66b1b9 = <s1>tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: las { "115" } filas de la Tabla { "5" }, de { "1" } GHz a { "1000" } GHz, cada coeficiente dentro de { "0.6" } de su último dígito impreso; peor observado { "0.51" })</s1>
+
+# text
+seg-fcf54e4d09c3 = <s1>tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } casos en cinco emplazamientos, { "14.25" } y { "29" } GHz, { "0.001" } % a { "1" } %, dentro de { "1e-4" } dB; observado { "5e-6" } dB)</s1>
+
+# text
+seg-f6b9a637b0d5 = <s1>tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } casos en siete emplazamientos, { "14.25" } y { "20" } GHz, dentro de { "1e-5" } dB; observado { "5e-7" } dB)</s1>
+
+# text
+seg-a0b65a73f2a4 = <s1>tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } valores, { "28" } GHz a { "0" } grados y { "2" } GHz a { "45" } grados, ambas clases, P de { "1e-7" } a { "0.998" }, dentro de { "0.001" } dB)</s1>
+
+# text
+seg-53943b608329 = <s1>tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } grados, Pulsar FOC polar { "1080" } km { "97" } grados, Pulsar FOC inclinada { "1080" } km { "53" } grados y GPS { "20180" } km { "55" } grados; velocidad orbital…</s1>
+
+# text
+seg-d34f65fbc0f2 = <s1>leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table: GPS { "0.979" } y 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } y 1/61.1, BeiDou MEO 1/54.2, geoestacionario { "0.992" } y 1/126.2 con una máscara de { "0" } grados, cada…</s1>
+
+# text
+seg-658e7640260b = <s1>tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre: cuatro efemérides de difusión reales de Galileo E10, E19, E24, E25 en tk = { "0" }, +/-600, +/-1800, +/-3600 s, cada eje dentro de { "1" } mm de…</s1>
+
+# text
+seg-bbde673e86b7 = <s1>leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value: 0xCDE703 para la cadena ASCII { "123456789" }; crc24q_matches_the_rtcm_1005_example_frame: los tres bytes de comprobación 0x360B98 de la trama de ejemplo del tipo de mensaje RTCM { "10403" }…</s1>
+
+# text
+seg-026c16b76bc5 = <s1>leo_navmsg::tests::a_mid_pass_update_is_continuous (el salto de distancia de cada conmutación es igual al cambio en el error de distancia, y un ajuste corregido de { "300" } s actualizado cada { "150" } s supera un umbral de { "5" } cm)…</s1>
+
+# text
+seg-206c8fedb40a = <s1>leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (cada modelo dentro de { "0.1" } mm tras el bloque de texto, el CSV exacto)</s1>
+
+# text
+seg-09284032f3ff = <s1>tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (cuatro días del artículo: razones a lo largo, transversal, radial y SISRE de { "0.755" } a { "1.138" } de Liu et al. { "2025" }, dentro de 1.5x)…</s1>
+
+# text
+seg-bdf321af446a = <s1>tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: un satélite a { "780" } km y { "86.4" } grados volado durante un día a { "1621" } MHz sobre cuatro latitudes, máximo dentro del { "5" }% de { "36" } kHz…</s1>
+
+# text
+seg-1408cfaef991 = <s1>leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: hasta { "1" } mm y la deriva hasta { "1e-6" } m/s…</s1>
+
+# text
+seg-9cedbeb3d672 = <s1>leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } semillas, media de NEES promediada por ejecución en [{ "2.4" }, { "3.6" }] y al menos el { "75" }% de las épocas dentro de la banda chi-cuadrado bilateral del { "95" }%; medido con { "150" } semillas, media…</s1>
+
+# text
+seg-1191202e90ca = <s1>tests/leo_polar_coverage_on_path_orekit_oracle.rs (configuraciones A y B, { "4040" } muestras: posiciones fijas a la Tierra dentro de { "6.8e-5" } m, umbral { "0.2" } m; recuentos a la vista idénticos en 4040/4040; DOP mediano dentro de { "2.3e-11" } relativo, umbral…</s1>
+
+# text
+seg-d9a4ae25b196 = <s1>leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: un EIRP más fuerte, un intervalo de ajuste más largo y un término de determinación de órbita mayor cada uno…</s1>
+
+# text
+seg-85d961f50587 = <s1>tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: es igual al TEC oblicuo de la pasada en el pico hasta { "1e-9" } y su sigma es igual al ruido de código RSS sobre { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" }))…</s1>
+
+# text
+seg-a17cc61fffba = <s1>tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: tres escenarios: estaciones estimadas en una nueva fecha de campaña 2026-03-18 (vinculante), estaciones fijas en esa fecha…</s1>
+
+# text
+seg-b2e472a6691a = <s1>tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: cuatro escenarios: estaciones estimadas en una nueva fecha de campaña 2026-06-09 (vinculante), estaciones fijas en esa fecha (control)…</s1>
+
+# text
+seg-a71282a84212 = <s1>telemetry::syslog::tests (cadenas LEEF exactas, escapado, gravedad, envoltura RFC { "5424" }, tiempos de espera de entrega y reconexión); tests/telemetry_cli.rs</s1>
+
+# text
+seg-0f6ad892e199 = <s1>tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignorada, condicionada a datos por KSHANA_JAMMERTEST_DIR: la selección registrada, los recuentos reservados, los veredictos frente a los umbrales y el veredicto)…</s1>
+
+# text
+seg-fa68aadcc812 = <s1>tests/jammertest_plan_roundtrip.rs (condicionado a datos por KSHANA_JAMMERTEST_PLAN_DIR: recuentos de ranuras por área de prueba del plan de { "2025" }, identificadores del catálogo, ida y vuelta TOML); tests/jammertest_score.rs (un registro sintético con una caída conocida…</s1>
+
+# text
+seg-9029e168db2d = <s1>tests/receiver_trust_live_cli.rs (la puerta y su escucha TCP, lado Rust); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js e integrations/signalk/test/plugin.test.js ({ "24" } Node…</s1>
+
+# text
+seg-33067eb81d16 = <s1>tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, el veredicto registrado afirmado tal como se registró, hallazgo F1; finding_model_fades_are_deeper_and_longer_than_measured…</s1>
+
+# text
+seg-a7d806eca846 = <s1>tests/standards_packs.rs (pinned_outcomes: el estado de cada prueba, incluidos los fallos L4-T1 y las cuatro pruebas de exactitud de la IMO); standards_pack::tests</s1>
+
+# text
+seg-b2e460fe9109 = <s1>receiver_trust::machines::novatel::tests (CRC fijado, registros ASCII y binarios, CRC erróneo omitido, entrada hostil); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report</s1>
+
+# text
+seg-af38bd301f7a = <s1>receiver_trust::machines::rtcm3::tests (valor de comprobación del catálogo CRC-24Q, C/N0 MSM4/MSM7 y fusión de épocas, correspondencia de hora GLONASS e id de SBAS, CRC erróneo y otros mensajes)</s1>
+
+# text
+seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: el formato que escribe el puente gnss_lib_py, procesado con receiver-trust); las pruebas en Python de los puentes son…</s1>
+
+# text
+seg-17ab1aee875b = Generado a partir de la matriz de verificación del motor y fijado por una prueba. Desplácese por la lista o abra una fila para ver su capacidad, su referencia independiente y sus pruebas. La tabla completa, con todas las columnas a la vez, está en la documentación: <a1>Referencia de capacidades</a1>.
+
+# text
+seg-41da0459d87a = ¿Necesita este registro como un paquete de evidencias reproducible y apto para auditoría, destinado a un comité de revisión? <a1>Kshana Pro lo empaqueta</a1>.
+
+# text
+seg-72a49f4a8a52 = Reproducible por defecto
+
+# text
+seg-fa37e615f55e = Vuelva a ejecutarlo. Obtendrá los mismos números.
+
+# text
+seg-ed2388d71f8d = <s1>Núcleo gratuito</s1> Un resultado es reproducible bit a bit a partir del escenario, la semilla y la versión del motor. Nada de esto necesita una licencia, una cuenta ni a nosotros.
+
+# text
+# c1: result.json
+seg-37c1e99ec1ea = El sello que lleva cada <c1/>
+
+# text
+seg-87d1a7bd3204 = Este procede de la ejecución registrada de holdover del reloj. Ábralo en Kshana Studio o vuelva a ejecutarlo usted mismo:
+
+# text
+seg-006d9a3357c7 = semilla
+
+# text
+seg-477ec417d61a = Instale el motor.
+
+# text
+# c1: pip install kshana
+seg-972d68eb7cb0 = O <c1/>, o <a1>cualquier otro canal</a1>.
+
+# attr:aria-label
+seg-a8676830c911 = Copiar: kshana scenarios/clock-holdover.toml
+
+# text
+seg-c1c85d7f2577 = Ejecute el mismo escenario.
+
+# text
+seg-b6c702bf5a99 = kshana scenarios/<s1>clock-holdover.toml</s1>
+
+# text
+# c1: result.json
+# c2: chart.svg
+# c3: report.html
+# c4: table.csv
+seg-42c1c8edda64 = Escribe <c1/>, <c2/>, <c3/> y <c4/> junto al escenario.
+
+# text
+seg-f250e52e31a2 = Compare el sello.
+
+# text
+seg-270867e3758d = El hash del escenario es un resumen SHA-256 (256-bit Secure Hash Algorithm) sobre el escenario canónico: semilla, umbrales, parámetros del modelo. Cambie cualquier entrada y el hash cambia. El pie de cada gráfico lleva sus primeros { "12" } caracteres hexadecimales.
+
+# text
+seg-67a40345e62e = Deje que el motor se compruebe a sí mismo.
+
+# attr:title
+seg-0ce40c687cec = tests/published_figures_still_reproduce.rs
+
+# attr:title
+seg-349b9f41ae53 = tests/verification_rows_name_a_test_that_exists.rs
+
+# attr:title
+seg-bc1e2f2efa37 = tests/verification_rows_cite_evidence_that_exists.rs
+
+# text
+# c1: tests/published_figures_still_reproduce.rs
+# c2: tests/verification_rows_name_a_test_that_exists.rs
+# c3: tests/verification_rows_cite_evidence_that_exists.rs
+seg-27b8a76b5377 = En cada compilación, las pruebas confirman que las cifras publicadas se siguen reproduciendo (<c1/>) y que cada fila del registro nombra una prueba y cita una evidencia que existe (<c2/>, <c3/>).
+
+# text
+seg-c9bd26fbb336 = Cuadrícula de normas
+
+# text
+seg-48fb720acd5b = Habla los formatos que usted ya presenta.
+
+# text
+seg-4f2bf101ab05 = { "18" } normas y formatos que implementa el motor. Una marca verde significa que se comprueba frente a datos reales, un ejemplo publicado o una implementación de referencia independiente.
+
+# attr:aria-label, text
+seg-4dbf9694677e = Cuando una revisión necesita más
+
+# text
+seg-481e625b04be = La misma evidencia, empaquetada o hecha por nosotros.
+
+# text
+seg-d2c76b1353a9 = El motor y todo lo anterior siguen siendo gratuitos. Dos vías de pago se apoyan en ellos, bajo contrato.
+
+# text
+seg-1e1e6d431868 = Kshana Pro: un dosier de misión y un paquete de evidencias
+
+# text
+seg-20582558a93f = Kshana Pro empaqueta, de forma reproducible, la evidencia que pide un comité de revisión o de adquisiciones. Sobre qué se apoya: este registro, donde cada capacidad nombra su referencia independiente y su prueba, y el sello que lleva cada resultado. Con un solo comando, un dosier de misión comprueba cada requisito frente a ejecuciones reales y escribe una matriz de verificación con sus asuntos pendientes y un PDF (Portable Document Format).
+
+# text
+seg-1c8effb9400a = Ver un dosier real
+
+# text
+seg-c24f4ecd4d42 = Un estudio a medida: su pregunta, respondida
+
+# text
+seg-bead5a126394 = Un estudio a medida responde a su propia pregunta con las mismas etiquetas: cada cifra validada o modelada, no una certificación. El trabajo sujeto a control de exportación se gestiona bajo autorización y NDA (non-disclosure agreement, acuerdo de confidencialidad).
+
+# text
+seg-6df96ca25c68 = Por qué y para quién
+
+# text
+seg-1aff28e3a49a = Compare métodos sobre los mismos registros.
+
+# text
+seg-5c0bc250857a = kshana-bench fija las tareas, las particiones y las métricas para la detección de interferencias GNSS y el holdover de temporización, con líneas base cuyos umbrales se escribieron antes de la primera ejecución puntuada. Una puntuación describe un registro o un corpus, nunca un producto.
+
+# attr:aria-label, text
+seg-fa599e1294b9 = Investigación y citas
+
+# text
+seg-9bff81726f3f = Investigación publicada.
+
+# text
+seg-7563b76b2e24 = { "6" } artículos en arXiv, el archivo abierto de preprints, construidos sobre el motor abierto. Cada uno se abre en una figura vuelta a ejecutar en el motor, sus hallazgos, el comando y su DOI (Digital Object Identifier).
+
+# text
+seg-71fadc5b5a0b = Navegación lunar
+
+# text
+seg-99f49da3e2c2 = <s1>{ "18" } de septiembre de { "2026" }</s1> · arXiv:{ "2610.23871" }
+
+# text
+seg-4215aedbd38b = Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever
+
+# text
+seg-b98018947305 = En el espacio cislunar la dilución de la precisión no se aplica: los enlaces solo de distancia dejan la velocidad inobservable en cualquier instante, de modo que los requisitos pertenecen a presupuestos de longitud de arco, de condicionamiento y de tipo de medición.
+
+# text
+seg-d44879bf12ee = Resumen
+
+# text
+seg-4f7300f35cc4 = DOI 10.48550/arXiv.2610.23871
+
+# attr:aria-label
+seg-d1e4312d649c = Rango observable del estado de 4 componentes (posición y velocidad en el plano); cuanto mayor, mejor
+
+# attr:title
+seg-f5cb4cb0ab34 = Observabilidad espacial, ruidosa y multifamilia de la longitud de arco cislunar: etiqueta de la matriz de verificación
+
+# text
+# c1: cislunar-observability.toml
+seg-24861a829697 = Motor v{ $version } · <c1/> · determinista, sin semilla
+
+# text
+seg-53ec3ceb08e3 = Hallazgos principales
+
+# text
+seg-97a4147e002c = En la ejecución del motor, la geometría de solo distancia en un instante tiene rango { "2" } de { "4" }, de modo que la dilución de la precisión no está definida; el estado completo pasa a ser observable tras un arco de { "2.09" } h.
+
+# text
+seg-879b68e63984 = Añadir la velocidad de distancia eleva el rango instantáneo de { "2" } a { "4" }: un enlace con capacidad Doppler hace que exista una solución instantánea donde un enlace de solo distancia no puede.
+
+# text
+seg-59fe2106ff19 = Más allá del umbral, el condicionamiento mejora con la longitud de arco, de modo que los requisitos se expresan mejor como presupuestos de longitud de arco, de condicionamiento y de tipo de medición.
+
+# text
+seg-c39dad75b1db = Cómo lo reproduce Kshana
+
+# text
+seg-88d62c0eb522 = El tipo de escenario cislunar-observability corrige diferencialmente cuatro órbitas retrógradas distantes planas, ensambla los jacobianos de distancia y de velocidad de distancia mediante la matriz de transición de estado de tres cuerpos, e informa del rango observable a lo largo de un arco de seguimiento creciente, del número de condición de la gramiana de observabilidad y de un filtro de información de raíz cuadrada que recalcula la misma magnitud por una segunda vía.
+
+# text
+seg-4199e285c1ce = <b>La figura.</b> El escenario incluido: cuatro órbitas retrógradas distantes planas corregidas diferencialmente, seguidas por medición de distancia entre satélites durante un arco de { "6" } h muestreado cada { "0.26" } h.
+
+# text
+# c1: cislunar-observability
+# c2: scenarios/cislunar-observability.toml
+seg-641d437e44cf = Ejecuta el tipo de escenario <c1/> (<c2/>) con el motor instalado.
+
+# attr:aria-label
+seg-2d7cee52688b = Copiar: kshana example cislunar-observability > cislunar-observability.toml
+
+# text
+seg-8bcfbf1acc34 = kshana example cislunar-observability > cislunar-observability.toml
+
+# attr:aria-label
+seg-819350dc7d89 = Copiar: kshana cislunar-observability.toml
+
+# text
+seg-0805c0fa877a = kshana cislunar-observability.toml
+
+# text
+seg-8542b85104f5 = Cítelo
+
+# text
+seg-e1324f491348 = BibTeX · baweja2026cislunar
+
+# text
+seg-02ae60696338 = Copiar BibTeX
+
+# text
+seg-814e10300308 = <s1>{ "7" } de julio de { "2026" }</s1> · arXiv:{ "2607.06212" }
+
+# text
+seg-cb5ae69b24b2 = The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis
+
+# text
+seg-2d8cdfcc974c = Las órbitas planificadas se agrupan en lo alto para un usuario del polo sur lunar; unas pocas balizas de medición de distancia en terreno elevado cercano corrigen la geometría de forma más barata que más satélites.
+
+# text
+seg-15862a1146a0 = DOI 10.48550/arXiv.2607.06212
+
+# attr:aria-label
+seg-5b774fbf8cf4 = Dilución geométrica de la precisión en el usuario del polo sur (cuanto menor, mejor)
+
+# attr:title
+seg-3534626980e2 = Aumento del DOP con balizas de superficie lunar: etiqueta de la matriz de verificación
+
+# text
+# c1: lunar-beacon.toml
+seg-1a81055d9da3 = Motor v{ $version } · <c1/> · determinista, sin semilla
+
+# text
+seg-da361b259315 = En la ejecución incluida, la única baliza que supera el horizonte reduce la dilución geométrica de la precisión de { "11.66" } a { "4.998" }; en cambio, una constelación de 24 satélites alcanza { "2.893" }.
+
+# text
+seg-53df3c2b7e42 = Los satélites que ve un usuario del polo sur se agrupan en una pequeña zona en lo alto, de modo que la geometría queda limitada por su dispersión y no por su número.
+
+# text
+seg-cbbaada97ad4 = Unas pocas balizas en terreno elevado alcanzan una geometría que un diseño solo orbital logra únicamente con una flota mucho mayor.
+
+# text
+seg-89f424090012 = El tipo de escenario lunar-beacon construye la geometría de medición de distancia de una constelación orbital más las balizas de superficie levantadas topográficamente que superan el horizonte sin atmósfera, sobre el núcleo de dilución de la precisión comprobado frente a una biblioteca independiente, e informa de la dilución de la precisión de cada configuración y de su exactitud en metros.
+
+# text
+seg-9a9dd41c0880 = <b>La figura.</b> Una época del escenario incluido, con su geometría por defecto: los satélites solos, los satélites más las balizas que superan el horizonte, y en cambio una constelación de 24 satélites.
+
+# text
+# c1: lunar-beacon
+# c2: scenarios/lunar-beacon.toml
+seg-5425a567ce90 = Ejecuta el tipo de escenario <c1/> (<c2/>) con el motor instalado.
+
+# attr:aria-label
+seg-e117d65ea93b = Copiar: kshana example lunar-beacon > lunar-beacon.toml
+
+# text
+seg-51991939e727 = kshana example lunar-beacon > lunar-beacon.toml
+
+# attr:aria-label
+seg-a635fe4b7597 = Copiar: kshana lunar-beacon.toml
+
+# text
+seg-c3952de0ac25 = kshana lunar-beacon.toml
+
+# text
+seg-3863c17f1d12 = BibTeX · baweja2026cost
+
+# text
+seg-756a63fd185f = <s1>{ "29" } de junio de { "2026" }</s1> · arXiv:{ "2607.02566" }
+
+# text
+seg-75c6caf87321 = Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination
+
+# text
+seg-e58a7d860d50 = La medición de distancia dentro de la red lunar solo fija la geometría relativa; un retardo de interferometría de línea base muy larga con línea base terrestre vincula una estación de superficie al marco terrestre, incluso con pocos satélites. <s1><b>VLBI</b> interferometría de línea base muy larga</s1>
+
+# text
+seg-1d5d779fec56 = DOI 10.48550/arXiv.2607.02566
+
+# attr:aria-label
+seg-4d34307e4008 = Error de posición absoluta de la estación en el ajuste, metros (escala logarítmica)
+
+# attr:title
+seg-1427dd0d24c1 = Observabilidad absoluta de estaciones lunares (defecto de datum): etiqueta de la matriz de verificación
+
+# text
+# c1: lunar-joint-od-clock.toml
+seg-dd9cc689ae2b = Motor v{ $version } · <c1/> · semilla { "42" }
+
+# text
+seg-473a7f364ad8 = Registrado en macOS tal como se publicó. Una ejecución nueva en Linux x86-64 da { "2184" } m / { "3.537" } m (dependencia del anfitrión en la iteración del resolutor, incidencia #36 fila { "6" }).
+
+# text
+seg-36052dbf6e6d = La medición de distancia dentro de la red lunar deja el conjunto libre de desplazarse y rotar sin que se vea; los relojes siguen siendo observables, de modo que el defecto es puramente de posición.
+
+# text
+seg-b734ac9c732e = En la ejecución del motor ({ "3" } satélites), la información de Fisher sin los tramos de interferometría tiene rango { "15" } de { "16" }; con ellos tiene rango completo y una cota de Cramér–Rao de { "20.1" } m.
+
+# text
+seg-e18724ed23f7 = Con una constelación rica, el vínculo de interferometría solo afina la cota; con una escasa, restablece la posición absoluta de la estación.
+
+# text
+seg-d626b2e1fb1c = El tipo de escenario lunar-joint-od-clock fusiona retardos de interferometría con línea base terrestre, distancias locales lunares y distancias entre satélites en un único ajuste por lotes de mínimos cuadrados, lo ejecuta con y sin los tramos de interferometría sobre la misma semilla, e informa del rango de la información de Fisher, del defecto de datum y de la cota de Cramér–Rao.
+
+# text
+seg-16e6ed9268fb = <b>La figura.</b> La red simulada incluida: { "3" } satélites lunares, { "6" } estaciones terrestres, una estación de superficie, la misma semilla y la misma verdad para ambos ajustes.
+
+# text
+# c1: lunar-joint-od-clock
+# c2: scenarios/lunar-joint-od-clock.toml
+seg-4ed8d3407015 = Ejecuta el tipo de escenario <c1/> (<c2/>) con el motor instalado.
+
+# attr:aria-label
+seg-825f9c694f75 = Copiar: kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+# text
+seg-b39180e5bad6 = kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+# attr:aria-label
+seg-e37077cef2d2 = Copiar: kshana lunar-joint-od-clock.toml
+
+# text
+seg-4d7b3cc885e1 = kshana lunar-joint-od-clock.toml
+
+# text
+seg-4a67b5769164 = BibTeX · baweja2026earth
+
+# text
+seg-7334fb10a58d = <s1>{ "23" } de junio de { "2026" }</s1> · arXiv:{ "2606.24210" }
+
+# text
+seg-d919ca966a9e = A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing
+
+# text
+seg-913d89357229 = Un spoofing registrado muestra a un receptor de temporización sirviendo una hora mucho más errónea de lo que informa; no existe ninguna cota incondicional, de modo que el artículo acota el error no detectado de forma condicional. <s1><b>GNSS</b> Global Navigation Satellite System</s1>
+
+# text
+seg-6de2dc8a5fb7 = DOI 10.48550/arXiv.2606.24210
+
+# attr:aria-label
+seg-b3ea3697c2c0 = Nanosegundos (escala logarítmica) frente a la latencia de detección, segundos
+
+# attr:title
+seg-0cbe8e77cc1c = Nivel de protección de temporización bajo spoofing: etiqueta de la matriz de verificación
+
+# text
+# c1: examples/tpl_jammertest.rs
+seg-83a7b4fac0b6 = Motor v{ $version } · <c1/> · determinista, sin semilla
+
+# text
+seg-77c4b79f3e91 = Un spoofing registrado públicamente desplazó la hora servida por el receptor unos { "1.01" } ms mientras este informaba como máximo de { "51" } ns.
+
+# text
+seg-f49dcc8cddcc = Frente a una rampa suficientemente lenta no existe ninguna cota incondicional finita, de modo que la cota es condicional a que una comprobación cruzada independiente entre satélites detecte el ataque.
+
+# text
+seg-548b29459f87 = El Timing Protection Level del motor es de { "114" } ns con { "1" } s de latencia de detección y de { "458" } ns con { "60" } s.
+
+# text
+seg-ceb4239784a5 = El módulo de Timing Protection Level suma el suelo de detección de un monitor a la deriva del oscilador durante la latencia de detección. El ejemplo lo calibra con los escalares recuperados de la grabación pública de JammerTest { "2024" }; la grabación original no se incluye.
+
+# text
+seg-723ada08a5da = <b>La figura.</b> La salida impresa del ejemplo: el Timing Protection Level condicional con cinco latencias de detección, y los dos escalares que recuperó de la grabación pública de JammerTest { "2024" }.
+
+# text
+# c1: examples/tpl_jammertest.rs
+seg-72b36b33149c = Regenera el artefacto del estudio a partir de <c1/>, en un clon del repositorio.
+
+# attr:aria-label
+seg-1bbc7e2ec752 = Copiar: cargo run --release --example tpl_jammertest
+
+# text
+seg-f9d26d561e77 = cargo run --release --example tpl_jammertest
+
+# text
+seg-1e7f0f12f1d8 = BibTeX · baweja2026conditional
+
+# text
+seg-71f2b94fc8ed = Puntuación de resiliencia
+
+# text
+seg-0bf6d80a9ac4 = <s1>{ "22" } de junio de { "2026" }</s1> · arXiv:{ "2607.05415" }
+
+# text
+seg-e1901a8f71a6 = How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting
+
+# text
+seg-0c986779c8c0 = Las calificaciones de resiliencia de un solo número para posicionamiento, navegación y temporización son estables solo donde un diseño domina; la ponderación, la amenaza y las técnicas declaradas pueden invertirlas. <s1><b>PNT</b> posicionamiento, navegación y temporización</s1>
+
+# text
+seg-fa0b79c90793 = DOI 10.48550/arXiv.2607.05415
+
+# attr:aria-label
+seg-fe88f96641c0 = Sorteos en los que solo la reponderación cambia la arquitectura de mayor rango, por ciento
+
+# attr:title
+seg-4fcd1d447d03 = Estudio de inestabilidad de decisión de la puntuación de resiliencia: etiqueta de la matriz de verificación
+
+# text
+# c1: examples/resilience_report.rs
+seg-44773d6f6133 = Motor v{ $version } · <c1/> · semilla { "12345" }
+
+# text
+seg-8b90bfea6f24 = Solo la reponderación cambia la arquitectura de mayor rango en el { "22" }% de los sorteos en condiciones nominales, y como máximo en el { "1.25" }% bajo cada amenaza activa.
+
+# text
+seg-d8e47cf40fdd = Un nivel de madurez del eslabón más débil depende de la amenaza supuesta, no solo de la arquitectura.
+
+# text
+seg-1df0aa1cd5d4 = Como el compuesto premia las técnicas declaradas, un diseño que declara más puede superar en puntuación a otro más resiliente.
+
+# text
+seg-fe2d2c2ed9ec = El módulo de resiliencia puntúa siete arquitecturas de referencia en las siete categorías del marco y cinco amenazas, sortea al azar los pesos de las categorías a partir de una distribución de Dirichlet y cuenta con qué frecuencia cambia el primer puesto. El ejemplo escribe todo el estudio como un único archivo determinista.
+
+# text
+seg-83a738bd9ab5 = <b>La figura.</b> { "7" } arquitecturas de referencia, { "2,000" } ponderaciones aleatorias de categorías por amenaza.
+
+# text
+# c1: examples/resilience_report.rs
+seg-a1c2bf9c21a4 = Regenera el artefacto del estudio a partir de <c1/>, en un clon del repositorio.
+
+# attr:aria-label
+seg-b9a73904adfc = Copiar: cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+# text
+seg-164b725640f2 = cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+# text
+seg-068c8bc02d18 = BibTeX · baweja2026stable
+
+# text
+seg-bc499c388907 = Interferencia de radiofrecuencia
+
+# text
+seg-0411e7a125dd = <s1>{ "20" } de junio de { "2026" }</s1> · arXiv:{ "2606.22054" } · versión { "2" }
+
+# text
+seg-1a9e30bfff32 = Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics
+
+# text
+seg-1a5fd51bad12 = Cuánto pierde un detector de interferencias en condiciones desplazadas puede predecirse a partir de sus propias puntuaciones dentro de la distribución; resultados sintéticos, comprobados con grabaciones de campo abiertas. <s1><b>RF</b> radiofrecuencia</s1>
+
+# text
+seg-0484b37344e2 = DOI 10.48550/arXiv.2606.22054
+
+# attr:aria-label
+seg-2ead6f7b689b = Brecha de optimismo predicha frente a la real (área bajo la curva perdida bajo desplazamiento)
+
+# attr:title
+seg-412b53a9eeb4 = Estudio de la brecha de optimismo de degradaciones RF con IA/ML y predictor de brecha solo con datos de la distribución: etiqueta de la matriz de verificación
+
+# text
+# c1: examples/optimism_study.rs
+seg-852f52ca41c7 = Motor v{ $version } · <c1/> · semilla { "1" }, { "2" }, { "3" }, { "4" }, { "5" }
+
+# text
+seg-e316b9177880 = La brecha entre el área bajo la curva dentro de la distribución y la desplazada crece a medida que se profundiza el desplazamiento, y depende de cuántos observables usa un detector y no de si es aprendido.
+
+# text
+seg-4761136935f9 = En la ejecución del motor, un modelo ridge sobre estadísticos de puntuación dentro de la distribución predice la brecha de un detector que no ha visto (R² { "0.46" }) y de una clase de interferencia que no ha visto (R² { "0.33" }).
+
+# text
+seg-72cdba8fbe98 = Los hallazgos principales son sintéticos; el artículo los comprueba después con grabaciones de campo abiertas.
+
+# text
+seg-61d0f43db2e3 = El estudio de degradaciones genera un corpus sintético basado en parámetros para cuatro clases de interferencia, puntúa trece detectores con cuatro severidades de desplazamiento y cinco semillas, y ajusta el predictor de la brecha con validación cruzada dejando uno fuera y una prueba de permutación.
+
+# text
+seg-300c322d4ba2 = <b>La figura.</b> { "260" } celdas de detector, clase y severidad; cada predicción se hace para un detector dejado fuera del ajuste.
+
+# text
+# c1: examples/optimism_study.rs
+seg-296fc672c52b = Regenera el artefacto del estudio a partir de <c1/>, en un clon del repositorio.
+
+# attr:aria-label
+seg-99072a1940f0 = Copiar: cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+# text
+seg-66c4d9424478 = cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+# text
+seg-c2e48bf2916b = BibTeX · baweja2026anticipating
+
+# text
+seg-96fe472ae234 = Cite el motor
+
+# text
+seg-47c92ffeaa12 = Cada versión se archiva en Zenodo con un DOI citable, y en el repositorio se incluye un CITATION.cff. Cite la versión del motor, el escenario y la semilla.
+
+# text
+seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em> (Versión { $version }). Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
+
+# text
+seg-c97e87cbcdd5 = BibTeX del motor
+
+# text
+seg-24ff0a7466d6 = BibTeX

@@ -278,3 +278,49 @@ seg-ccb244e60d60 = Transferencia bidireccional de tiempo y frecuencia óptica fr
 
 # text
 seg-f6ff1c8c78db = Pérdida de enganche del lazo de seguimiento: C/N0 -> enganche y pérdida de enganche CON HISTÉRESIS, el tiempo que se tarda en perder el enganche y el pull-in de spoofing en función de la TASA de desfase de código y de portadora. Los criterios de denegación y de captura que ya tiene el motor son cocientes de potencia recibida (un inhibidor deniega con J/S = { "30" } dB, un spoofer captura con { "3" } dB); la pérdida de enganche real no es un cociente de potencia, es el punto en que la fluctuación de un lazo más el estrés dinámico agotan su presupuesto de umbral de seguimiento. Indica ({ "1" }) la fluctuación térmica de 1 sigma de portadora (Costas) y de código (anticipado/retardado no coherente) frente a C/N0, con la pérdida por elevación al cuadrado incluida, frente a las reglas indicadas { "3" }<em>sigma_PLL + theta_e <= { "45" } deg (la regla de los 15 grados en forma de tres sigma) y { "3" }</em>sigma_DLL + retardo de rampa <= d/2 chips; ({ "2" }) los umbrales de C/N0 de pérdida y de reenganche con el lazo determinante nombrado, el umbral de reenganche DERIVADO del mayor ancho de banda con el que un receptor vuelve a capturar y no afirmado, de modo que el ancho de la histéresis debe quedar entre { "5" }<em>log10(ratio) y { "10" }</em>log10(ratio) dB; ({ "3" }) el tiempo declarado hasta perder el enganche de un detector de enganche de dos umbrales con permanencias de confirmación, accionado sobre una rampa de C/N0, indicado por separado del tiempo físico de escape de fase (el tiempo medio de Viterbi entre saltos de ciclo, en log10 s porque abarca cientos de décadas); ({ "4" }) los límites de pull-in de spoofing: la mayor deriva de código y la mayor tasa Doppler de portadora que pueden seguir los lazos de una víctima, con un mapa sobre ambos ejes, porque un spoofer que se desplaza más rápido que estos no captura el lazo, lo deja atrás; y ({ "5" }) el RADIO DE DENEGACIÓN que implica la dinámica del lazo, indicado JUNTO AL radio existente por cociente de potencia, nunca en su lugar, con su diferencia con signo como campo propio con nombre (denial_radius_delta_km) y una definición a su lado. Cada campo numérico emitido lleva una unidad y una clase de procedencia. Formas cerradas VALIDATED: las expresiones de fluctuación de portadora y de código, la reducción del filtro de lazo sqrt({ "2" }<em>B_n</em>T) y el retardo de rampa de primer orden se contrastan con el propio correlador sdr del motor avanzado sobre FI sintética con semilla (una vía distinta a los mismos números) hasta { "0.6" } %, { "3.7" } % y { "0.17" } % respectivamente, y la Bessel modificada I0 que hay tras el tiempo de salto de ciclo con valores tabulados estándar hasta { "1e-7" }. El límite inferior de validez se afirma, no solo se indica: por debajo de ~{ "32" } dB-Hz a { "1" } ms el discriminador atan real se satura contra su rango de +-pi/2 y mide menos fluctuación que cualquier teoría lineal. MODELLED: los anchos de banda de lazo, el tiempo de integración, el espaciado del correlador, la relación de ancho de banda de pull-in, las permanencias de confirmación, la potencia del inhibidor y las ganancias de antena son cifras representativas de banda, no una hoja de datos. NO modelado: la fluctuación del oscilador (desviación de Allan) y la vibración, la limitación del ancho de banda del frontal, el multitrayecto, la dinámica del AGC, la pérdida por transición de bits de datos, la ayuda externa y cualquier corrección de medio ciclo a la fórmula de salto de ciclo de Costas. Bajo la dinámica del lazo, la captura por spoofing no tiene radio alguno (la restricción determinante es la tasa de desfase, no la potencia), de modo que ese campo es nulo con una razón y no una cifra inventada. No es un producto certificado de rendimiento de receptores.
+
+# text
+# c1: docs/SCENARIOS.md
+seg-45cb12242d59 = Fuente: <c1/>
+
+# text
+# c1: kshana::api::run_toml
+seg-843d88cee576 = Los { "87" } tipos de escenario integrados sobre los que despacha <c1/>, cada uno con su descripción de una línea y sus campos TOML (Tom's Obvious, Minimal Language) obligatorios y opcionales.
+
+# text
+# c1: api::list_scenario_kinds()
+# c2: cargo run --bin gen_validation_artifacts
+# c3: list_scenario_kinds
+seg-2860d14bd619 = Este archivo está <b>generado</b> a partir de <c1/>, la única fuente de verdad, mediante <c2/>; edite la fuente, no este archivo. Todos los enlaces (el paquete de Python, la herramienta <c3/> del servidor MCP (Model Context Protocol) y el área de pruebas WebAssembly (WASM)) exponen este mismo catálogo, de modo que lo que se enumera aquí es exactamente lo que puede ejecutar cada superficie. Las descripciones son concisas y no siempre desarrollan sus abreviaturas; todas se explican en <a1>GLOSSARY.md</a1>.
+
+# text
+# c1: clock
+# c2: kind = "<name>"
+# c3: kind
+# c4: clock
+# c5: kind
+# c6: |
+# c7: +
+# c8: tle|orbit+epoch
+# c9: tle
+# c10: orbit
+# c11: epoch
+seg-28b0dbf53a2c = Todo escenario salvo <c1/> debe además establecer <c2/> en el nivel superior: un documento sin <c3/> se ejecuta como <c4/>, y por eso <c5/> no se repite en los campos obligatorios de ningún tipo más abajo. Una entrada obligatoria puede nombrar alternativas: <c6/> separa formas de las que al menos una debe estar presente y <c7/> une campos que deben aparecer juntos, de modo que <c8/> se lee «un <c9/>, o una <c10/> con una <c11/>».
+
+# text
+seg-6317db731879 = Descripción
+
+# text
+seg-6c9d3eec1bd7 = Campos obligatorios:
+
+# text
+seg-05a3e7f57b33 = Campos opcionales:
+
+# text
+seg-c01773d5f190 = (ninguno)
+
+# text
+seg-4178135b91eb = <s1>Anterior</s1>Ejemplo resuelto: cadena de varias herramientas
+
+# text
+seg-c9afb81f21d8 = <s1>Siguiente</s1>Todos los tipos de escenario, por familia
