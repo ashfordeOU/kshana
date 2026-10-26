@@ -6574,3 +6574,433 @@ js-meankind-leopvt-polar-line =
     }
 
 js-meankind-leopvt-timing-big = Tidsoverføring fra lav bane holder den beste klokken innenfor { $ns } ns av UTC (kvadratisk middel).
+
+js-meankind-leopvt-timing-line =
+    { $n ->
+        [one] { $n } klokke- og signaltilfelle sammenlignet.
+       *[other] { $n } klokke- og signaltilfeller sammenlignet.
+    }
+
+js-meankind-leosignal-big =
+    { $n ->
+        [one] Av { $n } signalutforming tåler { $best } mest jamming: { $db } dB over signalet.
+       *[other] Av { $n } signalutforminger tåler { $best } mest jamming: { $db } dB over signalet.
+    }
+
+js-meankind-leosignal-line-fail = Kontrollene av spekterformen feiler.
+
+js-meankind-leosignal-line-pass = Kontrollene av spekterformen består.
+
+js-meankind-link-big-closes = Lenken lukkes med { $margin } dB å gå på.
+
+js-meankind-link-big-open = Lenken lukkes ikke: { $margin } dB margin.
+
+js-meankind-link-line = Over { $km } km.
+
+js-meankind-link-line-band = { $band }-bånd over { $km } km.
+
+js-meankind-link-line-band-rate = { $band }-bånd over { $km } km ved { $rate } bit/s.
+
+js-meankind-link-line-rate = Over { $km } km ved { $rate } bit/s.
+
+js-meankind-list-and = { $head } og { $last }
+
+js-meankind-llr-big = Ekte laseravstandsmåling fastlegger månens referansesystem til { $mm } mm.
+
+js-meankind-llr-line = Skala til { $ppb } milliarddeler.
+
+js-meankind-mapmatch-altimeter = Høydemåleren måler til { $sigma } m.
+
+js-meankind-mapmatch-big = Kartsamsvar holder posisjonen til { $matched } m, mot { $free } m drift ved kun treghetsnavigasjon.
+
+js-meankind-mapmatch-gravimeter = Gravimeteret måler til { $sigma } mGal.
+
+js-meankind-mapmatch-sources = Tyngdekraft alene gir { $gravity } m, magnetisk { $magnetic } m, terreng { $terrain } m.
+
+js-meankind-marspnt-big = { $user }-navigatoren roer seg til { $m } m (kvadratisk middel).
+
+js-meankind-marspnt-line =
+    { $n ->
+        [one] { $mean } relé i sikte i gjennomsnitt, over { $n } epoke.
+       *[other] { $mean } relé i sikte i gjennomsnitt, over { $n } epoker.
+    }
+
+js-meankind-moonlight-big = Tjenesten dekker { $share } % av stedene og tidspunktene som er kontrollert.
+
+js-meankind-moonlight-line =
+    { $n ->
+        [one] Mellom { $min } og { $n } satellitt er i sikte; geometrikvaliteten (PDOP) varierer fra { $pmin } til { $pmax }.
+       *[other] Mellom { $min } og { $n } satellitter er i sikte; geometrikvaliteten (PDOP) varierer fra { $pmin } til { $pmax }.
+    }
+
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Én navigasjonsmelding får plass i { $n } byte.
+       *[other] Én navigasjonsmelding får plass i { $n } bytes.
+    }
+
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] Over { $n } tilfelle er avstandsfeilen fra den utsendte banen { $min } til { $max } mm.
+       *[other] Over { $n } tilfeller er avstandsfeilen fra den utsendte banen { $min } til { $max } mm.
+    }
+
+js-meankind-navmsg-cases-line = Avstandsfeil i signal i rommet, kvadratisk middel.
+
+js-meankind-navmsg-line = Avrunding til meldingsformatet koster { $mm } mm avstandsfeil.
+
+js-meankind-navmsg-midpass-big = Å oppdatere meldingen midt i passeringen gir et avstandshopp på høyst { $mm } mm.
+
+js-meankind-navmsg-midpass-line = Grensen er { $mm } mm.
+
+js-meankind-ntn-big = 5G-posisjonering fra bane når { $m } m med { $signal }.
+
+js-meankind-ntn-line = Doppler over én passering gir { $m } m.
+
+js-meankind-obs-big-full = Banen blir fullt observerbar etter { $dur } sporing.
+
+js-meankind-obs-big-partly = Banen forblir delvis observerbar over buen på { $h } t.
+
+js-meankind-obs-line = Rang { $rank } av { $dim } ved slutten av buen.
+
+js-meankind-oem-big = Efemeridefilen gir samme innhold tilbake etter en rundtur med høyst { $mm } mm posisjonsfeil.
+
+js-meankind-oem-line =
+    { $n ->
+        [one] { $states } tilstander i { $n } segment.
+       *[other] { $states } tilstander i { $n } segmenter.
+    }
+
+js-meankind-optical-big-alone = Det beste enkeltstedet holder den optiske lenken oppe { $best } % av tiden (tak uten skyer { $ceiling } %); ingen margin uten skyer løfter den over { $ceiling } %.
+
+js-meankind-optical-big-team = Det beste enkeltstedet holder den optiske lenken oppe { $best } % av tiden (tak uten skyer { $ceiling } %); { $n } steder sammen når { $independent } % hvis været deres er uavhengig, { $correlated } % med den oppgitte korrelasjonen.
+
+js-meankind-optical-line-sites =
+    { $n ->
+        [one] { $n } sted modellert; skyklimaene er illustrative.
+       *[other] { $n } steder modellert; skyklimaene er illustrative.
+    }
+
+js-meankind-optical-line-tech = { $name }: { $base } % blir { $with } %.
+
+js-meankind-opticalrf-big = Å kombinere optisk og radiobasert avstandsmåling gir beskyttelsesnivåer på { $h } m horisontalt og { $v } m vertikalt.
+
+js-meankind-opticalrf-line-fault = Konsistenstesten viser { $stat } mot en terskel på { $threshold }: en feil flagges.
+
+js-meankind-opticalrf-line-ok = Konsistenstesten viser { $stat } mot en terskel på { $threshold }: ingen feil flagges.
+
+js-meankind-packet-big-no = Nei: den dekodede strømmen avviker fra det som ble sendt.
+
+js-meankind-packet-big-yes = Ja: pakkestrømmen dekodes tilbake bit for bit.
+
+js-meankind-packet-line =
+    { $n ->
+        [one] { $n } pakke, { $octets } oktetter til sammen.
+       *[other] { $n } pakker, { $octets } oktetter til sammen.
+    }
+
+js-meankind-passes-big-day =
+    { $n ->
+        [one] { $n } passering per døgn, { $dur } kontakt til sammen.
+       *[other] { $n } passeringer per døgn, { $dur } kontakt til sammen.
+    }
+
+js-meankind-passes-big-window =
+    { $n ->
+        [one] { $n } passering i et vindu på { $hours } timer, { $dur } kontakt til sammen.
+       *[other] { $n } passeringer i et vindu på { $hours } timer, { $dur } kontakt til sammen.
+    }
+
+js-meankind-passes-line = Den beste passeringen stiger til { $deg }°.
+
+js-meankind-percentile-word = persentil
+
+js-meankind-pnt-big = Kvantesuiten holder posisjon og tid i { $q }; den klassiske suiten i { $c }.
+
+js-meankind-pnt-classical-label = Holdover, klassisk suite
+
+js-meankind-pnt-line = Holdover er hvor lenge hver suite (klokke { $q }, mot klokke { $c }) holder seg innenfor { $spec } etter at satellittnavigasjonen er tapt.
+
+js-meankind-pnt-quantum-label = Holdover, kvantesuite
+
+js-meankind-pnt-timing-classical-label = Tidssynkroniseringsfeil, 95 %, klassisk
+
+js-meankind-pnt-timing-quantum-label = Tidssynkroniseringsfeil, 95 %, kvante
+
+js-meankind-pvt-big =
+    { $n ->
+        [one] En posisjon løses ved { $solved } av { $n } epoke, til { $rms } m (3D kvadratisk middel).
+       *[other] En posisjon løses ved { $solved } av { $n } epoker, til { $rms } m (3D kvadratisk middel).
+    }
+
+js-meankind-pvt-line = Fra { $mean } satellitter i gjennomsnitt, lest fra virkelige mottakermålinger.
+
+js-meankind-qnav-big = Etter bortfallet er kaldatomnavigatoren { $q } m ute; den av navigasjonsklasse { $c } m.
+
+js-meankind-qnav-big-outage = Etter { $dur } uten satellitter er kaldatomnavigatoren { $q } m ute; den av navigasjonsklasse { $c } m.
+
+js-meankind-qnav-line = Innenfor budsjettet: { $q } mot { $c }.
+
+js-meankind-qnav-line-threshold = Innenfor { $threshold } m: { $q } mot { $c }.
+
+js-meankind-qtt-big = Kvantetidsoverføring holder { $q } ps (1 sigma) mot { $c } ns for den klassiske kjeden.
+
+js-meankind-qtt-line = Sikkerhetsmonitoren oppdager { $pd } % av angrepene.
+
+js-meankind-qtt-line-pfa = Sikkerhetsmonitoren oppdager { $pd } % av angrepene ved en rate for falsk alarm på { $pfa }.
+
+js-meankind-quantum-link = kvantelenke
+
+js-meankind-radiometry-big = Kameraet når NIIRS { $niirs } ved { $gsd } m bakkeprøveavstand, med et signal-til-støy-forhold på { $snr }.
+
+js-meankind-radiometry-line = System-MTF ved Nyquist { $mtf }.
+
+js-meankind-reentry-big = Maksimal retardasjon er { $g } g, ved { $km } km.
+
+js-meankind-reentry-line = Fartøyet har da { $speed } m/s.
+
+js-meankind-slam-big = Terrengtilpasningen ender { $matched } m ute, mot { $free } m ved kun treghetsnavigasjon.
+
+js-meankind-slam-line =
+    { $n ->
+        [one] Over { $n } veipunkt, tilpasset et terrengkart med { $sigma } m støy i høydemåleren.
+       *[other] Over { $n } veipunkter, tilpasset et terrengkart med { $sigma } m støy i høydemåleren.
+    }
+
+js-meankind-slot-big = Klokken forlater sporvakten sin { $dur } etter den siste posisjonsbestemmelsen fra satellitter.
+
+js-meankind-slot-line = Så den trenger en posisjonsbestemmelse hver { $interval }, omtrent { $perDay } i døgnet.
+
+js-meankind-solar-big =
+    { $n ->
+        [one] { $n } legeme plassert ved én epoke.
+       *[other] { $n } legemer plassert ved én epoke.
+    }
+
+js-meankind-solar-big-link =
+    { $n ->
+        [one] { $n } legeme plassert ved én epoke; lyset bruker { $dur } fra { $from } til { $to }.
+       *[other] { $n } legemer plassert ved én epoke; lyset bruker { $dur } fra { $from } til { $to }.
+    }
+
+js-meankind-solar-line = { $n } lenker er tidsmålt til sammen.
+
+js-meankind-spoof-caught = Spoofingen fanges før den bryter spesifikasjonen for tidssynkronisering.
+
+js-meankind-spoof-caught-both = Spoofingen fanges av begge klokkene før den bryter spesifikasjonen for tidssynkronisering.
+
+js-meankind-spoof-caught-label = Fanget etter, { $name }
+
+js-meankind-spoof-caught-thr = Spoofingen fanges før den bryter spesifikasjonen for tidssynkronisering på { $thr } ns.
+
+js-meankind-spoof-caught-thr-both = Spoofingen fanges av begge klokkene før den bryter spesifikasjonen for tidssynkronisering på { $thr } ns.
+
+js-meankind-spoof-detects = { $name } oppdager den etter { $dur }, ved en forskyvning på { $offset } ns.
+
+js-meankind-spoof-missed =
+    { $n ->
+        [one] Spoofingen bryter spesifikasjonen for tidssynkronisering før { $names } fanger den.
+       *[other] Spoofingen bryter spesifikasjonen for tidssynkronisering før { $names } fanger den.
+    }
+
+js-meankind-spoof-offset = forskyvning { $offset } ns
+
+js-meankind-spoofdetect-big-by = Ja: spoofingen fanges, av { $by }.
+
+js-meankind-spoofdetect-big-no = Nei: den fusjonerte monitoren fanger ikke spoofingen.
+
+js-meankind-spoofdetect-big-yes = Ja: spoofingen fanges.
+
+js-meankind-spoofdetect-line =
+    { $n ->
+        [one] { $on } av { $n } deteksjonslag gir alarm.
+       *[other] { $on } av { $n } deteksjonslag gir alarm.
+    }
+
+js-meankind-spoofdetect-line-score =
+    { $n ->
+        [one] { $on } av { $n } deteksjonslag gir alarm; den fusjonerte skåren er { $score }.
+       *[other] { $on } av { $n } deteksjonslag gir alarm; den fusjonerte skåren er { $score }.
+    }
+
+js-meankind-ssv-formation = Ved { $km } km avstand kjenner filteret den relative posisjonen til { $filter } m RMS, mot { $absolute } m fra differansen mellom de to absolutte posisjonsbestemmelsene.
+
+js-meankind-ssv-navigation = Filteret om bord holder posisjonen til { $inside } m RMS innenfor GNSS-banene og { $above } m over dem.
+
+js-meankind-ssv-shell = På skallet gir alle konstellasjonene sammen minst ett signal { $one } % av tiden og minst fire { $four } % (L1).
+
+js-meankind-ssv-tail = MODELLED: et geometri- og lenkebudsjettsveip, ikke en måling av noe signal i rommet.
+
+js-meankind-ssv-trajectory = Fra { $from } til { $to } km høyde er minst ett signal i sikte { $one } % av epokene og minst fire { $four } % (L1, alle konstellasjoner).
+
+js-meankind-station-big = Over den sørpolare regionen bringer korreksjonene fra en referansestasjon på månen feilen ved { $percentile } fra { $from } m til { $to } m (modellert).
+
+js-meankind-station-line = Innenfor nøyaktighetsterskelen i { $share } % av epokene; ikke en uttalelse om noe virkelig system.
+
+js-meankind-sweep-big =
+    { $n ->
+        [one] Over { $n } verdi av { $param }, { $parts }.
+       *[other] Over { $n } verdier av { $param }, { $parts }.
+    }
+
+js-meankind-sweep-line = { $param } går fra { $from } til { $to }.
+
+js-meankind-sweep-line-log = { $param } går fra { $from } til { $to } på en logaritmisk skala.
+
+js-meankind-sweep-part-flat = { $metric } for { $key } holder seg på { $value }
+
+js-meankind-sweep-part-goes = { $metric } for { $key } går fra { $first } til { $last }
+
+js-meankind-sweep-result-word = resultat
+
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] Over { $n } kombinasjon av { $keys } varierer { $metric } fra { $min } til { $max }.
+       *[other] Over { $n } kombinasjoner av { $keys } varierer { $metric } fra { $min } til { $max }.
+    }
+
+js-meankind-sweepnd-line = Et rutenett av { $shape } motorkjøringer.
+
+js-meankind-telecom-fail =
+    { $n ->
+        [one] Klokken feiler { $fail } av { $n } telekom-kontroll av tidsfeil.
+       *[other] Klokken feiler { $fail } av { $n } telekom-kontroller av tidsfeil.
+    }
+
+js-meankind-telecom-line = Kontroller av MTIE (største tidsintervallfeil), TDEV (tidsavvik) og holdover-omslaget mot ITU-T-maskene som er nevnt i hver rad.
+
+js-meankind-telecom-line-margin = Kontroller av MTIE (største tidsintervallfeil), TDEV (tidsavvik) og holdover-omslaget mot ITU-T-maskene som er nevnt i hver rad. Den minste marginen til holdover-omslaget er { $margin } ns.
+
+js-meankind-telecom-pass =
+    { $n ->
+        [one] Klokken består alle { $n } telekom-kontroll av tidsfeil.
+       *[other] Klokken består alle { $n } telekom-kontroller av tidsfeil.
+    }
+
+js-meankind-the-best = den beste
+
+js-meankind-the-body = legemet
+
+js-meankind-the-first = den første
+
+js-meankind-the-name = { $name }
+
+js-meankind-the-second = den andre
+
+js-meankind-the-widest-signal = det bredeste signalet
+
+js-meankind-timebudget-big = Feilen til { $clock } og feilen i referansesystemet krysser hverandre ved en midlingstid på { $tau }.
+
+js-meankind-timebudget-line = Ved dette krysningspunktet er tidsfeilen { $x } s.
+
+js-meankind-timeoffset-big = En klokke på månen går { $rate } µs i døgnet foran en på jorden.
+
+js-meankind-timeoffset-line = Det publiserte båndet er { $low } til { $high } µs i døgnet.
+
+js-meankind-timetransfer-big = { $q } holder de to stedene innenfor { $qps } ps (kvadratisk middel); { $c } innenfor { $cps } ps.
+
+js-meankind-timetransfer-line = Innenfor spesifikasjonen for avstandsmåling { $q } % av tiden, mot { $c } %.
+
+js-meankind-timetransfer-line-mm = Innenfor spesifikasjonen for avstandsmåling på { $mm } mm { $q } % av tiden, mot { $c } %.
+
+js-meankind-tracking-big = En spoofer kan fange mottakeren fra opptil { $km } km unna.
+
+js-meankind-tracking-line = Under mottakerens egen sløyfedynamikk tapes låsingen ved { $db } dB jammer over signalet.
+
+js-meankind-trade-big = Kvantesensorene er { $timing } ganger bedre på tidssynkronisering og { $inertial } ganger bedre på treghetsnavigasjon enn den klassiske grunnlinjen.
+
+js-meankind-trade-line = Uten satellitter klarer kvantesuiten seg i { $dur }.
+
+js-meankind-ttbudget-big = Tovegsforskyvningen er { $offset } ns, med en samlet usikkerhet på { $uncertainty } ns.
+
+js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ionosfære { $iono } ns.
+
+js-meankind-ukf-big-no = Nei: filteret er ikke selvkonsistent.
+
+js-meankind-ukf-big-yes = Ja: filteret er selvkonsistent.
+
+js-meankind-ukf-line-in = Dets normaliserte innovasjonskvadrat har middel { $mean }, innenfor 95 %-båndet fra { $low } til { $high }. Dette kontrollerer konsistens, ikke nøyaktighet.
+
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+        [one] Dets normaliserte innovasjonskvadrat har middel { $mean }, innenfor 95 %-båndet fra { $low } til { $high }, over { $n } seed. Dette kontrollerer konsistens, ikke nøyaktighet.
+       *[other] Dets normaliserte innovasjonskvadrat har middel { $mean }, innenfor 95 %-båndet fra { $low } til { $high }, over { $n } seeds. Dette kontrollerer konsistens, ikke nøyaktighet.
+    }
+
+js-meankind-ukf-line-out = Dets normaliserte innovasjonskvadrat har middel { $mean }, utenfor 95 %-båndet fra { $low } til { $high }. Dette kontrollerer konsistens, ikke nøyaktighet.
+
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+        [one] Dets normaliserte innovasjonskvadrat har middel { $mean }, utenfor 95 %-båndet fra { $low } til { $high }, over { $n } seed. Dette kontrollerer konsistens, ikke nøyaktighet.
+       *[other] Dets normaliserte innovasjonskvadrat har middel { $mean }, utenfor 95 %-båndet fra { $low } til { $high }, over { $n } seeds. Dette kontrollerer konsistens, ikke nøyaktighet.
+    }
+
+js-meankind-user-word = bruker
+
+js-meankind-vlbi-big = Over en grunnlinje på { $km } km ankommer fyrets signal { $ms } ms forskjøvet ved de to stasjonene.
+
+js-meankind-vlbi-line = Nærfeltskorreksjonen er { $us } µs.
+
+js-meankind-vlbifim-big = Hver stasjonskoordinat er kjent til { $m } m fra denne observasjonsplanen.
+
+js-meankind-vlbifim-line = Det enkle estimatet med lik fordeling ville hevdet { $m } m.
+
+js-meankind-weather-big = Den øvre atmosfæren varmes opp til { $k } K.
+
+js-meankind-weather-big-ref = Den øvre atmosfæren varmes opp til { $k } K, mot { $ref } K for referansen.
+
+js-meankind-weather-line = Den geomagnetiske aktivitetsindeksen ap er { $ap }.
+
+js-meankind-whole-run = gjennom hele kjøringen
+
+js-mthread-bcol-label = Merking
+
+js-mthread-bcol-share = Størrelse mot det største posisjonsleddet
+
+js-mthread-bcol-sigma = 1 sigma
+
+js-mthread-bcol-source = Bidrag
+
+js-mthread-budget-caption = { $phase }: 1 sigma ved inngang { $entry }, ved toppen { $peak }, ved utgang { $exit } (posisjon); hvert bidrag nedenfor, største først.
+
+js-mthread-chart-title = { $metric } mot medgått oppdragstid, ett bånd per fase
+
+js-mthread-col-kind = Kind
+
+js-mthread-col-label = Merking
+
+js-mthread-col-limit = Største bidrag
+
+js-mthread-col-margin = Mot grensen
+
+js-mthread-col-peak-pos = Maksimal posisjon
+
+js-mthread-col-peak-time = Maksimal klokkebias
+
+js-mthread-col-peak-vel = Maksimal hastighet
+
+js-mthread-col-phase = Fase
+
+js-mthread-col-window = Oppdragstid
+
+js-mthread-example-not-loaded = det registrerte resultatet ble ikke lastet
+
+js-mthread-file-failed = { $name } kunne ikke leses: { $reason }.
+
+js-mthread-kv-elapsed = Medgått oppdragstid
+
+js-mthread-kv-engine = Motor
+
+js-mthread-kv-epoch = Epoke (UTC)
+
+js-mthread-kv-limits = Faser med en oppgitt grense
+
+js-mthread-kv-limits-value = { $n } ({ $met } nådd, { $missed } ikke nådd)
+
+js-mthread-kv-phases = Faser
+
+js-mthread-kv-seed = Seed
+
+js-mthread-kv-title = Tråd
+
+js-mthread-layout-phases = Lik bredde per fase
