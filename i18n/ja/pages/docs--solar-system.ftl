@@ -15,3 +15,5 @@ seg-c5ce76c91ff7 = ラベル
 seg-430edd66bda0 = モデル化していないもの
 
 seg-7670cf4ceda3 = 既定値
+
+seg-e0eb14018b2c = 上記と同じ
