@@ -655,7 +655,7 @@ studio-main-where-did-aircraft-and-ships = Де повітряні та морс
 
 studio-main-can-the-bridge-trust-this = Чи може місток довіряти цьому розв'язку? Відкрийте прогін довіри до приймача судна (файли залишаються у вашому браузері)
 
-studio-main-evidence-packs-test-bench-export = Пакети доказів, експорт для випробувального стенда, відповідність compliance, OSNMA, інструменти командного рядка та ШІ-асистент (файли залишаються у вашому браузері)
+studio-main-evidence-packs-test-bench-export = Пакети доказів, експорт test-bench, відповідність compliance, OSNMA, інструменти командного рядка та ШІ-асистент (файли залишаються у вашому браузері)
 
 studio-main-map-of-satellites-in-view = Карта супутників у зоні видимості над Землею, із записаного прогону
 

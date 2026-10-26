@@ -395,7 +395,7 @@ seg-62a3d528203d = <b>Leia</b> os valores-chave e os painéis
 seg-62b794e2dfee = Longitude, graus
 
 # index.html
-seg-636556347905 = <b>Exportação para bancada de testes</b><s1>Arquivos de movimento e de eventos para um simulador de laboratório.</s1>
+seg-636556347905 = <b>Exportação test-bench</b><s1>Arquivos de movimento e de eventos para um simulador de laboratório.</s1>
 
 # index.html
 seg-64a9035e2d0d = <b>Observatório de interferência</b><s1>Abra os arquivos de observatório de um dia e leia-os: três estados, nenhuma causa, nada é enviado.</s1>

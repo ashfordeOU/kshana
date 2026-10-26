@@ -647,7 +647,7 @@ studio-main-where-did-aircraft-and-ships = Wo meldeten Luftfahrzeuge und Schiffe
 
 studio-main-can-the-bridge-trust-this = Kann die Brücke dieser Positionslösung vertrauen? Öffnen Sie einen Lauf zum Empfängervertrauen eines Schiffes (die Dateien bleiben in Ihrem Browser)
 
-studio-main-evidence-packs-test-bench-export = Nachweispakete, Export für den Prüfstand, Compliance-Zuordnung, OSNMA, Befehlszeilenwerkzeuge und der KI-Assistent (die Dateien bleiben in Ihrem Browser)
+studio-main-evidence-packs-test-bench-export = Nachweispakete, Test-Bench-Export, Compliance-Zuordnung, OSNMA, Befehlszeilenwerkzeuge und der KI-Assistent (die Dateien bleiben in Ihrem Browser)
 
 studio-main-map-of-satellites-in-view = Karte der sichtbaren Satelliten über der Erde, aus dem aufgezeichneten Lauf
 

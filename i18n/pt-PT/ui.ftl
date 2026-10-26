@@ -652,7 +652,7 @@ studio-main-where-did-aircraft-and-ships = Onde comunicaram aeronaves e navios d
 
 studio-main-can-the-bridge-trust-this = Pode a ponte confiar nesta solução de posição? Abra uma execução de confiança do recetor de uma embarcação (os ficheiros ficam no seu navegador)
 
-studio-main-evidence-packs-test-bench-export = Pacotes de evidências, exportação para bancada de ensaio, mapeamento de compliance, OSNMA, ferramentas de linha de comandos e o assistente de IA (os ficheiros ficam no seu navegador)
+studio-main-evidence-packs-test-bench-export = Pacotes de evidências, exportação test-bench, mapeamento de compliance, OSNMA, ferramentas de linha de comandos e o assistente de IA (os ficheiros ficam no seu navegador)
 
 studio-main-map-of-satellites-in-view = Mapa dos satélites à vista sobre a Terra, a partir da execução registada
 
