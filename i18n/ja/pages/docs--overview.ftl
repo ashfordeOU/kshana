@@ -195,3 +195,25 @@ seg-7cf2608b2b2f = エビデンスパックの構造。受信機ログ（NMEA、
 seg-b2689beaba9e = Galileo OSNMA 検証器
 
 seg-80f3f0aae42c = 干渉マップ
+
+seg-3ac9e578414c = クロック、タイミング、ホールドオーバー
+
+seg-b4b8aaf14aec = 慣性、融合、量子センサー
+
+seg-93591ee6899f = GPS が使えない環境の代替 PNT
+
+seg-b63bfec0aabf = コンステレーション、カバレッジ、ジオメトリ
+
+seg-f2f84c689f14 = GNSS の測定、測位、インテグリティ
+
+seg-2e736b1814f2 = ジャミング、スプーフィング、スペクトル
+
+seg-fc23add4540b = 低軌道航法
+
+seg-dd8aa1ce4734 = 宇宙ユーザー航法
+
+seg-77aef8722995 = 光学 PNT
+
+seg-179dc850c643 = ミッション解析、リンク、宇宙運用
+
+seg-6339abe5314a = ファミリー

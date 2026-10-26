@@ -2523,3 +2523,5 @@ seg-68caf86157c2 = ROS { "2" } の receiver-trust パッケージと gnss_lib_py
 seg-e7d7d99fe538 = 測位解と衛星のメッセージを NMEA として書き出し、Python バインディングで採点する、ROS を使わないブリッジ（integrations/ros2/kshana_trust）と、rtklib-pos 形式を介して gnss_lib_py の NavData を receiver-trust に橋渡しするブリッジ（integrations/gnss_lib_py）。
 
 seg-05ded40b17d2 = 外部の照合はありません：ROS ノードは稼働中の ROS { "2" } グラフでは実行しておらず、ublox_ubx_msgs のフィールド名は、稼働中のドライバーとは照合していません。gnss_lib_py（MIT）は、ブリッジのテストのために実行しました
+
+seg-4e31c8daf798 = 台帳
