@@ -365,7 +365,7 @@ seg-5d30c2bb376f = <b>Výstupy Kshana podporují důkazy pro (supports evidence 
 seg-5d4e98c5f740 = Domény
 
 # optical/index.html
-seg-5dceab2b33fd = <b>Výstup modelu.</b> Vše zde je <b>MODELLED</b>: oblačné klimatické režimy, třídy hodin a techniky jsou stanovené předpoklady (stanoviště jsou ILUSTRATIVNÍ, nikoli naměřené počasí žádné datové sady ani místa) a numerika je kontrolována proti nezávislému programu implementujícímu stejné vzorce, nikoli proti atmosféře. Časová řada je jedno tažení se seedem ze stanoveného modelu stanoviště, nikoli klima. <b>Software pouze poradního charakteru.</b> Kshana není typově schválené navigační zařízení a nejde o certifikovanou dostupnost.
+seg-5dceab2b33fd = <b>Výstup modelu.</b> Vše zde je <b>MODELLED</b>: oblačné klimatické režimy, třídy hodin a techniky jsou stanovené předpoklady (stanoviště jsou ILLUSTRATIVE, nikoli naměřené počasí žádné datové sady ani místa) a numerika je kontrolována proti nezávislému programu implementujícímu stejné vzorce, nikoli proti atmosféře. Časová řada je jedno tažení se seedem ze stanoveného modelu stanoviště, nikoli klima. <b>Software pouze poradního charakteru.</b> Kshana není typově schválené navigační zařízení a nejde o certifikovanou dostupnost.
 
 # lunar/index.html
 seg-5ddc79f228f8 = Lunární referenční stanice
@@ -395,7 +395,7 @@ seg-62a3d528203d = <b>Přečtěte</b> klíčové hodnoty a panely
 seg-62b794e2dfee = Zeměpisná délka, stupně
 
 # index.html
-seg-636556347905 = <b>Export pro zkušební stolici</b><s1>Soubory pohybu a událostí pro laboratorní simulátor.</s1>
+seg-636556347905 = <b>Export test-bench</b><s1>Soubory pohybu a událostí pro laboratorní simulátor.</s1>
 
 # index.html
 seg-64a9035e2d0d = <b>Observatoř interference</b><s1>Otevřete soubory observatoře za jeden den a čtěte je: tři stavy, žádná příčina, nic se nenahrává.</s1>
