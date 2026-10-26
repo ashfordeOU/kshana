@@ -16,3 +16,23 @@ assert.ok(!digitsOk('January 29', '1月1月29日'), 'an allowed number used twic
 assert.ok(!digitsOk('see the table', '3表を見る'), 'no number word or month in the English: nothing may be added');
 assert.ok(!digitsOk('one cell', '3つのセル'), 'wrong value for a number word');
 console.log('digits test passed');
+
+// built-page case: verify applies the same rule per text block
+import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+const tmp = mkdtempSync(join(tmpdir(), 'digits-'));
+const mk = (dir, body) => { mkdirSync(dir, { recursive: true }); writeFileSync(join(dir, 'p.html'), `<!doctype html><html><body><div class="i18n-notice">MT</div><main>${body}</main></body></html>`); };
+const run = (tr) => {
+  mk(join(tmp, 'src'), '<p>Launch on January 29 with 3 cells.</p><p>Total 1,408.</p>');
+  mk(join(tmp, 'dist', 'ja'), tr);
+  return spawnSync('node', ['tools/i18n.mjs', 'verify', 'ja', '--src', join(tmp, 'src'), '--dist', join(tmp, 'dist'), '--root', join(tmp, 'none')], { encoding: 'utf8' }).stdout;
+};
+const out1 = run('<p>1月29日に3セルで打ち上げ。</p><p>合計1,408。</p>');
+assert.ok(!/numeric values/.test(out1), 'verify accepts the month number in its block: ' + out1);
+const out2 = run('<p>1月30日に3セルで打ち上げ。</p><p>合計1,408。</p>');
+assert.ok(/numeric values/.test(out2), 'verify still catches a wrong number');
+const out3 = run('<p>1月29日に3セルで打ち上げ。</p><p>合計1,408。1月</p>');
+assert.ok(/numeric values/.test(out3), 'a month number cannot move to a block whose English has no month');
+console.log('built-page digits test passed');
