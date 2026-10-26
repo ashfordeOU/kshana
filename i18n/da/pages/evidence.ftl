@@ -2489,3 +2489,5 @@ seg-05ded40b17d2 = Ingen ekstern: ROS-noden blev ikke kørt på en levende ROS {
 seg-c3c260b7063e = Tests
 
 seg-417a52c9c154 = PDF
+
+seg-8980b5ae869b = Tal

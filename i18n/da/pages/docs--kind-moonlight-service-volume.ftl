@@ -6,6 +6,8 @@ seg-1c1eeb2dcaa0 = Familieside: <a1>Måne og cislunart rum</a1>
 
 seg-8f8871ac8a0f = Emneside: <a1>LUNAR-REFERENCE-STATION.md</a1>
 
+seg-a2889fb2b42a = Emneside: <a1>integrations.md</a1>
+
 seg-eb9f9a422d38 = Kilde: <c1/>
 
 seg-f8988314faf2 = <c1/> (scenarietype)

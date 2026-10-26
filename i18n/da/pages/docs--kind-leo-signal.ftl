@@ -8,6 +8,18 @@ seg-cb91473bfdda = Emneside: <a1>LEO-PNT.md</a1>
 
 seg-a3697ad561db = Hz
 
+seg-1918189ac2bf = ppm
+
+seg-49964654d5f4 = Scenarietype i motoren v{ $version }, familie <a1>Navigation i lav jordbane</a1>. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Hver mærkat her er motorens eller verifikationsmatrixens; en type er MODELLED, medmindre matrixen siger andet (hvordan en mærkat opnås: afsnittet Evidens i README).
+
+seg-c5478f572d21 = Familieside: <a1>Navigation i lav jordbane</a1>
+
+seg-ae15d15bf151 = Emneside: <a1>LEO-PASS.md</a1>
+
+seg-59b976838ef1 = <b>VALIDATED</b> navsignal: sinusintegralet (sine_integral), BPSK-R-andelen af effekt inden for et dobbeltsidet bånd i lukket form (bpsk_power_in_band_closed_form), det bånd-. Uafhængig reference (ExternalDataset): Eksternt fastlagt: { "90.3" } procent hovedlobeeffekt, den kohærente early-late-jitter ved det angivne driftspunkt, sinusintegralets tabelværdier og BPSK's selvspektrale separationskoefficient 2/({ "3" } R_c) ved nul offset. Kun interne krydskontroller, ikke ekstern validering: den båndbegrænsede BPSK Gabor-båndbredde i lukket form og dens asymptote samt den offsettede BPSK-spektrale separationskoefficient ved offsets forskellige fra nul, begge
+
+seg-faf2775f3003 = <b>MODELLED</b> Typen <c1/>: parametriserede signaludformninger (bånd, sendebåndbredde, ITU-allokering; erhvervelses-, data- og pilotkomponenter med BPSK(n), BOC(m,n), MB. Uafhængig reference (InternalConsistency): De validerede lukkede former fra de to rækker ovenfor, identiteten for falsk alarm i kvadratloven P_d(snr = { "0" }) = P_fa og Holmes' gennemsnitlige erhvervelsestid samt reduktion til spektrumtypens egen SSC-kæde (den samme Jammer::ssc-kode). Udformningerne selv er input: forudindstillinger mærket REPRESENTATIVE eller WORKSHOP er ikke offentliggjorte specifikationer, forbedrede Feher QPSK-, kodeskift- og OFDM-spektre er tilnærmet, og formen
+
 seg-051999733048 = Kilde: <c1/>
 
 seg-16ae2a08d3c8 = <c1/> (scenarietype)

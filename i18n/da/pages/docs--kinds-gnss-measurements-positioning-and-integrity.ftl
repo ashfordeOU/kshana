@@ -11,3 +11,19 @@ seg-693c823c85d1 = Diagrammet, som motoren skriver for scenarios/araim-reference
 seg-2ffccc9c1eff = Pseudoafstandssimulering i måledomænet (Klobuchar-iono, Saastamoinen/Niell-tropo) + RAIM.
 
 seg-47ee40d4eb73 = Diagrammet, som motoren skriver for scenarios/gnss-sim-raim.toml, scenarietype gnss-sim
+
+seg-eb7e0c2feb2b = Snapshot-/løsningsseparations-/ARAIM-RAIM med HPL/VPL og et Stanford-diagram.
+
+seg-ce7f6130ddee = Diagrammet, som motoren skriver for scenarios/integrity-raim.toml, scenarietype integrity
+
+seg-b7b67e03f125 = Positionsbestemmelse med ét punkt ud fra reelle observationer: bestem en modtagers position ud fra en RINEX { "3" }-observationsfil og en fil med broadcast-navigation (kodepseudoafstande, broadcast-efemeride, Klobuchar-ionosfære, Saastamoinen/Niell-troposfære), eventuelt valideret mod en opmålt koordinat.
+
+seg-d76d59644d84 = Diagrammet, som motoren skriver for scenarios/pvt-abmf.toml, type pvt
+
+seg-edfcb546d9de = Budget for forudsigelse af månens referencesystem og jordens orientering i realtid: P4 Tabel { "1" } (kontrollen af konsistens for referencesystemets fejl — efterbehandlet ~{ "0.27" } m ↔ ~{ "0.010" } ms og realtid ~{ "15" } m ↔ ~{ "0.5" } ms, hver position i referencesystemet udtrykt som dens tilsvarende UT1-fejl via momentarmen L19 Δr = D_EM·ω⊕·ΔUT1) og Tabel { "2" } (målt UT1-forudsigelsesfejl mod horisont — kurven L18 aflæst direkte fra den reelle IERS finals2000A-serie: det endelige gulv Bulletin A − Bulletin B og fejlen for prædiktoren med persistens over flere dage, hver afbildet på en position i månens referencesystem ved L19), plus det kvadratisk summerede (root-sum-square) fejlbudget L21 for referencesystemet i realtid (EOP + efemeride + gulv for realisering). VALIDATED lukket form (momentarmen L19, ω⊕ krydskontrolleret mod CIO-jordrotationsvinklen) og VALIDATED reelle data (kurven L18 aflæst fra de reelle rækker i finals2000A); MODELLED er størrelserne på kovariansen for banebestemmelse (OD) af månerelæet og gulvet for realisering af referencesystemet (repræsentative tildelinger) og prædiktoren med persistens (ikke IERS' operationelle algoritme for Bulletin A). Ikke et certificeret produkt til referencesystem i realtid.
+
+seg-2721ed7727bb = Diagrammet, som motoren skriver for scenarios/realtime-frame-eop.toml, type realtime-frame-eop
+
+seg-5f25c5b71f0c = Model af rumvejrsmiljøet: indekser for solaktivitet (F10.7/F10.7a) og geomagnetisk aktivitet (Kp, med den definitoriske tabel Kp↔ap), den eksosfæriske temperatur efter Jacchia-1971, som de driver (valideret mod offentliggjort solminimum/middel/solmaksimum), og den termosfæriske neutrale tæthed efter Jacchia-1971 ved den eksosfæriske middeltemperatur over døgnet mod den aktivitetsfrie statiske profil ved et sæt højder — den afhængighed af solcyklussen i tætheden, som den statiske atmosfære udelader. MODELLED: tætheden stemmer med accelerometerafledte tætheder (TOLEOS CHAMP og GRACE) inden for en faktor { "2" } ved solmaksimum, men er omkring 1.7x for høj i solminimum { "2008" }.
+
+seg-c1c6f2f73fb5 = Diagrammet, som motoren skriver for scenarios/space-weather.toml, type space-weather

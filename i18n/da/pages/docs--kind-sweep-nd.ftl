@@ -19,3 +19,21 @@ seg-5a70fcb097dc = Valgfrie felter: ingen
 seg-bb07c8ee153f = <b>PARTNER</b> Ikke leveret: kun ydelsesmodeller; koldatom-/urhardware er en partners. Uafhængig reference (NoneKind): ingen: en disciplin, som partneren ejer, uden modul og uden test i designet
 
 seg-8b701f465117 = log
+
+seg-792218eac075 = Kilde: <c1/>
+
+seg-c7e5582d0b24 = <c1/> (scenarietype)
+
+seg-4f19d4fb1341 = Generisk N-D-sweep over en vilkårlig pakke via punkterede TOML-nøgler / JSON-metrikstier.
+
+seg-cd907c72698b = Én kørsel af <c1/> opsummeres som: generisk sweep af <c2/> over [threshold_m, accel_classical.bias] | { "15" } knuder (form [{ "5" }, { "3" }]) | metrikker [classical.fom.holdover_s, classical.fom.pos_rms_m]
+
+seg-502ba2c57a5f = Påkrævede felter: <c1/>, <c2/>, <c3/>
+
+seg-c372e390bb4f = Eksemplet <c1/> angiver blandt andet:
+
+seg-621a18c07044 = Diagrammet, som motoren skriver for scenarios/sweep-nd-inertial.toml, type sweep-nd
+
+seg-ce006a6715e9 = <s1>Forrige</s1>spoof
+
+seg-b9f8771ffd3d = <s1>Næste</s1>sweep
