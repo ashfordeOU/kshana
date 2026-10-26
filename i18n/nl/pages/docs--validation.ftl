@@ -19,3 +19,11 @@ seg-619f89bf160c = Realisatie van het lunaire referentiestelsel
 seg-d6476863f862 = Mogelijkheid
 
 seg-ad856ad710eb = Status
+
+seg-4bcec6e2dd9f = Maannavigatieservicevolume
+
+seg-c04a3591074c = Interoperabiliteitsexport voor de maan
+
+seg-20fee61b3107 = Bibliotheek met foutmodellen van kwantumapparaten
+
+seg-eaf341ff4522 = GNSS-vrije kwantumnavigatie
