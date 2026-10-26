@@ -3884,3 +3884,9 @@ seg-c3c260b7063e = Testes
 
 # text
 seg-417a52c9c154 = PDF
+
+# text
+seg-4e31c8daf798 = Registo
+
+# text
+seg-8980b5ae869b = Valor

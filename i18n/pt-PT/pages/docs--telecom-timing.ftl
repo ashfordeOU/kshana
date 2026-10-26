@@ -26,3 +26,6 @@ seg-f63dd3d7aad4 = Fonte
 
 # text
 seg-587beeccaa11 = Predefinição
+
+# text
+seg-edb7b16b6c0e = Validação

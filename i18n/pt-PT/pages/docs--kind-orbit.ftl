@@ -47,3 +47,74 @@ seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP a partir da geometr
 
 # text
 seg-53a78e98af12 = Página do tópico: <a1>SKYLINE.md</a1>
+
+# text
+seg-ae15d15bf151 = Página do tema: <a1>LEO-PASS.md</a1>
+
+# text
+# c1: scenarios/
+seg-99a3c57c7926 = { "7" } cenários incluídos utilizam este tipo de cenário; os restantes estão em <a1><c1/></a1>.
+
+# text
+# c1: docs/kinds/by-kind/orbit.md
+seg-0e3518dc3ddb = Fonte: <c1/>
+
+# text
+# c1: orbit
+seg-1428025a91e1 = <c1/> (tipo de cenário)
+
+# text
+seg-cb4262b66b8f = Disponibilidade GNSS + DOP a partir de uma constelação orbital (Walker / TLE / RINEX).
+
+# text
+# c1: scenarios/orbit-rinex.toml
+seg-97680b4587c8 = Uma execução de <c1/> resume-se assim: cenário bffc887db977 | 77/361 amostras GNSS nominal | melhor PDOP { "2.53" } pos 2.53m | holdover quântico 0s p95 6.49e-5ns integridade { "1.000" } segurança n/a (sem ataque) | holdover clássico 0s p95 25.0ns integridade { "1.000" } segurança n/a (sem ataque)
+
+# text
+# c1: seed
+# c2: threshold_ns
+# c3: mask_deg
+# c4: time
+# c5: user|user_site
+# c6: constellation
+# c7: clock_quantum
+# c8: clock_classical
+seg-b3a080b98bd9 = Campos obrigatórios: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>
+
+# text
+# c1: sigma_uere_m
+# c2: constellations
+# c3: epoch
+# c4: export_sp3
+# c5: export_omm
+# c6: export_oem
+# c7: skyline
+seg-c818cc4f87da = Campos opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
+
+# text
+# c1: scenarios/orbit-rinex.toml
+seg-364139ff447d = O exemplo <c1/> define, entre outros:
+
+# text
+seg-d5063dda3971 = Relógio atómico à escala de chip Microchip SA.45s / SA65, sigma_y(1s)
+
+# text
+seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
+
+# attr:alt
+seg-3b652c0da6de = O gráfico que o motor escreve para scenarios/orbit-rinex.toml, tipo de cenário orbit
+
+# text
+seg-a150aaacf072 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP a partir da geometria de linha de vista via Q=(HᵀH)⁻¹ com uma separação ENU local Ensaios: <a1>dop_reference.rs</a1>.
+
+# text
+seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry e check: um Monte Carlo de semente fixa (N = { "20,000" } épocas por geometria, sigma = { "1.5" } m, semente ChaCha8 { "36" } + i) da solução de mínimos quadrados iterada do próprio motor (pvt::solve_spp, pesos unitários, resolvida a partir da posição verdadeira) em Ensaios: <a1>uere_dop_monte_carlo.rs</a1>.
+
+# text
+seg-a3d71dd306b3 = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sky_geometry: o azimute e a elevação geodésicos (WGS-84) de um satélite a partir de um local em terra, uma tabela de máscara de azimute/elevação interpolada linearmente em azimute com fecho a { "360" } graus, o conjunto visível el Ensaios: <a1>skyline_orekit_oracle.rs</a1>.
+
+# text
+seg-d86884be3f98 = <s1>Anterior</s1>optical-atmosphere
+
+# text
+seg-da202333ae8d = <s1>Seguinte</s1>passes

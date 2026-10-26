@@ -116,3 +116,9 @@ seg-8b49f6477e8f = Núcleo aberto
 
 # attr:aria-label, text
 seg-6555ff9a6d8e = Saída
+
+# text
+seg-70a79ec95bf4 = falha
+
+# text
+seg-7a33a168b020 = passa

@@ -39,3 +39,41 @@ seg-5a70fcb097dc = Campos opcionais: nenhum
 
 # text
 seg-bb07c8ee153f = <b>PARTNER</b> Não fornecido — apenas modelos de desempenho; o hardware de átomos frios/relógio é de um parceiro. Referência independente (NoneKind): nenhuma: uma disciplina de propriedade do parceiro, sem módulo e sem teste por projeto
+
+# text
+seg-8b701f465117 = log
+
+# text
+# c1: docs/kinds/by-kind/sweep-nd.md
+seg-792218eac075 = Fonte: <c1/>
+
+# text
+# c1: sweep-nd
+seg-c7e5582d0b24 = <c1/> (tipo de cenário)
+
+# text
+seg-4f19d4fb1341 = Varrimento N-D genérico sobre qualquer pacote através de chaves TOML com pontos / caminhos de métricas JSON.
+
+# text
+# c1: scenarios/sweep-nd-inertial.toml
+# c2: inertial
+seg-cd907c72698b = Uma execução de <c1/> resume-se assim: varrimento genérico de <c2/> sobre [threshold_m, accel_classical.bias] | { "15" } nós (forma [{ "5" }, { "3" }]) | métricas [classical.fom.holdover_s, classical.fom.pos_rms_m]
+
+# text
+# c1: base
+# c2: axes
+# c3: metrics
+seg-502ba2c57a5f = Campos obrigatórios: <c1/>, <c2/>, <c3/>
+
+# text
+# c1: scenarios/sweep-nd-inertial.toml
+seg-c372e390bb4f = O exemplo <c1/> define, entre outros:
+
+# attr:alt
+seg-621a18c07044 = O gráfico que o motor escreve para scenarios/sweep-nd-inertial.toml, tipo sweep-nd
+
+# text
+seg-ce006a6715e9 = <s1>Anterior</s1>spoof
+
+# text
+seg-b9f8771ffd3d = <s1>Seguinte</s1>sweep

@@ -8,3 +8,6 @@ seg-1c6199627b90 = Dados
 
 # text
 seg-ad856ad710eb = Estado
+
+# text
+seg-53a7343c076e = Afirmação
