@@ -127,3 +127,7 @@ seg-2d2a4afa2708 = Telekomunikace a 5G
 seg-af94e7a93923 = Pokud je ztracena časová reference GNSS, zůstanou hodiny mé sítě v rámci masek ITU-T a jak dlouho?
 
 seg-36d838421b86 = Mohu výsledek PNT reprodukovat, rozšířit a citovat, až po seed?
+
+seg-821762272e2f = Sektory
+
+seg-13e8e5460280 = Geometrie

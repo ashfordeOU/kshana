@@ -29,3 +29,5 @@ seg-4f19d4fb1341 = Obecný N-rozměrný průchod libovolným balíčkem přes kl
 seg-e7ab7b55c969 = 1-D průchod obchodní studie parametrem balíčku hodin.
 
 seg-e43910de5fd8 = Notebooky
+
+seg-d78822583c64 = Notebook
