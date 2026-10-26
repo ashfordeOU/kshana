@@ -153,3 +153,5 @@ seg-331d2821d43f = Roadmap
 seg-fdbb9db68f1d = geen
 
 seg-6e0cb6acc073 = VALIDATED
+
+seg-a349aa76b0ed = PARTNER
