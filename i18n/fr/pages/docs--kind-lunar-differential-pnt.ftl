@@ -30,9 +30,6 @@ seg-d0c9bec248b4 = Source : <c1/>
 seg-d226df2bb634 = <c1/> (type de scénario)
 
 # text
-seg-8ac5ac006ae7 = PNT DIFFÉRENTIEL lunaire modélisé (un analogue lunaire du DGNSS/SBAS) : une station de référence de classe NovaMoon, en un lieu sélénographique CONNU, calcule des corrections différentielles par satellite à partir d'une constellation ILLUSTRATIVE de classe Moonlight/LCNS à sources publiques (NovaMoon n'est cité que comme CLASSE de système, sans affiliation à l'ESA), et un utilisateur décalé de baseline_km les applique de sorte que les erreurs d'orbite et d'horloge de MODE COMMUN s'annulent. Le terme d'horloge s'annule EXACTEMENT (une identité algébrique) ; le terme d'orbite ne laisse que la projection de la différence de ligne de visée, qui → { "0" } quand la ligne de base → { "0" } (le plancher de décorrélation spatiale) et croît ≈ linéairement avec la ligne de base. Rapporte l'erreur de position 3D de l'utilisateur AVEC et SANS corrections, le facteur de réduction, la courbe d'erreur en fonction de la ligne de base, et un niveau de protection de l'utilisateur qui RÉUTILISE le mécanisme SBAS de la DO-229E (crate::sbas) avec le résiduel différentiel σ. MODELLED — identité d'annulation exacte + modèle de décorrélation au premier ordre ; non vérifié sur des données réelles ; aucun TRL, héritage ni aval d'une agence. Déterministe si initialisé par une graine.
-
-# text
 # c1: scenarios/lunar-differential-pnt.toml
 seg-4b7355b174a3 = Une exécution de <c1/> se résume ainsi : lunar-differential-pnt | { "8" } sats (illustrative LCNS-class, not affiliated) | baseline { "50" } km | user error { "24.46" } m → { "0.0077" } m ({ "3186" }× reduction) | HPL { "23.1" } m (σ_resid { "5.0" } m) | MODELLED
 
@@ -101,3 +98,6 @@ seg-2b8455001710 = <s1>Précédent</s1>lunar-beacon
 
 # text
 seg-dca7482d9d75 = <s1>Suivant</s1>lunar-frame-campaign
+
+# text
+seg-8ac5ac006ae7 = PNT DIFFÉRENTIEL lunaire modélisé (un analogue lunaire du DGNSS/SBAS) : une station de référence de classe NovaMoon, en un lieu sélénographique CONNU, calcule des corrections différentielles par satellite à partir d'une constellation ILLUSTRATIVE de classe Moonlight/LCNS à sources publiques (NovaMoon n'est cité que comme CLASSE de système, sans affiliation à l'ESA), et un utilisateur décalé de baseline_km les applique de sorte que les erreurs d'orbite et d'horloge de MODE COMMUN s'annulent. Le terme d'horloge s'annule EXACTEMENT (une identité algébrique) ; le terme d'orbite ne laisse que la projection de la différence de ligne de visée, qui → { "0" } quand la ligne de base → { "0" } (le plancher de décorrélation spatiale) et croît ≈ linéairement avec la ligne de base. Rapporte l'erreur de position 3D de l'utilisateur AVEC et SANS corrections, le facteur de réduction, la courbe d'erreur en fonction de la ligne de base, et un niveau de protection de l'utilisateur qui RÉUTILISE le mécanisme SBAS de la DO-229E (crate::sbas) avec le résiduel différentiel σ. MODELLED — identité d'annulation exacte + modèle de décorrélation au premier ordre ; non vérifié sur des données réelles ; aucun TRL, héritage ni aval d'une agence. Déterministe si initialisé par une graine.

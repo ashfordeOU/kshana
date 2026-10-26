@@ -26,9 +26,6 @@ seg-47118f54f060 = Le type de scénario <c1/> répond à la question de savoir �
 # text
 seg-06db0ea8f428 = Kshana n'est que le côté analyse. Il n'exécute aucune expérience de station sol optique, et ne nomme aucun partenaire de mesure. Le type de scénario est <b>MODELLED</b> : ses calculs numériques sont vérifiés par rapport à un programme indépendant, mais aucun enregistrement de disponibilité mesurée n'a été comparé, et chaque entrée de météo, de technique et d'horloge est une hypothèse. C'est une analyse à titre consultatif, et non un produit de disponibilité, d'intégrité ou de navigation certifié.
 
-# text
-seg-83c16fd89005 = Les deux scénarios fournis portent des climats nuageux ILLUSTRATIVE. Ce sont des entrées, et non des mesures ni les valeurs d'un jeu de données.
-
 # attr:alt
 seg-e9dbbd9cfa32 = Une réalisation générée avec une graine de la marge de liaison du site 'northern' sur { "336" } h, issue d'une exécution réelle du moteur v{ $version } sur scenarios/optical-atmosphere-network.toml (graine { "37" }, un pas de { "600" } s). La marge passe sous zéro pendant les épisodes nuageux ; dans ce tirage, la liaison est active { "40.5" } % du temps, avec { "27" } pannes et une panne la plus longue de { "30.7" } h. Les entrées sont illustratives, la série est un tirage du modèle et non le climat, et elle diffère de la disponibilité statistique ({ "37.8" } %) de l'erreur d'échantillonnage du tirage. Analyse à titre consultatif seulement : ni un produit de disponibilité, d'intégrité ou de navigation certifié, ni une prédiction pour un site réel, sauf si ses entrées climatiques proviennent d'un jeu de données indiqué.
 
@@ -173,3 +170,6 @@ seg-83b30e1ca261 = <s1>Précédent</s1>Paquets de preuves
 
 # text
 seg-1474b58fb35a = <s1>Suivant</s1>Synchronisation des créneaux
+
+# text
+seg-83c16fd89005 = Les deux scénarios fournis portent des climats nuageux ILLUSTRATIFS. Ce sont des entrées, et non des mesures ni les valeurs d'un jeu de données.
