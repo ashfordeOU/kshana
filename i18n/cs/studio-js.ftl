@@ -4691,3 +4691,455 @@ js-interf-check-failed = { $name }: nepodařilo se zkontrolovat ({ $reason }).
 
 # 2026-10-01-studio-rebuild/interference/interference.js:152
 js-interf-click-cell = Klikněte na buňku, nebo zaostřete na mapu a použijte šipky, abyste viděli její hodnoty.
+
+js-interf-close = Zavřít
+
+js-interf-close-file = Zavřít { $name }
+
+js-interf-col-affected = Zasaženo
+
+js-interf-col-cell-area = Plocha buňky
+
+js-interf-col-detectors = Detektory
+
+js-interf-col-observed = Pozorováno
+
+js-interf-col-sampled = Vzorkováno
+
+js-interf-col-share = Podíl
+
+js-interf-col-status = Stav
+
+js-interf-coverage-limits = Omezení pokrytí tohoto zdroje
+
+js-interf-csv-too-big = { $name }: větší než 24 MiB; vytvořte mapu z výřezu (nástroj příkazového řádku zpracuje celý soubor).
+
+js-interf-csv-too-big-short = { $name }: větší než 24 MiB; vytvořte mapu z výřezu.
+
+js-interf-custom-needs-licence = Vlastní datová sada potřebuje licenci, její URL a text s uvedením zdroje: zapíšou se do souboru mapy.
+
+js-interf-dataset = Datová sada
+
+js-interf-dates-rule = Data mají tvar RRRR-MM-DD; prázdné pole znamená bez omezení.
+
+js-interf-day = Den
+
+js-interf-day-aria = Den: { $kind }
+
+js-interf-day-confounded-note = Tento den je zkreslený: žádná buňka nebyla označena za zhoršenou kvůli pozadí tohoto dne. Buňky, které by jinak vyčnívaly, jsou zobrazeny jako nehodnocené.
+
+js-interf-day-figures-aria = Hodnoty za den
+
+js-interf-demo-csv-name = { $file } (syntetická ukázka)
+
+js-interf-demo-failed = Ukázku se nepodařilo otevřít: { $reason }.
+
+js-interf-demo-opened = Syntetická ukázka: tři vymyšlené soubory o vymyšlené oblasti otevřeného oceánu (dva dny ADS-B, jeden z nich zkreslený, a jeden den AIS). Za nimi nestojí žádné skutečné letadlo, plavidlo ani den. Na vrstvě ADS-B použijte volič dne.
+
+js-interf-demo-route-name = route.csv (syntetická)
+
+js-interf-describe-map = Mapa { $kind } pro { $date }: vykresleno buněk: { $cells }, { $parts }. Nevykreslené buňky nebyly pozorovány.
+
+js-interf-did-not-load = { $url } se nenačetlo
+
+js-interf-engine-no-fn = Tento build enginu (verze { $version }) nemá { $fn }; je starší než tato stránka. Ekvivalent v příkazovém řádku je na stránce Nástroje.
+
+js-interf-engine-start-failed = Engine se zde nepodařilo spustit ({ $reason }). Otevírání souborů map výše stále funguje.
+
+js-interf-err-format-version = { $name }: není podporovaná mapa interference Kshana (format_version { $version }; tato stránka podporuje { $supported }).
+
+js-interf-err-no-rows = { $name }: tato zpráva neobsahuje rows[].
+
+js-interf-err-not-json = { $name }: není JSON ({ $reason }).
+
+js-interf-err-not-map = { $name }: jde o GeoJSON, ale ne o mapu interference Kshana (chybí člen kshana_interference_map).
+
+js-interf-err-not-route = { $name }: není zpráva Kshana o expozici trasy (chybí člen kshana_route_exposure).
+
+js-interf-err-route-schema = { $name }: schéma { $schema } není { $expected }, které tato stránka čte.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } není ani adsb, ani ais.
+
+js-interf-err-unknown-schema = { $name }: neznámé schéma { $schema }; tato stránka čte { $supported }.
+
+js-interf-foot-attribution = Uvedení zdroje: { $text }
+
+js-interf-foot-coverage = Pokrytí: { $notes }
+
+js-interf-foot-layer = Vrstva { $kind }, { $date }. Nevykreslené buňky nebyly pozorovány.
+
+js-interf-foot-licence = Licence: { $licence }
+
+js-interf-foot-licence-url = Licence: { $licence } ({ $url })
+
+js-interf-grid = Mřížka: čtvercové buňky o straně { $size }° v zeměpisné šířce i délce ({ $type }). Šířka ve směru východ-západ se s rostoucí zeměpisnou šířkou zmenšuje.
+
+js-interf-guards = Ochrany proti jiným příčinám
+
+js-interf-input = Vstup
+
+js-interf-land-set = Polygony pevniny: { $name }.
+
+js-interf-land-too-big = Tento soubor pevniny je větší než 24 MiB.
+
+js-interf-larger-than = { $name }: větší než { $limit }; tato stránka čte soubory map do této velikosti.
+
+js-interf-layer-adsb-sub = buňky, kde letadla hlásila nízkou navigační přesnost
+
+js-interf-layer-ais-sub = buňky, kde plavidla hlásila nevěrohodné polohy nebo pohyb
+
+js-interf-layer-heading = Vrstva { $kind }
+
+js-interf-layer-hidden = Vrstva { $kind } je skrytá.
+
+js-interf-layers-separate = ADS-B a AIS jsou samostatné vrstvy s vlastními přepínači, legendami a řádky licence. Nikdy se nesloučí do jednoho barevného pole ani jednoho počtu.
+
+js-interf-legend-aria = Co znamená každý stav buňky; zrušením zaškrtnutí se příslušné buňky zesvětlí
+
+js-interf-licence = Licence
+
+js-interf-licence-aria = Licence dat: { $name }
+
+js-interf-licence-heading = Licence dat a uvedení zdroje
+
+js-interf-map-aria = { $summary } Šipkami se pohybujete mezi vykreslenými buňkami.
+
+js-interf-maps-open =
+    { $n ->
+        [one] Otevřena { $n } mapa.
+        [few] Otevřeny { $n } mapy.
+        [many] Otevřeno { $n } mapy.
+       *[other] Otevřeno { $n } map.
+    }
+
+js-interf-method-summary = Metoda a výhrady
+
+js-interf-no-cell-at = Žádná buňka na { $lat }, { $lon }: nepozorováno. To není důkaz, že oblast byla čistá.
+
+js-interf-no-cell-drawn = žádná buňka nevykreslena
+
+js-interf-no-cells-draw = Tento soubor nemá žádné buňky k vykreslení.
+
+js-interf-no-day-figures = Tento soubor neuvádí žádné hodnoty na úrovni dne.
+
+js-interf-no-file-opened = Nepodařilo se otevřít žádný soubor.
+
+js-interf-no-file-text = Otevřené mapy nemají žádný text souboru ke kontrole (nebyly otevřeny jako soubory).
+
+js-interf-none = žádné
+
+js-interf-none-stated = (neuvedeno)
+
+js-interf-none-stated-file = (v tomto souboru neuvedeno)
+
+js-interf-north-abbr = S
+
+js-interf-not-evaluated = nehodnoceno
+
+js-interf-not-opened-full = { $name }: neotevřeno, již je otevřeno { $max } map. Nejprve některé zavřete.
+
+js-interf-nothing-open = Zatím nic není otevřeno.
+
+js-interf-nothing-opened = Nic nebylo otevřeno.
+
+js-interf-one-day = po jednom dni
+
+js-interf-opened-file-map = Otevřen { $files } soubor; otevřena { $maps } mapa.
+
+js-interf-opened-file-maps = Otevřen { $files } soubor; otevřeno map: { $maps }.
+
+js-interf-opened-files-map = Otevřeno souborů: { $files }; otevřena { $maps } mapa.
+
+js-interf-opened-files-maps = Otevřeno souborů: { $files }; otevřeno map: { $maps }.
+
+js-interf-opening-demo = Otevírá se syntetická ukázka…
+
+js-interf-parameters = Parametry, pevně dané před přečtením jakýchkoli dat
+
+js-interf-read-draw-failed = { $name }: nepodařilo se přečíst nebo vykreslit ({ $reason }).
+
+js-interf-read-failed = { $name }: nepodařilo se přečíst ({ $reason }).
+
+js-interf-read-with-map = Čtěte společně s mapou
+
+js-interf-reading = Čte se…
+
+js-interf-route-aria = Expozice trasy { $name }
+
+js-interf-route-chip = Trasa
+
+js-interf-route-done =
+    { $n ->
+        [one] Expozice trasy vypočtena z { $n } mapy enginem { $version }; zpráva je zobrazena níže.
+        [few] Expozice trasy vypočtena ze { $n } map enginem { $version }; zpráva je zobrazena níže.
+        [many] Expozice trasy vypočtena z { $n } mapy enginem { $version }; zpráva je zobrazena níže.
+       *[other] Expozice trasy vypočtena z { $n } map enginem { $version }; zpráva je zobrazena níže.
+    }
+
+js-interf-route-explain = Podíl délky trasy v jednotlivých stavech, za každý den a zdroj. Čtyři podíly dávají součet 1 a čtou se společně: nízký podíl zhoršeného s vysokým podílem nepozorovaného neznamená, že by bylo prokázáno, že je čisto. Řádky ADS-B a AIS se nikdy nekombinují.
+
+js-interf-route-exposure = Expozice trasy
+
+js-interf-route-needs-map = Nejprve otevřete nebo vytvořte alespoň jednu mapu: trasa se kontroluje proti mapám na této stránce.
+
+js-interf-route-open-failed = Trasu se nepodařilo otevřít: { $reason }.
+
+js-interf-route-range = { $from } až { $to }
+
+js-interf-route-too-big = { $name }: větší než 24 MiB.
+
+js-interf-row-affected-share = Podíl zasažených
+
+js-interf-row-aircraft-affected = Zasažená letadla
+
+js-interf-row-aircraft-observed = Pozorovaná letadla
+
+js-interf-row-aircraft-sampled = Vzorkovaná letadla
+
+js-interf-row-area = Plocha
+
+js-interf-row-cell = Buňka
+
+js-interf-row-detectors = Detektory, které splnily podmínky
+
+js-interf-row-flagged = Označeno: { $detector }
+
+js-interf-row-status = Stav
+
+js-interf-row-vessels-observed = Pozorovaná plavidla
+
+js-interf-rows-skipped =
+    { $count ->
+        [one] { $count } řádek nebyl platný a byl přeskočen.
+        [few] { $count } řádky nebyly platné a byly přeskočeny.
+        [many] { $count } řádku nebylo platných a bylo přeskočeno.
+       *[other] { $count } řádků nebylo platných a bylo přeskočeno.
+    }
+
+js-interf-rt-day = Den
+
+js-interf-rt-km = Trasa v km
+
+js-interf-rt-licence = Licence a uvedení zdroje mapy
+
+js-interf-rt-shares = Podíly trasy
+
+js-interf-rt-source = Zdroj
+
+js-interf-sample-failed = Vzorek se nepodařilo otevřít: { $reason }.
+
+js-interf-save = Uložit:
+
+js-interf-save-report = Uložit zprávu (JSON)
+
+js-interf-show-layer = Zobrazit tuto vrstvu
+
+js-interf-st-anomalous-label = Anomální
+
+js-interf-st-anomalous-text = Alespoň jeden detektor zde ten den označil dostatek různých plavidel (alespoň 3 plavidla a 20 % pozorovaných). Možnými příčinami je interference, ale také mnoho běžných jevů.
+
+js-interf-st-confounded-label = Zkreslený den
+
+js-interf-st-confounded-text = Medián podílu buněk za celý den byl vysoký, což ukazuje na příčinu v celé oblasti. Za takového dne se žádná buňka neprohlásí za zhoršenou; tato buňka by jinak vyčnívala.
+
+js-interf-st-degraded-label = Zhoršeno
+
+js-interf-st-degraded-text = Vysoký podíl vzorkovaných letadel zde ten den hlásil nízkou navigační přesnost, výrazně nad mediánem buněk toho dne. Neříká to, proč.
+
+js-interf-st-no-background-label = Bez odhadu pozadí
+
+js-interf-st-no-background-text = Pozadí dne (typický podíl letadel hlásících nízkou přesnost) se nepodařilo odhadnout z dostatečného počtu buněk, takže se s ním žádná buňka neporovnává a žádná se neposuzuje.
+
+js-interf-st-not-anomalous-label = Neanomální
+
+js-interf-st-not-anomalous-text = Pozorováno a žádný detektor nesplnil podmínky. Není to důkaz, že se nic nestalo.
+
+js-interf-st-not-degraded-label = Nezhoršeno
+
+js-interf-st-not-degraded-text = Vzorkováno a podíl letadel hlásících nízkou přesnost nevyčníval. Není to důkaz, že se nic nestalo.
+
+js-interf-st-too-few-label = Příliš málo letadel
+
+js-interf-st-too-few-text = Zveřejněno (pozorováno alespoň 5 různých letadel), ale vzorkovat se podařilo méně než 10 letadel, takže se žádné posouzení nečiní.
+
+js-interf-starting-build = Spouští se engine a vytváří se mapa…
+
+js-interf-starting-route = Spouští se engine a kontroluje se trasa…
+
+js-interf-state-clear-adsb = Čisto
+
+js-interf-state-clear-adsb-text = Pozorováno s dostatkem letadel a neoznačeno. Není to důkaz, že se nic nestalo.
+
+js-interf-state-clear-ais = Čisto
+
+js-interf-state-clear-ais-text = Pozorováno s dostatkem plavidel a neoznačeno. Není to důkaz, že se nic nestalo.
+
+js-interf-state-degraded-adsb = Zhoršeno
+
+js-interf-state-degraded-adsb-text = Vysoký podíl vzorkovaných letadel zde ten den hlásil nízkou navigační přesnost, výrazně nad mediánem buněk toho dne.
+
+js-interf-state-degraded-ais = Anomální
+
+js-interf-state-degraded-ais-text = Alespoň jeden detektor zde ten den označil dostatek různých plavidel (alespoň 3 plavidla a 20 % pozorovaných).
+
+js-interf-state-notobs-adsb = Nepozorováno
+
+js-interf-state-notobs-adsb-text = Žádná buňka nevykreslena: bylo pozorováno příliš málo letadel na to, aby se buňka zveřejnila. To není důkaz, že oblast byla čistá.
+
+js-interf-state-notobs-ais = Nepozorováno
+
+js-interf-state-notobs-ais-text = Žádná buňka nevykreslena: bylo pozorováno příliš málo plavidel na to, aby se buňka zveřejnila. To není důkaz, že oblast byla čistá.
+
+js-interf-state-unassessed-adsb = Nehodnoceno
+
+js-interf-state-unassessed-adsb-text = Pozorováno, ale vzorkovat se podařilo příliš málo letadel, den byl zkreslený, nebo se pozadí dne nepodařilo odhadnout, takže se žádné posouzení nečiní.
+
+js-interf-state-unassessed-ais = Nehodnoceno
+
+js-interf-state-unassessed-ais-text = Pozorováno, ale žádné posouzení se nečiní.
+
+js-interf-status-unknown = Stav, který tato stránka nepopisuje.
+
+js-interf-table-first = Zobrazeno prvních { $shown } z { $total } buněk, nejdůležitější posouzení jako první.
+
+js-interf-table-summary = Každá vykreslená buňka jako tabulka ({ $n })
+
+js-interf-the-day = Den
+
+js-interf-unknown-date = neznámé datum
+
+js-interf-warn-cell-size = Tento soubor používá velikost buňky { $size }°, která není předregistrovaná: není to předregistrovaná metoda, takže jeho posouzení nejsou srovnatelná se soubory, které ji používají.
+
+js-interf-warn-cell-size-known = Tento soubor používá velikost buňky { $size }°, která není předregistrovaná ({ $registered }°): není to předregistrovaná metoda, takže jeho posouzení nejsou srovnatelná se soubory, které ji používají.
+
+js-interf-warn-day-confounded = Tento den je zkreslený: žádná buňka nebyla označena za zhoršenou kvůli pozadí tohoto dne (medián podílu buněk byl sám vysoký).
+
+js-interf-warn-flag-disagrees =
+    { $count ->
+        [one] { $count } buňka má příznak „zhoršeno“, který se neshoduje s jejím stavem. Vykresluje se stav.
+        [few] { $count } buňky mají příznak „zhoršeno“, který se neshoduje s jejich stavem. Vykresluje se stav.
+        [many] { $count } buňky má příznak „zhoršeno“, který se neshoduje s jejich stavem. Vykresluje se stav.
+       *[other] { $count } buněk má příznak „zhoršeno“, který se neshoduje s jejich stavem. Vykresluje se stav.
+    }
+
+js-interf-warn-no-licence = Tento soubor neobsahuje text { $fields }. Zobrazuje se, ale mapa bez své licence a uvedení zdroje by se neměla znovu zveřejňovat.
+
+js-interf-warn-on-land-off = Detektor polohy na pevnině byl pro tento soubor vypnutý (nebyly dodány polygony pevniny).
+
+js-interf-warn-skipped =
+    { $count ->
+        [one] { $count } prvek nebyl platný GeoJSON a byl přeskočen.
+        [few] { $count } prvky nebyly platný GeoJSON a byly přeskočeny.
+        [many] { $count } prvku nebylo platným GeoJSON a bylo přeskočeno.
+       *[other] { $count } prvků nebylo platným GeoJSON a bylo přeskočeno.
+    }
+
+js-interf-warn-unknown-status = Hodnoty stavu, které tato stránka nezná: { $values }. Vykreslují se jako „bez posouzení“.
+
+js-interf-withheld = zadrženo (méně než 5)
+
+js-interf-written-by = zapsal Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = 3D chyba polohy (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = chvění kódu (m)
+
+js-kind-axis-code-tracking-jitter-m = chvění sledování kódu (m)
+
+js-kind-axis-doppler-shift-hz = Dopplerův posun (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = efektivní C/N0 (dB-Hz)
+
+js-kind-axis-elevation = elevace (°)
+
+js-kind-axis-fit-interval-s = interval proložení (s)
+
+js-kind-axis-formal-position-sigma-m = formální sigma polohy (m)
+
+js-kind-axis-latitude = zeměpisná šířka (°)
+
+js-kind-axis-leo-satellites-added-to-the = družice LEO přidané k řešení polohy
+
+js-kind-axis-mean-satellites-in-view = průměrný počet viditelných družic
+
+js-kind-axis-median-dilution-of-precision = medián faktoru zhoršení přesnosti
+
+js-kind-axis-median-error-m = medián chyby (m)
+
+js-kind-axis-median-pdop = medián PDOP
+
+js-kind-axis-metres = metry
+
+js-kind-axis-observation-window-s = okno pozorování (s)
+
+js-kind-axis-offset-from-the-signal-s = odchylka od středu signálu (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = odchylka od středu snímku (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = chyba polohy (m)
+
+js-kind-axis-power-spectral-density-db-hz = výkonová spektrální hustota (dB/Hz, jednotkový výkon)
+
+js-kind-axis-power-spectral-density-dbw-hz = výkonová spektrální hustota (dBW/Hz)
+
+js-kind-axis-probability-of-detection = pravděpodobnost detekce
+
+js-kind-axis-range-error-m = chyba vzdálenosti (m)
+
+js-kind-axis-relays = relé
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, střední kvadratická hodnota (m)
+
+js-kind-axis-time-error-ns = časová chyba (ns)
+
+js-kind-axis-time-s = čas (s)
+
+js-kind-axis-time-since-the-start-min = čas od začátku (min)
+
+js-kind-axis-update-period-s = perioda aktualizace (s)
+
+js-kind-cap-body-pnt-label = Určování polohy přes relé
+
+js-kind-cap-campaign-label = Kampaň
+
+js-kind-cap-constellation-design-label = Pokrytí
+
+js-kind-cap-leo-navmsg-label = Navigační zpráva
+
+js-kind-cap-leo-pass-label = Přelet a spoj
+
+js-kind-cap-leo-pnt-chain-label = Řetězec od začátku do konce
+
+js-kind-cap-leo-ppp-label = Určování polohy
+
+js-kind-cap-leo-pvt-label = Určování polohy
+
+js-kind-cap-leo-signal-label = Návrh signálu
+
+js-kind-cap-lunar-llr-datum-label = Datum laserového měření vzdálenosti
+
+js-kind-cap-ntn-positioning-label = Určování polohy
+
+js-kind-cap-solar-system-label = Sluneční soustava
+
+js-kind-cap-spectrum-label = Spektrum
+
+js-kind-guided-doppler-error-hz = Chyba Dopplerova posunu (Hz)
+
+js-kind-guided-duration-s = Doba trvání (s)
+
+js-kind-guided-earth-range-error-m = Chyba vzdálenosti k Zemi (m)
+
+js-kind-guided-elevation-mask = Elevační maska (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Šířka pásma prvního rušiče (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Výkon prvního rušiče (dBW)
+
+js-kind-guided-first-jammer-range-m = Vzdálenost prvního rušiče (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Přijatý výkon prvního rušiče (dBW)

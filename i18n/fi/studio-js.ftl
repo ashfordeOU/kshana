@@ -7339,7 +7339,7 @@ js-replay-opened = Avattu { $name } paneelissa { $n }. Luettu täällä; mitää
 
 js-replay-opening = Avataan: { $id }…
 
-js-replay-pause = Tauko
+js-replay-pause = Keskeytä
 
 js-replay-play = Toista
 
@@ -8685,3 +8685,659 @@ js-trust-agree-both = molemmat liputtavat: vastaanottimen oma lippu ja Kshanan m
 js-trust-agree-calibrating = kalibrointi-ikkunan sisällä: ei verrata
 
 js-trust-agree-kshana-only = vain Kshana hälyttää: vastaanotin ei liputa
+
+js-trust-agree-neither = kumpikaan ei liputa
+
+js-trust-agree-receiver-only = vain vastaanotin liputtaa: yksikään Kshanan monitori ei hälytä
+
+js-trust-assessed = Arvioitu { $name } moottorilla { $version }, tässä selaimessa.
+
+js-trust-assessed-as = Arvioitu { $name } muodossa { $format }, moottorilla, tässä selaimessa. Mitään ei ladattu palvelimelle.
+
+js-trust-assessing = Käynnistetään moottoria ja arvioidaan…
+
+js-trust-class-also-costing = { $class } (myös maksaa pisteitä)
+
+js-trust-class-environment = ympäristö: signaali (teho, häirintä, menetetyt satelliitit taivaan ollessa avoin)
+
+js-trust-class-geometry = geometria: taivas, ei signaali
+
+js-trust-class-inconsistency = epäjohdonmukaisuus: hyökkäyksen kaltainen, jota taivas tai signaali ei selitä
+
+js-trust-dl-result-json = Lataa tulos (JSON)
+
+js-trust-dl-table-csv = Lataa epookkikohtainen taulukko (CSV)
+
+js-trust-edge-degraded = { $v } heikentynyt
+
+js-trust-edge-nominal = { $v } nimellinen
+
+js-trust-err-assess = { $name }: ei voitu arvioida ({ $reason }).
+
+js-trust-err-demo-files = demotiedostoja ei ladattu
+
+js-trust-err-demo-log-open = Demolokia ei voitu avata: { $reason }.
+
+js-trust-err-demo-open = Demoa ei voitu avata: { $reason }.
+
+js-trust-err-engine-no-receiver-trust = Tässä moottoriversiossa (versio { $version }) ei ole kohdetta receiver_trust.
+
+js-trust-err-engine-no-scorer = Tässä moottoriversiossa (versio { $version }) ei ole lokin pisteyttäjää; se on tätä sivua vanhempi. Komento on { $command }.
+
+js-trust-err-engine-start = Moottoria ei voitu käynnistää täällä ({ $reason }).
+
+js-trust-err-engine-start-open = Moottoria ei voitu käynnistää täällä ({ $reason }). Yllä olevien tulostiedostojen avaaminen toimii silti.
+
+js-trust-err-example-files = esimerkkitiedostoja ei ladattu
+
+js-trust-err-example-open = Esimerkkiä ei voitu avata: { $reason }.
+
+js-trust-err-file-2mib = { $name }: suurempi kuin 2 MiB. Avaa ote.
+
+js-trust-err-file-too-large = { $name }: suurempi kuin { $max }. Tämä sivu lukee tiedostoja enintään sen kokoisia; avaa ote.
+
+js-trust-err-gen-too-large = { $name }: suurempi kuin 2 MiB. Avaa ote (komentorivityökalu ottaa kokonaisen lokin).
+
+js-trust-err-imu-format = ”{ $format }” ei ole IMU-muoto, jonka tämä sivu lukee (csv tai euroc)
+
+js-trust-err-imu-heading = IMU:n suunta sen ensimmäisellä näytteellä ei ole luku
+
+js-trust-err-log-format = ”{ $format }” ei ole lokimuoto, jonka tämä sivu voi lähettää moottorille
+
+js-trust-err-no-epochs = Tiedostossa ei ole epookkeja.
+
+js-trust-err-no-epochs-result = Tässä tulostiedostossa ei ole kenttää epochs[]. Sen on tultava komennolta `{ $command }` aluksen istunnolle.
+
+js-trust-err-no-epochs-returned = { $name }: moottori ei palauttanut epookkeja.
+
+js-trust-err-no-score-model = Tässä tuloksessa ei ole kenttää score_model, joten se on kiinteän alustan ajo ilman luottamuspistemäärää. Näkymä piirtää aluksen (liikkuvan alustan) ajoja.
+
+js-trust-err-not-readable = { $name }: ei ole tiedosto, jonka tämä näkymä lukee (tulos-JSON, JSON lines, trust.csv, NMEA-loki tai totuustiedosto).
+
+js-trust-err-nothing-to-draw = Ei mitään piirrettävää: valitse tulos-JSON, JSON lines tai trust.csv.
+
+js-trust-err-read = { $name }: ei voitu lukea ({ $reason }).
+
+js-trust-err-read-or-draw = { $name }: ei voitu lukea tai piirtää ({ $reason }).
+
+js-trust-err-score = { $name }: ei voitu pisteyttää ({ $reason }).
+
+js-trust-err-score-file-too-large = { $name }: suurempi kuin 2 MiB. Selaimen sisäinen pisteyttäjä ottaa otteen, joka sisältää viiden minuutin kalibrointi-ikkunan.
+
+js-trust-err-score-too-large = { $name }: suurempi kuin 2 MiB. Selaimen sisäinen pisteyttäjä ottaa otteen (komento { $command } ottaa kokonaisen lokin); avaa ote, joka sisältää viiden minuutin kalibrointi-ikkunan.
+
+js-trust-err-scorecard-too-large = { $name }: suurempi kuin 8 MiB; tämä sivu lukee pistekortin enintään sen kokoisena.
+
+js-trust-err-session-empty = Istunnon asetukset ovat tyhjät. Ne määrittävät aluksen ({ $setting }).
+
+js-trust-err-too-many-epochs = Tiedostossa on { $count } epookkia; tämä sivu piirtää enintään { $max }. Avaa ote.
+
+js-trust-err-triple-quote = { $what } sisältää kolme peräkkäistä yksinkertaista lainausmerkkiä, joita ei voi upottaa asetuksiin
+
+js-trust-err-what-file = tiedosto
+
+js-trust-err-what-imu = IMU-tiedosto
+
+js-trust-event-label = tapahtuma: { $label }
+
+js-trust-event-onset = alku
+
+js-trust-evt-col-first-alarm = Ensimmäinen hälytys, s
+
+js-trust-evt-col-latency = Viive, s
+
+js-trust-evt-col-onset = Alku, s
+
+js-trust-evt-col-outcome = Lopputulos
+
+js-trust-evt-col-stated = Ilmoitettu tapahtuma
+
+js-trust-fmt-android = Android GNSS Logger (teksti)
+
+js-trust-fmt-gnss-sdr = GNSS-SDR:n välittämä JSON lines (teksti)
+
+js-trust-fmt-nmea = NMEA 0183 (teksti)
+
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII tai binääri)
+
+js-trust-fmt-rinex = RINEX-havainto (teksti)
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binääri)
+
+js-trust-fmt-rtklib-pos = RTKLIB .pos -ratkaisu (teksti)
+
+js-trust-fmt-sbf = Septentrio SBF (binääri)
+
+js-trust-fmt-ubx = u-blox UBX (binääri)
+
+js-trust-gate-note-derived = Tällä ajolla ei ole porttitietuetta. Kaista näyttää, missä portti olisi pidättänyt paikannuksen: epäluotettavalla kaistalla olevat epookit, pidettynä 30 s sen jälkeen, kun ne poistuvat siitä. Johdettu täällä, ei luettu portilta. Portti on valinnainen ja lisää viivettä.
+
+js-trust-gate-note-read = Kunkin epookin portti sellaisena kuin live-virta sen ilmoitti: pois, läpäissyt tai pidätetty (paikannus merkittiin virheelliseksi välitetyssä jaksossa).
+
+js-trust-gate-now-derived = { $gate } · johdettu
+
+js-trust-gate-off = Pois
+
+js-trust-gate-off-cal = Pois (kalibroidaan)
+
+js-trust-gate-passed = Läpäisty: paikannus välitetään muuttumattomana
+
+js-trust-gate-span = portti { $gate }, { $from }–{ $to }
+
+js-trust-gate-span-derived = portti { $gate } (johdettu), { $from }–{ $to }
+
+js-trust-gate-withheld = Pidätetty: paikannus merkittäisiin virheelliseksi myöhemmässä vaiheessa
+
+js-trust-gen-chart-label = Moottorin kaavio ajosta: kantoaalto-kohinatiheys, tila ja hälytykset ajan funktiona
+
+js-trust-gen-epochs = Epookit: { $nominal } nimellistä, { $degraded } heikentynyttä, { $untrusted } epäluotettavaa { $window } epookin kalibrointi-ikkunan jälkeen.
+
+js-trust-gen-self-heading = Vastaanottimen omat liput Kshanan hälytyksiä vasten
+
+js-trust-gen-self-note = Vertailu, ei kummankaan tarkistus: vastaanottimen lippu on sen oma ilmoitus.
+
+js-trust-geo-deduction-class =
+    { $points ->
+        [one] { $points } piste ({ $class })
+       *[other] { $points } pistettä ({ $class })
+    }
+
+js-trust-geo-deduction-points =
+    { $points ->
+        [one] { $points } piste
+       *[other] { $points } pistettä
+    }
+
+js-trust-geo-flag-mismatch = Vastaanottimen ilmoittama HDOP on eri mieltä sen ilmoittamasta taivaasta johdetun kanssa: geometriavähennys lasketaan epäjohdonmukaisuudeksi.
+
+js-trust-geo-flag-signal-loss = Signaalin menetys: näkyvissä olevia satelliitteja ei seurata, vaikka niiden geometria on hyvä, joten geometriavähennys lasketaan ympäristöksi.
+
+js-trust-geo-heading-label = geometria { $label }
+
+js-trust-geo-label-fair = { $label } (ei pisteytetty)
+
+js-trust-geo-label-poor = { $label } (ainoa nimike, josta pistemäärästä vähennetään)
+
+js-trust-geo-none-in-run = Tässä ajossa ei ole geometriaa (ennen versiota 0.36 oleva moottori ei kirjoita sitä).
+
+js-trust-geo-reason-few-satellites = vähemmän satelliitteja kuin vähimmäismäärä
+
+js-trust-geo-reason-high-hdop = HDOP kynnyksensä yläpuolella
+
+js-trust-geo-reason-high-pdop = PDOP kynnyksensä yläpuolella
+
+js-trust-geo-reason-sky-blocked = seuratut satelliitit jättävät atsimuutissa leveän aukon (toinen puoli taivaasta estetty)
+
+js-trust-geo-row-deduction = Geometriavähennys
+
+js-trust-geo-row-from = Alkaen
+
+js-trust-geo-row-gap = Suurin atsimuuttiaukko
+
+js-trust-geo-row-label = Nimike
+
+js-trust-geo-row-open-sky = Avoin taivas
+
+js-trust-geo-row-reported-hdop = Vastaanottimen ilmoittama HDOP
+
+js-trust-geo-row-sats-used = Käytetyt satelliitit
+
+js-trust-geo-row-sky-age = Taivaan ikä
+
+js-trust-geo-row-status = Tila
+
+js-trust-geo-say-deduction =
+    { $points ->
+        [one] geometriavähennys { $points } piste
+       *[other] geometriavähennys { $points } pistettä
+    }
+
+js-trust-geo-say-label-hdop = geometria { $label } (HDOP { $hdop })
+
+js-trust-geo-say-mismatch = ilmoitettu HDOP on eri mieltä
+
+js-trust-geo-source-derived = johdettu lokin ilmoittamista satelliiteista (GSV)
+
+js-trust-geo-source-none = ei mitään
+
+js-trust-geo-source-reported = vastaanottimen ilmoittama DOP (GSA)
+
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+js-trust-geo-status-title = geometria { $status }
+
+js-trust-geo-unknown-no-gsv = geometria tuntematon: lokissa ei ole GSV- tai GSA-sanomia
+
+js-trust-geo-unknown-no-gsv-sentence = Geometria tuntematon: lokissa ei ole GSV- tai GSA-sanomia.
+
+js-trust-geo-unknown-odd = Geometria tuntematon (tiedosto sanoo ”{ $odd }”, jota tämä sivu ei tunne).
+
+js-trust-geo-used-of-view = { $used } / { $inView } näkyvissä
+
+js-trust-got-file-kind = { $name }: { $kind }
+
+js-trust-got-lines-skipped =
+    { $count ->
+        [one] { $count } rivi tiedostosta { $name } ei ollut epookki, ja se ohitettiin
+       *[other] { $count } riviä tiedostosta { $name } ei ollut epookkeja, ja ne ohitettiin
+    }
+
+js-trust-imu-csv = CSV otsikkorivillä
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = IMU-tiedosto: { $name } ({ $chars } merkkiä). Käytetään seuraavassa arvioinnissa.
+
+js-trust-imu-file-press = IMU-tiedosto: { $name } ({ $chars } merkkiä). Käytetään seuraavassa arvioinnissa; paina Arvioi valittu tiedosto.
+
+js-trust-imu-none = Ei IMU-tiedostoa.
+
+js-trust-jt-col-latency = Viive, s
+
+js-trust-jt-col-monitors = Ensimmäiset monitorit
+
+js-trust-jt-col-name = Nimi
+
+js-trust-jt-col-outcome = Lopputulos
+
+js-trust-jt-col-recovered = Palautunut
+
+js-trust-jt-col-slot = Aikaväli, s
+
+js-trust-jt-col-test = Testi
+
+js-trust-jt-label = { $label } Suoja-aika { $guard } s, palautumisen pito { $hold } s.
+
+js-trust-jt-label-contaminated = { $label } Suoja-aika { $guard } s, palautumisen pito { $hold } s. Kalibroinnin lähtötaso osui päällekkäin ajoitetun aikavälin kanssa.
+
+js-trust-jt-opened =
+    { $count ->
+        [one] Avattu { $name }: { $count } testi. Luettu täällä; mitään ei ladattu palvelimelle.
+       *[other] Avattu { $name }: { $count } testiä. Luettu täällä; mitään ei ladattu palvelimelle.
+    }
+
+js-trust-kind-batch-result = eräajon tulos
+
+js-trust-kind-json-lines = JSON lines
+
+js-trust-kind-nmea-log = NMEA-loki
+
+js-trust-kind-truth-file = totuustiedosto
+
+js-trust-label-demo = Synteettinen demo: keksitty lauttalogi keksityllä sijainnin drag-offilla, Kshanan pisteyttämä. Tallennettu moottorilta; loki on tekstiä, ei mittaus.
+
+js-trust-label-example = Havainnollistava esimerkki: keksitty NMEA-loki keksityllä häirintälähettimellä ajalla 120 s–240 s, moottorin tässä arvioima. Tekstiä, ei mittaus.
+
+js-trust-label-geo-demo = Synteettinen estetyn taivaan demo: lauttalogi, jossa taivaan läntinen puolisko tyhjennetään hetkestä 600 s (luonnollinen heikentyminen, selitetty geometrialla) ja sama keksitty drag-off hetkestä 1500 s (hyökkäyksen kaltainen). Tallennettu moottorilta, jossa on 0.36-geometria; tekstiä, ei mittaus.
+
+js-trust-label-score-demo = Synteettinen demoloki, moottorin tässä pisteyttämä. Keksitty lauttalogi ja drag-off; tekstiä, ei mittaus.
+
+js-trust-legend-calibrating = Kalibroidaan (ei koskaan pisteytetä)
+
+js-trust-legend-class = Vähennysluokka:
+
+js-trust-legend-class-environment = ympäristö: signaali
+
+js-trust-legend-class-geometry = geometria: taivas, ei signaali
+
+js-trust-legend-class-inconsistency = epäjohdonmukaisuus (hyökkäyksen kaltainen)
+
+js-trust-legend-degraded = Heikentynyt
+
+js-trust-legend-demo = Tässä demossa vastaanotin ilmoittaa kelvollisen paikannuksen koko ajan (GGA-laatu 1, RMC-tila A). Pistemäärä on se, joka laskee.
+
+js-trust-legend-geo-degraded = geometria heikentynyt
+
+js-trust-legend-geo-good = geometria hyvä
+
+js-trust-legend-geo-unknown = geometria tuntematon (ei GSV- tai GSA-sanomia; ei hyvä)
+
+js-trust-legend-nominal = Nimellinen
+
+js-trust-legend-self = Vastaanottimen oma lippu Kshanan hälytyksiä vasten:
+
+js-trust-legend-self-both = molemmat liputtavat
+
+js-trust-legend-self-kshana = vain Kshana
+
+js-trust-legend-self-neither = kumpikaan
+
+js-trust-legend-self-receiver = vain vastaanotin
+
+js-trust-legend-sky = Taivas:
+
+js-trust-legend-true-track = Todellinen reitti (vain synteettinen data)
+
+js-trust-legend-underline = alleviivaus: geometria myös maksaa pisteitä
+
+js-trust-legend-untrusted = Epäluotettava
+
+js-trust-marks-cleared = Merkinnät tyhjennetty.
+
+js-trust-marks-set = { $name } oli alkukynnyksensä yläpuolella { $count } epookissa; ne on merkitty aikajanalle ja reitille.
+
+js-trust-mon-agc = Automaattinen vahvistuksensäätö siirtyi lähtötasoaan vasten.
+
+js-trust-mon-clock = Kelloavusteinen monitori: vastaanottimen kello sen ennustettua suoraa vasten.
+
+js-trust-mon-cn0-drop = Tehon kieltäminen: signaalin voimakkuus on pudonnut kalibroinnin lähtötasoon nähden.
+
+js-trust-mon-cn0-rise = Etsii yhden lähettimen tunnusmerkkiä: signaalin voimakkuus kaikilla satelliiteilla nousee yhdessä lähtötasoon nähden.
+
+js-trust-mon-cn0-spread = Etsii yhden lähettimen tunnusmerkkiä: signaalin voimakkuus kaikilla satelliiteilla romahtaa yhdessä kalibroinnin lähtötasoon nähden.
+
+js-trust-mon-geometry = Satelliittigeometria (0.36): maksaa pisteitä vain, kun geometria on huono (HDOP, PDOP tai käytetyt satelliitit kynnystensä ulkopuolella), rajattuna eikä koskaan heikentyneen kaistan alapuolelle.
+
+js-trust-mon-heading-course = Vertaa reitin suuntaa siihen, mihin alus osoittaa, ilmoitetun ajokulman rajoissa.
+
+js-trust-mon-jam-ind = Vastaanottimen oma häirintäindikaattori.
+
+js-trust-mon-kinematic = Vertaa jokaista sijaintiaskelta ilmoitettuun nopeuteen ja kurssiin sekä aluksen ilmoitettuihin nopeuden, kiihtyvyyden ja kääntymisnopeuden rajoihin.
+
+js-trust-mon-loss-of-lock = Seurattujen satelliittien menetys.
+
+js-trust-mon-osnma = Lukee ilmoitetun OSNMA-todennuksen epäonnistumisen. Tila luetaan, ei varmenneta.
+
+js-trust-mon-position-jump = Ilmoitetun sijainnin askel, joka on suurempi kuin lähtötaso sallii.
+
+js-trust-mon-raim = Vastaanottimen autonomisen eheysvalvonnan (RAIM) testisuure kynnystään vasten.
+
+js-trust-mon-receiver-self-report = Vastaanottimen oma harhautus- tai häirintälippu (esimerkiksi u-blox UBX-SEC-SIG tai NAV-STATUS spoofDetState), näytetään Kshanan monitorien vieressä. Luettu lokista, ei varmennettu; paikka on valmis 0.38-moottorin monitorille ja piirtyy kaistana, kun tulos sisältää sen.
+
+js-trust-mon-sea-level = Tarkistaa, että korkeus on siinä, mihin merenpinta ja ilmoitettu antennin korkeus sen asettavat.
+
+js-trust-mon-solve-failure = Sijaintiratkaisua ei voitu laskea.
+
+js-trust-mon-speed-log = Vertaa nopeutta maan suhteen nopeuteen veden suhteen, ilmoitetun virtauksen sallitun poikkeaman rajoissa.
+
+js-trust-mon-time-consistency = Tarkistaa vastaanottimen ajan epäsäännölliset askeleet tai taaksepäin kulun sekä reaaliaikaisissa virroissa tämän tietokoneen kelloa vasten.
+
+js-trust-mon-unknown = Monitori, jolle tällä näkymällä ei ole kuvausta (sivua uudempi). Käsittele sitä monitorina.
+
+js-trust-na = ei saatavilla
+
+js-trust-name-colon-text = { $name }: { $text }
+
+js-trust-never = ei koskaan
+
+js-trust-no = ei
+
+js-trust-no-deduction = ei vähennystä
+
+js-trust-none = ei mitään
+
+js-trust-north = P
+
+js-trust-not-stated = ei ilmoitettu
+
+js-trust-note-advisories = Rivit sisältävät { $count } erilaista ohjeellista lausumaa; ensimmäinen näytetään.
+
+js-trust-note-csv-limits = trust.csv sisältää pistemäärät ja syyt mutta ei suhdelukuja eikä sijainteja.
+
+js-trust-note-live-no-model = Live-virta ei ilmoita, mitkä monitorit ajettiin, eikä pisteytysmallia; alla olevat kaistojen rajat ovat dokumentoidut oletukset, ja monitorikaistat näyttävät vain monitorit, jotka maksoivat pisteitä.
+
+js-trust-note-nmea-no-match = Yhtään NMEA-paikannusta ei voitu yhdistää epookkiin ajan perusteella.
+
+js-trust-note-nmea-skipped =
+    { $count ->
+        [one] { $count } NMEA-lause, jossa oli virheellinen tarkistussumma tai kentät, ohitettiin.
+       *[other] { $count } NMEA-lausetta, joissa oli virheellinen tarkistussumma tai kentät, ohitettiin.
+    }
+
+js-trust-note-skipped-epochs =
+    { $count ->
+        [one] { $count } epookki ilman numeerista t_s:ää ohitettiin.
+       *[other] { $count } epookkia ilman numeerista t_s:ää ohitettiin.
+    }
+
+js-trust-note-truth-no-match = Totuustiedoston ajat eivät vastaa yhtään epookkia.
+
+js-trust-note-unknown-state =
+    { $count ->
+        [one] { $count } epookin tila on sellainen, jota tämä sivu ei tunne ({ $states }); se piirretään kalibroituvana, ei koskaan pisteytettynä.
+       *[other] { $count } epookin tila on sellainen, jota tämä sivu ei tunne ({ $states }); ne piirretään kalibroituvina, ei koskaan pisteytettyinä.
+    }
+
+js-trust-offset-at = Hetkellä { $time } vastaanottimen ilmoittama sijainti on { $m } m:n päässä siitä, missä alus todella oli (synteettinen totuus).
+
+js-trust-offset-no-truth = Tälle hetkelle ei ole todellista sijaintia.
+
+js-trust-opened =
+    { $count ->
+        [one] Avattu { $count } epookki ({ $source }).
+       *[other] Avattu { $count } epookkia ({ $source }).
+    }
+
+js-trust-opening-demo = Avataan synteettistä demoa…
+
+js-trust-opening-demo-log = Avataan synteettistä demolokia…
+
+js-trust-opening-example = Avataan havainnollistavaa esimerkkiä…
+
+js-trust-opening-geo-demo = Avataan estetyn taivaan demoa…
+
+js-trust-pause = Keskeytä
+
+js-trust-play = Toista
+
+js-trust-reading = Luetaan…
+
+js-trust-reasons-calibrating = Kalibroidaan: ensimmäiset sekunnit muodostavat lähtötason, eikä niitä koskaan pisteytetä.
+
+js-trust-reasons-class-note = Jokaisella vähennyksellä on moottorin luokka: geometria (taivas), ympäristö (signaali) tai epäjohdonmukaisuus (hyökkäyksen kaltainen)
+
+js-trust-reasons-live-unknown = Live-virrassa ei ilmoiteta, mitkä monitorit ajettiin; tästä puuttuva tarkistus ei välttämättä ole ajettu.
+
+js-trust-reasons-marked-none = merkitty; ei vähennystä tässä
+
+js-trust-reasons-no-score = Tällä epookilla ei ole pistemäärää.
+
+js-trust-reasons-no-score-note = Tällä epookilla ei ole pistemäärää: { $note }.
+
+js-trust-reasons-not-run = Ei ajettu (ei läpäisy)
+
+js-trust-reasons-nothing = Tällä epookilla ei vähennetty mitään. Se ei todista, että paikannus on hyvä: katso alta, mitä tarkistukset eivät näe.
+
+js-trust-reasons-pts = { $points } p.
+
+js-trust-reasons-ran-free = Ajettu, ei maksanut mitään
+
+js-trust-reasons-ratio = suhde { $ratio }
+
+js-trust-reasons-row-title = { $name }: { $text } Napsauta merkitäksesi, missä se oli alkukynnyksensä yläpuolella.
+
+js-trust-reasons-weight = paino { $weight }
+
+js-trust-reduced-motion = Vähennetty liike on valittuna, joten toisto alkaa nopeudella 1x. Käytä liukusäädintä tai nuolinäppäimiä liikkuaksesi ilman animaatiota.
+
+js-trust-say-gate = portti { $gate }
+
+js-trust-say-gate-derived = portti { $gate } (johdettu)
+
+js-trust-say-monitor-points =
+    { $points ->
+        [one] { $monitor } { $points } piste
+       *[other] { $monitor } { $points } pistettä
+    }
+
+js-trust-say-position-from-true = ilmoitettu sijainti { $m } m:n päässä todellisesta
+
+js-trust-say-reasons = syyt: { $list }
+
+js-trust-say-score = pistemäärä { $score }
+
+js-trust-scored-label =
+    { $count ->
+        [one] Pisteytetty { $count } epookki lokista { $name } moottorilla { $version }, tässä selaimessa.
+       *[other] Pisteytetty { $count } epookkia lokista { $name } moottorilla { $version }, tässä selaimessa.
+    }
+
+js-trust-scored-summary =
+    { $count ->
+        [one] Pisteytetty { $count } epookki moottorilla { $version }: { $summary }. Vain ohjeellinen.
+       *[other] Pisteytetty { $count } epookkia moottorilla { $version }: { $summary }. Vain ohjeellinen.
+    }
+
+js-trust-scoring = Käynnistetään moottoria ja pisteytetään…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = Lokissa ei ole vastaanottimen lippua tällä hetkellä.
+
+js-trust-self-not-in-log = ei lokissa
+
+js-trust-self-row-flags = Vastaanottimen liput
+
+js-trust-self-row-jamming = Vastaanottimen häirintätila
+
+js-trust-self-row-kshana-alarms = Kshanan monitori hälyttää
+
+js-trust-self-row-spoofing = Vastaanottimen harhautustila
+
+js-trust-self-unknown-agreement = vastaavuus, jota tämä sivu ei tunne ({ $odd })
+
+js-trust-self-yes-state-2 = kyllä (tila 2 tai suurempi)
+
+js-trust-set-degraded-edge = heikentyneen kaistan raja
+
+js-trust-set-degraded-min = heikentynyt tasolla tai sen yläpuolella
+
+js-trust-set-epochs = Epookit
+
+js-trust-set-epochs-counts = Yhteensä { $total }: { $calibrating } kalibroituu, { $nominal } nimellistä, { $degraded } heikentynyttä, { $untrusted } epäluotettavaa.
+
+js-trust-set-epochs-counts-class = Yhteensä { $total }: { $calibrating } kalibroituu, { $nominal } nimellistä, { $degraded } heikentynyttä, { $untrusted } epäluotettavaa. Vähennysluokan mukaan: geometria { $geometry }, ympäristö { $environment }, epäjohdonmukaisuus { $inconsistency }.
+
+js-trust-set-evidence-hold = näytön pito, s
+
+js-trust-set-full-ratio = täysi paino suhteella
+
+js-trust-set-geo-counts = Taivas: { $good } hyvää, { $degraded } heikentynyttä, { $unknown } tuntematonta. Nimike: { $lgood } hyvä, { $fair } kohtalainen, { $poor } huono (vain huono maksaa pisteitä). Epookit, joilla on vähennys luokassa geometria { $geometry }, ympäristö { $environment }, epäjohdonmukaisuus { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Taivas: { $good } hyvää, { $degraded } heikentynyttä, { $unknown } tuntematonta ({ $odd } arvolla, jota tämä sivu ei tunne, luettu tuntemattomaksi). Nimike: { $lgood } hyvä, { $fair } kohtalainen, { $poor } huono (vain huono maksaa pisteitä). Epookit, joilla on vähennys luokassa geometria { $geometry }, ympäristö { $environment }, epäjohdonmukaisuus { $inconsistency }.
+
+js-trust-set-geometry = Geometria ([geometry]-asetukset)
+
+js-trust-set-gloss = Mitä kukin tarkistus tarkastelee
+
+js-trust-set-live-geometry = Live-virta ei ilmoita geometrian kynnyksiä; dokumentoidut oletukset pätevät (huono, kun HDOP ylittää 4 tai PDOP ylittää 6 tai satelliitteja on alle 5; enintään 15 pistettä, ei koskaan heikentyneen kaistan alapuolelle).
+
+js-trust-set-no-geometry = Tässä ajossa ei ole geometriaa: se tulee ennen versiota 0.36 olevalta moottorilta tai tiedostosta trust.csv. Taivaasta ei näytetä mitään, eikä mitään näytetä hyvänä.
+
+js-trust-set-nominal-min = nimellinen tasolla tai sen yläpuolella
+
+js-trust-set-onset-ratio = maksaa pisteitä suhteesta
+
+js-trust-set-provenance = Mistä kynnykset tulevat ja miten vähennykset luokitellaan
+
+js-trust-set-ran = Ajetut tarkistukset
+
+js-trust-set-weights = Kunkin tarkistuksen paino, pisteet
+
+js-trust-settings-assumed = Tämä virta ei ilmoita pisteytysmalliaan. Näytetyt kaistarajat ovat dokumentoidut oletukset, oletettuina.
+
+js-trust-show-in-replay = Näytä tämä ajo alla olevassa toistossa (reitti, pistemäärä, vastaanottimen oma lippu)
+
+js-trust-sky-no-gsv = ei GSV:tä
+
+js-trust-sky-none = Ei taivasta: avaa ajon NMEA-loki (tai demo) nähdäksesi sen luettelemat satelliitit.
+
+js-trust-span-title = { $what }, { $from }–{ $to }
+
+js-trust-state-0 = tuntematon tai ei käytössä
+
+js-trust-state-1 = ei ilmoitettu
+
+js-trust-state-2 = ilmoitettu
+
+js-trust-state-3 = useita ilmoituksia tai vahvistettu
+
+js-trust-strip-band = kaista
+
+js-trust-strip-class = luokka
+
+js-trust-strip-gate = portti
+
+js-trust-strip-marked = merkitty
+
+js-trust-strip-receiver = vastaanotin
+
+js-trust-strip-sky = taivas
+
+js-trust-strips-none = Tässä tiedostossa ei ole monitorien suhdelukuja.
+
+js-trust-strips-note-ran = tunnusluvun suhde kynnykseen; katkoviiva on hälytys kohdassa 1
+
+js-trust-strips-note-seen = vain monitorit, joiden nähtiin maksavan pisteitä; suhde kynnykseen
+
+js-trust-sum-both-flag = Molemmat liputtavat
+
+js-trust-sum-epochs-compared = Vertaillut epookit (kalibroinnin jälkeen)
+
+js-trust-sum-first-kshana = Ensimmäinen Kshanan hälytys näiden epookkien joukossa
+
+js-trust-sum-first-receiver = Vastaanottimen ensimmäinen lippu
+
+js-trust-sum-jamming-flag = Vastaanottimen häirintälippu (tila 2+)
+
+js-trust-sum-neither = Kumpikaan
+
+js-trust-sum-only-kshana = Vain Kshana hälyttää
+
+js-trust-sum-only-receiver = Vain vastaanotin liputtaa
+
+js-trust-sum-spoofing-flag = Vastaanottimen harhautuslippu (tila 2+)
+
+js-trust-thr-azimuth-gap = atsimuuttiaukko asteina, jolla tai jonka yläpuolella taivas on osittain estetty
+
+js-trust-thr-cap-in-force = eniten pisteitä, jonka geometriavähennys ottaa tässä ajossa
+
+js-trust-thr-cap-points = eniten pisteitä, jonka geometriavähennys saa ottaa
+
+js-trust-thr-floor = alin pistemäärä, jonka geometria yksin saa jättää (tyhjä: heikentyneen kaistan raja)
+
+js-trust-thr-floor-in-force = alin pistemäärä, jonka geometria yksin voi jättää tässä ajossa
+
+js-trust-thr-full-ratio = suhde, jolla geometriavähennys saavuttaa ylärajansa
+
+js-trust-thr-hdop-good = HDOP, jolla tai jonka alapuolella geometria on hyvä
+
+js-trust-thr-hdop-max = HDOP, jonka yläpuolella geometria on huono
+
+js-trust-thr-hold = kuinka kauan taivaan sijainnit ja GSA lasketaan niiden saapumisen jälkeen, s
+
+js-trust-thr-low-elev = korkeuskulma asteina, jonka alapuolella menetetty satelliitti lasketaan taivaan syyksi
+
+js-trust-thr-min-used = vähiten käytettyjä satelliitteja, ennen kuin geometria on huono
+
+js-trust-thr-pdop-good = PDOP, jolla tai jonka alapuolella geometria on hyvä
+
+js-trust-thr-pdop-max = PDOP, jonka yläpuolella geometria on huono
+
+js-trust-thr-reported-rel = sama, osuutena johdetusta HDOP:sta
+
+js-trust-thr-reported-tol = ilmoitetun ja johdetun HDOP:n ero, ennen kuin ne ovat eri mieltä
+
+js-trust-thr-sigma-uere = kynnysten olettama käyttäjäekvivalentti etäisyysvirhe, metriä
+
+js-trust-thr-used-good = käytettyjä satelliitteja, joilla tai joiden yläpuolella geometria on hyvä
+
+js-trust-track-desc = { $positions } ilmoitetun sijainnin reitti, pohjoinen ylhäällä. { $untrusted } epookkia on epäluotettavia.
+
+js-trust-track-desc-none = Ei reittiä: tiedostoissa ei ole sijainteja.
+
+js-trust-track-desc-truth = { $positions } ilmoitetun sijainnin reitti, pohjoinen ylhäällä. { $untrusted } epookkia on epäluotettavia. Ohut harmaa viiva näyttää todellisen reitin.
+
+js-trust-track-end = loppu
+
+js-trust-track-no-positions = Avatuissa tiedostoissa ei ole sijainteja
+
+js-trust-track-note = Pohjoinen ylhäällä, yksi mittakaava molemmilla akseleilla. Viiva on se, missä vastaanotin sanoi aluksen olevan, väritettynä kunkin epookin luottamuskaistan mukaan.
+
+js-trust-track-note-none = Tämä tiedosto ei sisällä sijainteja. Lisää NMEA-loki, josta ajo tuli (tai v1.1-virta, jossa on sijainti), piirtääksesi reitin.
+
+js-trust-track-start = alku
+
+js-trust-unknown-agreement = vastaavuus, jota tämä sivu ei tunne
+
+js-trust-yes = kyllä
