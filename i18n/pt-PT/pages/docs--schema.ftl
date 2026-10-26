@@ -17,3 +17,9 @@ seg-f5e7215e6835 = objeto
 
 # text
 seg-9da5d92757bd = objeto, opcional
+
+# text
+seg-c353e7bec219 = Chave
+
+# text
+seg-a129b9e613d0 = Tipo

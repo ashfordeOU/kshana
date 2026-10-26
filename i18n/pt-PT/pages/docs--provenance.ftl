@@ -23,3 +23,12 @@ seg-638b8d451550 = Sensor
 
 # text
 seg-d4a762001549 = Licença
+
+# text
+seg-60cd077d82a7 = Modelo
+
+# text
+seg-2afa300864a9 = Parâmetros
+
+# text
+seg-32b620b3574e = Utilização

@@ -305,3 +305,194 @@ seg-e251b385ff46 = Dois dias sintéticos do mapa de interferência, desenhados a
 
 # attr:alt
 seg-af0edceb1503 = Pontuação de um registo sintético de recetor face a um calendário de três testes, a partir de uma execução real do motor v{ $version } (`kshana jammertest score`). O registo é inventado: { "1800" } s de NMEA com uma queda de C/N0 de { "20" } dB em dois intervalos. O calendário enumera três slots; o slot do meio não tem jammer no registo. A pontuação marca { "2" } de { "3" } testes detetados (latência mediana de { "0" } s) e { "1" } falhado, com { "0" } execuções de falso alarme ao longo de { "0.25" } h de tempo limpo. Nada aqui diz seja o que for sobre um recetor real. Software de caráter consultivo, não um equipamento de navegação homologado (IEC { "61108" }, IEC { "61162" }): o operador continua a ser responsável pela navegação da embarcação.
+
+# text
+seg-3ac9e578414c = Relógios, temporização e holdover
+
+# text
+seg-b4b8aaf14aec = Sensores inerciais, de fusão e quânticos
+
+# text
+seg-93591ee6899f = PNT alternativo sem GPS
+
+# text
+seg-b63bfec0aabf = Constelações, cobertura e geometria
+
+# text
+seg-f2f84c689f14 = Medições GNSS, posicionamento e integridade
+
+# text
+seg-2e736b1814f2 = Jamming, spoofing e o espetro
+
+# text
+seg-fc23add4540b = Navegação em órbita terrestre baixa
+
+# text
+seg-dd8aa1ce4734 = Navegação de utilizadores espaciais
+
+# text
+seg-77aef8722995 = PNT ótica
+
+# text
+seg-179dc850c643 = Análise de missão, ligações e operações espaciais
+
+# text
+seg-6339abe5314a = Família
+
+# text
+seg-c5ce76c91ff7 = Etiqueta
+
+# text
+seg-b88a2a9497c2 = Ferramenta
+
+# attr:alt
+seg-69a98d01f489 = O gerador de códigos AFS do LunaNet verificado face às colunas impressas da especificação, a partir de uma execução real do motor v{ $version } (`kshana lunanet-afs-check spec`, fixado a LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, { "29" } de janeiro de { "2025" }; o documento marca as suas tabelas de códigos { "{" }LSIS-TBC{ "}" }). { "9" } de { "10" } verificações são satisfeitas; B4 é NOT MET ({ "420" } de { "421" } coincidiram). Verifica um fluxo de símbolos face a uma edição de uma especificação publicada e nada diz sobre qualquer nó ou serviço LunaNet. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de salvaguarda da vida humana. Verifica um fluxo de símbolos face a uma edição de uma especificação publicada e nada diz sobre qualquer nó ou serviço LunaNet.
+
+# attr:alt
+seg-18fc4ba766df = Coerência de uma determinação de órbita GNSS da Terra a bordo numa órbita de halo quase retilínea com uma determinação de órbita independente a partir de terra, a partir de execuções reais do motor v{ $version } em scenarios/lunar-infrastructure-od-consistency.toml e na variante com erro de modelo ({ "400" } ensaios cada). A diferença normalizada média q é { "5.81" } sem erro de modelo e { "5.95" } com um erro de aceleração injetado de { "3e-10" } m/s2, face a { "6" } esperado: as duas soluções de órbita são coerentes (limiar C1 MET). A parte dos ensaios acima do ponto dos { "95" } % é { "0.040" } e { "0.052" }; o limiar para detetar o erro injetado era de pelo menos { "0.5" }, pelo que é NOT MET (C3): a solução a bordo é conhecida a cerca de { "352" } m face a { "23" } m para a de terra, pelo que um deslocamento de dez metros se esconde dentro da sua covariância. MODELLED: um modelo restrito de três corpos com simplificações indicadas e dados de entrada ilustrativos, não uma medição de qualquer grandeza lunar. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de salvaguarda da vida humana.
+
+# attr:alt
+seg-4c08262e2556 = Fixação da ambiguidade inteira da fase da portadora entre estações à superfície lunar e um orbitador, a partir do resultado registado da execução pontuada do motor v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } comprimentos de arco, um Monte Carlo de { "400" } sorteios cada, escrito por scenarios/carrier-phase-scored.toml). { "1" } dia: sucesso { "1.0" } % (erro-padrão { "0.5" } %), { "134" } ambiguidades, sigma de posição do orbitador { "45.6" } m flutuante e { "18.5" } m fixo; { "2" } dias: sucesso { "0.5" } % (erro-padrão { "0.4" } %), { "259" } ambiguidades, sigma de posição do orbitador { "21.5" } m flutuante e { "8.7" } m fixo; { "3" } dias: sucesso { "2.8" } % (erro-padrão { "0.8" } %), { "375" } ambiguidades, sigma de posição do orbitador { "6.3" } m flutuante e { "2.1" } m fixo. A fixação inteira não é alcançada: o sucesso mantém-se entre { "1" } % e { "3" } % a { "25" } dBi e, aos { "12" } dBi registados, o problema não pode ser formado. MODELLED: um modelo restrito de três corpos com simplificações indicadas e dados de entrada ilustrativos, não uma medição de qualquer grandeza lunar. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de salvaguarda da vida humana.
+
+# attr:alt
+seg-7e5b10641b20 = Precisão do referencial lunar de sete parâmetros (três translações, uma escala e três rotações) a partir da medição de distância a estações da Terra, com e sem distâncias orbitador-estação à superfície, a partir de uma execução real do motor v{ $version } em scenarios/lunar-infrastructure-frame-coestimation.toml. O sigma de Cramer-Rao das translações e das rotações diminui com as ligações do orbitador (por exemplo, t_z de { "0.98" } m para { "0.046" } m); o menor valor próprio da informação sobe 111 vezes e o traço do CRLB desce para { "1.0" } % (limiar F3 MET). Isto pressupõe que a órbita é conhecida nos eixos lunares, com o seu erro transportado pelo sigma de distância do orbitador de { "1" } m. MODELLED: um modelo restrito de três corpos com simplificações indicadas e dados de entrada ilustrativos, não uma medição de qualquer grandeza lunar. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de salvaguarda da vida humana.
+
+# attr:alt
+seg-377d29dcc6e8 = Precisão dos desvios entre as posições por medição de distância a laser, VLBI e GNSS de uma nave, face ao erro da ligação local em terra, a partir de uma execução real do motor v{ $version } em scenarios/lunar-infrastructure-space-tie.toml (um arco de 6.56 dias, sigmas das técnicas GNSS { "10" } m, VLBI { "1" } m, laser { "0.1" } m). Com uma ligação local de { "1" } mm a { "1" } m, o sigma de translação laser menos GNSS mantém-se perto de { "1.04" } m até a ligação atingir { "1" } m: é limitado pelo ruído de medição das técnicas, não pela ligação local. O piso definido apenas pela ligação é a raiz quadrada de dois multiplicada pelo seu sigma. MODELLED: um modelo restrito de três corpos com simplificações indicadas e dados de entrada ilustrativos, não uma medição de qualquer grandeza lunar. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de salvaguarda da vida humana.
+
+# attr:alt
+seg-9d507a371319 = Que família de observáveis é sensível aos números de Love lunares h2, k2 e l2, a partir de uma execução real do motor v{ $version } em scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Cada célula é a derivada parcial RMS das observações de uma família relativamente a um parâmetro, nas unidades próprias dessa família (pelo que as células se comparam ao longo de uma linha, não ao longo de uma coluna); um travessão significa que a família não tem sensibilidade. medição de distância por laser: h2 { "7.6" }, k2 nenhuma, l2 { "9.8" }. seguimento do orbitador: h2 nenhuma, k2 { "0.00086" }, l2 nenhuma. gravímetro à superfície: h2 { "2.9e+03" }, k2 { "4.3e+03" }, l2 nenhuma. relógio à superfície: h2 { "2.8e-17" }, k2 { "2.8e-17" }, l2 nenhuma. Com as quatro famílias, o sigma de Cramer-Rao é { "0.36" } % do h2 nominal, { "0.52" } % do k2 e { "1.16" } % do l2. Acrescentar uma família nunca baixou o menor valor próprio ({ "28" } de { "28" } acréscimos), mas o traço da pseudo-inversa não foi maior em apenas { "16" } de { "28" }: essa metade do limiar G3 é NOT MET. A família do orbitador vê o integral ao longo da linha de visada da aceleração de k2, um valor do extremo superior. MODELLED: um modelo restrito de três corpos com simplificações indicadas e dados de entrada ilustrativos, não uma medição de qualquer grandeza lunar. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de salvaguarda da vida humana.
+
+# attr:alt
+seg-367ac9b4a8a6 = O que `kshana imu-fit` lê de um registo de IMU estacionária, numa execução real do motor v{ $version } sobre um registo fictício ({ "20,000" } amostras a { "100" } Hz, { "200" } s): o passeio aleatório de velocidade do acelerómetro q_va = { "4.02e-06" }, o passeio aleatório de ângulo do giroscópio q_arw = { "9e-08" }, a instabilidade de desvio { "0.00296" } e as primeiras inclinações de Allan (-0.51 e -0.49; cerca de -0.5 onde domina o ruído branco). A tabela ao lado é o TOML que o comando imprime. O estimador é verificado apenas em registos sintéticos. Consultivo: saída de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana.
+
+# text
+seg-e127f2f26824 = Lido
+
+# attr:alt
+seg-26ab8544afba = Pontuação de confiança ao longo de uma travessia sintética, a partir de uma execução real do motor v{ $version } sobre examples/maritime-trust (um registo NMEA fictício de um ferry numa rota de Tallinn a Helsínquia, { "3001" } épocas a { "1" } Hz). Três faixas partilham um eixo de tempo. Em cima: a distância entre a posição que o recetor indica e a posição real da embarcação, que se mantém dentro de alguns metros até cerca de { "1576" } s, quando o arrastamento de posição programado no registo a afasta, enquanto o recetor continua a indicar uma solução de posição válida. Ao meio: a pontuação de confiança de { "0" } a { "100" }, não calculada durante os primeiros { "300" } s de calibração, na faixa nominal (pelo menos { "90" }) até ao arrastamento, descendo depois pela faixa degraded (pelo menos { "55" }) até à faixa untrusted. Em baixo: a faixa de cada época como uma fita colorida com o seu nome. A pontuação é consultiva. Software de caráter consultivo, não um equipamento de navegação homologado (IEC { "61108" }, IEC { "61162" }): o operador continua a ser responsável pela navegação da embarcação. O registo é fictício para mostrar o formato e os monitores; não é uma medição e nada diz sobre o desempenho de qualquer recetor.
+
+# text
+seg-a683980168f7 = Docker
+
+# text
+seg-f3a2279d6df7 = Comando ou botão
+
+# text
+seg-20c5ae650eb7 = Requer
+
+# text
+seg-af4d3ce85e11 = Forma fixada
+
+# text
+seg-0fdd85a80584 = <a1>npx (Node)</a1> · <a2>Docker</a2>
+
+# text
+seg-b02bdf7c7661 = Node, ou Docker
+
+# text
+seg-de23dcdd2647 = <a1>npx (Node)</a1> · <a2>Docker</a2> · <a3>Insiders (npx)</a3>
+
+# text
+seg-abf8b5fe685a = Node { "18" }+
+
+# text
+seg-06299cefbf9e = Python { "3.9" }+ com uv ou pipx
+
+# text
+seg-26795c302f8a = brew
+
+# text
+seg-ded975fa67fa = fórmula para v{ $version }
+
+# text
+# c1: scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket
+# c2: scoop install kshana-mcp
+seg-667d6dde705b = <c1/> e depois <c2/>
+
+# text
+seg-f6e9fc5f46fe = Scoop (Windows)
+
+# text
+seg-bc4762d20004 = manifesto para v{ $version }
+
+# text
+seg-f7c0a2fbb0b5 = winget
+
+# text
+seg-9e599ab3c0a3 = winget (Windows)
+
+# text
+seg-091d1404bb8a = cargo
+
+# text
+seg-145ddf98e77f = Rust { "1.88" }+
+
+# text
+# c1: kshana-mcp
+# c2: kshana-mcp-<target>[.exe]
+# c3: SHA256SUMS
+# c4: gh attestation verify
+seg-b308519d4c8d = <a1>a página da versão</a1>: <c1/> (Linux x86-64), <c2/>, verificado por <c3/> e <c4/>
+
+# text
+seg-c39cac69f700 = v{ $version }
+
+# text
+# c1: io.github.ashfordeOU/kshana-mcp
+seg-e8f5e2b6580b = <c1/> (encontrado por clientes que reconhecem o registo)
+
+# text
+seg-b1a6e807f06f = um cliente que reconhece o registo
+
+# text
+seg-d5a3818ac3b6 = Remoto (HTTP em fluxo contínuo)
+
+# text
+seg-5f1397b1ea30 = o seu próprio anfitrião
+
+# attr:alt
+seg-81a87d14efda = Kshana: a marca, uma retícula de bússola que assinala o instante preciso, ao lado do logótipo kshana
+
+# text
+# c1: kshana jammertest import
+# c2: docs/JAMMERTEST.md
+seg-27698c80b7f1 = Lê o catálogo de testes e o plano de transmissão do Jammertest publicados (NPRA/jammertest-plan, MIT) como referência programada (<c1/>): os intervalos de uma área de teste tornam-se eventos de confiança do recetor, com o id do catálogo e o ano em cada etiqueta. Intervalos planeados, não horas de emissão registadas; nenhum campo de contacto do plano é lido. MODELLED. Ver <a1><c2/></a1>.
+
+# text
+# c1: kshana jammertest score
+# c2: log
+# c3: ubx
+# c4: sbf
+# c5: log_base64
+seg-23daf6121ca0 = Pontua um registo de recetor face a esse calendário (<c1/>): por teste, a latência de deteção, os alarmes perdidos e o tempo de recuperação, e os falsos alarmes fora de todos os intervalos. Registos de texto como <c2/>, binários (<c3/>, <c4/>) como <c5/>. Um pacote assinado precisa de uma chave: linha de comandos. Apenas consultivo; MODELLED.
+
+# text
+# c1: hybrid
+# c2: fusion
+# c3: [accel_classical]
+# c4: kshana imu-fit
+seg-2b82a8a22298 = Parâmetros do acelerómetro e do giroscópio dos cenários <c1/> e <c2/> ajustados a partir de um registo de IMU parada (CSV ou EuRoC) por desvio de Allan, com uma tabela <c3/> pronta a colar e o SHA-256 do registo (<c4/>). Texto à entrada, JSON à saída; MODELLED.
+
+# text
+# c1: kshana bench score
+# c2: bench/SPEC.md
+seg-b6abad1f2c9d = Uma submissão kshana-bench pontuada face a um ficheiro de referência, ambos como texto JSON (<c1/>, <c2/>): o ficheiro de resultados com a versão da especificação, a divisão, os hashes de entrada e as métricas da tarefa. MODELLED; descreve um registo ou um corpus, nunca um produto.
+
+# text
+seg-c7a0d7981bfd = Ficheiros de resultados do kshana-bench apresentados como a página estática de classificação (texto HTML), cada um validado primeiro.
+
+# text
+seg-57f592bb676b = Instalar o servidor MCP
+
+# attr:alt
+seg-b66ff9ca2ff4 = Fluxo de formação do cenário coastal-drag-off (motor v{ $version }, semente { "22" }, { "25" } minutos a uma posição por cada { "10" } s do registo do instrutor). Um mapa mostra a trajetória verdadeira da embarcação e a trajetória que o recetor comunica: concordam até começar um arrastamento de posição programado aos { "421" } s, a trajetória comunicada afasta-se então da verdadeira enquanto o recetor mantém uma posição válida, e volta a aproximar-se quando o evento termina aos { "1140" } s. Ao lado, a distância entre as duas trajetórias ao longo do tempo e a densidade média de portadora sobre ruído que o recetor comunica, que sobe para um nível elevado enquanto o evento dura. Dados sintéticos de formação gerados pelo Kshana. Apenas para formação e ensaio: nunca fornecer este fluxo aos sistemas de navegação em funcionamento de uma embarcação. Apenas consultivo, não um equipamento de navegação homologado. Software de caráter consultivo, não um equipamento de navegação homologado (IEC { "61108" }, IEC { "61162" }): o operador continua a ser responsável pela navegação da embarcação. As posições, as datas e as trajetórias são inventadas.
+
+# text
+seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>o instante preciso</em></b><br/> Um simulador de código aberto para a resiliência de PNT (posicionamento, navegação e temporização).
+
+# text
+seg-3b861b2f08b8 = Versão v{ $version }
+
+# text
+seg-d1153c5e9112 = Ensaiar o minuto em que o GNSS fica às escuras

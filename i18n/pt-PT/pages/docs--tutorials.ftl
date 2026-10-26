@@ -35,3 +35,9 @@ seg-b03d56f501c3 = Tipo
 
 # text
 seg-ec26df467b88 = PNT por fusão de sensores com filtro de Kalman conjunto sobre as mesmas entradas híbridas.
+
+# text
+seg-4f19d4fb1341 = Varrimento N-D genérico sobre qualquer pacote através de chaves TOML com pontos / caminhos de métricas JSON.
+
+# text
+seg-e7ab7b55c969 = Varrimento 1-D de estudo de compromissos sobre um parâmetro de um pacote de relógio.
