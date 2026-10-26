@@ -6381,3 +6381,1912 @@ js-meaning-spectrum-line-kept-thr =
 
 # 2026-10-01-studio-rebuild/lib/meaning.mjs:195
 js-meaning-spectrum-line-none = Nenhum sinal permanece acima do limiar de rastreamento do receptor durante toda a execução.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:195
+js-meaning-spectrum-line-none-thr = Nenhum sinal permanece acima do limiar de rastreamento de { $thr } dB-Hz do receptor durante toda a execução.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:196
+js-meaning-spectrum-weakest-label = Sinal mais fraco, { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:155
+js-meaning-whole-run = ao longo de toda a execução
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:249
+js-meaning-your-setting = sua configuração
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:506
+js-meankind-acm-big = A codificação adaptativa move { $gain } vezes os dados do melhor modo fixo: { $acm } Gbit contra { $ccm } Gbit em { $n } { $n ->
+        [one] passagem
+        [many] de passagens
+       *[other] passagens
+    }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:506
+js-meankind-acm-line = Modo fixo { $mode }; { $dur } de interrupção.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:246
+js-meankind-anomaly-big = O monitor de falhas quântico obtém { $q }, contra { $c } do monitor clássico (área sob a curva, 1 é perfeito).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:246
+js-meankind-anomaly-line = A menor falha detectável é { $q } contra { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:511
+js-meankind-aocs-big-open = A manobra de { $slew } graus não se estabiliza abaixo de { $threshold } graus.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:511
+js-meankind-aocs-big-settles = A manobra de { $slew } graus se estabiliza abaixo de { $threshold } graus após { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:517
+js-meankind-aocs-line = Erro final de apontamento de { $final } graus.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:516
+js-meankind-aocs-line-filter = Erro final de apontamento de { $final } graus. Um filtro de atitude na malha erra em { $arcsec } arcsec RMS.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:515
+js-meankind-aocs-line-wheel = Erro final de apontamento de { $final } graus. Torque máximo da roda de { $torque } N m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:514
+js-meankind-aocs-line-wheel-filter = Erro final de apontamento de { $final } graus. Torque máximo da roda de { $torque } N m. Um filtro de atitude na malha erra em { $arcsec } arcsec RMS.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:360
+js-meankind-aperture-big = A navegação usa { $nav } % do tempo da antena e as comunicações { $comms } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:360
+js-meankind-aperture-big-idle = A navegação usa { $nav } % do tempo da antena e as comunicações { $comms } %; { $idle } % está ocioso.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:350
+js-meankind-aperture-line-all = { $n } { $n ->
+        [one] abertura
+        [many] de aberturas
+       *[other] aberturas
+    } sob a regra { $policy }, com { $dur } de contenção.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:352
+js-meankind-aperture-line-contention = { $n } { $n ->
+        [one] abertura
+        [many] de aberturas
+       *[other] aberturas
+    }, com { $dur } de contenção.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:353
+js-meankind-aperture-line-count = { $n } { $n ->
+        [one] abertura
+        [many] de aberturas
+       *[other] aberturas
+    }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:358
+js-meankind-aperture-line-nocount = As aberturas.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:355
+js-meankind-aperture-line-nocount-all = As aberturas sob a regra { $policy }, com { $dur } de contenção.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:357
+js-meankind-aperture-line-nocount-contention = As aberturas, com { $dur } de contenção.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:356
+js-meankind-aperture-line-nocount-policy = As aberturas sob a regra { $policy }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:351
+js-meankind-aperture-line-policy = { $n } { $n ->
+        [one] abertura
+        [many] de aberturas
+       *[other] aberturas
+    } sob a regra { $policy }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-big-no = Não: os níveis de proteção do motor divergem da referência publicada.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-big-yes = Sim: os níveis de proteção do motor coincidem com a referência publicada.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-line = A pior diferença é de { $worst } m contra a própria tolerância da referência, de { $tol } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-line-vectors = A pior diferença é de { $worst } m contra a própria tolerância da referência, de { $tol } m, em { $n } { $n ->
+        [one] vetor de referência
+        [many] de vetores de referência
+       *[other] vetores de referência
+    }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
+js-meankind-arc-big = O estimador recupera a órbita quando dispõe de { $dur } do arco de { $h } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
+js-meankind-arc-line = { $n } espaçonaves, medições de { $observable }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
+js-meankind-ascent-big = Gravidade, arrasto, direcionamento e contrapressão consomem { $loss } m/s do ganho ideal de velocidade de { $ideal } m/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
+js-meankind-ascent-line = Fim da queima a { $km } km e { $speed } m/s; pressão dinâmica máxima de { $kpa } kPa.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-big-no = Um spoofer na superfície não consegue capturar um receptor lunar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-big-yes = Um spoofer na superfície consegue capturar um receptor lunar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-line = Um transmissor na superfície alcança { $km } km antes que o horizonte o bloqueie.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-big = O erro de apontamento soma { $total } segundos de arco.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-big-from = O erro de apontamento soma { $total } segundos de arco, principalmente devido a { $from }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-line = O maior torque de gradiente de gravidade é de { $torque } N·m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:442
+js-meankind-beacon-big = As balizas de superfície melhoram a qualidade da geometria (PDOP) em { $x } vezes.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:442
+js-meankind-beacon-line = Acrescentar satélites em vez disso a melhora em { $x } vezes.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-big = Só os relés dão uma solução de posição em { $share } % do tempo ao redor de { $body }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-big-earth = Só os relés dão uma solução de posição em { $share } % do tempo ao redor de { $body }; { $earth } % com enlaces com a Terra.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-line = { $mean } relés estão à vista em média.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:23
+js-meankind-by = { $a } por { $b }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-line = Cada membro é uma execução comum do motor; a campanha lê seus resultados lado a lado.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-range = Em { $n } { $n ->
+        [one] cenário
+        [many] de cenários
+       *[other] cenários
+    } nas mesmas condições, { $what } varia de { $low } a { $high }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-same = Em { $n } { $n ->
+        [one] cenário
+        [many] de cenários
+       *[other] cenários
+    } nas mesmas condições, { $what } é { $value } em todos.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:67
+js-meankind-campaign-line = { $n } { $n ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:74
+js-meankind-campaign-line-all = { $n } { $n ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    } e { $events }, de { $runs }; ao final, { $label } é { $value }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:68
+js-meankind-campaign-line-end = { $n } { $n ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    }; ao final, { $label } é { $value }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:71
+js-meankind-campaign-line-events = { $n } { $n ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    } e { $events }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:72
+js-meankind-campaign-line-events-end = { $n } { $n ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    } e { $events }; ao final, { $label } é { $value }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:73
+js-meankind-campaign-line-events-runs = { $n } { $n ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    } e { $events }, de { $runs }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:69
+js-meankind-campaign-line-runs = { $n } { $n ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    }, de { $runs }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:70
+js-meankind-campaign-line-runs-end = { $n } { $n ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    }, de { $runs }; ao final, { $label } é { $value }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-alarm = O alarme é emitido por { $alarm } da missão de { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-phases = Uma missão de { $phases } { $phases ->
+        [one] fase
+        [many] de fases
+       *[other] fases
+    } ao longo de { $dur }, encadeada em um único relógio.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-quiet = Nenhum alarme em toda a missão de { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:82
+js-meankind-campaign-montecarlo = Em { $n } { $n ->
+        [one] execução
+        [many] de execuções
+       *[other] execuções
+    } com semente, { $name } tem média de { $mean }, com dispersão de { $std }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:82
+js-meankind-campaign-montecarlo-line = A dispersão é um desvio-padrão ao longo das execuções.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize = A busca se estabiliza em { $name } de { $value } após { $n } { $n ->
+        [one] execução
+        [many] de execuções
+       *[other] execuções
+    }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize-at = Em { $at }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize-kind = A busca se estabiliza em { $name } de { $value } após { $n } { $n ->
+        [one] execução
+        [many] de execuções
+       *[other] execuções
+    } de { $kind }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:102
+js-meankind-campaign-sweep-flat = Em { $n } { $n ->
+        [one] execução
+        [many] de execuções
+       *[other] execuções
+    } de { $axis } de { $from } a { $to }, { $metric } permanece em { $value }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:102
+js-meankind-campaign-sweep-flat-line = O gráfico mostra cada execução.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:103
+js-meankind-campaign-sweep-goes = Em { $n } { $n ->
+        [one] execução
+        [many] de execuções
+       *[other] execuções
+    } de { $axis } de { $from } a { $to }, { $metric } vai de { $first } a { $last }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:103
+js-meankind-campaign-sweep-goes-line = O gráfico mostra cada execução; ele varia de { $min } a { $max }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
+js-meankind-classical-link = enlace clássico
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-clock-word = relógio
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:237
+js-meankind-conflict-big = A arquitetura em camadas sobrevive { $ratio } vezes melhor do que uma única camada.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:236
+js-meankind-conflict-line-threats = Um Monte Carlo das ameaças dá { $ratio } vezes.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:236
+js-meankind-conflict-line-threats-corr = Um Monte Carlo das ameaças dá { $ratio } vezes; com ameaças correlacionadas, pode cair para { $low } vezes.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:235
+js-meankind-conflict-line-trials = Um Monte Carlo de { $n } { $n ->
+        [one] ensaio
+        [many] de ensaios
+       *[other] ensaios
+    } dá { $ratio } vezes.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:235
+js-meankind-conflict-line-trials-corr = Um Monte Carlo de { $n } { $n ->
+        [one] ensaio
+        [many] de ensaios
+       *[other] ensaios
+    } dá { $ratio } vezes; com ameaças correlacionadas, pode cair para { $low } vezes.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-big = O plano mantém { $kept } de { $n } { $n ->
+        [one] contato candidato
+        [many] de contatos candidatos
+       *[other] contatos candidatos
+    } e entrega { $gbit } Gbit.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-big-waiting = O plano mantém { $kept } de { $n } { $n ->
+        [one] contato candidato
+        [many] de contatos candidatos
+       *[other] contatos candidatos
+    } e entrega { $gbit } Gbit dos { $waiting } Gbit em espera.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-line = { $sats } satélites e { $stations } estações ao longo de { $hours } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:446
+js-meankind-dpnt-big = As correções diferenciais reduzem o erro de { $from } m para { $to } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:446
+js-meankind-dpnt-line = Com uma estação de referência a { $km } km de distância.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:33
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } dia
+        [many] { $days } de dias
+       *[other] { $days } dias
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:438
+js-meankind-earthgnss-big =
+    { $n ->
+        [one] À distância da Lua, { $visible } de { $n } satélite está à vista, mas { $trackable } pode ser rastreado.
+        [many] À distância da Lua, { $visible } de { $n } de satélites estão à vista, mas { $trackable } podem ser rastreados.
+       *[other] À distância da Lua, { $visible } de { $n } satélites estão à vista, mas { $trackable } podem ser rastreados.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:438
+js-meankind-earthgnss-line = O melhor sinal é de { $best } dB-Hz contra um limiar de rastreamento de { $threshold } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:61
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } execução do motor
+        [many] { $n } de execuções do motor
+       *[other] { $n } execuções do motor
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:533
+js-meankind-entry-big = A desaceleração máxima é de { $g } g a { $km } km, com fluxo de calor máximo de { $flux } W/cm².
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:533
+js-meankind-entry-line = Entrada a { $speed } m/s, { $angle } graus abaixo do horizonte.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-big = A câmera enxerga uma faixa de { $swath } km com resolução de { $gsd } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-line-contiguous = As trilhas no solo estão a { $km } km uma da outra no equador, portanto a cobertura é contígua.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-line-gapped = As trilhas no solo estão a { $km } km uma da outra no equador, portanto a cobertura tem lacunas.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:415
+js-meankind-eop-big = À distância da Lua, a rotação da Terra varre { $m } m a cada segundo, portanto a idade dos dados de orientação da Terra ({ $dur } aqui) importa.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:415
+js-meankind-eop-line = Entrada: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-big = O satélite voa entre { $min } e { $max } km, até { $lat }° de latitude.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-line = Visto da estação, ele sobe até { $deg }°.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-line-doppler = Visto da estação, ele sobe até { $deg }°, com até { $khz } kHz de Doppler.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:60
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } evento
+        [many] { $n } de eventos
+       *[other] { $n } eventos
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-big-open =
+    { $n ->
+        [one] A campanha deixa { $n } direção do datum indeterminada.
+        [many] A campanha deixa { $n } de direções do datum indeterminadas.
+       *[other] A campanha deixa { $n } direções do datum indeterminadas.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-big-yes = Sim: a campanha fixa totalmente o datum do referencial lunar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-line = Número de condição { $n }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-big = O referencial lunar é realizado com { $m } m de erro residual.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-big-open = O referencial lunar é realizado com { $m } m de erro residual, embora o ajuste não tenha convergido.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-line = Erro de translação de { $trans } m, erro de escala de { $scale } partes por bilhão.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:261
+js-meankind-gnsssim-big = O monitoramento de integridade protege a solução de posição em { $share } % do tempo.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:261
+js-meankind-gnsssim-line = A ionosfera acrescenta { $iono } m e a troposfera { $tropo } m a cada distância, em média.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:89
+js-meankind-headline-figure = valor de destaque
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big = Medido em relação às máscaras, o holdover de { $dur } s do registro chega a { $te } ns de erro de tempo.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big-open = Medido em relação às máscaras, o holdover de { $dur } s do registro chega a { $te } ns de erro de tempo e não se recuperou dentro da faixa.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big-recovered = Medido em relação às máscaras, o holdover de { $dur } s do registro chega a { $te } ns de erro de tempo e se recuperou { $recover } s depois que o GNSS voltou.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-line = Medido em relação à máscara, nunca uma declaração de que um sistema está em conformidade; os dois tempos são uma declaração do operador.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-line-masks = { $masks }. Medido em relação à máscara, nunca uma declaração de que um sistema está em conformidade; os dois tempos são uma declaração do operador.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
+js-meankind-impairment-big = O detector separa sinais prejudicados de sinais limpos com uma área sob a curva de { $auc } (1 é perfeito).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
+js-meankind-impairment-line = Em casos diferentes do seu conjunto de treinamento, ele obtém { $auc }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:602
+js-meankind-infra-carrier = A fixação de inteiros da fase da portadora entre uma estação de superfície e um orbitador fixou { $share } % dos ensaios no arco mais longo ({ $days } dias).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:606
+js-meankind-infra-frame = Os enlaces entre orbitador e estação elevam o menor autovalor de informação do datum lunar em { $x } vezes e reduzem o traço de Cramér-Rao a { $share } %, se a órbita for conhecida nos eixos lunares.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:612
+js-meankind-infra-geodesy = Com as quatro famílias em conjunto, h2, k2 e l2 são determinados a { $h2 } %, { $k2 } % e { $l2 } % de seus valores nominais.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:598
+js-meankind-infra-od = A determinação de órbita a bordo com GNSS terrestre em órbita lunar tem precisão de { $gnss } m e o rastreamento independente em solo, de { $ground } m; a estatística de consistência tem média de { $mean } ({ $expected } esperado).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:594
+js-meankind-infra-tail = MODELLED: um modelo restrito com entradas ilustrativas, não uma afirmação sobre nenhuma missão.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:609
+js-meankind-infra-tie = Uma amarração local de { $mm } mm em uma única espaçonave amarra os referenciais GNSS, VLBI e de medição a laser ao longo de { $n } { $n ->
+        [one] erro de amarração varrido
+        [many] de erros de amarração varridos
+       *[other] erros de amarração varridos
+    }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:148
+js-meankind-inside-spec = dentro de { $spec }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-big = Navegando apenas por inércia, o erro de posição ultrapassa { $threshold } m após { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-dom = { $dominant } domina.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-line = Ele ultrapassa { $passes }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-line-dom = Ele ultrapassa { $passes }; { $dominant } domina.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:205
+js-meankind-instrn-pass = { $threshold } m após { $dur }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-big-no = Não: o arquivo de efemérides lunares não faz a viagem de ida e volta.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-big-yes = Sim: o arquivo de efemérides lunares faz a viagem de ida e volta intacto.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-line = { $n } { $n ->
+        [one] estado
+        [many] de estados
+       *[other] estados
+    } no referencial { $frame }, tempo { $time }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:151
+js-meankind-its-spec = sua especificação
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:460
+js-meankind-jointod-big = Acrescentar um atraso de interferometria baseado na Terra melhora a posição da estação em { $x } vezes.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:460
+js-meankind-jointod-line = A estação passa então a ser conhecida com { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:369
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } oportunidade de lançamento por dia alcança uma órbita de { $incl }° a partir da latitude { $lat }°.
+        [many] { $n } de oportunidades de lançamento por dia alcançam uma órbita de { $incl }° a partir da latitude { $lat }°.
+       *[other] { $n } oportunidades de lançamento por dia alcançam uma órbita de { $incl }° a partir da latitude { $lat }°.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:369
+js-meankind-launch-line = A rotação da Terra dá { $speed } m/s de graça.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:269
+js-meankind-layer-agc = AGC (controle automático de ganho)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:268
+js-meankind-layer-raim = RAIM (monitoramento autônomo de integridade pelo receptor)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:270
+js-meankind-layer-sqm = SQM (monitoramento da qualidade do sinal)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:328
+js-meankind-leochain-big = De ponta a ponta, o sistema de órbita baixa reduz o erro de posição de { $from } m para { $to } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:328
+js-meankind-leochain-line = Seu sinal é rastreado a até { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-big-many = Os satélites passam a { $elev }° de altura e ficam acima da máscara por { $dur } (a primeira de { $n }).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-big-one = O satélite passa a { $elev }° de altura e fica acima da máscara por { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-line = No pico, o sinal de órbita baixa chega { $db } dB mais forte do que um sinal típico de navegação por satélite.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-big = O posicionamento preciso converge em { $best } min com a maior camada de órbita baixa, contra { $base } min só com navegação por satélite.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-line = Mediana das execuções por caso, até { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-line-runs = Mediana de { $n } { $n ->
+        [one] execução
+        [many] de execuções
+       *[other] execuções
+    } por caso, até { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:303
+js-meankind-leopvt-doppler-big = O posicionamento Doppler com satélites de órbita baixa fica a { $m } m da referência verdadeira (horizontal).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:303
+js-meankind-leopvt-doppler-line = { $n } { $n ->
+        [one] satélite usado
+        [many] de satélites usados
+       *[other] satélites usados
+    }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:304
+js-meankind-leopvt-joint-big = Acrescentar a camada de órbita baixa reduz o erro de { $from } m para { $to } m (raiz do erro quadrático médio 3-D).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:304
+js-meankind-leopvt-joint-line = A qualidade da geometria (PDOP) passa de { $from } para { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:308
+js-meankind-leopvt-polar-big = Perto do polo, a camada de órbita baixa melhora a qualidade da geometria (PDOP) de { $from } para { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:308
+js-meankind-leopvt-polar-line = Em { $n } { $n ->
+        [one] latitude
+        [many] de latitudes
+       *[other] latitudes
+    }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:306
+js-meankind-leopvt-timing-big = A transferência de tempo em órbita baixa mantém o melhor relógio a até { $ns } ns do UTC (raiz do erro quadrático médio).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:306
+js-meankind-leopvt-timing-line =
+    { $n ->
+        [one] { $n } caso de relógio e sinal comparado.
+        [many] { $n } de casos de relógio e sinal comparados.
+       *[other] { $n } casos de relógio e sinal comparados.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-big =
+    { $n ->
+        [one] Dos { $n } projeto de sinal, { $best } tolera mais jamming: { $db } dB acima do sinal.
+        [many] Dos { $n } de projetos de sinal, { $best } tolera mais jamming: { $db } dB acima do sinal.
+       *[other] Dos { $n } projetos de sinal, { $best } tolera mais jamming: { $db } dB acima do sinal.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-line-fail = As verificações do formato do espectro falham.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-line-pass = As verificações do formato do espectro passam.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:378
+js-meankind-link-big-closes = O enlace fecha com { $margin } dB de sobra.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:378
+js-meankind-link-big-open = O enlace não fecha: { $margin } dB de margem.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:377
+js-meankind-link-line = Ao longo de { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:376
+js-meankind-link-line-band = Banda { $band } ao longo de { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:376
+js-meankind-link-line-band-rate = Banda { $band } ao longo de { $km } km a { $rate } bit/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:377
+js-meankind-link-line-rate = Ao longo de { $km } km a { $rate } bit/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:21
+js-meankind-list-and = { $head } e { $last }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+js-meankind-llr-big = A medição real a laser fixa o referencial lunar em { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+js-meankind-llr-line = Escala em { $ppb } partes por bilhão.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-altimeter = O altímetro mede com { $sigma } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-big = A correspondência de mapas mantém a posição em { $matched } m, contra { $free } m de deriva só com inércia.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-gravimeter = O gravímetro mede com { $sigma } mGal.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-sources = A gravidade sozinha dá { $gravity } m, a magnética { $magnetic } m, o terreno { $terrain } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-marspnt-big = O navegador { $user } se estabiliza em { $m } m (raiz do erro quadrático médio).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-marspnt-line =
+    { $n ->
+        [one] { $mean } relés à vista em média, ao longo de { $n } época.
+        [many] { $mean } relés à vista em média, ao longo de { $n } de épocas.
+       *[other] { $mean } relés à vista em média, ao longo de { $n } épocas.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:433
+js-meankind-moonlight-big = O serviço cobre { $share } % dos lugares e momentos verificados.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:433
+js-meankind-moonlight-line =
+    { $n ->
+        [one] Entre { $min } e { $n } satélite à vista; a qualidade da geometria (PDOP) varia de { $pmin } a { $pmax }.
+        [many] Entre { $min } e { $n } de satélites à vista; a qualidade da geometria (PDOP) varia de { $pmin } a { $pmax }.
+       *[other] Entre { $min } e { $n } satélites à vista; a qualidade da geometria (PDOP) varia de { $pmin } a { $pmax }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:318
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Uma mensagem de navegação cabe em { $n } byte.
+        [many] Uma mensagem de navegação cabe em { $n } de bytes.
+       *[other] Uma mensagem de navegação cabe em { $n } bytes.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:321
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] Em { $n } caso, o erro de distância a partir da órbita transmitida é de { $min } a { $max } mm.
+        [many] Em { $n } de casos, o erro de distância a partir da órbita transmitida é de { $min } a { $max } mm.
+       *[other] Em { $n } casos, o erro de distância a partir da órbita transmitida é de { $min } a { $max } mm.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:321
+js-meankind-navmsg-cases-line = Erro de distância do sinal no espaço, raiz do erro quadrático médio.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:318
+js-meankind-navmsg-line = Arredondar para o formato da mensagem custa { $mm } mm de erro de distância.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:322
+js-meankind-navmsg-midpass-big = Atualizar a mensagem no meio da passagem faz a distância saltar no máximo { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:322
+js-meankind-navmsg-midpass-line = O limite é de { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-ntn-big = O posicionamento 5G a partir da órbita alcança { $m } m com { $signal }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-ntn-line = O Doppler ao longo de uma passagem dá { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-big-full = A órbita se torna totalmente observável após { $dur } de rastreamento.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-big-partly = A órbita permanece parcialmente observável ao longo do arco de { $h } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-line = Posto { $rank } de { $dim } no fim do arco.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
+js-meankind-oem-big = O arquivo de efemérides faz a viagem de ida e volta com no máximo { $mm } mm de erro de posição.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
+js-meankind-oem-line =
+    { $n ->
+        [one] { $states } estados em { $n } segmento.
+        [many] { $states } estados em { $n } de segmentos.
+       *[other] { $states } estados em { $n } segmentos.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-big-alone = O melhor local isolado mantém o enlace óptico ativo em { $best } % do tempo (teto sem nuvens de { $ceiling } %); nenhuma margem sem nuvens o eleva acima de { $ceiling } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-big-team = O melhor local isolado mantém o enlace óptico ativo em { $best } % do tempo (teto sem nuvens de { $ceiling } %); { $n } locais juntos chegam a { $independent } % se o tempo meteorológico deles for independente e a { $correlated } % com a correlação declarada.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-line-sites =
+    { $n ->
+        [one] { $n } local modelado; os climas de nuvens são ilustrativos.
+        [many] { $n } de locais modelados; os climas de nuvens são ilustrativos.
+       *[other] { $n } locais modelados; os climas de nuvens são ilustrativos.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-line-tech = { $name }: { $base } % passa a { $with } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-big = Combinar medição óptica e por rádio dá níveis de proteção de { $h } m na horizontal e { $v } m na vertical.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-line-fault = O teste de consistência indica { $stat } contra um limiar de { $threshold }: uma falha é sinalizada.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-line-ok = O teste de consistência indica { $stat } contra um limiar de { $threshold }: nenhuma falha é sinalizada.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-big-no = Não: o fluxo decodificado difere do que foi enviado.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-big-yes = Sim: o fluxo de pacotes é decodificado de volta bit a bit.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-line =
+    { $n ->
+        [one] { $n } pacote, { $octets } octetos no total.
+        [many] { $n } de pacotes, { $octets } octetos no total.
+       *[other] { $n } pacotes, { $octets } octetos no total.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-big-day =
+    { $n ->
+        [one] { $n } passagem por dia, { $dur } de contato no total.
+        [many] { $n } de passagens por dia, { $dur } de contato no total.
+       *[other] { $n } passagens por dia, { $dur } de contato no total.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-big-window =
+    { $n ->
+        [one] { $n } passagem em uma janela de { $hours } h, { $dur } de contato no total.
+        [many] { $n } de passagens em uma janela de { $hours } h, { $dur } de contato no total.
+       *[other] { $n } passagens em uma janela de { $hours } h, { $dur } de contato no total.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-line = A melhor passagem sobe até { $deg }°.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:451
+js-meankind-percentile-word = percentil
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:150
+js-meankind-pnt-big = O conjunto quântico mantém posição e tempo por { $q }; o conjunto clássico, por { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:154
+js-meankind-pnt-classical-label = Holdover, conjunto clássico
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:151
+js-meankind-pnt-line = Holdover é por quanto tempo cada conjunto (relógio { $q }, contra relógio { $c }) permanece dentro de { $spec } depois que a navegação por satélite é perdida.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:153
+js-meankind-pnt-quantum-label = Holdover, conjunto quântico
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:156
+js-meankind-pnt-timing-classical-label = Erro de temporização, 95 %, clássico
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
+js-meankind-pnt-timing-quantum-label = Erro de temporização, 95 %, quântico
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:265
+js-meankind-pvt-big =
+    { $n ->
+        [one] Uma posição é resolvida em { $solved } de { $n } época, com { $rms } m (raiz do erro quadrático médio 3-D).
+        [many] Uma posição é resolvida em { $solved } de { $n } de épocas, com { $rms } m (raiz do erro quadrático médio 3-D).
+       *[other] Uma posição é resolvida em { $solved } de { $n } épocas, com { $rms } m (raiz do erro quadrático médio 3-D).
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:265
+js-meankind-pvt-line = A partir de { $mean } satélites em média, lidos de medições reais do receptor.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-big = Depois da interrupção, o navegador de átomos frios está { $q } m fora; o de grau de navegação, { $c } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-big-outage = Depois de { $dur } sem satélites, o navegador de átomos frios está { $q } m fora; o de grau de navegação, { $c } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-line = Dentro do orçamento: { $q } contra { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-line-threshold = Dentro de { $threshold } m: { $q } contra { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-big = A transferência de tempo quântica mantém { $q } ps (1 sigma) contra { $c } ns da cadeia clássica.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-line = O monitor de segurança detecta { $pd } % dos ataques.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-line-pfa = O monitor de segurança detecta { $pd } % dos ataques com uma taxa de falso alarme de { $pfa }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
+js-meankind-quantum-link = enlace quântico
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:537
+js-meankind-radiometry-big = A câmera atinge NIIRS { $niirs } com distância de amostragem no solo de { $gsd } m, com relação sinal-ruído de { $snr }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:537
+js-meankind-radiometry-line = MTF do sistema em Nyquist { $mtf }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
+js-meankind-reentry-big = A desaceleração máxima é de { $g } g, a { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
+js-meankind-reentry-line = O veículo está então a { $speed } m/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:199
+js-meankind-slam-big = A correspondência de terreno termina com { $matched } m de erro, contra { $free } m só com inércia.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:199
+js-meankind-slam-line =
+    { $n ->
+        [one] Em { $n } ponto de passagem, comparado a um mapa de terreno com { $sigma } m de ruído do altímetro.
+        [many] Em { $n } de pontos de passagem, comparados a um mapa de terreno com { $sigma } m de ruído do altímetro.
+       *[other] Em { $n } pontos de passagem, comparados a um mapa de terreno com { $sigma } m de ruído do altímetro.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:176
+js-meankind-slot-big = O relógio sai da sua guarda do intervalo de tempo { $dur } após a última solução de posição por satélite.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:176
+js-meankind-slot-line = Por isso ele precisa de uma solução de posição a cada { $interval }, cerca de { $perDay } por dia.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-big =
+    { $n ->
+        [one] { $n } corpo posicionado em uma época.
+        [many] { $n } de corpos posicionados em uma época.
+       *[other] { $n } corpos posicionados em uma época.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-big-link =
+    { $n ->
+        [one] { $n } corpo posicionado em uma época; a luz leva { $dur } de { $from } a { $to }.
+        [many] { $n } de corpos posicionados em uma época; a luz leva { $dur } de { $from } a { $to }.
+       *[other] { $n } corpos posicionados em uma época; a luz leva { $dur } de { $from } a { $to }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-line = { $n } enlaces são cronometrados no total.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
+js-meankind-spoof-caught = O spoofing é detectado antes de romper a especificação de temporização.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
+js-meankind-spoof-caught-both = O spoofing é detectado antes de romper a especificação de temporização nos dois relógios.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:140
+js-meankind-spoof-caught-label = Detectado após, { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:134
+js-meankind-spoof-caught-thr = O spoofing é detectado antes de romper a especificação de temporização de { $thr } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:134
+js-meankind-spoof-caught-thr-both = O spoofing é detectado antes de romper a especificação de temporização de { $thr } ns nos dois relógios.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:139
+js-meankind-spoof-detects = { $name } o detecta após { $dur }, com um deslocamento de { $offset } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:138
+js-meankind-spoof-missed =
+    { $n ->
+        [one] O spoofing rompe a especificação de temporização antes que { $names } o detecte.
+        [many] O spoofing rompe a especificação de temporização antes que { $names } o detectem.
+       *[other] O spoofing rompe a especificação de temporização antes que { $names } o detectem.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:140
+js-meankind-spoof-offset = deslocamento { $offset } ns
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-by = Sim: o spoofing é detectado, por { $by }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-no = Não: o monitor fundido não detecta o spoofing.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-yes = Sim: o spoofing é detectado.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-line =
+    { $n ->
+        [one] { $on } de { $n } camada de detecção emite alarme.
+        [many] { $on } de { $n } de camadas de detecção emitem alarme.
+       *[other] { $on } de { $n } camadas de detecção emitem alarme.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-line-score =
+    { $n ->
+        [one] { $on } de { $n } camada de detecção emite alarme; a pontuação fundida é { $score }.
+        [many] { $on } de { $n } de camadas de detecção emitem alarme; a pontuação fundida é { $score }.
+       *[other] { $on } de { $n } camadas de detecção emitem alarme; a pontuação fundida é { $score }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:587
+js-meankind-ssv-formation = Com { $km } km de separação, o filtro conhece a posição relativa com { $filter } m RMS, contra { $absolute } m obtidos pela diferença entre as duas soluções de posição absolutas.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:582
+js-meankind-ssv-navigation = O filtro a bordo mantém a posição com { $inside } m RMS dentro das órbitas GNSS e { $above } m acima delas.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+js-meankind-ssv-shell = Na casca esférica, todas as constelações juntas dão pelo menos um sinal em { $one } % do tempo e pelo menos quatro em { $four } % (L1).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:568
+js-meankind-ssv-tail = MODELLED: uma varredura geométrica e de orçamento de enlace, não uma medição de qualquer sinal no espaço.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:577
+js-meankind-ssv-trajectory = De { $from } a { $to } km de altitude, pelo menos um sinal está à vista em { $one } % das épocas e pelo menos quatro em { $four } % (L1, todas as constelações).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
+js-meankind-station-big = Sobre a região polar sul, as correções de uma estação de referência lunar reduzem o erro, { $percentile }, de { $from } m para { $to } m (modelado).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
+js-meankind-station-line = Dentro do limiar de exatidão em { $share } % das épocas; não é uma afirmação sobre nenhum sistema real.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-big =
+    { $n ->
+        [one] Em { $n } valor de { $param }, { $parts }.
+        [many] Em { $n } de valores de { $param }, { $parts }.
+       *[other] Em { $n } valores de { $param }, { $parts }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-line = { $param } vai de { $from } a { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-line-log = { $param } vai de { $from } a { $to } em escala logarítmica.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:114
+js-meankind-sweep-part-flat = { $key } { $metric } permanece em { $value }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:114
+js-meankind-sweep-part-goes = { $key } { $metric } vai de { $first } a { $last }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:113
+js-meankind-sweep-result-word = resultado
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:122
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] Em { $n } combinação de { $keys }, { $metric } varia de { $min } a { $max }.
+        [many] Em { $n } de combinações de { $keys }, { $metric } varia de { $min } a { $max }.
+       *[other] Em { $n } combinações de { $keys }, { $metric } varia de { $min } a { $max }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:122
+js-meankind-sweepnd-line = Uma grade de { $shape } execuções do motor.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-fail =
+    { $n ->
+        [one] O relógio falha em { $fail } de { $n } verificação de erro de tempo de telecomunicações.
+        [many] O relógio falha em { $fail } de { $n } de verificações de erro de tempo de telecomunicações.
+       *[other] O relógio falha em { $fail } de { $n } verificações de erro de tempo de telecomunicações.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-line = Verificações de MTIE (erro máximo de intervalo de tempo), TDEV (desvio de tempo) e do envelope de holdover contra as máscaras ITU-T indicadas em cada linha.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-line-margin = Verificações de MTIE (erro máximo de intervalo de tempo), TDEV (desvio de tempo) e do envelope de holdover contra as máscaras ITU-T indicadas em cada linha. A menor margem em relação ao envelope de holdover é de { $margin } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-pass =
+    { $n ->
+        [one] O relógio passa na verificação ({ $n }) de erro de tempo de telecomunicações.
+        [many] O relógio passa em todas as { $n } de verificações de erro de tempo de telecomunicações.
+       *[other] O relógio passa em todas as { $n } verificações de erro de tempo de telecomunicações.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:289
+js-meankind-the-best = o melhor
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:422
+js-meankind-the-body = o corpo
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:410
+js-meankind-the-first = o primeiro
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:138
+js-meankind-the-name = { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:410
+js-meankind-the-second = o segundo
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-the-widest-signal = o sinal mais largo
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-timebudget-big = O erro de { $clock } e o erro do referencial se cruzam em um tempo de média de { $tau }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-timebudget-line = Nesse cruzamento, o erro de tempo é de { $x } s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
+js-meankind-timeoffset-big = Um relógio na Lua adianta { $rate } µs por dia em relação a um na Terra.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
+js-meankind-timeoffset-line = A faixa publicada vai de { $low } a { $high } µs por dia.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-big = { $q } mantém os dois locais dentro de { $qps } ps (raiz do erro quadrático médio); { $c }, dentro de { $cps } ps.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-line = Dentro da especificação de medição de distância em { $q } % do tempo, contra { $c } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-line-mm = Dentro da especificação de medição de distância de { $mm } mm em { $q } % do tempo, contra { $c } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
+js-meankind-tracking-big = Um spoofer pode capturar o receptor a até { $km } km de distância.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
+js-meankind-tracking-line = Sob a dinâmica de malha do próprio receptor, o travamento é perdido com { $db } dB de jammer acima do sinal.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
+js-meankind-trade-big = Os sensores quânticos são { $timing } vezes melhores em temporização e { $inertial } vezes melhores em navegação inercial do que a linha de base clássica.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
+js-meankind-trade-line = Sem satélites, o conjunto quântico segue por inércia durante { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:541
+js-meankind-ttbudget-big = O deslocamento bidirecional é de { $offset } ns, com incerteza combinada de { $uncertainty } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:541
+js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ionosfera { $iono } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
+js-meankind-ukf-big-no = Não: o filtro não é autoconsistente.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
+js-meankind-ukf-big-yes = Sim: o filtro é autoconsistente.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:213
+js-meankind-ukf-line-in = O quadrado da sua inovação normalizada tem média de { $mean }, dentro da faixa de 95 % de { $low } a { $high }. Isso verifica a consistência, não a exatidão.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:213
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+        [one] O quadrado da sua inovação normalizada tem média de { $mean }, dentro da faixa de 95 % de { $low } a { $high }, em { $n } semente. Isso verifica a consistência, não a exatidão.
+        [many] O quadrado da sua inovação normalizada tem média de { $mean }, dentro da faixa de 95 % de { $low } a { $high }, em { $n } de sementes. Isso verifica a consistência, não a exatidão.
+       *[other] O quadrado da sua inovação normalizada tem média de { $mean }, dentro da faixa de 95 % de { $low } a { $high }, em { $n } sementes. Isso verifica a consistência, não a exatidão.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:214
+js-meankind-ukf-line-out = O quadrado da sua inovação normalizada tem média de { $mean }, fora da faixa de 95 % de { $low } a { $high }. Isso verifica a consistência, não a exatidão.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:214
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+        [one] O quadrado da sua inovação normalizada tem média de { $mean }, fora da faixa de 95 % de { $low } a { $high }, em { $n } semente. Isso verifica a consistência, não a exatidão.
+        [many] O quadrado da sua inovação normalizada tem média de { $mean }, fora da faixa de 95 % de { $low } a { $high }, em { $n } de sementes. Isso verifica a consistência, não a exatidão.
+       *[other] O quadrado da sua inovação normalizada tem média de { $mean }, fora da faixa de 95 % de { $low } a { $high }, em { $n } sementes. Isso verifica a consistência, não a exatidão.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-user-word = usuário
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+js-meankind-vlbi-big = Em uma linha de base de { $km } km, o sinal da baliza chega com { $ms } ms de diferença nas duas estações.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+js-meankind-vlbi-line = A correção de campo próximo é de { $us } µs.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+js-meankind-vlbifim-big = Cada coordenada de estação é conhecida com { $m } m a partir deste cronograma de observação.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+js-meankind-vlbifim-line = A estimativa simples de partes iguais alegaria { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-big = A alta atmosfera aquece até { $k } K.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-big-ref = A alta atmosfera aquece até { $k } K, contra { $ref } K da referência.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-line = O índice de atividade geomagnética ap é { $ap }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
+js-meankind-whole-run = ao longo de toda a execução
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-label = Rótulo
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-share = Tamanho em relação ao maior termo de posição
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-sigma = 1 sigma
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-source = Contribuição
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+js-mthread-budget-caption = { $phase }: 1 sigma na entrada { $entry }, no pico { $peak }, na saída { $exit } (posição); cada contribuição abaixo, da maior para a menor.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:131
+js-mthread-chart-title = { $metric } em função do tempo decorrido da missão, uma faixa por fase
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-kind = Tipo
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-label = Rótulo
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-limit = Maior contribuição
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-margin = Em relação ao limite
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-pos = Posição de pico
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-time = Desvio de pico do relógio
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-vel = Velocidade de pico
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-phase = Fase
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-window = Tempo da missão
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:81
+js-mthread-example-not-loaded = o resultado registrado não foi carregado
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:97
+js-mthread-file-failed = Não foi possível ler { $name }: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:27
+js-mthread-kv-elapsed = Tempo decorrido da missão
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:31
+js-mthread-kv-engine = Motor
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:29
+js-mthread-kv-epoch = Época (UTC)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits = Fases com limite declarado
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits-value = { $n } ({ $met } atendidos, { $missed } não atendidos)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:26
+js-mthread-kv-phases = Fases
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:30
+js-mthread-kv-seed = Semente
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:25
+js-mthread-kv-title = Fio
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-phases = Largura igual por fase
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-time = Tempo real da missão
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:148
+js-mthread-limit-title = { $phase }: o limite declarado, { $limit }
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:163
+js-mthread-log-scale = escala logarítmica
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-met = { $m }× o limite, atendido
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-missed = { $m }× o limite, não atendido
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-pos = Posição, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-time = Desvio do relógio, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-vel = Velocidade, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:21
+js-mthread-na = n/d
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:67
+js-mthread-no-events = Esta fase não registra nenhum evento.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:67
+js-mthread-no-phases = o resultado não contém nenhuma fase
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-no-requirement = nenhum limite declarado
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:127
+js-mthread-no-series = O resultado não contém amostras desta grandeza.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:23
+js-mthread-no-weak = O resultado não nomeia nenhum elo mais fraco.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:46
+js-mthread-not-json = o resultado não é JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:47
+js-mthread-not-thread = este não é um resultado de fio da missão (esquema { $schema } esperado)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:46
+js-mthread-note-phases = Cada fase é desenhada com a mesma largura, de modo que uma fase curta seja tão visível quanto uma longa; o instante em que cada uma começa fica abaixo da faixa. Mude para o tempo real da missão para ver as proporções reais. As linhas tracejadas são os limites que o documento declara; uma interrupção na linha é uma transferência.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:47
+js-mthread-note-time = Tempo real da missão: uma fase de poucos minutos pode ser estreita demais para ser vista. Mude para larguras iguais para lê-la. As linhas tracejadas são os limites que o documento declara; uma interrupção na linha é uma transferência.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:86
+js-mthread-open-failed = Não foi possível abrir o exemplo: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:96
+js-mthread-opened = { $name } lido nesta página; nada foi enviado a lugar nenhum.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:78
+js-mthread-opening = Abrindo o exemplo da classe Artemis…
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:74
+js-mthread-prov = Todo rótulo desta página é do próprio motor; a página copia cada número do resultado e apenas o escala.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:85
+js-mthread-recorded = O resultado registrado do motor (versão { $version }): uma cadeia ilustrativa construída a partir de descrições públicas de missões; os números são modelados e não representam nada real.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
+js-mthread-sets-peak = define o pico
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:91
+js-mthread-too-large = Esse arquivo é maior que { $mb } MB; ele não é lido.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:22
+js-mthread-weak-line = O elo mais fraco é a fase <b>{ $phase }</b>: { $margin }× seu limite declarado, definido por { $source }. A margem é a menor razão entre um limite declarado e o pico da fase; acima de 1, atende ao requisito.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
+js-mthread-weakest-flag = elo mais fraco
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:158
+js-mthread-weakest-mark = elo mais fraco
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:147
+js-obs-cell-extent = { $south }° a { $north }° N, { $west }° a { $east }° E
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:89
+js-obs-cell-read = { $state }: { $cell }. Amostradas { $sampled }, afetadas { $affected }.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:175
+js-obs-cell-title = { $state }; amostradas { $sampled }, afetadas { $affected }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:174
+js-obs-cell-title-reason = { $state } ({ $reason }); amostradas { $sampled }, afetadas { $affected }
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:71
+js-obs-clear-note = { $notClear } Uma célula sem registro foi vista por menos de 5 aeronaves distintas e é retida; ela não é desenhada. A cor nunca é a única pista: não observado é hachurado, e a tabela descreve cada estado por extenso.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-affected = Aeronaves afetadas
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-bbox = Caixa delimitadora (S, W, N, E)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-bytes = Bytes
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-cause = Causa
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-cell = Célula (latitude, longitude)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-cells = Células
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-check = Verificação
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-file = Arquivo
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-incident = Incidente
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-sampled = Aeronaves amostradas
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-sha = SHA-256 (manifesto)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-share = Proporção afetada
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-state = Estado
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-why = Por que não observado
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:132
+js-obs-day-alt = { $degraded } células degradadas, { $notDegraded } não degradadas, { $notObserved } não observadas, em { $date }.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:63
+js-obs-day-heading = Dia { $date } (UTC)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-attribution = Atribuição
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-coverage = Cobertura
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-dataset = Conjunto de dados
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-licence = Licença
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-licence-address = Endereço da licença
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-product = Produto
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-written-by = Escrito pelo Kshana
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:96
+js-obs-err-cause = { $name } declara uma causa diferente de "not attributed"; esta página não mostra nenhuma
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:70
+js-obs-err-feature-polygon = { $name }: o elemento { $n } não é um polígono de célula
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:68
+js-obs-err-feature-state = { $name }: o elemento { $n } tem o estado "{ $state }", que não é um de { $states }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:100
+js-obs-err-incident-object = { $name }: o incidente { $n } não é um objeto
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:62
+js-obs-err-no-date = { $name } não declara nenhuma data
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:63
+js-obs-err-no-features = { $name } não tem elementos
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:97
+js-obs-err-no-incidents = { $name } não tem lista de incidentes
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:61
+js-obs-err-not-day = { $name } não é um arquivo { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:95
+js-obs-err-not-incident = { $name } não é um arquivo { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
+js-obs-err-not-json = { $what } não é JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:110
+js-obs-err-not-manifest = { $name } não é um arquivo { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
+js-obs-err-not-object = { $what } não é um objeto JSON
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:45
+js-obs-err-not-text = { $what } não é texto ou é maior que { $mib } MiB
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:64
+js-obs-err-states = { $name } cita estados diferentes dos três que esta página mostra
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-matches = confere
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-mismatch = não confere
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-no-hash = nenhum hash declarado
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:122
+js-obs-file-not-opened = não aberto
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:119
+js-obs-files-note = Método { $method }. O SHA-256 de cada arquivo é calculado aqui a partir do arquivo que você abriu e comparado com o manifesto; um arquivo que você não abriu não é verificado.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:102
+js-obs-incident = incidente
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:97
+js-obs-incident-note = Células degradadas contíguas (diagonais incluídas) formam um incidente. A causa de todo incidente é: não atribuída. Isto não é uma confirmação nem um NOTAM.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-cells = Células publicadas
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-day-wide = Efeito em todo o dia
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-degraded = Degradado
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-not-degraded = Não degradado
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-not-observed = Não observado (publicado)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-scope = Escopo
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:178
+js-obs-map-aria = { $summary } A tabela abaixo lista todas as células.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:20
+js-obs-means-degraded = Uma alta proporção das aeronaves amostradas na célula informou baixa exatidão de navegação naquele dia, claramente acima do fundo daquele dia.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:21
+js-obs-means-not-degraded = Aeronaves suficientes foram amostradas e a proporção não atendeu à regra.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:22
+js-obs-means-not-observed = Os dados não permitiram uma conclusão. Isso não é "livre".
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-na = n/d
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-no = não
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:161
+js-obs-no-cells = Nenhuma célula neste arquivo
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:45
+js-obs-no-day-file = Os arquivos de { $date } não têm arquivo do dia (.geojson), portanto não há nada a mostrar para ele.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:139
+js-obs-no-degraded = Nenhuma célula degradada neste dia.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:47
+js-obs-no-file-read = Nenhum arquivo pôde ser lido.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:96
+js-obs-no-incident-file = Nenhum arquivo de incidentes foi aberto para este dia.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:118
+js-obs-no-manifest = Nenhum manifesto foi aberto para este dia, portanto os arquivos não podem ser verificados em relação aos seus hashes.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:129
+js-obs-no-notice = Este arquivo não traz nenhum aviso. A declaração consultiva no topo desta página vale da mesma forma.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:148
+js-obs-no-reason = nenhum motivo declarado
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:28
+js-obs-not-clear = Não observado não significa livre.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:41
+js-obs-not-readable = { $name }: não é um arquivo que esta página lê (.geojson, .incidents.json, .manifest.json ou .png).
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:68
+js-obs-not-stated = não declarado
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:138
+js-obs-note-day-wide = Este foi um dia de efeito em todo o dia: o fundo do dia já era alto, portanto nenhuma célula pôde ser avaliada naquele dia. Isso não é uma afirmação de que o céu estava limpo.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:141
+js-obs-note-summary-mismatch = O resumo declarado pelo arquivo não coincide com as células que ele lista; os números são mostrados como escritos.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:47
+js-obs-nothing-yet = Nada a mostrar ainda: abra também o arquivo .geojson do dia.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:129
+js-obs-notice = Aviso trazido pelo arquivo: { $notice }
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:24
+js-obs-opened-day-file = Aberto { $days } dia a partir de { $files } arquivo. Lido aqui; nada foi enviado.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:23
+js-obs-opened-day-files = Aberto { $days } dia a partir de { $files } arquivos. Lido aqui; nada foi enviado.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:22
+js-obs-opened-days-file = Abertos { $days } dias a partir de { $files } arquivo. Lido aqui; nada foi enviado.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:21
+js-obs-opened-days-files = Abertos { $days } dias a partir de { $files } arquivos. Lido aqui; nada foi enviado.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:43
+js-obs-read-failed = { $name }: não pôde ser lido ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:32
+js-obs-reason-day-wide = o fundo do dia já era alto, portanto nenhuma célula pôde ser avaliada naquele dia
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:30
+js-obs-reason-insufficient = poucas aeronaves foram amostradas para uma conclusão
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:31
+js-obs-reason-no-background = não havia fundo do dia com que comparar a célula
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:66
+js-obs-release = Liberado não antes de { $when }: os produtos são publicados pelo menos { $hours } horas depois do fim do dia, em células de { $deg } graus. Esta não é uma visualização ao vivo.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:66
+js-obs-release-default = o fim do dia mais o atraso
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:113
+js-obs-show-all =
+    { $n ->
+        [one] Mostrar { $n } célula
+        [many] Mostrar todas as { $n } de células
+       *[other] Mostrar todas as { $n } células
+    }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:15
+js-obs-state-degraded = Degradado
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:16
+js-obs-state-not-degraded = Não degradado
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:17
+js-obs-state-not-observed = Não observado
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:57
+js-obs-the-day-file = o arquivo do dia
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:92
+js-obs-the-incident-file = o arquivo de incidentes
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:107
+js-obs-the-manifest = o manifesto
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:32
+js-obs-too-large = { $name }: maior que { $mib } MiB; abra um arquivo menor.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:131
+js-obs-unstated-number = um número não declarado de
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:40
+js-obs-withheld = retida
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-yes-no-call = sim: nenhuma célula pôde ser avaliada
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-avail-label = Disponibilidade, teto e disponibilidade em céu limpo por local
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:145
+js-opt-avail-note = Por local: a disponibilidade do enlace diante de desvanecimentos por nuvens e turbulência, o teto que nenhuma margem extra consegue elevar (nuvens e apontamento) e a disponibilidade sem nenhuma nuvem.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:145
+js-opt-avail-title = Disponibilidade em relação ao teto
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-available = { $name }: disponível
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-ceiling = { $name }: teto
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-clear-sky = { $name }: céu limpo
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:19
+js-opt-blurb-network = Um local ao norte, mais nublado, um central, intermediário, e um ao sul, mais limpo, observam um terminal óptico LEO a 30 graus: com que frequência o enlace está ativo e o que locais adicionais proporcionam?
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:20
+js-opt-blurb-techniques = Um enlace de subida a 25 graus em nuvens e turbulência: o que proporcionam outro comprimento de onda, uma abertura maior, óptica adaptativa ou mais margem?
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:128
+js-opt-cloud-episode = episódio de nuvens
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-correlated = correlacionado
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:69
+js-opt-default-bars = barras
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:80
+js-opt-default-chart = gráfico
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-direction-wave = { $direction }, onda { $wave }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-diversity-label = Disponibilidade da rede em função do número de locais
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:153
+js-opt-diversity-note = Disponibilidade dos melhores 1, 2 e 3 locais, com tempo meteorológico independente e com tempo meteorológico correlacionado em { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:153
+js-opt-diversity-title = Diversidade de locais
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-capture-loss = Perda geométrica de captura
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-direction = Direção
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-elevation = Elevação
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:175
+js-opt-fact-footprint = Pegada do feixe
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-margin = Margem sem atmosfera
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-received = Potência recebida, sem atmosfera
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:175
+js-opt-fact-sensitivity = Sensibilidade do receptor
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-wavelength = Comprimento de onda
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:155
+js-opt-gain-points = +{ $n } { $n ->
+        [one] ponto
+        [many] de pontos
+       *[other] pontos
+    }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:133
+js-opt-hours = horas
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-independent = independente
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:127
+js-opt-link-down = enlace inativo
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-margin-label = Margem extra necessária para cada meta de disponibilidade
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:125
+js-opt-margin-line-title = { $name }: margem do enlace, dB
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:147
+js-opt-margin-note = Margem extra do enlace, em dB além do enlace atual, para cada meta de disponibilidade; negativo significa que o enlace já tem mais do que precisa. Uma meta acima do teto de um local não tem margem que a alcance (o motor a omite).
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:147
+js-opt-margin-title = Margem de que cada meta de disponibilidade precisa
+
+# 2026-10-01-studio-rebuild/optical/optical.js:39
+js-opt-model-output = Saída do modelo
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:167
+js-opt-na = n/d
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:83
+js-opt-no-data = Nenhum dado neste resultado.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:112
+js-opt-no-series = Nenhuma série temporal neste resultado.
+
+# 2026-10-01-studio-rebuild/optical/optical.js:42
+js-opt-no-source = nenhuma fonte declarada
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:37
+js-opt-not-result = este não é um resultado de atmosfera óptica com locais
+
+# 2026-10-01-studio-rebuild/optical/optical.js:30
+js-opt-open-failed = Não foi possível abrir { $title }: { $reason }.
+
+# 2026-10-01-studio-rebuild/optical/optical.js:20
+js-opt-opening = Abrindo { $title }…
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-outage-label = Probabilidade de uma interrupção durar mais que uma duração
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:149
+js-opt-outage-note = Probabilidade de uma interrupção durar mais que uma duração, por local (eixo de tempo logarítmico).
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:149
+js-opt-outage-title = Quanto duram as interrupções
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:96
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+# 2026-10-01-studio-rebuild/optical/optical.js:42
+js-opt-prov = { $label } Locais: { $sites }.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:119
+js-opt-realised-up = { $value } ativo
+
+# 2026-10-01-studio-rebuild/optical/optical.js:28
+js-opt-recorded = { $title }: o resultado registrado do motor (versão { $version }). Saída de modelo, não uma medição.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:36
+js-opt-result-not-json = o resultado não é JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/optical/optical.js:23
+js-opt-result-not-loaded = o resultado registrado não foi carregado
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:110
+js-opt-series-label = Margem do enlace em função do tempo
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:143
+js-opt-series-note = Uma realização com semente do modelo de local declarado (semente { $seed }, { $hours } h em passos de { $step } s): episódios de nuvens, uma coluna de água líquida para cada um, uma amostra de cintilação por passo. A margem é o orçamento de desvanecimento menos os desvanecimentos por nuvens e cintilação; o enlace fica inativo abaixo de 0 dB. É um único sorteio, não o clima: sua disponibilidade difere da declarada pelo erro amostral do sorteio. A margem é limitada a −40 dB para o desenho.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:143
+js-opt-series-title = Margem do enlace em função do tempo
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:119
+js-opt-stated = declarado { $value }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:129
+js-opt-stripe-cloud = nuvem
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:129
+js-opt-stripe-down = inativo
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:126
+js-opt-stripe-title = { $what }, hora { $from } a { $to }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-label = Ganho de disponibilidade por técnica
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-note = Ganho de disponibilidade em pontos percentuais em relação à linha de base, para um local.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-title = O que cada técnica proporciona
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-availability = Disponibilidade
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-ceiling = Teto
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-clear-air = Perda em ar limpo
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-cloud-prob = Probabilidade de nuvens (entrada)
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-fade-budget = Orçamento de desvanecimento
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-latlon = Latitude, longitude
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-mean-outage = Interrupção média
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-outages-year = Interrupções por ano
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-scint = Índice de cintilação
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-site = Local
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-label = Disponibilidade de temporização por local e relógio
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-note = Fração de todo o tempo em que o erro de temporização permanece dentro do limiar, por local e classe de relógio: o holdover do relógio em relação às durações das interrupções.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-title = Temporização mantida durante as interrupções
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:19
+js-opt-title-network = Três locais em solo, diversidade de locais
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:20
+js-opt-title-techniques = Um enlace de subida, técnicas de melhoria
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-x-best-n = melhores n locais
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-x-outage-duration = duração da interrupção, h (log)
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-x-target = meta de disponibilidade, %
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-y-availability = disponibilidade, %
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-y-extra-margin = margem extra, dB
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-y-p-longer = P(maior)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:47
+js-replay-band-calibrating = calibrando
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:49
+js-replay-band-degraded = degradado
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:48
+js-replay-band-nominal = nominal
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-band-run-ended = { $band } · execução encerrada
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:50
+js-replay-band-untrusted = não confiável
+
+# 2026-10-01-studio-rebuild/replay/replay.js:101
+js-replay-clock = T+{ $t } de { $max }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:235
+js-replay-coast-hidden = costa oculta: as posições inventadas deste registro caem em terra
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note = Costa: { $source }, apenas ilustração.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note-hidden = { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:217
+js-replay-coast-window = Natural Earth 1:10 milhões, janela { $window }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:226
+js-replay-coast-world = Natural Earth 1:110 milhões (o contorno do mundo do Studio), grosseiro
+
+# 2026-10-01-studio-rebuild/replay/replay.js:63
+js-replay-demo-trust-log = { $title } (registro de confiança)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-east = leste
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-north = norte
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-south = sul
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-west = oeste
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:141
+js-replay-dirs-and = { $list } e { $last }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:168
+js-replay-drawing-animation = Desenhando a animação…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:177
+js-replay-drawing-frames = Desenhando os quadros…
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:140
+js-replay-every-direction = todas as direções
+
+# 2026-10-01-studio-rebuild/replay/replay.js:149
+js-replay-file-error = { $name }: { $error }
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:481
+js-replay-kinds-convergence-horizontal = Convergência: erro horizontal mediano

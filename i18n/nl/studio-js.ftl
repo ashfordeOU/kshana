@@ -398,9 +398,20 @@ js-adv-kpi-not-in-previous = niet in uw vorige run
 
 js-adv-kpi-pass = Geslaagd
 
-js-adv-lib-count-all = { $scenarios } scenario's · { $domains } domeinen
+js-adv-lib-count-all =
+    { $scenarios ->
+        [one] { $scenarios } scenario
+       *[other] { $scenarios } scenario's
+    } · { $domains ->
+        [one] { $domains } domein
+       *[other] { $domains } domeinen
+    }
 
-js-adv-lib-count-filtered = { $n } van { $total } scenario's
+js-adv-lib-count-filtered =
+    { $total ->
+        [one] { $n } van { $total } scenario
+       *[other] { $n } van { $total } scenario's
+    }
 
 js-adv-lib-no-match = Geen scenario of veld komt overeen. Probeer een woord als jamming, klok, maan, baan, masker of PDOP.
 
@@ -618,7 +629,11 @@ js-adv-run-failed = Run mislukt. Zie het bericht in de resultaten.
 
 js-adv-scenario-copied = Scenario gekopieerd.
 
-js-adv-scenarios-count = { $n } scenario's
+js-adv-scenarios-count =
+    { $n ->
+        [one] { $n } scenario
+       *[other] { $n } scenario's
+    }
 
 js-adv-share-link-copied = Deellink gekopieerd. Hij bevat het exacte scenario.
 
@@ -650,7 +665,11 @@ js-adv-start-fields-named =
        *[other] Velden met een naam als “{ $query }”: in { $n } scenario's
     }
 
-js-adv-start-more-matches = nog { $n } treffers: voeg een woord toe om ze te beperken.
+js-adv-start-more-matches =
+    { $n ->
+        [one] nog { $n } treffer: voeg een woord toe om hem te beperken.
+       *[other] nog { $n } treffers: voeg een woord toe om ze te beperken.
+    }
 
 js-adv-start-nothing = Niets komt overeen met “{ $query }”. Probeer een woord als jamming, klok, maan, baan, masker of PDOP.
 
@@ -953,3 +972,2197 @@ js-app-btn-all-exports = Alle exports
 js-app-btn-all-exports-title = Elke export van deze run, inclusief de eigen formaten van de engine
 
 js-app-btn-compare-pinned = Vastgezette runs vergelijken
+
+js-app-btn-copy-embed = Insluitcode kopiëren
+
+js-app-btn-copy-link = Een link naar precies dit scenario kopiëren
+
+js-app-btn-figure-png = Figuur (PNG)
+
+js-app-btn-figure-png-title = De grafiek op het scherm als bitmap met hoge resolutie
+
+js-app-btn-figure-svg = Figuur (SVG)
+
+js-app-btn-figure-svg-title = De grafiek op het scherm, met titel, engineversie en DOI
+
+js-app-btn-pin-compare = Deze run vastzetten om te vergelijken
+
+js-app-btn-pin-count = Deze run vastzetten ({ $n } vastgezet)
+
+js-app-btn-report-html = Reproduceerbaar rapport (HTML)
+
+js-app-btn-report-html-title = Eén offlinebestand: samenvatting, kwaliteitsmaten met niveaus, grafieken en het exacte scenario
+
+js-app-btn-result-json = Resultaatgegevens (JSON)
+
+js-app-btn-result-json-title = De volledige uitvoer van de engine voor deze run
+
+js-app-btn-run-history = Runhistorie
+
+js-app-btn-scenario-toml = Scenariobestand (TOML)
+
+js-app-btn-scenario-toml-title = De exacte invoer van deze run
+
+js-app-btn-table-csv = Tabel (CSV)
+
+js-app-btn-table-csv-title = Dezelfde bytes die het opdrachtregelprogramma schrijft als { $file }
+
+js-app-bytes =
+    { $n ->
+        [one] { $n } byte
+       *[other] { $n } bytes
+    }
+
+js-app-cap-sub = { $areas } gebieden, { $total } direct uitvoerbare scenario's. Elk gebied toont een echt vastgelegd resultaat en de mix van bewijs erachter: het aandeel van zijn enginemethoden dat is getoetst aan een externe referentie.
+
+js-app-chain-hint = de uitvoer van elke fase voedt de volgende
+
+js-app-chain-note = Eén systeem, gevolgd door elke fase van de engine. De tabel hieronder toont elk getal dat een fase berekende en de volgende fase gebruikte.
+
+js-app-chain-stage = Fase { $n }
+
+js-app-chain-values-handed =
+    { $n ->
+        [one] { $n } waarde doorgegeven
+       *[other] { $n } waarden doorgegeven
+    }
+
+js-app-chart-allan-deviation = Allan-deviatie
+
+js-app-chart-cn0-by-satellite = Effectieve C/N0 per satelliet
+
+js-app-chart-default-title = Kshana-grafiek
+
+js-app-chart-ground-track = Grondspoor
+
+js-app-chart-holdover-title = Holdover tegenover een tijdsynchronisatiebudget
+
+js-app-chart-mtie-title = MTIE (maximale tijdsintervalfout)
+
+js-app-chart-not-drawn = Deze grafiek kon niet worden getekend.
+
+js-app-chart-scenario-hash = scenario { $hash }
+
+js-app-chart-stability-title = Klokstabiliteit (overlappende Allan-deviatie)
+
+js-app-chart-tdev-title = TDEV (tijdsdeviatie)
+
+js-app-chip-failed-title = WebAssembly kon hier niet starten. Er worden echte vastgelegde runs van de meegeleverde scenario's getoond.
+
+js-app-chip-failed-title-reason = WebAssembly kon hier niet starten ({ $reason }). Er worden echte vastgelegde runs van de meegeleverde scenario's getoond.
+
+js-app-chip-live = Live engine · v{ $version }
+
+js-app-chip-live-title = De Kshana-engine draait in deze browser als WebAssembly
+
+js-app-chip-loading = Engine wordt geladen
+
+js-app-chip-loading-title = De engine wordt gedownload. Intussen worden vastgelegde resultaten getoond.
+
+js-app-chip-recorded = Vastgelegde runs · v{ $version }
+
+js-app-chip-unavailable = Engine niet beschikbaar
+
+js-app-cli-note = Installeer met { $command }. De run schrijft { $file }, een grafiek en een rapport.
+
+js-app-cli-only-title = Deze draait op de opdrachtregel, niet in de browser.
+
+js-app-cli-save-comment = # sla het scenariobestand hieronder op als { $file } en voer dan uit:
+
+js-app-cmd-advanced = Elke instelling tonen (geavanceerde instellingen)
+
+js-app-cmd-browse = Alle scenario's doorbladeren
+
+js-app-cmd-compare = De vastgezette runs vergelijken
+
+js-app-cmd-embed = Insluitcode kopiëren
+
+js-app-cmd-exports = De resultaten downloaden (exports)
+
+js-app-cmd-history = Runhistorie openen
+
+js-app-cmd-home = Naar het openingsscherm gaan
+
+js-app-cmd-how = Hoe dit wordt berekend
+
+js-app-cmd-pin = Deze run vastzetten om te vergelijken
+
+js-app-cmd-report = Het rapport downloaden
+
+js-app-cmd-research = Code, gegevens en citatie (voor onderzoekers)
+
+js-app-cmd-reset = De scenariotekst herstellen
+
+js-app-cmd-run = Het scenario uitvoeren
+
+js-app-cmd-share = Deellink kopiëren
+
+js-app-cmd-theme = Wisselen tussen licht en donker
+
+js-app-cmd-tour = De rondleiding starten
+
+js-app-compare-deltas = De verschillen zijn ten opzichte van run A. Groen markeert de betere waarde per kwaliteitsmaat.
+
+js-app-compare-none = Deze runs delen geen vergelijkbare kwaliteitsmaten. Zet runs van dezelfde scenariofamilie vast om getallen en verschillen te zien.
+
+js-app-compare-pin-two = Zet ten minste twee runs vast om ze naast elkaar te vergelijken. Zet een run vast, wijzig een parameter of kies een ander scenario van dezelfde familie, voer het uit en zet opnieuw vast.
+
+js-app-compare-run-head = { $letter } · run { $id }
+
+js-app-coverage-cell-note = Elke cel is één rasterpunt op { $body }, gescoord over elke epoch van de run.
+
+js-app-coverage-dots-of = van
+
+js-app-coverage-dots-post = satellieten, gevlogen langs hun grondsporen; speel de replay af om ze te verplaatsen.
+
+js-app-coverage-dots-pre = De stippen zijn
+
+js-app-coverage-field-label = Te tonen veld op de kaart
+
+js-app-coverage-map = Dekkingskaart
+
+js-app-coverage-map-select = Kaart
+
+js-app-coverage-over = boven
+
+js-app-coverage-title = { $field } boven { $body }
+
+js-app-crumb-all-scenarios = Alle scenario's
+
+js-app-crumb-area = Gebied
+
+js-app-crumb-search = Zoeken: { $query }
+
+js-app-crumb-studio = Studio
+
+js-app-download-label = Downloaden
+
+js-app-edited-cli-only = Bewerkt: dit scenario draait alleen in de opdrachtregelengine.
+
+js-app-edited-needs-engine = Bewerkt: vereist engine { $need }.
+
+js-app-edited-needs-live = Bewerkte scenario's vereisen de live engine.
+
+js-app-embed-copied = Insluitcode gekopieerd.
+
+js-app-engine-chart = Enginegrafiek
+
+js-app-engine-chart-alt = Enginegrafiek voor deze run
+
+js-app-engine-could-not-start = De engine kon niet starten: { $reason }. Serveer deze map via HTTP (bijvoorbeeld { $command }) in plaats van het bestand rechtstreeks te openen.
+
+js-app-engine-failed = De engine kon niet worden geladen ({ $reason }).
+
+js-app-engine-file-http = Het enginebestand gaf HTTP { $status } terug.
+
+js-app-engine-no-recordings = De engine kon niet worden geladen ({ $reason }) en er zijn geen vastgelegde runs gevonden.
+
+js-app-entries-count =
+    { $n ->
+        [one] { $n } item
+       *[other] { $n } items
+    }
+
+js-app-ev-aria = { $validated } getoetste en { $modelled } gemodelleerde rijen van de verificatiematrix
+
+js-app-ev-title = { $validated } getoetst · { $modelled } gemodelleerde rijen in de verificatiematrix
+
+js-app-ev-validated = getoetst
+
+js-app-export-card-title = Export { $format }
+
+js-app-export-checking = Er wordt gecontroleerd welke efemeridenformaten deze run kan exporteren…
+
+js-app-export-csv-desc = Dezelfde bytes die het opdrachtregelprogramma schrijft als { $file }.
+
+js-app-export-csv-title = Reproduceerbaarheidstabel
+
+js-app-export-engine-loading = De efemeridenexports verschijnen hier zodra de engine is geladen.
+
+js-app-export-json-desc = De volledige uitvoer van de engine voor deze run, inclusief eenheden en herkomst.
+
+js-app-export-json-title = Volledig resultaatdocument
+
+js-app-export-not-recorded = Deze export is groot en is daarom niet vastgelegd. Hij vereist de live engine.
+
+js-app-export-oem-desc = CCSDS OEM 2.0 (Orbit Ephemeris Message) voor GMAT, Orekit of STK
+
+js-app-export-omm-desc = CCSDS OMM-catalogus (Orbit Mean-elements Message)
+
+js-app-export-report-desc = Eén offlinebestand: samenvatting, kwaliteitsmaten met hun niveaus, elke grafiek en de exacte scenariotekst, gestempeld met engineversie en scenario-hash.
+
+js-app-export-report-title = Reproduceerbaar rapport
+
+js-app-export-sp3-desc = SP3-c-precisie-efemeride van deze constellatie
+
+js-app-export-toml-desc = De exacte invoer van deze run. Voer hem overal opnieuw uit met het opdrachtregelprogramma of de Python- en npm-pakketten.
+
+js-app-export-toml-title = Scenariobestand
+
+js-app-export-too-large = { $desc }. Te groot om vast te leggen: vereist de live engine.
+
+js-app-fields-more = nog { $n }
+
+js-app-fields-none = geen
+
+js-app-fields-none-hint = Geen andere afzonderlijke getallen om hier te wijzigen. Bewerk het bestand onder “Voor onderzoekers”.
+
+js-app-fields-top-of-file = begin van het bestand
+
+js-app-find-matches =
+    { $n ->
+        [one] { $n } begeleid besturingselement en { $m } van { $total } velden komen overeen met “{ $query }”.
+       *[other] { $n } begeleide besturingselementen en { $m } van { $total } velden komen overeen met “{ $query }”.
+    }
+
+js-app-find-none = Geen veld van dit scenario komt overeen met “{ $query }”. Doorzoek alle scenario's met de bibliotheekzoekfunctie.
+
+js-app-geo-sub = { $name } · { $features } van { $total } objecten getekend · vastgelegd met de native engine
+
+js-app-geojson-title = GeoJSON-export: { $name }
+
+js-app-gt-highlighted = Gemarkeerd: satelliet zichtbaar vanaf het station.
+
+js-app-gt-peak-doppler = Maximale Doppler { $value } Hz.
+
+js-app-gt-peak-elevation = Maximale elevatie { $value }°.
+
+js-app-health-check-tuning = afstemming controleren
+
+js-app-health-consistent = consistent
+
+js-app-health-nees-band = NEES { $mean } (95%-band { $lo }–{ $hi }, doel 2.0)
+
+js-app-health-nis-band = NIS { $mean } (95%-band { $lo }–{ $hi }, doel 1.0)
+
+js-app-heat-map-label = Heatmap van { $metric }
+
+js-app-hero-clock = { $elapsed } van { $total }
+
+js-app-hero-mask = elevatiemasker van { $deg }°
+
+js-app-hero-places =
+    { $n ->
+        [one] { $n } plaats
+       *[other] { $n } plaatsen
+    }
+
+js-app-hero-positions-only = Alleen satellietposities: geen signaalvermogen, satellietstatus of terrein.
+
+js-app-hero-ramp = { $lo } tot { $hi } { $field }
+
+js-app-hero-ramp-over = { $lo } tot { $hi } { $field }, over { $duration }
+
+js-app-hero-recorded-bare = Vastgelegd resultaat
+
+js-app-hero-satellites =
+    { $n ->
+        [one] { $n } satelliet
+       *[other] { $n } satellieten
+    }
+
+js-app-hero-steps =
+    { $n ->
+        [one] { $n } tijdstap
+       *[other] { $n } tijdstappen
+    }
+
+js-app-hist-runs =
+    { $n ->
+        [one] { $n } run.
+       *[other] { $n } runs.
+    }
+
+js-app-history-pin = Vastzetten
+
+js-app-history-restore = Herstellen
+
+js-app-history-restored = Run { $id } hersteld.
+
+js-app-history-run = run { $id } · { $time }
+
+js-app-hit-in-scenario = in { $title }
+
+js-app-hit-native-note = vastgelegde run, native engine
+
+js-app-hit-setting-meta = { $area } · instelling { $name }
+
+js-app-ho-budget = budget
+
+js-app-ho-engine-budget = Holdover van de engine bij het scenariobudget ({ $budget } { $unit }): { $duration }
+
+js-app-ho-engine-budget-bare = Holdover van de engine bij het scenariobudget: { $duration }
+
+js-app-ho-error-after-loss = fout nadat GNSS verloren ging op t = { $t } s
+
+js-app-ho-error-since-fix = fout sinds de laatste positiebepaling
+
+js-app-ho-stays-inside = blijft binnen dit budget gedurende de hele registratie
+
+js-app-ho-until-breached = tot het budget wordt overschreden
+
+js-app-hover-classical = klassiek
+
+js-app-hover-quantum = kwantum
+
+js-app-how-checks = (controleert: { $requirement })
+
+js-app-how-matrix = De enginemethoden die dit scenario uitvoert hebben { $validated } getoetste en { $modelled } gemodelleerde rijen in de verificatiematrix:
+
+js-app-how-matrix-partner = De enginemethoden die dit scenario uitvoert hebben { $validated } getoetste en { $modelled } gemodelleerde rijen in de verificatiematrix, en { $partner } in handen van partners:
+
+js-app-how-mix-chip = { $validated } getoetst · { $modelled } gemodelleerd
+
+js-app-how-more-notes =
+    { $n ->
+        [one] { $n } andere notitie uit het scenariobestand
+       *[other] { $n } andere notities uit het scenariobestand
+    }
+
+js-app-how-more-rows =
+    { $n ->
+        [one] { $n } andere rij in de verificatiematrix (pagina Bewijs van de site).
+       *[other] { $n } andere rijen in de verificatiematrix (pagina Bewijs van de site).
+    }
+
+js-app-how-no-header = Dit scenariobestand heeft geen koptekstnotitie. De samenvatting van de engine hieronder zegt wat er is uitgevoerd.
+
+js-app-how-no-matrix-row = Nog geen enkele rij van de verificatiematrix noemt het enginetype van dit scenario.
+
+js-app-how-no-sources = Het scenariobestand citeert geen bron, en geen getoetste matrixrij dekt zijn type.
+
+js-app-how-own-label = Het eigen label van deze run: { $label }
+
+js-app-how-per-figure = Per kwaliteitsmaat, uit het blok figure_tiers van de engine: { $validated } getoetst, { $modelled } gemodelleerd. Het niveau van elke kwaliteitsmaat staat in de weergave Overzicht.
+
+js-app-install-copy = Kopiëren: { $command }
+
+js-app-install-label = v{ $version } installeren
+
+js-app-interop-no-file = De engine schreef voor deze run geen bestand in dit formaat.
+
+js-app-interop-not-apply = Is niet van toepassing op dit scenario: { $reason }.
+
+js-app-interop-not-bundled = Hier niet meegeleverd (grootte): de opdracht hierboven schrijft het.
+
+js-app-interop-note = De engine schrijft de geometrie en de signaalsamples van een run in formaten die andere hulpmiddelen openen: CZML voor Cesium, KML (Keyhole Markup Language) voor Google Earth, GeoJSON voor kaarten, STK-efemeridebestanden (.e) en SigMF-opnamen (Signal Metadata Format). De browserbuild bevat deze schrijvers niet, dus de bestanden hieronder zijn die welke de native opdrachtregelengine voor het meegeleverde scenario schreef.
+
+js-app-job-running = Bezig met uitvoeren
+
+js-app-job-sweeping = Bezig met sweepen
+
+js-app-js-range-label = J/S-bereik
+
+js-app-js-range-value = { $lo } tot { $hi } dB
+
+js-app-latest-event-at = Laatste gebeurtenis, om
+
+js-app-legend-all = enginemogelijkheden zijn getoetst over de hele verificatiematrix; { $modelled } zijn gemodelleerd en { $partner } zijn in handen van partners.
+
+js-app-legend-count = { $validated } van { $total }
+
+js-app-load-failed = { $file } kon niet worden geladen.
+
+js-app-mask-envelope = Tijdfoutomhullende voor holdover ({ $source })
+
+js-app-mask-exceeded-after = overschreden na { $duration }
+
+js-app-mask-limit = limiet { $value } ns
+
+js-app-mask-not-exceeded = niet overschreden
+
+js-app-meta-engine = engine
+
+js-app-meta-file = bestand
+
+js-app-meta-scenario = scenario
+
+js-app-meta-seed = seed
+
+js-app-meta-shared-link = gedeelde link
+
+js-app-meta-time = tijd
+
+js-app-mission-timeline = Missietijdlijn
+
+js-app-native-edited-notice = De vastgelegde run is van het meegeleverde bestand, dus een bewerkte kopie kan hier niet worden getoond: voer die uit met het opdrachtregelprogramma, of gebruik Herstellen om de opname te zien.
+
+js-app-native-recorded = Wat u ziet is een run die is vastgelegd met de native opdrachtregelengine v{ $version }, ongewijzigd getoond. Hij wordt niet opnieuw uitgevoerd als u bewerkt.
+
+js-app-native-recorded-c = Wat u ziet is een run die is vastgelegd met de native opdrachtregelengine v{ $version } door { $command } uit te voeren, ongewijzigd getoond. Hij wordt niet opnieuw uitgevoerd als u bewerkt.
+
+js-app-native-recorded-p = Wat u ziet is een run die is vastgelegd met de native opdrachtregelengine v{ $version } ({ $platform }), ongewijzigd getoond. Hij wordt niet opnieuw uitgevoerd als u bewerkt.
+
+js-app-native-recorded-pc = Wat u ziet is een run die is vastgelegd met de native opdrachtregelengine v{ $version } ({ $platform }) door { $command } uit te voeren, ongewijzigd getoond. Hij wordt niet opnieuw uitgevoerd als u bewerkt.
+
+js-app-needs-live-engine = Dit vereist de live engine.
+
+js-app-needs-newer-engine = Vereist een nieuwere engine.
+
+js-app-needs-newer-why = Dit scenario vereist engine { $need } of nieuwer; de engine die hier draait is v{ $version }.
+
+js-app-no-chart-export = Deze weergave heeft geen grafiek om te exporteren.
+
+js-app-no-event-yet = Nog geen gebeurtenis op dit tijdstip.
+
+js-app-no-recorded-run = Er is geen vastgelegde run voor dit scenario. Het vereist de live engine.
+
+js-app-no-recording-here = Hier is er geen opname van.
+
+js-app-no-summary = (dit scenario publiceert geen samenvatting in één regel)
+
+js-app-noise-floor = ruisvloer { $value }
+
+js-app-not-in-browser = Dit scenario draait niet in de browser.
+
+js-app-notice-shared-needs-live = Deze link bevat een eigen scenario, dat de live engine vereist. Open hem op kshana.dev.
+
+js-app-on-one-clock = op één klok
+
+js-app-only-bundled-recording = Alleen de opname van het meegeleverde bestand kan worden getoond: gebruik Herstellen om die te zien, of voer een bewerkte kopie uit met engine { $need }.
+
+js-app-opening-result = Het resultaat wordt geopend…
+
+js-app-orbit-canvas-label = Interactieve 3D-weergave van het gepropageerde spoor
+
+js-app-orbit-epoch-set = Gedraaid naar de epoch van de run.
+
+js-app-orbit-epoch-unset = Deze run vermeldt geen epoch, dus de rotatiehoek van de aarde is hier niet zinvol.
+
+js-app-orbit-img-alt = Orthografische weergave van het gepropageerde spoor
+
+js-app-orbit-note = Sleep om te draaien, scrol of knijp om te zoomen. Aarde op schaal, NASA Blue Marble-beeldmateriaal.
+
+js-app-orbit-static = Statische weergave (de 3D-bibliotheek kon hier niet worden geladen).
+
+js-app-overlay-note = Doorgetrokken lijnen zijn run A, gestippelde lijnen run B, op dezelfde assen.
+
+js-app-overlay-pinned = Overlay van de vastgezette runs
+
+js-app-overlay-title = { $title }: run { $a } (A) tegenover run { $b } (B)
+
+js-app-overlay-with-diff = Overlay met het verschil B − A
+
+js-app-pal-area = Gebied: { $label }
+
+js-app-pal-nothing = Niets komt overeen
+
+js-app-pal-scenario-count =
+    { $n ->
+        [one] { $n } scenario
+       *[other] { $n } scenario's
+    }
+
+js-app-pal-sec-areas = Gebieden
+
+js-app-pal-sec-commands = Opdrachten
+
+js-app-pal-sec-scenarios = Scenario's
+
+js-app-pal-sec-settings = Instellingen
+
+js-app-pal-sec-views = Weergaven
+
+js-app-pal-setting = Instelling: { $label }
+
+js-app-pal-view = Weergave: { $label }
+
+js-app-panel-close = Sluiten
+
+js-app-panel-close-full = Volledig scherm sluiten
+
+js-app-panel-expand = Uitvouwen
+
+js-app-panel-expand-full = Dit paneel uitvouwen naar volledig scherm
+
+js-app-panel-expand-title = Dit paneel op volledig scherm tonen (Escape sluit het)
+
+js-app-params-hint = Wijzig een waarde en voer dan opnieuw uit. Het antwoord en de grafiek worden ter plekke bijgewerkt.
+
+js-app-phase = Fase:
+
+js-app-pin-already = Die run is al vastgezet.
+
+js-app-pin-compare =
+    { $n ->
+        [one] { $n } run vastgezet. Vergelijken wordt geopend.
+       *[other] { $n } runs vastgezet. Vergelijken wordt geopend.
+    }
+
+js-app-pin-first = Run { $id } vastgezet. Wijzig een parameter, voer opnieuw uit en zet die run ook vast.
+
+js-app-pin-label = { $letter } · { $title } · run { $id }
+
+js-app-plan-view = Bovenaanzicht
+
+js-app-plan-view-at = op
+
+js-app-player-pause = De replay pauzeren
+
+js-app-player-pause-mission = De missie-replay pauzeren
+
+js-app-player-pause-orbit = De baanreplay pauzeren
+
+js-app-player-pause-waterfall = De waterfall-replay pauzeren
+
+js-app-player-play = De replay afspelen
+
+js-app-player-play-mission = De missie-replay afspelen
+
+js-app-player-play-orbit = De baanreplay afspelen
+
+js-app-player-play-waterfall = De waterfall-replay afspelen
+
+js-app-player-position = Positie in de replay
+
+js-app-player-position-mission = Positie in de missie-replay
+
+js-app-player-position-orbit = Positie in de baanreplay
+
+js-app-player-position-waterfall = Positie in de waterfall-replay
+
+js-app-png-button-title = Bitmap met hoge resolutie voor dia's en documenten
+
+js-app-png-export-failed = PNG-export mislukt: { $reason }
+
+js-app-py-note = Installeer met { $command }.
+
+js-app-ran-locally = Lokaal uitgevoerd om { $time }, run { $n }.
+
+js-app-ran-locally-took = Lokaal uitgevoerd om { $time }, run { $n }, { $took } s.
+
+js-app-receiver-at = Ontvanger op t =
+
+js-app-recorded-edit-notice = WebAssembly is op deze pagina geblokkeerd, dus deze pagina toont echte runs van de meegeleverde scenario's, vastgelegd met engine v{ $version }. Bewerkte scenario's, sweeps en nieuwe exports vereisen de live engine: open kshana.dev, of serveer deze map lokaal. Herstellen zet het vastgelegde scenario terug.
+
+js-app-recorded-intro = WebAssembly is op deze pagina geblokkeerd, dus deze pagina toont echte runs van de meegeleverde scenario's, vastgelegd met engine v{ $version }. Bewerken, sweeps en nieuwe exports vereisen de live engine op kshana.dev.
+
+js-app-recorded-shown-native = Vastgelegde run getoond om { $time } (native engine).
+
+js-app-recorded-shown-needs = Vastgelegde run getoond om { $time } (vereist engine { $need }).
+
+js-app-recorded-shown-run = Vastgelegde run getoond om { $time }, run { $n }.
+
+js-app-recorded-shown-took = Vastgelegde run getoond om { $time }, run { $n }, { $took } s.
+
+js-app-recorded-with-commit = Wat u ziet is de run die is vastgelegd met een enginebuild op commit { $commit }, ongewijzigd getoond; hij wordt hier niet opnieuw uitgevoerd.
+
+js-app-recorded-with-engine = Wat u ziet is de run die is vastgelegd met engine v{ $version }, ongewijzigd getoond; hij wordt hier niet opnieuw uitgevoerd.
+
+js-app-recording-edited-warning = U hebt het scenario bewerkt: deze opname is van het meegeleverde bestand, niet van uw bewerking. Voer de opdracht uit op uw eigen bestand om de uwe te krijgen.
+
+js-app-replay = Replay
+
+js-app-report-downloaded = Rapport gedownload.
+
+js-app-report-frame-title = Runrapport geschreven door de engine
+
+js-app-report-html = Rapport (HTML)
+
+js-app-report-html-title = Het rapportbestand, zoals de engine het schreef
+
+js-app-report-load-failed = Het vastgelegde rapport kon niet worden geladen ({ $reason }).
+
+js-app-report-loading = Het vastgelegde rapport wordt geladen…
+
+js-app-report-none = Er is geen vastgelegd rapport voor dit scenario.
+
+js-app-report-note = Elke run via de opdrachtregel schrijft een rapport: samenvatting, invoer, resultaten, de grafiek, wat is getoetst en wat is gemodelleerd, en een reproduceerbaarheidsrecord. De browserbuild bevat die schrijver niet, dus dit is het rapport dat de native opdrachtregelengine voor het meegeleverde scenario schreef. Het eigen rapport van de Studio over de run op het scherm staat onder Exports.
+
+js-app-report-open-tab = Openen in een nieuw tabblad
+
+js-app-report-open-tab-title = Het rapport afzonderlijk openen
+
+js-app-report-orbit-title = Baan (aardgecentreerd inertiaal, orthografisch)
+
+js-app-report-stability-short = Klokstabiliteit
+
+js-app-report-stability-title = Klokstabiliteit (Allan-deviatie)
+
+js-app-run-again = Opnieuw uitvoeren
+
+js-app-run-cancelled = Run geannuleerd.
+
+js-app-run-cancelled-previous = Run geannuleerd. Het vorige resultaat wordt nog getoond.
+
+js-app-run-failed = Run mislukt. Zie het bericht in de resultaten.
+
+js-app-run-when-ready = Uitvoeren zodra de engine gereed is
+
+js-app-run-will-run = Wordt uitgevoerd zodra de engine gereed is
+
+js-app-run-with-settings = Uitvoeren met deze instellingen
+
+js-app-search-more-matches =
+    { $n ->
+        [one] nog { $n } treffer: voeg een woord toe om hem te beperken.
+       *[other] nog { $n } treffers: voeg een woord toe om ze te beperken.
+    }
+
+js-app-search-nothing = Niets komt overeen met “{ $query }”. Probeer een woord als jamming, klok, maan, baan, masker of PDOP.
+
+js-app-search-scenarios = Scenario's ({ $n })
+
+js-app-search-settings =
+    { $n ->
+        [one] Instellingen met een naam als “{ $query }”: in { $n } scenario
+       *[other] Instellingen met een naam als “{ $query }”: in { $n } scenario's
+    }
+
+js-app-search-settings-hint = Elk opent het scenario met die instelling gemarkeerd, klaar om te wijzigen.
+
+js-app-share-copied = Deellink gekopieerd. Hij bevat het exacte scenario.
+
+js-app-share-in-address-bar = Link in de adresbalk geplaatst.
+
+js-app-share-link-sub = Het draait precies zoals het is gedeeld.
+
+js-app-share-link-title = Een scenario dat is geopend via een deellink
+
+js-app-shared-scenario = Gedeeld scenario
+
+js-app-shown-unchanged = Ongewijzigd getoond.
+
+js-app-solar-note = Elke stip is een lichaam op de epoch van de run en elke curve is het baanspoor dat de engine ervoor berekende. Een gestippelde lijn is een link die het scenario vraagt. Kies een planeet om de manen eromheen te zien.
+
+js-app-solar-which-bodies = Welke lichamen te tekenen
+
+js-app-source-live = Live resultaat · engine v{ $version }
+
+js-app-source-native = Vastgelegd resultaat, native engine · v{ $version }
+
+js-app-source-recorded = Vastgelegd resultaat · v{ $version }
+
+js-app-source-recorded-loading = Vastgelegd resultaat · v{ $version } · engine wordt geladen
+
+js-app-spectrum-row-note = Het spectrum langs de waterfallrij waarop de replay zich bevindt.
+
+js-app-spectrum-row-title = Spectrum langs de getoonde rij
+
+js-app-spectrum-which-part = Welk deel van het spectrum
+
+js-app-status-last-run-took = De laatste run duurde { $ms } ms in uw browser. Er wordt niets geüpload.
+
+js-app-status-loading-kept = De engine wordt nog geladen. Uw wijzigingen blijven bewaard en worden uitgevoerd zodra hij gereed is.
+
+js-app-status-loading-recorded = De engine wordt nog geladen. Het resultaat hierboven is een vastgelegde run.
+
+js-app-status-not-run-yet = Uw wijzigingen zijn nog niet uitgevoerd.
+
+js-app-status-runs-in-browser = Draait in uw browser. Er wordt niets geüpload.
+
+js-app-status-wasm-blocked = WebAssembly is hier geblokkeerd, dus dit toont vastgelegde runs van de meegeleverde scenario's.
+
+js-app-stepper-decrease = { $key } verlagen
+
+js-app-stepper-increase = { $key } verhogen
+
+js-app-subtabs-label = Tegels van deze weergave (telefoon)
+
+js-app-svg-button-title = Vectorgrafiek met titel en herkomst
+
+js-app-sweep-cancelled = Sweep geannuleerd.
+
+js-app-sweep-done-1d = { $done } van { $total } runs lokaal gesweept in { $duration }.
+
+js-app-sweep-done-2d = { $total } runs ({ $a } × { $b }) lokaal gesweept in { $duration }.
+
+js-app-sweep-enter-range = Voer een numeriek bereik in.
+
+js-app-sweep-enter-range-2 = Voer een numeriek bereik in voor de tweede parameter.
+
+js-app-sweep-failed = Sweep mislukt: { $reason }
+
+js-app-sweep-interrupted = Sweep onderbroken door een nieuwe run.
+
+js-app-sweep-needs-live = Een sweep voert de engine vele malen uit, dus de live engine is vereist.
+
+js-app-sweep-none-line = Geen (lijngrafiek)
+
+js-app-sweep-nothing = Niets om te sweepen voor dit scenario.
+
+js-app-sweep-progress = Sweepen: run { $n } van { $total }…
+
+js-app-sweep-status-done = { $total } runs gesweept om { $time }.
+
+js-app-sweep-title-1d = { $metric } tegenover { $knob }
+
+js-app-sweep-title-2d = { $metric } over { $knob1 } en { $knob2 }
+
+js-app-sweep-wait = Wacht tot de huidige run klaar is en sweep dan.
+
+js-app-tab-animation = Animatie
+
+js-app-tab-compare = Vergelijken
+
+js-app-tab-exports = Exports & rapport
+
+js-app-tab-ground = Grondspoor
+
+js-app-tab-holdover = Holdover
+
+js-app-tab-json = JSON
+
+js-app-tab-masks = Tijdsynchronisatiemaskers
+
+js-app-tab-orbit = 3D-baan
+
+js-app-tab-overview = Overzicht
+
+js-app-tab-report = Enginerapport
+
+js-app-tab-signal = Signaal & band
+
+js-app-tab-stability = Stabiliteit
+
+js-app-tab-sweep = Sweep
+
+js-app-tab-timeseries = Tijdreeks
+
+js-app-th-at-tau = Bij τ of tijd
+
+js-app-th-body = Lichaam
+
+js-app-th-clock = Klok
+
+js-app-th-figure = Kwaliteitsmaat
+
+js-app-th-file = Bestand
+
+js-app-th-format = Formaat
+
+js-app-th-key-figure = Kerncijfer
+
+js-app-th-light-time = Enkele lichttijd vanaf { $observer }
+
+js-app-th-limit = Limiet
+
+js-app-th-margin = Marge
+
+js-app-th-mask-or-budget = Masker of budget
+
+js-app-th-metric = Maat
+
+js-app-th-metric-2 = Maat
+
+js-app-th-orbital-period = Omlooptijd
+
+js-app-th-provenance = Herkomst
+
+js-app-th-size = Grootte
+
+js-app-th-source = Bron
+
+js-app-th-sun-distance = Afstand tot de zon
+
+js-app-th-tier = Niveau
+
+js-app-th-unit = Eenheid
+
+js-app-th-value = Waarde
+
+js-app-th-value-2 = Waarde
+
+js-app-th-value-3 = Waarde
+
+js-app-th-verdict = Oordeel
+
+js-app-th-what-it-is = Wat het is
+
+js-app-the-body = het lichaam
+
+js-app-the-chain = De keten
+
+js-app-the-observer = de waarnemer
+
+js-app-tile-browse-all = Alle { $n } scenario's doorbladeren
+
+js-app-tile-browse-sub = Zoek op naam, vraag of instelling
+
+js-app-tile-preview-label = Vastgelegde voorvertoning van { $source }: { $title }
+
+js-app-tile-scenario-count =
+    { $n ->
+        [one] { $n } scenario
+       *[other] { $n } scenario's
+    }
+
+js-app-timeline-chart-title = Missietijdlijn: { $title }
+
+js-app-timeline-note = Eén scrubber stuurt elke grafiek hieronder aan. Elke fase voert gewone scenario's uit; de campagne leest hun uitvoer op één tijdraster. Gearceerde banden zijn de fasen, verticale lijnen de gebeurtenissen. De waarden hierboven zijn de kanalen van de campagne op het replaytijdstip.
+
+js-app-toast-copied = Gekopieerd.
+
+js-app-toast-copy-blocked = Kopiëren is hier geblokkeerd.
+
+js-app-toast-copy-blocked-select = Kopiëren is hier geblokkeerd: selecteer in plaats daarvan de tekst.
+
+js-app-toast-json-copied = JSON gekopieerd.
+
+js-app-toast-loading-run = De engine wordt nog geladen. Uw run start zodra hij gereed is.
+
+js-app-toast-no-scenario = Er is hier geen scenario met de naam { $name }. Dit zijn de beste treffers.
+
+js-app-toast-not-single-number = Die instelling is in dit scenario geen enkel getal: bewerk haar in het scenariobestand.
+
+js-app-toast-one-pinned = Eén run is vastgezet. Wijzig een instelling, voer opnieuw uit en zet die run vast om de twee te vergelijken.
+
+js-app-toast-opened-advanced = Geopend met de instellingen die u in de geavanceerde weergave hebt gewijzigd.
+
+js-app-toast-opened-at = Geopend bij { $label }. Wijzig het en voer dan opnieuw uit.
+
+js-app-toast-scenario-copied = Scenario gekopieerd.
+
+js-app-tour-answer-body = Een gewone zin, gelezen uit het resultaat, en waar het resultaat vandaan komt: een live run in uw browser, of een run die met dezelfde engine is vastgelegd.
+
+js-app-tour-answer-title = Eerst het antwoord
+
+js-app-tour-back = Terug
+
+js-app-tour-done = Klaar
+
+js-app-tour-eyebrow = Rondleiding
+
+js-app-tour-figures-body = Elke kaart is gelezen uit het resultaatdocument van de engine.
+
+js-app-tour-figures-title = De kwaliteitsmaten die het beantwoorden
+
+js-app-tour-how-body = De methode, het bewijsniveau en de referenties.
+
+js-app-tour-how-title = Hoe dit wordt berekend
+
+js-app-tour-next = Volgende
+
+js-app-tour-research-body = De opdrachtregel en Python om het zelf uit te voeren, de gegevens en figuren, en hoe u het citeert.
+
+js-app-tour-research-title = Voor onderzoekers
+
+js-app-tour-search-body = ⌘K vindt elk scenario, gebied, elke instelling, weergave of opdracht.
+
+js-app-tour-search-title = Zoeken
+
+js-app-tour-settings-body = De vijf instellingen die voor deze vraag het meest uitmaken. Wijzig er een en voer dan opnieuw uit. De engine draait in uw browser; er wordt niets geüpload.
+
+js-app-tour-settings-title = Probeer andere instellingen
+
+js-app-tour-skip = Overslaan
+
+js-app-tour-views-body = Grafieken, kaarten, replays, het eigen rapport van de engine en exports. [ en ] schakelen tussen weergaven.
+
+js-app-tour-views-title = Elke weergave van de run
+
+js-app-tracking-threshold = Volgdrempel
+
+js-app-transport-hint = één scrubber stuurt elk paneel van deze run aan
+
+js-app-transport-label = Replay: één scrubber stuurt elk paneel van deze run aan
+
+js-app-unpin-run = Run { $id } losmaken
+
+js-app-waterfall = Waterfall
+
+js-app-waterfall-hint = spectrale vermogensdichtheid: frequentie horizontaal, tijd naar beneden
+
+js-app-waterfall-note = Kleur is vermogen boven de ruisvloer van de ontvanger. De navigatiesignalen liggen onder die vloer, dus wat oplicht zijn de jammers. Speel de replay af of sleep erdoorheen, en de banden rechts tonen wat de ontvanger op dat moment nog volgt.
+
+js-app-waterfall-title = Waterfall, { $name }
+
+js-app-webassembly-unavailable = WebAssembly niet beschikbaar
+
+js-app-written-by-native = Geschreven door de native opdrachtregelengine v{ $version } ({ $platform }) met
+
+js-cat-acm-link-question = Welke DVB-S2-modus houdt de link langs elke passage aan, en hoeveel gegevens verplaatst de passage? (gemodelleerd)
+
+js-cat-acm-link-title = Satellietdownlink met adaptieve codering
+
+js-cat-aocs-slew-mekf-question = Hoe verhoudt de slew zich tot het geval met de ware toestand, als de regelaar wordt gevoed door een standfilter en een gyro met bias? (gemodelleerd)
+
+js-cat-aocs-slew-mekf-title = Slew op een standschatting
+
+js-cat-aocs-slew-question = Brengt de terugkoppelwet een slew over een grote hoek met vier wielen tot rust, en hoe zwaar worden de wielen belast? (de regellus is getoetst; het ruimtevaartuig is illustratief)
+
+js-cat-aocs-slew-title = Slew met reactiewielen
+
+js-cat-aperture-duty-cycle-question = Welke uitval kost het als één apertuur zowel navigatie als communicatie bedient? (gemodelleerd)
+
+js-cat-aperture-duty-cycle-title = Inschakelduur van de apertuur
+
+js-cat-araim-gps-galileo-question = Hoe beschikbaar is geavanceerde RAIM met GPS + Galileo en de constellatiebrede foutenhypothese?
+
+js-cat-araim-gps-galileo-title = ARAIM met twee constellaties
+
+js-cat-araim-reference-check-question = Komen de beschermingsniveaus van de engine overeen met de gepubliceerde uitgewerkte voorbeelden van Working Group C?
+
+js-cat-araim-reference-check-title = ARAIM-referentiecontrole
+
+js-cat-ascent-losses-question = Hoeveel van de ideale snelheidswinst van een tweetrapsraket nemen zwaartekracht, luchtweerstand, bijsturing en tegendruk weg? (gemodelleerd)
+
+js-cat-ascent-losses-title = Verliezen tijdens de lanceringsstijging
+
+js-cat-attitude-budget-question = Wat is het ongunstigste storingskoppel en het budget voor de richtfout?
+
+js-cat-attitude-budget-title = Richtbudget
+
+js-cat-automotive-urban-canyon-question = Blijft een auto, door een onderdoorgang en langs een jammer aan de weg, binnen een budget van een halve rijstrook? (gemodelleerd)
+
+js-cat-automotive-urban-canyon-title = Auto door een stadscanyon
+
+js-cat-campaign-jam-spoof-holdover-integrity-question = Wat gebeurt er met één ontvanger bij jamming, spoofing, GNSS-verlies, een integriteitsalarm en herstel, op één tijdlijn? (gemodelleerd)
+
+js-cat-campaign-jam-spoof-holdover-integrity-title = Aaneengeschakelde missie: jam, spoof, holdover, alarm
+
+js-cat-campaign-monte-carlo-clock-holdover-question = Komt de tijdfout van een vrijlopende klok over vele runs met een vaste seed overeen met haar spreiding in gesloten vorm?
+
+js-cat-campaign-monte-carlo-clock-holdover-title = Monte Carlo-klokholdover
+
+js-cat-campaign-optimize-link-budget-question = Waar laat een X-bandlink over afstand en datasnelheid precies 3 dB marge over?
+
+js-cat-campaign-optimize-link-budget-title = Een linkbudget optimaliseren
+
+js-cat-campaign-shared-jammer-sea-road-question = Welk platform verliest bij één jammer zijn positiebepaling: het schip op 30 km of de auto op 50 km? (gemodelleerd)
+
+js-cat-campaign-shared-jammer-sea-road-title = Eén jammer, een schip en een auto
+
+js-cat-campaign-spectrum-holdover-integrity-question = Een jammer neemt twee L-bandsignalen weg, de klok gaat in holdover en de ontvanger valt terug op alleen Galileo: houdt de integriteitsbewaking dan nog stand? (gemodelleerd)
+
+js-cat-campaign-spectrum-holdover-integrity-title = Door het spectrum gestuurde missie
+
+js-cat-campaign-sweep-jammer-power-question = Wanneer verliest de ontvanger zijn positiebepaling als een jammer op 1 km wordt opgevoerd van 10 nW tot 10 W? (gemodelleerd)
+
+js-cat-campaign-sweep-jammer-power-title = Sweep van het jammervermogen
+
+js-cat-cislunar-arc-recovery-question = Herstelt een onafhankelijke kleinstekwadratenschatter de toestand daadwerkelijk uit de booglengte die de rangtest voorspelt? (gemodelleerd; traag: ongeveer 15 s in een browser)
+
+js-cat-cislunar-arc-recovery-title = Herstel van een cislunaire boog
+
+js-cat-cislunar-observability-question = Hoeveel van de toestand van een cislunair ruimtevaartuig maakt een boog tussen satellieten waarneembaar?
+
+js-cat-cislunar-observability-title = Cislunaire waarneembaarheid
+
+js-cat-clock-ensemble-question = In welke betrouwbaarheidsband valt holdover over vele ruistrekkingen?
+
+js-cat-clock-ensemble-title = Holdover-ensemble van klokken
+
+js-cat-clock-holdover-labsr-question = Hoe verhoudt een optische strontiumklok van laboratoriumklasse zich tot een atoomklok op chipschaal in holdover?
+
+js-cat-clock-holdover-labsr-title = Klokholdover, optische laboratoriumklok
+
+js-cat-clock-holdover-question = Hoe lang kan een klok de tijd bijhouden nadat GNSS uitvalt?
+
+js-cat-clock-holdover-title = Klokholdover
+
+js-cat-combined-altpnt-question = Wat levert het samenvoegen van drie scalaire kaartkanalen op ten opzichte van elk afzonderlijk?
+
+js-cat-combined-altpnt-title = Gecombineerde alt-PNT
+
+js-cat-conflict-resilience-question = Hoe degradeert een gelaagde PNT-architectuur onder bedreigingen als jamming, spoofing, kinetische en cyberaanvallen? (gemodelleerd)
+
+js-cat-conflict-resilience-title = Veerkracht in een conflict
+
+js-cat-constellation-multi-gnss-coverage-question = Hoeveel satellieten zijn er met de vier mondiale systemen samen in zicht en hoe goed is de geometrie, overal op aarde? (gemodelleerd)
+
+js-cat-constellation-multi-gnss-coverage-title = Vier GNSS-constellaties, één kaart
+
+js-cat-contact-schedule-question = Welke passages houdt een conflictvrij plan over voor drie satellieten en drie stations in 12 uur, en hoeveel gegevens verplaatst het? (gemodelleerd)
+
+js-cat-contact-schedule-title = Grondcontactplan
+
+js-cat-domain-campaigns-label = Campagnes
+
+js-cat-domain-campaigns-line = Aaneengeschakelde missies, sweeps en Monte Carlo-runs op één klok.
+
+js-cat-domain-constellations-label = Constellatieontwerp
+
+js-cat-domain-constellations-line = Ontwerp een constellatie en breng de dekking en PDOP (positie-DOP, dilution of precision) in kaart.
+
+js-cat-domain-deepspace-label = Maan, cislunair & Mars
+
+js-cat-domain-deepspace-line = Navigatie en tijd bij de Maan, in de cislunaire ruimte en bij Mars.
+
+js-cat-domain-integrity-label = Integriteit & positiebepaling
+
+js-cat-domain-integrity-line = Positiebepalingen en of ze te vertrouwen zijn: RAIM (receiver autonomous integrity monitoring) en de geavanceerde vorm daarvan, ARAIM.
+
+js-cat-domain-interference-label = Jamming & interferentie
+
+js-cat-domain-interference-line = Jammers tegen ontvangers voor satellietnavigatie: wat verloren gaat, en wanneer.
+
+js-cat-domain-leo-label = Navigatie in een lage baan om de aarde (LEO)
+
+js-cat-domain-leo-line = Navigatiesignalen, passages, berichten en positiebepalingen in een lage baan om de aarde.
+
+js-cat-domain-leo-missions-label = LEO-missies & -studies
+
+js-cat-domain-leo-missions-line = Studies en diensten op basis van een laag in een lage baan om de aarde.
+
+js-cat-domain-navigation-label = Traagheids- & alternatieve navigatie
+
+js-cat-domain-navigation-line = Traagheids-, terrein-, zwaartekracht- en andere navigatie zonder satellieten.
+
+js-cat-domain-orbits-label = Banen & GNSS-geometrie
+
+js-cat-domain-orbits-line = Baanpropagatie, efemeriden en de geometrie van navigatiesatellieten.
+
+js-cat-domain-solar-label = Zonnestelsel
+
+js-cat-domain-solar-line = Elke planeet en maan op één epoch, met lichttijden.
+
+js-cat-domain-spaceops-label = Missieanalyse & ruimteoperaties
+
+js-cat-domain-spaceops-line = Passages, lanceervensters, terugkeer, link- en standbudgetten.
+
+js-cat-domain-spectrum-label = Spectrum
+
+js-cat-domain-spectrum-line = Waterfalls van de radioband: jammers, signalen en wat de ontvanger volgt.
+
+js-cat-domain-spoofing-label = Spoofing & signaalbeveiliging
+
+js-cat-domain-spoofing-line = Valse signalen en meaconing, en de monitors die ze opsporen.
+
+js-cat-domain-studies-label = Kwantum, afwegingsstudies & interoperabiliteit
+
+js-cat-domain-studies-line = Kwantumsensoren, afwegingsstudies en interoperabiliteitsformaten.
+
+js-cat-domain-timing-label = Klokken & tijdsynchronisatie
+
+js-cat-domain-timing-line = Klokken zonder satellieten: holdover, stabiliteit, telecommaskers, tijdoverdracht.
+
+js-cat-earth-gnss-lunar-question = Kan een ontvanger bij de Maan het GNSS van de aarde horen, en is dat ooit genoeg voor een positiebepaling? (gemodelleerd)
+
+js-cat-earth-gnss-lunar-title = Aarde-GNSS bij de Maan
+
+js-cat-entry-heating-stardust-question = Reproduceert het intreemodel de gepubliceerde maximale vertraging van de Stardust-capsule voor het terugbrengen van monsters?
+
+js-cat-entry-heating-stardust-title = Intrede van de Stardust-capsule
+
+js-cat-eo-coverage-question = Welke zwadbreedte, grondresolutie en herbezoektijd geeft een EO-baan?
+
+js-cat-eo-coverage-title = EO-dekking
+
+js-cat-eo-radiometry-question = Welke signaal-ruisverhouding, MTF bij Nyquist en NIIRS geeft een scène met 15 % reflectie voor een kleine aardobservatiecamera? (gemodelleerd)
+
+js-cat-eo-radiometry-title = Radiometrie en beeldkwaliteit van een camera
+
+js-cat-ephemeris-question = Waar is de satelliet en wanneer passeert hij boven ons?
+
+js-cat-ephemeris-title = Grondspoor
+
+js-cat-europa-surface-pnt-question = Kan een lander op de Jupitermaan Europa worden gepositioneerd met een kleine constellatie van relays en een afstandsmeting vanaf de aarde? (gemodelleerd)
+
+js-cat-europa-surface-pnt-title = Lander op Europa
+
+js-cat-fusion-pnt-coupled-question = Hoe komt de navigator door een GNSS-uitval heen met één gestapeld Kalman-filter over positie, klok en bias van de versnellingsmeter? (gemodelleerd)
+
+js-cat-fusion-pnt-coupled-title = Gekoppelde navigator met sensorfusie
+
+js-cat-fusion-pnt-question = Wat levert één gezamenlijke schatter op voor klok + positie?
+
+js-cat-fusion-pnt-title = Sensorfusie
+
+js-cat-gnss-ins-aviation-question = Hoe ver drijft een strak gekoppelde INS van navigatie- of tactische klasse weg tijdens een GNSS-onderbreking van twee minuten die een bocht met rolhoek omvat? (gemodelleerd)
+
+js-cat-gnss-ins-aviation-title = Vliegtuigbocht door een GNSS-gat
+
+js-cat-gnss-ins-maritime-question = Hoe ver drijft een INS van navigatie- of tactische klasse weg na een GNSS-uitval van vijf minuten op een slingerend vaartuig? (gemodelleerd)
+
+js-cat-gnss-ins-maritime-title = Slingerend schip door een GNSS-uitval
+
+js-cat-gnss-ins-question = Hoe goed vaart een ondersteunde traagheidsnavigator door een GNSS-uitval heen?
+
+js-cat-gnss-ins-rail-question = Hoe ver drijft een strak gekoppelde INS weg door een diepe insnijding met twee satellieten en daarna een tunnel? (gemodelleerd)
+
+js-cat-gnss-ins-rail-title = Trein door een insnijding en een tunnel
+
+js-cat-gnss-ins-title = GNSS/INS-fusie
+
+js-cat-gnss-sim-container-terminal-skyline-question = Met kranen aan zeezijde en stapels aan landzijde, hoeveel satellieten blijven er over, en wat gebeurt er met de RAIM-bescherming? (gemodelleerd; representatieve skyline)
+
+js-cat-gnss-sim-container-terminal-skyline-title = Straddle carrier op een containerkade
+
+js-cat-gnss-sim-raim-question = Hoe vormen de ionosfeer en de troposfeer ruwe pseudoafstanden, en beschermt RAIM nog?
+
+js-cat-gnss-sim-raim-title = GNSS-metingen
+
+js-cat-gnss-ssv-formation-heo-question = Hoe goed kent een filter de relatieve positie van twee ruimtevaartuigen op een kilometer van elkaar, tegenover het aftrekken van hun absolute positiebepalingen? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-gnss-ssv-formation-heo-title = Relatieve navigatie in formatie, sterk elliptische baan
+
+js-cat-gnss-ssv-heo-question = Wat hoort een sterk elliptische baan langs zijn pad: signalen in zicht, beste C/N0, hoofdlob tegenover zijlob, DOP en strijkende signalen? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-gnss-ssv-heo-title = GNSS-signalen in een sterk elliptische baan
+
+js-cat-gnss-ssv-lunar-weak-question = Wat kan een ontvanger die is ontworpen voor de zwakste signalen gebruiken op weg naar de Maan? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-gnss-ssv-lunar-weak-title = GNSS-signalen op een maanovergang, ontvanger voor zwakke signalen
+
+js-cat-gnss-ssv-nav-lunar-question = Hoe goed houdt een boordfilter een maanovergang vast, tegenover de grens die het zelf opgeeft? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-gnss-ssv-nav-lunar-title = GNSS-filter aan boord op een maanovergang
+
+js-cat-gnss-ssv-shell-question = Hoe vaak hoort een ruimtevaartuig op geostationaire hoogte ten minste één en ten minste vier navigatiesignalen, per constellatie en band? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-gnss-ssv-shell-title = GNSS-signalen boven de satellieten: een schil op 36 000 km
+
+js-cat-gps-denied-gravity-nav-egm2008-question = Kan kaartvergelijking op het echte EGM2008-zwaartekrachtveld tot graad 70 een GPS-vrij traject vasthouden? (gemodelleerd)
+
+js-cat-gps-denied-gravity-nav-egm2008-title = Zwaartekrachtnavigatie op het echte veld
+
+js-cat-gps-denied-gravity-nav-question = Hoe ver drijft de positie weg over een heel uur zonder GNSS, en kan een zwaartekrachtkaart haar in toom houden?
+
+js-cat-gps-denied-gravity-nav-title = Navigatie zonder GNSS
+
+js-cat-gravity-map-error-mc-question = Naarmate de opgeslagen zwaartekrachtkaart ruisiger wordt, hoe vaak houdt kaartvergelijking een GPS-vrije positiebepaling dan nog binnen haar doel? (gemodelleerd)
+
+js-cat-gravity-map-error-mc-title = Monte Carlo van de fout in de zwaartekrachtkaart
+
+js-cat-gravity-map-nav-question = Kan een koude-atoomgravimeter zijn positie zonder GNSS vasthouden door het zwaartekrachtveld te vergelijken waar hij doorheen vliegt?
+
+js-cat-gravity-map-nav-title = Navigatie met een zwaartekrachtkaart
+
+js-cat-holdover-test-example-question = Trek de antenne eruit, beoordeel de holdover: een registratie gesplitst op de twee tijdstippen die de operator opgeeft, elke stap gemeten tegen de ITU-T-maskers die ervoor zijn geschreven. (gemodelleerd; de registratie is verzonnen voor het voorbeeld)
+
+js-cat-holdover-test-example-title = Holdover-test: een tijdfoutregistratie tegenover de maskers
+
+js-cat-holdover-test-ptp4l-question = Dezelfde vier stappen gelezen uit een ptp4l-servolog: hoe ver blijft de eigen offset van de daemon van de maskers terwijl GNSS weg is? (gemodelleerd; de log is verzonnen voor het voorbeeld)
+
+js-cat-holdover-test-ptp4l-title = Holdover-test: een linuxptp-log
+
+js-cat-hybrid-optical-rf-question = Welke continuïteit en integriteit levert het combineren van optische en RF-PNT op? (gemodelleerd)
+
+js-cat-hybrid-optical-rf-title = Hybride optisch/RF
+
+js-cat-hybrid-pnt-question = Wat levert een gecombineerde suite van klok + traagheid u op?
+
+js-cat-hybrid-pnt-title = Hybride PNT
+
+js-cat-hybrid-ukf-question = Is de strak gekoppelde UKF met 17 toestanden zelfconsistent (NEES + innovatiewitheid)? Een zelfconsistentiecontrole, geen nauwkeurigheidsclaim.
+
+js-cat-hybrid-ukf-title = Hybride UKF met 17 toestanden
+
+js-cat-impairment-eval-question = Hoe goed scheidt een detector jamming / spoofing / multipad van nominaal? (gemodelleerde ROC/AUC)
+
+js-cat-impairment-eval-title = Evaluatie van RF-verstoringen
+
+js-cat-imu-deadreckoning-question = Hoe ver drijft de positie weg als alleen een IMU de koers aanhoudt?
+
+js-cat-imu-deadreckoning-title = Traagheidskoppelnavigatie
+
+js-cat-ins-trn-coast-question = Hoe ver drijft de positie weg tijdens een navigatie-uitval, en wanneer passeert ze 10 m en 50 m? (gemodelleerd)
+
+js-cat-ins-trn-coast-title = INS/TRN-overbrugging
+
+js-cat-integrity-harbour-approach-question = Houden GPS en Galileo de ARAIM-bescherming binnen de alarmlimieten als kadegebouwen en een golfbreker lage satellieten verbergen? (gemodelleerd; representatieve skyline)
+
+js-cat-integrity-harbour-approach-title = ARAIM bij het binnenvaren van de haven
+
+js-cat-integrity-raim-question = Voldoet de geometrie aan de alarmlimieten (HPL / VPL)?
+
+js-cat-integrity-raim-title = RAIM-integriteit
+
+js-cat-jamming-demo-question = Bij welke jammer-signaalverhouding verliest de ontvanger de vergrendeling?
+
+js-cat-jamming-demo-title = Jamming
+
+js-cat-jamming-harbour-approach-skyline-question = Hoeveel satellieten houdt een schip onder een jammer van 2 W aan de wal, en hoeveel verbergt de kade zelf? (gemodelleerd; representatieve skyline)
+
+js-cat-jamming-harbour-approach-skyline-title = Schip met jamming bij het binnenvaren van de haven
+
+js-cat-l-band-waterfall-jamming-question = Hoe ziet de hele GNSS L-band eruit terwijl een chirp-, een toon- en een ruisjammer worden ingeschakeld, en welke signalen neemt elk ervan weg? (gemodelleerd)
+
+js-cat-l-band-waterfall-jamming-title = L-band-waterfall onder jamming
+
+js-cat-launch-window-question = Welk lanceerazimut en welke dogleg-Δv bereiken vanaf een locatie een doelinclinatie?
+
+js-cat-launch-window-title = Lanceervenster
+
+js-cat-leo-band-trade-question = Wat wint en verliest een navigatiesignaal in een lage baan in elke band, van ultrahoge frequentie (UHF) tot C-band? (representatieve ontwerpen)
+
+js-cat-leo-band-trade-title = Bandafweging, UHF tot C-band
+
+js-cat-leo-doppler-positioning-question = Hoe goed is een positiebepaling uit tien minuten Doppler op een navigatieconstellatie in een lage baan? (gemodelleerd)
+
+js-cat-leo-doppler-positioning-title = Positiebepaling uit Doppler alleen
+
+js-cat-leo-focus-data-services-question = Wat kost elke extra gegevensdienst aan bits in het navigatiebericht? (gemodelleerd)
+
+js-cat-leo-focus-data-services-title = Servicegegevens tegenover framelengte
+
+js-cat-leo-focus-fused-pnt-sisre-question = Hoe goed moet de afstandsfout van het signaal in de ruimte in een lage baan zijn voordat de laag in een lage baan een gefuseerde positiebepaling helpt? (gemodelleerd)
+
+js-cat-leo-focus-fused-pnt-sisre-title = Gefuseerde positiebepaling tegenover baan- en klokfout
+
+js-cat-leo-focus-indoor-uhf-question = Welke band bereikt nog een gebruiker binnen een traditioneel en een thermisch efficiënt gebouw? (gemodelleerd)
+
+js-cat-leo-focus-indoor-uhf-title = Ontvangst binnenshuis per band en gebouw
+
+js-cat-leo-focus-iot-eirp-question = Hoeveel zendvermogen van de satelliet heeft een batterijtag nodig om het vol te houden? (gemodelleerd)
+
+js-cat-leo-focus-iot-eirp-title = Energie van de tracker tegenover zendvermogen
+
+js-cat-leo-focus-ntn-bandwidth-question = Hoe daalt de positioneringsfout naarmate het referentiesignaal verbreedt van 180 kHz naar 20 MHz? (gemodelleerd)
+
+js-cat-leo-focus-ntn-bandwidth-title = 5G-downlinkpositionering tegenover bandbreedte
+
+js-cat-leo-focus-ppp-altitude-question = Verkort een lagere of een hogere laag in een lage baan de convergentie meer? (gemodelleerd; traag, ongeveer een minuut in een browser)
+
+js-cat-leo-focus-ppp-altitude-title = Nauwkeurige positiebepaling tegenover laaghoogte
+
+js-cat-leo-focus-science-iono-sounding-question = Hoe goed meet het vertragingsverschil tussen twee banden de elektroneninhoud onder een satelliet in een lage baan? (gemodelleerd)
+
+js-cat-leo-focus-science-iono-sounding-title = Ionosfeersondering uit twee banden
+
+js-cat-leo-indoor-uhf-question = Waarom bereikt een UHF-draaggolf het binnenste van een gebouw terwijl de L-, S- en C-band moeite hebben? (gemodelleerd)
+
+js-cat-leo-indoor-uhf-title = Binnenshuis op UHF
+
+js-cat-leo-iot-energy-question = Hoeveel energie besteedt een batterijtag aan elke positiebepaling uit een signaal in een lage baan? (gemodelleerd)
+
+js-cat-leo-iot-energy-title = Energie per positiebepaling voor een tracker
+
+js-cat-leo-navmsg-encode-decode-question = Wat kost de kwantisatie van elk veld, en overleeft het frame het coderen, decoderen en een beschadigde bit? (gemodelleerd)
+
+js-cat-leo-navmsg-encode-decode-title = Navigatiebericht: binair frame
+
+js-cat-leo-navmsg-fit-interval-trade-question = Hoe lang kan één uitgezonden bericht dekken voordat zijn baanfout het doel overschrijdt? (gemodelleerd; traag, ongeveer 30 s in een browser)
+
+js-cat-leo-navmsg-fit-interval-trade-title = Navigatiebericht: fitinterval
+
+js-cat-leo-navmsg-midpass-update-question = Ziet de gebruiker een sprong wanneer een satelliet midden in een passage naar een nieuw bericht overschakelt? (gemodelleerd)
+
+js-cat-leo-navmsg-midpass-update-title = Navigatiebericht: update midden in de passage
+
+js-cat-leo-navmsg-model-comparison-question = Welk efemeridemodel beschrijft een lage baan het best, en hoe verhoudt het zich tot een gepubliceerde tabel? (gemodelleerd)
+
+js-cat-leo-navmsg-model-comparison-title = Navigatiebericht: vier modellen
+
+js-cat-leo-pass-iridium-question = Welke signaalsterkte en Doppler ziet een lijnvliegtuig bij één Iridium-passage? (gemodelleerd)
+
+js-cat-leo-pass-iridium-title = Iridium-bursts vanuit een vliegtuig
+
+js-cat-leo-pass-vs-gnss-cn0-question = Hoe verhoudt de signaalsterkte van één passage in een lage baan zich tot de Galileo-satellieten in zicht? (gemodelleerd)
+
+js-cat-leo-pass-vs-gnss-cn0-title = Eén passage tegenover GNSS
+
+js-cat-leo-pass-xona-pulsar-question = Hoe zien de X1- en X5-signalen eruit tijdens één passage, voor een schip in de Golf van Biskaje? (gemodelleerd)
+
+js-cat-leo-pass-xona-pulsar-title = Passage van Xona Pulsar
+
+js-cat-leo-pnt-end-to-end-question = Wat geeft elke fase door aan de volgende, van het signaalontwerp tot de uiteindelijke positiebepaling? (gemodelleerd)
+
+js-cat-leo-pnt-end-to-end-title = Van begin tot eind, generieke constellatie
+
+js-cat-leo-pnt-mega-shell-question = Welke dekking en geometrie geeft een navigatieconstellatie van 5.000 satellieten in een lage baan om de aarde? (gemodelleerd; een voorbeeldontwerp)
+
+js-cat-leo-pnt-mega-shell-title = Ontwerp met 5.000 satellieten in een lage baan
+
+js-cat-leo-ppp-convergence-question = Hoeveel sneller convergeert nauwkeurige puntpositiebepaling (PPP) wanneer een laag in een lage baan wordt toegevoegd? (gemodelleerd; traag, ongeveer 30 s in een browser)
+
+js-cat-leo-ppp-convergence-title = Convergentie van nauwkeurige positiebepaling
+
+js-cat-leo-pvt-fjord-skyline-question = Waar de fjordwanden een strook lucht langs het vaarwater overlaten, hoeveel voegt een laag in een lage baan toe aan GPS en Galileo? (gemodelleerd; representatieve skyline)
+
+js-cat-leo-pvt-fjord-skyline-title = Veerboot diep in een fjord
+
+js-cat-leo-resilience-gnss-jammed-leo-carries-question = Kan een laag in een lage baan in andere banden de positiebepaling en haar integriteit behouden wanneer GNSS gejamd wordt? (gemodelleerd)
+
+js-cat-leo-resilience-gnss-jammed-leo-carries-title = GNSS gejamd, lage baan gaat door
+
+js-cat-leo-resilience-js-margin-question = Hoeveel meer jamming overleeft een sterker signaal in een lage baan dan een GNSS-signaal uit een middelhoge baan? (gemodelleerd)
+
+js-cat-leo-resilience-js-margin-title = Jammermarge uit ontvangen vermogen
+
+js-cat-leo-resilience-multiband-diversity-question = Welke van vier banden blijven volgen naarmate één L-bandjammer wordt opgevoerd? (gemodelleerd)
+
+js-cat-leo-resilience-multiband-diversity-title = Banddiversiteit onder een breedbandjammer
+
+js-cat-leo-resilience-spoof-doppler-question = Hoe snel betrapt een controle op Doppler en passagegeometrie een spoofer die de berekende positie 30 m verplaatst? (gemodelleerd)
+
+js-cat-leo-resilience-spoof-doppler-title = Spoofing betrapt door Doppler
+
+js-cat-leo-resilience-spoof-monitors-question = Welke monitor ziet welk soort spoofer? (gemodelleerd)
+
+js-cat-leo-resilience-spoof-monitors-title = Spoofingmonitors tegenover vier spoofers
+
+js-cat-leo-timing-utc-question = Hoe nauwkeurig kan een ontvanger gecoördineerde wereldtijd (UTC) terugwinnen uit satellieten in een lage baan, per oscillator en signaalniveau? (gemodelleerd)
+
+js-cat-leo-timing-utc-title = Tijdoverdracht naar UTC
+
+js-cat-leo-vertical-5g-network-timing-question = Houdt tijd uit een lage baan een basisstation binnen zijn tijdsynchronisatielimiet wanneer GNSS een dag verloren gaat? (gemodelleerd)
+
+js-cat-leo-vertical-5g-network-timing-title = Tijdsynchronisatie van een 5G-basisstation
+
+js-cat-leo-vertical-asset-tracking-iot-question = Wat kost elke positiebepaling een batterijtag langs de reis van een container? (gemodelleerd)
+
+js-cat-leo-vertical-asset-tracking-iot-title = Containertracking
+
+js-cat-leo-vertical-autonomous-vehicle-question = Houdt een laag in een lage baan een auto binnen een fout op rijstrookniveau wanneer gebouwen de lage satellieten verbergen? (gemodelleerd)
+
+js-cat-leo-vertical-autonomous-vehicle-skyline-question = Houdt een laag in een lage baan een auto nog steeds binnen een fout op rijstrookniveau, gemodelleerd als een echte straat in plaats van een vlakke afkap op 35°? (gemodelleerd; representatieve skyline)
+
+js-cat-leo-vertical-autonomous-vehicle-skyline-title = Voertuig in een straat, niet bij een vlakke afkap
+
+js-cat-leo-vertical-autonomous-vehicle-title = Voertuig in een stadscanyon
+
+js-cat-leo-vertical-critical-infrastructure-timing-question = Houdt tijd uit een lage baan de synchronisatie van een onderstation vast wanneer GNSS verloren gaat? (gemodelleerd)
+
+js-cat-leo-vertical-critical-infrastructure-timing-title = Tijdsynchronisatie van een onderstation
+
+js-cat-leo-vertical-polar-arctic-question = Wat voegt een polaire laag in een lage baan toe aan GNSS, van Tromsø tot de Noordpool? (gemodelleerd)
+
+js-cat-leo-vertical-polar-arctic-title = Poolreis
+
+js-cat-leo-vertical-rail-maritime-question = Bereikt een passage in een lage baan de meegeleverde schip- en treinscenario's nog wanneer die GNSS verliezen? (gemodelleerd)
+
+js-cat-leo-vertical-rail-maritime-title = Spoor en scheepvaart met een laag in een lage baan
+
+js-cat-link-budget-question = Sluit de eenrichtingslink met marge bij de gegeven afstand en datasnelheid?
+
+js-cat-link-budget-title = Linkbudget
+
+js-cat-lunanet-araim-question = Voldoet een ijle set maanrelays aan de integriteitslimieten voor een ontvanger in het Artemis-gebied?
+
+js-cat-lunanet-araim-title = Maanintegriteit
+
+js-cat-lunar-attack-surface-question = Wat is er nodig om een ontvanger op het maanoppervlak te spoofen of te blokkeren, en welk authenticatiebudget biedt daar antwoord op? (gemodelleerd)
+
+js-cat-lunar-attack-surface-title = Aanvalsoppervlak op de Maan
+
+js-cat-lunar-beacon-question = In hoeverre doet een handvol opgemeten bakens op het oppervlak de DOP bij de zuidpool instorten? (gemodelleerd)
+
+js-cat-lunar-beacon-title = Bakens op het maanoppervlak
+
+js-cat-lunar-differential-pnt-question = In hoeverre heft differentiële correctie de gemeenschappelijke fout op tegenover de basislijn op de Maan? (gemodelleerd)
+
+js-cat-lunar-differential-pnt-title = Differentiële PNT op de Maan
+
+js-cat-lunar-frame-campaign-question = Welke datumnauwkeurigheid komt uit een waarneemcampagne in plaats van uit een geïnjecteerde transformatie? (gemodelleerd)
+
+js-cat-lunar-frame-campaign-title = Campagne voor het maanstelsel
+
+js-cat-lunar-frame-realisation-question = Kan een Helmert-datumfit een transformatie van het maanreferentiestelsel terugvinden? (gemodelleerd)
+
+js-cat-lunar-frame-realisation-title = Maanstelsel
+
+js-cat-lunar-infrastructure-carrier-phase-question = Kunnen een oppervlaktestation en een orbiter samen de geheeltallige draaggolffase-ambiguïteiten van Aarde-GNSS-signalen oplossen? De snelle voorbeeldrun. (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-lunar-infrastructure-carrier-phase-title = Draaggolffase op de Maan: oppervlaktestation en orbiter
+
+js-cat-lunar-infrastructure-frame-coestimation-question = Hoeveel meer informatie voegen afstanden tussen orbiter en oppervlaktestation toe aan de zeven parameters van het maandatum? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-lunar-infrastructure-frame-coestimation-title = Gezamenlijke schatting van het maanstelsel met orbiterlinks
+
+js-cat-lunar-infrastructure-geodesy-sensitivity-question = Hoe gevoelig zijn laserafstandsmeting, orbitertracking, een gravimeter en een oppervlakteklok voor h2, k2, l2 en de libratie? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-lunar-infrastructure-geodesy-sensitivity-title = Gevoeligheid voor Love-getallen en libratie van de Maan
+
+js-cat-lunar-infrastructure-od-consistency-model-error-question = Dezelfde vergelijking met een kleine niet-gemodelleerde versnelling erin geïnjecteerd: merkt de consistentiecontrole dat op? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-lunar-infrastructure-od-consistency-model-error-title = Baanbepaling bij de Maan, met een geïnjecteerde modelleringsfout
+
+js-cat-lunar-infrastructure-od-consistency-question = Komen baanbepaling aan boord met Aarde-GNSS in een maanhalobaan en onafhankelijke radiometrische baanbepaling vanaf de grond overeen binnen hun opgegeven onzekerheden? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-lunar-infrastructure-od-consistency-title = Baanbepaling bij de Maan: GNSS aan boord tegenover tracking vanaf de grond
+
+js-cat-lunar-infrastructure-space-tie-question = Hoe nauwkeurig kunnen de offsets tussen drie technieken worden gekoppeld, tegenover de fout van de lokale koppeling? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-lunar-infrastructure-space-tie-title = Koppeling in de ruimte: GNSS, VLBI en laserafstandsmeting op één ruimtevaartuig
+
+js-cat-lunar-interop-export-question = Kunnen maanstelsel, tijd en efemeride heen en terug via CCSDS OEM + een KIF-envelop?
+
+js-cat-lunar-interop-export-title = Interop-export voor de Maan
+
+js-cat-lunar-jamming-question = Hoe ver weg kan een jammer staan en toch een ontvanger op het maanoppervlak blokkeren? (gemodelleerd)
+
+js-cat-lunar-jamming-title = Jamming op de Maan
+
+js-cat-lunar-joint-od-clock-question = Maakt een VLBI-koppeling met een aardbasislijn de absolute positie van een maanstation waarneembaar? (gemodelleerd)
+
+js-cat-lunar-joint-od-clock-title = Gezamenlijke OD+klok op de Maan
+
+js-cat-lunar-llr-datum-question = Hoe ziet het maandatum eruit wanneer de campagne uit echte gearchiveerde maanlaserafstandsmetingen (LLR) bestaat? (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-lunar-llr-datum-title = Maandatum uit laserafstandsmeting
+
+js-cat-lunar-relay-constellation-question = Welke dekking geeft een relay- en navigatieconstellatie in bevroren en lage maanbanen over de hele Maan? (gemodelleerd; een voorbeeldontwerp)
+
+js-cat-lunar-relay-constellation-title = Relayconstellatie bij de Maan
+
+js-cat-lunar-station-coverage-public-sources-question = Welke gecorrigeerde fout geeft het station boven de zuidpool onder alleen de openbaar vermelde aannames? Het resultaat wordt bepaald door de baanelementen, die niet openbaar zijn en ILLUSTRATIEF zijn gesteld; dit is de invoer van de bevroren voorspelling. (gemodelleerd; geen uitspraak over enig echt systeem)
+
+js-cat-lunar-station-coverage-public-sources-title = Maanreferentiestation, openbare aannames
+
+js-cat-lunar-station-coverage-question = Welke gecorrigeerde fout geeft een maanreferentiestation boven het zuidpoolgebied gedurende een dag, en hoe ver van het station houdt de dekking stand? (gemodelleerd; geen uitspraak over enig echt systeem)
+
+js-cat-lunar-station-coverage-terrain-question = Hoeveel dekking verliest het station aan terrein, als de horizon van elke locatie met ray-marching over een echt maanhoogtemodel wordt bepaald? (gemodelleerd)
+
+js-cat-lunar-station-coverage-terrain-title = Maanstation met echt terrein
+
+js-cat-lunar-station-coverage-title = Dekking van een maanreferentiestation
+
+js-cat-lunar-station-geodesy-baseline-question = Hoe goed leggen de huidige vijf retroreflectorarrays het maandatum vast op een echt schema, voordat er een station wordt toegevoegd? De basislijn van een paar. (gemodelleerd; een run vastgelegd met de native engine)
+
+js-cat-lunar-station-geodesy-baseline-title = Geodesie met een maanstation: alleen de vijf arrays
+
+js-cat-lunar-station-geodesy-with-station-question = Hetzelfde gearchiveerde schema met één toegevoegde zuidpoolreflector en VLBI-baken: hoeveel wordt de grens van het datum strakker? (gemodelleerd, illustratieve locatie; een run vastgelegd met de native engine)
+
+js-cat-lunar-station-geodesy-with-station-title = Geodesie met een maanstation: met een station aan de zuidpool
+
+js-cat-lunar-station-time-lab-question = Hoe lang blijft de miniatuur-rubidiumklok van een station binnen 1, 10 en 100 ns nadat hij voor het laatst op maantijd is bijgestuurd, en welke foutterm domineert? (gemodelleerd)
+
+js-cat-lunar-station-time-lab-title = Tijdlaboratorium van een maanstation
+
+js-cat-lunar-time-budget-question = Hoe groot is het coördinatietijdverschil tussen Aarde en Maan, en wat is het foutenbudget daarvan? (gemodelleerd)
+
+js-cat-lunar-time-budget-title = Tijdbudget voor de Maan
+
+js-cat-lunar-time-offset-question = Hoe snel loopt een maanklok uiteen met de tijd op aarde (~56–59 µs/dag)?
+
+js-cat-lunar-time-offset-title = Tijdsverschil op de Maan
+
+js-cat-lunar-vlbi-fim-question = Welke nauwkeurigheid van stationscoördinaten levert een gegeven VLBI-trackingschema werkelijk op? (gemodelleerd)
+
+js-cat-lunar-vlbi-fim-title = VLBI-informatie voor de Maan
+
+js-cat-lunar-vlbi-question = Welke vertraging ziet een VLBI-paar met een aardbasislijn voor een baken op het maanoppervlak? (gemodelleerd)
+
+js-cat-lunar-vlbi-title = VLBI voor de Maan
+
+js-cat-maritime-port-approach-coast-question = Wanneer verlaat een INS van navigatieklasse bij het binnenvaren van een haven zonder GNSS het haven- en het oceaanbudget? (gemodelleerd)
+
+js-cat-maritime-port-approach-coast-title = Havenanadering op traagheid
+
+js-cat-maritime-spoof-position-push-question = Welke detectielagen betrappen een spoofer die de positiebepaling van een schip 500 m wegtrekt? (gemodelleerd)
+
+js-cat-maritime-spoof-position-push-title = Schippositie gespoofd
+
+js-cat-maritime-strait-jamming-question = Neemt een jammer van 50 W over 30 km open water het GNSS van een vaartuig weg? (gemodelleerd)
+
+js-cat-maritime-strait-jamming-title = Schip met jamming in een zeestraat
+
+js-cat-mars-orbit-pnt-question = Hoe goed wordt een Mars-orbiter in een lage baan gepositioneerd met twaalf navigatierelays, en wat voegt een afstandsmeting vanaf de aarde toe? (gemodelleerd)
+
+js-cat-mars-orbit-pnt-title = Mars-orbiter met relays en een aardlink
+
+js-cat-mars-pnt-lmo-question = Kan een MARCONI-relayconstellatie een gebruiker bij Mars navigeren? (kwaliteitsmaat van de covariantie, geen gecertificeerd PL)
+
+js-cat-mars-pnt-lmo-title = PNT bij Mars, lage baan
+
+js-cat-mars-pnt-surface-question = Hoe goed kan een lander of rover op het roterende Mars-oppervlak worden genavigeerd ten opzichte van de relayconstellatie?
+
+js-cat-mars-pnt-surface-title = PNT bij Mars, oppervlak
+
+js-cat-mars-pnt-transfer-question = Hoe goed wordt een voertuig op een hoge, excentrische naderings- of invangboog bij Mars genavigeerd?
+
+js-cat-mars-pnt-transfer-title = PNT bij Mars, overgang
+
+js-cat-meo-leo-fused-pvt-question = Wat doet het toevoegen van een laag in een lage baan aan GPS en Galileo met de positiefout en de geometrie? (gemodelleerd)
+
+js-cat-meo-leo-fused-pvt-title = Gefuseerde positiebepaling met GNSS en een lage baan
+
+js-cat-moonlight-service-volume-question = Welke DOP, dekking en integriteit geeft een constellatie van het type Moonlight/LCNS aan de zuidpool? (gemodelleerd)
+
+js-cat-moonlight-service-volume-title = Dienstvolume op de Maan
+
+js-cat-multi-band-jamming-waterfall-question = Wat laat een jammer voor één band overeind als navigatiesignalen over vier banden zijn verdeeld? (gemodelleerd)
+
+js-cat-multi-band-jamming-waterfall-title = Waterfall met jamming in meerdere banden
+
+js-cat-notinbrowser-elevation-model = Vereist het uitgesneden maanhoogtemodel ({ $path }) dat met de repository wordt meegeleverd, niet met de browserbuild.
+
+js-cat-notinbrowser-laser-ranging-data = Vereist het gearchiveerde fragment met laserafstandsgegevens dat met de repository wordt meegeleverd, niet met de browserbuild.
+
+js-cat-notinbrowser-study-suite = Een studiesuite, geen afzonderlijk scenario. Voer haar uit met het opdrachtregelprogramma: { $command }.
+
+js-cat-ntn-5g-positioning-question = Hoe nauwkeurig kan een toestel zichzelf positioneren uit een downlink van een niet-terrestrisch 5G-netwerk, per signaalbandbreedte? (gemodelleerd)
+
+js-cat-ntn-5g-positioning-title = Positionering via 5G-satellietdownlink
+
+js-cat-oem-interop-question = Kan een OEM-efemeride uit GMAT / Orekit / STK worden geïmporteerd en heen en terug worden gevoerd?
+
+js-cat-oem-interop-title = CCSDS OEM-brug
+
+js-cat-optical-atmosphere-network-question = Hoe vaak is een optische tijdsynchronisatielink beschikbaar door wolken en turbulentie, en wat leveren extra grondstations op? (gemodelleerd; illustratieve wolkenklimaten)
+
+js-cat-optical-atmosphere-network-title = Optische link door de atmosfeer, drie locaties
+
+js-cat-optical-atmosphere-techniques-question = Wat leveren een grotere apertuur, een andere golflengte of adaptieve optiek op voor één optische uplink bij wolken en turbulentie? (gemodelleerd; illustratief wolkenklimaat)
+
+js-cat-optical-atmosphere-techniques-title = Technieken voor optische links
+
+js-cat-orbit-gnss-challenged-question = Wanneer is een positiebepaling uit de satellietgeometrie überhaupt mogelijk?
+
+js-cat-orbit-gnss-challenged-title = GNSS-beschikbaarheid
+
+js-cat-orbit-molniya-question = Ziet een gebruiker in een sterk excentrische Molniya-baan nog genoeg GNSS-satellieten nabij het apogeum?
+
+js-cat-orbit-molniya-title = Molniya-gebruiker
+
+js-cat-orbit-multignss-question = Hoeveel verhogen GPS + Galileo samen de beschikbaarheid en hoeveel verkleinen ze de DOP?
+
+js-cat-orbit-multignss-title = Multi-GNSS-beschikbaarheid
+
+js-cat-orbit-real-tle-question = Welke dekking biedt een echte constellatie, gegeven als two-line element sets?
+
+js-cat-orbit-real-tle-title = Echte two-line elements
+
+js-cat-orbit-rinex-question = Welke beschikbaarheid komt uit een echte RINEX 3-uitzendefemeride?
+
+js-cat-orbit-rinex-title = Uitgezonden efemeride
+
+js-cat-orbit-sgp4-gps-question = Hoe propageert een echte GPS-achtige constellatie over een dag?
+
+js-cat-orbit-sgp4-gps-title = SGP4-banen
+
+js-cat-orbit-urban-canyon-skyline-question = Hoeveel van de dag geven GPS en Galileo onderaan een stadsstraat vier satellieten, en wat doet de strook lucht met de PDOP? (gemodelleerd; representatieve skyline)
+
+js-cat-orbit-urban-canyon-skyline-title = Beschikbaarheid in een stadsstraat
+
+js-cat-passes-question = Wanneer komt een satelliet boven een station op en gaat hij onder, en voor hoe lang?
+
+js-cat-passes-title = Grondpassages
+
+js-cat-polar-arctic-leo-coverage-question = Van de evenaar tot de pool, hoe veranderen satellieten in zicht en geometrie met alleen GNSS, alleen een polaire laag in een lage baan, en beide? (gemodelleerd)
+
+js-cat-polar-arctic-leo-coverage-title = Van evenaar tot pool
+
+js-cat-pvt-abmf-question = Kan een echte ontvangerpositie worden opgelost uit ruwe RINEX-metingen?
+
+js-cat-pvt-abmf-title = Positiebepaling (SPP)
+
+js-cat-quantum-anomaly-detect-question = Hoe goed worden fouten in kwantumsystemen gedetecteerd bij een vast percentage valse alarmen? (gemodelleerd)
+
+js-cat-quantum-anomaly-detect-title = Detectie van kwantumanomalieën
+
+js-cat-quantum-cai-coast-question = Hoe lang houdt een koude-atoominterferometer, gespecificeerd door zijn fysica, koppelnavigatie binnen 100 m nadat GNSS verloren is, tegenover een kwartsversnellingsmeter van navigatieklasse? (gemodelleerd)
+
+js-cat-quantum-cai-coast-title = Overbrugging met een kwantumversnellingsmeter
+
+js-cat-quantum-gnss-free-nav-question = Hoe ver drijft een koude-atoomnavigator weg tegenover een INS van navigatieklasse zonder GNSS? (gemodelleerd)
+
+js-cat-quantum-gnss-free-nav-title = Kwantumnavigatie zonder GNSS
+
+js-cat-quantum-pnt-demonstrator-suite-question = De drie kwantumtoepassingsgebieden als één studie (een studiesuite voor de opdrachtregel: kshana --study).
+
+js-cat-quantum-pnt-demonstrator-suite-title = Studie van een kwantum-PNT-demonstrator
+
+js-cat-quantum-time-transfer-question = Wat levert vertrouwde kwantumtijdsynchronisatie op ten opzichte van een klassieke CSAC + RF-keten? (gemodelleerd)
+
+js-cat-quantum-time-transfer-title = Kwantumtijdoverdracht
+
+js-cat-quantum-trade-question = Welke holdover voor tijd en traagheid levert een kandidaatklok op ten opzichte van een klassieke basislijn? (gemodelleerd)
+
+js-cat-quantum-trade-title = Afweging voor kwantum-PNT
+
+js-cat-rail-tunnel-coast-question = Hoe snel verlaat een INS van tactische klasse zijn budget bij 160 km/h door een tunnel? (gemodelleerd)
+
+js-cat-rail-tunnel-coast-title = Trein door een tunnel
+
+js-cat-realtime-frame-eop-question = Hoeveel stelselfout introduceert aardoriëntatie in realtime (voorspeld)? (gemodelleerd)
+
+js-cat-realtime-frame-eop-title = Realtime stelsel/EOP
+
+js-cat-reentry-question = Welke piek-g en welke snelheid bij piekverhitting ziet een ballistische terugkeer?
+
+js-cat-reentry-title = Terugkeercorridor
+
+js-cat-slot-timing-ocxo-leo-question = Hoe lang blijft een oven-gestuurde kristaloscillator op een kleine satelliet in een lage baan binnen zijn slotbewaking na de laatste GNSS-positiebepaling? (gemodelleerd)
+
+js-cat-slot-timing-ocxo-leo-title = Slottiming
+
+js-cat-small-uas-jammed-nav-question = Hoe ver drijft een traagheidseenheid van het type vluchtregelaar weg nadat een jammer GNSS heeft weggenomen, tegenover een van tactische klasse?
+
+js-cat-small-uas-jammed-nav-title = Kleine drone onder jamming
+
+js-cat-solar-system-tour-question = Waar is elk lichaam dat de engine kent, van de Zon tot Pluto en de grote manen, en hoe lang doet licht erover om ertussen te reizen?
+
+js-cat-solar-system-tour-title = Zonnestelsel op één epoch
+
+js-cat-space-packet-question = Worden CCSDS 133.0-pakketstromen bitexact gecodeerd en gedecodeerd?
+
+js-cat-space-packet-title = Space Packet
+
+js-cat-space-weather-question = Hoe verandert zonne- of geomagnetische activiteit de dichtheid van de thermosfeer? (gemodelleerd)
+
+js-cat-space-weather-title = Ruimteweer
+
+js-cat-spoof-attack-question = Wordt een oplopende tijdspoof opgemerkt voordat hij de specificatie bereikt?
+
+js-cat-spoof-attack-title = Spoofdetectie
+
+js-cat-spoof-detect-question = Kan een gefuseerde RF- en metingmonitor een gecoördineerde spoof opsporen?
+
+js-cat-spoof-detect-title = Spoofdetectie in meerdere lagen
+
+js-cat-spoof-meaconing-question = Hoe vaak vangt een kloksgestuurde energiedetector de spoof bij een vast percentage valse alarmen, met een expliciete aanvalsvorm?
+
+js-cat-spoof-meaconing-title = Statistieken van een spoofdetector
+
+js-cat-starlink-sop-doppler-positioning-question = Hoe goed kan een ontvanger zichzelf positioneren uit de Doppler van een breedbandconstellatie die geen navigatiebericht uitzendt? (gemodelleerd)
+
+js-cat-starlink-sop-doppler-positioning-title = Breedbandsignalen van gelegenheid
+
+js-cat-sweep-clock-stability-question = Hoe verandert holdover wanneer één klokparameter wordt gesweept?
+
+js-cat-sweep-clock-stability-title = Parametersweep
+
+js-cat-sweep-nd-inertial-question = Hoe varieert een kwaliteitsmaat over een raster met meerdere parameters?
+
+js-cat-sweep-nd-inertial-title = N-D-sweep
+
+js-cat-telecom-prtc-holdover-24h-question = Blijft een rubidiumreferentie die GNSS 24 uur verliest binnen de ITU-T-tijdfoutmaskers? (gemodelleerd)
+
+js-cat-telecom-prtc-holdover-24h-title = Telecomholdover, 24 uur
+
+js-cat-telecom-synce-eec-question = Blijft een vrijlopende oven-gestuurde oscillator binnen de wandermaskers voor de equipmentklok van synchrone Ethernet? (gemodelleerd)
+
+js-cat-telecom-synce-eec-title = Frequentiesynchronisatie tegenover SyncE-maskers
+
+js-cat-telecom-tie-ingest-question = Doorstaat een registratie van de tijdsintervalfout de ITU-T-maskers voor MTIE en TDEV?
+
+js-cat-telecom-tie-ingest-title = Controle van telecommaskers, uw gegevens
+
+js-cat-terrain-nav-question = Kan een hoogtemeter INS-drift corrigeren door een terreinhoogteprofiel te vergelijken?
+
+js-cat-terrain-nav-title = Terreinnavigatie
+
+js-cat-terrain-slam-question = Kan een deeltjesfilter een in de tijd variërende INS-drift volgen tegenover een terreinkaart?
+
+js-cat-terrain-slam-title = Terrein-SLAM
+
+js-cat-time-transfer-budget-question = Wat doen de termen van station, transponder, ionosfeer en Sagnac met een tweerichtingstijdsverschil, en wat is het onzekerheidsbudget ervan? (gemodelleerd)
+
+js-cat-time-transfer-budget-title = Tweerichtingstijdoverdracht via satelliet
+
+js-cat-timetransfer-question = Hoe strak kunnen twee locaties via een link gesynchroniseerd blijven?
+
+js-cat-timetransfer-title = Tijdoverdracht
+
+js-cat-tracking-loop-question = Bij welke C/N0 verliest een ontvanger werkelijk de vergrendeling, en kan een spoofer de lussen overnemen? (gemodelleerd)
+
+js-cat-tracking-loop-title = Volglus
+
+js-cat-xona-pulsar-end-to-end-question = Dezelfde keten op openbare Xona Pulsar-getallen: signaal, passage, bericht, gefuseerde positiebepaling en nauwkeurige positiebepaling. (gemodelleerd)
+
+js-cat-xona-pulsar-end-to-end-title = Van begin tot eind, Xona Pulsar
+
+js-cat-xona-pulsar-signals-question = Hoe nauwkeurig kan een ontvanger afstanden meten op de gepubliceerde X1- en X5-signalen, en hoe groot is de acquisitiezoekruimte? (openbare signaaltabel)
+
+js-cat-xona-pulsar-signals-title = Xona Pulsar-signalen
+
+js-geo-a-place = Een plaats…
+
+js-geo-axis-east = O +{ $ext } m
+
+js-geo-axis-north = N +{ $ext } m
+
+js-geo-canyon-needs = De vorm voor een straatcanyon vereist engine 0.36.
+
+js-geo-canyon-out-of-range = De waarden van de straatcanyon vallen buiten het bereik (azimut 0 tot 359.9°, breedte 1 tot 200 m, hoogten 0 tot 500 m, antenne 0 tot 50 m); er wordt een open horizon gebruikt.
+
+js-geo-canyon-reduced = De reductie van de canyon door de engine tot een tabel met 360 bins.
+
+js-geo-compute-failed = De engine kon deze hemel niet berekenen: { $reason }
+
+js-geo-computing = Berekenen…
+
+js-geo-copy-link = Kopieer deze link: { $url }
+
+js-geo-count-below = Onder de horizon
+
+js-geo-count-hidden = Verborgen door de skyline
+
+js-geo-count-in-view = In zicht
+
+js-geo-count-open-sky = Open hemel
+
+js-geo-count-used = In de oplossing
+
+js-geo-cursor-live = Azimut { $az }°, skyline { $el }°.
+
+js-geo-dated-sky = Een gedateerde hemel is slechts zo goed als de elementen en hun leeftijd; de voorinstellingen zijn weggelaten.
+
+js-geo-dop-geometric = geometrisch
+
+js-geo-dop-geometric-title = geometrische dilution of precision
+
+js-geo-dop-horizontal = horizontaal
+
+js-geo-dop-horizontal-title = horizontale dilution of precision
+
+js-geo-dop-position = positie, 3D
+
+js-geo-dop-position-title = positie, 3D-dilution of precision
+
+js-geo-dop-time = tijd
+
+js-geo-dop-time-title = tijd-dilution of precision
+
+js-geo-dop-vertical = verticaal
+
+js-geo-dop-vertical-title = verticale dilution of precision
+
+js-geo-east = O
+
+js-geo-engine-not-running = De engine draait niet in deze browser ({ $reason }).
+
+js-geo-err-geometry-object = het geometrieantwoord van de engine is geen object
+
+js-geo-err-mc-object = het Monte Carlo-antwoord van de engine is geen object
+
+js-geo-err-no-sentences = het antwoord van de engine bevat geen zinnen
+
+js-geo-err-reply-kind-not-json = het antwoord van de engine over { $what } was geen JSON
+
+js-geo-err-reply-not-json = het antwoord van de engine was geen JSON
+
+js-geo-error-line = Met σ_UERE = { $uere } m, onder het opgegeven foutmodel (cijfers van de engine): { $bits }.
+
+js-geo-error-line-needs = Positiefout ≈ σ_UERE × HDOP horizontaal en σ_UERE × VDOP verticaal; deze waarde vereist engine 0.36.
+
+js-geo-error-rms-3d = 3D-RMS σ_UERE × PDOP = { $m } m
+
+js-geo-error-rms-h = horizontale RMS σ_UERE × HDOP = { $m } m
+
+js-geo-error-sigma = 1-sigmafout oost { $east } m, noord { $north } m
+
+js-geo-fact-ellipse-1s = Ellips, 1-sigma
+
+js-geo-fact-ellipse-1s-value = { $major } m × { $minor } m, lange as { $deg }° vanaf het noorden
+
+js-geo-fact-ellipse-pct = Ellips, { $pct } %
+
+js-geo-fact-ellipse-pct-scaled = { $major } m × { $minor } m (1-sigma × { $k })
+
+js-geo-fact-ellipse-pct-value = { $major } m × { $minor } m
+
+js-geo-fact-inside = Binnen de 95 %-ellips
+
+js-geo-fact-inside-value = { $pct } % van de punten
+
+js-geo-fact-line = { $key }: { $value }.
+
+js-geo-fact-mc = Monte Carlo
+
+js-geo-fact-mc-value = { $n } kleinstekwadratenoplossingen, seed { $seed }
+
+js-geo-fact-rms-3d = Wolk-RMS, 3D
+
+js-geo-fact-rms-3d-beside = { $rms } m, naast σ_UERE × PDOP = { $predicted } m
+
+js-geo-fact-rms-h = Wolk-RMS, horizontaal
+
+js-geo-fact-rms-h-beside = { $rms } m, naast σ_UERE × HDOP = { $predicted } m
+
+js-geo-fact-rms-value = { $rms } m
+
+js-geo-gj-not-geojson = { $name }: geen GeoJSON (een FeatureCollection, Feature of geometrie werd verwacht).
+
+js-geo-gj-not-json = { $name }: geen JSON ({ $reason }).
+
+js-geo-gj-not-object = { $name }: geen GeoJSON-object.
+
+js-geo-gj-too-many =
+    { $name }: { $count ->
+        [one] { $count } object
+       *[other] { $count } objecten
+    }; deze pagina tekent er ten hoogste { $max }.
+
+js-geo-legend-item = { $label }: { $used } in de oplossing van { $total }
+
+js-geo-link-copied = Link gekopieerd.
+
+js-geo-link-copied-no-tle = Link gekopieerd (zonder uw geplakte elementen: een link opent de voorinstellingen).
+
+js-geo-mc-off = Uit
+
+js-geo-missing-ellipse = de foutellips
+
+js-geo-missing-gdop = GDOP
+
+js-geo-missing-leo = LEO
+
+js-geo-missing-monte-carlo = de Monte Carlo-wolk
+
+js-geo-missing-open-sky = het aandeel open hemel
+
+js-geo-missing-skyline = de skyline
+
+js-geo-missing-tdop = TDOP
+
+js-geo-needs = vereist engine 0.36
+
+js-geo-needs-cap = Vereist engine 0.36
+
+js-geo-no = Nee
+
+js-geo-no-ellipse = Geen ellips
+
+js-geo-no-sats = Geen satellieten om te tonen.
+
+js-geo-north = N
+
+js-geo-not-given = niet opgegeven
+
+js-geo-note-elements-skipped =
+    { $count ->
+        [one] { $count } elementenset is overgeslagen: { $list }.
+       *[other] { $count } elementensets zijn overgeslagen: { $list }.
+    }
+
+js-geo-note-latitude-limited = Deze enginebuild modelleert locaties binnen 89° van de evenaar; de breedtegraad is daartoe beperkt.
+
+js-geo-note-leo-left-out = LEO: vereist engine 0.36; weggelaten.
+
+js-geo-note-no-engine = De engine draait niet in deze browser, dus er is niets te tonen. Hij draait als WebAssembly; een browser of host die WebAssembly blokkeert kan deze weergave niet uitvoeren.
+
+js-geo-note-pick-one = Kies ten minste één van GPS, Galileo en BeiDou.
+
+js-geo-note-skyline-not-applied = De skyline wordt getekend maar niet toegepast: toepassen vereist engine 0.36. Satellieten erachter tellen hier nog mee.
+
+js-geo-note-skyline-source = Skyline: { $source }.
+
+js-geo-note-training-model = Engine { $version }, trainingshemelmodel (nmea_training) op { $instant }: hoeken in hele graden en DOP's op één decimaal, zoals ontvangerzinnen ze dragen; de positiebepaling gebruikt ten hoogste 12 satellieten, gekozen op signaalsterkte.
+
+js-geo-note-unknown-systems =
+    { $count ->
+        [one] { $count } satellietrecord van een systeem dat deze weergave niet tekent is weggelaten.
+       *[other] { $count } satellietrecords van een systeem dat deze weergave niet tekent zijn weggelaten.
+    }
+
+js-geo-off-leo = LEO: vereist engine 0.36.
+
+js-geo-off-monte-carlo = De Monte Carlo-wolk vereist engine 0.36.
+
+js-geo-off-skyline = Een skyline toepassen vereist engine 0.36: hier wordt hij alleen getekend.
+
+js-geo-offset-own = Offset ten opzichte van de epoch van uw elementen ({ $epoch })
+
+js-geo-offset-ref = Offset ten opzichte van de referentie-epoch van de constellaties
+
+js-geo-open-sky-share = { $pct } % van het bovenste halfrond
+
+js-geo-out-of-range = Buiten het bereik, daarom op de laatste goede waarde gehouden: { $names }.
+
+js-geo-own-elements-at = Uw eigen elementen op { $epoch }.
+
+js-geo-pick-constellation = Kies ten minste één constellatie.
+
+js-geo-place-geiranger = Geirangerfjord, Noorwegen
+
+js-geo-place-manhattan = Midtown Manhattan, Verenigde Staten
+
+js-geo-place-oslo = Haven van Oslo, Noorwegen
+
+js-geo-place-rotterdam = Haven van Rotterdam, Nederland
+
+js-geo-place-singapore = Straat van Singapore
+
+js-geo-place-tallinn = Haven van Tallinn, Estland
+
+js-geo-place-tromso = Tromsø, Noorwegen
+
+js-geo-plot-desc =
+    { $total ->
+        [one] { $total } satelliet in de plot, { $used } in de oplossing.
+       *[other] { $total } satellieten in de plot, { $used } in de oplossing.
+    }
+
+js-geo-preset-illustrative = Illustratieve omtrek getekend door deze pagina; een skyline toepassen vereist engine 0.36.
+
+js-geo-ready = Gereed.
+
+js-geo-ready-needs = Gereed. Vereist engine 0.36: { $list }.
+
+js-geo-sat-masked = { $label } { $id }: azimut { $az }°, elevatie { $el }°, verborgen door de skyline
+
+js-geo-sat-unused = { $label } { $id }: azimut { $az }°, elevatie { $el }°, niet gebruikt
+
+js-geo-sat-used = { $label } { $id }: azimut { $az }°, elevatie { $el }°, in de oplossing
+
+js-geo-scenarios-under = De scenario's van de engine onder deze skyline:
+
+js-geo-sky-canyon = Straatcanyon
+
+js-geo-sky-drawn = Getekend op de skyplot
+
+js-geo-sky-open = Open horizon
+
+js-geo-sky-preset = Voorinstelling: { $name }
+
+js-geo-sky-source = Hemel: { $source }.
+
+js-geo-skyline-city-street = Stadsstraat
+
+js-geo-skyline-container = Containerterminal
+
+js-geo-skyline-fjord = Fjord
+
+js-geo-skyline-harbour = Havenanadering
+
+js-geo-skyline-load-failed = De skyline kon niet worden geladen ({ $reason }).
+
+js-geo-skyplot-downloaded = Skyplot gedownload.
+
+js-geo-skyplot-export-failed = De skyplot kon niet worden geëxporteerd ({ $reason }).
+
+js-geo-source-geometry = Kshana-engine { $version }, sky_geometry
+
+js-geo-source-line = { $source }.
+
+js-geo-source-training = Kshana-engine { $version }, trainingshemelmodel
+
+js-geo-south = Z
+
+js-geo-style-own-elements = Uw elementen
+
+js-geo-svg-refused = de SVG van de engine werd geweigerd
+
+js-geo-table-count =
+    { $n ->
+        [one] { $n } satelliet, hetzelfde als de skyplot.
+       *[other] { $n } satellieten, hetzelfde als de skyplot.
+    }
+
+js-geo-tle-epoch = Geef een UTC-epoch van 2000 tot 2099.
+
+js-geo-tle-paste-first = Plak eerst een of meer two-line element sets.
+
+js-geo-tle-too-large = De geplakte elementen zijn groter dan 4 MiB, de invoerlimiet van de engine.
+
+js-geo-used-masked = Nee: verborgen door de skyline
+
+js-geo-using-own = Uw eigen elementen worden gebruikt. Een link bevat alleen dát u ze hebt gebruikt, niet de elementen zelf.
+
+js-geo-wasm-blocked = WebAssembly is geblokkeerd
+
+js-geo-west = W
+
+js-geo-why = Waarom
+
+js-geo-why-interim = De foutellips en de Monte Carlo-wolk vereisen engine 0.36 (de functies sky_geometry en sky_monte_carlo); de engine in deze pagina is ouder.
+
+js-geo-why-no-ellipse = De engine gaf geen ellips voor deze geometrie (te weinig satellieten voor een positiebepaling, of een singuliere geometrie).
+
+js-geo-why-no-ellipse-reason = De engine gaf geen ellips voor deze geometrie (te weinig satellieten voor een positiebepaling, of een singuliere geometrie): { $reason }.
+
+js-geo-why-waiting = Wachten op de engine.
+
+js-geo-yes = Ja
+
+js-hold-axis-seconds = seconden vanaf het eerste sample
+
+js-hold-axis-tau = observatietijd τ, s (log)
+
+js-hold-axis-te = tijdfout, ns
+
+js-hold-band-title = Herstelband ±{ $band } ns
+
+js-hold-blurb-example = Samples elke 5 s: 600 s vergrendeld, GNSS verwijderd op 600 s, holdover, GNSS hersteld op 2400 s. De registratie is gegenereerd voor het voorbeeld; het is geen meting.
+
+js-hold-blurb-ptp4l = Dezelfde vier stappen gelezen uit een ptp4l-servolog (de eigen offset van de daemon, in ns). De log is geschreven voor het voorbeeld; er draaide geen daemon.
+
+js-hold-budget-exceeded = { $name } voor het eerst overschreden { $s } s na verwijdering
+
+js-hold-chip-baseline = Basislijn tegenover zijn maskers
+
+js-hold-chip-envelope = ePRTC-A-holdoveromhullende
+
+js-hold-chip-holdover = Holdover tegenover zijn maskers
+
+js-hold-chip-measured = gemeten tegenover het masker
+
+js-hold-chip-recovery = Herstel
+
+js-hold-chip-words = Woorden
+
+js-hold-curve-title = { $step }: { $which }, ns
+
+js-hold-curves-aria = { $which } tegenover observatietijd, met de maskerlimieten
+
+js-hold-envelope-exceeded = ePRTC-A-holdoveromhullende voor het eerst overschreden { $s } s na verwijdering
+
+js-hold-envelope-exceeded-short = { $verdict }, voor het eerst overschreden { $s } s na verwijdering (de registratie is korter dan de periode van de omhullende)
+
+js-hold-envelope-exceeded-value = { $verdict }, voor het eerst overschreden { $s } s na verwijdering
+
+js-hold-envelope-short = { $verdict } (de registratie is korter dan de periode van de omhullende)
+
+js-hold-file-error = { $name }: { $error }.
+
+js-hold-file-not-json = { $name }: geen JSON.
+
+js-hold-file-read-here = { $name }, hier gelezen; er is niets geüpload.
+
+js-hold-file-too-large = { $name } is groter dan deze pagina leest.
+
+js-hold-from-record = de registratie van het resultaat
+
+js-hold-from-record-decimated = de registratie van het resultaat, uitgedund tot { $have } van { $total } samples
+
+js-hold-gnss-removed = GNSS verwijderd
+
+js-hold-gnss-removed-stated = GNSS verwijderd (opgegeven door de operator)
+
+js-hold-gnss-restored = GNSS hersteld
+
+js-hold-gnss-restored-stated = GNSS hersteld (opgegeven door de operator)
+
+js-hold-largest-at = { $value } op T+{ $time } s
+
+js-hold-limit-label = ±{ $ns } ns { $step }-masker
+
+js-hold-limit-title = { $id }: ±{ $ns } ns, de maximale absolute tijdfout in de stap { $step }
+
+js-hold-mark-title = { $id }-limiet { $limit } ns bij τ { $tau } s ({ $verdict }; { $source })
+
+js-hold-marker-time = { $name }, T+{ $time } s
+
+js-hold-na = n.v.t.
+
+js-hold-no-curve = Geen tijdfoutcurve: de registratie kon niet worden gereproduceerd om te tekenen.
+
+js-hold-no-which-curve = Geen { $which }-curve in dit resultaat.
+
+js-hold-not-exceeded = niet overschreden
+
+js-hold-not-recovered = bleef niet binnen de band
+
+js-hold-not-result = dit is geen resultaat van een holdover-test
+
+js-hold-open-failed = { $title } kon niet worden geopend: { $reason }.
+
+js-hold-opening = { $title } wordt geopend…
+
+js-hold-phase-baseline = Basislijn: vergrendeld
+
+js-hold-phase-holdover = Holdover: GNSS verwijderd
+
+js-hold-phase-recovery = Herstel: GNSS hersteld
+
+js-hold-phase-title = { $phase }, T+{ $from } s tot { $to } s
+
+js-hold-read-failed = Kon niet worden gelezen of getekend ({ $reason }).
+
+js-hold-recorded = { $title }: het vastgelegde resultaat van de engine (versie { $version }).
+
+js-hold-recovered = binnen ±{ $band } ns gedurende { $dwell } s, { $after } s nadat GNSS terugkeerde
+
+js-hold-result-not-json = het resultaat is geen JSON ({ $reason })
+
+js-hold-result-not-loaded = het vastgelegde resultaat is niet geladen
+
+js-hold-row-envelope = ePRTC-A-holdoveromhullende
+
+js-hold-row-frequency = Vastgehouden frequentie-offset (gefitte helling)
+
+js-hold-row-largest = Grootste absolute tijdfout
+
+js-hold-row-length = Duur van de holdover
+
+js-hold-row-margin = Kleinste marge binnen de omhullende
+
+js-hold-row-peak = Piek na herstel
+
+js-hold-row-recovery = Herstel
+
+js-hold-row-recovery-step = Grootste stap tijdens het herstel
+
+js-hold-row-residual = Residu rond die lijn (rms)
+
+js-hold-row-step = Stap op het moment van verwijdering
+
+js-hold-status-final = { $status } { $label }; gemeten tegenover het masker.
+
+js-hold-step-span = T+{ $from } tot { $to } s
+
+js-hold-te-aria = Tijdfout over de registratie, met de fasen en de maskerlimieten
+
+js-hold-te-line-title = Tijdfout, ns
+
+js-hold-te-note = Tijdfout vanaf { $from }. De twee tijdstippen zijn opgegeven door { $by }.
+
+js-hold-th-budget = Budget
+
+js-hold-th-budget-limit = Limiet |TE|, ns
+
+js-hold-th-first-exceeded = Eerst overschreden na verwijdering, s
+
+js-hold-th-largest = Grootste |TE|, ns
+
+js-hold-th-limit = Limiet, ns
+
+js-hold-th-margin = Marge, ns
+
+js-hold-th-mask = Masker
+
+js-hold-th-mean = Gemiddelde, ns
+
+js-hold-th-measured-on = Gemeten op
+
+js-hold-th-metric = Maat
+
+js-hold-th-rms = RMS, ns
+
+js-hold-th-samples = Samples
+
+js-hold-th-source = Bron
+
+js-hold-th-span = Bereik
+
+js-hold-th-step = Stap
+
+js-hold-th-value = Waarde, ns
+
+js-hold-th-verdict = Oordeel
+
+js-hold-th-worst-at = Slechtst bij τ of T+, s
+
+js-hold-title-example = Een tijdfoutregistratie
+
+js-hold-title-ptp4l = Een linuxptp-log
+
+js-hold-why-no-samples = het resultaat bevat geen tijdfoutsamples (record.series), dus er wordt geen curve getekend
+
+js-hold-why-not-series = de reeks in het resultaat is geen tijdreeks (minder dan twee samples, of de tijd neemt niet toe), dus er wordt geen curve getekend
+
+js-hold-why-sentence = { $why }.
+
+js-hold-why-too-many = de reeks in het resultaat heeft { $have } samples waar de engine { $scored } scoorde, dus er wordt geen curve getekend
+
+js-interf-attribution = Toeschrijving
+
+js-interf-build-failed = { $name }: kon niet worden opgebouwd ({ $reason }).
+
+js-interf-built-day-maps =
+    { $n ->
+        [one] { $n } dagkaart opgebouwd uit { $name } met engine { $version }, in deze browser.
+       *[other] { $n } dagkaarten opgebouwd uit { $name } met engine { $version }, in deze browser.
+    }
+
+js-interf-built-detail = { $date }: { $published } cellen gepubliceerd, { $flagged } gemarkeerd
+
+js-interf-built-from-sample = Opgebouwd uit het synthetische voorbeeld { $kind } met de engine, in deze browser. Verzonnen meldingen; geen echt vliegtuig, vaartuig of echte dag.
+
+js-interf-built-maps =
+    { $n ->
+        [one] { $n } kaart opgebouwd ({ $detail }). Alleen geaggregeerd: een gemarkeerde cel noemt interferentie niet als oorzaak.
+       *[other] { $n } kaarten opgebouwd ({ $detail }). Alleen geaggregeerd: een gemarkeerde cel noemt interferentie niet als oorzaak.
+    }
+
+js-interf-built-none = { $name }: de engine bouwde geen kaart.
+
+js-interf-caveat-coverage = De dekking volgt de gegevensbron; lees de opmerkingen over de dekking.
+
+js-interf-caveat-no-colour = Een cel zonder kleur is niet waargenomen. Het is geen bewijs dat het gebied vrij was.
+
+js-interf-caveat-not-finding = Een gedegradeerde of afwijkende cel is geen constatering van interferentie. Er zijn andere oorzaken.
+
+js-interf-caveat-past-reports = Dit is een beschrijving van eerdere positiemeldingen, geen voorspelling en geen meting van enige ontvanger.
+
+js-interf-caveats = Kanttekeningen
+
+js-interf-cell-size-rule = De celgrootte moet een aantal graden boven 0 en ten hoogste 10 zijn, of leeg voor 0.5.
+
+js-interf-check-failed = { $name }: kon niet worden gecontroleerd ({ $reason }).
+
+js-interf-click-cell = Klik op een cel, of focus de kaart en gebruik de pijltjestoetsen, om de cijfers ervan te zien.
