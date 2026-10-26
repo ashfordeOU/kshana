@@ -13,3 +13,7 @@ seg-88372b30ed79 = Grense
 seg-50fffd444946 = { "100" } ns
 
 seg-79e6a31245f2 = { "400" } ns
+
+seg-f63dd3d7aad4 = Kilde
+
+seg-587beeccaa11 = Forhåndsinnstilling

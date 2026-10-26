@@ -2485,3 +2485,7 @@ seg-68caf86157c2 = ROS { "2" }-pakke for receiver-trust og gnss_lib_py-bro
 seg-e7d7d99fe538 = En ROS-fri bro som skriver posisjons- og satellittmeldinger som NMEA og skårer dem gjennom Python-bindingen (integrations/ros2/kshana_trust), og en bro fra gnss_lib_py NavData til receiver-trust gjennom formatet rtklib-pos (integrations/gnss_lib_py).
 
 seg-05ded40b17d2 = Ingen ekstern: ROS-noden ble ikke kjørt på en levende ROS { "2" }-graf, og feltnavnene i ublox_ubx_msgs ble ikke kontrollert mot en kjørende driver. gnss_lib_py (MIT) ble kjørt for brotesten
+
+seg-c3c260b7063e = Tester
+
+seg-417a52c9c154 = PDF
