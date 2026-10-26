@@ -27,3 +27,21 @@ seg-5a70fcb097dc = 可选字段：无
 seg-bb07c8ee153f = <b>PARTNER</b> 不提供——仅有性能模型；冷原子/时钟硬件由合作方负责。参考基准（oracle，NoneKind）：无：由合作方负责的领域，按设计既没有模块也没有测试
 
 seg-8b701f465117 = 对数
+
+seg-792218eac075 = 来源：<c1/>
+
+seg-c7e5582d0b24 = <c1/>（场景类型）
+
+seg-4f19d4fb1341 = 通过点分 TOML 键/JSON 指标路径，对任意包进行的通用 N 维扫描。
+
+seg-cd907c72698b = <c1/> 的一次运行汇总为：generic sweep of <c2/> over [threshold_m, accel_classical.bias] | { "15" } nodes (shape [{ "5" }, { "3" }]) | metrics [classical.fom.holdover_s, classical.fom.pos_rms_m]
+
+seg-502ba2c57a5f = 必填字段：<c1/>、<c2/>、<c3/>
+
+seg-c372e390bb4f = 示例 <c1/> 设置了以下各项（节选）：
+
+seg-621a18c07044 = 引擎为 scenarios/sweep-nd-inertial.toml（场景类型 sweep-nd）生成的图表
+
+seg-ce006a6715e9 = <s1>上一页</s1>spoof
+
+seg-b9f8771ffd3d = <s1>下一页</s1>sweep

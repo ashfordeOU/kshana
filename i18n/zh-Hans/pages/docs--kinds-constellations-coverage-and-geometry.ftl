@@ -15,3 +15,69 @@ seg-899e728ad9bd = 引擎为 scenarios/leo-pnt-mega-shell.toml（类型 constell
 seg-24266bc264df = 星历与星下点轨迹：传播一颗卫星（TLE→SGP4 或解析轨道），输出其 TEME/GCRS 状态（位置 + 速度）、ITRF/ECEF 位置、WGS-84 星下点纬度/经度/高度，以及逐步长的测站方位角/高度角/距离和距离变化率（多普勒）。卫星来自 <c1/>，或来自带 <c3/> 的解析 <c2/>（两者同时给出时以 <c4/> 为准）；给出 <c5/> 时，<c6/> 取代 TLE 自身的历元作为 t = { "0" }。
 
 seg-0fd3c58fde09 = 引擎为 scenarios/ephemeris.toml（类型 ephemeris）生成的图表
+
+seg-4e31c8daf798 = 台账
+
+seg-44bbec836934 = 来源：<c1/>
+
+seg-34a6079984a7 = 星座、覆盖与几何（场景类型族）
+
+seg-6800289a282d = { "7" } 个场景类型，来自引擎 v{ $version }。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处的每个标签都来自引擎或验证矩阵；除非矩阵另有说明，否则某个类型为 MODELLED（标签如何获得，见 README 的“证据”一节）。
+
+seg-d95cc2c1e798 = 专题页面：<a1>CONSTELLATION-DESIGN</a1>、<a2>COVERAGE</a2>、<a3>SOLAR-SYSTEM</a3>、<a4>SKYLINE</a4>。运行一个：<c1/>。所有类型族：<a5>KINDS.md</a5>。
+
+seg-f044822c2fab = 引擎为“星座、覆盖与几何”类型族的各类型生成的图表缩略总览
+
+seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
+
+seg-e2450f89bcc6 = 星历与星下点轨迹：传播一颗卫星（TLE→SGP4 或解析轨道），输出其 TEME/GCRS 状态（位置 + 速度）、ITRF/ECEF 位置、WGS-84 星下点纬度/经度/高度，以及每步的
+
+seg-d021c1b23dbc = 大规模星座设计：i: T/P/F 约定下的 Walker DELTA 和 Walker STAR 构型（节点分布在 { "360" } 或 { "180" } 度上，面内间隔 { "360" }<em>P/T，面间相位偏移 { "360" }</em>F/T），显式
+
+seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
+
+seg-f6914ea43dba = 某一历元的整个太阳系，用于任意天体周围的 PNT（定位、导航与授时）。
+
+seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
+
+seg-d71a07d8a59e = 任意太阳系天体周围的定位：围绕按名称选定的中心天体（火星、月球、木卫二、木卫三、土卫六及太阳系目录中的其余天体）运行的轨道器或表面着陆器，导
+
+seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
+
+seg-f6b22521b4a4 = 深空火星 PNT：一个模拟的 MARCONI 中继星座（火星静止轨道 + 倾斜轨道中继星，向深空站单向广播 + 双向转发）为一个参考用户导航（转移 / l
+
+seg-cc85d9962c25 = 地面站过境预测：圆轨道的时域可见过境（AOS/TCA/LOS、最大视仰角、时长），以窗口起点处的 SGP4 平均根数表示，针对一个站点，高
+
+seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
+
+seg-a7bd3325080c = 必填字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>。可选字段：<c9/>、<c10/>、<c11/>、<c12/>、<c13/>、<c14/>、<c15/>。
+
+seg-5e8a5e611ba9 = <b>台账：</b>MODELLED { "4" } · VALIDATED { "4" }。完整页面（含输入、结果、证据与局限）：<a1>orbit</a1>。
+
+seg-968c1512151e = 必填字段：<c1/>。可选字段：<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>。
+
+seg-8c5e41cef6fd = <b>台账：</b>VALIDATED。完整页面（含输入、结果、证据与局限）：<a1>ephemeris</a1>。
+
+seg-47aaf1afd6ec = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>、<c12/>、<c13/>、<c14/>、<c15/>。
+
+seg-bacf2a133146 = <b>台账：</b>MODELLED { "1" } · VALIDATED { "2" }。完整页面（含输入、结果、证据与局限）：<a1>constellation-design</a1>。
+
+seg-e99c2a83034e = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>。
+
+seg-d91ded1df3a2 = <b>台账：</b>MODELLED { "2" } · VALIDATED { "3" }。完整页面（含输入、结果、证据与局限）：<a1>solar-system</a1>。
+
+seg-fe02605b130e = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>。
+
+seg-12bc4b4b4631 = <b>台账：</b>MODELLED { "1" } · VALIDATED { "1" }。完整页面（含输入、结果、证据与局限）：<a1>body-pnt</a1>。
+
+seg-bee590b4c9e7 = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>。
+
+seg-c0394ad71cfe = <b>台账：</b>MODELLED。完整页面（含输入、结果、证据与局限）：<a1>mars-pnt</a1>。
+
+seg-352823f8c5ac = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>、<c12/>、<c13/>、<c14/>、<c15/>、<c16/>。
+
+seg-bb4fa18e50a6 = <b>台账：</b>MODELLED { "2" } · VALIDATED { "2" }。完整页面（含输入、结果、证据与局限）：<a1>passes</a1>。
+
+seg-490ec99e2a38 = <s1>上一页</s1>时钟、授时与守时
+
+seg-90ff7426b999 = <s1>下一页</s1>GNSS 测量、定位与完好性
