@@ -247,3 +247,65 @@ seg-367ac9b4a8a6 = Wat `kshana imu-fit` afleest uit een stilstaand IMU-log, uit 
 seg-e127f2f26824 = Gelezen
 
 seg-26ab8544afba = Vertrouwensscore over één synthetische overtocht, uit een echte run van engine v{ $version } op examples/maritime-trust (een verzonnen NMEA-log van een veerboot op de route Tallinn-Helsinki, { "3001" } epochs bij { "1" } Hz). Drie banen delen één tijdas. Boven: de afstand tussen de positie die de ontvanger meldt en de werkelijke positie van het vaartuig, die tot ongeveer { "1576" } s binnen enkele meters blijft, wanneer de gescripte positie-drag-off van het log haar wegtrekt, terwijl de ontvanger een geldige positiebepaling blijft melden. Midden: de vertrouwensscore van { "0" } tot { "100" }, niet berekend tijdens de eerste { "300" } s kalibratie, in de band nominal (ten minste { "90" }) tot aan de drag-off, daarna dalend door de band degraded (ten minste { "55" }) naar de band untrusted. Onder: de band van elke epoch als een gekleurd lint met zijn naam. De score is adviserend. Adviserende software, geen typegoedgekeurde navigatieapparatuur (IEC { "61108" }, IEC { "61162" }): de gezagvoerder of exploitant blijft verantwoordelijk voor de navigatie van het vaartuig. Het log is verzonnen om het formaat en de monitors te tonen; het is geen meting en zegt niets over hoe enige ontvanger zou presteren.
+
+seg-a683980168f7 = Docker
+
+seg-f3a2279d6df7 = Opdracht of knop
+
+seg-20c5ae650eb7 = Vereist
+
+seg-af4d3ce85e11 = Vastgepinde vorm
+
+seg-0fdd85a80584 = <a1>npx (Node)</a1> · <a2>Docker</a2>
+
+seg-b02bdf7c7661 = Node, of Docker
+
+seg-de23dcdd2647 = <a1>npx (Node)</a1> · <a2>Docker</a2> · <a3>Insiders (npx)</a3>
+
+seg-abf8b5fe685a = Node { "18" }+
+
+seg-06299cefbf9e = Python { "3.9" }+ met uv of pipx
+
+seg-26795c302f8a = brew
+
+seg-ded975fa67fa = formula voor v{ $version }
+
+seg-667d6dde705b = <c1/> en daarna <c2/>
+
+seg-f6e9fc5f46fe = Scoop (Windows)
+
+seg-bc4762d20004 = manifest voor v{ $version }
+
+seg-f7c0a2fbb0b5 = winget
+
+seg-9e599ab3c0a3 = winget (Windows)
+
+seg-091d1404bb8a = cargo
+
+seg-145ddf98e77f = Rust { "1.88" }+
+
+seg-b308519d4c8d = <a1>de releasepagina</a1>: <c1/> (Linux x86-64), <c2/>, gecontroleerd met <c3/> en <c4/>
+
+seg-c39cac69f700 = v{ $version }
+
+seg-e8f5e2b6580b = <c1/> (gevonden door clients die het register gebruiken)
+
+seg-b1a6e807f06f = een client die het register gebruikt
+
+seg-d5a3818ac3b6 = Op afstand (streamable HTTP)
+
+seg-5f1397b1ea30 = uw eigen host
+
+seg-81a87d14efda = Kshana: het merkteken, een kompasvizier dat het precieze moment markeert, naast het woordmerk kshana
+
+seg-27698c80b7f1 = De gepubliceerde Jammertest-testcatalogus en zendplanning (NPRA/jammertest-plan, MIT) lezen als geplande referentie (<c1/>): de slots van één testgebied worden ontvangervertrouwen-gebeurtenissen met de catalogus-id en het jaar in elk label. Geplande slots, geen opgenomen uitzendtijden; er wordt geen contactveld van het plan gelezen. MODELLED. Zie <a1><c2/></a1>.
+
+seg-23daf6121ca0 = Een ontvangerlog scoren tegen die planning (<c1/>): per test de detectielatentie, gemiste alarmen en hersteltijd, en de valse alarmen buiten elk slot. Tekstlogs als <c2/>, binaire (<c3/>, <c4/>) als <c5/>. Een ondertekend pakket vereist een sleutel: opdrachtregel. Alleen adviserend; MODELLED.
+
+seg-2b82a8a22298 = Versnellingsmeter- en gyroparameters van de scenario's <c1/> en <c2/>, gefit uit een stilstaand IMU-log (CSV of EuRoC) met Allan-deviatie, met een kant-en-klare tabel <c3/> om te plakken en de SHA-256 van het log (<c4/>). Tekst erin, JSON eruit; MODELLED.
+
+seg-b6abad1f2c9d = Een kshana-bench-inzending gescoord tegen een referentiebestand, beide JSON-tekst (<c1/>, <c2/>): het resultaatbestand met de specificatieversie, de split, de invoerhashes en de metrieken van de taak. MODELLED; beschrijft een log of corpus, nooit een product.
+
+seg-c7a0d7981bfd = kshana-bench-resultaatbestanden weergegeven als de statische ranglijstpagina (HTML-tekst), elk eerst gevalideerd.
+
+seg-57f592bb676b = De MCP-server installeren
