@@ -23,3 +23,5 @@ seg-2c53381d48ae = Horizontale foutellips en cofactor per systeem uit de geometr
 seg-de6c33774c9c = CLI
 
 seg-d1e9715513b4 = Voorbeeld
+
+seg-587beeccaa11 = Voorinstelling

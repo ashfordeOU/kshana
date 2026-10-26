@@ -9,3 +9,7 @@ seg-2247a2344710 = Betekenis
 seg-f917e7fcac09 = Wat het is
 
 seg-adc34608c46b = Klasse
+
+seg-f63dd3d7aad4 = Bron
+
+seg-1ff32b87e030 = Satellieten

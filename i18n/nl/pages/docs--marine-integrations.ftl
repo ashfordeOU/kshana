@@ -7,3 +7,5 @@ seg-0857a94a948e = Beperkingen
 seg-2247a2344710 = Betekenis
 
 seg-c3c260b7063e = Tests
+
+seg-06ff6eed7e99 = OpenCPN

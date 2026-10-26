@@ -51,3 +51,41 @@ seg-50fe2a3ff712 = Integriteitsbewaking en beschermingsniveaus
 seg-3174ce5524ff = Kshana berekent beschermingsniveaus en beschikbaarheid ten opzichte van een alarmgrens voor een gemodelleerde geometrie; de waarden van de resolutie voor nauwkeurigheid, beschikbaarheid en waarschuwingstijd worden hier niet beweerd.
 
 seg-f8a8be29dbba = Resolution A.1046({ "27" }), bijlage paragraaf { "2" } (oceaanwateren)
+
+seg-94f9f0ab0866 = Eisen aan nauwkeurigheid, updatefrequentie, beschikbaarheid en integriteitswaarschuwingen van het radionavigatiesysteem in de oceaanfase.
+
+seg-b0c066123693 = Zoals hierboven, voor de oceaanfase.
+
+seg-7c1de7adc923 = MSC.401({ "95" }), { "3.1" } tot { "3.2" }
+
+seg-c25b6768154b = De ontvanger gebruikt civiele signalen van ten minste twee onafhankelijke systemen en levert een positie-, snelheids- en tijdoplossing met de vereiste veerkracht en integriteit.
+
+seg-ca762d135dc6 = Alternatieve en diverse PNT-bronnen; Integriteitsbewaking en beschermingsniveaus
+
+seg-a06e2ebdc7db = Integriteit over meerdere constellaties is gemodelleerd; of de ontvanger daadwerkelijk twee systemen gebruikt, is een producttest.
+
+seg-3c0debb679f9 = MSC.401({ "95" }), { "3.11" } tot { "3.14" }
+
+seg-bf85bf6d0c72 = De ontvanger beoordeelt nauwkeurigheid en integriteit per navigatiefase, geeft een voorzichtigheidsmelding wanneer hij dat niet kan, waarschuwt wanneer er niet tijdig een nieuwe oplossing binnenkomt en toont de laatste aannemelijke waarde met een expliciete status.
+
+seg-97bac777685c = Vertrouwensbeoordeling van ontvangerlogs; Integriteitsbewaking en beschermingsniveaus; Holdover en coasting
+
+seg-4a160a1d3d5c = { -brand } leest tijdsynchronisatie en vertrouwen uit een log; of de getoonde voorzichtigheids- en waarschuwingsintervallen overeenkomen met wat de norm vraagt, vereist de gebruikersinterface van de ontvanger, die een log niet toont.
+
+seg-fd5fb56607d3 = MSC.401({ "95" }), { "3.15" } tot { "3.16" }
+
+seg-d9e313c81719 = Toon de status van de augmentatie en de positie, koers, snelheid, tijd en de gebruikte bronnen.
+
+seg-b76dba044d7f = Weergave-eisen; geen enkele uitvoer van { -brand } gaat hierover.
+
+seg-9c7b4735bb5e = MSC.401({ "95" }), { "4.2" }
+
+seg-32b14cf2caaa = Naar behoren functioneren onder normale interferentieomstandigheden, in lijn met resolutie A.694({ "17" }) (algemene eisen voor radioapparatuur aan boord van schepen) en de gebruikelijke radio-omgeving aan boord en daarbuiten. Dit is geen eis voor bescherming tegen anti-jamming of anti-spoofing.
+
+seg-ab36bad624ff = Effecten van jamming op het linkbudget; Vertrouwensbeoordeling van ontvangerlogs
+
+seg-61d509831c2b = Testen onder normale interferentie is een laboratoriummeting aan de ontvanger; resolutie A.694({ "17" }) zelf is niet gelezen.
+
+seg-24a0de8aecd8 = <s1>Vorige</s1>Kader voor veerkrachtige PNT van het Amerikaanse DHS
+
+seg-77a3a225a389 = <s1>Volgende</s1>EASA-richtsnoer voor de luchtvaart
