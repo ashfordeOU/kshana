@@ -862,3 +862,203 @@ seg-6d6b07b26966 = 信頼ストリームのための JSON の状態ドキュメ�
 seg-68caf86157c2 = ROS { "2" } の receiver-trust パッケージと gnss_lib_py ブリッジ
 
 seg-e7d7d99fe538 = 測位解と衛星のメッセージを NMEA として書き出し、Python バインディングで採点する、ROS を使わないブリッジ（integrations/ros2/kshana_trust）と、rtklib-pos 形式を介して gnss_lib_py の NavData を receiver-trust に橋渡しするブリッジ（integrations/gnss_lib_py）。
+
+seg-b24486eee0fb = ソース：<c1/>
+
+seg-34d1304c9555 = モデルから計算した機能：その根拠
+
+seg-144f441bf52b = これらの機能は、公開された物理、または第一原理の物理から、テストとともに実装されていますが、<b>正直に MODELLED と表示</b>しています。明示した許容差で独立した外部のオラクルと照合して確認していないためです。マトリクスの不変条件テストにより、<c1/>に裏付けられた行だけが VALIDATED になれることが強制されるため、ここにあるものが気づかれないまま昇格することはありません。各行は、それがモデルから計算の区分にとどまる理由を示します。
+
+seg-0630e39b4de3 = オラクルの種別
+
+seg-bb023086bbe3 = モデルから計算の区分にとどまる理由
+
+seg-dd6ba97ce971 = InternalConsistency
+
+seg-bac242dada9c = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 外部の参照なし：Orekit { "12.2" } には、周縁減光を考慮した照明比がありません。同じ法則の閉形式に照らした確認のみです
+
+seg-33d506570c1b = srp_shadow::tests（円環の閉形式、円錐影を再現する一様な法則、完全な日照と本影の極限）
+
+seg-91fe516eabd4 = ExternalDataset
+
+seg-cb2cbb31b091 = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — Orekit { "12.2" }（Apache-2.0）の NumericalPropagator/DormandPrince853 に、ThirdBodyAttraction と SolarRadiationPressure を加え、Orekit 自身の DE440 リーダー（orekit-data lnxp1990.440）上で、別のプログラムとして実行しました。kshana は、NAIF de440s.bsp をビット単位で同一に、SPICE で確認した形で切り出したものを読み込みます。合格基準は xval/propagator-de440-orekit/PREREGISTRATION.md（22a5a01d）で事前登録しています。軌道の合格基準（{ "0.5" } m）と感度のコントロールは満たしましたが、太陽・月の位置の合格基準（{ "3" } m / { "0.2" } m）は { "6.39" } m / { "0.244" } m で満たせませんでした。同じカーネルを正確な TDB で読む SPICE も、同程度（{ "6.25" } m / { "0.240" } m）Orekit とずれるため、差は NAIF の de440s の経路と、Orekit の DE440 リーダーまたは時間系との間にありますが、原因は特定していません。記録して固定してあるため、この行は MODELLED のままです
+
+seg-13f8f557c721 = propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider
+
+seg-20f163c0cb8f = tests/propagator_de440_orekit_oracle.rs（{ "5" } ケース × { "24" } h にわたる { "25" } 個の毎時の状態、LEO、GEO、HEO、第三体、および第三体 + SRP：最悪値 |dr| { "0.0170" } m、|dv| { "1.84e-5" } m/s。解析級数のコントロールは { "9.96" } m 外れます。Orekit の DE440 位置に対して、太陽は { "6.39" } m、月は { "0.244" } m で、記録済みの未達）、propagator の単体テスト（プロバイダーの拒否、クローン間で共有されるフォールバックのカウント）
+
+seg-b55bcab6f986 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — ジオポテンシャルの効果については、外部の参照なし。{ "24" } 個の係数は、GFZ STR06/01 の表 { "1" } のモデル N1 から転記し、報告書（SHA-256 890865ae）と行ごとに再確認しました。次数 { "0" }、{ "1" }、{ "7" }、{ "8" } は使いません。Ray と Ponte（{ "2003" }）は球面調和関数の表を掲載していないため、二つ目の出典との比較は行っていません
+
+seg-448f4acf5c7b = tides, propagator, precise_od
+
+seg-4014447d4bcc = tides::tests（S1 項は日周で、四分の一日で { "90" } 度回り、各行の負荷係数の振幅を持つ。LEO での物理的な大きさ）、propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+seg-a192b0f512cb = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — Orekit { "12.2" }（Apache-2.0）の HolmesFeatherstoneAttractionModel と、pyshtools { "4.14.1" }（BSD-3-Clause）の MakeGravGridPoint を、別のプログラムとして実行しました。合格基準は xval/high-degree-gravity/PREREGISTRATION.md（276c869f）と xval/cowell-tesseral-200-orekit/PREREGISTRATION.md（0aa312a6）で事前登録しています。Orekit は、定義されているすべての場所で一致しますが、pyshtools は、極に近い二つの点で事前登録した合格基準を満たせず（最大 { "7.3e-10" } m/s^{ "2" }。50桁の mpmath による確認では、誤差は pyshtools 側にあります）、極軸上にちょうど位置するオラクルの値はなく、{ "24" } h の軌道について事前登録した 70次の感度コントロールも満たせませんでした（{ "0.726" } m に対して基準は > { "1" } m）。それぞれの未達は、調整して消すのではなく記録してあるため、この行は MODELLED のままです
+
+seg-8fda2ee90583 = gravity_sh, propagator (FieldEvaluator)
+
+seg-3f7d3003656e = tests/gravity_sh_high_degree.rs（軸から外れた { "8" } 点での Orekit：N = { "70" } で最大 |da| { "2.2e-17" } m/s^{ "2" }（常に実行）。N = { "200" }、{ "360" }、{ "2190" } では { "3.5e-17" }、{ "3.9e-17" }、{ "7.3e-17" } m/s^{ "2" }（KSHANA_EGM2008_GFC があるデータの場合のみ実行））、tests/cowell_tesseral_200_orekit_oracle.rs（{ "24" } h の 200x200 の軌道、データがある場合のみ実行：最悪値 |dr| { "0.1317" } m、|dv| { "1.45e-4" } m/s。70次のコントロール { "0.726" } m）、gravity_sh の単体テスト（{ "70" }次で従来の評価器と { "1e-13" } まで一致、2190次の場での有限差分と極での連続性、拡張指数による計算に対するアンダーフローする2190次の項）
+
+seg-84a9851b838c = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — Orekit { "12.2" }（Apache-2.0）の BatchLSEstimator に、独自の瞬時幾何の RangeRate と AzEl の測定（Orekit の TopocentricFrame に対して相互確認済み）を加え、同一のマスクとシードを適用した観測に対して、別のプログラムとして実行しました。合格基準は xval/od-measurements-orekit/PREREGISTRATION.md（0cf9076）で事前登録しています。B4（ノイズなしの状態の一致、{ "1" } cm）を除くすべての合格基準を満たしました。これは { "4" } シナリオ中 { "2" } シナリオで満たせませんでした（{ "1.46" }、{ "1.74" } cm）。Orekit 自身のノイズなしの推定が、そのシミュレートした真値からそれだけ離れています（Orekit 側の原因は特定していません）。記録して固定してあるため、この行は MODELLED のままです。モデル化していないもの：光行時間、光行差、屈折、地球の自転、これらの測定タイプに対する逐次フィルター
+
+seg-296a6fe8585b = orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)
+
+seg-9493e02e3cd1 = tests/od_tracking_measurements_reference.rs（{ "8" } シナリオ：range-rate、az/el、その混合、LEO と MEO、ノイズなしと、シードつきの sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad、{ "5" } 度と { "10" } 度のマスク、Orekit { "12.2" } との比較：可視集合は同一。測定値は { "5.84e-8" } m、{ "6.30e-10" } m/s、{ "1.44e-13" } rad 以内。STM は相対で { "1.2e-14" } 以内。ノイズありの状態は { "1.74" } cm と { "1.14e-5" } m/s 以内。タイプごとのポストフィット RMS は相対で { "2.7e-4" } 以内。ノイズなしの kshana と真値は { "1.06e-8" } m。ノイズなしの kshana と Orekit は、二つのシナリオで { "1.464" } cm と { "1.740" } cm で、{ "1" } cm の合格基準に対する記録済みの未達）、orbit_determination と batch_ls の単体テスト
+
+seg-a5554f29b2d7 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 外部の参照なし：重みはモデル化上の選択です（SP3 フォーマットはこのコードを、生成者の精度指標としてのみ定義しており、ここでは軸ごとの一シグマとして読んでいます）。既存の記録済みの機関の実行結果は変わりません
+
+seg-f5a76ae1fcaa = sp3, precise_od
+
+seg-39a552abfcab = src/sp3.rs の単体テスト、tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit（コミット済みの { "8" } h の ESOC フィクスチャ、ヘッダーの指数 { "5" } から sigma { "0.032" } m：Tier-1 の 3D RMS { "0.132" } m は変わらず、Tier-2 は sigma { "1" } m での { "0.070" } m に対して { "0.035" } m。この変化は、再均衡した経験的な事前制約によるもの）、tests/agency_swarm.rs（Swarm の製品には精度コードがなく、フォールバックし、固定してあります）
+
+seg-a5ad470a4816 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 内部の整合性のみ。公開された各場は、その作成元の天体固定座標系（GMM-3 は Konopliv ら { "2006" } の火星座標系、GL0660B は DE421 の月の主慣性軸座標系）で定義されていますが、場は IAU の座標系で評価されます。そのオフセットはモデル化していません
+
+seg-409f709cceb3 = gravity_pds, body, propagator, mars_frame
+
+seg-0fe6532ca74d = tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator、gravity_pds::tests::with_gravity_field_is_opt_in
+
+seg-eff90f999826 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 内部のラウンドトリップと ICD の既知の答えのみ。サードパーティのデコーダーは実行していません（KSHANA_NAVMSG_ORACLE_JSON を読む RTKLIB/GNSS-SDR のハーネスは、データがある場合のみ実行）。MODELLED
+
+seg-e3d75762b979 = gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)
+
+seg-dbe0dd5dcf47 = gnss_navmsg::tests（CRC-24Q のチェック値 0xCDE703、畳み込みのインパルス応答、Viterbi が注入した誤りを訂正、レイアウトの幅）、tests/gnss_navmsg_roundtrip.rs（フィールドの開始ビットが ICD のビット番号と一致。エンコード → FEC → インターリーブ → Viterbi → デコードのラウンドトリップが半 LSB 以内）、tests/gnss_navmsg_galileo_brdc_grid.rs（LSB のグリッド上の IGS BRDC 2018-133 の Galileo レコード、最悪値 { "3.6e-3" } LSB。事前登録した衛星数の合格基準は { "20" } 機中 { "15" } 機で満たせず、所見）
+
+seg-81b76a6d1bcd = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 公開された ITRF2020 の WTZR 座標に対する所見：事前登録した合格基準（平滑化後の中央値と p95 が生値の { "0.6" } 倍以下。tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_HATCH.md）は満たせず、比は { "0.718" } と { "0.923" } でした。残るメートル級の誤差はバイアスに近いもの（C1C のコードバイアス、アンテナ、潮汐、長周期のマルチパス）で、平滑化が除去するホワイトノイズではありません。MODELLED：フィルターの統計は内部で確認しています
+
+seg-b81cd9204f64 = hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)
+
+seg-e892fffaaf07 = hatch::tests（ノイズなしの素通し、ホワイトノイズの分散 1/(2N-1)、再スタート）、tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned（WTZR 2025-02-24 01-06 h、{ "600" } エポック、N = { "100" }：3-D 誤差の中央値 { "1.553" } -> { "1.116" } m、p95 { "3.473" } -> { "3.207" } m）
+
+seg-1bbd39c17347 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 実際に公開された RINEX { "4.00" } ファイルでのフォーマット適合（読み戻した値がファイルに印字されたリテラルと一致）と、仕様から導いたヘッダー。独立したリーダーは実行していないため、MODELLED
+
+seg-bdda05057c91 = rinex_obs (parse_obs)
+
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs（IGS MGEX の RINEX { "4.00" } ファイル MAO000USA_R_20231980000_01D_30S_MO の最初の { "4" } エポック、{ "58" } 機の衛星、{ "7" } システム：ヘッダーレコードと最初のエポックの値が、公開されたリテラルと一致）、rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records（仕様から作った合成の { "4.02" } ヘッダー）
+
+seg-5afb3c4bf171 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — GEO を含む IGS MGEX の精密軌道に対して事前登録しました（7aa264b、110fef9）。これを作成したセッションからは、そのような製品に到達できなかったため、比較は保留で、この行は MODELLED です（公開された公称の GEO スロットに対する確認のみ）
+
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs（実際の C01-C04 のレコード：静止軌道の半径、公開されたスロットでの経度 140.02/80.04/110.55/159.99 度、傾きありで |緯度| { "2.13" } 度に対して傾きなしで { "6.65" }。事前登録した放送対精密 SP3 の比較は、KSHANA_BDS_GEO_SP3 があるデータの場合のみ実行で、実行していません）、rinex::tests
+
+seg-70f61250d256 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 内部の整合性：測定値は、フィルターが使うモデルから合成しています（シードにわたる χ² の NEES/NIS、ノイズなしの収束、スリップの注入）。MODELLED。実際の受信機データやサードパーティのフィルターとの比較はありません
+
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs（8の字走行：同一の測定値で、定常状態の 3-D RMS は搬送波で { "0.025" } m、コードで { "0.470" } m。{ "12" } シードで、NIS/dof の平均 { "1.00" }、定常状態の NEES/dof { "0.92" }。1サイクルのスリップをそのエポックで検出し、誤警報はなく、解は損なわれませんでした。放送補正を切ると、コードの誤差は { "0.51" } m から { "19.6" } m（電離圏）と { "8.0" } m（対流圏）に増えます。ノイズなしの実行は { "0.3" } mm に収束します）
+
+seg-6f3f6483690e = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 内部：各パックの性能指標を自身の真値に対して、そして同一の入力での疎結合と密結合の比較。MODELLED。監査で挙げた NaveGo との比較は実行していません
+
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs（各パック：途絶の間、両方のセンサーで、融合が自由慣性航法より小さい誤差。鉄道：途絶の間、密結合 { "5.3" } m に対して疎結合 { "12.9" } m（ナビゲーショングレード）、および { "15.6" } m に対して { "18.8" } m（タクティカル）、可用性 { "0.97" } に対して { "0.95" }。tight のテーブルは独立した参照と照合して確認）、tests/gnss_ins_legacy_trajectory_pin.rs（疎結合の既定はビット単位で同一）
+
+seg-2c7c37506aab = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 内部の整合性：真値は、フィルター自身のモデルからシミュレートしています（モンテカルロのシードにわたる χ² の NEES、同一のセンサーでの非結合パック）。MODELLED
+
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs（{ "60" } シードでの 3-D フィルター：後半の NEES の平均 { "8.12" }（{ "8" } 状態）、最終エポックの χ² の和は { "95" } % の帯の内側。{ "0.1" } ns の時計の固定で、3-D の位置の sigma は { "5.58" } m から { "3.07" } m に下がります。{ "60" } シードでのバイアスフィルター：χ²({ "5" }) の和は帯の内側、バイアスは { "60" } 中 { "59" } で { "3" } シグマ以内。バイアスのある加速度計での fusion-pnt-coupled：位置の p95 は { "18.7" } m / { "90.0" } m、インテグリティは { "1.00" } / { "0.97" }（結合）に対して、{ "430" } m / { "4060" } m、{ "0.006" } / { "0.000" }（非結合））、fusion::coupled::tests、tests/fusion_coupled_pack.rs（[coupled] のない fusion と hybrid はビット単位で同一）
+
+seg-0866862d2264 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 内部：剛体運動学の恒等式、CSV のラウンドトリップ、フィルター自身の共分散。MODELLED（実際の走行ログとの比較はありません）
+
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+seg-5a6b5289a473 = fusion::trajectory::tests（協調旋回には横力がなく、荷重倍数は 1/cos φ。CSV のインポートは、飛行したプロファイルを { "1e-3" } m/s と { "1" } m まで再現）、tests/gnss_ins_trajectory_library.rs（すべてのプロファイルが実行され、途絶の間は融合が自由慣性航法に勝る。それぞれが指定された動きを飛行する。方位の可観測性：{ "240" } s 後のヨーの sigma は、直進の巡航で { "1.27" } 度、8の字で { "0.039" } 度、ストップアンドゴーで { "0.062" } 度）、tests/gnss_ins_legacy_trajectory_pin.rs（従来の結果と真値のハッシュがビット単位で同一）
+
+seg-5cb3b7bba7be = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — JPL Horizons の再構成した CAPSTONE のエフェメリス（NAIF -1176、CAPSTONE_merged、月中心の ICRF、2023-03-01..31、{ "10" } 分間隔）に対して測定しました。バイトごとにコミットし（tests/fixtures/capstone_horizons/、NOTICE.md）、取得する前に { "4e868170" } で事前登録し、平均的なジオメトリに合格基準を置いた測定としています。独立した参照と照合した確認ではありません。CR3BP は、太陽、月の離心率、CAPSTONE が行った軌道維持を省いているため、合格基準が示すのは、モデルの軌道がどの程度代表的かであり、精度ではありません。結果：docs/design/evidence/cap29d-capstone-nrho/RESULTS.md
+
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry（CAPSTONE の{ "2023" }年三月、近月点 { "4" } 回と遠月点 { "5" } 回：周期 { "6.5004" } d に対して { "6.5699" } d（{ "1.07" } %、基準 { "3" } %）、遠月点 { "71 182" } に対して { "71 215" } km（{ "0.05" } %、基準 { "5" } %）、近月点 { "3 385" } に対して { "3 245" } km（{ "4.1" } %、基準 { "20" } %））、cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+seg-30e946bde474 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 閉形式に対する内部の整合性：線形ガウスモデルの下では、最小二乗の共分散は sigma^{ "2" } (H^T H)^-1 です（Kaplan and Hegarty (eds.), Understanding GPS: Principles and Applications, 2nd ed., Artech House, { "2006" }, ch. { "7" }）。{ "0.36" } のジオメトリ設計ノート、第{ "5.2" }節の方法と許容差は、最初の実行の前に、事前登録のコミットで固定しました：各分散は { "5" } % 以内（N = { "20,000" } での標本分散の標準誤差の { "5" } 倍）、各 RMS は { "2.5" } % 以内、東・北の相関は { "0.035" }（5/sqrt(N)）以内、各平均は標準誤差の { "5" } 倍以内、{ "95" } % の楕円の割合は { "0.95" } +/- { "0.0077" }（二項分布の標準誤差の { "5" } 倍）以内です。ネガティブコントロール（PDOP を倍にしたもの、重みなしの Q に対して 1/sin(仰角) で増える誤差）は失敗しなければなりません。構成のしかた：Q は orbit::dop カーネルの共分散係数で、tests/dop_reference.rs で、同じ { "8" } 通りのジオメトリについて gnss_lib_py { "1.0.4" } に対して VALIDATED です（「GNSS geometry / dilution of precision」の行）。この行は、それらの係数から、エンジンのソルバーを通してメートルに至るステップを加えるものであり、その行のステータスを借りるものではありません。MODELLED である理由：外部のデータセットは関係しません。一致が示すのは、教科書的なモデルの下で、推定器とノイズが sigma × DOP を実現するということであり、いずれかの受信機の誤差が UERE × DOP に等しいということではなく、sigma_UERE は入力です
+
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs（position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries：事前登録 e50c88d2 の後の最初の実行で、{ "104" } 個の検査すべてが通過。最悪値は、分散 { "3.2" } %、RMS { "1.6" } %、相関 { "0.012" }、平均は標準誤差の { "2.2" } 倍、楕円の割合 { "0.0039" }。negative_control_a_doubled_pdop_fails_every_geometry、negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries：どちらのコントロールも、求められたとおり失敗。position_error_is_sigma_times_dop_on_masked_skies：設計ノートの、マスクされたスカイラインの二つのジオメトリ、すなわち city-street プリセット（衛星 { "4" } 機、PDOP { "16.6" }）と container-terminal プリセット（衛星 { "9" } 機、PDOP { "2.5" }）の下の 10sat-mixed の空で、事前登録 03999c11、tests/fixtures/dop/PREREGISTRATION-MASKED.md の後の最初の実行で、{ "26" } 個の検査すべてが通過）、tests/position_error_dop_ci.rs（手で選んだ四つの空（開けた空、集中した空、峡谷、半天）での、最初の独立した検査。sigma { "1" } m、シード 0x0D0B5EED。{ "20" } 個の検査にわたり、合計 { "1e-6" } のカイ二乗信頼区間を使用：比は { "0.987" } から { "1.009" }、ソルバー自身の PDOP/GDOP はカーネルのものと { "2.5e-12" } まで一致。{ "10" } % の DOP 誤差と 1/sin(仰角) の誤差に対するネガティブコントロール。事前登録の前に実行したため、事前登録ではなく、報告として扱う）、dop_error_mc::tests、dop_error_ci::tests
+
+seg-d40d54b79e58 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 内部の整合性：分類は、その規則と、コミット済みのデモログに合成の編集を加えて手で導いた比に照らして確認しており、無変更のピンは { "0.35.0" } の出力を保持します。ジオメトリが悪い場合を除き、スコアは変わりません。ラベルは常に報告されます。MODELLED である理由：しきい値は、当てはめたものではなく選んだものです（出所は各実行の geometry_model に記載。IEC 61108-1 と GPS SPS の数値は引用のとおりで、規格の本文と照らして確認する必要があります）。また、自然なジオメトリの劣化を攻撃と対比して分類を検証できる、外部のラベル付きデータセットはありません。導出した DOP は、gnss_lib_py に対して VALIDATED の orbit::dop カーネルを再利用しますが、この行はそのステータスを借りません。ジオメトリの区分は、空についての記述であり、攻撃がなかったという所見ではありません
+
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs（a_stated_skyline_reads_the_fjord_as_geometry：scenarios/training/fjord-natural-degradation.toml の合成のフィヨルド航行では、指定した [skyline] の有無にかかわらず、同じ { "624" } エポックが減点されます。ありの場合は sky-blocked が { "680" } エポックで報告され（なしの場合は { "0" }：両側が囲まれたフィヨルドでは、方位角のギャップによるフォールバックは何も検出しません）、open_fraction は { "0.758" } で、環境クラスのエポックは { "78" } から { "33" } に減ります。残りは、指定したスカイラインが開けた場所に残す衛星の喪失です。イベントの外では、スカイラインはスコアを変えません）、receiver_trust::geometry::tests（しきい値での手で導いた比、しきい値の境界、ランプと上限、下限、ラベルの境界、[geometry] による上書き、独立した参照と照合して確認したカーネル上の DOP、保持された空と期限切れの空、推測しない unknown、信号の喪失、悪いジオメトリの許容、測位解なしの番兵値）、tests/geometry_trust.rs（ラベルは付くが採点されない fair のマスクされた空、poor のマスクされた空、低仰角の喪失、電力の低下、偽造された HDOP、信号の全喪失、悪いジオメトリの間のドラッグオフ、unknown のジオメトリ、セッションの上書き、ライブのスキーマ）、tests/geometry_trust_no_change.rs（追加されたキーを取り除くと、二つのサンプルセッションがどちらも { "0.35.0" } とバイト単位で同一）、tests/geometry_corpus_identity.rs（コミット済みのすべての船舶 NMEA コーパス、GPS のみの開けた空としても、および乗組員訓練のシナリオ：poor のエポックを除いて { "0.35.0" } とバイト単位で同一。poor のエポックは、ジオメトリの減点だけが異なります）
+
+seg-7e9cae219d72 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 内部：閉形式は、手で計算した値（指定した街路の壁の上端の仰角、開放端の条件、指定した点の曲率による低下）に照らして確認しています。外部のオラクルはありません。設計ノートはこれらの簡約を MODELLED と位置づけており、Orekit の ElevationMask はテーブルを受け取るため、行「Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask」の比較は、それらの 360 点のテーブルを入力として読み、確認はしません
+
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+seg-7ade0dffb2d8 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — なし：選んで明示した寸法であり、街路、港、フィヨルド、ターミナルのいずれの測量でもありません（街路のアスペクト比は Oke（{ "1988" }）の 0.5-2 の範囲内。フィヨルドは西ノルウェーのフィヨルドと同程度の規模。コンテナの山積みには ISO { "668" } のハイキューブの高さを使用）。このテストは、プリセットを自身で明示した寸法に照らして確認するもので、転記の確認であり、独立した参照と照合して確認するルールでは数えません
+
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+seg-00884df89ab2 = ReferenceImpl
+
+seg-2ddc2b97e673 = このコードベース内の別の実装に照らして確認：テスト対象のユニットからは独立していますが、外部の権威あるものではありません — 単一クロックの DOP 係数は、gnss_lib_py { "1.0.4" } に対して独立した参照と照合して確認したカーネルに基づきます（行「GNSS geometry / dilution of precision (DOP)」）。この行自身の検査は内部のものです：sky_geometry は同じジオメトリで orbit::dop と dop_cov を再現し、楕円は解析的な 2x2 の固有値分解を再現し、ECEF と方位角・仰角の入力は一致し、シード付きの点群の RMS と { "95" } % の包含は、ジオメトリと一致します。システムごとに一つのクロックを持つ ENU 共分散と楕円は、行「Horizontal error ellipse and per-system cofactor from the geometry covariance」（numpy、P2）で VALIDATED です。ここで MODELLED のままなのは、その構成部分です：代表的な空へのプリセットの伝播、モンテカルロの点群（サンプリング元のジオメトリに照らして確認したもので、自己整合性の確認）、そしてサーフェスです。コンステレーションのプリセットが与えるのは代表的な空であり、日付つきの空ではありません。ガウス誤差モデルと UERE は、明示した入力であり、測定した精度でもインテグリティの限界でもありません
+
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs（単一クロックのカーネルを gnss_lib_py に対して）
+
+seg-0b5caf359b15 = このコードベース内の別の実装に照らして確認：テスト対象のユニットからは独立していますが、外部の権威あるものではありません — 複数ステップの clock_state 共分散の再帰（同一コードベース内の相互確認）。基になる惰行分散とホールドオーバーの逆算のカーネルは、scipy に対して外部で確認しています（「Clock-holdover coast-variance & threshold inversion」を参照）。クラスごとのレッドノイズフロアのホールドオーバーの数値は、MODELLED のままです
+
+seg-085cbc64bab2 = holdover
+
+seg-b31ed8fc6801 = holdover::tests（複数ステップのカルマン共分散の再帰に対して。white-FM は厳密。ラウンドトリップ）。惰行分散のカーネルは、tests/gnss_denied_clock_holdover_reference.rs で外部の参照と照合して確認（scipy の Van-Loan/brentq に対して）
+
+seg-8b8c97b664c2 = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — 測定された記録、ホールドアウト：2026-03-01 から { "14" } までの GPS Block IIF 衛星 { "11" } 機の IGS 最終統合 { "30" } s クロック（どのテストも開いていない期間。IGS、帰属表示つきで公開）と、JammerTest { "2024" } の u-blox ZED-F9P 受信機の、採点対象外の静止セッション（GPL-3.0-or-later）。D9 の外部比較（事前登録 2ec76864、各カードの予測と測定のアラン偏差が、フィット済みの平均化時間で [1/1.5, { "1.5" }] の範囲内）、所見（MODELLED のまま）：GPS IIF の { "11" } 枚のカードのうち { "10" } 枚が基準の範囲内です。G27 は二時間のスケールで楽観的で（{ "7680" } s で { "0.662" }、最悪の係数 { "1.510" }）、べき乗則のカードが持たない、時間スケールの周期的な誤差です。受信機の TCXO のカードは、ブロックされています。記録された送信の外では、データセットのほかのセッションに { "167" } エポックしか残らず、必要な { "3600" } に届きません。報告であり、ブラインドではない（以前の行で開いた記録）：5071A セシウムのカードは基準の範囲内（{ "4096" } s までの最悪値 { "1.070" }）、OCXO のカードは保守的で、範囲外（{ "128" } s で { "2.348" }。記録の途中でそのノイズフロアが変化する）、公表された最短の三点でフィットした Norcia のストロンチウムのカードは、採点した二点で範囲内です（{ "1.291" }、{ "1.405" }）。Galileo の受動水素メーザー（Galileo の最終クロックを、ログイン不要で入手できる情報源に到達できない）と、Deep Space Atomic Clock（宇宙空間で公開されている値が一つ）は、ブロックされています。D9 のラウンド { "2" }、ZED-F9P 受信機の TCXO を、{ "12" } か所の静止した Wroclaw の観測局の { "14" } 日間に対するモデルクラスとして（Zenodo { "6488497" }、CC BY { "4.0" }。事前登録 fb475550）、所見：登録したパイプラインでは、{ "12" } 局のうち { "11" } 局が評価できず（RAIM がほとんどの電離圏フリーのエポックを棄却）、BX14 は失敗しました。補正したパイプライン（事前登録 c9cc0d49）で開示のうえ再実行したところ、{ "11" } のブラインドな局のうち { "1" } 局で通過し（BX12、{ "1.412" }。BX07 の { "1.532" } と BX13 の { "1.542" } は、わずかに範囲外）、これは、間欠的な { "30" } s ファイルからの単独測位の受信機クロックは、クリーンな発振器の記録ではないためです
+
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; 事前登録 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; データがある場合のみ実行)
+
+seg-a2202f0e06b2 = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — 測定された記録、ホールドアウト：2026-04-01 から { "14" } までの GPS Block IIF 衛星 { "11" } 機の IGS 最終統合 { "30" } s クロック（どのテストも開いていない期間。IGS、帰属表示つきで公開）。D9 の外部比較（事前登録 fb475550、すべての衛星のすべてのフィット済み平均化時間で、予測と測定のアラン偏差が [1/1.5, { "1.5" }] の範囲内）、所見（MODELLED のまま）：{ "11" } 枚のカードのうち { "9" } 枚が基準の範囲内です。G03（{ "1.947" }）と G25（{ "1.581" }）は、{ "60" } s から { "2000" } s の間で楽観的で、これはホールドアウトした記録が、フィットに使った三分の一区間よりノイズが多いためです（G25 のホールドアウト部分には { "16" } 個のギャップと { "29" } 個の位相の外れ値があります）。周期項が欠けているのではなく、クロック自体が変化したものです。予測から周期項を外すと、{ "11" } 枚のカードすべてが失敗します（{ "1.77" } から { "4.96" }）。したがって、予測を担っているのは周期項です
+
+seg-d302e2ef46ad = clock_library (card)
+
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; 事前登録 fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+seg-1c858b039ab0 = このコードベース内の別の実装に照らして確認：テスト対象のユニットからは独立していますが、外部の権威あるものではありません — filterpy { "1.4.5" } の KalmanFilter（R. Labbe、MIT）で、F は scipy.linalg.expm、Q は Van-Loan { "1978" } のブロック行列で求めたもの：kshana のフィルターの軌跡全体を再現する、独立した参照実装です。実装間の整合性：クロックの物理とアラン偏差の較正は、外部の参照と照合して確認していないため、MODELLED のままです。{ "0.30" } の外部比較、所見（MODELLED のまま）：GPS Block IIF 衛星 { "11" } 機の IGS 最終 { "30" } s クロック（2025-08-17 から { "30" } まで）で、Q を前半のアラン偏差にフィットし、フィルターをホールドアウトした後半で採点したところ、フィルターは一ステップ先では整合的ですが（エポックの { "0.906" } から { "0.971" } が { "95" } % の帯の内側、基準は { "90" } %）、{ "11" } 個のクロックのうち { "9" } 個で、一時間先では過信しており（{ "0.486" } から { "0.829" }）、イノベーションの和は { "5" } 個で [{ "2.4" }, { "3.6" }] の外に出ます。フィットしたホワイト位相ノイズはすべての衛星でゼロで、時間スケールの誤差（周期項、フリッカー FM）は 3状態モデルに含まれません。{ "0.30" } のラウンド { "2" }、拡張フィルター（フリッカー FM と、周回あたり一回および二回の状態）を、2025-09-01 から { "14" } までの新しいホールドアウトの IGS クロックに適用（事前登録 4b1a841e）、所見（MODELLED のまま）：一ステップ先と一時間先の整合性の基準は、{ "11" } 機すべてで満たされますが（{ "0.948" } から { "0.988" }、および { "0.907" } から { "0.996" }）、イノベーションの和の基準は、G24（{ "0.964" }）と G30（{ "1.929" }）で、[{ "2.4" }, { "3.6" }] に対して満たされません。D9 のラウンド { "3" }、ラウンド 2 の拡張フィルターを、凍結した clock_library のコンディショニング検出器の後でも、チューニングと基準を変えずに、2026-04-01 から { "14" } までの新しい IGS クロックに適用（事前登録 fb475550）、所見（MODELLED のまま）：(a) 一ステップ先の { "0.941" } から { "0.968" } と、(c) 三重 NIS の平均 { "2.641" } から { "3.549" } は、{ "11" } 機すべてで満たされます。(b) 一時間先は、G09（{ "0.894" }）と G26（{ "0.876" }）で、{ "0.90" } に対して満たされません
+
+seg-3016100a7015 = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs（予測と更新の全軌跡：状態 x と { "3" }×{ "3" } の共分散 P を、{ "1925" } ステップ・{ "4" } 組のパラメーターで filterpy { "1.4.5" } と比較。最悪値 |relΔ| { "2.8e-14" }）; tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding（所見を固定）; tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 のラウンド { "3" })
+
+seg-27554b73549b = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — Sagnac の大きさは、権威ある公表された値に照らして確認しました — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" })、式 { "1.29" }：赤道上を東向きに一周すると { "207.4" } ns が蓄積します（2ωA_E/c²）。kshana は { "207.386" } ns を再現します。同じ 2Aω/c² の幾何を持つ RTKLIB { "2.4.3" } の geodist()（Takasu、BSD-2-Clause）により、独立に裏付けられています。BIPM TWSTFT のトランスポンダー・コモンビュー・PPP を合成した予算には、外部のオラクルがないため、機能はモデルから計算の区分にとどまります
+
+seg-509026100595 = timetransfer, timetransfer_adv
+
+seg-a1ad8fb8537d = timetransfer::tests（相反性による相殺、二形式の Sagnac 恒等式）、tests/time_transfer_error_budgeting_reference.rs（赤道一周の Sagnac = { "207.386" } ns に対し、公表された Ashby の { "207.4" } ns と <{ "0.05" } ns まで一致。加えて、Sagnac と geodist のジオメトリを、C のソースからコンパイルした RTKLIB { "2.4.3" } の geodist() と相互確認）
+
+seg-a5714c98b299 = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — GPS C/A の Gold 符号の相互相関・自己相関は、独立した IS-GPS-200 の符号生成に対して完全に一致しました（整数 ±65/−1/63）。BPSK-R({ "1" })/BOC({ "1,1" }) の PSD の形は、独立した scipy のピリオドグラムに対して確認しました。変調・SSC・DLL の閉形式（Betz { "2001" } / Kaplan & Hegarty）は解析的なままであるため、この行は MODELLED のままですが、符号相関という部分的な主張は外部で一致しています。{ "0.30" } のラウンド { "2" }、Betz { "2001" } と Hein ら { "2006" } の印刷された値に対して（事前登録 9f4f2ce8、印刷された単位の半分）、所見（MODELLED のまま）：表 { "1" } のスペクトルのセル { "45" } 個すべて、{ "1" } GHz の相関値、MBOC の干渉の数値、そして図 { "17" } のオフセット { "3" } 個中 { "2" } 個は一致します。{ "24" } MHz の最初のサイドローブ、BOC({ "8,4" }) の図 { "17" } のオフセット、そして図 18-21 のすべての最悪ケースのマルチパスバイアス（{ "11" } から { "15" } % 低い）は一致しません。Kshana と、事前登録した読み方の独立した NumPy による評価は一致するため、差は、その読み方か、論文に明記されていない細部にありますが、原因は未解決です
+
+seg-10e0cb39ac3b = navsignal
+
+seg-1035f877de94 = navsignal::tests (BPSK self-SSC = 2/3R_c; unit-area PSD; DLL); tests/nav_signal_modulation_code_tracking_reference.rs（GPS C/A の Gold 符号の相互相関・自己相関が、独立した IS-GPS-200 の符号生成と整数で完全一致。BPSK-R({ "1" })/sine-BOC({ "1,1" }) の PSD を、独立した scipy のピリオドグラムに対して確認）; tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath、固定)
+
+seg-9fe0ec8c4531 = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — 公表された CAI の主要論文の数値ベクトル（Cheinet { "2008" } の伝達関数、Peters/Freier の感度）：k_eff·T² は厳密に一致し、ショットノイズの ASD は、公表された各装置の ~{ "2" }× 以内にある片側のフロアです（実際の装置には、量子フロアを超える技術的ノイズがあります）。上下の目安であり、同等性ではありません。{ "0.30" } のラウンド { "2" }（事前登録 fcb9ac64）、所見（MODELLED のまま）：QPN のみの回転ノイズを、測定された Gauguet ら { "2009" } の図 { "14" } の点と比べると、受け入れた三点で比は { "0.695" } から { "0.788" }（動作点で { "0.751" }）となり、事前登録した { "30" } % の基準を { "0.5" } ポイント満たせませんでした。QPN のフロアは、測定されたノイズより { "21" } から { "31" } % 下にあり、レーザーと検出のノイズがないモデルとして想定どおりです。グラジオメーターの構成は、Janvier ら { "2022" } の QPN モデルの線と一致します（比 { "1.013" } から { "1.017" }、参照）。測定による試験では、sqrt({ "2" }) の構成の誤りは区別できません。それができるのは、コントラストが等しくない Janvier の線だけです
+
+seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; Freier-2016 floor bracket); tests/quantum_inertial_sensor_reference.rs（伝達関数 |H(ω)|、k_eff·T²、ショットノイズの ASD を、公表された Cheinet { "2008" } / Peters / Freier の数値ベクトルに対して）; tests/quantum_inertial_measured_qpn.rs (gauguet_finding_qpn_floor_sits_below_the_measured_noise、固定; gradiometer_qpn_line_matches_janvier_model)
+
+seg-0b9af8a14a54 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 干渉計のフリンジモデルの自己整合性：半フリンジの端、2π 周期のエイリアシング構造、範囲と分解能の比でのスケールファクターの相殺は、エンジン自身の Mach–Zehnder の位相関数と感度関数に照らして確認した、閉形式の代数的な恒等式であり、内部の整合性の確認であって、外部のデータセットではありません。したがって、この行は InternalConsistency のままです。MODELLED：理想的な三パルスのフリンジの曖昧さ。波面収差やコントラスト損失による、曖昧さのない範囲の限界は含みません
+
+seg-81802510f112 = quantum_imu::tests（a_max は ±π の半フリンジの端にあり、範囲は 1/T² でスケールする。折り返した位相の復元は [−a_max,a_max] の内側では厳密で、外側ではちょうど { "2" }·a_max だけエイリアシングする。曖昧さのない動的範囲 a_max/σ_a=π/σ_Φ は、大きく異なる二つの波長/T のスケールファクターにわたって同一。CaiAccelerometer のメソッドは、自由関数と一致する）
+
+seg-91728172ea50 = このコードベース内の別の実装に照らして確認：テスト対象のユニットからは独立していますが、外部の権威あるものではありません — 独立した numpy によるモンテカルロ SDE 積分（二重積分した白色加速度ノイズ）で、解析的な VRW の分散を、真に独立したアルゴリズムで検証するもの。加えて、バイアスとスケールファクターの項に対する Groves { "2013" } の公表値のアンカー。CAI 装置の数値はパートナーのハードウェアを定量化するもので、MODELLED のままです
+
+seg-ccc56dac1725 = inertial::quantum_imu (QuantumNavBudget)
+
+seg-60fb2adb58ce = budget_tests (bias vs AccelModel integrator; VRW vs analytic integral); tests/quantum_inertial_dead_reckoning_reference.rs（VRW を、白色加速度ノイズの独立した numpy モンテカルロ二重積分と比較。{ "6" } 通りの惰行時間にわたり、最悪の偏差 { "0.42" }% は ±{ "3" }% 以内。バイアスとスケールファクターを Groves { "2013" } の閉形式の値と比較。ホールドオーバーのラウンドトリップ）
+
+seg-8bc5bc7d553c = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — アンチジャムの C/N₀ リンクバジェットの式を、独立した numpy による再導出と相互確認（同じ閉形式を共有するため → InternalConsistency）。加えて、実際の JammerTest-2024 の C/N₀ 劣化の特性評価。{ "0.30" } のラウンド { "2" }、ブロック（MODELLED のまま）：測定された JammerTest { "2024" } の C/N0 の低下を、リンクバジェットの予測に対して比べる検査（事前登録 6a66994b、{ "3" } dB 以内）は、実行しませんでした。Bleik での F8.1 のアンテナ位置と指向、およびマルチバンドの { "1.6.4" } のランプ電力のうち L1 の占める割合が、テストカタログにも公式ログにも記載されていないためです
+
+seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form and cw_q_equals_the_spectral_separation_closed_form：Q テーブル、CW と狭帯域は { "1" }、広帯域とスイープは { "2" }、navsignal の閉形式に固定; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs（FSPL/J-S/実効 C-N₀ を、Kaplan & Hegarty §{ "9.4" } のリンクバジェットの独立した numpy による再導出と比較。実際の JammerTest の C/N₀ は、{ "25" } dB-Hz のしきい値を単調に下回る）; tests/jamming_jammertest_cn0_oracle.rs（事前登録、ブロック、未実行）
+
+seg-26b6c4436ca0 = 部分的な主張は外部で確認されているが、機能全体はモデルから計算した部品を組み合わせたものであるため、機能はモデルから計算の区分にとどまる — TEXBAT のシナリオパラメーター（Humphreys { "2012" }）— 特性評価であり、固定したベクトルではありません。{ "0.30" } の外部比較、所見（MODELLED のまま）：JammerTest { "2024" }（Bleik、GPL-3.0 のデータ）では、観測量レベルのモニター（クロック支援のカイ二乗、RAIM、解の失敗）は、評価できる公表済みのスプーフィング開始 { "8" } 件のいずれについても、{ "10" } s 以内に警報を出しませんでした（開始前の区間がクリーンだった場合、最初の警報は、公表されたスロットの開始から { "10.2" } から { "39" } s 後）。また、開始前の三つの区間では、クロックモニターによる誤警報がありました（{ "81" }、{ "64" }、{ "173" } エポック）。最初に観測された影響は、二周波の GPS 追尾の喪失であり、RAIM の不整合ではありませんでした。公表された開始時刻は、分単位の分解能のスケジュールのスロット開始であり、それが RF の取得より前であることは、測定ではなく解釈です。{ "0.30" } のラウンド { "2" }、主催者による公式の JammerTest { "2024" } のログ（秒単位の分解能。事前登録 6a66994b、ラッチなしの、アダマール較正した三状態のクロックモニターで）に対して、所見（MODELLED のまま）：モニターは、記録された { "10" } 件の開始のうち { "4" } 件で { "10" } s 以内に警報を出し、残りの六件では { "18" } から { "211" } s 遅れるか、開始前のクロックの誤警報を出します（{ "2.1.4" } で { "1" }、{ "2.3.15" } で { "85" }）。D9 のラウンド { "3" }（JammerTest の装置のほかのセッションからの受信機カード。事前登録 2ec76864）はブロックされました：{ "167" } 個の学習エポックに対し、必要なのは { "3600" } です。D9 のラウンド { "4" } と 4b（u-blox ZED-F9P のモデルクラスのカード、Wroclaw { "2021" } からのノイズレベル、事前登録 fb475550。4b は、補正した抽出での開示のうえの再実行、c9cc0d49）、所見（MODELLED のまま）：記録された { "10" } 件のすべての開始で、開始前の誤警報はゼロで、{ "10" } 件中 { "6" } 件が { "10" } s 以内でした。{ "2.1.1" }、{ "2.3.5" }、{ "2.3.10" }、{ "2.6.1" } は遅れたままで（+{ "211" }、+{ "23" }、+{ "18" }、+{ "51" } s）、クロックのノイズレベルによっては変わりませんでした
+
+seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
+
+seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs（TEXBAT のパラメーターの特性評価）; tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement（所見を固定）; tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+seg-964d859381f5 = 自身の閉形式・解析的な恒等式に照らして確認：転記や係数の誤りは検出できますが、外部のオラクルではありません — 独立した参照と照合して確認した基本要素（allan/holdover の van-Loan、セキュリティフロア）を組み合わせたもの。JammerTest { "2024" } のシナリオ { "2.1.1" } で較正（実際の提供時刻のずれ ~{ "1.01" } ms に対し、主張は ≤{ "51" } ns）。独立した参照と照合して確認した部品の上に架けた橋であり、それ自体は外部の確認ではありません。{ "0.30" } の外部比較、所見（MODELLED のまま）：JammerTest { "2024" } のスプーフィングのシナリオでは、測定された未検出の提供時刻の誤差が、検出された { "8" } 件の開始のうち { "3" } 件で、公称の TPL を超えます：{ "184.3" } に対して { "34.6" } ns（{ "2.1.4" }）、{ "295.7" } に対して { "159.3" } ns（{ "2.3.5" }）、{ "143.0" } に対して { "69.0" } ns（{ "2.3.11" }）。内側の五件のうち三件は自明です（開始前のラッチされた誤警報）。考えられる原因：ドリフトノイズがゼロの { "60" } s の較正から得た惰行項は、{ "15" } から { "39" } s にわたる受信機の TCXO の周波数の揺らぎをカバーしません。測定された誤差は、Kshana 自身の単独測位のクロック推定を、自身の開始前の推定にフィットした直線に対して測ったものであるため、一致していたとしても、完全に独立したものではありませんでした。{ "0.30" } のラウンド { "2" }、公式の JammerTest { "2024" } のログの開始時刻と、測定された受信機の時刻誤差に対して（事前登録 6a66994b）、所見（MODELLED のまま）：記録された { "10" } 件の開始のうち { "4" } 件で、未検出の誤差がドリフト状態の TPL を超えます（{ "2.1.1" } で { "458.5" } ns に対して { "634.7" }、{ "2.3.5" } で { "16.2" } ns に対して { "232.6" }、{ "2.3.10" } で { "6.0" } ns に対して { "41.3" }、{ "2.6.3" } で { "47.4" } ns に対して { "218.6" }）

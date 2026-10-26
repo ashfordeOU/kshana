@@ -11,3 +11,5 @@ seg-f5e7215e6835 = オブジェクト
 seg-c5fb6b91dc68 = 度
 
 seg-99427ab75a03 = フィールド
+
+seg-bbcdd898d24d = 整数
