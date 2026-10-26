@@ -81,3 +81,47 @@ seg-6bf57763d120 = onderste SSV (tabel { "5.2" })
 seg-c9349a3a0185 = NOT MET ({ "48" } van { "52" })
 
 seg-056eae8e55d1 = alle { "52" }
+
+seg-805e4402f556 = bovenste SSV met 15/20/25 dB-Hz (tabel B9)
+
+seg-a8d9a1f66989 = NOT MET ({ "122" } van { "155" })
+
+seg-7a6fd0eb8f77 = { "153" } van { "155" }
+
+seg-cb1a6f558a09 = zes GEO-missies
+
+seg-e4759e8d2baa = NOT MET ({ "132" } van { "156" })
+
+seg-3e59e79791e2 = alle { "156" }
+
+seg-76d88834ab69 = HEO-missie
+
+seg-1c06414304a0 = NOT MET ({ "18" } van { "26" })
+
+seg-b1656692859b = { "21" } van { "26" }
+
+seg-d4cedd711485 = maanmissie
+
+seg-b52333886109 = NOT MET ({ "23" } van { "26" })
+
+seg-479a041e2b62 = parametrisch patroon tegenover gemeten GPS L1-paneelpatronen
+
+seg-b514bc035c86 = NOT MET (RMS { "6.3" } tot { "8.8" } dB tegenover { "3" } dB)
+
+seg-dd703fdea949 = Het boekje is intern inconsistent over de referentiehoek buiten de boresight van GLONASS: de tabellen B2 en B6 vermelden { "20" } en { "28" } graden, tabel { "4.2" } vermeldt { "26" } en { "34" }. Run { "1" } gebruikte de eerste (wat de preregistratie noemde); bijna elke misser in S1 tot en met S5 betreft GLONASS. De variant, die vóór het uitvoeren als diagnostiek werd vastgelegd, gebruikt de tweede, en dan komen de missies met bovenste SSV, onderste SSV en GEO cel voor cel overeen, inclusief de uitval. De variant vervangt run { "1" } niet. <b>Geen enkele rij is VALIDATED</b>: het boekje is een simulatie, de oordeelsregel vereist S0 tot en met S3 onder de vooraf vastgelegde lezing, en de resterende missers (GPS L1 bij { "20" } dB-Hz, HEO Galileo, QZSS en NavIC, de GLONASS-rijen van de maanmissie) zijn niet verklaard.
+
+seg-6eecf686159b = Uitvoeren
+
+seg-adbb9c22de1c = Elk meegeleverd scenario is ingekort zodat het in enkele seconden draait; de vergelijking op volledige schaal is het voorbeeld hierboven. Hetzelfde soort draait vanuit Python (<c1/>), de browser (WebAssembly), de MCP-server (<c2/>, alleen inline tekst: <c3/> is een bestandsbron en wordt geweigerd, gebruik <c4/>) en de plug-ins.
+
+seg-8fa10c8e7ab7 = MODELLED: niets hiervan is vergeleken met gemeten GNSS-ontvangst in een baan om de aarde. Het boekje is een simulatie.
+
+seg-b34e9acebec0 = Keplerbanen van twee lichamen voor de GNSS-constellaties en voor de gebruiker in de sweeps; de maanoverdracht is een tweelichamenellips, geen gepropageerd traject.
+
+seg-76aa617ba828 = Het medium is een vermeld eenvoudig model met integratie langs rechte stralen; het is geen ruimteweersverwachting.
+
+seg-3114c4249988 = Het navigatiefilter is een ontwerpstudie: geen manoeuvres, geen oriëntatie, geen multipath, en de referentie deelt haar zon- en maanefemeriden met het filter.
+
+seg-2deafc0f9534 = <s1>Vorige</s1>Maanreferentiestation
+
+seg-23386861eebf = <s1>Volgende</s1>Maanbaan en maanoppervlak als infrastructuur
