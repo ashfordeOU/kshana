@@ -5514,3 +5514,901 @@ js-lunarinfra-rel-title = Kuinka hyvin kukin parametri voidaan määrittää nim
 js-lunarinfra-result-not-json = tulos ei ole JSON-muodossa ({ $reason })
 
 js-lunarinfra-result-not-loaded = tallennettu tulos { $file } ei latautunut
+
+js-lunarinfra-row-above-95 = 95 %:n pisteen ylittävät kokeet (khiin neliö 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Cramér–Rao-jälki
+
+js-lunarinfra-row-degeneracy = Rappeutumismitta
+
+js-lunarinfra-row-formal-diff = Tuon eron muodollinen sigma
+
+js-lunarinfra-row-ground-meas = Maa: mittaukset, ajanhetket asemalla
+
+js-lunarinfra-row-mean-diff = Kahden radan keskimääräinen ero
+
+js-lunarinfra-row-mean-q = q:n keskiarvo (odotettu 6)
+
+js-lunarinfra-row-observations = Havainnot
+
+js-lunarinfra-row-onboard-epochs = Aluksella: ajanhetket, joissa vähintään yksi / vähintään neljä satelliittia
+
+js-lunarinfra-row-onboard-meas = Aluksella: mittaukset, seurattujen satelliittien keskiarvo
+
+js-lunarinfra-row-origin-scale = Origon ja mittakaavan korrelaatio
+
+js-lunarinfra-row-origin-sigma = Origon sigma, m
+
+js-lunarinfra-row-rank-defect = Aste (vaje)
+
+js-lunarinfra-row-smallest-eig = Pienin ominaisarvo
+
+js-lunarinfra-row-trace-ground = Otos suhteessa muodolliseen jälkeen, maa
+
+js-lunarinfra-row-trace-onboard = Otos suhteessa muodolliseen jälkeen, alus
+
+js-lunarinfra-row-within-95 = 95 %:n pisteen sisällä olevat kokeet
+
+js-lunarinfra-series-bootstrapped = bootstrap-estimaatti
+
+js-lunarinfra-series-floor = lattia
+
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+js-lunarinfra-side-note = Rata: { $family }, { $arc } päivän kaari { $period } päivän radasta, näytteitä { $sample } s välein.
+
+js-lunarinfra-side-title = Rinnakkain
+
+js-lunarinfra-sigma-note = Yhden sigman paikan epävarmuus komponenteittain, metreinä, saman kaaren kahdesta estimaatista.
+
+js-lunarinfra-sigma-over-nominal = sigma / nimellisarvo
+
+js-lunarinfra-sigma-title = Kuinka hyvin kumpikin puoli tuntee radan
+
+js-lunarinfra-station-days = asema, { $days } vrk
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Perheen lisääminen ei koskaan pienentänyt pienintä ominaisarvoa ({ $lambda } / { $pairs } lisäystä), mutta pseudoinverssin jälki ei ollut suurempi vain { $trace } / { $pairs } tapauksessa, koska lisätty perhe voi nostaa astetta.
+
+js-lunarinfra-subsets-title = Perheiden jokainen yhdistelmä
+
+js-lunarinfra-sweep-note = Kunkin poikkeaman pahin siirtymäkomponentti metreinä, kun avaruusaluksella olevan kolmen tekniikan välisen sidoksen virhettä pyyhkäistään. Rekisteröidyillä tekniikoiden sigmoilla (GNSS { $gnss } m, VLBI { $vlbi } m, laser { $slr } m) poikkeamia rajoittaa mittauskohina, ei sidos; sidos määrää lattian vain lähes täydellisille tekniikoille.
+
+js-lunarinfra-sweep-title = Tekniikoiden poikkeamien tarkkuus paikalliseen sidokseen nähden ({ $days } päivän kaari)
+
+js-lunarinfra-th-arc-days = Kaari, päiviä
+
+js-lunarinfra-th-bar = Kynnys
+
+js-lunarinfra-th-bootstrapped = Bootstrap-osuus
+
+js-lunarinfra-th-budget-exhausted = Hakubudjetti käytetty loppuun (kokeet)
+
+js-lunarinfra-th-common-sats = Ajanhetket, joissa vähintään 2 yhteistä satelliittia
+
+js-lunarinfra-th-crtrace = Cramér–Rao-jälki
+
+js-lunarinfra-th-dd-ambiguities = Kaksoisdifferenssien epävarmuudet
+
+js-lunarinfra-th-epochs = Ajanhetket
+
+js-lunarinfra-th-families = Perheet
+
+js-lunarinfra-th-family = Perhe
+
+js-lunarinfra-th-local-tie = Paikallisen sidoksen sigma, m
+
+js-lunarinfra-th-mc-fix-rate = Monte Carlo -ratkaisuosuus
+
+js-lunarinfra-th-median-ambiguity = Epävarmuuden sigman mediaani, jaksoa
+
+js-lunarinfra-th-offset = Poikkeama
+
+js-lunarinfra-th-quantity = Suure
+
+js-lunarinfra-th-rank = Aste
+
+js-lunarinfra-th-rotation = Kierto pinnalla, m
+
+js-lunarinfra-th-rows = Rivit
+
+js-lunarinfra-th-scale = Mittakaava pinnalla, m
+
+js-lunarinfra-th-smallest-eig = Pienin ominaisarvo
+
+js-lunarinfra-th-translation = Siirtymä x, y, z, m
+
+js-lunarinfra-th-value = Arvo
+
+js-lunarinfra-th-verdict = Ratkaisu
+
+js-lunarinfra-th-with-links = Kiertäjälinkkien kanssa
+
+js-lunarinfra-th-without-links = Ilman kiertäjälinkkejä
+
+js-lunarinfra-title-carrier-phase = Kantoaallon vaihe, pinta ja kiertäjä
+
+js-lunarinfra-title-frame-coestimation = Koordinaatiston yhteisestimointi
+
+js-lunarinfra-title-geodesy-sensitivity = Love-luvut ja libraatio
+
+js-lunarinfra-title-od-consistency = Radanmäärityksen yhdenmukaisuus
+
+js-lunarinfra-title-space-tie = Avaruussidos
+
+js-lunarinfra-unknown-study = tämä Kuun infrastruktuurin tulos on tutkimus ”{ $study }”, jota tämä sivu ei lue
+
+js-lunarinfra-where-missed = Missä tämä tutkimus jäi vajaaksi.
+
+js-lunarinfra-with-links = kiertäjälinkkien kanssa
+
+js-lunarinfra-without-links = ilman kiertäjälinkkejä
+
+js-lunarinfra-x-arc-length = kaaren pituus, päiviä
+
+js-lunarinfra-x-local-tie = paikallisen sidoksen sigma, m (log)
+
+js-lunarinfra-y-fixed-correctly = ratkaistu oikein, %
+
+js-lunarinfra-y-offset-sigma = poikkeaman sigma, m (log); katkoviivalla piirretty lattia on pelkkä sidos, sqrt(2) × sidosvirhe
+
+js-meaning-body-generic = kappale
+
+js-meaning-body-the = { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of =
+    { $n ->
+        [one] { $av } / { $n } tarkistus
+       *[other] { $av } / { $n } tarkistusta
+    }
+
+js-meaning-coverage-average-label = Keskiarvo näkyvissä
+
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Jokaisessa paikassa näkyvissä vähintään { $n } satelliitti, keskimäärin { $mean }.
+       *[other] Jokaisessa paikassa näkyvissä vähintään { $n } satelliittia, keskimäärin { $mean }.
+    }
+
+js-meaning-coverage-big-none = Joissakin paikoissa ei ajoittain näy yhtään satelliittia; näkyvissä on keskimäärin { $mean }.
+
+js-meaning-coverage-fewest-label = Vähiten näkyvissä, missä tahansa
+
+js-meaning-coverage-line-many = Kun { $names } ovat yhdessä käytössä, paikanmääritys on mahdollinen { $share } % paikoista ja ajanhetkistä (keskuskappale: { $body }).
+
+js-meaning-coverage-line-many-pdop = Kun { $names } ovat yhdessä käytössä, paikanmääritys on mahdollinen { $share } % paikoista ja ajanhetkistä (keskuskappale: { $body }; geometrian laatu, PDOP, alle { $thr }).
+
+js-meaning-coverage-line-none = Paikanmääritys on mahdollinen { $share } % paikoista ja ajanhetkistä (keskuskappale: { $body }).
+
+js-meaning-coverage-line-none-pdop = Paikanmääritys on mahdollinen { $share } % paikoista ja ajanhetkistä (keskuskappale: { $body }; geometrian laatu, PDOP, alle { $thr }).
+
+js-meaning-coverage-line-one = Kun käytössä on { $names }, paikanmääritys on mahdollinen { $share } % paikoista ja ajanhetkistä (keskuskappale: { $body }).
+
+js-meaning-coverage-line-one-pdop = Kun käytössä on { $names }, paikanmääritys on mahdollinen { $share } % paikoista ja ajanhetkistä (keskuskappale: { $body }; geometrian laatu, PDOP, alle { $thr }).
+
+js-meaning-coverage-places-label = Paikat, joissa saadaan paikanmääritys
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } päivä
+       *[other] { $days } päivää
+    }
+
+js-meaning-ensemble-big-many = Monien kohinaotosten yli { $q } pysyy { $thr } ns:n sisällä keskimäärin { $qd } ajan; { $c } { $cd } ajan.
+
+js-meaning-ensemble-big-runs =
+    { $n ->
+        [one] { $n } kohinaotoksen yli { $q } pysyy { $thr } ns:n sisällä keskimäärin { $qd } ajan; { $c } { $cd } ajan.
+       *[other] { $n } kohinaotoksen yli { $q } pysyy { $thr } ns:n sisällä keskimäärin { $qd } ajan; { $c } { $cd } ajan.
+    }
+
+js-meaning-ensemble-line = Kohteen { $name } yhdeksän otosta kymmenestä kestää { $band }.
+
+js-meaning-ensemble-mean = keskiarvo
+
+js-meaning-ensemble-mean-band = keskiarvo; 90 %:n kaista { $band }
+
+js-meaning-error-p95-label = Virhe, 95 % ajasta, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Myös tästä ajosta: { $a }.
+
+js-meaning-generic-line-two = Myös tästä ajosta: { $a } ja { $b }.
+
+js-meaning-generic-none = Tässä ajossa ei ole yhtä päälukua; alla oleva kaavio näyttää sen tuloksen.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = vaakasuuntainen suojaustaso
+
+js-meaning-inside-budget = budjetin { $budget } sisällä
+
+js-meaning-integrity-big-checks-mostly = Kyllä, enimmäkseen: { $share } % tarkistuksista.
+
+js-meaning-integrity-big-checks-no = Ei: { $share } % tarkistuksista.
+
+js-meaning-integrity-big-checks-partly = Vain osittain: { $share } % tarkistuksista.
+
+js-meaning-integrity-big-checks-yes = Kyllä: { $share } % tarkistuksista.
+
+js-meaning-integrity-big-span-mostly = Kyllä, enimmäkseen: { $share } % ajasta ({ $span }).
+
+js-meaning-integrity-big-span-no = Ei: { $share } % ajasta ({ $span }).
+
+js-meaning-integrity-big-span-partly = Vain osittain: { $share } % ajasta ({ $span }).
+
+js-meaning-integrity-big-span-yes = Kyllä: { $share } % ajasta ({ $span }).
+
+js-meaning-integrity-bound-label = Tyypillinen virheraja
+
+js-meaning-integrity-bound-sub = vaaka / pysty, mediaani
+
+js-meaning-integrity-gap-all-passed = jokainen tarkistus läpäisty
+
+js-meaning-integrity-gap-label = Pisin aukko
+
+js-meaning-integrity-gap-none = ei yhtään
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } tarkistus peräkkäin alkaen kohdasta { $from }
+       *[other] { $n } tarkistusta peräkkäin alkaen kohdasta { $from }
+    }
+
+js-meaning-integrity-line-h =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka) alapuolella { $av } / { $tot } tarkistuksessa.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka) alapuolella { $av } / { $tot } tarkistuksessa.
+    }
+
+js-meaning-integrity-line-h-clean =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka) alapuolella { $av } / { $tot } tarkistuksessa, eikä yksikään paikanmääritys ollut harhaanjohtava.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka) alapuolella { $av } / { $tot } tarkistuksessa, eikä yksikään paikanmääritys ollut harhaanjohtava.
+    }
+
+js-meaning-integrity-line-h-some =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka) alapuolella { $av } / { $tot } tarkistuksessa; harhaanjohtavia paikanmäärityksiä oli { $n }.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka) alapuolella { $av } / { $tot } tarkistuksessa; harhaanjohtavia paikanmäärityksiä oli { $n }.
+    }
+
+js-meaning-integrity-line-hv =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka ja { $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka ja { $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa.
+    }
+
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka ja { $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa, eikä yksikään paikanmääritys ollut harhaanjohtava.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka ja { $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa, eikä yksikään paikanmääritys ollut harhaanjohtava.
+    }
+
+js-meaning-integrity-line-hv-some =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka ja { $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa; harhaanjohtavia paikanmäärityksiä oli { $n }.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $h } m vaaka ja { $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa; harhaanjohtavia paikanmäärityksiä oli { $n }.
+    }
+
+js-meaning-integrity-line-v =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa.
+    }
+
+js-meaning-integrity-line-v-clean =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa, eikä yksikään paikanmääritys ollut harhaanjohtava.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa, eikä yksikään paikanmääritys ollut harhaanjohtava.
+    }
+
+js-meaning-integrity-line-v-some =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa; harhaanjohtavia paikanmäärityksiä oli { $n }.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajojen ({ $v } m pysty) alapuolella { $av } / { $tot } tarkistuksessa; harhaanjohtavia paikanmäärityksiä oli { $n }.
+    }
+
+js-meaning-integrity-line-none =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajan alapuolella { $av } / { $tot } tarkistuksessa.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajan alapuolella { $av } / { $tot } tarkistuksessa.
+    }
+
+js-meaning-integrity-line-none-clean =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajan alapuolella { $av } / { $tot } tarkistuksessa, eikä yksikään paikanmääritys ollut harhaanjohtava.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajan alapuolella { $av } / { $tot } tarkistuksessa, eikä yksikään paikanmääritys ollut harhaanjohtava.
+    }
+
+js-meaning-integrity-line-none-some =
+    { $n ->
+        [one] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajan alapuolella { $av } / { $tot } tarkistuksessa; harhaanjohtavia paikanmäärityksiä oli { $n }.
+       *[other] Vastaanottimen virheraja (sen suojaustaso) pysyi hälytysrajan alapuolella { $av } / { $tot } tarkistuksessa; harhaanjohtavia paikanmäärityksiä oli { $n }.
+    }
+
+js-meaning-integrity-misleading-label = Harhaanjohtavat paikanmääritykset
+
+js-meaning-integrity-misleading-sub = todellinen virhe rajan yläpuolella
+
+js-meaning-integrity-trusted-label = Aika, jonka paikanmääritykseen voi luottaa
+
+js-meaning-jamming-above-label = Häirintälähde signaalin yläpuolella
+
+js-meaning-jamming-above-sub = häirintälähteen ja signaalin suhteen keskiarvo
+
+js-meaning-jamming-big-gone = Häirintälähde poistaa paikanmäärityksen kokonaan.
+
+js-meaning-jamming-big-share = Häirintälähteen kanssa paikanmääritys on saatavilla { $share } % ajasta.
+
+js-meaning-jamming-clear-label = Paikanmääritys saatavilla, ei häirintälähdettä
+
+js-meaning-jamming-fewest-label = Vähiten seurattuja satelliitteja
+
+js-meaning-jamming-fewest-sub = pahimmalla hetkellä
+
+js-meaning-jamming-jammed-label = Paikanmääritys saatavilla, häirittynä
+
+js-meaning-jamming-line = Ilman häirintälähdettä paikanmääritys on saatavilla { $share } % ajasta.
+
+js-meaning-jamming-line-js = Ilman häirintälähdettä paikanmääritys on saatavilla { $share } % ajasta; häirintälähde on keskimäärin { $db } dB signaalin yläpuolella.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Kyllä: kaikissa { $n } tarkistuksessa.
+       *[other] Kyllä: kaikissa { $n } tarkistuksessa.
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] Ei: yhdessäkään { $n } tarkistuksesta.
+       *[other] Ei: yhdessäkään { $n } tarkistuksesta.
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] { $av } / { $n } tarkistuksessa ({ $share } %).
+       *[other] { $av } / { $n } tarkistuksessa ({ $share } %).
+    }
+
+js-meaning-lunar-largest-label = Suurin virheraja
+
+js-meaning-lunar-line = Suojaustaso vaihteli välillä { $min }–{ $max } m hälytysrajaa { $limit } m vasten.
+
+js-meaning-lunar-meet-label = Rajan täyttävät tarkistukset
+
+js-meaning-lunar-meet-value = { $av } / { $tot }
+
+js-meaning-lunar-smallest-label = Pienin virheraja
+
+js-meaning-median-lower-better = mediaani, pienempi on parempi
+
+js-meaning-of-the-time = ajasta
+
+js-meaning-orbit-best-label = Paras geometria (PDOP)
+
+js-meaning-orbit-best-sub = pienin ajon aikana
+
+js-meaning-orbit-big-always = Paikanmääritys on mahdollinen koko ajan.
+
+js-meaning-orbit-big-share = Paikanmääritys on mahdollinen { $share } % ajasta.
+
+js-meaning-orbit-error-label = Tyypillinen paikkavirhe
+
+js-meaning-orbit-error-sub = 1-sigma, mediaani
+
+js-meaning-orbit-line =
+    { $n ->
+        [one] Satelliitteja oli näkyvissä riittävästi { $fix } / { $n } ajanhetkellä.
+       *[other] Satelliitteja oli näkyvissä riittävästi { $fix } / { $n } ajanhetkellä.
+    }
+
+js-meaning-orbit-line-pdop =
+    { $n ->
+        [one] Satelliitteja oli näkyvissä riittävästi { $fix } / { $n } ajanhetkellä; tyypillinen geometrian laatu (PDOP, paikan tarkkuuden heikkenemiskerroin) on { $pdop }, pienempi on parempi.
+       *[other] Satelliitteja oli näkyvissä riittävästi { $fix } / { $n } ajanhetkellä; tyypillinen geometrian laatu (PDOP, paikan tarkkuuden heikkenemiskerroin) on { $pdop }, pienempi on parempi.
+    }
+
+js-meaning-orbit-moments =
+    { $n ->
+        [one] { $fix } / { $n } ajanhetki
+       *[other] { $fix } / { $n } ajanhetkeä
+    }
+
+js-meaning-orbit-time-label = Aika, jolloin paikanmääritys on mahdollinen
+
+js-meaning-pair-big-diff-pos = { $best } pysyy rajan { $budget } sisällä { $bestDur } ajan; { $other } { $otherDur } ajan.
+
+js-meaning-pair-big-diff-time = { $best } pitää ajan rajan { $budget } sisällä { $bestDur } ajan; { $other } { $otherDur } ajan.
+
+js-meaning-pair-big-same-pos = Sekä { $q } että { $c } pysyvät rajan { $budget } sisällä { $dur } ajan.
+
+js-meaning-pair-big-same-time = Sekä { $q } että { $c } pitävät ajan rajan { $budget } sisällä { $dur } ajan.
+
+js-meaning-pair-line-clock = Holdover tarkoittaa, kuinka kauan kukin kello pysyy budjetin { $budget } sisällä satelliittinavigoinnin menetyksen jälkeen.
+
+js-meaning-pair-line-navigator = Holdover tarkoittaa, kuinka kauan kukin navigaattori pysyy budjetin { $budget } sisällä satelliittinavigoinnin menetyksen jälkeen.
+
+js-meaning-pdop-label = Geometrian laatu (PDOP)
+
+js-meaning-places-times = paikoista ja ajanhetkistä
+
+js-meaning-range-to = { $from } – { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] satelliitti
+       *[other] satelliittia
+    }
+
+js-meaning-spectrum-above = kynnyksen yläpuolella
+
+js-meaning-spectrum-below = kynnyksen alapuolella: menetetty
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] Kaikkien { $n } signaalin seuranta jatkuu.
+       *[other] Kaikkien { $n } signaalin seuranta jatkuu.
+    }
+
+js-meaning-spectrum-big-lost =
+    { $n ->
+        [one] Häirintälähteet vievät { $lost } / { $n } signaalista: { $names }.
+       *[other] Häirintälähteet vievät { $lost } / { $n } signaalista: { $names }.
+    }
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } pysyy vastaanottimen seurantakynnyksen yläpuolella koko ajon ajan.
+       *[other] { $names } pysyvät vastaanottimen seurantakynnyksen yläpuolella koko ajon ajan.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } pysyy vastaanottimen { $thr } dB-Hz:n seurantakynnyksen yläpuolella koko ajon ajan.
+       *[other] { $names } pysyvät vastaanottimen { $thr } dB-Hz:n seurantakynnyksen yläpuolella koko ajon ajan.
+    }
+
+js-meaning-spectrum-line-none = Yksikään signaali ei pysy vastaanottimen seurantakynnyksen yläpuolella koko ajon ajan.
+
+js-meaning-spectrum-line-none-thr = Yksikään signaali ei pysy vastaanottimen { $thr } dB-Hz:n seurantakynnyksen yläpuolella koko ajon ajan.
+
+js-meaning-spectrum-weakest-label = Heikoin signaali, { $name }
+
+js-meaning-whole-run = koko ajon ajalta
+
+js-meaning-your-setting = oma asetus
+
+js-meankind-acm-big =
+    { $n ->
+        [one] Mukautuva koodaus siirtää { $gain } kertaa enemmän dataa kuin paras kiinteä tila: { $acm } Gbit verrattuna arvoon { $ccm } Gbit { $n } ohituksen aikana.
+       *[other] Mukautuva koodaus siirtää { $gain } kertaa enemmän dataa kuin paras kiinteä tila: { $acm } Gbit verrattuna arvoon { $ccm } Gbit { $n } ohituksen aikana.
+    }
+
+js-meankind-acm-line = Kiinteä tila { $mode }; katkoa { $dur }.
+
+js-meankind-anomaly-big = Kvanttivikamonitori saa tuloksen { $q }, klassinen { $c } (käyrän alle jäävä pinta-ala, 1 on täydellinen).
+
+js-meankind-anomaly-line = Pienin havaittavissa oleva vika on { $q }, klassisella { $c }.
+
+js-meankind-aocs-big-open = { $slew } asteen kääntö ei asetu alle { $threshold } asteen.
+
+js-meankind-aocs-big-settles = { $slew } asteen kääntö asettuu alle { $threshold } asteen ajassa { $dur }.
+
+js-meankind-aocs-line = Lopullinen osoitusvirhe { $final } astetta.
+
+js-meankind-aocs-line-filter = Lopullinen osoitusvirhe { $final } astetta. Silmukassa oleva asennonsuodin poikkeaa { $arcsec } arcsec RMS.
+
+js-meankind-aocs-line-wheel = Lopullinen osoitusvirhe { $final } astetta. Vauhtipyörän huippumomentti { $torque } N m.
+
+js-meankind-aocs-line-wheel-filter = Lopullinen osoitusvirhe { $final } astetta. Vauhtipyörän huippumomentti { $torque } N m. Silmukassa oleva asennonsuodin poikkeaa { $arcsec } arcsec RMS.
+
+js-meankind-aperture-big = Navigointi käyttää { $nav } % antenniajasta ja tietoliikenne { $comms } %.
+
+js-meankind-aperture-big-idle = Navigointi käyttää { $nav } % antenniajasta ja tietoliikenne { $comms } %; { $idle } % on joutilaana.
+
+js-meankind-aperture-line-all =
+    { $n ->
+        [one] { $n } apertuuri säännön { $policy } mukaan, kilpailutilannetta { $dur }.
+       *[other] { $n } apertuuria säännön { $policy } mukaan, kilpailutilannetta { $dur }.
+    }
+
+js-meankind-aperture-line-contention =
+    { $n ->
+        [one] { $n } apertuuri, kilpailutilannetta { $dur }.
+       *[other] { $n } apertuuria, kilpailutilannetta { $dur }.
+    }
+
+js-meankind-aperture-line-count =
+    { $n ->
+        [one] { $n } apertuuri.
+       *[other] { $n } apertuuria.
+    }
+
+js-meankind-aperture-line-nocount = Apertuurit.
+
+js-meankind-aperture-line-nocount-all = Apertuurit säännön { $policy } mukaan, kilpailutilannetta { $dur }.
+
+js-meankind-aperture-line-nocount-contention = Apertuurit, kilpailutilannetta { $dur }.
+
+js-meankind-aperture-line-nocount-policy = Apertuurit säännön { $policy } mukaan.
+
+js-meankind-aperture-line-policy =
+    { $n ->
+        [one] { $n } apertuuri säännön { $policy } mukaan.
+       *[other] { $n } apertuuria säännön { $policy } mukaan.
+    }
+
+js-meankind-araim-big-no = Ei: moottorin suojaustasot eivät vastaa julkaistua vertailua.
+
+js-meankind-araim-big-yes = Kyllä: moottorin suojaustasot vastaavat julkaistua vertailua.
+
+js-meankind-araim-line = Suurin ero on { $worst } m, kun vertailun oma toleranssi on { $tol } m.
+
+js-meankind-araim-line-vectors =
+    { $n ->
+        [one] Suurin ero on { $worst } m, kun vertailun oma toleranssi on { $tol } m, { $n } vertailuvektorin yli.
+       *[other] Suurin ero on { $worst } m, kun vertailun oma toleranssi on { $tol } m, { $n } vertailuvektorin yli.
+    }
+
+js-meankind-arc-big = Estimaattori palauttaa radan, kun käytössä on { $dur } { $h } tunnin kaaresta.
+
+js-meankind-arc-line = Avaruusaluksia { $n }, { $observable }-mittaukset.
+
+js-meankind-ascent-big = Painovoima, ilmanvastus, ohjaus ja vastapaine vievät { $loss } m/s ihanteellisesta { $ideal } m/s nopeuden lisäyksestä.
+
+js-meankind-ascent-line = Polton loppu korkeudella { $km } km ja nopeudella { $speed } m/s; huippudynaaminen paine { $kpa } kPa.
+
+js-meankind-attack-big-no = Pinnalla oleva harhauttaja ei voi vangita kuuvastaanotinta.
+
+js-meankind-attack-big-yes = Pinnalla oleva harhauttaja voi vangita kuuvastaanottimen.
+
+js-meankind-attack-line = Pinnalla oleva lähetin yltää { $km } km:n päähän, ennen kuin horisontti estää sen.
+
+js-meankind-attitude-big = Osoitusvirhe on yhteensä { $total } kaarisekuntia.
+
+js-meankind-attitude-big-from = Osoitusvirhe on yhteensä { $total } kaarisekuntia, pääosin lähteestä { $from }.
+
+js-meankind-attitude-line = Suurin gravitaatiogradienttimomentti on { $torque } N·m.
+
+js-meankind-beacon-big = Pintamajakat parantavat geometrian laatua (PDOP) { $x } kertaa.
+
+js-meankind-beacon-line = Satelliittien lisääminen parantaa sitä sen sijaan { $x } kertaa.
+
+js-meankind-bodypnt-big = Pelkät releet antavat paikanmäärityksen { $share } % ajasta (keskuskappale: { $body }).
+
+js-meankind-bodypnt-big-earth = Pelkät releet antavat paikanmäärityksen { $share } % ajasta (keskuskappale: { $body }); { $earth } % Maa-yhteyksien kanssa.
+
+js-meankind-bodypnt-line = Näkyvissä on keskimäärin { $mean } relettä.
+
+js-meankind-by = { $a } × { $b }
+
+js-meankind-campaign-compose-line = Jokainen jäsen on tavallinen moottoriajo; kampanja lukee niiden tulokset rinnakkain.
+
+js-meankind-campaign-compose-range =
+    { $n ->
+        [one] { $n } skenaariossa samoissa ehdoissa { $what } vaihtelee välillä { $low }–{ $high }.
+       *[other] { $n } skenaariossa samoissa ehdoissa { $what } vaihtelee välillä { $low }–{ $high }.
+    }
+
+js-meankind-campaign-compose-same =
+    { $n ->
+        [one] { $n } skenaariossa samoissa ehdoissa { $what } on { $value } jokaisessa.
+       *[other] { $n } skenaariossa samoissa ehdoissa { $what } on { $value } jokaisessa.
+    }
+
+js-meankind-campaign-line =
+    { $n ->
+        [one] { $n } vaihe.
+       *[other] { $n } vaihetta.
+    }
+
+js-meankind-campaign-line-all =
+    { $n ->
+        [one] { $n } vaihe ja { $events }, lähteenä { $runs }; lopussa { $label } on { $value }.
+       *[other] { $n } vaihetta ja { $events }, lähteenä { $runs }; lopussa { $label } on { $value }.
+    }
+
+js-meankind-campaign-line-end =
+    { $n ->
+        [one] { $n } vaihe; lopussa { $label } on { $value }.
+       *[other] { $n } vaihetta; lopussa { $label } on { $value }.
+    }
+
+js-meankind-campaign-line-events =
+    { $n ->
+        [one] { $n } vaihe ja { $events }.
+       *[other] { $n } vaihetta ja { $events }.
+    }
+
+js-meankind-campaign-line-events-end =
+    { $n ->
+        [one] { $n } vaihe ja { $events }; lopussa { $label } on { $value }.
+       *[other] { $n } vaihetta ja { $events }; lopussa { $label } on { $value }.
+    }
+
+js-meankind-campaign-line-events-runs =
+    { $n ->
+        [one] { $n } vaihe ja { $events }, lähteenä { $runs }.
+       *[other] { $n } vaihetta ja { $events }, lähteenä { $runs }.
+    }
+
+js-meankind-campaign-line-runs =
+    { $n ->
+        [one] { $n } vaihe, lähteenä { $runs }.
+       *[other] { $n } vaihetta, lähteenä { $runs }.
+    }
+
+js-meankind-campaign-line-runs-end =
+    { $n ->
+        [one] { $n } vaihe, lähteenä { $runs }; lopussa { $label } on { $value }.
+       *[other] { $n } vaihetta, lähteenä { $runs }; lopussa { $label } on { $value }.
+    }
+
+js-meankind-campaign-mission-alarm = Hälytys annetaan ajan { $alarm } { $dur } kestävästä tehtävästä.
+
+js-meankind-campaign-mission-phases = { $phases }-vaiheinen tehtävä, kesto { $dur }, ketjutettu yhdelle kellolle.
+
+js-meankind-campaign-mission-quiet = Ei hälytystä koko { $dur } kestävässä tehtävässä.
+
+js-meankind-campaign-montecarlo =
+    { $n ->
+        [one] { $n } siemenluvulla ajetun ajon yli { $name } on keskimäärin { $mean }, hajonta { $std }.
+       *[other] { $n } siemenluvulla ajetun ajon yli { $name } on keskimäärin { $mean }, hajonta { $std }.
+    }
+
+js-meankind-campaign-montecarlo-line = Hajonta on yksi keskihajonta ajojen yli.
+
+js-meankind-campaign-optimize =
+    { $n ->
+        [one] Haku asettuu arvoon { $value } ({ $name }) { $n } ajon jälkeen.
+       *[other] Haku asettuu arvoon { $value } ({ $name }) { $n } ajon jälkeen.
+    }
+
+js-meankind-campaign-optimize-at = Kohdassa { $at }.
+
+js-meankind-campaign-optimize-kind =
+    { $n ->
+        [one] Haku asettuu arvoon { $value } ({ $name }) { $n } ajon ({ $kind }) jälkeen.
+       *[other] Haku asettuu arvoon { $value } ({ $name }) { $n } ajon ({ $kind }) jälkeen.
+    }
+
+js-meankind-campaign-sweep-flat =
+    { $n ->
+        [one] { $n } ajon yli ({ $axis }, { $from }–{ $to }) { $metric } pysyy arvossa { $value }.
+       *[other] { $n } ajon yli ({ $axis }, { $from }–{ $to }) { $metric } pysyy arvossa { $value }.
+    }
+
+js-meankind-campaign-sweep-flat-line = Kaavio näyttää jokaisen ajon.
+
+js-meankind-campaign-sweep-goes =
+    { $n ->
+        [one] { $n } ajon yli ({ $axis }, { $from }–{ $to }) { $metric } muuttuu arvosta { $first } arvoon { $last }.
+       *[other] { $n } ajon yli ({ $axis }, { $from }–{ $to }) { $metric } muuttuu arvosta { $first } arvoon { $last }.
+    }
+
+js-meankind-campaign-sweep-goes-line = Kaavio näyttää jokaisen ajon; vaihteluväli { $min }–{ $max }.
+
+js-meankind-classical-link = klassinen yhteys
+
+js-meankind-clock-word = kello
+
+js-meankind-conflict-big = Kerroksellinen arkkitehtuuri kestää { $ratio } kertaa paremmin kuin yksi kerros.
+
+js-meankind-conflict-line-threats = Uhkien Monte Carlo antaa { $ratio } kertaa.
+
+js-meankind-conflict-line-threats-corr = Uhkien Monte Carlo antaa { $ratio } kertaa; korreloivilla uhilla se voi laskea { $low } kertaan.
+
+js-meankind-conflict-line-trials =
+    { $n ->
+        [one] { $n } kokeen Monte Carlo antaa { $ratio } kertaa.
+       *[other] { $n } kokeen Monte Carlo antaa { $ratio } kertaa.
+    }
+
+js-meankind-conflict-line-trials-corr =
+    { $n ->
+        [one] { $n } kokeen Monte Carlo antaa { $ratio } kertaa; korreloivilla uhilla se voi laskea { $low } kertaan.
+       *[other] { $n } kokeen Monte Carlo antaa { $ratio } kertaa; korreloivilla uhilla se voi laskea { $low } kertaan.
+    }
+
+js-meankind-contacts-big =
+    { $n ->
+        [one] Suunnitelma säilyttää { $kept } / { $n } ehdokaskontaktista ja toimittaa { $gbit } Gbit.
+       *[other] Suunnitelma säilyttää { $kept } / { $n } ehdokaskontaktista ja toimittaa { $gbit } Gbit.
+    }
+
+js-meankind-contacts-big-waiting =
+    { $n ->
+        [one] Suunnitelma säilyttää { $kept } / { $n } ehdokaskontaktista ja toimittaa { $gbit } Gbit odottavasta { $waiting } Gbit:stä.
+       *[other] Suunnitelma säilyttää { $kept } / { $n } ehdokaskontaktista ja toimittaa { $gbit } Gbit odottavasta { $waiting } Gbit:stä.
+    }
+
+js-meankind-contacts-line = Satelliitteja { $sats } ja asemia { $stations }, { $hours } h aikana.
+
+js-meankind-dpnt-big = Differentiaalikorjaukset pienentävät virheen { $from } m:stä { $to } m:iin.
+
+js-meankind-dpnt-line = Vertailuasema { $km } km:n päässä.
+
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } päivä
+       *[other] { $days } päivää
+    }
+
+js-meankind-earthgnss-big =
+    { $n ->
+        [one] Kuun etäisyydellä { $visible } / { $n } satelliitista on näkyvissä, mutta seurattavissa on { $trackable }.
+       *[other] Kuun etäisyydellä { $visible } / { $n } satelliitista on näkyvissä, mutta seurattavissa on { $trackable }.
+    }
+
+js-meankind-earthgnss-line = Paras signaali on { $best } dB-Hz, kun seurantakynnys on { $threshold } dB-Hz.
+
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } moottoriajo
+       *[other] { $n } moottoriajoa
+    }
+
+js-meankind-entry-big = Huippuhidastuvuus on { $g } g korkeudella { $km } km, huipun lämpövuo { $flux } W/cm².
+
+js-meankind-entry-line = Sisääntulo nopeudella { $speed } m/s, { $angle } astetta horisontin alapuolella.
+
+js-meankind-eo-big = Kamera näkee { $swath } km:n kaistan { $gsd } m:n erotuskyvyllä.
+
+js-meankind-eo-line-contiguous = Maanpintajäljet ovat { $km } km:n päässä toisistaan päiväntasaajalla, joten kattavuus on yhtenäinen.
+
+js-meankind-eo-line-gapped = Maanpintajäljet ovat { $km } km:n päässä toisistaan päiväntasaajalla, joten kattavuudessa on aukkoja.
+
+js-meankind-eop-big = Kuun etäisyydellä Maan pyöriminen pyyhkäisee { $m } m joka sekunti, joten Maan orientaatiodatan ikä ({ $dur } tässä) on merkitsevä.
+
+js-meankind-eop-line = Syöte: { $source }.
+
+js-meankind-ephemeris-big = Satelliitti lentää korkeudella { $min }–{ $max } km, enintään leveysasteelle { $lat }°.
+
+js-meankind-ephemeris-line = Asemalta nähtynä se nousee korkeuskulmaan { $deg }°.
+
+js-meankind-ephemeris-line-doppler = Asemalta nähtynä se nousee korkeuskulmaan { $deg }°, Doppler enintään { $khz } kHz.
+
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } tapahtuma
+       *[other] { $n } tapahtumaa
+    }
+
+js-meankind-framecampaign-big-open =
+    { $n ->
+        [one] Kampanja jättää { $n } vertailupisteen suunnan määrittämättä.
+       *[other] Kampanja jättää { $n } vertailupisteen suuntaa määrittämättä.
+    }
+
+js-meankind-framecampaign-big-yes = Kyllä: kampanja määrittää Kuun koordinaatiston vertailupisteen täysin.
+
+js-meankind-framecampaign-line = Ehtoluku { $n }.
+
+js-meankind-framereal-big = Kuun koordinaatisto realisoidaan { $m } m:n jäännösvirheellä.
+
+js-meankind-framereal-big-open = Kuun koordinaatisto realisoidaan { $m } m:n jäännösvirheellä, vaikka sovitus ei konvergoitunut.
+
+js-meankind-framereal-line = Siirtymävirhe { $trans } m, mittakaavavirhe { $scale } miljardisosaa.
+
+js-meankind-gnsssim-big = Eheyden valvonta suojaa paikanmäärityksen { $share } % ajasta.
+
+js-meankind-gnsssim-line = Ionosfääri lisää keskimäärin { $iono } m ja troposfääri { $tropo } m jokaiseen etäisyyteen.
+
+js-meankind-headline-figure = pääluku
+
+js-meankind-holdovertest-big = Maskeja vasten mitattuna tallenteen { $dur } s:n holdover yltää { $te } ns:n aikavirheeseen.
+
+js-meankind-holdovertest-big-open = Maskeja vasten mitattuna tallenteen { $dur } s:n holdover yltää { $te } ns:n aikavirheeseen, eikä palautunut kaistan sisään.
+
+js-meankind-holdovertest-big-recovered = Maskeja vasten mitattuna tallenteen { $dur } s:n holdover yltää { $te } ns:n aikavirheeseen, ja palautui { $recover } s sen jälkeen, kun GNSS palasi.
+
+js-meankind-holdovertest-line = Mitattu maskia vasten, ei koskaan väite siitä, että järjestelmä täyttää vaatimukset; kaksi aikaa ovat operaattorin ilmoitus.
+
+js-meankind-holdovertest-line-masks = { $masks }. Mitattu maskia vasten, ei koskaan väite siitä, että järjestelmä täyttää vaatimukset; kaksi aikaa ovat operaattorin ilmoitus.
+
+js-meankind-impairment-big = Ilmaisin erottaa heikentyneet signaalit puhtaista käyrän alle jäävällä pinta-alalla { $auc } (1 on täydellinen).
+
+js-meankind-impairment-line = Koulutusaineistosta poikkeavissa tapauksissa se saa tuloksen { $auc }.
+
+js-meankind-infra-carrier = Kokonaislukuratkaisu kantoaallon vaiheelle pinta-aseman ja kiertäjän välillä ratkaisi { $share } % kokeista pisimmällä kaarella ({ $days } vrk).
+
+js-meankind-infra-frame = Kiertäjä–asema-linkit nostavat Kuun vertailupisteen pienintä informaation ominaisarvoa { $x } kertaa ja pienentävät Cramér–Rao-jäljen arvoon { $share } %, jos rata tunnetaan Kuun akseleissa.
+
+js-meankind-infra-geodesy = Kaikilla neljällä perheellä yhdessä h2, k2 ja l2 saadaan sidottua tasolle { $h2 } %, { $k2 } % ja { $l2 } % nimellisarvoistaan.
+
+js-meankind-infra-od = Aluksella tehtävä Maan GNSS-radanmääritys Kuun radalla on hyvä { $gnss } m:iin, riippumaton maaseuranta { $ground } m:iin; yhdenmukaisuustunnusluku on keskimäärin { $mean } (odotettu { $expected }).
+
+js-meankind-infra-tail = MODELLED: rajattu malli havainnollistavilla syötteillä, ei väite minkään tehtävän osalta.
+
+js-meankind-infra-tie =
+    { $n ->
+        [one] { $mm } mm:n paikallinen sidos yhdellä avaruusaluksella sitoo GNSS-, VLBI- ja laseretäisyysmittauskoordinaatistot { $n } pyyhkäistyn sidosvirheen yli.
+       *[other] { $mm } mm:n paikallinen sidos yhdellä avaruusaluksella sitoo GNSS-, VLBI- ja laseretäisyysmittauskoordinaatistot { $n } pyyhkäistyn sidosvirheen yli.
+    }
+
+js-meankind-inside-spec = määrityksen { $spec } sisällä
+
+js-meankind-instrn-big = Pelkällä inertialla kulkiessa paikkavirhe ylittää { $threshold } m ajassa { $dur }.
+
+js-meankind-instrn-dom = { $dominant } dominoi.
+
+js-meankind-instrn-line = Se ylittää { $passes }.
+
+js-meankind-instrn-line-dom = Se ylittää { $passes }; { $dominant } dominoi.
+
+js-meankind-instrn-pass = { $threshold } m ajassa { $dur }
+
+js-meankind-interop-big-no = Ei: Kuun efemeeritiedosto ei säily ehjänä edestakaisessa muunnoksessa.
+
+js-meankind-interop-big-yes = Kyllä: Kuun efemeeritiedosto säilyy ehjänä edestakaisessa muunnoksessa.
+
+js-meankind-interop-line = Tiloja { $n }, koordinaatisto { $frame }, aika { $time }.
+
+js-meankind-its-spec = sen määritys
+
+js-meankind-jointod-big = Maapohjaisen interferometriaviiveen lisääminen tarkentaa aseman paikkaa { $x } kertaa.
+
+js-meankind-jointod-line = Asema tunnetaan tällöin { $m } m:n tarkkuudella.
+
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } laukaisumahdollisuus päivässä saavuttaa radan, jonka inklinaatio on { $incl }°, leveysasteelta { $lat }°.
+       *[other] { $n } laukaisumahdollisuutta päivässä saavuttavat radan, jonka inklinaatio on { $incl }°, leveysasteelta { $lat }°.
+    }
+
+js-meankind-launch-line = Maan pyöriminen antaa { $speed } m/s ilmaiseksi.
+
+js-meankind-layer-agc = AGC (automaattinen vahvistuksensäätö)
+
+js-meankind-layer-raim = RAIM (vastaanottimen autonominen eheyden valvonta)
+
+js-meankind-layer-sqm = SQM (signaalin laadun valvonta)
+
+js-meankind-leochain-big = Päästä päähän matalan radan järjestelmä pienentää paikkavirheen { $from } m:stä { $to } m:iin.
+
+js-meankind-leochain-line = Sen signaalia seurataan enintään { $cn0 } dB-Hz:llä.
+
+js-meankind-leopass-big-many = Satelliitit ohittavat { $elev }° korkeudella ja pysyvät maskin yläpuolella { $dur } (ensimmäinen; yhteensä { $n }).
+
+js-meankind-leopass-big-one = Satelliitti ohittaa { $elev }° korkeudella ja pysyy maskin yläpuolella { $dur }.
+
+js-meankind-leopass-line = Huipussaan matalan radan signaali saapuu { $db } dB voimakkaampana kuin tyypillinen satelliittinavigointisignaali.
+
+js-meankind-leoppp-big = Tarkka paikannus konvergoituu { $best } minuutissa suurimmalla matalan radan kerroksella, kun pelkällä satelliittinavigoinnilla se kestää { $base } min.
+
+js-meankind-leoppp-line = Ajojen mediaani tapausta kohti, { $m } m:iin.
+
+js-meankind-leoppp-line-runs =
+    { $n ->
+        [one] { $n } ajon mediaani tapausta kohti, { $m } m:iin.
+       *[other] { $n } ajon mediaani tapausta kohti, { $m } m:iin.
+    }
+
+js-meankind-leopvt-doppler-big = Doppler-paikannus matalan radan satelliiteista osuu { $m } m:n päähän totuudesta (vaaka).
+
+js-meankind-leopvt-doppler-line =
+    { $n ->
+        [one] { $n } satelliitti käytetty.
+       *[other] { $n } satelliittia käytetty.
+    }
+
+js-meankind-leopvt-joint-big = Matalan radan kerroksen lisääminen pienentää virheen { $from } m:stä { $to } m:iin (3D-neliökeskiarvo).
+
+js-meankind-leopvt-joint-line = Geometrian laatu (PDOP) muuttuu arvosta { $from } arvoon { $to }.
+
+js-meankind-leopvt-polar-big = Navan lähellä matalan radan kerros parantaa geometrian laatua (PDOP) arvosta { $from } arvoon { $to }.
+
+js-meankind-leopvt-polar-line =
+    { $n ->
+        [one] { $n } leveysasteen yli.
+       *[other] { $n } leveysasteen yli.
+    }
+
+js-meankind-leopvt-timing-big = Matalan radan ajansiirto pitää parhaan kellon { $ns } ns:n sisällä UTC:stä (neliökeskiarvo).
