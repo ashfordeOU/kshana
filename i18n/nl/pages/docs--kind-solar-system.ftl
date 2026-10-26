@@ -19,3 +19,7 @@ seg-a4f1e7d2041e = Familiepagina: <a1>Constellaties, dekking en geometrie</a1>
 seg-670191cf797f = Onderwerppagina: <a1>SOLAR-SYSTEM.md</a1>
 
 seg-cef32ee7d521 = Onderwerppagina: <a1>CONSTELLATION-DESIGN.md</a1>
+
+seg-4d208b6c0eb8 = dag
+
+seg-3319b18ac61f = en { "1" } meer in de matrix.

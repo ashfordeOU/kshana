@@ -1,3 +1,7 @@
 # docs--kinds-optical-pnt: translations (nl)
 
 seg-b03d56f501c3 = Type
+
+seg-e6839b50b560 = MODELLED heterogene gezamenlijke kwaliteitsmaat voor optische + RF-PNT (P5): combineert het tweerichtings-optische linkbudget van { "1550" } nm (door fotonen beperkte CRLB voor tweerichtingsafstandsmeting σ_τ/√N en diffractievoetafdruk λ/D·afstand), een RAIM-beschermingsniveau met oplossingsscheiding over modaliteiten heen (positie EN tijd) dat de losse RF- en strakke optische oplossingen met uiteenlopende covarianties samenvoegt, de optische heldere-luchtbeschikbaarheid van N stations (onafhankelijke unie { "1" }−Π({ "1" }−a_i) en een ruimtelijk gecorreleerde variant), een toestands-/covariantieoverdracht optisch↔RF met een BEWEZEN bitcontinu (sprongloos) gemiddelde en een NEES-χ²-consistentiepoort, en een gezamenlijke score P(beschikbaar EN precisieklasse EN integriteit gewaarborgd) met correlatieafhandeling. VALIDATED gesloten vorm: de CRLB voor afstandsmeting, de diffractievoetafdruk, de χ²-kwantiel van het beschermingsniveau, de combinatoriek van de unie, de continuïteit van het gemiddelde bij de overdracht + NEES-poort, en het gezamenlijke onafhankelijke product. MODELLED: de optische verliestoewijzingen, de grootte van de RF-/optische σ, de invoer van de wolkenklimatologie, de correlaties en het P_HMI-budget. Geen gecertificeerd beschikbaarheids-/integriteitsproduct.
+
+seg-5cea5229815e = De grafiek die de engine schrijft voor scenarios/hybrid-optical-rf.toml, soort hybrid-optical-rf

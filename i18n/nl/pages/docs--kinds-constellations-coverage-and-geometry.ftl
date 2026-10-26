@@ -13,3 +13,5 @@ seg-de173c9f4034 = Constellatieontwerp op schaal: Walker-DELTA- en Walker-STAR-p
 seg-899e728ad9bd = De grafiek die de engine schrijft voor scenarios/leo-pnt-mega-shell.toml, kind constellation-design
 
 seg-24266bc264df = Efemeride en grondspoor: propageer één satelliet (TLE→SGP4 of analytische baan) en geef zijn TEME/GCRS-toestand (positie + snelheid), ITRF/ECEF-positie, WGS-84-subsatellietbreedte/-lengte/-hoogte en per stap de az/el/afstand + afstandssnelheid (Doppler) van het station uit. De satelliet komt uit een <c1/> of uit een analytische <c2/> met zijn <c3/> (een <c4/> wint wanneer beide zijn gegeven); met een <c5/> overschrijft een <c6/> de eigen epoch van de TLE als t = { "0" }.
+
+seg-0fd3c58fde09 = De grafiek die de engine schrijft voor scenarios/ephemeris.toml, soort ephemeris

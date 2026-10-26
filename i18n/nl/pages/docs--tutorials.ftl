@@ -21,3 +21,5 @@ seg-029de6b99be0 = Inertiële koppelnavigatie
 seg-9ef8f99ca6e4 = Tijdoverdracht
 
 seg-b03d56f501c3 = Type
+
+seg-ec26df467b88 = Gezamenlijke Kalman-sensorfusie voor PNT op dezelfde hybride invoer.
