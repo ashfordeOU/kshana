@@ -8845,3 +8845,666 @@ js-tools-ubx-ignored-sfrbx =
         [many] de mensagens SFRBX foram ignoradas
        *[other] mensagens SFRBX foram ignoradas
     } (outros sistemas, E5b, alertas, somas de verificação inválidas).
+
+js-trust-agree-neither = nenhum sinaliza
+
+js-trust-agree-receiver-only = só o recetor sinaliza: nenhum monitor do Kshana dá alarme
+
+js-trust-assessed = { $name } avaliado com o motor { $version }, neste navegador.
+
+js-trust-assessed-as = { $name } avaliado como { $format }, com o motor, neste navegador. Nada foi carregado.
+
+js-trust-assessing = A iniciar o motor e a avaliar…
+
+js-trust-class-also-costing = { $class } (também a custar pontos)
+
+js-trust-class-environment = ambiente: o sinal (potência, jamming, satélites perdidos com o céu aberto)
+
+js-trust-class-geometry = geometria: o céu, não o sinal
+
+js-trust-class-inconsistency = inconsistência: semelhante a um ataque, não explicada pelo céu nem pelo sinal
+
+js-trust-dl-result-json = Descarregar o resultado (JSON)
+
+js-trust-dl-table-csv = Descarregar a tabela por época (CSV)
+
+js-trust-edge-degraded = { $v } degradado
+
+js-trust-edge-nominal = { $v } nominal
+
+js-trust-err-assess = { $name }: não foi possível avaliar ({ $reason }).
+
+js-trust-err-demo-files = os ficheiros de demonstração não foram carregados
+
+js-trust-err-demo-log-open = Não foi possível abrir o registo de demonstração: { $reason }.
+
+js-trust-err-demo-open = Não foi possível abrir a demonstração: { $reason }.
+
+js-trust-err-engine-no-receiver-trust = Esta compilação do motor (versão { $version }) não tem receiver_trust.
+
+js-trust-err-engine-no-scorer = Esta compilação do motor (versão { $version }) não tem avaliador de registos; é anterior a esta página. O comando é { $command }.
+
+js-trust-err-engine-start = Não foi possível iniciar o motor aqui ({ $reason }).
+
+js-trust-err-engine-start-open = Não foi possível iniciar o motor aqui ({ $reason }). Abrir os ficheiros de resultado acima continua a funcionar.
+
+js-trust-err-example-files = os ficheiros de exemplo não foram carregados
+
+js-trust-err-example-open = Não foi possível abrir o exemplo: { $reason }.
+
+js-trust-err-file-2mib = { $name }: maior do que 2 MiB. Abra um excerto.
+
+js-trust-err-file-too-large = { $name }: maior do que { $max }. Esta página lê ficheiros até esse tamanho; abra um excerto.
+
+js-trust-err-gen-too-large = { $name }: maior do que 2 MiB. Abra um excerto (a ferramenta de linha de comandos aceita um registo completo).
+
+js-trust-err-imu-format = "{ $format }" não é um formato de IMU que esta página leia (csv ou euroc)
+
+js-trust-err-imu-heading = a proa da IMU na sua primeira amostra não é um número
+
+js-trust-err-log-format = "{ $format }" não é um formato de registo que esta página possa enviar ao motor
+
+js-trust-err-no-epochs = O ficheiro não tem épocas.
+
+js-trust-err-no-epochs-result = Este ficheiro de resultado não tem epochs[]. Tem de provir de `{ $command }` para uma sessão de embarcação.
+
+js-trust-err-no-epochs-returned = { $name }: o motor não devolveu épocas.
+
+js-trust-err-no-score-model = Este resultado não tem score_model, pelo que é uma execução de plataforma estática sem pontuação de confiança. A vista desenha execuções de embarcação (plataforma em movimento).
+
+js-trust-err-not-readable = { $name }: não é um ficheiro que esta vista leia (um JSON de resultado, JSON lines, trust.csv, um registo NMEA ou um ficheiro de referência).
+
+js-trust-err-nothing-to-draw = Nada para desenhar: escolha um JSON de resultado, JSON lines ou trust.csv.
+
+js-trust-err-read = { $name }: não foi possível ler ({ $reason }).
+
+js-trust-err-read-or-draw = { $name }: não foi possível ler ou desenhar ({ $reason }).
+
+js-trust-err-score = { $name }: não foi possível pontuar ({ $reason }).
+
+js-trust-err-score-file-too-large = { $name }: maior do que 2 MiB. O avaliador no navegador aceita um excerto que contenha a janela de calibração de cinco minutos.
+
+js-trust-err-score-too-large = { $name }: maior do que 2 MiB. O avaliador no navegador aceita um excerto (o comando { $command } aceita um registo completo); abra um excerto que contenha a janela de calibração de cinco minutos.
+
+js-trust-err-scorecard-too-large = { $name }: maior do que 8 MiB; esta página lê uma grelha de pontuação até esse tamanho.
+
+js-trust-err-session-empty = As definições da sessão estão vazias. Declaram a embarcação ({ $setting }).
+
+js-trust-err-too-many-epochs = O ficheiro tem { $count } épocas; esta página desenha no máximo { $max }. Abra um excerto.
+
+js-trust-err-triple-quote = { $what } contém três aspas simples seguidas, que não podem ser incorporadas nas definições
+
+js-trust-err-what-file = o ficheiro
+
+js-trust-err-what-imu = o ficheiro de IMU
+
+js-trust-event-label = evento: { $label }
+
+js-trust-event-onset = início
+
+js-trust-evt-col-first-alarm = Primeiro alarme, s
+
+js-trust-evt-col-latency = Latência, s
+
+js-trust-evt-col-onset = Início, s
+
+js-trust-evt-col-outcome = Desfecho
+
+js-trust-evt-col-stated = Evento indicado
+
+js-trust-fmt-android = Android GNSS Logger (texto)
+
+js-trust-fmt-gnss-sdr = Linhas JSON retransmitidas do GNSS-SDR (texto)
+
+js-trust-fmt-nmea = NMEA 0183 (texto)
+
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII ou binário)
+
+js-trust-fmt-rinex = Observação RINEX (texto)
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binário)
+
+js-trust-fmt-rtklib-pos = Solução RTKLIB .pos (texto)
+
+js-trust-fmt-sbf = Septentrio SBF (binário)
+
+js-trust-fmt-ubx = u-blox UBX (binário)
+
+js-trust-gate-note-derived = Esta execução não tem registo de gate. A faixa mostra onde uma gate teria retido a solução de posição: épocas na banda não fiável, retidas até 30 s depois de a deixarem. Derivado aqui, não lido de uma gate. Uma gate é opcional e acrescenta latência.
+
+js-trust-gate-note-read = A gate de cada época tal como o fluxo em direto a comunicou: desligada, passada ou retida (a solução de posição foi marcada como inválida no ciclo reencaminhado).
+
+js-trust-gate-now-derived = { $gate } · derivado
+
+js-trust-gate-off = Desligada
+
+js-trust-gate-off-cal = Desligada (a calibrar)
+
+js-trust-gate-passed = Passada: a solução de posição é reencaminhada sem alterações
+
+js-trust-gate-span = gate { $gate }, { $from } a { $to }
+
+js-trust-gate-span-derived = gate { $gate } (derivada), { $from } a { $to }
+
+js-trust-gate-withheld = Retida: a solução de posição seria marcada como inválida a jusante
+
+js-trust-gen-chart-label = O gráfico do motor para a execução: densidade portadora-ruído, estado e alarmes ao longo do tempo
+
+js-trust-gen-epochs = Épocas: { $nominal } nominais, { $degraded } degradadas, { $untrusted } não fiáveis após a janela de calibração de { $window } épocas.
+
+js-trust-gen-self-heading = As sinalizações do próprio recetor, face aos alarmes do Kshana
+
+js-trust-gen-self-note = Uma comparação, não uma verificação de nenhum dos dois: a sinalização do recetor é um relato seu.
+
+js-trust-geo-deduction-class =
+    { $points ->
+        [one] { $points } ponto ({ $class })
+        [many] { $points } de pontos ({ $class })
+       *[other] { $points } pontos ({ $class })
+    }
+
+js-trust-geo-deduction-points =
+    { $points ->
+        [one] { $points } ponto
+        [many] { $points } de pontos
+       *[other] { $points } pontos
+    }
+
+js-trust-geo-flag-mismatch = O HDOP que o recetor indica discorda do derivado do céu que comunica: uma dedução de geometria conta como inconsistência.
+
+js-trust-geo-flag-signal-loss = Perda de sinal: os satélites à vista não são seguidos embora a sua geometria seja boa, pelo que uma dedução de geometria conta como ambiente.
+
+js-trust-geo-heading-label = geometria { $label }
+
+js-trust-geo-label-fair = { $label } (não pontuado)
+
+js-trust-geo-label-poor = { $label } (a única etiqueta pela qual a pontuação deduz)
+
+js-trust-geo-none-in-run = Sem geometria nesta execução (um motor anterior à 0.36 não escreve nenhuma).
+
+js-trust-geo-reason-few-satellites = menos satélites do que o mínimo
+
+js-trust-geo-reason-high-hdop = HDOP acima do seu limiar
+
+js-trust-geo-reason-high-pdop = PDOP acima do seu limiar
+
+js-trust-geo-reason-sky-blocked = os satélites seguidos deixam uma grande lacuna em azimute (um lado do céu bloqueado)
+
+js-trust-geo-row-deduction = Dedução de geometria
+
+js-trust-geo-row-from = De
+
+js-trust-geo-row-gap = Maior lacuna em azimute
+
+js-trust-geo-row-label = Etiqueta
+
+js-trust-geo-row-open-sky = Céu aberto
+
+js-trust-geo-row-reported-hdop = HDOP que o recetor indica
+
+js-trust-geo-row-sats-used = Satélites utilizados
+
+js-trust-geo-row-sky-age = Idade do céu
+
+js-trust-geo-row-status = Estado
+
+js-trust-geo-say-deduction =
+    { $points ->
+        [one] dedução de geometria { $points } ponto
+        [many] dedução de geometria { $points } de pontos
+       *[other] dedução de geometria { $points } pontos
+    }
+
+js-trust-geo-say-label-hdop = geometria { $label } (HDOP { $hdop })
+
+js-trust-geo-say-mismatch = HDOP indicado discorda
+
+js-trust-geo-source-derived = derivado dos satélites que o registo comunica (GSV)
+
+js-trust-geo-source-none = nada
+
+js-trust-geo-source-reported = o DOP indicado pelo recetor (GSA)
+
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+js-trust-geo-status-title = geometria { $status }
+
+js-trust-geo-unknown-no-gsv = geometria desconhecida: sem GSV nem GSA no registo
+
+js-trust-geo-unknown-no-gsv-sentence = Geometria desconhecida: sem GSV nem GSA no registo.
+
+js-trust-geo-unknown-odd = Geometria desconhecida (o ficheiro diz "{ $odd }", que esta página não conhece).
+
+js-trust-geo-used-of-view = { $used } de { $inView } à vista
+
+js-trust-got-file-kind = { $name }: { $kind }
+
+js-trust-got-lines-skipped = { $count } linha(s) de { $name } não eram épocas e foram ignoradas
+
+js-trust-imu-csv = CSV com linha de cabeçalho
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = Ficheiro de IMU: { $name } ({ $chars } carateres). Utilizado na próxima avaliação.
+
+js-trust-imu-file-press = Ficheiro de IMU: { $name } ({ $chars } carateres). Utilizado na próxima avaliação; prima Avaliar o ficheiro escolhido.
+
+js-trust-imu-none = Nenhum ficheiro de IMU.
+
+js-trust-jt-col-latency = Latência, s
+
+js-trust-jt-col-monitors = Primeiros monitores
+
+js-trust-jt-col-name = Nome
+
+js-trust-jt-col-outcome = Desfecho
+
+js-trust-jt-col-recovered = Recuperado
+
+js-trust-jt-col-slot = Slot, s
+
+js-trust-jt-col-test = Ensaio
+
+js-trust-jt-label = { $label } Guarda { $guard } s, retenção de recuperação { $hold } s.
+
+js-trust-jt-label-contaminated = { $label } Guarda { $guard } s, retenção de recuperação { $hold } s. A linha de base de calibração sobrepôs-se a um intervalo agendado.
+
+js-trust-jt-opened = { $name } aberto: { $count } ensaio(s). Lido aqui; nada foi carregado.
+
+js-trust-kind-batch-result = resultado em lote
+
+js-trust-kind-json-lines = linhas JSON
+
+js-trust-kind-nmea-log = registo NMEA
+
+js-trust-kind-truth-file = ficheiro de referência
+
+js-trust-label-demo = Demonstração sintética: um registo de ferry inventado com um arrastamento de posição inventado, pontuado pelo Kshana. Registado a partir do motor; o registo é texto, não uma medição.
+
+js-trust-label-example = Exemplo ilustrativo: um registo NMEA inventado com um jammer inventado de 120 s a 240 s, avaliado aqui pelo motor. Texto, não uma medição.
+
+js-trust-label-geo-demo = Demonstração sintética de céu mascarado: o registo do ferry com a metade ocidental do céu anulada a partir de 600 s (degradação natural, atribuída à geometria) e o mesmo arrastamento inventado a partir de 1500 s (semelhante a um ataque). Registado a partir de um motor com a geometria 0.36; texto, não uma medição.
+
+js-trust-label-score-demo = Registo de demonstração sintético, pontuado aqui pelo motor. Registo de ferry e arrastamento inventados; texto, não uma medição.
+
+js-trust-legend-calibrating = A calibrar (nunca pontuado)
+
+js-trust-legend-class = Classe de dedução:
+
+js-trust-legend-class-environment = ambiente: o sinal
+
+js-trust-legend-class-geometry = geometria: o céu, não o sinal
+
+js-trust-legend-class-inconsistency = inconsistência (semelhante a um ataque)
+
+js-trust-legend-degraded = Degradado
+
+js-trust-legend-demo = Nesta demonstração, o recetor comunica uma solução de posição válida o tempo todo (qualidade GGA 1, estado RMC A). É a pontuação que desce.
+
+js-trust-legend-geo-degraded = geometria degradada
+
+js-trust-legend-geo-good = geometria boa
+
+js-trust-legend-geo-unknown = geometria desconhecida (sem GSV nem GSA; não boa)
+
+js-trust-legend-nominal = Nominal
+
+js-trust-legend-self = Sinalização do próprio recetor face aos alarmes do Kshana:
+
+js-trust-legend-self-both = ambos sinalizam
+
+js-trust-legend-self-kshana = só o Kshana
+
+js-trust-legend-self-neither = nenhum
+
+js-trust-legend-self-receiver = só o recetor
+
+js-trust-legend-sky = Céu:
+
+js-trust-legend-true-track = Trajetória real (apenas dados sintéticos)
+
+js-trust-legend-underline = sublinhado: geometria também a custar pontos
+
+js-trust-legend-untrusted = Não fiável
+
+js-trust-marks-cleared = Marcas limpas.
+
+js-trust-marks-set =
+    { $count ->
+        [one] { $name } esteve acima do seu início em { $count } época; está marcada na linha temporal e na trajetória.
+        [many] { $name } esteve acima do seu início em { $count } de épocas; estão marcadas na linha temporal e na trajetória.
+       *[other] { $name } esteve acima do seu início em { $count } épocas; estão marcadas na linha temporal e na trajetória.
+    }
+
+js-trust-mon-agc = O controlo automático de ganho moveu-se face à sua linha de base.
+
+js-trust-mon-clock = O monitor assistido por relógio: o relógio do recetor face à sua linha prevista.
+
+js-trust-mon-cn0-drop = Recusa de potência: intensidade do sinal diminuída face à linha de base de calibração.
+
+js-trust-mon-cn0-rise = Procura a assinatura de um único emissor: a intensidade do sinal em todos os satélites a subir em conjunto face à linha de base.
+
+js-trust-mon-cn0-spread = Procura a assinatura de um único emissor: a intensidade do sinal em todos os satélites a colapsar em conjunto face à linha de base de calibração.
+
+js-trust-mon-geometry = A geometria dos satélites (0.36): só custa pontos quando a geometria é fraca (HDOP, PDOP ou satélites utilizados para além dos seus limiares), limitada e nunca abaixo da banda degradada.
+
+js-trust-mon-heading-course = Compara a direção da trajetória com a direção para onde aponta o navio, dentro do ângulo de deriva indicado.
+
+js-trust-mon-jam-ind = O indicador de jamming do próprio recetor.
+
+js-trust-mon-kinematic = Compara cada passo de posição com a velocidade e o rumo comunicados, e com os limites de velocidade, aceleração e taxa de viragem indicados para a embarcação.
+
+js-trust-mon-loss-of-lock = Perda de satélites seguidos.
+
+js-trust-mon-osnma = Lê uma falha de autenticação OSNMA comunicada. O estado é lido, não verificado.
+
+js-trust-mon-position-jump = Um salto na posição comunicada maior do que a linha de base permite.
+
+js-trust-mon-raim = A estatística de teste da monitorização autónoma da integridade pelo recetor face ao seu limiar.
+
+js-trust-mon-receiver-self-report = A própria sinalização de spoofing ou de jamming do recetor (por exemplo, u-blox UBX-SEC-SIG ou NAV-STATUS spoofDetState), mostrada ao lado dos monitores do Kshana. Lida do registo, não verificada; o espaço está pronto para o monitor do motor 0.38 e é desenhado como uma faixa quando um resultado o incluir.
+
+js-trust-mon-sea-level = Verifica se a altitude é a que a superfície do mar e a altura de antena indicada determinam.
+
+js-trust-mon-solve-failure = A solução de posição não pôde ser calculada.
+
+js-trust-mon-speed-log = Compara a velocidade sobre o fundo com a velocidade na água, dentro da tolerância de corrente indicada.
+
+js-trust-mon-time-consistency = Verifica se a hora do recetor tem passos irregulares ou retrocede, e compara-a com o relógio deste computador nos fluxos em tempo real.
+
+js-trust-mon-unknown = Um monitor para o qual esta vista não tem descrição (mais recente do que a página). Trate-o como um monitor.
+
+js-trust-na = n/d
+
+js-trust-name-colon-text = { $name }: { $text }
+
+js-trust-never = nunca
+
+js-trust-no = não
+
+js-trust-no-deduction = sem dedução
+
+js-trust-none = nenhum
+
+js-trust-north = N
+
+js-trust-not-stated = não indicado
+
+js-trust-note-advisories =
+    { $count ->
+        [one] As linhas trazem { $count } declaração consultiva diferente; é mostrada a primeira.
+        [many] As linhas trazem { $count } de declarações consultivas diferentes; é mostrada a primeira.
+       *[other] As linhas trazem { $count } declarações consultivas diferentes; é mostrada a primeira.
+    }
+
+js-trust-note-csv-limits = trust.csv traz pontuações e motivos, mas não rácios nem posições.
+
+js-trust-note-live-no-model = Um fluxo em direto não indica que monitores foram executados nem o modelo de pontuação; as extremidades das bandas abaixo são as predefinições documentadas e as faixas de monitores mostram apenas monitores que custam pontos.
+
+js-trust-note-nmea-no-match = Nenhuma solução de posição NMEA pôde ser associada a uma época pelo tempo.
+
+js-trust-note-nmea-skipped = { $count } frase(s) NMEA com uma soma de verificação ou campos inválidos foram ignoradas.
+
+js-trust-note-skipped-epochs = { $count } época(s) sem t_s numérico foram ignoradas.
+
+js-trust-note-truth-no-match = Os tempos do ficheiro de referência não coincidem com nenhuma época.
+
+js-trust-note-unknown-state = { $count } época(s) têm um estado que esta página não conhece ({ $states }); são desenhadas como a calibrar, nunca pontuadas.
+
+js-trust-offset-at = Em { $time }, a posição comunicada pelo recetor está a { $m } m de onde a embarcação realmente estava (referência sintética).
+
+js-trust-offset-no-truth = Sem posição real neste momento.
+
+js-trust-opened =
+    { $count ->
+        [one] Aberta { $count } época ({ $source }).
+        [many] Abertas { $count } de épocas ({ $source }).
+       *[other] Abertas { $count } épocas ({ $source }).
+    }
+
+js-trust-opening-demo = A abrir a demonstração sintética…
+
+js-trust-opening-demo-log = A abrir o registo de demonstração sintético…
+
+js-trust-opening-example = A abrir o exemplo ilustrativo…
+
+js-trust-opening-geo-demo = A abrir a demonstração de céu mascarado…
+
+js-trust-pause = Pausar
+
+js-trust-play = Reproduzir
+
+js-trust-reading = A ler…
+
+js-trust-reasons-calibrating = A calibrar: os primeiros segundos formam a linha de base e nunca são pontuados.
+
+js-trust-reasons-class-note = Cada dedução traz a classe do motor: geometria (o céu), ambiente (o sinal) ou inconsistência (semelhante a um ataque)
+
+js-trust-reasons-live-unknown = Os monitores que foram executados não são indicados num fluxo em direto; uma verificação ausente aqui pode não ter sido executada.
+
+js-trust-reasons-marked-none = marcado; sem dedução aqui
+
+js-trust-reasons-no-score = Sem pontuação nesta época.
+
+js-trust-reasons-no-score-note = Sem pontuação nesta época: { $note }.
+
+js-trust-reasons-not-run = Não executado (não é um resultado positivo)
+
+js-trust-reasons-nothing = Nada foi deduzido nesta época. Isto não é prova de que a solução de posição seja boa: veja o que as verificações não conseguem ver, abaixo.
+
+js-trust-reasons-pts = { $points } pts
+
+js-trust-reasons-ran-free = Executado, sem custo
+
+js-trust-reasons-ratio = rácio { $ratio }
+
+js-trust-reasons-row-title = { $name }: { $text } Clique para marcar onde esteve acima do seu início.
+
+js-trust-reasons-weight = peso { $weight }
+
+js-trust-reduced-motion = Está preferido o movimento reduzido, pelo que a repetição começa a 1x. Use o controlo deslizante ou as teclas de seta para mover sem animação.
+
+js-trust-say-gate = gate { $gate }
+
+js-trust-say-gate-derived = gate { $gate } (derivada)
+
+js-trust-say-monitor-points =
+    { $points ->
+        [one] { $monitor } { $points } ponto
+        [many] { $monitor } { $points } de pontos
+       *[other] { $monitor } { $points } pontos
+    }
+
+js-trust-say-position-from-true = posição comunicada a { $m } m da real
+
+js-trust-say-reasons = motivos: { $list }
+
+js-trust-say-score = pontuação { $score }
+
+js-trust-scored-label =
+    { $count ->
+        [one] Pontuada { $count } época de { $name } com o motor { $version }, neste navegador.
+        [many] Pontuadas { $count } de épocas de { $name } com o motor { $version }, neste navegador.
+       *[other] Pontuadas { $count } épocas de { $name } com o motor { $version }, neste navegador.
+    }
+
+js-trust-scored-summary =
+    { $count ->
+        [one] Pontuada { $count } época com o motor { $version }: { $summary }. Apenas consultivo.
+        [many] Pontuadas { $count } de épocas com o motor { $version }: { $summary }. Apenas consultivo.
+       *[other] Pontuadas { $count } épocas com o motor { $version }: { $summary }. Apenas consultivo.
+    }
+
+js-trust-scoring = A iniciar o motor e a pontuar…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = O registo não traz nenhuma sinalização do recetor neste momento.
+
+js-trust-self-not-in-log = não está no registo
+
+js-trust-self-row-flags = Sinalizações do recetor
+
+js-trust-self-row-jamming = Estado de jamming do recetor
+
+js-trust-self-row-kshana-alarms = Um monitor do Kshana dá alarme
+
+js-trust-self-row-spoofing = Estado de spoofing do recetor
+
+js-trust-self-unknown-agreement = um acordo que esta página não conhece ({ $odd })
+
+js-trust-self-yes-state-2 = sim (estado 2 ou superior)
+
+js-trust-set-degraded-edge = a extremidade degradada
+
+js-trust-set-degraded-min = degradado a partir de
+
+js-trust-set-epochs = Épocas
+
+js-trust-set-epochs-counts = { $total } no total: { $calibrating } a calibrar, { $nominal } nominais, { $degraded } degradadas, { $untrusted } não fiáveis.
+
+js-trust-set-epochs-counts-class = { $total } no total: { $calibrating } a calibrar, { $nominal } nominais, { $degraded } degradadas, { $untrusted } não fiáveis. Por classe de dedução: geometria { $geometry }, ambiente { $environment }, inconsistência { $inconsistency }.
+
+js-trust-set-evidence-hold = retenção de evidência, s
+
+js-trust-set-full-ratio = peso total no rácio
+
+js-trust-set-geo-counts = Céu: { $good } bom, { $degraded } degradado, { $unknown } desconhecido. Etiqueta: { $lgood } boa, { $fair } razoável, { $poor } fraca (só a fraca custa pontos). Épocas com uma dedução da classe geometria { $geometry }, ambiente { $environment }, inconsistência { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Céu: { $good } bom, { $degraded } degradado, { $unknown } desconhecido ({ $odd } com um valor que esta página não conhece, lido como desconhecido). Etiqueta: { $lgood } boa, { $fair } razoável, { $poor } fraca (só a fraca custa pontos). Épocas com uma dedução da classe geometria { $geometry }, ambiente { $environment }, inconsistência { $inconsistency }.
+
+js-trust-set-geometry = Geometria (definições de [geometry])
+
+js-trust-set-gloss = O que cada verificação observa
+
+js-trust-set-live-geometry = Um fluxo em direto não indica os limiares de geometria; aplicam-se as predefinições documentadas (fraca acima de HDOP 4 ou PDOP 6, ou abaixo de 5 satélites; no máximo 15 pontos, nunca abaixo da banda degradada).
+
+js-trust-set-no-geometry = Esta execução não traz geometria: provém de um motor anterior à 0.36, ou de trust.csv. Nada sobre o céu é mostrado, e nada é mostrado como bom.
+
+js-trust-set-nominal-min = nominal a partir de
+
+js-trust-set-onset-ratio = custa pontos a partir do rácio
+
+js-trust-set-provenance = De onde vêm os limiares e como as deduções são classificadas
+
+js-trust-set-ran = Verificações executadas
+
+js-trust-set-weights = Peso de cada verificação, pontos
+
+js-trust-settings-assumed = Este fluxo não indica o seu modelo de pontuação. As extremidades das bandas mostradas são as predefinições documentadas, assumidas.
+
+js-trust-show-in-replay = Mostrar esta execução na repetição abaixo (trajetória, pontuação, a sinalização do próprio recetor)
+
+js-trust-sky-no-gsv = sem GSV
+
+js-trust-sky-none = Sem céu: abra o registo NMEA com a execução (ou uma demonstração) para ver os satélites que lista.
+
+js-trust-span-title = { $what }, { $from } a { $to }
+
+js-trust-state-0 = desconhecido ou não ativado
+
+js-trust-state-1 = nenhum indicado
+
+js-trust-state-2 = indicado
+
+js-trust-state-3 = várias indicações ou confirmado
+
+js-trust-strip-band = banda
+
+js-trust-strip-class = classe
+
+js-trust-strip-gate = gate
+
+js-trust-strip-marked = marcado
+
+js-trust-strip-receiver = recetor
+
+js-trust-strip-sky = céu
+
+js-trust-strips-none = Este ficheiro não tem rácios de monitores.
+
+js-trust-strips-note-ran = rácio da estatística face ao limiar; a linha tracejada é o alarme em 1
+
+js-trust-strips-note-seen = apenas monitores vistos a custar pontos; rácio face ao limiar
+
+js-trust-sum-both-flag = Ambos sinalizam
+
+js-trust-sum-epochs-compared = Épocas comparadas (após a calibração)
+
+js-trust-sum-first-kshana = Primeiro alarme do Kshana entre essas épocas
+
+js-trust-sum-first-receiver = Primeira sinalização do recetor
+
+js-trust-sum-jamming-flag = Sinalização de jamming do recetor (estado 2+)
+
+js-trust-sum-neither = Nenhum
+
+js-trust-sum-only-kshana = Só o Kshana dá alarme
+
+js-trust-sum-only-receiver = Só o recetor sinaliza
+
+js-trust-sum-spoofing-flag = Sinalização de spoofing do recetor (estado 2+)
+
+js-trust-thr-azimuth-gap = lacuna em azimute, graus, igual ou superior à qual o céu está parcialmente bloqueado
+
+js-trust-thr-cap-in-force = máximo de pontos que a dedução de geometria retira nesta execução
+
+js-trust-thr-cap-points = máximo de pontos que a dedução de geometria pode retirar
+
+js-trust-thr-floor = pontuação mais baixa que só a geometria pode deixar (vazio: a extremidade da banda degradada)
+
+js-trust-thr-floor-in-force = pontuação mais baixa que só a geometria pode deixar nesta execução
+
+js-trust-thr-full-ratio = rácio em que a dedução de geometria atinge o seu máximo
+
+js-trust-thr-hdop-good = HDOP igual ou inferior ao qual a geometria é boa
+
+js-trust-thr-hdop-max = HDOP acima do qual a geometria é fraca
+
+js-trust-thr-hold = durante quanto tempo as posições do céu e o GSA contam depois de chegarem, s
+
+js-trust-thr-low-elev = elevação, graus, abaixo da qual um satélite perdido é atribuído ao céu
+
+js-trust-thr-min-used = menor número de satélites utilizados antes de a geometria ser fraca
+
+js-trust-thr-pdop-good = PDOP igual ou inferior ao qual a geometria é boa
+
+js-trust-thr-pdop-max = PDOP acima do qual a geometria é fraca
+
+js-trust-thr-reported-rel = o mesmo, como proporção do HDOP derivado
+
+js-trust-thr-reported-tol = diferença entre o HDOP indicado e o derivado antes de os dois discordarem
+
+js-trust-thr-sigma-uere = erro de distância equivalente do utilizador que os limiares assumem, metros
+
+js-trust-thr-used-good = satélites utilizados igual ou superior ao qual a geometria é boa
+
+js-trust-track-desc =
+    { $untrusted ->
+        [one] Trajetória de { $positions } posições comunicadas, norte para cima. { $untrusted } época é não fiável.
+        [many] Trajetória de { $positions } posições comunicadas, norte para cima. { $untrusted } de épocas são não fiáveis.
+       *[other] Trajetória de { $positions } posições comunicadas, norte para cima. { $untrusted } épocas são não fiáveis.
+    }
+
+js-trust-track-desc-none = Sem trajetória: os ficheiros não trazem posições.
+
+js-trust-track-desc-truth =
+    { $untrusted ->
+        [one] Trajetória de { $positions } posições comunicadas, norte para cima. { $untrusted } época é não fiável. Uma linha cinzenta fina mostra a trajetória real.
+        [many] Trajetória de { $positions } posições comunicadas, norte para cima. { $untrusted } de épocas são não fiáveis. Uma linha cinzenta fina mostra a trajetória real.
+       *[other] Trajetória de { $positions } posições comunicadas, norte para cima. { $untrusted } épocas são não fiáveis. Uma linha cinzenta fina mostra a trajetória real.
+    }
+
+js-trust-track-end = fim
+
+js-trust-track-no-positions = Nenhuma posição nos ficheiros abertos
+
+js-trust-track-note = Norte para cima, uma escala nos dois eixos. A linha é onde o recetor disse que a embarcação estava, colorida pela banda de confiança de cada época.
+
+js-trust-track-note-none = Este ficheiro não traz posições. Adicione o registo NMEA de que a execução provém (ou um fluxo v1.1 com posição) para desenhar a trajetória.
+
+js-trust-track-start = início
+
+js-trust-unknown-agreement = um acordo que esta página não conhece
+
+js-trust-yes = sim

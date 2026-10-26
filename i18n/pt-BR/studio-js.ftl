@@ -8290,3 +8290,717 @@ js-replay-file-error = { $name }: { $error }
 
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:481
 js-replay-kinds-convergence-horizontal = Convergência: erro horizontal mediano
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:482
+js-replay-kinds-convergence-vertical = Convergência: erro vertical mediano
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-course = Rumo informado
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-heading = Proa (giroscópio)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-position-error = Erro de posição
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-receiver = Receptor
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-run-time = Tempo de execução
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-satellites = Satélites usados / à vista
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-sky = Céu
+
+# 2026-10-01-studio-rebuild/replay/replay.js:52
+js-replay-legend = Legenda
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-no-fix = sem solução de posição
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-true-track = trajetória verdadeira
+
+# 2026-10-01-studio-rebuild/replay/replay.js:107
+js-replay-moment = Momento em T+{ $t }:
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-no-coast = Nenhuma costa é desenhada: nenhuma acompanha esta janela.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:92
+js-replay-no-gsv = sem GSV neste registro
+
+# 2026-10-01-studio-rebuild/replay/replay.js:143
+js-replay-not-json = { $name }: não é JSON.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-not-scored = sem pontuação
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:27
+js-replay-obs-not-attributed = não atribuída
+
+# 2026-10-01-studio-rebuild/replay/replay.js:135
+js-replay-open-failed = Não foi possível abrir { $id }: { $reason }.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:47
+js-replay-open-file = Abrir um arquivo…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:153
+js-replay-opened = { $name } aberto no painel { $n }. Lido aqui; nada foi enviado.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:133
+js-replay-opening = Abrindo { $id }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-pause = Pausar
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-play = Reproduzir
+
+# 2026-10-01-studio-rebuild/replay/replay.js:154
+js-replay-read-failed = { $name }: não pôde ser lido ou desenhado ({ $reason }).
+
+# 2026-10-01-studio-rebuild/replay/replay.js:139
+js-replay-reading = Lendo { $name }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:217
+js-replay-reduced-motion = Há preferência por movimento reduzido, portanto a reprodução começa em 1x e não é executada sozinha.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run = Execução
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run-shown = Execução exibida no painel { $n }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:172
+js-replay-saved-svg = { $name } salvo ({ $size } kB): todos os quadros em um único arquivo, desenhados a partir das mesmas linhas desta página.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:181
+js-replay-saved-zip = { $name } salvo ({ $size } MB): um SVG por quadro, um manifesto das linhas por trás de cada um e um README.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:147
+js-replay-src-instructor = Seu arquivo { $name }: nenhuma pontuação do motor nem céu acompanha um registro de instrutor isolado.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:150
+js-replay-src-trust = Seu arquivo { $name }: um resultado de confiança não traz céu nem proa, portanto eles não são desenhados.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:254
+js-replay-status-ready = { $a } e { $b }: execuções sintéticas, pontuadas pelo motor. Pressione Reproduzir ou mova o relógio.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic = { $titles }: execuções sintéticas, pontuadas pelo motor.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic-no-coast = { $titles }: execuções sintéticas, pontuadas pelo motor. Linha de costa indisponível.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:51
+js-replay-strip-label = Pontuação de confiança ao longo da execução
+
+# 2026-10-01-studio-rebuild/replay/replay.js:23
+js-replay-titles-and = { $a } e { $b }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:141
+js-replay-too-large = { $name } é maior do que esta página lê.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track = Trajetória de { $n } linhas de registro, norte para cima.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track-widened = Trajetória de { $n } linhas de registro, norte para cima, ampliada para mostrar a costa mais próxima.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict = Veredicto
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:198
+js-replay-verdict-degraded = { $dur } degradado, nenhum não confiável
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-early = Veredicto (preliminar)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-fine = Apenas a partir do registro e da pontuação do motor; sintético, consultivo, não um valor de desempenho de detecção.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first = primeira queda abaixo do nominal em T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:195
+js-replay-verdict-first-after = primeira queda abaixo do nominal em T+{ $t }, { $dur } depois do início do primeiro evento (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first-before = primeira queda abaixo do nominal em T+{ $t }, antes do início do primeiro evento (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:193
+js-replay-verdict-lowest = Menor pontuação de confiança { $score } ({ $band }) em T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:194
+js-replay-verdict-never-left = a pontuação nunca saiu da faixa nominal
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:201
+js-replay-verdict-no-fix = sem solução de posição por { $dur }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:199
+js-replay-verdict-not-scored = Sem pontuação: a pontuação de confiança do motor é exibida para as execuções da biblioteca
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:200
+js-replay-verdict-peak-error = maior erro de posição registrado { $err } m em T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:197
+js-replay-verdict-untrusted = { $dur } na faixa não confiável
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-wait = Exibido quando esta execução terminar, em T+{ $t }.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-altitude-label = Altitude e medições usadas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-at-least-1 = pelo menos 1 sinal
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-at-least-4 = pelo menos 4 sinais
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-avail-label = Disponibilidade, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:96
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:26
+js-ssv-blurb-formation-heo = Um chefe e um adjunto separados por um quilômetro em uma órbita muito elíptica: com que precisão o filtro conhece a posição relativa deles, em comparação com o que as duas soluções de posição absolutas dariam.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:23
+js-ssv-blurb-heo = Uma órbita muito elíptica (apogeu perto de 58 600 km) com uma antena de alto ganho apontada ao nadir, uma antena patch ao zênite e um modelo paramétrico de lóbulos laterais: sinais à vista, melhor C/N0, lóbulo principal contra lóbulo lateral, diluição de precisão e os sinais que tangenciam a atmosfera.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:24
+js-ssv-blurb-lunar-weak = Uma trajetória de transferência lunar com um receptor construído para funcionar nos sinais mais fracos: o que ele precisa para adquirir e rastrear e quanto da trajetória ele consegue usar.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:25
+js-ssv-blurb-nav-lunar = Um filtro de navegação a bordo em uma transferência lunar: seu erro de posição em relação ao limite que ele declara, abaixo e acima das órbitas dos próprios satélites GNSS.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:22
+js-ssv-blurb-shell = Uma casca esférica na altitude geoestacionária, amostrada em uma grade: com que frequência uma espaçonave ali escuta pelo menos um e pelo menos quatro sinais a 20 dB-Hz, em L1 e L5, para cada constelação e para todas juntas?
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-cn0-altitude-label = Melhor C/N0 e altitude em função do tempo, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-label = Melhor C/N0, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-note = Dos sinais à vista, o mais forte em cada época: do menor ao maior ao longo das épocas, com a média marcada.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-title = Melhor densidade de portadora em relação ao ruído, { $band }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:57
+js-ssv-comparison-failed = A comparação não pôde ser exibida ({ $reason }).
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:53
+js-ssv-comparison-not-loaded = o arquivo de comparação não foi carregado
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:82
+js-ssv-default-bars = barras
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:104
+js-ssv-default-chart = gráfico
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:133
+js-ssv-default-ranges = faixas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:184
+js-ssv-deputies-note = RMS absoluto do chefe de { $rms } m ao longo de { $epochs } épocas.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:184
+js-ssv-deputies-title = Cada adjunto
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:170
+js-ssv-dop-note = Mediana, percentil 95 e pior PDOP nas épocas que têm uma solução de posição e, quando o cenário define uma atmosfera, os sinais que a tangenciam.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:170
+js-ssv-dop-title = Diluição de precisão e a atmosfera, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-err-label = Erro de posição em relação ao limite declarado
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:176
+js-ssv-err-note = A linha tracejada é o limite de um sigma que o filtro declara; a linha contínua é o seu erro em relação à verdade que o cenário conhece. Decimado pelo motor.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:176
+js-ssv-err-title = Erro de posição em relação ao limite do próprio filtro
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-antenna = Antena
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-apogee = Altitude do apogeu
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:225
+js-ssv-fact-cn0-threshold = Limiar de densidade de portadora em relação ao ruído
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-duration = Duração
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-eccentricity = Excentricidade
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-grid-points = Pontos de grade
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-inclination = Inclinação
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:221
+js-ssv-fact-mode = Modo
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-perigee = Altitude do perigeu
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-period = Período
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-shell-altitude = Altitude da casca
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-sma = Semieixo maior
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-step = Passo
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-filter = filtro
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:182
+js-ssv-formation-note = Erro de posição relativa RMS, a partir do filtro e da diferença entre as duas soluções de posição absolutas, ao longo de toda a execução e acima das órbitas GNSS.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:182
+js-ssv-formation-title = Posição relativa dos adjuntos
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-from-absolute = a partir de duas soluções de posição absolutas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:78
+js-ssv-group-combined = todas juntas
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:56
+js-ssv-icg-note = { $label }; os veredictos por limiar dos arquivos de resultado confirmados do motor (commit do motor { $commit }). As tabelas do livreto são públicas; nada aqui é VALIDATED.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:208
+js-ssv-icg-wrong-file = o arquivo de comparação do ICG não é o que esta página lê
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:165
+js-ssv-lobe-note = Quantos dos enlaces utilizáveis vieram pelo lóbulo principal e quantos por um lóbulo lateral, conforme contado pelo motor.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:165
+js-ssv-lobe-title = Lóbulo principal e lóbulo lateral, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:17
+js-ssv-na = n/d
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:179
+js-ssv-nav-note = Medições usadas e descartadas, o maior intervalo com menos de quatro sinais, o erro final e a estimativa da pressão de radiação solar em relação à verdade que o cenário conhece.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:179
+js-ssv-nav-title = A execução em números
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:190
+js-ssv-never = nunca
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-never-had-four = nunca teve quatro
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-never-had-one = nunca teve um
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:135
+js-ssv-no-range = Nenhuma faixa neste resultado.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:107
+js-ssv-no-series = O resultado não traz nenhuma série para este gráfico.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:216
+js-ssv-not-in-variant = não faz parte da variante
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:35
+js-ssv-not-result = este não é um resultado gnss-ssv
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-of = { $n } de { $total }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-offset = deslocamento de { $deg }°
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:29
+js-ssv-open-failed = Não foi possível abrir { $title }: { $reason }.
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:19
+js-ssv-opening = Abrindo { $title }…
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:157
+js-ssv-outage-note = Em minutos, ao longo da execução. "Nunca" indica um grupo que nunca teve essa quantidade de sinais em lugar algum da casca.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:157
+js-ssv-outage-title = Maiores interrupções na casca
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:175
+js-ssv-phases-note = Uma estatística do filtro ao longo da execução e das duas partes dela. Um NEES médio de posição próximo de 3 significa que o limite declarado do filtro é consistente com o seu erro.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:175
+js-ssv-phases-title = Erro de posição por fase
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:122
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:143
+js-ssv-range-title = { $label }: mín. { $min }, média { $mean }, máx. { $max } { $unit }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:145
+js-ssv-range-value = { $min } a { $max }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:27
+js-ssv-recorded = { $title }: o resultado registrado do motor (versão { $version }).
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-relative-label = Erro de posição relativa
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:34
+js-ssv-result-not-json = o resultado não é JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:22
+js-ssv-result-not-loaded = o resultado registrado não foi carregado
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-acquires = Adquire até
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-carrier = Rastreamento de portadora até
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-code = Rastreamento de código até
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-coherent = Integração coerente
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-delay-mean = Atraso, média
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-detection = Limiar de detecção
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-false-alarm = Probabilidade de falso alarme por célula
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-final-error = Erro final de posição
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-gap = Maior intervalo
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-gated = Medições descartadas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-grazing = Tangenciando abaixo de 100 km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-limb-links = Enlaces através do limbo
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-loss-mean = Perda, média
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-lost = Perdidos para a atmosfera
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-median = PDOP, mediana
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-p95 = PDOP, percentil 95
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-worst = PDOP, pior
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-plasma-mean = TEC plasmasférico, média
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-search-cells = Células de busca
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-search-time = Tempo de busca
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-srp-est = Pressão de radiação solar, estimada
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-srp-truth = Pressão de radiação solar, verdade
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-stec-mean = TEC oblíquo, média
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-tangent = Altura tangente, mín. a máx.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-tracking = Limiar de rastreamento usado
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-used = Medições usadas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-altitude = altitude/1000
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-series-altitude-name = altitude
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-best-cn0 = melhor C/N0
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-series-error = erro
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-series-measurements = medições
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:167
+js-ssv-series-note = Uma série decimada da contagem combinada de todas as constelações. O motor não grava nenhuma série por constelação, portanto nenhuma é desenhada.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-signals = sinais à vista
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-signals-label = Sinais à vista em função do tempo, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-series-stated-bound = limite declarado
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:167
+js-ssv-series-title = Sinais e melhor C/N0 ao longo da órbita, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:155
+js-ssv-shell-avail-note = Proporção de pontos de grade e instantes com pelo menos um e pelo menos quatro sinais acima de { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:155
+js-ssv-shell-avail-title = Disponibilidade na casca, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-tangent-value = { $min } a { $max } km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-above-absolute = Acima do GNSS: a partir do absoluto, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-above-filter = Acima do GNSS: filtro, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-band-group = Banda e grupo
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-bar = Limiar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-baseline = Linha de base, km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-common-4 = Épocas com 4 sinais em comum
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-common-mean = Média de sinais em comum
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-compares = O que compara
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-deputy = Adjunto
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-epochs = Épocas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-group = Grupo
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-main-lobe = Enlaces do lóbulo principal
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-nees = NEES médio de posição
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-phase = Fase
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-pos-p95 = Posição, percentil 95, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-pos-rms = Posição RMS, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:199
+js-ssv-th-quantity = Grandeza
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-absolute = RMS relativo, a partir do absoluto, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-filter = RMS relativo, filtro, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-vel = RMS da velocidade relativa, m/s
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-run1-cells = Execução 1: células dentro da tolerância
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-run1-verdict = Veredicto da execução 1
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-sidelobe = Enlaces de lóbulo lateral
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-sidelobe-share = Proporção de lóbulo lateral
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:199
+js-ssv-th-value = Valor
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-variant = Variante (diagnóstico, ângulos de referência do GLONASS da tabela 4.2)
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-vel-rms = Velocidade RMS, m/s
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-with-4 = Com 4 ou mais sinais
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-without-1 = Maior período sem 1 sinal
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-without-4 = Maior período sem 4 sinais
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:26
+js-ssv-title-formation-heo = Formação, órbita muito elíptica
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:23
+js-ssv-title-heo = Órbita muito elíptica
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:24
+js-ssv-title-lunar-weak = Transferência lunar, receptor de sinais fracos
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:25
+js-ssv-title-nav-lunar = Filtro a bordo, transferência lunar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:22
+js-ssv-title-shell = Casca a 36 000 km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:161
+js-ssv-traj-avail-note = Proporção das épocas com pelo menos um e pelo menos quatro sinais acima de { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:161
+js-ssv-traj-avail-title = Disponibilidade ao longo da trajetória, { $band }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:37
+js-ssv-transmit-pattern = Diagrama de transmissão: { $pattern }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-unit-signals = sinais
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:36
+js-ssv-unknown-mode = este resultado gnss-ssv tem o modo "{ $mode }", que esta página não lê
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-variant-met = { $n } de { $total }, seria atendido
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-variant-not-met = { $n } de { $total }, ainda não atendido
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-view-note = Do menor ao maior número à vista ao longo das épocas, com a média marcada.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-view-title = Sinais à vista, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:172
+js-ssv-weak-note = O que o projeto do receptor precisa, conforme o motor calcula a partir da integração declarada.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:172
+js-ssv-weak-title = O receptor de sinais fracos
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-x-minutes = minutos
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-y-altitude-measurements = altitude, mil km; medições usadas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-y-cn0-altitude = dB-Hz; altitude em mil km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-y-position-log = posição, metros (log)
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-y-signals-all = sinais à vista, todas as constelações
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:127
+js-t35data-ai-q-bench-export = Exportar o movimento e os eventos de um cenário para um simulador de laboratório
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:128
+js-t35data-ai-q-compliance-rows = Estas execuções fornecem evidências em apoio de quais linhas do arcabouço público?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:125
+js-t35data-ai-q-evidence-pack = Verificar ou criar um pacote de evidências de um evento de confiança
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:124
+js-t35data-ai-q-interference-route = Onde o GNSS pareceu degradado e quanto desta rota está nessa condição?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:129
+js-t35data-ai-q-iq-recordings = Gravações IQ de GNSS (cena, aquisição, rastreamento, front end, campanhas)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+js-t35data-ai-q-osnma-satellites = O fluxo deste receptor autentica os dados de navegação de quais satélites Galileo (OSNMA)?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:121
+js-t35data-ai-q-run-scenario = Executar ou explicar um cenário PNT (órbitas, GNSS, temporização, fusão, lunar)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:123
+js-t35data-ai-q-training-nmea = Preciso de NMEA sintético com um evento de jamming, drag-off, spoofing de tempo ou reprodução para treinamento
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:122
+js-t35data-ai-q-trustworthy-log = Este registro do receptor, ou o NMEA desta embarcação, era confiável e quando deixou de ser?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+js-t35data-ai-tool-osnma-satellites = nenhuma no MCP: use osnma_verify (o cartão OSNMA aqui, WebAssembly), kshana osnma verify (CLI) ou kshana.osnma_verify (Python)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:104
+js-t35data-card-evidence-create-title = Criar um pacote de evidências
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:105
+js-t35data-card-evidence-create-what = Assina uma janela de um registro do receptor e o que o motor calculou a partir dela, para que qualquer pessoa possa verificar que nada foi alterado depois. O Studio verifica pacotes.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:106
+js-t35data-card-evidence-create-why = A assinatura exige uma chave privada, que não deve passar por uma página web.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:89
+js-t35data-card-iq-title = Monitores e ferramentas de IQ de GNSS
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:90
+js-t35data-card-iq-what = Monte uma cena, adquira e rastreie sinais, varra parâmetros, modele um front end, execute monitores e campanhas de IQ, ajuste um registro de laboratório. Também disponível em Python e, dentro de uma pasta de trabalho, nas ferramentas do assistente de IA.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:91
+js-t35data-card-iq-why = Uma gravação tem gigabytes de amostras. Uma página não consegue contê-la, e os comandos que convertem, extraem e decimam reescrevem gravações no disco.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:109
+js-t35data-card-land-title = Download de polígonos de terra para o detector de AIS em terra
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:110
+js-t35data-card-land-what = Busca um arquivo de terra fixo (Natural Earth, domínio público) e verifica seu SHA-256. O construtor de mapas recebe o arquivo de terra como texto.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:111
+js-t35data-card-land-why = É o único comando que abre uma conexão de rede e exige o curl do sistema e uma opção explícita.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:94
+js-t35data-card-marine-title = Integrações marítimas
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
+js-t35data-card-marine-what = Um plugin de servidor Signal K e o OpenCPN, por meio de NMEA em modo gate sobre TCP, levam a pontuação de confiança a programas que os navegadores recreativos já usam; uma compilação de referência a leva a um computador pequeno ao lado do receptor.

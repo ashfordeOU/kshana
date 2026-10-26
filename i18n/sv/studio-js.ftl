@@ -2350,3 +2350,843 @@ js-cat-lunanet-araim-title = Integritet på månen
 js-cat-lunar-attack-surface-question = Vad krävs för att spoofa eller blockera en mottagare på månytan, och vilken autentiseringsbudget svarar mot det? (modellerad)
 
 js-cat-lunar-attack-surface-title = Angreppsyta på månen
+
+js-cat-lunar-beacon-question = Hur mycket minskar en handfull inmätta fyrar på ytan DOP vid sydpolen? (modellerad)
+
+js-cat-lunar-beacon-title = Fyrar på månytan
+
+js-cat-lunar-differential-pnt-question = Hur mycket tar differentialkorrektion bort av gemensamt fel mot baslinje på månen? (modellerad)
+
+js-cat-lunar-differential-pnt-title = Differentiell PNT på månen
+
+js-cat-lunar-frame-campaign-question = Vilken datumnoggrannhet ger en observationskampanj jämfört med en injicerad transformation? (modellerad)
+
+js-cat-lunar-frame-campaign-title = Kampanj för månens referenssystem
+
+js-cat-lunar-frame-realisation-question = Kan en Helmert-datumanpassning återskapa en transformation för månens referenssystem? (modellerad)
+
+js-cat-lunar-frame-realisation-title = Månens referenssystem
+
+js-cat-lunar-infrastructure-carrier-phase-question = Kan en markstation och en omloppsbana tillsammans fastställa heltalsosäkerheterna i bärvågsfasen för jordens GNSS-signaler? Den snabba exempelkörningen. (modellerad; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-infrastructure-carrier-phase-title = Bärvågsfas på månen: markstation och omloppsbana
+
+js-cat-lunar-infrastructure-frame-coestimation-question = Hur mycket mer information tillför avstånd mellan omloppsbana och markstation till de sju parametrarna i månens datum? (modellerad; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-infrastructure-frame-coestimation-title = Samskattning av månens referenssystem med länkar till omloppsbanan
+
+js-cat-lunar-infrastructure-geodesy-sensitivity-question = Hur känsliga är laseravstånd, banspårning, en gravimeter och en klocka på ytan för h2, k2, l2 och librationen? (modellerad; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-infrastructure-geodesy-sensitivity-title = Känslighet för Love-tal och libration på månen
+
+js-cat-lunar-infrastructure-od-consistency-model-error-question = Samma jämförelse med en liten omodellerad acceleration injicerad: märker konsekvenskontrollen det? (modellerad; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-infrastructure-od-consistency-model-error-title = Banbestämning på månen, med ett injicerat modellfel
+
+js-cat-lunar-infrastructure-od-consistency-question = Stämmer banbestämning ombord med jordens GNSS i en månhalobana och oberoende radiometrisk banbestämning från marken överens inom sina angivna osäkerheter? (modellerad; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-infrastructure-od-consistency-title = Banbestämning på månen: GNSS ombord mot spårning från marken
+
+js-cat-lunar-infrastructure-space-tie-question = Hur exakt kan förskjutningarna mellan tre tekniker knytas ihop, mot felet i den lokala knytningen? (modellerad; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-infrastructure-space-tie-title = Rymdknytning: GNSS, VLBI och laseravstånd på en rymdfarkost
+
+js-cat-lunar-interop-export-question = Kan månens referenssystem / tid / efemerid gå tur och retur genom CCSDS OEM + ett KIF-kuvert?
+
+js-cat-lunar-interop-export-title = Interoperabilitetsexport för månen
+
+js-cat-lunar-jamming-question = Hur långt bort kan en störsändare stå och ändå blockera en mottagare på månytan? (modellerad)
+
+js-cat-lunar-jamming-title = Jamming på månen
+
+js-cat-lunar-joint-od-clock-question = Gör en VLBI-knytning med jordbaslinje att en månstations absoluta position blir observerbar? (modellerad)
+
+js-cat-lunar-joint-od-clock-title = Gemensam banbestämning och klocka på månen
+
+js-cat-lunar-llr-datum-question = Hur ser månens datum ut när kampanjen är verkliga arkiverade laseravstånd till månen (LLR)? (modellerad; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-llr-datum-title = Datum från laseravstånd till månen
+
+js-cat-lunar-relay-constellation-question = Vilken täckning ger en konstellation av reläer och navigering i frusna och låga månbanor över hela månen? (modellerad; en exempelutformning)
+
+js-cat-lunar-relay-constellation-title = Reläkonstellation för månen
+
+js-cat-lunar-station-coverage-public-sources-question = Med enbart de offentligt angivna antagandena, vilket korrigerat fel ger stationen över sydpolen? Resultatet domineras av banelementen, som inte är offentliga och är satta som ILLUSTRATIVA; det här är indata till den frusna prediktionen. (modellerad; inget påstående om något verkligt system)
+
+js-cat-lunar-station-coverage-public-sources-title = Referensstation på månen, offentliga antaganden
+
+js-cat-lunar-station-coverage-question = Över sydpolsregionen och ett dygn, vilket korrigerat fel ger en referensstation på månen, och hur långt från den håller täckningen? (modellerad; inget påstående om något verkligt system)
+
+js-cat-lunar-station-coverage-terrain-question = Med varje platss horisont strålföljd över en verklig höjdmodell av månen, hur mycket täckning förlorar stationen på grund av terrängen? (modellerad)
+
+js-cat-lunar-station-coverage-terrain-title = Månstation med verklig terräng
+
+js-cat-lunar-station-coverage-title = Täckning för referensstation på månen
+
+js-cat-lunar-station-geodesy-baseline-question = Hur väl fastlåser dagens fem retroreflektorfält månens datum på ett verkligt schema, innan någon station läggs till? Baslinjen för ett par. (modellerad; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-station-geodesy-baseline-title = Geodesi med månstation: enbart de fem fälten
+
+js-cat-lunar-station-geodesy-with-station-question = Samma arkiverade schema med en tillagd reflektor och VLBI-fyr vid sydpolen: hur mycket skärps gränsen för datumet? (modellerad, illustrativ plats; en körning registrerad med den inbyggda motorn)
+
+js-cat-lunar-station-geodesy-with-station-title = Geodesi med månstation: med en station vid sydpolen
+
+js-cat-lunar-station-time-lab-question = Efter att en stations miniatyrrubidiumklocka senast styrts mot månens tid, hur länge håller den sig inom 1, 10 och 100 ns, och vilken felterm som dominerar? (modellerad)
+
+js-cat-lunar-station-time-lab-title = Tidslaboratorium för månstation
+
+js-cat-lunar-time-budget-question = Hur stor är koordinattidsskillnaden mellan jorden och månen, och dess felbudget? (modellerad)
+
+js-cat-lunar-time-budget-title = Tidsbudget för månen
+
+js-cat-lunar-time-offset-question = Hur snabbt glider en månklocka isär från jordens tid (~56–59 µs/dygn)?
+
+js-cat-lunar-time-offset-title = Tidsförskjutning på månen
+
+js-cat-lunar-vlbi-fim-question = Vilken noggrannhet i stationskoordinater ger ett givet VLBI-spårningsschema i själva verket? (modellerad)
+
+js-cat-lunar-vlbi-fim-title = VLBI-information för månen
+
+js-cat-lunar-vlbi-question = Vilken fördröjning ser ett VLBI-par med jordbaslinje för en fyr på månytan? (modellerad)
+
+js-cat-lunar-vlbi-title = VLBI på månen
+
+js-cat-maritime-port-approach-coast-question = Vid inlöpning i hamn utan GNSS, när lämnar en INS av navigeringsklass hamn- och havsbudgetarna? (modellerad)
+
+js-cat-maritime-port-approach-coast-title = Hamninlöpning på tröghet
+
+js-cat-maritime-spoof-position-push-question = När en spoofer drar ett fartygs positionsbestämning 500 m, vilka detekteringslager fångar det? (modellerad)
+
+js-cat-maritime-spoof-position-push-title = Fartygets position spooffad
+
+js-cat-maritime-strait-jamming-question = Över 30 km öppet vatten, tar en störsändare på 50 W bort ett fartygs GNSS? (modellerad)
+
+js-cat-maritime-strait-jamming-title = Fartyg som störs i ett sund
+
+js-cat-mars-orbit-pnt-question = Hur väl positioneras en omloppsfarkost i låg bana runt Mars från tolv navigeringsreläer, och vad tillför ett avstånd från jorden? (modellerad)
+
+js-cat-mars-orbit-pnt-title = Omloppsfarkost vid Mars med reläer och en länk till jorden
+
+js-cat-mars-pnt-lmo-question = Kan en MARCONI-reläkonstellation navigera en användare vid Mars? (kovarians-FoM, inte en certifierad PL)
+
+js-cat-mars-pnt-lmo-title = PNT vid Mars, låg bana
+
+js-cat-mars-pnt-surface-question = Hur väl kan en landare eller rover på den roterande Marsytan navigeras mot reläkonstellationen?
+
+js-cat-mars-pnt-surface-title = PNT vid Mars, ytan
+
+js-cat-mars-pnt-transfer-question = Hur väl navigeras ett fordon på en hög, excentrisk anflygnings- eller infångningsbåge vid Mars?
+
+js-cat-mars-pnt-transfer-title = PNT vid Mars, överföring
+
+js-cat-meo-leo-fused-pvt-question = Vad gör ett lager i låg bana, lagt till GPS och Galileo, med positionsfelet och geometrin? (modellerad)
+
+js-cat-meo-leo-fused-pvt-title = Fuserad positionsbestämning med GNSS och låg bana
+
+js-cat-moonlight-service-volume-question = Vilken DOP, täckning och integritet ger en konstellation av klassen Moonlight/LCNS vid sydpolen? (modellerad)
+
+js-cat-moonlight-service-volume-title = Tjänstevolym på månen
+
+js-cat-multi-band-jamming-waterfall-question = Med navigeringssignaler fördelade över fyra band, vad lämnar en störsändare byggd för ett band kvar? (modellerad)
+
+js-cat-multi-band-jamming-waterfall-title = Vattenfall för flerbandig jamming
+
+js-cat-notinbrowser-elevation-model = Kräver utsnittet av månens höjdmodell ({ $path }) som levereras med arkivet, inte med webbläsarversionen.
+
+js-cat-notinbrowser-laser-ranging-data = Kräver det arkiverade utsnittet av laseravståndsdata som levereras med arkivet, inte med webbläsarversionen.
+
+js-cat-notinbrowser-study-suite = En studiesvit, inte ett enskilt scenario. Kör den med kommandoradsverktyget: { $command }.
+
+js-cat-ntn-5g-positioning-question = Hur exakt kan en handenhet positionera sig själv från en nedlänk i ett icke-terrestert 5G-nät, per signalbandbredd? (modellerad)
+
+js-cat-ntn-5g-positioning-title = Positionering med 5G-satellitnedlänk
+
+js-cat-oem-interop-question = Kan en OEM-efemerid från GMAT / Orekit / STK importeras och gå tur och retur?
+
+js-cat-oem-interop-title = CCSDS OEM-brygga
+
+js-cat-optical-atmosphere-network-question = Hur ofta är en optisk tidslänk uppe genom moln och turbulens, och vad tillför extra markplatser? (modellerad; illustrativa molnklimat)
+
+js-cat-optical-atmosphere-network-title = Optisk länk genom atmosfären, tre platser
+
+js-cat-optical-atmosphere-techniques-question = Vad tillför en större apertur, en annan våglängd eller adaptiv optik för en optisk upplänk i moln och turbulens? (modellerad; illustrativt molnklimat)
+
+js-cat-optical-atmosphere-techniques-title = Tekniker för optiska länkar
+
+js-cat-orbit-gnss-challenged-question = När är en positionsbestämning ens möjlig utifrån satellitgeometrin?
+
+js-cat-orbit-gnss-challenged-title = GNSS-tillgänglighet
+
+js-cat-orbit-molniya-question = Kan en användare i en mycket excentrisk Molniya-bana fortfarande se tillräckligt många GNSS-satelliter nära apogeum?
+
+js-cat-orbit-molniya-title = Molniya-användare
+
+js-cat-orbit-multignss-question = Hur mycket höjer GPS + Galileo tillsammans tillgängligheten och förbättrar positionsutspädningen?
+
+js-cat-orbit-multignss-title = Multi-GNSS-tillgänglighet
+
+js-cat-orbit-real-tle-question = Vilken täckning ger en verklig konstellation, given som tvåradiga elementsatser?
+
+js-cat-orbit-real-tle-title = Verkliga tvåradiga element
+
+js-cat-orbit-rinex-question = Vilken tillgänglighet ger en verklig utsänd RINEX 3-efemerid?
+
+js-cat-orbit-rinex-title = Utsänd efemerid
+
+js-cat-orbit-sgp4-gps-question = Hur propagerar en verklig GPS-liknande konstellation under ett dygn?
+
+js-cat-orbit-sgp4-gps-title = SGP4-banor
+
+js-cat-orbit-urban-canyon-skyline-question = Längst ned i en stadsgata, hur stor del av dygnet ger GPS och Galileo fyra satelliter, och vad gör himmelsremsan med PDOP? (modellerad; representativ skyline)
+
+js-cat-orbit-urban-canyon-skyline-title = Tillgänglighet i en stadsgata
+
+js-cat-passes-question = När går en satellit upp och ned över en station, och hur länge?
+
+js-cat-passes-title = Markpassager
+
+js-cat-polar-arctic-leo-coverage-question = Från ekvatorn till polen, hur ändras satelliter i sikte och geometri med enbart GNSS, enbart ett polärt lager i låg bana, och båda? (modellerad)
+
+js-cat-polar-arctic-leo-coverage-title = Från ekvator till pol
+
+js-cat-pvt-abmf-question = Kan en verklig mottagarposition lösas ur råa RINEX-mätningar?
+
+js-cat-pvt-abmf-title = Positionering (SPP)
+
+js-cat-quantum-anomaly-detect-question = Hur väl upptäcks fel i kvantsystem vid en fast falsklarmsfrekvens? (modellerad)
+
+js-cat-quantum-anomaly-detect-title = Detektering av kvantanomalier
+
+js-cat-quantum-cai-coast-question = Hur länge håller en kallatomsinterferometer, specificerad av sin fysik, dödräkningen inom 100 m efter att GNSS förlorats, mot en kvartsaccelerometer av navigeringsklass? (modellerad)
+
+js-cat-quantum-cai-coast-title = Glidning med kvantaccelerometer
+
+js-cat-quantum-gnss-free-nav-question = Hur långt glider en kallatomsnavigatör jämfört med en INS av navigeringsklass utan GNSS? (modellerad)
+
+js-cat-quantum-gnss-free-nav-title = GNSS-fri kvantnavigering
+
+js-cat-quantum-pnt-demonstrator-suite-question = De tre kvanttillämpningsområdena som en studie (en studiesvit för kommandoraden: kshana --study).
+
+js-cat-quantum-pnt-demonstrator-suite-title = Demonstratorstudie för kvant-PNT
+
+js-cat-quantum-time-transfer-question = Vad ger betrodd kvanttidsöverföring jämfört med en klassisk CSAC + RF-kedja? (modellerad)
+
+js-cat-quantum-time-transfer-title = Kvanttidsöverföring
+
+js-cat-quantum-trade-question = Vilken holdover för tid / tröghet ger en kandidatklocka jämfört med en klassisk baslinje? (modellerad)
+
+js-cat-quantum-trade-title = Avvägning för kvant-PNT
+
+js-cat-rail-tunnel-coast-question = Vid 160 km/h genom en tunnel, hur snart lämnar en INS av taktisk klass sin budget? (modellerad)
+
+js-cat-rail-tunnel-coast-title = Tåg genom en tunnel
+
+js-cat-realtime-frame-eop-question = Hur stort fel i referenssystemet ger jordorientering i realtid (predikterad)? (modellerad)
+
+js-cat-realtime-frame-eop-title = Referenssystem/EOP i realtid
+
+js-cat-reentry-question = Vilken högsta g-belastning och vilken hastighet vid högsta uppvärmning ser ett ballistiskt återinträde?
+
+js-cat-reentry-title = Återinträdeskorridor
+
+js-cat-slot-timing-ocxo-leo-question = Hur länge håller sig en ugnsstyrd kristalloscillator på en småsatellit i låg bana inom sin tidsluckas skyddsmarginal efter den senaste GNSS-positionsbestämningen? (modellerad)
+
+js-cat-slot-timing-ocxo-leo-title = Tidsluckors synkronisering
+
+js-cat-small-uas-jammed-nav-question = Efter att en störsändare tagit bort GNSS, hur långt driver en tröghetsenhet av flygkontrollerklass, mot en av taktisk klass?
+
+js-cat-small-uas-jammed-nav-title = Liten drönare under jamming
+
+js-cat-solar-system-tour-question = Var finns varje kropp som motorn känner till, från solen till Pluto och de stora månarna, och hur lång tid tar det för ljuset mellan dem?
+
+js-cat-solar-system-tour-title = Solsystemet vid en epok
+
+js-cat-space-packet-question = Kodas och avkodas en CCSDS 133.0-paketström bitexakt?
+
+js-cat-space-packet-title = Space Packet
+
+js-cat-space-weather-question = Hur ändrar sol- / geomagnetisk aktivitet densiteten i termosfären? (modellerad)
+
+js-cat-space-weather-title = Rymdväder
+
+js-cat-spoof-attack-question = Fångas en tidsspoofing med ramp innan den når specifikationen?
+
+js-cat-spoof-attack-title = Detektering av spoofing
+
+js-cat-spoof-detect-question = Kan en fuserad övervakare av RF + mätningar fånga en samordnad spoofing?
+
+js-cat-spoof-detect-title = Flerskiktsdetektering av spoofing
+
+js-cat-spoof-meaconing-question = Med en uttrycklig attackform, hur ofta fångar en klockstödd energidetektor spoofingen vid en fast falsklarmsfrekvens?
+
+js-cat-spoof-meaconing-title = Statistik för spoofingdetektor
+
+js-cat-starlink-sop-doppler-positioning-question = Hur väl kan en mottagare positionera sig själv utifrån Doppler från en bredbandskonstellation som inte sänder något navigeringsmeddelande? (modellerad)
+
+js-cat-starlink-sop-doppler-positioning-title = Bredbandssignaler vid tillfälle
+
+js-cat-sweep-clock-stability-question = Hur ändras holdover när en klockparameter sveps?
+
+js-cat-sweep-clock-stability-title = Parametersvep
+
+js-cat-sweep-nd-inertial-question = Hur varierar ett nyckeltal över ett rutnät med flera parametrar?
+
+js-cat-sweep-nd-inertial-title = N-D-svep
+
+js-cat-telecom-prtc-holdover-24h-question = Håller sig en rubidiumreferens som förlorar GNSS i 24 timmar inom ITU-T-maskerna för tidsfel? (modellerad)
+
+js-cat-telecom-prtc-holdover-24h-title = Telekom-holdover, 24 h
+
+js-cat-telecom-synce-eec-question = Håller sig en fritt gående ugnsstyrd oscillator inom maskerna för vandring hos utrustningsklockan i synkron Ethernet? (modellerad)
+
+js-cat-telecom-synce-eec-title = Frekvenssynkronisering mot SyncE-masker
+
+js-cat-telecom-tie-ingest-question = Klarar en registrering av tidsintervallfel ITU-T-maskerna för MTIE och TDEV?
+
+js-cat-telecom-tie-ingest-title = Kontroll av telekommask, dina data
+
+js-cat-terrain-nav-question = Kan en höjdmätare rätta INS-drift genom att matcha en terränghöjdprofil?
+
+js-cat-terrain-nav-title = Terrängnavigering
+
+js-cat-terrain-slam-question = Kan ett partikelfilter följa en tidsvarierande INS-drift mot en terrängkarta?
+
+js-cat-terrain-slam-title = Terräng-SLAM
+
+js-cat-time-transfer-budget-question = Vad gör termer för station, transponder, jonosfär och Sagnac med en dubbelriktad tidsförskjutning, och vad är dess osäkerhetsbudget? (modellerad)
+
+js-cat-time-transfer-budget-title = Dubbelriktad tidsöverföring via satellit
+
+js-cat-timetransfer-question = Hur tätt kan två platser hållas synkroniserade över en länk?
+
+js-cat-timetransfer-title = Tidsöverföring
+
+js-cat-tracking-loop-question = Vid vilket C/N0 tappar en mottagare faktiskt låsningen, och kan en spoofer dra över slingorna? (modellerad)
+
+js-cat-tracking-loop-title = Spårningsslinga
+
+js-cat-xona-pulsar-end-to-end-question = Samma kedja på offentliga siffror för Xona Pulsar: signal, passage, meddelande, fuserad positionsbestämning och precis positionering. (modellerad)
+
+js-cat-xona-pulsar-end-to-end-title = Från början till slut, Xona Pulsar
+
+js-cat-xona-pulsar-signals-question = Hur exakt kan en mottagare mäta avstånd på de publicerade signalerna X1 och X5, och hur stor är förvärvssökningen? (offentlig signaltabell)
+
+js-cat-xona-pulsar-signals-title = Signaler från Xona Pulsar
+
+js-geo-a-place = En plats…
+
+js-geo-axis-east = Ö +{ $ext } m
+
+js-geo-axis-north = N +{ $ext } m
+
+js-geo-canyon-needs = Gatukanjonsformen kräver motor 0.36.
+
+js-geo-canyon-out-of-range = Värdena för gatukanjonen är utanför intervallet (azimut 0 till 359.9°, bredd 1 till 200 m, höjder 0 till 500 m, antenn 0 till 50 m); en öppen horisont används.
+
+js-geo-canyon-reduced = Motorns reducering av kanjonen till en tabell med 360 fack.
+
+js-geo-compute-failed = Motorn kunde inte beräkna den här himlen: { $reason }
+
+js-geo-computing = Beräknar…
+
+js-geo-copy-link = Kopiera den här länken: { $url }
+
+js-geo-count-below = Under horisonten
+
+js-geo-count-hidden = Dolda av skylinen
+
+js-geo-count-in-view = I sikte
+
+js-geo-count-open-sky = Öppen himmel
+
+js-geo-count-used = I lösningen
+
+js-geo-cursor-live = Azimut { $az }°, skyline { $el }°.
+
+js-geo-dated-sky = En daterad himmel är bara så bra som elementen och deras ålder; förinställningarna är utelämnade.
+
+js-geo-dop-geometric = geometrisk
+
+js-geo-dop-geometric-title = geometrisk utspädning av precision
+
+js-geo-dop-horizontal = horisontell
+
+js-geo-dop-horizontal-title = horisontell utspädning av precision
+
+js-geo-dop-position = position, 3D
+
+js-geo-dop-position-title = position, 3D-utspädning av precision
+
+js-geo-dop-time = tid
+
+js-geo-dop-time-title = tidsutspädning av precision
+
+js-geo-dop-vertical = vertikal
+
+js-geo-dop-vertical-title = vertikal utspädning av precision
+
+js-geo-east = Ö
+
+js-geo-engine-not-running = Motorn körs inte i den här webbläsaren ({ $reason }).
+
+js-geo-err-geometry-object = motorns geometrisvar är inte ett objekt
+
+js-geo-err-mc-object = motorns Monte Carlo-svar är inte ett objekt
+
+js-geo-err-no-sentences = motorns svar har inga meningar
+
+js-geo-err-reply-kind-not-json = motorns svar av typen { $what } var inte JSON
+
+js-geo-err-reply-not-json = motorns svar var inte JSON
+
+js-geo-error-line = Med σ_UERE = { $uere } m, under den angivna felmodellen (motorns tal): { $bits }.
+
+js-geo-error-line-needs = Positionsfel ≈ σ_UERE × HDOP horisontellt och σ_UERE × VDOP vertikalt; talet kräver motor 0.36.
+
+js-geo-error-rms-3d = 3D-RMS σ_UERE × PDOP = { $m } m
+
+js-geo-error-rms-h = horisontell RMS σ_UERE × HDOP = { $m } m
+
+js-geo-error-sigma = 1-sigma-fel öst { $east } m, nord { $north } m
+
+js-geo-fact-ellipse-1s = Ellips, 1-sigma
+
+js-geo-fact-ellipse-1s-value = { $major } m × { $minor } m, långaxel { $deg }° från norr
+
+js-geo-fact-ellipse-pct = Ellips, { $pct } %
+
+js-geo-fact-ellipse-pct-scaled = { $major } m × { $minor } m (1-sigma × { $k })
+
+js-geo-fact-ellipse-pct-value = { $major } m × { $minor } m
+
+js-geo-fact-inside = Inom 95 %-ellipsen
+
+js-geo-fact-inside-value = { $pct } % av punkterna
+
+js-geo-fact-line = { $key }: { $value }.
+
+js-geo-fact-mc = Monte Carlo
+
+js-geo-fact-mc-value =
+    { $n ->
+        [one] { $n } minstakvadratlösning, frö { $seed }
+       *[other] { $n } minstakvadratlösningar, frö { $seed }
+    }
+
+js-geo-fact-rms-3d = Molnets RMS, 3D
+
+js-geo-fact-rms-3d-beside = { $rms } m, jämfört med σ_UERE × PDOP = { $predicted } m
+
+js-geo-fact-rms-h = Molnets RMS, horisontell
+
+js-geo-fact-rms-h-beside = { $rms } m, jämfört med σ_UERE × HDOP = { $predicted } m
+
+js-geo-fact-rms-value = { $rms } m
+
+js-geo-gj-not-geojson = { $name }: inte GeoJSON (en FeatureCollection, Feature eller geometri förväntades).
+
+js-geo-gj-not-json = { $name }: inte JSON ({ $reason }).
+
+js-geo-gj-not-object = { $name }: inte ett GeoJSON-objekt.
+
+js-geo-gj-too-many = { $name }: { $count } objekt; den här sidan ritar högst { $max }.
+
+js-geo-legend-item = { $label }: { $used } av { $total } i lösningen
+
+js-geo-link-copied = Länken har kopierats.
+
+js-geo-link-copied-no-tle = Länken har kopierats (utan dina inklistrade element: en länk öppnar förinställningarna).
+
+js-geo-mc-off = Av
+
+js-geo-missing-ellipse = felellipsen
+
+js-geo-missing-gdop = GDOP
+
+js-geo-missing-leo = LEO
+
+js-geo-missing-monte-carlo = Monte Carlo-molnet
+
+js-geo-missing-open-sky = andelen öppen himmel
+
+js-geo-missing-skyline = skylinen
+
+js-geo-missing-tdop = TDOP
+
+js-geo-needs = kräver motor 0.36
+
+js-geo-needs-cap = Kräver motor 0.36
+
+js-geo-no = Nej
+
+js-geo-no-ellipse = Ingen ellips
+
+js-geo-no-sats = Inga satelliter att visa.
+
+js-geo-north = N
+
+js-geo-not-given = inte angiven
+
+js-geo-note-elements-skipped =
+    { $count ->
+        [one] { $count } elementsats hoppades över: { $list }.
+       *[other] { $count } elementsatser hoppades över: { $list }.
+    }
+
+js-geo-note-latitude-limited = Det här motorbygget modellerar platser inom 89° från ekvatorn; latituden begränsades till det.
+
+js-geo-note-leo-left-out = LEO: kräver motor 0.36; utelämnad.
+
+js-geo-note-no-engine = Motorn körs inte i den här webbläsaren, så det finns inget att visa. Den körs som WebAssembly; en webbläsare eller värd som blockerar WebAssembly kan inte köra den här vyn.
+
+js-geo-note-pick-one = Välj minst ett av GPS, Galileo och BeiDou.
+
+js-geo-note-skyline-not-applied = Skylinen är ritad men inte tillämpad: att tillämpa den kräver motor 0.36. Satelliter bakom den räknas fortfarande här.
+
+js-geo-note-skyline-source = Skyline: { $source }.
+
+js-geo-note-training-model = Motor { $version } övningshimmelmodell (nmea_training) vid { $instant }: vinklar i hela grader och DOP med en decimal, så som mottagarmeddelanden bär dem; positionsbestämningen använder högst 12 satelliter, valda efter signalstyrka.
+
+js-geo-note-unknown-systems =
+    { $count ->
+        [one] { $count } satellitpost för ett system som den här vyn inte ritar utelämnades.
+       *[other] { $count } satellitposter för system som den här vyn inte ritar utelämnades.
+    }
+
+js-geo-off-leo = LEO: kräver motor 0.36.
+
+js-geo-off-monte-carlo = Monte Carlo-molnet kräver motor 0.36.
+
+js-geo-off-skyline = Att tillämpa en skyline kräver motor 0.36: här ritas den bara.
+
+js-geo-offset-own = Förskjutning från dina elements epok ({ $epoch })
+
+js-geo-offset-ref = Förskjutning från konstellationernas referensepok
+
+js-geo-open-sky-share = { $pct } % av den övre halvsfären
+
+js-geo-out-of-range = Utanför intervallet, så värdet behålls vid det senaste goda: { $names }.
+
+js-geo-own-elements-at = Dina egna element vid { $epoch }.
+
+js-geo-pick-constellation = Välj minst en konstellation.
+
+js-geo-place-geiranger = Geirangerfjorden, Norge
+
+js-geo-place-manhattan = Midtown Manhattan, USA
+
+js-geo-place-oslo = Oslo hamn, Norge
+
+js-geo-place-rotterdam = Rotterdams hamn, Nederländerna
+
+js-geo-place-singapore = Singaporesundet
+
+js-geo-place-tallinn = Tallinns hamn, Estland
+
+js-geo-place-tromso = Tromsø, Norge
+
+js-geo-plot-desc =
+    { $total ->
+        [one] { $total } satellit i diagrammet, { $used } i lösningen.
+       *[other] { $total } satelliter i diagrammet, { $used } i lösningen.
+    }
+
+js-geo-preset-illustrative = Illustrativ kontur ritad av den här sidan; att tillämpa en skyline kräver motor 0.36.
+
+js-geo-ready = Klar.
+
+js-geo-ready-needs = Klar. Kräver motor 0.36: { $list }.
+
+js-geo-sat-masked = { $label } { $id }: azimut { $az }°, elevation { $el }°, dold av skylinen
+
+js-geo-sat-unused = { $label } { $id }: azimut { $az }°, elevation { $el }°, används inte
+
+js-geo-sat-used = { $label } { $id }: azimut { $az }°, elevation { $el }°, i lösningen
+
+js-geo-scenarios-under = Motorns scenarier under den här skylinen:
+
+js-geo-sky-canyon = Gatukanjon
+
+js-geo-sky-drawn = Ritad på skyplotten
+
+js-geo-sky-open = Öppen horisont
+
+js-geo-sky-preset = Förinställning: { $name }
+
+js-geo-sky-source = Himmel: { $source }.
+
+js-geo-skyline-city-street = Stadsgata
+
+js-geo-skyline-container = Containerterminal
+
+js-geo-skyline-fjord = Fjord
+
+js-geo-skyline-harbour = Hamninlöpning
+
+js-geo-skyline-load-failed = Skylinen kunde inte läsas in ({ $reason }).
+
+js-geo-skyplot-downloaded = Skyplotten har laddats ned.
+
+js-geo-skyplot-export-failed = Skyplotten kunde inte exporteras ({ $reason }).
+
+js-geo-source-geometry = Kshana-motor { $version }, sky_geometry
+
+js-geo-source-line = { $source }.
+
+js-geo-source-training = Kshana-motor { $version }, övningshimmelmodell
+
+js-geo-south = S
+
+js-geo-style-own-elements = Dina element
+
+js-geo-svg-refused = motorns SVG avvisades
+
+js-geo-table-count =
+    { $n ->
+        [one] { $n } satellit, samma som i skyplotten.
+       *[other] { $n } satelliter, samma som i skyplotten.
+    }
+
+js-geo-tle-epoch = Ange en UTC-epok från 2000 till 2099.
+
+js-geo-tle-paste-first = Klistra först in en eller flera tvåradiga elementsatser.
+
+js-geo-tle-too-large = De inklistrade elementen är större än 4 MiB, motorns gräns för indata.
+
+js-geo-used-masked = Nej: dold av skylinen
+
+js-geo-using-own = Använder dina egna element. En länk bär bara att du använde dem, inte själva elementen.
+
+js-geo-wasm-blocked = WebAssembly är blockerat
+
+js-geo-west = V
+
+js-geo-why = Varför
+
+js-geo-why-interim = Felellipsen och Monte Carlo-molnet kräver motor 0.36 (dess funktioner sky_geometry och sky_monte_carlo); motorn på den här sidan är äldre.
+
+js-geo-why-no-ellipse = Motorn gav ingen ellips för den här geometrin (för få satelliter för en positionsbestämning, eller en singulär geometri).
+
+js-geo-why-no-ellipse-reason = Motorn gav ingen ellips för den här geometrin (för få satelliter för en positionsbestämning, eller en singulär geometri): { $reason }.
+
+js-geo-why-waiting = Väntar på motorn.
+
+js-geo-yes = Ja
+
+js-hold-axis-seconds = sekunder från det första samplet
+
+js-hold-axis-tau = observationstid τ, s (log)
+
+js-hold-axis-te = tidsfel, ns
+
+js-hold-band-title = Återhämtningsband ±{ $band } ns
+
+js-hold-blurb-example = Sampel var 5:e s: 600 s låst, GNSS borttaget vid 600 s, holdover, GNSS återställt vid 2400 s. Registreringen är genererad för exemplet; den är ingen mätning.
+
+js-hold-blurb-ptp4l = Samma fyra steg lästa ur en ptp4l-servologg (demonens egen avvikelse, i ns). Loggen är skriven för exemplet; ingen demon kördes.
+
+js-hold-budget-exceeded = { $name } överskreds första gången { $s } s efter borttagningen
+
+js-hold-chip-baseline = Baslinje mot sina masker
+
+js-hold-chip-envelope = ePRTC-A-kuvert för holdover
+
+js-hold-chip-holdover = Holdover mot sina masker
+
+js-hold-chip-measured = uppmätt mot masken
+
+js-hold-chip-recovery = Återhämtning
+
+js-hold-chip-words = Ord
+
+js-hold-curve-title = { $step }: { $which }, ns
+
+js-hold-curves-aria = { $which } mot observationstid, med maskgränserna
+
+js-hold-envelope-exceeded = ePRTC-A-kuvertet för holdover överskreds första gången { $s } s efter borttagningen
+
+js-hold-envelope-exceeded-short = { $verdict }, överskreds första gången { $s } s efter borttagningen (registreringen är kortare än kuvertets period)
+
+js-hold-envelope-exceeded-value = { $verdict }, överskreds första gången { $s } s efter borttagningen
+
+js-hold-envelope-short = { $verdict } (registreringen är kortare än kuvertets period)
+
+js-hold-file-error = { $name }: { $error }.
+
+js-hold-file-not-json = { $name }: inte JSON.
+
+js-hold-file-read-here = { $name }, läst här; ingenting laddades upp.
+
+js-hold-file-too-large = { $name } är större än vad den här sidan läser.
+
+js-hold-from-record = resultatets registrering
+
+js-hold-from-record-decimated = resultatets registrering, decimerad till { $have } av { $total } sampel
+
+js-hold-gnss-removed = GNSS borttaget
+
+js-hold-gnss-removed-stated = GNSS borttaget (angivet av operatören)
+
+js-hold-gnss-restored = GNSS återställt
+
+js-hold-gnss-restored-stated = GNSS återställt (angivet av operatören)
+
+js-hold-largest-at = { $value } vid T+{ $time } s
+
+js-hold-limit-label = ±{ $ns } ns { $step }-mask
+
+js-hold-limit-title = { $id }: ±{ $ns } ns, det största absoluta tidsfelet i steget { $step }
+
+js-hold-mark-title = { $id } gräns { $limit } ns vid τ { $tau } s ({ $verdict }; { $source })
+
+js-hold-marker-time = { $name }, T+{ $time } s
+
+js-hold-na = saknas
+
+js-hold-no-curve = Ingen tidsfelskurva: registreringen kunde inte återskapas för ritning.
+
+js-hold-no-which-curve = Ingen { $which }-kurva i det här resultatet.
+
+js-hold-not-exceeded = inte överskriden
+
+js-hold-not-recovered = höll sig inte inom bandet
+
+js-hold-not-result = det här är inte ett resultat av ett holdover-test
+
+js-hold-open-failed = { $title } kunde inte öppnas: { $reason }.
+
+js-hold-opening = Öppnar { $title }…
+
+js-hold-phase-baseline = Baslinje: låst
+
+js-hold-phase-holdover = Holdover: GNSS borttaget
+
+js-hold-phase-recovery = Återhämtning: GNSS återställt
+
+js-hold-phase-title = { $phase }, T+{ $from } s till { $to } s
+
+js-hold-read-failed = Kunde inte läsas eller ritas ({ $reason }).
+
+js-hold-recorded = { $title }: motorns registrerade resultat (version { $version }).
+
+js-hold-recovered = inom ±{ $band } ns i { $dwell } s, { $after } s efter att GNSS återkom
+
+js-hold-result-not-json = resultatet är inte JSON ({ $reason })
+
+js-hold-result-not-loaded = det registrerade resultatet lästes inte in
+
+js-hold-row-envelope = ePRTC-A-kuvert för holdover
+
+js-hold-row-frequency = Bibehållen frekvensförskjutning (anpassad lutning)
+
+js-hold-row-largest = Största absoluta tidsfel
+
+js-hold-row-length = Holdover-längd
+
+js-hold-row-margin = Minsta marginal inom kuvertet
+
+js-hold-row-peak = Topp efter återställningen
+
+js-hold-row-recovery = Återhämtning
+
+js-hold-row-recovery-step = Största steg under återhämtningen
+
+js-hold-row-residual = Residual kring den linjen (rms)
+
+js-hold-row-step = Steg vid borttagningsögonblicket
+
+js-hold-status-final = { $status } { $label }; uppmätt mot masken.
+
+js-hold-step-span = T+{ $from } till { $to } s
+
+js-hold-te-aria = Tidsfel över registreringen, med faserna och maskgränserna
+
+js-hold-te-line-title = Tidsfel, ns
+
+js-hold-te-note = Tidsfel från { $from }. De två tiderna angavs av { $by }.
+
+js-hold-th-budget = Budget
+
+js-hold-th-budget-limit = Gräns |TE|, ns
+
+js-hold-th-first-exceeded = Först överskriden efter borttagning, s
+
+js-hold-th-largest = Största |TE|, ns
+
+js-hold-th-limit = Gräns, ns
+
+js-hold-th-margin = Marginal, ns
+
+js-hold-th-mask = Mask
+
+js-hold-th-mean = Medelvärde, ns
+
+js-hold-th-measured-on = Uppmätt på
+
+js-hold-th-metric = Mått
+
+js-hold-th-rms = RMS, ns
+
+js-hold-th-samples = Sampel
+
+js-hold-th-source = Källa
+
+js-hold-th-span = Spann
+
+js-hold-th-step = Steg
+
+js-hold-th-value = Värde, ns
+
+js-hold-th-verdict = Utfall
+
+js-hold-th-worst-at = Sämst vid τ eller T+, s
+
+js-hold-title-example = En tidsfelsregistrering
+
+js-hold-title-ptp4l = En linuxptp-logg
+
+js-hold-why-no-samples = resultatet innehåller inga tidsfelssampel (record.series), så ingen kurva ritas
+
+js-hold-why-not-series = serien i resultatet är ingen tidsserie (färre än två sampel, eller tiden ökar inte), så ingen kurva ritas
+
+js-hold-why-sentence = { $why }.
+
+js-hold-why-too-many = serien i resultatet har { $have } sampel där motorn poängsatte { $scored }, så ingen kurva ritas
+
+js-interf-attribution = Tillskrivning
+
+js-interf-build-failed = { $name }: kunde inte byggas ({ $reason }).
+
+js-interf-built-day-maps =
+    { $n ->
+        [one] Byggde { $n } dagskarta från { $name } med motor { $version }, i den här webbläsaren.
+       *[other] Byggde { $n } dagskartor från { $name } med motor { $version }, i den här webbläsaren.
+    }
+
+js-interf-built-detail = { $date }: { $published } rutor publicerade, { $flagged } flaggade
+
+js-interf-built-from-sample = Byggd från det syntetiska { $kind }-urvalet med motorn, i den här webbläsaren. Påhittade rapporter; inget verkligt flygplan, fartyg eller dygn.
+
+js-interf-built-maps =
+    { $n ->
+        [one] Byggde { $n } karta ({ $detail }). Endast aggregat: en flaggad ruta pekar inte ut störning som orsak.
+       *[other] Byggde { $n } kartor ({ $detail }). Endast aggregat: en flaggad ruta pekar inte ut störning som orsak.
+    }
+
+js-interf-built-none = { $name }: motorn byggde ingen karta.
+
+js-interf-caveat-coverage = Täckningen följer datakällan; läs täckningsanmärkningarna.
+
+js-interf-caveat-no-colour = En ruta utan färg observerades inte. Det är inget belägg för att området var fritt.
+
+js-interf-caveat-not-finding = En försämrad eller avvikande ruta är inte ett fynd av störning. Det finns andra orsaker.
+
+js-interf-caveat-past-reports = Det här är en beskrivning av tidigare positionsrapporter, inte en prognos och inte en mätning av någon mottagare.
+
+js-interf-caveats = Förbehåll
+
+js-interf-cell-size-rule = Rutstorleken måste vara ett antal grader över 0 och högst 10, eller tom för 0,5.
+
+js-interf-check-failed = { $name }: kunde inte kontrolleras ({ $reason }).
+
+js-interf-click-cell = Klicka på en ruta, eller fokusera kartan och använd piltangenterna, för att se dess tal.
