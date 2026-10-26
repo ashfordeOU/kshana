@@ -14,7 +14,7 @@ seg-ff0e00610721 = 各行は、どの Kshana の出力がその要件の<b>証�
 
 seg-30c8cabb6e90 = 出典文書
 
-seg-2261e4292865 = <b>Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework</b>：バージョン { "2.0" }、{ "2022" }年四月{ "26" }日（DHS 科学技術局、CISA と共同）。<a1>https://www.dhs.gov/sites/default/files/2022-05/22_0531_st_resilient_pnt_conformance_framework_v2.0.pdf</a1>。閲覧日 2026-10-09：文書は全文を読みました。公開ページのランディングページは取得していません。
+seg-2261e4292865 = <b>Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework</b>：バージョン { "2.0" }、{ "2022" }年4月{ "26" }日（DHS 科学技術局、CISA と共同）。<a1>https://www.dhs.gov/sites/default/files/2022-05/22_0531_st_resilient_pnt_conformance_framework_v2.0.pdf</a1>。閲覧日 2026-10-09：文書は全文を読みました。公開ページのランディングページは取得していません。
 
 seg-955191e0baab = 対応表
 

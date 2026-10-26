@@ -24,11 +24,11 @@ seg-0c8eff02ab67 = EN { "16803" }：Kshana が証拠を裏付ける範囲
 
 seg-f0ebb62e0f66 = EN { "16803" } は有料の標準です。ここで使っているのは、そのパート構成と、公開されているカタログ資料から見える条項番号、つまりパート { "3" } の条項 { "6" } と附属書 A のみです。要件の文言は転載しておらず、言い換えは公開されている適用範囲の説明に基づいています。ライセンスを持つ方は、この表を条項ごとに拡張できます。
 
-seg-0496704c4da5 = <b>Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part { "1" }: Definitions and system engineering procedures for the establishment and assessment of performances</b>：EN 16803-1:{ "2020" }（カタログ：{ "2020" }年十月{ "2" }日から有効、{ "2016" }年版に代わるもの）。<a1>https://www.evs.ee/en/evs-en-16803-1-2020</a1>。閲覧日 2026-10-09：カタログの適用範囲の文のみ。標準は有料であり、読んでいません。
+seg-0496704c4da5 = <b>Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part { "1" }: Definitions and system engineering procedures for the establishment and assessment of performances</b>：EN 16803-1:{ "2020" }（カタログ：{ "2020" }年10月{ "2" }日から有効、{ "2016" }年版に代わるもの）。<a1>https://www.evs.ee/en/evs-en-16803-1-2020</a1>。閲覧日 2026-10-09：カタログの適用範囲の文のみ。標準は有料であり、読んでいません。
 
-seg-f02216e60d0e = <b>Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part { "2" }: Assessment of basic performances of GNSS-based positioning terminals</b>：EN 16803-2:{ "2020" }（カタログ：{ "2020" }年十月{ "2" }日から有効）。<a1>https://www.evs.ee/en/evs-en-16803-2-2020</a1>。閲覧日 2026-10-09：カタログの適用範囲の文のみ。標準は有料であり、読んでいません。
+seg-f02216e60d0e = <b>Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part { "2" }: Assessment of basic performances of GNSS-based positioning terminals</b>：EN 16803-2:{ "2020" }（カタログ：{ "2020" }年10月{ "2" }日から有効）。<a1>https://www.evs.ee/en/evs-en-16803-2-2020</a1>。閲覧日 2026-10-09：カタログの適用範囲の文のみ。標準は有料であり、読んでいません。
 
-seg-d6b1c7bb4e8c = <b>Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part { "3" }: Assessment of security performances of GNSS-based positioning terminals</b>：EN 16803-3:{ "2020" }（カタログ：{ "2020" }年十月{ "2" }日から有効）。<a1>https://www.evs.ee/en/evs-en-16803-3-2020</a1>。閲覧日 2026-10-09：カタログの適用範囲の文のみ。標準は有料であり、読んでいません。カタログの文が番号付きで挙げているのは、条項 { "6" }（記録された信号とシミュレートされた信号）と附属書 A（攻撃の大まかな分類）のみです。カタログには委員会名がないため、ここには記載していません。
+seg-d6b1c7bb4e8c = <b>Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part { "3" }: Assessment of security performances of GNSS-based positioning terminals</b>：EN 16803-3:{ "2020" }（カタログ：{ "2020" }年10月{ "2" }日から有効）。<a1>https://www.evs.ee/en/evs-en-16803-3-2020</a1>。閲覧日 2026-10-09：カタログの適用範囲の文のみ。標準は有料であり、読んでいません。カタログの文が番号付きで挙げているのは、条項 { "6" }（記録された信号とシミュレートされた信号）と附属書 A（攻撃の大まかな分類）のみです。カタログには委員会名がないため、ここには記載していません。
 
 seg-ec7f5d955070 = EN 16803-1（定義とシステムエンジニアリング手順）
 

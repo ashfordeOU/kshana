@@ -24,7 +24,7 @@ seg-3068552e4ab4 = VALIDATED：この種類を挙げている<a1>検証マトリ
 
 seg-c5c966ec3c6a = <b>VALIDATED</b>複数仮説の解分離による保護レベルの方程式そのもの：視野内すべて、および故障モードごとの重み付き最小二乗法を、コンステレーションごとに一つのクロック状態を持つEast/North/Upの幾何上で行い、部分解のシグマ、解分離 テスト：<a1>araim_reference_vectors.rs</a1>。
 
-seg-a99b9cf4c6e8 = <b>VALIDATED</b>複数仮説の解分離による保護レベルの方程式そのもの：視野内すべて、および故障モードごとの重み付き最小二乗法をEast/North/Upの幾何上で行います。オラクル（ExternalDataset）：EU-U.S. Working Group C ARAIM Technical Subgroup、Reference Airborne Algorithm Description Document v3.1（{ "2019" }年六月{ "20" }日）、Appendix Dの数値例。公開された入力（10機の衛星、2コンステレーションの幾何行列、C_int/C_accの対角成分、b_nom、P_sat、P_const、LPV-200の定数）と公開された出力（VPL { "18.3" } m、HPL { "13.45" } m、EMT { "7.2998" } m、σ_v_acc { "1.3694" } m、K_fa_3 { "5.1083" }、およびコンステレーション故障の六つの中間値
+seg-a99b9cf4c6e8 = <b>VALIDATED</b>複数仮説の解分離による保護レベルの方程式そのもの：視野内すべて、および故障モードごとの重み付き最小二乗法をEast/North/Upの幾何上で行います。オラクル（ExternalDataset）：EU-U.S. Working Group C ARAIM Technical Subgroup、Reference Airborne Algorithm Description Document v3.1（{ "2019" }年6月{ "20" }日）、Appendix Dの数値例。公開された入力（10機の衛星、2コンステレーションの幾何行列、C_int/C_accの対角成分、b_nom、P_sat、P_const、LPV-200の定数）と公開された出力（VPL { "18.3" } m、HPL { "13.45" } m、EMT { "7.2998" } m、σ_v_acc { "1.3694" } m、K_fa_3 { "5.1083" }、およびコンステレーション故障の六つの中間値
 
 seg-f6b7ca020692 = ファミリーページ：<a1>GNSSの測定、測位、インテグリティ</a1>
 
