@@ -21,3 +21,7 @@ seg-670191cf797f = 主题页面：<a1>SOLAR-SYSTEM.md</a1>
 seg-cef32ee7d521 = 主题页面：<a1>CONSTELLATION-DESIGN.md</a1>
 
 seg-4d208b6c0eb8 = 天
+
+seg-3319b18ac61f = 矩阵中另有 { "1" } 项。
+
+seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }：点名此类型的<a1>验证矩阵</a1>行。

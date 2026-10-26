@@ -15,3 +15,9 @@ seg-304496607bd7 = 引擎 v{ $version } 的场景类型，所属系列为<a1>压
 seg-5d23d7f8f872 = 系列页面：<a1>压制干扰、欺骗干扰与频谱</a1>
 
 seg-f85a85f0c7e4 = MHz
+
+seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }：点名此类型的<a1>验证矩阵</a1>行。
+
+seg-3319b18ac61f = 矩阵中另有 { "1" } 项。
+
+seg-9ca82c79430e = <b>MODELLED</b> <c1/> 类型扩展到 L 频段以外：频段以预设信号设计给出（绘出每个分量，带限于发射带宽，C/N0 和 J/S 参照被跟踪分量），或以自定义载波和调制给出 测试：<a1>leo_signal_reference.rs</a1>。

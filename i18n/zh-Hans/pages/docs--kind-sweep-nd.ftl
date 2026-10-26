@@ -25,3 +25,5 @@ seg-5fef5e8cc64e = 量子惯性航位推算韧性为 MODELLED，未经独立验�
 seg-5a70fcb097dc = 可选字段：无
 
 seg-bb07c8ee153f = <b>PARTNER</b> 不提供——仅有性能模型；冷原子/时钟硬件由合作方负责。参考基准（oracle，NoneKind）：无：由合作方负责的领域，按设计既没有模块也没有测试
+
+seg-8b701f465117 = 对数
