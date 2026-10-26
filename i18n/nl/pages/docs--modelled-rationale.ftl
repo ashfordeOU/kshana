@@ -490,3 +490,181 @@ seg-da712b740519 = Verbetering van de DOP met bakens op het maanoppervlak
 seg-83e6341e01b1 = Door bakens verbeterde dilution of precision voor een gebruiker op het maanoppervlak: de zichtlijnrijen van zichtbare satellieten en de afstandsrijen van zichtbare oppervlaktebakens worden samengevoegd tot één ontwerpmatrix en geëvalueerd via de gedeelde DOP-kern, en de resulterende DOP wordt afgebeeld op een gerealiseerde nauwkeurigheid van 1 sigma IN METERS via een gebruikersequivalente afstandsfout per baken, samengesteld als de wortel uit de kwadratensom van termen voor kloksynchronisatie, multipad en opmeting. De zichtbaarheid van bakens is de geometrische horizon met twee hoogten op de luchtloze Maan, die geen refractieve uitbreiding heeft en daarom exact is in plaats van bij benadering. Uitvoerbaar als de scenariosoort <c1/>, die satellieten alleen, satellieten plus bakens en een grotere constellatie als concurrerende route naar dezelfde geometrie rapporteert. MEASURED op de meegeleverde gouden geometrie (gebruiker op -80 deg, drie opgemeten bakens, illustratieve LCNS met zes satellieten bij t={ "0" }, masker van { "5" } deg): { "5" } zichtbare satellieten geven PDOP { "9.6941" } en een 3D-1-sigma van { "11.222" } m; het toevoegen van de bakens die de horizon werkelijk halen geeft PDOP { "4.1160" } en { "4.765" } m, een factor { "2.355" }; de dienst met 24 satellieten geeft in plaats daarvan PDOP { "2.4226" } en { "2.804" } m, een factor { "4.002" }. Het rapport drukt het aantal ZICHTBARE bakens af en niet het ingestelde aantal, en op deze geometrie haalt slechts ÉÉN van de drie bakens de horizon: de twee flankerende locaties liggen ongeveer { "333" } km van de gebruiker tegenover een horizon van { "86" } km voor een antenne van { "2" } m, zodat een lezer nooit hoeft aan te nemen dat alle drie hebben bijgedragen
 
 seg-845e9f5eec81 = Beschermingsniveau voor gemeenschappelijke modi en totale integriteitsomhullende
+
+seg-90307f07e0ef = Oplossingsmodi van het maanreferentiestation: hoogtebeperking, drie satellieten, venster voor een statische gebruiker
+
+seg-366c7ad03fb2 = De optionele sectie [solution] van lunar-station-coverage (LRS-06): een pseudo-meetrij voor de hoogte up . dx = e_h met een opgegeven 1-sigma, gewogen tegen de afstandsrijen, een minimum van drie satellieten dat alleen met deze rij is toegestaan, en een gewogen kleinstekwadratenoplossing over de laatste window_epochs epochs met een gedeelde statische positie en één klok per epoch (het antwoord van een filter voor een statische positie zonder procesruis over dezelfde data; de fouten van de epochs worden als onafhankelijk behandeld). Zonder deze sectie blijven de snapshot-oplossing en elk document ongewijzigd. Een addendum bij de vergelijking met gepubliceerde claims, met de oplossingsstijl van de bronnen, alleen vooraf vastgelegd
+
+seg-611ba369ed00 = Nauwkeurigheid en dekking van het maanreferentiestation tegenover gepubliceerde claims
+
+seg-4fe4f1cffa2b = Het soort lunar-station-coverage, uitgevoerd onder de openbare aannames van het gepubliceerde materiaal over een differentieel maanreferentiestation (vier navigatiesatellieten in bevroren elliptische banen van { "24" } h, { "10" } m { "95" } % SISE, { "0.30" } m codeniveauruis, correctielatentie van { "1" } s en { "600" } s, een stationsopmeting op sub-decimeterniveau, de gepubliceerde voorbeeldlocatie van het station, de zuidpoolcirkels van { "300" } km en { "600" } km) en getoetst aan de numerieke claims van de bronnen onder zes eenzijdige drempels die vóór de run zijn vastgelegd: dekking van de hele zuidpool op p95 beneden een meter (K1, K2), gecorrigeerde p95 beneden een meter en op decimeterniveau (K3, K4), beneden een meter behouden bij { "600" } s latentie (K5), en nauwkeurigheid behouden van { "10" } km tot { "500" } km basislijn (K6)
+
+seg-7bfcb5c6a985 = ARAIM met gelijktijdige foutenhypothesen voor meerdere satellieten
+
+seg-15043111e437 = araim_reference::add_v42_subset_plan: de bepalingsregel voor deelverzamelingen van ADD v4.2 (P_THRES, FC_THRES, bewaakte deelverzamelingen met de minste verwijderingen eerst), gegeneraliseerd van paren naar gelijktijdige combinaties van maximaal max_order satelliet- en constellatiegebeurtenissen, met de exacte prior P_no fault prod q_e; add_v42_protection_levels_to_order voert het pad voor beschermingsniveaus van ADD v4.2 erop uit (orde { "2" } is precies het bestaande pad). raim::araim_subset_raim (opt-in): geavanceerde RAIM over die hypothesenverzameling, elke bewaakte deelverzameling als één modus (p_fault, T, b, sigma) in de som van het integriteitsrisico, niet-waarneembare deelverzamelingen verplaatst naar het niet-bewaakte risico, het budget geschaald met de ADD-allocatie van het niet-bewaakte risico, en de deelverzameling met de grootste genormaliseerde scheiding gerapporteerd wanneer een fout wordt gedetecteerd. Priors die diepere deelverzamelingen nodig hebben dan max_order worden geweigerd, nooit afgekapt
+
+seg-48ca01332f8f = RAIM naast de kwaliteitsmaten voor klok-holdover
+
+seg-890f1006a75d = De optionele sectie [integrity] van het kloksoort (clock_integrity::run): vanuit een opgegeven locatie en constellatievoorinstellingen (geometry::sky_geometry), op elk integriteitsepoch terwijl de GNSS-tijdlijn niet wordt geweigerd, snapshot-RAIM (raim::snapshot_raim: pariteit-chikwadraattoets, beschermingsniveaus op basis van de helling) op de satellieten boven het masker met gezaaide gaussische residuen van de opgegeven sigma en een optionele opgegeven bias; een afzonderlijk blok integrity_fom met verdicten per epoch, beschermingsniveaus en beschikbaarheid. Geweigerde epochs worden als niet beschikbaar gerapporteerd, nooit geëxtrapoleerd; de kwaliteitsmaten voor holdover blijven ongewijzigd en zonder de sectie is de uitvoer byte-identiek
+
+seg-9cbb4ee7588a = Ruimtelijke, ruisbevattende observeerbaarheid van de booglengte voor meerdere cislunaire families
+
+seg-5ebd771deef8 = De drempel voor de observeerbaarheid van de cislunaire booglengte in de RUIMTELIJKE CR3BP met zes toestanden in plaats van de vlakke met vier toestanden, over DRO-, L2-halo- en L2-bijna-rechtlijnige-halofamilies, met meetruis die in de Gramiaan doorwerkt en TWEE criteria gerapporteerd omdat er geen enkel eerlijk criterium bestaat: het gepubliceerde rangcriterium, dat aantoonbaar invariant is voor een homoscedastische meetsigma (witmaken vermenigvuldigt de observeerbaarheidsmatrix met een scalair, waardoor het relatieve singuliere-waardenspectrum en dus rang, defect en conditie ongewijzigd blijven), en een schatbaarheidscriterium — de eerste boog waarop de formele 1σ-positieonzekerheid van de begintoestand van de chief onder een opgegeven grens komt — dat wel met de ruis meebeweegt. Elke drempel draagt het bracket in het epochraster waarin hij ligt; een niet bereikt criterium is null met een reden. De vlakke modus blijft de standaard en families buiten het vlak worden daar geweigerd in plaats van platgeslagen tot een toestand die ze niet kan weergeven
+
+seg-e250321394bc = Voorspelfout van de aardoriëntatie in operationele stijl, gemeten voorspeld tegenover definitief
+
+seg-0e443d241460 = Een kleinstekwadraten-fit van bias plus snelheid over een meelopend venster plus de voornaamste periodieke termen — jaarlijks, halfjaarlijks en de twee voornaamste zonale getijden voor UT1; Chandler, jaarlijks en halfjaarlijks voor de pool — geëxtrapoleerd met de laatste residu binnen het venster doorgetrokken: de klasse die IERS Bulletin A gebruikt, in plaats van de persistentievoorspeller waarop de gepubliceerde horizon berustte. Op de enige eerlijke manier beoordeeld: een voorspelling voor T+h opgebouwd uit snelle Bulletin A-rijen op of vóór T, gemeten tegen de LATER GEPUBLICEERDE definitieve Bulletin B op T+h, met persistentie beoordeeld over dezelfde epochverzameling tegen dezelfde definitieve waarden ernaast. Een doelepoch zonder gepubliceerde definitieve waarde wordt weggelaten in plaats van opnieuw tegen de snelle kolom te worden beoordeeld; een periodieke term die het venster niet kan vastleggen wordt als verworpen gerapporteerd, met de cycli die hij werkelijk beslaat; een onvolledig venster wordt geweigerd in plaats van stilzwijgend ingekort
+
+seg-f4efd94dd746 = Maandatum van het referentiestelsel uit een waarnemingscampagne
+
+# c1: lunar-frame-campaign
+seg-a6972eb89d7d = Het Helmert-datum met zeven parameters, voortgeplant vanuit een GESIMULEERDE WAARNEMINGSCAMPAGNE in plaats van teruggevonden uit een geïnjecteerde transformatie. Aardstations observeren een bronvermelde catalogus van bakens op het maanoppervlak volgens een expliciet schema; de partiële afgeleiden van de lunar-VLBI-vertraging worden opgeteld tot een Fisher-informatiematrix van de baakencoördinaten en doorgerekend via het Helmert-ontwerp A = [I₃ | [p]ₓ | p] naar H = AᵀM_bA, zodat de gerapporteerde datumnauwkeurigheid een functie is van het waarnemingsprogramma — exact lineair in de vertragingssigma en monotoon in de boog via de libratie die het rapport METEN. Het datumdefect is het onderwerp en geen voetnoot: rang, defect, conditiegetal, spectrum, niet-waarneembare richtingen in de basis van zeven parameters, de zwakste richting zelfs bij volledige rang en het aandeel van elke parameter daarin worden bij elke run uitgegeven, en elke parameter die de campagne niet vastlegt wordt gepubliceerd als NULL met een status. Baakfoutcorrelatie wordt MEASURED en niet aangenomen — exact nul met vaste stations, en met haar kosten afgedrukt wanneer de stations worden geschat. Uitvoerbaar als het scenariosoort <c1/>
+
+seg-ca481f2d8f9e = Bevestiging door een onafhankelijke schatter van de drempel voor de cislunaire booglengte
+
+# c1: cislunar-arc-recovery
+seg-3d5fbf896209 = Een batch-kleinstekwadratenschatter die de begintoestand van de chief TERUGVINDT uit gesimuleerde metingen tussen satellieten over groeiende prefixen van hetzelfde epochraster dat de tabel van rang tegenover boog gebruikt, met de partiële afgeleiden van de metingen genomen als centrale eindige verschillen van het samengestelde voorwaartse model. Hij gebruikt niets van de machinerie waarmee de drempel is gemeten — geen analytische Jacobiaanrij, geen variationele toestandsovergangsmatrix, geen singuliere-waarden- of eigenwaardenontbinding, geen ranktolerantie, geen square-root-informatiefilter — en deelt alleen de dynamica, de beginvoorwaarden, de scalaire observabele en het epochraster, elk genoemd in het uitgegeven document. Twee criteria, beide doorgerekend: terugvinden zonder ruis (het analogon van rang) en Monte-Carlo-schatbaarheid (het analogon van schatbaarheid, gemeten tegen een bekende waarheid in plaats van voorspeld uit een covariantie). Uitvoerbaar als het scenariosoort <c1/>
+
+seg-f839285852d9 = Maanservicevolume uit echte, opgehaalde constellatiegeometrie
+
+# c1: ephemeris_path
+seg-c3059fcced49 = Accepteert een getabelleerde maancentrische toestandsefemeride (de evaluatie van een SPK/BSP-kernel) of een gepubliceerde constellatiedefinitie achter <c1/>, voert dezelfde sweep van dekking / DOP / beschermingsniveau erop uit en geeft de daaruit volgende eis aan de σ_URE-afstandsmeting NAAST de ongewijzigde illustratieve Kepler-resultaten en de resultaten met verstoringen, met het verschil als eigen benoemde grootheid. Elk cijfer draagt een herkomstklasse die uit een kernel afgeleid onderscheidt van uit gepubliceerde elementen afgeleid en van gemodelleerd, zodat de twee in een latere aanhaling nooit kunnen worden verward
+
+seg-36a6cfaf5afa = Eenheid en herkomst vastgelegd voor elke gerapporteerde grootheid
+
+# c1: inherits-scenario-label
+# c2: depends-on-input
+seg-12460501e82b = Een machineleesbaar schema dat eenheid, herkomstklasse en definitie geeft voor elk numeriek veld van elk scenariorapport, plus één globale poort die elk geregistreerd scenariosoort uitvoert en faalt als een uitgegeven numeriek veld een van beide mist. Het herkomstvocabulaire is gesloten en elke klasse draagt een bewijsniveau, waarbij twee klassen bewust zijn afgebeeld op <c1/> en <c2/> in plaats van een niveau te krijgen dat de klasse niet bepaalt
+
+seg-c815cb90dcde = Geodesie van het maanreferentiestation: toegevoegde retroreflector en VLBI-baken tegenover het datum met vijf arrays
+
+seg-103cf21173ac = De optionele invoeren extra_reflectors en extra_beacons van het scenario lunar-llr-datum voegen een blok station_geodesy toe: de Helmert-informatie van de vijf arrays uit het gearchiveerde deel met maanlaserafstandsmeting, plus de informatie die een toegevoegde retroreflector (gemeten op de gearchiveerde normaalpuntepochs waarop het meetstation boven zijn horizon staat, elk met het gearchiveerde gewicht van dat normaalpunt) en een toegevoegd VLBI-baken (waargenomen door het netwerk en het schema van lunar-frame-campaign met vaste aardstations, via de vertragingspartialen van lunar-vlbi-fim) op opgegeven locaties aan het datum met zeven parameters toevoegen, opnieuw opgelost, met de 1-sigma van elke Helmert-parameter ervoor en erna, hun verhouding, de normen ervoor en erna, en de extreme eigenwaarden van het Fisher-verschil. Bij afwezigheid of leegte blijft het rapport ongewijzigd
+
+seg-44f582b17fa9 = Integriteit van de poort — een groen dat betekent wat het zegt
+
+# c1: cargo test --all
+seg-43fbcfbe990c = Drie structurele bewakers over het verificatieproces zelf, elk een klasse defecten sluitend die als intermitterend of onterecht rood in de canonieke poort terechtkwam. ({ "1" }) Elk geconstrueerd tijdelijk pad in de Rust-bronnen moet een uniek onderdeel per aanroep dragen; een proces-id wordt geweigerd, omdat cargo de bibliotheektests als parallelle threads van ÉÉN proces uitvoert en de pid door alle threads wordt gedeeld. ({ "2" }) Elke byte-voor-byte- of hashvastlegging moet naast zichzelf of in de moduleheader aangeven wat ze dekt en wat ze bewust uitsluit — zodat een wijziging die meerdere onderdelen raakt in één oogopslag kan zien welke vastleggingen binnen bereik zijn en welke stilzwijgend detectoren voor wijzigingen in de hele repository zijn geworden. ({ "3" }) Een groen is alleen te claimen vanuit de VOLLEDIGE suite: scripts/gate.sh voert <c1/> uit, legt de echte exitcode vast zonder pipe in de weg, en schrijft een bon die de commit, het aantal integratiebinaries, het aantal tests en de duur noemt; de pre-pushcontrole weigert een push waarvan de commit door geen geldige bon wordt genoemd, op een schone boom. Herhaalbaarheid wordt afzonderlijk bemonsterd door scripts/check-repeatability.sh, dat de bibliotheeksuite N keer uitvoert en faalt als de verzameling slagende tests verschilt.
+
+seg-b7cd952ff133 = Samengesteld tijdsynchronisatie-PL — met P0 geënte holdover-overbrugging
+
+seg-135df1e0e68a = PL(τ)=max(TPL_handover,HPL(τ)); laag-semicontinu PL({ "0" }+)≥PL({ "0" }−); K(IR/2) lopend maximum; fase-exponenten τ/τ³/τ⁵
+
+seg-096b6cdfe2dc = Samengesteld tijdsynchronisatie-PL — LIL-a.s.-envelop (onmogelijkheid + consistentie)
+
+seg-1671add2210d = Geen eindige worstcase-holdover (Brownse sup divergeert); met IR toegewezen HPL consistent met de Hartman-Wintner-envelop als IR→{ "0" }
+
+seg-5a27c9f0a67d = Overgrens van de integriteit voor heterogene herleidbaarheidsbias van UTC(k)
+
+seg-fd09ab2adbf6 = Overgrens van de bias per bron b = (U/k_cov)·Phi^-1(1-tail/2) + veroudering, die een gepubliceerde uitgebreide onzekerheid van type B opblaast tot een toegewezen integriteitsstaart; sluit aan op tpl_scalar als bias_s
+
+seg-d75b900ad25f = Gecorreleerde kruiscovariantie van de herleidbaarheidsbias (allocatie die onveilig is bij gemeenschappelijke modus)
+
+seg-0641f6d38c23 = N×N-kruiscovariantie van de bias met niet-diagonale elementen rho·b_i·b_j voor bronnen die een UTC(k)-realisator delen; BEWEZEN correlated_fused_bias >= independent_fused_bias (naïeve onafhankelijke allocatie onderbegrenst de gefuseerde bias -> optimistisch -> onveilig)
+
+seg-1a3bb032960f = Consistentiestatistiek voor de gemeenschappelijke modus (fout in een gedeelde referentie waar scheiding blind voor is)
+
+seg-1b03f522b8fc = Scorestatistiek ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 voor een verschuiving in de gemeenschappelijke modus die oplossingsscheiding (contrasten orthogonaal op { "1" }) niet kan zien; een verschuiving in de gemeenschappelijke modus blaast haar op terwijl de paarsgewijze scheidingen vlak blijven
+
+seg-3359eee713a5 = Classificatie van de nulruimte van het maandatum (rang-additiviteit van LLR + defectopheffing door libratie)
+
+seg-6d722c176052 = Classificatie van het probleem van het datum bij interne afstandsmeting: een enkele afstandswaarneming draagt rang { "1" } bij (nulruimte met 6 dimensies); het paar oorsprong-X en schaal is bijna nul en de fysische libratie van DE440 tilt het defect naar nul terwijl het paar bijna gedegenereerd blijft
+
+seg-3fd19007ea67 = Informatie over het maandatum uit meerdere technieken (LLR + maan-VLBI + orbiterafstand)
+
+seg-23d0dd7d0666 = Rijen van de datum-Jacobiaan voor LLR-afstand aarde-reflector, differentiële vertraging van maan-VLBI met twee stations en afstand orbiter-baken over het datum met 7 parameters, gecombineerd tot één consistent voorgeconditioneerde Fisher; toont aan dat niet-radiale (orbiter / diepteverschillende) tracking de degeneratie tussen oorsprong-X en schaal doorbreekt waar transversale VLBI alleen indirect helpt
+
+seg-ab96cfc8d48c = Geometrisch substraat van het LLR-datum voor de maan (hoofdasreflectoren, grondstations, analytische afstandspartialen)
+
+seg-40e91288f81a = De vijf retroreflectorarrays aan de aardzijde in meters in het PA-lichaamsframe en de LLR-grondstations in geodetische coördinaten; plaatsing van de reflector van lichaam naar inertiaal via de DE440-PA-oriëntatie; analytische partiële afgeleiden van de afstand aarde-reflector naar de 4 parameters van het datum; en de Fisher-matrix voor alleen LLR die de degeneratie tussen lunocentrum-X en schaal toont die de analyse met 7 parameters motiveert
+
+seg-63a8571f8eb0 = Degeneratie tussen afstand en klokoffset bij enkelvoudige maanafstandsmeting, en de ontwerpwet van geometrische diversiteit
+
+seg-cdd70f56051a = De degeneratie per knooppunt tussen radiale afstand en offset van de ontvangerklok is exact bij { "1" } m tot { "3.336" } ns (één over c). Het Schur-complementmarginaal { "{" }scale, offset{ "}" } (coupled_marginal_fisher) laat zien dat in een geometrisch gevarieerd netwerk tweewegsafstandsmeting het marginaal met ongeveer dezelfde factor verbetert als een gelijk aantal extra enkelvoudige data, terwijl in het geïdealiseerde regime met één knooppunt de verbetering door tweewegsmeting ordes van grootte groter is. De ontwerpwet die hieruit volgt: geometrische diversiteit, niet tweewegsafstandsmeting als zodanig, scheidt de schaal van het maanframe van de offset van de tijdschaal bij enkelvoudige afstandsmeting; een tweewegs- of externe tijdkoppeling is alleen nodig in het regime met weinig diversiteit of met één gebruiker.
+
+seg-2c074d6260ba = Representatief menu van metingen uit meerdere technieken en de additieve combinatieregel voor Fisher
+
+seg-beefac5c1b13 = MeasurementBlock bevat één kandidaat-meetcampagne als een bijdrage van 7x7 Fisher-informatie plus een scalaire relatieve kost; block_from_rows bouwt er een uit ruwe rijen van de datum-Jacobiaan zodat elk blok identiek wordt voorgeconditioneerd via lunar_identifiability::assemble_multi_info; combine sommeert de informatie van een gekozen deelverzameling, wat de juiste regel is omdat Fisher-informatie additief is over onafhankelijke metingen; representative_lunar_menu levert een deterministisch menu van vier blokken (LLR, een transversaal VLBI-baken op de maanrand, een orbiter aan de aardzijde en een orbiter aan de verre zijde). De door het budget beperkte ontwerpoptimalisator die dit menu gebruikt, maakt geen deel uit van deze crate.
+
+seg-2d3347bcb15e = Tolerantie voor consistentie tussen aanbieders voor een gebruiker met gemengde aanbieders
+
+seg-9decf2cb6b0c = consistency_tolerance: keert een positiebudget van de gebruiker om naar een eis aan de overeenstemming van de Helmert-parameters tussen aanbieders per parameter (oorsprong/schaal/rotatie) bij een referentiehefboomarm, desgewenst opgeblazen met de CRLB van de realisatie bij één aanbieder uit P1
+
+seg-5450d921dfc9 = Foutenbudget voor maaninteroperabiliteit tussen meerdere aanbieders en ontwerpwet van frame tegenover efemeride
+
+seg-e1e30f5c17a6 = interop_budget: splitsing in reduceerbaar (gemeenschappelijke frameverbinding) en onherleidbaar (dynamica) onder de conventies PerProvider / CommonFrameTie / CommonEphemeris, met de ontwerpwetmaat van de onherleidbare fractie (~{ "0.69" } op echte DE440/INPOP/EPM: een gemeenschappelijk frame-label alleen laat de dominante ondergrens bestaan)
+
+seg-ebb827739614 = Byzantijnse grens voor het detecteren/identificeren via blokvonk op het autonome maannetwerk per knooppunt (T3)
+
+seg-4fb935e6193d = byzantine_bound instantieert de coderings-/schaarse-waarneembaarheidsgrens voor veilige toestandsschatting op de geometrie van het netwerk per knooppunt: een Byzantijnse peer injecteert een willekeurige lineaire combinatie van de metingen waaraan hij deelneemt, en het netwerk DETECTEERT elke coalitie van ≤ f = block_spark − { "1" } peers en IDENTIFICEERT ondubbelzinnig elke coalitie van ≤ ⌊(block_spark − { "1" })/2⌋, waarbij block_spark de kleinste peercoalitie is waarvan de gestapelde effectieve signaturen P⊥·B_T kolomrangdeficiënt zijn. Detecteerbaarheid van een peer is VOLLE KOLOMRANG van P⊥·B_j (een blok ongelijk aan nul maar rangdeficiënt is een aanval ongelijk aan nul die in range(G) terechtkomt en geen residu achterlaat), niet louter P⊥·B_j ≠ { "0" }
+
+seg-4f57f586cf82 = Temporele ijkondergrens bij autonome holdover voor de zelfverwijzende maanconstellatie (T4)
+
+seg-eb690e8f5c9b = holdover_floor stelt vast dat in een ensemble van autonome knooppunten die alleen door metingen tussen knooppunten zijn verbonden, de gemeenschappelijke klokrate (δα_j += { "1" } ∀j) een vrije parameter van de ensembletijd is die in N(GᵀWG) ligt: geen enkele extra afstandsmeting tussen knooppunten kan haar waarnemen (rate_in_gauge = true, temporal_gauge_dim = { "2" } met de gemeenschappelijke offset). Dit is de werkelijke ondergrens voor holdover — het temporele analogon van de ijk van de starre framepositie. Het toevoegen van één externe absolute ratekoppeling (een directe verbinding met een referentie buiten het netwerk) verwijdert de gemeenschappelijke rate uit de nulruimte (rate_in_gauge = false, temporal_gauge_dim = { "1" }), wat bewijst dat de ondergrens een echte ijk is en geen artefact van het oscillatormodel
+
+seg-25ffd6e1979c = Gemeenschappelijke/differentiële splitsing per aanbieder, eenmaking via één rangdeficiëntie en helling van de beschermingskloof (T5 / §{ "0" } / g7)
+
+seg-72c7ec3724bf = Drie facetten van de ene decompositie ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) met de ijk van 8 dimensies van datum⊕tijdschaal als N(G) en de state_dim − { "8" } = { "32" } waarneembare richtingen als range(G): (T5) provider_mismatch_split classificeert een gemeenschappelijke bias van meerdere aanbieders (∈ range(G)) als NIET-DETECTEERBAAR — wat een externe koppeling vraagt — en een differentiële bias (∉ range(G)) als zelfbewaakt / DETECTEERBAAR; (§{ "0" }) de eenmaking is dat DEZELFDE blinde deelruimte range(G) de niet-detecteerbare foutklasse bepaalt, dus de datumijk N(G) en de voor fouten blinde deelruimte range(G) zijn één geometrie, niet twee; (g7) slope geeft de helling van de beschermingskloof van Brown ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ voor een fout b ∈ range(G) (schatter bedorven bij nul pariteit) en eindig voor een detecteerbare fout
+
+seg-632add2dbd3c = ITU-T-maskers voor telecomsynchronisatie met PASS/FAIL en marge
+
+# c1: telecom-timing
+seg-47687529aee7 = Overgenomen limieten van ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC vergrendeld en ePRTC-A holdover (inclusief de tijdfoutenvelop van Tabel { "3" }), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) T-BC/T-TSC-klassen A-D en G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) referentiepunt C, elk open of gesloten interval zoals de tabel het vermeldt, waarbij elke vermelding 'for further study' is weggelaten; per controle een verdict en een marge op het bepalende punt, en de tijd tot elk budget wordt overschreden. Uitvoerbaar als het scenariosoort <c1/>
+
+seg-165ed2bc771a = ITU-T-maskers voor wander-generatie bij frequentiesynchronisatie (G.811, G.812, G.8262, G.8262.1)
+
+# c1: telecom-timing
+# c2: 8 τ^0.5
+seg-953793d4446a = Zeven maskers voor wander-generatie in MTIE en TDEV bij constante temperatuur voor het soort <c1/>: G.811 (09/1997) PRC (autonoom), G.812 (06/2004) Types I, II en III, G.8262 (10/2024) EEC Options { "1" } en { "2" } en G.8262.1 (11/2025) eEEC (vergrendelde modus), inclusief de machtswetstukken die de tabellen schrijven (<c2/> en dergelijke), elk interval open of gesloten zoals afgedrukt, gemeten via het filter van { "10" } Hz dat de clausules vermelden (aangenomen als toegepast vóór het bemonsteren); het referentiescenario scenarios/telecom-synce-eec.toml zet een vrijlopende OCXO tegenover de drie EEC-maskers. Niet geïmplementeerd: de toelagen bij variabele temperatuur, holdover, transiënten, jitter en de frequentienauwkeurigheid van G.811
+
+seg-5fc2ad88faf0 = Klokloggformaten (RINEX-klok, TimeLab ASCII, TAPR TICC) gelezen tot een genormaliseerde faseserie
+
+# c1: [series.clock_log]
+# c2: clock_log
+# c3: [clock_log]
+# c4: measured
+seg-5b5bcbdea166 = clock_log::read_input: één parserlaag die een RINEX-klokbestand (AS/AR-records van één genoemde klok, versies { "2" } en { "3.00" } tot { "3.04" }), een ASCII-fase- of frequentielog in TimeLab-stijl, of een tijdstempel- of intervallog van TAPR TICC omzet in een uniform faseraster, met tau0 opgegeven, uit een header, of de mediane afstand, waarbij elk gat, elke meting buiten het raster en elk duplicaat wordt geteld, en een beleid voor gaten van weigeren, langste run of lineair; opt-in aangesloten op de telecom-timing-reeks (<c1/>, met toevoeging van een blok <c2/>) en het kloksoort (<c3/>, met toevoeging van een blok <c4/> met ADEV, TDEV en MTIE, de SHA-256 van de tabel en de SHA-256 van de fase; runs = { "1" }). Zonder de tabel zijn beide soorten byte-identiek
+
+seg-acdb0337bce7 = Klokloggformaten linuxptp (ptp4l, phc2sys, ts2phc) en chrony (tracking, statistics) gelezen tot een genormaliseerde faseserie
+
+# c1: clock
+seg-e87b3dba2072 = clock_log::read_input met de formaten ptp4l, phc2sys, ts2phc, chrony-tracking en chrony-statistics: de gelogde offset van een servoregel van linuxptp (ns, de eigen tijdstempel tussen haakjes van de regel, metingen voordat de servo voor het eerst s2 meldt weggelaten en geteld) of van een tracking- of statisticslog van chrony (s, op kolompositie, UTC-datum en -tijd) wordt een uniform faseraster via dezelfde gatbeleidsregels als de andere formaten; een bronkiezer (<c1/>) noemt een van meerdere interfaces, klokken of adressen; de logs voeden de telecom-timing-reeks, het kloksoort en het soort holdover-test
+
+seg-97aebb84576e = Holdovertest beoordeeld op een door de exploitant geleverde tijdfoutopname
+
+# c1: holdover-test
+seg-ab533cf99c56 = Het soort <c1/>: een tijdfoutopname (een klokbestand van linuxptp, chrony, TICC, TimeLab of RINEX, of paren time_s,time_error_ns) wordt op de twee tijdstippen die de exploitant opgeeft voor het wegnemen en herstellen van GNSS gesplitst in een basislijn, een holdover en een herstelstap; de basislijn wordt gemeten tegen de ITU-T-maskers die voor een vergrendelde klok zijn geschreven en de holdover tegen die voor holdover of een autonome klok, de holdoverenvelop van ePRTC-A en de tijdfoutbudgetten; de holdover rapporteert de kleinstekwadraten-frequentieoffset die het systeem vasthield, en het herstel of en wanneer |TE| binnen een opgegeven band kwam en daar gedurende een opgegeven verblijftijd bleef, met de piek en de grootste stap. Elke limiet is die welke het soort telecom-timing transcribeert; de twee tijdstippen zijn de verklaring van de exploitant en worden niet geverifieerd
+
+seg-94cbac97a1aa = Beschikbaarheid van GNSS-signalen in het Space Service Volume en daarbuiten, vergeleken met het ICG SSV-boekje
+
+# c1: gnss-ssv
+seg-c59e349fdc9e = De beschikbaarheidssweeps van het soort <c1/>: per constellatie (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) en gecombineerd, het aandeel van (gebruiker, epoch)-paren met ten minste één en ten minste vier signalen en de langste uitval, voor een gebruiker op een bol (de wereldwijde schil van 2,562 punten van het boekje, { "14" } dagen met { "1" } minuut) of op een baan (GEO, HEO, maantransfer), uit de Kepler-banen van bijlage C van het boekje, een constant minimaal uitgestraald vermogen binnen de referentiehoek buiten de boresight, aardblokkade door de bol plus { "50" } km en een drempel voor C/N0; gebruikersantennes uit tabel B10 van het boekje
+
+# c1: gnss-ssv
+seg-d2f04991c8a4 = Effecten van ionosfeer, plasmasfeer en atmosfeer langs de rand op strijkende GNSS-signalen, en het ontwerp van een ontvanger voor zwakke signalen, in het soort <c1/>
+
+seg-1a1786ba90b6 = Een Chapman-ionosfeer, een plasmasfeer van het Gallagher-type en een neutrale atmosfeer (buiging door refractiviteit, zuurstofabsorptie, defocussering) geïntegreerd langs de rechte straal tussen zender en gebruiker: scheve totale elektronendichtheid, het plasmasferische deel daarvan, extra vertraging, raakhoogte en het verlies op strijkende verbindingen; en een ontwerp van een ontvanger voor zwakke signalen (coherente en niet-coherente integratie, databitlimiet, ondersteuning, Doppler-zoektocht) dat de C/N0-drempel bepaalt uit de modellen voor acquisitie en volglus
+
+seg-6b8f9f3ca2a3 = Navigatiefilter aan boord met GNSS voor ruimtevaartuigen in hoge banen en maantransfers
+
+# c1: gnss-ssv
+# c2: [navigation]
+seg-39ddc494f103 = De modus <c2/> van het soort <c1/>: een uitgebreid Kalman-filter met negen toestanden (positie, snelheid, klokbias en -drift van de ontvanger, een schaal voor de stralingsdruk van de zon) op pseudoafstanden waarvan de beschikbaarheid, ruis en C/N0 uit dezelfde verbindingsgeometrie komen als de sweeps; de referentie wordt geïntegreerd met J2, derdelichaamseffecten van zon en maan en stralingsdruk met schaduw, het filter modelleert J2 en de derde lichamen en schat de stralingsdruk; rapporteert positie- en snelheidsfouten binnen en boven de GNSS-banen, het langste meetgat en de gemiddelde NEES
+
+seg-5fc242476828 = Relatieve navigatie van een formatie van meerdere ruimtevaartuigen in een sterk elliptische baan met GNSS
+
+# c1: gnss-ssv
+# c2: [formation]
+seg-f67eb29d4483 = De modus <c2/> van het soort <c1/>: een chief en deputies voeren elk het absolute filter uit; de positie van de deputy ten opzichte van de chief wordt geschat door de absolute schattingen af te trekken en door een relatief filter op enkelvoudig verschillende pseudoafstanden van de signalen die beide vaartuigen volgen, waarbij de relatieve dynamica het verschil van twee niet-lineaire trajecten is
+
+seg-7038f6902820 = Foutentermen van een koudeatoominterferometer: Raman-laserfaseruis, bias door golffrontkromming en oplossen van de streepambiguïteit
+
+seg-4d9690207607 = inertial::cai_error_terms (bibliotheekfuncties, nog niet bereikbaar vanuit een scenariosoort): de weegfunctie van de Raman-fase van een interferometer met drie vierkante pulsen (Cheinet et al. { "2008" }, Verg. { "8" }) met de gesloten vorm voor witte fase (pi/2)^{ "2" } S_phi0/tau_R en een numerieke route voor elk spectrum; de laserfrequentieruis die de vertraging van de retroreflectie niet opheft (Le Gouet et al. { "2007" }, Verg. { "9" } tot { "11" }); de zuivere defocusbias van het golffront sigma_v^2/R van een thermische wolk en de vermindering ervan door een detectiestraal; de kans op een verkeerde streepindex erfc(pi/(sqrt({ "2" }) s)) voor een ondersteuning door een klassieke accelerometer en voor twee ondervraagtijden, en de inverse ervan
+
+seg-363705e03bac = Voorinstellingen voor oscillatorholdover uit openbare datasheets
+
+seg-9750d9e0ec7a = Vier voorinstellingen — OCXO (Microchip OX-208), rubidium (Microchip 8040C), cesium (Microchip 5071A high-performance tube) en CSAC (Microchip SA.45s) — elk met de maxima van de Allan-deviatie, veroudering en temperatuurgrens van zijn datasheet; een niet-negatieve kleinstekwadratenfit van frequentieruis met wit + flicker + random walk, geschaald om elk punt van de datasheet te omhullen, een flickerondergrens nooit onder het cijfer bij de langste τ, lineaire veroudering en een sinusvormige temperatuurterm, gesynthetiseerd als een gezaaide holdover na een GNSS-verlies
+
+seg-d7e03158b972 = Seconden tot een vrijlopende klok de guard van een tijdgeïndexeerd slot verlaat, en de cadans van positiebepalingen die haar erbinnen houdt
+
+# c1: slot-timing
+seg-0b4d8815f756 = Het soort <c1/>: de voorspelde fout E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² omgekeerd voor de overschrijding, de resterende tijd, het hersynchronisatie-interval na aftrek van de latentie van de positiebepaling en positiebepalingen per dag, elke term uitgesplitst met de overheersende genoemd; klokken uit de zes standaardwaarden van ClockClass (TCXO, OCXO en RAFS toegevoegd, elk met verwijzing naar één datasheet), de voorinstellingen voor telecom-timing, een inline datasheet of een gemeten opname; een overschrijding voorbij de langste middelingstijd van de bron wordt als geëxtrapoleerd gemarkeerd
