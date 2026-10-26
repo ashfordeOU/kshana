@@ -17,3 +17,12 @@ seg-71aee5eb55c5 = UHF
 
 # text
 seg-e305279d5b11 = Contenido
+
+# text
+seg-f63dd3d7aad4 = Fuente
+
+# text
+seg-587beeccaa11 = Preajuste
+
+# text
+seg-b03d56f501c3 = Tipo

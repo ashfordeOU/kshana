@@ -518,3 +518,118 @@ seg-37f058c4e1c3 = recuento
 
 # text
 seg-e88d3dbcfe0c = MODELLED
+
+# text
+seg-852814f107a7 = Páginas de tipos de escenario
+
+# text
+seg-1a26d420ba67 = Véase también
+
+# text
+seg-c4f4b2ca0647 = Valor
+
+# text
+seg-e8968e86f31b = Limitaciones
+
+# text
+seg-7dc0fcd6ef77 = aocs
+
+# text
+seg-c6ced184b8eb = campaign
+
+# text
+seg-bcc7452b7e9c = clock
+
+# text
+seg-00593bd8a3ed = ephemeris
+
+# text
+seg-0cb65c6c4f53 = fusion
+
+# text
+seg-dbe8c830ef6c = hybrid
+
+# text
+seg-eae62828dc7a = inertial
+
+# text
+seg-8af88a0e2a69 = integrity
+
+# text
+seg-9a63fde1d8b1 = jamming
+
+# text
+seg-f8450911ddd6 = orbit
+
+# text
+seg-6dd5a0d55f18 = passes
+
+# text
+seg-786068921d01 = pvt
+
+# text
+seg-63f112536118 = reentry
+
+# text
+seg-f79dad339a1e = spectrum
+
+# text
+seg-8ea9f458185d = spoof
+
+# text
+seg-460826ea7719 = sweep
+
+# text
+seg-55f3ac33d883 = timetransfer
+
+# text
+seg-a37260157d35 = Entradas
+
+# text
+# c1: kshana kinds --json
+seg-0ffd6d4b0d8c = Del esquema (<c1/>):
+
+# text
+seg-7a473d2b9b37 = Campos obligatorios: ninguno
+
+# text
+seg-0484c5d57886 = no indicado
+
+# text
+seg-619be4963365 = texto
+
+# text
+seg-15636cc68f72 = indicador
+
+# text
+seg-473eb8189015 = Ejecútelo
+
+# text
+seg-8b01aa51263e = Qué proporciona
+
+# text
+seg-5aa75472f59d = Los resultados escalares de esa ejecución, con las unidades que indica el motor:
+
+# text
+seg-dfd41abc16b5 = Resultado
+
+# text
+seg-0df8f55cbe06 = deg
+
+# text
+seg-4798bca2d7a7 = MODELLED: las filas de la <a1>matriz de verificación</a1> que nombran este tipo de escenario.
+
+# text
+seg-6338a873ee85 = Las filas que la propia ejecución puso a prueba, con la referencia independiente que da la matriz a cada una (las fuentes públicas se nombran allí):
+
+# text
+seg-fe24dcc6971f = <b>MODELLED</b> Determinista, con hash de escenario, SBOM + barreras golden multiplataforma. Referencia independiente (ExternalDataset): ajuste a la norma del SBOM al esquema JSON oficial de CycloneDX { "1.5" } (+ identificadores SPDX válidos) — un estándar externo publicado, cero errores de validación en todo el grafo de dependencias; la parte de determinismo de FoM / reproducibilidad byte a byte sigue siendo una comprobación de autoconsistencia fijada, por lo que la fila sigue siendo MODELLED
+
+# text
+seg-1fc08d2f0209 = Lo que el propio informe de la ejecución dice que no está modelado o no está validado:
+
+# text
+seg-58c4d7218e70 = La reproducibilidad y el aseguramiento del software son MODELLED, no están validados: una subafirmación se comprueba externamente, pero la capacidad completa compone piezas modeladas, por lo que la capacidad sigue siendo modelada. (matriz de verificación (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-1bf3d5817274 = Todos los tipos de escenario: <a1>KINDS.md</a1>

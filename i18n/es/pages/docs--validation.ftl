@@ -53,3 +53,15 @@ seg-75636f9419b2 = Limitaciones conocidas
 
 # text
 seg-04f69a0edb2f = tipo
+
+# text
+seg-9c0eb89a2fbe = Paquete
+
+# text
+seg-f63dd3d7aad4 = Fuente
+
+# text
+seg-638b8d451550 = Sensor
+
+# text
+seg-b03d56f501c3 = Tipo
