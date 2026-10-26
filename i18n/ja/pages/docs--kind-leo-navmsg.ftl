@@ -26,7 +26,7 @@ seg-549a6103e711 = bit
 
 seg-fb689f03361c = byte
 
-seg-c60901596100 = 結果ラベル（エンジンによるもの）：混在 — VALIDATED の構成要素、MODELLED の結果。SISRE の重みは公表されている MEO/GEO の表（Montenbruck ら { "2018" }）を再現し、Galileo ICD のユーザーアルゴリズムは実際の Galileo 放送エフェメリスについて RTKLIB を再現し、CRC-24Q はそのカタログのチェック値と RTCM { "1005" } の例示フ
+seg-c60901596100 = 結果ラベル（エンジンによるもの）：MIXED — VALIDATED の構成要素、MODELLED の結果。SISRE の重みは公表されている MEO/GEO の表（Montenbruck ら { "2018" }）を再現し、Galileo ICD のユーザーアルゴリズムは実際の Galileo 放送エフェメリスについて RTKLIB を再現し、CRC-24Q はそのカタログのチェック値と RTCM { "1005" } の例示フ
 
 seg-35e92abc6a23 = エンジンが scenarios/leo-navmsg-celeste-iod.toml（種別 leo-navmsg）について出力するグラフ
 
@@ -62,7 +62,7 @@ seg-642d8f4d60e7 = NeQuick-G の係数は搬送されて実効電離レベルは
 
 seg-8ba04a3147bd = Liu ら { "2025" } の22パラメーターの項は、論文のユーザーアルゴリズム（式 1-7）と当てはめ戦略（節{ "2.3" }）に従っています；その SISRE の高度依存の数値は実際の精密軌道を使っているため、Kshana が積分した軌道でのこの比較は MODELLED であり、VALIDATED ではありません（実軌道での比較は tests/leo_navmsg_fit_real_orbit_oracle.rs です）。（結果<c1/>）
 
-seg-b3585c7feb4e = 混在 — VALIDATED の構成要素、MODELLED の結果。SISRE の重みは公表されている MEO/GEO の表（Montenbruck ら { "2018" }）を再現し、Galileo ICD のユーザーアルゴリズムは実際の Galileo 放送エフェメリスについて RTKLIB を再現し、CRC-24Q はそのカタログのチェック値と RTCM { "1005" } の例示フレームを再現します。当てはめ、SISRE、連続性、量子化の数値はすべて MODELLED です：メッセージの表現誤差を、次に対して（結果<c1/>）
+seg-b3585c7feb4e = MIXED — VALIDATED の構成要素、MODELLED の結果。SISRE の重みは公表されている MEO/GEO の表（Montenbruck ら { "2018" }）を再現し、Galileo ICD のユーザーアルゴリズムは実際の Galileo 放送エフェメリスについて RTKLIB を再現し、CRC-24Q はそのカタログのチェック値と RTCM { "1005" } の例示フレームを再現します。当てはめ、SISRE、連続性、量子化の数値はすべて MODELLED です：メッセージの表現誤差を、次に対して（結果<c1/>）
 
 seg-d6e412aab1b4 = MODELLED：当てはめと SISRE の数値はすべて、Kshana が積分した真値に対する表現誤差です（軌道決定や予測の誤差はありません）；Liu ら（種別カタログ（<c1/>））
 
