@@ -9,3 +9,5 @@ seg-2bd2101ce454 = Povrch
 seg-ad856ad710eb = Stav
 
 seg-80f3f0aae42c = Mapa interference
+
+seg-98d0bc6b40ce = Mapování na veřejné rámce (compliance)

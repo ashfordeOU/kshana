@@ -1927,3 +1927,373 @@ seg-48460c0538b9 = rámec shody odolného PNT, mapovaný podle čísla článku
 seg-e51289a1e835 = Pokyny EASA k interferenci GNSS (letectví)
 
 seg-4fa26d67951e = Pokyny EASA pro letectví, mapované podle čísla článku
+
+seg-ad9c4b176c99 = <c1/><a1>lunar-interop-export</a1>
+
+seg-7e27d737f4e5 = Lunární rušení (jamming) v rádiovém pásmu: poměr J/S pro jednotlivé družice u uživatele na povrchu Měsíce.
+
+seg-9386cc6b40be = <c1/><a1>lunar-jamming</a1>
+
+seg-b832efa33b26 = Společné určování oběžné dráhy a hodin z více technik na Měsíci (SIMULOVANÁ síť).
+
+seg-9f0cc8078028 = <c1/><a1>lunar-joint-od-clock</a1>
+
+seg-cf209fe904f0 = Sedmiparametrové Helmertovo datum lunární soustavy ze SKUTEČNÉ, ARCHIVOVANÉ pozorovací kampaně (V3).
+
+seg-f0aad2150389 = Geodézie lunární referenční stanice, ZÁKLAD: samotných pět dnešních retroreflektorových soustav.
+
+seg-af84db25497a = Geodézie lunární referenční stanice, SE STANICÍ: pět retroreflektorových soustav plus jedna
+
+seg-e99cc7996d2a = <c1/><a1>lunar-llr-datum</a1><a2>lunar-station-geodesy-baseline</a2><a3>lunar-station-geodesy-with-station</a3>
+
+seg-388c71d9a21a = Pokrytí lunární referenční stanicí: jaká přesnost určení polohy a ochranná úroveň, které uživatel
+
+seg-b1b071573c04 = Pokrytí lunární referenční stanicí za VEŘEJNĚ UVEDENÝCH předpokladů: stejného druhu jako
+
+seg-74da705bbb4a = Pokrytí lunární referenční stanicí s terénem: přibalený scénář lunar-station-coverage
+
+seg-ba1584648763 = <c1/><a1>lunar-station-coverage</a1><a2>lunar-station-coverage-public-sources</a2><a3>lunar-station-coverage-terrain</a3>
+
+seg-fccc874e86c9 = Časová laboratoř lunární referenční stanice: miniaturní rubidiové hodiny (miniRAFS) řízené na
+
+seg-8ea4372cb851 = Celkový rozpočet časové chyby koordinovaného lunárního času (LTC) na mřížce hodnot tau.
+
+seg-a37050edde94 = <c1/><a1>lunar-station-time-lab</a1><a2>lunar-time-budget</a2>
+
+seg-b1989c67a1b5 = Lunární souřadnicový čas (LTC/TCL): relativistický chod hodin Země–Měsíc.
+
+seg-e78863b02a32 = <c1/><a1>lunar-time-offset</a1>
+
+seg-3dd816ab3e2a = Lunární geodetická VLBI: pozemní základna pozoruje maják na povrchu Měsíce.
+
+seg-b22415c31fea = <c1/><a1>lunar-vlbi</a1>
+
+seg-ef34999556df = Kovarianční matice souřadnic stanic z lunární VLBI podle explicitního pozorovacího plánu (G8, článek D3).
+
+seg-07f805cdc160 = <c1/><a1>lunar-vlbi-fim</a1>
+
+seg-e9b0a88ff0f9 = Analýza SERVISNÍHO OBJEMU lunární navigace: konstelace třídy Moonlight / LCNS.
+
+seg-410df140b2ac = <c1/><a1>moonlight-service-volume</a1>
+
+seg-a11177c21b94 = Rozpočet predikce lunární soustavy a orientace Země (EOP) v reálném čase.
+
+seg-2cb38c250144 = <c1/><a1>realtime-frame-eop</a1>
+
+seg-33223ead7ec0 = Mars a sluneční soustava
+
+seg-a9e68b95994d = Určování polohy landeru na Europě: případ jupiterského měsíce.
+
+seg-6e1713545914 = Určování polohy nízké oběžné dráhy kolem Marsu pomocí marsovské navigační konstelace a spoje do hlubokého vesmíru.
+
+seg-493b5843625f = <c1/><a1>europa-surface-pnt</a1><a2>mars-orbit-pnt</a2>
+
+seg-6f1b4c8d1686 = Mars PNT — uživatel na nízké marsovské dráze navigovaný vůči simulovanému relé MARCONI
+
+seg-d15098341ac2 = Mars PNT — pevný povrchový uživatel (lander / rover na rotujícím povrchu Marsu)
+
+seg-8d6976cfc360 = Mars PNT — uživatel při přeletu k Marsu / zachycení (vysoký, výstředný areocentrický oblouk —
+
+seg-2d0160d8dfd0 = <c1/><a1>mars-pnt-lmo</a1><a2>mars-pnt-surface</a2><a3>mars-pnt-transfer</a3>
+
+seg-58fd71afc7b3 = Celá sluneční soustava v jedné epoše.
+
+seg-92bcbe1c28d5 = <c1/><a1>solar-system-tour</a1>
+
+seg-d31afe1e48e3 = Kvantové senzory a srovnávací studie
+
+seg-c768cfa1127f = Odolnost vrstveného PNT vůči konfliktu (článek P7).
+
+seg-9ae1e6b6e7a9 = <c1/><a1>conflict-resilience</a1>
+
+seg-093024c87c43 = Detekce poruch a anomálií u kvantových systémů PNT — označený katalog poruch +
+
+seg-7373aaea2cc6 = <c1/><a1>quantum-anomaly-detect</a1>
+
+seg-e0f2d42e9a58 = Kvantová navigace bez GNSS — kvantová (interferometr studených atomů) vs. klasická
+
+seg-0d225315252d = <c1/><a1>quantum-gnss-free-nav</a1>
+
+seg-f005b07bd5d3 = Důvěryhodné kvantové časování — kompletní řetězec přenosu času, zabezpečená distribuce,
+
+seg-c9b18cd44d6f = <c1/><a1>quantum-time-transfer</a1>
+
+seg-66e430c55836 = Srovnání kvantového a klasického PNT s načtením naměřené ADEV (demonstrátor ESA AO/1-13503).
+
+seg-7ce8ca98238c = <c1/><a1>quantum-trade</a1>
+
+seg-b6daece3fdf4 = Obecný N-rozměrný průchod parametrů pro LIBOVOLNÝ druh scénáře. Na rozdíl od sady jen pro hodiny
+
+seg-75dddac2e882 = <c1/><a1>sweep-nd-inertial</a1>
+
+seg-73ee91ed7ce2 = Řetězená mise: nominální stav, rušení (jamming), spoofing, ztráta GNSS s holdover hodin a
+
+seg-1e0ae3e165af = Monte Carlo soubor se seedem napříč kampaní, na případu s uzavřeným tvarem řešení.
+
+seg-f176fb8d9cf9 = Optimalizace napříč kampaní: spoj v pásmu X z příkladu rozpočtu spoje
+
+seg-f3a091d760fd = Složení napříč doménami: jeden rušič, dvě platformy. Loď v Finském zálivu
+
+seg-5222d145a446 = Řetězená mise řízená spektrem v pásmu L: chirp rušič napadne GPS L1 C/A a
+
+seg-9a40718a397f = Průchod parametru napříč kampaní: přijímač z příkladu rušení ({ "52" } s. š., { "4" } v. d.,
+
+seg-da7647613c60 = Oblast zaměření LEO-PNT: další datové služby PNT v navigační zprávě.
+
+seg-108d1486ec7b = Oblast zaměření LEO-PNT: sloučené PNT z MEO + LEO.
+
+seg-a2beff2ebaa4 = Oblast zaměření LEO-PNT: navigace uvnitř budov pomocí UHF.
+
+seg-c61db40d4251 = Oblast zaměření LEO-PNT: určování polohy s nízkou spotřebou energie pro internet věcí (IoT) a mobilní zařízení.
+
+seg-85b70e840ab6 = Oblast zaměření LEO-PNT: kompatibilita s neterestrickými sítěmi (NTN) 5G/6G.
+
+seg-2d409c46b492 = Oblast zaměření LEO-PNT: vysoce přesné určování polohy (precizní určování polohy bodu, PPP).
+
+seg-5b1936c7d338 = Odolnostní mise LEO-PNT: GNSS je rušeno (jamming), uživatele nese LEO-PNT, integrita je zachována.
+
+seg-d238fbcc1f84 = Odolnost LEO-PNT díky rozmanitosti pásem: jeden rušič, čtyřpásmový přijímač.
+
+seg-4a60598e908a = Odolnost LEO-PNT vůči spoofingu: který monitor vidí který spoofer.
+
+seg-45e191fe3971 = Vertikála LEO-PNT: bezdrátové sítě, časování základnových stanic 5G/6G.
+
+seg-2466e0a2b0ad = Vertikála LEO-PNT: sledování majetku a internet věcí (IoT), energie na určení polohy.
+
+seg-81df59dd795b = Vertikála LEO-PNT: autonomní vozidla, městský kaňon s vrstvou LEO.
+
+seg-7cbec18ce36b = Vertikála LEO-PNT: městský kaňon pro autonomní vozidla, jako plochá mezní elevace a jako ulice.
+
+seg-c5cbb50f640e = Vertikála LEO-PNT: časování kritické infrastruktury, holdover s časem LEO.
+
+seg-abf58b089d72 = Vertikála LEO-PNT: polární a arktičtí uživatelé.
+
+seg-a7de37959bb9 = Vertikála LEO-PNT: železnice a námořní doprava, přibalené námořní a železniční scénáře plus LEO.
+
+seg-d40bc29ddd65 = <c1/><a1>campaign-jam-spoof-holdover-integrity</a1><a2>campaign-monte-carlo-clock-holdover</a2><a3>campaign-optimize-link-budget</a3><a4>campaign-shared-jammer-sea-road</a4><a5>campaign-spectrum-holdover-integrity</a5><a6>campaign-sweep-jammer-power</a6><a7>leo-focus-data-services</a7><a8>leo-focus-fused-pnt-sisre</a8><a9>leo-focus-indoor-uhf</a9><a10>leo-focus-iot-eirp</a10><a11>leo-focus-ntn-bandwidth</a11><a12>leo-focus-ppp-altitude</a12><a13>leo-resilience-gnss-jammed-leo-carries</a13><a14>leo-resilience-multiband-diversity</a14><a15>leo-resilience-spoof-monitors</a15><a16>leo-vertical-5g-network-timing</a16><a17>leo-vertical-asset-tracking-iot</a17><a18>leo-vertical-autonomous-vehicle</a18><a19>leo-vertical-autonomous-vehicle-skyline</a19><a20>leo-vertical-critical-infrastructure-timing</a20><a21>leo-vertical-polar-arctic</a21><a22>leo-vertical-rail-maritime</a22>
+
+seg-5e0d224192c9 = Ostatní
+
+seg-1358411799c7 = Sada studií: spustí ji kshana --study
+
+seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
+
+seg-6cb4a75cb2f0 = Tomuto filtru nic neodpovídá.
+
+seg-ec1a22002e13 = <b>Pro: kalibrované dvojče hodin</b> navazuje na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Zjistěte, co přidává</a1>
+
+seg-cc88295c3e2e = <b>Pro: srovnávací studie s pořadím</b> navazuje na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Zjistěte, co přidává</a1>
+
+seg-62942b0a2127 = <b>Vlastní studie</b> navazuje na <c1/>. <a1>Zjistěte, co přidává</a1>
+
+seg-8cec53de04c5 = <b>Pro: optimalizátor návrhu</b> navazuje na <c1/>. <a1>Zjistěte, co přidává</a1>
+
+seg-4bdca619acb5 = <b>Pro: nejistota a citlivost</b> navazuje na <c1/>, <c2/>. <a1>Zjistěte, co přidává</a1>
+
+seg-35d8381e7605 = <b>Pro: dokumentace mise</b> navazuje na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Zjistěte, co přidává</a1>
+
+seg-08d3c155a74d = <b>Pro: sledování kampaně</b> navazuje na <c1/>. <a1>Zjistěte, co přidává</a1>
+
+seg-ff9c1f190eb6 = <b>Pro: koexistence ve spektru</b> navazuje na <c1/>, <c2/>. <a1>Zjistěte, co přidává</a1>
+
+seg-219302489147 = Druh má ověřené řádky registru
+
+seg-07e6a0ac17ff = Řádky druhu jsou vypočteny z modelu
+
+seg-26f60db72dc5 = Nepřiřazeno k modulu registru podle názvu
+
+seg-cda8db6840d7 = { "61" } schopností, každá s vlastním důkazem.
+
+seg-fb17b5b2f47b = Karty schopností z vlastního souboru schopností enginu. <b>Spustit v Kshana Studio</b> otevře zaznamenaný běh odpovídajícího scénáře.
+
+seg-85db75e49de8 = Filtrovat podle stavu
+
+seg-cf90e18aa5ea = Vše { "61" }
+
+seg-1a60c5cff31e = Ověřeno { "24" }
+
+seg-28c662f116f7 = Vypočteno z modelu { "37" }
+
+seg-5c0f7a68bdf7 = Filtrovat podle skupiny
+
+seg-e516a1a887b0 = Každá skupina
+
+seg-298cc35fe9d1 = Inerciální
+
+seg-b03984610dc0 = Lunární
+
+seg-56bb928f3a90 = GNSS
+
+seg-f1f903f1b9ff = Odolnost
+
+seg-40c7e792f2f0 = Interoperabilita
+
+seg-f7ed808fa0de = Strojové učení
+
+seg-6f253e0464fe = Námořní
+
+seg-d3c33a1905dd = Hledat ve schopnostech
+
+seg-bfbaae7044c8 = Hledejte schopnost, doménu nebo důkaz
+
+seg-bd64cfb4dc52 = Propagace oběžné dráhy a návrh konstelace
+
+seg-a7cfe6f135f1 = Oběžná dráha a geometrie
+
+seg-3060564c3e21 = 666/666 vektorů AIAA · { "4.12" } mm
+
+seg-5b265eaf8f29 = Propagace SGP4/SDP4 ze skutečných dvouřádkových elementů (přiložený snímek GPS z Celestraku) nebo ze syntetických konstelací Walker, jejichž střední elementy realizují vzorec i:T/P/F s odchylkou pod { "1" } km po dobu { "24" } h. Viditelnost více konstelací, faktor DOP (zhoršení přesnosti) a dostupnost GNSS, optimalizátor návrhu konstelace, dimenzování pokrytí „streets of coverage“ a průchod návrhů Walker, který uvádí Pareto-optimální návrhy na mřížce počtu rovin × družic.
+
+seg-531d7504639d = <b>AIAA</b> Americký institut pro letectví a kosmonautiku · <b>SGP4</b> Simplified General Perturbations { "4" }, model oběžné dráhy · <b>SDP4</b> Simplified Deep-space Perturbations { "4" }, model oběžné dráhy · <b>GPS</b> Global Positioning System · <b>GNSS</b> globální družicový navigační systém
+
+seg-bbe75ebfb50d = Spustit orbit-sgp4-gps v Kshana Studio
+
+seg-66e33b899daf = Cowellův propagátor a silový model se šesti poruchami
+
+seg-a5a572db3bed = Numerický propagátor
+
+seg-52a4410a54da = konzervativní úrovně < { "0.08" } m / { "24" } h vs Orekit { "12.2" }
+
+seg-463ed85c6e40 = Numerický (Cowellův) propagátor doplňující analytickou cestu SGP4/SDP4, s hierarchickým silovým modelem: dvoutělesová úloha + úplné zonální pole J2–J6, volitelný tesserální geopotenciál EGM2008 do stupně a řádu { "70" }, gravitace Slunce a Měsíce jako třetích těles řízená epochou (vestavěné efemeridy, bez jádra DE/SPK), tlak slunečního záření s kuželovým stínem umbra/penumbra, atmosférický odpor, ponewtonovská Schwarzschildova relativistická korekce a Lenseův–Thirringův člen strhávání soustavy — poháněný volitelnými adaptivními integrátory RK4 s dvojnásobným krokem nebo Dormand–Prince RK5({ "4" }).
+
+seg-67666da1a889 = <b>SGP4</b> Simplified General Perturbations { "4" }, model oběžné dráhy · <b>SDP4</b> Simplified Deep-space Perturbations { "4" }, model oběžné dráhy · <b>EGM2008</b> Earth Gravitational Model { "2008" }
+
+seg-797370a2faef = Zážehy, Lambert a porkchop
+
+seg-57b120fb0aac = Manévry a návrh trajektorie
+
+seg-5081c84dfdd7 = Ciolkovskij < { "0.01" } % · Lambertovy zpáteční dráhy shodné s dvoutělesovou referencí
+
+seg-da6b16ebd59b = Impulzní uzly ΔV s propagací kovariance { "6" }×{ "6" }, integrace konečného zážehu ověřená proti Ciolkovského raketové rovnici s odchylkou pod { "0.01" } %, Izzův řešič Lambertovy úlohy (2015) pro jednu otáčku a přesný keplerovský propagátor s univerzální proměnnou a porkchop (start × příletu) průchod C3 / příletové V∞ vydaný jako JSON mřížka vrstevnic — vrstva simulace výkonu nad GMAT/Orekit.
+
+seg-ea491e4871a7 = <b>JSON</b> JavaScript Object Notation
+
+seg-831552a45712 = Časové stupnice a soustavy orientace Země
+
+seg-76b323512350 = Časové systémy
+
+seg-60208bd726eb = bit po bitu vs SOFA/ERFA · Vallado od začátku do konce { "4" } mm
+
+seg-42373dd9ca64 = Stupnice IERS UTC / TAI / TT / UT1 s přestupnými sekundami, rozhraní s juliánským datem, úhel rotace Země IAU-2000, převody TEME ↔ ECEF založené na GMST a geodetické soustavy WGS-84, úplná nutace IAU 2000A/2000B a precese IAU { "2006" } a redukce IAU 2006/2000A GCRS↔ITRS založená na CIO bez rovnodennosti s polárním pohybem IERS — ověřeno bit po bitu proti vektorům SOFA/ERFA a nezávisle křížově zkontrolováno proti ANISE (čisté SPICE v Rustu): GCRS→ITRS vs ANISE ITRF93, stejné EOP IERS, shoda do ≤ { "0.86" } m na zemi / ≤ { "3.6" } m na oběžné dráze GNSS.
+
+seg-e62bd32dc89e = <b>SOFA</b> Standards of Fundamental Astronomy · <b>ERFA</b> Essential Routines for Fundamental Astronomy · <b>IERS</b> Mezinárodní služba rotace Země a referenčních systémů · <b>UTC</b> koordinovaný světový čas · <b>TAI</b> mezinárodní atomový čas · <b>TT</b> pozemský čas · <b>UT1</b> světový čas { "1" }, určený rotací Země · <b>API</b> rozhraní pro programování aplikací · <b>IAU</b> Mezinárodní astronomická unie · <b>GMST</b> střední hvězdný čas v Greenwichi · <b>TEME</b> soustava pravého rovníku a středního jarního bodu · <b>ECEF</b> soustava se středem v Zemi a pevná vůči Zemi · <b>WGS-84</b> World Geodetic System { "1984" } · <b>CIO</b> Celestial Intermediate Origin · <b>GCRS</b> Geocentric Celestial Reference System · <b>ITRS</b> International Terrestrial Reference System · <b>SPICE</b> sada nástrojů NASA pro kosmické lodě, planety, přístroje, matice kamer a události · <b>ITRF93</b> International Terrestrial Reference Frame { "1993" } · <b>EOP</b> parametry orientace Země · <b>GNSS</b> globální družicový navigační systém
+
+seg-dd766880e73a = Predikce orientace Země v reálném čase
+
+seg-54169bca19e9 = { "12" } předstihů proti archivovanému Bulletinu A: UT1 { "2.93" } ms, polární pohyb { "1.76" } mas
+
+seg-81be07e41d1c = Predikátor orientace Země v provozním stylu — metoda nejmenších čtverců přes posun, rychlost a hlavní periodické členy na klouzavém okně — měřený proti skutečně archivovaným predikcím Bulletinu A, nikoli proti persistenci. Výchozí offline vstup je skutečný produkt IERS finals2000A obsahující predikční řádky Bulletinu A, takže holý běh vydá vyplněnou tabulku podle horizontu místo prázdné. UT1 a polární pohyb se uvádějí na společné sadě řádků spolu s jejich kombinací, takže společná hodnota je jedna statistika, nikoli kvadratický součet dvou různých vzorků.
+
+seg-ecffa83dc257 = <b>UT1</b> světový čas { "1" }, určený rotací Země · <b>IERS</b> Mezinárodní služba rotace Země a referenčních systémů
+
+seg-99080ef2f06d = Spustit realtime-frame-eop v Kshana Studio
+
+seg-0e18bc4add10 = Strapdown INS a navigace podporovaná mapou
+
+seg-26561c9a96a7 = akcelerometr CAI odvozený z prvních principů · odvozené VRW zkontrolováno proti nezávislému integrátoru
+
+seg-d18714ee32fb = Tříosý strapdown INS — kvaternionová orientace, mechanizace WGS-84 NED, kompenzace coning/sculling a úplný deterministický model chyb IMU — plus akcelerometr s interferometrem studených atomů odvozený z prvních principů (fáze Mach–Zehnder, projekční šum, pokles kontrastu, vazba vibrací) a částicový filtr pro navigaci bez GPS podle terénu/gravitace.
+
+seg-f7266d7f37a0 = <b>INS</b> inerciální navigační systém · <b>CAI</b> interferometr studených atomů · <b>VRW</b> náhodná procházka rychlosti · <b>WGS-84</b> World Geodetic System { "1984" } · <b>NED</b> soustava sever–východ–dolů · <b>IMU</b> inerciální měřicí jednotka · <b>GPS</b> Global Positioning System
+
+seg-e79f36c2013b = Spustit imu-deadreckoning v Kshana Studio
+
+seg-0e44bdf12d16 = Inerciální a terénně vztažený dojezd výpadkem
+
+seg-07cb40aa5cd1 = { "10" } m při { "249" } s, { "50" } m při { "595" } s, v obou případech převládá bias akcelerometru
+
+seg-d5df17e4425b = Chyba polohy v závislosti na délce dojezdu z rozpočtu chyb IMU — bias, náhodná procházka a měřítkový faktor, každý s vlastním zákonem růstu a vlastním podílem na překročení — takže cena navigačního výpadku je vypočtená křivka, nikoli proložená rychlost driftu. Překročení prahů jsou výstup enginu s uvedeným dominantním příspěvkem u každého z nich, napříč čtyřmi třídami IMU, a interval terénních oprav se hodnotí ve vlastním bloku, takže hlavní překročení zůstávají bez podpory.
+
+seg-c58f30be2468 = <b>IMU</b> inerciální měřicí jednotka
+
+seg-9cf68651e126 = Spustit ins-trn-coast v Kshana Studio
+
+seg-6631a5d69c84 = Párování s gravitačními, terénními a magnetickými mapami
+
+seg-6af8e99df46d = Alt-PNT (bez GPS)
+
+seg-72527f4459c7 = 60 min bez GPS · ~{ "145" } m (< { "500" } m)
+
+seg-89bd5fb3e90b = Model měření gravimetru se studenými atomy, jehož úroveň bílého šumu je odvozen z fyziky akcelerometru CAI, nízkostupňové plně normalizované sférickoharmonické pole gravitačních anomálií plus syntetické mascony a částicový filtr pro párování gravitační mapy — rozšířený na navigaci podle terénu vůči výškovému modelu SRTM (TERCOM/SITAN), hlavní geomagnetické pole IGRF-14 do stupně a řádu { "13" } a kombinovaný gravitační + magnetický + terénní navigátor, který slučuje všechny tři skalární kanály. 60minutový benchmark bez GPS — výpadek ~{ "700" } km / jedna hodina, při němž inerciální řešení driftuje na ~{ "70" } km — je obnoven na ~{ "145" } m hierarchickým párováním od hrubého k jemnému: cíl ESA NAVISP Quantum Wayfarer.
+
+seg-bdd65fb9dd76 = <b>PNT</b> určování polohy, navigace a času · <b>GPS</b> Global Positioning System · <b>CAI</b> interferometr studených atomů · <b>SRTM</b> Shuttle Radar Topography Mission · <b>DEM</b> digitální model výšek · <b>TERCOM</b> párování terénních vrstevnic · <b>SITAN</b> inerciální navigace podporovaná terénem (Sandia) · <b>IGRF-14</b> International Geomagnetic Reference Field, 14. generace · <b>ESA</b> Evropská kosmická agentura
+
+seg-24eb5b048c45 = Spustit gps-denied-gravity-nav v Kshana Studio
+
+seg-dbd63be796ff = Fúze senzorů GNSS / INS
+
+seg-f9582184adea = Fúze
+
+seg-f2166e96405f = těsně vázaný UKF · { "0.77" } m RMS
+
+seg-d6ad19d1d47b = Chybově stavový EKF s 15 stavy, který dojíždí výpadky GNSS na kalibrovaném inerciálním řešení; těsně vázaný pseudovzdálenostní režim, který dál koriguje i s méně než čtyřmi družicemi; spojený filtr hodin a polohy; obecný unscented (sigma-bodový) Kalmanův estimátor; těsně vázaný navigátor GNSS/INS UKF ověřený na { "0.77" } m RMS při výpadku { "120" } s na zakřiveném průletu LEO; a úplný těsně vázaný UKF GNSS/INS se 17 stavy, jehož kvantový dojezd CAI využívá odvozenou náhodnou procházku rychlosti akcelerometru se studenými atomy.
+
+seg-c081d9b84125 = <b>GNSS</b> globální družicový navigační systém · <b>INS</b> inerciální navigační systém · <b>UKF</b> unscented Kalmanův filtr · <b>RMS</b> střední kvadratická hodnota · <b>EKF</b> rozšířený Kalmanův filtr · <b>LEO</b> nízká oběžná dráha Země · <b>CAI</b> interferometr studených atomů
+
+seg-b1a268894f4c = Spustit gnss-ins v Kshana Studio
+
+seg-4af862bd1307 = Dávkové a sekvenční OD
+
+seg-ca67c864635c = Určování oběžné dráhy
+
+seg-948441304a32 = dávkové + sekvenční OD vs Orekit { "12.2" } BatchLSEstimator/KalmanEstimator
+
+seg-22e738b2ab57 = Obnova stavu oběžné dráhy ze sledování vzdálenosti pozemními stanicemi, složením silového modelu dvoutělesové úlohy + J2 a integrátoru RK4 s dávkovým diferenciálním korektorem Gauss–Newton (pod metr / mm·s⁻¹ z bezšumových vzdáleností, ~{ "2" } m při šumovém dnu { "5" } m) a variantou se sekvenčním unscented filtrem.
+
+seg-c876fc6a7893 = <b>OD</b> určování oběžné dráhy
+
+seg-06406b3d0b88 = Fisherova informace a pozorovatelnost
+
+seg-4e28248ef77b = Pozorovatelnost a teorie odhadu
+
+seg-a5b38d0a8d64 = vlastní čísla vs numpy.linalg.eigh · CRLB vs σ²(XᵀX)⁻¹ pomocí numpy.linalg.inv · GNSS DOP z informační matice, vše na { "1e-9" } · uzavřené tvary Kay ({ "1993" }) + dosažení CRLB metodou Monte Carlo
+
+seg-3ee5597d6f8a = Obecná, opakovaně použitelná vrstva Fisherovy informace / Cramérovy–Raovy meze (src/fim.rs): informační matice M = HᵀWH, Cramérova–Raova dolní mez, hodnost pozorovatelnosti a nulový prostor defektu datumu (Mooreova–Penroseova pseudoinverze) a D/A/E/T-optimální skaláry návrhu experimentu ze symetrického Jacobiho řešiče vlastních čísel. Je základem enginu DOP, meze pasivní geolokace a výsledku o pozorovatelnosti lunární absolutní stanice — vnitřní měření vzdáleností zanechává šestistupňový defekt datumu tuhého tělesa, který vazba VLBI na pozemní základnu obnoví pro řídkou konstelaci a zpřesní pro bohatou, přičemž absolutní datum se uzavře u tří nekolineárních pozemních stanic.
+
+seg-9566c694b6fd = <b>CRLB</b> Cramérova–Raova dolní mez · <b>GNSS</b> globální družicový navigační systém · <b>DOP</b> zhoršení přesnosti · <b>DOF</b> stupně volnosti · <b>VLBI</b> interferometrie s velmi dlouhou základnou
+
+seg-ed467622dbd0 = Propagace CR3BP a integrita LunaNet
+
+seg-e386dced1d16 = Lunární a cislunární
+
+seg-f444bc39efbe = Reprodukuje publikovanou NRHO L2 { "9" }:{ "2" } (perioda ~{ "6.57" } d · perilunium ~{ "3,250" } km); STM zkontrolována proti konečným diferencím
+
+seg-272afbca5e48 = Propagátor kruhového omezeného problému tří těles Země–Měsíc (CR3BP) v rotující soustavě — zachovávající se Jacobiho konstanta a všech pět Lagrangeových bodů — s maticí přechodu stavu { "6" }×{ "6" } a jednoduchým střelbovým diferenciálním korektorem, který vytváří skutečně periodické halo / téměř přímočaré halo dráhy (NRHO): reprodukuje publikovanou jižní NRHO L2 { "9" }:{ "2" } (dráha Gateway) s periodou ~{ "6.57" } dne a periluniem ~{ "3,250" } km. Plus geometrie cislunárního PNT LunaNet / LNIS (redukce MCI↔MCMF, selenografické souřadnice) s průletem lunárního jižního pólu pro ARAIM, který upřímně odhaluje mezeru v integritě: σ_URE ~{ "30" } m žene ochrannou úroveň hluboko nad mezní hodnotu výstrahy { "50" } m.
+
+seg-cfec509023dc = <b>CR3BP</b> kruhový omezený problém tří těles · <b>NRHO</b> téměř přímočará halo dráha · <b>STM</b> matice přechodu stavu · <b>PNT</b> určování polohy, navigace a času · <b>MCI</b> inerciální soustava se středem v Měsíci · <b>MCMF</b> soustava se středem v Měsíci a pevná vůči Měsíci · <b>ARAIM</b> pokročilé autonomní monitorování integrity přijímačem
+
+seg-2671102679a1 = Spustit lunanet-araim v Kshana Studio
+
+seg-619f89bf160c = Realizace lunární referenční soustavy
+
+seg-c6b12768a219 = vs numpy/scipy Umeyama–Horn SVD
+
+seg-29327b86ea27 = Realizuje lunární soustavu pevnou vůči tělesu z pozorovací kampaně: vážené podobnostní proložení Gauss–Newton nad geometrií stanice–reflektor, které uvádí datum, jeho kovarianci a nejhůře určenou osu. Vázaný kalibr soustavy a časové stupnice se nese explicitně, nikoli pohlcený, takže nedostatek hodnosti je ve zprávě viditelný místo toho, aby byl pohřben v pseudoinverzi.
+
+seg-fb071ff8e1ed = <b>SVD</b> singulární rozklad
+
+seg-ad891e3678e4 = Spustit lunar-frame-realisation v Kshana Studio
+
+seg-b3ba1e7b197d = Servisní objem lunární navigace a ARAIM
+
+seg-353878596468 = oběžné dráhy ANISE { "0.10.2" } · RTKLIB 2.4.2-p13
+
+seg-70b9c02c1f6a = Prochází ilustrační konstelaci třídy Moonlight/LCNS nad selenografickou mřížkou: viditelnost, faktor DOP (zhoršení přesnosti), pokrytí a ochranné úrovně ARAIM pro jednotlivé epochy vůči nastavitelné mezní hodnotě výstrahy. Přesnost určení vzdálenosti signálem ve vesmíru je parametr, takže průchod odpovídá na požadavek na určování vzdálenosti v celém objemu, nikoli na splnění/nesplnění při jedné pevné hodnotě.
+
+seg-8304ca0e00e5 = <b>ARAIM</b> pokročilé autonomní monitorování integrity přijímačem · <b>RTKLIB</b> open-source knihovna pro určování polohy GNSS
+
+seg-ee2f1f95951d = Spustit moonlight-service-volume v Kshana Studio
+
+seg-a94db5b03c9c = Rozpočet lunární interoperability napříč poskytovateli
+
+seg-a2e8a8dfd666 = DE440 · INPOP21a · EPM2021 přes calceph
+
+seg-646a00230694 = Měří, jak moc se tři nezávislé autoritativní lunární efemeridy skutečně liší, a mění to v návrhový zákon: rozpočet chyb mezi soustavou a efemeridami, který zdědí uživatel se smíšenými poskytovateli, a toleranci konzistence, kterou musí poskytovatel udržet, aby zůstal rozpočet v uvedené mezi.
+
+seg-d2cc1c282efa = Spustit lunar-interop-export v Kshana Studio
+
+seg-0f359c118090 = Pozorovatelnost poruch autonomní volné sítě
+
+seg-ae99396c03bd = vs nezávislá algebra parity v numpy/scipy
+
+seg-51828c93731b = Lineární algebra, kterou samoreferenční lunární konstelace potřebuje k detekci vlastních poruch bez pozemní reference: vážený paritní projektor ve tvaru pseudoinverze s nedostatkem hodnosti, který přežije kalibr datumu a časové stupnice, detekovatelnost pro jednotlivé uzly, Baardova minimální detekovatelná odchylka a počty detekce/identifikace byzantských blokových jisker nad skutečnou geometrií mezi uzly DE440.
