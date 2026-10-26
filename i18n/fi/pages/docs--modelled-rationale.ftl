@@ -831,3 +831,5 @@ seg-6d6b07b26966 = JSON-tila-asiakirja ja Home Assistant MQTT -löytöviestit lu
 seg-68caf86157c2 = ROS { "2" } receiver-trust -paketti ja gnss_lib_py-silta
 
 seg-e7d7d99fe538 = ROS-vapaa silta, joka kirjoittaa paikannus- ja satelliittiviestit NMEA:ksi ja pisteyttää ne Python-sidoksen kautta (integrations/ros2/kshana_trust), sekä gnss_lib_py NavData–receiver-trust-silta rtklib-pos-formaatin kautta (integrations/gnss_lib_py).
+
+seg-c3c260b7063e = Testit

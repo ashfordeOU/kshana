@@ -9,3 +9,9 @@ seg-f1f903f1b9ff = Kestävyys
 seg-1759a8cce7d6 = Lajit
 
 seg-71aee5eb55c5 = UHF
+
+seg-f63dd3d7aad4 = Lähde
+
+seg-587beeccaa11 = Esiasetus
+
+seg-e305279d5b11 = Sisältö
