@@ -51,3 +51,7 @@ seg-c0ef7d676ec1 = <s1>前へ</s1>GNSS の測定、測位、インテグリテ�
 seg-54b45b00a2f0 = <s1>次へ</s1>慣性、融合、量子センサー
 
 seg-b03d56f501c3 = 種類
+
+seg-9a58a7b09423 = GPS が使えない環境での重力マップマッチング航法：冷却原子重力計が、通過する重力異常の系列から INS の一定のドリフトを復元します。
+
+seg-c42d90057e9f = エンジンが scenarios/gravity-map-nav.toml（種別 gravity-map）について出力するグラフ

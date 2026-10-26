@@ -55,3 +55,23 @@ seg-d4adf4283480 = <s1>前へ</s1>コンステレーション、カバレッジ�
 seg-2cdfd7f8bfb3 = <s1>次へ</s1>GPS が使えない環境の代替 PNT
 
 seg-b03d56f501c3 = 種類
+
+seg-b7b67e03f125 = 実観測による単独測位：RINEX { "3" } の観測ファイルと放送航法ファイル（コード疑似距離、放送エフェメリス、Klobuchar 電離層、Saastamoinen/Niell 対流圏）から受信機の位置を解き、必要に応じて測量済みの座標と照合して確認します。
+
+seg-d76d59644d84 = エンジンが scenarios/pvt-abmf.toml（種類 pvt）に対して出力するグラフ
+
+seg-edfcb546d9de = リアルタイムの月フレーム・地球姿勢の予測バジェット：P4 表 { "1" }（フレーム誤差の整合性チェック — 後処理 ~{ "0.27" } m ↔ ~{ "0.010" } ms とリアルタイム ~{ "15" } m ↔ ~{ "0.5" } ms。各フレーム位置を L19 のレバーアーム Δr = D_EM·ω⊕·ΔUT1 により等価な UT1 誤差として表現）と表 { "2" }（予測期間に対する UT1 予測誤差の実測 — 実際の IERS finals2000A 系列から直接読み取った L18 の曲線。Bulletin A − Bulletin B の最終フロアと複数日の持続予測器の誤差を、それぞれ L19 で月フレームの位置に変換）、さらに L21 の二乗和平方根によるリアルタイムのフレーム誤差バジェット（EOP＋エフェメリス＋実現フロア）です。閉形式（L19 のレバーアーム、ω⊕ は CIO の地球自転角と相互確認）は VALIDATED、実データ（実際の finals2000A の行から読み取った L18 曲線）も VALIDATED です。MODELLED は、月リレーの OD 共分散の大きさとフレーム実現フロア（代表的な配分）、および持続予測器（IERS の運用用 Bulletin A のアルゴリズムではありません）です。認証を受けたリアルタイムのフレーム製品ではありません。
+
+seg-2721ed7727bb = エンジンが scenarios/realtime-frame-eop.toml（種類 realtime-frame-eop）に対して出力するグラフ
+
+seg-5f25c5b71f0c = 宇宙天気の環境モデル：太陽（F10.7/F10.7a）と地磁気（Kp。定義上の Kp↔ap 表付き）の活動指数、それらが決める Jacchia-1971 の外圏温度（公表された太陽活動極小・平均・極大の値と照合して確認済み）、そして、昼夜平均の外圏温度での Jacchia-1971 の熱圏中性大気密度を、活動を含まない静的プロファイルと複数の高度で比較したもの — 静的な大気が省略している太陽周期による密度の依存性です。MODELLED：密度は、加速度計から導いた密度（TOLEOS の CHAMP と GRACE）と、太陽活動極大期には { "2" } 倍以内で一致しますが、{ "2008" } 年の太陽活動極小期には約 1.7 倍密すぎます。
+
+seg-c1c6f2f73fb5 = エンジンが scenarios/space-weather.toml（種類 space-weather）に対して出力するグラフ
+
+seg-2ffccc9c1eff = 測定領域での疑似距離シミュレーション（Klobuchar 電離圏、Saastamoinen/Niell 対流圏）＋ RAIM。
+
+seg-47ee40d4eb73 = エンジンが scenarios/gnss-sim-raim.toml（種別 gnss-sim）について出力するグラフ
+
+seg-eb7e0c2feb2b = スナップショット／解分離／ARAIM の RAIM と、HPL/VPL、Stanford ダイアグラム。
+
+seg-ce7f6130ddee = エンジンが scenarios/integrity-raim.toml（種別 integrity）について出力するグラフ

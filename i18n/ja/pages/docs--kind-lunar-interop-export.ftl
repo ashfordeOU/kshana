@@ -37,3 +37,5 @@ seg-254d48fe58a5 = 月面の相互運用性エクスポートは MODELLED であ
 seg-07d6cc44724f = <s1>前へ</s1>lunar-integrity
 
 seg-9669cd9b1d04 = <s1>次へ</s1>lunar-jamming
+
+seg-834408a40783 = min

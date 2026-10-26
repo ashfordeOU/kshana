@@ -27,3 +27,9 @@ seg-84fcf20588fb = <s1>前へ</s1>time-transfer-budget
 seg-149ad280a1f9 = <s1>次へ</s1>tracking-loop
 
 seg-37a77f49f048 = ps
+
+seg-5a70fcb097dc = 任意フィールド：なし
+
+seg-a1810bbca337 = <b>MODELLED</b> 双方向／TWSTFT（Sagnac）、GNSS コモンビュー、PPP；リンクジッター→距離。オラクル（ExternalDataset）：Sagnac の大きさは、権威ある公表値と照合しました — N. Ashby、'Relativity in the GPS'、Living Reviews in Relativity { "6" }:{ "1" }（{ "2003" }）、式{ "1.29" }：東向きの赤道周回では{ "207.4" } ns が蓄積されます（2ωA_E/c²）；kshana は{ "207.386" } ns を再現します。同じ 2Aω/c² の幾何を持つ RTKLIB { "2.4.3" } の geodist()（Takasu、BSD-2-Clause）によっても独立に裏付けられています。複合の BIPM TWSTFT トランスポンダー／コモンビュー／
+
+seg-a8beb8dfc757 = 時刻比較の誤差バジェット設定は MODELLED であり、独立した外部の参照と照合して確認されてはいません：副次的な主張は外部で検証されていますが、機能全体はモデルから計算した部品を組み合わせているため、この機能はモデルから計算した状態のままです。（検証マトリクス（docs/MODELLED-RATIONALE.md））

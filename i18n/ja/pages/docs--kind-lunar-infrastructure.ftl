@@ -47,3 +47,5 @@ seg-cd5f729c9622 = トピックページ：<a1>LUNAR-INFRASTRUCTURE.md</a1>
 seg-4df4c0059362 = <s1>前へ</s1>lunar-frame-realisation
 
 seg-c88eef4a7214 = <s1>次へ</s1>lunar-integrity
+
+seg-d1beb62cf742 = { "6" }件の同梱シナリオがこの種別を使います；残りは<a1><c1/></a1>にあります。

@@ -31,3 +31,15 @@ seg-a2889fb2b42a = トピックページ：<a1>integrations.md</a1>
 seg-03b50b21e5a8 = <s1>前へ</s1>lunar-interop-export
 
 seg-02568469f628 = <s1>次へ</s1>lunar-joint-od-clock
+
+seg-a3697ad561db = Hz
+
+seg-9521a296d617 = dBi
+
+seg-f85a85f0c7e4 = MHz
+
+seg-7154243aabbe = broadband
+
+seg-cec5c06d38af = <b>MODELLED</b> 月面ジャマー（または高所に設置したジャマー）の下にある、月面座標系の地表ユーザーに対する、月に固有のジャマー対信号比、実効 C/N₀、ロック喪失を、例示用の公開情報による Moonlight/LCNS 級コンステレーションについて求めます。
+
+seg-edcd55ccc993 = <b>MODELLED</b> <c1/>レポートは、拒否等高線をもはや一つのスカラーだけには拠っていません。
