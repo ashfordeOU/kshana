@@ -35,3 +35,33 @@ seg-53a78e98af12 = 主题页面：<a1>SKYLINE.md</a1>
 seg-ae15d15bf151 = 主题页面：<a1>LEO-PASS.md</a1>
 
 seg-99a3c57c7926 = 有 { "7" } 个随附场景使用此类型；其余的在 <a1><c1/></a1> 中。
+
+seg-0e3518dc3ddb = 来源：<c1/>
+
+seg-1428025a91e1 = <c1/>（场景类型）
+
+seg-cb4262b66b8f = 由轨道星座（Walker / TLE / RINEX）得出的GNSS可用性与DOP。
+
+seg-97680b4587c8 = <c1/>的一次运行汇总如下：场景bffc887db977 | 77/361个采样处于GNSS正常状态 | 最佳PDOP { "2.53" }位置2.53m | 量子守时（holdover）0s p95 6.49e-5ns完好性{ "1.000" }安全性n/a（无攻击）| 经典守时（holdover）0s p95 25.0ns完好性{ "1.000" }安全性n/a（无攻击）
+
+seg-b3a080b98bd9 = 必填字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>
+
+seg-c818cc4f87da = 可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>
+
+seg-364139ff447d = 示例<c1/>设置了以下内容等：
+
+seg-d5063dda3971 = Microchip SA.45s / SA65芯片级原子钟，sigma_y(1s)
+
+seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
+
+seg-3b652c0da6de = 引擎为scenarios/orbit-rinex.toml（类型orbit）绘制的图表
+
+seg-a150aaacf072 = <b>VALIDATED</b>由视线几何经Q=(HᵀH)⁻¹ 并做局部ENU分解得到GDOP/PDOP/HDOP/VDOP/TDOP测试：<a1>dop_reference.rs</a1>。
+
+seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry与check：对引擎自身迭代最小二乘定位（pvt::solve_spp，单位权，自真实位置起解）做带随机种子的蒙特卡罗（每种几何N = { "20,000" }个历元，sigma = { "1.5" } m，ChaCha8随机种子{ "36" } + i） 测试：<a1>uere_dop_monte_carlo.rs</a1>。
+
+seg-a3d71dd306b3 = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sky_geometry：卫星相对地面站点的大地（WGS-84）方位角和高度角、在方位角上线性插值并在{ "360" }度处回绕的方位角/高度角遮蔽表、可见集 测试：<a1>skyline_orekit_oracle.rs</a1>。
+
+seg-d86884be3f98 = <s1>上一页</s1>optical-atmosphere
+
+seg-da202333ae8d = <s1>下一页</s1>passes

@@ -213,3 +213,15 @@ seg-41e50e49da99 = <b>台账：</b>没有矩阵行点名此类型；引擎自行
 seg-09f7f99d04a6 = <s1>上一页</s1>低地球轨道导航
 
 seg-74c6bf83988e = <s1>下一页</s1>任务分析、链路与空间运行
+
+seg-1bc37634ba9f = 月球VLBI测站坐标协方差：将lunar-vlbi观测量的时延偏导数在明确给定的SCHEDULE（基线 × 历元）上累积为费舍尔信息矩阵，求逆后报告为测站坐标协方差和各坐标的测站sigma，这是引擎计算得出的输出，而不是把标量时延精密度套入假定的各向同性g = { "3" }均分因子所得的结果。状态量携带地固（ITRS）测站坐标，因此雅可比矩阵是惯性系偏导数经各历元GCRS->ITRS矩阵旋转后的结果：正是地球自转使这些坐标可观测，报告对地固视线扫过范围和信标赤纬进行MEASURES（实测），而不是假定它们。一次观测是一个（基线，历元）对，且两个测站都高于高度截止角，权重为1/delay_sigma_s^{ "2" }。每次运行都报告秩、基准亏秩、条件数、完整的信息谱、协方差矩阵、各测站各坐标轴及3-D的sigma，以及自由网零空间；在秩亏时，头条sigma以NULL并附状态发布，绝不从近奇异的逆矩阵中读出。针对同一SCHEDULE的均分值c<em>delay_sigma_s</em>sqrt(g/N)与计算值及其比值一并给出，同时给出各向同性迹界sqrt(p/trace(M))，AM-HM不等式使它成为硬下限，因此该比值就是这一假设所丢弃的各向异性。时延闭合tau_ik = tau_ij + tau_jk使n(n-1)/2条基线中只有n-1条在几何上独立；报告同时给出这两个数量。MODELLED：月心星历、测站时钟、对流层和地球定向参数均被固定，且各观测被视为相互独立，因此该协方差是针对缩减参数集的克拉默-拉奥界，不是对某次观测时段结果的预测；时延sigma、测站坐标和观测安排均为输入。几何时延雅可比矩阵所略去的偏导数（差分夏皮罗项）通过有限差分测得并输出。不是大地测量产品。
+
+seg-19c383444296 = 引擎为scenarios/lunar-vlbi-fim.toml（类型lunar-vlbi-fim）绘制的图表
+
+seg-e01f77d493a0 = 由模型计算的月球大地测量VLBI时延观测量：一条地球基线（两个地面站，GCRS）观测来自NovaMoon级月面信标的单程信号。输出一次过境期间的近场双距离差时延、其变化率以及波前曲率近场修正，并在远场极限下与同一代码库中的平面波 Δ-DOR观测量交叉核对，偏导数已用有限差分核对。默认的解析路径为MODELLED，并带有坐标系一致性、xp=yp={ "0" }极移以及平面波与近场之差这几项局限。设置planetary_kernel_path、earth_orientation_kernel_path和moon_orientation_kernel_path后则运行内核路径（DE440、MOON_PA_DE440、ITRF93；收敛的质心光行时；增加该历元的信标与测站偏导数），其牛顿时延和偏导数与NAIF SPICE收敛光行时的一致程度分别为{ "0.06" } ps和{ "7.4e-9" }。未与真实VLBI数据核对验证。
+
+seg-07d97fc1abac = 引擎为scenarios/lunar-vlbi.toml（类型lunar-vlbi）绘制的图表
+
+seg-28c6a5644152 = 对一个ILLUSTRATIVE的、基于公开资料的Moonlight/LCNS级月球轨道星座（与ESA无隶属关系）所作的、由模型计算的月球导航服务空间分析：在时间范围内扫描月面经纬度网格，报告DOP /覆盖 /可用性（≥{ "4" }颗卫星且PDOP < 阈值），以及覆盖该空间的广义月球ARAIM保护级（HPL/VPL）包络。DOP几何复用gnss_lib_py-VALIDATED内核（crate::orbit::dop）；保护级复用LunaNet LNIS月球ARAIM机制（crate::lunar，σ_URE≈{ "30" } m），并在特殊情形下退化为现有的南极保护级。MODELLED组合：圆/椭圆开普勒中继星集（不是真实的经微分修正的LCNS/NRHO星历），平均自转的月球（无天平动/进动极）。确定性（纯几何）。无TRL、飞行经历或机构认可。
+
+seg-edb738273a3a = 引擎为scenarios/moonlight-service-volume.toml（类型moonlight-service-volume）绘制的图表
