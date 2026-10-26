@@ -16,6 +16,10 @@ seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP ud fra sigtelinjege
 
 seg-53a78e98af12 = Emneside: <a1>SKYLINE.md</a1>
 
+seg-ae15d15bf151 = Emneside: <a1>LEO-PASS.md</a1>
+
+seg-99a3c57c7926 = { "7" } medfølgende scenarier bruger denne type; de øvrige findes i <a1><c1/></a1>.
+
 seg-0e3518dc3ddb = Kilde: <c1/>
 
 seg-1428025a91e1 = <c1/> (scenarietype)

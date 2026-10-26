@@ -35,3 +35,13 @@ seg-6f849331e33c = Resultatetiket (motorens egen): MODELLED — tidsdomænebaser
 seg-a09be8c586e3 = Diagrammet, som motoren skriver for scenarios/passes.toml, type passes
 
 seg-db35e4ebd275 = <b>VALIDATED</b> Tidsdomænebaserede synlighedsoverflyv (AOS/TCA/LOS, maks. elevation, varighed) for en propagator i motoren over en station over en elevationsmaske, med interpolerede krydsninger for opgang/nedgang og samlet adgang: passes::predict_passes, den geometriske planlægger (ingen Tests: <a1>ground_station_pass_prediction_reference.rs</a1>.
+
+seg-6799a54acee6 = <b>VALIDATED</b> Synlighedsoverflyv (AOS, TCA, LOS, maksimal tilsyneladende elevation, varighed) for et SGP4-elementsæt over en WGS-84-station på den validerede vej for jordbaner (IAU 2006/2000A, valgfrie jordorienteringsparametre), med troposfærisk refraktion efter ITU-R P.834-9 Tests: <a1>pass_predictor_on_path_orekit_oracle.rs</a1>.
+
+seg-42d4290ed718 = <b>VALIDATED</b> Tidsdomænebaserede synlighedsoverflyv (AOS/TCA/LOS, maks. elevation, varighed) for en propagator i motoren over en station over en elevationsmaske, med interpoleret opgang/nedgang . Uafhængig reference (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) + Hipparchus { "3.1" } — et uafhængigt flyvedynamikbibliotek: ElevationDetector (Brents rodfinder) + EventsLogger over en ITRF-efemeride, stationen som en WGS-84 TopocentricFrame. AOS/LOS/maks. elevation/antal overflyv/samlet adgang stemte på identisk bane, station, maske og vindue (indsendt fixture; driver xval/orekit-passes)
+
+seg-eb79c117f1df = MODELLED — tidsdomænebaseret forudsigelse af overflyv for jordstationer; SGP4/SDP4-propagering, jordfast system IAU 2006/2000A (UT1 = UTC, ingen polbevægelse, medmindre der angives jordorienteringsparametre), tilsyneladende elevation med refraktion efter ITU-R P.834-9 og lystid, når de er slået til, krydsninger og kulmination forfinet under trinnet (resultat <c1/>)
+
+seg-a7ddc8eeaf1e = <s1>Forrige</s1>orbit
+
+seg-3079cfb8decc = <s1>Næste</s1>pvt

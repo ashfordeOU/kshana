@@ -11,3 +11,5 @@ seg-6940543aa3c0 = streng
 seg-f5e7215e6835 = objekt
 
 seg-9da5d92757bd = objekt, valgfrit
+
+seg-c353e7bec219 = Nøgle

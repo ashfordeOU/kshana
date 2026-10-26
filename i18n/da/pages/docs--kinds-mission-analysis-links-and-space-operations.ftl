@@ -40,6 +40,10 @@ seg-816bd5a5808a = Radiometri og billedkvalitet for en nadirbilledtager: radians
 
 seg-bf7b52f7a01e = Diagrammet, som motoren skriver for scenarios/eo-radiometry.toml, type eo-radiometry
 
+seg-7a4e6215a488 = Opsendelses- og opstigningsgeometri med tolegemeproblem: opsendelsesazimut(er) (sin Az = cos i / cos lat), mindste opnåelige inklination, cirkulær hastighed, Jordens rotationsbonus mod øst, Δv for dogleg-planændring, når målinklinationen er under stedets breddegrad, og antallet af daglige opsendelsesmuligheder. MODELLED geometri for kugleformet Jord (ingen hastighedstrekantskorrektion for roterende Jord, ingen model for opstignings-/modstandstab).
+
+seg-9696283a95ae = Diagrammet, som motoren skriver for scenarios/launch-window.toml, scenarietype launch-window
+
 seg-953188c11165 = Enkeltvejs linkbudget efter CCSDS { "401" } / DSN 810-005-linkligningen: fripladstab, C/N₀, Eb/N₀, margin og lukning for en sende-EIRP, modtage-G/T, afstand, datahastighed og bånd (s|x|ka) mod et krævet Eb/N₀. En deterministisk ingeniørberegning ud fra de leverede input (ikke et kalibreret terminaldatablad).
 
 seg-bd375631bc7e = Diagrammet, som motoren skriver for scenarios/link-budget.toml, type link-budget
@@ -47,3 +51,11 @@ seg-bd375631bc7e = Diagrammet, som motoren skriver for scenarios/link-budget.tom
 seg-dbffff25b57f = Interoperabilitetsbro til CCSDS OEM: importér en Orbit Ephemeris Message fra et eksternt flyvedynamikværktøj (GMAT, Orekit og STK udsender alle OEM) og rapportér dens segmenter, objekter, referencesystemer og epokespænd samt en kontrol af hastighedskonsistens; uden input kører den en rundtur med en genereret referencebane og rapporterer troværdigheden mellem import og eksport. MODELLED strukturel og fysisk indlæsningskontrol, IKKE en validering af kildens banenøjagtighed.
 
 seg-5db5a7c812ca = Diagrammet, som motoren skriver for scenarios/oem-interop.toml, type oem-interop
+
+seg-039f77066d97 = Korridor for ballistisk generindtræden efter Allen-Eggers: maksimal deceleration (uafhængig af ballistisk koefficient, V_e^{ "2" } sin|γ|/(2eH)), hastighed og højde ved maksimal g og hastigheden ved maksimal opvarmning, for en indtrædenshastighed, banevinkel og ballistisk koefficient gennem en eksponentiel atmosfære, plus en plan integration af et punktmassesystem af den samme ballistiske indtræden med tyngdekraft, jordens krumning og US Standard Atmosphere { "1976" } (maksimal deceleration, hastighed, højde og tid ved maksimum). MODELLED ballistisk indtræden (uden løft); opvarmningen er HASTIGHEDEN ved maksimal opvarmning, ikke en varmeflux (ingen model for aerotermi eller varmeskjold).
+
+seg-b0109481e8ff = Diagrammet, som motoren skriver for scenarios/reentry.toml, type reentry
+
+seg-de2448d74c2b = Indramning efter CCSDS 133.0-B Space Packet Protocol: kodér en syntetisk TM/TC-pakkestrøm (primær header på 6 oktetter + datafelt) og rapportér afkodningen af headeren for hver pakke, samlet antal oktetter og en nøjagtig rundtur mellem kodning og afkodning. Deterministisk indramning med nøjagtigt bitlayout — organisationernes lag for interoperabilitet mellem pakkeformater; IKKE en certificering af overensstemmelse (ingen logik for sekundær header, CRC eller segmentering ud over flagene).
+
+seg-af1cf9aa9938 = Diagrammet, som motoren skriver for scenarios/space-packet.toml, type space-packet
