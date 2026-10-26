@@ -9,3 +9,7 @@ seg-ad856ad710eb = Stav
 seg-b03d56f501c3 = Druh
 
 seg-4dbf41c0ec3b = Funkce
+
+seg-f472e43c1100 = Co ukazuje
+
+seg-fa4468d4cb80 = Dostupnost

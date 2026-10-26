@@ -72,3 +72,5 @@ seg-07b9e03942cb = <b>Verifikační matice</b> → <a1>docs/VERIFICATION-MATRIX.
 seg-9390336ecc01 = <b>Citace</b> → <a1>CITATION.cff</a1> · DOI <a2>10.5281/zenodo.20528627</a2>
 
 seg-d059e9fc67e1 = Svobodný a open source pod licencí <b>GNU AGPL-3.0-only</b> (GNU Affero General Public License, pouze verze { "3" }). <b>Komerční licence</b> je k dispozici od <a1>Ashforde® OÜ</a1> (estonská společnost s ručením omezeným; OÜ = osaühing) pro uzavřenou integraci; viz <a2>LICENSING.md</a2>. Profesionálně vyvíjí a udržuje Ashforde® OÜ.
+
+seg-8c83544270b5 = Signatura

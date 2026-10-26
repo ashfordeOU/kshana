@@ -2532,3 +2532,5 @@ seg-417a52c9c154 = PDF
 seg-4e31c8daf798 = Registr
 
 seg-8980b5ae869b = Hodnota
+
+seg-f4d1ec6fc464 = Citace

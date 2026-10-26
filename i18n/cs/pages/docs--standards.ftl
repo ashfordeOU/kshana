@@ -13,3 +13,5 @@ seg-bf09433a7342 = GeoJSON
 seg-906440b861cd = Rámec
 
 seg-32b620b3574e = Použití
+
+seg-8ba331635865 = Normy a interoperabilita

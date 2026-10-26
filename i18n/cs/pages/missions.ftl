@@ -97,3 +97,33 @@ seg-94de9433d99f = Soubory scénářů
 seg-b03984610dc0 = Lunární
 
 seg-6f253e0464fe = Námořní
+
+seg-99a7944884ce = Odvětví
+
+seg-b37002818547 = Obrana a bezpečnost
+
+seg-5d7a6650872e = Letectví a drony
+
+seg-75d7d1930515 = Silnice
+
+seg-ea4149746f7b = Železnice
+
+seg-e7a61033ec40 = Kritická infrastruktura a časování
+
+seg-f246644479d0 = Věda a výzkum
+
+seg-f2f6717849a7 = Kosmonautika: oběžná dráha Země
+
+seg-d038a1e09683 = Vidí moje kosmická loď dost navigačních družic, jak dlouho její hodiny udrží čas mezi určeními polohy a co by přidala navigační vrstva na nízké oběžné dráze?
+
+seg-6010770a2bf6 = Měsíc a hluboký vesmír
+
+seg-33641ef6761c = Silnice a automobilový průmysl
+
+seg-94cca6b24bb2 = Kolik sekund po vjezdu do tunelu ještě vlak pozná, na které koleji je?
+
+seg-2d2a4afa2708 = Telekomunikace a 5G
+
+seg-af94e7a93923 = Pokud je ztracena časová reference GNSS, zůstanou hodiny mé sítě v rámci masek ITU-T a jak dlouho?
+
+seg-36d838421b86 = Mohu výsledek PNT reprodukovat, rozšířit a citovat, až po seed?
