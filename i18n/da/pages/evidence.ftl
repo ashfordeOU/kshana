@@ -2493,3 +2493,1379 @@ seg-417a52c9c154 = PDF
 seg-4e31c8daf798 = Register
 
 seg-8980b5ae869b = Tal
+
+seg-f4d1ec6fc464 = Citér
+
+seg-d0566d4db829 = Reproducér det
+
+seg-1d45f4717196 = Fra repositoriet
+
+seg-b366150de755 = Anmod om et studie
+
+seg-ac7e1a5e344a = Pro
+
+seg-6d3d0f8c9b7c = Anmod om en Pro-evaluering
+
+seg-8f101c803442 = Hver funktion bærer <s1>sin evidens.</s1>
+
+seg-9ef28b622a43 = { "388" } funktioner, hver bedømt. <b>{ "176" } valideret</b> mod uafhængige eksterne referencer. <b>{ "208" } ærligt mærket modelleret.</b> { "4" } ejet af partnere. Intet rundes op.
+
+seg-4f6445e5dd61 = Verifikationsmatrix <b>v{ $version }</b>
+
+seg-d9f0aabb4262 = Sæt fejningen på pause
+
+seg-ae9e2459836c = funktioner
+
+seg-4adb5411062e = Verifikationsmatrix, én celle pr. funktion i registerets rækkefølge: { "176" } valideret (udfyldte firkanter), { "208" } modelleret (hule firkanter), { "4" } ejet af partnere (rudere). Piletasterne flytter mellem celler; funktionen og dens uafhængige reference læses op nedenfor.
+
+seg-f97cb6bf8202 = Hold musen over eller fokusér en celle for at læse dens funktion og den uafhængige reference, der bedømmer den.
+
+seg-8a1cef0b9561 = Valideret: en uafhængig ekstern reference er enig
+
+seg-582c4a762fc5 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "388" } rækker · intet scenarie eller seed: motorens eget register
+
+seg-d5c32303297d = Læs registeret
+
+seg-f6112ab2dfdf = Registeret, resultaterne, reproducerbarhedsstemplet og testene bag dem ligger alle i den åbne motor.
+
+seg-69df15091cab = Pakker evidensen i en reproducerbar bevispakke af revisionskvalitet til en gennemgangskomité. <a1>Se nedenfor</a1>
+
+seg-9906d9824f3e = Besvarer dit eget spørgsmål med de samme mærker, ikke en certificering. <a1>Se nedenfor</a1>
+
+seg-f6a6cca2263c = Matrix
+
+seg-78e5feea4a80 = Validerede resultater
+
+seg-b3b972c50b99 = Ordliste (Dokumentation)
+
+seg-92e427f220c0 = Validerede resultater · hver sammenlignet værdi
+
+seg-a92d57eddda0 = Kontrolleret mod en andens svar.
+
+seg-978c14c0cbd8 = Hver flise tegner hver værdi, motoren sammenlignede med en uafhængig reference: offentliggjorte vektorer, et separat flyvedynamikbibliotek, præcise efemerider, et statistikbibliotek, en standardpublikation og en målt urregistrering, holdt ude fra tilpasningen. Hold musen over eller fokusér et mærke for at se dets værdi.
+
+seg-2b49d76005fd = Baner · analytiske
+
+seg-0155cf46a133 = SGP4 (Simplified General Perturbations { "4" }) banepropagering
+
+seg-3d4fd2b6704a = Hver reference-vektor fra AIAA (American Institute of Aeronautics and Astronautics) gengivet, inklusive tilfælde for SDP4 i dybt rum (Simplified Deep-space Perturbations { "4" }). Værste tilfælde <c1/> mm.
+
+seg-dbb66386afbf = Ét kvadrat pr. sammenlignet vektor, farvet efter dens positionsfejl.
+
+seg-55fc928e19ae = uafhængig reference · AIAA 2006-6753 verifikationsvektorer
+
+seg-1d60624d525d = Hvordan det blev kontrolleret
+
+seg-6adbc42697f9 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-58ca3da25e69 = Åbn i Kshana Studio: den samme propagator, <c1/><s1> · seed <c2/></s1>
+
+seg-813d6d41b891 = Kopiér kommandoen, der reproducerer det
+
+seg-a0ef302e2458 = Kopiér kommando
+
+seg-3b6c7858f32d = { "171" } af { "171" } tilfælde med RAIM-tærskler (receiver autonomous integrity monitoring) stemmer med SciPy inden for båndet. Seed { "7" }.
+
+seg-0921da0d292e = Integritet · statistik
+
+seg-6f311aef88fe = tilfælde
+
+seg-36b744b97026 = RAIM-detektionstærskler
+
+seg-db13900bdd77 = RAIMs statistiske kerne (receiver autonomous integrity monitoring) mod SciPy, tilfælde for tilfælde.
+
+seg-87734f6c52a2 = Ét kvadrat pr. SciPy-tilfælde, grupperet efter kerne.
+
+seg-4957eddb39ed = uafhængig reference · SciPy
+
+seg-c5d5cf50c8a9 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-011e33e27f59 = Åbn i Kshana Studio: kernen i arbejde, <c1/><s1> · seed <c2/></s1>
+
+seg-e02df7620fc7 = Numerisk (Cowell) banepropagering mod Orekit over en bue på 24 timer: største forskel { "0.08" } m i kraftniveauerne { "1" } til { "5" }.
+
+seg-d52f564b4af8 = Baner · numerisk
+
+seg-e204506056b8 = Numerisk (Cowell) propagering
+
+seg-16e820be9d20 = Mod flyvedynamikbiblioteket Orekit { "12.2" } ved hver epoke af en bue på 24 timer, kraftniveau for kraftniveau.
+
+seg-2b1ea60e99a7 = Positionsforskel mod tid, pr. kraftniveau.
+
+seg-75344d6c427a = uafhængig reference · Orekit { "12.2" }
+
+seg-2e80a89ee20a = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-44988f3835ce = Ingen Kshana Studio-visning: denne sammenligning kører som en motortest.
+
+seg-6e9e7897bbc0 = Baner · millimeter til meter
+
+seg-dcde8c6ec76a = m Galileo
+
+seg-f09e813feeb3 = m Swarm-A
+
+seg-3c258b4d5ac7 = Hver banerest på én skala
+
+seg-211a071c2017 = Fra propagatortjekkene til tilpasninger mod ESA's (European Space Agency) præcise efemerider. Månesatellitten, over tærsklen, vises også.
+
+seg-f5b078c26ba8 = Hver rest på en logaritmisk skala fra en millimeter til tyve meter.
+
+seg-6670ead3fa91 = uafhængig reference · ESA's præcise efemerider, månesatellittens rekonstruerede bane, Orekit { "12.2" }, AIAA-vektorer
+
+seg-6ce9be05ab08 = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
+
+seg-57c9f4e60efa = Ingen Kshana Studio-visning: præcis banebestemmelse kører som motortests.
+
+seg-f8f25ec2345b = Ure · stabilitet
+
+seg-912dbb14d171 = af <c1/> offentliggjorte værdier
+
+seg-e0c144321893 = Gengiver referenceværdierne i NIST (National Institute of Standards and Technology) Special Publication (SP) { "1065" }, tabel { "31" }, på dens eget datasæt med 1000 punkter.
+
+seg-5d3372dbff1f = Fire deviationer mod middelingstid med de offentliggjorte værdier som ringe.
+
+seg-9993e306ae64 = uafhængig reference · NIST SP { "1065" }
+
+seg-2a2794bda50f = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-fc6a00946a11 = Åbn i Kshana Studio: estimatorerne på et ur, <c1/><s1> · seed <c2/></s1>
+
+seg-4f484b09471e = Holdover-forudsigelse på en målt cæsiumurregistrering: forudsagt over målt mellem { "0.84" } og { "1.03" }, inden for den forud fastsatte faktor { "1.5" }.
+
+seg-4321e1b6bc12 = Ure · holdover
+
+seg-7e2bad702e68 = til
+
+seg-62cf63a7bec7 = Holdover-forudsigelse på et rigtigt cæsiumur
+
+seg-1f59d5bb3cff = Tilpasset på første tredjedel af en målt cæsiumregistrering, forudsagt på de to andre tredjedele: inden for den forud fastsatte faktor <c1/>.
+
+seg-46c1dbe5c6bc = Målt og forudsagt tidsfejl mod coast-tid og forholdsvinduet.
+
+seg-449f52c56c67 = uafhængig reference · målt cæsiumregistrering
+
+seg-275351654591 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-c131867720cc = Åbn i Kshana Studio: den samme inversion, <c1/><s1> · deterministisk</s1>
+
+seg-05dd599ce14a = Én celle pr. funktion.
+
+seg-b19592bc5242 = Valideret betyder, at en uafhængig ekstern kilde er enig: offentliggjorte referencevektorer, et separat værktøj eller målte data. Alt andet siger modelleret. Vælg et mærke for at tænde dets celler.
+
+seg-800e31fc8f7d = Funktioner bedømt
+
+seg-1d2c8132218d = { "176" }<s1>af { "388" } valideret</s1>
+
+seg-e61158f71854 = Hold musen over en celle
+
+seg-b66d124aa8dd = Verifikationsmatrix: { "176" } valideret, { "208" } modelleret, { "4" } ejet af partnere, { "388" } i alt
+
+seg-d814d33d2b1e = allan::lag1_noise_id: Riley og Greenhalls ({ "2004" }) lag-1-autokorrelationsstøj… · Valideret
+
+seg-3f806067da69 = osnma + kshana osnma verify: en åben, ren Rust-verifikator på modtagersiden for Galileo OSNMA… · Valideret
+
+seg-10698a330a88 = Allan-/modificeret/Hadamard-deviation + potenslovsstøj-ID med χ²-konfidensintervaller · Valideret
+
+seg-b1508c42341f = Overlappende Allan- + overlappende Hadamard-deviation på en rigtig cæsiumstandard · Valideret
+
+seg-a8462102ee02 = Overlappende Allan + modificeret Allan + tidsdeviation over hele AF-stigen · Valideret
+
+seg-29e7bbbe508c = Theo1 og total deviation (TOTVAR) — stabilitetsestimatorer med udvidet rækkevidde ved lang tau… · Valideret
+
+seg-1e52731cd30d = MTIE(τ): det maksimale peak-to-peak-udsving i tidsfejl over ethvert glidende vindue af τ =… · Valideret
+
+seg-0bdb8a3e7052 = MDEV(τ): den overlappende modificerede Allan-deviation (andendifferens, glidende vindue… · Valideret
+
+seg-e5651d7b5236 = Potenslov (hvid FM + rødt støjgulv) NNLS-genfinding fra en offentliggjort målt ⁸⁸Sr… · Valideret
+
+seg-e7ada48a7ff9 = ARAIM-løsning med flere hypoteser og løsningsseparation efter ARAIM Airborne Design Document… · Valideret
+
+seg-a74e42c59d5f = SGP4/SDP4, Cowell 6-DOF + perturbationer, batch/sekventiel OD · Valideret
+
+seg-4f8eeede9609 = Numerisk Cowell-propagator med en hierarkisk kraftmodel (tolegemeproblem, J2–J6 zonal… · Valideret
+
+seg-1fecb2c8c5d7 = SRP-belyst andel med WGS-84-ellipsoiden som formørkende legeme (tilsyneladende jordradius… · Valideret
+
+seg-da94fc5e3b03 = Ikke-kanonkugle-SRP: en box-wing-model med flade plader (Vallado lign. 8-44; ensidet legeme… · Valideret
+
+seg-bf16e7dc6637 = SRP-belyst andel som den ikke-formørkede andel af den randfortykkede solfluks… · Modelleret
+
+seg-5ccaafbaf99c = En portering af den empiriske termosfære NRLMSISE-00 (gtd7 og gtd7d: artstætheder… · Valideret
+
+seg-2fd4e498e5d6 = forces::DensityModel (Exponential som standard, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) og… · Valideret
+
+seg-8c1643833e02 = Standardluftmodstanden i Cowell-propagatoren: kvadratisk luftmodstand mod den medroterende… · Valideret
+
+seg-c88dad1395e5 = Valgfrit efemeridetrin for tredjelegeme- og SRP-leddene i den numeriske Cowell… · Modelleret
+
+seg-fc85378484a6 = Den døgnlige S1-lufttrykstide som geopotentialperturbation: Biancale og Bode… · Modelleret
+
+seg-5d41c94116ae = Ray ({ "2001" }) S2-lufttryksharmoniske (n <= { "4" }, prograd og retrograd) omregnet til… · Valideret
+
+seg-4e94ef6bbaf3 = Valgfrit EGM2008-tesseralfelt (til grad/orden { "70" }) som centralt tyngdefelt i… · Valideret
+
+seg-1b8ba1d23a4f = Underflow-sikker, polsikker evaluering af et fuldt normaliseret felt til grad { "2190" }… · Modelleret
+
+seg-ece10758305d = Hairer DOP853 { "8" }({ "5,3" }) eksplicit Runge-Kutta med den kombinerede 5./3.-ordens fejl… · Valideret
+
+seg-c29a1f584c92 = Elliptisk Kepler-løser for alle { "0" } <= e < { "1" } og alle middelanomalier: Markley ({ "1995" }) kubisk… · Valideret
+
+seg-ae484d7c73e7 = Genfind en epoketilstand fra blandet afstands-, afstandshastigheds- og azimut/elevationssporing over… · Modelleret
+
+seg-7166587b7af6 = Afbild SP3-nøjagtighedskoder (header ++ eksponenter i { "2" }^n mm, %f-basen, pr. post base^n mm… · Modelleret
+
+seg-a352259cb1c3 = Læs PDS SHADR-tabeller med sfæriske harmoniske (from_shadr, på SphericalHarmonicField i… · Valideret
+
+seg-bbdb377981c4 = with_gravity_field (på Body, i src/gravity_pds.rs): tilknyt ethvert indlæst… · Modelleret
+
+seg-0dad0a6df1ba = Genfind en epoketilstand [r,v] fra jordstationsafstande via en Gauss–Newton-batch… · Valideret
+
+seg-9aa6eccb7941 = Forsinket (nedlink) enkeltvejs lystidsløsning τ = |r_rx − r_target(t−τ)|/c for… · Valideret
+
+seg-44b327dce46e = IS-GPS-200 / Galileo-OS / BeiDou-OS broadcast-efemeride Kepler → ECEF-satellit… · Valideret
+
+seg-b2291e777ac3 = IGS-standard Lagrange-interpolation af SP3-præcisionsefemeridens satellitpositioner med… · Valideret
+
+seg-e64d4f89e37d = GPS CNAV-meddelelsestyper 10/11/30, Galileo I/NAV-ordtyper 1-5 i nominelle lige/ulige sider… · Modelleret
+
+seg-30fbb32b73fa = IONEX { "1.0" }-læser (header, I5-værdier i faste kolonner, TEC- og RMS-kort, absolutte epoker… · Valideret
+
+seg-851595dfa46e = Divergensfrit Hatch-filter (ionosfærefri kode båret af det ionosfærefri… · Modelleret
+
+seg-f22ecff347b8 = Relativ positionsbestemmelse på kort baseline fra rigtig tofrekvent GPS-kode og bærebølgefase… · Valideret
+
+seg-53b900e15215 = Modtagerens ur estimeret af det statiske float-PPP-filter på rigtig tofrekvent GPS… · Valideret
+
+seg-53508398f315 = Statisk float-PPP-udvidet Kalman-filter på rigtig tofrekvent GPS-kode og bærebølge… · Valideret
+
+seg-135f709cabd6 = RINEX 4.00-4.02-navigationsfiler: > EPH-poster for GPS LNAV, Galileo I/NAV og F/NAV… · Valideret
+
+seg-8217e6dad5f4 = RINEX 4.0x-observationsheadere (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE… · Modelleret
+
+seg-5064320fefbc = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } geostationær satellitposition fra en broadcast… · Modelleret
+
+seg-b3a6e424d368 = Satellitursforskydning mellem de tabulerede SP3-urknuder ved lineær interpolation… · Valideret
+
+seg-f3c33c897d1c = Fejltilstands-EKF over { "15" } INS-tilstande, et modtagerur med to tilstande og én float-bærebølge… · Modelleret
+
+seg-d18e059df2c0 = Tre gnss-ins-scenarier på trajektoriebiblioteket (et fartøj, der sno sig ved { "8" } m/s med en… · Modelleret
+
+seg-94ad91994306 = Ét stablet Kalman-filter over position, hastighed, urfase og frekvens, fodret… · Modelleret
+
+seg-6d46cb5414e3 = Det lukkede 15-tilstands fejltilstands-EKF drevet af IMU-inkrementer med GNSS-antenne… · Valideret
+
+seg-be8fb95782af = Bevægelsesfilerne fra bench-eksporten, givet til en open source GNSS-simulators egne læsere, kommer… · Valideret
+
+seg-0d1622691877 = Kvaternion-attitude, WGS-84 NED strapdown inertial mekanisering… · Valideret
+
+seg-6c2952f49754 = Sfærisk-harmonisk tyngdemagnitude + forstyrrelse (mGal) fra enhver ICGEM .gfc-model… · Valideret
+
+seg-41ca7eec4a62 = Den cirkulære restriktive { "9" }:{ "2" } L2 sydlige næsten-retlinede halo-bane, der… · Modelleret
+
+seg-42c26212e2c9 = cr3bp::to_moon_centred_icrf afbilder en dimensionsløs Jord-Måne CR3BP roterende tilstand til en… · Valideret
+
+seg-35b2be544d26 = Solsystemtypen med planetary_kernel_path: hvert rapporteret legeme, hvis egen NAIF-kode… · Valideret
+
+seg-ad3763136cc7 = maneuver::porkchop_kernel: svæbet over opsendelsesdato x ankomstdato for afgangs-C3 (km²/s²)… · Valideret
+
+seg-0f5ae623905f = maneuver::optimise_transfer_kernel: afgangs- og ankomstdatoerne for en… · Valideret
+
+seg-0ae19001fe4b = Hver løsning af Lamberts problem med op til tre hele omløb… · Valideret
+
+seg-7eafc10ca9dc = Izzo-2015 Lambert-løser med ét omløb (r1, r2, flyvetid → rand… · Valideret
+
+seg-a8818aea1c75 = IAU 2006/2000A præcession-nutation, CIO GCRS↔ITRS, skudsekund-tidsskalaer · Valideret
+
+seg-3713cbb8eb72 = En UTC-kalenderdato og -tid til en todelt UTC-juliansk dato med SOFA dtf2d… · Valideret
+
+seg-8f2f47d609a1 = Rotation fra MOON_PA_DE440 til J2000 til vilkårlige epoker inden for 2014-01-01 til 2030-12-31 TDB… · Valideret
+
+seg-58aa8583d165 = De fem retroreflektorarrays på Månens jordvendte side i PA-legemeskoordinater (meter) og LLR-jord… · Modelleret
+
+seg-2c37f225dfbd = Den ensrettede afstand fra jordstation til reflektor for et normalpunkt i lunar laser-ranging: … · Valideret
+
+seg-5bd57078f7ca = assemble_coupled_info opbygger den koblede Fisher-matrix med 9 parametre over [t_x, t_y, t_z, s… · Valideret
+
+seg-2cc77f037f08 = Degenerationen mellem radial afstand pr. knude og modtagerurets offset er eksakt ved { "1" } m til { "3.336" }… · Modelleret
+
+seg-193fb9b9adcf = rate_frame_jacobian(_with) giver følsomheden af den lunare tidsskalas rate over for… · Valideret
+
+seg-54e36f7a21b4 = classify_null_space opdeler datumnulrummet i kun-rumligt (dimension d minus… · Valideret
+
+seg-f719cc938742 = MeasurementBlock rummer én kandidatmålekampagne som en 7x7 Fisher-informations… · Modelleret
+
+seg-9a8d751557dc = nedbrydning med kun rotation (translation+rotation med 6 parametre) af… · Valideret
+
+seg-37a04d53055c = consistency_tolerance: inverterer et brugerpositionsbudget til en tolerance pr. parameter mellem udbydere… · Modelleret
+
+seg-99b19ea76ee8 = interop_budget: opdeling i reducerbar (fælles referencesystem-binding) og ikke-reducerbar (dynamik) under… · Modelleret
+
+seg-0bdcdf560cb2 = På det reelle DE440-baserede lunare netværk pr. knude (hver række en differentiel ensrettet inter-knude… · Valideret
+
+seg-5ebd7b35bd1f = byzantine_bound instantierer kodningen til sikker tilstandsestimering / sparse observabilitet… · Modelleret
+
+seg-3899180aa58b = holdover_floor fastslår, at i et ensemble af autonome knuder, der kun er forbundet ved… · Modelleret
+
+seg-d323b519c245 = Tre facetter af den ene nedbrydning ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) med… · Modelleret
+
+seg-94d22b2503a8 = Den maksimale tidsintervalfejl og tidsafvigelse, som scenarietypen telecom-timing… · Valideret
+
+seg-a84558dbbbfe = Transskriberede grænser fra ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025)… · Modelleret
+
+seg-e1d85bd6b885 = Syv MTIE- og TDEV-wander-genereringsmasker ved konstant temperatur for telecom-timing… · Modelleret
+
+seg-fb20760cdc4c = clock_log::read_input: ét parserlag, der omsætter en RINEX-urfil (AS/AR-poster af… · Modelleret
+
+seg-f786d891bc94 = clock_log::read_input med formaterne ptp4l, phc2sys, ts2phc, chrony-tracking og… · Modelleret
+
+seg-a208919126f0 = Typen holdover-test: en tidsfejlregistrering (en linuxptp-, chrony-, TICC-, TimeLab- eller RINEX… · Modelleret
+
+seg-a9f96c67a8ea = Tilgængelighedssweeps for typen gnss-ssv: pr. konstellation (GPS, GLONASS, Galileo, BDS… · Modelleret
+
+seg-7beec1fba869 = En Chapman-ionosfære, en plasmasfære af Gallagher-typen og en neutral atmosfære… · Modelleret
+
+seg-9bd04213bd7b = Tilstanden [navigation] i typen gnss-ssv: et udvidet Kalman-filter med ni tilstande (position… · Modelleret
+
+seg-59b78f3897ba = Tilstanden [formation] i typen gnss-ssv: en chief og deputies kører hver det absolutte filter… · Modelleret
+
+seg-41d36946a448 = inertial::cai_error_terms (biblioteksfunktioner, endnu ikke tilgængelige fra en scenarietype)… · Modelleret
+
+seg-5960aff23d31 = allan::edf_greenhall (med omslagene edf_greenhall_adev, _mdev og _hdev): den fulde… · Valideret
+
+seg-27745ffd98ee = Fire forudindstillinger — OCXO (Microchip OX-208), rubidium (Microchip 8040C), cæsium (Microchip… · Modelleret
+
+seg-f2e36db87617 = Den målte registreringsvej i typen slot-timing: den overlappende Allan-deviation af en fase… · Valideret
+
+seg-109907bc9864 = Typen slot-timing: den forudsagte fejl E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| +… · Modelleret
+
+seg-1365b5beea5d = orbital_timing::orbital_timing, tilgængelig som spoofing-sektionen i typen slot-timing… · Modelleret
+
+seg-cf3bc790331a = Effektspektraltætheder pr. enhedsareal for GPS L1 C/A og L2C (BPSK({ "1" })), GPS L5 og Galileo… · Valideret
+
+seg-7c8f9549667b = Typen spectrum: et gitter af frekvens gange tid for L-båndets effektspektraltæthed… · Modelleret
+
+seg-21a27551f400 = sigmf: læs og skriv Signal Metadata Format-optagelser (JSON .sigmf-meta med kernen… · Valideret
+
+seg-cbf9461da030 = Heliocentriske positioner af Merkur, Venus, Jord-Måne-barycentret, Jorden, Mars… · Valideret
+
+seg-6f84829bf6f5 = Geometriske positioner af Solen, Merkur, Venus, Jorden og Månen i forhold til hinanden… · Valideret
+
+seg-2d4dc39d352b = Den newtonske ensrettede lystid fra ethvert legeme til ethvert andet, modtaget til en epoke… · Valideret
+
+seg-ced7622e838b = Positioner af Uranus og Neptun fra Standish Table { "1" } (standard inden for { "1800" } AD til… · Modelleret
+
+seg-abe80edcb2c5 = Den geocentriske Måne fra Montenbruck & Gill-rækken (hvis -1.3972 deg pr. århundrede… · Modelleret
+
+seg-56cf1bcf8251 = Legemeforstærkninger Merkur, Venus, Jupiter, Saturn, Uranus, Neptun, Pluto, Phobos, Deimos, Io… · Modelleret
+
+seg-c5fc2a8e4753 = Body::iau_rotation_et, rotationen fra J2000 til det IAU-legemefaste system for Merkur… · Valideret
+
+seg-175fb15dc664 = Typen body-pnt: en orbiter eller en overfladelander omkring et legeme valgt ved navn navigerer… · Modelleret
+
+seg-fdefacb7aa4b = Generatorerne i typen constellation-design: Walker delta- og stjernemønstre i T/P/F… · Valideret
+
+seg-fc12c5b5204d = Dækningsmotoren i constellation-design på GPS-baseline-forudindstillingen med 24 slots under… · Valideret
+
+seg-49e9a81112bf = Typen constellation-design ud over de to fastlåste tilfælde: eksplicitte og multi-shell… · Modelleret
+
+seg-430480ee3de0 = Faserne i typen campaign: hver fase kører ét eller flere scenarier af eksisterende typer… · Modelleret
+
+seg-4d47d2917133 = Sweepet i typen campaign (ét til tre punktnøgler af en vilkårlig type, på det generiske sweeps… · Modelleret
+
+seg-05fe232e052e = Sektionen compose i typen campaign: navngivne delte værdier (for eksempel én jammers effekt… · Modelleret
+
+seg-61e08d3722d8 = Sektionen optimize i typen campaign (CAP-32): ét til tre punktnøgler i scenariet afgrænset… · Modelleret
+
+seg-6d032eaa4ecd = navsignal: sinusintegralet (sine_integral), BPSK-R-andelen af effekten inden for et… · Valideret
+
+seg-0344008faf5c = leo_signal::max_doppler_hz: den største satellit-Doppler på en overflyvning lige overhead ved… · Valideret
+
+seg-1384d9815030 = Typen leo-signal: parameteriserede signaludformninger (bånd, senderbåndbredde, ITU… · Modelleret
+
+seg-bb691aa3e054 = Typen spectrum udvidet ud over L-båndet: bånd angivet som en signaludformning fra en forudindstilling… · Modelleret
+
+seg-91cfb0c491d8 = ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3… · Valideret
+
+seg-c3262bd28ad8 = ITU-R P.618-14 afsnit { "2.2.1.1" } trin { "2" } til { "10" } (skrå og vandret vej under regn… · Valideret
+
+seg-16f9554a4a2b = ITU-R P.618-14 afsnit { "2.4.1" } trin { "3" } til { "9" } (reference-sigma ud fra N_wet, effektiv vej… · Valideret
+
+seg-7398db38da80 = ITU-R P.2109-2 Annex { "1" } ligninger ({ "1" }) til ({ "10" }) med Table { "1" }: tabet, der ikke overskrides med… · Valideret
+
+seg-d8aa9e586ecf = Gruppeforsinkelse { "40.3" } STEC/f^{ "2" } pr. bånd; de ionosfærefri koefficienter f1^2/(f1^{ "2" } - f2^{ "2" })… · Valideret
+
+seg-c131312392cb = leo_link::geometry::max_static_user_range_rate: en søgning over hver banepositon og… · Valideret
+
+seg-10357ae7c9b3 = Typen leo-pass: satellitter fra en udformet overflyvning, elementer, en TLE gennem SGP4 eller en… · Modelleret
+
+seg-0b4a68a05199 = leo_link::presets: generisk multibånd (UHF, L, S, C), generisk C-bånd, Xona Pulsar X1/X5… · Modelleret
+
+seg-f5e2c76caa01 = leo_link::energy og sektionen [iot] i typen leo-pass: kohærent integration begrænset af… · Modelleret
+
+seg-43c4c2808e47 = leo_navmsg::sisre::sisre_weights: den radiale vægt w_R og den kvadrerede transversale… · Valideret
+
+seg-5bc0db905ba3 = leo_navmsg::elements::kepler_point: den Kepler-baserede evaluering efter Galileo OS SIS ICD… · Valideret
+
+seg-4b5b2e636eaa = leo_navmsg::codec::crc24q: generatorpolynomium 0x1864CFB, startværdi { "0" }, ingen… · Valideret
+
+seg-aa475ec1f38b = Fitteren og afvejningen i typen leo-navmsg: en reference-bane integreret med zonal J2-J6 eller… · Valideret
+
+seg-a8d1a0c8aa20 = Midpass-opdateringsanalysen i leo-navmsg: den højeste overflyvning over en bruger inden for et søge… · Modelleret
+
+seg-9877e2306ec7 = leo_navmsg::codec: Kshanas egen ramme (præambel, version, model, længde, nyttelast… · Modelleret
+
+seg-b3674570d6c9 = leo_navmsg::text: en blok i RINEX-4-stil (> EPH-posthoved, satellit- og epokelinje… · Modelleret
+
+seg-30ece7b6f10e = Liu22-varianten af leo_navmsg::elements::EphemerisModel, evalueret af kepler_point… · Valideret
+
+seg-24e95ef0c9ee = EcefPoly-varianten af leo_navmsg::elements::EphemerisModel: et ECEF-polynomium pr. akse… · Modelleret
+
+seg-89d02bcdf9e8 = leo_navmsg::services: Klobuchar-udsendelsesforsinkelsen ved en vilkårlig bærebølge (motorens L1… · Valideret
+
+seg-26334e3d6bc5 = Eksakt afstandsrate for en satellit, hvis jordfaste position og hastighed kommer fra en… · Valideret
+
+seg-5ac58c46dbbd = Batch Gauss-Newton-positionering ud fra afstandsrate med analytiske partielle afledte (d rho_dot / d r =… · Modelleret
+
+seg-1e63f2b7a7eb = Vægtede mindste kvadraters Gauss-Newton-positionsbestemmelser over en vilkårlig blanding af systemer, ét modtagerur… · Modelleret
+
+seg-a0252001355f = Et udvidet Kalman-filter til float-PPP på ionosfærefri kode og fase: statisk… · Modelleret
+
+seg-b2e485b4ead5 = Cramér-Rao-grænsen for ankomsttid ud fra den kvadratiske middelværdi (Gabor-)båndbredde… · Valideret
+
+seg-4a487a69e0f4 = Urmålinger fra hver LEO-satellit i sigte ved en kendt position, kombineret ved… · Modelleret
+
+seg-9750a328ac46 = Satellitter i sigte og median PDOP, HDOP og VDOP med tilgængelighed mod breddegrad… · Valideret
+
+seg-a584bac9a33d = Systemuafhængige input: hvert system er Walker-shells, eksplicitte elementer eller et GNSS… · Modelleret
+
+seg-cbfc7ff68128 = Typen leo-pnt-chain: en leo-signal-udformning (offentlig forudindstilling eller inline) fastlægger en leo-pass… · Modelleret
+
+seg-36860c10b4d0 = Sektionen [spoofer] i typen leo-pass: en spoofer forfalsker, selvkonsistent i… · Modelleret
+
+seg-db029e7a6cc7 = For hver LEO-satellit og hvert par af afstandsmålingsbånd danner sektionen [spoofer]… · Modelleret
+
+seg-8c87558cbceb = For hvert båndpar for en leo-pass-satellit angiver rapporten det skrå samlede elektronindhold… · Modelleret
+
+seg-c047f25ef400 = Den syvparameter-Helmert-datumkovarians for scenariet lunar-frame-campaign med… · Valideret
+
+seg-fd628e182c3e = En valgfri kvadratrods-informationssolver (lunar-frame-campaign solver = "srif"; standard… · Valideret
+
+seg-e95295d74586 = For et fartøj afkoder receiver_trust NMEA { "0183" }-sætningerne, som en modtager og dens… · Valideret
+
+seg-1d3aab6d8554 = Hver monitor reducerer sit belæg til et forhold mellem statistik og tærskel; scoren er { "100" }… · Modelleret
+
+seg-43a58d2f2e32 = Syntetiske NMEA { "0183" }-strømme fra broen til besætningstræning (kshana nmea-scenario): GGA, RMC… · Valideret
+
+seg-b53303d52991 = Aflæsningen af ADS-B-koderne for navigationsnøjagtighed og integritet, som kortet bruger (EPU… · Valideret
+
+seg-3e274aa29264 = GNSS-tillid (score, bånd, årsager, gate og, på anmodning, position) som Prometheus-tekst… · Valideret
+
+seg-16f2bbb013f5 = Hændelser ved båndskift (eller pr. epoke) som Common Event Format-nyttelast i en RFC { "5424" }… · Valideret
+
+seg-b8601543ee77 = Hændelser ved båndskift (eller pr. epoke) som Log Event Extended Format { "2.0" }-nyttelast i en RFC… · Modelleret
+
+seg-001347eb4f7e = En signeret, hash-kædet bevispakke for en GNSS-tillidshændelse: SHA-256 over hver fil og… · Valideret
+
+seg-7d9a0122ebcf = evidence::tsa::verify_token og valgfri kshana evidence verify --tsa-ca <anchors.pem>… · Valideret
+
+seg-cfc6c2986f15 = receiver_trust::calibration::run_dataset: den præregistrerede kalibrering af… · Modelleret
+
+seg-7f6d9ae684a1 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): NPRA-testen… · Modelleret
+
+seg-a0f30d0040c6 = Bevægelses-CSV'ens jordfaste position, geodætiske position, jordfaste hastighed… · Valideret
+
+seg-ceb7d7c4aa9a = compliance (kshana compliance-report): en kortlægning fra Kshana-output til punkter i… · Modelleret
+
+seg-7a4ba53202ae = Tillidsscoren, båndet, årsagerne, gate-tilstanden og den modtagerrapporterede position publiceret… · Modelleret
+
+seg-5618f7c6904c = Feltet boc i iq::track::LoopConfig (valgfrit, None som standard): de tre DLL… · Modelleret
+
+seg-b9c85204d2be = iq::channel::scint, Cornell-scintillationsmodellen (Rice-intensitet, anden orden… · Modelleret
+
+seg-962ef2cf8ab0 = iq::acq::ca_cfar og ca_cfar_cells (valgfrit): en celle i et akkvisitionsgitter sammenlignes… · Modelleret
+
+seg-b30aadd2c937 = spectrum::default_band opløser, kun ved navn (MORE_BAND_NAMES), GLONASS L1OF og L2OF… · Modelleret
+
+seg-ef32d4666b43 = iq::signals::beidou::b1i_bits og b1i: BDS-SIS-ICD-B1I-3.0 Gold-koderne trunkeret til… · Valideret
+
+seg-08e2f936c1c3 = iq::signals::gps::l1c_p_bits, l1c_d_bits og l1c_o_bits: L1CP- og L1CD-Weil-afstandsmålings… · Valideret
+
+seg-449f1fd5a4a0 = iq::signals::lunanet::afs_i_bits og afs_q_primary_bits (signalnavne lunanet-afs-i og… · Valideret
+
+seg-a2f797219cd6 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs… · Modelleret
+
+seg-1780616b8677 = standards_pack (kshana standards-pack): testprofilerne i DHS Resilient PNT-rammeværket… · Modelleret
+
+seg-499dcb74620c = evidence::roundtrip (kshana evidence round-trip) og kshana.test-conditions/1… · Modelleret
+
+seg-e885c4b88ddb = Den fulde sporingsmotor i IQ-laget (iq::track gennem kshana iq track: akkvisition… · Modelleret
+
+seg-9444c0bd9a44 = Den valgfri sektion [crpa] i typen jamming: en stråle pr. kanal mod hver satellit… · Modelleret
+
+seg-01e2f93ebd7c = Den valgfri sektion [terrain] i typen jamming: storcirkel-terrænprofilen mellem… · Modelleret
+
+seg-de5a2ace5291 = Den valgfri sektion [acquisition] i typen jamming (en satellit akkvireres ved eller over… · Modelleret
+
+seg-337acb9b46a7 = Den valgfri carrier.fll_pull_in_max_s i iq::track (feltet fll_pull_in_max_s i… · Modelleret
+
+seg-731c77d5b154 = Læser en RTKLIB-løsningsfil (kalender- eller GPS-uge/TOW-tid, bredde/længde eller ECEF… · Modelleret
+
+seg-c55fdbe431b5 = Læser BESTPOS (position), RANGE (C/No pr. signal) og RXSTATUS (modtagerens jammer… · Modelleret
+
+seg-c4e9eae15690 = Læser C/N0 for hver signalcelle i RTCM { "3" } MSM4- og MSM7-meddelelser (GPS, GLONASS… · Modelleret
+
+seg-1a0d48096470 = Læser GNSS-SDR Monitor (Gnss_Synchro)- og PVT-monitor-meddelelser, videresendt til JSON-linjer… · Modelleret
+
+seg-c9e7077311e2 = Læser en IMU-CSV (dokumenterede kolonner eller EuRoC-layoutet); integrerer krøjningsraten til… · Modelleret
+
+seg-0a44618c7e98 = Et JSON-tilstandsdokument og Home Assistant MQTT-discovery-meddelelser for tillidsstrømmen… · Modelleret
+
+seg-2c0eeca292e0 = En ROS-fri bro, der skriver positions- og satellitmeddelelser som NMEA og scorer dem gennem… · Modelleret
+
+seg-83dc4863b9cb = Fremhæv cellerne for én etiket
+
+seg-52696b2fa099 = Valideret mod en uafhængig ekstern reference
+
+seg-1e3ba1b099ba = Modelleret: implementeret, endnu ikke eksternt valideret
+
+seg-97b628450f8c = Partnerejet: uden for det, motoren gør
+
+seg-eef053d8c686 = Antallene er eksakte og stammer fra motorens verifikationsmatrix. Cellerne følger registerets rækkefølge.
+
+seg-2ef0ba031af3 = Tre ord, brugt strengt
+
+seg-7a23624246c0 = Kshana-output<s1>motorkørsel</s1>
+
+seg-7042922a4050 = Uafhængig reference<s1>publiceret reference</s1>
+
+seg-f402715031f4 = Kun med en uafhængig ekstern reference: publicerede referencevektorer, en separat implementering eller målte data, der er holdt uden for tilpasningen. Registeret navner referencen og testen, og matrixens invarianttests håndhæver reglen.
+
+seg-7091847e1c77 = En publiceret model eller et dokumenteret modelvalg, internt testet, endnu uden uafhængig ekstern reference. Det siges højt og rundes ikke op.
+
+seg-1d17589ad647 = Konstruktion af rumfartøjets bus, navigationsnyttelast og antennehardware, kvantenyttelastens hardware og produktsikring af flyvehardware. Kshana gør ikke krav på nogen af dem; en partner ejer dem.
+
+seg-5af3d58e83fa = <b>Med Pro:</b> et <b>missionsdossier</b> kontrollerer hvert krav mod rigtige kørsler og beholder disse etiketter i sin verifikationsmatrix: et krav, der er opfyldt på et grundlag, der er MODELLED eller PARTNER, bliver markeret. <a1>Se et rigtigt dossier</a1>
+
+seg-400016e22379 = Valideringsregister
+
+seg-6ef0eb045293 = Alle { "388" } rækker, én linje hver.
+
+seg-20ec758fe328 = Hver række navngiver sit krav, sin status og det modul, der implementerer det. Åbn en række for dens reference og tests, eller vælg et domæne for at indsnævre.
+
+seg-08f2354cb22b = Filtrér efter domæne
+
+seg-f5a2e020b47e = Efter domæne: søjlelængden er antal rækker, farven er status. Vælg ét for at filtrere.
+
+seg-d8691ddf3170 = af { "93" } valideret
+
+seg-0272bc18f675 = af { "19" } valideret
+
+seg-d6687397eae9 = af { "73" } valideret
+
+seg-38ec110ef886 = Baner, referencesystemer og geometri
+
+seg-8d3ad903cd18 = af { "76" } valideret
+
+seg-a1c022c60fb6 = Inerti, fusion og alternativ PNT
+
+seg-223bf21e1d9b = af { "25" } valideret
+
+seg-b355dc732d29 = Signaler og interferens
+
+seg-fb01a581d5ee = af { "28" } valideret
+
+seg-d6c43e56d4cc = Missionsanalyse, sikring og andet
+
+seg-5516d9825527 = af { "55" } valideret
+
+seg-d5b6224d2ec4 = Alle { "388" }
+
+seg-7038fab8b00c = Valideret { "176" }
+
+seg-2bca452c28dd = Modelleret { "208" }
+
+seg-ba89c1119b21 = Partnerejet { "4" }
+
+seg-cd12d85e2beb = Søg i registeret
+
+seg-f014d784ebe3 = Søg efter krav, reference, modul eller test
+
+seg-d0352364053e = Valideringsregister, { "388" } rækker, kan rulles
+
+seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } tilfælde: ti Kasdin-potenslovsregistreringer, b = { "0" } til -4, som fase- og frekvensdata, af = { "1" } til { "64" }; alpha_int og d identiske, værste |d alpha| { "9.6e-13" } og |d rho| { "4.8e-13" }…</s1>
+
+seg-06e5bf24f6cb = <s1>tests/osnma_official_vectors.rs (valgfri, KSHANA_OSNMA_VECTORS: alle { "18" } vektorsæt, { "186,382" } tags autentificeret, { "0" } mislykket, gulve pr. sæt, kæder annonceret, ADKD 0/4/12, alarm verificeret, autentificering genoptages efter…</s1>
+
+seg-59f1fce2addc = <s1>tests/cs5071a_reference.rs (reel 5071A Cs mod H-maser, { "556 990" } punkter, { "16" } middelværdifaktorer mod Stable32 til { "1e-3" }; datastyret via scripts/fetch_cs5071a.sh)</s1>
+
+seg-c99e283fa971 = <s1>tests/theo1_totvar_reference.rs (Theo1 + TOTDEV på NIST SP { "1065" } §{ "12.4" } LCG-datasættet med 1000 punkter, { "6" } + { "6" } middelværdifaktorer mod allantools { "2024.06" } til <{ "1e-9" }); allan::tests (hvid-FM lukket form følger; TOTVAR=ADEV…</s1>
+
+seg-fd99ba5338f1 = <s1>tests/mtie_reference.rs (MTIE på den hermetiske NIST SP { "1065" } §{ "12.4" } LCG-faseserie med 1000 punkter, { "9" } middelværdifaktorer m={ "1" }..256 mod allantools { "2024.06" } mtie til <{ "1e-9" }, observeret ≤{ "4e-15" }); allan::tests (håndudledt peak-to-peak…</s1>
+
+seg-4ffcb6d162ba = <s1>tests/mdev_tdev_reference.rs (MDEV + TDEV på den hermetiske NIST SP { "1065" } §{ "12.4" } LCG-faseserie med 1000 punkter, { "8" } middelværdifaktorer m={ "1" }..200 mod allantools { "2024.06" } mdev/tdev til <{ "1e-9" } relativt, samt identiteten τ/√{ "3" } på…</s1>
+
+seg-32f89bf69b73 = <s1>tests/optical_clock_adev_reference.rs (Norcia et al. ⁸⁸Sr-tweezer-ur σ_y(τ), { "8" } middelværditider { "0.92" }–{ "117.76" } s medtaget ordret under CC-BY-4.0: NNLS rekonstruerer kurven til ~{ "10" }% RMS / ≤{ "21" }% værste punkt; genfundet…</s1>
+
+seg-734313a995c1 = <s1>tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } tilfælde med reel geometri, Celestrak GPS+Galileo og IGS SP3: værste |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m mod ADD…</s1>
+
+seg-f48dbf60fb99 = <s1>tests/numerical_cowell_propagator_reference.rs ({ "275" } epoker = { "11" } tilfælde × { "25" } timetilstande, LEO+GTO, mod Orekit { "12.2" } DormandPrince853; konservative niveauer T1–T5 værste |Δr| { "0.08" } m over { "24" } h; modstandsniveauet karakteriseret ved { "333" } m)</s1>
+
+seg-2b6ce8db9bb0 = <s1>tests/srp_oblate_shadow_orekit_oracle.rs ({ "2400" } geometrier på tværs af skyggekanten, { "884" } i penumbra, LEO til GEO, solens deklination { "0" } og +-23.44 deg, { "8" } azimuter: værste |dnu| { "7.41e-9" } for WGS-84 og { "2.24e-9" } for den sfæriske…</s1>
+
+seg-df6d6c97de09 = <s1>tests/srp_boxwing_orekit_oracle.rs ({ "252" } geometrier i Galileo-bane, { "7" } solcases inklusive perihelie- og aphelieafstande, { "100" } tilfældige attituder; flad-plade-summen værste { "2.05e-15" } relativt over { "1056" } tilfælde; ende til ende med…</s1>
+
+seg-352cf0bd15a5 = <s1>srp_shadow::tests (den annulære lukkede form, den ensartede lov, der gengiver den koniske skygge, grænserne fuld sol og umbra)</s1>
+
+seg-fec5921215cf = <s1>tests/nrlmsise00_reference.rs ({ "720" } gitterpunkter, { "90" } til { "1000" } km, { "4" } breddegrader, { "2" } lokale tider, { "3" } dage, lav/moderat/høj aktivitet: densitet inden for { "1.866e-6" } relativt og temperatur inden for { "1.97e-4" } K af pymsis; bit-identisk…</s1>
+
+seg-0861267dffb1 = <s1>tests/drag_tier_orekit_oracle.rs ({ "4" } tilfælde x { "25" } timetilstande over { "24" } h, cirkulær { "51.6" } deg, { "400" } km ved lav/moderat/høj aktivitet og { "300" } km: værste |dr| { "0.0303" } m og |dv| { "3.36e-5" } m/s mod { "3.3" } til { "141.8" } km modstand…</s1>
+
+seg-f288a564c842 = <s1>tests/drag_exponential_gmat_oracle.rs (ækvatoriale tilfælde E400, E300 og E250x600 ved J2000.0, { "25" } timetilstande over { "24" } h: den modstandsinducerede forskydning stemmer med GMAT's på højst { "0.016" } af tærsklen { "0.5" } m + { "1e-3" }|D|…</s1>
+
+seg-f495c3fe4b80 = <s1>tests/propagator_de440_orekit_oracle.rs ({ "5" } tilfælde x { "25" } timetilstande over { "24" } h, LEO, GEO og HEO, tredjelegeme og tredjelegeme + SRP: værste |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; kontrollen med analytisk række rammer forbi med { "9.96" } m; Sol…</s1>
+
+seg-ffd928487a96 = <s1>tides::tests (S1-leddet er døgnligt, drejer { "90" } deg på et kvarter af et døgn og har belastningsfaktorens amplitude for hver række; fysisk størrelse i LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration</s1>
+
+seg-34fa42e9a136 = <s1>tests/s2_air_tide_gfz_table5.rs ({ "21" } af { "21" } bølger stemmer med den publicerede model A2: værste { "0.00050" } cm, { "0.050" } deg mod tærskler på { "0.0006" } cm, { "0.1" } deg); tests/tides_iers.rs (S2-amplitudebånd)</s1>
+
+seg-018bfa0a86ca = <s1>tests/cowell_tesseral_orekit_oracle.rs ({ "6" } tilfælde x { "25" } timetilstande over { "24" } h: EGM2008 8x8 og 70x70 på LEO { "45" } deg, polar { "89.9" } deg, solsynkron { "98.2" } deg, GTO, og 70x70 med Sol/Måne og SRP; værste |dr| { "0.0355" } m…</s1>
+
+seg-c44a64c16085 = <s1>tests/gravity_sh_high_degree.rs (Orekit i { "8" } punkter uden for aksen: maks |da| { "2.2e-17" } m/s^{ "2" } ved N = { "70" }, køres altid; { "3.5e-17" }, { "3.9e-17" } og { "7.3e-17" } m/s^{ "2" } ved N = { "200" }, { "360" }, { "2190" }, datastyret på KSHANA_EGM2008_GFC)…</s1>
+
+seg-3f5f546d8f02 = <s1>tests/dop853_scipy_oracle.rs ({ "8" } enkelttrin: tilstand inden for { "5.55e-15" } relativt, FSAL-afledt { "3.46e-15" }, tæt output { "1.99e-14" }, accept/afvis-beslutninger identiske; { "3" } fulde kørsler ved rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" }…</s1>
+
+seg-5bea85df4628 = <s1>tests/kepler_mpmath_oracle.rs ({ "405" } gitterpunkter, e fra { "0" } til { "0.999999" }, M i [-pi, pi] ned til { "1e-12" }: værste |E - E_ref| { "0.898" } eps|E| mod en tærskel på { "8" } eps|E|; { "9" } oprullede M-punkter på højst { "0.013" } af deres tærskel; ingen Newton…</s1>
+
+seg-3408741d4f83 = <s1>tests/od_tracking_measurements_reference.rs ({ "8" } scenarier: afstandsrate, az/el og blandet, LEO og MEO, støjfrit og med seedet sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, masker på { "5" } og { "10" } deg, mod Orekit { "12.2" }: synlige sæt identiske…</s1>
+
+seg-e7ea69e06ac4 = <s1>tests/planetary_gravity_pds.rs (beskæringer til grad 20 køres altid: værste |dg|/|g| { "9.7e-16" }, forstyrrelsesrelativt { "3.4e-11" }; GMM-3 d/o { "120" } over hele kuglen { "3.7e-15" } / { "6.3e-12" } og GL0660B d/o { "660" } ved |lat| <= { "60" } deg { "5.0e-14" } /…</s1>
+
+seg-32a31bdc95c9 = <s1>tests/deep_space_mars_radiometric_reference.rs ({ "24" } etaper over { "8" } epoker { "2020" }–{ "2027" } mod ANISE DE440; værste |Δτ| { "1.03e-9" } s, |Δrange| { "0.31" } m ved op til { "2.5" } AU)</s1>
+
+seg-6eab5fdef15e = <s1>gnss_navmsg::tests (CRC-24Q-kontrolværdi 0xCDE703; foldningskodens impulsrespons; Viterbi retter indsatte fejl; layoutbredder); tests/gnss_navmsg_roundtrip.rs (feltstartbits er lig ICD-bitnumrene; encode ->…</s1>
+
+seg-8b30719c93a3 = <s1>tests/ionex_code_gim_oracle.rs (indlæst syntetisk IONEX-kort mod formelreferencen: { "20 075" } knuder eksakt, interpolation maks |Δ| { "3.5e-13" } TECU; datastyret på KSHANA_IONEX_CODE_GIM_DIR, det reelle endelige CODE-GIM…</s1>
+
+seg-260f56f3a4cf = <s1>tests/rtk_real_wettzell_oracle.rs (IGS-stationer WTZR base / WTZZ rover, { "1.4" } m, 2025-02-24 00-03 h, { "30" } s: { "359" } epoker, positionsbestemmelser ved { "100" } % fra { "00" }:{ "10" }, fejl på fast baseline median { "4.5" } mm, p95 { "5.5" } mm; første { "10" } min fikseret { "2.6" } mm…</s1>
+
+seg-323c83de82d9 = <s1>tests/ppp_real_wettzell_oracle.rs (IGS-station WTZR, 2025-02-24 00-06 h, { "30" } s, holdt uden for udviklingen: sidste epoke horisontalt { "1.5" } mm, op −{ "2.9" } cm; 04-06 h 240/240 epoker inden for { "0.10" } m i 3D, p95 { "6.7" } cm; kun kode p95…</s1>
+
+seg-1f7a4468e913 = <s1>tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } mod BRDM00DLR_S RINEX { "3.04" } for 2026-07-19, udsnit 00-02 h: G { "37" } / E { "478" } / C { "72" } poster matchet begge veje, hvert felt identisk, position ved Toe { "0" } m; hele døgnet…</s1>
+
+seg-0c54a0c29630 = <s1>tests/rinex4_obs_mao0.rs (de første { "4" } epoker af IGS MGEX RINEX { "4.00" }-filen MAO000USA_R_20231980000_01D_30S_MO, { "58" } satellitter, { "7" } systemer: headerposter og første epokes værdier er lig de publicerede litteraler)…</s1>
+
+seg-ebf5ac05182a = <s1>tests/bds_geo_broadcast_oracle.rs (reelle C01-C04-poster: geostationær radius, længdegrader 140.02/80.04/110.55/159.99 deg på de publicerede slots, |breddegrad| { "2.13" } deg med hældningen mod { "6.65" } uden; den præregistrerede…</s1>
+
+seg-00d9f55700d8 = <s1>tests/sp3_clock_igs_oracle.rs (IGS endelig { "15" } min SP3 for 2025-02-24 mod IGS endelige { "30" } s ure, { "32" } GPS-satellitter: knude median |Δ| { "2.6e-13" } s; { "3038" } midtpunktsposter RMS { "0.121" } ns, p95 { "0.265" } ns; at holde knuden i stedet…</s1>
+
+seg-58cc844d35d1 = <s1>tests/fusion_carrier_tc.rs (figur-8-kørsel: stabil 3D RMS { "0.025" } m bærebølge mod { "0.470" } m kode på identiske målinger; { "12" } seeds middel NIS/dof { "1.00" } og stabil NEES/dof { "0.92" }; et 1-cyklus slip detekteret i sin epoke uden…</s1>
+
+seg-9e2c501c7027 = <s1>tests/gnss_ins_packs.rs (hver pakke: fusioneret under fri INS over udfaldet for begge sensorer; rail: tæt { "5.3" } m mod løs { "12.9" } m navigationsklasse og { "15.6" } m mod { "18.8" } m taktisk over udfaldet, tilgængelighed { "0.97" } mod { "0.95" }…</s1>
+
+seg-2d1083cc0d20 = <s1>tests/fusion_coupled_filters.rs (3D-filter over { "60" } seeds: middel-NEES i anden halvdel { "8.12" } for { "8" } tilstande, χ²-sum i sidste epoke inden for sit { "95" } %-bånd; en ur-positionsbestemmelse på { "0.1" } ns skærer 3D-positionens sigma fra { "5.58" } m til { "3.07" } m; bias…</s1>
+
+seg-2de7638c3fc3 = <s1>tests/fusion_kfgins_dataset_oracle.rs (syntetiske indlæsere og armlængdetests med roterende platform altid; datastyret på KSHANA_KFGINS_DIR, kørt 2026-10-13 på KF-GINS-demodatasættet: horisontal / vertikal RMS { "0.0109" } /…</s1>
+
+seg-b3d67427253e = <s1>tests/testbench_gpssdrsim_oracle.rs ({ "6" } tests: reference og scenarier, eksportbytes fastlåst, NMEA- og LLH-læsere, firekolonne-ECEF-udsnit, kørsel 1 FINDING på CSV i fuld bredde, { "10" } Hz rækkegitter)</s1>
+
+seg-7670442550b0 = <s1>fusion::trajectory::tests (koordineret sving har ingen sidekraft og belastningsfaktor 1/cos φ; CSV-import gengiver en fløjet profil til { "1e-3" } m/s og { "1" } m); tests/gnss_ins_trajectory_library.rs (hver profil kører og fusion…</s1>
+
+seg-43684d842873 = <s1>tests/classical_strapdown_ins_reference.rs (statiske/sving/coning-profiler, { "30" } epoker hver, mod NaveGo: attitude bit-identisk { "0" } rad; hastighed/position inden for navngivne analytiske grænser)</s1>
+
+seg-9a888143b12b = <s1>tests/icgem_gravity_reference.rs (GRS80-syntese gengiver Somigliana til { "3.5e-12" }; reelt ICGEM EGM2008-forstyrrelseskort fysisk)</s1>
+
+seg-16180ad1a02e = <s1>tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE marts { "2023" }, { "4" } perilunier og { "5" } apolunier: periode { "6.5004" } d mod { "6.5699" } d ({ "1.07" } %, tærskel { "3" } %), apolun { "71 182" } mod { "71 215" } km ({ "0.05" } %, tærskel { "5" } %)…</s1>
+
+seg-88442c3f67b7 = <s1>tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } tilfælde: { "12" } epoker i januar { "2025" } x L1- og L2-punkterne, to sydlige L2-halo- og én DRO-begyndelsestilstand fra JPL Three-Body…</s1>
+
+seg-ce1903930dae = <s1>tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Merkur, Venus, Jorden og Månen ved 2026-01-01, 2030-06-15 og 2040-12-31: værste { "3.3e-5" } m og { "1.0e-11" } m/s mod { "1" } mm og { "1e-6" } m/s…</s1>
+
+seg-5475e346272a = <s1>tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (Jorden til Mars-barycentret, { "16" } afgange 2026-09-01..2027-01-29 x { "19" } ankomster 2027-06-01..2028-02-26: { "304" } celler endelige på begge sider, værste C3…</s1>
+
+seg-d85e4cdff95b = <s1>tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (Jorden til Mars-barycentret, afgange 2026-09-15..2027-01-15 x ankomster 2027-05-01..2028-03-01, Type I/II x min C3 / min V-infinity…</s1>
+
+seg-8a7000ddbb4e = <s1>tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } tilfælde: { "300" } tilfældige 3D, { "18" } nær { "180" } deg, { "24" } nær minimumstiden for M = { "1" }..3, { "40" } heliocentriske; { "1058" } løsninger; antal og…</s1>
+
+seg-d15a1c6e17c9 = <s1>tests/jd2_sofa_time_oracle.rs ({ "224" } UTC-tidspunkter: seks omkring hver af de { "27" } skudsekunder 1972-2016, to faste, { "60" } seedede på tværs af 1972-2026; dtf2d, utctai og taiutc hver inden for { "1e-6" } s, værste { "1.9e-11" } s); jd2::tests…</s1>
+
+seg-7fd1d47c6025 = <s1>tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } todelte UT1/TT-datoer 1980-2050 inklusive +{ "1" }, +{ "10" }, +{ "50" } us-trin på to datoer: gmst82 inden for { "1e-12" } rad, værste { "0" }; GCRS til ITRS…</s1>
+
+seg-4450a3324ae4 = <s1>tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } TT-epoker 1950-2100, dX og dY op til { "0.5" } mas: præcessionselementer inden for { "1e-13" }, værste { "0" }; TEME til GCRS inden for { "5e-10" } rad, værste { "1.10e-10" } rad…</s1>
+
+seg-684ae107a510 = <s1>tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } UTC-tidspunkter: fire omkring hver af de { "15" } starter af et TAI-UTC-udtryk 1960-1972 og { "60" } seedede på tværs af 1960-1971; dtf2d, utctai og taiutc…</s1>
+
+seg-9447c09c6106 = <s1>tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } tilfælde: de { "4" } GLONASS-poster i den reelle IGS MGEX-udsendelsesfil fra 2013-01-01 x { "73" } forskydninger inden for +/-900 s; ur inden for { "1e-14" }…</s1>
+
+seg-540374d8dc58 = <s1>tests/earth_orbit_path_sgp4_erfa_oracle.rs (etape { "1" }: { "4432" } TEME-positioner af de { "232" } indlæste elementsæt mod python-sgp4 { "2.24" }, værste { "6.1e-8" } m, tærskel { "1" } cm; etape { "2" }: { "108" } tidspunkter, { "23" } af dem med jordorientering…</s1>
+
+seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: alle { "104" } kontroller består ved første kørsel efter præregistreringen e50c88d2, værste varians { "3.2" } %, RMS { "1.6" } %, korrelation { "0.012" }…</s1>
+
+seg-57f448ea3c8d = <s1>tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: på den syntetiske fjordpassage i scenarios/training/fjord-natural-degradation.toml fratrækkes de samme { "624" } epoker med og uden…</s1>
+
+seg-b8d1d3c43935 = <s1>tests/opssat_ad_reference.rs (reel ESA OPS-SAT, AUC gengiver scikit-learn til { "1e-9" }); tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } tilfælde på den reelle OPSSAT-AD-testopdeling: fuldt driftspunkt…</s1>
+
+seg-e7d3a0262133 = <s1>tests/resilience_score_decision_instability_reference.rs ({ "124" } tilfælde mod scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendall τ-b til { "2e-16" }, rangering eksakt, Dirichlet-middel + percentil-CI til { "1e-12" })</s1>
+
+seg-1a7fab04a137 = <s1>tests/mcda_ahp_reference.rs (Saaty { "1980" } Random Index-tabel n={ "1" }..10 EXACT; prioritetsvektor + λ_max + CR mod SciPy/LAPACK eig på en konsistent { "3" }×{ "3" } og inkonsistent { "3" }×{ "3" } / { "4" }×{ "4" }, matchet til <{ "1e-9" })</s1>
+
+seg-893579639f36 = <s1>tests/mcda_wsm_reference.rs (WSM-scorer + rangering) og tests/mcda_wpm_reference.rs (WPM-scorer + rangering), hver mod pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } beslutningsmatrix med gevinst/omkostning</s1>
+
+seg-824021181461 = <s1>tests/mcda_topsis_reference.rs (nærhedskoefficienter + rangering mod pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } matrix med gevinst/omkostning)</s1>
+
+seg-bd60ed86fd18 = <s1>tests/mcda_vikor_reference.rs (Q-indeks + rangering mod pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } matrix med gevinst/omkostning)</s1>
+
+seg-8552a96ec65d = <s1>tests/mcda_promethee_reference.rs (netto-outranking-flow + rangering, sædvanligt kriterium, mod pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } matrix med gevinst/omkostning)</s1>
+
+seg-b8e7db47be3c = <s1>tests/mcda_electre_reference.rs (konkordans-, diskordans- og dominansmatricer element for element + kerne-/domineret sæt mod pyDecision til <{ "1e-9" } på et fast { "4" }×{ "3" } datasæt med kun gevinst)</s1>
+
+seg-4fb626bb143d = <s1>tests/mcda_waspas_reference.rs (WASPAS-præferencer + rangering) og tests/mcda_moora_reference.rs (MOORA-scorer + rangering), hver mod pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } beslutningsmatrix med gevinst/omkostning</s1>
+
+seg-74495891f53d = <s1>tests/mcda_copras_reference.rs (nyttegrader + rangering mod pyDecision til <{ "1e-9" } på en fast { "4" }×{ "3" } matrix med gevinst/omkostning)</s1>
+
+seg-e42773002f0d = <s1>tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } tilfælde med deterministisk latenstid EXACT mod en førstepassage-reference; { "8" } ARL₁-tilfælde, Monte Carlo @60k forsøg mod Siegmund-approksimationen + publiceret Montgomery…</s1>
+
+seg-d963a63ff219 = <s1>tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } synsvinkler på seks steder og fire epoker, seks maskeborde, { "142" } synlige sæt; værste |d el| { "1.3e-13" } deg og |d az|…</s1>
+
+seg-f44b2e44dd69 = <s1>tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } tilfælde, de { "142" } indlæste synlige sæt fra skyline-sammenligningen under ét fælles ur og under ét ur pr. system; værste…</s1>
+
+seg-857773027c1e = <s1>holdover::tests (mod multi-trins Kalman-kovariansrekursion; hvid-FM eksakt; rundtur); kernen for coast-varians eksternt valideret i tests/gnss_denied_clock_holdover_reference.rs (mod scipy Van-Loan/brentq)</s1>
+
+seg-2642a03475ff = <s1>clock_state::tests (analytisk van-Loan Q; NEES; PSD-positivitet); tests/clock_state_reference.rs (fuld predict+update-bane — tilstand x og { "3" }×{ "3" } kovarians P over { "1925" } trin / { "4" } parametersæt mod filterpy { "1.4.5" }; værste…</s1>
+
+seg-56b3dcc8f005 = <s1>timetransfer::tests (gensidig ophævelse; to-form Sagnac-identitet); tests/time_transfer_error_budgeting_reference.rs (ækvatorial jordomsejling Sagnac = { "207.386" } ns mod publiceret Ashby { "207.4" } ns til <{ "0.05" } ns…</s1>
+
+seg-a7eec0b252c2 = <s1>quantum_imu::tests (k_eff; Mach-Zehnder T²; Freier-2016-gulvets interval); tests/quantum_inertial_sensor_reference.rs (overføringsfunktion |H(ω)|, k_eff·T² og haglstøjs-ASD mod publiceret Cheinet { "2008" } / Peters / Freier…</s1>
+
+seg-8cf49f65ae5e = <s1>quantum_imu::tests (a_max ligger ved ±π-halvfransekanten med 1/T²-områdeskalering; genfinding af foldet fase er eksakt inden for [−a_max,a_max] og aliaserer med præcis { "2" }·a_max uden for; det entydige dynamiske område…</s1>
+
+seg-a4ab1740caf1 = <s1>budget_tests (bias mod AccelModel-integrator; VRW mod analytisk integral); tests/quantum_inertial_dead_reckoning_reference.rs (VRW mod en uafhængig numpy Monte Carlo-dobbeltintegration af hvid accelerationsstøj, værste…</s1>
+
+seg-b56e2e538e2b = <s1>fusion::tests (UKF==lineær-KF-identitet; udfaldscoast; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } tilfælde mod filterpy { "1.4.5" }: lineær EKF løs/tæt + koblede PNT-posteriorer til ≤{ "2.4e-12" }; UKF 40-epokers kørsel værste…</s1>
+
+seg-97be148ec2ab = <s1>jamming::tests (broadband_q_equals_the_spectral_separation_closed_form og cw_q_equals_the_spectral_separation_closed_form: Q-tabellen, CW og smalbånd { "1" }, bredbånd og swept { "2" }, fastlåst til de lukkede former i navsignal…</s1>
+
+seg-67272ab552dd = <s1>cr3bp::tests (STM mod finite differenser); tests/cislunar_mission_analysis_reference.rs ({ "5" } JPL L2-S NRHO-medlemmer: { "9" }:{ "2" } + { "4" } naboer; værste |ΔC| { "1.5e-5" }, |ΔT|/T { "9.6e-5" }, perilun { "0.7" } km i JPL-længdeenheder)</s1>
+
+seg-4a73fb2c75bf = <s1>tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values i CI på ti citerede ICGEM-knuder; egm2008_n70_gravity_anomaly_sa_matches_icgem over de fulde hentede 0.25-deg-gitre for Tchad 9-15N 19-25E og…</s1>
+
+seg-0b579dcb5998 = <s1>tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — den indlæste 6-buesekunders decimering af den offentligt tilgængelige SRTM v3 N36W117-flise placerer Badwater Basin, det laveste punkt i Nord…</s1>
+
+seg-21b8048577a6 = <s1>impairment_study::tests (reference-AUC pr. klasse≈{ "1" }, lært optimismegab>{ "0" }, gitterform + bootstrap-CI omslutter middelværdien + positiv skaleringstrend, ID-features endelige, gabprædiktor slår forudsig-middelværdien under BEGGE…</s1>
+
+seg-bb1a73581a82 = <s1>space_weather::tests (Kp↔ap eksakt i gitterpunkter + rundtur + monoton, daglig Ap-middel, eksosfærisk T mod publicerede solminimum/middel/maksimum + stormtilvækstankre, densitet enhed ved reference, solcyklussvingning i…</s1>
+
+seg-7c3b6a03e34f = <s1>tests/ccsds_oem_interop_reference.rs ({ "24" } tilstande / { "2" } fixtures afkodet byte-identisk af den uafhængige oem-parser, pos/vel Δ = { "0" }); oem::tests (parse en OEM fra et eksternt værktøj med ekstra nøgleord/kommentarer/kovarians…</s1>
+
+seg-01273c1047bc = <s1>reentry::tests (peak-g uafhængig af ballistisk koefficient + fysisk g-bånd, vokser med stejlere γ / hurtigere indflyvning, peak-g-hastighed = V_e·e^(−1/2) og peak-heating = V_e·e^(−1/6) hurtigere, peak-g-højde fysisk +…</s1>
+
+seg-670306801d75 = <s1>eo_payload::tests (vinkelradius { "64" }° ved { "700" } km + skrumper med højden, nadir→zenit/nul afstand, horisont→ε=0/maks centralvinkel, fejl ud over horisonten, strimmelbredde vokser med FOV / GSD med højden, ~{ "2750" } km knudeafstand…</s1>
+
+seg-5292634e1534 = <s1>space_packet::tests (headerbits følger CCSDS-133-layoutet, encode→decode gennemløber alle felter, uden for område/afkortet afvises); tests/ccsds_space_packet_reference.rs ({ "33" } tilfælde mod spacepackets { "0.32.0" }, inkl. { "12" }…</s1>
+
+seg-c64d7ee3b5d3 = <s1>tests/space_packet_ext_oracle.rs (fem præregistrerede tærskler: CRC, tidskoder, strømme, hul og rækkefølge, PUS TM; nul uoverensstemmelser); space_packet::tests</s1>
+
+seg-68e5424ed6ae = <s1>tests/spk_writer_spice_oracle.rs (inventar, evaluering, bit- og byte-identitet, OEM-epokekonvertering; fire planlagte mutationskontroller gør den rød)</s1>
+
+seg-3ec80b15b047 = <s1>tests/odm_orekit_oracle.rs (L1 Orekit læser { "30" } Kshana-filer, L2 Kshana læser { "25" } Orekit-filer; fund fastlåst og påstået at gentage sig); odm::tests</s1>
+
+seg-08ddb272bbf1 = <s1>attitude_budget::tests (GG-moment forsvinder for et symmetrisk legeme, vokser lavere ned, lineært i ΔI, RSS-kvadratursum, variansandele summerer til 1); tests/attitude_gg_torque_reference.rs ({ "20" } tilfælde mod en uafhængig…</s1>
+
+seg-6f9fcbb8c941 = <s1>integrity_impact::tests (samme miss vipper Available→MI→HMI, efterhånden som konteksten strammes; konservativ PL→Unavailable; HMI pr. akse; inputvagter)</s1>
+
+seg-73dd2999b16a = <s1>inertial::cai_params::tests (fysik-VRW lander inden for det citerede VRW-interval på alle { "3" } niveauer; rå fransemultiplicitetsområde beregnet ud fra k_eff·T²; konservativt budget driver mere end bedst; hvert interval har kilde +…</s1>
+
+seg-d1e5a6bf11d7 = <s1>src/benchmark/stanford.rs::tests (fire regioner + inklusive grænser + |fejl| + PL>AL-utilgængelighed); tests/tib_scorer_reference.rs (klassifikationsantal mod uafhængig numpy på et fast syntetisk sæt)</s1>
+
+seg-12f523034ea5 = <s1>src/benchmark/scorecard.rs::tests (reference-PL absorberer; ødelagt PL uabsorberet-aldrig-detekteret; kendelse om detekterbar dækning; ærlighedsegenskaben, at ingen dækning/detektionskendelse kan nås for en ikke-detekterbar…</s1>
+
+seg-2de847f37e06 = Ingen: mærket Partnerejet
+
+seg-863d635911ac = <s1>hybrid_integrity::tests (den opløste konfiguration gentages for standardværdier og for tilsidesættelser, uden at bølgelængden sendes rundt gennem meter; hver units-post bærer både en enhed og en proveniensklasse; hver…</s1>
+
+seg-ec8482ccf5c5 = <s1>hybrid_integrity::tests (tilgængeligheden er lig produktet af de to indikatorer genberegnet ud fra rapportens egne marginer, og disse marginer er selv samlet igen ud fra rapportens egen EIRP, frirumstab…</s1>
+
+seg-1d720b86fed9 = <s1>hybrid_integrity::tests (forholdet er lig de to udsendte etapper divideret, til { "1e-15" } relativt, og dets reciprokke og decibelformer stemmer; hver etapes afstand og tidssigma hænger sammen med præcis c; den udsendte fælles…</s1>
+
+seg-a5e09c5baf6c = <s1>linkbudget::tests (på tværs af tre bånd, fire dekader af afstand og begge lukningskendelser genberegnes marginen og frirumstabet under den ud fra rapporten alene til bedre end { "1e-9" } dB; den krævede G/T…</s1>
+
+seg-b15cce3f2860 = <s1>lunar_time_budget::tests og lunar_time_budget_scenario::tests (alle fire klasser til stede i én kørsel og i en anmodet delmængderækkefølge; hver række stemmer med sin egen lukkede form til bedre end { "1e-12" } relativt; skalering af…</s1>
+
+seg-5afae1521f9f = <s1>frame_eop::tests og realtime_frame_eop::tests (alle tre komponenter bærer ens, elementvis identiske, strengt stigende epokesæt over begge reelle IERS-udtræk; det fælles sæt falder sammen til fællesmængden, når…</s1>
+
+seg-55130d929fc6 = <s1>tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (seks eksakte kriterier: udtrækkets bytes; { "174" } rækker; antal pr. vintage og fulde MJD-lister…</s1>
+
+seg-4319252c1932 = <s1>antenna::tests og attack_surface::tests (gitteret er komplet, og hver opfanget andel ligger i [{ "0,1" }]; opfanget andel er ikke-aftagende i senderefekt i hver knude; den er IKKE monoton i strålebredde eller…</s1>
+
+seg-373635b17f69 = <s1>lunar_time_budget_scenario::tests (alle { "57" } middelværditider x { "8" } led til stede, gitterindekset løber { "0" }..={ "56" } og bærer { "8" } rækker hver; totalrækken er lig kvadratroden af kvadratsummen af de syv led ved siden af den ved hvert tau; den…</s1>
+
+seg-273fc9f39f91 = <s1>lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term: med styring slået fra er urleddet lig budgettets urled til bit for alle fire klasser; bisection_matches_the_closed_form inden for { "1e-9" }…</s1>
+
+seg-6d60a3c0bffa = <s1>tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } forsinkelser ved { "25" } epoker nær J2000 over DSS-14, DSS-43 og DSS-63: forsinkelser inden for { "1" } ps, værste { "0.06" } ps; legemefast beacon…</s1>
+
+seg-f986e2e5c8f2 = <s1>tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } de440s.bsp-tilstande og { "200" } MOON_PA_DE440-rotationer ved { "200" } epoker 1849-2150 og tilfældige legemepar trukket fra…</s1>
+
+seg-0280fb2b8502 = <s1>earth_gnss_lunar::tests ({ "11" } biblioteks-tests: Jordens limbus-halvvinkel mod sin lukkede form asin(R/r) med en yderligere påstand om, at ENHVER ikke-okkulteret forbindelse ligger uden for den kegle, så okkultationstesten og limbusvinklen…</s1>
+
+seg-bd5a02ba059e = <s1>tests/lunar_infra_od_consistency.rs (tærskel O1: tilstandsovergangsmatricen kædet over tre dage og over én periode er lig scipy DOP853 til et relativt { "1e-6" }; tærskel C1: middel-q og andelen inden for 95 %; tærskel C2: stikprøve over…</s1>
+
+seg-a0bc9ccc18e0 = <s1>tests/lunar_infra_carrier_phase.rs (tærskel Q1: Monte Carlo-succes mindst bootstrap-grænsen minus tre standardfejl; Q2: intet fald med bue-længde ud over tre standardfejl; Q4: LAMBDA er lig brute-force…</s1>
+
+seg-a351ba6299d6 = <s1>tests/lunar_infra_studies_3_5.rs (tærskel F1: CRLB-sporet stiger ikke, og den mindste egenværdi falder ikke med orbiterforbindelser, i eksemplet og i { "20" } seedede tilfældige sæt; tærskel F2: afstandenes partielle afledte er lig en…</s1>
+
+seg-7c519c33e94d = <s1>tests/lunar_infra_studies_3_5.rs (tærskel T1: translationssigmaer falder ikke, når den lokale binding løsnes; T2: med teknikkernes sigmaer skaleret med { "1e-6" } ligger hvert pars translationssigma inden for { "1" } % af sqrt({ "2" }) gange den lokale binding…</s1>
+
+seg-d45bfe637f5c = <s1>tests/lunar_infra_studies_3_5.rs (tærskel G1: analytiske partielle afledte er lig en central finit differens af hver fremadmodel til { "1e-8" }; G2: 5x5-informationen er lig en uafhængig numpy-samling til { "1e-6" }; G4: urtidevandet…</s1>
+
+seg-548d662e2903 = <s1>lunar_beacon::tests (horisontsynlighed mod den lukkede form L01; den beacon-forstærkede DOP mod den blotte; fejlbudgettets kvadratrod af kvadratsummen; forholdet mellem DOP og meter)…</s1>
+
+seg-16dacba36610 = <s1>lunar_common_mode::tests ({ "8" } biblioteks-tests: opdelingen er additiv og rekonstruerer dy; en fælles-mode-kovarians giver et positivt fælles-mode-beskyttelsesniveau, mens en kun-paritets-kovarians giver et næsten nul; den…</s1>
+
+seg-f7d33a13cf7b = <s1>lunar_combination::tests (genfinder simuleret reference; VLBI genopretter stationens 3D-observabilitet; deterministisk); tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } geometrier × { "16" } parametre, { "31" } obs hver, mod Orekit { "12.2" } /…</s1>
+
+seg-38aa194db570 = <s1>tests/fim_observability_reference.rs (egenværdier mod numpy.linalg.eigh; CRLB-kovarians mod σ²(XᵀX)⁻¹ via numpy.linalg.inv; GNSS GDOP/PDOP/HDOP/VDOP/TDOP fra informationsmatricen mod numpy — alle matchet til { "1e-9" })…</s1>
+
+seg-b9ba2c91b976 = <s1>lunar_combination::tests (rangdefekt uden Jord-baselines; tre baselines genopretter fuld rang — 3-stationers-tærsklen ud fra informationsrangen, ikke løsningsfejl; stations-CRLB opnået af estimatoren ved…</s1>
+
+seg-e66fab330a70 = <s1>lunar_frame_realise::tests (genfinder indsat Helmert-transformation); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } tilfælde mod en uafhængig Umeyama-SVD-løser i lukket form; værste |Δ| translation { "2.0e-5" } m…</s1>
+
+seg-d64c7d12097d = <s1>lunar_service::tests (DOP genbruger den validerede kerne; PL reduceres til sydpolstilfældet); tests/lunar_navigation_service_volume_reference.rs (MCI-position pr. satellit til <{ "1e-3" } m + EXACT synligt satellitsæt over…</s1>
+
+seg-2869e5710360 = <s1>lunar_afs::codes::tests (registre med maksimal længde, Legendre-balance, G2-forsinkelsens rundtur, niveausammensætning); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (uden LSIS-cachen…</s1>
+
+seg-ae3ebfe11427 = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (de { "210" } AFS-Q-primærkoder altid; med KSHANA_LANS_RUN og LSIS-cachen alle { "630" } koder, nul chip-uoverensstemmelser)…</s1>
+
+seg-295278a84ccf = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (med LSIS-cachen: de { "3" } rammer, LANS-AFS-SIM sender, opbygget af samme FID, TOI og databits: nul af { "18 000" } symboler…</s1>
+
+seg-f24c41c419fc = <s1>tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satellitter i IGS-udsendelsesfilen fra { "2" }. marts { "2025" }: { "960" } af { "960" } ord består RTKLIB-paritet, { "96" } af { "96" }…</s1>
+
+seg-15ee42ed7c97 = <s1>lunar_service::tests (topocentrisk mod håndberegnet geometri: lige overhead, ret nord/øst/vest, antipodal og den degenererede polare østretning; det eksporterede synlighedsflag stemmer med den uafhængige synlighed…</s1>
+
+seg-77da0b3e0b1c = <s1>lunar_dpnt::tests (ur-fællesmode ophæves eksakt; residual vokser med baseline; genbruger SBAS PL; satellitantallet respekteres op til bygherrens grænse på { "24" }, så en større konstellation ikke stiltiende kan returnere en…</s1>
+
+seg-5db769e82e5c = <s1>lunar_interop::tests (OEM bærer lunar REF_FRAME/TIME_SYSTEM; tidsmetadata gennemløber en rundtur; KIF-kuvert); tests/lunar_interoperability_export_reference.rs (kshanas udsendte lunare OEM parset igen af den uafhængige oem…</s1>
+
+seg-4f6e54e86d48 = <s1>qtrade::tests (gevinstpolaritet højere/lavere-er-bedre, ombryder et reelt TradeResult troværdigt, uærligt belæg afvist, valideret-FoM kræver eksternt anker, deterministisk JSON)</s1>
+
+seg-f5bacc1a6bd7 = <s1>timetransfer_chain::tests (præcisionen forbedres med integration; kvante kan både vinde OG tabe; PL endelig-positiv; sikkerheds-FoM i [{ "0,1" }] og vokser med angrebsforsinkelse; anomali-Pd monoton; afvejningen is_honest)</s1>
+
+seg-e31dc5eb9af0 = <s1>quantum_nav_od::tests (kvante slår klassisk over et langt udfald; fordelen afhænger af udfaldet; afvejningen is_honest); tests/gnss_free_quantum_navigation_reference.rs (positionsvækst ved dead reckoning mod en uafhængig…</s1>
+
+seg-a591da195f89 = <s1>quantum_faults::tests (analytiske AUC-kendte værdier; empirisk bootstrap-AUC omslutter den lukkede form; kvante detekterer mindre fejl / højere AUC; fordelen forsvinder for enorme fejl; katalog med 5 klasser; afvejningen is_honest)</s1>
+
+seg-5f53e711c909 = <s1>cw_dynamics::tests (Φ({ "0" })=I, afkoblet tværsporet SHM); tests/cw_dynamics_reference.rs (lukket form Φ mod en uafhængig RK4-integration med fast trin af de samme Hill-ODE'er til <{ "1e-6" } over en tredjedel af en bane; Φ(t)Φ(−t)=I til…</s1>
+
+seg-62ce807669f8 = <s1>geolocation::tests (støjfri TDOA fremad→invers til { "1e-6" } m; J·CRLB=I med en symmetrisk PD-kovarians; CRLB-positionsvariansens spor er ikke-aftagende, når en modtager tilføjes; fælles TDOA+FDOA genfinder en bevægelig…</s1>
+
+seg-046805e51094 = <s1>tests/entry_stardust_published.rs (peak { "35.44" } g mod de publicerede { "33.4" } g, +{ "6.1" } %, tærskel { "10" } %; planetrelativ indflyvningshastighed { "12.551" } km/s mod { "12.6" }, tærskel { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (roterende system…</s1>
+
+seg-ac52f93507b3 = <s1>twstft_budget::tests (tovejsligningen genfinder forskydningen eksakt; Sagnac-leddet er lig BIPM-løkkens lukkede form; det ionosfæriske led følger frekvensopdelingen, og troposfæren udlignes; flicker-fase har…</s1>
+
+seg-a9b476c32f84 = <s1>tests/optical_atmosphere_reference.rs (præregistrerede tærskler A1-A3 mod den uafhængige mpmath-reference: { "216" } Rytov-gitterpunkter, værste relative fejl { "3.4e-7" } mod en tærskel på { "1e-6" }, scintillation værste { "4.5e-16" }, aperturfaktor…</s1>
+
+seg-6ee49f7de98e = <s1>tests/optical_atmosphere_identities.rs (tærskel A4: rho = { "0" } er lig den uafhængige forening og rho = { "1" } det bedste enkelte sted til { "1e-12" }, og nul monotonibrud i antal steder og i korrelationen; den første…</s1>
+
+seg-a1da08c8ab20 = <s1>tests/optical_atmosphere_identities.rs (tærskel A6: tidsfejlen pr. udfald er lig holdover::coast_phase_sigma, og afstandsfejlen er lig phase_to_range_m bit for bit over { "9" } ure, { "3" } middelvarigheder, { "3" } spredninger og { "4" }…</s1>
+
+seg-760c332254b9 = <s1>tests/optical_atmosphere_timeseries.rs (tærskler T1-T6 i xval/optical-atmosphere/PREREGISTRATION-timeseries.md, fastlagt før den første kørsel: samme seed samme bytes og en anden seed andre bytes; ingen nøgle uden tabellen; over…</s1>
+
+seg-5f819ec42753 = <s1>tests/mro_odf_reader_label_oracle.rs (en reel MRO ODF, 2007-304/305, mod sin PDS-etiket: antal poster, gruppepositioner, stationer, start- og sluttider og datatyper holder; slutfilstabellens rækkeantal rammer forbi med…</s1>
+
+seg-0f5890150b2a = <s1>tests/aocs_basilisk_oracle.rs ({ "3" } tilfælde, { "601" } stikprøver hver: MRP værste { "2.4e-14" }, tærskel { "1e-9" }; legemerate { "1.6e-15" } rad/s, tærskel { "1e-9" }; hjulhastighed { "2.9e-11" } rad/s, tærskel { "1e-6" }; påført motormoment { "1.2e-13" } N m, tærskel { "1e-9" }; t = { "0" } momenter…</s1>
+
+seg-7a953365327a = <s1>aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds ({ "40" } seeds, middel-NEES med seks frihedsgrader over anden halvdel inden for { "4.5" } til { "7.5" }); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error…</s1>
+
+seg-a54d1b51ac52 = <s1>wahba::tests (A(identitetskvaternion)=I; Jacobi-egenværdiløseren opfylder Kv=λv og bevarer sporet på en kendt symmetrisk matrix; K er symmetrisk); tests/wahba_reference.rs (TRIAD, Davenports q-metode og QUEST…</s1>
+
+seg-ea40d0a1466d = <s1>acquisition::tests (Marcum-Q centralt tilfælde Q_1({ "0" },b)=exp(−b²/2); identiteten P_d=Q_M(√(2Mρ),√γ); P_fa↔tærskel-rundtur på tværs af M og P_fa; ROC-monotonicitet — P_d stiger med SNR, falder med tærskel, P_d→P_fa, når…</s1>
+
+seg-68cac50395e0 = <s1>lambda::tests (L D Lᵀ rekonstruerer Q); tests/lambda_reference.rs (Z-transformationen er unimodulær |det Z|={ "1" } med Q_z=ZᵀQZ SPD, determinantbevarende og lavere samlet korrelation uden for diagonalen; Schnorr–Euchner-ILS matcher…</s1>
+
+seg-6c4c83ade953 = <s1>bplane::tests (forbiflyvningens skalarer opfylder de lukkede former med to samstemmende |B|-identiteter og |B|>r_p; drejningsvinklen aftager med periapsisradius og når grænserne δ→{ "0" } / δ→π; afbøjning bevarer v∞-hastigheden og…</s1>
+
+seg-2a5411e17787 = <s1>crpa::tests (komplekse aritmetiske identiteter inkl. z/z={ "1" }, |exp(jθ)|={ "1" }, zᴴz=|z|²; deterministisk nulstyring giver eksakt enheds-SV-forstærkning og <{ "1e-9" } jammer-nuller på en 4-elements ULA med { "3" } jammere; et N-elements array afviser…</s1>
+
+seg-9439176716b3 = <s1>powerlaw::tests (hver ren støjtype viser sin karakteristiske ADEV-log-log-hældning — hvid FM −½, flicker FM { "0" }, random-walk FM +½, hvid PM −{ "1" }; flicker-FM-leddet er et fladt gulv lig √({ "2" } ln2·h_{ "{" }-1{ "}" }) over fem dekader…</s1>
+
+seg-d0ba60840a33 = <s1>oem::tests (en symmetrisk PD-kovarians gennemløber KVN→parse til f64-afrunding og forbliver symmetrisk; blokken udsender præcis de { "21" } nedre trekantsposter — i+{ "1" } pr. matrixrække — med/uden COV_REF_FRAME; en blok med…</s1>
+
+seg-b9cedff90c5f = <s1>tests/ins_coast_schuler_navego_oracle.rs::coast_error_model_matches_the_corrected_navego_runs ({ "48" } punkter, seks fejlled ved { "30" } s til { "3600" } s, taktisk klasse, { "45" } deg N, vandret og pegende mod nord: hvert punkt inden for { "5" } %…</s1>
+
+seg-8d4441a16bbf = <s1>aperture_duty::tests (et vindue, der slutter præcis, når det næste begynder, konkurrerer ikke, og at flytte det ét sekund tidligere koster præcis ét sekund — vagten mod off-by-one; overlappende vinduer ud over aperturantallet…</s1>
+
+seg-9c561cfdd542 = <s1>hybrid_integrity::tests (detektionseffektkurven løber fra falsk-alarm-raten ved nul fejl til { "1" } − P_md ved den mindste detekterbare bias; den mindste detekterbare bias ført tilbage gennem noncentral_chi2_cdf ved…</s1>
+
+seg-e82ac3e32317 = <s1>hybrid_integrity::tests (coastet starter fra præcis det kovariansspor, som overdragelsesblokken rapporterer, for begge retninger, så den genafspillede diagonal ikke kan drive væk fra den rapporterede overdragelse; den rapporterede krydsningstid…</s1>
+
+seg-193ac8bc7a82 = <s1>antenna::tests og lunar_service::tests (halveffektskrydsningen fundet ved bisektion på mønsteret er lig det publicerede Airy x = { "1.61634" } og giver den eksakte { "1.02899" }·λ/D bredde, hvilket viser, at den konventionelle { "1.02" }…</s1>
+
+seg-67b8e74543ed = <s1>tracking_loop::tests (åben-sløjfe Costas-diskriminatorjitter mod sdr::correlate trinvist fremad på seedet syntetisk IF, { "3" } samlede støjrealiseringer × { "900" } epoker, med indbyrdes afvigelse på højst { "0.63" }% over 35-45 dB-Hz, med…</s1>
+
+seg-45f00cdcecc4 = <s1>lunar_vlbi_fim::tests ({ "24" } biblioteks-tests: den analytiske Jacobi-matrix mod en central finit differens af lunar_vlbi::vlbi_delay_s taget gennem en rute, der roterer tilstandens egne koordinater fremad og aldrig rører en…</s1>
+
+seg-c94c1bafd6bb = <s1>lunar_vlbi_fim::tests ({ "7" } biblioteks-tests: hver datumstavemåde gennemløber parse/as_str, og en ukendt afvises; at holde hver station uden beaconen afvises med en fejl, der nævner estimate_beacon; den…</s1>
+
+seg-7802e95f2bc6 = <s1>lunar_dpnt::tests (en rent additiv vagt, hvis nøglesætforskel er præcis { "{" }correction_link, units{ "}" } med hver eksisterende værdi bit-identisk mod litteraler optaget før ændringen; opmålingsfejl gør IKKE…</s1>
+
+seg-3358e5d2ce66 = <s1>tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: til { "1e-12" } m med og uden modtagerstøj; zero_baseline_floor_is_zero_in_every_trial: { "0" } til { "1e-9" } m…</s1>
+
+seg-97ad6389fa09 = <s1>lunar_terrain::tests (bare_sphere_horizon_is_the_dip: strålemarchen gengiver -acos(R / (R + a)) til { "1e-3" } deg ved hver azimut; a_cone_on_a_lat_lon_tile_matches_the_analytic_cone: den samme kegle samplet på en { "0.005" } deg…</s1>
+
+seg-576b1eda3bf4 = <s1>tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: forbindelsesfejlen med vækst slået til minus med vækst slået fra har stikprøve-sigma rate tau / sqrt({ "3" }) inden for { "6" } % over { "1600" }…</s1>
+
+seg-c18cef305fc2 = <s1>lunar_solution::tests (one_epoch_without_height_is_the_snapshot_solve: er lig lunar_dpnt::position_error_vector_from_range_errors til { "1e-8" } m, en løs højderække ændrer intet, en stram fastlåser højdefejlen…</s1>
+
+seg-fd1f10c41a66 = <s1>tests/lunar_protection_level_reference.rs ({ "7" } tilfælde for tjenestevolumen — sydpolart, mellembredde, ækvatorialt, hævet højland — { "6" } til { "19" } satellitter, σ_URE 10/30/60 m, P_HMI { "1e-3" } ned til { "1e-7" }, beskyttelsesniveauer, der spænder over…</s1>
+
+seg-9544831a5a89 = <s1>tests/araim_reference_vectors.rs ({ "2" } publicerede vektorer + { "6" } negative kontroller, fixture tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: at udelade den nominelle bias rammer forbi det publicerede VPL med { "2.6457" } m, en { "10" }…</s1>
+
+seg-cbb5fec70449 = <s1>tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= { "3" }, den uovervågede risiko inden for P_THRES, en delmængde, der fjerner tre eller…</s1>
+
+seg-a6a5b0b81816 = <s1>tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: holdover-tal uændrede, { "111" } nægtede epoker utilgængelige uden beskyttelsesniveau, afvist med kørsler > { "1" }…</s1>
+
+seg-1f02e6ff390a = <s1>cislunar_observability::tests og observability_gramian::tests (standarddokumentet fastlåst bit for bit ved FNV-1a af dets JSON, oversigt og SVG, med eksplicitte standardværdier påstået at være en no-op og de otte…</s1>
+
+seg-ddd33dc7406d = <s1>lunar_frame_campaign::tests ({ "21" } biblioteks-tests: Helmert-udformningen mod en central finit differens af lunar_frame_realise::apply_helmert — modulet, datummet er TIL, som ikke beregner nogen afledt og derfor fastlåser [p]ₓ…</s1>
+
+seg-0f4208761aa1 = <s1>cislunar_arc_recovery::tests og tests/cislunar_arc_recovery_reference.rs (begge grænser og deres forhold fastlåst på det publicerede gitter; den målte fejlkurve sammenlignet med den formelle kovarians række for række med en…</s1>
+
+seg-0af954b5a4f8 = <s1>lunar_ephemeris::tests (format- og systemparsing; Lagrange-interpolation eksakt i knuderne og på et lineært spor uden for knuderne; ICRF-elementer tager IAU { "2015" }-reduktionen og er byte-lige med en eksplicit icrf_to_iau_moon…</s1>
+
+seg-6fc822a083e1 = <s1>tests/field_units_global.rs (alle { "61" } registrerede typer kører, én dokumentform hver: hvert numerisk blad skal opløses til en post i det dokuments egen units-blok; en fejlformet post tæller som manglende for HVER type…</s1>
+
+seg-97e468fe62a1 = <s1>tests/lunar_llr_real_data.rs ({ "11" } tests: alle { "15" } indlæste CRD-filer byte-identiske med deres optegnede digests; alle { "349" } poster redegjort for, { "337" } brugt og { "12" } sprunget over af en navngiven grund; hver arkiveret afstand inden for…</s1>
+
+seg-be4e192d09c8 = <s1>tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: tomme lister og baseline-eksemplet giver standardrapporten og -oversigten byte for byte; an_added_site_never_increases_any_variance: den…</s1>
+
+seg-3a90aaa2bab4 = <s1>tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } usete normalpunkter fra 2019-Q2; sigmaer og normer inden for { "4.0e-5" } af { "1e-2" }, kondition { "1.6e-5" } af { "2e-2" }…</s1>
+
+seg-8e49f59ab515 = <s1>tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } ugentlige geocentriske tilstande, værste epokes vinkel påstået < { "0.3" }° og RMS < { "5e5" } m mod modulets egen dokumenterede påstand…</s1>
+
+seg-405a4baa18c2 = <s1>tests/source_guards.rs ({ "9" } tests: begge vagter over hele kildetræet samt mutationsfixtures, der bedømmer hver vagt i begge retninger — F22-mønsteret rapporteret på begge kolliderende stier, den leverede atomare sekvens…</s1>
+
+seg-97bf39b8d423 = <s1>tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } syntetiske 7x7 SPD-matricer fra velkonditionerede til { "{" }{ "0,3" }{ "}" }-næsten-degenererede; Schur lambda_min / oprindelses-CRLB / |korr| mod…</s1>
+
+seg-d9143b8478b2 = <s1>tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } ILRS-normalpunkter: RMS { "2.81" } m; de to ITRF2020-stationer alene { "2.96" } m; begge højst { "10" } m)…</s1>
+
+seg-cd923a61d85b = <s1>tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } egenværdier, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm og Schur-marginalen { "{" }scale,offset{ "}" } for well_posed…</s1>
+
+seg-359b0ae05111 = <s1>tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m inden for { "2.8e-6" } af Ashby og Patla { "2024" } med J2 fra AIUB-GRL350A/B…</s1>
+
+seg-c5530b3416de = <s1>lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation - en akseparallel nulbasis og dens rotation på { "0.6" } rad giver identiske defect, dim_spatial, dim_temporal, coupled_dim og p_st_norm…</s1>
+
+seg-f2d1f7f911eb = <s1>lunar_techniques::tests (combine_is_additive_order_independent_and_empty_is_zero - tomt udvalg giver nulmatricen, et enkelt udvalg er identiteten, et par er lig en uafhængigt skrevet elementvis sum, og…</s1>
+
+seg-192a66dd5837 = <s1>tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible for { "3" } udbyderpar mod den uafhængige SciPy SVD lstsq-tilpasning i…</s1>
+
+seg-f43b88acb648 = <s1>lunar_interop_budget::tests (monotonicitet i budget; RSS-budgetreduktion under en CRLB pr. udbyder; gennemregnet rotationstolerance ved den lunare løftearm; bindende led = rotation)</s1>
+
+seg-286a2e81f845 = <s1>lunar_interop_budget::tests (CommonEphemeris nulstiller budgettet; CommonFrameTie < PerProvider; irreducible_fraction > { "0.5" } på de reelle opdelinger; konventionsrækkefølge)</s1>
+
+seg-240b8520d6bc = <s1>tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: { "84" }×{ "84" } P⊥ elementvis, trace(P⊥) = parity_dim = { "52" } og rank(G) = { "32" }, detekterbarhedsnormer + flag, MDB-kvadratformen cᵀWP⊥c +…</s1>
+
+seg-c00b93a0b0fd = <s1>tests/telecom_timing_reference.rs ({ "17" } MTIE- og { "12" } TDEV-middelværdifaktorer på en indlæst holdover-serie på { "2" } 048 stikprøver fra et chipskala-atomur med aldring, flicker og temperatur, mod allantools { "2024.06" } til <{ "1e-12" } / <{ "1e-9" }…</s1>
+
+seg-f370ba86f559 = <s1>telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — åbne og lukkede ender, τ = { "400" } s-hullet i G.8271.1 Table 7-3, kontinuitet i hvert knækpunkt, tabellerne indebærer…</s1>
+
+seg-54f65105891a = <s1>clock_log::tests (håndskrevne logs pr. format: headere, separatorer, enheder, frekvensintegration, TICC-kanaler og -tilstande, huller og politikker, afvisninger); tests/clock_log_allantools.rs (den præregistrerede sammenligning…</s1>
+
+seg-626117af9cdf = <s1>telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — den diskrete aldringsrampe inden for { "0.1" } % af (1/2)·D·t² over en…</s1>
+
+seg-b8eed1ebd82a = <s1>tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: tilpas på den første tredjedel af registreringen, forudsig et-sigma-overskridelsen ved { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } og { "2.5" } ns, mål den på den…</s1>
+
+seg-75b0ef8ae233 = <s1>tests/slot_timing_igs_holdout.rs ({ "10" } GPS Block IIF-satelliture, { "14" } dage af IGS endelige ure: { "8" } inden for tærsklen på { "1.5" }, G25 og G30 optimistiske med op til omkring 2x, fastlåst); tests/slot_timing_ocxo_holdout.rs (en målt…</s1>
+
+seg-5b4b3588e36c = <s1>orbital_timing::tests (reduces_to_the_terrestrial_tpl — præcis tpl::timing_protection_level_ns, når uret ikke har noget flicker-, hvid-fase- eller random-run-led; leo_geometry_matches_its_closed_forms…</s1>
+
+seg-bd9967650e32 = <s1>spectrum::tests (bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz — BPSK({ "1" }) { "2.046" } MHz og BPSK({ "10" }) { "20.46" } MHz fundet numerisk på den lukkede form; boc11_lobes_are_centred_at_plus_minus_1_023_mhz — bærebølgenul…</s1>
+
+seg-48672b24258c = <s1>spectrum::tests (agrees_with_the_jamming_kind_chain — J/S lig jamming::j_over_s_db og effektiv C/N0 lig jamming::effective_cn0_dbhz med Q = 1/(R_c kappa) til { "1e-9" } dB, og ankeret på { "32.105" } dB i jamming…</s1>
+
+seg-7ecf03ff1966 = <s1>tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (barycentre 1800-2050 fra Table { "1" } og { "3000" } BC-3000 AD fra Table { "2" }, { "8908" } og { "21857" } epoker, værste RMS…</s1>
+
+seg-fd1cc8019558 = <s1>tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } positioner ved { "200" } UTC-epoker 1973-2026 trukket fra præregistreringshashen; værste { "0.66" } af tærsklen, { "2.96" } m)…</s1>
+
+seg-d44a18dac6a9 = <s1>tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s (barycentre for Merkur, Venus, Mars, Jupiter og Saturn, Solen og Månen til Jorden…</s1>
+
+seg-457d0bb2fc18 = <s1>tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: fastlåst ved { "2.04" } og { "5.16" } gange den nominelle længdegradsfejl, under seks gange…</s1>
+
+seg-97266912f59e = <s1>tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: værste vinkelfejl set fra planeten over { "2000" } til { "2040" }, Phobos { "5.65" } deg, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymede { "0.22" }…</s1>
+
+seg-130434c29134 = <s1>tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } epoker { "1955" } til { "2044" }, { "574" } matricer inden for { "1e-9" } rad, værste Phobos { "1.43e-10" } rad)…</s1>
+
+seg-f0f5cad2f3b9 = <s1>constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (alle { "24" } RAAN- og middelanomalirækker til { "1e-9" } deg); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (ICD-slotformlen og en…</s1>
+
+seg-1589b9b655fa = <s1>constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP median { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, middel { "0.965" } mod { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } og { "0.96" }, tærskel { "0.03" } på hver fast…</s1>
+
+seg-0df9c964e180 = <s1>constellation::tests (prefilter_matches_brute_force_exactly — hvert kort og hver tæller er lig en skanning med den direkte elevationstest; five_thousand_satellites_on_a_coarse_grid — { "5 000" } satellitter, udskriver køretiden og…</s1>
+
+seg-44fa74f15217 = <s1>tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — en komposition med ét medlem læser det selvstændige tal og resultatets digest)</s1>
+
+seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (præregistreret fbe6c8b3 og, efter en protokolfejl i runde 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1D-målløsning inden for { "6.1e-15" } af r* = r0 { "10" }^((m(r0)…</s1>
+
+seg-898a76c2719d = <s1>navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) til { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } af effekten i hovedloben for…</s1>
+
+seg-38df494c0225 = <s1>tests/leo_signal_reference.rs (multibånds-vandfaldet kører med fire paneler, UHF-, L5-bånds-, S- og C-jammerne nægter hver kun deres eget bånd, og en kørsel med almindeligt bånd er uændret af udvidelsen)…</s1>
+
+seg-5b584f66b1b9 = <s1>tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: alle { "115" } rækker i Table { "5" }, { "1" } GHz til { "1000" } GHz, hver koefficient inden for { "0.6" } af sit sidste trykte ciffer; værste observeret { "0.51" })</s1>
+
+seg-fcf54e4d09c3 = <s1>tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } tilfælde på fem steder, { "14.25" } og { "29" } GHz, { "0.001" } % til { "1" } %, inden for { "1e-4" } dB; observeret { "5e-6" } dB)</s1>
+
+seg-f6b9a637b0d5 = <s1>tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } tilfælde på syv steder, { "14.25" } og { "20" } GHz, inden for { "1e-5" } dB; observeret { "5e-7" } dB)</s1>
+
+seg-a0b65a73f2a4 = <s1>tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } værdier, { "28" } GHz ved { "0" } deg og { "2" } GHz ved { "45" } deg, begge klasser, P fra { "1e-7" } til { "0.998" }, inden for { "0.001" } dB)</s1>
+
+seg-53943b608329 = <s1>tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } deg, Pulsar FOC polar { "1080" } km { "97" } deg, Pulsar FOC skrå { "1080" } km { "53" } deg og GPS { "20180" } km { "55" } deg; banehastighed…</s1>
+
+seg-d34f65fbc0f2 = <s1>leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } og 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } og 1/61.1, BeiDou MEO 1/54.2, geostationær { "0.992" } og 1/126.2 ved en { "0" } deg maske, hver…</s1>
+
+seg-658e7640260b = <s1>tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — fire reelle Galileo-udsendte efemerider E10, E19, E24, E25 ved tk = { "0" }, +/-600, +/-1800, +/-3600 s, hver akse inden for { "1" } mm af…</s1>
+
+seg-bbde673e86b7 = <s1>leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 for ASCII-strengen { "123456789" }; crc24q_matches_the_rtcm_1005_example_frame — de tre kontrolbytes 0x360B98 i RTCM { "10403" }-meddelelsestypen…</s1>
+
+seg-026c16b76bc5 = <s1>leo_navmsg::tests::a_mid_pass_update_is_continuous (hvert skifts afstandssprang er lig ændringen i afstandsfejl, og en rettet { "300" } s-tilpasning opdateret hver { "150" } s består en tærskel på { "5" } cm)…</s1>
+
+seg-206c8fedb40a = <s1>leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (hver model inden for { "0.1" } mm efter tekstblokken, CSV'en eksakt)</s1>
+
+seg-09284032f3ff = <s1>tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (fire artikeldage: langs, på tværs, radialt og SISRE-forhold { "0.755" } til { "1.138" } af Liu et al. { "2025" }, inden for 1.5x)…</s1>
+
+seg-bdf321af446a = <s1>tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: én satellit ved { "780" } km og { "86.4" } deg fløjet i et døgn ved { "1621" } MHz over fire breddegrader, maksimum inden for { "5" }% af { "36" } kHz…</s1>
+
+seg-1408cfaef991 = <s1>leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: til { "1" } mm og driften til { "1e-6" } m/s…</s1>
+
+seg-9cedbeb3d672 = <s1>leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } seeds, kørselsmiddel-NEES-middelværdi i [{ "2.4" }, { "3.6" }] og mindst { "75" }% af epokerne inden for det tosidede { "95" }%-chi-i-anden-bånd; målt med { "150" } seeds, middel…</s1>
+
+seg-1191202e90ca = <s1>tests/leo_polar_coverage_on_path_orekit_oracle.rs (konfigurationer A og B, { "4040" } stikprøver: jordfaste positioner inden for { "6.8e-5" } m, tærskel { "0.2" } m; antal i sigte identiske på 4040/4040; median-DOP inden for { "2.3e-11" } relativt, tærskel…</s1>
+
+seg-d9a4ae25b196 = <s1>leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: en stærkere EIRP, et længere tilpasningsinterval og et større banebestemmelsesled flytter hver…</s1>
+
+seg-85d961f50587 = <s1>tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: er lig overflyvningens skrå TEC ved toppen til { "1e-9" }, og dens sigma er lig RSS-kodestøjen over { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" }))…</s1>
+
+seg-a17cc61fffba = <s1>tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: tre scenarier — stationer estimeret på en ny kampagnedato 2026-03-18 (bindende), stationer fastholdt på den dato…</s1>
+
+seg-b2e472a6691a = <s1>tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: fire scenarier — stationer estimeret på en ny kampagnedato 2026-06-09 (bindende), stationer fastholdt på den dato (kontrol)…</s1>
+
+seg-a71282a84212 = <s1>telemetry::syslog::tests (eksakte LEEF-strenge, escaping, alvorlighed, RFC { "5424" }-kuvert, leveringstimeouts og genforbindelse); tests/telemetry_cli.rs</s1>
+
+seg-0f6ad892e199 = <s1>tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignoreret, datastyret af KSHANA_JAMMERTEST_DIR: det optegnede udvalg, tilbageholdte antal, tærskelkendelser og kendelse)…</s1>
+
+seg-fa68aadcc812 = <s1>tests/jammertest_plan_roundtrip.rs (datastyret af KSHANA_JAMMERTEST_PLAN_DIR: slotantal pr. testområde i planen for { "2025" }, katalog-id'er, TOML-rundtur); tests/jammertest_score.rs (en syntetisk log med et kendt fald…</s1>
+
+seg-9029e168db2d = <s1>tests/receiver_trust_live_cli.rs (gaten og dens TCP-lytter, Rust-siden); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js og integrations/signalk/test/plugin.test.js ({ "24" } Node…</s1>
+
+seg-33067eb81d16 = <s1>tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, den registrerede kendelse påstået som optegnet, fund F1; finding_model_fades_are_deeper_and_longer_than_measured…</s1>
+
+seg-a7d806eca846 = <s1>tests/standards_packs.rs (pinned_outcomes: status for hver test, inklusive missene L4-T1 og de fire IMO-nøjagtighedstests); standards_pack::tests</s1>
+
+seg-b2e460fe9109 = <s1>receiver_trust::machines::novatel::tests (fastlåst CRC, ASCII- og binære poster, dårlig CRC sprunget over, fjendtligt input); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report</s1>
+
+seg-af38bd301f7a = <s1>receiver_trust::machines::rtcm3::tests (CRC-24Q-katalogkontrolværdi, MSM4/MSM7 C/N0 og epokesammenlægning, GLONASS-tid og SBAS-id-kortlægning, dårlig CRC og andre meddelelser)</s1>
+
+seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formatet, som gnss_lib_py-broen skriver, kørt gennem receiver-trust); Python-testene for broerne er…</s1>
+
+seg-17ab1aee875b = Genereret ud fra motorens verifikationsmatrix og fastlåst af en test. Rul i listen, eller åbn en række for dens funktion, reference og tests. Den fulde tabel med alle kolonner på én gang findes i dokumentationen: <a1>Funktionsreference</a1>.
+
+seg-41da0459d87a = Har du brug for dette register som en reproducerbar bevispakke i revisionskvalitet til et bedømmelsesorgan? <a1>Kshana Pro pakker det</a1>.
+
+seg-72a49f4a8a52 = Reproducerbar som standard
+
+seg-fa37e615f55e = Kør den igen. Få de samme tal.
+
+seg-ed2388d71f8d = <s1>Gratis kerne</s1> Et resultat kan gengives bit for bit ud fra scenarie, seed og motorversion. Intet her kræver en licens, en konto eller os.
+
+seg-37c1e99ec1ea = Stemplet, som hver <c1/> bærer
+
+seg-87d1a7bd3204 = Dette er fra den optagede kørsel med ur-holdover. Åbn den i Kshana Studio, eller kør den selv igen:
+
+seg-006d9a3357c7 = seed
+
+seg-477ec417d61a = Installér motoren.
+
+seg-972d68eb7cb0 = Eller <c1/>, eller <a1>en hvilken som helst anden kanal</a1>.
+
+seg-a8676830c911 = Kopiér: kshana scenarios/clock-holdover.toml
+
+seg-c1c85d7f2577 = Kør det samme scenarie.
+
+seg-b6c702bf5a99 = kshana scenarios/<s1>clock-holdover.toml</s1>
+
+seg-42c1c8edda64 = Den skriver <c1/>, <c2/>, <c3/> og <c4/> ved siden af scenariet.
+
+seg-f250e52e31a2 = Sammenlign stemplet.
+
+seg-270867e3758d = Scenariets hash er en SHA-256-digest (256-bit Secure Hash Algorithm) over det kanoniske scenarie: seed, tærskler, modelparametre. Ændr et vilkårligt input, og hashen ændres. Hver diagramfod bærer de første { "12" } hex-tegn.
+
+seg-67a40345e62e = Lad motoren kontrollere sig selv.
+
+seg-0ce40c687cec = tests/published_figures_still_reproduce.rs
+
+seg-349b9f41ae53 = tests/verification_rows_name_a_test_that_exists.rs
+
+seg-bc1e2f2efa37 = tests/verification_rows_cite_evidence_that_exists.rs
+
+seg-27b8a76b5377 = Ved hver build bekræfter tests, at de publicerede figurer stadig kan gengives (<c1/>), og at hver registerrække navngiver en test og henviser til belæg, der findes (<c2/>, <c3/>).
+
+seg-c9bd26fbb336 = Standardgitter
+
+seg-48fb720acd5b = Taler de formater, du allerede indberetter i.
+
+seg-4f2bf101ab05 = { "18" } standarder og formater, som motoren implementerer. Et grønt mærke betyder, at den er kontrolleret mod rigtige data, et publiceret eksempel eller en uafhængig referenceimplementering.
+
+seg-4dbf9694677e = Når en gennemgang kræver mere
+
+seg-481e625b04be = Samme belæg, pakket eller udført for dig.
+
+seg-d2c76b1353a9 = Motoren og alt ovenfor forbliver gratis. To betalte veje bygger videre på dem, under kontrakt.
+
+seg-1e1e6d431868 = Kshana Pro: et missionsdossier og en bevispakke
+
+seg-20582558a93f = Kshana Pro pakker det belæg, en gennemgang eller et indkøbsudvalg beder om, reproducerbart. Det bygger på dette register, hvor hver funktion navngiver sin uafhængige reference og sin test, og på det stempel, hvert resultat bærer. Med én kommando kontrollerer et missionsdossier hvert krav mod rigtige kørsler og skriver en verifikationsmatrix med dens åbne punkter og en PDF (Portable Document Format).
+
+seg-1c8effb9400a = Se et rigtigt dossier
+
+seg-c24f4ecd4d42 = Et skræddersyet studie: dit spørgsmål, besvaret
+
+seg-bead5a126394 = Et skræddersyet studie besvarer dit eget spørgsmål med de samme etiketter: hvert tal valideret eller modelleret, ikke en certificering. Eksportkontrolleret arbejde håndteres under sikkerhedsklarering og NDA (fortrolighedsaftale).
+
+seg-6df96ca25c68 = Hvorfor, og hvem den er til
+
+seg-1aff28e3a49a = Sammenlign metoder på de samme logs.
+
+seg-5c0bc250857a = kshana-bench fastlægger opgaver, opdelinger og målinger for GNSS-interferensdetektion og holdover af tidssynkronisering, med baselines, hvis tærskler blev nedskrevet før den første scorede kørsel. En score beskriver en log eller et korpus, aldrig et produkt.
+
+seg-fa599e1294b9 = Forskning og citation
+
+seg-9bff81726f3f = Publiceret forskning.
+
+seg-7563b76b2e24 = { "6" } artikler på arXiv, det åbne preprint-arkiv, bygget på den åbne motor. Hver åbner til en figur, der er kørt igen på motoren, dens resultater, kommandoen og dens DOI (Digital Object Identifier).
+
+seg-71fadc5b5a0b = Lunar navigation
+
+seg-99f49da3e2c2 = <s1>{ "18" }. september { "2026" }</s1> · arXiv:{ "2610.23871" }
+
+seg-4215aedbd38b = Cislunar navigation er et observabilitetsproblem: buelængdetærskler, Gram-konditionering og Doppler-håndtaget
+
+seg-b98018947305 = I cislunart rum gælder dilution of precision ikke: forbindelser med kun afstand lader hastigheden være uobserverbar på ethvert tidspunkt, så krav hører hjemme i budgetter for buelængde, konditionering og målingstype.
+
+seg-d44879bf12ee = Resumé
+
+seg-4f7300f35cc4 = DOI 10.48550/arXiv.2610.23871
+
+seg-d1e4312d649c = Observerbar rang for de 4 tilstande (position og hastighed i planet); højere er bedre
+
+seg-f5cb4cb0ab34 = Rumlig, støjfyldt cislunar buelængde-observabilitet med flere familier: etiket i verifikationsmatricen
+
+seg-24861a829697 = Motor v{ $version } · <c1/> · deterministisk, uden seed
+
+seg-53ec3ceb08e3 = Hovedresultater
+
+seg-97a4147e002c = I motorkørslen har geometri med kun afstand på ét tidspunkt rang { "2" } af { "4" }, så en dilution of precision er udefineret; hele tilstanden bliver observerbar efter en bue på { "2.09" } h.
+
+seg-879b68e63984 = At tilføje afstandsrate løfter den øjeblikkelige rang fra { "2" } til { "4" }: en forbindelse med Doppler-evne gør en øjebliksløsning mulig, hvor en forbindelse med kun afstand ikke kan.
+
+seg-59fe2106ff19 = Over tærsklen forbedres konditioneringen med buelængden, så krav læses bedre som budgetter for buelængde, konditionering og målingstype.
+
+seg-c39dad75b1db = Sådan gengiver Kshana det
+
+seg-88d62c0eb522 = Typen cislunar-observability differentialkorrigerer fire plane distante retrograde baner, samler Jacobi-matricerne for afstand og afstandsrate gennem tilstandsovergangsmatricen for tre legemer og rapporterer den observerbare rang over en voksende sporingsbue, observabilitetsgramianens konditionstal og et kvadratrods-informationsfilter, der genberegner den samme størrelse ad en anden vej.
+
+seg-4199e285c1ce = <b>Figuren.</b> Det medfølgende scenarie: fire differentialkorrigerede plane distante retrograde baner, sporet med afstandsmåling mellem satellitter over en bue på { "6" } h, samplet hver { "0.26" } h.
+
+seg-641d437e44cf = Kører scenarietypen <c1/> (<c2/>) med den installerede motor.
+
+seg-2d7cee52688b = Kopiér: kshana example cislunar-observability > cislunar-observability.toml
+
+seg-8bcfbf1acc34 = kshana example cislunar-observability > cislunar-observability.toml
+
+seg-819350dc7d89 = Kopiér: kshana cislunar-observability.toml
+
+seg-0805c0fa877a = kshana cislunar-observability.toml
+
+seg-8542b85104f5 = Citér den
+
+seg-e1324f491348 = BibTeX · baweja2026cislunar
+
+seg-02ae60696338 = Kopiér BibTeX
+
+seg-814e10300308 = <s1>{ "7" }. juli { "2026" }</s1> · arXiv:{ "2607.06212" }
+
+seg-cb5ae69b24b2 = Prisen for lunar geometri ved sydpolen og overfladebeacons som den effektive løsning: en analyse af dilution of precision
+
+seg-2d8cdfcc974c = Planlagte baner klumper sig overhead for en lunar bruger ved sydpolen; nogle få afstandsmålende beacons på nærliggende højt terræn retter geometrien billigere end flere satellitter.
+
+seg-15862a1146a0 = DOI 10.48550/arXiv.2607.06212
+
+seg-5b774fbf8cf4 = Geometrisk dilution of precision hos brugeren ved sydpolen (lavere er bedre)
+
+seg-3534626980e2 = DOP-forstærkning med lunare overfladebeacons: etiket i verifikationsmatricen
+
+seg-1a81055d9da3 = Motor v{ $version } · <c1/> · deterministisk, uden seed
+
+seg-da361b259315 = I den medfølgende kørsel skærer den ene beacon, der er fri af horisonten, den geometriske dilution of precision fra { "11.66" } til { "4.998" }; en konstellation med 24 satellitter når i stedet { "2.893" }.
+
+seg-53df3c2b7e42 = De satellitter, en bruger ved sydpolen ser, klumper sig i et lille område overhead, så geometrien begrænses af deres spredning, ikke af deres antal.
+
+seg-cbbaada97ad4 = Nogle få beacons på hævet terræn når en geometri, som en udformning med kun baner først når med en meget større flåde.
+
+seg-89f424090012 = Typen lunar-beacon bygger afstandsmålingsgeometrien for en konstellation i kredsløb plus de opmålte overfladebeacons, der er fri af den luftløse horisont, på dilution-of-precision-kernen, som er kontrolleret mod et uafhængigt bibliotek, og rapporterer hver konfigurations dilution of precision og dens nøjagtighed i meter.
+
+seg-9a9dd41c0880 = <b>Figuren.</b> Én epoke af det medfølgende scenarie, dets standardgeometri: satellitterne alene, satellitterne plus de beacons, der er fri af horisonten, og en konstellation med 24 satellitter i stedet.
+
+seg-5425a567ce90 = Kører scenarietypen <c1/> (<c2/>) med den installerede motor.
+
+seg-e117d65ea93b = Kopiér: kshana example lunar-beacon > lunar-beacon.toml
+
+seg-51991939e727 = kshana example lunar-beacon > lunar-beacon.toml
+
+seg-a635fe4b7597 = Kopiér: kshana lunar-beacon.toml
+
+seg-c3952de0ac25 = kshana lunar-beacon.toml
+
+seg-3863c17f1d12 = BibTeX · baweja2026cost
+
+seg-756a63fd185f = <s1>{ "29" }. juni { "2026" }</s1> · arXiv:{ "2607.02566" }
+
+seg-75c6caf87321 = VLBI med Jord-baseline genopretter observabiliteten af en lunar overfladestation i fælles bane- og urbestemmelse
+
+seg-e58a7d860d50 = Afstandsmåling i det lunare netværk fastlægger kun relativ geometri; en interferometrisk forsinkelse med meget lang baseline over Jorden binder en overfladestation til Jordens referencesystem, selv med få satellitter. <s1><b>VLBI</b> interferometri med meget lang baseline</s1>
+
+seg-1d5d779fec56 = DOI 10.48550/arXiv.2607.02566
+
+seg-4d34307e4008 = Stationens absolutte positionsfejl i tilpasningen, meter (logaritmisk skala)
+
+seg-1427dd0d24c1 = Lunar absolut stationsobservabilitet (datumdefekt): etiket i verifikationsmatricen
+
+seg-dd9cc689ae2b = Motor v{ $version } · <c1/> · seed { "42" }
+
+seg-473a7f364ad8 = Optaget på macOS som publiceret. En ny kørsel på Linux x86-64 giver { "2184" } m / { "3.537" } m (værtsafhængighed i solverens iterat, issue #36 række { "6" }).
+
+seg-36052dbf6e6d = Afstandsmåling inde i det lunare netværk lader klyngen være fri til at forskydes og rotere uset; urene forbliver observerbare, så defekten er rent positionel.
+
+seg-b734ac9c732e = I motorkørslen ({ "3" } satellitter) har Fisher-informationen uden interferometriforbindelserne rang { "15" } af { "16" }; med dem har den fuld rang og en Cramér–Rao-grænse på { "20.1" } m.
+
+seg-e18724ed23f7 = Med en rig konstellation gør interferometribindingen blot grænsen skarpere; med en tynd genopretter den stationens absolutte position.
+
+seg-d626b2e1fb1c = Typen lunar-joint-od-clock fusionerer interferometriske forsinkelser over Jord-baselines, lunart lokale afstande og afstande mellem satellitter i én samlet mindste kvadraters tilpasning, kører den med og uden interferometriforbindelserne på samme seed og rapporterer rangen af Fisher-informationen, datumdefekten og Cramér–Rao-grænsen.
+
+seg-16e6ed9268fb = <b>Figuren.</b> Det medfølgende simulerede netværk: { "3" } lunare satellitter, { "6" } jordstationer, én overfladestation, samme seed og reference for begge tilpasninger.
+
+seg-4ed8d3407015 = Kører scenarietypen <c1/> (<c2/>) med den installerede motor.
+
+seg-825f9c694f75 = Kopiér: kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+seg-b39180e5bad6 = kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+seg-e37077cef2d2 = Kopiér: kshana lunar-joint-od-clock.toml
+
+seg-4d7b3cc885e1 = kshana lunar-joint-od-clock.toml
+
+seg-4a67b5769164 = BibTeX · baweja2026earth
+
+seg-7334fb10a58d = <s1>{ "23" }. juni { "2026" }</s1> · arXiv:{ "2606.24210" }
+
+seg-d919ca966a9e = Et betinget Timing Protection Level: holdover-begrænset ikke-detekteret tidsfejl under GNSS-spoofing
+
+seg-913d89357229 = En optaget spoof viser en tidsmodtager, der leverer tid langt mere forkert, end den rapporterer; ingen ubetinget grænse findes, så artiklen afgrænser den ikke-detekterede fejl betinget. <s1><b>GNSS</b> Global Navigation Satellite System</s1>
+
+seg-6de2dc8a5fb7 = DOI 10.48550/arXiv.2606.24210
+
+seg-b3ea3697c2c0 = Nanosekunder (logaritmisk skala) mod detektionslatenstid, sekunder
+
+seg-0cbe8e77cc1c = Timing Protection Level under spoofing: etiket i verifikationsmatricen
+
+seg-83a7b4fac0b6 = Motor v{ $version } · <c1/> · deterministisk, uden seed
+
+seg-77c4b79f3e91 = En offentlig optaget spoof trak modtagerens leverede tid med omkring { "1.01" } ms, mens den højst rapporterede { "51" } ns.
+
+seg-f49dcc8cddcc = Mod en tilstrækkelig langsom rampe findes ingen endelig ubetinget grænse, så grænsen er betinget af, at et uafhængigt tjek på tværs af satellitter opdager angrebet.
+
+seg-548b29459f87 = Motorens Timing Protection Level er { "114" } ns ved { "1" } s detektionslatenstid og { "458" } ns ved { "60" } s.
+
+seg-ceb4239784a5 = Modulet Timing Protection Level lægger en monitors detektionsgulv til oscillatorens coast over detektionslatenstiden. Eksemplet kalibrerer det med de skalarer, der er genfundet fra den offentlige JammerTest { "2024" }-optagelse; selve optagelsen leveres ikke.
+
+seg-723ada08a5da = <b>Figuren.</b> Eksemplets udskrift: det betingede Timing Protection Level ved fem detektionslatenstider og de to skalarer, det genfandt fra den offentlige JammerTest { "2024" }-optagelse.
+
+seg-72b36b33149c = Genskaber studieartefakten fra <c1/>, i en klon af repositoriet.
+
+seg-1bbc7e2ec752 = Kopiér: cargo run --release --example tpl_jammertest
+
+seg-f9d26d561e77 = cargo run --release --example tpl_jammertest
+
+seg-1e7f0f12f1d8 = BibTeX · baweja2026conditional
+
+seg-71f2b94fc8ed = Resiliensscoring
+
+seg-0bf6d80a9ac4 = <s1>{ "22" }. juni { "2026" }</s1> · arXiv:{ "2607.05415" }
+
+seg-e1901a8f71a6 = Hvor stabil er en PNT-resiliensscore? Beslutningsustabilitet i resiliensvurderinger med ét tal under rammeværksjusteret vægtning
+
+seg-0c986779c8c0 = Resiliensvurderinger med ét tal for positionering, navigation og tidssynkronisering er kun stabile, hvor én udformning dominerer; vægtning, trussel og erklærede teknikker kan vende dem. <s1><b>PNT</b> positionering, navigation og tidssynkronisering</s1>
+
+seg-fa0b79c90793 = DOI 10.48550/arXiv.2607.05415
+
+seg-fe88f96641c0 = Træk, hvor omvægtning alene ændrer den øverst rangerede arkitektur, procent
+
+seg-4fcd1d447d03 = Studie af beslutningsustabilitet i resiliensscore: etiket i verifikationsmatricen
+
+seg-44773d6f6133 = Motor v{ $version } · <c1/> · seed { "12345" }
+
+seg-8b90bfea6f24 = Omvægtning alene ændrer den øverst rangerede arkitektur i { "22" }% af trækkene under nominelle forhold og i højst { "1.25" }% under hver aktiv trussel.
+
+seg-d8e47cf40fdd = Et modenhedsniveau efter svageste led afhænger af den antagne trussel, ikke kun af arkitekturen.
+
+seg-1df0aa1cd5d4 = Fordi sammensætningen belønner erklærede teknikker, kan en udformning, der erklærer flere, score højere end en mere robust.
+
+seg-fe2d2c2ed9ec = Modulet resilience scorer syv referencearkitekturer på tværs af de syv rammeværkskategorier og fem trusler, trækker kategorivægtene tilfældigt fra en Dirichlet-fordeling og tæller, hvor ofte den øverste rang ændres. Eksemplet skriver hele studiet som én deterministisk fil.
+
+seg-83a738bd9ab5 = <b>Figuren.</b> { "7" } referencearkitekturer, { "2,000" } tilfældige kategorivægtninger pr. trussel.
+
+seg-a1c2bf9c21a4 = Genskaber studieartefakten fra <c1/>, i en klon af repositoriet.
+
+seg-b9a73904adfc = Kopiér: cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+seg-164b725640f2 = cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+seg-068c8bc02d18 = BibTeX · baweja2026stable
+
+seg-bc499c388907 = Radiofrekvensinterferens
+
+seg-0411e7a125dd = <s1>{ "20" }. juni { "2026" }</s1> · arXiv:{ "2606.22054" } · version { "2" }
+
+seg-1a9e30bfff32 = At forudse optimismegabet: forudsigelse af degradering af RF-forstyrrelsesdetektorer ved fordelingsskift ud fra statistik inden for fordelingen
+
+seg-1a5fd51bad12 = Hvor meget en interferensdetektor taber under skiftede forhold, kan forudsiges ud fra dens egne scorer inden for fordelingen; syntetiske resultater, kontrolleret på åbne feltoptagelser. <s1><b>RF</b> radiofrekvens</s1>
+
+seg-0484b37344e2 = DOI 10.48550/arXiv.2606.22054
+
+seg-2ead6f7b689b = Forudsagt mod faktisk optimismegab (areal under kurven tabt under skift)
+
+seg-412b53a9eeb4 = Studie af optimismegab for AI/ML-RF-forstyrrelser og gabprædiktor kun på ID: etiket i verifikationsmatricen
+
+seg-852f52ca41c7 = Motor v{ $version } · <c1/> · seed { "1" }, { "2" }, { "3" }, { "4" }, { "5" }
+
+seg-e316b9177880 = Gabet mellem arealet under kurven inden for fordelingen og under skift vokser, når skiftet bliver dybere, og afhænger af, hvor mange observable en detektor bruger, snarere end af om den er lært.
+
+seg-4761136935f9 = I motorkørslen forudsiger en ridge-model på scorestatistik inden for fordelingen gabet for en detektor, den ikke har set (R² { "0.46" }), og for en interferensklasse, den ikke har set (R² { "0.33" }).
+
+seg-72cdba8fbe98 = De vigtigste resultater er syntetiske; artiklen kontrollerer dem derefter på åbne feltoptagelser.
+
+seg-61d0f43db2e3 = Forstyrrelsesstudiet genererer et syntetisk, parameterforankret korpus for fire interferensklasser, scorer tretten detektorer ved fire skiftgrader over fem seeds og tilpasser gabprædiktoren med leave-one-out-krydsvalidering og en permutationstest.
+
+seg-300c322d4ba2 = <b>Figuren.</b> { "260" } celler af detektor, klasse og grad; hver forudsigelse er lavet for en detektor, der er udeladt af tilpasningen.
+
+seg-296fc672c52b = Genskaber studieartefakten fra <c1/>, i en klon af repositoriet.
+
+seg-99072a1940f0 = Kopiér: cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+seg-66c4d9424478 = cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+seg-c2e48bf2916b = BibTeX · baweja2026anticipating
+
+seg-96fe472ae234 = Citér motoren
+
+seg-47c92ffeaa12 = Hver udgivelse arkiveres på Zenodo med en citerbar DOI, og en CITATION.cff følger med i repositoriet. Citér venligst motorversionen, scenariet og seed.
+
+seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em> (Version { $version }). Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
+
+seg-c97e87cbcdd5 = BibTeX for motoren
+
+seg-24ff0a7466d6 = BibTeX
