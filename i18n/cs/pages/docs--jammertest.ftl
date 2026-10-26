@@ -61,3 +61,5 @@ seg-aa8d3fe2adf3 = CLI, Rust (<c1/>), Python (<c2/>, <c3/>), WebAssembly (stejn�
 seg-82aab597103a = <s1>Předchozí</s1>Rozšířený signál LunaNet vysílaný dopředu
 
 seg-fb9e48a04566 = <s1>Další</s1>Vstupy ze strojů a senzorů
+
+seg-45425f378b61 = význam

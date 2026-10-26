@@ -49,3 +49,49 @@ seg-0e98826cedcc = <s1>Předchozí</s1>Bezpečnost hardwaru
 seg-e6f1e38977b7 = <s1>Další</s1>Spektrum a vodopád
 
 seg-38ab3bb65327 = Skutečný snímkový RAIM, separace řešení a ARAIM RAIM (src/raim.rs)
+
+seg-668241606715 = Zdroj: <c1/>
+
+seg-9a8c218ce054 = Integrita a bezpečnost: co { -brand } modeluje a co ne
+
+seg-52038c93765d = { -brand } uvádí dva ukazatele kvality (FoM) — <b>Integritu</b> a <b>Bezpečnost</b> — které lze snadno zaměnit za letecky certifikované veličiny téhož jména. Tato stránka otevřeně uvádí, čím dnes jsou, čím <em>nejsou</em> a co přidá plán vývoje. Pokud { -brand } posuzujete pro kontext bezpečnosti života nebo certifikace, přečtěte si ji jako první.
+
+seg-fb6e93a107e7 = Dnes ({ "v0.37.0" })
+
+seg-ecd20ae1a05d = Ukazatel Integrity — vlastní konzistence filtru
+
+seg-153391e55508 = Ukazatel Integrity je podíl vzorků výpadku, jejichž skutečná časová chyba zůstává uvnitř vlastní ochranné meze k-sigma Kalmanova filtru:
+
+seg-ac2413a97a7b = Měří, zda je <em>vlastní hlášená</em> nejistota filtru poctivá vůči jeho <em>vlastní</em> chybě během výpadku GNSS (globálního družicového navigačního systému). Je to užitečná interní kontrola konzistence.
+
+seg-c9f80760ea53 = <b>Není</b> to:
+
+seg-8899525ad177 = <b>horizontální/vertikální ochranná úroveň (HPL/VPL)</b> — žádná ochranná úroveň v prostoru polohy neexistuje (balíčky hodin jsou v časové oblasti);
+
+seg-dd9a3e58e10b = <b>riziko integrity / pravděpodobnost nebezpečně zavádějících informací (P_HMI)</b>;
+
+seg-31fa92b3271d = porovnání s <b>mezní hodnotou výstrahy</b>;
+
+seg-ee998b974e6f = soulad s <b>RTCA DO-229E / DO-316</b> nebo <b>EUROCAE ED-259A</b> (RTCA: Radio Technical Commission for Aeronautics; EUROCAE: Evropská organizace pro vybavení civilního letectví) ani s jakoukoli jinou certifikační normou.
+
+seg-f84a56b6fe10 = Ukazatel Bezpečnosti — analytická mez detekovatelnosti spoofingu
+
+seg-e532288ed262 = Ukazatel Bezpečnosti je <b>mez detekovatelnosti spoofingu založená na stabilitě hodin</b>: při daném šumu hodin (spektrální hustoty výkonu (PSD) bílé frekvence a náhodné procházky) a monitorovacím okně je to analytická detekční rezerva monitoru konzistence jedněch hodin proti pomalu narůstajícímu podvrženému času. Tišší hodiny (např. optické hodiny) detekují menší, pomalejší spoofing než hlučnější (např. CSAC (čipové atomové hodiny)) — tento kontrast je smyslem demonstrátoru.
+
+seg-fc718a805b28 = <b>Není</b> to vícedružicový detektor RAIM (autonomní monitorování integrity přijímačem). Neexistují reziduály pseudovzdálenosti napříč družicemi, žádná ochranná úroveň a žádné P_HMI. Test inovace proti sigma má stejný matematický tvar jako klasická detekce poruch RAIM (Brown), ale číslo je analytická mez pro dané hodiny, nikoli implementace RAIM, a má smysl jen v kontextu nakonfigurovaného scénáře spoofingu (viz druh scénáře <c1/>, který vkládá skutečný narůstající útok).
+
+seg-ae770e25031e = Výstup to uvádí. Druhy <c1/>, <c2/>, <c3/> a <c4/> nekonfigurují žádný útok, takže jejich jednořádkové shrnutí místo čísla vypíše <c5/> a jejich dokument výsledku označí <c6/> jako <c7/> s důvodem ve svém bloku <c8/>. Samotná hodnota zůstává v dokumentu pro každého, kdo mez potřebuje.
+
+seg-960bd91a2b3a = Skutečný snapshotový RAIM, RAIM se separací řešení a ARAIM (<c1/>)
+
+seg-3d31ec251ac0 = Skutečný RAIM v prostoru polohy je implementován v <c1/>, odděleně od výše uvedeného ukazatele vlastní konzistence:
+
+seg-0e8240812c16 = <b>Vícedružicové monitorování reziduí</b> — sestaví matici geometrie přímé viditelnosti k viditelným družicím, vytvoří řešení polohy a hodin metodou nejmenších čtverců a testuje součet čtverců reziduí.
+
+seg-69f1535596e0 = <b>Detekce poruch χ²</b> — <c1/> (SSE: součet čtverců reziduí) má za hypotézy bez poruchy rozdělení χ²(n−{ "4" }); porucha se vyhlásí nad <c2/>. Prahy χ² pocházejí z regularizovaného vyhodnocení neúplné funkce gama bez závislostí (přesně, bez tabulek).
+
+seg-6721779048f5 = <b>HPL / VPL založené na sklonu</b> — <c1/>, kde <c2/> je citlivost chyby polohy na jednotlivé družice z projekční matice a <c3/> je necentrální bias χ², který splňuje nakonfigurovanou pravděpodobnost nezachycené události <c4/>.
+
+seg-8dd60e98088d = <b>RAIM se separací řešení (MHSS: separace řešení při více hypotézách)</b> — pro řešení ze všech viditelných družic a každé dílčí řešení s vyloučením jedné družice separace vnořených odhadů <c1/> <b>detekuje i identifikuje</b> družici s poruchou a vstupuje do meze ochranné úrovně.
+
+seg-719e27fdd2c1 = <b>Rozpočet rizika integrity (P_HMI) ARAIM (pokročilé autonomní monitorování integrity přijímačem)</b> — <c1/> řeší nejmenší HPL/VPL, jejichž součet pravděpodobností nebezpečně zavádějících informací <c2/> (Blanch et al., <em>Baseline ARAIM</em>) splňuje výslovné přidělení rizika integrity, a uvádí riziko, kterého úrovně dosahují — takže integritu lze přímo vyvažovat proti mezní hodnotě výstrahy, místo aby zůstávala skrytá v pevném násobiteli <c3/>.

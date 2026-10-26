@@ -199,3 +199,7 @@ seg-7b7d27fbaff3 = Přidané pravidlo: buňka s méně než { "5" } odlišnými 
 seg-9fa94e1a7511 = <s1>Předchozí</s1>Mapa interference a expozice trasy
 
 seg-8a2c9a7992f4 = <s1>Další</s1>Námořní integrace
+
+seg-86c668236bcd = Uvedení původu
+
+seg-f63dd3d7aad4 = Zdroj

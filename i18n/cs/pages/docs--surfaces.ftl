@@ -17,3 +17,5 @@ seg-de6c33774c9c = CLI
 seg-206c78a69ded = Expozice trasy
 
 seg-4dbf41c0ec3b = Funkce
+
+seg-98f4f946a7ac = WASM

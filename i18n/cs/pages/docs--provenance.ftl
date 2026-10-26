@@ -11,3 +11,7 @@ seg-ad856ad710eb = Stav
 seg-6e0cb6acc073 = VALIDATED
 
 seg-d4a762001549 = Licence
+
+seg-f63dd3d7aad4 = Zdroj
+
+seg-638b8d451550 = Senzor
