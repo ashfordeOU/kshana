@@ -17,3 +17,5 @@ seg-79e6a31245f2 = { "400" } ns
 seg-f63dd3d7aad4 = Zdroj
 
 seg-587beeccaa11 = Předvolba
+
+seg-edb7b16b6c0e = Validace

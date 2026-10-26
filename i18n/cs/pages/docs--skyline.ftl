@@ -31,3 +31,7 @@ seg-d1e9715513b4 = Příklad
 seg-587beeccaa11 = Předvolba
 
 seg-98f4f946a7ac = WASM
+
+seg-2b0d77219437 = Předvolby
+
+seg-7338b6210228 = Řádek

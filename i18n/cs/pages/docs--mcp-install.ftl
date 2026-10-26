@@ -23,3 +23,11 @@ seg-d107bc8e1950 = Registr MCP
 seg-842b77a21c5f = Kanál
 
 seg-fdbb9db68f1d = žádné
+
+seg-a683980168f7 = Docker
+
+seg-4a3510c45176 = Zdroj: <c1/>
+
+seg-be0bf8294259 = Instalace serveru MCP { -brand } (v{ $version })
+
+seg-bc58b4709618 = Každý kanál, s připnutým tvarem pro toto vydání. Odkazy na jedno kliknutí a každý úryvek níže generuje <c1/> a znovu dekóduje <c2/>.
