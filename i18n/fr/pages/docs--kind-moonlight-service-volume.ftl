@@ -24,9 +24,6 @@ seg-eb9f9a422d38 = Source : <c1/>
 seg-f8988314faf2 = <c1/> (type de scénario)
 
 # text
-seg-28c6a5644152 = Analyse modélisée du volume de service de navigation lunaire à partir d'une constellation ILLUSTRATIVE de classe Moonlight/LCNS en orbite lunaire, à sources publiques (sans affiliation à l'ESA) : balaie une grille sélénographique de latitude/longitude sur un horizon temporel et rapporte le DOP / la couverture / la disponibilité (≥{ "4" } sats ET PDOP < seuil) ainsi qu'une enveloppe généralisée de niveaux de protection ARAIM lunaires (HPL/VPL) sur le volume. La géométrie du DOP RÉUTILISE le noyau VALIDATED par gnss_lib_py (crate::orbit::dop) ; le niveau de protection RÉUTILISE le mécanisme ARAIM lunaire LunaNet LNIS (crate::lunar, σ_URE≈{ "30" } m) et se réduit au niveau de protection existant du pôle sud comme cas particulier. Composition MODELLED : un ensemble de relais képlériens circulaires/elliptiques (et non l'éphéméride réelle LCNS/NRHO à correction différentielle), une Lune à rotation moyenne (sans libration ni pôle en précession). Déterministe (géométrie pure). Aucun TRL, héritage ni aval d'une agence.
-
-# text
 # c1: scenarios/moonlight-service-volume.toml
 seg-8516d1ded5dd = Une exécution de <c1/> se résume ainsi : moonlight-service-volume | { "8" } sats (illustrative LCNS-class, not affiliated) | { "24" } pts × { "12" } epochs | coverage { "37.8" }% (PDOP<{ "6.0" }) | sats { "4" }–{ "7" } | PDOP 2.19/13.74/180.30 | HPL { "139" }–{ "4177" } m | PL avail { "0.0" }% | MODELLED
 
@@ -84,3 +81,6 @@ seg-f3279128de3b = <s1>Précédent</s1>mars-pnt
 
 # text
 seg-92cd937a3fb7 = <s1>Suivant</s1>ntn-positioning
+
+# text
+seg-28c6a5644152 = Analyse modélisée du volume de service de navigation lunaire à partir d'une constellation ILLUSTRATIVE de classe Moonlight/LCNS en orbite lunaire, à sources publiques (sans affiliation à l'ESA) : balaie une grille sélénographique de latitude/longitude sur un horizon temporel et rapporte le DOP / la couverture / la disponibilité (≥{ "4" } sats ET PDOP < seuil) ainsi qu'une enveloppe généralisée de niveaux de protection ARAIM lunaires (HPL/VPL) sur le volume. La géométrie du DOP RÉUTILISE le noyau VALIDATED par gnss_lib_py (crate::orbit::dop) ; le niveau de protection RÉUTILISE le mécanisme ARAIM lunaire LunaNet LNIS (crate::lunar, σ_URE≈{ "30" } m) et se réduit au niveau de protection existant du pôle sud comme cas particulier. Composition MODELLED : un ensemble de relais képlériens circulaires/elliptiques (et non l'éphéméride réelle LCNS/NRHO à correction différentielle), une Lune à rotation moyenne (sans libration ni pôle en précession). Déterministe (géométrie pure). Aucun TRL, héritage ni aval d'une agence.
