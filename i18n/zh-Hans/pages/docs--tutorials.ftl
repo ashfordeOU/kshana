@@ -19,3 +19,5 @@ seg-a7cfe6f135f1 = 轨道与几何
 seg-029de6b99be0 = 惯性航位推算
 
 seg-9ef8f99ca6e4 = 时间传递
+
+seg-b03d56f501c3 = 类别
