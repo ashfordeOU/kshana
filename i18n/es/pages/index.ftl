@@ -471,3 +471,6 @@ seg-ff90679d1de9 = Detección de spoofing
 
 # text
 seg-257c477dc510 = WebAssembly
+
+# text
+seg-2192262e26c1 = alcanzado

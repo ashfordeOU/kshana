@@ -36,3 +36,51 @@ seg-304496607bd7 = Tipo de escenario del motor v{ $version }, familia <a1>Jammin
 
 # text
 seg-5d23d7f8f872 = Página de familia: <a1>Jamming, spoofing y el espectro</a1>
+
+# text
+seg-03d8dc3de7ca = <b>MODELLED</b> χ² asistido por reloj, RAIM, AGC y SQM fusionados en una cifra de mérito de seguridad por época Pruebas: <a1>spoof_texbat_validation.rs</a1>.
+
+# text
+# c1: docs/kinds/by-kind/spoof.md
+seg-09125f609abe = Fuente: <c1/>
+
+# text
+# c1: spoof
+seg-8bf73eca4115 = <c1/> (tipo de escenario)
+
+# text
+seg-cbd77f6ffd63 = Detector estocástico de spoofing de tiempo (Neyman–Pearson / χ²₁) con P_fa/P_md por Monte Carlo.
+
+# text
+# c1: scenarios/spoof-attack.toml
+seg-2a1e4e7893ba = Una ejecución de <c1/> se resume así: escenario 2b6bd22c3b80 | spoof LinearRamp { "{" } rate_ns_per_s: { "0.1" } { "}" } frente a especificación de { "20.000" } ns (P_fa { "0.010" }) | seguridad cuántica { "1.000" } (P_md { "0.000" }, MC { "0.000" }) detectado a 70s | seguridad clásica { "0.558" } (P_md { "0.442" }, MC { "0.444" }) detectado a 430s
+
+# text
+# c1: threshold_ns
+# c2: time
+# c3: attack
+# c4: clock_quantum
+# c5: clock_classical
+seg-b577342dfe39 = Campos obligatorios: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
+
+# text
+# c1: scenarios/spoof-attack.toml
+seg-adb7ff15a702 = El ejemplo <c1/> establece, entre otros:
+
+# attr:alt
+seg-6f6a8c975111 = El gráfico que el motor genera para scenarios/spoof-attack.toml, tipo de escenario spoof
+
+# text
+# c1: leo-pass
+# c2: [spoofer]
+seg-ecc2dc8489bb = <b>MODELLED</b> La sección <c2/> del tipo de escenario <c1/>: un spoofer falsifica, de forma autoconsistente en distancia y en tasa de distancia, las señales vistas en una posición declarada que salta y, o, es desplazada de la verdadera tras un inicio (por banda LEO y para la MEO Pruebas: <a1>leo_resilience_verticals.rs</a1>.
+
+# text
+# c1: [spoofer]
+seg-8b3523b5fa2c = <b>MODELLED</b> Para cada satélite LEO y cada par de bandas de medida de distancia, la sección <c1/> forma la combinación de pseudodistancia libre de geometría, elimina el modelo ionosférico del receptor y contrasta su escalón entre épocas con el ruido de código de las dos bandas y un Pruebas: <a1>leo_resilience_verticals.rs</a1>.
+
+# text
+seg-e5bbd2fca4fb = <s1>Anterior</s1>spoof-detect
+
+# text
+seg-8d3311751876 = <s1>Siguiente</s1>sweep-nd

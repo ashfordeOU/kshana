@@ -47,3 +47,9 @@ seg-b03d56f501c3 = Tipo
 
 # text
 seg-4dbf41c0ec3b = Función
+
+# text
+seg-2b0d77219437 = Preajustes
+
+# text
+seg-7338b6210228 = Fila

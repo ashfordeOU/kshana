@@ -95,3 +95,562 @@ seg-e4da113cbe18 = El gráfico que el motor escribe para scenarios/lunar-llr-dat
 
 # text
 seg-f7ea776e70c9 = Cobertura modelada de estaciones de referencia lunares: un barrido de Monte Carlo del modelo de PNT diferencial lunar sobre una cuadrícula de usuarios del polo sur y un día de épocas. Una estación de referencia diferencial en un emplazamiento conocido del polo sur corrige una constelación declarada (kepleriana ilustrativa o unas efemérides tabuladas) con un error declarado de señal en el espacio, un error de topografía, una latencia de corrección y una cuantización del enlace; por punto y sobre la región informa del percentil del error de posición corregido y sin corregir (3D, horizontal, vertical), la disponibilidad, la cobertura frente a un umbral declarado, los niveles de protección DO-229E, el radio de cobertura por acimut y el presupuesto del enlace de corrección en la estación y en el peor punto. No es una afirmación sobre el rendimiento de ningún sistema real; sin afiliación ni respaldo de ninguna agencia. MODELLED.
+
+# attr:alt
+seg-922b8656fcae = El gráfico que el motor genera para scenarios/lunar-station-coverage.toml, tipo de escenario lunar-station-coverage
+
+# text
+seg-cac3a0bcbfc6 = Presupuesto de error de tiempo MODELLED de extremo a extremo del Tiempo Lunar Coordinado (LTC): los siete términos de error del LTC reunidos como curvas de error de tiempo x_i(τ) sobre toda una cuadrícula de tiempos de promediado, sumados en raíz cuadrática en x_Σ(τ), y el τ de CRUCE reloj-marco en el que el término creciente del reloj supera al término constante de realización del marco en tiempo real (por debajo de él el presupuesto está limitado por el marco, por encima, por el reloj): la respuesta honesta al artefacto de un único τ. Las pendientes en τ son de forma cerrada y comprobables analíticamente (reloj τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, suelos τ^{ "0" }, medida τ^{ "{" }-1/2{ "}" }) y las filas de reloj reproducen las especificaciones publicadas de reloj a un día (crate::clock_specs); las MAGNITUDES de los suelos del enlace de RF u óptico, de la realización del marco, del residuo relativista y de las efemérides son asignaciones de presupuesto modeladas (valores por defecto documentados, sustituibles por quien llama), no mediciones. La aportación es el τ de cruce reproducible, no una cifra por término certificada; no certificado para la medición del tiempo operativa.
+
+# attr:alt
+seg-56fe184f2a12 = El gráfico que el motor genera para scenarios/lunar-time-budget.toml, tipo de escenario lunar-time-budget
+
+# text
+seg-7f3e13712f10 = Tasa relativista modelada del reloj Tierra-Luna (Tiempo Coordenado Lunar, LTC/TCL): la tasa secular LTC−TT a partir de la diferencia de potencial propio y del término cinético de la Luna, indicada con la banda publicada de { "56" }–{ "59" } µs/día, más el desfase acumulado a lo largo de un horizonte.
+
+# attr:alt
+seg-e9deb6ed41c1 = El gráfico que el motor genera para scenarios/lunar-time-offset.toml, tipo de escenario lunar-time-offset
+
+# text
+seg-1bc37634ba9f = Covarianza de las coordenadas de estación del VLBI lunar: las derivadas parciales del retardo de la observable lunar-vlbi acumuladas a lo largo de un CALENDARIO explícito (líneas base x épocas) en una matriz de información de Fisher, invertida e indicada como la covarianza de las coordenadas de estación y la sigma de estación por coordenada: una salida calculada por el motor, y no una precisión escalar del retardo pasada por un factor de equipartición isótropo supuesto g = { "3" }. El estado lleva coordenadas de estación FIJAS a la Tierra (ITRS), de modo que el jacobiano es la derivada parcial inercial rotada por la matriz GCRS->ITRS de cada época: la rotación terrestre es lo que hace observables esas coordenadas, y el informe MIDE el barrido de la línea de visión fija a la Tierra y la declinación de la baliza en lugar de suponerlos. Una observación es un par (línea base, época) con AMBAS estaciones por encima de la máscara de elevación, ponderado con 1/delay_sigma_s^{ "2" }. Indica rango, defecto de datum, número de condición, el espectro completo de información, la matriz de covarianza, las sigmas por estación y por eje y en 3-D, y el espacio nulo de la red libre en cada ejecución; ante una deficiencia de rango, la sigma principal se publica como NULL con un estado, nunca se lee de una inversa casi singular. El valor de equipartición c<em>delay_sigma_s</em>sqrt(g/N) para el MISMO calendario se emite junto al valor calculado con el cociente, junto con la cota isótropa de traza sqrt(p/trace(M)) que AM-HM convierte en un suelo estricto, de modo que el cociente es la anisotropía que descartaba el supuesto. El cierre del retardo tau_ik = tau_ij + tau_jk hace que solo n-1 de las n(n-1)/2 líneas base sean geométricamente independientes; el informe indica ambos recuentos. MODELLED: las efemérides del centro de la Luna, los relojes de estación, la troposfera y los parámetros de orientación terrestre se mantienen FIJOS y las observaciones se tratan como independientes, de modo que la covarianza es una cota de Cramer-Rao para un conjunto reducido de parámetros, no un resultado de sesión predicho; la sigma del retardo, las coordenadas de estación y el calendario son entradas. La derivada parcial que el jacobiano del retardo geométrico omite (el término de Shapiro diferenciado) se mide por diferencias finitas y se emite. No es un producto geodésico.
+
+# attr:alt
+seg-19c383444296 = El gráfico que el motor genera para scenarios/lunar-vlbi-fim.toml, tipo de escenario lunar-vlbi-fim
+
+# text
+seg-e01f77d493a0 = Observable modelada del retardo de VLBI geodésico lunar: una línea base terrestre (dos estaciones en tierra, GCRS) observa una señal unidireccional de una baliza de superficie lunar de clase NovaMoon. Emite el retardo de campo cercano como diferencia de dos distancias, su tasa y la corrección de campo cercano por curvatura del frente de onda a lo largo de un pase, contrastada con la observable Δ-DOR de onda plana del mismo código en el límite de campo lejano, con derivadas parciales verificadas por diferencias finitas. La vía analítica por defecto es MODELLED y lleva las salvedades de coherencia de marcos, de movimiento polar xp=yp={ "0" } y de onda plana frente a campo cercano. Si se establecen planetary_kernel_path, earth_orientation_kernel_path y moon_orientation_kernel_path, se ejecuta en su lugar la vía de núcleos (DE440, MOON_PA_DE440, ITRF93; tiempos de luz baricéntricos convergidos; añade las derivadas parciales de la baliza y de la estación de la época), cuyo retardo newtoniano y cuyas derivadas parciales coinciden con los tiempos de luz convergidos de NAIF SPICE hasta { "0.06" } ps y { "7.4e-9" }. No validado con datos reales de VLBI.
+
+# attr:alt
+seg-07d97fc1abac = El gráfico que el motor genera para scenarios/lunar-vlbi.toml, tipo de escenario lunar-vlbi
+
+# text
+seg-28c6a5644152 = Análisis modelado del volumen de servicio de navegación lunar a partir de una constelación en órbita lunar ILUSTRATIVA, de fuentes públicas, de clase Moonlight/LCNS (sin afiliación con la ESA): barre una cuadrícula selenográfica de latitud y longitud a lo largo de un horizonte temporal e indica DOP, cobertura y disponibilidad (≥{ "4" } satélites Y PDOP < umbral), además de una envolvente generalizada de nivel de protección (HPL/VPL) de ARAIM lunar sobre el volumen. La geometría de DOP REUTILIZA el núcleo VALIDATED con gnss_lib_py (crate::orbit::dop); el nivel de protección REUTILIZA la maquinaria de ARAIM lunar LNIS de LunaNet (crate::lunar, σ_URE≈{ "30" } m) y se reduce al nivel de protección del polo sur existente como caso particular. Composición MODELLED: un conjunto de relés kepleriano circular o elíptico (no las efemérides reales LCNS/NRHO corregidas diferencialmente), una Luna de rotación media (sin libración ni polo con precesión). Determinista (geometría pura). Sin TRL, herencia de vuelo ni respaldo de agencia alguna.
+
+# attr:alt
+seg-edb738273a3a = El gráfico que el motor genera para scenarios/moonlight-service-volume.toml, tipo de escenario moonlight-service-volume
+
+# text
+seg-4e31c8daf798 = Registro
+
+# text
+seg-efd15cff3d32 = MODELLED (etiqueta del resultado)
+
+# text
+seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
+
+# text
+seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+# text
+# c1: docs/kinds/lunar-and-cislunar.md
+seg-a240ef37dc6d = Fuente: <c1/>
+
+# text
+seg-befef5f2f8dd = Lunar y cislunar (familia de tipos de escenario)
+
+# text
+seg-f964724ea446 = { "20" } tipos de escenario del motor v{ $version }. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana. Cada etiqueta de aquí es la del motor o la de la matriz de verificación; un tipo de escenario es MODELLED salvo que la matriz diga otra cosa (cómo se obtiene una etiqueta: la sección Evidence del README).
+
+# text
+# c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
+seg-369e7cfcc1d3 = Páginas temáticas: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Ejecute uno: <c1/>. Todas las familias: <a4>KINDS.md</a4>.
+
+# attr:alt
+seg-15b8e26dc24b = Hoja de contactos de los gráficos que genera el motor para los tipos de escenario de la familia Lunar y cislunar
+
+# text
+seg-fd2a12be04c2 = Pasada del nivel de protección de ARAIM en el polo sur lunar frente a un conjunto representativo de relés LunaNet.
+
+# text
+seg-240eb5858113 = Tasa relativista modelada del reloj Tierra–Luna (Tiempo Coordinado Lunar, LTC/TCL): la tasa secular LTC−TT a partir de la diferencia de autopotencial y del término cinético de la Luna, presentada con el { "56" }–{ "59" }
+
+# text
+seg-177bff8d753e = Presupuesto MODELLED de error de tiempo de extremo a extremo del Tiempo Lunar Coordinado (LTC): los siete términos de error del LTC reunidos como curvas de error de tiempo x_i(τ) sobre toda una malla de tiempos de promediado, sumados en raíz cuadrada en x_Σ(τ), y el c
+
+# text
+seg-df0437ef8324 = Observable modelado del retardo VLBI geodésico lunar: una línea de base terrestre (dos estaciones en tierra, GCRS) observa una señal unidireccional de una baliza en la superficie lunar de clase NovaMoon.
+
+# text
+seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
+
+# text
+seg-38254487fb7f = Covarianza de las coordenadas de estación de VLBI lunar: las derivadas parciales del retardo del observable lunar-vlbi acumuladas a lo largo de un CALENDARIO explícito (líneas de base x épocas) en una matriz de información de Fisher, invertida, y se pre
+
+# text
+seg-23706714da99 = Estimador por lotes modelado, conjunto y multitécnica, de OD lunar + reloj sobre una red SIMULADA: un ajuste instantáneo de Gauss-Newton que fusiona retardos VLBI geodésicos de línea de base terrestre, distancias locales lunares estación↔satélite
+
+# text
+seg-2359450b3967 = Realización modelada del marco de referencia lunar: un ajuste de datum de Helmert (de semejanza) de 7 parámetros —{ "3" } de traslación, { "3" } de rotación de ángulo pequeño, { "1" } de escala— que vincula un conjunto estimado de puntos MCMF derivados de coordenadas selenográficas
+
+# text
+seg-2a5af9961e99 = Datum de marco de Helmert (de semejanza) de siete parámetros, determinado por una CAMPAÑA DE OBSERVACIÓN SIMULADA y no por una transformación inyectada.
+
+# text
+seg-3615bea1ea75 = Datum de marco lunar de Helmert de siete parámetros, determinado por una campaña de observación REAL y archivada y no por una simulada.
+
+# text
+seg-5413116b8b42 = Análisis modelado del volumen de servicio de navegación lunar a partir de una constelación en órbita lunar de clase Moonlight/LCNS, ILUSTRATIVA y de fuentes públicas (sin afiliación con la ESA): recorre una malla selenográfica de latitud/longitud sobre
+
+# text
+seg-a0e202b3566c = PNT DIFERENCIAL lunar modelado (un análogo lunar de DGNSS/SBAS): una estación de referencia de clase NovaMoon en una ubicación selenográfica CONOCIDA calcula correcciones diferenciales por satélite a partir de un conjunto ILUSTRATIVO
+
+# text
+seg-ed4ec8b6378c = Cobertura modelada de una estación de referencia lunar: un barrido Monte Carlo del modelo de PNT diferencial lunar sobre una malla de usuarios en la región polar sur y un día de épocas.
+
+# text
+seg-aeec32be6092 = Aumentación con balizas de superficie de un servicio de navegación orbital lunar, como una tabla ejecutable de antes y después.
+
+# text
+seg-b28693368acd = Exportación modelada de interoperabilidad lunar: emite el marco de referencia lunar, la escala de tiempo lunar y las efemérides lunares en formas de intercambio basadas en CCSDS y alineadas con LunaNet/IOAG, con comprobaciones de ida y vuelta y de ajuste a la norma por campo
+
+# text
+seg-d88605893c05 = Observabilidad MODELLED de una constelación cislunar plana (P6): sigue una constelación plana de DRO con corrección diferencial de cuatro naves con medición de distancias entre satélites e informa de cuánto de una nave
+
+# text
+seg-8eaec90d1df5 = Prueba MODELLED con un estimador independiente del umbral de observabilidad de la longitud de arco cislunar.
+
+# text
+seg-9619b3d699c6 = Superficie de ataque a la seguridad de la señal de navegación en la superficie lunar (P1): compone los análisis abiertos de seguridad de la señal en una única ejecución accesible desde el binario.
+
+# text
+seg-64c78e211181 = Jamming de RF de origen lunar: relación jammer-señal por satélite, C/N₀ efectivo y pérdida de enganche para un usuario selenográfico en superficie bajo un jammer en la superficie lunar (o elevado), sobre la constelación pública ilustrativa
+
+# text
+seg-df68720ee7a5 = Recepción de GNSS terrestre a distancia lunar, la capa de señal débil que nombra el artículo sobre resiliencia ante conflictos y para la que el motor no tenía modelo.
+
+# text
+# c1: study
+seg-e6475fe9f443 = Estudios MODELLED de la órbita y la superficie de la Luna como infraestructura de navegación y geodésica, cinco estudios tras un único tipo de escenario seleccionado mediante <c1/>: od-consistency (determinación de órbita a bordo con GNSS terrestre en
+
+# text
+# c1: step_s
+# c2: duration_s
+# c3: alert_limit_m
+# c4: p_hmi
+# c5: sigma_ure_m
+seg-ca4fac406beb = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+# text
+seg-da20b48985b9 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-integrity</a1>.
+
+# text
+# c1: epoch_year
+# c2: epoch_month
+# c3: epoch_day
+# c4: horizon_days
+seg-564b491c4bb8 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>.
+
+# text
+seg-0f0b2d0ca0b4 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-time-offset</a1>.
+
+# text
+# c1: clock
+# c2: tau_min_s
+# c3: tau_max_s
+# c4: points_per_decade
+# c5: clocks
+# c6: time_lab
+seg-128bf57a76d1 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+# text
+seg-d6aa5d645fb7 = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-time-budget</a1>.
+
+# text
+# c1: station1_lat_deg
+# c2: station1_lon_deg
+# c3: station1_alt_m
+# c4: station2_lat_deg
+# c5: station2_lon_deg
+# c6: station2_alt_m
+# c7: beacon_lat_deg
+# c8: beacon_lon_deg
+# c9: beacon_alt_m
+# c10: epoch_year
+# c11: epoch_month
+# c12: epoch_day
+# c13: horizon_hours
+# c14: step_min
+# c15: planetary_kernel_path
+# c16: earth_orientation_kernel_path
+# c17: moon_orientation_kernel_path
+seg-79140f2544ea = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>.
+
+# text
+seg-de468e4d4b46 = <b>Registro:</b> MODELLED { "3" } · VALIDATED { "3" }. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-vlbi</a1>.
+
+# text
+# c1: stations
+# c2: beacon_lat_deg
+# c3: beacon_lon_deg
+# c4: beacon_alt_m
+# c5: epoch_year
+# c6: epoch_month
+# c7: epoch_day
+# c8: arc_hours
+# c9: step_min
+# c10: delay_sigma_s
+# c11: elevation_mask_deg
+# c12: datum
+# c13: estimate_beacon
+# c14: rel_tol
+# c15: equipartition_g
+# c16: planetary_kernel_path
+seg-7da3c3ff2386 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+# text
+seg-3119d4005897 = <b>Registro:</b> MODELLED { "3" } · VALIDATED { "2" }. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-vlbi-fim</a1>.
+
+# text
+# c1: n_sat
+# c2: n_earth
+# c3: seed
+# c4: sigma_vlbi_s
+# c5: sigma_range_m
+# c6: sigma_isl_m
+# c7: station_lat_deg
+# c8: station_lon_deg
+# c9: station_alt_m
+# c10: orbit_radius_km
+# c11: sigma_clock_s
+# c12: orbit_ecc
+# c13: orbit_inc_deg
+# c14: orbit_argp_deg
+# c15: orbit_planes
+# c16: epoch_year
+# c17: epoch_month
+# c18: epoch_day
+seg-6f59a33a35b3 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+# text
+seg-142f2253e4d6 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-joint-od-clock</a1>.
+
+# text
+# c1: n_points
+# c2: tx_m
+# c3: ty_m
+# c4: tz_m
+# c5: rot_x_urad
+# c6: rot_y_urad
+# c7: rot_z_urad
+# c8: scale_ppb
+# c9: noise_sigma_m
+# c10: seed
+# c11: epoch_year
+# c12: epoch_month
+# c13: epoch_day
+seg-32c31af24e1b = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+# text
+seg-73c0415efd2f = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-frame-realisation</a1>.
+
+# text
+# c1: stations
+# c2: beacons
+# c3: epoch_year
+# c4: epoch_month
+# c5: epoch_day
+# c6: arc_hours
+# c7: step_min
+# c8: delay_sigma_s
+# c9: elevation_mask_deg
+# c10: earth_elevation_mask_deg
+# c11: station_datum
+# c12: rel_tol
+# c13: assumed_coordinate_sigma_m
+# c14: solver
+seg-96efcb8d55d1 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
+
+# text
+seg-ce2f0f85dda4 = <b>Registro:</b> MODELLED { "2" } · VALIDATED { "3" }. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-frame-campaign</a1>.
+
+# text
+# c1: data_dir
+# c2: normal_points_dir
+# c3: reflectors_path
+# c4: stations_path
+# c5: dut1_s
+# c6: rel_tol
+# c7: compare_simulated_campaign
+# c8: sensitivity_tilt_deg
+# c9: planetary_kernel_path
+# c10: extra_reflectors
+# c11: extra_beacons
+# c12: extra_earth_elevation_mask_deg
+# c13: beacon_campaign
+seg-d9e24a9a8c0c = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+# text
+seg-4f05fad4b146 = <b>Registro:</b> VALIDATED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-llr-datum</a1>.
+
+# text
+# c1: n_sats
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: lat_min_deg
+# c7: lat_max_deg
+# c8: lat_step_deg
+# c9: lon_min_deg
+# c10: lon_max_deg
+# c11: lon_step_deg
+# c12: horizon_hours
+# c13: step_min
+# c14: elev_mask_deg
+# c15: pdop_threshold
+# c16: alert_limit_m
+# c17: p_hmi
+# c18: perturbed
+# c19: sigma_ure_m
+# c20: export_site_lat_deg
+# c21: export_site_lon_deg
+# c22: export_antenna
+# c23: ephemeris_path
+# c24: planetary_kernel_path
+# c25: epoch_utc
+# c26: terrain
+seg-8d9e0277303e = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
+
+# text
+seg-204901ae3684 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>moonlight-service-volume</a1>.
+
+# text
+# c1: n_sats
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: ref_lat_deg
+# c7: ref_lon_deg
+# c8: baseline_km
+# c9: orbit_err_m
+# c10: clock_err_m
+# c11: noise_m
+# c12: seed
+# c13: t_s
+# c14: residual_sigma_m
+# c15: p_hmi
+# c16: survey_sigma_m
+# c17: latency_s
+# c18: quantization_bits
+seg-6fe67fa619d0 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+# text
+seg-c83350735643 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-differential-pnt</a1>.
+
+# text
+# c1: n_sats
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: ephemeris_path
+# c7: mask_deg
+# c8: station_lat_deg
+# c9: station_lon_deg
+# c10: station_height_m
+# c11: survey_sigma_m
+# c12: orbit_err_m
+# c13: clock_err_m
+# c14: sise_sigma_m
+# c15: sise_orbit_variance_fraction
+# c16: noise_m
+# c17: latency_s
+# c18: quantization_bits
+# c19: grid_lat_max_deg
+# c20: grid_lat_step_deg
+# c21: points
+# c22: t_start_s
+# c23: t_span_s
+# c24: t_step_s
+# c25: n_trials
+# c26: accuracy_threshold_m
+# c27: percentile
+# c28: alert_limit_m
+# c29: residual_sigma_m
+# c30: p_hmi
+# c31: seed
+# c32: terrain
+# c33: orbit_err_growth_m_per_s
+# c34: receiver
+# c35: solution
+seg-facc442295f1 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>.
+
+# text
+seg-8a2f6f535c4a = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-station-coverage</a1>.
+
+# text
+# c1: user
+# c2: beacons
+# c3: n_satellites
+# c4: comparison_n_satellites
+# c5: epoch_s
+# c6: elevation_mask_deg
+# c7: clock_sync_m
+# c8: multipath_m
+# c9: survey_m
+seg-a790c54ac1aa = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>.
+
+# text
+seg-4efffcd615df = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-beacon</a1>.
+
+# text
+# c1: frame
+# c2: time_system
+# c3: n_states
+# c4: epoch
+# c5: step_min
+# c6: object
+seg-720d0bbeaf6e = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+# text
+seg-019ca0f1051e = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-interop-export</a1>.
+
+# text
+# c1: mu
+# c2: arc_hours
+# c3: epochs
+# c4: steps
+# c5: rel_tol
+# c6: spatial
+# c7: sigma_range_m
+# c8: family
+# c9: n_spacecraft
+# c10: sigma_pos_threshold_km
+seg-28695dd2ecc3 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+# text
+seg-af5d871bc69e = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>cislunar-observability</a1>.
+
+# text
+# c1: mu
+# c2: arc_hours
+# c3: epochs
+# c4: steps
+# c5: spatial
+# c6: family
+# c7: n_spacecraft
+# c8: observable
+# c9: coordinates
+# c10: trials
+# c11: seed
+# c12: displacement_nd
+# c13: recovery_factor
+# c14: sigma_range_m
+# c15: sigma_range_rate_mm_s
+# c16: error_bound_km
+# c17: max_iterations
+# c18: rel_tol
+seg-f646e9fd7553 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+# text
+seg-5e7bd8bb1adf = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>cislunar-arc-recovery</a1>.
+
+# text
+# c1: afs_eirp_dbw
+# c2: user_gain_dbi
+# c3: slant_range_m
+# c4: slant_range_max_m
+# c5: carrier_hz
+# c6: gps_reference_dbw
+# c7: gps_reference_min_dbw
+# c8: afs_isotropic_signal_dbw
+# c9: transmitter_altitude_m
+# c10: transmitter_power_dbw
+# c11: antenna_diameter_m
+# c12: footprint_grid
+# c13: spoof_power_advantage_db
+# c14: spoof_code_offset_chips
+# c15: attacker_gain_dbi
+# c16: spoof_capture_js_db
+# c17: jam_denial_js_db
+# c18: standoffs_m
+# c19: mast_height_m
+# c20: user_antenna_height_m
+# c21: footprint_altitude_min_m
+# c22: footprint_altitude_max_m
+# c23: footprint_altitude_steps
+# c24: footprint_altitude_scale
+# c25: footprint_diameter_min_m
+# c26: footprint_diameter_max_m
+# c27: footprint_diameter_steps
+# c28: footprint_diameter_scale
+seg-3c514f3acc78 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>.
+
+# text
+seg-00b06a4fc0e0 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-attack-surface</a1>.
+
+# text
+# c1: n_sats
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: site_lat_deg
+# c7: site_lon_deg
+# c8: site_alt_m
+# c9: horizon_hours
+# c10: step_min
+# c11: elev_mask_deg
+# c12: sat_eirp_dbw
+# c13: carrier_hz
+# c14: chip_rate_hz
+# c15: user_boresight_gain_dbi
+# c16: temp_k
+# c17: tracking_threshold_dbhz
+# c18: degraded_margin_db
+# c19: jammer
+seg-079d2bb805f1 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+# text
+seg-63d4157e2294 = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-jamming</a1>.
+
+# text
+# c1: altitude_km
+# c2: inclination_deg
+# c3: planes
+# c4: sats_per_plane
+# c5: phasing_f
+# c6: epoch_s
+# c7: receiver_range_m
+# c8: receiver_ra_deg
+# c9: receiver_dec_deg
+# c10: tx_power_dbw
+# c11: tx_diameter_m
+# c12: tx_efficiency
+# c13: freq_hz
+# c14: rx_gain_dbi
+# c15: system_temp_k
+# c16: tracking_threshold_dbhz
+# c17: back_lobe_suppression_db
+# c18: epochs
+# c19: span_s
+seg-7bb977529f30 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+# text
+seg-287f89e6bf6b = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>earth-gnss-lunar</a1>.
+
+# text
+# c1: study
+# c2: seed
+# c3: orbit
+# c4: gnss
+# c5: ground
+# c6: monte_carlo
+# c7: surface
+# c8: llr
+# c9: orbiter
+# c10: gravimeter
+# c11: clock
+# c12: techniques
+# c13: nominal
+seg-f7ed8b60e7d1 = Campos obligatorios: <c1/>. Opcionales: <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+# text
+seg-41e50e49da99 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-infrastructure</a1>.
+
+# text
+seg-09f7f99d04a6 = <s1>Anterior</s1>Navegación en órbita terrestre baja
+
+# text
+seg-74c6bf83988e = <s1>Siguiente</s1>Análisis de misión, enlaces y operaciones espaciales

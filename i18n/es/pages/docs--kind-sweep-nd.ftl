@@ -42,3 +42,38 @@ seg-bb07c8ee153f = <b>PARTNER</b> No proporcionado: solo modelos de rendimiento;
 
 # text
 seg-8b701f465117 = log
+
+# text
+# c1: docs/kinds/by-kind/sweep-nd.md
+seg-792218eac075 = Fuente: <c1/>
+
+# text
+# c1: sweep-nd
+seg-c7e5582d0b24 = <c1/> (tipo de escenario)
+
+# text
+seg-4f19d4fb1341 = Barrido genérico N-D sobre cualquier paquete mediante claves TOML con puntos o rutas de métricas JSON.
+
+# text
+# c1: scenarios/sweep-nd-inertial.toml
+# c2: inertial
+seg-cd907c72698b = Una ejecución de <c1/> se resume así: barrido genérico de <c2/> sobre [threshold_m, accel_classical.bias] | { "15" } nodos (forma [{ "5" }, { "3" }]) | métricas [classical.fom.holdover_s, classical.fom.pos_rms_m]
+
+# text
+# c1: base
+# c2: axes
+# c3: metrics
+seg-502ba2c57a5f = Campos obligatorios: <c1/>, <c2/>, <c3/>
+
+# text
+# c1: scenarios/sweep-nd-inertial.toml
+seg-c372e390bb4f = El ejemplo <c1/> establece, entre otros:
+
+# attr:alt
+seg-621a18c07044 = El gráfico que el motor genera para scenarios/sweep-nd-inertial.toml, tipo de escenario sweep-nd
+
+# text
+seg-ce006a6715e9 = <s1>Anterior</s1>spoof
+
+# text
+seg-b9f8771ffd3d = <s1>Siguiente</s1>sweep

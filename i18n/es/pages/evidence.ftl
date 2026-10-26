@@ -3884,3 +3884,12 @@ seg-c3c260b7063e = Pruebas
 
 # text
 seg-417a52c9c154 = PDF
+
+# text
+seg-4e31c8daf798 = Registro
+
+# text
+seg-8980b5ae869b = Cifra
+
+# text
+seg-f4d1ec6fc464 = Citar
