@@ -116,3 +116,15 @@ seg-8b49f6477e8f = Noyau ouvert
 
 # attr:aria-label, text
 seg-6555ff9a6d8e = Sortie
+
+# text
+seg-70a79ec95bf4 = échec
+
+# text
+seg-7a33a168b020 = réussite
+
+# text
+seg-2192262e26c1 = atteint
+
+# text
+seg-a91762c0aabe = Gratuit

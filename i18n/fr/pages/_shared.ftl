@@ -518,3 +518,118 @@ seg-37f058c4e1c3 = nombre
 
 # text
 seg-e88d3dbcfe0c = MODELLED
+
+# text
+seg-852814f107a7 = Pages des types de scénario
+
+# text
+seg-1a26d420ba67 = Voir aussi
+
+# text
+seg-c4f4b2ca0647 = Valeur
+
+# text
+seg-e8968e86f31b = Limites
+
+# text
+seg-7dc0fcd6ef77 = aocs
+
+# text
+seg-c6ced184b8eb = campaign
+
+# text
+seg-bcc7452b7e9c = clock
+
+# text
+seg-00593bd8a3ed = ephemeris
+
+# text
+seg-0cb65c6c4f53 = fusion
+
+# text
+seg-dbe8c830ef6c = hybrid
+
+# text
+seg-eae62828dc7a = inertial
+
+# text
+seg-8af88a0e2a69 = integrity
+
+# text
+seg-9a63fde1d8b1 = jamming
+
+# text
+seg-f8450911ddd6 = orbit
+
+# text
+seg-6dd5a0d55f18 = passes
+
+# text
+seg-786068921d01 = pvt
+
+# text
+seg-63f112536118 = reentry
+
+# text
+seg-f79dad339a1e = spectrum
+
+# text
+seg-8ea9f458185d = spoof
+
+# text
+seg-460826ea7719 = sweep
+
+# text
+seg-55f3ac33d883 = timetransfer
+
+# text
+seg-a37260157d35 = Entrées
+
+# text
+# c1: kshana kinds --json
+seg-0ffd6d4b0d8c = D'après le schéma (<c1/>) :
+
+# text
+seg-7a473d2b9b37 = Champs requis : aucun
+
+# text
+seg-0484c5d57886 = non indiqué
+
+# text
+seg-619be4963365 = texte
+
+# text
+seg-15636cc68f72 = indicateur
+
+# text
+seg-473eb8189015 = L'exécuter
+
+# text
+seg-8b01aa51263e = Ce qu'il donne
+
+# text
+seg-5aa75472f59d = Les résultats scalaires de cette exécution, avec les unités que le moteur indique :
+
+# text
+seg-dfd41abc16b5 = Résultat
+
+# text
+seg-0df8f55cbe06 = deg
+
+# text
+seg-4798bca2d7a7 = MODELLED : les lignes de la <a1>matrice de vérification</a1> qui nomment ce type de scénario.
+
+# text
+seg-6338a873ee85 = Les lignes que l'exécution elle-même a exercées, avec la référence indépendante que la matrice donne pour chacune (les sources publiques y sont nommées) :
+
+# text
+seg-fe24dcc6971f = <b>MODELLED</b> Déterministe, hachée par scénario, avec des barrières SBOM + références d'or multiplateformes. Référence indépendante (ExternalDataset) : respect du schéma JSON officiel CycloneDX { "1.5" } par la SBOM (+ identifiants SPDX valides) — une norme publiée externe, zéro erreur de validation sur tout le graphe de dépendances ; la partie déterminisme du FoM / reproductibilité à l'octet près reste un contrôle d'autocohérence figé, de sorte que la ligne reste MODELLED
+
+# text
+seg-1fc08d2f0209 = Ce que le rapport propre à l'exécution dit n'être pas modélisé ou pas validé :
+
+# text
+seg-58c4d7218e70 = La reproductibilité et l'assurance logicielle sont MODELLED, et non validées : une sous-affirmation est vérifiée de l'extérieur, mais la capacité entière compose des éléments modélisés, de sorte qu'elle reste modélisée. (matrice de vérification (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-1bf3d5817274 = Tous les types de scénario : <a1>KINDS.md</a1>
