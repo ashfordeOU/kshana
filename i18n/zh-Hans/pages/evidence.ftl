@@ -2497,3 +2497,751 @@ seg-8980b5ae869b = 数值
 seg-f4d1ec6fc464 = 引用
 
 seg-d0566d4db829 = 复现该结果
+
+seg-1d45f4717196 = 来自代码仓库
+
+seg-b366150de755 = 申请研究
+
+seg-ac7e1a5e344a = Pro
+
+seg-6d3d0f8c9b7c = 申请 Pro 评估
+
+seg-8f101c803442 = 每项能力都带着<s1>它的证据。</s1>
+
+seg-9ef28b622a43 = { "388" } 项能力，每项都已分级。<b>{ "176" } 项已验证</b>，对照的是独立的外部参考基准（oracle）。<b>{ "208" } 项如实标注为由模型计算。</b>{ "4" } 项由合作方负责。没有任何向上取整。
+
+seg-4f6445e5dd61 = 验证矩阵 <b>v{ $version }</b>
+
+seg-d9f0aabb4262 = 暂停扫描
+
+seg-ae9e2459836c = 项能力
+
+seg-4adb5411062e = 验证矩阵，每项能力一个单元格，按台账顺序排列：{ "176" } 项已验证（实心方块），{ "208" } 项由模型计算（空心方块），{ "4" } 项由合作方负责（菱形）。方向键在单元格之间移动；下方会读出该能力及其参考基准（oracle）。
+
+seg-f97cb6bf8202 = 悬停或聚焦某个单元格，可读出其能力以及为其评定等级的参考基准（oracle）。
+
+seg-8a1cef0b9561 = 已验证：独立的外部参考基准（oracle）一致
+
+seg-582c4a762fc5 = 引擎 v{ $version } · <c1/>，由 <c2/> 生成 · { "388" } 行 · 无场景或随机种子：引擎自身的台账
+
+seg-d5c32303297d = 阅读台账
+
+seg-f6112ab2dfdf = 台账、结果、可复现性标记以及支撑它们的测试，全都在开源引擎之中。
+
+seg-69df15091cab = 把证据整理成供评审委员会使用的、可供审计且可复现的证据包。<a1>见下文</a1>
+
+seg-9906d9824f3e = 以同样的标签回答你自己的问题，而不是认证。<a1>见下文</a1>
+
+seg-f6a6cca2263c = 矩阵
+
+seg-78e5feea4a80 = 已验证的结果
+
+seg-b3b972c50b99 = 术语表（文档）
+
+seg-92e427f220c0 = 已验证的结果 · 每一个比较过的值
+
+seg-a92d57eddda0 = 对照别人的答案检查过。
+
+seg-978c14c0cbd8 = 每个图块绘出引擎与独立参照比较过的每一个值：已公布的向量、一个独立的飞行动力学库、精密星历、一个统计库、一份标准出版物，以及一份不参与拟合而被保留的实测时钟记录。悬停或聚焦某个标记可读出其值。
+
+seg-2b49d76005fd = 轨道 · 解析
+
+seg-0155cf46a133 = SGP4（简化常规摄动 { "4" }）轨道外推
+
+seg-3d4fd2b6704a = 复现了每一个 AIAA（美国航空航天学会）参考向量，包括深空 SDP4（简化深空摄动 { "4" }）算例。最差情形为 <c1/> mm。
+
+seg-dbb66386afbf = 每个比较过的向量一个方块，按其位置误差着色。
+
+seg-55fc928e19ae = 参考基准（oracle）· AIAA 2006-6753 验证向量
+
+seg-1d60624d525d = 如何核对的
+
+seg-6adbc42697f9 = 引擎 v{ $version }，构建 <c1/> · <c2/> · 确定性，无随机种子
+
+seg-58ca3da25e69 = 在 Kshana Studio 中打开：同一个外推器，<c1/><s1> · 随机种子 <c2/></s1>
+
+seg-813d6d41b891 = 复制可复现它的命令
+
+seg-a0ef302e2458 = 复制命令
+
+seg-3b6c7858f32d = { "171" } 个 RAIM（接收机自主完好性监测）门限算例中有 { "171" } 个在带内与 SciPy 一致。随机种子 { "7" }。
+
+seg-0921da0d292e = 完好性 · 统计
+
+seg-6f311aef88fe = 个算例
+
+seg-36b744b97026 = RAIM 检测门限
+
+seg-db13900bdd77 = RAIM（接收机自主完好性监测）的统计核心，与 SciPy 逐个算例对照。
+
+seg-87734f6c52a2 = 每个 SciPy 算例一个方块，按核心分组。
+
+seg-4957eddb39ed = 参考基准（oracle）· SciPy
+
+seg-c5d5cf50c8a9 = 引擎 v{ $version }，构建 <c1/> · <c2/> · 确定性，无随机种子
+
+seg-011e33e27f59 = 在 Kshana Studio 中打开：运行中的核心，<c1/><s1> · 随机种子 <c2/></s1>
+
+seg-e02df7620fc7 = 数值（Cowell）轨道外推与 Orekit 在 24 小时弧段上对照：在力模型等级 { "1" } 至 { "5" } 中，最差差异为 { "0.08" } m。
+
+seg-d52f564b4af8 = 轨道 · 数值
+
+seg-e204506056b8 = 数值（Cowell）外推
+
+seg-16e820be9d20 = 在 24 小时弧段的每个历元上，按力模型等级逐级对照 Orekit { "12.2" } 飞行动力学库。
+
+seg-2b1ea60e99a7 = 各力模型等级下位置差异随时间的变化。
+
+seg-75344d6c427a = 参考基准（oracle）· Orekit { "12.2" }
+
+seg-2e80a89ee20a = 引擎 v{ $version }，构建 <c1/> · <c2/> · 确定性，无随机种子
+
+seg-44988f3835ce = 没有 Kshana Studio 视图：此项比较作为引擎测试运行。
+
+seg-6e9e7897bbc0 = 轨道 · 毫米到米
+
+seg-dcde8c6ec76a = m Galileo
+
+seg-f09e813feeb3 = m Swarm-A
+
+seg-3c258b4d5ac7 = 同一尺度上的每个轨道残差
+
+seg-211a071c2017 = 从外推器核对到对 ESA（欧洲航天局）精密星历的拟合。判据之上的月球轨道器也一并显示。
+
+seg-f5b078c26ba8 = 每个残差都置于从一毫米到二十米的对数刻度上。
+
+seg-6670ead3fa91 = 参考基准（oracle）· ESA 精密星历、月球轨道器的重构轨迹、Orekit { "12.2" }、AIAA 向量
+
+seg-6ce9be05ab08 = 引擎 v{ $version } · <c1/> 的残差表，其中两项外推器核对在构建 <c2/> 时重新计算 · 确定性，无随机种子
+
+seg-57c9f4e60efa = 没有 Kshana Studio 视图：精密定轨作为引擎测试运行。
+
+seg-f8f25ec2345b = 时钟 · 稳定度
+
+seg-912dbb14d171 = 共 <c1/> 个已公布的值
+
+seg-e0c144321893 = 在其自带的 1000 点数据集上，复现了 NIST（美国国家标准与技术研究院）特别出版物（SP）{ "1065" } 表 { "31" } 的参考值。
+
+seg-5d3372dbff1f = 四种偏差随平均时间的变化，已公布的值以圆环表示。
+
+seg-9993e306ae64 = 参考基准（oracle）· NIST SP { "1065" }
+
+seg-2a2794bda50f = 引擎 v{ $version }，构建 <c1/> · <c2/> · 确定性，无随机种子
+
+seg-fc6a00946a11 = 在 Kshana Studio 中打开：作用于时钟的估计器，<c1/><s1> · 随机种子 <c2/></s1>
+
+seg-4f484b09471e = 在一份实测铯钟记录上的守时（holdover）预测：预测值与实测值之比介于 { "0.84" } 和 { "1.03" } 之间，在预先设定的 { "1.5" } 倍系数之内。
+
+seg-4321e1b6bc12 = 时钟 · 守时（holdover）
+
+seg-7e2bad702e68 = 至
+
+seg-62cf63a7bec7 = 在一台真实铯钟上的守时（holdover）预测
+
+seg-1f59d5bb3cff = 在一份实测铯钟记录的前三分之一上拟合，在其余三分之二上预测：在预先设定的 <c1/> 倍系数之内。
+
+seg-46c1dbe5c6bc = 实测与预测的钟差（时间误差）随滑行时间的变化，以及比值窗口。
+
+seg-449f52c56c67 = 参考基准（oracle）· 实测铯钟记录
+
+seg-275351654591 = 引擎 v{ $version }，构建 <c1/> · <c2/> · 确定性，无随机种子
+
+seg-c131867720cc = 在 Kshana Studio 中打开：同一个反演，<c1/><s1> · 确定性</s1>
+
+seg-05dd599ce14a = 每项能力一个单元格。
+
+seg-b19592bc5242 = 已验证是指有独立的外部来源一致：已公布的参考向量、独立的工具或实测数据。其余一律标注为由模型计算。选择一个标签，即可点亮其单元格。
+
+seg-800e31fc8f7d = 已分级的能力
+
+seg-1d2c8132218d = { "176" }<s1>项（共 { "388" } 项）已验证</s1>
+
+seg-e61158f71854 = 悬停于某个单元格
+
+seg-b66d124aa8dd = 验证矩阵：{ "176" } 项已验证，{ "208" } 项由模型计算，{ "4" } 项由合作方负责，共 { "388" } 项
+
+seg-d814d33d2b1e = allan::lag1_noise_id：Riley 和 Greenhall（{ "2004" }）的滞后 1 自相关噪声… · 已验证
+
+seg-3f806067da69 = osnma + kshana osnma verify：一个开放的、纯 Rust 的 Galileo OSNMA 接收机侧验证器… · 已验证
+
+seg-10698a330a88 = 阿伦/修正/哈达玛偏差加幂律噪声识别，带 χ² 置信区间 · 已验证
+
+seg-b1508c42341f = 真实铯标准上的重叠阿伦偏差与重叠哈达玛偏差 · 已验证
+
+seg-a8462102ee02 = 覆盖完整 AF 阶梯的重叠阿伦偏差、修正阿伦偏差与时间偏差 · 已验证
+
+seg-29e7bbbe508c = Theo1 与总偏差（TOTVAR）——扩展范围的长 tau 稳定度估计器… · 已验证
+
+seg-1e52731cd30d = MTIE(τ)：在 τ 的任意滑动窗口上，时间误差峰峰值的最大摆幅，τ =… · 已验证
+
+seg-0bdb8a3e7052 = MDEV(τ)：重叠修正阿伦偏差（二阶差分滑动窗口… · 已验证
+
+seg-e5651d7b5236 = 从已公布的实测 ⁸⁸Sr 数据恢复幂律（白调频 + 红噪声底）NNLS… · 已验证
+
+seg-e7ada48a7ff9 = 按 ARAIM 机载设计文档的 ARAIM 多假设解分离… · 已验证
+
+seg-a74e42c59d5f = SGP4/SDP4、Cowell 6-DOF 加摄动、批处理/序贯 OD · 已验证
+
+seg-4f8eeede9609 = 带分层力模型（二体、J2–J6 带谐项… 的 Cowell 数值外推器 · 已验证
+
+seg-1fecb2c8c5d7 = 以 WGS-84 椭球作为遮挡天体的 SRP 受照比例（视地球半径… · 已验证
+
+seg-da94fc5e3b03 = 非炮弹形 SRP：箱翼平板模型（Vallado 式 8-44；单面本体… · 已验证
+
+seg-bf16e7dc6637 = SRP 受照比例，取临边昏暗太阳通量中未被遮挡的部分… · 由模型计算
+
+seg-5ccaafbaf99c = NRLMSISE-00 经验热层模型的移植（gtd7 和 gtd7d：各组分密度… · 已验证
+
+seg-2fd4e498e5d6 = forces::DensityModel（默认指数模型，Nrlmsise00 { "{" } f107a, f107, ap { "}" }）以及… · 已验证
+
+seg-8c1643833e02 = Cowell 外推器的默认阻力：相对共转… 的二次阻力 · 已验证
+
+seg-c88dad1395e5 = 供选用的星历等级，用于数值 Cowell 的第三体和 SRP 项… · 由模型计算
+
+seg-fc85378484a6 = 作为重力位摄动的周日 S1 气压潮：Biancale 和 Bode… · 由模型计算
+
+seg-5d41c94116ae = Ray（{ "2001" }）的 S2 气压谐波（n <= { "4" }，顺行和逆行）换算为… · 已验证
+
+seg-4e94ef6bbaf3 = 供选用的 EGM2008 田谐场（至 { "70" } 阶次），作为… 的中心引力 · 已验证
+
+seg-1b8ba1d23a4f = 对至 { "2190" } 阶的完全归一化场进行防下溢、防极点奇异的求值… · 由模型计算
+
+seg-ece10758305d = Hairer DOP853 { "8" }({ "5,3" }) 显式 Runge-Kutta，带组合的 5 阶/3 阶误差… · 已验证
+
+seg-c29a1f584c92 = 适用于全部 { "0" } <= e < { "1" } 和全部平近点角的椭圆开普勒方程求解器：Markley（{ "1995" }）三次… · 已验证
+
+seg-ae484d7c73e7 = 由混合的测距、距离变化率和方位角/高度角跟踪数据恢复历元状态，高于… · 由模型计算
+
+seg-7166587b7af6 = 映射 SP3 精度码（文件头 ++ 以 { "2" }^n mm 表示的指数，%f 基数，每条记录基数^n mm… · 由模型计算
+
+seg-a352259cb1c3 = 读取 PDS SHADR 球谐表（from_shadr，位于 SphericalHarmonicField 上，在… · 已验证
+
+seg-bbdb377981c4 = with_gravity_field（位于 Body 上，在 src/gravity_pds.rs 中）：附加任何已加载的… · 由模型计算
+
+seg-0dad0a6df1ba = 通过高斯-牛顿批处理，由地面站测距恢复历元状态 [r,v]… · 已验证
+
+seg-9aa6eccb7941 = 延迟的（下行）单向光行时解 τ = |r_rx − r_target(t−τ)|/c，用于… · 已验证
+
+seg-44b327dce46e = IS-GPS-200 / Galileo-OS / BeiDou-OS 广播星历 开普勒 → ECEF 卫星… · 已验证
+
+seg-b2291e777ac3 = 对 SP3 精密星历卫星位置做 IGS 标准的拉格朗日插值，带有… · 已验证
+
+seg-e64d4f89e37d = GPS CNAV 报文类型 10/11/30，Galileo I/NAV 字类型 1-5，位于标称的偶/奇页… · 由模型计算
+
+seg-30fbb32b73fa = IONEX { "1.0" } 读取器（文件头、固定列 I5 值、TEC 和 RMS 图、绝对历元… · 已验证
+
+seg-851595dfa46e = 无发散 Hatch 滤波器（无电离层码，由无电离层… 承载） · 由模型计算
+
+seg-f22ecff347b8 = 由真实双频 GPS 码和载波相位做短基线相对定位… · 已验证
+
+seg-53b900e15215 = 静态浮点解 PPP 滤波器在真实双频 GPS 上估计的接收机时钟… · 已验证
+
+seg-53508398f315 = 真实双频 GPS 码和载波上的静态浮点解 PPP 扩展卡尔曼滤波器… · 已验证
+
+seg-135f709cabd6 = RINEX 4.00-4.02 导航文件：GPS LNAV、Galileo I/NAV 和 F/NAV 的 > EPH 记录… · 已验证
+
+seg-8217e6dad5f4 = RINEX 4.0x 观测文件头（DOI、LICENSE OF USE、STATION INFORMATION、MERGED FILE… · 由模型计算
+
+seg-5064320fefbc = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } 由广播… 得到的地球静止卫星位置 · 由模型计算
+
+seg-b3a6e424d368 = 在列表给出的 SP3 钟差节点之间，通过线性插值得到卫星钟差… · 已验证
+
+seg-f3c33c897d1c = 对 { "15" } 个 INS 状态、两状态接收机时钟和一个浮点载波的误差状态 EKF… · 由模型计算
+
+seg-d18e059df2c0 = 轨迹库上的三个 gnss-ins 场景（一艘以 { "8" } m/s 蛇形航行的船，带有… · 由模型计算
+
+seg-94ad91994306 = 对位置、速度、时钟相位和频率的一个堆叠卡尔曼滤波器，输入… · 由模型计算
+
+seg-6d46cb5414e3 = 由 IMU 增量驱动、带 GNSS 天线… 的闭环 15 状态误差状态 EKF · 已验证
+
+seg-be8fb95782af = 交给开源 GNSS 仿真器自身读取器的 bench 导出运动文件来自… · 已验证
+
+seg-46797187781a = 为 gnss-ins 包提供的可选运动剖面（直线、8 字形、城市走走停停… · 由模型计算
+
+seg-0d1622691877 = 四元数姿态、WGS-84 NED 捷联惯导机械编排… · 已验证
+
+seg-6c2952f49754 = 由任意 ICGEM .gfc 模型得到的球谐重力大小与扰动（mGal）… · 已验证
+
+seg-41ca7eec4a62 = 圆型限制性 { "9" }:{ "2" } L2 南向近直线晕轨道，它… · 由模型计算
+
+seg-42c26212e2c9 = cr3bp::to_moon_centred_icrf 把无量纲的地月 CR3BP 旋转系状态映射到… · 已验证
+
+seg-35b2be544d26 = 带 planetary_kernel_path 的太阳系类型：每个报告的天体，其自身的 NAIF 代码… · 已验证
+
+seg-ad3763136cc7 = maneuver::porkchop_kernel：出发 C3（km²/s²）随发射日期 x 到达日期的扫描… · 已验证
+
+seg-0f5ae623905f = maneuver::optimise_transfer_kernel：一次… 的出发和到达日期 · 已验证
+
+seg-0ae19001fe4b = 兰伯特问题最多含三整圈的每一个解… · 已验证
+
+seg-7eafc10ca9dc = Izzo-2015 单圈兰伯特求解器（r1, r2, 飞行时间 → 边界… · 已验证
+
+seg-a8818aea1c75 = IAU 2006/2000A 岁差章动、CIO GCRS↔ITRS、闰秒时标 · 已验证
+
+seg-3713cbb8eb72 = 把 UTC 日历日期和时间转为两部分的 UTC 儒略日，采用 SOFA dtf2d… · 已验证
+
+seg-822cd40b49f9 = 在轨道路径上由两部分的 UT1 儒略日得到地球自转，使地固系… · 已验证
+
+seg-c846d8ec2e5e = 三个坐标系矩阵，逐元素或按旋转角与 ERFA 比较，在… · 已验证
+
+seg-853ce09df9d5 = 1960-01-01 至 1971-12-31 的 UTC，当时 UTC 以相对 TAI 的偏移速率运行并阶跃… · 已验证
+
+seg-a0c473abd3ff = GLONASS 广播卫星钟差 -tau_n + gamma_n (t - t_b)，取自… 上读取的时刻 · 已验证
+
+seg-ca16d26f1ebe = 每个经路由的地球轨道类型共用的外推与坐标系路径：一个 SGP4 平均… · 已验证
+
+seg-15ce16875e3a = m 序列/Gold 序列的旁瓣与互相关界限，长度↔模糊度 · 已验证
+
+seg-044da209dd61 = 由视线几何经 Q=(HᵀH)⁻¹ 并做局部 ENU 分解得到 GDOP/PDOP/HDOP/VDOP/TDOP · 已验证
+
+seg-a9fda54b3df8 = dop_error_mc::run_geometry 和 check：带种子的蒙特卡罗（每… N = { "20,000" } 个历元… · 由模型计算
+
+seg-cd50aaf86375 = receiver_trust::geometry：逐历元的卫星几何（良好、降级并给出原因… · 由模型计算
+
+seg-d39aa1ea5121 = 由八个广播 α/β… 得到的 Klobuchar 单频 L1 斜向电离层群延迟 · 已验证
+
+seg-ab6ef0477bea = 每个保护级所依托的分布核心：快照故障检测… · 已验证
+
+seg-08740f67bcf2 = DO-229E 附录 J 加权最小二乘保护级：D=(GᵀWG)⁻¹，由… · 已验证
+
+seg-0597fb2464d0 = AUC（Mann-Whitney，并列取 ½）、阈值处的混淆矩阵… · 已验证
+
+seg-76f7a9a22d70 = ROC AUC 加自助法置信区间，用于区分真实的带标签异常；透明的检测器… · 已验证
+
+seg-f3d7926d7464 = 实测 ADEV 的 NNLS 拟合、NEES/NIS χ² 一致性区间，以及时钟 van-Loan 离散… · 已验证
+
+seg-cf029efb7438 = IGRF-14 主磁场的球谐合成——X/Y/Z/F 分量、磁偏角… · 已验证
+
+seg-ba97bae9110c = 解析双正态 ROC AUC = Φ(μ/(σ√{ "2" })) 以及最小可检测故障… · 已验证
+
+seg-fa9b946507f8 = 韧性决策不稳定性研究之下的秩相关与重采样核心… · 已验证
+
+seg-c0267817b05a = 层次分析法优先级权重 = 归一化的主（Perron）特征向量… · 已验证
+
+seg-3780fbf75fa5 = 加权和模型（极差归一化的加性聚合 + 排序）以及加权… · 已验证
+
+seg-e90b04f6ed22 = 逼近理想解排序法——极差… · 已验证
+
+seg-b66a72295a62 = VlseKriterijumska Optimizacija——群体效用 Sᵢ、个体遗憾 Rᵢ 以及… · 已验证
+
+seg-8e3355350914 = 偏好排序组织法——成对偏好指数，带六种标准… · 已验证
+
+seg-edc8867a5ae6 = ELimination Et Choix Traduisant la REalité——一致/不一致矩阵、… · 已验证
+
+seg-85bc967357d6 = 加权综合乘积评估法（线性归一化的凸组合… · 已验证
+
+seg-69652cbd7eb5 = 复杂比例评估法——列和归一化的效益显著度 S⁺ 加上… · 已验证
+
+seg-14a9c267153c = 表格式 CUSUM 检测器的最坏情形检测延迟（⌊h/(z−k)⌋+{ "1" }）以及失控… · 已验证
+
+seg-559361559e00 = 滑行相位误差方差增长 q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 及其单调… · 已验证
+
+seg-f35ada98dcce = 有效架构多样性 = 逆辛普森/Hill 2 阶数 1/Σpᵢ²，在… 之上 · 已验证
+
+seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry：大地（WGS-84）方位角… · 已验证
+
+seg-f5a8c861b566 = skyline：街道峡谷的闭式解（截断 atan((h - a) / d)，其中 d = (w/2) /… · 由模型计算
+
+seg-6f4ab2e589a4 = skyline::PRESETS：四种 REPRESENTATIVE 几何，采用设计说明所述的… · 由模型计算
+
+seg-206fd57a3ac7 = geometry::sky_geometry：含一个接收机时钟的 ENU 与时钟协因数 (H^T H)^-1，位于… · 已验证
+
+seg-d01c7735f171 = geometry（sky_geometry、sky_monte_carlo、skyline_presets、skyline_profile、skyplot_svg… · 由模型计算
+
+seg-443eb5d0c060 = 闭式的滑行误差增长与守时（holdover）至门限的时间；量子时钟类别 · 由模型计算
+
+seg-82fc65142759 = clock_library：设备卡（白相位、白噪声、闪烁和随机游走调频，外加… · 由模型计算
+
+seg-18704e564ea4 = clock_library::card::DeviceCard::fit_phase_periodic：携带… 的设备卡 · 由模型计算
+
+seg-b3a0ab1e8725 = 3 状态（相位/频率/漂移）van-Loan 卡尔曼时钟，Joseph 稳定化 · 由模型计算
+
+seg-065f31b5656e = 双向/TWSTFT（Sagnac）、GNSS 共视、PPP；链路抖动→测距 · 由模型计算
+
+seg-f66464be680e = BPSK-R/BOC 功率谱密度、频谱隔离系数 κ、Gabor 带宽、DLL 抖动、多路径 · 由模型计算
+
+seg-93c350e230ed = G1/G2 LFSR C/A 码生成器，复现 IS-GPS-200 已公布的前 10 个码片八进制… · 已验证
+
+seg-934de63c594b = 从第一性原理出发的冷原子干涉加速度计（k_eff·T²、QPN） · 由模型计算
+
+seg-c1b7c7c18be6 = Mach–Zehnder 条纹模糊动态范围：以 2π 为周期的条纹读出设定了… · 由模型计算
+
+seg-0b04febfad29 = 在守时（holdover）期间由偏置、比例因子、VRW 和稳定度衰减合成的位置预算 · 由模型计算
+
+seg-9f1d13017c2b = 15 状态误差状态 EKF，松耦合（在真实 IMU/GNSS 行驶数据上对照… 验证） · 已验证
+
+seg-7de0c3292c0b = 几何 J/S 链路预算、抗干扰 C/N₀、逐卫星失锁 · 由模型计算
+
+seg-4c976ce425d1 = 时钟辅助 χ²、RAIM、AGC、SQM 融合的逐历元安全性能指标 · 由模型计算
+
+seg-94aef965251e = 最坏情形未检测钟差（时间误差）的闭式界 = 监测下限 + 振荡器… · 由模型计算
+
+seg-f94c1547b98c = CR3BP 状态转移矩阵 + 单次打靶微分修正器；L2 南向 NRHO · 已验证
+
+seg-ed2d780e3d9e = 重力图匹配、地形参考（TERCOM/SITAN）、磁异常 · 由模型计算
+
+seg-486011306ab7 = 球面近似下的重力异常（Barthelmes STR09/02 式 { "126" }，ICGEM… · 已验证
+
+seg-4483cf6d6e1b = 手写的 SRTM .hgt 解析器（16 位大端、北行优先、识别空洞）+ 双线性… · 已验证
+
+seg-00ca5de4ee1f = 确定性、带场景哈希值、SBOM + 跨平台黄金基准关卡 · 由模型计算
+
+seg-8e59c3e84e80 = 带标签的合成损伤语料 + 与检测器无关的 ROC/AUC/混淆矩阵/Pfa-Pmd… · 由模型计算
+
+seg-ee1c310ec3f1 = 对分布内→分布外 AUC 乐观度差距的受控合成研究… · 由模型计算
+
+seg-901571509bd6 = 实测 ADEV 导入（NNLS）、权衡表（授时/惯性守时（holdover）+ 收益）… · 由模型计算
+
+seg-5662e2e5895c = 太阳/地磁指数（定义性的 Kp↔ap 表）、Jacchia-1971 外逸层… · 由模型计算
+
+seg-c537da9d8e79 = CCSDS { "502.0" } OEM 导入器（parse_oem），容许 COMMENT 行/额外元数据… · 已验证
+
+seg-beeb7d7b6dd4 = 二体发射方位角（sin Az = cos i / cos lat）、可达最小倾角… · 由模型计算
+
+seg-c45e3519a7a5 = 峰值减速度（与弹道系数无关）、峰值 g 处的速度和高度… · 由模型计算
+
+seg-da36dafae1a0 = SMAD 空间三角形几何：地球角半径、幅宽、星下点 GSD、最大… · 已验证
+
+seg-3ad96d6deb18 = CCSDS 133.0-B 空间包主头编码/解码… · 已验证
+
+seg-8310f0595525 = 主头之外的 CCSDS 133.0-B-2 空间包扩展：次级头… · 已验证
+
+seg-5bb33fefb658 = 类型 { "9" }（拉格朗日、不等时间步长）的 NAIF SPICE SPK 内核的写入器和读取器… · 已验证
+
+seg-0e3ee73f6878 = 类型 { "3" }（切比雪夫多项式，用于…）的 NAIF SPICE SPK 段的写入器和读取器 · 已验证
+
+seg-f7030d62e793 = KVN 和 NDM/XML 格式的 CCSDS 504.0-B-2 姿态数据报文的写入器和读取器：AEM… · 已验证
+
+seg-c50a40ca4cc3 = KVN 和 NDM/XML 格式的 CCSDS 502.0-B-3 轨道数据报文的写入器和读取器：OPM { "3.0" }… · 已验证
+
+seg-26a88c235d95 = 重力梯度最坏情形扰动力矩 ((3/2)(μ/R³)ΔI)，取姿态上的峰值… · 已验证
+
+seg-87c35f71a0ad = 一条引擎… 的时域可见性过境（AOS/TCA/LOS、最大高度角、持续时间） · 已验证
+
+seg-52b6d079e92c = 一颗 SGP4… 的可见性过境（AOS、TCA、LOS、最大视高度角、持续时间） · 已验证
+
+seg-399a6180ad73 = 一颗卫星经过一个站点时，沿每次过境的下行 Es/N0（EIRP、自由空间损耗… · 由模型计算
+
+seg-39ce06b45cb9 = 来自每次卫星-站点过境的候选联络及其 ACM 数据量；冲突… · 由模型计算
+
+seg-3fba182b5716 = 在 CCSDS { "401" } / DSN 810-005… 之上的自由空间路径损耗、C/N₀、Eb/N₀、裕量和闭合情况 · 已验证
+
+seg-c4474a20a256 = 在星座规模设计引擎之上的每百分点覆盖成本 + 每欧元覆盖的 ROI… · 由模型计算
+
+seg-f7455ff3cea7 = 把未检测到的欺骗/压制偏差映射为有效误差 → Stanford 区域… · 由模型计算
+
+seg-3b6f9365b858 = 带区间（最佳/标称/保守）的冷原子干涉仪性能——偏置… · 由模型计算
+
+seg-487540fed42b = TIB Stanford 完好性图的历元分类（标称/不可用/MI/HMI） · 由模型计算
+
+seg-fdacd291d688 = TIB 完好性覆盖打分（HMI/MI/可用性比率 + 过包络覆盖结论） · 由模型计算
+
+seg-55b7d4cb0733 = TIB 故障清单（域发散、时钟突变、守时（holdover）滑行… · 由模型计算
+
+seg-deb93b385e06 = TIB 不可检测吸收结论（对称/重放必须由 PL 吸收，绝不… · 由模型计算
+
+seg-71e991a2fb5e = 未提供——Kshana 是导航性能仿真器，不是卫星平台制造商 · 合作方
+
+seg-aad5d920d276 = 未提供——Kshana 对信号性能建模，不对有效载荷/天线硬件建模 · 合作方
+
+seg-635ca7bf37f6 = 未提供——仅提供性能模型；冷原子/时钟硬件由合作方负责 · 合作方
+
+seg-cf461832e017 = 未提供——Kshana 只涉及软件 PA；飞行 PA 由合作方负责 · 合作方
+
+seg-b12d70afce58 = 相对论地月时钟速率（LTC/TCL）+ TT/TAI/UTC 链接 + 集合 · 已验证
+
+seg-2196751179d2 = 光-射频混合报告说明了它实际运行时的链路配置（载波… · 由模型计算
+
+seg-c4ba60f69a92 = 光-射频混合报告给出一个射频链路可用性，由… 的量合成 · 由模型计算
+
+seg-e35847b3472a = 光-射频混合报告给出光对射频的测距比，带有唯一的… · 由模型计算
+
+seg-f2a51c1899b1 = 链路预算报告说明了其自身裕量所依据的每个绝对常数… · 由模型计算
+
+seg-8f6469a6120f = 一次月球时间预算运行，针对每个时钟类别输出一行时钟对坐标系的交叉点，对照… · 由模型计算
+
+seg-0539c66f5cf0 = 一张表报告 UT1 预测误差、极移极点误差及其… · 已验证
+
+seg-a3f939d488fb = realtime-frame-eop 的运行时默认值是库自身内嵌的、逐字… 的副本 · 已验证
+
+seg-8f02a2501455 = 方向图加权、高度受限的地表捕获足迹在… 上的双轴扫描 · 由模型计算
+
+seg-8a1340c7c9c7 = 月球时间预算场景把其数组形式的输出发布为长格式（网格… · 由模型计算
+
+seg-4ab4a61e8167 = 月球时间预算场景的可选 [time_lab] 块对一个月球参考… 建模 · 由模型计算
+
+seg-57abfe8d677e = 地球基线观测月球信标的近场 VLBI 时延 + 偏导数 · 由模型计算
+
+seg-d30dd4a12006 = 地球基线观测月球信标的近场 VLBI 时延，带信标和… · 已验证
+
+seg-3aa60b9c6b3c = 引擎自己的纯 Rust NAIF 二进制内核读取器（naif_kernel）：DAF… · 已验证
+
+seg-2acd73a9ac2d = 月球距离处的地球 GNSS 接收：P7 表 { "1" } 所指的弱信号层和… · 由模型计算
+
+seg-33d1304a0519 = 近直线晕轨道（或椭圆冻结轨道）中的定轨… · 由模型计算
+
+seg-c1ee9a353523 = 月面处接收机之间单差的地球 GNSS 载波相位和码… · 由模型计算
+
+seg-69aedd00f9a3 = 由地球站激光… 得到的七参数月球坐标系基准面的 Fisher 信息 · 由模型计算
+
+seg-1fbf7618a692 = 技术间平移、尺度和旋转偏移的 Cramer-Rao 精密度… · 由模型计算
+
+seg-e415b5a77676 = 由激光… 得到的 h2、k2、l2 和物理天平动振幅的 Fisher 信息 · 由模型计算
+
+seg-8f2d14dd394e = 月面用户的信标增强精度因子：可见卫星… · 由模型计算
+
+seg-d76d65cb95c5 = 把测量误差精确地分解为 RAIM 看不到的部分和…的奇偶子空间分解 · 已验证
+
+seg-90c252c7df52 = cmpl_horizontal 给出盲… 所贡献的 k 倍 sigma 水平位置误差的界 · 由模型计算
+
+seg-92fc824c4b83 = VLBI + 月面本地测距 + 星间测距的批量融合，以恢复… · 已验证
+
+seg-4cf20252f448 = Fisher 信息 M=HᵀWH、Cramér–Rao 下界、可观测性秩/基准面缺陷… · 已验证
+
+seg-f71ccda9ffde = 联合月球解算的 Fisher 信息可观测性：没有地球基线时… · 由模型计算
+
+seg-cd6e8589ff01 = 7 参数 Helmert 基准面拟合 + 由点网络得到的 ICRF 定向连接 · 已验证
+
+seg-04e2dd96ebd4 = Moonlight 级月球 DOP/覆盖/可用性 + 广义月球 ARAIM 保护… · 已验证
+
+seg-b4800672c176 = LSIS V1.0（{ "2025" }年1月{ "29" }日）的增强前向信号码：AFS-Q 10230 码片… · 由模型计算
+
+seg-e663cd51a1af = AFS 基带的渲染核心（LSIS-130：复包络 I + jQ，I = AFS-I… · 已验证
+
+seg-088515ff0767 = LSIS V1.0 的 { "12" } s、6000 符号 FID { "0" } 帧：68 符号同步图样、BCH… · 已验证
+
+seg-2e3079616926 = 一份 Kshana AFS 记录，由一台独立的软件接收机捕获、跟踪并解码… · 由模型计算
+
+seg-437e67bb2bed = GPS L1 C/A 扩频码（sdr::CaCode）和 LNAV 子帧 1-3（gps_lnav：IS-GPS-200… · 由模型计算
+
+seg-ffd1b13b8e08 = IQ 场景生成器针对一个 GPS L1 C/A 广播星历场景的逐卫星真值… · 已验证
+
+seg-f93a7f8acc5a = iq::acq::acquire（采用平方律 Marcum-Q 门限的 FFT 并行码相位搜索）… · 由模型计算
+
+seg-eef6607ed2cf = iq::campaign::detect 与测评活动运行器：一个可选的 [monitors] 表运行 IQ… · 由模型计算
+
+seg-ee78cb937e79 = iq::campaign::detect（windows、roc）和 iq::campaign::report::rocs：每个… 的单元格 · 由模型计算
+
+seg-47782cefbb89 = iq::labfit（campaign、cn0、iqfit、iqreport）以及 kshana iq labfit 上的 [input] campaign… · 由模型计算
+
+seg-14e8ca05c35a = Kshana 为 { "32" } 个 brdc0010.22n… 生成的 LNAV 子帧 1-3（gps_lnav::encode_subframes） · 由模型计算
+
+seg-030d1fa37f79 = IS-GPS-200 LNAV 子帧 1-3（gps_lnav::encode_subframes：就近取整量化… · 由模型计算
+
+seg-e53b50d716c2 = 并行码相位搜索（acquisition::pcps_acquire：可移植 FFT、相干折叠… · 由模型计算
+
+seg-dd83610c7054 = acquisition::pcps_acquire 及其样本功率判决，作用于九个非地表 LuGRE… · 由模型计算
+
+seg-39dfb5c00daf = acquisition::pcps_acquire 及其单元平均判决（峰值对网格均值… · 由模型计算
+
+seg-c75576fbf7dc = acquisition::pcps_acquire（单元平均判决，虚警概率 { "1e-7" }），带有… · 由模型计算
+
+seg-7b80adb2f3c1 = 逐卫星的站心视角（方位角自正北顺时针、高度角）以及… · 已验证
+
+seg-8682a18623a0 = NovaMoon 级差分参考站：共模抵消 +… · 由模型计算
+
+seg-22e6954fe97f = 与 LunaNet/IOAG 一致的月球坐标系 + 时间 + 星历导出（CCSDS OEM + KIF），带有… · 由模型计算
+
+seg-ef1f98adc881 = 基于 Kshana 自己的七个韧性类别（不是 DHS 术语）的分维度子分… · 由模型计算
+
+seg-a4b986bb7414 = 量化单一综合分数/RPCF 等级在… 下如何重新排列架构的顺序 · 由模型计算
+
+seg-2c46a0ac9d47 = 逐结果的如实性台账，用于限定一个演示输出：其外部锚点… · 由模型计算
+
+seg-3cf7f27d3357 = 一个可复现的 TradeEvidence 对象（固定框架：场景+随机种子+引擎；通用的逐 FoM… · 由模型计算
+
+seg-24f99198842b = 设备卡（光学/囚禁离子/汞离子 + 复用自… 的经典时钟） · 由模型计算
+
+seg-acd180a7e9c1 = 端到端的量子对经典时间传递链（时钟滑行 + 链路精密度，位于… · 由模型计算
+
+seg-cd23c8f87bd6 = 量子（冷原子干涉仪）对经典导航级 INS 在… 上的航位推算 · 由模型计算
+
+seg-843a2f5c9332 = 带标签的量子故障目录（时钟频率跳变/漂移/失锁；传感器… · 由模型计算
+
+seg-cc543b168360 = 欧拉转动运动方程（I ω̇ = τ − ω × Iω，主轴和一般… · 已验证
+
+seg-1cb6f416c032 = 追踪器相对于圆形参考轨道上目标的相对运动，在 LVLH… · 已验证
+
+seg-af4f665f008c = 定位一个发射源（压制/欺骗干扰源，或用于反向 PNT 的机会信号源），由… · 由模型计算
+
+seg-537695276e2e = 穿过美国标准大气、绕旋转球形地球的 3 自由度质点再入… · 已验证
+
+seg-325aee4e883b = 驻点对流热流 q = k sqrt(rho/R_n) V^{ "3" }，采用 Sutton-Graves… · 由模型计算
+
+seg-1d456a0c1722 = 星下点成像仪信噪比预算（朗伯场景辐亮度、相机方程、散粒… · 由模型计算
+
+seg-177b656af61c = 多级运载器在非旋转球形地球上的平面重力转弯上升… · 由模型计算
+
+seg-ef8c91c82ae6 = 针对 T_A - T_B 求解的 TWSTFT 双向方程，带站点发射和接收… · 由模型计算
+
+seg-1d0b4b4e110f = Hufnagel-Valley Cn2 沿斜路径积分，用于平面波和球面波… · 由模型计算
+
+seg-c4ee04146fdd = 光链路对照规定链路裕量的可用性，基于对数正态云… · 由模型计算
+
+seg-028c12c10cb9 = 与闭式滑行… 耦合的光学站点中断时长分布 · 由模型计算
+
+seg-c3d99589cc05 = 一个选用的 [timeseries] 表（时长、步长、随机种子）使光学大气类型… · 由模型计算
+
+seg-0c7d7f31e4d6 = DSN 轨道数据文件（TRK-2-18）的读取器：36 字节记录组（文件标签… · 由模型计算
+
+seg-7956a36bcade = 带三个或更多平衡反作用… 的刚性中心体的惯性指向姿态控制 · 已验证
+
+seg-84a5fe5a3fbe = Lefferts-Markley-Shuster 乘性 EKF：本体系姿态误差和陀螺偏置… · 由模型计算
+
+seg-193da3371e11 = 由加权矢量观测（星/日/磁强计… 得到的最优三轴姿态 · 已验证
+
+seg-8da56e79e751 = 码相位 × 多普勒搜索上的平方律（非相干）捕获检测器… · 已验证
+
+seg-d5849ac6bc94 = 按 LAMBDA 方式的整数最小二乘整周模糊度固定：体积保持的整数（Z）… · 已验证
+
+seg-2d96783440cc = 双曲线飞越几何（a=−μ/v∞²，e={ "1" }+r_p·v∞²/μ，转向角 δ={ "2" }·asin(1/e)，撞击… · 已验证
+
+seg-e7d3b969f076 = 受控接收方向图天线置零：复阵列导向矢量… · 已验证
+
+seg-dd7b728fe2b4 = 五系数 IEEE-1139 功率谱密度↔阿伦方差转换 S_y(f)=Σh_α f^α → σ_y²(τ)… · 已验证
+
+seg-f8adbffd71d8 = 序列化并解析 CCSDS { "502.0" } OEM 的 COVARIANCE_START…COVARIANCE_STOP 块——{ "6" }×{ "6" }… · 已验证
+
+seg-d67d03452c0a = 由 IMU 系数构建的位置误差对滑行时长预算，每个误差源… · 已验证
+
+seg-4b154bf6e19f = 一次运行读取一份联络计划（aos_s/los_s 窗口的列表，每个窗口请求孔径… · 由模型计算
+
+seg-f760b89fb9f2 = 月球原生的干扰对信号比、有效 C/N₀ 和失锁，针对一个月面坐标… · 由模型计算
+
+seg-4f9161cdf3ee = 月球干扰报告不再把其拒止等值线建立在单个标量上。它输出… · 由模型计算
+
+seg-c9d6d3cf2935 = 光-射频混合报告说明了跨模态卡方监测器能… · 由模型计算
+
+seg-59df9a43a6b8 = 光-射频混合报告公开了滤波器的过程噪声模型，并说明如何… · 由模型计算
+
+seg-8b261efc9e1c = 逐卫星几何导出针对每个（历元，卫星）携带偏离视轴… · 由模型计算
+
+seg-128f88766721 = 由环路动力学而非功率比计算的失锁：载波（Costas）和… · 由模型计算
+
+seg-dc1fcd97c3a7 = 时延偏导数在基线 × 历元的时间表上累积为 Fisher… · 已验证
+
+seg-c17542136645 = 第三种基准面选择，即全部测站固定，它固定每个地球站并估计… · 由模型计算
+
+seg-5c8e2fa3bbbf = lunar-vlbi-fim 场景的全部测站固定的信标协方差（每个地球… · 已验证
+
+seg-ce38279b5aa8 = 差分修正在其被计算的历元与… 之间累积的三项 · 由模型计算
+
+seg-156151ec109a = 月球差分 PNT 模型在南极用户网格和… 上的蒙特卡罗扫描 · 由模型计算
+
+seg-1705f4ce1f56 = lunar-station-coverage 类型的逐站点、随方位角变化的地平遮蔽（… · 由模型计算
+
+seg-e93ebeff92a8 = lunar-station-coverage（LRS-02）的可选 [receiver] 段：随高度角变化的… · 由模型计算
+
+seg-b294dec61e30 = lunar-station-coverage（LRS-03）的可选 orbit_err_growth_m_per_s 输入：一个… · 由模型计算
+
+seg-a68d82cb0c1e = lunar-station-coverage（LRS-06）的可选 [solution] 段：一个高度… · 由模型计算
+
+seg-b4996f005ec1 = 在已公布的… 的公开假设下运行的 lunar-station-coverage 类型 · 由模型计算
+
+seg-bd66869079b4 = 月球保护级从几何到协方差的步骤——在全部在视… 上的 (GᵀG)⁻¹ · 已验证
+
+seg-f9bc824806f8 = 多假设解分离保护级方程本身… · 已验证
+
+seg-23900b097b2f = araim_reference::add_v42_subset_plan：ADD v4.2 子集确定规则（P_THRES… · 由模型计算
+
+seg-e5cfbf8661ff = 时钟类型（clock_integrity::run）的可选 [integrity] 段：由给定的… · 由模型计算
+
+seg-b07a36e5c271 = 在空间六状态 CR3BP 而不是… 中的地月空间弧长可观测性门限 · 由模型计算
+
+seg-f88fcbfa22cf = 在尾随窗口上做最小二乘偏置加速率拟合，外加主要的周期… · 由模型计算
+
+seg-fd5f35f76c57 = 由模拟观测测评活动而非… 传播得到的七参数 Helmert 基准面 · 由模型计算
+
+seg-2c8d43fe11c7 = 一个批量最小二乘估计器，由模拟的… 恢复主星的初始状态 · 由模型计算
+
+seg-a10c3602ff80 = 接受以月心为中心的列表式状态星历（对 SPK/BSP 内核求值）… · 由模型计算
+
+seg-4b77b4198030 = 一份机器可读的模式，为每个数值给出单位、出处类别和定义… · 由模型计算
+
+seg-735a5f9d5762 = 七参数 Helmert 基准面协方差，其两个模拟输入被… 取代 · 已验证
+
+seg-ea7ecbe4ec1e = lunar-llr-datum 场景上可选的 extra_reflectors 和 extra_beacons 输入增加一个… · 由模型计算
+
+seg-e55351a3a757 = 由已归档的 ILRS 标准点得到的 lunar-llr-datum 七参数 Helmert 基准面协方差… · 已验证
+
+seg-e84dedc612c4 = ephem::moon_position，本库回退使用的低精度地心月球级数… · 已验证
+
+seg-1af4030e7dde = 针对验证过程本身的三道结构性防护，每道封堵一类… · 由模型计算
+
+seg-5b9dda92c158 = 针对异质来源的标量时间解分离 TPL；PL 由…驱动 · 已验证
+
+seg-a1f93440e60e = PL(τ)=max(TPL_handover,HPL(τ))；下半连续 PL({ "0" }+)≥PL({ "0" }−)；K(IR/2) 滚动最大值… · 由模型计算
+
+seg-54d612592d08 = 滚动最大值包络以过包络方式覆盖（零穿越）一个真实的计量学序列，在… · 已验证
+
+seg-54f4e009c7d5 = 没有有限的最坏情形守时（holdover）（布朗上确界发散）；按 IR 分配的 HPL 与…一致 · 由模型计算
+
+seg-2f43298d88c8 = 逐来源偏置过包络 b = (U/k_cov)·Phi^-1(1-tail/2) + 老化，使已公布的… 膨胀 · 由模型计算
+
+seg-76baa53b1b6e = N×N 偏置互协方差，非对角元为 rho·b_i·b_j，适用于共享 UTC(k) 的来源… · 由模型计算
+
+seg-b2396f1b8e9d = 手写的 Cholesky Omega=LL^T 与前向代入白化 z=L^-1 r（Cov(z)=I… · 已验证
+
+seg-e7ad7dc222c3 = 得分统计量 ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1，针对共模偏移… · 由模型计算
+
+seg-91e04ed91d06 = 不可检测的共模上限：沿方向 d 的最大故障量值，使得… · 已验证
+
+seg-39ee9f0b7b11 = 7 参数 Helmert… 的 { "{" }lunocenter-X, scale{ "}" } 块的 Schur 补边缘分布 · 已验证
+
+seg-9eaa1f56a3b7 = 内部测距基准面问题的分类：单个测距观测… · 由模型计算
+
+seg-e97d57d71169 = 地球-反射器 LLR 测距、双站月球 VLBI 差分… 的基准面雅可比行 · 由模型计算
+
+seg-8f2f47d609a1 = 在 2014-01-01 至 2030-12-31 TDB 内任意历元的 MOON_PA_DE440 到 J2000 旋转… · 已验证
+
+seg-58aa8583d165 = 五个近侧角反射器阵列，以 PA 本体系的米为单位，以及 LLR 地面… · 由模型计算
+
+seg-2c37f225dfbd = 月球激光测距标准点的单程地球站到反射器的距离：… · 已验证
+
+seg-5bd57078f7ca = assemble_coupled_info 构建针对 [t_x, t_y, t_z, s… 的 9 参数耦合 Fisher · 已验证
+
+seg-2cc77f037f08 = 每个节点的径向距离与接收机钟差之间的退化关系在 { "1" } m 对 { "3.336" }… 时是精确的 · 由模型计算
+
+seg-193fb9b9adcf = rate_frame_jacobian(_with) 给出月球时标速率对… 的敏感度 · 已验证
+
+seg-54e36f7a21b4 = classify_null_space 把基准面零空间分解为纯空间的（维数 d 减…） · 已验证
+
+seg-f719cc938742 = MeasurementBlock 持有一个候选测量测评活动，作为 7x7 Fisher 信息… · 由模型计算
+
+seg-9a8d751557dc = 仅旋转（6 参数平移+旋转）的分解，针对… · 已验证
+
+seg-37a04d53055c = consistency_tolerance：把用户位置预算反演为逐参数的提供方间… · 由模型计算
+
+seg-99b19ea76ee8 = interop_budget：在…下可约（共同坐标系连接）与不可约（动力学）的划分 · 由模型计算
+
+seg-0bdcdf560cb2 = 在真实 DE440 的逐节点月球网络上（每一行是一个差分节点间单程… · 已验证
+
+seg-5ebd7b35bd1f = byzantine_bound 实例化了安全状态估计的编码/稀疏可观测性… · 由模型计算
+
+seg-3899180aa58b = holdover_floor 确定：在仅由… 连接的自主节点集合中 · 由模型计算
+
+seg-d323b519c245 = 单一分解 ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) 的三个侧面，带有… · 由模型计算
+
+seg-94d22b2503a8 = 电信授时场景类型所给出的最大时间间隔误差和时间偏差… · 已验证
+
+seg-a84558dbbbfe = 转录自 ITU-T G.8272（07/2025）PRTC-A/B、G.8272.1（{ "2024" }）Amd. { "1" }（07/2025）的限值… · 由模型计算
+
+seg-e1d85bd6b885 = 电信授时的七个恒温 MTIE 和 TDEV 漂移生成模板… · 由模型计算
+
+seg-fb20760cdc4c = clock_log::read_input：一个解析层，把 RINEX 钟差文件（… 的 AS/AR 记录）转为… · 由模型计算
+
+seg-f786d891bc94 = clock_log::read_input，支持 ptp4l、phc2sys、ts2phc、chrony-tracking 和… 格式 · 由模型计算
+
+seg-a208919126f0 = 守时（holdover）测试类型：一份钟差（时间误差）记录（一份 linuxptp、chrony、TICC、TimeLab 或 RINEX… · 由模型计算
+
+seg-a9f96c67a8ea = gnss-ssv 类型的可用性扫描：按星座（GPS、GLONASS、Galileo、BDS… · 由模型计算
+
+seg-7beec1fba869 = Chapman 电离层、Gallagher 型等离子体层和中性大气… · 由模型计算
+
+seg-9bd04213bd7b = gnss-ssv 类型的 [navigation] 模式：九状态扩展卡尔曼滤波器（位置… · 由模型计算
+
+seg-59b78f3897ba = gnss-ssv 类型的 [formation] 模式：一颗主星和若干副星各自运行绝对滤波器… · 由模型计算
+
+seg-41d36946a448 = inertial::cai_error_terms（库函数，尚不能从场景类型调用）… · 由模型计算
+
+seg-5960aff23d31 = allan::edf_greenhall（带 edf_greenhall_adev、_mdev 和 _hdev 封装）：完整的… · 已验证
