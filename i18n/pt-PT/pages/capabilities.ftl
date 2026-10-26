@@ -3655,3 +3655,6 @@ seg-e51289a1e835 = Orientações da EASA sobre interferência GNSS (aviação)
 
 # text
 seg-4fa26d67951e = Orientações da EASA para a aviação, mapeadas por número de cláusula
+
+# text
+seg-3e76f67e889b = Spoofing e impulso temporal

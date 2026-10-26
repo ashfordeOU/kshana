@@ -29,3 +29,6 @@ seg-bbb1828b3db1 = Reduções de desfiladeiro urbano, setor e terreno para uma t
 
 # text
 seg-2c53381d48ae = Elipse de erro horizontal e cofator por sistema a partir da covariância da geometria
+
+# text
+seg-de6c33774c9c = CLI
