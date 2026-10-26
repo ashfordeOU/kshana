@@ -125,3 +125,30 @@ seg-542e51fbb35a = <s1>Anterior</s1>Complemento de JetBrains
 
 # text
 seg-52a455f4c409 = <s1>Siguiente</s1>Arquitectura
+
+# text
+# c1: docs/DEPLOYMENT-TARGETS.md
+seg-e8eefc84e748 = Fuente: <c1/>
+
+# text
+seg-3e1eb98b38df = Dónde se ejecuta Kshana y dónde no
+
+# text
+seg-1a203c4736f1 = Un límite de alcance, dejado por escrito para que nadie lo descubra como un compromiso en una reunión.
+
+# text
+seg-d6c92d17a3dd = Abreviaturas: CPU, unidad central de procesamiento; GPU, unidad de procesamiento gráfico; NPU, unidad de procesamiento neuronal; FPGA, matriz de puertas programable en campo; MCU, unidad microcontroladora; RTOS, sistema operativo en tiempo real; OPS-SAT, el satélite laboratorio de software en órbita de la Agencia Espacial Europea; PyPI, el Python Package Index; MCP, el Model Context Protocol; AI, inteligencia artificial; JSON, JavaScript Object Notation.
+
+# text
+seg-9376bb5b192e = Destino
+
+# text
+seg-95e7da118089 = Estaciones de trabajo y servidores Linux, macOS y Windows, x86-64 y ARM de 64 bits
+
+# text
+# c1: kshana
+seg-b6ef382a73ef = el binario <c1/>, o el crate de Rust
+
+# text
+# c1: cargo install kshana
+seg-b8af20715cea = binarios de publicación para Linux x86-64, macOS (Apple silicon e Intel) y Windows x86-64; en los demás destinos lo compila <c1/>

@@ -263,3 +263,45 @@ seg-c60dc5b92a60 = Exportaciones de interoperabilidad
 
 # attr:alt
 seg-7cf2608b2b2f = La estructura de un paquete de evidencias. Un registro de receptor (NMEA, u-blox UBX, RINEX { "3" } o un registro de Android) y una ventana de tiempo entran en kshana receiver-trust evidence, que escribe siete archivos: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig y un timestamp.tsr opcional. El manifiesto registra el SHA-256 del registro completo y de cada archivo, y una cadena de hashes sobre los archivos; la firma cubre el manifiesto. kshana evidence verify comprueba la firma, el hash de cada archivo, la cadena y que no haya ningún archivo no listado, y termina con { "0" } cuando está verificado, { "1" } cuando algo falló y { "3" } cuando el firmante no estaba fijado. Un paquete es un registro técnico, no un dictamen jurídico.
+
+# text
+seg-3d770dd786e4 = Uso
+
+# text
+seg-fe1abd564200 = Jammertest
+
+# text
+seg-6fcb41643035 = Telemetría de confianza
+
+# text
+seg-82155b5d0408 = Test bench
+
+# text
+seg-e35fff011b24 = Compliance
+
+# text
+seg-a50180a66dba = LunaNet AFS
+
+# text
+seg-028684a0cf3d = Paquetes de normas
+
+# text
+seg-9c0eb89a2fbe = Paquete
+
+# attr:alt
+seg-e98e25897176 = Todas las pruebas de los tres paquetes de normas puntuados, a partir de ejecuciones reales del motor v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } alcanzadas, { "1" } no alcanzada, { "2" } necesitan una entrada; imo-circ-1575: { "1" } alcanzada, { "4" } no alcanzadas, { "2" } necesitan una entrada; icao-doc9849-appf: { "6" } alcanzadas, { "0" } no alcanzadas, { "2" } necesitan una entrada. En total, { "13" } alcanzadas, { "5" } no alcanzadas y { "6" } necesitan una entrada de la que el motor no dispone (un registro de receptor o documentación del equipo). Cada umbral se fijó antes de la ejecución; un fallo se conserva como fallo. Un umbral alcanzado indica que un escenario modelado alcanzó un umbral fijado, y nada acerca de un producto. Los paquetes aportan evidencias a favor de las filas que citan; no son una evaluación. Orientativo: salida de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de salvaguarda de la vida humana; no debe ser la única base de ninguna decisión de navegación o de seguridad.
+
+# text
+seg-f891ee876b96 = Qué responde
+
+# text
+seg-13fc009b947c = FAQ
+
+# text
+seg-d4a762001549 = Licencia
+
+# attr:alt
+seg-e251b385ff46 = Dos días sintéticos del mapa de interferencias dibujados a partir de las muestras confirmadas en examples/interference-map/output, cada uno con su propia ruta sintética y las proporciones de exposición de ruta que informa el motor. A la izquierda, un día de ADS-B: { "1" } celda degradada, { "6" } no degradadas, { "4" } no evaluadas (rayadas) y celdas sin entrada, dibujadas vacías, que no se observaron. La ruta es de { "525" } km: el { "11.5" } % de su longitud en celdas degradadas, el { "38.3" } % no degradado, el { "9.1" } % no evaluado y el { "41.1" } % no observado. A la derecha, un día de AIS: celdas marcadas por los detectores de círculo y de tierra firme, celdas no anómalas y celdas vacías; la ruta es de { "454" } km con el { "10.5" } % en celdas anómalas, el { "21.2" } % no anómalo, el { "0.0" } % no evaluado y el { "68.3" } % no observado. ADS-B y AIS son capas separadas, nunca combinadas. Una celda marcada no es un hallazgo de interferencia, y una celda sin color no se observó, lo que no equivale a despejada. Todos los datos son inventados, en pleno Atlántico medio, y no son una medición.
+
+# attr:alt
+seg-af0edceb1503 = Puntuación de un registro de receptor sintético frente a una planificación de tres pruebas, a partir de una ejecución real del motor v{ $version } (`kshana jammertest score`). El registro es inventado: { "1800" } s de NMEA con una caída de { "20" } dB de C/N0 en dos intervalos. La planificación enumera tres franjas; la franja central no tiene ningún inhibidor en el registro. La puntuación marca { "2" } de { "3" } pruebas detectadas (latencia mediana { "0" } s) y { "1" } no detectada, con { "0" } ejecuciones de falsa alarma en { "0.25" } h de tiempo limpio. Nada de esto dice nada sobre un receptor real. Software de carácter consultivo, no un equipo de navegación homologado (IEC { "61108" }, IEC { "61162" }): el operador sigue siendo responsable de la navegación del buque.

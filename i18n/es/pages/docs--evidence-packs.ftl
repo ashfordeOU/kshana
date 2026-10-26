@@ -474,3 +474,6 @@ seg-68bcf43b4e27 = <s1>Anterior</s1>Cobertura de líneas
 
 # text
 seg-09c0b5fa6e52 = <s1>Siguiente</s1>Enlaces ópticos a través de la atmósfera
+
+# text
+seg-245fe1f87b08 = Archivo

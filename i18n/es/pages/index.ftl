@@ -468,3 +468,6 @@ seg-f42465f7d066 = ns
 
 # text
 seg-ff90679d1de9 = Detección de spoofing
+
+# text
+seg-257c477dc510 = WebAssembly
