@@ -111,9 +111,6 @@ seg-32c6524b0baf = PNT optique MODELLED à travers l'atmosphère : pour une liai
 seg-2c7493ee5042 = MODELLED : chaque entrée de météo, de technique et d'horloge ainsi que les hypothèses d'indépendance et de copule ; aucun enregistrement de disponibilité mesurée n'a été comparé. (catalogue des types de scénario (<c1/>))
 
 # text
-seg-b4402211e3fe = PNT optique à travers l'atmosphère : trois sites au sol ILLUSTRATIFS (un site nord plus nuageux, un site central intermédiaire et un site sud plus dégagé) observant un terminal optique LEO à { "30" } degrés d'élévation à { "1550" } nm. Les climats nuageux sont des entrées données, et non des mesures ni les valeurs d'un jeu de données quelconque, de sorte que chaque disponibilité ci-dessous est MODELLED. L'exécution rapporte par site la perte en air clair, l'état de turbulence de Hufnagel-Valley, t (commentaire du fichier de scénario, lignes { "1" } à { "8" })
-
-# text
 seg-384f5c73cdf9 = Une réalisation initialisée par une graine de la liaison de chaque site au fil du temps (MODELLED ; un tirage du modèle ci-dessus, et non le climat). En son absence, aucune série n'est écrite et le résultat est le document { "0.37" }. (commentaire du fichier de scénario, lignes { "78" } à { "79" })
 
 # text
@@ -130,3 +127,6 @@ seg-bd5b1654b3ed = <s1>Précédent</s1>oem-interop
 
 # text
 seg-ef0a779c300c = <s1>Suivant</s1>orbit
+
+# text
+seg-b4402211e3fe = PNT optique à travers l'atmosphère : trois sites au sol ILLUSTRATIVE (un site nord plus nuageux, un site central intermédiaire et un site sud plus dégagé) observant un terminal optique LEO à { "30" } degrés d'élévation à { "1550" } nm. Les climats nuageux sont des entrées données, et non des mesures ni les valeurs d'un jeu de données quelconque, de sorte que chaque disponibilité ci-dessous est MODELLED. L'exécution rapporte par site la perte en air clair, l'état de turbulence de Hufnagel-Valley, t (commentaire du fichier de scénario, lignes { "1" } à { "8" })

@@ -24,9 +24,6 @@ seg-eb9f9a422d38 = Fuente: <c1/>
 seg-f8988314faf2 = <c1/> (tipo de escenario)
 
 # text
-seg-28c6a5644152 = Análisis modelado del volumen de servicio de navegación lunar a partir de una constelación en órbita lunar ILUSTRATIVA, de fuentes públicas, de clase Moonlight/LCNS (sin afiliación con la ESA): barre una cuadrícula selenográfica de latitud y longitud a lo largo de un horizonte temporal e indica DOP, cobertura y disponibilidad (≥{ "4" } satélites Y PDOP < umbral), además de una envolvente generalizada de nivel de protección (HPL/VPL) de ARAIM lunar sobre el volumen. La geometría de DOP REUTILIZA el núcleo VALIDATED con gnss_lib_py (crate::orbit::dop); el nivel de protección REUTILIZA la maquinaria de ARAIM lunar LNIS de LunaNet (crate::lunar, σ_URE≈{ "30" } m) y se reduce al nivel de protección del polo sur existente como caso particular. Composición MODELLED: un conjunto de relés kepleriano circular o elíptico (no las efemérides reales LCNS/NRHO corregidas diferencialmente), una Luna de rotación media (sin libración ni polo con precesión). Determinista (geometría pura). Sin TRL, herencia de vuelo ni respaldo de agencia alguna.
-
-# text
 # c1: scenarios/moonlight-service-volume.toml
 seg-8516d1ded5dd = Una ejecución de <c1/> se resume así: moonlight-service-volume | { "8" } satélites (ilustrativos de clase LCNS, sin afiliación) | { "24" } puntos × { "12" } épocas | cobertura { "37.8" }% (PDOP<{ "6.0" }) | satélites { "4" }–{ "7" } | PDOP 2.19/13.74/180.30 | HPL { "139" }–{ "4177" } m | disponibilidad de PL { "0.0" }% | MODELLED
 
@@ -84,3 +81,6 @@ seg-f3279128de3b = <s1>Anterior</s1>mars-pnt
 
 # text
 seg-92cd937a3fb7 = <s1>Siguiente</s1>ntn-positioning
+
+# text
+seg-28c6a5644152 = Análisis modelado del volumen de servicio de navegación lunar a partir de una constelación en órbita lunar ILLUSTRATIVE, de fuentes públicas, de clase Moonlight/LCNS (sin afiliación con la ESA): barre una cuadrícula selenográfica de latitud y longitud a lo largo de un horizonte temporal e indica DOP, cobertura y disponibilidad (≥{ "4" } satélites Y PDOP < umbral), además de una envolvente generalizada de nivel de protección (HPL/VPL) de ARAIM lunar sobre el volumen. La geometría de DOP REUTILIZA el núcleo gnss_lib_py-VALIDATED (crate::orbit::dop); el nivel de protección REUTILIZA la maquinaria de ARAIM lunar LNIS de LunaNet (crate::lunar, σ_URE≈{ "30" } m) y se reduce al nivel de protección del polo sur existente como caso particular. Composición MODELLED: un conjunto de relés kepleriano circular o elíptico (no las efemérides reales LCNS/NRHO corregidas diferencialmente), una Luna de rotación media (sin libración ni polo con precesión). Determinista (geometría pura). Sin TRL, herencia de vuelo ni respaldo de agencia alguna.

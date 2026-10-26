@@ -160,9 +160,6 @@ seg-e9da73670beb = LEO-PNT en intérieur : pourquoi une porteuse UHF pénètre d
 seg-6dfada2dacb6 = LEO-PNT basse énergie pour un traceur IoT (Internet des objets) : énergie par point en fonction du rapport cyclique.
 
 # attr:title, text
-seg-1007e9b9abdc = ESA Celeste IOD, configuration de signal n° 1, toutes les bandes sur un passage. PRÉRÉGLAGE D'ATELIER.
-
-# attr:title, text
 seg-d3b4252da1ee = Salves Iridium STL (temps et localisation par satellite) vues depuis un aéronef.
 
 # attr:title, text
@@ -475,9 +472,6 @@ seg-a91a9ad5d8d1 = Brouillage RF propre à la Lune : rapport brouilleur/signal p
 seg-200e58e189c2 = Estimateur par lots modélisé conjoint multi-techniques de détermination d'orbite lunaire + horloge sur un réseau SIMULÉ : un ajustement instantané de Gauss-Newton qui fusionne les retards VLBI géodésiques sur des lignes de base terrestres, les distances station↔satellite locales à la Lune et les distances inter-satellites pour retrouver, ensemble, la position 3D d'une station de surface lunaire, les positions d'une petite constellation et le décalage d'horloge de chaque élément à partir d'une vérité injectée. Le résultat principal, honnête — le VLBI rend observable la position 3D complète de la station là où la seule télémétrie locale à la Lune laisse une direction faiblement observée — est rapporté sous la forme du contraste d'erreur de station avec et sans VLBI. Récupération en boucle fermée simulée MODELLED (la vérité partage le modèle d'observation), déterministe (graine), NON vérifiée sur des données réelles ; aucune propagation par modèle de forces dans le résolveur ; aucun TRL, héritage ni aval d'une agence.
 
 # text
-seg-25455a33523c = Datum de référentiel lunaire de Helmert à sept paramètres piloté par une campagne d'observation RÉELLE et ARCHIVÉE plutôt que simulée. Là où lunar-frame-campaign avait retiré la transformation injectée mais énonçait encore son réseau de stations, son calendrier et son sigma par observation comme des entrées ILLUSTRATIVES, ce type de scénario prend les trois à partir de mesures : les époques sont les heures d'émission depuis le sol de points normaux archivés des données consolidées de télémétrie laser (CLRD) de l'ILRS, les observations sont les mesures laser réellement tirées vers les cinq réseaux de rétroréflecteurs sur la Lune, et chaque poids d'observation est la propre précision archivée de ce point normal, bin_rms/sqrt(n_raw), lue dans le fichier. Les coordonnées des stations proviennent de la solution SLR ITRF2020 de l'IERS (propagées à l'époque par leurs vitesses publiées) et celles des réflecteurs de la Table { "7" } de JPL DE430 dans le référentiel Terre moyenne/rotation moyenne que réalise le modèle WGCCRE de l'UAI { "2015" }. Les dérivées partielles de distance s'accumulent dans la matrice d'information de Fisher conjointe des coordonnées des réflecteurs et se propagent par la même matrice de conception de Helmert jusqu'à la covariance du datum, diagnostiquée par crate::fim::crlb. Le rang, le défaut, le conditionnement, le spectre, les directions inobservables dans la base à sept paramètres, la direction la plus faible à plein rang et la part de chaque paramètre dans celle-ci sont émis à chaque exécution, et un paramètre non contraint est publié comme NULL avec un statut. La corrélation entre réseaux est MESURÉE à exactement zéro plutôt que supposée, parce qu'une mesure laser touche un seul réseau. Un enregistrement que les catalogues ne peuvent pas placer — une station sans position ITRF publiée — est IGNORÉ ET COMPTÉ, sans jamais recevoir de coordonnée de substitution. LES LIAISONS MESURÉES ET CELLES QUI SONT MODELLED, C'EST LE RAPPORT, PAS UNE NOTE DE BAS DE PAGE : l'éphéméride du centre de la Lune et l'orientation du corps de l'UAI restent modélisées et leur taille combinée est émise sous forme du résiduel de distance aller observé moins calculé sur chaque point utilisé ; la troposphère, les marées du corps solide, l'excentricité de la station, le mouvement du pôle, UT1-UTC, le retard relativiste et les horloges des stations sont absents et inclus dans ce résiduel. Comme une erreur d'éphéméride n'atteint une covariance que par la direction de chaque ligne de visée, chaque exécution résout aussi à nouveau tout le datum avec toutes les dérivées partielles inclinées de sensitivity_tilt_deg (signe alterné) et émet le rapport, de sorte que l'insensibilité de la covariance à l'éphéméride modélisée est un nombre plutôt qu'un argument. Les chiffres de la campagne simulée sont EXÉCUTÉS et imprimés à côté de ceux mesurés, et non transcrits. MODELLED : les chiffres à sept paramètres sont une borne de Cramer-Rao pour un jeu de paramètres réduit sur un calendrier réel — pas un datum résolu, pas une analyse LLR et pas un produit géodésique. La tranche de données réelles consignée est livrée avec le dépôt mais pas avec le crate publié ; faites pointer data_dir vers une copie de celle-ci.
-
-# text
 seg-f7ea776e70c9 = Couverture modélisée d'une station de référence lunaire : un balayage de Monte-Carlo du modèle de PNT différentiel lunaire sur une grille d'utilisateurs du pôle sud et une journée d'époques. Une station de référence différentielle en un site connu du pôle sud corrige une constellation donnée (képlérienne illustrative ou éphéméride tabulée) avec une erreur de signal dans l'espace, une erreur de relevé, une latence de correction et une quantification de liaison données ; par point et sur la région, elle rapporte l'erreur de position corrigée et non corrigée en percentile (3D, horizontale, verticale), la disponibilité, la couverture par rapport à un seuil donné, les niveaux de protection DO-229E, le rayon de couverture par azimut et le bilan de la liaison de correction à la station et au pire point. Pas une déclaration sur la performance d'un système réel ; sans affiliation ni aval d'aucune agence. MODELLED.
 
 # text
@@ -602,9 +596,6 @@ seg-2c27404856f6 = type de scénario araim-reference-check
 
 # text
 seg-6fc2c7863922 = type de scénario ascent-losses
-
-# text
-seg-6ad78e934bec = Pertes à la montée en virage de gravité d'un lanceur bi-étage ILLUSTRATIF kérosène/oxygène (aucun véhicule réel) : montée verticale jusqu'à { "1" } km, un coup de tangage de { "3" } deg pendant { "10" } s, puis poussée le long de la vitesse. L'exécution intègre les pertes de gravité, de traînée, de pilotage et de contre-pression et vérifie que le dv idéal moins les pertes égale la vitesse de fin de combustion. MODELLED : plan, Terre non tournante, C_D constant, pas de phase balistique, aucun guidage au-delà du coup de tangage.
 
 # text
 seg-602ac3a69ef9 = type de scénario attitude-budget
@@ -915,24 +906,6 @@ seg-319137c1458e = type de scénario lunar-frame-realisation
 seg-d4a6801f9670 = type de scénario lunar-infrastructure
 
 # text
-seg-a3dc5227b366 = Scénario lunar-infrastructure de Kshana : phase de la porteuse, l'exemple RAPIDE (deux arcs courts, { "10" } tirages, quelques secondes ; la configuration évaluée, trois arcs et { "400" } tirages, est xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
-
-# text
-seg-1f55219aed27 = Scénario lunar-infrastructure de Kshana : frame-coestimation. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
-
-# text
-seg-4e990ecb6404 = Scénario lunar-infrastructure de Kshana : geodesy-sensitivity. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
-
-# text
-seg-e27e1de1a233 = Scénario lunar-infrastructure de Kshana : od-consistency. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
-
-# text
-seg-30dc631d148f = Scénario lunar-infrastructure de Kshana : od-consistency avec une accélération non modélisée. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
-
-# text
-seg-68eaba3db338 = Scénario lunar-infrastructure de Kshana : space-tie. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
-
-# text
 seg-01d06e830746 = type de scénario lunar-integrity
 
 # text
@@ -1006,12 +979,6 @@ seg-95202f70f915 = type de scénario oem-interop
 
 # text
 seg-64b58fe6b7e1 = type de scénario optical-atmosphere
-
-# text
-seg-b8648cc3c266 = PNT optique à travers l'atmosphère : trois sites au sol ILLUSTRATIFS (un site nord plus nuageux, un site central intermédiaire et un site sud plus dégagé) observant un terminal optique LEO à { "30" } degrés d'élévation à { "1550" } nm. Les climats nuageux sont des entrées énoncées, non des mesures ni les valeurs d'un jeu de données, de sorte que chaque disponibilité ci-dessous est MODELLED. L'exécution rapporte, par site, la perte en air clair, l'état de turbulence de Hufnagel-Valley, la disponibilité par rapport à la marge de liaison, la marge nécessaire pour { "40" } / { "50" } / { "60" } / { "70" } pour cent (une liaison optique ne peut pas traverser un nuage épais, de sorte qu'un site a un plafond de disponibilité qu'aucune marge ne relève, rapporté par site), la distribution des durées d'interruption et la croissance de l'erreur de temps par interruption pour trois classes d'horloge, puis la disponibilité en diversité de sites des { "1" }, { "2" } et { "3" } meilleurs sites avec une météo indépendante et avec une météo corrélée en distance (longueur de décorrélation de { "500" } km).
-
-# text
-seg-f85f23a4fa5c = Hypothèses sur des techniques d'amélioration pour un site au sol ILLUSTRATIF : un changement de longueur d'onde, une plus grande ouverture de réception, une réduction de la scintillation par optique adaptative et une marge supplémentaire, chacun prédit comme un gain de disponibilité par rapport à la référence de base du même site. Les gains sont des entrées énoncées (Kshana ne modélise pas une boucle d'optique adaptative), une nouvelle longueur d'onde ou ouverture réévalue le budget en ciel clair, la perte en air clair et la moyenne d'ouverture, et tout est MODELLED. Le terminal est délibérément limité en marge (environ { "3" } dB avant l'atmosphère) pour que les techniques comptent ; l'exécution énonce aussi le plafond nuageux qu'aucune technique ne relève. Les cibles inférieures à { "100" } pour cent de la table des marges sont rapportées comme la marge supplémentaire nécessaire (un nombre négatif signifie un excédent).
 
 # text
 seg-b226ac4eebdf = type de scénario orbit
@@ -1122,9 +1089,6 @@ seg-b83a1fbd3435 = type de scénario terrain-slam
 seg-c988dce87d81 = type de scénario time-transfer-budget
 
 # text
-seg-a063a0ecc543 = Transfert bidirectionnel de temps et de fréquence par satellite (TWSTFT) entre deux stations ILLUSTRATIVES, l'une en Europe centrale et l'autre dans l'est de l'Amérique du Nord, via un relais géostationnaire à { "10" } deg O. L'exécution résout l'équation bidirectionnelle pour T_A - T_B à partir des termes énoncés d'équipement, de transpondeur, d'ionosphère (bande Ku, 14/11 GHz) et de Sagnac. Elle forme un budget d'incertitude dont le terme statistique est la TDEV, à un jour, d'une liaison simulée avec bruit de phase blanc et de scintillation et une non-réciprocité diurne. Les retards et les incertitudes sont illustratifs, non l'étalonnage d'un laboratoire quelconque. MODELLED. Une véritable série UTC-UTC(k) ou d'horloge de station peut être ajoutée sous [[series]] (format circular-t, mjd-csv ou rinex-clock) pour en rapporter la stabilité.
-
-# text
 seg-69138a582b9a = type de scénario timetransfer
 
 # text
@@ -1156,3 +1120,39 @@ seg-67f767701c6d = <s1>Précédent</s1>Domaines de capacités
 
 # text
 seg-ea79a68b0587 = <s1>Suivant</s1>Schéma des résultats
+
+# attr:title, text
+seg-1007e9b9abdc = ESA Celeste IOD, configuration de signal n° 1, toutes les bandes sur un passage. PRÉRÉGLAGE WORKSHOP.
+
+# text
+seg-1f55219aed27 = Scénario lunar-infrastructure de Kshana : frame-coestimation. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVE y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-25455a33523c = Datum de référentiel lunaire de Helmert à sept paramètres piloté par une campagne d'observation RÉELLE et ARCHIVÉE plutôt que simulée. Là où lunar-frame-campaign avait retiré la transformation injectée mais énonçait encore son réseau de stations, son calendrier et son sigma par observation comme des entrées ILLUSTRATIVE, ce type de scénario prend les trois à partir de mesures : les époques sont les heures d'émission depuis le sol de points normaux archivés des données consolidées de télémétrie laser (CLRD) de l'ILRS, les observations sont les mesures laser réellement tirées vers les cinq réseaux de rétroréflecteurs sur la Lune, et chaque poids d'observation est la propre précision archivée de ce point normal, bin_rms/sqrt(n_raw), lue dans le fichier. Les coordonnées des stations proviennent de la solution SLR ITRF2020 de l'IERS (propagées à l'époque par leurs vitesses publiées) et celles des réflecteurs de la Table { "7" } de JPL DE430 dans le référentiel Terre moyenne/rotation moyenne que réalise le modèle WGCCRE de l'UAI { "2015" }. Les dérivées partielles de distance s'accumulent dans la matrice d'information de Fisher conjointe des coordonnées des réflecteurs et se propagent par la même matrice de conception de Helmert jusqu'à la covariance du datum, diagnostiquée par crate::fim::crlb. Le rang, le défaut, le conditionnement, le spectre, les directions inobservables dans la base à sept paramètres, la direction la plus faible à plein rang et la part de chaque paramètre dans celle-ci sont émis à chaque exécution, et un paramètre non contraint est publié comme NULL avec un statut. La corrélation entre réseaux est MESURÉE à exactement zéro plutôt que supposée, parce qu'une mesure laser touche un seul réseau. Un enregistrement que les catalogues ne peuvent pas placer — une station sans position ITRF publiée — est IGNORÉ ET COMPTÉ, sans jamais recevoir de coordonnée de substitution. LES LIAISONS MESURÉES ET CELLES QUI SONT MODELLED, C'EST LE RAPPORT, PAS UNE NOTE DE BAS DE PAGE : l'éphéméride du centre de la Lune et l'orientation du corps de l'UAI restent modélisées et leur taille combinée est émise sous forme du résiduel de distance aller observé moins calculé sur chaque point utilisé ; la troposphère, les marées du corps solide, l'excentricité de la station, le mouvement du pôle, UT1-UTC, le retard relativiste et les horloges des stations sont absents et inclus dans ce résiduel. Comme une erreur d'éphéméride n'atteint une covariance que par la direction de chaque ligne de visée, chaque exécution résout aussi à nouveau tout le datum avec toutes les dérivées partielles inclinées de sensitivity_tilt_deg (signe alterné) et émet le rapport, de sorte que l'insensibilité de la covariance à l'éphéméride modélisée est un nombre plutôt qu'un argument. Les chiffres de la campagne simulée sont EXÉCUTÉS et imprimés à côté de ceux mesurés, et non transcrits. MODELLED : les chiffres à sept paramètres sont une borne de Cramer-Rao pour un jeu de paramètres réduit sur un calendrier réel — pas un datum résolu, pas une analyse LLR et pas un produit géodésique. La tranche de données réelles consignée est livrée avec le dépôt mais pas avec le crate publié ; faites pointer data_dir vers une copie de celle-ci.
+
+# text
+seg-30dc631d148f = Scénario lunar-infrastructure de Kshana : od-consistency avec une accélération non modélisée. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVE y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-4e990ecb6404 = Scénario lunar-infrastructure de Kshana : geodesy-sensitivity. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVE y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-68eaba3db338 = Scénario lunar-infrastructure de Kshana : space-tie. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVE y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-6ad78e934bec = Pertes à la montée en virage de gravité d'un lanceur bi-étage ILLUSTRATIVE kérosène/oxygène (aucun véhicule réel) : montée verticale jusqu'à { "1" } km, un coup de tangage de { "3" } deg pendant { "10" } s, puis poussée le long de la vitesse. L'exécution intègre les pertes de gravité, de traînée, de pilotage et de contre-pression et vérifie que le dv idéal moins les pertes égale la vitesse de fin de combustion. MODELLED : plan, Terre non tournante, C_D constant, pas de phase balistique, aucun guidage au-delà du coup de tangage.
+
+# text
+seg-a063a0ecc543 = Transfert bidirectionnel de temps et de fréquence par satellite (TWSTFT) entre deux stations ILLUSTRATIVE, l'une en Europe centrale et l'autre dans l'est de l'Amérique du Nord, via un relais géostationnaire à { "10" } deg O. L'exécution résout l'équation bidirectionnelle pour T_A - T_B à partir des termes énoncés d'équipement, de transpondeur, d'ionosphère (bande Ku, 14/11 GHz) et de Sagnac. Elle forme un budget d'incertitude dont le terme statistique est la TDEV, à un jour, d'une liaison simulée avec bruit de phase blanc et de scintillation et une non-réciprocité diurne. Les retards et les incertitudes sont illustratifs, non l'étalonnage d'un laboratoire quelconque. MODELLED. Une véritable série UTC-UTC(k) ou d'horloge de station peut être ajoutée sous [[series]] (format circular-t, mjd-csv ou rinex-clock) pour en rapporter la stabilité.
+
+# text
+seg-a3dc5227b366 = Scénario lunar-infrastructure de Kshana : phase de la porteuse, l'exemple RAPIDE (deux arcs courts, { "10" } tirages, quelques secondes ; la configuration évaluée, trois arcs et { "400" } tirages, est xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVE y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-b8648cc3c266 = PNT optique à travers l'atmosphère : trois sites au sol ILLUSTRATIVE (un site nord plus nuageux, un site central intermédiaire et un site sud plus dégagé) observant un terminal optique LEO à { "30" } degrés d'élévation à { "1550" } nm. Les climats nuageux sont des entrées énoncées, non des mesures ni les valeurs d'un jeu de données, de sorte que chaque disponibilité ci-dessous est MODELLED. L'exécution rapporte, par site, la perte en air clair, l'état de turbulence de Hufnagel-Valley, la disponibilité par rapport à la marge de liaison, la marge nécessaire pour { "40" } / { "50" } / { "60" } / { "70" } pour cent (une liaison optique ne peut pas traverser un nuage épais, de sorte qu'un site a un plafond de disponibilité qu'aucune marge ne relève, rapporté par site), la distribution des durées d'interruption et la croissance de l'erreur de temps par interruption pour trois classes d'horloge, puis la disponibilité en diversité de sites des { "1" }, { "2" } et { "3" } meilleurs sites avec une météo indépendante et avec une météo corrélée en distance (longueur de décorrélation de { "500" } km).
+
+# text
+seg-e27e1de1a233 = Scénario lunar-infrastructure de Kshana : od-consistency. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVE y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-f85f23a4fa5c = Hypothèses sur des techniques d'amélioration pour un site au sol ILLUSTRATIVE : un changement de longueur d'onde, une plus grande ouverture de réception, une réduction de la scintillation par optique adaptative et une marge supplémentaire, chacun prédit comme un gain de disponibilité par rapport à la référence de base du même site. Les gains sont des entrées énoncées (Kshana ne modélise pas une boucle d'optique adaptative), une nouvelle longueur d'onde ou ouverture réévalue le budget en ciel clair, la perte en air clair et la moyenne d'ouverture, et tout est MODELLED. Le terminal est délibérément limité en marge (environ { "3" } dB avant l'atmosphère) pour que les techniques comptent ; l'exécution énonce aussi le plafond nuageux qu'aucune technique ne relève. Les cibles inférieures à { "100" } pour cent de la table des marges sont rapportées comme la marge supplémentaire nécessaire (un nombre négatif signifie un excédent).

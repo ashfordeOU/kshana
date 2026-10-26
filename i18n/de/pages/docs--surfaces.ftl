@@ -834,9 +834,6 @@ seg-b96c18c1f157 = <c1/> (kein Monte Carlo, kein SVG)
 seg-5b62ca019ebd = <b>N/A</b> (siehe die Fähigkeitenzeile)
 
 # text
-seg-c853beadb55e = REPRÄSENTATIVE Voreinstellungen mit Herkunft
-
-# text
 seg-69bc0d382eb7 = Insert Example Scenario
 
 # text
@@ -1109,3 +1106,6 @@ seg-4f7453d89d9d = Geometrie MODELLED; JSON oder SVG als Ausgabe
 
 # text
 seg-52638393d72d = List Scenario Kinds
+
+# text
+seg-c853beadb55e = REPRESENTATIVE Voreinstellungen mit Herkunft

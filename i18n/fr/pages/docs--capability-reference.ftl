@@ -1586,9 +1586,6 @@ seg-50f1df206b30 = Interne : les formes closes sont vérifiées par rapport à d
 seg-3f3d657854ce = Préréglages de ligne d'horizon (rue de ville, approche portuaire, fjord, terminal à conteneurs)
 
 # text
-seg-b915c06fa3f1 = skyline::PRESETS : quatre géométries REPRÉSENTATIVES avec les dimensions énoncées de la note de conception et une ligne de provenance chacune : city-street (un canyon, rue { "0" } deg, { "20" } m entre des murs de { "30" } m, antenne { "1.5" } m), harbour-approach (secteurs : ouvert vers le large sur { "180" } deg, bâtiments de quai { "8" } deg sur { "90" } deg, la digue { "3" } deg), fjord (relief : parois à { "600" } m au-dessus de l'antenne à { "1.5" } km de part et d'autre d'un chenal nord-sud, chute de courbure appliquée), container-terminal (secteurs : piles de conteneurs { "12" } deg sur la moitié côté terre, flèches de grues { "35" } deg et { "25" } deg sur deux secteurs étroits) ; modifiables champ par champ
-
-# text
 seg-44ae9b6289d9 = Aucune : dimensions choisies et énoncées, et non un relevé d'une rue, d'un port, d'un fjord ou d'un terminal quelconque (le rapport d'aspect de la rue est dans la bande 0.5-2 d'Oke ({ "1988" }) ; le fjord est de l'ordre des fjords de l'ouest de la Norvège ; les piles utilisent la hauteur high-cube ISO { "668" }). Le test vérifie les préréglages par rapport à leurs propres dimensions énoncées, une vérification de transcription, que la règle de validation ne compte pas
 
 # text
@@ -2168,12 +2165,6 @@ seg-62df6258bc62 = Autocohérence seulement : le total publié est vérifié fac
 seg-675887733454 = Laboratoire de temps de station lunaire : holdover du miniRAFS face au LTC
 
 # text
-seg-7dfedc40da6a = Le bloc facultatif [time_lab] du scénario lunar-time-budget modélise une horloge de station de référence lunaire (par défaut la classe miniRAFS, ou toute classe nommée, ou une fiche d'appareil ajustée sur des points de stabilité énoncés) asservie au temps coordonné lunaire puis en marche libre ou réasservie toutes les N secondes : la courbe d'erreur temporelle x(t) comme racine de la somme des carrés du terme en loi de puissance de l'horloge, d'un résidu d'asservissement constant (ILLUSTRATIF), d'un résidu constant de réalisation du LTC et d'un terme de taux de hauteur de station facultatif ; le temps après un asservissement jusqu'à { "1" }, { "10" } et { "100" } ns (ou des seuils énoncés) par bissection à côté de l'inverse en forme close pour le type de bruit dominant, et le terme dominant à chaque horizon énoncé, le tout avec unités
-
-# text
-seg-3801e9b32309 = Cohérence interne seulement : le temps jusqu'au seuil par bissection est vérifié face à l'inverse en forme close du type de bruit dominant de l'horloge, et le terme d'horloge en marche libre face au terme d'horloge propre du budget. Les classes d'horloge reposent sur des spécifications publiées à un jour (leurs propres lignes) ; le taux du LTC n'est pas redérivé ici et garde sa propre ligne VALIDATED (Temps coordonné lunaire) ; le résidu d'asservissement est ILLUSTRATIF, le résidu de réalisation est une allocation de budget et aucun modèle thermique n'est inclus. La cible de l'ordre de la nanoseconde décrite dans la documentation ICG WG-B Lunar PNT de juin { "2024" } est citée comme énoncé de la source, non adoptée comme affirmation ; rien ici n'est un énoncé sur une horloge de station réelle
-
-# text
 seg-af3ff120b707 = VLBI géodésique lunaire
 
 # text
@@ -2216,9 +2207,6 @@ seg-29df5b40a3f9 = Détermination d'orbite lunaire : Earth-GNSS contre radiomét
 
 # text
 seg-647902ebcee3 = Détermination d'orbite sur une orbite en halo quasi rectiligne (ou une orbite gelée elliptique) à partir de deux types de données indépendants : pseudodistances Earth-GNSS reçues à bord (la règle de liaison de la ligne Earth-GNSS à distance lunaire, plus l'occultation par la Lune) et distance et vitesse radiale bidirectionnelles au sol depuis trois stations du Deep Space Network. Chacune est un lot de moindres carrés à un pas autour de l'orbite de référence avec sa covariance formelle ; une simulation Monte Carlo avec graine de la différence entre les deux estimations teste si les deux covariances l'expliquent (q = d' (P_G + P_R)^-1 d, khi-deux à six degrés de liberté lorsque les modèles concordent) et ce qu'une accélération non modélisée fait à la statistique.
-
-# text
-seg-226dedaba243 = Un programme scipy/numpy indépendant intègre les mêmes équations variationnelles (seuil O1). Rien n'est comparé à une mesure d'une orbite lunaire. La référence vérifie la numérique de formules énoncées, non la physique, de sorte que la ligne reste MODELLED. Modèle restreint à trois corps : ni Soleil, ni harmoniques lunaires, l'axe de rotation de la Terre le long de la normale à l'orbite, entrées de récepteur et de station ILLUSTRATIVES.
 
 # text
 seg-652bdc29deea = Résolution d'ambiguïté de phase de porteuse lunaire : surface et orbiteur
@@ -4394,3 +4382,15 @@ seg-6eee4b0e40b9 = <s1>Précédent</s1>Matrice de vérification
 
 # text
 seg-c3e7639ccf1a = <s1>Suivant</s1>Pourquoi les lignes restent modélisées
+
+# text
+seg-226dedaba243 = Un programme scipy/numpy indépendant intègre les mêmes équations variationnelles (seuil O1). Rien n'est comparé à une mesure d'une orbite lunaire. La référence vérifie la numérique de formules énoncées, non la physique, de sorte que la ligne reste MODELLED. Modèle restreint à trois corps : ni Soleil, ni harmoniques lunaires, l'axe de rotation de la Terre le long de la normale à l'orbite, entrées de récepteur et de station ILLUSTRATIVE.
+
+# text
+seg-3801e9b32309 = Cohérence interne seulement : le temps jusqu'au seuil par bissection est vérifié face à l'inverse en forme close du type de bruit dominant de l'horloge, et le terme d'horloge en marche libre face au terme d'horloge propre du budget. Les classes d'horloge reposent sur des spécifications publiées à un jour (leurs propres lignes) ; le taux du LTC n'est pas redérivé ici et garde sa propre ligne VALIDATED (Temps coordonné lunaire) ; le résidu d'asservissement est ILLUSTRATIVE, le résidu de réalisation est une allocation de budget et aucun modèle thermique n'est inclus. La cible de l'ordre de la nanoseconde décrite dans la documentation ICG WG-B Lunar PNT de juin { "2024" } est citée comme énoncé de la source, non adoptée comme affirmation ; rien ici n'est un énoncé sur une horloge de station réelle
+
+# text
+seg-7dfedc40da6a = Le bloc facultatif [time_lab] du scénario lunar-time-budget modélise une horloge de station de référence lunaire (par défaut la classe miniRAFS, ou toute classe nommée, ou une fiche d'appareil ajustée sur des points de stabilité énoncés) asservie au temps coordonné lunaire puis en marche libre ou réasservie toutes les N secondes : la courbe d'erreur temporelle x(t) comme racine de la somme des carrés du terme en loi de puissance de l'horloge, d'un résidu d'asservissement constant (ILLUSTRATIVE), d'un résidu constant de réalisation du LTC et d'un terme de taux de hauteur de station facultatif ; le temps après un asservissement jusqu'à { "1" }, { "10" } et { "100" } ns (ou des seuils énoncés) par bissection à côté de l'inverse en forme close pour le type de bruit dominant, et le terme dominant à chaque horizon énoncé, le tout avec unités
+
+# text
+seg-b915c06fa3f1 = skyline::PRESETS : quatre géométries REPRESENTATIVE avec les dimensions énoncées de la note de conception et une ligne de provenance chacune : city-street (un canyon, rue { "0" } deg, { "20" } m entre des murs de { "30" } m, antenne { "1.5" } m), harbour-approach (secteurs : ouvert vers le large sur { "180" } deg, bâtiments de quai { "8" } deg sur { "90" } deg, la digue { "3" } deg), fjord (relief : parois à { "600" } m au-dessus de l'antenne à { "1.5" } km de part et d'autre d'un chenal nord-sud, chute de courbure appliquée), container-terminal (secteurs : piles de conteneurs { "12" } deg sur la moitié côté terre, flèches de grues { "35" } deg et { "25" } deg sur deux secteurs étroits) ; modifiables champ par champ

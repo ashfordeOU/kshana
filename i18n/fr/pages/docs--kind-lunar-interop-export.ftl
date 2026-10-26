@@ -72,12 +72,6 @@ seg-633bcd62ce93 = Émet aussi un descripteur de temps lunaire aligné sur LunaN
 seg-0e91697e3036 = MODELLED — l'aller-retour déterministe + la correspondance des noms de champs par rapport au CCSDS OEM publié + la sémantique des champs de LunaNet/IOAG sont la référence indépendante ; PAS un test de respect de la norme d'interopérabilité certifié ; éphéméride illustrative à sources publiques, sans affiliation à l'ESA ; aucun TRL, héritage ni aval d'une agence. (catalogue des types de scénario (<c1/>))
 
 # text
-seg-11d0ccba5ee7 = CE QUE FAIT src/lunar_interop.rs : * export_lunar_oem — RÉUTILISE l'émetteur CCSDS OEM { "2.0" } du crate (crate::oem), rebaptisé pour le contexte lunaire : REF_FRAME = le référentiel de corps lunaire WGCCRE de l'UAI { "2015" } (MOON_ME / MOON_PA), TIME_SYSTEM = l'échelle de temps lunaire (LTC / TCL / UTC), CENTER_NAME = MOON, sur un échantillon d'éphéméride ILLUSTRATIF de classe LCNS (positions issues de crate::lunar_service, vitesse par différence finie centrée). * export_ (commentaire du fichier de scénario, lignes { "6" } à { "19" })
-
-# text
-seg-f730e8f789cf = HONNÊTETÉ : MODELLED. Les NOMS de champs et les unités sont alignés sur des normes PUBLIQUES (CCSDS 502.0-B OEM, référentiels lunaires WGCCRE de l'UAI { "2015" }, spécification d'interopérabilité LunaNet / architecture lunaire de l'IOAG). L'aller-retour déterministe et la correspondance des noms de champs sont la référence indépendante. Ce n'est PAS un test de respect de la norme d'interopérabilité certifié. L'éphéméride est illustrative, à sources publiques, SANS affiliation à l'ESA, et n'implique aucun TRL (commentaire du fichier de scénario, lignes { "21" } à { "26" })
-
-# text
 seg-254d48fe58a5 = L'export d'interopérabilité lunaire est MODELLED, et non vérifié : il est contrôlé par rapport à sa propre identité analytique ou en forme close, ce qui détecte les erreurs de transcription et de coefficients, mais n'est pas une référence externe. (matrice de vérification (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -85,3 +79,9 @@ seg-07d6cc44724f = <s1>Précédent</s1>lunar-integrity
 
 # text
 seg-9669cd9b1d04 = <s1>Suivant</s1>lunar-jamming
+
+# text
+seg-11d0ccba5ee7 = CE QUE FAIT src/lunar_interop.rs : * export_lunar_oem — RÉUTILISE l'émetteur CCSDS OEM { "2.0" } du crate (crate::oem), rebaptisé pour le contexte lunaire : REF_FRAME = le référentiel de corps lunaire WGCCRE de l'UAI { "2015" } (MOON_ME / MOON_PA), TIME_SYSTEM = l'échelle de temps lunaire (LTC / TCL / UTC), CENTER_NAME = MOON, sur un échantillon d'éphéméride ILLUSTRATIVE de classe LCNS (positions issues de crate::lunar_service, vitesse par différence finie centrée). * export_ (commentaire du fichier de scénario, lignes { "6" } à { "19" })
+
+# text
+seg-f730e8f789cf = HONNÊTETÉ : MODELLED. Les NOMS de champs et les unités sont alignés sur des normes PUBLIC (CCSDS 502.0-B OEM, référentiels lunaires WGCCRE de l'UAI { "2015" }, spécification d'interopérabilité LunaNet / architecture lunaire de l'IOAG). L'aller-retour déterministe et la correspondance des noms de champs sont la référence indépendante. Ce n'est PAS un test de respect de la norme d'interopérabilité certifié. L'éphéméride est illustrative, à sources publiques, SANS affiliation à l'ESA, et n'implique aucun TRL (commentaire du fichier de scénario, lignes { "21" } à { "26" })

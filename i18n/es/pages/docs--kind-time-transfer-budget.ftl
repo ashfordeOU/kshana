@@ -76,9 +76,6 @@ seg-58cf4086c7a5 = <b>MODELLED</b> La ecuación bidireccional de TWSTFT resuelta
 seg-15de1cdaa684 = MODELLED — ecuación bidireccional de TWSTFT (retardos de estación, ionosfera en banda Ku, transpondedor, Sagnac) resuelta a partir de retardos indicados, un presupuesto de incertidumbre en cuadratura con la TDEV del enlace simulado como término de tipo A, un enlace simulado con ruido de fase de parpadeo y no reciprocidad diurna, y la estabilidad de cualquier serie real UTC-UTC(k) o de reloj de estación suministrada; no comparado con un enlace TWSTFT real (resultado <c1/>)
 
 # text
-seg-70448ca49780 = Transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT) entre dos estaciones ILUSTRATIVAS, una en Europa central y otra en el este de Norteamérica, a través de un relé geoestacionario a { "10" } grados O. La ejecución resuelve la ecuación bidireccional para T_A - T_B a partir de los términos indicados de equipo, transpondedor, ionosfera (banda Ku, 14/11 GHz) y Sagnac. Forma un presupuesto de incertidumbre cuyo término estadístico es la TDEV, a un día, de un simula (comentario del archivo de escenario, líneas { "1" } a { "8" })
-
-# text
 seg-4b0d23aed0ab = La ecuación bidireccional de TWSTFT, el presupuesto de incertidumbre y la estabilidad del enlace con parpadeo y no reciprocidad diurna son MODELLED, no validados: se comprueban frente a su propia identidad analítica o de forma cerrada, lo que detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa. (matriz de verificación (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -86,3 +83,6 @@ seg-52e06909ccc5 = <s1>Anterior</s1>terrain-slam
 
 # text
 seg-a22fa1c51042 = <s1>Siguiente</s1>timetransfer
+
+# text
+seg-70448ca49780 = Transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT) entre dos estaciones ILLUSTRATIVE, una en Europa central y otra en el este de Norteamérica, a través de un relé geoestacionario a { "10" } grados O. La ejecución resuelve la ecuación bidireccional para T_A - T_B a partir de los términos indicados de equipo, transpondedor, ionosfera (banda Ku, 14/11 GHz) y Sagnac. Forma un presupuesto de incertidumbre cuyo término estadístico es la TDEV, a un día, de un simula (comentario del archivo de escenario, líneas { "1" } a { "8" })
