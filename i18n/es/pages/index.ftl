@@ -474,3 +474,683 @@ seg-257c477dc510 = WebAssembly
 
 # text
 seg-2192262e26c1 = alcanzado
+
+# text
+seg-785218a0ea66 = Lo que Kshana no es
+
+# text
+seg-b366150de755 = Solicitar un estudio
+
+# text
+seg-12f050093898 = Por qué lo necesita todo el mundo
+
+# text
+seg-d997b6a5a416 = Por qué Pro, aún más
+
+# text
+seg-4ff013b472ff = ¿Qué diseño deberíamos volar?
+
+# attr:aria-label
+seg-f4eb65b9b27a = Constelación de navegación lunar: menor número de satélites frente a disponibilidad, toda la Luna: { "608" } diseños ejecutados, un frente de Pareto de { "12" } diseños
+
+# text
+seg-c8ce2e4a6687 = ¿Con qué seguridad lo sabemos y qué determina el resultado?
+
+# attr:aria-label
+seg-049c503c23db = Holdover del reloj con un nivel de ruido incierto: del percentil 5 al 95 de { "2,000" } ejecuciones frente al límite de { "20" } ns
+
+# text
+seg-3dd37275b448 = ¿La misión satisface sus requisitos y podemos entregar esa prueba?
+
+# text
+seg-7fbde256debf = no alcanzado
+
+# text
+seg-f6ccb7a322b3 = puntos abiertos
+
+# text
+seg-6d3d0f8c9b7c = Solicitar una evaluación de Pro
+
+# attr:title
+seg-813d6d41b891 = Copiar el comando que lo reproduce
+
+# text
+seg-a0ef302e2458 = Copiar comando
+
+# text
+seg-6df96ca25c68 = Por qué y para quién
+
+# attr:aria-label
+seg-e8ab991fe284 = Consola de misión de Kshana
+
+# text
+seg-dc0fbd6f3e76 = Receptor · { "8" } en seguimiento
+
+# text
+seg-212f0234925f = Jammer · a { "1.0" } km
+
+# text
+seg-e8b014e4fa7b = Spoofer · empuje de tiempo de { "0.1" } ns/s
+
+# text
+seg-b8890ff22c4a = Repetir
+
+# text
+seg-fdac3e95b3d9 = Misión <b>T+{ "00" }:{ "00" }:{ "00" }</b>
+
+# text
+seg-5e5365b80dfb = Escenario <b>campaign-jam-spoof-holdover-integrity</b>
+
+# attr:title, text
+seg-d0b9f1d1b637 = Nominal
+
+# text
+seg-12d3b7275c99 = <s1>Motor v{ $version } · semilla { "20260928" }</s1><s2>Ejecución real</s2>
+
+# attr:title
+seg-2c7bf2e50347 = GNU Affero General Public License, versión { "3" }
+
+# text
+seg-162d704ff027 = <s1>v{ $version }</s1>Código abierto · <s2>AGPL-3.0</s2> · por Ashforde®
+
+# text
+seg-69d3fae797e4 = Ensaye el minuto en que <em>GNSS se apaga.</em>
+
+# text
+seg-015e3cff4eda = Kshana es un simulador de código abierto de resiliencia PNT (posicionamiento, navegación y temporización). Reproduzca jamming, spoofing y holdover del reloj cuando fallan las señales GNSS (Global Navigation Satellite System), en un motor en Rust que se ejecuta directamente en su navegador, y vea con exactitud qué resultados se comprobaron frente a referencias independientes.
+
+# attr:aria-label
+seg-8b095f7254ed = Copiar el comando de instalación: cargo install kshana
+
+# text
+seg-f0e9de10d9ef = cargo install kshana<s1>Copiar</s1>
+
+# text
+# c1: ⌘K
+seg-ec3957c0f5f1 = Pulse <c1/> para buscar páginas, escenarios y documentación
+
+# text
+# c1:
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>El mismo motor, amplificado: { "608" } diseños, un frente de Pareto</s2>
+
+# attr:aria-label
+seg-b807a8887172 = Telemetría reproducida a partir de la ejecución de campaña encadenada
+
+# text
+seg-d367c9a1c6fc = Error de tiempo del reloj<s1>frente a la guarda de { "50" } ns · lineal</s1>
+
+# text
+seg-6746a919dc04 = T+{ "0" }
+
+# text
+seg-7d5a96436755 = ahora
+
+# text
+seg-2434e53fa54e = Densidad de portadora a ruido<s1>C/N0 · suelo { "25" } dB-Hz</s1>
+
+# text
+seg-bf842cdbb9d3 = Nivel de protección frente al límite de alerta<s1>PL · AL { "50" } m, vertical</s1>
+
+# attr:aria-label
+seg-146c6926eae1 = Registro de eventos de la ejecución de campaña encadenada
+
+# text
+seg-7dfaa4627c3e = Registro de eventos · campaign-jam-spoof-holdover-integrity
+
+# text
+seg-47d596393831 = Eventos reales
+
+# text
+seg-5630c799cec1 = De dónde sale cada traza
+
+# text
+# c1: fc21ac4
+# c2: campaign-jam-spoof-holdover-integrity.toml
+seg-46b6db21c09b = <b>Campaña:</b> Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
+
+# attr:title
+seg-f70fa3b93b11 = El propio informe del motor sobre esta ejecución
+
+# attr:title
+seg-d32a11c090e1 = El resultado del motor, sin modificar
+
+# attr:title
+seg-c459bc5805bb = El archivo de escenario que se ejecutó
+
+# text
+seg-f18f76c10709 = <s1><a1>Informe</a1><a2>JSON</a2><a3>TOML</a3></s1>
+
+# text
+# c1: fc21ac4
+# c2: constellation-multi-gnss-coverage.toml
+seg-c043a94c7564 = <b>Órbitas:</b> Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+# text
+seg-f2d2f2263e63 = La consola, las tres tarjetas y el registro reproducen una única ejecución encadenada de { "6" } fases y { "18" } ejecuciones miembro sobre su cuadrícula de { "10" } s (T+{ "01" }:{ "16" }:{ "10" } de tiempo de misión). Las órbitas son los { "102" } satélites de GPS, Galileo, BeiDou y GLONASS de la ejecución de la constelación, cada uno recuperado como una órbita circular de dos cuerpos a partir de la traza en tierra del motor (peor residuo { "0.0034" }°), con radios comprimidos para la visualización. Los enlaces se dibujan hacia los satélites por encima de la máscara de { "10" }° de la ejecución de la constelación ({ "25" }° en la fase de alarma de integridad, la máscara de readquisición de la campaña), atenuados por su jamming y cortados en holdover. Tierra: NASA Blue Marble y Black Marble. Kshana Studio reproduce la ejecución encadenada en su navegador; el propio informe del motor y el comando reproducen cada ejecución.
+
+# attr:aria-label
+seg-a6603a1011ce = La evidencia de un vistazo
+
+# text
+seg-92c73c398785 = archivos de escenario incluidos
+
+# text
+seg-4fe9e7c5932f = capacidades en la matriz de verificación
+
+# text
+seg-d2c0888d98f6 = validadas frente a referencias independientes externas
+
+# text
+# c1: →
+seg-3a3535770138 = <s1>artículos en arXiv construidos sobre el motor abierto</s1><s2>Lea la investigación <c1/></s2>
+
+# text
+seg-c44c0fbefc2c = <s1>WASM</s1><s2>se ejecuta en el navegador como WebAssembly, sin instalación</s2>
+
+# text
+seg-9b3429f89f21 = Novedades en v{ $version }: cada tipo de escenario, cada comando y los fallos del benchmark
+
+# text
+seg-471b95f0c08f = <a1>Qué hace cada uno y qué se comprobó</a1> · <a2>Todos los canales de instalación</a2>
+
+# text
+seg-a9bca0fa5b04 = Consola de banda L · el tipo de escenario spectrum
+
+# text
+seg-abbe9f20dd01 = Vea cómo un jammer se apodera de la banda.
+
+# text
+seg-7b1868001271 = La banda L de GNSS como una sola PSD (densidad espectral de potencia): frecuencia a lo ancho, tiempo hacia abajo, color para la potencia por encima del suelo de ruido. Las señales quedan por debajo de ese suelo, de modo que lo que se ilumina son los jammers: un chirp, un tono CW (onda continua) y ruido de banda estrecha. Pase el cursor, toque o use las teclas de flecha para ver el <b>C/N0</b> (densidad de portadora a ruido) y el <b>J/S</b> (razón interferencia-señal) de cada banda.
+
+# text
+seg-06d71fc57b8d = <b>kshana</b> spectrum <s1>· <s2>l-band-waterfall-jamming.toml</s2></s1>
+
+# attr:aria-label
+seg-2da07c5d32d7 = Cascada de banda L, frecuencia a lo ancho y tiempo hacia abajo. Las teclas de flecha mueven un cursor sobre frecuencia y tiempo; Escape lo abandona.
+
+# text
+seg-46f65efc3be9 = La cascada se dibuja a partir de la ejecución registrada con JavaScript. El informe del motor que aparece debajo muestra la misma ejecución.
+
+# text
+seg-f3ea569d443f = Peor banda
+
+# text
+seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
+
+# attr:aria-label
+seg-14b3348ff8ea = Densidad de portadora a ruido de cada banda frente al suelo de seguimiento
+
+# text
+seg-3e189946819a = La campaña que gobierna esta ejecución · cada fase sigue el estado del jammer
+
+# text
+# c1: l-band-waterfall-jamming.toml
+seg-b4033994f81b = Ejecución del motor de <c1/>
+
+# attr:aria-label
+seg-33979077de8c = Copiar el comando que reproduce la ejecución: kshana l-band-waterfall-jamming.toml
+
+# text
+seg-17d5d311b110 = Informe del motor
+
+# text
+seg-7a6ff36f0f04 = $ kshana l-band-waterfall-jamming.toml
+
+# text
+seg-1fd08ac5f6f0 = Escenario, datos de resultado, la ejecución de campaña y lo que está modelado
+
+# text
+seg-997412b840c2 = Ejecución de spectrum
+
+# text
+seg-c9ee69e3ce3e = Archivo de escenario
+
+# text
+seg-aaeaa4133766 = Datos de resultado
+
+# text
+# c1: campaign-spectrum-holdover-integrity.toml
+seg-e9d1763a751f = Campaña que gobierna: <c1/>
+
+# text
+seg-444a43f5d0d7 = Modelado: espectros en forma cerrada sobre un suelo de ruido térmico, puntuados por banda según la separación espectral; las potencias y los tiempos de los jammers son entradas del escenario. El eje de tiempo cuenta segundos antes de ahora; la línea cian marca dónde se reinició la reproducción. Kshana Studio ejecuta el mismo escenario en su navegador y reproduce la cascada; el informe y el comando reproducen la ejecución.
+
+# attr:aria-label
+seg-9c4762bc4c66 = Cronología de la misión
+
+# text
+seg-8b148fc948fa = Cronología de la misión · desplácese o arrastre para recorrerla
+
+# text
+seg-984aa8353e29 = Se hace seguimiento de todos los satélites. El reloj está disciplinado a la hora GNSS y el nivel de protección queda muy por debajo del límite de alerta.
+
+# text
+seg-53dff207c2e7 = T+{ "00" }:{ "00" }:{ "00" }
+
+# attr:aria-label, text
+seg-06909bd3c972 = Tiempo de misión
+
+# text
+seg-de619b311b43 = <b>kshana</b> campaign <s1>· campaign-jam-spoof-holdover-integrity · semilla { "20260928" }</s1>
+
+# attr:aria-label
+seg-348b3f146fd1 = Fases y las ejecuciones miembro que despacha cada una
+
+# text
+seg-5ca22bdcb463 = Fases · ejecuciones miembro
+
+# text
+seg-8332e436d097 = Nominal<s1>T+{ "00" }:{ "00" }:{ "00" }</s1>
+
+# text
+seg-297f821b911b = semilla { "42" }
+
+# text
+seg-0c4140f95fe8 = semilla { "1" }
+
+# text
+seg-dfe6a1451d36 = semilla { "7" }
+
+# text
+seg-e6df43ef3bcc = Jamming<s1>T+{ "00" }:{ "10" }:{ "00" }</s1>
+
+# text
+seg-639fb18e57e0 = semilla { "43" }
+
+# text
+seg-599691a88cac = Spoofing<s1>T+{ "00" }:{ "20" }:{ "00" }</s1>
+
+# text
+seg-14f57653cd5c = Holdover<s1>T+{ "00" }:{ "26" }:{ "10" }</s1>
+
+# text
+seg-4be8c1c7aeb6 = semilla { "44" }
+
+# text
+seg-d78a727a49a3 = Alarma de integridad<s1>T+{ "00" }:{ "56" }:{ "10" }</s1>
+
+# text
+seg-612e8a49730d = semilla { "45" }
+
+# text
+seg-8cc810de504f = Recuperación<s1>T+{ "01" }:{ "06" }:{ "10" }</s1>
+
+# text
+seg-d106d9ae3db3 = semilla { "46" }
+
+# text
+seg-cea3b8e726c8 = { "6" } fases · { "18" } ejecuciones miembro de tipos de escenario ya existentes
+
+# text
+seg-12e134ed7cad = Satélites · { "102" }, cuatro sistemas
+
+# text
+seg-ba2d1b289ed3 = Receptor · anillo PL frente al anillo AL
+
+# text
+seg-aa38fb41591a = Jammer · a { "1.0" } km del receptor
+
+# text
+seg-f65f922fa89d = Spoofer
+
+# text
+seg-d3b2bac50e3d = Error de tiempo del reloj<s1>ns · guarda { "50" }</s1>
+
+# text
+seg-c42b07814ef6 = C/N0<s1>dB-Hz · mínimo { "25" }</s1>
+
+# text
+seg-747943902bc5 = PL frente a AL<s1>metros · AL { "50" }</s1>
+
+# attr:aria-label
+seg-61345694fae0 = Reproducir la misión
+
+# attr:title, text
+seg-0d529358e2ad = Jamming
+
+# attr:title, text
+seg-c8df54685469 = Alarma de integridad
+
+# attr:title, text
+seg-63a70a989509 = Recuperación
+
+# text
+seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } de tiempo de misión · la ejecución encadenada, no tres ejecuciones una al lado de otra
+
+# text
+seg-dc2eb6c3c2a4 = PL = nivel de protección · AL = límite de alerta · INS = sistema de navegación inercial
+
+# text
+# c1: fc21ac4
+# c2: campaign-jam-spoof-holdover-integrity.toml
+seg-b85e60e05c9f = Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
+
+# text
+seg-0588364091ec = Desde el primer satélite perturbado por jamming hasta el último nanosegundo de holdover del reloj: señales, sensores, relojes, órbitas e integridad en un solo simulador. Cada imagen de abajo es una ejecución real del motor, e indica cuál.
+
+# text
+seg-18e6988c1ccd = Jamming e interferencia en GNSS
+
+# text
+# c1: jamming
+seg-1d97776ae325 = Un jammer de banda ancha en un mástil y un receptor desplazado sobre una cuadrícula a su alrededor: cada celda es una ejecución propia del tipo de escenario <c1/> del motor. El tono indica la J/S media (relación jammer-señal); las celdas rojas perdieron todos los satélites.
+
+# attr:aria-label
+seg-4fa6a9f6915d = Huella del jamming: relación jammer-señal media y seguimiento en una cuadrícula de posiciones del receptor alrededor del jammer
+
+# text
+# c1: maritime-strait-jamming.toml
+seg-774ec89d13d7 = Motor v{ $version } · <c1/> · semilla { "1" } · receptor desplazado en cada celda
+
+# text
+seg-7292d543b1ac = Cada celda, en Missions
+
+# text
+seg-08ba18ea712c = Engaño
+
+# text
+seg-f765712462a1 = Un spoofer captura el receptor y desvía su tiempo a un ritmo constante. El monitor de integridad de cada reloj tiene su propio límite de detección: el reloj cuántico señala la mentira casi de inmediato; el clásico, solo cuando el desfase ya ha crecido.
+
+# attr:aria-label
+seg-1770a46a99f6 = Desfase de tiempo por spoofing frente al límite de detección
+
+# attr:aria-label
+seg-0f425005ca69 = Desfase de tiempo de un spoofer frente al límite de detección de cada reloj, con el momento en que cada monitor lo señala
+
+# text
+# c1: spoof-attack.toml
+seg-a9829e27b53b = Motor v{ $version } · <c1/> · determinista, sin semilla
+
+# text
+seg-ab0eb55b688a = Relojes
+
+# text
+seg-ceaa6be5f5fd = Holdover del reloj en distintas clases de oscilador
+
+# text
+seg-c25919241d9e = Desde el momento en que desaparece el GNSS: la mediana y el percentil 95 de { "200" } ejecuciones Monte Carlo para un reloj atómico a escala de chip (CSAC) y un reloj óptico de red, y el error a un día de cuatro clases más: un reloj maestro óptico, un máser de hidrógeno, un patrón atómico de frecuencia de rubidio (RAFS) y su versión en miniatura (mini-RAFS).
+
+# attr:aria-label
+seg-b2019ec6d1c7 = Banda de error de tiempo en { "200" } ejecuciones Monte Carlo
+
+# attr:aria-label
+seg-01961fd0b949 = Error de tiempo del reloj tras perder el GNSS: mediana y percentil 95 de { "200" } ejecuciones Monte Carlo para dos relojes, y error a un día de cuatro clases de oscilador
+
+# text
+# c1: clock-ensemble.toml
+seg-ae208f50ab77 = Motor v{ $version } · <c1/> · semilla { "42" }
+
+# text
+# c1: lunar-time-budget.toml
+seg-b3ec228c054d = <b>Columna de un día:</b> Motor v{ $version } · <c1/> · determinista, sin semilla
+
+# text
+seg-a747535696fa = Navegación a estima
+
+# text
+seg-ae35aad6ab75 = Navegación inercial sin GNSS (coasting)
+
+# text
+seg-0c56d6e5450a = Cuando el GNSS se pierde, el INS (sistema de navegación inercial) sigue funcionando y su cono de error se abre. Dos unidades de medida inercial (IMU), un solo presupuesto.
+
+# attr:aria-label
+seg-9f97f05ad6bb = Cono de error de posición tras perder el GNSS para dos unidades de medida inercial, frente al presupuesto de posición
+
+# text
+seg-142a299dff50 = Cuánto tiempo permanece un reloj dentro de su intervalo de guarda tras la última posición fijada: la cuestión que importa a las redes con ranuras de tiempo.
+
+# attr:aria-label
+seg-2b3d148b354d = Error de tiempo previsto desde la última posición fijada frente a la guarda de la ranura
+
+# text
+seg-7a7de9a2d48a = RAIM y ARAIM
+
+# text
+seg-4d5cad94655f = Niveles de protección (PL) de la monitorización autónoma de integridad del receptor (RAIM) y de su forma avanzada (ARAIM), comprobados frente al límite de alerta: aquí, la fase de alarma de integridad de la misión encadenada. Las barras rayadas son épocas en las que no pudo formarse ningún nivel de protección.
+
+# attr:aria-label
+seg-750f6b337ce8 = Nivel de protección vertical en cada época de la fase de alarma de integridad, frente al límite de alerta
+
+# text
+seg-cdf824111b80 = Telecomunicaciones
+
+# text
+seg-129537868d97 = MTIE (error máximo de intervalo de tiempo) y TDEV (desviación de tiempo) de un holdover de 24 horas frente a los límites de la UIT-T (Unión Internacional de Telecomunicaciones, Sector de Normalización de las Telecomunicaciones), aquí el de PRTC-A (reloj de tiempo de referencia primario, clase A).
+
+# attr:aria-label
+seg-7a19d976cca6 = Error máximo de intervalo de tiempo y desviación de tiempo de la ejecución de holdover frente al límite de PRTC-A
+
+# text
+seg-ea5d9e4acbdf = Astrodinámica
+
+# text
+seg-5a507113bfff = Órbitas: SGP4 y numéricas
+
+# text
+seg-2ebc9a7b022e = Propagación SGP4 (Simplified General Perturbations { "4" }) de un conjunto real de elementos de dos líneas, dibujada sobre imágenes reales; efemérides CCSDS OEM y SP3 de entrada y de salida.
+
+# attr:aria-label
+seg-c28ef17609ee = Traza sobre el suelo de la propagación SGP4 del motor para un conjunto real de elementos de dos líneas, sobre imágenes NASA Blue Marble
+
+# text
+seg-2bc362b38f3d = Cislunar
+
+# text
+seg-7904e93c0bcb = PNT lunar
+
+# text
+seg-48ad4630a03f = Posicionamiento, navegación y temporización alrededor de la Luna: niveles de protección horizontal y vertical (HPL, VPL) de ARAIM en un servicio de navegación lunar.
+
+# attr:aria-label
+seg-f69a91258669 = Niveles de protección lunares de la ejecución de RAIM avanzado de LunaNet frente al límite de alerta, junto a la cara visible de la Luna
+
+# text
+seg-2c2d1fdec798 = Sensores emergentes
+
+# text
+seg-e130f7a43848 = Estudios comparativos de sensores cuánticos
+
+# text
+seg-577795028a7f = Sopesar un reloj cuántico frente a uno clásico antes de comprar hardware: holdover a lo largo de un barrido del ruido del reloj clásico.
+
+# attr:aria-label
+seg-836a325ef88c = Barrido de classical_q_wf: holdover_s
+
+# attr:aria-label
+seg-979452def1d6 = Tiempo de holdover de un reloj cuántico y de uno clásico a lo largo de un barrido del nivel de ruido del reloj clásico
+
+# text
+# c1: sweep-clock-stability.toml
+seg-ebaa722c5ab6 = Motor v{ $version } · <c1/> · semilla { "42" }
+
+# text
+seg-1d2973bd0f2f = Funciona en todas partes
+
+# text
+seg-250a09c4baa0 = Navegador, terminal, notebook, IDE, asistente
+
+# text
+seg-62ea80e12931 = El mismo motor en Rust se distribuye como WebAssembly para Kshana Studio, una CLI (interfaz de línea de comandos), paquetes de Python y JavaScript, un plugin de JetBrains Marketplace para su IDE (entorno de desarrollo integrado) y un servidor MCP (Model Context Protocol).
+
+# text
+seg-430082bf58d4 = imagen de ghcr.io
+
+# text
+seg-afd561090841 = CCSDS OEM
+
+# text
+seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: formato de órbita Standard Product { "3" }.
+
+# text
+seg-70d4597772cb = Alcance, dicho con claridad
+
+# text
+seg-2ee2e20030f3 = Conocer los límites importa tanto como conocer las funciones.
+
+# text
+seg-253c54ae2238 = No es hardware generador de señales de RF<s1>No maneja ninguna radio ni transmite nada; su salida a nivel de señal son archivos de muestras IQ en banda base para receptores por software.</s1>
+
+# text
+seg-4fe725162c1c = No es un receptor GNSS de hardware ni certificado<s1>Su receptor por software (adquisición y seguimiento sobre IQ grabado o generado) es una herramienta de análisis, no un producto de navegación.</s1>
+
+# text
+seg-d3606ea42b36 = No es un producto de vuelo<s1>Un instrumento de estudio y de compromisos de diseño, con cada respuesta etiquetada como validada o modelada.</s1>
+
+# text
+seg-57678c2b9a1d = Asistentes de IA · kshana-mcp
+
+# text
+seg-d473cb253f20 = Pregunte a su asistente de IA. El motor responde.
+
+# text
+seg-35f55ec31aeb = Su asistente de IA (inteligencia artificial) ejecuta el motor mediante MCP (Model Context Protocol) a través de <b>kshana-mcp</b> y lee los resultados en JSON (JavaScript Object Notation).
+
+# text
+seg-54d5c8e07a24 = Después, regístrelo en la configuración del cliente MCP de su asistente. <a1>Configuración completa en Developers</a1>
+
+# attr:aria-label
+seg-7e3b4395292e = Relato de desplazamiento sobre el spoofing
+
+# text
+seg-fb440c81faf1 = Relato de desplazamiento · una ejecución encadenada
+
+# text
+seg-24b800b6ec75 = De un cielo limpio a un reloj en marcha libre.
+
+# text
+seg-88e748800e7f = Un receptor, T+{ "01" }:{ "16" }:{ "10" } de tiempo de misión: un cielo limpio, un jammer, un spoofer que desplaza la respuesta en lugar de bloquearla y, después, un reloj abandonado a sí mismo. Los { "102" } satélites son los cuatro sistemas de la ejecución de la constelación, sobre la Tierra real. Desplácese.
+
+# text
+seg-1a913717fbd3 = { "01" } · Nominal
+
+# text
+seg-488b802a8afc = Cada enlace, contabilizado.
+
+# text
+seg-2379d9ee4cd0 = { "8" } satélites rastreados con una C/N0 (densidad de portadora a ruido) media de <b>{ "43.0" } dB-Hz</b>. El nivel de protección vertical se mantiene entre { "9.1" } y { "21.6" } m, por debajo del límite de alerta de { "50" } m.
+
+# text
+seg-8ad9711d8bae = { "02" } · Jamming
+
+# text
+seg-c3fa50909f9d = El ruido se traga el cielo.
+
+# text
+seg-95d85165182f = Un jammer de banda ancha situado a { "1.0" } km se activa a <b>-30 dBW</b>. La C/N0 cae a <b>{ "30.6" } dB-Hz</b>, justo por encima del mínimo de seguimiento de { "25" } dB-Hz. Es ruidoso, así que el receptor lo sabe.
+
+# text
+seg-1f1bc00b81ee = { "03" } · Spoofing
+
+# text
+seg-458faa9a3f96 = Una mentira que parece una posición fijada.
+
+# text
+seg-dda6f0eb3fb6 = Un spoofer empuja el reloj a <b>{ "0.1" } ns/s</b>. El detector de RF (radiofrecuencia) da la alarma a T+{ "00" }:{ "20" }:{ "00" }; el monitor asistido por reloj necesita <b>{ "370" } s</b>, y para entonces ya se han arrastrado { "36.0" } ns.
+
+# text
+seg-13be4329a209 = { "04" } · Holdover
+
+# text
+seg-fe4fb4387b34 = Entonces el tiempo empieza a derivar.
+
+# text
+seg-4f2ce8d81d29 = El jammer pasa a { "10" } dBW y se pierden todos los satélites. El reloj funciona en marcha libre desde los { "37.0" } ns que dejó el spoofer y cruza su <b>guarda de { "50" } ns a T+{ "00" }:{ "35" }:{ "40" }</b>; el error inercial llega a { "24.3" } km.
+
+# text
+seg-fe656aefe9bb = Error de tiempo del reloj · holdover
+
+# text
+seg-548449af47a8 = guarda { "50" } ns
+
+# attr:aria-label
+seg-21e942dadf02 = Leyenda de la constelación
+
+# text
+seg-09d18cf767a7 = Núcleo abierto, Kshana Pro, estudio a medida
+
+# text
+seg-302606971c35 = Gratis para todos. Pro, cuando la respuesta tiene que resistir una revisión.
+
+# text
+seg-27c12083529b = Kshana Pro es una capa propietaria que depende del núcleo abierto y nunca lo bifurca, disponible bajo contrato. Sin precios en una página web: toda vía de pago empieza con un mensaje a <a1>contact@ashforde.org</a1>.
+
+# text
+seg-43ceda17e71c = Núcleo abierto · gratis · AGPL-3.0
+
+# text
+seg-0230217b1110 = Quien obtiene posición o tiempo del GNSS está expuesto: el jamming, el spoofing y la pérdida de señal afectan por igual a vehículos, redes, redes eléctricas y naves espaciales.
+
+# text
+seg-9e88a1981d1e = { "176" } de { "388" } capacidades coinciden con referencias independientes externas; el resto se etiqueta como modelado, a las claras.
+
+# text
+seg-4b41ffeb0030 = Los { "87" } tipos de escenario, gratis y sin restricción de funciones, deterministas a partir del escenario, la semilla y la versión del motor.
+
+# text
+seg-0af87a1caff4 = El mismo núcleo bajo licencia comercial, para integración cerrada.
+
+# text
+seg-f6406933eb77 = Instalar el motor
+
+# text
+seg-6a74a165bfd0 = Kshana Pro · bajo contrato
+
+# text
+seg-298532756f74 = El frente de Pareto de un espacio de diseño, con cada diseño del frente como un escenario que el motor gratuito vuelve a ejecutar.
+
+# text
+seg-a699256db841 = Incertidumbre y sensibilidad a lo largo de miles de ejecuciones.
+
+# text
+seg-665005551d84 = Un dosier de misión con un solo comando, con una matriz de verificación y un archivo PDF (Portable Document Format).
+
+# text
+seg-455cb5040f80 = Paquetes de evidencias reproducibles y de nivel de auditoría; gemelos digitales de reloj calibrados con el presupuesto de Allan publicado de su dispositivo; estudios comparativos de arquitectura clasificados según una figura de mérito; herramientas de ingeniería de sistemas basada en modelos (MBSE) y de programa.
+
+# text
+seg-3e30593288a1 = Qué incluye Pro
+
+# text
+seg-be42106ce1bc = Estudio a medida · hecho por nosotros
+
+# text
+seg-254836cd23af = Estudio a medida: la respuesta, no la herramienta
+
+# text
+seg-fb87be7dc462 = Un estudio modelado de resiliencia PNT de su sistema, por ejemplo una auditoría de la brecha de optimismo. No es una certificación.
+
+# text
+seg-b9d62e7772a7 = Modelos de sensores y de resiliencia calibrados con su hardware.
+
+# text
+seg-57320238c0f4 = Trabajo sujeto a control de exportaciones, bajo la habilitación y el NDA (acuerdo de confidencialidad) correspondientes.
+
+# text
+seg-e36049d768ce = Integración, formación y consultoría.
+
+# text
+seg-3303866fbf99 = El mismo motor, amplificado: salida real de Kshana Pro
+
+# text
+# c1:
+seg-f5513a1750f1 = <a1><s1><c1/>Optimizador de diseño</s1></a1>
+
+# text
+seg-2bbc6243b4b1 = <b>{ "608" } diseños</b>, todos ejecutados: el frente de Pareto y su codo
+
+# text
+# c1:
+seg-56e344605a3d = <a1><s1><c1/>Incertidumbre y sensibilidad</s1></a1>
+
+# text
+seg-a0b3c138f981 = <b>{ "2,000" } ejecuciones</b>: una banda de confianza frente a un límite
+
+# text
+# c1:
+seg-6de95aaa8ba4 = <a1><s1><c1/>Dosier de misión</s1></a1>
+
+# text
+seg-905e5eef45e5 = <b>{ "12" } requisitos</b> comprobados frente a ejecuciones reales, PDF (Portable Document Format) de 21 páginas
+
+# text
+seg-7d9ee2bfbb90 = Descubra dónde falla su temporización, antes de que falle.

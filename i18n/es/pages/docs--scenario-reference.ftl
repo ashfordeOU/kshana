@@ -737,3 +737,422 @@ seg-e0a3e777d810 = GNSS/INS de aviación con acoplamiento fuerte: una aeronave l
 # c2: [trajectory]
 # c3: figure8
 seg-736606e5f26d = GNSS/INS marítimo: una embarcación a { "8" } m/s (unos { "15.5" } nudos) trazando círculos completos a { "1" } deg/s, y después una interrupción de GNSS de cinco minutos, sobre el mismo filtro GNSS/INS de lazo cerrado de 15 estados que <c1/>. El movimiento procede de la biblioteca de trayectorias (<c2/>, perfil <c3/>): giro lento y constante, el régimen de un buque y no de un coche.
+
+# text
+# c1: stop_go
+# c2: [tight]
+seg-d30ac9fd7056 = GNSS/INS ferroviario con acoplamiento fuerte: un tren circula entre paradas a { "30" } m/s con curvas suaves de { "20" } grados (perfil de trayectoria <c1/>), atraviesa una trinchera profunda en la que solo dos satélites permanecen a la vista y después un túnel de dos minutos. El receptor tiene acoplamiento fuerte (<c2/>): sigue fusionando las pseudodistancias de los dos satélites que aún rastrea en la trinchera, donde un receptor de acoplamiento débil no obtiene ninguna solución de posición. Los satélites proceden de una constelación Walker SGP4 de tipo GPS.
+
+# text
+# c1: gnss-ins.toml
+seg-ea32ce169216 = Aeronave pequeña no tripulada bajo jamming de GNSS: cuánto deriva una unidad inercial MEMS de clase controlador de vuelo una vez que el receptor pierde el enganche, frente a una unidad de grado táctico, sobre el mismo filtro GNSS/INS de lazo cerrado que <c1/>.
+
+# text
+seg-f8ac956d2974 = tipo gnss-sim
+
+# text
+# c1: gnss-sim
+# c2: container-terminal
+seg-2bedb057a0e6 = Pseudodistancias y RAIM para una grúa pórtico de patio en un muelle de contenedores, con grúas de muelle hacia el mar y pilas de contenedores hacia tierra: el escenario <c1/> con el perfil de horizonte <c2/>.
+
+# text
+seg-769a624a8ba0 = Simulación GNSS en el dominio de la medida: pseudodistancias con retardos ionosféricos y troposféricos, introducidas en un RAIM instantáneo para obtener los niveles de protección.
+
+# text
+seg-4f53c4dbffec = tipo gnss-ssv
+
+# text
+seg-b05ef0179faf = tipo gravity-map
+
+# text
+seg-10b07a5e6990 = tipo holdover-test
+
+# text
+seg-e41c625df8c5 = Ensayo de holdover, ejemplo de ingesta: un registro de error de tiempo puntuado por el tipo holdover-test ("desconectar la antena, puntuar el holdover"). El registro se divide en los dos instantes que indica el OPERADOR, aquí GNSS retirado a los { "600" } s y restablecido a los { "2 400" } s, y cada paso se mide frente a las máscaras ITU-T redactadas para él.
+
+# text
+seg-d2d4b620af4b = Ensayo de holdover de un registro de linuxptp: los mismos cuatro pasos que holdover-test-example.toml, con el registro leído de un registro de servo de ptp4l mediante [series.clock_log] (formato "ptp4l", desfases en ns, las marcas de tiempo del propio demonio, aquí separadas { "5" } s).
+
+# text
+seg-56269cd82ed4 = tipo hybrid
+
+# text
+seg-098fb3a74071 = Culminación de PNT híbrido: conjunto totalmente cuántico (reloj óptico + IMU de átomos fríos + ayuda de transferencia de tiempo por enlace óptico entre satélites) frente a conjunto totalmente clásico (CSAC + IMU de grado de navegación + RF). GNSS denegado { "1.8" } h.
+
+# text
+seg-e1678a444911 = tipo hybrid-optical-rf
+
+# text
+seg-703bf09ca356 = tipo hybrid-ukf
+
+# text
+seg-a65d5e564286 = tipo impairment-eval
+
+# text
+seg-39f1050e5129 = tipo inertial
+
+# text
+seg-3b8cc1893361 = Navegación por estima durante una interrupción de GNSS: acelerómetro cuántico de átomos fríos frente a uno de grado de navegación. Sesgo = residuo posterior a la calibración con GNSS = estabilidad de sesgo publicada; q_va = (raíz de la densidad espectral de potencia del ruido)^{ "2" }.
+
+# text
+seg-9035c0bc73eb = Perfil cuántico: un acelerómetro de interferómetro de átomos fríos (CAI), construido a partir de la física de su interferómetro, frente a un acelerómetro de cuarzo de grado de navegación durante una interrupción de GNSS. Una deriva inercial unidimensional por estima: { "10" } minutos de GNSS y después { "110" } minutos denegado.
+
+# text
+seg-7d03a68ac877 = tipo ins-trn-coast
+
+# text
+seg-c6ab90fcbc23 = Modelo de error de deriva INS/TRN: error de posición frente a duración de la deriva, y las duraciones de deriva en las que cruza { "10" } m y { "50" } m.
+
+# text
+seg-542b2d91bff8 = Aproximación a un puerto marítimo con GNSS interferido: cuánto tiempo mantiene un sistema de navegación inercial (INS) a un buque dentro del presupuesto de precisión de la aproximación al puerto una vez perdido el Sistema Global de Navegación por Satélite (GNSS).
+
+# text
+seg-471f2e00f244 = Deriva de un tren en un túnel: cuánto tiempo mantiene el sistema de navegación inercial (INS) de un tren dentro de un presupuesto de discriminación de vía sin Sistema Global de Navegación por Satélite (GNSS) en un túnel.
+
+# text
+seg-35c6036b9099 = tipo integrity
+
+# text
+# c1: araim_dual
+seg-b874df525f79 = Disponibilidad de ARAIM con doble constelación: GPS + Galileo evaluados con el motor ARAIM avanzado, incluida la hipótesis de fallo de toda la constelación (<c1/>).
+
+# text
+# c1: integrity
+# c2: user_site
+# c3: harbour-approach
+seg-af9e9ed1468c = Disponibilidad de ARAIM para un buque que entra en un puerto: el tipo <c1/> con un usuario en un emplazamiento terrestre (<c2/>) con el perfil de horizonte <c3/>.
+
+# text
+seg-5387b81f072b = tipo jamming
+
+# text
+# c1: jamming
+# c2: harbour-approach
+seg-79c636fca6b1 = Un buque que entra en un puerto bajo un inhibidor en tierra, con los edificios del muelle por delante tapando los satélites bajos en esa dirección: el escenario <c1/> con el perfil de horizonte <c2/>.
+
+# text
+seg-d7a49be6aa37 = Jamming de GNSS marítimo: un inhibidor de banda ancha, situado en tierra o a bordo de un buque, que deniega el Sistema Global de Navegación por Satélite (GNSS) a un buque que cruza aguas abiertas.
+
+# text
+seg-6c9aae72c01b = tipo launch-window
+
+# text
+seg-784412eac737 = tipo leo-navmsg
+
+# text
+seg-af46a64149f5 = Perfil de la demostración en órbita (IOD) Celeste de la ESA: el único escenario que utiliza material presentado en el taller LEO-PNT del Programa de Innovación y Apoyo a la Navegación (NAVISP) de la ESA, { "2026" }. Para excluirlo de una versión, elimine este archivo y src/leo_navmsg/presets/celeste_iod.rs (véase la cabecera de ese archivo).
+
+# text
+seg-c7deba26589d = Mensaje de navegación LEO: la codificación binaria de Kshana, su presupuesto de cuantización y las exportaciones de estilo RINEX y CSV.
+
+# text
+seg-ea14c04a5e2f = Mensaje de navegación LEO: una actualización del mensaje a mitad de un paso y si el usuario percibe un salto.
+
+# text
+seg-92932c07a7cb = Mensaje de navegación LEO: cuatro modelos de efemérides en una misma órbita y la tabla de SISRE frente a altitud de Liu et al. { "2025" }.
+
+# text
+seg-28fc0b60d88c = tipo leo-pass
+
+# text
+seg-cf353e8a27df = tipo leo-pnt-chain
+
+# text
+seg-1465309100f6 = Celeste IOD de extremo a extremo (perfil opcional): la señal E5 de configuración #1 -> un paso de Celeste IOD -> el mensaje de navegación de estilo Celeste -> solución fusionada de GPS + Galileo + Celeste IOD.
+
+# text
+seg-73db6e9fc765 = LEO-PNT de extremo a extremo en una constelación genérica: diseño de señal -> presupuesto de enlace del paso -> mensaje de navegación -> solución fusionada MEO + LEO y convergencia del posicionamiento preciso de punto.
+
+# text
+seg-ad6744824a5f = Xona Pulsar de extremo a extremo: la señal pública X5 -> un paso de Pulsar -> un mensaje de navegación LEO -> solución fusionada de GPS + Galileo + Pulsar y convergencia del posicionamiento preciso de punto.
+
+# text
+seg-b2c874e083a6 = tipo leo-ppp
+
+# text
+seg-017f8db74a59 = tipo leo-pvt
+
+# text
+# c1: leo-pvt
+# c2: fjord
+seg-923f04fa9b36 = Posicionamiento fusionado MEO y LEO para un buque en el fondo de un fiordo, donde las paredes del valle ocultan todo lo que está bajo en el horizonte al otro lado del canal: el modo conjunto <c1/> con el perfil de horizonte <c2/>.
+
+# text
+seg-dde47f233669 = Satélites a la vista y dilución de la precisión desde el ecuador hasta el polo: solo GNSS en MEO, solo una constelación LEO casi polar y ambas.
+
+# text
+seg-ef202b7d50ed = tipo leo-signal
+
+# text
+seg-22cd3a939c19 = Diseños de señal de Celeste IOD: las bandas de frecuencia y la configuración de señal n.º 1 «Classical Pilot» de la misión de posicionamiento, navegación y temporización (PNT) en órbita terrestre baja (LEO) de la demostración en órbita (IOD) Celeste de la ESA, como diseños de señal parametrizados.
+
+# text
+seg-f5caf70c73f0 = Comparativa de bandas para LEO-PNT, de UHF a banda C ancha: lo que gana y pierde en cada banda una señal de posicionamiento, navegación y temporización (PNT) en órbita terrestre baja (LEO), con independencia de cualquier sistema concreto.
+
+# text
+# c1: xona-pulsar
+seg-90239179296f = Señales de Xona Pulsar: las señales X1 (banda L1) y X5 (banda L5) de una constelación comercial de posicionamiento, navegación y temporización (PNT) en órbita terrestre baja (LEO), a partir de su tabla de señales publicada (Leclère, Marathe y Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551), como el perfil <c1/> compilado en el programa.
+
+# text
+seg-a440eecbe1c9 = tipo link-budget
+
+# text
+seg-fb3f2dcccbf7 = tipo lunar-attack-surface
+
+# text
+seg-4486fa88f989 = tipo lunar-beacon
+
+# text
+seg-2707dd910b99 = tipo lunar-differential-pnt
+
+# text
+seg-ff296a13dcc8 = tipo lunar-frame-campaign
+
+# text
+seg-319137c1458e = tipo lunar-frame-realisation
+
+# text
+seg-d4a6801f9670 = tipo lunar-infrastructure
+
+# text
+seg-a3dc5227b366 = Escenario lunar-infrastructure de Kshana: carrier-phase, el ejemplo RÁPIDO (dos arcos cortos, { "10" } extracciones, segundos; la configuración puntuada, tres arcos y { "400" } extracciones, es xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-1f55219aed27 = Escenario lunar-infrastructure de Kshana: frame-coestimation. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-4e990ecb6404 = Escenario lunar-infrastructure de Kshana: geodesy-sensitivity. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-e27e1de1a233 = Escenario lunar-infrastructure de Kshana: od-consistency. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-30dc631d148f = Escenario lunar-infrastructure de Kshana: od-consistency con una aceleración no modelada. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-68eaba3db338 = Escenario lunar-infrastructure de Kshana: space-tie. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-01d06e830746 = tipo lunar-integrity
+
+# text
+seg-afb7372a588a = Integridad en el polo sur lunar: un receptor posado en la región Artemis frente a un conjunto representativo de relés LunaNet, niveles de protección ARAIM durante un paso de { "24" } h.
+
+# text
+seg-e0180b8a7560 = tipo lunar-interop-export
+
+# text
+seg-8a38317ae6d1 = tipo lunar-jamming
+
+# text
+seg-ea44c47623c9 = tipo lunar-joint-od-clock
+
+# text
+seg-f796750036cc = tipo lunar-llr-datum
+
+# text
+seg-fb08183a8243 = Geodesia de una estación de referencia lunar, CON ESTACIÓN: las cinco matrices de retrorreflectores más un retrorreflector y una baliza VLBI en el emplazamiento de una estación de referencia lunar en el polo sur.
+
+# text
+seg-2255165dd833 = tipo lunar-station-coverage
+
+# text
+seg-5c55b91fa564 = Cobertura de una estación de referencia lunar: qué precisión de posicionamiento y qué nivel de protección obtiene un usuario de una estación de referencia diferencial lunar situada en un emplazamiento conocido del polo sur, sobre la región polar sur y durante un día.
+
+# text
+seg-e1a3830ad9ed = Cobertura de una estación de referencia lunar bajo los supuestos DECLARADOS PÚBLICAMENTE: el mismo tipo que lunar-station-coverage.toml, con cada entrada que una fuente pública declara tomada de ella y citada por el identificador de la fuente; cada entrada que ninguna fuente declara se mantiene con el valor predeterminado del repositorio y se etiqueta ILLUSTRATIVE. Fuentes (consultadas el 2026-10-12; títulos, identificadores y licencias en docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, "Lunar local Differential PNT and Selenodetic Reference Station" (diapositivas) S3 UNOOSA ICG WG-B, Lunar PNT, June { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, "Moonlight Programme Development Status"
+
+# text
+seg-d168096a3514 = Cobertura de una estación de referencia lunar con terreno: el escenario lunar-station-coverage incluido, con un horizonte por emplazamiento trazado por avance de rayos sobre un modelo digital de elevación lunar real en la estación y en cada punto de usuario, en lugar de la máscara de elevación plana por sí sola.
+
+# text
+seg-88a9a6405048 = tipo lunar-time-budget
+
+# text
+seg-efaa5b60d16f = Laboratorio de tiempo de una estación de referencia lunar: un reloj en miniatura de rubidio (miniRAFS) gobernado al Tiempo Lunar Coordinado (LTC) y después dejado en marcha libre.
+
+# text
+seg-debab0063d91 = tipo lunar-time-offset
+
+# text
+seg-79c5a9295ed5 = tipo lunar-vlbi
+
+# text
+seg-8d967bfd5689 = Covarianza de las coordenadas de estación de lunar-VLBI: las derivadas parciales del retardo del observable lunar-vlbi acumuladas sobre un PLAN explícito (líneas base x épocas) en una matriz de información de Fisher, invertida y presentada como la covarianza de las coordenadas de estación y la sigma de estación por coordenada: una salida calculada del motor, y no una precisión escalar de retardo transformada con un factor de equipartición isótropo supuesto g = { "3" }. El estado contiene coordenadas de estación FIJAS a la Tierra (ITRS), de modo que el jacobiano es la derivada parcial inercial rotada con la matriz GCRS->ITRS de cada época: la rotación terrestre es lo que hace observables esas coordenadas, y el informe MIDE el barrido de la línea de visión fija a la Tierra y la declinación de la baliza en lugar de suponerlos. Una observación es un par (línea base, época) con AMBAS estaciones por encima de la máscara de elevación, ponderado con 1/delay_sigma_s^{ "2" }. Informa en cada ejecución del rango, el defecto de datum, el número de condición, el espectro de información completo, la matriz de covarianza, las sigmas por estación, por eje y 3-D, y el espacio nulo de la red libre; ante una deficiencia de rango, la sigma principal se publica como NULL con un estado, y nunca se lee de una inversa casi singular. El valor de equipartición c*delay_sigma_s*sqrt(g/N) para el MISMO plan se emite junto al valor calculado con la razón entre ambos, junto con la cota isótropa de la traza sqrt(p/trace(M)) que AM-HM convierte en un mínimo estricto, de modo que la razón es la anisotropía que descartaba el supuesto. El cierre de retardos tau_ik = tau_ij + tau_jk hace que solo n-1 de las n(n-1)/2 líneas base sean geométricamente independientes; el informe indica ambos recuentos. MODELLED: las efemérides del centro de la Luna, los relojes de las estaciones, la troposfera y los parámetros de orientación terrestre se mantienen FIJOS y las observaciones se tratan como independientes, de modo que la covarianza es una cota de Cramer-Rao para un conjunto reducido de parámetros, no un resultado predicho de una sesión; la sigma de retardo, las coordenadas de estación y el plan son entradas. La derivada parcial que el jacobiano del retardo geométrico deja fuera (el término de Shapiro diferenciado) se mide por diferencias finitas y se emite. No es un producto geodésico.
+
+# text
+seg-a558fdefae3d = tipo lunar-vlbi-fim
+
+# text
+seg-50eb943d4ef7 = tipo mars-pnt
+
+# text
+seg-79aed7a6b416 = PNT de Marte: un usuario en órbita baja de Marte que navega con la constelación simulada de relés MARCONI (relés areoestacionarios que emiten en un sentido y retransmiten en ambos sentidos a una estación de espacio profundo) mediante el estimador conjunto de fusión radiométrica unidireccional/bidireccional.
+
+# text
+seg-852783147633 = PNT de Marte: un usuario fijo en la superficie (un módulo de aterrizaje o rover sobre la superficie en rotación de Marte) que navega con la constelación simulada de relés MARCONI mediante el estimador conjunto de fusión radiométrica unidireccional/bidireccional.
+
+# text
+seg-1b2748b538ae = PNT de Marte: un usuario de transferencia o captura en Marte (un arco areocéntrico alto y excéntrico: el arco largo que recorre un vehículo en la aproximación o en una órbita de captura) que navega con la constelación simulada de relés MARCONI mediante el estimador conjunto de fusión radiométrica unidireccional/bidireccional.
+
+# text
+seg-28938416c04b = tipo moonlight-service-volume
+
+# text
+seg-f0ccaa966a0d = tipo ntn-positioning
+
+# text
+seg-95202f70f915 = tipo oem-interop
+
+# text
+seg-64b58fe6b7e1 = tipo optical-atmosphere
+
+# text
+seg-b8648cc3c266 = PNT óptico a través de la atmósfera: tres emplazamientos terrestres ILLUSTRATIVE (uno septentrional más nuboso, uno central intermedio y uno meridional más despejado) que observan un terminal óptico LEO a { "30" } grados de elevación a { "1550" } nm. Los climas de nubosidad son entradas declaradas, no mediciones ni valores de ningún conjunto de datos, por lo que toda disponibilidad que sigue es MODELLED. La ejecución informa, por emplazamiento, de la pérdida en aire despejado, el estado de turbulencia de Hufnagel-Valley, la disponibilidad frente al margen del enlace, el margen necesario para el { "40" } / { "50" } / { "60" } / { "70" } por ciento (un enlace óptico no puede atravesar una nube espesa, así que un emplazamiento tiene un techo de disponibilidad que ningún margen eleva, indicado por emplazamiento), la distribución de la duración de las interrupciones y el crecimiento del error de temporización por interrupción para tres clases de reloj; y después la disponibilidad por diversidad de emplazamientos de los { "1" }, { "2" } y { "3" } mejores emplazamientos, con meteorología independiente y con meteorología correlacionada por la distancia (longitud de decorrelación de { "500" } km).
+
+# text
+seg-f85f23a4fa5c = Hipótesis de técnicas de mejora para un emplazamiento terrestre ILLUSTRATIVE: un cambio de longitud de onda, una apertura de recepción mayor, una reducción del centelleo con óptica adaptativa y un margen adicional, cada una predicha como una ganancia de disponibilidad sobre la línea base del mismo emplazamiento. Las ganancias son entradas declaradas (Kshana no modela un lazo de óptica adaptativa), una nueva longitud de onda o apertura reevalúa el presupuesto de cielo despejado, la pérdida en aire despejado y el promediado de apertura, y todo es MODELLED. El terminal tiene deliberadamente un margen limitado (unos { "3" } dB antes de la atmósfera) para que las técnicas importen; la ejecución indica además el techo de nubosidad que ninguna técnica eleva. Los objetivos inferiores al { "100" } por ciento de la tabla de márgenes se informan como el margen adicional necesario (negativo significa un excedente).
+
+# text
+seg-b226ac4eebdf = tipo orbit
+
+# text
+# c1: orbit
+# c2: user_site
+# c3: city-street
+seg-4fe91b7e2c29 = Disponibilidad de GNSS y dilución de la precisión en el fondo de una calle urbana: el tipo <c1/> con un usuario en un emplazamiento terrestre (<c2/>) con el perfil de horizonte <c3/>.
+
+# text
+seg-9f0a005cfe62 = tipo passes
+
+# text
+seg-c2f9d49da519 = tipo pvt
+
+# text
+seg-1e5828af879a = tipo quantum-anomaly-detect
+
+# text
+seg-d3897f9ebb6c = Detección de fallos y anomalías para sistemas PNT cuánticos: catálogo de fallos etiquetados + AUC de la ROC + fallo mínimo detectable, monitor asistido por reloj cuántico frente a monitor clásico. MODELLED; parámetros ilustrativos de fuentes públicas; modela la clase, sin afirmación de TRL ni de vuelo.
+
+# text
+seg-95db949095b8 = tipo quantum-gnss-free-nav
+
+# text
+seg-b5e010553b6a = Navegación cuántica sin GNSS: navegación por estima con INS cuántico (interferómetro de átomos fríos) frente a INS clásico de grado de navegación durante una interrupción de GNSS. MODELLED; parámetros de dispositivo ilustrativos de fuentes públicas; modela la clase, sin afirmación de TRL ni de vuelo.
+
+# text
+seg-6d0a57c5b71d = tipo quantum-time-transfer
+
+# text
+seg-6d837ea24f97 = Temporización cuántica de confianza: cadena de transferencia de tiempo de extremo a extremo, difusión segura, detección de anomalías y una comparativa cuántico frente a clásico. MODELLED; parámetros de dispositivo y de enlace ilustrativos de fuentes públicas; modela la clase, sin afirmación de TRL ni de vuelo.
+
+# text
+seg-09ba30218f38 = tipo quantum-trade
+
+# text
+seg-e39997960d5d = tipo realtime-frame-eop
+
+# text
+seg-bb2002e9948d = tipo reentry
+
+# text
+seg-b1c293c644d1 = tipo slot-timing
+
+# text
+seg-65401b133472 = Temporización de ranuras: cuánto tiempo permanece un oscilador de cuarzo con control de horno (OCXO) de un satélite pequeño en órbita terrestre baja dentro de la guarda de una ranura de encaminamiento indexada en el tiempo tras su última solución del Sistema Global de Navegación por Satélite (GNSS), y con qué frecuencia necesita una solución.
+
+# text
+seg-b1d59d7a3350 = tipo solar-system
+
+# text
+seg-67928e2d349f = tipo space-packet
+
+# text
+seg-ce6afe97c0a4 = tipo space-weather
+
+# text
+seg-008e207782f6 = tipo spectrum
+
+# text
+seg-ac1083b109f8 = Cascada de la banda L bajo jamming: toda la banda L del Sistema Global de Navegación por Satélite (GNSS) como una única densidad espectral de potencia (PSD), con la frecuencia en horizontal y el tiempo hacia abajo, mientras se activa una secuencia programada de inhibidores.
+
+# text
+seg-859958a06acc = Cascada de jamming multibanda: señales de posicionamiento, navegación y temporización (PNT) en órbita terrestre baja (LEO) en cuatro bandas (UHF, L, S y C) junto a GPS y Galileo, cada banda con su propio inhibidor, dibujadas como una cascada por banda sobre una misma línea temporal.
+
+# text
+seg-559fe9211290 = tipo spoof
+
+# text
+seg-6e099f8a060a = Ataque activo de spoofing de tiempo: ¿puede el monitor de integridad de cada reloj detectar el spoofing antes de que cause daño?
+
+# text
+seg-43dad2e00cde = tipo spoof-detect
+
+# text
+seg-0d6c2e664734 = tipo sweep
+
+# text
+seg-5fb588430052 = tipo sweep-nd
+
+# text
+# c1: sweep
+# c2: sweep-nd
+# c3: [base]
+seg-b22e7ba4a1a0 = Barrido genérico de parámetros N-D sobre CUALQUIER tipo de escenario. A diferencia del tipo <c1/>, que solo trata relojes, <c2/> varía claves TOML con puntos del escenario <c3/> sobre el producto cartesiano de los ejes, vuelve a ejecutar cada nodo de la malla y lee las métricas elegidas del resultado mediante una ruta JSON con puntos. Funciona con todos los paquetes (inertial, gnss-ins, integrity, spoof, …) porque opera en la frontera TOML/resultado y no sobre un tipo de Rust propio de cada paquete. Las ejecuciones nativas evalúan la malla en paralelo (sin dependencias adicionales); wasm recurre a la ejecución secuencial. La malla de salida es determinista y está en orden de filas (el último eje varía más deprisa).
+
+# text
+seg-5f1e87304f90 = tipo telecom-timing
+
+# text
+seg-999121d87895 = Referencia de temporización de telecomunicaciones: un reloj de rubidio que pierde su referencia del Sistema Global de Navegación por Satélite (GNSS) y mantiene el holdover durante { "24" } horas, comprobado frente a las máscaras del Sector de Normalización de las Telecomunicaciones de la Unión Internacional de Telecomunicaciones (UIT-T).
+
+# text
+seg-3cfcd6f8717b = Temporización de telecomunicaciones, sincronización de frecuencia: un oscilador de cuarzo con control de horno (OCXO) en marcha libre frente a las máscaras de generación de wander del reloj del equipo de Ethernet síncrono (EEC) del Sector de Normalización de las Telecomunicaciones de la Unión Internacional de Telecomunicaciones (UIT-T).
+
+# text
+seg-afd374569777 = Temporización de telecomunicaciones, ejemplo de ingesta: una serie de error de intervalo de tiempo (TIE) dada en línea y comprobada frente a las máscaras del Sector de Normalización de las Telecomunicaciones de la Unión Internacional de Telecomunicaciones (UIT-T).
+
+# text
+seg-eb02c7911f72 = tipo terrain-nav
+
+# text
+seg-b83a1fbd3435 = tipo terrain-slam
+
+# text
+seg-c988dce87d81 = tipo time-transfer-budget
+
+# text
+seg-a063a0ecc543 = Transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT) entre dos estaciones ILLUSTRATIVE, una en Europa central y otra en el este de Norteamérica, a través de un relé geoestacionario a { "10" } grados O. La ejecución resuelve la ecuación bidireccional para T_A - T_B a partir de los términos declarados de equipos, transpondedor, ionosfera (banda Ku, 14/11 GHz) y Sagnac. Forma un presupuesto de incertidumbre cuyo término estadístico es la TDEV, a un día, de un enlace simulado con ruido de fase blanco y de flicker y una no reciprocidad diurna. Los retardos y las incertidumbres son ilustrativos, no la calibración de ningún laboratorio. MODELLED. Se puede añadir una serie real UTC-UTC(k) o de reloj de estación bajo [[series]] (formato circular-t, mjd-csv o rinex-clock) para informar de su estabilidad.
+
+# text
+seg-69138a582b9a = tipo timetransfer
+
+# text
+seg-a79dfece857e = Pérdida de enganche del lazo de seguimiento: C/N0 -> enganche/desenganche CON HISTÉRESIS, el tiempo que se tarda en perder el enganche y la captura por spoofing en función de la VELOCIDAD de desfase de código y de portadora. Los criterios de denegación y captura que ya tiene el motor son razones de potencia recibida (un inhibidor deniega con J/S = { "30" } dB, un spoofer captura con { "3" } dB); la pérdida real de enganche no es una razón de potencia, sino el punto en que el jitter de un lazo más la tensión dinámica rebasan su presupuesto de umbral de seguimiento. Informa de ({ "1" }) el jitter térmico de 1 sigma de portadora (Costas) y de código (anticipado/retardado no coherente) frente a C/N0, con la pérdida por cuadratura incluida, frente a las reglas declaradas { "3" }*sigma_PLL + theta_e <= { "45" } grados (la regla de 15 grados en forma de tres sigma) y { "3" }*sigma_DLL + retardo de rampa <= d/2 chips; ({ "2" }) los umbrales de C/N0 de pérdida y de reenganche con el lazo limitante nombrado, con el umbral de reenganche DERIVADO del mayor ancho de banda con el que un receptor vuelve a capturar y no afirmado, de modo que la anchura de la histéresis debe quedar entre { "5" }*log10(razón) y { "10" }*log10(razón) dB; ({ "3" }) el tiempo declarado hasta perder el enganche con un detector de enganche de dos umbrales y tiempos de confirmación, accionado sobre una rampa de C/N0, informado por separado del tiempo físico de escape de fase (el tiempo medio de Viterbi entre saltos de ciclo, en log10 s porque abarca cientos de décadas); ({ "4" }) los límites de captura por spoofing: el mayor deslizamiento de código y la mayor velocidad de Doppler de portadora que pueden seguir los lazos de una víctima, con un mapa sobre ambos ejes, porque un spoofer que se desliza más deprisa que estos valores no captura el lazo, lo deja atrás; y ({ "5" }) el RADIO DE DENEGACIÓN que implica la dinámica del lazo, informado JUNTO AL radio existente por razón de potencia, nunca en su lugar, con su diferencia con signo como campo propio con nombre (denial_radius_delta_km) y una definición a su lado. Todo campo numérico emitido lleva una unidad y una clase de procedencia. Formas cerradas VALIDATED: las expresiones del jitter de portadora y de código, la reducción del filtro de lazo sqrt({ "2" }*B_n*T) y el retardo de rampa de primer orden se contrastan con el correlador sdr del propio motor avanzado sobre FI sintética con semilla (otra vía hacia los mismos números) hasta { "0.6" } %, { "3.7" } % y { "0.17" } % respectivamente, y la I0 de Bessel modificada que hay tras el tiempo de salto de ciclo con los valores tabulados estándar hasta { "1e-7" }. El límite inferior de validez se afirma, no solo se declara: por debajo de ~{ "32" } dB-Hz a { "1" } ms el discriminador atan real se satura contra su rango de +-pi/2 y mide menos jitter que cualquier teoría lineal. MODELLED: los anchos de banda de lazo, el tiempo de integración, el espaciado de correladores, la razón de ancho de banda de recaptura, los tiempos de confirmación, la potencia del inhibidor y las ganancias de antena son cifras representativas de la banda, no una hoja de datos. NO se modelan: el jitter del oscilador (desviación de Allan) y por vibración, la limitación de ancho de banda del frontal, el multitrayecto, la dinámica del AGC, la pérdida por transición de bits de datos, la ayuda externa y cualquier corrección de medio ciclo de la fórmula de salto de ciclo de Costas. Bajo la dinámica del lazo, la captura por spoofing no tiene ningún radio: la restricción limitante es la velocidad de desfase y no la potencia, por lo que ese campo es nulo con un motivo y no un número inventado. No es un producto de rendimiento de receptores certificado.
+
+# text
+seg-0b943d7e5f66 = tipo tracking-loop
+
+# text
+seg-003cc12a2c96 = Pérdida de enganche del lazo de seguimiento: C/N0 -> enganche/desenganche con histéresis, el tiempo que se tarda en perder el enganche y los límites de captura por spoofing fijados por la VELOCIDAD de desfase de código y de portadora.
+
+# text
+seg-9ce64f725193 = Suites de estudio
+
+# text
+# c1: kshana --study
+# c2: study.json
+# c3: study.html
+seg-b871497364ff = Una suite es un archivo de escenario que enumera otros escenarios; <c1/> la ejecuta y produce un único <c2/> y un único <c3/> sellados. Este es el ejecutor de suites gratuito, no el estudio personalizado de pago.
+
+# text
+seg-b0569509d058 = Demostrador de PNT con tecnología cuántica: las tres áreas de aplicación como un único estudio.
+
+# text
+seg-2f09b9930e10 = Ver en GitHub
+
+# text
+seg-67f767701c6d = <s1>Anterior</s1>Dominios de capacidad
+
+# text
+seg-ea79a68b0587 = <s1>Siguiente</s1>Esquema de resultados
