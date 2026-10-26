@@ -582,3 +582,367 @@ studio-trust-run-the-engine-in-this = このブラウザー上で、船舶の NM
 studio-training-one-shared-time-axis-drag = 共通の時間軸が一本あります。ドラッグまたはクリックでカーソルを移動し、矢印キーで一つずつ動かせます。イベントのバーは、注入された各イベントの強さを時間に沿って示します。
 
 studio-replay-the-coast-is-natural-earth = 海岸線は、パブリックドメインの Natural Earth の縮尺 1:10 百万の陸地データで、このページに同梱されています（何も取得しません）。デモの位置は架空のものなので、海岸線はそれらの架空の座標がどこに当たるかを示します。例示のみであり、航法には決して使用しないでください。
+
+studio-trust-imu-file-optional-a-second = IMU ファイル（任意）：方位用の第二のセンサー
+
+studio-trust-an-imu-log-on-the = 受信機ログと同じクロックの IMU ログは、受信機ログに方位がない箇所で、方位と進行方向の比較モニターが読み取る方位を補います。使用するのは船舶セッションのみです。
+
+studio-trust-remove-the-imu-file = IMU ファイルを削除
+
+studio-trust-no-imu-file = IMU ファイルはありません。
+
+studio-trust-session-settings-toml-the-log = セッション設定（TOML、ログはインラインで指定）
+
+studio-trust-first-deduction = 最初の減点
+
+studio-trust-first-untrusted = 最初の信頼不可
+
+studio-trust-receiver-reported-track = 受信機が報告した航跡
+
+studio-trust-the-satellites-the-log-s = ログ自身の GSV が列挙する衛星です。塗りつぶしのマークは信号強度のある衛星、中空のマークは信号強度なしで列挙された衛星、網掛けの扇形は、ログが衛星を列挙しているのにそのどれも受信できていない範囲です（遮られた空と妨害された信号は、ここでは同じに見えます）。公称のコンステレーションであり、ログの日付のエフェメリスではありません。
+
+studio-trust-score-over-time = スコアの時間変化
+
+studio-trust-score-0-to-100-dashed = スコアは 0 から 100 です。破線は帯域の境界で、その下の帯は帯域とゲートです。ドラッグまたはクリックで時刻カーソルを移動し、矢印キーで一つずつ動かせます。
+
+studio-trust-reasons-at-the-cursor = カーソル位置の理由
+
+studio-trust-points-each-check-took-off = このエポックで各チェックが減点した点数を、大きい順に示します。チェックをクリックすると、それが開始しきい値を超えていた箇所に印が付きます。
+
+studio-trust-geometry-at-the-cursor = カーソル位置の衛星配置
+
+studio-trust-the-satellite-geometry-always-shown = 衛星配置は常に表示されます：そのラベル（良好、可、不良）と DOP です。マスクされた空（船体、岸壁、フィヨルドの壁）は自然な劣化であり、攻撃に似た不整合とは区別されます。スコアが衛星配置で減点するのは配置が不良の場合のみで、最大 15 点、劣化帯を下回ることはありません。
+
+studio-trust-the-receiver-s-own-flag = 受信機自身のフラグ
+
+studio-trust-what-the-receiver-itself-says = スプーフィングとジャミングについて受信機自身が示す内容（u-blox UBX-NAV-STATUS と UBX-SEC-SIG）を、Kshana のモニターと並べて表示します。コードは受信機のものです。どちらの検出器も正解ではなく、一致は検証ではありません。このフラグはスコアを変更しません。
+
+studio-trust-over-the-run = 実行全体
+
+studio-trust-what-the-score-used = スコアが使用したもの
+
+studio-trust-read-from-the-run-read = 実行から読み取った内容で、読み取り専用です。
+
+studio-trust-what-this-view-does-and = このビューが示すものと示さないもの
+
+studio-trust-nmea-only-checks-cannot-see = NMEA のみのチェックでは、位置、速度、方位、電力、クロックが互いに整合した状態でコンステレーション全体を再現するスプーファーや、記録された実信号のリプレイは検出できません。警報のない測位解が、そのために良好な測位解であるとは限りません。
+
+studio-trust-nothing-on-this-page-is = このページのいかなる内容も、実際の干渉に対するチェックの性能を測った値ではありません。スコアのマッピングとすべての重みは、ログを採点する前に固定されており、学習も、イベントへのフィッティングも行っていません。
+
+studio-main-which-satellites-can-you-see = ある場所からどの衛星が見え、その配置はどれほど良好でしょうか。ブラウザー上のエンジンによるスカイプロット、スカイライン、DOP
+
+studio-main-trainer-debrief-for-kshana-nmea = kshana nmea-scenario の教官ログ向けトレーナーデブリーフ（訓練専用。ファイルはブラウザー内に留まります）
+
+studio-main-where-did-aircraft-and-ships = 過去のある日に、航空機や船舶が劣化した航法データを報告したのはどこでしょうか。日ごとのマップファイルを開いてください（ブラウザー内に留まります）
+
+studio-main-can-the-bridge-trust-this = ブリッジはこの測位解を信頼できるでしょうか。船舶の受信機信頼性の実行を開いてください（ファイルはブラウザー内に留まります）
+
+studio-main-evidence-packs-test-bench-export = エビデンスパック、試験用ベンチへのエクスポート、compliance マッピング、OSNMA、コマンドラインツール、AI アシスタント（ファイルはブラウザー内に留まります）
+
+studio-main-map-of-satellites-in-view = 記録された実行に基づく、地球上空で見える衛星のマップ
+
+studio-main-interactive-3-d-view-of = 伝播させた軌跡のインタラクティブな 3D ビュー
+
+studio-main-close-history = 履歴を閉じる
+
+studio-main-skip-to-the-content = 本文へスキップ
+
+studio-main-receiver-trust = 受信機の信頼性
+
+studio-main-advanced-view = 詳細ビュー
+
+studio-main-what-would-you-like-to = 何を知りたいですか。
+
+studio-main-pick-a-question-or-start = 質問を選ぶか、下の結果から始めてください。
+
+studio-main-showing-below = 下に表示
+
+studio-main-integrity-over-12-hours = 12 時間にわたるインテグリティ
+
+studio-main-a-radio-waterfall = 電波のウォーターフォール
+
+studio-main-recorded-result = 記録された結果
+
+studio-main-how-many-navigation-satellites-can = 地球上のどこからでも、航法衛星は何機見えるでしょうか。
+
+studio-main-loading-the-recorded-result = 記録された結果を読み込んでいます…
+
+studio-main-everything-kshana-can-do = Kshana にできること
+
+studio-main-each-area-shows-a-real = 各分野には、実際に記録された結果と、その裏付けとなるエビデンスの内訳が示されます。
+
+studio-main-open-your-own-files = ご自身のファイルを開く
+
+studio-main-pages-that-run-the-engine = ご自身の設定とファイルでエンジンを実行するページです。いずれもこのブラウザー内で動作し、何もアップロードされません。
+
+studio-main-which-satellites-can-you-see-2 = ある場所からどの衛星が見え、その配置はどれほど良好でしょうか。スカイラインを描きます。
+
+studio-main-what-accuracy-could-a-reference = 月の南極付近の基準局は、どこでどれほどの精度を提供できるでしょうか。MODELLED。
+
+studio-main-can-the-bridge-trust-this-2 = ブリッジはこの測位解を信頼できるでしょうか。船舶の NMEA ログを採点します。
+
+studio-main-where-aircraft-and-ships-reported = 航空機や船舶が劣化した航法データを報告した場所と、経路の曝露です。
+
+studio-main-generate-a-drift-or-jamming = ドリフトまたはジャミングの演習用ストリームを生成し、教官ログをデブリーフします。
+
+studio-main-two-synthetic-runs-on-one = 一つのクロック上の二つの合成実行：航跡、信頼スコア、ライブのスカイプロット、判定。
+
+studio-main-the-two-optical-atmosphere-scenarios = 二つの光学大気シナリオ：雲底高度に対する可用性、途絶、サイトダイバーシティ。
+
+studio-main-which-navigation-signals-a-spacecraft = 衛星よりはるか上空にある宇宙機がまだ使える航法信号と、それらを使った搭載フィルターや編隊の性能です。
+
+studio-main-what-lunar-orbiters-and-a = 月周回機と月面局が、航法・測地インフラとして何ができるか。届かなかった点も明記しています。
+
+studio-main-open-a-day-s-observatory = ある日の観測所ファイルを開いて読みます：三つの状態、原因なし、アップロードなし。
+
+studio-main-pull-the-antenna-score-the = アンテナを外して、ホールドオーバーを採点します：ITU-T のマスクに照らして測定した時刻誤差の記録です。
+
+studio-main-check-a-signed-pack-or = 署名付きパックを確認するか、タイムスタンプを添付します。
+
+studio-main-motion-and-event-files-for = ラボ用シミュレーター向けのモーションファイルとイベントファイルです。
+
+studio-main-what-your-runs-evidence-against = 実行結果が、公開されているフレームワークに対してどのような証拠となるかです。
+
+studio-main-whether-recorded-galileo-data-is = 記録された Galileo データが認証されているかを、タグごとに確認します。
+
+studio-main-use-kshana-from-your-assistant = MCP サーバーを通じて、アシスタントから Kshana を使います。
+
+studio-main-all-scenarios = すべてのシナリオ
+
+studio-main-pick-one-it-opens-on = 一つ選ぶと、すぐにその結果が開きます。
+
+studio-main-all-questions = すべての質問
+
+studio-main-every-published-figure = 公開されているすべての数値
+
+studio-main-read-from-the-result-document = 結果ドキュメントから、エンジンが各数値について記録する単位、注記、出所とともに読み取っています。
+
+studio-main-kalman-self-consistency = カルマンフィルターの自己整合性
+
+studio-main-a-consistent-filter-s-reported = 整合したフィルターが報告する不確かさは、実際の誤差と一致します。NIS（正規化イノベーション二乗）は 1 付近、NEES（正規化推定誤差二乗）は 2 付近にあり、いずれも 95% の χ² 帯域内に収まるはずです。
+
+studio-main-engine-chart = エンジンのグラフ
+
+studio-main-each-series-this-run-publishes = この実行が公開する各系列を、時間に対して表示します。グラフ上にカーソルを合わせるかドラッグすると、値を読み取れます。
+
+studio-main-carrier-to-noise-density-db = 搬送波対雑音密度（dB-Hz）
+
+studio-main-with-the-jammer = ジャマーあり
+
+studio-main-without-it = ジャマーなし
+
+studio-main-each-cell-is-one-satellite = 各セルは、この実行のある一つのエポックにおける一機の衛星です。斜線のセルは受信機の追尾しきい値を下回っており、その衛星は喪失しています。
+
+studio-main-interference-outcome = 干渉の結果
+
+studio-main-error-since-gnss-was-lost = GNSS 喪失後の誤差
+
+studio-main-scenario-budget = シナリオのバジェット
+
+studio-main-move-the-budget-and-the = バジェットを動かすと、この実行自身の誤差記録から限界超過までの時間が読み取られます。シナリオのバジェットで計算したエンジンのホールドオーバーの数値が並べて表示され、それが正式な値です。物理計算をやり直すには、パラメーターでクロックや途絶を変更してください。
+
+studio-main-maximum-time-interval-error = 最大時間間隔誤差
+
+studio-main-time-deviation = 時間偏差
+
+studio-main-mask-checks-and-holdover-budgets = マスクのチェックとホールドオーバーのバジェット
+
+studio-main-each-check-s-limit-is = 各チェックの限界値は、マージンが最悪だった平均化時間の位置にリングで示します。マスクは、各行に示した ITU-T（国際電気通信連合 電気通信標準化部門）勧告から転記したものです。
+
+studio-main-lower-is-better-fractional-frequency = 小さいほど良好です。平均化時間 τ に対する周波数安定度（相対値）を、両対数軸で示します。
+
+studio-main-earth-centred-inertial-frame = 地球中心慣性座標系
+
+studio-main-drag-to-rotate-scroll-to = ドラッグで回転、スクロールで拡大縮小します。
+
+studio-main-run-the-engine-once-per = 値ごとにエンジンを一回実行し、一つの性能指標をプロットします。ヒートマップにするには第二のパラメーターを追加してください。すべての点が実際のエンジン実行で、最大 60 点です。
+
+studio-main-pinned-runs-side-by-side = ピン留めした実行の並列表示
+
+studio-main-clear-pins = ピン留めを解除
+
+studio-main-key-figures-run-against-run = 主要な数値：実行ごとの比較
+
+studio-main-the-headline-readouts-of-each = ピン留めした各実行の主要な読み出し値です。変化は実行 A との比較です。
+
+studio-main-the-engine-s-own-export = エンジン自身のエクスポート
+
+studio-main-written-by-the-engine = エンジンが書き出したもの
+
+studio-main-czml-kml-geojson-stk-ephemeris = CZML、KML、GeoJSON、STK エフェメリス、SigMF
+
+studio-main-try-other-settings = 別の設定を試す
+
+studio-main-change-a-value-then-run = 値を変更してから、もう一度実行してください。答えとグラフはその場で更新されます。
+
+studio-main-run-again = もう一度実行
+
+studio-main-cancel-the-run = 実行をキャンセル
+
+studio-main-runs-in-your-browser-nothing = ブラウザー内で実行されます。何もアップロードされません。
+
+studio-main-advanced-settings = 詳細設定
+
+studio-main-every-setting-comes-from-the = すべての設定はシナリオファイルに由来します。ファイル全体を「研究者向け」で編集できます。
+
+studio-main-how-this-is-computed = 計算方法
+
+studio-main-level-of-evidence = エビデンスのレベル
+
+studio-main-the-engine-s-own-one = エンジン自身による一行の要約
+
+studio-main-every-figure-is-labelled-with = すべての数値には、そのエビデンスのティアが表示されています。「検証済み」は独立した外部のオラクルと照合したことを意味し、「モデル化済み」はテスト付きの第一原理に基づく物理で、オラクルとの照合はまだ行っていないことを意味します。
+
+studio-main-for-researchers = 研究者向け
+
+studio-main-code-data-citation = コード、データ、引用
+
+studio-main-run-it-on-your-computer = お使いのコンピューターで実行
+
+studio-main-run-it-from-python = Python から実行
+
+studio-main-exported-figures-carry-this-doi = エクスポートした図には、キャプションにこの DOI（デジタルオブジェクト識別子）が付きます。同じシナリオ、シード、エンジンのバージョンであれば、同じ数値になります。
+
+studio-main-toml-tom-s-obvious-minimal = TOML（Tom's Obvious, Minimal Language）
+
+studio-main-in-the-editor-tab-indents = エディターでは、Tab で半角スペース二つ分インデントされます。次へ移動するには、Escape を押してから Tab を押します。編集内容を反映するには、もう一度実行してください。
+
+studio-main-every-panel-and-field = すべてのパネルとフィールド
+
+studio-main-the-advanced-view-is-the = 詳細ビューは完全なダッシュボードです。この実行のすべてのパネルを並べて表示し、シナリオのすべてのフィールド、掃引、比較、エンジン自身のレポートを備えています。このシナリオを、ご自身の設定で開きます。
+
+studio-main-kshana-pro = Kshana Pro
+
+studio-main-kshana-studio = Kshana Studio
+
+studio-main-request-an-evaluation = 評価を依頼
+
+studio-main-talk-to-us-about-a = 商用ライセンスについて相談する
+
+studio-main-request-a-study = 検討を依頼
+
+studio-main-imagery-nasa-visible-earth-blue = 画像：NASA Visible Earth（Blue Marble）。海岸線：Natural Earth。ここにあるすべてのグラフはエンジンの実行から描画されています。ネイティブのコマンドラインエンジンで作成した実行、レポート、アニメーション、エクスポートには、記録済みと表示されます。
+
+studio-main-this-session = このセッション
+
+studio-main-runs-you-make-appear-here = 実行するとここに表示されます。一つ選ぶと、そのシナリオと結果が戻ります。ピン留めすると比較できます。
+
+studio-advanced-find-a-scenario-a-domain = シナリオ、領域、フィールド、コマンドを探す
+
+studio-advanced-the-runs-you-made-in = このセッションで行った実行
+
+studio-advanced-a-short-tour-of-the = Studio の簡単なツアー
+
+studio-advanced-toggle-colour-theme = カラーテーマを切り替える
+
+studio-advanced-switch-to-the-simple-view = シンプルビューに切り替える
+
+studio-advanced-the-simple-view-the-answer = シンプルビュー：まず答え、設定は五つ、詳細は必要なときに
+
+studio-advanced-scenario-library = シナリオライブラリ
+
+studio-advanced-close-the-library = ライブラリを閉じる
+
+studio-advanced-find-a-scenario-a-domain-2 = シナリオ、領域、フィールドを探す
+
+studio-advanced-scenario-domain-or-field = シナリオ、領域、フィールド
+
+studio-advanced-filter-by-domain = 領域で絞り込む
+
+studio-advanced-scenarios-by-mission-domain = ミッション領域別のシナリオ
+
+studio-advanced-how-the-studio-works = Studio の仕組み
+
+studio-advanced-search-scenarios-domains-or-fields = シナリオ、領域、フィールドを検索
+
+studio-advanced-search-scenarios-domains-or-fields-2 = シナリオ、領域、フィールドを検索（例：仰角マスク）
+
+studio-advanced-the-engine-kind-this-scenario = このシナリオが実行するエンジンの種別
+
+studio-advanced-open-the-scenario-library = シナリオライブラリを開く
+
+studio-advanced-show-the-parameters-and-the = パラメーターとシナリオのソースを表示
+
+studio-advanced-keep-this-run-to-compare = この実行を保持して別の実行と比較（最大 4）
+
+studio-advanced-compare-the-pinned-runs = ピン留めした実行を比較
+
+studio-advanced-share-this-run-or-download = この実行を共有またはダウンロード
+
+studio-advanced-result-panels = 結果パネル
+
+studio-advanced-run-summary = 実行の概要
+
+studio-advanced-parameters-and-scenario-source = パラメーターとシナリオのソース
+
+studio-advanced-close-the-parameters-and-show = パラメーターを閉じて結果を表示
+
+studio-advanced-find-a-field-of-this = このシナリオのフィールドを探す
+
+studio-advanced-find-a-field-for-example = フィールドを探す（例：マスク）
+
+studio-advanced-parameter-view = パラメータービュー
+
+studio-advanced-find-a-scenario-domain-field = シナリオ、領域、フィールド、パネル、コマンドを探す
+
+studio-advanced-skip-to-results = 結果へスキップ
+
+studio-advanced-find-anything = 何でも探す
+
+studio-advanced-lunar-station-coverage-of-a = 月面局：基準局のカバレッジ（MODELLED）
+
+studio-advanced-simple-view = シンプルビュー
+
+studio-advanced-choose-a-scenario = シナリオを選ぶ
+
+studio-advanced-what-do-you-want-to = 何をしたいですか。
+
+studio-advanced-pick-a-domain-and-a = 領域とシナリオを選んで設定し、ブラウザー内でエンジンを実行して、結果を読み、比較し、エクスポートします。何もアップロードされません。
+
+studio-advanced-share-or-export = 共有またはエクスポート
+
+studio-advanced-good-first-runs = 最初におすすめの実行
+
+studio-advanced-pin-run = 実行をピン留め
+
+studio-advanced-report-json-scenario-tables-and = レポート、JSON、シナリオ、表、エクスポート
+
+studio-advanced-the-exact-scenario-in-the = リンクに含まれる正確なシナリオ
+
+studio-advanced-an-iframe-for-a-course = コースページや wiki 用の iframe
+
+studio-advanced-opens-in-a-new-tab = 新しいタブで開きます
+
+studio-advanced-loading-the-engine-the-recorded = エンジンを読み込んでいます。まず、このシナリオの記録された結果が表示されます。
+
+studio-advanced-got-it = 了解
+
+studio-advanced-headline-numbers-from-the-engine = エンジンの結果から得た主要な数値です。このシナリオの前回の実行からの変化と、実行がしきい値を示している場合は合否も表示します。
+
+studio-advanced-set-parameters = パラメーターを設定
+
+studio-advanced-every-change-re-runs-the = 変更するたびにエンジンが再実行され、主要な数値とパネルが更新されます。
+
+studio-advanced-drag-a-slider-and-the = スライダーをドラッグすると、シナリオが再実行されます。すべてのコントロールは、下のシナリオテキストに直接書き込まれます。
+
+studio-advanced-in-the-editor-tab-indents = エディターでは、Tab で半角スペース二つ分インデントされます。次へ移動するには、Escape を押してから Tab を押します。
+
+studio-mission-thread-time-axis = 時間軸
+
+studio-mission-thread-mission-thread = ミッションスレッド
+
+studio-mission-thread-where-does-a-mission-s = ミッションの航法・時刻の誤差バジェットは、どこで尽きるでしょうか。
+
+studio-mission-thread-a-mission-is-a-chain = ミッションはフェーズの連鎖です：打ち上げ、ランデブー、月への遷移、着陸、帰還。各フェーズには固有のセンサーと固有の誤差バジェットがあり、それぞれが不確かさを次のフェーズに引き継ぎます。このページは、連鎖全体のバジェットをフェーズごとに示し、最も弱い環を指摘します。
+
+studio-mission-thread-open-the-artemis-class-example = Artemis クラスの例を開く
+
+studio-mission-thread-open-a-result-file = 結果ファイルを開く…
+
+studio-mission-thread-the-thread = スレッド
+
+studio-mission-thread-error-against-mission-elapsed-time = ミッション経過時間に対する誤差
+
+studio-mission-thread-the-phases = フェーズ
+
+studio-mission-thread-the-budget-of-one-phase = 一つのフェーズのバジェット
