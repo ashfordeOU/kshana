@@ -4056,3 +4056,523 @@ js-kind-note-the-gabor-root-mean-square = De Gabor-bandbreedte (kwadratisch gemi
 js-kind-note-the-largest-jammer-to-signal = De grootste jammer-signaalverhouding (J/S) waar elk signaal doorheen blijft volgen, voor een continue golf (CW), een jammer met aangepast spectrum en een breedbandjammer.
 
 js-kind-note-the-shapiro-delay-is-the = De Shapiro-vertraging is de extra lichttijd door de zwaartekracht van de zon langs het pad.
+
+js-kind-note-the-spectrum-kind-and-the = De soort spectrum en de soort jamming berekenen dezelfde link op twee manieren; de laatste kolom is hun verschil.
+
+js-kind-note-time-of-arrival-toa-ranging = Afstandsmeting met aankomsttijd (TOA) op een downlink van een niet-terrestrisch netwerk (NTN): een breder signaal meet scherper.
+
+js-kind-note-what-half-a-least-significant = Wat een half minst significant bit (LSB) van elk veld kost in positie en in klok, als afstand.
+
+js-kind-rowhead-block = Blok
+
+js-kind-rowhead-condition = Voorwaarde
+
+js-kind-rowhead-figure = Cijfer
+
+js-kind-rowhead-member = Lid
+
+js-kind-rowhead-metric = Maat
+
+js-kind-rowhead-monitor = Monitor
+
+js-kind-rowhead-phase = Fase
+
+js-kind-rowhead-satellite = Satelliet
+
+js-kind-rowhead-signal = Signaal
+
+js-kind-rowhead-solution = Oplossing
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = Alleen Doppler
+
+js-kind-sub-from-to = { $from } tot { $to }
+
+js-kind-sub-fused = gefuseerd
+
+js-kind-sub-gnss-and-leo-latitude = GNSS en LEO, breedtegraad { $lat }°
+
+js-kind-sub-gnss-only = alleen GNSS
+
+js-kind-sub-gnss-only-latitude = alleen GNSS, breedtegraad { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, fit van { $fit } s
+
+js-kind-threshold-4-needed-for-a-fix = 4 nodig voor een positiebepaling
+
+js-kind-threshold-convergence-criterion = convergentiecriterium
+
+js-kind-threshold-elevation-mask = elevatiemasker
+
+js-kind-threshold-gnss-median = GNSS-mediaan
+
+js-kind-threshold-tracking-threshold = volgdrempel
+
+js-kind-title-acquisition = Acquisitie
+
+js-kind-title-against-a-simulated-campaign = Tegenover een gesimuleerde campagne
+
+js-kind-title-assumptions = Aannames
+
+js-kind-title-band-trade-at-equal-transmit = Bandafweging bij gelijk zendvermogen
+
+js-kind-title-bands = Banden
+
+js-kind-title-beside-the-published-figures = Naast de gepubliceerde cijfers
+
+js-kind-title-beside-the-published-speed-up = Naast de gepubliceerde versnelling
+
+js-kind-title-bodies = Hemellichamen
+
+js-kind-title-body = Hemellichaam
+
+js-kind-title-by-latitude = Per breedtegraad
+
+js-kind-title-c-n0-by-band-over = C/N0 per band over de run
+
+js-kind-title-c-n0-over-the-pass = C/N0 over de passage
+
+js-kind-title-cases = Gevallen
+
+js-kind-title-central-body = Centraal hemellichaam
+
+js-kind-title-closed-form-doppler-against-finite = Doppler in gesloten vorm tegenover eindige verschillen
+
+js-kind-title-code-tracking-jitter = Codevolgjitter
+
+js-kind-title-code-tracking-jitter-against-c = Codevolgjitter tegenover C/N0
+
+js-kind-title-combined-over-the-members = Gecombineerd over de leden
+
+js-kind-title-compatibility-with-gnss-signals = Compatibiliteit met GNSS-signalen
+
+js-kind-title-constellations = Constellaties
+
+js-kind-title-continuity-across-message-switches = Continuïteit over berichtwissels heen
+
+js-kind-title-cross-check-against-the-jamming = Kruiscontrole tegenover de soort jamming
+
+js-kind-title-datum-accuracy = Nauwkeurigheid van het datum
+
+js-kind-title-dilution-of-precision-over-the = Precisieverdunning over het hele raster
+
+js-kind-title-doppler = Doppler
+
+js-kind-title-doppler-envelopes = Dopplerenveloppen
+
+js-kind-title-doppler-only-fix = Positiebepaling met alleen Doppler
+
+js-kind-title-doppler-over-the-pass = Doppler over de passage
+
+js-kind-title-doppler-positioning-from-one-pass = Dopplerpositiebepaling uit één passage
+
+js-kind-title-earth-link = Aardlink
+
+js-kind-title-elevation = Elevatie
+
+js-kind-title-encoded-frame = Gecodeerd frame
+
+js-kind-title-epoch = Epoch
+
+js-kind-title-epoch-and-frame = Epoch en referentiestelsel
+
+js-kind-title-events = Gebeurtenissen
+
+js-kind-title-every-node-of-the-sweep = Elk knooppunt van de sweep
+
+js-kind-title-field-table = Veldentabel
+
+js-kind-title-figures-of-merit = Kwaliteitsmaten
+
+js-kind-title-filter-noise = Filterruis
+
+js-kind-title-fit-interval-trade = Afweging van het fitinterval
+
+js-kind-title-fix-quality-against-observation-window = Kwaliteit van de positiebepaling tegenover het waarnemingsvenster
+
+js-kind-title-frame-checks = Framecontroles
+
+js-kind-title-frame-hexadecimal = Frame, hexadecimaal
+
+js-kind-title-geometry-against-latitude = Geometrie tegenover breedtegraad
+
+js-kind-title-geometry-as-leo-satellites-are = Geometrie naarmate LEO-satellieten worden toegevoegd
+
+js-kind-title-geometry-position-dilution-of-precision = Geometrie: positionele precisieverdunning
+
+js-kind-title-global-coverage = Wereldwijde dekking
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO en gefuseerd
+
+js-kind-title-gnss-reference = GNSS-referentie
+
+js-kind-title-hand-offs-between-phases = Overdrachten tussen fasen
+
+js-kind-title-helmert-fit = Helmert-fit
+
+js-kind-title-helmert-transform-parameters = Parameters van de Helmert-transformatie
+
+js-kind-title-inputs = Invoer
+
+js-kind-title-ionosphere-free-band-pairs = Ionosfeervrije bandparen
+
+js-kind-title-jammer-tolerance = Jammertolerantie
+
+js-kind-title-jammers = Jammers
+
+js-kind-title-joint-fix = Gezamenlijke positiebepaling
+
+js-kind-title-leo-against-gnss = LEO tegenover GNSS
+
+js-kind-title-limitations = Beperkingen
+
+js-kind-title-links = Links
+
+js-kind-title-member-runs = Runs van de leden
+
+js-kind-title-members-under-the-shared-conditions = Leden onder de gedeelde voorwaarden
+
+js-kind-title-message = Bericht
+
+js-kind-title-message-models-compared = Vergelijking van berichtmodellen
+
+js-kind-title-message-switches = Berichtwissels
+
+js-kind-title-metric-against-axis = { $metric } tegenover { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: verdeling over de runs
+
+js-kind-title-mid-pass-update = Update halverwege de passage
+
+js-kind-title-modelled = Gemodelleerd
+
+js-kind-title-monte-carlo = Monte Carlo
+
+js-kind-title-navigation-message-stage = Fase navigatiebericht
+
+js-kind-title-not-modelled = Niet gemodelleerd
+
+js-kind-title-notes = Notities
+
+js-kind-title-notes-on-the-spoofing-model = Notities bij het spoofingmodel
+
+js-kind-title-observation-windows = Waarnemingsvensters
+
+js-kind-title-one-pass-alone = Eén passage alleen
+
+js-kind-title-orbit = Baan
+
+js-kind-title-over-the-message-sequence = Over de berichtenreeks
+
+js-kind-title-pass = Passage
+
+js-kind-title-pass-c-n0-of-the = Passage: C/N0 van het hele signaal en van de gevolgde component
+
+js-kind-title-pass-code-tracking-jitter = Passage: codevolgjitter
+
+js-kind-title-pass-doppler = Passage: Doppler
+
+js-kind-title-pass-stage = Fase passage
+
+js-kind-title-passes = Passages
+
+js-kind-title-phases = Fasen
+
+js-kind-title-position-error-gnss-leo-and = Positiefout: GNSS, LEO en de gefuseerde positiebepaling
+
+js-kind-title-position-uncertainty-relays-alone-and = Positieonzekerheid: alleen relais, en met de aardlink
+
+js-kind-title-positioning-by-signal-bandwidth = Positiebepaling naar signaalbandbreedte
+
+js-kind-title-positioning-gnss-alone-against-the = Positiebepaling: GNSS alleen tegenover de gefuseerde positiebepaling
+
+js-kind-title-power-spectral-density = Spectrale vermogensdichtheid
+
+js-kind-title-power-spectral-density-of-each = Spectrale vermogensdichtheid van elk signaal
+
+js-kind-title-precise-point-positioning = Precise point positioning
+
+js-kind-title-published-comparison = Gepubliceerde vergelijking
+
+js-kind-title-quantisation-budget = Kwantisatiebudget
+
+js-kind-title-range-residuals = Afstandsresiduen
+
+js-kind-title-ranging-stations = Afstandsmetingsstations
+
+js-kind-title-reading-the-trade = De afweging lezen
+
+js-kind-title-realised-position-error = Gerealiseerde positiefout
+
+js-kind-title-receiver = Ontvanger
+
+js-kind-title-receiver-power-budget = Vermogensbudget van de ontvanger
+
+js-kind-title-reflector-information = Informatie over de reflector
+
+js-kind-title-relay-constellation = Relaisconstellatie
+
+js-kind-title-relays-in-view = Relais in zicht
+
+js-kind-title-reproducibility = Reproduceerbaarheid
+
+js-kind-title-retroreflectors = Retroreflectoren
+
+js-kind-title-rinex-style-record = Record in RINEX-stijl
+
+js-kind-title-round-trips = Rondreizen
+
+js-kind-title-run = Run
+
+js-kind-title-satellites-in-view-against-latitude = Satellieten in zicht tegenover breedtegraad
+
+js-kind-title-sensitivity-to-a-line-of = Gevoeligheid voor een kanteling van de zichtlijn
+
+js-kind-title-shared-conditions = Gedeelde voorwaarden
+
+js-kind-title-signal-components = Signaalcomponenten
+
+js-kind-title-signal-stage = Fase signaal
+
+js-kind-title-signals = Signalen
+
+js-kind-title-sisre-against-fit-interval = SISRE tegenover fitinterval
+
+js-kind-title-sisre-against-update-period = SISRE tegenover updateperiode
+
+js-kind-title-sisre-weights = SISRE-gewichten
+
+js-kind-title-snapshot = Momentopname
+
+js-kind-title-snapshot-against-the-model = Momentopname tegenover het model
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Spectrum van de momentopname: Welch-schatting tegenover het model
+
+js-kind-title-sources = Bronnen
+
+js-kind-title-spoofer-and-monitor-settings = Instellingen van spoofer en monitor
+
+js-kind-title-spoofing-monitor-probability-of-detection = Spoofingmonitor: detectiekans
+
+js-kind-title-statistics-over-the-runs = Statistieken over de runs
+
+js-kind-title-sweep = Sweep
+
+js-kind-title-systems = Systemen
+
+js-kind-title-systems-in-the-fix = Systemen in de positiebepaling
+
+js-kind-title-the-archived-campaign = De gearchiveerde campagne
+
+js-kind-title-time-error = Tijdfout
+
+js-kind-title-time-error-by-receiver-clock = Tijdfout per ontvangerklok
+
+js-kind-title-time-scale = Tijdschaal
+
+js-kind-title-time-to-first-fix-and = Tijd tot de eerste positiebepaling en energie per positiebepaling
+
+js-kind-title-time-transfer-by-clock-and = Tijdoverdracht per klok en signaalniveau
+
+js-kind-title-trade-conditions = Voorwaarden van de afweging
+
+js-kind-title-update-period-trade = Afweging van de updateperiode
+
+js-kind-title-user = Gebruiker
+
+js-kind-title-user-range-error-through-the = Gebruikersafstandsfout over de passage
+
+js-kind-title-validated = Getoetst
+
+js-kind-title-what-each-stage-hands-to = Wat elke fase aan de volgende doorgeeft
+
+js-kind-title-what-this-run-is-and = Wat deze run is, en wat niet
+
+js-kind-title-when-each-monitor-detects = Wanneer elke monitor detecteert
+
+js-kind-title-work-done = Verrichte arbeid
+
+js-kind-yes = ja
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } registerrij
+       *[other] { $n } registerrijen
+    }
+
+js-lib-abbr-apv = naderingsprocedure met verticale geleiding
+
+js-lib-abbr-araim = geavanceerde autonome integriteitsbewaking door de ontvanger
+
+js-lib-abbr-auc = oppervlakte onder de curve
+
+js-lib-abbr-c-n0 = draaggolf-ruisdichtheid
+
+js-lib-abbr-ccsds = Consultative Committee for Space Data Systems
+
+js-lib-abbr-cli = opdrachtregelinterface
+
+js-lib-abbr-csac = atoomklok op chipschaal
+
+js-lib-abbr-cw = continue golf
+
+js-lib-abbr-doi = digital object identifier
+
+js-lib-abbr-dop = precisieverdunning
+
+js-lib-abbr-eo = aardobservatie
+
+js-lib-abbr-gnss = wereldwijd navigatiesatellietsysteem
+
+js-lib-abbr-gps = Global Positioning System
+
+js-lib-abbr-hal = horizontale alarmgrens
+
+js-lib-abbr-hpl = horizontaal beschermingsniveau
+
+js-lib-abbr-imu = traagheidsmeeteenheid
+
+js-lib-abbr-ins = traagheidsnavigatiesysteem
+
+js-lib-abbr-iot = Internet of Things
+
+js-lib-abbr-itu-t = International Telecommunication Union, Telecommunication Standardization Sector
+
+js-lib-abbr-j-s = jammer-signaalverhouding
+
+js-lib-abbr-leo = lage aardbaan
+
+js-lib-abbr-llr = laserafstandsmeting naar de maan
+
+js-lib-abbr-meo = middelhoge aardbaan
+
+js-lib-abbr-mtie = maximale tijdintervalfout
+
+js-lib-abbr-ntn = niet-terrestrisch netwerk
+
+js-lib-abbr-ocxo = thermostaatgestuurde kristaloscillator
+
+js-lib-abbr-oem = Orbit Ephemeris Message
+
+js-lib-abbr-omm = Orbit Mean-elements Message
+
+js-lib-abbr-pdop = positionele precisieverdunning
+
+js-lib-abbr-pnt = positiebepaling, navigatie en tijdsynchronisatie
+
+js-lib-abbr-ppp = precise point positioning
+
+js-lib-abbr-raim = autonome integriteitsbewaking door de ontvanger
+
+js-lib-abbr-rf = radiofrequentie
+
+js-lib-abbr-rinex = Receiver Independent Exchange Format
+
+js-lib-abbr-roc = ontvangerkarakteristiek
+
+js-lib-abbr-sbas = satellietgebaseerd augmentatiesysteem
+
+js-lib-abbr-sgp4 = Simplified General Perturbations 4, een baanpropagator
+
+js-lib-abbr-sisre = signal-in-space-afstandsfout
+
+js-lib-abbr-slam = gelijktijdige lokalisatie en kaartvorming
+
+js-lib-abbr-spp = positiebepaling met één punt
+
+js-lib-abbr-tdev = tijdafwijking
+
+js-lib-abbr-tle = tweeregelige elementenset
+
+js-lib-abbr-toml = het bestandsformaat van het scenario
+
+js-lib-abbr-trn = terreingebonden navigatie
+
+js-lib-abbr-uhf = ultrahoge frequentie
+
+js-lib-abbr-ukf = unscented Kalman-filter
+
+js-lib-abbr-utc = gecoördineerde wereldtijd
+
+js-lib-abbr-val = verticale alarmgrens
+
+js-lib-abbr-vlbi = interferometrie met zeer lange basislijn
+
+js-lib-abbr-vpl = verticaal beschermingsniveau
+
+js-lib-abbr-wg = Working Group
+
+js-lib-areas-ground-track = Grondspoor
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Beschikbaarheid
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Tijdsynchronisatie p95
+
+js-lib-compare-timing-rms = Tijdsynchronisatie RMS
+
+js-lib-counts-explorer-tally = { $validated } van { $total } mogelijkheden getoetst aan een onafhankelijke externe referentie · { $modelled } gemodelleerd · { $partner } in handen van partners — hier getoond als { $cards } mogelijkheidskaarten in { $domains } domeinen, { $evidence } bewijsclaims
+
+js-lib-counts-validated-tally = { $validated } van { $total } mogelijkheden getoetst aan een onafhankelijke externe referentie — hier getoond als { $cards } mogelijkheidskaarten en { $evidence } bewijsclaims
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = het enginebestand gaf HTTP { $status } terug
+
+js-lib-engine-page-not-running = de engine draait hier niet
+
+js-lib-engine-worker-crashed = engine-worker is gecrasht
+
+js-lib-evidence-aria = Bewijs: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } registerrij
+       *[other] { $n } registerrijen
+    }
+
+js-lib-evidence-rows-behind = Registerrijen achter dit resultaat
+
+js-lib-geometry-url-bad-mc = Het aantal Monte Carlo-samples is niet een van { $choices }; { $default } wordt gebruikt.
+
+js-lib-geometry-url-bad-number = "{ $key }" is geen getal van { $min } tot { $max }; de standaardwaarde wordt gebruikt.
+
+js-lib-geometry-url-bad-site = De locatie is niet breedtegraad,lengtegraad[,hoogte] binnen het bereik; de standaardlocatie wordt gebruikt.
+
+js-lib-geometry-url-bad-sky = De skyline is geen voorinstelling, geen tabel van 360 bins en geen canyon binnen het bereik; een open horizon wordt gebruikt.
+
+js-lib-geometry-url-bad-sys = De constellatielijst is niet G, E, C en hoogstens één L:<LEO-voorinstelling> die deze weergave kent; de standaardmix wordt gebruikt.
+
+js-lib-geometry-url-own-tle = De afzender gebruikte eigen baanelementen (TLE), die een link niet meedraagt; in plaats daarvan worden de voorinstellingen getoond.
+
+js-lib-geometry-url-repeated = "{ $key }" komt meer dan eens voor; de eerste waarde wordt gebruikt.
+
+js-lib-geometry-url-too-long = Het adres is langer dan { $max } tekens, dus geen van de instellingen is gelezen.
+
+js-lib-geometry-url-unreadable = Het adres kon niet worden gelezen.
+
+js-lib-guided-duration-s-hint = hoe lang het grondspoor wordt gepropageerd
+
+js-lib-guided-duration-s-label = Duur (s)
+
+js-lib-guided-dut1-s-hint = afwijking van de aardrotatie; verschuift het grondspoor oost/west
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = een satelliet moet zo hoog staan om als zichtbaar te tellen
+
+js-lib-guided-mask-deg-label = Elevatiemasker (°)
+
+js-lib-guided-seed-hint = een andere ruisdraw van dezelfde fysica
+
+js-lib-guided-seed-label = Willekeurige seed
+
+js-lib-guided-sigma-uere-m-hint = 1-σ gebruikersequivalente afstandsfout voor de positiesamenvatting
+
+js-lib-guided-sigma-uere-m-label = Afstandsfout σ (m)
