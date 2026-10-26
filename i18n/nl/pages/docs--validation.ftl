@@ -7,3 +7,11 @@ seg-2eb6d1b0483d = RAIM / ARAIM
 seg-da3532b1444d = SBAS / DO-229E
 
 seg-d3af26f389f5 = IONEX / Klobuchar
+
+seg-70860389903a = Klok
+
+seg-583dc9ff6178 = Bibliotheek
+
+seg-d01db1c2710a = Naslag
+
+seg-619f89bf160c = Realisatie van het lunaire referentiestelsel

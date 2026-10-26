@@ -787,3 +787,19 @@ seg-b4ee0795e52c = Bouw een GNSS-interferentiekaart uit openlijk gelicentieerde 
 seg-d3175204c0ea = Vat samen hoeveel van een route door gedegradeerde cellen van een of meer interferentiekaarten loopt (<c1/>): voor elke kaart (een per bron per UTC-dag, de GeoJSON die <c2/> teruggeeft) de routelengte en de aandelen van de lengte in gedegradeerde cellen, in cellen die niet gedegradeerd waren, in cellen met te weinig steekproef om te beoordelen, en in cellen die niet zijn waargenomen. De route is een GeoJSON-LineString of <c3/>-CSV-tekst; <c4/>/<c5/> (YYYY-MM-DD) houden kaarten binnen een datumbereik. De invoer is begrensd op { "4" } MiB per item. Niet-waargenomen cellen zijn geen bewijs van een vrije route; een gedegradeerde cel identificeert interferentie niet als oorzaak; dit beschrijft eerdere meldingen en is geen voorspelling. Bewijsniveau: MODELLED.
 
 seg-e11a6425c180 = Vul de koppeling met openbare kaders in uit { -brand }-resultaatdocumenten (<c1/>): voor welke rijen van zes kaders en standaarden voor veerkracht (het Amerikaanse DHS-kader Resilient PNT v2.0, IMO-richtlijnen voor schepen, EASA-richtlijnen voor de luchtvaart, NIS2 artikel { "21" }, EN { "16803" }, NIST IR 8323r1) de aangeleverde runs bewijs leveren, voor welke niet, en het hiaat dat elke rij behoudt. Geef elke run mee als <c2/>, <c3/> (de resultaat-JSON-tekst) en, wanneer u die hebt, <c4/> (de scenario-TOML, die de soort noemt die een resultaat niet noemt; een receiver-trust-resultaat heeft er geen nodig). Hoogstens { "64" } runs en { "4" } MiB in totaal; er wordt niets van schijf gelezen. De <c5/> van elke rij is <c6/>, <c7/>, <c8/> of <c9/>, en elke rij behoudt zijn <c10/> ook als er bewijs is; invoer die niet kon worden gebruikt, wordt vermeld in <c11/> en telt voor niets. Toon de <c12/> van het rapport bij elk resultaat, letterlijk: een status betekent dat een run bewijs levert voor de mogelijkheden die de rij noemt; het is geen vaststelling dat aan een kader is voldaan, en het betekent niet dat een product door wie dan ook is beoordeeld of goedgekeurd. Beschrijf de uitvoer niet in sterkere bewoordingen. Bewijsniveau: MODELLED.
+
+seg-f79048f88b5c = Kshana Studio starten
+
+seg-b02b3eeec184 = scenariosoorten
+
+seg-9a86ef058d27 = Openen in Kshana Studio
+
+seg-34a0cf94d83d = De exports van de run openen in Kshana Studio: reproduceerbaar HTML-rapport, JSON, CSV
+
+seg-92ab4fe6f441 = De getekende gegevens downloaden als kommagescheiden waarden
+
+seg-3a93f60a7714 = <s1><a1>Rapport</a1></s1>
+
+seg-c851aa23ea42 = kommagescheiden waarden
+
+seg-366c59b03b4f = CSV

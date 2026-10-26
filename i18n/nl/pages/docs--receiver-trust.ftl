@@ -1,3 +1,5 @@
 # docs--receiver-trust: translations (nl)
 
 seg-2247a2344710 = Betekenis
+
+seg-adc34608c46b = Klasse

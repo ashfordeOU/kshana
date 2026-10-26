@@ -251,3 +251,89 @@ seg-aa2f95806d24 = EU NIS2, artikel { "21" }
 seg-138f32dcf19f = EN { "16803" }
 
 seg-5fec3f16de7a = Studiogids
+
+seg-84f4e9e5a9a5 = Naar de inhoud springen
+
+seg-724f533ab704 = Kshana startpagina
+
+seg-3a9b1e33221b = Hoofdnavigatie
+
+seg-27fce67df246 = <s1>kshana</s1> <s2>v{ $version }</s2>
+
+seg-90eeeb0abcbd = Missies
+
+seg-76a214e74ae5 = Mogelijkheden
+
+seg-6ddf1dc69523 = Bewijs
+
+seg-7660311d66bd = Onderzoek
+
+seg-d69e23e80f28 = Ontwikkelaars
+
+seg-781a33f8799b = Documentatie
+
+seg-bdb4733dec65 = Edities
+
+seg-0ab06b2c95d0 = Zoeken
+
+seg-b816f0777f8c = Wisselen tussen licht en donker
+
+seg-436acc962a75 = Wisselen tussen licht en donker
+
+seg-17f8b9e13ea5 = Het menu openen
+
+seg-7a0e37ca54da = <s1>Starten </s1>Kshana Studio
+
+seg-e26cd70b7b56 = kshana
+
+seg-6c2ad82414f6 = Kshana · <s1>क्षण</s1> · <em>het precieze moment</em>
+
+seg-d25e295fab75 = Opensource-simulator voor de veerkracht van PNT (positiebepaling, navigatie en tijdsynchronisatie). Hij stuurt geen radiohardware aan en zendt niets uit: de uitvoer op signaalniveau bestaat uit basisband-IQ-samplebestanden, en de software-GNSS-ontvanger is een analysehulpmiddel. Geen vluchtproduct.
+
+seg-52524ef67781 = door Ashforde®
+
+seg-3ff5f045b0b8 = Product
+
+seg-6250e4ec851e = Kshana Studio
+
+seg-48c4185298a7 = Benchmark
+
+seg-984fd4304724 = Installeren
+
+seg-beb0fa5d88fa = MCP-server
+
+seg-69c587fb2ce0 = GitHub
+
+seg-95f55687acc0 = Bedrijf
+
+seg-37fd98ea8b9c = Kshana Pro
+
+seg-cf742dee26e9 = contact@ashforde.org
+
+seg-9ddc420c2f24 = Kshana v{ $version } · door Ashforde® OÜ · AGPL-3.0, met een commerciële licentie als optie
+
+seg-87c5d84f1f40 = Elke grafiek is getekend op basis van een vastgelegde run van engine v{ $version } en vermeldt het scenario, de seed en de route om haar te reproduceren. Beeldmateriaal: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), missiomozaïeken van NASA, JPL en USGS (manen en Pluto); kaarten van de Zon, Mercurius, Venus, Jupiter, Saturnus, Uranus en Neptunus: Solar System Scope, Creative Commons Attribution (CC BY) { "4.0" }; kaart van Deimos: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) { "3.0" }; kustlijnen: Natural Earth.
+
+seg-da4dafedebde = Zoek pagina's, secties, scenario's en documenten
+
+seg-be5a0607ad13 = Zoek pagina's, scenario's, documenten en acties…
+
+seg-fc996ea3d2ce = Resultaten
+
+seg-e2475745a7e2 = <c1/> <c2/> verplaatsen
+
+seg-510f4297d825 = <c1/> openen
+
+seg-a57cca86b759 = Herkomst
+
+seg-42a4712b944a = Op deze pagina
+
+seg-850a18066e2b = Campagnes
+
+seg-babf4fd91f17 = Tijdsynchronisatie
+
+seg-85018a6b8966 = Banen
+
+seg-cbb264f9962e = Overzicht
+
+seg-7fdb07b3b0ca = Maan en cislunaire ruimte
