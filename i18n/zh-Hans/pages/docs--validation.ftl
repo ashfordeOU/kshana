@@ -27,3 +27,5 @@ seg-eaf341ff4522 = 无GNSS的量子导航
 seg-d01db1c2710a = 参考
 
 seg-619f89bf160c = 月球参考坐标系实现
+
+seg-d12d4565b01d = 月球测地 VLBI，星历核路径

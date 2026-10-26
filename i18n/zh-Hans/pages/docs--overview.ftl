@@ -143,3 +143,5 @@ seg-ca67c864635c = 定轨
 seg-4e28248ef77b = 可观测性与估计理论
 
 seg-e386dced1d16 = 月球与地月空间
+
+seg-a349aa76b0ed = PARTNER
