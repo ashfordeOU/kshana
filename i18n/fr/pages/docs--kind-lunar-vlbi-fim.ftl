@@ -83,7 +83,7 @@ seg-a731b913bdf0 = <b>VALIDATED</b> Dérivées partielles du retard accumulées 
 
 # text
 # c1: all-stations-fixed
-seg-2300ffd9fc4e = <b>MODELLED</b> Un troisième choix de datum, <c1/>, qui maintient fixes toutes les stations terrestres et estime seules les coordonnées de la BALISE fixes dans la Lune — la configuration pour laquelle une. Référence indépendante (ReferenceImpl) : identités en forme close, sans référence externe revendiquée ni disponible. Le bras de levier est contrôlé par rapport à ρ/B et les deux formes d'équipartition entre elles à { "1e-15" } — des identités algébriques, qui ne détectent donc qu'une erreur de câblage et rien d'autre, et sont étiquetées comme telles. Le résultat de fond est MESURÉ plutôt qu'affirmé : un retard issu d'une ligne de base fixe contraint la DIRECTION de la balise, de sorte que la composante de ligne de visée rea
+seg-2300ffd9fc4e = <b>MODELLED</b> Un troisième choix de datum, <c1/>, qui maintient fixes toutes les stations terrestres et estime seules les coordonnées de la BALISE fixes dans la Lune — la configuration pour laquelle une. Référence indépendante (ReferenceImpl) : identités en forme close, sans référence externe revendiquée ni disponible. Le bras de levier est contrôlé par rapport à ρ/B et les deux formes d'équipartition entre elles à { "1e-15" } — des identités algébriques, qui ne détectent donc qu'une erreur de câblage et rien d'autre, et sont étiquetées comme telles. Le résultat de fond est MEASURED plutôt qu'affirmé : un retard issu d'une ligne de base fixe contraint la DIRECTION de la balise, de sorte que la composante de ligne de visée rea
 
 # text
 # c1: label

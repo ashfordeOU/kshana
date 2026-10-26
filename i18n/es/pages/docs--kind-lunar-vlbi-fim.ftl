@@ -83,7 +83,7 @@ seg-a731b913bdf0 = <b>VALIDATED</b> Derivadas parciales del retardo acumuladas s
 
 # text
 # c1: all-stations-fixed
-seg-2300ffd9fc4e = <b>MODELLED</b> Una tercera opción de datum, <c1/>, que mantiene fijas todas las estaciones terrestres y estima únicamente las coordenadas de la BALIZA fijas a la Luna: la configuración para la que se. Referencia independiente (ReferenceImpl): Identidades de forma cerrada, sin que se reclame ni exista una referencia independiente externa. El brazo de palanca se comprueba frente a ρ/B y las dos formas de equipartición entre sí hasta { "1e-15" }: identidades algebraicas, de modo que detectan un error de conexionado y nada más, y se etiquetan como tales. El resultado sustantivo se MIDE en lugar de afirmarse: un retardo de una línea base fija restringe la DIRECCIÓN de la baliza, de modo que la componente de la línea de visión rea
+seg-2300ffd9fc4e = <b>MODELLED</b> Una tercera opción de datum, <c1/>, que mantiene fijas todas las estaciones terrestres y estima únicamente las coordenadas de la BALIZA fijas a la Luna: la configuración para la que se. Referencia independiente (ReferenceImpl): Identidades de forma cerrada, sin que se reclame ni exista una referencia independiente externa. El brazo de palanca se comprueba frente a ρ/B y las dos formas de equipartición entre sí hasta { "1e-15" }: identidades algebraicas, de modo que detectan un error de conexionado y nada más, y se etiquetan como tales. El resultado sustantivo se MEASURED en lugar de afirmarse: un retardo de una línea base fija restringe la DIRECCIÓN de la baliza, de modo que la componente de la línea de visión rea
 
 # text
 # c1: label
