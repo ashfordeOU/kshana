@@ -11,3 +11,5 @@ seg-aab745a65e76 = Modul
 seg-bf09433a7342 = GeoJSON
 
 seg-906440b861cd = Rámec
+
+seg-32b620b3574e = Použití
