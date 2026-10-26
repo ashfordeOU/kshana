@@ -309,3 +309,15 @@ seg-b6abad1f2c9d = Een kshana-bench-inzending gescoord tegen een referentiebesta
 seg-c7a0d7981bfd = kshana-bench-resultaatbestanden weergegeven als de statische ranglijstpagina (HTML-tekst), elk eerst gevalideerd.
 
 seg-57f592bb676b = De MCP-server installeren
+
+seg-b66ff9ca2ff4 = Trainingsstroom uit het scenario coastal-drag-off (engine v{ $version }, seed { "22" }, { "25" } minuten bij één positiebepaling per { "10" } s van het instructeurslogboek). Een kaart toont het ware spoor van het vaartuig en het spoor dat de ontvanger meldt: ze komen overeen tot een gescripte positie-drag-off begint bij { "421" } s, het gemelde spoor wijkt daarna af van het ware terwijl de ontvanger een geldige positiebepaling behoudt, en het springt terug wanneer de gebeurtenis eindigt bij { "1140" } s. Ernaast de afstand tussen de twee sporen in de tijd en de gemiddelde draaggolf-ruisdichtheid die de ontvanger meldt, die stijgt naar één verhoogd niveau zolang de gebeurtenis duurt. Synthetische trainingsdata, gegenereerd door Kshana. Alleen voor training en test: voer deze stroom nooit in de live navigatiesystemen van een vaartuig. Adviserend, geen typegoedgekeurde navigatieapparatuur. Adviserende software, geen typegoedgekeurde navigatieapparatuur (IEC { "61108" }, IEC { "61162" }): de gezagvoerder of exploitant blijft verantwoordelijk voor de navigatie van het vaartuig. Posities, data en sporen zijn verzonnen.
+
+seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>het precieze moment</em></b><br/> Een opensource-simulator voor de veerkracht van PNT (positiebepaling, navigatie en tijdsynchronisatie).
+
+seg-3b861b2f08b8 = Release v{ $version }
+
+seg-d1153c5e9112 = Oefen de minuut waarin GNSS uitvalt
+
+seg-e9dbbd9cfa32 = Eén geseede realisatie van de linkmarge van de locatie 'northern' over { "336" } uur, uit een echte run van engine v{ $version } op scenarios/optical-atmosphere-network.toml (seed { "37" }, een stap van { "600" } s). De marge daalt onder nul tijdens wolkenperioden; in deze trekking is de link { "40.5" } % van de tijd beschikbaar, met { "27" } uitvalperioden en een langste uitval van { "30.7" } uur. De invoer is illustratief, de reeks is één trekking uit het model en niet het klimaat, en wijkt van de statistische beschikbaarheid ({ "37.8" } %) af met de steekproeffout van de trekking. Alleen adviserende analyse: geen gecertificeerd product voor beschikbaarheid, integriteit of navigatie, en geen voorspelling voor enige echte locatie tenzij de klimaatinvoer uit een vermelde dataset komt.
+
+seg-278dd0f9df58 = Document

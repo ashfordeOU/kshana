@@ -7,3 +7,5 @@ seg-d4e48c972084 = Labels
 seg-ca448daf5ec7 = nominal
 
 seg-a129b9e613d0 = Type
+
+seg-2672b7f55371 = verslechterd
