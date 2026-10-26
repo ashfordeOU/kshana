@@ -7373,3 +7373,1263 @@ js-lib-views-position-error-m = 位置誤差 (m)
 
 # 2026-10-01-studio-rebuild/lib/views.mjs:56
 js-lib-views-position-error-run = 実行中の位置誤差
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:48
+js-lib-jammertest-card-fa-per-hour = 時間あたりの誤警報の連続回数
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:186
+js-lib-views-position-m = 位置 (m)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:98
+js-lib-views-predicted-time-error = 最後の測位以降の予測時刻誤差
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:142
+js-lib-views-protection-level-m = 保護レベル (m)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:141
+js-lib-views-protection-levels = 警報限界に対する保護レベル
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:78
+js-lib-views-quantum = 量子
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:185
+js-lib-views-relay-error-bound = 中継航法の位置誤差とその 3 シグマ境界
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:116
+js-lib-views-satellites = 衛星
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:114
+js-lib-views-satellites-tracking = 可視で追跡を継続している衛星
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:482
+js-lib-views-shaded-gnss-denied = 網掛け：GNSS 拒否
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:105
+js-lib-views-slot-guard = スロットガード
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:161
+js-lib-views-spoofed-offset = 検出境界に対するスプーフィングされた時刻オフセット
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:166
+js-lib-views-sweep-of = { $parameter } のスイープ：{ $metric }
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:57
+js-lib-views-sync-error-axis = 同期誤差 ({ $unit })
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:57
+js-lib-views-sync-error-run = 実行中の同期誤差
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:531
+js-lib-views-threshold = しきい値
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:100
+js-lib-views-time-error-ns = 時刻誤差 (ns)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:161
+js-lib-views-time-ns = 時間 (ns)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:87
+js-lib-views-time-s = 時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:99
+js-lib-views-time-since-fix = 最後の測位からの時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:58
+js-lib-views-timing-error-axis = タイミング誤差 ({ $unit })
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:58
+js-lib-views-timing-error-run = 実行中のタイミング誤差
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:120
+js-lib-views-tracking = 追跡中
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:167
+js-lib-views-value = 値
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:145
+js-lib-views-vertical-vpl = 垂直 (VPL)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:119
+js-lib-views-visible = 可視
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:390
+js-lib-views-word-enbw = 等価雑音帯域幅
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:391
+js-lib-views-word-nfft = FFT 長
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:388
+js-lib-views-word-stec = 斜め方向 TEC
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:393
+js-lib-views-word-toa = 到達時刻
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:392
+js-lib-views-word-ttff = 初回測位までの時間
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:389
+js-lib-views-word-tx = 送信
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:394
+js-lib-views-word-zwd = 天頂湿潤遅延
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:146
+js-lunar-address-outside-range = { $label }："{ $raw }" は { $min } から { $max } の範囲外のため、ファイルの値を使用します。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:139
+js-lunar-address-too-long = アドレスが長すぎたため、既定値を表示しています。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:142
+js-lunar-address-unknown-source = アドレス内のソースが不明なため、記録を表示しています。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+js-lunar-alert-limit = 警報限界 { $value }（例示）
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+js-lunar-alert-not-stated = 警報限界の記載なし
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:146
+js-lunar-bearing-east = 90° E
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:146
+js-lunar-bearing-west = 90° W
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:141
+js-lunar-cell-title = { $lat }°、{ $lon }°：補正後 { $corrected }、可用性 { $availability }、カバレッジ { $coverage }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:245
+js-lunar-copy-address = アドレスバーからアドレスをコピーしてください。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:183
+js-lunar-counts = { $sats } 機の衛星、{ $points } 個のグリッド点、{ $epochs } エポック、エポックあたり { $trials } 回のモンテカルロ試行。ラベル：{ $label }。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:76
+js-lunar-engine-no-start = このブラウザーではエンジンを起動できませんでした（{ $reason }）。代わりに結果ファイルを開いてください。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:90
+js-lunar-engine-unknown-kind = このエンジン（{ $version }）は { $kind } 種別を認識しません。エンジン 0.36 が必要です。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:210
+js-lunar-fig-availability-region = 領域全体での可用性
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:176
+js-lunar-fig-corrected-3d = 補正後の誤差、{ $n } %、3 次元
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:179
+js-lunar-fig-coverage = カバレッジ
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:179
+js-lunar-fig-epochs-within = { $value } 以内のエポック
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:176
+js-lunar-fig-horizontal-vertical = 水平 { $h }、垂直 { $v }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+js-lunar-fig-hpl-below-alert = 警報限界を下回る HPL
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:180
+js-lunar-fig-hpl-vpl = HPL、VPL の最大値
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:178
+js-lunar-fig-improvement = 改善率
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:212
+js-lunar-fig-lowest-point = 点ごとの最低値
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:211
+js-lunar-fig-points-always-available = すべてのエポックで利用可能な点
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:177
+js-lunar-fig-uncorrected-3d = 補正なしの誤差、{ $n } %、3 次元
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:182
+js-lunar-fig-worst-point = 最悪の点
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:54
+js-lunar-file-not-json = このファイルは JSON ではありません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:55
+js-lunar-file-not-object = このファイルは JSON オブジェクトではありません。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:97
+js-lunar-file-too-large = { $name }：32 MiB を超えています。このページが読み込める結果ファイルは、そのサイズまでです。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:47
+js-lunar-file-value = ファイル：{ $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:211
+js-lunar-full-of-total = { $total } 点中 { $full } 点
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:56
+js-lunar-give-value = { $label }：{ $min } から { $max } までの値を指定してください。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:56
+js-lunar-give-whole-value = { $label }：{ $min } から { $max } までの値（整数）を指定してください。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:19
+js-lunar-honesty-affiliation = いかなる機関とも提携しておらず、承認も受けていません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:18
+js-lunar-honesty-assumptions = 明示した公開の前提のもとでの結果であり、実在するいかなるシステムの性能についても述べるものではありません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:130
+js-lunar-in-grid-spacing = グリッドのリング間隔（度）
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:127
+js-lunar-in-latency = 補正の遅延（秒）
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:131
+js-lunar-in-seed = シード
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:123
+js-lunar-in-station-lat = 局の緯度（度）
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:124
+js-lunar-in-station-lon = 局の経度（度）
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:126
+js-lunar-in-survey-error = 局の測量誤差（1-sigma）（メートル）
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:125
+js-lunar-in-threshold = 精度のしきい値（メートル）
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:129
+js-lunar-in-time-step = 時間ステップ（秒）
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:128
+js-lunar-in-trials = エポックあたりのモンテカルロ試行回数
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:172
+js-lunar-input-out-of-range = { $label } が範囲外です。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:58
+js-lunar-json-field-not-json = ファイルの json フィールドは JSON ではありません。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-50-or-more = 50 % 以上
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-90-or-more = 90 % 以上
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-95-or-more = 95 % 以上
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-99-or-more = 99 % 以上
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+js-lunar-key-above = { $value } 超
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+js-lunar-key-above-threshold = しきい値の { $value } 倍超
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-below-50 = 50 % 未満
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+js-lunar-key-between = { $from } から { $to }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+js-lunar-key-between-threshold = しきい値の { $from } 倍から { $to } 倍
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+js-lunar-key-up-to = { $value } まで
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+js-lunar-key-up-to-threshold = しきい値の { $value } 倍まで
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:117
+js-lunar-layer-availability = 可用性
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:118
+js-lunar-layer-coverage = カバレッジ
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+js-lunar-layer-error = 補正後の誤差
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+js-lunar-layer-range = 補正後の誤差（固有の範囲で表示）
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:165
+js-lunar-legend-no-figure = 数値なし（全期間で利用不可）
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:167
+js-lunar-legend-radius = カバレッジ半径
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:166
+js-lunar-legend-threshold = しきい値、{ $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:169
+js-lunar-legend-worst = 最悪の点
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:245
+js-lunar-link-copied = リンクをコピーしました。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:161
+js-lunar-map-desc = 極から緯度 { $rim }° までの { $points } 個のグリッド点。そのうち { $meet } 個で、補正後の { $percentile } パーセンタイル誤差がしきい値 { $threshold } 以内です。色は { $layer } で表しています。局は { $lat }°、{ $lon }° にあります。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:137
+js-lunar-map-note-one-band = 点の { $share } % がしきい値スケールの 1 つの帯に入るため、マップにはほとんど変化が現れません。「固有の範囲」で色分けすると、領域全体で誤差がどう変化するかを確認できます。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:80
+js-lunar-needs-newer-engine = この調査にはエンジン { $need } 以降が必要です。ここで動作しているエンジンは v{ $version } です。記録、または結果ファイルは引き続き表示できます。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:203
+js-lunar-no = いいえ
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:67
+js-lunar-no-recording = この調査の記録はまだ同梱されていません。0.36 エンジンを搭載したリリースで作成されます。この種別に対応したエンジンでここで実行するか、結果ファイルを開いてください。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:72
+js-lunar-no-scenario = このサイトには、まだ { $file } がありません。0.36 エンジンとともに追加されます。代わりに結果ファイルを開いてください。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:262
+js-lunar-no-scenario-note = このサイトには、まだ { $file } がありません（0.36 エンジンとともに追加されます）。そのため、ここで実行することはできません。代わりに結果ファイルを開いてください。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:61
+js-lunar-not-report = これは { $kind } レポートではありません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:284
+js-lunar-not-stated = 記載なし
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:237
+js-lunar-note-none = このファイルには注記が記載されていません。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:237
+js-lunar-note-withheld = ファイル自身の記述が特定のプログラムまたは機関を名指ししているため、このページでは表示しません。ページ上部の記述が適用されます。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:215
+js-lunar-point-epochs-reason = point-epochs：{ $reason }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+js-lunar-radius-desc = { $count } 方位にわたるカバレッジ半径：最短は方位 { $loAz }° の { $lo } km、最長は方位 { $hiAz }° の { $hi } km です。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+js-lunar-radius-desc-limited = { $count } 方位でグリッドの端に達しているため、そこではカバレッジは少なくともその距離まで及びます。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:202
+js-lunar-radius-hollow = 中抜きの点はグリッドの端に達しています。その方位では、カバレッジは少なくともその距離まで保たれます。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+js-lunar-radius-none = このレポートには、カバレッジ半径が記載されていません。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:151
+js-lunar-radius-per-azimuth = 方位ごとのカバレッジ半径
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:196
+js-lunar-radius-point = { $az }°：{ $km } km
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:196
+js-lunar-radius-point-limited = { $az }°：{ $km } km（グリッドの端に達しています：少なくともこの距離まで）
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:202
+js-lunar-radius-zero = どの方位でも、局の位置ですでにカバレッジが 95 % を下回っているため、半径は 0 km です。そこでは、補正後の誤差がしきい値 { $value } を超えています。
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:39
+js-lunar-reason-station-missing = 局が、ユーザーが使用するすべての衛星を捉えていない
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:38
+js-lunar-reason-user-lt4 = ユーザーから可視の衛星が四機未満
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:90
+js-lunar-run-stopped = 実行が停止しました：{ $message }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:84
+js-lunar-running = このブラウザーで調査を実行しています…
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:83
+js-lunar-running-elapsed = このブラウザーで調査を実行しています… { $seconds } s
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:177
+js-lunar-scenario-missing-keys = シナリオファイルに { $keys } がないため、ここでは変更できません。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:108
+js-lunar-set-inputs = 入力を設定し、「ここで実行」を押してください。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:104
+js-lunar-showing = { $what }を表示しています。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:104
+js-lunar-showing-engine = { $what }を表示しています（エンジン { $version }）。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:102
+js-lunar-source-error = { $what }：{ $error }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:157
+js-lunar-station = 局
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:156
+js-lunar-station-title = 局 { $lat }°、{ $lon }°
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:222
+js-lunar-table-count = { $n } 個の点を、局に近い順に表示しています。
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:219
+js-lunar-th-corrected = 補正後の誤差、{ $n } %
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:147
+js-lunar-threshold-title = 補正後の誤差 { $value }（しきい値）
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:98
+js-lunar-what-file = ファイル { $name }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:68
+js-lunar-what-recording = Studio に同梱されている記録
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:87
+js-lunar-what-run = このブラウザーでの実行（エンジン { $version }）
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:182
+js-lunar-worst-at = { $lat }°、{ $lon }°
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:153
+js-lunar-worst-title = 最悪の点 { $lat }°、{ $lon }°：{ $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:203
+js-lunar-yes-at-least = はい：少なくともこの距離まで
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
+js-lunarinfra-above-95-point = 95 % 点を超える
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:57
+js-lunarinfra-advisory = 助言用ソフトウェアであり、型式承認を受けた機器ではありません。いかなる種類の送信経路もありません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:106
+js-lunarinfra-arc-note = 搬送波の波長 { $value } m。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:106
+js-lunarinfra-arc-title = 各アーク
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:16
+js-lunarinfra-bars-not-loaded = 合格基準ファイルを読み込めませんでした
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:19
+js-lunarinfra-bars-not-shown = 事前登録した合格基準を表示できませんでした（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:136
+js-lunarinfra-bars-note = どの調査も採点する前に固定したもので、記録された判定を併記しています（エンジンのコミット { $commit }）。VALIDATED のものは何もありません。NOT MET の合格基準は、その未達を表明するテストで固定されており、緩められたものはありません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:136
+js-lunarinfra-bars-title = 事前登録した合格基準との比較
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:63
+js-lunarinfra-bars-wrong-file = 合格基準ファイルが、このページが読み込むものではありません
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:20
+js-lunarinfra-blurb-carrier-phase = 地上局と周回機が、地球 GNSS 信号の二重差分搬送波位相を使う場合：整数アンビギュイティを決定できるか、またそれが位置の境界にどう影響するか。手早く実行できる例です。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:21
+js-lunarinfra-blurb-frame-coestimation = 地球局のレーザー測距から得られる月のデータム（七つのパラメーター）を、周回機と地上局の間の測距がある場合とない場合で比較します。情報はどれだけ改善するか。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:23
+js-lunarinfra-blurb-geodesy-sensitivity = レーザー測距、周回機の追跡、重力計、地上のクロックは、月の潮汐ラブ数 h2、k2、l2 と、その物理秤動に対して、どれほど敏感か。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:19
+js-lunarinfra-blurb-od-consistency = ほぼ直線的なハロー軌道における、搭載の地球 GNSS による軌道決定を、同じアークに対する独立した地上電波計測の解と比較します。両者は、それぞれの不確かさの範囲内で一致するか。モデリング誤差を注入したとき、整合性チェックはそれに気づくか。並べて表示します。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:22
+js-lunarinfra-blurb-space-tie = 1 機の宇宙機上での GNSS、VLBI、レーザー測距：宇宙機上のローカルタイの誤差に対して、3 つの技術間のオフセットをどこまで精密に結び付けられるか。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-bound-label = 位置の不確かさ、フロートと固定、対数スケール
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:104
+js-lunarinfra-bound-note = アンビギュイティをフロートのままにした場合と固定した場合（固定に到達できたとしたときに得られる値）の、地上局と周回機の位置の不確かさ（1 シグマ）。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:104
+js-lunarinfra-bound-title = 位置の境界、フロートと固定
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:69
+js-lunarinfra-chip-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-comp-normal = 法線方向
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-comp-position = 位置（3 次元）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-comp-radial = 動径方向
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-comp-transverse = 横方向
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:115
+js-lunarinfra-compare-note = { $sets } 通りのランダムな局の組のうち、周回機リンクを加えても最小固有値が小さくならなかったのは { $lambda } 通り、トレースが大きくならなかったのは { $trace } 通りでした。最小固有値の上昇の中央値は { $median } 倍でした。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:115
+js-lunarinfra-compare-title = 数値による比較
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:114
+js-lunarinfra-crsigma-label = クラメール・ラオのシグマ、対数スケール
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:113
+js-lunarinfra-crsigma-note = 月面でのメートル単位。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:113
+js-lunarinfra-crsigma-title = パラメーターごとのクラメール・ラオのシグマ
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:143
+js-lunarinfra-days = { $n } 日
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
+js-lunarinfra-direction = 方向 { $n }
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+js-lunarinfra-disclosures = 開示事項
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
+js-lunarinfra-eig-label = 情報の固有値、対数スケール
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:111
+js-lunarinfra-eig-note = 情報行列の七つの固有値を、小さい順に、周回機と局の間のリンクがない場合とある場合について示します。最小の固有値は { $times } 倍に上昇し、クラメール・ラオのトレースはその値の { $share } に低下します。これは、軌道が月の座標軸で既知であることを前提としています（その誤差は周回機の距離シグマに含まれます）。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:111
+js-lunarinfra-eig-title = データムの各方向における情報
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:143
+js-lunarinfra-fact-arc = アーク
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:142
+js-lunarinfra-fact-hash = シナリオのハッシュ
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:145
+js-lunarinfra-fact-llr-rows = レーザー測距の行
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:143
+js-lunarinfra-fact-orbit-family = 軌道ファミリー
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:145
+js-lunarinfra-fact-orbiter-arc = 周回機のアーク
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:145
+js-lunarinfra-fact-orbiter-rows = 周回機の行
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:141
+js-lunarinfra-fact-study = 調査
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:144
+js-lunarinfra-fact-wavelength = 搬送波の波長
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:131
+js-lunarinfra-families-note = ファミリーの各行にわたる、各パラメーターの偏微分の RMS と、行数です。0 は、そのファミリーがそのパラメーターに感度を持たないことを意味します。周回機ファミリーの k2 感度は、上限側の値です。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:131
+js-lunarinfra-families-title = 各ファミリーが捉えるもの
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+js-lunarinfra-findings = 調査結果
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
+js-lunarinfra-fix-note-a = すべての整数アンビギュイティを正しく決定できたモンテカルロ試行の割合（標準誤差付き）と、ブートストラップ推定が予測する率。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
+js-lunarinfra-fix-note-b = この入力では、整数値の決定は達成できていません：最良のアークでも、試行の { $share } でしか決定できていません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
+js-lunarinfra-fix-note-c = 決定に到達していないため、決定までの時間として示せるものはありません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-fix-rate-label = アーク長に対する整数値の決定率
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
+js-lunarinfra-fix-title = アーク長に対する決定率
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-fixed = 固定
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-float = フロート
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
+js-lunarinfra-fraction-above-95 = 95 % 点を超えた試行の割合
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-ground-radiometric = 独立した地上電波計測
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:89
+js-lunarinfra-injected-error = 注入した誤差 { $value } m/s²
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
+js-lunarinfra-mean-consistency = 整合性統計量の平均
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
+js-lunarinfra-mean-q = q の平均
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:79
+js-lunarinfra-miss-line = { $id } は { $status }：{ $value }
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:81
+js-lunarinfra-miss-no-fix = この入力では、整数アンビギュイティの決定は達成できていません：最良のアークでも、モンテカルロ試行の { $share } でしか決定できていません。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:72
+js-lunarinfra-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:89
+js-lunarinfra-nominal = 公称
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:30
+js-lunarinfra-not-result = これは月面インフラの結果ではありません
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+js-lunarinfra-not-verified = 未検証
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:122
+js-lunarinfra-offset-precision-label = ローカルタイに対するオフセット精度、両対数
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:123
+js-lunarinfra-offsets-note = 軸ごとの並進シグマと、月面でのスケールおよび回転のシグマ（メートル単位）。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:123
+js-lunarinfra-offsets-title = タイ誤差ごとのオフセット（{ $days } 日間のアーク、{ $epochs } エポック）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-onboard-gnss = 搭載の地球 GNSS
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:39
+js-lunarinfra-open-failed = { $title } を開けませんでした：{ $reason }。
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:27
+js-lunarinfra-opening = { $title } を開いています…
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-orbit-uncertainty-log = 成分ごとの軌道の不確かさ、対数スケール
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-orbiter-days = 周回機、{ $days } 日
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:91
+js-lunarinfra-q-note = { $trials } 回の試行にわたる整合性統計量 q の平均です。整合した解の組では { $expected } になります。95 % 点を超えた試行の割合が、このチェックの検出率です。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:91
+js-lunarinfra-q-title = 整合性チェック、公称と注入誤差の比較
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:37
+js-lunarinfra-recorded =
+    { $n ->
+       *[other] { $title }：エンジンの記録済みの結果（バージョン { $version }）。
+    }
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:130
+js-lunarinfra-rel-label = 公称値に対するシグマ、対数スケール
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:129
+js-lunarinfra-rel-note = 4 つのファミリーをすべて合わせた場合の、公称値に対するクラメール・ラオのシグマの百分率です。h2 と l2 は線形化点であり、検証済みの値ではありません。k2 は公表されたフィットによるものです。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:129
+js-lunarinfra-rel-title = 各パラメーターを公称値に対してどこまで絞り込めるか
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:29
+js-lunarinfra-result-not-json = 結果は JSON ではありません（{ $reason }）
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:31
+js-lunarinfra-result-not-loaded = 記録済みの結果 { $file } を読み込めませんでした
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
+js-lunarinfra-row-above-95 = 95 % 点を超えた試行（カイ二乗 95 % = { $chi }）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-crtrace = クラメール・ラオのトレース
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-degeneracy = 縮退の指標
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:97
+js-lunarinfra-row-formal-diff = その差の形式シグマ
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:98
+js-lunarinfra-row-ground-meas = 地上：測定数、局のあるエポック
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:97
+js-lunarinfra-row-mean-diff = 二つの軌道の平均差
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
+js-lunarinfra-row-mean-q = q の平均（期待値 6）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-observations = 観測数
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:98
+js-lunarinfra-row-onboard-epochs = 搭載：衛星が 1 機以上 / 4 機以上あるエポック
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:98
+js-lunarinfra-row-onboard-meas = 搭載：測定数、追跡した衛星数の平均
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-origin-scale = 原点とスケールの相関
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-origin-sigma = 原点のシグマ (m)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-rank-defect = ランク（欠損）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-smallest-eig = 最小固有値
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:97
+js-lunarinfra-row-trace-ground = 形式トレースに対するサンプル、地上
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:97
+js-lunarinfra-row-trace-onboard = 形式トレースに対するサンプル、搭載
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
+js-lunarinfra-row-within-95 = 95 % 点以内の試行
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-series-bootstrapped = ブートストラップ
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:120
+js-lunarinfra-series-floor = 下限
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-series-monte-carlo = モンテカルロ
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:95
+js-lunarinfra-side-note = 軌道：{ $family }。{ $period } 日の軌道のうち { $arc } 日のアークを、{ $sample } s ごとにサンプルしています。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:95
+js-lunarinfra-side-title = 並べて比較
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:93
+js-lunarinfra-sigma-note = 同じアークの二つの推定による、成分ごとの位置の不確かさ（1 シグマ）。メートル単位。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:130
+js-lunarinfra-sigma-over-nominal = シグマ / 公称値
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:93
+js-lunarinfra-sigma-title = 各側が軌道をどこまで把握しているか
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-station-days = 局、{ $days } 日
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:75
+js-lunarinfra-status-verdict = { $status }：{ $verdict }
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:133
+js-lunarinfra-subsets-note = ファミリーを追加しても最小固有値が下がることは一度もありませんでした（{ $pairs } 件の追加のうち { $lambda } 件）。しかし擬似逆行列のトレースが大きくならなかったのは、{ $pairs } 件のうち { $trace } 件にとどまります。追加したファミリーがランクを上げることがあるためです。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:133
+js-lunarinfra-subsets-title = ファミリーのすべての組み合わせ
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:121
+js-lunarinfra-sweep-note = 宇宙機上の三つの技術間のタイの誤差をスイープしたときの、各オフセットの最悪の並進成分（メートル単位）。登録済みの技術ごとのシグマ（GNSS { $gnss } m、VLBI { $vlbi } m、レーザー { $slr } m）では、オフセットを制限するのは測定雑音であり、タイではありません。タイが下限を決めるのは、ほぼ完全な技術の場合だけです。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:121
+js-lunarinfra-sweep-title = ローカルタイに対する技術間オフセットの精度（{ $days } 日間のアーク）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-arc-days = アーク、日数
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:75
+js-lunarinfra-th-bar = 合格基準
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-bootstrapped = ブートストラップによる率
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-budget-exhausted = 探索予算の消費（試行）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-common-sats = 共通衛星が 2 機以上あるエポック
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:134
+js-lunarinfra-th-crtrace = クラメール・ラオのトレース
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-dd-ambiguities = 二重差分アンビギュイティ
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-epochs = エポック
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:134
+js-lunarinfra-th-families = ファミリー
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:132
+js-lunarinfra-th-family = ファミリー
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-local-tie = ローカルタイのシグマ (m)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-mc-fix-rate = モンテカルロでの決定率
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-median-ambiguity = アンビギュイティのシグマの中央値（サイクル）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-offset = オフセット
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
+js-lunarinfra-th-quantity = 量
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:134
+js-lunarinfra-th-rank = ランク
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-rotation = 月面での回転 (m)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:132
+js-lunarinfra-th-rows = 行数
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-scale = 月面でのスケール (m)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:134
+js-lunarinfra-th-smallest-eig = 最小固有値
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-translation = 並進 x、y、z (m)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:75
+js-lunarinfra-th-value = 値
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:75
+js-lunarinfra-th-verdict = 判定
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-th-with-links = 周回機リンクあり
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-th-without-links = 周回機リンクなし
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:20
+js-lunarinfra-title-carrier-phase = 搬送波位相、月面と周回機
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:21
+js-lunarinfra-title-frame-coestimation = 座標系の同時推定
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:23
+js-lunarinfra-title-geodesy-sensitivity = ラブ数と秤動
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:19
+js-lunarinfra-title-od-consistency = 軌道決定の整合性
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:22
+js-lunarinfra-title-space-tie = 宇宙タイ
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:31
+js-lunarinfra-unknown-study = この月面インフラの結果は調査「{ $study }」のものであり、このページはこれを読み込みません
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:50
+js-lunarinfra-where-missed = この調査が基準に届かなかった点。
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
+js-lunarinfra-with-links = 周回機リンクあり
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
+js-lunarinfra-without-links = 周回機リンクなし
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-x-arc-length = アーク長（日数）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:122
+js-lunarinfra-x-local-tie = ローカルタイのシグマ (m)（対数）
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-y-fixed-correctly = 正しく決定できた割合 (%)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:122
+js-lunarinfra-y-offset-sigma = オフセットのシグマ (m)（対数）。破線の下限はタイのみによるもので、タイ誤差の sqrt(2) 倍です
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:120
+js-meaning-body-generic = 天体
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:120
+js-meaning-body-the = { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:252
+js-meaning-card-label-sub = { $k }、{ $sub }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:91
+js-meaning-checks-of =
+    { $n ->
+       *[other] { $n } 件のチェックのうち { $av } 件
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:133
+js-meaning-coverage-average-label = 可視数の平均
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:129
+js-meaning-coverage-big-min =
+    { $n ->
+       *[other] どの場所でも少なくとも { $n } 機の衛星が可視で、平均は { $mean } 機です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:129
+js-meaning-coverage-big-none = 場所によっては衛星がまったく見えない時間があります。平均して { $mean } 機が可視です。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:132
+js-meaning-coverage-fewest-label = どこでも可視数が最小
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:124
+js-meaning-coverage-line-many = { $names } を併用すると、{ $body } 周辺の場所と時間の { $share } % で位置を測位できます。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:124
+js-meaning-coverage-line-many-pdop = { $names } を併用すると、{ $body } 周辺の場所と時間の { $share } % で位置を測位できます（ジオメトリの品質、PDOP が { $thr } 未満）。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:127
+js-meaning-coverage-line-none = { $body } 周辺の場所と時間の { $share } % で位置を測位できます。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:127
+js-meaning-coverage-line-none-pdop = { $body } 周辺の場所と時間の { $share } % で位置を測位できます（ジオメトリの品質、PDOP が { $thr } 未満）。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:126
+js-meaning-coverage-line-one = { $names } を使うと、{ $body } 周辺の場所と時間の { $share } % で位置を測位できます。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:126
+js-meaning-coverage-line-one-pdop = { $names } を使うと、{ $body } 周辺の場所と時間の { $share } % で位置を測位できます（ジオメトリの品質、PDOP が { $thr } 未満）。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:134
+js-meaning-coverage-places-label = 測位できる場所
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:29
+js-meaning-duration-days =
+    { $n ->
+       *[other] { $days } 日
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:227
+js-meaning-ensemble-big-many = 多数のノイズ抽選にわたり、{ $q } は平均して { $qd } の間 { $thr } ns を保ち、{ $c } は { $cd } の間保ちます。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:227
+js-meaning-ensemble-big-runs =
+    { $n ->
+       *[other] { $n } 回のノイズ抽選にわたり、{ $q } は平均して { $qd } の間 { $thr } ns を保ち、{ $c } は { $cd } の間保ちます。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:228
+js-meaning-ensemble-line = { $name } の抽選十回中九回で、保持時間は { $band } です。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:225
+js-meaning-ensemble-mean = 平均
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:225
+js-meaning-ensemble-mean-band = 平均、90 % の帯 { $band }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:155
+js-meaning-error-p95-label = 誤差、時間の 95 %、{ $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:274
+js-meaning-generic-big = { $label }：{ $value }。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:275
+js-meaning-generic-line-one = この実行からは、{ $a } も得られています。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:275
+js-meaning-generic-line-two = この実行からは、{ $a } と { $b } も得られています。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:269
+js-meaning-generic-none = この実行には、代表となる単一の数値がありません。結果は下のグラフに示します。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:151
+js-meaning-holdover-label = ホールドオーバー、{ $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:109
+js-meaning-hpl-sub = 水平保護レベル
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:151
+js-meaning-inside-budget = { $budget } 以内
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:59
+js-meaning-integrity-big-checks-mostly = はい、ほぼ：チェックの { $share } % で。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:61
+js-meaning-integrity-big-checks-no = いいえ：チェックの { $share } % で。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:60
+js-meaning-integrity-big-checks-partly = 一部のみ：チェックの { $share } % で。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:58
+js-meaning-integrity-big-checks-yes = はい：チェックの { $share } % で。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:53
+js-meaning-integrity-big-span-mostly = はい、ほぼ：{ $span } の { $share } % の間。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:55
+js-meaning-integrity-big-span-no = いいえ：{ $span } の { $share } % の間。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:54
+js-meaning-integrity-big-span-partly = 一部のみ：{ $span } の { $share } % の間。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:52
+js-meaning-integrity-big-span-yes = はい：{ $span } の { $share } % の間。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:95
+js-meaning-integrity-bound-label = 典型的な誤差境界
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:95
+js-meaning-integrity-bound-sub = 水平 / 垂直、中央値
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:93
+js-meaning-integrity-gap-all-passed = すべてのチェックに合格
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:93
+js-meaning-integrity-gap-label = 最長の途切れ
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:93
+js-meaning-integrity-gap-none = なし
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:93
+js-meaning-integrity-gap-sub =
+    { $n ->
+       *[other] { $from } から { $n } 件のチェックが連続
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:84
+js-meaning-integrity-line-h =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（水平 { $h } m）を下回っていました。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:82
+js-meaning-integrity-line-h-clean =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（水平 { $h } m）を下回っており、誤解を招く測位はありませんでした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:83
+js-meaning-integrity-line-h-some =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（水平 { $h } m）を下回っていましたが、{ $n } 件の測位は誤解を招くものでした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:80
+js-meaning-integrity-line-hv =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（水平 { $h } m、垂直 { $v } m）を下回っていました。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:78
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（水平 { $h } m、垂直 { $v } m）を下回っており、誤解を招く測位はありませんでした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:79
+js-meaning-integrity-line-hv-some =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（水平 { $h } m、垂直 { $v } m）を下回っていましたが、{ $n } 件の測位は誤解を招くものでした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:76
+js-meaning-integrity-line-none =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界を下回っていました。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:74
+js-meaning-integrity-line-none-clean =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界を下回っており、誤解を招く測位はありませんでした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:75
+js-meaning-integrity-line-none-some =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界を下回っていましたが、{ $n } 件の測位は誤解を招くものでした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:88
+js-meaning-integrity-line-v =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（垂直 { $v } m）を下回っていました。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:86
+js-meaning-integrity-line-v-clean =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（垂直 { $v } m）を下回っており、誤解を招く測位はありませんでした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:87
+js-meaning-integrity-line-v-some =
+    { $n ->
+       *[other] 受信機の誤差境界（その保護レベル）は、{ $tot } 件のチェックのうち { $av } 件で、警報限界（垂直 { $v } m）を下回っていましたが、{ $n } 件の測位は誤解を招くものでした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:96
+js-meaning-integrity-misleading-label = 誤解を招く測位
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:96
+js-meaning-integrity-misleading-sub = 実際の誤差が境界を上回っている
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:91
+js-meaning-integrity-trusted-label = 測位を信頼できる時間
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:176
+js-meaning-jamming-above-label = 信号を上回るジャマー
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:176
+js-meaning-jamming-above-sub = ジャマー対信号比の平均
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:171
+js-meaning-jamming-big-gone = ジャマーによって、測位が完全に失われます。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:171
+js-meaning-jamming-big-share = ジャマーがある場合、測位が可能なのは時間の { $share } % です。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:175
+js-meaning-jamming-clear-label = 測位可能、ジャマーなし
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:177
+js-meaning-jamming-fewest-label = 追跡した衛星数の最小
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:177
+js-meaning-jamming-fewest-sub = 最悪の時点
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:174
+js-meaning-jamming-jammed-label = 測位可能、ジャミングあり
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:172
+js-meaning-jamming-line = ジャマーがない場合、測位が可能なのは時間の { $share } % です。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:172
+js-meaning-jamming-line-js = ジャマーがない場合、測位が可能なのは時間の { $share } % です。ジャマーは、平均して信号より { $db } dB 高く到達します。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:317
+js-meaning-kicker = { $domain } · { $title }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:105
+js-meaning-lunar-big-all =
+    { $n ->
+       *[other] はい：{ $n } 件のチェックのすべてで。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:105
+js-meaning-lunar-big-none =
+    { $n ->
+       *[other] いいえ：{ $n } 件のチェックのいずれでも該当しません。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:105
+js-meaning-lunar-big-some =
+    { $n ->
+       *[other] { $n } 件のチェックのうち { $av } 件（{ $share } %）。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:110
+js-meaning-lunar-largest-label = 最大の誤差境界
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:106
+js-meaning-lunar-line = 保護レベルは { $min } から { $max } m の範囲で、警報限界は { $limit } m でした。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:108
+js-meaning-lunar-meet-label = 限界を満たすチェック
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:108
+js-meaning-lunar-meet-value = { $tot } 件中 { $av } 件
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:109
+js-meaning-lunar-smallest-label = 最小の誤差境界
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:135
+js-meaning-median-lower-better = 中央値、小さいほど良い
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:174
+js-meaning-of-the-time = 時間の割合
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:211
+js-meaning-orbit-best-label = 最良のジオメトリ (PDOP)
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:211
+js-meaning-orbit-best-sub = 実行中の最小値
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:206
+js-meaning-orbit-big-always = 常に測位が可能です。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:206
+js-meaning-orbit-big-share = 測位が可能なのは時間の { $share } % です。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:212
+js-meaning-orbit-error-label = 典型的な位置誤差
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:212
+js-meaning-orbit-error-sub = 1-sigma、中央値
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:207
+js-meaning-orbit-line =
+    { $n ->
+       *[other] { $n } 時点のうち { $fix } 時点で、十分な数の衛星が可視でした。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:207
+js-meaning-orbit-line-pdop =
+    { $n ->
+       *[other] { $n } 時点のうち { $fix } 時点で、十分な数の衛星が可視でした。典型的なジオメトリの品質（PDOP、位置の DOP（精度低下率））は { $pdop } で、小さいほど良い値です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:209
+js-meaning-orbit-moments =
+    { $n ->
+       *[other] { $n } 時点のうち { $fix } 時点
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:209
+js-meaning-orbit-time-label = 測位が可能な時間
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:160
+js-meaning-pair-big-diff-pos = { $best } は { $bestDur } の間 { $budget } 以内に収まり、{ $other } は { $otherDur } の間収まります。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:160
+js-meaning-pair-big-diff-time = { $best } は { $bestDur } の間 { $budget } 以内で時刻を保ち、{ $other } は { $otherDur } の間保ちます。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:159
+js-meaning-pair-big-same-pos = { $q } も { $c } も、{ $dur } の間 { $budget } 以内に収まります。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:159
+js-meaning-pair-big-same-time = { $q } も { $c } も、{ $dur } の間 { $budget } 以内で時刻を保ちます。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:161
+js-meaning-pair-line-clock = ホールドオーバーとは、衛星航法が失われた後に、各クロックが { $budget } の許容範囲内にとどまる時間です。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:161
+js-meaning-pair-line-navigator = ホールドオーバーとは、衛星航法が失われた後に、各航法装置が { $budget } の許容範囲内にとどまる時間です。
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:135
+js-meaning-pdop-label = ジオメトリの品質 (PDOP)
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:134
+js-meaning-places-times = 場所と時間の割合
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:223
+js-meaning-range-to = { $from } から { $to }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:132
+js-meaning-satellites =
+    { $n ->
+       *[other] 衛星
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:196
+js-meaning-spectrum-above = しきい値を上回る
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:196
+js-meaning-spectrum-below = しきい値を下回る：ロック喪失
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:192
+js-meaning-spectrum-big-kept =
+    { $n ->
+       *[other] { $n } 個の信号のすべてが、追跡を維持しています。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:192
+js-meaning-spectrum-big-lost =
+    { $n ->
+       *[other] ジャマーによって、{ $n } 個の信号のうち { $lost } 個が失われます：{ $names }。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:194
+js-meaning-spectrum-line-kept =
+    { $n ->
+       *[other] { $names } は、実行全体にわたって、受信機の追跡しきい値を上回り続けます。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:194
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+       *[other] { $names } は、実行全体にわたって、受信機の { $thr } dB-Hz の追跡しきい値を上回り続けます。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:195
+js-meaning-spectrum-line-none = 実行全体にわたって受信機の追跡しきい値を上回り続ける信号は、ありません。

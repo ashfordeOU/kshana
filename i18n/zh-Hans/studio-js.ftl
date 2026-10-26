@@ -7079,3 +7079,1980 @@ js-replay-every-direction = 各个方向
 js-replay-file-error = { $name }：{ $error }
 
 js-replay-kinds-convergence-horizontal = 收敛：水平误差中位数
+
+js-replay-kinds-convergence-vertical = 收敛：垂直误差中位数
+
+js-replay-kv-course = 报告的航向角
+
+js-replay-kv-heading = 艏向（陀螺）
+
+js-replay-kv-position-error = 位置误差
+
+js-replay-kv-receiver = 接收机
+
+js-replay-kv-run-time = 运行时间
+
+js-replay-kv-satellites = 使用的卫星数 / 可见卫星数
+
+js-replay-kv-sky = 天空
+
+js-replay-legend = 图例
+
+js-replay-legend-no-fix = 无定位
+
+js-replay-legend-true-track = 真实航迹
+
+js-replay-moment = T+{ $t } 时刻：
+
+js-replay-no-coast = 未绘制海岸线：此窗口没有随附海岸线数据。
+
+js-replay-no-gsv = 此日志中没有 GSV
+
+js-replay-not-json = { $name }：不是 JSON。
+
+js-replay-not-scored = 未评分
+
+js-replay-obs-not-attributed = 未归因
+
+js-replay-open-failed = 无法打开 { $id }：{ $reason }。
+
+js-replay-open-file = 打开文件…
+
+js-replay-opened = 已在面板 { $n } 中打开 { $name }。已在此处读取；没有上传任何内容。
+
+js-replay-opening = 正在打开 { $id }…
+
+js-replay-pause = 暂停
+
+js-replay-play = 播放
+
+js-replay-read-failed = { $name }：无法读取或绘制（{ $reason }）。
+
+js-replay-reading = 正在读取 { $name }…
+
+js-replay-reduced-motion = 已选择减弱动态效果，因此回放从 1x 开始，且不会自动播放。
+
+js-replay-run = 运行
+
+js-replay-run-shown = 面板 { $n } 中显示的运行
+
+js-replay-saved-svg = 已保存 { $name }（{ $size } kB）：所有帧合在一个文件中，绘自与本页面相同的数据行。
+
+js-replay-saved-zip = 已保存 { $name }（{ $size } MB）：每帧一个 SVG、各帧所依据数据行的清单，以及一份 README。
+
+js-replay-src-instructor = 你的文件 { $name }：仅有教员日志时，没有引擎评分，也没有天空。
+
+js-replay-src-trust = 你的文件 { $name }：信任度结果不含天空或艏向，因此不予绘制。
+
+js-replay-status-ready = { $a }和{ $b }：合成运行，由引擎评分。按“播放”，或拖动时钟。
+
+js-replay-status-synthetic = { $titles }：合成运行，由引擎评分。
+
+js-replay-status-synthetic-no-coast = { $titles }：合成运行，由引擎评分。海岸线不可用。
+
+js-replay-strip-label = 运行期间的信任度
+
+js-replay-titles-and = { $a }和{ $b }
+
+js-replay-too-large = { $name } 超出本页面可读取的大小。
+
+js-replay-track = { $n } 条日志行的航迹，上方为北。
+
+js-replay-track-widened = { $n } 条日志行的航迹，上方为北，已扩大范围以显示最近的海岸。
+
+js-replay-verdict = 结论
+
+js-replay-verdict-degraded = 降级 { $dur }，无不可信时段
+
+js-replay-verdict-early = 结论（提前）
+
+js-replay-verdict-fine = 仅依据日志和引擎的评分；是合成数据，仅供参考，不是检测性能数字。
+
+js-replay-verdict-first = 首次低于正常水平在 T+{ $t }
+
+js-replay-verdict-first-after = 首次低于正常水平在 T+{ $t }，即第一个事件开始（T+{ $onset }）之后 { $dur }
+
+js-replay-verdict-first-before = 首次低于正常水平在 T+{ $t }，早于第一个事件的起始（T+{ $onset }）
+
+js-replay-verdict-lowest = 最低信任度评分 { $score }（{ $band }），在 T+{ $t }
+
+js-replay-verdict-never-left = 评分从未离开正常区间
+
+js-replay-verdict-no-fix = 无定位持续 { $dur }
+
+js-replay-verdict-not-scored = 未评分：引擎的信任度评分只针对库中的运行显示
+
+js-replay-verdict-peak-error = 记录到的最大位置误差为 { $err } m，在 T+{ $t }
+
+js-replay-verdict-untrusted = 在不可信区间内 { $dur }
+
+js-replay-verdict-wait = 将在本次运行结束时（T+{ $t }）显示。
+
+js-ssv-altitude-label = 高度与所用测量值
+
+js-ssv-at-least-1 = 至少 1 个信号
+
+js-ssv-at-least-4 = 至少 4 个信号
+
+js-ssv-avail-label = 可用性，{ $band }
+
+js-ssv-bar-title = { $label }，{ $name }：{ $value }{ $unit }
+
+js-ssv-blurb-formation-heo = 高椭圆轨道上相距一公里的一颗主星和一颗副星：滤波器对其相对位置的了解程度，与两个绝对定位结果所能给出的对比。
+
+js-ssv-blurb-heo = 高椭圆轨道（远地点约 58 600 km），配有高增益天底天线和天顶贴片天线以及参数化旁瓣模型：可见信号、最佳 C/N0、主瓣与旁瓣、精度因子（DOP）以及掠过大气层的信号。
+
+js-ssv-blurb-lunar-weak = 一条地月转移轨迹，接收机专为最弱信号而设计：它捕获和跟踪需要什么条件，以及轨迹上有多少部分可供它使用。
+
+js-ssv-blurb-nav-lunar = 地月转移上的星载导航滤波器：其位置误差与其所述界限的对比，分别在 GNSS 卫星自身轨道之下和之上。
+
+js-ssv-blurb-shell = 地球静止高度处的一个球壳，按网格采样：对每个星座以及全部星座合计，在那里的航天器在 L1 和 L5 上以 20 dB-Hz 多久能收到至少一个、至少四个信号？
+
+js-ssv-cn0-altitude-label = 最佳 C/N0 与高度随时间的变化，{ $band }
+
+js-ssv-cn0-label = 最佳 C/N0，{ $band }
+
+js-ssv-cn0-note = 在可见信号中，每个历元最强的一个：各历元中从最小到最大，并标出平均值。
+
+js-ssv-cn0-title = 最佳载噪比密度，{ $band }
+
+js-ssv-comparison-failed = 无法显示比较（{ $reason }）。
+
+js-ssv-comparison-not-loaded = 比较文件未能加载
+
+js-ssv-default-bars = 条形
+
+js-ssv-default-chart = 图表
+
+js-ssv-default-ranges = 范围
+
+js-ssv-deputies-note = 主星的绝对 RMS 为 { $rms } m，历元数 { $epochs }。
+
+js-ssv-deputies-title = 各副星
+
+js-ssv-dop-note = 有定位的各历元上 PDOP 的中位数、第 95 百分位和最差值；若场景设定了大气层，还包括掠过大气层的信号。
+
+js-ssv-dop-title = 精度因子与大气层，{ $band }
+
+js-ssv-err-label = 位置误差与所述界限的对比
+
+js-ssv-err-note = 虚线为滤波器所述的 1 倍标准差界限；实线为其相对于场景已知真值的误差。由引擎抽稀。
+
+js-ssv-err-title = 位置误差与滤波器自身界限的对比
+
+js-ssv-fact-antenna = 天线
+
+js-ssv-fact-apogee = 远地点高度
+
+js-ssv-fact-cn0-threshold = 载噪比密度阈值
+
+js-ssv-fact-duration = 持续时间
+
+js-ssv-fact-eccentricity = 偏心率
+
+js-ssv-fact-grid-points = 网格点数
+
+js-ssv-fact-inclination = 倾角
+
+js-ssv-fact-mode = 模式
+
+js-ssv-fact-perigee = 近地点高度
+
+js-ssv-fact-period = 周期
+
+js-ssv-fact-shell-altitude = 球壳高度
+
+js-ssv-fact-sma = 半长轴
+
+js-ssv-fact-step = 步长
+
+js-ssv-filter = 滤波器
+
+js-ssv-formation-note = 相对位置误差的 RMS，分别来自滤波器和对两个绝对定位结果作差，涵盖整个运行以及 GNSS 轨道之上的部分。
+
+js-ssv-formation-title = 各副星的相对位置
+
+js-ssv-from-absolute = 来自两个绝对定位结果
+
+js-ssv-group-combined = 全部合计
+
+js-ssv-icg-note = { $label }；引擎已提交结果文件的判据级结论（引擎提交 { $commit }）。手册中的表格是公开的；此处没有任何内容为 VALIDATED。
+
+js-ssv-icg-wrong-file = ICG 比较文件不是本页面所读取的那一个
+
+js-ssv-lobe-note = 可用链路中有多少经过主瓣、多少经过旁瓣，由引擎计数。
+
+js-ssv-lobe-title = 主瓣与旁瓣，{ $band }
+
+js-ssv-na = 不适用
+
+js-ssv-nav-note = 已使用和已剔除的测量值、少于四个信号的最长间隔、最终误差，以及太阳辐射压力估计值与场景已知真值的对比。
+
+js-ssv-nav-title = 以数字呈现的运行情况
+
+js-ssv-never = 从未
+
+js-ssv-never-had-four = 从未有过四个
+
+js-ssv-never-had-one = 从未有过一个
+
+js-ssv-no-range = 此结果中没有范围。
+
+js-ssv-no-series = 结果中没有此图表所需的序列。
+
+js-ssv-not-in-variant = 不属于该变体
+
+js-ssv-not-result = 这不是 gnss-ssv 结果
+
+js-ssv-of = { $total } 中的 { $n }
+
+js-ssv-offset = 偏移 { $deg }°
+
+js-ssv-open-failed = 无法打开 { $title }：{ $reason }。
+
+js-ssv-opening = 正在打开 { $title }…
+
+js-ssv-outage-note = 单位为分钟，涵盖整个运行。“从未”表示该组在球壳上任何位置都从未有过那么多信号。
+
+js-ssv-outage-title = 球壳上的最长中断
+
+js-ssv-phases-note = 滤波器在整个运行以及其两个部分上的统计量。位置 NEES 的平均值接近 3，说明滤波器所述的界限与其误差一致。
+
+js-ssv-phases-title = 按阶段的位置误差
+
+js-ssv-point-title = { $name }：{ $xLabel } { $x }，{ $yLabel } { $y }
+
+js-ssv-range-title = { $label }：最小 { $min }，平均 { $mean }，最大 { $max } { $unit }
+
+js-ssv-range-value = { $min } 至 { $max }
+
+js-ssv-recorded = { $title }：引擎记录的结果（版本 { $version }）。
+
+js-ssv-relative-label = 相对位置误差
+
+js-ssv-result-not-json = 结果不是 JSON（{ $reason }）
+
+js-ssv-result-not-loaded = 记录的结果未能加载
+
+js-ssv-row-acquires = 可捕获至
+
+js-ssv-row-carrier = 载波跟踪至
+
+js-ssv-row-code = 码跟踪至
+
+js-ssv-row-coherent = 相干积分
+
+js-ssv-row-delay-mean = 延迟，平均
+
+js-ssv-row-detection = 检测阈值
+
+js-ssv-row-false-alarm = 每个单元的虚警概率
+
+js-ssv-row-final-error = 最终位置误差
+
+js-ssv-row-gap = 最长间隔
+
+js-ssv-row-gated = 被剔除的测量值
+
+js-ssv-row-grazing = 掠过 100 km 以下
+
+js-ssv-row-limb-links = 穿过临边的链路
+
+js-ssv-row-loss-mean = 损耗，平均
+
+js-ssv-row-lost = 因大气层而丢失
+
+js-ssv-row-pdop-median = PDOP，中位数
+
+js-ssv-row-pdop-p95 = PDOP，第 95 百分位
+
+js-ssv-row-pdop-worst = PDOP，最差
+
+js-ssv-row-plasma-mean = 等离子体层 TEC，平均
+
+js-ssv-row-search-cells = 搜索单元
+
+js-ssv-row-search-time = 搜索时间
+
+js-ssv-row-srp-est = 太阳辐射压力，估计值
+
+js-ssv-row-srp-truth = 太阳辐射压力，真值
+
+js-ssv-row-stec-mean = 斜向 TEC，平均
+
+js-ssv-row-tangent = 切点高度，最小至最大
+
+js-ssv-row-tracking = 所用的跟踪阈值
+
+js-ssv-row-used = 已使用的测量值
+
+js-ssv-series-altitude = 高度/1000
+
+js-ssv-series-altitude-name = 高度
+
+js-ssv-series-best-cn0 = 最佳 C/N0
+
+js-ssv-series-error = 误差
+
+js-ssv-series-measurements = 测量值
+
+js-ssv-series-note = 所有星座合计数量的一条抽稀序列。引擎不写出各星座的序列，因此不予绘制。
+
+js-ssv-series-signals = 可见信号
+
+js-ssv-series-signals-label = 可见信号随时间的变化，{ $band }
+
+js-ssv-series-stated-bound = 所述界限
+
+js-ssv-series-title = 沿轨道的信号与最佳 C/N0，{ $band }
+
+js-ssv-shell-avail-note = 在网格点和时刻中，有至少一个信号、至少四个信号高于 { $cn0 } dB-Hz 的占比。
+
+js-ssv-shell-avail-title = 球壳上的可用性，{ $band }
+
+js-ssv-tangent-value = { $min } 至 { $max } km
+
+js-ssv-th-above-absolute = GNSS 之上：来自绝对定位，m
+
+js-ssv-th-above-filter = GNSS 之上：滤波器，m
+
+js-ssv-th-band-group = 频段与分组
+
+js-ssv-th-bar = 判据
+
+js-ssv-th-baseline = 基线，km
+
+js-ssv-th-common-4 = 有 4 个共同信号的历元
+
+js-ssv-th-common-mean = 平均共同信号数
+
+js-ssv-th-compares = 所比较的内容
+
+js-ssv-th-deputy = 副星
+
+js-ssv-th-epochs = 历元
+
+js-ssv-th-group = 分组
+
+js-ssv-th-main-lobe = 主瓣链路
+
+js-ssv-th-nees = 位置 NEES 平均值
+
+js-ssv-th-phase = 阶段
+
+js-ssv-th-pos-p95 = 位置第 95 百分位，m
+
+js-ssv-th-pos-rms = 位置 RMS，m
+
+js-ssv-th-quantity = 量
+
+js-ssv-th-rel-absolute = 相对 RMS，来自绝对定位，m
+
+js-ssv-th-rel-filter = 相对 RMS，滤波器，m
+
+js-ssv-th-rel-vel = 相对速度 RMS，m/s
+
+js-ssv-th-run1-cells = 运行 1：容差内的单元
+
+js-ssv-th-run1-verdict = 运行 1 结论
+
+js-ssv-th-sidelobe = 旁瓣链路
+
+js-ssv-th-sidelobe-share = 旁瓣占比
+
+js-ssv-th-value = 值
+
+js-ssv-th-variant = 变体（诊断用，GLONASS 参考角取自表 4.2）
+
+js-ssv-th-vel-rms = 速度 RMS，m/s
+
+js-ssv-th-with-4 = 有 4 个或更多信号
+
+js-ssv-th-without-1 = 无 1 个信号的最长时间
+
+js-ssv-th-without-4 = 无 4 个信号的最长时间
+
+js-ssv-title-formation-heo = 编队，高椭圆轨道
+
+js-ssv-title-heo = 高椭圆轨道
+
+js-ssv-title-lunar-weak = 地月转移，弱信号接收机
+
+js-ssv-title-nav-lunar = 星载滤波器，地月转移
+
+js-ssv-title-shell = 36 000 km 处的球壳
+
+js-ssv-traj-avail-note = 有至少一个、至少四个信号高于 { $cn0 } dB-Hz 的历元占比。
+
+js-ssv-traj-avail-title = 沿轨迹的可用性，{ $band }
+
+js-ssv-transmit-pattern = 发射方向图：{ $pattern }
+
+js-ssv-unit-signals = 个信号
+
+js-ssv-unknown-mode = 此 gnss-ssv 结果的模式为“{ $mode }”，本页面不读取
+
+js-ssv-variant-met = { $total } 项中 { $n } 项将达到判据
+
+js-ssv-variant-not-met = { $total } 项中 { $n } 项仍未达到判据
+
+js-ssv-view-note = 各历元中可见数量从最小到最大，并标出平均值。
+
+js-ssv-view-title = 可见信号，{ $band }
+
+js-ssv-weak-note = 接收机设计所需的条件，由引擎根据所述积分计算得出。
+
+js-ssv-weak-title = 弱信号接收机
+
+js-ssv-x-minutes = 分钟
+
+js-ssv-y-altitude-measurements = 高度，千 km；已使用的测量值
+
+js-ssv-y-cn0-altitude = dB-Hz；高度，千 km
+
+js-ssv-y-position-log = 位置，米（对数）
+
+js-ssv-y-signals-all = 可见信号，所有星座
+
+js-t35data-ai-q-bench-export = 为实验室仿真器导出某个场景的运动与事件
+
+js-t35data-ai-q-compliance-rows = 这些运行为公开框架的哪些条目提供证据支持（supports evidence for）？
+
+js-t35data-ai-q-evidence-pack = 检查或制作某个信任事件的证据包
+
+js-t35data-ai-q-interference-route = GNSS 在哪些地方看起来受到了劣化，这条路线有多少处于其中？
+
+js-t35data-ai-q-iq-recordings = GNSS IQ 录制（场景、捕获、跟踪、前端、测评活动）
+
+js-t35data-ai-q-osnma-satellites = 此接收机数据流认证了哪些 Galileo 卫星的导航数据（OSNMA）？
+
+js-t35data-ai-q-run-scenario = 运行或解释某个 PNT 场景（轨道、GNSS、授时、融合、月球）
+
+js-t35data-ai-q-training-nmea = 我需要带有压制干扰（jamming）、拖离、时间欺骗干扰或重放事件的合成 NMEA，用于训练
+
+js-t35data-ai-q-trustworthy-log = 这份接收机日志或这艘船的 NMEA 是否可信，又是从何时起不再可信？
+
+js-t35data-ai-tool-osnma-satellites = MCP 上没有：请使用 osnma_verify（此处的 OSNMA 卡片，WebAssembly）、kshana osnma verify（CLI）或 kshana.osnma_verify（Python）
+
+js-t35data-card-evidence-create-title = 创建证据包
+
+js-t35data-card-evidence-create-what = 对接收机日志的一个窗口及引擎据此算出的结果进行签名，使任何人都能核实事后没有任何改动。Studio 可验证证据包。
+
+js-t35data-card-evidence-create-why = 签名需要私钥，而私钥不应经过网页。
+
+js-t35data-card-iq-title = GNSS IQ 监测器与工具
+
+js-t35data-card-iq-what = 构建场景、捕获并跟踪信号、扫描参数、为前端建模、运行 IQ 监测器和测评活动、拟合实验室日志。也可通过 Python 使用，在某个工作文件夹内还可通过 AI 助手工具使用。
+
+js-t35data-card-iq-why = 一份录制有数 GB 的采样。网页容纳不下，而转换、提取和抽稀的命令会改写磁盘上的录制文件。
+
+js-t35data-card-land-title = 供陆上 AIS 检测器使用的陆地多边形下载
+
+js-t35data-card-land-what = 获取一个固定的陆地文件（Natural Earth，公有领域）并检查其 SHA-256。地图构建器则以文本形式接收陆地文件。
+
+js-t35data-card-land-why = 它是唯一会打开网络连接的命令，并且需要系统自带的 curl 和一个明确的标志。
+
+js-t35data-card-marine-title = 海事集成
+
+js-t35data-card-marine-what = Signal K 服务器插件，以及通过 TCP 的门控模式 NMEA 接入的 OpenCPN，把信任度评分放到船员已在使用的软件上；参考构建则把它放到接收机旁的一台小型计算机上。
+
+js-t35data-card-marine-why = 它们是正在运行的实时进程及其 TCP 门控的使用方：部署在船上的计算机上。
+
+js-t35data-card-telemetry-title = 作为安全遥测的信任度
+
+js-t35data-card-telemetry-what = 把信任度数据流（评分、区间、原因）转换为 Prometheus 指标、供 SIEM 使用的 CEF 或 LEEF 格式 syslog 事件，以及 OpenTelemetry。它只读取数据流，绝不改变评估结果。
+
+js-t35data-card-telemetry-why = 它是一个提供指标并向你的监控系统发送数据的进程，因此运行在接收机旁，而不是在网页中。
+
+js-t35data-card-training-stream-title = 向 TCP 或 UDP 地址发送训练数据流
+
+js-t35data-card-training-stream-what = 以实时或更快的速度，把生成的训练数据流发送给舰桥模拟器或海图绘制仪。Studio 的训练页面生成相同的文本，并可让你下载。
+
+js-t35data-card-training-stream-why = 向网络地址发送是浏览器页面不会做的事。该数据流仅为文本，绝不用于船舶的实时导航系统。
+
+js-t35data-feat-ai-ai = MCP 服务器的安装选项，以及每个工具能回答的问题
+
+js-t35data-feat-ai-name = 通过 AI 助手使用（MCP 服务器）
+
+js-t35data-feat-bench-bench = 在此导出某个场景的运动、NMEA、航路点和事件
+
+js-t35data-feat-bench-name = 面向实验室模拟器的测试 bench 导出
+
+js-t35data-feat-compliance-compliance = 在此查看你的运行结果为哪些框架条目提供证据支持（supports evidence for），以及映射表
+
+js-t35data-feat-compliance-name = 对公开韧性框架的 compliance 映射
+
+js-t35data-feat-evidence-evidence = 在此验证证据包并附加时间戳令牌
+
+js-t35data-feat-evidence-name = 已签名的证据包
+
+js-t35data-feat-evidence-why = 创建证据包需要私有签名密钥，而该密钥不应经过网页。证据包通过命令行、Python 或 AI 助手工具制作。
+
+js-t35data-feat-interference-map-interference = 打开地图文件，或在此根据 CSV 构建地图，并对照地图检查某条路线
+
+js-t35data-feat-interference-map-name = 干扰地图（ADS-B 和 AIS）与路线暴露
+
+js-t35data-feat-iq-name = GNSS IQ 监测器与工具（场景、捕获、跟踪、扫描、前端、监测、测评活动）
+
+js-t35data-feat-iq-why = 一份录制有数 GB 的采样，网页容纳不下，而且有些命令会改写磁盘上的录制文件。浏览器版本没有 IQ 功能。
+
+js-t35data-feat-jammertest-jammertest = 导入某份日志时间跨度对应的计划，或按每项测试为接收机日志（UBX、RINEX、Android、NMEA 或 Septentrio SBF）评分：检测延迟、漏检、虚警、恢复时间；MODELLED
+
+js-t35data-feat-jammertest-name = Jammertest 作为裁判：以已发布的测试计划作为排定的真值，并据此为接收机日志评分（0.38）
+
+js-t35data-feat-live-gate-name = 实时信任度数据流、门控与监听器（stdin、文件、TCP、UDP、--gate、--listen）
+
+js-t35data-feat-live-gate-why = 它是处于数据路径上的运行中进程。网页在完成后就会返回，无法为海图绘制仪一直保持套接字打开，也无法在实时数据流中把某个定位标记为无效。Studio 改为以相同的实时格式对一段有限的节选评分，不带门控。
+
+js-t35data-feat-machines-imufit = 根据静止 IMU 日志，拟合混合与融合场景的加速度计和陀螺仪参数；MODELLED
+
+js-t35data-feat-machines-name = 接收机与传感器输入：RTKLIB .pos、NovAtel OEM7、RTCM 3 MSM、GNSS-SDR、用于艏向的 IMU，以及用于混合与融合场景的 IMU 拟合（0.38）
+
+js-t35data-feat-machines-trust = 在通用的接收机信任度运行中打开上述任一格式的日志（以及可选的 IMU 文件）；NovAtel 自身的干扰标志会与 Kshana 的报警进行比较
+
+js-t35data-feat-marine-name = 海事集成：Signal K 插件与 OpenCPN
+
+js-t35data-feat-marine-why = 它们使用正在运行的实时进程及其 TCP 门控，因此是部署在船上计算机上的，网页无法运行它们。
+
+js-t35data-feat-maritime-trust-name = 移动船舶的海事信任度评分（0 至 100，附原因）
+
+js-t35data-feat-maritime-trust-trust = 打开一个结果或一次实时 JSON-lines 运行，查看航迹、评分、原因和门控；在此对 NMEA 日志评分
+
+js-t35data-feat-nmea-training-name = 带教员日志的 NMEA 训练数据流
+
+js-t35data-feat-nmea-training-training = 在此生成数据流及其教员日志，下载它们，并运行教员复盘
+
+js-t35data-feat-osnma-name = Galileo OSNMA 验证（UBX SFRBX 输入）
+
+js-t35data-feat-osnma-osnma = 加载一个已录制的文件，查看逐颗卫星、逐个标签的认证状态
+
+js-t35data-feat-telemetry-name = 遥测导出：Prometheus 指标、syslog CEF 和 LEEF、OpenTelemetry
+
+js-t35data-feat-telemetry-why = 它从运行中的数据流提供指标、发送 syslog 并导出 OpenTelemetry：这是一个与你的监控系统通信的进程，网页做不到。
+
+js-t35data-feat-training-stream-name = 向 TCP 或 UDP 地址推送训练数据流
+
+js-t35data-feat-training-stream-why = 它向网络地址发送，而网页不会这样做。Studio 生成文本，由你下载。
+
+js-t35data-page-ai = 通过你的 AI 助手使用
+
+js-t35data-page-bench = 测试 bench 导出
+
+js-t35data-page-cli = 命令行功能
+
+js-t35data-page-compliance = compliance 映射
+
+js-t35data-page-evidence = 证据包
+
+js-t35data-page-geometry = 几何：天空图、天际线与 DOP
+
+js-t35data-page-imufit = IMU 拟合
+
+js-t35data-page-interference = 干扰地图
+
+js-t35data-page-jammertest = Jammertest 评分
+
+js-t35data-page-osnma = OSNMA 验证
+
+js-t35data-page-training = 训练复盘
+
+js-t35data-page-trust = 海事信任度
+
+js-t35data-sample-iq-help = IQ 命令列表
+
+js-t35data-sample-telemetry-cef = 演示运行的 CEF 格式 syslog
+
+js-t35data-sample-telemetry-leef = 演示运行的 LEEF 格式 syslog
+
+js-t35data-sample-telemetry-metrics = 演示运行的 Prometheus 指标
+
+js-tools-ai-group-engine = 安装引擎及其库
+
+js-tools-ai-group-integrations = 海事、插件和仪表板集成
+
+js-tools-ai-group-mcp = 为你的助手安装 MCP 服务器
+
+js-tools-ai-heading = 通过你的 AI 助手使用 Kshana
+
+js-tools-ai-install-mcp = 安装 MCP 服务器
+
+js-tools-ai-intro = Kshana MCP 服务器让 AI 助手运行引擎，而不是凭空猜测数值。它运行在你的计算机上；不会向 Kshana 发送任何内容。请选择适合你工具的方式。
+
+js-tools-ai-load-failed = 安装选项未能加载（{ $reason }）。请参阅 MCP 服务器的文档。
+
+js-tools-ai-mcp-docs = MCP 服务器文档
+
+js-tools-ai-more-ways = 更多安装方式
+
+js-tools-ai-none-listed = 此版本中没有列出安装选项。
+
+js-tools-ai-other-ways = 安装 Kshana 的其他方式
+
+js-tools-ai-read-agent-guide = 阅读智能体指南
+
+js-tools-ai-rule = 每个回答都适用的规则：由助手运行引擎，并报告工具返回的结果及其单位和证据等级（与外部参考基准（oracle）核对一致，或由模型计算得出）、场景、随机种子和引擎版本，使该运行可以重复。结果自身的限制说明始终随结果一起保留。MCP 服务器不会在某个需主动开启的文件夹之外读写任何文件。
+
+js-tools-ai-what-to-ask = 可以问什么，由哪个工具回答
+
+js-tools-ai-where-reachable = 各项能力可通过哪里使用
+
+js-tools-bench-files-written =
+    { $n ->
+       *[other] 已向浏览器内存写入 { $n } 个文件
+    }
+
+js-tools-bench-note = 仅含运动和带标签的事件区间。下载后可加载到实验室模拟器中。
+
+js-tools-bench-wrong-kind = { $name } 是 { $kind } 场景。{ $kinds } 类场景有飞行器轨迹；其他类别会说明为何没有。
+
+js-tools-building-report = 正在生成报告…
+
+js-tools-choose-catalogue-first = 请先选择目录 JSON。
+
+js-tools-choose-file-first = 请先选择一个文件。
+
+js-tools-choose-imu-log = 请先选择一份静止 IMU 日志。
+
+js-tools-choose-pack-first = 请先选择证据包的文件。
+
+js-tools-choose-pack-first-above = 请先选择证据包的文件（见上）。
+
+js-tools-choose-plan-file = 请至少选择一个计划文件。
+
+js-tools-choose-receiver-log = 请先选择接收机日志。
+
+js-tools-choose-result-first = 请先至少选择一个结果文件（*.result.json）。
+
+js-tools-choose-scenario-first = 请先选择一个场景。
+
+js-tools-choose-tsr-first = 请先选择时间戳响应（.tsr）。
+
+js-tools-chosen = 已选择
+
+js-tools-col-check = 检查
+
+js-tools-col-detail = 详情
+
+js-tools-col-first-monitors = 最先报警的监测器
+
+js-tools-col-gap-that-stays = 仍然存在的缺口
+
+js-tools-col-last-auth-tag = 最后一个已认证的标签（Galileo 系统时间）
+
+js-tools-col-latency = 延迟，s
+
+js-tools-col-name = 名称
+
+js-tools-col-outcome = 结果
+
+js-tools-col-question = 问题
+
+js-tools-col-recovered = 已恢复
+
+js-tools-col-reference = 参照
+
+js-tools-col-result = 结果
+
+js-tools-col-row = 条目
+
+js-tools-col-satellite = 卫星
+
+js-tools-col-slot = 时隙，s
+
+js-tools-col-status = 状态
+
+js-tools-col-tags = 标签
+
+js-tools-col-test = 测试
+
+js-tools-col-these-runs = 这些运行
+
+js-tools-col-tool = 工具
+
+js-tools-col-what-is-missing = 缺少什么
+
+js-tools-col-what-it-asks = 它要求什么
+
+js-tools-col-why-not-auth = 未通过认证的原因
+
+js-tools-copied = 已复制
+
+js-tools-copy = 复制
+
+js-tools-copy-command-aria = 复制：{ $cmd }
+
+js-tools-copy-labelled-aria = 复制{ $label }：{ $text }
+
+js-tools-did-not-work = 未成功
+
+js-tools-documentation = 文档
+
+js-tools-download = 下载
+
+js-tools-download-all-zip = 全部下载（zip）
+
+js-tools-download-events-toml = 下载事件（TOML）
+
+js-tools-download-md = 下载（Markdown）
+
+js-tools-download-report-json = 下载报告（JSON）
+
+js-tools-download-report-md = 下载报告（Markdown）
+
+js-tools-download-scorecard-json = 下载评分卡（JSON）
+
+js-tools-download-table-toml = 下载表格（TOML）
+
+js-tools-download-updated-pack = 下载更新后的证据包（zip）
+
+js-tools-download-whole-report-json = 下载完整报告（JSON）
+
+js-tools-engine-lacks-error = 此引擎版本（版本 { $version }）没有 { $need }，因此暂时无法在此运行。已记录的结果和命令行仍然可用。
+
+js-tools-engine-lacks-status = 此引擎版本（版本 { $version }）没有 { $need }：它早于此工具所需的版本。对应的命令行用法见“命令行”标签页。
+
+js-tools-engine-running = 引擎（版本 { $version }）正在此浏览器中运行。不会上传任何内容。
+
+js-tools-engine-starting = 正在此浏览器中启动引擎…
+
+js-tools-engine-unavailable = 引擎无法在此启动（{ $reason }）。打开文件可用；运行这些工具需要 WebAssembly。
+
+js-tools-epoch-format = 请使用 YYYY-MM-DDTHH:MM:SS，可选地以 Z（UTC）结尾。
+
+js-tools-epoch-not-real = 这不是 2000 年至 2099 年之间真实存在的 UTC 时刻。
+
+js-tools-every-check = 每项检查
+
+js-tools-evidence-disclaimer = 证据包是对引擎在所述设置下根据所述日志算出了什么的技术记录。它不是法律意见，不是对任何事件的事实认定，也不是认证。通过表示该记录未被改动。
+
+js-tools-example-pack = 合成示例证据包
+
+js-tools-example-pack-note = 一个合成的证据包，由引擎的命令行根据演示渡轮日志并使用演示密钥制作。密钥已填在下方；真实签名者的密钥由签名者通过其他途径提供。
+
+js-tools-example-pack-tampered = epochs.json 被改动了一个字节的示例证据包
+
+js-tools-example-runs = 合成示例运行
+
+js-tools-example-tampered-note = 证据包中某个文件的一个字节在签名之后被改动。请验证它：检查结果会指出是哪个文件。
+
+js-tools-exporting = 正在导出…
+
+js-tools-field-whole-number = { $field }必须是整数
+
+js-tools-file-not-chosen = { $file } 不在所选文件之中
+
+js-tools-file-too-large = { $name } 大于 64 MiB
+
+js-tools-files-selected = { $label }：{ $files }
+
+js-tools-fingerprint-not-pinned = 签名者指纹：{ $fingerprint }（未固定：使用的是证据包自己指明的密钥）
+
+js-tools-fingerprint-pinned = 签名者指纹：{ $fingerprint }（已固定）
+
+js-tools-fitting = 正在拟合…
+
+js-tools-framework-summary = { $name }：{ $evidenced } 项有证据支持，{ $partly } 项部分有证据支持，{ $notEvidenced } 项无证据支持，{ $outOfScope } 项超出范围
+
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework，v2.0
+
+js-tools-fw-easa-aviation = EASA 关于航空 GNSS 干扰的指南
+
+js-tools-fw-en-16803 = EN 16803（仅按部分和条款编号）
+
+js-tools-fw-imo-ships = IMO 关于船舶 GNSS 干扰的指南
+
+js-tools-fw-nis2-art21 = 欧盟 NIS2 指令，第 21 条
+
+js-tools-gst-none = 无
+
+js-tools-gst-text = 第 { $week } 周，{ $tow } s
+
+js-tools-how-to-run = 如何运行
+
+js-tools-imu-file-too-large = { $name } 大于 32 MiB；请打开节选。
+
+js-tools-imu-mean-not-number = 静止时的比力不是数字（水平轴为 0，垂直轴约为 9.80665）。
+
+js-tools-imu-notice = { $evidence }：该估计器是在系数已知的合成白噪声日志上检查的，而不是对照外部参考基准（oracle）。表格中给出了该日志的 SHA-256（{ $sha }…）。
+
+js-tools-imu-selected = { $name }（{ $size }），在此读取，绝不上传。
+
+js-tools-jt-events-count = { $n } 个排定事件
+
+js-tools-jt-events-note = 作为排定的真值：是计划的时隙，不是记录下来的实际播发时间。非射频：{ $nonRf }；日志之外：{ $outside }；未知标识：{ $unknown }。
+
+js-tools-jt-guard-hold = 保护间隔 { $guard } s，恢复保持 { $hold } s。
+
+js-tools-jt-guard-hold-overlap = 保护间隔 { $guard } s，恢复保持 { $hold } s。校准基线与某个排定时隙重叠。
+
+js-tools-jt-import-needs-start = 导入需要日志的第一个历元（UTC，ISO 8601），因为计划采用的是当地时间。
+
+js-tools-jt-sel-catalogue = 目录 { $name }
+
+js-tools-jt-sel-log = 日志 { $name }（{ $size }）
+
+js-tools-jt-sel-no-catalogue = 无目录
+
+js-tools-jt-sel-no-log = 无日志
+
+js-tools-jt-sel-no-plan = 无计划
+
+js-tools-jt-sel-plans = { $n } 个计划文件
+
+js-tools-jt-slot-range = { $from } 至 { $to }
+
+js-tools-jt-what-area = 测试区域
+
+js-tools-jt-what-guard = 保护间隔
+
+js-tools-jt-what-hold = 恢复保持
+
+js-tools-jt-what-offset = 相对 UTC 的偏移
+
+js-tools-jt-what-year = 计划年份
+
+js-tools-label-command = 命令
+
+js-tools-label-pinned-command = 固定版本的命令
+
+js-tools-label-settings-example = 设置示例 { $n }
+
+js-tools-loading = 正在加载…
+
+js-tools-max-runs = 最多 { $max } 次运行。
+
+js-tools-merkle-root-format = Merkle 根为 64 位十六进制数字。
+
+js-tools-must-be-number = { $what }必须是数字
+
+js-tools-must-be-whole-zero = { $what }必须是整数，0 表示“未给出”
+
+js-tools-na = 不适用
+
+js-tools-needs = 需要：{ $requires }
+
+js-tools-no = 否
+
+js-tools-none = 无
+
+js-tools-none-in-build = 此版本中没有
+
+js-tools-not-in-browser = 不在浏览器中。
+
+js-tools-not-osnma = 不是 OSNMA 结果
+
+js-tools-not-used = 未使用：{ $item }
+
+js-tools-notes = 说明
+
+js-tools-open = 打开
+
+js-tools-osnma-advisory = 仅供参考：这是分析与监测输出，不是经型式认可的导航设备。此处报告的认证状态不是导航完好性服务，不得作为任何导航或安全决策的唯一依据。
+
+js-tools-osnma-authenticated = 已认证
+
+js-tools-osnma-caption = 逐颗卫星的认证状态
+
+js-tools-osnma-demo-note = 已填入一次性的公钥；按“验证”可在此运行验证器，或显示已记录的结果。
+
+js-tools-osnma-discarded = 已丢弃
+
+js-tools-osnma-events = 验证器所见
+
+js-tools-osnma-examples-missing = 此版本中尚无合成示例
+
+js-tools-osnma-failed = 失败
+
+js-tools-osnma-nma-alert = NMA 状态 { $status }；系统发出了告警消息。
+
+js-tools-osnma-nma-status = NMA 状态 { $status }。
+
+js-tools-osnma-not-json = 这不是 kshana osnma verify --json 的 JSON（需要 overall 和 satellites）。
+
+js-tools-osnma-overall = 总体：{ $status }
+
+js-tools-osnma-pages-read =
+    { $n ->
+       *[other] 已读取 { $n } 页。
+    }
+
+js-tools-osnma-pending = 待定
+
+js-tools-osnma-recorded-failed = 记录的结果未能加载
+
+js-tools-osnma-recorded-result = { $file } 的 kshana osnma verify --json 已记录结果。
+
+js-tools-osnma-tag-counts = 已认证 { $authenticated }，失败 { $failed }，待定 { $pending }，已丢弃 { $discarded }
+
+js-tools-osnma-tag-totals =
+    { $n ->
+       *[other] { $n } 个标签：已认证 { $authenticated }，失败 { $failed }，待定 { $pending }，已丢弃 { $discarded }。
+    }
+
+js-tools-osnma-time-caveat = 时间：每项检查都相对于提供给验证器的各页面的时间戳，而这些时间戳在此来自数据本身，无法防范重放的旧数据。认证说明数据来自该系统；它不说明数据所经信号的任何情况，也不说明定位的质量。
+
+js-tools-osnma-unavailable = 不可用
+
+js-tools-osnma-word-authenticated = 至少有一颗卫星已认证，且没有失败
+
+js-tools-osnma-word-failed = 对某颗卫星数据的检查失败
+
+js-tools-osnma-word-unavailable = 没有任何卫星已认证
+
+js-tools-pack-selected = { $label }：{ $files }（{ $size }）
+
+js-tools-pinned-to-release = 固定到此版本：
+
+js-tools-preview = 预览
+
+js-tools-public-key-format = 公钥为 64 位十六进制数字（32 字节）。不接受其他内容。
+
+js-tools-read-documentation = 阅读文档
+
+js-tools-reading-plan = 正在读取计划…
+
+js-tools-refused-file-name = 已拒绝的文件名：{ $name }
+
+js-tools-run = 运行
+
+js-tools-runs-read =
+    { $n ->
+       *[other] 已读取 { $n } 次运行：{ $runs }
+    }
+
+js-tools-runs-read-engine =
+    { $n ->
+       *[other] 已读取 { $n } 次运行，由引擎 { $engine } 生成：{ $runs }
+    }
+
+js-tools-sample-load-failed = 示例未能加载（{ $reason }）。
+
+js-tools-sample-note = 该命令的真实输出，记录自引擎在合成演示运行上的结果。不是对任何事物的测量。
+
+js-tools-sample-output = 示例输出：{ $label }
+
+js-tools-scenario-list-failed = 场景列表未能加载
+
+js-tools-scoring = 正在评分…
+
+js-tools-select-and-copy = 选择并复制
+
+js-tools-settings-example = 设置示例 { $n }：
+
+js-tools-status-evidenced-label = 这些运行为此条目提供证据支持（supports evidence for）
+
+js-tools-status-evidenced-short = 有证据支持
+
+js-tools-status-not-evidenced-label = 这些运行对此条目没有任何体现
+
+js-tools-status-not-evidenced-short = 无证据支持
+
+js-tools-status-out-of-scope-label = 超出 Kshana 所能展示的范围
+
+js-tools-status-out-of-scope-short = 超出范围
+
+js-tools-status-partly-label = 这些运行为此条目的一部分提供证据支持（supports evidence for）
+
+js-tools-status-partly-short = 部分
+
+js-tools-tab-ai = AI 助手
+
+js-tools-tab-bench = 测试 bench
+
+js-tools-tab-cli = 命令行
+
+js-tools-tab-compliance = compliance
+
+js-tools-tab-evidence = 证据包
+
+js-tools-tab-imufit = IMU 拟合
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = 每个历元一个 syslog 事件（默认：每次区间变化一个）
+
+js-tools-tele-file-aria = 结果文件或 JSON-lines 文件
+
+js-tools-tele-fmt-cef = Syslog，CEF
+
+js-tools-tele-fmt-leef = Syslog，LEEF
+
+js-tools-tele-fmt-mqtt = MQTT，Home Assistant 发现（主题、制表符、载荷）
+
+js-tools-tele-fmt-otlp = OpenTelemetry（OTLP JSON）
+
+js-tools-tele-fmt-prometheus = Prometheus 指标
+
+js-tools-tele-format-aria = 格式
+
+js-tools-tele-host = 主机
+
+js-tools-tele-host-aria = 写入 syslog 事件的主机名
+
+js-tools-tele-include-position = 包含所报告的位置（默认关闭）
+
+js-tools-tele-intro = 在此浏览器中，把结果文件（session.result.json）或实时 JSON lines 转换为其中一种格式。需要带有遥测导出功能的引擎版本（0.35 及之后带该导出的版本）；上面的命令在任何地方都可用。
+
+js-tools-tele-note = 此处的 syslog 行不带时间戳（本页面不读取时钟）；命令行工具会加上时间戳。Prometheus 给出最终状态。MQTT 每条消息一行，依次为主题、制表符、载荷；不会从这里发布任何内容。文本与命令打印的相同。
+
+js-tools-tele-run-here = 在此运行
+
+js-tools-that-file-too-large = 该文件大于 64 MiB。
+
+js-tools-token-attached = 令牌已附加
+
+js-tools-token-attached-note = 更新后的证据包在下方。时间戳机构的签名在此处没有被检查：请运行 openssl ts -verify。
+
+js-tools-trust-monitor-sentence = 信任度监测器的结论语句：{ $sentence }
+
+js-tools-two-files-same-name = 有两个文件都名为 { $name }
+
+js-tools-ubx-bad-crc = { $n } 页未通过 CRC 校验。
+
+js-tools-ubx-file = UBX 文件
+
+js-tools-ubx-frames-pages = { $frames } 个 UBX 帧；已解码 { $pages } 页 I/NAV。
+
+js-tools-ubx-ignored-sfrbx = 已忽略 { $n } 条 SFRBX 消息（其他系统、E5b、告警、校验和错误）。
+
+js-tools-ubx-skipped-bytes = 帧与帧之间跳过了 { $n } 字节。
+
+js-tools-ubx-time-conflicts = 有 { $n } 页的时间与其相邻页相冲突。
+
+js-tools-ubx-unstamped = 有 { $n } 页无法确定时间位置。
+
+js-tools-unknown = 未知
+
+js-tools-unused-scenarios = 没有匹配结果的场景文件未被使用：{ $files }。
+
+js-tools-verdict-failed-text = 验证失败。
+
+js-tools-verdict-failed-title = 失败
+
+js-tools-verdict-intact-text = 证据包相对于它自己指明的密钥是完整的，而任何人都可以生成这样的密钥。请通过其他途径向签名者索取其公钥并固定它。
+
+js-tools-verdict-intact-title = 完整，但签名者未固定
+
+js-tools-verdict-verified-text = 证据包未被改动，且由你固定的密钥签名。
+
+js-tools-verdict-verified-title = 已验证
+
+js-tools-verifying = 正在验证…
+
+js-tools-what-failed = 失败的内容
+
+js-tools-why-not-browser = 为何不在浏览器中：
+
+js-tools-yes = 是
+
+js-training-active-events = 当前生效的事件
+
+js-training-band-large = 超过 100 m
+
+js-training-band-medium = 25 至 100 m
+
+js-training-band-small = 小于 25 m
+
+js-training-chart-max = 最大 { $v }
+
+js-training-chart-mean-cn0 = 平均 C/N0
+
+js-training-chart-position-error = 位置误差
+
+js-training-chart-s-reported-minus-true = s，报告值减真值
+
+js-training-chart-satellites = 卫星
+
+js-training-chart-time-offset = 时间偏移
+
+js-training-chart-used-tracked = 使用 / 跟踪
+
+js-training-col-reported = 接收机报告的
+
+js-training-col-true = 真实的
+
+js-training-cue-course = 陀螺艏向和计程仪航速不受任何事件影响。此处报告的航向角与陀螺艏向相差 { $course }。海流也会使艏向与航向角产生差异，因此请与运行开始时对照。
+
+js-training-cue-course-speed = 陀螺艏向和计程仪航速不受任何事件影响。此处报告的航向角与陀螺艏向相差 { $course }，报告的航速与真实航速相差 { $speed } kn。海流也会使艏向与航向角产生差异，因此请与运行开始时对照。
+
+js-training-cue-title = 复盘提示。
+
+js-training-cue-unknown-amount = 未知的量
+
+js-training-debrief-now = 立即复盘
+
+js-training-default-warning = 合成训练数据。仅用于训练和测试：绝不要把此数据流送入船舶的实时导航系统。
+
+js-training-demo-coastal-drag-off = 沿岸拖离
+
+js-training-demo-combined-event = 组合事件
+
+js-training-demo-fjord-degradation = 峡湾自然劣化
+
+js-training-demo-open-sea-jamming = 公海压制干扰（jamming）
+
+js-training-demo-port-time-spoof = 进港时间欺骗干扰（spoofing）
+
+js-training-dl-log-json = 下载教员日志（JSON）
+
+js-training-dl-log-text = 下载教员日志（文本）
+
+js-training-dl-nmea = 下载 NMEA 数据流
+
+js-training-err-demo-open = 无法打开 { $title }：{ $reason }。
+
+js-training-err-engine-old = 此引擎版本（版本 { $version }）没有 NMEA 训练生成器；它早于本页面。命令为 { $command }。
+
+js-training-err-engine-start = 引擎无法在此启动（{ $reason }）。上面的库场景无需引擎仍可打开。
+
+js-training-err-file-not-loaded = 文件未能加载
+
+js-training-err-generate = 无法生成：{ $reason }。
+
+js-training-err-newer-schema = { $name }：schema { $schema } 比本页面所读取的 { $supported } 更新或与之不同。请更新 Studio，而不要去猜测其字段。
+
+js-training-err-no-schema = { $name }：不是 Kshana 训练教员日志（没有 schema 标记）。
+
+js-training-err-no-track = { $name }：该日志没有可绘制的航迹行。
+
+js-training-err-no-usable-rows = { $name }：没有可用的航迹行。
+
+js-training-err-not-json = { $name }：不是 JSON（{ $reason }）。
+
+js-training-err-read = { $name }：无法读取（{ $reason }）。
+
+js-training-err-read-or-draw = { $name }：无法读取或绘制（{ $reason }）。
+
+js-training-err-scenario-not-loaded = 场景文件未能加载
+
+js-training-err-seed = 随机种子必须是整数；留空则使用场景自带的随机种子。
+
+js-training-err-too-large = { $name }：大于 { $max }。本页面可读取不超过该大小的日志。
+
+js-training-err-too-many-rows = { $name }：该日志有 { $count } 个航迹行；本页面最多绘制 { $max } 个。请降低记录频率（log_interval_s），或打开节选。
+
+js-training-err-unknown-schema = { $name }：未知的 schema { $schema }；本页面读取 { $supported }。
+
+js-training-event-n = 事件 { $id }
+
+js-training-event-onset = 起始 { $utc }
+
+js-training-extra-bearing = 实际应用的方位，真方位度数
+
+js-training-extra-peak-accel = 拖离增加的峰值加速度，m/s²
+
+js-training-extra-peak-speed = 拖离增加的峰值速度，m/s
+
+js-training-fact-duration = 持续时间
+
+js-training-fact-events = 注入的事件
+
+js-training-fact-max-error = 最大位置误差
+
+js-training-fact-max-time-offset = 最大时间偏移
+
+js-training-fact-no-fix = 无定位时间
+
+js-training-fact-peak-accel = 峰值加速度，真实 / 报告
+
+js-training-fact-peak-speed = 峰值速度，真实 / 报告
+
+js-training-fact-seed = 随机种子（seed）
+
+js-training-fact-start = 开始（UTC）
+
+js-training-fix-reported-span = 报告有定位，{ $from } 至 { $to }
+
+js-training-generated = 已用引擎 { $version } 生成“{ $title }”：{ $lines } 条 NMEA 语句。合成数据：仅用于训练和测试；绝不要把它送入船舶的实时导航系统。
+
+js-training-generated-here = 由引擎在此生成（“{ $title }”）。合成数据：位置和日期均为虚构。
+
+js-training-generating = 正在启动引擎并生成…
+
+js-training-kind-drag-off = 位置拖离
+
+js-training-kind-jamming = 压制干扰（jamming）
+
+js-training-kind-natural-degradation = 自然劣化（天空被遮挡）
+
+js-training-kind-replay-delay = 重放延迟
+
+js-training-kind-time-spoof = 时间欺骗干扰（spoofing）
+
+js-training-legend-no-fix = 无定位：接收机没有报告任何内容
+
+js-training-legend-reported = 报告值，偏离真值 { $band }
+
+js-training-legend-true = 真实航迹
+
+js-training-library-label = 合成库场景“{ $title }”，由 { $command } 写出。位置和日期均为虚构；不涉及真实船舶或录制数据。
+
+js-training-log-row = 日志行 { $row }（共 { $total }），{ $utc }
+
+js-training-max-error-at = { $m } m，在 T+{ $s } s
+
+js-training-moment-event = （事件 { $id }）
+
+js-training-moment-title = T+{ $s } s { $what }：{ $text }
+
+js-training-moments-shown = 显示共 { $total } 个时刻中的前 { $shown } 个。
+
+js-training-no-events = 无：这是一次无事件的运行。
+
+js-training-no-fix-nothing = 无定位：未报告任何内容
+
+js-training-no-fix-span = 无定位，{ $from } 至 { $to }
+
+js-training-no-moments = 没有记录的时刻。
+
+js-training-none = 无
+
+js-training-none-now = 此刻没有。
+
+js-training-none-reported = 未报告
+
+js-training-north = 北
+
+js-training-not-touched = 不受任何事件影响
+
+js-training-opened = 已打开 { $name }：{ $secs } s 内共 { $rows } 个日志行。
+
+js-training-opening = 正在打开 { $title }…
+
+js-training-param-affect-time = 影响时间
+
+js-training-param-bearing-deg = 方位，真方位度数
+
+js-training-param-cn0-drop-db = C/N0 下降，dB
+
+js-training-param-counterfeit-cn0-dbhz = 伪造的 C/N0，dB-Hz
+
+js-training-param-delay-s = 延迟，s
+
+js-training-param-duration-s = 持续时间，s
+
+js-training-param-final-offset-m = 最终偏移，m
+
+js-training-param-kind = 类型
+
+js-training-param-label = 标签
+
+js-training-param-offset-s = 时间偏移，s
+
+js-training-param-ramp-s = 起始斜坡，s
+
+js-training-param-recovery-s = 恢复斜坡，s
+
+js-training-param-relative-bearing-deg = 相对航向的方位，度
+
+js-training-param-skyline = 天际线
+
+js-training-param-spread-db = 逐卫星离散，dB
+
+js-training-param-start-s = 起始，s
+
+js-training-pause = 暂停
+
+js-training-play = 播放
+
+js-training-reading = 正在读取…
+
+js-training-readout-fix = 有定位
+
+js-training-readout-no-fix = 无定位
+
+js-training-reduced-motion = 已选择减弱动态效果，因此回放从 1x 开始。请使用滑块或方向键移动，无需动画。
+
+js-training-row-cn0 = 平均 C/N0，dB-Hz
+
+js-training-row-cog = 对地航向，度
+
+js-training-row-error = 位置误差，m
+
+js-training-row-fix = 有定位
+
+js-training-row-heading = 艏向（陀螺），度
+
+js-training-row-moments = 时刻
+
+js-training-row-position = 位置
+
+js-training-row-sats = 使用 / 跟踪的卫星
+
+js-training-row-sog = 对地航速，kn
+
+js-training-row-time-offset = 时间偏移，s
+
+js-training-say-active = 生效中：{ $list }
+
+js-training-say-event-id = 事件 { $id }
+
+js-training-say-fix = 接收机报告有定位
+
+js-training-say-mean-cn0 = 平均 C/N0 { $cn0 } dB-Hz
+
+js-training-say-no-fix = 无定位
+
+js-training-say-position-from-true = 报告位置偏离真值 { $m } m
+
+js-training-say-sats-used = 使用了 { $tracked } 颗中的 { $used } 颗卫星
+
+js-training-say-time-ahead = 报告时间比真实时间快 { $s } s
+
+js-training-say-time-behind = 报告时间比真实时间慢 { $s } s
+
+js-training-sky-no-gsv = 无 GSV
+
+js-training-sky-none = 此日志没有天空：仅有教员日志时没有卫星。请打开某个库场景，或在此生成数据流并复盘，以查看其 GSV 所列的卫星。
+
+js-training-skyline-preset = 预设 { $name }
+
+js-training-skyline-stated = 所述剖面
+
+js-training-span-no-fix = T+{ $from } 至 { $to } s
+
+js-training-track-desc = 真实航迹与报告航迹，上方为北。最大位置误差 { $error }。无定位的时段有 { $periods } 段。
+
+js-training-track-end = 终点
+
+js-training-track-start = 起点
+
+js-training-trainer-note = 教员备注
+
+js-training-warn-no-warning-text = 此文件不带警告文字。它是训练日志：不要把其数据流送入实时导航。
+
+js-training-warn-rows-skipped = 有 { $count } 个航迹行无效，已跳过。
+
+js-training-what-fix-lost = 定位丢失
+
+js-training-what-fix-regained = 定位恢复
+
+js-training-what-full-effect = 完全生效
+
+js-training-what-onset = 起始
+
+js-training-what-recovered = 已恢复
+
+js-training-what-recovery-begins = 开始恢复
+
+js-trust-adv-carried = 此文件所带的咨询性声明：
+
+js-trust-adv-none = 此文件不带咨询性声明
+
+js-trust-adv-none-rest = （较早的输出没有）。本页面顶部的咨询性声明仍然同样适用于它。
+
+js-trust-agree-both = 两者都标记：接收机自身的标志与一个 Kshana 监测器
+
+js-trust-agree-calibrating = 处于校准窗口内：不作比较
+
+js-trust-agree-kshana-only = 只有 Kshana 报警：接收机没有标记
+
+js-trust-agree-neither = 两者都不标记
+
+js-trust-agree-receiver-only = 只有接收机标记：没有 Kshana 监测器报警
+
+js-trust-assessed = 已在此浏览器中用引擎 { $version } 评估 { $name }。
+
+js-trust-assessed-as = 已在此浏览器中用引擎将 { $name } 按 { $format } 评估。没有上传任何内容。
+
+js-trust-assessing = 正在启动引擎并评估…
+
+js-trust-class-also-costing = { $class }（同时也在扣分）
+
+js-trust-class-environment = 环境：信号（功率、压制干扰、天空开阔时丢失的卫星）
+
+js-trust-class-geometry = 几何：天空，而非信号
+
+js-trust-class-inconsistency = 不一致：类似攻击，无法由天空或信号解释
+
+js-trust-dl-result-json = 下载结果（JSON）
+
+js-trust-dl-table-csv = 下载逐历元表格（CSV）
+
+js-trust-edge-degraded = { $v } 降级
+
+js-trust-edge-nominal = { $v } 正常
+
+js-trust-err-assess = { $name }：无法评估（{ $reason }）。
+
+js-trust-err-demo-files = 演示文件未能加载
+
+js-trust-err-demo-log-open = 无法打开演示日志：{ $reason }。
+
+js-trust-err-demo-open = 无法打开演示：{ $reason }。
+
+js-trust-err-engine-no-receiver-trust = 此引擎版本（版本 { $version }）没有 receiver_trust。
+
+js-trust-err-engine-no-scorer = 此引擎版本（版本 { $version }）没有日志评分器；它早于本页面。命令为 { $command }。
+
+js-trust-err-engine-start = 引擎无法在此启动（{ $reason }）。
+
+js-trust-err-engine-start-open = 引擎无法在此启动（{ $reason }）。上面打开结果文件仍然可用。
+
+js-trust-err-example-files = 示例文件未能加载
+
+js-trust-err-example-open = 无法打开该示例：{ $reason }。
+
+js-trust-err-file-2mib = { $name }：大于 2 MiB。请打开节选。
+
+js-trust-err-file-too-large = { $name }：大于 { $max }。本页面可读取不超过该大小的文件；请打开节选。
+
+js-trust-err-gen-too-large = { $name }：大于 2 MiB。请打开节选（命令行工具可处理完整日志）。
+
+js-trust-err-imu-format = “{ $format }”不是本页面可读取的 IMU 格式（csv 或 euroc）
+
+js-trust-err-imu-heading = IMU 第一个采样处的艏向不是数字
+
+js-trust-err-log-format = “{ $format }”不是本页面可发送给引擎的日志格式
+
+js-trust-err-no-epochs = 该文件没有历元。
+
+js-trust-err-no-epochs-result = 此结果文件没有 epochs[]。它需要来自针对船舶会话的 `{ $command }`。
+
+js-trust-err-no-epochs-returned = { $name }：引擎没有返回历元。
+
+js-trust-err-no-score-model = 此结果没有 score_model，因此是没有信任度评分的静止平台运行。该视图绘制的是船舶（移动平台）运行。
+
+js-trust-err-not-readable = { $name }：不是本视图可读取的文件（结果 JSON、JSON lines、trust.csv、NMEA 日志或真值文件）。
+
+js-trust-err-nothing-to-draw = 没有可绘制的内容：请选择结果 JSON、JSON lines 或 trust.csv。
+
+js-trust-err-read = { $name }：无法读取（{ $reason }）。
+
+js-trust-err-read-or-draw = { $name }：无法读取或绘制（{ $reason }）。
+
+js-trust-err-score = { $name }：无法评分（{ $reason }）。
+
+js-trust-err-score-file-too-large = { $name }：大于 2 MiB。浏览器内的评分器接收包含五分钟校准窗口的节选。
+
+js-trust-err-score-too-large = { $name }：大于 2 MiB。浏览器内的评分器接收节选（{ $command } 命令可处理完整日志）；请打开包含五分钟校准窗口的节选。
+
+js-trust-err-scorecard-too-large = { $name }：大于 8 MiB；本页面可读取不超过该大小的评分卡。
+
+js-trust-err-session-empty = 会话设置为空。它们声明了船舶（{ $setting }）。
+
+js-trust-err-too-many-epochs = 该文件有 { $count } 个历元；本页面最多绘制 { $max } 个。请打开节选。
+
+js-trust-err-triple-quote = { $what }包含连续三个单引号，无法嵌入设置中
+
+js-trust-err-what-file = 该文件
+
+js-trust-err-what-imu = IMU 文件
+
+js-trust-event-label = 事件：{ $label }
+
+js-trust-event-onset = 起始
+
+js-trust-evt-col-first-alarm = 首次报警，s
+
+js-trust-evt-col-latency = 延迟，s
+
+js-trust-evt-col-onset = 起始，s
+
+js-trust-evt-col-outcome = 结果
+
+js-trust-evt-col-stated = 所述事件
+
+js-trust-fmt-android = Android GNSS Logger（文本）
+
+js-trust-fmt-gnss-sdr = GNSS-SDR 转发的 JSON lines（文本）
+
+js-trust-fmt-nmea = NMEA 0183（文本）
+
+js-trust-fmt-novatel = NovAtel OEM7（ASCII 或二进制）
+
+js-trust-fmt-rinex = RINEX 观测（文本）
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7（二进制）
+
+js-trust-fmt-rtklib-pos = RTKLIB .pos 解（文本）
+
+js-trust-fmt-sbf = Septentrio SBF（二进制）
+
+js-trust-fmt-ubx = u-blox UBX（二进制）
+
+js-trust-gate-note-derived = 此运行没有门控记录。该条带显示门控本会在何处扣留定位：处于不可信区间的历元，直到离开该区间 30 s 后才放行。这是在此推导的，不是从门控读取的。门控需主动启用，并会增加延迟。
+
+js-trust-gate-note-read = 实时数据流所报告的每个历元的门控：关闭、放行或扣留（该定位在转发的周期中被标记为无效）。
+
+js-trust-gate-now-derived = { $gate } · 推导
+
+js-trust-gate-off = 关闭
+
+js-trust-gate-off-cal = 关闭（校准中）
+
+js-trust-gate-passed = 放行：定位原样转发
+
+js-trust-gate-span = 门控 { $gate }，{ $from } 至 { $to }
+
+js-trust-gate-span-derived = 门控 { $gate }（推导），{ $from } 至 { $to }
+
+js-trust-gate-withheld = 扣留：该定位在下游会被标记为无效
+
+js-trust-gen-chart-label = 引擎对本次运行绘制的图表：载噪比密度、状态和报警随时间的变化
+
+js-trust-gen-epochs = 历元：在 { $window } 个历元的校准窗口之后，{ $nominal } 个正常，{ $degraded } 个降级，{ $untrusted } 个不可信。
+
+js-trust-gen-self-heading = 接收机自身的标志，与 Kshana 的报警对比
+
+js-trust-gen-self-note = 这是一种比较，不是对任何一方的检验：接收机的标志是它自己的报告。
+
+js-trust-geo-deduction-class = { $points } 分（{ $class }）
+
+js-trust-geo-deduction-points = { $points } 分
+
+js-trust-geo-flag-mismatch = 接收机所述的 HDOP 与根据其所报告天空推导出的 HDOP 不一致：几何扣分按不一致计。
+
+js-trust-geo-flag-signal-loss = 信号丢失：视野内的卫星没有被跟踪，尽管其几何良好，因此几何扣分按环境计。
+
+js-trust-geo-heading-label = 几何{ $label }
+
+js-trust-geo-label-fair = { $label }（不计分）
+
+js-trust-geo-label-poor = { $label }（唯一会被扣分的标签）
+
+js-trust-geo-none-in-run = 此运行中没有几何信息（0.36 之前的引擎不写出）。
+
+js-trust-geo-reason-few-satellites = 卫星数少于最低要求
+
+js-trust-geo-reason-high-hdop = HDOP 高于其阈值
+
+js-trust-geo-reason-high-pdop = PDOP 高于其阈值
+
+js-trust-geo-reason-sky-blocked = 被跟踪的卫星在方位角上留下很宽的空缺（天空的一侧被遮挡）
+
+js-trust-geo-row-deduction = 几何扣分
+
+js-trust-geo-row-from = 来源
+
+js-trust-geo-row-gap = 最大方位角空缺
+
+js-trust-geo-row-label = 标签
+
+js-trust-geo-row-open-sky = 开阔天空
+
+js-trust-geo-row-reported-hdop = 接收机所述的 HDOP
+
+js-trust-geo-row-sats-used = 使用的卫星
+
+js-trust-geo-row-sky-age = 天空数据的时效
+
+js-trust-geo-row-status = 状态
+
+js-trust-geo-say-deduction = 几何扣分 { $points } 分
+
+js-trust-geo-say-label-hdop = 几何{ $label }（HDOP { $hdop }）
+
+js-trust-geo-say-mismatch = 所述 HDOP 不一致
+
+js-trust-geo-source-derived = 根据日志所报告的卫星（GSV）推导
+
+js-trust-geo-source-none = 无
+
+js-trust-geo-source-reported = 接收机所述的 DOP（GSA）
+
+js-trust-geo-status-reasons = { $status }：{ $reasons }
+
+js-trust-geo-status-title = 几何{ $status }
+
+js-trust-geo-unknown-no-gsv = 几何未知：日志中没有 GSV 或 GSA
+
+js-trust-geo-unknown-no-gsv-sentence = 几何未知：日志中没有 GSV 或 GSA。
+
+js-trust-geo-unknown-odd = 几何未知（文件给出“{ $odd }”，本页面不认识）。
+
+js-trust-geo-used-of-view = 可见 { $inView } 颗中使用 { $used } 颗
+
+js-trust-got-file-kind = { $name }：{ $kind }
+
+js-trust-got-lines-skipped = { $name } 中有 { $count } 行不是历元，已跳过
+
+js-trust-imu-csv = 带标题行的 CSV
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = IMU 文件：{ $name }（{ $chars } 个字符）。将用于下一次评估。
+
+js-trust-imu-file-press = IMU 文件：{ $name }（{ $chars } 个字符）。将用于下一次评估；请按“评估所选文件”。
+
+js-trust-imu-none = 没有 IMU 文件。
+
+js-trust-jt-col-latency = 延迟，s
+
+js-trust-jt-col-monitors = 最先报警的监测器
+
+js-trust-jt-col-name = 名称
+
+js-trust-jt-col-outcome = 结果
+
+js-trust-jt-col-recovered = 已恢复
+
+js-trust-jt-col-slot = 时隙，s
+
+js-trust-jt-col-test = 测试
+
+js-trust-jt-label = { $label }保护间隔 { $guard } s，恢复保持 { $hold } s。
+
+js-trust-jt-label-contaminated = { $label }保护间隔 { $guard } s，恢复保持 { $hold } s。校准基线与某个排定时隙重叠。
+
+js-trust-jt-opened = 已打开 { $name }：{ $count } 项测试。已在此处读取；没有上传任何内容。
+
+js-trust-kind-batch-result = 批量结果
+
+js-trust-kind-json-lines = JSON lines
+
+js-trust-kind-nmea-log = NMEA 日志
+
+js-trust-kind-truth-file = 真值文件
+
+js-trust-label-demo = 合成演示：一份虚构的渡轮日志，带有一次虚构的位置拖离，由 Kshana 评分。记录自引擎；该日志是文本，不是测量。
+
+js-trust-label-example = 示意性示例：一份虚构的 NMEA 日志，带有一个 120 s 至 240 s 的虚构干扰源，由引擎在此评估。是文本，不是测量。
+
+js-trust-label-geo-demo = 合成遮挡天空演示：渡轮日志中，天空的西半部自 600 s 起被清空（自然劣化，归因于几何），并且自 1500 s 起出现同样虚构的拖离（类似攻击）。记录自带有 0.36 几何功能的引擎；是文本，不是测量。
+
+js-trust-label-score-demo = 合成演示日志，由引擎在此评分。渡轮日志和拖离均为虚构；是文本，不是测量。
+
+js-trust-legend-calibrating = 校准中（从不评分）
+
+js-trust-legend-class = 扣分类别：
+
+js-trust-legend-class-environment = 环境：信号
+
+js-trust-legend-class-geometry = 几何：天空，而非信号
+
+js-trust-legend-class-inconsistency = 不一致（类似攻击）
+
+js-trust-legend-degraded = 降级
+
+js-trust-legend-demo = 在此演示中，接收机始终报告有效定位（GGA 质量 1，RMC 状态 A）。下降的是评分。
+
+js-trust-legend-geo-degraded = 几何降级
+
+js-trust-legend-geo-good = 几何良好
+
+js-trust-legend-geo-unknown = 几何未知（没有 GSV 或 GSA；不算良好）
+
+js-trust-legend-nominal = 正常
+
+js-trust-legend-self = 接收机自身的标志，与 Kshana 的报警对比：
+
+js-trust-legend-self-both = 两者都标记
+
+js-trust-legend-self-kshana = 仅 Kshana
+
+js-trust-legend-self-neither = 两者都不
+
+js-trust-legend-self-receiver = 仅接收机
+
+js-trust-legend-sky = 天空：
+
+js-trust-legend-true-track = 真实航迹（仅合成数据）
+
+js-trust-legend-underline = 下划线：几何同时也在扣分
+
+js-trust-legend-untrusted = 不可信
+
+js-trust-marks-cleared = 标记已清除。
+
+js-trust-marks-set = { $name } 在 { $count } 个历元中高于其起始阈值；它们已标在时间线和航迹上。
+
+js-trust-mon-agc = 自动增益控制相对其基线发生了变动。
+
+js-trust-mon-clock = 时钟辅助监测器：接收机时钟与其预测直线的对比。
+
+js-trust-mon-cn0-drop = 功率压制：信号强度相对校准基线下降。
+
+js-trust-mon-cn0-rise = 寻找单一发射机的特征：各卫星的信号强度相对基线同时上升。
+
+js-trust-mon-cn0-spread = 寻找单一发射机的特征：各卫星的信号强度相对校准基线同时塌缩。
+
+js-trust-mon-geometry = 卫星几何（0.36）：仅当几何较差时才扣分（HDOP、PDOP 或使用的卫星数超出其阈值），有上限，且不会使评分低于降级区间。
+
+js-trust-mon-heading-course = 在所述的偏流角范围内，将航迹方向与船首所指方向比较。
+
+js-trust-mon-jam-ind = 接收机自身的压制干扰指示。
+
+js-trust-mon-kinematic = 将每一步位置变化与所报告的航速和航向角比较，并与船舶所述的速度、加速度和转向率限值比较。
+
+js-trust-mon-loss-of-lock = 被跟踪卫星的丢失。
+
+js-trust-mon-osnma = 读取所报告的 OSNMA 认证失败。该状态是读取的，未经验证。
+
+js-trust-mon-position-jump = 所报告位置的一步变化大于基线所允许的范围。
+
+js-trust-mon-raim = 接收机自主完好性监测的检验统计量与其阈值的对比。
+
+js-trust-mon-receiver-self-report = 接收机自身的欺骗干扰（spoofing）或压制干扰（jamming）标志（例如 u-blox UBX-SEC-SIG 或 NAV-STATUS spoofDetState），显示在 Kshana 监测器旁边。从日志读取，未经验证；该位置已为 0.38 引擎的监测器预留，一旦结果带有它，就会绘制成条带。
+
+js-trust-mon-sea-level = 检查高度是否处于海面和所述天线高度所决定的位置。
+
+js-trust-mon-solve-failure = 无法计算位置解。
+
+js-trust-mon-speed-log = 在所述的海流容许范围内，将对地航速与对水航速比较。
+
+js-trust-mon-time-consistency = 检查接收机时间是否有不规则的跳变或倒退，对实时数据流还与本机时钟比较。
+
+js-trust-mon-unknown = 本视图没有其说明的监测器（比页面更新）。请把它当作监测器对待。
+
+js-trust-na = 不适用
+
+js-trust-name-colon-text = { $name }：{ $text }
+
+js-trust-never = 从未
+
+js-trust-no = 否
+
+js-trust-no-deduction = 无扣分
+
+js-trust-none = 无
+
+js-trust-north = 北
+
+js-trust-not-stated = 未说明
+
+js-trust-note-advisories = 这些行带有 { $count } 种不同的咨询性声明；显示第一种。
+
+js-trust-note-csv-limits = trust.csv 带有评分和原因，但不含比值或位置。
+
+js-trust-note-live-no-model = 实时数据流不说明运行了哪些监测器，也不说明评分模型；下面的区间边界为文档中的默认值，监测器条带只显示扣了分的监测器。
+
+js-trust-note-nmea-no-match = 没有任何 NMEA 定位能按时间匹配到某个历元。
+
+js-trust-note-nmea-skipped = 有 { $count } 条校验和或字段错误的 NMEA 语句已被跳过。
+
+js-trust-note-skipped-epochs = 有 { $count } 个没有数值 t_s 的历元已被跳过。
+
+js-trust-note-truth-no-match = 真值文件的时间与任何历元都不匹配。
+
+js-trust-note-unknown-state = 有 { $count } 个历元带有本页面不认识的状态（{ $states }）；它们被绘制为校准中，从不评分。
+
+js-trust-offset-at = 在 { $time }，接收机报告的位置距船舶实际所在位置 { $m } m（合成真值）。
+
+js-trust-offset-no-truth = 此时刻没有真实位置。
+
+js-trust-opened = 已打开 { $count } 个历元（{ $source }）。
+
+js-trust-opening-demo = 正在打开合成演示…
+
+js-trust-opening-demo-log = 正在打开合成演示日志…
+
+js-trust-opening-example = 正在打开示意性示例…
+
+js-trust-opening-geo-demo = 正在打开遮挡天空演示…
+
+js-trust-pause = 暂停
+
+js-trust-play = 播放
+
+js-trust-reading = 正在读取…
+
+js-trust-reasons-calibrating = 校准中：最初的若干秒构成基线，从不评分。
+
+js-trust-reasons-class-note = 每项扣分都带有引擎给出的类别：几何（天空）、环境（信号）或不一致（类似攻击）
+
+js-trust-reasons-live-unknown = 实时数据流不说明运行了哪些监测器；此处没有出现的检查可能没有运行。
+
+js-trust-reasons-marked-none = 已标记；此处无扣分
+
+js-trust-reasons-no-score = 此历元没有评分。
+
+js-trust-reasons-no-score-note = 此历元没有评分：{ $note }。
+
+js-trust-reasons-not-run = 未运行（不算通过）
+
+js-trust-reasons-nothing = 此历元没有扣分。这并不能证明定位良好：请参阅下面关于这些检查看不到什么的说明。
+
+js-trust-reasons-pts = { $points } 分
+
+js-trust-reasons-ran-free = 已运行，未扣分
+
+js-trust-reasons-ratio = 比值 { $ratio }
+
+js-trust-reasons-row-title = { $name }：{ $text }点击可标出它高于其起始阈值之处。
+
+js-trust-reasons-weight = 权重 { $weight }
+
+js-trust-reduced-motion = 已选择减弱动态效果，因此回放从 1x 开始。请使用滑块或方向键移动，无需动画。
+
+js-trust-say-gate = 门控 { $gate }
+
+js-trust-say-gate-derived = 门控 { $gate }（推导）
+
+js-trust-say-monitor-points = { $monitor } { $points } 分
+
+js-trust-say-position-from-true = 报告位置偏离真值 { $m } m
+
+js-trust-say-reasons = 原因：{ $list }
+
+js-trust-say-score = 评分 { $score }
+
+js-trust-scored-label = 已在此浏览器中用引擎 { $version } 为 { $name } 的 { $count } 个历元评分。
+
+js-trust-scored-summary = 已用引擎 { $version } 为 { $count } 个历元评分：{ $summary }。仅供参考。
+
+js-trust-scoring = 正在启动引擎并评分…
+
+js-trust-self-code-meaning = { $code }：{ $meaning }
+
+js-trust-self-none-at-time = 此时刻日志中没有接收机标志。
+
+js-trust-self-not-in-log = 日志中没有
+
+js-trust-self-row-flags = 接收机标志
+
+js-trust-self-row-jamming = 接收机压制干扰状态
+
+js-trust-self-row-kshana-alarms = 有 Kshana 监测器报警
+
+js-trust-self-row-spoofing = 接收机欺骗干扰状态
+
+js-trust-self-unknown-agreement = 本页面不认识的一致性结果（{ $odd }）
+
+js-trust-self-yes-state-2 = 是（状态 2 或更高）
+
+js-trust-set-degraded-edge = 降级边界
+
+js-trust-set-degraded-min = 降级，当不低于
+
+js-trust-set-epochs = 历元
+
+js-trust-set-epochs-counts = 共 { $total } 个：{ $calibrating } 个校准中，{ $nominal } 个正常，{ $degraded } 个降级，{ $untrusted } 个不可信。
+
+js-trust-set-epochs-counts-class = 共 { $total } 个：{ $calibrating } 个校准中，{ $nominal } 个正常，{ $degraded } 个降级，{ $untrusted } 个不可信。按扣分类别：几何 { $geometry }，环境 { $environment }，不一致 { $inconsistency }。
+
+js-trust-set-evidence-hold = 证据保持，s
+
+js-trust-set-full-ratio = 达到全部权重时的比值
+
+js-trust-set-geo-counts = 天空：{ $good } 个良好，{ $degraded } 个降级，{ $unknown } 个未知。标签：{ $lgood } 个良好，{ $fair } 个一般，{ $poor } 个较差（只有较差才扣分）。有扣分的历元，类别为几何 { $geometry }，环境 { $environment }，不一致 { $inconsistency }。
+
+js-trust-set-geo-counts-odd = 天空：{ $good } 个良好，{ $degraded } 个降级，{ $unknown } 个未知（其中 { $odd } 个的值本页面不认识，按未知处理）。标签：{ $lgood } 个良好，{ $fair } 个一般，{ $poor } 个较差（只有较差才扣分）。有扣分的历元，类别为几何 { $geometry }，环境 { $environment }，不一致 { $inconsistency }。
+
+js-trust-set-geometry = 几何（[geometry] 设置）
+
+js-trust-set-gloss = 每项检查看什么
+
+js-trust-set-live-geometry = 实时数据流不说明几何阈值；适用文档中的默认值（HDOP 高于 4 或 PDOP 高于 6，或卫星少于 5 颗，即为较差；至多扣 15 分，且不会低于降级区间）。
+
+js-trust-set-no-geometry = 此运行没有几何信息：它来自早于 0.36 的引擎，或来自 trust.csv。不显示任何关于天空的内容，也不会把任何内容显示为良好。
+
+js-trust-set-nominal-min = 正常，当不低于
+
+js-trust-set-onset-ratio = 从该比值起开始扣分
+
+js-trust-set-provenance = 阈值的来源，以及扣分如何分类
+
+js-trust-set-ran = 已运行的检查
+
+js-trust-set-weights = 每项检查的权重，分
+
+js-trust-settings-assumed = 此数据流不说明其评分模型。所示的区间边界为文档中的默认值，是假定的。
+
+js-trust-show-in-replay = 在下方的回放中显示此运行（航迹、评分、接收机自身的标志）
+
+js-trust-sky-no-gsv = 无 GSV
+
+js-trust-sky-none = 没有天空：请连同该运行（或某个演示）一起打开 NMEA 日志，以查看其列出的卫星。
+
+js-trust-span-title = { $what }，{ $from } 至 { $to }
+
+js-trust-state-0 = 未知或未启用
+
+js-trust-state-1 = 无指示
+
+js-trust-state-2 = 有指示
+
+js-trust-state-3 = 多项指示或已确认
+
+js-trust-strip-band = 区间
+
+js-trust-strip-class = 类别
+
+js-trust-strip-gate = 门控
+
+js-trust-strip-marked = 已标记
+
+js-trust-strip-receiver = 接收机
+
+js-trust-strip-sky = 天空
+
+js-trust-strips-none = 此文件中没有监测器比值。
+
+js-trust-strips-note-ran = 统计量与阈值之比；虚线为比值 1 处的报警线
+
+js-trust-strips-note-seen = 仅显示已见到扣分的监测器；比值为相对阈值之比
+
+js-trust-sum-both-flag = 两者都标记
+
+js-trust-sum-epochs-compared = 比较的历元（校准之后）
+
+js-trust-sum-first-kshana = 这些历元中 Kshana 的首次报警
+
+js-trust-sum-first-receiver = 接收机的首次标志
+
+js-trust-sum-jamming-flag = 接收机压制干扰标志（状态 2 及以上）
+
+js-trust-sum-neither = 两者都不
+
+js-trust-sum-only-kshana = 仅 Kshana 报警
+
+js-trust-sum-only-receiver = 仅接收机标记
+
+js-trust-sum-spoofing-flag = 接收机欺骗干扰标志（状态 2 及以上）
+
+js-trust-thr-azimuth-gap = 方位角空缺，度，达到或超过此值时，天空被视为部分遮挡
+
+js-trust-thr-cap-in-force = 此运行中几何扣分最多扣的分数
+
+js-trust-thr-cap-points = 几何扣分最多可扣的分数
+
+js-trust-thr-floor = 仅由几何造成的评分下限（留空：降级区间的边界）
+
+js-trust-thr-floor-in-force = 此运行中仅由几何造成的评分下限
+
+js-trust-thr-full-ratio = 几何扣分达到其上限时的比值
+
+js-trust-thr-hdop-good = HDOP 不高于此值时几何为良好
+
+js-trust-thr-hdop-max = HDOP 高于此值时几何为较差
+
+js-trust-thr-hold = 天空位置和 GSA 在到达后有效的时长，s
+
+js-trust-thr-low-elev = 仰角，度，低于此值丢失的卫星归因于天空
+
+js-trust-thr-min-used = 几何变为较差之前所用卫星数的最小值
+
+js-trust-thr-pdop-good = PDOP 不高于此值时几何为良好
+
+js-trust-thr-pdop-max = PDOP 高于此值时几何为较差
+
+js-trust-thr-reported-rel = 同上，以推导 HDOP 的比例表示
+
+js-trust-thr-reported-tol = 所述 HDOP 与推导 HDOP 之差达到多少即视为二者不一致
+
+js-trust-thr-sigma-uere = 阈值所假定的用户等效测距误差，米
+
+js-trust-thr-used-good = 所用卫星数不少于此值时几何为良好
+
+js-trust-track-desc = { $positions } 个报告位置的航迹，上方为北。有 { $untrusted } 个历元不可信。
+
+js-trust-track-desc-none = 没有航迹：这些文件不含位置。
+
+js-trust-track-desc-truth = { $positions } 个报告位置的航迹，上方为北。有 { $untrusted } 个历元不可信。一条细灰线表示真实航迹。
+
+js-trust-track-end = 终点
+
+js-trust-track-no-positions = 所打开的文件中没有位置
+
+js-trust-track-note = 上方为北，两个坐标轴采用同一比例。线条为接收机所称的船舶位置，按每个历元的信任度区间着色。
+
+js-trust-track-note-none = 此文件不含位置。请加入该运行所用的 NMEA 日志（或带位置的 v1.1 数据流）以绘制航迹。
+
+js-trust-track-start = 起点
+
+js-trust-unknown-agreement = 本页面不认识的一致性结果
+
+js-trust-yes = 是
