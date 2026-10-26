@@ -273,3 +273,15 @@ seg-9cd8243cb437 = Zij <b>voegt latentie toe</b>: een cyclus wordt vastgehouden 
 seg-ec63f8f3230b = Zij is <b>één enkel punt in de keten</b>: als zij stopt, stopt de stream. Voer haar onder supervisie uit en bepaal vooraf wat de apparatuur stroomafwaarts zonder stream doet.
 
 seg-536e41a6a5e7 = Zij <b>faalt veilig bij haar eigen fouten</b>: als de monitors na de kalibratie geen score kunnen produceren (een gedeclareerde koerssensor die niets verstuurt, te weinig kalibratie-epochs), is de epoch untrusted, draagt een <c1/> en wordt tegengehouden; de vrijgavevasthouding wordt getimed op de klok van deze computer, niet op de tijd van de ontvanger, die een spoofer beheerst (bij een replay is er alleen de tijd van de ontvanger).
+
+seg-5dd62cd853c6 = Het kan <b>een goede positiebepaling tegenhouden</b> (een vals alarm) en een vervalste doorlaten (een gemiste detectie). De monitors toetsen een positiebepaling aan de fysica van een schip en aan zijn andere sensoren; een vervalsing die met al die gegevens consistent is, wordt niet opgemerkt (zie de beperkingen hieronder).
+
+seg-a284a3ec9dfe = Het verwacht een <b>zuivere NMEA { "0183" }-tekststroom</b>. Binaire frames die in de stroom zijn gemengd, worden ongewijzigd doorgestuurd, maar een <c1/> kan dan tussen de bytes van een frame terechtkomen.
+
+seg-0c919698fa92 = Het is <b>niet typegoedgekeurd</b> en niets ervan is getoetst aan IEC { "61108" } of IEC { "61162" }. De gezagvoerder of exploitant blijft verantwoordelijk voor de navigatie van het vaartuig.
+
+seg-9e3ea39c38cf = <s1>Vorige</s1>Ontvangervertrouwen
+
+seg-136da5c10b2d = <s1>Volgende</s1>NMEA-trainingsstromen
+
+seg-990a49527516 = $PKSHT: de eigen (proprietary) zin
