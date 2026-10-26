@@ -73,7 +73,7 @@ seg-a731b913bdf0 = <b>VALIDATED</b> Über einen Plan aus Basislinien × Epochen 
 
 # text
 # c1: all-stations-fixed
-seg-2300ffd9fc4e = <b>MODELLED</b> Eine dritte Datumswahl, <c1/>, die jede Erdstation festhält und allein die mondfesten Koordinaten des BEACON schätzt — die Konfiguration, für die eine. Unabhängige Referenz (ReferenceImpl): Geschlossene Identitäten, ohne dass eine externe unabhängige Referenz beansprucht wird oder verfügbar ist. Der Hebelarm wird gegen ρ/B und die beiden Äquipartitionsformen gegeneinander auf { "1e-15" } geprüft — algebraische Identitäten, die also einen Verdrahtungsfehler und sonst nichts aufdecken und als solche gekennzeichnet sind. Das wesentliche Ergebnis wird GEMESSEN statt behauptet: Eine Laufzeit aus einer festen Basislinie beschränkt die RICHTUNG des Beacons, sodass die Sichtlinienkomponente rea
+seg-2300ffd9fc4e = <b>MODELLED</b> Eine dritte Datumswahl, <c1/>, die jede Erdstation festhält und allein die mondfesten Koordinaten des BEACON schätzt — die Konfiguration, für die eine. Unabhängige Referenz (ReferenceImpl): Geschlossene Identitäten, ohne dass eine externe unabhängige Referenz beansprucht wird oder verfügbar ist. Der Hebelarm wird gegen ρ/B und die beiden Äquipartitionsformen gegeneinander auf { "1e-15" } geprüft — algebraische Identitäten, die also einen Verdrahtungsfehler und sonst nichts aufdecken und als solche gekennzeichnet sind. Das wesentliche Ergebnis wird MEASURED statt behauptet: Eine Laufzeit aus einer festen Basislinie beschränkt die RICHTUNG des Beacons, sodass die Sichtlinienkomponente rea
 
 # text
 # c1: label

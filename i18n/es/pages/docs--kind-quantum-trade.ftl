@@ -100,7 +100,7 @@ seg-20ba66ae9518 = Comparación de PNT cuántico frente a clásico ({ "13503" })
 seg-45a1d84eef18 = MODELLED; cuantifica (nunca valida) un dispositivo de socio. (catálogo de tipos (<c1/>))
 
 # text
-seg-15275d27252a = Calcula el beneficio en holdover de temporización y en holdover inercial de un reloj CANDIDATO sobre una línea base CLÁSICA, más una envolvente de resiliencia frente al tiempo sin GNSS. El suelo del candidato lo determina la curva de ADEV superpuesta MEDIDA de un reloj de socio (el eje de la defendibilidad), ajustada por mínimos cuadrados no negativos, de modo que el presupuesto de holdover se apoya en datos reales y no en un suelo de tau largo supuesto. (comentario del archivo de escenario, líneas { "3" } a { "7" })
+seg-15275d27252a = Calcula el beneficio en holdover de temporización y en holdover inercial de un reloj CANDIDATO sobre una línea base CLÁSICA, más una envolvente de resiliencia frente al tiempo sin GNSS. El suelo del candidato lo determina la curva de ADEV superpuesta MEASURED de un reloj de socio (el eje de la defendibilidad), ajustada por mínimos cuadrados no negativos, de modo que el presupuesto de holdover se apoya en datos reales y no en un suelo de tau largo supuesto. (comentario del archivo de escenario, líneas { "3" } a { "7" })
 
 # text
 seg-ecbdbc9b163e = ALCANCE HONESTO: MODELLED: CUANTIFICA el beneficio de un reloj cuántico de un socio; NO valida el dispositivo, y nunca toma prestadas las islas de validación de SGP4, Allan o IGS. Cuando el suelo de alguna fila es un valor por defecto de clase supuesto, el artefacto muestra una salvedad de suelo. Ejecución: kshana scenarios/quantum-trade.toml (comentario del archivo de escenario, líneas { "9" } a { "12" })
