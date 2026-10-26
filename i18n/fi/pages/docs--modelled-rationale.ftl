@@ -426,6 +426,42 @@ seg-2d3944107ba0 = Ristimodaalisen eheysmonitorin havaitsemisteho
 
 seg-38bc7c0bfe57 = Raportti hybrid-optical-rf kertoo, mitä ristimodaalinen khii-toinen-monitori todella voi HAVAITA, ei vain että se läpäisee virheettömän tapauksen: pienin havaittava bias monitoroitua akselia kohti (itä, pohjoinen, ylös, kello) skenaarion ilmoitetuilla väärän hälytyksen ja havaitsematta jäämisen todennäköisyyksillä, havaitsemistehokäyrä sen kummallakin puolella, kohinaton biaskerroin, jolla toteutunut tunnusluku ensimmäisen kerran ylittää kynnyksen, sekä havaitsemisaika biasrampille ilmoitetulla nopeudella. Viat myös injektoidaan todellisen monitorin läpi ja sen palauttama tunnusluku raportoidaan analyyttisen ennusteen rinnalla
 
+seg-38cabd4921c1 = Kovarianssin uudelleenkasvu luovutuksen jälkeen hälytysrajaa vasten
+
+seg-9287268bbada = Raportti hybrid-optical-rf paljastaa suodattimen prosessikohinamallin ja kertoo, kuinka kauan luovutuksen jälkeinen ratkaisu pysyy hälytysrajan sisällä: kummallekin luovutussuunnalle se ottaa luovutuksen jättämän akselikohtaisen kovarianssin, etenee sillä eteenpäin ilmoitetulla satunnaiskulun prosessikohinalla ja raportoi hetken, jolloin kattavuuskertoimella skaalattu 1σ saavuttaa vaaka-, pysty- ja ajoitushälytysrajan, minkä raja ensin sitoo, varianssin kaksinkertaistumisen aikavakion sekä otannalla muodostetun vapaan etenemisen profiilin, joka haarukoi ylityskohdan. Prosessikohinan PSD:t, kattavuuskerroin ja hälytysrajat ovat kaikki syötteitä dokumentoiduin oletuksin
+
+seg-a3b8272862aa = Keilan suunnan ulkopuolinen antennikuvio kuun geometrian viennissä
+
+seg-27d246503a48 = Satelliittikohtainen geometrian vienti sisältää kullekin (epookki, satelliitti) -parille keilan suunnan poikkeaman SATELLIITILLA ja lähetysvahvistuksen kohti paikkaa todellisesta tasaisesti valaistusta ympyräaukon (Airy) kuviosta ja raportoi keilan sisällä olevien satelliittien lukumäärän tällä kuviolla SYMMETRISEN vahvistus–keilanleveys-approksimaation (θ_3dB[deg] = √(31000/G_lin)) mukaisen lukumäärän VIERESSÄ; erotus annetaan eksplisiittisenä korjauksena linkeissä, satelliiteissa epookkia kohti ja pahimpana yksittäisenä epookkina. Approksimaation molemmat implisiittiset aukkohyötysuhteet annetaan ({ "0.641" } verrattuna sääntöön { "70" }·λ/D astetta, jolla se esitetään, { "0.920" } verrattuna tasaiseen ympyräaukkoon), jotta sen hiljaisesti olettama hyötysuhde on ilmoitettu eikä pääteltävä. Oletuksena pois: lohko näkyy vain, kun sekä vientipaikka että aukko on annettu
+
+seg-6fbfa234ef3e = Seurantasilmukan lukituksen menetys ja harhautuksen sisäänveto häiriön alla
+
+seg-f78c1f28a3f7 = Lukituksen menetys lasketaan silmukkadynamiikasta tehosuhteen sijaan: kantoaallon (Costas) ja koodin (epäkoherentti early/late) 1σ:n terminen värinä C/N₀:n funktiona neliöintihäviöllä, ilmoitettuja sääntöjä 3σ_PLL + θ_e ≤ { "45" }° ja 3σ_DLL + ramppiviive ≤ d/2 sirua vasten; pudotuksen ja uudelleenlukituksen C/N₀-kynnykset sitovaa silmukkaa nimeten ja hystereesi JOHDETTU leveämmästä sisäänvetokaistanleveydestä eikä väitettynä; ilmoitettu lukituksen menetyksen aika kahden kynnyksen lukitusilmaisimesta vahvistusviipeillä, raportoituna erikseen fysikaalisesta vaiheen karkaamisajasta (Viterbin keskimääräinen aika syklihyppyjen välillä, log₁₀ s -yksikössä, koska se kattaa satoja kymmenpotensseja); suurin koodin liukuma ja kantoaallon Doppler-muutosnopeus, joita uhrin silmukat pystyvät seuraamaan; sekä silmukkadynamiikan implikoima ESTOSÄDE raportoituna olemassa olevan tehosuhdesäteen rinnalla niiden etumerkillisellä erotuksella omana nimettynä kenttänään. Ajettavissa skenaariotyyppinä <c1/>
+
+seg-0f4d023fe2d4 = Kuun pintapisteen koordinaattikovarianssi VLBI-viiveaikataulusta, erillään Maa-aseman kovarianssista
+
+seg-47352405133b = Kolmas datumvaihtoehto, <c1/>, joka pitää kaikki Maa-asemat kiinteinä ja estimoi vain MAJAKAN Kuu-kiinteät koordinaatit: juuri tämä on konfiguraatio, jolle kuun pintapisteen epävarmuus todellisuudessa ilmoitetaan, koska Maa-asemien koordinaatit ovat viivemallin syöte eivätkä sen tuntematon. Se on olemassa, koska asematason kovarianssi ja pintapistekovarianssi ovat ERI SUUREITA, joita erottaa vipuvarsi ρ/B, eikä mikään aiemmin estänyt ilmoittamasta toista toista vasten. Lähetetty lohko <c2/> sisältää arvon ρ, pisimmän kantaviivan, vipuvarren, tasajakolinkin pintapistemuodon c·σ_τ·(ρ/B)·√(g/N), lasketun koordinaattikohtaisen majakan sigman ja niiden suhteen: suhde on null eikä harhaanjohtava aina, kun majakkaa ei estimoida tai matriisi on asteeltaan vajaa. B otetaan PISIMPÄNÄ läsnä olevana kantaviivana, edullisimpana, joten suhde voi vain aliarvioida. Ajettavissa muodossa <c3/> asetuksella <c4/>, joka evätään viestillä, joka nimeää puuttuvan syötteen, kun majakkaa ei estimoida
+
+seg-0315968c8214 = Kuun differentiaalinen PNT: korjauslinkin jäännösbudjetti
+
+seg-c6785166a44c = Kolme termiä, jotka differentiaalikorjaus kerää sen hetken, jona se lasketaan, ja sen hetken, jona sitä käytetään, välillä, kukin aiemmin jätetty mallintamattomaksi varaksi: referenssiaseman mittausvirhe (korreloitunut satelliittien kesken, kantaviivasta riippumaton, ~{ "1" }:{ "1" } paikan siirto ja todistetusti DOP:n vahvistamaton), korjauksen vanheneminen (jäädytetty ratavirhevektori projisoituna uudelleen näkölinjalle, jolle moottorin oma propagaattori asettaa satelliitin yhden viiveen myöhemmin, sekä c·σ_y(τ)·τ-kellon ajautuma kalibroidusta potenssilaista) ja tasainen linkin kvantisointi täsmällisellä ±(orbit_err + clock_err) -täyden asteikon alueella varianssilla step²/12. Raportoidaan sekä etäisyys- että paikka-alueella olemassa olevan jäännöksen ja suojaustason rinnalla, ei koskaan niiden tilalla, viivekäyrä yksittäisen luvun vieressä
+
+seg-c42646ae4707 = Kuun referenssiaseman kattavuus- ja tarkkuuskartta
+
+seg-1f9834b32629 = Kuun differentiaalisen PNT-mallin Monte Carlo -pyyhkäisy etelänapaisen käyttäjäruudukon ja vuorokauden epookkien yli (tyyppi <c1/>): tunnetulla etelänapaisella paikalla olevalle differentiaaliselle referenssiasemalle pisteittäin ja alueen yli: korjatun ja korjaamattoman paikkavirheen persentiilit (3D, vaaka, pysty), saatavuus syineen jokaiselle ei-saatavilla olevalle epookille (user_lt4, station_missing_sat), ennen ajoa ilmoitettua kynnystä vasten mitattu kattavuus, DO-229E-suojaustasot, kattavuussäde atsimuuttisektoreittain sekä korjauslinkin budjetti asemalla ja pahimmassa pisteessä. Ei lausuma minkään todellisen järjestelmän suorituskyvystä; ei yhteydessä mihinkään virastoon eikä sen hyväksymä
+
+seg-7ecf4b0038b0 = Kuun maaston horisonttimaskit ilmoitetusta profiilista tai napa-DEM:stä
+
+seg-7102948907bc = Paikkakohtaiset atsimuutista riippuvat horisonttimaskit tyypille lunar-station-coverage (referenssiasema ja jokainen käyttäjäpiste) sekä moonlight-service-volume-ruudukolle ja sen satelliittikohtaiselle vientipaikalle (jokainen vientirivi saa kentän clears_terrain), versiossa { "0.36" } olevassa skyline-taulukkomuodossa (skyline::Skyline, lineaarinen atsimuutissa kierrolla kohdassa { "360" } astetta; ilmoitettu profiili ja DEM-horisontti yhdessä paikassa yhdistyvät pisteittäisenä maksimina): ilmoitettu [terrain] station_horizon tai user_horizon lähteellä merkittynä ja/tai horisontti, joka on säteenseurattu etelänapaisen stereografisen DEM:n yli (LRO LOLA -ruudukotettu napaasettelu, luettu kuvaajasta, joka kiinnittää sen koon ja SHA-256:n, tai leveys-/pituuspiiriin perustuva realdata::lola_dem-laatta asetuksella [terrain] dem_tile_path, kaiuttuna SHA-256:lla) Kuun pallon isoympyröitä pitkin täsmällisellä kaarevuudella, ilmoitetusta mastokorkeudesta, ilmoitetulla atsimuuttiaskeleella ja kantamalla. Satelliitti lasketaan paikassa mukaan, kun se ylittää tasaisen mask_deg-maskin ja horisontin atsimuutissaan (lunar_service::topocentric); epookki, jonka horisontti jättää alle neljään satelliittiin pisteessä, jossa tasainen maski antaa neljä, lasketaan ei-saatavuuden syyksi terrain_masked. Mukana toimitettu DEM on julkisen alueen LOLA LDEM_75S_240M -tuotteen rajaus, { "5" } x { "5" } -lohkokeskiarvolla uudelleennäytteistetty tarkkuuteen { "1200" } m (data/lunar-dem/NOTICE.md). Poissa ollessa jokainen paikka pitää tasaisen maskin ja jokainen asiakirja on tavu tavulta identtinen
+
+seg-d37bb01e270b = Kuun referenssiaseman monitie-eteneminen ja vastaanottimen laitteistotermit
+
+seg-1103199f019b = Tyypin lunar-station-coverage valinnainen [receiver]-osio (LRS-02): korkeuskulmasta riippuva monitie-sigma sigma(el) = a + b exp(-el / el0) käyttäjällä ja asemalla (RTCA DO-229:n ilmaan sijoitetun käytön funktiomuoto, oletuksina a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } astetta; Kuulla jokainen arvo on ILLUSTRATIVE), valkoinen käyttäjällä ja ensimmäisen kertaluvun Gauss–Markov epookkien yli asemalla (rho = exp(-dt / tau)); early-minus-late-DLL:n terminen koodikohina sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); kanavien väliset kanavakohtaiset harhat vakiona kokeen ajan käyttäjällä ja asemalla. Aseman termit vaikuttavat sen korjauksiin, käyttäjän termit raaka- ja korjattuihin mittauksiin, kukin omalla siemenluvulla generoidulla virrallaan. Poissa ollessa jokainen asiakirja on muuttumaton
+
+seg-03796cb741b6 = Kuun referenssiaseman efemeridivirheen kasvu korjausviiveen aikana
+
+seg-13b0ae9a874a = Tyypin lunar-station-coverage valinnainen syöte orbit_err_growth_m_per_s (LRS-03): korjaus, joka sovelletaan latency_s sen laskemisen jälkeen, ohittaa lähetetyn ratavirheen kasvun g latency_s, g isotrooppinen 3D-RMS-nopeudella, arvottuna satelliittia ja koetta kohti omalla siemenluvulla generoidulla virrallaan (alueen 1-sigma-nopeus tau / sqrt({ "3" })), jäädytetyn virheen näkölinjalle uudelleenprojisoinnin lisäksi. Poissa ollessa jokainen asiakirja on muuttumaton. K5-lisäys julkaistujen väitteiden vertailuun, ennakkorekisteröity yksin, ajaa K5:n arvoilla { "0.001" }, { "0.01" } ja { "0.1" } m/s (ILLUSTRATIVE)
+
 seg-90307f07e0ef = Kuun vertailuaseman ratkaisutilat: korkeusrajoite, kolme satelliittia, staattisen käyttäjän ikkuna
 
 seg-366c7ad03fb2 = Valinnainen [solution]-osio skenaariolajissa lunar-station-coverage (LRS-06): korkeuden pseudomittausrivi up . dx = e_h, jonka ilmoitettu 1-sigma painotetaan etäisyysrivejä vasten; kolmen satelliitin vähimmäismäärä sallitaan vain sen kanssa; lisäksi painotettu pienimmän neliösumman ratkaisu viimeisten window_epochs epookin yli, jossa on yhteinen staattinen sijainti ja yksi kello epookkia kohden (suodattimen vastaus staattiselle sijainnille ilman prosessikohinaa samalla datalla; epookkien virheitä käsitellään riippumattomina). Jos osiota ei ole, hetkellinen ratkaisu ja jokainen dokumentti pysyvät ennallaan. Lisäys julkaistujen väitteiden vertailuun lähteiden ratkaisutyylillä, ennakkorekisteröity yksinään
@@ -457,6 +493,130 @@ seg-a6972eb89d7d = Seitsemän parametrin Helmert-datumi, joka on propagoitu SIMU
 seg-ca481f2d8f9e = Kuunläheisen kaarenpituuskynnyksen riippumattoman estimaattorin vahvistus
 
 seg-3d5fbf896209 = Eräpienimmän neliösumman estimaattori, joka PALAUTTAA päätähden alkutilan simuloiduista satelliittien välisistä mittauksista saman epookkiruudukon kasvavien alkuosien yli, jota aste-vastaan-kaari-taulukko käyttää, mittausosittaisderivaatat otettuina yhdistetyn eteenpäinmallin keskeisinä äärellisinä erotuksina. Se ei käytä mitään koneistoa, jolla kynnys mitattiin — ei analyyttistä jakobiaanirivia, ei variaatiotilasiirtymämatriisia, ei singulaariarvo- tai ominaisarvohajotelmaa, ei asteen toleranssia, ei neliöjuuri-informaatiosuodatinta — ja jakaa vain dynamiikan, alkuehdot, skalaarihavaintosuureen ja epookkiruudukon, jotka kaikki on nimetty tuotetussa asiakirjassa. Kaksi kriteeriä, molemmat pyyhkäistään: kohinaton palautus (asteen vastine) ja Monte Carlo -arvioitavuus (arvioitavuuden vastine, mitattuna tunnettua totuutta vasten eikä kovarianssista ennustettuna). Ajettavissa skenaariolajina <c1/>
+
+seg-f839285852d9 = Kuun palvelualue todellisesta, haetusta tähdistögeometriasta
+
+seg-c3059fcced49 = Hyväksyy taulukoidun Kuu-keskisen tilaefemeridin (SPK/BSP-ytimen evaluaatio) tai julkaistun tähdistömäärittelyn kohdassa <c1/>, ajaa saman kattavuus-, DOP- ja suojaustasopyyhkäisyn sitä vasten ja antaa siitä seuraavan σ_URE-etäisyysvaatimuksen muuttumattoman havainnollistavan Kepler-tuloksen ja häiriöillä lasketun tuloksen VIERESSÄ, erotuksen omana nimettynä suureenaan. Jokaisella luvulla on alkuperäluokka, joka erottaa ytimestä johdetun, julkaistuista elementeistä johdetun ja mallinnetun toisistaan, jotta näitä ei voi koskaan sekoittaa jatkokäytön lainauksessa
+
+seg-36a6cfaf5afa = Yksikkö ja alkuperä ilmoitettu jokaiselle raportoidulle suureelle
+
+seg-12460501e82b = Koneluettava skeema, joka antaa yksikön, alkuperäluokan ja määritelmän jokaiselle skenaarioraportin numeeriselle kentälle, sekä yksi yleinen portti, joka ajaa jokaisen rekisteröidyn skenaariotyypin ja epäonnistuu, jos lähetetyltä numeeriselta kentältä puuttuu jompikumpi. Alkuperäsanasto on suljettu ja jokaisella luokalla on todistetaso, kahden luokan ollessa tarkoituksella kuvattu arvoihin <c1/> ja <c2/> sen sijaan, että niille annettaisiin taso, jota luokka ei määrää
+
+seg-c815cb90dcde = Kuun referenssiaseman geodesia: lisätty retroreflektori ja VLBI-majakka viiden ryhmän datumia vasten
+
+seg-103cf21173ac = Valinnaiset syötteet extra_reflectors ja extra_beacons skenaariossa lunar-llr-datum lisäävät lohkon station_geodesy: viiden ryhmän Helmert-informaatio arkistoidusta kuulaseretäisyysviipaleesta sekä informaatio, jonka lisätty retroreflektori (mitattu niinä arkistoitujen normaalipisteiden epookkeina, joilla etäisyysmittausasema on horisontin yläpuolella, kullakin kyseisen normaalipisteen arkistoitu paino) ja lisätty VLBI-majakka (havaittu lunar-frame-campaign-verkolla ja -aikataululla Maa-asemien ollessa kiinteät, lunar-vlbi-fim-viivepartiaalien kautta) ilmoitetuilla paikoilla lisäävät seitsemän parametrin datumiin, ratkaistuna uudelleen, kunkin Helmert-parametrin 1-sigma ennen ja jälkeen, niiden suhde, normit ennen ja jälkeen sekä Fisher-erotuksen ääriominaisarvot. Poissa ollessa tai tyhjänä raportti on muuttumaton
+
+seg-44f582b17fa9 = Portin eheys: vihreä, joka tarkoittaa sitä, mitä se sanoo
+
+seg-43fbcfbe990c = Kolme rakenteellista suojaa itse verifiointiprosessin ympärillä, kukin sulkien virheluokan, joka pääsi kanoniseen porttiin ajoittaisena tai virheellisenä punaisena. ({ "1" }) Jokaisella Rust-lähteissä muodostetulla väliaikaisella polulla on oltava kutsukohtaisesti yksilöllinen osa; prosessitunnus hylätään, koska cargo ajaa kirjastotestit yhden PROSESSIN rinnakkaisina säikeinä ja pid on yhteinen kaikille. ({ "2" }) Jokaisen tavu tavulta -lukituksen tai tiivistelukituksen on ilmoitettava vieressään tai moduulin otsakkeessa, mitä se kattaa ja mitä se tarkoituksella jättää pois, jotta läpileikkaava muutos näkee yhdellä silmäyksellä, mitkä lukitukset ovat soveltamisalassa ja mistä on hiljaa tullut koko repositorion muutostunnistimia. ({ "3" }) Vihreä voidaan väittää vain KOKO testisarjasta: scripts/gate.sh ajaa <c1/>, tallentaa todellisen poistumiskoodin ilman putkea tiellä ja kirjoittaa kuitin, joka nimeää commitin, integraatiobinäärien lukumäärän, testien lukumäärän ja keston; push-tarkistus kieltäytyy pushista, jonka commitia mikään kelvollinen kuitti ei nimeä, puhtaalla työpuulla. Toistettavuutta otantana mittaa erikseen scripts/check-repeatability.sh, joka ajaa kirjastosarjan N kertaa ja epäonnistuu, jos läpäisevien testien joukko eroaa.
+
+seg-b7cd952ff133 = Koostettu ajoituksen PL: P0-siemennetty holdover-läpiajo
+
+seg-135df1e0e68a = PL(τ)=max(TPL_handover,HPL(τ)); alhaalta puolijatkuva PL({ "0" }+)≥PL({ "0" }−); K(IR/2) juokseva maksimi; τ/τ³/τ⁵ vaihe-eksponentit
+
+seg-096b6cdfe2dc = Koostettu ajoituksen PL: LIL a.s. -verhokäyrä (mahdottomuus + johdonmukaisuus)
+
+seg-1671add2210d = Äärellistä pahimman tapauksen holdoveria ei ole (Brownin supremum hajaantuu); IR-allokoitu HPL on johdonmukainen Hartman–Wintner-verhokäyrän kanssa, kun IR→{ "0" }
+
+seg-5a27c9f0a67d = Heterogeenisen UTC(k)-jäljitettävyysharhan eheyden yläraja
+
+seg-fd09ab2adbf6 = Lähdekohtainen harhan yläraja b = (U/k_cov)·Phi^-1(1-tail/2) + ikääntyminen, joka paisuttaa julkaistun tyypin B laajennetun epävarmuuden allokoiduksi eheyshännäksi; silta tpl_scalar-tyyppiin muodossa bias_s
+
+seg-d75b900ad25f = Korreloitunut jäljitettävyysharhan ristikovarianssi (yhteismuototurvaton allokointi)
+
+seg-0641f6d38c23 = N×N-harhan ristikovarianssi rho·b_i·b_j-ei-diagonaalialkioilla lähteille, jotka jakavat UTC(k)-realisoijan; TODISTETTU correlated_fused_bias >= independent_fused_bias (naivi riippumaton allokointi aliarvioi fuusioidun harhan -> optimistinen -> vaarallinen)
+
+seg-1a3bb032960f = Yhteismuodon johdonmukaisuustilasto (ratkaisuerotukselle sokea jaetun viitteen vika)
+
+seg-1b03f522b8fc = Pistetilasto ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 yhteismuotosiirtymälle, jota ratkaisuerotus (kontrastit ovat ortogonaalisia vektoriin { "1" } nähden) ei näe; yhteismuotosiirtymä paisuttaa sitä, kun taas pareittaiset erotukset pysyvät tasaisina
+
+seg-3359eee713a5 = Kuun datumin nolla-avaruuden luokittelu (LLR:n asteen additiivisuus + libraation vajauksen nosto)
+
+seg-6d722c176052 = Sisäisen etäisyydenmittauksen datumongelman luokittelu: yksittäinen etäisyyshavainto tuottaa asteen { "1" } (6-ulotteinen nolla-avaruus); origo-X:n ja skaalan pari on lähes nolla, ja fysikaalinen DE440-libraatio nostaa vajauksen nollaan, vaikka pari pysyy lähes degeneroituneena
+
+seg-3fd19007ea67 = Usean tekniikan kuun datuminformaatio (LLR + kuun VLBI + kiertäjän etäisyys)
+
+seg-23d0dd7d0666 = Datum-Jacobin rivit Maa–heijastin-LLR-etäisyydelle, kahden aseman kuun VLBI-differentiaaliviiveelle ja kiertäjä–majakka-etäisyydelle 7-parametrisen datumin yli, yhdistettynä yhdeksi johdonmukaisesti esiehdollistetuksi Fisheriksi; osoittaa, että radiaalisuunnan ulkopuolinen (kiertäjä / syvyysmoninainen) seuranta rikkoo origo-X:n ja skaalan degeneroituneisuuden, kun taas poikittainen VLBI auttaa vain epäsuorasti
+
+seg-ab96cfc8d48c = Kuun LLR-datumin geometriasubstraatti (pääakselien heijastimet, maa-asemat, analyyttiset etäisyyspartiaalit)
+
+seg-40e91288f81a = Viisi lähipuolen retroreflektoriryhmää PA-kappalekoordinaatistossa metreinä ja LLR-maa-asemat geodeettisina koordinaatteina; heijastimen kappale–inertia-sijoitus DE440:n PA-orientaation kautta; Maa–heijastin-etäisyyden analyyttiset partiaalit 4-parametrisen datumin suhteen; sekä pelkkä LLR-Fisher-matriisi, joka osoittaa lunokeskipisteen X:n ja skaalan degeneroituneisuuden, joka motivoi 7-parametrista analyysiä
+
+seg-63a8571f8eb0 = Etäisyyden ja kellon offsetin degeneroituneisuus yksisuuntaisessa kuun etäisyydenmittauksessa sekä geometrisen moninaisuuden suunnittelulaki
+
+seg-cdd70f56051a = Solmukohtainen radiaalietäisyyden ja vastaanottimen kellon offsetin degeneroituneisuus on täsmällinen: { "1" } m vastaa { "3.336" } ns (yksi per c). { "{" }scale, offset{ "}" } -Schur-komplementtimarginaali (coupled_marginal_fisher) osoittaa, että geometrisesti moninaisessa verkossa kaksisuuntainen etäisyydenmittaus nostaa marginaalia suunnilleen samalla tekijällä kuin yhtä suuri määrä lisäyksisuuntaista dataa, kun taas idealisoidussa yhden solmun tilanteessa kaksisuuntainen nosto on suuruusluokkia suurempi. Siitä seuraava suunnittelulaki: geometrinen moninaisuus, ei kaksisuuntainen etäisyydenmittaus sellaisenaan, erottaa kuun koordinaatiston skaalan aikaskaalan offsetista yksisuuntaisessa etäisyydenmittauksessa; kaksisuuntainen tai ulkoinen aikasidonta tarvitaan vain vähäisen moninaisuuden tai yhden käyttäjän tilanteessa.
+
+seg-2c074d6260ba = Edustava usean tekniikan mittausvalikoima ja additiivinen Fisher-yhdistämissääntö
+
+seg-beefac5c1b13 = MeasurementBlock pitää yhden ehdokasmittauskampanjan 7x7-Fisher-informaatiopanoksena sekä skalaarisena suhteellisena kustannuksena; block_from_rows rakentaa sellaisen raakoista datum-Jacobin riveistä, jotta jokainen lohko esiehdollistetaan identtisesti funktion lunar_identifiability::assemble_multi_info kautta; combine summaa valitun osajoukon informaation, mikä on oikea sääntö, koska Fisher-informaatio on additiivinen riippumattomien mittausten yli; representative_lunar_menu tarjoaa deterministisen nelilohkoisen valikoiman (LLR, poikittainen VLBI-limbimajakka, lähipuolen kiertäjä ja kaukopuolen kiertäjä). Budjettirajoitteinen suunnitteluoptimoija, joka kuluttaa tämän valikoiman, ei kuulu tähän kirjastoon.
+
+seg-2d3347bcb15e = Palveluntarjoajien välinen johdonmukaisuustoleranssi sekapalveluntarjoajan käyttäjälle
+
+seg-9decf2cb6b0c = consistency_tolerance: kääntää käyttäjän paikkabudjetin parametrikohtaiseksi palveluntarjoajien väliseksi Helmert-yhtäpitävyysvaatimukseksi (origo/skaala/rotaatio) viitevipuvarrella, valinnaisesti paisutettuna P1-yhden palveluntarjoajan realisaation CRLB:llä
+
+seg-5450d921dfc9 = Usean palveluntarjoajan kuun yhteentoimivuusvirhebudjetti ja koordinaatisto vs. efemeridi -suunnittelulaki
+
+seg-e1e30f5c17a6 = interop_budget: vähennettävä (yhteinen koordinaatistosidos) vs. palautumaton (dynamiikka) jako käytännöillä PerProvider / CommonFrameTie / CommonEphemeris, palautumattoman osuuden suunnittelulakimittarilla (~{ "0.69" } todellisilla DE440/INPOP/EPM-arvoilla: pelkkä yhteinen koordinaatistotunniste jättää hallitsevan pohjan)
+
+seg-ebb827739614 = Bysantin lohkokipinän havaitsemis- ja tunnistusraja autonomisessa solmukohtaisessa Kuun verkossa (T3)
+
+seg-4fb935e6193d = byzantine_bound soveltaa turvallisen tilaestimoinnin koodaus- ja harvan havaittavuuden rajaa solmukohtaiseen verkkogeometriaan: Bysantin vertaissolmu syöttää mielivaltaisen lineaarikombinaation mittauksista, joihin se osallistuu, ja verkko HAVAITSEE jokaisen enintään f = block_spark − { "1" } vertaissolmun koalition sekä TUNNISTAA yksikäsitteisesti jokaisen enintään ⌊(block_spark − { "1" })/2⌋ solmun koalition; block_spark on pienin vertaissolmujen koalitio, jonka pinotut tehokkaat allekirjoitukset P⊥·B_T ovat sarakeasteeltaan vajaita. Vertaissolmun havaittavuus tarkoittaa matriisin P⊥·B_j TÄYTTÄ SARAKEASTETTA (nollasta poikkeava mutta asteeltaan vajaa lohko on nollasta poikkeava hyökkäys, joka päätyy avaruuteen range(G) eikä jätä jäännöstä), ei pelkästään ehtoa P⊥·B_j ≠ { "0" }
+
+seg-4f57f586cf82 = Autonomisen holdoverin ajallisen mittakaavavapauden alaraja itseensä viittaavassa Kuun satelliittitähdistössä (T4)
+
+seg-eb690e8f5c9b = holdover_floor osoittaa, että pelkillä solmujen välisillä mittauksilla yhdistetyssä autonomisten solmujen joukossa yhteinen kellotaajuus (δα_j += { "1" } ∀j) on joukon aikaskaalan vapaa parametri, joka kuuluu avaruuteen N(GᵀWG): mikään määrä lisää solmujen välistä etäisyydenmittausta ei tee siitä havaittavaa (rate_in_gauge = true, temporal_gauge_dim = { "2" } yhteisen siirtymän kanssa). Tämä on aito holdover-alaraja — jäykän koordinaatiston paikkavapauden ajallinen vastine. Yhden ulkoisen absoluuttisen taajuussidonnan lisääminen (suora yhteys verkon ulkopuoliseen vertailuun) poistaa yhteisen taajuuden nollavaruudesta (rate_in_gauge = false, temporal_gauge_dim = { "1" }), mikä osoittaa, että alaraja on todellinen mittakaavavapaus eikä oskillaattorimallin keinotekoinen artefakti
+
+seg-25ffd6e1979c = Palveluntarjoajien yhteinen ja erotuskomponentti, yhden asteen puutteen yhtenäistäminen ja suojausvälin kulmakerroin (T5 / §{ "0" } / g7)
+
+seg-72c7ec3724bf = Kolme puolta yhdestä hajotelmasta ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG), jossa 8-ulotteinen datum⊕aikaskaala-vapaus on N(G) ja state_dim − { "8" } = { "32" } havaittavaa suuntaa muodostavat avaruuden range(G): (T5) provider_mismatch_split luokittelee usean palveluntarjoajan yhteisen harhan (∈ range(G)) HAVAITSEMATTOMAKSI — se vaatii ulkoisen sidonnan — ja erotusharhan (∉ range(G)) itse valvotuksi / HAVAITTAVAKSI; (§{ "0" }) yhtenäistäminen tarkoittaa, että SAMA range(G)-sokea aliavaruus hallitsee havaitsemattomien vikojen luokkaa, joten datum-vapaus N(G) ja vikasokea aliavaruus range(G) ovat yksi geometria, eivät kaksi; (g7) slope palauttaa Brownin suojausvälin kulmakertoimen ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ viasta b ∈ range(G) (estimaattori vääristyy nollapariteetilla) ja äärellisen havaittavasta viasta
+
+seg-632add2dbd3c = ITU-T-telecom-synkronointimaskit PASS/FAIL-tuloksella ja marginaalilla
+
+seg-47687529aee7 = Transkriboidut rajat: ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC lukittuna ja ePRTC-A holdover (mukaan lukien taulukon { "3" } aikavirheen verhokäyrä), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) T-BC/T-TSC-luokat A-D ja G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) vertailupiste C, kukin avoin tai suljettu väli sellaisena kuin taulukko sen ilmoittaa, kaikki ’jatkotutkimuksen kohteena’ -merkinnät pois jätettyinä; jokaisesta tarkistuksesta tulos ja marginaali sitovassa pisteessä sekä aika kunkin budjetin ylittymiseen. Ajettavissa skenaariolajina <c1/>
+
+seg-165ed2bc771a = ITU-T-taajuussynkronoinnin wander-generointimaskit (G.811, G.812, G.8262, G.8262.1)
+
+seg-953793d4446a = Seitsemän vakiolämpötilan MTIE- ja TDEV-wander-generointimaskia lajille <c1/>: G.811 (09/1997) PRC (autonominen), G.812 (06/2004) tyypit I, II ja III, G.8262 (10/2024) EEC-vaihtoehdot { "1" } ja { "2" } sekä G.8262.1 (11/2025) eEEC (lukittu tila), mukaan lukien taulukoiden kirjoittamat potenssilakiosat (<c2/> ja vastaavat), kukin väli avoimena tai suljettuna kuten painettu, mitattuna lausekkeiden ilmoittaman { "10" } Hz:n suodattimen läpi (oletettu sovellettavan ennen näytteistystä); vertailuskenaario scenarios/telecom-synce-eec.toml asettaa vapaasti käyvän OCXO:n kolmea EEC-maskia vasten. Ei toteutettu: muuttuvan lämpötilan sallitut poikkeamat, holdover, transientit, jitter ja G.811:n taajuustarkkuus
+
+seg-5fc2ad88faf0 = Kellolokien formaatit (RINEX clock, TimeLab ASCII, TAPR TICC) luettuna normalisoiduksi vaihesarjaksi
+
+seg-5b5bcbdea166 = clock_log::read_input: yksi jäsennyskerros, joka muuntaa RINEX-kellotiedoston (yhden nimetyn kellon AS/AR-tietueet, versiot { "2" } ja { "3.00" } – { "3.04" }), TimeLab-tyylisen ASCII-vaihe- tai taajuuslokin tai TAPR TICC -aikaleima- tai intervallilokin yhtenäiseksi vaihehilaksi, jossa tau0 on ilmoitettu, otsakkeesta tai mediaaniväli, jokainen aukko, hilan ulkopuolinen lukema ja kaksoiskappale lasketaan, ja käytössä on kieltäytymis-, pisimmän jakson tai lineaarinen aukkokäytäntö; kytketty valinnaisesti telecom-ajoitussarjaan (<c1/>, lisää <c2/>-lohkon) ja kellolajiin (<c3/>, lisää <c4/>-lohkon, jossa ADEV, TDEV ja MTIE, taulukon SHA-256 ja vaiheen SHA-256; runs = { "1" }). Ilman taulukkoa molemmat lajit ovat tavu tavulta identtisiä
+
+seg-acdb0337bce7 = Kellolokien formaatit linuxptp (ptp4l, phc2sys, ts2phc) ja chrony (tracking, statistics) luettuna normalisoiduksi vaihesarjaksi
+
+seg-e87b3dba2072 = clock_log::read_input formaateilla ptp4l, phc2sys, ts2phc, chrony-tracking ja chrony-statistics: linuxptp-servorivin kirjattu siirtymä (ns, rivin oma hakasulkeissa oleva aikaleima; ennen kuin servo ensimmäisen kerran raportoi s2, luetut arvot jätetään pois ja lasketaan) tai chrony-tracking- tai -statistics-lokin siirtymä (s, sarakkeen sijainnin mukaan, UTC-päivämäärä ja -aika) muuttuu yhtenäiseksi vaihehilaksi samoilla aukkokäytännöillä kuin muut formaatit; lähdevalitsin (<c1/>) nimeää yhden useista rajapinnoista, kelloista tai osoitteista; lokit syöttävät telecom-ajoitussarjaa, kellolajia ja holdover-testilajia
+
+seg-97aebb84576e = Operaattorin toimittamasta aikavirhetallenteesta pisteytetty holdover-testi
+
+seg-ab533cf99c56 = Laji <c1/>: aikavirhetallenne (linuxptp-, chrony-, TICC-, TimeLab- tai RINEX-kellaloki tai time_s,time_error_ns-parit) jaetaan kahdesta operaattorin ilmoittamasta GNSS:n poiston ja palautuksen ajankohdasta perusvaiheeksi, holdover-vaiheeksi ja palautumisvaiheeksi; perusvaihe mitataan lukitulle kellolle kirjoitettuja ITU-T-maskeja vastaan ja holdover-vaihe holdoveria tai autonomista kelloa varten kirjoitettuja maskeja, ePRTC-A holdover -verhokäyrää ja aikavirhebudjetteja vastaan; holdover-vaihe raportoi pienimmän neliösumman taajuussiirtymän, jonka järjestelmä piti, ja palautumisvaihe sen, tuliko |TE| ilmoitetun kaistan sisään ja milloin, ja pysyikö se siellä ilmoitetun viipymäajan, sekä huipun ja suurimman askeleen. Jokainen raja on sama, jonka telecom-ajoituslaji transkriboi; kaksi ajankohtaa ovat operaattorin ilmoitus eikä niitä varmenneta
+
+seg-94cbac97a1aa = GNSS-signaalin saatavuus avaruuspalvelualueella ja sen ulkopuolella verrattuna ICG:n SSV-julkaisuun
+
+seg-c59e349fdc9e = Lajin <c1/> saatavuuspyyhkäisyt: tähdistöittäin (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) ja yhdistettynä sellaisten (käyttäjä, epookki) -parien osuus, joilla on vähintään yksi ja vähintään neljä signaalia, sekä pisin katko, käyttäjälle pallolla (julkaisun 2,562 pisteen maailmanlaajuinen kuori, { "14" } päivää { "1" } minuutin välein) tai lentoradalla (GEO, HEO, Kuuhun siirtymärata), julkaisun liitteen C Kepler-radoista, vakiomääräisellä vähimmäissäteilyteholla vertailupoikkeamakulman sisällä, Maan peittymisellä pallo plus { "50" } km sekä C/N0-kynnyksellä; käyttäjäantennit julkaisun taulukosta B10
+
+seg-d2f04991c8a4 = Reunasäteen ionosfääri-, plasmasfääri- ja ilmakehävaikutukset hipoviin GNSS-signaaleihin sekä heikon signaalin vastaanottimen suunnittelu lajissa <c1/>
+
+seg-1a1786ba90b6 = Chapman-ionosfääri, Gallagher-tyyppinen plasmasfääri ja neutraali ilmakehä (taitekertoimen taipuma, hapen absorptio, defokusointi) integroituna lähettimen ja käyttäjän välistä suoraa sädettä pitkin: vinon suuntaisen kokonaiselektronisisällön, sen plasmasfäärisen osan, ylimääräisen viiveen, tangenttikorkeuden ja hipovien yhteyksien häviön laskenta; sekä heikon signaalin vastaanottimen suunnittelu (koherentti ja epäkoherentti integrointi, databittirajoitus, avustus, Doppler-haku), joka asettaa C/N0-kynnyksen hankinta- ja seurantasilmukkamalleista
+
+seg-6b8f9f3ca2a3 = Aluksella toimiva GNSS-navigointisuodatin korkean radan ja Kuuhun siirtymäradan avaruusaluksille
+
+seg-39ddc494f103 = Lajin <c1/> tila <c2/>: yhdeksäntilainen laajennettu Kalman-suodatin (paikka, nopeus, vastaanottimen kellon harha ja ajautuma, auringon säteilypaineen skaala) pseudoetäisyyksillä, joiden saatavuus, kohina ja C/N0 tulevat samasta yhteysgeometriasta kuin pyyhkäisyissä; totuus integroidaan J2:lla, Auringon ja Kuun kolmannen kappaleen vaikutuksella ja säteilypaineella varjo huomioiden, suodatin mallintaa J2:n ja kolmannet kappaleet ja estimoi säteilypaineen; raportoi paikka- ja nopeusvirheet GNSS-ratojen sisä- ja yläpuolella, pisimmän mittausaukon ja keskimääräisen NEES:n
+
+seg-5fc242476828 = Usean avaruusaluksen muodostelman suhteellinen navigointi erittäin elliptisellä radalla GNSS:n avulla
+
+seg-f67eb29d4483 = Lajin <c1/> tila <c2/>: päällikkö ja apulaiset ajavat kukin absoluuttista suodatinta; apulaisen paikka suhteessa päällikköön estimoidaan vähentämällä absoluuttiset estimaatit ja suhteellisella suodattimella molempien alusten seuraamien signaalien yksittäiserotetuilla pseudoetäisyyksillä, jolloin suhteellinen dynamiikka on kahden epälineaarisen lentoradan erotus
+
+seg-7038f6902820 = Kylmäatomi-interferometrin virhetermit: Raman-laserin vaihekohina, aaltorintaman kaarevuusharha ja vyöhykeepäselvyyden ratkaisu
+
+seg-4d9690207607 = inertial::cai_error_terms (kirjastofunktiot, joihin ei vielä pääse skenaariolajista): neliöpulssisen kolmipulssisen interferometrin Raman-vaiheen painotusfunktio (Cheinet ym. { "2008" }, yhtälö { "8" }) valkoisen vaiheen suljetun muodon ratkaisulla (pi/2)^{ "2" } S_phi0/tau_R ja numeerisella reitillä mille tahansa spektrille; laserin taajuuskohina, jota takaisinheijastuksen viive ei kumoa (Le Gouet ym. { "2007" }, yhtälöt { "9" } – { "11" }); lämpöpilven puhtaan defokusoinnin aaltorintamaharha sigma_v^2/R ja sen pieneneminen ilmaisusäteellä; väärän vyöhykeindeksin todennäköisyys erfc(pi/(sqrt({ "2" }) s)) klassisen kiihtyvyysanturin avulla ja kahdella kyselyajalla sekä sen käänteisfunktio
+
+seg-363705e03bac = Oskillaattorin holdover-esiasetukset julkisista datalehdistä
+
+seg-9750d9e0ec7a = Neljä esiasetusta — OCXO (Microchip OX-208), rubidium (Microchip 8040C), cesium (Microchip 5071A high-performance tube) ja CSAC (Microchip SA.45s) — kussakin datalehden Allan-poikkeaman maksimit, ikääntyminen ja lämpötilaraja; ei-negatiivisella pienimmän neliösumman menetelmällä sovitettu valkoisen + flicker + satunnaiskävelyn taajuuskohinan sovite, skaalattu verhoamaan jokainen datalehden piste, flicker-lattia, joka ei ole koskaan pidemmän τ:n lukua pienempi, lineaarinen ikääntyminen ja sinimuotoinen lämpötilatermi, syntetisoituna siemenluvulla tuotettuna holdoverina GNSS:n katoamisen jälkeen
+
+seg-d7e03158b972 = Sekunnit, kunnes vapaasti käyvä kello poistuu aikaindeksoidun ajanjakson suojakaistalta, ja korjausten tahti, joka pitää sen sisällä
+
+seg-0b4d8815f756 = Laji <c1/>: ennustettu virhe E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² käännettynä ylitykselle, jäljellä olevalle ajalle, uudelleensynkronointivälille korjausviiveen jälkeen ja korjauksille vuorokaudessa, kukin termi eriteltynä ja hallitseva nimettynä; kellot kuudesta ClockClass-oletuksesta (TCXO, OCXO ja RAFS lisätty, kukin viittaa yhteen datalehteen), telecom-ajoituksen esiasetuksista, inline-datalehdestä tai mitatusta tallenteesta; lähteen pisintä keskiarvotusaikaa pidemmälle ulottuva ylitys merkitään ekstrapoloiduksi
 
 seg-2797643153dc = Ajoituksen suojaustaso kiertoradalla olevalle vastaanottimelle GNSS-harhautuksen aikana
 
@@ -491,6 +651,100 @@ seg-278c77438493 = Ketjutettu tehtävä skenaariotyyppien yli yhdellä yhteisell
 seg-3dcfb26f6234 = Tyypin <c1/> vaiheet: jokainen vaihe ajaa yhden tai useamman olemassa olevan tyypin skenaarion funktiolla run_toml, lukee niiden tulosteet nimettyihin kanaviin (kellon aikavirhe ja suoja, keskimääräinen efektiivinen kantoaalto–kohinatiheyssuhde ja seurantalattia, pystysuora suojaustaso ja hälytysraja, paikkavirhe, seuraavat satelliitit, hälytyslaput) tyyppikohtaisilla esiasetuksilla tai eksplisiittisillä tulospoluilla, sijoittaa ne vaiheen alkuun ja pitää ne yhteisellä ruudukolla, vaiheiden rajoilla ja tapahtumilla; tila siirretään eteenpäin carry-toiminnolla (kanava jatkuu edellisen vaiheen loppuarvosta), handoff-toiminnolla (edellisen vaiheen numero kirjoitetaan seuraavaan skenaarioon) ja end_at-toiminnolla (vaihe päättyy ajon laskemaan aikaan, kuten harhautusvalvonnan havaitsemisaikaan); kampanjatiiviste ja yhteenvetotiiviste jokaisen jäsentuloksen yli
 
 seg-ad6105af464c = Parametripyyhkäisyt ja siemennetyt Monte Carlo -ensemblet minkä tahansa skenaariotyypin yli
+
+seg-95921611839e = Tyypin <c1/> sweep-osio (yhdestä kolmeen pisteillä erotettua avainta mistä tahansa tyypistä, yleisen pyyhkäisyn akseliarvoilla, valinnaisesti ensemble jokaisessa solmussa) ja monte_carlo-osiot: realisaatio k ajetaan siemenluvulla base_seed + k; jokaisesta mittarista raportoidaan keskiarvo, keskihajonta, lähimmän sijan 5., 50. ja 95. persentiili sekä kiinteällä siemenluvulla laskettu persentiili-bootstrap-{ "95" } %:n luottamusväli keskiarvolle (inertial::metric_stat); mittarien yksiköt luetaan pyyhkäistyn tyypin omasta units-lohkosta
+
+seg-24327a0ed82e = Useita skenaarioita yhteisissä olosuhteissa, yhdistetyllä yhteenvedolla
+
+seg-5833fb3b06e3 = Tyypin <c1/> compose-osio: nimetyt yhteiset arvot (esimerkiksi yhden häirijän teho ja paikka) kirjoitetaan jokaiseen jäseneen avaimiin, joihin ne on sidottu, jokainen jäsen ajetaan, ja mittaria kohti raportoidaan jäsenten pienin, suurin ja keskimääräinen arvo nimettynä jäsenenä; mittarien yksiköiden on oltava samat kaikissa jäsenissä
+
+seg-0bc866720bde = Rajattu optimointi yhdelle mittarille kampanjaparametrien yli
+
+seg-f9bdb89c2b4f = Tyypin <c1/> optimize-osio (CAP-32): yhdestä kolmeen pisteillä erotettua skenaarioavainta rajattuna välille [lo, hi] lin- tai log-asteikolla, yksi tulospolulla luettu mittari, tavoite minimize, maximize tai target; menetelmä grid (pyyhkäisyn akseliarvot) tai deterministinen Nelder–Mead-simpleksi normalisoiduissa koordinaateissa laatikkoprojektiolla ja tavallisilla kertoimilla; puuttuva tai ei-äärellinen mittari saa huonoimman pistemäärän ja pysyy jäljessä; kun runs > { "1" }, mittari on keskiarvo yhteisten siemenlukujen yli; jokainen arviointi on nimetyn tyypin todellinen ajo, listattuna kohdassa trace ja laskettuna toistettavuustiivisteeseen
+
+seg-652e28dfa10f = Matalan Maan kiertoradan paikannus-, navigointi- ja ajanmääritysjärjestelmien signaalimallit: koodiseuranta, havaitseminen, GNSS-yhteensopivuus ja kaistavertailu mille tahansa järjestelmälle
+
+seg-c0ba5c7e708e = Tyyppi <c1/>: parametrisoidut signaalimallit (kaista, lähetyskaistanleveys, ITU-allokaatio; havainto-, data- ja pilottikomponentit BPSK(n)-, BOC(m,n)-, MBOC- tai tasaisilla spektreillä, tehonjaot, FDMA-alikantoaallot, koodipituudet ja datanopeudet) käännetyistä julkisista esiasetustiedostoista (Xona Pulsar, Iridium STL, Starlink-opportunistinen signaali, CentiSpace, yleinen C-kaistan malli sekä yleiset UHF/L/S/C/laaja-C-mallit, kullakin lähde-URL ja julkaisemattomat arvot merkittyinä REPRESENTATIVE) tai kirjoitettuna suoraan; signaalia kohti kaistarajoitettu tehospektritiheys, kaistansisäiset tehoosuudet, Gabor-kaistanleveys, koodijitter suhteessa C/N0:aan ja välitykseen sekä etäisyydenmittaustarkkuus, hakuavaruus, neliölakihavaitsemisen todennäköisyys sekä keskimääräinen sarja- ja koodirinnakkaishankinta-aika, spektrinerotuskerroin signaaleihin GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b ja AltBOC ja niistä C/N0-heikkenemän kanssa sekä CW-, laajakaista- ja sovitettu J/S-sieto spektrityypin SSC-ketjusta; ionosfäärin viiveen, vapaan tilan vaimennuksen, yhtäläisellä C/N0:lla ja yhtäläisellä EIRP:llä saavutettavan etäisyydenmittaustarkkuuden ja häirinnänsiedon kaistavertailu; sekä mallin laadulliset muototarkistukset kuvattua mittausta vasten
+
+seg-c2b9c8e4a364 = Monikaistainen spektrin vesiputouskuvaaja (UHF, L, S, C) suunnitelluilla signaaleilla ja kaistakohtaisilla häirijöillä
+
+seg-609df4e0a085 = Tyyppi <c1/> laajennettuna L-kaistan ulkopuolelle: kaistat annettuna esiasetettuna signaalimallina (piirrettynä jokaisella komponentilla, kaistarajoitettuna lähetyskaistanleveyteen, C/N0 ja J/S viitattuna seurattuun komponenttiin) tai mukautettuna kantoaaltona ja modulaationa; ylimääräiset vesiputouspaneelit millä tahansa taajuusalueella samalla aikajanalla ja värikaavalla; laajakaistainen (barrage) häirijä CW-, kapeakaista-, chirp- ja sovitetun kohinan rinnalla; kaistakohtainen J/S ja efektiivinen C/N0 muuttumattomasta spektrinerotuskerroinketjusta
+
+seg-d9eb3e7e69c2 = LEO-PNT-ylilento ja sen kaistakohtainen linkkibudjetti näkyvissä oleviin MEO-GNSS-satelliitteihin verrattuna
+
+seg-d986e44443dd = Tyyppi <c1/>: satelliitit suunnitellusta ylilennosta, elementeistä, TLE:stä SGP4:n kautta tai Walker-satelliittitähdistöstä tyypistä constellation-design; kaistaa ja ajankohtaa kohti katselukulmat, etäisyys, suljetun muodon etäisyyden muutosnopeus ja etäisyyden kiihtyvyys (tarkistettu joka ajolla keskeisdifferensseillä ja raportoitu), vapaan tilan vaimennus, EIRP isoflux-, Gauss- tai tasaisella kuviolla, patch-, puolipallo- tai isotrooppinen käyttäjäantenni, ITU-R P.676-10 Annex { "2" } -kaasuvaimennus, P.618-sade ja -sintillaatio, P.2109-rakennuksen läpäisyvaimennus, polarisaatiosovittumattomuus, järjestelmän kohinalämpötila, C/N0, Doppler ja Dopplerin muutosnopeus sekä ensimmäisen asteen viive Klobucharin tai pystysuoran TEC:n vinosta TEC:stä satelliitin alapuolisella Chapman-osuudella skaalattuna; ionosfäärivapaat parit koodikohinalla ylilennon huipulla; Galileo- tai GPS-kantoaallot niiden rajapintadokumenttien vastaanotetuista tehoista saman vastaanottimen kautta
+
+seg-95a077a980b6 = Nimetyt LEO-PNT-järjestelmäesiasetukset ilmoitetuin lähtein sekä järjestelmäagnostinen moottori
+
+seg-4b47033cda24 = leo_link::presets: yleinen monikaista (UHF, L, S, C), yleinen C-kaista, Xona Pulsar X1/X5, Iridium STL, Starlink vain Doppler-signaalina opportunistisena signaalina, CentiSpace ja valinnainen Celeste IOD -esiasetus, kunkin lähde merkittynä PUBLIC (URL-osoitteen kanssa), REPRESENTATIVE tai WORKSHOP, työpajaesiasetus valinnaisessa Celeste IOD -esiasetustiedostossa ja käännetään mukaan vain jos tuo tiedosto on olemassa; jokainen kaista ja rata on ohitettavissa skenaariossa, ja skenaario voi olla nimeämättä mitään esiasetusta
+
+seg-a39f34973373 = Matalaenergiapaikannus: aika ensimmäiseen ratkaisuun ja energia ratkaisua kohti suhteessa käyttösuhteeseen
+
+seg-f3b9b669a76f = leo_link::energy ja tyypin <c1/> [iot]-osio: Doppler-nopeuden rajoittama koherentti integrointi, neliölakiset epäkoherentit summat havaitsemiskynnykseen, Doppler-lokerohaku radan staattisen käyttäjän verhokäyrän yli (kylmä) tai tuettu ikkuna (kuuma), rinnakkainen tai sarjahaku koodille, navigointiviestin aika kylmäkäynnistyksessä, energia ratkaisua kohti ja akun kesto ratkaisuvälien yli, jokaiselle LEO-kaistalle ja GNSS-signaalille
+
+seg-8121e7db3db3 = LEO-navigointisanoman päivitys ylilennon aikana ja jatkuvuustarkistus vaihtohetkellä
+
+seg-34c310d85c42 = Tyypin <c1/> ylilennon aikaisen päivityksen analyysi: käyttäjän korkein ylilento hakujaksolla, sanomat yleisellä aikataululla ja käyttöjaksot keskitettynä sovitusikkunoihinsa, ja jokaisella vaihtohetkellä 3D-paikkahyppy, kellohyppy, käyttäjän pseudoetäisyyshyppy, suurin hyppy minkä tahansa näkyvän näkölinjan yli (suljettu muoto nadiirikartion yli), etäisyysvirhe ennen ja jälkeen sekä PASS/FAIL kynnystä vasten
+
+seg-7635a8339e78 = LEO-navigointisanoman dokumentoitu binäärikoodaus ja kvantisointivirhebudjetti
+
+seg-e4d9b16a2dc4 = leo_navmsg::codec: Kshanan oma kehys (johdanto, versio, malli, pituus, hyötykuorma, CRC-24Q) neljälle efemeridimallille, kellopolynomille, SVID:lle, datan julkaisutunnukselle, kaistalle, terveydelle, Klobuchar-joukolle, NeQuick-G-kertoimille ja UTC-parametreille, jokaiselle kentälle ilmoitettu leveys ja askel (field_table), kvantisointi alueen ylityksen hylkäyksellä sekä budjetti suurimmalle paikan ja kellon muutokselle, jonka kunkin kentän puolen askeleen muutos aiheuttaa voimassaoloaikana
+
+seg-17ca41d7fd71 = LEO-navigointisanomien RINEX-4-tyyliset ja CSV-viennit
+
+seg-185e12ccef0d = leo_navmsg::text: RINEX-4-tyylinen lohko (> EPH-tietueen otsikko, satelliitti- ja epookkirivi kolmella kellotermillä, D19.12-lähetetyn radan rivit) järjestelmäkirjaimella L ja tietuetyypeillä KP16, KRAC, LU22 ja APOL, jokaisessa otsikossa merkittynä Kshana-laajennukseksi, joka ei kuulu RINEX { "4.02" } -standardiin, sekä CSV-taulukko oletussarakeskeemalla ja esiasetetuilla skeemoilla, kullekin tuoja
+
+seg-e79047fc95af = ATOMIC-nollakello-ECEF-polynomi ja synteettinen viiden korkeuden LEO-mallivertailu
+
+seg-e261843e35b1 = leo_navmsg::elements::EphemerisModel-tyypin EcefPoly-variantti: akselikohtainen ECEF-polynomi ilman kellotermejä, relativistinen termi lausekkeesta -2 r.v/c^{ "2" }, pisteytettynä ohjattua kelloa vasten. Lisäksi mallivertailuanalyysi (liu_comparison yli LIU2025_TABLE), joka sovittaa 22-parametrisen mallin artikkelin viidellä korkeudella Kshanan integroimalle radalle 20 minuutin kaarilla ja tulostaa tuloksen julkaistun SISRE:n viereen
+
+seg-d2e18c8bdc14 = Paikannus LEO-Dopplerista, yhden ja usean satelliitin, kellon ajautuma- ja nopeustiloilla
+
+seg-de6cb3c06490 = Eräajona tehtävä Gauss–Newton-paikannus etäisyysnopeudesta analyyttisillä osittaisderivaatoilla (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = { "1" }), vaihtoehtona vakiokäyttäjänopeus, korkeuspseudomittaus pintakäyttäjälle, vaimennetut askeleet; muodollinen kovarianssi todellisessa pisteessä; ratasuuntaiset, ratapoikittaiset ja pystysuuntaiset projektiot; yhden ylilennon tarkkuus suhteessa käyttäjän ratapoikittaiseen siirtymään; lähimmän lähestymisen aika. Lajin <c1/> Doppler-tila lisää virheen ikkunan pituuden funktiona ja vain Doppleriin perustuvan opportunistisen signaalin tilan (esiasetus starlink-sop)
+
+seg-7f462969d2d4 = Yhteinen GNSS- ja LEO-pseudoetäisyyspaikannus järjestelmien välisillä harhoilla ja signaalikohtaisilla virhemalleilla
+
+seg-b9b5298e3408 = Painotetun pienimmän neliösumman Gauss–Newton-ratkaisut mille tahansa järjestelmien yhdistelmälle, yksi vastaanottimen kello järjestelmää kohti (järjestelmien välinen harha estimoidaan paikan mukana) tai tunnettu lähetetty siirtymä vertailuaika-asteikolla; mittauskohtaiset sigmat kutsujan antamina, oletuksena moottorin viivelukitussilmukan lämpökohina (navsignal::dll_code_jitter_chips) korkeuskulman C/N0-arvolla yhdistettynä signaali avaruudessa -etäisyysvirheeseen; painottamaton DOP (GDOP, PDOP, HDOP, VDOP, TDOP) paikallisessa geodeettisessa koordinaatistossa, muodolliset itä–pohjoinen–ylös-sigmat ja harhasigmat; lajin <c1/> yhteinen tila vertaa vain GNSS:n, vain LEO:n ja yhdistettyjä ratkaisuja ja pyyhkäisee DOP:n lisättyjen LEO-satelliittien lukumäärää vastaan
+
+seg-ee9a4a0cb530 = Tarkan pistepaikannuksen (PPP) konvergenssi pelkällä GNSS:llä ja LEO-täydennyksellä
+
+seg-a54f36c27d90 = Float-PPP-laajennettu Kalman-suodatin ionosfäärivapaalla koodilla ja vaiheella: staattiset koordinaatit, valkoinen vastaanottimen kello, yksi järjestelmien välinen harha jokaista lisäjärjestelmää kohti, satunnaiskävelyn zeniitin märkäviive kuvattuna kertoimella 1/sin(korkeuskulma), float-kokonaislukuepävarmuus jokaiselle satelliittikaarelle lisättynä nousussa ja pudotettuna laskussa sekä satelliitin koodille ja vaiheelle yhteinen tarkan radan ja kellon virhe, käsiteltynä yhtenä korreloituna kaksirivisenä päivityksenä Joseph-vakautetussa muodossa; mittaukset simuloidaan samasta mallista; konvergenssiaika (virheet kynnysarvojen alla ajon loppuun asti), virhekäyrät ja ajon keskiarvoistettu paikan NEES pelkälle GNSS:lle ja kullekin LEO-tapaukselle, ajettuna lajina <c1/>
+
+seg-9306f1c06081 = LEO-avusteinen ajansiirto UTC-aikaan suhteessa C/N0:hon ja vastaanottimen oskillaattoriin
+
+seg-c618feb01476 = Kellomittaukset jokaiselta näkyvissä olevalta LEO-satelliitilta tunnetussa paikassa, yhdistettynä käänteisvarianssilla pseudoetäisyyden kohinamallista, suodatettuna kaksitilaisella (vaihe, taajuus) Kalman-suodattimella, jonka prosessikohina on oskillaattoriluokan valkoinen ja satunnaiskävelytaajuuskohina (slot_timing::ClockNoise, clock_state::ClockClass; holdover::coast_phase_variance-funktion vapaaliikevarianssi), samoista tasoista siemenluvulla tuotettu todellinen kello ja IS-GPS-200:n kohdan { "20.3.3.5.2.4" } järjestelmäaika–UTC-lauseke, johon lähetetyn siirtymän epävarmuus lisätään ajokohtaisena harhana; lajin <c1/> ajoitustila pyyhkäisee oskillaattoreita ja C/N0-siirtymiä
+
+seg-d92777401093 = Nimetyt LEO-PNT-järjestelmät valinnaisina dataesiasetuksina, kullekin lähde
+
+seg-5130bfe2410c = Järjestelmäriippumattomat syötteet: jokainen järjestelmä on Walker-kuoria, eksplisiittisiä elementtejä tai GNSS-esiasetus, signaali (kantoaalto, chip-nopeus, kaistanleveys, vastaanotettu teho tai C/N0-alue), SISRE, Doppler-sigma ja kellomalli; esiasetukset täyttävät vain sen, minkä skenaario jättää pois, yksi tiedosto kutakin, lähteet merkittynä PUBLIC (URL-osoitteella), WORKSHOP tai JOHDETTU ja julkaisemattomat arvot lueteltuna edustavina: Xona Pulsar X1/X5, Iridium STL, Starlink-opportunistiset signaalit, CentiSpace, edustava C-kaistajärjestelmä, ATOMIC-nollakellon efemeridimalli ja yksi työpajassa johdettu esiasetus valinnaisessa Celeste IOD -esiasetustiedostossa, joka poistetaan käytöstä poistamalla tuo tiedosto ja sen skenaariot
+
+seg-dec52b5b9cd6 = Yksi LEO-PNT-järjestelmä päästä päähän: signaalisuunnittelu, ylilennon linkkibudjetti, navigointiviesti ja yhdistetty paikannus, kunkin vaiheen tuloste annettuna seuraavalle
+
+seg-39443b31d418 = Laji <c1/>: leo-signal-suunnittelu (julkinen esiasetus tai inline) asettaa leo-pass-kaistan keskitaajuuden, kaistanleveyden, chip-nopeuden ja EIRP-jaon; ylilento antaa seurattavan komponentin C/N0:n ja kaistarajoitetun koodijitterin epookeittain; pienimmän neliösumman C/N0-suora muuttujassa sin(korkeuskulma), leo-navmsg-viestin SISRE (sovitettuna ylilennon satelliitin radalle, plus ilmoitettu radanmääritystermi neliöiden summan neliöjuurena) sekä suunnittelun kantoaalto ja chip-nopeus siirtyvät jokaiselle leo-pvt-yhteisratkaisun LEO-järjestelmälle ja valinnaisesti leo-ppp:n LEO-tapauksille; jokainen luovutus raportoidaan arvona ja yksikkönä
+
+seg-55ca63edff02 = Harhautuksen havaitseminen LEO-Dopplerin ja ylilentogeometrian johdonmukaisuudella
+
+seg-b12fc1728220 = Lajin <c1/> osio <c2/>: harhauttaja väärentää etäisyyden ja etäisyysnopeuden suhteen itsejohdonmukaisesti väitetyssä paikassa nähdyt signaalit, ja paikka hyppää ja/tai työntyy pois todellisesta alkamisen jälkeen (LEO-kaistaa kohti ja MEO-GNSS-signaalille); vastaanotin ennustaa jokaisen etäisyysnopeuden lähetetyltä radalta ja riippumattomasta ennakkopaikasta ja -nopeudesta ja testaa mitatut etäisyysnopeudet yleistetyn pienimmän neliösumman khiin neliö -tunnusluvulla epookkien ikkunan yli (kellon ajautuma haittaparametrina tai ennakkotiedolla), GNSS-kanavilla, LEO-kanavilla ja kaikilla kanavilla taajuuslukitussilmukan lämpökohinalla C/N0:sta (Kaplan & Hegarty { "2006" }, kohta { "5.6.2" }); havaitsemistodennäköisyys ei-sentraalisesta khiin neliö -jakaumasta ilmoitetulla väärän hälytyksen todennäköisyydellä, havaitseminen julistetaan ilmoitetulla havaitsematta jäämisen todennäköisyydellä
+
+seg-5f341f85ac07 = Harhautuksen havaitseminen monikaistaisen LEO-signaalin kaistojen välisellä johdonmukaisuudella
+
+seg-2f9c4d351b0f = Jokaiselle LEO-satelliitille ja etäisyydenmittauskaistojen parille osio <c1/> muodostaa geometriasta vapaan pseudoetäisyysyhdistelmän, poistaa vastaanottimen ionosfäärimallin ja testaa sen epookista toiseen tapahtuvaa askelta kahden kaistan koodikohinaa ja ilmoitettua siedettyä mallintamatonta ionosfäärinopeutta vasten (kaksipuolinen Gauss, tarkka havaitsemistodennäköisyys); harhauttaja, joka väärentää osan kaistoista mutta ei toisia, tai kaikki kaistat ilman ionosfääriä, havaitaan alkamishetkellä; sellaista, joka väärentää jokaisen kaistan ja simuloi ionosfäärin, ei havaita, minkä tulos ilmoittaa
+
+seg-97dbcd5f2728 = Ionosfäärin luotaus: vino TEC LEO-ylilennon kaksikaistaisesta viiveestä
+
+seg-844de34fd2f3 = Jokaiselle lajin <c1/> satelliitin kaistaparille raportti antaa vinon kokonaiselektronisisällön, jonka geometriasta vapaa koodiyhdistelmä palauttaa ylilennon huipulla, (P2 - P1) f1^{ "2" } f2^{ "2" } / ({ "40.3" } (f1^{ "2" } - f2^{ "2" })), ja sen 1-sigman kahden kaistan lämpökoodikohinasta, jotta mitä tahansa monikaistaista LEO-PNT-suunnitelmaa voidaan punnita ionosfäärisondina
+
+seg-1fdbb476c8ab = Merenkulun luottamuspistemäärä: valvontojen todisteiden kokoaminen 0–100 pistemääräksi ja sen kolmeksi vyöhykkeeksi
+
+seg-0d76b33144f1 = Jokainen valvonta tiivistää todisteensa tunnusluvun ja kynnyksen suhteeksi; pistemäärä on { "100" } miinus valvontojen yli laskettu painon ja suhteen rajatun lineaarisen rampin tulo ({ "0" } arvoon { "0.5" } asti, { "1" } kohdassa { "1.5" }) summattuna, rajattuna välille { "0" } – { "100" } ja pyöristettynä tarkkuuteen { "0.1" }, vyöhykerajoina { "90" } ja { "55" }; jokainen epookki luettelee valvonnat, jotka vähensivät pisteitä, ja niiden pisteet.
+
+seg-51640405c9b7 = Luottamustelemetrian SIEM-tapahtumat: Log Event Extended Format (LEEF) syslogin yli
+
+seg-1b3245506847 = Vyöhykemuutos- (tai epookkikohtaiset) tapahtumat Log Event Extended Format { "2.0" } -hyötykuormina RFC { "5424" } -kuoressa UDP:n tai TCP:n yli, dokumentoidulla kenttäkartoituksella.
+
+seg-c04042b0270a = JammerTest { "2024" } -aineistolla kalibroidut vastaanottimen luottamuksen häiriökynnykset
+
+seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: C/N0-pudotuksen, AGC:n ja häirintäindikaattorin valvontojen ennakkorekisteröity kalibrointi julkisella JammerTest { "2024" } -aineistolla (Zenodo { "15911589" }, GPL-3.0-or-later, haettu ajon aikana, ei koskaan mukana): kansiota kohti { "1" } s:n aikajana tiedostoista mon_rf.csv ja rinex.csv, valvonnat ajetaan kerran, jokainen kalibroinnin jälkeinen epookki merkitään puhtaaksi tai häirityksi kansion attack_log-tiedoston perusteella (siirretty CEST:stä UTC:hen, { "60" } s:n suoja), jokainen kynnys pyyhkäistään kiinteällä hilalla, valitaan pienin kynnys, jolla yhdistetty puhtaan väärän hälytyksen todennäköisyys on enintään { "0.01" }, ja jätä yksi kansio pois -pidätetyt lukumäärät; UBX-lukijan ristiintarkistus. Valinta toimitetaan vain valinnaisena profiilina [monitors] profile = "jammertest-2024-calibrated" (cn0_drop_db { "1.5" }, agc_k_sigma { "3.5" }, jam_ind_threshold { "29" }); oletussääntö ja jokainen tuloste ilman sitä ovat muuttumattomia
 
 seg-65a8361b4a22 = Jammertest-pisteytys: vastaanottimen loki pisteytetään jokaista ajoitettua testiä kohden (havaitsemisviive, havaitsematta jääneet hälytykset, väärät hälytykset, palautumisaika) julkaistua testisuunnitelmaa vastaan
 
@@ -537,3 +791,43 @@ seg-364de05e5b1b = Koko IQ-kerroksen seurantamoottori (iq::track komennon kshana
 seg-259d201c2ff8 = CRPA-antennivahvistukset häirintätyypissä riippumatonta numpy-uudelleenlaskentaa vasten
 
 seg-192144c57783 = Häirintätyypin valinnainen [crpa]-osio: kanavakohtainen keila kohti kutakin satelliittia (nollan ohjaus häirittäjä nollana, tai MVDR kaavalla sigma^{ "2" } I + P_j a_j a_j^H), joka skaalaa kunkin linkin kohinaa tekijällä ||w||^{ "2" } ja häirittäjää tekijällä |w^H a_j|^{ "2" } ennen olemassa olevaa häirinnänestoyhtälöä C/N0:lle.
+
+seg-a2f34cff9338 = Jammerin maastovarjostus jamming-lajissa riippumatonta numpy-uudelleenlaskentaa vasten todellisella SRTM-ruudulla
+
+seg-334c569d9cae = Jamming-lajin valinnainen osio [terrain]: suurympyrän maastoprofiili jammerin ja vastaanottimen välillä SRTM .hgt -ruudulla k-kertoimen Maan pullistuman kanssa, hallitseva veitsenterä (suurin Fresnel–Kirchhoff nu) ja ITU-R P.526-15:n kohdan { "4.1" } yhden veitsenterän häviö, vähennettynä jammerin vastaanotetusta tehosta.
+
+seg-825c121c7512 = Hankinnan hystereesi ja etupään kvantisoija jamming-lajissa riippumattomia uudelleenlaskentoja vasten
+
+seg-f7207263d881 = Jamming-lajin valinnainen osio [acquisition] (satelliitti hankitaan hankintakynnyksellä tai sen yläpuolella uudelleenhankintaviiveen jälkeen ja pidetään, kun taso on seurantakynnyksellä tai sen yläpuolella) ja osio [front_end] (AGC-lukema { "10" } log10({ "1" } + J/N) ja ADC:n Gaussin syötteen kvantisoijahäviö, vähennettynä jokaisesta linkistä, merkittynä ei-Gaussisille jammereille pätemättömäksi).
+
+seg-9c46f1c76486 = Rajattu FLL:n sisäänveto oletussuunnittelun FLL:stä PLL:ään siirtymän lattian alapuolella (valinnainen)
+
+seg-efa1d1a9e904 = iq::trackin valinnainen carrier.fll_pull_in_max_s (iq::track::LoopConfig-tyypin kenttä fll_pull_in_max_s): asetuksella fll_assist = pull-in FLL luovuttaa PLL:lle kiinteän sisäänvetoajan jälkeen PLI:stä riippumatta, ja vastaava paluuviipymä kestää, kunnes PLI ensimmäisen kerran saavuttaa arvon fll_off_pli.
+
+seg-ac0f97e945a7 = RTKLIB .pos -ratkaisulukija receiver-trustille
+
+seg-0b8bc2c89de4 = Lukee RTKLIB-ratkaisutiedoston (kalenteri- tai GPS-viikko/TOW-aika, leveys-/pituusaste- tai ECEF-paikka, käytetyt satelliitit) receiver-trust-aikajanaksi (receiver_trust::machines::rtklib).
+
+seg-849393517c04 = NovAtel OEM7 ASCII- ja binäärilokit (BESTPOS, RANGE, RXSTATUS) receiver-trustille
+
+seg-7e0021922025 = Lukee BESTPOSin (paikka), RANGEn (C/No signaalia kohti) ja RXSTATUSin (vastaanottimen häirintälippu epookin omana ilmoituksena) ASCII- ja binäärimuotoisista OEM7-lokeista, CRC-tarkistettuna, vain luku (receiver_trust::machines::novatel).
+
+seg-a45c53a9deb3 = RTCM { "3" } MSM4- ja MSM7-kantoaalto–kohinasuhdelukija receiver-trustille
+
+seg-0a0c9976236f = Lukee RTCM { "3" } MSM4- ja MSM7-viestien jokaisen signaalisolun C/N0:n (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) kehysvirrasta, CRC-24Q-tarkistettuna (receiver_trust::machines::rtcm3). Rakenteet BSD-lisensoiduista pyrtcm-taulukoista, ei RTCM-standardin tekstistä.
+
+seg-cd554a7c1649 = GNSS-SDR-valvontasovitin receiver-trustille
+
+seg-22b587ac642d = Lukee GNSS-SDR Monitor (Gnss_Synchro) ja PVT-monitor -viestit, välitettyinä JSON-riveiksi proto-kenttien nimillä, kanavakohtaiseksi C/N0:ksi, paikannukseksi, käytetyiksi satelliiteiksi, HDOP:ksi ja taivaaksi (receiver_trust::machines::gnss_sdr; integrations/gnss-sdr/relay.py).
+
+seg-217e5953c128 = IMU-lokin sisäänotto, gyrosuunnan syöte ja hybridianturien parametrien Allan-sovitus
+
+seg-9dadc819daef = Lukee IMU CSV:n (dokumentoidut sarakkeet tai EuRoC-rakenne); integroi kääntymisnopeuden suunnaksi, jonka heading-course-valvonta lukee ([log.imu]); ja sovittaa hybridi- ja fuusioskenaarioiden kiihtyvyysanturin ja gyron kohinaparametrit paikallaan olevasta lokista limittyvällä Allan-poikkeamalla (imu-fit).
+
+seg-15a852a2dcb0 = Home Assistant MQTT -löytö ja tilaviejä luottamustelemetrialle
+
+seg-6d6b07b26966 = JSON-tila-asiakirja ja Home Assistant MQTT -löytöviestit luottamusvirralle, tulostettuna tekstinä jokaisella pinnalla ja julkaistuna MQTT { "3.1.1" } QoS { "0" } -yhteydellä komentoriviltä (telemetry::mqtt; trust-telemetry --mqtt-tcp, --print-mqtt, format mqtt).
+
+seg-68caf86157c2 = ROS { "2" } receiver-trust -paketti ja gnss_lib_py-silta
+
+seg-e7d7d99fe538 = ROS-vapaa silta, joka kirjoittaa paikannus- ja satelliittiviestit NMEA:ksi ja pisteyttää ne Python-sidoksen kautta (integrations/ros2/kshana_trust), sekä gnss_lib_py NavData–receiver-trust-silta rtklib-pos-formaatin kautta (integrations/gnss_lib_py).

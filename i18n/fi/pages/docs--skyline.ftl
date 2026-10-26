@@ -19,3 +19,5 @@ seg-c14b8fe46517 = Atsimuutista riippuva horisonttimaski: näkyvä joukko, atsim
 seg-bbb1828b3db1 = Katukanjonin, sektorien ja maaston supistaminen taulukoksi
 
 seg-2c53381d48ae = Vaakavirheen ellipsi ja järjestelmäkohtainen kofaktori geometrian kovarianssista
+
+seg-de6c33774c9c = CLI

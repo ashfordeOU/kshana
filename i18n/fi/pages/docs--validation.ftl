@@ -4,6 +4,8 @@ seg-70860389903a = Kello
 
 seg-583dc9ff6178 = Kirjasto
 
+seg-d01db1c2710a = Hakuteos
+
 seg-619f89bf160c = Kuun koordinaatiston toteutus
 
 seg-2db69c58f694 = Kuun differentiaalinen PNT
@@ -29,3 +31,5 @@ seg-c04a3591074c = Kuun yhteentoimivuusvienti
 seg-20fee61b3107 = Kvanttilaitteiden virhemallikirjasto
 
 seg-eaf341ff4522 = GNSS-vapaa kvanttinavigointi
+
+seg-75636f9419b2 = Tunnetut rajoitukset
