@@ -145,3 +145,13 @@ seg-4e28248ef77b = 可观测性与估计理论
 seg-e386dced1d16 = 月球与地月空间
 
 seg-a349aa76b0ed = PARTNER
+
+seg-6555ff9a6d8e = 输出
+
+seg-5cce5bd43a6b = AI 助手
+
+seg-eaaed414a05a = 机器输入
+
+seg-0d4ccaba9b91 = Signal K 和 OpenCPN
+
+seg-2247a2344710 = 含义

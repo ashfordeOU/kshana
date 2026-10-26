@@ -291,3 +291,7 @@ seg-7ca90ac531bf = [monte_carlo]：带种子的集合
 seg-03d764a4cb56 = [compose]：共享条件下的若干场景
 
 seg-61a0db2550ba = [optimize]：某一指标的最优值
+
+seg-232c68472fa4 = 1-D 目标求解与闭式解在 { "6e-15" } 以内一致；
+
+seg-df1533fe6b95 = 第 { "1" } 轮的 1-D 判据记录为 NOT MET：预先登记的范围排除了该解。
