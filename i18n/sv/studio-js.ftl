@@ -3190,3 +3190,1863 @@ js-interf-cell-size-rule = Rutstorleken måste vara ett antal grader över 0 och
 js-interf-check-failed = { $name }: kunde inte kontrolleras ({ $reason }).
 
 js-interf-click-cell = Klicka på en ruta, eller fokusera kartan och använd piltangenterna, för att se dess tal.
+
+js-interf-close = Stäng
+
+js-interf-close-file = Stäng { $name }
+
+js-interf-col-affected = Påverkade
+
+js-interf-col-cell-area = Rutans yta
+
+js-interf-col-detectors = Detektorer
+
+js-interf-col-observed = Observerade
+
+js-interf-col-sampled = Samplade
+
+js-interf-col-share = Andel
+
+js-interf-col-status = Status
+
+js-interf-coverage-limits = Den här källans täckningsgränser
+
+js-interf-csv-too-big = { $name }: större än 24 MiB; bygg från ett utdrag (kommandoradsverktyget tar en hel fil).
+
+js-interf-csv-too-big-short = { $name }: större än 24 MiB; bygg från ett utdrag.
+
+js-interf-custom-needs-licence = En anpassad datamängd kräver licensen, dess URL och texten om upphov: de skrivs in i kartfilen.
+
+js-interf-dataset = Datamängd
+
+js-interf-dates-rule = Datum anges som ÅÅÅÅ-MM-DD, eller lämnas tomma för ingen gräns.
+
+js-interf-day = Dag
+
+js-interf-day-aria = { $kind }-dag
+
+js-interf-day-confounded-note = Den här dagen är förvillad: ingen ruta bedömdes som försämrad på grund av dagens bakgrund. Rutor som annars hade stuckit ut visas som obedömda.
+
+js-interf-day-figures-aria = Tal för dagen
+
+js-interf-demo-csv-name = { $file } (syntetiskt urval)
+
+js-interf-demo-failed = Demon kunde inte öppnas: { $reason }.
+
+js-interf-demo-opened = Syntetisk demo: tre påhittade filer över en påhittad region på öppet hav (två ADS-B-dagar, varav en förvillad, och en AIS-dag). Inget verkligt flygplan, fartyg eller dygn ligger bakom dem. Använd dagväljaren på ADS-B-lagret.
+
+js-interf-demo-route-name = route.csv (syntetisk)
+
+js-interf-describe-map = { $kind }-karta för { $date }: { $cells } rutor ritade, { $parts }. Rutor som inte är ritade observerades inte.
+
+js-interf-did-not-load = { $url } lästes inte in
+
+js-interf-engine-no-fn = Den här motorversionen (version { $version }) har ingen { $fn }; den är äldre än den här sidan. Motsvarigheten för kommandoraden finns på sidan Verktyg.
+
+js-interf-engine-start-failed = Motorn kunde inte starta här ({ $reason }). Att öppna kartfiler ovan fungerar ändå.
+
+js-interf-err-format-version = { $name }: inte en kartfil för störningar som stöds av Kshana (format_version { $version }; den här sidan stöder { $supported }).
+
+js-interf-err-no-rows = { $name }: ingen rows[] i den här rapporten.
+
+js-interf-err-not-json = { $name }: inte JSON ({ $reason }).
+
+js-interf-err-not-map = { $name }: det här är GeoJSON men inte en Kshana-karta över störningar (ingen kshana_interference_map-medlem).
+
+js-interf-err-not-route = { $name }: inte en Kshana-rapport om ruttexponering (ingen kshana_route_exposure-medlem).
+
+js-interf-err-route-schema = { $name }: schemat { $schema } är inte { $expected }, som den här sidan läser.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } är varken adsb eller ais.
+
+js-interf-err-unknown-schema = { $name }: okänt schema { $schema }; den här sidan läser { $supported }.
+
+js-interf-foot-attribution = Upphov: { $text }
+
+js-interf-foot-coverage = Täckning: { $notes }
+
+js-interf-foot-layer = { $kind }-lager, { $date }. Rutor som inte är ritade observerades inte.
+
+js-interf-foot-licence = Licens: { $licence }
+
+js-interf-foot-licence-url = Licens: { $licence } ({ $url })
+
+js-interf-grid = Rutnät: kvadratiska rutor på { $size }° i latitud och longitud ({ $type }). Bredden i öst–västlig riktning krymper med latituden.
+
+js-interf-guards = Skydd mot andra orsaker
+
+js-interf-input = Indata
+
+js-interf-land-set = Landpolygoner: { $name }.
+
+js-interf-land-too-big = Den landfilen är större än 24 MiB.
+
+js-interf-larger-than = { $name }: större än { $limit }; den här sidan läser kartfiler upp till den storleken.
+
+js-interf-layer-adsb-sub = rutor där flygplan rapporterade låg navigeringsnoggrannhet
+
+js-interf-layer-ais-sub = rutor där fartyg rapporterade orimliga positioner eller rörelser
+
+js-interf-layer-heading = { $kind }-lager
+
+js-interf-layer-hidden = { $kind }-lagret är dolt.
+
+js-interf-layers-separate = ADS-B och AIS är separata lager med egna reglage, förklaringar och licensrader. De slås aldrig ihop till ett färgfält eller ett antal.
+
+js-interf-legend-aria = Vad varje rutstatus betyder; avmarkera en för att tona ned de rutorna
+
+js-interf-licence = Licens
+
+js-interf-licence-aria = Datalicens för { $name }
+
+js-interf-licence-heading = Datalicens och upphov
+
+js-interf-map-aria = { $summary } Piltangenterna flyttar mellan ritade rutor.
+
+js-interf-maps-open =
+    { $n ->
+        [one] { $n } karta öppen.
+       *[other] { $n } kartor öppna.
+    }
+
+js-interf-method-summary = Metod och förbehåll
+
+js-interf-no-cell-at = Ingen ruta vid { $lat }, { $lon }: inte observerad. Det är inget belägg för att området var fritt.
+
+js-interf-no-cell-drawn = ingen ruta ritad
+
+js-interf-no-cells-draw = Den här filen har inga rutor att rita.
+
+js-interf-no-day-figures = Den här filen anger inga tal på dagsnivå.
+
+js-interf-no-file-opened = Ingen fil kunde öppnas.
+
+js-interf-no-file-text = De öppna kartorna har ingen filtext att kontrollera (de öppnades inte som filer).
+
+js-interf-none = inga
+
+js-interf-none-stated = (inga angivna)
+
+js-interf-none-stated-file = (inga angivna i den här filen)
+
+js-interf-north-abbr = N
+
+js-interf-not-evaluated = inte utvärderad
+
+js-interf-not-opened-full = { $name }: inte öppnad, { $max } kartor är redan öppna. Stäng några först.
+
+js-interf-nothing-open = Inget öppet ännu.
+
+js-interf-nothing-opened = Inget öppnades.
+
+js-interf-one-day = en dag i taget
+
+js-interf-opened-file-map = Öppnade { $files } fil; { $maps } karta öppen.
+
+js-interf-opened-file-maps = Öppnade { $files } fil; { $maps } kartor öppna.
+
+js-interf-opened-files-map = Öppnade { $files } filer; { $maps } karta öppen.
+
+js-interf-opened-files-maps = Öppnade { $files } filer; { $maps } kartor öppna.
+
+js-interf-opening-demo = Öppnar den syntetiska demon…
+
+js-interf-parameters = Parametrar, fastställda innan några data lästes
+
+js-interf-read-draw-failed = { $name }: kunde inte läsas eller ritas ({ $reason }).
+
+js-interf-read-failed = { $name }: kunde inte läsas ({ $reason }).
+
+js-interf-read-with-map = Läs det här tillsammans med kartan
+
+js-interf-reading = Läser…
+
+js-interf-route-aria = Ruttexponering { $name }
+
+js-interf-route-chip = Rutt
+
+js-interf-route-done =
+    { $n ->
+        [one] Ruttexponeringen beräknades från { $n } karta med motor { $version }; rapporten visas nedan.
+       *[other] Ruttexponeringen beräknades från { $n } kartor med motor { $version }; rapporten visas nedan.
+    }
+
+js-interf-route-explain = Andel av ruttens längd i varje tillstånd, per dag och källa. De fyra andelarna summerar till 1 och läses tillsammans: en låg andel försämrade tillsammans med en hög andel inte observerade har inte visats vara fri. Rader för ADS-B och AIS kombineras aldrig.
+
+js-interf-route-exposure = Ruttexponering
+
+js-interf-route-needs-map = Öppna eller bygg minst en karta först: rutten kontrolleras mot kartorna på den här sidan.
+
+js-interf-route-open-failed = Rutten kunde inte öppnas: { $reason }.
+
+js-interf-route-range = { $from } till { $to }
+
+js-interf-route-too-big = { $name }: större än 24 MiB.
+
+js-interf-row-affected-share = Påverkad andel
+
+js-interf-row-aircraft-affected = Påverkade flygplan
+
+js-interf-row-aircraft-observed = Observerade flygplan
+
+js-interf-row-aircraft-sampled = Samplade flygplan
+
+js-interf-row-area = Yta
+
+js-interf-row-cell = Ruta
+
+js-interf-row-detectors = Detektorer som kvalificerade
+
+js-interf-row-flagged = Flaggad: { $detector }
+
+js-interf-row-status = Status
+
+js-interf-row-vessels-observed = Observerade fartyg
+
+js-interf-rows-skipped = { $count } rad(er) var inte giltiga och hoppades över.
+
+js-interf-rt-day = Dag
+
+js-interf-rt-km = Rutt, km
+
+js-interf-rt-licence = Kartans licens och upphov
+
+js-interf-rt-shares = Ruttens andelar
+
+js-interf-rt-source = Källa
+
+js-interf-sample-failed = Urvalet kunde inte öppnas: { $reason }.
+
+js-interf-save = Spara:
+
+js-interf-save-report = Spara rapporten (JSON)
+
+js-interf-show-layer = Visa det här lagret
+
+js-interf-st-anomalous-label = Avvikande
+
+js-interf-st-anomalous-text = Minst en detektor flaggade tillräckligt många olika fartyg här den dagen (minst 3 fartyg och 20 % av de observerade). Möjliga orsaker är störning men också många vanliga.
+
+js-interf-st-confounded-label = Förvillad dag
+
+js-interf-st-confounded-text = Hela dagens mediandel per ruta var hög, vilket tyder på en orsak över ett stort område. Ingen ruta förklaras försämrad en sådan dag; den här rutan hade annars stuckit ut.
+
+js-interf-st-degraded-label = Försämrad
+
+js-interf-st-degraded-text = En hög andel av de samplade flygplanen rapporterade låg navigeringsnoggrannhet här den dagen, långt över dagens medianruta. Det säger inte varför.
+
+js-interf-st-no-background-label = Ingen bakgrundsuppskattning
+
+js-interf-st-no-background-text = Dagens bakgrund (den typiska andelen flygplan som rapporterar låg noggrannhet) kunde inte uppskattas utifrån tillräckligt många rutor, så ingen ruta jämförs med den och ingen bedöms.
+
+js-interf-st-not-anomalous-label = Inte avvikande
+
+js-interf-st-not-anomalous-text = Observerad, och ingen detektor kvalificerade. Inget bevis för att ingenting hände.
+
+js-interf-st-not-degraded-label = Inte försämrad
+
+js-interf-st-not-degraded-text = Samplad, och andelen flygplan som rapporterade låg noggrannhet stack inte ut. Inget bevis för att ingenting hände.
+
+js-interf-st-too-few-label = För få flygplan
+
+js-interf-st-too-few-text = Publicerad (minst 5 olika flygplan observerade) men färre än 10 flygplan kunde samplas, så ingen bedömning görs.
+
+js-interf-starting-build = Startar motorn och bygger…
+
+js-interf-starting-route = Startar motorn och kontrollerar rutten…
+
+js-interf-state-clear-adsb = Fri
+
+js-interf-state-clear-adsb-text = Observerad med tillräckligt många flygplan och inte flaggad. Inget bevis för att ingenting hände.
+
+js-interf-state-clear-ais = Fri
+
+js-interf-state-clear-ais-text = Observerad med tillräckligt många fartyg och inte flaggad. Inget bevis för att ingenting hände.
+
+js-interf-state-degraded-adsb = Försämrad
+
+js-interf-state-degraded-adsb-text = En hög andel av de samplade flygplanen rapporterade låg navigeringsnoggrannhet här den dagen, långt över dagens medianruta.
+
+js-interf-state-degraded-ais = Avvikande
+
+js-interf-state-degraded-ais-text = Minst en detektor flaggade tillräckligt många olika fartyg här den dagen (minst 3 fartyg och 20 % av de observerade).
+
+js-interf-state-notobs-adsb = Inte observerad
+
+js-interf-state-notobs-adsb-text = Ingen ruta ritad: för få flygplan observerades för att publicera den. Det är inget belägg för att området var fritt.
+
+js-interf-state-notobs-ais = Inte observerad
+
+js-interf-state-notobs-ais-text = Ingen ruta ritad: för få fartyg observerades för att publicera den. Det är inget belägg för att området var fritt.
+
+js-interf-state-unassessed-adsb = Obedömd
+
+js-interf-state-unassessed-adsb-text = Observerad, men för få flygplan kunde samplas, dagen var förvillad eller dagens bakgrund kunde inte uppskattas, så ingen bedömning görs.
+
+js-interf-state-unassessed-ais = Obedömd
+
+js-interf-state-unassessed-ais-text = Observerad, men ingen bedömning görs.
+
+js-interf-status-unknown = En status som den här sidan inte beskriver.
+
+js-interf-table-first = De första { $shown } av { $total } rutor visas, de viktigaste bedömningarna först.
+
+js-interf-table-summary = Varje ritad ruta som tabell ({ $n })
+
+js-interf-the-day = Dagen
+
+js-interf-unknown-date = okänt datum
+
+js-interf-warn-cell-size = Den här filen använder en rutstorlek på { $size }° som inte är den förhandsregistrerade: det är inte den förhandsregistrerade metoden, så dess bedömningar går inte att jämföra med filer som använder den.
+
+js-interf-warn-cell-size-known = Den här filen använder en rutstorlek på { $size }° som inte är den förhandsregistrerade ({ $registered }°): det är inte den förhandsregistrerade metoden, så dess bedömningar går inte att jämföra med filer som använder den.
+
+js-interf-warn-day-confounded = Den här dagen är förvillad: ingen ruta bedömdes som försämrad på grund av dagens bakgrund (medianandelen per ruta var i sig hög).
+
+js-interf-warn-flag-disagrees = { $count } ruta/rutor har en flagga ”degraded” som inte stämmer med deras status. Det är statusen som ritas.
+
+js-interf-warn-no-licence = Den här filen saknar { $fields }-text. Den visas, men en karta utan sin licens och sitt upphov bör inte publiceras på nytt.
+
+js-interf-warn-on-land-off = Detektorn för position på land var avstängd för den här filen (inga landpolygoner angavs).
+
+js-interf-warn-skipped = { $count } objekt var inte giltig GeoJSON och hoppades över.
+
+js-interf-warn-unknown-status = Statusvärden som den här sidan inte känner till: { $values }. De ritas som ”ingen bedömning”.
+
+js-interf-withheld = undanhållen (färre än 5)
+
+js-interf-written-by = skriven av Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = 3D-positionsfel (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = kodjitter (m)
+
+js-kind-axis-code-tracking-jitter-m = kodföljningsjitter (m)
+
+js-kind-axis-doppler-shift-hz = Dopplerförskjutning (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = effektiv C/N0 (dB-Hz)
+
+js-kind-axis-elevation = elevation (°)
+
+js-kind-axis-fit-interval-s = anpassningsintervall (s)
+
+js-kind-axis-formal-position-sigma-m = formellt positionssigma (m)
+
+js-kind-axis-latitude = latitud (°)
+
+js-kind-axis-leo-satellites-added-to-the = LEO-satelliter som lagts till positionsbestämningen
+
+js-kind-axis-mean-satellites-in-view = genomsnittligt antal satelliter i sikte
+
+js-kind-axis-median-dilution-of-precision = median av precisionsförsämring
+
+js-kind-axis-median-error-m = medianfel (m)
+
+js-kind-axis-median-pdop = median-PDOP
+
+js-kind-axis-metres = meter
+
+js-kind-axis-observation-window-s = observationsfönster (s)
+
+js-kind-axis-offset-from-the-signal-s = avstånd från signalens mitt (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = avstånd från ögonblicksbildens mitt (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = positionsfel (m)
+
+js-kind-axis-power-spectral-density-db-hz = effektspektraltäthet (dB/Hz, enhetseffekt)
+
+js-kind-axis-power-spectral-density-dbw-hz = effektspektraltäthet (dBW/Hz)
+
+js-kind-axis-probability-of-detection = detektionssannolikhet
+
+js-kind-axis-range-error-m = avståndsfel (m)
+
+js-kind-axis-relays = reläer
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, kvadratiskt medelvärde (m)
+
+js-kind-axis-time-error-ns = tidsfel (ns)
+
+js-kind-axis-time-s = tid (s)
+
+js-kind-axis-time-since-the-start-min = tid sedan starten (min)
+
+js-kind-axis-update-period-s = uppdateringsperiod (s)
+
+js-kind-cap-body-pnt-label = Reläpositionering
+
+js-kind-cap-campaign-label = Kampanj
+
+js-kind-cap-constellation-design-label = Täckning
+
+js-kind-cap-leo-navmsg-label = Navigeringsmeddelande
+
+js-kind-cap-leo-pass-label = Överflygning och länk
+
+js-kind-cap-leo-pnt-chain-label = Kedja från början till slut
+
+js-kind-cap-leo-ppp-label = Positionering
+
+js-kind-cap-leo-pvt-label = Positionering
+
+js-kind-cap-leo-signal-label = Signalutformning
+
+js-kind-cap-lunar-llr-datum-label = Referens för laseravstånd
+
+js-kind-cap-ntn-positioning-label = Positionering
+
+js-kind-cap-solar-system-label = Solsystemet
+
+js-kind-cap-spectrum-label = Spektrum
+
+js-kind-guided-doppler-error-hz = Dopplerfel (Hz)
+
+js-kind-guided-duration-s = Varaktighet (s)
+
+js-kind-guided-earth-range-error-m = Jordens avståndsfel (m)
+
+js-kind-guided-elevation-mask = Elevationsmask (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Första störsändarens bandbredd (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Första störsändarens effekt (dBW)
+
+js-kind-guided-first-jammer-range-m = Första störsändarens avstånd (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Första störsändarens mottagna effekt (dBW)
+
+js-kind-guided-first-phase-length-s = Längd på första fasen (s)
+
+js-kind-guided-first-shell-altitude-km = Höjd för första skalet (km)
+
+js-kind-guided-first-shell-inclination = Inklination för första skalet (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Första signalens bandbredd (Hz)
+
+js-kind-guided-first-system-range-error-m = Första systemets avståndsfel (m)
+
+js-kind-guided-fit-interval-s = Anpassningsintervall (s)
+
+js-kind-guided-gravity-field-degree = Gravitationsfältets grad
+
+js-kind-guided-grid-step = Rutnätssteg (°)
+
+js-kind-guided-integration-time-s = Integrationstid (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = LEO-satelliter i svepet
+
+js-kind-guided-loop-bandwidth-hz = Slingbandbredd (Hz)
+
+js-kind-guided-monte-carlo-runs = Monte Carlo-körningar
+
+js-kind-guided-network-synchronisation-error-m = Nätverkets synkroniseringsfel (m)
+
+js-kind-guided-orbit-altitude-km = Banhöjd (km)
+
+js-kind-guided-orbit-determination-error-m = Fel i banbestämningen (m)
+
+js-kind-guided-orbit-inclination = Banans inklination (°)
+
+js-kind-guided-pdop-threshold = PDOP-tröskel
+
+js-kind-guided-peak-elevation-of-the-pass = Passagens högsta elevation (°)
+
+js-kind-guided-points-per-orbit-track = Punkter per banspår
+
+js-kind-guided-receiver-noise-figure-db = Mottagarens brusfaktor (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Mottagarens effekt när den är vaken (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Referens-C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Reläernas höjd (km)
+
+js-kind-guided-relay-inclination = Reläernas inklination (°)
+
+js-kind-guided-relay-planes = Relä-plan
+
+js-kind-guided-relay-range-error-m = Reläernas avståndsfel (m)
+
+js-kind-guided-relays-per-plane = Reläer per plan
+
+js-kind-guided-runs-per-case = Körningar per fall
+
+js-kind-guided-satellite-altitude-km = Satellitens höjd (km)
+
+js-kind-guided-second-system-range-error-m = Andra systemets avståndsfel (m)
+
+js-kind-guided-shared-condition = Gemensamt villkor
+
+js-kind-guided-slant-electron-content-tecu = Elektroninnehåll längs sikten (TECU)
+
+js-kind-guided-slant-range-km = Snedavstånd (km)
+
+js-kind-guided-spoofed-offset-m = Förskjutning vid spoofing (m)
+
+js-kind-guided-spoofing-starts-s = Spoofing börjar (s)
+
+js-kind-guided-sweep-from = Svep från
+
+js-kind-guided-sweep-steps = Svepsteg
+
+js-kind-guided-sweep-to = Svep till
+
+js-kind-guided-timeline-step-s = Tidslinjens steg (s)
+
+js-kind-guided-tracking-threshold-db-hz = Följningströskel (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Sändeffekt (dBW)
+
+js-kind-guided-update-period-s = Uppdateringsperiod (s)
+
+js-kind-guided-user-latitude = Användarens latitud (°)
+
+js-kind-hint-a-band-under-this-carrier = ett band under den här bärvågsbrustätheten har förlorat låsning
+
+js-kind-hint-a-grid-point-is-available = en rutnätspunkt är tillgänglig så länge dess positionsutspädning av precision ligger under det här
+
+js-kind-hint-a-satellite-must-be-this = en satellit måste vara så här hög för att räknas som i sikte
+
+js-kind-hint-a-satellite-must-be-this-2 = en satellit måste vara så här hög för att användas
+
+js-kind-hint-a-satellite-of-the-first = en satellit i det första systemet måste vara så här hög
+
+js-kind-hint-arc-one-message-is-fitted = båge som ett meddelande anpassas över
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = kodföljningsslingans brusbandbredd
+
+js-kind-hint-detail-of-the-truth-orbit = detaljnivå i referensbanans gravitationsmodell
+
+js-kind-hint-distance-from-the-first-jammer = avståndet från den första störsändaren till mottagaren
+
+js-kind-hint-distance-to-the-satellite-in = avståndet till satelliten i bandavvägningen
+
+js-kind-hint-drawn-while-acquiring-and-tracking = ritas under inlåsning och följning
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = ekvivalent isotropiskt utstrålad effekt för den första störsändaren
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = ekvivalent isotropiskt utstrålad effekt för bandet
+
+js-kind-hint-filter-runs-averaged-for-each = filterkörningar som medelvärdesbildas för varje fall (fler är långsammare)
+
+js-kind-hint-first-value-of-the-swept = första värdet för den svepta parametern
+
+js-kind-hint-height-of-the-chain-s = höjden på kedjans satellit
+
+js-kind-hint-height-of-the-first-shell = höjden på det första skalets banor
+
+js-kind-hint-height-of-the-relay-orbits = höjden på reläbanorna över himlakroppen
+
+js-kind-hint-height-of-the-satellite-whose = höjden på satelliten vars meddelande anpassas
+
+js-kind-hint-how-far-the-spoofer-moves = hur långt spoofern flyttar den beräknade positionen
+
+js-kind-hint-how-finely-each-orbit-is = hur finmaskigt varje bana samplas för ritningen
+
+js-kind-hint-how-high-the-satellite-climbs = hur högt satelliten stiger
+
+js-kind-hint-how-long-the-first-phase = hur länge den första fasen varar
+
+js-kind-hint-how-long-the-receiver-integrates = hur länge mottagaren integrerar för ett avstånd
+
+js-kind-hint-how-many-low-orbit-satellites = hur många satelliter i låg bana geometrisvepet lägger till
+
+js-kind-hint-how-many-seeded-runs-make = hur många körningar med fast frö som utgör ensemblen
+
+js-kind-hint-how-many-values-are-run = hur många värden som körs
+
+js-kind-hint-how-often-a-new-message = hur ofta ett nytt meddelande utfärdas
+
+js-kind-hint-how-wide-the-first-jammer = hur brett den första störsändaren sprider sin effekt
+
+js-kind-hint-ionosphere-along-the-path-in = jonosfären längs vägen, i enheter av totalt elektroninnehåll
+
+js-kind-hint-last-value-of-the-swept = sista värdet för den svepta parametern
+
+js-kind-hint-length-of-each-filter-run = längden på varje filterkörning
+
+js-kind-hint-length-of-the-run = körningens längd
+
+js-kind-hint-length-of-the-timeline = tidslinjens längd
+
+js-kind-hint-occupied-bandwidth-of-the-first = upptagen bandbredd för den första referenssignalen
+
+js-kind-hint-one-sigma-doppler-measurement-error = Doppler-mätfel på en sigma
+
+js-kind-hint-one-sigma-error-of-a = fel på en sigma för ett avstånd till ett relä
+
+js-kind-hint-one-sigma-error-of-the = fel på en sigma för det tvåvägsavstånd från jorden
+
+js-kind-hint-orbital-planes-of-the-navigation = banplan för navigeringsreläerna
+
+js-kind-hint-power-of-the-first-jammer = den första störsändarens effekt vid mottagaren
+
+js-kind-hint-raises-the-noise-floor-under = höjer brusgolvet under varje band
+
+js-kind-hint-satellites-in-each-plane = satelliter i varje plan
+
+js-kind-hint-sets-the-doppler-range-a = bestämmer det Doppler-intervall som en kallsökning måste täcka
+
+js-kind-hint-signal-in-space-range-error = signal-i-rymden-avståndsfel för det första systemet
+
+js-kind-hint-signal-in-space-range-error-2 = signal-i-rymden-avståndsfel för det andra systemet
+
+js-kind-hint-signal-level-the-tracking-figures = signalnivå som följningstalen anges vid
+
+js-kind-hint-spacing-of-the-latitude-and = avståndet i latitud- och longitudrutnätet
+
+js-kind-hint-spacing-of-the-shared-mission = avståndet i det gemensamma uppdragets tidsrutnät
+
+js-kind-hint-the-part-of-the-range = den del av avståndsfelet som meddelandet inte kan ta bort
+
+js-kind-hint-the-value-every-member-runs = värdet som varje medlem körs med
+
+js-kind-hint-tilt-of-that-orbit = lutningen på den banan
+
+js-kind-hint-tilt-of-the-first-shell = lutningen på det första skalets plan
+
+js-kind-hint-tilt-of-the-relay-planes = lutningen på reläplanen
+
+js-kind-hint-timing-error-between-satellites-as = tidsfel mellan satelliter, som avstånd
+
+js-kind-hint-when-the-spoofer-captures-the = när spoofern fångar mottagaren
+
+js-kind-hint-where-the-receiver-stands = där mottagaren befinner sig
+
+js-kind-hint-where-the-user-stands = där användaren befinner sig
+
+js-kind-label-3-d-error = 3D-fel
+
+js-kind-label-3-d-error-time-of = 3D-fel, ankomsttid
+
+js-kind-label-a-corrupted-frame-is-rejected = en skadad ram avvisas
+
+js-kind-label-all-channels = alla kanaler
+
+js-kind-label-availability = Tillgänglighet
+
+js-kind-label-band = Band
+
+js-kind-label-bodies = Himlakroppar
+
+js-kind-label-body = Himlakropp
+
+js-kind-label-both = båda
+
+js-kind-label-case = Fall
+
+js-kind-label-class = Klass
+
+js-kind-label-code-jitter = kodjitter
+
+js-kind-label-constellation = Konstellation
+
+js-kind-label-doppler = Doppler
+
+js-kind-label-event = Händelse
+
+js-kind-label-evidence = Evidens
+
+js-kind-label-fewest-in-view = Minst i sikte
+
+js-kind-label-field = Fält
+
+js-kind-label-first-detection-after-onset = Första detektion efter start
+
+js-kind-label-frame-length = Ramlängd
+
+js-kind-label-fused = fuserad
+
+js-kind-label-fused-cap = Fuserad
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS och LEO
+
+js-kind-label-gnss-channels = GNSS-kanaler
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (högst på himlen)
+
+js-kind-label-gnss-only = Endast GNSS
+
+js-kind-label-gnss-only-cap = Endast GNSS
+
+js-kind-label-gnss-signal = GNSS-signal
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Högst
+
+js-kind-label-horizontal-error = horisontellt fel
+
+js-kind-label-horizontal-error-2 = Horisontellt fel
+
+js-kind-label-jammer = Störsändare
+
+js-kind-label-jump-threshold = Hopptröskel
+
+js-kind-label-largest-range-jump = Största avståndshopp
+
+js-kind-label-largest-range-jump-against-the = största avståndshopp mot tröskeln
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = LEO-kanaler
+
+js-kind-label-leo-only = Endast LEO
+
+js-kind-label-light-time-from-observer = Ljustid från { $observer }
+
+js-kind-label-light-time-from-the-observer = Ljustid från observatören
+
+js-kind-label-light-time-one-way = Ljustid, enkel väg
+
+js-kind-label-lowest = Lägst
+
+js-kind-label-lowest-c-n0 = Lägsta C/N0
+
+js-kind-label-mean = Medelvärde
+
+js-kind-label-mean-in-view = Medelvärde i sikte
+
+js-kind-label-median-convergence = Mediankonvergens
+
+js-kind-label-median-pdop = Median-PDOP
+
+js-kind-label-member-runs = Medlemskörningar
+
+js-kind-label-message-switch-iod = meddelandebyte, datautgåva { $old } till { $new }
+
+js-kind-label-mission-length = Uppdragets längd
+
+js-kind-label-model = modell
+
+js-kind-label-monte-carlo-runs = Monte Carlo-körningar
+
+js-kind-label-noise-floor = Brusgolv
+
+js-kind-label-parameters = Parametrar
+
+js-kind-label-payload = Nyttolast
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95:e percentilen
+
+js-kind-label-peak-elevation = Högsta elevation
+
+js-kind-label-peak-tracked-c-n0 = Högsta följda C/N0
+
+js-kind-label-phase = Fas
+
+js-kind-label-predicted-horizontal-sigma = förutsagt horisontellt sigma
+
+js-kind-label-quantisation-position = Kvantisering, position
+
+js-kind-label-range-error = avståndsfel
+
+js-kind-label-relays-above-the-mask = reläer över masken
+
+js-kind-label-relays-and-earth-link = reläer och jordlänk
+
+js-kind-label-relays-only = endast reläer
+
+js-kind-label-satellite = Satellit
+
+js-kind-label-satellites = Satelliter
+
+js-kind-label-satellites-used = Använda satelliter
+
+js-kind-label-signal = Signal
+
+js-kind-label-signal-chip-spacing = { $name } ({ $spacing } chip-avstånd)
+
+js-kind-label-sisre-after-quantisation = SISRE efter kvantisering
+
+js-kind-label-sisre-root-mean-square = SISRE, kvadratiskt medelvärde
+
+js-kind-label-spoofing-starts = spoofing börjar
+
+js-kind-label-standard-deviation = Standardavvikelse
+
+js-kind-label-sun-separation = Avstånd från solen
+
+js-kind-label-sweep-runs = Svepkörningar
+
+js-kind-label-system = System
+
+js-kind-label-time-above-the-mask = Tid över masken
+
+js-kind-label-time-error-root-mean-square = Tidsfel, kvadratiskt medelvärde
+
+js-kind-label-tracked-component = följd komponent
+
+js-kind-label-tracking-threshold = Följningströskel
+
+js-kind-label-transmit-bandwidth = Sändningsbandbredd
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Welch-skattning av de syntetiserade samplen
+
+js-kind-label-whole-signal = hela signalen
+
+js-kind-label-wideband-j-s-tolerated = Tolererad J/S för bredband
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Sämsta platsens tillgänglighet
+
+js-kind-no = nej
+
+js-kind-note-a-gap-is-an-epoch = Ett glapp är en epok med för få reläer i sikte för en positionsbestämning.
+
+js-kind-note-a-helmert-transform-is-the = En Helmert-transformation är förskjutningen, rotationen och skalan med sju parametrar mellan två referenssystem.
+
+js-kind-note-a-low-earth-orbit-leo = En satellit i låg jordbana (LEO) korsar himlen på några minuter, så dess C/N0 (förhållandet mellan bärvåg och brustäthet) stiger och sjunker i en klockform; en GNSS-satellit rör sig knappt alls på samma tid.
+
+js-kind-note-a-receiver-independent-exchange-format = En post i stil med Receiver Independent Exchange Format (RINEX) 4. LEO-posttyperna är en Kshana-utökning, som huvudet anger.
+
+js-kind-note-a-single-pass-fixes-the = En enda överflygning bestämmer riktningen längs banan mycket bättre än den tvärs över banan.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS är signalinlåsning (acquisition of signal), TCA tidpunkten för närmaste passage och LOS signalförlust (loss of signal).
+
+js-kind-note-c-n0-is-the-carrier = C/N0 är förhållandet mellan bärvåg och brustäthet. Ett band under mottagarens följningströskel har förlorat låsning.
+
+js-kind-note-cells-are-the-code-and = Cellerna är de kod- och Doppler-fack som en kallsökning måste testa.
+
+js-kind-note-cold-is-a-first-fix = Kall är en första positionsbestämning utan förkunskap; het är en positionsbestämning kort efter den förra.
+
+js-kind-note-dilution-of-precision-dop-scales = Precisionsförsämring (DOP) skalar ett avståndsfel till ett positionsfel: G är geometrisk, P position, H horisontell, V vertikal. Percentilerna gäller alla rutnätspunkter och epoker.
+
+js-kind-note-drawn-at-the-strongest-signal = Ritad vid körningens starkaste signalnivå. Ett glapp är en sträcka utan satellit i sikte.
+
+js-kind-note-each-body-carries-its-own = Varje himlakropp bär sin egen evidensetikett. Ljustiden är enkel väg, från den observatör som anges i scenariot.
+
+js-kind-note-each-row-is-one-full = Varje rad är en hel motorkörning av det svepta scenariot.
+
+js-kind-note-each-rule-is-a-switch = Varje regel är ett byte till ett nyare meddelande mitt under överflygningen.
+
+js-kind-note-each-signal-is-drawn-about = Varje signal ritas kring sin egen mittfrekvens. Ett glapp är en spektral nolla.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP är den ekvivalenta isotropiskt utstrålade effekten.
+
+js-kind-note-every-phase-is-an-ordinary = Varje fas är en vanlig scenariokörning. Hashvärdena identifierar varje medlems indata och dess resultatdokument.
+
+js-kind-note-iod-is-the-issue-of = IOD är datautgåvan (issue of data): meddelandets löpnummer.
+
+js-kind-note-j-s-is-the-jammer = J/S är förhållandet mellan störsändarens effekt och signalens. Följningsandelen är den del av körningen som bandet håller sig över tröskeln.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 och p95 är 5:e, 50:e och 95:e percentilen. ci95 är 95-procentigt konfidensintervall för medelvärdet.
+
+js-kind-note-parameters-are-public-with-a = Parametrarna är OFFENTLIGA (med källa), REPRESENTATIVA eller WORKSHOP, som varje förinställning anger.
+
+js-kind-note-precise-point-positioning-ppp-converges = Precis punktpositionering (PPP) konvergerar när felet håller sig under kriteriet. NEES är det normaliserade kvadrerade skattningsfelet, en kontroll av filtrets konsistens.
+
+js-kind-note-sisre-defined = SISRE är signal-i-rymden-avståndsfelet: det som det utsända meddelandet tillför en användares avstånd. Här är det meddelandets representationsfel mot motorns egen referensbana.
+
+js-kind-note-sisre-is-the-signal-in = SISRE är det signal-i-rymden-avståndsfel som antas för varje systems utsända bana och klocka.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC är spektralseparationskoefficienten: hur mycket av en signals effekt som hamnar inom den andras mottagare. Ett streck betyder att de två inte överlappar.
+
+js-kind-note-the-chain-runs-the-signal = Kedjan kör stegen signal, överflygning, navigeringsmeddelande, positionering och precis positionering i ordning. Varje rad är ett tal som ett steg beräknade och nästa använde.
+
+js-kind-note-the-doppler-and-pass-geometry = Monitorn för Doppler och överflygningsgeometri jämför uppmätta avståndshastigheter med dem som förutsägs från banorna. Regeln markerar när spoofern börjar.
+
+js-kind-note-the-engine-draws-its-spectrum = Motorn ritar sin spektrummodell som fas- och kvadratursampel (IQ) vid ett ögonblick och skattar spektrumet tillbaka från dem. Samma sampel är exporten i SigMF (Signal Metadata Format).
+
+js-kind-note-the-engine-s-own-documented = Motorns egen dokumenterade binära ram, avslutad med en 24-bitars cyklisk redundanskontroll (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = Gabor-bandbredden (kvadratiskt medelvärde) avgör hur skarpt en signal kan användas för avståndsmätning.
+
+js-kind-note-the-largest-jammer-to-signal = Det största förhållandet mellan störsändare och signal (J/S) som varje signal följer igenom, för en kontinuerlig våg (CW), en störsändare med matchat spektrum och en bredbandig störsändare.
+
+js-kind-note-the-shapiro-delay-is-the = Shapiro-fördröjningen är den extra ljustiden från solens gravitation längs vägen.
+
+js-kind-note-the-spectrum-kind-and-the = Spektrumtypen och jammingtypen beräknar samma länk på två sätt; sista kolumnen är skillnaden mellan dem.
+
+js-kind-note-time-of-arrival-toa-ranging = Avståndsmätning med ankomsttid (TOA) på en nedlänk i ett icke-jordbundet nät (NTN): en bredare signal ger skarpare avståndsmätning.
+
+js-kind-note-what-half-a-least-significant = Vad en halv minst signifikant bit (LSB) av varje fält kostar i position och i klocka, som avstånd.
+
+js-kind-rowhead-block = Block
+
+js-kind-rowhead-condition = Villkor
+
+js-kind-rowhead-figure = Tal
+
+js-kind-rowhead-member = Medlem
+
+js-kind-rowhead-metric = Mått
+
+js-kind-rowhead-monitor = Monitor
+
+js-kind-rowhead-phase = Fas
+
+js-kind-rowhead-satellite = Satellit
+
+js-kind-rowhead-signal = Signal
+
+js-kind-rowhead-solution = Lösning
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = Endast Doppler
+
+js-kind-sub-from-to = { $from } till { $to }
+
+js-kind-sub-fused = fuserad
+
+js-kind-sub-gnss-and-leo-latitude = GNSS och LEO, latitud { $lat }°
+
+js-kind-sub-gnss-only = Endast GNSS
+
+js-kind-sub-gnss-only-latitude = Endast GNSS, latitud { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, anpassning på { $fit } s
+
+js-kind-threshold-4-needed-for-a-fix = 4 behövs för en positionsbestämning
+
+js-kind-threshold-convergence-criterion = konvergenskriterium
+
+js-kind-threshold-elevation-mask = elevationsmask
+
+js-kind-threshold-gnss-median = GNSS-median
+
+js-kind-threshold-tracking-threshold = följningströskel
+
+js-kind-title-acquisition = Inlåsning
+
+js-kind-title-against-a-simulated-campaign = Mot en simulerad kampanj
+
+js-kind-title-assumptions = Antaganden
+
+js-kind-title-band-trade-at-equal-transmit = Bandavvägning vid lika sändeffekt
+
+js-kind-title-bands = Band
+
+js-kind-title-beside-the-published-figures = Bredvid de publicerade talen
+
+js-kind-title-beside-the-published-speed-up = Bredvid den publicerade snabbare konvergensen
+
+js-kind-title-bodies = Himlakroppar
+
+js-kind-title-body = Himlakropp
+
+js-kind-title-by-latitude = Efter latitud
+
+js-kind-title-c-n0-by-band-over = C/N0 per band under körningen
+
+js-kind-title-c-n0-over-the-pass = C/N0 under överflygningen
+
+js-kind-title-cases = Fall
+
+js-kind-title-central-body = Centralkropp
+
+js-kind-title-closed-form-doppler-against-finite = Doppler i sluten form mot finita differenser
+
+js-kind-title-code-tracking-jitter = Kodföljningsjitter
+
+js-kind-title-code-tracking-jitter-against-c = Kodföljningsjitter mot C/N0
+
+js-kind-title-combined-over-the-members = Kombinerat över medlemmarna
+
+js-kind-title-compatibility-with-gnss-signals = Kompatibilitet med GNSS-signaler
+
+js-kind-title-constellations = Konstellationer
+
+js-kind-title-continuity-across-message-switches = Kontinuitet över meddelandebyten
+
+js-kind-title-cross-check-against-the-jamming = Korskontroll mot jammingtypen
+
+js-kind-title-datum-accuracy = Datumets noggrannhet
+
+js-kind-title-dilution-of-precision-over-the = Precisionsförsämring över hela rutnätet
+
+js-kind-title-doppler = Doppler
+
+js-kind-title-doppler-envelopes = Doppler-envelopper
+
+js-kind-title-doppler-only-fix = Positionsbestämning endast med Doppler
+
+js-kind-title-doppler-over-the-pass = Doppler under överflygningen
+
+js-kind-title-doppler-positioning-from-one-pass = Doppler-positionering från en överflygning
+
+js-kind-title-earth-link = Jordlänk
+
+js-kind-title-elevation = Elevation
+
+js-kind-title-encoded-frame = Kodad ram
+
+js-kind-title-epoch = Epok
+
+js-kind-title-epoch-and-frame = Epok och referenssystem
+
+js-kind-title-events = Händelser
+
+js-kind-title-every-node-of-the-sweep = Varje nod i svepet
+
+js-kind-title-field-table = Fälttabell
+
+js-kind-title-figures-of-merit = Kvalitetsmått
+
+js-kind-title-filter-noise = Filterbrus
+
+js-kind-title-fit-interval-trade = Avvägning av anpassningsintervall
+
+js-kind-title-fix-quality-against-observation-window = Positionsbestämningens kvalitet mot observationsfönster
+
+js-kind-title-frame-checks = Ramkontroller
+
+js-kind-title-frame-hexadecimal = Ram, hexadecimal
+
+js-kind-title-geometry-against-latitude = Geometri mot latitud
+
+js-kind-title-geometry-as-leo-satellites-are = Geometri när LEO-satelliter läggs till
+
+js-kind-title-geometry-position-dilution-of-precision = Geometri: positionsutspädning av precision
+
+js-kind-title-global-coverage = Global täckning
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO och fuserad
+
+js-kind-title-gnss-reference = GNSS-referens
+
+js-kind-title-hand-offs-between-phases = Överlämningar mellan faser
+
+js-kind-title-helmert-fit = Helmert-anpassning
+
+js-kind-title-helmert-transform-parameters = Parametrar för Helmert-transformation
+
+js-kind-title-inputs = Indata
+
+js-kind-title-ionosphere-free-band-pairs = Jonosfärsfria bandpar
+
+js-kind-title-jammer-tolerance = Tolerans mot störsändare
+
+js-kind-title-jammers = Störsändare
+
+js-kind-title-joint-fix = Gemensam positionsbestämning
+
+js-kind-title-leo-against-gnss = LEO mot GNSS
+
+js-kind-title-limitations = Begränsningar
+
+js-kind-title-links = Länkar
+
+js-kind-title-member-runs = Medlemskörningar
+
+js-kind-title-members-under-the-shared-conditions = Medlemmar under de gemensamma villkoren
+
+js-kind-title-message = Meddelande
+
+js-kind-title-message-models-compared = Jämförelse av meddelandemodeller
+
+js-kind-title-message-switches = Meddelandebyten
+
+js-kind-title-metric-against-axis = { $metric } mot { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: fördelning över körningarna
+
+js-kind-title-mid-pass-update = Uppdatering mitt i överflygningen
+
+js-kind-title-modelled = Modellerad
+
+js-kind-title-monte-carlo = Monte Carlo
+
+js-kind-title-navigation-message-stage = Steg för navigeringsmeddelande
+
+js-kind-title-not-modelled = Inte modellerad
+
+js-kind-title-notes = Anmärkningar
+
+js-kind-title-notes-on-the-spoofing-model = Anmärkningar om spoofingmodellen
+
+js-kind-title-observation-windows = Observationsfönster
+
+js-kind-title-one-pass-alone = En överflygning ensam
+
+js-kind-title-orbit = Bana
+
+js-kind-title-over-the-message-sequence = Över meddelandesekvensen
+
+js-kind-title-pass = Överflygning
+
+js-kind-title-pass-c-n0-of-the = Överflygning: C/N0 för hela signalen och för den följda komponenten
+
+js-kind-title-pass-code-tracking-jitter = Överflygning: kodföljningsjitter
+
+js-kind-title-pass-doppler = Överflygning: Doppler
+
+js-kind-title-pass-stage = Steg för överflygning
+
+js-kind-title-passes = Överflygningar
+
+js-kind-title-phases = Faser
+
+js-kind-title-position-error-gnss-leo-and = Positionsfel: GNSS, LEO och den fuserade positionsbestämningen
+
+js-kind-title-position-uncertainty-relays-alone-and = Positionsosäkerhet: enbart reläer, och med jordlänken
+
+js-kind-title-positioning-by-signal-bandwidth = Positionering efter signalbandbredd
+
+js-kind-title-positioning-gnss-alone-against-the = Positionering: enbart GNSS mot den fuserade positionsbestämningen
+
+js-kind-title-power-spectral-density = Effektspektraltäthet
+
+js-kind-title-power-spectral-density-of-each = Effektspektraltäthet för varje signal
+
+js-kind-title-precise-point-positioning = Precis punktpositionering
+
+js-kind-title-published-comparison = Publicerad jämförelse
+
+js-kind-title-quantisation-budget = Kvantiseringsbudget
+
+js-kind-title-range-residuals = Avståndsresidualer
+
+js-kind-title-ranging-stations = Avståndsmätningsstationer
+
+js-kind-title-reading-the-trade = Att läsa avvägningen
+
+js-kind-title-realised-position-error = Uppnått positionsfel
+
+js-kind-title-receiver = Mottagare
+
+js-kind-title-receiver-power-budget = Mottagarens effektbudget
+
+js-kind-title-reflector-information = Information om reflektorer
+
+js-kind-title-relay-constellation = Relä-konstellation
+
+js-kind-title-relays-in-view = Reläer i sikte
+
+js-kind-title-reproducibility = Reproducerbarhet
+
+js-kind-title-retroreflectors = Retroreflektorer
+
+js-kind-title-rinex-style-record = Post i RINEX-stil
+
+js-kind-title-round-trips = Rundturer
+
+js-kind-title-run = Körning
+
+js-kind-title-satellites-in-view-against-latitude = Satelliter i sikte mot latitud
+
+js-kind-title-sensitivity-to-a-line-of = Känslighet för en lutning av siktlinjen
+
+js-kind-title-shared-conditions = Gemensamma villkor
+
+js-kind-title-signal-components = Signalkomponenter
+
+js-kind-title-signal-stage = Steg för signal
+
+js-kind-title-signals = Signaler
+
+js-kind-title-sisre-against-fit-interval = SISRE mot anpassningsintervall
+
+js-kind-title-sisre-against-update-period = SISRE mot uppdateringsperiod
+
+js-kind-title-sisre-weights = SISRE-vikter
+
+js-kind-title-snapshot = Ögonblicksbild
+
+js-kind-title-snapshot-against-the-model = Ögonblicksbild mot modellen
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Spektrum för ögonblicksbilden: Welch-skattning mot modellen
+
+js-kind-title-sources = Källor
+
+js-kind-title-spoofer-and-monitor-settings = Inställningar för spoofer och monitor
+
+js-kind-title-spoofing-monitor-probability-of-detection = Spoofingmonitor: detektionssannolikhet
+
+js-kind-title-statistics-over-the-runs = Statistik över körningarna
+
+js-kind-title-sweep = Svep
+
+js-kind-title-systems = System
+
+js-kind-title-systems-in-the-fix = System i positionsbestämningen
+
+js-kind-title-the-archived-campaign = Den arkiverade kampanjen
+
+js-kind-title-time-error = Tidsfel
+
+js-kind-title-time-error-by-receiver-clock = Tidsfel per mottagarklocka
+
+js-kind-title-time-scale = Tidsskala
+
+js-kind-title-time-to-first-fix-and = Tid till första positionsbestämning och energi per positionsbestämning
+
+js-kind-title-time-transfer-by-clock-and = Tidsöverföring per klocka och signalnivå
+
+js-kind-title-trade-conditions = Villkor för avvägningen
+
+js-kind-title-update-period-trade = Avvägning av uppdateringsperiod
+
+js-kind-title-user = Användare
+
+js-kind-title-user-range-error-through-the = Användarens avståndsfel under överflygningen
+
+js-kind-title-validated = Validerad
+
+js-kind-title-what-each-stage-hands-to = Vad varje steg lämnar vidare till nästa
+
+js-kind-title-what-this-run-is-and = Vad den här körningen är och inte är
+
+js-kind-title-when-each-monitor-detects = När varje monitor detekterar
+
+js-kind-title-work-done = Utfört arbete
+
+js-kind-yes = ja
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } registerrad
+       *[other] { $n } registerrader
+    }
+
+js-lib-abbr-apv = inflygning med vertikal ledning
+
+js-lib-abbr-araim = avancerad autonom integritetsövervakning i mottagaren
+
+js-lib-abbr-auc = arean under kurvan
+
+js-lib-abbr-c-n0 = bärvågs-till-brustäthet
+
+js-lib-abbr-ccsds = Consultative Committee for Space Data Systems
+
+js-lib-abbr-cli = kommandoradsgränssnitt
+
+js-lib-abbr-csac = atomklocka i chipskala
+
+js-lib-abbr-cw = kontinuerlig våg
+
+js-lib-abbr-doi = digital objektidentifierare
+
+js-lib-abbr-dop = precisionsförsämring
+
+js-lib-abbr-eo = jordobservation
+
+js-lib-abbr-gnss = globalt satellitnavigeringssystem
+
+js-lib-abbr-gps = Global Positioning System
+
+js-lib-abbr-hal = horisontell larmgräns
+
+js-lib-abbr-hpl = horisontell skyddsnivå
+
+js-lib-abbr-imu = tröghetsmätenhet
+
+js-lib-abbr-ins = tröghetsnavigeringssystem
+
+js-lib-abbr-iot = sakernas internet
+
+js-lib-abbr-itu-t = International Telecommunication Union, Telecommunication Standardization Sector
+
+js-lib-abbr-j-s = förhållandet mellan störsändare och signal
+
+js-lib-abbr-leo = låg jordbana
+
+js-lib-abbr-llr = laseravståndsmätning mot månen
+
+js-lib-abbr-meo = medelhög jordbana
+
+js-lib-abbr-mtie = största tidsintervallfel
+
+js-lib-abbr-ntn = icke-jordbundet nät
+
+js-lib-abbr-ocxo = ugnsstyrd kristalloscillator
+
+js-lib-abbr-oem = Orbit Ephemeris Message
+
+js-lib-abbr-omm = Orbit Mean-elements Message
+
+js-lib-abbr-pdop = positionsutspädning av precision
+
+js-lib-abbr-pnt = positionering, navigering och tidssynkronisering
+
+js-lib-abbr-ppp = precis punktpositionering
+
+js-lib-abbr-raim = autonom integritetsövervakning i mottagaren
+
+js-lib-abbr-rf = radiofrekvens
+
+js-lib-abbr-rinex = Receiver Independent Exchange Format
+
+js-lib-abbr-roc = mottagarens driftkarakteristik
+
+js-lib-abbr-sbas = satellitbaserat förstärkningssystem
+
+js-lib-abbr-sgp4 = Simplified General Perturbations 4, en banpropagator
+
+js-lib-abbr-sisre = signal-i-rymden-avståndsfel
+
+js-lib-abbr-slam = samtidig lokalisering och kartläggning
+
+js-lib-abbr-spp = enpunktspositionering
+
+js-lib-abbr-tdev = tidsavvikelse
+
+js-lib-abbr-tle = tvåradig elementsats
+
+js-lib-abbr-toml = filformatet för scenarier
+
+js-lib-abbr-trn = terrängreferensnavigering
+
+js-lib-abbr-uhf = ultrahög frekvens
+
+js-lib-abbr-ukf = unscented Kalman-filter
+
+js-lib-abbr-utc = koordinerad universell tid
+
+js-lib-abbr-val = vertikal larmgräns
+
+js-lib-abbr-vlbi = interferometri med mycket lång baslinje
+
+js-lib-abbr-vpl = vertikal skyddsnivå
+
+js-lib-abbr-wg = Arbetsgrupp
+
+js-lib-areas-ground-track = Markspår
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Tillgänglighet
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Tidssynkronisering p95
+
+js-lib-compare-timing-rms = Tidssynkronisering RMS
+
+js-lib-counts-explorer-tally = { $validated } av { $total } förmågor validerade mot en oberoende extern referens · { $modelled } modellerade · { $partner } ägda av partner — visas här som { $cards } förmågekort i { $domains } områden, { $evidence } evidensanspråk
+
+js-lib-counts-validated-tally = { $validated } av { $total } förmågor validerade mot en oberoende extern referens — visas här som { $cards } förmågekort och { $evidence } evidensanspråk
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = motorfilen returnerade HTTP { $status }
+
+js-lib-engine-page-not-running = motorn körs inte här
+
+js-lib-engine-worker-crashed = motorns arbetstråd kraschade
+
+js-lib-evidence-aria = Evidens: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } registerrad
+       *[other] { $n } registerrader
+    }
+
+js-lib-evidence-rows-behind = Registerrader bakom det här resultatet
+
+js-lib-geometry-url-bad-mc = Antalet Monte Carlo-sampel är inte ett av { $choices }; { $default } används.
+
+js-lib-geometry-url-bad-number = "{ $key }" är inte ett tal från { $min } till { $max }; standardvärdet används.
+
+js-lib-geometry-url-bad-site = Platsen är inte latitud,longitud[,höjd] inom intervallet; standardplatsen används.
+
+js-lib-geometry-url-bad-sky = Skylinen är inte en förinställning, en tabell med 360 fack eller en kanjon inom intervallet; en öppen horisont används.
+
+js-lib-geometry-url-bad-sys = Konstellationslistan är inte G, E, C och högst en L:<LEO-förinställning> som den här vyn känner till; standardblandningen används.
+
+js-lib-geometry-url-own-tle = Avsändaren använde egna banelement (TLE), som en länk inte bär med sig; förinställningarna visas i stället.
+
+js-lib-geometry-url-repeated = "{ $key }" förekommer mer än en gång; det första värdet används.
+
+js-lib-geometry-url-too-long = Adressen är längre än { $max } tecken, så ingen av dess inställningar lästes.
+
+js-lib-geometry-url-unreadable = Adressen kunde inte läsas.
+
+js-lib-guided-duration-s-hint = hur länge markspåret ska propageras
+
+js-lib-guided-duration-s-label = Varaktighet (s)
+
+js-lib-guided-dut1-s-hint = jordrotationsförskjutning; flyttar markspåret öst–väst
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = en satellit måste vara så här hög för att räknas som synlig
+
+js-lib-guided-mask-deg-label = Elevationsmask (°)
+
+js-lib-guided-seed-hint = en annan brusdragning av samma fysik
+
+js-lib-guided-seed-label = Slumpfrö
+
+js-lib-guided-sigma-uere-m-hint = användarekvivalent avståndsfel på 1 σ för positionssammanfattningen
+
+js-lib-guided-sigma-uere-m-label = Avståndsfel σ (m)
+
+js-lib-guided-station-lat-deg-hint = markstationens latitud — styr överflygningens geometri
+
+js-lib-guided-station-lat-deg-label = Stationens latitud (°)
+
+js-lib-guided-station-lon-deg-hint = markstationens longitud
+
+js-lib-guided-station-lon-deg-label = Stationens longitud (°)
+
+js-lib-guided-step-s-hint = samplingstakt för markspåret
+
+js-lib-guided-step-s-label = Tidssteg (s)
+
+js-lib-guided-threshold-ns-hint = budget inom specifikationen; "tillgänglig" så länge felet ligger under den
+
+js-lib-guided-threshold-ns-label = Specifikationströskel (ns)
+
+js-lib-guided-time-duration-s-hint = körningens totala längd
+
+js-lib-guided-time-duration-s-label = Varaktighet (s)
+
+js-lib-guided-time-step-s-hint = integrations- och samplingstakt
+
+js-lib-guided-time-step-s-label = Tidssteg (s)
+
+js-lib-guided-user-altitude-km-hint = användarfarkostens banhöjd
+
+js-lib-guided-user-altitude-km-label = Användarens höjd (km)
+
+js-lib-guided-user-inclination-deg-hint = användarbanans inklination
+
+js-lib-guided-user-inclination-deg-label = Användarens inklination (°)
+
+js-lib-imufit-card-accel-slope = Accelerometerns Allan-lutning, tidig (cirka -0,5 för vitt brus)
+
+js-lib-imufit-card-bias = Accelerometerns bias, medelvärde (m/s²)
+
+js-lib-imufit-card-bias-instability = Accelerometerns biasinstabilitet (m/s²), 0 när kurvan saknar golv
+
+js-lib-imufit-card-gyro-bias = Gyrots bias, medelvärde (rad/s)
+
+js-lib-imufit-card-gyro-slope = Gyrots Allan-lutning, tidig (cirka -0,5 för vitt brus)
+
+js-lib-imufit-card-note-n = Anmärkning { $n }
+
+js-lib-imufit-card-q-arw = Gyrots vinkelslumpvandring, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Accelerometerns hastighetsslumpvandring, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Samplingsfrekvens
+
+js-lib-imufit-card-samples = Sampel
+
+js-lib-imufit-card-span = Spann
+
+js-lib-jammertest-card-clean-epochs = Rena epoker
+
+js-lib-jammertest-card-clean-hours = Rena timmar
+
+js-lib-jammertest-card-detected = Detekterade inom toleransen
+
+js-lib-jammertest-card-detection-rate = Detektionsandel (valfritt larm)
+
+js-lib-jammertest-card-evaluable = Utvärderingsbara
+
+js-lib-jammertest-card-fa-epochs = Epoker med falsklarm
+
+js-lib-jammertest-card-fa-per-hour = Falsklarmskörningar per timme
+
+js-lib-jammertest-card-fa-runs = Falsklarmskörningar
+
+js-lib-jammertest-card-in-tol-rate = Detekterade inom toleransen, andel
+
+js-lib-jammertest-card-late = Sena
+
+js-lib-jammertest-card-median-latency = Mediandröjsmål för detektion
+
+js-lib-jammertest-card-median-recover = Mediantid för återhämtning
+
+js-lib-jammertest-card-missed = Missade
+
+js-lib-jammertest-card-na = saknas
+
+js-lib-jammertest-card-not-assessable = Inget test gick att utvärdera i den här loggen, så ingen detektionsandel eller latens kan anges. Det är ett resultat, inte ett fel hos sidan: ingenting här är ett lyckat utfall.
+
+js-lib-jammertest-card-not-json = { $name }: inte JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: inte ett jammertest-resultatkort (det behöver tests[] och summary).
+
+js-lib-jammertest-card-tests = Test i planens avsnitt
+
+js-lib-jammertest-card-too-large = { $name }: större än 8 MiB; den här sidan läser ett resultatkort upp till den storleken.
+
+js-lib-kpi-available-everywhere = tillgänglig överallt, varje epok
+
+js-lib-kpi-available-everywhere-pdop = tillgänglig överallt, varje epok (PDOP, positionsutspädning av precision, under { $thr })
+
+js-lib-kpi-drops-under = sjunker under följningströskeln på { $thr } dB-Hz: låsningen förloras
+
+js-lib-kpi-end-of-mission = vid uppdragets slut
+
+js-lib-kpi-figure-tiers = Nivåer för talen: { $parts }.
+
+js-lib-kpi-n-modelled = { $n } modellerade
+
+js-lib-kpi-n-partner = { $n } ägda av partner
+
+js-lib-kpi-n-validated = { $n } validerade
+
+js-lib-kpi-no-change = ingen ändring
+
+js-lib-kpi-no-fix = { $pct } % av tiden eller platserna utan positionsbestämning
+
+js-lib-kpi-no-fix-pdop = { $pct } % av tiden eller platserna utan positionsbestämning vid PDOP under { $thr }
+
+js-lib-kpi-over-jump = över hopptröskeln på { $thr } m
+
+js-lib-kpi-over-pdop = över PDOP-tröskeln { $thr }
+
+js-lib-kpi-stays-above = håller sig över följningströskeln på { $thr } dB-Hz
+
+js-lib-kpi-under-jump = under hopptröskeln på { $thr } m
+
+js-lib-kpi-under-pdop = under PDOP-tröskeln { $thr }
+
+js-lib-orbit3d-apogee = apogeum
+
+js-lib-orbit3d-perigee = perigeum
+
+js-lib-orbit3d-prov-scenario = scenario { $hash }
+
+js-lib-orbit3d-title = Bana (ECI, ortografisk)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Klockbias
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Position 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Position RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Position σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Klockfrekvens σ
+
+js-lib-overlay-meta-mean-relays-in-view = Reläer i sikte
+
+js-lib-overlay-meta-pos-p95-m = Position p95
+
+js-lib-overlay-meta-pos-rms-m = Position RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS efter anpassning
+
+js-lib-overlay-prov-scenario = scenario { $hash }
+
+js-lib-overlay-subtitle = |fel| (ns) mot tid — { $n } körningar
+
+js-lib-overlay-time-s = tid (s)
+
+js-lib-overlay-title = Överlagring: tidsfel under avbrottet
+
+js-lib-packs-cannot-unpack = den här webbläsaren kan inte packa upp den registrerade filen
+
+js-lib-replay-demos-below-130 = Endast azimut under 130° behölls (angivet)
+
+js-lib-replay-demos-coastal-drag-off = Kustnära bortdragning
+
+js-lib-replay-demos-combined-event = Kombinerad händelse
+
+js-lib-replay-demos-drag-off-stated = Positionsbortdragning (angiven av demon)
+
+js-lib-replay-demos-ferry-drag-off = Färjeöverfart, positionsbortdragning
+
+js-lib-replay-demos-ferry-drag-off-description = En påhittad färjelogg, Tallinn till Helsingfors, 1 Hz. Från 1500 s drar en positionsbortdragning bort den rapporterade positionen medan mottagaren fortsätter rapportera en giltig positionsbestämning.
+
+js-lib-replay-demos-fjord = Naturlig försämring i fjord
+
+js-lib-replay-demos-masked-sky = Färjeöverfart, halva himlen maskerad
+
+js-lib-replay-demos-masked-sky-description = Samma färjelogg med västra halvan av himlen tystad från 600 s, en smalare himmel från 900 s till 1200 s och bortdragningen från 1500 s: en körning där himlen, signalen och positionen i tur och ordning sviker.
+
+js-lib-replay-demos-open-sea-jamming = Jamming på öppet hav
+
+js-lib-replay-demos-port-approach = Tidsspoofing vid hamninlopp
+
+js-lib-replay-demos-source-training = Syntetiskt scenario { $id }: motorns nmea_training-ström och instruktörslogg, poängsatta av dess receiver-trust.
+
+js-lib-replay-demos-source-trust = Syntetisk logg { $id }: påhittad NMEA, poängsatt av motorns receiver-trust.
+
+js-lib-replay-demos-west-masked = Västra halvan av himlen maskerad (angivet)
+
+js-lib-replay-demos-west-masked-again = Västra halvan maskerad igen (angivet)
+
+js-lib-report-charts = Diagram
+
+js-lib-report-eyebrow = det exakta ögonblicket
+
+js-lib-report-figures-of-merit = Kvalitetsmått
+
+js-lib-report-footer = Kshana { $version } · scenario { $hash } · genererad { $iso }. Reproducerbar utifrån scenario + frö + motorversion. Körs lokalt; inget laddas upp.
+
+js-lib-report-not-applicable = ej tillämpligt (ingen attack konfigurerad)
+
+js-lib-report-scenario-definition = Scenariodefinition (TOML)
+
+js-lib-report-th-clock = Klocka
+
+js-lib-report-th-metric = Mått
+
+js-lib-report-th-validation = Validering
+
+js-lib-report-th-value = Värde
+
+js-lib-report-tier-note = Varje kvalitetsmått är märkt { $validated } (kontrollerat mot en oberoende extern referens) eller { $modelled } (utifrån grundprinciper, internt testat) — härlett ur verifieringsmatrisen.
+
+js-lib-report-title = Kshana — scenariorapport
+
+js-lib-skydraw-azimuth-range = azimut { $from } till { $to } grader
+
+js-lib-skydraw-describe = { $listed } satelliter listade, { $heard } med signal
+
+js-lib-skydraw-describe-mean = { $listed } satelliter listade, { $heard } med signal, medelvärde { $snr } dB-Hz
+
+js-lib-skydraw-east = Ö
+
+js-lib-skydraw-no-signal-from = ingen signal från { $sectors }
+
+js-lib-skydraw-none-listed = Inga satelliter listade i loggen vid den här tidpunkten.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: elevation { $el }, azimut { $az }, signal { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: elevation { $el }, azimut { $az }, listad, ingen signal
+
+js-lib-skydraw-south = S
+
+js-lib-skydraw-unheard-sector = Satelliter listade mellan azimut { $from } och { $to } grader, ingen med signal
+
+js-lib-skydraw-west = V
+
+js-lib-skyline-edit-describe = Skyline över { $blocked } av 360 grader azimut; högst { $el }° vid azimut { $az }°.
+
+js-lib-skyline-edit-open = Öppen horisont: ingen skyline.
+
+js-lib-stages-all-planets = Alla planeter
+
+js-lib-stages-au-from-sun = { $d } au från solen
+
+js-lib-stages-band-carrier = { $name }-bärvåg, { $mhz } MHz
+
+js-lib-stages-bin-title = { $from } till { $to }{ $unit }: { $count } körningar
+
+js-lib-stages-body-and-moons = { $name } och dess månar
+
+js-lib-stages-cell-title = lat { $lat }°, lon { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Navigeringsmeddelande
+
+js-lib-stages-chain-pass = Överflygning och länk
+
+js-lib-stages-chain-ppp = Precis punktpositionering
+
+js-lib-stages-chain-pvt = Fuserad positionering
+
+js-lib-stages-chain-signal = Signalutformning
+
+js-lib-stages-coverage-aria = { $field } över { $body }, per latitud och longitud
+
+js-lib-stages-feature-n = objekt { $n }
+
+js-lib-stages-flag = flagga
+
+js-lib-stages-frequency-mhz = frekvens (MHz)
+
+js-lib-stages-from-to = { $from } till { $to }
+
+js-lib-stages-geojson-aria = GeoJSON-exporten ritad på en karta
+
+js-lib-stages-histogram = Histogram
+
+js-lib-stages-inner-planets = Inre planeter
+
+js-lib-stages-km-from-centre = { $d } km från { $centre }
+
+js-lib-stages-linear-scale = linjär skala
+
+js-lib-stages-link-light-time = { $from } till { $to }: ljustid enkel väg { $time } s
+
+js-lib-stages-longitude-axis = longitud · latitud uppåt på sidan
+
+js-lib-stages-mission-time = uppdragstid (s)
+
+js-lib-stages-noise-floor = brusgolv
+
+js-lib-stages-orrery-note = { $scale } · referenssystemets x-y-plan, sett från dess nordpol
+
+js-lib-stages-panel-n = Panel { $n }
+
+js-lib-stages-plan-view-aria = Planvy av { $centre } och himlakropparna runt den, { $scale }
+
+js-lib-stages-psd-at-t = Effektspektraltäthet vid t = { $t } s
+
+js-lib-stages-psd-axis = effektspektraltäthet (dBW/Hz)
+
+js-lib-stages-runs = körningar
+
+js-lib-stages-sat-title = { $constellation } { $id } · lat { $lat }°, lon { $lon }°
+
+js-lib-stages-satellites = satelliter
+
+js-lib-stages-spectrum-at-t = spektrum vid t = { $t } s
+
+js-lib-stages-sqrt-scale = avståndsskala med kvadratrot
+
+js-lib-stages-the-body = himlakroppen
+
+js-lib-stages-time-s = tid (s)
+
+js-lib-stages-unit-alarm = Larm
+
+js-lib-stages-unit-cn0 = Bärvågs-till-brustäthet
+
+js-lib-stages-unit-position = Position och skydd
+
+js-lib-stages-unit-satellites = Satelliter
+
+js-lib-stages-unit-time-error = Tidsfel
+
+js-lib-stages-waterfall-aria = Vattenfall av effektspektraltäthet: frekvens i sidled, tid nedåt
+
+js-lib-stages-whole-band = Hela bandet
+
+js-lib-sweep-clock-availability = Tillgänglighet för { $who }
+
+js-lib-sweep-clock-holdover = Holdover för { $who } (s)
+
+js-lib-sweep-clock-timing-p95 = Tidssynkronisering p95 för { $who } (ns)
+
+js-lib-sweep-clock-timing-rms = Tidssynkronisering RMS för { $who } (ns)
+
+js-lib-sweep-max-altitude = största höjd (km)
+
+js-lib-sweep-max-elevation = största elevation (°)
+
+js-lib-sweep-max-speed = största hastighet (m/s)
+
+js-lib-sweep-min-altitude = lägsta höjd (km)
+
+js-lib-sweep-peak-doppler = högsta Doppler (Hz)
+
+js-lib-sweep-prov-scenario = scenario { $hash }
+
+js-lib-sweep-y-vs-x = { $y } mot { $x }
+
+js-lib-tabs-3d-orbit = 3D-bana
+
+js-lib-tabs-figures-of-merit = Kvalitetsmått
+
+js-lib-tabs-stability = Stabilitet
+
+js-lib-tabs-sweep = Svep
+
+js-lib-tabs-time-series = Tidsserie
+
+js-lib-tour-ashforde-body = Tack för att du utforskar Kshana. Vi bygger öppen, reproducerbar och evidensbaserad ingenjörskonst för uppdrag som inte får misslyckas — ärliga om vad som är validerat och vad som är modellerat. Frågor, ett samarbete eller en studie? Nå oss på contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Från Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Välj en områdesflik — Banor, Tidssynkronisering, Tröghet, GNSS, Resiliens, Månen, AI/ML, Interop — för att se dess förmågor, var och en märkt Validerad eller Modellerad, med en ▸ kör-knapp för de genomarbetade scenarierna. Öppna ”Evidens och proveniens” i vilket område som helst för att följa beviset, eller slå på ”Endast validerade” för att bara visa det som är kontrollerat mot en oberoende extern referens.
+
+js-lib-tour-capabilities-title = Utforska motorn, ett område i taget
+
+js-lib-tour-cite-body = Kshana är byggd för att refereras — en citerbar programvaruversion med DOI, plus artiklar i kamratgranskningsstil om optimismgapet vid RF-störningar och en villkorad skyddsnivå för tidssynkronisering. Kopiera citatet direkt härifrån.
+
+js-lib-tour-cite-title = Publikationer och hur man citerar
+
+js-lib-tour-download-report-body = Fliken Svep varierar en parameter över ett intervall; ”Fäst för jämförelse” lägger två eller flera körningar över varandra med Δ mellan dem (fungerar över scenariotyper — klocka, Mars-PNT, positionering…); och den här knappen laddar ned körningen som en fristående HTML-rapport som fungerar offline.
+
+js-lib-tour-download-report-title = Svep, jämför och exportera
+
+js-lib-tour-guided-body = De guidade reglagen anpassar sig efter scenariot — frö, specifikationströskel, varaktighet, elevationsmask, banhöjd — och varje ändring kör om direkt.
+
+js-lib-tour-guided-title = Justera reglagen
+
+js-lib-tour-mcp-body = En MCP-server låter AI-assistenter köra den validerade motorn i stället för att gissa; ett JetBrains-tillägg kör scenarier med ett högerklick.
+
+js-lib-tour-mcp-title = Använd den från en AI-agent eller din IDE
+
+js-lib-tour-playground-body = Välj ett scenario i listan — eller tryck på ▸ kör vid någon förmåga ovan — så körs motorn som WebAssembly på din dator. Inget laddas upp.
+
+js-lib-tour-playground-title = Kör den i din webbläsare
+
+js-lib-tour-run-body = Kör det aktuella scenariot. Öppna ”Avancerat” för att redigera TOML och ändra vad som helst; ”Kopiera delningslänk” återskapar exakt den här körningen åt någon annan.
+
+js-lib-tour-run-title = Kör den
+
+js-lib-tour-tabs-body = Växla mellan kvalitetsmåtten, tidsseriediagrammet, klockstabiliteten (Allan-avvikelse) och — för banor — en interaktiv 3D-banvy.
+
+js-lib-tour-tabs-title = Läs resultaten
+
+js-lib-tour-validation-body = Samma utforskare är också evidensregistret: varje område har en låda ”Evidens och proveniens” — talet, den oberoende externa referens det kontrolleras mot och en ärlig status Validerad / Modellerad per påstående. ”Endast validerade” filtrerar till de rader som är kontrollerade mot data.
+
+js-lib-tour-validation-title = Evidens, inte adjektiv
+
+js-lib-views-3-sigma-bound = 3-sigma-gräns
+
+js-lib-views-3d-position-error = 3D-positionsfel
+
+js-lib-views-a-parameter = en parameter
+
+js-lib-views-band-runs = Tidsfelsband över { $runs } Monte Carlo-körningar
+
+js-lib-views-band-the-runs = Tidsfelsband över Monte Carlo-körningarna
+
+js-lib-views-below-tracking = under följningströskeln
+
+js-lib-views-chart = diagram
+
+js-lib-views-classical = klassisk
+
+js-lib-views-epoch = epok
+
+js-lib-views-four-needed = 4 behövs för en positionsbestämning
+
+js-lib-views-free-inertial = fri tröghet
+
+js-lib-views-gnss-denied = GNSS nekad
+
+js-lib-views-ground-track = Markspår
+
+js-lib-views-heatmap-effective = Effektiv bärvågs-till-brustäthet per satellit och tid
+
+js-lib-views-heatmap-nominal = Nominell (ingen störsändare) bärvågs-till-brustäthet per satellit och tid
+
+js-lib-views-horizontal-alert-limit = horisontell larmgräns
+
+js-lib-views-horizontal-hpl = horisontell (HPL)
+
+js-lib-views-id-bound = gräns för { $id }
+
+js-lib-views-id-median = median för { $id }
+
+js-lib-views-id-offset = förskjutning för { $id }
+
+js-lib-views-id-p95 = p95 för { $id }
+
+js-lib-views-map-matched = kartmatchad
+
+js-lib-views-map-matched-title = Kartmatchad mot positionsfel med fri tröghet
+
+js-lib-views-metric = mått
+
+js-lib-views-oscillator = oscillator
+
+js-lib-views-oscillator-source = oscillator ({ $source })
+
+js-lib-views-position-error-axis = positionsfel ({ $unit })
+
+js-lib-views-position-error-m = positionsfel (m)
+
+js-lib-views-position-error-run = Positionsfel under körningen
