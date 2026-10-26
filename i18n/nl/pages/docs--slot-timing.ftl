@@ -13,3 +13,5 @@ seg-adc34608c46b = Klasse
 seg-f63dd3d7aad4 = Bron
 
 seg-1ff32b87e030 = Satellieten
+
+seg-582fd72f1a1a = Oordeel

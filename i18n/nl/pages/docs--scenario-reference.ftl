@@ -205,3 +205,5 @@ seg-abf58b089d72 = Vertical LEO-PNT: gebruikers op de polen en in het noordpoolg
 seg-a7de37959bb9 = Vertical LEO-PNT: spoor en zee, de meegeleverde scenario's voor zee en spoor plus LEO.
 
 seg-6962adaa6a1f = Bij het bouwen gegenereerd uit de scenariobestanden en de verificatiematrix van de repository.
+
+seg-cb9447893c7f = Eén satelliet boven één station: de schuine afstand, elevatie en Es/N0 van elke passage langs de passage, de DVB-S2-MODCOD die bij elke stap is gekozen (drempels van ETSI EN { "302" } 307-1 Table { "13" } plus een implementatiemarge) en het datavolume dat ACM verplaatst tegen de basislijn met constante codering die bij het masker sluit. MODELLED.
