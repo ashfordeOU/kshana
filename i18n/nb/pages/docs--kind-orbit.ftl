@@ -32,6 +32,10 @@ seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP fra siktlinjegeomet
 
 seg-53a78e98af12 = Temaside: <a1>SKYLINE.md</a1>
 
+seg-ae15d15bf151 = Temaside: <a1>LEO-PASS.md</a1>
+
+seg-99a3c57c7926 = { "7" } medfølgende scenarioer bruker denne typen; de andre ligger i <a1><c1/></a1>.
+
 seg-0e3518dc3ddb = Kilde: <c1/>
 
 seg-1428025a91e1 = <c1/> (scenariotype)

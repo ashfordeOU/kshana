@@ -15,3 +15,7 @@ seg-f63dd3d7aad4 = Kilde
 seg-638b8d451550 = Sensor
 
 seg-d4a762001549 = Lisens
+
+seg-60cd077d82a7 = Modell
+
+seg-2afa300864a9 = Parametere

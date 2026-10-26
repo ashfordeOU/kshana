@@ -194,4 +194,98 @@ seg-e251b385ff46 = To syntetiske dager i interferenskartet, tegnet fra de innsje
 
 seg-af0edceb1503 = Poengsetting av én syntetisk mottakerlogg mot en tidsplan med tre tester, fra en ekte kjøring av motoren v{ $version } (`kshana jammertest score`). Loggen er funnet på: { "1800" } s med NMEA med et fall på { "20" } dB C/N0 over to intervaller. Tidsplanen har tre tidsluker; den midterste tidsluken har ingen jammer i loggen. Poengsettingen markerer { "2" } av { "3" } tester som oppdaget (median ventetid { "0" } s) og { "1" } som bommet, med { "0" } kjøringer med falsk alarm over { "0.25" } time ren tid. Ingenting her sier noe om en ekte mottaker. Veiledende programvare, ikke typegodkjent navigasjonsutstyr (IEC { "61108" }, IEC { "61162" }): operatøren er fortsatt ansvarlig for fartøyets navigasjon.
 
+seg-3ac9e578414c = Klokker, tidssynkronisering og holdover
+
+seg-b4b8aaf14aec = Treghets-, fusjons- og kvantesensorer
+
+seg-93591ee6899f = Alternativ PNT uten GPS
+
+seg-b63bfec0aabf = Konstellasjoner, dekning og geometri
+
+seg-f2f84c689f14 = GNSS-målinger, posisjonsbestemmelse og integritet
+
+seg-2e736b1814f2 = Jamming, spoofing og spekteret
+
+seg-fc23add4540b = Navigasjon i lav jordbane
+
+seg-dd8aa1ce4734 = Navigasjon for rombrukere
+
+seg-77aef8722995 = Optisk PNT
+
+seg-179dc850c643 = Oppdragsanalyse, lenker og romoperasjoner
+
+seg-6339abe5314a = Familie
+
 seg-c5ce76c91ff7 = Merkelapp
+
+seg-b88a2a9497c2 = Verktøy
+
+seg-69a98d01f489 = LunaNet AFS-kodegeneratoren kontrollert mot de trykte kolonnene i spesifikasjonen, fra en reell kjøring av motoren v{ $version } (`kshana lunanet-afs-check spec`, låst til LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, { "29" } January { "2025" }; dokumentet merker kodetabellene sine { "{" }LSIS-TBC{ "}" }). { "9" } av { "10" } kontroller er nådd; B4 er NOT MET ({ "420" } av { "421" } stemte). Den kontrollerer en symbolstrøm mot én utgave av en publisert spesifikasjon og sier ingenting om noen LunaNet-node eller -tjeneste. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en tjeneste for liv og sikkerhet. Den kontrollerer en symbolstrøm mot én utgave av en publisert spesifikasjon og sier ingenting om noen LunaNet-node eller -tjeneste.
+
+seg-18fc4ba766df = Samsvar mellom en banebestemmelse om bord med jord-GNSS i en nesten rettlinjet halobane og en uavhengig bakkebasert banebestemmelse, fra reelle kjøringer av motoren v{ $version } på scenarios/lunar-infrastructure-od-consistency.toml og varianten med modellfeil ({ "400" } forsøk hver). Gjennomsnittlig normalisert differanse q er { "5.81" } uten modellfeil og { "5.95" } med en injisert akselerasjonsfeil på { "3e-10" } m/s2, mot { "6" } forventet: de to banebestemmelsene er innbyrdes konsistente (terskel C1 MET). Andelen forsøk over { "95" } %-punktet er { "0.040" } og { "0.052" }; terskelen for å oppdage den injiserte feilen var minst { "0.5" }, så den er NOT MET (C3): løsningen om bord er kjent til omtrent { "352" } m mot { "23" } m for bakkeløsningen, så en forskyvning på ti meter skjuler seg inne i kovariansen. MODELLED: en begrenset tre-legemers modell med oppgitte forenklinger og illustrative inndata, ikke en måling av noen måneparameter. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en tjeneste for liv og sikkerhet.
+
+seg-4c08262e2556 = Fiksering av heltallsflertydighet i bærebølgefase mellom månens overflatestasjoner og en orbiter, fra det committede resultatet av den poengsatte kjøringen av motoren v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } buelengder, en Monte Carlo med { "400" } trekninger hver, skrevet av scenarios/carrier-phase-scored.toml). { "1" } døgn: suksess { "1.0" } % (standardfeil { "0.5" } %), { "134" } flertydigheter, sigma for orbiterposisjon { "45.6" } m flytende og { "18.5" } m fiksert; { "2" } døgn: suksess { "0.5" } % (standardfeil { "0.4" } %), { "259" } flertydigheter, sigma for orbiterposisjon { "21.5" } m flytende og { "8.7" } m fiksert; { "3" } døgn: suksess { "2.8" } % (standardfeil { "0.8" } %), { "375" } flertydigheter, sigma for orbiterposisjon { "6.3" } m flytende og { "2.1" } m fiksert. Heltallsfiksering oppnås ikke: suksessraten holder seg mellom { "1" } % og { "3" } % ved { "25" } dBi, og ved den registrerte { "12" } dBi kan problemet ikke settes opp. MODELLED: en begrenset tre-legemers modell med oppgitte forenklinger og illustrative inndata, ikke en måling av noen måneparameter. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en tjeneste for liv og sikkerhet.
+
+seg-7e5b10641b20 = Presisjonen til det lunare datumet med sju parametere (tre translasjoner, en skala og tre rotasjoner) fra avstandsmåling fra jordstasjoner, med og uten avstander fra orbiter til overflatestasjon, fra en reell kjøring av motoren v{ $version } på scenarios/lunar-infrastructure-frame-coestimation.toml. Cramer-Rao-sigma for translasjonene og rotasjonene synker med orbiterlinkene (for eksempel t_z fra { "0.98" } m til { "0.046" } m); den minste informasjonsegenverdien øker 111 ganger og CRLB-sporet synker til { "1.0" } % (terskel F3 MET). Dette forutsetter at banen er kjent i månens akser, med feilen båret av orbiterens avstandssigma på { "1" } m. MODELLED: en begrenset tre-legemers modell med oppgitte forenklinger og illustrative inndata, ikke en måling av noen måneparameter. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en tjeneste for liv og sikkerhet.
+
+seg-377d29dcc6e8 = Presisjonen til forskjellene mellom laseravstandsmåling, VLBI og GNSS-posisjoner for ett romfartøy, mot feilen i den lokale koblingen på bakken, fra en reell kjøring av motoren v{ $version } på scenarios/lunar-infrastructure-space-tie.toml (én bue på 6.56 døgn, teknikk-sigmaer GNSS { "10" } m, VLBI { "1" } m, laser { "0.1" } m). Med en lokal kobling fra { "1" } mm til { "1" } m holder sigma for laser-minus-GNSS-translasjonen seg nær { "1.04" } m helt til koblingen når { "1" } m: den begrenses av teknikkenes målestøy, ikke av den lokale koblingen. Gulvet som koblingen alene setter er kvadratroten av to ganger dens sigma. MODELLED: en begrenset tre-legemers modell med oppgitte forenklinger og illustrative inndata, ikke en måling av noen måneparameter. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en tjeneste for liv og sikkerhet.
+
+seg-9d507a371319 = Hvilken observabelfamilie som er følsom for Love-tallene h2, k2 og l2 for Månen, fra en reell kjøring av motoren v{ $version } på scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Hver celle er RMS-partiellderiverten av en families observasjoner med hensyn til en parameter, i familiens egne enheter (så celler sammenlignes langs en rad, ikke nedover en kolonne); en strek betyr at familien ikke har noen følsomhet. laseravstandsmåling: h2 { "7.6" }, k2 ingen, l2 { "9.8" }. orbitersporing: h2 ingen, k2 { "0.00086" }, l2 ingen. overflategravimeter: h2 { "2.9e+03" }, k2 { "4.3e+03" }, l2 ingen. overflateklokke: h2 { "2.8e-17" }, k2 { "2.8e-17" }, l2 ingen. Med alle fire familiene er Cramer-Rao-sigma { "0.36" } % av nominell h2, { "0.52" } % av k2 og { "1.16" } % av l2. Å legge til en familie senket aldri den minste egenverdien ({ "28" } av { "28" } tillegg), men sporet av pseudoinversen var ikke større i bare { "16" } av { "28" }: den halvdelen av terskel G3 er NOT MET. Orbiterfamilien ser linjeintegralet langs siktlinjen av k2-akselerasjonen, et tall i den øvre enden. MODELLED: en begrenset tre-legemers modell med oppgitte forenklinger og illustrative inndata, ikke en måling av noen måneparameter. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en tjeneste for liv og sikkerhet.
+
+seg-367ac9b4a8a6 = Hva `kshana imu-fit` leser ut av en IMU-logg i ro, fra en reell kjøring av motoren v{ $version } på en oppdiktet logg ({ "20,000" } sampler ved { "100" } Hz, { "200" } s): akselerometerets hastighetsrandomvandring q_va = { "4.02e-06" }, gyroets vinkelrandomvandring q_arw = { "9e-08" }, biasustabiliteten { "0.00296" } og de tidlige Allan-stigningstallene (-0.51 og -0.49; omtrent -0.5 der hvit støy dominerer). Tabellen ved siden av er TOML-en kommandoen skriver ut. Estimatoren er bare kontrollert på syntetiske logger. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en tjeneste for liv og sikkerhet.
+
+seg-e127f2f26824 = Leses
+
+seg-a683980168f7 = Docker
+
+seg-f3a2279d6df7 = Kommando eller knapp
+
+seg-20c5ae650eb7 = Krever
+
+seg-af4d3ce85e11 = Festet form
+
+seg-0fdd85a80584 = <a1>npx (Node)</a1> · <a2>Docker</a2>
+
+seg-b02bdf7c7661 = Node, eller Docker
+
+seg-de23dcdd2647 = <a1>npx (Node)</a1> · <a2>Docker</a2> · <a3>Insiders (npx)</a3>
+
+seg-abf8b5fe685a = Node { "18" }+
+
+seg-06299cefbf9e = Python { "3.9" }+ med uv eller pipx
+
+seg-26795c302f8a = brew
+
+seg-ded975fa67fa = formel for v{ $version }
+
+seg-667d6dde705b = <c1/> deretter <c2/>
+
+seg-f6e9fc5f46fe = Scoop (Windows)
+
+seg-bc4762d20004 = manifest for v{ $version }
+
+seg-f7c0a2fbb0b5 = winget
+
+seg-9e599ab3c0a3 = winget (Windows)
+
+seg-091d1404bb8a = cargo
+
+seg-145ddf98e77f = Rust { "1.88" }+
+
+seg-b308519d4c8d = <a1>utgivelsessiden</a1>: <c1/> (Linux x86-64), <c2/>, kontrollert med <c3/> og <c4/>
+
+seg-c39cac69f700 = v{ $version }
+
+seg-e8f5e2b6580b = <c1/> (finnes av klienter som støtter registeret)
+
+seg-b1a6e807f06f = en klient som støtter registeret
+
+seg-d5a3818ac3b6 = Fjernbruk (streamable HTTP)
+
+seg-5f1397b1ea30 = din egen vert
+
+seg-81a87d14efda = Kshana: merket, et kompasshårkors som markerer det nøyaktige øyeblikket, ved siden av ordmerket kshana
+
+seg-27698c80b7f1 = Les den publiserte Jammertest-testkatalogen og sendeplanen (NPRA/jammertest-plan, MIT) som planlagt referanse (<c1/>): ett testområdes tidsluker blir mottakertillit-hendelser med katalog-id og år i hver etikett. Planlagte tidsluker, ikke registrerte sendetider; ingen kontaktfelt i planen leses. MODELLED. Se <a1><c2/></a1>.
+
+seg-23daf6121ca0 = Skår en mottakerlogg mot den planen (<c1/>): per test deteksjonsforsinkelse, uteblitte alarmer og tid til gjenoppretting, og falske alarmer utenfor alle tidsluker. Tekstlogger som <c2/>, binære (<c3/>, <c4/>) som <c5/>. En signert pakke trenger en nøkkel: kommandolinjen. Kun veiledende; MODELLED.

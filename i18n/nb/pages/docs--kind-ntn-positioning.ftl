@@ -8,6 +8,10 @@ seg-a3697ad561db = Hz
 
 seg-a849735fcc6e = Temaside: <a1>LEO-PNT-FUSION.md</a1>
 
+seg-49964654d5f4 = Scenariotype i motoren v{ $version }, familie <a1>Navigasjon i lav jordbane</a1>. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en safety-of-life-tjeneste. Hver etikett her kommer fra motoren eller verifikasjonsmatrisen; en type er MODELLED med mindre matrisen sier noe annet (hvordan en etikett oppnås: avsnittet Evidence i README).
+
+seg-c5478f572d21 = Familieside: <a1>Navigasjon i lav jordbane</a1>
+
 seg-8dcdfc5da900 = Kilde: <c1/>
 
 seg-d865fd8ceef6 = <c1/> (scenariotype)

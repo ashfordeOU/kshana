@@ -8,6 +8,8 @@ seg-619127334cf3 = Ingen matriserad nevner denne typen ved navn; etiketten på r
 
 seg-8f8871ac8a0f = Temaside: <a1>LUNAR-REFERENCE-STATION.md</a1>
 
+seg-a2889fb2b42a = Temaside: <a1>integrations.md</a1>
+
 seg-eb9f9a422d38 = Kilde: <c1/>
 
 seg-f8988314faf2 = <c1/> (scenariotype)

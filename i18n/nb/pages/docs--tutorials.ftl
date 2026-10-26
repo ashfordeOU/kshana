@@ -23,3 +23,7 @@ seg-9ef8f99ca6e4 = Tidsoverføring
 seg-b03d56f501c3 = Type
 
 seg-ec26df467b88 = Felles Kalman-sensorfusjon for PNT over de samme hybride inndataene.
+
+seg-4f19d4fb1341 = Generisk N-D-sveip over en vilkårlig pakke via TOML-nøkler med punktum / JSON-metrikkstier.
+
+seg-e7ab7b55c969 = 1-D-sveip for avveiningsstudie over en parameter i klokkepakken.

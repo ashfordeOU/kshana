@@ -19,3 +19,33 @@ seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-løsningsseparasjon med flere hypotese
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP fra siktlinjegeometri via Q=(HᵀH)⁻¹ med en lokal ENU-oppdeling. Uavhengig referanse (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP, uavhengig bibliotek, samsvarte til { "1e-6" } relativt
 
 seg-78ff7db5ad3d = <b>VALIDATED</b> Den distribusjonelle kjernen som hvert beskyttelsesnivå hviler på: terskelen for øyeblikksbildets feildeteksjon χ²₁₋ₚfₐ(dof), ikke-sentraliteten for tapt deteksjon pbias=√λ, og . Uavhengig referanse (ExternalDataset): SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq), uavhengig bibliotek (Cephes/Boost), en annen algoritme enn Kshanas rekke for den ufullstendige gammafunksjonen; stemte til ≤{ "1e-6" } rel. Kun kjernen. Budsjettets <em>fordeling</em> av ARAIM MHSS P_HMI er ikke lenger uten en publisert numerisk uavhengig referanse: WG-C ARAIM Technical Subgroups eget gjennomgåtte eksempel støtter nå den separate 'ARAIM MHSS protection levels against published referen
+
+seg-4bec24cd43f6 = Kilde: <c1/>
+
+seg-dd304550e695 = <c1/> (scenariotype)
+
+seg-eb7e0c2feb2b = RAIM med øyeblikksbilde / løsningsseparasjon / ARAIM med HPL/VPL og et Stanford-diagram.
+
+seg-706887c285d8 = Én kjøring av <c1/> oppsummeres slik: integrity | { "24" } satellites | 344/361 epochs available ({ "95.3" }%) | HAL { "40" } m VAL { "50" } m | sigma { "1.0" } m | Stanford(V): { "0" } integrity events, { "0" } HMI
+
+seg-c3f7debf260a = Obligatoriske felt: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>
+
+seg-7b28ab6567df = Valgfrie felt: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
+
+seg-581a5231b230 = Eksemplet <c1/> setter blant annet:
+
+seg-ce7f6130ddee = Diagrammet motoren skriver for scenarios/integrity-raim.toml, typen integrity
+
+seg-c8c38ffbb63f = MODELLED { "6" } · VALIDATED { "4" }: radene i <a1>verifikasjonsmatrisen</a1> som nevner denne typen.
+
+seg-dff469738ec3 = <b>VALIDATED</b> Skalar-tid TPL med løsningsseparasjon over heterogene kilder; PL drevet av støy i den verste ekskluderingsdelmengden + UTC(k)-bias
+
+seg-33a94111e9d9 = <b>MODELLED</b> PL(τ)=max(TPL_handover,HPL(τ)); nedre semikontinuerlig PL({ "0" }+)≥PL({ "0" }−); K(IR/2) løpende maksimum; τ/τ³/τ⁵ fase-eksponenter
+
+seg-4787b0b565df = <b>VALIDATED</b> Løpende maksimum-envelope overgrenser (null gjennomtrengning) en virkelig metrologisk serie ved hver testede lag tau>=90d på et disjunkt segment; kort tau (<=30d) er en oppgitt Modelled-grense. Tester: <a1>cti_holdover_coverage_reference.rs</a1>.
+
+seg-090415eca3b7 = og { "6" } til i matrisen.
+
+seg-b4bc9ccbcee2 = <s1>Forrige</s1>ins-trn-coast
+
+seg-f1ba804baade = <s1>Neste</s1>jamming

@@ -23,3 +23,27 @@ seg-304496607bd7 = Scenariotype i motoren v{ $version }, familie <a1>Jamming, sp
 seg-5d23d7f8f872 = Familieside: <a1>Jamming, spoofing og spekteret</a1>
 
 seg-7707c45d1d30 = dBm
+
+seg-f92f902bd8f4 = Kilde: <c1/>
+
+seg-1fd6a1cc7ca0 = <c1/> (scenariotype)
+
+seg-f43fe94d84e0 = Kombinert spoofingdetektor for RF og målinger (RAIM-konsistens over flere SV + AGC + SQM, fusjonert) mot et parametrisert angrep (effektfordel, justering av bærebølgefase, push av tid/posisjon; i stil med TEXBAT).
+
+seg-9a8e92a0d5ba = En kjøring av <c1/> oppsummeres slik: scenario e046ee4ca90a | spoof-detect | { "8" } SVs, +{ "1.5" } dB | Position push | fused score { "0.70" } (thr { "0.50" }) | SPOOF DETECTED (fused) — layers: RAIM+SQM
+
+seg-9e54f6406cef = Obligatoriske felt: <c1/>
+
+seg-cd7217fd359f = Valgfrie felt: <c1/>, <c2/>
+
+seg-6776ea465261 = Eksempelet <c1/> angir blant annet:
+
+seg-0e3bc92db34e = position
+
+seg-268ebf4cba99 = Diagrammet motoren skriver for scenarios/spoof-detect.toml, type spoof-detect
+
+seg-03d8dc3de7ca = <b>MODELLED</b> Klokkestøttet χ², RAIM, AGC, SQM, fusjonert sikkerhetskvalitetsmål per epoke Tester: <a1>spoof_texbat_validation.rs</a1>.
+
+seg-24e4aebb09eb = <s1>Forrige</s1>spectrum
+
+seg-40e934a7d78f = <s1>Neste</s1>spoof

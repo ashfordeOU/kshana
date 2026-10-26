@@ -14,6 +14,8 @@ seg-1ff32b87e030 = Satellitter
 
 seg-a6c63abeb7e6 = Medfølgende scenarioer
 
+seg-60cd077d82a7 = Modell
+
 seg-2b0d77219437 = Forhåndsinnstillinger
 
 seg-5566e1d71a4f = Bane
@@ -173,3 +175,121 @@ seg-9f9ff4fe18f8 = ATOMIC-modellen med «null klokke»-polynom for kringkastet e
 seg-dc496b16046b = Observasjonen LEO mot GNSS
 
 seg-6be559b1ac29 = <c1/> gjengir kvalitativt det LEO-PNT-demonstrasjoner viser: LEO-C/N0 stiger og faller i en klokkeform som holder seg over masken i { "590" } s og har topp på { "56.8" } dB-Hz, { "8.9" } dB over medianen av de flate MEO GNSS-bærebølgene (Galileo E1, { "40.5" } til { "52.0" } dB-Hz, median { "47.8" } dB-Hz). Marginen kommer fra avstanden, ikke fra en sterkere sender: ved passeringens topp er satellitten { "569" } km unna, omtrent { "40" } ganger nærmere enn en Galileo-satellitt i senit ({ "23 222" } km), som gir { "32" } dB mindre fririmstap; standardforhåndsinnstillingen stråler ut { "0" } dBW ({ "1" } W).
+
+seg-08debab7c94a = Hver rad er én kjøring av <c1/> (motor { $version }):
+
+seg-9a60f0bf803e = Oppsett
+
+seg-fde146239f5d = Resultat av én kjøring
+
+seg-41455a3f15b6 = <c1/> L-bånd, { "550" } km, { "80" }°-passering over München
+
+seg-9d5c154eceb1 = L-topp { "56.8" } dB-Hz, median { "42.2" } dB-Hz; Galileo E1-median { "47.8" } dB-Hz
+
+seg-9423b1184fb0 = <c1/>, en utformet { "70" }°-passering og fire satellitter i skall med helling, maritim bruker
+
+seg-63bf0b8f7f3a = X1-topp { "65.6" } dB-Hz og X5 { "68.9" } dB-Hz på den utformede passeringen; største X1-Doppler { "31.4" } kHz
+
+seg-8a3383072765 = <c1/>, { "65" }°-passering, bruker i luften
+
+seg-d2fea8542638 = STL-topp { "80.5" } dB-Hz, { "34.3" } dB over GPS L1-medianen; største Doppler { "35.4" } kHz
+
+seg-d837a8a7648b = <c1/>, innendørs bruker i Roma (tradisjonell bygning)
+
+seg-4fbead0588d2 = topp UHF { "34.1" }, L { "24.2" }, S { "16.5" }, C { "8.5" } dB-Hz; Galileo E1-median { "22.4" } dB-Hz
+
+seg-954e16842d59 = <c1/> UHF og L med delen <c2/>
+
+seg-9aa81f6f4929 = varm posisjonsbestemmelse { "0.90" } s og { "18.0" } mJ på hvert signal; kald posisjonsbestemmelse UHF { "19.0" } s ({ "381" } mJ), L { "47.0" } s ({ "939" } mJ), GPS L1 { "38.1" } s ({ "762" } mJ)
+
+seg-97476f9d4212 = <c1/>, fire bånd, { "70" }°-passering over Tromsø
+
+seg-fd1463da9965 = se <a1>Ionosfæresondering</a1>
+
+seg-1ad5bde12b4f = { "16" } satellitter i et generisk lag på { "1080" } km, L og C, et hopp på { "30" } m
+
+seg-25cf36cf0de3 = se <a1>Spoofing-monitorer</a1>
+
+seg-6cdf9830433e = <c1/> skriver også den interaktive spilleren (<c2/>, passeringens epoker) og efemeridefiler i CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON og STK (Systems Tool Kit) for passeringens geometri (<a1>ANIMATION.md</a1>, <a2>INTEROP.md</a2>).
+
+seg-d3a0fc36329a = Ionosfæresondering
+
+seg-1e64715af2ff = Hvert båndpar gir også den skrå TEC-en som dets geometrifrie kodekombinasjon gjenvinner ved passeringens topp, <c1/>, og 1-sigma for dette estimatet ut fra de to båndenes kodestøy ved toppen (<c2/>, <c3/>). Estimatet er lik modellens skrå TEC per konstruksjon: kombinasjonen er eksakt i første orden. Sigma er det som gjør en båndplan til en bedre eller dårligere sonde: <c4/> (fire bånd over Tromsø) gjenvinner { "18.85" } TEC-enheter fra hvert par, med et 1-sigma på { "0.017" } TEC-enheter for UHF med L og { "2.9" } for S med C. Bare termisk kodestøy; ingen flerveis eller forskyvning mellom frekvenser. MODELLED.
+
+seg-8f59acefb2b3 = Spoofing-monitorer (<c1/>)
+
+seg-91941393400a = Den valgfrie delen <c1/> forfalsker signalene en mottaker ville sett på en påstått posisjon. Fra <c2/> hopper den påståtte posisjonen med <c3/> og beveger seg deretter horisontalt med <c4/> mot <c5/>; den forfalskede avstanden og avstandsraten er nøyaktig de for den påståtte posisjonen, på LEO-båndene som er oppgitt i <c6/> (standard alle) og på MEO GNSS-signalet med mindre <c7/>. <c8/> sier om de forfalskede pseudoavstandene har ionosfærisk forsinkelse (det har ikke en sender på bakken).
+
+seg-845f6840d92d = Mottakeren kjører to monitorer (<a1><c1/></a1>), hver med en oppgitt sannsynlighet for falsk alarm per epoke (<c2/>, standard { "1e-5" }), og erklærer deteksjon ved første epoke der deteksjonssannsynligheten når <c3/> (standard { "0.999" }). Deteksjonssannsynlighetene er eksakte for den oppgitte gaussiske støyen, beregnet på det støyfrie middelresiduet; ingen støy trekkes.
+
+seg-cc38b40eb7a5 = Monitor
+
+seg-8b34ac584c3d = Statistikk
+
+seg-7b158594c4d9 = Hva den ser
+
+seg-89756d80bc29 = Konsistens mellom Doppler og passeringsgeometri
+
+seg-2174c7725e48 = målte avstandsrater mot de som er predikert ut fra banene og en uavhengig forhåndsposisjon og -hastighet (<c1/>, <c2/>); en generalisert minste kvadraters khikvadrat over et vindu på <c3/> (standard ett trinn), med klokkedriften som et forstyrrende ledd (eller gitt <c4/>); frekvenslåsesløyfens støy fra C/N0 (Kaplan & Hegarty { "2006" }, § { "5.6.2" }), på GNSS-kanalene, LEO-kanalene og alle kanaler
+
+seg-14eab06a47d5 = en posisjonsfeil <c1/> flytter en avstandsrate med <c2/>, <c3/>: en LEO-satellitts tverrhastighet over avstanden er omtrent { "25" } ganger en MEO-satellitts, så den samme feilen er omtrent { "25" } ganger større i LEO-Doppler
+
+seg-390ac49b3c09 = Konsistens mellom bånd
+
+seg-986d501c2b01 = steget fra epoke til epoke i hvert LEO-båndpars geometrifrie pseudoavstandskombinasjon, med mottakerens ionosfæremodell fjernet, mot kodestøyen <c1/> og en tolerert ikke modellert ionosfærisk rate (<c2/>)
+
+seg-389187df55d7 = en spoofer som forfalsker noen bånd og ikke andre, eller alle bånd uten ionosfæren, ved starten; ikke en som forfalsker alle bånd og simulerer ionosfæren
+
+seg-4dd44d7fa566 = <c1/>: et hopp på { "30" } m på et oppmålt sted i Frankfurt endrer GNSS-avstandsratene med omtrent { "4" } mm/s og LEO-ratene med omtrent { "10" } cm/s (mediangradienter { "1.4e-4" } og { "3.5e-3" } per sekund). Testen med bare GNSS oppdager det aldri (største ikke-sentralitet { "0.06" }); testen på alle kanaler oppdager det { "105" } s etter starten. <c2/> kjører fire spoofere mot begge monitorene.
+
+seg-1b64098e01f3 = Begrensninger, oppgitt i hvert resultat: spooferen er et idealisert, selvkonsistent posisjonsskyv som kompenserer for sin egen bane (ingen effekt-, ankomstvinkel- eller korrelasjonstoppsignatur); forhåndsposisjonen er uavhengig av de forfalskede posisjonsbestemmelsene; mottakerens ionosfæremodell er motorens, så den ekte residualen mellom bånd er null i middel. MODELLED (to rader i <a1>VERIFICATION-MATRIX.md</a1>).
+
+seg-edb7b16b6c0e = Validering
+
+seg-051b8cd1849d = Test
+
+seg-609c537a9dfd = ITU-R P.838-3 tabell { "5" }, { "115" } frekvenser
+
+seg-5bf24bec38f2 = hver koeffisient innenfor { "0.6" } av sitt siste trykte siffer (verste observerte { "0.51" })
+
+seg-86204b023d44 = valideringseksemplene til ITU-R Study Group { "3" } (CG-3M3J-13-ValEx-Rev8.3.0), P.618-14 regn
+
+seg-13180d4097d1 = { "56" } tilfeller innenfor { "1e-4" } dB (observert { "5e-6" } dB)
+
+seg-84161e5f97f8 = Samme eksempler, P.618-14 scintillasjon
+
+seg-0a4305c867ff = { "42" } tilfeller innenfor { "1e-5" } dB
+
+seg-054f8dbe2792 = ITU-R Study Group { "3" } Clutter and BEL-regneark, P.2109
+
+seg-8ae2eeed4be4 = { "568" } verdier innenfor { "0.001" } dB
+
+seg-6df2eded9f19 = IS-GPS-200 gruppeforsinkelsesforhold <c1/>
+
+seg-d0b293230f91 = til { "1e-12" }; L1/L2- og L1/L5-forsterkning { "2.978" } og { "2.588" }
+
+seg-f9a0e24c00a7 = Friis kilometer–megahertz-form
+
+seg-4e94a67f40f6 = til { "1e-4" } dB
+
+seg-ee59b4c520eb = arXiv { "2509.19551" } tabell { "1" } (Pulsar in-orbit validation (IOV), full operational capability (FOC) polar, FOC med helling, GPS)
+
+seg-345998ca457c = { "20" } hastigheter og Doppler-maksima innenfor { "0.05" } %
+
+seg-30e34076f4a7 = De uavhengige referansene for regn og scintillasjon bruker reghøyden og den våte refraktiviteten slik valideringseksemplene oppgir dem: motoren har verken ITU-R P.839- eller P.453-kartet.
+
+seg-d2d1075a0b67 = EIRP-er og mønstre er publiserte mottatte effekter omregnet til en EIRP, eller representative valg; ingen satellitts målte mønster brukes, og ingen LEO-C/N0 er sammenlignet med en måling.
+
+seg-915a9564608d = Gassleddet er den erstattede forenklede metoden i P.676-10; under { "1" } GHz er det verdien ved { "1" } GHz skalert med f², og regn settes til null der.
+
+seg-cdd9faf5b61d = Andelen av TEC under en LEO-satellitt kommer fra et enkelt Chapman-lag (ingen plasmasfære), og kan overstyres med en oppgitt andel.
+
+seg-4b72218497e7 = Banene for den utformede passeringen og Walker-banene er totrekkslegemebaner med en valgfri sekulær J2 (jordens andre sonale harmoniske); TLE-veien bruker SGP4. Brukerens egen akselerasjon er utelatt fra den lukkede Doppler-raten (den numeriske kontrollen rapporterer hva det koster for en bevegelig bruker).
+
+seg-9fc2cd6d38e9 = RINEX (Receiver Independent Exchange Format) { "4.02" } har ingen LEO-navigasjonsposter; enhver RINEX-lignende LEO-eksport hører til koden for navigasjonsmeldinger og er en dokumentert Kshana-utvidelse (tidligere arbeid: arXiv { "2401.17767" }).
+
+seg-593081243d8c = <s1>Forrige</s1>LEO-signalutforminger
+
+seg-468e70f9a669 = <s1>Neste</s1>LEO-navigasjonsmelding
+
+seg-072d0d8f618c = Spoofing-monitorer ([spoofer])
