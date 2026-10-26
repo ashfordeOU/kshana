@@ -9,3 +9,5 @@ seg-ad856ad710eb = 状态
 seg-2bd2101ce454 = 界面
 
 seg-98d0bc6b40ce = 公开框架 compliance 映射
+
+seg-80f3f0aae42c = 干扰地图

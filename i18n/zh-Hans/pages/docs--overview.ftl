@@ -155,3 +155,7 @@ seg-eaaed414a05a = 机器输入
 seg-0d4ccaba9b91 = Signal K 和 OpenCPN
 
 seg-2247a2344710 = 含义
+
+seg-b2689beaba9e = Galileo OSNMA验证器
+
+seg-80f3f0aae42c = 干扰地图
