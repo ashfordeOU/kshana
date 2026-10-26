@@ -833,3 +833,203 @@ seg-68caf86157c2 = ROS { "2" } receiver-trust 包与 gnss_lib_py 桥接
 seg-e7d7d99fe538 = 一个不依赖 ROS 的桥接，将定位和卫星消息写成 NMEA，并通过 Python 绑定评分（integrations/ros2/kshana_trust），以及一个经由 rtklib-pos 格式将 gnss_lib_py NavData 接入 receiver-trust 的桥接（integrations/gnss_lib_py）。
 
 seg-c3c260b7063e = 测试
+
+seg-b24486eee0fb = 来源：<c1/>
+
+seg-34d1304c9555 = 由模型计算得出的能力：依据
+
+seg-144f441bf52b = 这些能力依据已发表的或第一性原理的物理实现并带有测试，但<b>如实标注为 MODELLED</b>：没有对照独立的外部参考基准、在所述容差内核对过。矩阵不变量测试强制要求只有以 <c1/> 为支撑的行才可以是 VALIDATED，因此这里没有任何一行可以被悄悄升级。每一行都说明了它为何仍属于由模型计算得出。
+
+seg-0630e39b4de3 = 参考基准类型
+
+seg-bb023086bbe3 = 为何仍属于由模型计算得出
+
+seg-dd6ba97ce971 = InternalConsistency
+
+seg-bac242dada9c = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；没有外部参考：Orekit { "12.2" } 没有考虑临边昏暗的光照比。仅对照同一定律的闭式解核对过
+
+seg-33d506570c1b = srp_shadow::tests（环形闭式解、复现锥形阴影的均匀定律、全日照与本影极限）
+
+seg-91fe516eabd4 = ExternalDataset
+
+seg-cb2cbb31b091 = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：Orekit { "12.2" }（Apache-2.0）NumericalPropagator/DormandPrince853，带 ThirdBodyAttraction 和 SolarRadiationPressure，使用 Orekit 自己的 DE440 读取器（orekit-data lnxp1990.440），作为独立程序运行；kshana 读取的是 NAIF de440s.bsp 的逐位一致、经 SPICE 核对的一个截取片段。判据已预先登记于 xval/propagator-de440-orekit/PREREGISTRATION.md（22a5a01d）。轨道判据（{ "0.5" } m）和灵敏度对照达到了，但太阳/月球位置判据（{ "3" } m / { "0.2" } m）未达到，实测为 { "6.39" } m / { "0.244" } m。SPICE 在精确的 TDB 读取同一内核时，与 Orekit 相差同样的量（{ "6.25" } m / { "0.240" } m），因此差距存在于 NAIF 的 de440s 路径与 Orekit 的 DE440 读取器或时间尺度之间；原因未能分离出来。已记录并固定，因此该行仍为 MODELLED
+
+seg-13f8f557c721 = propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider
+
+seg-20f163c0cb8f = tests/propagator_de440_orekit_oracle.rs（{ "5" } 个用例 × { "24" } h 内每小时 { "25" } 个状态，LEO、GEO 和 HEO，三体以及三体 + SRP：最差 |dr| { "0.0170" } m，|dv| { "1.84e-5" } m/s；解析级数对照的偏差为 { "9.96" } m；相对 Orekit 的 DE440 位置，太阳 { "6.39" } m、月球 { "0.244" } m，为已记录的未达到）；propagator 单元测试（提供方拒绝、跨克隆共享的回退计数）
+
+seg-b55bcab6f986 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；对于地球位势效应没有外部参考。{ "24" } 个系数转录自 GFZ STR06/01 表 { "1" } 模型 N1，并已逐行对照该报告重新核对（SHA-256 890865ae）；不使用 { "0" }、{ "1" }、{ "7" } 和 { "8" } 阶。Ray 和 Ponte（{ "2003" }）没有印出球谐表，因此没有比较第二个来源
+
+seg-448f4acf5c7b = tides, propagator, precise_od
+
+seg-4014447d4bcc = tides::tests（S1 项为周日项，四分之一天转过 { "90" } 度，且具有各行的负荷因子振幅；LEO 处的物理量级）；propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+seg-a192b0f512cb = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：Orekit { "12.2" }（Apache-2.0）HolmesFeatherstoneAttractionModel 和 pyshtools { "4.14.1" }（BSD-3-Clause）MakeGravGridPoint，作为独立程序运行；判据已预先登记于 xval/high-degree-gravity/PREREGISTRATION.md（276c869f）和 xval/cowell-tesseral-200-orekit/PREREGISTRATION.md（0aa312a6）。Orekit 在其有定义之处全部一致，但 pyshtools 在两个近极点处未达到其预先登记的判据（最多 { "7.3e-10" } m/s^{ "2" }；一次 50 位的 mpmath 核对表明误差在 pyshtools 一侧），正好位于极轴上的点没有参考基准值，且 { "24" } h 轨道预先登记的 70 阶灵敏度对照未达到（{ "0.726" } m，而判据为 > { "1" } m）。每次未达到都已记录，而不是被调参抹去，因此该行仍为 MODELLED
+
+seg-8fda2ee90583 = gravity_sh, propagator (FieldEvaluator)
+
+seg-3f7d3003656e = tests/gravity_sh_high_degree.rs（Orekit 在 { "8" } 个离轴点：N = { "70" } 时最大 |da| 为 { "2.2e-17" } m/s^{ "2" }，始终运行；N = { "200" }、{ "360" }、{ "2190" } 时分别为 { "3.5e-17" }、{ "3.9e-17" } 和 { "7.3e-17" } m/s^{ "2" }，受 KSHANA_EGM2008_GFC 数据控制）；tests/cowell_tesseral_200_orekit_oracle.rs（{ "24" } h 的 200x200 轨道，受数据控制：最差 |dr| { "0.1317" } m，|dv| { "1.45e-4" } m/s；70 阶对照 { "0.726" } m）；gravity_sh 单元测试（{ "70" } 阶时与经典求值器一致到 { "1e-13" }，2190 阶场上的有限差分和极点连续性，一个下溢的 2190 阶项对照扩展指数计算）
+
+seg-84a9851b838c = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：Orekit { "12.2" }（Apache-2.0）BatchLSEstimator，带自定义的瞬时几何 RangeRate 和 AzEl 测量（与 Orekit 的 TopocentricFrame 交叉核对），作为独立程序，在相同的、经掩模的、带随机种子的观测上运行。判据已预先登记于 xval/od-measurements-orekit/PREREGISTRATION.md（0cf9076）。除 B4（无噪声状态一致性 { "1" } cm）外每项判据都达到了，该项在 { "4" } 个场景中有 { "2" } 个未达到（{ "1.46" }、{ "1.74" } cm）：Orekit 自己的无噪声估计与其模拟真值相差这么多（Orekit 一侧的原因未能分离出来）。已记录并固定，因此该行仍为 MODELLED。未建模：光行时、光行差、折射、地球自转，以及针对这些测量类型的序贯滤波器
+
+seg-296a6fe8585b = orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)
+
+seg-9493e02e3cd1 = tests/od_tracking_measurements_reference.rs（{ "8" } 个场景：测距率、方位/仰角和混合，LEO 和 MEO，无噪声以及带随机种子的 sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad，{ "5" } 度和 { "10" } 度掩模，对照 Orekit { "12.2" }：可见集合一致；测量值在 { "5.84e-8" } m、{ "6.30e-10" } m/s、{ "1.44e-13" } rad 之内；STM 相对误差在 { "1.2e-14" } 之内；含噪状态在 { "1.74" } cm 和 { "1.14e-5" } m/s 之内；各类型拟合后 RMS 的相对误差在 { "2.7e-4" } 之内；无噪声 kshana 对照真值 { "1.06e-8" } m；无噪声 kshana 对照 Orekit 在两个场景上为 { "1.464" } 和 { "1.740" } cm，是对 { "1" } cm 判据的已记录未达到）；orbit_determination 和 batch_ls 单元测试
+
+seg-a5554f29b2d7 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；没有外部参考：权重是一种建模选择（SP3 格式只把该代码定义为生产者的精度指示符；这里将其读作每轴的一倍标准差）。现有已记录的机构运行不变
+
+seg-f5a76ae1fcaa = sp3, precise_od
+
+seg-39a552abfcab = src/sp3.rs 单元测试；tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit（已提交的 { "8" } h ESOC 测试夹具，由头部指数 { "5" } 得 sigma { "0.032" } m：Tier-1 3D RMS { "0.132" } m 不变，Tier-2 为 { "0.035" } m，对照 sigma { "1" } m 时的 { "0.070" } m，变化来自重新平衡的经验先验约束）；tests/agency_swarm.rs（Swarm 产品不带精度代码并回退，已固定）
+
+seg-a5ad470a4816 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；仅为内部自洽。每个已发表的场都定义在其生产者的体固系中（GMM-3 在 Konopliv 等人 { "2006" } 的火星坐标系中，GL0660B 在 DE421 月球主轴坐标系中），而该场在 IAU 坐标系中求值；这一偏移未建模
+
+seg-409f709cceb3 = gravity_pds, body, propagator, mars_frame
+
+seg-0fe6532ca74d = tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator；gravity_pds::tests::with_gravity_field_is_opt_in
+
+seg-eff90f999826 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；仅有内部往返和 ICD 已知答案；没有运行过任何第三方解码器（读取 KSHANA_NAVMSG_ORACLE_JSON 的 RTKLIB/GNSS-SDR 测试装置受数据控制）。MODELLED
+
+seg-e3d75762b979 = gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)
+
+seg-dbe0dd5dcf47 = gnss_navmsg::tests（CRC-24Q 校验值 0xCDE703；卷积码冲激响应；Viterbi 纠正注入的错误；布局宽度）；tests/gnss_navmsg_roundtrip.rs（字段起始比特等于 ICD 的比特编号；编码 -> FEC -> 交织 -> Viterbi -> 解码往返误差在半个 LSB 之内）；tests/gnss_navmsg_galileo_brdc_grid.rs（IGS BRDC 2018-133 的 Galileo 记录落在 LSB 网格上，最差 { "3.6e-3" } LSB；预先登记的卫星数判据未达到，{ "20" } 颗中有 { "15" } 颗，发现）
+
+seg-81b76a6d1bcd = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；对照已发布的 ITRF2020 WTZR 坐标的发现：预先登记的判据（平滑后的中位数和 p95 至多为原始值的 { "0.6" } 倍；tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_HATCH.md）未达到，比值为 { "0.718" } 和 { "0.923" }；残余的米级误差属于偏差类（C1C 码偏差、天线、潮汐、长周期多路径），而不是平滑所能消除的白噪声。MODELLED：滤波器的统计量只在内部核对
+
+seg-b81cd9204f64 = hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)
+
+seg-e892fffaaf07 = hatch::tests（无噪声直通；白噪声方差 1/(2N-1)；重启）；tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned（WTZR 2025-02-24 01-06 h，{ "600" } 个历元，N = { "100" }：3-D 误差中位数 { "1.553" } -> { "1.116" } m，p95 { "3.473" } -> { "3.207" } m）
+
+seg-1bbd39c17347 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；在一份真实发布的 RINEX { "4.00" } 文件上做格式一致性检查（读回的值等于文件中印出的字面值），以及由规范导出的头部；没有运行独立的读取器，因此为 MODELLED
+
+seg-bdda05057c91 = rinex_obs (parse_obs)
+
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs（IGS MGEX RINEX { "4.00" } 文件 MAO000USA_R_20231980000_01D_30S_MO 的前 { "4" } 个历元，{ "58" } 颗卫星，{ "7" } 个系统：头部记录和首历元的值等于已发布的字面值）；rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records（由规范得到的合成 { "4.02" } 头部）
+
+seg-5afb3c4bf171 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；已针对带 GEO 的 IGS MGEX 精密轨道预先登记（7aa264b、110fef9）；构建它的会话无法获得这类产品，因此比较尚未进行，该行为 MODELLED（仅对照已发布的名义 GEO 轨位核对过）
+
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs（真实的 C01-C04 记录：地球静止轨道半径，经度在已发布轨位处为 140.02/80.04/110.55/159.99 度，带倾角时 |纬度| 为 { "2.13" } 度，不带时为 { "6.65" } 度；预先登记的广播星历对精密 SP3 的比较受 KSHANA_BDS_GEO_SP3 数据控制，尚未运行）；rinex::tests
+
+seg-70f61250d256 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；仅为内部自洽：测量量由滤波器所用的模型合成（跨随机种子的 χ² NEES/NIS、无噪声收敛、周跳注入）。MODELLED；没有与真实接收机数据或第三方滤波器比较
+
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs（8 字形行驶：在相同测量上，稳态 3-D RMS 载波为 { "0.025" } m，对比码为 { "0.470" } m；{ "12" } 个随机种子的平均 NIS/自由度 { "1.00" }，稳态 NEES/自由度 { "0.92" }；一次 1 周的周跳在其历元被检出，没有虚警，解保持完好；关闭广播修正会使码误差从 { "0.51" } m 升至 { "19.6" } m（电离层）和 { "8.0" } m（对流层）；无噪声运行收敛到 { "0.3" } mm）
+
+seg-6f3f6483690e = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；内部：每个包的性能指标对照其自身真值，以及在相同输入上的松/紧耦合比较。MODELLED；审计中的 NaveGo 比较尚未运行
+
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs（每个包：两种传感器在中断期间融合结果都优于自由 INS；铁路：中断期间导航级紧耦合 { "5.3" } m 对松耦合 { "12.9" } m，战术级 { "15.6" } m 对 { "18.8" } m，可用性 { "0.97" } 对 { "0.95" }；紧耦合表经独立核对）；tests/gnss_ins_legacy_trajectory_pin.rs（松耦合默认值逐位一致）
+
+seg-2c7c37506aab = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；仅为内部自洽：真值由滤波器自身的模型模拟而来（跨蒙特卡罗随机种子的 χ² NEES，在相同传感器上的解耦包）。MODELLED
+
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs（{ "60" } 个随机种子的3-D 滤波器：对 { "8" } 个状态，后半段平均 NEES 为 { "8.12" }，最后历元的 χ² 之和位于其 { "95" } % 区间内；一次 { "0.1" } ns 的钟差固定使3-D 位置 sigma 从 { "5.58" } m 降到 { "3.07" } m；{ "60" } 个随机种子的偏差滤波器：χ²({ "5" }) 之和在区间内，{ "60" } 次中有 { "59" } 次偏差在 { "3" } 个 sigma 之内；带有偏置加速度计的 fusion-pnt-coupled：耦合时位置 p95 为 { "18.7" } m / { "90.0" } m，完好性为 { "1.00" } / { "0.97" }，解耦时则为 { "430" } m / { "4060" } m 和 { "0.006" } / { "0.000" }）；fusion::coupled::tests；tests/fusion_coupled_pack.rs（不带 [coupled] 的 fusion 和 hybrid 逐位一致）
+
+seg-0866862d2264 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；内部：刚体运动学恒等式、CSV 往返和滤波器自身的协方差。MODELLED（没有与真实行驶日志比较）
+
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+seg-5a6b5289a473 = fusion::trajectory::tests（协调转弯没有侧向力，载荷系数为 1/cos φ；CSV 导入以 { "1e-3" } m/s 和 { "1" } m 复现一条飞行剖面）；tests/gnss_ins_trajectory_library.rs（每个剖面都能运行，且在中断期间融合结果优于自由 INS；每个都飞出其所命名的运动；航向可观测性：{ "240" } s 之后的偏航 sigma，直线巡航为 { "1.27" } 度，8 字形为 { "0.039" } 度，走走停停为 { "0.062" } 度）；tests/gnss_ins_legacy_trajectory_pin.rs（旧结果和真值哈希逐位一致）
+
+seg-5cb3b7bba7be = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：对照 JPL Horizons 重建的 CAPSTONE 星历（NAIF -1176，CAPSTONE_merged，以月球为中心的 ICRF，2023-03-01..31，间隔 { "10" } min）进行测量，该星历逐字节提交（tests/fixtures/capstone_horizons/，NOTICE.md），在获取之前即已预先登记 { "4e868170" }，作为对平均几何设有判据的测量。这不是独立核对：CR3BP 省略了太阳、月球偏心率以及 CAPSTONE 实施的轨道保持，因此这些判据描述的是模型轨道的代表性如何，而不是精度。结果：docs/design/evidence/cap29d-capstone-nrho/RESULTS.md
+
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry（CAPSTONE { "2023" } 年 3 月，{ "4" } 次近月点和 { "5" } 次远月点：周期 { "6.5004" } d 对 { "6.5699" } d（{ "1.07" } %，判据 { "3" } %），远月点 { "71 182" } 对 { "71 215" } km（{ "0.05" } %，判据 { "5" } %），近月点 { "3 385" } 对 { "3 245" } km（{ "4.1" } %，判据 { "20" } %））；cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+seg-30e946bde474 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；对照闭式解的内部自洽：在线性高斯模型下，最小二乘协方差为 sigma^{ "2" } (H^T H)^-1（Kaplan 和 Hegarty 编，Understanding GPS: Principles and Applications，第 2 版，Artech House，{ "2006" }，第 { "7" } 章）。方法与容差取自 { "0.36" } 几何设计说明第 { "5.2" } 节，并在首次运行之前固定在一次预先登记提交中：每个方差在 { "5" } % 之内（N = { "20,000" } 时为样本方差的 { "5" } 个标准误），每个 RMS 在 { "2.5" } % 之内，东-北相关系数在 { "0.035" } 之内（5/sqrt(N)），每个均值在 { "5" } 个标准误之内，{ "95" } % 椭圆比例在 { "0.95" } +/- { "0.0077" } 之内（{ "5" } 个二项标准误）；负对照（PDOP 加倍；误差按 1/sin(仰角) 增长而对照未加权的 Q）必须失败。组成方式：Q 是 orbit::dop 核算的协因数，已在 tests/dop_reference.rs 中针对这同样的 { "8" } 种几何，对照 gnss_lib_py { "1.0.4" } 达到 VALIDATED（'GNSS geometry / dilution of precision'一行）；本行增加的是从这些因数经引擎求解器到米的这一步，并不借用那一行的状态。为何为 MODELLED：不涉及外部数据集；一致只表明估计器和噪声在教科书模型下实现了 sigma × DOP，而不表明任何接收机的误差等于 UERE × DOP，且 sigma_UERE 是输入
+
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs（position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries：预先登记 e50c88d2 之后首次运行，全部 { "104" } 项检查通过，最差方差 { "3.2" } %，RMS { "1.6" } %，相关系数 { "0.012" }，均值 { "2.2" } 个标准误，椭圆比例 { "0.0039" }；negative_control_a_doubled_pdop_fails_every_geometry；negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries：两项对照均按要求失败；position_error_is_sigma_times_dop_on_masked_skies：设计说明中的两个带遮挡天际线的几何，即 10sat-mixed 天空在城市街道（{ "4" } 颗卫星，PDOP { "16.6" }）和集装箱码头（{ "9" } 颗卫星，PDOP { "2.5" }）预设下，预先登记 03999c11 之后首次运行，全部 { "26" } 项检查通过，tests/fixtures/dop/PREREGISTRATION-MASKED.md）；tests/position_error_dop_ci.rs（先做的一项单独检查，针对四种手工选定的天空（开阔、聚集、峡谷、半天空；sigma { "1" } m，随机种子 0x0D0B5EED），以卡方置信区间在 { "20" } 项检查上总计 { "1e-6" }：比值 { "0.987" } 至 { "1.009" }，求解器自身的 PDOP/GDOP 与核算结果在 { "2.5e-12" } 之内相等，并对 { "10" } % 的 DOP 误差和 1/sin(仰角) 误差设有负对照；运行在预先登记之前，因此只作报告，不属于预先登记）；dop_error_mc::tests；dop_error_ci::tests
+
+seg-d40d54b79e58 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；内部自洽：分类依据其所述规则，以及对已提交演示日志的合成编辑所手工推导的比值进行核对，且无变化固定值保持 { "0.35.0" } 的输出：除非几何较差，否则不会改变任何得分；标签始终会被报告。为何为 MODELLED：阈值是选定的，而不是拟合的（出处见每次运行的 geometry_model；IEC 61108-1 和 GPS SPS 的数字按所引用的采用，有待对照标准文本核对），也没有外部带标注的、对照攻击的自然几何劣化数据集可供验证该分类。导出的 DOP 复用 orbit::dop 核算，该核算已针对 gnss_lib_py 达到 VALIDATED，其状态本行并不借用。几何的一个类别是对天空的陈述，而不是未发生攻击的结论
+
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs（a_stated_skyline_reads_the_fjord_as_geometry：在 scenarios/training/fjord-natural-degradation.toml 的合成峡湾航段上，无论有无所述的 [skyline]，被扣分的都是同样的 { "624" } 个历元；有它时，sky-blocked 在 { "680" } 个历元上被报告（无它时为 { "0" }：方位角空隙回退在两侧都有岸壁的峡湾中什么也看不到），open_fraction 为 { "0.758" }，环境类历元从 { "78" } 降到 { "33" }，其余是所述天际线让其处于开阔处的卫星的丢失；事件之外，天际线不改变任何得分）；receiver_trust::geometry::tests（阈值处手工推导的比值、阈值边缘、斜坡和上限、下限、标签边缘、[geometry] 覆盖、经独立核对的核算上的 DOP、保持和过期的天空、未知而不猜测、信号丢失、较差几何的容差、无定位解的哨兵值）；tests/geometry_trust.rs（一个一般的带遮挡天空被标注而不计分、一个较差的带遮挡天空、一次低仰角丢失、一次功率下降、一个伪造的 HDOP、完全的信号丢失、较差几何期间的拖拽偏离、未知几何、会话覆盖、实时模式）；tests/geometry_trust_no_change.rs（两个示例会话在去掉追加的键之后与 { "0.35.0" } 逐字节一致）；tests/geometry_corpus_identity.rs（每个已提交的船舶 NMEA 语料，也包括作为仅 GPS 开阔天空的情形，以及船员训练场景：与 { "0.35.0" } 逐字节一致，只有 poor 历元例外，它们仅因几何扣分而不同）
+
+seg-7e9cae219d72 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；内部：闭式解对照手工计算的数值进行核对（某条所述街道的墙顶仰角、开口端条件、某个所述点的曲率下降）。没有外部参考基准：设计说明将这些简化界定为 MODELLED，而 Orekit 的 ElevationMask 接受一张表，因此对行 'Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask' 的比较，是把它们的 360 点表当作输入读入，并不对其进行核对
+
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+seg-7ade0dffb2d8 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；无：尺寸是选定并声明的，而不是对任何街道、港口、峡湾或码头的测量（街道的纵横比在 Oke（{ "1988" }）的 0.5-2 区间之内；峡湾的量级与挪威西部的峡湾相当；堆垛采用 ISO { "668" } 高箱的高度）。该测试对照预设自身所述的尺寸进行检查，这是一种转录核对，验证规则不将其计入
+
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+seg-00884df89ab2 = ReferenceImpl
+
+seg-2ddc2b97e673 = 对照本代码库内另一个独立实现进行了核对：独立于被测单元，但不具有外部权威性：单时钟 DOP 因数依赖于已针对 gnss_lib_py { "1.0.4" } 核对的核算（行 'GNSS geometry / dilution of precision (DOP)'）；本行自身的检查是内部的：sky_geometry 在同一几何上复现 orbit::dop 和 dop_cov，椭圆复现解析的 2x2 特征分解，ECEF 与方位角/仰角输入一致，带随机种子的点云的 RMS 和 { "95" } % 包含率与该几何一致。每个系统一个时钟的 ENU 协方差及椭圆在行 'Horizontal error ellipse and per-system cofactor from the geometry covariance'（numpy，P2）中为 VALIDATED；这里仍为 MODELLED 的是其组合：向代表性天空的预设外推、蒙特卡罗点云（对照其所采样的几何核对，属于自洽性检查）以及各曲面。星座预设给出的是一个代表性的天空，而不是某个带日期的天空；高斯误差模型和 UERE 是所述的输入，不是实测精度，也不是完好性界限
+
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site)；tests/dop_reference.rs（单时钟核算对照 gnss_lib_py）
+
+seg-0b5caf359b15 = 对照本代码库内另一个独立实现进行了核对：独立于被测单元，但不具有外部权威性：多步 clock_state 协方差递推（同一代码库内的交叉核对）；其底层的滑行方差与守时反演核算已对照 scipy 进行外部核对（见 'Clock-holdover coast-variance & threshold inversion'）。各类别红噪声底的守时数字仍为 MODELLED
+
+seg-085cbc64bab2 = holdover
+
+seg-b31ed8fc6801 = holdover::tests (vs multi-step Kalman covariance recursion; white-FM exact; round-trip)；滑行方差核算在 tests/gnss_denied_clock_holdover_reference.rs 中经外部核对（对照 scipy Van-Loan/brentq）
+
+seg-8b8c97b664c2 = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：实测记录，已保留封存：IGS 最终组合的 { "30" } s 钟差，涉及 { "11" } 颗 GPS Block IIF 卫星，时段为 2026-03-01 至 { "14" } 日（此前没有任何测试打开过的窗口；IGS，开放，需署名）以及 JammerTest { "2024" } 的 u-blox ZED-F9P 接收机在其不计分的静止时段（GPL-3.0-or-later）。D9 外部比较（预先登记 2ec76864，每张卡片的预测/实测阿伦偏差在其拟合平均时间上位于 [1/1.5, { "1.5" }] 之内），一项发现（仍为 MODELLED）：{ "11" } 张 GPS IIF 卡片中有 { "10" } 张在判据之内；G27 在两小时尺度上偏乐观（{ "7680" } s 处为 { "0.662" }，最差倍数 { "1.510" }），这是幂律卡片所不具备的小时尺度周期性误差。接收机 TCXO 卡片被阻塞：在已记录的发射之外，该数据集的其他时段只剩 { "167" } 个历元，而所需为 { "3600" } 个。已报告，但不是盲测（记录已被先前的行打开过）：5071A 铯钟卡片在判据之内（直至 { "4096" } s 最差为 { "1.070" }），OCXO 卡片偏保守且在判据之外（{ "128" } s 处为 { "2.348" }；其噪声底在记录期间发生变化），而基于已发表的最短三个点拟合的 Norcia 锶钟卡片在两个计分点上在判据之内（{ "1.291" }、{ "1.405" }）。Galileo 被动氢钟（无法获得免登录的 Galileo 最终钟差来源）和深空原子钟（仅有一个开放的在轨数值）被阻塞。D9 第 { "2" } 轮，将 ZED-F9P 接收机 TCXO 作为一个模型类，用 { "12" } 个静态 Wroclaw 站 { "14" } 天的数据（Zenodo { "6488497" }，CC BY { "4.0" }；预先登记 fb475550），一项发现：按登记的流程，{ "12" } 个站中有 { "11" } 个无法评估（RAIM 拒绝了大多数无电离层组合历元），BX14 失败；经披露的、使用修正后流程的重新运行（预先登记 c9cc0d49）在 { "11" } 个盲测站中有 { "1" } 个通过（BX12，{ "1.412" }；BX07 为 { "1.532" }，BX13 为 { "1.542" }，刚好在判据之外），因为来自间断 { "30" } s 文件的单点接收机钟差不是一份干净的振荡器记录
+
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; 预先登记 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; 受数据控制)
+
+seg-a2202f0e06b2 = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：实测记录，已保留封存：IGS 最终组合的 { "30" } s 钟差，涉及 { "11" } 颗 GPS Block IIF 卫星，时段为 2026-04-01 至 { "14" } 日（此前没有任何测试打开过的窗口；IGS，开放，需署名）。D9 外部比较（预先登记 fb475550，每颗卫星在每个拟合平均时间上预测/实测阿伦偏差均位于 [1/1.5, { "1.5" }] 之内），一项发现（仍为 MODELLED）：{ "11" } 张卡片中有 { "9" } 张在判据之内；G03（{ "1.947" }）和 G25（{ "1.581" }）在 { "60" } s 至 { "2000" } s 之间偏乐观，因为它们保留封存的记录比其拟合的三分之一段噪声更大（G25 保留封存的部分有 { "16" } 处缺口和 { "29" } 个相位离群值），这是时钟本身发生了变化，而不是缺少某个周期项。从预测中去掉周期项会使全部 { "11" } 张卡片失败（{ "1.77" } 至 { "4.96" }），因此预测靠这些项来支撑
+
+seg-d302e2ef46ad = clock_library (card)
+
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; 预先登记 fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+seg-1c858b039ab0 = 对照本代码库内另一个独立实现进行了核对：独立于被测单元，但不具有外部权威性：filterpy { "1.4.5" } KalmanFilter（R. Labbe，MIT），其中 F 通过 scipy.linalg.expm，Q 通过 Van-Loan { "1978" } 分块矩阵得到：这是一个独立的参考实现，复现了 kshana 完整的滤波器轨迹。跨实现一致性：时钟物理和阿伦校准并未经外部核对，因此仍为 MODELLED。{ "0.30" } 外部比较，一项发现（仍为 MODELLED）：在 { "11" } 颗 GPS Block IIF 卫星的 IGS 最终 { "30" } s 钟差上（2025-08-17 至 { "30" } 日），以前半段 ADEV 拟合 Q，并在保留封存的后半段上给滤波器打分，滤波器在提前一步上是自洽的（{ "0.906" } 至 { "0.971" } 的历元落在其 { "95" } % 区间内，判据 { "90" } %），但在一小时上，{ "11" } 个时钟中有 { "9" } 个过于自信（{ "0.486" } 至 { "0.829" }），并且有 { "5" } 个时钟的新息之和落在 [{ "2.4" }, { "3.6" }] 之外。每颗卫星拟合出的白相位噪声都为零，而小时尺度的误差（周期项、闪变 FM）不在这个 3 状态模型之中。{ "0.30" } 第 { "2" } 轮，在 2025-09-01 至 { "14" } 日的全新保留封存 IGS 钟差上使用扩展滤波器（闪变 FM 以及每圈一次和每圈两次的状态）（预先登记 4b1a841e），一项发现（仍为 MODELLED）：一步和一小时的自洽判据在全部 { "11" } 颗卫星上都成立（{ "0.948" } 至 { "0.988" } 和 { "0.907" } 至 { "0.996" }），但新息之和判据在 G24（{ "0.964" }）和 G30（{ "1.929" }）上对照 [{ "2.4" }, { "3.6" }] 失败。D9 第 { "3" } 轮，即第 2 轮的扩展滤波器，在冻结的 clock_library 条件检测器之后调参和判据不变，在 2026-04-01 至 { "14" } 日的全新 IGS 钟差上（预先登记 fb475550），一项发现（仍为 MODELLED）：(a) 一步 { "0.941" } 至 { "0.968" } 和 (c) 三倍 NIS 均值 { "2.641" } 至 { "3.549" } 在全部 { "11" } 颗卫星上成立；(b) 一小时在 G09（{ "0.894" }）和 G26（{ "0.876" }）上对照 { "0.90" } 失败
+
+seg-3016100a7015 = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs（完整的预测加更新轨迹：状态 x 和 { "3" }×{ "3" } 协方差 P，在 { "1925" } 步 / { "4" } 组参数上对照 filterpy { "1.4.5" }；最差 |relΔ| { "2.8e-14" }）；tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding（固定该发现）；tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding；tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding（D9 第 { "3" } 轮）
+
+seg-27554b73549b = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：Sagnac 量值对照一个权威的已发表数值进行了核对：N. Ashby，'Relativity in the GPS'，Living Reviews in Relativity { "6" }:{ "1" }（{ "2003" }），式 { "1.29" }：向东沿赤道绕行一周累积 { "207.4" } ns（2ωA_E/c²）；kshana 复现为 { "207.386" } ns。RTKLIB { "2.4.3" } 的 geodist()（Takasu，BSD-2-Clause）独立佐证了这一点，它带有相同的 2Aω/c² 几何。BIPM TWSTFT 转发器/共视/PPP 的复合预算没有外部参考基准，因此该能力仍属于由模型计算得出
+
+seg-509026100595 = timetransfer, timetransfer_adv
+
+seg-a1ad8fb8537d = timetransfer::tests (reciprocal cancellation; two-form Sagnac identity); tests/time_transfer_error_budgeting_reference.rs（赤道绕行一周的 Sagnac = { "207.386" } ns，对照已发表的 Ashby { "207.4" } ns，相差小于 { "0.05" } ns；另有 Sagnac/geodist 几何与由 C 源码编译的 RTKLIB { "2.4.3" } geodist() 交叉核对）
+
+seg-a5714c98b299 = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：GPS C/A Gold 码的互相关/自相关与独立的 IS-GPS-200 码生成完全一致（整数 ±65/−1/63）；BPSK-R({ "1" })/BOC({ "1,1" }) 的功率谱密度形状与独立的 scipy 周期图一致。调制/SSC/DLL 的闭式解（Betz { "2001" } / Kaplan & Hegarty）仍是解析的，因此该行仍为 MODELLED，但码相关这一子论断经过外部匹配。{ "0.30" } 第 { "2" } 轮，对照 Betz { "2001" } 和 Hein 等人 { "2006" } 的印刷数值（预先登记 9f4f2ce8，半个印刷单位），一项发现（仍为 MODELLED）：表 { "1" } 的全部 { "45" } 个频谱单元格、{ "1" } GHz 的相关值、MBOC 干扰数字以及图 { "17" } 的 { "3" } 个偏移中的 { "2" } 个一致；{ "24" } MHz 的第一旁瓣、BOC({ "8,4" }) 图 { "17" } 的偏移，以及图 18-21 中每一个最坏情况多路径偏差（偏低 { "11" } 至 { "15" } %）则不一致。Kshana 与对预先登记读法的独立 NumPy 评估一致，因此差距在于该读法或论文中某个未说明的细节；原因尚未查明
+
+seg-10e0cb39ac3b = navsignal
+
+seg-1035f877de94 = navsignal::tests (BPSK self-SSC = 2/3R_c; unit-area PSD; DLL); tests/nav_signal_modulation_code_tracking_reference.rs（GPS C/A Gold 码互相关/自相关与独立的 IS-GPS-200 码生成整数完全匹配；BPSK-R({ "1" })/sine-BOC({ "1,1" }) 的 PSD 对照独立的 scipy 周期图）；tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath，已固定)
+
+seg-9fe0ec8c4531 = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：已发表的 CAI 原始论文数值向量（Cheinet { "2008" } 传递函数；Peters/Freier 灵敏度）：k_eff·T² 完全匹配，散粒噪声 ASD 是单边噪声底，与各已发表仪器相差在约 { "2" }× 之内（真实器件带有高于量子噪声底的技术噪声）。这是一个区间，而不是相等。{ "0.30" } 第 { "2" } 轮（预先登记 fcb9ac64），一项发现（仍为 MODELLED）：仅含 QPN 的转动噪声对照实测的 Gauguet 等人 { "2009" } 图 { "14" } 的点，在三个被采纳的点上比值为 { "0.695" } 至 { "0.788" }（工作点处为 { "0.751" }），以 { "0.5" } 个百分点未达到预先登记的 { "30" } % 判据；QPN 噪声底比实测噪声低 { "21" } 至 { "31" } %，这正是缺少激光和检测噪声的模型所预期的。梯度仪的组合与 Janvier 等人 { "2022" } 的 QPN 模型线相符（比值 { "1.013" } 至 { "1.017" }，参考）。该实测检验无法分辨 sqrt({ "2" }) 的组合误差；只有对比度不等的 Janvier 线才能
+
+seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; Freier-2016 floor bracket); tests/quantum_inertial_sensor_reference.rs（传递函数 |H(ω)|、k_eff·T² 和散粒噪声 ASD 对照已发表的 Cheinet { "2008" } / Peters / Freier 数值向量）；tests/quantum_inertial_measured_qpn.rs (gauguet_finding_qpn_floor_sits_below_the_measured_noise，已固定；gradiometer_qpn_line_matches_janvier_model)
+
+seg-0b9af8a14a54 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；干涉仪条纹模型的自洽性：半条纹边缘、2π 周期的混叠结构，以及量程/分辨率之比中比例因子的抵消，都是对照引擎自身的 Mach–Zehnder 相位和灵敏度函数核对的闭式代数恒等式，属于内部自洽性检查，不是外部数据集，因此该行仍为 InternalConsistency。MODELLED 的理想三脉冲条纹模糊度；对无模糊量程没有波前像差或对比度损失的界限
+
+seg-81802510f112 = quantum_imu::tests（a_max 位于 ±π 半条纹边缘，量程按 1/T² 缩放；在 [−a_max,a_max] 之内，折叠相位的恢复是精确的，在其之外则恰好混叠 { "2" }·a_max；无模糊动态范围 a_max/σ_a=π/σ_Φ 在两个差异很大的波长/T 比例因子下完全相同；CaiAccelerometer 的方法与自由函数一致）
+
+seg-91728172ea50 = 对照本代码库内另一个独立实现进行了核对：独立于被测单元，但不具有外部权威性：对双重积分的白加速度噪声做独立的 numpy 蒙特卡罗 SDE 积分（用一种真正独立的算法核对解析的 VRW 方差），外加针对偏置/比例因子项的 Groves { "2013" } 已发表数值锚点；CAI 器件的数字量化的是合作方的硬件，仍为 MODELLED
+
+seg-ccc56dac1725 = inertial::quantum_imu (QuantumNavBudget)
+
+seg-60fb2adb58ce = budget_tests (bias vs AccelModel integrator; VRW vs analytic integral)；tests/quantum_inertial_dead_reckoning_reference.rs（VRW 对照独立的 numpy 蒙特卡罗对白加速度噪声的双重积分，在 { "6" } 个滑行时间上最差偏差 { "0.42" }%，在 ±{ "3" }% 之内；偏置/比例因子对照 Groves { "2013" } 的闭式值；守时往返）
+
+seg-8bc5bc7d553c = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；抗干扰 C/N₀ 链路预算公式与独立的 numpy 重新推导进行了交叉核对（共用同一个闭式解，因此属于 InternalConsistency），外加对真实 JammerTest-2024 的 C/N₀ 劣化表征。{ "0.30" } 第 { "2" } 轮，被阻塞（仍为 MODELLED）：将实测的 JammerTest { "2024" } C/N0 下降与链路预算预测对照（预先登记 6a66994b，在 { "3" } dB 之内）没有进行，因为 Bleik 处 F8.1 天线的位置和指向，以及多频段 { "1.6.4" } 斜坡功率中 L1 所占份额，在测试目录或官方日志中均无记载
+
+seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form and cw_q_equals_the_spectral_separation_closed_form: the Q table, CW and narrowband { "1" }, broadband and swept { "2" }, pinned to the navsignal closed forms; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js)；tests/gnss_denied_jamming_resilience_reference.rs（FSPL/J-S/有效 C-N₀ 对照对 Kaplan & Hegarty §{ "9.4" } 链路预算的独立 numpy 重新推导；真实 JammerTest 的 C/N₀ 单调下降，穿过 { "25" } dB-Hz 阈值）；tests/jamming_jammertest_cn0_oracle.rs（已预先登记，被阻塞，未运行）
+
+seg-26b6c4436ca0 = 某个子论断经过外部核对，但整个能力由若干由模型计算得出的部分组合而成，因此该能力仍属于由模型计算得出：TEXBAT 场景参数（Humphreys { "2012" }）：属于表征，不是固定的数值向量。{ "0.30" } 外部比较，一项发现（仍为 MODELLED）：在 JammerTest { "2024" }（Bleik；GPL-3.0 数据）上，可观测量层面的监测器（时钟辅助卡方、RAIM、求解失败）在 { "8" } 个可评估的已发布欺骗干扰起始点中，没有一个在 { "10" } s 之内发出告警（起始前窗口干净时，第一次告警出现在已发布时段开始之后 { "10.2" } 至 { "39" } s），并且有三个起始前窗口出现了来自时钟监测器的虚警（{ "81" }、{ "64" } 和 { "173" } 个历元）。第一个可观测的影响是双频 GPS 跟踪的丢失，而不是 RAIM 不一致。已发布的起始点是分钟分辨率的时段开始时刻；它们先于射频采集，这是一种解释，不是测量。{ "0.30" } 第 { "2" } 轮，对照组织者官方的 JammerTest { "2024" } 日志（秒级分辨率；预先登记 6a66994b，使用经 Hadamard 标定、不带锁存的三状态时钟监测器），一项发现（仍为 MODELLED）：在 { "10" } 个已记录的起始点中，监测器在 { "4" } 个上于 { "10" } s 之内告警；在其余六个上，它晚了 { "18" } 至 { "211" } s，或在起始前发出时钟虚警（{ "2.1.4" } 处 { "1" } 次，{ "2.3.15" } 处 { "85" } 次）。D9 第 { "3" } 轮（来自 JammerTest 设备其他时段的接收机卡片，预先登记 2ec76864）被阻塞：训练历元为 { "167" } 个，而所需为 { "3600" } 个。D9 第 { "4" } 轮和 4b（噪声水平来自 u-blox ZED-F9P 模型类卡片，Wroclaw { "2021" }，预先登记 fb475550；4b 为经披露的、使用修正后提取的重新运行，c9cc0d49），一项发现（仍为 MODELLED）：在全部 { "10" } 个已记录的起始点上起始前虚警为零，且 { "10" } 个中有 { "6" } 个在 { "10" } s 之内；{ "2.1.1" }、{ "2.3.5" }、{ "2.3.10" } 和 { "2.6.1" } 仍然偏晚（+{ "211" }、+{ "23" }、+{ "18" }、+{ "51" } s），不受时钟噪声水平影响
+
+seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
+
+seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs（TEXBAT 参数表征）；tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement（固定该发现）；tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement；tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+seg-964d859381f5 = 对照其自身的闭式/解析恒等式进行了核对：能发现转录和系数错误，但不是外部参考基准；组合了经独立核对的基本单元（allan/holdover van-Loan，安全下限）；在 JammerTest { "2024" } 场景 { "2.1.1" } 上标定（实测约 { "1.01" } ms 的真实服务时间牵引，对比所声称的 ≤{ "51" } ns）。这是建立在经独立核对的部分之上的桥接，其本身不是外部核对。{ "0.30" } 外部比较，一项发现（仍为 MODELLED）：在 JammerTest { "2024" } 欺骗干扰场景中，在 { "8" } 个已检出的起始点中有 { "3" } 个，实测的未检出服务时间误差超过名义 TPL：{ "184.3" } 对 { "34.6" } ns（{ "2.1.4" }）、{ "295.7" } 对 { "159.3" } ns（{ "2.3.5" }）、{ "143.0" } 对 { "69.0" } ns（{ "2.3.11" }）；位于判据之内的五个中有三个是平凡的（一次被锁存的起始前虚警）。可能的原因：来自 { "60" } s 标定且漂移噪声为零的滑行项，没有涵盖接收机 TCXO 在 { "15" } 至 { "39" } s 内的频率漂移。实测误差是 Kshana 自己的单点时钟估计对照一条由其自身起始前估计拟合出的直线，因此即使一致，也不会是完全独立的。{ "0.30" } 第 { "2" } 轮，对照官方 JammerTest { "2024" } 日志的起始点和实测的接收机时间误差（预先登记 6a66994b），一项发现（仍为 MODELLED）：在 { "10" } 个已记录的起始点中有 { "4" } 个，未检出误差超过漂移状态 TPL（{ "2.1.1" } 处 { "634.7" } 对 { "458.5" } ns，{ "2.3.5" } 处 { "232.6" } 对 { "16.2" } ns，{ "2.3.10" } 处 { "41.3" } 对 { "6.0" } ns，{ "2.6.3" } 处 { "218.6" } 对 { "47.4" } ns）
