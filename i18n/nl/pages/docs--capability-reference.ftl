@@ -2899,3 +2899,5 @@ seg-05ded40b17d2 = Geen externe: de ROS-node is niet uitgevoerd op een live ROS-
 seg-6eee4b0e40b9 = <s1>Vorige</s1>Verificatiematrix
 
 seg-c3e7639ccf1a = <s1>Volgende</s1>Waarom rijen gemodelleerd blijven
+
+seg-f4a311f936de = Langetermijnregendemping op het schuine pad van een aarde-ruimteverbinding
