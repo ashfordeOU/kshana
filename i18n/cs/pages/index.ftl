@@ -305,3 +305,415 @@ seg-6d3d0f8c9b7c = Požádat o vyhodnocení Pro
 seg-813d6d41b891 = Zkopírovat příkaz, který to reprodukuje
 
 seg-a0ef302e2458 = Zkopírovat příkaz
+
+seg-6df96ca25c68 = Proč a pro koho je určeno
+
+seg-e8ab991fe284 = Řídicí konzole mise Kshana
+
+seg-dc0fbd6f3e76 = Přijímač · { "8" } sledováno
+
+seg-212f0234925f = Rušič · ve vzdálenosti { "1.0" } km
+
+seg-e8b014e4fa7b = Spoofer · posun času { "0.1" } ns/s
+
+seg-b8890ff22c4a = Přehrání
+
+seg-fdac3e95b3d9 = Mise <b>T+{ "00" }:{ "00" }:{ "00" }</b>
+
+seg-5e5365b80dfb = Scénář <b>campaign-jam-spoof-holdover-integrity</b>
+
+seg-d0b9f1d1b637 = Nominální
+
+seg-12d3b7275c99 = <s1>Engine v{ $version } · seed { "20260928" }</s1><s2>Skutečný běh</s2>
+
+seg-2c7bf2e50347 = GNU Affero General Public License, verze { "3" }
+
+seg-162d704ff027 = <s1>v{ $version }</s1>Open source · <s2>AGPL-3.0</s2> · od Ashforde®
+
+seg-69d3fae797e4 = Nacvičte minutu, kdy <em>GNSS zhasne.</em>
+
+seg-015e3cff4eda = Kshana je open-source simulátor odolnosti PNT (určování polohy, navigace a času). Přehrajte si rušení, spoofing a holdover hodin při selhání signálů GNSS (globálního družicového navigačního systému) v enginu v Rustu, který běží přímo ve vašem prohlížeči, a přesně uvidíte, které výsledky byly ověřeny proti nezávislým referencím.
+
+seg-8b095f7254ed = Kopírovat instalační příkaz: cargo install kshana
+
+seg-f0e9de10d9ef = cargo install kshana<s1>Kopírovat</s1>
+
+seg-ec3957c0f5f1 = Stisknutím <c1/> prohledáte stránky, scénáře a dokumentaci
+
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Stejný engine, zesílený: { "608" } návrhů, jedna Paretova fronta</s2>
+
+seg-b807a8887172 = Telemetrie přehraná ze zřetězeného běhu kampaně
+
+seg-d367c9a1c6fc = Časová chyba hodin<s1>vs. ochranná mez { "50" } ns · lineární</s1>
+
+seg-6746a919dc04 = T+{ "0" }
+
+seg-7d5a96436755 = nyní
+
+seg-2434e53fa54e = Poměr nosné k hustotě šumu<s1>C/N0 · práh { "25" } dB-Hz</s1>
+
+seg-bf842cdbb9d3 = Ochranná úroveň vs. mezní hodnota výstrahy<s1>PL · AL { "50" } m, vertikální</s1>
+
+seg-146c6926eae1 = Protokol událostí zřetězeného běhu kampaně
+
+seg-7dfaa4627c3e = Protokol událostí · campaign-jam-spoof-holdover-integrity
+
+seg-47d596393831 = Skutečné události
+
+seg-5630c799cec1 = Odkud každá stopa pochází
+
+seg-46b6db21c09b = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+
+seg-f70fa3b93b11 = Vlastní zpráva enginu o tomto běhu
+
+seg-d32a11c090e1 = Výsledek enginu, beze změny
+
+seg-c459bc5805bb = Soubor scénáře, který běžel
+
+seg-f18f76c10709 = <s1><a1>Zpráva</a1><a2>JSON</a2><a3>TOML</a3></s1>
+
+seg-c043a94c7564 = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
+
+seg-f2d2f2263e63 = Konzole, tři karty a protokol přehrávají jeden zřetězený běh o { "6" } fázích a { "18" } dílčích bězích na jeho mřížce { "10" } s (T+{ "01" }:{ "16" }:{ "10" } času mise). Oběžné dráhy jsou { "102" } družic GPS, Galileo, BeiDou a GLONASS z běhu konstelace, každá obnovená jako kruhová dvoutělesová dráha z pozemní stopy enginu (nejhorší reziduum { "0.0034" }°), poloměry stlačeny pro zobrazení. Spoje jsou kresleny k družicím nad maskou { "10" }° běhu konstelace ({ "25" }° ve fázi integritního alarmu, maska opětovné akvizice kampaně), zeslabené rušením a v holdoveru přerušené. Země: NASA Blue Marble a Black Marble. Kshana Studio přehrává zřetězený běh ve vašem prohlížeči; vlastní zpráva enginu a příkaz každý běh reprodukují.
+
+seg-a6603a1011ce = Důkazy v kostce
+
+seg-92c73c398785 = přibalených souborů scénářů
+
+seg-4fe9e7c5932f = schopností ve verifikační matici
+
+seg-d2c0888d98f6 = ověřeno proti nezávislým vnějším orákulům
+
+seg-3a3535770138 = <s1>článků na arXiv postavených na otevřeném enginu</s1><s2>Přečtěte si výzkum <c1/></s2>
+
+seg-c44c0fbefc2c = <s1>WASM</s1><s2>běží v prohlížeči jako WebAssembly, bez instalace</s2>
+
+seg-9b3429f89f21 = Novinky ve v{ $version }: každý kind, každý příkaz a nezdary benchmarku
+
+seg-471b95f0c08f = <a1>Co každý dělá a co bylo ověřeno</a1> · <a2>Každý instalační kanál</a2>
+
+seg-a9bca0fa5b04 = Konzole pásma L · kind spectrum
+
+seg-abbe9f20dd01 = Sledujte, jak rušič obsadí pásmo.
+
+seg-7b1868001271 = Pásmo L systému GNSS jako jedna PSD (výkonová spektrální hustota): frekvence napříč, čas dolů, barva pro výkon nad úrovní šumu. Signály leží pod touto úrovní, takže se rozsvítí rušiče: chirp, tón CW (nepřetržitá vlna) a úzkopásmový šum. Najetím, klepnutím nebo šipkami zobrazíte <b>C/N0</b> (poměr nosné k hustotě šumu) a <b>J/S</b> (poměr rušení k signálu) každého pásma.
+
+seg-06d71fc57b8d = <b>kshana</b> spectrum <s1>· <s2>l-band-waterfall-jamming.toml</s2></s1>
+
+seg-2da07c5d32d7 = Vodopád pásma L, frekvence napříč a čas dolů. Šipky pohybují kurzorem po frekvenci a času; Escape jej opustí.
+
+seg-46f65efc3be9 = Vodopád je vykreslen ze zaznamenaného běhu pomocí JavaScriptu. Zpráva enginu níže ukazuje tentýž běh.
+
+seg-f3ea569d443f = Nejhorší pásmo
+
+seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
+
+seg-14b3348ff8ea = Poměr nosné k hustotě šumu každého pásma vůči sledovacímu prahu
+
+seg-3e189946819a = Kampaň, kterou tento běh řídí · každá fáze sleduje stav rušiče
+
+seg-b4033994f81b = Běh enginu <c1/>
+
+seg-33979077de8c = Kopírovat příkaz, který běh reprodukuje: kshana l-band-waterfall-jamming.toml
+
+seg-17d5d311b110 = Zpráva enginu
+
+seg-7a6ff36f0f04 = $ kshana l-band-waterfall-jamming.toml
+
+seg-1fd08ac5f6f0 = Scénář, data výsledku, běh kampaně a co je modelováno
+
+seg-997412b840c2 = Běh spectrum
+
+seg-c9ee69e3ce3e = Soubor scénáře
+
+seg-aaeaa4133766 = Data výsledku
+
+seg-e9d1763a751f = Kampaň, kterou řídí: <c1/>
+
+seg-444a43f5d0d7 = Modelováno: spektra v uzavřeném tvaru nad úrovní tepelného šumu, hodnocená po pásmech spektrální separací; výkony a časování rušičů jsou vstupy scénáře. Časová osa počítá sekundy před okamžikem nyní; azurová čára označuje místo, kde se přehrávání restartovalo. Kshana Studio spouští stejný scénář ve vašem prohlížeči a přehrává vodopád; zpráva a příkaz běh reprodukují.
+
+seg-9c4762bc4c66 = Časová osa mise
+
+seg-8b148fc948fa = Časová osa mise · posouváním nebo tažením přetáčíte
+
+seg-984aa8353e29 = Každá družice je sledována. Hodiny jsou disciplinovány na čas GNSS a ochranná úroveň leží hluboko pod mezní hodnotou výstrahy.
+
+seg-53dff207c2e7 = T+{ "00" }:{ "00" }:{ "00" }
+
+seg-06909bd3c972 = Čas mise
+
+seg-de619b311b43 = <b>kshana</b> campaign <s1>· campaign-jam-spoof-holdover-integrity · seed { "20260928" }</s1>
+
+seg-348b3f146fd1 = Fáze a dílčí běhy, které každá spouští
+
+seg-5ca22bdcb463 = Fáze · dílčí běhy
+
+seg-8332e436d097 = Nominální<s1>T+{ "00" }:{ "00" }:{ "00" }</s1>
+
+seg-297f821b911b = seed { "42" }
+
+seg-0c4140f95fe8 = seed { "1" }
+
+seg-dfe6a1451d36 = seed { "7" }
+
+seg-e6df43ef3bcc = Rušení<s1>T+{ "00" }:{ "10" }:{ "00" }</s1>
+
+seg-639fb18e57e0 = seed { "43" }
+
+seg-599691a88cac = Spoofing<s1>T+{ "00" }:{ "20" }:{ "00" }</s1>
+
+seg-14f57653cd5c = Holdover<s1>T+{ "00" }:{ "26" }:{ "10" }</s1>
+
+seg-4be8c1c7aeb6 = seed { "44" }
+
+seg-d78a727a49a3 = Integritní alarm<s1>T+{ "00" }:{ "56" }:{ "10" }</s1>
+
+seg-612e8a49730d = seed { "45" }
+
+seg-8cc810de504f = Zotavení<s1>T+{ "01" }:{ "06" }:{ "10" }</s1>
+
+seg-d106d9ae3db3 = seed { "46" }
+
+seg-cea3b8e726c8 = { "6" } fází · { "18" } dílčích běhů existujících kindů
+
+seg-12e134ed7cad = Družice · { "102" }, čtyři systémy
+
+seg-ba2d1b289ed3 = Přijímač · kruh PL proti kruhu AL
+
+seg-aa38fb41591a = Rušič · { "1.0" } km od přijímače
+
+seg-f65f922fa89d = Spoofer
+
+seg-d3b2bac50e3d = Časová chyba hodin<s1>ns · ochranná mez { "50" }</s1>
+
+seg-c42b07814ef6 = C/N0<s1>dB-Hz · práh { "25" }</s1>
+
+seg-747943902bc5 = PL vs. AL<s1>metry · AL { "50" }</s1>
+
+seg-61345694fae0 = Přehrát misi
+
+seg-0d529358e2ad = Rušení
+
+seg-c8df54685469 = Integritní alarm
+
+seg-63a70a989509 = Zotavení
+
+seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } času mise · zřetězený běh, nikoli tři běhy vedle sebe
+
+seg-dc2eb6c3c2a4 = PL = ochranná úroveň · AL = mezní hodnota výstrahy · INS = inerciální navigační systém
+
+seg-b85e60e05c9f = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+
+seg-0588364091ec = Od první rušené družice po poslední nanosekundu holdoveru hodin: signály, senzory, hodiny, oběžné dráhy a integrita v jednom simulátoru. Každý obrázek níže je skutečný běh enginu a uvádí který.
+
+seg-18e6988c1ccd = Rušení a interference GNSS
+
+seg-1d97776ae325 = Širokopásmový rušič na stožáru a přijímač přesouvaný po mřížce kolem něj: každá buňka je samostatný běh kindu <c1/> enginu. Odstín je průměrné J/S (poměr rušení k signálu); červené buňky ztratily všechny družice.
+
+seg-4fa6a9f6915d = Stopa rušení: průměrný poměr rušení k signálu a sledování na mřížce poloh přijímače kolem rušiče
+
+seg-774ec89d13d7 = Engine v{ $version } · <c1/> · seed { "1" } · přijímač přesunut pro každou buňku
+
+seg-7292d543b1ac = Každá buňka, na stránce Mise
+
+seg-08ba18ea712c = Klamání
+
+seg-f765712462a1 = Spoofer zachytí přijímač a stálou rychlostí odvádí jeho čas. Integritní monitor každých hodin má svou vlastní mez detekce: kvantové hodiny lež označí téměř okamžitě, klasické teprve po nárůstu posunu.
+
+seg-1770a46a99f6 = Podvržený posun času vůči mezi detekce
+
+seg-0f425005ca69 = Časový posun spoofera vůči mezi detekce každých hodin, s okamžikem, kdy jej každý monitor označí
+
+seg-a9829e27b53b = Engine v{ $version } · <c1/> · deterministický, bez seedu
+
+seg-ab0eb55b688a = Hodiny
+
+seg-ceaa6be5f5fd = Holdover hodin napříč třídami oscilátorů
+
+seg-c25919241d9e = Od okamžiku, kdy GNSS zmizí: medián a 95. percentil z { "200" } běhů Monte Carlo pro čipové atomové hodiny (CSAC) a optické mřížkové hodiny a jednodenní chyba čtyř dalších tříd: optických hlavních hodin, vodíkového maseru, rubidiového atomového frekvenčního etalonu (RAFS) a jeho miniaturní verze (mini-RAFS).
+
+seg-b2019ec6d1c7 = Pásmo časové chyby napříč { "200" } běhy Monte Carlo
+
+seg-01961fd0b949 = Časová chyba hodin po ztrátě GNSS: medián a 95. percentil z { "200" } běhů Monte Carlo pro dvoje hodiny a jednodenní chyba čtyř tříd oscilátorů
+
+seg-ae208f50ab77 = Engine v{ $version } · <c1/> · seed { "42" }
+
+seg-b3ec228c054d = <b>Jednodenní sloupec:</b> Engine v{ $version } · <c1/> · deterministický, bez seedu
+
+seg-a747535696fa = Dead reckoning
+
+seg-ae35aad6ab75 = Setrvání GNSS/INS
+
+seg-0c56d6e5450a = Když GNSS vypadne, INS (inerciální navigační systém) pokračuje a jeho kužel chyby se otevírá. Dvě inerciální měřicí jednotky (IMU), jeden rozpočet.
+
+seg-9f97f05ad6bb = Kužel chyby polohy po ztrátě GNSS pro dvě inerciální měřicí jednotky vůči rozpočtu polohy
+
+seg-142a299dff50 = Jak dlouho zůstanou hodiny uvnitř svého ochranného intervalu po posledním fixu: otázka, na které záleží časově slotovaným sítím.
+
+seg-2b3d148b354d = Předpovězená časová chyba od posledního fixu vůči ochrannému intervalu slotu
+
+seg-7a7de9a2d48a = RAIM a ARAIM
+
+seg-4d5cad94655f = Ochranné úrovně (PL) z autonomního monitorování integrity přijímačem (RAIM) a jeho pokročilé formy (ARAIM), ověřené proti mezní hodnotě výstrahy: zde fáze integritního alarmu zřetězené mise. Šrafované sloupce jsou epochy, kdy nebylo možné ochrannou úroveň sestavit.
+
+seg-750f6b337ce8 = Vertikální ochranná úroveň v každé epoše fáze integritního alarmu vůči mezní hodnotě výstrahy
+
+seg-cdf824111b80 = Telekomunikace
+
+seg-129537868d97 = MTIE (maximální chyba časového intervalu) a TDEV (časová odchylka) 24hodinového holdoveru vůči limitům ITU-T (Mezinárodní telekomunikační unie, sektor telekomunikační normalizace), zde limitu PRTC-A (primární referenční časové hodiny, třída A).
+
+seg-7a19d976cca6 = Maximální chyba časového intervalu a časová odchylka běhu holdoveru vůči limitu PRTC-A
+
+seg-ea5d9e4acbdf = Astrodynamika
+
+seg-5a507113bfff = Oběžné dráhy: SGP4 a numerické
+
+seg-2ebc9a7b022e = Propagace SGP4 (Simplified General Perturbations { "4" }) skutečné dvouřádkové sady elementů, vykreslená na skutečných snímcích; efemeridy CCSDS OEM a SP3 na vstupu i výstupu.
+
+seg-c28ef17609ee = Pozemní stopa propagace SGP4 enginu pro skutečnou dvouřádkovou sadu elementů, na snímcích NASA Blue Marble
+
+seg-2bc362b38f3d = Cislunární
+
+seg-7904e93c0bcb = Lunární PNT
+
+seg-48ad4630a03f = Určování polohy, navigace a času kolem Měsíce: horizontální a vertikální ochranné úrovně (HPL, VPL) z ARAIM v lunární navigační službě.
+
+seg-f69a91258669 = Lunární ochranné úrovně z běhu pokročilého RAIM LunaNet vůči mezní hodnotě výstrahy, vedle přivrácené strany Měsíce
+
+seg-2c2d1fdec798 = Vznikající senzory
+
+seg-e130f7a43848 = Obchodní studie kvantových senzorů
+
+seg-577795028a7f = Zvažte kvantové hodiny proti klasickým dříve, než kdokoli koupí hardware: holdover napříč rozmítáním šumu klasických hodin.
+
+seg-836a325ef88c = Rozmítání classical_q_wf: holdover_s
+
+seg-979452def1d6 = Doba holdoveru kvantových a klasických hodin napříč rozmítáním úrovně šumu klasických hodin
+
+seg-ebaa722c5ab6 = Engine v{ $version } · <c1/> · seed { "42" }
+
+seg-1d2973bd0f2f = Běží všude
+
+seg-250a09c4baa0 = Prohlížeč, terminál, notebook, IDE, asistent
+
+seg-62ea80e12931 = Tentýž engine v Rustu se dodává jako WebAssembly pro Kshana Studio, CLI (rozhraní příkazové řádky), balíčky pro Python a JavaScript, plugin JetBrains Marketplace pro vaše IDE (integrované vývojové prostředí) a server MCP (Model Context Protocol).
+
+seg-430082bf58d4 = image ghcr.io
+
+seg-afd561090841 = CCSDS OEM
+
+seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: formát oběžných drah Standard Product { "3" }.
+
+seg-70d4597772cb = Rozsah, řečený otevřeně
+
+seg-2ee2e20030f3 = Znát hranice je stejně důležité jako znát funkce.
+
+seg-253c54ae2238 = Nejde o hardware generátoru rádiových signálů<s1>Neovládá žádné rádio a nic nevysílá; jeho výstupem na úrovni signálu jsou soubory vzorků IQ v základním pásmu pro softwarové přijímače.</s1>
+
+seg-4fe725162c1c = Nejde o hardwarový přijímač GNSS ani o přijímač s certifikací<s1>Jeho softwarový přijímač (akvizice a sledování na zaznamenaných nebo generovaných datech IQ) je analytický nástroj, nikoli navigační produkt.</s1>
+
+seg-d3606ea42b36 = Nejde o letový produkt<s1>Nástroj pro studie a kompromisní analýzy, každá odpověď je označena jako ověřená nebo modelovaná.</s1>
+
+seg-57678c2b9a1d = Asistenti AI · kshana-mcp
+
+seg-d473cb253f20 = Zeptejte se svého asistenta AI. Odpoví engine.
+
+seg-35f55ec31aeb = Váš asistent AI (umělá inteligence) spouští engine přes MCP (Model Context Protocol) pomocí <b>kshana-mcp</b> a čte zpět JSON (JavaScript Object Notation).
+
+seg-54d5c8e07a24 = Poté jej zaregistrujte v konfiguraci klienta MCP svého asistenta. <a1>Úplná konfigurace v sekci Vývojáři</a1>
+
+seg-7e3b4395292e = Scrollovací příběh o spoofingu
+
+seg-fb440c81faf1 = Scrollovací příběh · jeden zřetězený běh
+
+seg-24b800b6ec75 = Od čisté oblohy k volně běžícím hodinám.
+
+seg-88e748800e7f = Jeden přijímač, T+{ "01" }:{ "16" }:{ "10" } času mise: čistá obloha, rušič, spoofer, který odpověď spíše posune, než zablokuje, a nakonec hodiny ponechané samy sobě. { "102" } družic jsou čtyři systémy z běhu konstelace nad skutečnou Zemí. Rolujte.
+
+seg-1a913717fbd3 = { "01" } · Nominální
+
+seg-488b802a8afc = Každý spoj, vyúčtovaný.
+
+seg-2379d9ee4cd0 = { "8" } sledovaných družic s průměrným C/N0 (poměr nosné k hustotě šumu) <b>{ "43.0" } dB-Hz</b>. Vertikální ochranná úroveň zůstává mezi { "9.1" } a { "21.6" } m, pod mezní hodnotou výstrahy { "50" } m.
+
+seg-8ad9711d8bae = { "02" } · Rušení
+
+seg-c3fa50909f9d = Šum pohltí oblohu.
+
+seg-95d85165182f = Širokopásmový rušič vzdálený { "1.0" } km se zapne na <b>-30 dBW</b>. C/N0 klesne na <b>{ "30.6" } dB-Hz</b>, těsně nad sledovací práh { "25" } dB-Hz. Je hlasitý, takže přijímač ví.
+
+seg-1f1bc00b81ee = { "03" } · Spoofing
+
+seg-458faa9a3f96 = Lež, která vypadá jako fix.
+
+seg-dda6f0eb3fb6 = Spoofer posouvá hodiny rychlostí <b>{ "0.1" } ns/s</b>. Detektor RF (rádiová frekvence) spustí alarm v T+{ "00" }:{ "20" }:{ "00" }; monitor podporovaný hodinami potřebuje <b>{ "370" } s</b> a do té doby je už vtaženo { "36.0" } ns.
+
+seg-13be4329a209 = { "04" } · Holdover
+
+seg-fe4fb4387b34 = Pak se čas začne unášet.
+
+seg-4f2ce8d81d29 = Rušič přejde na { "10" } dBW a všechny družice jsou ztraceny. Hodiny běží volně od { "37.0" } ns, které po sobě zanechal spoofer, a překročí svou <b>ochrannou mez { "50" } ns v T+{ "00" }:{ "35" }:{ "40" }</b>; inerciální chyba dosáhne { "24.3" } km.
+
+seg-fe656aefe9bb = Časová chyba hodin · holdover
+
+seg-548449af47a8 = ochranná mez { "50" } ns
+
+seg-21e942dadf02 = Legenda konstelací
+
+seg-09d18cf767a7 = Otevřené jádro, Kshana Pro, studie na míru
+
+seg-302606971c35 = Pro všechny zdarma. Pro, když musí odpověď obstát při revizi.
+
+seg-27c12083529b = Kshana Pro je proprietární nadstavba, která závisí na otevřeném jádru a nikdy je nevětví, dostupná na základě smlouvy. Žádné ceny na webové stránce: každá placená cesta začíná zprávou na <a1>contact@ashforde.org</a1>.
+
+seg-43ceda17e71c = Otevřené jádro · zdarma · AGPL-3.0
+
+seg-0230217b1110 = Každý, kdo bere polohu nebo čas z GNSS, je vystaven: rušení, spoofing a ztráta signálu dopadají stejně na vozidla, sítě, rozvodné soustavy i kosmické lodě.
+
+seg-9e88a1981d1e = { "176" } ze { "388" } schopností souhlasí s nezávislými vnějšími orákuly; ostatní jsou otevřeně označeny jako modelované.
+
+seg-4b41ffeb0030 = Všech { "87" } kindů scénářů, zdarma bez omezení funkcí, deterministické ze scénáře, seedu a verze enginu.
+
+seg-0af87a1caff4 = Totéž jádro pod komerční licencí, pro uzavřenou integraci.
+
+seg-f6406933eb77 = Nainstalujte engine
+
+seg-6a74a165bfd0 = Kshana Pro · na základě smlouvy
+
+seg-298532756f74 = Paretova fronta návrhového prostoru, kde každý návrh na frontě je scénář, který bezplatný engine znovu spustí.
+
+seg-a699256db841 = Nejistota a citlivost přes tisíce běhů.
+
+seg-665005551d84 = Dosier mise jediným příkazem s verifikační maticí a souborem PDF (Portable Document Format).
+
+seg-455cb5040f80 = Reprodukovatelné balíčky důkazů auditní kvality; digitální dvojčata hodin kalibrovaná podle zveřejněného Allanova rozpočtu vašeho zařízení; obchodní studie architektur seřazené podle ukazatele kvality; nástroje pro systémové inženýrství založené na modelech (MBSE) a pro programy.
+
+seg-3e30593288a1 = Co Pro zahrnuje
+
+seg-be42106ce1bc = Studie na míru · hotová za vás
+
+seg-254836cd23af = Studie na míru: odpověď, ne nástroj
+
+seg-fb87be7dc462 = Modelovaná studie odolnosti PNT vašeho systému, například audit mezery optimismu. Nejde o certifikaci.
+
+seg-b9d62e7772a7 = Modely senzorů a odolnosti kalibrované na váš hardware.
+
+seg-57320238c0f4 = Práce podléhající exportní kontrole s příslušnou prověrkou a NDA (dohoda o mlčenlivosti).
+
+seg-e36049d768ce = Integrace, školení a poradenství.
+
+seg-3303866fbf99 = Stejný engine, zesílený: skutečný výstup Kshana Pro
+
+seg-f5513a1750f1 = <a1><s1><c1/>Optimalizátor návrhu</s1></a1>
+
+seg-2bbc6243b4b1 = <b>{ "608" } návrhů</b>, všechny spuštěny: Paretova fronta a její koleno
+
+seg-56e344605a3d = <a1><s1><c1/>Nejistota a citlivost</s1></a1>
+
+seg-a0b3c138f981 = <b>{ "2,000" } běhů</b>: pás spolehlivosti vůči limitu
+
+seg-6de95aaa8ba4 = <a1><s1><c1/>Dosier mise</s1></a1>
+
+seg-905e5eef45e5 = <b>{ "12" } požadavků</b> ověřeno proti skutečným během, 21stránkové PDF (Portable Document Format)
+
+seg-7d9ee2bfbb90 = Najděte, kde se váš čas rozbije, dřív než se rozbije.

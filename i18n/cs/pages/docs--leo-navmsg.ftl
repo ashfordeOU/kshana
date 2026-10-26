@@ -534,7 +534,7 @@ seg-522c85402d84 = L1 (reprezentativní)
 
 seg-064b03765e4d = <c1/>, stupeň { "6" }, { "60" } s, obnovováno každých { "30" } s, nulové hodiny, zbytek řízení { "0.24" } m
 
-seg-5619bc61b958 = WORKSHOPOVÉ a VEŘEJNÉ
+seg-5619bc61b958 = SEMINÁRNÍ a VEŘEJNÉ
 
 seg-20572d7e348d = { "510" } km, { "97.4" }°
 
