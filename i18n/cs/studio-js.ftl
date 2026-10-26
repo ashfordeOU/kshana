@@ -10221,3 +10221,2064 @@ js-t35data-card-marine-title = Námořní integrace
 
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
 js-t35data-card-marine-what = Zásuvný modul serveru Signal K a OpenCPN přes NMEA v režimu brány po TCP přinášejí skóre důvěryhodnosti do softwaru, který už jachtaři používají; referenční sestavení jej dává na malý počítač vedle přijímače.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:96
+js-t35data-card-marine-why = Jsou to spotřebitelé běžícího živého procesu a jeho brány TCP: nasazení na počítači na lodi.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:84
+js-t35data-card-telemetry-title = Důvěra jako bezpečnostní telemetrie
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:85
+js-t35data-card-telemetry-what = Převádí proud důvěry (skóre, pásmo, důvody) na metriky Prometheus, události syslog ve formátu CEF nebo LEEF pro SIEM a na OpenTelemetry. Proud čte a nikdy nemění posouzení.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:86
+js-t35data-card-telemetry-why = Je to proces, který poskytuje metriky a posílá data do vašich monitorovacích systémů, takže běží vedle přijímače, ne na stránce.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:99
+js-t35data-card-training-stream-title = Tréninkové proudy na adresu TCP nebo UDP
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:100
+js-t35data-card-training-stream-what = Odesílá vygenerovaný tréninkový proud simulátoru můstku nebo plotru map v reálném čase nebo rychleji. Tréninková stránka Studia generuje tentýž text a umožňuje jej stáhnout.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:101
+js-t35data-card-training-stream-why = Odesílání na síťovou adresu je něco, co stránka v prohlížeči nedělá. Proud je pouze text a nikdy není určen pro živé navigační systémy plavidla.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:77
+js-t35data-feat-ai-ai = Možnosti instalace serveru MCP s otázkami, na které každý nástroj odpovídá
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:76
+js-t35data-feat-ai-name = Použití z AI asistenta (server MCP)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:56
+js-t35data-feat-bench-bench = Zde exportujte pohyb, NMEA, trasové body a události scénáře
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:55
+js-t35data-feat-bench-name = Export test-bench pro laboratorní simulátor
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:59
+js-t35data-feat-compliance-compliance = Zde zjistěte, pro které řádky rámců vaše běhy podporují důkazy (supports evidence for), a prohlédněte si mapovací tabulky
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:58
+js-t35data-feat-compliance-name = Mapování compliance na veřejné rámce odolnosti
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:52
+js-t35data-feat-evidence-evidence = Zde ověřte balíček a připojte token časového razítka
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:51
+js-t35data-feat-evidence-name = Podepsané balíčky důkazů
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:54
+js-t35data-feat-evidence-why = Vytvoření balíčku vyžaduje soukromý podpisový klíč, který by neměl procházet webovou stránkou. Balíčky se vytvářejí příkazovým řádkem, Pythonem nebo nástroji AI asistenta.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:46
+js-t35data-feat-interference-map-interference = Otevřete soubory map nebo zde sestavte mapu z CSV a zkontrolujte proti ní trasu
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:45
+js-t35data-feat-interference-map-name = Mapa interference (ADS-B a AIS) a vystavení trasy
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:61
+js-t35data-feat-iq-name = Monitory a nástroje GNSS IQ (scéna, akvizice, sledování, rozmítání, front end, monitor, kampaně)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:63
+js-t35data-feat-iq-why = Záznam jsou gigabajty vzorků, které stránka neudrží, a některé příkazy záznamy přepisují na disku. Sestavení pro prohlížeč nemá žádné funkce IQ.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:71
+js-t35data-feat-jammertest-jammertest = Importujte plán pro časový rozsah záznamu nebo ohodnoťte záznam přijímače (UBX, RINEX, Android, NMEA nebo Septentrio SBF) po jednotlivých testech: latence detekce, nezachycené události, falešné poplachy, doba zotavení; MODELLED
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:70
+js-t35data-feat-jammertest-name = Jammertest jako rozhodčí: zveřejněný testovací plán jako plánovaná pravda, vůči němu ohodnocený záznam přijímače (0.38)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:36
+js-t35data-feat-live-gate-name = Živý proud důvěry, brána a posluchač (stdin, soubor, TCP, UDP, --gate, --listen)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:38
+js-t35data-feat-live-gate-why = Je to běžící proces v datové cestě. Stránka se po dokončení vrátí a nemůže držet otevřený socket pro plotr map ani označit určení polohy v živém proudu za neplatné. Studio místo toho ohodnotí omezený výřez, ve stejném živém formátu, bez brány.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:74
+js-t35data-feat-machines-imufit = Fitujte parametry akcelerometru a gyra hybridních a fúzních scénářů ze záznamu nehybné IMU; MODELLED
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:73
+js-t35data-feat-machines-name = Vstupy přijímače a senzorů: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, IMU pro směr a fit IMU pro hybridní a fúzní scénáře (0.38)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:74
+js-t35data-feat-machines-trust = Otevřete záznam v kterémkoli z těchto formátů (a volitelný soubor IMU) v obecném běhu receiver-trust; vlastní příznak rušičky NovAtel se porovná s poplachy Kshana
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:64
+js-t35data-feat-marine-name = Námořní integrace: zásuvný modul Signal K a OpenCPN
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:66
+js-t35data-feat-marine-why = Spotřebovávají běžící živý proces a jeho bránu TCP, takže jde o nasazení na lodním počítači, ne o něco, co může spustit stránka.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:33
+js-t35data-feat-maritime-trust-name = Námořní skóre důvěryhodnosti pro pohybující se plavidlo (0 až 100, s důvody)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:34
+js-t35data-feat-maritime-trust-trust = Otevřete výsledek nebo živý běh JSON-lines a uvidíte trasu, skóre, důvody a bránu; zde ohodnoťte záznam NMEA
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:39
+js-t35data-feat-nmea-training-name = Tréninkové proudy NMEA se záznamem instruktora
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:40
+js-t35data-feat-nmea-training-training = Zde vygenerujte proud a jeho záznam instruktora, stáhněte je a spusťte debriefing trenéra
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:67
+js-t35data-feat-osnma-name = Ověření Galileo OSNMA (vstup UBX SFRBX)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:68
+js-t35data-feat-osnma-osnma = Načtěte zaznamenaný soubor a uvidíte stav autentizace podle družic a podle tagů
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:48
+js-t35data-feat-telemetry-name = Export telemetrie: metriky Prometheus, syslog CEF a LEEF, OpenTelemetry
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:50
+js-t35data-feat-telemetry-why = Poskytuje metriky, posílá syslog a exportuje OpenTelemetry z běžícího proudu: je to proces, který komunikuje s vašimi monitorovacími systémy, čímž stránka být nemůže.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:42
+js-t35data-feat-training-stream-name = Streamování tréninkového proudu na adresu TCP nebo UDP
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:44
+js-t35data-feat-training-stream-why = Posílá na síťovou adresu, což webová stránka nedělá. Studio vygeneruje text a vy si jej stáhnete.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:28
+js-t35data-page-ai = Použití z vašeho AI asistenta
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:22
+js-t35data-page-bench = Export test-bench
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:27
+js-t35data-page-cli = Funkce příkazového řádku
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:23
+js-t35data-page-compliance = Mapování compliance
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:21
+js-t35data-page-evidence = Balíčky důkazů
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:17
+js-t35data-page-geometry = Geometrie: skyplot, skyline a DOP
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:26
+js-t35data-page-imufit = Fit IMU
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:20
+js-t35data-page-interference = Mapa interference
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:25
+js-t35data-page-jammertest = Hodnocení Jammertestu
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:24
+js-t35data-page-osnma = Ověření OSNMA
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:19
+js-t35data-page-training = Debriefing tréninku
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:18
+js-t35data-page-trust = Námořní důvěra
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:93
+js-t35data-sample-iq-help = Seznam příkazů IQ
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-cef = Syslog ve formátu CEF pro demo běh
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-leef = Syslog ve formátu LEEF pro demo běh
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-metrics = Metriky Prometheus pro demo běh
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-engine = Nainstalujte engine a jeho knihovny
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-integrations = Integrace pro námořní použití, zásuvné moduly a dashboardy
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-mcp = Nainstalujte server MCP pro svého asistenta
+
+# 2026-10-01-studio-rebuild/tools/tools.js:354
+js-tools-ai-heading = Používejte Kshana z AI asistenta
+
+# 2026-10-01-studio-rebuild/tools/tools.js:362
+js-tools-ai-install-mcp = Nainstalovat server MCP
+
+# 2026-10-01-studio-rebuild/tools/tools.js:354
+js-tools-ai-intro = Server MCP Kshana umožňuje AI asistentovi spouštět engine místo hádání čísel. Běží na vašem počítači; nic se neodesílá do systému Kshana. Vyberte způsob, který vyhovuje vašemu nástroji.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:392
+js-tools-ai-load-failed = Možnosti instalace se nenačetly ({ $reason }). Viz dokumentace k serveru MCP.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-mcp-docs = Dokumentace k serveru MCP
+
+# 2026-10-01-studio-rebuild/tools/tools.js:361
+js-tools-ai-more-ways = Další způsoby instalace
+
+# 2026-10-01-studio-rebuild/tools/tools.js:391
+js-tools-ai-none-listed = V tomto sestavení nejsou uvedeny žádné možnosti instalace.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:362
+js-tools-ai-other-ways = Jiné způsoby instalace Kshana
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-read-agent-guide = Přečíst příručku pro agenta
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-rule = Pravidlo pro každou odpověď: asistent spouští engine a hlásí to, co nástroj vrátil, s jednotkou a úrovní důkazů (ověřeno proti vnějšímu orákulu, nebo modelováno), scénářem, seedem a verzí enginu, aby bylo možné běh zopakovat. Výhrady výsledku zůstávají s ním. Server MCP nečte ani nezapisuje žádné soubory mimo jednu dobrovolně zvolenou složku.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:393
+js-tools-ai-what-to-ask = Na co se ptát a který nástroj odpoví
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-where-reachable = Kde je každá schopnost dostupná
+
+# 2026-10-01-studio-rebuild/tools/tools.js:216
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } soubor zapsaný do paměti vašeho prohlížeče
+        [few] { $n } soubory zapsané do paměti vašeho prohlížeče
+        [many] { $n } souboru zapsaného do paměti vašeho prohlížeče
+       *[other] { $n } souborů zapsaných do paměti vašeho prohlížeče
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:216
+js-tools-bench-note = Pouze pohyb a označené intervaly událostí. Stáhněte je a načtěte do laboratorního simulátoru.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-bench-wrong-kind = { $name } je scénář druhu { $kind }. Trajektorie vozidla existuje pro druhy { $kinds }; ostatní druhy říkají, proč ji nemají.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:246
+js-tools-building-report = Sestavuje se zpráva…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:440
+js-tools-choose-catalogue-first = Nejprve vyberte JSON katalogu.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:319
+js-tools-choose-file-first = Nejprve vyberte soubor.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:484
+js-tools-choose-imu-log = Nejprve vyberte záznam nehybné IMU.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:140
+js-tools-choose-pack-first = Nejprve vyberte soubory balíčku.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:175
+js-tools-choose-pack-first-above = Nejprve vyberte soubory balíčku (výše).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:441
+js-tools-choose-plan-file = Vyberte alespoň jeden soubor plánu.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:468
+js-tools-choose-receiver-log = Nejprve vyberte záznam přijímače.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:243
+js-tools-choose-result-first = Nejprve vyberte alespoň jeden soubor výsledku (*.result.json).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:232
+js-tools-choose-scenario-first = Nejprve vyberte scénář.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:177
+js-tools-choose-tsr-first = Nejprve vyberte odpověď s časovým razítkem (.tsr).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:190
+js-tools-chosen = Vybráno
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-check = Kontrola
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-detail = Detail
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-first-monitors = První monitory
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-gap-that-stays = Mezera, která zůstává
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-last-auth-tag = Poslední autentizovaný tag (Galileo System Time)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-latency = Latence, s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-name = Název
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-outcome = Závěr
+
+# 2026-10-01-studio-rebuild/tools/tools.js:394
+js-tools-col-question = Otázka
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-recovered = Zotaveno
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-reference = Reference
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-result = Výsledek
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-row = Řádek
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-satellite = Družice
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-slot = Slot, s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-status = Stav
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-tags = Tagy
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-test = Test
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-these-runs = Tyto běhy
+
+# 2026-10-01-studio-rebuild/tools/tools.js:394
+js-tools-col-tool = Nástroj
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-what-is-missing = Co chybí
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-what-it-asks = Na co se ptá
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-why-not-auth = Proč neautentizováno
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-copied = Zkopírováno
+
+# 2026-10-01-studio-rebuild/tools/tools.js:102
+js-tools-copy = Kopírovat
+
+# 2026-10-01-studio-rebuild/tools/tools.js:102
+js-tools-copy-command-aria = Kopírovat: { $cmd }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:366
+js-tools-copy-labelled-aria = Kopírovat { $label }: { $text }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:49
+js-tools-did-not-work = To nefungovalo
+
+# 2026-10-01-studio-rebuild/tools/tools.js:384
+js-tools-documentation = Dokumentace
+
+# 2026-10-01-studio-rebuild/tools/tools.js:220
+js-tools-download = Stáhnout
+
+# 2026-10-01-studio-rebuild/tools/tools.js:225
+js-tools-download-all-zip = Stáhnout vše (zip)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:460
+js-tools-download-events-toml = Stáhnout události (TOML)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:277
+js-tools-download-md = Stáhnout (Markdown)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:267
+js-tools-download-report-json = Stáhnout zprávu (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:266
+js-tools-download-report-md = Stáhnout zprávu (Markdown)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:474
+js-tools-download-scorecard-json = Stáhnout výsledkovou kartu (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:492
+js-tools-download-table-toml = Stáhnout tabulku (TOML)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:183
+js-tools-download-updated-pack = Stáhnout aktualizovaný balíček (zip)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:493
+js-tools-download-whole-report-json = Stáhnout celou zprávu (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:45
+js-tools-engine-lacks-error = Toto sestavení enginu (verze { $version }) nemá { $need }, takže zde zatím nemůže tento nástroj spustit. Zaznamenané výsledky a příkazový řádek stále fungují.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:43
+js-tools-engine-lacks-status = Toto sestavení enginu (verze { $version }) nemá { $need }: je starší než verze, kterou tento nástroj potřebuje. Ekvivalent z příkazového řádku je na kartě Příkazový řádek.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:41
+js-tools-engine-running = Engine (verze { $version }) běží v tomto prohlížeči. Nic se nenahrává.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:39
+js-tools-engine-starting = Engine se spouští v tomto prohlížeči…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:40
+js-tools-engine-unavailable = Engine se zde nepodařilo spustit ({ $reason }). Otevírání souborů funguje; spouštění nástrojů vyžaduje WebAssembly.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:91
+js-tools-epoch-format = Použijte YYYY-MM-DDTHH:MM:SS s volitelným Z (UTC).
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:94
+js-tools-epoch-not-real = To není skutečný okamžik UTC mezi lety 2000 a 2099.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:166
+js-tools-every-check = Každá kontrola
+
+# 2026-10-01-studio-rebuild/tools/tools.js:169
+js-tools-evidence-disclaimer = Balíček důkazů je technický záznam toho, co engine vypočítal ze stanoveného záznamu při stanoveném nastavení. Není to právní stanovisko, zjištění skutečností o jakékoli události ani certifikace. Úspěšné ověření říká, že záznam je beze změny.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:132
+js-tools-example-pack = Syntetický ukázkový balíček
+
+# 2026-10-01-studio-rebuild/tools/tools.js:134
+js-tools-example-pack-note = Syntetický balíček vytvořený příkazovým řádkem enginu z demonstračního záznamu trajektu s demonstračním klíčem. Klíč je vyplněn níže; klíč skutečného podepisujícího pochází od podepisujícího jinou cestou.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:132
+js-tools-example-pack-tampered = Ukázkový balíček s jedním změněným bajtem v epochs.json
+
+# 2026-10-01-studio-rebuild/tools/tools.js:284
+js-tools-example-runs = Syntetické ukázkové běhy
+
+# 2026-10-01-studio-rebuild/tools/tools.js:134
+js-tools-example-tampered-note = Jeden bajt souboru v balíčku byl po podepsání změněn. Ověřte jej: kontrola soubor pojmenuje.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:213
+js-tools-exporting = Exportuje se…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:322
+js-tools-field-whole-number = { $field } musí být celé číslo
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:63
+js-tools-file-not-chosen = { $file } není mezi vybranými soubory
+
+# 2026-10-01-studio-rebuild/tools/tools.js:53
+js-tools-file-too-large = { $name } je větší než 64 MiB
+
+# 2026-10-01-studio-rebuild/tools/tools.js:282
+js-tools-files-selected = { $label }: { $files }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:157
+js-tools-fingerprint-not-pinned = Otisk podepisujícího: { $fingerprint } (nepřipnuto: klíč, který balíček sám uvádí)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:157
+js-tools-fingerprint-pinned = Otisk podepisujícího: { $fingerprint } (připnuto)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:488
+js-tools-fitting = Fituje se…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:260
+js-tools-framework-summary = { $name }: { $evidenced } doloženo, { $partly } částečně, { $notEvidenced } nedoloženo, { $outOfScope } mimo rozsah
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:131
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:133
+js-tools-fw-easa-aviation = Pokyny EASA k rušení GNSS pro letectví
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:135
+js-tools-fw-en-16803 = EN 16803 (pouze podle čísla části a článku)
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:132
+js-tools-fw-imo-ships = Pokyny IMO k rušení GNSS pro lodě
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:134
+js-tools-fw-nis2-art21 = Směrnice EU NIS2, článek 21
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:183
+js-tools-gst-none = žádný
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:183
+js-tools-gst-text = týden { $week }, { $tow } s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:90
+js-tools-how-to-run = Jak to spustit
+
+# 2026-10-01-studio-rebuild/tools/tools.js:502
+js-tools-imu-file-too-large = { $name } je větší než 32 MiB; otevřete výřez.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:486
+js-tools-imu-mean-not-number = Měrná síla v klidu není číslo (0 pro vodorovnou osu, asi 9.80665 pro svislou).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:494
+js-tools-imu-notice = { $evidence }: odhadovač je kontrolován na syntetických záznamech s bílým šumem se známými koeficienty, nikoli proti vnějšímu orákulu. Tabulka uvádí SHA-256 záznamu ({ $sha }…).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:505
+js-tools-imu-selected = { $name } ({ $size }), čteno zde, nikdy nenahráno.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:461
+js-tools-jt-events-count =
+    { $n ->
+        [one] { $n } plánovaná událost
+        [few] { $n } plánované události
+        [many] { $n } plánované události
+       *[other] { $n } plánovaných událostí
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:461
+js-tools-jt-events-note = jako plánovaná pravda: plánované sloty, nikoli zaznamenané časy vysílání. Ne RF: { $nonRf }; mimo záznam: { $outside }; neznámá id: { $unknown }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:449
+js-tools-jt-guard-hold = Ochranný interval { $guard } s, výdrž zotavení { $hold } s.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:449
+js-tools-jt-guard-hold-overlap = Ochranný interval { $guard } s, výdrž zotavení { $hold } s. Kalibrační základ se překrýval s plánovaným slotem.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:456
+js-tools-jt-import-needs-start = Import potřebuje první epochu záznamu v UTC (ISO 8601), protože plán je v místním čase.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-catalogue = katalog { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-log = záznam { $name } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-catalogue = žádný katalog
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-log = žádný záznam
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-plan = žádný plán
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-plans =
+    { $n ->
+        [one] { $n } soubor plánu
+        [few] { $n } soubory plánu
+        [many] { $n } souboru plánu
+       *[other] { $n } souborů plánu
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-jt-slot-range = { $from } až { $to }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-area = Testovací oblast
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-guard = Ochranný interval
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-hold = Výdrž zotavení
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-offset = Posun od UTC
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-year = Rok plánu
+
+# 2026-10-01-studio-rebuild/tools/tools.js:377
+js-tools-label-command = příkaz
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-label-pinned-command = připnutý příkaz
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-label-settings-example = příklad nastavení { $n }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:108
+js-tools-loading = Načítá se…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:244
+js-tools-max-runs =
+    { $max ->
+        [one] Nejvýše { $max } běh.
+        [few] Nejvýše { $max } běhy.
+        [many] Nejvýše { $max } běhu.
+       *[other] Nejvýše { $max } běhů.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:324
+js-tools-merkle-root-format = Merkleův kořen má 64 hexadecimálních číslic.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:438
+js-tools-must-be-number = { $what } musí být číslo
+
+# 2026-10-01-studio-rebuild/tools/tools.js:439
+js-tools-must-be-whole-zero = { $what } musí být celé číslo, 0 znamená „nezadáno“
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-na = n/a
+
+# 2026-10-01-studio-rebuild/tools/tools.js:376
+js-tools-needs = Vyžaduje: { $requires }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-no = ne
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-none = žádné
+
+# 2026-10-01-studio-rebuild/tools/tools.js:338
+js-tools-none-in-build = v tomto sestavení žádné
+
+# 2026-10-01-studio-rebuild/tools/tools.js:90
+js-tools-not-in-browser = Ne v prohlížeči.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:294
+js-tools-not-osnma = Nejde o výsledek OSNMA
+
+# 2026-10-01-studio-rebuild/tools/tools.js:258
+js-tools-not-used = Nepoužito: { $item }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:168
+js-tools-notes = Poznámky
+
+# 2026-10-01-studio-rebuild/tools/tools.js:382
+js-tools-open = Otevřít
+
+# 2026-10-01-studio-rebuild/tools/tools.js:299
+js-tools-osnma-advisory = Pouze poradní charakter: jde o výstup analýzy a monitorování, nikoli o typově schválené navigační zařízení. Zde uvedený stav autentizace není službou integrity navigace a nesmí být jediným podkladem pro žádné rozhodnutí o navigaci ani bezpečnosti.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:176
+js-tools-osnma-authenticated = Autentizováno
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-osnma-caption = Stav autentizace podle družic
+
+# 2026-10-01-studio-rebuild/tools/tools.js:340
+js-tools-osnma-demo-note = Je vyplněn jednorázový veřejný klíč; stiskněte Ověřit, abyste ověřovač spustili zde, nebo zobrazte zaznamenaný výsledek.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:180
+js-tools-osnma-discarded = Zahozeno
+
+# 2026-10-01-studio-rebuild/tools/tools.js:310
+js-tools-osnma-events = Co ověřovač viděl
+
+# 2026-10-01-studio-rebuild/tools/tools.js:336
+js-tools-osnma-examples-missing = syntetické příklady zatím nejsou v tomto sestavení
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:177
+js-tools-osnma-failed = Selhalo
+
+# 2026-10-01-studio-rebuild/tools/tools.js:303
+js-tools-osnma-nma-alert = Stav NMA { $status }; systém vyvolal výstražnou zprávu.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:303
+js-tools-osnma-nma-status = Stav NMA { $status }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:186
+js-tools-osnma-not-json = Toto není JSON z kshana osnma verify --json (vyžaduje overall a satellites).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:300
+js-tools-osnma-overall = Celkově: { $status }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:302
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] Přečtena { $n } stránka.
+        [few] Přečteny { $n } stránky.
+        [many] Přečteno { $n } stránky.
+       *[other] Přečteno { $n } stránek.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:179
+js-tools-osnma-pending = Čeká
+
+# 2026-10-01-studio-rebuild/tools/tools.js:344
+js-tools-osnma-recorded-failed = zaznamenaný výsledek se nenačetl
+
+# 2026-10-01-studio-rebuild/tools/tools.js:344
+js-tools-osnma-recorded-result = Zaznamenaný výsledek kshana osnma verify --json pro { $file }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:308
+js-tools-osnma-tag-counts = { $authenticated } autentizováno, { $failed } selhalo, { $pending } čeká, { $discarded } zahozeno
+
+# 2026-10-01-studio-rebuild/tools/tools.js:304
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } tag: { $authenticated } autentizováno, { $failed } selhalo, { $pending } čeká, { $discarded } zahozeno.
+        [few] { $n } tagy: { $authenticated } autentizováno, { $failed } selhalo, { $pending } čeká, { $discarded } zahozeno.
+        [many] { $n } tagu: { $authenticated } autentizováno, { $failed } selhalo, { $pending } čeká, { $discarded } zahozeno.
+       *[other] { $n } tagů: { $authenticated } autentizováno, { $failed } selhalo, { $pending } čeká, { $discarded } zahozeno.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:313
+js-tools-osnma-time-caveat = Čas: každá kontrola je relativní k časovým razítkům stránek předaných ověřovači, která zde pocházejí ze samotných dat a neposkytují žádnou ochranu před přehráním starých dat. Autentizace říká, že data pocházejí ze systému; neříká nic o signálu, na kterém dorazila, ani o kvalitě určení polohy.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:178
+js-tools-osnma-unavailable = Nedostupné
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-authenticated = Alespoň jedna družice je autentizována a žádná neselhala
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-failed = Kontrola dat některé družice selhala
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-unavailable = Žádná družice není autentizována
+
+# 2026-10-01-studio-rebuild/tools/tools.js:122
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-pinned-to-release = Připnuto k tomuto vydání:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:221
+js-tools-preview = Náhled
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:72
+js-tools-public-key-format = Veřejný klíč má 64 hexadecimálních číslic (32 bajtů). Nic jiného se nepřijímá.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:113
+js-tools-read-documentation = Přečíst dokumentaci
+
+# 2026-10-01-studio-rebuild/tools/tools.js:458
+js-tools-reading-plan = Čte se plán…
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:42
+js-tools-refused-file-name = odmítnutý název souboru: { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:410
+js-tools-run = Spustit
+
+# 2026-10-01-studio-rebuild/tools/tools.js:255
+js-tools-runs-read =
+    { $n ->
+        [one] Přečten { $n } běh: { $runs }
+        [few] Přečteny { $n } běhy: { $runs }
+        [many] Přečteno { $n } běhu: { $runs }
+       *[other] Přečteno { $n } běhů: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:254
+js-tools-runs-read-engine =
+    { $n ->
+        [one] Přečten { $n } běh enginem { $engine }: { $runs }
+        [few] Přečteny { $n } běhy enginem { $engine }: { $runs }
+        [many] Přečteno { $n } běhu enginem { $engine }: { $runs }
+       *[other] Přečteno { $n } běhů enginem { $engine }: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:110
+js-tools-sample-load-failed = Ukázka se nenačetla ({ $reason }).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:109
+js-tools-sample-note = Skutečný výstup příkazu, zaznamenaný z enginu při syntetickém demo běhu. Nejde o měření ničeho.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:107
+js-tools-sample-output = Ukázkový výstup: { $label }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:206
+js-tools-scenario-list-failed = Seznam scénářů se nenačetl
+
+# 2026-10-01-studio-rebuild/tools/tools.js:470
+js-tools-scoring = Hodnotí se…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-select-and-copy = Vybrat a zkopírovat
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-settings-example = Příklad nastavení { $n }:
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-label = Běhy podporují důkazy pro (supports evidence for) tento řádek
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-short = Doloženo
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-label = Tyto běhy k tomuto řádku nic neukazují
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-short = Nedoloženo
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-label = Mimo to, co Kshana dokáže ukázat
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-short = Mimo rozsah
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-label = Běhy podporují důkazy pro (supports evidence for) část tohoto řádku
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-short = Částečně
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-ai = AI asistent
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-bench = Test bench
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-cli = Příkazový řádek
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-compliance = Compliance
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-evidence = Balíčky důkazů
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-imufit = Fit IMU
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-jammertest = Jammertest
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-osnma = OSNMA
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-all-events = Jedna událost syslog na epochu (výchozí: jedna na změnu pásma)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:406
+js-tools-tele-file-aria = Soubor výsledku nebo JSON-lines
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-cef = Syslog, CEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-mqtt = MQTT, zjišťování Home Assistant (téma, tabulátor, obsah zprávy)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-prometheus = Metriky Prometheus
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-format-aria = Formát
+
+# 2026-10-01-studio-rebuild/tools/tools.js:424
+js-tools-tele-host = Hostitel
+
+# 2026-10-01-studio-rebuild/tools/tools.js:408
+js-tools-tele-host-aria = Název hostitele zapisovaný do událostí syslog
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-include-position = Zahrnout hlášenou polohu (ve výchozím stavu vypnuto)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:405
+js-tools-tele-intro = Převeďte soubor výsledku (session.result.json) nebo živé řádky JSON do jednoho z formátů v tomto prohlížeči. Vyžaduje sestavení enginu s exportem telemetrie (0.35 a novější s exportem); příkazy výše fungují všude.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:426
+js-tools-tele-note = Řádky syslog zde nenesou časové razítko (stránka nečte hodiny); nástroj příkazového řádku je razítkuje. Prometheus udává konečný stav. MQTT dává jeden řádek na zprávu, téma, pak tabulátor, pak obsah zprávy; odsud se nic nepublikuje. Text je stejný, jaký příkaz vypíše.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:404
+js-tools-tele-run-here = Spustit zde
+
+# 2026-10-01-studio-rebuild/tools/tools.js:334
+js-tools-that-file-too-large = Tento soubor je větší než 64 MiB.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached = Token připojen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached-note = Aktualizovaný balíček je níže. Podpis autority časového razítka zde NEBYL zkontrolován: spusťte openssl ts -verify.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:312
+js-tools-trust-monitor-sentence = Věta monitoru důvěry: { $sentence }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:48
+js-tools-two-files-same-name = dva soubory se jmenují { $name }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:214
+js-tools-ubx-bad-crc =
+    { $n ->
+        [one] { $n } stránka neprošla kontrolou CRC.
+        [few] { $n } stránky neprošly kontrolou CRC.
+        [many] { $n } stránky neprošly kontrolou CRC.
+       *[other] { $n } stránek neprošlo kontrolou CRC.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:311
+js-tools-ubx-file = Soubor UBX
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:212
+js-tools-ubx-frames-pages = Rámců UBX: { $frames }; dekódovaných stránek I/NAV: { $pages }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:217
+js-tools-ubx-ignored-sfrbx = Ignorované zprávy SFRBX: { $n } (jiné systémy, E5b, výstrahy, chybné kontrolní součty).
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:218
+js-tools-ubx-skipped-bytes = Mezi rámci přeskočené bajty: { $n }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:216
+js-tools-ubx-time-conflicts = Stránky s časem v rozporu se sousedními: { $n }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:215
+js-tools-ubx-unstamped = Stránky, které nešlo časově zařadit: { $n }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-unknown = neznámé
+
+# 2026-10-01-studio-rebuild/tools/tools.js:257
+js-tools-unused-scenarios = Soubory scénářů bez odpovídajícího výsledku nebyly použity: { $files }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-text = Ověření selhalo.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-title = Selhalo
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-text = Balíček je neporušený vůči klíči, který sám uvádí a který může vygenerovat kdokoli. Získejte veřejný klíč podepisujícího od podepisujícího jinou cestou a připněte jej.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-title = Neporušeno, ale podepisující není připnut
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-text = Balíček je beze změny a podepsán klíčem, který jste připnuli.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-title = Ověřeno
+
+# 2026-10-01-studio-rebuild/tools/tools.js:149
+js-tools-verifying = Ověřuje se…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:158
+js-tools-what-failed = Co selhalo
+
+# 2026-10-01-studio-rebuild/tools/tools.js:99
+js-tools-why-not-browser = Proč ne v prohlížeči:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-yes = ano
+
+# 2026-10-01-studio-rebuild/training/training.js:355
+js-training-active-events = Aktivní události
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:50
+js-training-band-large = přes 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:49
+js-training-band-medium = 25 až 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:48
+js-training-band-small = pod 25 m
+
+# 2026-10-01-studio-rebuild/training/training.js:213
+js-training-chart-max = max { $v }
+
+# 2026-10-01-studio-rebuild/training/training.js:225
+js-training-chart-mean-cn0 = průměrné C/N0
+
+# 2026-10-01-studio-rebuild/training/training.js:224
+js-training-chart-position-error = chyba polohy
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-s-reported-minus-true = s, hlášený minus skutečný
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-satellites = družice
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-time-offset = časový posun
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-used-tracked = použité / sledované
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-reported = Hlášeno přijímačem
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-true = Skutečné
+
+# 2026-10-01-studio-rebuild/training/training.js:352
+js-training-cue-course = Kurz lodi z gyra a rychlost z logu nejsou žádnou událostí dotčeny. Zde se hlášený kurz liší od kurzu z gyra o { $course }. Také proud odděluje kurz lodi od kurzu nad zemí, proto porovnejte se začátkem běhu.
+
+# 2026-10-01-studio-rebuild/training/training.js:353
+js-training-cue-course-speed = Kurz lodi z gyra a rychlost z logu nejsou žádnou událostí dotčeny. Zde se hlášený kurz liší od kurzu z gyra o { $course } a hlášená rychlost od skutečné o { $speed } kn. Také proud odděluje kurz lodi od kurzu nad zemí, proto porovnejte se začátkem běhu.
+
+# 2026-10-01-studio-rebuild/training/training.js:351
+js-training-cue-title = Poznámka k debriefingu.
+
+# 2026-10-01-studio-rebuild/training/training.js:350
+js-training-cue-unknown-amount = neznámá hodnota
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-debrief-now = Provést debriefing nyní
+
+# 2026-10-01-studio-rebuild/training/training.js:89
+js-training-default-warning = Syntetická tréninková data. Pouze pro trénink a testování: tento proud nikdy nevkládejte do živých navigačních systémů plavidla.
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-coastal-drag-off = Pobřežní drag-off
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-combined-event = Kombinovaná událost
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-fjord-degradation = Přirozené zhoršení ve fjordu
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-open-sea-jamming = Rušení (jamming) na otevřeném moři
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-port-time-spoof = Spoofing času při přiblížení k přístavu
+
+# 2026-10-01-studio-rebuild/training/training.js:413
+js-training-dl-log-json = Stáhnout záznam instruktora (JSON)
+
+# 2026-10-01-studio-rebuild/training/training.js:414
+js-training-dl-log-text = Stáhnout záznam instruktora (text)
+
+# 2026-10-01-studio-rebuild/training/training.js:412
+js-training-dl-nmea = Stáhnout proud NMEA
+
+# 2026-10-01-studio-rebuild/training/training.js:74
+js-training-err-demo-open = { $title } se nepodařilo otevřít: { $reason }.
+
+# 2026-10-01-studio-rebuild/training/training.js:405
+js-training-err-engine-old = Toto sestavení enginu (verze { $version }) nemá generátor tréninkových dat NMEA; je starší než tato stránka. Příkaz je { $command }.
+
+# 2026-10-01-studio-rebuild/training/training.js:404
+js-training-err-engine-start = Engine se zde nepodařilo spustit ({ $reason }). Scénáře z knihovny výše se bez něj stále otevřou.
+
+# 2026-10-01-studio-rebuild/training/training.js:70
+js-training-err-file-not-loaded = soubor se nenačetl
+
+# 2026-10-01-studio-rebuild/training/training.js:417
+js-training-err-generate = Nepodařilo se vygenerovat: { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:60
+js-training-err-newer-schema = { $name }: schéma { $schema } je novější nebo jiné než { $supported }, které tato stránka čte. Aktualizujte Studio místo hádání jeho polí.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:58
+js-training-err-no-schema = { $name }: není to záznam instruktora tréninku Kshana (žádný tag schématu).
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:61
+js-training-err-no-track = { $name }: záznam nemá žádné řádky trasy k vykreslení.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:78
+js-training-err-no-usable-rows = { $name }: žádné použitelné řádky trasy.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:57
+js-training-err-not-json = { $name }: není JSON ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:64
+js-training-err-read = { $name }: nepodařilo se přečíst ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:55
+js-training-err-read-or-draw = { $name }: nepodařilo se přečíst nebo vykreslit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:407
+js-training-err-scenario-not-loaded = soubor scénáře se nenačetl
+
+# 2026-10-01-studio-rebuild/training/training.js:400
+js-training-err-seed = Seed musí být celé číslo, nebo prázdný, aby se použil seed scénáře.
+
+# 2026-10-01-studio-rebuild/training/training.js:48
+js-training-err-too-large = { $name }: větší než { $max }. Tato stránka čte záznamy do této velikosti.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:62
+js-training-err-too-many-rows = { $name }: záznam má řádků trasy { $count }; tato stránka jich vykreslí nejvýše { $max }. Zaznamenávejte méně často (log_interval_s) nebo otevřete výřez.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:59
+js-training-err-unknown-schema = { $name }: neznámé schéma { $schema }; tato stránka čte { $supported }.
+
+# 2026-10-01-studio-rebuild/training/training.js:357
+js-training-event-n = Událost { $id }
+
+# 2026-10-01-studio-rebuild/training/training.js:266
+js-training-event-onset = Začátek { $utc }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:220
+js-training-extra-bearing = Použitý azimut, stupně pravé
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:222
+js-training-extra-peak-accel = Špičkové zrychlení, které drag-off přidává, m/s²
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:221
+js-training-extra-peak-speed = Špičková rychlost, kterou drag-off přidává, m/s
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-duration = Trvání
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-events = Vložené události
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-fact-max-error = Největší chyba polohy
+
+# 2026-10-01-studio-rebuild/training/training.js:96
+js-training-fact-max-time-offset = Největší časový posun
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-fact-no-fix = Čas bez určení polohy
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-accel = Špičkové zrychlení, skutečné / hlášené
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-speed = Špičková rychlost, skutečná / hlášená
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-seed = Seed
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-start = Začátek (UTC)
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-fix-reported-span = určení polohy hlášeno, { $from } až { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:410
+js-training-generated = Vygenerováno „{ $title }“ enginem { $version }; vět NMEA: { $lines }. Syntetické: pouze pro trénink a testování; nikdy je nevkládejte do živých navigačních systémů plavidla.
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-generated-here = Vygenerováno zde enginem („{ $title }“). Syntetické: vymyšlené polohy a data.
+
+# 2026-10-01-studio-rebuild/training/training.js:401
+js-training-generating = Spouští se engine a generuje se…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:32
+js-training-kind-drag-off = Drag-off polohy
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:31
+js-training-kind-jamming = Rušení (jamming)
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:35
+js-training-kind-natural-degradation = Přirozené zhoršení (zablokovaná obloha)
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:34
+js-training-kind-replay-delay = Zpoždění přehrání (replay)
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:33
+js-training-kind-time-spoof = Spoofing času
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-no-fix = Bez určení polohy: přijímač nic nehlásil
+
+# 2026-10-01-studio-rebuild/training/training.js:157
+js-training-legend-reported = Hlášeno, { $band } od skutečné
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-true = Skutečná trasa
+
+# 2026-10-01-studio-rebuild/training/training.js:73
+js-training-library-label = Syntetický scénář z knihovny „{ $title }“, zapsaný příkazem { $command }. Vymyšlené polohy a data; žádné skutečné plavidlo ani záznam.
+
+# 2026-10-01-studio-rebuild/training/training.js:338
+js-training-log-row = Řádek záznamu { $row } z { $total }, { $utc }
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-max-error-at = { $m } m v T+{ $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:277
+js-training-moment-event = (událost { $id })
+
+# 2026-10-01-studio-rebuild/training/training.js:184
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+# 2026-10-01-studio-rebuild/training/training.js:275
+js-training-moments-shown = Zobrazeny první okamžiky: { $shown } z { $total }.
+
+# 2026-10-01-studio-rebuild/training/training.js:263
+js-training-no-events = Žádné: toto je čistý běh.
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-no-fix-nothing = bez určení polohy: nic nehlášeno
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-no-fix-span = bez určení polohy, { $from } až { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:273
+js-training-no-moments = Nezaznamenány žádné okamžiky.
+
+# 2026-10-01-studio-rebuild/training/training.js:35
+js-training-none = žádné
+
+# 2026-10-01-studio-rebuild/training/training.js:356
+js-training-none-now = V tomto okamžiku žádné.
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-none-reported = nic nehlášeno
+
+# 2026-10-01-studio-rebuild/training/training.js:135
+js-training-north = S
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-not-touched = není dotčeno žádnou událostí
+
+# 2026-10-01-studio-rebuild/training/training.js:53
+js-training-opened = Otevřeno { $name }: řádků záznamu { $rows } za { $secs } s.
+
+# 2026-10-01-studio-rebuild/training/training.js:67
+js-training-opening = Otevírá se { $title }…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:209
+js-training-param-affect-time = Ovlivňuje čas
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:205
+js-training-param-bearing-deg = Azimut, stupně pravé
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:202
+js-training-param-cn0-drop-db = Pokles C/N0, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:210
+js-training-param-counterfeit-cn0-dbhz = Padělané C/N0, dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:208
+js-training-param-delay-s = Zpoždění, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:199
+js-training-param-duration-s = Trvání, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:204
+js-training-param-final-offset-m = Konečný posun, m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:196
+js-training-param-kind = Druh
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:197
+js-training-param-label = Popisek
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:207
+js-training-param-offset-s = Časový posun, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:200
+js-training-param-ramp-s = Náběh začátku, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:201
+js-training-param-recovery-s = Náběh zotavení, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:206
+js-training-param-relative-bearing-deg = Azimut vůči kurzu, stupně
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:211
+js-training-param-skyline = Skyline
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:203
+js-training-param-spread-db = Rozptyl podle družic, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:198
+js-training-param-start-s = Začátek, s
+
+# 2026-10-01-studio-rebuild/training/training.js:380
+js-training-pause = Pozastavit
+
+# 2026-10-01-studio-rebuild/training/training.js:385
+js-training-play = Přehrát
+
+# 2026-10-01-studio-rebuild/training/training.js:60
+js-training-reading = Čte se…
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-fix = určení polohy
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-no-fix = bez určení polohy
+
+# 2026-10-01-studio-rebuild/training/training.js:430
+js-training-reduced-motion = Je preferováno omezení pohybu, proto přehrávání začíná rychlostí 1×. Pro posun bez animace použijte posuvník nebo šipky na klávesnici.
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-cn0 = Průměrné C/N0, dB-Hz
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-cog = Kurz nad zemí, stupně
+
+# 2026-10-01-studio-rebuild/training/training.js:344
+js-training-row-error = Chyba polohy, m
+
+# 2026-10-01-studio-rebuild/training/training.js:189
+js-training-row-fix = určení polohy
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-row-heading = Kurz lodi (gyro), stupně
+
+# 2026-10-01-studio-rebuild/training/training.js:180
+js-training-row-moments = okamžiky
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-row-position = Poloha
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-sats = Použité / sledované družice
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-sog = Rychlost nad zemí, kn
+
+# 2026-10-01-studio-rebuild/training/training.js:345
+js-training-row-time-offset = Časový posun, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-active = aktivní: { $list }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-event-id = událost { $id }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-fix = přijímač hlásí určení polohy
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:185
+js-training-say-mean-cn0 = průměrné C/N0 { $cn0 } dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-no-fix = bez určení polohy
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:182
+js-training-say-position-from-true = hlášená poloha { $m } m od skutečné
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:184
+js-training-say-sats-used = použito družic: { $used } z { $tracked }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-ahead = hlášený čas předbíhá skutečný o { $s } s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-behind = hlášený čas zaostává za skutečným o { $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-no-gsv = žádné GSV
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-none = Žádná obloha pro tento záznam: samotný záznam instruktora nemá družice. Otevřete scénář z knihovny, nebo zde vygenerujte proud a proveďte jeho debriefing, a uvidíte družice, které uvádí jeho GSV.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-preset = předvolba { $name }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-stated = uvedený profil
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-span-no-fix = T+{ $from } až { $to } s
+
+# 2026-10-01-studio-rebuild/training/training.js:144
+js-training-track-desc = Skutečná a hlášená trasa, sever nahoře. Největší chyba polohy { $error }. Období bez určení polohy: { $periods }.
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-end = konec
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-start = začátek
+
+# 2026-10-01-studio-rebuild/training/training.js:93
+js-training-trainer-note = Poznámka trenéra
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:89
+js-training-warn-no-warning-text = Tento soubor nenese žádný text varování. Je to tréninkový záznam: jeho proud nevkládejte do živé navigace.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:79
+js-training-warn-rows-skipped = Neplatné a přeskočené řádky trasy: { $count }.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:42
+js-training-what-fix-lost = Ztráta určení polohy
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:43
+js-training-what-fix-regained = Obnovení určení polohy
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:39
+js-training-what-full-effect = Plný účinek
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:38
+js-training-what-onset = Začátek
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:41
+js-training-what-recovered = Zotaveno
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:40
+js-training-what-recovery-begins = Začíná zotavení
+
+# 2026-10-01-studio-rebuild/trust/trust.js:544
+js-trust-adv-carried = Poradní prohlášení, které nese tento soubor:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none = Tento soubor nenese žádné poradní prohlášení
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none-rest = (starší výstupy je nenesou). Poradní upozornění v horní části této stránky se na něj přesto vztahuje.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:15
+js-trust-agree-both = obojí hlásí: vlastní příznak přijímače i monitor Kshana
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:19
+js-trust-agree-calibrating = uvnitř kalibračního okna: neporovnává se
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:17
+js-trust-agree-kshana-only = poplach dává jen Kshana: přijímač nehlásí
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:18
+js-trust-agree-neither = nehlásí ani jedno
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:16
+js-trust-agree-receiver-only = hlásí jen přijímač: žádný monitor Kshana nevyhlásil poplach
+
+# 2026-10-01-studio-rebuild/trust/trust.js:151
+js-trust-assessed = Vyhodnoceno { $name } enginem { $version } v tomto prohlížeči.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:205
+js-trust-assessed-as = Vyhodnoceno { $name } jako { $format } enginem v tomto prohlížeči. Nic se nenahrálo.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:145
+js-trust-assessing = Spouští se engine a vyhodnocuje se…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:442
+js-trust-class-also-costing = { $class } (také ubírá body)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:32
+js-trust-class-environment = prostředí: signál (výkon, rušení, ztracené družice při otevřené obloze)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:31
+js-trust-class-geometry = geometrie: obloha, ne signál
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:33
+js-trust-class-inconsistency = nekonzistence: podobná útoku, nevysvětlená oblohou ani signálem
+
+# 2026-10-01-studio-rebuild/trust/trust.js:169
+js-trust-dl-result-json = Stáhnout výsledek (JSON)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:170
+js-trust-dl-table-csv = Stáhnout tabulku po epochách (CSV)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:393
+js-trust-edge-degraded = { $v } zhoršeno
+
+# 2026-10-01-studio-rebuild/trust/trust.js:393
+js-trust-edge-nominal = { $v } nominální
+
+# 2026-10-01-studio-rebuild/trust/trust.js:177
+js-trust-err-assess = { $name }: nepodařilo se vyhodnotit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:124
+js-trust-err-demo-files = demo soubory se nenačetly
+
+# 2026-10-01-studio-rebuild/trust/trust.js:127
+js-trust-err-demo-log-open = Demo záznam se nepodařilo otevřít: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:240
+js-trust-err-demo-open = Demo se nepodařilo otevřít: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:148
+js-trust-err-engine-no-receiver-trust = Toto sestavení enginu (verze { $version }) nemá receiver_trust.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:111
+js-trust-err-engine-no-scorer = Toto sestavení enginu (verze { $version }) nemá hodnotitel záznamů; je starší než tato stránka. Příkaz je { $command }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:147
+js-trust-err-engine-start = Engine se zde nepodařilo spustit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:110
+js-trust-err-engine-start-open = Engine se zde nepodařilo spustit ({ $reason }). Otevírání souborů výsledků výše stále funguje.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:183
+js-trust-err-example-files = ukázkové soubory se nenačetly
+
+# 2026-10-01-studio-rebuild/trust/trust.js:187
+js-trust-err-example-open = Ukázku se nepodařilo otevřít: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:193
+js-trust-err-file-2mib = { $name }: větší než 2 MiB. Otevřete výřez.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:67
+js-trust-err-file-too-large = { $name }: větší než { $max }. Tato stránka čte soubory do této velikosti; otevřete výřez.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:144
+js-trust-err-gen-too-large = { $name }: větší než 2 MiB. Otevřete výřez (nástroj příkazového řádku zvládne celý záznam).
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:81
+js-trust-err-imu-format = „{ $format }“ není formát IMU, který tato stránka čte (csv nebo euroc)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:82
+js-trust-err-imu-heading = kurz IMU v prvním vzorku není číslo
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:62
+js-trust-err-log-format = „{ $format }“ není formát záznamu, který tato stránka umí poslat enginu
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:385
+js-trust-err-no-epochs = Soubor nemá žádné epochy.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:356
+js-trust-err-no-epochs-result = Tento soubor výsledku nemá epochs[]. Musí pocházet z `{ $command }` pro relaci plavidla.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:113
+js-trust-err-no-epochs-returned = { $name }: engine nevrátil žádné epochy.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:357
+js-trust-err-no-score-model = Tento výsledek nemá score_model, takže jde o běh se statickou platformou bez skóre důvěryhodnosti. Pohled vykresluje běhy plavidel (pohyblivé platformy).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:74
+js-trust-err-not-readable = { $name }: není to soubor, který tento pohled čte (JSON výsledku, JSON lines, trust.csv, záznam NMEA nebo soubor pravdy).
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:384
+js-trust-err-nothing-to-draw = Není co vykreslit: vyberte JSON výsledku, JSON lines nebo trust.csv.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:98
+js-trust-err-read = { $name }: nepodařilo se přečíst ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:84
+js-trust-err-read-or-draw = { $name }: nepodařilo se přečíst nebo vykreslit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:118
+js-trust-err-score = { $name }: nepodařilo se ohodnotit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:131
+js-trust-err-score-file-too-large = { $name }: větší než 2 MiB. Hodnotitel v prohlížeči bere výřez, který obsahuje pětiminutové kalibrační okno.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:107
+js-trust-err-score-too-large = { $name }: větší než 2 MiB. Hodnotitel v prohlížeči bere výřez (příkaz { $command } zvládne celý záznam); otevřete výřez, který obsahuje pětiminutové kalibrační okno.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:795
+js-trust-err-scorecard-too-large = { $name }: větší než 8 MiB; tato stránka čte výsledkovou kartu do této velikosti.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:106
+js-trust-err-session-empty = Nastavení relace je prázdné. Deklarují plavidlo ({ $setting }).
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:386
+js-trust-err-too-many-epochs = Soubor má epoch: { $count }; tato stránka jich vykreslí nejvýše { $max }. Otevřete výřez.
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:50
+js-trust-err-triple-quote = { $what } obsahuje tři jednoduché uvozovky za sebou, které nelze vložit do nastavení
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:53
+js-trust-err-what-file = soubor
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:84
+js-trust-err-what-imu = soubor IMU
+
+# 2026-10-01-studio-rebuild/trust/trust.js:399
+js-trust-event-label = událost: { $label }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:399
+js-trust-event-onset = začátek
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-first-alarm = První poplach, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-latency = Latence, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-onset = Začátek, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-outcome = Závěr
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-stated = Uvedená událost
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:17
+js-trust-fmt-android = Android GNSS Logger (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:13
+js-trust-fmt-gnss-sdr = Řádky JSON předávané z GNSS-SDR (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:9
+js-trust-fmt-nmea = NMEA 0183 (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:11
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII nebo binární)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:16
+js-trust-fmt-rinex = Pozorování RINEX (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:12
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binární)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:10
+js-trust-fmt-rtklib-pos = Řešení RTKLIB .pos (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:14
+js-trust-fmt-sbf = Septentrio SBF (binární)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:15
+js-trust-fmt-ubx = u-blox UBX (binární)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:267
+js-trust-gate-note-derived = Tento běh nemá záznam brány. Pás ukazuje, kde by brána zadržela určení polohy: epochy v nedůvěryhodném pásmu, držené do 30 s po jeho opuštění. Odvozeno zde, nečteno z brány. Brána je dobrovolná a přidává latenci.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:268
+js-trust-gate-note-read = Brána každé epochy, jak ji hlásil živý proud: vypnuto, propuštěno nebo zadrženo (určení polohy bylo označeno za neplatné v předávaném cyklu).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:703
+js-trust-gate-now-derived = { $gate } · odvozeno
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-off = Vypnuto
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-off-cal = Vypnuto (kalibruje se)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-passed = Propuštěno: určení polohy se předává beze změny
+
+# 2026-10-01-studio-rebuild/trust/trust.js:420
+js-trust-gate-span = brána { $gate }, { $from } až { $to }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:420
+js-trust-gate-span-derived = brána { $gate } (odvozeno), { $from } až { $to }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-withheld = Zadrženo: určení polohy by bylo dále označeno za neplatné
+
+# 2026-10-01-studio-rebuild/trust/trust.js:167
+js-trust-gen-chart-label = Graf běhu z enginu: poměr nosné k hustotě šumu, stav a poplachy v čase
+
+# 2026-10-01-studio-rebuild/trust/trust.js:154
+js-trust-gen-epochs = Epochy: nominální { $nominal }, zhoršené { $degraded }, nedůvěryhodné { $untrusted } po kalibračním okně o počtu epoch { $window }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:157
+js-trust-gen-self-heading = Vlastní příznaky přijímače oproti poplachům Kshana
+
+# 2026-10-01-studio-rebuild/trust/trust.js:157
+js-trust-gen-self-note = Srovnání, nikoli kontrola ani jednoho z nich: příznak přijímače je jeho vlastní hlášení.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-deduction-class =
+    { $points ->
+        [one] { $points } bod ({ $class })
+        [few] { $points } body ({ $class })
+        [many] { $points } bodu ({ $class })
+       *[other] { $points } bodů ({ $class })
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-deduction-points =
+    { $points ->
+        [one] { $points } bod
+        [few] { $points } body
+        [many] { $points } bodu
+       *[other] { $points } bodů
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:177
+js-trust-geo-flag-mismatch = HDOP uváděný přijímačem se neshoduje s HDOP odvozeným z oblohy, kterou hlásí: odečet za geometrii se započítává jako nekonzistence.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:178
+js-trust-geo-flag-signal-loss = Ztráta signálu: družice ve výhledu nejsou sledovány, ačkoli jejich geometrie je dobrá, proto se odečet za geometrii započítává jako prostředí.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:161
+js-trust-geo-heading-label = geometrie { $label }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:162
+js-trust-geo-label-fair = { $label } (nehodnoceno)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:163
+js-trust-geo-label-poor = { $label } (jediný popisek, za který skóre odečítá)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:157
+js-trust-geo-none-in-run = V tomto běhu žádná geometrie (engine před 0.36 ji nezapisuje).
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:22
+js-trust-geo-reason-few-satellites = méně družic než minimum
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:24
+js-trust-geo-reason-high-hdop = HDOP nad svým prahem
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:23
+js-trust-geo-reason-high-pdop = PDOP nad svým prahem
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:25
+js-trust-geo-reason-sky-blocked = sledované družice zanechávají velkou mezeru v azimutu (jedna strana oblohy je zablokována)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-row-deduction = Odečet za geometrii
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:173
+js-trust-geo-row-from = Od
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:170
+js-trust-geo-row-gap = Největší mezera v azimutu
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:166
+js-trust-geo-row-label = Popisek
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:171
+js-trust-geo-row-open-sky = Otevřená obloha
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:175
+js-trust-geo-row-reported-hdop = HDOP uváděný přijímačem
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
+js-trust-geo-row-sats-used = Použité družice
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:172
+js-trust-geo-row-sky-age = Stáří oblohy
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
+js-trust-geo-row-status = Stav
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:193
+js-trust-geo-say-deduction =
+    { $points ->
+        [one] odečet za geometrii { $points } bod
+        [few] odečet za geometrii { $points } body
+        [many] odečet za geometrii { $points } bodu
+       *[other] odečet za geometrii { $points } bodů
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:191
+js-trust-geo-say-label-hdop = geometrie { $label } (HDOP { $hdop })
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:192
+js-trust-geo-say-mismatch = uváděný HDOP se neshoduje
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:36
+js-trust-geo-source-derived = odvozeno z družic, které záznam hlásí (GSV)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:38
+js-trust-geo-source-none = nic
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:37
+js-trust-geo-source-reported = DOP uváděný přijímačem (GSA)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:428
+js-trust-geo-status-title = geometrie { $status }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:28
+js-trust-geo-unknown-no-gsv = geometrie neznámá: v záznamu není GSV ani GSA
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:160
+js-trust-geo-unknown-no-gsv-sentence = Geometrie neznámá: v záznamu není GSV ani GSA.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:160
+js-trust-geo-unknown-odd = Geometrie neznámá (soubor uvádí „{ $odd }“, což tato stránka nezná).
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
+js-trust-geo-used-of-view = { $used } z { $inView } ve výhledu
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-got-file-kind = { $name }: { $kind }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:70
+js-trust-got-lines-skipped =
+    { $count ->
+        [one] { $count } řádek souboru { $name } nebyl epochou a byl přeskočen
+        [few] { $count } řádky souboru { $name } nebyly epochami a byly přeskočeny
+        [many] { $count } řádku souboru { $name } nebylo epochou a bylo přeskočeno
+       *[other] { $count } řádků souboru { $name } nebylo epochami a bylo přeskočeno
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:20
+js-trust-imu-csv = CSV s řádkem záhlaví
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:21
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+# 2026-10-01-studio-rebuild/trust/trust.js:219
+js-trust-imu-file = Soubor IMU: { $name } (znaků: { $chars }). Použije se při dalším vyhodnocení.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:218
+js-trust-imu-file-press = Soubor IMU: { $name } (znaků: { $chars }). Použije se při dalším vyhodnocení; stiskněte Vyhodnotit vybraný soubor.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:226
+js-trust-imu-none = Žádný soubor IMU.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-latency = Latence, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-monitors = První monitory
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-name = Název
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-outcome = Závěr
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-recovered = Zotaveno
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-slot = Slot, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-test = Test
+
+# 2026-10-01-studio-rebuild/trust/trust.js:803
+js-trust-jt-label = { $label } Ochranný interval { $guard } s, výdrž zotavení { $hold } s.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:802
+js-trust-jt-label-contaminated = { $label } Ochranný interval { $guard } s, výdrž zotavení { $hold } s. Kalibrační základ se překrýval s plánovaným slotem.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:809
+js-trust-jt-opened = Otevřeno { $name }: testů { $count }. Čteno zde; nic se nenahrálo.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-batch-result = výsledek dávky
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-json-lines = řádky JSON
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-nmea-log = záznam NMEA
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-truth-file = soubor pravdy
+
+# 2026-10-01-studio-rebuild/trust/trust.js:239
+js-trust-label-demo = Syntetické demo: vymyšlený záznam trajektu s vymyšleným drag-off polohy, ohodnocený Kshana. Zaznamenáno z enginu; záznam je text, nikoli měření.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:186
+js-trust-label-example = Ilustrativní příklad: vymyšlený záznam NMEA s vymyšleným rušičem od 120 s do 240 s, zde vyhodnocený enginem. Text, nikoli měření.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:249
+js-trust-label-geo-demo = Syntetické demo se zakrytou oblohou: záznam trajektu se západní polovinou oblohy vyprázdněnou od 600 s (přirozené zhoršení, přisuzované geometrii) a týmž vymyšleným drag-off od 1500 s (podobné útoku). Zaznamenáno z enginu s geometrií 0.36; text, nikoli měření.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:126
+js-trust-label-score-demo = Syntetický demo záznam, zde ohodnocený enginem. Vymyšlený záznam trajektu a drag-off; text, nikoli měření.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-calibrating = Kalibrace (nikdy se nehodnotí)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class = Třída odečtu:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-environment = prostředí: signál
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-geometry = geometrie: obloha, ne signál
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-inconsistency = nekonzistence (podobná útoku)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-degraded = Zhoršeno
+
+# 2026-10-01-studio-rebuild/trust/trust.js:557
+js-trust-legend-demo = V tomto demu přijímač hlásí platné určení polohy po celou dobu (kvalita GGA 1, stav RMC A). Padá skóre.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-degraded = geometrie zhoršená
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-good = geometrie dobrá
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-unknown = geometrie neznámá (žádné GSV ani GSA; není dobrá)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-nominal = Nominální
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self = Vlastní příznak přijímače oproti poplachům Kshana:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-both = obojí hlásí
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-kshana = jen Kshana
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-neither = ani jedno
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-receiver = jen přijímač
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-sky = Obloha:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:551
+js-trust-legend-true-track = Skutečná trasa (pouze syntetická data)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-underline = podtržení: geometrie také ubírá body
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-untrusted = Nedůvěryhodné
+
+# 2026-10-01-studio-rebuild/trust/trust.js:753
+js-trust-marks-cleared = Značky vymazány.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:753
+js-trust-marks-set =
+    { $count ->
+        [one] { $name } bylo nad svou mezí aktivace v { $count } epoše; je vyznačena na časové ose a na trase.
+        [few] { $name } bylo nad svou mezí aktivace v { $count } epochách; jsou vyznačeny na časové ose a na trase.
+        [many] { $name } bylo nad svou mezí aktivace v { $count } epoše; je vyznačena na časové ose a na trase.
+       *[other] { $name } bylo nad svou mezí aktivace v { $count } epochách; jsou vyznačeny na časové ose a na trase.
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:34
+js-trust-mon-agc = Automatické řízení zesílení se posunulo oproti svému základu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:38
+js-trust-mon-clock = Monitor podporovaný hodinami: hodiny přijímače oproti předpovězené přímce.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:32
+js-trust-mon-cn0-drop = Odepření výkonu: síla signálu klesla oproti kalibračnímu základu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:29
+js-trust-mon-cn0-rise = Hledá signaturu jednoho vysílače: síla signálu napříč družicemi roste společně oproti základu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:28
+js-trust-mon-cn0-spread = Hledá signaturu jednoho vysílače: síla signálu napříč družicemi se společně propadá oproti kalibračnímu základu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:41
+js-trust-mon-geometry = Geometrie družic (0.36): ubírá body jen tehdy, když je geometrie špatná (HDOP, PDOP nebo počet použitých družic za svými prahy), s horním omezením a nikdy ne pod zhoršené pásmo.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:25
+js-trust-mon-heading-course = Porovnává směr trasy s tím, kam míří loď, v rámci uvedeného úhlu snosu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:35
+js-trust-mon-jam-ind = Vlastní indikátor rušení přijímače.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:24
+js-trust-mon-kinematic = Porovnává každý krok polohy s hlášenou rychlostí a kurzem a s uvedenými limity rychlosti, zrychlení a rychlosti zatáčení plavidla.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:33
+js-trust-mon-loss-of-lock = Ztráta sledovaných družic.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:31
+js-trust-mon-osnma = Čte hlášené selhání autentizace OSNMA. Stav se čte, neověřuje.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:36
+js-trust-mon-position-jump = Skok v hlášené poloze větší, než základ dovoluje.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:37
+js-trust-mon-raim = Testovací statistika autonomního monitorování integrity v přijímači oproti svému prahu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:40
+js-trust-mon-receiver-self-report = Vlastní příznak přijímače pro spoofing nebo rušení (například u-blox UBX-SEC-SIG nebo NAV-STATUS spoofDetState), zobrazený vedle monitorů Kshana. Čteno ze záznamu, neověřeno; slot je připraven pro monitor enginu 0.38 a vykreslí se jako pás, jakmile jej výsledek ponese.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:27
+js-trust-mon-sea-level = Kontroluje, zda je výška tam, kam ji staví mořská hladina a uvedená výška antény.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:39
+js-trust-mon-solve-failure = Řešení polohy nešlo vypočítat.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:26
+js-trust-mon-speed-log = Porovnává rychlost nad zemí s rychlostí vůči vodě, v rámci uvedené tolerance proudu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:30
+js-trust-mon-time-consistency = Kontroluje čas přijímače na nepravidelné kroky nebo běh zpět a proti hodinám tohoto počítače u proudů v reálném čase.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:46
+js-trust-mon-unknown = Monitor, pro který tento pohled nemá popis (novější než stránka). Berte jej jako monitor.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
+js-trust-na = n/a
+
+# 2026-10-01-studio-rebuild/trust/trust.js:517
+js-trust-name-colon-text = { $name }: { $text }
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
+js-trust-never = nikdy
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
+js-trust-no = ne
+
+# 2026-10-01-studio-rebuild/trust/trust.js:435
+js-trust-no-deduction = žádný odečet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:162
+js-trust-none = žádné
+
+# 2026-10-01-studio-rebuild/trust/trust.js:308
+js-trust-north = S
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:40
+js-trust-not-stated = neuvedeno
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:376
+js-trust-note-advisories = Počet různých poradních prohlášení v řádcích: { $count }; zobrazeno je první.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:383
+js-trust-note-csv-limits = trust.csv nese skóre a důvody, ale ne poměry ani polohy.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:378
+js-trust-note-live-no-model = Živý proud neuvádí, které monitory běžely ani model skóre; hrany pásem níže jsou zdokumentované výchozí hodnoty a pásy monitorů ukazují jen monitory, které ubraly body.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:397
+js-trust-note-nmea-no-match = Žádné určení polohy NMEA nešlo přiřadit k epoše podle času.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:396
+js-trust-note-nmea-skipped =
+    { $count ->
+        [one] { $count } věta NMEA se špatným kontrolním součtem nebo poli byla přeskočena.
+        [few] { $count } věty NMEA se špatným kontrolním součtem nebo poli byly přeskočeny.
+        [many] { $count } věty NMEA se špatným kontrolním součtem nebo poli bylo přeskočeno.
+       *[other] { $count } vět NMEA se špatným kontrolním součtem nebo poli bylo přeskočeno.
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:359
+js-trust-note-skipped-epochs =
+    { $count ->
+        [one] { $count } epocha bez číselného t_s byla přeskočena.
+        [few] { $count } epochy bez číselného t_s byly přeskočeny.
+        [many] { $count } epochy bez číselného t_s bylo přeskočeno.
+       *[other] { $count } epoch bez číselného t_s bylo přeskočeno.
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:402
+js-trust-note-truth-no-match = Časy souboru pravdy neodpovídají žádné epoše.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:388
+js-trust-note-unknown-state =
+    { $count ->
+        [one] { $count } epocha nese stav, který tato stránka nezná ({ $states }); vykresluje se jako kalibrace, nikdy se nehodnotí.
+        [few] { $count } epochy nesou stav, který tato stránka nezná ({ $states }); vykreslují se jako kalibrace, nikdy se nehodnotí.
+        [many] { $count } epochy nese stav, který tato stránka nezná ({ $states }); vykresluje se jako kalibrace, nikdy se nehodnotí.
+       *[other] { $count } epoch nese stav, který tato stránka nezná ({ $states }); vykresluje se jako kalibrace, nikdy se nehodnotí.
+    }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:697
+js-trust-offset-at = V { $time } je hlášená poloha přijímače { $m } m od místa, kde plavidlo skutečně bylo (syntetická pravda).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:698
+js-trust-offset-no-truth = V tomto čase není známa skutečná poloha.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:81
+js-trust-opened =
+    { $count ->
+        [one] Otevřena { $count } epocha ({ $source }).
+        [few] Otevřeny { $count } epochy ({ $source }).
+        [many] Otevřeno { $count } epochy ({ $source }).
+       *[other] Otevřeno { $count } epoch ({ $source }).
+    }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:233
+js-trust-opening-demo = Otevírá se syntetické demo…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:121
+js-trust-opening-demo-log = Otevírá se syntetický demo záznam…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:180
+js-trust-opening-example = Otevírá se ilustrativní příklad…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:244
+js-trust-opening-geo-demo = Otevírá se demo se zakrytou oblohou…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:781
+js-trust-pause = Pozastavit
+
+# 2026-10-01-studio-rebuild/trust/trust.js:786
+js-trust-play = Přehrát
+
+# 2026-10-01-studio-rebuild/trust/trust.js:90
+js-trust-reading = Čte se…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:710
+js-trust-reasons-calibrating = Kalibrace: prvních několik sekund tvoří základ a nikdy se nehodnotí.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:724
+js-trust-reasons-class-note = Každý odečet nese třídu enginu: geometrie (obloha), prostředí (signál) nebo nekonzistence (podobná útoku)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:731
+js-trust-reasons-live-unknown = Živý proud neuvádí, které monitory běžely; zde chybějící kontrola nemusela běžet.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:726
+js-trust-reasons-marked-none = vyznačeno; zde žádný odečet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:711
+js-trust-reasons-no-score = V této epoše žádné skóre.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:711
+js-trust-reasons-no-score-note = V této epoše žádné skóre: { $note }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:730
+js-trust-reasons-not-run = Neběželo (není to úspěch)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:712
+js-trust-reasons-nothing = V této epoše nebylo nic odečteno. To není důkaz, že určení polohy je dobré: viz, co kontroly vidět nemohou, níže.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-pts = { $points } b.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:729
+js-trust-reasons-ran-free = Běželo, bez odečtu
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-ratio = poměr { $ratio }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:717
+js-trust-reasons-row-title = { $name }: { $text } Kliknutím vyznačíte, kde byl nad svou mezí aktivace.
