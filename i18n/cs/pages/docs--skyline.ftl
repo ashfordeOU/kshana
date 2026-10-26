@@ -21,3 +21,7 @@ seg-bbb1828b3db1 = Redukce městského kaňonu, sektorů a terénu na tabulku
 seg-2c53381d48ae = Horizontální chybová elipsa a kofaktor pro jednotlivé systémy z kovariance geometrie
 
 seg-de6c33774c9c = CLI
+
+seg-b03d56f501c3 = Druh
+
+seg-4dbf41c0ec3b = Funkce

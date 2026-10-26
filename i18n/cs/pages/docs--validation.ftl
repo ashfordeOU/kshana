@@ -33,3 +33,5 @@ seg-5ed34a5b402e = Lunární společné vícetechnikové určování oběžné d
 seg-619f89bf160c = Realizace lunární referenční soustavy
 
 seg-d12d4565b01d = Lunární geodetická VLBI, cesta jádra
+
+seg-b03d56f501c3 = Druh

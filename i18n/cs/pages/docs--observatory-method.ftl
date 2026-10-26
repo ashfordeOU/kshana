@@ -3,3 +3,5 @@
 seg-0857a94a948e = Omezení
 
 seg-2247a2344710 = Význam
+
+seg-b652b86e6b8e = Stav
