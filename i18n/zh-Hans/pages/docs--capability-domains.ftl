@@ -119,3 +119,41 @@ seg-0f45bd0aa984 = 机器检查的验证矩阵；每个所报告的量都带单�
 seg-e8104381bda7 = <s1>上一页</s1>所有界面
 
 seg-8a180f0eb69c = <s1>下一页</s1>场景参考
+
+seg-298cc35fe9d1 = 惯性
+
+seg-b03984610dc0 = 月球
+
+seg-f1f903f1b9ff = 韧性
+
+seg-bd64cfb4dc52 = 轨道外推与星座设计
+
+seg-a7cfe6f135f1 = 轨道与几何
+
+seg-66e33b899daf = Cowell 外推器与六摄动力模型
+
+seg-a5a572db3bed = 数值外推器
+
+seg-797370a2faef = 点火、Lambert 与 porkchop
+
+seg-57b120fb0aac = 机动与轨迹设计
+
+seg-76b323512350 = 时间系统
+
+seg-6631a5d69c84 = 重力、地形与磁场地图匹配
+
+seg-6af8e99df46d = 替代 PNT（GPS 拒止）
+
+seg-dbd63be796ff = GNSS / INS 传感器融合
+
+seg-f9582184adea = 融合
+
+seg-4af862bd1307 = 批处理与序贯定轨
+
+seg-ca67c864635c = 定轨
+
+seg-06406b3d0b88 = Fisher 信息与可观测性
+
+seg-4e28248ef77b = 可观测性与估计理论
+
+seg-e386dced1d16 = 月球与地月空间

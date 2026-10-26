@@ -119,3 +119,27 @@ seg-331d2821d43f = 路线图
 seg-fdbb9db68f1d = 无
 
 seg-6e0cb6acc073 = VALIDATED
+
+seg-d01db1c2710a = 参考
+
+seg-298cc35fe9d1 = 惯性
+
+seg-f1f903f1b9ff = 韧性
+
+seg-6f253e0464fe = 海事
+
+seg-a7cfe6f135f1 = 轨道与几何
+
+seg-a5a572db3bed = 数值外推器
+
+seg-57b120fb0aac = 机动与轨迹设计
+
+seg-6af8e99df46d = 替代 PNT（GPS 拒止）
+
+seg-f9582184adea = 融合
+
+seg-ca67c864635c = 定轨
+
+seg-4e28248ef77b = 可观测性与估计理论
+
+seg-e386dced1d16 = 月球与地月空间
