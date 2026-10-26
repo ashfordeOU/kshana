@@ -2,7 +2,7 @@
 
 seg-84f4e9e5a9a5 = 跳到正文
 
-seg-724f533ab704 = Kshana 首页
+seg-724f533ab704 = Kshana首页
 
 seg-3a9b1e33221b = 主导航
 
@@ -30,13 +30,13 @@ seg-436acc962a75 = 在浅色与深色主题之间切换
 
 seg-17f8b9e13ea5 = 打开菜单
 
-seg-7a0e37ca54da = <s1>启动 </s1>Kshana Studio
+seg-7a0e37ca54da = <s1>启动</s1>Kshana Studio
 
 seg-e26cd70b7b56 = kshana
 
 seg-6c2ad82414f6 = Kshana · <s1>क्षण</s1> · <em>精确的一瞬</em>
 
-seg-d25e295fab75 = 开源的 PNT（定位、导航与授时）韧性仿真器。它不驱动任何无线电硬件，也不发射任何信号：其信号级输出为基带 IQ 采样文件，其软件 GNSS 接收机是一款分析工具。不是飞行产品。
+seg-d25e295fab75 = 开源的PNT（定位、导航与授时）韧性仿真器。它不驱动任何无线电硬件，也不发射任何信号：其信号级输出为基带IQ采样文件，其软件GNSS接收机是一款分析工具。不是飞行产品。
 
 seg-52524ef67781 = Ashforde® 出品
 
@@ -48,7 +48,7 @@ seg-48c4185298a7 = 基准测试
 
 seg-984fd4304724 = 安装
 
-seg-beb0fa5d88fa = MCP 服务器
+seg-beb0fa5d88fa = MCP服务器
 
 seg-69c587fb2ce0 = GitHub
 
@@ -60,7 +60,7 @@ seg-cf742dee26e9 = contact@ashforde.org
 
 seg-9ddc420c2f24 = Kshana v{ $version } · Ashforde® OÜ 出品 · AGPL-3.0，另提供商业许可选项
 
-seg-87c5d84f1f40 = 每张图表均绘自引擎 v{ $version } 的一次已记录运行，并注明其场景、随机种子和复现路径。图像来源：NASA Visible Earth（Blue Marble、Black Marble），NASA Scientific Visualization Studio（CGI Moon Kit），NASA/JPL（火星），NASA、JPL 和 USGS 任务镶嵌图（卫星与冥王星）；太阳、水星、金星、木星、土星、天王星和海王星的地图：Solar System Scope，知识共享署名（CC BY）{ "4.0" }；火卫二地图：Oleg-Pluton，知识共享署名-相同方式共享（CC BY-SA）{ "3.0" }；海岸线：Natural Earth。
+seg-87c5d84f1f40 = 每张图表均绘自引擎v{ $version }的一次已记录运行，并注明其场景、随机种子和复现路径。图像来源：NASA Visible Earth（Blue Marble、Black Marble），NASA Scientific Visualization Studio（CGI Moon Kit），NASA/JPL（火星），NASA、JPL和USGS任务镶嵌图（卫星与冥王星）；太阳、水星、金星、木星、土星、天王星和海王星的地图：Solar System Scope，知识共享署名（CC BY）{ "4.0" }；火卫二地图：Oleg-Pluton，知识共享署名-相同方式共享（CC BY-SA）{ "3.0" }；海岸线：Natural Earth。
 
 seg-da4dafedebde = 搜索页面、章节、场景和文档
 
@@ -68,9 +68,9 @@ seg-be5a0607ad13 = 搜索页面、场景、文档和操作…
 
 seg-fc996ea3d2ce = 结果
 
-seg-e2475745a7e2 = <c1/> <c2/> 移动
+seg-e2475745a7e2 = <c1/> <c2/>移动
 
-seg-510f4297d825 = <c1/> 打开
+seg-510f4297d825 = <c1/>打开
 
 seg-a57cca86b759 = 出处
 
@@ -88,19 +88,19 @@ seg-1ae32cd48edc = 海事信任度
 
 seg-c13450e783db = 干扰地图与航线暴露
 
-seg-9ee32a9bcb05 = Galileo OSNMA 验证
+seg-9ee32a9bcb05 = Galileo OSNMA验证
 
-seg-aa2f95806d24 = 欧盟 NIS2，第 { "21" } 条
+seg-aa2f95806d24 = 欧盟NIS2，第{ "21" }条
 
 seg-138f32dcf19f = EN { "16803" }
 
-seg-5fec3f16de7a = Studio 指南
+seg-5fec3f16de7a = Studio指南
 
 seg-538cfca4dbbf = 船舶集成
 
 seg-c31f42cbf2a4 = Rust crate
 
-seg-a5715dc78ed8 = JetBrains 插件
+seg-a5715dc78ed8 = JetBrains插件
 
 seg-ae2dad353efc = 文档
 
@@ -144,7 +144,7 @@ seg-74d8577f2e1d = 场景参考
 
 seg-86ccf2e244c7 = 结果模式
 
-seg-78ef91553e19 = 使用真实的 TLE
+seg-78ef91553e19 = 使用真实的TLE
 
 seg-3f3d2edba5d8 = 输出与导出
 
@@ -196,9 +196,9 @@ seg-0b1dfa4b785e = 完好性与安全
 
 seg-2bfa33427e85 = 频谱与瀑布图
 
-seg-3acd3e06e9b6 = ARAIM 参考
+seg-3acd3e06e9b6 = ARAIM参考
 
-seg-196581a433c5 = DO-316 / DO-229E 对照表
+seg-196581a433c5 = DO-316 / DO-229E对照表
 
 seg-387e114ad8ff = 韧性对照表
 
@@ -206,7 +206,7 @@ seg-03b05f210c3e = 接收机信任度与海事
 
 seg-8e5813cedc59 = 接收机信任度
 
-seg-d3f0be154ed9 = NMEA 训练流
+seg-d3f0be154ed9 = NMEA训练流
 
 seg-b5eb96836b7c = 干扰地图：数据来源与许可
 
@@ -214,9 +214,9 @@ seg-4d6e2635ae7d = 天空几何与天际线
 
 seg-d62c29832fd4 = 作为安全遥测的信任度
 
-seg-b10a13d97749 = LunaNet 增强前向信号
+seg-b10a13d97749 = LunaNet增强前向信号
 
-seg-2c0254b37041 = 以 Jammertest 作为裁判
+seg-2c0254b37041 = 以Jammertest作为裁判
 
 seg-dc2b913de7f3 = 机器与传感器输入
 
@@ -226,19 +226,19 @@ seg-f0d0a3233428 = 干扰观测站：方法
 
 seg-17662241242a = 干扰观测站：结果
 
-seg-d7f5d492f901 = compliance 与 bench
+seg-d7f5d492f901 = compliance与bench
 
 seg-5ba9c6c926a6 = 让接收机对照场景运行
 
-seg-62378abbadd4 = compliance 映射
+seg-62378abbadd4 = compliance映射
 
-seg-fbe9cbdeb821 = 美国 DHS 韧性 PNT 框架
+seg-fbe9cbdeb821 = 美国DHS韧性PNT框架
 
-seg-8a2238c2cd77 = IMO 船舶指南
+seg-8a2238c2cd77 = IMO船舶指南
 
-seg-e3a145df6e17 = EASA 航空指南
+seg-e3a145df6e17 = EASA航空指南
 
-seg-9b4b6c836446 = SGP4 验证
+seg-9b4b6c836446 = SGP4验证
 
 seg-8e5f0a13068c = 力模型验证
 
@@ -252,15 +252,15 @@ seg-5932af2e818b = 作为基础设施的月球轨道与月面
 
 seg-779c17b10afe = 低地球轨道（LEO）导航
 
-seg-9a5d8991060a = LEO 定位、导航与授时
+seg-9a5d8991060a = LEO定位、导航与授时
 
-seg-6e2419e28977 = LEO 信号设计
+seg-6e2419e28977 = LEO信号设计
 
-seg-d81a6af70ef0 = LEO 过境与链路预算
+seg-d81a6af70ef0 = LEO过境与链路预算
 
-seg-d34ca7c52aab = LEO 导航电文
+seg-d34ca7c52aab = LEO导航电文
 
-seg-9d37b59a8c34 = MEO 与 LEO 融合定位
+seg-9d37b59a8c34 = MEO与LEO融合定位
 
 seg-2f7f3dd0b2f8 = 星座设计
 
@@ -270,25 +270,25 @@ seg-07a2b0b21d5a = 量子传感器模型
 
 seg-8e6a935cf294 = 冷原子干涉仪
 
-seg-6f3d064185c6 = API 与集成
+seg-6f3d064185c6 = API与集成
 
 seg-732054739d65 = Python API
 
-seg-aa83165eba88 = npm 与 WebAssembly
+seg-aa83165eba88 = npm与WebAssembly
 
-seg-32ac1738e092 = MCP 服务器：所有安装渠道
+seg-32ac1738e092 = MCP服务器：所有安装渠道
 
-seg-001d96497d95 = MCP 服务器：自托管 HTTP 模式
+seg-001d96497d95 = MCP服务器：自托管HTTP模式
 
-seg-2d10d53dea45 = 从智能体使用 { -brand }
+seg-2d10d53dea45 = 从智能体使用{ -brand }
 
 seg-802423db2143 = 各项能力在何处可用
 
-seg-a4ac05a51af9 = { -brand } 的运行位置
+seg-a4ac05a51af9 = { -brand }的运行位置
 
 seg-9c60542cb7b6 = 架构
 
-seg-5a6fbb37eb18 = { -brand } 的定位
+seg-5a6fbb37eb18 = { -brand }的定位
 
 seg-9aeaf864cc6e = 项目
 
@@ -310,9 +310,9 @@ seg-8199d5b167f1 = 时钟、授时与守时（holdover）
 
 seg-68d33dc814fb = 星座、覆盖与几何
 
-seg-ea2d37c23711 = GNSS 测量、定位与完好性
+seg-ea2d37c23711 = GNSS测量、定位与完好性
 
-seg-c53968a0c022 = GPS 拒止下的替代 PNT
+seg-c53968a0c022 = GPS拒止下的替代PNT
 
 seg-4aa96ed4c0bd = 惯性融合与量子传感器
 
@@ -322,11 +322,11 @@ seg-9ca21a59f82c = 低地球轨道导航
 
 seg-764a2bc9f87f = 任务分析、链路与空间运行
 
-seg-7bf9196127b4 = 光学 PNT
+seg-7bf9196127b4 = 光学PNT
 
 seg-3fdc094f2e1a = 空间用户导航
 
-seg-1e4c50e5a1b3 = 在 GitHub 上编辑
+seg-1e4c50e5a1b3 = 在GitHub上编辑
 
 seg-48dcd3178337 = 指向本节的链接
 
@@ -412,10 +412,10 @@ seg-4798bca2d7a7 = MODELLED：列出此类型的<a1>验证矩阵</a1>各行。
 
 seg-6338a873ee85 = 本次运行实际涉及的各行，以及矩阵为每行给出的参考基准（oracle）（公开来源在矩阵中列出）：
 
-seg-fe24dcc6971f = <b>MODELLED</b> 确定性、场景哈希、SBOM 加跨平台 golden 门限。参考基准（ExternalDataset）：SBOM 与官方 CycloneDX { "1.5" } JSON Schema（加有效的 SPDX 标识符）一致，这是已发布的外部标准，整个依赖图上零验证错误；FoM 确定性与逐字节可复现性部分仍是固定的自洽性检查，因此该行仍为 MODELLED
+seg-fe24dcc6971f = <b>MODELLED</b>确定性、场景哈希、SBOM加跨平台golden门限。参考基准（ExternalDataset）：SBOM与官方CycloneDX { "1.5" } JSON Schema（加有效的SPDX标识符）一致，这是已发布的外部标准，整个依赖图上零验证错误；FoM确定性与逐字节可复现性部分仍是固定的自洽性检查，因此该行仍为MODELLED
 
 seg-1fc08d2f0209 = 本次运行自身的报告所说的未建模或未经独立验证的内容：
 
-seg-58c4d7218e70 = 可复现性与软件保障为 MODELLED，而不是经独立验证：其中一项子声明经过外部核对，但整项能力由模型计算的部分组合而成，因此该能力仍属于由模型计算得出一级。（验证矩阵（docs/MODELLED-RATIONALE.md））
+seg-58c4d7218e70 = 可复现性与软件保障为MODELLED，而不是经独立验证：其中一项子声明经过外部核对，但整项能力由模型计算的部分组合而成，因此该能力仍属于由模型计算得出一级。（验证矩阵（docs/MODELLED-RATIONALE.md））
 
 seg-1bf3d5817274 = 所有类型：<a1>KINDS.md</a1>

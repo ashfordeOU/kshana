@@ -40,7 +40,7 @@ seg-8e1c53718966 = 执行责任
 
 seg-2de9f6a8a8b3 = 社区领导者负责阐明并执行我们对可接受行为的标准，并将对其认为不当、具有威胁性、冒犯性或有害的任何行为采取适当且公正的纠正措施。
 
-seg-75fef1ab1542 = 社区领导者有权利也有责任删除、编辑或拒绝不符合本行为准则的评论、提交、代码、wiki 编辑、议题及其他贡献，并将在适当时说明审核决定的理由。
+seg-75fef1ab1542 = 社区领导者有权利也有责任删除、编辑或拒绝不符合本行为准则的评论、提交、代码、wiki编辑、议题及其他贡献，并将在适当时说明审核决定的理由。
 
 seg-08994a4765be = 适用范围
 
@@ -48,7 +48,7 @@ seg-0a62c85e8cf3 = 本行为准则适用于所有社区空间，也适用于个�
 
 seg-d387e0c041e6 = 执行
 
-seg-54d4988a6315 = 辱骂、骚扰或其他不可接受的行为，可向负责执行的社区领导者报告，邮箱为 <a1>contact@ashforde.org</a1>。所有投诉都将得到及时、公正的审查和调查。
+seg-54d4988a6315 = 辱骂、骚扰或其他不可接受的行为，可向负责执行的社区领导者报告，邮箱为<a1>contact@ashforde.org</a1>。所有投诉都将得到及时、公正的审查和调查。
 
 seg-826819c7b6bf = 所有社区领导者都有义务尊重任何事件报告者的隐私和安全。
 
@@ -82,11 +82,11 @@ seg-809fa976dce8 = <b>后果</b>：永久禁止在社区内进行任何形式的
 
 seg-86c668236bcd = 出处说明
 
-seg-a61a93ee3757 = 本行为准则改编自<a1>贡献者公约（Contributor Covenant）</a1>{ "2.1" } 版，原文见 <a2>https://www.contributor-covenant.org/version/2/1/code_of_conduct.html</a2>。
+seg-a61a93ee3757 = 本行为准则改编自<a1>贡献者公约（Contributor Covenant）</a1>{ "2.1" }版，原文见<a2>https://www.contributor-covenant.org/version/2/1/code_of_conduct.html</a2>。
 
-seg-6309372ba614 = 社区影响指南的灵感来自 <a1>Mozilla 的行为准则执行阶梯</a1>。
+seg-6309372ba614 = 社区影响指南的灵感来自<a1>Mozilla的行为准则执行阶梯</a1>。
 
-seg-1a3df1951a1e = 关于本行为准则的常见问题解答，请参阅常见问题页面 <a1>https://www.contributor-covenant.org/faq</a1>。译文见 <a2>https://www.contributor-covenant.org/translations</a2>。
+seg-1a3df1951a1e = 关于本行为准则的常见问题解答，请参阅常见问题页面<a1>https://www.contributor-covenant.org/faq</a1>。译文见<a2>https://www.contributor-covenant.org/translations</a2>。
 
 seg-d80a7f6811c2 = <s1>上一页</s1>治理
 
