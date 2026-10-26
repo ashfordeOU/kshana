@@ -11,3 +11,5 @@ seg-2bd2101ce454 = Povrch
 seg-d6476863f862 = Schopnost
 
 seg-e0426ffe2628 = Poznámka
+
+seg-de6c33774c9c = CLI

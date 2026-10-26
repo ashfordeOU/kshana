@@ -600,3 +600,69 @@ seg-2f9c4d351b0f = Pro každou družici LEO a dvojici určovacích pásem sekce 
 seg-97dbcd5f2728 = Sondování ionosféry: šikmé TEC z dvoupásmového zpoždění přeletu LEO
 
 seg-844de34fd2f3 = Pro každou dvojici pásem družice <c1/> zpráva uvádí šikmý celkový obsah elektronů, který kombinace kódů bez geometrie obnoví ve vrcholu přeletu, (P2 - P1) f1^{ "2" } f2^{ "2" } / ({ "40.3" } (f1^{ "2" } - f2^{ "2" })), a jeho 1 sigma z tepelného kódového šumu obou pásem, takže libovolný vícepásmový návrh LEO-PNT lze porovnávat jako ionosférický sondér
+
+seg-5bd3bf0c22a7 = Model spektra: pásma GLONASS, BeiDou a Galileo E6 (volitelně)
+
+seg-9c16189c63ac = spectrum::default_band určuje, výhradně podle jména (MORE_BAND_NAMES), GLONASS L1OF a L2OF na každém kanálu FDMA K = -7 až { "6" } (BPSK, { "0.511" } Mchip/s), BeiDou B1I (BPSK({ "2" })), B1C (MBOC(6,1,1/11)), B2a a B3I (BPSK({ "10" })) a Galileo E6 (BPSK({ "5" })), s nosnými a minimálními přijímanými výkony podle jejich dokumentů popisu rozhraní; výchozí sada pásem a všechny stávající výstupy se nemění.
+
+seg-7b1ae0c7ca28 = Terciární kódy LunaNet AFS a vrstva zpráv (SB1 BCH, CRC-24Q, prokládač) oproti LSIS-AFS V1.0
+
+seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: synchronizační vzor, kodér SB1 BCH({ "51,8" }) a dekodér s 256 hypotézami, CRC-24Q, blokový prokládač { "60" } x { "98" }, kontrola proudu symbolů (kshana lunanet-afs-check) a generátor testovacího proudu se zástupnými podrámci. Kódování LDPC s rychlostí 1/2 u podrámců { "2" } až { "4" } není implementováno (jeho matice jsou v samostatné příloze).
+
+seg-0d7b17524c04 = Balíčky norem: scénáře hodnocené podle prahů stanovených před během
+
+seg-6e5c04fd4531 = standards_pack (kshana standards-pack): testovací profily rámce DHS Resilient PNT pro úrovně { "1" } až { "4" }, úrovně přesnosti a vyhodnocení integrity podle IMO MSC.1/Circ.1575 a balíčky ICAO Doc { "9849" } Appendix F pro monitorování, posouzení a zmírnění: každý test spouští přibalený druh scénáře a porovnává pole výsledku s prahy uvedenými v balíčku, a testy, které potřebují záznam přijímače, jsou uvedeny jako NEEDS INPUT a nehodnotí se.
+
+seg-8a8f2c85e0c3 = Laboratorní balíček důkazů z okruhu tam a zpět (scénář, zkušební podmínky, záznam přijímače, skóre)
+
+seg-a090b06a920d = evidence::roundtrip (kshana evidence round-trip) a export záznamu přijímače kshana.test-conditions/1 z kshana bench-export: podepsaný balíček, který zaznamenává hash scénáře, hash uvedených podmínek, hash záznamu a skóre vůči uvedeným událostem, a odmítá podmínky, které se neshodují s hodnoticími událostmi, nebo záznam, jehož hash není uvedený hash. Žádný signál se nezapisuje, nepřehrává ani neplánuje.
+
+seg-a9189e4fe413 = Sledovací engine IQ oproti GNSS-SDR { "0.0.19" } na nezávislých záznamech
+
+seg-364de05e5b1b = Úplný sledovací engine vrstvy IQ (iq::track prostřednictvím kshana iq track: předání z akvizice, korelátory, NCO, smyčka PLL Costas druhého řádu { "15" } Hz, smyčka DLL s obálkou EML prvního řádu { "2" } Hz podporovaná nosnou, indikátor zachycení a odhadovače C/N0) na GPS L1 C/A při { "30" } až { "45" } dB-Hz.
+
+seg-259d201c2ff8 = Zisky antény CRPA v druhu jamming oproti nezávislému přepočtu v numpy
+
+seg-192144c57783 = Volitelná sekce [crpa] druhu jamming: paprsek pro každý kanál směrem ke každé družici (potlačení s rušičem jako nulou, nebo MVDR na sigma^{ "2" } I + P_j a_j a_j^H), který škáluje šum každého spoje hodnotou ||w||^{ "2" } a rušič hodnotou |w^H a_j|^{ "2" } před stávající rovnicí C/N0 pro ochranu proti rušení.
+
+seg-a2f34cff9338 = Terénní zastínění rušiče v druhu jamming oproti nezávislému přepočtu v numpy na skutečné dlaždici SRTM
+
+seg-334c569d9cae = Volitelná sekce [terrain] druhu jamming: profil terénu po ortodromě mezi rušičem a přijímačem na dlaždici SRTM .hgt s vyboulením Země podle k-faktoru, dominantní ostrá hrana (největší Fresnelovo-Kirchhoffovo nu) a ztráta jednou ostrou hranou podle ITU-R P.526-15 oddíl { "4.1" }, odečtená od výkonu rušiče na vstupu přijímače.
+
+seg-825c121c7512 = Hystereze akvizice a kvantizér předního stupně v druhu jamming oproti nezávislým přepočtům
+
+seg-f7207263d881 = Volitelná sekce [acquisition] druhu jamming (družice je získána při hodnotě na akvizičním prahu nebo nad ním po prodlevě opětovné akvizice a držena, dokud je na sledovacím prahu nebo nad ním) a sekce [front_end] (údaj AGC { "10" } log10({ "1" } + J/N) a ztráta Gaussova vstupního kvantizéru ADC odečtené z každého spoje, označené jako neplatné pro negaussovské rušiče).
+
+seg-9c46f1c76486 = Omezené navázání FLL pod výchozí podlahou předání z FLL do PLL výchozího návrhu (volitelně)
+
+seg-efa1d1a9e904 = volitelné carrier.fll_pull_in_max_s v iq::track (pole fll_pull_in_max_s v iq::track::LoopConfig): při fll_assist = pull-in předá FLL řízení PLL po pevné době navázání bez ohledu na PLI, s odpovídající dobou návratu, dokud PLI poprvé nedosáhne fll_off_pli.
+
+seg-ac0f97e945a7 = Čtečka řešení RTKLIB .pos pro receiver-trust
+
+seg-0b8bc2c89de4 = Čte soubor řešení RTKLIB (kalendářní čas nebo čas GPS týden/TOW, zeměpisná šířka/délka nebo poloha ECEF, použité družice) do časové osy receiver-trust (receiver_trust::machines::rtklib).
+
+seg-849393517c04 = Logy NovAtel OEM7 ASCII a binární (BESTPOS, RANGE, RXSTATUS) pro receiver-trust
+
+seg-7e0021922025 = Čte BESTPOS (poloha), RANGE (C/No podle signálu) a RXSTATUS (příznak rušení přijímače jako vlastní hlášení epochy) z logů OEM7 ASCII i binárních, s kontrolou CRC, jen pro čtení (receiver_trust::machines::novatel).
+
+seg-a45c53a9deb3 = Čtečka poměru nosné k šumu RTCM { "3" } MSM4 a MSM7 pro receiver-trust
+
+seg-0a0c9976236f = Čte C/N0 každé signálové buňky zpráv RTCM { "3" } MSM4 a MSM7 (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) z proudu rámců, s kontrolou CRC-24Q (receiver_trust::machines::rtcm3). Rozložení z tabulek pyrtcm s licencí BSD, nikoli z textu normy RTCM.
+
+seg-cd554a7c1649 = Adaptér monitoru GNSS-SDR pro receiver-trust
+
+seg-22b587ac642d = Čte zprávy GNSS-SDR Monitor (Gnss_Synchro) a PVT-monitoru, předávané jako řádky JSON s názvy polí z proto, do C/N0 po kanálech, určení polohy, použitých družic, HDOP a oblohy (receiver_trust::machines::gnss_sdr; integrations/gnss-sdr/relay.py).
+
+seg-217e5953c128 = Načítání logů IMU, vstup směru z gyra a Allanův fit parametrů hybridních senzorů
+
+seg-9dadc819daef = Čte CSV IMU (zdokumentované sloupce, nebo rozložení EuRoC); integruje rychlost stáčení do směru, který čte monitor směru a kurzu ([log.imu]); a z klidového logu přes překrývající se Allanovu odchylku (imu-fit) fituje parametry šumu akcelerometru a gyra pro hybridní a fúzní scénáře.
+
+seg-15a852a2dcb0 = Exportér objevování MQTT a stavu Home Assistant pro telemetrii důvěry
+
+seg-6d6b07b26966 = Stavový dokument JSON a zprávy objevování MQTT Home Assistant pro proud důvěry, vypisované jako text na každém rozhraní a publikované přes MQTT { "3.1.1" } QoS { "0" } příkazovým řádkem (telemetry::mqtt; trust-telemetry --mqtt-tcp, --print-mqtt, format mqtt).
+
+seg-68caf86157c2 = Balíček receiver-trust pro ROS { "2" } a most gnss_lib_py
+
+seg-e7d7d99fe538 = Most bez ROS, který zapisuje zprávy o určení polohy a družicích jako NMEA a hodnotí je přes vazbu pro Python (integrations/ros2/kshana_trust), a most z gnss_lib_py NavData do receiver-trust přes formát rtklib-pos (integrations/gnss_lib_py).
+
+seg-c3c260b7063e = Testy
