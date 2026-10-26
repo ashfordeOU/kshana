@@ -6280,3 +6280,151 @@ dat-d03526913ead = Die Werte der Validierungsarbeitsmappe ITU-R Study Group { "3
 dat-2f20131152ee = Der optionale Abschnitt [acquisition] der Art jamming (ein Satellit wird bei oder über einem Akquisitionsschwellenwert nach einer Verzögerung der Wiederakquisition akquiriert und gehalten, solange er bei oder über dem Tracking-Schwellenwert liegt) und der Abschnitt [front_end] (die AGC-Ablesung { "10" } log10({ "1" } + J/N) und der Quantisierungsverlust des ADC bei gaußschem Eingang, bei jeder Verbindung abgezogen, gekennzeichnet als nicht gültig für nicht gaußsche Störsender).
 
 dat-3b8baef60d7f = Die Reproduktion des Maximal-URA von ARAIM-Meilenstein { "3" } der EU-US-WG-C (CAP-05c)
+
+dat-062548149812 = Der optionale Abschnitt [crpa] der Art jamming: ein Strahl je Kanal zu jedem Satelliten (Nullsteuerung mit dem Störsender als Null, oder MVDR auf sigma^{ "2" } I + P_j a_j a_j^H), der das Rauschen jeder Verbindung mit ||w||^{ "2" } und den Störsender mit |w^H a_j|^{ "2" } skaliert, bevor die bestehende Gleichung für das Anti-Jam-C/N0 angewendet wird.
+
+dat-f7f1d21b678b = Der optionale Abschnitt [terrain] der Art jamming: das Geländeprofil auf dem Großkreis zwischen Störsender und Empfänger auf einer SRTM-.hgt-Kachel mit einer Erdwölbung nach k-Faktor, die dominierende Schneide (größtes Fresnel-Kirchhoff-nu) und der Verlust einer einzelnen Schneide nach ITU-R P.526-15 Abschnitt { "4.1" }, abgezogen von der Empfangsleistung des Störsenders.
+
+dat-2c34bbc8b62e = Das JSON-Dokument
+
+dat-58a78c79e5a1 = Die Arten und wie sie zusammenhängen
+
+dat-3ba792aa6d28 = Die Website kshana.dev
+
+dat-04c749ab6ebe = Das Feld zur Laborbescheinigung
+
+dat-813f52a95891 = Der multiplikative EKF von Lefferts-Markley-Shuster: Zustände für Lagefehler im Körperrahmen und Gyro-Bias, Propagation mit der Gyrorate abzüglich der Bias-Schätzung und dem diskreten Prozessrauschen nach Farrenkopf (Winkel- und Raten-Random-Walk), Sternsensor-Aktualisierungen mit dem Residuum { "2" } vec(q^-1 q_st) in Joseph-Form und dem multiplikativen Reset; ein diskreter Gyro- und Sternsensor-Simulator nach Farrenkopf. Die Art `aocs` kann den Regelkreis auf ihrer Schätzung schließen.
+
+dat-8f3d057cd4a6 = Die Szenarioart leo-navmsg baut die Broadcast-Ephemeride und Uhrennachricht eines Satelliten im niedrigen Erdorbit (LEO)…
+
+dat-6a2c66c8a402 = Die Szenarioart leo-signal analysiert Signale für Positionierung, Navigation und Zeitgebung (PNT) im niedrigen Erdorbit (LEO).
+
+dat-e7e4a7fad758 = Die Beobachtung LEO gegen GNSS
+
+dat-a65e01b98a79 = Die lineare Algebra, die eine selbstbezügliche Mondkonstellation braucht, um ihre eigenen Fehler ohne Bodenwahrheit zu erkennen: der gewichtete Paritätsprojektor in der Form der rangdefizienten Pseudoinversen, die die Eichung von Datum und Zeitskala übersteht, die Erkennbarkeit je Knoten, der minimal erkennbare Bias nach Baarda und Erkennungs-/Identifikationsanzahlen byzantinischer Blockfunken über reale DE440-Geometrie zwischen den Knoten.
+
+dat-a5de09f9dd3d = Der Link-Budget-Bericht nennt jede absolute Konstante, aus der seine eigene Marge berechnet wurde -- die Trägerfrequenz, die die Freiraumdämpfung verwendete, die EIRP, die Gütezahl, den Pauschalverlust und den Boltzmann-Term -- dazu das erforderliche G/T, bei dem die Marge null ist, die Link-Konstante (EIRP - Verluste - erforderliches Eb/N0), die die einzige Kombination ist, die eine veröffentlichte Tabelle von Rate und Gewinn je festlegen kann, und, wenn ein Aufrufer eine Systemrauschtemperatur nennt, den Empfangsantennengewinn, den diese Gütezahl impliziert
+
+dat-264de1df4f0a = die Variante Liu22 von leo_navmsg::elements::EphemerisModel, ausgewertet von kepler_point mit Liu22Extra: der Satz mit 16 Parametern plus eine Rate der großen Halbachse a_dot, eine Rate der mittleren Bewegung n_dot, die als n = sqrt(mu/A0^{ "3" }) + dn + n_dot tk eingeht, transkribiert aus Gl. { "1" } der Veröffentlichung (der Anpassungsvergleich hängt nicht von dieser Skalenkonvention ab, daher wird die Bedeutung eines übertragenen nDot-Wertes hier nicht validiert), und ein- und dreimal pro Umlauf auftretende Radius-Harmonische Crs1, Crc1, Crs3, Crc3 auf dem unkorrigierten Argument der Breite. Ihre Anpassung durch leo_navmsg::fit::fit_message übernimmt Start und Schätzer aus Abschnitt { "2.3" } der Veröffentlichung (jede Korrektur beginnt bei null; einfache kleinste Quadrate ohne A-priori-Werte; die Obergrenze der Veröffentlichung von 100 Iterationen), bricht aber nach der Parameterkonvergenzregel von Kshana ab (jeder Schritt unter { "1e-3" } seiner formalen Sigma) statt nach der Regel der Veröffentlichung einer RMS-Änderung unter { "0.1" } mm. Angepasst über Bögen von { "20" } und { "30" } Minuten einer tabellierten präzisen Bahn
+
+dat-e2d220bec7ee = Der Schritt von Geometrie zu Kovarianz beim lunaren Schutzniveau — (GᵀG)⁻¹ über die Geometrie mit allen Satelliten in Sicht und jede Teilgeometrie mit einem Einzelfehler, projiziert auf die lokale Vertikale und die Spur des horizontalen Blocks — und sein statistischer Kern: der Bonferroni-Detektor-Multiplikator, der obere Gauß-Schwanz jeder Fehlerhypothese und die Wurzellösung, die ein Integritätsrisikobudget auf ein Schutzniveau abbildet, über ein lunares Dienstvolumen mit 7 Punkten
+
+dat-8b334001363f = Die Kovarianz des Helmert-Datums mit sieben Parametern der Art lunar-llr-datum aus archivierten ILRS-Normalpunkten und ihren gemessenen Gewichten, auf dem Kernel-Pfad: Der geozentrische Mondmittelpunkt wird vom eigenen Kernel-Leser der Engine aus JPL DE440 gelesen (planetary_kernel_path; lunar_llr::llr_geometry_with, ephem_provider::KernelEphemeris). Nur der Mondmittelpunkt unterscheidet sich von der analytischen Zeile; die IAU-Orientierung von { "2015" }, die fehlende Polbewegung und UT1, die Kataloge, Auswahlregeln, Gewichte und die lineare Algebra sind dieselben. Die validierte Aussage ist nur, dass die Datumskovarianz dieses Pfades mit einem unabhängigen SPICE- und NumPy-Orakel auf neuen, ungesehenen Normalpunkten übereinstimmt. Der Vergleich unterscheidet keine Mondmodelle und prüft den Mondmittelpunkt nicht: Auf demselben Ausschnitt besteht auch der analytische Mond jeden Zielwert, die vorab festgelegte Mutation (der um eine Stunde zu spät gelesene Kernel-Mond) wurde nicht erkannt, und ein um etwa { "4,650" } km falscher Mondmittelpunkt besteht ebenfalls (siehe den Text des Orakels). Es ist kein Beleg dafür, dass der Kernel-Mond das Datum verbessert. Ausführbar als Szenario `lunar-llr-datum` mit planetary_kernel_path (und normal_points_dir für einen anderen Ausschnitt)
+
+dat-d399db8ab42e = Die Art lunar-station-coverage, ausgeführt unter den öffentlichen Annahmen des veröffentlichten Materials zu einer lunaren differenziellen Referenzstation (vier Navigationssatelliten auf eingefrorenen elliptischen Orbits mit { "24" } h, { "10" } m { "95" } % SISE, { "0.30" } m Coderauschen, { "1" } s und { "600" } s Korrekturlatenz, eine Stationsvermessung im Subdezimeterbereich, der veröffentlichte Beispielstandort der Station, die südpolaren Kreise von { "300" } km und { "600" } km) und bewertet gegen die numerischen Behauptungen der Quellen unter sechs einseitigen Zielwerten, die vor dem Lauf vorab festgelegt wurden: Abdeckung des gesamten Südpols bei Sub-Meter-p95 (K1, K2), korrigiertes p95 im Sub-Meter- und Dezimeterbereich (K3, K4), Sub-Meter bei { "600" } s Latenz gehalten (K5) und Genauigkeit gehalten von { "10" } km bis { "500" } km Basislinie (K6)
+
+dat-24e1cb4885b2 = Das Szenario lunar-time-budget veröffentlicht seine feldwertigen Ausgaben als Tabelle in Langform (Rasterindex, Mittelungszeit, Term) neben dem Bericht, sodass die sieben x(tau)-Kurven je Term und die Wurzel-Summe-der-Quadrate-Gesamtsumme Ausgabe der Engine sind und nichts, was ein Leser aus dem Methodenabschnitt neu aufbaut
+
+dat-52997960d5b8 = Der maximale Zeitintervallfehler und die Zeitabweichung, die die Szenarioart `telecom-timing` auf einer Holdover-Aufzeichnung im Telekommunikationsmaßstab berichtet: ein MTIE mit gleitendem Fenster und monotoner Warteschlange in O(n) (telecom_timing::mtie_sliding, nötig, damit ein Tag mit Ein-Sekunden-Abtastwerten schnell bleibt) und das TDEV der Engine (allan::time_deviation), ausgewertet auf dem Raster, das die Art berichtet, und aus einem vollständigen Lauf zurückgelesen, der die Reihe einliest
+
+dat-9c7c156edc60 = Der Kernel der Anpassung gemessene ADEV→PSD (NNLS) stimmt mit scipy.optimize.nnls überein (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — ein unabhängiger externer Kernel; aber die ZAHLEN des Trades beziffern eine Uhr/ein CAI eines Partners (validieren sie nie), sodass der Trade selbst MODELLED bleibt, ohne Validierungsnimbus
+
+dat-0fc2baa2494b = Das Messfilter
+
+dat-b3e182285f77 = Die eigenen geschlossenen Formen der Monitore auf Kshanas eigenen GPS-L1-C/A-Szenen (Rauschen und legitime Signale; Dämpfungsereignisse der eigenen Signale der Satelliten), gegen Zielwerte, die in docs/design/MONITORS-IN-CAMPAIGN.md (382ab2f4) vorab festgelegt wurden. BEFUND: M1, M2 und M4 erreicht. M3 erreicht bei der Detektion ({ "18" } von { "18" } Dämpfungen, P_md { "0" }) und NOT MET bei seiner Zeitklausel: Die mediane Zeit bis zur Erkennung beträgt { "1.001" } s gegen { "2" } x ARL1 Abtastwerte = { "0.433" } s. Der CUSUM sieht eine Schätzung je Fenster von { "1" } s, sodass die Schranke der Abtastwertanzahl unter einem Abtastwert liegt. Nur interne Konsistenz: Weder ein realer Empfänger noch aufgezeichnete Störung wird geprüft
+
+dat-43640ae1cf86 = Die erdfeste Position, die geodätische Position, die erdfeste Geschwindigkeit, die Spalten Kurs/Nicken/Rollen und UTC der Bewegungs-CSV und die NMEA-Sätze GGA/RMC, geschrieben aus synthetischen Szenarien (gnss-ins einschließlich automotive-urban-canyon, jamming, gnss-sim). Nur Bewegung und Ereignisse; es wird kein Signal geschrieben, und es wird keine Leistung eines Simulators oder Empfängers behauptet.
+
+dat-89e233c63635 = Das Mehrband-Spektrum
+
+dat-4dc48a3e5ebd = Die Gleichung des Schutzniveaus mit Mehrfachhypothesen-Lösungstrennung selbst: gewichtete kleinste Quadrate mit allen Satelliten in Sicht und je Fehlermodus auf einer Ost/Nord/Oben-Geometrie mit einem Uhrenzustand je Konstellation, die Sigmas der Teillösungen, Sigmas der Lösungstrennung und einseitige Projektionen des nominalen Bias, die Bonferroni-Schwellenwerte K_fa, die Risikozuteilung für nicht überwachte Fehler und das VPL/HPL, die die Integritätsrisikogleichung lösen. Ausführbar als Szenarioart `araim-reference-check`
+
+dat-2ce06c348216 = Die Navigationsnachricht
+
+dat-16fdeef4af41 = Der Chi-Quadrat-Test des NEES ist eine interne Konsistenzprüfung (Wahrheit und Filter teilen das Modell). Der Trend wird verglichen mit Li et al., LEO constellation-augmented multi-GNSS for rapid PPP convergence, J. Geod. { "93" }:749-764 ({ "2019" }), doi 10.1007/s00190-018-1195-2: Multi-GNSS { "9.6" } min verkürzt auf { "7.0" }, { "3.2" }, { "2.1" } und { "1.3" } min mit { "60" }, { "96" }, { "192" } und { "288" } LEO-Satelliten. Das mitgelieferte Szenario ergibt { "7.4" }, { "4.8" }, { "3.2" }, { "2.7" } und { "2.3" } min mit seinen eigenen repräsentativen Schalen von { "1000" } km und { "60" } Grad, Rauschen und Stationen; die Konstellationen, das Rauschen und die Konvergenzdefinition der Veröffentlichung werden nicht reproduziert, sodass dies eine MODELLED-Konsistenz des Trends ist (monotone Verkürzung, die größte Konstellation unter einem Drittel der Zeit nur mit GNSS), keine Validierung
+
+dat-d6f28e310ff2 = Die newtonsche Einweg-Lichtlaufzeit von jedem Körper zu jedem anderen, empfangen zu einer Epoche, gelöst vom radiometrischen Festpunkt-Lichtlaufzeitlöser (radiometric::light_time_solution, Sender an seiner retardierten Position) über solar_system::link_on auf jedem EphemerisProvider; die Art solar-system führt sie auf dem analytischen Sonnensystem im heliozentrischen Rahmen aus (solar_system::link). Die Zweiweg-Entfernung aus radiometric::two_way_range und die Shapiro-Verzögerung der Sonne aus radiometric::shapiro_delay werden gesondert berichtet und nicht extern verglichen. Ausgegeben für jeden Körper gegen einen Beobachter und für jede zusätzliche Verbindung von der Art `solar-system`, und für den Downlink von Körper zu Erde von der Art `body-pnt`
+
+dat-82ac4850886b = Die nicht zirkuläre unabhängige Referenz: analytische gegen Monte-Carlo-P_md
+
+dat-aca5442415ce = Die nicht zirkuläre unabhängige Referenz: Ist das wirklich ein GPS-Orbit?
+
+dat-813b2afefcac = Die nicht zirkuläre unabhängige Referenz: das Positions-Holdover von { "350" } s
+
+dat-ba2f435b2480 = Die nicht zirkuläre unabhängige Referenz: Warum { "2610" } s für das CSAC?
+
+dat-64b0b715e5da = Die Numerik wird mit einem unabhängigen Programm verglichen (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } mit { "30" } Stellen, Tanh-Sinh-Quadratur auf der ursprünglichen Höhenvariablen und Bessel-K-Gamma-Gamma-Dichten), das keinen Code mit Kshana teilt, unter Zielwerten, die festgelegt wurden, bevor eine Implementierung existierte (xval/optical-atmosphere/PREREGISTRATION.md). WARUM MODELLED: Dieses Orakel wertet dieselben veröffentlichten Formeln aus, prüft also die Implementierung der genannten Formeln und nicht die Atmosphäre; es wird weder ein ITU-R-Validierungsbeispiel noch eine gemessene Szintillations- oder Schrägpfad-Extinktionsaufzeichnung verwendet (die ITU-Werte sind eine offene Lizenzentscheidung und bleiben aus dem Repository heraus). Das Niveau des Cn2-Profils, die Sichtweite, die Skalenhöhen von Aerosol und Molekülen, die Pfadlänge der Aperturmittelung und das Momentenanpassungsverfahren, mit dem die Aperturmittelung auf die Gamma-Gamma-Parameter angewendet wird, sind genannte Eingaben oder Konventionen. Eine Quellzeile im Modul hält fest, dass eine weit kopierte Übersicht den zweiten Szintillationsexponenten als 7/6 druckt, wo Andrews und Phillips 5/6 angeben; die Form 5/6 ist implementiert
+
+dat-31f0e7e8b147 = Die Observable und die Basismethode
+
+dat-795cb54aff09 = Die offiziellen Galileo-OSNMA-Testvektoren, vom European GNSS Service Centre als Anhang zu den Receiver Guidelines veröffentlicht (Test_vectors.zip, sha256 ef9b9afc6ef9e1c57393415cf2a1dc80c4035e7c06123907ea0bb97dd3ccf370): { "18" } von { "18" } Sätzen, { "186,382" } Tags authentifiziert, { "0" } fehlgeschlagen, offline ausgeführt am 2026-10-10 (Belegeintrag in kshana-pro docs/evidence). Geltungsbereich: Die Vektoren validieren die kryptografische Verifikation (Merkle, KROOT/ECDSA, TESLA-Kette, MACK-Tags, ADKD 0/4/12) und ihre Ergebnisse auf den veröffentlichten Szenarien; sie verwenden nur HMAC-SHA-256, eine SHA-256-Kette, 128-Bit-Schlüssel, 40-Bit-Tags und Nachschlageeinträge { "33" } und { "34" }, sodass CMAC-AES, SHA3-256-Ketten und andere Parameter nur durch veröffentlichte Known-Answer-Tests der Primitive und synthetische Tests abgedeckt sind. Die Härtung von vertrauenswürdiger Zeit, Datenbindung, Ablauf und Header-Bestätigung wird durch die synthetischen Angriffstests geprüft, nicht durch ein externes Orakel. Nicht geprüft: Zertifikatssperrlisten, Live-Signale oder ein Live-Empfänger (das UBX-Wortlayout wird nur an synthetischen Rahmen geprüft), SHA3-256-Merkle-Bäume, Aktualität ohne eine unabhängige Zeit. Kein Dienst der EU
+
+dat-02fc3466eb93 = Die Grenze zwischen offen und geschlossen
+
+dat-c1c7288e6e34 = Die Szenarioart optical-atmosphere beantwortet, wie oft eine optische Verbindung zum Boden funktioniert, warum sie ausfällt…
+
+dat-c96aa9fcd785 = Der optionale Abschnitt [integrity] der Art clock (clock_integrity::run): aus einem genannten Standort und Konstellations-Presets (geometry::sky_geometry), in jeder Integritätsepoche, solange die GNSS-Zeitachse nicht verweigert ist, Snapshot-RAIM (raim::snapshot_raim: Paritäts-Chi-Quadrat-Test, Slope-Schutzniveaus) auf den Satelliten über der Maske mit gaußschen Residuen mit Seed der genannten Sigma und einem optionalen genannten Bias; ein gesonderter Block integrity_fom mit Urteilen je Epoche, Schutzniveaus und Verfügbarkeit. Verweigerte Epochen werden als nicht verfügbar berichtet, nie extrapoliert; die Gütemaße des Holdovers sind unverändert, und ohne den Abschnitt ist die Ausgabe byteidentisch
+
+dat-2511de383cdd = Der optionale Abschnitt [receiver] von lunar-station-coverage (LRS-02): elevationsabhängige Mehrwege-Sigma sigma(el) = a + b exp(-el / el0) beim Nutzer und an der Station (die Funktionsform von RTCA DO-229 für Flugzeuge, mit ihren a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } Grad als Vorgaben; auf dem Mond ist jeder Wert ILLUSTRATIVE), weiß beim Nutzer und Gauß-Markov erster Ordnung über die Epochen an der Station (rho = exp(-dt / tau)); thermisches Coderauschen der DLL (früh minus spät) sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); Zwischenkanal-Biases je Kanal, konstant über einen Versuch, beim Nutzer und an der Station. Stationsterme gehen in ihre Korrekturen ein, Nutzerterme in die rohen und korrigierten Messungen, jeweils auf einem eigenen Strom mit Seed. Fehlt er, bleibt jedes Dokument unverändert
+
+dat-5b071d009bc1 = Der optionale Abschnitt [solution] von lunar-station-coverage (LRS-06): eine Höhen-Pseudomessungszeile up . dx = e_h mit genannter 1-Sigma, gewichtet gegen Entfernungszeilen, ein Minimum von drei Satelliten, das nur damit erlaubt ist, und eine Lösung nach gewichteten kleinsten Quadraten über die letzten window_epochs Epochen mit einer gemeinsamen statischen Position und einer Uhr je Epoche (die Antwort eines Filters für eine statische Position ohne Prozessrauschen über dieselben Daten; die Fehler der Epochen werden als unabhängig behandelt). Fehlt er, bleiben die Snapshot-Lösung und jedes Dokument unverändert. Ein Nachtrag zum Vergleich der veröffentlichten Behauptungen mit dem Lösungsstil der Quellen, allein vorab festgelegt
+
+dat-98937e2b27b7 = Der optionale Block [time_lab] des Szenarios lunar-time-budget modelliert die Uhr einer lunaren Referenzstation (standardmäßig die Klasse miniRAFS, oder jede benannte Klasse, oder eine Gerätekarte, angepasst an genannte Stabilitätspunkte), gesteuert auf Koordinierte Mondzeit und dann freilaufend oder alle N Sekunden neu gesteuert: die Zeitfehlerkurve x(t) als Wurzel-Summe-der-Quadrate aus dem Potenzgesetz-Term der Uhr, einem konstanten Steuerrest (ILLUSTRATIVE), einem konstanten Realisierungsrest der LTC und einem optional zuschaltbaren Term für die Rate der Stationshöhe; die Zeit nach einer Steuerung auf { "1" }, { "10" } und { "100" } ns (oder genannte Schwellenwerte) per Bisektion neben der Inversen in geschlossener Form für den dominierenden Rauschtyp, und der dominierende Term bei jedem genannten Horizont, alles mit Einheiten
+
+dat-5bc49ba7fcb7 = Die optionale Eingabe orbit_err_growth_m_per_s von lunar-station-coverage (LRS-03): Eine Korrektur, die latency_s nach ihrer Berechnung angewendet wird, verfehlt das Wachstum g latency_s des Bahnfehlers der Broadcast, g isotrop mit 3D-RMS-Rate, gezogen je Satellit und Versuch auf einem eigenen Strom mit Seed (Bereich 1-Sigma-Rate tau / sqrt({ "3" })), obendrauf auf die Neuprojektion des eingefrorenen Fehlers auf die Sichtlinie. Fehlt sie, bleibt jedes Dokument unverändert. Ein K5-Nachtrag zum Vergleich der veröffentlichten Behauptungen, allein vorab festgelegt, führt K5 bei { "0.001" }, { "0.01" } und { "0.1" } m/s aus (ILLUSTRATIVE)
+
+dat-09591bd30be5 = Die Verteilung der Ausfalldauer eines optischen Standorts, gekoppelt an die Auslaufvarianz in geschlossener Form des Uhren-Holdover-Modells: Zeit- und Entfernungsfehler bei genannten Ausfallquantilen, das Holdover bis zu einem Zeitschwellenwert, der Anteil der Ausfälle und der Ausfallzeit darin und die Zeitverfügbarkeit A + U E[min(D, T_h)]/E[D], für die klassischen und die Quantenuhrenklassen. Ausführbar innerhalb der Szenarioart `optical-atmosphere`.
+
+dat-783048fbbf26 = Die Entartung zwischen radialer Entfernung je Knoten und Offset der Empfängeruhr ist exakt bei { "1" } m zu { "3.336" } ns (eins durch c). Das Schur-Komplement-Marginal { "{" }scale, offset{ "}" } (coupled_marginal_fisher) zeigt, dass in einem geometrisch vielfältigen Netz die Zweiweg-Entfernungsmessung das Marginal etwa um denselben Faktor anhebt wie eine gleiche Anzahl zusätzlicher Einweg-Daten, während im idealisierten Regime mit einem einzelnen Knoten der Zweiweg-Gewinn um Größenordnungen größer ist. Das daraus folgende Entwurfsgesetz: Geometrische Vielfalt, nicht die Zweiweg-Entfernungsmessung als solche, trennt bei Einweg-Entfernungsmessung den lunaren Rahmenmaßstab vom Zeitskalenversatz; eine Zweiweg- oder externe Zeitanbindung ist nur im Regime geringer Vielfalt oder eines einzelnen Nutzers erforderlich.
+
+dat-2ec9862606b9 = Der Export der Geometrie je Satellit enthält je (Epoche, Satellit) den Off-Boresight-Winkel AM SATELLITEN und den Sendegewinn zum Standort aus dem realen Muster einer gleichförmig ausgeleuchteten kreisförmigen Apertur (Airy), und berichtet die Anzahl im Strahl unter diesem Muster NEBEN der Anzahl im Strahl unter der symmetrischen Näherung von Gewinn zu Strahlbreite (θ_3dB[deg] = √(31000/G_lin)), wobei die Differenz als ausdrückliche Korrektur in Verbindungen, in Satelliten je Epoche und als schlechteste einzelne Epoche ausgegeben wird. Beide impliziten Aperturwirkungsgrade der Näherung werden ausgegeben ({ "0.641" } gegen die Regel { "70" }·λ/D Grad, mit der sie genannt wird, { "0.920" } gegen eine gleichförmige kreisförmige Apertur), sodass der Wirkungsgrad, den sie stillschweigend annimmt, genannt statt erschlossen wird. Standardmäßig aus: Der Block erscheint nur, wenn ein Exportstandort und eine Apertur beide gegeben sind
+
+dat-940e5ca338cc = Die Pipeline
+
+dat-36996982c5c7 = Der Plan und der Katalog
+
+dat-6196b779861f = Das Verfahren
+
+dat-1bbca90efb82 = Die Beförderungsregel
+
+dat-976de57c6004 = Der Pfad für Propagation und Rahmen, den jede geroutete Erdorbit-Art teilt: ein mittlerer SGP4-Elementsatz mit zweiteiliger UTC-Epoche (sgp4::MeanElementSet, aus Elementen von constellation-design über MeanElementSet::from_earth_fixed gelesen), per SGP4/SDP4 nach TEME propagiert (sgp4::SgpOrbit), und die Rotationen TEME -> ITRS und GCRS -> ITRS der Kette IAU 2006/2000A mit UT1 - UTC und Polbewegung (sgp4::teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop, die Formen ohne Parameter teme_to_itrs_matrix und gcrs_to_itrs_matrix). TEME ist der wahre Äquator des Datums mit mittlerem Äquinoktium, vom GCRS aus erreicht über die Bias-Präzession der IAU { "2006" }, die Nutation IAU 2000B und die Äquinoktialgleichung
+
+dat-428ad2136253 = Die veröffentlichte Tabelle der SISRE-Gewichtungsfaktoren von Montenbruck, Steigenberger und Hauschild ({ "2018" }), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research { "61" }({ "12" }):3020-3038, doi 10.1016/j.asr.2018.03.041: GPS { "0.98" } und 1/49, GLONASS { "0.98" } und 1/45, Galileo { "0.98" } und 1/61, BeiDou MEO { "0.98" } und 1/54, BeiDou IGSO/GEO { "0.99" } und 1/126. Derselbe Mittelwert, bei LEO-Radien ausgewertet, ergibt die LEO-Gewichte; es ist keine veröffentlichte LEO-Tabelle festgeschrieben, sodass die LEO-Werte die angewendete validierte Methode sind, nicht gesondert validiert
+
+dat-d572d32bf414 = Die Lesart der Genauigkeits- und Integritätscodes der ADS-B-Navigation, die die Karte verwendet (die Schranke der EPU, für die ein NACp-Code steht, die Schranke des Einschlussradius, für die ein NIC-Code steht, und die niedrigen und guten Klassen, die die Methode daraus ableitet); die Werte für Position und Geschwindigkeit der AIS-Nachricht, die nicht verfügbar sind und die der AIS-Leser verwirft; die feste Breiten-/Längen-Rasterzelle, in die eine Position fällt; die Routenlänge und ihre Aufteilung nach Zellzustand (gestört, nicht gestört, nicht bewertet, nicht beobachtet), die die Routenexposition berichtet; und ob eine Position um mehr als einen Puffer landeinwärts eines Landpolygons liegt. Eine als gestört oder anomal markierte Zelle ist eine Aussage über gemeldete Genauigkeitsfelder oder unplausible Positionen, kein Befund einer Störung, und nichts hier prüft das.
+
+dat-abc1dd0c01b2 = das Muster der Empfangsantenne zum Störsender über einen einzelnen Gewinnwert hinaus
+
+dat-c7f246747fa9 = Die Empfängeruhr, geschätzt vom statischen Float-PPP-Filter auf realem Zweifrequenz-GPS-Code und -Phase mit finalen IGS-Orbits und -Uhren: ein Zeittransfer vom Empfänger auf IGS-Zeit, die ionosphärenfreie PPP-Zeitlösung.
+
+dat-7b4b1b50aa19 = Der Vergleich mit dem Selbstbericht des Empfängers
+
+dat-6f5606020684 = Die eigenen Flags des Empfängers
+
+dat-9c518b5ec811 = Die eigenen Spoofing- und Jamming-Flags des Empfängers (UBX)
+
+dat-7c64579f4ddb = Die verbleibende Lücke (Fahrplan)
+
+dat-3e46d08f39d5 = Der Rendering-Kern des AFS-Basisbands (LSIS-130: komplexe Hüllkurve I + jQ, I = der AFS-I-Gold-Code mal der Rahmen mit { "500" } Symbolen/s bei { "1.023" } Mchip/s, Q = der gestufte AFS-Q-Pilot bei { "5.115" } Mchip/s, Trägerrotation, Chip- und Symbolausrichtung) reproduziert die Abtastwerte eines unabhängigen Generators, wenn er vom aufgezeichneten Kanalzustand dieses Generators getrieben wird (Codephasen und -raten, Trägerphase und -frequenz, Amplitude je Kanal). Nicht abgedeckt: das Knotenmodell, das diesen Zustand aus Doppler, Verzögerung und Träger-zu-Rauschdichte ableitet, die aus der Träger-zu-Rauschdichte berechnete Leistungsaufteilung 50/50 (die Amplituden werden vom Simulator übernommen) und die SigMF-Metadaten und das Schreiben von Abtastwerten mit 8 Bit
+
+dat-3591d85a0ba5 = Der Bericht
+
+dat-99348c91a583 = Die Reproduzierbarkeitstabelle
+
+dat-4e9dc7c15dbc = Der Rest der Engine
+
+dat-4d88e08f47f8 = Die Regel
+
+dat-042dd05b607e = Die Regel für jede Antwort
+
+dat-d299c1a24acf = Die sicheren Voreinstellungen
+
+dat-9fd0af13eca1 = Die zusammengeführte RINEX-{ "3" }-Broadcast-Datei desselben Tages von der IGS (veröffentlichte Daten, geschrieben von einem anderen Dateigenerator aus denselben Broadcast-Nachrichten); Zielwerte vorab festgelegt in tests/fixtures/brdc_rinex4_2026200/PREREGISTRATION.md (7aa264b) vor dem ersten Lauf
+
+dat-0d170f85e055 = Dieselbe Vorhersage an einem realen Quarzoszillator: konservativ, nicht validiert
+
+dat-6149b8367932 = Dieselbe Vorhersage an Atomuhren im Orbit: { "8" } von { "10" }, nicht validiert
+
+dat-ac1b5bd75a02 = Dieselbe simulierte Wahrheit wie beim absoluten Filter: der Fehler des relativen Filters gegen den wahren Relativzustand und die Prüfung, dass es mindestens so gut abschneidet wie das Subtrahieren zweier unabhängiger absoluter Lösungen. Es werden keine Daten realer Formationsflüge verglichen
+
+dat-51e3aab053e7 = Das Szenario
+
+dat-2f3b5663c8ba = Die Szenariobibliothek
+
+dat-1f72323a66cf = Die Sensoren, die Kshana vergleicht
+
+dat-9bcd172f4744 = Das Dienstvolumen läuft auf veröffentlichten Konstellationsentwürfen statt auf einem illustrativen: dem Referenzsatz mit fünf Satelliten der LANS-Interoperabilitätsdemonstration, den LNCSS-Fallstudien mit { "8" }, { "12" } und { "16" } Satelliten und den vier Raumfahrzeugen, die am 2023-01-01 tatsächlich im Mondorbit waren, aus JPL Horizons. Jede Datei nennt ihren eigenen Rahmen und ihre eigene Herkunftsklasse, ein Horizont jenseits des Endes einer tabellierten Ephemeride wird abgewiesen statt extrapoliert, und das illustrative Kepler-Ergebnis wird neben dem abgerufenen mit der Differenz zwischen beiden ausgegeben und nie davon ersetzt.
+
+dat-accb0008fb70 = Die Kovarianz des Helmert-Datums mit sieben Parametern, deren zwei simulierte Eingaben durch gemessene ersetzt sind: Der Zeitplan sind die Sendeepochen vom Boden von { "337" } archivierten ILRS-Normalpunkten der Mondlaserentfernungsmessung (2015-04-08 bis 2015-06-27, Grasse MeO { "7845" } und Matera MLRO { "7941" }, alle fünf Retroreflektor-Arrays), und jedes Beobachtungsgewicht ist die eigene archivierte Präzision bin_rms/√n_raw dieses Punktes — Median { "5.13" } mm Einweg-Entfernung, aus der Datei gelesen. Stationskoordinaten IERS ITRF2020, Reflektorkoordinaten JPL DE430 Tabelle { "7" }. Ausführbar als Szenarioart `lunar-llr-datum`. Die validierte Aussage ({ "0.36" }) ist eng: Auf dem analytischen Standardpfad stimmt die Berechnung der Datumskovarianz mit einem unabhängigen SPICE-Lichtlaufzeit- und NumPy-Orakel auf neuen gemessenen Normalpunkten überein; es ist keine LLR-Genauigkeit und kein Beleg dafür, dass der analytische Mond genau ist
+
+dat-fdf50c7675aa = Das Helmert-Datum mit sieben Parametern, propagiert aus einer SIMULIERTEN BEOBACHTUNGSKAMPAGNE, statt aus einer eingespeisten Transformation wiedergewonnen. Erdstationen beobachten einen Katalog lunarer Oberflächenbaken mit genannter Quelle über einen ausdrücklichen Zeitplan; die Ableitungen der lunaren VLBI-Verzögerung werden in eine Fisher-Informationsmatrix der Bakenkoordinaten akkumuliert und durch den Helmert-Entwurf A = [I₃ | [p]ₓ | p] in H = AᵀM_bA geschoben, sodass die berichtete Datumsgenauigkeit eine Funktion des Beobachtungsprogramms ist — exakt linear in der Verzögerungs-Sigma und monoton im Bogen durch die Libration, die der Bericht MISST. Der Datumsdefekt ist das Thema und keine Fußnote: Rang, Defekt, Konditionszahl, Spektrum, nicht beobachtbare Richtungen in der Basis mit sieben Parametern, die schwächste Richtung auch bei vollem Rang und der Anteil jedes Parameters daran werden bei jedem Lauf ausgegeben, und jeder Parameter, den die Kampagne nicht einschränkt, wird als NULL mit einem Status veröffentlicht. Die Korrelation der Bakenfehler wird MEASURED, nicht angenommen — exakt null bei festgehaltenen Stationen und mit ihren Kosten gedruckt, wenn sie geschätzt werden. Ausführbar als Szenarioart `lunar-frame-campaign`
