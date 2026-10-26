@@ -70,9 +70,6 @@ seg-3cb660ef6b03 = Horizontmasken und Himmelsgeometrie
 seg-724f72bdfa36 = Bis { "0.36" } war jeder Sichtbarkeitstest zur Erde in der Engine ein einziger Elevationsgrenzwert, <c1/>: Ein Satellit zählte, wenn er auf oder über einer Zahl lag, gleich in welcher Richtung. Eine Straße, ein Kai, ein Fjord oder ein Kran verdeckt einen Teil des Himmels und lässt den Rest offen. Ein <b>Skyline</b> ist ein vom Azimut abhängiger Elevationsschnitt; die <b>Himmelsgeometrie-Funktionen</b> machen aus einem Standort, einer Zeit, Konstellationen und einer Skyline die sichtbare Menge, die Dilution of Precision (DOP), die Geometriekovarianz, die horizontale Fehlerellipse, eine Monte-Carlo-Wolke und ein Skyplot. Der Entwurf ist <c2/> (Punkte { "1" } und { "2" }).
 
 # text
-seg-4c1bc0b37f54 = Evidenz: Die maskierte Sichtbarkeitsentscheidung (geodätische Blickwinkel, die Tabellenmaske, die sichtbare Menge und deren DOP) ist gegen Orekit { "12.2" } und gnss_lib_py { "1.0.4" } in einem vorab registrierten Vergleich <b>VALIDATED</b>, ebenso die Fehlerellipse und der Kofaktor je System (numpy, vorab registriert); die Reduktionen für Schlucht, Sektor und Gelände, die Voreinstellungen und die übrigen Himmelsgeometrie-Funktionen sind <b>MODELLED</b> (<a1>Evidenz</a1>). Eine Skyline entfernt Satelliten in Sichtlinie und nichts weiter. Die Voreinstellungen sind REPRÄSENTATIVE Geometrien, keine Vermessungen.
-
-# text
 seg-6fa3291b70e3 = Die Skyline
 
 # text
@@ -515,3 +512,6 @@ seg-bbe8dd07d33b = <s1>Weiter</s1>Vertrauen als Sicherheitstelemetrie
 # c4: orbit::dop
 # c5: tests/dop_reference.rs
 seg-8560c13c7ea3 = <b>Ein Kern.</b> Die Kofaktormatrix ist <c1/>, der Aufbau der Entwurfsmatrix und die Gauß-Jordan-Inverse hinter <c2/>. <c3/> stellt die Kovarianz bereit und <c4/> ist deren Reduktion, sodass die Skalare der Stufe VALIDATED unverändert sind und weiterhin durch <c5/> festgeschrieben werden. Es gibt keine zweite DOP-Implementierung.
+
+# text
+seg-4c1bc0b37f54 = Evidenz: Die maskierte Sichtbarkeitsentscheidung (geodätische Blickwinkel, die Tabellenmaske, die sichtbare Menge und deren DOP) ist gegen Orekit { "12.2" } und gnss_lib_py { "1.0.4" } in einem vorab registrierten Vergleich <b>VALIDATED</b>, ebenso die Fehlerellipse und der Kofaktor je System (numpy, vorab registriert); die Reduktionen für Schlucht, Sektor und Gelände, die Voreinstellungen und die übrigen Himmelsgeometrie-Funktionen sind <b>MODELLED</b> (<a1>Evidenz</a1>). Eine Skyline entfernt Satelliten in Sichtlinie und nichts weiter. Die Voreinstellungen sind REPRESENTATIVE Geometrien, keine Vermessungen.

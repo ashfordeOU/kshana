@@ -70,9 +70,6 @@ seg-3cb660ef6b03 = Máscaras de horizonte y geometría del cielo
 seg-724f72bdfa36 = Hasta la { "0.36" }, toda prueba de visibilidad terrestre del motor era un único umbral de elevación, <c1/>: un satélite contaba cuando estaba a ese número o por encima de él, fuera cual fuese su dirección. Una calle, un muelle, un fiordo o una grúa tapan una parte del cielo y dejan libre el resto. Un <b>horizonte (skyline)</b> es un corte de elevación que depende del acimut; las <b>funciones de geometría del cielo</b> convierten un emplazamiento, un instante, unas constelaciones y un horizonte en el conjunto visible, la dilución de la precisión (DOP), la covarianza de la geometría, la elipse de error horizontal, una nube de Monte Carlo y un gráfico del cielo (skyplot). El diseño es <c2/> (puntos { "1" } y { "2" }).
 
 # text
-seg-4c1bc0b37f54 = Evidencia: la decisión de visibilidad con máscara (ángulos de observación geodésicos, la máscara de tabla, el conjunto visible y su DOP) está <b>VALIDATED</b> frente a Orekit { "12.2" } y gnss_lib_py { "1.0.4" } en una comparación preregistrada, y también lo están la elipse de error y el cofactor por sistema (numpy, preregistrado); las reducciones de cañón urbano, de sector y de terreno, los perfiles y el resto de las funciones de geometría del cielo son <b>MODELLED</b> (<a1>Evidencia</a1>). Un horizonte elimina satélites con línea de visión y nada más. Los perfiles son geometrías REPRESENTATIVAS, no levantamientos.
-
-# text
 seg-6fa3291b70e3 = El horizonte (skyline)
 
 # text
@@ -515,3 +512,6 @@ seg-745d19d6b35d = <s1>Anterior</s1>Integraciones marinas
 
 # text
 seg-bbe8dd07d33b = <s1>Siguiente</s1>La confianza como telemetría de seguridad
+
+# text
+seg-4c1bc0b37f54 = Evidencia: la decisión de visibilidad con máscara (ángulos de observación geodésicos, la máscara de tabla, el conjunto visible y su DOP) está <b>VALIDATED</b> frente a Orekit { "12.2" } y gnss_lib_py { "1.0.4" } en una comparación preregistrada, y también lo están la elipse de error y el cofactor por sistema (numpy, preregistrado); las reducciones de cañón urbano, de sector y de terreno, los perfiles y el resto de las funciones de geometría del cielo son <b>MODELLED</b> (<a1>Evidencia</a1>). Un horizonte elimina satélites con línea de visión y nada más. Los perfiles son geometrías REPRESENTATIVE, no levantamientos.

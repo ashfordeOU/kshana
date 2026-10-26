@@ -84,9 +84,6 @@ seg-60431931082a = <b>MODELLED</b> Contacts candidats issus de chaque passage sa
 seg-9941b9f6d4a8 = MODELLED — plan de contacts multisatellite et multistation : fenêtres d'accès apparentes (SGP4, IAU 2006/2000A, réfraction ITU-R P.834, temps de lumière), volume de données ACM DVB-S2 par passage à partir d'un bilan de liaison par ciel dégagé (seuils du tableau { "13" } de ETSI EN { "302" } 307-1), et résolution des conflits (un satellite par antenne avec temps de retournement, une station par satellite) par un algorithme glouton à valeur marginale vérifié par rapport à un branch and bound exact ; pas d'affaiblissement par la pluie, (résultat <c1/>)
 
 # text
-seg-f8ef88bc82b5 = Chaque nombre ci-dessous est ILLUSTRATIF : ni orbites, ni stations, ni bilan de liaison d'un opérateur. MODELLED : le planificateur est vérifié par rapport à son propre solveur exact, et non à un outil externe. (commentaire du fichier de scénario, lignes { "11" } à { "12" })
-
-# text
 seg-fe2b4799b397 = La planification des contacts sol multisatellite et multistation avec résolution des conflits est MODELLED, et non validée : vérifiée par rapport à sa propre identité analytique / en forme fermée — elle détecte les erreurs de transcription et de coefficients, mais ce n'est pas une référence indépendante externe. (matrice de vérification (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -94,3 +91,6 @@ seg-be14d99cb86d = <s1>Précédent</s1>constellation-design
 
 # text
 seg-3784be57d6df = <s1>Suivant</s1>earth-gnss-lunar
+
+# text
+seg-f8ef88bc82b5 = Chaque nombre ci-dessous est ILLUSTRATIVE : ni orbites, ni stations, ni bilan de liaison d'un opérateur. MODELLED : le planificateur est vérifié par rapport à son propre solveur exact, et non à un outil externe. (commentaire du fichier de scénario, lignes { "11" } à { "12" })

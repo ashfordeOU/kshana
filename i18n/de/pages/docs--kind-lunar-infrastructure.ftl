@@ -48,9 +48,6 @@ seg-7b33bdb70a30 = Das Beispiel <c1/> setzt unter anderem:
 seg-5fad84cbb2be = nrho
 
 # text
-seg-def582a1f2ca = Ergebnisbezeichnung (der Engine): MODELLED — ein eingeschränktes Dreikörpermodell (Erde und Mond als Punktmassen, keine Sonne, keine Schwerefeld-Harmonischen des Mondes) mit angegebenen Vereinfachungen und ILLUSTRATIVEN Eingaben, die mit ihren öffentlichen Quellen bezeichnet sind. Die Numerik wird gegen unabhängige Programme geprüft; nichts wird mit einer Messung einer lunaren Grö
-
-# text
 seg-f3b4a80a739b = kein Plot: Das Beispiel schreibt kein Diagramm
 
 # text
@@ -64,10 +61,6 @@ seg-b20c412516b6 = <b>MODELLED</b> Fisher-Information des Helmert-Bezugssystemda
 
 # text
 seg-151c96b1f882 = <b>MODELLED</b> Cramér-Rao-Präzision der Translations-, Maßstabs- und Rotationsversätze zwischen den Techniken GNSS, VLBI und Laserentfernungsmessung, wenn ein Raumfahrzeug alle trägt. Orakel (ReferenceImpl): Ein unabhängiges gestapeltes System in numpy, bei dem die Positionsunbekannten durch explizite Schur-Komplemente eliminiert werden (T3). Keine Daten von GRASP, Genesis oder einer anderen Mission werden verglichen mit. MODELLED.
-
-# text
-# c1: label
-seg-743d78806f6a = MODELLED — ein eingeschränktes Dreikörpermodell (Erde und Mond als Punktmassen, keine Sonne, keine Schwerefeld-Harmonischen des Mondes) mit angegebenen Vereinfachungen und ILLUSTRATIVEN Eingaben, die mit ihren öffentlichen Quellen bezeichnet sind. Die Numerik wird gegen unabhängige Programme geprüft; nichts wird mit einer Messung einer lunaren Größe verglichen, und nichts hier ist eine Aussage über irgendeine Mission oder ein System. Nicht verbunden mit oder gebilligt von einer Agentur. Beratend (Ergebnis <c1/>)
 
 # text
 seg-4658f67623b5 = Kshana-Szenario lunar-infrastructure: space-tie. MODELLED; das Design, die Eingaben und die Zielwerte sind in xval/lunar-infra/PREREGISTRATION.md festgelegt (eingecheckt vor jedem Lauf). ILLUSTRATIVE Eingaben sind dort mit ihren öffentlichen Quellen bezeichnet. (Kommentar in der Szenariodatei, Zeilen { "1" } bis { "3" })
@@ -105,3 +98,10 @@ seg-d0fb90f506c9 = MODELLED Studien zu Umlaufbahn und Oberfläche des Mondes als
 # c1: study
 # c2: kshana kinds --json
 seg-da35c5298311 = MODELLED Studien zu Umlaufbahn und Oberfläche des Mondes als Navigations- und Geodäsie-Infrastruktur, fünf Studien hinter einer Szenarioart, ausgewählt durch <c1/>: od-consistency (Bahnbestimmung an Bord mit Erd-GNSS in einer NRHO oder ELFO gegen eine unabhängige radiometrische Bahnbestimmung vom Boden, beurteilt an ihren eigenen Kovarianzen über eine Monte-Carlo-Simulation mit Seed), carrier-phase (gemeinsame doppeltdifferenzierte Trägerphase von Oberfläche und Orbiter und ganzzahlige Mehr (Szenarioarten-Katalog (<c2/>))
+
+# text
+# c1: label
+seg-743d78806f6a = MODELLED — ein eingeschränktes Dreikörpermodell (Erde und Mond als Punktmassen, keine Sonne, keine Schwerefeld-Harmonischen des Mondes) mit angegebenen Vereinfachungen und ILLUSTRATIVE Eingaben, die mit ihren öffentlichen Quellen bezeichnet sind. Die Numerik wird gegen unabhängige Programme geprüft; nichts wird mit einer Messung einer lunaren Größe verglichen, und nichts hier ist eine Aussage über irgendeine Mission oder ein System. Nicht verbunden mit oder gebilligt von einer Agentur. Beratend (Ergebnis <c1/>)
+
+# text
+seg-def582a1f2ca = Ergebnisbezeichnung (der Engine): MODELLED — ein eingeschränktes Dreikörpermodell (Erde und Mond als Punktmassen, keine Sonne, keine Schwerefeld-Harmonischen des Mondes) mit angegebenen Vereinfachungen und ILLUSTRATIVE Eingaben, die mit ihren öffentlichen Quellen bezeichnet sind. Die Numerik wird gegen unabhängige Programme geprüft; nichts wird mit einer Messung einer lunaren Grö

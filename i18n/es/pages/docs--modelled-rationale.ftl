@@ -133,9 +133,6 @@ seg-2864aec7be88 = skyline: el cañón urbano en forma cerrada (corte atan((h - 
 seg-3f3d657854ce = Preajustes de horizonte (calle urbana, aproximación a puerto, fiordo, terminal de contenedores)
 
 # text
-seg-b915c06fa3f1 = skyline::PRESETS: cuatro geometrías REPRESENTATIVAS con las dimensiones indicadas en la nota de diseño y una línea de procedencia cada una: city-street (un cañón, calle { "0" } grados, { "20" } m entre muros de { "30" } m, antena { "1.5" } m), harbour-approach (sectores: abierto hacia el mar en { "180" } grados, edificios de muelle { "8" } grados en { "90" } grados, el rompeolas { "3" } grados), fjord (terreno: paredes { "600" } m por encima de la antena a { "1.5" } km a cada lado de un canal norte-sur, caída por curvatura aplicada), container-terminal (sectores: pilas { "12" } grados sobre la mitad hacia tierra, plumas de grúa { "35" } grados y { "25" } grados sobre dos sectores estrechos); sobrescribible campo por campo
-
-# text
 seg-6012113b4836 = Funciones de geometría del cielo: visibilidad, DOP, covarianza, elipse de error, nube de Monte Carlo
 
 # text
@@ -364,9 +361,6 @@ seg-5d5970506b9c = El escenario de presupuesto de tiempo lunar publica sus salid
 
 # text
 seg-675887733454 = Laboratorio de tiempo de estación lunar: holdover del miniRAFS frente a LTC
-
-# text
-seg-7dfedc40da6a = El bloque opcional [time_lab] del escenario lunar-time-budget modela un reloj de estación de referencia lunar (por defecto de la clase miniRAFS, o cualquier clase nombrada, o una tarjeta de dispositivo ajustada a puntos de estabilidad indicados) dirigido al Tiempo Lunar Coordinado y luego en marcha libre o redirigido cada N segundos: la curva de error de tiempo x(t) como raíz de la suma de cuadrados del término de ley de potencias del reloj, un residuo de dirección constante (ILUSTRATIVO), un residuo constante de realización del LTC y un término opcional de tasa por altura de estación; el tiempo tras una dirección hasta { "1" }, { "10" } y { "100" } ns (o umbrales indicados) por bisección junto a la inversa en forma cerrada para el tipo de ruido dominante, y el término dominante en cada horizonte indicado, todo con unidades
 
 # text
 seg-af3ff120b707 = VLBI geodésico lunar
@@ -727,13 +721,7 @@ seg-7102948907bc = Máscaras de horizonte dependientes del acimut por emplazamie
 seg-d37bb01e270b = Términos de multitrayecto y de hardware del receptor de la estación de referencia lunar
 
 # text
-seg-1103199f019b = La sección opcional [receiver] de lunar-station-coverage (LRS-02): sigma de multitrayecto dependiente de la elevación sigma(el) = a + b exp(-el / el0) en el usuario y en la estación (la forma funcional aerotransportada de RTCA DO-229, con a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } grados por defecto; en la Luna cada valor es ILUSTRATIVO), blanco en el usuario y de Gauss-Markov de primer orden sobre épocas en la estación (rho = exp(-dt / tau)); ruido térmico de código del DLL anticipado menos retardado sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); sesgos entre canales por canal constantes durante un ensayo, en el usuario y en la estación. Los términos de estación entran en sus correcciones, los del usuario en las mediciones brutas y corregidas, cada uno con su propio flujo con semilla. Si faltan, cada documento no cambia
-
-# text
 seg-03796cb741b6 = Crecimiento del error de efemérides de la estación de referencia lunar durante la latencia de corrección
-
-# text
-seg-13b0ae9a874a = La entrada opcional orbit_err_growth_m_per_s de lunar-station-coverage (LRS-03): una corrección aplicada latency_s después de calcularse no recoge el crecimiento g latency_s del error de órbita difundida, siendo g isótropo de tasa RMS 3-D, sorteado por satélite y ensayo en su propio flujo con semilla (tasa de 1 sigma del rango tau / sqrt({ "3" })), además de la reproyección de línea de visión del error congelado. Si falta, cada documento no cambia. Un anexo K5 de la comparación con afirmaciones publicadas, preregistrado por separado, ejecuta K5 a { "0.001" }, { "0.01" } y { "0.1" } m/s (ILUSTRATIVO)
 
 # text
 seg-90307f07e0ef = Modos de solución de la estación de referencia lunar: restricción de altura, tres satélites, ventana de usuario estático
@@ -3129,3 +3117,15 @@ seg-7a0503f925c1 = <s1>Anterior</s1>Referencia de capacidades
 
 # text
 seg-b5832e94f926 = <s1>Siguiente</s1>Afirmaciones frente a la realidad
+
+# text
+seg-1103199f019b = La sección opcional [receiver] de lunar-station-coverage (LRS-02): sigma de multitrayecto dependiente de la elevación sigma(el) = a + b exp(-el / el0) en el usuario y en la estación (la forma funcional aerotransportada de RTCA DO-229, con a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } grados por defecto; en la Luna cada valor es ILLUSTRATIVE), blanco en el usuario y de Gauss-Markov de primer orden sobre épocas en la estación (rho = exp(-dt / tau)); ruido térmico de código del DLL anticipado menos retardado sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); sesgos entre canales por canal constantes durante un ensayo, en el usuario y en la estación. Los términos de estación entran en sus correcciones, los del usuario en las mediciones brutas y corregidas, cada uno con su propio flujo con semilla. Si faltan, cada documento no cambia
+
+# text
+seg-13b0ae9a874a = La entrada opcional orbit_err_growth_m_per_s de lunar-station-coverage (LRS-03): una corrección aplicada latency_s después de calcularse no recoge el crecimiento g latency_s del error de órbita difundida, siendo g isótropo de tasa RMS 3-D, sorteado por satélite y ensayo en su propio flujo con semilla (tasa de 1 sigma del rango tau / sqrt({ "3" })), además de la reproyección de línea de visión del error congelado. Si falta, cada documento no cambia. Un anexo K5 de la comparación con afirmaciones publicadas, preregistrado por separado, ejecuta K5 a { "0.001" }, { "0.01" } y { "0.1" } m/s (ILLUSTRATIVE)
+
+# text
+seg-7dfedc40da6a = El bloque opcional [time_lab] del escenario lunar-time-budget modela un reloj de estación de referencia lunar (por defecto de la clase miniRAFS, o cualquier clase nombrada, o una tarjeta de dispositivo ajustada a puntos de estabilidad indicados) dirigido al Tiempo Lunar Coordinado y luego en marcha libre o redirigido cada N segundos: la curva de error de tiempo x(t) como raíz de la suma de cuadrados del término de ley de potencias del reloj, un residuo de dirección constante (ILLUSTRATIVE), un residuo constante de realización del LTC y un término opcional de tasa por altura de estación; el tiempo tras una dirección hasta { "1" }, { "10" } y { "100" } ns (o umbrales indicados) por bisección junto a la inversa en forma cerrada para el tipo de ruido dominante, y el término dominante en cada horizonte indicado, todo con unidades
+
+# text
+seg-b915c06fa3f1 = skyline::PRESETS: cuatro geometrías REPRESENTATIVE con las dimensiones indicadas en la nota de diseño y una línea de procedencia cada una: city-street (un cañón, calle { "0" } grados, { "20" } m entre muros de { "30" } m, antena { "1.5" } m), harbour-approach (sectores: abierto hacia el mar en { "180" } grados, edificios de muelle { "8" } grados en { "90" } grados, el rompeolas { "3" } grados), fjord (terreno: paredes { "600" } m por encima de la antena a { "1.5" } km a cada lado de un canal norte-sur, caída por curvatura aplicada), container-terminal (sectores: pilas { "12" } grados sobre la mitad hacia tierra, plumas de grúa { "35" } grados y { "25" } grados sobre dos sectores estrechos); sobrescribible campo por campo

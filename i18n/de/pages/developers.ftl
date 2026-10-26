@@ -653,18 +653,6 @@ seg-9e12e635d64d = Exportiert die propagierte Konstellation eines <c1/>-Szenario
 seg-521b51ec756b = Führt ein Kshana-Szenario aus und gibt seine Reproduzierbarkeitstabelle als CSV-Text zurück, die byte-stabile Tabelle, die die CLI als <c1/> schreibt und die die Veröffentlichungen zitieren. Nur diese Arten erzeugen eine: <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, wenn seine <c7/>-Analyse mit einem <c8/>- oder <c9/>-Nachrichtenmodell läuft (die Tabelle der Broadcast-Ephemeriden), und <c10/>, wenn sowohl <c11/> als auch <c12/> gesetzt sind. Gibt für jede andere Art (oder ein ungültiges Szenario) einen Fehler zurück; für die Gütemaße verwenden Sie run_scenario.
 
 # text
-# c1: tle
-# c2: epoch
-# c3: request
-# c4: skyline_preset
-# c5: user_site
-# c6: [skyline]
-# c7: tle
-# c8: epoch
-# c9: sky_source
-seg-7937ed00cbc0 = Himmelsgeometrie unter einer azimutabhängigen Horizontlinie (eine Straßenschlucht, ein Hafen, ein Fjord, ein Containerterminal): aus einem Standort, einer Zeit und Konstellationsvorgaben, Two-Line-Element-Sätzen (<c1/>, mit einer UTC-<c2/>) oder als Azimut/Elevation oder ECEF angegebenen Satelliten, welche Satelliten sichtbar und welche von der Horizontlinie verdeckt sind, GDOP/PDOP/HDOP/VDOP/TDOP aus dem mit gnss_lib_py geprüften DOP-Kern, die Ost-Nord-Oben-Kofaktor- und Kovarianzmatrix mit einer Empfängeruhr je System (oder einer gemeinsamen) sowie die horizontale Fehlerellipse bei einem Sigma und bei einem angegebenen Konfidenzniveau für ein angegebenes UERE. Ohne <c3/> beschreibt es eine REPRÄSENTATIVE Horizontlinien-Vorgabe mit ihrer Herkunft und ihrem Schnitt für jedes Grad (ein leeres <c4/> listet sie auf). Szenarien der Arten orbit und integrity (mit <c5/>), gnss-sim, jamming, leo-pvt und leo-pass nehmen über run_scenario denselben Abschnitt <c6/> entgegen. Evidenzstufe MODELLED: Geometrie unter einem angegebenen Fehlermodell, nur Sichtverbindung; keine Vorhersage des realen Fehlers eines Empfängers und keine Integritätsschranke; Konstellationsvorgaben sind ein repräsentativer Himmel, nicht der Himmel eines bestimmten Datums; <c7/>-Text mit einer <c8/> (UTC) liefert den Himmel, den diese Elementsätze zu dieser Epoche ergeben (SGP4), keine Messung, und <c9/> gibt an, welcher von beiden vorliegt. Trägt den Hinweis: keine typzugelassene Navigationsausrüstung. Kein Monte Carlo über MCP (Massenstichproben; verwenden Sie die CLI, Python oder WASM). Nur inline, höchstens { "4" } MiB.
-
-# text
 # c1: signals
 # c2: enabled
 # c3: work_dir
@@ -1695,3 +1683,15 @@ seg-f79048f88b5c = Kshana Studio starten
 
 # text
 seg-9a86ef058d27 = In Kshana Studio öffnen
+
+# text
+# c1: tle
+# c2: epoch
+# c3: request
+# c4: skyline_preset
+# c5: user_site
+# c6: [skyline]
+# c7: tle
+# c8: epoch
+# c9: sky_source
+seg-7937ed00cbc0 = Himmelsgeometrie unter einer azimutabhängigen Horizontlinie (eine Straßenschlucht, ein Hafen, ein Fjord, ein Containerterminal): aus einem Standort, einer Zeit und Konstellationsvorgaben, Two-Line-Element-Sätzen (<c1/>, mit einer UTC-<c2/>) oder als Azimut/Elevation oder ECEF angegebenen Satelliten, welche Satelliten sichtbar und welche von der Horizontlinie verdeckt sind, GDOP/PDOP/HDOP/VDOP/TDOP aus dem mit gnss_lib_py geprüften DOP-Kern, die Ost-Nord-Oben-Kofaktor- und Kovarianzmatrix mit einer Empfängeruhr je System (oder einer gemeinsamen) sowie die horizontale Fehlerellipse bei einem Sigma und bei einem angegebenen Konfidenzniveau für ein angegebenes UERE. Ohne <c3/> beschreibt es eine REPRESENTATIVE Horizontlinien-Vorgabe mit ihrer Herkunft und ihrem Schnitt für jedes Grad (ein leeres <c4/> listet sie auf). Szenarien der Arten orbit und integrity (mit <c5/>), gnss-sim, jamming, leo-pvt und leo-pass nehmen über run_scenario denselben Abschnitt <c6/> entgegen. Evidenzstufe MODELLED: Geometrie unter einem angegebenen Fehlermodell, nur Sichtverbindung; keine Vorhersage des realen Fehlers eines Empfängers und keine Integritätsschranke; Konstellationsvorgaben sind ein repräsentativer Himmel, nicht der Himmel eines bestimmten Datums; <c7/>-Text mit einer <c8/> (UTC) liefert den Himmel, den diese Elementsätze zu dieser Epoche ergeben (SGP4), keine Messung, und <c9/> gibt an, welcher von beiden vorliegt. Trägt den Hinweis: keine typzugelassene Navigationsausrüstung. Kein Monte Carlo über MCP (Massenstichproben; verwenden Sie die CLI, Python oder WASM). Nur inline, höchstens { "4" } MiB.

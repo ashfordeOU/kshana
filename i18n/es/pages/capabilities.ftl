@@ -1807,12 +1807,6 @@ seg-979fb46a1ac8 = Deriva en un túnel ferroviario: cuánto tiempo mantiene el s
 # c1: ins-trn-coast
 seg-6d592347a45a = <c1/><a1>ins-trn-coast</a1><a2>maritime-port-approach-coast</a2><a3>rail-tunnel-coast</a3>
 
-# attr:title
-seg-588092c0b828 = PNT óptico a través de la atmósfera: tres emplazamientos en tierra ILUSTRATIVOS (uno septentrional más nublado, uno
-
-# attr:title
-seg-d9110ecdc1a0 = Hipótesis de técnicas de mejora para un emplazamiento en tierra ILUSTRATIVO: un cambio de longitud de onda, una mayor
-
 # text
 # c1: optical-atmosphere
 seg-67d9aed36283 = <c1/><a1>optical-atmosphere-network</a1><a2>optical-atmosphere-techniques</a2>
@@ -1881,9 +1875,6 @@ seg-d58a6084c08d = Temporización de telecomunicaciones, ejemplo de ingesta: una
 # c1: telecom-timing
 seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
 
-# attr:title
-seg-a9d9e45f2147 = Transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT) entre dos estaciones ILUSTRATIVAS, una
-
 # text
 # c1: time-transfer-budget
 seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
@@ -1921,9 +1912,6 @@ seg-b9192c83fdf7 = Demostrador del ciclo de trabajo de apertura (segmento terren
 # text
 # c1: aperture-duty-cycle
 seg-e40da530a08a = <c1/><a1>aperture-duty-cycle</a1>
-
-# attr:title
-seg-e671128cedbc = Pérdidas de ascenso con giro gravitatorio de un lanzador ILUSTRATIVO de dos etapas de queroseno/oxígeno (sin
 
 # text
 # c1: ascent-losses
@@ -1969,9 +1957,6 @@ seg-a38ba5ac0cda = Demostrador de huella y cobertura de la carga útil de observ
 # text
 # c1: eo-coverage
 seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
-
-# attr:title
-seg-966c1090da5a = Radiometría y calidad de imagen de un generador de imágenes nadir para una pequeña cámara ILUSTRATIVA de observación de la Tierra
 
 # text
 # c1: eo-radiometry
@@ -2139,9 +2124,6 @@ seg-e9da73670beb = LEO-PNT en interiores: por qué una portadora UHF llega al in
 
 # attr:title, text
 seg-6dfada2dacb6 = LEO-PNT de bajo consumo para un rastreador IoT (Internet de las cosas): energía por posición calculada frente al ciclo de trabajo.
-
-# attr:title, text
-seg-1007e9b9abdc = ESA Celeste IOD, configuración de señal n.º 1, todas las bandas en un paso. PRESET DE TALLER.
 
 # attr:title, text
 seg-d3b4252da1ee = Ráfagas Iridium STL (tiempo y localización por satélite) vistas desde una aeronave.
@@ -3658,3 +3640,21 @@ seg-e51289a1e835 = Guía de la EASA sobre interferencias GNSS (aviación)
 
 # text
 seg-4fa26d67951e = Guía de la EASA para la aviación, con correspondencia por número de cláusula
+
+# attr:title, text
+seg-1007e9b9abdc = ESA Celeste IOD, configuración de señal n.º 1, todas las bandas en un paso. PRESET WORKSHOP.
+
+# attr:title
+seg-588092c0b828 = PNT óptico a través de la atmósfera: tres emplazamientos en tierra ILLUSTRATIVE (uno septentrional más nublado, uno
+
+# attr:title
+seg-966c1090da5a = Radiometría y calidad de imagen de un generador de imágenes nadir para una pequeña cámara ILLUSTRATIVE de observación de la Tierra
+
+# attr:title
+seg-a9d9e45f2147 = Transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT) entre dos estaciones ILLUSTRATIVE, una
+
+# attr:title
+seg-d9110ecdc1a0 = Hipótesis de técnicas de mejora para un emplazamiento en tierra ILLUSTRATIVE: un cambio de longitud de onda, una mayor
+
+# attr:title
+seg-e671128cedbc = Pérdidas de ascenso con giro gravitatorio de un lanzador ILLUSTRATIVE de dos etapas de queroseno/oxígeno (sin

@@ -30,9 +30,6 @@ seg-d0c9bec248b4 = Fuente: <c1/>
 seg-d226df2bb634 = <c1/> (tipo de escenario)
 
 # text
-seg-8ac5ac006ae7 = PNT DIFERENCIAL lunar modelado (un análogo lunar de DGNSS/SBAS): una estación de referencia de clase NovaMoon en una ubicación selenográfica CONOCIDA calcula correcciones diferenciales por satélite a partir de una constelación ILUSTRATIVA de clase Moonlight/LCNS de fuentes públicas (NovaMoon se menciona solo como CLASE de sistema, sin afiliación a la ESA), y un usuario desplazado baseline_km las aplica de modo que los errores de órbita + reloj de MODO COMÚN se cancelan. El término de reloj se cancela EXACTAMENTE (una identidad algebraica); el término de órbita deja solo la proyección de la diferencia de línea de visión, que → { "0" } cuando la línea base → { "0" } (el suelo de decorrelación espacial) y crece ≈ linealmente con la línea base. Informa del error de posición 3D del usuario CON y SIN correcciones, el factor de reducción, la curva de error frente a línea base y un nivel de protección del usuario que REUTILIZA la maquinaria SBAS DO-229E (crate::sbas) con el residuo diferencial σ. MODELLED: identidad de cancelación exacta + modelo de decorrelación de primer orden; no validado con datos reales; sin TRL/herencia/respaldo de ninguna agencia. Determinista si tiene semilla.
-
-# text
 # c1: scenarios/lunar-differential-pnt.toml
 seg-4b7355b174a3 = Una ejecución de <c1/> se resume así: lunar-differential-pnt | { "8" } sat. (clase LCNS ilustrativa, sin afiliación) | línea base { "50" } km | error de usuario { "24.46" } m → { "0.0077" } m (reducción de { "3186" }×) | HPL { "23.1" } m (σ_resid { "5.0" } m) | MODELLED
 
@@ -101,3 +98,6 @@ seg-2b8455001710 = <s1>Anterior</s1>lunar-beacon
 
 # text
 seg-dca7482d9d75 = <s1>Siguiente</s1>lunar-frame-campaign
+
+# text
+seg-8ac5ac006ae7 = PNT DIFERENCIAL lunar modelado (un análogo lunar de DGNSS/SBAS): una estación de referencia de clase NovaMoon en una ubicación selenográfica CONOCIDA calcula correcciones diferenciales por satélite a partir de una constelación ILLUSTRATIVE de clase Moonlight/LCNS de fuentes públicas (NovaMoon se menciona solo como CLASE de sistema, sin afiliación a la ESA), y un usuario desplazado baseline_km las aplica de modo que los errores de órbita + reloj de MODO COMÚN se cancelan. El término de reloj se cancela EXACTAMENTE (una identidad algebraica); el término de órbita deja solo la proyección de la diferencia de línea de visión, que → { "0" } cuando la línea base → { "0" } (el suelo de decorrelación espacial) y crece ≈ linealmente con la línea base. Informa del error de posición 3D del usuario CON y SIN correcciones, el factor de reducción, la curva de error frente a línea base y un nivel de protección del usuario que REUTILIZA la maquinaria SBAS DO-229E (crate::sbas) con el residuo diferencial σ. MODELLED: identidad de cancelación exacta + modelo de decorrelación de primer orden; no validado con datos reales; sin TRL/herencia/respaldo de ninguna agencia. Determinista si tiene semilla.
