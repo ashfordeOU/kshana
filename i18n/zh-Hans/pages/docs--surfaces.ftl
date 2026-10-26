@@ -11,3 +11,5 @@ seg-d6476863f862 = 能力
 seg-e0426ffe2628 = 备注
 
 seg-2bd2101ce454 = 界面
+
+seg-de6c33774c9c = CLI
