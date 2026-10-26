@@ -3063,3 +3063,131 @@ seg-21059291ea8b = telemetry::mqtt::tests（数据包字节、回环代理、失
 seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs（rtklib_pos_runs_as_a_receiver_log：gnss_lib_py桥接写出的格式，经receiver-trust运行）；各桥接的Python测试为integrations/ros2/kshana_trust/test/test_bridge.py（带模拟引擎的桥接）、integrations/ros2/kshana_trust/test/test_engine_integration.py（真实的wheel把稳定的定位结果评为正常，把{ "1.1" } km的跳变评为不可信）和integrations/gnss_lib_py/test_bridge.py（真实的gnss_lib_py { "1.1.0" }与该wheel），用pytest运行，而不是用cargo运行
+
+seg-7bc2428f22d9 = constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard（HDOP 中位数 { "0.940" }，{ "90" } % 为 { "1.165" }，{ "95" } % 为 { "1.255" }，{ "98" } % 为 { "1.370" }，均值 { "0.965" }，对照 { "0.94" }、{ "1.16" }、{ "1.25" }、{ "1.37" } 和 { "0.96" }，判据在首次运行之前对每一项固定为 { "0.03" }；PDOP 中位数 { "1.795" }，不高于表 B.3-1 针对降级的 20-24 颗卫星组合给出的 { "1.815" }；可用性在全球范围和最差站点均为 { "100" } %，对照表 3.8-1 的 { "98" } % 和 { "88" } %）；constellation::tests::single_epoch_dop_matches_the_hand_computation（天顶加三颗高度角 { "30" } deg 的卫星：HDOP 4/3，VDOP { "2.3094" }，PDOP 8/3，TDOP { "1.5275" }，GDOP { "3.0732" }，精确到 { "1e-9" }，并与采用公共钟差的 orbit::dop 相等）
+
+seg-54bf21cf90d7 = navsignal (sine_integral, bpsk_power_in_band_closed_form, bpsk_gabor_bandwidth_closed_form_hz, dll_jitter_bandlimited_s, dll_jitter_small_spacing_limit_s, bpsk_offset_ssc_closed_form, altboc_15_10_psd, parse_modulation)
+
+seg-d2b3b13002dd = navsignal::band_limited_tests（sine_integral_matches_tables_and_its_limit — Si({ "1" })、Si(pi)、Si({ "2" } pi)，精确到 { "1e-12" }；bpsk_power_in_band_closed_form_matches_textbook_and_numeric — 对 BPSK(1/3)、BPSK({ "1" })、BPSK({ "5" })、BPSK({ "10" })，主瓣内含功率的 { "0.9028" }，且闭式解在 { "10" }、{ "15" }、{ "20" } 和 { "51.15" } MHz 处与数值积分相等，精确到 { "1e-7" }；bpsk_gabor_closed_form_matches_numeric_and_asymptote — 精确到 { "1e-4" }，以及 sqrt(B R_c / ({ "2" } pi^{ "2" })) 渐近式；bandlimited_dll_reduces_to_the_textbook_forms — 相干超前-滞后 BPSK({ "1" })，{ "45" } dB-Hz，B_L { "1" } Hz，d { "1" } chip，T { "20" } ms：{ "0.0039564" } chip（{ "1.159" } m），误差在 { "1" } % 以内；非相干形式在 { "1" } % 以内与 navsignal::dll_code_jitter_chips 相等；间距趋于零的极限在 { "1e-5" } 以内与其闭式解相等；offset_bpsk_ssc_matches_parseval_closed_form — 偏移 { "0" } 至 { "3.2" } R_c，在 { "0.01" } dB 以内，BPSK({ "10" }) 零偏移处为 -71.86 dB/Hz；altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b；modulation_labels_round_trip）
+
+seg-56f381a3f611 = leo_signal (max_doppler_hz)
+
+seg-da02936f6d75 = leo_signal::tests::max_doppler_matches_published_xona_and_iridium_figures — Xona Pulsar X1（{ "1593.3225" } MHz，{ "1080" } km）为 { "33.2" } kHz，处于已公布的 { "32" } 至 { "34" } kHz 之内；Iridium（{ "1621" } MHz，{ "780" } km）与已公布的 { "36" } kHz 相差在 { "0.5" } kHz 以内
+
+seg-f1cdf8728c6b = 已公布的数据：Xona Pulsar X1 最大多普勒 { "32" } 至 { "34" } kHz（Leclère、Marathe 和 Reid，ION GNSS+ { "2025" }，<a1>https://arxiv.org/abs/2509.19551</a1>）；Iridium 多普勒最高 +/-36 kHz（Resilient Navigation and Timing Foundation，Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites）。此处未计入地球自转，它会使该数值最多变化约 { "2.3" } kHz；不计入地球自转时，两个已公布的数据均已达到。
+
+seg-70fb5eb759aa = leo_link::itu (p838_coefficients, p838_k_alpha, rain_specific_attenuation_db_km)
+
+seg-6ef512cefe4d = tests/leo_link_reference.rs（p838_coefficients_reproduce_table5_to_its_printed_digits：表 { "5" } 的全部 { "115" } 行，{ "1" } GHz 至 { "1000" } GHz，每个系数与其印刷末位数字相差在 { "0.6" } 以内；实测最差值 { "0.51" }）
+
+seg-53d288ecc889 = leo_link::itu (p618_rain_attenuation_db, RainPath)
+
+seg-e1ab19315242 = tests/leo_link_reference.rs（p618_rain_attenuation_matches_the_itu_validation_examples：五个站点的 { "56" } 个算例，{ "14.25" } 和 { "29" } GHz，{ "0.001" } % 至 { "1" } %，误差在 { "1e-4" } dB 以内；实测 { "5e-6" } dB）
+
+seg-cfe59399d0a3 = leo_link::itu (p618_scintillation_db, wet_refractivity, ScintillationPath)
+
+seg-8a35d6b6f974 = tests/leo_link_reference.rs（p618_scintillation_matches_the_itu_validation_examples：七个站点的 { "42" } 个算例，{ "14.25" } 和 { "20" } GHz，误差在 { "1e-5" } dB 以内；实测 { "5e-7" } dB）
+
+seg-f7d2ab81d7d2 = leo_link::itu (p2109_building_entry_loss_db, BuildingClass)；detection (normal_inv_cdf)
+
+seg-05bb3df0fcc5 = tests/leo_link_reference.rs（p2109_building_entry_loss_matches_the_itu_workbook：{ "568" } 个值，{ "28" } GHz 对应 { "0" } deg、{ "2" } GHz 对应 { "45" } deg，两个类别，P 取 { "1e-7" } 至 { "0.998" }，误差在 { "0.001" } dB 以内）
+
+seg-5b682a1911e5 = leo_link::iono (group_delay_m, iono_free_coefficients, iono_free_noise_amplification)；leo_link (fspl_db)；linkbudget (free_space_loss_db)
+
+seg-09369862fb72 = tests/leo_link_reference.rs（first_order_iono_reproduces_the_is_gps_200_group_delay_ratio：gamma = (77/60)^{ "2" }，精确到 { "1e-12" }，L1/L2 和 L1/L5 放大系数为 { "2.978" } 和 { "2.588" }；free_space_loss_is_the_friis_kilometre_megahertz_form：{ "32.4478" } + { "20" } log d + { "20" } log f，精确到 { "1e-4" } dB）；leo_link::iono::tests（delay_scales_as_one_over_f_squared；iono_free_combination_removes_the_first_order_delay）
+
+seg-ba1455ed0740 = leo_link::geometry (max_static_user_range_rate, DopplerEnvelope, doppler_hz)
+
+seg-88f10ca1e3bc = tests/leo_link_reference.rs（doppler_envelope_reproduces_the_pulsar_paper_table_1：Pulsar IOV { "520" } km { "97" } deg、Pulsar FOC 极轨 { "1080" } km { "97" } deg、Pulsar FOC 倾斜轨道 { "1080" } km { "53" } deg 以及 GPS { "20180" } km { "55" } deg；轨道速度、最大 ECEF 速度、最大相对速度以及最大 L1 和 L5 频段载波多普勒，共 { "20" } 个值，每个误差均在 { "0.05" } % 以内）
+
+seg-45309f1545cc = leo_navmsg::sisre (sisre_weights, StatsAcc)
+
+seg-64d379a46dbc = leo_navmsg::sisre::tests（weights_reproduce_the_published_meo_and_geo_table — 截止角 { "0" } deg 时，GPS 为 { "0.979" } 和 1/48.9，GLONASS 为 1/45.0，Galileo 为 { "0.984" } 和 1/61.1，北斗 MEO 为 1/54.2，地球静止轨道为 { "0.992" } 和 1/126.2，w_R 的误差均在 { "0.005" } 以内，1/w_AC^{ "2" } 的误差均在 { "0.5" } 以内；leo_weights_shift_toward_the_transverse_axes — { "510" } km 高度处的地平线天底角为 { "67.8" } deg）
+
+seg-d579e3a4f58f = leo_navmsg::elements (kepler_point, kepler_frame, ephemeris_at, sat_state)
+
+seg-7bb3e4112c28 = tests/leo_navmsg_reference.rs（the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — 四组真实的 Galileo 广播星历 E10、E19、E24、E25，在 tk = { "0" }、+/-600、+/-1800、+/-3600 s 处，每个轴与 RTKLIB 的差异均在 { "1" } mm 以内；real_galileo_records_survive_the_binary_frame_and_the_text_block — 经 Kshana 二进制帧后在 { "5" } mm 以内，经 RINEX 式文本块后在 { "1" } mm 以内）
+
+seg-405df44dd887 = leo_navmsg::codec (crc24q, encode, decode)
+
+seg-577acdb9b84b = leo_navmsg::codec::tests（crc24q_matches_the_catalogue_check_value — ASCII 字符串 { "123456789" } 的校验值为 0xCDE703；crc24q_matches_the_rtcm_1005_example_frame — RTCM { "10403" } 报文类型 { "1005" } 示例帧的三个校验字节 0x360B98，以及整个帧上的结果为零）
+
+seg-4213f6b60bf1 = leo_navmsg::fit (fit_message, lstsq, polyfit)；leo_navmsg::truth (TruthOrbit, TruthClock)；leo_navmsg (sequence_stats, LeoNavmsgScenario)
+
+seg-7f4e08aeede7 = leo_navmsg::tests::a_two_body_truth_is_recovered_by_the_keplerian_fit_to_a_millimetre；leo_navmsg::tests::the_user_algorithm_reproduces_the_fitted_truth_to_a_millimetre_with_corrections；leo_navmsg::tests::the_clock_fit_returns_the_truth_clock_through_the_user_relativistic_term；leo_navmsg::tests::keplerian_sisre_grows_with_the_fit_interval_and_the_corrections_fix_it（拟合区间从 { "1" } 分钟到 { "15" } 分钟单调增长，且在 { "15" } 分钟时至少改善三倍）；leo_navmsg::tests::defaults_run_encode_decode_without_any_preset_and_are_deterministic；tests/leo_navmsg_fit_real_orbit_oracle.rs::fitted_sisre_matches_liu_2025_on_real_orbits（TU Graz ITSG 的 GRACE-A、GRACE-C、Sentinel-2A 和 Sentinel-6A 简化动力学轨道，在 { "20" } 和 { "30" } min 弧段上拟合：沿迹、横向和径向 RMS 为 { "0.804" } 至 { "1.087" }，SISRE 为 Liu 等人 { "2025" } 的 { "0.716" } 至 { "0.809" }，在 1.5 倍以内；SISRE 权重与其表 { "2" } 相差在 { "0.0007" } 以内）；tests/leo_navmsg_full_claim_oracle.rs::integrated_truth_orbit_matches_orekit_within_2_cm_over_6_h（Orekit { "12.2" } + Hipparchus { "3.1" }，初始状态和密度输入相同：二体最差 { "3.95" } mm，J2-J6 与 EGM2008 取 { "20" } 和 { "70" } 阶为 { "3.92" } mm，EGM2008 { "20" } 阶并含 { "400" } km 处大气阻力为 { "4.55" } mm，判据为 { "6" } h 内 { "0.02" } m）；内部交叉核对，不是参考基准（oracle）：tests/leo_navmsg_full_claim_oracle.rs::corrections_clock_fit_and_update_period_trade_agree_with_an_internal_cross_check_on_grace_fo
+
+seg-4a631f12459a = leo_navmsg::elements (kepler_point, Liu22Extra)；leo_navmsg::fit (fit_message, fit_kepler, initial_params, formal_sigma)；leo_navmsg::truth (TruthOrbit)
+
+seg-c79d4b5fdd17 = tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre（四个论文日：沿迹、横向、径向和 SISRE 之比为 Liu 等人 { "2025" } 的 { "0.755" } 至 { "1.138" }，在 1.5 倍以内）；tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_holds_on_held_out_days（八个保留日，每日两个弧段：{ "0.683" } 至 { "1.186" }）
+
+seg-765c69669bfa = leo_navmsg::services (klobuchar_delay_m, effective_ionisation_level, system_to_utc)
+
+seg-4693b7ddd7b2 = leo_navmsg::services::tests（klobuchar_scales_with_inverse_frequency_squared — L1 值为 RTKLIB 的 { "6.1278" } m；nequick_az_rules；utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day；utc_drift_terms_follow_the_icd_formula；an_inserted_leap_second_reads_86400_at_the_end_of_the_day）；tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa（L1、L2 和 L5 上的 Klobuchar，共 { "4 320" } 个算例，最差 { "7.0e-13" } m；Az 覆盖 { "222" } 组系数，包括全零系数和 { "400" } sfu 规则，最差 { "5.7e-14" } sfu；UTC 漂移覆盖 { "50" } 个算例，最差 { "3.6e-15" } s；三个闰秒算例覆盖真实的 { "2015" } 和 { "2016" } 年闰秒前后共 { "21 602" } 个时刻，差异为 { "0" } s）
+
+seg-0111fd0b84a5 = leo_fusion::geom (EarthOrbit)；leo_fusion::doppler (range_rate, doppler_envelope)
+
+seg-a8dd3751a688 = tests/leo_doppler_reference.rs（iridium_doppler_reaches_the_published_36_khz：一颗 { "780" } km、{ "86.4" } deg 的卫星在 { "1621" } MHz 上飞行一天，覆盖四个纬度，最大值与 { "36" } kHz 相差在 { "5" }% 以内；xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz：已公布的每个轨道壳各取一颗卫星，{ "1080" } km，{ "53" } 和 { "97" } deg，{ "1593.3225" } MHz，星座最大值处于 { "32" } 至 { "34" } kHz 之内且未放宽（{ "33.6" } kHz，由 { "97" } deg 轨道壳决定；仅 { "53" } deg 轨道壳的峰值为 { "31.8" } kHz））；leo_fusion::geom::tests（velocity_is_the_time_derivative_of_the_position）
+
+seg-8ac77c9b9588 = leo_fusion::ntn (gabor_bandwidth_flat_hz, gabor_bandwidth_bpsk_hz, gabor_bandwidth_numeric_hz, rms_duration_numeric_s, toa_crb_sigma_m, doppler_crb_sigma_hz, frequency_crb_sigma_hz, NtnScenario::geometry, NtnScenario)；leo_fusion::joint_pvt (formal_sigma_enu)
+
+seg-50b92f3ed7eb = leo_fusion::ntn::tests（the_numerical_rms_bandwidth_matches_the_closed_forms；the_range_bound_scales_as_one_over_bandwidth_and_root_cn0：{ "5" } MHz、{ "45" } dB-Hz、{ "0.1" } s 时手算为 { "0.4157" } m；the_frequency_bound_is_the_complex_tone_crlb；defaults_run_wider_is_better_and_every_number_has_a_unit）；tests/leo_fusion_scenarios.rs（ntn_wide_channel_bounds_far_tighter_than_the_narrow_one）；tests/ntn_crlb_published_value_oracle.rs（ssb_bounds_reproduce_the_published_values；ntn_fix_covariances_match_numpy；bpsk_rms_bandwidth_reproduces_betz_table_1）
+
+seg-cc3d01973493 = leo_fusion::polar (latitude_sweep, latitude_sweep_at, element_sets, satellite_states_at)；leo_fusion::joint_pvt (dop)；sgp4 (MeanElementSet::from_earth_fixed, SgpOrbit, teme_to_itrs_matrix)
+
+seg-e1d9acf84101 = tests/leo_polar_coverage_on_path_orekit_oracle.rs（配置 A 和 B，{ "4040" } 个采样点：地固系位置相差在 { "6.8e-5" } m 以内，判据 { "0.2" } m；可见卫星数在 4040/4040 个采样点上完全一致；DOP 中位数相对差异在 { "2.3e-11" } 以内，判据 { "1e-3" }；可用性和平均可见数一致）；tests/earth_orbit_path_sgp4_erfa_oracle.rs（路径）；leo_fusion::polar::tests（gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it）；tests/leo_fusion_scenarios.rs（a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens）；tests/leo_polar_coverage_orekit_oracle.rs（第 { "2" } 轮，给定状态下的几何）；tests/leo_polar_coverage_full_claim_orekit_oracle.rs（第 1 轮完整声明的发现，已固定）
+
+seg-bd265d530763 = lunar_frame_campaign, fim
+
+seg-7c8144a7376a = tests/lunar_frame_campaign_mpmath_oracle.rs（lunar_frame_campaign_datum_matches_mpmath_extended_precision：三个场景 — 在新的测评活动日期 2026-03-18 估计测站（binding），在该日期固定测站（对照），在 2024-01-01 估计测站（早先双精度未达标的那个场景）；每个基准面 sigma、条件数和最弱方向，均对照在测试内根据 oracle 的精确灵敏度重新计算的、随条件数缩放的判据；engine_inputs_match_the_committed_fixture：已提交的雅可比矩阵、权重和 Helmert 设计矩阵就是引擎当前构建的内容；record_engine_accuracy_against_a_factorisation_route：引擎的误差带以及 NumPy Cholesky 诊断已固定）
+
+seg-691a05f06e4d = linalg_sr, lunar_frame_campaign
+
+seg-f26d99df9184 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs（srif_datum_matches_mpmath_extended_precision：四个场景 — 在新的测评活动日期 2026-06-09 估计测站（binding），在该日期固定测站（对照），以及 2026-03-18 和 2024-01-01 的测站估计输入；每个基准面 sigma、条件数和最弱方向，均对照在测试内根据 oracle 的精确分量重新计算的平方根形式判据；engine_inputs_match_the_committed_fixture）；linalg_sr::tests（{ "9" } 个库测试：Dekker 乘积在 { "20 000" } 对数上等于融合乘加残差，相消求和的补偿求和，R^T R 等于 A^T A，逐次滤波更新等于一次批量更新，尾部分块等于舒尔补的平方根，三角矩阵求逆，Jacobi SVD，在条件良好的情形下与谱方法的基准面一致，重复运行逐位相同）；lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected 以及 the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
+
+seg-02fed5e55709 = receiver_trust (ingest, maritime)
+
+seg-3c5f4229618e = tests/maritime_trust_reference.rs（t1_nmea_decoding_matches_pynmea2、t2_east_north_offsets_match_the_wgs84_geodesic、t3_t4_monitor_input_statistics_match_the_oracle），对照 tests/fixtures/maritime_trust/reference.json，该文件由 scripts/gen_maritime_trust_ref.py 根据 examples/gen_maritime_trust_ref_inputs.rs 写出的合成 NMEA 重新生成；容差已预先登记于 tests/fixtures/maritime_trust/PREREGISTRATION.md
+
+seg-684b87e7f358 = nmea_synth (track, sentences, scenarios)；cli nmea-scenario
+
+seg-5699d8162c69 = tests/nmea_training_reference.rs（与 pynmea2 oracle 比对）；tests/nmea_training_scenarios.rs::every_sentence_is_checksum_valid_and_the_reader_accepts_it、::every_sentence_type_is_present_each_epoch、::deterministic_per_seed_and_sensitive_to_it
+
+seg-87e0596369cb = interference_map (adsb::nacp_epu_bound_m, adsb::nic_rc_bound_range_m, adsb::AdsbParams::classify, ais::ais_position_is_valid, ais::ais_speed_kn, grid::Grid::cell_of, route::exposure, land::LandMask::is_inland)
+
+seg-48689d047304 = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes（{ "12" } 个 NACp 编码，{ "59" } 行 NIC）；tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding（{ "94" } 帧）；tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely（{ "1770" } 个点，四种网格尺寸）；tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib（{ "8" } 条航线，{ "420" } 段，{ "11634" } km）；tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj（{ "996" } 个点）；interference_map 单元测试
+
+seg-a14a79333731 = telemetry (prometheus: Registry, render; otlp: build_payload, Exporter (feature otlp); sample)
+
+seg-bce7247612db = tests/telemetry_formats_reference.rs（prometheus_client_reads_our_exposition_as_the_registry_implies、the_official_otlp_proto_reads_our_json_as_the_registry_implies、awkward_reason_text_survives_the_parser、the_committed_outputs_are_what_this_crate_produces；schema { "1.3" }：prometheus_client_reads_the_schema_13_exposition_as_the_registry_implies、the_official_otlp_proto_reads_the_schema_13_json_as_the_registry_implies、promtool_accepts_the_schema_13_exposition、the_collector_receives_and_exports_the_schema_13_payload_unchanged）；tests/telemetry_cli.rs；telemetry::prometheus::tests（golden exposition）
+
+seg-40e8b0a596fb = telemetry (syslog: cef, rfc5424, SyslogSink; time)
+
+seg-baadfddd02b2 = tests/cef_reference.rs（pycef_reads_every_tier_1_event_as_the_sample_implies、the_logstash_cef_codec_reads_every_event_including_escaped_headers_as_the_sample_implies、the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_registered）；telemetry::syslog::tests（精确的 CEF 字符串、转义、严重级别、RFC { "5424" } 封装）；tests/telemetry_cli.rs
+
+seg-66f38fc734a7 = evidence (bundle: create_bundle, sign_detached, chain_link, sha256_hex; verify: verify_bundle, verify_detached; tsr; assemble; cli)
+
+seg-d50f70b4c20a = tests/evidence_crypto_reference.rs（RFC { "8032" } 第 { "7.1" } 节的向量 { "1" }、{ "2" }、{ "3" } 和 { "1024" }；FIPS 180-4 SHA-256 示例；精确一致）；tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case（{ "71" } 个算例）；tests/evidence_pack.rs（篡改测试）
+
+seg-703f4b4ac682 = evidence::tsa (verify_token, pem_certificates)；evidence::verify (VerifyOptions::tsa_anchors, Failure::TimestampAuthorityInvalid)；evidence::cli (--tsa-ca)
+
+seg-39bc6b70440b = tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl（预先登记的比对）；evidence::tsa::tests（公历日期与时间、base64、RSA 公钥运算）；evidence::verify::tests::anchors_make_the_authority_checked（未签名的令牌在提供锚点时验证失败；不提供锚点时报告保持不变）
+
+seg-837193c4e1dc = interop::testbench (write_motion_csv, write_nmea, trajectory_of, export)；fusion::pack::truth_trajectory
+
+seg-0094102cc5b8 = tests/testbench_reference.rs（{ "7" } 个测试：oracle 固定值、导出字节、每一行的最差情形、位置列、局部速度对照真实 NED 速度、欧拉角对照 scipy、NMEA 对照 pynmea2）；tests/interop_testbench.rs（写入器自身的往返测试）
+
+seg-3266b898bfd2 = iq::signals::beidou (b1i_bits, b1i)
+
+seg-ba514f7e73ce = iq::signals::gps (l1c_weil, l1c_ranging_bits, l1c_p_bits, l1c_d_bits, l1co_s1_run, l1c_o_bits)；iq::signals::tables
+
+seg-9e651a7f8dc9 = tests/iq_signals_gps_l1c.rs（c1_l1cp_and_l1cd_initial_and_final_24_chips_match_is_gps_800j_table_3_2_2、c2_l1co_initial_and_final_11_bits_match_is_gps_800j_table_3_2_3、c3_legendre_sequence_matches_is_gps_800j_table_6_2_1、the_column_check_rejects_relabelled_inverted_and_shifted_codes）
+
+seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits)；iq::signals::lunanet_tables；iq::lunanet_afs::check_spec
+
+seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs（b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns、b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1、b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns、b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay、b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay）；tests/iq_signal_matrix.rs（lunanet_afs_i、lunanet_afs_q）
+
+seg-af826b47d00e = { "388" } 行：{ "176" } 行经外部验证，{ "208" } 行由模型计算，{ "4" } 行由合作方负责。
+
+seg-6bb40f180cf0 = <s1>上一页</s1>验证状态
+
+seg-defb46c5bc80 = <s1>下一页</s1>能力参考
