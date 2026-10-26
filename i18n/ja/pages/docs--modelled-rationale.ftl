@@ -774,3 +774,91 @@ seg-c04042b0270a = JammerTest { "2024" } データセットで較正した受信
 seg-32ad0b0da818 = receiver_trust::calibration::run_dataset：公開の JammerTest { "2024" } データセット（Zenodo { "15911589" }、GPL-3.0-or-later、実行時に取得し、同梱はしません）に対する、C/N0 低下、AGC、ジャミングインジケーターの各モニターの事前登録した較正。フォルダごとに、mon_rf.csv と rinex.csv から { "1" } 秒のタイムラインを作り、モニターを一回実行し、較正後の各エポックを、フォルダの attack_log（CEST から UTC にシフトし、{ "60" } 秒のガード）に基づいてクリーンまたはジャミングとラベル付けし、すべてのしきい値を固定のグリッド上で掃引し、プールしたクリーンの誤警報確率が { "0.01" } 以下となる最小のしきい値を選択し、フォルダ一つを除外した場合のホールドアウトの件数を求めます。UBX リーダーの相互チェックもあります。選択結果はオプトインのプロファイル [monitors] profile = "jammertest-2024-calibrated"（cn0_drop_db { "1.5" }、agc_k_sigma { "3.5" }、jam_ind_threshold { "29" }）としてのみ提供され、既定の規則と、それを使わないすべての出力は変更ありません
 
 seg-c3c260b7063e = テスト
+
+seg-28780d07c4a7 = h2、k2、l2 および物理秤動振幅のフィッシャー情報を、次の観測から求めます：レーザー測距（動径方向と水平方向の潮汐変位、反射器の回転）、周回機の追跡（視線方向に沿って積分した 2 次の k2 加速度、トレンドは除去）、地表重力計（重力係数 { "1" } + h2 - { "1.5" } k2）、地表クロック（相対レート ({ "1" } + k2 - h2) W2/c2、月時間の定数に結び付けたもの）。h2 と l2 の公称値は線形化点です。この研究が示すのは、何が何に対して敏感かであり、数値が何であるかではありません。
+
+seg-65a8361b4a22 = Jammertest の採点：公表されているテスト計画に対し、予定されたテストごとに受信機ログを採点（検出レイテンシ、見逃した警報、誤警報、回復までの時間）
+
+seg-98d8c39f47ae = jammertest::{ "{" }plan, score, dataset{ "}" }（kshana jammertest import|score）：NPRA のテストカタログと送信計画（MIT、固定した SHA-256 で取得し、同梱はしない）を、カタログ ID を保ったまま予定された真値として読み込みます。receiver-trust の実行をテストごとに採点し（最初の警報から計画上の開始時刻を引いた値、許容差に対する検出／遅延／見逃しの判定、最初の警報なしの区間までの時間、すべてのスロットとそのガード区間の外での警報）、採点表を含む署名付きエビデンスパックを出力します。スケジュールは計画上のスロットであり、実際の放送時刻の記録ではありません
+
+seg-ee99388f7b15 = compliance（kshana compliance-report）：Kshana の出力を、公的フレームワークの条項へ番号のみで対応付けたもので、与えられた実行から埋めます。結果がある機能の根拠として数えられるのは、対応付けが挙げる証拠を伴う場合だけであり、空の集合は何も裏付けず、表現は「supports evidence for」です。このレポートは、いずれかのフレームワークが満たされたという所見ではなく、誰かによる格付けや承認でもありません。
+
+seg-98c360d82d56 = マリン統合：Signal K プラグイン、OpenCPN のゲートストリームとスコアパネル、リファレンスビルド
+
+seg-7af9ce566646 = Signal K サーバーの navigation.gnss.kshana の下に公開される、信頼スコア、バンド、理由、ゲートの状態、受信機が報告した位置（warn、alarm、normal の通知付き、integrations/signalk）。ゲートを通した NMEA ストリーム（信頼が崩壊している間は測位解を無効とし、サイクルごとに PKSHT センテンスを付加）を、ゲート自身または小さなリレーが TCP で OpenCPN に提供し、PKSHT センテンスを読むネイティブの OpenCPN スコアパネル（integrations/opencpn）。そして、ゲートを動かす systemd ユニットとコンテナ（deploy/reference-build）です。これらが出力を表示する場所には、助言用ソフトウェアであり、型式承認を受けた航法装置（IEC { "61108" }、IEC { "61162" }）ではありません。船舶の航行の責任は引き続き運用者にあります。という助言の文言を付けます。
+
+seg-89ab9ef155eb = BOC({ "1,1" }) 追尾：DLL のスケーリングとバンプジャンプによるアンビギュイティ解決（オプトイン）
+
+seg-ef24be9b5917 = iq::track::LoopConfig の boc フィールド（オプトイン、デフォルトは None）：三つの DLL ディスクリミネーターを、サイン BOC({ "1,1" }) のメインピーク上でコード誤差をチップ単位で単位傾きとして読み取れるように再スケーリングし、サブキャリアの半周期（{ "0.5" } チップ）離れた very-early と very-late の相関器にバンプジャンプモニターを置いて、アップ／ダウンカウンターが N（デフォルトは { "8" }）に達したときにコード NCO をメインピークの方向へジャンプさせます。このオプションを使わない場合、すべての出力は変わりません。
+
+seg-2c32955cbfb3 = IQ 電離圏シンチレーションチャネル（Cornell モデル）を、実測の { "50" } Hz の GPS L1 シンチレーションと照合
+
+seg-2fdcb373ab25 = iq::channel::scint、Cornell シンチレーションモデル（Rice 強度、二次のバターワーススペクトル、位相 arg z）を、実測ウィンドウの S4 と強度の相関時間で駆動し、この二つの入力を超えて生成するものについて比較します。realdata::scint50 が実測ログを読み込み、トレンドを除去して比較を実行します。
+
+seg-160507ac3702 = IQ 捕捉におけるセル平均 CFAR オプション
+
+seg-7c0a1adc9ae6 = iq::acq::ca_cfar と ca_cfar_cells（オプトイン）：捕捉グリッドのセルを、そのドップラー行の参照セルの平均と比較します（ガードとストライドのラグ、周期で折り返し）。係数 alpha は、M 個の非コヒーレントブロックに対する閉形式の CA-CFAR 誤警報確率から設定します（ca_cfar_pfa、ca_cfar_alpha）。サンプル電力検出器は引き続きデフォルトで、既存の出力はすべて変わりません。
+
+seg-5bd3bf0c22a7 = スペクトルモデル：GLONASS、BeiDou、Galileo E6 の各バンド（オプトイン）
+
+seg-9c16189c63ac = spectrum::default_band は、名前のみで（MORE_BAND_NAMES）、次を解決します：すべての FDMA チャネル K = -7 から { "6" } の GLONASS L1OF と L2OF（BPSK、{ "0.511" } Mchip/s）、BeiDou B1I（BPSK({ "2" })）、B1C（MBOC(6,1,1/11)）、B2a と B3I（BPSK({ "10" })）、Galileo E6（BPSK({ "5" })）。搬送波と最小受信電力はそれぞれのインターフェース管理文書に従います。デフォルトのバンドセットと既存の出力はすべて変わりません。
+
+seg-7b1ae0c7ca28 = LunaNet AFS の三次符号とメッセージ層（SB1 BCH、CRC-24Q、インターリーバー）を、LSIS-AFS V1.0 と照合
+
+seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits、afs_q_tiered、iq::lunanet_afs：同期パターン、SB1 の BCH({ "51,8" }) エンコーダーと 256 仮説デコーダー、CRC-24Q、{ "60" } x { "98" } のブロックインターリーバー、シンボルストリームのチェッカー（kshana lunanet-afs-check）、およびプレースホルダーのサブフレームを持つテストストリーム生成器。サブフレーム { "2" } から { "4" } のレート 1/2 の LDPC 符号化は未実装です（その行列は別の附属書にあります）。
+
+seg-0d7b17524c04 = 標準パック：実行前に定めた合格基準に照らして採点するシナリオ
+
+seg-6e5c04fd4531 = standards_pack（kshana standards-pack）：レベル { "1" } から { "4" } の DHS Resilient PNT フレームワークのテストプロファイル、IMO MSC.1/Circ.1575 の精度レベルとインテグリティ評価、ICAO Doc { "9849" } Appendix F の監視、評価、緩和のパックです。各テストは同梱のシナリオ種別を実行し、結果のフィールドをパックに定めた合格基準と比較します。受信機ログを必要とするテストは NEEDS INPUT として一覧に載せ、採点しません。
+
+seg-8a8f2c85e0c3 = ラボのラウンドトリップ用エビデンスパック（シナリオ、試験条件、受信機ログ、スコア）
+
+seg-a090b06a920d = evidence::roundtrip（kshana evidence round-trip）と、kshana bench-export の kshana.test-conditions/1 受信機ログのエクスポート：シナリオのハッシュ、記載した条件のハッシュ、ログのハッシュ、および記載したイベントに対するスコアを記録する署名付きパックです。採点イベントと食い違う条件や、ハッシュが記載のものと一致しないログは拒否します。信号の書き出し、再生、スケジュールは行いません。
+
+seg-a9189e4fe413 = IQ 追尾エンジンを、独立した記録データ上の GNSS-SDR { "0.0.19" } と照合
+
+seg-364de05e5b1b = IQ 層の完全な追尾エンジン（iq::track、kshana iq track 経由：捕捉からの引き継ぎ、相関器、NCO、二次の { "15" } Hz Costas PLL、一次の { "2" } Hz 搬送波補助 EML エンベロープ DLL、ロック指標、C/N0 推定器）を、{ "30" } から { "45" } dB-Hz の GPS L1 C/A で扱います。
+
+seg-259d201c2ff8 = ジャミング種別の CRPA アンテナ利得を、独立した numpy での再計算と照合
+
+seg-192144c57783 = ジャミング種別の任意の [crpa] セクション：各衛星に向けたチャネルごとのビーム（ジャマーをヌルとするヌルステアリング、または sigma^{ "2" } I + P_j a_j a_j^H に対する MVDR）で、既存の耐ジャミング C/N0 の式の前に、各リンクの雑音を ||w||^{ "2" } で、ジャマーを |w^H a_j|^{ "2" } でスケーリングします。
+
+seg-a2f34cff9338 = ジャミング種別におけるジャマーの地形による遮蔽を、実際の SRTM タイルでの独立した numpy 再計算と照合
+
+seg-334c569d9cae = ジャミング種別の任意の [terrain] セクション：SRTM の .hgt タイル上でジャマーと受信機の間の大圏の地形プロファイルを、k ファクターによる地球の膨らみとともに求め、支配的なナイフエッジ（最大の Fresnel-Kirchhoff nu）と ITU-R P.526-15 の節 { "4.1" } の単一ナイフエッジ損失を、ジャマーの受信電力から差し引きます。
+
+seg-825c121c7512 = ジャミング種別の捕捉ヒステリシスとフロントエンドの量子化器を、独立した再計算と照合
+
+seg-f7207263d881 = ジャミング種別の任意の [acquisition] セクション（衛星は、再捕捉遅延の後、捕捉しきい値以上で捕捉され、追尾しきい値以上である間は保持される）と [front_end] セクション（AGC の読み { "10" } log10({ "1" } + J/N) と、ADC のガウス入力量子化器の損失を、すべてのリンクから差し引き、非ガウスのジャマーには有効でないと明示する）。
+
+seg-9c46f1c76486 = 既定設計の FLL から PLL への引き継ぎの下限を下回る領域での、上限付き FLL プルイン（オプトイン）
+
+seg-efa1d1a9e904 = iq::track のオプトインの carrier.fll_pull_in_max_s（iq::track::LoopConfig の fll_pull_in_max_s フィールド）：fll_assist = pull-in のもとで、FLL は PLI にかかわらず一定のプルイン時間の後に PLL へ引き継ぎ、PLI が初めて fll_off_pli に達するまで、対応する戻りの滞留を伴います。
+
+seg-ac0f97e945a7 = receiver-trust 向けの RTKLIB .pos 解の読み取り
+
+seg-0b8bc2c89de4 = RTKLIB の解ファイル（暦または GPS 週／TOW の時刻、緯度／経度または ECEF の位置、使用衛星数）を、receiver-trust のタイムラインに読み込みます（receiver_trust::machines::rtklib）。
+
+seg-849393517c04 = receiver-trust 向けの NovAtel OEM7 の ASCII とバイナリのログ（BESTPOS、RANGE、RXSTATUS）
+
+seg-7e0021922025 = ASCII とバイナリの OEM7 ログから、BESTPOS（位置）、RANGE（信号ごとの C/No）、RXSTATUS（受信機のジャマーフラグ。そのエポックの自己申告として）を読み取ります。CRC を確認し、読み取り専用です（receiver_trust::machines::novatel）。
+
+seg-a45c53a9deb3 = receiver-trust 向けの RTCM { "3" } MSM4 と MSM7 の搬送波対雑音の読み取り
+
+seg-0a0c9976236f = RTCM { "3" } の MSM4 と MSM7 メッセージ（GPS、GLONASS、Galileo、SBAS、QZSS、BeiDou、NavIC）の、すべての信号セルの C/N0 を、フレームストリームから読み取ります。CRC-24Q を確認します（receiver_trust::machines::rtcm3）。レイアウトは、RTCM 規格の本文ではなく、BSD ライセンスの pyrtcm の表によります。
+
+seg-cd554a7c1649 = receiver-trust 向けの GNSS-SDR モニターアダプター
+
+seg-22b587ac642d = GNSS-SDR の Monitor（Gnss_Synchro）と PVT モニターのメッセージを、proto のフィールド名のまま JSON 行に中継したものから読み取り、チャネルごとの C/N0、測位解、使用衛星数、HDOP、スカイに変換します（receiver_trust::machines::gnss_sdr、integrations/gnss-sdr/relay.py）。
+
+seg-217e5953c128 = IMU ログの取り込み、ジャイロ方位の入力、およびハイブリッドセンサーパラメーターのアラン分散フィット
+
+seg-9dadc819daef = IMU の CSV（文書化された列、または EuRoC のレイアウト）を読み込み、ヨーレートを積分して、方位・針路モニターが読む方位にし（[log.imu]）、静止ログから、重なりのあるアラン偏差によって、ハイブリッドおよびフュージョンのシナリオの加速度計とジャイロの雑音パラメーターをフィットします（imu-fit）。
+
+seg-15a852a2dcb0 = 信頼テレメトリ向けの Home Assistant MQTT ディスカバリーおよび状態エクスポーター
+
+seg-6d6b07b26966 = 信頼ストリームのための JSON の状態ドキュメントと Home Assistant MQTT ディスカバリーメッセージで、すべてのサーフェスでテキストとして出力され、CLI が MQTT { "3.1.1" } の QoS { "0" } で公開します（telemetry::mqtt、trust-telemetry --mqtt-tcp、--print-mqtt、format mqtt）。
+
+seg-68caf86157c2 = ROS { "2" } の receiver-trust パッケージと gnss_lib_py ブリッジ
+
+seg-e7d7d99fe538 = 測位解と衛星のメッセージを NMEA として書き出し、Python バインディングで採点する、ROS を使わないブリッジ（integrations/ros2/kshana_trust）と、rtklib-pos 形式を介して gnss_lib_py の NavData を receiver-trust に橋渡しするブリッジ（integrations/gnss_lib_py）。
