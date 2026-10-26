@@ -5368,7 +5368,7 @@ js-kind-guided-update-period-s = 更新周期 (s)
 js-kind-guided-user-latitude = ユーザーの緯度 (°)
 
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:680
-js-kind-hint-a-band-under-this-carrier = この搬送波雑音密度度を下回る帯域は、ロックを失う
+js-kind-hint-a-band-under-this-carrier = この搬送波雑音密度を下回る帯域は、ロックを失う
 
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:699
 js-kind-hint-a-grid-point-is-available = 位置の DOP（精度低下率）がこれを下回る間、グリッド点は利用可能
@@ -5827,7 +5827,7 @@ js-kind-note-a-low-earth-orbit-leo = 低軌道（LEO）衛星は数分で空を�
 js-kind-note-a-receiver-independent-exchange-format = Receiver Independent Exchange Format（RINEX）4 形式の記録です。LEO の記録タイプは、ヘッダーに記載のとおり { -brand } の拡張です。
 
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:450
-js-kind-note-a-single-pass-fixes-the = 1 回のパスで決まるのは、クロストラック方向よりもアロングトラック方向のほうがはるかに良好です。
+js-kind-note-a-single-pass-fixes-the = 1 回のパスでは、クロストラック方向よりもアロングトラック方向のほうがはるかに正確に決まります。
 
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:352
 js-kind-note-aos-is-acquisition-of-signal = AOS は信号捕捉、TCA は最接近時刻、LOS は信号消失です。
