@@ -276,6 +276,10 @@ seg-ff90679d1de9 = Detektion af spoofing
 
 seg-257c477dc510 = WebAssembly
 
+seg-2192262e26c1 = nået
+
+seg-785218a0ea66 = Hvad Kshana ikke er
+
 seg-b366150de755 = Anmod om et studie
 
 seg-12f050093898 = Hvorfor alle har brug for den

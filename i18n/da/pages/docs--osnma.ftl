@@ -6,6 +6,54 @@ seg-6816f4e1a0a0 = Version
 
 seg-94058315dfe4 = Input
 
+seg-23746ba370c2 = Kilde: <c1/>
+
+seg-1e9c104231db = Galileo OSNMA-verifikator på modtagersiden
+
+seg-17fd702f5997 = En verifikator på modtagersiden til Galileo Open Service Navigation Message Authentication (OSNMA), i ren Rust. Den læser I/NAV-sider og rapporterer pr. satellit og pr. epoke, om navigationsdataene er kryptografisk autentificerede, og hvorfor en kontrol fejlede.
+
+seg-ae081f55c4f1 = <b>Vejledende.</b> Dette er analyse- og overvågningsoutput og ikke typegodkendt navigationsudstyr. Den autentificeringsstatus, der rapporteres her, er ikke en navigationsintegritetstjeneste og må ikke være det eneste grundlag for nogen navigations- eller sikkerhedsbeslutning.
+
+seg-84d7260098b1 = BEMÆRK: immaterielle rettigheder i Galileo OSNMA-grænsefladen
+
+seg-6d78ccef53d5 = Kshana giver ingen rettigheder under Den Europæiske Unions immaterielle rettigheder i Galileo OSNMA Signal-in-Space Interface Control Document (de "ICD IPR'er"). ICD'en bærer sin egen tilladelse (dens Annex E), som er ikke-eksklusiv og royaltyfri og har sine egne vilkår, sit eget omfang og sine egne grænser. Enhver, der bruger, bygger eller distribuerer software baseret på dette modul, støtter sig direkte til den tilladelse og skal selv læse og acceptere dens vilkår. Kshanas licens (AGPL-3.0-only eller den kommercielle licens) dækker kun Kshanas egen kode.
+
+seg-c13ad334bf9a = Dette modul implementerer de algoritmer, som dokumenterne nedenfor beskriver. ICD-teksten gengives ikke; talværdier (feltopbygninger, opregninger, MAC-opslagstabellen) er udtrykt igen i Kshanas egen notation, med kilden angivet i koden. ICD'en og Receiver Guidelines er © Den Europæiske Union; kilden anerkendes her. Kshana er ikke udviklet af, brugt af, godkendt af eller støttet af Den Europæiske Union, Europa-Kommissionen, EUSPA eller noget andet organ.
+
+seg-860096b04999 = Referencedokumenter
+
+seg-04c1e1a6278d = Udgivet af European GNSS Service Centre.
+
+seg-278dd0f9df58 = Dokument
+
+seg-3427e40d7bee = Dato
+
+seg-54d15cb428d3 = Galileo OSNMA Signal-in-Space ICD ("SIS ICD")
+
+seg-f63fbc1175cf = Issue { "1.1" }
+
+seg-fa85e4db2c93 = oktober { "2023" }
+
+seg-b89aa2b88558 = Galileo OSNMA Receiver Guidelines
+
+seg-907e4e46056c = Issue { "1.3" }
+
+seg-a9b75bc7f063 = januar { "2024" }
+
+seg-530ae6421157 = Afsnits- og tabelnumre, der er citeret i koden og her, henviser til disse versioner.
+
+seg-143726cc3d5f = Hvad der verificeres
+
+seg-029a9bb7608f = Tillidskæden, fra roden ned til dataene:
+
+seg-886f1b6556ce = <b>Offentlig nøgle (ICD { "3.2.2" }, { "6.2" }).</b> En DSM-PKR samles igen af sine blokke, og dens Merkle-sti gennemløbes til en betroet Merkle-rod (SHA-256).
+
+seg-27b4935fe47b = <b>KROOT (ICD { "3.2.3" }, { "6.3" }).</b> En DSM-KROOT samles igen; dens ECDSA-signatur (P-256/SHA-256 eller P-521/SHA-512) kontrolleres mod den offentlige nøgle, den nævner, over NMA-headeren og kædeparametrene.
+
+seg-acc1f06cf63a = <b>TESLA-nøgler (ICD { "5.5" }, { "6.4" }).</b> Hver nøgle i en MACK-meddelelse følges tilbage til KROOT eller til en tidligere verificeret nøgle med kædens hashfunktion.
+
+seg-274285216a96 = <b>MACSEQ (ICD { "4.1.2" }, { "6.6" }).</b> De fleksible Tag-Info-felter kontrolleres mod MACSEQ med den nøgle, der åbner den pågældende MACK.
+
 seg-41ba810d7c8d = <b>Tags (ICD { "4.2" }, { "6.7" }).</b> Hvert tag beregnes igen (HMAC-SHA-256 eller CMAC-AES, afkortet til kædens taglængde) over satellitidentiteterne, delrammens tid, tagpositionen, NMA-statussen og de navigationsdata, det dækker, og sammenlignes. ADKD { "0" } (efemeride, ur og status), ADKD { "4" } (tidsparametre) og ADKD { "12" } (langsom MAC, nøgle udgivet ti delrammer senere) håndteres, med krydsautentificering af satellitter, der ikke selv bærer OSNMA, og dummytags (COP { "0" }).
 
 seg-1be16a4ca722 = Et tag, der nævner en reserveret værdi, eller hvis ADKD ikke passer til pladsen i MAC-opslagstabellen, lægges til side (Receiver Guidelines siger, at det skal kasseres) og rapporteres som <c1/>, ikke som en fejl.

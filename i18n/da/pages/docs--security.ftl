@@ -1,5 +1,7 @@
 # docs--security: translations (da)
 
+seg-4609cf7fb790 = Sikkerhedspolitik
+
 seg-ff991a587e4b = Kilde: <c1/>
 
 seg-7315b27c34f8 = Indberetning af en sårbarhed

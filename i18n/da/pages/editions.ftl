@@ -82,6 +82,8 @@ seg-70a79ec95bf4 = ikke bestået
 
 seg-7a33a168b020 = bestået
 
+seg-2192262e26c1 = nået
+
 seg-a91762c0aabe = Gratis
 
 seg-facf19c264a6 = Udgaver · åben kerne, Pro og skræddersyet studie

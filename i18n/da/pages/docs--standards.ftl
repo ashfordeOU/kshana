@@ -14,6 +14,8 @@ seg-906440b861cd = Ramme
 
 seg-32b620b3574e = Brug
 
+seg-8ba331635865 = Standarder og interoperabilitet
+
 seg-96a449a63d11 = Kilde: <c1/>
 
 seg-3ed65a16e7d0 = Kshana taler de standardiserede udvekslingsformater i miljøerne omkring GNSS (global navigation satellite system), flyvedynamik og tidssynkronisering, så den kan stå side om side med RTKLIB (et open source-bibliotek til kinematisk positionering i realtid), gLAB, Ginan, GMAT (General Mission Analysis Tool), Orekit og værktøjerne hos IGS' (International GNSS Service) analysecentre i stedet for på en privat ø. Denne side knytter de <b>udvekslingsformater</b>, motoren parser eller udsender, til det modul, der implementerer hvert af dem, og til den autoritative specifikation.
