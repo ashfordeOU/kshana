@@ -242,7 +242,7 @@ seg-a16109ccf9e7 = <c1/>：組み込みのすべての Kshana シナリオの種
 
 seg-299e14da6de8 = <c1/>：標準パックを一覧します（`kshana standards-pack list`）。DHS レジリエント PNT フレームワークの試験プロファイル、IMO MSC.1/Circ.1575、ICAO Doc { "9849" } 付録 F に対する、採点されるシナリオのセットです。それぞれに、実行前に明示した合格基準と、証拠を裏付ける（supports evidence for）compliance の行が付いています。
 
-seg-1097125b8282 = <c1/>：LunaNet Augmented Forward Signal（AFS）を、公開仕様に対して確認します。LNIS Version { "5" } Applicable Document { "1" } Volume A（LSIS-AFS V1.0、{ "2025" } 年一月 { "29" } 日）に固定しています（`kshana lunanet-afs-check`、docs/LUNANET-AFS.md）。
+seg-1097125b8282 = <c1/>：LunaNet Augmented Forward Signal（AFS）を、公開仕様に対して確認します。LNIS Version { "5" } Applicable Document { "1" } Volume A（LSIS-AFS V1.0、{ "2025" } 年1月 { "29" } 日）に固定しています（`kshana lunanet-afs-check`、docs/LUNANET-AFS.md）。
 
 seg-9a7ca52ec440 = <c1/>：kshana-bench の結果ファイルを、静的なリーダーボードページとして、返信内の HTML テキストでレンダリングします（`kshana bench leaderboard`）。`results` は `kshana-bench-result/1` の JSON テキストのリスト（最大 { "256" } 個、各 { "4" } MiB）で、それぞれ最初に検証されます。別のメジャー仕様バージョンで採点されたファイルは、メジャーバージョンの異なる結果を一つの表に載せることは決してないため、拒否されます。
 

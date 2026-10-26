@@ -20,7 +20,7 @@ seg-587beeccaa11 = プリセット
 
 seg-1ff32b87e030 = 衛星数
 
-seg-9e0514e371e5 = Global Positioning System (GPS) Standard Positioning Service Performance Standard (SPS PS)、第5版、{ "2020" }年四月、表 3.2-1 および 3.2-3
+seg-9e0514e371e5 = Global Positioning System (GPS) Standard Positioning Service Performance Standard (SPS PS)、第5版、{ "2020" }年4月、表 3.2-1 および 3.2-3
 
 seg-fb6956d09acc = { "24" } から { "30" }
 
