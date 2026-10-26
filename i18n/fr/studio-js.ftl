@@ -7394,3 +7394,479 @@ js-replay-every-direction = toutes les directions
 js-replay-file-error = { $name } : { $error }
 
 js-replay-kinds-convergence-horizontal = Convergence : erreur horizontale médiane
+
+js-replay-kinds-convergence-vertical = Convergence : erreur verticale médiane
+
+js-replay-kv-course = Route déclarée
+
+js-replay-kv-heading = Cap (gyro)
+
+js-replay-kv-position-error = Erreur de position
+
+js-replay-kv-receiver = Récepteur
+
+js-replay-kv-run-time = Temps de l'exécution
+
+js-replay-kv-satellites = Satellites utilisés / en vue
+
+js-replay-kv-sky = Ciel
+
+js-replay-legend = Légende
+
+js-replay-legend-no-fix = pas de position calculée
+
+js-replay-legend-true-track = trace réelle
+
+js-replay-moment = Instant à T+{ $t } :
+
+js-replay-no-coast = Aucune côte n'est tracée : aucune n'est fournie pour cette fenêtre.
+
+js-replay-no-gsv = pas de GSV dans ce journal
+
+js-replay-not-json = { $name } : pas du JSON.
+
+js-replay-not-scored = non évalué
+
+js-replay-obs-not-attributed = non attribuée
+
+js-replay-open-failed = { $id } n'a pas pu être ouvert : { $reason }.
+
+js-replay-open-file = Ouvrir un fichier…
+
+js-replay-opened = { $name } ouvert dans le panneau { $n }. Lu ici ; rien n'a été téléversé.
+
+js-replay-opening = Ouverture de { $id }…
+
+js-replay-pause = Pause
+
+js-replay-play = Lecture
+
+js-replay-read-failed = { $name } : n'a pas pu être lu ou tracé ({ $reason }).
+
+js-replay-reading = Lecture de { $name }…
+
+js-replay-reduced-motion = Le mouvement réduit est préféré ; la relecture démarre donc à 1x et ne se lance pas toute seule.
+
+js-replay-run = Exécuter
+
+js-replay-run-shown = Exécution affichée dans le panneau { $n }
+
+js-replay-saved-svg = { $name } enregistré ({ $size } ko) : toutes les images dans un seul fichier, tracées à partir des mêmes lignes que cette page.
+
+js-replay-saved-zip = { $name } enregistré ({ $size } Mo) : un SVG par image, un manifeste des lignes derrière chacune, et un README.
+
+js-replay-src-instructor = Votre fichier { $name } : un journal d'instructeur seul n'apporte ni score du moteur ni ciel.
+
+js-replay-src-trust = Votre fichier { $name } : un résultat de confiance ne porte ni ciel ni cap, ils ne sont donc pas tracés.
+
+js-replay-status-ready = { $a } et { $b } : exécutions synthétiques, évaluées par le moteur. Appuyez sur Lecture, ou déplacez l'horloge.
+
+js-replay-status-synthetic = { $titles } : exécutions synthétiques, évaluées par le moteur.
+
+js-replay-status-synthetic-no-coast = { $titles } : exécutions synthétiques, évaluées par le moteur. Trait de côte indisponible.
+
+js-replay-strip-label = Score de confiance sur l'exécution
+
+js-replay-titles-and = { $a } et { $b }
+
+js-replay-too-large = { $name } dépasse ce que lit cette page.
+
+js-replay-track = Trace de { $n } lignes de journal, nord en haut.
+
+js-replay-track-widened = Trace de { $n } lignes de journal, nord en haut, élargie pour montrer la côte la plus proche.
+
+js-replay-verdict = Verdict
+
+js-replay-verdict-degraded = { $dur } en bande dégradée, aucune en bande non fiable
+
+js-replay-verdict-early = Verdict (provisoire)
+
+js-replay-verdict-fine = D'après le journal et le score du moteur seulement ; synthétique, à titre consultatif, pas un chiffre de performance de détection.
+
+js-replay-verdict-first = premier passage sous la bande nominale à T+{ $t }
+
+js-replay-verdict-first-after = premier passage sous la bande nominale à T+{ $t }, { $dur } après le début du premier événement (T+{ $onset })
+
+js-replay-verdict-first-before = premier passage sous la bande nominale à T+{ $t }, avant le début du premier événement (T+{ $onset })
+
+js-replay-verdict-lowest = Score de confiance le plus bas { $score } ({ $band }) à T+{ $t }
+
+js-replay-verdict-never-left = le score n'a jamais quitté la bande nominale
+
+js-replay-verdict-no-fix = pas de position calculée pendant { $dur }
+
+js-replay-verdict-not-scored = Non évalué : le score de confiance du moteur est montré pour les exécutions de la bibliothèque
+
+js-replay-verdict-peak-error = plus grande erreur de position consignée { $err } m à T+{ $t }
+
+js-replay-verdict-untrusted = { $dur } dans la bande non fiable
+
+js-replay-verdict-wait = Affiché à la fin de cette exécution, à T+{ $t }.
+
+js-ssv-altitude-label = Altitude et mesures utilisées
+
+js-ssv-at-least-1 = au moins 1 signal
+
+js-ssv-at-least-4 = au moins 4 signaux
+
+js-ssv-avail-label = Disponibilité, { $band }
+
+js-ssv-bar-title = { $label }, { $name } : { $value }{ $unit }
+
+js-ssv-blurb-formation-heo = Un satellite chef et un satellite adjoint distants d'un kilomètre sur une orbite très elliptique : avec quelle précision le filtre connaît leur position relative, par rapport à ce que donneraient les deux positions absolues.
+
+js-ssv-blurb-heo = Une orbite très elliptique (apogée vers 58 600 km) avec une antenne à gain élevé au nadir et une antenne patch au zénith et un modèle paramétrique de lobes secondaires : signaux en vue, meilleur C/N0, lobe principal contre lobe secondaire, dilution de précision et signaux qui rasent l'atmosphère.
+
+js-ssv-blurb-lunar-weak = Une trajectoire de transfert lunaire avec un récepteur conçu pour fonctionner aux signaux les plus faibles : ce qu'il lui faut pour acquérir et poursuivre, et quelle part de la trajectoire il peut utiliser.
+
+js-ssv-blurb-nav-lunar = Un filtre de navigation embarqué sur un transfert lunaire : son erreur de position par rapport à la borne qu'il indique, sous et au-dessus des orbites propres des satellites GNSS.
+
+js-ssv-blurb-shell = Une coquille sphérique à la hauteur géostationnaire, échantillonnée sur une grille : à quelle fréquence un engin spatial qui s'y trouve entend-il au moins un, et au moins quatre, signaux à 20 dB-Hz, en L1 et L5, pour chaque constellation et toutes ensemble ?
+
+js-ssv-cn0-altitude-label = Meilleur C/N0 et altitude en fonction du temps, { $band }
+
+js-ssv-cn0-label = Meilleur C/N0, { $band }
+
+js-ssv-cn0-note = Parmi les signaux en vue, le plus fort à chaque époque : du plus petit au plus grand sur les époques, avec la moyenne marquée.
+
+js-ssv-cn0-title = Meilleure densité porteuse sur bruit, { $band }
+
+js-ssv-comparison-failed = La comparaison n'a pas pu être affichée ({ $reason }).
+
+js-ssv-comparison-not-loaded = le fichier de comparaison ne s'est pas chargé
+
+js-ssv-default-bars = barres
+
+js-ssv-default-chart = graphique
+
+js-ssv-default-ranges = plages
+
+js-ssv-deputies-note = RMS absolu du chef { $rms } m sur { $epochs } époques.
+
+js-ssv-deputies-title = Chaque adjoint
+
+js-ssv-dop-note = Médiane, 95e percentile et pire PDOP sur les époques qui ont une position calculée, et, lorsque le scénario définit une atmosphère, les signaux qui la rasent.
+
+js-ssv-dop-title = Dilution de précision et atmosphère, { $band }
+
+js-ssv-err-label = Erreur de position par rapport à la borne indiquée
+
+js-ssv-err-note = La ligne en pointillés est la borne à un sigma que le filtre indique ; la ligne pleine est son erreur par rapport à la vérité que connaît le scénario. Décimée par le moteur.
+
+js-ssv-err-title = Erreur de position par rapport à la borne propre du filtre
+
+js-ssv-fact-antenna = Antenne
+
+js-ssv-fact-apogee = Altitude d'apogée
+
+js-ssv-fact-cn0-threshold = Seuil de densité porteuse sur bruit
+
+js-ssv-fact-duration = Durée
+
+js-ssv-fact-eccentricity = Excentricité
+
+js-ssv-fact-grid-points = Points de grille
+
+js-ssv-fact-inclination = Inclinaison
+
+js-ssv-fact-mode = Mode
+
+js-ssv-fact-perigee = Altitude de périgée
+
+js-ssv-fact-period = Période
+
+js-ssv-fact-shell-altitude = Altitude de la coquille
+
+js-ssv-fact-sma = Demi-grand axe
+
+js-ssv-fact-step = Pas
+
+js-ssv-filter = filtre
+
+js-ssv-formation-note = Erreur de position relative RMS, issue du filtre et de la différenciation des deux positions absolues, sur toute l'exécution et au-dessus des orbites GNSS.
+
+js-ssv-formation-title = Position relative des adjoints
+
+js-ssv-from-absolute = à partir de deux positions absolues
+
+js-ssv-group-combined = toutes ensemble
+
+js-ssv-icg-note = { $label } ; les verdicts par seuil des fichiers de résultats versionnés du moteur (commit du moteur { $commit }). Les tableaux du livret sont publics ; rien ici n'est VALIDATED.
+
+js-ssv-icg-wrong-file = le fichier de comparaison ICG n'est pas celui que lit cette page
+
+js-ssv-lobe-note = Combien de liaisons utilisables sont passées par le lobe principal et combien par un lobe secondaire, comptées par le moteur.
+
+js-ssv-lobe-title = Lobe principal et lobe secondaire, { $band }
+
+js-ssv-na = n/d
+
+js-ssv-nav-note = Mesures utilisées et écartées, la plus longue interruption avec moins de quatre signaux, l'erreur finale et l'estimation de la pression de rayonnement solaire par rapport à la vérité que connaît le scénario.
+
+js-ssv-nav-title = L'exécution en chiffres
+
+js-ssv-never = jamais
+
+js-ssv-never-had-four = n'a jamais eu quatre
+
+js-ssv-never-had-one = n'a jamais eu un
+
+js-ssv-no-range = Aucune plage dans ce résultat.
+
+js-ssv-no-series = Le résultat ne contient aucune série pour ce graphique.
+
+js-ssv-not-in-variant = ne fait pas partie de la variante
+
+js-ssv-not-result = ceci n'est pas un résultat gnss-ssv
+
+js-ssv-of = { $n } sur { $total }
+
+js-ssv-offset = décalage de { $deg }°
+
+js-ssv-open-failed = { $title } n'a pas pu être ouvert : { $reason }.
+
+js-ssv-opening = Ouverture de { $title }…
+
+js-ssv-outage-note = En minutes, sur l'exécution. « Jamais » marque un groupe qui n'a jamais eu autant de signaux nulle part sur la coquille.
+
+js-ssv-outage-title = Plus longues coupures sur la coquille
+
+js-ssv-phases-note = Une statistique du filtre sur l'exécution et sur ses deux parties. Un NEES de position moyen proche de 3 signifie que la borne indiquée par le filtre est cohérente avec son erreur.
+
+js-ssv-phases-title = Erreur de position par phase
+
+js-ssv-point-title = { $name } : { $xLabel } { $x }, { $yLabel } { $y }
+
+js-ssv-range-title = { $label } : min { $min }, moy { $mean }, max { $max } { $unit }
+
+js-ssv-range-value = { $min } à { $max }
+
+js-ssv-recorded = { $title } : le résultat enregistré du moteur (version { $version }).
+
+js-ssv-relative-label = Erreur de position relative
+
+js-ssv-result-not-json = le résultat n'est pas du JSON ({ $reason })
+
+js-ssv-result-not-loaded = le résultat enregistré ne s'est pas chargé
+
+js-ssv-row-acquires = Acquisition jusqu'à
+
+js-ssv-row-carrier = Poursuite de la porteuse jusqu'à
+
+js-ssv-row-code = Poursuite du code jusqu'à
+
+js-ssv-row-coherent = Intégration cohérente
+
+js-ssv-row-delay-mean = Retard, moyenne
+
+js-ssv-row-detection = Seuil de détection
+
+js-ssv-row-false-alarm = Probabilité de fausse alarme par cellule
+
+js-ssv-row-final-error = Erreur de position finale
+
+js-ssv-row-gap = Plus longue interruption
+
+js-ssv-row-gated = Mesures écartées
+
+js-ssv-row-grazing = Rasant sous 100 km
+
+js-ssv-row-limb-links = Liaisons à travers le limbe
+
+js-ssv-row-loss-mean = Perte, moyenne
+
+js-ssv-row-lost = Perdu à cause de l'atmosphère
+
+js-ssv-row-pdop-median = PDOP, médiane
+
+js-ssv-row-pdop-p95 = PDOP, 95e percentile
+
+js-ssv-row-pdop-worst = PDOP, pire
+
+js-ssv-row-plasma-mean = TEC plasmasphérique, moyenne
+
+js-ssv-row-search-cells = Cellules de recherche
+
+js-ssv-row-search-time = Temps de recherche
+
+js-ssv-row-srp-est = Pression de rayonnement solaire, estimée
+
+js-ssv-row-srp-truth = Pression de rayonnement solaire, vérité
+
+js-ssv-row-stec-mean = TEC oblique, moyenne
+
+js-ssv-row-tangent = Hauteur de tangente, min à max
+
+js-ssv-row-tracking = Seuil de poursuite utilisé
+
+js-ssv-row-used = Mesures utilisées
+
+js-ssv-series-altitude = altitude/1000
+
+js-ssv-series-altitude-name = altitude
+
+js-ssv-series-best-cn0 = meilleur C/N0
+
+js-ssv-series-error = erreur
+
+js-ssv-series-measurements = mesures
+
+js-ssv-series-note = Une série décimée du nombre combiné sur toutes les constellations. Le moteur n'écrit aucune série par constellation, aucune n'est donc tracée.
+
+js-ssv-series-signals = signaux en vue
+
+js-ssv-series-signals-label = Signaux en vue en fonction du temps, { $band }
+
+js-ssv-series-stated-bound = borne indiquée
+
+js-ssv-series-title = Signaux et meilleur C/N0 le long de l'orbite, { $band }
+
+js-ssv-shell-avail-note = Part des points de grille et des instants avec au moins un et au moins quatre signaux au-dessus de { $cn0 } dB-Hz.
+
+js-ssv-shell-avail-title = Disponibilité sur la coquille, { $band }
+
+js-ssv-tangent-value = { $min } à { $max } km
+
+js-ssv-th-above-absolute = Au-dessus du GNSS : à partir des absolues, m
+
+js-ssv-th-above-filter = Au-dessus du GNSS : filtre, m
+
+js-ssv-th-band-group = Bande et groupe
+
+js-ssv-th-bar = Seuil
+
+js-ssv-th-baseline = Ligne de base, km
+
+js-ssv-th-common-4 = Époques avec 4 signaux communs
+
+js-ssv-th-common-mean = Moyenne des signaux communs
+
+js-ssv-th-compares = Ce qu'elle compare
+
+js-ssv-th-deputy = Adjoint
+
+js-ssv-th-epochs = Époques
+
+js-ssv-th-group = Groupe
+
+js-ssv-th-main-lobe = Liaisons du lobe principal
+
+js-ssv-th-nees = NEES de position moyen
+
+js-ssv-th-phase = Phase
+
+js-ssv-th-pos-p95 = Position 95e percentile, m
+
+js-ssv-th-pos-rms = Position RMS, m
+
+js-ssv-th-quantity = Grandeur
+
+js-ssv-th-rel-absolute = RMS relatif, à partir des absolues, m
+
+js-ssv-th-rel-filter = RMS relatif, filtre, m
+
+js-ssv-th-rel-vel = RMS de vitesse relative, m/s
+
+js-ssv-th-run1-cells = Exécution 1 : cellules dans la tolérance
+
+js-ssv-th-run1-verdict = Verdict de l'exécution 1
+
+js-ssv-th-sidelobe = Liaisons des lobes secondaires
+
+js-ssv-th-sidelobe-share = Part des lobes secondaires
+
+js-ssv-th-value = Valeur
+
+js-ssv-th-variant = Variante (diagnostic, angles de référence GLONASS du tableau 4.2)
+
+js-ssv-th-vel-rms = Vitesse RMS, m/s
+
+js-ssv-th-with-4 = Avec 4 signaux ou plus
+
+js-ssv-th-without-1 = Plus longue durée sans 1 signal
+
+js-ssv-th-without-4 = Plus longue durée sans 4 signaux
+
+js-ssv-title-formation-heo = Formation, orbite très elliptique
+
+js-ssv-title-heo = Orbite très elliptique
+
+js-ssv-title-lunar-weak = Transfert lunaire, récepteur à signaux faibles
+
+js-ssv-title-nav-lunar = Filtre embarqué, transfert lunaire
+
+js-ssv-title-shell = Coquille à 36 000 km
+
+js-ssv-traj-avail-note = Part des époques avec au moins un et au moins quatre signaux au-dessus de { $cn0 } dB-Hz.
+
+js-ssv-traj-avail-title = Disponibilité le long de la trajectoire, { $band }
+
+js-ssv-transmit-pattern = Diagramme d'émission : { $pattern }
+
+js-ssv-unit-signals = signaux
+
+js-ssv-unknown-mode = ce résultat gnss-ssv a le mode « { $mode } », que cette page ne lit pas
+
+js-ssv-variant-met = { $n } sur { $total }, seraient atteints
+
+js-ssv-variant-not-met = { $n } sur { $total }, toujours non atteints
+
+js-ssv-view-note = Du plus petit au plus grand nombre en vue sur les époques, avec la moyenne marquée.
+
+js-ssv-view-title = Signaux en vue, { $band }
+
+js-ssv-weak-note = Ce dont a besoin la conception du récepteur, telle que le moteur la calcule à partir de l'intégration indiquée.
+
+js-ssv-weak-title = Le récepteur à signaux faibles
+
+js-ssv-x-minutes = minutes
+
+js-ssv-y-altitude-measurements = altitude, milliers de km ; mesures utilisées
+
+js-ssv-y-cn0-altitude = dB-Hz ; altitude en milliers de km
+
+js-ssv-y-position-log = position, mètres (log)
+
+js-ssv-y-signals-all = signaux en vue, toutes constellations
+
+js-t35data-ai-q-bench-export = Exporter le mouvement et les événements d'un scénario pour un simulateur de laboratoire
+
+js-t35data-ai-q-compliance-rows = Ces exécutions apportent des éléments de preuve en faveur de quelles lignes de cadres publics ?
+
+js-t35data-ai-q-evidence-pack = Vérifier ou créer un paquet de preuves d'un événement de confiance
+
+js-t35data-ai-q-interference-route = Où le GNSS a-t-il semblé dégradé, et quelle part de cet itinéraire s'y trouve ?
+
+js-t35data-ai-q-iq-recordings = Enregistrements IQ GNSS (scène, acquisition, poursuite, frontal, campagnes)
+
+js-t35data-ai-q-osnma-satellites = Les données de navigation de quels satellites Galileo ce flux du récepteur authentifie-t-il (OSNMA) ?
+
+js-t35data-ai-q-run-scenario = Exécuter ou expliquer un scénario PNT (orbites, GNSS, synchronisation temporelle, fusion, lunaire)
+
+js-t35data-ai-q-training-nmea = J'ai besoin de NMEA synthétique avec un événement de brouillage, de dérive, de leurrage temporel ou de rejeu pour la formation
+
+js-t35data-ai-q-trustworthy-log = Ce journal de récepteur, ou le NMEA de ce navire, était-il digne de confiance, et quand a-t-il cessé de l'être ?
+
+js-t35data-ai-tool-osnma-satellites = aucun sur MCP : utilisez osnma_verify (la carte OSNMA ici, WebAssembly), kshana osnma verify (CLI) ou kshana.osnma_verify (Python)
+
+js-t35data-card-evidence-create-title = Créer un paquet de preuves
+
+js-t35data-card-evidence-create-what = Signe une fenêtre d'un journal de récepteur et ce que le moteur en a calculé, afin que chacun puisse vérifier que rien n'a été modifié ensuite. Le Studio vérifie les paquets.
+
+js-t35data-card-evidence-create-why = La signature exige une clé privée, qui ne devrait pas transiter par une page web.
+
+js-t35data-card-iq-title = Moniteurs et outils IQ GNSS
+
+js-t35data-card-iq-what = Construire une scène, acquérir et poursuivre des signaux, balayer des paramètres, modéliser un frontal, exécuter des moniteurs et des campagnes IQ, ajuster un journal de laboratoire. Également disponible depuis Python et, dans un dossier de travail, depuis les outils de l'assistant IA.
+
+js-t35data-card-iq-why = Un enregistrement représente des gigaoctets d'échantillons. Une page ne peut pas le contenir, et les commandes qui convertissent, extraient et décimentent réécrivent les enregistrements sur disque.
+
+js-t35data-card-land-title = Téléchargement des polygones de terre pour le détecteur AIS sur terre
+
+js-t35data-card-land-what = Récupère un fichier de terres épinglé (Natural Earth, domaine public) et vérifie son SHA-256. Le constructeur de cartes prend plutôt le fichier de terres sous forme de texte.
+
+js-t35data-card-land-why = C'est la seule commande qui ouvre une connexion réseau, et elle exige le curl du système et un indicateur explicite.
+
+js-t35data-card-marine-title = Intégrations maritimes
+
+js-t35data-card-marine-what = Un plugin pour serveur Signal K et OpenCPN via du NMEA en mode passerelle sur TCP mettent le score de confiance dans des logiciels que les plaisanciers utilisent déjà ; une version de référence le met sur un petit ordinateur à côté du récepteur.
