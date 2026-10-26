@@ -341,3 +341,79 @@ seg-039b7c5fd78a = Enhet
 seg-37f058c4e1c3 = antall
 
 seg-e88d3dbcfe0c = MODELLED
+
+seg-852814f107a7 = Sider for scenariotyper
+
+seg-1a26d420ba67 = Se også
+
+seg-c4f4b2ca0647 = Verdi
+
+seg-e8968e86f31b = Begrensninger
+
+seg-7dc0fcd6ef77 = aocs
+
+seg-c6ced184b8eb = campaign
+
+seg-bcc7452b7e9c = clock
+
+seg-00593bd8a3ed = ephemeris
+
+seg-0cb65c6c4f53 = fusion
+
+seg-dbe8c830ef6c = hybrid
+
+seg-eae62828dc7a = inertial
+
+seg-8af88a0e2a69 = integrity
+
+seg-9a63fde1d8b1 = jamming
+
+seg-f8450911ddd6 = orbit
+
+seg-6dd5a0d55f18 = passes
+
+seg-786068921d01 = pvt
+
+seg-63f112536118 = reentry
+
+seg-f79dad339a1e = spectrum
+
+seg-8ea9f458185d = spoof
+
+seg-460826ea7719 = sweep
+
+seg-55f3ac33d883 = timetransfer
+
+seg-a37260157d35 = Inndata
+
+seg-0ffd6d4b0d8c = Fra skjemaet (<c1/>):
+
+seg-7a473d2b9b37 = Påkrevde felt: ingen
+
+seg-0484c5d57886 = ikke oppgitt
+
+seg-619be4963365 = tekst
+
+seg-15636cc68f72 = flagg
+
+seg-473eb8189015 = Kjør den
+
+seg-8b01aa51263e = Hva den gir
+
+seg-5aa75472f59d = Skalarresultatene fra den kjøringen, med enhetene motoren oppgir:
+
+seg-dfd41abc16b5 = Resultat
+
+seg-0df8f55cbe06 = deg
+
+seg-4798bca2d7a7 = MODELLED: radene i <a1>verifikasjonsmatrisen</a1> som navngir denne typen.
+
+seg-6338a873ee85 = Radene kjøringen selv brukte, med den uavhengige referansen matrisen gir hver (de offentlige kildene er navngitt der):
+
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministisk, scenariohashet, SBOM + gates med gylne verdier på tvers av plattformer. Uavhengig referanse (ExternalDataset): SBOM-overensstemmelse med det offisielle CycloneDX { "1.5" } JSON Schema (+ gyldige SPDX-identifikatorer), en ekstern publisert standard, null valideringsfeil over hele avhengighetsgrafen; delen om FoM-determinisme / byte-reproduserbarhet er fortsatt en festet selvkonsistenssjekk, så raden forblir MODELLED
+
+seg-1fc08d2f0209 = Hva kjøringens egen rapport sier ikke er modellert eller ikke er validert:
+
+seg-58c4d7218e70 = Reproduserbarhet og programvarekvalitetssikring er MODELLED, ikke validert: en delpåstand er kontrollert eksternt, men hele funksjonen setter sammen modellerte deler, så funksjonen forblir modellert. (verifikasjonsmatrise (docs/MODELLED-RATIONALE.md))
+
+seg-1bf3d5817274 = Alle typer: <a1>KINDS.md</a1>

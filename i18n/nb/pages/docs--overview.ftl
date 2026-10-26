@@ -163,3 +163,35 @@ seg-c611ee59301a = Animasjon
 seg-c01b78b64065 = Rapporter
 
 seg-c60dc5b92a60 = Interoperabilitetseksporter
+
+seg-3d770dd786e4 = Bruk
+
+seg-fe1abd564200 = Jammertest
+
+seg-6fcb41643035 = Tillitstelemetri
+
+seg-82155b5d0408 = Test bench
+
+seg-e35fff011b24 = Compliance
+
+seg-a50180a66dba = LunaNet AFS
+
+seg-028684a0cf3d = Standardpakker
+
+seg-9c0eb89a2fbe = Pakke
+
+seg-e98e25897176 = Hver test i de tre standardpakkene med poengsum, fra virkelige kjøringer av motoren v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } nådd, { "1" } ikke nådd, { "2" } trenger en inndata; imo-circ-1575: { "1" } nådd, { "4" } ikke nådd, { "2" } trenger en inndata; icao-doc9849-appf: { "6" } nådd, { "0" } ikke nådd, { "2" } trenger en inndata. Til sammen { "13" } nådd, { "5" } ikke nådd og { "6" } trenger en inndata som motoren ikke har (en mottakerlogg eller utstyrsdokumentasjon). Hver terskel ble fastsatt før kjøringen; en bom forblir en bom. En nådd terskel sier at et modellert scenario nådde en oppgitt terskel, ingenting om et produkt. Pakkene gir belegg for radene de viser til; de er ikke en vurdering. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en tjeneste for liv og sikkerhet; det må ikke være eneste grunnlag for noen navigasjons- eller sikkerhetsbeslutning.
+
+seg-f891ee876b96 = Hva den besvarer
+
+seg-7cf2608b2b2f = Strukturen til en bevispakke. En mottakerlogg (NMEA, u-blox UBX, RINEX { "3" } eller en Android-logg) og et tidsvindu går inn i kshana receiver-trust evidence, som skriver sju filer: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig og en valgfri timestamp.tsr. Manifestet registrerer SHA-256 av hele loggen og av hver fil og en hashkjede over filene; signaturen dekker manifestet. kshana evidence verify kontrollerer signaturen, hver fils hash, kjeden og at ingen ulistet fil finnes, og avslutter med { "0" } når den er bekreftet, { "1" } når noe feilet og { "3" } når signereren ikke var festet. En pakke er en teknisk registrering, ikke en juridisk vurdering.
+
+seg-13fc009b947c = FAQ
+
+seg-d4a762001549 = Lisens
+
+seg-e251b385ff46 = To syntetiske dager i interferenskartet, tegnet fra de innsjekkede eksemplene i examples/interference-map/output, hver med sin egen syntetiske rute og eksponeringsandelene motoren rapporterer. Til venstre en ADS-B-dag: { "1" } degradert celle, { "6" } ikke degradert, { "4" } uvurdert (skravert) og celler uten oppføring, tegnet tomme, som ikke ble observert. Ruten er { "525" } km: { "11.5" } % av lengden i degraderte celler, { "38.3" } % ikke degradert, { "9.1" } % uvurdert og { "41.1" } % ikke observert. Til høyre en AIS-dag: celler flagget av sirkel- og landdetektorene, ikke-avvikende celler og tomme celler; ruten er { "454" } km med { "10.5" } % i avvikende celler, { "21.2" } % ikke avvikende, { "0.0" } % uvurdert og { "68.3" } % ikke observert. ADS-B og AIS er separate lag og blir aldri slått sammen. En flagget celle er ikke et funn av interferens, og en celle uten farge ble ikke observert, noe som ikke er det samme som klar. Alle data er funnet på, i åpent hav midt i Atlanteren, og er ikke en måling.
+
+seg-af0edceb1503 = Poengsetting av én syntetisk mottakerlogg mot en tidsplan med tre tester, fra en ekte kjøring av motoren v{ $version } (`kshana jammertest score`). Loggen er funnet på: { "1800" } s med NMEA med et fall på { "20" } dB C/N0 over to intervaller. Tidsplanen har tre tidsluker; den midterste tidsluken har ingen jammer i loggen. Poengsettingen markerer { "2" } av { "3" } tester som oppdaget (median ventetid { "0" } s) og { "1" } som bommet, med { "0" } kjøringer med falsk alarm over { "0.25" } time ren tid. Ingenting her sier noe om en ekte mottaker. Veiledende programvare, ikke typegodkjent navigasjonsutstyr (IEC { "61108" }, IEC { "61162" }): operatøren er fortsatt ansvarlig for fartøyets navigasjon.
+
+seg-c5ce76c91ff7 = Merkelapp
