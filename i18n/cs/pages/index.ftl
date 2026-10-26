@@ -279,3 +279,29 @@ seg-257c477dc510 = WebAssembly
 seg-2192262e26c1 = splněno
 
 seg-785218a0ea66 = Čím Kshana není
+
+seg-b366150de755 = Požádat o studii
+
+seg-12f050093898 = Proč ho potřebuje každý
+
+seg-d997b6a5a416 = Proč Pro, ještě víc
+
+seg-4ff013b472ff = Jaký návrh bychom měli vypustit?
+
+seg-f4eb65b9b27a = Lunární navigační konstelace: nejmenší počet družic oproti dostupnosti, celý Měsíc: spuštěno { "608" } návrhů, Paretova fronta o { "12" } návrzích
+
+seg-c8ce2e4a6687 = Jak jsme si jistí a co výsledek ovlivňuje?
+
+seg-049c503c23db = Holdover hodin s nejistou úrovní šumu: 5. až 95. percentil z { "2,000" } běhů oproti limitu { "20" } ns
+
+seg-3dd37275b448 = Splňuje mise své požadavky a můžeme to předat?
+
+seg-7fbde256debf = nesplněno
+
+seg-f6ccb7a322b3 = otevřené položky
+
+seg-6d3d0f8c9b7c = Požádat o vyhodnocení Pro
+
+seg-813d6d41b891 = Zkopírovat příkaz, který to reprodukuje
+
+seg-a0ef302e2458 = Zkopírovat příkaz
