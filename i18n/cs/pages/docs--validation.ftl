@@ -25,3 +25,7 @@ seg-c04a3591074c = Export pro lunární interoperabilitu
 seg-20fee61b3107 = Knihovna chybových modelů kvantových zařízení
 
 seg-eaf341ff4522 = Kvantová navigace bez GNSS
+
+seg-75636f9419b2 = Známá omezení
+
+seg-5ed34a5b402e = Lunární společné vícetechnikové určování oběžné dráhy a hodin
