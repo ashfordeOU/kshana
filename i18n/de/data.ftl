@@ -2604,3 +2604,233 @@ dat-fd36d4cd58c4 = Geländereferenzierte Navigation bei GPS-Ausfall (TERCOM/SITA
 dat-3a18e1b86eec = fusion::trajectory::tests (die koordinierte Kurve hat keine Seitenkraft und den Lastfaktor 1/cos φ; der CSV-Import reproduziert ein geflogenes Profil auf { "1e-3" } m/s und { "1" } m); tests/gnss_ins_trajectory_library.rs (jedes Profil läuft, und die Fusion schlägt die freie INS über den Ausfall; jedes fliegt seine benannte Bewegung; Beobachtbarkeit des Kurses: Gier-Sigma nach { "240" } s { "1.27" } Grad bei Geradeausflug gegenüber { "0.039" } Grad bei der Figur 8 und { "0.062" } Grad bei Stop-and-go); tests/gnss_ins_legacy_trajectory_pin.rs (Altergebnis und Truth-Hashes bitidentisch)
 
 dat-b9b08309b102 = GMAT R2022a (NASA GSFC, Apache-2.0) GmatConsole mit der Exponential-Atmosphäre (dieselbe Tabelle mit 28 Bändern), Punktmasse-Erde und PrinceDormand78, ausgeführt, nie eingebunden. Zielwerte vorab festgelegt in xval/drag-exponential-gmat/PREREGISTRATION.md (640c85c1) auf der Widerstandsverschiebung jeder Seite (Lauf mit Widerstand minus Lauf ohne), die die beiden Erd-mu-Werte und die Integratoren aufhebt; alle erreicht (RESULTS.md). GMAT nimmt die geodätische Höhe und kshana die sphärische Höhe: Sie fallen nur am Äquator zusammen, daher deckt VALIDATED Äquatorbahnen ab; abseits des Äquators weichen die Modelle konstruktionsbedingt ab ({ "10.4" } % der Verschiebung von { "24" } h bei { "51.6" } Grad, { "400" } km). GMATs öffentliche Version hat kein NRLMSISE-00 (Plugin fehlt), daher hat die NRLMSISE-00-Stufe nur das Orekit-Orakel. Die Genauigkeit der Tabelle gegenüber gemessener Dichte wird nicht abgedeckt
+
+dat-3af71f34aee3 = gps-sdr-sim (MIT, Commit 28ca29a6, als eigenes Programm über ein eingechecktes Harness ausgeführt), vorab festgelegt f88f2969 mit einem bitgenauen Zielwert auf (A) C/A-Chips, (B) jedes berechnete LNAV-Feld, (C) jedes Paritätsbit. BEFUND: (A) { "0" } von { "32 736" } Chips weichen ab, (C) die Parität von { "0" } von { "1 920" } Wörtern weicht ab, (B) { "230" } von { "1 152" } berechneten Feldern weichen um eine Einheit ab: Das eph2sbf von gps-sdr-sim schneidet mit C-Casts zur Null hin ab, wo die gesendete Ganzzahl Runden braucht (jeder abweichende Wert liegt innerhalb von { "0.01" } einer Einheit der gerundeten Ganzzahl von Kshana). Bleibt MODELLED: Der registrierte Zielwert war die Konjunktion
+
+dat-cca90e8b2987 = gps-sdr-sim (MIT, Commit 28ca29a6) I/Q-Abtastwerte und sein eigener Kanalzustand, vorab festgelegt 7777da53: (B1) jede simulierte PRN erfasst, (B2) keine andere PRN erfasst, (B3) Codephase innerhalb von { "0.5" } Chip, (B4) Doppler innerhalb von { "125" } Hz. BEFUND: B1, B3 und B4 gelten in beiden Fenstern (schlechtester Wert { "0.195" } Chip, { "72" } Hz), aber B2 scheitert: Alle { "21" } PRNs, die gps-sdr-sim nicht simuliert hat, überschreiten ebenfalls die Schwelle (Statistik { "151" } bis { "206" } gegen { "79.5" }; simulierte PRNs { "1 300" } und aufwärts). Die Schwelle ist für gaußsches Rauschen der gemessenen Abtastleistung gesetzt; gps-sdr-sim fügt kein Rauschen hinzu, sodass die Zellen einer fehlenden PRN die Kreuzkorrelation der anderen Satelliten enthalten. Bleibt MODELLED: Der registrierte Zielwert war die Konjunktion
+
+dat-52d3c8bd9d2c = gps-sdr-sim (T. Ebinuma, MIT, Commit 28ca29a6), ein unabhängiger GPS-L1-C/A-Basisbandgenerator, mit eigenem Makefile gebaut und als eigenes Programm auf seinem mitgelieferten brdc0010.22n am Beispielstandort seines Nutzungstexts ausgeführt (scripts/gen_iq_gpssdrsim_ref.sh); ein eingechecktes, gegen denselben Build gelinktes Harness gibt den Kanalzustand (computeRange, computeCodePhase) hinter dem ersten Block des Programms aus. Zielwerte vor dem Lauf des Generators festgelegt (vorab festgelegt 7777da53). Umfang: GPS-L1-C/A-Geometrie für einen statischen Empfänger ohne Ionosphäre, Troposphäre oder Empfängeruhr; die Kanalmodelle, das Rauschen und der Navigationsdateninhalt der Szene sind nicht Teil dieser Zeile
+
+dat-be8f88b2f462 = Benotete Übungen
+
+dat-0a9eb1c3aa34 = Grafana-Dashboard
+
+dat-9d8f413a2486 = Schwereanomalie in sphärischer Näherung (Barthelmes STR09/02 Gl. { "126" }, ICGEM gravity_anomaly_sa) aus vollständig normierten Koeffizienten gegen ein geschlossenes Niveauellipsoid (WGS84/GRS80), mit dem Term nullten Grades, gerastert für den Schwerekarten-Abgleicher
+
+dat-93082325851e = Synthese der Schwereanomalie aus einem Kugelflächenfunktionsmodell
+
+dat-52d2b4907601 = Synthese von Funktionalen des Schwerefelds (schwerkraftgestützte / GNSS-freie Navigationskarte)
+
+dat-9c57c1677418 = Schlechtestfall-Störmoment durch den Schweregradienten ((3/2)(μ/R³)ΔI) als Spitzenwert über die Lage (die validierte Aussage), plus ein RSS-Zeigefehlerbudget über benannte 1σ-Beiträge mit dem dominanten Term (eine quadratische Summe vom Aufrufer gelieferter Zahlen, außerhalb der validierten Aussage). Aus der CLI/den Bindings lauffähig als Szenarioart `attitude-budget` (scenarios/attitude-budget.toml)
+
+dat-b54b88ffb24b = gravity-map (Szenarioart)
+
+dat-56286e67cf33 = Schwerekarten-/Alt-PNT-Navigation (src/gravimeter.rs, src/mapmatch.rs, src/particle_filter.rs, src/altpnt/terrain.rs)
+
+dat-a4942a2ee924 = Schwerekarten-Abgleich, geländereferenziert (TERCOM/SITAN), Magnetanomalie
+
+dat-51f9b6ca7476 = Gravity-Turn-Aufstiegsverluste einer ILLUSTRATIVE zweistufigen Kerosin/Sauerstoff-Trägerrakete (keine reale
+
+dat-179f6f50879d = Schwere-, Gelände- und Magnetkarten-Abgleich
+
+dat-a9a886b55894 = Exakte äquivalente Freiheitsgrade nach Greenhall und Riley für die Allan-, die modifizierte Allan- und die Hadamard-Varianz
+
+dat-35263996f593 = Bodenkontaktplanung für mehrere Satelliten über mehreren Stationen: scheinbare Zugriffsfenster (SGP4, IAU…
+
+dat-d880e28889ce = Bodenkontaktplanung: drei illustrative Satelliten über drei illustrativen Stationen für
+
+dat-359b73a38bd7 = Bodenlabor- gegenüber flugqualifizierten Werten
+
+dat-a9b472c1bb4e = Überflugvorhersage für Bodenstationen (Bodensegment)
+
+dat-0c1f2799015f = Demonstrator für die Überflugvorhersage von Bodenstationen (Bodensegment und Betrieb).
+
+dat-9fd044c96d13 = Überflugvorhersage für Bodenstationen: die Sichtbarkeitsüberflüge im Zeitbereich (AOS/TCA/LOS, maximale scheinbare Elevation…
+
+dat-0e1c7cbf518f = Gruppenlaufzeit { "40.3" } STEC/f^{ "2" } je Band; die ionosphärenfreien Koeffizienten f1^2/(f1^{ "2" } - f2^{ "2" }) und -f2^2/(f1^{ "2" } - f2^{ "2" }) und die Rauschverstärkung sqrt(a1^{ "2" } s1^{ "2" } + a2^{ "2" } s2^{ "2" }) für jedes Bandpaar; die Freiraumdämpfung { "20" } log10({ "4" } pi R f/c) aus linkbudget::free_space_loss_db in ihrer Kilometer-Megahertz-Form
+
+dat-872abf4f27e1 = GRS80 (Moritz { "1980" }, IAG) Somigliana-Normalschwere + veröffentlichte γ_e/γ_p; reales ICGEM-EGM2008-Feld
+
+dat-398ee3faaf1b = Explizites Runge-Kutta-Verfahren Hairer DOP853 { "8" }({ "5,3" }) mit dem kombinierten Fehlerschätzer 5./3. Ordnung, dem SciPy/Hairer-Schrittregler, automatischem Anfangsschritt, einer fail-closed Schrittsperre und dichter Ausgabe 7. Ordnung; wählbar als Propagator-Integrator-Variante Dop853 / propagator::propagate_dop853
+
+dat-13ba5b5dba8c = Handrechnung auf Datensätzen, die aus Formeln gebaut sind, deren Steigung, Schritt, Extremum und Erholungszeit vor dem Lauf bekannt sind (die Tests nennen sie), und die Masken, Hüllkurven und Budgets der Telekom-Timing-Zeilen oben. Es wurde keine Labormessung eines realen Holdovers bewertet und keine externe Referenz verglichen, daher erhebt die Art keinen Anspruch über irgendeine Uhr oder ein System; ein Partner aus einem Timing-Labor wird gebraucht, bevor irgendein Wert je Uhrenklasse hochgestuft werden könnte
+
+dat-9b8e133e0848 = von Hand berechnete Werte und die Geometrie, die die Wolke abtastet; keine externe Referenz
+
+dat-cf38c7df09e5 = Von Hand abgeleitete Formeln je Metrik: inverse Simpson-Diversität, gewichteter Mittelwert-Composite, begrenzte/unbegrenzte Zeitleistendauern, Level-Leiter nach dem schwächsten Glied
+
+dat-7fa3bc8204f6 = Von Hand abgeleitete Statistiken gegen geschlossene Formen (binormale AUC Φ(d'/√{ "2" }), DeLong-Varianz, Spearman mit Rangbindungen, exakte OLS-Rückgewinnung) + Leave-one-out-CV gegen die Basislinie „den Mittelwert vorhersagen“. Das Korpus ist SYNTHETISCH (parametergestützt, nie Feld/IQ), und die Optimismuslücke ist eine Schweregradverschiebung synthetisch→synthetisch, KEIN Sim-zu-Feld-Ergebnis
+
+dat-686f5ce810aa = Selbst geschriebene Cholesky-Zerlegung Omega=LL^T und Vorwärtssubstitutions-Whitening z=L^-1 r (Cov(z)=I, wenn Cov(r)=Omega); Mahalanobis-Quadrat z^T z = r^T Omega^-1 r
+
+dat-9fba5b35e3f7 = Selbst geschriebener SRTM-.hgt-Parser (16 Bit Big-Endian, Nordzeile zuerst, lückenbewusst) + bilinearer Sampler, der eine reale gemeinfreie DEM-Kachel liest und einen dokumentierten Vermessungs-Benchmark auflöst
+
+dat-d558a721805a = Praktische, durchgerechnete Beispiele, die Sie von „ein mitgeliefertes Szenario ausführen“ zu „ein Ergebnis quantifizieren und verteidigen“ führen.…
+
+dat-7e24fec1e03d = Hardware-Sicherheit: was Kshana mit Hardware tut und was es nie tut
+
+dat-f40289c2bc44 = Hatch-Trägerglättung des Codes auf realen RINEX-Beobachtungen
+
+dat-6af8f8015b04 = hatch::tests (rauschfreier Durchlauf; Weißrauschvarianz 1/(2N-1); Neustarts); tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned (WTZR 2025-02-24 01-06 h, { "600" } Epochen, N = { "100" }: medianer 3D-Fehler { "1.553" } -> { "1.116" } m, p95 { "3.473" } -> { "3.207" } m)
+
+dat-5b10e4dfa6be = Heliozentrische Positionen von Merkur, Venus, dem Erde-Mond-Baryzentrum, der Erde, Mars, Jupiter und Saturn aus Standish-Tabelle { "1" } ({ "1800" } n. Chr. bis { "2050" } n. Chr.) und aller acht Planeten aus den Tabellen 2a/2b ({ "3000" } v. Chr. bis { "3000" } n. Chr., mit den Mittlere-Anomalie-Termen b, c, s, f), dem Algorithmus der JPL-Seite Schritt für Schritt folgend und mit der Schiefe der Seite ins ICRF (International Celestial Reference Frame) gedreht; die Erde wird durch die Mondreihe von Montenbruck & Gill und das Massenverhältnis vom Baryzentrum getrennt. Zusammengesetzt als ephem_provider::AnalyticSolarSystem, sodass jeder Körper relativ zu jedem anderen verfügbar ist, und lauffähig als Art `solar-system`
+
+dat-931dbfaa77ef = Heterogene optische + RF-PNT: gemeinsame Verfügbarkeit / Präzision / Integrität (P5).
+
+dat-cce187eb5278 = Integritäts-Overbound für die Rückführbarkeitsabweichung heterogener UTC(k)
+
+dat-011311b1bdbb = Kugelflächenfunktions-Schwerefeld hohen Grades (EGM2008 bis { "2190" })
+
+dat-562004710f16 = Holdover-Vorhersage aus einer gemessenen Uhrenaufzeichnung, an zurückgehaltenen Daten geprüft
+
+dat-3a1c4a617632 = Holdover-Test eines linuxptp-Logs: dieselben vier Schritte wie in holdover-test-example.toml, mit der Aufzeichnung
+
+dat-3c0cedf176f1 = Holdover-Test, bewertet aus einer vom Betreiber gelieferten Zeitfehleraufzeichnung
+
+dat-df8a87246d35 = Holdover-Test, Einlesebeispiel: eine Zeitfehleraufzeichnung, bewertet von der Art holdover-test
+
+dat-4e1af12fdb95 = holdover_floor stellt fest, dass in einem Ensemble autonomer Knoten, die nur durch Messungen zwischen den Knoten verbunden sind, die gemeinsame Uhrenrate (δα_j += { "1" } ∀j) ein freier Parameter der Ensemblezeit ist, der in N(GᵀWG) liegt: Keine noch so große zusätzliche Entfernungsmessung zwischen den Knoten kann sie beobachten (rate_in_gauge = true, temporal_gauge_dim = { "2" } mit dem gemeinsamen Offset). Das ist die echte Holdover-Untergrenze — das zeitliche Gegenstück zur Positionseichung des starren Systems. Das Hinzufügen einer externen absoluten Ratenbindung (einer direkten Verbindung zu einer Referenz außerhalb des Netzes) entfernt die gemeinsame Rate aus dem Nullraum (rate_in_gauge = false, temporal_gauge_dim = { "1" }) und beweist, dass die Untergrenze eine echte Eichung ist, kein Artefakt des Oszillatormodells
+
+dat-df12bdd03b04 = holdover-test (Szenarioart)
+
+dat-866e2b2acaad = Holdover, Stabilität und Zeit-/Frequenzübertragung
+
+dat-25cc7eb2491b = holdover::tests (gegen mehrstufige Kalman-Kovarianzrekursion; weißes FM exakt; Hin- und Rückrechnung); Coast-Varianz-Kern extern validiert in tests/gnss_denied_clock_holdover_reference.rs (gegen scipy Van-Loan/brentq)
+
+dat-b11a218aa23c = Home-Assistant- und NTP-Appliances (MQTT)
+
+dat-64d822df0f16 = Home-Assistant-MQTT-Discovery und Zustandsexporter für Vertrauenstelemetrie
+
+dat-ba11a646e67a = Homebrew-Tap
+
+dat-41c193393b62 = Ehrliche Grenzen
+
+dat-8ffd3c3b4c0a = Ehrlicher Umfang
+
+dat-ec5ca67b1822 = Ehrlichkeitsvertrag
+
+dat-0391a2f2f55d = Ehrlichkeitskennzeichnungen
+
+dat-26ee49586173 = horizontales Kriterium
+
+dat-4bab7ea5f074 = horizontaler Fehler
+
+dat-ea2e883bd4e5 = Horizontale Fehlerellipse und Kofaktor je System aus der Geometriekovarianz
+
+dat-ef7245602f73 = Wie eine Zeile GREEN bleibt
+
+dat-baad56eb3581 = Wie ein Lauf funktioniert
+
+dat-8ce529e13ddf = Wie Entscheidungen getroffen werden
+
+dat-e7acb3670542 = Wie Fehler modelliert werden (Uhrenrauschen)
+
+dat-893da1c76fb5 = Wie es skaliert
+
+dat-cc213ff67576 = Wie viel ein Störungsdetektor unter verschobenen Bedingungen verliert, lässt sich aus seinen eigenen Scores in der Trainingsverteilung vorhersagen; synthetische Ergebnisse, an offenen Feldaufzeichnungen geprüft.
+
+dat-39700e54758f = Wie oft eine optische Zeitübertragungsstrecke verfügbar ist, wenn die Atmosphäre im Weg liegt. Für jeden Bodenstandort liefert die Engine die Klarluftdämpfung, den Hufnagel-Valley-Turbulenzzustand mit Gamma-Gamma-Szintillationsfades und Aperturmittelung, die Verfügbarkeit gegen die Streckenreserve aus einem angegebenen Wolkenklima, die Obergrenze, die keine Reserve anheben kann, die Verteilung der Ausfalldauern und den Zeitfehler, den ein Ausfall einer Holdover-Uhr kostet. Sie zeigt dann, was zusätzliche Standorte, eine größere Apertur, eine andere Wellenlänge oder adaptive Optik bringen. Die mitgelieferten Wolkenklimata sind illustrativ, nicht gemessen; die Ausgabe ist beratend.
+
+dat-958f5e83ef0a = Wie Stabilität gemessen wird
+
+dat-b1e4554edba5 = Wie stabil ist ein PNT-Resilienzwert? Entscheidungsinstabilität einzelner Resilienzkennzahlen bei an Rahmenwerken ausgerichteter Gewichtung
+
+dat-7b1cd59f3ddf = Wie die Exporte geprüft werden
+
+dat-32dd3fc5fe68 = Wie die Regel durchgesetzt wird
+
+dat-efaa5003d60d = Zitieren und reproduzieren
+
+dat-578287a3e1ac = Wie die drei Werte zusammen zu lesen sind
+
+dat-6c70a5a10273 = Wie man ein Tutorial ausführt
+
+dat-6a398070976f = HTTP-Modus (selbst gehostet)
+
+dat-f7185ed2e5f0 = Hufnagel-Valley-Cn2, integriert entlang eines Schrägpfads für die Rytov-Varianz bei ebener und sphärischer Welle (Uplink und Downlink), den Andrews-Phillips-Szintillationsindex und die Gamma-Gamma-Parameter, die Gamma-Gamma-Fadewahrscheinlichkeit und die Fadereserve, den Aperturmittelungsfaktor bei schwacher Turbulenz, die optische Wolkentiefe einer Flüssigwassersäule und die optische Klarlufttiefe aus Kim-Sichtweite plus Rayleigh, wodurch die gebündelte atmosphärische Dämpfung des optischen Linkbudgets ersetzt wird, wenn eine Atmosphäre angegeben ist. Lauffähig innerhalb der Szenarioart `optical-atmosphere`.
+
+dat-ab23183506b5 = hybrid (Szenarioart)
+
+dat-7a7934499b49 = Verfügbarkeit der hybriden optischen/RF-Strecke auf der RF-Seite
+
+dat-77f54b2dc326 = Selbstbeschreibung des hybriden optischen/RF-Berichts
+
+dat-78671230a9be = Hybrid-PNT-Capstone: Komplettsuite mit Quantentechnik (optische Uhr + Kaltatom-IMU + optische ISL
+
+dat-fcc929094892 = Hybrid-PNT-Capstone: Uhr + IMU + Unterstützung durch Zeitübertragung.
+
+dat-f4fd30b7e91b = hybrid_integrity::tests (die Verfügbarkeit ist gleich dem Produkt der beiden Indikatoren, neu berechnet aus den eigenen Reserven des Berichts, und diese Reserven werden ihrerseits aus der eigenen EIRP, Freiraumdämpfung, gebündelten Dämpfung, Gütezahl, dem Boltzmann-Term, der Datenrate und der Anforderung des Berichts auf { "1e-9" } dB wieder zusammengesetzt; der Wert wird gemessen als { "0" } oder { "1" }, während die optische Verfügbarkeit im selben Lauf gemessen streng zwischen ihnen liegt; jede Faktorzeile trägt eine Herkunftsklasse aus dem geschlossenen field_schema-Vokabular; die berichtete Schließungsentfernung, erneut durch das Linkbudget gerechnet, liefert eine Reserve von { "0" } bis { "1e-9" } dB und ist gemessen unabhängig von der Entfernung des Laufs über vier Dekaden, während sich die Entfernungsauslastung genau um das Entfernungsverhältnis ändert; eine Strecke von -40 dBW meldet die Verfügbarkeit { "0" }, LOST, und eine Auslastung über { "1" } statt eines Bruchteils; der überholte Hinweis „diese Engine berechnet kein RF-Verfügbarkeits-Gegenstück“ wird als entfernt behauptet, und der Ersatz wird als das neue Feld nennend behauptet; eine fehlerhafte RF-Eingabe wird abgelehnt statt begrenzt)
+
+dat-c683ad6a43e0 = hybrid_integrity::tests (der Coast beginnt genau bei der Kovarianzspur, die der Handoff-Block meldet, in beide Richtungen, sodass die wiedergegebene Diagonale nicht von der berichteten Übergabe abweichen kann; die berichtete Kreuzungszeit wird aus dem eigenen Übergabe-Sigma, der Prozessrauschen-PSD und dem Abdeckungsfaktor des Berichts neu berechnet, und die Schranke liegt kurz davor innerhalb der Alarmgrenze und kurz danach außerhalb; die Coast-Zeit skaliert genau umgekehrt mit der Prozessrauschen-PSD und verkürzt sich, wenn die Alarmgrenze enger wird; ein Coast mit PSD null meldet null statt einer Nullzeit, weil „nie“ nicht „sofort“ ist; das ausgegebene Profil kreuzt genau einmal und klammert die berichtete Kreuzung ein; die Verdopplungszeit der Varianz und die Kreuzungszeit der Alarmgrenze sind getrennt festgehalten, da sie nach der engen optischen Stufe acht Größenordnungen auseinanderliegen und nach der lockeren RF-Stufe innerhalb einer Größenordnung; das Verlassen der optischen Modalität bringt mehr Coast-Zeit als das Verlassen von RF, und zwar genau um die Kovarianzdifferenz geteilt durch die horizontale Wachstumsrate; und random_walk_time_to_limit trennt bereits-außerhalb, kreuzt-bei-t und kreuzt-nie)
+
+dat-4a6077a9c2c3 = hybrid_integrity::tests (die aufgelöste Konfiguration wird für Standardwerte und für Überschreibungen wiedergegeben, ohne die Wellenlänge über Meter hin und zurück zu rechnen; jeder units-Eintrag trägt sowohl eine Einheit als auch eine Herkunftsklasse; jedes Feld, das der units-Block nennt, wird tatsächlich ausgegeben, sodass er kein Phantom dokumentieren kann)
+
+dat-4925e948ec7d = hybrid-optical-rf (Szenarioart)
+
+dat-1d3f2d8fe71f = hybrid-ukf (Szenarioart)
+
+dat-85dd3280dd3e = Geometrie des hyperbolischen Vorbeiflugs (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, Umlenkwinkel δ={ "2" }·asin(1/e), Stoßparameter |B|=|a|·√(e²−{ "1" })), das B-Ebenen-Zielpunktsystem Ŝ/T̂/R̂ und die Zerlegung B·T̂/B·R̂ sowie ein Swing-by mit angepassten Kegelschnitten (Betrag von v∞ erhalten, Richtung um δ abgelenkt, heliozentrisches Δv={ "2" }·v∞·sin(δ/2) ohne Treibstoffkosten) mit dem Tisserand-Parameter T_P=a_P/a+{ "2" }√((a/a_P)({ "1" }−e²))cos i
+
+dat-1fe5cc9bfe4f = IAU-2006/2000A-Präzession-Nutation, CIO-GCRS↔ITRS, Zeitskalen mit Schaltsekunden
+
+dat-ee5cc5e3262d = IAU-Körperorientierung und Gravitationsparameter der vierzehn hinzugefügten Körper des Sonnensystems
+
+dat-cdb9c1e8cbe2 = IAU-SOFA-/ERFA-Referenzvektoren; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
+
+dat-cb5220c1ec12 = IAU-Richtung der synchronen Rotation bei der mittleren JPL-Entfernung, aus Standish-Tabelle { "1" } ({ "1800" } n. Chr. bis { "2050" } n. Chr.) für Saturn ergänzt
+
+dat-1200f27eb7e0 = Tabellen des ICG-SSV-Hefts, vorab festgelegt; die meisten Zielwerte NOT MET (xval/gnss-ssv/RESULTS.md)
+
+dat-b963797d4ff9 = ICGEM Calculation Service (GFZ Potsdam), eine unabhängige Implementierung: EGM2008 bei Grad { "70" } abgeschnitten, gravity_anomaly_sa, WGS84, gezeitenfrei, Term nullten Grades, h = { "0" }. Die Ausgabe des Dienstes trägt keine ausdrückliche Lizenz, daher werden die Raster zur Testzeit mit festgelegtem SHA-256 geholt (tools/fetch_icgem_grid.sh) und nur zehn Werte mit Quellenangabe zitiert
+
+dat-477edaf1dd1f = ICRF (äquatorial J2000), heliozentrisch; Meter, Meter pro Sekunde
+
+dat-c81ac54a597c = Identitäten: Der Einsatzsprung eines ionosphärenfreien Spoofers ist gleich der modellierten ionosphärischen Verzögerungsdifferenz des Paares, die Schwelle ist das zweiseitige Normalquantil mal der Standardabweichung des Sprungs plus die Ratenschranke. Das Ionosphärenmodell des Empfängers ist das der Engine, sodass das authentische Residuum konstruktionsbedingt im Mittel null ist; keine externe Referenz
+
+dat-9715be87b6c1 = IEEE-1139-Potenzgesetz-Uhrenrauschen + Flicker-FM-Untergrenze
+
+dat-57c8c05cdd7d = IERS-Zeitskalen UTC / TAI / TT / UT1 mit Schaltsekunden, eine Julianisches-Datum-API, der IAU-2000-Erdrotationswinkel, GMST-basierte TEME ↔ ECEF- und geodätische WGS-84-Systeme, volle IAU-2000A/2000B-Nutation und IAU-{ "2006" }-Präzession sowie die äquinoktiumfreie, CIO-basierte IAU-2006/2000A-GCRS↔ITRS-Reduktion mit IERS-Polbewegung — bitgenau gegen die SOFA/ERFA-Vektoren validiert und unabhängig gegen ANISE (reines Rust-SPICE) gegengeprüft: GCRS→ITRS gegen ANISE ITRF93, gleiche IERS-EOP, stimmen auf ≤ { "0.86" } m am Boden / ≤ { "3.6" } m in der GNSS-Bahn überein.
+
+dat-610c770c6114 = IGRF-14-Koeffizienten; Matched-Filter-CRLB aus ersten Prinzipien. Das Feld des Schwere-Benchmarks mit realem Feld ist extern geprüft (Zeile „Synthese der Schwereanomalie aus einem Kugelflächenfunktionsmodell“), sein Navigationsergebnis hat aber keine externe Referenz
+
+dat-8f73e1bb24ce = IGS-Final-Satellitenuhrkombination mit { "30" } s (IGS0OPSFIN 30S CLK, 2025-02-24): veröffentlichte Uhrenschätzungen zu den Abfragezeitpunkten, nicht aus dem SP3 interpoliert; Zielwerte vorab festgelegt in tests/fixtures/sp3_clock_igs_oracle/PREREGISTRATION.md vor dem ersten Lauf (RMS { "0.15" } ns, p95 { "0.30" } ns, Knotenmedian { "1e-12" } s, Unterscheidung 2x)
+
+dat-2d8fff0e9c24 = Lagrange-Interpolation nach IGS-Standard von Satellitenpositionen der präzisen SP3-Ephemeride mit der Erdrotationskorrektur je Knoten (jeden Knoten um ω⊕·(t_node−t) in das erdfeste System des Abfragezeitpunkts drehen, bevor das Polynom angepasst wird)
+
+dat-db2732a90c3d = IMO-Leitlinien zu GNSS-Störungen (Schiffe)
+
+dat-a325f121413c = IMO-Leitlinien für Schiffe, nach Klauselnummer zugeordnet
+
+dat-2d9493affef6 = IMO-Leitlinien zu GNSS-Störungen für Schiffe: wofür Kshana Belege liefert
+
+dat-b6b9647750e6 = Der GNSS-Störungstext der IMO für Schiffe ist dünn: MSC.1/Circ.1644 richtet sich hauptsächlich an Mitgliedstaaten, und…
+
+dat-fee1e90fb1da = impairment_eval::tests (AUC perfekt=1/identisch=0.5/Gleichstand={ "0.125" }, ROC monoton, fusioniert>{ "0.8" }, Schichttrennung je Klasse, Leakage-Schutz, reproduzierbares Korpus, Verteilungsverschiebung zeigt Optimismus an); dominance_demonstrators (erreichbar + reproduzierbar + MODELLED-nicht-VALIDATED + Optimismuslücke selbstkonsistent)
+
+dat-825a8d353671 = impairment_study::tests (Orakel-AUC je Klasse≈{ "1" }, gelernte Optimismuslücke>{ "0" }, Rasterform + Bootstrap-KI klammert den Mittelwert ein + positiver Skalierungstrend, ID-Merkmale endlich, Lückenprädiktor schlägt „den Mittelwert vorhersagen“ unter Leave-one-detector-out- UND Leave-one-class-out-CV + deterministisch); impairment_ml::tests (logreg trennt + deterministisch + Verlust↓, MLP löst XOR, was ein lineares Modell nicht kann, + mit Seed); eval_stats::tests (Bootstrap/DeLong/Spearman/Ridge gegen geschlossene Formen)
+
+dat-f70d14110dad = impairment-eval (Szenarioart)
+
+dat-c28838cded13 = Implementierung gegen Spezifikation, KEINE externe Referenz: Eine Clean-Room-Python-Neuimplementierung (scripts/maritime_score_cleanroom.py), geschrieben von einem Leser, dem nur docs/RECEIVER-TRUST.md und docs/MARITIME-TRUST.md und nicht der Rust-Quelltext gegeben wurden, stimmt mit score_from_ratios auf { "600" } Verhältnisvektoren überein (Wert, Band, Punkte und die Reihenfolge der Abzüge, Differenz { "0" }), nachdem die Dokumentation dort vervollständigt wurde, wo der erste Leser sie stumm oder widersprüchlich fand (Gleichstandsreihenfolge, Rundung, das Verhältnis eines Pass-or-fail-Monitors, zwei Beispiele, deren Zahlen nicht zur Formel passten). Das zeigt, dass die Dokumentation ausreicht und der Code tut, was er sagt. WAS NICHT GEPRÜFT WIRD, und warum die Zeile MODELLED bleibt: die Regel selbst (die Gewichte, die Rampe, die Bandgrenzen, das Halten der Evidenz) ist die eigene dieses Projekts, vorab festgelegt, aber ohne externe Quelle, und nichts hier zeigt, dass ein Wert von { "80" } oder { "40" } bei realer Störung bedeutet, was ein Navigator sich darunter wünschen würde; eine Zahl dieser Art wird nicht angegeben. Die Schwellen der Monitore sind ebenfalls die eigenen dieses Projekts (Zeile A prüft nur ihre Arithmetik).
+
+dat-108c4798153a = kshana-grafana-*.json aus dem Release importieren.
+
+dat-c80a768c4432 = Optimierer für impulsive Transfers auf der DE440-Ephemeride
+
+dat-c81cb948fbeb = Impulsive ΔV-Knoten mit Kovarianzfortpflanzung { "6" }×{ "6" }, Integration endlicher Zündungen, gegen die Raketengleichung von Ziolkowski auf unter { "0.01" } % geprüft, ein Lambert-Löser nach Izzo-2015 für eine einzelne Umdrehung und ein exakter Kepler-Propagator in universellen Variablen sowie ein Porkchop-Sweep (Start × Ankunft) für C3 / Ankunfts-V∞, ausgegeben als JSON-Konturraster — die Schicht für Leistungssimulation oberhalb von GMAT/Orekit.
+
+dat-ce3c739652af = IMU in die Hybrid- und Fusionsszenarien (kshana imu-fit)
+
+dat-e757b2baccd6 = IMU-Log-Einlesen, Gyro-Kurseingabe und Allan-Anpassung hybrider Sensorparameter
+
+dat-593077adf8f0 = Im cislunaren Raum gilt die Dilution of Precision nicht: Reine Entfernungsstrecken lassen die Geschwindigkeit zu keinem Zeitpunkt beobachtbar, daher gehören Anforderungen in Budgets für Bogenlänge, Konditionierung und Messtyp.
+
+dat-fd612e5a3b73 = im Mittel in Sicht
+
+dat-ad6442b40262 = Unabhängiger Löser für die gewichtete Ähnlichkeitstransformation nach Umeyama (Horn) in geschlossener Form (numpy/scipy, SVD-basiert; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — ein anderer Algorithmus als die iterative Gauß-Newton-Anpassung von kshana, der auf byteidentischen Punktnetzen dasselbe eindeutig definierte gewichtete LS-Optimum erreicht
+
+dat-7a8163ea53f2 = Unabhängige Gegenprüfung gegen die sgp4-Crate
+
+dat-a3c0d41e4b56 = Unabhängige numpy-Monte-Carlo-SDE-Integration von doppelt integriertem weißem Beschleunigungsrauschen (validiert die analytische VRW-Varianz durch einen wirklich unabhängigen Algorithmus) + ein veröffentlichter Ankerwert von Groves { "2013" } für die Bias-/Skalenfaktor-Terme; die CAI-Gerätezahlen quantifizieren Partner-Hardware und bleiben MODELLED
+
+dat-76097bbb6a19 = hybrid_integrity::tests (das Verhältnis ist gleich den beiden ausgegebenen Teilen, durcheinander geteilt, auf { "1e-15" } relativ, und sein Kehrwert und seine Dezibelform stimmen überein; Entfernungs- und Zeit-Sigma jedes Teils hängen genau über c zusammen; die ausgegebene gemeinsame Konfiguration wird als gleich der eigenen Entfernung und Integrationszeit des Szenarios behauptet, und die Entfernung des RF-Teils wird als gleich der des optischen Teils behauptet; das C/N0 des RF-Teils ist bitgenau das des Verfügbarkeitsblocks, aus einem Linkbudget, keine Neuableitung; die Eigenschaft LIKE-FOR-LIKE ist MEASURED statt behauptet -- eine Vervierfachung der gemeinsamen Akkumulationszeit halbiert den optischen Teil auf { "1e-12" } und den RF-Teil auf { "1e-7" } und lässt das Verhältnis auf { "3.19e-9" } relativ unverändert, was ein Teil, der heimlich über etwas anderes mittelt, nicht könnte; eine Überschreibung rf_dll_bandwidth_hz, die die gemeinsame Mittelungszeit bricht, macht das Verhältnis null mit einer Begründung, die beide Zeiten nennt, während beide Teile weiterhin ausgegeben werden; ein Einweg-Lauf macht den Vergleichsteil bitgenau zum freigegebenen Hauptwert mit einem Straffaktor von genau { "1" }, und ein Zweiweg-Lauf reproduziert die Strafe 0.5/sqrt(geometrischer Verlust des Rückwegs), neu berechnet aus dem eigenen geometric_loss_db des Berichts, auf { "1e-12" })
