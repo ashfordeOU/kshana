@@ -2354,3 +2354,253 @@ dat-27e53cda32db = Charakterisierung der Frequenzstabilität
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-f329e4558e9f = Frequenzstabilität an einer real gemessenen Uhr
+
+dat-6d224d115687 = Frequenzsynchronisation: Wander-Erzeugung nach G.811, G.812, G.8262 und G.8262.1 ({ "0.36" })
+
+dat-e2a2e2c97af5 = Aus dem Code
+
+dat-eb9476cc9794 = Aus Python und WebAssembly
+
+dat-d90fd2aeef6a = Aus Python, WebAssembly und MCP
+
+dat-c32cf6bb95d1 = frugal (über Walker)
+
+dat-0f8189016ddc = Frugale Kosten-pro-Abdeckung-/ROI-Darstellung
+
+dat-64418b3e7e3c = frugal::tests (von Hand abgeleitete Kosten pro Abdeckung 48/96={ "0.5" }, ROI-Verhältnis { "2.667" }, Klammerordnung und Schutz bei null Abdeckung)
+
+dat-821431fc22ea = Vollbogen-Dispatch, Stufe { "1" } (vor der Korrektur†)
+
+dat-6dd8e31b0dcd = fusionierte Lösung, RMS-Fehler
+
+dat-85439cf1f56d = Fusioniertes Median-PDOP gegenüber LEO-SISRE
+
+dat-e4d34ebcb276 = Fusionierte Positionierung, Navigation und Zeitgebung (PNT) im mittleren (MEO) und niedrigen (LEO) Erdorbit über JEDE…
+
+dat-b798d233f73e = Fusionierte MEO- und LEO-Positionierung für ein Schiff tief in einem Fjord, wo die Talwände verdecken
+
+dat-d3bf21538bac = Fusionierte MEO- und LEO-Positionierung, Navigation und Zeitgebung
+
+dat-76d49a741f36 = Fusionierte MEO- und LEO-Pseudorange-Positionierung: GPS und Galileo mit einer LEO-Navigationsschicht.
+
+dat-a672a7aa19d7 = fusioniert mit niedrigem Orbit
+
+dat-3ada6ff9e069 = Fusion (Szenarioart)
+
+dat-ec5d8ca74e7d = fusion::pack (TightCfg, [tight]), Szenarien gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+dat-95e88ecc34df = fusion::tests (UKF==lineares-KF-Identität; Ausfall-Überbrückung; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } Fälle gegen filterpy { "1.4.5" }: lineares EKF lose/eng plus gekoppelte PNT-Posterioren bis ≤{ "2.4e-12" }; UKF-Lauf über 40 Epochen, schlechtestes |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (NaveGo-v1.4-Lösung mit loser Kopplung auf NaveGos realer Ekinox-IMU/GNSS-Fahrt: horizontaler RMS 0.912x, vertikaler 0.940x, RMS der Positionsinnovation 0.861x desjenigen von NaveGo, mittlere normierte Innovation { "0.395" }; Zielwerte 1.2x, 1.2x, 1.2x und { "1.5" } vor dem Lauf festgelegt)
+
+dat-fa85ed0fb966 = G1/G2-LFSR-C/A-Code-Generator, der die in IS-GPS-200 veröffentlichten oktalen Verifikationsvektoren der ersten 10 Chips für PRN { "1" }–{ "9" } reproduziert (dazu 1023 Chips Länge, Balance von 512 Einsen, dreiwertige periodische Autokorrelation)
+
+dat-71b6ea3dc71a = Nutzeralgorithmus der Galileo-ICD-Broadcast-Ephemeride als Grundlage einer LEO-Navigationsnachricht
+
+dat-c5e5f5f38caf = Galileo, mittlerer Erdorbit — GREEN (< { "5" } m Zielwert)
+
+dat-455af4b55c5e = Galileo-OSNMA: empfängerseitige Authentifizierung der Navigationsdaten
+
+dat-9025636fcc85 = Galileo-OSNMA-Verifizierer auf Empfängerseite
+
+dat-b674eba809eb = Galileo-OSNMA-Verifikation
+
+dat-6e3ed81e2232 = Galileo-OSNMA-Verifizierer
+
+dat-8a9416290ca3 = Galileo Walker 24/3/1, Galileo OS SDD Ausgabe { "1.1" } Tabellen { "1" } und { "23" }
+
+dat-4a49a3de27d2 = Gate- und Bench-Bereitstellungen
+
+dat-f553cc1c927b = Gate-Integrität — ein Grün, das bedeutet, was es sagt
+
+dat-6a610bcc14b9 = Gate-Modus
+
+dat-e3b2d3da9750 = GDOP/PDOP/HDOP/VDOP/TDOP aus der Sichtlinien-Geometrie über Q=(HᵀH)⁻¹ mit lokaler ENU-Aufteilung
+
+dat-731732835cd7 = Gemini CLI
+
+dat-b3d237b0dc32 = Erzeugt eine GNSS-IQ-Szene mit mehreren Satelliten in eine Datei im Arbeitsverzeichnis (`kshana iq scene`).
+
+dat-8bf4ec225897 = Erzeugt synthetische NMEA-{ "0183" }-Brückendaten für das Training der Besatzung aus einer `nmea-scenario`-TOML (`kshana nmea-scenario`): ein Schiffskurs und eine Zeitleiste skriptgesteuerter Ereignisse (Jamming, Positions-Drag-off, Zeit-Spoofing, Replay-Verzögerung, jeweils mit Erholung).
+
+dat-26c58834fe9d = Erzeugt von `cargo run --bin gen_validation_artifacts` und festgehalten durch tests/verification_artifacts_doc_sync.rs. Nicht von Hand bearbeiten.
+
+dat-4837fbbcb35b = Generischer N-D-Parameter-Sweep über JEDE Szenarioart. Anders als der reine Uhren-
+
+dat-3df08ace2207 = Generischer N-D-Sweep über jedes Paket über TOML-Schlüssel mit Punktnotation / JSON-Metrikpfade.
+
+dat-74ed4850ce5d = geolocation::tests (rauschfreie TDOA-Vorwärts→Rückwärts-Rechnung auf { "1e-6" } m; J·CRLB=I mit symmetrischer positiv definiter Kovarianz; die Spur der CRLB-Positionsvarianz nimmt beim Hinzufügen eines Empfängers nicht zu; gemeinsames TDOA+FDOA gewinnt Position und Geschwindigkeit eines bewegten Senders zurück; <{ "4" } Empfänger werden abgelehnt); tests/geolocation_reference.rs (Hin- und Rückrechnungen über vier Geometrien mit einem in 3D diversen Netz; der Gauß-Newton-Schätzer erreicht seine Cramér-Rao-Schranke — die empirische Fehlerkovarianz folgt der analytischen Schranke über { "4000" } Monte-Carlo-Versuche); tests/geolocation_crlb_published_oracle.rs (ho_chan_1993_maximum_tdoa; ho_xu_2004_fig7_with_the_authors_corrected_source; ho_xu_2004_bound_matches_the_authors_code; finding_ho_chan_ottawa_printed_values_are_not_the_bound und finding_ho_xu_fig7_printed_source_is_not_the_plotted_one, festgehalten)
+
+dat-611e316455d9 = Geomagnetisches Referenzfeld (IGRF-14-Synthese)
+
+dat-b4ef2c21bc63 = Geometrische Instanziierung der blockweisen Spark-/Secure-State-Estimation-Schranke (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; blockweiser Spark von Donoho–Elad { "2003" }; Candès–Tao { "2005" }) — NICHT die Konsensschwelle 3f+{ "1" } von Lamport–Shostak–Pease („Byzantine“ benennt nur das MODELL beliebiger/kolludierender Fehler). Die konkrete tolerierte Fehleranzahl ist eine modellierte Eigenschaft der repräsentativen Netzgeometrie, durch von Hand konstruierte analytische Fälle und die Zählformeln auf Selbstkonsistenz geprüft
+
+dat-2b09848842ee = Geometrische Positionen von Sonne, Merkur, Venus, Erde und Mond relativ zueinander (J2000/ICRF-Achsen, Meter) aus einem JPL-DE440-Kernel über ephem_provider::KernelEphemeris zu UTC-Epochen: Körpernamen auf NAIF-Codes abgebildet, UTC über die Schaltsekundentabelle und TT nach TDB mit der Zweiterm-TDB-TT-Reihe geführt, der Kernel vom eigenen Leser der Engine gelesen. Ein Körper, den der Kernel nur als Systembarycentrum enthält (Mars bis Neptun, Pluto in de440s), wird abgelehnt, nie ersetzt. Die kernelfreie Standish-Zeile bleibt der Browser- und Rückfallpfad
+
+dat-39e185a7bce6 = Geometrie — GNSS-Verfügbarkeit aus Orbits
+
+dat-5b62a8ae98f6 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg; CLI `kshana sky` und `kshana skyline`, Python- und WASM-Funktionen gleichen Namens, MCP `sky_geometry`): aus einem Standort, einer Zeit und Konstellationsvoreinstellungen (oder Satelliten als Azimut/Elevation oder ECEF) die sichtbaren und durch einen Horizont verdeckten Satelliten, GDOP/PDOP/HDOP/VDOP/TDOP, den Einheitsvarianz-Kofaktor (H^T H)^-1 und die Kovarianz in Ost-Nord-Oben mit einer Empfängeruhr je System oder einer gemeinsamen, die horizontale Fehlerellipse (Halbachsen k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), Orientierung { "0.5" } atan2({ "2" } Q_EN, Q_NN - Q_EE) von Nord), und n mit festem Seed berechnete Kleinste-Quadrate-Fehler unter unabhängigen gaußschen Entfernungsfehlern mit ihrer empirischen Kovarianz, ihrem RMS und ihrer { "95" }-%-Einschließung. Der Kofaktor ist orbit::cofactor_from_los, der eine Kern hinter orbit::dop und orbit::dop_cov (dop ist die Reduktion von dop_cov): keine zweite DOP-Implementierung
+
+dat-9d3c13673a52 = Geometrie-J/S-Linkbudget, Anti-Jam-C/N₀, Lock-Verlust je Satellit
+
+dat-564d4b9fd1ed = Geometriebewusste Vertrauensklassifizierung
+
+dat-f7f6e62db727 = Geometriebewusste Vertrauensklassifizierung: Satellitengeometrie neben dem Empfänger-Vertrauenswert und eine Klasse bei jedem Abzug
+
+dat-e10a325ec82d = Geometrie: natürliche Verschlechterung getrennt von angriffsartiger Inkonsistenz
+
+dat-1ce585aa8de3 = geometry::sky_geometry: der ENU-und-Uhr-Kofaktor (H^T H)^-1 mit einer gemeinsamen Empfängeruhr oder einer je System (der Kern orbit::cofactor_from_los) und die horizontale Fehlerellipse aus seinem Ost-Nord-Block (Halbachsen k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), das Azimut der Hauptachse von Nord)
+
+dat-b643c15103c2 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (der Ein-Uhr-Kern gegen gnss_lib_py)
+
+dat-61e8d44ad423 = Erste Schritte
+
+dat-3023f7e52c16 = GitHub-Container-Registry
+
+dat-f7ecb6756caa = GitHub-Release
+
+dat-a33da228eb84 = Globale Dilution of Precision der GPS-Basiskonstellation
+
+dat-0beb4fb3e33d = Global gemittelte Gewichte des Signal-in-Space-Entfernungsfehlers für jede Bahnhöhe
+
+dat-2015f8efbc2f = GLONASS 24/3/1, GLONASS-ICD Ausgabe { "5.1" } ({ "2008" }) Abschnitt { "5.2" }
+
+dat-3123f2d9a593 = GLONASS-Broadcast-Satellitenuhr und Ausbreitung der Broadcast-Bahn
+
+dat-49146c124e2d = GLONASS G1/G2, BeiDou B1/B2 und Galileo E6
+
+dat-56cdbf2137c2 = GLS-Gleichtakt-Whitening (Aitken) + Mahalanobis-Identität
+
+dat-900ba38459e6 = GMAT R2026a (Apache-2.0, als eigenes Programm ausgeführt) auf { "192" } hyperbolischen Erdzuständen: B.T, B.R und |B| innerhalb von { "1e-6" } km (schlechtester Wert { "1.35e-8" } km), der Umlenkwinkel und beide Asymptoten innerhalb von { "1e-9" } rad (schlechtester Wert { "9.3e-15" } rad); die Geschwindigkeitsänderung des Swing-bys aus GMAT-C3 und Asymptoten innerhalb von { "1e-9" } v_inf (schlechtester Wert { "5.6e-14" }); heliozentrische SMA, ECC und INC auf { "350" } sonnenzentrierten Zuständen vor und nach dem Swing-by innerhalb von { "1e-9" } relativ und { "1e-12" } rad (schlechteste Werte { "2.2e-14" } und { "4.1e-14" } rad); der Tisserand-Parameter gegen sbpy { "0.6.0" } (BSD-3) auf GMAT-Elementen innerhalb von { "1e-9" } (schlechtester Wert { "1.3e-15" }) und gegen { "3" } - C3/v_c^{ "2" } ({ "8.9e-16" }); und die geschlossene Tisserand-Form gegen Kasuga und Jewitt ({ "2019" }) Tabelle { "8.1" } für { "12" } Objekte innerhalb der Schranke der gedruckten Rundung (schlechtester Wert { "0.39" } davon; ein veröffentlichter P1-Rechenwert). Vorab festgelegt (436293bf; heliozentrische Reparatur 6fd9f5e6); die Änderung 374c806b, geschrieben nach der Erzeugung der Orakeldateien und vor jedem Kshana-Wert, weitete den Eingangsfilter der Neigung von { "1e-2" } auf { "1e-3" } rad und behielt mehr und schlechter konditionierte Zustände. MODELLED-Umfang: Zweikörper-Swing-by mit angepassten Kegelschnitten auf einer kreisförmigen Planetenbahn, ohne Übergang in die Einflusssphäre, ohne Begegnungsstörungen und ohne Ephemeride
+
+dat-aa6ddeb93b15 = GNSS-/INS-Sensorfusion
+
+dat-58fdfb5544c3 = nur GNSS, RMS-Fehler
+
+dat-2cad73f47600 = GNSS-Authentifizierung
+
+dat-ebddc70e47f7 = GNSS-Verfügbarkeit + DOP aus einer Orbitalkonstellation (Walker / TLE / RINEX).
+
+dat-f045dfa9ea84 = GNSS-Verfügbarkeit und Dilution of Precision am Boden einer Stadtstraße: der `orbit`
+
+dat-ab69eba7be35 = GNSS-Verfügbarkeit aus der Orbitgeometrie abgeleitet (nicht von Hand erstellte Fenster).
+
+dat-17bb8b5c7578 = GNSS-Verfügbarkeit für einen hochexzentrischen (Molniya-)Nutzer, aus der Orbitgeometrie.
+
+dat-55e2648633a9 = GNSS-Verfügbarkeit aus einer echten RINEX-{ "3" }-Broadcast-Ephemeride.
+
+dat-eeb36e87af2a = GNSS-Verfügbarkeit aus REALER Satellitengeometrie über Two-Line-Element-Sätze.
+
+dat-b3d70ccc7bd2 = GNSS-Verfügbarkeit aus der REALEN GPS-Konstellation, mit SGP4/SDP4 propagiert.
+
+dat-a44b2b91bca4 = GNSS jenseits der Konstellation: die Art gnss-ssv
+
+dat-840f672ac80e = GNSS jenseits der Konstellation: das Space Service Volume und darüber hinaus
+
+dat-83b3514917c4 = Ganzzahlige Mehrdeutigkeitsauflösung der GNSS-Trägerphase (LAMBDA)
+
+dat-bb79da35fc9c = GNSS-Geometrie / Dilution of Precision (DOP)
+
+dat-e273c919d879 = GNSS-Integrität (RAIM) und Verfügbarkeit über einer GPS-ähnlichen Konstellation.
+
+dat-3ed8a076bc17 = GNSS-IQ-Akquisition auf unabhängig erzeugten I/Q-Abtastwerten
+
+dat-f09cd8d61760 = GNSS-IQ- und Empfänger-Vertrauenssignaturen
+
+dat-a0dce0aacba8 = Signalgeometrie der GNSS-IQ-Szene gegenüber einem unabhängigen Basisbandgenerator
+
+dat-793ccdd5cb86 = GNSS-Jamming-Footprint
+
+dat-f04784542a0c = GNSS-Messdomäne
+
+dat-4e35d01aa3d8 = GNSS-Messungen, Positionierung und Integrität
+
+dat-e32da0beede4 = GNSS-Messungen, Positionierung und Integrität (Familie der Szenarioarten)
+
+dat-3a4061afb712 = GNSS-Median-C/N0
+
+dat-d5e0f4289cb5 = GNSS auf einem Mondtransfer, mit einem Schwachsignal-Empfänger, der sich seine Empfindlichkeit verdient.
+
+dat-7d5e1c1fc67e = GNSS-Positionierung
+
+dat-f71f41147efa = GNSS-Positionierung, ergänzt um die beiden ESA-Celeste-In-Orbit-Demonstrationssatelliten.
+
+dat-fb12222228a2 = GNSS-Signalverfügbarkeit im Space Service Volume und darüber hinaus, verglichen mit dem ICG-SSV-Heft
+
+dat-eb68247b6d8c = GNSS-Signalverfügbarkeit auf der oberen SSV-Schale: die globale Metrik des Hefts, in einer Größe, die in einer Sekunde läuft.
+
+dat-0430afb51651 = Detektionsstatistiken der GNSS-Akquisition mit Quadratgesetz
+
+dat-ab0faa9843fa = GNSS-Vertrauen (Wert, Band, Gründe, Gate und auf Anforderung die Position) als Prometheus-Text-Exposition, ausgeliefert auf /metrics, und als OTLP/HTTP-JSON-Metriken, mit einer Obergrenze für die Kardinalität der Grund-Labels.
+
+dat-4a56bffdc113 = GNSS-Vertrauen als Sicherheitstelemetrie
+
+dat-babe120b27d3 = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — unabhängige Bibliothek, auf { "1e-6" } relativ abgeglichen
+
+dat-6d8275b71221 = gnss_navmsg::tests (CRC-24Q-Prüfwert 0xCDE703; Impulsantwort der Faltungskodierung; Viterbi korrigiert eingefügte Fehler; Layoutbreiten); tests/gnss_navmsg_roundtrip.rs (Startbits der Felder entsprechen den ICD-Bitnummern; Kodieren -> FEC -> Interleaving -> Viterbi -> Dekodieren geht auf ein halbes LSB auf); tests/gnss_navmsg_galileo_brdc_grid.rs (IGS-BRDC-2018-133-Galileo-Datensätze auf dem LSB-Raster, schlechtester Wert { "3.6e-3" } LSB; vorab festgelegter Zielwert der Satellitenzahl verfehlt, { "15" } von { "20" }, BEFUND)
+
+dat-7a590be82e74 = Uhren-Holdover ohne GNSS
+
+dat-4c656dcbfb0b = Jamming-Resilienz bei GNSS-Ausfall
+
+dat-ad83abe1a009 = GNSS-freie Quantennavigation
+
+dat-17b5e6774026 = GNSS-freie Quantennavigation — Quanten- (Kaltatom-Interferometer) gegen klassisch
+
+dat-c0d5518e2983 = GNSS-freie Quantennavigation (src/quantum_nav_od.rs)
+
+dat-9d4a626d6fc3 = gnss-ins (Szenarioart)
+
+dat-7d66f55cfbd0 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, das Ubuntu-{ "24.04" }-Paket, als eigenes Programm ausgeführt; nur abgeleitete Zahlen eingecheckt) verfolgt dieselben numpy-Aufzeichnungen (unabhängig von der Engine), beide gemessen gegen die analytische Wahrheit. Zielwerte vorab festgelegt bei 48edd4a5, geändert vor jeder Testaufzeichnung bei 1e4288c4 (ein { "10" }-Hz-FLL nur während des Einschwingens in beiden Empfängern, nachdem die registrierte Kalibrierung an einer falschen GNSS-SDR-Übergabe gescheitert war, Befund F3). MET bei { "30" }, { "35" }, { "40" } und { "45" } dB-Hz: Trägerjitter innerhalb von { "4.3" } %, Codejitter innerhalb von { "4.6" } % und Doppler-Mittelwert und -Streuung innerhalb derer von GNSS-SDR. NOT MET: Das NWPR-C/N0 der Engine liegt { "2.3" } bis { "7.1" } dB unter dem SNV von GNSS-SDR (Befund F4, die bekannte NWPR-Grenze; sein M2M4 liegt innerhalb von { "0.06" } dB der Wahrheit); die Phasen-Lock-Indikatoren unterscheiden sich per Definition (F5); bei { "30" } dB-Hz hatte GNSS-SDR zwei Slips und die Engine keinen (F6). Die eigene Übergabe von GNSS-SDR rastete in { "3" } von { "30" } Kalibrierläufen auf eine falsche Frequenz ein. WAS NICHT GEPRÜFT WIRD: andere Signale, Datenbit-Wipe-off, Wiedererfassung, Feldaufzeichnungen. Die Zeile bleibt MODELLED.
+
+dat-88626853d609 = GNSS-SDR { "0.0.19" } (GPL-3.0, eigenes Programm, festgelegte Konfiguration) auf den neun L1-Batches ohne Oberfläche und dem RAW-C/N0 des Flugempfängers (LuGRE Mission Data, Zenodo { "16411687" }, CC BY { "4.0" }), vorab festgelegt bei 768cb62b. BEFUND: Kshanas Leser dekodiert alle { "288" } verglichenen Abschnitte identisch zu einem unabhängigen Konverter; GNSS-SDR meldet { "266" } von { "288" } Suchen als positiv, und Kshana stimmt in allen { "266" } Entscheidungen überein, aber nur { "250" } liegen auf der Zelle von GNSS-SDR (A2 scheitert); der C/N0-Teil ist leer, da keine RAW-Epoche des Flugs innerhalb von { "30" } s eines Batches liegt (nächste { "141" } s). Die meisten Positiven sind Artefakte: Die bloßen Zweierkomplement-Pegel tragen einen Mittelwert von -0.5 auf I und Q, eine Nullfrequenzlinie { "32" } dB über dem Rauschen in einem { "1" }-kHz-Bin, die beide Empfänger erfassen. Zwei Batches (OP5, OP12) wurden irrtümlich ausgeschlossen: Eine ziffernbereinigte Lesart ihrer Metadaten wurde für einen Widerspruch zu ihren Headern gehalten; die wahre Ursache war, dass der Leser keinen Abtastwert lesen konnte, der breiter als ein Wort ist (inzwischen behoben). Bleibt MODELLED
+
+dat-f1f9f73e43f8 = GNSS-SDR-Monitor-Adapter für den Empfänger-Vertrauenswert
+
+dat-ce3f6373b5d3 = GNSS-SDR { "v0.0.19" } (Tag { "v0.0.19" }, Commit 1ddd4562), eine unabhängige quelloffene Implementierung derselben ICD: Ihr beidou_b1i_code_gen_int, eigenständig kompiliert, erzeugte alle { "63" } Codes. Nur ihre Programmausgabe ist eingecheckt: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, ein 64-Chip-Präfix und der SHA-256 jedes 2046-Chip-Codes. Diese Ausgabe sind die BeiDou-B1I-PRN-Codes, die die öffentliche BDS-SIS-ICD-B1I-3.0 definiert; im Repository liegt kein GNSS-SDR-Quellcode und keine Binärdatei. Zielwert vorab festgelegt bei 911106d1 (xval/beidou-b1i-gnss-sdr/): alle { "2046" } Chips aller { "63" } PRNs identisch, keine Inversion, Verschiebung oder Umbenennung. Ergebnis: { "63" } von { "63" } identisch; das Fixture wurde aus einem frischen { "v0.0.19" }-Checkout neu erzeugt (Quelldatei-SHA-256 wie aufgezeichnet) und ist byteidentisch. WAS NICHT GEPRÜFT WIRD: der sekundäre NH20-Code, die GEO-PRN-Liste, die Trägerfrequenz und die Chiprate.
+
+dat-abeeb9e52652 = gnss-sim (Szenarioart)
+
+dat-ab23598ddddf = gnss-ssv (Szenarioart)
+
+dat-f381b2207626 = GNSS-/INS-Pakete für See, Schiene und Luftfahrt mit einer Option für enge Kopplung
+
+dat-1e713796059f = GNSS-/INS-Sensorfusion
+
+dat-a606add53511 = GNSS-/INS-Trajektorienbibliothek und CSV-Truth-Import
+
+dat-c8272b47794a = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, Commit 55ea3344, als eigenes Programm über ein Harness ausgeführt; kein GNSSTk-Code eingebunden): getIonoCorr von KlobucharIonoNavData bei L1, L2 und L5, getEffIonoLevel von NeQuickIonoNavData für Az mit den Regeln Alles-null und [{ "0" }, { "400" }] sfu und getOffset von GPSLNavTimeOffset für die UTC-Drift, innerhalb von { "1e-3" } m, { "1e-6" } sfu und { "1e-9" } s; und ERFA über pyerfa { "2.0.1.5" } (BSD-3), das UTC aus der IERS-Schaltsekundentabelle ableitet, für die drei Schaltsekundenfälle der ICD über die realen Schaltsekunden vom 2015-06-30 und 2016-12-31 einschließlich der Anzeige { "23" }:{ "59" }:{ "60" }, innerhalb von { "1e-9" } s (GNSSTk setzt die Tageslängenregel des ICD-Falls (b) nicht um, daher wurde es dort nicht verwendet, wie in der Vorabfestlegung geschrieben). Eingaben sind die realen IGS-BRDC-Header-Koeffizienten. Vorab festgelegt (6a66994b; die Änderung 88807a7e checkte vor dem Vergleich jedes Kshana-Werts eine Teilmenge von { "21" } 602 Zeilen des Schaltsekundenrasters ein). Die NeQuick-Elektronendichteintegration ist nicht implementiert, und für einen LEO-Satelliten, der innerhalb der Ionosphäre fliegt, wird keine Korrektur vorgenommen
+
+dat-acf30276f7a0 = GPS-Basiskonstellation mit 24 Slots, GPS SPS Performance Standard 5. Ausg. ({ "2020" }) Tabellen 3.2-1 und 3.2-3
+
+dat-8c382c68132d = GPS-C/A-Gold-Kreuz-/Autokorrelation stimmt EXAKT (ganzzahlig ±65/−1/63) mit einer unabhängigen Codeerzeugung nach IS-GPS-200 überein; PSD-Form von BPSK-R({ "1" })/BOC({ "1,1" }) gegenüber einem unabhängigen scipy-Periodogramm. Die geschlossenen Formen für Modulation/SSC/DLL (Betz { "2001" } / Kaplan & Hegarty) bleiben analytisch, daher bleibt die Zeile MODELLED — aber die Teilaussage zur Codekorrelation ist extern abgeglichen. { "0.30" } gerundet auf { "2" }, gegen die gedruckten Werte von Betz { "2001" } und Hein et al. { "2006" } (vorab festgelegt 9f4f2ce8, eine halbe gedruckte Einheit), ein Befund (bleibt MODELLED): alle { "45" } Spektralzellen von Tabelle { "1" }, die Korrelationswerte bei { "1" } GHz, die MBOC-Interferenzwerte und { "2" } von { "3" } Offsets aus Abb. { "17" } stimmen überein; die ersten Nebenmaxima bei { "24" } MHz, der BOC({ "8,4" })-Offset aus Abb. { "17" } und jeder Worst-Case-Mehrwegefehler der Abb. 18-21 ({ "11" } bis { "15" } % zu niedrig) stimmen nicht überein. Kshana und eine unabhängige NumPy-Auswertung der vorab festgelegten Lesart stimmen überein, die Lücke liegt also in dieser Lesart oder in einem nicht genannten Detail der Veröffentlichung; Ursache ungeklärt
+
+dat-71345b993a9b = GPS-CNAV-Nachrichtentypen 10/11/30, Galileo-I/NAV-Worttypen 1-5 in nominellen geraden/ungeraden Seiten und Galileo-F/NAV-Seitentypen 1-4: ICD-Feldpackung und Quantisierung, CRC-24Q, Faltungskodierung der Rate 1/2 mit K={ "7" } (G2 für Galileo invertiert), Block-Interleaving und Sync-Muster, mit passenden Test-Dekodern
+
+dat-2d449120b935 = GPS-L1-C/A-Konformitätsprüfung über Generatoren hinweg
+
+dat-ed4980281dd2 = GPS-L1-C/A-Spreizcodes (sdr::CaCode) und LNAV-Subframes 1-3 (gps_lnav: IS-GPS-200-Feldquantisierung mit dem pi der Spezifikation, Zweierkomplement-Packung, TLM- und HOW-Wörter, Parität nach Tabelle 20-XIV mit D29*/D30*-Inversion, die paritätslösenden Bits der Wörter { "2" } und { "10" }) bitgenau verglichen mit gps-sdr-sim auf dessen mitgeliefertem brdc0010.22n ({ "32" } Satelliten)
+
+dat-1a97a57b83e7 = Erzeugung der GPS-L1-C/A-Spreizcodes
+
+dat-fa382f0c49f6 = GPS-L1C-Ranging- und Overlay-Codes gegen die gedruckten Prüfspalten von IS-GPS-800J
+
+dat-b6918acff4da = GPS-LNAV-Kodierung, von einer unabhängigen Empfängerbibliothek dekodiert
+
+dat-6649987ce0e6 = Kodierung der GPS-LNAV-Navigationsnachricht
+
+dat-661bb3c8a237 = GPS SPS PS 5. Ausgabe (April { "2020" }) Anhang B Abschnitte B.3.2.2 und B.3.2.3, die veröffentlichte global gemittelte HDOP-Verteilung der vollständig besetzten Basiskonstellation mit 24 Slots (Median { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, Mittelwert { "0.96" }), Tabelle 3.8-1 (PDOP-Verfügbarkeit) und Tabelle B.3-1 (Ensemble-PDOP einer verschlechterten Konstellation, nur als obere Schranke verwendet), plus eine von Hand abgeleitete geschlossene Form für eine Epoche. Die VDOP- und PDOP-Verteilungen der vollständigen Konstellation sind nur als Abbildung veröffentlicht, daher wird PDOP einseitig festgehalten; der schlechteste Raum-Zeit-Punkt (hier HDOP { "2.40" } und VDOP { "5.22" }, veröffentlicht { "2.49" } und { "5.43" }) hängt vom Raster ab und wird berichtet, nicht festgehalten
+
+dat-c8e4f15b7206 = Alternative PNT bei GPS-Ausfall
+
+dat-bc954d668981 = Alternative PNT bei GPS-Ausfall (Familie der Szenarioarten)
+
+dat-60b1448d2ac3 = Kombinierter Schwere-, Magnet- und Gelände-Navigator bei GPS-Ausfall: drei skalare Feldkanäle, fusioniert je Wegpunkt…
+
+dat-db37b7cd3c4f = Schwerekarten-Abgleichsnavigation bei GPS-Ausfall: ein Kaltatom-Gravimeter gewinnt eine konstante INS-Drift aus der…
+
+dat-c79931a093e0 = Sequenzielle (rekursive) geländereferenzierte Navigation bei GPS-Ausfall: ein Partikelfilter führt den Geländeabgleich aus…
+
+dat-fd36d4cd58c4 = Geländereferenzierte Navigation bei GPS-Ausfall (TERCOM/SITAN): ein Radar-/Baro-Höhenmesser gleicht die Geländehöhe ab…
+
+dat-3a18e1b86eec = fusion::trajectory::tests (die koordinierte Kurve hat keine Seitenkraft und den Lastfaktor 1/cos φ; der CSV-Import reproduziert ein geflogenes Profil auf { "1e-3" } m/s und { "1" } m); tests/gnss_ins_trajectory_library.rs (jedes Profil läuft, und die Fusion schlägt die freie INS über den Ausfall; jedes fliegt seine benannte Bewegung; Beobachtbarkeit des Kurses: Gier-Sigma nach { "240" } s { "1.27" } Grad bei Geradeausflug gegenüber { "0.039" } Grad bei der Figur 8 und { "0.062" } Grad bei Stop-and-go); tests/gnss_ins_legacy_trajectory_pin.rs (Altergebnis und Truth-Hashes bitidentisch)
+
+dat-b9b08309b102 = GMAT R2022a (NASA GSFC, Apache-2.0) GmatConsole mit der Exponential-Atmosphäre (dieselbe Tabelle mit 28 Bändern), Punktmasse-Erde und PrinceDormand78, ausgeführt, nie eingebunden. Zielwerte vorab festgelegt in xval/drag-exponential-gmat/PREREGISTRATION.md (640c85c1) auf der Widerstandsverschiebung jeder Seite (Lauf mit Widerstand minus Lauf ohne), die die beiden Erd-mu-Werte und die Integratoren aufhebt; alle erreicht (RESULTS.md). GMAT nimmt die geodätische Höhe und kshana die sphärische Höhe: Sie fallen nur am Äquator zusammen, daher deckt VALIDATED Äquatorbahnen ab; abseits des Äquators weichen die Modelle konstruktionsbedingt ab ({ "10.4" } % der Verschiebung von { "24" } h bei { "51.6" } Grad, { "400" } km). GMATs öffentliche Version hat kein NRLMSISE-00 (Plugin fehlt), daher hat die NRLMSISE-00-Stufe nur das Orekit-Orakel. Die Genauigkeit der Tabelle gegenüber gemessener Dichte wird nicht abgedeckt
