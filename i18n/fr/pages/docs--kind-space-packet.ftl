@@ -24,7 +24,7 @@ seg-785f906eb194 = Source : <c1/>
 seg-525499bc01cd = <c1/> (type de scénario)
 
 # text
-seg-de2448d74c2b = Encapsulation du protocole CCSDS 133.0-B Space Packet : encoder un flux synthétique de paquets TM/TC (en-tête primaire de 6 octets + champ de données) et rapporter le décodage d'en-tête de chaque paquet, le total d'octets et un aller-retour encodage↔décodage exact. Encapsulation à disposition de bits exacte et déterministe — la couche d'interopérabilité des formats de paquets d'agence ; PAS une attestation de conformité (pas de logique d'en-tête secondaire, de CRC ou de segmentation au-delà des indicateurs).
+seg-de2448d74c2b = Encapsulation du protocole CCSDS 133.0-B Space Packet : encoder un flux synthétique de paquets TM/TC (en-tête primaire de 6 octets + champ de données) et rapporter le décodage d'en-tête de chaque paquet, le total d'octets et un aller-retour encodage↔décodage exact. Encapsulation à disposition de bits exacte et déterministe — la couche d'interopérabilité des formats de paquets d'agence ; PAS une attestation de respect de la norme (pas de logique d'en-tête secondaire, de CRC ou de segmentation au-delà des indicateurs).
 
 # text
 # c1: scenarios/space-packet.toml
@@ -51,7 +51,7 @@ seg-5b3bc9761db4 = Premier
 seg-52036320db9b = TM
 
 # text
-seg-f336ba92871f = Libellé du résultat (celui du moteur) : encapsulation de l'en-tête primaire CCSDS 133.0-B Space Packet — disposition de bits exacte et déterministe, aller-retour encodage↔décodage vérifié ; PAS une attestation de conformité (pas de logique d'en-tête secondaire, de CRC ou de segmentation au-delà des indicateurs)
+seg-f336ba92871f = Libellé du résultat (celui du moteur) : encapsulation de l'en-tête primaire CCSDS 133.0-B Space Packet — disposition de bits exacte et déterministe, aller-retour encodage↔décodage vérifié ; PAS une attestation de respect de la norme (pas de logique d'en-tête secondaire, de CRC ou de segmentation au-delà des indicateurs)
 
 # attr:alt
 seg-af1cf9aa9938 = Le graphique que le moteur écrit pour scenarios/space-packet.toml, type space-packet

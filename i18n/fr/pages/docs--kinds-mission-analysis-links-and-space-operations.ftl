@@ -87,7 +87,7 @@ seg-039f77066d97 = Corridor de rentrée balistique d'Allen-Eggers : décéléra
 seg-b0109481e8ff = Le graphique que le moteur écrit pour scenarios/reentry.toml, type reentry
 
 # text
-seg-de2448d74c2b = Encapsulation du protocole CCSDS 133.0-B Space Packet : encoder un flux synthétique de paquets TM/TC (en-tête primaire de 6 octets + champ de données) et rapporter le décodage d'en-tête de chaque paquet, le total d'octets et un aller-retour encodage↔décodage exact. Encapsulation à disposition de bits exacte et déterministe — la couche d'interopérabilité des formats de paquets d'agence ; PAS une attestation de conformité (pas de logique d'en-tête secondaire, de CRC ou de segmentation au-delà des indicateurs).
+seg-de2448d74c2b = Encapsulation du protocole CCSDS 133.0-B Space Packet : encoder un flux synthétique de paquets TM/TC (en-tête primaire de 6 octets + champ de données) et rapporter le décodage d'en-tête de chaque paquet, le total d'octets et un aller-retour encodage↔décodage exact. Encapsulation à disposition de bits exacte et déterministe — la couche d'interopérabilité des formats de paquets d'agence ; PAS une attestation de respect de la norme (pas de logique d'en-tête secondaire, de CRC ou de segmentation au-delà des indicateurs).
 
 # attr:alt
 seg-af1cf9aa9938 = Le graphique que le moteur écrit pour scenarios/space-packet.toml, type space-packet
