@@ -5050,3 +5050,441 @@ js-lib-views-position-error-axis = positionsfel ({ $unit })
 js-lib-views-position-error-m = positionsfel (m)
 
 js-lib-views-position-error-run = Positionsfel under körningen
+
+js-lib-views-position-m = position (m)
+
+js-lib-views-predicted-time-error = Förutsagt tidsfel sedan den senaste positionsbestämningen
+
+js-lib-views-protection-level-m = skyddsnivå (m)
+
+js-lib-views-protection-levels = Skyddsnivåer mot larmgränsen
+
+js-lib-views-quantum = kvantum
+
+js-lib-views-relay-error-bound = Positionsfel vid relänavigering och dess 3-sigma-gräns
+
+js-lib-views-satellites = satelliter
+
+js-lib-views-satellites-tracking = Satelliter som är synliga och fortfarande följs
+
+js-lib-views-shaded-gnss-denied = skuggat: GNSS nekad
+
+js-lib-views-slot-guard = skyddstid i tidslucka
+
+js-lib-views-spoofed-offset = Spoofad tidsförskjutning mot detektionsgränsen
+
+js-lib-views-sweep-of = Svep av { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = synkroniseringsfel ({ $unit })
+
+js-lib-views-sync-error-run = Synkroniseringsfel under körningen
+
+js-lib-views-threshold = tröskel
+
+js-lib-views-time-error-ns = tidsfel (ns)
+
+js-lib-views-time-ns = tid (ns)
+
+js-lib-views-time-s = tid (s)
+
+js-lib-views-time-since-fix = tid sedan senaste positionsbestämning (s)
+
+js-lib-views-timing-error-axis = fel i tidssynkronisering ({ $unit })
+
+js-lib-views-timing-error-run = Fel i tidssynkroniseringen under körningen
+
+js-lib-views-tracking = följer
+
+js-lib-views-value = värde
+
+js-lib-views-vertical-vpl = vertikal (VPL)
+
+js-lib-views-visible = synlig
+
+js-lib-views-word-enbw = ekvivalent brusbandbredd
+
+js-lib-views-word-nfft = FFT-längd
+
+js-lib-views-word-stec = snedriktat TEC
+
+js-lib-views-word-toa = ankomsttid
+
+js-lib-views-word-ttff = tid till första positionsbestämning
+
+js-lib-views-word-tx = sändning
+
+js-lib-views-word-zwd = våt zenitfördröjning
+
+js-lunar-address-outside-range = { $label }: "{ $raw }" ligger utanför { $min } till { $max }; filens värde används.
+
+js-lunar-address-too-long = Adressen var för lång; standardvärdena visas.
+
+js-lunar-address-unknown-source = Okänd källa i adressen; inspelningen visas.
+
+js-lunar-alert-limit = larmgräns { $value } (illustrativ)
+
+js-lunar-alert-not-stated = larmgräns inte angiven
+
+js-lunar-bearing-east = 90° Ö
+
+js-lunar-bearing-west = 90° V
+
+js-lunar-cell-title = { $lat }°, { $lon }°: korrigerat { $corrected }, tillgänglighet { $availability }, täckning { $coverage }
+
+js-lunar-copy-address = Kopiera adressen från adressfältet.
+
+js-lunar-counts = { $sats } satelliter, { $points } rutnätspunkter, { $epochs } epoker, { $trials } Monte Carlo-försök per epok. Etikett: { $label }.
+
+js-lunar-engine-no-start = Motorn kunde inte starta i den här webbläsaren ({ $reason }). Öppna en resultatfil i stället.
+
+js-lunar-engine-unknown-kind = Den här motorn ({ $version }) känner inte till typen { $kind }; den kräver motor 0.36.
+
+js-lunar-fig-availability-region = Tillgänglighet över regionen
+
+js-lunar-fig-corrected-3d = Korrigerat fel, { $n } %, 3D
+
+js-lunar-fig-coverage = Täckning
+
+js-lunar-fig-epochs-within = epoker inom { $value }
+
+js-lunar-fig-horizontal-vertical = horisontellt { $h }, vertikalt { $v }
+
+js-lunar-fig-hpl-below-alert = HPL under larmgränsen
+
+js-lunar-fig-hpl-vpl = HPL, VPL högst
+
+js-lunar-fig-improvement = Förbättringsfaktor
+
+js-lunar-fig-lowest-point = Lägst i en punkt
+
+js-lunar-fig-points-always-available = Punkter som är tillgängliga vid varje epok
+
+js-lunar-fig-uncorrected-3d = Okorrigerat fel, { $n } %, 3D
+
+js-lunar-fig-worst-point = Sämsta punkten
+
+js-lunar-file-not-json = Den här filen är inte JSON.
+
+js-lunar-file-not-object = Den här filen är inte ett JSON-objekt.
+
+js-lunar-file-too-large = { $name }: större än 32 MiB; den här sidan läser resultatfiler upp till den storleken.
+
+js-lunar-file-value = fil: { $value }
+
+js-lunar-full-of-total = { $full } av { $total }
+
+js-lunar-give-value = { $label }: ange ett värde från { $min } till { $max }.
+
+js-lunar-give-whole-value = { $label }: ange ett värde från { $min } till { $max } (ett heltal).
+
+js-lunar-honesty-affiliation = Inte knuten till och inte understödd av någon myndighet.
+
+js-lunar-honesty-assumptions = Under de angivna offentliga antagandena, inte ett uttalande om prestandan hos något verkligt system.
+
+js-lunar-in-grid-spacing = Avstånd mellan rutnätsringar, grader
+
+js-lunar-in-latency = Korrektionens latens, sekunder
+
+js-lunar-in-seed = Frö
+
+js-lunar-in-station-lat = Stationens latitud, grader
+
+js-lunar-in-station-lon = Stationens longitud, grader
+
+js-lunar-in-survey-error = Stationens inmätningsfel (1 sigma), meter
+
+js-lunar-in-threshold = Noggrannhetströskel, meter
+
+js-lunar-in-time-step = Tidssteg, sekunder
+
+js-lunar-in-trials = Monte Carlo-försök per epok
+
+js-lunar-input-out-of-range = { $label } ligger utanför intervallet.
+
+js-lunar-json-field-not-json = Filens json-fält är inte JSON.
+
+js-lunar-key-50-or-more = 50 % eller mer
+
+js-lunar-key-90-or-more = 90 % eller mer
+
+js-lunar-key-95-or-more = 95 % eller mer
+
+js-lunar-key-99-or-more = 99 % eller mer
+
+js-lunar-key-above = över { $value }
+
+js-lunar-key-above-threshold = över { $value } × tröskeln
+
+js-lunar-key-below-50 = under 50 %
+
+js-lunar-key-between = { $from } till { $to }
+
+js-lunar-key-between-threshold = { $from } till { $to } × tröskeln
+
+js-lunar-key-up-to = upp till { $value }
+
+js-lunar-key-up-to-threshold = upp till { $value } × tröskeln
+
+js-lunar-layer-availability = tillgänglighet
+
+js-lunar-layer-coverage = täckning
+
+js-lunar-layer-error = korrigerat fel
+
+js-lunar-layer-range = korrigerat fel över sitt eget intervall
+
+js-lunar-legend-no-figure = inget tal (otillgänglig hela tiden)
+
+js-lunar-legend-radius = täckningsradie
+
+js-lunar-legend-threshold = tröskel, { $value }
+
+js-lunar-legend-worst = sämsta punkten
+
+js-lunar-link-copied = Länken kopierades.
+
+js-lunar-map-desc = { $points } rutnätspunkter från polen till { $rim }° latitud. För { $meet } av dem ligger det korrigerade felet för percentilen { $percentile } inom tröskeln på { $threshold }. Färgat efter { $layer }. Stationen ligger vid { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % av punkterna hamnar i ett enda band på tröskelskalan, så kartan visar liten variation: färga efter "eget intervall" för att se hur felet varierar över regionen.
+
+js-lunar-needs-newer-engine = Den här studien kräver motor { $need } eller senare; motorn som körs här är v{ $version }. Inspelningen, eller en resultatfil, kan fortfarande visas.
+
+js-lunar-no = nej
+
+js-lunar-no-recording = Ingen inspelning av den här studien medföljer ännu: den görs vid utgåvan med motor 0.36. Kör den här med en motor som har typen, eller öppna en resultatfil.
+
+js-lunar-no-scenario = Den här webbplatsen har ingen { $file } än: den kommer med motor 0.36. Öppna en resultatfil i stället.
+
+js-lunar-no-scenario-note = Den här webbplatsen har ingen { $file } än (den kommer med motor 0.36), så en körning här är inte möjlig; öppna en resultatfil i stället.
+
+js-lunar-not-report = Det här är inte en { $kind }-rapport.
+
+js-lunar-not-stated = inte angivet
+
+js-lunar-note-none = Filen anger ingen anmärkning.
+
+js-lunar-note-withheld = Filens egen deklaration nämner ett program eller en myndighet, så den här sidan visar den inte; uttalandet överst på sidan gäller.
+
+js-lunar-point-epochs-reason = punktepoker: { $reason }
+
+js-lunar-radius-desc = Täckningsradie över { $count } azimut: kortast { $lo } km vid { $loAz }°, längst { $hi } km vid { $hiAz }°.
+
+js-lunar-radius-desc-limited = { $count } når rutnätets kant, så täckningen sträcker sig minst så långt där.
+
+js-lunar-radius-hollow = Ihåliga punkter når rutnätets kant: täckningen håller minst så långt längs den bäringen.
+
+js-lunar-radius-none = Rapporten anger ingen täckningsradie.
+
+js-lunar-radius-per-azimuth = täckningsradie per azimut
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (når rutnätets kant: minst så långt)
+
+js-lunar-radius-zero = Åt alla håll ligger täckningen redan vid stationen under 95 %, så radien är 0 km: det korrigerade felet överstiger tröskeln på { $value } där.
+
+js-lunar-reason-station-missing = stationen ser inte alla satelliter som användaren använder
+
+js-lunar-reason-user-lt4 = färre än fyra satelliter i sikte för användaren
+
+js-lunar-run-stopped = Körningen stoppades: { $message }
+
+js-lunar-running = Kör studien i den här webbläsaren…
+
+js-lunar-running-elapsed = Kör studien i den här webbläsaren… { $seconds } s
+
+js-lunar-scenario-missing-keys = Scenariofilen saknar { $keys }; den kan inte ändras här.
+
+js-lunar-set-inputs = Ange indata och tryck på Kör den här.
+
+js-lunar-showing = Visar { $what }.
+
+js-lunar-showing-engine = Visar { $what } (motor { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = station
+
+js-lunar-station-title = station { $lat }°, { $lon }°
+
+js-lunar-table-count = { $n } punkter, de närmaste stationen först.
+
+js-lunar-th-corrected = Korrigerat fel, { $n } %
+
+js-lunar-threshold-title = korrigerat fel { $value } (tröskeln)
+
+js-lunar-what-file = filen { $name }
+
+js-lunar-what-recording = inspelningen som följer med Studio
+
+js-lunar-what-run = en körning i den här webbläsaren (motor { $version })
+
+js-lunar-worst-at = vid { $lat }°, { $lon }°
+
+js-lunar-worst-title = sämsta punkt { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = ja: minst så långt
+
+js-lunarinfra-above-95-point = över 95-procentspunkten
+
+js-lunarinfra-advisory = Rådgivande programvara, inte typgodkänd utrustning; ingen sändningsväg av något slag.
+
+js-lunarinfra-arc-note = Bärvågens våglängd { $value } m.
+
+js-lunarinfra-arc-title = Varje båge
+
+js-lunarinfra-bars-not-loaded = filen med trösklar lästes inte in
+
+js-lunarinfra-bars-not-shown = De förhandsregistrerade trösklarna kunde inte visas ({ $reason }).
+
+js-lunarinfra-bars-note = Fastställda innan någon studie poängsattes, med de utfall som gäller (motorns incheckning { $commit }). Ingenting är VALIDATED; en tröskel markerad NOT MET fastställs av ett test som hävdar missen, och ingen har lättats.
+
+js-lunarinfra-bars-title = Mot de förhandsregistrerade trösklarna
+
+js-lunarinfra-bars-wrong-file = filen med trösklar är inte den som den här sidan läser
+
+js-lunarinfra-blurb-carrier-phase = En markstation och en omloppsfarkost som använder dubbeldifferentierad bärvågsfas från jord-GNSS-signaler: kan heltalsosäkerheterna lösas, och vad gör det med positionsgränsen? Den snabba exempelkörningen.
+
+js-lunarinfra-blurb-frame-coestimation = De sju parametrarna för månens datum från laseravståndsmätning från jordstationer, med och utan avstånd mellan omloppsfarkost och markstation: hur mycket förbättras informationen?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Hur känsliga är laseravståndsmätning, farkostspårning, en gravimeter och en klocka på ytan för månens tidvattens-Love-tal h2, k2 och l2 och dess fysiska libration?
+
+js-lunarinfra-blurb-od-consistency = Banbestämning ombord med jord-GNSS i en nästan rätlinjig haloomloppsbana, mot en oberoende radiometrisk lösning från marken för samma båge: stämmer de två överens inom sina angivna osäkerheter, och märker konsistenskontrollen ett modelleringsfel när ett läggs in? Visas sida vid sida.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI och laseravståndsmätning på en farkost: hur exakt kan förskjutningarna mellan de tre teknikerna knytas ihop, mot felet i den lokala knytningen på farkosten?
+
+js-lunarinfra-bound-label = Positionsosäkerhet, flytande och fast, logaritmisk skala
+
+js-lunarinfra-bound-note = Positionsosäkerhet på en sigma för stationen och omloppsfarkosten med osäkerheterna lämnade flytande och med dem fasta (vad fastlåsning skulle ge om den uppnåddes).
+
+js-lunarinfra-bound-title = Positionsgräns, flytande och fast
+
+js-lunarinfra-chip-na = saknas
+
+js-lunarinfra-comp-normal = normal
+
+js-lunarinfra-comp-position = position (3D)
+
+js-lunarinfra-comp-radial = radiell
+
+js-lunarinfra-comp-transverse = tvärgående
+
+js-lunarinfra-compare-note = Över { $sets } slumpmässiga stationsuppsättningar var det minsta egenvärdet inte mindre med farkostlänkarna i { $lambda } och spåret inte större i { $trace }; medianökningen av det minsta egenvärdet var { $median } gånger.
+
+js-lunarinfra-compare-title = Jämförelsen i siffror
+
+js-lunarinfra-crsigma-label = Cramér-Rao-sigma, logaritmisk skala
+
+js-lunarinfra-crsigma-note = I meter vid ytan.
+
+js-lunarinfra-crsigma-title = Cramér-Rao-sigma per parameter
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } dag
+       *[other] { $n } dagar
+    }
+
+js-lunarinfra-direction = riktning { $n }
+
+js-lunarinfra-disclosures = Upplysningar
+
+js-lunarinfra-eig-label = Informationens egenvärden, logaritmisk skala
+
+js-lunarinfra-eig-note = Informationsmatrisens sju egenvärden, minst först, utan och med länkarna mellan omloppsfarkost och station. Det minsta stiger { $times } gånger, och Cramér-Rao-spåret faller till { $share } av sitt värde. Det här förutsätter att banan är känd i månens axlar (dess fel bärs av farkostens avståndssigma).
+
+js-lunarinfra-eig-title = Information i varje riktning av datumet
+
+js-lunarinfra-fact-arc = Båge
+
+js-lunarinfra-fact-hash = Scenariots hash
+
+js-lunarinfra-fact-llr-rows = Rader med laseravståndsmätning
+
+js-lunarinfra-fact-orbit-family = Banfamilj
+
+js-lunarinfra-fact-orbiter-arc = Farkostens båge
+
+js-lunarinfra-fact-orbiter-rows = Rader för farkosten
+
+js-lunarinfra-fact-study = Studie
+
+js-lunarinfra-fact-wavelength = Bärvågens våglängd
+
+js-lunarinfra-families-note = RMS för varje parameters partiella derivata över familjens rader, och antalet rader. En nolla är en parameter som den familjen är blind för. Farkostfamiljens k2-känslighet är ett värde i den övre delen av intervallet.
+
+js-lunarinfra-families-title = Vad varje familj ser
+
+js-lunarinfra-findings = Fynd
+
+js-lunarinfra-fix-note-a = Andelen Monte Carlo-försök som löste varje heltalsosäkerhet korrekt (med dess standardfel), och den andel som den bootstrappade skattningen förutsäger.
+
+js-lunarinfra-fix-note-b = Heltalsfixering uppnås INTE vid den här indatan: den bästa bågen löser { $share } av försöken.
+
+js-lunarinfra-fix-note-c = Det finns ingen tid till fixering att visa, eftersom fixering inte nås.
+
+js-lunarinfra-fix-rate-label = Andel heltalsfixeringar mot båglängd
+
+js-lunarinfra-fix-title = Fixeringsandel mot båglängd
+
+js-lunarinfra-fixed = fast
+
+js-lunarinfra-float = flytande
+
+js-lunarinfra-fraction-above-95 = Andel försök över 95-procentspunkten
+
+js-lunarinfra-ground-radiometric = oberoende radiometrisk från marken
+
+js-lunarinfra-injected-error = inlagt fel { $value } m/s²
+
+js-lunarinfra-mean-consistency = Medelvärde av konsistensstatistikan
+
+js-lunarinfra-mean-q = medel-q
+
+js-lunarinfra-miss-line = { $id } är { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Fixering av heltalsosäkerheter uppnås INTE vid den här indatan: den bästa bågen löser { $share } av Monte Carlo-försöken.
+
+js-lunarinfra-na = saknas
+
+js-lunarinfra-nominal = nominell
+
+js-lunarinfra-not-result = det här är inte ett resultat för månens infrastruktur
+
+js-lunarinfra-not-verified = Inte verifierad
+
+js-lunarinfra-offset-precision-label = Förskjutningens precision mot lokal knytning, log-log
+
+js-lunarinfra-offsets-note = Translationssigma per axel, skal- och rotationssigma vid ytan, i meter.
+
+js-lunarinfra-offsets-title = Förskjutningarna vid varje knytningsfel (båge på { $days } dagar, { $epochs } epoker)
+
+js-lunarinfra-onboard-gnss = ombord med jord-GNSS
+
+js-lunarinfra-open-failed = { $title } kunde inte öppnas: { $reason }.
+
+js-lunarinfra-opening = Öppnar { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Banosäkerhet per komponent, logaritmisk skala
+
+js-lunarinfra-orbiter-days = omloppsfarkost, { $days } d
+
+js-lunarinfra-q-note = Medelvärdet av konsistensstatistikan q över { $trials } försök; { $expected } är vad ett konsistent par lösningar ger. Andelen försök över 95-procentspunkten är kontrollens detektionsandel.
+
+js-lunarinfra-q-title = Konsistenskontrollen, nominell mot inlagt fel
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: motorns registrerade resultat (version { $version }).
+       *[other] { $title }: motorns registrerade resultat (version { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma i förhållande till nominellt, logaritmisk skala
+
+js-lunarinfra-rel-note = Cramér-Rao-sigma som procent av det nominella värdet, med alla fyra familjerna tillsammans. h2 och l2 är linjäriseringspunkter, inte verifierade värden; k2 kommer från en publicerad anpassning.
+
+js-lunarinfra-rel-title = Hur väl varje parameter kan låsas fast, mot sitt nominella värde
+
+js-lunarinfra-result-not-json = resultatet är inte JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = det registrerade resultatet { $file } lästes inte in
