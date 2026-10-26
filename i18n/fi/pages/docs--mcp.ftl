@@ -23,3 +23,7 @@ seg-842b77a21c5f = Kanava
 seg-d6476863f862 = Ominaisuus
 
 seg-fdbb9db68f1d = ei mitään
+
+seg-1759a8cce7d6 = Lajit
+
+seg-564133d6a0c4 = Tähdistöt minkä tahansa kappaleen ympärillä

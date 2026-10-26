@@ -34,7 +34,7 @@ seg-ce987e4dda40 = Aseta epookin alkutila (paikka = ensimmäinen havainto; nopeu
 
 seg-22f839d05292 = Raportoi sovituksen jälkeinen RTN- ja 3D-RMS (neliöllinen keskiarvo) molemmille tasoille sekä raaka päällekkäisyys.
 
-seg-64e2c3662a27 = Galileo, keskikorkea Maan kiertorata — <b>VIHREÄ</b> (< { "5" } m kynnys)
+seg-64e2c3662a27 = Galileo, keskikorkea Maan kiertorata — <b>GREEN</b> (< { "5" } m kynnys)
 
 seg-e77e8e35ba80 = <b>Aineisto:</b> ESA/ESOC (ESA: European Space Agency; ESOC: European Space Operations Centre) lopullinen multi-GNSS (GNSS: maailmanlaajuinen satelliittinavigointijärjestelmä) rata <c1/>, ITRF, 5 min näytteistys, satelliitti <b>E11</b> (GSAT0101, Galileo In-Orbit Validation (IOV), nominaali MEO (keskikorkea Maan kiertorata)), 2022-01-01.
 
@@ -82,7 +82,7 @@ seg-95879df86618 = Yllä olevat CI-fixturen luvut kirjattiin uudelleen versiossa
 
 seg-5141c1811e35 = MEO-kenttä on gravitaatioltaan suppeneva asteeseen { "8" } mennessä ({ "8" } h:n tason 1 tulos on sama asteella ja kertaluvulla { "8" }, { "10" } ja { "12" } millimetrin tarkkuudella), joten CI-fixturen d/o-12-typistys on merkityksetön; dispatch-ajo käyttää täyttä d/o-70:tä. { "8" } h:n sovitus saavuttaa <b>{ "13" } cm</b> puhtaalla voimalla ja <b>{ "7" } cm</b> empiirisellä tasolla; koko { "24" } h:n kaari (enemmän SRP- ja varjorasitusta, pidempi dynaaminen jakso) on <b>{ "61" } cm</b> — kaikki selvästi { "5" } m:n kynnyksen sisällä.
 
-seg-45a95547dbcc = Swarm-A LEO — <b>VIHREÄ</b> (< { "5" } m kynnys)
+seg-45a95547dbcc = Swarm-A LEO — <b>GREEN</b> (< { "5" } m kynnys)
 
 seg-cba2e4a9b9b1 = <b>Aineisto:</b> ESA Swarm Level-2 -redusoidun dynamiikan tarkka tieteellinen rata <c1/> (<c2/>, GPS-johdettu, ITRF / IGb14, ~{ "2" } cm, Delftin teknillisen yliopiston käsittely), satelliitti <b>Swarm-A</b> (SP3-tunnus <c3/>, ~{ "430" } km LEO), 2022-01-01.
 
@@ -188,8 +188,8 @@ seg-d7c77076c9c6 = <s1>Edellinen</s1>SGP4-validointi
 
 seg-d661003da754 = <s1>Seuraava</s1>Aurinkokunta ja muut kappaleet
 
-seg-36a3b8105d4b = Galileo, keskikorkea Maan kiertorata — VIHREÄ (< { "5" } m kynnys)
+seg-36a3b8105d4b = Galileo, keskikorkea Maan kiertorata — GREEN (< { "5" } m kynnys)
 
-seg-b6f96cf0d55a = Swarm-A LEO — VIHREÄ (< { "5" } m kynnys)
+seg-b6f96cf0d55a = Swarm-A LEO — GREEN (< { "5" } m kynnys)
 
 seg-9e739bda7f20 = LRO Kuu — validoitu, yli { "5" } m:n kynnyksen (rehellisesti) (P4 W4b)

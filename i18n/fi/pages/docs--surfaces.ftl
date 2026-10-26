@@ -11,3 +11,5 @@ seg-2bd2101ce454 = Pinta
 seg-d6476863f862 = Ominaisuus
 
 seg-e0426ffe2628 = Huomautus
+
+seg-de6c33774c9c = CLI

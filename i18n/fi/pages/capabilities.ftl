@@ -946,6 +946,470 @@ seg-517c404d3938 = Lataa Kshana Studio tähän
 
 seg-f9ecb21f7d77 = Missä WebAssembly on estetty, Kshana Studio näyttää samojen tiedostojen tallennetut ajot ja kertoo siitä.
 
+seg-d01db1c2710a = Hakuteos
+
+seg-bca397f050df = Jokainen skenaario, ominaisuus ja standardi.
+
+seg-2acae285e611 = Koko luettelo, generoitu moottorin omista tiedostoista: skenaarioatlas, ominaisuuskortit ja standardit, jotka moottori toteuttaa.
+
+seg-629113989840 = jokainen mukana toimitettu tiedosto
+
+seg-945048f2eae8 = kukin todisteineen
+
+seg-b4cdec39f4f5 = Standardit ja formaatit
+
+seg-58a8a796c8cb = viitetarkistukset
+
+seg-3cbba5a3ab3b = Uutta, v{ $version }
+
+seg-850aca04de28 = Jokainen tyyppi, jokainen komento ja benchmarkin alitukset.
+
+seg-c530da682cca = Ei uutta moottorin ominaisuutta: tulokset ovat samat kuin versiossa { "0.38.0" }. Dokumentaatiossa on nyt sivu jokaiselle skenaariotyypille sekä luettelo jokaisesta komennosta ja jokaisesta pinnasta, ja benchmark-sivu kertoo jokaisen kynnyksen, joka ei täyttynyt. Komentorivi myös päättyy hiljaa, kun sen tulostusputki sulkeutuu. Jokaisella ominaisuudella on merkintä, jonka kirjanpito (ledger) siitä sisältää, ja merkintä nimeää vain sen, mikä on tarkistettu. Ohjeellinen ohjelmisto.
+
+seg-c5fc0ca71fae = Jokainen skenaariotyyppi, yksi sivu kullekin
+
+seg-86ff766b2c1d = Kaikki { "87" } skenaariotyyppiä jaoteltuna perheisiin, kullekin tyypille oma sivu: mitä se tekee, sen syötteet, esimerkkiajon tulokset, sen merkinnän taustalla olevat kirjanpitorivit (ledger) ja oraakkelit (riippumaton vertailu), sen raportin ilmoittamat rajoitukset ja moottorin kirjoittama kaavio.
+
+seg-a0b63210b807 = Lue lisää
+
+seg-ccee5886cf25 = Jokainen komento, jokainen pinta
+
+seg-6630acb722ae = Jokainen komento esimerkillä, jonka voi ajaa checkoutista, ja jokainen pinta (komentorivi, Python, Rust, WebAssembly, MCP-palvelin, liitännäiskomennot, skillit ja Studio-sivut) komentoineen ja tyyppeineen sekä syy siellä, missä niitä ei ole.
+
+seg-4ef6dcd0a58b = Mikä pinta kantaa minkä ominaisuuden
+
+seg-678872a862dc = Yksi sivu luettelee jokaiselle komennolle ja tyypille, mikä pinta sen kantaa ja mikä ei, syineen, ominaisuusalueiden ja niiden kirjanpitomerkintöjen (ledger) rinnalla.
+
+seg-29e58493fdd4 = Mallinnettu
+
+seg-8e092e49bdeb = kshana-bench: kynnykset, jotka eivät täyttyneet, ilmoitettuina
+
+seg-df8f792ffa97 = Benchmark-sivu luettelee nyt jokaisen kynnyksen, joka ei täyttynyt, sellaisena kuin tulostiedosto sen kirjaa, ja kertoo, ettei yhtäkään kynnystä ole höllennetty.
+
+seg-54dce6366d5a = Jokainen mukana toimitettu skenaario yhdellä kartalla.
+
+seg-761213eb3ce0 = Kaikki { "183" } skenaariotiedostoa { "87" } tyypissä, ryhmiteltyinä alueen mukaan; { "173" } on niputettu moottoriin, ja <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> ajetaan arkistosta komentorivillä. Piste näyttää tyypin moduulin kirjanpitotilan (ledger), kun kirjanpito nimeää sen. Tiedosto, jolla on tallennettu ajo, avaa sen Kshana Studiossa; muut avaavat merkintänsä skenaariohakuteoksessa tiedostoineen ja komentoineen, jolla se ajetaan.
+
+seg-f53c36555404 = Suodata kirjanpidon tilan mukaan
+
+seg-3cedc38ae9d5 = Kaikki tyypit
+
+seg-6e281402a22f = Validoidut rivit
+
+seg-2d8e88c7238b = Ei vastaavuutta
+
+seg-c49969c426c8 = Suodata skenaarioita
+
+seg-3e9fb6d3b8b8 = Suodata tiedoston, tyypin tai sanojen mukaan
+
+seg-5145797da84a = Maan GNSS ja häiriöt
+
+seg-aff54a75319b = Pseudoetäisyydet ja RAIM konttilaiturin siltatrukille, laivasta rantaan
+
+seg-facafec08ae3 = Mittausalueen GNSS-simulaatio: pseudoetäisyydet ionosfääri- ja
+
+seg-879b02ba5afb = <c1/><a1>gnss-sim-container-terminal-skyline</a1><a2>gnss-sim-raim</a2>
+
+seg-4725f2524e57 = Koneoppimiseen perustuvan RF-häiriöiden havaitsemisen arviointitestialusta (ESA AO/1-13494 -demonstraattori).
+
+seg-cbd16d8d6f19 = <c1/><a1>impairment-eval</a1>
+
+seg-38d0df73da5f = RF-häirintä: maassa oleva laajakaistainen häirintälaite estää GNSS:n läheiseltä vastaanottimelta.
+
+seg-8358cd1f20e2 = Alus saapuu satamaan rantahäirintälaitteen alla, ja edessä olevat laiturirakennukset ottavat
+
+seg-666ab58e14bc = Meriliikenteen GNSS-häirintä: rannalla tai aluksella oleva laajakaistainen häirintälaite estää maailmanlaajuisen
+
+seg-b0ea321f426a = <c1/><a1>jamming-demo</a1><a2>jamming-harbour-approach-skyline</a2><a3>maritime-strait-jamming</a3>
+
+seg-3645d0f6dfc1 = L-kaistan vesiputous häirinnän alla: koko maailmanlaajuinen satelliittinavigointijärjestelmä (GNSS)
+
+seg-ed0374fa4677 = LEO-PNT:n kestävyys vastaanotetusta tehosta: häirintä-signaalisuhteen (J/S) marginaali.
+
+seg-6b2338be39ce = Monikaistainen häirintävesiputous: matalan Maan kiertoradan (LEO) paikannus, navigointi ja ajanmääritys
+
+seg-41956b525b84 = <c1/><a1>l-band-waterfall-jamming</a1><a2>leo-resilience-js-margin</a2><a3>multi-band-jamming-waterfall</a3>
+
+seg-e4cfedcd8a7f = Meriliikenteen GNSS-harhautus: aluksen ilmoitettua paikkaa vetävän lähettimen havaitseminen.
+
+seg-991f79d3fc13 = Yhdistetty RF-/mittaustason harhautuksen havaitsin: usean satelliitin RAIM-johdonmukaisuus + AGC + SQM, yhdistettynä.
+
+seg-d3d17ae9163e = <c1/><a1>maritime-spoof-position-push</a1><a2>spoof-detect</a2>
+
+seg-65c6fa3d75df = Todellisten havaintojen yhden pisteen paikannus (SPP) mitatulta IGS-asemalta.
+
+seg-c58b4f92c258 = <c1/><a1>pvt-abmf</a1>
+
+seg-12a0c4e3eb5b = Aktiivinen ajan harhautushyökkäys: voiko kunkin kellon eheysvalvonta havaita harhautuksen
+
+seg-cb0f7b2ff50b = Ajan harhautuksen havaitseminen nimenomaisella hyökkäysmuodolla ja stokastisella havaitsimella.
+
+seg-5e02024d9ecf = <c1/><a1>spoof-attack</a1><a2>spoof-meaconing</a2>
+
+seg-0f0c4a546563 = Seurantasilmukan lukituksen menetys: C/N0 -> lukitus/lukituksen purku hystereesillä, aika, jonka kuluessa
+
+seg-8519d1ec52b4 = <c1/><a1>tracking-loop</a1>
+
+seg-c4d82487d4c8 = Eheys ja ARAIM
+
+seg-e1006bf1324b = Kaksoistähdistön ARAIM-saatavuus: GPS + Galileo arvioituna edistyneellä
+
+seg-f798ed829930 = ARAIM-saatavuus satamaan saapuvalle alukselle: `integrity`-tyyppi maa-aseman kanssa
+
+seg-224a6f0365a0 = GNSS-eheyden (RAIM) saatavuus GPS:n kaltaisella satelliittitähdistöllä.
+
+seg-581df183189a = <c1/><a1>araim-gps-galileo</a1><a2>integrity-harbour-approach</a2><a3>integrity-raim</a3>
+
+seg-7dcfd56b402b = Moottorin ARAIM-suojaustasot WG-C-alaryhmän OMIA laskettuja esimerkkejä vasten.
+
+seg-ee599ae71b16 = <c1/><a1>araim-reference-check</a1>
+
+seg-4f71f8ba67d4 = Vaihtoehtoinen PNT ja fuusio
+
+seg-195beccd601f = Tieajoneuvo kaupunkikanjonissa: GNSS/INS-koplaus alikulun poikki ja
+
+seg-66ecd7fcc1d5 = Löyhästi kytketty GNSS/INS: kolmiakselinen strapdown-navigaattori, jota ohjaa
+
+seg-8baa1cf7de75 = Ilmailun GNSS/INS tiukalla kytkennällä: kevyt lentokone nousee, kiipeää { "6" } asteen kulmassa, tasaantuu
+
+seg-97d88976d6d0 = Meriliikenteen GNSS/INS: alus nopeudella { "8" } m/s (noin { "15.5" } solmua) kiemurtelee täysiä ympyröitä
+
+seg-a4a176be56bb = Rautatien GNSS/INS tiukalla kytkennällä: juna kulkee pysäkkien välillä nopeudella { "30" } m/s loivin { "20" } asteen
+
+seg-29cf20730f10 = Pieni miehittämätön ilma-alus GNSS-häirinnän alla: kuinka pitkälle lennonohjaimen luokan
+
+seg-b663a10b099d = <c1/><a1>automotive-urban-canyon</a1><a2>gnss-ins</a2><a3>gnss-ins-aviation</a3><a4>gnss-ins-maritime</a4><a5>gnss-ins-rail</a5><a6>small-uas-jammed-nav</a6>
+
+seg-3a39e513f8af = Yhdistetty painovoima + magneettikenttä + maasto GPS-vapaa navigaattori — fuusioitu vaihtoehtoinen PNT.
+
+seg-5a205098ae36 = <c1/><a1>combined-altpnt</a1>
+
+seg-ead07b8cda1f = Yhteinen sensorifuusio-PNT: yksi Kalman-suodatin on navigaattori ja yhdistää
+
+seg-0793bf62d210 = Kytketty yhteinen sensorifuusio-PNT: samat sensorisarjat ja GNSS-katko kuin tiedostossa `fusion-pnt.toml`, mutta
+
+seg-ee3eb04bbddd = <c1/><a1>fusion-pnt</a1><a2>fusion-pnt-coupled</a2>
+
+seg-475d6eb44bb7 = 60 minuutin GPS-vapaa painovoimakarttasovituksen benchmark (kvantti-vaihtoehtoinen PNT).
+
+seg-1590168660bf = 60 minuutin GPS-vapaa painovoimakarttasovituksen benchmark TODELLISELLA painovoimakentällä (WP-10, RM-17).
+
+seg-b084af0ebe06 = Karttavirheen Monte Carlo 60 minuutin GPS-vapaalla painovoimakartta-benchmarkilla (WP-10, RM-15).
+
+seg-37d9e60021db = Kvanttipainovoimakarttasovitusnavigointiskenaario (GPS-vapaa vaihtoehtoinen PNT).
+
+seg-0675c2d7bed3 = <c1/><a1>gps-denied-gravity-nav</a1><a2>gps-denied-gravity-nav-egm2008</a2><a3>gravity-map-error-mc</a3><a4>gravity-map-nav</a4>
+
+seg-2d8e0508a5a5 = Heterogeeninen optinen + RF-PNT:n yhteinen saatavuus / toistotarkkuus / eheys (P5).
+
+seg-2177fe105d1c = <c1/><a1>hybrid-optical-rf</a1>
+
+seg-7d89b1c17bc9 = Hybridi-PNT-huipputyö: täysin kvanttijärjestelmä (optinen kello + kylmäatomi-IMU + optinen ISL
+
+seg-d6fe497b9360 = <c1/><a1>hybrid-pnt</a1>
+
+seg-70f528b547d4 = 17-tilainen hybridi kvantti + klassinen tiukasti kytketty GNSS/INS UKF (MODELLED).
+
+seg-e3c74123ff5a = <c1/><a1>hybrid-ukf</a1>
+
+seg-1d4d4e681ef6 = Koplaus GNSS-katkon aikana: kylmäatomikvanttikiihtyvyysanturi vs. navigointiluokan.
+
+seg-e69683145bb7 = Kvanttiesiasetus: kylmäatomi-interferometrikiihtyvyysanturi (CAI), rakennettu sen
+
+seg-40d5b6ef47f0 = <c1/><a1>imu-deadreckoning</a1><a2>quantum-cai-coast</a2>
+
+seg-460929d61988 = INS/TRN-vapaa-ajon virhemalli — paikkavirhe vapaa-ajon kestoa vasten, ja vapaa-aika
+
+seg-32701fe3852c = Meriliikenteen satamaan lähestyminen GNSS häirittynä: kuinka kauan inertianavigointijärjestelmä
+
+seg-979fb46a1ac8 = Rautatietunnelin vapaa-aika: kuinka kauan junan inertianavigointijärjestelmä (INS) pitää sen
+
+seg-6d592347a45a = <c1/><a1>ins-trn-coast</a1><a2>maritime-port-approach-coast</a2><a3>rail-tunnel-coast</a3>
+
+seg-588092c0b828 = Optinen PNT ilmakehän läpi: kolme ILLUSTRATIVE-maa-asemaa (pilvisempi pohjoinen asema,
+
+seg-d9110ecdc1a0 = Parannustekniikoiden mitä-jos-tarkastelut yhdelle ILLUSTRATIVE-maa-asemalle: aallonpituuden muutos, suurempi
+
+seg-67d9aed36283 = <c1/><a1>optical-atmosphere-network</a1><a2>optical-atmosphere-techniques</a2>
+
+seg-36a3e2b3fb7d = Maastoon viittaava navigointi (TERCOM/SITAN) — GPS-vapaa vaihtoehtoinen PNT.
+
+seg-374a9b5e72d5 = <c1/><a1>terrain-nav</a1>
+
+seg-6e578a14dc30 = Sekventiaalinen (rekursiivinen) maastoon viittaava navigointi — GPS-vapaa vaihtoehtoinen PNT.
+
+seg-eb15b725f77d = <c1/><a1>terrain-slam</a1>
+
+seg-7d2d780c5649 = Kellon holdover -skenaarion Monte Carlo -ensemble.
+
+seg-6f80bcd98ce4 = Kshanan viiteskenaario: { "2" } h ajo, { "10" } min GNSS-synkronointi, sitten ~{ "1.8" } h estettynä.
+
+seg-4a194573e324 = Variantti: laboratoriotason strontium-optinen kello vs. CSAC.
+
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+seg-ef238a2781ad = Holdover-testi, sisäänluvun esimerkki: aikavirhetallenne, jonka holdover-test-tyyppi pisteyttää
+
+seg-f72e79279526 = Linuxptp-lokin holdover-testi: samat neljä vaihetta kuin tiedostossa holdover-test-example.toml, tallenteen kanssa
+
+seg-447fb044f200 = <c1/><a1>holdover-test-example</a1><a2>holdover-test-ptp4l</a2>
+
+seg-b287f9a2cdeb = Vuoroajoitus: kuinka kauan uunistabiloitu kideoskillaattori (OCXO) matalan Maan kiertoradan
+
+seg-324250b93dd9 = <c1/><a1>slot-timing-ocxo-leo</a1>
+
+seg-f851ee7b2c6e = Kauppatutkimus: miten holdover skaalautuu kellon vakauden mukana?
+
+seg-4c81130e972d = <c1/><a1>sweep-clock-stability</a1>
+
+seg-6aa8b3c42e79 = Telealan ajoitusviite: rubidiumkello, joka menettää maailmanlaajuisen satelliittinavigointijärjestelmän
+
+seg-4835574df68e = Telealan ajoitus, taajuussynkronointi: vapaasti käyvä uunistabiloitu kide-
+
+seg-d58a6084c08d = Telealan ajoitus, sisäänluvun esimerkki: aikaväli-virhesarja (TIE) annettuna sisäisesti ja
+
+seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
+
+seg-a9d9e45f2147 = Kaksisuuntainen satelliittiaika- ja taajuussiirto (TWSTFT) kahden ILLUSTRATIVE-aseman välillä, toinen
+
+seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
+
+seg-af67eb7dfe4e = Optinen satelliittien välinen ajansiirto vs. klassinen RF (TWSTFT).
+
+seg-fcded162ad2f = <c1/><a1>timetransfer</a1>
+
+seg-dc615023797b = Radat ja tehtäväanalyysi
+
+seg-5ed1d98451b7 = DVB-S2-mukautuva koodaus ja modulaatio (ACM) yhden satelliitin ohitusten aikana yhden aseman yllä.
+
+seg-527ca565e523 = <c1/><a1>acm-link</a1>
+
+seg-2756cca2bbd2 = Reaktiopyörän asennonkäännös MRP-takaisinkytkennällä, suljettuna todellisen tilan varassa.
+
+seg-37ce0a2fdedb = Reaktiopyörän asennonkäännös MRP-takaisinkytkennällä, suljettuna MEKF-estimaatin varassa.
+
+seg-f7a4fbc90ce2 = <c1/><a1>aocs-slew</a1><a2>aocs-slew-mekf</a2>
+
+seg-b9192c83fdf7 = Aukon käyttösuhteen demonstraattori (maasegmentti ja operaatiot).
+
+seg-e40da530a08a = <c1/><a1>aperture-duty-cycle</a1>
+
+seg-e671128cedbc = Kaksivaiheisen ILLUSTRATIVE-kerosiini/happi-kantoraketin painovoimakäännöksen nousuhäviöt (ei todellista
+
+seg-17e5ec4d18bc = <c1/><a1>ascent-losses</a1>
+
+seg-a0f7fd8c3838 = 3-DOF-asennon ja suuntausvirheen budjetin demonstraattori (AOCS/GNC ennen laitteistoa).
+
+seg-9d1e79cee987 = <c1/><a1>attitude-budget</a1>
+
+seg-8e33f294d29f = Monitähdistön kattavuus: neljä maailmanlaajuista satelliittinavigointijärjestelmää (GNSS) yhdessä,
+
+seg-ddfd491a5b00 = Matalan Maan kiertoradan paikannus-, navigointi- ja ajanmääritysmegatähdistö (PNT): { "5 000" }
+
+seg-3b48e542f360 = Kuun rele- ja navigointitähdistö: satelliitit elliptisillä Kuun jäädytetyillä radoilla
+
+seg-4ad15809ddef = <c1/><a1>constellation-multi-gnss-coverage</a1><a2>leo-pnt-mega-shell</a2><a3>lunar-relay-constellation</a3>
+
+seg-9baca3fa1d6c = Maayhteyksien suunnittelu: kolme havainnollistavaa satelliittia kolmen havainnollistavan aseman yllä
+
+seg-109e2fabbe72 = <c1/><a1>contact-schedule</a1>
+
+seg-9999c795cd03 = Stardust-näytepalautuskapselin paluu: julkaistu tapaus, jota vasten `entry-heating`-tyyppi tarkistetaan
+
+seg-14ae55dfc955 = <c1/><a1>entry-heating-stardust</a1>
+
+seg-a38ba5ac0cda = Maanhavainnointilaitteen jalanjäljen ja kattavuuden demonstraattori (SMAD-avaruuskolmio).
+
+seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
+
+seg-966c1090da5a = Nadir-kuvaajan radiometria ja kuvanlaatu ILLUSTRATIVE-pienelle maanhavaintokameralle
+
+seg-53d1e190c57d = <c1/><a1>eo-radiometry</a1>
+
+seg-b07667365e9d = Efemeridi ja maanpintajälki — "missä satelliitti on juuri nyt".
+
+seg-cd3c42866076 = <c1/><a1>ephemeris</a1>
+
+seg-d0f273803537 = Kolmen aluksen muodostelman suhteellinen navigointi vihkon erittäin elliptisellä radalla.
+
+seg-f24f61f373d1 = Erittäin elliptinen rata GNSS-ratojen läpi: mitä käyttäjä näkee perigeumista apogeumiin.
+
+seg-ecd09f913362 = GNSS Kuuhun siirtymisen aikana, heikon signaalin vastaanottimella, joka ansaitsee herkkyytensä.
+
+seg-8ffd90d739b7 = Aluksella tehtävä GNSS-navigointi matkalla Kuuhun: laajennettu Kalman-suodatin pelkillä pseudoetäisyyksillä.
+
+seg-f62338a1dd4a = GNSS-signaalin saatavuus ylemmällä SSV-kuorella: vihkon maailmanlaajuinen mittari, kokoisena, että se ajetaan sekunnissa.
+
+seg-14974e3fe6df = <c1/><a1>launch-window</a1>
+
+seg-41e78567f229 = Laukaisuikkunan ja nousugeometrian demonstraattori (tehtäväanalyysi, kauppatutkimustaso).
+
+seg-a1cb069aec22 = Yksisuuntaisen linkkibudjetin demonstraattori (tietoliikenne ja linkkibudjetit, kauppatutkimustaso).
+
+seg-fb8345aba877 = <c1/><a1>link-budget</a1>
+
+seg-97847b33c55b = CCSDS OEM -yhteentoimivuussillan demonstraattori (GMAT / Orekit / STK -yhteentoimivuus).
+
+seg-4962f009e264 = <c1/><a1>oem-interop</a1>
+
+seg-d181d6872589 = Ratageometriasta johdettu GNSS-saatavuus (ei käsin kirjoitettuja ikkunoita).
+
+seg-2b9c92371e24 = GNSS-saatavuus erittäin eksentriselle (Molniya) käyttäjälle, ratageometriasta.
+
+seg-05ede69e3c0a = Moni-GNSS-saatavuus ratageometriasta: GPS + Galileo yhdistettynä.
+
+seg-af8a828667bb = GNSS-saatavuus TODELLISESTA satelliittigeometriasta kaksirivisten elementtijoukkojen kautta.
+
+seg-573056b960e6 = GNSS-saatavuus todellisesta RINEX { "3" } -yleislähetysefemeridistä.
+
+seg-3540e43e3910 = GNSS-saatavuus TODELLISESTA GPS-satelliittitähdistöstä SGP4/SDP4:llä laskettuna.
+
+seg-1230b34789c7 = GNSS-saatavuus ja tarkkuuden heikkenemiskerroin kaupungin kadun pohjalla: `orbit`
+
+seg-ad5285a34897 = <c1/><a1>orbit-gnss-challenged</a1><a2>orbit-molniya</a2><a3>orbit-multignss</a3><a4>orbit-real-tle</a4><a5>orbit-rinex</a5><a6>orbit-sgp4-gps</a6><a7>orbit-urban-canyon-skyline</a7>
+
+seg-2b96d360ceda = Maa-aseman ohitusennusteen demonstraattori (maasegmentti ja operaatiot).
+
+seg-84615b07a989 = <c1/><a1>passes</a1>
+
+seg-b3f5010bc0f0 = Ballistisen paluukäytävän demonstraattori (Allen-Eggers, tehtäväanalyysi).
+
+seg-3612d1148781 = <c1/><a1>reentry</a1>
+
+seg-8321be113ab1 = CCSDS 133.0-B Space Packet -kehystyksen demonstraattori (TM/TC-yhteentoimivuus).
+
+seg-808aa922a117 = <c1/><a1>space-packet</a1>
+
+seg-7c4a93b81a2f = Avaruussääympäristömallin demonstraattori.
+
+seg-5478de1beaca = <c1/><a1>space-weather</a1>
+
+seg-333828ec3da1 = Matalan Maan kiertoradan (LEO) PNT
+
+seg-838ef26e570a = Celeste IOD -signaalimallit: taajuuskaistat ja "Classical Pilot" -signaali
+
+seg-0480440f8b6a = LEO-PNT-kaistojen kauppatutkimus, UHF:stä laajaan C-kaistaan: mitä matalan Maan kiertoradan (LEO) paikannus,
+
+seg-27df5b15667f = Xona Pulsar -signaalit: kaupallisen matalan kiertoradan X1 (L1-kaista) ja X5 (L5-kaista) -signaalit
+
+seg-c52da20bade1 = <c1/><a1>celeste-iod-classical-pilot-signals</a1><a2>leo-band-trade</a2><a3>xona-pulsar-signals</a3>
+
+seg-6c7c2de33eec = Celeste IOD päästä päähän (valinnainen esiasetus): E5-konfiguraation #1 signaali -> Celeste IOD
+
+seg-90cd20e7a97a = LEO-PNT päästä päähän yleisellä satelliittitähdistöllä: signaalimalli -> ohituksen linkkibudjetti ->
+
+seg-799264427221 = Xona Pulsar päästä päähän: julkinen X5-signaali -> Pulsar-ohitus -> LEO-navigointiviesti
+
+seg-d69f1dbfbd28 = <c1/><a1>celeste-iod-end-to-end</a1><a2>leo-pnt-end-to-end</a2><a3>xona-pulsar-end-to-end</a3>
+
+seg-f04402f0a621 = GNSS-paikannus, johon liittyvät kaksi ESAn Celeste-kiertoratademonstraatiosatelliittia.
+
+seg-a1dd93651ffd = Paikannus pelkästä LEO-Dopplerista yleisellä LEO-navigointitähdistöllä.
+
+seg-07921f20441f = Yhdistetty MEO- ja LEO-paikannus vuonon syvyyksissä olevalle alukselle, jossa laaksonseinät peittävät
+
+seg-00769450ebaa = Ajansiirto UTC:hen LEO-satelliiteista C/N0:aa ja vastaanottimen oskillaattoria vasten.
+
+seg-f8551465a470 = Yhdistetty MEO- ja LEO-pseudoetäisyyspaikannus: GPS ja Galileo LEO-navigointikerroksella.
+
+seg-c77e839b9912 = Näkyvissä olevat satelliitit ja tarkkuuden heikkenemiskerroin päiväntasaajalta navalle: pelkkä MEO-GNSS,
+
+seg-6634bdeb434b = Pelkkään Doppleriin perustuva paikannus laajakaistatähdistöstä, jota käytetään tilaisuuden signaalina.
+
+seg-e993eafc4640 = <c1/><a1>celeste-iod-fused-pvt</a1><a2>leo-doppler-positioning</a2><a3>leo-pvt-fjord-skyline</a3><a4>leo-timing-utc</a4><a5>meo-leo-fused-pvt</a5><a6>polar-arctic-leo-coverage</a6><a7>starlink-sop-doppler-positioning</a7>
+
+seg-075f98a32d53 = LEO-PNT-painopistealue: LEO-PNT-tiede, ionosfäärin luotaus kaksikaistaviiveestä.
+
+seg-e9da73670beb = Sisätilojen LEO-PNT: miksi UHF-kantoaalto yltää rakennuksen sisään, kun L-, S- ja C-kaistat kamppailevat.
+
+seg-6dfada2dacb6 = Vähän energiaa kuluttava LEO-PNT IoT-seurantalaitteelle (Internet of Things): energia paikkaratkaisua kohden suhteessa käyttösuhteeseen.
+
+seg-1007e9b9abdc = ESA Celeste IOD, signaalikonfiguraatio #1, kaikki kaistat yhden ohituksen aikana. WORKSHOP PRESET.
+
+seg-d3b4252da1ee = Iridium STL (satelliittiaika ja -sijainti) -purskeet ilma-aluksesta nähtynä.
+
+seg-78cd6f0c1950 = LEO-PNT-ohitus näkyvissä olevia Galileo-satelliitteja vasten: C/N0 yhden ohituksen aikana.
+
+seg-d1f7a761386a = Xona Pulsar X1 ja X5 yhden ohituksen aikana, Pulsar-tähdistön korkeimmilla ohituksilla.
+
+seg-21c99010d2fe = LEO-PNT:n kestävyys harhautusta vastaan: Dopplerin ja ohitusgeometrian johdonmukaisuus.
+
+seg-4255777ae74c = <c1/><a1>leo-focus-science-iono-sounding</a1><a2>leo-indoor-uhf</a2><a3>leo-iot-energy</a3><a4>leo-pass-celeste-iod-multiband</a4><a5>leo-pass-iridium</a5><a6>leo-pass-vs-gnss-cn0</a6><a7>leo-pass-xona-pulsar</a7><a8>leo-resilience-spoof-doppler</a8>
+
+seg-03c8a8dbf6eb = ESA Celeste -kiertoratademonstraation (IOD) esiasetus: ainoa skenaario, joka käyttää materiaalia
+
+seg-7ee7b986aa07 = LEO-navigointiviesti: Kshanan binäärikoodaus, sen kvantisointibudjetti ja
+
+seg-6d352d85fb32 = LEO-navigointiviesti: avaruussignaalin etäisyysvirhe (SISRE) suhteessa sovitusväliin.
+
+seg-2fd9ba378d2f = LEO-navigointiviesti: viestin päivitys ohituksen keskellä ja se, onko käyttäjä
+
+seg-7dc0b21a0f60 = LEO-navigointiviesti: neljä efemeridimallia yhdellä radalla ja Liu ym. { "2025" }
+
+seg-9eeaa71b71d4 = <c1/><a1>leo-navmsg-celeste-iod</a1><a2>leo-navmsg-encode-decode</a2><a3>leo-navmsg-fit-interval-trade</a3><a4>leo-navmsg-midpass-update</a4><a5>leo-navmsg-model-comparison</a5>
+
+seg-41aaf4d3b4dd = Tarkan pistepaikannuksen (PPP) konvergenssi LEO-täydennyksellä.
+
+seg-8d4c43fa97b3 = <c1/><a1>leo-ppp-convergence</a1>
+
+seg-3ac4d50d5106 = Paikannus 5G-ei-maanpäällisen verkon (NTN) alalinkistä mobiilisatelliitti-S-kaistalla.
+
+seg-0fada2849dbc = <c1/><a1>ntn-5g-positioning</a1>
+
+seg-cc6d08589341 = Riippumaton estimaattoritesti Maa–Kuu-avaruuden kaaren pituuden havaittavuuskynnykselle (R6, artikkeli B).
+
+seg-f2269e7f6e62 = <c1/><a1>cislunar-arc-recovery</a1>
+
+seg-1c3d6e1ff20d = Tasomaisen Maa–Kuu-satelliittitähdistön havaittavuus seurantakaaren yli (P6).
+
+seg-96fcfc99887c = <c1/><a1>cislunar-observability</a1>
+
+seg-b7880bc50fd3 = Maan GNSS:n vastaanotto Kuun etäisyydellä.
+
+seg-770d8c4c3745 = <c1/><a1>earth-gnss-lunar</a1>
+
+seg-358425c82db5 = Kuun etelänavan eheys: Artemis-alueen laskeutunut vastaanotin vasten
+
+seg-88f11ae051f7 = <c1/><a1>lunanet-araim</a1>
+
+seg-7a9b909b0918 = Kuun pinnan navigointisignaalin turvallisuuden hyökkäyspinta (artikkeli P1).
+
+seg-ef83a6a7e263 = <c1/><a1>lunar-attack-surface</a1>
+
+seg-7cc84b0d7998 = Pintamajakan täydennys Kuun kiertoradan navigointipalvelulle.
+
+seg-ed5c4a79b454 = <c1/><a1>lunar-beacon</a1>
+
+seg-cda1df2b3136 = Kuun DIFFERENTIAL PNT — Kuun DGNSS / SBAS -vastine.
+
+seg-cf6a61aa12d7 = <c1/><a1>lunar-differential-pnt</a1>
+
+seg-9b4eae21eb95 = Seitsenparametrinen Helmert-Kuun koordinaatiston datumi, jota ohjaa SIMULOITU HAVAINTOKAMPANJA (G9).
+
+seg-5b5b4af83ee2 = <c1/><a1>lunar-frame-campaign</a1>
+
+seg-c92e66cebc74 = Kuun koordinaatiston toteutus — 7-parametrinen Helmert-datumisovitus (yhdenmuotoisuusmuunnos).
+
+seg-9399f0bfc7e9 = <c1/><a1>lunar-frame-realisation</a1>
+
+seg-38628d33bf93 = Kshanan Kuun infrastruktuuriskenaario: kantoaallon vaihe, PIKAESIMERKKI (kaksi lyhyttä kaarta, { "10" } arvontaa, sekunteja;
+
+seg-218213050f5a = Kshanan Kuun infrastruktuuriskenaario: koordinaatiston yhteisestimointi. MODELLED; suunnittelu, syötteet ja kynnykset ovat
+
+seg-dcf44f509000 = Kshanan Kuun infrastruktuuriskenaario: geodesian herkkyys. MODELLED; suunnittelu, syötteet ja kynnykset ovat
+
+seg-89278918d014 = Kshanan Kuun infrastruktuuriskenaario: od-consistency. MODELLED; suunnittelu, syötteet ja kynnykset ovat
+
+seg-6fa634c35008 = Kshanan Kuun infrastruktuuriskenaario: od-consistency mallintamattomalla kiihtyvyydellä. MODELLED; suunnittelu, syötteet ja kynnykset ovat
+
+seg-0a8712706317 = Kshanan Kuun infrastruktuuriskenaario: space-tie. MODELLED; suunnittelu, syötteet ja kynnykset ovat
+
+seg-5ccccbd50a0c = <c1/><a1>lunar-infrastructure-carrier-phase</a1><a2>lunar-infrastructure-frame-coestimation</a2><a3>lunar-infrastructure-geodesy-sensitivity</a3><a4>lunar-infrastructure-od-consistency</a4><a5>lunar-infrastructure-od-consistency-model-error</a5><a6>lunar-infrastructure-space-tie</a6>
+
+seg-043647362b56 = Kuun yhteentoimivuusvienti — LunaNet / IOAG-yhdenmukainen, CCSDS-pohjainen tiedonvaihto.
+
+seg-03f56ab6b9b3 = <c1/><a1>gnss-ssv-formation-heo</a1><a2>gnss-ssv-heo</a2><a3>gnss-ssv-lunar-weak</a3><a4>gnss-ssv-nav-lunar</a4><a5>gnss-ssv-shell</a5>
+
 seg-ad9c4b176c99 = <c1/><a1>lunar-interop-export</a1>
 
 seg-7e27d737f4e5 = Kuun omaan käyttöön tarkoitettu RF-häirintä: satelliittikohtainen J/S Kuun pinnalla olevalle käyttäjälle.
