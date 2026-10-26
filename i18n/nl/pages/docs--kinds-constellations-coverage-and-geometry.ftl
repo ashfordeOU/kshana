@@ -31,3 +31,69 @@ seg-537aa8010e50 = De grafiek die de engine schrijft voor scenarios/solar-system
 seg-3f749aef8d89 = PNT op Mars in de diepe ruimte: een gesimuleerde MARCONI-relayconstellatie (areostationaire + hellende relays die eenrichting uitzenden + tweerichting doorgeven aan een station in de diepe ruimte) navigeert een referentiegebruiker (transfer | lmo | surface) via de gezamenlijke radiometrische fusieschatter voor eenrichting en tweerichting. Rapporteert per epoch geometrie en zichtbaarheid, de behaalde RMS ten opzichte van de referentie en de formele covariantie (1σ / 3σ positie) — een eerlijke gesimuleerde kwaliteitsmaat, GEEN gecertificeerd beschermingsniveau.
 
 seg-c564dca90854 = De grafiek die de engine schrijft voor scenarios/mars-pnt-lmo.toml, soort mars-pnt
+
+seg-4e31c8daf798 = Register
+
+seg-44bbec836934 = Bron: <c1/>
+
+seg-34a6079984a7 = Constellaties, dekking en geometrie (familie van scenariosoorten)
+
+seg-6800289a282d = { "7" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders aangeeft (hoe een label wordt verdiend: het onderdeel Bewijs van de README).
+
+seg-d95cc2c1e798 = Themapagina's: <a1>CONSTELLATION-DESIGN</a1>, <a2>COVERAGE</a2>, <a3>SOLAR-SYSTEM</a3>, <a4>SKYLINE</a4>. Voer er een uit: <c1/>. Alle families: <a5>KINDS.md</a5>.
+
+seg-f044822c2fab = Contactblad met de grafieken die de engine schrijft voor de soorten van de familie Constellaties, dekking en geometrie
+
+seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
+
+seg-e2450f89bcc6 = Efemeride en grondspoor: propageer één satelliet (TLE→SGP4 of analytische baan) en lever de TEME/GCRS-toestand (positie + snelheid), ITRF/ECEF-positie, WGS-84-sub-satellietbreedte/-lengte/-hoogte en per stap
+
+seg-d021c1b23dbc = Constellatieontwerp op schaal: Walker-DELTA- en Walker-STAR-patronen in de i: T/P/F-conventie (knopen verdeeld over { "360" } of { "180" } deg, onderlinge afstand in het baanvlak { "360" }<em>P/T, fase-offset tussen banen { "360" }</em>F/T), expliciet
+
+seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
+
+seg-f6914ea43dba = Het hele zonnestelsel op één epoch, voor PNT (positiebepaling, navigatie en tijdsynchronisatie) rond elk hemellichaam.
+
+seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
+
+seg-d71a07d8a59e = Positiebepaling rond elk lichaam van het zonnestelsel: een orbiter of een landingsvoertuig op het oppervlak rond een centraal lichaam dat bij naam wordt gekozen (Mars, de Maan, Europa, Ganymedes, Titan en de rest van de catalogus van het zonnestelsel), navi
+
+seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
+
+seg-f6b22521b4a4 = PNT in de diepe ruimte bij Mars: een gesimuleerde MARCONI-relaisconstellatie (areostationaire + hellende relais die eenweg uitzenden + tweewegs doorgeven aan een diepruimtestation) navigeert een referentiegebruiker (transfer / l
+
+seg-cc85d9962c25 = Voorspelling van grondstationpassages: de zichtbaarheidspassages in het tijddomein (AOS/TCA/LOS, maximale schijnbare elevatie, duur) van een cirkelvormige baan, als SGP4-gemiddelde elementen aan het begin van het venster, boven een station boven
+
+seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
+
+seg-a7bd3325080c = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>. Optioneel: <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+seg-5e8a5e611ba9 = <b>Register:</b> MODELLED { "4" } · VALIDATED { "4" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>orbit</a1>.
+
+seg-968c1512151e = Verplichte velden: <c1/>. Optioneel: <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>.
+
+seg-8c5e41cef6fd = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>ephemeris</a1>.
+
+seg-47aaf1afd6ec = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+seg-bacf2a133146 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "2" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>constellation-design</a1>.
+
+seg-e99c2a83034e = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>.
+
+seg-d91ded1df3a2 = <b>Register:</b> MODELLED { "2" } · VALIDATED { "3" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>solar-system</a1>.
+
+seg-fe02605b130e = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-12bc4b4b4631 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "1" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>body-pnt</a1>.
+
+seg-bee590b4c9e7 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-c0394ad71cfe = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>mars-pnt</a1>.
+
+seg-352823f8c5ac = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-bb4fa18e50a6 = <b>Register:</b> MODELLED { "2" } · VALIDATED { "2" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>passes</a1>.
+
+seg-490ec99e2a38 = <s1>Vorige</s1>Klokken, tijdsynchronisatie en holdover
+
+seg-90ff7426b999 = <s1>Volgende</s1>GNSS-metingen, positiebepaling en integriteit

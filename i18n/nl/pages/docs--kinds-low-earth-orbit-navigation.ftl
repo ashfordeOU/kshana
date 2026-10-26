@@ -31,3 +31,69 @@ seg-c200240dd65e = De grafiek die de engine schrijft voor scenarios/ntn-5g-posit
 seg-97b8d07150d4 = LEO-PNT-signaalontwerpen: geparametriseerde signalen voor positiebepaling, navigatie en tijdsynchronisatie (PNT) in een lage baan om de aarde (LEO) voor elk systeem, elke band en elke structuur. Een SIGNAAL is een band (middenfrequentie, zendbandbreedte, ITU-toewijzing RNSS/RDSS/MSS/EESS/non-RNSS/other) en componenten (acquisitie, data, pilot; elke deelverzameling), elk met een modulatie (BPSK(n) met fractionele n, BOC(m,n), MBOC({ "6,1" },p) of een vlakke OFDM-achtige band), een vermogensaandeel, optionele FDMA-subdraaggolfoffsets, een codelengte en een datasnelheid. Signalen komen uit ingebouwde openbare voorinstellingsbestanden (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; elk met zijn bron-URL en elke niet-gepubliceerde waarde gelabeld REPRESENTATIVE) of worden inline geschreven. PER SIGNAAL: de bandbegrensde spectrale vermogensdichtheid en het deel van het vermogen van elke component dat de zendband doorlaat (BPSK-gesloten vorm naast de numerieke waarde), de RMS-bandbreedte (Gabor), de thermische-ruisjitter van de codevolging van de delay-lock-loop als functie van C/N0 en early-late-afstand volgens de bandbegrensde coherente (of niet-coherente) early-late-formule van Betz & Kolodziejski { "2009" } met de onbegrensde-bandvorm uit het leerboek en de Gabor-grens voor verdwijnende afstand, de afstandsnauwkeurigheid in meters, de acquisitiezoekruimte (dopplerbins uit de maximale doppler van de baan plus oscillator- en gebruikerstermen, maal codebins), de detectiekans met kwadratische detector en de gemiddelde seriële en codeparallelle acquisitietijd, de spectrale scheidingscoëfficiënt van het signaal naar GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b en E5 AltBOC en van elk daarvan naar het signaal met de C/N0-degradatie, en de CW-, breedband- en aangepaste J/S die de gevolgde component verdraagt, uit de eigen SSC-machinerie van de spectrumsoort. EEN BANDAFWEGING: eerste-orde ionosferische vertraging ({ "40.3" } TEC/f^{ "2" }), vrije-ruimteverlies, afstandsnauwkeurigheid bij gelijke C/N0 en bij gelijke EIRP, en jammertolerantie. Optionele VORMCONTROLES leggen het spectrum van een ontwerp naast een beschreven meting (MODELLED consistentie). VALIDATED: de gesloten vormen voor BPSK-vermogen in de band ({ "90.3" } % in de hoofdkwab) en voor de Gabor-bandbreedte, de bandbegrensde jitter die terugvalt op de early-late-vorm uit het leerboek en op zijn Gabor-grens, de spectrale scheidingscoëfficiënt van offset-BPSK ten opzichte van zijn gesloten vorm volgens Parseval, de eenheidsoppervlakte van het AltBOC-spectrum, en de maximale LEO-doppler ten opzichte van de gepubliceerde cijfers voor Xona Pulsar (32-34 kHz) en Iridium ({ "36" } kHz). MODELLED: elk ontwerp, elke vermogensverdeling, C/N0 en elk jammerniveau; EFQPSK-, CSK- en OFDM-spectra worden benaderd.
 
 seg-8bf45b6989d1 = De grafiek die de engine schrijft voor scenarios/leo-band-trade.toml, soort leo-signal
+
+seg-4e31c8daf798 = Register
+
+seg-6800289a282d = { "7" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders aangeeft (hoe een label wordt verdiend: het onderdeel Bewijs van de README).
+
+seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
+
+seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+seg-22eb3a688624 = Bron: <c1/>
+
+seg-561a783e9516 = Navigatie met lage aardbaan (familie van scenariosoorten)
+
+seg-47751d798019 = Themapagina's: <a1>LEO-PNT</a1>, <a2>LEO-SIGNAL</a2>, <a3>LEO-PASS</a3>, <a4>LEO-NAVMSG</a4>. Voer er een uit: <c1/>. Alle families: <a5>KINDS.md</a5>.
+
+seg-4867ae5d108b = Contactblad met de grafieken die de engine schrijft voor de soorten van de familie Navigatie met lage aardbaan
+
+seg-1e724b481e67 = LEO-PNT-signaalontwerpen: geparametriseerde PNT-signalen (positiebepaling, navigatie en tijdsynchronisatie) in een lage aardbaan (LEO) voor elk systeem, elke band en elke structuur.
+
+seg-82ad7da67939 = LEO-passage en linkbudget, band voor band, voor LEO-PNT (positiebepaling, navigatie en tijdsynchronisatie vanuit een lage aardbaan), systeemonafhankelijk: een gebruiker (grond, maritiem, lucht of binnenshuis, statisch of bewegend) en een of meer
+
+seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
+
+seg-c20a76308fb3 = LEO-navigatiebericht: de broadcast-efemeride en -klok van een satelliet voor positiebepaling, navigatie en tijdsynchronisatie in een lage aardbaan (LEO), voor elke baan, draaggolf en elk model, met optionele benoemde voorinstellingen (Xona P
+
+seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+
+seg-06236b581684 = Gefuseerde PNT (positiebepaling, navigatie en tijdsynchronisatie) in een gemiddelde aardbaan (MEO) en een lage aardbaan (LEO) over ELKE constellaties: elk [[system]] is een GNSS-voorinstelling van de soort constellation-design, een LEO-voorinstelling
+
+seg-d9e5f4726bbb = Convergentie van precieze puntpositiebepaling (PPP) met alleen GNSS en met LEO-augmentatie: een float-uitgebreid Kalman-filter op ionosfeervrije code en draaggolffase met de statische stationscoördinaten, een wh
+
+seg-44f4148f4a5f = Positiebepaling vanuit een 5G-downlink van een niet-terrestrisch netwerk (NTN) in de S-band van de mobiele satellietdienst (MSS) (3GPP-band n256, downlink { "2170" } tot { "2200" } MHz; standaarddraaggolf { "2172.5" } MHz): de Cramér-Rao-grens
+
+seg-1ee838a551ef = Eén LEO-PNT-systeem (positiebepaling, navigatie en tijdsynchronisatie vanuit een lage aardbaan) van begin tot eind, voor elke constellatie en elk signaal: het leo-signal-ontwerp genoemd door signal_design (een openbare voorinstelling of een inline [s
+
+seg-70d1ac6ddc95 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-472d9e86ee20 = <b>Register:</b> MODELLED { "2" } · VALIDATED { "2" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>leo-signal</a1>.
+
+seg-17d1c06ba5c5 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+seg-9a7671c30d7e = <b>Register:</b> MODELLED { "7" } · VALIDATED { "5" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>leo-pass</a1>.
+
+seg-cba2c7f7050a = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-7ba3e667487d = <b>Register:</b> MODELLED { "5" } · VALIDATED { "6" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>leo-navmsg</a1>.
+
+seg-8ca53a87d092 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>.
+
+seg-389c67090de1 = <b>Register:</b> MODELLED { "3" } · VALIDATED { "2" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>leo-pvt</a1>.
+
+seg-e004092d6056 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-e485df9372e6 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>leo-ppp</a1>.
+
+seg-089266c42199 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-e0a3133f468f = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>ntn-positioning</a1>.
+
+seg-ea759d0040db = Verplichte velden: <c1/>, <c2/>, <c3/>. Optioneel: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-db08b7916378 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>leo-pnt-chain</a1>.
+
+seg-534d13455a76 = <s1>Vorige</s1>Jamming, spoofing en het spectrum
+
+seg-ec3fb19fb5bd = <s1>Volgende</s1>Maan en cislunair
