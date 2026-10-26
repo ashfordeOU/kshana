@@ -36,7 +36,7 @@ seg-c1020ac47091 = 一回の実行が計算するもの
 
 seg-f708914fed48 = バンド
 
-seg-486f17197d4d = 代表的。パラメーターが公開されていない C バンドシステム向け（例：TrustPoint）
+seg-486f17197d4d = REPRESENTATIVE。パラメーターが公開されていない C バンドシステム向け（例：TrustPoint）
 
 seg-03d5ae448705 = <c1/>（任意）
 
@@ -104,7 +104,7 @@ seg-d28e18170f82 = 上記のいずれかを一つの時間軸に連鎖させる�
 
 seg-5479654fabfd = このチェーンはコード内で値を受け渡します（下の<a1>エンドツーエンドの LEO-PNT チェーン</a1>を参照）：信号設計がパスのバンドの EIRP（等価等方放射電力）の配分と追跡チップレートを決め、パスが追跡 C/N0 とコードジッターを与え、航法メッセージの SISRE とパスの C/N0 が、融合測位解の LEO 測定値に重みを与えます。
 
-seg-a0331a21413c = 汎用設計は公開されたバンドの中心を使います。いずれも代表的であり、特定のシステムの信号ではありません（<c1/>、<c2/>）。
+seg-a0331a21413c = 汎用設計は公開されたバンドの中心を使います。いずれもREPRESENTATIVEであり、特定のシステムの信号ではありません（<c1/>、<c2/>）。
 
 seg-a86ce24d81de = バンド
 
@@ -174,41 +174,41 @@ seg-e75e48eeeca1 = BPSK(n) は、n × { "1.023" } Mchip/s の二位相偏移変�
 
 seg-02f71b44edf5 = 信号とシステムのプリセット
 
-seg-c60ce9c32b57 = 代表的。バンドの中心は ITU 無線通信規則から
+seg-c60ce9c32b57 = REPRESENTATIVE。バンドの中心は ITU 無線通信規則から
 
 seg-58fae66f7c12 = <c1/>（信号設計）：上のバンド表。<c2/>（<c3/> の既定）：{ "450" } MHz の UHF、上記の中心の L、S、C、バンドごとに EIRP { "0" } dBW、{ "550" } km 太陽同期の Walker 240/12/1 レイヤー
 
 seg-5d918965c00c = { "5020" } MHz の BPSK({ "10" })、アイソフラックスビーム
 
-seg-dddb031a7e2e = 公開：Leclère、Marathe、Reid、Institute of Navigation（ION）GNSS+ { "2025" }、<a1>arXiv { "2509.19551" }</a1>
+seg-dddb031a7e2e = PUBLIC：Leclère、Marathe、Reid、Institute of Navigation（ION）GNSS+ { "2025" }、<a1>arXiv { "2509.19551" }</a1>
 
 seg-67fc4039084d = { "1593.3225" } MHz（{ "1.023" } Mchip/s）の X1 と { "1190.51625" } MHz（{ "10.23" } Mchip/s）の X5、公表された最小・最大の受信電力、約 { "1080" } km に { "258" } 機（{ "53" } と { "97" } 度のシェル）
 
-seg-f17f98d1ae0b = 公開：<a1>Resilient Navigation and Timing Foundation（RNTF）のブリーフィング</a1>
+seg-f17f98d1ae0b = PUBLIC：<a1>Resilient Navigation and Timing Foundation（RNTF）のブリーフィング</a1>
 
 seg-c6694cdbb02b = { "1616" }–{ "1626" } MHz のバースト、ドップラーは最大 ±{ "36" } kHz、{ "780" } km に { "66" } 機（<c1/> プリセットでは { "781" } km）、受信電力は「GPS の { "300" } から { "2400" } 倍」
 
 seg-704ec002a889 = <c1/> / <c2/> / <c3/>（信号、パス、測位の種別）
 
-seg-a4a3a7c7bc22 = 信号の数値は公開：Kozhaya、Saroufim、Kassas、<a1>NAVIGATION { "72" }({ "1" })</a1>。軌道は代表的
+seg-a4a3a7c7bc22 = 信号の数値はPUBLIC：Kozhaya、Saroufim、Kassas、<a1>NAVIGATION { "72" }({ "1" })</a1>。軌道はREPRESENTATIVE
 
 seg-49985bf11216 = ドップラーのみに使われる { "240" } MHz の Ku バンドビーコン、C/N0 は約 { "57" } dB-Hz
 
-seg-84cb50b019e0 = 信号構造は公開：<a1>PMC10301026</a1>。軌道と電力は代表的
+seg-84cb50b019e0 = 信号構造はPUBLIC：<a1>PMC10301026</a1>。軌道と電力はREPRESENTATIVE
 
 seg-1c50faed9f1e = L1 と L5 の近くの BPSK { "2.046" } Mchip/s
 
 seg-c72e9b87f116 = <c1/>（メッセージ種別では <c2/>）
 
-seg-3dd4136094c0 = 公開：<a1>InsideGNSS、ATOMIC（Autonomous Time and Orbit Determination for Microsatellite Constellations）ペイロード</a1>
+seg-3dd4136094c0 = PUBLIC：<a1>InsideGNSS、ATOMIC（Autonomous Time and Orbit Determination for Microsatellite Constellations）ペイロード</a1>
 
 seg-4f0cff24b4fd = 時計項のない 6 次の多項式エフェメリス（時計は GNSS 時刻に同期）
 
-seg-9d1e7aebcd84 = ワークショップ：ESA NAVISP の LEO-PNT ワークショップ（{ "2026" }）で発表
+seg-9d1e7aebcd84 = WORKSHOP：ESA NAVISP の LEO-PNT ワークショップ（{ "2026" }）で発表
 
 seg-28c2e7ae6065 = 軌道上実証の信号構成 #1 とメッセージ配置。外すことのできる一つのファイルに収録
 
-seg-9f0d16f43993 = 各プリセットは、その数値に、公開（URL 付き）、代表的（文書化された設計上の選択であり、実在のシステムについての主張ではありません）、ワークショップのいずれかを付けており、いずれかを使うすべての実行の結果は、どれであるかを示します。
+seg-9f0d16f43993 = 各プリセットは、その数値に、PUBLIC（URL 付き）、REPRESENTATIVE（文書化された設計上の選択であり、実在のシステムについての主張ではありません）、WORKSHOPのいずれかを付けており、いずれかを使うすべての実行の結果は、どれであるかを示します。
 
 seg-556fe9c6c3b1 = 航法メッセージ
 

@@ -122,39 +122,39 @@ seg-4d49743b3544 = バンド：<c1/> と任意の <c2/> サブセット、およ
 
 seg-bd1e114aaea6 = バンドは <c1/> 設計を指名することもできます（<c2/>、<c3/> の下の任意の設計、または <c4/> 種別が渡すもの。<a1>LEO-SIGNAL.md</a1> を参照）。その場合、バンドは設計の中心周波数（<c5/> が指定されていない場合）、送信帯域幅、追跡成分のチップレートを採用し、EIRP を設計の成分に電力比で配分し、エポックごとに、追跡成分の C/N0 と、帯域制限した early-late コード追跡ジッター（Betz と Kolodziejski { "2009" }、<c6/> 種別の式）を測距誤差として報告します。
 
-seg-1d96501bb12d = 各プリセットは、その数値に、公開（URL 付き）、代表的（文書化された設計上の選択であり、実在のシステムについての主張ではありません）、ワークショップのいずれかを付けています。
+seg-1d96501bb12d = 各プリセットは、その数値に、PUBLIC（URL 付き）、REPRESENTATIVE（文書化された設計上の選択であり、実在のシステムについての主張ではありません）、WORKSHOPのいずれかを付けています。
 
 seg-f708914fed48 = バンド
 
 seg-6459abcaeebe = <c1/>（既定）
 
-seg-a0dab2ebeb1b = 代表的。L、S、C の搬送波は公開文書から
+seg-a0dab2ebeb1b = REPRESENTATIVE。L、S、C の搬送波は公開文書から
 
 seg-cd0075385395 = UHF { "450" } MHz（代表的）、L { "1191.795" } MHz（Galileo E5 の中心）、S { "2492.028" } MHz（NavIC S、Navigation with Indian Constellation の S バンド搬送波）、C { "5020" } MHz（{ "5010" }–{ "5030" } MHz の RNSS（無線航行衛星業務）割り当ての中心）、いずれも { "0" } dBW
 
 seg-3f0de4312fcb = { "550" } km 太陽同期、Walker 240/12/1
 
-seg-486f17197d4d = 代表的。パラメーターが公開されていない C バンドシステム向け（例：TrustPoint）
+seg-486f17197d4d = REPRESENTATIVE。パラメーターが公開されていない C バンドシステム向け（例：TrustPoint）
 
 seg-f6696b70591c = C { "5020" } MHz、BPSK({ "10" })（{ "10" } × { "1.023" } Mchip/s の二位相偏移変調）、アイソフラックス
 
-seg-4ae6741795f9 = 公開、<a1>arXiv { "2509.19551" }</a1> 表 { "1" }–{ "2" }
+seg-4ae6741795f9 = PUBLIC、<a1>arXiv { "2509.19551" }</a1> 表 { "1" }–{ "2" }
 
 seg-a1be637cda63 = X1 { "1593.3225" } MHz、X5 { "1190.51625" } MHz。EIRP は { "10" }° における公表された最小受信電力から
 
 seg-cb74283148d7 = { "1080" } km、{ "53" }°（{ "192" }）と { "97" }°（{ "66" }）
 
-seg-5ae1331b91f8 = 公開、<a1>Resilient Navigation and Timing Foundation（RNTF）</a1>と公表された軌道
+seg-5ae1331b91f8 = PUBLIC、<a1>Resilient Navigation and Timing Foundation（RNTF）</a1>と公表された軌道
 
 seg-c995dade5aa6 = { "1621" } MHz（{ "1616" }–{ "1626" } MHz の中央）の Satellite Time and Location（STL）。EIRP は「GPS の { "300" } 倍」から
 
 seg-dd6322466888 = { "781" } km、{ "86.4" }°、{ "6" } 面に { "66" } 機
 
-seg-ad0ba129439b = 信号の数値は公開（<a1>NAVIGATION { "72" }({ "1" })</a1>）、軌道と EIRP は代表的
+seg-ad0ba129439b = 信号の数値はPUBLIC（<a1>NAVIGATION { "72" }({ "1" })</a1>）、軌道と EIRP はREPRESENTATIVE
 
 seg-1931203a036c = Ku { "240" } MHz ビーコン、ドップラーのみ
 
-seg-0533710bbbe1 = 信号構造は公開（<a1>PMC10301026</a1>）、軌道と EIRP は代表的
+seg-0533710bbbe1 = 信号構造はPUBLIC（<a1>PMC10301026</a1>）、軌道と EIRP はREPRESENTATIVE
 
 seg-cee286338f01 = L1 と L5 の近くの BPSK { "2.046" } Mchip/s
 
@@ -162,7 +162,7 @@ seg-fe3cdce92b31 = { "1000" } km、{ "55" }°
 
 seg-03d5ae448705 = <c1/>（任意）
 
-seg-800f173f2b20 = 信号パラメーターはワークショップ、軌道は公開
+seg-800f173f2b20 = 信号パラメーターはWORKSHOP、軌道はPUBLIC
 
 seg-e8626249e708 = 構成 #1 の七つのバンド
 

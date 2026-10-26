@@ -1126,9 +1126,9 @@ seg-979fb46a1ac8 = 鉄道トンネルでの惰行：列車の慣性航法シス�
 
 seg-6d592347a45a = <c1/><a1>ins-trn-coast</a1><a2>maritime-port-approach-coast</a2><a3>rail-tunnel-coast</a3>
 
-seg-588092c0b828 = 大気を通した光学 PNT：三つの例示用の地上サイト（雲の多い北の地点、
+seg-588092c0b828 = 大気を通した光学 PNT：三つのILLUSTRATIVEの地上サイト（雲の多い北の地点、
 
-seg-d9110ecdc1a0 = 例示用の一つの地上サイトについての、強化手法の仮定検討：波長の変更、より大きな
+seg-d9110ecdc1a0 = ILLUSTRATIVEの一つの地上サイトについての、強化手法の仮定検討：波長の変更、より大きな
 
 seg-67d9aed36283 = <c1/><a1>optical-atmosphere-network</a1><a2>optical-atmosphere-techniques</a2>
 
@@ -1170,7 +1170,7 @@ seg-d58a6084c08d = 通信タイミング、取り込みの例：時間間隔誤�
 
 seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
 
-seg-a9d9e45f2147 = 二つの例示用の局の間の衛星双方向時刻周波数比較（TWSTFT）、一つは
+seg-a9d9e45f2147 = 二つのILLUSTRATIVEの局の間の衛星双方向時刻周波数比較（TWSTFT）、一つは
 
 seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
 
@@ -1194,7 +1194,7 @@ seg-b9192c83fdf7 = アパーチャのデューティサイクルのデモンス�
 
 seg-e40da530a08a = <c1/><a1>aperture-duty-cycle</a1>
 
-seg-e671128cedbc = 例示用の二段式ケロシン/酸素ロケットの重力ターン上昇損失（実在の
+seg-e671128cedbc = ILLUSTRATIVEの二段式ケロシン/酸素ロケットの重力ターン上昇損失（実在の
 
 seg-17e5ec4d18bc = <c1/><a1>ascent-losses</a1>
 
@@ -1222,7 +1222,7 @@ seg-a38ba5ac0cda = 地球観測ペイロードのフットプリントとカバ�
 
 seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
 
-seg-966c1090da5a = 例示用の小型地球観測カメラの直下視イメージャーの放射測定と画質
+seg-966c1090da5a = ILLUSTRATIVEの小型地球観測カメラの直下視イメージャーの放射測定と画質
 
 seg-53d1e190c57d = <c1/><a1>eo-radiometry</a1>
 
@@ -1326,7 +1326,7 @@ seg-e9da73670beb = 屋内の LEO-PNT：L、S、C バンドが苦戦する中で�
 
 seg-6dfada2dacb6 = IoT（モノのインターネット）トラッカー向けの低消費エネルギー LEO-PNT：測位解ごとのエネルギーとデューティサイクルの関係。
 
-seg-1007e9b9abdc = ESA Celeste IOD、信号構成 #1、一回のパスにわたる全バンド。ワークショップ用プリセット。
+seg-1007e9b9abdc = ESA Celeste IOD、信号構成 #1、一回のパスにわたる全バンド。WORKSHOPプリセット。
 
 seg-d3b4252da1ee = 航空機から見た Iridium STL（衛星による時刻と位置）バースト。
 
