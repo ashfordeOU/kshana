@@ -770,7 +770,7 @@ pub fn iq_test_conditions_inline(text: &str, max_bytes: usize) -> Result<Value, 
 /// The standards packs (`kshana standards-pack list`, `standards/`): id, title, framework and
 /// test counts, with the notice that a pack measures modelled scenarios and rates no product.
 pub fn standards_pack_list() -> Value {
-    crate::i18n::in_english(|| crate::standards_pack::list())
+    crate::i18n::in_english(crate::standards_pack::list)
 }
 
 /// Run one standards pack by id (`kshana standards-pack run <id>`): the report as JSON and as
@@ -793,7 +793,7 @@ pub const MAX_AFS_FRAMES: usize = 100;
 /// spec`, `docs/LUNANET-AFS.md`): bars B1 to B10 of `xval/lunanet-afs/PREREGISTRATION.md`, each
 /// with its count and status. A miss is reported, never hidden. Nothing is read from disk.
 pub fn lunanet_afs_check_spec() -> Value {
-    crate::i18n::in_english(|| crate::iq::lunanet_afs::check_spec())
+    crate::i18n::in_english(crate::iq::lunanet_afs::check_spec)
 }
 
 /// Check a hard-decision AFS symbol stream given as text (`0` and `1`, white space ignored)
@@ -1620,7 +1620,7 @@ pub fn sky_monte_carlo(
 /// `skyline_presets` ([`crate::geometry::skyline_presets`]): the named presets with their
 /// REPRESENTATIVE label, provenance and 360-entry tables, as JSON.
 pub fn skyline_presets() -> String {
-    crate::i18n::in_english(|| crate::geometry::skyline_presets_json())
+    crate::i18n::in_english(crate::geometry::skyline_presets_json)
 }
 
 /// `skyline_profile` ([`crate::geometry::skyline_profile`]): a skyline section given as JSON or
