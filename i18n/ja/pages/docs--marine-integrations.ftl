@@ -11,3 +11,5 @@ seg-06ff6eed7e99 = OpenCPN
 seg-c3c260b7063e = テスト
 
 seg-ab1af8b3d968 = 上記を参照
+
+seg-c353e7bec219 = キー
