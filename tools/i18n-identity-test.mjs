@@ -34,8 +34,17 @@ if (!urls) {
 }
 
 async function collect(base, url) {
-  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'en-GB' });
-  await ctx.addInitScript(() => { try { localStorage.setItem('kshana-lang', 'en'); } catch {} Math.random = () => 0.5; });
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'en-GB', reducedMotion: 'reduce' });
+  // the pages animate and rotate on timers: freeze clocks, intervals and chance so two renders of the same code give the same text
+  await ctx.addInitScript(() => {
+    try { localStorage.setItem('kshana-lang', 'en'); } catch {}
+    Math.random = () => 0.5;
+    const T0 = Date.UTC(2026, 9, 25, 12, 0, 0);
+    Date.now = () => T0; performance.now = () => 1000;
+    const D = Date; globalThis.Date = class extends D { constructor(...a) { super(...(a.length ? a : [T0])); } static now() { return T0; } };
+    window.setInterval = () => 0;
+    window.requestAnimationFrame = (cb) => setTimeout(() => cb(1000), 50);
+  });
   const page = await ctx.newPage();
   const errs = [];
   page.on('pageerror', (e) => errs.push(String(e).slice(0, 120)));
