@@ -597,3 +597,367 @@ studio-trust-run-the-illustrative-jamming-example = Executar o exemplo ilustrati
 studio-trust-assess-the-chosen-file = Avaliar o arquivo escolhido
 
 studio-trust-the-format-is-guessed-from = O formato é deduzido do nome do arquivo; altere-o aqui quando estiver errado e avalie de novo. NovAtel OEM7, RTCM 3 e Septentrio SBF são formatos binários; eles são enviados ao motor como estão, neste navegador.
+
+studio-trust-imu-file-optional-a-second = Arquivo IMU (opcional): um segundo sensor para o rumo
+
+studio-trust-an-imu-log-on-the = Um registro IMU no relógio do registro do receptor preenche o rumo que o monitor de rumo contra curso lê onde quer que o registro do receptor não traga nenhum. Somente uma sessão de embarcação o usa.
+
+studio-trust-remove-the-imu-file = Remover o arquivo IMU
+
+studio-trust-no-imu-file = Nenhum arquivo IMU.
+
+studio-trust-session-settings-toml-the-log = Configurações da sessão (TOML, o registro é fornecido em linha)
+
+studio-trust-first-deduction = Primeira dedução
+
+studio-trust-first-untrusted = Primeira perda de confiança
+
+studio-trust-receiver-reported-track = Trajetória informada pelo receptor
+
+studio-trust-the-satellites-the-log-s = Os satélites que o próprio GSV do registro lista. Uma marca preenchida tem intensidade de sinal; uma vazada é listada sem nenhuma; um setor sombreado é onde o registro lista satélites e não ouve nenhum deles (um céu bloqueado e um sinal interferido parecem iguais aqui). Constelação nominal, não uma efeméride para a data do registro.
+
+studio-trust-score-over-time = Pontuação ao longo do tempo
+
+studio-trust-score-0-to-100-dashed = Pontuação de 0 a 100. As linhas tracejadas são as bordas das faixas; as tiras abaixo são a faixa e o portão. Arraste ou clique para mover o cursor de tempo; as setas o movem passo a passo.
+
+studio-trust-reasons-at-the-cursor = Motivos no cursor
+
+studio-trust-points-each-check-took-off = Pontos que cada verificação descontou nesta época, do maior para o menor. Clique em uma verificação para marcar onde ela esteve acima do seu limiar de início.
+
+studio-trust-geometry-at-the-cursor = Geometria no cursor
+
+studio-trust-the-satellite-geometry-always-shown = A geometria dos satélites, sempre exibida: seu rótulo (boa, razoável ou ruim) e os DOPs. Um céu mascarado (um casco, um cais, uma parede de fiorde) é degradação natural, distinta da inconsistência semelhante a um ataque. A pontuação desconta pontos pela geometria somente quando ela é ruim, no máximo 15, e nunca abaixo da faixa degradada.
+
+studio-trust-the-receiver-s-own-flag = O indicador do próprio receptor
+
+studio-trust-what-the-receiver-itself-says = O que o próprio receptor diz sobre spoofing e jamming (u-blox UBX-NAV-STATUS e UBX-SEC-SIG), colocado ao lado dos monitores do Kshana. Os códigos são do receptor; nenhum dos detectores é a verdade de campo, e a concordância não é validação. O indicador não altera nenhuma pontuação.
+
+studio-trust-over-the-run = Ao longo da execução
+
+studio-trust-what-the-score-used = O que a pontuação usou
+
+studio-trust-read-from-the-run-read = Lido da execução, somente leitura.
+
+studio-trust-what-this-view-does-and = O que esta visualização mostra e não mostra
+
+studio-trust-nmea-only-checks-cannot-see = Verificações somente com NMEA não conseguem ver um spoofer que reproduz toda a constelação com posição, velocidade, rumo, potência e relógio autoconsistentes, nem uma reprodução de sinais reais gravados. Uma posição sem alarme não é, por isso, uma boa posição.
+
+studio-trust-nothing-on-this-page-is = Nada nesta página é uma medida de como as verificações se comportam diante de interferência real. O mapeamento da pontuação e cada peso são fixados antes de um registro ser pontuado, sem aprendizado e sem nada ajustado a eventos.
+
+studio-main-which-satellites-can-you-see = Quais satélites você vê de um lugar, e qual a qualidade da geometria deles? Skyplot, perfil do horizonte e DOP do motor no seu navegador
+
+studio-main-trainer-debrief-for-kshana-nmea = Debriefing do instrutor para registros de instrutor do kshana nmea-scenario (somente treinamento; os arquivos ficam no seu navegador)
+
+studio-main-where-did-aircraft-and-ships = Onde aeronaves e embarcações informaram dados de navegação degradados em um dia passado? Abra arquivos de mapa por dia (eles ficam no seu navegador)
+
+studio-main-can-the-bridge-trust-this = A ponte pode confiar nesta posição? Abra uma execução receiver-trust de embarcação (os arquivos ficam no seu navegador)
+
+studio-main-evidence-packs-test-bench-export = Pacotes de evidências, exportação para bancada de testes, mapeamento de compliance, OSNMA, ferramentas de linha de comando e o assistente de IA (os arquivos ficam no seu navegador)
+
+studio-main-map-of-satellites-in-view = Mapa dos satélites à vista sobre a Terra, a partir da execução registrada
+
+studio-main-interactive-3-d-view-of = Visualização 3D interativa da trajetória propagada
+
+studio-main-close-history = Fechar o histórico
+
+studio-main-skip-to-the-content = Ir para o conteúdo
+
+studio-main-receiver-trust = Confiança do receptor
+
+studio-main-advanced-view = Visualização avançada
+
+studio-main-what-would-you-like-to = O que você gostaria de descobrir?
+
+studio-main-pick-a-question-or-start = Escolha uma pergunta ou comece pelo resultado abaixo.
+
+studio-main-showing-below = Exibido abaixo
+
+studio-main-integrity-over-12-hours = Integridade ao longo de 12 horas
+
+studio-main-a-radio-waterfall = Uma cascata de rádio
+
+studio-main-recorded-result = Resultado registrado
+
+studio-main-how-many-navigation-satellites-can = Quantos satélites de navegação você vê de qualquer ponto da Terra?
+
+studio-main-loading-the-recorded-result = Carregando o resultado registrado…
+
+studio-main-everything-kshana-can-do = Tudo o que o Kshana pode fazer
+
+studio-main-each-area-shows-a-real = Cada área mostra um resultado real registrado e a combinação de evidências por trás dele.
+
+studio-main-open-your-own-files = Abrir seus próprios arquivos
+
+studio-main-pages-that-run-the-engine = Páginas que executam o motor com suas próprias configurações e arquivos. Cada uma funciona neste navegador; nada é enviado.
+
+studio-main-which-satellites-can-you-see-2 = Quais satélites você vê de um lugar, e qual a qualidade da geometria deles? Desenhe o perfil do horizonte.
+
+studio-main-what-accuracy-could-a-reference = Que precisão uma estação de referência perto do polo sul lunar poderia dar, e onde? MODELLED.
+
+studio-main-can-the-bridge-trust-this-2 = A ponte pode confiar nesta posição? Pontue o registro NMEA de uma embarcação.
+
+studio-main-where-aircraft-and-ships-reported = Onde aeronaves e embarcações informaram dados de navegação degradados, e a exposição de uma rota.
+
+studio-main-generate-a-drift-or-jamming = Gerar um fluxo de exercício de deriva ou de jamming e fazer o debriefing do registro do instrutor.
+
+studio-main-two-synthetic-runs-on-one = Duas execuções sintéticas em um mesmo relógio: trajetória, pontuação de confiança, skyplot ao vivo e o veredito.
+
+studio-main-the-two-optical-atmosphere-scenarios = Os dois cenários de atmosfera óptica: disponibilidade em relação ao teto de nuvens, interrupções e diversidade de locais.
+
+studio-main-which-navigation-signals-a-spacecraft = Quais sinais de navegação uma espaçonave muito acima dos satélites ainda pode usar, e como se saem com eles um filtro de bordo e uma formação.
+
+studio-main-what-lunar-orbiters-and-a = O que orbitadores lunares e uma estação de superfície podem fazer como infraestrutura de navegação e geodésica, com as falhas declaradas.
+
+studio-main-open-a-day-s-observatory = Abra os arquivos do observatório de um dia e leia-os: três estados, nenhuma causa, nada enviado.
+
+studio-main-pull-the-antenna-score-the = Desconecte a antena, pontue o holdover: um registro de erro de tempo medido em relação às máscaras da ITU-T.
+
+studio-main-check-a-signed-pack-or = Verifique um pacote assinado ou anexe um carimbo de tempo.
+
+studio-main-motion-and-event-files-for = Arquivos de movimento e de eventos para um simulador de laboratório.
+
+studio-main-what-your-runs-evidence-against = O que suas execuções evidenciam em relação a referenciais publicados.
+
+studio-main-whether-recorded-galileo-data-is = Se os dados Galileo registrados são autenticados, etiqueta por etiqueta.
+
+studio-main-use-kshana-from-your-assistant = Use o Kshana a partir do seu assistente pelo servidor MCP.
+
+studio-main-all-scenarios = Todos os cenários
+
+studio-main-pick-one-it-opens-on = Escolha um: ele abre direto no seu resultado.
+
+studio-main-all-questions = Todas as perguntas
+
+studio-main-every-published-figure = Cada número publicado
+
+studio-main-read-from-the-result-document = Lidos do documento de resultado, com a unidade, a nota e a proveniência que o motor registra para cada um.
+
+studio-main-kalman-self-consistency = Autoconsistência do filtro de Kalman
+
+studio-main-a-consistent-filter-s-reported = A incerteza informada por um filtro consistente coincide com seus erros reais. O NIS (quadrado normalizado da inovação) deve ficar perto de 1 e o NEES (quadrado normalizado do erro de estimação) perto de 2, cada um dentro de sua faixa χ² de 95%.
+
+studio-main-engine-chart = Gráfico do motor
+
+studio-main-each-series-this-run-publishes = Cada série que esta execução publica, em função do tempo. Passe o cursor ou arraste sobre o gráfico para ler os valores.
+
+studio-main-carrier-to-noise-density-db = densidade portadora-ruído, dB-Hz
+
+studio-main-with-the-jammer = Com o jammer
+
+studio-main-without-it = Sem ele
+
+studio-main-each-cell-is-one-satellite = Cada célula é um satélite em uma época desta execução. As células hachuradas estão abaixo do limiar de rastreamento do receptor: esse satélite está perdido.
+
+studio-main-interference-outcome = Resultado da interferência
+
+studio-main-error-since-gnss-was-lost = erro desde que o GNSS foi perdido
+
+studio-main-scenario-budget = Orçamento do cenário
+
+studio-main-move-the-budget-and-the = Mova o orçamento e o tempo até a violação é lido do registro de erro desta própria execução. O valor de holdover do motor, calculado no orçamento do cenário, é exibido ao lado e é o número que prevalece. Altere o relógio ou a interrupção nos parâmetros para executar a física de novo.
+
+studio-main-maximum-time-interval-error = erro máximo de intervalo de tempo
+
+studio-main-time-deviation = desvio de tempo
+
+studio-main-mask-checks-and-holdover-budgets = Verificações de máscara e orçamentos de holdover
+
+studio-main-each-check-s-limit-is = O limite de cada verificação é desenhado como um anel no tempo de média em que a margem foi pior. As máscaras são transcritas das Recomendações da ITU-T (União Internacional de Telecomunicações, Setor de Normalização das Telecomunicações) nomeadas em cada linha.
+
+studio-main-lower-is-better-fractional-frequency = Quanto menor, melhor. Estabilidade de frequência fracionária em função do tempo de média τ, em eixos logarítmicos.
+
+studio-main-earth-centred-inertial-frame = Referencial inercial geocêntrico
+
+studio-main-drag-to-rotate-scroll-to = Arraste para girar, role para ampliar.
+
+studio-main-run-the-engine-once-per = Execute o motor uma vez por valor e desenhe uma figura de mérito. Adicione um segundo parâmetro para um mapa de calor. Cada ponto é uma execução real do motor, até 60.
+
+studio-main-pinned-runs-side-by-side = execuções fixadas lado a lado
+
+studio-main-clear-pins = Limpar fixações
+
+studio-main-key-figures-run-against-run = Números principais, execução contra execução
+
+studio-main-the-headline-readouts-of-each = As principais leituras de cada execução fixada; a variação é em relação à execução A.
+
+studio-main-the-engine-s-own-export = a exportação do próprio motor
+
+studio-main-written-by-the-engine = gravado pelo motor
+
+studio-main-czml-kml-geojson-stk-ephemeris = CZML, KML, GeoJSON, efeméride STK, SigMF
+
+studio-main-try-other-settings = Experimentar outras configurações
+
+studio-main-change-a-value-then-run = Altere um valor e execute de novo. A resposta e o gráfico são atualizados no mesmo lugar.
+
+studio-main-run-again = Executar de novo
+
+studio-main-cancel-the-run = Cancelar a execução
+
+studio-main-runs-in-your-browser-nothing = Executa no seu navegador. Nada é enviado.
+
+studio-main-advanced-settings = Configurações avançadas
+
+studio-main-every-setting-comes-from-the = Toda configuração vem do arquivo de cenário. Edite o arquivo inteiro em “Para pesquisadores”.
+
+studio-main-how-this-is-computed = Como isto é calculado
+
+studio-main-level-of-evidence = Nível de evidência
+
+studio-main-the-engine-s-own-one = O resumo de uma linha do próprio motor
+
+studio-main-every-figure-is-labelled-with = Cada número é rotulado com seu nível de evidência. Validado significa verificado em relação a uma referência externa independente; modelado significa física de primeiros princípios com testes, ainda não verificada por uma referência.
+
+studio-main-for-researchers = Para pesquisadores
+
+studio-main-code-data-citation = código, dados, citação
+
+studio-main-run-it-on-your-computer = Execute no seu computador
+
+studio-main-run-it-from-python = Execute a partir do Python
+
+studio-main-exported-figures-carry-this-doi = As figuras exportadas trazem este DOI (identificador de objeto digital) na legenda. O mesmo cenário, a mesma semente e a mesma versão do motor dão os mesmos números.
+
+studio-main-toml-tom-s-obvious-minimal = TOML (Tom's Obvious, Minimal Language)
+
+studio-main-in-the-editor-tab-indents = No editor, Tab recua em dois espaços. Pressione Esc e depois Tab para seguir adiante. Execute de novo para usar sua edição.
+
+studio-main-every-panel-and-field = Cada painel e cada campo
+
+studio-main-the-advanced-view-is-the = A visualização avançada é o painel completo: cada painel desta execução lado a lado, cada campo do cenário, varreduras, comparações e o relatório do próprio motor. Ela abre neste cenário, com suas configurações.
+
+studio-main-kshana-pro = Kshana Pro
+
+studio-main-kshana-studio = Kshana Studio
+
+studio-main-request-an-evaluation = Solicitar uma avaliação
+
+studio-main-talk-to-us-about-a = Fale conosco sobre uma licença comercial
+
+studio-main-request-a-study = Solicitar um estudo
+
+studio-main-imagery-nasa-visible-earth-blue = Imagens: NASA Visible Earth (Blue Marble). Linhas de costa: Natural Earth. Cada gráfico aqui é desenhado a partir de uma execução do motor; uma execução, relatório, animação ou exportação feita pelo motor nativo de linha de comando é rotulada como registrada.
+
+studio-main-this-session = esta sessão
+
+studio-main-runs-you-make-appear-here = As execuções que você faz aparecem aqui. Selecione uma para recuperar seu cenário e resultado, ou fixe-a para comparar.
+
+studio-advanced-find-a-scenario-a-domain = Encontrar um cenário, uma área, um campo ou um comando
+
+studio-advanced-the-runs-you-made-in = As execuções que você fez nesta sessão
+
+studio-advanced-a-short-tour-of-the = Um breve tour pelo Studio
+
+studio-advanced-toggle-colour-theme = Alternar o tema de cores
+
+studio-advanced-switch-to-the-simple-view = Mudar para a visualização simples
+
+studio-advanced-the-simple-view-the-answer = A visualização simples: a resposta primeiro, cinco configurações, detalhes sob demanda
+
+studio-advanced-scenario-library = Biblioteca de cenários
+
+studio-advanced-close-the-library = Fechar a biblioteca
+
+studio-advanced-find-a-scenario-a-domain-2 = Encontrar um cenário, uma área ou um campo
+
+studio-advanced-scenario-domain-or-field = Cenário, área ou campo
+
+studio-advanced-filter-by-domain = Filtrar por área
+
+studio-advanced-scenarios-by-mission-domain = Cenários por área de missão
+
+studio-advanced-how-the-studio-works = Como o Studio funciona
+
+studio-advanced-search-scenarios-domains-or-fields = Buscar cenários, áreas ou campos
+
+studio-advanced-search-scenarios-domains-or-fields-2 = Buscar cenários, áreas ou campos, por exemplo máscara de elevação
+
+studio-advanced-the-engine-kind-this-scenario = O tipo de motor que este cenário executa
+
+studio-advanced-open-the-scenario-library = Abrir a biblioteca de cenários
+
+studio-advanced-show-the-parameters-and-the = Mostrar os parâmetros e a fonte do cenário
+
+studio-advanced-keep-this-run-to-compare = Manter esta execução para comparar com outra (até 4)
+
+studio-advanced-compare-the-pinned-runs = Comparar as execuções fixadas
+
+studio-advanced-share-this-run-or-download = Compartilhar esta execução ou baixá-la
+
+studio-advanced-result-panels = Painéis de resultado
+
+studio-advanced-run-summary = Resumo da execução
+
+studio-advanced-parameters-and-scenario-source = Parâmetros e fonte do cenário
+
+studio-advanced-close-the-parameters-and-show = Fechar os parâmetros e mostrar os resultados
+
+studio-advanced-find-a-field-of-this = Encontrar um campo deste cenário
+
+studio-advanced-find-a-field-for-example = Encontrar um campo, por exemplo máscara
+
+studio-advanced-parameter-view = Visualização de parâmetros
+
+studio-advanced-find-a-scenario-domain-field = Encontrar um cenário, uma área, um campo, um painel ou um comando
+
+studio-advanced-skip-to-results = Ir para os resultados
+
+studio-advanced-find-anything = Encontrar qualquer coisa
+
+studio-advanced-lunar-station-coverage-of-a = Estação lunar: cobertura de uma estação de referência (MODELLED)
+
+studio-advanced-simple-view = Visualização simples
+
+studio-advanced-choose-a-scenario = Escolher um cenário
+
+studio-advanced-what-do-you-want-to = O que você quer fazer?
+
+studio-advanced-pick-a-domain-and-a = Escolha uma área e um cenário, configure-o, execute o motor no seu navegador e depois leia, compare e exporte os resultados. Nada é enviado.
+
+studio-advanced-share-or-export = Compartilhar ou exportar
+
+studio-advanced-good-first-runs = Boas primeiras execuções
+
+studio-advanced-pin-run = Fixar execução
+
+studio-advanced-report-json-scenario-tables-and = relatório, JSON, cenário, tabelas e exportações
+
+studio-advanced-the-exact-scenario-in-the = o cenário exato, no link
+
+studio-advanced-an-iframe-for-a-course = um iframe para uma página de curso ou wiki
+
+studio-advanced-opens-in-a-new-tab = abre em uma nova aba
+
+studio-advanced-loading-the-engine-the-recorded = Carregando o motor. O resultado registrado deste cenário aparece primeiro.
+
+studio-advanced-got-it = Entendi
+
+studio-advanced-headline-numbers-from-the-engine = Os principais números do resultado do motor, com a variação desde a sua execução anterior deste cenário, e um resultado de êxito ou falha onde a execução indica um limiar.
+
+studio-advanced-set-parameters = Definir parâmetros
+
+studio-advanced-every-change-re-runs-the = Cada alteração executa o motor de novo e atualiza os números principais e os painéis.
+
+studio-advanced-drag-a-slider-and-the = Arraste um controle deslizante e o cenário é executado de novo. Cada controle escreve direto no texto do cenário abaixo.
+
+studio-advanced-in-the-editor-tab-indents = No editor, Tab recua em dois espaços. Pressione Esc e depois Tab para seguir adiante.
+
+studio-mission-thread-time-axis = Eixo do tempo
+
+studio-mission-thread-mission-thread = Fio da missão
+
+studio-mission-thread-where-does-a-mission-s = Onde o orçamento de erro de navegação e temporização de uma missão se esgota?
+
+studio-mission-thread-a-mission-is-a-chain = Uma missão é uma cadeia de fases: lançamento, encontro, transferência para a Lua, pouso, retorno. Cada fase tem seus próprios sensores e seu próprio orçamento de erro, e cada uma repassa sua incerteza à seguinte. Esta página mostra o orçamento da cadeia inteira, fase por fase, e nomeia o elo mais fraco.
+
+studio-mission-thread-open-the-artemis-class-example = Abrir o exemplo da classe Artemis
+
+studio-mission-thread-open-a-result-file = Abrir um arquivo de resultado…
+
+studio-mission-thread-the-thread = O fio
+
+studio-mission-thread-error-against-mission-elapsed-time = Erro em função do tempo decorrido da missão
+
+studio-mission-thread-the-phases = As fases
+
+studio-mission-thread-the-budget-of-one-phase = O orçamento de uma fase
