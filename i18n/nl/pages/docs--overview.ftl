@@ -155,3 +155,7 @@ seg-fdbb9db68f1d = geen
 seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
+
+seg-b2689beaba9e = Galileo OSNMA-verifier
+
+seg-80f3f0aae42c = Interferentiekaart

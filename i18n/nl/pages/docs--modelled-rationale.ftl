@@ -668,3 +668,217 @@ seg-d7e03158b972 = Seconden tot een vrijlopende klok de guard van een tijdgeïnd
 
 # c1: slot-timing
 seg-0b4d8815f756 = Het soort <c1/>: de voorspelde fout E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² omgekeerd voor de overschrijding, de resterende tijd, het hersynchronisatie-interval na aftrek van de latentie van de positiebepaling en positiebepalingen per dag, elke term uitgesplitst met de overheersende genoemd; klokken uit de zes standaardwaarden van ClockClass (TCXO, OCXO en RAFS toegevoegd, elk met verwijzing naar één datasheet), de voorinstellingen voor telecom-timing, een inline datasheet of een gemeten opname; een overschrijding voorbij de langste middelingstijd van de bron wordt als geëxtrapoleerd gemarkeerd
+
+seg-2797643153dc = Beschermingsniveau voor tijdsynchronisatie van een ontvanger in een baan om de aarde onder GNSS-spoofing
+
+seg-cb412a2ffadf = orbital_timing::orbital_timing, bereikbaar als de spoofingsectie van de soort <c1/>: baansnelheid en omlooptijd in een cirkelbaan, de langste tijd per overvlucht waarin een spoofer op de grond de satelliet kan bereiken, de ondergrens van de klokondersteunde monitor en de detectielatentie van CUSUM, het voorwaardelijke beschermingsniveau (ondergrens plus uitloop over de latentie), de afwijking die een spoofer met een opgegeven maximale rampsnelheid opbouwt voordat de satelliet zijn dekkingsgebied verlaat of een onafhankelijke controle wordt uitgevoerd, en of elke controle via grondcontact of crosslink onafhankelijk is van één spoofer op de grond
+
+seg-f134975d4ffa = Waterfall van het L-bandspectrum met J/S per band en effectieve C/N0 onder een gescripte jammertijdlijn
+
+seg-86ad8f89a822 = De soort <c1/>: een raster van frequentie bij tijd van de vermogensspectrale dichtheid in de L-band (thermische ruisvloer k T_sys met T_sys = T_ant + { "290" } K (F - { "1" }), de signalen bij hun minimaal ontvangen vermogens volgens de interfacespecificatie, en jammers met continue golf, smalband, chirp en gematchte ruis met aan- en uittijden), waarbij elke cel gemiddeld is over zijn bin en rij (chirps exact over hele en gedeeltelijke sweeps, jammers naar inschakelduur), de effectieve C/N0 per band = [1/(C/N0) + sum (J/S) kappa]^-1 per rij, J/S per band, J/S binnen de band en een SVG-waterfall met C/N0-balken. Het rapport bevat een kruiscontrole met de keten van de soort <c2/> op dezelfde linkinvoer
+
+seg-6e0b9687e8ee = Uranus en Neptunus uit Standish Table { "1" }, Pluto, en planeetsnelheden
+
+seg-df3bf502dfe9 = Posities van Uranus en Neptunus uit Standish Table { "1" } (de standaard binnen { "1800" } AD tot { "2050" } AD), Pluto uit de rij van Table { "1" } van { "1992" } die de huidige JPL-pagina niet meer vermeldt, en de heliocentrische snelheid van elke planeet: de tweelichamenafgeleide met de gemiddelde beweging die de elementen impliceren plus het draaien van de ellips door de snelheden van perihelium, inclinatie en knoop
+
+seg-a50be56f605a = Posities van de maan en zeven grote manen (Phobos, Deimos, de Galileïsche manen, Titan)
+
+seg-2cfbe5a1eece = De geocentrische maan uit de reeks van Montenbruck & Gill (waarvan de term van -1.3972 graad per eeuw hem al op het J2000-equinox betrekt), en planetocentrische posities en snelheden van Phobos, Deimos, Io, Europa, Ganymedes en Callisto uit de gemiddelde elementen van JPL Solar System Dynamics in het Laplace-vlak van elke maan, met de snelheid van de gemiddelde lengte afgeleid uit de IAU-snelheid van synchrone rotatie (de tabel drukt de periode met te weinig cijfers af om de fase vast te houden), en van Titan uit het IAU-rotatiemodel (de maan op min de lichaamsvaste x-as op de gemiddelde afstand), omdat de afgedrukte Laplace-vlakrij van Titan Horizons niet reproduceert, zelfs niet op zijn eigen tijdstip
+
+seg-8b8c8e28ece9 = Fysische constanten van elk lichaam in het zonnestelsel en het rapport over het hele stelsel
+
+seg-d225a30de35c = Body krijgt Mercurius, Venus, Jupiter, Saturnus, Uranus, Neptunus, Pluto, Phobos, Deimos, Io, Europa, Ganymedes, Callisto en Titan (gravitatieparameter, referentiestraal, J2 waar gepubliceerd met de straal waarop die betrekking heeft, IAU-pool en nulmeridiaan), een opzoeking op naam en een BodyFacts-record (NAIF-code, klasse, moederlichaam, equatoriale en gemiddelde straal); de soort <c1/> rapporteert ze voor alle achttien lichamen met de posities, lichttijden en een baanspoor over één omloop, waarbij elk lichaam het label VALIDATED of MODELLED draagt
+
+seg-87ab655f8270 = Positiebepaling rond elk lichaam in het zonnestelsel met een lokale constellatie en een deepspace-link vanaf de aarde
+
+seg-d9b1b0ac97d3 = De soort <c1/>: een orbiter of een lander op het oppervlak rond een bij naam gekozen lichaam navigeert met enkele-weg-pseudoafstanden van een Walker-navigatieconstellatie rond het lichaam (tweelichamenbanen met de seculiere J2-drift van het lichaam, een onbekende gebruikersklok) en een optionele klokvrije tweewegafstand vanaf de aarde, waarbij de richting en afstand van de aarde bij elk tijdstip uit de analytische efemeride komen; zichtlijnen worden geblokkeerd door de bol van het lichaam en een elevatiemasker aan het oppervlak; per tijdstip de GDOP en PDOP van alleen de constellatie (orbit::dop), de formele positie-onzekerheid met en zonder de aardrij, en gezaaide Gauss-Newton-positiebepalingen (batch_ls::gauss_newton) in beide gevallen, met de lichttijd en de heen-en-terugreistijd van lichaam naar aarde
+
+seg-7d4d7200cbca = Dekkings- en dilutie-van-precisiekaarten voor willekeurige multiconstellatieontwerpen op schaal, rond elk centraal lichaam
+
+seg-b78b79e9fae4 = De soort <c1/> voorbij de twee vastgelegde gevallen: expliciete ontwerpen en ontwerpen met meerdere schillen, meerdere constellaties per run met één ontvangerklok per constellatie, de aarde, de maan en Mars uit de lichaamsconstanten, de BeiDou-voorinstelling (fase van de middelhoge baan en kruising van de hellende geosynchrone baan bij { "118" } graad O gemodelleerd), per cel de satellieten in zicht, GDOP, PDOP, HDOP, VDOP en beschikbaarheid, gedownsamplede grondsporen, en een voorfilter voor zichtbaarheid op de breedtegraad van het subsatellietpunt dat een ontwerp van { "5" } 000 satellieten op een raster van { "10" } graad in een fractie van een seconde doorrekent
+
+seg-278c77438493 = Een geketende missie over scenariosoorten heen op één gedeelde tijdlijn
+
+seg-3dcfb26f6234 = De fasen van de soort <c1/>: elke fase voert een of meer scenario's van bestaande soorten uit via run_toml, leest hun uitvoer in benoemde kanalen (kloktijdfout en guard, gemiddelde effectieve draaggolf-ruisdichtheidsverhouding en trackingondergrens, verticaal beschermingsniveau en alarmlimiet, positiefout, satellieten in tracking, alarmvlaggen) via voorinstellingen per soort of expliciete resultaatpaden, plaatst ze op het begin van de fase en houdt ze vast op een gemeenschappelijk raster, met fasegrenzen en gebeurtenissen; de toestand wordt doorgegeven met carry (een kanaal gaat verder vanaf de eindwaarde van de vorige fase), handoff (het nummer van een vorige fase wordt in het volgende scenario geschreven) en end_at (een fase eindigt op een tijdstip dat een run heeft berekend, zoals de detectietijd van een spoofingmonitor); een campagnehash en een digest over elk ledenresultaat
+
+seg-ad6105af464c = Parametersweeps en gezaaide Monte Carlo-ensembles over elke scenariosoort
+
+seg-95921611839e = De secties sweep (één tot drie gepunte sleutels van elke soort, op de aswaarden van de generieke sweep, optioneel met een ensemble bij elk knooppunt) en monte_carlo van de soort <c1/>: realisatie k draait met base_seed + k; elke metriek rapporteert het gemiddelde, de standaardafwijking, de 5e/50e/95e percentielen volgens nearest-rank en een percentiel-bootstrap-betrouwbaarheidsinterval van { "95" }% op het gemiddelde met vaste seed (inertial::metric_stat); metriekeenheden worden gelezen uit het eigen units-blok van de gesweepte soort
+
+seg-24327a0ed82e = Meerdere scenario's onder gedeelde omstandigheden, met een gecombineerde samenvatting
+
+seg-5833fb3b06e3 = De sectie compose van de soort <c1/>: benoemde gedeelde waarden (bijvoorbeeld het vermogen en de positie van één jammer) die in elk lid worden geschreven op de sleutels waaraan ze zijn gebonden, elk lid wordt uitgevoerd, en per metriek de kleinste, grootste en gemiddelde waarde over de leden met vermelding van het lid; metriekeenheden moeten over de leden heen overeenkomen
+
+seg-0bc866720bde = Begrensde optimalisatie van één metriek over campagneparameters
+
+seg-f9bdb89c2b4f = De sectie optimize van de soort <c1/> (CAP-32): één tot drie gepunte scenariosleutels begrensd tot [lo, hi] op een lin- of log-schaal, één metriek gelezen via een resultaatpad, doel minimize, maximize of target; methode grid (de aswaarden van de sweep) of een deterministische Nelder-Mead-simplex in genormaliseerde coördinaten met boxprojectie en de standaardcoëfficiënten; een ontbrekende of niet-eindige metriek scoort het slechtst en blijft in de trace; bij runs > { "1" } is de metriek het gemiddelde over gemeenschappelijke seeds; elke evaluatie is een echte run van de genoemde soort, vermeld in trace en meegeteld in de reproduceerbaarheidsdigest
+
+seg-652e28dfa10f = Signaalontwerpen voor positiebepaling, navigatie en tijdsynchronisatie in een lage baan om de aarde: codetracking, acquisitie, GNSS-compatibiliteit en een bandafweging voor elk systeem
+
+seg-c0ba5c7e708e = De soort <c1/>: geparametriseerde signaalontwerpen (band, zendbandbreedte, ITU-toewijzing; acquisitie-, data- en pilootcomponenten met BPSK(n), BOC(m,n), MBOC of vlakke spectra, vermogensaandelen, FDMA-subdraaggolven, codelengtes en datasnelheden) uit ingecompileerde openbare voorinstellingsbestanden (Xona Pulsar, Iridium STL, Starlink-signaal van gelegenheid, CentiSpace, een generiek C-bandontwerp en generieke UHF/L/S/C/brede-C-ontwerpen, elk met zijn bron-URL en met niet-gepubliceerde waarden gelabeld REPRESENTATIVE) of inline geschreven; per signaal de bandbegrensde vermogensspectrale dichtheid, vermogensfracties in de band, Gabor-bandbreedte, codejitter tegen C/N0 en afstand en de afstandsmetingsnauwkeurigheid, de acquisitiezoekruimte, de detectiekans met kwadratische wet en de gemiddelde seriële en codeparallelle acquisitietijd, de spectrale scheidingscoëfficiënt naar en van GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b en AltBOC met de C/N0-degradatie, en de J/S-tolerantie voor CW, breedband en gematchte ruis uit de SSC-keten van de soort spectrum; een bandafweging van ionosferische vertraging, vrije-ruimteverlies, afstandsmetingsnauwkeurigheid bij gelijke C/N0 en gelijke EIRP en jammertolerantie; en kwalitatieve vormcontroles van een ontwerp tegen een beschreven meting
+
+seg-c2b9c8e4a364 = Multibandspectrumwaterfall (UHF, L, S, C) met ontworpen signalen en jammers per band
+
+seg-609df4e0a085 = De soort <c1/> uitgebreid voorbij de L-band: banden gegeven als voorinstelling van een signaalontwerp (getekend met elke component, bandbegrensd tot de zendbandbreedte, C/N0 en J/S betrokken op de getrackte component) of als een eigen draaggolf en modulatie; extra waterfallpanelen over elk frequentiebereik op dezelfde tijdlijn en kleurschaal; een breedbandjammer (barrage) naast CW-, smalband-, chirp- en gematchte-ruisjammers; J/S en effectieve C/N0 per band uit de ongewijzigde keten van de spectrale scheidingscoëfficiënt
+
+seg-d9eb3e7e69c2 = Een LEO-PNT-overvlucht en zijn linkbudget per band tegenover de MEO-GNSS-satellieten in zicht
+
+seg-d986e44443dd = De soort <c1/>: satellieten uit een ontworpen overvlucht, elementen, een TLE via SGP4 of een Walker-constellatie uit constellation-design; per band en tijdstip de kijkhoeken, afstand, afstandssnelheid en afstandsversnelling in gesloten vorm (bij elke run gecontroleerd tegen centrale verschillen en gerapporteerd), vrije-ruimteverlies, EIRP met een isoflux-, gaussisch of vlak patroon, een patch-, halfbolvormige of isotrope gebruikersantenne, gasdemping volgens ITU-R P.676-10 Annex { "2" }, P.618-regen en -scintillatie, P.2109-gebouwindringingsverlies, polarisatiemismatch, systeemruistemperatuur, C/N0, Doppler en Dopplersnelheid, en de eerste-orde vertraging uit een schuine Klobuchar- of verticale-TEC-TEC geschaald met de Chapman-fractie onder de satelliet; ionosfeervrije paren met coderuis op de piek van de overvlucht; Galileo- of GPS-draaggolven uit hun ontvangen vermogens volgens het interfacedocument via dezelfde ontvanger
+
+seg-95a077a980b6 = Benoemde LEO-PNT-systeemvoorinstellingen met opgegeven bronnen, en een systeemonafhankelijke engine
+
+seg-4b47033cda24 = leo_link::presets: generiek multiband (UHF, L, S, C), generieke C-band, Xona Pulsar X1/X5, Iridium STL, Starlink als een signaal van gelegenheid met alleen Doppler, CentiSpace en een optionele Celeste IOD-voorinstelling, elk met zijn bron gemarkeerd als PUBLIC (met URL), REPRESENTATIVE of WORKSHOP, waarbij de workshopvoorinstelling in het optionele Celeste IOD-voorinstellingsbestand staat en alleen wordt ingecompileerd als dat bestand bestaat; elke band en baan kan in een scenario worden overschreven, en een scenario hoeft helemaal geen voorinstelling te noemen
+
+seg-a39f34973373 = Positiebepaling met laag energieverbruik: tijd tot de eerste positiebepaling en energie per positiebepaling tegen inschakelduur
+
+seg-f3b9b669a76f = leo_link::energy en de sectie [iot] van de soort <c1/>: coherente integratie begrensd door de Dopplersnelheid, niet-coherente sommen met kwadratische wet tot een detectiedrempel, een zoektocht over Doppler-bins over de enveloppe van de statische gebruiker van de baan (koud) of een ondersteund venster (warm), parallelle of seriële codezoektocht, tijd van het navigatiebericht bij een koude start, energie per positiebepaling en batterijlevensduur over positiebepalingsintervallen, voor elke LEO-band en het GNSS-signaal
+
+seg-8121e7db3db3 = Update van het LEO-navigatiebericht midden in een overvlucht met een continuïteitscontrole bij de omschakeling
+
+seg-34c310d85c42 = De analyse midpass-update van <c1/>: de hoogste overvlucht boven een gebruiker binnen een zoekspanne, berichten op een globaal schema met gebruiksperioden gecentreerd in hun fitvensters, en bij elke omschakeling de 3D-positiesprong, de kloksprong, de pseudoafstandssprong van de gebruiker, de grootste sprong over elke zichtbare zichtlijn (gesloten vorm over de nadirkegel), de afstandsfout vóór en na, en PASS/FAIL tegen een drempel
+
+seg-7635a8339e78 = Gedocumenteerde binaire codering van het LEO-navigatiebericht met een kwantisatiefoutenbudget
+
+seg-e4d9b16a2dc4 = leo_navmsg::codec: het eigen frame van Kshana (preamble, versie, model, lengte, payload, CRC-24Q) voor de vier efemeridemodellen, het klokpolynoom, SVID, issue of data, band, gezondheid, een Klobuchar-set, NeQuick-G-coëfficiënten en UTC-parameters, elk veld met een opgegeven breedte en stap (field_table), kwantisatie met weigering buiten het bereik, en een budget van de grootste positie- en klokverandering die een verandering van een halve stap van elk veld over het geldigheidsvenster veroorzaakt
+
+seg-17ca41d7fd71 = Exports in RINEX-4-stijl en CSV van LEO-navigatieberichten
+
+seg-185e12ccef0d = leo_navmsg::text: een blok in RINEX-4-stijl (> EPH-recordkop, satelliet- en tijdstipregel met drie kloktermen, D19.12-uitzendbaanregels) met systeemletter L en recordtypen KP16, KRAC, LU22 en APOL, in elke kop gelabeld als een Kshana-extensie die geen deel uitmaakt van RINEX { "4.02" }, en een CSV-tabel met een standaard kolomschema en voorinstellingsschema's, elk met een importer
+
+seg-e79047fc95af = ATOMIC-ECEF-polynoom zonder klok en de synthetische LEO-modelvergelijking met vijf hoogtes
+
+seg-e261843e35b1 = de EcefPoly-variant van leo_navmsg::elements::EphemerisModel: een ECEF-polynoom per as zonder kloktermen, de relativistische term uit -2 r.v/c^{ "2" }, gescoord tegen een gestuurde klok. Ook de modelvergelijkingsanalyse (liu_comparison over LIU2025_TABLE), die het model met 22 parameters fit op de vijf hoogtes van het artikel over bogen van 20 minuten van een door Kshana geïntegreerde baan en het resultaat naast de gepubliceerde SISRE afdrukt
+
+seg-d2e18c8bdc14 = Positiebepaling uit LEO-Doppler, met een of meer satellieten, met klokdrift- en snelheidstoestanden
+
+seg-de6cb3c06490 = Batch Gauss-Newton-positiebepaling uit afstandssnelheid met analytische partiële afgeleiden (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = { "1" }), optioneel een constante gebruikerssnelheid, een hoogtepseudometing voor een gebruiker op het oppervlak, gedempte stappen; de formele covariantie op de referentie; projecties along-track, cross-track en verticaal; de nauwkeurigheid van één overvlucht tegen de cross-trackafstand van de gebruiker; het tijdstip van de dichtste nadering. De modus doppler van de soort <c1/> voegt de fout tegen vensterlengte toe en een modus met alleen Doppler voor signalen van gelegenheid (de voorinstelling starlink-sop)
+
+seg-7f462969d2d4 = Gezamenlijke positiebepaling met GNSS- en LEO-pseudoafstanden met intersysteembiassen en foutmodellen per signaal
+
+seg-b9b5298e3408 = Gauss-Newton-positiebepalingen met gewogen kleinste kwadraten over elke combinatie van systemen, één ontvangerklok per systeem (de intersysteembias wordt samen met de positie geschat) of een bekende uitzendoffset op de referentietijdschaal; sigma's per meting aangeleverd door de aanroeper, standaard de thermische ruis van de delay-lock-loop van de engine (navsignal::dll_code_jitter_chips) bij de C/N0 van de elevatie gecombineerd met de signal-in-space-afstandsfout; ongewogen DOP (GDOP, PDOP, HDOP, VDOP, TDOP) in het lokale geodetische stelsel, formele oost-noord-omhoog-sigma's en de biassigma's; de gezamenlijke modus van <c1/> vergelijkt positiebepalingen met alleen GNSS, alleen LEO en gefuseerd en sweept de DOP tegen het aantal toegevoegde LEO-satellieten
+
+seg-ee9a4a0cb530 = Convergentie van precise point positioning met alleen GNSS en met LEO-augmentatie
+
+seg-a54f36c27d90 = Een float-PPP-uitgebreid-Kalmanfilter op ionosfeervrije code en fase: statische coördinaten, een witte ontvangerklok, één intersysteembias per extra systeem, een random-walk-zenitale natte vertraging afgebeeld met 1/sin(elevatie), een float-ambiguïteit per satellietboog die bij opkomst wordt toegevoegd en bij ondergang weggelaten, en de precieze baan- en klokfout die code en fase van een satelliet gemeen hebben, verwerkt als één gecorreleerde update met twee rijen in een Joseph-gestabiliseerde vorm; metingen gesimuleerd uit hetzelfde model; convergentietijd (fouten onder de drempels tot het einde van de run), foutcurves en de over de run gemiddelde positie-NEES voor alleen GNSS en elk LEO-geval, uitgevoerd als de soort <c1/>
+
+seg-9306f1c06081 = Door LEO ondersteunde tijdoverdracht naar UTC tegen C/N0 en de ontvangeroscillator
+
+seg-c618feb01476 = Klokmetingen van elke LEO-satelliet in zicht op een bekende positie, gecombineerd met inverse variantie uit het pseudoafstandsruismodel, gefilterd door een Kalmanfilter met twee toestanden (fase, frequentie) waarvan de procesruis de witte en random-walk-frequentieruis van de oscillatorklasse is (slot_timing::ClockNoise, clock_state::ClockClass; de uitloopvariantie van holdover::coast_phase_variance), een gezaaide referentieklok uit dezelfde niveaus, en de uitdrukking voor systeemtijd naar UTC uit IS-GPS-200 sectie { "20.3.3.5.2.4" } met een onzekerheid van de uitzendoffset toegevoegd als bias per run; de modus timing van <c1/> sweept oscillatoren en C/N0-offsets
+
+seg-d92777401093 = Benoemde LEO-PNT-systemen als optionele gegevensvoorinstellingen, elk met zijn bron
+
+seg-5130bfe2410c = Systeemonafhankelijke invoer: elk systeem is Walker-schillen, expliciete elementen of een GNSS-voorinstelling, een signaal (draaggolf, chipsnelheid, bandbreedte, ontvangen vermogen of C/N0-bereik), een SISRE, een Doppler-sigma en een klokmodel; voorinstellingen vullen alleen aan wat een scenario weglaat, één bestand per stuk met bronnen gemarkeerd als PUBLIC (met een URL), WORKSHOP of DERIVED en de niet-gepubliceerde waarden vermeld als representatief: Xona Pulsar X1/X5, Iridium STL, Starlink-signalen van gelegenheid, CentiSpace, een representatief C-bandsysteem, het ATOMIC-efemeridemodel zonder klok, en één van de workshop afgeleide voorinstelling in het optionele Celeste IOD-voorinstellingsbestand, die wordt achtergehouden door dat bestand en zijn scenario's te verwijderen
+
+seg-dec52b5b9cd6 = Eén LEO-PNT-systeem van begin tot eind: signaalontwerp, linkbudget van de overvlucht, navigatiebericht en gefuseerde positiebepaling, waarbij de uitvoer van elke fase aan de volgende wordt doorgegeven
+
+seg-39443b31d418 = De soort <c1/>: een leo-signal-ontwerp (openbare voorinstelling of inline) bepaalt het midden, de bandbreedte, de chipsnelheid en de EIRP-verdeling van een leo-pass-band; de overvlucht geeft per tijdstip de C/N0 van de getrackte component en de bandbegrensde codejitter; een C/N0-lijn met kleinste kwadraten in sin(elevatie), de SISRE van het leo-navmsg-bericht (gefit op de baan van de satelliet van de overvlucht, plus een opgegeven term voor baanbepaling als wortel uit de kwadratensom) en de draaggolf en chipsnelheid van het ontwerp gaan naar elk LEO-systeem van een gezamenlijke leo-pvt-positiebepaling en, optioneel, naar de LEO-gevallen van leo-ppp; elke overdracht wordt gerapporteerd met haar waarde en eenheid
+
+seg-55ca63edff02 = Spoofingdetectie via LEO-Doppler en consistentie van de overvluchtgeometrie
+
+seg-b12fc1728220 = De sectie <c2/> van de soort <c1/>: een spoofer vervalst, zelfconsistent in afstand en afstandssnelheid, de signalen die op een geclaimde positie worden gezien die springt en/of na een begintijdstip van de ware positie wordt weggeduwd (per LEO-band en voor het MEO-GNSS-signaal); de ontvanger voorspelt elke afstandssnelheid uit de uitgezonden baan en een onafhankelijke eerdere positie en snelheid, en toetst de gemeten afstandssnelheden met een gegeneraliseerde chi-kwadraatstatistiek met kleinste kwadraten over een venster van tijdstippen (klokdrift een storingsparameter of met een prior), op de GNSS-kanalen, de LEO-kanalen en alle kanalen, met thermische ruis van de frequency-lock-loop uit C/N0 (Kaplan & Hegarty { "2006" }, sectie { "5.6.2" }); detectiekans uit de niet-centrale chi-kwadraatverdeling bij een opgegeven kans op vals alarm, detectie verklaard bij een opgegeven kans op gemiste detectie
+
+seg-5f341f85ac07 = Spoofingdetectie via consistentie tussen de banden van een LEO-signaal met meerdere banden
+
+seg-2f9c4d351b0f = Voor elke LEO-satelliet en elk paar afstandsmetingsbanden vormt de sectie <c1/> de geometrievrije pseudoafstandscombinatie, verwijdert het ionosfeermodel van de ontvanger en toetst de stap van tijdstip tot tijdstip tegen de coderuis van de twee banden en een opgegeven getolereerde ongemodelleerde ionosferische snelheid (tweezijdig gaussisch, exacte detectiekans); een spoofer die sommige banden vervalst en andere niet, of elke band zonder de ionosfeer, wordt bij zijn begin gezien; een spoofer die elke band vervalst en de ionosfeer simuleert niet, wat het resultaat vermeldt
+
+seg-97dbcd5f2728 = Ionosfeersondering: schuine TEC uit de tweebandsvertraging van een LEO-overvlucht
+
+seg-844de34fd2f3 = Voor elk bandpaar van een satelliet van <c1/> geeft het rapport de schuine totale elektronencontent die de geometrievrije codecombinatie op de piek van de overvlucht oplevert, (P2 - P1) f1^{ "2" } f2^{ "2" } / ({ "40.3" } (f1^{ "2" } - f2^{ "2" })), en zijn 1-sigma uit de thermische coderuis van de twee banden, zodat elk LEO-PNT-ontwerp met meerdere banden als ionosfeersonde kan worden afgewogen
+
+seg-1fdbb476c8ab = Maritieme vertrouwensscore: de aggregatie van het bewijs van de monitors tot een score van 0-100 en zijn drie banden
+
+seg-0d76b33144f1 = Elke monitor herleidt zijn bewijs tot een verhouding van statistiek tot drempel; de score is { "100" } min de som over de monitors van het gewicht maal een begrensde lineaire helling van de verhouding ({ "0" } tot { "0.5" }, { "1" } bij { "1.5" }), begrensd tot { "0" } tot { "100" } en afgerond op { "0.1" }, met banden bij { "90" } en { "55" }; elk tijdstip vermeldt de monitors die hebben afgetrokken en hun punten.
+
+seg-51640405c9b7 = SIEM-gebeurtenissen van vertrouwenstelemetrie: Log Event Extended Format (LEEF) via syslog
+
+seg-1b3245506847 = Gebeurtenissen bij bandwisseling (of per tijdstip) als Log Event Extended Format { "2.0" }-payloads in een RFC { "5424" }-envelop via UDP of TCP, met een gedocumenteerde veldtoewijzing.
+
+seg-c04042b0270a = Interferentiedrempels van receiver-trust gekalibreerd op de dataset JammerTest { "2024" }
+
+seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: de vooraf vastgelegde kalibratie van de monitors voor C/N0-daling, AGC en jamming-indicator op de openbare dataset JammerTest { "2024" } (Zenodo { "15911589" }, GPL-3.0-or-later, tijdens de run opgehaald, nooit meegeleverd): per map een tijdlijn van { "1" } s uit mon_rf.csv en rinex.csv, de monitors eenmaal uitgevoerd, elk tijdstip na de kalibratie gelabeld als schoon of jamming uit de attack_log van de map (verschoven van CEST naar UTC, guard van { "60" } s), elke drempel gesweept over een vast raster, de kleinste drempel gekozen met een gepoolde kans op vals alarm op schone tijdstippen van hoogstens { "0.01" }, en achtergehouden tellingen met leave-one-folder-out; een kruiscontrole van de UBX-lezer. De keuze wordt alleen geleverd als het opt-in-profiel [monitors] profile = "jammertest-2024-calibrated" (cn0_drop_db { "1.5" }, agc_k_sigma { "3.5" }, jam_ind_threshold { "29" }); de standaardregel en elke uitvoer zonder het profiel zijn ongewijzigd
+
+seg-65a8361b4a22 = Jammertest scoring: een ontvangerlog die per geplande test wordt beoordeeld (detectielatentie, gemiste alarmen, valse alarmen, hersteltijd) aan de hand van het gepubliceerde testplan
+
+seg-98d8c39f47ae = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): de testcatalogus en het zendplan van de NPRA (MIT, opgehaald met een vastgezette SHA-256, nooit meegeleverd) gelezen als geplande referentie met behoud van de catalogus-id's; een receiver-trust-run beoordeeld per test (eerste alarm minus geplande start, gedetecteerd/te laat/gemist ten opzichte van een tolerantie, tijd tot de eerste alarmvrije periode, alarmen buiten elk slot en de bijbehorende bewakingsmarge), met een ondertekend bewijspakket dat de scorekaart bevat. Het schema bestaat uit geplande slots, niet uit vastgelegde uitzendtijden
+
+seg-ee99388f7b15 = compliance (kshana compliance-report): een koppeling van Kshana-uitvoer aan clausules van openbare kaders, uitsluitend op nummer, ingevuld uit de opgegeven runs; een resultaat telt alleen voor een mogelijkheid mee wanneer het het bewijs bevat dat de koppeling noemt, een lege verzameling levert nergens bewijs voor, en de formulering is "levert bewijs voor"; het rapport is geen vaststelling dat enig kader wordt gehaald en geen beoordeling of goedkeuring door wie dan ook.
+
+seg-98c360d82d56 = Maritieme integraties: Signal K-plug-in, OpenCPN-gate-stream en scorepaneel, referentiebuild
+
+seg-7af9ce566646 = De vertrouwensscore, band, redenen, gate-status en door de ontvanger gemelde positie, gepubliceerd onder navigation.gnss.kshana in een Signal K-server met een waarschuwings-, alarm- en normaalmelding (integrations/signalk); de gegate NMEA-stream, met de positiebepaling als ongeldig gemarkeerd zolang het vertrouwen is ingestort en een PKSHT-zin per cyclus, via TCP aan OpenCPN geleverd door de gate zelf of door een klein relay, en een eigen OpenCPN-scorepaneel dat de PKSHT-zin leest (integrations/opencpn); en systemd-units en een container die de gate draaien (deploy/reference-build). Waar deze uitvoer tonen, dragen ze de adviserende verklaring: Adviserende software, geen typegoedgekeurde navigatieapparatuur (IEC { "61108" }, IEC { "61162" }): de gezagvoerder of exploitant blijft verantwoordelijk voor de navigatie van het vaartuig.
+
+seg-89ab9ef155eb = BOC({ "1,1" })-tracking: DLL-schaling en bump-jump-ambiguïteitsoplossing (opt-in)
+
+seg-ef24be9b5917 = Het veld boc van iq::track::LoopConfig (opt-in, standaard None): de drie DLL-discriminatoren herschaald om de codefout in chips af te lezen met eenheidshelling op de hoofdpiek van de sinus-BOC({ "1,1" }), en een bump-jump-monitor op zeer vroege en zeer late correlatoren op een halve subdraaggolfperiode ({ "0.5" } chip) die de code-NCO naar de hoofdpiek laat springen wanneer een op/neer-teller N bereikt ({ "8" } standaard). Zonder de optie is elke uitvoer ongewijzigd.
+
+seg-2c32955cbfb3 = IQ-kanaal voor ionosferische scintillatie (Cornell-model) tegen gemeten { "50" } Hz GPS L1-scintillatie
+
+seg-2fdcb373ab25 = iq::channel::scint, het Cornell-scintillatiemodel (Rice-intensiteit, tweede-orde-Butterworth-spectrum, fase arg z) aangedreven met de S4 en de intensiteitsdecorrelatietijd van een gemeten venster, vergeleken op wat het genereert buiten die twee invoeren; realdata::scint50 leest het gemeten log, haalt de trend eruit en voert de vergelijking uit.
+
+seg-160507ac3702 = Cell-averaging CFAR-optie in IQ-acquisitie
+
+seg-7c0a1adc9ae6 = iq::acq::ca_cfar en ca_cfar_cells (opt-in): een cel van een acquisitieraster wordt vergeleken met het gemiddelde van referentiecellen van zijn Dopplerrij (guard- en stride-lags, rond de periode heen gewikkeld), met een factor alpha die is bepaald uit de gesloten-vormkans op vals alarm van CA-CFAR voor M niet-coherente blokken (ca_cfar_pfa, ca_cfar_alpha). De detector op steekproefvermogen blijft de standaard en elke bestaande uitvoer is ongewijzigd.
+
+seg-5bd3bf0c22a7 = Spectrummodel: GLONASS-, BeiDou- en Galileo E6-banden (opt-in)
+
+seg-9c16189c63ac = spectrum::default_band bepaalt, uitsluitend op naam (MORE_BAND_NAMES), GLONASS L1OF en L2OF op elk FDMA-kanaal K = -7 tot { "6" } (BPSK, { "0.511" } Mchip/s), BeiDou B1I (BPSK({ "2" })), B1C (MBOC(6,1,1/11)), B2a en B3I (BPSK({ "10" })) en Galileo E6 (BPSK({ "5" })), met de draaggolven en minimale ontvangen vermogens uit hun interface control documents; de standaardbandenset en elke bestaande uitvoer zijn ongewijzigd.
+
+seg-7b1ae0c7ca28 = Tertiaire codes en berichtlaag van LunaNet AFS (SB1 BCH, CRC-24Q, interleaver) tegen LSIS-AFS V1.0
+
+seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: synchronisatiepatroon, SB1 BCH({ "51,8" })-encoder en decoder met 256 hypothesen, CRC-24Q, de blokinterleaver van { "60" } x { "98" }, een symboolstroomcontrole (kshana lunanet-afs-check) en een teststroomgenerator met plaatshouder-subframes. De rate-1/2 LDPC-codering van subframes { "2" } tot { "4" } is niet geïmplementeerd (de matrices staan in een aparte bijlage).
+
+seg-0d7b17524c04 = Standaardenpakketten: scenario's beoordeeld aan de hand van drempels die vóór de run zijn vastgelegd
+
+seg-6e5c04fd4531 = standards_pack (kshana standards-pack): de testprofielen van het DHS Resilient PNT-kader voor niveaus { "1" } tot { "4" }, de nauwkeurigheidsniveaus en integriteitsevaluatie van IMO MSC.1/Circ.1575 en de pakketten monitoren, beoordelen en mitigeren van ICAO Doc { "9849" } Appendix F: elke test voert een meegeleverd scenariotype uit en vergelijkt resultaatvelden met drempels die in het pakket zijn vermeld, en tests die een ontvangerlog nodig hebben, worden vermeld als NEEDS INPUT en niet beoordeeld.
+
+seg-8a8f2c85e0c3 = Bewijspakket voor laboratorium-roundtrip (scenario, testcondities, ontvangerlog, score)
+
+seg-a090b06a920d = evidence::roundtrip (kshana evidence round-trip) en de ontvangerlog-export kshana.test-conditions/1 van kshana bench-export: een ondertekend pakket dat de scenariohash, de hash van de vermelde condities, de loghash en de score ten opzichte van de vermelde gebeurtenissen vastlegt, en condities weigert die niet overeenstemmen met de beoordelingsgebeurtenissen of een log waarvan de hash niet de vermelde is. Er wordt geen signaal geschreven, afgespeeld of ingepland.
+
+seg-a9189e4fe413 = IQ-trackingengine tegen GNSS-SDR { "0.0.19" } op onafhankelijke opnames
+
+seg-364de05e5b1b = De volledige trackingengine van de IQ-laag (iq::track via kshana iq track: acquisitie-overdracht, correlatoren, NCO's, tweede-orde-Costas-PLL van { "15" } Hz, eerste-orde-DLL met EML-omhullende en draaggolfondersteuning van { "2" } Hz, lock-indicator en C/N0-schatters) op GPS L1 C/A bij { "30" } tot { "45" } dB-Hz.
+
+seg-259d201c2ff8 = CRPA-antennewinsten in het jamming-type tegen een onafhankelijke numpy-herberekening
+
+seg-192144c57783 = De optionele sectie [crpa] van het jamming-type: een bundel per kanaal naar elke satelliet (null-steering met de jammer als nul, of MVDR op sigma^{ "2" } I + P_j a_j a_j^H), die de ruis van elke link schaalt met ||w||^{ "2" } en de jammer met |w^H a_j|^{ "2" } vóór de bestaande anti-jam-C/N0-vergelijking.
+
+seg-a2f34cff9338 = Terreinafscherming van de jammer in het jamming-type tegen een onafhankelijke numpy-herberekening op een echte SRTM-tegel
+
+seg-334c569d9cae = De optionele sectie [terrain] van het jamming-type: het grootcirkelterreinprofiel tussen jammer en ontvanger op een SRTM .hgt-tegel met een aardbolling met k-factor, de dominante messcherpe rand (grootste Fresnel-Kirchhoff nu) en het verlies van één messcherpe rand volgens ITU-R P.526-15 sectie { "4.1" }, afgetrokken van het ontvangen vermogen van de jammer.
+
+seg-825c121c7512 = Acquisitiehysterese en de quantiser van de front-end in het jamming-type tegen onafhankelijke herberekeningen
+
+seg-f7207263d881 = De optionele sectie [acquisition] van het jamming-type (een satelliet wordt geacquireerd bij of boven een acquisitiedrempel na een heracquisitievertraging en vastgehouden zolang hij op of boven de trackingdrempel ligt) en de sectie [front_end] (de AGC-aflezing { "10" } log10({ "1" } + J/N) en het quantiseringsverlies van de ADC bij Gaussiaanse invoer, van elke link afgetrokken, gemarkeerd als niet geldig voor niet-Gaussiaanse jammers).
+
+seg-9c46f1c76486 = Begrensde FLL-pull-in onder de FLL-naar-PLL-overdrachtsondergrens van het standaardontwerp (opt-in)
+
+seg-efa1d1a9e904 = De opt-in carrier.fll_pull_in_max_s van iq::track (het veld fll_pull_in_max_s van iq::track::LoopConfig): onder fll_assist = pull-in draagt de FLL na een vaste pull-in-tijd de sturing over aan de PLL, wat de PLI ook is, met een bijpassende terugkeerverblijftijd totdat de PLI voor het eerst fll_off_pli bereikt.
+
+seg-ac0f97e945a7 = Lezer voor RTKLIB .pos-oplossingen voor receiver-trust
+
+seg-0b8bc2c89de4 = Leest een RTKLIB-oplossingsbestand (kalender- of GPS-week/TOW-tijd, breedte-/lengtegraad- of ECEF-positie, gebruikte satellieten) in de receiver-trust-tijdlijn (receiver_trust::machines::rtklib).
+
+seg-849393517c04 = NovAtel OEM7 ASCII- en binaire logs (BESTPOS, RANGE, RXSTATUS) voor receiver-trust
+
+seg-7e0021922025 = Leest BESTPOS (positie), RANGE (C/No per signaal) en RXSTATUS (de jammervlag van de ontvanger, als zelfrapportage van het epoch) uit ASCII- en binaire OEM7-logs, CRC-gecontroleerd, alleen-lezen (receiver_trust::machines::novatel).
+
+seg-a45c53a9deb3 = RTCM-{ "3" }-lezer voor MSM4 en MSM7 draaggolf-ruisverhouding voor receiver-trust
+
+seg-0a0c9976236f = Leest de C/N0 van elke signaalcel van RTCM-{ "3" }-berichten MSM4 en MSM7 (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) uit een framestroom, CRC-24Q-gecontroleerd (receiver_trust::machines::rtcm3). Indelingen uit de pyrtcm-tabellen met BSD-licentie, niet uit de tekst van de RTCM-standaard.
+
+seg-cd554a7c1649 = GNSS-SDR-monitoradapter voor receiver-trust
+
+seg-22b587ac642d = Leest GNSS-SDR Monitor- (Gnss_Synchro) en PVT-monitorberichten, doorgegeven als JSON-regels met de protoveldnamen, in C/N0 per kanaal, positiebepaling, gebruikte satellieten, HDOP en hemel (receiver_trust::machines::gnss_sdr; integrations/gnss-sdr/relay.py).
+
+seg-217e5953c128 = IMU-loginvoer, gyro-headinginvoer en Allan-fit van parameters van hybride sensoren
+
+seg-9dadc819daef = Leest een IMU-CSV (gedocumenteerde kolommen, of de EuRoC-indeling); integreert de gierdraaisnelheid tot de heading die de heading-course-monitor leest ([log.imu]); en fit de ruisparameters van accelerometer en gyro van de hybride en fusiescenario's uit een stilstaand log met overlappende Allan-deviatie (imu-fit).
+
+seg-15a852a2dcb0 = Home Assistant MQTT-discovery en statusexporter voor vertrouwenstelemetrie
+
+seg-6d6b07b26966 = Een JSON-statusdocument en Home Assistant MQTT-discoveryberichten voor de vertrouwensstroom, op elk oppervlak als tekst afgedrukt en door de CLI gepubliceerd via MQTT { "3.1.1" } QoS { "0" } (telemetry::mqtt; trust-telemetry --mqtt-tcp, --print-mqtt, format mqtt).
+
+seg-68caf86157c2 = ROS-{ "2" }-pakket voor receiver-trust en gnss_lib_py-brug
+
+seg-e7d7d99fe538 = Een ROS-vrije brug die positie- en satellietberichten als NMEA schrijft en ze via de Python-binding beoordeelt (integrations/ros2/kshana_trust), en een brug van gnss_lib_py NavData naar receiver-trust via het rtklib-pos-formaat (integrations/gnss_lib_py).
