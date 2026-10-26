@@ -303,3 +303,131 @@ seg-61817375c8ea = Maanbaan en maanoppervlak als navigatie- en geodetische infra
 seg-d2439abaeabb = numpy-/scipy-onafhankelijke referenties van de numerieke methoden; drie vooraf vastgelegde drempels NOT MET (xval/lunar-infra/RESULTS.md)
 
 seg-db45ac2940af = Vijf studies in een beperkt driehoudenmodel: een baanbepaling aan boord met Aarde-GNSS in een bijna-rechtlijnige halobaan tegenover een onafhankelijke baanbepaling vanaf de grond met afstand en afstandssnelheid; gezamenlijke vaststelling van de geheeltallige ambiguïteit van de draaggolffase van oppervlaktestation en orbiter (LAMBDA); de Fisher-informatie van een maandatum met zeven parameters met en zonder afstanden tussen orbiter en oppervlak; GNSS-, VLBI- en laserafstandsoffsets ten opzichte van de lokale koppeling; en gevoeligheid voor de getijden- en libratieparameters van de maan. MODELLED met illustratieve invoer: de numerieke methoden zijn gecontroleerd tegen onafhankelijke numpy- en scipy-programma's, niet de natuurkunde. Onder de vooraf vastgelegde drempels zijn er drie NOT MET: een geïnjecteerde krachtfout wordt niet gedetecteerd met het vermelde percentage (C3), het bootstrapped slagingspercentage verschilt van het numpy-orakel met { "1.7e-6" } tegenover een drempel van { "1e-9" } (Q3), en het toevoegen van een afstandsfamilie verlaagt het spoor van de pseudo-inverse niet altijd (G3, sporenhelft).
+
+seg-f4f59f19e091 = Mogelijkhedenkaarten
+
+seg-501d3a72ea43 = Integriteit
+
+seg-20db2c79b998 = Getoetst
+
+seg-29e58493fdd4 = Berekend uit een model
+
+seg-298cc35fe9d1 = Inertiaal
+
+seg-b03984610dc0 = Lunair
+
+seg-f1f903f1b9ff = Veerkracht
+
+seg-bd64cfb4dc52 = Baanpropagatie en constellatieontwerp
+
+seg-a7cfe6f135f1 = Baan en geometrie
+
+seg-3060564c3e21 = 666/666 AIAA-vectoren · { "4.12" } mm
+
+seg-5b265eaf8f29 = SGP4/SDP4-propagatie uit echte two-line elements (een vastgelegde Celestrak-GPS-momentopname) of synthetische Walker-constellaties waarvan de gemiddelde elementen de formule i:T/P/F realiseren tot onder { "1" } km over { "24" } u. Zichtbaarheid van meerdere constellaties, dilution of precision en GNSS-beschikbaarheid, een optimalisator voor constellatieontwerp, dimensionering van streets-of-coverage en een Walker-ontwerpsweep die de Pareto-optimale ontwerpen rapporteert over een raster van vlakken × satellieten.
+
+seg-66e33b899daf = Cowell-propagator en krachtmodel met zes verstoringen
+
+seg-a5a572db3bed = Numerieke propagator
+
+seg-52a4410a54da = conservatieve niveaus < { "0.08" } m / { "24" } u tegenover Orekit { "12.2" }
+
+seg-463ed85c6e40 = Een numerieke (Cowell-)propagator als aanvulling op het analytische SGP4/SDP4-pad, met een hiërarchisch krachtmodel: twee lichamen + het volledige zonale veld J2–J6, een optioneel tesserale geopotentiaal van EGM2008 tot graad/orde { "70" }, zwaartekracht van Zon en Maan als derde lichaam op basis van de epoche (een ingebouwde efemeride, geen DE/SPK-kernel), zonnestralingsdruk met een conische umbra/penumbra-schaduw, atmosferische weerstand, de post-Newtoniaanse relativistische correctie van Schwarzschild en de frame-dragging-term van Lense–Thirring — aangestuurd door een keuze van adaptieve integratoren: RK4 met stapverdubbeling of Dormand–Prince RK5({ "4" }).
+
+seg-797370a2faef = Burns, Lambert en porkchop
+
+seg-57b120fb0aac = Manoeuvres en trajectontwerp
+
+seg-5081c84dfdd7 = Tsiolkovsky < { "0.01" } % · Lambert-rondgangen naar de referentie voor twee lichamen
+
+seg-da6b16ebd59b = Impulsieve ΔV-knooppunten met covariantiepropagatie van { "6" }×{ "6" }, integratie van eindige burns gecontroleerd aan de raketvergelijking van Tsiolkovsky tot onder { "0.01" } %, een Lambert-oplosser van Izzo-2015 voor één omloop en een exacte Kepler-propagator met universele variabelen, en een porkchop-sweep (lancering × aankomst) van C3 / aankomst-V∞ uitgegeven als JSON-contourraster — de laag voor prestatiesimulatie boven GMAT/Orekit.
+
+seg-831552a45712 = Tijdschalen en frames voor de oriëntatie van de Aarde
+
+seg-76b323512350 = Tijdsystemen
+
+seg-60208bd726eb = bit voor bit tegenover SOFA/ERFA · Vallado van begin tot eind { "4" } mm
+
+seg-42373dd9ca64 = IERS-schalen UTC / TAI / TT / UT1 met schrikkelseconden, een Juliaanse-datum-API, de IAU-2000 Earth Rotation Angle, op GMST gebaseerde frames TEME ↔ ECEF en geodetische WGS-84-frames, volledige nutatie IAU 2000A/2000B en precessie IAU { "2006" }, en de equinoxvrije, op CIO gebaseerde reductie IAU 2006/2000A GCRS↔ITRS met IERS-poolbeweging — bit voor bit getoetst aan de SOFA/ERFA-vectoren en onafhankelijk gecontroleerd tegenover ANISE (pure-Rust SPICE): GCRS→ITRS tegenover ANISE ITRF93, dezelfde IERS-EOP, komen overeen tot ≤ { "0.86" } m op de grond / ≤ { "3.6" } m op GNSS-baanhoogte.
+
+seg-dd766880e73a = Voorspelling van de oriëntatie van de Aarde in realtime
+
+seg-54169bca19e9 = { "12" } voorspeltijden tegenover gearchiveerd Bulletin A: UT1 { "2.93" } ms, poolbeweging { "1.76" } mas
+
+seg-81be07e41d1c = Een voorspeller van de oriëntatie van de Aarde in operationele stijl — kleinste kwadraten over bias, snelheid en de voornaamste periodieke termen over een meelopend venster — gemeten tegenover werkelijk gearchiveerde voorspellingen van Bulletin A in plaats van tegenover persistentie. De offline standaardinvoer is een echt IERS-product finals2000A met voorspellingsrijen van Bulletin A, zodat een kale run een gevulde tabel per horizon geeft in plaats van een lege. UT1 en poolbeweging worden gerapporteerd over een gemeenschappelijke rijenset samen met hun combinatie, zodat het gezamenlijke cijfer één statistiek is en geen kwadratische som van twee verschillende steekproeven.
+
+seg-0e18bc4add10 = Strapdown-INS en kaartgestuurde navigatie
+
+seg-26561c9a96a7 = CAI-versnellingsmeter uit eerste principes · afgeleide VRW gecontroleerd tegenover een onafhankelijke integrator
+
+seg-d18714ee32fb = Strapdown-INS met drie assen — standhoek met quaternionen, WGS-84 NED-mechanisatie, coning/sculling-compensatie en een volledig deterministisch IMU-foutmodel — plus een versnellingsmeter met koude-atoominterferometer uit eerste principes (Mach–Zehnder-fase, projectieruis, contrastverval, trillingskoppeling) en een deeltjesfilter voor terrein-/zwaartekrachtgerefereerde navigatie zonder GPS.
+
+seg-0e44bdf12d16 = Inertiaal en terreingerelateerd doorvaren door een uitval heen
+
+seg-07cb40aa5cd1 = { "10" } m na { "249" } s, { "50" } m na { "595" } s, bias van de versnellingsmeter bij beide dominant
+
+seg-d5df17e4425b = Positiefout tegenover de duur van het doorvaren uit een foutbudget van de IMU — bias, random walk en schaalfactor, elk met zijn eigen groeiwet en zijn eigen aandeel in de overschrijding — zodat de kosten van een navigatie-uitval een berekende curve zijn en geen gesweepte driftsnelheid. Overschrijdingen van drempels zijn uitvoer van de engine, met per overschrijding de dominante bijdrage genoemd, over vier IMU-klassen, en een interval voor terreinpositiebepaling wordt in een eigen blok gescoord, zodat de kerncijfers van de overschrijdingen onondersteund blijven.
+
+seg-6631a5d69c84 = Matching van zwaartekracht-, terrein- en magnetische kaarten
+
+seg-6af8e99df46d = Alt-PNT (zonder GPS)
+
+seg-72527f4459c7 = 60 min zonder GPS · ~{ "145" } m (< { "500" } m)
+
+seg-89bd5fb3e90b = Een meetmodel voor een zwaartekrachtmeter met koude atomen waarvan de witteruisvloer is afgeleid uit de fysica van de CAI-versnellingsmeter, een volledig genormaliseerd sferisch-harmonisch zwaartekrachtanomaliveld van lage graad plus synthetische mascons, en een deeltjesfilter voor het matchen van zwaartekrachtkaarten — uitgebreid naar terreingerefereerde navigatie tegenover een SRTM-hoogtemodel (TERCOM/SITAN), een IGRF-14 geomagnetisch hoofdveld tot graad/orde { "13" }, en een gecombineerde navigator voor zwaartekracht + magnetisme + terrein die alle drie de scalaire kanalen fuseert. Een benchmark van 60 minuten zonder GPS — een uitval van ~{ "700" } km / één uur waarin de inertiale oplossing tot ~{ "70" } km wegdrijft — wordt hersteld tot ~{ "145" } m door een hiërarchische grof-naar-fijn-matcher: het doel ESA NAVISP Quantum Wayfarer.
+
+seg-dbd63be796ff = GNSS / INS-sensorfusie
+
+seg-f9582184adea = Fusie
+
+seg-f2166e96405f = strak gekoppelde UKF · { "0.77" } m RMS
+
+seg-d6ad19d1d47b = Een EKF met foutstaat van 15 toestanden die door GNSS-uitval heen doorvaart op een gekalibreerde inertiale oplossing; een strak gekoppelde pseudoafstandsmodus die blijft corrigeren met minder dan vier satellieten; een gekoppeld filter voor klok + positie; een algemene unscented (sigmapunt-)Kalman-schatter; een strak gekoppelde GNSS/INS-UKF-navigator, getoetst tot { "0.77" } m RMS door een uitval van { "120" } s op een bochtige LEO-passage; en een volledige strak gekoppelde GNSS/INS-UKF met 17 toestanden waarvan de kwantum-CAI-koppelnavigatie de uitval overbrugt op de afgeleide velocity random walk van de koude-atoomversnellingsmeter.
+
+seg-4af862bd1307 = Batch- en sequentiële baanbepaling
+
+seg-ca67c864635c = Baanbepaling
+
+seg-948441304a32 = batch + sequentiële baanbepaling tegenover Orekit { "12.2" } BatchLSEstimator/KalmanEstimator
+
+seg-22e738b2ab57 = Herstel van een baantoestand uit afstandsmetingen van grondstations, met het krachtmodel voor twee lichamen + J2 en de RK4-integrator gecombineerd met een Gauss–Newton-batchcorrector (submeter / mm·s⁻¹ uit ruisvrije afstanden, ~{ "2" } m bij een ruisvloer van { "5" } m) en een sequentiële variant met unscented filter.
+
+seg-06406b3d0b88 = Fisher-informatie en waarneembaarheid
+
+seg-4e28248ef77b = Waarneembaarheid en schattingstheorie
+
+seg-a5b38d0a8d64 = eigenwaarden tegenover numpy.linalg.eigh · CRLB tegenover σ²(XᵀX)⁻¹ via numpy.linalg.inv · GNSS-DOP uit de informatiematrix, alles tot { "1e-9" } · gesloten vormen van Kay ({ "1993" }) + bereiken van de CRLB met Monte Carlo
+
+seg-3ee5597d6f8a = Een algemene, herbruikbare laag voor Fisher-informatie / Cramér–Rao (src/fim.rs): de informatiematrix M = HᵀWH, de Cramér–Rao-ondergrens, de waarneembaarheidsrang en de nulruimte van het datumdefect (Moore–Penrose-pseudo-inverse), en D/A/E/T-optimale scalars voor experimentontwerp uit een symmetrische Jacobi-eigenwaardenoplosser. Ze ondersteunt de DOP-engine, de grens voor passieve geolocatie en het resultaat voor de absolute waarneembaarheid van lunaire stations — interne afstandsmeting laat een datumdefect van een stijf lichaam met zes vrijheidsgraden over dat een VLBI-verbinding met een basislijn op Aarde herstelt voor een ijle constellatie en aanscherpt voor een rijke, waarbij het absolute datum sluit bij drie niet-collineaire aardstations.
+
+seg-ed467622dbd0 = CR3BP-propagatie en LunaNet-integriteit
+
+seg-e386dced1d16 = Lunair en cislunair
+
+seg-f444bc39efbe = Reproduceert de gepubliceerde L2 { "9" }:{ "2" } NRHO (~{ "6.57" } d omlooptijd · ~{ "3,250" } km perilune); STM gecontroleerd tegenover eindige verschillen
+
+seg-272afbca5e48 = Een circulaire beperkte driebodempropagator Aarde–Maan (CR3BP) in het roterende frame — een behouden Jacobi-constante en alle vijf de Lagrangepunten — met een toestandsovergangsmatrix van { "6" }×{ "6" } en een differentiële corrector met enkelvoudig schieten die echt periodieke halo-/bijna-rechtlijnige halobanen (NRHO) oplevert: hij reproduceert de gepubliceerde zuidelijke L2 { "9" }:{ "2" } NRHO (de Gateway-baan) met een omlooptijd van ~{ "6.57" } dagen en een perilune van ~{ "3,250" } km. Plus de LunaNet / LNIS-geometrie voor cislunaire PNT (MCI↔MCMF-reductie, selenografische coördinaten) met een ARAIM-passage aan de lunaire zuidpool die de integriteitskloof eerlijk zichtbaar maakt: een σ_URE van ~{ "30" } m drijft het beschermingsniveau ver boven een alarmlimiet van { "50" } m.
+
+seg-619f89bf160c = Realisatie van het lunaire referentiestelsel
+
+seg-c6b12768a219 = tegenover numpy/scipy Umeyama–Horn-SVD
+
+seg-29327b86ea27 = Realiseert een lunair lichaamsvast frame uit een waarneemcampagne: een gewogen Gauss–Newton-gelijkvormigheidsfit over de geometrie station–reflector, die het datum, zijn covariantie en de slechtst bepaalde as rapporteert. De gekoppelde ijk van frame en tijdschaal wordt expliciet meegevoerd in plaats van geabsorbeerd, zodat het rangdefect zichtbaar is in het rapport en niet begraven zit in een pseudo-inverse.
+
+seg-b3ba1e7b197d = Lunair navigatieservicevolume en ARAIM
+
+seg-353878596468 = ANISE { "0.10.2" }-banen · RTKLIB 2.4.2-p13
+
+seg-70b9c02c1f6a = Laat een illustratieve constellatie van de klasse Moonlight/LCNS een selenografisch raster doorlopen: zichtbaarheid, dilution of precision, dekking en ARAIM-beschermingsniveaus per epoche tegenover een instelbare alarmlimiet. De nauwkeurigheid van de afstandsmeting in de signaalruimte is een parameter, zodat de sweep een eis aan de afstandsmeting beantwoordt over het hele volume in plaats van geslaagd/niet geslaagd bij één vaste waarde.
+
+seg-a94db5b03c9c = Lunair interoperabiliteitsbudget tussen aanbieders
+
+seg-a2e8a8dfd666 = DE440 · INPOP21a · EPM2021 via calceph
+
+seg-646a00230694 = Meet hoeveel drie onafhankelijke gezaghebbende lunaire efemeriden daadwerkelijk van elkaar afwijken, en maakt daar een ontwerpwet van: het foutbudget tussen frame en efemeride dat een gebruiker met gemengde aanbieders erft, en de consistentietolerantie die een aanbieder moet aanhouden om dat budget binnen een vermelde grens te houden.
+
+seg-0f359c118090 = Waarneembaarheid van fouten in een autonoom vrij netwerk
+
+seg-ae99396c03bd = tegenover onafhankelijke numpy/scipy-pariteitsalgebra
+
+seg-51828c93731b = De lineaire algebra die een zelfreferentiële lunaire constellatie nodig heeft om haar eigen fouten te detecteren zonder grondreferentie: de gewogen pariteitsprojector in de pseudo-inverse-vorm voor rangdeficiënte stelsels die de ijk van datum en tijdschaal doorstaat, de detecteerbaarheid per knooppunt, de minimaal detecteerbare bias van Baarda, en detect/identify-aantallen voor Byzantijnse block-spark over echte DE440-geometrie tussen knooppunten.

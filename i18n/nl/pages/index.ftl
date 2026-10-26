@@ -191,3 +191,81 @@ seg-2598d06895ec = <c1/>: Verifieer een ondertekend bewijspakket (`kshana eviden
 seg-62b5564e8d90 = De opgenomen sessie wordt hier stap voor stap afgespeeld.
 
 seg-2359edf78388 = <b>Dezelfde run in de Studio:</b> Engine v{ $version } · <c1/> · seed { "42" }
+
+seg-f79048f88b5c = Kshana Studio starten
+
+seg-6d83359b2c68 = Consolestatus
+
+seg-b02b3eeec184 = scenariosoorten
+
+seg-4051fcd29291 = Eén engine voor de hele storingsketen.
+
+seg-fcceae001aec = Echte run
+
+seg-5a742c1e1563 = Vastgelegde run van <c1/> (seed { "7" }, engine v{ $version }): { "5" } GNSS-banden, { "3" } jammers gedurende { "60" } s, trackingvloer { "25" } dB-Hz. Jammers: chirp-privacyapparaat op { "1,575.42" } MHz van { "10" } s tot { "40" } s; CW-toon op L1 op { "1,575.42" } MHz van { "30" } s tot het einde; smalbandige ruis op L2 op { "1,227.60" } MHz van { "45" } s tot het einde.
+
+seg-45d6be782732 = GPS L1 C/A verliest de lock op { "10" } s en blijft verloren, laagste waarde { "3.2" } dB-Hz. Galileo E1 verliest de lock op { "10" } s en herstelt op { "40" } s, laagste waarde { "4.4" } dB-Hz. GPS L2C houdt de lock gedurende de hele run, laagste waarde { "36.9" } dB-Hz. GPS L5 houdt de lock gedurende de hele run, laagste waarde { "44.1" } dB-Hz. Galileo E5a houdt de lock gedurende de hele run, laagste waarde { "46.7" } dB-Hz.
+
+seg-ba40ce1e86f4 = De campagne die hij aanstuurt, <c1/> (seed { "20260928" }): L-bandjamming vanuit het spectrum, klok-holdover en een terugval op alleen Galileo. Holdover gedurende { "600" } s met de klok vrijlopend, grootste tijdfout { "5.06" } ns tegenover een bewaking van { "50" } ns; daarna een terugval op alleen Galileo met een beschermingsniveau van { "6.1" } tot { "17.7" } m, onder de alarmlimiet van { "50" } m.
+
+seg-59357db6305b = Ontvangeruitlezing voor de getoonde rij
+
+seg-bc907a2168d9 = Tracking
+
+seg-496b64cd28ae = De waterfall pauzeren
+
+seg-9b72c27df6b3 = vloer
+
+seg-711d291bfa6b = Interferentie
+
+seg-d34ffe4fa777 = Spoofing
+
+seg-501d3a72ea43 = Integriteit
+
+seg-9a86ef058d27 = Openen in Kshana Studio
+
+seg-34a0cf94d83d = De exports van de run openen in Kshana Studio: reproduceerbaar HTML-rapport, JSON, CSV
+
+seg-92ab4fe6f441 = De getekende gegevens downloaden als kommagescheiden waarden
+
+seg-3a93f60a7714 = <s1><a1>Rapport</a1></s1>
+
+seg-c851aa23ea42 = kommagescheiden waarden
+
+seg-366c59b03b4f = CSV
+
+seg-512b89d5fa64 = Deze grafiek downloaden als schaalbare vectorafbeelding
+
+seg-337b0e0254a1 = schaalbare vectorafbeelding
+
+seg-cb273d6705c6 = SVG
+
+seg-16ae98bcbc09 = Beschermingsniveaus tegenover de alarmlimiet
+
+seg-b93510b54de9 = Engine v{ $version } · <c1/> · seed { "20260925" }
+
+seg-1f26707d3e84 = Positiefout sinds het verlies van GNSS
+
+seg-5fe3425693c9 = Engine v{ $version } · <c1/> · seed { "7" }
+
+seg-5165e977af9e = Voorspelde tijdfout sinds de laatste positiebepaling
+
+seg-f8451afc02f2 = Engine v{ $version } · <c1/> · deterministisch, geen seed
+
+seg-70e2bacd66aa = Engine v{ $version } · <c1/> · deterministisch, geen seed
+
+seg-b3d3ed0ec310 = Engine v{ $version } · <c1/> · deterministisch, geen seed
+
+seg-4248eb5c3aef = Holdover
+
+seg-a51c36133548 = Tijdsynchronisatiemaskers
+
+seg-c5fc0ca71fae = Elke scenariosoort, elk een eigen pagina
+
+seg-ccee5886cf25 = Elke opdracht, elk oppervlak
+
+seg-4ef6dcd0a58b = Welk oppervlak welke mogelijkheid draagt
+
+seg-29e58493fdd4 = Berekend uit een model
+
+seg-8e092e49bdeb = kshana-bench: de drempels die niet zijn gehaald, vermeld
