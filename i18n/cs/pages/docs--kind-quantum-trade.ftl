@@ -54,7 +54,7 @@ seg-20ba66ae9518 = Obchodní srovnání kvantového a klasického PNT ({ "13503"
 
 seg-45a1d84eef18 = MODELLED; kvantifikuje (nikdy neověřuje) zařízení partnera. (katalog druhů (<c1/>))
 
-seg-15275d27252a = Počítá přínos KANDIDÁTSKÝCH hodin oproti KLASICKÉMU základu v holdoveru času a v inerciálním holdoveru, plus obálku odolnosti vůči času při odepření GNSS. Podlaha kandidáta je určena NAMĚŘENOU křivkou překrývající se ADEV hodin partnera (opěrný bod obhajitelnosti) proloženou nezáporným metodou nejmenších čtverců — rozpočet holdoveru tedy stojí na skutečných datech, nikoli na předpokládané podlaze dlouhého tau. (komentář v souboru scénáře, řádky { "3" } až { "7" })
+seg-15275d27252a = Počítá přínos KANDIDÁTSKÝCH hodin oproti KLASICKÉMU základu v holdoveru času a v inerciálním holdoveru, plus obálku odolnosti vůči času při odepření GNSS. Podlaha kandidáta je určena MEASURED křivkou překrývající se ADEV hodin partnera (opěrný bod obhajitelnosti) proloženou nezáporným metodou nejmenších čtverců — rozpočet holdoveru tedy stojí na skutečných datech, nikoli na předpokládané podlaze dlouhého tau. (komentář v souboru scénáře, řádky { "3" } až { "7" })
 
 seg-ecbdbc9b163e = ČESTNÝ ROZSAH: MODELLED — KVANTIFIKUJE přínos kvantových hodin partnera; zařízení NEOVĚŘUJE a nikdy si nepůjčuje ověřovací ostrovy SGP4/Allan/IGS. Je-li podlaha kteréhokoli řádku předpokládanou výchozí hodnotou třídy, zobrazí se na výstupu výhrada o podlaze. Spuštění: kshana scenarios/quantum-trade.toml (komentář v souboru scénáře, řádky { "9" } až { "12" })
 
