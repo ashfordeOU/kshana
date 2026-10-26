@@ -489,3 +489,182 @@ seg-0c413c1a491c = <s1>Précédent</s1>Table de correspondance de résilience
 
 # text
 seg-63fc2b340fd1 = <s1>Suivant</s1>Confiance maritime
+
+# text
+# c1: docs/RECEIVER-TRUST.md
+seg-caadaad98cf6 = Source : <c1/>
+
+# text
+seg-4f10c2397fcc = Confiance du récepteur : évaluer un véritable journal de récepteur GNSS
+
+# text
+# c1: kshana receiver-trust
+seg-2596bdcdaf8e = <c1/> lit un journal d'un véritable récepteur de système mondial de navigation par satellite (GNSS), exécute des moniteurs de confiance dessus époque par époque, et dit quand et pourquoi la position du récepteur a cessé d'être digne de confiance. Il peut aussi évaluer le journal par rapport à des événements et à des prédictions que vous énoncez <b>avant</b> l'exécution : si chaque événement a été détecté à temps, et si une chute modélisée de la densité de porteuse sur bruit (C/N0) concorde avec ce que le récepteur a mesuré.
+
+# text
+seg-63f24d5f2d5e = Les observables sont ceux du récepteur lui-même ; les moniteurs et leurs seuils sont ceux du moteur et les vôtres. Chaque résultat porte cette étiquette, le SHA-256 du journal et chaque seuil avec lequel il a été exécuté, de sorte qu'une exécution peut être répétée et auditée.
+
+# text
+# c1: MARITIME-TRUST.md
+seg-6f5014b93fbc = Pour un navire en route, avec un score en direct et une passerelle facultative devant un système de cartographie, voir <a1><c1/></a1>.
+
+# text
+# c1: session.result.json
+# c2: session.trust.csv
+# c3: session.trust.svg
+# c4: path
+seg-82cdabb6086f = Cela écrit <c1/>, <c2/> (une ligne par époque) et <c3/> (C/N0 moyen au fil du temps avec l'état de confiance en dessous) à côté du scénario, et affiche un verdict d'une ligne. Le journal d'exemple est synthétique, fait pour montrer le format ; pointez <c4/> vers le journal de votre propre récepteur.
+
+# text
+# c1: MARITIME-TRUST.md
+seg-ec2be1ea73f5 = La figure ci-dessus est la démonstration pour navire de <a1><c1/></a1> : un journal inventé, un score à titre consultatif.
+
+# text
+# c1: kshana.receiver_trust(toml)
+# c2: receiver_trust(toml)
+# c3: assess_receiver_log
+seg-0f24c5cf4b9b = Le même scénario s'exécute depuis Python (<c1/>), depuis le paquet WebAssembly (<c2/>, avec le journal en ligne) et depuis l'outil <c3/> du serveur Model Context Protocol (MCP).
+
+# text
+seg-1f3cc12b6230 = Journaux qu'il lit
+
+# text
+seg-23fd4a5bf5dd = Ce qui est lu
+
+# text
+seg-2e1a655cf846 = Binaire u-blox
+
+# text
+# c1: jamInd
+# c2: spoofDetState
+# c3: self_report
+seg-cb31da7b7d88 = NAV-SAT : C/N0, élévation et azimut par satellite ; NAV-PVT : position ; MON-RF : commande automatique de gain (AGC) et indicateur de brouillage <c1/> ; NAV-TIMEGPS : semaine ; et les indicateurs propres du récepteur : NAV-STATUS <c2/> et SEC-SIG (<c3/>, voir <a1>RECEIVER-PROTOCOLS.md</a1>)
+
+# text
+seg-cec582f4afa5 = Fichier d'observation RINEX { "3" }
+
+# text
+# c1: S
+# c2: nav
+seg-57708a636148 = codes <c1/> (C/N0) par satellite et par signal ; avec un fichier de navigation diffusée (<c2/>), les pseudodistances pour la position propre du moteur
+
+# text
+seg-176c2493782e = CSV d'Android GnssLogger
+
+# text
+# c1: Raw
+# c2: AgcDb
+# c3: Fix
+seg-d69b9dd6ebad = lignes <c1/> : C/N0 et <c2/> par satellite ; lignes <c3/> : position
+
+# text
+seg-d390120374a9 = Texte NMEA { "0183" }
+
+# text
+seg-9eb885aa79af = GSV : rapport signal sur bruit par satellite (dB-Hz, avec ou sans l'identifiant de signal { "4.10" }) ainsi que son élévation et son azimut ; GSA : dilution de précision et satellites utilisés ; GGA et RMC : heure et position
+
+# text
+seg-7864926ce37e = Binaire Septentrio ({ "0.38" }, lecture seule)
+
+# text
+seg-44675c4bdf40 = PVTGeodetic : position ; MeasEpoch : C/N0 par satellite et par signal ; RFStatus : nombre de bandes ; voir <a1>RECEIVER-PROTOCOLS.md</a1>
+
+# text
+# c1: .pos
+seg-a5367d75c5ee = Fichier de solution RTKLIB (<c1/>)
+
+# text
+seg-37d28ca5ed00 = heure, position (latitude/longitude ou ECEF, convertie) et satellites utilisés par époque ; les fichiers en degrés-minutes-secondes sont refusés avec un message
+
+# text
+seg-5e10ecb93f96 = Journaux ASCII ou binaires NovAtel OEM7
+
+# text
+# c1: BESTPOS
+# c2: RANGE
+# c3: RXSTATUS
+# c4: self_report
+# c5: receiver-self-report
+seg-a630fbcf7425 = position <c1/> (solution calculée seulement), C/No <c2/> par satellite et par signal ; les indicateurs de brouilleur <c3/> deviennent le <c4/> de l'époque (état de brouillage { "2" } lorsque le récepteur signale un brouilleur, { "1" } sinon ; aucun indicateur de leurrage n'existe dans RXSTATUS), confrontés aux alarmes de Kshana par la comparaison <c5/>
+
+# text
+seg-d4735b581cbf = Flux GNSS-SDR Monitor et PVT-monitor sous forme de lignes JSON
+
+# text
+# c1: integrations/gnss-sdr/relay.py
+seg-053235d67fb3 = C/N0 par canal, position, satellites utilisés, HDOP, azimut et élévation ; produit par <c1/>
+
+# text
+# c1: MACHINE-INPUTS.md
+seg-2e9033aa4e9d = Détails, sources et limites de ces trois : <a1><c1/></a1>.
+
+# text
+# c1: source_span
+# c2: [start, end)
+# c3: >
+# c4: Raw
+# c5: Fix
+# c6: Raw
+seg-8987b2c46eb0 = Chaque époque que produisent les lecteurs porte aussi <c1/>, des décalages d'octets <c2/> dans l'entrée : la plus petite plage contiguë contenant les enregistrements qui y ont contribué, de sorte que la tranche brute exacte puisse être hachée pour une fenêtre d'événement. NMEA : chaque ligne lue tant que l'époque est courante (un sur-ensemble lorsqu'une ligne sans rapport se glisse entre ses phrases). UBX : les trames de l'époque. RINEX { "3" } : les enregistrements d'époque de chaque ligne <c3/> jusqu'à la suivante. Android : les lignes <c4/> de l'époque (une ligne <c5/> seulement pour une époque sans lignes <c6/>). Absent pour un flux en direct et partout où cela n'est pas bien défini (RINEX { "2" }).
+
+# text
+# c1: path
+# c2: text
+# c3: base64
+seg-cea9532b57a2 = Le fichier entre par <c1/> (résolu par rapport au dossier propre du scénario), ou en ligne sous la forme <c2/> ou <c3/> (les seuls choix dans un navigateur).
+
+# text
+seg-3bc4f9c91950 = Un journal d'IMU comme second capteur
+
+# text
+# c1: [log.imu]
+seg-49b10ad5928e = <c1/> ajoute un journal inertiel sur la même horloge :
+
+# text
+# c1: heading0_deg
+# c2: heading-course
+# c3: heading_sensor = true
+# c4: hdg_cog_tol_deg
+# c5: csv
+# c6: MACHINE-INPUTS.md
+# c7: text
+# c8: base64
+# c9: path
+seg-9e0560b09f5a = La vitesse de lacet est intégrée à partir de <c1/> et renseigne le cap partout où le journal du récepteur n'en porte aucun, de sorte que le moniteur <c2/> (qui exige <c3/> sur la plateforme) compare le cap gyroscopique avec la route sur le fond. Un gyroscope dérive : le cap n'est aussi bon que la fenêtre d'intégration, et <c4/> décide de ce qui compte comme désaccord. La disposition <c5/> est documentée dans <c6/>. Les octets de l'IMU font partie du hachage du scénario et du hachage de scénario d'un paquet de preuves. En ligne (<c7/>/<c8/>), cela fonctionne sur toutes les surfaces ; un <c9/> est refusé là où les fichiers ne sont pas lus.
+
+# text
+seg-fd3e6ef1cd93 = Plateforme : statique ou navire
+
+# text
+# c1: [platform]
+# c2: static
+seg-b67c0d57dc1d = Les moniteurs ci-dessus supposent une antenne fixe. Un scénario énonce la plateforme avant l'exécution dans une table <c1/> de premier niveau ; sans elle, la plateforme est <c2/> et rien ne change.
+
+# text
+seg-3d6bc18bd83e = Pourquoi cette valeur
+
+# text
+seg-32f339f63acf = Au-dessus de la vitesse de service des coques marchandes et de la plupart des navires à passagers, de sorte qu'un navire réel ne l'atteint jamais ; très en dessous de la vitesse qu'implique un entraînement de position. Un navire plus lent doit déclarer une limite plus basse : plus la limite est basse, plus tôt un entraînement est détecté.
+
+# text
+seg-9506e8601857 = Un grand navire change de vitesse de bien moins de { "0.1" } m/s² ; un petit engin rapide atteint quelques dixièmes lors d'un changement brusque de régime.
+
+# text
+seg-b0b6baaee456 = Un grand navire tourne à bien moins de { "1" } deg/s et un petit engin dans un virage serré à quelques-uns.
+
+# text
+seg-53d0fffb3c09 = Une propriété de l'installation ; une estimation serait un seuil caché.
+
+# text
+# c1: true
+seg-ac48403443f9 = Déclaré <c1/> et absent du journal est une erreur, de sorte qu'un capteur manquant ne puisse pas passer pour un contrôle propre.
+
+# text
+# c1: kind = "static"
+# c2: position-jump
+# c3: monitor_config
+seg-8266739dc26b = Les clés de navire sont rejetées sous <c1/>. Pour un navire, le moniteur <c2/> ne s'exécute pas, car il mesure la distance à la moyenne d'étalonnage, ce qui est faux sur une antenne en mouvement ; le <c3/> du résultat consigne la plateforme et les limites utilisées.
+
+# text
+# c1: kshana nmea-scenario
+seg-7551792a0cb4 = Les flux NMEA synthétiques de <a1><c1/></a1>, conçus pour la formation des équipages, sont acceptés par le lecteur NMEA et peuvent être exécutés avec ce type de scénario comme n'importe quel journal NMEA.

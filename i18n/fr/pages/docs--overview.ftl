@@ -3443,3 +3443,244 @@ seg-7912b8806633 = <a1>Modèles quantiques</a1> · <a2>détails</a2>
 
 # text
 seg-538ae4a293ac = la couche de physique de l'interféromètre à atomes froids, et les cas où les coefficients sont encore tirés de tables
+
+# text
+seg-542a7e114dff = Périmètre algorithmique de DO-229E / DO-316, et ce qui n'est <b>pas</b> une déclaration de respect de la norme
+
+# text
+seg-dc1c6f878fdd = marins / intégrateurs
+
+# text
+seg-29cf3d1ef90f = le score de confiance GNSS de 0 à 100 pour les NMEA d'un navire, ses moniteurs et ses limites (à titre consultatif, pas un équipement de navigation homologué)
+
+# text
+seg-5849b496e5af = formateurs maritimes
+
+# text
+seg-4cd0efee3108 = NMEA de passerelle synthétiques avec brouillage et leurrage scénarisés et un journal d'instructeur ; texte seulement, jamais pour la navigation réelle
+
+# text
+seg-df1d81e25c75 = analystes / marins
+
+# text
+seg-db50820691f6 = opérateurs / assureurs
+
+# text
+seg-5a34e02c1d04 = dossiers techniques signés d'un événement de confiance et manière d'en vérifier un
+
+# text
+seg-3f9b0b6cbbda = équipes d'exploitation / de sécurité
+
+# text
+seg-7442d4e7a665 = le flux de confiance sous forme de métriques Prometheus, d'événements SIEM et d'OpenTelemetry, avec un tableau de bord Grafana
+
+# text
+seg-e3fdf6154d72 = propriétaires de bateaux / intégrateurs
+
+# text
+seg-e4c07cecfc7d = le plugin Signal K, le mode passerelle d'OpenCPN et la version de référence
+
+# text
+seg-dc551bb8edb9 = fabricants de récepteurs
+
+# text
+seg-dac9a3e7adf3 = rejouer un scénario exporté dans un simulateur de laboratoire et évaluer le journal du récepteur
+
+# text
+# c1: kshana compliance-report
+seg-fe9ee01b4b40 = cadres de résilience publics rapprochés des sorties de Kshana, avec sources et lacunes ; <c1/>
+
+# text
+seg-803e21a4cd63 = tutoriels exécutables avec leur texte rendu
+
+# text
+seg-8ba331635865 = Normes et interopérabilité
+
+# text
+seg-79dfa8eef7e8 = intégrateurs
+
+# text
+seg-dc2cc59b2c22 = les formats d'échange GNSS / dynamique de vol / agences que Kshana lit et écrit (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …)
+
+# text
+seg-82e510edf422 = Fusion PNT en orbite basse
+
+# text
+seg-78e498b9cd72 = utilisateurs / évaluateurs
+
+# text
+seg-515011790d2f = positionnement, navigation et synchronisation temporelle fusionnés MEO + LEO : Doppler, pseudodistance conjointe, convergence PPP, 5G NTN, couverture polaire et transfert de temps LEO sur toute constellation ; les préréglages optionnels et leurs sources publiques
+
+# text
+seg-80c3a6fcc9d4 = composer des scénarios : chronologies de mission enchaînées, balayages de paramètres, ensembles Monte Carlo et exécutions à conditions partagées, avec les identités de composition que les tests fixent
+
+# text
+seg-e2ba765ba8cf = Catalogue des scénarios
+
+# text
+seg-d249adca6e09 = utilisateurs / intégrateurs
+
+# text
+# c1: api::list_scenario_kinds()
+seg-cc36976b92b2 = chaque type de scénario pouvant être lancé, avec ses champs TOML obligatoires et facultatifs — généré à partir de <c1/>
+
+# text
+seg-0714feb42ace = chaque champ du JSON de résultat, avec ses unités et un pointeur vers la source
+
+# text
+seg-d88421825ccf = utilisateurs de Python
+
+# text
+seg-8eca8cb65710 = la surface de liaison PyO3 — appeler le moteur, les types de scénario et de résultat, et des exemples
+
+# text
+seg-1a04729b35fa = Affirmations et réalité
+
+# text
+# c1: tests/no_overclaims.rs
+seg-c1ff79259d0a = le registre de résolution des affirmations excessives + la garde de CI (<c1/>) qui le maintient résolu
+
+# text
+seg-f081da2f997c = la feuille de route par phases — ce qui a été livré et ce qui vient ensuite
+
+# text
+seg-91a94770bfc6 = <a1>Serveur MCP</a1> · <a2>Plugin JetBrains</a2>
+
+# text
+seg-d67668b76043 = agents / utilisateurs d'IDE
+
+# text
+seg-aa939b17949a = exécuter Kshana depuis un assistant d'IA ou un IDE JetBrains
+
+# text
+seg-01db4cfa76e9 = <a1>Guide de l'agent</a1> · <a2>Surfaces</a2>
+
+# text
+seg-b7b1239f907e = agents / intégrateurs
+
+# text
+seg-fc2d423654fe = quel outil répond à quelle question, ce qu'il faut conserver avec chaque réponse ; où chaque capacité est accessible (CLI, Rust, Python, WASM, MCP, plugin, JetBrains, notebooks) et pourquoi une cellule est N/A
+
+# text
+seg-3b3aa42b5f15 = historique des versions publiées (Keep a Changelog + SemVer, gestion sémantique de version)
+
+# text
+seg-f67abac08544 = contributeurs
+
+# text
+seg-bcdae6f3fdbd = compilation, gardes, discipline de test et de citation, DCO (Developer Certificate of Origin)
+
+# text
+seg-5dec7ef854fe = contributeurs / communauté
+
+# text
+seg-5c0b0441b55c = comment Kshana est gouverné — qui décide, comment, et la frontière entre ouvert et fermé
+
+# text
+seg-0766b60f1d8a = Code de conduite
+
+# text
+seg-29a818e8fbc7 = communauté
+
+# text
+seg-b34f02c40174 = conduite attendue (Contributor Covenant)
+
+# text
+seg-4609cf7fb790 = Politique de sécurité
+
+# text
+seg-ca35e5e3ad0c = auteurs de signalements
+
+# text
+seg-772539feded5 = comment signaler une vulnérabilité ; note sur le double usage
+
+# text
+seg-1f443a976d47 = Références principales
+
+# text
+seg-feb6f4f6a5e4 = <b>Références indépendantes et normes de validation</b> — les autorités externes auxquelles les vérifications de Kshana sont rattachées :
+
+# text
+seg-4ca957af5c9b = Vallado, Crawford, Hujsak & Kelso — <em>Revisiting Spacetrack Report #3</em> (<a1>AIAA 2006-6753</a1> ; <a2>données de test</a2>) : le jeu de vérification SGP4/SDP4 auquel Kshana concorde à { "4.12" } mm, et les exemples de référentiels résolus par rapport auxquels la chaîne TEME→ITRF est vérifiée.
+
+# text
+seg-9a2f45b88410 = IAU <a1>SOFA</a1> / <a2>ERFA</a2> — les routines de référence de temps et de référentiel par rapport auxquelles la nutation IAU 2000A et la réduction CIO GCRS↔ITRS sont validées bit à bit.
+
+# text
+seg-37f680b464fe = Petit & Luzum (dir.) — <em>IERS Conventions ({ "2010" })</em>, <a1>IERS TN (Technical Note) { "36" }</a1> (orientation de la Terre, mouvement du pôle et normes de référentiel).
+
+# text
+seg-5b9951eea4b0 = Riley — <em>Handbook of Frequency Stability Analysis</em>, <a1>NIST SP { "1065" }</a1> (relations de la déviation d'Allan et série de référence NBS14 ; NBS = l'ancien National Bureau of Standards des États-Unis).
+
+# text
+# c1: tests/eval_metrics_reference.rs
+seg-aede69f7dc3e = Pedregosa et al. — <em>scikit-learn: Machine Learning in Python</em>, <a1>JMLR { "12" } ({ "2011" })</a1> : les implémentations de référence de ROC/AUC, de matrice de confusion et de précision/rappel/F1 auxquelles la plateforme d'évaluation des perturbations RF est rapproché exactement (<c1/>).
+
+# text
+# c1: optimize.nnls
+# c2: stats.chi2
+# c3: linalg.expm
+# c4: tests/scipy_reference.rs
+seg-a19f72f631ef = Virtanen et al. — <em>SciPy { "1.0" }</em>, <a1>Nature Methods { "17" } ({ "2020" })</a1> : <c1/>, <c2/> et <c3/> — les routines de référence par rapport auxquelles l'ajustement NNLS de l'ADEV mesurée du compromis quantique, les bandes de cohérence du χ² et la covariance du bruit de processus d'horloge de van Loan sont validés (<c4/>).
+
+# text
+# c1: tests/dop_reference.rs
+seg-fa00dee84096 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, <a1>SoftwareX { "27" } ({ "2024" })</a1> : utilisé à la fois comme antériorité ouverte (voir <em>Comparaison et antériorité ouverte</em> ci-dessous) et comme <b>référence indépendante du DOP</b> à laquelle le calcul de GDOP/PDOP/HDOP/VDOP/TDOP est rapproché à { "1e-6" } près (<c1/>).
+
+# text
+seg-1e6e8a68cebb = Montenbruck & Gill — <em>Satellite Orbits: Models, Methods and Applications</em> (<a1>Springer</a1>) : les modèles de forces à la base de l'ajustement du modèle de forces aux éphémérides précises des agences.
+
+# text
+seg-144cdd7fbc19 = Howell — <em>Three-dimensional, periodic, halo orbits</em>, Celestial Mechanics { "32" }({ "1" }) ({ "1984" }), <a1>doi:10.1007/BF01358403</a1> ; Zimovan-Spreen, Howell & Davis — <em>Near rectilinear halo orbits and nearby higher-period dynamical structures</em>, Astrodynamics { "6" } ({ "2022" }), <a2>doi:10.1007/s42064-021-0125-x</a2> (les familles halo/NRHO que le correcteur différentiel CR3BP reproduit).
+
+# text
+seg-93a7e383053b = <b>Physique des dispositifs et des méthodes</b> — les sources citées derrière les modèles de capteurs :
+
+# text
+seg-fc2aa6fa1340 = Origlia, Schiller, Bongs et al. — <a1>arXiv:{ "1503.08457" }</a1> (horloge à réseau optique de strontium, objectif spatial).
+
+# text
+seg-f735c2528052 = Oelker et al., <em>Nature Photonics</em> ({ "2019" }) — <a1>doi:10.1038/s41566-019-0493-4</a1> (horloge Sr de laboratoire, { "4.8" }×{ "10" }⁻¹⁷).
+
+# text
+seg-80b2a7b012fd = Templier et al., <em>Science Advances</em> ({ "2022" }) — <a1>arXiv:{ "2209.13209" }</a1> (triade d'accéléromètres quantiques hybrides).
+
+# text
+seg-795160f35f82 = Groves, <em>Principles of GNSS, Inertial, and Multisensor Integrated Navigation</em> — <a1>tutoriel de l'IEEE AESS (Aerospace and Electronic Systems Society) (dépôt Discovery de l'University College London)</a1> (croissance de l'erreur d'estime).
+
+# text
+seg-621d684f6fc1 = Giorgetta et al., <em>Nature Photonics</em> { "7" }, { "434" } ({ "2013" }) — <a1>arXiv:{ "1211.4902" }</a1> ; Deschênes et al., <em>Phys. Rev. X</em> { "6" }, { "021016" } ({ "2016" }) — <a2>APS (American Physical Society)</a2> (transfert optique bidirectionnel de temps et de fréquence ; la liaison optique inter-satellites modélise son budget de non-réciprocité d'après ces travaux).
+
+# text
+# c1: src/navsignal.rs
+seg-e8299332a4ba = Betz — <em>Binary Offset Carrier Modulations for Radionavigation</em>, NAVIGATION { "48" }({ "4" }) ({ "2001" }), <a1>doi:10.1002/j.2161-4296.2001.tb00247.x</a1> (la modulation BOC et la théorie de séparation spectrale derrière <c1/>).
+
+# text
+seg-27d20763d6cb = Kaplan & Hegarty (dir.) — <em>Understanding GPS/GNSS: Principles and Applications</em> (3e éd., Artech House, { "2017" }) : l'équation du C/N₀ effectif en anti-brouillage et la gigue de bruit thermique du suivi de code par DLL précoce–tardif que les modèles de signal de navigation et de brouillage utilisent.
+
+# text
+seg-7b646cdd9bd4 = <b>Comparaison et antériorité ouverte</b> — les outils et les études par rapport auxquels Kshana se situe :
+
+# text
+seg-1879b1f543dd = Humphreys et al. — <a1><em>TEXBAT</em></a1> (le Texas Spoofing Test Battery ; ION — Institute of Navigation — GNSS { "2012" }) : les paramètres de la batterie de tests de leurrage par rapport auxquels le détecteur multicouche est caractérisé.
+
+# text
+seg-d8b2eecaaa5f = González et al. — <a1>NaveGo</a1> ({ "2017" }) : les profils d'erreur de navigation inertielle ouverts et validés utilisés comme référence de base classique.
+
+# text
+seg-7c7beb74ddac = Iiyama, Casadesús Vila & Gao — <a1><em>LuPNT</em></a1> (ION GNSS+ { "2023" }, Stanford NavLab) : simulateur PNT lunaire ouvert.
+
+# text
+seg-fef89f16b111 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, SoftwareX { "27" } ({ "2024" }), <a1>doi:10.1016/j.softx.2024.101811</a1> : analyse ouverte de données GNSS.
+
+# text
+seg-9c5ebe5384bc = Li, Zaminpardaz, Kealy & Greentree — <em>Quantum sensors for enhanced positioning and navigation: a comprehensive review</em>, GPS Solutions { "30" }({ "1" }) :{ "62" } ({ "2026" }), <a1>doi:10.1007/s10291-026-02030-y</a1>.
+
+# text
+seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({ "6" }) ({ "2021" }), <a1>doi:10.1029/2020EA001454</a1> : DO réduite-dynamique de GRAIL, le plancher d'accélération empirique que l'ajustement LRO reproduit.
+
+# text
+seg-2658a9477dd9 = <s1>Suivant</s1>Introduction aux concepts
+
+# text
+seg-90a95738b32d = Infrastructure lunaire (lunar-infrastructure)

@@ -99,3 +99,172 @@ seg-432c07a8e6f5 = <s1>Précédent</s1>Temps trompé
 
 # text
 seg-8499ae539222 = <s1>Suivant</s1>Formats de journal d'horloge
+
+# text
+# c1: docs/TIMING-HIL.md
+seg-7a1246297c82 = Source : <c1/>
+
+# text
+seg-6ea3dec83080 = Matériel en boucle pour la synchronisation temporelle : débrancher l'antenne, noter le holdover
+
+# text
+# c1: holdover-test
+# c2: scenarios/holdover-test-example.toml
+# c3: scenarios/holdover-test-ptp4l.toml
+seg-5901f0b26939 = Les opérateurs de télécoms et d'énergie testent un système de synchronisation temporelle en lui retirant son GNSS et en observant ce que fait l'horloge. Kshana ne le fait pas à leur place, et ne touche pas à leur équipement. Il lit l'enregistrement d'erreur de temps produit par les propres instruments de l'opérateur, le coupe aux deux instants que l'opérateur indique, et <b>mesure chaque étape par rapport aux gabarits publics de l'ITU-T</b>. Le type de scénario est <a1><c1/></a1> ; les scénarios d'exemple sont <c2/> et <c3/>.
+
+# text
+# c1: HARDWARE-SAFETY.md
+seg-daf4b071bad0 = Il s'agit de l'<b>étape { "1" }</b> de la sûreté du matériel : passive, en réception seule, aucune RF de Kshana (<a1><c1/></a1>). Logiciel à titre consultatif, et non un équipement homologué. Personne n'a évalué, approuvé ni relu cette procédure, et elle ne dit rien sur le fait qu'un système respecte ou non une Recommandation.
+
+# text
+seg-da0c48bbe011 = La procédure
+
+# text
+seg-e753ca7a1c99 = L'opérateur exécute quatre étapes. Kshana n'en exécute aucune.
+
+# text
+seg-0c338b956741 = Ce que fait l'opérateur
+
+# text
+seg-ebd95b343349 = Ce que montre l'enregistrement
+
+# text
+seg-03999de98059 = { "1" }. Référence de base
+
+# text
+seg-730f2037d22a = Laisse le système fonctionner verrouillé sur le GNSS aussi longtemps que l'essai l'exige (et note depuis combien de jours il était verrouillé auparavant).
+
+# text
+seg-f45aae4139bd = L'erreur de temps pendant l'asservissement.
+
+# text
+seg-0f050dcede80 = { "2" }. GNSS retiré
+
+# text
+seg-50c0df832eda = Retire le GNSS du système soumis à l'essai, par exemple le câble d'antenne au niveau du récepteur, ou la sortie du simulateur propre du laboratoire, et <b>note l'heure</b>. Consultez d'abord le manuel du fabricant du récepteur : certains récepteurs alimentent l'antenne, et certains exigent une terminaison sur le port ouvert.
+
+# text
+seg-e371e7e357e3 = Le moment où l'erreur de temps commence à dériver.
+
+# text
+seg-f05dc0acb396 = { "3" }. Holdover
+
+# text
+seg-a98186503e0f = Laisse le système sur son propre oscillateur pendant la durée prévue.
+
+# text
+seg-1da66cdca856 = Le holdover du système.
+
+# text
+seg-61197c9bad91 = { "4" }. Rétablissement
+
+# text
+seg-75af1f4fec83 = Rétablit le GNSS et <b>note l'heure</b>.
+
+# text
+seg-1259d36fc78c = Le retour (ou non) de l'erreur de temps.
+
+# text
+seg-c09b1ea8f1a4 = Deux choses que l'opérateur doit faire, car Kshana ne peut pas les faire :
+
+# text
+seg-31f6c357864b = Indiquer les deux instants.
+
+# text
+# c1: gnss_removed_s
+# c2: gnss_restored_s
+seg-59f9eb10035a = <c1/> et <c2/> sont la déclaration de l'opérateur. Kshana ne détecte pas la coupure à partir de l'enregistrement et ne vérifie pas les instants. Un instant erroné déplace les limites des étapes, et donc le résultat.
+
+# text
+seg-6d0d3186fbe3 = <b>Utilisez la même horloge pour l'enregistrement et pour les instants.</b> Pour un journal d'horloge, l'axe des temps commence à la première lecture ; les deux instants sont donc des secondes écoulées depuis la première ligne du journal.
+
+# text
+seg-bd181a831803 = Ce qu'il faut enregistrer
+
+# text
+# c1: clock_log
+# c2: CLOCK-LOG-FORMATS.md
+seg-52758c10be0a = N'importe lequel de ces éléments, via les lecteurs <c1/> existants (<a1><c2/></a1>) :
+
+# text
+seg-fef0034cb88b = Instrument
+
+# text
+seg-ad6f33d70f3f = Comment l'enregistrement est réalisé
+
+# text
+# c1: ptp4l
+seg-ef7f547609ad = linuxptp <c1/> (l'asservissement de l'horloge esclave ou de l'horloge limite)
+
+# text
+# c1: -m
+# c2: ptp4l[time]: master offset N sK freq ...
+seg-f548a2ae96e5 = lancer avec <c1/> et conserver les lignes <c2/>
+
+# text
+# c1: phc2sys
+seg-9a3b58be1b0b = linuxptp <c1/>
+
+# text
+# c1: phc2sys[time]: CLOCK_REALTIME phc offset N sK ...
+seg-77255f8f5fef = les lignes <c1/>
+
+# text
+# c1: ts2phc
+seg-2cf9256bd790 = linuxptp <c1/>
+
+# text
+# c1: ts2phc[time]: /dev/ptpN offset N sK ...
+seg-c667a97b92a8 = les lignes <c1/>
+
+# text
+# c1: tracking.log
+seg-ed305bcea4f8 = chrony <c1/>
+
+# text
+# c1: log tracking
+# c2: chrony.conf
+seg-021b760aae59 = <c1/> dans <c2/>
+
+# text
+# c1: statistics.log
+seg-a7f2d72a5cb7 = chrony <c1/>
+
+# text
+# c1: log statistics
+# c2: chrony.conf
+seg-a70952a099d5 = <c1/> dans <c2/>
+
+# text
+seg-6ad29120ffe7 = un compteur TAPR TICC
+
+# text
+seg-32f703bfcab7 = mode d'horodatage par rapport à la référence
+
+# text
+seg-6862a9ac9a68 = un export ASCII de TimeLab
+
+# text
+seg-b5e7e3a272d6 = phase dans une unité indiquée
+
+# text
+seg-8af4aac4426f = un fichier d'horloge RINEX
+
+# text
+seg-21d5c43719f2 = une horloge
+
+# text
+seg-3a82b5295ab1 = tout autre élément
+
+# text
+# c1: samples
+# c2: csv_path
+seg-6bebda4a3c6c = <c1/> ou <c2/>
+
+# text
+# c1: time_s,time_error_ns
+seg-9a443cc0c444 = paires <c1/>, échantillonnées uniformément
+
+# text
+seg-b8d1d45df70b = <b>Ce que l'enregistrement mesure compte.</b> Un journal d'asservissement (linuxptp, chrony) enregistre l'écart que le démon a mesuré et qu'il corrige : c'est l'erreur de temps restante sous asservissement, et non une mesure indépendante de l'horloge par rapport à l'UTC. Pendant l'étape de holdover d'un essai qui supprime réellement la référence, un journal d'asservissement montre toujours ce que le démon croyait, ce qui peut différer de l'erreur réelle. Un TICC ou un autre compteur comparé à une référence indépendante constitue un enregistrement plus solide ; indiquez lequel vous avez utilisé lorsque vous rapportez le résultat.

@@ -367,3 +367,9 @@ seg-a801b99f7040 = <s1>Suivant</s1>Station de référence lunaire
 
 # text
 seg-e0aba02258f4 = Le type ephemeris
+
+# text
+seg-e0eb14018b2c = comme ci-dessus
+
+# text
+seg-3dbc7ff9f5ab = Table
