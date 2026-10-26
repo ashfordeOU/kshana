@@ -8142,7 +8142,7 @@ js-tools-fitting = Подгонка…
 
 js-tools-framework-summary = { $name }: подкреплено доказательствами — { $evidenced }, частично — { $partly }, не подкреплено — { $notEvidenced }, вне области — { $outOfScope }
 
-js-tools-fw-dhs-rpcf = Рамочный документ DHS США по соответствию для устойчивого PNT (Resilient PNT Conformance Framework), v2.0
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
 
 js-tools-fw-easa-aviation = Руководство EASA по помехам GNSS для авиации
 
