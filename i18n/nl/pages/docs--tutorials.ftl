@@ -27,3 +27,5 @@ seg-ec26df467b88 = Gezamenlijke Kalman-sensorfusie voor PNT op dezelfde hybride 
 seg-4f19d4fb1341 = Generieke N-D-sweep over elk pakket via TOML-sleutels met punten / JSON-metriekpaden.
 
 seg-e7ab7b55c969 = 1-D-sweep voor een afwegingsstudie over een parameter van een klokpakket.
+
+seg-e43910de5fd8 = Notebooks
