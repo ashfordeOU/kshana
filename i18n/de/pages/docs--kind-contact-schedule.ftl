@@ -84,9 +84,6 @@ seg-60431931082a = <b>MODELLED</b> Kandidatenkontakte aus jedem Überflug Satell
 seg-9941b9f6d4a8 = MODELLED — Kontaktplan für mehrere Satelliten und mehrere Stationen: scheinbare Zugriffsfenster (SGP4, IAU 2006/2000A, Refraktion nach ITU-R P.834, Lichtlaufzeit), DVB-S2-ACM-Datenvolumen je Überflug aus einem Link-Budget bei klarem Himmel (Schwellen nach ETSI EN { "302" } 307-1 Tabelle { "13" }) und Konfliktauflösung (ein Satellit je Antenne mit Wendezeit, eine Station je Satellit) durch einen Greedy-Algorithmus nach Grenznutzen, gegen ein exaktes Branch-and-Bound geprüft; kein Regenschwund, (Ergebnis <c1/>)
 
 # text
-seg-f8ef88bc82b5 = Jede Zahl unten ist ILLUSTRATIVE: weder Bahnen, Stationen noch Link-Budget eines Betreibers. MODELLED: Der Planer wird gegen seinen eigenen exakten Löser geprüft, nicht gegen ein externes Werkzeug. (Kommentar der Szenariodatei, Zeilen { "11" } bis { "12" })
-
-# text
 seg-fe2b4799b397 = Die Bodenkontaktplanung für mehrere Satelliten und mehrere Stationen mit Konfliktauflösung ist MODELLED, nicht validiert: gegen die eigene geschlossene bzw. analytische Identität geprüft — fängt Transkriptions- und Koeffizientenfehler ab, ist aber keine unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -94,3 +91,6 @@ seg-be14d99cb86d = <s1>Zurück</s1>constellation-design
 
 # text
 seg-3784be57d6df = <s1>Weiter</s1>earth-gnss-lunar
+
+# text
+seg-f8ef88bc82b5 = Jede Zahl unten ist ILLUSTRATIV: weder Bahnen, Stationen noch Link-Budget eines Betreibers. MODELLED: Der Planer wird gegen seinen eigenen exakten Löser geprüft, nicht gegen ein externes Werkzeug. (Kommentar der Szenariodatei, Zeilen { "11" } bis { "12" })
