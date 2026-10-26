@@ -6419,7 +6419,7 @@ js-meaning-lunar-largest-label = Mayor cota de error
 
 js-meaning-lunar-line = El nivel de protección varió de { $min } a { $max } m frente a un límite de alerta de { $limit } m.
 
-js-meaning-lunar-meet-label = Comprobaciones que cumplen el límite
+js-meaning-lunar-meet-label = Comprobaciones dentro del límite
 
 js-meaning-lunar-meet-value = { $av } de { $tot }
 
