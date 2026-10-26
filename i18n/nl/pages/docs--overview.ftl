@@ -49,3 +49,55 @@ seg-eaaed414a05a = Machine-invoer
 seg-0d4ccaba9b91 = Signal K en OpenCPN
 
 seg-2247a2344710 = Betekenis
+
+seg-6c94ae122721 = PNT in de diepe ruimte en op Mars
+
+seg-99766b79a00a = Augmentatie (SBAS)
+
+seg-69a0269c4732 = Klok en tijdsynchronisatie
+
+seg-835df2d05f2a = GNSS-meetdomein
+
+seg-414872cdf952 = Passieve RF-geolocatie
+
+seg-7c6f4dc6bcba = Interoperabiliteit
+
+seg-37b8c9397544 = Ruimteomgeving
+
+seg-dca720256d85 = Evaluatie en afweging van machine learning
+
+seg-558523b5e0ac = Uitwisseling van artefacten
+
+seg-ee2e250497f9 = Export voor testbench
+
+seg-2469b76c5361 = Proberen in de browser
+
+seg-4cd111ab2de6 = Opdrachtregel (Rust)
+
+seg-379f49bff6fb = Python
+
+seg-ada3fcf67363 = JavaScript en WebAssembly
+
+seg-86566e989fd1 = AI-assistent (MCP-server, cargo)
+
+seg-6b1e4eb0f596 = Docker-image
+
+seg-97ea215c09db = Rust-bibliotheek
+
+seg-8e6e6c943c15 = JetBrains-IDE-plug-in
+
+seg-0bee80bf3587 = Gebruik van de opdrachtregel
+
+seg-15b1e4c3e367 = Gids voor de Python-API
+
+seg-d74b8819d872 = Gids voor npm en WebAssembly
+
+seg-61a4eb09767f = Gids voor de MCP-server
+
+seg-6d6fb6ef5db5 = Gids voor de MCP-server: Docker
+
+seg-2a7a767138b9 = API-referentie op docs.rs
+
+seg-f36464ef1b66 = JetBrains Marketplace
+
+seg-9f6e5af01266 = Gids voor de plug-in

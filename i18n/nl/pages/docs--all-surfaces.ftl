@@ -59,3 +59,11 @@ seg-f8cf777c0caa = Onderdelen
 seg-b7b4540e63b6 = <s1>Vorige</s1>Elke opdracht
 
 seg-ce2349a1306f = <s1>Volgende</s1>Mogelijkhedendomeinen
+
+seg-fcd0ebea49bc = Opdrachtregel
+
+seg-379f49bff6fb = Python
+
+seg-ada3fcf67363 = JavaScript en WebAssembly
+
+seg-97ea215c09db = Rust-bibliotheek

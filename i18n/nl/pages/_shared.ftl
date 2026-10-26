@@ -239,3 +239,15 @@ seg-e9dc4e6ef5d5 = Vorige en volgende
 seg-ca4d42ca6ce0 = Veld
 
 seg-cc45f7524d3a = Wat het doet
+
+seg-1ae32cd48edc = Vertrouwen op zee
+
+seg-c13450e783db = Interferentiekaart en blootstelling van routes
+
+seg-9ee32a9bcb05 = Galileo OSNMA-verificatie
+
+seg-aa2f95806d24 = EU NIS2, artikel { "21" }
+
+seg-138f32dcf19f = EN { "16803" }
+
+seg-5fec3f16de7a = Studiogids
