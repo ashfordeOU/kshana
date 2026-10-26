@@ -33,3 +33,11 @@ seg-20fee61b3107 = Kvanttilaitteiden virhemallikirjasto
 seg-eaf341ff4522 = GNSS-vapaa kvanttinavigointi
 
 seg-75636f9419b2 = Tunnetut rajoitukset
+
+seg-9c0eb89a2fbe = Paketti
+
+seg-f63dd3d7aad4 = Lähde
+
+seg-638b8d451550 = Anturi
+
+seg-04f69a0edb2f = tyyppi

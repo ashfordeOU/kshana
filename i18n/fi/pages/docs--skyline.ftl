@@ -21,3 +21,11 @@ seg-bbb1828b3db1 = Katukanjonin, sektorien ja maaston supistaminen taulukoksi
 seg-2c53381d48ae = Vaakavirheen ellipsi ja järjestelmäkohtainen kofaktori geometrian kovarianssista
 
 seg-de6c33774c9c = CLI
+
+seg-d1e9715513b4 = Esimerkki
+
+seg-587beeccaa11 = Esiasetus
+
+seg-98f4f946a7ac = WASM
+
+seg-4dbf41c0ec3b = Funktio

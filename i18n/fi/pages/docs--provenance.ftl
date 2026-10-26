@@ -9,3 +9,9 @@ seg-28e87f407a10 = Alue
 seg-ad856ad710eb = Tila
 
 seg-6e0cb6acc073 = VALIDATED
+
+seg-f63dd3d7aad4 = Lähde
+
+seg-638b8d451550 = Anturi
+
+seg-d4a762001549 = Lisenssi
