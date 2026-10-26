@@ -14,11 +14,6 @@ seg-9872e31ebd72 = Fuentes
 seg-922905241a6b = Fuente: <c1/>
 
 # text
-# c1: lunar-infrastructure
-# c2: study
-seg-bfb9c5efbe57 = Tipo de escenario <c1/>, cinco estudios seleccionados mediante <c2/>. <b>MODELLED</b>: un modelo restringido de tres cuerpos con simplificaciones declaradas y entradas ILLUSTRATIVE. La numérica se comprueba con programas numpy/scipy independientes; nada se compara con una medición de una magnitud lunar y nada de esto es una afirmación sobre ninguna misión ni sistema. Sin afiliación ni respaldo de ninguna agencia. Software de carácter consultivo, no un equipo homologado. Kshana no transmite nada ni maneja hardware.
-
-# text
 # c1: xval/lunar-infra/PREREGISTRATION.md
 # c2: PREREGISTRATION-amendment-1.md
 # c3: xval/lunar-infra/RESULTS.md
@@ -103,3 +98,8 @@ seg-1d3bffc2fd02 = <s1>Anterior</s1>Navegación de usuarios espaciales (gnss-ssv
 
 # text
 seg-90932eed0074 = <s1>Siguiente</s1>Posicionamiento, navegación y temporización LEO
+
+# text
+# c1: lunar-infrastructure
+# c2: study
+seg-bfb9c5efbe57 = Tipo de escenario <c1/>, cinco estudios seleccionados mediante <c2/>. <b>MODELLED</b>: un modelo restringido de tres cuerpos con simplificaciones declaradas y entradas ILUSTRATIVAS. La numérica se comprueba con programas numpy/scipy independientes; nada se compara con una medición de una magnitud lunar y nada de esto es una afirmación sobre ninguna misión ni sistema. Sin afiliación ni respaldo de ninguna agencia. Software de carácter consultivo, no un equipo homologado. Kshana no transmite nada ni maneja hardware.
