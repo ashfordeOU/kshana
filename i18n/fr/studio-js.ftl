@@ -9303,3 +9303,220 @@ js-trust-reasons-ran-free = Exécuté, sans coût
 js-trust-reasons-ratio = rapport { $ratio }
 
 js-trust-reasons-row-title = { $name } : { $text } Cliquez pour marquer où il dépassait son seuil de début.
+
+js-trust-reasons-weight = poids { $weight }
+
+js-trust-reduced-motion = Le mouvement réduit est préféré : la lecture démarre donc à 1x. Utilisez le curseur ou les touches fléchées pour vous déplacer sans animation.
+
+js-trust-say-gate = barrière { $gate }
+
+js-trust-say-gate-derived = barrière { $gate } (dérivée)
+
+js-trust-say-monitor-points =
+    { $points ->
+        [one] { $monitor } { $points } point
+        [many] { $monitor } { $points } de points
+       *[other] { $monitor } { $points } points
+    }
+
+js-trust-say-position-from-true = position rapportée à { $m } m de la réelle
+
+js-trust-say-reasons = motifs : { $list }
+
+js-trust-say-score = score { $score }
+
+js-trust-scored-label =
+    { $count ->
+        [one] { $count } époque de { $name } évaluée avec le moteur { $version }, dans ce navigateur.
+        [many] { $count } d'époques de { $name } évaluées avec le moteur { $version }, dans ce navigateur.
+       *[other] { $count } époques de { $name } évaluées avec le moteur { $version }, dans ce navigateur.
+    }
+
+js-trust-scored-summary =
+    { $count ->
+        [one] { $count } époque évaluée avec le moteur { $version } : { $summary }. À titre consultatif seulement.
+        [many] { $count } d'époques évaluées avec le moteur { $version } : { $summary }. À titre consultatif seulement.
+       *[other] { $count } époques évaluées avec le moteur { $version } : { $summary }. À titre consultatif seulement.
+    }
+
+js-trust-scoring = Démarrage du moteur et évaluation…
+
+js-trust-self-code-meaning = { $code } : { $meaning }
+
+js-trust-self-none-at-time = Le journal ne porte aucun indicateur de récepteur à cet instant.
+
+js-trust-self-not-in-log = absent du journal
+
+js-trust-self-row-flags = Indicateurs du récepteur
+
+js-trust-self-row-jamming = État de brouillage du récepteur
+
+js-trust-self-row-kshana-alarms = Un moniteur Kshana alarme
+
+js-trust-self-row-spoofing = État de leurrage du récepteur
+
+js-trust-self-unknown-agreement = un accord que cette page ne connaît pas ({ $odd })
+
+js-trust-self-yes-state-2 = oui (état 2 ou plus)
+
+js-trust-set-degraded-edge = le bord de la bande dégradée
+
+js-trust-set-degraded-min = dégradé à partir de
+
+js-trust-set-epochs = Époques
+
+js-trust-set-epochs-counts = { $total } au total : { $calibrating } en étalonnage, { $nominal } nominales, { $degraded } dégradées, { $untrusted } non fiables.
+
+js-trust-set-epochs-counts-class = { $total } au total : { $calibrating } en étalonnage, { $nominal } nominales, { $degraded } dégradées, { $untrusted } non fiables. Par classe de déduction : géométrie { $geometry }, environnement { $environment }, incohérence { $inconsistency }.
+
+js-trust-set-evidence-hold = maintien des indices, s
+
+js-trust-set-full-ratio = poids plein au rapport
+
+js-trust-set-geo-counts = Ciel : { $good } bon, { $degraded } dégradé, { $unknown } inconnu. Étiquette : { $lgood } bon, { $fair } moyen, { $poor } mauvais (seul mauvais coûte des points). Époques avec une déduction de classe géométrie { $geometry }, environnement { $environment }, incohérence { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Ciel : { $good } bon, { $degraded } dégradé, { $unknown } inconnu ({ $odd } avec une valeur que cette page ne connaît pas, lue comme inconnue). Étiquette : { $lgood } bon, { $fair } moyen, { $poor } mauvais (seul mauvais coûte des points). Époques avec une déduction de classe géométrie { $geometry }, environnement { $environment }, incohérence { $inconsistency }.
+
+js-trust-set-geometry = Géométrie (réglages [geometry])
+
+js-trust-set-gloss = Ce que regarde chaque contrôle
+
+js-trust-set-live-geometry = Un flux en direct n'indique pas les seuils de géométrie ; les valeurs par défaut documentées s'appliquent (mauvaise au-dessus d'un HDOP de 4 ou d'un PDOP de 6, ou sous 5 satellites ; 15 points au plus, jamais en dessous de la bande dégradée).
+
+js-trust-set-no-geometry = Cette exécution ne porte aucune géométrie : elle provient d'un moteur antérieur à 0.36, ou de trust.csv. Rien n'est montré du ciel, et rien n'est montré comme bon.
+
+js-trust-set-nominal-min = nominal à partir de
+
+js-trust-set-onset-ratio = coûte des points à partir du rapport
+
+js-trust-set-provenance = D'où viennent les seuils, et comment les déductions sont classées
+
+js-trust-set-ran = Contrôles exécutés
+
+js-trust-set-weights = Poids de chaque contrôle, points
+
+js-trust-settings-assumed = Ce flux n'indique pas son modèle de score. Les bords de bande affichés sont les valeurs par défaut documentées, supposées.
+
+js-trust-show-in-replay = Afficher cette exécution dans le rejeu ci-dessous (trace, score, indicateur propre du récepteur)
+
+js-trust-sky-no-gsv = pas de GSV
+
+js-trust-sky-none = Pas de ciel : ouvrez le journal NMEA avec l'exécution (ou une démonstration) pour voir les satellites qu'il liste.
+
+js-trust-span-title = { $what }, de { $from } à { $to }
+
+js-trust-state-0 = inconnu ou non activé
+
+js-trust-state-1 = aucun indiqué
+
+js-trust-state-2 = indiqué
+
+js-trust-state-3 = indications multiples ou confirmé
+
+js-trust-strip-band = bande
+
+js-trust-strip-class = classe
+
+js-trust-strip-gate = barrière
+
+js-trust-strip-marked = marqué
+
+js-trust-strip-receiver = récepteur
+
+js-trust-strip-sky = ciel
+
+js-trust-strips-none = Aucun rapport de moniteur dans ce fichier.
+
+js-trust-strips-note-ran = rapport de la statistique au seuil ; la ligne en pointillés est l'alarme à 1
+
+js-trust-strips-note-seen = seulement les moniteurs vus en train de coûter des points ; rapport au seuil
+
+js-trust-sum-both-flag = Les deux signalent
+
+js-trust-sum-epochs-compared = Époques comparées (après étalonnage)
+
+js-trust-sum-first-kshana = Première alarme Kshana parmi ces époques
+
+js-trust-sum-first-receiver = Premier indicateur du récepteur
+
+js-trust-sum-jamming-flag = Indicateur de brouillage du récepteur (état 2+)
+
+js-trust-sum-neither = Aucun
+
+js-trust-sum-only-kshana = Seul Kshana alarme
+
+js-trust-sum-only-receiver = Seul le récepteur signale
+
+js-trust-sum-spoofing-flag = Indicateur de leurrage du récepteur (état 2+)
+
+js-trust-thr-azimuth-gap = écart en azimut, en degrés, à partir duquel le ciel est en partie obstrué
+
+js-trust-thr-cap-in-force = nombre maximal de points que la déduction de géométrie prend dans cette exécution
+
+js-trust-thr-cap-points = nombre maximal de points que la déduction de géométrie peut prendre
+
+js-trust-thr-floor = score le plus bas que la géométrie seule peut laisser (vide : le bord de la bande dégradée)
+
+js-trust-thr-floor-in-force = score le plus bas que la géométrie seule peut laisser dans cette exécution
+
+js-trust-thr-full-ratio = rapport auquel la déduction de géométrie atteint son plafond
+
+js-trust-thr-hdop-good = HDOP en dessous duquel (ou égal) la géométrie est bonne
+
+js-trust-thr-hdop-max = HDOP au-dessus duquel la géométrie est mauvaise
+
+js-trust-thr-hold = durée pendant laquelle les positions du ciel et le GSA comptent après leur arrivée, s
+
+js-trust-thr-low-elev = élévation, en degrés, en dessous de laquelle un satellite perdu est attribué au ciel
+
+js-trust-thr-min-used = nombre minimal de satellites utilisés avant que la géométrie soit mauvaise
+
+js-trust-thr-pdop-good = PDOP en dessous duquel (ou égal) la géométrie est bonne
+
+js-trust-thr-pdop-max = PDOP au-dessus duquel la géométrie est mauvaise
+
+js-trust-thr-reported-rel = la même chose, en part du HDOP dérivé
+
+js-trust-thr-reported-tol = écart entre HDOP indiqué et HDOP dérivé au-delà duquel les deux sont en désaccord
+
+js-trust-thr-sigma-uere = erreur de distance équivalente utilisateur supposée par les seuils, mètres
+
+js-trust-thr-used-good = nombre de satellites utilisés à partir duquel la géométrie est bonne
+
+js-trust-track-desc =
+    Trace de { $positions ->
+        [one] { $positions } position rapportée
+        [many] { $positions } de positions rapportées
+       *[other] { $positions } positions rapportées
+    }, nord en haut. { $untrusted ->
+        [one] { $untrusted } époque est non fiable.
+        [many] { $untrusted } d'époques sont non fiables.
+       *[other] { $untrusted } époques sont non fiables.
+    }
+
+js-trust-track-desc-none = Aucune trace : les fichiers ne portent aucune position.
+
+js-trust-track-desc-truth =
+    Trace de { $positions ->
+        [one] { $positions } position rapportée
+        [many] { $positions } de positions rapportées
+       *[other] { $positions } positions rapportées
+    }, nord en haut. { $untrusted ->
+        [one] { $untrusted } époque est non fiable.
+        [many] { $untrusted } d'époques sont non fiables.
+       *[other] { $untrusted } époques sont non fiables.
+    } Une fine ligne grise montre la trace réelle.
+
+js-trust-track-end = fin
+
+js-trust-track-no-positions = Aucune position dans les fichiers ouverts
+
+js-trust-track-note = Nord en haut, une seule échelle sur les deux axes. La ligne est l'endroit où le récepteur a dit que se trouvait le navire, colorée selon la bande de confiance de chaque époque.
+
+js-trust-track-note-none = Ce fichier ne porte aucune position. Ajoutez le journal NMEA dont provient l'exécution (ou un flux v1.1 avec une position) pour dessiner la trace.
+
+js-trust-track-start = début
+
+js-trust-unknown-agreement = un accord que cette page ne connaît pas
+
+js-trust-yes = oui
