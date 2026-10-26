@@ -6917,3 +6917,1353 @@ js-mthread-kv-seed = Начальное значение (seed)
 js-mthread-kv-title = Цепочка
 
 js-mthread-layout-phases = Равная ширина на этап
+
+js-mthread-layout-time = Истинное время миссии
+
+js-mthread-limit-title = { $phase }: заявленный предел, { $limit }
+
+js-mthread-log-scale = логарифмическая шкала
+
+js-mthread-margin-met = { $m }× предела, выполнено
+
+js-mthread-margin-missed = { $m }× предела, не выполнено
+
+js-mthread-metric-pos = Положение, 1 сигма
+
+js-mthread-metric-time = Смещение часов, 1 сигма
+
+js-mthread-metric-vel = Скорость, 1 сигма
+
+js-mthread-na = н/д
+
+js-mthread-no-events = На этом этапе события не записаны.
+
+js-mthread-no-phases = в результате нет этапов
+
+js-mthread-no-requirement = предел не заявлен
+
+js-mthread-no-series = В результате нет отсчётов этой величины.
+
+js-mthread-no-weak = В результате не названо самое слабое звено.
+
+js-mthread-not-json = результат не является JSON ({ $reason })
+
+js-mthread-not-thread = это не результат цепочки миссии (ожидалась схема { $schema })
+
+js-mthread-note-phases = Каждый этап нарисован одной и той же ширины, чтобы короткий этап был виден так же, как длинный; время начала каждого этапа указано под полосой. Переключитесь на истинное время миссии, чтобы увидеть реальные пропорции. Пунктирные линии — пределы, заявленные в документе; разрыв линии означает переход между этапами.
+
+js-mthread-note-time = Истинное время миссии: этап в несколько минут может быть слишком узким, чтобы его разглядеть. Переключитесь на равную ширину, чтобы его прочитать. Пунктирные линии — пределы, заявленные в документе; разрыв линии означает переход между этапами.
+
+js-mthread-open-failed = Не удалось открыть пример: { $reason }.
+
+js-mthread-opened = { $name } прочитан на этой странице; ничего никуда не отправлялось.
+
+js-mthread-opening = Открывается пример класса Artemis…
+
+js-mthread-prov = Каждая метка на этой странице принадлежит самому движку; страница копирует каждое число из результата и лишь масштабирует его.
+
+js-mthread-recorded = Записанный результат движка (версия { $version }): иллюстративная цепочка, построенная по публичным описаниям миссий; числа смоделированы и не соответствуют ничему реальному.
+
+js-mthread-sets-peak = задаёт пик
+
+js-mthread-too-large = Этот файл больше { $mb } MB; он не читается.
+
+js-mthread-weak-line = Самое слабое звено — этап <b>{ $phase }</b>: { $margin }× его заявленного предела, задан источником { $source }. Запас — это наименьшее отношение заявленного предела к пику этапа; значение выше 1 означает, что требование выполнено.
+
+js-mthread-weakest-flag = самое слабое звено
+
+js-mthread-weakest-mark = самое слабое звено
+
+js-obs-cell-extent = от { $south }° до { $north }° с. ш., от { $west }° до { $east }° в. д.
+
+js-obs-cell-read = { $state }: { $cell }. Опрошено { $sampled }, затронуто { $affected }.
+
+js-obs-cell-title = { $state }; опрошено { $sampled }, затронуто { $affected }
+
+js-obs-cell-title-reason = { $state } ({ $reason }); опрошено { $sampled }, затронуто { $affected }
+
+js-obs-clear-note = { $notClear } Ячейка без записи была замечена менее чем 5 разными воздушными судами и скрыта; она не рисуется. Цвет никогда не бывает единственным признаком: «не наблюдалось» показано штриховкой, а таблица прописывает каждое состояние словами.
+
+js-obs-col-affected = Затронутые воздушные суда
+
+js-obs-col-bbox = Охватывающий прямоугольник (Ю, З, С, В)
+
+js-obs-col-bytes = Байты
+
+js-obs-col-cause = Причина
+
+js-obs-col-cell = Ячейка (широта, долгота)
+
+js-obs-col-cells = Ячейки
+
+js-obs-col-check = Проверка
+
+js-obs-col-file = Файл
+
+js-obs-col-incident = Инцидент
+
+js-obs-col-sampled = Опрошенные воздушные суда
+
+js-obs-col-sha = SHA-256 (манифест)
+
+js-obs-col-share = Доля затронутых
+
+js-obs-col-state = Состояние
+
+js-obs-col-why = Почему не наблюдалось
+
+js-obs-day-alt = Ячеек с ухудшением: { $degraded }, без ухудшения: { $notDegraded }, не наблюдалось: { $notObserved }, на { $date }.
+
+js-obs-day-heading = День { $date } (UTC)
+
+js-obs-ds-attribution = Атрибуция
+
+js-obs-ds-coverage = Охват
+
+js-obs-ds-dataset = Набор данных
+
+js-obs-ds-licence = Лицензия
+
+js-obs-ds-licence-address = Адрес лицензии
+
+js-obs-ds-product = Продукт
+
+js-obs-ds-written-by = Записано Kshana
+
+js-obs-err-cause = { $name } указывает причину, отличную от «не приписана»; эта страница не показывает ни одной
+
+js-obs-err-feature-polygon = { $name }: объект { $n } не является полигоном ячейки
+
+js-obs-err-feature-state = { $name }: у объекта { $n } состояние «{ $state }», которого нет среди { $states }
+
+js-obs-err-incident-object = { $name }: инцидент { $n } не является объектом
+
+js-obs-err-no-date = { $name } не указывает дату
+
+js-obs-err-no-features = { $name } не содержит объектов
+
+js-obs-err-no-incidents = { $name } не содержит списка инцидентов
+
+js-obs-err-not-day = { $name } не является файлом { $schema }
+
+js-obs-err-not-incident = { $name } не является файлом { $schema }
+
+js-obs-err-not-json = { $what } не является JSON ({ $reason })
+
+js-obs-err-not-manifest = { $name } не является файлом { $schema }
+
+js-obs-err-not-object = { $what } не является объектом JSON
+
+js-obs-err-not-text = { $what } не является текстом или больше { $mib } MiB
+
+js-obs-err-states = { $name } называет состояния, кроме трёх, которые показывает эта страница
+
+js-obs-file-matches = совпадает
+
+js-obs-file-mismatch = не совпадает
+
+js-obs-file-no-hash = хеш не указан
+
+js-obs-file-not-opened = не открыт
+
+js-obs-files-note = Метод { $method }. SHA-256 каждого файла вычисляется здесь по открытому вами файлу и сравнивается с манифестом; файл, который вы не открывали, не проверяется.
+
+js-obs-incident = инцидент
+
+js-obs-incident-note = Соприкасающиеся ячейки с ухудшением (включая по диагонали) образуют один инцидент. Причина каждого инцидента: не приписана. Это не подтверждение и не NOTAM.
+
+js-obs-kv-cells = Опубликовано ячеек
+
+js-obs-kv-day-wide = Влияние на весь день
+
+js-obs-kv-degraded = Ухудшено
+
+js-obs-kv-not-degraded = Не ухудшено
+
+js-obs-kv-not-observed = Не наблюдалось (опубликовано)
+
+js-obs-kv-scope = Охват
+
+js-obs-map-aria = { $summary } В таблице ниже перечислены все ячейки.
+
+js-obs-means-degraded = Большая доля воздушных судов, опрошенных в ячейке, в этот день сообщала о низкой точности навигации, заметно выше фона этого дня.
+
+js-obs-means-not-degraded = Опрошено достаточно воздушных судов, и доля не достигла порога правила.
+
+js-obs-means-not-observed = Данные не позволили сделать вывод. Это не означает «чисто».
+
+js-obs-na = н/д
+
+js-obs-no = нет
+
+js-obs-no-cells = В этом файле нет ячеек
+
+js-obs-no-day-file = Среди файлов за { $date } нет файла дня (.geojson), поэтому показывать за этот день нечего.
+
+js-obs-no-degraded = В этот день нет ячеек с ухудшением.
+
+js-obs-no-file-read = Ни один файл не удалось прочитать.
+
+js-obs-no-incident-file = Для этого дня файл инцидентов не открывался.
+
+js-obs-no-manifest = Для этого дня манифест не открывался, поэтому файлы нельзя проверить по их хешам.
+
+js-obs-no-notice = В этом файле нет уведомления. Консультативное заявление вверху этой страницы действует в любом случае.
+
+js-obs-no-reason = причина не указана
+
+js-obs-not-clear = «Не наблюдалось» не означает «чисто».
+
+js-obs-not-readable = { $name }: этот файл эта страница не читает (.geojson, .incidents.json, .manifest.json или .png).
+
+js-obs-not-stated = не указано
+
+js-obs-note-day-wide = Это был день с влиянием на весь день: фон дня сам по себе был высоким, поэтому в этот день нельзя было сделать вывод ни по одной ячейке. Это не утверждение, что небо было чистым.
+
+js-obs-note-summary-mismatch = Сводка, указанная в файле, не совпадает с перечисленными в нём ячейками; числа показаны как записаны.
+
+js-obs-nothing-yet = Пока показывать нечего: откройте также файл .geojson этого дня.
+
+js-obs-notice = Уведомление в файле: { $notice }
+
+js-obs-opened-day-file = Открыто дней: { $days }, файлов: { $files }. Прочитано здесь; ничего не загружалось.
+
+js-obs-opened-day-files = Открыто дней: { $days }, файлов: { $files }. Прочитано здесь; ничего не загружалось.
+
+js-obs-opened-days-file = Открыто дней: { $days }, файлов: { $files }. Прочитано здесь; ничего не загружалось.
+
+js-obs-opened-days-files = Открыто дней: { $days }, файлов: { $files }. Прочитано здесь; ничего не загружалось.
+
+js-obs-read-failed = { $name }: не удалось прочитать ({ $reason }).
+
+js-obs-reason-day-wide = фон дня сам по себе был высоким, поэтому в этот день нельзя было сделать вывод ни по одной ячейке
+
+js-obs-reason-insufficient = опрошено слишком мало воздушных судов, чтобы сделать вывод
+
+js-obs-reason-no-background = для этого дня не было фона, с которым можно было бы сравнить ячейку
+
+js-obs-release = Выпущено не ранее { $when }: продукты публикуются не менее чем через { $hours } ч после окончания дня, на ячейках { $deg }°. Это не живое представление.
+
+js-obs-release-default = конец дня плюс задержка
+
+js-obs-show-all = Показать все ячейки: { $n }
+
+js-obs-state-degraded = Ухудшено
+
+js-obs-state-not-degraded = Не ухудшено
+
+js-obs-state-not-observed = Не наблюдалось
+
+js-obs-the-day-file = файл дня
+
+js-obs-the-incident-file = файл инцидентов
+
+js-obs-the-manifest = манифест
+
+js-obs-too-large = { $name }: больше { $mib } MiB; откройте файл поменьше.
+
+js-obs-unstated-number = неуказанное число
+
+js-obs-withheld = скрыто
+
+js-obs-yes-no-call = да: нельзя было сделать вывод ни по одной ячейке
+
+js-opt-avail-label = Доступность, потолок и доступность при ясном небе по пунктам
+
+js-opt-avail-note = По пунктам: доступность линии при замираниях из-за облачности и турбулентности, потолок, который не поднять никаким дополнительным запасом (облачность и наведение), и доступность при полном отсутствии облаков.
+
+js-opt-avail-title = Доступность относительно потолка
+
+js-opt-bar-available = { $name }: доступно
+
+js-opt-bar-ceiling = { $name }: потолок
+
+js-opt-bar-clear-sky = { $name }: ясное небо
+
+js-opt-blurb-network = Более облачный северный, умеренный центральный и более ясный южный пункты наблюдают оптический терминал на LEO под углом 30 градусов: как часто линия работает и что дают дополнительные пункты?
+
+js-opt-blurb-techniques = Одна восходящая линия под углом 25 градусов в облачности и турбулентности: что дают другая длина волны, большая апертура, адаптивная оптика или больший запас?
+
+js-opt-cloud-episode = эпизод облачности
+
+js-opt-correlated = коррелированы
+
+js-opt-default-bars = столбцы
+
+js-opt-default-chart = график
+
+js-opt-direction-wave = { $direction }, волна { $wave }
+
+js-opt-diversity-label = Доступность сети в зависимости от числа пунктов
+
+js-opt-diversity-note = Доступность лучших 1, 2 и 3 пунктов при независимой погоде и при погоде, коррелированной на расстоянии { $km } km.
+
+js-opt-diversity-title = Разнесение пунктов
+
+js-opt-fact-capture-loss = Геометрические потери захвата
+
+js-opt-fact-direction = Направление
+
+js-opt-fact-elevation = Угол места
+
+js-opt-fact-footprint = След луча
+
+js-opt-fact-margin = Запас без атмосферы
+
+js-opt-fact-received = Принятая мощность, без атмосферы
+
+js-opt-fact-sensitivity = Чувствительность приёмника
+
+js-opt-fact-wavelength = Длина волны
+
+js-opt-gain-points = +{ $n } п. п.
+
+js-opt-hours = часов
+
+js-opt-independent = независимы
+
+js-opt-link-down = линия не работает
+
+js-opt-margin-label = Дополнительный запас, нужный для каждой целевой доступности
+
+js-opt-margin-line-title = { $name }: запас линии, dB
+
+js-opt-margin-note = Дополнительный запас линии, в dB сверх нынешнего, для каждой целевой доступности; отрицательное значение означает, что у линии уже больше запаса, чем нужно. Для цели выше потолка пункта нет запаса, который её достигает (движок её опускает).
+
+js-opt-margin-title = Запас, который нужен для каждой целевой доступности
+
+js-opt-model-output = Результат модели
+
+js-opt-na = н/д
+
+js-opt-no-data = В этом результате нет данных.
+
+js-opt-no-series = В этом результате нет временного ряда.
+
+js-opt-no-source = источник не указан
+
+js-opt-not-result = это не результат оптической атмосферы с пунктами
+
+js-opt-open-failed = Не удалось открыть { $title }: { $reason }.
+
+js-opt-opening = Открывается { $title }…
+
+js-opt-outage-label = Вероятность того, что перерыв длится дольше заданной продолжительности
+
+js-opt-outage-note = Вероятность того, что перерыв длится дольше заданной продолжительности, по пунктам (ось времени логарифмическая).
+
+js-opt-outage-title = Как долго длятся перерывы
+
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-opt-prov = { $label } Пункты: { $sites }.
+
+js-opt-realised-up = { $value } в работе
+
+js-opt-recorded = { $title }: записанный результат движка (версия { $version }). Результат модели, а не измерение.
+
+js-opt-result-not-json = результат не является JSON ({ $reason })
+
+js-opt-result-not-loaded = записанный результат не загрузился
+
+js-opt-series-label = Запас линии во времени
+
+js-opt-series-note = Одна реализация заявленной модели пункта с заданным начальным значением (seed { $seed }, { $hours } h с шагом { $step } s): эпизоды облачности, столб жидкой воды для каждого, один отсчёт мерцания на шаг. Запас — это бюджет замираний за вычетом замираний из-за облачности и мерцания; ниже 0 dB линия не работает. Это один розыгрыш, а не климат: его доступность отличается от заявленной на ошибку выборки этого розыгрыша. Запас обрезается на уровне −40 dB для построения графика.
+
+js-opt-series-title = Запас линии во времени
+
+js-opt-stated = заявлено { $value }
+
+js-opt-stripe-cloud = облачность
+
+js-opt-stripe-down = не работает
+
+js-opt-stripe-title = { $what }, час с { $from } по { $to }
+
+js-opt-techniques-label = Выигрыш в доступности по методам
+
+js-opt-techniques-note = Выигрыш в доступности в процентных пунктах относительно базового уровня, для одного пункта.
+
+js-opt-techniques-title = Что даёт каждый метод
+
+js-opt-th-availability = Доступность
+
+js-opt-th-ceiling = Потолок
+
+js-opt-th-clear-air = Потери в чистом воздухе
+
+js-opt-th-cloud-prob = Вероятность облачности (вход)
+
+js-opt-th-fade-budget = Бюджет замираний
+
+js-opt-th-latlon = Широта, долгота
+
+js-opt-th-mean-outage = Средний перерыв
+
+js-opt-th-outages-year = Перерывов в год
+
+js-opt-th-scint = Индекс мерцания
+
+js-opt-th-site = Пункт
+
+js-opt-timing-label = Доступность синхронизации времени по пунктам и часам
+
+js-opt-timing-note = Доля всего времени, в течение которого ошибка времени остаётся в пределах порога, по пунктам и классам часов: holdover часов относительно длительностей перерывов.
+
+js-opt-timing-title = Синхронизация времени, сохраняемая в перерывах
+
+js-opt-title-network = Три наземных пункта, разнесение пунктов
+
+js-opt-title-techniques = Одна восходящая линия, методы повышения доступности
+
+js-opt-x-best-n = лучшие n пунктов
+
+js-opt-x-outage-duration = длительность перерыва, h (лог.)
+
+js-opt-x-target = целевая доступность, %
+
+js-opt-y-availability = доступность, %
+
+js-opt-y-extra-margin = дополнительный запас, dB
+
+js-opt-y-p-longer = P(дольше)
+
+js-replay-band-calibrating = калибровка
+
+js-replay-band-degraded = ухудшено
+
+js-replay-band-nominal = номинально
+
+js-replay-band-run-ended = { $band } · прогон завершён
+
+js-replay-band-untrusted = нет доверия
+
+js-replay-clock = T+{ $t } из { $max }
+
+js-replay-coast-hidden = побережье скрыто: выдуманные положения этого журнала попадают на сушу
+
+js-replay-coast-note = Побережье: { $source }, только для иллюстрации.
+
+js-replay-coast-note-hidden = { $reason }.
+
+js-replay-coast-window = Natural Earth 1:10 млн, окно { $window }
+
+js-replay-coast-world = Natural Earth 1:110 млн (контур мира в Studio), грубо
+
+js-replay-demo-trust-log = { $title } (журнал доверия)
+
+js-replay-dir-east = восток
+
+js-replay-dir-north = север
+
+js-replay-dir-south = юг
+
+js-replay-dir-west = запад
+
+js-replay-dirs-and = { $list } и { $last }
+
+js-replay-drawing-animation = Рисуется анимация…
+
+js-replay-drawing-frames = Рисуются кадры…
+
+js-replay-every-direction = все направления
+
+js-replay-file-error = { $name }: { $error }
+
+js-replay-kinds-convergence-horizontal = Сходимость: медианная горизонтальная ошибка
+
+js-replay-kinds-convergence-vertical = Сходимость: медианная вертикальная ошибка
+
+js-replay-kv-course = Сообщённый курс
+
+js-replay-kv-heading = Курс (гироскоп)
+
+js-replay-kv-position-error = Ошибка положения
+
+js-replay-kv-receiver = Приёмник
+
+js-replay-kv-run-time = Время прогона
+
+js-replay-kv-satellites = Спутников использовано / в зоне видимости
+
+js-replay-kv-sky = Небо
+
+js-replay-legend = Легенда
+
+js-replay-legend-no-fix = нет решения
+
+js-replay-legend-true-track = истинная трасса
+
+js-replay-moment = Момент T+{ $t }:
+
+js-replay-no-coast = Побережье не рисуется: для этого окна оно не входит в поставку.
+
+js-replay-no-gsv = в этом журнале нет GSV
+
+js-replay-not-json = { $name }: не JSON.
+
+js-replay-not-scored = не оценено
+
+js-replay-obs-not-attributed = не приписана
+
+js-replay-open-failed = Не удалось открыть { $id }: { $reason }.
+
+js-replay-open-file = Открыть файл…
+
+js-replay-opened = Открыт { $name } в панели { $n }. Прочитано здесь; ничего не загружалось.
+
+js-replay-opening = Открывается { $id }…
+
+js-replay-pause = Пауза
+
+js-replay-play = Воспроизвести
+
+js-replay-read-failed = { $name }: не удалось прочитать или нарисовать ({ $reason }).
+
+js-replay-reading = Читается { $name }…
+
+js-replay-reduced-motion = Предпочтительно уменьшение анимации, поэтому повтор начинается с 1x и не запускается сам.
+
+js-replay-run = Прогон
+
+js-replay-run-shown = Прогон, показанный в панели { $n }
+
+js-replay-saved-svg = Сохранён { $name } ({ $size } kB): все кадры в одном файле, нарисованные по тем же строкам, что и эта страница.
+
+js-replay-saved-zip = Сохранён { $name } ({ $size } MB): по одному SVG на кадр, манифест строк, лежащих за каждым, и README.
+
+js-replay-src-instructor = Ваш файл { $name }: журнал инструктора сам по себе не содержит ни оценки движка, ни неба.
+
+js-replay-src-trust = Ваш файл { $name }: результат доверия не содержит ни неба, ни курса, поэтому они не рисуются.
+
+js-replay-status-ready = { $a } и { $b }: синтетические прогоны, оценённые движком. Нажмите «Воспроизвести» или сдвиньте время.
+
+js-replay-status-synthetic = { $titles }: синтетические прогоны, оценённые движком.
+
+js-replay-status-synthetic-no-coast = { $titles }: синтетические прогоны, оценённые движком. Береговая линия недоступна.
+
+js-replay-strip-label = Оценка доверия за прогон
+
+js-replay-titles-and = { $a } и { $b }
+
+js-replay-too-large = { $name } больше, чем эта страница может прочитать.
+
+js-replay-track = Трасса по строкам журнала: { $n }, север вверху.
+
+js-replay-track-widened = Трасса по строкам журнала: { $n }, север вверху, расширена, чтобы показать ближайшее побережье.
+
+js-replay-verdict = Вердикт
+
+js-replay-verdict-degraded = { $dur } в полосе «ухудшено», в полосе «нет доверия» — ни разу
+
+js-replay-verdict-early = Вердикт (предварительный)
+
+js-replay-verdict-fine = Только по журналу и оценке движка; синтетически, носит консультативный характер, не является показателем качества обнаружения.
+
+js-replay-verdict-first = впервые ниже номинала в T+{ $t }
+
+js-replay-verdict-first-after = впервые ниже номинала в T+{ $t }, через { $dur } после начала первого события (T+{ $onset })
+
+js-replay-verdict-first-before = впервые ниже номинала в T+{ $t }, до начала первого события (T+{ $onset })
+
+js-replay-verdict-lowest = Наименьшая оценка доверия { $score } ({ $band }) в T+{ $t }
+
+js-replay-verdict-never-left = оценка ни разу не выходила из номинальной полосы
+
+js-replay-verdict-no-fix = нет решения в течение { $dur }
+
+js-replay-verdict-not-scored = Не оценено: оценка доверия движка показана для прогонов из библиотеки
+
+js-replay-verdict-peak-error = наибольшая записанная ошибка положения { $err } m в T+{ $t }
+
+js-replay-verdict-untrusted = { $dur } в полосе «нет доверия»
+
+js-replay-verdict-wait = Показывается по окончании этого прогона, в T+{ $t }.
+
+js-ssv-altitude-label = Высота и использованные измерения
+
+js-ssv-at-least-1 = хотя бы 1 сигнал
+
+js-ssv-at-least-4 = хотя бы 4 сигнала
+
+js-ssv-avail-label = Доступность, { $band }
+
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+js-ssv-blurb-formation-heo = Ведущий и ведомый аппараты на расстоянии километра друг от друга на сильно эллиптической орбите: насколько хорошо фильтр знает их относительное положение по сравнению с тем, что дали бы две абсолютные привязки.
+
+js-ssv-blurb-heo = Сильно эллиптическая орбита (апогей около 58 600 km) с высокоусилительной надирной и зенитной патч-антенной и параметрической моделью боковых лепестков: сигналы в зоне видимости, наилучшее C/N0, главный лепесток и боковой лепесток, геометрический фактор DOP и сигналы, касающиеся атмосферы.
+
+js-ssv-blurb-lunar-weak = Лунная трасса перелёта с приёмником, рассчитанным на самые слабые сигналы: что ему нужно для захвата и сопровождения и какую часть траектории он может использовать.
+
+js-ssv-blurb-nav-lunar = Бортовой навигационный фильтр на лунном перелёте: ошибка его положения относительно заявленной границы, ниже и выше собственных орбит спутников GNSS.
+
+js-ssv-blurb-shell = Сферическая оболочка на геостационарной высоте, выбранная по сетке: как часто находящийся там космический аппарат слышит хотя бы один и хотя бы четыре сигнала при 20 dB-Hz, на L1 и L5, для каждой орбитальной группировки и для всех вместе?
+
+js-ssv-cn0-altitude-label = Наилучшее C/N0 и высота во времени, { $band }
+
+js-ssv-cn0-label = Наилучшее C/N0, { $band }
+
+js-ssv-cn0-note = Из сигналов в зоне видимости самый сильный в каждую эпоху: от наименьшего до наибольшего по эпохам, среднее отмечено.
+
+js-ssv-cn0-title = Наилучшее отношение несущей к плотности шума, { $band }
+
+js-ssv-comparison-failed = Не удалось показать сравнение ({ $reason }).
+
+js-ssv-comparison-not-loaded = файл сравнения не загрузился
+
+js-ssv-default-bars = столбцы
+
+js-ssv-default-chart = график
+
+js-ssv-default-ranges = диапазоны
+
+js-ssv-deputies-note = Абсолютный RMS ведущего аппарата { $rms } m, эпох: { $epochs }.
+
+js-ssv-deputies-title = Каждый ведомый аппарат
+
+js-ssv-dop-note = Медиана, 95-й перцентиль и наихудший PDOP по эпохам, в которых есть решение, а там, где сценарий задаёт атмосферу, — и сигналы, касающиеся её.
+
+js-ssv-dop-title = Геометрический фактор DOP и атмосфера, { $band }
+
+js-ssv-err-label = Ошибка положения относительно заявленной границы
+
+js-ssv-err-note = Пунктирная линия — граница в одну сигму, которую заявляет фильтр; сплошная линия — его ошибка относительно истины, известной сценарию. Прорежено движком.
+
+js-ssv-err-title = Ошибка положения относительно собственной границы фильтра
+
+js-ssv-fact-antenna = Антенна
+
+js-ssv-fact-apogee = Высота апогея
+
+js-ssv-fact-cn0-threshold = Порог отношения несущей к плотности шума
+
+js-ssv-fact-duration = Длительность
+
+js-ssv-fact-eccentricity = Эксцентриситет
+
+js-ssv-fact-grid-points = Узлы сетки
+
+js-ssv-fact-inclination = Наклонение
+
+js-ssv-fact-mode = Режим
+
+js-ssv-fact-perigee = Высота перигея
+
+js-ssv-fact-period = Период
+
+js-ssv-fact-shell-altitude = Высота оболочки
+
+js-ssv-fact-sma = Большая полуось
+
+js-ssv-fact-step = Шаг
+
+js-ssv-filter = фильтр
+
+js-ssv-formation-note = RMS ошибки относительного положения по фильтру и по разности двух абсолютных привязок, за весь прогон и выше орбит GNSS.
+
+js-ssv-formation-title = Относительное положение ведомых аппаратов
+
+js-ssv-from-absolute = по двум абсолютным привязкам
+
+js-ssv-group-combined = все вместе
+
+js-ssv-icg-note = { $label }; вердикты на уровне порогов по зафиксированным файлам результатов движка (коммит движка { $commit }). Таблицы буклета общедоступны; ничто здесь не является VALIDATED.
+
+js-ssv-icg-wrong-file = файл сравнения ICG не тот, который читает эта страница
+
+js-ssv-lobe-note = Сколько из пригодных линий прошло через главный лепесток и сколько через боковой, по подсчёту движка.
+
+js-ssv-lobe-title = Главный и боковой лепесток, { $band }
+
+js-ssv-na = н/д
+
+js-ssv-nav-note = Использованные и отброшенные по стробу измерения, наибольший разрыв с менее чем четырьмя сигналами, итоговая ошибка и оценка давления солнечного излучения относительно истины, известной сценарию.
+
+js-ssv-nav-title = Прогон в числах
+
+js-ssv-never = никогда
+
+js-ssv-never-had-four = ни разу не было четырёх
+
+js-ssv-never-had-one = ни разу не было ни одного
+
+js-ssv-no-range = В этом результате нет диапазона.
+
+js-ssv-no-series = В результате нет ряда для этого графика.
+
+js-ssv-not-in-variant = не входит в вариант
+
+js-ssv-not-result = это не результат gnss-ssv
+
+js-ssv-of = { $n } из { $total }
+
+js-ssv-offset = смещение { $deg }°
+
+js-ssv-open-failed = Не удалось открыть { $title }: { $reason }.
+
+js-ssv-opening = Открывается { $title }…
+
+js-ssv-outage-note = В минутах, за прогон. «Никогда» отмечает группу, у которой нигде на оболочке не было столько сигналов.
+
+js-ssv-outage-title = Наибольшие перерывы на оболочке
+
+js-ssv-phases-note = Статистика фильтра за прогон и за две его части. Средний NEES положения около 3 означает, что заявленная граница фильтра согласуется с его ошибкой.
+
+js-ssv-phases-title = Ошибка положения по этапам
+
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-ssv-range-title = { $label }: мин. { $min }, среднее { $mean }, макс. { $max } { $unit }
+
+js-ssv-range-value = от { $min } до { $max }
+
+js-ssv-recorded = { $title }: записанный результат движка (версия { $version }).
+
+js-ssv-relative-label = Ошибка относительного положения
+
+js-ssv-result-not-json = результат не является JSON ({ $reason })
+
+js-ssv-result-not-loaded = записанный результат не загрузился
+
+js-ssv-row-acquires = Захват вплоть до
+
+js-ssv-row-carrier = Сопровождение несущей вплоть до
+
+js-ssv-row-code = Сопровождение кода вплоть до
+
+js-ssv-row-coherent = Когерентное накопление
+
+js-ssv-row-delay-mean = Задержка, среднее
+
+js-ssv-row-detection = Порог обнаружения
+
+js-ssv-row-false-alarm = Вероятность ложной тревоги на ячейку
+
+js-ssv-row-final-error = Итоговая ошибка положения
+
+js-ssv-row-gap = Наибольший разрыв
+
+js-ssv-row-gated = Измерения, отброшенные по стробу
+
+js-ssv-row-grazing = Касание ниже 100 km
+
+js-ssv-row-limb-links = Линии через лимб
+
+js-ssv-row-loss-mean = Потери, среднее
+
+js-ssv-row-lost = Потеряно из-за атмосферы
+
+js-ssv-row-pdop-median = PDOP, медиана
+
+js-ssv-row-pdop-p95 = PDOP, 95-й перцентиль
+
+js-ssv-row-pdop-worst = PDOP, наихудший
+
+js-ssv-row-plasma-mean = Плазмосферный TEC, среднее
+
+js-ssv-row-search-cells = Ячейки поиска
+
+js-ssv-row-search-time = Время поиска
+
+js-ssv-row-srp-est = Давление солнечного излучения, оценка
+
+js-ssv-row-srp-truth = Давление солнечного излучения, истина
+
+js-ssv-row-stec-mean = Наклонный TEC, среднее
+
+js-ssv-row-tangent = Высота касания, от минимума до максимума
+
+js-ssv-row-tracking = Использованный порог сопровождения
+
+js-ssv-row-used = Использованные измерения
+
+js-ssv-series-altitude = высота/1000
+
+js-ssv-series-altitude-name = высота
+
+js-ssv-series-best-cn0 = наилучшее C/N0
+
+js-ssv-series-error = ошибка
+
+js-ssv-series-measurements = измерения
+
+js-ssv-series-note = Один прореженный ряд суммарного числа по всем орбитальным группировкам. Движок не записывает ряд по каждой группировке отдельно, поэтому он не рисуется.
+
+js-ssv-series-signals = сигналов в зоне видимости
+
+js-ssv-series-signals-label = Сигналы в зоне видимости во времени, { $band }
+
+js-ssv-series-stated-bound = заявленная граница
+
+js-ssv-series-title = Сигналы и наилучшее C/N0 вдоль орбиты, { $band }
+
+js-ssv-shell-avail-note = Доля узлов сетки и моментов времени, где есть хотя бы один и хотя бы четыре сигнала выше { $cn0 } dB-Hz.
+
+js-ssv-shell-avail-title = Доступность на оболочке, { $band }
+
+js-ssv-tangent-value = от { $min } до { $max } km
+
+js-ssv-th-above-absolute = Выше GNSS: по абсолютным, m
+
+js-ssv-th-above-filter = Выше GNSS: фильтр, m
+
+js-ssv-th-band-group = Диапазон и группа
+
+js-ssv-th-bar = Порог
+
+js-ssv-th-baseline = База, km
+
+js-ssv-th-common-4 = Эпохи с 4 общими сигналами
+
+js-ssv-th-common-mean = Среднее число общих сигналов
+
+js-ssv-th-compares = Что сравнивается
+
+js-ssv-th-deputy = Ведомый аппарат
+
+js-ssv-th-epochs = Эпохи
+
+js-ssv-th-group = Группа
+
+js-ssv-th-main-lobe = Линии главного лепестка
+
+js-ssv-th-nees = Средний NEES положения
+
+js-ssv-th-phase = Этап
+
+js-ssv-th-pos-p95 = Положение, 95-й перцентиль, m
+
+js-ssv-th-pos-rms = Положение, RMS, m
+
+js-ssv-th-quantity = Величина
+
+js-ssv-th-rel-absolute = Относительный RMS, по абсолютным, m
+
+js-ssv-th-rel-filter = Относительный RMS, фильтр, m
+
+js-ssv-th-rel-vel = Относительный RMS скорости, m/s
+
+js-ssv-th-run1-cells = Прогон 1: ячейки в пределах допуска
+
+js-ssv-th-run1-verdict = Вердикт прогона 1
+
+js-ssv-th-sidelobe = Линии бокового лепестка
+
+js-ssv-th-sidelobe-share = Доля бокового лепестка
+
+js-ssv-th-value = Значение
+
+js-ssv-th-variant = Вариант (диагностический, опорные углы GLONASS из таблицы 4.2)
+
+js-ssv-th-vel-rms = RMS скорости, m/s
+
+js-ssv-th-with-4 = С 4 или более сигналами
+
+js-ssv-th-without-1 = Наибольший промежуток без 1 сигнала
+
+js-ssv-th-without-4 = Наибольший промежуток без 4 сигналов
+
+js-ssv-title-formation-heo = Формация, сильно эллиптическая орбита
+
+js-ssv-title-heo = Сильно эллиптическая орбита
+
+js-ssv-title-lunar-weak = Лунный перелёт, приёмник слабых сигналов
+
+js-ssv-title-nav-lunar = Бортовой фильтр, лунный перелёт
+
+js-ssv-title-shell = Оболочка на 36 000 km
+
+js-ssv-traj-avail-note = Доля эпох, где есть хотя бы один и хотя бы четыре сигнала выше { $cn0 } dB-Hz.
+
+js-ssv-traj-avail-title = Доступность вдоль траектории, { $band }
+
+js-ssv-transmit-pattern = Диаграмма передачи: { $pattern }
+
+js-ssv-unit-signals = сигналов
+
+js-ssv-unknown-mode = у этого результата gnss-ssv режим «{ $mode }», который эта страница не читает
+
+js-ssv-variant-met = { $n } из { $total }, было бы выполнено
+
+js-ssv-variant-not-met = { $n } из { $total }, всё ещё не выполнено
+
+js-ssv-view-note = От наименьшего до наибольшего числа в зоне видимости по эпохам, среднее отмечено.
+
+js-ssv-view-title = Сигналы в зоне видимости, { $band }
+
+js-ssv-weak-note = Что нужно конструкции приёмника, как её вычисляет движок по заявленному накоплению.
+
+js-ssv-weak-title = Приёмник слабых сигналов
+
+js-ssv-x-minutes = минуты
+
+js-ssv-y-altitude-measurements = высота, тысячи km; использованные измерения
+
+js-ssv-y-cn0-altitude = dB-Hz; высота в тысячах km
+
+js-ssv-y-position-log = положение, метры (лог.)
+
+js-ssv-y-signals-all = сигналов в зоне видимости, все орбитальные группировки
+
+js-t35data-ai-q-bench-export = Экспортировать движение и события сценария для лабораторного симулятора
+
+js-t35data-ai-q-compliance-rows = Какие строки публичных рамок подкрепляют доказательствами эти прогоны?
+
+js-t35data-ai-q-evidence-pack = Проверить или создать пакет доказательств события доверия
+
+js-t35data-ai-q-interference-route = Где GNSS выглядел ухудшенным и какая часть этого маршрута в нём находится?
+
+js-t35data-ai-q-iq-recordings = Записи GNSS IQ (сцена, захват, сопровождение, входной тракт, кампании)
+
+js-t35data-ai-q-osnma-satellites = Данные навигации каких спутников Galileo аутентифицирует (OSNMA) этот поток приёмника?
+
+js-t35data-ai-q-run-scenario = Запустить или объяснить сценарий PNT (орбиты, GNSS, синхронизация времени, объединение, Луна)
+
+js-t35data-ai-q-training-nmea = Мне нужен синтетический NMEA с событием подавления, увода (drag-off), спуфинга времени или повтора для тренировки
+
+js-t35data-ai-q-trustworthy-log = Заслуживал ли доверия этот журнал приёмника или NMEA этого судна и когда доверие пропало?
+
+js-t35data-ai-tool-osnma-satellites = в MCP нет: используйте osnma_verify (карточка OSNMA здесь, WebAssembly), kshana osnma verify (CLI) или kshana.osnma_verify (Python)
+
+js-t35data-card-evidence-create-title = Создать пакет доказательств
+
+js-t35data-card-evidence-create-what = Подписывает окно журнала приёмника и то, что движок вычислил по нему, чтобы любой мог проверить, что после этого ничего не менялось. Studio проверяет пакеты.
+
+js-t35data-card-evidence-create-why = Для подписи нужен закрытый ключ, который не следует пропускать через веб-страницу.
+
+js-t35data-card-iq-title = Мониторы и инструменты GNSS IQ
+
+js-t35data-card-iq-what = Построить сцену, захватывать и сопровождать сигналы, перебирать параметры, моделировать входной тракт, запускать мониторы IQ и кампании, подгонять лабораторный журнал. Доступно также из Python и, внутри одной рабочей папки, из инструментов ИИ-ассистента.
+
+js-t35data-card-iq-why = Запись — это гигабайты отсчётов. Страница не может её вместить, а команды, которые преобразуют, извлекают и прореживают, перезаписывают записи на диске.
+
+js-t35data-card-land-title = Загрузка полигонов суши для детектора AIS на суше
+
+js-t35data-card-land-what = Загружает один закреплённый файл суши (Natural Earth, общественное достояние) и проверяет его SHA-256. Построитель карт принимает файл суши как текст.
+
+js-t35data-card-land-why = Это единственная команда, которая открывает сетевое соединение, и ей нужны системный curl и явный флаг.
+
+js-t35data-card-marine-title = Морские интеграции
+
+js-t35data-card-marine-what = Плагин сервера Signal K и OpenCPN через NMEA в режиме gate по TCP выводят оценку доверия в программы, которыми яхтсмены уже пользуются; эталонная сборка выводит её на небольшой компьютер рядом с приёмником.
+
+js-t35data-card-marine-why = Они потребляют работающий живой процесс и его шлюз TCP: это развёртывания на компьютере судна.
+
+js-t35data-card-telemetry-title = Доверие как телеметрия безопасности
+
+js-t35data-card-telemetry-what = Преобразует поток доверия (оценка, полоса, причины) в метрики Prometheus, события syslog в CEF или LEEF для SIEM и в OpenTelemetry. Он читает поток и никогда не меняет оценку.
+
+js-t35data-card-telemetry-why = Это процесс, который отдаёт метрики и отправляет данные в ваши системы мониторинга, поэтому он работает рядом с приёмником, а не на странице.
+
+js-t35data-card-training-stream-title = Тренировочные потоки на адрес TCP или UDP
+
+js-t35data-card-training-stream-what = Отправляет сгенерированный тренировочный поток на симулятор мостика или картплоттер в реальном времени или быстрее. Страница тренировки в Studio генерирует тот же текст и позволяет его скачать.
+
+js-t35data-card-training-stream-why = Отправка на сетевой адрес — это то, чего страница браузера не делает. Поток — только текст и никогда не предназначен для действующих навигационных систем судна.
+
+js-t35data-feat-ai-ai = Варианты установки сервера MCP с вопросами, на которые отвечает каждый инструмент
+
+js-t35data-feat-ai-name = Использование из ИИ-ассистента (сервер MCP)
+
+js-t35data-feat-bench-bench = Экспортировать здесь движение, NMEA, путевые точки и события сценария
+
+js-t35data-feat-bench-name = Экспорт test-bench для лабораторного симулятора
+
+js-t35data-feat-compliance-compliance = Посмотрите здесь, какие строки рамок ваши прогоны подкрепляют доказательствами, и таблицы сопоставления
+
+js-t35data-feat-compliance-name = Сопоставление compliance с публичными рамками устойчивости
+
+js-t35data-feat-evidence-evidence = Проверить здесь пакет и приложить токен метки времени
+
+js-t35data-feat-evidence-name = Подписанные пакеты доказательств
+
+js-t35data-feat-evidence-why = Для создания пакета нужен закрытый ключ подписи, который не следует пропускать через веб-страницу. Пакеты создаются из командной строки, Python или инструментов ИИ-ассистента.
+
+js-t35data-feat-interference-map-interference = Открыть файлы карт или построить здесь карту из CSV и проверить по ней маршрут
+
+js-t35data-feat-interference-map-name = Карта помех (ADS-B и AIS) и подверженность маршрута
+
+js-t35data-feat-iq-name = Мониторы и инструменты GNSS IQ (сцена, захват, сопровождение, перебор, входной тракт, монитор, кампании)
+
+js-t35data-feat-iq-why = Запись — это гигабайты отсчётов, которые страница не может вместить, а некоторые команды перезаписывают записи на диске. В сборке для браузера нет функций IQ.
+
+js-t35data-feat-jammertest-jammertest = Импортировать план для временного интервала журнала или оценить журнал приёмника (UBX, RINEX, Android, NMEA или Septentrio SBF) по каждому испытанию: задержка обнаружения, пропуски, ложные тревоги, время восстановления; MODELLED
+
+js-t35data-feat-jammertest-name = Jammertest как арбитр: опубликованный план испытаний как расписание истины, журнал приёмника, оценённый по нему (0.38)
+
+js-t35data-feat-live-gate-name = Живой поток доверия, шлюз и приёмник (stdin, файл, TCP, UDP, --gate, --listen)
+
+js-t35data-feat-live-gate-why = Это работающий процесс на пути данных. Страница возвращается, когда завершается, и не может держать сокет открытым для картплоттера или помечать решение недействительным в живом потоке. Studio вместо этого оценивает ограниченный фрагмент в том же живом формате, без шлюза.
+
+js-t35data-feat-machines-imufit = Подогнать параметры акселерометра и гироскопа гибридных сценариев и сценариев объединения по журналу неподвижной IMU; MODELLED
+
+js-t35data-feat-machines-name = Входы приёмников и датчиков: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, IMU для курса и подгонка IMU для гибридных сценариев и сценариев объединения (0.38)
+
+js-t35data-feat-machines-trust = Откройте журнал в любом из этих форматов (и необязательный файл IMU) в общем прогоне доверия к приёмнику; собственный флаг помехи NovAtel сравнивается с тревогами Kshana
+
+js-t35data-feat-marine-name = Морские интеграции: плагин Signal K и OpenCPN
+
+js-t35data-feat-marine-why = Они потребляют работающий живой процесс и его шлюз TCP, поэтому это развёртывания на компьютере судна, а не то, что может запустить страница.
+
+js-t35data-feat-maritime-trust-name = Морская оценка доверия для движущегося судна (от 0 до 100, с причинами)
+
+js-t35data-feat-maritime-trust-trust = Откройте результат или живой прогон JSON-lines и посмотрите трассу, оценку, причины и шлюз; оцените здесь журнал NMEA
+
+js-t35data-feat-nmea-training-name = Тренировочные потоки NMEA с журналом инструктора
+
+js-t35data-feat-nmea-training-training = Создайте здесь поток и его журнал инструктора, скачайте их и проведите разбор тренировки
+
+js-t35data-feat-osnma-name = Проверка Galileo OSNMA (вход UBX SFRBX)
+
+js-t35data-feat-osnma-osnma = Загрузите записанный файл и посмотрите статус аутентификации по каждому спутнику и каждому тегу
+
+js-t35data-feat-telemetry-name = Экспорт телеметрии: метрики Prometheus, syslog CEF и LEEF, OpenTelemetry
+
+js-t35data-feat-telemetry-why = Он отдаёт метрики, отправляет syslog и экспортирует OpenTelemetry из работающего потока: это процесс, который общается с вашими системами мониторинга, а страница им быть не может.
+
+js-t35data-feat-training-stream-name = Потоковая отправка тренировочного потока на адрес TCP или UDP
+
+js-t35data-feat-training-stream-why = Он отправляет данные на сетевой адрес, чего веб-страница не делает. Studio генерирует текст, а вы его скачиваете.
+
+js-t35data-page-ai = Использование из вашего ИИ-ассистента
+
+js-t35data-page-bench = Экспорт test-bench
+
+js-t35data-page-cli = Возможности командной строки
+
+js-t35data-page-compliance = Сопоставление compliance
+
+js-t35data-page-evidence = Пакеты доказательств
+
+js-t35data-page-geometry = Геометрия: скайплот, скайлайн и DOP
+
+js-t35data-page-imufit = Подгонка IMU
+
+js-t35data-page-interference = Карта помех
+
+js-t35data-page-jammertest = Оценка Jammertest
+
+js-t35data-page-osnma = Проверка OSNMA
+
+js-t35data-page-training = Разбор тренировки
+
+js-t35data-page-trust = Морское доверие
+
+js-t35data-sample-iq-help = Список команд IQ
+
+js-t35data-sample-telemetry-cef = Syslog в CEF для демонстрационного прогона
+
+js-t35data-sample-telemetry-leef = Syslog в LEEF для демонстрационного прогона
+
+js-t35data-sample-telemetry-metrics = Метрики Prometheus для демонстрационного прогона
+
+js-tools-ai-group-engine = Установить движок и его библиотеки
+
+js-tools-ai-group-integrations = Морские интеграции, плагины и панели мониторинга
+
+js-tools-ai-group-mcp = Установить сервер MCP для вашего ассистента
+
+js-tools-ai-heading = Использование Kshana из вашего ИИ-ассистента
+
+js-tools-ai-install-mcp = Установить сервер MCP
+
+js-tools-ai-intro = Сервер MCP Kshana позволяет ИИ-ассистенту запускать движок, а не угадывать числа. Он работает на вашем компьютере; в Kshana ничего не отправляется. Выберите способ, подходящий для вашего инструмента.
+
+js-tools-ai-load-failed = Не удалось загрузить варианты установки ({ $reason }). См. документацию по серверу MCP.
+
+js-tools-ai-mcp-docs = Документация по серверу MCP
+
+js-tools-ai-more-ways = Другие способы установки
+
+js-tools-ai-none-listed = В этой сборке нет перечня вариантов установки.
+
+js-tools-ai-other-ways = Другие способы установить Kshana
+
+js-tools-ai-read-agent-guide = Прочитать руководство для агента
+
+js-tools-ai-rule = Правило для каждого ответа: ассистент запускает движок и сообщает то, что вернул инструмент, с единицей измерения и уровнем доказательств (проверено по внешнему оракулу или смоделировано), сценарием, начальным значением (seed) и версией движка, чтобы прогон можно было повторить. Собственные оговорки результата остаются при нём. Сервер MCP не читает и не записывает файлы вне одной папки, включаемой по желанию.
+
+js-tools-ai-what-to-ask = О чём спрашивать и какой инструмент отвечает
+
+js-tools-ai-where-reachable = Где доступна каждая возможность
+
+js-tools-bench-files-written = Записано файлов в память вашего браузера: { $n }
+
+js-tools-bench-note = Только движение и размеченные интервалы событий. Скачайте их, чтобы загрузить в лабораторный симулятор.
+
+js-tools-bench-wrong-kind = { $name } — сценарий вида { $kind }. Траектория аппарата есть для видов { $kinds }; другие виды указывают, почему её нет.
+
+js-tools-building-report = Строится отчёт…
+
+js-tools-choose-catalogue-first = Сначала выберите JSON каталога.
+
+js-tools-choose-file-first = Сначала выберите файл.
+
+js-tools-choose-imu-log = Сначала выберите журнал неподвижной IMU.
+
+js-tools-choose-pack-first = Сначала выберите файлы пакета.
+
+js-tools-choose-pack-first-above = Сначала выберите файлы пакета (выше).
+
+js-tools-choose-plan-file = Выберите хотя бы один файл плана.
+
+js-tools-choose-receiver-log = Сначала выберите журнал приёмника.
+
+js-tools-choose-result-first = Сначала выберите хотя бы один файл результата (*.result.json).
+
+js-tools-choose-scenario-first = Сначала выберите сценарий.
+
+js-tools-choose-tsr-first = Сначала выберите ответ с меткой времени (.tsr).
+
+js-tools-chosen = Выбрано
+
+js-tools-col-check = Проверка
+
+js-tools-col-detail = Подробности
+
+js-tools-col-first-monitors = Первые мониторы
+
+js-tools-col-gap-that-stays = Остающийся разрыв
+
+js-tools-col-last-auth-tag = Последний аутентифицированный тег (системное время Galileo)
+
+js-tools-col-latency = Задержка, s
+
+js-tools-col-name = Название
+
+js-tools-col-outcome = Исход
+
+js-tools-col-question = Вопрос
+
+js-tools-col-recovered = Восстановлено
+
+js-tools-col-reference = Эталон
+
+js-tools-col-result = Результат
+
+js-tools-col-row = Строка
+
+js-tools-col-satellite = Спутник
+
+js-tools-col-slot = Слот, s
+
+js-tools-col-status = Статус
+
+js-tools-col-tags = Теги
+
+js-tools-col-test = Испытание
+
+js-tools-col-these-runs = Эти прогоны
+
+js-tools-col-tool = Инструмент
+
+js-tools-col-what-is-missing = Чего не хватает
+
+js-tools-col-what-it-asks = О чём спрашивает
+
+js-tools-col-why-not-auth = Почему не аутентифицировано
+
+js-tools-copied = Скопировано
+
+js-tools-copy = Копировать
+
+js-tools-copy-command-aria = Копировать: { $cmd }
+
+js-tools-copy-labelled-aria = Копировать { $label }: { $text }
+
+js-tools-did-not-work = Не получилось
+
+js-tools-documentation = Документация
+
+js-tools-download = Скачать
+
+js-tools-download-all-zip = Скачать всё (zip)
+
+js-tools-download-events-toml = Скачать события (TOML)
+
+js-tools-download-md = Скачать (Markdown)
+
+js-tools-download-report-json = Скачать отчёт (JSON)
+
+js-tools-download-report-md = Скачать отчёт (Markdown)
+
+js-tools-download-scorecard-json = Скачать оценочную карту (JSON)
+
+js-tools-download-table-toml = Скачать таблицу (TOML)
+
+js-tools-download-updated-pack = Скачать обновлённый пакет (zip)
+
+js-tools-download-whole-report-json = Скачать весь отчёт (JSON)
+
+js-tools-engine-lacks-error = В этой сборке движка (версия { $version }) нет { $need }, поэтому запустить это здесь пока нельзя. Записанные результаты и командная строка по-прежнему работают.
+
+js-tools-engine-lacks-status = В этой сборке движка (версия { $version }) нет { $need }: она старше версии, которая нужна этому инструменту. Эквивалент для командной строки есть на вкладке «Командная строка».
+
+js-tools-engine-running = Движок (версия { $version }) работает в этом браузере. Ничего не загружается.
+
+js-tools-engine-starting = Движок запускается в этом браузере…
+
+js-tools-engine-unavailable = Движок не удалось запустить здесь ({ $reason }). Открытие файлов работает; для запуска инструментов нужен WebAssembly.
+
+js-tools-epoch-format = Используйте YYYY-MM-DDTHH:MM:SS с необязательной Z (UTC).
+
+js-tools-epoch-not-real = Это не реальный момент UTC между 2000 и 2099 годами.
+
+js-tools-every-check = Каждая проверка
+
+js-tools-evidence-disclaimer = Пакет доказательств — это техническая запись того, что движок вычислил по указанному журналу при указанных настройках. Это не юридическое заключение, не установление фактов о каком-либо событии и не сертификация. Успешная проверка означает, что запись не изменена.
+
+js-tools-example-pack = Синтетический пример пакета
+
+js-tools-example-pack-note = Синтетический пакет, созданный командной строкой движка из демонстрационного журнала парома с демонстрационным ключом. Ключ подставлен ниже; ключ настоящего подписанта поступает от подписанта другим путём.
+
+js-tools-example-pack-tampered = Пример пакета с одним изменённым байтом в epochs.json
+
+js-tools-example-runs = Синтетические примеры прогонов
+
+js-tools-example-tampered-note = Один байт файла в пакете изменён после подписания. Проверьте его: проверка назовёт файл.
+
+js-tools-exporting = Экспорт…
+
+js-tools-field-whole-number = { $field }: нужно целое число
+
+js-tools-file-not-chosen = { $file } нет среди выбранных файлов
+
+js-tools-file-too-large = { $name } больше 64 MiB
+
+js-tools-files-selected = { $label }: { $files }
+
+js-tools-fingerprint-not-pinned = Отпечаток подписанта: { $fingerprint } (не закреплён: ключ, который пакет называет сам)
+
+js-tools-fingerprint-pinned = Отпечаток подписанта: { $fingerprint } (закреплён)
+
+js-tools-fitting = Подгонка…
+
+js-tools-framework-summary = { $name }: подкреплено доказательствами — { $evidenced }, частично — { $partly }, не подкреплено — { $notEvidenced }, вне области — { $outOfScope }
+
+js-tools-fw-dhs-rpcf = Рамочный документ DHS США по соответствию для устойчивого PNT (Resilient PNT Conformance Framework), v2.0
+
+js-tools-fw-easa-aviation = Руководство EASA по помехам GNSS для авиации
+
+js-tools-fw-en-16803 = EN 16803 (только по номеру части и пункта)
+
+js-tools-fw-imo-ships = Руководство IMO по помехам GNSS для судов
+
+js-tools-fw-nis2-art21 = Директива ЕС NIS2, статья 21
+
+js-tools-gst-none = нет
+
+js-tools-gst-text = неделя { $week }, { $tow } s
+
+js-tools-how-to-run = Как запустить
+
+js-tools-imu-file-too-large = { $name } больше 32 MiB; откройте фрагмент.
+
+js-tools-imu-mean-not-number = Удельная сила в покое не является числом (0 для горизонтальной оси, около 9.80665 для вертикальной).
+
+js-tools-imu-notice = { $evidence }: оценщик проверен на синтетических журналах белого шума с известными коэффициентами, а не по внешнему оракулу. Таблица называет SHA-256 журнала ({ $sha }…).
+
+js-tools-imu-selected = { $name } ({ $size }), прочитан здесь, никогда не загружается.
+
+js-tools-jt-events-count = Запланированных событий: { $n }
+
+js-tools-jt-events-note = как расписание истины: плановые слоты, а не записанное время в эфире. Не РЧ: { $nonRf }; вне журнала: { $outside }; неизвестные идентификаторы: { $unknown }.
+
+js-tools-jt-guard-hold = Защитный интервал { $guard } s, удержание восстановления { $hold } s.
+
+js-tools-jt-guard-hold-overlap = Защитный интервал { $guard } s, удержание восстановления { $hold } s. Базовый уровень калибровки пересёкся с запланированным слотом.
+
+js-tools-jt-import-needs-start = Для импорта нужна первая эпоха журнала в UTC (ISO 8601), потому что план задан в местном времени.
+
+js-tools-jt-sel-catalogue = каталог { $name }
+
+js-tools-jt-sel-log = журнал { $name } ({ $size })
+
+js-tools-jt-sel-no-catalogue = нет каталога
+
+js-tools-jt-sel-no-log = нет журнала
+
+js-tools-jt-sel-no-plan = нет плана
+
+js-tools-jt-sel-plans = Файлов плана: { $n }
+
+js-tools-jt-slot-range = от { $from } до { $to }
+
+js-tools-jt-what-area = Область испытаний
+
+js-tools-jt-what-guard = Защитный интервал
+
+js-tools-jt-what-hold = Удержание восстановления
+
+js-tools-jt-what-offset = Смещение от UTC
+
+js-tools-jt-what-year = Год плана
+
+js-tools-label-command = команда
+
+js-tools-label-pinned-command = закреплённая команда
+
+js-tools-label-settings-example = пример настроек { $n }
+
+js-tools-loading = Загрузка…
+
+js-tools-max-runs = Не более { $max } прогонов.
+
+js-tools-merkle-root-format = Корень Меркла — 64 шестнадцатеричные цифры.
+
+js-tools-must-be-number = { $what }: нужно число
+
+js-tools-must-be-whole-zero = { $what }: нужно целое число, 0 означает «не задано»
+
+js-tools-na = н/д
+
+js-tools-needs = Нужно: { $requires }
+
+js-tools-no = нет
+
+js-tools-none = нет
+
+js-tools-none-in-build = в этой сборке нет
+
+js-tools-not-in-browser = Не в браузере.
+
+js-tools-not-osnma = Не результат OSNMA
+
+js-tools-not-used = Не использовано: { $item }
+
+js-tools-notes = Примечания
+
+js-tools-open = Открыть
+
+js-tools-osnma-advisory = Носит консультативный характер: это результат анализа и мониторинга, а не навигационное оборудование с утверждённым типом. Сообщаемый здесь статус аутентификации не является службой целостности навигации и не должен служить единственным основанием для какого-либо решения по навигации или безопасности.
+
+js-tools-osnma-authenticated = Аутентифицировано
+
+js-tools-osnma-caption = Статус аутентификации по каждому спутнику
+
+js-tools-osnma-demo-note = Одноразовый открытый ключ подставлен; нажмите «Проверить», чтобы запустить проверяющий модуль здесь, или покажите записанный результат.
+
+js-tools-osnma-discarded = Отброшено
+
+js-tools-osnma-events = Что увидел проверяющий модуль
+
+js-tools-osnma-examples-missing = синтетических примеров в этой сборке пока нет
+
+js-tools-osnma-failed = Ошибка
+
+js-tools-osnma-nma-alert = Статус NMA { $status }; система выдала сообщение-предупреждение.
+
+js-tools-osnma-nma-status = Статус NMA { $status }.
+
+js-tools-osnma-not-json = Это не JSON команды kshana osnma verify --json (нужны overall и satellites).
+
+js-tools-osnma-overall = Итог: { $status }
+
+js-tools-osnma-pages-read = Прочитано страниц: { $n }.
+
+js-tools-osnma-pending = Ожидает
+
+js-tools-osnma-recorded-failed = записанный результат не загрузился
+
+js-tools-osnma-recorded-result = Записанный результат kshana osnma verify --json для { $file }.
