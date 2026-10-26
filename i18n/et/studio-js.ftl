@@ -7009,3 +7009,465 @@ js-lunarinfra-rel-title = Kui hästi saab iga parameetri nominaalväärtuse vast
 js-lunarinfra-result-not-json = tulemus ei ole JSON ({ $reason })
 
 js-lunarinfra-result-not-loaded = salvestatud tulemus { $file } ei laadinud
+
+js-lunarinfra-row-above-95 = Katsed üle 95 % punkti (hii-ruut 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Cramér-Rao jälg
+
+js-lunarinfra-row-degeneracy = Degeneratsioonimõõdik
+
+js-lunarinfra-row-formal-diff = Selle vahe formaalne sigma
+
+js-lunarinfra-row-ground-meas = Maapealne: mõõtmised, epohhid jaamaga
+
+js-lunarinfra-row-mean-diff = Kahe orbiidi keskmine vahe
+
+js-lunarinfra-row-mean-q = Keskmine q (oodatud 6)
+
+js-lunarinfra-row-observations = Vaatlused
+
+js-lunarinfra-row-onboard-epochs = Pardal: epohhid ühe või enama / nelja või enama satelliidiga
+
+js-lunarinfra-row-onboard-meas = Pardal: mõõtmised, jälgitud satelliitide keskmine arv
+
+js-lunarinfra-row-origin-scale = Alguspunkti ja skaala korrelatsioon
+
+js-lunarinfra-row-origin-sigma = Alguspunkti sigma, m
+
+js-lunarinfra-row-rank-defect = Aste (defekt)
+
+js-lunarinfra-row-smallest-eig = Vähim omaväärtus
+
+js-lunarinfra-row-trace-ground = Valim formaalse jälje suhtes, maapealne
+
+js-lunarinfra-row-trace-onboard = Valim formaalse jälje suhtes, pardal
+
+js-lunarinfra-row-within-95 = Katsed 95 % punkti piires
+
+js-lunarinfra-series-bootstrapped = alglaadimisega
+
+js-lunarinfra-series-floor = põhi
+
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+js-lunarinfra-side-note = Orbiit: { $family }, { $arc }-päevane kaar { $period }-päevasest orbiidist, valimiga iga { $sample } s järel.
+
+js-lunarinfra-side-title = Kõrvuti
+
+js-lunarinfra-sigma-note = Ühe sigma asukoha määramatus komponentide kaupa, meetrites, sama kaare kahest hinnangust.
+
+js-lunarinfra-sigma-over-nominal = sigma / nominaal
+
+js-lunarinfra-sigma-title = Kui hästi kumbki pool orbiiti tunneb
+
+js-lunarinfra-station-days = jaam, { $days } p
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Perekonna lisamine ei langetanud kunagi vähimat omaväärtust ({ $lambda } lisamisest { $pairs }-st), kuid pseudoöördmaatriksi jälg ei olnud suurem ainult { $trace } juhul { $pairs }-st, sest lisatud perekond võib astet tõsta.
+
+js-lunarinfra-subsets-title = Perekondade iga kombinatsioon
+
+js-lunarinfra-sweep-note = Iga nihke halvim translatsioonikomponent meetrites, kui kolme tehnika vahelise sideme viga kosmoseaparaadil pühitakse. Registreeritud tehnikate sigmade korral (GNSS { $gnss } m, VLBI { $vlbi } m, laser { $slr } m) piiravad nihkeid mõõtemüra, mitte side; side seab põhja ainult peaaegu täiusliku tehnika korral.
+
+js-lunarinfra-sweep-title = Tehnikanihete täpsus kohaliku sideme suhtes ({ $days }-päevane kaar)
+
+js-lunarinfra-th-arc-days = Kaar, päeva
+
+js-lunarinfra-th-bar = Lävi
+
+js-lunarinfra-th-bootstrapped = Alglaadimisega määr
+
+js-lunarinfra-th-budget-exhausted = Otsingubilanss ammendatud (katseid)
+
+js-lunarinfra-th-common-sats = Epohhid 2 või enama ühise satelliidiga
+
+js-lunarinfra-th-crtrace = Cramér-Rao jälg
+
+js-lunarinfra-th-dd-ambiguities = Topeltdiferentsi mitmetähenduslikkused
+
+js-lunarinfra-th-epochs = Epohhid
+
+js-lunarinfra-th-families = Perekonnad
+
+js-lunarinfra-th-family = Perekond
+
+js-lunarinfra-th-local-tie = Kohaliku sideme sigma, m
+
+js-lunarinfra-th-mc-fix-rate = Monte Carlo fikseerimise määr
+
+js-lunarinfra-th-median-ambiguity = Mitmetähenduslikkuse mediaansigma, tsüklit
+
+js-lunarinfra-th-offset = Nihe
+
+js-lunarinfra-th-quantity = Suurus
+
+js-lunarinfra-th-rank = Aste
+
+js-lunarinfra-th-rotation = Pööre pinnal, m
+
+js-lunarinfra-th-rows = Read
+
+js-lunarinfra-th-scale = Skaala pinnal, m
+
+js-lunarinfra-th-smallest-eig = Vähim omaväärtus
+
+js-lunarinfra-th-translation = Translatsioon x, y, z, m
+
+js-lunarinfra-th-value = Väärtus
+
+js-lunarinfra-th-verdict = Otsus
+
+js-lunarinfra-th-with-links = Orbiiterilinkidega
+
+js-lunarinfra-th-without-links = Ilma orbiiterilinkideta
+
+js-lunarinfra-title-carrier-phase = Kandelaine faas, pind ja orbiiter
+
+js-lunarinfra-title-frame-coestimation = Tugisüsteemi ühishindamine
+
+js-lunarinfra-title-geodesy-sensitivity = Love'i arvud ja libratsioon
+
+js-lunarinfra-title-od-consistency = Orbiidi määramise kooskõla
+
+js-lunarinfra-title-space-tie = Kosmoseside
+
+js-lunarinfra-unknown-study = see Kuu infrastruktuuri tulemus on uuring „{ $study }“, mida see leht ei loe
+
+js-lunarinfra-where-missed = Kus see uuring jäi lävest alla.
+
+js-lunarinfra-with-links = orbiiterilinkidega
+
+js-lunarinfra-without-links = ilma orbiiterilinkideta
+
+js-lunarinfra-x-arc-length = kaare pikkus, päeva
+
+js-lunarinfra-x-local-tie = kohaliku sideme sigma, m (log)
+
+js-lunarinfra-y-fixed-correctly = õigesti fikseeritud, %
+
+js-lunarinfra-y-offset-sigma = nihke sigma, m (log); katkendjooneline põhi on ainult side, sqrt(2) × sideme viga
+
+js-meaning-body-generic = keha
+
+js-meaning-body-the = { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of =
+    { $n ->
+        [one] { $av } kontrollist { $n }-st
+       *[other] { $av } kontrollist { $n }-st
+    }
+
+js-meaning-coverage-average-label = Keskmiselt nähtav
+
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Igas kohas on nähtaval vähemalt { $n } satelliit, keskmiselt { $mean }.
+       *[other] Igas kohas on nähtaval vähemalt { $n } satelliiti, keskmiselt { $mean }.
+    }
+
+js-meaning-coverage-big-none = Mõnes kohas ei näe ajuti ühtegi satelliiti; keskmiselt on nähtaval { $mean }.
+
+js-meaning-coverage-fewest-label = Vähim nähtavaid, kõikjal
+
+js-meaning-coverage-line-many = Koos { $names } on asukohafikseering võimalik { $share } % kohtadest ja aegadest keha { $body } ümber.
+
+js-meaning-coverage-line-many-pdop = Koos { $names } on asukohafikseering võimalik { $share } % kohtadest ja aegadest keha { $body } ümber (geomeetria kvaliteet, PDOP, alla { $thr }).
+
+js-meaning-coverage-line-none = Asukohafikseering on võimalik { $share } % kohtadest ja aegadest keha { $body } ümber.
+
+js-meaning-coverage-line-none-pdop = Asukohafikseering on võimalik { $share } % kohtadest ja aegadest keha { $body } ümber (geomeetria kvaliteet, PDOP, alla { $thr }).
+
+js-meaning-coverage-line-one = Koos { $names } on asukohafikseering võimalik { $share } % kohtadest ja aegadest keha { $body } ümber.
+
+js-meaning-coverage-line-one-pdop = Koos { $names } on asukohafikseering võimalik { $share } % kohtadest ja aegadest keha { $body } ümber (geomeetria kvaliteet, PDOP, alla { $thr }).
+
+js-meaning-coverage-places-label = Kohad, kus fikseering saadakse
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } päev
+       *[other] { $days } päeva
+    }
+
+js-meaning-ensemble-big-many = Paljude müravalimite peale hoiab { $q } { $thr } ns piires keskmiselt { $qd }; { $c } { $cd }.
+
+js-meaning-ensemble-big-runs =
+    { $n ->
+        [one] { $n } müravalimi peale hoiab { $q } { $thr } ns piires keskmiselt { $qd }; { $c } { $cd }.
+       *[other] { $n } müravalimi peale hoiab { $q } { $thr } ns piires keskmiselt { $qd }; { $c } { $cd }.
+    }
+
+js-meaning-ensemble-line = Üheksa valimit kümnest hoiavad { $name } alates { $band }.
+
+js-meaning-ensemble-mean = keskmine
+
+js-meaning-ensemble-mean-band = keskmine; 90 % riba { $band }
+
+js-meaning-error-p95-label = Viga, 95 % ajast, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Samuti sellest käigust: { $a }.
+
+js-meaning-generic-line-two = Samuti sellest käigust: { $a } ja { $b }.
+
+js-meaning-generic-none = Sellel käigul pole ühte peamist näitajat; allolev diagramm näitab selle tulemust.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = horisontaalne kaitsetase
+
+js-meaning-inside-budget = { $budget } piires
+
+js-meaning-integrity-big-checks-mostly = Jah, enamasti: { $share } % kontrollidest.
+
+js-meaning-integrity-big-checks-no = Ei: { $share } % kontrollidest.
+
+js-meaning-integrity-big-checks-partly = Ainult osaliselt: { $share } % kontrollidest.
+
+js-meaning-integrity-big-checks-yes = Jah: { $share } % kontrollidest.
+
+js-meaning-integrity-big-span-mostly = Jah, enamasti: { $share } % ulatusest { $span }.
+
+js-meaning-integrity-big-span-no = Ei: { $share } % ulatusest { $span }.
+
+js-meaning-integrity-big-span-partly = Ainult osaliselt: { $share } % ulatusest { $span }.
+
+js-meaning-integrity-big-span-yes = Jah: { $share } % ulatusest { $span }.
+
+js-meaning-integrity-bound-label = Tüüpiline veapiir
+
+js-meaning-integrity-bound-sub = horisontaalne / vertikaalne, mediaan
+
+js-meaning-integrity-gap-all-passed = iga kontroll läbiti
+
+js-meaning-integrity-gap-label = Pikim tühimik
+
+js-meaning-integrity-gap-none = puudub
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } kontroll järjest, alates { $from }
+       *[other] { $n } kontrolli järjest, alates { $from }
+    }
+
+js-meaning-integrity-line-h =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt) { $av } kontrollil { $tot }-st.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt) { $av } kontrollil { $tot }-st.
+    }
+
+js-meaning-integrity-line-h-clean =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt) { $av } kontrollil { $tot }-st ja ükski fikseering ei olnud eksitav.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt) { $av } kontrollil { $tot }-st ja ükski fikseering ei olnud eksitav.
+    }
+
+js-meaning-integrity-line-h-some =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt) { $av } kontrollil { $tot }-st; { $n } fikseering oli eksitav.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt) { $av } kontrollil { $tot }-st; { $n } fikseeringut olid eksitavad.
+    }
+
+js-meaning-integrity-line-hv =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt ja { $v } m vertikaalselt) { $av } kontrollil { $tot }-st.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt ja { $v } m vertikaalselt) { $av } kontrollil { $tot }-st.
+    }
+
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt ja { $v } m vertikaalselt) { $av } kontrollil { $tot }-st ja ükski fikseering ei olnud eksitav.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt ja { $v } m vertikaalselt) { $av } kontrollil { $tot }-st ja ükski fikseering ei olnud eksitav.
+    }
+
+js-meaning-integrity-line-hv-some =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt ja { $v } m vertikaalselt) { $av } kontrollil { $tot }-st; { $n } fikseering oli eksitav.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $h } m horisontaalselt ja { $v } m vertikaalselt) { $av } kontrollil { $tot }-st; { $n } fikseeringut olid eksitavad.
+    }
+
+js-meaning-integrity-line-none =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretaseme all { $av } kontrollil { $tot }-st.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretaseme all { $av } kontrollil { $tot }-st.
+    }
+
+js-meaning-integrity-line-none-clean =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretaseme all { $av } kontrollil { $tot }-st ja ükski fikseering ei olnud eksitav.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretaseme all { $av } kontrollil { $tot }-st ja ükski fikseering ei olnud eksitav.
+    }
+
+js-meaning-integrity-line-none-some =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretaseme all { $av } kontrollil { $tot }-st; { $n } fikseering oli eksitav.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretaseme all { $av } kontrollil { $tot }-st; { $n } fikseeringut olid eksitavad.
+    }
+
+js-meaning-integrity-line-v =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $v } m vertikaalselt) { $av } kontrollil { $tot }-st.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $v } m vertikaalselt) { $av } kontrollil { $tot }-st.
+    }
+
+js-meaning-integrity-line-v-clean =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $v } m vertikaalselt) { $av } kontrollil { $tot }-st ja ükski fikseering ei olnud eksitav.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $v } m vertikaalselt) { $av } kontrollil { $tot }-st ja ükski fikseering ei olnud eksitav.
+    }
+
+js-meaning-integrity-line-v-some =
+    { $n ->
+        [one] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $v } m vertikaalselt) { $av } kontrollil { $tot }-st; { $n } fikseering oli eksitav.
+       *[other] Vastuvõtja veapiir (selle kaitsetase) püsis häiretasemete all ({ $v } m vertikaalselt) { $av } kontrollil { $tot }-st; { $n } fikseeringut olid eksitavad.
+    }
+
+js-meaning-integrity-misleading-label = Eksitavad fikseeringud
+
+js-meaning-integrity-misleading-sub = tegelik viga üle piiri
+
+js-meaning-integrity-trusted-label = Aeg, mil fikseeringut saab usaldada
+
+js-meaning-jamming-above-label = Segaja signaalist kõrgemal
+
+js-meaning-jamming-above-sub = keskmine segaja ja signaali võimsuse suhe
+
+js-meaning-jamming-big-gone = Segaja võtab asukohafikseeringu täielikult ära.
+
+js-meaning-jamming-big-share = Segajaga on fikseering kättesaadav { $share } % ajast.
+
+js-meaning-jamming-clear-label = Fikseering kättesaadav, segajata
+
+js-meaning-jamming-fewest-label = Vähim jälgitud satelliite
+
+js-meaning-jamming-fewest-sub = halvimal hetkel
+
+js-meaning-jamming-jammed-label = Fikseering kättesaadav, segatud
+
+js-meaning-jamming-line = Ilma segajata on fikseering kättesaadav { $share } % ajast.
+
+js-meaning-jamming-line-js = Ilma segajata on fikseering kättesaadav { $share } % ajast; segaja saabub keskmiselt { $db } dB signaalist kõrgemal.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Jah: igal { $n } kontrollil.
+       *[other] Jah: igal { $n } kontrollil.
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] Ei: ühelgi { $n } kontrollil.
+       *[other] Ei: ühelgi { $n } kontrollil.
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] { $av } kontrollil { $n }-st ({ $share } %).
+       *[other] { $av } kontrollil { $n }-st ({ $share } %).
+    }
+
+js-meaning-lunar-largest-label = Suurim veapiir
+
+js-meaning-lunar-line = Kaitsetase ulatus vahemikus { $min } kuni { $max } m häiretaseme { $limit } m vastu.
+
+js-meaning-lunar-meet-label = Kontrollid, mis häiretaseme täidavad
+
+js-meaning-lunar-meet-value = { $av } { $tot }-st
+
+js-meaning-lunar-smallest-label = Väikseim veapiir
+
+js-meaning-median-lower-better = mediaan, madalam on parem
+
+js-meaning-of-the-time = ajast
+
+js-meaning-orbit-best-label = Parim geomeetria (PDOP)
+
+js-meaning-orbit-best-sub = madalaim käigu jooksul
+
+js-meaning-orbit-big-always = Fikseering on võimalik kogu aeg.
+
+js-meaning-orbit-big-share = Fikseering on võimalik { $share } % ajast.
+
+js-meaning-orbit-error-label = Tüüpiline asukohaviga
+
+js-meaning-orbit-error-sub = 1-sigma, mediaan
+
+js-meaning-orbit-line =
+    { $n ->
+        [one] Piisavalt satelliite oli nähtaval { $fix } hetkel { $n }-st.
+       *[other] Piisavalt satelliite oli nähtaval { $fix } hetkel { $n }-st.
+    }
+
+js-meaning-orbit-line-pdop =
+    { $n ->
+        [one] Piisavalt satelliite oli nähtaval { $fix } hetkel { $n }-st; tüüpiline geomeetria kvaliteet (PDOP, asukoha täpsuse halvenemise tegur) on { $pdop }, madalam on parem.
+       *[other] Piisavalt satelliite oli nähtaval { $fix } hetkel { $n }-st; tüüpiline geomeetria kvaliteet (PDOP, asukoha täpsuse halvenemise tegur) on { $pdop }, madalam on parem.
+    }
+
+js-meaning-orbit-moments =
+    { $n ->
+        [one] { $fix } hetke { $n }-st
+       *[other] { $fix } hetke { $n }-st
+    }
+
+js-meaning-orbit-time-label = Aeg, mil fikseering on võimalik
+
+js-meaning-pair-big-diff-pos = { $best } püsib piires { $budget } { $bestDur }; { $other } { $otherDur }.
+
+js-meaning-pair-big-diff-time = { $best } hoiab aega piires { $budget } { $bestDur }; { $other } { $otherDur }.
+
+js-meaning-pair-big-same-pos = Nii { $q } kui ka { $c } püsivad piires { $budget } { $dur }.
+
+js-meaning-pair-big-same-time = Nii { $q } kui ka { $c } hoiavad aega piires { $budget } { $dur }.
+
+js-meaning-pair-line-clock = Holdover on see, kui kaua iga kell püsib bilansi { $budget } sees pärast satelliitnavigatsiooni kaotust.
+
+js-meaning-pair-line-navigator = Holdover on see, kui kaua iga navigaator püsib bilansi { $budget } sees pärast satelliitnavigatsiooni kaotust.
+
+js-meaning-pdop-label = Geomeetria kvaliteet (PDOP)
+
+js-meaning-places-times = kohtadest ja aegadest
+
+js-meaning-range-to = { $from } kuni { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] satelliit
+       *[other] satelliiti
+    }
+
+js-meaning-spectrum-above = läve kohal
+
+js-meaning-spectrum-below = läve all: kadunud
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] Jälgimine jätkub igal { $n } signaalil.
+       *[other] Jälgimine jätkub igal { $n } signaalil.
+    }
+
+js-meaning-spectrum-big-lost =
+    { $n ->
+        [one] Segajad võtavad ära { $lost } signaali { $n }-st: { $names }.
+       *[other] Segajad võtavad ära { $lost } signaali { $n }-st: { $names }.
+    }
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } püsib kogu käigu vältel vastuvõtja jälgimisläve kohal.
+       *[other] { $names } püsivad kogu käigu vältel vastuvõtja jälgimisläve kohal.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } püsib kogu käigu vältel vastuvõtja jälgimisläve { $thr } dB-Hz kohal.
+       *[other] { $names } püsivad kogu käigu vältel vastuvõtja jälgimisläve { $thr } dB-Hz kohal.
+    }
+
+js-meaning-spectrum-line-none = Ükski signaal ei püsi kogu käigu vältel vastuvõtja jälgimisläve kohal.

@@ -3502,3 +3502,534 @@ js-cat-leo-pnt-mega-shell-question = Jakie pokrycie i geometrię daje 5,000-sate
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:192
 js-cat-leo-pnt-mega-shell-title = Projekt niskiej orbity z 5,000 satelitów
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+js-cat-lunar-beacon-question = O ile garść pomierzonych latarni na powierzchni zmniejsza DOP w rejonie bieguna południowego? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+js-cat-lunar-beacon-title = Latarnie na powierzchni Księżyca
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+js-cat-lunar-differential-pnt-question = W jakim stopniu korekcja różnicowa znosi błąd wspólny w porównaniu z punktem odniesienia na Księżycu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+js-cat-lunar-differential-pnt-title = Księżycowe PNT różnicowe
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+js-cat-lunar-frame-campaign-question = Jaką dokładność układu odniesienia daje kampania obserwacyjna zamiast wstrzykniętej transformacji? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+js-cat-lunar-frame-campaign-title = Kampania układu księżycowego
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+js-cat-lunar-frame-realisation-question = Czy dopasowanie układu odniesienia metodą Helmerta może odtworzyć transformację księżycowego układu odniesienia? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+js-cat-lunar-frame-realisation-title = Układ księżycowy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+js-cat-lunar-infrastructure-carrier-phase-question = Czy stacja na powierzchni i orbiter mogą razem rozwiązać całkowitoliczbowe niejednoznaczności fazy nośnej sygnałów ziemskiego GNSS? Szybki przebieg przykładowy. (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+js-cat-lunar-infrastructure-carrier-phase-title = Faza nośnej na Księżycu: stacja na powierzchni i orbiter
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+js-cat-lunar-infrastructure-frame-coestimation-question = O ile więcej informacji pomiary odległości orbiter–stacja na powierzchni dodają do siedmiu parametrów księżycowego układu odniesienia? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+js-cat-lunar-infrastructure-frame-coestimation-title = Współestymacja układu księżycowego z łączami orbitera
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+js-cat-lunar-infrastructure-geodesy-sensitivity-question = Jak czułe na h2, k2, l2 i libracje są pomiary laserowe, śledzenie orbitera, grawimetr i zegar na powierzchni? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+js-cat-lunar-infrastructure-geodesy-sensitivity-title = Liczby Love'a Księżyca i czułość na libracje
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+js-cat-lunar-infrastructure-od-consistency-model-error-question = To samo porównanie z wstrzykniętym małym niemodelowanym przyspieszeniem: czy kontrola spójności to zauważa? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+js-cat-lunar-infrastructure-od-consistency-model-error-title = Wyznaczanie orbity księżycowej z wstrzykniętym błędem modelowania
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+js-cat-lunar-infrastructure-od-consistency-question = Czy pokładowe wyznaczanie orbity z ziemskiego GNSS na księżycowej orbicie halo i niezależne naziemne radiometryczne wyznaczanie orbity zgadzają się w granicach podanych niepewności? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+js-cat-lunar-infrastructure-od-consistency-title = Wyznaczanie orbity księżycowej: pokładowe GNSS a śledzenie naziemne
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+js-cat-lunar-infrastructure-space-tie-question = Jak precyzyjnie można powiązać przesunięcia między trzema technikami, w porównaniu z błędem powiązania lokalnego? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+js-cat-lunar-infrastructure-space-tie-title = Powiązanie kosmiczne: GNSS, VLBI i pomiary laserowe na jednym statku
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+js-cat-lunar-interop-export-question = Czy księżycowy układ odniesienia, czas i efemerydy mogą przejść tam i z powrotem przez CCSDS OEM i kopertę KIF?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+js-cat-lunar-interop-export-title = Eksport interoperacyjny księżycowy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+js-cat-lunar-jamming-question = Jak daleko może stać zagłuszarka, a mimo to uniemożliwić pracę odbiornikowi na powierzchni Księżyca? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+js-cat-lunar-jamming-title = Zagłuszanie na Księżycu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+js-cat-lunar-joint-od-clock-question = Czy powiązanie VLBI na bazie ziemskiej czyni obserwowalnym bezwzględne położenie stacji księżycowej? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+js-cat-lunar-joint-od-clock-title = Księżycowe wspólne OD + zegar
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+js-cat-lunar-llr-datum-question = Jak wygląda księżycowy układ odniesienia, gdy kampanią są rzeczywiste archiwalne pomiary laserowe Księżyca (LLR)? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+js-cat-lunar-llr-datum-title = Księżycowy układ odniesienia z pomiarów laserowych
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-relay-constellation-question = Jakie pokrycie całego Księżyca daje konstelacja przekaźników i nawigacji na zamrożonych i niskich orbitach księżycowych? (modelowane; przykładowy projekt)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-relay-constellation-title = Księżycowa konstelacja przekaźników
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+js-cat-lunar-station-coverage-public-sources-question = Przy wyłącznie publicznie podanych założeniach, jaki skorygowany błąd daje stacja nad biegunem południowym? Wynik zdominowały elementy orbity, które nie są publiczne i są ustawione jako ILLUSTRATIVE; to jest wejście zamrożonej prognozy. (modelowane; nie jest to twierdzenie o żadnym rzeczywistym systemie)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+js-cat-lunar-station-coverage-public-sources-title = Księżycowa stacja referencyjna, założenia publiczne
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+js-cat-lunar-station-coverage-question = Na obszarze bieguna południowego i w ciągu doby, jaki skorygowany błąd daje księżycowa stacja referencyjna i jak daleko od niej utrzymuje się pokrycie? (modelowane; nie jest to twierdzenie o żadnym rzeczywistym systemie)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+js-cat-lunar-station-coverage-terrain-question = Gdy horyzont każdego miejsca jest śledzony promieniami po rzeczywistym księżycowym modelu wysokości, ile pokrycia stacja traci przez ukształtowanie terenu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+js-cat-lunar-station-coverage-terrain-title = Księżycowa stacja z rzeczywistym terenem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+js-cat-lunar-station-coverage-title = Pokrycie księżycowej stacji referencyjnej
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+js-cat-lunar-station-geodesy-baseline-question = Jak dobrze dzisiejsze pięć macierzy retroreflektorów wiąże księżycowy układ odniesienia na rzeczywistym harmonogramie, zanim dodana zostanie jakakolwiek stacja? Punkt odniesienia dla pary. (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+js-cat-lunar-station-geodesy-baseline-title = Geodezja księżycowej stacji: same pięć macierzy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+js-cat-lunar-station-geodesy-with-station-question = Ten sam archiwalny harmonogram z jednym dodanym reflektorem na biegunie południowym i latarnią VLBI: o ile zacieśnia się granica układu odniesienia? (modelowane, miejsce ilustracyjne; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+js-cat-lunar-station-geodesy-with-station-title = Geodezja księżycowej stacji: ze stacją na biegunie południowym
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+js-cat-lunar-station-time-lab-question = Jak długo po ostatnim sterowaniu miniaturowego zegara rubidowego stacji do czasu księżycowego pozostaje on w granicach 1, 10 i 100 ns i który składnik błędu dominuje? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+js-cat-lunar-station-time-lab-title = Laboratorium czasu księżycowej stacji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+js-cat-lunar-time-budget-question = Jak duże jest przesunięcie czasu współrzędnych Ziemia–Księżyc i jaki jest jego budżet błędu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+js-cat-lunar-time-budget-title = Księżycowy budżet czasu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+js-cat-lunar-time-offset-question = Jak szybko zegar księżycowy odbiega od czasu ziemskiego (~56–59 µs/dobę)?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+js-cat-lunar-time-offset-title = Przesunięcie czasu księżycowego
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+js-cat-lunar-vlbi-fim-question = Jaką dokładność współrzędnych stacji faktycznie daje dany harmonogram śledzenia VLBI? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+js-cat-lunar-vlbi-fim-title = Informacja VLBI dla Księżyca
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+js-cat-lunar-vlbi-question = Jakie opóźnienie widzi para VLBI na bazie ziemskiej dla latarni na powierzchni Księżyca? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+js-cat-lunar-vlbi-title = VLBI dla Księżyca
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:65
+js-cat-maritime-port-approach-coast-question = Przy wejściu do portu bez GNSS, kiedy INS klasy nawigacyjnej opuszcza budżety portowy i oceaniczny? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:65
+js-cat-maritime-port-approach-coast-title = Wejście do portu na inercji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:64
+js-cat-maritime-spoof-position-push-question = Gdy spoofer przeciąga wyznaczenie pozycji statku o 500 m, które warstwy detekcji go wykrywają? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:64
+js-cat-maritime-spoof-position-push-title = Pozycja statku spoofowana
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:62
+js-cat-maritime-strait-jamming-question = Na 30 km otwartej wody, czy zagłuszarka 50 W odbiera statkowi GNSS? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:62
+js-cat-maritime-strait-jamming-title = Statek zagłuszany w cieśninie
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+js-cat-mars-orbit-pnt-question = Jak dobrze wyznaczana jest pozycja niskiego orbitera Marsa z dwunastu przekaźników nawigacyjnych i co dodaje pomiar odległości z Ziemi? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+js-cat-mars-orbit-pnt-title = Orbiter Marsa z przekaźnikami i łączem z Ziemią
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+js-cat-mars-pnt-lmo-question = Czy konstelacja przekaźników MARCONI może nawigować użytkownika na Marsie? (wskaźnik jakości z kowariancji, nie certyfikowany PL)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+js-cat-mars-pnt-lmo-title = PNT na Marsie, niska orbita
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+js-cat-mars-pnt-surface-question = Jak dobrze można nawigować lądownik lub łazik na obracającej się powierzchni Marsa względem konstelacji przekaźników?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+js-cat-mars-pnt-surface-title = PNT na Marsie, powierzchnia
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+js-cat-mars-pnt-transfer-question = Jak dobrze nawigowany jest pojazd na wysokim, ekscentrycznym łuku podejścia lub przechwycenia przy Marsie?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+js-cat-mars-pnt-transfer-title = PNT na Marsie, transfer
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+js-cat-meo-leo-fused-pvt-question = Co dodanie warstwy niskiej orbity do GPS i Galileo robi z błędem pozycji i geometrią? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+js-cat-meo-leo-fused-pvt-title = Połączone wyznaczenie pozycji GNSS i niskiej orbity
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-moonlight-service-volume-question = Jaki DOP, pokrycie i integralność daje biegunowi południowemu konstelacja klasy Moonlight/LCNS? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-moonlight-service-volume-title = Księżycowa objętość usługi
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+js-cat-multi-band-jamming-waterfall-question = Gdy sygnały nawigacyjne są rozłożone na czterech pasmach, co zostawia nietknięte zagłuszarka zbudowana na jedno pasmo? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+js-cat-multi-band-jamming-waterfall-title = Wodospad zagłuszania wielopasmowego
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:260
+js-cat-notinbrowser-elevation-model = Wymaga wycinka księżycowego modelu wysokości ({ $path }), który jest dostarczany z repozytorium, a nie z wersją przeglądarkową.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:257
+js-cat-notinbrowser-laser-ranging-data = Wymaga archiwalnego wycinka danych pomiarów laserowych, który jest dostarczany z repozytorium, a nie z wersją przeglądarkową.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:261
+js-cat-notinbrowser-study-suite = Zestaw badań, a nie pojedynczy scenariusz. Uruchom go narzędziem wiersza poleceń: { $command }.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+js-cat-ntn-5g-positioning-question = Jak precyzyjnie telefon może wyznaczyć swoją pozycję z łącza w dół sieci pozanaziemskiej 5G, według szerokości pasma sygnału? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+js-cat-ntn-5g-positioning-title = Wyznaczanie pozycji łączem w dół satelity 5G
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+js-cat-oem-interop-question = Czy efemerydy OEM z GMAT / Orekit / STK można zaimportować i przepuścić tam i z powrotem?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+js-cat-oem-interop-title = Most CCSDS OEM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+js-cat-optical-atmosphere-network-question = Jak często optyczne łącze synchronizacji czasu działa przez chmury i turbulencje i co dają dodatkowe stacje naziemne? (modelowane; ilustracyjne klimaty chmur)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+js-cat-optical-atmosphere-network-title = Łącze optyczne przez atmosferę, trzy stacje
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+js-cat-optical-atmosphere-techniques-question = Co dają jednemu łączu optycznemu w górę większa apertura, inna długość fali lub optyka adaptacyjna w chmurach i turbulencji? (modelowane; ilustracyjny klimat chmur)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+js-cat-optical-atmosphere-techniques-title = Techniki łącza optycznego
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+js-cat-orbit-gnss-challenged-question = Kiedy w ogóle możliwe jest wyznaczenie pozycji z geometrii satelitów?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+js-cat-orbit-gnss-challenged-title = Dostępność GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+js-cat-orbit-molniya-question = Czy użytkownik na silnie ekscentrycznej orbicie Mołnia nadal widzi dość satelitów GNSS w pobliżu apogeum?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+js-cat-orbit-molniya-title = Użytkownik na orbicie Mołnia
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+js-cat-orbit-multignss-question = O ile GPS i Galileo razem zwiększają dostępność i zmniejszają rozmycie dokładności?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+js-cat-orbit-multignss-title = Dostępność multi-GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+js-cat-orbit-real-tle-question = Jakie pokrycie zapewnia rzeczywista konstelacja podana jako dwuwierszowe zestawy elementów?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+js-cat-orbit-real-tle-title = Rzeczywiste dwuwierszowe elementy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+js-cat-orbit-rinex-question = Jaka dostępność wynika z rzeczywistych efemeryd rozgłoszeniowych RINEX 3?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+js-cat-orbit-rinex-title = Efemerydy rozgłoszeniowe
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+js-cat-orbit-sgp4-gps-question = Jak rzeczywista konstelacja podobna do GPS propaguje się w ciągu doby?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+js-cat-orbit-sgp4-gps-title = Orbity SGP4
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+js-cat-orbit-urban-canyon-skyline-question = Na dole miejskiej ulicy, przez jaką część doby GPS i Galileo dają cztery satelity i co pas nieba robi z PDOP? (modelowane; reprezentatywny skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+js-cat-orbit-urban-canyon-skyline-title = Dostępność na ulicy miasta
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+js-cat-passes-question = Kiedy satelita wschodzi i zachodzi nad stacją i na jak długo?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+js-cat-passes-title = Przeloty nad stacją
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+js-cat-polar-arctic-leo-coverage-question = Od równika do bieguna, jak zmieniają się satelity w zasięgu i geometria przy samym GNSS, przy samej polarnej warstwie niskiej orbity i przy obu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+js-cat-polar-arctic-leo-coverage-title = Od równika do bieguna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+js-cat-pvt-abmf-question = Czy rzeczywistą pozycję odbiornika można wyznaczyć z surowych pomiarów RINEX?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+js-cat-pvt-abmf-title = Wyznaczanie pozycji (SPP)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+js-cat-quantum-anomaly-detect-question = Jak dobrze wykrywane są uszkodzenia systemów kwantowych przy stałym współczynniku fałszywych alarmów? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+js-cat-quantum-anomaly-detect-title = Detekcja anomalii kwantowych
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+js-cat-quantum-cai-coast-question = Jak długo interferometr na zimnych atomach, opisany swoją fizyką, utrzymuje nawigację zliczeniową w granicach 100 m po utracie GNSS, w porównaniu z kwarcowym akcelerometrem klasy nawigacyjnej? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+js-cat-quantum-cai-coast-title = Przerwa z akcelerometrem kwantowym
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+js-cat-quantum-gnss-free-nav-question = Jak daleko dryfuje nawigator na zimnych atomach w porównaniu z INS klasy nawigacyjnej bez GNSS? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+js-cat-quantum-gnss-free-nav-title = Kwantowa nawigacja bez GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+js-cat-quantum-pnt-demonstrator-suite-question = Trzy obszary zastosowań kwantowych jako jedno badanie (zestaw badań z wiersza poleceń: kshana --study).
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+js-cat-quantum-pnt-demonstrator-suite-title = Badanie demonstratora kwantowego PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+js-cat-quantum-time-transfer-question = Co zaufany czas kwantowy daje w porównaniu z klasycznym łańcuchem CSAC + RF? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+js-cat-quantum-time-transfer-title = Kwantowy transfer czasu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+js-cat-quantum-trade-question = Jaki holdover synchronizacji czasu i układu inercyjnego daje kandydujący zegar w porównaniu z klasycznym punktem odniesienia? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+js-cat-quantum-trade-title = Studium kompromisów kwantowego PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:67
+js-cat-rail-tunnel-coast-question = Przy 160 km/h w tunelu, jak szybko INS klasy taktycznej opuszcza swój budżet? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:67
+js-cat-rail-tunnel-coast-title = Pociąg w tunelu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+js-cat-realtime-frame-eop-question = Jak duży błąd układu odniesienia wprowadza orientacja Ziemi w czasie rzeczywistym (prognozowana)? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+js-cat-realtime-frame-eop-title = Układ odniesienia i EOP w czasie rzeczywistym
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+js-cat-reentry-question = Jakie maksymalne przeciążenie i prędkość maksymalnego nagrzewania widzi balistyczne wejście w atmosferę?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+js-cat-reentry-title = Korytarz wejścia w atmosferę
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+js-cat-slot-timing-ocxo-leo-question = Jak długo oscylator kwarcowy w termostacie na małym satelicie niskiej orbity pozostaje w granicach swojego zabezpieczenia szczeliny po ostatnim wyznaczeniu pozycji z GNSS? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+js-cat-slot-timing-ocxo-leo-title = Synchronizacja szczelin
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:68
+js-cat-small-uas-jammed-nav-question = Gdy zagłuszarka odbiera GNSS, jak daleko dryfuje jednostka inercyjna klasy kontrolera lotu w porównaniu z jednostką klasy taktycznej?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:68
+js-cat-small-uas-jammed-nav-title = Mały dron pod zagłuszaniem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+js-cat-solar-system-tour-question = Gdzie jest każde ciało, które zna silnik, od Słońca do Plutona i dużych księżyców, i jak długo światło biegnie między nimi?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+js-cat-solar-system-tour-title = Układ Słoneczny w jednej epoce
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+js-cat-space-packet-question = Czy strumień pakietów CCSDS 133.0 koduje się i dekoduje co do bitu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+js-cat-space-packet-title = Space Packet
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+js-cat-space-weather-question = Jak aktywność słoneczna i geomagnetyczna zmienia gęstość termosfery? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+js-cat-space-weather-title = Pogoda kosmiczna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:73
+js-cat-spoof-attack-question = Czy narastający spoofing czasu zostaje wykryty, zanim osiągnie specyfikację?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:73
+js-cat-spoof-attack-title = Detekcja spoofingu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:74
+js-cat-spoof-detect-question = Czy połączony monitor RF i pomiarów może wykryć skoordynowany spoofing?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:74
+js-cat-spoof-detect-title = Wielowarstwowa detekcja spoofingu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:75
+js-cat-spoof-meaconing-question = Przy jawnie określonym kształcie ataku, jak często detektor energii wspomagany zegarem wykrywa spoofing przy stałym współczynniku fałszywych alarmów?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:75
+js-cat-spoof-meaconing-title = Statystyki detektora spoofingu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+js-cat-starlink-sop-doppler-positioning-question = Jak dobrze odbiornik może wyznaczyć swoją pozycję z Dopplera konstelacji szerokopasmowej, która nie wysyła komunikatu nawigacyjnego? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+js-cat-starlink-sop-doppler-positioning-title = Szerokopasmowe sygnały okazji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+js-cat-sweep-clock-stability-question = Jak zmienia się holdover, gdy przegląda się jeden parametr zegara?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+js-cat-sweep-clock-stability-title = Przegląd parametru
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+js-cat-sweep-nd-inertial-question = Jak wskaźnik jakości zmienia się na siatce wielu parametrów?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+js-cat-sweep-nd-inertial-title = Przegląd N-wymiarowy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+js-cat-telecom-prtc-holdover-24h-question = Czy wzorzec rubidowy, który traci GNSS na 24 godziny, pozostaje w granicach masek błędu czasu ITU-T? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+js-cat-telecom-prtc-holdover-24h-title = Holdover telekomunikacyjny, 24 h
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+js-cat-telecom-synce-eec-question = Czy swobodnie pracujący oscylator w termostacie pozostaje w granicach masek wanderu zegara urządzenia synchronicznego Ethernetu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+js-cat-telecom-synce-eec-title = Synchronizacja częstotliwości a maski SyncE
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+js-cat-telecom-tie-ingest-question = Czy zapis błędu przedziału czasu przechodzi maski MTIE i TDEV ITU-T?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+js-cat-telecom-tie-ingest-title = Sprawdzenie masek telekomunikacyjnych, Twoje dane
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+js-cat-terrain-nav-question = Czy wysokościomierz może skorygować dryf INS, dopasowując profil wysokości terenu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+js-cat-terrain-nav-title = Nawigacja terenowa
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+js-cat-terrain-slam-question = Czy filtr cząsteczkowy może śledzić zmienny w czasie dryf INS względem mapy terenu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+js-cat-terrain-slam-title = Terenowy SLAM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+js-cat-time-transfer-budget-question = Co składniki stacji, transpondera, jonosfery i Sagnaca robią z dwukierunkowym przesunięciem czasu i jaki jest jego budżet niepewności? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+js-cat-time-transfer-budget-title = Dwukierunkowy satelitarny transfer czasu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+js-cat-timetransfer-question = Jak ściśle dwie lokalizacje mogą pozostać zsynchronizowane przez łącze?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+js-cat-timetransfer-title = Transfer czasu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:69
+js-cat-tracking-loop-question = Przy jakim C/N0 odbiornik faktycznie traci uchwycenie sygnału i czy spoofer może przeciągnąć pętle? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:69
+js-cat-tracking-loop-title = Pętla śledząca
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+js-cat-xona-pulsar-end-to-end-question = Ten sam łańcuch na publicznych liczbach Xona Pulsar: sygnał, przelot, komunikat, połączone wyznaczenie pozycji i precyzyjne wyznaczanie pozycji. (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+js-cat-xona-pulsar-end-to-end-title = Od końca do końca, Xona Pulsar
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+js-cat-xona-pulsar-signals-question = Jak precyzyjnie odbiornik może mierzyć odległość na opublikowanych sygnałach X1 i X5 i jak duże jest przeszukiwanie akwizycji? (publiczna tabela sygnałów)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+js-cat-xona-pulsar-signals-title = Sygnały Xona Pulsar
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:71
+js-geo-a-place = Miejsce…
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:392
+js-geo-axis-east = E +{ $ext } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:392
+js-geo-axis-north = N +{ $ext } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:110
+js-geo-canyon-needs = Postać kanionu ulicznego wymaga silnika 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:142
+js-geo-canyon-out-of-range = Wartości kanionu ulicznego są poza zakresem (azymut 0 do 359.9°, szerokość 1 do 200 m, wysokości 0 do 500 m, antena 0 do 50 m); używany jest otwarty horyzont.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:159
+js-geo-canyon-reduced = Redukcja kanionu przez silnik do tabeli o 360 przedziałach.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:451
+js-geo-compute-failed = Silnik nie mógł obliczyć tego nieba: { $reason }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:428
+js-geo-computing = Obliczanie…
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:200
+js-geo-copy-link = Skopiuj ten link: { $url }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:340
+js-geo-count-below = Poniżej horyzontu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:338
+js-geo-count-hidden = Zasłonięte przez skyline
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:337
+js-geo-count-in-view = W zasięgu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:341
+js-geo-count-open-sky = Otwarte niebo
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:339
+js-geo-count-used = W rozwiązaniu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:302
+js-geo-cursor-live = Azymut { $az }°, skyline { $el }°.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:186
+js-geo-dated-sky = Datowane niebo jest tyle warte, ile elementy i ich wiek; ustawienia wstępne są pominięte.
