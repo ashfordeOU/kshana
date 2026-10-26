@@ -938,3 +938,396 @@ dat-c073884f991a = Analytisk datumdefektstruktur — det oobserverbara absoluta 
 
 # data/verification-matrix.json
 dat-0bdf3a5b6698 = ANISE { "0.10" } (Nyx Space, MPL-2.0) konvergerad newtonsk aberrationsljustid (Aberration::CN; motsvarar SPICE spkapo) över JPL DE440 — en oberoende SPICE-implementation i Rust; kshanas retarderade lösare med fast punkt matchade till under en nanosekund. De bredare siffrorna för Doppler / Shapiro / reducerat-dynamisk OD förblir MODELLED
+
+# studio/data/capabilities.json
+dat-44f0495a4f1c = OD i sats + sekventiell mot Orekit { "12.2" } BatchLSEstimator/KalmanEstimator
+
+# data/verification-matrix.json
+dat-4621d8bc35cb = Fusion i sats av VLBI + lokalt månavstånd + avstånd mellan satelliter för att återfå stationers och konstellationens positioner och klockor
+
+# data/verification-matrix.json
+dat-b0590c3e842c = Positionsbestämning med Gauss–Newton i sats utifrån avståndshastighet med analytiska partiella derivator (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = { "1" }), en konstant användarhastighet som tillval, en höjdpseudomätning för en användare på ytan, dämpade steg; den formella kovariansen vid referensen; projektioner längs banan, tvärs banan och vertikalt; noggrannheten för en enskild passage mot användarens tvärbaneförskjutning; tidpunkten för närmaste passage. Dopplerläget i typen `leo-pvt` lägger till felet mot fönsterlängd och ett läge med enbart Doppler för tillfälliga signaler (förinställningen starlink-sop)
+
+# data/verification-matrix.json
+dat-ba746448d779 = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } geostationär satellitposition från en broadcast-efemerid (tröghetsliknande system, därefter Rz(Ω̇e·tk)·Rx(−{ "5" }°)), frivillig via fältet include_beidou_geo i NavParseOptions, så att standardläsaren fortfarande hoppar över GEO
+
+# data/search.json
+dat-1fd3e4f89fe9 = Före varje incheckning — den snabba slingan
+
+# data/search.json
+dat-ab216e4e742e = Innan du pushar — den fullständiga grinden
+
+# data/verification-matrix.json
+dat-d8f4e06fdc29 = Primära avståndsmätningskoder för BeiDou B1I mot en oberoende generator
+
+# data/verification-matrix.json
+dat-c58c97b005f7 = BeiDou GEO-satellitens position enligt broadcast
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-3eb518cc8715 = BeiDou MEO Walker 24/3/1 + { "3" } GEO + { "3" } IGSO, BDS-OS-PS-3.0 ({ "2021" }) avsnitt { "4.1" }; MEO-fas och IGSO-noder modellerade
+
+# data/search.json
+dat-ed7e4ac24eb3 = Benchmark: ACES/PHARAO på ISS (i drift sedan april { "2025" })
+
+# data/search.json
+dat-2d834d01f94b = Benchmark: tavlan
+
+# data/verification-matrix.json
+dat-8bd4ae75fff9 = Enkeldifferentierad bärvågsfas och kod från jordens GNSS mellan mottagare, vid en månytestation och en omloppsfarkost, med klockdifferensen per epok profilerad bort, en ambiguitet per sammanhängande passage och den längsta passagen som gauge. Float-ambiguitetens kovarians är ett Schur-komplement; LAMBDA löser heltalen, den bootstrappade andelen redovisas bredvid en fröstyrd Monte Carlo-andel lyckade heltalsminstakvadratlösningar samt float- och fixlösningens positionssigman. Redovisat som funnet: vid den registrerade { "12" } dBi går dubbeldifferensproblemet inte att bilda (ändring { "1" } flyttade standardvärdet till { "25" } dBi sedan enbart tillgänglighetsantal setts), och vid { "25" } dBi uppnås heltalsfixering INTE - utom räckhåll (några procent som mest) trots att float-lösningen förbättras med bågen.
+
+# data/search.json
+dat-c68ab77c3f5a = Bortom de fyra paketen
+
+# data/search.json
+dat-a52abf7b2ae9 = Bortom L-bandet
+
+# data/search.json
+dat-1a8f0017f26b = Bortom handledningarna: nyare förmågor
+
+# data/verification-matrix.json
+dat-8586a1b74deb = Biancale och Bode, GFZ Scientific Technical Report STR06/01 ({ "2006" }), tabell { "5" }, modell A2: Ray ({ "2001" }) publicerad i fullt normaliserade harmoniska termer med sinusledande faser, en oberoende återgivning av samma modell. Förhandsregistrerad i xval/s2-air-tide-fix/PREREGISTRATION.md (5e31c37a) tillsammans med den korrigering den validerar. Omfattar bara koefficientomvandlingen; atmosfärstidvattnets geopotentialeffekt saknar externt orakel
+
+# data/search.json
+dat-4fd12ee9645c = Binärt format
+
+# js/developers-data.mjs
+dat-6414a240b793 = Bind en RFC { "3161" }-tidsstämpelmärke till ett bevispaket (`kshana evidence attach-timestamp`), i minnet: `files` är ett paket som `create_evidence_pack` returnerar det, `token_base64` byten i `.tsr`-filen från en tidsstämplingsmyndighet.
+
+# data/verification-matrix.json
+dat-b4508ee0db18 = BIPM Circular-T [UTC-UTC(USNO)] 5-dygnsserie MJD 56074-60429 ({ "872" } punkter, webtai-API); åtskild anpassning/test, flerårig täckning med nollgenomgångar
+
+# studio/data/capabilities.json
+dat-1be7b86d6c0b = bit för bit mot SOFA/ERFA · Vallado från början till slut { "4" } mm
+
+# studio/channels.json
+dat-4c1dbd9c056a = båtägare som kör en Signal K-server
+
+# data/verification-matrix.json
+dat-35b27a4fd74b = BOC({ "1,1" })-spårning: DLL-skalning och upplösning av bump-jump-ambiguitet (frivilligt)
+
+# data/verification-matrix.json
+dat-d18fa0ab8260 = Body får Merkurius, Venus, Jupiter, Saturnus, Uranus, Neptunus, Pluto, Phobos, Deimos, Io, Europa, Ganymedes, Callisto och Titan (gravitationsparameter, referensradie, J2 där den publicerats med den radie den hänför sig till, IAU-pol och nollmeridian), en namnuppslagning och en BodyFacts-post (NAIF-kod, klass, moder, ekvatorial och medelradie); typen `solar-system` redovisar dem för alla arton kroppar med positionerna, ljustiderna och ett banspår över ett varv, där varje kropp märks VALIDATED eller MODELLED
+
+# data/verification-matrix.json
+dat-edc2be2736d7 = body_pnt::tests (relay_period_is_keplers_third_law_for_the_body; an_orbiter_keeps_its_radius_and_a_lander_sits_on_the_surface; the_earth_range_never_worsens_the_formal_uncertainty; seeded_fix_errors_are_consistent_with_the_formal_sigma: kvadratmedelvärdet av varje positionsbestämningsfel över dess egen formella sigma i [{ "0.6" }, { "1.5" }]; earth_light_time_is_minutes_at_mars_and_the_run_is_deterministic; defaults_run_around_mars_and_every_number_has_a_unit)
+
+# data/search.json
+dat-3c4242e3fe49 = body-pnt (scenariotyp)
+
+# data/verification-matrix.json
+dat-fb651b4fbb52 = Body::iau_rotation_et, rotationen från J2000 till det IAU-kroppsfasta systemet för Merkurius, Venus, Jupiter, Saturnus, Uranus, Neptunus, Pluto, Phobos, Deimos, Io, Europa, Ganymedes, Callisto och Titan med varje sekelhastighet, kvadratisk term och periodisk term som kroppen bär i pck00011, och gravitationsparameterfältet mu för samma fjorton kroppar. Solen, jorden, månen och Mars bär konventionella konstanter som ägs av andra rader och täcks inte
+
+# data/verification-matrix.json
+dat-5664a5332dd2 = Begränsad optimering av ett mått över kampanjparametrar
+
+# data/verification-matrix.json
+dat-7244b96092bf = Solstrålningstryck med box-wing och ECOM2, med partiella derivator (frivilligt)
+
+# data/verification-matrix.json
+dat-092aa24052c3 = bplane::tests (förbiflygningsskalärerna uppfyller de slutna formerna med två samstämmiga |B|-identiteter och |B|>r_p; vridvinkeln minskar med periapsisradien och når gränserna δ→{ "0" } / δ→π; avböjning bevarar farten v∞ och roterar exakt med δ; assistansens Δv-storlek är lika med { "2" }·v∞·sin(δ/2) och begränsas av { "2" }·v∞; B-planets axlar är ortonormala och ⊥ Ŝ med |B|²=(B·T̂)²+(B·R̂)²; Tisserand-parametern är invariant över en v∞-bevarande avböjning som ändrar a,e,i, och är lika med { "3" }−(v∞/v_circ)²); tests/bplane_gmat_oracle.rs::bplane_matches_gmat_over_a_hyperbolic_grid; tests/bplane_heliocentric_oracle.rs::assist_delta_v_matches_gmat_asymptotes_and_c3; tests/bplane_heliocentric_oracle.rs::heliocentric_elements_and_tisserand_match_gmat_and_sbpy; tests/bplane_heliocentric_oracle.rs::tisserand_matches_kasuga_jewitt_2019_table_8_1
+
+# studio/data/capabilities.json
+dat-bfd075b5d48e = BPSK själv-SSC = 2/(3R_c) · DLL-jitter för C/A under en meter vid { "45" } dB-Hz · GPS C/A Gold-korskorrelation -23.9 dB
+
+# data/verification-matrix.json
+dat-4f48922ac2e8 = BPSK-R/BOC PSD, spektral separation κ, Gabor-bandbredd, DLL-jitter, flervägsutbredning
+
+# data/verification-matrix.json
+dat-9ac57d74bfcd = Inramade (bäst/nominell/konservativ) prestanda för kallatomsinterferometrar — biasinstabilitet, hastighets-/vinkelslumpvandring, skalfaktorstabilitet, samplingstakt begränsad av avfrågning, dynamiskt omfång för fransambiguitet — var och en spårbar till en källa; matar QuantumNavBudget utan att modellera hårdvara
+
+# studio/data/capabilities.json
+dat-ef2069410456 = broadcast-efemerid → PVT på verkliga data
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-b59d517d5cdb = Jonosfärsmodell i broadcast (Klobuchar, IS-GPS-200)
+
+# studio/data/capabilities.json
+dat-7517dd8e439e = broadcast-efemerid + SP3-interpolation mot RTKLIB; OEM mot en oberoende CCSDS-tolkare
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-ddaed06d68e0 = Satellitposition från broadcast-efemerid (RINEX för flera GNSS)
+
+# data/search.json
+dat-0b45aa779976 = Bredare rymdsystemsområden (utanför omfattningen i dag)
+
+# data/verification-matrix.json
+dat-292fe630b5c3 = budget_tests (bias mot AccelModel-integratorn; VRW mot analytisk integral); tests/quantum_inertial_dead_reckoning_reference.rs (VRW mot en oberoende dubbelintegration i numpy med Monte Carlo av vitt accelerationsbrus, sämsta avvikelse { "0.42" } % inom ±{ "3" } % över { "6" } glidtider; bias/skalfaktor mot ett slutet värde enligt Groves { "2013" }; holdover går tur och retur)
+
+# data/search.json
+dat-45ca8004aed9 = Budgetar (tid till överskridande)
+
+# js/developers-data.mjs
+dat-8d18b9143295 = Bygg en karta över GNSS-störningar från öppet licensierade positionsrapporter från flygplan (ADS-B NIC/NACp) eller fartyg (AIS) angivna som CSV-text (`kshana interference-map adsb|ais`).
+
+# data/search.json
+dat-294d1ca6907a = Bygg och kör lokalt
+
+# data/search.json
+dat-a91b87583cbd = Byggproveniens
+
+# data/verification-matrix.json
+dat-47ae8b0fb65c = Förlust vid byggnadsinträde för en LEO-PNT-användare inomhus
+
+# studio/data/capabilities.json
+dat-85f21b955e02 = Bygger en GeoJSON-karta per dygn över var flygplan (ADS-B) och fartyg (AIS) rapporterade försämrade navigeringsdata, från öppet licensierade indata, och den andel av en rutt som passerar genom försämrade celler. En försämrad cell är ett påstående om rapporterade noggrannhetsfält eller orimliga positioner, inte ett konstaterande av störning, och en cell som ingen observerade är inget belägg för en fri rutt. Tidigare rapporter, inte en prognos.
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-e3875438c697 = Inbyggd analytisk månefemerid — dess ANGIVNA NOGGRANNHETSGRÄNS kontrollerad mot verkliga data
+
+# data/search.json
+dat-0376514c4061 = Medföljande scenarier
+
+# studio/data/capabilities.json
+dat-c79b4c751a8a = Buntar fönstret kring en förtroendehändelse till ett hashkedjat, Ed25519-signerat paket som vem som helst kan verifiera offline: en ändrad, borttagen, utbytt eller tillagd fil, ett omsignerat paket eller en felaktig fastlåst nyckel namnges. Ett valfritt RFC { "3161" }-tidsstämpelmärke binds till det. En teknisk journal, inte ett juridiskt utlåtande, ett konstaterande av faktum eller ett intygande.
+
+# data/search.json
+dat-07eaa5d0dbe0 = Köpare och mottagartillverkare svarar inför offentliga resiliensramverk.
+
+# data/search.json
+dat-5b35889a8881 = I slutet har du propagerat den verkliga operativa GPS-konstellationen, läst av dess tillgänglighet och…
+
+# data/search.json
+dat-99ada4193e3f = I slutet har du kört en klock-holdover med GNSS-signaler (Global Navigation Satellite System) nekade…
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-bff0cee33ba0 = Bysantinsk gräns för blockgnista för detektering/identifiering i det autonoma månnätverket per nod (T3)
+
+# data/verification-matrix.json
+dat-d0d4207b1652 = byzantine_bound instansierar kodnings-/glesobserverbarhetsgränsen för säker tillståndsskattning på geometrin i nätverket per nod: en bysantinsk peer injicerar en godtycklig linjärkombination av de mätningar den deltar i, och nätverket DETEKTERAR varje koalition av ≤ f = block_spark − { "1" } peers och IDENTIFIERAR entydigt varje koalition av ≤ ⌊(block_spark − { "1" })/2⌋, där block_spark är den minsta peer-koalition vars staplade effektiva signaturer P⊥·B_T är kolumnrangbristfälliga. Peer-detekterbarhet är FULL KOLUMNRANG hos P⊥·B_j (ett block som inte är noll men rangbristfälligt är ett attackblock som ligger i range(G) och inte lämnar någon residual), inte bara P⊥·B_j ≠ { "0" }
+
+# studio/data/areas.json
+dat-c5a714b52f19 = C/N0 per band under körningen
+
+# data/verification-matrix.json
+dat-ba0eda3b5924 = Parameterblad för felmodell med CAI-källhänvisningar ({ "13503" })
+
+# studio/data/capabilities.json
+dat-696fffdd1360 = kalibrerad mot klockors datablad · holdover korskontrollerad mot van-Loan-kovariansrekursionen
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-c9318c63545c = Kalibrering av den öppna mottagarens C/N0- och låsmodeller mot resultat från IQ-kampanjer, med angivet prediktionsfel
+
+# assets/capabilities/capabilities.json
+dat-efdc1cc6e9e2 = Caltech/JPL/USGS, Voyager-mosaik
+
+# data/search.json
+dat-ffe6900af061 = campaign (scenariotyp)
+
+# js/missions-runs.mjs
+dat-80ffb4d81d7b = kampanj 1ce2687e8ded | L-bandsjamming från spektrumet, klock-holdover och en reserv med enbart Galileo | kedja: { "3" } faser över { "910" } s, { "0" } händelser, larm utlöst vid { "600" } s av rutnätet | { "8" } medlemskörningar (MODELLED)
+
+# js/missions-runs.mjs
+dat-b69fd4e5d1fa = kampanj 248395b851cc | GNSS störd, LEO-PNT bär användaren, integriteten upprätthålls | kedja: { "3" } faser över { "2100" } s, { "0" } händelser, larm utlöst vid { "60" } s av rutnätet | { "6" } medlemskörningar (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-ef2c218aa0e0 = kampanj 46aa07cb58fb | Svep av störsändareffekt: tillgänglighet och J/S mot sändareffekt | svep av `jamming`: { "13" } noder över [jammer_power] | { "13" } medlemskörningar (MODELLED)
+
+# js/missions-runs.mjs
+dat-a5da2062c236 = kampanj 49575d27b696 | Järnväg och sjöfart med ett LEO-lager | kedja: { "3" } faser över { "2520" } s, { "1" } händelse, larm utlöst vid { "1800" } s av rutnätet | { "4" } medlemskörningar (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-e28c5500c49c = kampanj 504dd3a57cbc | En störsändare, ett fartyg och en bil | compose: { "2" } medlemmar | { "2" } medlemskörningar (MODELLED)
+
+# js/missions-runs.mjs
+dat-30377fcc0cb9 = kampanj b4e35bde2b13 | Tidtagning för kritisk infrastruktur: holdover med LEO-tid | kedja: { "2" } faser över { "87000" } s, { "0" } händelser, larm utlöst vid { "0" } s av rutnätet | { "4" } medlemskörningar (MODELLED)
+
+# js/missions-runs.mjs
+dat-d0d2c727c86a = kampanj bfadd9e68eb7 | Spoofingövervakare mot fyra spoofare | compose: { "4" } medlemmar | { "4" } medlemskörningar (MODELLED)
+
+# js/missions-runs.mjs
+dat-4a8f0aafd0ae = kampanj ca7926631f76 | Tidtagning för 5G-basstationer: holdover och LEO-tid | kedja: { "1" } fas över { "86400" } s, { "2" } händelser, larm utlöst vid { "0" } s av rutnätet | { "3" } medlemskörningar (MODELLED)
+
+# js/missions-runs.mjs
+dat-2d7957360d8e = kampanj d416a2169656 | Autonomt fordon i en urban kanjon med ett LEO-lager | kedja: { "2" } faser över { "1500" } s, { "0" } händelser, larm utlöst vid { "470" } s av rutnätet | { "4" } medlemskörningar (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-000297ba019a = kampanj e093a8c2f169 | Monte Carlo: fritt gående klockfel mot dess slutna form | Monte Carlo av `clock`: { "200" } frön | { "200" } medlemskörningar (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-430aaa629886 = kampanj f87a4a0e0bab | Jamming, spoofing, holdover och integritet: ett sammanlänkat uppdrag | kedja: { "6" } faser över { "4570" } s, { "2" } händelser, larm utlöst vid { "2770" } s av rutnätet | { "18" } medlemskörningar (MODELLED)
+
+# data/search.json
+dat-895924d49c97 = Kampanj: befintliga scenariotyper sammansatta i en körning, med varje tal avläst från en verklig körning av den namngivna…
+
+# data/search.json
+dat-75c8ffdf7915 = Kampanjer (familj av scenariotyper)
+
+# data/verification-matrix.json
+dat-f6bc71872feb = Kandidatkontakter från varje satellit-stationspassage med dess ACM-datavolym; konflikter där en antenn skulle betjäna två satelliter inom sin vändtid eller en satellit skulle nedlänka till två stationer samtidigt; ett prioritetsviktat leveransmål begränsat vid varje satellits eftersläpning; en lat girig plan med marginalvärde, en först-till-kvarn-baslinje och en exakt förgrenings- och begränsningslösning (branch and bound) på upp till { "26" } kandidater, med den giriga planens optimalitetsgap redovisat. Kan köras som scenariotypen `contact-schedule`. Illustrativa indata; MODELLED.
+
+# data/search.json
+dat-b855536dbeca = Förmågor, var och en från en verklig körning
+
+# data/search.json
+dat-279ae845db46 = Förmågekort
+
+# data/search.json
+dat-182722030698 = Förmågeområden
+
+# data/search.json
+dat-41544549568b = Förmågeutforskaren
+
+# data/search.json
+dat-e13b73709ead = Förmågekarta — vad Kshana gör, delvis gör och inte gör
+
+# data/search.json
+dat-68a307c8cde3 = Förmågereferens
+
+# data/verification-matrix.json
+dat-bdfec2e4914a = Begränsad FLL-inpulling under standardutformningens golv för överlämning från FLL till PLL (frivilligt)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-ee245f89506c = Infångningsyta mot höjd och strålbredd
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-c65fdad2c9d8 = Bärvågsfasbaserad tätt kopplad GNSS/INS med float-ambiguiteter
+
+# data/search.json
+dat-3bb6c38e48d4 = Demonstrator för CCSDS 133.0-B Space Packet-ramning (TM/TC-interoperabilitet).
+
+# data/verification-matrix.json
+dat-85d7cbbb25bb = CCSDS 133.0-B Space Packet, kodning/avkodning av primärhuvud (version/typ/sek-huvud/APID/sekvensflaggor/räknare/datalängd) + ett ramningsscenario. Kan köras från CLI/bindningar som scenariotypen `space-packet` (scenarios/space-packet.toml)
+
+# data/search.json
+dat-985363b92ac9 = Ramning med CCSDS 133.0-B Space Packet Protocol: koda en syntetisk TM/TC-paketström (primärhuvud på 6 oktetter…
+
+# data/verification-matrix.json
+dat-90cb134154f2 = CCSDS 133.0-B-2 Space Packet-utvidgningar vid sidan av primärhuvudet: ett sekundärhuvud som bär en CCSDS 301.0-B-tidskod (CUC eller CDS, explicit eller implicit P-fält) och hjälpdata, CRC-16-fältet för paketfelskontroll, segmentering av en stor användardataenhet och dess återmontering, strömavkodning med kontroller av sekvensluckor och ordning, samt PUS-TM-paket. Utdata för primärhuvudet är byteidentisk med tidigare
+
+# data/verification-matrix.json
+dat-6f4ee4330504 = CCSDS { "502.0" } OEM-importör (parse_oem), tolerant mot COMMENT-rader / extra metadatanyckelord / kovariansblock och den exakta inversen till skrivaren; tur-och-retur + inläsning av extern fil med en hastighetskonsistenskontroll. Kan köras från CLI/bindningar som scenariotypen `oem-interop` (scenarios/oem-interop.toml)
+
+# data/verification-matrix.json
+dat-c005fb99b36d = CCSDS Attitude Data Messages (AEM, APM)
+
+# studio/data/capabilities.json
+dat-305bed28b58a = CCSDS OEM / OMM
+
+# data/verification-matrix.json
+dat-a09fe6fd6303 = Utbyte av CCSDS OEM-kovariansblock
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-81fb84292184 = Interoperabilitet för CCSDS OEM (import av efemerider från GMAT/Orekit/STK)
+
+# data/search.json
+dat-f3ad50f06d62 = Interoperabilitetsbrygga för CCSDS OEM: importera ett Orbit Ephemeris Message som producerats av en extern flygdynamik…
+
+# data/search.json
+dat-c54509018d82 = Demonstrator för interoperabilitetsbrygga för CCSDS OEM (interop med GMAT / Orekit / STK).
+
+# data/verification-matrix.json
+dat-0d74a24d5b31 = CCSDS Orbit Data Messages (OPM, OMM, OCM)
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-22d526a3d2f6 = Ramning av CCSDS Space Packet ({ "133.0" }) TM/TC
+
+# data/verification-matrix.json
+dat-870899be17fe = Sekundärhuvud, paketfelskontroll och segmentering för CCSDS Space Packet
+
+# studio/data/capabilities.json
+dat-fa0c4f0482f7 = CCSDS TDM
+
+# data/search.json
+dat-996215cff361 = Celeste IOD från början till slut (valfri förinställning): E5-konfiguration #1-signalen -> en Celeste IOD
+
+# data/search.json
+dat-0ce9aba972e5 = Signalutformningar för Celeste IOD: frekvensbanden och signalen "Classical Pilot"
+
+# data/verification-matrix.json
+dat-f5e2ce4e8b3e = CFAR med cellmedelvärde som alternativ vid IQ-inhämtning
+
+# data/search.json
+dat-de30acebc039 = Kedjor, nycklar och larm
+
+# data/search.json
+dat-459c7ebe6478 = Underhåll av ändringsloggen (obligatoriskt)
+
+# data/search.json
+dat-7b075a8b60bf = Sidfot med diagrammets proveniens
+
+# js/developers-data.mjs
+dat-fc6862562ae9 = Kontrollera LunaNet Augmented Forward Signal (AFS) mot den publicerade specifikationen, fastlåst till LNIS Version { "5" } Applicable Document { "1" } Volume A (LSIS-AFS V1.0, { "29" } januari { "2025" }) (`kshana lunanet-afs-check`, docs/LUNANET-AFS.md).
+
+# studio/data/capabilities.json
+dat-56b0b15994f4 = kontrollerad mot sluten form (uppskjutningsazimut · Allen-Eggers · SMAD)
+
+# assets/capabilities/capabilities.json
+dat-11a07c3e1da8 = chirp-sekretessenhet
+
+# js/evidence-data.mjs
+dat-48ce4205cbf8 = CI-fixtur, dynamisk (endast tillstånd)
+
+# js/evidence-data.mjs
+dat-8e464297a6f9 = CI-fixtur, nivå { "2" } (+ empirisk CPR)
+
+# studio/data/areas.json
+dat-e36146d35d6f = Cirkulär hastighet
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-2e84fba65a9c = Uppdragsanalys för cislunar rymd
+
+# data/search.json
+dat-29d77bb7fe8f = Navigering i cislunar rymd är ett observerbarhetsproblem: båglängdströsklar, Gram-matrisens konditionering och Dopplerhävstången
+
+# data/verification-matrix.json
+dat-5854e005d303 = cislunar_arc_recovery::tests och tests/cislunar_arc_recovery_reference.rs (båda gränserna och deras kvoter fastlåsta på det publicerade rutnätet; den uppmätta felkurvan jämförd med den formella kovariansen rad för rad med en gräns på en faktor två per rad och en geometrisk-medelvärdesgräns; en NEGATIV KONTROLL — den plana DRO-sextillståndsmodellen — som hävdar att kriteriet KAN misslyckas och att den oregulariserade estimatorn divergerar förbi { "1e6" } km i stället för att returnera ett rimligt litet fel; parametriseringsinvarians hävdad på varje prefix till { "1e-3" } relativt; en källtextvakt som tar bort kommentarer, strängliteraler och testmodulen och sedan misslyckas vid varje omnämnande av Jacobian, STM, SVD-rang eller SRIF-maskineri, mutationsverifierad genom att injicera ett förbjudet anrop; en kontroll enbart i test att de finita differenserna är lika med de analytiska raderna, så att linjäriseringen är känd som god medan den analytiska vägen förblir frånvarande i estimatorn; determinism hävdad byte för byte; det utgivna dokumentet cislunar-observability fastlåst genom nyckelmängd, kanoniskt fingeravtryck och sammanfattningsrad)
+
+# data/verification-matrix.json
+dat-27dbdca1096c = cislunar_observability::tests och observability_gramian::tests (standarddokumentet fastlåst bit för bit genom FNV-1a av dess JSON, sammanfattning och SVG, med explicita standardvärden som hävdas vara en no-op och de åtta utvidgningsnycklarna som hävdas vara FRÅNVARANDE så att fångsten inte kan återskapas till en självjämförelse; det additiva blocket `units` undantaget från frysningen genom att tas bort och hashas om mot den konstant som fastlåstes innan det fanns, vilket bevisar snarare än antar att inget utgivet har rubbats; rangens invarians under en homoskedastisk sigma hävdad vid σ = { "0" }, { "0.1" }, { "1" }, { "10" }, { "100" } m; σ_pos hävdad skala exakt linjärt med σ till { "1e-6" } relativt; DRO-nollrummet hävdat vara exakt koordinataxlarna z och ż med de två orsakerna åtskilda — en avståndsrad mellan koplanära rymdfarkoster har û_z = { "0" }, och CR3BP-blocket utanför planet kopplas isär exakt vid z = { "0" }; rumsliga Jacobianer mot centrala finita differenser och mot kodpaketets oberoende 3-D-observabel för avståndshastighet; familjer utanför planet vägras i planläge)
+
+# data/search.json
+dat-b1be53140d78 = cislunar-arc-recovery (scenariotyp)
+
+# data/search.json
+dat-8c6361e9f77e = cislunar-observability (scenariotyp)
+
+# studio/data/capabilities.json
+dat-56cba489ab31 = CITATION.cff i förvaret; arkivalisk DOI via Zenodo.
+
+# data/search.json
+dat-5339fb578ee5 = Citera motorn
+
+# data/search.json
+dat-12effb78a659 = Påståenden mot verkligheten — register över överdrivna påståenden
+
+# data/search.json
+dat-f38df94fe730 = Påståenden mot verkligheten — snabbreferens
+
+# data/series.json
+dat-9fce96aec2ad = klassisk gräns
+
+# data/series.json
+dat-db37db8dc541 = klassisk förskjutning
+
+# data/verification-matrix.json
+dat-1d9fce4e509f = Klassificering av datumproblemet vid intern avståndsmätning: en enskild avståndsobservation bidrar med rang { "1" } (6-dimensionellt nollrum); paret origo-X och skala är nästan noll och fysisk DE440-libration lyfter defekten till noll medan paret förblir nästan degenererat
+
+# data/verification-matrix.json
+dat-021a39dd2ac4 = classify_null_space delar upp datumnollrummet i enbart rumsliga (dimension d minus rang U_T), enbart tidsmässiga (d minus rang U_S) och genuint kopplade (rang U_S plus rang U_T minus d) delar, plus kopplingsnormen för projektorn från rumsligt till tidsmässigt p_st_norm, Frobeniusnormen av det icke-diagonala blocket i nollrummets projektor. Var och en av dessa är en funktion av PROJEKTORN snarare än av en vald bas, så de är invarianta under varje ortonormal val av nollvektorer - vilket är det som gör att klassificeringen alls går att redovisa.
+
+# studio/channels.json
+dat-50344569da2b = klienter som tar en URL
+
+# data/search.json
+dat-91484de7112e = clock (scenariotyp)
+
+# js/missions-runs.mjs
+dat-f9986ea170c0 = klock- och signalnivåfall
+
+# data/search.json
+dat-e3293c510be2 = Klock-holdover mot spec; valfri Monte Carlo-ensemble (körningar > { "1" }).
+
+# data/search.json
+dat-f3948b34a34b = Klockstege
+
+# data/verification-matrix.json
+dat-0630805d774c = Klockmätningar från varje LEO-satellit i sikte vid en känd position, kombinerade med inversvarians utifrån brusmodellen för pseudoavstånd, filtrerade av ett tvåtillstånds (fas, frekvens) Kalmanfilter vars processbrus är oscillatorklassens vita och slumpvandrande frekvensbrus (slot_timing::ClockNoise, clock_state::ClockClass; glidvariansen för holdover::coast_phase_variance), en fröstyrd referensklocka från samma nivåer, och uttrycket för systemtid till UTC i IS-GPS-200 avsnitt { "20.3.3.5.2.4" } med en osäkerhet i broadcast-offseten tillagd som en bias per körning; tidtagningsläget i `leo-pvt` sveper oscillatorer och C/N0-offsetar
+
+# data/verification-matrix.json
+dat-2acefe0a0e8e = clock_integrity (run, sky_at, IntegrityCfg); scenario (Scenario::integrity); report (RunResult::integrity_fom); api (clock dispatch)
+
+# data/verification-matrix.json
+dat-66a184b85e5f = clock_library: ett enhetskort (vit fas, vit, flicker- och slumpvandrings-FM plus en linjär frekvensdrift) anpassat till en tredjedel av en namngiven uppmätt klockregistrering efter ett loggat konditioneringssteg (luckor, faseutliggare, fassteg, skurar borttagna; frekvenssteg loggade), viktat med de lag-1-identifierade frihetsgraderna för brustyp, och dess predikterade Allan-deviation poängsatt på de två undanhållna tredjedelarna; läsare för RINEX- och IGS-klockfiler, BIPM-filer per laboratorium och Circular T avsnitt { "1" }; omvandling av ett kort till brusmodellen för slot-timing, den utökade Kalman-klockmodellen och övervakarens brusnivåer för spoofing
+
+# data/verification-matrix.json
+dat-9f1a554ee785 = clock_library::card::DeviceCard::fit_phase_periodic: ett enhetskort som bär faskomponenterna en till fyra per varv (period T/k, T = { "43 082.05" } s), anpassade gemensamt med den kvadratiska termen med minsta kvadrat på en tredjedel av en uppmätt satellitklockregistrering, där varje terms slutna Allan-bidrag { "4" } A^{ "2" } sin^{ "4" }(pi tau / P) / tau^{ "2" } ingår i den predikterade Allan-deviationen
