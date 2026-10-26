@@ -637,7 +637,7 @@ studio-main-where-did-aircraft-and-ships = 過去のある日に、航空機や�
 
 studio-main-can-the-bridge-trust-this = ブリッジはこの測位解を信頼できるでしょうか。船舶の受信機信頼性の実行を開いてください（ファイルはブラウザー内に留まります）
 
-studio-main-evidence-packs-test-bench-export = エビデンスパック、試験用ベンチへのエクスポート、compliance マッピング、OSNMA、コマンドラインツール、AI アシスタント（ファイルはブラウザー内に留まります）
+studio-main-evidence-packs-test-bench-export = エビデンスパック、test-bench エクスポート、compliance マッピング、OSNMA、コマンドラインツール、AI アシスタント（ファイルはブラウザー内に留まります）
 
 studio-main-map-of-satellites-in-view = 記録された実行に基づく、地球上空で見える衛星のマップ
 

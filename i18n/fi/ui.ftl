@@ -649,7 +649,7 @@ studio-main-where-did-aircraft-and-ships = Missä ilma-alukset ja alukset raport
 
 studio-main-can-the-bridge-trust-this = Voiko komentosilta luottaa tähän paikkaratkaisuun? Avaa aluksen vastaanottimen luottamusajo (tiedostot pysyvät selaimessasi)
 
-studio-main-evidence-packs-test-bench-export = Todistepaketit, testipenkin vienti, compliance-vastaavuus, OSNMA, komentorivityökalut ja tekoälyavustaja (tiedostot pysyvät selaimessasi)
+studio-main-evidence-packs-test-bench-export = Todistepaketit, test-bench-vienti, compliance-vastaavuus, OSNMA, komentorivityökalut ja tekoälyavustaja (tiedostot pysyvät selaimessasi)
 
 studio-main-map-of-satellites-in-view = Näkyvissä olevien satelliittien kartta Maan yllä, tallennetusta ajosta
 

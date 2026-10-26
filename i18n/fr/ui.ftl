@@ -652,7 +652,7 @@ studio-main-where-did-aircraft-and-ships = Où des aéronefs et des navires ont-
 
 studio-main-can-the-bridge-trust-this = La passerelle peut-elle se fier à cette position ? Ouvrez une exécution receiver-trust de navire (les fichiers restent dans votre navigateur)
 
-studio-main-evidence-packs-test-bench-export = Paquets de preuves, export pour banc d'essai, correspondance de compliance, OSNMA, outils en ligne de commande et assistant IA (les fichiers restent dans votre navigateur)
+studio-main-evidence-packs-test-bench-export = Paquets de preuves, export test-bench, correspondance de compliance, OSNMA, outils en ligne de commande et assistant IA (les fichiers restent dans votre navigateur)
 
 studio-main-map-of-satellites-in-view = Carte des satellites en vue au-dessus de la Terre, d'après l'exécution enregistrée
 

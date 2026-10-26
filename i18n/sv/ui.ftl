@@ -649,7 +649,7 @@ studio-main-where-did-aircraft-and-ships = Var rapporterade flygplan och fartyg 
 
 studio-main-can-the-bridge-trust-this = Kan bryggan lita på den här positionsbestämningen? Öppna en körning av mottagarförtroende för fartyg (filerna stannar i din webbläsare)
 
-studio-main-evidence-packs-test-bench-export = Bevispaket, export för testbänk, compliance-mappning, OSNMA, kommandoradsverktyg och AI-assistenten (filerna stannar i din webbläsare)
+studio-main-evidence-packs-test-bench-export = Bevispaket, test-bench-export, compliance-mappning, OSNMA, kommandoradsverktyg och AI-assistenten (filerna stannar i din webbläsare)
 
 studio-main-map-of-satellites-in-view = Karta över satelliter i sikte över jorden, från den registrerade körningen
 

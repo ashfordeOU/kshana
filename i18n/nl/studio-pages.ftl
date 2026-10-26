@@ -395,7 +395,7 @@ seg-62a3d528203d = De kerncijfers en de panelen <b>lezen</b>
 seg-62b794e2dfee = Lengtegraad, graden
 
 # index.html
-seg-636556347905 = <b>Testbankexport</b><s1>Beweging- en gebeurtenisbestanden voor een laboratoriumsimulator.</s1>
+seg-636556347905 = <b>Test-bench-export</b><s1>Beweging- en gebeurtenisbestanden voor een laboratoriumsimulator.</s1>
 
 # index.html
 seg-64a9035e2d0d = <b>Interferentie-observatorium</b><s1>Open de observatoriumbestanden van een dag en lees ze: drie toestanden, geen oorzaak, niets geüpload.</s1>
