@@ -49,3 +49,29 @@ seg-445cecb7370c = akvizice nad rámec jediného dwellu s penalizací za falešn
 seg-8eefe4197d7f = <s1>Předchozí</s1>leo-pvt
 
 seg-60423e1ed0ca = <s1>Další</s1>link-budget
+
+seg-cb91473bfdda = Tematická stránka: <a1>LEO-PNT.md</a1>
+
+seg-3bc1761c76ab = Tento druh používají { "3" } přibalené scénáře; ostatní jsou v <a1><c1/></a1>.
+
+seg-a3697ad561db = Hz
+
+seg-1918189ac2bf = ppm
+
+seg-49964654d5f4 = Druh scénáře enginu v{ $version }, rodina <a1>Navigace z nízké oběžné dráhy Země</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každý štítek zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se štítek získává: oddíl Evidence v README).
+
+seg-c5478f572d21 = Stránka rodiny: <a1>Navigace z nízké oběžné dráhy Země</a1>
+
+seg-ae15d15bf151 = Tematická stránka: <a1>LEO-PASS.md</a1>
+
+seg-59b976838ef1 = <b>VALIDATED</b> navsignal: sinový integrál (sine_integral), podíl výkonu BPSK-R uvnitř oboustranného pásma v uzavřeném tvaru (bpsk_power_in_band_closed_form), pásmově. Orákulum (ExternalDataset): Externě zafixováno: { "90.3" } procenta výkonu hlavního laloku, koherentní jitter early-late ve stanoveném pracovním bodě, tabulkové hodnoty sinového integrálu a koeficient spektrální separace BPSK se sebou samým 2/({ "3" } R_c) při nulovém posunu. Pouze vnitřní křížové kontroly, nikoli externí validace: uzavřený tvar Gaborovy šířky pásma pásmově omezeného BPSK a jeho asymptota a koeficient spektrální separace BPSK s posunem při nenulových posunech, oba
+
+seg-faf2775f3003 = <b>MODELLED</b> Druh <c1/>: parametrizované návrhy signálu (pásmo, vysílací šířka pásma, přidělení ITU; složky pro akvizici, data a pilot s BPSK(n), BOC(m,n), MB. Orákulum (InternalConsistency): Uzavřené tvary ověřené proti nezávislé vnější referenci z obou řádků výše, identita falešného poplachu pro kvadratický detektor P_d(snr = { "0" }) = P_fa a Holmesův střední čas akvizice a redukce na vlastní řetězec SSC druhu spectrum (tentýž kód Jammer::ssc). Samotné návrhy jsou vstupy: předvolby označené REPREZENTATIVNÍ nebo WORKSHOP nejsou publikované specifikace, spektra vylepšeného Feherova QPSK, klíčování posunem kódu a OFDM jsou aproximována a tvar
+
+seg-051999733048 = Zdroj: <c1/>
+
+seg-16ae2a08d3c8 = <c1/> (druh scénáře)
+
+seg-97b8d07150d4 = Návrhy signálů LEO-PNT: parametrizované signály určování polohy, navigace a času (PNT) z nízké oběžné dráhy Země (LEO) pro libovolný systém, pásmo a strukturu. SIGNÁL je pásmo (střední frekvence, vysílací šířka pásma, přidělení ITU RNSS/RDSS/MSS/EESS/non-RNSS/other) a složky (akvizice, data, pilot; libovolná podmnožina), každá s modulací (BPSK(n) se zlomkovým n, BOC(m,n), MBOC({ "6,1" },p) nebo ploché pásmo podobné OFDM), podílem výkonu, volitelnými posuny podnosných FDMA, délkou kódu a datovou rychlostí. Signály pocházejí z přeložených veřejných souborů předvoleb (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; každý s URL zdroje a každá nepublikovaná hodnota označena REPREZENTATIVNÍ) nebo se zapisují vložené. PRO KAŽDÝ SIGNÁL: pásmově omezená spektrální hustota výkonu a podíl výkonu každé složky, který vysílací pásmo propustí (uzavřený tvar BPSK vedle číselné hodnoty), efektivní (Gaborova) šířka pásma, tepelný jitter sledování kódu smyčkou zpožděného závěsu v závislosti na C/N0 a rozestupu early-late z pásmově omezeného koherentního (nebo nekoherentního) vzorce early-late podle Betze a Kolodziejského { "2009" } s jeho učebnicovým tvarem pro neomezené pásmo a jeho Gaborovou mezí pro mizející rozestup, přesnost měření vzdálenosti v metrech, prostor vyhledávání při akvizici (Dopplerovy koše z maximálního Dopplera dráhy plus členy oscilátoru a uživatele, krát kódové koše), pravděpodobnost detekce kvadratickým detektorem a střední sériový a kódově paralelní čas akvizice, koeficient spektrální separace signálu do GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b a E5 AltBOC a každého z nich do signálu se zhoršením C/N0 a CW, širokopásmové a přizpůsobené J/S, které sledovaná složka snese, z vlastního aparátu SSC druhu spectrum. SROVNÁNÍ PÁSEM: ionosférické zpoždění prvního řádu ({ "40.3" } TEC/f^{ "2" }), ztráta ve volném prostoru, přesnost měření vzdálenosti při stejném C/N0 a při stejném EIRP a odolnost vůči rušičce. Volitelné KONTROLY TVARU poměřují spektrum návrhu s popsaným měřením (konzistence MODELLED). VALIDATED: uzavřené tvary výkonu BPSK v pásmu ({ "90.3" } % v hlavním laloku) a Gaborovy šířky pásma, pásmově omezený jitter přecházející na učebnicový koherentní tvar early-late a na svou Gaborovu mez, koeficient spektrální separace BPSK s posunem proti jeho Parsevalovu uzavřenému tvaru, jednotková plocha spektra AltBOC a maximální Doppler LEO proti publikovaným údajům Xona Pulsar (32-34 kHz) a Iridium ({ "36" } kHz). MODELLED: každý návrh, rozdělení výkonu, C/N0 a úroveň rušičky; spektra EFQPSK, CSK a OFDM jsou aproximována.
+
+seg-37e5fdff9d4d = Jeden běh <c1/> se shrnuje takto: scenario leo-signal | { "5" } signals | noise floor -202.0 dBW/Hz | finest ranging generic-c-wide { "0.022" } m at { "45.0" } dB-Hz

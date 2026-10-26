@@ -15,3 +15,7 @@ seg-d4a762001549 = Licence
 seg-f63dd3d7aad4 = Zdroj
 
 seg-638b8d451550 = Senzor
+
+seg-60cd077d82a7 = Model
+
+seg-2afa300864a9 = Parametry

@@ -43,3 +43,7 @@ seg-d717412c4f06 = Sebepopis zprávy link-budget je MODELLED, nikoli ověřený:
 seg-ffbc9de75306 = <s1>Předchozí</s1>leo-signal
 
 seg-59d4cb995cb9 = <s1>Další</s1>lunar-attack-surface
+
+seg-a3697ad561db = Hz
+
+seg-cec5c06d38af = <b>MODELLED</b> Lunárně nativní poměr rušení k signálu, efektivní C/N₀ a ztráta zachycení pro uživatele na selenografickém povrchu pod rušičkou na lunárním povrchu (nebo zvýšenou) nad ilustrativní konstelací třídy Moonlight/LCNS z veřejných zdrojů.

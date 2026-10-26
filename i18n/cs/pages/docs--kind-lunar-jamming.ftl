@@ -33,3 +33,21 @@ seg-a2889fb2b42a = Tematická stránka: <a1>integrations.md</a1>
 seg-03b50b21e5a8 = <s1>Předchozí</s1>lunar-interop-export
 
 seg-02568469f628 = <s1>Další</s1>lunar-joint-od-clock
+
+seg-59afd80736c5 = <b>PARTNER</b> Neposkytuje se: Kshana modeluje výkon signálu, nikoli nákladový hardware ani antény. Oracle (NoneKind): žádné: disciplína ve vlastnictví partnera, záměrně bez modulu a bez testu
+
+seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a cislunární</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
+
+seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>
+
+seg-a3697ad561db = Hz
+
+seg-9521a296d617 = dBi
+
+seg-f85a85f0c7e4 = MHz
+
+seg-7154243aabbe = broadband
+
+seg-cec5c06d38af = <b>MODELLED</b> Lunárně nativní poměr rušení k signálu, efektivní C/N₀ a ztráta zachycení pro uživatele na selenografickém povrchu pod rušičkou na lunárním povrchu (nebo zvýšenou) nad ilustrativní konstelací třídy Moonlight/LCNS z veřejných zdrojů.
+
+seg-edcd55ccc993 = <b>MODELLED</b> Zpráva <c1/> už svůj kontur odepření nestaví na jediném skaláru.

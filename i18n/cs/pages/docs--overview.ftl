@@ -203,3 +203,25 @@ seg-f891ee876b96 = Na co odpovídá
 seg-7cf2608b2b2f = Struktura balíčku důkazů. Záznam přijímače (NMEA, u-blox UBX, RINEX { "3" } nebo záznam z Androidu) a časové okno vstupují do kshana receiver-trust evidence, který zapíše sedm souborů: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig a volitelný timestamp.tsr. Manifest zaznamenává SHA-256 celého záznamu a každého souboru a řetězec hashů přes soubory; podpis pokrývá manifest. kshana evidence verify kontroluje podpis, hash každého souboru, řetězec a že není přítomen žádný nevyjmenovaný soubor, a končí kódem { "0" }, když je vše ověřeno, { "1" }, když něco selhalo, a { "3" }, když podepisující nebyl připnut. Balíček je technický záznam, nikoli právní stanovisko.
 
 seg-13fc009b947c = FAQ
+
+seg-3ac9e578414c = Hodiny, časování a holdover
+
+seg-b4b8aaf14aec = Inerciální senzory, fúze a kvantové senzory
+
+seg-93591ee6899f = Alternativní PNT při nedostupnosti GPS
+
+seg-b63bfec0aabf = Konstelace, pokrytí a geometrie
+
+seg-f2f84c689f14 = Měření GNSS, určování polohy a integrita
+
+seg-2e736b1814f2 = Rušení (jamming), spoofing a spektrum
+
+seg-fc23add4540b = Navigace na nízké oběžné dráze Země
+
+seg-dd8aa1ce4734 = Navigace uživatelů ve vesmíru
+
+seg-77aef8722995 = Optické PNT
+
+seg-179dc850c643 = Analýza misí, spoje a vesmírné operace
+
+seg-6339abe5314a = Rodina
