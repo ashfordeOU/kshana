@@ -8,6 +8,8 @@ seg-ca448daf5ec7 = nominal
 
 seg-a129b9e613d0 = Type
 
+seg-2672b7f55371 = forringet
+
 seg-c711c7fecbfc = Ét tillidsresultat i tre eksportformater, fra egentlige kørsler af motor v{ $version } (`kshana trust-telemetry`) på examples/maritime-trust: Prometheus-tekstvisning (den seneste tillidsscore er { "5.9" }, og det utroværdige bånd er det, der er sat), og de sidste CEF- og LEEF-meddelelser. Kommandoen udgiver intet, medmindre den får en destination, rummer ingen legitimationsoplysninger og udsender intet radiosignal. Vejledende software, ikke typegodkendt navigationsudstyr (IEC { "61108" }, IEC { "61162" }): operatøren er fortsat ansvarlig for fartøjets navigation.
 
 seg-15fcf05d16c5 = Kilde: <c1/>
