@@ -11,3 +11,5 @@ seg-aab745a65e76 = 模块
 seg-bf09433a7342 = GeoJSON
 
 seg-906440b861cd = 帧
+
+seg-8ba331635865 = 标准与互操作
