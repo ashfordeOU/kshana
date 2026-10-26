@@ -87,3 +87,7 @@ seg-a61a93ee3757 = この行動規範は、<a1>Contributor Covenant</a1>のバ�
 seg-6309372ba614 = コミュニティへの影響のガイドラインは、<a1>Mozillaの行動規範の執行ラダー</a1>に着想を得ています。
 
 seg-1a3df1951a1e = この行動規範についてのよくある質問への回答は、<a1>https://www.contributor-covenant.org/faq</a1>のFAQを参照してください。翻訳は<a2>https://www.contributor-covenant.org/translations</a2>で入手できます。
+
+seg-d80a7f6811c2 = <s1>前へ</s1>ガバナンス
+
+seg-a6da23b43f90 = <s1>次へ</s1>キャンペーン
