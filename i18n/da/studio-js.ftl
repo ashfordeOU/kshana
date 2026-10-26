@@ -10661,7 +10661,7 @@ js-trust-sum-only-receiver = Kun modtageren markerer
 
 js-trust-sum-spoofing-flag = Modtagerens spoofing-flag (tilstand 2+)
 
-js-trust-thr-azimuth-gap = azimuthul i grader, ved og over hvilket himlen er delvist blokeret
+js-trust-thr-azimuth-gap = hul i azimut, grader, ved og over hvilket himlen er delvist blokeret
 
 js-trust-thr-cap-in-force = flest point, geometrifradraget tager i denne kørsel
 
