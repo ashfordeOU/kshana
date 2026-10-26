@@ -9,3 +9,5 @@ seg-379f49bff6fb = Python
 seg-f917e7fcac09 = Wat het is
 
 seg-d6476863f862 = Mogelijkheid
+
+seg-e0426ffe2628 = Opmerking
