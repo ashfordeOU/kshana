@@ -63,3 +63,93 @@ seg-a77d1a8a62b5 = <a1>RECEIVER-TRUST</a1>, <a2>MARITIME-TRUST</a2>
 seg-c311dfc2a161 = dezelfde scoring op een stroom terwijl die binnenkomt (stdin, een bestand waaraan wordt toegevoegd, TCP of UDP), de zin <c1/> en de optionele gate; <c2/> is het geheel zonder invoer of uitvoer
 
 seg-07b2d6edf7b9 = een ondertekend, met hashes geketend pakket van een logvenster, zijn configuratie en het resultaat van de engine, offline verifieerbaar; optioneel RFC { "3161" }-tijdstempeltoken
+
+seg-32d08730b9c0 = de vertrouwensstroom als Prometheus-metrics, syslog-gebeurtenissen (CEF of LEEF) en optioneel OpenTelemetry (feature <c1/>, standaard uitgeschakeld)
+
+seg-53311b8c3b93 = synthetische brug-NMEA { "0183" } met gescripte jamming-, drag-off-, tijdspoof- en replay-gebeurtenissen en een instructeurslogboek, voor bemanningstraining (alleen tekst)
+
+seg-f7cc3cfbdfc6 = geaggregeerde kaarten van gedegradeerde navigatie uit openlijk gelicentieerde meldingen van vliegtuigen en schepen, en de blootstelling van een route eraan; alleen lokale bestanden
+
+seg-83fe3c87e2d5 = een verificatiehulpmiddel aan ontvangerszijde voor Galileo OSNMA: leest I/NAV-pagina's (gewone pagina's, vector-CSV, een UBX-stream), controleert de ondertekende sleutel, de TESLA-keten en de MAC's, en meldt per satelliet of de navigatiegegevens zijn geauthenticeerd; <c1/> is het ene pad dat de opdrachtregel, Python en WebAssembly delen; alleen authenticatiestatus, geen integriteitsdienst
+
+seg-bf8cd5a45deb = OSNMA
+
+seg-843a83b82283 = koppelt { -brand }-uitvoer aan openbare veerkrachtkaders en vult die koppeling in vanuit resultaatdocumenten; <c1/> en <c2/> nemen teksten, geen paden
+
+seg-e16c483479ce = de voertuigbeweging en gebeurtenissen van een scenario als bewegings-CSV, NMEA, waypointtekst en gebeurtenisbestanden voor een GNSS-simulator in een laboratorium; er wordt geen signaal geschreven
+
+seg-044c58c98397 = Integraties voor boten (de Signal K-plugin, de gatemodus van OpenCPN en de referentiebuild) roepen het opdrachtregelprogramma aan; zie <a1>MARINE-INTEGRATIONS</a1>.
+
+seg-cb8d8ff847eb = { "2" }. Enginepijplijn (per run)
+
+seg-53e9e596ca44 = Elke run laat één sensormodel stap voor stap door het tijdraster lopen: het wordt gedisciplineerd zolang GNSS nominaal is en loopt vrij (holdover / dead-reckoning) tijdens de onderbreking.
+
+seg-257407f3c375 = Een scenario doorloopt deze pijplijn twee keer, een keer voor de kwantumsensor en een keer voor de klassieke sensor, met <b>onafhankelijke seeds</b> (<c1/>), zodat de twee ruisrealisaties ongecorreleerd zijn.
+
+seg-4659e89ba5f5 = { "3" }. De interface van het foutmodel (het uitbreidingspunt)
+
+seg-7b70e8b1b98a = Elke sensor implementeert hetzelfde idee: een object met toestand waarvan <c1/> zijn interne stochastische fout laat doorlopen en waarvan de opgebouwde toestand elke tik wordt uitgelezen. Klokken geven de opgebouwde fase vrij; versnellingsmeters geven de dubbel geïntegreerde positie vrij; verbindingen geven jitter per meting vrij.
+
+seg-79ab76c6dbc0 = <c1/> gaat mee in het resultaat, zodat elk cijfer in de uitvoer herleidbaar is tot de gepubliceerde bron die in <c2/> is genoemd.
+
+seg-514c49659947 = Naast de analytische <c1/> draait het klokpakket een Kalman-filter met twee toestanden (fase, frequentie) (<c2/>) waarvan de procesruis overeenkomt met het referentiemodel. Tijdens het uitlopen door een onderbreking groeit de variantie van de fasefout tot precies <c3/>, de analytische holdover-relatie, en de online 1-σ-grens ervan wordt gebruikt om de kwaliteitsmaat <b>Integriteit</b> te vullen (het deel van de samples tijdens de onderbreking waarvan de fout binnen de k-σ-grens blijft).
+
+seg-7404589deb40 = { "4" }. Dispatch (CLI en bindings)
+
+seg-6138513a43f7 = <c1/> is het enige ingangspunt: het kijkt naar de <c2/> op het hoogste niveau, deserialiseert het bijbehorende scenario, draait het pakket en geeft <c3/> terug (<c4/> is alleen aanwezig voor de soorten die een reproduceerbaarheidstabel publiceren). De CLI schrijft die naar bestanden, plus het rapport (<c5/>, <c6/>) en eventuele <c7/>- / <c8/>-uitvoer; de Python- en WebAssembly-bindings geven ze terug aan de host. Eén dispatch, geen afwijking.
+
+seg-524f749be364 = De dispatch gebeurt op een getypeerde enum <c1/>, uitputtend gematcht (zie de volgende paragraaf), zodat het toevoegen van een pakket een door de compiler gecontroleerde wijziging is. Een ontbrekende <c2/> valt terug op het pakket <c3/>, zodat bestaande scenario's van één soort ongewijzigd worden gedeserialiseerd (<c4/> negeert het veld <c5/> op elke scenariostruct). Een onbekende <c6/> wordt geweigerd met <c7/>, die de dichtstbijzijnde ingebouwde soort noemt als de naam op een typfout lijkt.
+
+seg-eedaeae2a7e7 = Getypeerde dispatch en de gestructureerde API
+
+seg-ca47f566eaee = De dispatch gebeurt op een getypeerde enum <c1/>, niet op een ruwe stringmatch: <c2/> zet het veld <c3/> om in een variant en de dispatcher matcht die uitputtend, zodat het toevoegen van een pakket een door de compiler gecontroleerde wijziging is en geen typefout in een string. Twee getypeerde oppervlakken staan naast de stringteruggevende <c4/> (behouden voor de CLI en bestaande bindings):
+
+seg-167c47049329 = <b><c1/></b>: de getypeerde ingang, met een gestructureerde foutentaxonomie (<c2/>, <c3/>, <c4/>, <c5/>). Elke fout draagt een stabiele <c6/>, zodat een aanroeper kan vertakken op de foutcategorie in plaats van het bericht te ontleden. De bindings bieden dit aan als <c7/>.
+
+seg-1943051b3b20 = <b><c1/></b> (en <c2/>, in de bindings beschikbaar als <c3/>): programmatische introspectie: naam, beschrijving en verplichte/optionele velden van elke soort, voor automatisch aanvullen in de UI (gebruikersinterface) en in notebooks.
+
+seg-630243592256 = { -brand } uitbreiden met een extern pakket
+
+seg-d1adedd2c08b = Een pakket van een derde partij implementeert twee kleine, semver-stabiele traits uit <c1/>:
+
+seg-d01471b13324 = <c1/> heeft ook een standaardmethode <c2/>, die niets doet tenzij een pakket kiest voor de registry-dispatchaansluiting in <c3/>. Het ingebouwde pakket <c4/> is via <c5/> aangesloten als uitgewerkt voorbeeld; pakketten buiten de boom volgen hetzelfde contract zonder de kern te forken (naar het voorbeeld van het uitbreidingspunt <c6/> in §{ "3" }, dat de privé-veerkrachtoverlay gebruikt).
+
+seg-5b0449d96bc3 = { -brand } heeft daarom <b>twee stabiele uitbreidingsaansluitingen</b>: voeg een <em>sensor</em> toe door <c1/> te implementeren (§{ "3" }), of een heel <em>scenariosoort</em> door <c2/> + <c3/> te implementeren; beide zijn semver-stabiel en geen van beide vereist een fork van de kern:
+
+seg-3928a007756b = { "5" }. De hybride afsluiter
+
+seg-7f38e825519a = Het hybride pakket draait een <em>suite</em> (één klok + één traagheidssensor) en vereist dat <b>zowel</b> tijdsynchronisatie als positie binnen de specificatie blijven; <c1/> is de tijd tot een van beide die overschrijdt. Optioneel synchroniseert een optische intersatellietverbinding de <b>klok</b> tijdens de onderbreking opnieuw: alleen tijdondersteuning; de positie wordt niet opnieuw gesynchroniseerd, omdat tijdoverdracht tijd geeft en geen positie. Hierdoor springt de traagheidssensor eruit als beperkende factor.
+
+seg-17a8683f0982 = { "6" }. Uit geometrie afgeleide GNSS-beschikbaarheid
+
+seg-afdb141ac367 = <c1/> is een deterministische geometrielaag zonder afhankelijkheden. Een <c2/> is ofwel de analytische Kepler-<c3/> (twee-lichamen, optioneel met seculiere J2) ofwel een volledige <c4/>-propagator die is opgebouwd uit een complete two-line-elementenset; een Walker-delta-generator maakt synthetische constellaties, en zichtbaarheid in rechte lijn = aardbedekking + elevatiemasker. Het aantal zichtbare satellieten wordt afgebeeld op een GNSS-toestand (≥{ "4" } = nominaal, { "1" }–{ "3" } = gedegradeerd, { "0" } = geweigerd), en <c5/> zet dat om in de beschikbaarheidstijdlijn die de standaard klok-holdoverrun aanstuurt. Beschikbaarheid is dus <em>afgeleid uit geometrie</em> in plaats van met de hand opgesteld, terwijl de run, de schatter en de scoring ongewijzigd blijven.
+
+seg-da82c97ac5c8 = Een constellatie die als volledige TLE's wordt aangeleverd, wordt gepropageerd met het SGP4/SDP4-model in <c1/> (getoetst aan de vectoren van AIAA (American Institute of Aeronautics and Astronautics) 2006-6753); elementen met alleen regel 2 blijven het analytische tweelichamenpad volgen. De twee kunnen binnen één constellatieblok worden gemengd.
+
+seg-a47031620b54 = { "7" }. Bindings
+
+seg-57fb29fdd9d9 = De kern compileert ongewijzigd naar native, naar een Python-extensie en naar WebAssembly. De Python-module (<c1/>, PyO3 abi3) en de WebAssembly-module (<c2/>, wasm-bindgen) zijn optionele, feature-gated afhankelijkheden (<c3/> / <c4/>): de standaardbuild en de testsuite compileren ze nooit, terwijl de poort voor de audit van afhankelijkheden (<c5/>) wel hun afhankelijkheidsbomen inspecteert, omdat die crates in het wheel en in het npm-pakket worden meegeleverd. Beide roepen <c6/> aan, zodat elk oppervlak identieke resultaten geeft. De WebAssembly-module ondersteunt de browser-playground in <c7/> en exporteert dertien functies: <c8/>, <c9/> (één enginerun die resultaat, grafiek, samenvatting en tabel samen teruggeeft), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, de codec <c16/> / <c17/> voor deelbare URL's (URL: webadres), en de drie exporteurs <c18/> / <c19/> / <c20/> achter het exportmenu van de playground. Twee verdere toegangspoorten bereiken dezelfde <c21/>: de <b>MCP-server (Model Context Protocol)</b> (<c22/>, een van de workspace uitgesloten <c23/>-crate die vijftien tools aanbiedt: <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; de twee voorbeeldtools lezen de meegeleverde scenario's via de standaard uitgeschakelde feature <c39/> van de bibliotheek, die alleen deze server inschakelt) en de <b>JetBrains-IDE-plugin (integrated development environment)</b> (<c40/>, een Kotlin-project dat de CLI <c41/> aanroept in plaats van de bibliotheek te linken).
+
+seg-a6620e0d6eef = Feature-gating: Python en WASM zijn <c1/> / <c2/>; de meegeleverde scenariotabel is <c3/> (het enige gebruik ervan door de MCP-server); de MCP-server en de kruiscontroles <c4/> zijn crates die van de workspace zijn UITGESLOTEN; de IDE-plugin linkt niets: hij draait de CLI.
+
+seg-7bc5df56e4e5 = { "8" }. Determinisme en reproduceerbaarheid
+
+seg-fb95c37c7bb9 = Alle willekeur loopt per run via één geseede <c1/>; de volgorde van de stappen ligt vast, dus <c2/>.
+
+seg-e026c87beb26 = Het resultaat draagt een SHA-256 (SHA: Secure Hash Algorithm) <c1/>; <c2/> draait een referentiescenario twee keer en controleert dat de uitvoer byte-identiek is.
+
+seg-42a3bdcbd99f = Dezelfde engine compileert naar native, naar een Python-extensie en naar <c1/> voor runs in de browser die dezelfde getallen opleveren.
+
+seg-12e00717c2d4 = { "9" }. Uitgestelde / toekomstige structuur
+
+seg-8a8e1b93b704 = De lagen voor astrodynamica, fusie en alt-PNT in §1a (de volledige SGP4/SDP4-propagator, de numerieke Cowell-propagator met zijn krachtenmodel van zeven verstoringen en twee adaptieve integratoren, manoeuvre-/trajectontwerp, baanbepaling, de GNSS/INS-schatters met 15, 8 en 17 toestanden, het gekoppelde klok+positiefilter en matching van zwaartekrachtkaarten) zijn allemaal opgeleverd, samen met de Security-kwaliteitsmaat met een actieve spoof-demonstrator, echte TLE-/multiconstellatiegeometrie, Monte Carlo-banden, afwegingsstudies met sweeps, het afdrukbare HTML-rapport (HyperText Markup Language) met zijn machineleesbare tegenhanger, en de release-/publish-/wheels-/pages-workflows.
+
+seg-318ad50d3826 = Verschillende mogelijkheden die hier eerder als toekomstig werk stonden, zijn inmiddels <b>opgeleverd</b> en worden hierboven of in <a1>VALIDATION</a1> behandeld: de volledige IAU 2000A-nutatie en de equinoxvrije CIO-reductie GCRS↔ITRS / ITRF (International Terrestrial Reference Frame) (bit voor bit getoetst aan SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy)), het EGM2008-geopotentiaal (Earth Gravitational Model { "2008" }) tot graad/orde { "70" }, de <b>Lense–Thirring</b>-term voor frame-dragging, vaste-aarde-, oceaan- en atmosferische getijden, een kruisvalidatie van de efemeride op DE-niveau (DE440/ANISE (DE440: Development Ephemeris { "440" }; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris, een zuivere Rust-toolkit voor planeetgeometrie)), de externe kruisvalidatie met Orekit { "12.2" } van de numerieke Cowell-propagator ({ "0.08" } m over { "24" } h) en van batch- en sequentiële baanbepaling, en de strak gekoppelde navigator met 17 toestanden, beschikbaar als scenariosoort <c1/>.
+
+seg-068119b15b27 = De resterende vervolgstappen worden bijgehouden in <a1>CHANGELOG</a1> <c1/> en in de roadmap per mogelijkheid in <a2>CAPABILITY</a2>: een externe referentiewaarde voor de EGM-evaluator (Earth Gravitational Model) van hoge graad precies op de poolas en een pyshtools-zuivere vergelijking nabij de pool (de evaluator tot graad { "2190" } en zijn runtime-lader voor <c2/> worden opgeleverd, MODELLED; zie <c3/>), een tijdsvariërende ruimteweerdriver voor het opt-in-niveau van de luchtweerstandsdichtheid van NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) (de standaarddichtheid is het statische exponentiële model, en de Jacchia-71-dichtheid van de soort <c4/> is gekarakteriseerd ten opzichte van NRLMSISE-00 maar niet erdoor vervangen), een externe controle van de opt-in-schaduw met zonneschijfverduistering, strakke koppeling van GNSS/INS met draaggolffase, en een echte EGM2008/EIGEN-zwaartekrachtkaart (EIGEN: European Improved Gravity model of the Earth by New techniques) voor de alt-PNT-matcher.
+
+seg-b48f69ea54b3 = Een privé-overlayrepo bevat veerkrachtdiepgang die onder exportbeperkingen valt; die sluit aan via dezelfde interface <c1/> (en het contract <c2/> in §{ "4" }) zonder de publieke engine te wijzigen.
+
+seg-2f88ab8f67e8 = <s1>Vorige</s1>Waar { -brand } draait
+
+seg-02b0e0fdcdbe = <s1>Volgende</s1>Waar { -brand } staat

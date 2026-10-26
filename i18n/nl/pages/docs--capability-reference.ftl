@@ -431,3 +431,7 @@ seg-0f359c118090 = Waarneembaarheid van fouten in een autonoom vrij netwerk
 seg-ae99396c03bd = tegenover onafhankelijke numpy/scipy-pariteitsalgebra
 
 seg-51828c93731b = De lineaire algebra die een zelfreferentiële lunaire constellatie nodig heeft om haar eigen fouten te detecteren zonder grondreferentie: de gewogen pariteitsprojector in de pseudo-inverse-vorm voor rangdeficiënte stelsels die de ijk van datum en tijdschaal doorstaat, de detecteerbaarheid per knooppunt, de minimaal detecteerbare bias van Baarda, en detect/identify-aantallen voor Byzantijnse block-spark over echte DE440-geometrie tussen knooppunten.
+
+seg-d6476863f862 = Mogelijkheid
+
+seg-ad856ad710eb = Status
