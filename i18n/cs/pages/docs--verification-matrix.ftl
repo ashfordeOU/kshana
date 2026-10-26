@@ -2123,3 +2123,243 @@ seg-bdc9fe963c5c = Naměřená data podle prahů předregistrovaných v b6ccb499
 seg-160507ac3702 = Volba CFAR s průměrováním buněk v akvizici IQ
 
 seg-7c0a1adc9ae6 = iq::acq::ca_cfar a ca_cfar_cells (dobrovolné): buňka akviziční mřížky se porovnává s průměrem referenčních buněk své Dopplerovy řady (ochranné a krokové zpoždění, zalomené kolem periody) při faktoru alpha stanoveném z uzavřeného tvaru pravděpodobnosti falešného poplachu CA-CFAR pro M nekoherentních bloků (ca_cfar_pfa, ca_cfar_alpha). Detektor výkonu vzorku zůstává výchozí a každý stávající výstup je beze změny.
+
+seg-619f89bf160c = Realizace lunární referenční soustavy
+
+seg-e1fe83c75a6c = Volitelné pohybové profily pro balíček gnss-ins (přímka, trajektorie ve tvaru 8, městské stop-and-go, stoupání letadla a koordinovaná zatáčka, průzkumný dron), definované příkazy Eulerových rychlostí a zrychlení podél trati uzavřenými na pravdivý stav s kinematickým IMU (odstředivé, gravitační a Coriolisovy členy), a importovaná pravdivá data CSV převedená na IMU, které je reprodukuje; historická jízda beze změny, není-li profil zadán
+
+seg-d543e3e84f36 = Druh Sluneční soustava na jádru JPL (planetary_kernel_path)
+
+seg-e8a96f29afc7 = Druh <c1/> s planetary_kernel_path: každé hlášené těleso, jehož vlastní kód NAIF SPK obsahuje, přebírá svou heliocentrickou polohu a rychlost J2000 z jádra prostřednictvím vlastní čtečky enginu (označení KERNEL), spoj, jehož oba konce jsou v jádru, se počítá na něm, barycentra se nikdy nenahrazují planetou a každé další těleso zůstává analytické s vlastním označením; zpráva získá blok jádra (cesta, SHA-256, tělesa a spoje z něj převzaté) jen tehdy, je-li volba nastavena. S de440s.bsp jsou to Merkur, Venuše, Země a Měsíc
+
+seg-05cc6642285b = NAIF SPICE Toolkit (CSPICE N0067 přes spiceypy { "8.3.0" }) heliocentrické stavy spkezr na úplném de440s.bsp, samostatný program, který nevolá žádný kód Kshana (tests/fixtures/solar_system_kernel/, NOTICE.md); engine čte výřezy de440s bit po bitu. Předregistrováno f8e946ea. Kontrola zapojení proti knihovně: samotné DE440 a analytická tělesa zde nejsou ověřena. Výsledky: docs/design/evidence/cap31-solar-system-kernel/RESULTS.md
+
+seg-7f3d53b4e8d1 = Porkchop na efemeridách DE440
+
+seg-bd813d7e0b58 = maneuver::porkchop_kernel: průchod datem startu x datem příletu pro odletové C3 (km²/s²) a příletové V-nekonečno (km/s) s řešičem Lambertovy úlohy pro jednu otáčku v přímém směru a ochranou před kolinearitou { "0.5" } deg, na heliocentrických stavech J2000 libovolných dvou těles NAIF načtených z JPL DE440 SPK vlastní čtečkou crate. Jedna otáčka, přímý směr, žádná omezení nosné rakety ani příletu: průchod, nikoli návrh mise
+
+seg-bd19ca214f29 = NAIF SPICE Toolkit (CSPICE N0067 přes spiceypy { "8.3.0" }) heliocentrické stavy na de440s.bsp a pykep { "3.0.1" } lambert_problem (ESA, jádro C++ kep3, MPL-2.0), nezávislý řešič Lambertovy úlohy, spuštěné jako samostatný program, který nevolá žádný kód Kshana (tests/fixtures/porkchop_de440/, NOTICE.md); engine čte výřez de440s bit po bitu. Předregistrováno 2d857fb1. Kontrola průchodu knihovnou. Výsledky: docs/design/evidence/cap20b-porkchop-de440/RESULTS.md
+
+seg-b1401bed5da8 = Impulzní optimalizátor transferu na efemeridách DE440
+
+seg-eb98d6b8805e = maneuver::optimise_transfer_kernel: data odletu a příletu balistického dvouimpulzního transferu s jednou otáčkou, která minimalizují odletové C3 nebo příletové V-nekonečno v rámci typu I nebo typu II, jako spojité optimum (2denní mřížka přes obě okna, poté 2D Nelder-Mead), na heliocentrických stavech z DE440 SPK. Optimalizátor dat pro jedno rameno, nikoli návrh mise: žádné možnosti nosné rakety, parkovací dráhy, manévru v hlubokém vesmíru ani více otáček
+
+seg-6c695aef043b = Nezávislý optimalizátor: NAIF SPICE Toolkit (CSPICE N0067 přes spiceypy { "8.3.0" }) heliocentrické stavy na stejném výřezu de440s, pykep { "3.0.1" } lambert_problem (ESA, MPL-2.0) a SciPy { "1.18.1" } Nelder-Mead, bez volání jakéhokoli kódu Kshana. Příručka NASA pro Zemi–Mars (MIDAS, efemeridy neuvedeny, 2denní mřížka dat) je sekundární zveřejněná reference a stav neurčuje
+
+seg-93f3cdbb7297 = Řešič Lambertova transferu pro více otáček
+
+seg-995a6a995b78 = Každé řešení Lambertovy úlohy až se třemi úplnými otáčkami (maneuver::lambert_multirev: řešení s jednou otáčkou, poté levá a pravá větev pro každý počet otáček, Izzo { "2015" }), s okrajovými rychlostmi v1 a v2, pro přímé i zpětné transfery, v kanonických a heliocentrických jednotkách SI, včetně transferů do { "1" } % minimální doby letu pro daný počet otáček a geometrií blízkých 180 deg. Pouze dvoutělesový řešič (bez poruch)
+
+seg-77c43836cafe = pykep { "3.0.1" } lambert_problem (ESA, jádro C++ kep3, MPL-2.0), nezávislá knihovna, spuštěná jako samostatný program skriptem scripts/gen_lambert_multirev_ref.py; zapsán je jen její numerický výstup. Předregistrováno a75de851 (sada případů, prahy, pravidlo výsledku) před jakýmkoli porovnáním; reference byla nezávisle znovu vygenerována a je shodná bajt po bajtu. Výsledky: docs/design/evidence/lambert-multirev/RESULTS.md
+
+seg-ff9c6140fe1c = Řešič Lambertova dvoutělesového transferu
+
+seg-d8c39ced64b2 = Řešič Lambertovy úlohy Izzo-2015 pro jednu otáčku (r1, r2, doba letu → okrajové rychlosti) napříč transfery LEO→GEO→heliocentrickými, přímými i zpětnými
+
+seg-d0470acf4f29 = lamberthub { "1.0.0" } izzo2015 (J. Martínez Garrido, MIT) — nezávislý řešič Lambertovy úlohy třetí strany. Lambertova úloha pro jednu otáčku (M={ "0" }) má jednoznačné řešení, takže shoda knihovna proti knihovně je skutečnou vnější kontrolou; shoda na <{ "1e-4" } m/s (pozorováno ~{ "1e-11" }), stejný druh validace, jaký DOP získává vs gnss_lib_py
+
+seg-347cece5df63 = Referenční soustavy a časové stupnice
+
+seg-5a4bc2c15eaa = Precese-nutace IAU 2006/2000A, CIO GCRS↔ITRS, časové stupnice s přestupnými sekundami
+
+seg-51d28ab9d256 = Referenční vektory IAU SOFA / ERFA; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
+
+seg-c3d4b9bef817 = Dvoudílná juliánská data a přestupné sekundy na časové cestě drah kolem Země
+
+seg-5e859e3aa613 = Kalendářní datum a čas UTC na dvoudílné juliánské datum UTC s konvencí SOFA dtf2d pro dny končící přestupnou sekundou (dlouhé { "86 401" } s, platné { "23" }:{ "59" }:{ "60" }.x), UTC na TAI a zpět a UT1 z UTC přes TAI, na dvoudílných datech od 1972-01-01: časová cesta, kterou přebírají SGP4 (Sgp4::propagate_at, měřeno od dvoudílné epochy) a zemská rotace IAU 2006/2000A pevná vůči Zemi (sgp4::teme_to_itrs_matrix_eop s dvoudílným úhlem rotace Země)
+
+seg-ec12724c3c04 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; algoritmy SOFA tak, jak je vydal projekt ERFA), nezávislá knihovna: erfa.dtf2d("UTC"), erfa.utctai a erfa.taiutc na zapsaných okamžicích, rozdíl tvořený po částech na dvoudílných datech, práh { "1e-6" } s stanovený před během (předregistrováno e947e69d). Nejhorší rozdíl { "9.6e-12" } s (dtf2d) a { "1.9e-11" } s (utctai, taiutc). Každý den UTC brán jako { "86 400" } s, nebo zlomek přestupného dne ponechaný nepřeškálovaný, způsobí, že test zčervená. UT1 přes TAI (iauUtcut1) kontroluje větev ERFA řádku o cestě drah kolem Země. Rozsah: UTC od 1972-01-01; dřívější UTC s driftující rychlostí není modelováno
+
+seg-f1c7bc235a6b = Dvoudílná juliánská data přes zemskou rotaci na dráhové cestě
+
+seg-cee11d4bad08 = Rotace Země z dvoudílného juliánského data UT1 na dráhové cestě, takže poloha pevná vůči Zemi si zachová mikrosekundu, kterou jednoduché datum f64 ztrácí (asi { "3e-9" } rad poblíž { "2020" }): jd2::gmst82 (GMST IAU { "1982" }, konvence TEME, na dvou částech), cio::gcrs_to_itrs_matrix_jd2 (matice CIO GCRS na ITRS s úhlem rotace Země ze dvou částí) a, na nich postavené a vnitřně zkontrolované, frames::teme_to_itrf_jd2 / itrf_to_teme_jd2, orbit::Propagator::position_in_frame_jd2 a own_jd2_utc, volitelné two_part_jd scénáře efemerid (poloha ECEF, pozemní stopa a pohled ze stanice; výchozí vypnuto, beze změny) a bezeztrátové převody From mezi jd2::Jd2 a timescales::TwoPartJd. Precese-nutace a epocha silového modelu Cowell zůstávají v jednoduchém f64, kde zaokrouhlení { "40" } us je pod { "1e-15" } rad nebo hluboko pod chybou analytických efemerid Slunce/Měsíce
+
+seg-a658c7b16d6d = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; algoritmy SOFA tak, jak je vydal projekt ERFA), nezávislá knihovna: gmst82 a c2t06a na zapsaných dvoudílných datech, polární pohyb { "0.1" } a { "0.3" } obloukové sekundy. Předregistrováno b10475ee (data, prahy) před napsáním funkcí a před spuštěním orákula. Vnitřní testy (volba scénáře, zpětný převod TEME/ITRF, převody typů) jsou podpůrný vnitřní soulad
+
+seg-096df3971f5f = Matice soustav proti vektorům ERFA: precesní posun IAU { "2006" }, TEME na GCRS a řetězec CIO s posuny nebeského pólu
+
+seg-731a5ed967b3 = Tři matice soustav porovnané prvek po prvku nebo podle úhlu rotace s ERFA v libovolných epochách: precession::precession_matrix (precesní posun IAU { "2006" } podle úhlů Fukushima-Williams), nutation::teme_to_gcrs_matrix (rotace TEME na GCRS P^T N^T Rz(-EE) s precesí IAU { "2006" }, nutací IAU 2000B a rovnicí rovnodenností se dvěma vedoucími doplňkovými členy) a cio::gcrs_to_cirs_matrix_with_offsets (rotace GCRS na CIRS s posuny nebeského pólu IERS dX, dY přičtenými k modelovému CIP X, Y před rotací, konvence kuchařky SOFA; nové). Samotné modelové volby (nutace 2000B na cestě TEME, dvoučlenná doplňková řada) nejsou ověřeny, pouze jejich implementace
+
+seg-411cd8622b4d = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; algoritmy SOFA tak, jak je vydal projekt ERFA), nezávislá knihovna: pmat06; numat(obl06, nut00b) s rovnicí rovnodenností z eect00 (úplná doplňková řada), složeno jako P^T N^T Rz(-EE); xys06a poté c2ixys(X + dX, Y + dY, s). Předregistrováno 979c1e39 (epochy, posuny a prahy) před spuštěním orákula. Zbytek TEME { "1.1e-10" } rad je předpovězený účinek ponechání dvou doplňkových členů (asi { "3" } mm na oběžné dráze GNSS)
+
+seg-4e2fe2e3dabb = UTC před rokem 1972 (období driftující rychlosti) na časové cestě dvoudílného juliánského data
+
+seg-1d086e669f09 = UTC od 1960-01-01 do 1971-12-31, kdy UTC běželo s posunutou rychlostí vůči TAI a skákalo o zlomky sekundy, na cestě dvoudílného juliánského data: TAI - UTC z tabulky driftu každého období (timescales::tai_minus_utc_on_date), kalendářní datum UTC na dvoudílné juliánské datum UTC s délkou dne { "86 400" } s + dleap (Jd2::from_utc_calendar), UTC na TAI se zlomkem dne přeškálovaným z UTC na sekundy SI (jd2::utc_to_tai) a TAI zpět na UTC (jd2::tai_to_utc), podle SOFA dtf2d, utctai a taiutc. Před { "1960" } se TAI - UTC bere jako { "0" } (hodnota SOFA; UTC nedefinováno) a je mimo tvrzení. Jednoduché f64 timescales::tai_minus_utc stále omezuje na { "10" } s před { "1972" } a není pokryto
+
+seg-036d5b0b4f51 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; algoritmy SOFA tak, jak je vydal projekt ERFA), nezávislá knihovna: erfa.dtf2d("UTC"), erfa.utctai a erfa.taiutc na zapsaných okamžicích, rozdíl tvořený po částech. Předregistrováno 23c40661 (okamžiky, tolerance a kontrolní součet { "1972" }+) před změnou enginu a před spuštěním orákula. Tabulka driftu je přepsána ze stejné tabulky SOFA iauDat, kterou používá orákulum, takže porovnání pokrývá aritmetiku převodu (délka dne, škálování UTC na SI, iterace), nikoli samotnou historickou tabulku
+
+seg-efacec095051 = Broadcast hodiny družice GLONASS a propagace broadcast dráhy
+
+seg-821b9c01b56e = Broadcast posun hodin družice GLONASS -tau_n + gamma_n (t - t_b) v čase čteném na hodinách družice (glonass::GlonassEphemeris::sv_clock_bias_s, posun opravený o posun hodin dvěma iteracemi pevného bodu) a poloha PZ-90 pevná vůči Zemi z broadcast stavového vektoru propagovaného RK4 pomocí pohybových rovnic GLONASS ICD v rozmezí +/-15 min od referenční epochy (GlonassEphemeris::position_ecef), ze skutečných navigačních záznamů GLONASS RINEX { "3" }. Není aplikována žádná transformace PZ-90.11 na ITRF (shodují se na úrovni centimetrů od { "2014" }; RTKLIB také žádnou neaplikuje). Není zapojeno do výstupu žádného scénáře: knihovní funkce
+
+seg-4478a2518341 = RTKLIB v2.4.2-p13 (T. Takasu, BSD-2-Clause, commit 71db0ffa) geph2clk a geph2pos, zkompilované ze zdroje v C v samostatném testovacím rámci (xval/rtklib-glonass), který čte stejný soubor RINEX vlastní čtečkou RTKLIB, takže se porovnává i parsování, znaménko -tau_n, jednotky a iterace, nejen hodiny a dráha. Předregistrováno e099c42a před existencí funkce a před sestavením rámce. Obě strany vyhodnocují stejný uzavřený tvar hodin, takže porovnání hodin pokrývá implementaci, nikoli vzorec. Integrátory dráhy se liší (RTKLIB krokuje { "60" } s a pak zbytek, Kshana stejné kroky nejvýše { "60" } s) a liší se i konstanty (RTKLIB mu { "3.9860044e14" }, Kshana PZ-90.11 { "3.986004418e14" }); nejhorší případ { "1.1" } mm je tento rozdíl, jak bylo předpovězeno před během. Rozsah: broadcast efemeridy v intervalu své platnosti, nikoli skutečná dráha ani hodiny (bez porovnání s přesnými produkty)
+
+seg-d3b72a6fbb18 = Jedna dráhová cesta kolem Země: sady elementů SGP4 do GCRS a ITRS na řetězci IAU 2006/2000A s parametry orientace Země
+
+seg-e4eca7205b5e = Cesta propagace a soustav, kterou sdílí každý směrovaný druh pro dráhy kolem Země: sada středních elementů SGP4 s dvoudílnou epochou UTC (sgp4::MeanElementSet, načtená z elementů návrhu konstelace pomocí MeanElementSet::from_earth_fixed) propagovaná SGP4/SDP4 do TEME (sgp4::SgpOrbit) a rotace TEME -> ITRS a GCRS -> ITRS řetězce IAU 2006/2000A s UT1 - UTC a polárním pohybem (sgp4::teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop, bezparametrové tvary teme_to_itrs_matrix a gcrs_to_itrs_matrix). TEME je pravý rovník data se středním jarním bodem, dosažený z GCRS přes precesní posun IAU { "2006" }, nutaci IAU 2000B a rovnici rovnodenností
+
+seg-44f28276f859 = Větev { "1" }: python-sgp4 { "2.24" } (licence MIT; referenční C++ SGP4 od D. Vallada, kód, který vytvořil ověřovací vektory AIAA 2006-6753), WGS-72, vylepšený režim. Větev { "2" }: pyerfa { "2.0.1.5" } (ERFA, BSD-3-Clause, rutiny SOFA): c2t06a s TT z utctai/taitt a UT1 z utcut1 a pro TEME c2t06a . pnm06a^T . rz(-ee06a). Prahy stanoveny před během (předregistrováno 72ea9eb0). Zveřejněno: první běh selhal ve větvi { "2" } v 2016-12-31T23:{ "59" }:{ "59.5" } o jednu sekundu rotace (UT1 vzato z kvazi juliánského data UTC v den s přestupnou sekundou); engine byl opraven (jd2::utc_to_ut1) a druhý běh se shoduje při nezměněných prazích. Vynechaný polární pohyb ({ "46" } selhání) nebo konstanty WGS-84 místo WGS-72 ({ "4432" } selhání) způsobí, že test zčervená. Tento třívětvový návrh nahradil porovnání s Orekit od začátku do konce, které selhalo na SDP4 v Orekit při e = { "0" } a na jeho TEME podle IERS { "1996" } (zjištění zůstává připnuto v tests/leo_polar_coverage_full_claim_orekit_oracle.rs)
+
+seg-f650a11458b8 = Návrhový kompromis kódů určování vzdálenosti
+
+seg-071e552a7179 = Meze postranních laloků a křížové korelace m-posloupnosti/Gold, délka↔nejednoznačnost
+
+seg-65b7902a2d8f = Zveřejněná křížová korelace Gold GPS C/A (−{ "23.9" } dB); mez Gold { "1967" }
+
+seg-5ec4c0730280 = Geometrie GNSS / faktor DOP (zhoršení přesnosti)
+
+seg-edcd694d2b3c = GDOP/PDOP/HDOP/VDOP/TDOP z geometrie přímé viditelnosti přes Q=(HᵀH)⁻¹ s lokálním rozdělením ENU
+
+seg-cecd882ec4e4 = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — nezávislá knihovna, shoda na { "1e-6" } relativně
+
+seg-1a5623c81b48 = Chyba polohy z geometrie: chyba RMS = sigma_UERE x DOP pro řešení enginu metodou nejmenších čtverců
+
+seg-7a94b44a8738 = dop_error_mc::run_geometry a check: Monte Carlo se seedem (N = { "20,000" } epoch na geometrii, sigma = { "1.5" } m, seed ChaCha8 { "36" } + i) vlastního iterovaného řešení enginu metodou nejmenších čtverců (pvt::solve_spp, jednotkové váhy, řešeno z pravé polohy) na { "8" } geometriích z tests/fixtures/dop/dop_reference.csv, porovnávající rozptyly chyb východ, sever, nahoru a hodin, RMS H/V/P, korelaci východ–sever, střední chyby a podíl uvnitř { "95" } % horizontální elipsy se sigma^{ "2" } Q, kde Q je kovarianční faktor jádra orbit::dop (orbit::dop_cofactor, stejná aritmetika) na téže geometrii
+
+seg-90f18c774d57 = Vnitřní soulad s uzavřeným tvarem: při lineárním gaussovském modelu je kovariance metody nejmenších čtverců sigma^{ "2" } (H^T H)^-1 (Kaplan a Hegarty (eds.), Understanding GPS: Principles and Applications, 2. vyd., Artech House, { "2006" }, kap. { "7" }). Metoda a tolerance z návrhové poznámky o geometrii { "0.36" }, oddíl { "5.2" }, stanovené v předregistračním commitu před prvním během: každý rozptyl do { "5" } % ({ "5" } směrodatných chyb výběrového rozptylu při N = { "20,000" }), každé RMS do { "2.5" } %, korelace východ–sever do { "0.035" } (5/sqrt(N)), každý průměr do { "5" } směrodatných chyb, podíl elipsy { "95" } % do { "0.95" } +/- { "0.0077" } ({ "5" } binomických směrodatných chyb); negativní kontroly (PDOP zdvojnásobený; chyby rostoucí jako 1/sin(elevace) proti nevážené Q) musí selhat. JAK SE SKLÁDÁ: Q je kovarianční faktor jádra orbit::dop, VALIDATED proti gnss_lib_py { "1.0.4" } na týchž { "8" } geometriích v tests/dop_reference.rs (řádek „Geometrie GNSS / faktor DOP (zhoršení přesnosti)“); tento řádek přidává krok od těchto faktorů k metrům přes řešič enginu a nepůjčuje si stav onoho řádku. PROČ MODELLED: není zapojena žádná vnější datová sada; shoda ukazuje, že estimátor a šum realizují sigma x DOP za učebnicového modelu, nikoli že chyba kteréhokoli přijímače je rovna UERE x DOP, a sigma_UERE je vstup
+
+seg-9acfde1b57f7 = Klasifikace důvěry s ohledem na geometrii: geometrie družic vedle skóre důvěry v přijímač a třída u každé srážky
+
+seg-6138c41e13ff = receiver_trust::geometry: geometrie družic pro každou epochu (dobrá, zhoršená s důvody few-satellites/high-pdop/high-hdop/sky-blocked, nebo neznámá, když log neobsahuje GSV, NAV-SAT ani GSA) odvozená z hlášených elevací a azimutů přes orbit::dop nebo převzatá z GSA, se štítkem vždy hlášeným a nikdy nehodnoceným (good, fair, poor, unknown) a s HDOP, PDOP, VDOP, počtem družic a ztrátou signálu slovy; monitor geometrie skóre plavidla, který nesráží nic, dokud geometrie není špatná (poměr max(hdop/4, pdop/6, 5/n_used) nad { "1" }), pak se zvyšuje až ke stropu { "15" } bodů při { "1.5" }, který samotná geometrie nemůže stáhnout pod zhoršené pásmo (strop, konec rampy a spodní mez v [geometry]; žádný alarm); třída u každé srážky (geometrie, prostředí, nekonzistence) se ztrátou zachycení u družic pod { "15" } deg zařazenou jako geometrie, družicemi v dohledu, ale nesledovanými zařazenými jako prostředí, a srážkou za špatnou geometrii, jejíž uvedené HDOP je mimo max({ "1.0" }, { "25" } % odvozeného HDOP) od uvedené oblohy, zařazenou jako nekonzistence
+
+seg-6987737c5fe4 = Vnitřní soulad: klasifikace je kontrolována proti pravidlům, která uvádí, a proti ručně odvozeným poměrům na syntetických úpravách zapsaného demo logu a pevné body bez změny drží výstupy { "0.35.0" }: žádné skóre se nemění, pokud geometrie není špatná; štítek je vždy hlášen. PROČ MODELLED: prahy jsou zvoleny, nikoli proloženy (původ v geometry_model každého běhu; hodnoty IEC 61108-1 a GPS SPS jak jsou citovány, k ověření proti textu norem) a neexistuje vnější označená datová sada přirozeného zhoršení geometrie proti útokům, proti níž by se klasifikace dala validovat. Odvozené DOP znovu používá jádro orbit::dop, VALIDATED proti gnss_lib_py, jehož stav tento řádek nepůjčuje. Třída geometrie je tvrzení o obloze, nikoli zjištění, že k útoku nedošlo
+
+seg-540420863a5a = Broadcast model ionosféry (Klobuchar, IS-GPS-200)
+
+seg-fd157c537502 = Klobucharovo jednofrekvenční šikmé ionosférické skupinové zpoždění L1 z osmi broadcast koeficientů α/β
+
+seg-0b0b02e8b0b8 = RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — nezávislá referenční implementace zkompilovaná ze zdroje; shoda na < { "1e-4" } m
+
+seg-0af6b1a073ce = Statistické jádro integrity RAIM/ARAIM (zákony χ² / necentrální χ² / normální)
+
+seg-224a6c4200cd = Distribuční jádro, na kterém spočívá každá ochranná úroveň: práh detekce poruchy ze snímku χ²₁₋ₚfₐ(dof), necentralita nezachycené události pbias=√λ a násobitele separace řešení K_fa/K_md/K_V
+
+seg-03578217425f = Ochranná úroveň SBAS (HPL/VPL podle DO-229E metodou vážených nejmenších čtverců)
+
+seg-df640d6c7a5d = Ochranné úrovně podle DO-229E, příloha J, metodou vážených nejmenších čtverců: D=(GᵀWG)⁻¹ z elevace/azimutu jednotlivých družic a rozpočtu chyb, hlavní poloosa horizontální elipsy chyb a vertikální σ, škálované zveřejněnými koeficienty K
+
+seg-39aed7b4bffd = Fork RTKLIB SBAS-PL — zsiki/rtklib_ws waasprotlevels() (Siki & Takács { "2017" }, „DO-229D Appendix J“), spuštěný přes rnx2rtkp -ws na skutečných zprávách EGNOS GEO-PRN120 + skutečném RINEX BUTE/Budapešť; nezávislá implementace třetí strany, HPL shodné na < { "2e-3" } m. gLAB { "v6.0.0" } (core/filter.c) potvrdil shodnou konvenci. Obě orákula zaokrouhlují K_V→{ "5.33" } oproti přesnému Φ⁻¹({ "1" }−{ "5e-8" })={ "5.3267" } v Kshana (~{ "0.06" }%), takže vertikála je kontrolována jako d_U bez koeficientu K
+
+seg-8f32eb9c8167 = Metriky vyhodnocení detektorů ML (ROC/AUC/matice záměn/Pfa-Pmd)
+
+seg-b0d8e1b45bf9 = AUC (Mann-Whitney, shody ½), matice záměn při prahu, P_d/P_md/P_fa/preciznost/správnost/F1
+
+seg-d87c8bae7c5e = scikit-learn { "1.9.0" } (Pedregosa a kol., JMLR { "2011" }) — nezávislá knihovna, přesná shoda
+
+seg-e7af87ce5e72 = Hodnocení detekce anomálií na skutečné telemetrii kosmické lodi
+
+seg-9659b33fca5b = ROC AUC + bootstrapový CI oddělující skutečné označené anomálie; transparentní detektor (reprodukuje označení)
+
+seg-b4ed67ce7e7e = scikit-learn roc_auc_score na testovacím rozdělení OPSSAT-AD (Ruszczak a kol. { "2025" }, CC BY { "4.0" }) — skutečná telemetrie OPS-SAT
+
+seg-5c3f1057c6cc = Numerická jádra pro srovnání kvantových technik (NNLS / pásma χ² / van-Loanovo Q)
+
+seg-f82113ccb30b = Fit NNLS naměřené ADEV, pásma souladu NEES/NIS χ² a diskrétní kovariance procesního šumu hodin podle van-Loana (dojezd holdover) — výpočetní páteř srovnávacího enginu
+
+seg-823da1deb3af = scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q přesně, χ² <{ "5e-4" } při provozních stupních volnosti. Pouze jádra — čísla výkonu zařízení zůstávají vypočtená z modelu (další řádek)
+
+seg-6f3099e7562c = Referenční geomagnetické pole (syntéza IGRF-14)
+
+seg-e9534723cb34 = Sférickoharmonická syntéza hlavního pole IGRF-14 — složky X/Y/Z/F, deklinace a inklinace — napájející vrstvu alt-PNT s magnetickými anomáliemi
+
+seg-b1431734301a = ppigrf { "2.1.0" } (K. M. Laundal, MIT) — referenční implementace IGRF v čistém Pythonu od IAGA-VMOD, dodávaná s oficiálními koeficienty IGRF14.shc (IAGA 14. generace, Zenodo 10.5281/zenodo.14012302); nezávislá kódová základna třetí strany, která počítá jednoznačně definované pole IGRF-14, shoda na globální mřížce
+
+seg-cb3fea409de7 = Statistiky detekce — gaussovské AUC a minimální detekovatelná porucha
+
+seg-ca677becb465 = Analytická binormální ROC AUC = Φ(μ/(σ√{ "2" })) a minimální detekovatelná porucha σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) podporující detektory kvantových poruch a anomálií
+
+seg-7d296e4199af = scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa a kol., JMLR { "2011" }), obě BSD-3-Clause — nezávislé knihovny počítající stejné jednoznačně definované veličiny gaussovského chvostu / AUC, shoda na úroveň šumu A&S-erf (~{ "7e-8" }). Výhoda kvantového oproti klasickému postavená nad tím zůstává MODELLED
+
+seg-1ed12110fb74 = Jádro pořadových statistik (Kendall-τ / Dirichlet / percentil)
+
+seg-0fb003404a5b = Jádra pořadové korelace a převzorkování pod studií nestability rozhodnutí o odolnosti: Kendallovo τ-b, Dirichletův průměr, soutěžní pořadí a percentilové intervaly spolehlivosti
+
+seg-396602ddeef4 = scipy { "1.18" } (stats.kendalltau variant='b', rankdata) + numpy.percentile (BSD-3-Clause) — nezávislé implementace (τ metodou merge-sort) jednoznačně definovaných pořadových statistik, shoda na { "1e-12" }. Studie nestability rozhodnutí postavená na těchto jádrech zůstává MODELLED
+
+seg-fdd2ba203d5b = Jádro odvození priorit MCDA (vlastní vektor AHP / poměr konzistence)
+
+seg-d01c155fbddf = Priority Analytic Hierarchy Process = normalizovaný hlavní (Perronův) vlastní vektor reciproční matice párových porovnání mocninnou iterací, s indexem konzistence / poměrem konzistence podle Saatyho a přijímací bránou CR<{ "0.10" }
+
+seg-d1947f2f2b3b = Kanonická tabulka náhodného indexu podle Saatyho ({ "1980" }) (RI({ "5" })={ "1.12" }) přesně reprodukována + SciPy/LAPACK scipy.linalg.eig (BSD-3-Clause) jako nezávislý řešič vlastních čísel počítající stejný jednoznačně definovaný Perronův vlastní vektor/vlastní číslo, shoda na <{ "1e-9" }. Rozhodovací vrstva Pareto / citlivost / MAUT postavená na tomto jádru zůstává MODELLED (agregátory WSM/WPM/TOPSIS/VIKOR/PROMETHEE/ELECTRE jsou samostatně vnějšně ověřeny — viz řádky níže)
+
+seg-73e933220afb = Jádra vážené agregace MCDA (WSM / WPM)
+
+seg-c436cdc991a2 = Weighted Sum Model (aditivní agregát normalizovaný metodou min–max + pořadí) a Weighted Product Model (multiplikativní agregát normalizovaný součtem, převrácená hodnota pro náklady) — dva hodnotitelé agregace hodnot pro srovnávací studie
+
+seg-1b5b9abcca69 = pymcdm (methods.WSM + normalizations.minmax_normalization; methods.WPM + normalizations.sum_normalization) — nezávislá, široce používaná knihovna MCDA třetí strany v Pythonu počítající stejné jednoznačně definované vážené agregáty; shoda na <{ "1e-9" }. Znovu vygenerovatelné offline přes tests/fixtures/mcda_wsm/ a tests/fixtures/mcda_wpm/. Garbage-in-garbage-out u vstupů; vrstva citlivosti/robustnosti zůstává MODELLED
+
+seg-f00bdb66a052 = Řazení MCDA podle vzdálenosti k ideálu (TOPSIS)
+
+seg-631578cb1259 = Technique for Order of Preference by Similarity to Ideal Solution — normalizace min–max, vážená kladná/záporná ideální řešení, relativní blízkost Cᵢ = d⁻/(d⁺+d⁻) a pořadí
+
+seg-68265fb0034c = pymcdm methods.TOPSIS + normalizations.minmax_normalization — nezávislá knihovna MCDA třetí strany počítající stejné jednoznačně definované koeficienty blízkosti; shoda na <{ "1e-9" }. Znovu vygenerovatelné offline přes tests/fixtures/mcda_topsis/generate_topsis_reference.py
+
+seg-ef33d848c985 = Kompromisní řazení MCDA (VIKOR)
+
+seg-cf879fb770f2 = VlseKriterijumska Optimizacija — skupinový užitek Sᵢ, individuální lítost Rᵢ a kompromisní index Qᵢ při váze strategie v={ "0.5" }, s řazením, kde nižší je lepší
+
+seg-62df6258bc62 = Pouze vnitřní soulad: zveřejněný součet je kontrolován proti odmocnině ze součtu čtverců členů ve stejném souboru a vydaná křivka reprodukuje zveřejněný p3_time_budget_curve.csv ve všech { "57" } bodech. Obě kontroly sdílejí vlastní definice členů tohoto enginu, takže žádná není nezávislá. Člen hodin spočívá na zveřejněných specifikacích hodin, ale VELIKOSTI spodních mezí spoje, soustavy, relativity a efemerid jsou zdokumentované alokace rozpočtu bez vnějšího orákula
+
+seg-675887733454 = Časová laboratoř lunární stanice: holdover miniRAFS vůči LTC
+
+seg-7dfedc40da6a = Volitelný blok [time_lab] scénáře lunar-time-budget modeluje hodiny lunární referenční stanice (výchozí třída miniRAFS, nebo jakákoli pojmenovaná třída, nebo karta zařízení proložená uvedenými body stability) řízené na koordinovaný lunární čas a poté volně běžící nebo znovu řízené každých N sekund: křivka časové chyby x(t) jako odmocnina ze součtu čtverců členu mocninného zákona hodin, konstantního zbytku řízení (ILUSTRATIVNÍ), konstantního zbytku realizace LTC a volitelného členu rychlosti výšky stanice; čas po řízení do { "1" }, { "10" } a { "100" } ns (nebo uvedených prahů) půlením intervalu vedle uzavřené inverze pro dominantní typ šumu a dominantní člen v každém uvedeném horizontu, vše s jednotkami
+
+seg-3801e9b32309 = Pouze vnitřní soulad: čas do prahu určený půlením intervalu je kontrolován proti uzavřené inverzi dominantního typu šumu hodin a volně běžící člen hodin proti vlastnímu členu hodin rozpočtu. Třídy hodin spočívají na zveřejněných jednodenních specifikacích (jejich vlastní řádky); rychlost LTC se zde neodvozuje znovu a má vlastní řádek VALIDATED (Lunární souřadnicový čas); zbytek řízení je ILUSTRATIVNÍ, zbytek realizace je alokace rozpočtu a není zahrnut žádný tepelný model. Cíl na úrovni nanosekund popsaný v materiálech ICG WG-B Lunar PNT z června { "2024" } je citován jako zdrojové tvrzení, nikoli převzat jako tvrzení; nic zde není tvrzením o jakýchkoli skutečných hodinách stanice
+
+seg-af3ff120b707 = Lunární geodetická VLBI
+
+seg-cfd7d0126028 = Zpoždění blízkého pole VLBI pro pozemní základnu pozorující lunární maják + parciální derivace
+
+seg-d1943f9932af = Zpoždění delta_dor rovinné vlny (stejná kódová základna) v limitě dalekého pole; parciální derivace konečnými diferencemi. Vnější porovnání { "0.30" }, zjištění (zůstává MODELLED): proti světelným časům ANISE { "0.10" } konvergovaným přes DE440 ({ "75" } zpoždění dne 2024-01-01 přes tři základny DSN, vygenerováno xval/anise-lunar-od bez kódu Kshana) není žádné zpoždění v toleranci { "1" } ps. Největší rozdíl je { "24" } µs, z analytického středu Měsíce (asi { "200" } km od DE440), jediné okamžité geometrie bez iterace světelného času ({ "3.6" } µs) a vynechaného polárního pohybu; parciální derivace majáku se liší až o { "2.9e-3" } relativně oproti { "1e-6" }. Tvrzení v dokumentaci modulu, že aproximace soustav jsou pod věrností modelu, na této úrovni neplatí. { "0.30" } kolo { "2" }: cesta jádra (lunar_vlbi::KernelGeometry) je ověřena proti světelným časům NAIF SPICE ve vlastním řádku, Lunární geodetická VLBI, cesta jádra; porovnání této cesty s ANISE (75/75 v { "1" } ps, nejhorší { "0.12" } ps, tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference) je pouze křížovou kontrolou vyhodnocení jádra, protože řešení světelného času v tomto testovacím rámci je vlastní tohoto projektu. Tento řádek (analytická výchozí cesta) zůstává MODELLED se zjištěním výše
+
+seg-d12d4565b01d = Lunární geodetická VLBI, cesta jádra
+
+seg-11e1c942e41c = Zpoždění blízkého pole VLBI pro pozemní základnu pozorující lunární maják, s parciálními derivacemi majáku a stanice, na cestě jádra (lunar_vlbi::KernelGeometry): DE440 Země a Měsíc, hlavní osy Měsíce DE440, orientace Země ITRF93 s UT1 a polárním pohybem, každý světelný čas konvergovaný v barycentrické soustavě, parciální derivace se světelným činitelem 1/(c - u.V). Spustitelné jako scénář <c1/> s nastavenými planetary_kernel_path, earth_orientation_kernel_path a moon_orientation_kernel_path; ověřené výstupy jsou řada geometric_delay_s a epoch_partials na cestě jádra. Na cestě jádra delay_s přidává analytický diferencovaný člen Shapiro, který se neporovnává, a delay_rate a near_field_correction_us se neporovnávají
+
+seg-c7f6842b6019 = NAIF SPICE Toolkit N0067 (spiceypy { "8.2.0" }, MIT) konvergované newtonovské světelné časy (spkcpt/spkcpo, CN) z majáku pevného v MOON_PA_DE440 ke stanicím DSN DSS-14, DSS-43 a DSS-63 z kernelu stanic NAIF earthstns_itrf93_260814.bsp, s de440s, moon_pa_de440_200625, moon_de440_250416.tf, earth_latest_high_prec a naif0012; parciální derivace jsou pětibodové centrální diference světelných časů SPICE, nikoli vzorec 1/(c - u.V) z Kshana. Předregistrováno (a689c797, epochy { "2024" }) s prahy { "1" } ps u každého zpoždění a { "1e-6" } relativně u každé parciální derivace. První běh selhal (17/75 zpoždění v { "1" } ps, nejhorší { "1.03e-11" } s): SPICE nese ET jako jedno double, jehož rozestup v { "2024" } zaokrouhluje epochu emise až o { "6e-8" } s, asi { "6" } ps světelného času, a zbytek odpovídá tomuto zaokrouhlení při korelaci { "0.99999" } (připnuto; recenzent to nezávisle reprodukoval). Dodatek 66e365d4, napsaný po tomto výsledku a před existencí jeho fixtury, přesunul stejné orákulum a prahy na { "25" } hodinových epoch poblíž J2000, kde je rozestup ET nejvýše { "1.5e-11" } s: 75/75 zpoždění v { "1" } ps (nejhorší { "6.2e-14" } s), 75/75 parciálních derivací majáku (nejhorší { "7.4e-9" }), 150/150 parciálních derivací stanic (nejhorší { "3.8e-11" }). Mimo tvrzení: analytická výchozí cesta (řada Měsíce a střední lunární soustava, { "24" } µs od ANISE přes DE440, řádek Lunární geodetická VLBI), diferencovaný člen Shapiro, který scénář přidává analyticky, média a převod barycentrické na geocentrickou stupnici
+
+seg-1f10810131be = Čtečka jader NAIF: kontejner DAF, SPK typ { "2" } a binární PCK typ { "2" }
+
+seg-7da4847e7a28 = Vlastní čtečka binárních jader NAIF v čistém Rustu (naif_kernel): kontejner DAF (oba řády bajtů, propojené souhrnné záznamy), polohové segmenty SPK typu 2 s Čebyševovými polynomy řetězené přes své středy k nejnižšímu společnému předku a segmenty Eulerových úhlů binárního PCK typu 2 převedené na rotaci J2000 na těleso, s epochami branými jako dvoudílné ET, takže posun pod mikrosekundu zachová svou přesnost. Je to to, čím KernelEphemeris (ephem_provider) a cesty jádra lunar_vlbi, lunar_llr a lunar_vlbi_fim čtou DE440. Tvrzení je, že čte jádra JPL správně; nejde o tvrzení, že DE440 nebo analytické řady Slunce a Měsíce v enginu jsou přesné
+
+seg-09773b73d785 = Dvě nezávislé čtečky jader na týchž souborech NAIF: NAIF SPICE Toolkit N0067 (CSPICE přes spiceypy { "8.2.0" }, MIT; spkezr a pxform) a ANISE { "0.10.6" } (Nyx Space, MPL-2.0; Almanac.translate a Almanac.rotate), obě spuštěné jako samostatné programy na de440s.bsp a moon_pa_de440_200625.bpc. Předregistrováno (abcd9133) před existencí jakékoli fixtury nebo hodnoty orákula: seed mřížky je prvních { "16" } hexadecimálních číslic hashe onoho commitu, takže ani { "200" } epoch, ani dvojice těles nemohly být vybrány s výsledkem na očích; každá epocha nese také Měsíc a Slunce vůči Zemi. Prahy stanoveny předem z vyhodnocení Čebyševových polynomů v dvojité přesnosti (nejvýše { "15" } koeficientů, n^{ "2" } u = { "2.5e-14" } na vyhodnocení, dvě vyhodnocení a nejvýše dva přechody na stranu): poloha { "1e-13" } R + { "1e-5" } m, rychlost { "1e-13" } V + { "1e-10" } m/s, R a V větší velikost vůči nejnižšímu společnému předku; prvek rotace { "1e-13" } W + { "1e-15" }, W součet koeficientů pokrývajícího záznamu; ANISE přidává { "2" } ns relativního pohybu pro své nanosekundové epochy. Výsledek: každý z { "600" } stavů a { "200" } rotací uvnitř svého prahu proti oběma orákulím, na výřezu i na úplných jádrech; nejhorší { "6.0e-3" } prahu (poloha), { "5.9e-3" } (rychlost), { "3.7e-3" } (rotace). Mutace: vyhodnocení každého záznamu při -s selže v { "3597" } porovnáních. Zveřejněno: dřívější 25epochová kontrola proti SPICE ({ "4.6e-5" } m, tests/naif_kernel_reader_check.rs) byla viděna před tímto řádkem a není jeho důkazem; první běh generátoru fixtur skončil chybou na prázdném intervalu mřížky před vytvořením jakékoli hodnoty a byl opraven. Obě strany čtou DE440, takže shoda potvrzuje čtečku, nikoli efemeridy
+
+seg-e08e98908f3a = Earth-GNSS ve vzdálenosti Měsíce
+
+seg-dd8ce373d1f6 = Příjem Earth-GNSS ve vzdálenosti Měsíce: vrstva slabého signálu, kterou jmenuje tabulka { "1" } P7 a pro kterou engine neměl model. Pro každou družici a každou epochu počítá úhel mimo osu vůči nadiru vysílače, zda Země zakrývá přímou cestu, šikmou vzdálenost a její ztrátu ve volném prostoru, vysílací zisk v tomto úhlu, přijímaný výkon a poměr nosné k hustotě šumu; poté agreguje jen spoje překračující práh sledování a prochází celou otáčku konstelace, takže odpovědí je ROZDĚLENÍ, nikoli jeden snímek. Výsledek určují tři skutečnosti a zpráva uvádí každou z nich: Země ze vzdálenosti poloměru konstelace zabírá { "13.90" } deg, takže VRCHOL svazku je geometricky nedostupný pro jakýkoli paprsek mířící k Měsíci; zbývají okraj hlavního laloku a postranní laloky, režim, ve kterém LuGRE u Měsíce v { "2025" } pracovalo; a ztráta šířením na L1 je asi { "208" } dB, tedy o zhruba { "25" } dB víc, než platí pozemní uživatel. NAMĚŘENO na přibalené geometrii třídy GPS s 24 družicemi během { "64" } epoch jedné oběžné doby: dostupnost SIGNÁLU { "0.375" } s nejlepším spojem { "30.93" } dB-Hz a dostupnost URČENÍ POLOHY { "0.000" } - nejvýše dva současně sledovatelné spoje, nikdy ne čtyři, které poloha potřebuje. Rozlišení těchto dvou dostupností je smyslem věci a zpráva nedovolí je zaměňovat: Earth-GNSS ve vzdálenosti Měsíce je vrstva ČASOVACÍ třídy, nikoli třídy určování polohy, a předpoklad vrstvené odolnosti musí vzít dostupnost určení polohy. Podmíněnost je vydávána ze stejného důvodu - každá viditelná družice leží uvnitř kužele širokého několik stupňů, jak se jeví z Měsíce, takže přímky viditelnosti jsou svou konstrukcí téměř rovnoběžné. Spustitelné jako druh <c1/> Přeformulováno podle D7: tvrzení ve vzdálenosti Měsíce je RELATIVNÍ poměr nosné k hustotě šumu mezi družicemi v jedné epoše, z naměřených dvourozměrných vysílacích diagramů (NAVCEN Block IIR/IIR-M), plus geometrická viditelnost; absolutní C/N0 se netvrdí (Parker a kol. uvádějí společnou ztrátu { "7" } až { "12" } dB).
+
+seg-bed2679f88e5 = Identity v uzavřeném tvaru a vnitřní soulad; ŽÁDNÉ vnější orákulum se netvrdí. Polovina úhlu limbu je kontrolována proti asin(R_earth/r_orbit) a geometrie proti ní; ztráta ve volném prostoru, jádro DOP a propagace SGP4, které toto skládá, jsou každé vnějšně ověřeny ve vlastních řádcích a tento řádek si jejich stav nepůjčuje. PROČ MODELLED, a je to vysílací diagram: zisk v úhlu je rovnoměrně osvětlená kruhová apertura, Airyho obrazec, zatímco skutečná anténa GPS L1 je dvanáctiprvková šroubovicová soustava s tvarovaným hlavním lalokem se špičkou mimo osu, aby se vyrovnal výkon přes disk Země, a s postranními laloky, které nejsou Airyho. Zveřejněné naměřené diagramy existují a nejsou zde přibaleny, takže pořadí a řády velikosti platí, zatímco dB jedné družice ne. PRVNÍ IMPLEMENTACE TOHOTO ŘÁDKU BYLA CHYBNÁ ZPŮSOBEM, KTERÝ STOJÍ ZA ZAZNAMENÁNÍ: Airyho výraz platí jen v přední hemisféře, jeho argument jde jako sin(theta) a při theta blízko { "180" } deg se zalomí a vrátí PLNÝ ZISK V OSE za aperturou - takže dva nejsilnější spoje v první zprávě byly družice mířící anténami od Měsíce a byly jedinými dvěma, které překročily práh. Za aperturou model nyní uplatňuje plochou spodní mez zadního laloku, uvedenou jako mez, nikoli jako vymyšlený tvar diagramu. Záměrně chybí, každé činí rozpočet OPTIMISTICKÝM: žádná ionosférická ani troposférická ztráta na paprscích dotýkajících se limbu, žádná polarizační ztráta, ztráta zaměřením ani implementační ztráta a kulová Země bez refrakčního rozšíření. Poloha Měsíce je VSTUP, nikoli vyhledání v efemeridách, protože testovanou veličinou je spoj a geometrie svazku. Povýšení tohoto řádku na ověřeno vyžaduje naměřený vysílací diagram a normální body LuGRE, proti nimž lze kontrolovat; ani jedno není v repozitáři a ani jedno zde není vymyšleno. { "0.30" } kolo { "2" }, zjištění (zůstává MODELLED): spoj s naměřenými vstupy (skutečné polohy SP3, vysílací výkon podle bloku, tabelované vysílací a přijímací diagramy, hystereze záchytu a sledování) byl zkontrolován proti Montenbruck a kol. { "2023" }, tabulka { "3" } pro GENESIS na { "6000" } km (předregistrováno 5b414f0a): průměry zenitové antény se shodují u { "5" } z { "6" } do jednoho dB od citlivosti v článku; průměry nadirové antény jsou o { "1.0" } až { "2.4" } družic vyšší, než je vytištěno, pravděpodobně proto, že článek použil azimutově závislé postranní laloky GPS, které nejsou zveřejněny. Údaje tohoto řádku pro vzdálenost Měsíce stále používají náhradu Airy. { "0.30" }+ D7, zjištění (zůstává MODELLED): přeformulovaná veličina, ROZDÍL C/N0 mezi družicemi Block IIR/IIR-M sledovanými v jedné epoše, předpovězený podle naměřených diagramů L1 NAVCEN pro jednotlivá SVN (dvourozměrných, v soustavě řízení stáčení) proti letovému C/N0 LuGRE (předregistrováno 768cb62b: { "99" } % viditelných, RMS dvojic <= { "3.0" } dB, medián <= { "2.0" } dB, alespoň { "50" } záznamů a { "30" } dvojic) má příliš málo dat: { "26" } kvalifikovaných epoch přeletu a lunární oběžné dráhy obsahuje { "15" } sledovaných záznamů IIR/IIR-M (většinou se sledují IIF a III) a jednu dvojici. Všech { "15" } je předpovězeno jako viditelných a reziduum jediné dvojice je -0.06 dB; nic se netvrdí
+
+seg-29df5b40a3f9 = Určování lunární oběžné dráhy: Earth-GNSS proti pozemním radiometrickým měřením
+
+seg-647902ebcee3 = Určování oběžné dráhy na téměř přímočaré halo dráze (nebo eliptické zmrazené dráze) ze dvou nezávislých typů dat: pseudovzdáleností Earth-GNSS přijímaných na palubě (pravidlo spoje z řádku Earth-GNSS ve vzdálenosti Měsíce, plus zákryt Měsícem) a pozemních dvoucestných vzdáleností a rychlostí změny vzdálenosti ze tří stanic Deep Space Network. Každé je jednokrokové dávkové řešení nejmenších čtverců kolem referenční dráhy s formální kovariancí; Monte Carlo se seedem rozdílu obou odhadů testuje, zda obě kovariance rozdíl vysvětlují (q = d' (P_G + P_R)^-1 d, chí-kvadrát se šesti stupni volnosti, když se modely shodují) a co s touto statistikou dělá nemodelované zrychlení.
+
+seg-226dedaba243 = Nezávislý program v scipy/numpy integruje tytéž variační rovnice (práh O1). S měřením lunární oběžné dráhy se nic neporovnává. Orákulum kontroluje numeriku uvedených vzorců, nikoli fyziku, takže řádek zůstává MODELLED. Omezený model tří těles: žádné Slunce, žádné lunární harmonické, osa rotace Země podél normály dráhy, ILUSTRATIVNÍ vstupy přijímače a stanic.
+
+seg-652bdc29deea = Řešení nejednoznačností fáze nosné na Měsíci: povrch a orbiter
+
+seg-02496f9e9af2 = Jednoduše diferencovaná fáze nosné a kód Earth-GNSS mezi přijímači na lunární povrchové stanici a orbiteru, s rozdílem hodin v každé epoše vyloučeným profilováním, jednou nejednoznačností na souvislý průlet a nejdelším průletem jako kalibrem. Kovariance float nejednoznačností je Schurův doplněk; LAMBDA řeší celá čísla, bootstrapová míra je uvedena vedle míry úspěšnosti celočíselných nejmenších čtverců metodou Monte Carlo se seedem a sigma polohy float a fixed. Uvedeno tak, jak bylo zjištěno: při registrovaných { "12" } dBi není problém dvojitých diferencí tvořitelný (dodatek { "1" } přesunul výchozí hodnotu na { "25" } dBi poté, co byly viděny jen počty dostupnosti), a při { "25" } dBi celočíselné řešení NENÍ dosaženo - je mimo dosah (nejvýše několik procent), ačkoli float řešení se s obloukem zlepšuje.
+
+seg-8d8296752eb8 = Nezávislé řešení týchž normálních rovnic v numpy z exportovaných řádků (Q3) a hrubá celočíselná enumerace (Q4). S žádným měřením fáze nosné GNSS ani lunární se neporovnává. MODELLED.
+
+seg-11dd1bb8e4e1 = Společný odhad lunární soustavy: povrchové stanice a orbitery
+
+seg-a38c8d95e6c9 = Fisherova informace sedmiparametrového datumu lunární soustavy z laserového měření vzdálenosti ze Země ke všem pěti reflektorům samotným a s přidanými vzdálenostmi orbiter–povrchová stanice: informační matice, hodnost, sigma Cramér–Rao, metrika degenerace modulu lunární identifikovatelnosti a náhodné sady stanic se seedem. Dráha se v lunárních osách považuje za známou (její chybu nese sigma vzdálenosti orbiteru).
+
+seg-47d2afc53b3d = Nezávislá konečná diference přímého modelu v numpy (F2). S reálnými řešeními lunární soustavy se nic neporovnává. Faktor je podmíněn předpokládanou známou dráhou a sigma vzdálenosti { "1" } m. MODELLED.
+
+seg-862977c4bb01 = Preciznost vazby soustav ve vesmíru: společně umístěné GNSS, VLBI a laserová měření vzdálenosti
+
+seg-a9ae8e99f00d = Preciznost Cramér–Rao posunů translace, měřítka a rotace mezi technikami v soustavách GNSS, VLBI a laserového měření vzdálenosti, když všechny tři nese jedna kosmická loď, s polohou kosmické lodi vyloučenou v každé epoše a devíti parametry rušivých lokálních vazeb nesoucími apriorní informaci, přes přesnost lokální vazby. Kovariance cestou odmocniny (normální rovnice ztrácejí číslice, když jsou techniky téměř dokonalé).
+
+seg-b37ac7294112 = Nezávislý nasčítaný systém v numpy s neznámými polohami vyloučenými explicitními Schurovými doplňky (T3). S žádnými daty GRASP, Genesis ani jiné mise se neporovnává. MODELLED.
+
+seg-ae627996875e = Citlivost na Loveova čísla a librace Měsíce
+
+seg-28780d07c4a7 = Fisherova informace h2, k2, l2 a fyzikálních amplitud librace z laserového měření vzdálenosti (radiální a horizontální slapový posun, rotace reflektoru), sledování orbiteru (zrychlení k2 stupně 2 integrované podél přímky viditelnosti, odstraněný trend), povrchového gravimetru (gravimetrický faktor { "1" } + h2 - { "1.5" } k2) a povrchových hodin (relativní rychlost ({ "1" } + k2 - h2) W2/c2, vázaná na lunární časové konstanty). Nominální hodnoty h2 a l2 jsou body linearizace; studie říká, co je na co citlivé, nikoli jaká jsou čísla.
+
+seg-180d74388339 = Nezávislé sestavení konečnými diferencemi v numpy (G2) a vyhodnocení v uzavřeném tvaru (G4). Citlivost k2 rodiny orbiterů je údaj horního konce (stav dráhy zde pohlcuje jen konstantu a trend). S žádným měřením lunárního slapu ani librace se neporovnává; k2 je citováno z Lemoine a kol. { "2014" } jako nominální hodnota. MODELLED.
+
+seg-da712b740519 = Zlepšení DOP lunárními povrchovými majáky
+
+seg-83e6341e01b1 = Faktor DOP rozšířený o majáky pro lunárního povrchového uživatele: řádky přímé viditelnosti viditelných družic a řádky určování vzdálenosti viditelných povrchových majáků jsou spojeny do jedné návrhové matice a vyhodnoceny přes sdílené jádro DOP a výsledné DOP je převedeno na realizovanou přesnost 1-sigma V METRECH přes ekvivalentní chybu určování vzdálenosti uživatele pro každý maják, sestavenou jako odmocnina ze součtu čtverců členů synchronizace hodin, vícecestného šíření a zaměření. Viditelnost majáku je geometrický horizont Měsíce bez atmosféry ve dvou výškách, který nemá refrakční rozšíření a je proto přesný, nikoli přibližný. Spustitelné jako druh scénáře <c1/>, který uvádí samotné družice, družice plus majáky a větší konstelaci jako konkurenční cestu ke stejné geometrii. NAMĚŘENO na přibalené zlaté geometrii (uživatel na -80 deg, tři zaměřené majáky, šestidružicový ilustrační LCNS při t={ "0" }, maska { "5" } deg): { "5" } viditelných družic dává PDOP { "9.6941" } a 3D 1-sigma { "11.222" } m; přidání majáků, které skutečně překročí horizont, dává PDOP { "4.1160" } a { "4.765" } m, faktor { "2.355" }; 24družicová služba místo toho dává PDOP { "2.4226" } a { "2.804" } m, faktor { "4.002" }. Zpráva vypisuje počet VIDITELNÝCH majáků, nikoli nakonfigurovaný, a na této geometrii překračuje horizont pouze JEDEN ze tří majáků: dva boční body leží asi { "333" } km od uživatele proti horizontu { "86" } km pro anténu ve výšce { "2" } m, takže čtenář nikdy nemusí předpokládat, že přispěly všechny tři

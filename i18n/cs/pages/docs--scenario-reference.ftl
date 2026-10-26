@@ -141,3 +141,67 @@ seg-c92e66cebc74 = Realizace lunární referenční soustavy — fit 7parametrov
 seg-043647362b56 = Lunární interoperabilní export — sladěný s LunaNet / IOAG, výměna založená na CCSDS.
 
 seg-6962adaa6a1f = Vygenerováno při sestavení ze souborů scénářů a verifikační matice v repozitáři.
+
+seg-7e27d737f4e5 = Lunární rušení (jamming) v rádiovém pásmu: poměr J/S pro jednotlivé družice u uživatele na povrchu Měsíce.
+
+seg-b832efa33b26 = Společné určování oběžné dráhy a hodin z více technik na Měsíci (SIMULOVANÁ síť).
+
+seg-cf209fe904f0 = Sedmiparametrové Helmertovo datum lunární soustavy ze SKUTEČNÉ, ARCHIVOVANÉ pozorovací kampaně (V3).
+
+seg-f0aad2150389 = Geodézie lunární referenční stanice, ZÁKLAD: samotných pět dnešních retroreflektorových soustav.
+
+seg-8ea4372cb851 = Celkový rozpočet časové chyby koordinovaného lunárního času (LTC) na mřížce hodnot tau.
+
+seg-b1989c67a1b5 = Lunární souřadnicový čas (LTC/TCL): relativistický chod hodin Země–Měsíc.
+
+seg-3dd816ab3e2a = Lunární geodetická VLBI: pozemní základna pozoruje maják na povrchu Měsíce.
+
+seg-ef34999556df = Kovarianční matice souřadnic stanic z lunární VLBI podle explicitního pozorovacího plánu (G8, článek D3).
+
+seg-e9b0a88ff0f9 = Analýza SERVISNÍHO OBJEMU lunární navigace: konstelace třídy Moonlight / LCNS.
+
+seg-a11177c21b94 = Rozpočet predikce lunární soustavy a orientace Země (EOP) v reálném čase.
+
+seg-a9e68b95994d = Určování polohy landeru na Europě: případ jupiterského měsíce.
+
+seg-6e1713545914 = Určování polohy nízké oběžné dráhy kolem Marsu pomocí marsovské navigační konstelace a spoje do hlubokého vesmíru.
+
+seg-58fd71afc7b3 = Celá sluneční soustava v jedné epoše.
+
+seg-c768cfa1127f = Odolnost vrstveného PNT vůči konfliktu (článek P7).
+
+seg-66e430c55836 = Srovnání kvantového a klasického PNT s načtením naměřené ADEV (demonstrátor ESA AO/1-13503).
+
+seg-1e0ae3e165af = Monte Carlo soubor se seedem napříč kampaní, na případu s uzavřeným tvarem řešení.
+
+seg-da7647613c60 = Oblast zaměření LEO-PNT: další datové služby PNT v navigační zprávě.
+
+seg-108d1486ec7b = Oblast zaměření LEO-PNT: sloučené PNT z MEO + LEO.
+
+seg-a2beff2ebaa4 = Oblast zaměření LEO-PNT: navigace uvnitř budov pomocí UHF.
+
+seg-c61db40d4251 = Oblast zaměření LEO-PNT: určování polohy s nízkou spotřebou energie pro internet věcí (IoT) a mobilní zařízení.
+
+seg-85b70e840ab6 = Oblast zaměření LEO-PNT: kompatibilita s neterestrickými sítěmi (NTN) 5G/6G.
+
+seg-2d409c46b492 = Oblast zaměření LEO-PNT: vysoce přesné určování polohy (precizní určování polohy bodu, PPP).
+
+seg-5b1936c7d338 = Odolnostní mise LEO-PNT: GNSS je rušeno (jamming), uživatele nese LEO-PNT, integrita je zachována.
+
+seg-d238fbcc1f84 = Odolnost LEO-PNT díky rozmanitosti pásem: jeden rušič, čtyřpásmový přijímač.
+
+seg-4a60598e908a = Odolnost LEO-PNT vůči spoofingu: který monitor vidí který spoofer.
+
+seg-45e191fe3971 = Vertikála LEO-PNT: bezdrátové sítě, časování základnových stanic 5G/6G.
+
+seg-2466e0a2b0ad = Vertikála LEO-PNT: sledování majetku a internet věcí (IoT), energie na určení polohy.
+
+seg-81df59dd795b = Vertikála LEO-PNT: autonomní vozidla, městský kaňon s vrstvou LEO.
+
+seg-7cbec18ce36b = Vertikála LEO-PNT: městský kaňon pro autonomní vozidla, jako plochá mezní elevace a jako ulice.
+
+seg-c5cbb50f640e = Vertikála LEO-PNT: časování kritické infrastruktury, holdover s časem LEO.
+
+seg-abf58b089d72 = Vertikála LEO-PNT: polární a arktičtí uživatelé.
+
+seg-a7de37959bb9 = Vertikála LEO-PNT: železnice a námořní doprava, přibalené námořní a železniční scénáře plus LEO.

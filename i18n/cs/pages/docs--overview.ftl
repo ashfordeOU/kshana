@@ -151,3 +151,25 @@ seg-c611ee59301a = Animace
 seg-c01b78b64065 = Zprávy
 
 seg-c60dc5b92a60 = Exporty pro interoperabilitu
+
+seg-298cc35fe9d1 = Inerciální
+
+seg-f1f903f1b9ff = Odolnost
+
+seg-6f253e0464fe = Námořní
+
+seg-a7cfe6f135f1 = Oběžná dráha a geometrie
+
+seg-a5a572db3bed = Numerický propagátor
+
+seg-57b120fb0aac = Manévry a návrh trajektorie
+
+seg-6af8e99df46d = Alt-PNT (bez GPS)
+
+seg-f9582184adea = Fúze
+
+seg-ca67c864635c = Určování oběžné dráhy
+
+seg-4e28248ef77b = Pozorovatelnost a teorie odhadu
+
+seg-e386dced1d16 = Lunární a cislunární

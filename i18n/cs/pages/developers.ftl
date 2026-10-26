@@ -801,3 +801,5 @@ seg-bd7b70852d88 = Spusťte benchmark.
 seg-193ee1ab991e = <c1/> promění soubor odevzdání a pravdu daného rozdělení v soubor výsledku a <c2/> vykreslí soubory výsledků do statické stránky. Nic se nespouští vaším jménem a nic se nenahrává.
 
 seg-0c50b3629e39 = Otevřít benchmark
+
+seg-255de20bccce = Vytvořte podepsaný balíček laboratorního zpětného průchodu (<c1/>, docs/spec/TEST-CONDITIONS.md): hashem propojuje scénář, který pohyb vytvořil, laboratorní dokument <c2/>, log přijímače a jeho skóre vůči uvedeným událostem v podepsaném balíčku důkazů, jehož <c3/> nese blok <c4/>. Odmítne balíček, jehož podmínky a hodnoticí události si odporují nebo jehož uvedený SHA-256 logu neodpovídá logu. ŽÁDNÝ SIGNÁL: nic se nezapisuje, nepřehrává ani neplánuje; jak se pohyb scénáře dostal k přijímači, je odpovědností provozovatele a zaznamenává se pouze tak, jak byl uveden. Podpisový seed se nikdy nevrací ani nezapisuje do logu; je-li vynechán, použije se jednorázový klíč, který se poté zahodí (integrita, nikoli identita). Vstup je omezen na { "4" } MiB a odpověď na { "4" } MiB. Technický záznam, nikoli právní posudek ani certifikace. Úroveň důkazů: MODELLED.

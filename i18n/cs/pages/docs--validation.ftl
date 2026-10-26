@@ -29,3 +29,7 @@ seg-eaf341ff4522 = Kvantová navigace bez GNSS
 seg-75636f9419b2 = Známá omezení
 
 seg-5ed34a5b402e = Lunární společné vícetechnikové určování oběžné dráhy a hodin
+
+seg-619f89bf160c = Realizace lunární referenční soustavy
+
+seg-d12d4565b01d = Lunární geodetická VLBI, cesta jádra

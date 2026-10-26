@@ -93,3 +93,7 @@ seg-7994e9983f27 = Deterministické podle scénáře, seedu a verze enginu
 seg-9d3ee6a5613e = Běhy
 
 seg-94de9433d99f = Soubory scénářů
+
+seg-b03984610dc0 = Lunární
+
+seg-6f253e0464fe = Námořní
