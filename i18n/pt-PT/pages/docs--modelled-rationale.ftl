@@ -1154,3 +1154,187 @@ seg-c04042b0270a = Limiares de interferência de confiança do recetor calibrado
 
 # text
 seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: a calibração pré-registada dos monitores de queda de C/N0, AGC e indicador de jamming no conjunto de dados público JammerTest { "2024" } (Zenodo { "15911589" }, GPL-3.0-or-later, obtido em tempo de execução, nunca incorporado): por pasta uma cronologia de { "1" } s de mon_rf.csv e rinex.csv, os monitores executados uma vez, cada época pós-calibração etiquetada como limpa ou de jamming a partir do attack_log da pasta (deslocado de CEST para UTC, guarda de { "60" } s), cada limiar varrido sobre uma grelha fixa, selecionado o menor limiar com probabilidade de falso alarme limpo agregada no máximo de { "0.01" }, e contagens reservadas de deixar uma pasta de fora; uma verificação cruzada do leitor UBX. A seleção só é fornecida como o perfil opcional [monitors] profile = "jammertest-2024-calibrated" (cn0_drop_db { "1.5" }, agc_k_sigma { "3.5" }, jam_ind_threshold { "29" }); a regra por omissão e cada saída sem ele permanecem inalteradas
+
+# text
+seg-f839285852d9 = Volume de serviço lunar a partir de geometria de constelação real, obtida de fontes externas
+
+# text
+# c1: ephemeris_path
+seg-c3059fcced49 = Aceita uma efeméride de estado tabelada, centrada na Lua (a avaliação de um kernel SPK/BSP), ou uma definição de constelação publicada através de <c1/>, executa contra ela o mesmo varrimento de cobertura / DOP / nível de proteção e emite o requisito de alcance σ_URE que daí decorre AO LADO dos resultados keplerianos e perturbados ilustrativos, que permanecem inalterados, com a diferença como grandeza própria e nomeada. Cada valor traz uma classe de proveniência que distingue o derivado de kernel do derivado de elementos publicados e do modelado, de modo que nunca possam ser confundidos numa citação posterior
+
+# text
+seg-36a6cfaf5afa = Unidade e proveniência declaradas para cada grandeza reportada
+
+# text
+# c1: inherits-scenario-label
+# c2: depends-on-input
+seg-12460501e82b = Um esquema legível por máquina que indica a unidade, a classe de proveniência e a definição de cada campo numérico de cada relatório de cenário, mais uma única barreira global que executa todos os tipos de cenário registados e falha se um campo numérico emitido não tiver uma das duas. O vocabulário de proveniência é fechado e cada classe tem um nível de evidência, com duas classes deliberadamente mapeadas para <c1/> e <c2/>, em vez de lhes ser atribuído um nível que a classe não determina
+
+# text
+seg-c815cb90dcde = Geodesia de estações de referência lunares: retrorrefletor e baliza VLBI acrescentados face ao datum de cinco matrizes
+
+# text
+seg-103cf21173ac = As entradas opcionais extra_reflectors e extra_beacons no cenário lunar-llr-datum acrescentam um bloco station_geodesy: a informação de Helmert das cinco matrizes a partir da fatia arquivada de medição laser lunar, mais a informação que um retrorrefletor acrescentado (medido nas épocas arquivadas de pontos normais em que a estação de medição está acima do horizonte, cada uma com o peso arquivado desse ponto normal) e uma baliza VLBI acrescentada (observada pela rede e pelo calendário da campanha do referencial lunar com as estações terrestres fixas, através das derivadas parciais de atraso de lunar-vlbi-fim) em locais indicados introduzem no datum de sete parâmetros, voltado a resolver, com o 1-sigma de cada parâmetro de Helmert antes e depois, a sua razão, as normas antes e depois e os valores próprios extremos da diferença de Fisher. Ausentes ou vazias, o relatório não se altera
+
+# text
+seg-44f582b17fa9 = Integridade da barreira — um verde que significa o que diz
+
+# text
+# c1: cargo test --all
+seg-43fbcfbe990c = Três guardas estruturais sobre o próprio processo de verificação, cada uma a fechar uma classe de defeito que chegou à barreira canónica como um vermelho intermitente ou espúrio. ({ "1" }) Todo o caminho temporário construído nas fontes Rust tem de ter um componente único por chamada; um identificador de processo é rejeitado, porque o cargo executa os testes da biblioteca como fios paralelos de UM só processo e o pid é partilhado por todos eles. ({ "2" }) Todo o teste de fixação byte a byte ou de soma de controlo tem de declarar, junto de si ou no cabeçalho do seu módulo, o que cobre e o que deliberadamente exclui — para que uma alteração transversal permita ver de relance quais as fixações abrangidas e quais se tornaram, sem alarde, detetores de alterações de todo o repositório. ({ "3" }) Um verde só pode ser reclamado a partir da bateria COMPLETA: scripts/gate.sh executa <c1/>, captura o código de saída verdadeiro sem nenhum pipe pelo meio e escreve um recibo que nomeia o commit, o número de binários de integração, o número de testes e a duração; a verificação antes do push recusa um push cujo commit nenhum recibo válido nomeie, numa árvore limpa. A repetibilidade é amostrada em separado por scripts/check-repeatability.sh, que executa a bateria da biblioteca N vezes e falha se o conjunto de testes que passam diferir.
+
+# text
+seg-b7cd952ff133 = PL de temporização composto — atravessamento em holdover iniciado em P0
+
+# text
+seg-135df1e0e68a = PL(τ)=max(TPL_handover,HPL(τ)); PL({ "0" }+)≥PL({ "0" }−) semicontínuo inferiormente; máximo corrente K(IR/2); expoentes de fase τ/τ³/τ⁵
+
+# text
+seg-096b6cdfe2dc = PL de temporização composto — envolvente LIL q.c. (impossibilidade + consistência)
+
+# text
+seg-1671add2210d = Não existe holdover finito no pior caso (o supremo browniano diverge); HPL atribuído por IR consistente com a envolvente de Hartman-Wintner quando IR→{ "0" }
+
+# text
+seg-5a27c9f0a67d = Sobrelimite de integridade do desvio de rastreabilidade UTC(k) heterogéneo
+
+# text
+seg-fd09ab2adbf6 = Sobrelimite do desvio por fonte b = (U/k_cov)·Phi^-1(1-tail/2) + envelhecimento, a inflar uma incerteza expandida de Tipo B publicada até uma cauda de integridade atribuída; liga-se a tpl_scalar como bias_s
+
+# text
+seg-d75b900ad25f = Covariância cruzada do desvio de rastreabilidade correlacionado (atribuição insegura em modo comum)
+
+# text
+seg-0641f6d38c23 = Covariância cruzada de desvios N×N com termos fora da diagonal rho·b_i·b_j para fontes que partilham um realizador UTC(k); PROVADO correlated_fused_bias >= independent_fused_bias (a atribuição independente ingénua subestima o limite do desvio fundido -> otimista -> insegura)
+
+# text
+seg-65a8361b4a22 = Pontuação do Jammertest: um registo de recetor pontuado por ensaio programado (latência de deteção, alarmes em falta, falsos alarmes, tempo de recuperação) face ao plano de ensaios publicado
+
+# text
+seg-98d8c39f47ae = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): o catálogo de ensaios e o plano de transmissão da NPRA (MIT, obtidos com um SHA-256 fixado, nunca incorporados no repositório) lidos como verdade programada, com os identificadores do catálogo preservados; uma execução de receiver-trust pontuada por ensaio (primeiro alarme menos o início planeado, detetado/tardio/em falta face a uma tolerância, tempo até ao primeiro período sem alarmes, alarmes fora de todos os intervalos e da sua guarda), com um pacote de evidências assinado que transporta o quadro de pontuação. O calendário são intervalos planeados, não horas de emissão registadas
+
+# text
+seg-ee99388f7b15 = compliance (kshana compliance-report): um mapeamento das saídas do Kshana para cláusulas de referenciais públicos apenas por número, preenchido a partir das execuções fornecidas; um resultado só conta para uma capacidade quando traz a evidência que o mapeamento nomeia, um conjunto vazio não evidencia nada, e a formulação é "fornece elementos de prova em apoio de"; o relatório não é uma conclusão de que algum referencial seja satisfeito nem uma classificação ou aprovação por quem quer que seja.
+
+# text
+seg-98c360d82d56 = Integrações marítimas: plugin Signal K, fluxo de barreira e painel de pontuação do OpenCPN, compilação de referência
+
+# text
+seg-7af9ce566646 = A pontuação de confiança, a banda, os motivos, o estado da barreira e a posição comunicada pelo recetor publicados em navigation.gnss.kshana num servidor Signal K com uma notificação de aviso, de alarme e normal (integrations/signalk); o fluxo NMEA com barreira, com a posição marcada como inválida enquanto a confiança está colapsada e uma frase PKSHT por ciclo, servido ao OpenCPN por TCP pela própria barreira ou por um pequeno retransmissor, e um painel nativo de pontuação do OpenCPN que lê a frase PKSHT (integrations/opencpn); e unidades systemd e um contentor que executam a barreira (deploy/reference-build). Onde estes mostram saída, trazem a declaração consultiva: Software de caráter consultivo, não um equipamento de navegação homologado (IEC { "61108" }, IEC { "61162" }): o operador continua a ser responsável pela navegação da embarcação.
+
+# text
+seg-89ab9ef155eb = Seguimento BOC({ "1,1" }): escala do DLL e resolução de ambiguidade bump-jump (opcional)
+
+# text
+seg-ef24be9b5917 = O campo boc de iq::track::LoopConfig (opcional, None por omissão): os três discriminadores do DLL reescalados para ler o erro de código em chips com declive unitário no pico principal do BOC({ "1,1" }) em seno, e um monitor bump-jump nos correladores muito adiantado e muito atrasado a meio período de subportadora ({ "0.5" } chip) que faz saltar o NCO de código para o pico principal quando um contador ascendente/descendente atinge N ({ "8" } por omissão). Sem a opção, todas as saídas permanecem inalteradas.
+
+# text
+seg-2c32955cbfb3 = Canal de cintilação ionosférica IQ (modelo de Cornell) face a cintilação GPS L1 medida a { "50" } Hz
+
+# text
+seg-2fdcb373ab25 = iq::channel::scint, o modelo de cintilação de Cornell (intensidade de Rice, espectro de Butterworth de segunda ordem, fase arg z) conduzido com o S4 e o tempo de decorrelação da intensidade de uma janela medida, comparado naquilo que gera para além dessas duas entradas; realdata::scint50 lê o registo medido, retira-lhe a tendência e executa a comparação.
+
+# text
+seg-160507ac3702 = Opção CFAR de média de células na aquisição IQ
+
+# text
+seg-7c0a1adc9ae6 = iq::acq::ca_cfar e ca_cfar_cells (opcional): uma célula de uma grelha de aquisição é comparada com a média de células de referência da sua linha de Doppler (desfasamentos de guarda e de passo, a dar a volta ao período), com um fator alpha definido a partir da probabilidade de falso alarme CA-CFAR em forma fechada para M blocos não coerentes (ca_cfar_pfa, ca_cfar_alpha). O detetor de potência de amostra continua a ser o predefinido e todas as saídas existentes permanecem inalteradas.
+
+# text
+seg-5bd3bf0c22a7 = Modelo de espectro: bandas GLONASS, BeiDou e Galileo E6 (opcional)
+
+# text
+seg-9c16189c63ac = spectrum::default_band resolve, apenas por nome (MORE_BAND_NAMES), GLONASS L1OF e L2OF em todos os canais FDMA K = -7 a { "6" } (BPSK, { "0.511" } Mchip/s), BeiDou B1I (BPSK({ "2" })), B1C (MBOC(6,1,1/11)), B2a e B3I (BPSK({ "10" })) e Galileo E6 (BPSK({ "5" })), com as portadoras e as potências mínimas recebidas dos seus documentos de controlo de interface; o conjunto de bandas predefinido e todas as saídas existentes permanecem inalterados.
+
+# text
+seg-7b1ae0c7ca28 = Códigos terciários e camada de mensagens LunaNet AFS (SB1 BCH, CRC-24Q, entrelaçador) face à LSIS-AFS V1.0
+
+# text
+seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: padrão de sincronização, codificador SB1 BCH({ "51,8" }) e descodificador de 256 hipóteses, CRC-24Q, o entrelaçador de blocos de { "60" } x { "98" }, um verificador de fluxo de símbolos (kshana lunanet-afs-check) e um gerador de fluxo de teste com subtramas provisórias. A codificação LDPC de taxa 1/2 das subtramas { "2" } a { "4" } não está implementada (as suas matrizes estão num anexo separado).
+
+# text
+seg-0d7b17524c04 = Pacotes de normas: cenários pontuados face a limiares indicados antes da execução
+
+# text
+seg-6e5c04fd4531 = standards_pack (kshana standards-pack): os perfis de ensaio do referencial DHS Resilient PNT para os níveis { "1" } a { "4" }, os níveis de exatidão e a avaliação de integridade da IMO MSC.1/Circ.1575, e os pacotes de monitorizar, avaliar e mitigar do Apêndice F do ICAO Doc { "9849" }: cada ensaio executa um tipo de cenário incluído e compara campos de resultado com limiares indicados no pacote, e os ensaios que precisam de um registo de recetor ficam listados como NEEDS INPUT e não são pontuados.
+
+# text
+seg-8a8f2c85e0c3 = Pacote de evidências de ida e volta de laboratório (cenário, condições de ensaio, registo do recetor, pontuação)
+
+# text
+seg-a090b06a920d = evidence::roundtrip (kshana evidence round-trip) e a exportação do registo do recetor kshana.test-conditions/1 de kshana bench-export: um pacote assinado que regista a soma de controlo do cenário, a das condições indicadas, a do registo e a pontuação face aos eventos indicados, e que recusa condições que discordem dos eventos de pontuação ou um registo cuja soma de controlo não seja a indicada. Nenhum sinal é escrito, reproduzido nem programado.
+
+# text
+seg-a9189e4fe413 = Motor de seguimento IQ face ao GNSS-SDR { "0.0.19" } em gravações independentes
+
+# text
+seg-364de05e5b1b = O motor de seguimento completo da camada IQ (iq::track através de kshana iq track: passagem da aquisição, correladores, NCO, PLL Costas de segunda ordem a { "15" } Hz, DLL de envolvente EML de primeira ordem a { "2" } Hz assistido pela portadora, indicador de bloqueio e estimadores de C/N0) em GPS L1 C/A a { "30" } a { "45" } dB-Hz.
+
+# text
+seg-259d201c2ff8 = Ganhos de antena CRPA no tipo de cenário jamming face a um recálculo independente em numpy
+
+# text
+seg-192144c57783 = A secção opcional [crpa] do tipo de cenário jamming: um feixe por canal na direção de cada satélite (anulação direcionada com o jammer como nulo, ou MVDR em sigma^{ "2" } I + P_j a_j a_j^H), escalando o ruído de cada ligação por ||w||^{ "2" } e o jammer por |w^H a_j|^{ "2" } antes da equação de C/N0 anti-jam existente.
+
+# text
+seg-a2f34cff9338 = Sombra de terreno sobre o jammer no tipo de cenário jamming face a um recálculo independente em numpy numa tesela SRTM real
+
+# text
+seg-334c569d9cae = A secção opcional [terrain] do tipo de cenário jamming: o perfil de terreno em círculo máximo entre o jammer e o recetor numa tesela SRTM .hgt com uma curvatura da Terra de fator k, o gume de faca dominante (maior nu de Fresnel-Kirchhoff) e a perda de gume de faca único da ITU-R P.526-15 secção { "4.1" }, subtraída à potência recebida do jammer.
+
+# text
+seg-825c121c7512 = Histerese de aquisição e quantizador do front-end no tipo de cenário jamming face a recálculos independentes
+
+# text
+seg-f7207263d881 = A secção opcional [acquisition] do tipo de cenário jamming (um satélite é adquirido num limiar de aquisição ou acima dele após um atraso de reaquisição e mantido enquanto estiver no limiar de seguimento ou acima dele) e a secção [front_end] (a leitura do AGC { "10" } log10({ "1" } + J/N) e a perda do quantizador do ADC para entrada gaussiana retiradas de cada ligação, assinalada como não válida para jammers não gaussianos).
+
+# text
+seg-9c46f1c76486 = Captura inicial do FLL limitada abaixo do patamar de passagem de FLL para PLL do projeto predefinido (opcional)
+
+# text
+seg-efa1d1a9e904 = fll_pull_in_max_s opcional de iq::track (o campo fll_pull_in_max_s de iq::track::LoopConfig): com fll_assist = pull-in, o FLL passa o controlo ao PLL após um tempo fixo de captura inicial, seja qual for o PLI, com um tempo de permanência de regresso correspondente até o PLI atingir pela primeira vez fll_off_pli.
+
+# text
+seg-ac0f97e945a7 = Leitor de soluções .pos do RTKLIB para receiver-trust
+
+# text
+seg-0b8bc2c89de4 = Lê um ficheiro de solução do RTKLIB (hora de calendário ou semana GPS/TOW, posição em latitude/longitude ou ECEF, satélites usados) para a cronologia de receiver-trust (receiver_trust::machines::rtklib).
+
+# text
+seg-849393517c04 = Registos NovAtel OEM7 ASCII e binários (BESTPOS, RANGE, RXSTATUS) para receiver-trust
+
+# text
+seg-7e0021922025 = Lê BESTPOS (posição), RANGE (C/No por sinal) e RXSTATUS (o indicador de jammer do recetor, como autorrelato da época) de registos OEM7 ASCII e binários, com CRC verificado, só de leitura (receiver_trust::machines::novatel).
+
+# text
+seg-a45c53a9deb3 = Leitor de relação portadora-ruído RTCM { "3" } MSM4 e MSM7 para receiver-trust
+
+# text
+seg-0a0c9976236f = Lê o C/N0 de cada célula de sinal das mensagens RTCM { "3" } MSM4 e MSM7 (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) a partir de um fluxo de tramas, com CRC-24Q verificado (receiver_trust::machines::rtcm3). Disposições das tabelas pyrtcm de licença BSD, não do texto da norma RTCM.
+
+# text
+seg-cd554a7c1649 = Adaptador de monitor GNSS-SDR para receiver-trust
+
+# text
+seg-22b587ac642d = Lê mensagens do Monitor do GNSS-SDR (Gnss_Synchro) e do monitor PVT, retransmitidas como linhas JSON com os nomes de campo do proto, para C/N0 por canal, posição, satélites usados, HDOP e céu (receiver_trust::machines::gnss_sdr; integrations/gnss-sdr/relay.py).
+
+# text
+seg-217e5953c128 = Ingestão de registos IMU, entrada de rumo por giroscópio e ajuste de Allan dos parâmetros de sensores híbridos
+
+# text
+seg-9dadc819daef = Lê um CSV de IMU (colunas documentadas ou a disposição EuRoC); integra a taxa de guinada no rumo que o monitor de rumo-trajetória lê ([log.imu]); e ajusta os parâmetros de ruído do acelerómetro e do giroscópio dos cenários híbridos e de fusão a partir de um registo estacionário por desvio de Allan sobreposto (imu-fit).
+
+# text
+seg-15a852a2dcb0 = Descoberta MQTT do Home Assistant e exportador de estado para telemetria de confiança
+
+# text
+seg-6d6b07b26966 = Um documento de estado JSON e mensagens de descoberta MQTT do Home Assistant para o fluxo de confiança, impressos como texto em todas as superfícies e publicados por MQTT { "3.1.1" } QoS { "0" } pela CLI (telemetry::mqtt; trust-telemetry --mqtt-tcp, --print-mqtt, format mqtt).
+
+# text
+seg-68caf86157c2 = Pacote receiver-trust para ROS { "2" } e ponte gnss_lib_py
+
+# text
+seg-e7d7d99fe538 = Uma ponte sem ROS que escreve mensagens de posição e de satélites como NMEA e as pontua através da ligação Python (integrations/ros2/kshana_trust), e uma ponte de NavData do gnss_lib_py para receiver-trust através do formato rtklib-pos (integrations/gnss_lib_py).
+
+# text
+seg-c3c260b7063e = Testes

@@ -4016,3 +4016,381 @@ seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: a calibração pré
 
 # text
 seg-3ccd1b09ad09 = Os registos de eventos publicados do conjunto de dados (janelas de attack_log), como referência de eventos, sob o pré-registo xval/jammertest-trust/PREREGISTRATION.md (registado isoladamente, 0fa012b, antes de a infraestrutura de ensaio ser executada). Primeira e única execução (xval/jammertest-trust/RESULTS.md): { "14" } de { "24" } pastas avaliáveis ({ "7" } com jamming), { "3,502" } épocas limpas e { "9,560" } de jamming. Probabilidade de falso alarme limpo reservada: cn0_drop_db { "0.0231" } (81/3502) face a um limiar de { "0.02" }, FAIL; agc_k_sigma { "0.0003" }, passa; jam_ind_threshold { "0.0094" }, passa; união dos três: falsos alarmes { "0.0328" }, deteção { "0.807" } face a { "0.05" } e { "0.50" }, passa. Pela regra registada a linha é MODELLED (um limiar falhou). Estreito: um tipo de recetor (u-blox ZED-F9P), um evento, intervalos programados de um minuto como referência (deteção um limite inferior; limpo significa fora das janelas registadas); calibrado nos registos CSV, e o leitor UBX dá mais falsos alarmes em duas pastas. As bandas de pontuação de confiança marítima não estão calibradas
+
+# text
+seg-f839285852d9 = Volume de serviço lunar a partir de geometria de constelação real, obtida de fontes externas
+
+# text
+# c1: ephemeris_path
+seg-c3059fcced49 = Aceita uma efeméride de estado tabelada, centrada na Lua (a avaliação de um kernel SPK/BSP), ou uma definição de constelação publicada através de <c1/>, executa contra ela o mesmo varrimento de cobertura / DOP / nível de proteção e emite o requisito de alcance σ_URE que daí decorre AO LADO dos resultados keplerianos e perturbados ilustrativos, que permanecem inalterados, com a diferença como grandeza própria e nomeada. Cada valor traz uma classe de proveniência que distingue o derivado de kernel do derivado de elementos publicados e do modelado, de modo que nunca possam ser confundidos numa citação posterior
+
+# text
+seg-cbe9bd6bf989 = A GEOMETRIA é externa e tem soma de controlo: três conjuntos de dados de ensaio cujos números provêm apenas de documentos obtidos com URL, data de obtenção e SHA-256, regeneráveis por geradores versionados que verificam a soma de controlo de origem e ABORTAM em vez de emitir um número — a constelação de referência da demonstração de interoperabilidade LANS (NASA NTRS { "20250009447" }, SHA-256 d1b916be…), os casos de estudo LNCSS (NAVIGATION { "70" }({ "4" }) navi.613, CC BY, SHA-256 { "4e294687" }…) e uma efeméride genuína de veículos espaciais em voo para LRO, Danuri, Chandrayaan-2 e CAPSTONE, avaliada a partir dos kernels reconstruídos do próprio JPL através do Horizons. NÃO existe publicamente nenhum kernel de constelação de navegação lunar — Moonlight/LCNS, LCRNS e LNSS não estão em voo e a NAIF não publica nada sobre eles — e nenhum foi inventado. O requisito σ_URE DERIVED NÃO tem referência independente externa (ninguém publica a exatidão de alcance que um HPL lunar de { "50" } m exige neste volume de serviço), pelo que é verificado face à sua própria identidade algébrica e, de forma independente, repetindo todo o varrimento ao requisito calculado e confirmando que a disponibilidade se inverte nesse ponto. MEASURED: o projeto publicado de 8 satélites necessita de σ_URE de { "2.9044" } m com { "100" } % de cobertura, face aos { "0.3591" } m com { "37.85" } % da constelação ilustrativa — uma revisão de { "8.09" }× de um número publicado, ao abrigo da regra R4 do programa. A conclusão qualitativa mantém-se (um LNIS de classe { "30" } m continua a não fechar um HPL polar sul de { "50" } m), mas a insuficiência tinha sido sobrestimada oito vezes. A demonstração LANS de 5 satélites produz ZERO amostras de nível de proteção — cinco satélites não conseguem fornecer os seis em vista de que um conjunto de hipóteses de falha única necessita — e o campo do requisito fica AUSENTE em vez de fabricado; o mesmo vale para as quatro naves reais com { "0" } % de cobertura. InternalConsistency é o tipo honesto: os dados de ENTRADA são externos e têm soma de controlo, mas a grandeza de que esta linha trata só é validada face a si própria. { "0.30" } comparação externa, um resultado (continua MODELLED): face às estatísticas dos casos de estudo LNCSS de navi.613 em { "346" } pontos de grelha, { "4" } de { "12" } estatísticas de disponibilidade ficam fora dos { "2" } pontos percentuais fixados antecipadamente (caso A: -4.0, +{ "22.5" } e -3.6 pp; caso B: -12.1 pp). Causas prováveis: elementos lidos no referencial errado, Kepler de dois corpos ao longo de { "15" } dias face a um modelo de forças não indicado no artigo e uma grelha não reproduzível a partir do texto. A metade do PDOP não pôde ser avaliada (o LANS não imprime nenhuma estatística numérica); o teste de comparação está versionado, mas ignorado. { "0.30" } ronda { "2" }, um resultado (continua MODELLED): face a uma referência independente Orekit { "12.2" } / Hipparchus { "3.1" } que calcula o relatório inteiro (propagação Orekit, visibilidade e DOP com DOPComputer, níveis de proteção MHSS compostos com Hipparchus, o requisito resolvido por amostra; pré-registado d3ce97b2) nas cinco geometrias obtidas e em duas grelhas, { "155" } de { "160" } valores concordam dentro dos limiares fixados antecipadamente ({ "2" } pp, { "5" } %, { "1" } %), incluindo o requisito sigma_URE para LNCSS A e C ({ "3.879072208" } m em ambos os lados para o caso A) e o requisito ausente para o LANS e os orbitadores. O LNCSS B na grelha densa falha nas estatísticas da pior amostra (sigma_required { "0.000923" } contra { "0.001511" } m, hpl_max { "1.63e6" } contra { "0.99e6" } m), onde geometrias quase singulares (PDOP de cerca de { "1e6" }) amplificam a concordância de posição ao nível do metro; o seu requisito p95 concorda ({ "1.6343" } contra { "1.6357" } m). O requisito da pior amostra é mal posto em geometria degenerada. Face a navi.613: { "4" } de { "12" } continuam fora de { "2" } pp (fixado)
+
+# text
+seg-36a6cfaf5afa = Unidade e proveniência declaradas para cada grandeza reportada
+
+# text
+# c1: inherits-scenario-label
+# c2: depends-on-input
+seg-12460501e82b = Um esquema legível por máquina que indica a unidade, a classe de proveniência e a definição de cada campo numérico de cada relatório de cenário, mais uma única barreira global que executa todos os tipos de cenário registados e falha se um campo numérico emitido não tiver uma das duas. O vocabulário de proveniência é fechado e cada classe tem um nível de evidência, com duas classes deliberadamente mapeadas para <c1/> e <c2/>, em vez de lhes ser atribuído um nível que a classe não determina
+
+# text
+# c1: m
+# c2: _m
+# c3: sweep-nd
+# c4: mixed - see note
+# c5: key_units
+# c6: metric_units
+# c7: unit
+# c8: cislunar-observability
+# c9: units
+seg-a8c4a6fd4989 = O próprio documento emitido: cada folha numérica tem de corresponder a uma entrada no bloco de unidades do próprio documento. Não existe nenhum registo externo de unidades face ao qual verificar uma unidade DECLARADA, pelo que uma unidade declarada é uma afirmação revista e não uma afirmação verificada — a barreira verifica a COMPLETUDE e a BOA FORMAÇÃO, não a verdade, e dizer validado estaria errado, porque nada externo confirma que <c1/> é a unidade correta para um campo chamado <c2/>. Foi realizada uma verificação cruzada independente por sufixo do nome sobre os { "1,434" } campos descritos NESSE MOMENTO: dos { "691" } que têm um sufixo indicador de unidade, { "40" } divergem da unidade declarada e todos os { "40" } estão explicados (sufixos por segundo, mínimos, segundos de abertura, newton-metros contra um sufixo com aspeto de nanómetro), pelo que não surgiu nenhuma unidade errada. Essa verificação cruzada não foi repetida desde então e a cobertura cresceu para além dela — o valor mantém-se no que foi efetivamente medido, em vez de ser reformulado para o total atual. No momento dessa alteração ({ "0.27.0" }), a cobertura passou de { "7" } de { "56" } tipos para { "60" } de { "61" }, e de { "389" } de { "1354" } campos para { "1,742" } de { "1,744" } (docs/field-units-schema.json, que uma verificação de desatualização mantém em dia). NENHUM tipo fica por cobrir (teto de { "0" }, FUT-28, { "0.36" }): o último era <c3/>, cujas duas colunas são indexadas pelo chamador, pelo que as suas unidades são dados; passam agora a ser descritas como <c4/> e a unidade de cada posição é lida da tabela de unidades do próprio pacote VARRIDO para <c5/> e <c6/> (ou tomada do <c7/> declarado do eixo, que tem de concordar com o do pacote quando ambos existem; nulo quando nenhum existe, indicado em vez de adivinhado). <c8/> era o anterior e saiu da lista quando o seu documento publicado ganhou um bloco de unidades: o teste de aditividade que nomeava <c9/> como chave proibida passa agora a PROVAR que o acréscimo é aditivo — retirando o bloco de novo, o documento continua a ter como soma de controlo as duas constantes fixadas antes de ele existir, pelo que um valor publicado que se tenha movido por baixo do acréscimo continua a falhar. O trabalho fez também surgir doze defeitos de unidades ou de documentação em código existente, reportados em vez de corrigidos ao abrigo da regra R1
+
+# text
+seg-cf779c468eed = Datum do referencial lunar a partir de uma campanha de observação REAL
+
+# text
+# c1: lunar-llr-datum
+seg-96151f13a92b = A covariância do datum de Helmert de sete parâmetros, com as suas duas entradas simuladas substituídas por entradas medidas: o calendário são as épocas de emissão a partir do solo de { "337" } pontos normais arquivados de medição laser lunar da ILRS (2015-04-08 a 2015-06-27, Grasse MeO { "7845" } e Matera MLRO { "7941" }, todas as cinco matrizes de retrorrefletores) e cada peso de observação é a precisão arquivada desse ponto, bin_rms/√n_raw — mediana de { "5.13" } mm de alcance de ida, lida do ficheiro. Coordenadas das estações IERS ITRF2020, coordenadas dos refletores JPL DE430 Tabela { "7" }. Executável como o tipo de cenário <c1/>. A afirmação validada ({ "0.36" }) é estreita: no caminho analítico por omissão, o cálculo da covariância do datum concorda com uma referência independente SPICE e NumPy, calculada sobre pontos normais medidos novos; não é uma exatidão de LLR nem uma prova de que a Lua analítica seja exata
+
+# text
+seg-50c60fc25ded = Identidades de forma fechada, uma via independente dentro do repositório e, desde { "0.36" }, uma referência independente de biblioteca SPICE e NumPy sobre dados medidos novos (abaixo); não existe nenhum par publicado de covariância de datum LLR lunar com que comparar, pelo que não se reclama exatidão alguma. A única derivada nova — a derivada parcial do alcance em relação à posição do refletor fixa ao corpo — é rededuzida por diferença finita central do tempo de luz de ida e volta que ela diferencia, um caminho que não partilha nenhuma expressão com a forma analítica. A referência independente física é estrutural: a derivada parcial de um alcance É o dobro da linha de visada, pelo que a coordenada fixa ao corpo segundo a direção média para a Terra tem de ficar determinada muito melhor do que as duas coordenadas no plano do céu, que só a libração alcança — medida entre { "50.7" }× e { "71.7" }× nas cinco matrizes, face a um varrimento de libração que o relatório mede de forma independente, com a previsão isotrópica de pequeno ângulo e a anisotropia transversal que explica a diferença ambas impressas. O QUE MUDOU: o calendário, o número de observações e cada peso de observação são agora medidos; são usados { "337" } de { "349" } pontos arquivados e os { "12" } que não o são são ignorados e contados, porque o ITRF2020 não tem posição para Apache Point. MEASURED: sigma de translação do datum { "1.851746e-2" } m contra os { "6.3975" } m da campanha SIMULADA ({ "345" }×), rotação { "36" }×, escala { "24" }× — uma razão entre uma rede de alcance laser e uma rede de atraso VLBI, pelo que é um resultado e não uma validação. Característica da informação dos refletores 15/15 com acoplamento entre matrizes exatamente { "0" }; característica de Helmert 7/7, condição { "2.4e4" }. O QUE ESTA LINHA NÃO AFIRMA: que o valor esteja certo em termos absolutos. Uma solução LLR real coestima a órbita lunar, as librações físicas, a orientação da Terra, as coordenadas das estações e parâmetros de maré e relativistas, e reporta decímetros (os 0.12-0.27 m da própria DE430 Tabela { "7" }) onde este limite é muito menor; é um limite de Cramér-Rao para um conjunto reduzido de parâmetros indicado, não uma exatidão. Fora da afirmação validada (modelado, não validado): o centro da Lua da efeméride e a orientação do corpo IAU { "2015" } são modelados, e a troposfera, as marés, a excentricidade das estações, o movimento polar, UT1-UTC, o atraso relativista e os relógios das estações estão ausentes. A sua dimensão combinada é PUBLICADA em vez de argumentada — alcance de ida observado menos calculado de { "156,494" } m RMS sobre os { "337" } pontos — e o seu efeito na covariância é DELIMITADO em vez de argumentado: voltar a resolver o datum inteiro com todas as derivadas parciais inclinadas de { "0.1" }° (o dobro da inclinação medida da efeméride na pior época, com sinal alternado) desloca o resultado entregue em { "0.288" } %. VERIFICAÇÃO EXTERNA ({ "0.30" } ronda { "2" }, pré-registada 6b27964a), um resultado (continua MODELLED): o tempo de luz de ida e volta do SPICE (DE440, ITRF93, orientação lunar DE440) com derivadas parciais por diferenças finitas, e uma inversa em numpy, sobre os mesmos { "337" } pontos normais medidos e pesos, concordam na contabilidade, nas duas características, no acoplamento nulo, no RMS dos resíduos ({ "2.1e-5" }) e em { "15" } de { "16" } valores de covariância. O sigma da translação em z está { "1.03" } % acima, face ao limiar fixado antecipadamente de { "1" } %. Com o centro da Lua da DE440 desce para { "0.049" } % (c51f8b2, dados já vistos) e, em pontos normais novos de { "2019" }, o datum com a Lua de kernel satisfaz todos os limiares (linha "…, kernel Moon centre"), onde a Lua analítica também fica dentro dos limiares (pior { "3.8e-3" }, apenas informativo), pelo que essa comparação não distingue os modelos da Lua. EXECUÇÃO COM DADOS NOVOS DO CAMINHO ANALÍTICO ({ "0.36" }, pré-registada 31f5283 antes de qualquer ponto ser obtido): a referência independente SPICE e NumPy inalterada sobre { "151" } pontos normais EDC CRD v2 usados, de 2025-04..06 (um ano que nenhum teste usara; ficheiros obtidos de novo e referência independente executada de novo de forma independente, ver o NOTICE do conjunto de dados de ensaio), com os mesmos limiares: contabilidade, características, contagens por matriz e acoplamento nulo iguais; sigmas e normas no pior caso { "1.11e-3" } (limiar de { "1" } %), condição { "8.95e-4" } ({ "2" } %), razões transversal/longitudinal no pior caso { "1.79e-3" } ({ "2" } %); O-C do SPICE { "10.79" } m. VALIDATED com base nessa evidência apenas como verificação de biblioteca do cálculo da covariância; o RMS dos resíduos analíticos nessa fatia é { "222" } km, pelo que os limiares não discriminam modelos da Lua (tal como na linha do kernel). Resultados: docs/design/evidence/mr06-llr-analytic-fresh/RESULTS.md
+
+# text
+seg-c815cb90dcde = Geodesia de estações de referência lunares: retrorrefletor e baliza VLBI acrescentados face ao datum de cinco matrizes
+
+# text
+seg-103cf21173ac = As entradas opcionais extra_reflectors e extra_beacons no cenário lunar-llr-datum acrescentam um bloco station_geodesy: a informação de Helmert das cinco matrizes a partir da fatia arquivada de medição laser lunar, mais a informação que um retrorrefletor acrescentado (medido nas épocas arquivadas de pontos normais em que a estação de medição está acima do horizonte, cada uma com o peso arquivado desse ponto normal) e uma baliza VLBI acrescentada (observada pela rede e pelo calendário da campanha do referencial lunar com as estações terrestres fixas, através das derivadas parciais de atraso de lunar-vlbi-fim) em locais indicados introduzem no datum de sete parâmetros, voltado a resolver, com o 1-sigma de cada parâmetro de Helmert antes e depois, a sua razão, as normas antes e depois e os valores próprios extremos da diferença de Fisher. Ausentes ou vazias, o relatório não se altera
+
+# text
+seg-479a7e6bbedb = Apenas consistência interna: cada local acrescentado é um ponto distinto e uma medição laser ou um atraso VLBI de estação fixa toca num só ponto, pelo que a sua informação A_p^T M_p A_p é semidefinida positiva e soma-se; o teste verifica a diferença de Fisher e cada variância face a isso. O resultado das cinco matrizes é a linha de dados reais existente e não se altera. O refletor acrescentado reutiliza épocas programadas para as cinco matrizes existentes, um calendário ILLUSTRATIVE, e a rede, o calendário e o sigma de atraso da baliza acrescentada são as entradas ILLUSTRATIVE da campanha do referencial lunar; o local é uma posição polar sul ILLUSTRATIVE. Um local polar sul vê a Terra baixa no horizonte ou não a vê de todo, o que os testes de ângulo de observação existentes exprimem; nenhum dos locais é medido de forma contínua. Os valores são limites de Cramér-Rao para um conjunto reduzido de parâmetros, não um datum resolvido e não uma afirmação sobre qualquer estação real
+
+# text
+seg-d9f033ebf109 = Datum do referencial lunar a partir de uma campanha de observação REAL, centro da Lua de kernel
+
+# text
+# c1: lunar-llr-datum
+seg-6f272a06c9f3 = A covariância do datum de Helmert de sete parâmetros de lunar-llr-datum a partir de pontos normais ILRS arquivados e dos seus pesos medidos, no caminho de kernel: o centro geocêntrico da Lua é lido da JPL DE440 pelo leitor de kernels do próprio motor (planetary_kernel_path; lunar_llr::llr_geometry_with, ephem_provider::KernelEphemeris). Só o centro da Lua difere da linha analítica; a orientação IAU { "2015" }, o movimento polar e o UT1 ausentes, os catálogos, as regras de seleção, os pesos e a álgebra linear são os mesmos. A afirmação validada é apenas que a covariância do datum deste caminho concorda com uma referência independente SPICE e NumPy em pontos normais novos e não vistos. A comparação não discrimina modelos da Lua e não verifica o centro da Lua: na mesma fatia, a Lua analítica também satisfaz todos os limiares, a mutação pré-registada (a Lua de kernel lida com uma hora de atraso) não foi detetada e um centro da Lua errado em cerca de { "4,650" } km também passa (ver o texto da referência independente). Não é prova de que a Lua de kernel melhore o datum. Executável como o cenário <c1/> com planetary_kernel_path (e normal_points_dir para outra fatia)
+
+# text
+seg-ec47513b1828 = NAIF SPICE Toolkit N0067 (spiceypy { "8.2.0" }, MIT) tempos de luz de ida e volta na DE440, orientação da Terra ITRF93 e orientação lunar DE440 (MOON_ME) com derivadas parciais por diferenças finitas de { "100" } m, e matriz de informação e inversa em numpy { "2.3.5" } (BSD-3-Clause, LAPACK): o gerador inalterado da comparação da linha analítica (6b27964a), executado sobre uma fatia nova (pontos normais EDC CRD, 2019-04..06) pré-registada em 830d945a antes de qualquer parte dela ser obtida, nos limiares da linha analítica ({ "1" } % para sigmas e normas, { "2" } % para condição e razões, contabilidade, características e acoplamento exatos) e a sua autoverificação da referência independente (O-C do SPICE { "10.86" } m < { "100" } m). Todas as grandezas satisfazem, no pior caso { "7.6e-5" }. Mutações: o atraso de uma hora da Lua planeado NÃO é detetado (a covariância depende da dispersão das linhas de visada, não da sua temporização); uma mutação estrutural escolhida depois e divulgada como tal, que elimina a derivada parcial do trajeto descendente, falha todos os sigmas. Resultado: nesta fatia a Lua analítica também passa (pior { "3.8e-3" }), pelo que o limiar não discrimina modelos da Lua e isto valida a covariância em dados novos, não uma melhoria da Lua de kernel. Verificação do integrador na dobra (não pré-registada): a Lua de kernel lida relativamente ao baricentro Terra-Lua em vez da Terra (RMS dos resíduos de { "4,649" } km) e a época de kernel sem TT menos UTC ({ "69" } s; resíduo de { "2.6" } km) continuam ambas a passar todos os limiares, enquanto retirar sqrt(n_raw) dos pesos medidos falha as { "16" } grandezas com banda; a comparação é sensível aos pesos, às derivadas parciais e à álgebra linear, não ao centro da Lua. Ambos os lados leem a DE440: isto valida o cálculo na DE440, não a DE440. Fora da afirmação: uma exatidão de LLR (um limite de Cramér-Rao para um conjunto reduzido de parâmetros)
+
+# text
+seg-bd3af378b613 = Efeméride lunar analítica integrada — o seu LIMITE DE EXATIDÃO INDICADO verificado com dados reais
+
+# text
+seg-a51c4e234a4f = ephem::moon_position, a série lunar geocêntrica de baixa precisão a que a biblioteca recorre quando não existe nenhum kernel DE/SPK, medida face a medições laser lunares reais e face a uma efeméride planetária publicada no mesmo intervalo. Esta linha valida o limite que o módulo indica sobre si próprio, NÃO uma exatidão: confirma-se que a série não é pior do que afirma, não que seja boa
+
+# text
+seg-81dff68ddd9c = DOIS conjuntos de dados externos independentes que não partilham nada. ({ "1" }) { "337" } pontos normais arquivados de medição laser lunar da ILRS (EUROLAS Data Center, DGFI-TUM, 2015-04-08 a 2015-06-27, cinco matrizes de retrorrefletores, versionados com SHA-256 por ficheiro e um script de nova descarga e verificação): alcance de ida observado menos calculado de { "156,494" } m RMS, com coordenadas das estações do IERS ITRF2020 e coordenadas dos refletores da JPL DE430 Tabela { "7" }, pelo que o resíduo é dominado pela série do centro da Lua. ({ "2" }) Estados geométricos geocêntricos da Lua do JPL Horizons no mesmo intervalo: { "112,567" } m RMS radial, { "195,655" } m RMS vetorial, pior época { "360,324" } m = { "0.0536" }°. Um resíduo de alcance responde à parte RADIAL de um erro de efeméride, pelo que ({ "1" }) e ({ "2" }) são a mesma grandeza alcançada por dois caminhos e concordam até { "1.39" }× — o que permite ao cenário lunar-llr-datum atribuir o seu resíduo à efeméride. A documentação do próprio módulo do motor afirma ~{ "0.3" }° / ~poucas·10² km; ambas as medições ficam dentro dela, a angular com uma margem de { "5.6" }×. ÂMBITO, indicado para que nenhum leitor o possa confundir: isto valida o LIMITE indicado, não um valor de exatidão. A série continua a ser inadequada para qualquer aplicação que precise de melhor do que ~{ "1e5" } m, e essa limitação é tanto o conteúdo da linha como a concordância. Regenerável offline pelos scripts versionados de obtenção e verificação
+
+# text
+seg-44f582b17fa9 = Integridade da barreira — um verde que significa o que diz
+
+# text
+# c1: cargo test --all
+seg-43fbcfbe990c = Três guardas estruturais sobre o próprio processo de verificação, cada uma a fechar uma classe de defeito que chegou à barreira canónica como um vermelho intermitente ou espúrio. ({ "1" }) Todo o caminho temporário construído nas fontes Rust tem de ter um componente único por chamada; um identificador de processo é rejeitado, porque o cargo executa os testes da biblioteca como fios paralelos de UM só processo e o pid é partilhado por todos eles. ({ "2" }) Todo o teste de fixação byte a byte ou de soma de controlo tem de declarar, junto de si ou no cabeçalho do seu módulo, o que cobre e o que deliberadamente exclui — para que uma alteração transversal permita ver de relance quais as fixações abrangidas e quais se tornaram, sem alarde, detetores de alterações de todo o repositório. ({ "3" }) Um verde só pode ser reclamado a partir da bateria COMPLETA: scripts/gate.sh executa <c1/>, captura o código de saída verdadeiro sem nenhum pipe pelo meio e escreve um recibo que nomeia o commit, o número de binários de integração, o número de testes e a duração; a verificação antes do push recusa um push cujo commit nenhum recibo válido nomeie, numa árvore limpa. A repetibilidade é amostrada em separado por scripts/check-repeatability.sh, que executa a bateria da biblioteca N vezes e falha se o conjunto de testes que passam diferir.
+
+# text
+seg-17a5f9da54a4 = Forma fechada: cada guarda é executada sobre um excerto fixo conhecido como defeituoso, que tem de disparar, e um excerto fixo conhecido como correto, que tem de permanecer silencioso, ambos constantes literais que o detetor não pode influenciar. Os dois excertos defeituosos são os defeitos F22 e F25 na sua forma original. Esta é uma referência independente INTERNA e a linha é MODELLED por consequência: prova que as guardas distinguem o defeito da sua correção, não que as classes que descrevem sejam exaustivas. Os seus pontos cegos declarados — estado partilhado que não é um caminho, uma fixação mantida numa constante nomeada curta, uma condição de corrida rara que três execuções não amostram e um recibo que qualquer pessoa que possa escrever o ficheiro pode forjar — estão escritos na documentação do módulo de tests/source_guards.rs e no cabeçalho de cada script, em vez de ficarem para ser descobertos.
+
+# text
+seg-178192c9c87a = PL de temporização composto — especialização escalar MHSS (H=1_N)
+
+# text
+seg-431aaf94ec31 = TPL escalar de separação de soluções sobre fontes heterogéneas; PL determinado pelo ruído do subconjunto de pior exclusão + desvio UTC(k)
+
+# text
+seg-9a5ea79248c8 = P2: numpy { "2.3.5" } linalg.lstsq e scipy { "1.18.1" } (norm.isf, norm.sf, brentq) recalculam, pelos seus próprios algoritmos, os estimadores de mínimos quadrados ponderados dos subconjuntos, a covariância geral de separação sqrt(Δ Σ Δᵀ), os desvios e o nível de proteção a partir deles, em { "300" } entradas versionadas (tests/fixtures/tpl_scalar_numpy_oracle); o PL concorda dentro de { "1e-9" } relativo (pior { "1.2e-10" }) e o subconjunto de exclusão determinante é idêntico, tolerância fixada antes da comparação. Os multiplicadores, as distribuições a priori e os sobrelimites de desvio são entradas, e a estrutura da equação do PL (lista de modos, divisão ir/2, projeção do desvio) é uma entrada declarada, tal como na linha do núcleo de nível de proteção ARAIM lunar; a afirmação validada é a álgebra linear e o PL nessas entradas, não as magnitudes físicas de um cenário de temporização. Linhagem ARAIM Blanch { "2015" } / Joerger { "2014" }
+
+# text
+seg-b7cd952ff133 = PL de temporização composto — atravessamento em holdover iniciado em P0
+
+# text
+seg-135df1e0e68a = PL(τ)=max(TPL_handover,HPL(τ)); PL({ "0" }+)≥PL({ "0" }−) semicontínuo inferiormente; máximo corrente K(IR/2); expoentes de fase τ/τ³/τ⁵
+
+# text
+seg-1438193381be = Testes de propriedades (monotonia, sem queda na passagem) + verificação dos expoentes face a holdover::coast_phase_variance
+
+# text
+seg-3ab4509b62a2 = PL de temporização composto — cobertura da envolvente de holdover, regime plurianual (tau>=90d)
+
+# text
+seg-d9520f6c1769 = A envolvente de máximo corrente sobrelimita (sem perfuração) uma série metrológica real em cada desfasamento tau>=90d testado, num segmento disjunto; tau curto (<=30d) é uma fronteira modelada divulgada
+
+# text
+seg-086baedd33a9 = Série de 5 dias BIPM Circular-T [UTC-UTC(USNO)] MJD 56074-60429 ({ "872" } pts, API webtai); ajuste e teste disjuntos, cobertura plurianual sem perfuração
+
+# text
+seg-096b6cdfe2dc = PL de temporização composto — envolvente LIL q.c. (impossibilidade + consistência)
+
+# text
+seg-1671add2210d = Não existe holdover finito no pior caso (o supremo browniano diverge); HPL atribuído por IR consistente com a envolvente de Hartman-Wintner quando IR→{ "0" }
+
+# text
+seg-c9ed8bbede70 = Identidade de forma fechada da envolvente q.c. √(2Dt·lnln t) + verificação de dominância do HPL; ponto de junção da impossibilidade de Baweja arXiv:{ "2606.24210" }
+
+# text
+seg-5a27c9f0a67d = Sobrelimite de integridade do desvio de rastreabilidade UTC(k) heterogéneo
+
+# text
+seg-fd09ab2adbf6 = Sobrelimite do desvio por fonte b = (U/k_cov)·Phi^-1(1-tail/2) + envelhecimento, a inflar uma incerteza expandida de Tipo B publicada até uma cauda de integridade atribuída; liga-se a tpl_scalar como bias_s
+
+# text
+seg-1fd53acf9a3f = Reprodução independente em numpy + stdlib-statistics da forma fechada do sobrelimite (InternalConsistency). A série BIPM Circular-T [UTC-UTC(USNO)] é apenas uma entrada CITADA — é a MESMA série já validada para a linha de cobertura de holdover R4 e NÃO é validada de novo aqui; reproduzir os seus valores não prova nada sobre R2. A cauda profunda de integridade é modelada. { "0.30" } comparação externa, um resultado (continua MODELLED): nos ficheiros UTC-UTC(k) por laboratório do BIPM ({ "102" } laboratórios, { "105 024" } linhas com incertezas publicadas), o sobrelimite b = { "2.576" } u na cauda de { "1e-2" } é excedido por { "50.8" } % das linhas (Clopper-Pearson { "95" } %: { "50.4" } a { "51.1" } %) e por mais de { "1" } % em { "101" } de { "102" } laboratórios. A incerteza u publicada é a incerteza da determinação de UTC-UTC(k) pelo BIPM, não um limite do desvio, que habitualmente chega a muitas vezes u; o sobrelimite tal como especificado não limita o desvio de rastreabilidade real de UTC(k). { "0.30" } ronda { "2" }, um sobrelimite dos desvios UTC-UTC(k) realizados, treinado em dados BIPM Circular T de 2015-2022 e testado em 2023-2026 (pré-registado ca0921a4, excedência agregada no máximo { "1e-2" }), um resultado (continua MODELLED): a excedência agregada é { "0.0333" } ({ "694" } de { "20 826" } linhas em { "82" } laboratórios; { "0.0127" } sem as { "430" } linhas que, por regra, não têm limite). D9 ronda { "3" }, um limite hierárquico agregado de envelhecimento (utck_bound), pré-registado fb475550 e avaliado de forma prospetiva em emissões do Circular T a partir de { "465" }: ainda não executado (a emissão { "465" } foi publicada em 2026-10-12 com cerca de { "285" } valores de teste; a regra pré-registada de 1000 valores precisa de emissões até cerca de { "468" }, e a execução precisa dos ficheiros por laboratório arquivados de 2026-09-30, uma vez que o BIPM entretanto reescreveu { "87" } dos { "113" })
+
+# text
+seg-d75b900ad25f = Covariância cruzada do desvio de rastreabilidade correlacionado (atribuição insegura em modo comum)
+
+# text
+seg-0641f6d38c23 = Covariância cruzada de desvios N×N com termos fora da diagonal rho·b_i·b_j para fontes que partilham um realizador UTC(k); PROVADO correlated_fused_bias >= independent_fused_bias (a atribuição independente ingénua subestima o limite do desvio fundido -> otimista -> insegura)
+
+# text
+seg-72359f29aab1 = Reprodução independente em numpy da covariância cruzada e da desigualdade entre o desvio fundido correlacionado e o independente (InternalConsistency). Conjunto de fontes representativo; cenário modelado.
+
+# text
+seg-0359a9194c60 = Branqueamento GLS de modo comum (Aitken) + identidade de Mahalanobis
+
+# text
+seg-67b11ff6d055 = Cholesky Omega=LL^T e branqueamento por substituição direta z=L^-1 r (Cov(z)=I quando Cov(r)=Omega) implementados à mão; quadrado de Mahalanobis z^T z = r^T Omega^-1 r
+
+# text
+seg-65a8361b4a22 = Pontuação do Jammertest: um registo de recetor pontuado por ensaio programado (latência de deteção, alarmes em falta, falsos alarmes, tempo de recuperação) face ao plano de ensaios publicado
+
+# text
+seg-98d8c39f47ae = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): o catálogo de ensaios e o plano de transmissão da NPRA (MIT, obtidos com um SHA-256 fixado, nunca incorporados no repositório) lidos como verdade programada, com os identificadores do catálogo preservados; uma execução de receiver-trust pontuada por ensaio (primeiro alarme menos o início planeado, detetado/tardio/em falta face a uma tolerância, tempo até ao primeiro período sem alarmes, alarmes fora de todos os intervalos e da sua guarda), com um pacote de evidências assinado que transporta o quadro de pontuação. O calendário são intervalos planeados, não horas de emissão registadas
+
+# text
+seg-49b912adb7a9 = As contagens de intervalos do plano por área de ensaio ({ "76" }, { "77" } e { "45" } intervalos, dos quais { "61" }, { "63" } e { "32" } transmitem) foram contadas de forma independente com um script sobre o mesmo JSON; as janelas attack_log do conjunto de dados de { "2024" } como verdade de eventos, ao abrigo de xval/jammertest-score/PREREGISTRATION.md (versionado sozinho, c2e6d3b, antes de o pontuador ser executado). Primeira e única execução (xval/jammertest-score/RESULTS.md): a regra registada de dados mínimos FALHOU ({ "4" } janelas de jamming pontuáveis em { "4" } de { "12" } pastas UBX, contra um mínimo de { "10" } janelas em { "2" } pastas: { "5" } pastas excluídas pela regra da linha de base, { "3" } registos UBX só trazem a hora GPS da semana), pelo que os limiares B1 a B4 não são avaliáveis; nada foi afrouxado nem repetido. v2 (xval/jammertest-score/PREREGISTRATION-v2.md, versionado sozinho, apenas tratamento de dados: registos só com hora GPS colocados a partir da data, as { "12" } pastas só com CSV, uma sessão de plataforma móvel para rovers em movimento; mesmos limiares e mesma regra de dados mínimos): { "14" } de { "24" } pastas mantidas, mas { "7" } janelas de jamming pontuáveis, regra de dados mínimos falhada de novo, nenhum limiar avaliável (RESULTS-v2.md). Verdade programada: um intervalo planeado não é um registo de emissão, uma falha pode ser um ensaio que nunca se realizou, uma latência conta-se desde o início planeado, e limpo significa fora dos intervalos planeados. A deteção por monitores no domínio das medições nada diz sobre um spoofer de baixa potência. Um só tipo de recetor (u-blox ZED-F9P). O conjunto de dados NMEA da SimulaMet de { "2025" } não é usado (sem licença indicada, acesso condicionado por subscrição)
+
+# text
+seg-0d227bbcb5f1 = Exportação para test bench (kshana bench-export): colunas de coordenadas fixas à Terra, geodésicas e de velocidade local, colunas de atitude e saída NMEA { "0183" }
+
+# text
+seg-c6a6e08afadd = As colunas do CSV de movimento de posição fixa à Terra, posição geodésica, velocidade fixa à Terra, rumo/inclinação longitudinal/inclinação lateral e UTC, e as frases NMEA GGA/RMC, escritas a partir de cenários sintéticos (gnss-ins, incluindo automotive-urban-canyon, jamming, gnss-sim). Apenas movimento e eventos; não é escrito nenhum sinal e não se reclama desempenho de nenhum simulador nem recetor.
+
+# text
+seg-f953ad11fe08 = O QUE É VERIFICADO EXTERNAMENTE, indicado de forma estreita: face a pyproj { "3.8.0" } (PROJ { "9.8.1" }), geographiclib { "2.1" }, pynmea2 { "1.19.0" } e scipy { "1.18.1" }, executados por scripts/gen_testbench_ref.py em { "4" } cenários sintéticos, com tolerâncias fixadas antes da primeira comparação (cada uma o pior caso do arredondamento do escritor): as colunas fixas à Terra são iguais à conversão WGS { "84" } das colunas geodésicas (pior { "1.3e-4" } m, limiar { "3e-4" }) e o inverso ({ "1.3e-9" } graus, limiar { "2e-9" }; altura { "1.3e-4" } m, limiar { "3e-4" }) em todas as linhas; a velocidade fixa à Terra rodada para norte-este-baixo pela operação topocêntrica do PROJ é igual à velocidade NED verdadeira do motor ({ "7.5e-5" } m/s, limiar { "2e-4" }); o rumo, a inclinação longitudinal e a inclinação lateral são iguais ao yaw-pitch-roll do scipy do quaternião verdadeiro do motor ({ "5.0e-7" } graus, limiar { "1e-6" }); todas as frases NMEA são interpretadas pelo pynmea2 com soma de verificação válida e a sua posição descodificada ({ "1.2e-3" } m, limiar { "5e-3" }), altura, velocidade, rumo efetivo ({ "5.0e-4" } graus, limiar { "1e-3" }) e hora são iguais aos valores do movimento; a coluna UTC é igual a aritmética de data e hora independente. O SHA-256 dos bytes exatos de CSV e NMEA verificados está fixado. O QUE NÃO É: a própria trajetória verdadeira do cenário (o perfil de condução e a sua integração); as convenções (o rumo é a guinada do corpo, não o rumo efetivo, e difere dele até cerca de { "77" } graus em automotive-urban-canyon; a qualidade GGA, o número de satélites e o HDOP são valores provisórios); se algum simulador de laboratório lê os ficheiros como pretendido; o desempenho de qualquer simulador ou recetor. As referências independentes verificam conversões e codificações, não a física do cenário. O tratamento do referencial local é verificado apenas através da rotação da velocidade e da velocidade e rumo efetivo NMEA (o CSV não tem coluna de posição local).
+
+# text
+seg-ee99388f7b15 = compliance (kshana compliance-report): um mapeamento das saídas do Kshana para cláusulas de referenciais públicos apenas por número, preenchido a partir das execuções fornecidas; um resultado só conta para uma capacidade quando traz a evidência que o mapeamento nomeia, um conjunto vazio não evidencia nada, e a formulação é "fornece elementos de prova em apoio de"; o relatório não é uma conclusão de que algum referencial seja satisfeito nem uma classificação ou aprovação por quem quer que seja.
+
+# text
+seg-8659260fd38e = Referências verificadas face a um índice de títulos extraído por script dos documentos públicos citados, lidos em 2026-10-10 (tests/compliance_references.rs). O QUE É VERIFICADO: { "49" } referências citadas a cláusulas, secções, parágrafos ou títulos existem no documento citado, e { "7" } URLs citados resolveram na data registada ({ "2" } por uma segunda via); os controlos negativos falham. O QUE NÃO É: que alguma paráfrase, mapeamento ou lacuna esteja correta; as cláusulas da EN { "16803" } (paga, apenas texto do catálogo); revisões posteriores; o índice não é uma implementação independente.
+
+# text
+seg-98c360d82d56 = Integrações marítimas: plugin Signal K, fluxo de barreira e painel de pontuação do OpenCPN, compilação de referência
+
+# text
+seg-7af9ce566646 = A pontuação de confiança, a banda, os motivos, o estado da barreira e a posição comunicada pelo recetor publicados em navigation.gnss.kshana num servidor Signal K com uma notificação de aviso, de alarme e normal (integrations/signalk); o fluxo NMEA com barreira, com a posição marcada como inválida enquanto a confiança está colapsada e uma frase PKSHT por ciclo, servido ao OpenCPN por TCP pela própria barreira ou por um pequeno retransmissor, e um painel nativo de pontuação do OpenCPN que lê a frase PKSHT (integrations/opencpn); e unidades systemd e um contentor que executam a barreira (deploy/reference-build). Onde estes mostram saída, trazem a declaração consultiva: Software de caráter consultivo, não um equipamento de navegação homologado (IEC { "61108" }, IEC { "61162" }): o operador continua a ser responsável pela navegação da embarcação.
+
+# text
+seg-00a0f52f7458 = O QUE É VERIFICADO, indicado de forma estreita: que estas integrações funcionam com o software real para que foram escritas. A EVIDÊNCIA está versionada em integrations/signalk/evidence/README.md (com os seus ficheiros JSON) e em integrations/opencpn/evidence/README.md (com as suas capturas de ecrã e registos), cada uma com o script que a reproduz. ({ "1" }) Signal K: o plugin carregado no pacote npm signalk-server { "2.33.0" } fixado, num espaço de nomes de rede privado só de loopback, alimentado com dados sintéticos. As próprias interfaces REST e WebSocket do servidor mostraram os caminhos publicados, os metadados da pontuação e uma notificação que passou por ausente, aviso, alarme, normal (após a retenção) e aviso de novo quando os dados pararam. Com o kshana real executado pelo plugin sobre o NMEA que o próprio servidor recebeu, a notificação passou a aviso e depois a alarme e a posição comunicada foi publicada; o navigation.position do próprio servidor foi escrito pelo seu fornecedor NMEA, nunca pelo plugin. Executado de novo com o esquema JSON em direto { "1.2" }. ({ "2" }) OpenCPN: o plugin compilado com o cabeçalho da API de plugins do OpenCPN e wxWidgets { "3.2.4" }, carregado no pacote Ubuntu { "24.04" } do OpenCPN { "5.8.4" } sob um ecrã virtual; o OpenCPN carregou-o, executou a sua inicialização e entregou-lhe as frases PKSHT do fluxo com barreira, e o painel ficou vermelho na banda não fiável. Numa execução limpa, a posição do navio do próprio OpenCPN deixou de se atualizar, e o seu indicador de posição desceu, quando a barreira marcou a posição como inválida. Uma segunda execução, alimentada diretamente pelo recetor TCP da barreira, mostrou entrega ao plugin mas não um antes e depois limpo. ({ "3" }) Os testes do retransmissor reproduzem um excerto gravado do fluxo com barreira através de um socket TCP real e verificam o que um consumidor recebe (os bytes inalterados, somas de verificação válidas em todas as frases, incluindo as reescritas, GGA e RMC concordantes, uma PKSHT por ciclo com o campo da barreira quando a posição é inválida), e o script de ponta a ponta verifica que um consumidor do recetor da barreira recebe exatamente os bytes que a mesma barreira escreve na saída padrão. ({ "4" }) Os analisadores PKSHT (JavaScript e C++) são executados sobre frases gravadas da saída do kshana e rejeitam uma soma de verificação, uma versão ou uma pontuação fora de { "0" } a { "100" } erradas. ({ "5" }) As unidades systemd são verificadas com systemd-analyze verify (systemd { "255" }, binários substituídos por stubs) e com guardas para uma shell em ExecStart, a política de reinício e as chaves da sandbox; o tratamento de argumentos do ponto de entrada do contentor é verificado com um binário stub. O QUE NÃO É: não existe nenhuma referência independente externa para qualquer valor que estas integrações mostram. Os valores de confiança são as linhas acima, e uma execução de integração só mostra que a canalização os transporta; é por isso que esta linha é MODELLED e não VALIDATED (docs/VALIDATION.md). Não foi usado nenhum navio real, recetor, execução longa, outra versão de qualquer dos anfitriões, outro sistema operativo ou ambiente de trabalho; todos os dados são texto sintético e nada aqui é uma medição. O tratamento sonoro e visual da notificação por um cliente Signal K real, o botão da barra de ferramentas do OpenCPN, as preferências e o estado desatualizado, e o empacotamento para o gestor de plugins do OpenCPN não foram exercitados. As chaves da sandbox do systemd foram verificadas apenas quanto à sintaxe, não executadas sob um systemd em funcionamento, e a compilação da imagem do contentor e a sua verificação de saúde não têm aqui evidência versionada. Não se reclama nenhum valor de deteção nem de falsos alarmes. Software de caráter consultivo, não um equipamento de navegação homologado (IEC { "61108" }, IEC { "61162" }): o operador continua a ser responsável pela navegação da embarcação.
+
+# text
+seg-475397d05dd0 = <s1>receiver_trust (em direto: a barreira, o seu recetor TCP, PKSHT); fora da biblioteca: integrations/signalk (JavaScript), integrations/opencpn (retransmissor JavaScript, plugin nativo C++), deploy/reference-build (unidades systemd, contentor)</s1>
+
+# text
+seg-89ab9ef155eb = Seguimento BOC({ "1,1" }): escala do DLL e resolução de ambiguidade bump-jump (opcional)
+
+# text
+seg-ef24be9b5917 = O campo boc de iq::track::LoopConfig (opcional, None por omissão): os três discriminadores do DLL reescalados para ler o erro de código em chips com declive unitário no pico principal do BOC({ "1,1" }) em seno, e um monitor bump-jump nos correladores muito adiantado e muito atrasado a meio período de subportadora ({ "0.5" } chip) que faz saltar o NCO de código para o pico principal quando um contador ascendente/descendente atinge N ({ "8" } por omissão). Sem a opção, todas as saídas permanecem inalteradas.
+
+# text
+seg-416ce4dfc6f5 = Consistência interna face a verdade injetada e a formas fechadas, sob limiares pré-registados em 6b68f6cc (docs/design/evidence/boc-bump-jump/). Um sinal de dados BeiDou B1C (PRN { "19" }, { "5" } MS/s) gerado por iq::scene: com a opção desligada, um arranque num pico lateral permanece com falso bloqueio nos ±({ "0.5" } + d/4) chip previstos (medido ±{ "0.549" }); com ela ligada, um salto para o pico principal aos { "0.08" } s e um RMS na janela tardia de { "0.0008" } chip a { "45" } dB-Hz e { "0.0048" } chip a { "35" } dB-Hz; nenhum salto a partir do pico principal a { "35" }, { "40" } e { "45" } dB-Hz ao longo de { "4" } s; o declive EMLP escalado de { "0.94" } a { "0.99" } sobre o sinal amostrado (sem escala { "3.6" } a { "3.8" }). O detetor bump-jump isolado, sobre trios de correladores com a covariância de ruído exata do BOC({ "1,1" }), não fez nenhum salto falso em { "100 000" } atualizações a { "25" } a { "45" } dB-Hz e detetou { "1000" } de { "1000" } arranques em pico lateral a { "35" } dB-Hz. NOT MET (resultado F1): a grelha de testes unitários pré-registada para a escala inclui desvios fora do intervalo linear dos discriminadores, onde as leituras escaladas falham o desvio até { "48" } %. O QUE NÃO É VERIFICADO: IQ de campo, front-ends de banda limitada, réplicas compostas MBOC/QMBOC e qualquer recetor externo.
+
+# text
+seg-2c32955cbfb3 = Canal de cintilação ionosférica IQ (modelo de Cornell) face a cintilação GPS L1 medida a { "50" } Hz
+
+# text
+seg-2fdcb373ab25 = iq::channel::scint, o modelo de cintilação de Cornell (intensidade de Rice, espectro de Butterworth de segunda ordem, fase arg z) conduzido com o S4 e o tempo de decorrelação da intensidade de uma janela medida, comparado naquilo que gera para além dessas duas entradas; realdata::scint50 lê o registo medido, retira-lhe a tendência e executa a comparação.
+
+# text
+seg-bdc9fe963c5c = Dados medidos sob limiares pré-registados em b6ccb499 (xval/scint-malindi/): registo Zenodo { "16941224" } (INGV, Malindi, { "18" } de março de { "2023" }, GPS PRN { "26" }, intensidade e fase da portadora a { "50" } Hz, CC BY { "4.0" }, SHA-256 verificado). { "22" } janelas de { "60" } s elegíveis (N1 satisfeita). MET: a distribuição da intensidade (Kolmogorov-Smirnov D { "0.0415" }, limiar { "0.05" }) e a cintilação de fase ligada ao S4 (mediana de sigma-phi medido/modelo { "0.779" }, limiar 2/3 a 3/2). NOT MET (resultado F1): a fração de desvanecimento profundo do modelo é { "2.38" } vezes a medida (limiar { "0.5" } a { "2" }) e o seu desvanecimento médio é { "3.51" } vezes mais longo (limiar 2/3 a 3/2). Resultado F2: o processamento registado lê a fase enrolada do modelo, o que uma autoverificação revelou; B3 repetido a posteriori com a fase desenrolada dá { "0.804" }. O QUE NÃO É VERIFICADO: outras noites, estações, latitudes ou sinais; ruído do recetor no modelo. A linha continua MODELLED.
+
+# text
+seg-160507ac3702 = Opção CFAR de média de células na aquisição IQ
+
+# text
+seg-7c0a1adc9ae6 = iq::acq::ca_cfar e ca_cfar_cells (opcional): uma célula de uma grelha de aquisição é comparada com a média de células de referência da sua linha de Doppler (desfasamentos de guarda e de passo, a dar a volta ao período), com um fator alpha definido a partir da probabilidade de falso alarme CA-CFAR em forma fechada para M blocos não coerentes (ca_cfar_pfa, ca_cfar_alpha). O detetor de potência de amostra continua a ser o predefinido e todas as saídas existentes permanecem inalteradas.
+
+# text
+seg-ba35daac2aed = Forma fechada, sob limiares pré-registados em 3724aefa (docs/design/evidence/acq-cfar/). A probabilidade de falso alarme CA-CFAR para células Gamma(M), face a Monte Carlo do modelo exato: { "18" } de { "18" } casos dentro de { "3" } sigmas binomiais. Em todas as células de pesquisas de iq::acq (GPS L1 C/A, { "2.5" } MS/s, { "210 000" } células cada) com um valor de projeto de { "1" } %: { "0.977" } % e { "0.969" } % em ruído gaussiano e { "1.006" } % e { "0.999" } % em ruído quantizado a 2 bits (M = { "1" } e { "4" }; limiar de mais ou menos { "20" } %); decisões inalteradas quando a entrada é escalada. NOT MET (resultado F1): num sinal de 2 bits sem ruído, a deteção e a sua célula estão certas, mas { "1.28" } % das células fora do pico da linha do pico (limiar { "1" } %) excedem o limiar, nos lóbulos laterais de correlação determinísticos do código. O QUE NÃO É VERIFICADO: outras variantes de CFAR, janelas bidimensionais, front-ends de banda limitada, dados de campo.
+
+# text
+seg-5bd3bf0c22a7 = Modelo de espectro: bandas GLONASS, BeiDou e Galileo E6 (opcional)
+
+# text
+seg-9c16189c63ac = spectrum::default_band resolve, apenas por nome (MORE_BAND_NAMES), GLONASS L1OF e L2OF em todos os canais FDMA K = -7 a { "6" } (BPSK, { "0.511" } Mchip/s), BeiDou B1I (BPSK({ "2" })), B1C (MBOC(6,1,1/11)), B2a e B3I (BPSK({ "10" })) e Galileo E6 (BPSK({ "5" })), com as portadoras e as potências mínimas recebidas dos seus documentos de controlo de interface; o conjunto de bandas predefinido e todas as saídas existentes permanecem inalterados.
+
+# text
+seg-6d674bc4b40a = Documentos de controlo de interface publicados e formas fechadas, sob limiares pré-registados em 5806f28b (docs/design/evidence/spectrum-bands/): GLONASS ICD Edição { "5.1" }, BDS-SIS-ICD B1I { "3.0" }, B1C { "1.0" }, B2a { "1.0" } e B3I { "1.0" }, Galileo OS SIS ICD Edição { "2.1" }. MET: todas as portadoras, taxas de chip e potências recebidas tal como transcritas ({ "28" } canais GLONASS), os primeiros nulos do BPSK na taxa de chip, o B1C composto igual a MBOC(6,1,1/11) como indica a tabela de potências do seu ICD, a identidade do caminho C/N0 e cenários de espectro idênticos byte a byte. NOT MET: o limiar de área unitária, que era inatingível tal como escrito (resultado F1; as áreas são iguais à fração em banda em forma fechada), e a concordância por bin das formas de onda B1I e B1C da camada IQ com a envolvente do modelo ({ "1.26" } e { "1.56" } dB contra { "0.5" } dB, resultado F2; GLONASS { "0.07" } dB), porque os códigos Gold e Weil têm espectros de riscas irregulares; em média de banda, os lóbulos principais concordam dentro de { "0.25" } dB. O QUE NÃO É VERIFICADO: IQ gravado, outros sinais, interferência intrassistema.
+
+# text
+seg-63b7da996265 = Códigos de alcance primários BeiDou B1I face a um gerador independente
+
+# text
+seg-64bb9bbe6629 = iq::signals::beidou::b1i_bits e b1i: os códigos Gold do BDS-SIS-ICD-B1I-3.0 truncados a { "2046" } chips, PRN { "1" } a { "63" }, tal como a camada IQ os gera, adquire e segue.
+
+# text
+seg-690d6ea43d80 = GNSS-SDR { "v0.0.19" } (etiqueta { "v0.0.19" }, commit 1ddd4562), uma implementação de código aberto independente do mesmo ICD: o seu beidou_b1i_code_gen_int, compilado de forma autónoma, gerou todos os { "63" } códigos. Apenas a sua saída de programa está versionada: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, um prefixo de 64 chips e o SHA-256 de cada código de 2046 chips. Essa saída são os códigos PRN BeiDou B1I que o BDS-SIS-ICD-B1I-3.0 público define; nenhum código-fonte nem binário do GNSS-SDR está no repositório. Limiar pré-registado em 911106d1 (xval/beidou-b1i-gnss-sdr/): todos os { "2046" } chips de todos os { "63" } PRN idênticos, sem inversão, deslocamento nem renomeação. Resultado: { "63" } de { "63" } idênticos; o conjunto de dados de ensaio foi regenerado a partir de uma cópia nova de { "v0.0.19" } (SHA-256 do ficheiro de origem tal como registado) e é idêntico byte a byte. O QUE NÃO É VERIFICADO: o código secundário NH20, a lista de PRN GEO, a portadora e a taxa de chip.
+
+# text
+seg-b4787b04338e = Códigos de alcance e de sobreposição GPS L1C face às colunas de verificação impressas da IS-GPS-800J
+
+# text
+seg-708967246fd8 = iq::signals::gps::l1c_p_bits, l1c_d_bits e l1c_o_bits: os códigos de alcance Weil L1CP e L1CD (sequência de Legendre calculada, índice de Weil, sequência de expansão inserida antes do chip p) e os códigos de sobreposição L1CO S1, PRN { "1" } a { "63" }.
+
+# text
+seg-3f4bbdd3666b = IS-GPS-800J (01-AUG-2022, declaração de distribuição A), as colunas de verificação que imprime junto dos parâmetros do gerador: Tabela 3.2-2 os { "24" } chips iniciais e finais de cada código L1CP e L1CD, Tabela 3.2-3 os { "11" } bits iniciais e finais de cada código L1CO, Tabela 6.2-1 a sequência de Legendre de comprimento 10223; transcritas por scripts/extract_is_gps_800_tables.py a partir do PDF (SHA-256 c4aad710...). Limiares pré-registados em fe372e26 (docs/design/evidence/l1c-codes/): { "252" } de { "252" } colunas, { "63" } de { "63" } sobreposições e { "10 223" } de { "10 223" } bits de Legendre idênticos; a extração --check passa; um controlo negativo falha códigos renomeados, invertidos e deslocados. O QUE NÃO É VERIFICADO: os próprios parâmetros do gerador (vêm das mesmas tabelas), os chips entre as colunas impressas, o padrão de subportadora TMBOC e os códigos L1CO S2.
+
+# text
+seg-5cba09089e09 = Códigos primários LunaNet AFS-I e AFS-Q face às colunas de verificação impressas da LSIS-AFS V1.0
+
+# text
+seg-c8ad32b783bd = iq::signals::lunanet::afs_i_bits e afs_q_primary_bits (nomes de sinal lunanet-afs-i e lunanet-afs-q em kshana iq): o código Gold AFS-I ({ "2047" } com ciclo curto para { "2046" }, G2 atrasado por PRN) e o código primário Weil AFS-Q (sequência de Legendre calculada, índice de Weil, sequência de expansão inserida antes do chip p), PRN { "1" } a { "210" }.
+
+# text
+seg-330ed84e8e78 = Face às tabelas impressas da LSIS-AFS V1.0 (assinaladas TBC na especificação): LunaNet Interoperability Specification V5, Applicable Document { "1" } Volume A: LunaNet Signal-In-Space Recommended Standard, Augmented Forward Signal (LSIS-AFS) V1.0, { "29" } de janeiro de { "2025" } (NASA; SHA-256 do PDF { "986e0795" }...), as colunas de verificação que imprime junto dos parâmetros do gerador: Tabelas C-1 a C-5 e D-2 a D-6 os primeiros e últimos { "24" } chips de cada código AFS-I e AFS-Q, Tabela D-1 a sequência de Legendre de comprimento 10223; extraídas por scripts/extract_lunanet_afs_tables.py (xval/lunanet-afs/oracle/). Limiares pré-registados em b3ba5d5 (xval/lunanet-afs/PREREGISTRATION.md) antes de o gerador existir: B1 { "420" } de { "420" }, B2 idêntico, B3 { "420" } de { "420" }. O documento assinala as suas tabelas de códigos como { "{" }LSIS-TBC{ "}" } e diz que são só para ensaio e integração, pelo que isto valida a construção face às tabelas dessa edição, não às de uma posterior. Uma afirmação pré-registada sobre o estado inicial impresso de G2 (B1b) foi enunciada com o sentido errado e é NOT MET ({ "0" } de { "210" }), fixada; a relação corrigida ({ "2047" } menos o atraso) verifica-se em { "210" } de { "210" } e fica registada como a posteriori. O QUE NÃO É VERIFICADO: os próprios parâmetros do gerador (mesmas tabelas), os chips entre as colunas impressas, o código terciário, a camada de mensagens e a codificação LDPC.
+
+# text
+seg-7b1ae0c7ca28 = Códigos terciários e camada de mensagens LunaNet AFS (SB1 BCH, CRC-24Q, entrelaçador) face à LSIS-AFS V1.0
+
+# text
+seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: padrão de sincronização, codificador SB1 BCH({ "51,8" }) e descodificador de 256 hipóteses, CRC-24Q, o entrelaçador de blocos de { "60" } x { "98" }, um verificador de fluxo de símbolos (kshana lunanet-afs-check) e um gerador de fluxo de teste com subtramas provisórias. A codificação LDPC de taxa 1/2 das subtramas { "2" } a { "4" } não está implementada (as suas matrizes estão num anexo separado).
+
+# text
+seg-b6f39f180fdd = LSIS-AFS V1.0 (como acima): a sequência de Legendre de comprimento 1499 (Tabela E-1, idêntica) e os primeiros e últimos { "24" } chips terciários (Tabelas E-2 a E-6: { "419" } de { "420" } colunas idênticas; o documento imprime os mesmos últimos { "24" } chips, A14850, para o PRN { "147" } e o PRN { "151" } e o gerador reproduz os do PRN { "151" }, pelo que a entrada do PRN { "147" } é muito provavelmente uma gralha; o limiar de { "420" } de { "420" } é NOT MET e a falha está fixada); o exemplo trabalhado da Figura { "8" } do código SB1 (um exemplo: 0x045 codifica-se em 0x229F61DBB84A0); CRC-24Q face ao valor de verificação de catálogo 0xCDE703 para o ASCII { "123456789" }; a aritmética de tramas do próprio documento. Limiares pré-registados em b3ba5d5. Uma falha registada e um exemplo trabalhado para a camada de mensagens, pelo que a linha continua MODELLED. O QUE NÃO É VERIFICADO: LDPC e as palavras CRC dentro das subtramas { "2" } a { "4" }, o conteúdo das mensagens e qualquer fluxo gravado
+
+# text
+seg-0d7b17524c04 = Pacotes de normas: cenários pontuados face a limiares indicados antes da execução
+
+# text
+seg-6e5c04fd4531 = standards_pack (kshana standards-pack): os perfis de ensaio do referencial DHS Resilient PNT para os níveis { "1" } a { "4" }, os níveis de exatidão e a avaliação de integridade da IMO MSC.1/Circ.1575, e os pacotes de monitorizar, avaliar e mitigar do Apêndice F do ICAO Doc { "9849" }: cada ensaio executa um tipo de cenário incluído e compara campos de resultado com limiares indicados no pacote, e os ensaios que precisam de um registo de recetor ficam listados como NEEDS INPUT e não são pontuados.
+
+# text
+seg-d9ea966abdd6 = Nenhuma referência externa para os resultados dos cenários: cada ensaio do pacote executa um tipo de cenário MODELLED. Os limiares são o perfil indicado pelo autor do pacote (o referencial DHS não indica valores; os limites de exatidão da IMO são a Tabela C-1 da MSC.1/Circ.1575, lida na íntegra; o pacote ICAO segue a apresentação do próprio Plano de Mitigação de RFI do ICAO porque o Doc { "9849" } é uma publicação paga e não foi lido), versionados antes de qualquer execução pontuada em ficheiros PREREGISTRATION.md ao estilo xval em standards/. Um limiar MET diz que um cenário modelado atingiu um limiar indicado, nada sobre um produto
+
+# text
+seg-8a8f2c85e0c3 = Pacote de evidências de ida e volta de laboratório (cenário, condições de ensaio, registo do recetor, pontuação)
+
+# text
+seg-a090b06a920d = evidence::roundtrip (kshana evidence round-trip) e a exportação do registo do recetor kshana.test-conditions/1 de kshana bench-export: um pacote assinado que regista a soma de controlo do cenário, a das condições indicadas, a do registo e a pontuação face aos eventos indicados, e que recusa condições que discordem dos eventos de pontuação ou um registo cuja soma de controlo não seja a indicada. Nenhum sinal é escrito, reproduzido nem programado.
+
+# text
+seg-76da58fe670a = Nenhuma externa: o pacote liga somas de controlo e uma pontuação MODELLED do registo do recetor, verificadas em dados sintéticos (o NMEA exportado de um cenário incluído tratado como o registo do recetor). Não se reclama nenhuma execução em laboratório
+
+# text
+seg-a9189e4fe413 = Motor de seguimento IQ face ao GNSS-SDR { "0.0.19" } em gravações independentes
+
+# text
+seg-364de05e5b1b = O motor de seguimento completo da camada IQ (iq::track através de kshana iq track: passagem da aquisição, correladores, NCO, PLL Costas de segunda ordem a { "15" } Hz, DLL de envolvente EML de primeira ordem a { "2" } Hz assistido pela portadora, indicador de bloqueio e estimadores de C/N0) em GPS L1 C/A a { "30" } a { "45" } dB-Hz.
+
+# text
+seg-c2a8434c32a8 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, o pacote Ubuntu { "24.04" }, executado como programa separado; apenas números derivados versionados) a seguir as mesmas gravações numpy (independentes do motor), ambos medidos face à verdade analítica. Limiares pré-registados em 48edd4a5, alterados antes de qualquer gravação de teste em 1e4288c4 (um FLL de { "10" } Hz apenas durante a captura inicial em ambos os recetores, depois de a calibração registada ter falhado numa passagem errada do GNSS-SDR, resultado F3). MET a { "30" }, { "35" }, { "40" } e { "45" } dB-Hz: jitter de portadora dentro de { "4.3" } %, jitter de código dentro de { "4.6" } % e média e dispersão de Doppler dentro dos do GNSS-SDR. NOT MET: o C/N0 NWPR do motor lê { "2.3" } a { "7.1" } dB abaixo do SNV do GNSS-SDR (resultado F4, o limite conhecido do NWPR; o seu M2M4 está a { "0.06" } dB da verdade); os indicadores de bloqueio de fase diferem por definição (F5); a { "30" } dB-Hz o GNSS-SDR deslizou duas vezes e o motor não (F6). A própria passagem do GNSS-SDR bloqueou numa frequência errada em { "3" } de { "30" } execuções de calibração. O QUE NÃO É VERIFICADO: outros sinais, remoção de bits de dados, reaquisição, gravações de campo. A linha continua MODELLED.
+
+# text
+seg-259d201c2ff8 = Ganhos de antena CRPA no tipo de cenário jamming face a um recálculo independente em numpy
+
+# text
+seg-192144c57783 = A secção opcional [crpa] do tipo de cenário jamming: um feixe por canal na direção de cada satélite (anulação direcionada com o jammer como nulo, ou MVDR em sigma^{ "2" } I + P_j a_j a_j^H), escalando o ruído de cada ligação por ||w||^{ "2" } e o jammer por |w^H a_j|^{ "2" } antes da equação de C/N0 anti-jam existente.
+
+# text
+seg-232d040b575d = Um recálculo independente em numpy (xval/crpa-jamming/oracle.py, sem código partilhado: vetores de direção numpy, numpy.linalg.solve e inv) de todas as ligações da geometria de jamming-demo com um agrupamento quadrado de 4 elementos, sob as duas ponderações. Limiares pré-registados em 08d83b4d. MET: A1 (todos os { "150" } resultados de cenário idênticos byte a byte sem a secção, após uma correção: a primeira compilação acrescentou as unidades crpa à tabela de unidades de cada execução de jamming), A2 (um elemento é igual a nenhum agrupamento até { "1e-12" } dB), A3 no ganho de ruído do agrupamento e no C/N0 efetivo ({ "912" } ponderações de ligação dentro de { "1e-9" } dB, pior { "2.1e-14" } dB) e no nulo do jammer com anulação direcionada (abaixo de -200 dB em ambos os lados), A4 (MVDR a { "0.1" } dB da anulação direcionada com um JNR de { "80" } dB). NOT MET: A3 no ganho do jammer do MVDR, { "194" } de { "456" } ligações acima de { "1e-9" } dB em { "0.36" } com matemática portátil ({ "202" } com matemática do anfitrião; docs/revisions/STUDIO15-batch4-rebaseline.md) (pior { "1.7e-6" } dB) em resíduos de -100 a -188 dB, onde o cancelamento em float64 limita ambas as implementações (o inv e o solve do numpy discordam entre si em { "169" } ligações, pior { "7.9e-7" } dB); o C/N0 efetivo que estes alimentam não é afetado. O QUE NÃO É VERIFICADO: acoplamento mútuo, desadaptação de elementos, processamento de banda larga, vários jammers, qualquer hardware de antena. Um recálculo das mesmas equações, não uma referência independente externa; a linha continua MODELLED.
+
+# text
+seg-a2f34cff9338 = Sombra de terreno sobre o jammer no tipo de cenário jamming face a um recálculo independente em numpy numa tesela SRTM real
+
+# text
+seg-334c569d9cae = A secção opcional [terrain] do tipo de cenário jamming: o perfil de terreno em círculo máximo entre o jammer e o recetor numa tesela SRTM .hgt com uma curvatura da Terra de fator k, o gume de faca dominante (maior nu de Fresnel-Kirchhoff) e a perda de gume de faca único da ITU-R P.526-15 secção { "4.1" }, subtraída à potência recebida do jammer.
+
+# text
+seg-615ea67dd756 = Um recálculo independente em numpy (xval/jamming-terrain/oracle.py, sem código partilhado: leitura própria de .hgt, interpolação bilinear, ida e volta WGS { "84" }, perfil, curvatura, nu e J(nu)) de dez posições de jammer em torno de um recetor em Badwater Basin, na tesela SRTM real versionada tests/fixtures/terrain/N36W117_sub6.hgt. Limiares e posições pré-registados em 92cd2bfd. Todos MET: aditividade (todos os { "150" } resultados de cenário idênticos byte a byte sem a secção); os pontos do perfil e o obstáculo de cada posição iguais e nu e perda dentro de { "1.6e-10" } (limiar { "1e-9" }); a perda nunca aumenta quando o jammer sobe de { "2" } para { "4902" } m; a perda reduz cada J/S exatamente do seu valor e de mais nada; J(nu) dentro de { "1e-12" } dB do da referência independente. Resultados: as posições através das montanhas Black e Funeral perdem { "44" } a { "48" } dB; duas posições no fundo do vale perdem { "8" } e { "15" } dB só pela curvatura da Terra com antenas a { "2" } m de altura, o caso rasante do modelo de gume de faca único. O QUE NÃO É VERIFICADO: qualquer propagação medida, difração de vários gumes, reflexão no solo, clutter, o erro do próprio DEM. Um recálculo do mesmo modelo, não uma referência independente externa; a linha continua MODELLED.
+
+# text
+seg-825c121c7512 = Histerese de aquisição e quantizador do front-end no tipo de cenário jamming face a recálculos independentes
+
+# text
+seg-f7207263d881 = A secção opcional [acquisition] do tipo de cenário jamming (um satélite é adquirido num limiar de aquisição ou acima dele após um atraso de reaquisição e mantido enquanto estiver no limiar de seguimento ou acima dele) e a secção [front_end] (a leitura do AGC { "10" } log10({ "1" } + J/N) e a perda do quantizador do ADC para entrada gaussiana retiradas de cada ligação, assinalada como não válida para jammers não gaussianos).
+
+# text
+seg-6abc60ee9ec4 = Um recálculo independente em Python de cada indicador de aquisição (xval/jamming-acq-agc/hysteresis.py) a partir do C/N0 efetivo por época do motor, um Monte Carlo independente em numpy da perda do quantizador (xval/jamming-acq-agc/quantiser_mc.py, a sua própria pesquisa do passo ótimo, { "2" }^{ "22" } amostras) e o laço de AGC da camada IQ. Limiares pré-registados em 70c72fcc, com um conjunto suplementar de execuções definido em { "37793290" }. MET: aditividade (todos os { "150" } resultados de cenário idênticos byte a byte sem as secções); todos os indicadores iguais nas execuções suplementares ({ "1824" } ligações, { "732" } das quais com histerese); monótono no limiar; a perda do quantizador dentro de { "0.0007" } dB do Monte Carlo a { "1" } a { "4" } bits (limiar { "0.02" } dB); a leitura do AGC dentro de { "0.012" } dB do laço de AGC (limiar { "0.05" } dB). NOT MET: as execuções de histerese registadas (jamming-demo a { "10" } a { "30" } dBW) foram pouco informativas, com todas as ligações perdidas, e o seu H2 e H4 só são atingidos de forma trivial. Resultado: com um jammer CW, um ADC de 1 bit perde cerca de { "5" } dB mais do que o valor gaussiano que o motor aplica, e assinala como não válido. O QUE NÃO É VERIFICADO: a própria pesquisa de aquisição, a dinâmica do AGC no tempo, qualquer hardware de recetor. Recálculos do mesmo modelo, não uma referência independente externa; a linha continua MODELLED.
+
+# text
+seg-9c46f1c76486 = Captura inicial do FLL limitada abaixo do patamar de passagem de FLL para PLL do projeto predefinido (opcional)
+
+# text
+seg-efa1d1a9e904 = fll_pull_in_max_s opcional de iq::track (o campo fll_pull_in_max_s de iq::track::LoopConfig): com fll_assist = pull-in, o FLL passa o controlo ao PLL após um tempo fixo de captura inicial, seja qual for o PLI, com um tempo de permanência de regresso correspondente até o PLI atingir pela primeira vez fll_off_pli.
+
+# text
+seg-76cce58eaddd = Consistência interna face a verdade injetada: uma fonte GPS L1 C/A sintética sem dados (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, dez sementes de ruído) cuja fase da portadora é conhecida, sob limiares pré-registados em 58789af0 (docs/design/evidence/fll-handover-floor/). MET: o controlo (o valor predefinido sem limite nunca passa o controlo em { "9" } de { "10" } sementes a { "33" } dB-Hz); aditividade (soma de controlo predefinida e testes de seguimento existentes inalterados); captura inicial de uma passagem desviada { "100" } Hz a { "45" } dB-Hz. NOT MET: com um limite de { "1.0" } s, passagem e manutenção em todas as execuções ({ "16" } de { "20" } a { "33" } dB-Hz, { "8" } de { "20" } a { "31" } dB-Hz; as restantes alternam entre passagens forçadas e o regresso do FLL) e o jitter de fase dentro de { "25" } % do PLL isolado ({ "10.8" } contra { "6.1" } graus a { "33" } dB-Hz). O QUE NÃO É VERIFICADO: bits de dados, outros sinais e taxas de amostragem, gravações de campo. O valor predefinido não muda; a linha continua MODELLED.
+
+# text
+seg-ac0f97e945a7 = Leitor de soluções .pos do RTKLIB para receiver-trust
+
+# text
+seg-0b8bc2c89de4 = Lê um ficheiro de solução do RTKLIB (hora de calendário ou semana GPS/TOW, posição em latitude/longitude ou ECEF, satélites usados) para a cronologia de receiver-trust (receiver_trust::machines::rtklib).
+
+# text
+seg-3de364392f92 = Nenhuma externa: não foi lido nenhum ficheiro produzido pelo RTKLIB e a disposição das colunas vem do manual do RTKLIB. Verificado apenas em ficheiros escritos internamente; a conversão ECEF reutiliza frames::ecef_to_geodetic, que tem as suas próprias linhas
+
+# text
+seg-849393517c04 = Registos NovAtel OEM7 ASCII e binários (BESTPOS, RANGE, RXSTATUS) para receiver-trust
+
+# text
+seg-7e0021922025 = Lê BESTPOS (posição), RANGE (C/No por sinal) e RXSTATUS (o indicador de jammer do recetor, como autorrelato da época) de registos OEM7 ASCII e binários, com CRC verificado, só de leitura (receiver_trust::machines::novatel).
+
+# text
+seg-1f7c6d1009a8 = Nenhuma externa como limiar de passagem. As disposições dos campos e o CRC seguem a documentação pública do OEM7 (docs.novatel.com); a rotina de CRC foi verificada uma vez face ao CRC que a documentação indica para o seu próprio exemplo BESTPOSA (citado, não transcrito). Os conjuntos de dados de ensaio são escritos internamente; não foi lido nenhum registo de um recetor real
+
+# text
+seg-a45c53a9deb3 = Leitor de relação portadora-ruído RTCM { "3" } MSM4 e MSM7 para receiver-trust
+
+# text
+seg-0a0c9976236f = Lê o C/N0 de cada célula de sinal das mensagens RTCM { "3" } MSM4 e MSM7 (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) a partir de um fluxo de tramas, com CRC-24Q verificado (receiver_trust::machines::rtcm3). Disposições das tabelas pyrtcm de licença BSD, não do texto da norma RTCM.
+
+# text
+seg-2af6fc1abe98 = ReferenceImpl numa verificação pontual, não um teste da bateria: o descodificador do pyrtcm { "1.2.0" } lê as mesmas tramas escritas internamente e obtém o mesmo C/N0 e a mesma hora de época. Partilha a origem das tabelas com este leitor, pelo que verifica o tratamento de bits, não a disposição. Não foi lida nenhuma captura de um recetor real nem de uma estação de base
+
+# text
+seg-cd554a7c1649 = Adaptador de monitor GNSS-SDR para receiver-trust
+
+# text
+seg-22b587ac642d = Lê mensagens do Monitor do GNSS-SDR (Gnss_Synchro) e do monitor PVT, retransmitidas como linhas JSON com os nomes de campo do proto, para C/N0 por canal, posição, satélites usados, HDOP e céu (receiver_trust::machines::gnss_sdr; integrations/gnss-sdr/relay.py).
+
+# text
+seg-d22aed9d9a16 = Nenhuma externa: os nomes de campo vêm da documentação do GNSS-SDR; nem o leitor nem o relay.py foram executados contra um GNSS-SDR em funcionamento ou uma captura real
+
+# text
+seg-217e5953c128 = Ingestão de registos IMU, entrada de rumo por giroscópio e ajuste de Allan dos parâmetros de sensores híbridos
+
+# text
+seg-9dadc819daef = Lê um CSV de IMU (colunas documentadas ou a disposição EuRoC); integra a taxa de guinada no rumo que o monitor de rumo-trajetória lê ([log.imu]); e ajusta os parâmetros de ruído do acelerómetro e do giroscópio dos cenários híbridos e de fusão a partir de um registo estacionário por desvio de Allan sobreposto (imu-fit).
+
+# text
+seg-9099f3467e9e = Nenhuma externa: o ajuste é verificado em registos sintéticos de ruído branco com coeficientes conhecidos, o rumo em registos de taxa de guinada constante. Não foi ajustado nenhum registo IMU real e q_aa não é ajustado
+
+# text
+seg-15a852a2dcb0 = Descoberta MQTT do Home Assistant e exportador de estado para telemetria de confiança
+
+# text
+seg-6d6b07b26966 = Um documento de estado JSON e mensagens de descoberta MQTT do Home Assistant para o fluxo de confiança, impressos como texto em todas as superfícies e publicados por MQTT { "3.1.1" } QoS { "0" } pela CLI (telemetry::mqtt; trust-telemetry --mqtt-tcp, --print-mqtt, format mqtt).
+
+# text
+seg-79a8f3864af3 = Nenhuma externa: os pacotes foram lidos por um recetor de loopback escrito para o teste, não por um broker real, e o Home Assistant não foi executado
+
+# text
+seg-68caf86157c2 = Pacote receiver-trust para ROS { "2" } e ponte gnss_lib_py
+
+# text
+seg-e7d7d99fe538 = Uma ponte sem ROS que escreve mensagens de posição e de satélites como NMEA e as pontua através da ligação Python (integrations/ros2/kshana_trust), e uma ponte de NavData do gnss_lib_py para receiver-trust através do formato rtklib-pos (integrations/gnss_lib_py).
+
+# text
+seg-05ded40b17d2 = Nenhuma externa: o nó ROS não foi executado num grafo ROS { "2" } em funcionamento e os nomes de campo ublox_ubx_msgs não foram verificados contra um controlador em execução. O gnss_lib_py (MIT) foi executado para o teste da ponte
+
+# text
+seg-6eee4b0e40b9 = <s1>Anterior</s1>Matriz de verificação
+
+# text
+seg-c3e7639ccf1a = <s1>Seguinte</s1>Porque é que as linhas continuam modeladas

@@ -233,3 +233,30 @@ seg-6e0cb6acc073 = VALIDATED
 
 # text
 seg-a349aa76b0ed = PARTNER
+
+# text
+seg-b2689beaba9e = Verificador de Galileo OSNMA
+
+# text
+seg-80f3f0aae42c = Mapa de interferência
+
+# text
+seg-1759a8cce7d6 = Tipos de cenário
+
+# text
+seg-fdd674722717 = Espetro
+
+# text
+seg-68ff97cfdc03 = DOI
+
+# text
+seg-564133d6a0c4 = Constelações em torno de qualquer corpo
+
+# text
+seg-c611ee59301a = Animação
+
+# text
+seg-c01b78b64065 = Relatórios
+
+# text
+seg-c60dc5b92a60 = Exportações de interoperabilidade
