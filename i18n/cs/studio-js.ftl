@@ -7503,3 +7503,2721 @@ js-meaning-spectrum-line-kept-thr = { $n ->
     }
 
 js-meaning-spectrum-line-none = Žádný signál nezůstává po celý běh nad prahem sledování přijímače.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:195
+js-meaning-spectrum-line-none-thr = Žádný signál se po celý běh nedrží nad sledovacím prahem přijímače { $thr } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:196
+js-meaning-spectrum-weakest-label = Nejslabší signál, { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:155
+js-meaning-whole-run = během celého běhu
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:249
+js-meaning-your-setting = vaše nastavení
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:506
+js-meankind-acm-big =
+    { $n ->
+        [one] Adaptivní kódování přenese { $gain } krát více dat než nejlepší pevný režim: { $acm } Gbit oproti { $ccm } Gbit za { $n } průlet.
+        [few] Adaptivní kódování přenese { $gain } krát více dat než nejlepší pevný režim: { $acm } Gbit oproti { $ccm } Gbit za { $n } průlety.
+        [many] Adaptivní kódování přenese { $gain } krát více dat než nejlepší pevný režim: { $acm } Gbit oproti { $ccm } Gbit za { $n } průletu.
+       *[other] Adaptivní kódování přenese { $gain } krát více dat než nejlepší pevný režim: { $acm } Gbit oproti { $ccm } Gbit za { $n } průletů.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:506
+js-meankind-acm-line = Pevný režim { $mode }; výpadek { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:246
+js-meankind-anomaly-big = Kvantový monitor poruch dosahuje skóre { $q } oproti { $c } u klasického (plocha pod křivkou, 1 je dokonalé).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:246
+js-meankind-anomaly-line = Nejmenší zjistitelná porucha je { $q } oproti { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:511
+js-meankind-aocs-big-open = Natočení o { $slew } stupňů se neustálí pod { $threshold } stupňů.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:511
+js-meankind-aocs-big-settles = Natočení o { $slew } stupňů se po { $dur } ustálí pod { $threshold } stupňů.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:517
+js-meankind-aocs-line = Konečná chyba zamíření { $final } stupňů.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:516
+js-meankind-aocs-line-filter = Konečná chyba zamíření { $final } stupňů. Filtr polohy ve smyčce se mýlí o { $arcsec } obloukových sekund RMS.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:515
+js-meankind-aocs-line-wheel = Konečná chyba zamíření { $final } stupňů. Špičkový moment setrvačníku { $torque } N m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:514
+js-meankind-aocs-line-wheel-filter = Konečná chyba zamíření { $final } stupňů. Špičkový moment setrvačníku { $torque } N m. Filtr polohy ve smyčce se mýlí o { $arcsec } obloukových sekund RMS.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:360
+js-meankind-aperture-big = Navigace využívá { $nav } % času antény a komunikace { $comms } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:360
+js-meankind-aperture-big-idle = Navigace využívá { $nav } % času antény a komunikace { $comms } %; { $idle } % je nevyužito.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:350
+js-meankind-aperture-line-all =
+    { $n ->
+        [one] { $n } apertura podle pravidla { $policy }, s konfliktem o přístup po dobu { $dur }.
+        [few] { $n } apertury podle pravidla { $policy }, s konfliktem o přístup po dobu { $dur }.
+        [many] { $n } apertury podle pravidla { $policy }, s konfliktem o přístup po dobu { $dur }.
+       *[other] { $n } apertur podle pravidla { $policy }, s konfliktem o přístup po dobu { $dur }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:352
+js-meankind-aperture-line-contention =
+    { $n ->
+        [one] { $n } apertura, s konfliktem o přístup po dobu { $dur }.
+        [few] { $n } apertury, s konfliktem o přístup po dobu { $dur }.
+        [many] { $n } apertury, s konfliktem o přístup po dobu { $dur }.
+       *[other] { $n } apertur, s konfliktem o přístup po dobu { $dur }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:353
+js-meankind-aperture-line-count =
+    { $n ->
+        [one] { $n } apertura.
+        [few] { $n } apertury.
+        [many] { $n } apertury.
+       *[other] { $n } apertur.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:358
+js-meankind-aperture-line-nocount = Apertury.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:355
+js-meankind-aperture-line-nocount-all = Apertury podle pravidla { $policy }, s konfliktem o přístup po dobu { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:357
+js-meankind-aperture-line-nocount-contention = Apertury, s konfliktem o přístup po dobu { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:356
+js-meankind-aperture-line-nocount-policy = Apertury podle pravidla { $policy }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:351
+js-meankind-aperture-line-policy =
+    { $n ->
+        [one] { $n } apertura podle pravidla { $policy }.
+        [few] { $n } apertury podle pravidla { $policy }.
+        [many] { $n } apertury podle pravidla { $policy }.
+       *[other] { $n } apertur podle pravidla { $policy }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-big-no = Ne: ochranné úrovně enginu se neshodují se zveřejněnou referencí.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-big-yes = Ano: ochranné úrovně enginu se shodují se zveřejněnou referencí.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-line = Nejhorší rozdíl je { $worst } m oproti vlastní toleranci reference { $tol } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-line-vectors =
+    { $n ->
+        [one] Nejhorší rozdíl je { $worst } m oproti vlastní toleranci reference { $tol } m, na { $n } referenčním vektoru.
+        [few] Nejhorší rozdíl je { $worst } m oproti vlastní toleranci reference { $tol } m, na { $n } referenčních vektorech.
+        [many] Nejhorší rozdíl je { $worst } m oproti vlastní toleranci reference { $tol } m, na { $n } referenčního vektoru.
+       *[other] Nejhorší rozdíl je { $worst } m oproti vlastní toleranci reference { $tol } m, na { $n } referenčních vektorech.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
+js-meankind-arc-big = Estimátor obnoví dráhu, jakmile má { $dur } z oblouku o délce { $h } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
+js-meankind-arc-line = Počet kosmických lodí: { $n }; měření: { $observable }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
+js-meankind-ascent-big = Gravitace, odpor, řízení a protitlak odeberou { $loss } m/s z ideálního přírůstku rychlosti { $ideal } m/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
+js-meankind-ascent-line = Vyhoření v { $km } km a při { $speed } m/s; špičkový dynamický tlak { $kpa } kPa.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-big-no = Spoofer na povrchu nemůže zachytit lunární přijímač.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-big-yes = Spoofer na povrchu může zachytit lunární přijímač.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-line = Povrchový vysílač dosáhne { $km } km, než ho zablokuje horizont.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-big = Chyba zamíření činí celkem { $total } obloukových sekund.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-big-from = Chyba zamíření činí celkem { $total } obloukových sekund, většinou z { $from }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-line = Největší moment gravitačního gradientu je { $torque } N·m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:442
+js-meankind-beacon-big = Povrchové majáky zlepšují kvalitu geometrie (PDOP) { $x } krát.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:442
+js-meankind-beacon-line = Přidání družic místo toho ji zlepší { $x } krát.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-big = Samotná relé poskytují určení polohy v { $share } % času kolem { $body }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-big-earth = Samotná relé poskytují určení polohy v { $share } % času kolem { $body }; { $earth } % se spoji k Zemi.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-line = V průměru je ve výhledu { $mean } relé.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:23
+js-meankind-by = { $a } × { $b }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-line = Každý člen je běžný běh enginu; kampaň čte jejich výsledky vedle sebe.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-range =
+    { $n ->
+        [one] Napříč { $n } scénář za stejných podmínek se { $what } pohybuje od { $low } do { $high }.
+        [few] Napříč { $n } scénáře za stejných podmínek se { $what } pohybuje od { $low } do { $high }.
+        [many] Napříč { $n } scénáře za stejných podmínek se { $what } pohybuje od { $low } do { $high }.
+       *[other] Napříč { $n } scénářů za stejných podmínek se { $what } pohybuje od { $low } do { $high }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-same =
+    { $n ->
+        [one] Napříč { $n } scénář za stejných podmínek je { $what } ve všech { $value }.
+        [few] Napříč { $n } scénáře za stejných podmínek je { $what } ve všech { $value }.
+        [many] Napříč { $n } scénáře za stejných podmínek je { $what } ve všech { $value }.
+       *[other] Napříč { $n } scénářů za stejných podmínek je { $what } ve všech { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:67
+js-meankind-campaign-line =
+    { $n ->
+        [one] { $n } fáze.
+        [few] { $n } fáze.
+        [many] { $n } fáze.
+       *[other] { $n } fází.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:74
+js-meankind-campaign-line-all =
+    { $n ->
+        [one] { $n } fáze a { $events }, zdroj: { $runs }; na konci { $label } činí { $value }.
+        [few] { $n } fáze a { $events }, zdroj: { $runs }; na konci { $label } činí { $value }.
+        [many] { $n } fáze a { $events }, zdroj: { $runs }; na konci { $label } činí { $value }.
+       *[other] { $n } fází a { $events }, zdroj: { $runs }; na konci { $label } činí { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:68
+js-meankind-campaign-line-end =
+    { $n ->
+        [one] { $n } fáze; na konci { $label } činí { $value }.
+        [few] { $n } fáze; na konci { $label } činí { $value }.
+        [many] { $n } fáze; na konci { $label } činí { $value }.
+       *[other] { $n } fází; na konci { $label } činí { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:71
+js-meankind-campaign-line-events =
+    { $n ->
+        [one] { $n } fáze a { $events }.
+        [few] { $n } fáze a { $events }.
+        [many] { $n } fáze a { $events }.
+       *[other] { $n } fází a { $events }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:72
+js-meankind-campaign-line-events-end =
+    { $n ->
+        [one] { $n } fáze a { $events }; na konci { $label } činí { $value }.
+        [few] { $n } fáze a { $events }; na konci { $label } činí { $value }.
+        [many] { $n } fáze a { $events }; na konci { $label } činí { $value }.
+       *[other] { $n } fází a { $events }; na konci { $label } činí { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:73
+js-meankind-campaign-line-events-runs =
+    { $n ->
+        [one] { $n } fáze a { $events }, zdroj: { $runs }.
+        [few] { $n } fáze a { $events }, zdroj: { $runs }.
+        [many] { $n } fáze a { $events }, zdroj: { $runs }.
+       *[other] { $n } fází a { $events }, zdroj: { $runs }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:69
+js-meankind-campaign-line-runs =
+    { $n ->
+        [one] { $n } fáze, zdroj: { $runs }.
+        [few] { $n } fáze, zdroj: { $runs }.
+        [many] { $n } fáze, zdroj: { $runs }.
+       *[other] { $n } fází, zdroj: { $runs }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:70
+js-meankind-campaign-line-runs-end =
+    { $n ->
+        [one] { $n } fáze, zdroj: { $runs }; na konci { $label } činí { $value }.
+        [few] { $n } fáze, zdroj: { $runs }; na konci { $label } činí { $value }.
+        [many] { $n } fáze, zdroj: { $runs }; na konci { $label } činí { $value }.
+       *[other] { $n } fází, zdroj: { $runs }; na konci { $label } činí { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-alarm = Poplach je vyhlášen po dobu { $alarm } z mise trvající { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-phases = Mise o počtu fází { $phases } v délce { $dur }, řetězených na jedněch hodinách.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-quiet = Žádný poplach během celé mise trvající { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:82
+js-meankind-campaign-montecarlo =
+    { $n ->
+        [one] Za { $n } běh se seedem činí průměr { $name } { $mean } s rozptylem { $std }.
+        [few] Za { $n } běhy se seedem činí průměr { $name } { $mean } s rozptylem { $std }.
+        [many] Za { $n } běhu se seedem činí průměr { $name } { $mean } s rozptylem { $std }.
+       *[other] Za { $n } běhů se seedem činí průměr { $name } { $mean } s rozptylem { $std }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:82
+js-meankind-campaign-montecarlo-line = Rozptyl zde znamená jednu směrodatnou odchylku přes všechny běhy.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize =
+    { $n ->
+        [one] Po { $n } běhu se hledání ustálí na hodnotě { $value } ({ $name }).
+        [few] Po { $n } bězích se hledání ustálí na hodnotě { $value } ({ $name }).
+        [many] Po { $n } běhu se hledání ustálí na hodnotě { $value } ({ $name }).
+       *[other] Po { $n } bězích se hledání ustálí na hodnotě { $value } ({ $name }).
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize-at = Při { $at }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize-kind =
+    { $n ->
+        [one] Po { $n } běhu typu { $kind } se hledání ustálí na hodnotě { $value } ({ $name }).
+        [few] Po { $n } bězích typu { $kind } se hledání ustálí na hodnotě { $value } ({ $name }).
+        [many] Po { $n } běhu typu { $kind } se hledání ustálí na hodnotě { $value } ({ $name }).
+       *[other] Po { $n } bězích typu { $kind } se hledání ustálí na hodnotě { $value } ({ $name }).
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:102
+js-meankind-campaign-sweep-flat =
+    { $n ->
+        [one] Za { $n } běh ({ $axis } od { $from } do { $to }) zůstává { $metric } na { $value }.
+        [few] Za { $n } běhy ({ $axis } od { $from } do { $to }) zůstává { $metric } na { $value }.
+        [many] Za { $n } běhu ({ $axis } od { $from } do { $to }) zůstává { $metric } na { $value }.
+       *[other] Za { $n } běhů ({ $axis } od { $from } do { $to }) zůstává { $metric } na { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:102
+js-meankind-campaign-sweep-flat-line = Graf ukazuje každý běh.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:103
+js-meankind-campaign-sweep-goes =
+    { $n ->
+        [one] Za { $n } běh ({ $axis } od { $from } do { $to }) se { $metric } mění z { $first } na { $last }.
+        [few] Za { $n } běhy ({ $axis } od { $from } do { $to }) se { $metric } mění z { $first } na { $last }.
+        [many] Za { $n } běhu ({ $axis } od { $from } do { $to }) se { $metric } mění z { $first } na { $last }.
+       *[other] Za { $n } běhů ({ $axis } od { $from } do { $to }) se { $metric } mění z { $first } na { $last }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:103
+js-meankind-campaign-sweep-goes-line = Graf ukazuje každý běh; pohybuje se od { $min } do { $max }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
+js-meankind-classical-link = klasické spojení
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-clock-word = hodiny
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:237
+js-meankind-conflict-big = Vrstvená architektura přežije { $ratio } krát lépe než jediná vrstva.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:236
+js-meankind-conflict-line-threats = Monte Carlo hrozeb dává { $ratio } krát.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:236
+js-meankind-conflict-line-threats-corr = Monte Carlo hrozeb dává { $ratio } krát; při korelovaných hrozbách to může klesnout na { $low } krát.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:235
+js-meankind-conflict-line-trials =
+    { $n ->
+        [one] Monte Carlo o { $n } pokusu dává { $ratio } krát.
+        [few] Monte Carlo o { $n } pokusech dává { $ratio } krát.
+        [many] Monte Carlo o { $n } pokusu dává { $ratio } krát.
+       *[other] Monte Carlo o { $n } pokusech dává { $ratio } krát.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:235
+js-meankind-conflict-line-trials-corr =
+    { $n ->
+        [one] Monte Carlo o { $n } pokusu dává { $ratio } krát; při korelovaných hrozbách to může klesnout na { $low } krát.
+        [few] Monte Carlo o { $n } pokusech dává { $ratio } krát; při korelovaných hrozbách to může klesnout na { $low } krát.
+        [many] Monte Carlo o { $n } pokusu dává { $ratio } krát; při korelovaných hrozbách to může klesnout na { $low } krát.
+       *[other] Monte Carlo o { $n } pokusech dává { $ratio } krát; při korelovaných hrozbách to může klesnout na { $low } krát.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-big =
+    { $n ->
+        [one] Plán ponechává { $kept } z { $n } kandidátního kontaktu a doručí { $gbit } Gbit.
+        [few] Plán ponechává { $kept } z { $n } kandidátních kontaktů a doručí { $gbit } Gbit.
+        [many] Plán ponechává { $kept } z { $n } kandidátního kontaktu a doručí { $gbit } Gbit.
+       *[other] Plán ponechává { $kept } z { $n } kandidátních kontaktů a doručí { $gbit } Gbit.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-big-waiting =
+    { $n ->
+        [one] Plán ponechává { $kept } z { $n } kandidátního kontaktu a doručí { $gbit } Gbit z { $waiting } Gbit čekajících.
+        [few] Plán ponechává { $kept } z { $n } kandidátních kontaktů a doručí { $gbit } Gbit z { $waiting } Gbit čekajících.
+        [many] Plán ponechává { $kept } z { $n } kandidátního kontaktu a doručí { $gbit } Gbit z { $waiting } Gbit čekajících.
+       *[other] Plán ponechává { $kept } z { $n } kandidátních kontaktů a doručí { $gbit } Gbit z { $waiting } Gbit čekajících.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-line = Počet družic: { $sats }; počet stanic: { $stations }; za { $hours } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:446
+js-meankind-dpnt-big = Diferenciální korekce snižují chybu z { $from } m na { $to } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:446
+js-meankind-dpnt-line = S referenční stanicí vzdálenou { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:33
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } den
+        [few] { $days } dny
+        [many] { $days } dne
+       *[other] { $days } dní
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:438
+js-meankind-earthgnss-big =
+    { $n ->
+        [one] Ve vzdálenosti Měsíce je ve výhledu { $visible } z { $n } družice, ale sledovat lze { $trackable }.
+        [few] Ve vzdálenosti Měsíce je ve výhledu { $visible } z { $n } družic, ale sledovat lze { $trackable }.
+        [many] Ve vzdálenosti Měsíce je ve výhledu { $visible } z { $n } družice, ale sledovat lze { $trackable }.
+       *[other] Ve vzdálenosti Měsíce je ve výhledu { $visible } z { $n } družic, ale sledovat lze { $trackable }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:438
+js-meankind-earthgnss-line = Nejlepší signál má { $best } dB-Hz oproti sledovacímu prahu { $threshold } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:61
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } běh enginu
+        [few] { $n } běhy enginu
+        [many] { $n } běhu enginu
+       *[other] { $n } běhů enginu
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:533
+js-meankind-entry-big = Špičkové zpomalení je { $g } g ve výšce { $km } km se špičkovým tepelným tokem { $flux } W/cm².
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:533
+js-meankind-entry-line = Vstup rychlostí { $speed } m/s, { $angle } stupňů pod horizontem.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-big = Kamera vidí pás o šířce { $swath } km s rozlišením { $gsd } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-line-contiguous = Pozemní stopy jsou na rovníku od sebe { $km } km, takže pokrytí je souvislé.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-line-gapped = Pozemní stopy jsou na rovníku od sebe { $km } km, takže pokrytí má mezery.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:415
+js-meankind-eop-big = Ve vzdálenosti Měsíce se rotací Země urazí { $m } m za sekundu, takže na stáří dat o orientaci Země ({ $dur } zde) záleží.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:415
+js-meankind-eop-line = Vstup: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-big = Družice letí ve výšce mezi { $min } a { $max } km, až do zeměpisné šířky { $lat }°.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-line = Ze stanice je vidět až do výšky { $deg }°.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-line-doppler = Ze stanice je vidět až do výšky { $deg }°, s Dopplerem až { $khz } kHz.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:60
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } událost
+        [few] { $n } události
+        [many] { $n } události
+       *[other] { $n } událostí
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-big-open =
+    { $n ->
+        [one] Kampaň ponechává neurčený { $n } směr datumu.
+        [few] Kampaň ponechává neurčené { $n } směry datumu.
+        [many] Kampaň ponechává neurčeného { $n } směru datumu.
+       *[other] Kampaň ponechává neurčeno { $n } směrů datumu.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-big-yes = Ano: kampaň plně určuje datum lunární soustavy.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-line = Číslo podmíněnosti { $n }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-big = Lunární soustava je realizována se zbytkovou chybou { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-big-open = Lunární soustava je realizována se zbytkovou chybou { $m } m, ačkoli proložení nekonvergovalo.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-line = Chyba posunu { $trans } m, chyba měřítka { $scale } dílů na miliardu.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:261
+js-meankind-gnsssim-big = Monitorování integrity chrání určení polohy v { $share } % času.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:261
+js-meankind-gnsssim-line = Ionosféra přidává ke každé vzdálenosti v průměru { $iono } m a troposféra { $tropo } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:89
+js-meankind-headline-figure = hlavní údaj
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big = Při měření proti maskám dosahuje holdover záznamu o délce { $dur } s časové chyby { $te } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big-open = Při měření proti maskám dosahuje holdover záznamu o délce { $dur } s časové chyby { $te } ns a v rámci pásma se neobnovil.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big-recovered = Při měření proti maskám dosahuje holdover záznamu o délce { $dur } s časové chyby { $te } ns a obnovil se { $recover } s po návratu GNSS.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-line = Změřeno proti masce, nikdy jako tvrzení, že systém vyhovuje; oba časy jsou prohlášením provozovatele.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-line-masks = { $masks }. Změřeno proti masce, nikdy jako tvrzení, že systém vyhovuje; oba časy jsou prohlášením provozovatele.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
+js-meankind-impairment-big = Detektor odděluje narušené signály od čistých s plochou pod křivkou { $auc } (1 je dokonalé).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
+js-meankind-impairment-line = Na případech, které se nepodobají jeho trénovací sadě, dosahuje { $auc }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:602
+js-meankind-infra-carrier =
+    { $days ->
+        [one] Fixace celočíselné fáze nosné mezi povrchovou stanicí a orbiterem uspěla v { $share } % pokusů na nejdelším oblouku ({ $days } den).
+        [few] Fixace celočíselné fáze nosné mezi povrchovou stanicí a orbiterem uspěla v { $share } % pokusů na nejdelším oblouku ({ $days } dny).
+        [many] Fixace celočíselné fáze nosné mezi povrchovou stanicí a orbiterem uspěla v { $share } % pokusů na nejdelším oblouku ({ $days } dne).
+       *[other] Fixace celočíselné fáze nosné mezi povrchovou stanicí a orbiterem uspěla v { $share } % pokusů na nejdelším oblouku ({ $days } dní).
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:606
+js-meankind-infra-frame = Spoje mezi orbiterem a stanicí zvyšují nejmenší vlastní číslo informace lunárního datumu { $x } krát a snižují stopu Cramérovy–Raoovy meze na { $share } %, pokud je dráha známa v lunárních osách.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:612
+js-meankind-infra-geodesy = Se všemi čtyřmi rodinami dohromady jsou h2, k2 a l2 určeny na { $h2 } %, { $k2 } % a { $l2 } % svých jmenovitých hodnot.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:598
+js-meankind-infra-od = Palubní určování dráhy z GNSS Země na lunární dráze dosahuje { $gnss } m, nezávislé pozemní sledování { $ground } m; statistika konzistence má průměr { $mean } (očekáváno { $expected }).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:594
+js-meankind-infra-tail = MODELLED: omezený model s ilustrativními vstupy, nikoli tvrzení o jakékoli misi.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:609
+js-meankind-infra-tie =
+    { $n ->
+        [one] Lokální vazba { $mm } mm na jedné kosmické lodi spojuje soustavy GNSS, VLBI a laserového měření vzdálenosti přes { $n } prozkoumanou chybu vazby.
+        [few] Lokální vazba { $mm } mm na jedné kosmické lodi spojuje soustavy GNSS, VLBI a laserového měření vzdálenosti přes { $n } prozkoumané chyby vazby.
+        [many] Lokální vazba { $mm } mm na jedné kosmické lodi spojuje soustavy GNSS, VLBI a laserového měření vzdálenosti přes { $n } prozkoumané chyby vazby.
+       *[other] Lokální vazba { $mm } mm na jedné kosmické lodi spojuje soustavy GNSS, VLBI a laserového měření vzdálenosti přes { $n } prozkoumaných chyb vazby.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:148
+js-meankind-inside-spec = uvnitř { $spec }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-big = Při setrvačném doletu samotné setrvačné navigace překročí chyba polohy { $threshold } m po { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-dom = Převažuje { $dominant }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-line = Překročí { $passes }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-line-dom = Překročí { $passes }; převažuje { $dominant }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:205
+js-meankind-instrn-pass = { $threshold } m po { $dur }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-big-no = Ne: soubor lunárních efemerid neprojde zpětným převodem.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-big-yes = Ano: soubor lunárních efemerid projde zpětným převodem beze změny.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-line =
+    { $n ->
+        [one] { $n } stav v soustavě { $frame }, čas { $time }.
+        [few] { $n } stavy v soustavě { $frame }, čas { $time }.
+        [many] { $n } stavu v soustavě { $frame }, čas { $time }.
+       *[other] { $n } stavů v soustavě { $frame }, čas { $time }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:151
+js-meankind-its-spec = jeho specifikace
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:460
+js-meankind-jointod-big = Přidání zpoždění z interferometrie založené na Zemi zpřesní polohu stanice { $x } krát.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:460
+js-meankind-jointod-line = Poloha stanice je pak známa na { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:369
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } startovní příležitost denně dosáhne oběžné dráhy se sklonem { $incl }° ze zeměpisné šířky { $lat }°.
+        [few] { $n } startovní příležitosti denně dosáhnou oběžné dráhy se sklonem { $incl }° ze zeměpisné šířky { $lat }°.
+        [many] { $n } startovní příležitosti denně dosáhne oběžné dráhy se sklonem { $incl }° ze zeměpisné šířky { $lat }°.
+       *[other] { $n } startovních příležitostí denně dosáhne oběžné dráhy se sklonem { $incl }° ze zeměpisné šířky { $lat }°.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:369
+js-meankind-launch-line = Rotace Země dává { $speed } m/s zdarma.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:269
+js-meankind-layer-agc = AGC (automatické řízení zesílení)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:268
+js-meankind-layer-raim = RAIM (autonomní monitorování integrity v přijímači)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:270
+js-meankind-layer-sqm = SQM (monitorování kvality signálu)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:328
+js-meankind-leochain-big = Od začátku do konce snižuje systém na nízké dráze chybu polohy z { $from } m na { $to } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:328
+js-meankind-leochain-line = Jeho signál je sledován až při { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-big-many = Družice přelétají do výšky { $elev }° a zůstávají nad maskou { $dur } (první z { $n }).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-big-one = Družice přeletí do výšky { $elev }° a zůstane nad maskou { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-line = Ve svém vrcholu přichází signál z nízké dráhy o { $db } dB silnější než typický družicový navigační signál.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-big = Přesné určení polohy konverguje za { $best } min s největší vrstvou na nízké dráze, oproti { $base } min jen s družicovou navigací.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-line = Medián z běhů na každý případ, na { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-line-runs =
+    { $n ->
+        [one] Medián z { $n } běhu na každý případ, na { $m } m.
+        [few] Medián z { $n } běhů na každý případ, na { $m } m.
+        [many] Medián z { $n } běhu na každý případ, na { $m } m.
+       *[other] Medián z { $n } běhů na každý případ, na { $m } m.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:303
+js-meankind-leopvt-doppler-big = Dopplerovo určení polohy z družic na nízké dráze skončí { $m } m od skutečnosti (horizontálně).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:303
+js-meankind-leopvt-doppler-line =
+    { $n ->
+        [one] Použita { $n } družice.
+        [few] Použity { $n } družice.
+        [many] Použito { $n } družice.
+       *[other] Použito { $n } družic.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:304
+js-meankind-leopvt-joint-big = Přidání vrstvy na nízké dráze snižuje chybu z { $from } m na { $to } m (3D střední kvadratická hodnota).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:304
+js-meankind-leopvt-joint-line = Kvalita geometrie (PDOP) se mění z { $from } na { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:308
+js-meankind-leopvt-polar-big = Blízko pólu vrstva na nízké dráze zlepšuje kvalitu geometrie (PDOP) z { $from } na { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:308
+js-meankind-leopvt-polar-line =
+    { $n ->
+        [one] Napříč { $n } zeměpisnou šířku.
+        [few] Napříč { $n } zeměpisné šířky.
+        [many] Napříč { $n } zeměpisné šířky.
+       *[other] Napříč { $n } zeměpisných šířek.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:306
+js-meankind-leopvt-timing-big = Přenos času z nízké dráhy udržuje nejlepší hodiny do { $ns } ns od UTC (střední kvadratická hodnota).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:306
+js-meankind-leopvt-timing-line =
+    { $n ->
+        [one] { $n } porovnaný případ hodin a signálu.
+        [few] { $n } porovnané případy hodin a signálu.
+        [many] { $n } porovnaného případu hodin a signálu.
+       *[other] { $n } porovnaných případů hodin a signálu.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-big =
+    { $n ->
+        [one] Z { $n } návrhu signálu snese nejvíce rušení { $best }: { $db } dB nad signálem.
+        [few] Z { $n } návrhů signálu snese nejvíce rušení { $best }: { $db } dB nad signálem.
+        [many] Z { $n } návrhu signálu snese nejvíce rušení { $best }: { $db } dB nad signálem.
+       *[other] Z { $n } návrhů signálu snese nejvíce rušení { $best }: { $db } dB nad signálem.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-line-fail = Kontroly tvaru spektra neprojdou.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-line-pass = Kontroly tvaru spektra projdou.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:378
+js-meankind-link-big-closes = Spoj se uzavře s rezervou { $margin } dB.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:378
+js-meankind-link-big-open = Spoj se neuzavře: rezerva { $margin } dB.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:377
+js-meankind-link-line = Na vzdálenost { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:376
+js-meankind-link-line-band = Pásmo { $band } na vzdálenost { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:376
+js-meankind-link-line-band-rate = Pásmo { $band } na vzdálenost { $km } km při { $rate } bit/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:377
+js-meankind-link-line-rate = Na vzdálenost { $km } km při { $rate } bit/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:21
+js-meankind-list-and = { $head } a { $last }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+js-meankind-llr-big = Skutečné laserové měření vzdálenosti určuje lunární soustavu na { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+js-meankind-llr-line = Měřítko na { $ppb } dílů na miliardu.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-altimeter = Výškoměr měří s přesností { $sigma } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-big = Porovnávání s mapou drží polohu na { $matched } m oproti { $free } m driftu při čistě setrvačné navigaci.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-gravimeter = Gravimetr měří s přesností { $sigma } mGal.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-sources = Samotná gravitace dává { $gravity } m, magnetické pole { $magnetic } m, terén { $terrain } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-marspnt-big = Navigátor ({ $user }) se ustálí na { $m } m (střední kvadratická hodnota).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-marspnt-line =
+    { $n ->
+        [one] V průměru je ve výhledu { $mean } relé, přes { $n } epochu.
+        [few] V průměru je ve výhledu { $mean } relé, přes { $n } epochy.
+        [many] V průměru je ve výhledu { $mean } relé, přes { $n } epochy.
+       *[other] V průměru je ve výhledu { $mean } relé, přes { $n } epoch.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:433
+js-meankind-moonlight-big = Služba pokrývá { $share } % kontrolovaných míst a časů.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:433
+js-meankind-moonlight-line =
+    { $n ->
+        [one] Ve výhledu je { $min } až { $n } družice; kvalita geometrie (PDOP) se pohybuje od { $pmin } do { $pmax }.
+        [few] Ve výhledu je { $min } až { $n } družice; kvalita geometrie (PDOP) se pohybuje od { $pmin } do { $pmax }.
+        [many] Ve výhledu je { $min } až { $n } družice; kvalita geometrie (PDOP) se pohybuje od { $pmin } do { $pmax }.
+       *[other] Ve výhledu je { $min } až { $n } družic; kvalita geometrie (PDOP) se pohybuje od { $pmin } do { $pmax }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:318
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Jedna navigační zpráva se vejde do { $n } bajtu.
+        [few] Jedna navigační zpráva se vejde do { $n } bajtů.
+        [many] Jedna navigační zpráva se vejde do { $n } bajtu.
+       *[other] Jedna navigační zpráva se vejde do { $n } bajtů.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:321
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] Napříč { $n } případ je chyba vzdálenosti vůči vysílané dráze { $min } až { $max } mm.
+        [few] Napříč { $n } případy je chyba vzdálenosti vůči vysílané dráze { $min } až { $max } mm.
+        [many] Napříč { $n } případu je chyba vzdálenosti vůči vysílané dráze { $min } až { $max } mm.
+       *[other] Napříč { $n } případy je chyba vzdálenosti vůči vysílané dráze { $min } až { $max } mm.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:321
+js-meankind-navmsg-cases-line = Chyba vzdálenosti signálu ve vesmíru, střední kvadratická hodnota.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:318
+js-meankind-navmsg-line = Zaokrouhlení na formát zprávy stojí { $mm } mm chyby vzdálenosti.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:322
+js-meankind-navmsg-midpass-big = Aktualizace zprávy uprostřed průletu způsobí skok vzdálenosti nejvýše o { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:322
+js-meankind-navmsg-midpass-line = Limit je { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-ntn-big = Určování polohy 5G z oběžné dráhy dosahuje { $m } m (signál: { $signal }).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-ntn-line = Doppler za jediný průlet dává { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-big-full = Dráha se stane plně pozorovatelnou po { $dur } sledování.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-big-partly = Dráha zůstává částečně pozorovatelná na oblouku o délce { $h } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-line = Hodnost { $rank } z { $dim } na konci oblouku.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
+js-meankind-oem-big = Soubor efemerid projde zpětným převodem s chybou polohy nejvýše { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
+js-meankind-oem-line =
+    { $n ->
+        [one] Stavů: { $states } v { $n } segmentu.
+        [few] Stavů: { $states } v { $n } segmentech.
+        [many] Stavů: { $states } v { $n } segmentu.
+       *[other] Stavů: { $states } v { $n } segmentech.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-big-alone = Nejlepší jediné stanoviště udrží optické spojení v provozu { $best } % času (strop při bezoblačnosti { $ceiling } %); žádná bezoblačná rezerva ho nezvedne nad { $ceiling } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-big-team = Nejlepší jediné stanoviště udrží optické spojení v provozu { $best } % času (strop při bezoblačnosti { $ceiling } %); při počtu stanovišť { $n } společně dosáhnou { $independent } %, je-li jejich počasí nezávislé, a { $correlated } % při uvedené korelaci.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-line-sites =
+    { $n ->
+        [one] Modelováno { $n } stanoviště; oblačné klima je ilustrativní.
+        [few] Modelována { $n } stanoviště; oblačné klima je ilustrativní.
+        [many] Modelováno { $n } stanoviště; oblačné klima je ilustrativní.
+       *[other] Modelováno { $n } stanovišť; oblačné klima je ilustrativní.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-line-tech = { $name }: z { $base } % na { $with } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-big = Kombinace optického a rádiového měření vzdálenosti dává ochranné úrovně { $h } m horizontálně a { $v } m vertikálně.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-line-fault = Test konzistence ukazuje { $stat } oproti prahu { $threshold }: porucha je označena.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-line-ok = Test konzistence ukazuje { $stat } oproti prahu { $threshold }: žádná porucha není označena.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-big-no = Ne: dekódovaný tok se liší od odeslaného.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-big-yes = Ano: tok paketů se dekóduje zpět bit po bitu.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-line =
+    { $n ->
+        [one] { $n } paket, celkem oktetů: { $octets }.
+        [few] { $n } pakety, celkem oktetů: { $octets }.
+        [many] { $n } paketu, celkem oktetů: { $octets }.
+       *[other] { $n } paketů, celkem oktetů: { $octets }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-big-day =
+    { $n ->
+        [one] { $n } průlet denně, celkem { $dur } kontaktu.
+        [few] { $n } průlety denně, celkem { $dur } kontaktu.
+        [many] { $n } průletu denně, celkem { $dur } kontaktu.
+       *[other] { $n } průletů denně, celkem { $dur } kontaktu.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-big-window =
+    { $n ->
+        [one] { $n } průlet v okně { $hours } h, celkem { $dur } kontaktu.
+        [few] { $n } průlety v okně { $hours } h, celkem { $dur } kontaktu.
+        [many] { $n } průletu v okně { $hours } h, celkem { $dur } kontaktu.
+       *[other] { $n } průletů v okně { $hours } h, celkem { $dur } kontaktu.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-line = Nejlepší průlet dosáhne výšky { $deg }°.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:451
+js-meankind-percentile-word = percentil
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:150
+js-meankind-pnt-big = Kvantová sestava udrží polohu a čas po dobu { $q }; klasická sestava po dobu { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:154
+js-meankind-pnt-classical-label = Holdover, klasická sestava
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:151
+js-meankind-pnt-line = Holdover je doba, po kterou každá sestava (hodiny { $q } oproti hodinám { $c }) zůstává uvnitř { $spec } po ztrátě družicové navigace.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:153
+js-meankind-pnt-quantum-label = Holdover, kvantová sestava
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:156
+js-meankind-pnt-timing-classical-label = Chyba časování, 95 %, klasická
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
+js-meankind-pnt-timing-quantum-label = Chyba časování, 95 %, kvantová
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:265
+js-meankind-pvt-big =
+    { $n ->
+        [one] Poloha je vyřešena v { $solved } z { $n } epochy, s přesností { $rms } m (3D střední kvadratická hodnota).
+        [few] Poloha je vyřešena v { $solved } z { $n } epoch, s přesností { $rms } m (3D střední kvadratická hodnota).
+        [many] Poloha je vyřešena v { $solved } z { $n } epochy, s přesností { $rms } m (3D střední kvadratická hodnota).
+       *[other] Poloha je vyřešena v { $solved } z { $n } epoch, s přesností { $rms } m (3D střední kvadratická hodnota).
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:265
+js-meankind-pvt-line = Průměrný počet družic: { $mean }, načteno ze skutečných měření přijímače.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-big = Po výpadku je navigátor na studených atomech mimo o { $q } m; navigátor navigační třídy o { $c } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-big-outage = Po { $dur } bez družic je navigátor na studených atomech mimo o { $q } m; navigátor navigační třídy o { $c } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-line = V rámci rozpočtu: { $q } oproti { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-line-threshold = V rámci { $threshold } m: { $q } oproti { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-big = Kvantový přenos času drží { $q } ps (1 sigma) oproti { $c } ns u klasického řetězce.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-line = Bezpečnostní monitor detekuje { $pd } % útoků.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-line-pfa = Bezpečnostní monitor detekuje { $pd } % útoků při četnosti falešných poplachů { $pfa }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
+js-meankind-quantum-link = kvantové spojení
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:537
+js-meankind-radiometry-big = Kamera dosahuje NIIRS { $niirs } při vzorkovací vzdálenosti na zemi { $gsd } m, s poměrem signálu k šumu { $snr }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:537
+js-meankind-radiometry-line = MTF systému na Nyquistově frekvenci { $mtf }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
+js-meankind-reentry-big = Špičkové zpomalení je { $g } g ve výšce { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
+js-meankind-reentry-line = Vozidlo se pak pohybuje rychlostí { $speed } m/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:199
+js-meankind-slam-big = Porovnávání terénu skončí { $matched } m od cíle, oproti { $free } m při čistě setrvačné navigaci.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:199
+js-meankind-slam-line =
+    { $n ->
+        [one] Přes { $n } bod trasy, porovnáno s mapou terénu při šumu výškoměru { $sigma } m.
+        [few] Přes { $n } body trasy, porovnáno s mapou terénu při šumu výškoměru { $sigma } m.
+        [many] Přes { $n } bodu trasy, porovnáno s mapou terénu při šumu výškoměru { $sigma } m.
+       *[other] Přes { $n } bodů trasy, porovnáno s mapou terénu při šumu výškoměru { $sigma } m.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:176
+js-meankind-slot-big = Hodiny opustí ochranný interval slotu { $dur } po poslední korekci z družic.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:176
+js-meankind-slot-line = Proto potřebují korekci v intervalu { $interval }, tedy přibližně { $perDay } denně.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-big =
+    { $n ->
+        [one] Počet těles umístěných v jedné epoše: { $n }.
+        [few] Počet těles umístěných v jedné epoše: { $n }.
+        [many] Počet těles umístěných v jedné epoše: { $n }.
+       *[other] Počet těles umístěných v jedné epoše: { $n }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-big-link =
+    { $n ->
+        [one] Počet těles umístěných v jedné epoše: { $n }; světlu trvá cesta { $dur } ({ $from } → { $to }).
+        [few] Počet těles umístěných v jedné epoše: { $n }; světlu trvá cesta { $dur } ({ $from } → { $to }).
+        [many] Počet těles umístěných v jedné epoše: { $n }; světlu trvá cesta { $dur } ({ $from } → { $to }).
+       *[other] Počet těles umístěných v jedné epoše: { $n }; světlu trvá cesta { $dur } ({ $from } → { $to }).
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-line = Celkem je načasováno spojů: { $n }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
+js-meankind-spoof-caught = Spoofing je zachycen dříve, než poruší specifikaci časování.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
+js-meankind-spoof-caught-both = Spoofing je zachycen dříve, než poruší specifikaci časování, a to oběma hodinami.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:140
+js-meankind-spoof-caught-label = Čas do zachycení, { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:134
+js-meankind-spoof-caught-thr = Spoofing je zachycen dříve, než poruší specifikaci časování { $thr } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:134
+js-meankind-spoof-caught-thr-both = Spoofing je zachycen dříve, než poruší specifikaci časování { $thr } ns, a to oběma hodinami.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:139
+js-meankind-spoof-detects = { $name } spoofing detekuje po { $dur }, při posunu { $offset } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:138
+js-meankind-spoof-missed =
+    { $n ->
+        [one] Spoofing poruší specifikaci časování dříve, než ho zachytí { $names }.
+        [few] Spoofing poruší specifikaci časování dříve, než ho zachytí { $names }.
+        [many] Spoofing poruší specifikaci časování dříve, než ho zachytí { $names }.
+       *[other] Spoofing poruší specifikaci časování dříve, než ho zachytí { $names }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:140
+js-meankind-spoof-offset = posun { $offset } ns
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-by = Ano: spoofing je zachycen; zachycení: { $by }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-no = Ne: sloučený monitor spoofing nezachytí.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-yes = Ano: spoofing je zachycen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-line =
+    { $n ->
+        [one] Poplach hlásí { $on } z { $n } detekční vrstvy.
+        [few] Poplach hlásí { $on } z { $n } detekčních vrstev.
+        [many] Poplach hlásí { $on } z { $n } detekční vrstvy.
+       *[other] Poplach hlásí { $on } z { $n } detekčních vrstev.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-line-score =
+    { $n ->
+        [one] Poplach hlásí { $on } z { $n } detekční vrstvy; sloučené skóre je { $score }.
+        [few] Poplach hlásí { $on } z { $n } detekčních vrstev; sloučené skóre je { $score }.
+        [many] Poplach hlásí { $on } z { $n } detekční vrstvy; sloučené skóre je { $score }.
+       *[other] Poplach hlásí { $on } z { $n } detekčních vrstev; sloučené skóre je { $score }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:587
+js-meankind-ssv-formation = Při odstupu { $km } km zná filtr relativní polohu na { $filter } m RMS, oproti { $absolute } m při odečtení dvou absolutních určení polohy.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:582
+js-meankind-ssv-navigation = Palubní filtr drží polohu na { $inside } m RMS uvnitř drah GNSS a na { $above } m nad nimi.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+js-meankind-ssv-shell = Na slupce dávají všechny konstelace dohromady alespoň jeden signál v { $one } % času a alespoň čtyři v { $four } % (L1).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:568
+js-meankind-ssv-tail = MODELLED: geometrické rozmítání a rozmítání rozpočtu spoje, nikoli měření jakéhokoli signálu ve vesmíru.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:577
+js-meankind-ssv-trajectory = Ve výškách od { $from } do { $to } km je ve výhledu alespoň jeden signál v { $one } % epoch a alespoň čtyři v { $four } % (L1, všechny konstelace).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
+js-meankind-station-big = Nad jižní polární oblastí snižují korekce lunární referenční stanice chybu ({ $percentile }) z { $from } m na { $to } m (modelováno).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
+js-meankind-station-line = V rámci prahu přesnosti v { $share } % epoch; nejde o tvrzení o žádném skutečném systému.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-big =
+    { $n ->
+        [one] Za { $n } hodnotu { $param }: { $parts }.
+        [few] Za { $n } hodnoty { $param }: { $parts }.
+        [many] Za { $n } hodnoty { $param }: { $parts }.
+       *[other] Za { $n } hodnot { $param }: { $parts }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-line = { $param } se mění od { $from } do { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-line-log = { $param } se mění od { $from } do { $to } v logaritmickém měřítku.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:114
+js-meankind-sweep-part-flat = { $metric } ({ $key }) zůstává na { $value }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:114
+js-meankind-sweep-part-goes = { $metric } ({ $key }) se mění z { $first } na { $last }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:113
+js-meankind-sweep-result-word = výsledek
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:122
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] Za { $n } kombinaci { $keys } se { $metric } pohybuje od { $min } do { $max }.
+        [few] Za { $n } kombinace { $keys } se { $metric } pohybuje od { $min } do { $max }.
+        [many] Za { $n } kombinace { $keys } se { $metric } pohybuje od { $min } do { $max }.
+       *[other] Za { $n } kombinací { $keys } se { $metric } pohybuje od { $min } do { $max }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:122
+js-meankind-sweepnd-line = Mřížka běhů enginu: { $shape }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-fail =
+    { $n ->
+        [one] Hodiny neprojdou { $fail } z { $n } telekomunikační kontroly časové chyby.
+        [few] Hodiny neprojdou { $fail } z { $n } telekomunikačních kontrol časové chyby.
+        [many] Hodiny neprojdou { $fail } z { $n } telekomunikační kontroly časové chyby.
+       *[other] Hodiny neprojdou { $fail } z { $n } telekomunikačních kontrol časové chyby.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-line = Kontroly MTIE (maximální chyba časového intervalu), TDEV (časová odchylka) a obálky režimu holdover vůči maskám ITU-T uvedeným v každém řádku.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-line-margin = Kontroly MTIE (maximální chyba časového intervalu), TDEV (časová odchylka) a obálky režimu holdover vůči maskám ITU-T uvedeným v každém řádku. Nejmenší rezerva vůči obálce režimu holdover je { $margin } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-pass =
+    { $n ->
+        [one] Hodiny projdou všemi kontrolami telekomunikační časové chyby: { $n }.
+        [few] Hodiny projdou všemi kontrolami telekomunikační časové chyby: { $n }.
+        [many] Hodiny projdou všemi kontrolami telekomunikační časové chyby: { $n }.
+       *[other] Hodiny projdou všemi kontrolami telekomunikační časové chyby: { $n }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:289
+js-meankind-the-best = nejlepší
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:422
+js-meankind-the-body = těleso
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:410
+js-meankind-the-first = první
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:138
+js-meankind-the-name = { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:410
+js-meankind-the-second = druhý
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-the-widest-signal = nejširší signál
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-timebudget-big = Chyba hodin { $clock } a chyba referenční soustavy se protnou při průměrovací době { $tau }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-timebudget-line = V tomto průsečíku je časová chyba { $x } s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
+js-meankind-timeoffset-big = Hodiny na Měsíci jdou o { $rate } µs za den napřed oproti hodinám na Zemi.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
+js-meankind-timeoffset-line = Zveřejněné pásmo je { $low } až { $high } µs za den.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-big = { $q } udržuje obě místa v rozmezí { $qps } ps (střední kvadratická hodnota); { $c } v rozmezí { $cps } ps.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-line = V rámci specifikace měření vzdálenosti v { $q } % času, oproti { $c } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-line-mm = V rámci specifikace měření vzdálenosti { $mm } mm v { $q } % času, oproti { $c } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
+js-meankind-tracking-big = Spoofer může zachytit přijímač ze vzdálenosti až { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
+js-meankind-tracking-line = Při vlastní dynamice smyčky přijímače dojde ke ztrátě závěsu při { $db } dB rušení nad signálem.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
+js-meankind-trade-big = Kvantové senzory jsou v časování { $timing } krát lepší a v setrvačné navigaci { $inertial } krát lepší než klasický základ.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
+js-meankind-trade-line = Bez družic vydrží kvantová sestava setrvačně { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:541
+js-meankind-ttbudget-big = Obousměrný posun je { $offset } ns se sloučenou nejistotou { $uncertainty } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:541
+js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ionosféra { $iono } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
+js-meankind-ukf-big-no = Ne: filtr není sám v sobě konzistentní.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
+js-meankind-ukf-big-yes = Ano: filtr je sám v sobě konzistentní.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:213
+js-meankind-ukf-line-in = Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, uvnitř pásma 95 % od { $low } do { $high }. Toto ověřuje konzistenci, nikoli přesnost.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:213
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+        [one] Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, uvnitř pásma 95 % od { $low } do { $high }, přes { $n } seed. Toto ověřuje konzistenci, nikoli přesnost.
+        [few] Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, uvnitř pásma 95 % od { $low } do { $high }, přes { $n } seedy. Toto ověřuje konzistenci, nikoli přesnost.
+        [many] Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, uvnitř pásma 95 % od { $low } do { $high }, přes { $n } seedu. Toto ověřuje konzistenci, nikoli přesnost.
+       *[other] Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, uvnitř pásma 95 % od { $low } do { $high }, přes { $n } seedů. Toto ověřuje konzistenci, nikoli přesnost.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:214
+js-meankind-ukf-line-out = Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, mimo pásmo 95 % od { $low } do { $high }. Toto ověřuje konzistenci, nikoli přesnost.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:214
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+        [one] Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, mimo pásmo 95 % od { $low } do { $high }, přes { $n } seed. Toto ověřuje konzistenci, nikoli přesnost.
+        [few] Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, mimo pásmo 95 % od { $low } do { $high }, přes { $n } seedy. Toto ověřuje konzistenci, nikoli přesnost.
+        [many] Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, mimo pásmo 95 % od { $low } do { $high }, přes { $n } seedu. Toto ověřuje konzistenci, nikoli přesnost.
+       *[other] Jeho normalizovaná kvadrovaná inovace má průměr { $mean }, mimo pásmo 95 % od { $low } do { $high }, přes { $n } seedů. Toto ověřuje konzistenci, nikoli přesnost.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-user-word = uživatel
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+js-meankind-vlbi-big = Na základně dlouhé { $km } km dorazí signál majáku na obě stanice s odstupem { $ms } ms.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+js-meankind-vlbi-line = Korekce blízkého pole je { $us } µs.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+js-meankind-vlbifim-big = Každá souřadnice stanice je z tohoto plánu pozorování známa na { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+js-meankind-vlbifim-line = Jednoduchý odhad s rovným podílem by tvrdil { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-big = Horní atmosféra se zahřeje na { $k } K.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-big-ref = Horní atmosféra se zahřeje na { $k } K, oproti { $ref } K u reference.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-line = Index geomagnetické aktivity ap je { $ap }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
+js-meankind-whole-run = během celého běhu
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-label = Popisek
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-share = Velikost vůči největšímu členu polohy
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-sigma = 1 sigma
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-source = Příspěvek
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+js-mthread-budget-caption = { $phase }: 1 sigma při vstupu { $entry }, ve špičce { $peak }, při výstupu { $exit } (poloha); níže je každý příspěvek, největší první.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:131
+js-mthread-chart-title = { $metric } v závislosti na uplynulém čase mise, jedno pásmo na fázi
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-kind = Druh
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-label = Popisek
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-limit = Největší příspěvek
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-margin = Vůči limitu
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-pos = Špičková poloha
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-time = Špičkový posun hodin
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-vel = Špičková rychlost
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-phase = Fáze
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-window = Čas mise
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:81
+js-mthread-example-not-loaded = zaznamenaný výsledek se nenačetl
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:97
+js-mthread-file-failed = Nelze přečíst { $name }: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:27
+js-mthread-kv-elapsed = Uplynulý čas mise
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:31
+js-mthread-kv-engine = Engine
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:29
+js-mthread-kv-epoch = Epocha (UTC)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits = Fáze se stanoveným limitem
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits-value = { $n } ({ $met } splněno, { $missed } nesplněno)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:26
+js-mthread-kv-phases = Fáze
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:30
+js-mthread-kv-seed = Seed
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:25
+js-mthread-kv-title = Vlákno
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-phases = Stejná šířka pro každou fázi
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-time = Skutečný čas mise
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:148
+js-mthread-limit-title = { $phase }: stanovený limit, { $limit }
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:163
+js-mthread-log-scale = logaritmická stupnice
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-met = { $m }× limitu, splněno
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-missed = { $m }× limitu, nesplněno
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-pos = Poloha, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-time = Posun hodin, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-vel = Rychlost, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:21
+js-mthread-na = n/a
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:67
+js-mthread-no-events = Tato fáze nezaznamenává žádné události.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:67
+js-mthread-no-phases = výsledek neobsahuje žádné fáze
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-no-requirement = není stanoven žádný limit
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:127
+js-mthread-no-series = Výsledek neobsahuje žádné vzorky této veličiny.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:23
+js-mthread-no-weak = Výsledek nepojmenovává žádný nejslabší článek.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:46
+js-mthread-not-json = výsledek není JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:47
+js-mthread-not-thread = toto není výsledek vlákna mise (očekáváno schéma { $schema })
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:46
+js-mthread-note-phases = Každá fáze je vykreslena stejně široká, aby byla krátká fáze stejně viditelná jako dlouhá; čas, kdy každá začíná, je pod pásmem. Přepněte na skutečný čas mise, abyste viděli skutečné poměry. Čárkované čáry jsou limity, které dokument uvádí; přerušení čáry je předání.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:47
+js-mthread-note-time = Skutečný čas mise: fáze trvající několik minut může být příliš úzká na to, aby byla vidět. Přepněte na stejné šířky, abyste ji přečetli. Čárkované čáry jsou limity, které dokument uvádí; přerušení čáry je předání.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:86
+js-mthread-open-failed = Příklad se nepodařilo otevřít: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:96
+js-mthread-opened = { $name } načteno na této stránce; nic nebylo nikam odesláno.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:78
+js-mthread-opening = Otevírá se příklad třídy Artemis…
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:74
+js-mthread-prov = Každý popisek na této stránce pochází z enginu; stránka kopíruje každé číslo z výsledku a pouze je přeškáluje.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:85
+js-mthread-recorded = Zaznamenaný výsledek enginu (verze { $version }): ilustrativní řetězec sestavený z veřejných popisů misí; čísla jsou modelovaná a nepředstavují nic skutečného.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
+js-mthread-sets-peak = určuje špičku
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:91
+js-mthread-too-large = Soubor je větší než { $mb } MB; nečte se.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:22
+js-mthread-weak-line = Nejslabší článek je fáze <b>{ $phase }</b>: { $margin }× její stanovený limit, určeno: { $source }. Rezerva je nejmenší poměr stanoveného limitu ke špičce fáze; hodnota nad 1 splňuje požadavek.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
+js-mthread-weakest-flag = nejslabší článek
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:158
+js-mthread-weakest-mark = nejslabší článek
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:147
+js-obs-cell-extent = { $south }° až { $north }° s. š., { $west }° až { $east }° v. d.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:89
+js-obs-cell-read = { $state }: { $cell }. Vzorkováno { $sampled }, zasaženo { $affected }.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:175
+js-obs-cell-title = { $state }; vzorkováno { $sampled }, zasaženo { $affected }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:174
+js-obs-cell-title-reason = { $state } ({ $reason }); vzorkováno { $sampled }, zasaženo { $affected }
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:71
+js-obs-clear-note = { $notClear } Buňka bez záznamu byla viděna méně než 5 různými letadly a je zadržena; nevykresluje se. Barva nikdy není jediným vodítkem: nepozorováno je šrafováno a tabulka vypisuje každý stav.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-affected = Zasažená letadla
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-bbox = Ohraničující obdélník (J, Z, S, V)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-bytes = Bajty
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-cause = Příčina
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-cell = Buňka (zeměpisná šířka, délka)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-cells = Buňky
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-check = Kontrola
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-file = Soubor
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-incident = Incident
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-sampled = Vzorkovaná letadla
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-sha = SHA-256 (manifest)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-share = Zasažený podíl
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-state = Stav
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-why = Proč nepozorováno
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:132
+js-obs-day-alt = Zhoršené buňky: { $degraded }, nezhoršené: { $notDegraded }, nepozorované: { $notObserved }, dne { $date }.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:63
+js-obs-day-heading = Den { $date } (UTC)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-attribution = Uvedení zdroje
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-coverage = Pokrytí
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-dataset = Datová sada
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-licence = Licence
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-licence-address = Adresa licence
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-product = Produkt
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-written-by = Zapsáno nástrojem Kshana
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:96
+js-obs-err-cause = { $name } uvádí jinou příčinu než „nepřiřazeno“; tato stránka žádnou nezobrazuje
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:70
+js-obs-err-feature-polygon = { $name }: prvek { $n } není polygon buňky
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:68
+js-obs-err-feature-state = { $name }: prvek { $n } má stav „{ $state }“, který není jedním z { $states }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:100
+js-obs-err-incident-object = { $name }: incident { $n } není objekt
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:62
+js-obs-err-no-date = { $name } neuvádí žádné datum
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:63
+js-obs-err-no-features = { $name } nemá žádné prvky
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:97
+js-obs-err-no-incidents = { $name } nemá seznam incidentů
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:61
+js-obs-err-not-day = { $name } není soubor { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:95
+js-obs-err-not-incident = { $name } není soubor { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
+js-obs-err-not-json = { $what } není JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:110
+js-obs-err-not-manifest = { $name } není soubor { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
+js-obs-err-not-object = { $what } není objekt JSON
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:45
+js-obs-err-not-text = { $what } není text nebo je větší než { $mib } MiB
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:64
+js-obs-err-states = { $name } uvádí jiné stavy než tři, které tato stránka zobrazuje
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-matches = shoduje se
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-mismatch = neshoduje se
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-no-hash = není uveden hash
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:122
+js-obs-file-not-opened = neotevřeno
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:119
+js-obs-files-note = Metoda { $method }. SHA-256 každého souboru se zde vypočítá z otevřeného souboru a porovná s manifestem; soubor, který jste neotevřeli, se nekontroluje.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:102
+js-obs-incident = incident
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:97
+js-obs-incident-note = Sousedící zhoršené buňky (včetně úhlopříčných) tvoří jeden incident. Příčina každého incidentu je: nepřiřazeno. Toto není potvrzení ani NOTAM.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-cells = Publikované buňky
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-day-wide = Plošný efekt celého dne
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-degraded = Zhoršeno
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-not-degraded = Nezhoršeno
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-not-observed = Nepozorováno (publikováno)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-scope = Rozsah
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:178
+js-obs-map-aria = { $summary } Tabulka níže uvádí každou buňku.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:20
+js-obs-means-degraded = Vysoký podíl letadel vzorkovaných v buňce ten den hlásil nízkou navigační přesnost, zřetelně nad pozadím toho dne.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:21
+js-obs-means-not-degraded = Bylo vzorkováno dost letadel a podíl nesplnil pravidlo.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:22
+js-obs-means-not-observed = Data neumožnila posouzení. Neznamená to „čisto“.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-na = n/a
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-no = ne
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:161
+js-obs-no-cells = V tomto souboru nejsou žádné buňky
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:45
+js-obs-no-day-file = Soubory pro { $date } neobsahují denní soubor (.geojson), takže pro tento den není co zobrazit.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:139
+js-obs-no-degraded = Tento den žádné zhoršené buňky.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:47
+js-obs-no-file-read = Nepodařilo se přečíst žádný soubor.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:96
+js-obs-no-incident-file = Pro tento den nebyl otevřen žádný soubor incidentů.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:118
+js-obs-no-manifest = Pro tento den nebyl otevřen žádný manifest, takže soubory nelze ověřit podle jejich hashů.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:129
+js-obs-no-notice = Tento soubor nenese žádné upozornění. Poradní prohlášení v horní části této stránky platí stejně.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:148
+js-obs-no-reason = důvod neuveden
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:28
+js-obs-not-clear = Nepozorováno neznamená čisto.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:41
+js-obs-not-readable = { $name }: není to soubor, který tato stránka čte (.geojson, .incidents.json, .manifest.json nebo .png).
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:68
+js-obs-not-stated = neuvedeno
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:138
+js-obs-note-day-wide = Šlo o den s plošným efektem: pozadí dne bylo samo vysoké, takže ten den nešlo posoudit žádnou buňku. To není tvrzení, že obloha byla čistá.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:141
+js-obs-note-summary-mismatch = Souhrn uvedený v souboru neodpovídá buňkám, které vypisuje; čísla jsou zobrazena tak, jak jsou napsána.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:47
+js-obs-nothing-yet = Zatím není co zobrazit: otevřete také soubor .geojson pro daný den.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:129
+js-obs-notice = Upozornění nesené souborem: { $notice }
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:24
+js-obs-opened-day-file = Otevřeno: dnů { $days }, souborů { $files }. Čteno zde; nic se nenahrálo.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:23
+js-obs-opened-day-files = Otevřeno: dnů { $days }, souborů { $files }. Čteno zde; nic se nenahrálo.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:22
+js-obs-opened-days-file = Otevřeno: dnů { $days }, souborů { $files }. Čteno zde; nic se nenahrálo.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:21
+js-obs-opened-days-files = Otevřeno: dnů { $days }, souborů { $files }. Čteno zde; nic se nenahrálo.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:43
+js-obs-read-failed = { $name }: nepodařilo se přečíst ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:32
+js-obs-reason-day-wide = pozadí dne bylo samo vysoké, takže ten den nešlo posoudit žádnou buňku
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:30
+js-obs-reason-insufficient = bylo vzorkováno příliš málo letadel na to, aby šlo buňku posoudit
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:31
+js-obs-reason-no-background = nebylo k dispozici žádné pozadí dne, s nímž by se buňka porovnala
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:66
+js-obs-release = Vydáno nejdříve { $when }: produkty se publikují nejméně { $hours } h po skončení dne, na buňkách { $deg }°. Toto není živý pohled.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:66
+js-obs-release-default = konec dne plus zpoždění
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:113
+js-obs-show-all = Zobrazit všechny buňky ({ $n })
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:15
+js-obs-state-degraded = Zhoršeno
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:16
+js-obs-state-not-degraded = Nezhoršeno
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:17
+js-obs-state-not-observed = Nepozorováno
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:57
+js-obs-the-day-file = denní soubor
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:92
+js-obs-the-incident-file = soubor incidentů
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:107
+js-obs-the-manifest = manifest
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:32
+js-obs-too-large = { $name }: větší než { $mib } MiB; otevřete menší soubor.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:131
+js-obs-unstated-number = neuvedený počet
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:40
+js-obs-withheld = zadrženo
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-yes-no-call = ano: žádnou buňku nešlo posoudit
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-avail-label = Dostupnost, strop a dostupnost za jasné oblohy podle stanoviště
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:145
+js-opt-avail-note = Pro každé stanoviště: dostupnost spoje při únicích způsobených oblačností a turbulencí, strop, který nezvedne žádná další rezerva (oblačnost a zamíření), a dostupnost bez jakékoli oblačnosti.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:145
+js-opt-avail-title = Dostupnost vůči stropu
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-available = { $name }: dostupné
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-ceiling = { $name }: strop
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-clear-sky = { $name }: jasná obloha
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:19
+js-opt-blurb-network = Oblačnější severní, středně oblačné střední a jasnější jižní stanoviště pozorují optický terminál na nízké oběžné dráze pod elevací 30 stupňů: jak často je spoj v provozu a co přinesou další stanoviště?
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:20
+js-opt-blurb-techniques = Jeden uplink pod elevací 25 stupňů v oblačnosti a turbulenci: co přinese jiná vlnová délka, větší apertura, adaptivní optika nebo větší rezerva?
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:128
+js-opt-cloud-episode = epizoda oblačnosti
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-correlated = korelované
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:69
+js-opt-default-bars = sloupce
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:80
+js-opt-default-chart = graf
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-direction-wave = { $direction }, vlnová délka { $wave }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-diversity-label = Dostupnost sítě podle počtu stanovišť
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:153
+js-opt-diversity-note = Dostupnost nejlepších 1, 2 a 3 stanovišť, při nezávislém počasí a při počasí korelovaném na vzdálenost { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:153
+js-opt-diversity-title = Diverzita stanovišť
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-capture-loss = Geometrická ztráta při zachycení
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-direction = Směr
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-elevation = Elevace
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:175
+js-opt-fact-footprint = Stopa svazku
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-margin = Rezerva bez atmosféry
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-received = Přijatý výkon, bez atmosféry
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:175
+js-opt-fact-sensitivity = Citlivost přijímače
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-wavelength = Vlnová délka
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:155
+js-opt-gain-points = +{ $n } p. b.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:133
+js-opt-hours = hodin
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-independent = nezávislé
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:127
+js-opt-link-down = spoj mimo provoz
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-margin-label = Dodatečná rezerva potřebná pro každý cíl dostupnosti
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:125
+js-opt-margin-line-title = { $name }: rezerva spoje, dB
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:147
+js-opt-margin-note = Dodatečná rezerva spoje v dB navíc k současnému spoji pro každý cíl dostupnosti; záporná hodnota znamená, že spoj už má víc, než potřebuje. Cíl nad stropem stanoviště nemá žádnou rezervu, která by ho dosáhla (engine ho vynechává).
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:147
+js-opt-margin-title = Rezerva, kterou každý cíl dostupnosti potřebuje
+
+# 2026-10-01-studio-rebuild/optical/optical.js:39
+js-opt-model-output = Výstup modelu
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:167
+js-opt-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:83
+js-opt-no-data = V tomto výsledku nejsou žádná data.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:112
+js-opt-no-series = V tomto výsledku není žádná časová řada.
+
+# 2026-10-01-studio-rebuild/optical/optical.js:42
+js-opt-no-source = zdroj neuveden
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:37
+js-opt-not-result = toto není výsledek optické atmosféry se stanovišti
+
+# 2026-10-01-studio-rebuild/optical/optical.js:30
+js-opt-open-failed = Nepodařilo se otevřít { $title }: { $reason }.
+
+# 2026-10-01-studio-rebuild/optical/optical.js:20
+js-opt-opening = Otevírá se { $title }…
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-outage-label = Pravděpodobnost, že výpadek trvá déle než daná doba
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:149
+js-opt-outage-note = Pravděpodobnost, že výpadek trvá déle než daná doba, podle stanoviště (logaritmická časová osa).
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:149
+js-opt-outage-title = Jak dlouho výpadky trvají
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:96
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+# 2026-10-01-studio-rebuild/optical/optical.js:42
+js-opt-prov = { $label } Stanoviště: { $sites }.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:119
+js-opt-realised-up = { $value } v provozu
+
+# 2026-10-01-studio-rebuild/optical/optical.js:28
+js-opt-recorded = { $title }: zaznamenaný výsledek enginu (verze { $version }). Výstup modelu, nikoli měření.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:36
+js-opt-result-not-json = výsledek není JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/optical/optical.js:23
+js-opt-result-not-loaded = zaznamenaný výsledek se nenačetl
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:110
+js-opt-series-label = Rezerva spoje v čase
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:143
+js-opt-series-note = Jedna realizace uvedeného modelu stanoviště se seedem (seed { $seed }, { $hours } h v krocích { $step } s): epizody oblačnosti, sloupec kapalné vody pro každou z nich, jeden vzorek scintilace na krok. Rezerva je rozpočet úniku minus úniky způsobené oblačností a scintilací; pod 0 dB je spoj mimo provoz. Jde o jedno losování, nikoli o klima: jeho dostupnost se od uvedené liší o výběrovou chybu losování. Rezerva je pro vykreslení oříznuta na −40 dB.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:143
+js-opt-series-title = Rezerva spoje v čase
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:119
+js-opt-stated = uvedeno { $value }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:129
+js-opt-stripe-cloud = oblačnost
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:129
+js-opt-stripe-down = výpadek
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:126
+js-opt-stripe-title = { $what }, hodina { $from } až { $to }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-label = Zisk dostupnosti podle techniky
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-note = Zisk dostupnosti v procentních bodech oproti základu, pro jedno stanoviště.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-title = Co každá technika přináší
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-availability = Dostupnost
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-ceiling = Strop
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-clear-air = Ztráta v čistém vzduchu
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-cloud-prob = Pravděpodobnost oblačnosti (vstup)
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-fade-budget = Rozpočet úniku
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-latlon = Zeměpisná šířka, délka
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-mean-outage = Průměrný výpadek
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-outages-year = Výpadky za rok
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-scint = Index scintilace
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-site = Stanoviště
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-label = Dostupnost časování podle stanoviště a hodin
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-note = Podíl celkového času, kdy časová chyba zůstává v mezích prahu, podle stanoviště a třídy hodin: holdover hodin vůči délkám výpadků.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-title = Časování udržené během výpadků
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:19
+js-opt-title-network = Tři pozemní stanoviště, diverzita stanovišť
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:20
+js-opt-title-techniques = Jeden uplink, techniky zlepšení
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-x-best-n = nejlepších n stanovišť
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-x-outage-duration = délka výpadku, h (log)
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-x-target = cíl dostupnosti, %
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-y-availability = dostupnost, %
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-y-extra-margin = dodatečná rezerva, dB
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-y-p-longer = P(delší)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:47
+js-replay-band-calibrating = kalibruje se
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:49
+js-replay-band-degraded = zhoršeno
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:48
+js-replay-band-nominal = nominální
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-band-run-ended = { $band } · běh skončil
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:50
+js-replay-band-untrusted = nedůvěryhodné
+
+# 2026-10-01-studio-rebuild/replay/replay.js:101
+js-replay-clock = T+{ $t } z { $max }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:235
+js-replay-coast-hidden = pobřeží skryto: smyšlené polohy tohoto záznamu leží na souši
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note = Pobřeží: { $source }, pouze ilustrace.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note-hidden = { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:217
+js-replay-coast-window = Natural Earth 1:10 milionů, okno { $window }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:226
+js-replay-coast-world = Natural Earth 1:110 milionů (obrys světa ve Studiu), hrubé
+
+# 2026-10-01-studio-rebuild/replay/replay.js:63
+js-replay-demo-trust-log = { $title } (záznam důvěryhodnosti)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-east = východ
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-north = sever
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-south = jih
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-west = západ
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:141
+js-replay-dirs-and = { $list } a { $last }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:168
+js-replay-drawing-animation = Kreslí se animace…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:177
+js-replay-drawing-frames = Kreslí se snímky…
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:140
+js-replay-every-direction = všechny směry
+
+# 2026-10-01-studio-rebuild/replay/replay.js:149
+js-replay-file-error = { $name }: { $error }
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:481
+js-replay-kinds-convergence-horizontal = Konvergence: medián horizontální chyby
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:482
+js-replay-kinds-convergence-vertical = Konvergence: medián vertikální chyby
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-course = Hlášený kurz nad zemí
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-heading = Kurz lodi (gyro)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-position-error = Chyba polohy
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-receiver = Přijímač
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-run-time = Čas běhu
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-satellites = Použité / viditelné družice
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-sky = Obloha
+
+# 2026-10-01-studio-rebuild/replay/replay.js:52
+js-replay-legend = Legenda
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-no-fix = bez určení polohy
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-true-track = skutečná trasa
+
+# 2026-10-01-studio-rebuild/replay/replay.js:107
+js-replay-moment = Okamžik v T+{ $t }:
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-no-coast = Nekreslí se žádné pobřeží: pro toto okno žádné není přibaleno.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:92
+js-replay-no-gsv = v tomto záznamu není GSV
+
+# 2026-10-01-studio-rebuild/replay/replay.js:143
+js-replay-not-json = { $name }: není JSON.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-not-scored = nehodnoceno
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:27
+js-replay-obs-not-attributed = nepřiřazeno
+
+# 2026-10-01-studio-rebuild/replay/replay.js:135
+js-replay-open-failed = { $id } se nepodařilo otevřít: { $reason }.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:47
+js-replay-open-file = Otevřít soubor…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:153
+js-replay-opened = Otevřeno { $name } v panelu { $n }. Čteno zde; nic se nenahrálo.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:133
+js-replay-opening = Otevírá se { $id }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-pause = Pozastavit
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-play = Přehrát
+
+# 2026-10-01-studio-rebuild/replay/replay.js:154
+js-replay-read-failed = { $name }: nepodařilo se přečíst nebo vykreslit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/replay/replay.js:139
+js-replay-reading = Čte se { $name }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:217
+js-replay-reduced-motion = Je preferováno omezení pohybu, proto přehrávání začíná rychlostí 1× a samo se nespouští.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run = Spustit
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run-shown = Běh zobrazený v panelu { $n }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:172
+js-replay-saved-svg = Uloženo { $name } ({ $size } kB): každý snímek v jednom souboru, vykreslený ze stejných řádků jako tato stránka.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:181
+js-replay-saved-zip = Uloženo { $name } ({ $size } MB): jeden SVG na snímek, manifest řádků za každým z nich a README.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:147
+js-replay-src-instructor = Váš soubor { $name }: samotný záznam instruktora nenese žádné skóre enginu ani oblohu.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:150
+js-replay-src-trust = Váš soubor { $name }: výsledek důvěryhodnosti nenese žádnou oblohu ani kurz, proto se nekreslí.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:254
+js-replay-status-ready = { $a } a { $b }: syntetické běhy, hodnocené enginem. Stiskněte Přehrát, nebo posuňte hodiny.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic = { $titles }: syntetické běhy, hodnocené enginem.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic-no-coast = { $titles }: syntetické běhy, hodnocené enginem. Pobřeží není k dispozici.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:51
+js-replay-strip-label = Skóre důvěryhodnosti během běhu
+
+# 2026-10-01-studio-rebuild/replay/replay.js:23
+js-replay-titles-and = { $a } a { $b }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:141
+js-replay-too-large = { $name } je větší, než tato stránka čte.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track =
+    { $n ->
+        [one] Trasa z { $n } řádku záznamu, sever nahoře.
+        [few] Trasa z { $n } řádků záznamu, sever nahoře.
+        [many] Trasa z { $n } řádku záznamu, sever nahoře.
+       *[other] Trasa z { $n } řádků záznamu, sever nahoře.
+    }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track-widened =
+    { $n ->
+        [one] Trasa z { $n } řádku záznamu, sever nahoře, rozšířená tak, aby ukázala nejbližší pobřeží.
+        [few] Trasa z { $n } řádků záznamu, sever nahoře, rozšířená tak, aby ukázala nejbližší pobřeží.
+        [many] Trasa z { $n } řádku záznamu, sever nahoře, rozšířená tak, aby ukázala nejbližší pobřeží.
+       *[other] Trasa z { $n } řádků záznamu, sever nahoře, rozšířená tak, aby ukázala nejbližší pobřeží.
+    }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict = Verdikt
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:198
+js-replay-verdict-degraded = { $dur } zhoršeno, žádný čas nedůvěryhodný
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-early = Verdikt (předběžný)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-fine = Pouze ze záznamu a skóre enginu; syntetické, poradní, nejde o údaj o výkonnosti detekce.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first = poprvé pod nominálním pásmem v T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:195
+js-replay-verdict-first-after = poprvé pod nominálním pásmem v T+{ $t }, { $dur } po začátku první události (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first-before = poprvé pod nominálním pásmem v T+{ $t }, před začátkem první události (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:193
+js-replay-verdict-lowest = Nejnižší skóre důvěryhodnosti { $score } ({ $band }) v T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:194
+js-replay-verdict-never-left = skóre nikdy neopustilo nominální pásmo
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:201
+js-replay-verdict-no-fix = bez určení polohy po dobu { $dur }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:199
+js-replay-verdict-not-scored = Nehodnoceno: skóre důvěryhodnosti enginu se zobrazuje u běhů z knihovny
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:200
+js-replay-verdict-peak-error = největší zaznamenaná chyba polohy { $err } m v T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:197
+js-replay-verdict-untrusted = { $dur } v nedůvěryhodném pásmu
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-wait = Zobrazí se po skončení tohoto běhu, v T+{ $t }.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-altitude-label = Výška a použitá měření
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-at-least-1 = alespoň 1 signál
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-at-least-4 = alespoň 4 signály
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-avail-label = Dostupnost, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:96
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:26
+js-ssv-blurb-formation-heo = Chief a deputy vzdálení kilometr na vysoce eliptické dráze: jak dobře filtr zná jejich relativní polohu oproti tomu, co by dala dvě absolutní určení polohy.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:23
+js-ssv-blurb-heo = Vysoce eliptická dráha (apogeum kolem 58 600 km) s vysoce ziskovou nadirovou a zenitovou plošnou anténou a parametrickým modelem postranních laloků: signály ve výhledu, nejlepší C/N0, hlavní lalok oproti postrannímu, faktor DOP a signály, které se jen otírají o atmosféru.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:24
+js-ssv-blurb-lunar-weak = Lunární přechodová trajektorie s přijímačem postaveným pro nejslabší signály: co potřebuje k akvizici a sledování a jak velkou část trajektorie může využít.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:25
+js-ssv-blurb-nav-lunar = Palubní navigační filtr na lunárním přechodu: jeho chyba polohy oproti mezi, kterou uvádí, pod drahami družic GNSS a nad nimi.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:22
+js-ssv-blurb-shell = Kulová slupka ve výšce geostacionární dráhy, vzorkovaná na mřížce: jak často tam kosmická loď slyší alespoň jeden a alespoň čtyři signály při 20 dB-Hz, na L1 a L5, pro každou konstelaci i pro všechny dohromady?
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-cn0-altitude-label = Nejlepší C/N0 a výška v čase, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-label = Nejlepší C/N0, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-note = Ze signálů ve výhledu ten nejsilnější v každé epoše: od nejmenší po největší hodnotu přes epochy, s vyznačeným průměrem.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-title = Nejlepší poměr nosné k hustotě šumu, { $band }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:57
+js-ssv-comparison-failed = Srovnání se nepodařilo zobrazit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:53
+js-ssv-comparison-not-loaded = soubor srovnání se nenačetl
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:82
+js-ssv-default-bars = sloupce
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:104
+js-ssv-default-chart = graf
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:133
+js-ssv-default-ranges = rozsahy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:184
+js-ssv-deputies-note = Absolutní RMS chiefu { $rms } m; počet epoch: { $epochs }.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:184
+js-ssv-deputies-title = Každý deputy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:170
+js-ssv-dop-note = Medián, 95. percentil a nejhorší PDOP přes epochy, které mají určení polohy, a tam, kde scénář nastavuje atmosféru, signály, které se jí dotýkají.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:170
+js-ssv-dop-title = Faktor DOP a atmosféra, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-err-label = Chyba polohy oproti uvedené mezi
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:176
+js-ssv-err-note = Čárkovaná čára je mez jedné sigma, kterou filtr uvádí; plná čára je jeho chyba oproti pravdě, kterou scénář zná. Decimováno enginem.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:176
+js-ssv-err-title = Chyba polohy oproti vlastní mezi filtru
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-antenna = Anténa
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-apogee = Výška apogea
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:225
+js-ssv-fact-cn0-threshold = Práh poměru nosné k hustotě šumu
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-duration = Trvání
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-eccentricity = Excentricita
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-grid-points = Body mřížky
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-inclination = Sklon
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:221
+js-ssv-fact-mode = Režim
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-perigee = Výška perigea
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-period = Perioda
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-shell-altitude = Výška slupky
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-sma = Hlavní poloosa
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-step = Krok
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-filter = filtr
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:182
+js-ssv-formation-note = Relativní chyba polohy RMS, z filtru a z odečtení dvou absolutních určení polohy, za celý běh a nad drahami GNSS.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:182
+js-ssv-formation-title = Relativní poloha deputy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-from-absolute = z dvou absolutních určení polohy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:78
+js-ssv-group-combined = všechny dohromady
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:56
+js-ssv-icg-note = { $label }; verdikty vůči prahům z odevzdaných výsledkových souborů enginu (commit enginu { $commit }). Tabulky brožury jsou veřejné; nic zde není VALIDATED.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:208
+js-ssv-icg-wrong-file = soubor srovnání ICG není ten, který tato stránka čte
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:165
+js-ssv-lobe-note = Kolik použitelných spojů přišlo hlavním lalokem a kolik postranním, jak je spočítal engine.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:165
+js-ssv-lobe-title = Hlavní lalok a postranní lalok, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:17
+js-ssv-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:179
+js-ssv-nav-note = Použitá a vyřazená měření, nejdelší mezera s méně než čtyřmi signály, konečná chyba a odhad tlaku slunečního záření oproti pravdě, kterou scénář zná.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:179
+js-ssv-nav-title = Běh v číslech
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:190
+js-ssv-never = nikdy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-never-had-four = nikdy neměl čtyři
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-never-had-one = nikdy neměl jeden
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:135
+js-ssv-no-range = V tomto výsledku není žádný rozsah.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:107
+js-ssv-no-series = Výsledek nenese žádnou řadu pro tento graf.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:216
+js-ssv-not-in-variant = není součástí varianty
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:35
+js-ssv-not-result = toto není výsledek gnss-ssv
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-of = { $n } z { $total }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-offset = posun { $deg }°
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:29
+js-ssv-open-failed = { $title } se nepodařilo otevřít: { $reason }.
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:19
+js-ssv-opening = Otevírá se { $title }…
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:157
+js-ssv-outage-note = V minutách, za běh. „Nikdy“ označuje skupinu, která nikdy neměla tolik signálů nikde na slupce.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:157
+js-ssv-outage-title = Nejdelší výpadky na slupce
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:175
+js-ssv-phases-note = Statistika filtru za běh a za dvě jeho části. Průměrné NEES polohy blízké 3 znamená, že mez uvedená filtrem je konzistentní s jeho chybou.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:175
+js-ssv-phases-title = Chyba polohy podle fáze
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:122
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:143
+js-ssv-range-title = { $label }: min { $min }, průměr { $mean }, max { $max } { $unit }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:145
+js-ssv-range-value = { $min } až { $max }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:27
+js-ssv-recorded = { $title }: zaznamenaný výsledek enginu (verze { $version }).
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-relative-label = Relativní chyba polohy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:34
+js-ssv-result-not-json = výsledek není JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:22
+js-ssv-result-not-loaded = zaznamenaný výsledek se nenačetl
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-acquires = Akvizice až do
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-carrier = Sledování nosné až do
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-code = Sledování kódu až do
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-coherent = Koherentní integrace
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-delay-mean = Zpoždění, průměr
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-detection = Práh detekce
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-false-alarm = Pravděpodobnost falešného poplachu na buňku
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-final-error = Konečná chyba polohy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-gap = Nejdelší mezera
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-gated = Vyřazená měření
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-grazing = Dotyk pod 100 km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-limb-links = Spoje přes limb
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-loss-mean = Ztráta, průměr
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-lost = Ztraceno v atmosféře
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-median = PDOP, medián
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-p95 = PDOP, 95. percentil
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-worst = PDOP, nejhorší
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-plasma-mean = Plazmasférický TEC, průměr
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-search-cells = Buňky hledání
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-search-time = Doba hledání
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-srp-est = Tlak slunečního záření, odhadnutý
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-srp-truth = Tlak slunečního záření, pravda
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-stec-mean = Šikmý TEC, průměr
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-tangent = Tečná výška, min až max
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-tracking = Použitý práh sledování
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-used = Použitá měření
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-altitude = výška/1000
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-series-altitude-name = výška
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-best-cn0 = nejlepší C/N0
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-series-error = chyba
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-series-measurements = měření
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:167
+js-ssv-series-note = Jedna decimovaná řada kombinovaného počtu přes všechny konstelace. Engine nezapisuje řadu po konstelacích, proto se žádná nekreslí.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-signals = signály ve výhledu
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-signals-label = Signály ve výhledu v čase, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-series-stated-bound = uvedená mez
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:167
+js-ssv-series-title = Signály a nejlepší C/N0 podél dráhy, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:155
+js-ssv-shell-avail-note = Podíl bodů mřížky a časů s alespoň jedním a alespoň čtyřmi signály nad { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:155
+js-ssv-shell-avail-title = Dostupnost na slupce, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-tangent-value = { $min } až { $max } km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-above-absolute = Nad GNSS: z absolutních, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-above-filter = Nad GNSS: filtr, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-band-group = Pásmo a skupina
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-bar = Práh
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-baseline = Základna, km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-common-4 = Epochy se 4 společnými signály
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-common-mean = Průměr společných signálů
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-compares = Co porovnává
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-deputy = Deputy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-epochs = Epochy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-group = Skupina
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-main-lobe = Spoje hlavním lalokem
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-nees = Průměrné NEES polohy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-phase = Fáze
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-pos-p95 = Poloha, 95. percentil, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-pos-rms = Poloha RMS, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:199
+js-ssv-th-quantity = Veličina
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-absolute = Relativní RMS, z absolutních, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-filter = Relativní RMS, filtr, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-vel = Relativní rychlost RMS, m/s
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-run1-cells = Běh 1: buňky v toleranci
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-run1-verdict = Verdikt běhu 1
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-sidelobe = Spoje postranním lalokem
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-sidelobe-share = Podíl postranních laloků
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:199
+js-ssv-th-value = Hodnota
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-variant = Varianta (diagnostická, referenční úhly GLONASS z tabulky 4.2)
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-vel-rms = Rychlost RMS, m/s
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-with-4 = Se 4 a více signály
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-without-1 = Nejdelší bez 1 signálu
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-without-4 = Nejdelší bez 4 signálů
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:26
+js-ssv-title-formation-heo = Formace, vysoce eliptická dráha
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:23
+js-ssv-title-heo = Vysoce eliptická dráha
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:24
+js-ssv-title-lunar-weak = Lunární přechod, přijímač pro slabé signály
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:25
+js-ssv-title-nav-lunar = Palubní filtr, lunární přechod
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:22
+js-ssv-title-shell = Slupka ve 36 000 km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:161
+js-ssv-traj-avail-note = Podíl epoch s alespoň jedním a alespoň čtyřmi signály nad { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:161
+js-ssv-traj-avail-title = Dostupnost podél trajektorie, { $band }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:37
+js-ssv-transmit-pattern = Vysílací diagram: { $pattern }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-unit-signals = signály
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:36
+js-ssv-unknown-mode = tento výsledek gnss-ssv má režim „{ $mode }“, který tato stránka nečte
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-variant-met = { $n } z { $total }, bylo by splněno
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-variant-not-met = { $n } z { $total }, stále nesplněno
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-view-note = Od nejmenšího po největší počet ve výhledu přes epochy, s vyznačeným průměrem.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-view-title = Signály ve výhledu, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:172
+js-ssv-weak-note = Co návrh přijímače potřebuje, jak to engine počítá z uvedené integrace.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:172
+js-ssv-weak-title = Přijímač pro slabé signály
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-x-minutes = minuty
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-y-altitude-measurements = výška, tisíce km; použitá měření
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-y-cn0-altitude = dB-Hz; výška v tisících km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-y-position-log = poloha, metry (log)
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-y-signals-all = signály ve výhledu, všechny konstelace
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:127
+js-t35data-ai-q-bench-export = Exportovat pohyb a události scénáře pro laboratorní simulátor
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:128
+js-t35data-ai-q-compliance-rows = Pro které řádky veřejných rámců tyto běhy podporují důkazy (supports evidence for)?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:125
+js-t35data-ai-q-evidence-pack = Zkontrolovat nebo vytvořit balíček důkazů události důvěryhodnosti
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:124
+js-t35data-ai-q-interference-route = Kde GNSS vypadal zhoršeně a jak velká část této trasy v tom leží?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:129
+js-t35data-ai-q-iq-recordings = Záznamy GNSS IQ (scéna, akvizice, sledování, front end, kampaně)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+js-t35data-ai-q-osnma-satellites = Navigační data kterých družic Galileo tento proud přijímače autentizuje (OSNMA)?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:121
+js-t35data-ai-q-run-scenario = Spustit nebo vysvětlit scénář PNT (dráhy, GNSS, časování, fúze, lunární)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:123
+js-t35data-ai-q-training-nmea = Potřebuji pro trénink syntetické NMEA s událostí rušení (jamming), drag-off, spoofingu času nebo replay
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:122
+js-t35data-ai-q-trustworthy-log = Byl tento záznam přijímače nebo NMEA tohoto plavidla důvěryhodný, a kdy přestal být?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+js-t35data-ai-tool-osnma-satellites = v MCP žádný: použijte osnma_verify (karta OSNMA zde, WebAssembly), kshana osnma verify (CLI) nebo kshana.osnma_verify (Python)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:104
+js-t35data-card-evidence-create-title = Vytvořit balíček důkazů
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:105
+js-t35data-card-evidence-create-what = Podepíše okno záznamu přijímače a to, co z něj engine vypočítal, takže kdokoli může ověřit, že se potom nic nezměnilo. Studio balíčky ověřuje.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:106
+js-t35data-card-evidence-create-why = Podepisování vyžaduje soukromý klíč, který by neměl procházet webovou stránkou.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:89
+js-t35data-card-iq-title = Monitory a nástroje GNSS IQ
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:90
+js-t35data-card-iq-what = Sestavte scénu, proveďte akvizici a sledování signálů, rozmítejte parametry, modelujte front end, spouštějte monitory IQ a kampaně, fitujte laboratorní záznam. Dostupné také z Pythonu a uvnitř jedné pracovní složky z nástrojů AI asistenta.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:91
+js-t35data-card-iq-why = Záznam jsou gigabajty vzorků. Stránka jej neudrží a příkazy, které záznamy převádějí, extrahují a decimují, je přepisují na disku.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:109
+js-t35data-card-land-title = Stažení polygonů souše pro detektor AIS na souši
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:110
+js-t35data-card-land-what = Stáhne jeden připnutý soubor souše (Natural Earth, volné dílo) a zkontroluje jeho SHA-256. Tvůrce map bere soubor souše místo toho jako text.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:111
+js-t35data-card-land-why = Je to jediný příkaz, který otevírá síťové spojení, a vyžaduje systémový curl a explicitní příznak.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:94
+js-t35data-card-marine-title = Námořní integrace
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
+js-t35data-card-marine-what = Zásuvný modul serveru Signal K a OpenCPN přes NMEA v režimu brány po TCP přinášejí skóre důvěryhodnosti do softwaru, který už jachtaři používají; referenční sestavení jej dává na malý počítač vedle přijímače.

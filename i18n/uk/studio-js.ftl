@@ -4143,3 +4143,2336 @@ js-kind-note-the-gabor-root-mean-square = Середньоквадратична
 js-kind-note-the-largest-jammer-to-signal = Найбільше відношення глушника до сигналу (J/S), крізь яке супроводжує кожен сигнал, для глушників із неперервною хвилею (CW), узгодженого спектра та широкосмугового.
 
 js-kind-note-the-shapiro-delay-is-the = Затримка Шапіро — це додатковий світловий час через гравітацію Сонця вздовж траєкторії.
+
+js-kind-note-the-spectrum-kind-and-the = Різновиди «спектр» і «глушіння» обчислюють ту саму лінію двома способами; останній стовпець — їхня різниця.
+
+js-kind-note-time-of-arrival-toa-ranging = Вимірювання дальності за часом прибуття (TOA) на низхідній лінії нетеррестріальної мережі (NTN): ширший сигнал дає точніше вимірювання дальності.
+
+js-kind-note-what-half-a-least-significant = Чого коштує половина наймолодшого біта (LSB) кожного поля в положенні та в годиннику, виражена як дальність.
+
+js-kind-rowhead-block = Блок
+
+js-kind-rowhead-condition = Умова
+
+js-kind-rowhead-figure = Показник
+
+js-kind-rowhead-member = Учасник
+
+js-kind-rowhead-metric = Метрика
+
+js-kind-rowhead-monitor = Монітор
+
+js-kind-rowhead-phase = Фаза
+
+js-kind-rowhead-satellite = Супутник
+
+js-kind-rowhead-signal = Сигнал
+
+js-kind-rowhead-solution = Розв'язок
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = лише Доплер
+
+js-kind-sub-from-to = від { $from } до { $to }
+
+js-kind-sub-fused = злито
+
+js-kind-sub-gnss-and-leo-latitude = GNSS і LEO, широта { $lat }°
+
+js-kind-sub-gnss-only = лише GNSS
+
+js-kind-sub-gnss-only-latitude = лише GNSS, широта { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, підгонка { $fit } s
+
+js-kind-threshold-4-needed-for-a-fix = для розв'язку потрібно 4
+
+js-kind-threshold-convergence-criterion = критерій збіжності
+
+js-kind-threshold-elevation-mask = маска висоти
+
+js-kind-threshold-gnss-median = медіана GNSS
+
+js-kind-threshold-tracking-threshold = поріг супроводження
+
+js-kind-title-acquisition = Захоплення
+
+js-kind-title-against-a-simulated-campaign = Порівняно із змодельованою кампанією
+
+js-kind-title-assumptions = Припущення
+
+js-kind-title-band-trade-at-equal-transmit = Компроміс за смугою за однакової потужності передавача
+
+js-kind-title-bands = Смуги
+
+js-kind-title-beside-the-published-figures = Поруч з опублікованими показниками
+
+js-kind-title-beside-the-published-speed-up = Поруч з опублікованим прискоренням
+
+js-kind-title-bodies = Тіла
+
+js-kind-title-body = Тіло
+
+js-kind-title-by-latitude = За широтою
+
+js-kind-title-c-n0-by-band-over = C/N0 за смугами протягом прогону
+
+js-kind-title-c-n0-over-the-pass = C/N0 протягом проходу
+
+js-kind-title-cases = Випадки
+
+js-kind-title-central-body = Центральне тіло
+
+js-kind-title-closed-form-doppler-against-finite = Доплер у замкненому вигляді порівняно зі скінченними різницями
+
+js-kind-title-code-tracking-jitter = Тремтіння супроводження коду
+
+js-kind-title-code-tracking-jitter-against-c = Тремтіння супроводження коду залежно від C/N0
+
+js-kind-title-combined-over-the-members = Об'єднано за учасниками
+
+js-kind-title-compatibility-with-gnss-signals = Сумісність із сигналами GNSS
+
+js-kind-title-constellations = Орбітальні угруповання
+
+js-kind-title-continuity-across-message-switches = Безперервність під час перемикань повідомлень
+
+js-kind-title-cross-check-against-the-jamming = Перехресна перевірка з різновидом «глушіння»
+
+js-kind-title-datum-accuracy = Точність опорної величини
+
+js-kind-title-dilution-of-precision-over-the = Погіршення точності на всій сітці
+
+js-kind-title-doppler = Доплер
+
+js-kind-title-doppler-envelopes = Огинаючі Доплера
+
+js-kind-title-doppler-only-fix = Розв'язок лише за Доплером
+
+js-kind-title-doppler-over-the-pass = Доплер протягом проходу
+
+js-kind-title-doppler-positioning-from-one-pass = Доплерівське позиціонування за один прохід
+
+js-kind-title-earth-link = Лінія зв'язку із Землею
+
+js-kind-title-elevation = Висота
+
+js-kind-title-encoded-frame = Закодований кадр
+
+js-kind-title-epoch = Епоха
+
+js-kind-title-epoch-and-frame = Епоха та система відліку
+
+js-kind-title-events = Події
+
+js-kind-title-every-node-of-the-sweep = Кожен вузол перебору
+
+js-kind-title-field-table = Таблиця полів
+
+js-kind-title-figures-of-merit = Показники якості
+
+js-kind-title-filter-noise = Шум фільтра
+
+js-kind-title-fit-interval-trade = Компроміс за інтервалом підгонки
+
+js-kind-title-fix-quality-against-observation-window = Якість розв'язку залежно від вікна спостереження
+
+js-kind-title-frame-checks = Перевірки кадру
+
+js-kind-title-frame-hexadecimal = Кадр, шістнадцяткове подання
+
+js-kind-title-geometry-against-latitude = Геометрія залежно від широти
+
+js-kind-title-geometry-as-leo-satellites-are = Геометрія в міру додавання супутників LEO
+
+js-kind-title-geometry-position-dilution-of-precision = Геометрія: погіршення точності положення
+
+js-kind-title-global-coverage = Глобальне покриття
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO і злитий розв'язок
+
+js-kind-title-gnss-reference = Еталон GNSS
+
+js-kind-title-hand-offs-between-phases = Передавання між фазами
+
+js-kind-title-helmert-fit = Підгонка Гельмерта
+
+js-kind-title-helmert-transform-parameters = Параметри перетворення Гельмерта
+
+js-kind-title-inputs = Вхідні дані
+
+js-kind-title-ionosphere-free-band-pairs = Пари смуг без впливу іоносфери
+
+js-kind-title-jammer-tolerance = Стійкість до глушника
+
+js-kind-title-jammers = Глушники
+
+js-kind-title-joint-fix = Спільний розв'язок
+
+js-kind-title-leo-against-gnss = LEO порівняно з GNSS
+
+js-kind-title-limitations = Обмеження
+
+js-kind-title-links = Лінії зв'язку
+
+js-kind-title-member-runs = Прогони учасників
+
+js-kind-title-members-under-the-shared-conditions = Учасники за спільних умов
+
+js-kind-title-message = Повідомлення
+
+js-kind-title-message-models-compared = Порівняння моделей повідомлення
+
+js-kind-title-message-switches = Перемикання повідомлень
+
+js-kind-title-metric-against-axis = { $metric } залежно від { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: розподіл за прогонами
+
+js-kind-title-mid-pass-update = Оновлення посеред проходу
+
+js-kind-title-modelled = Змодельовано
+
+js-kind-title-monte-carlo = Монте-Карло
+
+js-kind-title-navigation-message-stage = Етап навігаційного повідомлення
+
+js-kind-title-not-modelled = Не змодельовано
+
+js-kind-title-notes = Примітки
+
+js-kind-title-notes-on-the-spoofing-model = Примітки до моделі спуфінгу
+
+js-kind-title-observation-windows = Вікна спостереження
+
+js-kind-title-one-pass-alone = Лише один прохід
+
+js-kind-title-orbit = Орбіта
+
+js-kind-title-over-the-message-sequence = За послідовністю повідомлень
+
+js-kind-title-pass = Прохід
+
+js-kind-title-pass-c-n0-of-the = Прохід: C/N0 усього сигналу та супроводжуваної складової
+
+js-kind-title-pass-code-tracking-jitter = Прохід: тремтіння супроводження коду
+
+js-kind-title-pass-doppler = Прохід: Доплер
+
+js-kind-title-pass-stage = Етап проходу
+
+js-kind-title-passes = Проходи
+
+js-kind-title-phases = Фази
+
+js-kind-title-position-error-gnss-leo-and = Похибка положення: GNSS, LEO і злитий розв'язок
+
+js-kind-title-position-uncertainty-relays-alone-and = Невизначеність положення: лише ретранслятори та разом із лінією зв'язку із Землею
+
+js-kind-title-positioning-by-signal-bandwidth = Позиціонування залежно від смуги сигналу
+
+js-kind-title-positioning-gnss-alone-against-the = Позиціонування: лише GNSS порівняно зі злитим розв'язком
+
+js-kind-title-power-spectral-density = Спектральна щільність потужності
+
+js-kind-title-power-spectral-density-of-each = Спектральна щільність потужності кожного сигналу
+
+js-kind-title-precise-point-positioning = Прецизійне точкове позиціонування
+
+js-kind-title-published-comparison = Опубліковане порівняння
+
+js-kind-title-quantisation-budget = Бюджет квантування
+
+js-kind-title-range-residuals = Залишки дальності
+
+js-kind-title-ranging-stations = Станції вимірювання дальності
+
+js-kind-title-reading-the-trade = Як читати компроміс
+
+js-kind-title-realised-position-error = Реалізована похибка положення
+
+js-kind-title-receiver = Приймач
+
+js-kind-title-receiver-power-budget = Енергетичний бюджет приймача
+
+js-kind-title-reflector-information = Відомості про відбивач
+
+js-kind-title-relay-constellation = Угруповання ретрансляторів
+
+js-kind-title-relays-in-view = Ретранслятори у полі зору
+
+js-kind-title-reproducibility = Відтворюваність
+
+js-kind-title-retroreflectors = Ретрорефлектори
+
+js-kind-title-rinex-style-record = Запис у стилі RINEX
+
+js-kind-title-round-trips = Круговий обмін
+
+js-kind-title-run = Прогін
+
+js-kind-title-satellites-in-view-against-latitude = Супутники у полі зору залежно від широти
+
+js-kind-title-sensitivity-to-a-line-of = Чутливість до нахилу лінії візування
+
+js-kind-title-shared-conditions = Спільні умови
+
+js-kind-title-signal-components = Складові сигналу
+
+js-kind-title-signal-stage = Етап сигналу
+
+js-kind-title-signals = Сигнали
+
+js-kind-title-sisre-against-fit-interval = SISRE залежно від інтервалу підгонки
+
+js-kind-title-sisre-against-update-period = SISRE залежно від періоду оновлення
+
+js-kind-title-sisre-weights = Ваги SISRE
+
+js-kind-title-snapshot = Знімок
+
+js-kind-title-snapshot-against-the-model = Знімок порівняно з моделлю
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Спектр знімка: оцінка Велча порівняно з моделлю
+
+js-kind-title-sources = Джерела
+
+js-kind-title-spoofer-and-monitor-settings = Параметри спуфера та монітора
+
+js-kind-title-spoofing-monitor-probability-of-detection = Монітор спуфінгу: імовірність виявлення
+
+js-kind-title-statistics-over-the-runs = Статистика за прогонами
+
+js-kind-title-sweep = Перебір
+
+js-kind-title-systems = Системи
+
+js-kind-title-systems-in-the-fix = Системи в розв'язку
+
+js-kind-title-the-archived-campaign = Архівована кампанія
+
+js-kind-title-time-error = Похибка часу
+
+js-kind-title-time-error-by-receiver-clock = Похибка часу за годинником приймача
+
+js-kind-title-time-scale = Шкала часу
+
+js-kind-title-time-to-first-fix-and = Час до першого розв'язку та енергія на розв'язок
+
+js-kind-title-time-transfer-by-clock-and = Передавання часу за годинником і рівнем сигналу
+
+js-kind-title-trade-conditions = Умови компромісу
+
+js-kind-title-update-period-trade = Компроміс за періодом оновлення
+
+js-kind-title-user = Користувач
+
+js-kind-title-user-range-error-through-the = Похибка дальності користувача протягом проходу
+
+js-kind-title-validated = Перевірено
+
+js-kind-title-what-each-stage-hands-to = Що кожен етап передає наступному
+
+js-kind-title-what-this-run-is-and = Що це за прогін і чим він не є
+
+js-kind-title-when-each-monitor-detects = Коли кожен монітор виявляє
+
+js-kind-title-work-done = Виконана робота
+
+js-kind-yes = так
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } рядок реєстру
+        [few] { $n } рядки реєстру
+        [many] { $n } рядків реєстру
+       *[other] { $n } рядка реєстру
+    }
+
+js-lib-abbr-apv = заходження на посадку з вертикальним наведенням
+
+js-lib-abbr-araim = розширений автономний контроль цілісності приймача
+
+js-lib-abbr-auc = площа під кривою
+
+js-lib-abbr-c-n0 = відношення несівної до густини шуму
+
+js-lib-abbr-ccsds = Консультативний комітет з космічних інформаційних систем
+
+js-lib-abbr-cli = інтерфейс командного рядка
+
+js-lib-abbr-csac = атомний годинник чипового масштабу
+
+js-lib-abbr-cw = неперервна хвиля
+
+js-lib-abbr-doi = цифровий ідентифікатор об'єкта
+
+js-lib-abbr-dop = геометричний чинник (погіршення точності)
+
+js-lib-abbr-eo = спостереження Землі
+
+js-lib-abbr-gnss = глобальна навігаційна супутникова система
+
+js-lib-abbr-gps = Глобальна система позиціонування
+
+js-lib-abbr-hal = горизонтальна межа тривоги
+
+js-lib-abbr-hpl = горизонтальний рівень захисту
+
+js-lib-abbr-imu = інерціальний вимірювальний блок
+
+js-lib-abbr-ins = інерціальна навігаційна система
+
+js-lib-abbr-iot = Інтернет речей
+
+js-lib-abbr-itu-t = Міжнародний союз електрозв'язку, сектор стандартизації електрозв'язку
+
+js-lib-abbr-j-s = відношення потужностей глушника та сигналу
+
+js-lib-abbr-leo = низька навколоземна орбіта
+
+js-lib-abbr-llr = лазерна локація Місяця
+
+js-lib-abbr-meo = середня навколоземна орбіта
+
+js-lib-abbr-mtie = максимальна похибка часового інтервалу
+
+js-lib-abbr-ntn = нетеррестріальна мережа
+
+js-lib-abbr-ocxo = кварцовий генератор з термостатуванням
+
+js-lib-abbr-oem = повідомлення про ефемериди орбіти
+
+js-lib-abbr-omm = повідомлення про середні елементи орбіти
+
+js-lib-abbr-pdop = геометричний чинник DOP для положення (погіршення точності)
+
+js-lib-abbr-pnt = позиціонування, навігація та час
+
+js-lib-abbr-ppp = прецизійне точкове позиціонування
+
+js-lib-abbr-raim = автономний контроль цілісності приймача
+
+js-lib-abbr-rf = радіочастота
+
+js-lib-abbr-rinex = незалежний від приймача формат обміну
+
+js-lib-abbr-roc = робоча характеристика приймача
+
+js-lib-abbr-sbas = супутникова система функціонального доповнення
+
+js-lib-abbr-sgp4 = спрощені загальні збурення 4, розповсюджувач орбіт
+
+js-lib-abbr-sisre = похибка дальності сигналу в космосі
+
+js-lib-abbr-slam = одночасна локалізація та картографування
+
+js-lib-abbr-spp = одноточкове позиціонування
+
+js-lib-abbr-tdev = девіація часу
+
+js-lib-abbr-tle = двострокова множина елементів
+
+js-lib-abbr-toml = формат файлу сценарію
+
+js-lib-abbr-trn = навігація за рельєфом місцевості
+
+js-lib-abbr-uhf = ультрависока частота
+
+js-lib-abbr-ukf = ненаближений фільтр Калмана
+
+js-lib-abbr-utc = координований всесвітній час
+
+js-lib-abbr-val = вертикальна межа тривоги
+
+js-lib-abbr-vlbi = радіоінтерферометрія наддовгої бази
+
+js-lib-abbr-vpl = вертикальний рівень захисту
+
+js-lib-abbr-wg = робоча група
+
+js-lib-areas-ground-track = Траса на поверхні
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Доступність
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Синхронізація p95
+
+js-lib-compare-timing-rms = Синхронізація RMS
+
+js-lib-counts-explorer-tally = { $validated } з { $total } можливостей перевірено за незалежним зовнішнім оракулом · { $modelled } змодельовано · { $partner } належать партнеру — показано тут як { $cards } карток можливостей у { $domains } областях, тверджень про докази: { $evidence }
+
+js-lib-counts-validated-tally = { $validated } з { $total } можливостей перевірено за незалежним зовнішнім оракулом — показано тут як { $cards } карток можливостей і тверджень про докази: { $evidence }
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = файл рушія повернув HTTP { $status }
+
+js-lib-engine-page-not-running = рушій тут не працює
+
+js-lib-engine-worker-crashed = виконавець рушія аварійно завершився
+
+js-lib-evidence-aria = Докази: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } рядок реєстру
+        [few] { $n } рядки реєстру
+        [many] { $n } рядків реєстру
+       *[other] { $n } рядка реєстру
+    }
+
+js-lib-evidence-rows-behind = Рядки реєстру, що стоять за цим результатом
+
+js-lib-geometry-url-bad-mc = Кількість вибірок Монте-Карло не належить до { $choices }; використано { $default }.
+
+js-lib-geometry-url-bad-number = «{ $key }» не є числом від { $min } до { $max }; використано типове значення.
+
+js-lib-geometry-url-bad-site = Місце не задано як широта,довгота[,висота] у припустимих межах; використано типове місце.
+
+js-lib-geometry-url-bad-sky = Скайлайн не є ні набором, ні таблицею з 360 інтервалів, ні каньйоном у припустимих межах; використано відкритий горизонт.
+
+js-lib-geometry-url-bad-sys = Список орбітальних угруповань не є G, E, C і щонайбільше одним L:<набір LEO>, відомим цьому поданню; використано типову суміш.
+
+js-lib-geometry-url-own-tle = Відправник використав власні орбітальні елементи (TLE), яких посилання не містить; натомість показано набори.
+
+js-lib-geometry-url-repeated = «{ $key }» трапляється більш ніж один раз; використано перше значення.
+
+js-lib-geometry-url-too-long = Адреса довша за { $max } символів, тому жодного з її параметрів не прочитано.
+
+js-lib-geometry-url-unreadable = Адресу не вдалося прочитати.
+
+js-lib-guided-duration-s-hint = як довго розповсюджувати трасу на поверхні
+
+js-lib-guided-duration-s-label = Тривалість (s)
+
+js-lib-guided-dut1-s-hint = зсув обертання Землі; зсуває трасу на поверхні на схід або захід
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = супутник має бути не нижче цієї висоти, щоб вважатися видимим
+
+js-lib-guided-mask-deg-label = Маска висоти (°)
+
+js-lib-guided-seed-hint = інша реалізація шуму тієї самої фізики
+
+js-lib-guided-seed-label = Зерно випадковості
+
+js-lib-guided-sigma-uere-m-hint = 1-σ еквівалентна похибка дальності користувача для підсумку положення
+
+js-lib-guided-sigma-uere-m-label = Похибка дальності σ (m)
+
+js-lib-guided-station-lat-deg-hint = широта наземної станції — визначає геометрію проходу
+
+js-lib-guided-station-lat-deg-label = Широта станції (°)
+
+js-lib-guided-station-lon-deg-hint = довгота наземної станції
+
+js-lib-guided-station-lon-deg-label = Довгота станції (°)
+
+js-lib-guided-step-s-hint = частота відліків траси на поверхні
+
+js-lib-guided-step-s-label = Крок часу (s)
+
+js-lib-guided-threshold-ns-hint = бюджет у межах специфікації; «доступно», поки похибка нижча за нього
+
+js-lib-guided-threshold-ns-label = Поріг специфікації (ns)
+
+js-lib-guided-time-duration-s-hint = загальна тривалість прогону
+
+js-lib-guided-time-duration-s-label = Тривалість (s)
+
+js-lib-guided-time-step-s-hint = частота інтегрування / відліків
+
+js-lib-guided-time-step-s-label = Крок часу (s)
+
+js-lib-guided-user-altitude-km-hint = орбітальна висота космічного апарата користувача
+
+js-lib-guided-user-altitude-km-label = Висота користувача (km)
+
+js-lib-guided-user-inclination-deg-hint = нахил орбіти користувача
+
+js-lib-guided-user-inclination-deg-label = Нахил користувача (°)
+
+js-lib-imufit-card-accel-slope = Нахил девіації Аллана акселерометра, на початку (близько -0.5 для білого шуму)
+
+js-lib-imufit-card-bias = Зміщення акселерометра, середнє (m/s²)
+
+js-lib-imufit-card-bias-instability = Нестабільність зміщення акселерометра (m/s²), 0, коли крива не має мінімуму
+
+js-lib-imufit-card-gyro-bias = Зміщення гіроскопа, середнє (rad/s)
+
+js-lib-imufit-card-gyro-slope = Нахил девіації Аллана гіроскопа, на початку (близько -0.5 для білого шуму)
+
+js-lib-imufit-card-note-n = Примітка { $n }
+
+js-lib-imufit-card-q-arw = Випадкове блукання кута гіроскопа, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Випадкове блукання швидкості акселерометра, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Частота дискретизації
+
+js-lib-imufit-card-samples = Відліки
+
+js-lib-imufit-card-span = Інтервал
+
+js-lib-jammertest-card-clean-epochs = Чисті епохи
+
+js-lib-jammertest-card-clean-hours = Чисті години
+
+js-lib-jammertest-card-detected = Виявлено в межах допуску
+
+js-lib-jammertest-card-detection-rate = Частка виявлення (будь-яка тривога)
+
+js-lib-jammertest-card-evaluable = Придатні до оцінювання
+
+js-lib-jammertest-card-fa-epochs = Епохи хибної тривоги
+
+js-lib-jammertest-card-fa-per-hour = Серії хибної тривоги за годину
+
+js-lib-jammertest-card-fa-runs = Серії хибної тривоги
+
+js-lib-jammertest-card-in-tol-rate = Виявлено в межах допуску, частка
+
+js-lib-jammertest-card-late = Із запізненням
+
+js-lib-jammertest-card-median-latency = Медіанна затримка виявлення
+
+js-lib-jammertest-card-median-recover = Медіанний час відновлення
+
+js-lib-jammertest-card-missed = Пропущено
+
+js-lib-jammertest-card-na = н/д
+
+js-lib-jammertest-card-not-assessable = У цьому журналі жоден тест не придатний до оцінювання, тому частку виявлення чи затримку навести не можна. Це результат, а не збій сторінки: тут нічого не пройдено.
+
+js-lib-jammertest-card-not-json = { $name }: це не JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: це не таблиця оцінок jammertest (потрібні tests[] і summary).
+
+js-lib-jammertest-card-tests = Тести у зрізі плану
+
+js-lib-jammertest-card-too-large = { $name }: більший за 8 MiB; ця сторінка читає таблицю оцінок не більшого розміру.
+
+js-lib-kpi-available-everywhere = доступно скрізь, у кожну епоху
+
+js-lib-kpi-available-everywhere-pdop = доступно скрізь, у кожну епоху (PDOP, геометричний чинник DOP для положення, нижче за { $thr })
+
+js-lib-kpi-drops-under = опускається нижче порога супроводження { $thr } dB-Hz: захоплення втрачено
+
+js-lib-kpi-end-of-mission = наприкінці місії
+
+js-lib-kpi-figure-tiers = Рівні показників: { $parts }.
+
+js-lib-kpi-n-modelled = { $n } змодельовано
+
+js-lib-kpi-n-partner = { $n } належать партнеру
+
+js-lib-kpi-n-validated = { $n } перевірено
+
+js-lib-kpi-no-change = без змін
+
+js-lib-kpi-no-fix = { $pct } % часу чи місць без розв'язку
+
+js-lib-kpi-no-fix-pdop = { $pct } % часу чи місць без розв'язку за PDOP нижче { $thr }
+
+js-lib-kpi-over-jump = понад поріг стрибка { $thr } m
+
+js-lib-kpi-over-pdop = понад поріг PDOP { $thr }
+
+js-lib-kpi-stays-above = лишається вище порога супроводження { $thr } dB-Hz
+
+js-lib-kpi-under-jump = нижче порога стрибка { $thr } m
+
+js-lib-kpi-under-pdop = нижче порога PDOP { $thr }
+
+js-lib-orbit3d-apogee = апогей
+
+js-lib-orbit3d-perigee = перигей
+
+js-lib-orbit3d-prov-scenario = сценарій { $hash }
+
+js-lib-orbit3d-title = Орбіта (ECI, ортографічна проєкція)
+
+js-lib-orbit3d-view-angles = азимут { $az }° · висота { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Зміщення годинника
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Положення 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Положення RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Положення σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Частота годинника σ
+
+js-lib-overlay-meta-mean-relays-in-view = Ретранслятори у полі зору
+
+js-lib-overlay-meta-pos-p95-m = Положення p95
+
+js-lib-overlay-meta-pos-rms-m = Положення RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS після підгонки
+
+js-lib-overlay-prov-scenario = сценарій { $hash }
+
+js-lib-overlay-subtitle = |похибка| (ns) залежно від часу — прогонів: { $n }
+
+js-lib-overlay-time-s = час (s)
+
+js-lib-overlay-title = Накладання: похибка часу під час перерви
+
+js-lib-packs-cannot-unpack = цей браузер не може розпакувати записаний файл
+
+js-lib-replay-demos-below-130 = Залишено лише азимути нижче 130° (заявлено)
+
+js-lib-replay-demos-coastal-drag-off = Берегове відтягування положення
+
+js-lib-replay-demos-combined-event = Комбінована подія
+
+js-lib-replay-demos-drag-off-stated = Відтягування положення (заявлено демонстрацією)
+
+js-lib-replay-demos-ferry-drag-off = Рейс порома, відтягування положення
+
+js-lib-replay-demos-ferry-drag-off-description = Вигаданий журнал порома, Таллінн — Гельсінкі, 1 Hz. З 1500 s відтягування положення відводить повідомлене положення, тоді як приймач і далі повідомляє про дійсне визначення.
+
+js-lib-replay-demos-fjord = Природна деградація у фіорді
+
+js-lib-replay-demos-masked-sky = Рейс порома, половину неба замасковано
+
+js-lib-replay-demos-masked-sky-description = Той самий журнал порома із заглушеною західною половиною неба з 600 s, вужчим небом від 900 s до 1200 s і відтягуванням положення з 1500 s: один прогін, у якому небо, сигнал і положення по черзі виходять з ладу.
+
+js-lib-replay-demos-open-sea-jamming = Глушіння у відкритому морі
+
+js-lib-replay-demos-port-approach = Спуфінг часу під час заходу в порт
+
+js-lib-replay-demos-source-training = Синтетичний сценарій { $id }: потік nmea_training рушія та журнал інструктора, оцінені його receiver-trust.
+
+js-lib-replay-demos-source-trust = Синтетичний журнал { $id }: вигаданий NMEA, оцінений receiver-trust рушія.
+
+js-lib-replay-demos-west-masked = Західну половину неба замасковано (заявлено)
+
+js-lib-replay-demos-west-masked-again = Західну половину знову замасковано (заявлено)
+
+js-lib-report-charts = Діаграми
+
+js-lib-report-eyebrow = точний момент
+
+js-lib-report-figures-of-merit = Показники якості
+
+js-lib-report-footer = Kshana { $version } · сценарій { $hash } · створено { $iso }. Відтворюється зі сценарію, зерна та версії рушія. Працює локально; нічого не завантажується.
+
+js-lib-report-not-applicable = не застосовується (атаку не налаштовано)
+
+js-lib-report-scenario-definition = Визначення сценарію (TOML)
+
+js-lib-report-th-clock = Годинник
+
+js-lib-report-th-metric = Метрика
+
+js-lib-report-th-validation = Перевірка
+
+js-lib-report-th-value = Значення
+
+js-lib-report-tier-note = Кожен показник якості позначено як { $validated } (перевірено за незалежним зовнішнім оракулом) або { $modelled } (з перших принципів, внутрішньо протестовано) — виведено з матриці верифікації.
+
+js-lib-report-title = Kshana — звіт про сценарій
+
+js-lib-skydraw-azimuth-range = азимут від { $from } до { $to } градусів
+
+js-lib-skydraw-describe = Перелічено супутників: { $listed }, із сигналом: { $heard }
+
+js-lib-skydraw-describe-mean = Перелічено супутників: { $listed }, із сигналом: { $heard }, середнє { $snr } dB-Hz
+
+js-lib-skydraw-east = Сх
+
+js-lib-skydraw-no-signal-from = немає сигналу з: { $sectors }
+
+js-lib-skydraw-none-listed = У журналі на цей момент немає жодного супутника.
+
+js-lib-skydraw-north = Пн
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: висота { $el }, азимут { $az }, сигнал { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: висота { $el }, азимут { $az }, у списку, сигналу немає
+
+js-lib-skydraw-south = Пд
+
+js-lib-skydraw-unheard-sector = Супутники в списку між азимутами { $from } і { $to } градусів, жоден із сигналом
+
+js-lib-skydraw-west = Зх
+
+js-lib-skyline-edit-describe = Скайлайн на { $blocked } із 360 градусів азимута; найвищий { $el }° на азимуті { $az }°.
+
+js-lib-skyline-edit-open = Відкритий горизонт: скайлайну немає.
+
+js-lib-stages-all-planets = Усі планети
+
+js-lib-stages-au-from-sun = { $d } au від Сонця
+
+js-lib-stages-band-carrier = Несівна { $name }, { $mhz } MHz
+
+js-lib-stages-bin-title = від { $from } до { $to }{ $unit }: прогонів — { $count }
+
+js-lib-stages-body-and-moons = { $name } і місяці
+
+js-lib-stages-cell-title = шир. { $lat }°, довг. { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Навігаційне повідомлення
+
+js-lib-stages-chain-pass = Прохід і лінія зв'язку
+
+js-lib-stages-chain-ppp = Прецизійне точкове позиціонування
+
+js-lib-stages-chain-pvt = Злите позиціонування
+
+js-lib-stages-chain-signal = Проєктування сигналу
+
+js-lib-stages-coverage-aria = { $field }: { $body }, за широтою та довготою
+
+js-lib-stages-feature-n = об'єкт { $n }
+
+js-lib-stages-flag = прапорець
+
+js-lib-stages-frequency-mhz = частота (MHz)
+
+js-lib-stages-from-to = від { $from } до { $to }
+
+js-lib-stages-geojson-aria = Експорт GeoJSON, намальований на карті
+
+js-lib-stages-histogram = Гістограма
+
+js-lib-stages-inner-planets = Внутрішні планети
+
+js-lib-stages-km-from-centre = { $d } km від центру ({ $centre })
+
+js-lib-stages-linear-scale = лінійна шкала
+
+js-lib-stages-link-light-time = { $from } — { $to }: світловий час в один бік { $time } s
+
+js-lib-stages-longitude-axis = довгота · широта вздовж боку
+
+js-lib-stages-mission-time = час місії (s)
+
+js-lib-stages-noise-floor = рівень шуму
+
+js-lib-stages-orrery-note = { $scale } · площина x-y системи відліку, вид від її північного полюса
+
+js-lib-stages-panel-n = Панель { $n }
+
+js-lib-stages-plan-view-aria = Вид зверху: { $centre } і тіла навколо, { $scale }
+
+js-lib-stages-psd-at-t = Спектральна щільність потужності за t = { $t } s
+
+js-lib-stages-psd-axis = спектральна щільність потужності (dBW/Hz)
+
+js-lib-stages-runs = прогони
+
+js-lib-stages-sat-title = { $constellation } { $id } · шир. { $lat }°, довг. { $lon }°
+
+js-lib-stages-satellites = супутники
+
+js-lib-stages-spectrum-at-t = спектр за t = { $t } s
+
+js-lib-stages-sqrt-scale = шкала відстаней за квадратним коренем
+
+js-lib-stages-the-body = тіло
+
+js-lib-stages-time-s = час (s)
+
+js-lib-stages-unit-alarm = Тривога
+
+js-lib-stages-unit-cn0 = Відношення несівної до густини шуму
+
+js-lib-stages-unit-position = Положення та захист
+
+js-lib-stages-unit-satellites = Супутники
+
+js-lib-stages-unit-time-error = Похибка часу
+
+js-lib-stages-waterfall-aria = Водоспад спектральної щільності потужності: частота по горизонталі, час донизу
+
+js-lib-stages-whole-band = Уся смуга
+
+js-lib-sweep-clock-availability = { $who }: доступність
+
+js-lib-sweep-clock-holdover = { $who }: holdover (s)
+
+js-lib-sweep-clock-timing-p95 = { $who }: синхронізація p95 (ns)
+
+js-lib-sweep-clock-timing-rms = { $who }: синхронізація RMS (ns)
+
+js-lib-sweep-max-altitude = макс. висота (km)
+
+js-lib-sweep-max-elevation = макс. висота над горизонтом (°)
+
+js-lib-sweep-max-speed = макс. швидкість (m/s)
+
+js-lib-sweep-min-altitude = мін. висота (km)
+
+js-lib-sweep-peak-doppler = пік Доплера (Hz)
+
+js-lib-sweep-prov-scenario = сценарій { $hash }
+
+js-lib-sweep-y-vs-x = { $y } залежно від { $x }
+
+js-lib-tabs-3d-orbit = 3D-орбіта
+
+js-lib-tabs-figures-of-merit = Показники якості
+
+js-lib-tabs-stability = Стабільність
+
+js-lib-tabs-sweep = Перебір
+
+js-lib-tabs-time-series = Часовий ряд
+
+js-lib-tour-ashforde-body = Дякуємо, що досліджуєте Kshana. Ми створюємо відкриту, відтворювану інженерію, що ставить докази на перше місце, для місій, які не можуть зазнати невдачі, і чесно говоримо про те, що перевірено, а що змодельовано. Запитання, співпраця чи дослідження? Пишіть нам на contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Від Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Оберіть вкладку області — Орбіти, Синхронізація, Інерційні, GNSS, Стійкість, Місяць, AI/ML, Сумісність — щоб побачити її можливості, кожна з позначкою «Перевірено» або «Змодельовано», і кнопку запуску ▸ для робочих сценаріїв. Відкрийте «Докази та походження» в будь-якій області, щоб простежити підтвердження, або ввімкніть «Лише перевірені», щоб побачити тільки те, що перевірено за зовнішнім оракулом.
+
+js-lib-tour-capabilities-title = Досліджуйте рушій по одній області
+
+js-lib-tour-cite-body = Kshana створено, щоб на неї посилатися: цитований випуск програмного забезпечення з DOI, а також статті в рецензованому стилі про розрив оптимізму щодо RF-завад і умовний рівень захисту часу. Скопіюйте цитату прямо звідси.
+
+js-lib-tour-cite-title = Публікації та як цитувати
+
+js-lib-tour-download-report-body = Вкладка «Перебір» змінює один параметр у діапазоні; «Закріпити для порівняння» накладає два чи більше прогонів поруч із Δ між ними (працює для різних типів сценаріїв — годинник, Mars-PNT, позиціонування…); а ця кнопка завантажує прогін як автономний офлайновий звіт HTML.
+
+js-lib-tour-download-report-title = Перебір, порівняння та експорт
+
+js-lib-tour-guided-body = Керовані регулятори пристосовуються до сценарію — зерно, поріг специфікації, тривалість, маска висоти, висота орбіти — і кожна зміна миттєво запускає прогін заново.
+
+js-lib-tour-guided-title = Налаштуйте повзунки
+
+js-lib-tour-mcp-body = Сервер MCP дає змогу асистентам ШІ запускати перевірений рушій замість того, щоб гадати; плагін JetBrains запускає сценарії клацанням правою кнопкою.
+
+js-lib-tour-mcp-title = Користуйтеся з агента ШІ чи вашого IDE
+
+js-lib-tour-playground-body = Виберіть сценарій зі списку — або натисніть ▸ на будь-якій можливості вище — і рушій запуститься як WebAssembly на вашому комп'ютері. Нічого не завантажується.
+
+js-lib-tour-playground-title = Запустіть у браузері
+
+js-lib-tour-run-body = Запустіть поточний сценарій. Відкрийте «Розширене», щоб редагувати TOML і змінювати що завгодно; «Скопіювати посилання» відтворює саме цей прогін для когось іншого.
+
+js-lib-tour-run-title = Запустіть
+
+js-lib-tour-tabs-body = Перемикайтеся між показниками якості, діаграмою часового ряду, стабільністю годинника (девіація Аллана) і — для прогонів орбіт — інтерактивним 3D-поданням орбіти.
+
+js-lib-tour-tabs-title = Читайте результати
+
+js-lib-tour-validation-body = Цей самий оглядач є також реєстром доказів: кожна область має панель «Докази та походження» — показник, зовнішній оракул, за яким його перевірено, і чесний статус «Перевірено» / «Змодельовано» для кожного твердження. «Лише перевірені» відфільтровує рядки, перевірені за наборами даних.
+
+js-lib-tour-validation-title = Докази, а не прикметники
+
+js-lib-views-3-sigma-bound = межа 3 сигма
+
+js-lib-views-3d-position-error = 3D-похибка положення
+
+js-lib-views-a-parameter = параметр
+
+js-lib-views-band-runs = Смуга похибки часу за { $runs } прогонами Монте-Карло
+
+js-lib-views-band-the-runs = Смуга похибки часу за прогонами Монте-Карло
+
+js-lib-views-below-tracking = нижче порога супроводження
+
+js-lib-views-chart = діаграма
+
+js-lib-views-classical = класичний
+
+js-lib-views-epoch = епоха
+
+js-lib-views-four-needed = для розв'язку потрібно 4
+
+js-lib-views-free-inertial = вільна інерційна навігація
+
+js-lib-views-gnss-denied = GNSS недоступна
+
+js-lib-views-ground-track = Траса на поверхні
+
+js-lib-views-heatmap-effective = Ефективне відношення несівної до густини шуму за супутниками та часом
+
+js-lib-views-heatmap-nominal = Номінальне (без глушника) відношення несівної до густини шуму за супутниками та часом
+
+js-lib-views-horizontal-alert-limit = горизонтальна межа тривоги
+
+js-lib-views-horizontal-hpl = горизонтальний (HPL)
+
+js-lib-views-id-bound = { $id }: межа
+
+js-lib-views-id-median = { $id }: медіана
+
+js-lib-views-id-offset = { $id }: зсув
+
+js-lib-views-id-p95 = { $id }: p95
+
+js-lib-views-map-matched = зіставлення з картою
+
+js-lib-views-map-matched-title = Зіставлення з картою порівняно з похибкою положення вільної інерційної навігації
+
+js-lib-views-metric = метрика
+
+js-lib-views-oscillator = генератор
+
+js-lib-views-oscillator-source = генератор ({ $source })
+
+js-lib-views-position-error-axis = похибка положення ({ $unit })
+
+js-lib-views-position-error-m = похибка положення (m)
+
+js-lib-views-position-error-run = Похибка положення протягом прогону
+
+js-lib-views-position-m = положення (m)
+
+js-lib-views-predicted-time-error = Прогнозована похибка часу від останнього розв'язку
+
+js-lib-views-protection-level-m = рівень захисту (m)
+
+js-lib-views-protection-levels = Рівні захисту відносно межі тривоги
+
+js-lib-views-quantum = квант
+
+js-lib-views-relay-error-bound = Похибка положення за навігацією через ретранслятори та її межа 3 сигма
+
+js-lib-views-satellites = супутники
+
+js-lib-views-satellites-tracking = Видимі супутники, що ще супроводжуються
+
+js-lib-views-shaded-gnss-denied = затінено: GNSS недоступна
+
+js-lib-views-slot-guard = захисний інтервал слота
+
+js-lib-views-spoofed-offset = Спуфінговий зсув часу відносно межі виявлення
+
+js-lib-views-sweep-of = Перебір, параметр { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = похибка синхронізації ({ $unit })
+
+js-lib-views-sync-error-run = Похибка синхронізації протягом прогону
+
+js-lib-views-threshold = поріг
+
+js-lib-views-time-error-ns = похибка часу (ns)
+
+js-lib-views-time-ns = час (ns)
+
+js-lib-views-time-s = час (s)
+
+js-lib-views-time-since-fix = час від останнього розв'язку (s)
+
+js-lib-views-timing-error-axis = похибка синхронізації часу ({ $unit })
+
+js-lib-views-timing-error-run = Похибка синхронізації часу протягом прогону
+
+js-lib-views-tracking = супроводження
+
+js-lib-views-value = значення
+
+js-lib-views-vertical-vpl = вертикальний (VPL)
+
+js-lib-views-visible = видимі
+
+js-lib-views-word-enbw = еквівалентна шумова смуга
+
+js-lib-views-word-nfft = довжина FFT
+
+js-lib-views-word-stec = похилий TEC
+
+js-lib-views-word-toa = час прибуття
+
+js-lib-views-word-ttff = час до першого розв'язку
+
+js-lib-views-word-tx = передавання
+
+js-lib-views-word-zwd = зенітна волога затримка
+
+js-lunar-address-outside-range = { $label }: «{ $raw }» виходить за межі від { $min } до { $max }; використано значення з файлу.
+
+js-lunar-address-too-long = Адреса була задовга; показано типові значення.
+
+js-lunar-address-unknown-source = Невідоме джерело в адресі; показано запис.
+
+js-lunar-alert-limit = межа тривоги { $value } (ілюстративна)
+
+js-lunar-alert-not-stated = межу тривоги не вказано
+
+js-lunar-bearing-east = 90° Сх
+
+js-lunar-bearing-west = 90° Зх
+
+js-lunar-cell-title = { $lat }°, { $lon }°: скоригована { $corrected }, доступність { $availability }, покриття { $coverage }
+
+js-lunar-copy-address = Скопіюйте адресу з адресного рядка.
+
+js-lunar-counts = Супутників: { $sats }, точок сітки: { $points }, епох: { $epochs }, випробувань Монте-Карло на епоху: { $trials }. Позначка: { $label }.
+
+js-lunar-engine-no-start = Рушій не вдалося запустити в цьому браузері ({ $reason }). Натомість відкрийте файл результату.
+
+js-lunar-engine-unknown-kind = Цей рушій ({ $version }) не знає різновиду { $kind }; потрібен рушій 0.36.
+
+js-lunar-fig-availability-region = Доступність у районі
+
+js-lunar-fig-corrected-3d = Скоригована похибка, { $n } %, 3D
+
+js-lunar-fig-coverage = Покриття
+
+js-lunar-fig-epochs-within = епох у межах { $value }
+
+js-lunar-fig-horizontal-vertical = горизонтальна { $h }, вертикальна { $v }
+
+js-lunar-fig-hpl-below-alert = HPL нижче межі тривоги
+
+js-lunar-fig-hpl-vpl = HPL, VPL не більше ніж
+
+js-lunar-fig-improvement = Коефіцієнт покращення
+
+js-lunar-fig-lowest-point = Найнижче в точці
+
+js-lunar-fig-points-always-available = Точки, доступні в кожну епоху
+
+js-lunar-fig-uncorrected-3d = Нескоригована похибка, { $n } %, 3D
+
+js-lunar-fig-worst-point = Найгірша точка
+
+js-lunar-file-not-json = Цей файл не є JSON.
+
+js-lunar-file-not-object = Цей файл не є об'єктом JSON.
+
+js-lunar-file-too-large = { $name }: більший за 32 MiB; ця сторінка читає файли результатів не більших за цей розмір.
+
+js-lunar-file-value = файл: { $value }
+
+js-lunar-full-of-total = { $full } із { $total }
+
+js-lunar-give-value = { $label }: вкажіть значення від { $min } до { $max }.
+
+js-lunar-give-whole-value = { $label }: вкажіть значення від { $min } до { $max } (ціле число).
+
+js-lunar-honesty-affiliation = Не пов'язано з жодним агентством і не схвалено жодним агентством.
+
+js-lunar-honesty-assumptions = За заявлених публічних припущень; це не твердження про характеристики жодної реальної системи.
+
+js-lunar-in-grid-spacing = Крок кілець сітки, градуси
+
+js-lunar-in-latency = Затримка поправки, секунди
+
+js-lunar-in-seed = Зерно
+
+js-lunar-in-station-lat = Широта станції, градуси
+
+js-lunar-in-station-lon = Довгота станції, градуси
+
+js-lunar-in-survey-error = Похибка зйомки станції (1 сигма), метри
+
+js-lunar-in-threshold = Поріг точності, метри
+
+js-lunar-in-time-step = Крок часу, секунди
+
+js-lunar-in-trials = Випробувань Монте-Карло на епоху
+
+js-lunar-input-out-of-range = { $label } виходить за допустимі межі.
+
+js-lunar-json-field-not-json = Поле json у файлі не є JSON.
+
+js-lunar-key-50-or-more = 50 % або більше
+
+js-lunar-key-90-or-more = 90 % або більше
+
+js-lunar-key-95-or-more = 95 % або більше
+
+js-lunar-key-99-or-more = 99 % або більше
+
+js-lunar-key-above = понад { $value }
+
+js-lunar-key-above-threshold = понад { $value } × поріг
+
+js-lunar-key-below-50 = нижче 50 %
+
+js-lunar-key-between = від { $from } до { $to }
+
+js-lunar-key-between-threshold = від { $from } до { $to } × поріг
+
+js-lunar-key-up-to = до { $value }
+
+js-lunar-key-up-to-threshold = до { $value } × поріг
+
+js-lunar-layer-availability = доступність
+
+js-lunar-layer-coverage = покриття
+
+js-lunar-layer-error = скоригована похибка
+
+js-lunar-layer-range = скоригована похибка за власним діапазоном
+
+js-lunar-legend-no-figure = показника немає (недоступно протягом усього часу)
+
+js-lunar-legend-radius = радіус покриття
+
+js-lunar-legend-threshold = поріг, { $value }
+
+js-lunar-legend-worst = найгірша точка
+
+js-lunar-link-copied = Посилання скопійовано.
+
+js-lunar-map-desc = Точок сітки: { $points } — від полюса до широти { $rim }°. Для { $meet } із них скоригована похибка (процентиль { $percentile }) лежить у межах порога { $threshold }. Колір за: { $layer }. Станція на { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % точок потрапляють в одну смугу шкали порога, тому карта майже не показує змін: розфарбуйте за «власним діапазоном», щоб побачити, як похибка змінюється по району.
+
+js-lunar-needs-newer-engine = Це дослідження потребує рушія { $need } або новішого; тут працює рушій v{ $version }. Запис або файл результату все одно можна показати.
+
+js-lunar-no = ні
+
+js-lunar-no-recording = Запис цього дослідження ще не постачається: його створюють під час випуску з рушієм 0.36. Запустіть його тут із рушієм, що має цей різновид, або відкрийте файл результату.
+
+js-lunar-no-scenario = На цьому сайті ще немає { $file }: він з'явиться з рушієм 0.36. Натомість відкрийте файл результату.
+
+js-lunar-no-scenario-note = На цьому сайті ще немає { $file } (він з'явиться з рушієм 0.36), тому прогін тут неможливий; натомість відкрийте файл результату.
+
+js-lunar-not-report = Це не звіт { $kind }.
+
+js-lunar-not-stated = не вказано
+
+js-lunar-note-none = Файл не містить примітки.
+
+js-lunar-note-withheld = У власному твердженні файлу названо програму чи агентство, тому ця сторінка його не показує; діє твердження вгорі сторінки.
+
+js-lunar-point-epochs-reason = point-epochs: { $reason }
+
+js-lunar-radius-desc = Радіус покриття (азимутів: { $count }): найкоротший { $lo } km на { $loAz }°, найдовший { $hi } km на { $hiAz }°.
+
+js-lunar-radius-desc-limited = Азимутів, на яких покриття сягає краю сітки: { $count }; покриття там простягається щонайменше так далеко.
+
+js-lunar-radius-hollow = Порожні точки сягають краю сітки: покриття тримається щонайменше так далеко в цьому напрямі.
+
+js-lunar-radius-none = У звіті не вказано радіуса покриття.
+
+js-lunar-radius-per-azimuth = радіус покриття за азимутами
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (сягає краю сітки: щонайменше так далеко)
+
+js-lunar-radius-zero = У кожному напрямі покриття нижче 95 % уже на станції, тому радіус дорівнює 0 km: скоригована похибка там перевищує поріг { $value }.
+
+js-lunar-reason-station-missing = станція не бачить кожного супутника, якого використовує користувач
+
+js-lunar-reason-user-lt4 = у полі зору користувача менше чотирьох супутників
+
+js-lunar-run-stopped = Прогін зупинено: { $message }
+
+js-lunar-running = Дослідження виконується в цьому браузері…
+
+js-lunar-running-elapsed = Дослідження виконується в цьому браузері… { $seconds } s
+
+js-lunar-scenario-missing-keys = У файлі сценарію немає { $keys }; його не можна змінити тут.
+
+js-lunar-set-inputs = Задайте вхідні дані й натисніть «Запустити тут».
+
+js-lunar-showing = Показано: { $what }.
+
+js-lunar-showing-engine = Показано: { $what } (рушій { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = станція
+
+js-lunar-station-title = станція { $lat }°, { $lon }°
+
+js-lunar-table-count = Точок: { $n }, спершу найближчі до станції.
+
+js-lunar-th-corrected = Скоригована похибка, { $n } %
+
+js-lunar-threshold-title = скоригована похибка { $value } (поріг)
+
+js-lunar-what-file = файл { $name }
+
+js-lunar-what-recording = запис, що постачається зі Studio
+
+js-lunar-what-run = прогін у цьому браузері (рушій { $version })
+
+js-lunar-worst-at = на { $lat }°, { $lon }°
+
+js-lunar-worst-title = найгірша точка { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = так: щонайменше так далеко
+
+js-lunarinfra-above-95-point = вище точки 95 %
+
+js-lunarinfra-advisory = Консультативне програмне забезпечення, не обладнання із затвердженням типу; жодного шляху передавання.
+
+js-lunarinfra-arc-note = Довжина хвилі несівної { $value } m.
+
+js-lunarinfra-arc-title = Кожна дуга
+
+js-lunarinfra-bars-not-loaded = файл порогів не завантажився
+
+js-lunarinfra-bars-not-shown = Попередньо зареєстровані пороги не вдалося показати ({ $reason }).
+
+js-lunarinfra-bars-note = Зафіксовано до оцінювання будь-якого дослідження, із вердиктами в протоколі (коміт рушія { $commit }). Ніщо не є VALIDATED; поріг із позначкою NOT MET закріплено тестом, що стверджує невдачу, і жоден поріг не було послаблено.
+
+js-lunarinfra-bars-title = Щодо попередньо зареєстрованих порогів
+
+js-lunarinfra-bars-wrong-file = файл порогів не той, який читає ця сторінка
+
+js-lunarinfra-blurb-carrier-phase = Поверхнева станція й орбітальний апарат, що використовують подвійно-різницеву фазу несівної сигналів Earth-GNSS: чи можна зафіксувати цілочисельні неоднозначності і що це дає для межі положення? Швидкий приклад прогону.
+
+js-lunarinfra-blurb-frame-coestimation = Сім параметрів місячної опорної величини за лазерною локацією із земних станцій, із діапазонами «орбітальний апарат — поверхнева станція» та без них: наскільки покращується інформація?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Наскільки чутливі лазерна локація, відстеження орбітального апарата, гравіметр і поверхневий годинник до приливних чисел Лява Місяця h2, k2 і l2 та його фізичної лібрації?
+
+js-lunarinfra-blurb-od-consistency = Бортове визначення орбіти за Earth-GNSS на майже прямолінійній гало-орбіті порівняно з незалежним наземним радіометричним розв'язком тієї самої дуги: чи збігаються вони в межах заявлених невизначеностей і чи помічає перевірка узгодженості похибку моделювання, коли її вносять? Показано поруч.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI і лазерна локація на одному космічному апараті: наскільки точно можна прив'язати зсуви між трьома методами порівняно з похибкою локальної прив'язки на космічному апараті?
+
+js-lunarinfra-bound-label = Невизначеність положення, плаваюча та фіксована, логарифмічна шкала
+
+js-lunarinfra-bound-note = Односигмова невизначеність положення станції та орбітального апарата із залишеними плаваючими неоднозначностями та з зафіксованими (що дала б фіксація, якби її досягли).
+
+js-lunarinfra-bound-title = Межа положення, плаваюча та фіксована
+
+js-lunarinfra-chip-na = н/д
+
+js-lunarinfra-comp-normal = нормальна
+
+js-lunarinfra-comp-position = положення (3D)
+
+js-lunarinfra-comp-radial = радіальна
+
+js-lunarinfra-comp-transverse = поперечна
+
+js-lunarinfra-compare-note = На { $sets } випадкових наборах станцій найменше власне значення не було меншим за наявності ліній орбітального апарата: { $lambda }, а слід не був більшим: { $trace }; медіанне зростання найменшого власного значення — множник { $median }.
+
+js-lunarinfra-compare-title = Порівняння в числах
+
+js-lunarinfra-crsigma-label = Сигма Крамера — Рао, логарифмічна шкала
+
+js-lunarinfra-crsigma-note = У метрах на поверхні.
+
+js-lunarinfra-crsigma-title = Сигма Крамера — Рао за параметрами
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } день
+        [few] { $n } дні
+        [many] { $n } днів
+       *[other] { $n } дня
+    }
+
+js-lunarinfra-direction = напрям { $n }
+
+js-lunarinfra-disclosures = Застереження
+
+js-lunarinfra-eig-label = Власні значення інформації, логарифмічна шкала
+
+js-lunarinfra-eig-note = Сім власних значень інформаційної матриці, спершу найменше, без ліній «орбітальний апарат — станція» та з ними. Найменше значення зростає з множником { $times }, а слід Крамера — Рао падає до { $share } свого значення. Це припускає, що орбіта відома в місячних осях (її похибка враховується сигмою дальності орбітального апарата).
+
+js-lunarinfra-eig-title = Інформація в кожному напрямі опорної величини
+
+js-lunarinfra-fact-arc = Дуга
+
+js-lunarinfra-fact-hash = Хеш сценарію
+
+js-lunarinfra-fact-llr-rows = Рядки лазерної локації
+
+js-lunarinfra-fact-orbit-family = Сімейство орбіт
+
+js-lunarinfra-fact-orbiter-arc = Дуга орбітального апарата
+
+js-lunarinfra-fact-orbiter-rows = Рядки орбітального апарата
+
+js-lunarinfra-fact-study = Дослідження
+
+js-lunarinfra-fact-wavelength = Довжина хвилі несівної
+
+js-lunarinfra-families-note = RMS часткової похідної кожного параметра за рядками сімейства та кількість рядків. Нуль означає параметр, до якого це сімейство сліпе. Чутливість сімейства орбітального апарата до k2 — це оцінка верхньої межі.
+
+js-lunarinfra-families-title = Що бачить кожне сімейство
+
+js-lunarinfra-findings = Висновки
+
+js-lunarinfra-fix-note-a = Частка випробувань Монте-Карло, у яких усі цілочисельні неоднозначності зафіксовано правильно (зі стандартною похибкою), і частка, яку передбачає оцінка, отримана бутстрепом.
+
+js-lunarinfra-fix-note-b = Фіксації цілих значень за цих вхідних даних НЕ досягнуто: найкраща дуга фіксує { $share } випробувань.
+
+js-lunarinfra-fix-note-c = Немає часу до фіксації, який можна було б показати, бо фіксації не досягнуто.
+
+js-lunarinfra-fix-rate-label = Частка фіксації цілих значень залежно від довжини дуги
+
+js-lunarinfra-fix-title = Частка фіксації залежно від довжини дуги
+
+js-lunarinfra-fixed = фіксовані
+
+js-lunarinfra-float = плаваючі
+
+js-lunarinfra-fraction-above-95 = Частка випробувань вище точки 95 %
+
+js-lunarinfra-ground-radiometric = незалежний наземний радіометричний
+
+js-lunarinfra-injected-error = уведена похибка { $value } m/s²
+
+js-lunarinfra-mean-consistency = Середня статистика узгодженості
+
+js-lunarinfra-mean-q = середнє q
+
+js-lunarinfra-miss-line = { $id } має статус { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Фіксації цілочисельних неоднозначностей за цих вхідних даних НЕ досягнуто: найкраща дуга фіксує { $share } випробувань Монте-Карло.
+
+js-lunarinfra-na = н/д
+
+js-lunarinfra-nominal = номінальне
+
+js-lunarinfra-not-result = це не результат для місячної інфраструктури
+
+js-lunarinfra-not-verified = Не перевірено
+
+js-lunarinfra-offset-precision-label = Точність зсуву залежно від локальної прив'язки, лог-лог
+
+js-lunarinfra-offsets-note = Сигма зсуву за віссю, сигма масштабу та повороту на поверхні, у метрах.
+
+js-lunarinfra-offsets-title = Зсуви за кожної похибки прив'язки (дуга { $days } d, епох: { $epochs })
+
+js-lunarinfra-onboard-gnss = бортова Earth-GNSS
+
+js-lunarinfra-open-failed = Не вдалося відкрити { $title }: { $reason }.
+
+js-lunarinfra-opening = Відкриття { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Невизначеність орбіти за складовими, логарифмічна шкала
+
+js-lunarinfra-orbiter-days = орбітальний апарат, { $days } d
+
+js-lunarinfra-q-note = Середнє статистики узгодженості q за { $trials } випробуваннями; { $expected } — це те, що дає узгоджена пара розв'язків. Частка випробувань вище точки 95 % — це частка виявлення перевіркою.
+
+js-lunarinfra-q-title = Перевірка узгодженості, номінальна проти уведеної похибки
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: записаний результат рушія (версія { $version }).
+        [few] { $title }: записані результати рушія (версія { $version }).
+        [many] { $title }: записані результати рушія (версія { $version }).
+       *[other] { $title }: записані результати рушія (версія { $version }).
+    }
+
+js-lunarinfra-rel-label = Сигма відносно номіналу, логарифмічна шкала
+
+js-lunarinfra-rel-note = Сигма Крамера — Рао у відсотках від номінального значення, з усіма чотирма сімействами разом. h2 і l2 — це точки лінеаризації, а не перевірені значення; k2 узято з опублікованої підгонки.
+
+js-lunarinfra-rel-title = Наскільки добре можна визначити кожен параметр відносно його номінального значення
+
+js-lunarinfra-result-not-json = результат не є JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = записаний результат { $file } не завантажився
+
+js-lunarinfra-row-above-95 = Випробування вище точки 95 % (хі-квадрат 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Слід Крамера — Рао
+
+js-lunarinfra-row-degeneracy = Метрика виродженості
+
+js-lunarinfra-row-formal-diff = Формальна сигма цієї різниці
+
+js-lunarinfra-row-ground-meas = Земля: вимірювання, епохи зі станцією
+
+js-lunarinfra-row-mean-diff = Середня різниця двох орбіт
+
+js-lunarinfra-row-mean-q = Середнє q (очікується 6)
+
+js-lunarinfra-row-observations = Спостереження
+
+js-lunarinfra-row-onboard-epochs = Борт: епохи з одним чи більше / чотирма чи більше супутниками
+
+js-lunarinfra-row-onboard-meas = Борт: вимірювання, середня кількість супутників у супроводженні
+
+js-lunarinfra-row-origin-scale = Кореляція початку відліку та масштабу
+
+js-lunarinfra-row-origin-sigma = Сигма початку відліку, m
+
+js-lunarinfra-row-rank-defect = Ранг (дефект)
+
+js-lunarinfra-row-smallest-eig = Найменше власне значення
+
+js-lunarinfra-row-trace-ground = Вибірковий слід до формального, земля
+
+js-lunarinfra-row-trace-onboard = Вибірковий слід до формального, борт
+
+js-lunarinfra-row-within-95 = Випробування в межах точки 95 %
+
+js-lunarinfra-series-bootstrapped = бутстреп
+
+js-lunarinfra-series-floor = нижня межа
+
+js-lunarinfra-series-monte-carlo = Монте-Карло
+
+js-lunarinfra-side-note = Орбіта: { $family }, дуга { $arc } d орбіти з періодом { $period } d, відліки кожні { $sample } s.
+
+js-lunarinfra-side-title = Поруч
+
+js-lunarinfra-sigma-note = Односигмова невизначеність положення за складовими, у метрах, за двома оцінками тієї самої дуги.
+
+js-lunarinfra-sigma-over-nominal = сигма / номінал
+
+js-lunarinfra-sigma-title = Наскільки добре кожна сторона знає орбіту
+
+js-lunarinfra-station-days = станція, { $days } d
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Додавання сімейства жодного разу не зменшило найменшого власного значення (випадків додавання: { $pairs }, без зменшення: { $lambda }), але слід псевдооберненої матриці не збільшився лише у випадках: { $trace } із { $pairs }, оскільки додане сімейство може підвищити ранг.
+
+js-lunarinfra-subsets-title = Кожна комбінація сімейств
+
+js-lunarinfra-sweep-note = Найгірша складова перенесення кожного зсуву, у метрах, коли перебирають похибку прив'язки між трьома методами на космічному апараті. За зареєстрованих сигм методів (GNSS { $gnss } m, VLBI { $vlbi } m, лазер { $slr } m) зсуви обмежені шумом вимірювань, а не прив'язкою; прив'язка задає нижню межу лише для майже досконалих методів.
+
+js-lunarinfra-sweep-title = Точність зсувів методів залежно від локальної прив'язки (дуга { $days } d)
+
+js-lunarinfra-th-arc-days = Дуга, доби
+
+js-lunarinfra-th-bar = Поріг
+
+js-lunarinfra-th-bootstrapped = Частка за бутстрепом
+
+js-lunarinfra-th-budget-exhausted = Бюджет пошуку вичерпано (випробувань)
+
+js-lunarinfra-th-common-sats = Епохи з 2 чи більше спільними супутниками
+
+js-lunarinfra-th-crtrace = Слід Крамера — Рао
+
+js-lunarinfra-th-dd-ambiguities = Подвійно-різницеві неоднозначності
+
+js-lunarinfra-th-epochs = Епохи
+
+js-lunarinfra-th-families = Сімейства
+
+js-lunarinfra-th-family = Сімейство
+
+js-lunarinfra-th-local-tie = Сигма локальної прив'язки, m
+
+js-lunarinfra-th-mc-fix-rate = Частка фіксації за Монте-Карло
+
+js-lunarinfra-th-median-ambiguity = Медіанна сигма неоднозначності, цикли
+
+js-lunarinfra-th-offset = Зсув
+
+js-lunarinfra-th-quantity = Величина
+
+js-lunarinfra-th-rank = Ранг
+
+js-lunarinfra-th-rotation = Поворот на поверхні, m
+
+js-lunarinfra-th-rows = Рядки
+
+js-lunarinfra-th-scale = Масштаб на поверхні, m
+
+js-lunarinfra-th-smallest-eig = Найменше власне значення
+
+js-lunarinfra-th-translation = Перенесення x, y, z, m
+
+js-lunarinfra-th-value = Значення
+
+js-lunarinfra-th-verdict = Вердикт
+
+js-lunarinfra-th-with-links = З лініями орбітального апарата
+
+js-lunarinfra-th-without-links = Без ліній орбітального апарата
+
+js-lunarinfra-title-carrier-phase = Фаза несівної, поверхня та орбітальний апарат
+
+js-lunarinfra-title-frame-coestimation = Спільне оцінювання системи відліку
+
+js-lunarinfra-title-geodesy-sensitivity = Числа Лява та лібрація
+
+js-lunarinfra-title-od-consistency = Узгодженість визначення орбіти
+
+js-lunarinfra-title-space-tie = Космічна прив'язка
+
+js-lunarinfra-unknown-study = цей результат для місячної інфраструктури належить до дослідження «{ $study }», якого ця сторінка не читає
+
+js-lunarinfra-where-missed = Де це дослідження не досягло порогів.
+
+js-lunarinfra-with-links = з лініями орбітального апарата
+
+js-lunarinfra-without-links = без ліній орбітального апарата
+
+js-lunarinfra-x-arc-length = довжина дуги, доби
+
+js-lunarinfra-x-local-tie = сигма локальної прив'язки, m (log)
+
+js-lunarinfra-y-fixed-correctly = зафіксовано правильно, %
+
+js-lunarinfra-y-offset-sigma = сигма зсуву, m (log); штрихова нижня межа — це лише прив'язка, sqrt(2) × похибка прив'язки
+
+js-meaning-body-generic = тіло
+
+js-meaning-body-the = { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of =
+    { $n ->
+        [one] { $av } з { $n } перевірки
+        [few] { $av } з { $n } перевірок
+        [many] { $av } з { $n } перевірок
+       *[other] { $av } з { $n } перевірки
+    }
+
+js-meaning-coverage-average-label = У середньому у полі зору
+
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Щонайменше { $n } супутник у полі зору в кожному місці, у середньому { $mean }.
+        [few] Щонайменше { $n } супутники у полі зору в кожному місці, у середньому { $mean }.
+        [many] Щонайменше { $n } супутників у полі зору в кожному місці, у середньому { $mean }.
+       *[other] Щонайменше { $n } супутника у полі зору в кожному місці, у середньому { $mean }.
+    }
+
+js-meaning-coverage-big-none = Деякі місця подекуди не бачать жодного супутника; у середньому у полі зору: { $mean }.
+
+js-meaning-coverage-fewest-label = Найменше у полі зору, будь-де
+
+js-meaning-coverage-line-many = З { $names } разом визначення положення можливе у { $share } % місць і моментів (центральне тіло: { $body }).
+
+js-meaning-coverage-line-many-pdop = З { $names } разом визначення положення можливе у { $share } % місць і моментів (центральне тіло: { $body }; якість геометрії, PDOP, нижче { $thr }).
+
+js-meaning-coverage-line-none = Визначення положення можливе у { $share } % місць і моментів (центральне тіло: { $body }).
+
+js-meaning-coverage-line-none-pdop = Визначення положення можливе у { $share } % місць і моментів (центральне тіло: { $body }; якість геометрії, PDOP, нижче { $thr }).
+
+js-meaning-coverage-line-one = З { $names } визначення положення можливе у { $share } % місць і моментів (центральне тіло: { $body }).
+
+js-meaning-coverage-line-one-pdop = З { $names } визначення положення можливе у { $share } % місць і моментів (центральне тіло: { $body }; якість геометрії, PDOP, нижче { $thr }).
+
+js-meaning-coverage-places-label = Місця, що отримують розв'язок
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } доба
+        [few] { $days } доби
+        [many] { $days } діб
+       *[other] { $days } доби
+    }
+
+js-meaning-ensemble-big-many = За багатьма реалізаціями шуму { $q } утримує { $thr } ns у середньому протягом { $qd }; { $c } — протягом { $cd }.
+
+js-meaning-ensemble-big-runs = За реалізаціями шуму (їх { $n }) { $q } утримує { $thr } ns у середньому протягом { $qd }; { $c } — протягом { $cd }.
+
+js-meaning-ensemble-line = Дев'ять реалізацій із десяти для { $name } тримаються від { $band }.
+
+js-meaning-ensemble-mean = середнє
+
+js-meaning-ensemble-mean-band = середнє; смуга 90 %: { $band }
+
+js-meaning-error-p95-label = Похибка, 95 % часу, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Також із цього прогону: { $a }.
+
+js-meaning-generic-line-two = Також із цього прогону: { $a } і { $b }.
+
+js-meaning-generic-none = Цей прогін не має єдиного головного показника; діаграма нижче показує його результат.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = горизонтальний рівень захисту
+
+js-meaning-inside-budget = у межах { $budget }
+
+js-meaning-integrity-big-checks-mostly = Так, переважно: у { $share } % перевірок.
+
+js-meaning-integrity-big-checks-no = Ні: у { $share } % перевірок.
+
+js-meaning-integrity-big-checks-partly = Лише частково: у { $share } % перевірок.
+
+js-meaning-integrity-big-checks-yes = Так: у { $share } % перевірок.
+
+js-meaning-integrity-big-span-mostly = Так, переважно: протягом { $share } % ({ $span }).
+
+js-meaning-integrity-big-span-no = Ні: протягом { $share } % ({ $span }).
+
+js-meaning-integrity-big-span-partly = Лише частково: протягом { $share } % ({ $span }).
+
+js-meaning-integrity-big-span-yes = Так: протягом { $share } % ({ $span }).
+
+js-meaning-integrity-bound-label = Типова межа похибки
+
+js-meaning-integrity-bound-sub = горизонтальна / вертикальна, медіана
+
+js-meaning-integrity-gap-all-passed = усі перевірки пройдено
+
+js-meaning-integrity-gap-label = Найдовша прогалина
+
+js-meaning-integrity-gap-none = немає
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } перевірка поспіль, від { $from }
+        [few] { $n } перевірки поспіль, від { $from }
+        [many] { $n } перевірок поспіль, від { $from }
+       *[other] { $n } перевірки поспіль, від { $from }
+    }
+
+js-meaning-integrity-line-h = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $h } m горизонтально) у { $av } із { $n ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }.
+
+js-meaning-integrity-line-h-clean = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $h } m горизонтально) у { $av } із { $n ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }, і жоден розв'язок не вводив в оману.
+
+js-meaning-integrity-line-h-some = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $h } m горизонтально) у { $av } із { $tot ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }; розв'язків, що вводили в оману: { $n }.
+
+js-meaning-integrity-line-hv = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $h } m горизонтально і { $v } m вертикально) у { $av } із { $n ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }.
+
+js-meaning-integrity-line-hv-clean = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $h } m горизонтально і { $v } m вертикально) у { $av } із { $n ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }, і жоден розв'язок не вводив в оману.
+
+js-meaning-integrity-line-hv-some = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $h } m горизонтально і { $v } m вертикально) у { $av } із { $tot ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }; розв'язків, що вводили в оману: { $n }.
+
+js-meaning-integrity-line-none = Межа похибки приймача (його рівень захисту) залишалася нижче межі тривоги у { $av } із { $n ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }.
+
+js-meaning-integrity-line-none-clean = Межа похибки приймача (його рівень захисту) залишалася нижче межі тривоги у { $av } із { $n ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }, і жоден розв'язок не вводив в оману.
+
+js-meaning-integrity-line-none-some = Межа похибки приймача (його рівень захисту) залишалася нижче межі тривоги у { $av } із { $tot ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }; розв'язків, що вводили в оману: { $n }.
+
+js-meaning-integrity-line-v = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $v } m вертикально) у { $av } із { $n ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }.
+
+js-meaning-integrity-line-v-clean = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $v } m вертикально) у { $av } із { $n ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }, і жоден розв'язок не вводив в оману.
+
+js-meaning-integrity-line-v-some = Межа похибки приймача (його рівень захисту) залишалася нижче меж тривоги ({ $v } m вертикально) у { $av } із { $tot ->
+        [one] { $tot } перевірки
+        [few] { $tot } перевірок
+        [many] { $tot } перевірок
+       *[other] { $tot } перевірки
+    }; розв'язків, що вводили в оману: { $n }.
+
+js-meaning-integrity-misleading-label = Оманливі розв'язки
+
+js-meaning-integrity-misleading-sub = реальна похибка вище межі
+
+js-meaning-integrity-trusted-label = Час, коли розв'язку можна довіряти
+
+js-meaning-jamming-above-label = Глушник вище сигналу
+
+js-meaning-jamming-above-sub = середнє відношення глушника до сигналу
+
+js-meaning-jamming-big-gone = Глушник повністю позбавляє розв'язку положення.
+
+js-meaning-jamming-big-share = З глушником розв'язок доступний { $share } % часу.
+
+js-meaning-jamming-clear-label = Розв'язок доступний, без глушника
+
+js-meaning-jamming-fewest-label = Найменше супутників у супроводженні
+
+js-meaning-jamming-fewest-sub = у найгірший момент
+
+js-meaning-jamming-jammed-label = Розв'язок доступний, з глушником
+
+js-meaning-jamming-line = Без глушника розв'язок доступний { $share } % часу.
+
+js-meaning-jamming-line-js = Без глушника розв'язок доступний { $share } % часу; глушник у середньому на { $db } dB вищий за сигнал.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Так: у кожній із { $n } перевірки.
+        [few] Так: у кожній із { $n } перевірок.
+        [many] Так: у кожній із { $n } перевірок.
+       *[other] Так: у кожній із { $n } перевірки.
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] Ні: в жодній із { $n } перевірки.
+        [few] Ні: в жодній із { $n } перевірок.
+        [many] Ні: в жодній із { $n } перевірок.
+       *[other] Ні: в жодній із { $n } перевірки.
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] У { $av } із { $n } перевірки ({ $share } %).
+        [few] У { $av } із { $n } перевірок ({ $share } %).
+        [many] У { $av } із { $n } перевірок ({ $share } %).
+       *[other] У { $av } із { $n } перевірки ({ $share } %).
+    }
+
+js-meaning-lunar-largest-label = Найбільша межа похибки
+
+js-meaning-lunar-line = Рівень захисту коливався від { $min } до { $max } m за межі тривоги { $limit } m.
+
+js-meaning-lunar-meet-label = Перевірки, що вкладаються в межу
+
+js-meaning-lunar-meet-value = { $av } із { $tot }
+
+js-meaning-lunar-smallest-label = Найменша межа похибки
+
+js-meaning-median-lower-better = медіана, менше — краще
+
+js-meaning-of-the-time = часу
+
+js-meaning-orbit-best-label = Найкраща геометрія (PDOP)
+
+js-meaning-orbit-best-sub = найнижче за прогін
+
+js-meaning-orbit-big-always = Розв'язок можливий увесь час.
+
+js-meaning-orbit-big-share = Розв'язок можливий { $share } % часу.
+
+js-meaning-orbit-error-label = Типова похибка положення
+
+js-meaning-orbit-error-sub = 1 сигма, медіана
+
+js-meaning-orbit-line =
+    { $n ->
+        [one] Достатньо супутників було у полі зору в { $fix } із { $n } моменту.
+        [few] Достатньо супутників було у полі зору в { $fix } із { $n } моментів.
+        [many] Достатньо супутників було у полі зору в { $fix } із { $n } моментів.
+       *[other] Достатньо супутників було у полі зору в { $fix } із { $n } моменту.
+    }
+
+js-meaning-orbit-line-pdop =
+    { $n ->
+        [one] Достатньо супутників було у полі зору в { $fix } із { $n } моменту; типова якість геометрії (PDOP, геометричний чинник DOP для положення) — { $pdop }, менше — краще.
+        [few] Достатньо супутників було у полі зору в { $fix } із { $n } моментів; типова якість геометрії (PDOP, геометричний чинник DOP для положення) — { $pdop }, менше — краще.
+        [many] Достатньо супутників було у полі зору в { $fix } із { $n } моментів; типова якість геометрії (PDOP, геометричний чинник DOP для положення) — { $pdop }, менше — краще.
+       *[other] Достатньо супутників було у полі зору в { $fix } із { $n } моменту; типова якість геометрії (PDOP, геометричний чинник DOP для положення) — { $pdop }, менше — краще.
+    }
+
+js-meaning-orbit-moments =
+    { $n ->
+        [one] { $fix } із { $n } моменту
+        [few] { $fix } із { $n } моментів
+        [many] { $fix } із { $n } моментів
+       *[other] { $fix } із { $n } моменту
+    }
+
+js-meaning-orbit-time-label = Час, коли розв'язок можливий
+
+js-meaning-pair-big-diff-pos = { $best } лишається в межах { $budget } протягом { $bestDur }; { $other } — протягом { $otherDur }.
+
+js-meaning-pair-big-diff-time = { $best } тримає час у межах { $budget } протягом { $bestDur }; { $other } — протягом { $otherDur }.
+
+js-meaning-pair-big-same-pos = І { $q }, і { $c } лишаються в межах { $budget } протягом { $dur }.
+
+js-meaning-pair-big-same-time = І { $q }, і { $c } тримають час у межах { $budget } протягом { $dur }.
+
+js-meaning-pair-line-clock = Holdover — це тривалість, протягом якої кожен годинник лишається в межах бюджету { $budget } після втрати супутникової навігації.
+
+js-meaning-pair-line-navigator = Holdover — це тривалість, протягом якої кожен навігатор лишається в межах бюджету { $budget } після втрати супутникової навігації.
+
+js-meaning-pdop-label = Якість геометрії (PDOP)
+
+js-meaning-places-times = місць і моментів
+
+js-meaning-range-to = від { $from } до { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] супутник
+        [few] супутники
+        [many] супутників
+       *[other] супутника
+    }
+
+js-meaning-spectrum-above = вище порога
+
+js-meaning-spectrum-below = нижче порога: втрачено
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] Кожен із { $n } сигналу лишається в супроводженні.
+        [few] Кожен із { $n } сигналів лишається в супроводженні.
+        [many] Кожен із { $n } сигналів лишається в супроводженні.
+       *[other] Кожен із { $n } сигналу лишається в супроводженні.
+    }
+
+js-meaning-spectrum-big-lost =
+    { $n ->
+        [one] Глушники забирають { $lost } із { $n } сигналу: { $names }.
+        [few] Глушники забирають { $lost } із { $n } сигналів: { $names }.
+        [many] Глушники забирають { $lost } із { $n } сигналів: { $names }.
+       *[other] Глушники забирають { $lost } із { $n } сигналу: { $names }.
+    }
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } лишається вище порога супроводження приймача протягом усього прогону.
+        [few] { $names } лишаються вище порога супроводження приймача протягом усього прогону.
+        [many] { $names } лишаються вище порога супроводження приймача протягом усього прогону.
+       *[other] { $names } лишаються вище порога супроводження приймача протягом усього прогону.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } лишається вище порога супроводження приймача { $thr } dB-Hz протягом усього прогону.
+        [few] { $names } лишаються вище порога супроводження приймача { $thr } dB-Hz протягом усього прогону.
+        [many] { $names } лишаються вище порога супроводження приймача { $thr } dB-Hz протягом усього прогону.
+       *[other] { $names } лишаються вище порога супроводження приймача { $thr } dB-Hz протягом усього прогону.
+    }
+
+js-meaning-spectrum-line-none = Жоден сигнал не лишається вище порога супроводження приймача протягом усього прогону.
+
+js-meaning-spectrum-line-none-thr = Жоден сигнал не лишається вище порога супроводження приймача { $thr } dB-Hz протягом усього прогону.
+
+js-meaning-spectrum-weakest-label = Найслабший сигнал, { $name }
+
+js-meaning-whole-run = протягом усього прогону
+
+js-meaning-your-setting = ваш параметр
+
+js-meankind-acm-big = Адаптивне кодування передає даних більше в { $gain }×, ніж найкращий фіксований режим: { $acm } Gbit проти { $ccm } Gbit за { $n ->
+        [one] { $n } прохід
+        [few] { $n } проходи
+        [many] { $n } проходів
+       *[other] { $n } проходу
+    }.
+
+js-meankind-acm-line = Фіксований режим { $mode }; перерва: { $dur }.
+
+js-meankind-anomaly-big = Квантовий монітор несправностей отримує { $q } проти { $c } у класичного (площа під кривою, 1 — ідеал).
+
+js-meankind-anomaly-line = Найменша виявна несправність — { $q } проти { $c }.
+
+js-meankind-aocs-big-open = Розворот на { $slew }° не стабілізується нижче { $threshold }°.
+
+js-meankind-aocs-big-settles = Розворот на { $slew }° стабілізується нижче { $threshold }° через { $dur }.
+
+js-meankind-aocs-line = Кінцева похибка наведення { $final }°.
+
+js-meankind-aocs-line-filter = Кінцева похибка наведення { $final }°. Фільтр орієнтації в контурі помиляється на { $arcsec } arcsec RMS.
+
+js-meankind-aocs-line-wheel = Кінцева похибка наведення { $final }°. Піковий момент маховика { $torque } N m.
+
+js-meankind-aocs-line-wheel-filter = Кінцева похибка наведення { $final }°. Піковий момент маховика { $torque } N m. Фільтр орієнтації в контурі помиляється на { $arcsec } arcsec RMS.
+
+js-meankind-aperture-big = Навігація використовує { $nav } % часу антени, а зв'язок — { $comms } %.
+
+js-meankind-aperture-big-idle = Навігація використовує { $nav } % часу антени, а зв'язок — { $comms } %; { $idle } % простоює.
+
+js-meankind-aperture-line-all = Апертур: { $n }, за правилом { $policy }; змагання за доступ: { $dur }.
+
+js-meankind-aperture-line-contention = Апертур: { $n }; змагання за доступ: { $dur }.
+
+js-meankind-aperture-line-count = Апертур: { $n }.
+
+js-meankind-aperture-line-nocount = Апертури.
+
+js-meankind-aperture-line-nocount-all = Апертури за правилом { $policy }; змагання за доступ: { $dur }.
+
+js-meankind-aperture-line-nocount-contention = Апертури; змагання за доступ: { $dur }.
+
+js-meankind-aperture-line-nocount-policy = Апертури за правилом { $policy }.
+
+js-meankind-aperture-line-policy = Апертур: { $n }, за правилом { $policy }.
+
+js-meankind-araim-big-no = Ні: рівні захисту рушія розходяться з опублікованим еталоном.
+
+js-meankind-araim-big-yes = Так: рівні захисту рушія збігаються з опублікованим еталоном.
+
+js-meankind-araim-line = Найбільша різниця — { $worst } m при власному допуску еталона { $tol } m.
+
+js-meankind-araim-line-vectors = Найбільша різниця — { $worst } m при власному допуску еталона { $tol } m, за { $n ->
+        [one] { $n } еталонним вектором
+        [few] { $n } еталонними векторами
+        [many] { $n } еталонними векторами
+       *[other] { $n } еталонними векторами
+    }.
+
+js-meankind-arc-big = Оцінювач відновлює орбіту, щойно має { $dur } дуги тривалістю { $h } h.
+
+js-meankind-arc-line = Космічних апаратів: { $n }, вимірювання: { $observable }.
+
+js-meankind-ascent-big = Гравітація, опір, кермування та протитиск забирають { $loss } m/s з ідеального приросту швидкості { $ideal } m/s.
+
+js-meankind-ascent-line = Вигорання на { $km } km і { $speed } m/s; піковий швидкісний напір { $kpa } kPa.
+
+js-meankind-attack-big-no = Спуфер на поверхні не може захопити місячний приймач.
+
+js-meankind-attack-big-yes = Спуфер на поверхні може захопити місячний приймач.
+
+js-meankind-attack-line = Передавач на поверхні сягає { $km } km, перш ніж горизонт його заблокує.
+
+js-meankind-attitude-big = Похибка наведення сумарно становить { $total } arcsec.
+
+js-meankind-attitude-big-from = Похибка наведення сумарно становить { $total } arcsec, переважно від: { $from }.
+
+js-meankind-attitude-line = Найбільший гравітаційно-градієнтний момент — { $torque } N·m.
+
+js-meankind-beacon-big = Поверхневі маяки покращують якість геометрії (PDOP) у { $x }×.
+
+js-meankind-beacon-line = Додавання супутників натомість покращує її у { $x }×.
+
+js-meankind-bodypnt-big = Самі лише ретранслятори дають розв'язок у { $share } % часу (центральне тіло: { $body }).
+
+js-meankind-bodypnt-big-earth = Самі лише ретранслятори дають розв'язок у { $share } % часу (центральне тіло: { $body }); { $earth } % — із лініями зв'язку із Землею.
+
+js-meankind-bodypnt-line = У середньому у полі зору ретрансляторів: { $mean }.
+
+js-meankind-by = { $a } на { $b }
+
+js-meankind-campaign-compose-line = Кожен учасник — звичайний прогін рушія; кампанія читає їхні результати поруч.
+
+js-meankind-campaign-compose-range = За { $n ->
+        [one] { $n } сценарієм
+        [few] { $n } сценаріями
+        [many] { $n } сценаріями
+       *[other] { $n } сценаріями
+    } за однакових умов { $what } лежить у діапазоні від { $low } до { $high }.
+
+js-meankind-campaign-compose-same = За { $n ->
+        [one] { $n } сценарієм
+        [few] { $n } сценаріями
+        [many] { $n } сценаріями
+       *[other] { $n } сценаріями
+    } за однакових умов { $what } дорівнює { $value } у кожному.
+
+js-meankind-campaign-line = Фаз: { $n }.
+
+js-meankind-campaign-line-all = Фаз: { $n } і { $events }, із { $runs }; наприкінці { $label } — { $value }.
+
+js-meankind-campaign-line-end = Фаз: { $n }; наприкінці { $label } — { $value }.
+
+js-meankind-campaign-line-events = Фаз: { $n } і { $events }.
+
+js-meankind-campaign-line-events-end = Фаз: { $n } і { $events }; наприкінці { $label } — { $value }.
+
+js-meankind-campaign-line-events-runs = Фаз: { $n } і { $events }, із { $runs }.
+
+js-meankind-campaign-line-runs = Фаз: { $n }, із { $runs }.
+
+js-meankind-campaign-line-runs-end = Фаз: { $n }, із { $runs }; наприкінці { $label } — { $value }.
+
+js-meankind-campaign-mission-alarm = Тривога подається протягом { $alarm } місії тривалістю { $dur }.
+
+js-meankind-campaign-mission-phases = Місія тривалістю { $dur } (фаз: { $phases }), пов'язаних одним годинником.
+
+js-meankind-campaign-mission-quiet = Тривоги не було протягом усієї місії тривалістю { $dur }.
+
+js-meankind-campaign-montecarlo = За { $n ->
+        [one] { $n } прогоном із зерном
+        [few] { $n } прогонами із зерном
+        [many] { $n } прогонами із зерном
+       *[other] { $n } прогонами із зерном
+    } { $name } у середньому становить { $mean }, розкид — { $std }.
+
+js-meankind-campaign-montecarlo-line = Розкид — це одне стандартне відхилення за прогонами.
+
+js-meankind-campaign-optimize = Пошук зупиняється на значенні { $name } = { $value } після { $n ->
+        [one] { $n } прогону
+        [few] { $n } прогонів
+        [many] { $n } прогонів
+       *[other] { $n } прогону
+    }.
+
+js-meankind-campaign-optimize-at = За { $at }.
+
+js-meankind-campaign-optimize-kind = Пошук зупиняється на значенні { $name } = { $value } після { $n ->
+        [one] { $n } прогону
+        [few] { $n } прогонів
+        [many] { $n } прогонів
+       *[other] { $n } прогону
+    } типу { $kind }.
+
+js-meankind-campaign-sweep-flat = За { $n ->
+        [one] { $n } прогоном
+        [few] { $n } прогонами
+        [many] { $n } прогонами
+       *[other] { $n } прогонами
+    } для { $axis } від { $from } до { $to } { $metric } лишається на рівні { $value }.
+
+js-meankind-campaign-sweep-flat-line = Діаграма показує кожен прогін.
+
+js-meankind-campaign-sweep-goes = За { $n ->
+        [one] { $n } прогоном
+        [few] { $n } прогонами
+        [many] { $n } прогонами
+       *[other] { $n } прогонами
+    } для { $axis } від { $from } до { $to } { $metric } змінюється від { $first } до { $last }.
+
+js-meankind-campaign-sweep-goes-line = Діаграма показує кожен прогін; значення лежать від { $min } до { $max }.
+
+js-meankind-classical-link = класична лінія зв'язку
+
+js-meankind-clock-word = годинник
+
+js-meankind-conflict-big = Багаторівнева архітектура виживає у { $ratio }× краще, ніж один рівень.
+
+js-meankind-conflict-line-threats = Монте-Карло за загрозами дає { $ratio }×.
+
+js-meankind-conflict-line-threats-corr = Монте-Карло за загрозами дає { $ratio }×; за корельованих загроз воно може впасти до { $low }×.
+
+js-meankind-conflict-line-trials = Монте-Карло з { $n ->
+        [one] { $n } випробування
+        [few] { $n } випробувань
+        [many] { $n } випробувань
+       *[other] { $n } випробування
+    } дає { $ratio }×.
+
+js-meankind-conflict-line-trials-corr = Монте-Карло з { $n ->
+        [one] { $n } випробування
+        [few] { $n } випробувань
+        [many] { $n } випробувань
+       *[other] { $n } випробування
+    } дає { $ratio }×; за корельованих загроз воно може впасти до { $low }×.
+
+js-meankind-contacts-big = План залишає { $kept } із { $n ->
+        [one] { $n } можливого контакту
+        [few] { $n } можливих контактів
+        [many] { $n } можливих контактів
+       *[other] { $n } можливого контакту
+    } і доставляє { $gbit } Gbit.
+
+js-meankind-contacts-big-waiting = План залишає { $kept } із { $n ->
+        [one] { $n } можливого контакту
+        [few] { $n } можливих контактів
+        [many] { $n } можливих контактів
+       *[other] { $n } можливого контакту
+    } і доставляє { $gbit } Gbit із { $waiting } Gbit, що очікують.
+
+js-meankind-contacts-line = Супутників: { $sats }, станцій: { $stations }, протягом { $hours } h.
+
+js-meankind-dpnt-big = Диференціальні поправки зменшують похибку з { $from } m до { $to } m.
+
+js-meankind-dpnt-line = З опорною станцією на відстані { $km } km.
+
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } доба
+        [few] { $days } доби
+        [many] { $days } діб
+       *[other] { $days } доби
+    }
+
+js-meankind-earthgnss-big = На відстані Місяця у полі зору { $visible } із { $n ->
+        [one] { $n } супутника
+        [few] { $n } супутників
+        [many] { $n } супутників
+       *[other] { $n } супутника
+    }, але супроводжувати можна { $trackable }.
+
+js-meankind-earthgnss-line = Найкращий сигнал — { $best } dB-Hz проти порога супроводження { $threshold } dB-Hz.
+
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } прогін рушія
+        [few] { $n } прогони рушія
+        [many] { $n } прогонів рушія
+       *[other] { $n } прогону рушія
+    }
+
+js-meankind-entry-big = Пікове гальмування — { $g } g на { $km } km, пік теплового потоку — { $flux } W/cm².
+
+js-meankind-entry-line = Вхід зі швидкістю { $speed } m/s під кутом { $angle }° до горизонту.
+
+js-meankind-eo-big = Камера бачить смугу огляду { $swath } km з роздільністю { $gsd } m.
+
+js-meankind-eo-line-contiguous = Траси на поверхні розташовані на відстані { $km } km одна від одної на екваторі, тож покриття суцільне.
+
+js-meankind-eo-line-gapped = Траси на поверхні розташовані на відстані { $km } km одна від одної на екваторі, тож покриття має прогалини.
+
+js-meankind-eop-big = На відстані Місяця обертання Землі проходить { $m } m щосекунди, тож має значення вік даних про орієнтацію Землі (тут { $dur }).
+
+js-meankind-eop-line = Вхідні дані: { $source }.
+
+js-meankind-ephemeris-big = Супутник летить на висоті від { $min } до { $max } km, до широти { $lat }°.
+
+js-meankind-ephemeris-line = Зі станції він піднімається до { $deg }°.
+
+js-meankind-ephemeris-line-doppler = Зі станції він піднімається до { $deg }°, з Доплером до { $khz } kHz.
+
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } подія
+        [few] { $n } події
+        [many] { $n } подій
+       *[other] { $n } події
+    }
+
+js-meankind-framecampaign-big-open = Кампанія залишає невизначеними { $n ->
+        [one] { $n } напрям опорної величини
+        [few] { $n } напрями опорної величини
+        [many] { $n } напрямів опорної величини
+       *[other] { $n } напряму опорної величини
+    }.
+
+js-meankind-framecampaign-big-yes = Так: кампанія повністю фіксує опорну величину місячної системи відліку.
+
+js-meankind-framecampaign-line = Число обумовленості { $n }.
+
+js-meankind-framereal-big = Місячну систему відліку реалізовано із залишковою похибкою { $m } m.
+
+js-meankind-framereal-big-open = Місячну систему відліку реалізовано із залишковою похибкою { $m } m, хоча підгонка не збіглася.
+
+js-meankind-framereal-line = Похибка перенесення { $trans } m, похибка масштабу { $scale } частин на мільярд.
+
+js-meankind-gnsssim-big = Контроль цілісності захищає розв'язок { $share } % часу.
+
+js-meankind-gnsssim-line = Іоносфера додає в середньому { $iono } m, а тропосфера — { $tropo } m до кожної дальності.
+
+js-meankind-headline-figure = головний показник
+
+js-meankind-holdovertest-big = Порівняно з масками holdover запису тривалістю { $dur } s сягає { $te } ns похибки часу.
+
+js-meankind-holdovertest-big-open = Порівняно з масками holdover запису тривалістю { $dur } s сягає { $te } ns похибки часу і не відновився в межах смуги.
+
+js-meankind-holdovertest-big-recovered = Порівняно з масками holdover запису тривалістю { $dur } s сягає { $te } ns похибки часу і відновився через { $recover } s після повернення GNSS.
+
+js-meankind-holdovertest-line = Виміряно щодо маски; це ніколи не є твердженням про відповідність системи вимогам; обидва моменти — це твердження оператора.
+
+js-meankind-holdovertest-line-masks = { $masks }. Виміряно щодо маски; це ніколи не є твердженням про відповідність системи вимогам; обидва моменти — це твердження оператора.
+
+js-meankind-impairment-big = Детектор відокремлює погіршені сигнали від чистих із площею під кривою { $auc } (1 — ідеал).
+
+js-meankind-impairment-line = На випадках, несхожих на навчальний набір, він отримує { $auc }.
+
+js-meankind-infra-carrier = Цілочисельна фіксація фази несівної між поверхневою станцією та орбітальним апаратом зафіксувала { $share } % випробувань на найдовшій дузі ({ $days } d).
+
+js-meankind-infra-frame = Лінії «орбітальний апарат — станція» підвищують найменше інформаційне власне значення місячної опорної величини у { $x }× і зменшують слід Крамера — Рао до { $share } %, якщо орбіту відомо в місячних осях.
+
+js-meankind-infra-geodesy = За всіх чотирьох сімейств разом h2, k2 і l2 визначено з точністю { $h2 } %, { $k2 } % і { $l2 } % від їхніх номінальних значень.
+
+js-meankind-infra-od = Бортове визначення орбіти за Earth-GNSS на місячній орбіті має точність { $gnss } m, незалежне наземне відстеження — { $ground } m; статистика узгодженості в середньому { $mean } (очікується { $expected }).
+
+js-meankind-infra-tail = MODELLED: обмежена модель з ілюстративними вхідними даними, а не твердження про жодну місію.
+
+js-meankind-infra-tie = Локальна прив'язка { $mm } mm на одному космічному апараті зв'язує системи відліку GNSS, VLBI і лазерної локації за { $n ->
+        [one] { $n } перебраною похибкою прив'язки
+        [few] { $n } перебраними похибками прив'язки
+        [many] { $n } перебраними похибками прив'язки
+       *[other] { $n } перебраними похибками прив'язки
+    }.
+
+js-meankind-inside-spec = у межах { $spec }
+
+js-meankind-instrn-big = За руху лише за інерцією похибка положення перевищує { $threshold } m через { $dur }.
+
+js-meankind-instrn-dom = { $dominant } домінує.
+
+js-meankind-instrn-line = Вона перевищує { $passes }.
+
+js-meankind-instrn-line-dom = Вона перевищує { $passes }; { $dominant } домінує.
+
+js-meankind-instrn-pass = { $threshold } m через { $dur }
+
+js-meankind-interop-big-no = Ні: файл місячних ефемерид не проходить круговий обмін.
+
+js-meankind-interop-big-yes = Так: файл місячних ефемерид проходить круговий обмін без втрат.
+
+js-meankind-interop-line = Станів: { $n } у системі відліку { $frame }, час { $time }.
+
+js-meankind-its-spec = його специфікація
+
+js-meankind-jointod-big = Додавання затримки інтерферометрії із Землі уточнює положення станції у { $x }×.
+
+js-meankind-jointod-line = Тоді положення станції відоме з точністю { $m } m.
+
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } можливість запуску на добу дає змогу досягти орбіти { $incl }° із широти { $lat }°.
+        [few] { $n } можливості запуску на добу дають змогу досягти орбіти { $incl }° із широти { $lat }°.
+        [many] { $n } можливостей запуску на добу дають змогу досягти орбіти { $incl }° із широти { $lat }°.
+       *[other] { $n } можливості запуску на добу дають змогу досягти орбіти { $incl }° із широти { $lat }°.
+    }
+
+js-meankind-launch-line = Обертання Землі безкоштовно дає { $speed } m/s.
+
+js-meankind-layer-agc = AGC (автоматичне регулювання підсилення)
+
+js-meankind-layer-raim = RAIM (автономний контроль цілісності приймача)
+
+js-meankind-layer-sqm = SQM (контроль якості сигналу)
+
+js-meankind-leochain-big = Наскрізно низькоорбітальна система зменшує похибку положення з { $from } m до { $to } m.
+
+js-meankind-leochain-line = Її сигнал супроводжується до { $cn0 } dB-Hz.
+
+js-meankind-leopass-big-many = Супутники проходять на висоті { $elev }° і лишаються над маскою { $dur } (перший із { $n }).
+
+js-meankind-leopass-big-one = Супутник проходить на висоті { $elev }° і лишається над маскою { $dur }.
+
+js-meankind-leopass-line = У піку сигнал низької орбіти приходить на { $db } dB сильнішим за типовий сигнал супутникової навігації.
+
+js-meankind-leoppp-big = Прецизійне позиціонування збігається за { $best } min із найбільшим низькоорбітальним шаром проти { $base } min лише із супутниковою навігацією.
+
+js-meankind-leoppp-line = Медіана прогонів на випадок, до { $m } m.
+
+js-meankind-leoppp-line-runs = Медіана за { $n ->
+        [one] { $n } прогоном
+        [few] { $n } прогонами
+        [many] { $n } прогонами
+       *[other] { $n } прогонами
+    } на випадок, до { $m } m.
+
+js-meankind-leopvt-doppler-big = Доплерівське позиціонування за низькоорбітальними супутниками потрапляє на { $m } m від істини (горизонтально).
+
+js-meankind-leopvt-doppler-line = Використано супутників: { $n }.
+
+js-meankind-leopvt-joint-big = Додавання низькоорбітального шару зменшує похибку з { $from } m до { $to } m (3D середньоквадратична).
+
+js-meankind-leopvt-joint-line = Якість геометрії (PDOP) змінюється від { $from } до { $to }.
+
+js-meankind-leopvt-polar-big = Поблизу полюса низькоорбітальний шар покращує якість геометрії (PDOP) від { $from } до { $to }.
+
+js-meankind-leopvt-polar-line = Широт: { $n }.
+
+js-meankind-leopvt-timing-big = Низькоорбітальне передавання часу тримає найкращий годинник у межах { $ns } ns від UTC (середньоквадратично).
