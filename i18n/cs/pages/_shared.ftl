@@ -417,3 +417,5 @@ seg-1fc08d2f0209 = Co zpráva samotného běhu uvádí jako nemodelované nebo n
 seg-58c4d7218e70 = Reprodukovatelnost a zajištění softwaru je MODELLED, nikoli ověřeno nezávislou referencí: dílčí tvrzení je externě zkontrolováno, ale celá schopnost skládá modelované části, takže schopnost zůstává vypočtená z modelu. (verifikační matice (docs/MODELLED-RATIONALE.md))
 
 seg-1bf3d5817274 = Všechny druhy: <a1>KINDS.md</a1>
+
+seg-852814f107a7 = Stránky druhů scénářů

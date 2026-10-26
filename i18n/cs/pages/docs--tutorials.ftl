@@ -17,3 +17,7 @@ seg-d6476863f862 = Schopnost
 seg-a7cfe6f135f1 = Oběžná dráha a geometrie
 
 seg-b03d56f501c3 = Druh
+
+seg-029de6b99be0 = Inerciální výpočet polohy z pohybu
+
+seg-9ef8f99ca6e4 = Přenos času

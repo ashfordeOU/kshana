@@ -179,3 +179,27 @@ seg-d4a762001549 = Licence
 seg-e251b385ff46 = Dva syntetické dny mapy interference nakreslené z přiložených ukázek v examples/interference-map/output, každý s vlastní syntetickou trasou a podíly expozice trasy, které engine hlásí. Vlevo den ADS-B: { "1" } zhoršená buňka, { "6" } nezhoršených, { "4" } nevyhodnocených (šrafovaně) a buňky bez záznamu, nakreslené prázdné, které nebyly pozorovány. Trasa měří { "525" } km: { "11.5" } % její délky v zhoršených buňkách, { "38.3" } % nezhoršených, { "9.1" } % nevyhodnocených a { "41.1" } % nepozorovaných. Vpravo den AIS: buňky označené detektory kruhu a souše, neanomální buňky a prázdné buňky; trasa měří { "454" } km, z toho { "10.5" } % v anomálních buňkách, { "21.2" } % neanomálních, { "0.0" } % nevyhodnocených a { "68.3" } % nepozorovaných. ADS-B a AIS jsou oddělené vrstvy, nikdy se nekombinují. Označená buňka není zjištěním interference a buňka bez barvy nebyla pozorována, což není totéž jako čistá. Všechna data jsou vymyšlená, v otevřeném středním Atlantiku, a nejde o měření.
 
 seg-af0edceb1503 = Hodnocení jednoho syntetického záznamu přijímače proti plánu o třech testech, ze skutečného běhu enginu v{ $version } (`kshana jammertest score`). Záznam je vymyšlený: { "1800" } s NMEA s poklesem C/N0 o { "20" } dB ve dvou intervalech. Plán uvádí tři sloty; ve středním slotu není v záznamu žádná rušička. Hodnocení označuje { "2" } ze { "3" } testů za detekované (medián latence { "0" } s) a { "1" } za nezachycený, s { "0" } běhy falešného poplachu za { "0.25" } h čistého času. Nic z toho neříká nic o skutečném přijímači. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC { "61108" }, IEC { "61162" }): za navigaci plavidla zůstává odpovědný provozovatel.
+
+seg-3d770dd786e4 = Použití
+
+seg-fe1abd564200 = Jammertest
+
+seg-6fcb41643035 = Telemetrie důvěryhodnosti
+
+seg-82155b5d0408 = Test bench
+
+seg-e35fff011b24 = Compliance
+
+seg-a50180a66dba = LunaNet AFS
+
+seg-028684a0cf3d = Balíčky norem
+
+seg-9c0eb89a2fbe = Balíček
+
+seg-e98e25897176 = Každý test tří hodnocených balíčků norem ze skutečných běhů enginu v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } splněno, { "1" } nesplněno, { "2" } vyžadují vstup; imo-circ-1575: { "1" } splněno, { "4" } nesplněno, { "2" } vyžadují vstup; icao-doc9849-appf: { "6" } splněno, { "0" } nesplněno, { "2" } vyžadují vstup. Celkem { "13" } splněno, { "5" } nesplněno a { "6" } vyžaduje vstup, který engine nemá (záznam přijímače nebo dokumentaci zařízení). Každý práh byl stanoven před během; nesplnění zůstává nesplněním. Splněný práh říká, že modelovaný scénář splnil uvedený práh, nic o produktu. Balíčky podporují důkazy pro řádky, které citují; nejsou hodnocením. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života; nesmí být jediným podkladem pro žádné rozhodnutí o navigaci ani bezpečnosti.
+
+seg-f891ee876b96 = Na co odpovídá
+
+seg-7cf2608b2b2f = Struktura balíčku důkazů. Záznam přijímače (NMEA, u-blox UBX, RINEX { "3" } nebo záznam z Androidu) a časové okno vstupují do kshana receiver-trust evidence, který zapíše sedm souborů: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig a volitelný timestamp.tsr. Manifest zaznamenává SHA-256 celého záznamu a každého souboru a řetězec hashů přes soubory; podpis pokrývá manifest. kshana evidence verify kontroluje podpis, hash každého souboru, řetězec a že není přítomen žádný nevyjmenovaný soubor, a končí kódem { "0" }, když je vše ověřeno, { "1" }, když něco selhalo, a { "3" }, když podepisující nebyl připnut. Balíček je technický záznam, nikoli právní stanovisko.
+
+seg-13fc009b947c = FAQ

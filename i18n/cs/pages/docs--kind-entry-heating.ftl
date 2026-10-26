@@ -5,3 +5,5 @@ seg-99ef7c1d552c = Druh scénáře enginu v{ $version }, rodina <a1>Analýza mis
 seg-8f1e7d3f5a07 = Stránka rodiny: <a1>Analýza misí, spoje a kosmické operace</a1>
 
 seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: řádky <a1>verifikační matice</a1>, které tento druh jmenují.
+
+seg-b3a829cb7d84 = US Standard Atmosphere { "1976" }

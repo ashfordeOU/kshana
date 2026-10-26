@@ -35,3 +35,11 @@ seg-619f89bf160c = Realizace lunární referenční soustavy
 seg-d12d4565b01d = Lunární geodetická VLBI, cesta jádra
 
 seg-b03d56f501c3 = Druh
+
+seg-9c0eb89a2fbe = Balíček
+
+seg-f63dd3d7aad4 = Zdroj
+
+seg-638b8d451550 = Senzor
+
+seg-04f69a0edb2f = typ

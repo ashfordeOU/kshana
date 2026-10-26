@@ -11,3 +11,9 @@ seg-71aee5eb55c5 = UHF
 seg-f1f903f1b9ff = Odolnost
 
 seg-b03d56f501c3 = Druh
+
+seg-f63dd3d7aad4 = Zdroj
+
+seg-587beeccaa11 = Předvolba
+
+seg-e305279d5b11 = Obsah
