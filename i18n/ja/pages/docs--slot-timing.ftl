@@ -15,3 +15,5 @@ seg-f63dd3d7aad4 = 出典
 seg-1ff32b87e030 = 衛星数
 
 seg-582fd72f1a1a = 判定
+
+seg-430edd66bda0 = モデル化していないもの

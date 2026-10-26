@@ -77,3 +77,7 @@ seg-61a4eb09767f = MCP サーバーガイド
 seg-8b49f6477e8f = オープンコア
 
 seg-6555ff9a6d8e = 出力
+
+seg-70a79ec95bf4 = 不合格
+
+seg-7a33a168b020 = 合格
