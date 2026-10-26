@@ -95,3 +95,5 @@ seg-fa37e351f6b4 = Kopioi
 seg-7994e9983f27 = Deterministinen skenaariosta, siemenluvusta ja moottorin versiosta
 
 seg-9d3ee6a5613e = Ajot
+
+seg-94de9433d99f = Skenaariotiedostot

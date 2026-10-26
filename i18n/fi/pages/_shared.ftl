@@ -84,6 +84,8 @@ seg-85018a6b8966 = Radat
 
 seg-cbb264f9962e = Yleiskatsaus
 
+seg-7fdb07b3b0ca = Kuu ja Maa–Kuu-avaruus
+
 seg-1ae32cd48edc = Merenkulun luottamus
 
 seg-c13450e783db = Häiriökartta ja reitin altistus

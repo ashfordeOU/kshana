@@ -68,6 +68,16 @@ seg-4248eb5c3aef = Holdover
 
 seg-a51c36133548 = Ajoitusmaskit
 
+seg-c5fc0ca71fae = Jokainen skenaariotyyppi, yksi sivu kullekin
+
+seg-ccee5886cf25 = Jokainen komento, jokainen pinta
+
+seg-4ef6dcd0a58b = Mikä pinta kantaa minkä ominaisuuden
+
+seg-29e58493fdd4 = Mallinnettu
+
+seg-8e092e49bdeb = kshana-bench: kynnykset, jotka eivät täyttyneet, ilmoitettuina
+
 seg-bd4da5bc989d = Luotu repositoriosta
 
 seg-8b738c82a006 = Valitse asennustapa

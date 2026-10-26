@@ -12,6 +12,8 @@ seg-f917e7fcac09 = Mikä se on
 
 seg-cae10fb9bff8 = Skenaario
 
+seg-d01db1c2710a = Hakuteos
+
 seg-298cc35fe9d1 = Inertia
 
 seg-f1f903f1b9ff = Kestävyys
@@ -153,3 +155,21 @@ seg-fdbb9db68f1d = ei mitään
 seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
+
+seg-b2689beaba9e = Galileo OSNMA -varmennin
+
+seg-80f3f0aae42c = Häiriökartta
+
+seg-1759a8cce7d6 = Lajit
+
+seg-fdd674722717 = Spektri
+
+seg-68ff97cfdc03 = DOI
+
+seg-564133d6a0c4 = Tähdistöt minkä tahansa kappaleen ympärillä
+
+seg-c611ee59301a = Animaatio
+
+seg-c01b78b64065 = Raportit
+
+seg-c60dc5b92a60 = Yhteentoimivuusviennit
