@@ -159,3 +159,5 @@ seg-568c484ce9a0 = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, 
 seg-41996765fcf1 = <s1>Vorige</s1>Maan en cislunair
 
 seg-1951c46fe429 = <s1>Volgende</s1>Optische PNT
+
+seg-bf7b52f7a01e = De grafiek die de engine schrijft voor scenarios/eo-radiometry.toml, soort eo-radiometry
