@@ -471,3 +471,9 @@ seg-ff90679d1de9 = Deteção de spoofing
 
 # text
 seg-257c477dc510 = WebAssembly
+
+# text
+seg-2192262e26c1 = atingido
+
+# text
+seg-785218a0ea66 = O que o Kshana não é

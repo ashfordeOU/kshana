@@ -106,3 +106,160 @@ seg-9390336ecc01 = <b>Citar</b> → <a1>CITATION.cff</a1> · DOI <a2>10.5281/zen
 
 # text
 seg-d059e9fc67e1 = Gratuito e de código aberto sob a <b>GNU AGPL-3.0-only</b> (a GNU Affero General Public License, versão { "3" } apenas). Está disponível uma <b>licença comercial</b> da <a1>Ashforde® OÜ</a1> (uma sociedade privada de responsabilidade limitada estónia; OÜ = osaühing) para integração fechada; ver <a2>LICENSING.md</a2>. Desenvolvido e mantido profissionalmente pela Ashforde® OÜ.
+
+# text
+seg-8c83544270b5 = Assinatura
+
+# text
+# c1: README.crates.md
+seg-8a438548bf52 = Fonte: <c1/>
+
+# text
+# c1: kshana
+seg-9a65e21abcf4 = O Kshana reproduz jamming, spoofing e holdover do relógio quando os sinais GNSS (sistema global de navegação por satélite) falham, e diz durante quanto tempo um sistema mantém a hora e a posição dentro do seu orçamento, e que relógio ou sensor proporciona mais margem. Esta é a crate Rust: o motor como biblioteca, e o comando <c1/>. Cada execução é reprodutível bit a bit a partir do cenário, da semente e da versão do motor.
+
+# text
+seg-991c428a8063 = Utilização — biblioteca
+
+# text
+# c1: src/main.rs
+# c2: cargo new
+# c3: cargo add kshana
+seg-6ef0d3fb5be0 = O exemplo é um programa completo: traz o seu próprio cenário, escrito em TOML (Tom's Obvious, Minimal Language), pelo que executa como <c1/> de um projeto <c2/> novo após <c3/>, sem mais nada em disco.
+
+# text
+# c1: out.json
+# c2: out.svg
+# c3: out.csv
+seg-cfb76f7da8da = <c1/> é o documento de resultado em JSON (JavaScript Object Notation), <c2/> o gráfico em SVG (Scalable Vector Graphics) e <c3/>, para os tipos de cenário que publicam uma tabela, essa tabela em CSV (valores separados por vírgulas).
+
+# text
+seg-95b7a8022262 = Referência da API, gerada a partir de src/api.rs
+
+# text
+# c1: kshana::api
+seg-e271e742cec7 = Todas as funções públicas de <c1/> na versão v{ $version } do motor, lidas da origem no momento da compilação.
+
+# text
+seg-9a8d288b2c57 = json com o seu bloco figure_tiers final removido, byte a byte como o documento era antes de esse bloco existir; None quando o documento não tem esse bloco, ou tem um que não é a sua última chave (o que esta crate nunca emite, pelo que um sistema de testes deve tratar isso como falha em vez de retirar algo que não consegue explicar).
+
+# text
+seg-6157f407ab8b = Lista todos os tipos de cenário incorporados com os seus metadados.
+
+# text
+seg-e9535491e871 = Os tipos de cenário incorporados e os seus metadados como matriz JSON — a forma que as ligações de linguagem expõem para introspeção programática.
+
+# text
+seg-a3e3eeb83c46 = [KIND_MODULES] como objeto JSON, tipo de cenário para matriz de nomes de módulos, na ordem da tabela.
+
+# text
+seg-6739ddf8bba8 = [HEADLINE_FIELDS] como JSON: { "{" }kind: { "{" }"headline": [path, ...]{ "}" }{ "}" }, na ordem da tabela.
+
+# text
+seg-f76170c699d9 = Produz o catálogo de tipos de cenário incorporados como uma referência Markdown autónoma (docs/SCENARIOS.md): todos os tipos de cenário despacháveis com a sua descrição de uma linha e os seus campos TOML obrigatórios / opcionais.
+
+# text
+seg-295c8355634f = Analisa um cenário TOML com a introspeção da própria crate e devolve uma lista de problemas — para que se possa dizer ao chamador o que está errado ANTES de uma execução (possivelmente longa), em vez de ele esbarrar numa falha tardia em tempo de execução.
+
+# text
+seg-4aab02ecf399 = Exporta a constelação propagada de um cenário de órbita/constelação como texto SP3-c.
+
+# text
+seg-d577fc8351a2 = Se src for um cenário de órbita com export_sp3 = true, devolve o seu texto SP3-c; caso contrário, None.
+
+# text
+seg-024e29ac4bde = Exporta os elementos médios TLE de um cenário de órbita como catálogo CCSDS OMM — um OMM (Orbit Mean-Elements Message) por satélite definido por TLE, em forma KVN, com o número de catálogo NORAD real, o designador COSPAR e a época de cada TLE.
+
+# text
+seg-d5dc817a3a24 = Se src for um cenário de órbita com export_omm = true, devolve o texto do seu catálogo OMM; caso contrário, None.
+
+# text
+seg-3fe91ee29ac1 = Exporta a constelação propagada de um cenário de órbita como texto CCSDS OEM — a série temporal de estados inerciais (TEME), posição E velocidade, no formato de intercâmbio de efemérides de veículos espaciais que as ferramentas de dinâmica de voo (GMAT/Orekit/STK) leem.
+
+# text
+seg-f102088f3208 = Se src for um cenário de órbita com export_oem = true, devolve o seu texto OEM; caso contrário, None.
+
+# text
+seg-5432a3921600 = Incorpora um corpo IERS finals2000A real no campo eop_finals2000a de um cenário (o caminho da CLI --eop <file>), devolvendo o TOML fundido.
+
+# text
+seg-dc707c3d1769 = Insere um bloco de metadados de estudo num documento JSON de resultado já produzido, devolvendo o documento com uma chave "meta" de nível superior inserida logo a seguir à chave de abertura.
+
+# text
+seg-afa952d0c0f5 = Executa um cenário e devolve um resultado tipado com um erro estruturado — o ponto de entrada que os chamadores de ligações devem preferir ao [run_toml] com erro em cadeia.
+
+# text
+seg-d0a609bfd225 = Analisa, despacha e executa um cenário dado como cadeia TOML.
+
+# text
+seg-c62cff9a8dba = [run_toml] sem o bloco figure_tiers por tipo de cenário que [run_toml_inner] acrescenta (RM-04): para uma execução cujo documento está incorporado no resultado de outro tipo de cenário (um membro de campanha), de modo que o documento exterior mantenha os seus bytes.
+
+# text
+seg-5a316ab76a7d = json com block acrescentado como a sua última chave, figure_tiers, byte a byte como o invólucro Documented o teria serializado: impressão formatada com dois espaços, o bloco aninhado um nível para dentro.
+
+# text
+# c1: kshana::ccsds_tdm
+# c2: kshana::interchange
+seg-ef3b369866c5 = Formatos de intercâmbio na crate: analisador e escritor de CCSDS Tracking Data Message (TDM) (<c1/>); Kshana Interchange Format (KIF) (<c2/>).
+
+# text
+seg-36184e41b65d = Utilização — CLI
+
+# text
+# c1: scenarios/
+# c2: kshana example
+seg-c96267c06c3b = Uma instalação a partir do registo de pacotes não tem diretório <c1/>, pelo que a CLI traz consigo os cenários de referência; <c2/> lista-os, e nomeia os poucos que deixa de fora com a razão (cada um lê dados fornecidos apenas com o repositório, ou segue uma predefinição que uma edição pode reter).
+
+# text
+# c1: kind
+# c2: <scenario>.result.json
+# c3: .chart.svg
+# c4: .report.html
+# c5: .report.json
+# c6: .table.csv
+# c7: --export
+# c8: spectrum
+# c9: --animate
+seg-35965c7df95f = Uma execução despacha segundo o <c1/> do cenário e escreve <c2/>, <c3/>, <c4/> (uma página de relatório imprimível em HTML, HyperText Markup Language) e <c5/> (o mesmo relatório, legível por máquina), mais <c6/> para os tipos de cenário que publicam uma tabela, junto ao ficheiro de cenário. <c7/> acrescenta ficheiros de troca: CZML (Cesium Language) e KML (Keyhole Markup Language) para visualizadores de globo, GeoJSON para mapas, ficheiros de efemérides STK (Systems Tool Kit) e gravações SigMF (Signal Metadata Format) para o tipo de cenário <c8/>. <c9/> acrescenta uma animação SVG, HTML ou fotograma a fotograma.
+
+# text
+# c1: scenarios/
+# c2: kshana --study scenarios/quantum-pnt-demonstrator.suite.toml
+# c3: lunar-llr-datum
+seg-fc13b487ccc5 = A partir de um clone do repositório, os mesmos comandos aceitam diretamente os ficheiros em <c1/>, incluindo o estudo de vários cenários (<c2/>) e <c3/>, o único cenário que lê dados reais de medição de distâncias por laser fornecidos apenas com o repositório.
+
+# text
+# c1: receiver_trust
+# c2: receiver_trust::live
+seg-509e49e5df09 = <b>Confiança GNSS em embarcações</b> (<c1/>, incluindo <c2/>): uma pontuação de 0-100 com razões a partir do NMEA de um recetor, em direto ou a partir de um registo; consultivo, não é um equipamento de navegação homologado.
+
+# text
+# c1: evidence
+seg-0489fa168736 = <b>Pacotes de evidências</b> (<c1/>): um registo técnico assinado de uma janela de registo, verificável offline.
+
+# text
+# c1: telemetry
+seg-aa4a7de921a3 = <b>Telemetria de confiança</b> (<c1/>): o fluxo de confiança como métricas Prometheus, eventos SIEM e OpenTelemetry opcional.
+
+# text
+# c1: nmea_synth
+seg-d2ecb7047abe = <b>Fluxos de formação</b> (<c1/>): NMEA de ponte sintético com jamming e spoofing programados e um registo do instrutor. Apenas texto; nunca para os sistemas de navegação em direto de uma embarcação.
+
+# text
+# c1: interference_map
+seg-e16769b8fab8 = <b>Mapa de interferência</b> (<c1/>): mapas agregados de navegação degradada e exposição de rotas.
+
+# text
+# c1: interop::testbench
+# c2: compliance
+seg-1944d0fada06 = <b>Test bench e mapeamento de compliance</b> (<c1/>, <c2/>): o movimento do veículo e os eventos de um cenário para um simulador GNSS de laboratório, e o mapeamento para quadros públicos preenchido a partir de documentos de resultado.
+
+# text
+# c1: iq
+seg-68274ce67506 = <b>Laboratório de IQ GNSS</b> (<c1/>): cenas, aquisição, seguimento, monitores e campanhas sobre IQ gravado e sintético.
+
+# text
+seg-6dc7d52fef11 = <s1>Anterior</s1>npm e WebAssembly
+
+# text
+seg-8ff56af64ec2 = <s1>Seguinte</s1>Servidor MCP
