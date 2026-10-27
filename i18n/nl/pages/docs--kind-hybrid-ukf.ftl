@@ -12,7 +12,7 @@ seg-9955b1b1c018 = De prestaties van een kwantuminertiaalsensor zijn MODELLED, n
 
 seg-f7f12029e0ec = Familiepagina: <a1>Inertiële, fusie- en kwantumsensoren</a1>
 
-seg-ea4498cc0324 = <b>VALIDATED</b> 15-toestanden-error-state-EKF, los gekoppeld (gevalideerd op een echte IMU/GNSS-rit tegen NaveGo); een strak gekoppelde pseudorange/Doppler-UKF en een gekoppelde klok+pos. Onafhankelijke referentie (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, als hulpmiddel uitgevoerd onder GNU Octave, nooit gelinkt): zijn los gekoppelde ins_gnss op zijn eigen echte Ekinox-IMU/GNSS-rit met een landvoertuig, beide oplossingen gescoord tegen het Ekinox-referentietraject. Beide filters lezen dezelfde { "20" } Hz-float32-invoer, en de configuratie van Kshana is mechanisch afgeleid van de gepubliceerde parameters van de dataset. De horizontale en verticale positie-RMS van Kshana en zijn
+seg-ea4498cc0324 = <b>VALIDATED</b> 15-toestanden-error-state-EKF, los gekoppeld (getoetst op een echte IMU/GNSS-rit tegen NaveGo); een strak gekoppelde pseudorange/Doppler-UKF en een gekoppelde klok+pos. Onafhankelijke referentie (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, als hulpmiddel uitgevoerd onder GNU Octave, nooit gelinkt): zijn los gekoppelde ins_gnss op zijn eigen echte Ekinox-IMU/GNSS-rit met een landvoertuig, beide oplossingen gescoord tegen het Ekinox-referentietraject. Beide filters lezen dezelfde { "20" } Hz-float32-invoer, en de configuratie van Kshana is mechanisch afgeleid van de gepubliceerde parameters van de dataset. De horizontale en verticale positie-RMS van Kshana en zijn
 
 seg-4b84d9846715 = Bron: <c1/>
 

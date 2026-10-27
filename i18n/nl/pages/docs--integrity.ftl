@@ -62,7 +62,7 @@ seg-964c0634eae0 = het is <b>niet opgenomen in de FoM van het klok-/holdover-sce
 
 seg-eecf2f9f181e = de foutenhypothesen zijn het geval zonder fout, <b>afzonderlijke satellieten</b> en <b>hele constellaties</b> — gelijktijdige fouten op <b>deelverzamelingen van twee of meer satellieten (SV: space vehicle, dat is een satelliet)</b> worden niet gemodelleerd;
 
-seg-fd0f9fb2de83 = het ISM is een configureerbare parameterset (met de referentiewaarden van WG-C), geen uitgezonden operationeel bericht en geen gevalideerd bedreigingsmodel;
+seg-fd0f9fb2de83 = het ISM is een configureerbare parameterset (met de referentiewaarden van WG-C), geen uitgezonden operationeel bericht en geen getoetst bedreigingsmodel;
 
 seg-88f5242b0809 = <b>foutdetectie en -uitsluiting (FDE)</b> is alleen voor één satelliet en alleen voor een snapshot: oplossingsscheiding wijst de defecte satelliet aan, en <c1/> lost elke uitsluiting van één satelliet opnieuw op en geeft de uitgesloten satelliet terug met de chikwadraattest en de beveiligingsniveaus van de resterende deelverzameling, maar er wordt geen tegen uitsluiting beschermde positie gerapporteerd, en het scenariotype <c2/> voert de uitsluitingsstap niet uit.
 

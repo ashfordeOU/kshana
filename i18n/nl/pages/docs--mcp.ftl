@@ -170,7 +170,7 @@ seg-74110e6b530f = Het LunaNet Augmented Forward Signal getoetst aan LNIS V5 AD1
 
 seg-b6abad1f2c9d = Een kshana-bench-inzending gescoord tegen een referentiebestand, beide JSON-tekst (<c1/>, <c2/>): het resultaatbestand met de specificatieversie, de split, de invoerhashes en de metrieken van de taak. MODELLED; beschrijft een log of corpus, nooit een product.
 
-seg-c7a0d7981bfd = kshana-bench-resultaatbestanden weergegeven als de statische ranglijstpagina (HTML-tekst), elk eerst gevalideerd.
+seg-c7a0d7981bfd = kshana-bench-resultaatbestanden weergegeven als de statische ranglijstpagina (HTML-tekst), elk eerst getoetst.
 
 seg-1ec7117c7825 = Een vertrouwensstroom (JSON-regels) of <c1/>-resultaat weergegeven als Prometheus-tekst, CEF- of LEEF-syslogregels of een OTLP-JSON-payload, met de encoders van <c2/>. Tekst in het antwoord: er wordt niets verzonden of aangeboden en er wordt geen klok gelezen. Alleen adviserend.
 
