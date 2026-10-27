@@ -122,3 +122,9 @@ seg-70a79ec95bf4 = falha
 
 # text
 seg-7a33a168b020 = passa
+
+# text
+seg-2192262e26c1 = atingido
+
+# text
+seg-a91762c0aabe = Gratuito
