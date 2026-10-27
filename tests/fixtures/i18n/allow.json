@@ -6,8 +6,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/advanced_report.rs": {
-   "count": 477,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 495,
+   "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar and mission-thread kinds add rows), and report JSON keys"
   },
   "src/altpnt/sequential.rs": {
    "count": 22,
@@ -30,15 +30,15 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api.rs": {
-   "count": 899,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 988,
+   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar and mission-thread kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs)"
   },
   "src/api/builtins.rs": {
-   "count": 82,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 88,
+   "reason": "identifier: kind and scenario names; the four new lunar kinds add their ids"
   },
   "src/api/kind_descriptions.rs": {
-   "count": 154,
+   "count": 164,
    "reason": "machine-document: the English descriptions of the scenario kinds, which are the machine document (list_scenario_kinds_json); the catalogue copies are engine-kind-*-description and tests/i18n_kinds.rs compares them"
   },
   "src/araim_reference.rs": {
@@ -98,8 +98,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bundled_scenarios.rs": {
-   "count": 187,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 200,
+   "reason": "identifier and public API: scenario names, and the reasons a scenario is repository-only, returned by the public `repo_only_reason` as `&'static str`"
   },
   "src/calibration_ensembles.rs": {
    "count": 14,
@@ -125,13 +125,17 @@
    "count": 268,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/clock_fit.rs": {
+   "count": 30,
+   "reason": "machine-document: provenance statement and units definitions of the fitted-clock block in the clock result JSON, and its field names"
+  },
   "src/clock_integrity.rs": {
    "count": 33,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/clock_log.rs": {
-   "count": 81,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 82,
+   "reason": "machine-document: log-format names, the RINEX record key `RINEX VERSION / TYPE`, and the units definitions and provenance of the measured-log result JSON"
   },
   "src/clock_specs.rs": {
    "count": 3,
@@ -218,8 +222,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/assemble.rs": {
-   "count": 6,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 8,
+   "reason": "identifier and machine-document: config.json keys, file names and the `evidence-pack` tool name of the signed pack"
   },
   "src/evidence/bundle.rs": {
    "count": 13,
@@ -250,16 +254,20 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/verify.rs": {
-   "count": 32,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 33,
+   "reason": "machine-document: check names and details of the verification report (fields of its JSON; the notes of the same report are messages), and pack file names such as `config.json`"
+  },
+  "src/evidence_label.rs": {
+   "count": 9,
+   "reason": "machine-document: the evidence block of result JSON and its CSV comment lines (id rule, matrix path, field names) and the tool names that select the rows; the strip under a chart is a message"
   },
   "src/field_schema.rs": {
    "count": 7,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/fom_label.rs": {
-   "count": 448,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 463,
+   "reason": "identifier: the crosswalk of kinds to matrix requirement text, matched by equality, and the result-JSON field paths of the figures of merit; the mission-thread entry adds its paths and one tier statement that is written into JSON"
   },
   "src/frame_eop.rs": {
    "count": 14,
@@ -370,8 +378,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/inline_only.rs": {
-   "count": 22,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 25,
+   "reason": "identifier: TOML key names of the fields that read a local file"
   },
   "src/integrity_impact.rs": {
    "count": 5,
@@ -390,8 +398,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/cli.rs": {
-   "count": 11,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 12,
+   "reason": "identifier: option names, a pinned download URL, file-name stems and the `interference-map` tool name"
   },
   "src/interference_map/emitter.rs": {
    "count": 25,
@@ -646,8 +654,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/jammertest/cli.rs": {
-   "count": 11,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 12,
+   "reason": "identifier and machine-document: option names, the `jammertest-score` tool name and the default pack title, which is written into the signed pack"
   },
   "src/jammertest/dataset.rs": {
    "count": 17,
@@ -853,6 +861,10 @@
    "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/lunar_ascent.rs": {
+   "count": 116,
+   "reason": "machine-document: units definitions, budget-row sources and notes, and TOML keys of the lunar-ascent result JSON; the summary line and the chart text are messages"
+  },
   "src/lunar_beacon.rs": {
    "count": 36,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -882,8 +894,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_infra/geodesy.rs": {
-   "count": 21,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 55,
+   "reason": "machine-document: JSON keys of the lunar-infrastructure result"
   },
   "src/lunar_infra/mod.rs": {
    "count": 7,
@@ -913,6 +925,10 @@
    "count": 164,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/lunar_landing.rs": {
+   "count": 183,
+   "reason": "machine-document: units definitions, budget-row sources and notes, and TOML keys of the lunar-descent result JSON; the summary line and the chart text are messages"
+  },
   "src/lunar_llr.rs": {
    "count": 355,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -921,6 +937,10 @@
    "count": 8,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/lunar_rendezvous.rs": {
+   "count": 134,
+   "reason": "machine-document: units definitions, budget-row sources and notes, and TOML keys of the lunar-orbit-rendezvous result JSON; the summary line and the chart text are messages"
+  },
   "src/lunar_service.rs": {
    "count": 167,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -928,6 +948,10 @@
   "src/lunar_station.rs": {
    "count": 262,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/lunar_surface_map.rs": {
+   "count": 107,
+   "reason": "machine-document: units definitions, budget-row sources and notes, and TOML keys of the lunar-surface result JSON; the summary line and the chart text are messages (and the CSV header names)"
   },
   "src/lunar_techniques.rs": {
    "count": 3,
@@ -968,6 +992,54 @@
   "src/mars_pnt.rs": {
    "count": 31,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/mission_thread/conversions.rs": {
+   "count": 9,
+   "reason": "machine-document: provenance and budget-row source text of the frame and timescale conversions, written into the thread result JSON"
+  },
+  "src/mission_thread/earth/entry.rs": {
+   "count": 29,
+   "reason": "machine-document: TOML model keys and the event and budget-row text of the entry phase in the thread result JSON"
+  },
+  "src/mission_thread/earth/ground_network.rs": {
+   "count": 2,
+   "reason": "machine-document: event notes of the ground-network overlay in the thread result JSON"
+  },
+  "src/mission_thread/earth/launch.rs": {
+   "count": 28,
+   "reason": "machine-document: TOML model keys and the event and budget-row text of the launch-ascent phase in the thread result JSON"
+  },
+  "src/mission_thread/earth/rendezvous.rs": {
+   "count": 32,
+   "reason": "machine-document: TOML model keys and the event and budget-row text of the leo-rendezvous phase in the thread result JSON"
+  },
+  "src/mission_thread/earth/tli_cruise.rs": {
+   "count": 52,
+   "reason": "machine-document: TOML model keys and the event and budget-row text of the tli-and-cruise phase in the thread result JSON"
+  },
+  "src/mission_thread/handover.rs": {
+   "count": 7,
+   "reason": "machine-document: budget-row source text of the handover rules in the thread result JSON, and TOML field names"
+  },
+  "src/mission_thread/lunar/mod.rs": {
+   "count": 107,
+   "reason": "machine-document: TOML model keys of the lunar phases and the event and budget-row notes they write into the thread result JSON"
+  },
+  "src/mission_thread/mod.rs": {
+   "count": 9,
+   "reason": "identifier: phase kind names and TOML field names of the thread document"
+  },
+  "src/mission_thread/phase.rs": {
+   "count": 6,
+   "reason": "identifier: navigation-source and time-source names of the thread document"
+  },
+  "src/mission_thread/scenario.rs": {
+   "count": 89,
+   "reason": "machine-document: TOML and JSON field names of the thread document, the units definitions and statement written into its result JSON; the summary line and the chart text are messages"
+  },
+  "src/mission_thread/sensors.rs": {
+   "count": 1,
+   "reason": "identifier: the relative-navigation sensor name `optical-camera`"
   },
   "src/models.rs": {
    "count": 1,
@@ -1052,6 +1124,10 @@
   "src/palette.rs": {
    "count": 7,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/partner.rs": {
+   "count": 61,
+   "reason": "machine-document: the findings (errors, warnings, info) and statement of the submission check, written into the `--json` report (made in English); the text view prints the same strings under translated headings and result lines; also the schema id and device-kind identifiers"
   },
   "src/passes.rs": {
    "count": 44,
@@ -1162,8 +1238,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/scenario.rs": {
-   "count": 24,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 25,
+   "reason": "machine-document: result JSON keys, monitor names, the CSV header and the `receiver-trust` tool name"
   },
   "src/receiver_trust/score.rs": {
    "count": 4,
@@ -1174,8 +1250,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/registry.rs": {
-   "count": 64,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 69,
+   "reason": "identifier: kind ids and TOML section names of the registry; the new lunar and mission-thread kinds add their ids"
   },
   "src/report.rs": {
    "count": 30,
@@ -1250,8 +1326,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/ssv/check.rs": {
-   "count": 21,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 31,
+   "reason": "machine-document: check names and the `S7b` statement of the SSV booklet check result JSON, and its JSON keys"
   },
   "src/ssv/constellations.rs": {
    "count": 4,
@@ -1342,8 +1418,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/verification.rs": {
-   "count": 2355,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 2418,
+   "reason": "machine-document: the verification matrix (requirements, capabilities, modules, tests, oracles); the new lunar and mission-thread kinds add their rows"
   },
   "src/wasm.rs": {
    "count": 9,

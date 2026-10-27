@@ -125,7 +125,7 @@ impl EvidenceLabel {
     pub fn for_run(src: &str, json: &str) -> Result<Self, String> {
         let rows = crate::advanced_report::exercised_requirements(src, json)?;
         Self::from_rows(&rows)
-            .ok_or_else(|| "the run exercised no verification-matrix row".to_string())
+            .ok_or_else(|| crate::terr!("e-evidence-label-run-exercised-no-matrix-row"))
     }
 
     /// The row ids, space separated.
@@ -141,19 +141,30 @@ impl EvidenceLabel {
     pub fn line(&self) -> String {
         let n = self.rows.len();
         let shown: Vec<&str> = self.rows.iter().take(3).map(|r| r.id.as_str()).collect();
-        let more = if n > 3 {
-            format!(" +{} more", n - 3)
+        let ids = shown.join(" ");
+        if n > 3 {
+            crate::t!(
+                "evidence-label-line-rows-more",
+                tier = self.tier,
+                n = n,
+                ids = ids,
+                n_more = n - 3
+            )
+        } else if n == 1 {
+            crate::t!(
+                "evidence-label-line-one-row",
+                tier = self.tier,
+                n = n,
+                ids = ids
+            )
         } else {
-            String::new()
-        };
-        format!(
-            "Evidence: {} \u{00b7} {} ledger row{} {}{}",
-            self.tier,
-            n,
-            if n == 1 { "" } else { "s" },
-            shown.join(" "),
-            more
-        )
+            crate::t!(
+                "evidence-label-line-rows",
+                tier = self.tier,
+                n = n,
+                ids = ids
+            )
+        }
     }
 
     /// The CSV comment lines.
@@ -170,7 +181,9 @@ impl EvidenceLabel {
     /// `json` with the label as the top-level `evidence` key: before a trailing `figure_tiers` block, else last.
     pub fn apply_json(&self, json: &str) -> Result<String, String> {
         if json.contains(&format!("\"{EVIDENCE_KEY}\":")) && strip_json(json).is_some() {
-            return Err("the result document already carries an `evidence` key".to_string());
+            return Err(crate::terr!(
+                "e-evidence-label-the-result-document-already-carries"
+            ));
         }
         let block = serde_json::to_value(self).map_err(|e| e.to_string())?;
         let body = json.trim_end();
@@ -194,7 +207,7 @@ impl EvidenceLabel {
                 None => (body.len() - 1, entry),
             }
         } else {
-            return Err("the result document is not a JSON object".to_string());
+            return Err(crate::terr!("e-evidence-label-the-result-document-is-not"));
         };
         let mut out = String::with_capacity(json.len() + entry.len());
         out.push_str(&body[..insert_at]);
@@ -474,14 +487,14 @@ impl EvidenceLabel {
 /// `json` labelled for `tool` ([`TOOL_ROWS`]); an error if the tool or its rows are not in the matrix.
 pub fn label_json(tool: &str, json: &str) -> Result<String, String> {
     EvidenceLabel::for_tool(tool)
-        .ok_or_else(|| format!("no evidence rows are listed for `{tool}`"))?
+        .ok_or_else(|| crate::terr!("e-evidence-label-no-evidence-rows-are-listed", tool = tool))?
         .apply_json(json)
 }
 
 /// `csv` labelled for `tool`.
 pub fn label_csv(tool: &str, csv: &str) -> Result<String, String> {
     Ok(EvidenceLabel::for_tool(tool)
-        .ok_or_else(|| format!("no evidence rows are listed for `{tool}`"))?
+        .ok_or_else(|| crate::terr!("e-evidence-label-no-evidence-rows-are-listed", tool = tool))?
         .apply_csv(csv))
 }
 

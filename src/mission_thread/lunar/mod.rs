@@ -142,9 +142,11 @@ fn parse_model<T: serde::de::DeserializeOwned>(
     t: &toml::Table,
 ) -> Result<T, String> {
     if let Some(bad) = t.keys().find(|k| !keys.contains(&k.as_str())) {
-        return Err(format!(
-            "{kind}: unknown model key `{bad}`; the keys are {}",
-            keys.join(", ")
+        return Err(crate::terr!(
+            "e-mission-thread-lunar-unknown-model-key-the-keys",
+            kind = kind,
+            bad = bad,
+            keys = keys.join(", ")
         ));
     }
     toml::Value::Table(t.clone())

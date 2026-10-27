@@ -191,5 +191,13 @@ study-summary: n_scenarios
 study-footer: n_scenarios
 resilience-report-summary: n_validated n_modelled
 bench-cli-folders: n
+evidence-verify-evidence-label-ledger-rows: row_count
+e-mission-thread-earth-model-must-be-an-array-of-2: n
+e-mission-thread-earth-model-must-hold-numbers-got: n got_count
+lunar-surface-map-summary: n_sites n_seasons
+mission-thread-summary: n_phases
+evidence-label-line-one-row: n
+evidence-label-line-rows: n
+evidence-label-line-rows-more: n n_more
 interference-map-locate-summary: n_sessions n_withheld
 interference-map-locate-fig-subtitle: n

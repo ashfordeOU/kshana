@@ -98,10 +98,16 @@ def main():
     path = os.path.join(ROOT, "i18n/en/engine.ftl")
     ftl = open(path, encoding="utf-8").read()
     head = "## kind descriptions"
-    if head in ftl:
-        ftl = ftl[: ftl.index(head)].rstrip("\n") + "\n"
     section = head + "\n\n" + "\n\n".join(ftl_lines) + "\n"
-    open(path, "w", encoding="utf-8").write(ftl.rstrip("\n") + "\n\n" + section)
+    if head in ftl:
+        # Replace this section only: it ends where the next `## ` heading begins (other sections follow it).
+        start = ftl.index(head)
+        nxt = re.search(r"(?m)^## ", ftl[start + len(head):])
+        tail = ftl[start + len(head) + nxt.start():] if nxt else ""
+        ftl = ftl[:start].rstrip("\n") + "\n\n" + section + ("\n" + tail if tail else "")
+    else:
+        ftl = ftl.rstrip("\n") + "\n\n" + section
+    open(path, "w", encoding="utf-8").write(ftl)
 
     # recorded originals
     path = os.path.join(ROOT, "tests/fixtures/i18n/manual.json")
