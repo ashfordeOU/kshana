@@ -85,3 +85,55 @@ seg-ca67c864635c = Wyznaczanie orbity
 seg-4e28248ef77b = Obserwowalność i teoria estymacji
 
 seg-e386dced1d16 = Księżycowe i cislunarne
+
+seg-6c94ae122721 = PNT w przestrzeni kosmicznej i na Marsie
+
+seg-99766b79a00a = Wspomaganie (SBAS)
+
+seg-69a0269c4732 = Zegar i synchronizacja czasu
+
+seg-835df2d05f2a = Dziedzina pomiarowa GNSS
+
+seg-414872cdf952 = Pasywna geolokalizacja RF
+
+seg-7c6f4dc6bcba = Interoperacyjność
+
+seg-37b8c9397544 = Środowisko kosmiczne
+
+seg-dca720256d85 = Ocena i kompromis uczenia maszynowego
+
+seg-558523b5e0ac = Wymiana artefaktów
+
+seg-ee2e250497f9 = Eksport dla test bench
+
+seg-2469b76c5361 = Wypróbuj w przeglądarce
+
+seg-4cd111ab2de6 = Wiersz poleceń (Rust)
+
+seg-379f49bff6fb = Python
+
+seg-ada3fcf67363 = JavaScript i WebAssembly
+
+seg-86566e989fd1 = Asystent AI (serwer MCP, cargo)
+
+seg-6b1e4eb0f596 = Obraz Dockera
+
+seg-97ea215c09db = Biblioteka Rust
+
+seg-8e6e6c943c15 = Wtyczka IDE JetBrains
+
+seg-0bee80bf3587 = Użycie wiersza poleceń
+
+seg-15b1e4c3e367 = Przewodnik po API Pythona
+
+seg-d74b8819d872 = Przewodnik po npm i WebAssembly
+
+seg-61a4eb09767f = Przewodnik po serwerze MCP
+
+seg-6d6fb6ef5db5 = Przewodnik po serwerze MCP: Docker
+
+seg-2a7a767138b9 = Dokumentacja API na docs.rs
+
+seg-f36464ef1b66 = JetBrains Marketplace
+
+seg-9f6e5af01266 = Przewodnik po wtyczce
