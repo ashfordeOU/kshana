@@ -131,3 +131,15 @@ seg-36d838421b86 = Czy mogę odtworzyć, rozszerzyć i zacytować wynik PNT, aż
 seg-821762272e2f = Sektory
 
 seg-13e8e5460280 = Geometria
+
+seg-b366150de755 = Zamów badanie
+
+seg-e1acd19a6ac6 = Porównaj wydania
+
+seg-5116f1a604ee = Dla kogo
+
+seg-6d3d0f8c9b7c = Poproś o ocenę Pro
+
+seg-813d6d41b891 = Skopiuj polecenie, które to odtwarza
+
+seg-a0ef302e2458 = Skopiuj polecenie

@@ -2497,3 +2497,1041 @@ seg-55ca63edff02 = Detekcja spoofingu na podstawie spójności Dopplera LEO i ge
 seg-f4d1ec6fc464 = Cytowanie
 
 seg-d0566d4db829 = Odtwórz to
+
+seg-1d45f4717196 = Z repozytorium
+
+seg-b366150de755 = Zamów badanie
+
+seg-ac7e1a5e344a = Pro
+
+seg-6d3d0f8c9b7c = Poproś o ocenę Pro
+
+seg-8f101c803442 = Każda możliwość nosi <s1>swój dowód.</s1>
+
+seg-9ef28b622a43 = { "388" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "208" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
+
+seg-4f6445e5dd61 = Macierz weryfikacji <b>v{ $version }</b>
+
+seg-d9f0aabb4262 = Wstrzymaj przesuwanie
+
+seg-ae9e2459836c = możliwości
+
+seg-4adb5411062e = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "208" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
+
+seg-f97cb6bf8202 = Najedź na komórkę lub ustaw na niej fokus, by przeczytać jej możliwość i wyrocznię, która ją ocenia.
+
+seg-8a1cef0b9561 = Sprawdzone: niezależna zewnętrzna wyrocznia się zgadza
+
+# c1: web/data/verification-matrix.json
+# c2: src/verification.rs
+seg-582c4a762fc5 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "388" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
+
+seg-d5c32303297d = Przeczytaj rejestr
+
+seg-f6112ab2dfdf = Rejestr, wyniki, stempel odtwarzalności i testy, które za nimi stoją, są w całości w otwartym silniku.
+
+seg-69df15091cab = Pakuje dowody w odtwarzalny pakiet dowodowy klasy audytowej dla komisji przeglądowej. <a1>Zobacz poniżej</a1>
+
+seg-9906d9824f3e = Odpowiada na Twoje własne pytanie z tymi samymi etykietami, nie jest certyfikacją. <a1>Zobacz poniżej</a1>
+
+seg-f6a6cca2263c = Macierz
+
+seg-78e5feea4a80 = Wyniki sprawdzone
+
+seg-b3b972c50b99 = Słowniczek (Dokumentacja)
+
+seg-92e427f220c0 = Wyniki sprawdzone · każda porównana wartość
+
+seg-a92d57eddda0 = Sprawdzone względem cudzej odpowiedzi.
+
+seg-978c14c0cbd8 = Każdy kafelek rysuje każdą wartość, którą silnik porównał z niezależnym wzorcem: opublikowane wektory, osobną bibliotekę dynamiki lotu, precyzyjne efemerydy, bibliotekę statystyczną, publikację normy oraz zmierzony zapis zegara wyłączony z dopasowania. Najedź na znacznik lub ustaw na nim fokus, by zobaczyć jego wartość.
+
+seg-2b49d76005fd = Orbity · analityczne
+
+seg-0155cf46a133 = Propagacja orbity SGP4 (Simplified General Perturbations { "4" })
+
+# c1: 4.12
+seg-3d4fd2b6704a = Odtworzono każdy wektor referencyjny AIAA (American Institute of Aeronautics and Astronautics), w tym przypadki SDP4 (Simplified Deep-space Perturbations { "4" }) dla przestrzeni dalekiej. Najgorszy przypadek <c1/> mm.
+
+seg-dbb66386afbf = Jeden kwadrat na porównany wektor, w kolorze jego błędu pozycji.
+
+seg-55fc928e19ae = wyrocznia · wektory weryfikacyjne AIAA 2006-6753
+
+seg-1d60624d525d = Jak to sprawdzono
+
+# c1: fc21ac4
+# c2: tests/sgp4_verification.rs
+seg-6adbc42697f9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# c1: orbit-sgp4-gps.toml
+# c2: 17
+seg-58ca3da25e69 = Otwórz w { -brand } Studio: ten sam propagator, <c1/><s1> · ziarno (seed) <c2/></s1>
+
+seg-813d6d41b891 = Skopiuj polecenie, które to odtwarza
+
+seg-a0ef302e2458 = Skopiuj polecenie
+
+seg-3b6c7858f32d = { "171" } z { "171" } przypadków progów RAIM (autonomiczna kontrola integralności w odbiorniku) zgadza się z SciPy w granicach pasma. Ziarno (seed) { "7" }.
+
+seg-0921da0d292e = Integralność · statystyka
+
+seg-6f311aef88fe = przypadki
+
+seg-36b744b97026 = Progi detekcji RAIM
+
+seg-db13900bdd77 = Statystyczne jądro RAIM (autonomicznej kontroli integralności w odbiorniku) względem SciPy, przypadek po przypadku.
+
+seg-87734f6c52a2 = Jeden kwadrat na przypadek SciPy, pogrupowane według jądra.
+
+seg-4957eddb39ed = wyrocznia · SciPy
+
+# c1: fc21ac4
+# c2: tests/raim_reference.rs
+seg-c5d5cf50c8a9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# c1: integrity-raim.toml
+# c2: 7
+seg-011e33e27f59 = Otwórz w { -brand } Studio: jądro w działaniu, <c1/><s1> · ziarno (seed) <c2/></s1>
+
+seg-e02df7620fc7 = Numeryczna propagacja orbity (Cowella) względem Orekit na łuku 24-godzinnym: najgorsza różnica { "0.08" } m w poziomach sił od { "1" } do { "5" }.
+
+seg-d52f564b4af8 = Orbity · numeryczne
+
+seg-e204506056b8 = Propagacja numeryczna (Cowella)
+
+seg-16e820be9d20 = Względem biblioteki dynamiki lotu Orekit { "12.2" } w każdej epoce łuku 24-godzinnego, poziom sił po poziomie sił.
+
+seg-2b1ea60e99a7 = Różnica pozycji w czasie, dla każdego poziomu sił.
+
+seg-75344d6c427a = wyrocznia · Orekit { "12.2" }
+
+# c1: fc21ac4
+# c2: tests/numerical_cowell_propagator_reference.rs
+seg-2e80a89ee20a = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-44988f3835ce = Brak widoku w { -brand } Studio: to porównanie działa jako test silnika.
+
+seg-6e9e7897bbc0 = Orbity · od milimetrów do metrów
+
+seg-dcde8c6ec76a = m Galileo
+
+seg-f09e813feeb3 = m Swarm-A
+
+seg-3c258b4d5ac7 = Każda reszta orbity na jednej skali
+
+seg-211a071c2017 = Od kontroli propagatora po dopasowania do precyzyjnych efemeryd ESA (European Space Agency). Pokazano też księżycowy orbiter, powyżej progu.
+
+seg-f5b078c26ba8 = Każda reszta w skali logarytmicznej od milimetra do dwudziestu metrów.
+
+seg-6670ead3fa91 = wyrocznia · precyzyjne efemerydy ESA, odtworzona trajektoria księżycowego orbitera, Orekit { "12.2" }, wektory AIAA
+
+# c1: docs/AGENCY-ORBIT-VALIDATION.md
+# c2: fc21ac4
+seg-6ce9be05ab08 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-57c9f4e60efa = Brak widoku w { -brand } Studio: precyzyjne wyznaczanie orbity działa jako testy silnika.
+
+seg-f8f25ec2345b = Zegary · stabilność
+
+# c1: 12
+seg-912dbb14d171 = z <c1/> opublikowanych wartości
+
+seg-e0c144321893 = Odtwarza wartości referencyjne z NIST (National Institute of Standards and Technology) Special Publication (SP) { "1065" }, Tabela { "31" }, na jej własnym zbiorze 1000 punktów.
+
+seg-5d3372dbff1f = Cztery odchylenia względem czasu uśredniania, z opublikowanymi wartościami jako pierścieniami.
+
+seg-9993e306ae64 = wyrocznia · NIST SP { "1065" }
+
+# c1: fc21ac4
+# c2: tests/allan_nist_sp1065_1000point.rs
+seg-2a2794bda50f = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# c1: clock-holdover.toml
+# c2: 42
+seg-fc6a00946a11 = Otwórz w { -brand } Studio: estymatory na zegarze, <c1/><s1> · ziarno (seed) <c2/></s1>
+
+seg-4f484b09471e = Predykcja holdover na zmierzonym zapisie zegara cezowego: predykcja do pomiaru między { "0.84" } a { "1.03" }, w granicach z góry ustalonego współczynnika { "1.5" }.
+
+seg-4321e1b6bc12 = Zegary · holdover
+
+seg-7e2bad702e68 = do
+
+seg-62cf63a7bec7 = Predykcja holdover na prawdziwym zegarze cezowym
+
+# c1: 1.5
+seg-1f59d5bb3cff = Dopasowano na pierwszej trzeciej zmierzonego zapisu cezowego, przewidziano na pozostałych dwóch trzecich: w granicach z góry ustalonego współczynnika <c1/>.
+
+seg-46c1dbe5c6bc = Zmierzony i przewidziany błąd czasu względem czasu dryfu oraz okno ilorazu.
+
+seg-449f52c56c67 = wyrocznia · zmierzony zapis zegara cezowego
+
+# c1: fc21ac4
+# c2: tests/slot_timing_cs5071a_holdout.rs
+seg-275351654591 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# c1: slot-timing-ocxo-leo.toml
+seg-c131867720cc = Otwórz w { -brand } Studio: to samo odwrócenie, <c1/><s1> · deterministyczne</s1>
+
+seg-05dd599ce14a = Jedna komórka na możliwość.
+
+seg-b19592bc5242 = Sprawdzone oznacza, że zgadza się niezależne źródło zewnętrzne: opublikowane wektory referencyjne, osobne narzędzie lub dane pomiarowe. Wszystko inne jest określone jako modelowane. Wybierz etykietę, by podświetlić jej komórki.
+
+seg-800e31fc8f7d = Ocenione możliwości
+
+seg-1d2c8132218d = { "176" }<s1>z { "388" } sprawdzonych</s1>
+
+seg-e61158f71854 = Najedź na komórkę
+
+seg-b66d124aa8dd = Macierz weryfikacji: { "176" } sprawdzonych, { "208" } modelowanych, { "4" } należących do partnera, { "388" } łącznie
+
+seg-d814d33d2b1e = allan::lag1_noise_id: the Riley and Greenhall ({ "2004" }) lag-1 autocorrelation noise… · Sprawdzone
+
+seg-3f806067da69 = osnma + kshana osnma verify: an open, pure-Rust receiver-side verifier for Galileo OSNMA… · Sprawdzone
+
+seg-10698a330a88 = Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs · Sprawdzone
+
+seg-b1508c42341f = Overlapping Allan + overlapping Hadamard deviation on a real caesium standard · Sprawdzone
+
+seg-a8462102ee02 = Overlapping Allan + modified Allan + time deviation across the full AF ladder · Sprawdzone
+
+seg-29e7bbbe508c = Theo1 and total deviation (TOTVAR) — extended-range long-tau stability estimators… · Sprawdzone
+
+seg-1e52731cd30d = MTIE(τ): maksymalna amplituda szczyt-szczyt błędu czasu w dowolnym przesuwanym oknie τ =… · Sprawdzone
+
+seg-0bdb8a3e7052 = MDEV(τ): nakładające się zmodyfikowane odchylenie Allana (przesuwane okno drugiej różnicy… · Sprawdzone
+
+seg-e5651d7b5236 = Odzyskiwanie NNLS prawa potęgowego (biały szum FM + poziom szumu czerwonego) z opublikowanego zmierzonego ⁸⁸Sr… · Sprawdzone
+
+seg-e7ada48a7ff9 = Separacja rozwiązań wielu hipotez ARAIM według ARAIM Airborne Design Document… · Sprawdzone
+
+seg-a74e42c59d5f = SGP4/SDP4, Cowell 6-DOF + perturbacje, wsadowe/sekwencyjne wyznaczanie orbity · Sprawdzone
+
+seg-4f8eeede9609 = Numeryczny propagator Cowella z hierarchicznym modelem sił (dwa ciała, zonalne J2–J6… · Sprawdzone
+
+seg-1fecb2c8c5d7 = Oświetlona część SRP z elipsoidą WGS-84 jako ciałem zasłaniającym (pozorny promień Ziemi… · Sprawdzone
+
+seg-da94fc5e3b03 = SRP inne niż kula armatnia: model płaskich płyt typu skrzynia ze skrzydłami (Vallado, wzór 8-44; korpus jednostronny… · Sprawdzone
+
+seg-bf16e7dc6637 = Oświetlona część SRP jako niezasłonięta część strumienia słonecznego z ciemnieniem brzegowym… · Modelowane
+
+seg-5ccaafbaf99c = Port empirycznej termosfery NRLMSISE-00 (gtd7 i gtd7d: gęstości gatunków… · Sprawdzone
+
+seg-2fd4e498e5d6 = forces::DensityModel (domyślnie Exponential, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) i… · Sprawdzone
+
+seg-8c1643833e02 = Domyślny opór propagatora Cowella: opór kwadratowy względem współobracającej się… · Sprawdzone
+
+seg-c88dad1395e5 = Opcjonalny poziom efemeryd dla członów trzeciego ciała i SRP numerycznego propagatora Cowella… · Modelowane
+
+seg-fc85378484a6 = Dobowy pływ ciśnienia powietrza S1 jako perturbacja geopotencjału: Biancale i Bode… · Modelowane
+
+seg-5d41c94116ae = Harmoniczne ciśnienia powietrza S2 według Raya ({ "2001" }) (n <= { "4" }, postępowe i wsteczne) przeliczone na… · Sprawdzone
+
+seg-4e94ef6bbaf3 = Opcjonalne pole tesseralne EGM2008 (do stopnia/rzędu { "70" }) jako centralna grawitacja… · Sprawdzone
+
+seg-1b8ba1d23a4f = Odporne na niedomiar i bieguny obliczanie w pełni unormowanego pola do stopnia { "2190" }… · Modelowane
+
+seg-ece10758305d = Jawna metoda Rungego-Kutty Hairera DOP853 { "8" }({ "5,3" }) ze złożonym błędem 5./3. rzędu… · Sprawdzone
+
+seg-c29a1f584c92 = Eliptyczny solver Keplera dla wszystkich { "0" } <= e < { "1" } i wszystkich anomalii średnich: sześcienny Markleya ({ "1995" })… · Sprawdzone
+
+seg-ae484d7c73e7 = Odzyskanie stanu epoki z mieszanego śledzenia odległości, prędkości zmiany odległości i azymutu/elewacji powyżej… · Modelowane
+
+seg-7166587b7af6 = Odwzorowanie kodów dokładności SP3 (nagłówek ++ wykładniki w { "2" }^n mm, baza %f, baza rekordu^n mm… · Modelowane
+
+seg-a352259cb1c3 = Odczyt tabel harmonik sferycznych PDS SHADR (from_shadr, na SphericalHarmonicField w… · Sprawdzone
+
+seg-bbdb377981c4 = with_gravity_field (na Body, w src/gravity_pds.rs): dołącz dowolne wczytane… · Modelowane
+
+seg-0dad0a6df1ba = Odzyskanie stanu epoki [r,v] z odległości od stacji naziemnych metodą wsadową Gaussa–Newtona… · Sprawdzone
+
+seg-9aa6eccb7941 = Opóźnione (łącze w dół) jednokierunkowe rozwiązanie czasu świetlnego τ = |r_rx − r_target(t−τ)|/c dla… · Sprawdzone
+
+seg-44b327dce46e = Keplerowskie efemerydy pokładowe IS-GPS-200 / Galileo-OS / BeiDou-OS → ECEF pozycja satelity… · Sprawdzone
+
+seg-b2291e777ac3 = Interpolacja Lagrange'a według standardu IGS pozycji satelitów z precyzyjnych efemeryd SP3 z… · Sprawdzone
+
+seg-e64d4f89e37d = GPS CNAV typy komunikatów 10/11/30, Galileo I/NAV typy słów 1-5 w nominalnych stronach parzystych/nieparzystych… · Modelowane
+
+seg-30fbb32b73fa = Czytnik IONEX { "1.0" } (nagłówek, wartości I5 w stałych kolumnach, mapy TEC i RMS, epoki bezwzględne… · Sprawdzone
+
+seg-851595dfa46e = Filtr Hatcha bez rozbieżności (kod wolny od jonosfery niesiony przez wolną od jonosfery… · Modelowane
+
+seg-f22ecff347b8 = Pozycjonowanie względne na krótkiej bazie z rzeczywistego dwuczęstotliwościowego kodu i fazy nośnej GPS… · Sprawdzone
+
+seg-53b900e15215 = Zegar odbiornika estymowany przez statyczny filtr PPP z wartościami zmiennoprzecinkowymi na rzeczywistym dwuczęstotliwościowym GPS… · Sprawdzone
+
+seg-53508398f315 = Statyczny rozszerzony filtr Kalmana PPP z wartościami zmiennoprzecinkowymi na rzeczywistym dwuczęstotliwościowym kodzie i fazie nośnej GPS… · Sprawdzone
+
+seg-135f709cabd6 = Pliki nawigacyjne RINEX 4.00-4.02: rekordy > EPH GPS LNAV, Galileo I/NAV i F/NAV… · Sprawdzone
+
+seg-8217e6dad5f4 = Nagłówki obserwacji RINEX 4.0x (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE… · Modelowane
+
+seg-5064320fefbc = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } pozycja satelity geostacjonarnego z pokładowych… · Modelowane
+
+seg-b3a6e424d368 = Przesunięcie zegara satelity między tabelarycznymi węzłami zegara SP3 przez interpolację liniową… · Sprawdzone
+
+seg-f3c33c897d1c = EKF stanu błędu na { "15" } stanach INS, dwustanowym zegarze odbiornika i jednej zmiennoprzecinkowej nośnej… · Modelowane
+
+seg-d18e059df2c0 = Trzy scenariusze gnss-ins na bibliotece trajektorii (statek kołyszący się z prędkością { "8" } m/s z… · Modelowane
+
+seg-94ad91994306 = Jeden skumulowany filtr Kalmana nad pozycją, prędkością, fazą i częstotliwością zegara zasilany… · Modelowane
+
+seg-6d46cb5414e3 = Zamknięty w pętli 15-stanowy EKF stanu błędu sterowany przyrostami IMU z anteną GNSS… · Sprawdzone
+
+seg-be8fb95782af = Pliki ruchu eksportu bench podawane własnym czytnikom otwartego symulatora GNSS pochodzą… · Sprawdzone
+
+seg-46797187781a = Wybieralne profile ruchu dla pakietu gnss-ins (prosta, figure-8, miejski stop-and-go… · Modelowane
+
+seg-0d1622691877 = Mechanizacja inercjalna strapdown WGS-84 NED z orientacją kwaternionową… · Sprawdzone
+
+seg-6c2952f49754 = Wielkość grawitacji z harmonik sferycznych + zaburzenie (mGal) z dowolnego modelu ICGEM .gfc… · Sprawdzone
+
+seg-41ca7eec4a62 = Ograniczona kołowo południowa prawie prostoliniowa orbita halo L2 { "9" }:{ "2" }, która… · Modelowane
+
+seg-42c26212e2c9 = cr3bp::to_moon_centred_icrf odwzorowuje bezwymiarowy obracający się stan Ziemia–Księżyc CR3BP na… · Sprawdzone
+
+seg-35b2be544d26 = Rodzaj układu słonecznego z planetary_kernel_path: każde zgłaszane ciało, którego własny kod NAIF… · Sprawdzone
+
+seg-ad3763136cc7 = maneuver::porkchop_kernel: przegląd data startu x data przylotu dla C3 odlotu (km²/s²)… · Sprawdzone
+
+seg-0f5ae623905f = maneuver::optimise_transfer_kernel: daty odlotu i przylotu… · Sprawdzone
+
+seg-0ae19001fe4b = Każde rozwiązanie problemu Lamberta z maksymalnie trzema pełnymi obiegami… · Sprawdzone
+
+seg-7eafc10ca9dc = Solver Lamberta Izzo-2015 dla jednego obiegu (r1, r2, czas lotu → wartości brzegowe… · Sprawdzone
+
+seg-a8818aea1c75 = Precesja-nutacja IAU 2006/2000A, CIO GCRS↔ITRS, skale czasu z sekundami przestępnymi · Sprawdzone
+
+seg-3713cbb8eb72 = Data kalendarzowa i czas UTC na dwuczęściową datę juliańską UTC z SOFA dtf2d… · Sprawdzone
+
+seg-822cd40b49f9 = Obrót Ziemi z dwuczęściowej daty juliańskiej UT1 na ścieżce orbity, tak aby związany z Ziemią… · Sprawdzone
+
+seg-c846d8ec2e5e = Trzy macierze układów odniesienia porównane element po elemencie lub kątem obrotu z ERFA przy… · Sprawdzone
+
+seg-853ce09df9d5 = UTC od 1960-01-01 do 1971-12-31, gdy UTC biegło ze stopą przesunięcia względem TAI i skokami… · Sprawdzone
+
+seg-a0c473abd3ff = Pokładowe przesunięcie zegara satelity GLONASS -tau_n + gamma_n (t - t_b) w czasie odczytanym na… · Sprawdzone
+
+seg-ca16d26f1ebe = Ścieżka propagacji i układów odniesienia wspólna dla każdego kierowanego rodzaju orbity okołoziemskiej: średnia SGP4… · Sprawdzone
+
+seg-15ce16875e3a = Ograniczenia listków bocznych i korelacji wzajemnej m-sekwencji/Golda, długość↔niejednoznaczność · Sprawdzone
+
+seg-044da209dd61 = GDOP/PDOP/HDOP/VDOP/TDOP z geometrii linii widzenia przez Q=(HᵀH)⁻¹ z lokalnym podziałem ENU · Sprawdzone
+
+seg-a9fda54b3df8 = dop_error_mc::run_geometry i check: Monte Carlo z ziarnem (N = { "20,000" } epok na… · Modelowane
+
+seg-cd50aaf86375 = receiver_trust::geometry: geometria satelitów w każdej epoce (dobra, pogorszona z powodami… · Modelowane
+
+seg-d39aa1ea5121 = Jednoczęstotliwościowe skośne opóźnienie grupowe jonosfery Klobuchara L1 z ośmiu pokładowych α/β… · Sprawdzone
+
+seg-ab6ef0477bea = Rdzeń rozkładowy, na którym opiera się każdy poziom ochrony: migawkowa detekcja uszkodzeń… · Sprawdzone
+
+seg-08740f67bcf2 = Poziomy ochrony DO-229E Appendix J metodą ważonych najmniejszych kwadratów: D=(GᵀWG)⁻¹ z… · Sprawdzone
+
+seg-0597fb2464d0 = AUC (Mann-Whitney, remisy ½), macierz pomyłek przy progu… · Sprawdzone
+
+seg-76f7a9a22d70 = ROC AUC + przedział ufności z bootstrapu oddzielający rzeczywiste oznaczone anomalie; przejrzysty detektor… · Sprawdzone
+
+seg-f3d7926d7464 = Dopasowanie NNLS zmierzonego ADEV, pasma spójności χ² NEES/NIS i dyskretny zegar van-Loana… · Sprawdzone
+
+seg-cf029efb7438 = Synteza harmonik sferycznych pola głównego IGRF-14 — składowe X/Y/Z/F, deklinacja… · Sprawdzone
+
+seg-ba97bae9110c = Analityczne dwunormalne ROC AUC = Φ(μ/(σ√{ "2" })) i minimalne wykrywalne uszkodzenie… · Sprawdzone
+
+seg-fa9b946507f8 = Jądra korelacji rang i ponownego próbkowania w badaniu niestabilności decyzji dotyczących odporności… · Sprawdzone
+
+seg-c0267817b05a = Wagi priorytetów Analytic Hierarchy Process = unormowany główny (Perrona) wektor własny… · Sprawdzone
+
+seg-3780fbf75fa5 = Weighted Sum Model (addytywna agregacja unormowana min–max + ranking) i Weighted… · Sprawdzone
+
+seg-e90b04f6ed22 = Technique for Order of Preference by Similarity to Ideal Solution — min–max… · Sprawdzone
+
+seg-b66a72295a62 = VlseKriterijumska Optimizacija — użyteczność grupowa Sᵢ, żal indywidualny Rᵢ i… · Sprawdzone
+
+seg-8e3355350914 = Preference Ranking Organization METHod — parowy wskaźnik preferencji z sześcioma standardowymi… · Sprawdzone
+
+seg-edc8867a5ae6 = ELimination Et Choix Traduisant la REalité — macierze zgodności / niezgodności, … · Sprawdzone
+
+seg-85bc967357d6 = Weighted Aggregated Sum Product ASSessment (liniowo unormowana mieszanka wypukła… · Sprawdzone
+
+seg-69652cbd7eb5 = COmplex PRoportional ASsessment — istotność korzyści S⁺ unormowana sumą kolumn plus… · Sprawdzone
+
+seg-14a9c267153c = Najgorsze opóźnienie detekcji tabelarycznego detektora CUSUM (⌊h/(z−k)⌋+{ "1" }) i poza kontrolą… · Sprawdzone
+
+seg-559361559e00 = Wzrost wariancji błędu fazy w dryfie q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 i jego monotoniczna… · Sprawdzone
+
+seg-f35ada98dcce = Efektywna różnorodność architektoniczna = odwrotność Simpsona / liczba Hilla rzędu 2 1/Σpᵢ² po… · Sprawdzone
+
+seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry: geodezyjny (WGS-84) azymut… · Sprawdzone
+
+seg-f5a8c861b566 = skyline: kanion uliczny w postaci zamkniętej (cięcie atan((h - a) / d) przy d = (w/2) /… · Modelowane
+
+seg-6f4ab2e589a4 = skyline::PRESETS: cztery geometrie REPRESENTATIVE z podanymi w nocie projektowej… · Modelowane
+
+seg-206fd57a3ac7 = geometry::sky_geometry: kofaktor ENU i zegara (H^T H)^-1 z jednym zegarem odbiornika w… · Sprawdzone
+
+seg-d01c7735f171 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg… · Modelowane
+
+seg-443eb5d0c060 = Wzrost błędu dryfu w postaci zamkniętej + holdover do progu; klasy zegarów kwantowych · Modelowane
+
+seg-82fc65142759 = clock_library: karta urządzenia (biała faza, biały, flicker i błądzenie losowe FM plus… · Modelowane
+
+seg-18704e564ea4 = clock_library::card::DeviceCard::fit_phase_periodic: karta urządzenia, która niesie… · Modelowane
+
+seg-b3a0ab1e8725 = 3-stanowy (faza/częstotliwość/dryf) zegar Kalmana van-Loana, stabilizowany metodą Josepha · Modelowane
+
+seg-065f31b5656e = Dwukierunkowy/TWSTFT (Sagnac), GNSS common-view, PPP; drżenie łącza→odległość · Modelowane
+
+seg-f66464be680e = BPSK-R/BOC PSD, separacja widmowa κ, szerokość pasma Gabora, drżenie DLL, wielodrogowość · Modelowane
+
+seg-93c350e230ed = Generator kodu C/A G1/G2 LFSR odtwarzający opublikowane w IS-GPS-200 ósemkowe pierwsze 10 chipów… · Sprawdzone
+
+seg-934de63c594b = Akcelerometr z interferometrią zimnych atomów z zasad pierwszych (k_eff·T², QPN) · Modelowane
+
+seg-c1b7c7c18be6 = Zakres dynamiczny niejednoznaczności prążków Macha–Zehndera: 2π-okresowy odczyt prążków ustala… · Modelowane
+
+seg-0b04febfad29 = Złożony budżet pozycji z biasu + współczynnika skali + VRW + zaniku stabilności w czasie holdover · Modelowane
+
+seg-9f1d13017c2b = 15-stanowy EKF stanu błędu, luźno sprzężony (sprawdzony na rzeczywistym przejeździe IMU/GNSS względem… · Sprawdzone
+
+seg-7de0c3292c0b = Bilans łącza J/S z geometrii, C/N₀ odporne na zakłócenia, utrata synchronizacji dla każdego satelity · Modelowane
+
+seg-4c976ce425d1 = Zegarem wspomagane χ², RAIM, AGC, SQM scalone w FoM bezpieczeństwa dla każdej epoki · Modelowane
+
+seg-94aef965251e = Ograniczenie w postaci zamkniętej najgorszego niewykrytego błędu czasu = dolna granica monitora + oscylator… · Modelowane
+
+seg-f94c1547b98c = CR3BP STM + korektor różnicowy z pojedynczym strzałem; południowa NRHO L2 · Sprawdzone
+
+seg-ed2d780e3d9e = Dopasowanie map grawitacji, odniesienie do terenu (TERCOM/SITAN), anomalia magnetyczna · Modelowane
+
+seg-486011306ab7 = Anomalia grawitacji w przybliżeniu sferycznym (Barthelmes STR09/02 wzór { "126" }, ICGEM… · Sprawdzone
+
+seg-4483cf6d6e1b = Ręcznie napisany parser SRTM .hgt (16-bitowy big-endian, najpierw wiersz północny, z obsługą pustych komórek) + dwuliniowa… · Sprawdzone
+
+seg-00ca5de4ee1f = Deterministyczne, ze skrótem scenariusza, SBOM + międzyplatformowe bramki wzorcowe · Modelowane
+
+seg-8e59c3e84e80 = Oznaczony syntetyczny korpus zakłóceń + niezależne od detektora ROC/AUC/macierz pomyłek/Pfa-Pmd… · Modelowane
+
+seg-ee1c310ec3f1 = Kontrolowane badanie syntetyczne luki optymizmu AUC między rozkładem własnym a spoza rozkładu… · Modelowane
+
+seg-901571509bd6 = Wczytywanie zmierzonego ADEV (NNLS), tabela kompromisów (holdover czasu/inercjalny + korzyść)… · Modelowane
+
+seg-5662e2e5895c = Wskaźniki słoneczne/geomagnetyczne (definicyjna tabela Kp↔ap), egzosferyczna Jacchii-1971… · Modelowane
+
+seg-c537da9d8e79 = Importer CCSDS { "502.0" } OEM (parse_oem), tolerujący linie COMMENT / dodatkowe metadane… · Sprawdzone
+
+seg-beeb7d7b6dd4 = Azymut(y) startu dwóch ciał (sin Az = cos i / cos lat), minimalna osiągalna inklinacja… · Modelowane
+
+seg-c45e3519a7a5 = Szczytowe opóźnienie (niezależne od współczynnika balistycznego), prędkość + wysokość przy szczycie g… · Modelowane
+
+seg-da36dafae1a0 = Geometria trójkąta kosmicznego SMAD: kątowy promień Ziemi, szerokość pasa, nadirowe GSD, maksymalna… · Sprawdzone
+
+seg-3ad96d6deb18 = Kodowanie/dekodowanie nagłówka głównego pakietu kosmicznego CCSDS 133.0-B… · Sprawdzone
+
+seg-8310f0595525 = Rozszerzenia pakietu kosmicznego CCSDS 133.0-B-2 obok nagłówka głównego: nagłówek dodatkowy… · Sprawdzone
+
+seg-5bb33fefb658 = Zapis i odczyt jąder NAIF SPICE SPK typu { "9" } (Lagrange, nierówne kroki czasu)… · Sprawdzone
+
+seg-0e3ee73f6878 = Zapis i odczyt segmentów NAIF SPICE SPK typu { "3" } (wielomiany Czebyszewa dla… · Sprawdzone
+
+seg-f7030d62e793 = Zapis i odczyt komunikatów danych o orientacji CCSDS 504.0-B-2 w KVN i NDM/XML: AEM… · Sprawdzone
+
+seg-c50a40ca4cc3 = Zapis i odczyt komunikatów danych o orbicie CCSDS 502.0-B-3 w KVN i NDM/XML: OPM { "3.0" }… · Sprawdzone
+
+seg-26a88c235d95 = Najgorszy moment zaburzający gradientu grawitacji ((3/2)(μ/R³)ΔI) jako szczyt po orientacji… · Sprawdzone
+
+seg-87c35f71a0ad = Przeloty widoczności w dziedzinie czasu (AOS/TCA/LOS, maksymalna elewacja, czas trwania) silnika… · Sprawdzone
+
+seg-52b6d079e92c = Przeloty widoczności (AOS, TCA, LOS, maksymalna pozorna elewacja, czas trwania) SGP4… · Sprawdzone
+
+seg-399a6180ad73 = Es/N0 łącza w dół wzdłuż każdego przelotu jednego satelity nad jedną stacją (EIRP, strata w wolnej przestrzeni… · Modelowane
+
+seg-39ce06b45cb9 = Kandydujące kontakty z każdego przelotu satelity nad stacją z jego wolumenem danych ACM; konflikty… · Modelowane
+
+seg-3fba182b5716 = Strata w wolnej przestrzeni, C/N₀, Eb/N₀, zapas i domknięcie bilansu według CCSDS { "401" } / DSN 810-005… · Sprawdzone
+
+seg-c4474a20a256 = Koszt na procent pokrycia + ROI pokrycia na euro w silniku doboru rozmiaru konstelacji… · Modelowane
+
+seg-f7455ff3cea7 = Odwzorowuje niewykryty bias spoofingu/zagłuszania na efektywny błąd → region Stanforda… · Modelowane
+
+seg-3b6f9365b858 = Ujęte w przedziały (najlepsze/nominalne/zachowawcze) osiągi interferometru zimnych atomów — bias… · Modelowane
+
+seg-487540fed42b = Klasyfikacja epok na diagramie integralności Stanforda TIB (nominalna / niedostępna / MI / HMI) · Modelowane
+
+seg-fdacd291d688 = Ocena pokrycia integralności TIB (wskaźniki HMI/MI/dostępności + werdykt pokrycia ograniczenia z góry) · Modelowane
+
+seg-55b7d4cb0733 = Menu uszkodzeń TIB (rozbieżność dziedzin, uderzenie zegara, dryf holdover… · Modelowane
+
+seg-deb93b385e06 = Werdykt niewykrywalnego pochłaniania TIB (symetryczne/powtórzeniowe musi być pochłonięte przez PL, nigdy… · Modelowane
+
+seg-71e991a2fb5e = Nie dostarczane — { -brand } jest symulatorem osiągów nawigacyjnych, a nie wytwórcą platform · Partnerskie
+
+seg-aad5d920d276 = Nie dostarczane — { -brand } modeluje osiągi sygnału, a nie sprzęt ładunku/anten · Partnerskie
+
+seg-635ca7bf37f6 = Nie dostarczane — tylko modele osiągów; sprzęt zimnych atomów/zegarów należy do partnera · Partnerskie
+
+seg-cf461832e017 = Nie dostarczane — { -brand } dotyczy wyłącznie programowej PA; lotnicza PA należy do partnera · Partnerskie
+
+seg-b12d70afce58 = Relatywistyczne tempo zegara Ziemia–Księżyc (LTC/TCL) + łańcuchowanie TT/TAI/UTC + zespół · Sprawdzone
+
+seg-2196751179d2 = Raport hybrid-optical-rf podaje konfigurację łącza, przy której faktycznie działał (nośna… · Modelowane
+
+seg-c4ba60f69a92 = Raport hybrid-optical-rf podaje dostępność łącza RF, złożoną z wielkości… · Modelowane
+
+seg-e35847b3472a = Raport hybrid-optical-rf podaje stosunek pomiarów odległości optycznych do RF z JEDNĄ… · Modelowane
+
+seg-f2a51c1899b1 = Raport link-budget podaje każdą stałą bezwzględną, z której obliczono jego własny zapas… · Modelowane
+
+seg-8f6469a6120f = Jeden przebieg lunar-time-budget daje wiersz przecięcia zegar-układ odniesienia dla każdej klasy zegara względem… · Modelowane
+
+seg-0539c66f5cf0 = Jedna tabela podaje błąd predykcji UT1, błąd bieguna ruchu bieguna i ich… · Sprawdzone
+
+seg-a3f939d488fb = Domyślną wartością czasu wykonania realtime-frame-eop jest własna wbudowana kopia biblioteki dosłownego… · Sprawdzone
+
+seg-8f02a2501455 = Dwuosiowy przegląd ważonego charakterystyką, ograniczonego wysokością śladu przechwytu powierzchni nad… · Modelowane
+
+seg-8a1340c7c9c7 = Scenariusz lunar-time-budget publikuje swoje wyniki tablicowe jako długoformatowe (siatka… · Modelowane
+
+seg-4ab4a61e8167 = Opcjonalny blok [time_lab] scenariusza lunar-time-budget modeluje księżycowy układ odniesienia… · Modelowane
+
+seg-57abfe8d677e = Opóźnienie VLBI w polu bliskim dla ziemskiej bazy obserwującej księżycowy radiolatarnię + pochodne cząstkowe · Modelowane
+
+seg-d30dd4a12006 = Opóźnienie VLBI w polu bliskim dla ziemskiej bazy obserwującej księżycową radiolatarnię, z radiolatarnią i… · Sprawdzone
+
+seg-3aa60b9c6b3c = Własny czytnik silnika w czystym Ruście dla binarnych jąder NAIF (naif_kernel): DAF… · Sprawdzone
+
+seg-2acd73a9ac2d = Odbiór ziemskiego GNSS na odległości księżycowej: warstwa słabego sygnału, którą nazywa tabela { "1" } P7, i… · Modelowane
+
+seg-33d1304a0519 = Wyznaczanie orbity na prawie prostoliniowej orbicie halo (lub eliptycznej zamrożonej orbicie)… · Modelowane
+
+seg-c1ee9a353523 = Pojedynczo różnicowana między odbiornikami faza nośnej i kod ziemskiego GNSS na powierzchni Księżyca… · Modelowane
+
+seg-69aedd00f9a3 = Informacja Fishera siedmioparametrowej datum księżycowego układu odniesienia z laserowych pomiarów ze stacji ziemskich… · Modelowane
+
+seg-1fbf7618a692 = Precyzja Cramera-Rao przesunięć translacji, skali i rotacji między technikami… · Modelowane
+
+seg-e415b5a77676 = Informacja Fishera h2, k2, l2 i fizycznych amplitud libracji z laserowych… · Modelowane
+
+seg-8f2d14dd394e = Rozmycie dokładności ze wspomaganiem radiolatarni dla użytkownika na powierzchni Księżyca: widoczny satelita… · Modelowane
+
+seg-d76d65cb95c5 = Dokładny podział błędu pomiaru w podprzestrzeni parzystości na część, której RAIM nie widzi, i… · Sprawdzone
+
+seg-90c252c7df52 = cmpl_horizontal ogranicza błąd pozycji poziomej k-sigma wnoszony przez ślepą… · Modelowane
+
+seg-92fc824c4b83 = Wsadowa fuzja VLBI + lokalnej odległości księżycowej + odległości międzysatelitarnej w celu odzyskania… · Sprawdzone
+
+seg-4cf20252f448 = Informacja Fishera M=HᵀWH, dolne ograniczenie Cramera–Rao, rząd obserwowalności / defekt datum… · Sprawdzone
+
+seg-f71ccda9ffde = Obserwowalność wspólnego rozwiązania księżycowego w sensie informacji Fishera: bez ziemskich baz… · Modelowane
+
+seg-cd6e8589ff01 = 7-parametrowe dopasowanie datum Helmerta + wiązanie orientacji ICRF z sieci punktów · Sprawdzone
+
+seg-04e2dd96ebd4 = Księżycowe DOP / pokrycie / dostępność klasy Moonlight + uogólnione księżycowe poziomy ochrony ARAIM… · Sprawdzone
+
+seg-b4800672c176 = Kody Augmented Forward Signal LSIS V1.0 ({ "29" } stycznia { "2025" }): 10230-chipowy AFS-Q… · Modelowane
+
+seg-e663cd51a1af = Rdzeń renderowania pasma podstawowego AFS (LSIS-130: obwiednia zespolona I + jQ, I = AFS-I… · Sprawdzone
+
+seg-088515ff0767 = Ramka FID { "0" } LSIS V1.0 o długości { "12" } s i 6000 symboli: 68-symbolowy wzorzec synchronizacji, BCH… · Sprawdzone
+
+seg-2e3079616926 = Nagranie Kshana AFS pozyskane, śledzone i zdekodowane przez niezależny odbiornik programowy… · Modelowane
+
+seg-437e67bb2bed = Kody rozpraszające GPS L1 C/A (sdr::CaCode) i podramki LNAV 1-3 (gps_lnav: IS-GPS-200… · Modelowane
+
+seg-ffd1b13b8e08 = Prawda dla każdego satelity generatora sceny IQ dla sceny GPS L1 C/A z efemerydami pokładowymi… · Sprawdzone
+
+seg-f93a7f8acc5a = iq::acq::acquire (równoległe wyszukiwanie fazy kodu FFT z progiem Marcum-Q prawa kwadratowego)… · Modelowane
+
+seg-eef6607ed2cf = iq::campaign::detect i program uruchamiający kampanie: opcjonalna tabela [monitors] uruchamia IQ… · Modelowane
+
+seg-ee78cb937e79 = iq::campaign::detect (windows, roc) i iq::campaign::report::rocs: każda komórka… · Modelowane
+
+seg-47782cefbb89 = iq::labfit (campaign, cn0, iqfit, iqreport) i [input] campaign w kshana iq labfit… · Modelowane
+
+seg-14e8ca05c35a = Podramki LNAV 1-3 { -brand } (gps_lnav::encode_subframes) dla { "32" } brdc0010.22n… · Modelowane
+
+seg-030d1fa37f79 = Podramki LNAV 1-3 IS-GPS-200 (gps_lnav::encode_subframes: kwantyzacja do najbliższej… · Modelowane
+
+seg-e53b50d716c2 = Równoległe wyszukiwanie fazy kodu (acquisition::pcps_acquire: przenośne FFT, koherentne składanie… · Modelowane
+
+seg-dd83610c7054 = acquisition::pcps_acquire z decyzją na podstawie mocy próbek na dziewięciu niepowierzchniowych LuGRE… · Modelowane
+
+seg-39dfb5c00daf = acquisition::pcps_acquire z decyzją uśredniającą komórki (szczyt nad średnią siatki… · Modelowane
+
+seg-c75576fbf7dc = acquisition::pcps_acquire (decyzja uśredniająca komórki, prawdopodobieństwo fałszywego alarmu { "1e-7" }) z… · Modelowane
+
+seg-7b80adb2f3c1 = Topocentryczne kąty widzenia dla każdego satelity (azymut zgodnie z ruchem wskazówek zegara od północy, elewacja) i… · Sprawdzone
+
+seg-8682a18623a0 = Różnicowa stacja referencyjna klasy NovaMoon: kasowanie składowej wspólnej +… · Modelowane
+
+seg-22e6954fe97f = Eksport księżycowego układu odniesienia + czasu + efemeryd zgodny z LunaNet/IOAG (CCSDS OEM + KIF) z… · Modelowane
+
+seg-ef1f98adc881 = Podoceny w każdym wymiarze w ramach własnych siedmiu kategorii odporności { -brand } (nie terminy DHS)… · Modelowane
+
+seg-a4b986bb7414 = Określa ilościowo, jak pojedynczy wynik złożony / poziom RPCF zmienia kolejność architektur przy… · Modelowane
+
+seg-2c46a0ac9d47 = Rejestr rzetelności dla każdego wyniku, kwalifikujący wynik demonstracyjny: jego zewnętrzne punkty zakotwiczenia… · Modelowane
+
+seg-3cf7f27d3357 = Jeden odtwarzalny obiekt TradeEvidence (stały układ: scenariusz+ziarno+silnik; wspólne dla FoM…  · Modelowane
+
+seg-24f99198842b = Karty urządzeń (optyczne/jonowe w pułapce/rtęciowo-jonowe + zegary klasyczne używane ponownie z… · Modelowane
+
+seg-acd180a7e9c1 = Całościowy łańcuch transferu czasu kwantowy a klasyczny (dryf zegara + precyzja łącza w… · Modelowane
+
+seg-cd23c8f87bd6 = Kwantowa (interferometr zimnych atomów) a klasyczna nawigacyjna INS: nawigacja zliczeniowa w czasie… · Modelowane
+
+seg-843a2f5c9332 = Oznaczony katalog uszkodzeń kwantowych (skok częstotliwości/dryf/utrata blokady zegara; czujnik… · Modelowane
+
+seg-cc543b168360 = Równania ruchu obrotowego Eulera (I ω̇ = τ − ω × Iω, osie główne i ogólne… · Sprawdzone
+
+seg-1cb6f416c032 = Ruch względny chasera wokół celu na kołowej orbicie odniesienia w LVLH… · Sprawdzone
+
+seg-af4f665f008c = Lokalizacja emitera (zagłuszarka/spoofer lub źródło okazjonalne dla odwrotnego PNT) z… · Modelowane
+
+seg-537695276e2e = 3-DoF wejście w atmosferę punktu materialnego nad obracającą się sferyczną Ziemią przez US Standard… · Sprawdzone
+
+seg-325aee4e883b = Konwekcyjny strumień ciepła w punkcie stagnacji q = k sqrt(rho/R_n) V^{ "3" } z Sutton-Graves… · Modelowane
+
+seg-1d456a0c1722 = Budżet stosunku sygnału do szumu obrazowania w nadirze (lambertowska luminancja sceny, równanie kamery, szum śrutowy… · Modelowane
+
+seg-177b656af61c = Płaskie wznoszenie z zakrętem grawitacyjnym pojazdu wielostopniowego nad nieobracającą się sferyczną Ziemią… · Modelowane
+
+seg-ef8c91c82ae6 = Dwukierunkowe równanie TWSTFT rozwiązane dla T_A - T_B z nadawaniem i odbiorem stacji… · Modelowane
+
+seg-1d0b4b4e110f = Hufnagel-Valley Cn2 całkowane wzdłuż ścieżki skośnej dla fal płaskich i sferycznych… · Modelowane
+
+seg-c4ee04146fdd = Dostępność łącza optycznego względem podanego zapasu łącza z log-normalnego rozkładu chmur… · Modelowane
+
+seg-028c12c10cb9 = Rozkład czasu trwania przerw w łączności miejsca optycznego sprzężony z dryfem w postaci zamkniętej… · Modelowane
+
+seg-c3d99589cc05 = Opcjonalna tabela [timeseries] (duration, step, seed) sprawia, że rodzaj optical-atmosphere… · Modelowane
+
+seg-0c7d7f31e4d6 = Czytnik plików danych orbity DSN (TRK-2-18): 36-bajtowe grupy rekordów (etykieta pliku… · Modelowane
+
+seg-7956a36bcade = Sterowanie orientacją inercjalną sztywnego korpusu z trzema lub więcej zrównoważonymi kołami reakcyjnymi… · Sprawdzone
+
+seg-84a5fe5a3fbe = Multiplikatywny EKF Lefferts-Markley-Shuster: błąd orientacji w układzie ciała i bias żyroskopu… · Modelowane
+
+seg-193da3371e11 = Optymalna trzyosiowa orientacja z ważonych obserwacji wektorowych (gwiazda/Słońce/magnetometr… · Sprawdzone
+
+seg-8da56e79e751 = Detektor akwizycji z kwadratowym prawem (niekoherentny) nad przeszukiwaniem faza kodu × Doppler… · Sprawdzone
+
+seg-d5849ac6bc94 = Całkowitoliczbowe ustalanie niejednoznaczności metodą najmniejszych kwadratów na sposób LAMBDA: zachowująca objętość całkowitoliczbowa (Z)… · Sprawdzone
+
+seg-2d96783440cc = Geometria przelotu hiperbolicznego (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, kąt zwrotu δ={ "2" }·asin(1/e), parametr uderzenia… · Sprawdzone
+
+seg-e7d3b969f076 = Zerowanie anteny o kontrolowanej charakterystyce odbioru: zespolone wektory sterujące szyku… · Sprawdzone
+
+seg-dd7b728fe2b4 = Pięciowspółczynnikowa konwersja IEEE-1139 PSD↔wariancja Allana S_y(f)=Σh_α f^α → σ_y²(τ)… · Sprawdzone
+
+seg-f8adbffd71d8 = Serializacja i parsowanie bloku CCSDS { "502.0" } OEM COVARIANCE_START…COVARIANCE_STOP — { "6" }×{ "6" }… · Sprawdzone
+
+seg-d67d03452c0a = Budżet błędu pozycji względem czasu dryfu zbudowany ze współczynników IMU, każde źródło błędu… · Sprawdzone
+
+seg-4b154bf6e19f = Jeden przebieg przyjmuje plan kontaktów (listę okien aos_s/los_s, z których każde prosi aperturę… · Modelowane
+
+seg-f760b89fb9f2 = Księżycowy stosunek zagłuszarki do sygnału, efektywne C/N₀ i utrata synchronizacji dla selenograficznego… · Modelowane
+
+seg-4f9161cdf3ee = Raport księżycowego zagłuszania nie opiera już swojego konturu odmowy na jednej wielkości skalarnej. Podaje… · Modelowane
+
+seg-c9d6d3cf2935 = Raport hybrid-optical-rf podaje, co może monitor chi-kwadrat międzymodalny… · Modelowane
+
+seg-59df9a43a6b8 = Raport hybrid-optical-rf ujawnia model szumu procesu filtra i podaje, jak… · Modelowane
+
+seg-8b261efc9e1c = Eksport geometrii dla każdego satelity niesie, dla każdej pary (epoka, satelita), odchylenie od osi głównej… · Modelowane
+
+seg-128f88766721 = Utrata synchronizacji obliczona z dynamiki pętli zamiast ze stosunku mocy: nośna (Costas) i… · Modelowane
+
+seg-dc1fcd97c3a7 = Pochodne cząstkowe opóźnienia zbierane po harmonogramie baz × epok w informację Fishera… · Sprawdzone
+
+seg-c17542136645 = Trzeci wybór datum, wszystkie stacje stałe, który utrzymuje każdą stację ziemską i estymuje… · Modelowane
+
+seg-5c8e2fa3bbbf = Kowariancja radiolatarni ze wszystkimi stacjami stałymi w scenariuszu lunar-vlbi-fim (każda ziemska… · Sprawdzone
+
+seg-ce38279b5aa8 = Trzy człony, które korekta różnicowa zbiera między epoką, w której jest obliczona, a… · Modelowane
+
+seg-156151ec109a = Przegląd Monte Carlo księżycowego modelu różnicowego PNT nad siatką użytkowników przy biegunie południowym i… · Modelowane
+
+seg-1705f4ce1f56 = Maski horyzontu zależne od azymutu dla każdego miejsca w rodzaju lunar-station-coverage (… · Modelowane
+
+seg-e93ebeff92a8 = Opcjonalna sekcja [receiver] w lunar-station-coverage (LRS-02): zależne od elewacji… · Modelowane
+
+seg-b294dec61e30 = Opcjonalne wejście orbit_err_growth_m_per_s w lunar-station-coverage (LRS-03): … · Modelowane
+
+seg-a68d82cb0c1e = Opcjonalna sekcja [solution] w lunar-station-coverage (LRS-06): wysokość… · Modelowane
+
+seg-b4996f005ec1 = Rodzaj lunar-station-coverage uruchomiony przy publicznych założeniach opublikowanego… · Modelowane
+
+seg-bd66869079b4 = Krok od geometrii do kowariancji dla księżycowego poziomu ochrony — (GᵀG)⁻¹ nad wszystkimi widocznymi… · Sprawdzone
+
+seg-f9bc824806f8 = Samo równanie poziomu ochrony z separacją rozwiązań wielu hipotez… · Sprawdzone
+
+seg-23900b097b2f = araim_reference::add_v42_subset_plan: reguła wyznaczania podzbiorów z ADD v4.2 (P_THRES… · Modelowane
+
+seg-e5cfbf8661ff = Opcjonalna sekcja [integrity] rodzaju clock (clock_integrity::run): z podanego… · Modelowane
+
+seg-b07a36e5c271 = Próg obserwowalności długości łuku cislunarnego w PRZESTRZENNYM sześciostanowym CR3BP zamiast… · Modelowane
+
+seg-f88fcbfa22cf = Dopasowanie najmniejszych kwadratów bias plus tempo w oknie końcowym plus główna okresowa… · Modelowane
+
+seg-fd5f35f76c57 = Siedmioparametrowe datum Helmerta propagowane z SYMULOWANEJ KAMPANII OBSERWACYJNEJ zamiast… · Modelowane
+
+seg-2c8d43fe11c7 = Estymator wsadowy najmniejszych kwadratów, który ODZYSKUJE stan początkowy wiodącego z symulowanych… · Modelowane
+
+seg-a10c3602ff80 = Przyjmuje tabelaryczne efemerydy stanu względem Księżyca (wynik obliczenia jądra SPK/BSP)… · Modelowane
+
+seg-4b77b4198030 = Maszynowo czytelny schemat podający jednostkę, klasę pochodzenia i definicję każdej liczbowej… · Modelowane
+
+seg-735a5f9d5762 = Kowariancja siedmioparametrowego datum Helmerta, z dwoma symulowanymi wejściami zastąpionymi… · Sprawdzone
+
+seg-ea7ecbe4ec1e = Opcjonalne wejścia extra_reflectors i extra_beacons w scenariuszu lunar-llr-datum dodają… · Modelowane
+
+seg-e55351a3a757 = Kowariancja siedmioparametrowego datum Helmerta lunar-llr-datum z zarchiwizowanych normalnych punktów ILRS… · Sprawdzone
+
+seg-e84dedc612c4 = ephem::moon_position, niskoprecyzyjny geocentryczny szereg księżycowy, do którego crate się cofa… · Sprawdzone
+
+seg-1af4030e7dde = Trzy strukturalne zabezpieczenia samego procesu weryfikacji, z których każde zamyka klasę… · Modelowane
+
+seg-5b9dda92c158 = TPL z separacją rozwiązań w czasie skalarnym dla niejednorodnych źródeł; PL napędzany… · Sprawdzone
+
+seg-a1f93440e60e = PL(τ)=max(TPL_handover,HPL(τ)); półciągły z dołu PL({ "0" }+)≥PL({ "0" }−); K(IR/2) bieżące maksimum… · Modelowane
+
+seg-54d612592d08 = Obwiednia bieżącego maksimum pokrywa ograniczeniem z góry (bez przebicia zera) rzeczywisty szereg metrologiczny przy… · Sprawdzone
+
+seg-54f4e009c7d5 = Brak skończonego najgorszego holdover (supremum Browna rozbieżne); HPL przydzielony z IR spójny z… · Modelowane
+
+seg-2f43298d88c8 = Ograniczenie z góry biasu dla każdego źródła b = (U/k_cov)·Phi^-1(1-tail/2) + starzenie, zawyżające opublikowaną… · Modelowane
+
+seg-76baa53b1b6e = Kowariancja krzyżowa biasu N×N z elementami pozadiagonalnymi rho·b_i·b_j dla źródeł dzielących UTC(k)… · Modelowane
+
+seg-b2396f1b8e9d = Ręcznie napisany rozkład Choleskiego Omega=LL^T i wybielanie przez podstawianie w przód z=L^-1 r (Cov(z)=I… · Sprawdzone
+
+seg-e7ad7dc222c3 = Statystyka score ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 dla przesunięcia wspólnego… · Modelowane
+
+seg-91e04ed91d06 = Pułap niewykrywalnego błędu wspólnego: największa wielkość uszkodzenia wzdłuż kierunku d, która… · Sprawdzone
+
+seg-39ee9f0b7b11 = Marginał dopełnienia Schura bloku { "{" }lunocenter-X, scale{ "}" } 7-parametrowego Helmerta… · Sprawdzone
+
+seg-9eaa1f56a3b7 = Klasyfikacja problemu datum wewnętrznego wyznaczania odległości: pojedyncza obserwacja odległości… · Modelowane
+
+seg-e97d57d71169 = Wiersze jakobianu datum dla odległości LLR Ziemia–reflektor, dwustacyjnego różnicowego księżycowego VLBI… · Modelowane
+
+seg-8f2f47d609a1 = Obrót MOON_PA_DE440 do J2000 w dowolnych epokach od 2014-01-01 do 2030-12-31 TDB… · Sprawdzone
+
+seg-58aa8583d165 = Pięć szyków retroreflektorów po stronie bliższej w metrach układu ciała PA i naziemne LLR… · Modelowane
+
+seg-2c37f225dfbd = Jednokierunkowa odległość stacji ziemskiej do reflektora dla normalnego punktu księżycowego pomiaru laserowego: … · Sprawdzone
+
+seg-5bd57078f7ca = assemble_coupled_info buduje 9-parametrową sprzężoną informację Fishera po [t_x, t_y, t_z, s… · Sprawdzone
+
+seg-2cc77f037f08 = Degeneracja odległości promieniowej dla każdego węzła do przesunięcia zegara odbiornika jest dokładna przy { "1" } m do { "3.336" }… · Modelowane
+
+seg-193fb9b9adcf = rate_frame_jacobian(_with) daje czułość tempa księżycowej skali czasu na… · Sprawdzone
+
+seg-54e36f7a21b4 = classify_null_space rozkłada przestrzeń zerową datum na czysto przestrzenną (wymiar d minus… · Sprawdzone
+
+seg-f719cc938742 = MeasurementBlock przechowuje jedną kandydującą kampanię pomiarową jako macierz informacji Fishera 7x7… · Modelowane
+
+seg-9a8d751557dc = rozkład tylko-rotacyjny (6-parametrowa translacja+rotacja)… · Sprawdzone
+
+seg-37a04d53055c = consistency_tolerance: odwraca budżet pozycji użytkownika na tolerancję międzydostawcową dla każdego parametru… · Modelowane
+
+seg-99b19ea76ee8 = interop_budget: podział na redukowalny (wspólne wiązanie układów) i nieredukowalny (dynamika) przy… · Modelowane
+
+seg-0bdcdf560cb2 = Na rzeczywistej sieci księżycowej DE440 dla każdego węzła (każdy wiersz to różnicowe jednokierunkowe międzywęzłowe… · Sprawdzone
+
+seg-5ebd7b35bd1f = byzantine_bound realizuje kodowanie bezpiecznego estymowania stanu / rzadką obserwowalność… · Modelowane
+
+seg-3899180aa58b = holdover_floor ustala, że w zespole autonomicznych węzłów połączonych wyłącznie… · Modelowane
+
+seg-d323b519c245 = Trzy aspekty pojedynczego rozkładu ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) z… · Modelowane
+
+seg-94d22b2503a8 = Maksymalny błąd interwału czasu i odchylenie czasu, które rodzaj scenariusza telecom-timing… · Sprawdzone
+
+seg-a84558dbbbfe = Przepisane limity ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025)… · Modelowane
+
+seg-e1d85bd6b885 = Siedem masek MTIE i TDEV generowania wander przy stałej temperaturze dla telecom-timing… · Modelowane
+
+seg-fb20760cdc4c = clock_log::read_input: jedna warstwa parsera, która zamienia plik zegara RINEX (rekordy AS/AR… · Modelowane
+
+seg-f786d891bc94 = clock_log::read_input z formatami ptp4l, phc2sys, ts2phc, chrony-tracking i… · Modelowane
+
+seg-a208919126f0 = Rodzaj holdover-test: zapis błędu czasu (linuxptp, chrony, TICC, TimeLab lub RINEX… · Modelowane
+
+seg-a9f96c67a8ea = Przeglądy dostępności rodzaju gnss-ssv: dla każdej konstelacji (GPS, GLONASS, Galileo, BDS… · Modelowane
+
+seg-7beec1fba869 = Jonosfera Chapmana, plazmasfera typu Gallaghera i atmosfera neutralna… · Modelowane
+
+seg-9bd04213bd7b = Tryb [navigation] rodzaju gnss-ssv: dziewięciostanowy rozszerzony filtr Kalmana (pozycja… · Modelowane
+
+seg-59b78f3897ba = Tryb [formation] rodzaju gnss-ssv: wiodący i zastępcy uruchamiają każdy filtr bezwzględny… · Modelowane
+
+seg-41d36946a448 = inertial::cai_error_terms (funkcje biblioteczne, jeszcze nieosiągalne ze scenariusza)… · Modelowane
+
+seg-5960aff23d31 = allan::edf_greenhall (z nakładkami edf_greenhall_adev, _mdev i _hdev): pełny… · Sprawdzone
+
+seg-27745ffd98ee = Cztery ustawienia wstępne — OCXO (Microchip OX-208), rubid (Microchip 8040C), cez (Microchip… · Modelowane
+
+seg-f2e36db87617 = Ścieżka zmierzonego zapisu rodzaju slot-timing: nakładające się odchylenie Allana fazy… · Sprawdzone
+
+seg-109907bc9864 = Rodzaj slot-timing: przewidywany błąd E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| +… · Modelowane
+
+seg-1365b5beea5d = orbital_timing::orbital_timing, osiągalne jako sekcja spoofingu rodzaju slot-timing… · Modelowane
+
+seg-cf3bc790331a = Gęstości widmowe mocy o jednostkowym polu dla GPS L1 C/A i L2C (BPSK({ "1" })), GPS L5 i Galileo… · Sprawdzone
+
+seg-7c8f9549667b = Rodzaj spectrum: siatka częstotliwość × czas gęstości widmowej mocy w paśmie L… · Modelowane
+
+seg-21a27551f400 = sigmf: odczyt i zapis nagrań Signal Metadata Format (JSON .sigmf-meta z rdzeniem… · Sprawdzone
+
+seg-cbf9461da030 = Heliocentryczne pozycje Merkurego, Wenus, barycentrum Ziemia–Księżyc, Ziemi, Marsa… · Sprawdzone
+
+seg-6f84829bf6f5 = Geometryczne pozycje Słońca, Merkurego, Wenus, Ziemi i Księżyca względem jednego… · Sprawdzone
+
+seg-2d4dc39d352b = Newtonowski jednokierunkowy czas świetlny od dowolnego ciała do dowolnego innego, odebrany w epoce… · Sprawdzone
+
+seg-ced7622e838b = Pozycje Urana i Neptuna z tabeli { "1" } Standisha (domyślnie w granicach { "1800" } n.e. do… · Modelowane
+
+seg-abe80edcb2c5 = Geocentryczny Księżyc z szeregu Montenbruck & Gill (którego -1.3972 deg na stulecie… · Modelowane
+
+seg-56cf1bcf8251 = Body zyskuje Merkurego, Wenus, Jowisza, Saturna, Urana, Neptuna, Plutona, Fobosa, Deimosa, Io… · Modelowane
+
+seg-c5fc2a8e4753 = Body::iau_rotation_et, obrót z J2000 do związanego z ciałem układu IAU dla Merkurego… · Sprawdzone
+
+seg-175fb15dc664 = Rodzaj body-pnt: orbiter lub lądownik na powierzchni wokół ciała wybranego po nazwie nawiguje… · Modelowane
+
+seg-fdefacb7aa4b = Generatory rodzaju constellation-design: wzorce Walker delta i star w T/P/F… · Sprawdzone
+
+seg-fc12c5b5204d = Silnik pokrycia constellation-design na ustawieniu wstępnym GPS z 24 slotami bazowymi pod… · Sprawdzone
+
+seg-49e9a81112bf = Rodzaj constellation-design poza dwoma przypiętymi przypadkami: jawne i wielopowłokowe… · Modelowane
+
+seg-430480ee3de0 = Fazy rodzaju campaign: każda faza uruchamia jeden lub więcej scenariuszy istniejących rodzajów… · Modelowane
+
+seg-4d47d2917133 = Przegląd rodzaju campaign (od jednego do trzech kluczy z kropkami dowolnego rodzaju, na ogólnego przeglądu… · Modelowane
+
+seg-05fe232e052e = Sekcja compose rodzaju campaign: nazwane wspólne wartości (na przykład moc jednej zagłuszarki… · Modelowane
+
+seg-61e08d3722d8 = Sekcja optimize rodzaju campaign (CAP-32): od jednego do trzech kluczy scenariusza z kropkami ograniczonych… · Modelowane
+
+seg-6d032eaa4ecd = navsignal: całka sinusowa (sine_integral), ułamek mocy BPSK-R w… · Sprawdzone
+
+seg-0344008faf5c = leo_signal::max_doppler_hz: największy Doppler satelity na przelocie nad głową przy… · Sprawdzone
+
+seg-1384d9815030 = Rodzaj leo-signal: parametryzowane projekty sygnałów (pasmo, szerokość pasma nadawania, ITU… · Modelowane
+
+seg-bb691aa3e054 = Rodzaj spectrum rozszerzony poza pasmo L: pasma podane jako ustawienie wstępne projektu sygnału… · Modelowane
+
+seg-91cfb0c491d8 = ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3… · Sprawdzone
+
+seg-c3262bd28ad8 = ITU-R P.618-14 sekcja { "2.2.1.1" } kroki { "2" } do { "10" } (ścieżka skośna i pozioma poniżej deszczu… · Sprawdzone
+
+seg-16f9554a4a2b = ITU-R P.618-14 sekcja { "2.4.1" } kroki { "3" } do { "9" } (sigma odniesienia z N_wet, efektywna ścieżka… · Sprawdzone
+
+seg-7398db38da80 = ITU-R P.2109-2 Annex { "1" } równania ({ "1" }) do ({ "10" }) z tabelą { "1" }: strata nieprzekraczana z… · Sprawdzone
+
+seg-d8aa9e586ecf = Opóźnienie grupowe { "40.3" } STEC/f^{ "2" } na pasmo; współczynniki wolne od jonosfery f1^2/(f1^{ "2" } - f2^{ "2" })… · Sprawdzone
+
+seg-c131312392cb = leo_link::geometry::max_static_user_range_rate: przeszukanie każdej pozycji orbity i… · Sprawdzone
+
+seg-10357ae7c9b3 = Rodzaj leo-pass: satelity z zaprojektowanego przelotu, elementów, TLE przez SGP4 lub… · Modelowane
+
+seg-0b4a68a05199 = leo_link::presets: ogólne wielopasmowe (UHF, L, S, C), ogólne pasmo C, Xona Pulsar X1/X5… · Modelowane
+
+seg-f5e2c76caa01 = leo_link::energy i sekcja [iot] rodzaju leo-pass: całkowanie koherentne ograniczone przez… · Modelowane
+
+seg-43c4c2808e47 = leo_navmsg::sisre::sisre_weights: waga promieniowa w_R i kwadrat poprzeczny… · Sprawdzone
+
+seg-5bc0db905ba3 = leo_navmsg::elements::kepler_point: keplerowskie obliczenie Galileo OS SIS ICD… · Sprawdzone
+
+seg-4b5b2e636eaa = leo_navmsg::codec::crc24q: wielomian generujący 0x1864CFB, wartość początkowa { "0" }, bez… · Sprawdzone
+
+seg-aa475ec1f38b = Dopasowanie i kompromis rodzaju leo-navmsg: orbita prawdziwa całkowana z zonalnymi J2-J6 lub… · Sprawdzone
+
+seg-a8d1a0c8aa20 = Analiza aktualizacji w połowie przelotu leo-navmsg: najwyższy przelot nad użytkownikiem w obrębie wyszukiwania… · Modelowane
+
+seg-9877e2306ec7 = leo_navmsg::codec: własna ramka { -brand } (preambuła, wersja, model, długość, ładunek… · Modelowane
+
+seg-b3674570d6c9 = leo_navmsg::text: blok w stylu RINEX-4 (> nagłówek rekordu EPH, linia satelity i epoki… · Modelowane
+
+seg-30ece7b6f10e = wariant Liu22 leo_navmsg::elements::EphemerisModel, obliczany przez kepler_point… · Sprawdzone
+
+seg-24e95ef0c9ee = wariant EcefPoly leo_navmsg::elements::EphemerisModel: wielomian ECEF dla każdej osi… · Modelowane
+
+seg-89d02bcdf9e8 = leo_navmsg::services: opóźnienie rozgłoszeniowe Klobuchara na dowolnej nośnej (L1 silnika… · Sprawdzone
+
+seg-26334e3d6bc5 = Dokładna prędkość zmiany odległości satelity, którego pozycja i prędkość w układzie związanym z Ziemią pochodzą z… · Sprawdzone
+
+seg-5ac58c46dbbd = Wsadowe pozycjonowanie Gaussa-Newtona z prędkości zmiany odległości z analitycznymi pochodnymi (d rho_dot / d r =… · Modelowane
+
+seg-1e63f2b7a7eb = Rozwiązania Gaussa-Newtona metodą ważonych najmniejszych kwadratów dla dowolnej mieszanki systemów, jeden zegar odbiornika… · Modelowane
+
+seg-a0252001355f = Rozszerzony filtr Kalmana PPP z wartościami zmiennoprzecinkowymi na kodzie i fazie wolnych od jonosfery: statyczny… · Modelowane
+
+seg-b2e485b4ead5 = Ograniczenie Cramera-Rao dla czasu przybycia z pierwiastka średniokwadratowej szerokości pasma (Gabora)… · Sprawdzone
+
+seg-4a487a69e0f4 = Pomiary zegara z każdego widocznego satelity LEO w znanej pozycji, łączone przez… · Modelowane
+
+seg-9750a328ac46 = Widoczne satelity i mediana PDOP, HDOP i VDOP z dostępnością względem szerokości geograficznej… · Sprawdzone
+
+seg-a584bac9a33d = Wejścia niezależne od systemu: każdy system to powłoki Walkera, jawne elementy lub GNSS… · Modelowane
+
+seg-cbfc7ff68128 = Rodzaj leo-pnt-chain: projekt leo-signal (ustawienie publiczne lub wbudowane) ustawia leo-pass… · Modelowane
+
+seg-36860c10b4d0 = Sekcja [spoofer] rodzaju leo-pass: spoofer fałszuje, spójnie w… · Modelowane
+
+seg-db029e7a6cc7 = Dla każdego satelity LEO i pary pasm pomiarowych sekcja [spoofer] tworzy… · Modelowane
+
+seg-8c87558cbceb = Dla każdej pary pasm satelity leo-pass raport podaje skośną całkowitą zawartość elektronów… · Modelowane
+
+seg-c047f25ef400 = Kowariancja siedmioparametrowego datum Helmerta scenariusza lunar-frame-campaign z… · Sprawdzone
+
+seg-fd628e182c3e = Opcjonalny solver informacji pierwiastkowej (lunar-frame-campaign solver = "srif"; domyślnie… · Sprawdzone
+
+seg-e95295d74586 = Dla statku receiver_trust dekoduje zdania NMEA { "0183" }, które odbiornik i jego… · Sprawdzone
+
+seg-1d3aab6d8554 = Każdy monitor sprowadza swój dowód do stosunku statystyki do progu; wynik to { "100" }… · Modelowane
+
+seg-43a58d2f2e32 = Syntetyczne strumienie NMEA { "0183" } mostka do szkolenia załogi (kshana nmea-scenario): GGA, RMC… · Sprawdzone
+
+seg-b53303d52991 = Odczyt kodów dokładności i integralności nawigacji ADS-B, których używa mapa (EPU… · Sprawdzone
+
+seg-3e274aa29264 = Zaufanie do GNSS (wynik, pasmo, powody, bramka i, na życzenie, pozycja) jako tekst Prometheus… · Sprawdzone
+
+seg-16f2bbb013f5 = Zdarzenia zmiany pasma (lub w każdej epoce) jako ładunki Common Event Format w RFC { "5424" }… · Sprawdzone
+
+seg-b8601543ee77 = Zdarzenia zmiany pasma (lub w każdej epoce) jako ładunki Log Event Extended Format { "2.0" } w RFC… · Modelowane
+
+seg-001347eb4f7e = Podpisany, połączony łańcuchem skrótów pakiet dowodowy zdarzenia zaufania do GNSS: SHA-256 po każdym pliku i… · Sprawdzone
+
+seg-7d9a0122ebcf = evidence::tsa::verify_token oraz opcjonalne kshana evidence verify --tsa-ca <anchors.pem>… · Sprawdzone
+
+seg-cfc6c2986f15 = receiver_trust::calibration::run_dataset: wstępnie zarejestrowana kalibracja… · Modelowane
+
+seg-7f6d9ae684a1 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): test NPRA… · Modelowane
+
+seg-a0f30d0040c6 = Pozycja w układzie związanym z Ziemią z CSV ruchu, pozycja geodezyjna, prędkość w układzie związanym z Ziemią… · Sprawdzone
+
+seg-ceb7d7c4aa9a = compliance (kshana compliance-report): odwzorowanie wyników { -brand } na punkty… · Modelowane
+
+seg-7a4ba53202ae = Wynik zaufania, pasmo, powody, stan bramki i pozycja zgłoszona przez odbiornik, publikowane… · Modelowane
+
+seg-5618f7c6904c = Pole boc w iq::track::LoopConfig (opcjonalne, domyślnie None): trzy DLL… · Modelowane
+
+seg-b9c85204d2be = iq::channel::scint, model scyntylacji Cornella (intensywność Rice'a, drugiego rzędu… · Modelowane
+
+seg-962ef2cf8ab0 = iq::acq::ca_cfar i ca_cfar_cells (opcjonalne): komórka siatki akwizycji jest porównywana… · Modelowane
+
+seg-b30aadd2c937 = spectrum::default_band rozstrzyga, wyłącznie po nazwie (MORE_BAND_NAMES), GLONASS L1OF i L2OF… · Modelowane
+
+seg-ef32d4666b43 = iq::signals::beidou::b1i_bits i b1i: kody Golda BDS-SIS-ICD-B1I-3.0 skrócone do… · Sprawdzone
+
+seg-08e2f936c1c3 = iq::signals::gps::l1c_p_bits, l1c_d_bits i l1c_o_bits: kody dalmiercze Weila L1CP i L1CD… · Sprawdzone
+
+seg-449f1fd5a4a0 = iq::signals::lunanet::afs_i_bits i afs_q_primary_bits (nazwy sygnałów lunanet-afs-i i… · Sprawdzone
+
+seg-a2f797219cd6 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs… · Modelowane
+
+seg-1780616b8677 = standards_pack (kshana standards-pack): profile testowe ramy DHS Resilient PNT… · Modelowane
+
+seg-499dcb74620c = evidence::roundtrip (kshana evidence round-trip) i kshana.test-conditions/1… · Modelowane
+
+seg-e885c4b88ddb = Pełny silnik śledzenia warstwy IQ (iq::track do kshana iq track: akwizycja… · Modelowane
+
+seg-9444c0bd9a44 = Opcjonalna sekcja [crpa] rodzaju jamming: wiązka dla każdego kanału w stronę każdego satelity… · Modelowane
+
+seg-01e2f93ebd7c = Opcjonalna sekcja [terrain] rodzaju jamming: profil terenu po kole wielkim między… · Modelowane
+
+seg-de5a2ace5291 = Opcjonalna sekcja [acquisition] rodzaju jamming (satelita jest pozyskiwany przy lub powyżej… · Modelowane
+
+seg-337acb9b46a7 = Opcjonalne carrier.fll_pull_in_max_s iq::track (pole fll_pull_in_max_s… · Modelowane
+
+seg-731c77d5b154 = Odczytuje plik rozwiązania RTKLIB (czas kalendarzowy lub tydzień GPS/TOW, szerokość/długość geograficzna lub ECEF… · Modelowane
+
+seg-c55fdbe431b5 = Odczytuje BESTPOS (pozycja), RANGE (C/No dla każdego sygnału) i RXSTATUS (zagłuszarka odbiornika… · Modelowane
+
+seg-c4e9eae15690 = Odczytuje C/N0 każdej komórki sygnału komunikatów RTCM { "3" } MSM4 i MSM7 (GPS, GLONASS… · Modelowane
+
+seg-1a0d48096470 = Odczytuje komunikaty GNSS-SDR Monitor (Gnss_Synchro) i PVT-monitor, przekazywane jako linie JSON… · Modelowane
+
+seg-c9e7077311e2 = Odczytuje CSV z IMU (udokumentowane kolumny lub układ EuRoC); całkuje prędkość odchylenia w… · Modelowane
+
+seg-0a44618c7e98 = Dokument stanu JSON i komunikaty wykrywania Home Assistant MQTT dla strumienia zaufania… · Modelowane
+
+seg-2c0eeca292e0 = Most bez ROS, który zapisuje komunikaty pozycji i satelitów jako NMEA i ocenia je przez… · Modelowane
+
+seg-83dc4863b9cb = Podświetl komórki jednej etykiety
+
+seg-52696b2fa099 = Sprawdzone względem niezależnej zewnętrznej wyroczni
+
+seg-1e3ba1b099ba = Modelowane: zaimplementowane, jeszcze niesprawdzone zewnętrznie
+
+seg-97b628450f8c = Należące do partnera: poza tym, co robi silnik
+
+seg-eef053d8c686 = Liczby są dokładne, z macierzy weryfikacji silnika. Komórki podążają za kolejnością wierszy rejestru.
+
+seg-2ef0ba031af3 = Trzy słowa, używane ściśle
+
+seg-7a23624246c0 = Wynik { -brand }<s1>przebieg silnika</s1>
+
+seg-7042922a4050 = Niezależna wyrocznia<s1>opublikowany wzorzec</s1>
+
+seg-f402715031f4 = Tylko z niezależną zewnętrzną wyrocznią: opublikowanymi wektorami referencyjnymi, osobną implementacją lub danymi pomiarowymi wyłączonymi z dopasowania. Rejestr wskazuje wyrocznię i test, a testy niezmienników macierzy wymuszają tę regułę.
+
+seg-7091847e1c77 = Opublikowany model lub udokumentowany wybór modelowania, testowany wewnętrznie, jeszcze bez niezależnej zewnętrznej wyroczni. Powiedziane wprost, nie zaokrąglane w górę.
+
+seg-1d17589ad647 = Inżynieria platformy statku kosmicznego, ładunek nawigacyjny i sprzęt antenowy, sprzęt ładunku kwantowego oraz zapewnienie produktu dla sprzętu lotniczego. { -brand } nie rości sobie żadnego z nich; należą do partnera.
+
+seg-5af3d58e83fa = <b>Z Pro:</b> <b>dossier misji</b> sprawdza każde wymaganie względem prawdziwych przebiegów i zachowuje te etykiety w swojej macierzy weryfikacji: wymaganie spełnione na podstawie MODELLED lub PARTNER jest oznaczane. <a1>Zobacz prawdziwe dossier</a1>
+
+seg-400016e22379 = Rejestr walidacji
+
+seg-6ef0eb045293 = Wszystkie { "388" } wierszy, po jednej linii.
+
+seg-20ec758fe328 = Każdy wiersz podaje swoje wymaganie, status i moduł, który je realizuje. Otwórz wiersz, by zobaczyć jego wyrocznię i testy, lub wybierz dziedzinę, by zawęzić.
+
+seg-08f2354cb22b = Filtruj według dziedziny
+
+seg-f5a2e020b47e = Według dziedziny: długość paska to liczba wierszy, kolor to status. Wybierz jedną, by filtrować.
+
+seg-d8691ddf3170 = z { "93" } sprawdzonych
+
+seg-0272bc18f675 = z { "19" } sprawdzonych
+
+seg-d6687397eae9 = z { "73" } sprawdzonych
+
+seg-38ec110ef886 = Orbity, układy odniesienia i geometria
+
+seg-8d3ad903cd18 = z { "76" } sprawdzonych
+
+seg-a1c022c60fb6 = Inercjalne, fuzja i alternatywne PNT
+
+seg-223bf21e1d9b = z { "25" } sprawdzonych
+
+seg-b355dc732d29 = Sygnały i zakłócenia
+
+seg-fb01a581d5ee = z { "28" } sprawdzonych
+
+seg-d6c43e56d4cc = Analiza misji, zapewnienie jakości i inne
+
+seg-5516d9825527 = z { "55" } sprawdzonych
+
+seg-d5b6224d2ec4 = Wszystkie { "388" }
+
+seg-7038fab8b00c = Sprawdzone { "176" }
+
+seg-2bca452c28dd = Modelowane { "208" }
+
+seg-ba89c1119b21 = Należące do partnera { "4" }
+
+seg-cd12d85e2beb = Przeszukaj rejestr
+
+seg-f014d784ebe3 = Szukaj wymagania, wyroczni, modułu lub testu
+
+seg-d0352364053e = Rejestr walidacji, { "388" } wierszy, z przewijaniem
+
+seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } przypadków: dziesięć rekordów prawa potęgowego Kasdina, b = { "0" } do -4, jako dane fazy i częstotliwości, af = { "1" } do { "64" }; alpha_int i d identyczne, najgorsze |d alpha| { "9.6e-13" } i |d rho| { "4.8e-13" }…</s1>
+
+seg-06e5bf24f6cb = <s1>tests/osnma_official_vectors.rs (opcjonalny, KSHANA_OSNMA_VECTORS: wszystkie { "18" } zbiorów wektorów, { "186,382" } uwierzytelnionych znaczników, { "0" } nieudanych, progi dla zbiorów, ogłoszone łańcuchy, ADKD 0/4/12, alert zweryfikowany, wznowienie uwierzytelniania po…</s1>
+
+seg-59f1fce2addc = <s1>tests/cs5071a_reference.rs (rzeczywisty 5071A Cs względem H-masera, { "556 990" } punktów, { "16" } współczynników uśredniania względem Stable32 do { "1e-3" }; bramkowane danymi przez scripts/fetch_cs5071a.sh)</s1>
