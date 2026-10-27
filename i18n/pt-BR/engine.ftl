@@ -58,11 +58,11 @@ engine-e-clock-log-the-rinex-clock-file-holds = o arquivo de relógio RINEX cont
 
 engine-e-clock-log-no-as-or-ar-records = nenhum registro AS nem AR para o relógio { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = o relógio tem uma única época; não é possível determinar tau0
+engine-e-clock-log-the-clock-has-single-epoch = o relógio tem uma única época; são necessárias pelo menos duas (não é possível determinar tau0)
 
 engine-e-clock-log-the-log-has-no-readings = o registro { $format } não tem leituras
 
-engine-e-clock-log-unknown-phase-unit-expected-ms = unidade de fase { $other } desconhecida; esperado s, ms, us, ns ou ps
+engine-e-clock-log-unknown-phase-unit-expected-ms = unidades de fase { $other } desconhecidas; esperado s, ms, us, ns ou ps
 
 engine-e-clock-log-timelab-line-has-column-the = a linha { $v1 } do TimeLab tem { $v } coluna(s); a primeira linha de dados tem { $first }
 
@@ -9982,3 +9982,1683 @@ engine-compliance-mapping-header-gap = Lacuna
 engine-compliance-mapping-none = nenhuma
 
 engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Lido em { $accessed }: { $checked }.
+
+engine-kind-lunar-ascent-description = Subida propulsada MODELLED de um sítio de superfície no polo sul até a órbita de encontro, e a covariância de posição-velocidade que ela leva de volta à órbita (classe Artemis). O modelo de erro inercial de cinco estados por eixo de lunar-descent (posição, velocidade, viés do acelerômetro, inclinação de atitude, viés do giroscópio, conduzido pela força específica) roda nos três eixos do sítio a partir do estado de superfície com que a fase começa; uma correção de posição AFS a partir dos relés visíveis de uma constelação ILLUSTRATIVE da classe LCNS (isolada, ou diferencial usando o resíduo do enlace de correção de lunar-differential-pnt, com o relógio auxiliado quando apenas três relés estão visíveis) é feita em um intervalo declarado, com o tempo lunar entrando pelo relógio do veículo e um erro de marcação de tempo ao longo da trajetória. Informa as fontes inerciais em forma fechada, a contribuição do auxílio, a ablação, os 1-sigmas de navegação ao longo da subida, a dispersão de corte do motor ao lado do conhecimento de navegação e a covariância MCI completa 6x6 na inserção, com a correlação posição-velocidade mantida. MODELLED: classe de IMU, força específica, conjunto de relés e dispersão de corte ilustrativos; erros mantidos nos eixos do sítio de lançamento; o estado nominal de saída é um substituto. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+engine-kind-lunar-surface-description = Disponibilidade MODELLED de posicionamento e temporização na superfície, por sítio e estação do ano, para sítios do polo sul da classe Artemis. Para cada sítio e estação (uma época e uma janela após ela) informa o posicionamento por relés (quatro ou mais relés de uma constelação ILLUSTRATIVE da classe LCNS à vista e PDOP abaixo de um limite, pelas mesmas funções de moonlight-service-volume e, com uma seção de terreno, o horizonte traçado por raios do terreno de lunar-station-coverage), se a Terra e o Sol estão acima do horizonte do sítio (Sol, Lua e orientação lunar analíticos, libração incluída, que é o que muda com a estação), e a disponibilidade de temporização (um relé ou a Terra à vista) com o mais longo trecho sem nenhum dos dois, o holdover que um relógio de superfície precisa atravessar. O resultado de um único sítio é igual ao de moonlight-service-volume até o último bit. MODELLED: conjunto kepleriano ilustrativo de relés sobre uma Lua de rotação média; o número de relés não muda com a estação; o terreno é o recorte LOLA de 1200 m. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+engine-kind-lunar-descent-description = Orçamento de dispersão de pouso MODELLED para uma descida propulsada a um sítio do polo sul (classe Artemis). Por eixo horizontal, um modelo de erro inercial de cinco estados (posição, velocidade, viés do acelerômetro, inclinação de atitude, viés do giroscópio) é conduzido pela força específica da descida; um filtro sequencial toma correções de posição dos auxílios habilitados: uma correção AFS a partir dos relés visíveis de uma constelação ILLUSTRATIVE da classe LCNS (isolada, ou diferencial usando o resíduo do enlace de correção de lunar-differential-pnt, com o relógio auxiliado quando apenas três relés estão visíveis) e uma correção relativa ao terreno (o correlacionador TERCOM/SITAN do crate sobre um relevo sintético, ou o limite de Cramer-Rao do casamento de uma janela de elevação do DEM polar sul real do LOLA). O tempo lunar entra pelo relógio do veículo nas correções (o deslocamento LTC-TT de lunar-time-offset, ou a incerteza de sua faixa publicada) e como um erro de marcação de tempo ao longo da trajetória. Informa a elipse de pouso de 3 sigmas, o R95, as fontes inerciais em forma fechada, a contribuição de cada auxílio, a ablação de cada combinação de auxílios, uma calibração Monte Carlo da elipse e a covariância repassada. MODELLED: classe de IMU, conjunto de relés, perfil de descida e termo de guiagem ilustrativos; a navegação por terreno usa um relevo sintético em escala de metro terrestre; a disponibilidade de AFS é uma época sobre uma máscara plana. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+engine-kind-lunar-orbit-rendezvous-description = Navegação relativa MODELLED para uma acoplagem no estilo Orion-módulo lunar em uma órbita lunar baixa ou em uma órbita polar elíptica (classe Artemis). Um perseguidor e um alvo voam a mesma órbita sob o modelo de forças lunar do crate; uma estimativa conjunta em lote de Gauss-Newton com 21 parâmetros ao longo do arco (dois estados de veículo e vieses persistentes de sinal no espaço) funde uma correção de posição absoluta por veículo a partir de um conjunto de relés ILLUSTRATIVE da classe LCNS (relés atrás da Lua descartados, quatro necessários, o erro de sinal no espaço de modo comum se cancelando entre os veículos) e uma distância por enlace cruzado, com precisão de medição de distância dada pelo limite de rastreamento de código sobre o piloto AFS do LunaNet. Informa o erro relativo formal e Monte Carlo de posição e velocidade nos eixos LVLH do alvo, a disponibilidade de correção, o erro de estimação normalizado quadrático médio contra seu valor esperado, e qualquer tentativa cuja iteração não convergiu, a deriva por ignorar os harmônicos de gravidade e a covariância completa 6x6 repassada. Uma verificação em forma fechada de Hill/Clohessy-Wiltshire se aplica ao caso circular. MODELLED: conjunto de relés, orçamento de erro e priors ilustrativos; a verdade e o estimador compartilham um modelo de forças, de modo que o NEES verifica a autoconsistência e não o erro de modelo. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+engine-kind-mission-thread-description = Orçamento de erro MODELLED de navegação e temporização de uma cadeia declarada de fases de missão, do lançamento à reentrada: lançamento e subida, encontro e acoplagem em órbita baixa da Terra (repetível), injeção translunar e cruzeiro cislunar, encontro em órbita lunar, descida, permanência na superfície, subida e o retorno e a reentrada, cada fase sendo um de oito tipos registrados com seus próprios sensores e filtro. A covariância 6x6, o relógio e o referencial são repassados de fase a fase sob uma regra declarada (carregar, inflar ou readquirir); as conversões de referencial e de escala de tempo (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) são linhas de orçamento próprias, com o estado da Lua a partir de um recorte opcional de kernel DE440 e a série analítica como alternativa declarada. Uma sobreposição opcional de rede terrestre define o regime de rastreamento de cada fase. Informa o orçamento por fase (1-sigmas de entrada, pico e saída, cada contribuição com sua unidade), a margem contra um requisito declarado, o elo mais fraco, os eventos e uma figura de linha do tempo. MODELLED: cada número é uma entrada declarada; a cadeia segue uma única pilha e nenhum veículo é modelado. Somente fontes públicas; sem filiação nem aval de nenhuma agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt: `magnetic_grid` substitui o campo magnético sintético, portanto `magnetic_mascons` deve estar vazio quando ele é definido
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = o horizonte de relatório deve ter comprimento positivo (horizon_end_s > horizon_start_s)
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers: o documento de resultado não é um objeto JSON formatado
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] informa o RAIM de uma execução ao lado de suas figuras de holdover; exige runs = 1
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = o risco de falha não monitorada esgota todo o orçamento de integridade; não existe nível de proteção finito
+
+engine-e-araim-reference-the-add-v4-subset-rule = a regra de subconjuntos do ADD v4.2 sempre enumera pares; max_order deve ser >= 2
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint não emitiu nenhum ponto
+
+engine-e-bench-cli-scale-is-not-number = --scale não é um número
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` lê um conjunto de dados e é para a tarefa a; as tarefas c e d usam `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = a tarefa c não tem conjunto reservado lacrado
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` gera os arquivos das tarefas c e d; a tarefa a é o próprio conjunto de dados (use `truth`)
+
+engine-e-bench-cli-threshold-is-not-number = --threshold não é um número
+
+engine-e-bench-cli-seed-file-is-required = --seed-file é obrigatório
+
+engine-e-bench-cli-validate-needs-at-least-one = validate exige pelo menos um arquivo de resultado
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` é para a tarefa a; as outras tarefas têm manifestos versionados
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest exige um arquivo de manifesto
+
+engine-e-bench-system-name-is-required = `system.name` é obrigatório
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth não tem um array `labels`
+
+engine-e-bench-tasks-label-has-no-id = um rótulo não tem `id`
+
+engine-e-bench-tasks-label-has-no-positive = um rótulo não tem `positive`
+
+engine-e-bench-tasks-predictions-have-no-scores-object = predictions não tem um objeto `scores`
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = o conjunto reservado está lacrado: informe o segredo com --seed-file
+
+engine-e-bench-tasks-task-truth-has-no-truth = tarefa (c): truth não tem um array `truth`
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = tarefa (c): predictions não tem um objeto `predictions`
+
+engine-e-bench-tasks-truth-entry-has-no-id = uma entrada de truth não tem `id`
+
+engine-e-campaign-compare-needs-threshold = compare exige um limite
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM: falta o cabeçalho CCSDS_TDM_VERS
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = o chefe está sobre a Lua: as coordenadas polares são singulares
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock se aplica apenas aos formatos rinex-clk, linuxptp e chrony (o TICC usa channel)
+
+engine-e-clock-log-single-column-timelab-log-needs = um registro timelab de coluna única exige tau0: um cabeçalho `# tau0 = <s>` ou tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = o registro TICC não tem leituras (linhas `<seconds> chA|chB|chC|TI(...)`)
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = a grade de intensidade está vazia de modo inesperado
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg deve estar em (0, 180) (uma órbita equatorial não tem nó ascendente)
+
+engine-e-evidence-bundle-its-imprint-is-not-the = sua impressão não é o hash do manifest.json deste pacote (um token só pode ser obtido depois que o pacote existe: use `kshana evidence attach-timestamp`)
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey deve ter 32 bytes (64 dígitos hexadecimais)
+
+engine-e-evidence-cli-that-is-the-private-key = essa é a chave PRIVADA do signatário. Nunca a compartilhe; informe a chave pública (o arquivo .pub)
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation: uma montagem conduzida exige attenuation_db, um número finito de dB, 0 ou mais
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = algoritmo de resumo não suportado
+
+engine-e-evidence-tsa-signature-failure = falha de assinatura
+
+engine-e-field-schema-entry-is-not-an-object = a entrada não é um objeto
+
+engine-e-field-schema-no-unit-string = sem string `unit`
+
+engine-e-field-schema-no-provenance-string = sem string `provenance`
+
+engine-e-geometry-sky-tle-holds-no-complete = sky: tle não contém nenhum conjunto completo de elementos de duas linhas
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky: epoch data os satélites de `tle`; os `systems` predefinidos e os satélites informados diretamente não trazem data, portanto informe `tle` com ele
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map: `reference` substitui o campo sintético, portanto `coeffs` e `mascons` devem estar vazios quando ele é definido
+
+engine-e-gse-sim-fusion-od-produced-no-steps = a OD por fusão não produziu passos (observações insuficientes)
+
+engine-e-holdover-test-give-one-of-series-samples = informe um entre series.samples, series.csv_path ou series.clock_log
+
+engine-e-holdover-test-give-one-of-series-samples-2 = informe um entre series.samples, series.csv_path ou series.clock_log, não mais de um
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s deve ser finito, locked_duration_days >= 0, recovery_band_ns > 0 e recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path não está disponível na build WebAssembly; informe a série em linha como `samples` ou `clock_log.text`
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry exige pelo menos dois fatores de linha de visada finitos e distintos
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = o enlace óptico não entregou fótons (CRLB de medição de distância infinito); aumente a potência, a abertura ou o tempo de integração
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz e rf_degraded_margin_db devem ser finitos
+
+engine-e-interference-map-adsb-need-at-least-one-of = é preciso pelo menos uma das colunas `nic`, `nacp`
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip: tamanho descompactado acima do limite
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = o JSON de trace não tem icao, timestamp ou trace
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = um conjunto de dados personalizado exige licença, URL da licença e texto de atribuição
+
+engine-e-interference-map-api-cell-size-must-be-between = o tamanho da célula deve estar entre { $lit_0_01 } e 10 graus
+
+engine-e-interference-map-api-map-has-bad-date = o mapa tem uma data inválida
+
+engine-e-interference-map-api-no-map-falls-in-the = nenhum mapa cai no intervalo de datas
+
+engine-e-interference-map-cli-dataset-is-required-so-the = --dataset é obrigatório para que a licença e a atribuição sejam incorporadas
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg não é um número
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg deve estar entre { $lit_0_01 } e 10
+
+engine-e-interference-map-cli-subcommand-is-required = um subcomando é obrigatório
+
+engine-e-interference-map-cli-input-file-missing = arquivo de entrada ausente
+
+engine-e-interference-map-cli-out-is-required = --out é obrigatório
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land baixa um arquivo: informe --allow-network para confirmar
+
+engine-e-interference-map-cli-curl-failed-to-download-the = o curl falhou ao baixar os polígonos de terra
+
+engine-e-interference-map-cli-route-is-required = --route é obrigatório
+
+engine-e-interference-map-cli-at-least-one-map-is = pelo menos um --map é obrigatório
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = polígonos de terra: nenhum Polygon ou MultiPolygon encontrado
+
+engine-e-interference-map-empty-input-header-row-is = entrada vazia: uma linha de cabeçalho é obrigatória
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox é sul,oeste,norte,leste em graus
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox deve satisfazer sul < norte e oeste < leste, dentro do globo (sem cruzar o antimeridiano)
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = os dados da OpenSky Network são excluídos: sua licença não permite uso comercial nem redistribuição de mapas derivados (docs/data/INTERFERENCE-DATA-SOURCES.md)
+
+engine-e-interference-map-observatory-day-is-required = --day é obrigatório
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours não é um número
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg deve estar entre { $lit_0_5 } e 10
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = a entrada não tem nenhum relatório utilizável
+
+engine-e-interference-map-route-not-kshana-interference-map-no = não é um mapa de interferência do Kshana (sem o membro `kshana_interference_map`)
+
+engine-e-interference-map-route-map-has-no-date = o mapa não tem data
+
+engine-e-interference-map-route-map-has-no-grid-cell = o mapa não tem tamanho de célula de grade
+
+engine-e-interference-map-route-map-has-an-invalid-grid = o mapa tem um tamanho de célula de grade inválido
+
+engine-e-interference-map-route-route-no-linestring-found = rota: nenhum LineString encontrado
+
+engine-e-interference-map-route-route-needs-at-least-two = a rota exige pelo menos dois pontos de passagem
+
+engine-e-interference-map-route-route-waypoint-out-of-range = rota: ponto de passagem fora do intervalo
+
+engine-e-interop-sigmf-records-signal-not-geometry = o SigMF registra um sinal, não uma geometria; ele é escrito a partir do cenário, não de uma cena
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = o SigMF contém amostras complexas em banda base, que somente o tipo `spectrum` sintetiza
+
+engine-e-interop-this-spectrum-scenario-has-no = este cenário spectrum não tem bloco [iq], portanto nenhuma amostra é sintetizada para registrar
+
+engine-e-interop-scene-time-step-must-be-positive = o passo de tempo deve ser positivo e finito para uma exportação
+
+engine-e-interop-scene-duration-must-be-non-negative = a duração deve ser não negativa e finita para uma exportação
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = este cenário pvt não informa `truth_ecef`, a única posição que ele declara
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = uma efeméride STK descreve a posição e a velocidade de um veículo ao longo do tempo; esta cena tem apenas pontos fixos ou trilhas sem marcação de tempo (um ponto fixo é uma Facility do STK, não uma efeméride)
+
+engine-e-interop-stk-scene-has-no-epoch = a cena não tem época
+
+engine-e-iq-acq-surface-surface-header-names-too-many = o cabeçalho da superfície nomeia células demais
+
+engine-e-iq-cli-acquire-needs-signal-name = exige --signal <name>
+
+engine-e-iq-cli-acquire-needs-prn-list = exige --prn <list>
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface exporta uma superfície de busca: informe exatamente um --prn
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos exige um caminho refletido: adicione --multipath-height ou --land-mobile
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass espera dois valores: lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend exige pelo menos um estágio (--bandpass/--notch/--blank/--excise/--agc/--bits)
+
+engine-e-iq-cli-no-iq-processing-command-given = nenhum comando de processamento iq informado
+
+engine-e-iq-cli-missing-recording-path = caminho da gravação ausente
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout só vai com --follow
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow lê uma gravação SigMF (informe o .sigmf-meta, o .sigmf-data ou o caminho base)
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout deve ser um número positivo de segundos
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos espera três valores: lat,lon,alt (graus,graus,m)
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene exige --rate <hz>
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene exige --duration <s> (ou --window)
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav exige --rx-pos lat,lon,alt
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene exige --signal <name>
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene exige --prn <list>
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format aceita sigmf ou sdrx, não ambos
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx escreve ci8 (o padrão) ou ci16_le (sdrx:ci16_le); o padrão de metadados da ION não tem codificação de ponto flutuante
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name exige --design <file.toml>
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads deve ser um inteiro positivo ou auto
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format exige --epochs <path>
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert exige --to <format>
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract exige --start
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract exige --duration
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start e --duration devem ser não negativos
+
+engine-e-iq-io-cli-real-input-is-converted-to = uma entrada real é convertida em banda base complexa: informe --factor <d> (>= 2)
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate exige --factor <d>, ou --up <l> e --down <m>
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = os fatores de reamostragem devem ser positivos
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = os fatores de reamostragem devem ser positivos e o filtro não vazio
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = a conversão de FI real exige decimação por pelo menos 2 para remover a imagem
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx layout: um bloco não contém nenhum lump inteiro
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx data termina dentro do seu cabeçalho
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = um fluxo SigMF exige pelo menos uma gravação
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = select_channel deve ser chamado antes da leitura
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = os dados SigMF terminam antes da primeira captura
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" exige uma tabela [validation], escrita antes de os resultados da campanha serem lidos
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign: um ajuste a partir de uma pasta de campanha IQ exige a build nativa (a camada de campanha não é compilada para WebAssembly); o caminho do registro do receptor ([[runs]]) funciona aqui
+
+engine-e-iq-scene-truth-missing-truth-csv-header = cabeçalho do CSV de verdade ausente
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s se aplica apenas a fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = o arquivo de projeto de malha não contém nenhum projeto
+
+engine-e-iq-track-sink-short-record = registro curto
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = o ajuste do polinômio de correção é singular (amostras insuficientes para o grau)
+
+engine-e-leo-navmsg-each-trade-update-periods-must = cada trade.update_periods_s deve estar em (0, update_fit_interval_s]
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass: user_lat_deg em [-90, 90], mask_deg em [0, 60), search_s 600-172800
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0, rain_exceedance_percent em [{ $lit_0_001 }, 5] e scintillation_percent em [{ $lit_0_01 }, 50]
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer: onset_s dentro da janela, offset_m em [0, 1e6], push_rate_m_s em [0, 1000], prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz e fll_integration_s positivos, p_fa e p_md em (0, { $lit_0_5 }), iono_rate_bound_m_s >= 0
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver: loop_bandwidth_hz e integration_time_s devem ser positivos
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver: de 1 a 12 espaçamentos de correlador, cada um (como reference_spacing_chips) entre 0 e 2 chips
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm e user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90
+
+engine-e-live-io-baud-needs-number = --baud exige um número
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure não está implementado: o Kshana nunca escreve em um receptor. Configure-o com a ferramenta do próprio fabricante e depois leia-o com --serial
+
+engine-e-live-io-more-than-one-session-file = mais de um arquivo de sessão
+
+engine-e-live-io-follow-and-from-end-apply = --follow e --from-end se aplicam apenas a --file
+
+engine-e-live-io-baud-applies-to-serial-only = --baud se aplica apenas a --serial
+
+engine-e-live-io-live-needs-session-toml = live exige um .toml de sessão
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen serve o fluxo com portão: adicione --gate
+
+engine-e-live-io-two-outputs-would-share-stdout = duas saídas compartilhariam o stdout; envie --json ou --pksht para um arquivo
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = lunar ephemeris: informe exatamente um entre `mean_anom_deg` ou `true_anom_deg`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = lunar ephemeris: os índices de satélite devem ser contíguos a partir de 0, sem lacunas
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = a informação de baliza por sítio exige station_datum = "fixed"; um datum de estação estimado acopla as balizas
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m, surface.orbiter_range_sigma_m e llr.epochs devem ser positivos
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = poucas medições GNSS rastreáveis para determinar a órbita e o relógio do receptor
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = menos de duas passagens conectadas: nenhuma ambiguidade de dupla diferença a resolver
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = a matriz de informação do vínculo espacial é singular
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m deve ser finito e positivo (ou informe jammer.lat_deg e jammer.lon_deg para situar o jammer em coordenadas selenográficas)
+
+engine-e-lunar-llr-the-station-catalogue-states-no = o catálogo de estações não declara position_epoch_year; uma posição ITRF sem sua época não pode ser propagada
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = beacon_campaign.beacons não é usado aqui; declare as balizas adicionadas em extra_beacons
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path se aplica a um arquivo de elementos declarado no referencial OP
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain: informe dem_path, dem_tile_path, station_horizon ou user_horizon (ou omita [terrain])
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain: station_horizon não tem estação neste tipo; use user_horizon
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s é mais curto que a grade de tau
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab: thresholds_ns deve ser uma lista não vazia de números positivos
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = o datum "all-stations-fixed" mantém todas as estações fixas, portanto não estima nada a menos que a baliza seja estimada: defina estimate_beacon = true
+
+engine-e-mars-pnt-fusion-od-run-produced-no = a execução de OD por fusão não produziu passos (observações insuficientes)
+
+engine-e-nmea-synth-clock-not-numeric = não numérico
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name deve ter de 1 a 64 caracteres de A-Z a-z 0-9 . _ - e não deve começar com ponto (ele nomeia os arquivos de saída)
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = parâmetros do receptor fora do intervalo (máscara 0-45 deg, rastreio <= limiar de uso, 4-12 satélites usados, ruído >= 0, corr > 0, reaquisição >= 0)
+
+engine-e-nmea-synth-config-the-time-change-per-second = a variação do tempo por segundo chega a 1, de modo que o tempo informado pararia ou andaria para trás; alongue ramp_s/recovery_s ou use um degrau (0)
+
+engine-e-orbit-give-the-user-as-user = informe o usuário como `user` (uma órbita) ou `user_site` (um sítio em solo), não ambos
+
+engine-e-orbit-missing-the-user-give-user = usuário ausente: informe `user` (uma órbita) ou `user_site` (um sítio em solo)
+
+engine-e-orbit-skyline-needs-ground-site-give = um [skyline] exige um sítio em solo: informe `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }` em vez de um `user` em órbita (uma órbita não tem azimute fixo à Terra)
+
+engine-e-orbit-omm-export-requires-tle-defined = a exportação OMM exige uma constelação definida por TLE; este cenário não tem nenhuma
+
+engine-e-passes-earth-orientation-parameters-out-of = parâmetros de orientação da Terra fora do intervalo: |ut1_minus_utc_s| <= 1, |xp_arcsec| e |yp_arcsec| <= 2
+
+engine-e-pvt-no-priori-position-set-apriori = sem posição a priori: defina apriori_ecef, um APPROX POSITION XYZ do cabeçalho de observação, ou truth_ecef
+
+engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings e coherents não podem ser combinados com design: a varredura executa todos os projetos do arquivo
+
+engine-e-python-no-designs-to-sweep = nenhum projeto para varrer
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate = candidate_adev_taus e candidate_adev_values devem ter o mesmo comprimento (>= 2)
+
+engine-e-quantum-trade-provide-either-candidate-adev-taus = informe candidate_adev_taus + candidate_adev_values (medidos) ou candidate_clock_class
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate-2 = candidate_adev_taus e candidate_adev_values devem estar ambos presentes (ou ambos ausentes)
+
+engine-e-quantum-trade-timing-threshold-and-position-threshold = timing_threshold_s e position_threshold_m devem ser finitos e > 0
+
+engine-e-realdata-clk-rinex-clock-file-is-mixed = o arquivo de relógio RINEX é de sistema misto ('M') e não declara TIME SYSTEM ID; recusando-se a adivinhar o sistema de tempo de suas épocas
+
+engine-e-realdata-ion-sdr-more-than-one-block-only = mais de um <block>: apenas arquivos de pista única são lidos
+
+engine-e-realdata-ion-sdr-this-layout-carries-reading-fill = este layout traz uma leitura (fill_lsb_first ou mid_rise) para a qual o padrão de metadados da ION não tem campo; ele não pode ser escrito como .sdrx
+
+engine-e-realdata-ion-sdr-the-layout-needs-positive-sample = o layout exige uma taxa de amostragem positiva e um fator de taxa de pelo menos 1
+
+engine-e-realdata-lola-dem-unexpected-end-of-dem = fim inesperado do DEM
+
+engine-e-realdata-lugre-not-raw-message = não é uma mensagem RAW
+
+engine-e-realdata-lugre-not-an-acq-message = não é uma mensagem ACQ
+
+engine-e-realdata-raim-no-priori-position-pass-one = sem posição a priori: informe uma ou forneça um APPROX POSITION XYZ do cabeçalho de observação
+
+engine-e-receiver-trust-calibration-calibration-window-less-than-the = janela de calibração menor que a guarda antes de uma janela de ataque, ou dentro dela
+
+engine-e-receiver-trust-live-live-mode-needs-platform-kind = o modo live exige [platform] kind = "vessel": a pontuação de confiança é para uma plataforma em movimento
+
+engine-e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no = o fluxo RTCM 3 não contém nenhuma mensagem de observação MSM4 ou MSM7
+
+engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = o .pos do RTKLIB com posições em graus-minutos-segundos não é lido: execute novamente rnx2rtkp/RTKPOST com graus decimais (-degf 0)
+
+engine-e-receiver-trust-monitors-engine-fix-the-rinex-observation = correção do motor: o cabeçalho de observação RINEX não tem APPROX POSITION XYZ para iniciar a solução
+
+engine-e-receiver-trust-monitors-platform-declares-heading-sensor-true = a plataforma declara heading_sensor = true, mas o registro não traz nenhum rumo HDT, THS ou VHW
+
+engine-e-receiver-trust-scenario-log-imu-the-imu-series = log.imu: a série da IMU não se sobrepõe a nenhuma época do registro; verifique time_offset_s
+
+engine-e-receiver-trust-scenario-this-surface-does-not-carry = esta superfície não traz o arquivo `[log.imu]`: execute o cenário com `kshana receiver-trust` no host, ou remova `[log.imu]`
+
+engine-e-receiver-trust-scenario-log-nav-applies-only-to = log.nav se aplica apenas a um registro `rinex`: a correção do motor precisa de suas pseudodistâncias
+
+engine-e-receiver-trust-score-score-the-geometry-deduction-is = score: a dedução de geometria é definida em [geometry] (cap_points, full_ratio, floor), não em [score.weights]
+
+engine-e-spectrum-recording-is-not-available-in = recording não está disponível na build WebAssembly: passe os bytes SigMF a kshana::sigmf::read e kshana::spectrum::welch_psd
+
+engine-e-ssv-scenario-navigation-noise-and-radiation-pressure = navigation: os valores de ruído e de pressão de radiação não podem ser negativos
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of-2 = trajectory: informe exatamente um entre duration_min e duration_periods
+
+engine-e-ssv-weak-receiver-pfa-total-and-receiver = receiver.pfa_total e receiver.pd devem ser probabilidades em (0, 1)
+
+engine-e-suite-suite-manifest-is-missing-title = falta um `title` no manifesto da suíte
+
+engine-e-suite-suite-manifest-has-no-scenarios = o manifesto da suíte não tem `scenarios`: adicione um array `scenarios = [...]` não vazio
+
+engine-e-surface-path-sources-are-not-accepted = fontes `path` não são aceitas aqui: informe o registro em linha como `text` ou `base64`
+
+engine-e-surface-input-campaign-names-campaign-folder = { "[" }input] campaign nomeia uma pasta de campanha, e esta superfície não lê arquivos; as campanhas são lidas apenas pela CLI (`kshana iq labfit`), pelo Python (`kshana.iq_labfit`) ou pela ferramenta labfit do MCP dentro de seu diretório de trabalho IQ
+
+engine-e-surface-bad-merkle-root-hex = hexadecimal da raiz de Merkle inválido
+
+engine-e-surface-merkle-root-must-be-32 = a raiz de Merkle deve ter 32 bytes
+
+engine-e-telecom-timing-csv-path-is-not-available = csv_path não está disponível na build WebAssembly; informe a série em linha como `samples`
+
+engine-e-telemetry-cli-otlp-every-needs-whole-number = --otlp-every exige um número inteiro
+
+engine-e-telemetry-cli-registry-poisoned = registro envenenado
+
+engine-e-telemetry-otlp-https-is-not-supported-by = https não é suportado pelo exportador integrado; use um coletor local sobre http
+
+engine-e-telemetry-otlp-no-http-status-in-response = nenhum status HTTP na resposta
+
+engine-e-tle-invalid-designator-launch-year-in = ano de lançamento do designador inválido no TLE
+
+engine-e-tle-invalid-epoch-year-in-tle-2 = ano de época inválido no TLE
+
+engine-e-tle-invalid-epoch-day-in-tle = dia de época inválido no TLE
+
+engine-e-adm-record-without-epoch = registro sem <EPOCH>
+
+engine-e-adm-ndm-holds-no = <ndm> não contém nenhum <{ $kind }>
+
+engine-e-adm-root-element-is-not = o elemento raiz <{ $name }> não é <{ $kind }>
+
+engine-e-evidence-cli-keygen-needs-out-keyfile = keygen exige --out <keyfile>
+
+engine-e-evidence-cli-needs-key-keyfile-make-one = exige --key <keyfile> (crie um com `kshana evidence keygen`)
+
+engine-e-evidence-cli-needs-out-dir = exige --out <dir>
+
+engine-e-evidence-cli-needs-scenario-bench-scenario = exige --scenario <bench scenario>
+
+engine-e-evidence-cli-needs-conditions-file = exige --conditions <file>
+
+engine-e-evidence-tsa-bad-ecdsa-signature = assinatura ECDSA inválida
+
+engine-e-evidence-tsa-certificate-signature-failure = falha de assinatura do certificado
+
+engine-e-evidence-tsa-unable-to-get-issuer-certificate = não foi possível obter o certificado do emissor
+
+engine-e-evidence-tsa-unable-to-get-local-issuer = não foi possível obter o certificado do emissor local
+
+engine-e-evidence-tsr-gentime-is-not-text = genTime não é texto
+
+engine-e-glonass-bad-year = ano inválido
+
+engine-e-glonass-bad-month = mês inválido
+
+engine-e-glonass-bad-day = dia inválido
+
+engine-e-glonass-bad-hour = hora inválida
+
+engine-e-glonass-bad-minute = minuto inválido
+
+engine-e-gravity-sh-bad-degree = grau inválido
+
+engine-e-gravity-sh-bad-order = ordem inválida
+
+engine-e-interop-testbench-first-line-is-not-resolution = a primeira linha não é `RESOLUTION: <ms>`
+
+engine-e-interop-testbench-bad-resolution = resolução inválida
+
+engine-e-iq-signals-galileo-the-galileo-e1-memory-codes = os códigos de memória Galileo E1 não são distribuídos junto (os termos do ICD permitem redistribuição apenas para fins não comerciais; consulte LICENSING.md). Forneça sua cópia do Anexo C do ICD ({ $file }) com { $env }=<path>, ou execute scripts/fetch_galileo_e1_codes.sh em um checkout de código-fonte ({ $path }: { $e })
+
+engine-e-jammertest-cli-key-needs-out-dir = --key exige --out <dir>
+
+engine-e-leo-signal-modulation-expected-flat-mhz = modulação { $label }: esperado FLAT(<MHz>)
+
+engine-e-live-io-listen-takes-tcp-port-or = --listen aceita tcp:<port> ou tcp:<addr>:<port>
+
+engine-e-ndm-xml-bad-attribute-in = atributo inválido em <{ $name }>
+
+engine-e-ndm-xml-unquoted-attribute-in = atributo { $key } sem aspas em <{ $name }>
+
+engine-e-ndm-xml-is-not-closed = <{ $name }> não está fechado
+
+engine-e-nmea-synth-cli-wait-clients-not-number = --wait-clients: não é um número
+
+engine-e-nmea-synth-cli-speed-not-number = --speed: não é um número
+
+engine-e-nmea-synth-cli-seed-not-an-integer = --seed: não é um inteiro
+
+engine-e-odm-user-defined-without-parameter = <USER_DEFINED> sem parâmetro
+
+engine-e-osnma-cli-bad-public-key-id = id de chave pública inválido
+
+engine-e-osnma-cli-bad-public-key-hex = hexadecimal de chave pública inválido
+
+engine-e-realdata-ion-sdr-closing-tag-does-not-match = a tag de fechamento </{ $name }> não corresponde a <{ $name2 }>
+
+engine-e-realdata-ion-sdr-closing-tag-without-an-opening = tag de fechamento </{ $name }> sem tag de abertura
+
+engine-e-realdata-ion-sdr-attribute-without-value-in = atributo sem valor em <{ $name }>
+
+engine-e-realdata-ion-sdr-is-not-an-integer = <{ $name }> { $key } não é um inteiro: { $v }
+
+engine-e-realdata-ion-sdr-chunk-lacks-sizeword = <chunk> não tem sizeword
+
+engine-e-realdata-ion-sdr-chunk-lacks-countwords = <chunk> não tem countwords
+
+engine-e-realdata-ion-sdr-is-not-an-integer-2 = <{ $key }> não é um inteiro
+
+engine-e-realdata-ion-sdr-ratefactor-is-not-an-integer = <ratefactor> não é um inteiro
+
+engine-e-realdata-ion-sdr-no-band-with-centerfreq-for = nenhum <band> com um <centerfreq> para o fluxo
+
+engine-e-realdata-ion-sdr-offset-is-not-an-integer = <offset> não é um inteiro
+
+engine-e-receiver-trust-geometry-geometry-need-hdop-good-hdop = geometry: é preciso 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max e used_good >= min_used (recebido { $hdop_good }, { $pdop_good }, { $used_good })
+
+engine-e-sp3-bad-epoch-count = contagem de épocas inválida
+
+engine-e-spectrum-matched-jammer-needs-matched-to = { $name }: um jammer casado exige matched_to = "<band name>"
+
+engine-e-spectrum-unknown-band-the-spectrum-model = banda { $name } desconhecida: o modelo de espectro tem { $band_names } e, por nome, { $more_band_names } (canais GLONASS como glonass-l1of-k<K>, K = -7 a 6); qualquer outra banda aceita `signal = "<preset signal>"` ou `centre_mhz` com `modulation` e `signal_power_dbw`
+
+engine-e-evidence-assemble-the-log-does-not-state = o registro não declara um horário de início interpretável; informe os segundos desde a primeira época
+
+engine-e-interop-geojson-no-linestring-found-give-linestring = nenhum LineString encontrado: informe uma geometria LineString, uma Feature que contenha uma, ou uma FeatureCollection cujas features incluam uma
+
+engine-e-interop-geojson-the-scenario-has-no-waypoints = o cenário não tem `waypoints` em número de 2 ou mais para distribuir uma rota de duas posições
+
+engine-e-leo-pnt-chain-the-chain-satellite-is-visible = o satélite da cadeia está visível por menos de duas épocas, ou em uma única elevação; amplie a janela de passagem
+
+engine-e-nmea-synth-config-skyline-table-is-required-for = uma tabela skyline é obrigatória (por exemplo skyline = { "{" } preset = "fjord" { "}" })
+
+engine-e-python-prns-must-list-at-least = prns deve listar pelo menos um PRN
+
+engine-e-python-design-name-needs-design = design_name exige design
+
+engine-e-python-bandpass-needs-both-bandpass-lo = bandpass exige bandpass_lo e bandpass_hi
+
+engine-e-python-token-text-is-not-base64 = o texto do token não é base64
+
+engine-e-python-unix-nano-must-be-between = unix_nano deve estar entre 0 e 2**64 - 1
+
+engine-e-wasm-token-base64-is-not-base64 = token_base64 não é base64
+
+engine-e-wasm-log-base64-is-not-base64 = log_base64 não é base64
+
+engine-e-wasm-input-base64-is-not-base64 = input_base64 não é base64
+
+engine-e-wasm-seed-must-be-non-negative = seed deve ser um inteiro não negativo
+
+engine-e-wasm-runs-json-must-be-an = runs_json deve ser um array de { "{" }label, result, scenario?{ "}" }
+
+engine-e-nmea-synth-stream-no-udp-address = sem endereço UDP
+
+engine-e-realdata-llr-crd-short-normal-point-11-record = registro normal-point (11) curto
+
+engine-e-realdata-llr-crd-normal-point-record-appeared-before = um registro normal-point apareceu antes do seu cabeçalho de sessão h2/h3/h4
+
+engine-e-gravity-sh-line-bad-coefficient-non-finite = linha { $lineno }: coeficiente inválido (não finito)
+
+engine-e-interop-time-extra-fields-utc = não é um horário UTC `YYYY-MM-DDTHH:MM:SS`: campos extras: { $text }
+
+engine-e-interop-time-year-outside-2000-to-2099-utc = não é um horário UTC `YYYY-MM-DDTHH:MM:SS`: ano fora de 2000 a 2099: { $text }
+
+engine-e-interop-time-month-outside-to-12-utc = não é um horário UTC `YYYY-MM-DDTHH:MM:SS`: mês fora de 1 a 12: { $text }
+
+engine-e-interop-time-day-does-not-exist-in-utc = não é um horário UTC `YYYY-MM-DDTHH:MM:SS`: o dia não existe nesse mês: { $text }
+
+engine-e-interop-time-hour-above-23-utc = não é um horário UTC `YYYY-MM-DDTHH:MM:SS`: hora acima de 23: { $text }
+
+engine-e-interop-time-minute-above-59-utc = não é um horário UTC `YYYY-MM-DDTHH:MM:SS`: minuto acima de 59: { $text }
+
+engine-e-interop-time-seconds-outside-60-utc = não é um horário UTC `YYYY-MM-DDTHH:MM:SS`: segundos fora de [0, 60): { $text }
+
+engine-e-mcp-budget-work-budget-exceeded-for-call = orçamento de trabalho excedido em uma chamada pelo servidor MCP: { $errors }. Execute estudos grandes com a linha de comando `kshana`.
+
+engine-e-mcp-iq-the-iq-sample-budget-must = o orçamento de amostras IQ deve ser de pelo menos 1
+
+engine-e-mcp-iq-an-empty-path-was-given = foi informado um caminho vazio
+
+engine-e-mcp-iq-rate-hz-must-be-positive = rate_hz deve ser um número positivo
+
+engine-e-mcp-iq-duration-must-be-positive-number = duration_s deve ser um número positivo
+
+engine-e-mcp-iq-broadcast-mode-nav-needs-rx = o modo de difusão (nav) exige rx_pos [lat, lon, alt]
+
+engine-e-mcp-iq-scene-needs-signal-or-nav = uma cena exige `signal` (ou `nav` para o modo de difusão)
+
+engine-e-mcp-iq-scene-needs-at-least-one = uma cena exige pelo menos um PRN em `prns`
+
+engine-e-mcp-iq-surface-out-exports-one-surface = surface_out exporta uma superfície: informe exatamente um PRN
+
+engine-e-mcp-iq-surface-out-must-end-in = surface_out deve terminar em .csv, .json ou .bin
+
+engine-e-mcp-iq-max-seconds-must-be-positive = max_seconds deve ser um número positivo
+
+engine-e-mcp-iq-epochs-out-must-end-in = epochs_out deve terminar em .csv, .jsonl ou .bin (o formato segue o sufixo)
+
+engine-e-mcp-iq-out-must-differ-from-input = out deve ser diferente de input
+
+engine-e-mcp-iq-pll-bws-hz-dll-bws = pll_bws_hz, dll_bws_hz, spacings_chips e coherents não podem ser combinados com design: a varredura executa todos os projetos do arquivo
+
+engine-e-mcp-iq-signal-and-prns-go-together = signal e prns andam juntos
+
+engine-e-mcp-iq-iq-work-directory = diretório de trabalho IQ { $dir }: { $e }
+
+engine-e-mcp-iq-iq-work-directory-is-not = o diretório de trabalho IQ { $dir } não é um diretório
+
+engine-e-mcp-iq-iq-file-tools-are-off = as ferramentas de arquivo IQ estão desativadas: { $reason }
+
+engine-e-mcp-iq-output-does-not-name-file = a saída `{ $rel }` não nomeia um arquivo
+
+engine-e-mcp-iq-output-its-folder = saída `{ $rel }`: sua pasta: { $e }
+
+engine-e-mcp-iq-output-is-symlink-refusing-to = a saída `{ $shown }` é um link simbólico; recusando-se a escrever
+
+engine-e-mcp-iq-output-already-exists-pass-overwrite = a saída `{ $shown }` já existe; informe overwrite: true para substituí-la
+
+engine-e-mcp-iq-output-exists-and-is-not = a saída `{ $shown }` existe e não é um arquivo
+
+engine-e-mcp-iq-its-data-file-lies-outside = { $path }: seu arquivo de dados está fora do diretório de trabalho IQ
+
+engine-e-mcp-iq-lies-outside-the-iq-work = { $path } está fora do diretório de trabalho IQ
+
+engine-e-mcp-iq-input-campaign-the-campaign-folder = { "[" }input] campaign `{ $rel }`: { $message }; a pasta de campanha deve ser uma pasta existente dentro do diretório de trabalho IQ
+
+engine-e-mcp-iq-out-dir-does-not-name = out_dir `{ $rel }` não nomeia uma pasta
+
+engine-e-mcp-iq-is-samples-and-one-call = { $what } tem { $samples } amostras e uma chamada pode processar no máximo { $max_samples } ({ $env }); { $remedy }
+
+engine-e-mcp-iq-threads-must-be-to = threads deve estar entre 1 e { $max_threads }
+
+engine-e-mcp-iq-truth-format-must-be-csv = truth_format deve ser csv ou jsonl (recebido { $other })
+
+engine-e-mcp-iq-surface-out-would-hold-about = surface_out conteria cerca de { $cells } células (compartimentos Doppler × amostras por período de código; limite { $max_cells }, cerca de { $mb } MB em binário): amplie doppler_step_hz ou reduza doppler_max_hz
+
+engine-e-mcp-iq-no-campaign-here = { $out_dir }: nenhuma campanha aqui ({ $e })
+
+engine-e-mcp-iq-design-prn-channels-at-most = { $n_channels } canais (projeto, PRN); no máximo 256 por varredura
+
+engine-e-mcp-iq-test-conditions-invalid = condições de ensaio inválidas: { $e }
+
+engine-e-mcp-iq-labfit-failed = labfit falhou: { $e }
+
+engine-e-mcp-marine-give-exactly-one-of-log = informe exatamente um entre `log` e `log_base64`
+
+engine-e-mcp-marine-at-most-366-maps-per = no máximo 366 mapas por chamada
+
+engine-e-mcp-marine-mode-symbols-needs-symbols = o modo `symbols` exige `symbols`
+
+engine-e-mcp-marine-vessel-stream-assessment-failed = a avaliação do fluxo da embarcação falhou: { $e }
+
+engine-e-mcp-marine-jammertest-import-failed = a importação do jammertest falhou: { $e }
+
+engine-e-mcp-marine-jammertest-score-failed = a pontuação do jammertest falhou: { $e }
+
+engine-e-mcp-marine-vessel-log-assessment-failed = a avaliação do registro da embarcação falhou: { $e }
+
+engine-e-mcp-marine-training-scenario-failed = o cenário de treinamento falhou: { $e }
+
+engine-e-mcp-marine-evidence-pack-failed = o pacote de evidências falhou: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over = o pacote tem { $size } bytes, acima do limite de resposta de { $max_bytes } bytes; reduza a janela ou use `kshana receiver-trust evidence` na linha de comando
+
+engine-e-mcp-marine-round-trip-pack-failed = o pacote de ida e volta falhou: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-2 = o pacote tem { $size } bytes, acima do limite de resposta de { $max_bytes } bytes; reduza a janela ou use `kshana evidence round-trip` na linha de comando
+
+engine-e-mcp-marine-files-are-over-the-byte = os arquivos excedem o limite de { $max_bytes } bytes
+
+engine-e-mcp-marine-full-log-is-over-the = full_log excede o limite de { $max_bytes } bytes
+
+engine-e-mcp-marine-interference-map-failed = o mapa de interferência falhou: { $e }
+
+engine-e-mcp-marine-the-map-is-bytes-over = o mapa tem { $total } bytes, acima do limite de resposta de { $max_bytes } bytes; use um cell_deg mais grosso, menos dias, ou `kshana interference-map` na linha de comando
+
+engine-e-mcp-marine-route-exposure-failed = a exposição da rota falhou: { $e }
+
+engine-e-mcp-marine-compliance-report-failed = o relatório de compliance falhou: { $e }
+
+engine-e-mcp-marine-standards-pack-failed = o pacote de normas falhou: { $e }
+
+engine-e-mcp-marine-lunanet-afs-check-failed = lunanet-afs-check falhou: { $e }
+
+engine-e-mcp-marine-mode-must-be-spec-symbols = mode deve ser spec, symbols ou generate (recebido { $other })
+
+engine-e-mcp-marine-benchmark-scoring-failed = a pontuação do benchmark falhou: { $e }
+
+engine-e-mcp-marine-leaderboard-failed = o leaderboard falhou: { $e }
+
+engine-e-mcp-marine-test-bench-export-failed = a exportação para bancada de ensaio falhou: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-3 = o pacote tem { $size } bytes, acima do limite de resposta de { $max_bytes } bytes
+
+engine-e-mcp-server-give-exactly-one-of-request = informe exatamente um entre `request` (uma requisição de geometria do céu) ou `skyline_preset` (o nome de um preset, ou uma string vazia para listá-los)
+
+engine-e-mcp-server-receiver-log-assessment-failed = a avaliação do registro do receptor falhou: { $e }
+
+engine-e-mcp-server-unknown-scenario-kind-list-scenario = tipo de cenário `{ $k }` desconhecido; list_scenario_kinds nomeia todos os tipos
+
+engine-e-mcp-server-unknown-report-format-expected-json = formato de relatório `{ $format }` desconhecido; esperado json ou html
+
+engine-e-mcp-server-report-failed = o relatório falhou: { $e }
+
+engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps resulta em { $n_frames } quadros e uma resposta traz no máximo { $max_frames }; reduza fps ou duration_s, ou escreva uma sequência mais longa com a linha de comando (`kshana <scenario.toml> --animate frames`)
+
+engine-e-mcp-server-route-import-failed = a importação da rota falhou: { $e }
+
+engine-e-mcp-server-sp3-export-failed = a exportação SP3 falhou: { $e }
+
+engine-e-mcp-server-omm-export-failed = a exportação OMM falhou: { $e }
+
+engine-e-mcp-server-oem-export-failed = a exportação OEM falhou: { $e }
+
+engine-e-mcp-server-scenario-kind-publishes-no-csv = o tipo de cenário `{ $kind }` não publica tabela CSV; apenas { $kinds } publicam
+
+engine-e-mcp-server-unknown-skyline-preset-known-presets = preset de skyline "{ $name }" desconhecido; presets conhecidos: { $presets }
+
+engine-e-mcp-server-the-tool-call-did-not = a chamada da ferramenta não terminou: { $e }
+
+engine-e-mcp-server-the-server-is-at-its-concurrent-work-limit = o servidor está no seu limite de trabalho simultâneo (chamadas anteriores ainda estão em execução); tente novamente em instantes
+
+engine-e-mcp-server-the-work-pool-is-closed = o pool de trabalho está fechado
+
+engine-e-mcp-iq-no-work-directory = nenhum diretório de trabalho
+
+engine-e-mcp-iq-input = entrada `{ $rel }`: { $e }
+
+engine-e-mcp-iq-input-is-not-file = a entrada `{ $rel }` não é um arquivo
+
+engine-e-mcp-iq-input-campaign-is-not-folder = { "[" }input] campaign `{ $rel }` não é uma pasta
+
+engine-e-mcp-iq-out-dir-is-not-folder = out_dir `{ $rel }` não é uma pasta
+
+engine-e-mcp-iq-out-dir = out_dir `{ $rel }`: { $e }
+
+engine-e-mcp-iq-iq-failed = iq { $args } falhou: { $m }
+
+engine-e-adm-attitudestate-without = <attitudeState> sem <{ $tag }>
+
+engine-e-bench-cli-is-required = { $flag } é obrigatório
+
+engine-e-bench-cli-is-empty = { $p } está vazio
+
+engine-e-evidence-tsa-bad-256-key = chave P-256 inválida
+
+engine-e-evidence-tsa-bad-384-key = chave P-384 inválida
+
+engine-e-interop-no-iq-block = sem bloco [iq]
+
+engine-e-ndm-xml-closes = </{ $close }> fecha <{ $name }>
+
+engine-e-odm-unexpected-in-data = <{ $name }> inesperado em <data>
+
+engine-e-odm-unsupported-in-ocm-data = <{ $name }> não suportado em <data> do OCM
+
+engine-e-realdata-ion-sdr-no-stream-element = nenhum elemento <stream>
+
+engine-e-realdata-ion-sdr-is-not-number = <{ $name }> não é um número: { $text }
+
+engine-e-realdata-ion-sdr-no-chunk-element = nenhum elemento <chunk>
+
+engine-e-realdata-ion-sdr-stream-lacks = <stream> não tem <{ $key }>
+
+engine-e-realdata-ion-sdr-no-system-element = nenhum elemento <system>
+
+engine-e-realdata-ion-sdr-no-file-with-url = nenhum <file> com um <url>
+
+engine-e-surface-give-string-utf8-or-base64 = { $k }: informe uma string, { "{" }"utf8": ...{ "}" } ou { "{" }"base64": ...{ "}" }
+
+engine-e-realdata-llr-crd-short-h1-record = registro h1 curto
+
+engine-e-realdata-llr-crd-short-h2-record = registro h2 (estação) curto
+
+engine-e-realdata-llr-crd-short-h3-record = registro h3 (alvo) curto
+
+engine-e-realdata-llr-crd-short-h4-record = registro h4 (sessão) curto
+
+engine-e-mcp-main-needs-value = { $a } exige um valor
+
+engine-main-usage =
+    uso: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
+    { "   " }ou: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
+    { "   " }ou: kshana --study <suite.toml>
+    { "   " }ou: kshana --validate <scenario.toml>
+    { "   " }ou: kshana receiver-trust <scenario.toml>
+    { "   " }ou: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+    { "   " }ou: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }ou: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+    { "   " }ou: kshana jammertest <import|score> ... (kshana jammertest --help)
+    { "   " }ou: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }ou: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+    { "   " }ou: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }ou: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
+    { "   " }ou: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+    { "   " }ou: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+    { "   " }ou: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }ou: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+    { "   " }ou: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+    { "   " }ou: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+    { "   " }ou: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+    { "   " }ou: kshana partner check <submission.toml> [--json]
+    { "   " }ou: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }ou: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }ou: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+    { "   " }ou: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }ou: kshana kinds [--json]
+    { "   " }ou: kshana example [<name>]
+    { "   " }ou: kshana --help | --version
+
+engine-main-usage-sky =
+    uso: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+    { "   " }ou: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+    { "                  " }[--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+    { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+    { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+
+    Imprime os satélites que o sítio vê sob o skyline, seu DOP, o cofator e a covariância
+    leste-norte-cima e a elipse de erro horizontal como JSON (sky_geometry); com --monte-carlo,
+    n (no máximo 5000) erros de mínimos quadrados com semente (sky_monte_carlo); com --svg, o skyplot.
+    Os sistemas são presets do motor (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
+    uma geometria representativa, não o céu de uma data em um lugar. --tle lê conjuntos de
+    elementos de duas linhas (no máximo 4 MiB) e os propaga por SGP4 até --epoch (UTC) mais --time:
+    o céu que esses conjuntos de elementos dão naquela época, não uma medição. Sem --epoch eles vão
+    até a época do conjunto de elementos mais recente, um céu representativo. MODELLED; docs/SKYLINE.md.
+
+engine-main-usage-skyline =
+    uso: kshana skyline --preset <name> [--json]
+    { "   " }ou: kshana skyline --presets
+    { "   " }ou: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Imprime um preset de skyline (city-street, harbour-approach, fjord, container-terminal) com sua
+    proveniência e o corte a cada grau de azimute, a lista de presets, ou uma seção skyline
+    reduzida à tabela de 360 entradas que o motor usa. Presets REPRESENTATIVE; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    uso: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }ou: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }ou: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Fixado à LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025). `spec` verifica esta implementação contra as tabelas de código impressas
+    do documento e seus exemplos resolvidos (limiares B1 a B10 de xval/lunanet-afs/PREREGISTRATION.md; com --strict
+    o status de saída é 1, a menos que todos os limiares sejam atingidos). `symbols` verifica um fluxo de símbolos de decisão rígida
+    (texto de 0 e 1) quanto ao padrão de sincronização, à decodificação de SB1, ao FID, à continuidade do TOI e ao
+    espaçamento de quadros; os subquadros 2 a 4 (LDPC, CRC-24Q) NÃO são verificados. `generate` escreve um fluxo de teste de
+    símbolos com subquadros provisórios; não é uma forma de onda, e o Kshana não escreve nenhum sinal. Para
+    adquirir ou rastrear a forma de onda AFS em uma gravação, use `kshana iq acquire --signal lunanet-afs-i`
+    (ou lunanet-afs-q). Apenas consultivo. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    uso: kshana standards-pack list
+    { "   " }ou: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }ou: kshana standards-pack rows <id>
+    { "   " }ou: kshana standards-pack tests <id>
+
+    Um pacote de normas é um conjunto de cenários pontuados contra limiares declarados antes da execução, associado
+    às linhas do compliance-report; fornece evidências em apoio de cada uma delas. `run` imprime uma tabela (ou --json) e, com
+    --out, escreve <base>.pack.json e <base>.pack.md; passe o JSON a `kshana compliance-report`
+    para ver as linhas. Um teste que precisa de um registro de receptor é listado como NEEDS INPUT e não é pontuado.
+    MODELLED: um limiar MET diz que um cenário modelado atingiu um limiar declarado, não que algum produto atenda a um
+    requisito. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: se aplica
+
+engine-main-wrote = escreveu { $path }
+
+engine-main-note = nota: { $n }
+
+engine-main-error-example-extra-argument = erro: argumento inesperado '{ $extra }' após `example <name>`; ele aceita um nome
+
+engine-main-lunanet-afs-generate-needs = generate exige --frames <n> e --out <file> (e um --toi0 inteiro)
+
+engine-evidence-cli-usage =
+    uso:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      saída 0 verificado, 1 falhou, 3 íntegro mas signatário não fixado
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(lê o token RFC 3161 e o vincula ao manifesto; NÃO verifica a assinatura da
+    { "      " }autoridade de carimbo de tempo: use `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(vincula o cenário, as condições de ensaio do laboratório, o registro do receptor e sua pontuação; o
+    { "      " }<scenario.toml> é o cenário de pontuação receiver-trust; não escreve nenhum sinal)
+    { "  " }<t0>/<t1>: segundos desde a primeira época do registro, ou um horário UTC ISO-8601 quando o registro
+    { "  " }declara seu horário de início. Um pacote é um registro técnico, não um parecer jurídico.
+
+engine-evidence-cli-fingerprint = impressão digital: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }falha: { $f }
+
+engine-evidence-cli-verify-note = { "  " }nota: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: todos os hashes, a cadeia e a assinatura conferem, para a chave que você forneceu.
+
+engine-evidence-cli-verified-unpinned = VERIFIED em relação à chave que o próprio pacote nomeia, impressão digital { $fp } (signatário NOT pinned; informe --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: os hashes e a assinatura são consistentes com a chave { $fp }, que o próprio pacote nomeia. Informe --pubkey <signer public key> para estabelecer quem o assinou (ou --allow-unpinned para aceitar isso conscientemente).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: veja as falhas acima.
+
+engine-evidence-cli-attached = anexou { $path }
+
+engine-evidence-cli-verify-with = verifique com: kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    uso: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }ou: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }ou: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+    { "   " }ou: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }ou: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom também exige --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = uso: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = data
+
+engine-interference-map-cli-col-src = fonte
+
+engine-interference-map-cli-col-degraded = degradado
+
+engine-interference-map-cli-col-not-degraded = não degradado
+
+engine-interference-map-cli-col-unassessed = não avaliado
+
+engine-interference-map-cli-col-not-observed = não observado
+
+engine-bench-cli-usage =
+    uso: kshana bench spec
+    { "   " }ou: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }ou: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }ou: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }ou: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }ou: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }ou: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }ou: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }ou: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }ou: kshana bench validate <result.json>...
+    { "   " }ou: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (sem entradas: o estado vazio; --fragment: uma seção incorporável)
+    { "   " }(um arquivo de semente guarda o segredo por trás de um conjunto reservado lacrado; mantenha-o fora do controle de versão)
+
+engine-bench-cli-match = confere
+
+engine-bench-cli-valid = { $f }: válido
+
+engine-bench-cli-folders = { $n } pasta(s)
+
+engine-bench-cli-unpinned = não fixado: { $rel }
+
+engine-bench-cli-missing = ausente: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+engine-osnma-cli-usage =
+    uso: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    páginas I/NAV: o formato simples (veja docs/OSNMA.md) ou o
+    { "                             " }layout CSV dos vetores de teste publicados
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }layout da entrada (padrão: pelo conteúdo do arquivo). ubx é um
+    { "                             " }fluxo de bytes u-blox com mensagens UBX-RXM-SFRBX (Galileo E1-B)
+    { "  " }--start-gst SECONDS        horário de início de um CSV de vetores em segundos GST
+    { "                             " }(padrão: lido de um nome de arquivo como 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          raiz de Merkle confiável (64 dígitos hexadecimais) para verificações DSM-PKR
+    { "  " }--public-key ID:TYPE:HEX   chave pública confiável, TYPE p256 ou p521, ponto comprimido
+    { "  " }--reference-time SECONDS   horário atual em segundos GST de uma fonte independente. Um único
+    { "                             " }instante: subquadros mais distantes dele que a tolerância são
+    { "                             " }postos de lado, portanto use-o para dados ao vivo ou recém-gravados
+    { "  " }--max-time-error SECONDS   maior distância de um subquadro ao horário de referência, abaixo de
+    { "                             " }30 (padrão 29); exige --reference-time
+    { "  " }--epochs                   imprime também cada resultado de tag
+    { "  " }--json                     imprime JSON em vez de texto
+
+    Status de saída: 0 concluído, 2 erro de uso ou de entrada, 3 uma verificação dos dados de algum satélite falhou.
+
+engine-iq-cli-usage =
+    uso: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }ou: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }ou: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }ou: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (padrão auto, ≈4 ms coerentes)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }ou: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }ou: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }ou: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }ou: kshana iq campaign report <out-dir>
+    { "   " }ou: kshana iq conditions <test-conditions.toml|json>
+    { "   " }ou: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }ou: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }cenários labfit: [[runs]] de registros de receptor, ou [input] campaign = "<out-dir>" nomeando uma pasta de saída de kshana iq campaign (relativa ao arquivo do cenário)
+    { " " }projetos de malha: um arquivo TOML kshana.loop-design/1 (docs/design/LOOP-DESIGN-TOML.md); as opções explícitas de malha/aquisição prevalecem sobre o projeto selecionado
+    { " " }acquire/track/sweep também aceitam as opções de front-end [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], aplicadas antes do processamento (tanto à aquisição quanto à passagem de rastreamento)
+    { " " }opções de canal de scene: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }perfil de C/N0 de scene: [--cn0-profile <toml>] deslocamentos de C/N0 variáveis no tempo por satélite (degrau, rampa, pontos, desvanecimento), aplicados sobre o canal; o cn0_dbhz da verdade o acompanha
+    { " " }entradas de gravação/brutas sem sidecar também aceitam: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; entradas de múltiplos fluxos aceitam --channel <k>
+    { " " }sinais: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> é uma lista separada por vírgulas (um valor por --prn, ou um único valor aplicado a todos)
+
+engine-iq-cli-usage-error = erro de uso: { $m }
+
+engine-iq-io-cli-usage =
+    uso: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }ou: kshana iq info <recording>
+    { "   " }ou: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }ou: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }ou: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }entradas brutas sem sidecar também aceitam: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }entradas de múltiplos fluxos (SigMF multicanal, bruto intercalado) aceitam --channel <k> (a partir de 0; padrão 0)
+    { " " }formatos: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12 bits em 16 ci12r_le ci12l_be cu12r_le ..., 4 bits empacotados ci4_msb cu4_lsb ..., 2 bits empacotados c2tc_msb c2sm_lsb r2ob_msb ..., 2 bits por byte c2sm_byte ..., reais r..., Q primeiro ..._qi
+
+engine-telemetry-cli-usage =
+    uso: kshana trust-telemetry [options]
+    { "  " }entrada (padrão: linhas JSON no stdin):
+    { "    " }--input <file|->         lê linhas JSON de um arquivo, ou `-` para o stdin
+    { "    " }--result <result.json>   reproduz as épocas de um arquivo de resultado de `kshana receiver-trust`
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     serve /metrics (padrão 127.0.0.1:9464 quando nenhuma outra saída é escolhida)
+    { "    " }--print-metrics          imprime a exposição final no stdout ao fim da entrada
+    { "    " }--hold                   continua servindo depois que a entrada termina
+    { "    " }--expose-position        publica também a posição informada pelo receptor como medidores (desligado por padrão)
+    { "  " }syslog (CEF ou LEEF em um envelope RFC 5424):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  enquadra as mensagens TCP com contagem de octetos (RFC 6587), não uma por linha
+    { "    " }--format cef|leef        dialeto da carga (padrão cef)
+    { "    " }--syslog-all             um evento por época (padrão: um por mudança de faixa)
+    { "    " }--host <name>            nome do host do dispositivo nos eventos (padrão `kshana`)
+    { "  " }Home Assistant / appliance NTP (estado JSON + descoberta MQTT; apenas publicação, sem credenciais nem TLS):
+    { "    " }--mqtt-tcp <host:port>   publica em um broker MQTT 3.1.1 local (mensagens retidas, QoS 0)
+    { "    " }--print-mqtt             imprime as mensagens como linhas `topic<TAB>payload`
+    { "    " }--mqtt-prefix <p>        prefixo do tópico de estado (padrão kshana/trust); --mqtt-node <id> (padrão kshana)
+    { "    " }--mqtt-discovery <p>     prefixo de descoberta do Home Assistant (padrão homeassistant)
+    { "  " }OpenTelemetry (compile com --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (padrão 10)
+
+engine-jammertest-cli-usage =
+    uso:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [mesmas opções]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    O plano e o catálogo são os arquivos JSON publicados do NPRA/jammertest-plan (MIT; obtenha-os com
+    xval/jammertest-plan/fetch.sh). Os horários do plano são de relógio local; --local-offset-h (padrão 2, CEST)
+    diz quanto eles diferem do UTC. Os carimbos de attack_log do conjunto de dados JammerTest 2024 indicam Z, mas são horário
+    local: --time-shift-h tem padrão -2. Os eventos são verdade programada, não horários de transmissão registrados.
+    Software de caráter consultivo, não um equipamento de navegação homologado.
+
+engine-nmea-synth-cli-usage =
+    uso: kshana nmea-scenario <scenario.toml> [options]
+
+    Escreve ou transmite um conjunto NMEA 0183 de ponte sintético (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    para uma trajetória de embarcação com eventos programados de jamming/spoofing, e um registro do instrutor.
+    Somente para treinamento e ensaio: nunca o alimente nos sistemas de navegação reais de uma embarcação.
+
+    opções:
+    { "  " }--out <file.nmea>          escreve o fluxo em um arquivo (padrão <name>.nmea quando nenhuma
+    { "                             " }saída de rede é dada)
+    { "  " }--instructor-log <prefix>  escreve <prefix>.json e <prefix>.txt (padrão: ao lado do
+    { "                             " }arquivo, senão <name> no diretório atual)
+    { "  " }--tcp <addr:port|port>     serve o fluxo por TCP (espera primeiro um cliente); uma
+    { "                             " }porta sozinha escuta apenas em 127.0.0.1. Não há autenticação:
+    { "                             " }qualquer um que alcance o endereço pode ler o fluxo
+    { "  " }--udp <addr:port|port>     envia uma sentença por datagrama UDP a este endereço; uma
+    { "                             " }porta sozinha envia para 127.0.0.1
+    { "  " }--broadcast                permite que --udp use um endereço de broadcast
+    { "  " }--wait-clients <n>         clientes a esperar antes de o fluxo TCP começar (padrão 1)
+    { "  " }--realtime                 ritmo em tempo real (padrão para saída de rede)
+    { "  " }--speed <x>                ritmo de x vezes o tempo real; 0 é o mais rápido possível
+    { "                             " }(padrão para arquivos)
+    { "  " }--seed <n>                 substitui a semente do cenário
+    { "  " }--no-marker                omite a sentença marcadora de dados sintéticos
+
+engine-tle-warning = aviso: { $w }
+
+engine-e-animation-no-time-series-to-animate = nenhuma série temporal para animar: o resultado { $k } não traz eixo de tempo amostrado (veja docs/ANIMATION.md para os formatos que o exportador reconhece)
+
+engine-animation-svg-sub = tipo { $kind } · { $t0 } a { $t1 } · amostras de result.json, desenhadas sem reamostragem · Kshana { $version }
+
+engine-animation-svg-strip-events = eventos
+
+engine-animation-svg-strip-phases = fases
+
+engine-animation-svg-waterfall = cascata: { $title } [{ $unit }], o tempo corre para baixo, cor de { $lo } a { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = índice da época
+
+engine-animation-svg-desc = Série temporal animada de uma execução { $kind }: { $n_panels } painel(éis), { $n_events } evento(s), { $n_phases } fase(s). Cada ponto é uma amostra do result.json da execução.
+
+engine-animation-html-title = { $title } — animação do Kshana
+
+engine-animation-html-sub = tipo { $kind } · { $n } série(s) de result.json, desenhadas sem reamostragem · Kshana { $version }
+
+engine-animation-html-playback = Reprodução
+
+engine-animation-html-play = Reproduzir
+
+engine-animation-html-pause = Pausar
+
+engine-animation-html-mission-time = Tempo de missão
+
+engine-animation-html-speed = velocidade
+
+engine-animation-html-playback-speed = Velocidade de reprodução
+
+engine-animation-html-events = Eventos
+
+engine-animation-html-footer-keys = A barra de espaço reproduz ou pausa, as setas avançam e recuam, Home e End saltam. Esta é uma representação das próprias amostras da execução: é tão boa quanto a execução e não acrescenta nenhuma evidência (MODELLED, consistência interna).
+
+engine-animation-html-footer-determinism = O mesmo cenário, semente e opções dão um arquivo idêntico byte a byte.
+
+engine-animation-html-exports-heading = Exportações gravadas ao lado deste player
+
+engine-animation-js-phases-and-events = fases e eventos
+
+engine-animation-js-waterfall = cascata: { $title } [{ $unit }], o tempo corre para baixo
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = fase: { $name }
+
+engine-e-evidence-bundle-bad-log-slice = recorte de registro inválido: { $s }
+
+engine-e-evidence-bundle-bad-window = janela inválida: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = horário de criação inválido: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = token de carimbo de tempo inválido: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = não é possível serializar: { $s }
+
+engine-e-osnma-page-not-valid-hex = a página não é hexadecimal válido
+
+engine-e-osnma-page-time-outside-week-number = o horário da página está fora das 4096 semanas de um número de semana Galileo
+
+engine-e-osnma-page-bad-length = a página tem { $n } dígitos hexadecimais, esperado 60
+
+engine-e-osnma-page-malformed-line = linha de página malformada: { $s }
+
+engine-e-interchange-encode-payload = falha ao codificar a carga: { $e }
+
+engine-e-interchange-invalid-envelope = não é um envelope de intercâmbio válido: { $e }
+
+engine-e-interchange-not-kshana-artifact = não é um artefato do Kshana: o formato é { $found }, esperado { $expected }
+
+engine-e-interchange-incompatible-schema-version = versão de esquema { $v } incompatível ({ $verdict }); este motor fala { $current }
+
+engine-e-interchange-payload-mismatch = a carga não correspondeu ao tipo solicitado: { $e }
+
+engine-e-interop-not-applicable = não aplicável: { $why }
+
+engine-e-iq-io-error = erro de E/S: { $m }
+
+engine-e-iq-format-error = erro de formato: { $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }: o PRN { $prn } não é definido pelo ICD
+
+engine-e-iq-signals-glonass-channel-outside = o canal de frequência GLONASS { $k } está fora de -7..=6
+
+engine-e-iq-signals-code-table = tabela de códigos: { $m }
+
+engine-e-kepler-out-of-domain = equação de Kepler: M ou e fora do domínio
+
+engine-e-kepler-no-convergence = a equação de Kepler não convergiu em { $iters } passos (resíduo { $residual })
+
+engine-e-lunar-orientation-epoch-outside-series = a época { $t } séculos julianos desde J2000 está fora da série de orientação lunar DE440 ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+engine-e-propagator-sgp4-error = erro de propagação SGP4 (código { $code })
+
+engine-e-integrator-dop853-stopped = o DOP853 parou em t = { $t } ({ $failure }) após { $accepted } passos
+
+engine-e-portable-distr-variance-non-finite = a variância não é finita na distribuição normal
+
+engine-e-portable-distr-shape-not-positive = a forma não é positiva na distribuição gama
+
+engine-e-portable-distr-scale-not-positive = a escala não é positiva na distribuição gama
+
+engine-bench-tasks-clock-line-before-header = uma linha de relógio vem antes de qualquer cabeçalho `@<PRN>`
+
+engine-api-html-clock = Relógio
+
+engine-api-html-fom-heading = Figuras de mérito
+
+engine-api-html-metric = Métrica
+
+engine-api-html-value = Valor
+
+engine-api-html-validation = Validação
+
+engine-api-html-tier-note = Cada figura de mérito é marcada como VALIDATED (verificada contra uma referência independente externa) ou MODELLED (a partir de primeiros princípios, testada internamente), derivada da matriz de verificação.
+
+engine-api-html-default-title = Kshana — resultado do cenário
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · o instante preciso
+
+engine-api-html-tagline = Painel de desempenho de PNT híbrido quântico/clássico
+
+engine-api-html-chart-alt = Gráfico do resultado
+
+engine-api-html-full-result = Resultado completo (JSON)
+
+engine-api-html-footer-generated = Gerado pelo Kshana { $version }.
+
+engine-live-io-usage =
+    uso: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Lê NMEA 0183 (stdin por padrão), pontua de 0 a 100 cada época da correção de uma embarcação e escreve uma
+    linha JSON por época (stdout por padrão). Com --gate, o fluxo NMEA é repassado no stdout,
+    inalterado enquanto a correção é confiável e com a correção marcada como inválida enquanto não é, cada
+    ciclo seguido de uma sentença $PKSHT; o JSON então vai apenas para onde --json disser. A sessão é um
+    cenário .toml com [platform] kind = "vessel"; sua tabela [log] não é necessária.
+
+    --listen (com --gate) serve o fluxo com portão a qualquer número de clientes TCP (um plotter de cartas,
+    por exemplo) em vez de escrevê-lo no stdout; o endereço padrão é o loopback. Um cliente que
+    não acompanha é descartado, de modo que nunca atrasa os outros nem a entrada.
+
+    O horário do receptor também é comparado com o relógio deste computador, o que só tem sentido para
+    um fluxo que chega em tempo real; para um registro armazenado alimentado mais rápido que isso (stdin, tcp, udp), informe
+    --replay, e um --file simples (sem --follow) já o faz.
+
+    --serial lê um dispositivo serial ou USB (somente Unix), apenas leitura: abre o dispositivo para leitura, coloca
+    a linha local em modo bruto em --baud (padrão 4800, a taxa do NMEA 0183) e nunca escreve um byte no
+    receptor. O Kshana não configura receptores; configure o receptor para emitir NMEA com a ferramenta do próprio fabricante.
+
+    Este é um software de caráter consultivo, não um equipamento de navegação homologado (IEC 61108, IEC 61162): o
+    operador continua responsável pela navegação da embarcação.
+
+engine-api-html-footer-licence = Reproduzível a partir de cenário + semente + versão do motor. Livre e de código aberto (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">código-fonte &amp; documentação</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: servidor Model Context Protocol para o simulador de resiliência de PNT Kshana.
+
+    USO:
+    { "    " }kshana-mcp                      serve por stdio (o padrão; o que os clientes MCP iniciam)
+    { "    " }kshana-mcp --http <addr>        serve HTTP com streaming em http://<addr>/mcp
+
+    OPÇÕES HTTP:
+    { "    " }--http <addr>               endereço de bind, p. ex. 127.0.0.1:8080 (apenas loopback por padrão)
+    { "    " }--allow-remote              permite um endereço não loopback; exige KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  cabeçalho Host extra aceito (repetível)
+    { "    " }--allow-origin <origin>     origem de navegador aceita (repetível; nenhuma por padrão)
+    { "    " }--max-body-bytes <n>        limite do corpo da requisição (padrão 5242880)
+    { "    " }--request-timeout-secs <n>  limite de tempo por requisição (padrão 120)
+    { "    " }--max-concurrent <n>        requisições atendidas ao mesmo tempo (padrão 8)
+
+    O transporte HTTP desativa as ferramentas de arquivo IQ. O Kshana não hospeda um endpoint: execute-o você mesmo.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = argumento `{ $other }` desconhecido
+
+engine-e-mcp-main-http-options-need-http = as opções HTTP exigem --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = recusando-se a fazer bind em { $addr }: não é um endereço loopback. Use 127.0.0.1:<port>, ou informe --allow-remote (e defina { $token_env }) para escutar além desta máquina
+
+engine-e-mcp-http-refusing-to-bind-needs-token = recusando-se a fazer bind em { $addr }: um endereço não loopback exige um token bearer na variável de ambiente { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } tem menos de 16 caracteres; use um token aleatório longo
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent e --request-timeout-secs devem ser maiores que zero
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin não aceita `*`; nomeie cada origem
+
+engine-mcp-http-warning-remote = AVISO: o kshana-mcp está escutando em { $addr }, além desta máquina. Qualquer pessoa que o alcance e possua o token bearer pode executar simulações no seu hardware. Coloque TLS na frente dele (um proxy reverso ou o HTTPS da sua plataforma) e mantenha o token em segredo.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = a latitude do sítio deve estar em [-90, 90] e a longitude em [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s deve estar em [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode deve ser off, standalone ou differential, recebido `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode deve ser off, ltc ou tt, recebido `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays deve estar em 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s deve ser positivo e afs_first_fix_s não negativo
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km deve estar em [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = a covariância de entrada não é simétrica com diagonal não negativa
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent espera o relógio de entrada em LTC ou TT, recebido { $timescale }; a thread converte as escalas de tempo
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s deve estar em [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source deve ser off, terrain-nav ou lola-crlb, recebido `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = os tempos de correção devem ser positivos, afs_interval_s > 0 e trn_fix_time_s dentro da descida
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m deve ser de pelo menos 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m deve ser positivo
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb exige o DEM, que não pôde ser carregado
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent espera o relógio de entrada em LTC ou TT, recebido { $timescale }; a thread converte as escalas de tempo
+
+engine-e-lunar-landing-east-prior-is-not-positive = o prior leste não é definido positivo
+
+engine-e-lunar-landing-north-prior-is-not-positive = o prior norte não é definido positivo
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit deve ser `llo` ou `elfo`, recebido `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = o periapse deve estar pelo menos 20 km acima da superfície
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m deve estar em (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s deve estar em (0, 60] e arc_s ser de pelo menos um passo
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays deve estar em 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s deve ser positivo
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction deve estar em [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model deve ser `same` ou `point-mass`, recebido `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous espera a covariância de entrada em MCI; a thread converte os referenciais
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = a covariância a priori não é definida positiva
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = as equações normais não são definidas positivas
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = a informação a posteriori não é definida positiva
+
+engine-e-lunar-rendezvous-no-trial-ran = nenhuma tentativa foi executada
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = a data de estação `{ $s }` não é YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = data de estação `{ $s }`: ano inválido
+
+engine-e-lunar-surface-map-season-date-bad-month = data de estação `{ $s }`: mês inválido
+
+engine-e-lunar-surface-map-season-date-bad-day = data de estação `{ $s }`: dia inválido
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = a data de estação `{ $s }` está fora de 1901-2099 ou não é uma data
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites deve conter entre 1 e 64 entradas
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = sítio { $i }: a latitude deve estar em [-90, 90] e a longitude em [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates deve conter pelo menos uma data
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates deve conter no máximo 16 datas
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days deve estar em (0, 400] e step_min em [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days e timing_floor_s devem ser positivos e finitos
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = a época `{ $s }` não é YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = época `{ $s }`: número inválido `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = a época `{ $s }` está fora de 1901-2099 ou não é uma data
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces deve ser "quantum" ou "classical" (recebido { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = o documento de resultado já traz uma chave `evidence`
+
+engine-e-evidence-label-the-result-document-is-not = o documento de resultado não é um objeto JSON
+
+engine-e-evidence-label-no-evidence-rows-are-listed = nenhuma linha de evidência está listada para `{ $tool }`
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = não é um arquivo de relógio RINEX: nenhum registro RINEX VERSION / TYPE
+
+engine-e-clock-log-rinex-version-type-record-has = o registro RINEX VERSION / TYPE não tem número de versão (encontrado { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = a versão { $v } de relógio RINEX não é lida: as versões 2.00 e 3.00 a 3.04 são (o IGS publica o formato de relógio até 3.04; o RINEX 4.00 a 4.02 não define arquivo de relógio)
+
+engine-e-clock-log-rinex-clock-record-with-an = registro de relógio RINEX com um desvio de relógio ou época ilegível: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = a linha { $line } do TimeLab contém uma leitura que não é finita: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = a conversão de referencial { $a } -> { $b } não está disponível (apenas Gcrf, Mci e Mcmf convertem)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = o salto de escala de tempo { $a } -> { $b } não é um salto pivô
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: o corredor deve ir de um ângulo raso a um mais inclinado, abaixo de 90 graus, recebido { $lo } a { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` deve estar em [0, 90), recebido { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` deve ser de pelo menos 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` deve ser maior que 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: exige pelo menos uma estação
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: a estação `{ $id }` tem uma latitude ou longitude inválida
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: o id de estação `{ $id }` é usado duas vezes
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: a fase `{ $phase }` tem geometry "stated" e exige `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: duty da fase `{ $phase }` deve estar em [0, 1], recebido { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: a fase `{ $phase }` tem geometry `{ $other }` desconhecida; as geometrias são entry-orbit, moon-direction e stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: a órbita de entrada não se propagou
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: nenhuma geometria `{ $other }` a calcular
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: a fase `{ $phase }` exige uma entrada GCRF para sua geometria, recebido { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: um desvanecimento deve terminar depois de começar ({ $a } a { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: espera um estado de entrada GCRF, recebido { $frame }; declare a entrada em gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: a fase não produziu amostras
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: chave de modelo `{ $k }` desconhecida; as chaves são { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: o modelo exige `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` deve ser um número finito
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` deve ser maior que 0, recebido { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` deve ser de pelo menos 0, recebido { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` deve ser uma string
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` deve ser um array de tabelas
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` deve conter tabelas
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` deve ser um array de { $n } números
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` deve conter { $n } números, recebido { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` deve conter números finitos
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: um trecho exige `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: o modelo exige pelo menos um `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: início do trecho { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: fim do trecho { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: trecho { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` deve estar em [0, 1], recebido { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` e `ssv_step_min` devem ser maiores que 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: a propagação não alcançou { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: a órbita pós-queima não é ligada (energia específica { $energy } J/kg); a órbita substituta de gnss-ssv exige uma elíptica
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: a varredura gnss-ssv não retornou nenhuma banda
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: a varredura gnss-ssv não retornou nenhum grupo
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: a fase lista gnss-ssv, portanto o modelo exige `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: a fase lista ground-tracking, portanto o modelo exige `ground_range_sigma_m`, `ground_range_rate_sigma_mps` e `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = o handover { $name } deve ser um número finito de pelo menos 0, recebido { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = fase `{ $id }`: o { $key } do seu modelo é { $own_s } s, mas a thread dá à fase duration_s = { $duration_s } s; faça-os concordar ou omita { $key }
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = referencial `{ $other }` desconhecido; esperado um entre gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = escala de tempo `{ $other }` desconhecida; esperada uma entre tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = fonte de navegação `{ $other }` desconhecida; esperada uma entre gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = fonte de tempo `{ $other }` desconhecida; esperada uma entre gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } deve ser um número finito positivo, recebido { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = a regra de handover `{ $rule }` exige `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = regra de handover `{ $other }` desconhecida; esperado carry, inflate ou reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = uma fase tem um id vazio
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s deve ser um número finito de pelo menos 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x deve conter seis números finitos
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind deve ser "mission-thread", recebido "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = uma mission thread exige pelo menos uma [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = o id de fase `{ $id }` é usado duas vezes; os ids são únicos
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: a fase `{ $phase }` não é uma fase desta thread
+
+engine-e-mission-thread-scenario-phase = fase `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = a fase `{ $id }` terminou em { $t_s } s mas começou em { $start_s } s e dura { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = sensor de navegação relativa `{ $other }` desconhecido; esperado um entre optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = a distância deve ser um número finito positivo de metros, recebido { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = a distância de { $range_m } m excede o limite de { $max_range_m } m do sensor
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: chave de modelo `{ $bad }` desconhecida; as chaves são { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = as linhas de evidência de receiver-trust não estão na matriz
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = ablação `{ $other }` desconhecida: B1 a B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = as linhas do pacote de evidências não estão na matriz
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = as linhas de evidência do jammertest não estão na matriz
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: o ajuste não tem ruído de frequência (FM branco, FM flicker e FM de passeio aleatório são todos zero), portanto não há nada de que prever um holdover; o registro pode ser apenas ruído de fase branco ou curto demais
+
+engine-e-evidence-label-run-exercised-no-matrix-row = a execução não exercitou nenhuma linha da matriz de verificação
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent espera a covariância de entrada em MCI; a thread converte os referenciais
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent espera a covariância de entrada em MCI; a thread converte os referenciais
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface espera o estado de entrada em MCI ou MCMF; a thread converte os referenciais
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km deve exceder o raio lunar e a excentricidade estar em [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = tipo de fase `{ $kind }` desconhecido; os tipos registrados são { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` não lista nenhuma fonte de navegação
+
+engine-e-ssv-check-training-pattern-missing = padrão de treinamento { $sv } ausente
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] exige uma tabela [clock_log]: a série medida a partir da qual o ajuste é feito
+
+engine-lunar-phase-no-finite-points-to-plot = nenhum ponto finito para plotar
+
+engine-partner-cli-usage =
+    uso: kshana partner check <submission.toml> [--json]
+    { "  " }Verifica o formato e os metadados de uma submissão de parceiro de dados (kshana.partner-submission/1) e lê seu
+    { "  " }arquivo de dados com os leitores do próprio motor. Não pontua nem valida nada; veja docs/PARTNER-DATA.md.
+    { "  " }Status de saída 0: a submissão está completa e legível; 1: foram encontrados erros; 2: uso.
+    Software de caráter consultivo, não um equipamento de navegação homologado.
+
+engine-evidence-verify-evidence-label-ledger-rows = rótulo de evidência: { $tier } ({ $row_count } linhas do registro: { $rows }); está dentro de config.json, portanto a assinatura o cobre
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = sem rótulo de evidência (pacote anterior à 0.40)
+
+engine-e-ssv-check-pattern-missing = padrão { $sv } ausente
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | somente inercial { $inertial_pos } m / { $inertial_vel } m/s | com AFS { $afs_pos } m / { $afs_vel } m/s | dispersão na inserção { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Subida lunar: 1-sigma da posição de navegação 3-D (m)
+
+engine-lunar-ascent-chart-subtitle = deriva inercial com correções AFS | MODELLED, apenas consultivo
+
+engine-lunar-ascent-chart-x-axis = segundos desde o lançamento
+
+engine-lunar-ascent-chart-series = 1-sigma da posição
+
+engine-lunar-chart-y-axis-metres = metros
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | somente inercial { $none_east }/{ $none_north } m (L/N) | com auxílios { $all_east }/{ $all_north } m | dispersão R95 { $r95 } m | elipse de 3 sigmas { $major } x { $minor } m | { $inside }% dentro (esperado { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Dispersão de pouso lunar: R95 contra os auxílios usados
+
+engine-lunar-landing-chart-subtitle = R95 por auxílios: { $aids } | MODELLED, apenas consultivo
+
+engine-lunar-landing-chart-x-axis = combinação de auxílios (índice)
+
+engine-lunar-landing-chart-series = R95 da dispersão de pouso
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | sep { $sep } m | correções { $fixes }% | pos rel 1-sigma R/A/C { $radial }/{ $along }/{ $cross } m | NEES médio { $nees } (6 esperado) | convergiu { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = nunca
+
+engine-lunar-rendezvous-converged-at = em { $s } s
+
+engine-lunar-rendezvous-chart-title = Encontro lunar: 1-sigma formal da posição relativa (3-D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | correções { $fixes }% | NEES médio { $nees } (6 esperado) | MODELLED, apenas consultivo
+
+engine-lunar-rendezvous-chart-x-axis = minutos desde o início do arco
+
+engine-lunar-rendezvous-chart-series = 1-sigma da posição relativa
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites } sítios x { $n_seasons } estações | posicionamento { $position_min }% a { $position_max }% | pior disponibilidade de temporização { $worst_timing }% | maior lacuna de temporização { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Mapa de PNT da superfície lunar: disponibilidade por sítio (pior estação, %)
+
+engine-lunar-surface-map-chart-subtitle = posicionamento = 4+ relés e PDOP abaixo do limite; temporização = um relé ou a Terra | MODELLED, apenas consultivo
+
+engine-lunar-surface-map-chart-x-axis = índice do sítio
+
+engine-lunar-surface-map-chart-y-axis = porcentagem da janela
+
+engine-lunar-surface-map-chart-series-positioning = posicionamento
+
+engine-lunar-surface-map-chart-series-timing = temporização
+
+engine-lunar-surface-map-chart-series-earth-visible = Terra visível
+
+engine-mission-thread-weakest-link = elo mais fraco { $phase_id }
+
+engine-mission-thread-no-phases = nenhuma fase
+
+engine-mission-thread-untitled = sem título
+
+engine-mission-thread-summary = mission-thread | { $n_phases } fases | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Mission thread
+
+engine-mission-thread-chart-position-caption = posição 1-sigma, m
+
+engine-mission-thread-chart-time-caption = tempo 1-sigma, s
+
+engine-mission-thread-chart-subtitle = Orçamento de erro de navegação e temporização MODELLED; cada fase desenhada com a mesma largura
+
+engine-evidence-label-line-one-row = Evidência: { $tier } · { $n } linha do registro { $ids }
+
+engine-evidence-label-line-rows = Evidência: { $tier } · { $n } linhas do registro { $ids }
+
+engine-evidence-label-line-rows-more = Evidência: { $tier } · { $n } linhas do registro { $ids } +{ $n_more } a mais
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }info: { $i }
+
+engine-partner-text-warning = { "  " }aviso: { $w }
+
+engine-partner-text-error = { "  " }ERRO: { $e }
+
+engine-partner-text-result-ok = resultado: o formato e os metadados estão completos e legíveis
+
+engine-partner-text-result-not-ready = resultado: não está pronto; corrija os erros acima
