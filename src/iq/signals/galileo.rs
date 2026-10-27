@@ -129,12 +129,12 @@ fn load_user_table(env: &str, file: &str) -> Result<MemoryCodeTable, SignalError
             .join(file)
     });
     let text = std::fs::read_to_string(&path).map_err(|e| {
-        SignalError::Table(format!(
-            "the Galileo E1 memory codes are not bundled (the ICD's terms allow \
-             redistribution only for non-commercial purposes; see LICENSING.md). Supply your \
-             copy of ICD Annex C ({file}) with {env}=<path>, or run \
-             scripts/fetch_galileo_e1_codes.sh in a source checkout ({}: {e})",
-            path.display()
+        SignalError::Table(crate::terr!(
+            "e-iq-signals-galileo-the-galileo-e1-memory-codes",
+            file = file,
+            env = env,
+            path = path.display(),
+            e = e
         ))
     })?;
     let table = MemoryCodeTable::parse(&text, E1_CODE_LEN)?;

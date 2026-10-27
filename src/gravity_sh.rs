@@ -156,8 +156,12 @@ impl SphericalHarmonicField {
                     re = ff(p[1]).ok();
                 }
                 Some("gfc") if p.len() >= 5 => {
-                    let n: usize = p[1].parse().map_err(|_| "bad degree")?;
-                    let m: usize = p[2].parse().map_err(|_| "bad order")?;
+                    let n: usize = p[1]
+                        .parse()
+                        .map_err(|_| crate::terr!("e-gravity-sh-bad-degree"))?;
+                    let m: usize = p[2]
+                        .parse()
+                        .map_err(|_| crate::terr!("e-gravity-sh-bad-order"))?;
                     if n > nmax {
                         continue;
                     }
@@ -439,7 +443,10 @@ impl SphericalHarmonicField {
                     let cnm = it.next().and_then(|v| ff(v).ok()).ok_or_else(|| bad("C"))?;
                     let snm = it.next().and_then(|v| ff(v).ok()).ok_or_else(|| bad("S"))?;
                     if !(cnm.is_finite() && snm.is_finite()) {
-                        return Err(bad("coefficient (non-finite)"));
+                        return Err(crate::terr!(
+                            "e-gravity-sh-line-bad-coefficient-non-finite",
+                            lineno = lineno
+                        ));
                     }
                     max_n = max_n.max(n);
                     rows.push((n, m, cnm, snm));

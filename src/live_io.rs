@@ -153,7 +153,7 @@ impl Broadcaster {
 fn listen_addr(spec: &str) -> Result<String, String> {
     let rest = spec
         .strip_prefix("tcp:")
-        .ok_or("--listen takes tcp:<port> or tcp:<addr>:<port>")?;
+        .ok_or_else(|| kshana::terr!("e-live-io-listen-takes-tcp-port-or"))?;
     let addr = if rest.contains(':') {
         rest.to_string()
     } else {

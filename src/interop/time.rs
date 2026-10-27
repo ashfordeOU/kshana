@@ -102,13 +102,22 @@ impl UtcEpoch {
             .and_then(|x| x.parse().ok())
             .ok_or_else(|| bad("seconds"))?;
         if dp.next().is_some() || tp.next().is_some() {
-            return Err(bad("extra fields"));
+            return Err(crate::terr!(
+                "e-interop-time-extra-fields-utc",
+                text = format!("{:?}", text)
+            ));
         }
         if !(2000..=2099).contains(&year) {
-            return Err(bad("year outside 2000 to 2099"));
+            return Err(crate::terr!(
+                "e-interop-time-year-outside-2000-to-2099-utc",
+                text = format!("{:?}", text)
+            ));
         }
         if !(1..=12).contains(&month) {
-            return Err(bad("month outside 1 to 12"));
+            return Err(crate::terr!(
+                "e-interop-time-month-outside-to-12-utc",
+                text = format!("{:?}", text)
+            ));
         }
         let leap = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
         let dim = match month {
@@ -118,16 +127,28 @@ impl UtcEpoch {
             _ => 31,
         };
         if day < 1 || day > dim {
-            return Err(bad("day does not exist in that month"));
+            return Err(crate::terr!(
+                "e-interop-time-day-does-not-exist-in-utc",
+                text = format!("{:?}", text)
+            ));
         }
         if hour > 23 {
-            return Err(bad("hour above 23"));
+            return Err(crate::terr!(
+                "e-interop-time-hour-above-23-utc",
+                text = format!("{:?}", text)
+            ));
         }
         if minute > 59 {
-            return Err(bad("minute above 59"));
+            return Err(crate::terr!(
+                "e-interop-time-minute-above-59-utc",
+                text = format!("{:?}", text)
+            ));
         }
         if !second.is_finite() || !(0.0..60.0).contains(&second) {
-            return Err(bad("seconds outside [0, 60)"));
+            return Err(crate::terr!(
+                "e-interop-time-seconds-outside-60-utc",
+                text = format!("{:?}", text)
+            ));
         }
         Ok(Self::from_calendar(
             year as i32,

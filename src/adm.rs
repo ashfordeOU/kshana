@@ -664,7 +664,9 @@ impl AemMessage {
                 let rec = st
                     .child(tag)
                     .ok_or_else(|| format!("<attitudeState> without <{tag}>"))?;
-                let epoch = rec.child_text("EPOCH").ok_or("record without <EPOCH>")?;
+                let epoch = rec
+                    .child_text("EPOCH")
+                    .ok_or_else(|| crate::terr!("e-adm-record-without-epoch"))?;
                 let mut values = Vec::new();
                 for (group, keys) in groups {
                     let parent = match group {
@@ -708,9 +710,13 @@ pub(crate) fn unwrap_ndm<'a>(root: &'a Element, kind: &str) -> Result<&'a Elemen
         Ok(root)
     } else if root.name == "ndm" {
         root.child(kind)
-            .ok_or_else(|| format!("<ndm> holds no <{kind}>"))
+            .ok_or_else(|| crate::terr!("e-adm-ndm-holds-no", kind = kind))
     } else {
-        Err(format!("root element <{}> is not <{kind}>", root.name))
+        Err(crate::terr!(
+            "e-adm-root-element-is-not",
+            name = root.name,
+            kind = kind
+        ))
     }
 }
 

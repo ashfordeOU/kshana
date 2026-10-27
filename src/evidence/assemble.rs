@@ -67,9 +67,9 @@ fn parse_time(arg: &str, start_label: Option<&str>) -> Result<f64, String> {
     }
     let t = parse_rfc3339_utc(arg)
         .ok_or_else(|| crate::terr!("e-evidence-assemble-is-neither-seconds-nor-an", arg = arg))?;
-    let start = start_label.and_then(parse_rfc3339_utc).ok_or(
-        "the log does not state a parseable start time; give seconds since the first epoch",
-    )?;
+    let start = start_label
+        .and_then(parse_rfc3339_utc)
+        .ok_or_else(|| crate::terr!("e-evidence-assemble-the-log-does-not-state"))?;
     Ok(t - start)
 }
 

@@ -400,11 +400,26 @@ fn parse_nav_v4(
 fn decode_keplerian_record(system: char, prn: u8, rec: &[&str]) -> Result<RinexEphemeris, String> {
     let head = rec[0];
     let toc = EpochUtc {
-        year: col(head, 4, 8).trim().parse().map_err(|_| "bad year")?,
-        month: col(head, 9, 11).trim().parse().map_err(|_| "bad month")?,
-        day: col(head, 12, 14).trim().parse().map_err(|_| "bad day")?,
-        hour: col(head, 15, 17).trim().parse().map_err(|_| "bad hour")?,
-        minute: col(head, 18, 20).trim().parse().map_err(|_| "bad minute")?,
+        year: col(head, 4, 8)
+            .trim()
+            .parse()
+            .map_err(|_| crate::terr!("e-glonass-bad-year"))?,
+        month: col(head, 9, 11)
+            .trim()
+            .parse()
+            .map_err(|_| crate::terr!("e-glonass-bad-month"))?,
+        day: col(head, 12, 14)
+            .trim()
+            .parse()
+            .map_err(|_| crate::terr!("e-glonass-bad-day"))?,
+        hour: col(head, 15, 17)
+            .trim()
+            .parse()
+            .map_err(|_| crate::terr!("e-glonass-bad-hour"))?,
+        minute: col(head, 18, 20)
+            .trim()
+            .parse()
+            .map_err(|_| crate::terr!("e-glonass-bad-minute"))?,
         second: parse_d(col(head, 21, 23))?,
     };
     let af0 = parse_d(col(head, 23, 42))?;

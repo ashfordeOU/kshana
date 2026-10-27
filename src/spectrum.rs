@@ -496,7 +496,7 @@ impl JammerCfg {
             }
             Waveform::Matched => {
                 let target = self.matched_to.as_deref().ok_or_else(|| {
-                    format!("{name}: a matched jammer needs matched_to = \"<band name>\"")
+                    crate::terr!("e-spectrum-matched-jammer-needs-matched-to", name = name)
                 })?;
                 let b = bands
                     .iter()
@@ -1355,11 +1355,11 @@ impl SpectrumScenario {
                 continue;
             }
             let mut b = default_band(&c.name).ok_or_else(|| {
-                format!(
-                    "unknown band {:?}: the spectrum model has {} and, by name, {} (GLONASS                      channels as glonass-l1of-k<K>, K = -7 to 6); any other band takes                      `signal = \"<preset signal>\"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`",
-                    c.name,
-                    BAND_NAMES.join(", "),
-                    MORE_BAND_NAMES.join(", ")
+                crate::terr!(
+                    "e-spectrum-unknown-band-the-spectrum-model",
+                    name = format!("{:?}", c.name),
+                    band_names = BAND_NAMES.join(", "),
+                    more_band_names = MORE_BAND_NAMES.join(", ")
                 )
             })?;
             if let Some(p) = c.signal_power_dbw {

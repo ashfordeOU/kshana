@@ -452,7 +452,9 @@ use crate::iq::{Cf64, SampleSpec, SpreadingCode, VecSink};
 /// Build one spreading code per identifier in `prns`.
 fn codes_for(signal: &str, prns: &[i64]) -> PyResult<Vec<SignalCode>> {
     if prns.is_empty() {
-        return Err(PyValueError::new_err("prns must list at least one PRN"));
+        return Err(PyValueError::new_err(crate::terr!(
+            "e-python-prns-must-list-at-least"
+        )));
     }
     prns.iter()
         .map(|&id| build_code(signal, id).map_err(PyValueError::new_err))
@@ -821,7 +823,9 @@ fn iq_track<'py>(
     let base = match design {
         None => {
             if design_name.is_some() {
-                return Err(PyValueError::new_err("design_name needs design"));
+                return Err(PyValueError::new_err(crate::terr!(
+                    "e-python-design-name-needs-design"
+                )));
             }
             Design::builtin_default()
         }
@@ -1483,9 +1487,9 @@ fn iq_frontend<'py>(
         (Some(lo), Some(hi)) => Some((lo, hi)),
         (None, None) => None,
         _ => {
-            return Err(PyValueError::new_err(
-                "bandpass needs both bandpass_lo and bandpass_hi",
-            ))
+            return Err(PyValueError::new_err(crate::terr!(
+                "e-python-bandpass-needs-both-bandpass-lo"
+            )))
         }
     };
     let params = FrontendParams {
@@ -1834,8 +1838,9 @@ fn evidence_attach_timestamp<'py>(
         .collect();
     let token = match &token {
         TextOrBytes::Bytes(b) => b.clone(),
-        TextOrBytes::Text(t) => crate::permalink::base64_decode(t.trim())
-            .ok_or_else(|| PyValueError::new_err("token text is not base64"))?,
+        TextOrBytes::Text(t) => crate::permalink::base64_decode(t.trim()).ok_or_else(|| {
+            PyValueError::new_err(crate::terr!("e-python-token-text-is-not-base64"))
+        })?,
     };
     let t = crate::surface::evidence_attach_timestamp(
         &files,
@@ -2272,7 +2277,7 @@ fn trust_telemetry(
     use crate::surface::{self, TelemetryFormat, TelemetryInput, TelemetryOptions};
     let bad = |e: String| PyValueError::new_err(e);
     let unix_nano = u64::try_from(unix_nano)
-        .map_err(|_| PyValueError::new_err("unix_nano must be between 0 and 2**64 - 1"))?;
+        .map_err(|_| PyValueError::new_err(crate::terr!("e-python-unix-nano-must-be-between")))?;
     surface::trust_telemetry(
         input,
         TelemetryFormat::parse(format).map_err(bad)?,
