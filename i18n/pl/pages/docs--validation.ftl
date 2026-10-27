@@ -23,3 +23,11 @@ seg-ad856ad710eb = Status
 seg-d12d4565b01d = Księżycowa geodezyjna VLBI, ścieżka jądrowa
 
 seg-5ed34a5b402e = Księżycowe wspólne OD wielotechnikowe + zegar
+
+seg-4bcec6e2dd9f = Objętość usługi nawigacji księżycowej
+
+seg-c04a3591074c = Eksport interoperacyjności księżycowej
+
+seg-20fee61b3107 = Biblioteka modeli błędów urządzeń kwantowych
+
+seg-eaf341ff4522 = Nawigacja kwantowa bez GNSS
