@@ -8566,3 +8566,667 @@ engine-kind-optical-atmosphere-description = MODELLED optické PNT atmosférou: 
 engine-kind-holdover-test-description = MODELLED test holdoveru časovacího systému, vyhodnocený ze záznamu časové chyby, který dodá PROVOZOVATEL (log linuxptp ptp4l, phc2sys nebo ts2phc, log sledování nebo statistik chrony, log hodin TICC, TimeLab nebo RINEX, nebo dvojice time_s,time_error_ns). Test má čtyři kroky a Kshana nevykonává žádný z nich: uzamčený ZÁKLAD, GNSS ODSTRANĚNÉ provozovatelem (anténní kabel nebo výstup simulátoru; Kshana nic nevysílá a nic neřídí) v uvedeném čase, HOLDOVER na vlastním oscilátoru systému a OBNOVENÍ poté, co provozovatel GNSS obnoví ve druhém uvedeném čase. Záznam se v těchto dvou časech rozdělí. Základ: statistiky časové chyby a masky ITU-T psané pro uzamčené hodiny. Holdover: statistiky, zlomkový posun frekvence, který systém držel (přímka nejmenších čtverců), masky psané pro holdover nebo autonomní hodiny, obálka holdoveru ePRTC-A z uvedené doby uzamčení a doba překročení každého rozpočtu časové chyby. Obnovení: zda a kdy se |TE| dostala do uvedeného pásma a zůstala v něm, maximum a největší skok. Každý limit je přepsán z veřejné tabulky ITU-T (masky telecom-timing); slova jsou 'měřeno proti masce' a oba časy jsou prohlášením provozovatele, neověřené. Záznam příliš krátký pro masku je INCOMPLETE, nikdy se neextrapoluje. Viz docs/TIMING-HIL.md.
 
 engine-kind-gnss-ssv-description = MODELLED dostupnost GNSS a síla spoje v kosmickém servisním objemu a za ním: pro uživatele na kouli (globální slupka brožury ICG) nebo na keplerovské trajektorii (od LEO k měsíčnímu přechodu) počítá po konstelacích (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) a pro všechny dohromady signály použitelné nad prahem C/N0 - dostupnost alespoň jednoho a čtyř signálů, maximální délku výpadku, přijímané C/N0, zhoršení přesnosti, spoje hlavním lalokem oproti postranním lalokům - s vysílacím diagramem z brožury, parametrickým nebo dodaným uživatelem, volitelnými účinky ionosféry v limbovém paprsku, plazmasféry a atmosféry a volitelným návrhem přijímače pro slabé signály; také palubní rozšířený Kalmanův filtr GNSS pro plavidla na HEO a měsíčním přechodu (orbitální dynamika, tlak slunečního záření, třetí tělesa, hodiny) a relativní navigaci formace více plavidel jednoduše diferencovanými pseudovzdálenostmi. Kontrolováno proti tabulkám brožury ICG SSV v rámci předregistrace (xval/gnss-ssv)
+
+engine-advanced-report-monte-carlo-metrics = monte_carlo.metrics.{ $name }.{ $q }
+
+engine-advanced-report-kshana-animate-html = kshana { $q } --animate html
+
+engine-advanced-report-kshana-export-all = kshana { $q } --export all
+
+engine-advanced-report-bg-fg-muted-line-card = --bg:{ $p };--fg:{ $i };--muted:{ $m };--line:{ $r };--card:{ $c };--accent:{ $i };--val:{ $i };--mod:{ $i };--par:{ $i };
+
+engine-animation-bg-fill-fg-fill-mu = { "." }bg{ "{" }fill:{ $bg }{ "}" }.fg{ "{" }fill:{ $fg }{ "}" }.mu{ "{" }fill:{ $mu }{ "}" }.gr{ "{" }stroke:{ $gr }{ "}" }.ax{ "{" }stroke:{ $ax }{ "}" }.ph0{ "{" }fill:{ $ph0 }{ "}" }.ph1{ "{" }fill:{ $ph1 }{ "}" }.phl{ "{" }fill:{ $phl }{ "}" }.ev{ "{" }stroke:{ $mu }{ "}" }.eva{ "{" }stroke:{ $alarm }{ "}" }.evt{ "{" }fill:{ $mu }{ "}" }.evta{ "{" }fill:{ $alarm }{ "}" }.cur{ "{" }stroke:{ $cur }{ "}" }
+
+engine-animation-text-font-family-tr-fill = text{ "{" }font-family:{ $v1 }{ "}" }.tr{ "{" }fill:none;stroke-width:1.6;stroke-linejoin:round{ "}" }.ev,.eva{ "{" }stroke-dasharray:3 3{ "}" }.cur{ "{" }stroke-width:1.4{ "}" }
+
+engine-animation-frame-svg = frame_{ $i }.svg
+
+engine-animation-bg-panel-fg-mu-grid = --bg:{ $t };--panel:{ $t2 };--fg:{ $t3 };--mu:{ $t4 };--grid:{ $t5 };--axis:{ $t6 };--ph0:{ $t7 };--ph1:{ $t8 };--cur:{ $t9 };--alarm:{ $t10 };--s0:{ $t11 };--s1:{ $t12 };--s2:{ $t13 };--s3:{ $t14 };--s4:{ $t15 };--s5:{ $t16 }
+
+engine-animation-root-color-scheme-light-dark =
+    :root{ "{" }color-scheme:light dark;{ $vars }{ "}" }
+    @media (prefers-color-scheme: dark){ "{" }:root{ "{" }{ $vars2 }{ "}" }{ "}" }{ "\u000A" }
+
+engine-bench-cli-predictions-json = { $stem }.predictions.json
+
+engine-bench-cli-result-json = { $stem }.result.json
+
+engine-bench-cli-truth-json = a-{ $split }.truth.json
+
+engine-bench-cli-truth-json-2 = c-{ $split }.truth.json
+
+engine-bench-cli-truth-json-3 = d-{ $split }.truth.json
+
+engine-bench-site-title-a = Úloha (a): detekce v záznamech přijímače
+
+engine-bench-site-title-b = Úloha (b): detekce v IQ
+
+engine-bench-site-title-c = Úloha (c): predikce holdoveru časování
+
+engine-bench-site-title-d = Úloha (d): mezera optimismu mimo distribuci dat
+
+engine-bench-site-col-rmse-3600 = RMSE 3600 s (ns)
+
+engine-bench-site-col-rmse-300 = RMSE 300 s (ns)
+
+engine-bench-site-col-rmse-7200 = RMSE 7200 s (ns)
+
+engine-bench-site-col-auc-in = AUC uvnitř
+
+engine-bench-site-col-auc-out = AUC vně
+
+engine-bench-site-col-optimism-gap = Mezera optimismu
+
+engine-bench-site-col-flag = Příznak
+
+engine-bench-site-col-auc = AUC
+
+engine-bench-site-col-pd-at-pfa-cap = P_d při stropu P_fa (horní mez)
+
+engine-bench-site-flag-optimistic = optimistické
+
+engine-bench-site-flag-within-tolerance = v toleranci
+
+engine-bench-site-not-available = n/a
+
+engine-bench-site-none-published = Zatím nejsou zveřejněny žádné výsledky. Řádek se zde objeví, až když je soubor s výsledky ohodnocen a přidán; nic na této stránce není odhad.
+
+engine-bench-site-none-for-task = Pro tuto úlohu zatím nejsou žádné výsledky.
+
+engine-bench-site-region-label = Výsledky { $title } { $split }
+
+engine-bench-site-caption-split = Rozdělení: { $split }
+
+engine-bench-site-th-system = Systém
+
+engine-bench-site-th-provenance = Původ
+
+engine-bench-site-th-truth-sha256 = SHA-256 referenčních dat (truth)
+
+engine-bench-site-provenance-carried = převzato: { $note }
+
+engine-bench-site-provenance-scored = ohodnoceno
+
+engine-bench-site-heading = Žebříček kshana-bench
+
+engine-bench-site-lede = Soubory s výsledky ohodnocené podle <code>{ $spec }</code>. Řádek říká, že tento soubor na tomto rozdělení dosáhl tohoto čísla. Neznamená to, že by některý produkt byl kýmkoli ohodnocen či schválen, a žádná organizace není uvedena jako podporovatel.
+
+engine-bench-site-foot = Každé skóre je modelled, pokud řádek neuvádí, že externí orákulum souhlasilo. Licence specifikace a manifestů: CC-BY-4.0 / CC0 navrženo, rozhodnutí vlastníka čeká. Holdout na reálných datech není tajný: viz specifikace, oddíl 4.
+
+engine-bench-site-meta-description = Skóre odeslaných souborů s výsledky podle kshana-bench { $spec }. Pouze poradní charakter.
+
+engine-bin-validation-report-body-font-14px-background-var = body{ "{" }font:14px/1.5 { $v1 };background:var(--bg);color:var(--fg);max-width:64rem;margin:2rem auto;padding:0 1rem{ "}" }h1{ "{" }font-size:1.5rem;margin:0 0 .25rem{ "}" }.sub{ "{" }color:var(--muted);margin:0 0 1.5rem{ "}" }table{ "{" }border-collapse:collapse;width:100%{ "}" }th,td{ "{" }border:1px solid var(--line);padding:.5rem .6rem;text-align:left;vertical-align:top{ "}" }th{ "{" }background:var(--card){ "}" }code{ "{" }font-size:.85em{ "}" }.ok{ "{" }color:var(--val);font-weight:600{ "}" }footer{ "{" }margin-top:1.5rem;color:var(--muted);font-size:.85em{ "}" }@media print{ "{" }body{ "{" }margin:0;max-width:none{ "}" }a{ "{" }color:inherit;text-decoration:none{ "}" }{ "}" }{ "\u000A" }
+
+engine-campaign-series-error-ns = { $side }.series[].error_ns
+
+engine-campaign-series-offset-ns = { $side }.series[].offset_ns
+
+engine-campaign-detect-time = { $side }.detect_time_s
+
+engine-campaign-series-error = { $side }.series[].error_m
+
+engine-campaign-timeline-phases-carried = timeline.phases[].carried.{ $ch }
+
+engine-campaign-timeline-channels-values = timeline.channels.{ $name }.values[]
+
+engine-campaign-sweep-axes-values = sweep.axes.{ $name }.values[]
+
+engine-campaign-sweep-nodes-coords = sweep.nodes[].coords.{ $name }
+
+engine-campaign-sweep-nodes-metrics = sweep.nodes[].metrics.{ $name }
+
+engine-campaign-monte-carlo-metrics = monte_carlo.metrics.{ $name }
+
+engine-campaign-compose-shared-value = compose.shared.{ $name }.value[]
+
+engine-campaign-compose-shared-value-2 = compose.shared.{ $name }.value
+
+engine-campaign-compose-members-metrics = compose.members.*.metrics.{ $name }
+
+engine-campaign-compose-combined = compose.combined.{ $name }
+
+engine-campaign-optimize-optimize-params-lo = optimize.params.{ $name }.lo
+
+engine-campaign-optimize-optimize-params-hi = optimize.params.{ $name }.hi
+
+engine-campaign-optimize-optimize-best-coords = optimize.best_coords.{ $name }
+
+engine-campaign-optimize-optimize-trace-coords = optimize.trace[].coords.{ $name }
+
+engine-ccsds-tdm-ccsds-tdm-vers = CCSDS_TDM_VERS = { $version }{ "\u000A" }
+
+engine-ccsds-tdm-creation-date = CREATION_DATE = { $creation_date }{ "\u000A" }
+
+engine-ccsds-tdm-time-system = TIME_SYSTEM = { $time_system }{ "\u000A" }
+
+engine-ccsds-tdm-transmit-band = TRANSMIT_BAND = { $b }{ "\u000A" }
+
+engine-ccsds-tdm-receive-band = RECEIVE_BAND = { $b }{ "\u000A" }
+
+engine-ccsds-tdm-turnaround-numerator = TURNAROUND_NUMERATOR = { $fmt_num }{ "\u000A" }
+
+engine-ccsds-tdm-turnaround-denominator = TURNAROUND_DENOMINATOR = { $fmt_num }{ "\u000A" }
+
+engine-ccsds-tdm-range-units = RANGE_UNITS = { $u }{ "\u000A" }
+
+engine-entry-eo-ascent-ascent-stages-propellant-kg = stages[{ $i }].propellant_kg
+
+engine-entry-eo-ascent-ascent-stages-thrust-vac = stages[{ $i }].thrust_vac_n
+
+engine-entry-eo-ascent-ascent-stages-isp-vac = stages[{ $i }].isp_vac_s
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
+
+engine-interference-map-observatory-observatory-adsb = observatory-adsb-{ $key }-{ $day }
+
+engine-interference-map-observatory-incidents-json = { $stem }.incidents.json
+
+engine-interference-map-observatory-manifest-json = { $stem }.manifest.json
+
+engine-interop-testbench-events-label-kind-onset-end =
+    { "\u000A" }{ "[" }[events]]
+    label = { $label }
+    kind = { $kind }
+    onset_s = { $round_dp }
+    end_s = { $round_dp2 }{ "\u000A" }
+
+engine-iq-campaign-conditions-sigmf-meta = { $base }.sigmf-meta
+
+engine-iq-campaign-report-roc-heading = ROC detekce
+
+engine-iq-campaign-report-roc-note = <p class="note">Označeno <b>{ $label }</b>. Každé uvedené okno události je pozitivní a každé okno nastavené délky mimo události je negativní. Okno se při dané mezní hodnotě počítá, když jí vlastní testová statistika monitoru v okně dosáhne. P<sub>fa</sub> se vztahuje na negativní okno, nikoli na test. Stejné hodnoty jsou v <code>roc.json</code>.</p>
+
+engine-iq-campaign-report-th-alarm-kind = Druh alarmu
+
+engine-iq-campaign-report-th-positives = Pozitivní
+
+engine-iq-campaign-report-th-negatives = Negativní
+
+engine-iq-campaign-report-th-auc = AUC
+
+engine-iq-campaign-report-th-threshold = Mezní hodnota
+
+engine-iq-campaign-report-th-pd-at-it = P<sub>d</sub> při ní
+
+engine-iq-campaign-report-th-pfa-at-it = P<sub>fa</sub> při ní
+
+engine-iq-campaign-report-title = Kampaň { $name }
+
+engine-iq-campaign-report-heading = Kampaň laboratorního přehrání: { $name }
+
+engine-iq-campaign-report-meta = Datová třída <b>{ $data_class }</b> · Kshana { $engine } · záznamů: { $n_recordings } × front endů: { $n_frontends } × návrhů: { $n_designs } = buněk: { $n_cells }, hotovo: { $n_done } · digest <code>{ $digest }</code>
+
+engine-iq-campaign-report-digest-incomplete = (neúplné: ne každá buňka je hotová)
+
+engine-iq-campaign-report-reference-note = <p class="note">Naměřené hodnoty pocházejí ze sledování záznamů. Čárkované čáry označené <b>{ $label }</b> jsou analytická reference spektrální separace <code>{ $formula }</code> při J/S uvedeném laboratoří, s Q podle uvedeného typu interference. Jsou modelem uvedené podmínky, nikoli měřením ani simulací interference.</p>
+
+engine-iq-campaign-report-summary-heading = Souhrn
+
+engine-iq-campaign-report-th-recording = Záznam
+
+engine-iq-campaign-report-th-front-end = Front end
+
+engine-iq-campaign-report-th-design = Návrh
+
+engine-iq-campaign-report-th-satellites = Družice
+
+engine-iq-campaign-report-th-mean-availability = Průměrná dostupnost
+
+engine-iq-campaign-report-th-events-lost = Ztracené události
+
+engine-iq-campaign-report-th-median-reacq = Medián opětovné akvizice (s)
+
+engine-iq-campaign-report-th-pass = Splněno
+
+engine-iq-campaign-report-th-fail = Nesplněno
+
+engine-iq-campaign-report-degradation-heading = Degradace C/N0 vůči uvedenému J/S
+
+engine-iq-campaign-report-scorecard-heading = Skórekarta
+
+engine-iq-campaign-report-scorecard-note-nwpr = <p class="meta">Stejné řádky jako v <code>scorecard.csv</code>. Opětovná akvizice se měří od posunu události; výpadek se měří od ztráty zámku. Sloupec C/N0 a křivky degradace používají odhad NWPR (podhodnocuje přibližně o 8 dB · Bn·T při vlastním jitteru smyčky, takže jeho hodnoty závisejí na návrhu smyčky); oba odhady jsou v <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-scorecard-note-m2m4 = <p class="meta">Stejné řádky jako v <code>scorecard.csv</code>. Opětovná akvizice se měří od posunu události; výpadek se měří od ztráty zámku. Sloupec C/N0 a křivky degradace používají odhad M2M4 (necitlivý na vlastní jitter smyčky); oba odhady jsou v <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-th-sat = Druž.
+
+engine-iq-campaign-report-th-scope = Rozsah
+
+engine-iq-campaign-report-th-event = Událost
+
+engine-iq-campaign-report-th-avail = Dostup.
+
+engine-iq-campaign-report-th-loss = Ztráta (s)
+
+engine-iq-campaign-report-th-js-at-loss = J/S při ztrátě
+
+engine-iq-campaign-report-th-reacq = Opět. akv. (s)
+
+engine-iq-campaign-report-th-outage = Výpadek (s)
+
+engine-iq-campaign-report-th-cn0 = C/N0
+
+engine-iq-campaign-report-th-pll = PLL σ (°)
+
+engine-iq-campaign-report-th-dll = DLL σ (chip)
+
+engine-iq-campaign-report-th-false-locks = Falešné zámky
+
+engine-iq-campaign-report-th-verdict = Verdikt
+
+engine-iq-campaign-report-scope-run = běh
+
+engine-iq-campaign-report-scope-event = událost
+
+engine-iq-campaign-runner-events-jsonl = { $key }.events.jsonl
+
+engine-iq-campaign-runner-events-jsonl-tmp = { "." }{ $key }.events.jsonl.tmp{ $pid }
+
+engine-iq-cli-channel-scint-s4-tau0-sigma-phi = scint S4={ $s4 } tau0={ $scint_tau0_s }s sigma_phi={ $sigma_phi_rad }rad
+
+engine-iq-cli-scene-sigmf-data = { $sigmf_base }.sigmf-data
+
+engine-iq-cli-scene-sigmf-meta = { $sigmf_base }.sigmf-meta
+
+engine-iq-cli-sweep-carrier-pll-bw-hz-code =
+    { "[" }carrier]
+    pll_bw_hz = { $pll }
+    { "[" }code]
+    bw_hz = { $dll }
+    { "[" }integration]
+    spacing_chips = { $sp }
+    coherent_periods = { $coh }{ "\u000A" }
+
+engine-iq-cli-sweep-pll-dll-sp-coh = pll{ $pll }_dll{ $dll }_sp{ $sp }_coh{ $coh }
+
+engine-iq-io-sigmf-stream-sigmf-data = { $base }.sigmf-data
+
+engine-iq-labfit-iqfit-loss-time-rms = loss_time_rms_s[{ $model }]
+
+engine-iq-monitor-cn0-cn0-baseline-dbhz = cn0.{ $l }.baseline_dbhz
+
+engine-iq-monitor-cn0-cn0-arl0-samples-independent = cn0.{ $l }.arl0_samples_independent
+
+engine-iq-monitor-cn0-cn0-arl1-samples-independent = cn0.{ $l }.arl1_samples_independent
+
+engine-iq-monitor-sqm-sqm-pair = sqm_pair_{ $x }
+
+engine-iq-monitor-sqm-sqm-spacing-chips = sqm.{ $label }.spacing_chips
+
+engine-iq-monitor-sqm-sqm-baseline = sqm.{ $label }.{ $name }.baseline
+
+engine-iq-scene-code-gps-l1-prn = GPS L1 C/A PRN { $prn }
+
+engine-e-iq-scene-synthetic-data = --data: { $code } { $e }
+
+engine-iq-signals-beidou-beidou-b1c-data-prn = BeiDou B1C data PRN { $prn }
+
+engine-iq-signals-beidou-beidou-b1c-pilot-prn = BeiDou B1C pilot PRN { $prn }
+
+engine-iq-signals-beidou-beidou-b1i-prn = BeiDou B1I PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e1-prn = Galileo E1-B PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e1-prn-2 = Galileo E1-C PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e5a-prn = Galileo E5a-I PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e5a-prn-2 = Galileo E5a-Q PRN { $prn }
+
+engine-iq-signals-gps-gps-l1cd-prn = GPS L1CD PRN { $prn }
+
+engine-iq-signals-gps-gps-l1cp-prn = GPS L1CP PRN { $prn }
+
+engine-iq-signals-gps-gps-l5-i5-prn = GPS L5 I5 PRN { $prn }
+
+engine-iq-signals-gps-gps-l5-q5-prn = GPS L5 Q5 PRN { $prn }
+
+engine-iq-signals-gps-gps-l2-cm-prn = GPS L2 CM PRN { $prn }
+
+engine-iq-signals-gps-gps-l2-cl-prn = GPS L2 CL PRN { $prn }
+
+engine-iq-signals-gps-gps-l2c-prn = GPS L2C PRN { $prn }
+
+engine-iq-signals-lunanet-lunanet-afs-prn = LunaNet AFS-I PRN { $prn }
+
+engine-iq-track-sink-offset-chips = x{ $k }_offset_chips
+
+engine-jammertest-dataset-log-format-text =
+    { "[" }log]
+    format = "{ $format }"
+    text = ""
+    { $platform }
+
+engine-leo-pnt-chain-pdop-rms-3d = PDOP { $f } RMS 3D { $f2 }
+
+engine-leo-signal-flat-mhz = FLAT({ $v1 } MHz)
+
+engine-lunar-afs-waveform-noise-seed = { $ns }:noise_seed
+
+engine-lunar-afs-waveform-noise-variance-per-dimension = { $ns }:noise_variance_per_dimension
+
+engine-lunar-afs-waveform-component-cn0-dbhz = { $ns }:component_cn0_dbhz
+
+engine-lunar-afs-waveform-code-scale = { $ns }:code_scale
+
+engine-lunar-afs-waveform-first-code-epoch = { $ns }:first_i_code_epoch_s
+
+engine-lunar-afs-waveform-frame-index = { $ns }:frame_index
+
+engine-lunar-beacon-gdop-pdop-hdop-vdop-tdop = GDOP { $gdop }  PDOP { $pdop }  HDOP { $hdop }  VDOP { $vdop }  TDOP { $tdop }
+
+engine-lunar-beacon-chart-pdop = PDOP { $pdop }
+
+engine-lunar-frame-realise-chart-tx = tx (m)
+
+engine-lunar-frame-realise-chart-ty = ty (m)
+
+engine-lunar-frame-realise-chart-tz = tz (m)
+
+engine-lunar-frame-realise-chart-theta-x = θx (µrad)
+
+engine-lunar-frame-realise-chart-theta-y = θy (µrad)
+
+engine-lunar-frame-realise-chart-theta-z = θz (µrad)
+
+engine-lunar-interop-chart-pass = PASS
+
+engine-lunar-interop-chart-fail = FAIL
+
+engine-lunar-interop-chart-ok = OK
+
+engine-lunar-jamming-chart-y-title = J/S (dB)
+
+engine-lunar-jamming-chart-locked = LOCKED
+
+engine-lunar-jamming-chart-degraded = DEGRADED
+
+engine-lunar-jamming-chart-lost = LOST
+
+engine-lunar-llr-datum-accuracy = /datum_accuracy/{ $k }
+
+engine-lunar-service-ephemeris-comparison = ephemeris_comparison.{ $geometry }.{ $field }
+
+engine-lunar-service-chart-pdop-min = PDOP min { $v }
+
+engine-lunar-service-chart-pdop-max = PDOP max { $v }
+
+engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
+
+engine-lunar-station-sise-los = SISE (LOS) { $los_sise_sigma_m } m
+
+engine-lunar-station-chart-zero-east = 0° E
+
+engine-e-lunar-terrain-dem = dem: { $descriptor_path }: { $e }
+
+engine-e-lunar-terrain-dem-tile = dem_tile: { $path }: { $e }
+
+engine-lunar-time-budget-scenario-total-false = { $i },{ $tau },total,{ $total },false{ "\u000A" }
+
+engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
+
+engine-e-main-monte-carlo = --monte-carlo: { $e }
+
+engine-e-main-seed = --seed: { $e }
+
+engine-nmea-synth-cli-instructor-json = { $prefix }.instructor.json
+
+engine-nmea-synth-cli-instructor-txt = { $prefix }.instructor.txt
+
+engine-odm-user-defined = USER_DEFINED_{ $k }
+
+engine-oem-ccsds-oem-vers = CCSDS_OEM_VERS = { $version }{ "\u000A" }
+
+engine-oem-creation-date = CREATION_DATE = { $iso8601 }{ "\u000A" }
+
+engine-oem-object-name = OBJECT_NAME = { $object_name }{ "\u000A" }
+
+engine-oem-center-name = CENTER_NAME = { $center_name }{ "\u000A" }
+
+engine-oem-ref-frame = REF_FRAME = { $ref_frame }{ "\u000A" }
+
+engine-oem-start-time = START_TIME = { $iso8601 }{ "\u000A" }
+
+engine-oem-stop-time = STOP_TIME = { $iso8601 }{ "\u000A" }
+
+engine-oem-cov-ref-frame = COV_REF_FRAME = { $frame }{ "\u000A" }
+
+engine-omm-ccsds-omm-vers = CCSDS_OMM_VERS = { $version }{ "\u000A" }
+
+engine-omm-mean-element-theory = MEAN_ELEMENT_THEORY = { $mean_element_theory }{ "\u000A" }
+
+engine-omm-mean-motion = MEAN_MOTION = { $mean_motion_rev_day }{ "\u000A" }
+
+engine-omm-ra-of-asc-node = RA_OF_ASC_NODE = { $ra_of_asc_node_deg }{ "\u000A" }
+
+engine-omm-arg-of-pericenter = ARG_OF_PERICENTER = { $arg_of_pericenter_deg }{ "\u000A" }
+
+engine-omm-mean-anomaly = MEAN_ANOMALY = { $mean_anomaly_deg }{ "\u000A" }
+
+engine-omm-ephemeris-type = EPHEMERIS_TYPE = { $ephemeris_type }{ "\u000A" }
+
+engine-omm-classification-type = CLASSIFICATION_TYPE = { $classification }{ "\u000A" }
+
+engine-omm-norad-cat-id = NORAD_CAT_ID = { $norad_cat_id }{ "\u000A" }
+
+engine-palette-root-color-scheme-light-media =
+    :root{ "{" }{ $l }color-scheme:light{ "}" }
+    @media (prefers-color-scheme:dark){ "{" }:root:not([data-theme="light"]){ "{" }{ $d }color-scheme:dark{ "}" }{ "}" }
+    :root[data-theme="dark"]{ "{" }{ $d }color-scheme:dark{ "}" }{ "\u000A" }
+
+engine-python-runoutput-json-bytes-svg-bytes = RunOutput(json={ $json } bytes, svg={ $svg } bytes, csv={ $value } bytes, summary={ $value2 })
+
+engine-python-carrier-pll-bw-hz-code =
+    { "[" }carrier]
+    pll_bw_hz = { $p }
+    { "[" }code]
+    bw_hz = { $d }
+    { "[" }integration]
+    spacing_chips = { $s }
+    coherent_periods = { $c }{ "\u000A" }
+
+engine-python-pll-dll-sp-coh = pll{ $p }_dll{ $d }_sp{ $s }_coh{ $c }
+
+engine-quantum-faults-chart-title = quantum-anomaly-detect AUC (MODELLED)
+
+engine-quantum-nav-od-chart-title = quantum-gnss-free-nav (MODELLED)
+
+engine-raim-chart-hal = HAL { $al } m
+
+engine-raim-chart-val = VAL { $al } m
+
+engine-realtime-frame-eop-table3-joint-eop = table3_joint_eop[].{ $q }.n
+
+engine-realtime-frame-eop-table3-joint-eop-truth-fallback = table3_joint_eop[].{ $q }.truth_fallback_rows
+
+engine-realtime-frame-eop-table3-joint-eop-epochs-mjd = table3_joint_eop[].{ $q }.epochs_mjd
+
+engine-realtime-frame-eop-table3-joint-eop-rms-native = table3_joint_eop[].{ $q }.rms_native
+
+engine-realtime-frame-eop-table3-joint-eop-p50-native = table3_joint_eop[].{ $q }.p50_native
+
+engine-realtime-frame-eop-table3-joint-eop-p95-native = table3_joint_eop[].{ $q }.p95_native
+
+engine-realtime-frame-eop-table3-joint-eop-max-native = table3_joint_eop[].{ $q }.max_native
+
+engine-realtime-frame-eop-table3-joint-eop-rms-position = table3_joint_eop[].{ $q }.rms_position_m
+
+engine-realtime-frame-eop-table3-joint-eop-p95-position = table3_joint_eop[].{ $q }.p95_position_m
+
+engine-realtime-frame-eop-table3-joint-eop-rms-light = table3_joint_eop[].{ $q }.rms_light_time_ns
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit = operational_predictor_model.representative_fit.{ $q }.issue_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-2 = operational_predictor_model.representative_fit.{ $q }.window_first_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-3 = operational_predictor_model.representative_fit.{ $q }.window_last_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-4 = operational_predictor_model.representative_fit.{ $q }.n_fit
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-5 = operational_predictor_model.representative_fit.{ $q }.rms_fit_residual_native
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-6 = operational_predictor_model.representative_fit.{ $q }.anchor_residual_native
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-7 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].period_days
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-8 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].cycles_spanned
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-9 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].threshold_cycles
+
+engine-realtime-frame-eop-rows-horizon-days = { $t5 }.rows[].horizon_days
+
+engine-realtime-frame-eop-rows-epochs-mjd = { $t5 }.rows[].epochs_mjd
+
+engine-realtime-frame-eop-rows-target-mjds = { $t5 }.rows[].target_mjds
+
+engine-realtime-frame-eop-rows-min-fit-lead-days = { $t5 }.rows[].min_fit_lead_days
+
+engine-realtime-frame-eop-rows-fit-rows-min = { $t5 }.rows[].fit_rows_min
+
+engine-realtime-frame-eop-rows-fit-rows-max = { $t5 }.rows[].fit_rows_max
+
+engine-realtime-frame-eop-rows-improvement-factor = { $t5 }.rows[].*.improvement_factor
+
+engine-realtime-frame-eop-rows-rms-native = { $t5 }.rows[].*.{ $p }.rms_native
+
+engine-realtime-frame-eop-rows-p50-native = { $t5 }.rows[].*.{ $p }.p50_native
+
+engine-realtime-frame-eop-rows-p95-native = { $t5 }.rows[].*.{ $p }.p95_native
+
+engine-realtime-frame-eop-rows-max-native = { $t5 }.rows[].*.{ $p }.max_native
+
+engine-realtime-frame-eop-rows-rms-position = { $t5 }.rows[].*.{ $p }.rms_position_m
+
+engine-realtime-frame-eop-rows-p95-position = { $t5 }.rows[].*.{ $p }.p95_position_m
+
+engine-realtime-frame-eop-rows-rms-light-time-ns = { $t5 }.rows[].*.{ $p }.rms_light_time_ns
+
+engine-realtime-frame-eop-equivalent-horizon-days-target-position = { $t5 }.equivalent_horizon_days.target_position_m
+
+engine-realtime-frame-eop-equivalent-horizon-days = { $t5 }.equivalent_horizon_days.{ $q }.{ $p }
+
+engine-realtime-frame-eop-rows-horizon-days-2 = { $t6 }.rows[].horizon_days
+
+engine-realtime-frame-eop-rows-issue-mjd = { $t6 }.rows[].issue_mjd
+
+engine-realtime-frame-eop-rows-epochs-mjd-2 = { $t6 }.rows[].epochs_mjd
+
+engine-realtime-frame-eop-rows-rms-native-2 = { $t6 }.rows[].*.{ $p }.rms_native
+
+engine-realtime-frame-eop-rows-p50-native-2 = { $t6 }.rows[].*.{ $p }.p50_native
+
+engine-realtime-frame-eop-rows-p95-native-2 = { $t6 }.rows[].*.{ $p }.p95_native
+
+engine-realtime-frame-eop-rows-max-native-2 = { $t6 }.rows[].*.{ $p }.max_native
+
+engine-realtime-frame-eop-rows-rms-position-2 = { $t6 }.rows[].*.{ $p }.rms_position_m
+
+engine-realtime-frame-eop-rows-p95-position-2 = { $t6 }.rows[].*.{ $p }.p95_position_m
+
+engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms_light_time_ns
+
+engine-receiver-trust-machines-imu-fit-id-provenance-bias-va-gyro =
+    { "[" }{ $table }]
+    id = { $id }
+    provenance = { $provenance }
+    bias = { $bias }
+    q_va = { $q_va }
+    gyro_bias = { $gyro_bias }
+    q_arw = { $q_arw }
+    bias_instability = { $bias_instability }{ "\u000A" }
+
+engine-resilience-report-title = Vlastní posouzení odolnosti PNT
+
+engine-resilience-report-status-partner = PARTNER
+
+engine-resilience-report-summary = <p>Engine { $engine }, scénář { $scenario }, seed { $seed }. Rozdělení důkazů: { $n_validated } { $validated } / { $n_modelled } { $modelled } dílčích skóre. Předběžná úroveň RPCF: { $level } ({ $level_basis }).</p>
+
+engine-resilience-report-h-rpcf = Kategorie technik DHS RPCF
+
+engine-resilience-report-h-rdrr = Funkce RethinkPNT
+
+engine-resilience-report-h-yang = Kritéria Yang
+
+engine-resilience-report-th-category = Kategorie
+
+engine-resilience-report-th-function = Funkce
+
+engine-resilience-report-th-criterion = Kritérium
+
+engine-resilience-report-th-subscore = Dílčí skóre
+
+engine-resilience-report-th-status = Stav
+
+engine-resilience-report-th-basis = Základ
+
+engine-resilience-report-integrity = <p>Integrita SHA-256: <code>{ $integrity }</code></p>
+
+engine-skyline-preset-overrides = preset:{ $p }+overrides
+
+engine-sp3-cp-orbit-igs14-hlm-kshana = #cP{ $year } { $month } { $day } { $hour } { $minute } { $second }  { $num_epochs } ORBIT IGS14 HLM KSHANA{ "\u000A" }
+
+engine-spectrum-sigmf-data = { $stem }.sigmf-data
+
+engine-spectrum-sigmf-data-2 = { $meta_path }.sigmf-data
+
+engine-ssv-check-mod1-min = { $key } MOD1 min
+
+engine-ssv-check-mod4-min = { $key } MOD4 min
+
+engine-ssv-check-mrtp-dbw = MRTP { $name } dBW
+
+engine-ssv-scenario-at-least-pct = { $root }.at_least_1_pct
+
+engine-ssv-scenario-at-least-pct-2 = { $root }.at_least_4_pct
+
+engine-ssv-scenario-max-outage-min = { $root }.max_outage_1_min
+
+engine-ssv-scenario-max-outage-min-2 = { $root }.max_outage_4_min
+
+engine-ssv-scenario-signals-best-cn0-dbhz = ,{ $band }_signals,{ $band }_best_cn0_dbhz
+
+engine-study-summary = studie „{ $title }“: scénářů: { $n_scenarios }
+
+engine-study-metric-holdover = Holdover (s)
+
+engine-study-metric-timing-rms = RMS časování (ns)
+
+engine-study-metric-timing-p95 = p95 časování (ns)
+
+engine-study-metric-resilience-slope = Sklon odolnosti (ns/s)
+
+engine-study-metric-availability = Dostupnost
+
+engine-study-metric-integrity = Integrita
+
+engine-study-metric-security = Bezpečnost
+
+engine-study-th-metric = Metrika
+
+engine-study-th-validation = Validace
+
+engine-study-not-applicable-no-attack = n/a (žádný útok)
+
+engine-study-page-title = { $title } — studie Kshana
+
+engine-study-eyebrow = क्षण · přesný okamžik
+
+engine-study-h-comparison = Srovnání vedle sebe
+
+engine-study-tier-note = Každá hodnota je označena { $validated } (ověřeno proti externímu orákulu) nebo { $modelled } (z prvních principů, vnitřně testováno), odvozeno z verifikační matice. Sloupce jsou nezávislé scénáře; hodnoty nejsou napříč scénáři normalizovány.
+
+engine-study-footer = Vytvořil Kshana { $version } jako souhrnnou studii scénářů: { $n_scenarios }. Každý scénář je reprodukovatelný z jeho scénáře, seedu a verze enginu. Svobodný a otevřený software (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">zdroj &amp; dokumentace</a>.
+
+engine-telecom-timing-mtie-limit-ns = ,{ $id }_mtie_limit_ns
+
+engine-telecom-timing-tdev-limit-ns = ,{ $id }_tdev_limit_ns
+
+engine-telecom-timing-chart-holdover = holdover
+
+engine-telemetry-prometheus-kshana-build-info-version = kshana_build_info{ "{" }version="{ $escape_label }"{ "}" } 1{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-score = kshana_trust_score { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-band-band = kshana_trust_band{ "{" }band="{ $b }"{ "}" } { $on }{ "\u000A" }
