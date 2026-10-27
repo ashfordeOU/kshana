@@ -167,3 +167,39 @@ seg-b60bf087599d = Mikään hyväksytyistä lähteistä ei ilmoita käyttörajoi
 seg-c02dd9cc5640 = Avoimet kysymykset koordinaattorille
 
 seg-b44414247e17 = <b>ODbL share-alike (adsb.lol).</b> Julkaistut solukohtaiset päivätiedostot ovat todennäköisesti Derived Database. Vaihtoehdot: (a) hyväksy ja julkaise häiriökartan GeoJSON, joka käyttää adsb.lolia ODbL { "1.0" } -lisenssillä (upotettu tekijänmaininta ja lisenssikenttä kertoisivat tämän; Kshanan oma koodi pysyy AGPL:nä); (b) rajoita julkiset tulosteet esitettyihin kuviin (Produced Works); (c) pudota adsb.lol, jolloin ADS-B-lähdettä ei jää. Suositus: (a), koska tulosteet ovat aggregaattidataa, jonka haluamme muiden käyttävän uudelleen. Kaupallisten versioiden olisi liitettävä sama ODbL-huomautus kaikkiin tällaisiin tiedostoihin.
+
+seg-40ccc6e27c8f = <b>Eri lähteiden tulosteet.</b> ADS-B-päivien (ODbL) ja AIS-päivien (public domain / NLOD) on pysyttävä erillisissä tiedostoissa, joilla kullakin on oma lisenssinsä, jotta ODbL ei kiinnity AIS-kerrokseen.
+
+seg-b5bb632d7017 = <b>Lähteet, jotka on merkitty ”pending”.</b> Haluatko, että selvitän airplanes.liven, Tanskan viranomaisen ja Digitrafficin ehdot (luen voimassa olevat ehdot tai otan yhteyttä julkaisijaan), vai jätetäänkö ne pois versiosta { "0.35.0" }? Suositus: jätetään pois.
+
+seg-020198db0951 = <b>Rantaviivatiedosto.</b> Sisällytetäänkö mukaan Natural Earthin maapolygonit mittakaavassa { "1" }:10m (noin { "10" } MB GeoJSON-muodossa, joten yksinkertaistaisin ne tarvittavaan alueeseen), vai otetaanko ne vain käyttäjän syötteenä?
+
+seg-c054ec59d79f = <b>Tunnisteet.</b> Vahvista, että lukijat saavat jäsentää MMSI:n ja ICAO hexin muistissa ”erillisten ilma-alusten tai alusten” laskentaa varten mutta eivät saa koskaan kirjoittaa tai kirjata niitä lokiin. Laskenta käyttää ajokohtaista suolattua tiivistettä, jota ei säilytetä.
+
+seg-b47980b1e428 = Päätösten yhteenveto
+
+seg-fca8ed827b2c = Hyväksytty ADS-B-ehdokas: adsb.lol (ehdollinen kysymykselle { "1" }).
+
+seg-3d88b7af43ab = Hyväksytyt AIS-ehdokkaat: NOAA MarineCadastre, Kystverketin avoin data.
+
+seg-58252a879ae0 = Rantaviiva: Natural Earth.
+
+seg-e797e4dab0ad = Suljettu pois: OpenSky, ADS-B Exchange, kaupalliset AIS-toimittajat; kesken: airplanes.live, Tanskan merenkulkuviranomainen, Digitraffic.
+
+seg-57f9c5b1e44d = Päätökset (koordinaattori, 2026-10-09)
+
+seg-34526eaad1f9 = adsb.lol hyväksytty. Julkaistu solukohtainen ADS-B-GeoJSON julkaistaan ODbL { "1.0" } -lisenssillä, ja lisenssi sekä tekijänmaininta upotetaan tiedostoon; Kshanan koodi pysyy AGPL:nä; kaupalliset versiot liittävät saman huomautuksen tällaisiin tiedostoihin.
+
+seg-bd5d319b9425 = ADS-B- ja AIS-tulosteet ovat erillisiä tiedostoja, joilla kullakin on oma lisenssikenttänsä, eikä niitä koskaan yhdistetä.
+
+seg-6f9cdef62db6 = Hyväksytty AIS: NOAA MarineCadastre ja Kystverket (kattavuuden vinouma ilmoitetaan tulosteessa). airplanes.live ja Tanskan merenkulkuviranomainen jäävät pois versiosta { "0.35" }. Digitraffic: toinen yritys luki sen julkaistut API-ohjeet (käyttörajoitukset ja pyyntö tunnistavasta otsakkeesta <c1/>), mutta ei lisenssitekstiä eikä tekijänmaininnan sanamuotoa, joten se <b>jätetään pois</b>; sen voi lisätä, kun sen lisenssi on luettu ja siteerattu.
+
+seg-fce6c63550ee = Natural Earthin maatiedostoa ei sisällytetä. CLI ottaa käyttäjän toimittaman maapolygonitiedoston; valinnainen apuri (<c1/>) lataa sen.
+
+seg-861a08eb3c23 = Tunnisteet jäsennetään vain muistissa, tiivistetään ajokohtaisella suolalla, eikä niitä koskaan kirjoiteta tai kirjata lokiin.
+
+seg-7b7d27fbaff3 = Lisätty sääntö: solua, jossa on alle { "5" } erillistä ilma-alusta tai alusta, ei julkaista.
+
+seg-9fa94e1a7511 = <s1>Edellinen</s1>Häiriökartta ja reittialtistus
+
+seg-8a2c9a7992f4 = <s1>Seuraava</s1>Merenkulun integraatiot

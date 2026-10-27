@@ -9,3 +9,5 @@ seg-fdbb9db68f1d = ei mitään
 seg-f63dd3d7aad4 = Lähde
 
 seg-98151954f217 = false
+
+seg-a0cc45088f5f = GSV

@@ -2489,3 +2489,6 @@ seg-05ded40b17d2 = Ei mitään ulkoista: ROS-solmua ei ajettu elävällä ROS { 
 seg-c3c260b7063e = Testit
 
 seg-417a52c9c154 = PDF
+
+# text
+seg-4e31c8daf798 = Kirjanpito

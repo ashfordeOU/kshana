@@ -348,6 +348,8 @@ seg-852814f107a7 = Skenaariotyyppisivut
 
 seg-1a26d420ba67 = Katso myös
 
+seg-c4f4b2ca0647 = Arvo
+
 seg-e8968e86f31b = Rajoitukset
 
 seg-7dc0fcd6ef77 = aocs

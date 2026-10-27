@@ -27,3 +27,23 @@ seg-856eb311f24b = ”määrittelemätön” (teksti sellaisena kuin asiakirja i
 seg-1767b216650d = määritelty
 
 seg-fc5d34345fdd = Tulosnimike (moottorin oma): MODELLED tasomaisen kuunläheisen satelliittitähdistön havaittavuus (P6). VALIDATED ydin: havaittava ASTE on asteen paljastava singulaariarvokynnys, joka on ristiintarkistettu Gramin matriisin ominaisarvoasteella; Gramin matriisin ominaisarvospektri noudattaa spektri-invariantteja (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }
+
+seg-f15bbf30b0dd = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/cislunar-observability.toml, skenaariotyyppi cislunar-observability
+
+seg-4564ad90378b = <b>MODELLED</b> Kuunläheisen avaruuden kaaren pituuden havaittavuuskynnys AVARUUDELLISESSA kuuden tilan CR3BP-mallissa tasomaisen nelitilaisen mallin sijaan, DRO-, L2 halo- ja L2 lähes suoraviivaisen halon perheissä, kun mittauskohina tulee Gramin matriisiin ja KAKSI kriteeriä raportoi
+
+seg-9f857ff85800 = <b>MODELLED</b> Kuunläheisen avaruuden kaaren pituuden havaittavuuskynnys AVARUUDELLISESSA kuuden tilan CR3BP-mallissa tasomaisen nelitilaisen mallin sijaan, DRO-, L2 halo- ja L2 lähes suoraviivaisen ha. Oraakkeli (InternalConsistency): Riippumaton rivi-porrasmuodon aste, joka lasketaan Gaussin eliminaatiolla osittaisella pivotoinnilla, vahvistaa jokaisen kuuden tilan astetuloksen — eri algoritmi, joka ei jaa koodia testattavan ominaisarvo-/SVD-reitin kanssa. CR3BP:n tilansiirtomatriisilla ({ "6" }×{ "6" }), jonka tämä koostaa, on oma oraakkeli (ReferenceImpl) SciPy-kirjaston variaatiointegrointia vastaan, ja halo-/NRHO-alkuehdot tulevat korjaimesta, joka toistaa julkaistun L2 souther
+
+seg-53c183035bde = MODELLED tasomaisen kuunläheisen satelliittitähdistön havaittavuus (P6). VALIDATED ydin: havaittava ASTE on asteen paljastava singulaariarvokynnys, joka on ristiintarkistettu Gramin matriisin ominaisarvoasteella; Gramin matriisin ominaisarvospektri noudattaa spektri-invariantteja (jälki = summa eig, det = tulo eig, Frobenius^{ "2" } = summa eig^{ "2" }); variaatioyhtälön tilansiirtomatriisi on differenssimenetelmällä validoitu CR3BP:n tilansiirtomatriisi (crate::cr3bp); etäisyys-/etäisyysnopeus-Jacobin rivit (tulos <c1/>)
+
+seg-f6a217f57bec = MODELLED tasomaisen kuunläheisen tähdistön havaittavuus (P6): seuraa neljän avaruusaluksen differentiaalikorjattua tasomaista DRO-tähdistöä satelliittien välisellä etäisyysmittauksella ja raportoi, kuinka suuren osan avaruusaluksen nelitilaisesta tilasta [x,y,ẋ,ẏ] kaari tekee havaittavaksi. (tyyppiluettelo (<c1/>))
+
+seg-e5182743fd40 = MODELLED: tähdistön suunnittelu (DRO:n perilune-amplitudit ja -vaiheet) ja sen tuottama tietty asteen eteneminen. (tyyppiluettelo (<c1/>))
+
+seg-5d3a370f1295 = Rehellisyys: MODELLED. VALIDATED ydin -- havaittava ASTE on asteen paljastava singulaariarvokynnys, joka on ristiintarkistettu Gramin matriisin ominaisarvoasteella; ominaisarvospektri noudattaa spektri-invariantteja (jälki = summa eig, det = tulo eig, Frobenius^{ "2" } = summa eig^{ "2" }); variaatioyhtälön tilansiirtomatriisi on differenssimenetelmällä validoitu CR3BP:n tilansiirtomatriisi; etäisyys-/etäisyysnopeus-Jacobin rivit ovat differenssimenetelmällä validoituja analyyttisiä osittaisderivaattoja (ristiintar (skenaariotiedoston kommentti, rivit { "16" }–{ "25" })
+
+seg-c68bc1df8975 = Avaruudellinen, kohinainen, usean perheen kuunläheisen kaaren pituuden havaittavuus on MODELLED, ei validoitu: se on tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vasten — se havaitsee kirjoitus- ja kerroinvirheet, mutta ei ole ulkoinen oraakkeli. (varmennusmatriisi (docs/MODELLED-RATIONALE.md))
+
+seg-ba3c2a8f0e28 = <s1>Edellinen</s1>cislunar-arc-recovery
+
+seg-3adfb78b1f34 = <s1>Seuraava</s1>clock
