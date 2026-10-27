@@ -38,7 +38,7 @@
    "reason": "identifier: kind and scenario names; the four new lunar kinds add their ids"
   },
   "src/api/kind_descriptions.rs": {
-   "count": 154,
+   "count": 164,
    "reason": "machine-document: the English descriptions of the scenario kinds, which are the machine document (list_scenario_kinds_json); the catalogue copies are engine-kind-*-description and tests/i18n_kinds.rs compares them"
   },
   "src/araim_reference.rs": {
