@@ -341,3 +341,17 @@ seg-5b82ad0bd2c9 = Liu i in. ({ "2025" }), <em>Remote Sensing</em> { "17" }({ "1
 seg-2080b4fc31a8 = Stopka pochodzenia wykresu
 
 seg-22d0b06d5df4 = Każdy wykres renderowany przez Kshana, w przeglądarkowym placu zabaw, w eksporcie <c1/> z CLI (interfejsu wiersza poleceń) i na wykresie w drukowalnym raporcie <c2/> (HTML, HyperText Markup Language), jest opatrzony w prawym dolnym rogu napisem:
+
+seg-d8b4de856202 = Wartość <c1/> to pierwsze { "12" } znaków szesnastkowych <b>skrótu scenariusza</b> przebiegu: SHA-256 (SHA: Secure Hash Algorithm) obliczonego z <em>kanonicznej</em> definicji scenariusza (ziarno, progi, parametry modelu, okna GNSS i tak dalej). Jest to ten sam odcisk, który pojawia się w jednowierszowym podsumowaniu przebiegu i w polu <c2/> wynikowego pliku JSON. (Rodzaje, których dokument wynikowy nie zawiera pola <c3/>, takie jak raporty integralności i księżycowe, wykorzystują SHA-256 źródłowego pliku TOML scenariusza (Tom's Obvious, Minimal Language), dzięki czemu każdy wykres ma stały odcisk.)
+
+seg-8d218131da01 = Ponieważ skrót jest deterministyczny i wrażliwy na dane wejściowe, zapisany lub wklejony obraz wykresu sam się identyfikuje: zawiera wersję silnika, dokładny scenariusz, który go wytworzył (do odtworzenia bit po bicie), oraz źródło, a każdy zmieniony parametr daje inny skrót, więc błędnie opisany wykres można wykryć.
+
+seg-89c9b001868f = Jak cytować i odtwarzać
+
+seg-6eca19b7978c = Każdy wynik można odtworzyć na podstawie <c1/>. Silnik cytuje się przez <a1><c2/></a1> / koncepcyjny DOI w Zenodo <a2>10.5281/zenodo.20528627</a2>, a dla wartości, od których zależy dany przebieg, cytuje się powyższe źródła <em>parametrów</em>: trafiają one do pól <c3/> wynikowego pliku JSON, więc opublikowany wynik sam się dokumentuje.
+
+seg-c5c58ef3771c = Tam, gdzie wartość jest celem dla przestrzeni kosmicznej, osiągniętym na sprzęcie naziemnym (każda liczba dla optycznego zegara strontowego), albo demonstracją w laboratorium naziemnym (akcelerometr na zimnych atomach), ten dokument i pochodzenie wyniku mówią o tym wprost. { -brand } nie przedstawia wartości laboratoryjnych ani docelowych jako parametrów uzyskanych w locie.
+
+seg-925d456df88c = <s1>Poprzednia</s1>Twierdzenia a rzeczywistość
+
+seg-19e8fefd1ceb = <s1>Następna</s1>Odtwarzalność
