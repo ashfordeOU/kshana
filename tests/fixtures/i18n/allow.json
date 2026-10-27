@@ -258,7 +258,7 @@
    "reason": "machine-document: check names and details of the verification report (fields of its JSON; the notes of the same report are messages), and pack file names such as `config.json`"
   },
   "src/evidence_label.rs": {
-   "count": 9,
+   "count": 10,
    "reason": "machine-document: the evidence block of result JSON and its CSV comment lines (id rule, matrix path, field names) and the tool names that select the rows; the strip under a chart is a message"
   },
   "src/field_schema.rs": {
@@ -400,6 +400,18 @@
   "src/interference_map/cli.rs": {
    "count": 12,
    "reason": "identifier: option names, a pinned download URL, file-name stems and the `interference-map` tool name"
+  },
+  "src/interference_map/emitter.rs": {
+   "count": 25,
+   "reason": "machine-document and identifiers: JSON keys of the parameter block and the method id; no human-facing text"
+  },
+  "src/interference_map/emitter_out.rs": {
+   "count": 83,
+   "reason": "machine-document: JSON keys, schema names and the English assumptions, limits, guards and notice written into the GeoJSON and JSON outputs (machine files stay English); human-facing text goes through t!"
+  },
+  "src/interference_map/locate_cli.rs": {
+   "count": 7,
+   "reason": "identifiers: command-line flag names and output file name suffixes"
   },
   "src/interference_map/observatory.rs": {
    "count": 95,
@@ -1138,7 +1150,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/python.rs": {
-   "count": 55,
+   "count": 57,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/qtrade.rs": {
@@ -1346,7 +1358,7 @@
    "reason": "identifier and data: FoM keys, JSON key, the page's CSS; the HTML text is in the catalogue"
   },
   "src/surface.rs": {
-   "count": 28,
+   "count": 29,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/sweep.rs": {
@@ -1406,11 +1418,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/verification.rs": {
-   "count": 2418,
+   "count": 2423,
    "reason": "machine-document: the verification matrix (requirements, capabilities, modules, tests, oracles); the new lunar and mission-thread kinds add their rows"
   },
   "src/wasm.rs": {
-   "count": 9,
+   "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   }
  }

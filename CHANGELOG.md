@@ -11,6 +11,18 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- `kshana interference-map locate`: an **estimated emitter region** from ADS-B or AIS reports. A posterior over where a source of
+  degraded position reports can be (radio line of sight on a 4/3-earth radius, emitter antenna height and power marginalised,
+  affected aircraft pulling and unaffected aircraft with line of sight pushing back), written as regions at 50, 90 and 95%, a
+  centroid with its uncertainty ellipse (never a bare point), sessions in time (start, end, duration, affected area, distinct
+  aircraft above the publication minimum), a time-of-day profile and hours per day, with optional fusion of a TDOA fix from
+  `geolocation`. Outputs: GeoJSON, JSON summary, sessions CSV and an SVG figure, each carrying the licence, attribution, method id,
+  assumptions, limits and its evidence label. Library `interference_map::api::emitter_regions_from_*`, Python and WebAssembly
+  `interference_emitter_regions`. MODELLED (ledger row `VM-bc70cb57`; the matrix is now 401 rows, 176 VALIDATED, 221 MODELLED,
+  4 PARTNER, and the count surfaces are not yet updated); calibrated on synthetic data only, with the comparison against the
+  Jammertest 2025 transmitter sites pre-registered and run once: ADS-B and AIS both NOT ASSESSABLE (too few scheduled sessions), so the row stays MODELLED (`docs/emitter-region/RESULTS.md`). Neutral wording, aggregate only; publishing
+  emitter regions in the public observatory stays off. A synthetic example is in `examples/emitter-region/`
+  ([`docs/INTERFERENCE-MAP.md`](docs/INTERFERENCE-MAP.md#emitter-region-interference-map-locate)).
 - `kshana partner check <submission.toml>`: checks the format and metadata of a data-partner submission
   (`kshana.partner-submission/1`: device, data file and SHA-256, how it was taken, the MODELLED rows it is offered against, licence,
   statements) and reads the data with the engine's own clock-log or IMU readers. It scores nothing and validates nothing. A synthetic

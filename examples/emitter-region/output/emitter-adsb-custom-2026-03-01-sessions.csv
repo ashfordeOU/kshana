@@ -1,0 +1,4 @@
+# evidence: MODELLED rows VM-bc70cb57
+# evidence-matrix: docs/VERIFICATION-MATRIX.md (the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned)
+session,start_utc,end_utc,duration_min,affected_distinct,observed_distinct,affected_area_km2,status,centroid_lat,centroid_lon,ellipse_semi_major_km,ellipse_semi_minor_km,ellipse_azimuth_deg,area_km2_50,area_km2_90,area_km2_95
+1,2026-03-01T10:00Z,2026-03-01T10:30Z,30.0,21,80,33236.0,constrained,39.988,-30.043,16.3,15.0,82.0,176,577,761

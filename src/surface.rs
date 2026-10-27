@@ -335,6 +335,61 @@ pub fn interference_map(
     })
 }
 
+/// The outputs of `kshana interference-map locate`, held in memory.
+#[derive(Clone, Debug)]
+pub struct EmitterRegions {
+    /// File stem the command line would use (`emitter-<source>-<dataset>-<day>`).
+    pub stem: String,
+    /// GeoJSON of the regions, ellipses and centroids (`kshana-emitter-region/v1`).
+    pub geojson: String,
+    /// The JSON summary.
+    pub summary: String,
+    /// The sessions table, CSV with the evidence label lines first.
+    pub csv: String,
+    /// The figure, SVG.
+    pub svg: String,
+    /// Sessions published.
+    pub sessions_published: usize,
+    /// Candidate sessions withheld below the publication minimum of distinct aircraft or vessels.
+    pub sessions_withheld: usize,
+}
+
+/// Estimated emitter regions from ADS-B or AIS CSV text: where, under stated assumptions, a source of the
+/// degraded reports could be, as regions at stated confidence levels with a centroid and an uncertainty
+/// ellipse, never a bare point. Aggregate only, MODELLED, pre-registered parameters.
+pub fn emitter_regions(
+    source: MapSource,
+    csv: &str,
+    dataset: &str,
+    custom: Option<&CustomDataset>,
+    land_geojson: Option<&str>,
+    max_bytes: usize,
+) -> Result<EmitterRegions, String> {
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("input", csv, max_bytes)?;
+        if let Some(l) = land_geojson {
+            cap("land file", l, max_bytes)?;
+        }
+        let spec = dataset_spec(dataset, custom)?;
+        let o = match source {
+            MapSource::Adsb => api::emitter_regions_from_adsb_csv(csv, &spec, None),
+            MapSource::Ais => {
+                api::emitter_regions_from_ais_csv(csv, &spec, land_geojson, None, None)
+            }
+        }
+        .map_err(|e| e.to_string())?;
+        Ok(EmitterRegions {
+            stem: o.stem,
+            geojson: o.geojson,
+            summary: o.summary,
+            csv: o.csv,
+            svg: o.svg,
+            sessions_published: o.sessions_published,
+            sessions_withheld: o.sessions_withheld,
+        })
+    })
+}
+
 /// Share of a route through degraded cells, for each map in `maps` (GeoJSON text from
 /// [`interference_map`] or `kshana interference-map`) inside the optional `from`/`to`
 /// dates (`YYYY-MM-DD`). Returns the `kshana-route-exposure/v1` report as JSON. Cells not
