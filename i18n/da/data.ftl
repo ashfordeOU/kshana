@@ -6658,3 +6658,225 @@ dat-2f20131152ee = jamming-kindens valgfrie [acquisition]-sektion (en satellit f
 
 # data/verification-matrix.json
 dat-d861d0eb791b = De fem retroreflektorarrays på forsiden i PA-legemsrammen i meter og LLR-jordstationerne i geodætiske koordinater; reflektorens placering fra legeme til inertial gennem DE440 PA-orienteringen; analytiske partialer af afstanden fra Jorden til reflektoren med hensyn til datum med 4 parametre; og den rene LLR-Fisher-matrix, der udviser degenerationen mellem lunocentrum-X og skala, som motiverer analysen med 7 parametre
+
+# data/verification-matrix.json
+dat-062548149812 = jamming-kindens valgfrie [crpa]-sektion: en stråle pr. kanal mod hver satellit (nulstyring med jammeren som nul eller MVDR på sigma^{ "2" } I + P_j a_j a_j^H), der skalerer hvert links støj med ||w||^{ "2" } og jammeren med |w^H a_j|^{ "2" } før den eksisterende C/N0-ligning for anti-jam.
+
+# data/verification-matrix.json
+dat-f7f1d21b678b = jamming-kindens valgfrie [terrain]-sektion: storcirkel-terrænprofilen mellem jammer og modtager på en SRTM .hgt-tile med en jordbule med k-faktor, den dominerende knivsæg (største Fresnel-Kirchhoff nu) og tabet fra en enkelt knivsæg efter ITU-R P.526-15 afsnit { "4.1" }, trukket fra jammerens modtagne effekt.
+
+# data/search.json
+dat-2c34bbc8b62e = JSON-dokumentet
+
+# data/search.json
+dat-58a78c79e5a1 = Kinds og hvordan de hænger sammen
+
+# data/search.json
+dat-3ba792aa6d28 = Webstedet kshana.dev
+
+# data/search.json
+dat-04c749ab6ebe = Feltet for laboratorieattestering
+
+# data/verification-matrix.json
+dat-813f52a95891 = Det multiplikative Lefferts-Markley-Shuster-EKF: attitudefejl i legemsrammen og gyrobias som tilstande, propagering med gyrorate minus biasestimatet og Farrenkopfs diskrete processtøj (vinkel- og rate-random-walk), stjernekameraopdateringer med residualet { "2" } vec(q^-1 q_st) i Joseph-form og den multiplikative nulstilling; en diskret Farrenkopf-simulator for gyro og stjernekamera. `aocs`-kinden kan lukke reguleringssløjfen på sit estimat.
+
+# data/search.json
+dat-8f3d057cd4a6 = scenariekinden leo-navmsg bygger broadcast-efemeride- og urmeddelelsen for en lav Jordbane (LEO)…
+
+# data/search.json
+dat-6a2c66c8a402 = scenariekinden leo-signal analyserer signaler til positionering, navigation og tidssynkronisering (PNT) fra lav Jordbane (LEO).
+
+# data/search.json
+dat-e7e4a7fad758 = Observationen af LEO i forhold til GNSS
+
+# studio/data/capabilities.json
+dat-a65e01b98a79 = Den lineære algebra, en selvrefererende lunar konstellation har brug for for at detektere sine egne fejl uden reference på jorden: den vægtede paritetsprojektor i den rangdefekte pseudoinversform, der overlever datum-og-tidsskala-gaugen, detektabilitet pr. knude, Baardas mindste detekterbare bias og Byzantine-blokgnist-antal for detektion/identifikation over virkelig DE440-geometri mellem knuder.
+
+# data/verification-matrix.json
+dat-a5de09f9dd3d = Link-budgetrapporten angiver hver absolut konstant, dens egen margin blev beregnet ud fra -- den bærebølgefrekvens, frirumstabet brugte, EIRP, kvalitetstallet, det samlede tab og Boltzmann-leddet -- plus den krævede G/T, hvor marginen er nul, linkkonstanten (EIRP - tab - krævet Eb/N0), som er den eneste kombination, en publiceret rate/forstærkning-tabel nogensinde kan fastlægge, og, når en kalder angiver en systemstøjtemperatur, den modtageantenneforstærkning, som det kvalitetstal indebærer
+
+# data/verification-matrix.json
+dat-264de1df4f0a = Liu22-varianten af leo_navmsg::elements::EphemerisModel, evalueret af kepler_point med Liu22Extra: sættet med 16 parametre plus en rate for den store halvakse a_dot, en rate for middelbevægelsen n_dot, der indgår som n = sqrt(mu/A0^{ "3" }) + dn + n_dot tk, transskriberet fra artiklens Eq. { "1" } (tilpasningssammenligningen afhænger ikke af denne skalakonvention, så betydningen af en udsendt nDot-værdi er ikke valideret her), og radiusharmoniske Crs1, Crc1, Crs3, Crc3 én og tre gange pr. omløb på det ukorrigerede breddegradsargument. Dens tilpasning med leo_navmsg::fit::fit_message tager artiklens Section { "2.3" }-start og -estimator (hver korrektion starter ved nul; almindelig mindste kvadraters metode uden a priori-værdier; artiklens grænse på 100 iterationer), men stopper efter Kshanas regel om parameterkonvergens (hvert trin under { "1e-3" } af dets formelle sigma) i stedet for artiklens regel om en RMS-ændring under { "0.1" } mm. Tilpasset over buer på { "20" } og { "30" } minutter af en tabuleret præcis bane
+
+# data/verification-matrix.json
+dat-e2d220bec7ee = Det lunare beskyttelsesniveaus trin fra geometri til kovarians — (GᵀG)⁻¹ over alt-i-sigte og hver enkeltfejls-delgeometri, projiceret på den lokale lodrette og sporet af den horisontale blok — og dens statistiske kerne: Bonferroni-detektormultiplikatoren, den gaussiske øvre hale for hver fejlhypotese og rodløsningen, der afbilder et integritetsrisikobudget på et beskyttelsesniveau, over en lunar servicevolumen med 7 punkter
+
+# data/verification-matrix.json
+dat-8b334001363f = Kovariansen for lunar-llr-datum med syv parametre Helmert-datum ud fra arkiverede ILRS-normalpunkter og deres målte vægte, på kernestien: det geocentriske Måne-centrum læses fra JPL DE440 af motorens egen kerneslæser (planetary_kernel_path; lunar_llr::llr_geometry_with, ephem_provider::KernelEphemeris). Kun Måne-centret afviger fra den analytiske række; IAU-orienteringen fra { "2015" }, den manglende polbevægelse og UT1, kataloger, udvælgelsesregler, vægte og lineær algebra er de samme. Den validerede påstand er kun, at denne stis datumkovarians stemmer med et uafhængigt SPICE- og NumPy-orakel på friske, usete normalpunkter. Sammenligningen skelner ikke mellem Månemodeller og kontrollerer ikke Måne-centret: på det samme udsnit består den analytiske Måne også hver tærskel, den præregistrerede mutation (kerne-Månen læst én time for sent) blev ikke opdaget, og et Måne-centrum, der er omkring { "4,650" } km forkert, består også (se orakelteksten). Det er ikke evidens for, at kerne-Månen forbedrer datum. Kan køres som scenariet `lunar-llr-datum` med planetary_kernel_path (og normal_points_dir for et andet udsnit)
+
+# data/verification-matrix.json
+dat-d399db8ab42e = lunar-station-coverage-kinden kørt under de offentlige forudsætninger i det publicerede materiale om en lunar differentiel referencestation (fire navigationssatellitter i frosne elliptiske baner på { "24" } h, { "10" } m { "95" } % SISE, { "0.30" } m kodestøj, korrektionslatens på { "1" } s og { "600" } s, en station opmålt til under en decimeter, det publicerede eksempel på stationssted, cirklerne på { "300" } km og { "600" } km om sydpolen) og scoret mod kildernes numeriske påstande under seks ensidede tærskler, præregistreret før kørslen: dækning af hele sydpolen ved p95 under en meter (K1, K2), korrigeret p95 under en meter og på decimeterniveau (K3, K4), under en meter bevaret ved { "600" } s latens (K5) og nøjagtighed bevaret fra { "10" } km til { "500" } km baseline (K6)
+
+# data/verification-matrix.json
+dat-24e1cb4885b2 = Scenariet lunar-time-budget udgiver sine arrayværdiede output som en tabel i lang form (gitterindeks, middelværditid, led) ved siden af rapporten, så de syv kurver x(tau) pr. led og totalen som kvadratroden af kvadratsummen er motoroutput frem for noget, en læser bygger op igen ud fra metodeafsnittet
+
+# data/verification-matrix.json
+dat-52997960d5b8 = Den maksimale tidsintervalfejl og tidsdeviation, som scenariekinden `telecom-timing` rapporterer, på en holdover-record i telekomskala: en MTIE med glidende vindue og monoton kø i O(n) (telecom_timing::mtie_sliding, nødvendig, for at et døgn med samples hvert sekund forbliver hurtigt) og motorens TDEV (allan::time_deviation), evalueret på det gitter, kinden rapporterer, og aflæst igen fra en fuld kørsel, der indlæser serien
+
+# data/verification-matrix.json
+dat-9c7c156edc60 = Kernen i den målte ADEV→PSD-tilpasning (NNLS) er afstemt til scipy.optimize.nnls (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — en uafhængig ekstern kerne; men afvejningens TAL kvantificerer (validerer aldrig) et partnerur/CAI, så afvejningen selv forbliver MODELLED, ingen valideringsglorie
+
+# data/search.json
+dat-0fc2baa2494b = Målefilteret
+
+# data/verification-matrix.json
+dat-b3e182285f77 = Monitorernes egne lukkede former på Kshanas egne GPS L1 C/A-scener (støj og legitime signaler; dæmpningshændelser af satellitternes egne signaler), mod tærskler præregistreret i docs/design/MONITORS-IN-CAMPAIGN.md (382ab2f4). FUND: M1, M2 og M4 opfyldt. M3 opfyldt på detektion ({ "18" } af { "18" } dæmpninger, P_md { "0" }) og NOT MET på sin tidsklausul: mediantiden til detektion er { "1.001" } s mod { "2" } x ARL1 samples = { "0.433" } s. CUSUM'en ser ét estimat pr. vindue på { "1" } s, så grænsen på antal samples er under ét sample. Kun intern konsistens: ingen virkelig modtager eller registreret interferens kontrolleres
+
+# data/verification-matrix.json
+dat-43640ae1cf86 = Bevægelses-CSV'ens kolonner for jordfast position, geodætisk position, jordfast hastighed, kurs/pitch/roll og UTC samt NMEA GGA/RMC-sætningerne, skrevet ud fra syntetiske scenarier (gnss-ins inklusive automotive-urban-canyon, jamming, gnss-sim). Kun bevægelse og hændelser; intet signal skrives, og ingen ydeevne for simulator eller modtager hævdes.
+
+# data/search.json
+dat-89e233c63635 = Spektrummet med flere bånd
+
+# data/verification-matrix.json
+dat-4dc48a3e5ebd = Selve ligningen for beskyttelsesniveau med multiple-hypothesis-løsningsseparation: vægtet mindste kvadraters metode for alt-i-sigte og pr. fejltilstand på en Øst/Nord/Op-geometri med én urtilstand pr. konstellation, delløsningernes sigmaer, løsningsseparationssigmaer og ensidede projektioner af nominel bias, Bonferroni-tærsklerne K_fa, allokeringen af risiko for ikke-overvågede fejl og VPL/HPL, der løser integritetsrisikoligningen. Kan køres som scenariekinden `araim-reference-check`
+
+# data/search.json
+dat-2ce06c348216 = Navigationsmeddelelsen
+
+# data/verification-matrix.json
+dat-16fdeef4af41 = NEES-chi-i-anden-testen er en intern konsistenskontrol (reference og filter deler modellen). Tendensen sammenlignes med Li et al., LEO constellation-augmented multi-GNSS for rapid PPP convergence, J. Geod. { "93" }:749-764 ({ "2019" }), doi 10.1007/s00190-018-1195-2: multi-GNSS { "9.6" } min forkortet til { "7.0" }, { "3.2" }, { "2.1" } og { "1.3" } min med { "60" }, { "96" }, { "192" } og { "288" } LEO-satellitter. Det medfølgende scenarie giver { "7.4" }, { "4.8" }, { "3.2" }, { "2.7" } og { "2.3" } min med sine egne repræsentative skaller på { "1000" } km, { "60" } grader, støj og stationer; artiklens konstellationer, støj og konvergensdefinition gengives ikke, så dette er en MODELLED konsistens af tendensen (monoton forkortelse, den største konstellation under en tredjedel af tiden kun med GNSS), ikke en validering
+
+# data/verification-matrix.json
+dat-d6f28e310ff2 = Den newtonske envejs lystid fra ethvert legeme til ethvert andet, modtaget på en epoke, løst af den radiometriske fikspunkts-lystidsløser (radiometric::light_time_solution, sender i sin retarderede position) gennem solar_system::link_on på enhver EphemerisProvider; solar-system-kinden kører den på det analytiske solsystem i den heliocentriske ramme (solar_system::link). Tovejsafstanden fra radiometric::two_way_range og Sol-Shapiro-forsinkelsen fra radiometric::shapiro_delay rapporteres hver for sig og sammenlignes ikke eksternt. Udsendt for hvert legeme mod en observatør og for ethvert ekstra link af `solar-system`-kinden og for nedlinket fra legeme til Jord af `body-pnt`-kinden
+
+# data/search.json
+dat-82ac4850886b = Det ikke-cirkulære orakel: analytisk mod Monte Carlo-P_md
+
+# data/search.json
+dat-aca5442415ce = Det ikke-cirkulære orakel: er dette virkelig en GPS-bane?
+
+# data/search.json
+dat-813b2afefcac = Det ikke-cirkulære orakel: positions-holdover på { "350" } s
+
+# data/search.json
+dat-ba2f435b2480 = Det ikke-cirkulære orakel: hvorfor { "2610" } s for CSAC?
+
+# data/verification-matrix.json
+dat-64b0b715e5da = Numerikken sammenlignes med et uafhængigt program (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } ved { "30" } cifre, tanh-sinh-kvadratur på den oprindelige højdevariabel og Bessel-K gamma-gamma-tætheder), der ikke deler kode med Kshana, under tærskler fastsat, før nogen implementering fandtes (xval/optical-atmosphere/PREREGISTRATION.md). HVORFOR MODELLED: det orakel evaluerer de samme publicerede formler, så det kontrollerer implementeringen af de angivne formler og ikke atmosfæren; intet ITU-R-valideringseksempel og ingen målt record for scintillation eller skrå ekstinktion anvendes (ITU-værdierne er et åbent licensspørgsmål og holdes uden for repositoriet). Niveauet i Cn2-profilen, sigtbarheden, skalahøjderne for aerosol og molekyler, apertur-middelværdiens stilængde og momentafstemningen, der bruges til at anvende aperturmiddelværdi på gamma-gamma-parametrene, er angivne input eller konventioner. En kildelinje i modulet registrerer, at én vidt kopieret oversigt trykker den anden scintillationseksponent som 7/6, hvor Andrews og Phillips angiver 5/6; formen med 5/6 er implementeret
+
+# data/search.json
+dat-31f0e7e8b147 = Observablen og grundmetoden
+
+# data/verification-matrix.json
+dat-795cb54aff09 = De officielle Galileo OSNMA-testvektorer, publiceret af European GNSS Service Centre som et bilag til Receiver Guidelines (Test_vectors.zip, sha256 ef9b9afc6ef9e1c57393415cf2a1dc80c4035e7c06123907ea0bb97dd3ccf370): { "18" } af { "18" } sæt, { "186,382" } tags autentificeret, { "0" } fejlede, kørt offline den 2026-10-10 (evidensrecord i kshana-pro docs/evidence). Omfang: vektorerne validerer den kryptografiske verifikation (Merkle, KROOT/ECDSA, TESLA-kæde, MACK-tags, ADKD 0/4/12) og dens udfald på de publicerede scenarier; de bruger kun HMAC-SHA-256, en SHA-256-kæde, 128-bit-nøgler, 40-bit-tags og opslagsposterne { "33" } og { "34" }, så CMAC-AES, SHA3-256-kæder og andre parametre kun dækkes af publicerede kendte-svar-tests for primitiver og syntetiske tests. Hærdningen af betroet tid, databinding, udløb og headerbekræftelse testes af de syntetiske angrebstests, ikke af et eksternt orakel. Ikke kontrolleret: certifikattilbagekaldelseslister, levende signaler eller en levende modtager (UBX-ordlayoutet er kun kontrolleret på syntetiske rammer), SHA3-256-Merkle-træer, friskhed uden en uafhængig tid. Ikke en EU-tjeneste
+
+# data/search.json
+dat-02fc3466eb93 = Grænsen mellem åben og lukket
+
+# data/search.json
+dat-c1c7288e6e34 = scenariekinden optical-atmosphere besvarer, hvor ofte et optisk link til jorden virker, hvorfor det fejler…
+
+# data/verification-matrix.json
+dat-c96aa9fcd785 = Den valgfrie [integrity]-sektion i clock-kinden (clock_integrity::run): ud fra et angivet sted og konstellationsforudindstillinger (geometry::sky_geometry), ved hver integritetsepoke, mens GNSS-tidslinjen ikke er nægtet, snapshot-RAIM (raim::snapshot_raim: paritets-chi-i-anden-test, slope-beskyttelsesniveauer) på satellitterne over masken med seedede gaussiske residualer af den angivne sigma og en valgfri angivet bias; en separat integrity_fom-blok med domme pr. epoke, beskyttelsesniveauer og tilgængelighed. Nægtede epoker rapporteres utilgængelige, aldrig ekstrapoleret; holdover-kvalitetstallene er uændrede, og uden sektionen er outputtet byteidentisk
+
+# data/verification-matrix.json
+dat-2511de383cdd = Den valgfrie [receiver]-sektion i lunar-station-coverage (LRS-02): elevationsafhængig multipath-sigma(el) = a + b exp(-el / el0) ved brugeren og ved stationen (den funktionelle form for luftbåren RTCA DO-229, med dens a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } grader som standarder; på Månen er hver værdi ILLUSTRATIVE), hvid ved brugeren og førsteordens Gauss-Markov over epoker ved stationen (rho = exp(-dt / tau)); termisk kodestøj for early-minus-late-DLL sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); biaser mellem kanaler pr. kanal, konstante over et forsøg, ved brugeren og ved stationen. Stationens led indgår i dens korrektioner, brugerens led i de rå og korrigerede målinger, hvert på sin egen seedede strøm. Når den er fraværende, er hvert dokument uændret
+
+# data/verification-matrix.json
+dat-5b071d009bc1 = Den valgfrie [solution]-sektion i lunar-station-coverage (LRS-06): en højdepseudomålingsrække up . dx = e_h af angivet 1-sigma vægtet mod afstandsrækker, et minimum på tre satellitter tilladt kun med den, og en vægtet mindste kvadraters løsning over de seneste window_epochs epoker med en fælles statisk position og ét ur pr. epoke (et filters svar for en statisk position uden processtøj over de samme data; epokernes fejl behandles som uafhængige). Når den er fraværende, er snapshot-løsningen og hvert dokument uændret. Et tillæg til sammenligningen af publicerede påstande med kildernes løsningsstil, præregistreret alene
+
+# data/verification-matrix.json
+dat-98937e2b27b7 = Den valgfrie [time_lab]-blok i scenariet lunar-time-budget modellerer et lunart referencestationsur (som standard miniRAFS-klassen eller en hvilken som helst navngiven klasse eller et enhedskort tilpasset til angivne stabilitetspunkter) styret til Coordinated Lunar Time og derefter frit løbende eller gen-styret hvert N. sekund: tidsfejlkurven x(t) som kvadratroden af kvadratsummen af urets potenslovsled, en konstant styringsrest (ILLUSTRATIVE), en konstant LTC-realiseringsrest og et tilvalgt led for stationshøjdens rate; tiden efter en styring til { "1" }, { "10" } og { "100" } ns (eller angivne tærskler) ved bisektion ved siden af den inverse i lukket form for den dominerende støjtype og det dominerende led ved hver angiven horisont, alt med enheder
+
+# data/verification-matrix.json
+dat-5bc49ba7fcb7 = Det valgfrie input orbit_err_growth_m_per_s i lunar-station-coverage (LRS-03): en korrektion, der anvendes latency_s efter, at den blev beregnet, misser væksten g latency_s af broadcast-banefejlen, g isotrop af 3-D RMS-rate, trukket pr. satellit og forsøg på sin egen seedede strøm (rate for 1-sigma af afstand tau / sqrt({ "3" })), oven på genprojektionen af den frosne fejl på sigtelinjen. Når den er fraværende, er hvert dokument uændret. Et K5-tillæg til sammenligningen af publicerede påstande, præregistreret alene, kører K5 ved { "0.001" }, { "0.01" } og { "0.1" } m/s (ILLUSTRATIVE)
+
+# data/verification-matrix.json
+dat-09591bd30be5 = Udfaldsvarighedsfordelingen for et optisk sted koblet til den lukkede-form-udløbsvarians i holdover-modellen for uret: tids- og afstandsfejl ved angivne udfaldskvantiler, holdover til en tidstærskel, andelen af udfald og af udfaldstid inden for den og tidstilgængeligheden A + U E[min(D, T_h)]/E[D], for de klassiske og kvanteurklasserne. Kan køres inden for scenariekinden `optical-atmosphere`.
+
+# data/verification-matrix.json
+dat-783048fbbf26 = Degenerationen mellem radial afstand pr. knude og modtagerurets forskydning er eksakt ved { "1" } m til { "3.336" } ns (én over c). Schur-komplement-marginalen { "{" }scale, offset{ "}" } (coupled_marginal_fisher) viser, at tovejsafstandsmåling i et geometrisk varieret netværk løfter marginalen med omtrent samme faktor som et lige så stort antal ekstra envejsdata, mens tovejsløftet i det idealiserede regime med én knude er størrelsesordener større. Den designlov, der følger: geometrisk diversitet, ikke tovejsafstandsmåling som sådan, er det, der adskiller den lunare rammeskala fra tidsskalaforskydningen i envejsafstandsmåling; en tovejs- eller ekstern tidsbinding er kun påkrævet i regimet med lav diversitet eller én bruger.
+
+# data/verification-matrix.json
+dat-2ec9862606b9 = Eksporten af geometri pr. satellit bærer, pr. (epoke, satellit), vinklen uden for boresight PÅ SATELLITTEN og sendeforstærkningen mod stedet fra det virkelige (Airy-)mønster for en ensartet belyst cirkulær apertur og rapporterer antallet i strålen under det mønster VED SIDEN AF antallet i strålen under den symmetriske approksimation fra forstærkning til strålebredde (θ_3dB[deg] = √(31000/G_lin)), med forskellen udsendt som en eksplicit korrektion i links, i satellitter pr. epoke og som den værste enkelte epoke. Begge implicitte aperturvirkningsgrader af approksimationen udsendes ({ "0.641" } mod { "70" }·λ/D-grader-reglen, den citeres med, { "0.920" } mod en ensartet cirkulær apertur), så den virkningsgrad, den stiltiende antager, angives frem for at blive udledt. Slået fra som standard: blokken optræder kun, når både et eksportsted og en apertur er angivet
+
+# data/search.json
+dat-940e5ca338cc = Pipelinen
+
+# data/search.json
+dat-36996982c5c7 = Planen og kataloget
+
+# data/search.json
+dat-6196b779861f = Fremgangsmåden
+
+# data/search.json
+dat-1bbca90efb82 = Forfremmelsesreglen
+
+# data/verification-matrix.json
+dat-976de57c6004 = Propagerings- og rammestien, som hver dirigeret Jordbane-kind deler: et SGP4-middelelementsæt med en todelt UTC-epoke (sgp4::MeanElementSet, læst fra constellation-design-elementer af MeanElementSet::from_earth_fixed) propageret af SGP4/SDP4 til TEME (sgp4::SgpOrbit), og rotationerne TEME -> ITRS og GCRS -> ITRS i IAU 2006/2000A-kæden med UT1 - UTC og polbevægelse (sgp4::teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop, formerne uden parametre teme_to_itrs_matrix og gcrs_to_itrs_matrix). TEME er det sande ækvator for datoen med middeljævndøgnet, nået fra GCRS gennem IAU { "2006" }-bias-præcessionen, IAU 2000B-nutationen og jævndøgnsligningen
+
+# data/verification-matrix.json
+dat-428ad2136253 = Den publicerede SISRE-vægtfaktortabel af Montenbruck, Steigenberger og Hauschild ({ "2018" }), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research { "61" }({ "12" }):3020-3038, doi 10.1016/j.asr.2018.03.041: GPS { "0.98" } og 1/49, GLONASS { "0.98" } og 1/45, Galileo { "0.98" } og 1/61, BeiDou MEO { "0.98" } og 1/54, BeiDou IGSO/GEO { "0.99" } og 1/126. Det samme gennemsnit evalueret ved LEO-radier giver LEO-vægtene; ingen publiceret LEO-tabel er fastlåst, så LEO-værdierne er den validerede metode anvendt, ikke separat valideret
+
+# data/verification-matrix.json
+dat-d572d32bf414 = Aflæsningen af ADS-B-koderne for navigationsnøjagtighed og integritet, som kortet bruger (den EPU-grænse, en NACp-kode står for, den indeslutningsradiusgrænse, en NIC-kode står for, og de lave og gode klasser, metoden udleder af dem); AIS' værdier for ikke tilgængelig position og hastighed, som AIS-læseren kasserer; den faste breddegrad/længdegrad-gittercelle, en position falder i; rutelængden og dens opdeling efter cellestatus (forringet, ikke forringet, ikke vurderet, ikke observeret), som ruteeksponering rapporterer; og om en position ligger inde i landet fra en landpolygon med mere end en buffer. En celle markeret som forringet eller anomal er en angivelse om rapporterede nøjagtighedsfelter eller usandsynlige positioner, ikke et fund af interferens, og intet her kontrollerer det.
+
+# assets/capabilities/capabilities.json
+dat-abc1dd0c01b2 = modtageantennens mønster mod jammeren ud over ét forstærkningstal
+
+# data/verification-matrix.json
+dat-c7f246747fa9 = Modtagerur estimeret af det statiske float-PPP-filter på virkelig tofrekvent GPS-kode og -fase med IGS endelige baner og ure: en tidsoverførsel fra modtageren til IGS-tid, PPP's ionosfærefri tidsløsning.
+
+# data/search.json
+dat-7b4b1b50aa19 = Sammenligningen med modtagerens selvrapport
+
+# data/search.json
+dat-6f5606020684 = Modtagerens egne flag
+
+# data/search.json
+dat-9c518b5ec811 = Modtagerens egne flag for spoofing og jamming (UBX)
+
+# data/search.json
+dat-7c64579f4ddb = Det resterende hul (køreplan)
+
+# data/verification-matrix.json
+dat-3e46d08f39d5 = Renderingskernen i AFS-basebåndet (LSIS-130: kompleks envelope I + jQ, I = AFS-I Gold-koden gange rammen på { "500" } symboler/s ved { "1.023" } Mchip/s, Q = den trinopdelte AFS-Q-pilot ved { "5.115" } Mchip/s, bærebølgerotation, chip- og symboljustering) gengiver en uafhængig generators samples, når den drives af den generators egen registrerede kanaltilstand (kodefaser og rater, bærebølgefase og -frekvens, amplitude pr. kanal). Ikke dækket: knudemodellen, der udleder den tilstand fra en Doppler, forsinkelse og forhold mellem bærebølge og støjtæthed, effektfordelingen 50/50 beregnet ud fra forholdet mellem bærebølge og støjtæthed (amplituderne tages fra simulatoren) og SigMF-metadata og skrivning af 8-bit-samples
+
+# data/search.json
+dat-3591d85a0ba5 = Rapporten
+
+# data/search.json
+dat-99348c91a583 = Reproducerbarhedstabellen
+
+# data/search.json
+dat-4e9dc7c15dbc = Resten af motoren
+
+# data/search.json
+dat-4d88e08f47f8 = Reglen
+
+# data/search.json
+dat-042dd05b607e = Reglen for hvert svar
+
+# data/search.json
+dat-d299c1a24acf = De sikre standarder
+
+# data/verification-matrix.json
+dat-9fd0af13eca1 = Den samme dags sammenflettede RINEX { "3" }-broadcastfil fra IGS (publicerede data, skrevet af en anden filgenerator ud fra de samme broadcast-meddelelser); tærskler præregistreret i tests/fixtures/brdc_rinex4_2026200/PREREGISTRATION.md (7aa264b) før den første kørsel
+
+# data/search.json
+dat-0d170f85e055 = Den samme forudsigelse på en virkelig krystaloscillator: konservativ, ikke valideret
+
+# data/search.json
+dat-6149b8367932 = Den samme forudsigelse på atomure i kredsløb: { "8" } af { "10" }, ikke valideret
+
+# data/verification-matrix.json
+dat-ac1b5bd75a02 = Den samme simulerede reference som det absolutte filter: det relative filters fejl mod den sande relative tilstand og kontrollen af, at det gør det mindst lige så godt som at trække to uafhængige absolutte positionsbestemmelser fra hinanden. Ingen formationsflyvningsdata sammenlignes
+
+# data/search.json
+dat-51e3aab053e7 = Scenariet
+
+# data/search.json
+dat-2f3b5663c8ba = Scenariebiblioteket
+
+# data/search.json
+dat-1f72323a66cf = De sensorer, Kshana sammenligner
+
+# studio/data/capabilities.json
+dat-9bcd172f4744 = Servicevolumen kører på publicerede konstellationsdesign i stedet for et illustrativt: referencesættet med fem satellitter til LANS-interoperabilitetsdemonstrationen, LNCSS-casestudierne ved { "8" }, { "12" } og { "16" } satellitter og de fire rumfartøjer, der faktisk var i lunar bane den 2023-01-01, fra JPL Horizons. Hver fil angiver sin egen ramme og sin egen herkomstklasse, en horisont ud over slutningen af en tabuleret efemeride afvises i stedet for at blive ekstrapoleret, og det illustrative Kepler-resultat udsendes ved siden af det hentede med forskellen mellem dem, aldrig erstattet af det.
+
+# data/verification-matrix.json
+dat-accb0008fb70 = Datumkovariansen for Helmert med syv parametre, med dens to simulerede input erstattet af målte: tidsplanen er jordsendeepokerne for { "337" } arkiverede ILRS-normalpunkter for lunar laserafstandsmåling (2015-04-08 til 2015-06-27, Grasse MeO { "7845" } og Matera MLRO { "7941" }, alle fem retroreflektorarrays), og hver observationsvægt er det punkts egen arkiverede præcision bin_rms/√n_raw — median { "5.13" } mm envejsafstand, aflæst fra filen. Stationskoordinater IERS ITRF2020, reflektorkoordinater JPL DE430 Table { "7" }. Kan køres som scenariekinden `lunar-llr-datum`. Den validerede påstand ({ "0.36" }) er snæver: på den analytiske standardsti stemmer beregningen af datumkovariansen med et uafhængigt SPICE-lystids- og NumPy-orakel på friske målte normalpunkter; det er ikke en LLR-nøjagtighed og ikke evidens for, at den analytiske Måne er nøjagtig
+
+# data/verification-matrix.json
+dat-fdf50c7675aa = Datumet for Helmert med syv parametre propageret fra en SIMULERET OBSERVATIONSKAMPAGNE i stedet for genfundet ud fra en injiceret transformation. Jordstationer observerer et kildebelagt katalog over fyr på den lunare overflade efter en eksplicit tidsplan; de lunare VLBI-delay-partialer akkumuleres til en Fisher-informationsmatrix for fyrkoordinater og føres gennem Helmert-udformningen A = [I₃ | [p]ₓ | p] til H = AᵀM_bA, så den rapporterede datumnøjagtighed er en funktion af observationsprogrammet — nøjagtigt lineær i delay-sigmaen og monoton i buen gennem den libration, rapporten MÅLER. Datumdefekten er emnet frem for en fodnote: rang, defekt, konditionstal, spektrum, uobserverbare retninger i basen med syv parametre, den svageste retning selv ved fuld rang og hver parameters andel af den udsendes ved hver kørsel, og enhver parameter, kampagnen ikke begrænser, publiceres som NULL med en status. Korrelationen af fyrfejl er MEASURED, ikke antaget — præcis nul med stationerne holdt fast og udskrevet med sin pris, når de estimeres. Kan køres som scenariekinden `lunar-frame-campaign`
