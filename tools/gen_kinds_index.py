@@ -256,7 +256,10 @@ def kind_page(k: dict, info: dict, rows: list[dict], files: list[Path], ex: Path
         for it in scal[:10]:
             L.append(f"| `{it['path']}` | {str(it.get('display', fmt_value(it.get('value'))))[:40]} | {it.get('unit') or ''} |")
         L.append("")
-    label = (info["result"].get("label") or "").strip().splitlines()
+    lab = info["result"].get("label") or ""
+    if isinstance(lab, dict):  # the mission-thread report states its label as {tier, row_id}
+        lab = str(lab.get("tier") or "").upper()
+    label = lab.strip().splitlines()
     if label:
         L += [f"Result label (the engine's): {label[0][:300]}", ""]
     if info["chart"] is not None and info["ok"]:
@@ -320,7 +323,10 @@ def build(exe: str) -> dict[str, bytes]:
     rows_of = {n: ledger(n, matrix) for n in kinds}
 
     def fallback(n: str) -> str:
-        w = ((infos[n]["result"].get("label") or "").split() or ["MODELLED"])[0].strip(":—-,").upper()
+        lab = infos[n]["result"].get("label") or ""
+        if isinstance(lab, dict):  # the mission-thread report states its label as {tier, row_id}
+            lab = lab.get("tier") or ""
+        w = (str(lab).split() or ["MODELLED"])[0].strip(":—-,").upper()
         return f"{w} (result label)"
     labels = {n: label_of(rows_of[n], fallback(n)) for n in kinds}
     index = ["<!-- SPDX-License-Identifier: AGPL-3.0-only -->",

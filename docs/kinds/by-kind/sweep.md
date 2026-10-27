@@ -58,6 +58,7 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 
 - **MODELLED** One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary `passes::predict_passes` emits, converted by `aperture_duty::windows_from_passes`), an apert
 - **MODELLED** The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a sphere
+- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
 - **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard d Tests: [campaign_composition_reference.rs](../../../tests/campaign_composition_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):

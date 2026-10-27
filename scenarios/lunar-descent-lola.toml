@@ -1,0 +1,55 @@
+# Lunar landing dispersion with the real LOLA south-polar DEM: the budget for a powered descent to a south-polar site (Artemis-class), from the
+# inertial drift of the descent stack and what terrain-relative navigation, LunaNet signals and lunar time
+# each take off it.
+#
+# Per horizontal axis a five-state error model (position, velocity, accelerometer bias, attitude tilt, gyro
+# bias) is driven by the descent's specific force. A sequential filter takes position fixes from the
+# enabled aids: an AFS fix from the visible relays of an ILLUSTRATIVE LCNS-class constellation (differential
+# against a reference station, using the correction-link residual of lunar-differential-pnt), and a
+# terrain-relative fix from the crate's TERCOM/SITAN matcher. Lunar time enters through the vehicle clock at
+# the fixes (the LTC-TT offset of lunar-time-offset, or the uncertainty of its published band). The result is
+# the landing dispersion: navigation at touchdown plus an independent guidance term, with the ablation of
+# every aid combination beside it.
+#
+# This scenario reads the DEM from the repository (data/lunar-dem/), so it is not bundled in the binary: run
+# `kshana scenarios/lunar-descent-lola.toml` from a checkout. The terrain term is a Cramer-Rao bound
+# on matching a 12 km elevation window of that DEM (1200 m per pixel), not a camera.
+#
+# HONESTY: MODELLED. The IMU class, the descent profile, the relay set, the signal-in-space error and the
+# guidance term are ILLUSTRATIVE inputs, not measurements. The terrain-nav mode uses the self-contained
+# synthetic relief and an Earth metre scale, so the terrain term here is the matcher's behaviour on a
+# stand-in, not a statement about south-polar relief: the lola-crlb variant (lunar-descent-lola.toml)
+# uses the real LOLA DEM and must be run from a checkout. AFS availability is taken at one epoch and a flat
+# mask. No agreement with any real vehicle or site is claimed. Advisory software, not certified navigation
+# equipment.
+kind = "lunar-descent"
+
+site_lat_deg = -89.5            # ILLUSTRATIVE south-polar site
+site_lon_deg = 0.0
+more_site_lats_deg = [-89.9, -88.5, -85.0]
+descent_s = 600.0
+specific_force_m_s2 = 3.0       # ILLUSTRATIVE
+horizontal_speed_m_s = 150.0    # ILLUSTRATIVE, falling linearly to zero
+accel_bias_ug = 100.0           # ILLUSTRATIVE IMU class
+align_arcmin = 3.0              # ILLUSTRATIVE
+gyro_bias_deg_per_hr = 0.01     # ILLUSTRATIVE
+carried_pos_sigma_m = 100.0     # the state the descent starts from
+carried_vel_sigma_m_s = 0.1
+guidance_sigma_m = 20.0         # ILLUSTRATIVE
+afs_mode = "differential"
+baseline_km = 10.0
+n_relays = 8                    # ILLUSTRATIVE
+mask_deg = 5.0
+afs_cn0_dbhz = 35.0
+afs_first_fix_s = 60.0
+afs_interval_s = 60.0
+trn_source = "lola-crlb"
+dem_descriptor = "data/lunar-dem/lola_ldem_75s_1200m_crop.toml"
+trn_window_m = 12000.0
+trn_height_sigma_m = 5.0
+trn_registration_sigma_m = 30.0   # ILLUSTRATIVE
+trn_fix_time_s = 480.0
+lunar_time_mode = "ltc"
+time_since_sync_days = 3.0
+n_trials = 2000
+seed = 20261024
