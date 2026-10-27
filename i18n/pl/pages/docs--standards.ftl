@@ -11,3 +11,5 @@ seg-aab745a65e76 = Moduł
 seg-bf09433a7342 = GeoJSON
 
 seg-906440b861cd = Ramka
+
+seg-32b620b3574e = Zastosowanie

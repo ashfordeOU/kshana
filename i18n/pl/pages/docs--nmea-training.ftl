@@ -181,3 +181,57 @@ seg-b94fbc3b1dd3 = <s1>Poprzednia</s1>Zaufanie morskie
 seg-ecdf748cb63d = <s1>Następna</s1>Mapa zakłóceń i narażenie trasy
 
 seg-24ad8471ff2a = pola JSON (schemat kshana-nmea-training/1)
+
+seg-ba00d0453fbf = Źródło: <c1/>
+
+seg-738956d0a4b9 = Strumienie szkoleniowe NMEA: <c1/>
+
+seg-3663955f80c7 = Akademie morskie i ośrodki symulatorowe mogą podawać wygenerowane przez Kshana NMEA { "0183" } do symulatora mostka lub plotera map, aby szkolić załogi w rozpoznawaniu zagłuszania i spoofingu GNSS.
+
+seg-4012bc6376aa = <b>Wyłącznie do szkoleń i testów.</b> Wygenerowane strumienie są syntetyczne. Nigdy nie wolno ich podawać do żywych systemów nawigacyjnych statku. Kshana ma charakter doradczy i nie jest sprzętem nawigacyjnym z zatwierdzeniem typu. Każdy strumień zaczyna się od zdania znacznika, które powtarza co dziesięć sekund, własnościowego zdania <c1/>, które odbiorniki ignorują; <c2/> usuwa je dla symulatora odrzucającego nieznane zdania. Zapisuje to <b>wyłącznie tekst</b> NMEA: nie ma żadnego wyjścia RF, IQ ani przebiegu, a nic nie jest nadawane poza tekstem na wskazany adres.
+
+seg-b66ff9ca2ff4 = Strumień szkoleniowy ze scenariusza coastal-drag-off (silnik v{ $version }, ziarno { "22" }, { "25" } minut przy jednym rozwiązaniu na { "10" } s z dziennika instruktora). Mapa pokazuje prawdziwy tor statku i tor raportowany przez odbiornik: zgadzają się, dopóki nie zaczyna się zaplanowane odciąganie pozycji w { "421" } s, po czym raportowany tor oddala się od prawdziwego, podczas gdy odbiornik utrzymuje ważne rozwiązanie, i wraca skokiem, gdy zdarzenie kończy się w { "1140" } s. Obok widać odległość między oboma torami w czasie oraz średnią gęstość nośnej do szumu raportowaną przez odbiornik, która rośnie do jednego podwyższonego poziomu na czas trwania zdarzenia. Syntetyczne dane szkoleniowe wygenerowane przez Kshana. Wyłącznie do szkoleń i testów: nigdy nie podawaj tego strumienia do żywych systemów nawigacyjnych statku. Wyłącznie doradczo: nie jest to sprzęt nawigacyjny z zatwierdzeniem typu. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC { "61108" }, IEC { "61162" }): za nawigację statku odpowiada nadal operator. Pozycje, daty i tory są zmyślone.
+
+seg-1f70c2c761ac = Rysunek pochodzi z dziennika instruktora <c1/>.
+
+seg-32b620b3574e = Zastosowanie
+
+seg-9cbd24964be4 = Opcja
+
+seg-aadcf289aed2 = zapisz strumień do pliku; bez wyjścia sieciowego domyślnie <c1/>
+
+seg-a3fc46437059 = zapisz <c1/> i <c2/> (domyślnie: obok pliku)
+
+seg-14dad363af8a = <c1/> lub <c2/>
+
+seg-8e105cf0979b = serwer TCP; przebieg zaczyna się, gdy połączy się klient (<c1/>). Sam port nasłuchuje tylko na <c2/>
+
+seg-63ee193b90b4 = <c1/> lub <c2/>
+
+seg-fc322c7ce2db = UDP, jedno zdanie na datagram; <c1/> zezwala na adres rozgłoszeniowy. Sam port wysyła na <c2/>
+
+seg-8ca50e2a4b8d = nadaj tempo strumieniowi; <c1/> oznacza możliwie najszybciej. Wyjście sieciowe domyślnie działa w czasie rzeczywistym, pliki możliwie najszybciej
+
+seg-97b82dfe97a7 = zastąp ziarno scenariusza
+
+seg-86ac66fd2771 = pomiń zdanie znacznika
+
+seg-f6cc05a6d39a = <b>Nie ma uwierzytelniania.</b> Serwer TCP z adresem nielokalnym udostępnia strumień każdemu, kto może się z nim połączyć, a UDP wysyła na dowolny wskazany adres. Klient TCP, który nie odbierze swoich danych w ciągu dwóch sekund, jest odłączany, więc jeden zablokowany odbiorca nie może wstrzymać pozostałych.
+
+seg-b4abb5a132ba = To samo ziarno daje te same bajty na jednej platformie, a tempo nigdy nie zmienia bajtów. Między platformami własna arytmetyka generatora jest identyczna bit w bit (używa przenośnej warstwy matematycznej), ale położenia satelitów i kąty widzenia pochodzą z funkcji silnika wywołujących bibliotekę matematyczną hosta, więc w rzadkim przypadku granicznym zaokrąglona cyfra elewacji, azymutu lub C/N0 w GSV może różnić się między platformami.
+
+seg-97e31fc7f0d1 = Co jest zapisywane
+
+seg-632a4ca26567 = Każda epoka ({ "1" }, { "2" }, { "5" } lub { "10" } na sekundę) zawiera: <b>RMC, GGA, GNS</b> (rozwiązanie, położenie, czas), <b>GSA</b> (używane satelity i DOP, po jednym na konstelację), <b>GSV</b> (satelity w widoku z elewacją, azymutem i SNR w dB-Hz, po jednym zestawie na konstelację, identyfikator sygnału NMEA { "4.10" }), <b>VTG</b> (kurs i prędkość nad dnem), <b>ZDA</b> (czas i data), <b>HDT</b> (kurs z żyrokompasu) i <b>VBW</b> (prędkość względem wody i nad dnem z logu). Nadawcą jest <c1/> przy wielu konstelacjach, w przeciwnym razie własny identyfikator konstelacji. Wiersze kończą się CRLF i mają poprawne sumy kontrolne.
+
+seg-942803ad8c49 = HDT i VBW zastępują niezależne czujniki (żyrokompas i log Dopplera). <b>Żadne zdarzenie ich nie dotyka</b>, co jest zamierzone: rozbieżność między tym, co podaje GNSS, a tym, co mówią żyrokompas i log, jest wskazówką do omówienia.
+
+seg-2d9a9ea38dde = Gdy rozwiązanie zostaje utracone, jakość GGA wynosi { "0" }, stan RMC to <c1/>, pola położenia są puste, a pola czasu trwają dalej (zegar odbiornika nadal chodzi), tak jak w rzeczywistych odbiornikach.
+
+seg-c1c51ff381e7 = Statek
+
+seg-ada150c912eb = <c1/> i <c2/> podają pozycję początkową, prędkość i punkty, przez które należy sterować. Statek jest kierowany do następnego punktu trasy z <b>ograniczeniem prędkości zwrotu</b> (<c3/>, domyślnie { "30" }), ograniczeniem tego, jak szybko narasta prędkość zwrotu (<c4/>) oraz <b>ograniczeniem zmiany prędkości</b> (<c5/>). Prędkość odcinka to <c6/> punktu trasy. <c7/> dodaje prąd, więc prędkość nad dnem różni się od prędkości względem wody, a kurs różni się od kursu nad dnem, oraz zboczenie magnetyczne. <c8/> zatrzymuje statek w ostatnim punkcie trasy.
+
+seg-4fc2cb8a1388 = Geometria satelitów
+
+seg-b97bd86ed3a4 = Satelity pochodzą z własnych nominalnych konstelacji silnika (tablica slotów GPS, wzorce Walkera MEO Galileo i BeiDou, GLONASS ICD), propagowanych przez <c1/> (dwa ciała plus wiekowe J2, obrót Ziemi) i widziane ze statku przy użyciu kątów widzenia WGS-84 silnika. Liczba widocznych satelitów, elewacje i azymuty w GSV są wiarygodne dla miejsca i pory dnia. <b>To jest niebo nominalne, a nie efemerydy dla daty strumienia</b>: PRN-y są przydzielane w kolejności slotów, a każda konstelacja zachowuje swój opublikowany układ slotów, propagowany w sposób ciągły od epoki tablicy slotów GPS (2016-12-31) pod wpływem J2, więc układ jest nienaruszony, ale jego orientacja nie jest orientacją rzeczywistego nieba w dniu strumienia. C/N0 zależy od elewacji (nominalny poziom w zenicie, ustawiany w <c2/>), ze stałym przesunięciem na satelitę, powolnym zanikaniem i szumem. Satelita poniżej <c3/> ma puste pole SNR; ten poniżej <c4/> jest śledzony, ale nieużywany. Do <c5/> (domyślnie { "12" }, pułap NMEA GGA) użytecznych satelitów jest używanych, dobieranych pod kątem geometrii (najpierw najwyższy satelita w każdym sektorze azymutu o rozwartości { "30" } stopni). Mniej niż cztery użyteczne satelity powoduje utratę rozwiązania, a wraca ono po <c6/> użytecznego sygnału.
