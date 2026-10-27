@@ -313,7 +313,12 @@ pub fn run_ablation(tables: &str, size: Size, id: &str) -> Result<Value, String>
             },
             &["S1", "S3"],
         ),
-        other => return Err(format!("unknown ablation `{other}`: B1 to B5")),
+        other => {
+            return Err(crate::terr!(
+                "e-ssv-check-unknown-ablation-b1-to-b5",
+                other = other
+            ))
+        }
     };
     let mut v = run_core(tables, size, false, opts, Some(bars))?;
     v["ablation"] = json!(id);
@@ -604,7 +609,7 @@ pub fn s7b(csv: &str, train: &[&str], test: &[&str]) -> Result<Value, String> {
             by_sv
                 .get(*sv)
                 .map(|p| s7b_samples(p))
-                .ok_or(format!("training pattern {sv} missing"))
+                .ok_or_else(|| crate::terr!("e-ssv-check-training-pattern-missing", sv = sv))
         })
         .collect::<Result<Vec<_>, _>>()?
         .into_iter()
@@ -649,7 +654,7 @@ pub fn s7b(csv: &str, train: &[&str], test: &[&str]) -> Result<Value, String> {
         let pts = by_sv
             .get(sv)
             .map(|p| s7b_samples(p))
-            .ok_or(format!("pattern {sv} missing"))?;
+            .ok_or_else(|| crate::terr!("e-ssv-check-pattern-missing", sv = sv))?;
         let sq: f64 = pts
             .iter()
             .map(|&(th, y)| {

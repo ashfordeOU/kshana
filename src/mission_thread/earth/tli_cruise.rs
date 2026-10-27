@@ -148,7 +148,11 @@ pub(super) fn parse(
         let duty = if t.contains_key("ground_duty") {
             let d = m.num("ground_duty")?;
             if !(0.0..=1.0).contains(&d) {
-                return Err(format!("{KIND}: `ground_duty` must be in [0, 1], got {d}"));
+                return Err(crate::terr!(
+                    "e-mission-thread-earth-tli-cruise-ground-duty-must-be-in",
+                    kind = KIND,
+                    d = crate::i18n::num_plain(d)
+                ));
             }
             Some(d)
         } else {
@@ -175,8 +179,9 @@ pub(super) fn parse(
     };
     if let Some(s) = &ssv {
         if !(s.window_s > 0.0 && s.step_min > 0.0) {
-            return Err(format!(
-                "{KIND}: `ssv_window_s` and `ssv_step_min` must be above 0"
+            return Err(crate::terr!(
+                "e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step",
+                kind = KIND
             ));
         }
     }
@@ -273,7 +278,11 @@ fn fd_stm(x: &[f64; 6], dt: f64, model: &ForceModel) -> Result<([f64; 6], Mat6),
         if out.iter().all(|c| c.is_finite()) {
             Ok(out)
         } else {
-            Err(format!("{KIND}: the propagation did not reach {dt} s"))
+            Err(crate::terr!(
+                "e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach",
+                kind = KIND,
+                dt = crate::i18n::num_plain(dt)
+            ))
         }
     };
     let nominal = run(x)?;
@@ -362,9 +371,10 @@ fn elements(x: &[f64; 6]) -> Result<[f64; 6], String> {
     let hn = dot(&h, &h).sqrt();
     let energy = dot(&v, &v) / 2.0 - MU_EARTH / rn;
     if energy >= 0.0 {
-        return Err(format!(
-            "{KIND}: the post-burn orbit is not bound (specific energy {energy:.0} J/kg); the \
-             gnss-ssv standing-in orbit needs an elliptic one"
+        return Err(crate::terr!(
+            "e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is",
+            kind = KIND,
+            energy = crate::i18n::localise_decimal(format!("{:.0}", energy))
         ));
     }
     let a = -MU_EARTH / (2.0 * energy);
@@ -471,16 +481,23 @@ fn ssv_windows(s: &Ssv, orbit: &[f64; 6], duration_s: f64) -> Result<Vec<SsvWind
             ablation: Default::default(),
         };
         let r = run_trajectory(&cfg, &NoEffects)?;
-        let band = r
-            .bands
-            .first()
-            .ok_or_else(|| format!("{KIND}: the gnss-ssv sweep returned no band"))?;
+        let band = r.bands.first().ok_or_else(|| {
+            crate::terr!(
+                "e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned",
+                kind = KIND
+            )
+        })?;
         let combined = band
             .groups
             .iter()
             .find(|g| g.name == "combined")
             .or_else(|| band.groups.last())
-            .ok_or_else(|| format!("{KIND}: the gnss-ssv sweep returned no group"))?;
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2",
+                    kind = KIND
+                )
+            })?;
         out.push(SsvWindow {
             t0_s: t,
             avail: combined.availability.at_least_4_pct / 100.0,
@@ -537,23 +554,25 @@ impl TliCruise {
         phase: &PhaseCtx,
     ) -> Result<PhaseOutcome, String> {
         if entry.frame != Frame::Gcrf {
-            return Err(format!(
-                "{KIND}: expects a GCRF entry state, got {:?}; state the entry in gcrf",
-                entry.frame
+            return Err(crate::terr!(
+                "e-mission-thread-earth-launch-expects-gcrf-entry-state-got",
+                kind = KIND,
+                frame = format!("{:?}", entry.frame)
             ));
         }
         let use_ssv = phase.uses(NavSource::GnssSsv) && self.ssv.is_some();
         let use_ground = phase.uses(NavSource::GroundTracking) && self.ground.is_some();
         if !phase.nav.is_empty() {
             if phase.nav.contains(&NavSource::GnssSsv) && self.ssv.is_none() {
-                return Err(format!(
-                    "{KIND}: the phase lists gnss-ssv, so the model needs `ssv_uere_m`"
+                return Err(crate::terr!(
+                    "e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv",
+                    kind = KIND
                 ));
             }
             if phase.nav.contains(&NavSource::GroundTracking) && self.ground.is_none() {
-                return Err(format!(
-                    "{KIND}: the phase lists ground-tracking, so the model needs `ground_range_sigma_m`, \
-                     `ground_range_rate_sigma_mps` and `ground_interval_s`"
+                return Err(crate::terr!(
+                    "e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking",
+                    kind = KIND
                 ));
             }
         }
@@ -706,9 +725,12 @@ impl TliCruise {
                 sigma_time_s: clock.sigma_bias(),
             });
         }
-        let last = *all
-            .last()
-            .ok_or_else(|| format!("{KIND}: the phase produced no samples"))?;
+        let last = *all.last().ok_or_else(|| {
+            crate::terr!(
+                "e-mission-thread-earth-launch-the-phase-produced-no-samples",
+                kind = KIND
+            )
+        })?;
         let peak = |f: fn(&Sample) -> f64| all.iter().map(f).fold(0.0, f64::max);
         events.push(Event {
             t_s: t0,

@@ -1,4 +1,4 @@
-# Spec: observatory viewer page (site or Studio), for W53 via the coordinator
+# Spec: observatory viewer page (site or Studio)
 
 A page that shows the observatory's daily product. It computes nothing: it reads the three files
 `kshana interference-map daily` writes, plus the manifest, and shows what they say. Source of truth for the
