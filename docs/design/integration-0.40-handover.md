@@ -77,3 +77,8 @@ Conflict notes:
 - A debug build of the crate plus a handful of test targets takes about 3 minutes on 4 cores.
 - Gate every push on the attribution scan's exit status (`scripts/check-no-attribution.sh && git push ...`), and run the scan on
   `git log -p <base>..<branch>` before merging a branch.
+
+## Carried to 0.41
+
+- `docs/RECEIVER-TRUST.md` and `docs/SKYLINE.md` link to `docs/design/2026-10-12-geometry-and-skyline-design.md`, which has never been in
+  the repository. Reword or drop the links; left as they are for 0.40 because changing them moves translated page segments.
