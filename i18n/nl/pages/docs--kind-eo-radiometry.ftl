@@ -39,3 +39,5 @@ seg-aaf9ed3b0899 = Radiometrie, MTF, relatieve randrespons en GIQE-{ "4" }-NIIRS
 seg-d6c92dc655ab = <s1>Vorige</s1>eo-coverage
 
 seg-a0daef9a496e = <s1>Volgende</s1>ephemeris
+
+seg-bf7b52f7a01e = De grafiek die de engine schrijft voor scenarios/eo-radiometry.toml, soort eo-radiometry
