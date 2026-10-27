@@ -279,3 +279,29 @@ seg-257c477dc510 = WebAssembly
 seg-2192262e26c1 = gehaald
 
 seg-785218a0ea66 = Wat Kshana niet is
+
+seg-b366150de755 = Een studie aanvragen
+
+seg-12f050093898 = Waarom iedereen het nodig heeft
+
+seg-d997b6a5a416 = Waarom Pro, nog meer
+
+seg-4ff013b472ff = Welk ontwerp moeten we vliegen?
+
+seg-f4eb65b9b27a = Lunaire navigatieconstellatie: minste satellieten tegenover beschikbaarheid, hele Maan: { "608" } ontwerpen uitgevoerd, een Pareto-front van { "12" } ontwerpen
+
+seg-c8ce2e4a6687 = Hoe zeker zijn we, en wat bepaalt het resultaat?
+
+seg-049c503c23db = Klok-holdover met een onzeker ruisniveau: het 5e tot 95e percentiel van { "2,000" } runs tegenover de limiet van { "20" } ns
+
+seg-3dd37275b448 = Haalt de missie haar eisen, en kunnen we dat overdragen?
+
+seg-7fbde256debf = niet gehaald
+
+seg-f6ccb7a322b3 = openstaande punten
+
+seg-6d3d0f8c9b7c = Een Pro-evaluatie aanvragen
+
+seg-813d6d41b891 = Kopieer de opdracht die het reproduceert
+
+seg-a0ef302e2458 = Opdracht kopiëren

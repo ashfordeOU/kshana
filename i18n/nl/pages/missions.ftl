@@ -131,3 +131,15 @@ seg-36d838421b86 = Kan ik een PNT-resultaat reproduceren, uitbreiden en citeren,
 seg-821762272e2f = Sectoren
 
 seg-13e8e5460280 = Geometrie
+
+seg-b366150de755 = Een studie aanvragen
+
+seg-e1acd19a6ac6 = De edities vergelijken
+
+seg-5116f1a604ee = Voor wie
+
+seg-6d3d0f8c9b7c = Een Pro-evaluatie aanvragen
+
+seg-813d6d41b891 = Kopieer de opdracht die het reproduceert
+
+seg-a0ef302e2458 = Opdracht kopiëren
