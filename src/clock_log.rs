@@ -458,20 +458,47 @@ fn finish(g: Gridded, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
 // RINEX clock
 // ─────────────────────────────────────────────────────────────────────────────
 
+/// The RINEX clock versions this layer reads: 2.00 and 3.00 to 3.04. IGS publishes the clock
+/// format (`rinex_clock300.txt`, `302`, `304`) up to 3.04, and the RINEX 4.00 to 4.02 documents
+/// define observation, navigation and meteorological files only, so there is no 4.00 clock
+/// file to read; a header of any other version is refused rather than read as the nearest.
+fn check_rinex_clock_version(text: &str) -> Result<(), String> {
+    let line = text
+        .lines()
+        .find(|l| l.get(60..).map(str::trim_end) == Some("RINEX VERSION / TYPE"))
+        .ok_or("not a RINEX clock file: no RINEX VERSION / TYPE record")?;
+    let field = line.get(..9).unwrap_or("").trim();
+    let v: f64 = field.parse().map_err(|_| {
+        format!("RINEX VERSION / TYPE record has no version number (found {field:?})")
+    })?;
+    let read = (v - 2.0).abs() < 1e-6 || (2.999_999..=3.040_001).contains(&v);
+    if read {
+        Ok(())
+    } else {
+        Err(format!(
+            "RINEX clock version {v:.2} is not read: versions 2.00 and 3.00 to 3.04 are (IGS publishes \
+             the clock format up to 3.04; RINEX 4.00 to 4.02 define no clock file)"
+        ))
+    }
+}
+
 fn parse_rinex(
     text: &str,
     inp: &ClockLogInput,
     gaps: GapPolicy,
 ) -> Result<NormalisedPhase, String> {
     use crate::precise_products::parse_clock_rinex_records;
+    check_rinex_clock_version(text)?;
     if !text
         .lines()
         .any(|l| l.get(60..).map(str::trim_end) == Some("END OF HEADER"))
     {
         return Err(crate::terr!("e-clock-log-not-rinex-clock-file-no"));
     }
-    let as_recs = parse_clock_rinex_records(text, "AS")?;
-    let ar_recs = parse_clock_rinex_records(text, "AR")?;
+    let as_recs = parse_clock_rinex_records(text, "AS")
+        .map_err(|e| format!("RINEX clock record with an unreadable clock bias or epoch: {e}"))?;
+    let ar_recs = parse_clock_rinex_records(text, "AR")
+        .map_err(|e| format!("RINEX clock record with an unreadable clock bias or epoch: {e}"))?;
     let id = match &inp.clock {
         Some(c) => c.clone(),
         None => {
@@ -600,6 +627,12 @@ fn parse_timelab(
             .collect();
         match nums {
             Ok(v) if (1..=2).contains(&v.len()) => {
+                if v.iter().any(|x| !x.is_finite()) {
+                    return Err(format!(
+                        "TimeLab line {} holds a reading that is not finite: {l:?}",
+                        i + 1
+                    ));
+                }
                 if let Some(first) = rows.first() {
                     if first.len() != v.len() {
                         return Err(crate::terr!(
@@ -762,8 +795,53 @@ fn parse_timelab(
 // TAPR TICC
 // ─────────────────────────────────────────────────────────────────────────────
 
+/// Femtoseconds per second: a TICC time stamp is read as a whole number of them.
+const FS_PER_S: f64 = 1e15;
+
+/// A TICC reading as whole femtoseconds, taken from its decimal text so no precision is lost
+/// to a binary float: `<seconds>.<fraction>` keeps 15 fractional digits (the counter prints 11
+/// or 12), rounding half up on the next. Any other numeric form (an exponent) is read as an
+/// `f64` to the nearest femtosecond. `None` for a token that is not a finite number.
+fn ticc_value_fs(tok: &str) -> Option<i128> {
+    let (neg, body) = match tok.strip_prefix('-') {
+        Some(b) => (true, b),
+        None => (false, tok.strip_prefix('+').unwrap_or(tok)),
+    };
+    let plain = body != "."
+        && !body.is_empty()
+        && body.bytes().all(|b| b.is_ascii_digit() || b == b'.')
+        && body.matches('.').count() <= 1;
+    if plain {
+        let (int_s, frac_s) = body.split_once('.').unwrap_or((body, ""));
+        if int_s.len() > 18 {
+            return None;
+        }
+        let int: i128 = if int_s.is_empty() {
+            0
+        } else {
+            int_s.parse().ok()?
+        };
+        let kept = frac_s.len().min(15);
+        let mut frac: i128 = 0;
+        for c in frac_s.bytes().take(15) {
+            frac = frac * 10 + (c - b'0') as i128;
+        }
+        frac *= 10_i128.pow(15 - kept as u32);
+        if frac_s.len() > 15 && frac_s.as_bytes()[15] >= b'5' {
+            frac += 1;
+        }
+        let v = int * 1_000_000_000_000_000 + frac;
+        return Some(if neg { -v } else { v });
+    }
+    let x: f64 = tok
+        .parse()
+        .ok()
+        .filter(|x: &f64| x.is_finite() && x.abs() < 1e18)?;
+    Some((x * FS_PER_S).round() as i128)
+}
+
 fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
-    let mut by_label: Vec<(String, Vec<f64>)> = Vec::new();
+    let mut by_label: Vec<(String, Vec<i128>)> = Vec::new();
     let mut skipped = 0usize;
     for line in text.lines() {
         let l = line.trim();
@@ -772,11 +850,7 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         }
         let f: Vec<&str> = l.split_whitespace().collect();
         let parsed = match f.as_slice() {
-            [v, label] => v
-                .parse::<f64>()
-                .ok()
-                .filter(|x| x.is_finite())
-                .map(|x| (x, *label)),
+            [v, label] => ticc_value_fs(v).map(|x| (x, *label)),
             _ => None,
         };
         let Some((v, label)) = parsed else {
@@ -827,7 +901,7 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
             PhaseSeries {
                 t0: 0.0,
                 tau0,
-                x: vals.clone(),
+                x: vals.iter().map(|v| *v as f64 / FS_PER_S).collect(),
             },
             "input",
         )
@@ -838,25 +912,34 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
                 channel = channel
             ));
         }
+        let times: Vec<f64> = vals.iter().map(|v| *v as f64 / FS_PER_S).collect();
         let (tau0, src) = match inp.tau0_s {
             Some(t) => (t, "input"),
             None => (
-                detect_tau0(&vals)
+                detect_tau0(&times)
                     .ok_or_else(|| crate::terr!("e-clock-log-single-time-stamp-tau0-cannot"))?,
                 "median-spacing",
             ),
         };
+        // The time stamps are whole femtoseconds, read from their decimal text. The phase of
+        // the n-th tick is `t[n] - t[0] - n tau0`; where tau0 is a whole number of
+        // femtoseconds (a detected tau0 always is: four significant figures) that difference
+        // is an exact integer, so a time stamp of days after power-up (an `f64` stamp at
+        // 3.0e5 s has a spacing of 5.8e-11 s, about the counter's resolution) loses nothing.
+        let tau0_fs = (tau0 * FS_PER_S).round() as i128;
+        let exact = tau0_fs as f64 / FS_PER_S == tau0;
         // Whole ticks since the previous event, accumulated, so a reference frequency offset
         // does not walk the index off the grid over a long log.
         let mut x = vec![0.0];
         let mut n = 0usize;
         for w in vals.windows(2) {
-            let k = ((w[1] - w[0]) / tau0).round();
+            let step_s = (w[1] - w[0]) as f64 / FS_PER_S;
+            let k = (step_s / tau0).round();
             if k < 1.0 {
                 return Err(crate::terr!(
                     "e-clock-log-two-time-stamps-apart-under",
                     channel = channel,
-                    w = w[1] - w[0],
+                    w = step_s,
                     tau0 = tau0
                 ));
             }
@@ -865,11 +948,15 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
                 x.push(f64::NAN);
             }
             n += k;
-            x.push(w[1] - vals[0] - n as f64 * tau0);
+            x.push(if exact {
+                ((w[1] - vals[0]) - n as i128 * tau0_fs) as f64 / FS_PER_S
+            } else {
+                (w[1] - vals[0]) as f64 / FS_PER_S - n as f64 * tau0
+            });
         }
         (
             PhaseSeries {
-                t0: vals[0],
+                t0: vals[0] as f64 / FS_PER_S,
                 tau0,
                 x,
             },

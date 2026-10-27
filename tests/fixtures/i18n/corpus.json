@@ -165,7 +165,7 @@
   "id": "e-clock-log-the-clock-has-single-epoch",
   "error": true,
   "parts": [
-   "the clock has a single epoch; tau0 cannot be found"
+   "the clock has a single epoch; at least two are needed (tau0 cannot be found)"
   ]
  },
  {
@@ -183,7 +183,7 @@
   "id": "e-clock-log-unknown-phase-unit-expected-ms",
   "error": true,
   "parts": [
-   "unknown phase unit ",
+   "unknown phase units ",
    {
     "var": "other"
    },

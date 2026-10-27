@@ -90,6 +90,10 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         Passes,
         LinkBudget,
         LunarTimeBudget,
+        LunarAscent,
+        LunarSurfaceMap,
+        LunarLanding,
+        LunarRendezvous,
         RealtimeFrameEop,
         HybridOpticalRf,
         CislunarObservability,
@@ -127,6 +131,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         OpticalAtmosphere,
         HoldoverTest,
         GnssSsv,
+        MissionThread,
     ]
 };
 
@@ -192,6 +197,14 @@ pub mod ids {
     pub const PASSES: ScenarioId = ScenarioId::from_static("passes");
     pub const LINK_BUDGET: ScenarioId = ScenarioId::from_static("link-budget");
     pub const LUNAR_TIME_BUDGET: ScenarioId = ScenarioId::from_static("lunar-time-budget");
+    /// `lunar-ascent`.
+    pub const LUNAR_ASCENT: ScenarioId = ScenarioId::from_static("lunar-ascent");
+    /// `lunar-surface`.
+    pub const LUNAR_SURFACE_PNT_MAP: ScenarioId = ScenarioId::from_static("lunar-surface");
+    /// `lunar-descent`.
+    pub const LUNAR_LANDING_DISPERSION: ScenarioId = ScenarioId::from_static("lunar-descent");
+    /// `lunar-orbit-rendezvous`.
+    pub const LUNAR_RENDEZVOUS: ScenarioId = ScenarioId::from_static("lunar-orbit-rendezvous");
     pub const REALTIME_FRAME_EOP: ScenarioId = ScenarioId::from_static("realtime-frame-eop");
     pub const HYBRID_OPTICAL_RF: ScenarioId = ScenarioId::from_static("hybrid-optical-rf");
     pub const CISLUNAR_OBSERVABILITY: ScenarioId =
@@ -278,6 +291,8 @@ pub mod ids {
     pub const HOLDOVER_TEST: ScenarioId = ScenarioId::from_static("holdover-test");
     /// GNSS signal availability and link strength for a user in the Space Service Volume and beyond: a global shell or a trajectory, six constellations, transmit-pattern models, limb-ray effects and a weak-signal receiver.
     pub const GNSS_SSV: ScenarioId = ScenarioId::from_static("gnss-ssv");
+    /// The navigation and timing error budget of a chain of mission phases.
+    pub const MISSION_THREAD: ScenarioId = ScenarioId::from_static("mission-thread");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

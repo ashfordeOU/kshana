@@ -1,0 +1,139 @@
+{
+  "bars": {
+    "S7b": {
+      "cells": [
+        {
+          "cell": "SVN48 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 3.9314939350709928,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN49 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 3.84700396367095,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN50 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 3.8476630877066147,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN52 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 3.953860768792953,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN53 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 3.834476070012695,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN55 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 3.8383939758706376,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN57 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 3.8268087820010033,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN58 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 3.865009274439067,
+          "tol": 3.0
+        }
+      ],
+      "fit": {
+        "floor_db": 15.057500000000001,
+        "rolloff_db_per_deg": 0.53007,
+        "training_patterns": 12,
+        "training_points": 192,
+        "training_rms_db": 4.355230585844451
+      },
+      "max_rms_db": 3.953860768792953,
+      "median_rms_db": 3.8476630877066147,
+      "min_rms_db": 3.8268087820010033,
+      "statement": "S7b: the two-parameter roll-off and floor shape fitted to the Classic IIR patterns, against each IIR-M pattern, RMS at theta = 0, 2, ..., 30 degrees",
+      "test_patterns": 8,
+      "training_each": [
+        {
+          "rms_db": 4.659999325268191,
+          "svn": "SVN41"
+        },
+        {
+          "rms_db": 4.6093543161163035,
+          "svn": "SVN43"
+        },
+        {
+          "rms_db": 4.604511864899471,
+          "svn": "SVN44"
+        },
+        {
+          "rms_db": 4.487421900601725,
+          "svn": "SVN45"
+        },
+        {
+          "rms_db": 4.629054542938547,
+          "svn": "SVN46"
+        },
+        {
+          "rms_db": 3.8595647826536084,
+          "svn": "SVN47"
+        },
+        {
+          "rms_db": 4.635855599724823,
+          "svn": "SVN51"
+        },
+        {
+          "rms_db": 4.604511864899471,
+          "svn": "SVN54"
+        },
+        {
+          "rms_db": 4.343485346642717,
+          "svn": "SVN56"
+        },
+        {
+          "rms_db": 3.886636107098271,
+          "svn": "SVN59"
+        },
+        {
+          "rms_db": 3.90039031880144,
+          "svn": "SVN60"
+        },
+        {
+          "rms_db": 3.8877053600420908,
+          "svn": "SVN61"
+        }
+      ],
+      "verdict": {
+        "failed_cells": 8,
+        "met": false,
+        "scored_cells": 8
+      }
+    }
+  }
+}

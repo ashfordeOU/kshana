@@ -423,6 +423,7 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::AraimReferenceCheck
         | K::TelecomTiming
         | K::HoldoverTest
+        | K::MissionThread
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,
@@ -476,6 +477,10 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::LunarStationCoverage
         | K::LunarInterop
         | K::LunarTimeBudget
+        | K::LunarAscent
+        | K::LunarSurfaceMap
+        | K::LunarLanding
+        | K::LunarRendezvous
         | K::CislunarObservability
         | K::CislunarArcRecovery
         | K::LunarAttackSurface

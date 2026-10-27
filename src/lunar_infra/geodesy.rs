@@ -533,6 +533,186 @@ pub fn run(
     }))
 }
 
+/// Prior sigmas of bar G3' in `PREREGISTRATION-v2.md`: `k2` 0.000108 (the cited GRAIL uncertainty),
+/// `h2` and `l2` 20 % of nominal, each libration angle 1 arcsecond. Every width except `k2`'s is
+/// ILLUSTRATIVE, not a measurement.
+pub fn registered_prior_sigmas(nom: [f64; 3]) -> [f64; 5] {
+    [0.2 * nom[0], 0.000_108, 0.2 * nom[2], 1.0, 1.0]
+}
+
+/// Smallest eigenvalue and trace of the inverse of a positive definite information matrix.
+fn lambda_min_and_inverse_trace(info: &[Vec<f64>]) -> (f64, f64) {
+    let c = crlb(info, 0.0);
+    let lam = c.eigenvalues.first().copied().unwrap_or(0.0);
+    let tr: f64 = c.eigenvalues.iter().map(|l| 1.0 / l).sum();
+    (lam, tr)
+}
+
+/// The pre-registered re-test of bar G3 (`xval/lunar-infra/PREREGISTRATION-v2.md`, bars G3' and G3'').
+///
+/// G3': with a prior information matrix `diag(1/sigma_p^2)` added to every subset's information, the
+/// smallest eigenvalue never decreases and the trace of the ordinary inverse never increases when a
+/// family is added (relative 1e-12). The prior widths other than `k2`'s are ILLUSTRATIVE, so the bar is
+/// EXPLORATORY; the sensitivity to each width halved and doubled is reported with it. G3'': for every
+/// addition that does not raise the rank (at the study's rank tolerance), the pseudo-inverse trace
+/// does not increase; rank-raising additions are counted and not scored on the trace.
+pub fn campaign_g(
+    orbit: &OrbitSpec,
+    nominal: &Nominal,
+    llr: &LlrSpec,
+    orb: &OrbiterSpec,
+    grav: &GravimeterSpec,
+    clock: &ClockSpec,
+) -> Result<Value, String> {
+    const TOL: f64 = 1e-12;
+    let f = build(orbit, llr, orb, grav, clock)?;
+    let fams: [&[Row]; 4] = [&f.llr, &f.orbiter, &f.gravimeter, &f.clock];
+    let nom = [
+        nominal.h2.unwrap_or(0.0424),
+        nominal.k2.unwrap_or(0.024116),
+        nominal.l2.unwrap_or(0.0106),
+    ];
+    let infos: Vec<Vec<Vec<f64>>> = (0..16)
+        .map(|mask| {
+            let sel: Vec<&[Row]> = (0..4)
+                .filter(|i| mask >> i & 1 == 1)
+                .map(|i| fams[i])
+                .collect();
+            information(&sel)
+        })
+        .collect();
+    let mask_names = |mask: usize| -> Vec<&'static str> {
+        (0..4)
+            .filter(|i| mask >> i & 1 == 1)
+            .map(|i| FAMILIES[i])
+            .collect()
+    };
+    // G3', one prior set.
+    let with_priors = |sig: &[f64; 5]| -> Value {
+        let stats: Vec<(f64, f64)> = (0..16)
+            .map(|mask| {
+                if mask == 0 {
+                    return (0.0, 0.0);
+                }
+                let mut m = infos[mask].clone();
+                for (i, row) in m.iter_mut().enumerate() {
+                    row[i] += 1.0 / (sig[i] * sig[i]);
+                }
+                lambda_min_and_inverse_trace(&m)
+            })
+            .collect();
+        let (mut pairs, mut lam_ok, mut tr_ok) = (0usize, 0usize, 0usize);
+        let mut misses = Vec::new();
+        let (mut worst_lam, mut worst_tr) = (0.0f64, 0.0f64);
+        for mask in 1usize..16 {
+            for i in 0..4 {
+                if mask >> i & 1 == 0 {
+                    let m2 = mask | (1 << i);
+                    pairs += 1;
+                    let dl = (stats[mask].0 - stats[m2].0) / stats[mask].0;
+                    let dt = (stats[m2].1 - stats[mask].1) / stats[mask].1;
+                    worst_lam = worst_lam.max(dl);
+                    worst_tr = worst_tr.max(dt);
+                    let (a, b) = (dl <= TOL, dt <= TOL);
+                    lam_ok += usize::from(a);
+                    tr_ok += usize::from(b);
+                    if !(a && b) {
+                        misses.push(json!({
+                            "from": mask_names(mask), "adding": FAMILIES[i],
+                            "lambda_min_relative_decrease": dl, "trace_relative_increase": dt,
+                        }));
+                    }
+                }
+            }
+        }
+        json!({
+            "prior_sigmas": sig.to_vec(),
+            "pairs_checked": pairs,
+            "lambda_min_not_smaller": lam_ok,
+            "trace_of_inverse_not_larger": tr_ok,
+            "worst_relative_lambda_min_decrease": worst_lam,
+            "worst_relative_trace_increase": worst_tr,
+            "tolerance": TOL,
+            "met": lam_ok == pairs && tr_ok == pairs,
+            "misses": misses,
+            "subsets": (1..16).map(|mask| json!({
+                "families": mask_names(mask), "lambda_min": stats[mask].0, "trace_of_inverse": stats[mask].1,
+            })).collect::<Vec<_>>(),
+        })
+    };
+    let base = registered_prior_sigmas(nom);
+    let mut sensitivity = Vec::new();
+    for (pi, name) in PARAMS.iter().enumerate() {
+        for factor in [0.5, 2.0] {
+            let mut sig = base;
+            sig[pi] *= factor;
+            let r = with_priors(&sig);
+            sensitivity.push(json!({
+                "parameter": name, "factor": factor, "pairs_checked": r["pairs_checked"],
+                "lambda_min_not_smaller": r["lambda_min_not_smaller"],
+                "trace_of_inverse_not_larger": r["trace_of_inverse_not_larger"],
+                "worst_relative_lambda_min_decrease": r["worst_relative_lambda_min_decrease"],
+                "worst_relative_trace_increase": r["worst_relative_trace_increase"],
+                "met": r["met"],
+            }));
+        }
+    }
+    // G3'': ranks and pseudo-inverse traces without priors.
+    let tp: Vec<(f64, usize)> = (0..16)
+        .map(|mask| {
+            if mask == 0 {
+                (0.0, 0)
+            } else {
+                let (t, _l, r, _s) = trace_pinv(&infos[mask]);
+                (t, r)
+            }
+        })
+        .collect();
+    let (mut same_rank, mut same_ok, mut raising) = (0usize, 0usize, 0usize);
+    let mut rank_gains = Vec::new();
+    let mut misses = Vec::new();
+    for mask in 1usize..16 {
+        for i in 0..4 {
+            if mask >> i & 1 == 0 {
+                let m2 = mask | (1 << i);
+                if tp[m2].1 > tp[mask].1 {
+                    raising += 1;
+                    rank_gains.push(json!({
+                        "from": mask_names(mask), "adding": FAMILIES[i],
+                        "rank_before": tp[mask].1, "rank_after": tp[m2].1,
+                        "trace_before": tp[mask].0, "trace_after": tp[m2].0,
+                    }));
+                } else {
+                    same_rank += 1;
+                    let ok = tp[m2].0 <= tp[mask].0 * (1.0 + TOL);
+                    same_ok += usize::from(ok);
+                    if !ok {
+                        misses.push(json!({
+                            "from": mask_names(mask), "adding": FAMILIES[i],
+                            "trace_before": tp[mask].0, "trace_after": tp[m2].0,
+                        }));
+                    }
+                }
+            }
+        }
+    }
+    let original = run(orbit, nominal, llr, orb, grav, clock)?;
+    Ok(json!({
+        "original_g3_statistic": original["adding_a_family"],
+        "g3_prime": with_priors(&base),
+        "g3_prime_sensitivity": sensitivity,
+        "g3_double_prime": {
+            "additions_that_do_not_raise_rank": same_rank,
+            "of_which_trace_not_larger": same_ok,
+            "additions_that_raise_rank": raising,
+            "rank_raising_additions": rank_gains,
+            "tolerance": TOL,
+            "met": same_ok == same_rank,
+            "misses": misses,
+        },
+    }))
+}
+
 /// Primitives and the Rust information matrix for the independent numpy oracle (G2).
 pub fn export(
     orbit: &OrbitSpec,

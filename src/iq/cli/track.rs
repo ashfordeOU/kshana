@@ -445,8 +445,12 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             &summary,
             &warnings,
         );
-        std::fs::write(p, serde_json::to_string_pretty(&v).unwrap_or_default())
-            .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+        let body = crate::evidence_label::label_json(
+            "iq-track",
+            &serde_json::to_string_pretty(&v).unwrap_or_default(),
+        )
+        .map_err(Fail::Run)?;
+        std::fs::write(p, body).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     Ok(table(&names, &summary.channels) + &warning_lines(&spec, &codes))
 }

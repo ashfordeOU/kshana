@@ -64,6 +64,10 @@ ScenarioKind = Literal[
     "passes",
     "link-budget",
     "lunar-time-budget",
+    "lunar-ascent",
+    "lunar-surface",
+    "lunar-descent",
+    "lunar-orbit-rendezvous",
     "hybrid-optical-rf",
     "cislunar-observability",
     "conflict-resilience",
@@ -105,6 +109,7 @@ ScenarioKind = Literal[
     "optical-atmosphere",
     "holdover-test",
     "gnss-ssv",
+    "mission-thread",
 ]
 """Every built-in scenario kind, the value of a scenario's top-level ``kind``."""
 

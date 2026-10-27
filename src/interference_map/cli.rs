@@ -632,6 +632,8 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
     let report = route::report_json(&rows, from, to);
     let text =
         serde_json::to_string_pretty(&report).map_err(|e| MapError::Format(e.to_string()))?;
+    let text =
+        crate::evidence_label::label_json("interference-map", &text).map_err(MapError::Format)?;
     if let Some(out) = flag_value(args, "--out")? {
         std::fs::write(out, text.clone() + "\n").map_err(|e| {
             MapError::Io(crate::terr!(

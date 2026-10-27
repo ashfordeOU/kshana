@@ -104,7 +104,6 @@ fn vel_sigma_m_s(p: &Mat) -> f64 {
 }
 
 /// Run the study.
-#[allow(clippy::too_many_lines)]
 pub fn run(
     orbit: &OrbitSpec,
     gnss: &GnssSpec,
@@ -112,6 +111,39 @@ pub fn run(
     mc: &McSpec,
     seed: u64,
 ) -> Result<Value, String> {
+    run_inner(orbit, gnss, ground, mc, seed).map(|(v, _)| v)
+}
+
+/// The systematic part of the onboard-minus-ground difference, for the pre-registered detection-limit
+/// campaign (`xval/lunar-infra/PREREGISTRATION-v2.md`, bar C3a/C3b).
+#[derive(Debug, Clone, Copy)]
+pub struct Systematic {
+    /// Noncentrality of the consistency statistic, `dᵀ S⁻¹ d`, for the difference `d` the injected
+    /// acceleration produces (zero for matched models).
+    pub noncentrality: f64,
+    /// Length of the position part of `d`, metres.
+    pub displacement_m: f64,
+}
+
+/// [`run`] together with the analytic noncentrality of its statistic and the displacement of the difference.
+pub fn run_with_noncentrality(
+    orbit: &OrbitSpec,
+    gnss: &GnssSpec,
+    ground: &GroundSpec,
+    mc: &McSpec,
+    seed: u64,
+) -> Result<(Value, Systematic), String> {
+    run_inner(orbit, gnss, ground, mc, seed)
+}
+
+#[allow(clippy::too_many_lines)]
+fn run_inner(
+    orbit: &OrbitSpec,
+    gnss: &GnssSpec,
+    ground: &GroundSpec,
+    mc: &McSpec,
+    seed: u64,
+) -> Result<(Value, Systematic), String> {
     let arc_days = orbit.arc_days.unwrap_or(3.0);
     let ro = orbit.build(arc_days)?;
     let cons = gnss.constellation()?;
@@ -251,6 +283,12 @@ pub fn run(
     // Systematic part (zero when the models match) and Monte Carlo noise.
     let bias_g = apply(&kg, &g.dy);
     let bias_r = apply(&kr, &r.dy);
+    let d_sys: Vec<f64> = (0..6).map(|i| bias_g[i] - bias_r[i]).collect();
+    let systematic = Systematic {
+        noncentrality: la::quad(&sum_inv, &d_sys),
+        displacement_m: (d_sys[0] * d_sys[0] + d_sys[1] * d_sys[1] + d_sys[2] * d_sys[2]).sqrt()
+            * L_M,
+    };
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let draw = |rng: &mut ChaCha8Rng| -> f64 { StandardNormal.sample(rng) };
     let (mut q_sum, mut within) = (0.0, 0usize);
@@ -326,52 +364,55 @@ pub fn run(
     };
     let rtn_g = rtn(&pg);
     let rtn_r = rtn(&pr);
-    Ok(json!({
-        "orbit": {
-            "family": ro.family,
-            "arc_days": arc_days,
-            "sample_s": orbit.sample_s(),
-            "samples": n,
-            "period_days": ro.period_s.map(|p| p / 86_400.0),
-        },
-        "geometry": {
-            "gnss_epochs_with_one_or_more_satellites": epochs_gnss1 as f64 / n as f64,
-            "gnss_epochs_with_four_or_more_satellites": epochs_gnss4 as f64 / n as f64,
-            "gnss_mean_satellites_tracked": tracked_sum as f64 / n as f64,
-            "ground_epochs_with_a_station": epochs_ground as f64 / n as f64,
-            "gnss_measurements": g.h.len(),
-            "ground_measurements": r.h.len(),
-        },
-        "gnss_estimate": {
-            "position_sigma_m": pos_sigma_m(&pg),
-            "velocity_sigma_m_s": vel_sigma_m_s(&pg),
-            "radial_sigma_m": rtn_g[0],
-            "transverse_sigma_m": rtn_g[1],
-            "normal_sigma_m": rtn_g[2],
-            "position_sigma_arc_end_m": end_sigma(&pg),
-        },
-        "ground_estimate": {
-            "position_sigma_m": pos_sigma_m(&pr),
-            "velocity_sigma_m_s": vel_sigma_m_s(&pr),
-            "radial_sigma_m": rtn_r[0],
-            "transverse_sigma_m": rtn_r[1],
-            "normal_sigma_m": rtn_r[2],
-            "position_sigma_arc_end_m": end_sigma(&pr),
-        },
-        "consistency": {
-            "trials": trials,
-            "model_error_accel_m_s2": a_si,
-            "expected_mean_q": 6.0,
-            "mean_q": mean_q,
-            "chi2_95_point": CHI2_6_95,
-            "fraction_within_95": frac_within,
-            "fraction_exceeding_95": 1.0 - frac_within,
-            "sample_over_formal_trace_gnss": ratio_g,
-            "sample_over_formal_trace_ground": ratio_r,
-            "formal_difference_position_sigma_m": pos_sigma_m(&sum),
-            "mean_difference_position_m": d_pos_sum / nt,
-        },
-    }))
+    Ok((
+        json!({
+            "orbit": {
+                "family": ro.family,
+                "arc_days": arc_days,
+                "sample_s": orbit.sample_s(),
+                "samples": n,
+                "period_days": ro.period_s.map(|p| p / 86_400.0),
+            },
+            "geometry": {
+                "gnss_epochs_with_one_or_more_satellites": epochs_gnss1 as f64 / n as f64,
+                "gnss_epochs_with_four_or_more_satellites": epochs_gnss4 as f64 / n as f64,
+                "gnss_mean_satellites_tracked": tracked_sum as f64 / n as f64,
+                "ground_epochs_with_a_station": epochs_ground as f64 / n as f64,
+                "gnss_measurements": g.h.len(),
+                "ground_measurements": r.h.len(),
+            },
+            "gnss_estimate": {
+                "position_sigma_m": pos_sigma_m(&pg),
+                "velocity_sigma_m_s": vel_sigma_m_s(&pg),
+                "radial_sigma_m": rtn_g[0],
+                "transverse_sigma_m": rtn_g[1],
+                "normal_sigma_m": rtn_g[2],
+                "position_sigma_arc_end_m": end_sigma(&pg),
+            },
+            "ground_estimate": {
+                "position_sigma_m": pos_sigma_m(&pr),
+                "velocity_sigma_m_s": vel_sigma_m_s(&pr),
+                "radial_sigma_m": rtn_r[0],
+                "transverse_sigma_m": rtn_r[1],
+                "normal_sigma_m": rtn_r[2],
+                "position_sigma_arc_end_m": end_sigma(&pr),
+            },
+            "consistency": {
+                "trials": trials,
+                "model_error_accel_m_s2": a_si,
+                "expected_mean_q": 6.0,
+                "mean_q": mean_q,
+                "chi2_95_point": CHI2_6_95,
+                "fraction_within_95": frac_within,
+                "fraction_exceeding_95": 1.0 - frac_within,
+                "sample_over_formal_trace_gnss": ratio_g,
+                "sample_over_formal_trace_ground": ratio_r,
+                "formal_difference_position_sigma_m": pos_sigma_m(&sum),
+                "mean_difference_position_m": d_pos_sum / nt,
+            },
+        }),
+        systematic,
+    ))
 }
 
 #[cfg(test)]

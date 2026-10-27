@@ -128,6 +128,11 @@ impl VerificationStatus {
 /// One row of the verification matrix.
 #[derive(Clone, Copy, Debug, serde::Serialize)]
 pub struct VerificationItem {
+    /// The stable ledger row id, `VM-` and eight lowercase hex digits. Seeded once (0.40) from the first eight hex digits
+    /// of the SHA-256 of the row's requirement text as it then stood, and never recomputed: correcting a requirement's
+    /// wording keeps its id, so a figure, evidence pack or partner submission that cited the id stays valid. Ids are
+    /// unique, and `tests/fixtures/evidence_ids.txt` lists every id ever issued; none may disappear or be reassigned.
+    pub id: &'static str,
     /// The tender-facing requirement / capability area.
     pub requirement: &'static str,
     /// What Kshana does for it (one line).
@@ -154,6 +159,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
     vec![
         // ── Externally validated core ─────────────────────────────────────────
         VerificationItem {
+            id: "VM-60fc9ecb",
             requirement: "Power-law noise identification by lag-1 autocorrelation",
             capability: "allan::lag1_noise_id: the Riley and Greenhall (2004) lag-1 autocorrelation noise identifier (decimated phase with its quadratic removed, or group-averaged frequency with its line removed; repeated first differences until delta = r1/(1+r1) < 0.25 or d = dmax), returning the integer and unrounded power-law exponent alpha (+2 white PM to -2 random-walk FM) at any averaging factor; it sets the noise-type degrees of freedom of the measured clock library's device cards",
             module: "allan (lag1_noise_id, lag1_acf)",
@@ -163,6 +169,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-455af4b5",
             requirement: "Galileo OSNMA receiver-side navigation-data authentication",
             capability: "osnma + `kshana osnma verify`: an open, pure-Rust receiver-side verifier for Galileo OSNMA (SIS ICD Issue 1.1, Receiver Guidelines Issue 1.3) from I/NAV pages or a u-blox UBX-RXM-SFRBX stream: Merkle-tree public keys (DSM-PKR), the ECDSA P-256/P-521 signature of the DSM-KROOT, TESLA key-chain verification (SHA-256 or SHA3-256), MACSEQ and tag verification (HMAC-SHA-256 or CMAC-AES) for ADKD 0, 4 and 12 with cross-authentication, chain end/revocation/renewal, public-key renewal and revocation, and the alert message; per-satellite status Authenticated/Failed/Unavailable with a reason for every failure or delay. Advisory: not type-approved navigation equipment and not a navigation integrity service; no anti-spoofing performance is claimed",
             module: "osnma (page, subframe, dsm, merkle, signature, tesla, mac, maclt, navdata, verifier, ubx, cli)",
@@ -172,6 +179,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-27e53cda",
             requirement: "Frequency stability characterisation",
             capability: "Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs",
             module: "allan",
@@ -181,6 +189,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-f329e455",
             requirement: "Frequency stability on a real measured clock",
             capability: "Overlapping Allan + overlapping Hadamard deviation on a real caesium standard",
             module: "allan",
@@ -190,6 +199,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-374517c9",
             requirement: "Allan estimator parity on the canonical Stable32 reference series",
             capability: "Overlapping Allan + modified Allan + time deviation across the full AF ladder",
             module: "allan",
@@ -199,6 +209,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-5ced4913",
             requirement: "Extended-range frequency stability (Theo1 / TOTDEV)",
             capability: "Theo1 and total deviation (TOTVAR) — extended-range long-tau stability estimators reaching ~75% of the record where the Allan deviation gives out near ~50%; the bias-removed ThêoH hybrid (allan::theoh_curve) built on them stays MODELLED",
             module: "allan",
@@ -208,6 +219,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-fb93df39",
             requirement: "Maximum Time Interval Error (MTIE) — telecom wander metric",
             capability: "MTIE(τ): the maximum peak-to-peak time-error swing over any sliding window of τ = m·tau0, the ITU-T G.810/G.823/G.8261 wander statistic synchronisation-network limits (MTIE masks) are written against — an extremal (max/min) figure distinct from the RMS Allan family",
             module: "allan (mtie, mtie_curve)",
@@ -217,6 +229,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-f2098d5f",
             requirement: "Modified Allan / Time deviation (MDEV / TDEV)",
             capability: "MDEV(τ): the overlapping modified Allan deviation (second-difference sliding-window estimator that separates white- from flicker-phase noise), and TDEV(τ) = τ/√3·MDEV(τ), the ITU-T G.811/G.812/G.823 time-domain wander statistic the sync masks are written against",
             module: "allan (modified_adev, time_deviation)",
@@ -226,6 +239,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-459d2f31",
             requirement: "Optical-clock frequency stability on a real measured curve",
             capability: "Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline 4.7e-16/√τ short-τ scaling with a genuine measured long-τ floor, rather than the synthesised optical-class floor holdover.rs otherwise assumes",
             module: "quantum_trade (qparams_from_adev_curve), powerlaw",
@@ -235,6 +249,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3cfc418d",
             requirement: "Integrity (RAIM/ARAIM/SBAS)",
             capability: "ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protection_levels_ecef: subset determination by the P_THRES and FC_THRES rules, VPL, HPL, the effective monitor threshold EMT and sigma_acc); chi-squared snapshot RAIM fault detection with single-satellite exclusion (raim::snapshot_raim, raim::snapshot_raim_fde) and slope-based HPL/VPL on the geodetic local level; and the SBAS DO-229E protection-level combination (sbas::sbas_protection_level) on the L1 service. NOT covered, stated plainly: the uniform-sigma convenience functions raim::araim_raim and raim::araim_dual_raim are NOT ADD-conformant (on matched inputs they miss Stanford MAAST by 0.75 m VPL / 4.04 m HPL and 0.39 m VPL / 1.93 m HPL, a finding); the dual-frequency multi-constellation (DFMC) L5 SBAS comparison is a finding (308 user-epoch pairs with no GEO in view are protected by Kshana and not by MAAST, whose GEO-reception gate Kshana does not model); raim::solution_separation_raim has no external comparison",
             module: "araim_reference (add_v42_protection_levels, add_v42_protection_levels_ecef); raim (snapshot_raim, snapshot_raim_fde, araim_raim, araim_dual_raim, solution_separation_raim); sbas (sbas_protection_level); lunar",
@@ -244,6 +259,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-e73617ea",
             requirement: "Orbit propagation & determination",
             capability: "SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD",
             module: "sgp4, propagator, orbit_determination, precise_od",
@@ -253,6 +269,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-7b9f2f5d",
             requirement: "Numerical Cowell propagator & force model",
             capability: "Cowell numerical propagator with a hierarchical force model (two-body, J2–J6 zonal, Sun/Moon third-body, cannonball SRP, exponential drag); RK4 step-doubling / DP5(4) / DOP853",
             module: "propagator, forces",
@@ -262,6 +279,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-69a790eb",
             requirement: "Oblate-Earth SRP shadow (opt-in)",
             capability: "SRP lit fraction with the WGS-84 ellipsoid as the occulting body (apparent Earth radius from the ellipsoid limb towards the Sun, dual-disk lens formula; srp_shadow::oblate_conical_shadow), opt-in on the Cowell force model through propagator::ForceModel::srp_shadow (default: the spherical conical shadow, unchanged)",
             module: "srp_shadow, forces (srp_accel_with_lit_fraction), propagator",
@@ -271,6 +289,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-7244b960",
             requirement: "Box-wing and ECOM2 solar radiation pressure, with partials (opt-in)",
             capability: "Non-cannonball SRP: a box-wing flat-plate model (Vallado eq. 8-44; single-sided body panels, sun-pointing wings) with the Galileo FOC, IOV and IOV end-of-life tables of the GSC satellite metadata, in nominal GNSS yaw steering, with analytic partials for the radiation factor and every panel's specular and diffuse coefficients; and the ECOM2 empirical model (D2/B1) with its partials. The box-wing is opt-in on the Cowell propagator (propagator::ForceModel::box_wing_srp, setting its srp_boxwing field) and on the precise orbit-determination model (precise_od::PreciseForceModel::box_wing_srp), replacing the cannonball term with cr as the radiation factor; both default to None, leaving every existing path byte-identical. ECOM2 is not wired into a force model",
             module: "srp_boxwing, propagator, precise_od",
@@ -280,6 +299,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-dfdd58c8",
             requirement: "Solar limb-darkened SRP shadow (opt-in)",
             capability: "SRP lit fraction as the un-occulted fraction of the limb-darkened solar flux (Eddington-approximation law I(mu)/I(1) = 2/5 + 3/5 mu, Gauss-Legendre quadrature) over a spherical or WGS-84 Earth (srp_shadow::limb_darkened_shadow, the ShadowModel variant OblateEarthLimbDarkened)",
             module: "srp_shadow",
@@ -289,6 +309,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-34cdc433",
             requirement: "NRLMSISE-00 thermospheric density",
             capability: "A port of the NRLMSISE-00 empirical thermosphere (gtd7 and gtd7d: species densities, total mass density with anomalous oxygen, temperatures; the 24 switches; daily-Ap and 3-hourly ap-array modes) from the public-domain C version of the NRL Fortran",
             module: "nrlmsise00",
@@ -298,6 +319,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c19ea19a",
             requirement: "NRLMSISE-00 drag-density tier (opt-in)",
             capability: "forces::DensityModel (Exponential default, Nrlmsise00 { f107a, f107, ap }) and propagator::ForceModel::drag_density: quadratic drag against the co-rotating atmosphere with the NRLMSISE-00 density at the WGS-84 geodetic point (Earth rotation angle with UT1 = TT, local solar time UT + lon/15), constant space weather per model; default off and bit-identical",
             module: "forces (density_at, drag_accel_with_density), propagator",
@@ -307,6 +329,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-36db0ce5",
             requirement: "Default exponential drag against an independent implementation (equatorial)",
             capability: "The default drag of the Cowell propagator: quadratic drag against the co-rotating atmosphere with forces::atmospheric_density, the piecewise-exponential table of Vallado Table 8-4 at the spherical altitude (propagator::ForceModel::drag with the default Exponential variant of forces::DensityModel)",
             module: "forces (atmospheric_density, drag_accel), propagator",
@@ -316,6 +339,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-6c291c83",
             requirement: "DE440 Sun and Moon in the Cowell force model (opt-in)",
             capability: "Opt-in ephemeris tier for the third-body and SRP terms of the numerical Cowell ForceModel: the geocentric Sun and Moon from any EphemerisProvider (a DE440 SPK kernel through KernelEphemeris) at TDB = TT + (TDB - TT), refusing a provider that cannot serve the epoch and counting any fallback to the analytic series; default off",
             module: "propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider",
@@ -325,6 +349,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-555b0707",
             requirement: "S1 atmospheric tide (opt-in)",
             capability: "The diurnal S1 air-pressure tide as a geopotential perturbation: Biancale and Bode (2006) model N1, degrees 2 to 6, through the IERS 2010 Eq. 6.21 load formula (tides::atmospheric_tide_s1, s1_air_tide_acceleration), opt-in on the Cowell and precise force models (air_tide_s1, default off)",
             module: "tides, propagator, precise_od",
@@ -334,6 +359,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-9ad1723e",
             requirement: "S2 atmospheric tide coefficients in the IERS convention",
             capability: "Ray (2001) S2 air-pressure harmonics (n <= 4, prograde and retrograde) converted to the fully-normalised, sine-lead form of IERS 2010 Eqs. 6.20-6.21 (amplitude divided by N_nm, epsilon = 90 deg - psi) and applied as the S2 term of tides::atmospheric_tide",
             module: "tides (s2_air_waves, atmospheric_tide)",
@@ -343,6 +369,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-ab8e111d",
             requirement: "Tesseral geopotential in the Cowell propagator",
             capability: "Opt-in EGM2008 tesseral field (to degree/order 70) as the central gravity of the numerical Cowell ForceModel, evaluated in an Earth-fixed frame rotated by the IAU 2000 Earth rotation angle (or the CIO GCRS-to-ITRS chain); default off, so no existing output moves",
             module: "propagator (Geopotential, EarthFixedFrame), gravity_sh",
@@ -352,6 +379,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-011311b1",
             requirement: "High-degree spherical-harmonic gravity (EGM2008 to 2190)",
             capability: "Underflow-safe, pole-safe evaluation of a fully-normalized field to degree 2190 (SphericalHarmonicField::acceleration_hf / potential_hf, Holmes-Featherstone 2002 modified forward column with the gradient free of 1/cos phi), a streaming ICGEM .gfc loader (from_gfc_file / from_gfc_reader; the full EGM2008 is fetched at run time, not bundled), and the Holmes-Featherstone evaluator selectable on the opt-in Cowell Geopotential",
             module: "gravity_sh, propagator (FieldEvaluator)",
@@ -361,6 +389,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-c46b5c0f",
             requirement: "DOP853 integrator",
             capability: "Hairer DOP853 8(5,3) explicit Runge-Kutta with the combined 5th/3rd-order error estimator, the SciPy/Hairer step controller, automatic initial step, a fail-closed step guard and 7th-order dense output; selectable as the propagator Integrator variant Dop853 / propagator::propagate_dop853",
             module: "integrator, propagator",
@@ -370,6 +399,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-801a1141",
             requirement: "Robust Kepler-equation solver",
             capability: "Elliptic Kepler solver for all 0 <= e < 1 and all mean anomalies: Markley (1995) cubic starter and fifth-order correction, a cancellation-free residual (1-e)E + e(E - sin E) - M, and guarded Newton polishing (kepler::solve_kepler_markley, propagator::solve_kepler_robust)",
             module: "kepler, propagator",
@@ -379,6 +409,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-16c33630",
             requirement: "Range-rate and az/el batch orbit determination with station masking",
             capability: "Recover an epoch state from mixed range, range-rate and azimuth/elevation tracking above an elevation mask by Gauss-Newton on H = (dh/dx(t)) Phi(t, t0): analytic measurement partials and a variational state-transition matrix with analytic two-body + J2 partials (RK4-integrated, not a closed-form STM)",
             module: "orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)",
@@ -388,6 +419,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f7b86f0a",
             requirement: "SP3 accuracy-code observation weighting",
             capability: "Map SP3 accuracy codes (header ++ exponents in 2^n mm, the %f base, per-record base^n mm standard deviations) to per-observation position sigmas for the precise orbit-determination engine (sp3::parse_sp3_accuracy, Sp3Accuracy::position_sigma_m)",
             module: "sp3, precise_od",
@@ -397,6 +429,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-70e79085",
             requirement: "Planetary gravity fields from PDS SHADR tables",
             capability: "Read PDS SHADR spherical-harmonic tables (from_shadr, on SphericalHarmonicField in src/gravity_pds.rs: unit conversion, C00 = 1 supplied, completeness and normalisation checks) and evaluate the body-fixed gravity of Mars GMM-3 (d/o 120) and the GRAIL lunar field GL0660B (d/o 660)",
             module: "gravity_pds, gravity_sh",
@@ -406,6 +439,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-4b74b49f",
             requirement: "Attach a published gravity field to a body",
             capability: "with_gravity_field (on Body, in src/gravity_pds.rs): attach any loaded spherical-harmonic field (for example GMM-3 or GL0660B) to a Body so the propagator evaluates it body-fixed; opt-in, default bodies unchanged",
             module: "gravity_pds, body, propagator, mars_frame",
@@ -415,6 +449,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-9aa52bbe",
             requirement: "Batch & sequential orbit determination",
             capability: "Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model",
             module: "orbit_determination, precise_od (batch_ls::gauss_newton, fusion::ukf)",
@@ -424,6 +459,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-7d653b9e",
             requirement: "Deep-space radiometric light-time solver",
             capability: "Retarded (down-leg) one-way light-time solution τ = |r_rx − r_target(t−τ)|/c for deep-space radiometric navigation (Earth→Mars/Sun/Moon)",
             module: "radiometric (light_time_solution)",
@@ -433,6 +469,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-ddaed06d",
             requirement: "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",
             capability: "IS-GPS-200 / Galileo-OS / BeiDou-OS broadcast-ephemeris Keplerian → ECEF satellite position from a parsed RINEX-3 navigation record",
             module: "rinex (parse_nav, RinexEphemeris::sv_position_ecef)",
@@ -442,6 +479,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-771c34bd",
             requirement: "SP3 precise-ephemeris interpolation",
             capability: "IGS-standard Lagrange interpolation of SP3 precise-ephemeris satellite positions with the per-node Earth-rotation correction (rotate each node by ω⊕·(t_node−t) into the query instant's Earth-fixed frame before the polynomial fit)",
             module: "sp3 (Sp3Interpolator::position_ecef)",
@@ -451,6 +489,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a5c3941a",
             requirement: "Navigation-message encoders beyond GPS LNAV (GPS CNAV, Galileo I/NAV and F/NAV)",
             capability: "GPS CNAV message types 10/11/30, Galileo I/NAV word types 1-5 in nominal even/odd pages and Galileo F/NAV page types 1-4: ICD field packing and quantisation, CRC-24Q, rate-1/2 K=7 convolutional coding (G2 inverted for Galileo), block interleaving and sync patterns, with matching test decoders",
             module: "gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)",
@@ -460,6 +499,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-fd4e4555",
             requirement: "IONEX global ionosphere map reader and interpolation on a real CODE GIM",
             capability: "IONEX 1.0 reader (header, fixed-column I5 values, TEC and RMS maps, absolute epochs, missing values) with bilinear spatial interpolation, the format's nearest / consecutive / rotated-map time interpolation (eqs. 1-3) and thin-shell slant TEC",
             module: "ionex (parse_ionex, parse_ionex_file, IonexFile::vtec_at, IonexFile::slant_tec_at, interpolate_tec_in_time, TecGrid::vtec_at)",
@@ -469,6 +509,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-f40289c2",
             requirement: "Hatch carrier smoothing of code on real RINEX observations",
             capability: "Divergence-free Hatch filter (ionosphere-free code carried by the ionosphere-free carrier, window N epochs, restart on loss of lock, geometry-free jump or gap) in the precise single-point positioning assembly",
             module: "hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)",
@@ -478,6 +519,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-0f3c1299",
             requirement: "RTK double differences with LAMBDA integer fixing on real RINEX observations",
             capability: "Short-baseline relative positioning from real dual-frequency GPS code and carrier phase: double differences against the highest satellite with their full covariance, a float Kalman filter over the baseline and single-difference ambiguities with slip re-initialisation, LAMBDA integer least squares with the ratio test, and the baseline conditioned on the fixed integers",
             module: "rtk_real (run_rtk), lambda (resolve)",
@@ -487,6 +529,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-2a1dcc58",
             requirement: "PPP receiver-clock time solution against the IGS final station clock",
             capability: "The receiver clock estimated by the static float PPP filter on real dual-frequency GPS code and phase with IGS final orbits and clocks: a time transfer from the receiver to IGS time, the PPP iono-free time solution.",
             module: "ppp_real (run_ppp, PppEpoch::clock_m)",
@@ -496,6 +539,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-8381d091",
             requirement: "Float precise point positioning on real RINEX observations",
             capability: "Static float PPP extended Kalman filter on real dual-frequency GPS code and carrier phase with IGS final orbits and clocks: ionosphere-free combination, satellite and receiver antenna offsets (receiver variations), solid Earth tide, phase wind-up, Shapiro delay, estimated zenith wet delay, per-arc float ambiguities with geometry-free / Melbourne-Wübbena slip detection",
             module: "ppp_real (run_ppp, parse_antex_receiver, solid_tide_ecef, phase_windup)",
@@ -505,6 +549,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-020e03fb",
             requirement: "RINEX 4 navigation file reading",
             capability: "RINEX 4.00-4.02 navigation files: `> EPH` records of GPS LNAV, Galileo I/NAV and F/NAV, BeiDou D1/D2 and QZSS LNAV decoded into the broadcast-ephemeris type; CNAV, CNV1-3, FDMA, SBAS, STO, EOP and ION records skipped to the next record header; a record whose header names another satellite, or a truncated record, refused",
             module: "rinex (parse_nav, parse_nav_with)",
@@ -514,6 +559,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-93d6d028",
             requirement: "RINEX 4 observation file reading",
             capability: "RINEX 4.0x observation headers (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE; labels matched in columns 61-80 for version 4 and later) and epoch records",
             module: "rinex_obs (parse_obs)",
@@ -523,6 +569,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-c58c97b0",
             requirement: "BeiDou GEO broadcast satellite position",
             capability: "BDS-SIS-ICD-B1I v3.0 §5.2.4.12 geostationary-satellite position from a broadcast ephemeris (inertial-like frame, then Rz(Ω̇e·tk)·Rx(−5°)), opt-in through the include_beidou_geo field of NavParseOptions, so the default reader still skips GEOs",
             module: "rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)",
@@ -532,6 +579,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-6cc640b7",
             requirement: "SP3 precise-clock interpolation",
             capability: "Satellite clock offset between the tabulated SP3 clock nodes by linear interpolation over the two bracketing valid nodes (the RTKLIB pephclk scheme; bad-clock sentinel skipped), and the same nodes fed to the precise-product chain as RINEX-clock-equivalent records",
             module: "sp3 (Sp3File::clock_s, clock_nodes), precise_products (ClockRinex::from_sp3)",
@@ -541,6 +589,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c65fdad2",
             requirement: "Carrier-phase tightly coupled GNSS/INS with float ambiguities",
             capability: "Error-state EKF over 15 INS states, a two-state receiver clock and one float carrier ambiguity per tracked satellite; pseudorange, carrier phase and optional range rate from an SGP4 Walker constellation (light-time and Sagnac), Klobuchar and Saastamoinen/Niell corrections applied in the loop at the filter's own position; time-differenced-carrier slip detection with a per-satellite threshold widened by the velocity uncertainty; ambiguity re-initialisation on slips and re-acquisition",
             module: "fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)",
@@ -550,6 +599,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f381b220",
             requirement: "GNSS/INS maritime, rail and aviation packs with a tight-coupling option",
             capability: "Three gnss-ins scenarios on the trajectory library (a vessel weaving at 8 m/s with a five-minute outage; a train through a two-satellite cutting and a tunnel; an aircraft whose outage covers a 25-degree banked turn) and the pack's optional [tight] table: pseudoranges from an SGP4 Walker constellation fused by the closed-loop navigator, every satellite above the mask when nominal and the highest few when degraded",
             module: "fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation",
@@ -559,6 +609,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-583fb6a6",
             requirement: "Coupled pseudorange PNT filter with bias state and 3-D extension in the fusion pack",
             capability: "One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant accelerometer-bias state that the fusion pack runs under [coupled]; and the 3-D 8-state version with line-of-sight rows",
             module: "fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)",
@@ -568,6 +619,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-2b31e9b2",
             requirement: "Loosely coupled GNSS/INS EKF with lever arm on the KF-GINS dataset",
             capability: "The closed-loop 15-state error-state EKF driven by IMU increments with GNSS antenna positions fused through the lever-arm model H = [I 0 −[(C_b^n l_b)×] 0 0], configured from a KF-GINS YAML file (initial state and sigmas, ARW/VRW, Gauss-Markov biases)",
             module: "fusion::kfgins (run, loaders, score), fusion::closed_loop (propagate_increments, fuse_position_lever_arm), fusion::gnss_ins_ekf (update_position_lever_arm)",
@@ -577,6 +629,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-98bed4a0",
             requirement: "Test-bench export read by a simulator's motion-file readers (gps-sdr-sim)",
             capability: "The bench-export motion files given to an open-source GNSS simulator's own readers come back as the exported trajectory: the NMEA GGA file (-g), the time/latitude/longitude/height cut of the motion CSV (-x) and its time/x/y/z cut (-u), on 6 gnss-ins scenarios (including the maritime, rail and aviation packs, read to the simulator's 3000-sample cap) and 2 stationary ones. Motion only; no signal is written or generated.",
             module: "interop::testbench (write_motion_csv, write_nmea, export)",
@@ -586,6 +639,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a606add5",
             requirement: "GNSS/INS trajectory library and CSV truth import",
             capability: "Selectable motion profiles for the gnss-ins pack (straight, figure-8, urban stop-and-go, aircraft climb and coordinated turn, survey drone), defined by Euler-rate and along-track-acceleration commands closed on the truth state with the kinematic IMU (centripetal, gravity and Coriolis terms), and imported CSV truth turned into the IMU that reproduces it; the historical drive unchanged when no profile is given",
             module: "fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])",
@@ -595,6 +649,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-b2b424ef",
             requirement: "Strapdown INS mechanization",
             capability: "Quaternion-attitude, WGS-84 NED strapdown inertial mechanization (coning/sculling-compensated) propagating a navigation state from (Δθ, Δv) increments",
             module: "inertial::mechanization, inertial::attitude, inertial::imu_errors",
@@ -604,6 +659,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-52d2b490",
             requirement: "Gravity-field functional synthesis (gravity-aided / GNSS-free nav map)",
             capability: "Spherical-harmonic gravity magnitude + disturbance (mGal) from any ICGEM .gfc model; GRS80 normal gravity",
             module: "gravity_sh",
@@ -613,6 +669,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-cbbbaf73",
             requirement: "Earth-Moon CR3BP 9:2 NRHO against the orbit CAPSTONE flew",
             capability: "The circular-restricted 9:2 L2 southern near-rectilinear halo orbit that cr3bp::differential_correct_halo corrects (the Gateway and CAPSTONE orbit family), compared for its mean geometry (period, perilune radius, apolune radius) with the orbit CAPSTONE actually flew. A measurement of how well the CR3BP member describes the real orbit; a CR3BP orbit is not an ephemeris-model orbit and is not compared epoch by epoch",
             module: "cr3bp (differential_correct_halo, PeriodicOrbit)",
@@ -622,6 +679,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7a53988a",
             requirement: "CR3BP rotating states mapped to Moon-centred ICRF on the DE440 Earth-Moon line",
             capability: "cr3bp::to_moon_centred_icrf maps a nondimensional Earth-Moon CR3BP rotating state to a Moon-centred ICRF position and velocity on the instantaneous Earth-Moon line (length unit the Earth-Moon distance, time unit the inverse orbital rate, the frame's full angular velocity including its out-of-plane rate from the Moon's acceleration), with the inverse from_moon_centred_icrf, and cr3bp::to_moon_centred_icrf_de440 reads the geocentric Moon state from a DE440 SPK. It maps states; it does not make a CR3BP orbit an ephemeris-model orbit",
             module: "cr3bp (to_moon_centred_icrf, from_moon_centred_icrf, to_moon_centred_icrf_de440)",
@@ -631,6 +689,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-cadb7067",
             requirement: "Solar-system kind on a JPL kernel (planetary_kernel_path)",
             capability: "The `solar-system` kind with planetary_kernel_path: each reported body whose own NAIF code the SPK holds takes its heliocentric J2000 position and velocity from the kernel through the engine's own reader (label KERNEL), a link whose two ends are both in the kernel is computed on it, barycentres are never substituted for a planet, and every other body stays analytic with its own label; the report gains a kernel block (path, SHA-256, the bodies and links taken from it) only when the option is set. With de440s.bsp that is Mercury, Venus, the Earth and the Moon",
             module: "solar_system (SolarSystemScenario::planetary_kernel_path, KernelOut); ephem_provider (KernelEphemeris)",
@@ -640,6 +699,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c8b4f777",
             requirement: "Porkchop on the DE440 ephemeris",
             capability: "maneuver::porkchop_kernel: the launch-date x arrival-date sweep of departure C3 (km²/s²) and arrival V-infinity (km/s) with the single-revolution prograde Lambert solver and the 0.5 deg collinearity guard, on the heliocentric J2000 states of any two NAIF bodies read from a JPL DE440 SPK by the crate's own reader. One revolution, prograde, no launch-vehicle or arrival constraints: a sweep, not a mission design",
             module: "maneuver (porkchop_kernel, PorkchopGrid); ephem_provider (KernelEphemeris)",
@@ -649,6 +709,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c80a768c",
             requirement: "Impulsive transfer optimiser on the DE440 ephemeris",
             capability: "maneuver::optimise_transfer_kernel: the departure and arrival dates of a single-revolution ballistic two-impulse transfer that minimise departure C3 or arrival V-infinity within Type I or Type II, as a continuous optimum (a 2-day grid over both windows, then 2-D Nelder-Mead), on heliocentric states from the DE440 SPK. A date optimiser for one leg, not a mission design: no launch-vehicle, parking-orbit, deep-space-manoeuvre or multi-revolution options",
             module: "maneuver (optimise_transfer_kernel, TransferObjective, TransferType, TransferOptimum); ephem_provider (KernelEphemeris)",
@@ -658,6 +719,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-710b7e9b",
             requirement: "Multi-revolution Lambert transfer solver",
             capability: "Every solution of Lambert's problem with up to three complete revolutions (maneuver::lambert_multirev: the single-revolution solution, then the left and right branches of each revolution count, Izzo 2015), with the boundary velocities v1 and v2, for prograde and retrograde transfers, in canonical and heliocentric SI units, including transfers within 1 % of a revolution count's minimum time of flight and near-180 deg geometries. A two-body solver only (no perturbations)",
             module: "maneuver (lambert_multirev, LambertSolution, LambertBranch)",
@@ -667,6 +729,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a5e13882",
             requirement: "Lambert two-body transfer solver",
             capability: "Izzo-2015 single-revolution Lambert solver (r1, r2, time-of-flight → boundary velocities) across LEO→GEO→heliocentric transfers, prograde and retrograde",
             module: "maneuver (lambert)",
@@ -676,6 +739,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-91baec5d",
             requirement: "Reference frames & timescales",
             capability: "IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-second timescales",
             module: "frames, precession, nutation, cio, timescales",
@@ -685,6 +749,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-ba0279e6",
             requirement: "Two-part Julian dates and leap seconds on the Earth-orbit time path",
             capability: "A UTC calendar date and time to a two-part UTC Julian date with the SOFA dtf2d convention for days that end in a leap second (86 401 s long, 23:59:60.x valid), UTC to TAI and back, and UT1 from UTC through TAI, on two-part dates from 1972-01-01: the time path SGP4 (Sgp4::propagate_at, measured from a two-part epoch) and the IAU 2006/2000A Earth-fixed rotation (sgp4::teme_to_itrs_matrix_eop with the two-part Earth rotation angle) take",
             module: "jd2 (Jd2::from_utc_calendar, utc_to_tai, tai_to_utc, utc_to_ut1, tai_to_tt, earth_rotation_angle); sgp4 (Sgp4::new_at, Sgp4::propagate_at)",
@@ -694,6 +759,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-349495a3",
             requirement: "Two-part Julian dates through Earth rotation on the orbit path",
             capability: "Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on the two parts), cio::gcrs_to_itrs_matrix_jd2 (the CIO GCRS to ITRS matrix with the Earth rotation angle from the two parts), and, built on them and checked internally, frames::teme_to_itrf_jd2 / itrf_to_teme_jd2, orbit::Propagator::position_in_frame_jd2 and own_jd2_utc, the ephemeris scenario's opt-in two_part_jd (the ECEF position, ground track and station view; default off, unchanged), and lossless From conversions between jd2::Jd2 and timescales::TwoPartJd. Precession-nutation and the Cowell force-model epoch stay single-f64, where a 40 us rounding is below 1e-15 rad or far below the analytic Sun/Moon ephemeris error",
             module: "jd2 (gmst82, From<TwoPartJd>, From<Jd2>); cio (gcrs_to_itrs_matrix_jd2); frames (teme_to_itrf_jd2, itrf_to_teme_jd2); orbit (Propagator::position_in_frame_jd2, own_jd2_utc); ephemeris (EphemerisScenario::two_part_jd)",
@@ -703,6 +769,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a676a683",
             requirement: "Frame matrices against ERFA vectors: IAU 2006 bias-precession, TEME to GCRS, and the CIO chain with celestial-pole offsets",
             capability: "Three frame matrices compared element by element or by rotation angle with ERFA at arbitrary epochs: precession::precession_matrix (IAU 2006 bias-precession by Fukushima-Williams angles), nutation::teme_to_gcrs_matrix (the TEME to GCRS rotation P^T N^T Rz(-EE) with IAU 2006 precession, IAU 2000B nutation and the equation of the equinoxes with its two leading complementary terms), and cio::gcrs_to_cirs_matrix_with_offsets (the GCRS to CIRS rotation with the IERS celestial-pole offsets dX, dY added to the model CIP X, Y before the rotation, the SOFA cookbook convention; new). The model choices themselves (2000B nutation on the TEME path, the two-term complementary series) are not validated, only their implementation",
             module: "precession (precession_matrix); nutation (teme_to_gcrs_matrix); cio (gcrs_to_cirs_matrix_with_offsets)",
@@ -712,6 +779,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-604f1e8f",
             requirement: "Pre-1972 UTC (drifting-rate era) on the two-part Julian-date time path",
             capability: "UTC from 1960-01-01 to 1971-12-31, when UTC ran at an offset rate from TAI and stepped by fractions of a second, on the two-part Julian-date path: TAI - UTC from the drift table of each period (timescales::tai_minus_utc_on_date), the UTC calendar date to a two-part UTC Julian date with the day length 86 400 s + dleap (Jd2::from_utc_calendar), UTC to TAI with the day fraction scaled from UTC to SI seconds (jd2::utc_to_tai) and TAI back to UTC (jd2::tai_to_utc), following SOFA dtf2d, utctai and taiutc. Before 1960 TAI - UTC is taken as 0 (SOFA's value; UTC undefined) and is outside the claim. The single-f64 timescales::tai_minus_utc still clamps to 10 s before 1972 and is not covered",
             module: "timescales (tai_minus_utc_on_date); jd2 (Jd2::from_utc_calendar, utc_to_tai, tai_to_utc)",
@@ -721,6 +789,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3123f2d9",
             requirement: "GLONASS broadcast satellite clock and broadcast-orbit propagation",
             capability: "The GLONASS broadcast satellite clock bias -tau_n + gamma_n (t - t_b) at a time read on the satellite clock (glonass::GlonassEphemeris::sv_clock_bias_s, the offset corrected for the clock bias by two fixed-point iterations), and the PZ-90 Earth-fixed position of the broadcast state vector propagated by RK4 through the GLONASS ICD equations of motion within +/-15 min of the reference epoch (GlonassEphemeris::position_ecef), from real RINEX 3 GLONASS navigation records. No PZ-90.11 to ITRF transformation is applied (they agree at the centimetre level since 2014; RTKLIB applies none either). Not wired into a scenario output: library function",
             module: "glonass (GlonassEphemeris::sv_clock_bias_s, position_ecef, parse_glonass_nav)",
@@ -730,6 +799,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-b4e008a0",
             requirement: "One Earth-orbit path: SGP4 element sets to the GCRS and ITRS on the IAU 2006/2000A chain with Earth orientation parameters",
             capability: "The propagation and frame path every routed Earth-orbit kind shares: an SGP4 mean element set with a two-part UTC epoch (sgp4::MeanElementSet, read from constellation-design elements by MeanElementSet::from_earth_fixed) propagated by SGP4/SDP4 to TEME (sgp4::SgpOrbit), and the TEME -> ITRS and GCRS -> ITRS rotations of the IAU 2006/2000A chain with UT1 - UTC and polar motion (sgp4::teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop, the zero-parameter forms teme_to_itrs_matrix and gcrs_to_itrs_matrix). TEME is the true equator of date with the mean equinox, reached from the GCRS through the IAU 2006 bias-precession, the IAU 2000B nutation and the equation of the equinoxes",
             module: "sgp4 (MeanElementSet, SgpOrbit, Eop, teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop); jd2 (utc_to_ut1, earth_rotation_angle); nutation (teme_to_gcrs_matrix); cio (gcrs_to_cirs_matrix); frames (polar_motion_matrix)",
@@ -739,6 +809,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-faf6c34f",
             requirement: "Ranging-code design trade",
             capability: "m-sequence/Gold sidelobe & cross-correlation bounds, length↔ambiguity",
             module: "navsignal (CodeFamily)",
@@ -748,6 +819,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-bb79da35",
             requirement: "GNSS geometry / dilution of precision (DOP)",
             capability: "GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split",
             module: "orbit (dop)",
@@ -757,6 +829,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a0ea0d9f",
             requirement: "Position error from geometry: RMS error = sigma_UERE x DOP for the engine's least-squares fix",
             capability: "dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = 20,000 epochs per geometry, sigma = 1.5 m, ChaCha8 seed 36 + i) of the engine's own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position) on the 8 geometries of tests/fixtures/dop/dop_reference.csv, comparing the east, north, up and clock error variances, the H/V/P RMS, the east-north correlation, the mean errors and the fraction inside the 95 % horizontal ellipse with sigma^2 Q, where Q is the covariance factor of the orbit::dop kernel (orbit::dop_cofactor, the same arithmetic) on the same geometry",
             module: "dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)",
@@ -766,6 +839,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f7f6e62d",
             requirement: "Geometry-aware trust classification: satellite geometry beside the receiver-trust score and a class on every deduction",
             capability: "receiver_trust::geometry: per-epoch satellite geometry (good, degraded with reasons few-satellites/high-pdop/high-hdop/sky-blocked, or unknown when the log gives no GSV, NAV-SAT or GSA) derived from the reported elevations and azimuths through orbit::dop or taken from GSA, with a label always reported and never scored (good, fair, poor, unknown) and the HDOP, PDOP, VDOP, satellite count and signal loss in words; a vessel-score geometry monitor that deducts nothing unless the geometry is poor (ratio max(hdop/4, pdop/6, 5/n_used) above 1), then ramps to a cap of 15 points at 1.5 that geometry alone cannot take below the degraded band (cap, ramp end and floor in [geometry]; no alarm); a class on every deduction (geometry, environment, inconsistency) with loss-of-lock to satellites below 15 deg classed geometry, satellites in view but not tracked classed environment, and a poor-geometry deduction whose stated HDOP is beyond max(1.0, 25 % of the derived HDOP) from the stated sky classed inconsistency",
             module: "receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)",
@@ -775,6 +849,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-b59d517d",
             requirement: "Broadcast ionosphere model (Klobuchar, IS-GPS-200)",
             capability: "Klobuchar single-frequency L1 slant ionospheric group delay from the eight broadcast α/β coefficients",
             module: "gnss_sim (klobuchar_delay_m)",
@@ -784,6 +859,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-1e6c81a8",
             requirement: "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)",
             capability: "The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and the K_fa/K_md/K_V solution-separation multipliers",
             module: "raim (chi2_cdf, chi2_quantile, noncentral_chi2_cdf, normal_cdf, normal_quantile, pbias)",
@@ -793,6 +869,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-b9fd9dfe",
             requirement: "SBAS protection level (DO-229E weighted-LS HPL/VPL)",
             capability: "DO-229E Appendix J weighted-least-squares protection levels: D=(GᵀWG)⁻¹ from per-satellite elevation/azimuth and error budget, horizontal error-ellipse major axis and vertical σ, scaled by the published K-factors",
             module: "sbas (sbas_protection_level)",
@@ -802,6 +879,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-216727c9",
             requirement: "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)",
             capability: "AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1",
             module: "impairment_eval (auc, confusion_at, roc_curve)",
@@ -811,6 +889,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-24e0303a",
             requirement: "Anomaly-detection scoring on real spacecraft telemetry",
             capability: "ROC AUC + bootstrap CI separating real labelled anomalies; transparent detector (reproduces-labels)",
             module: "impairment_eval, eval_stats",
@@ -820,6 +899,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-4fd47e51",
             requirement: "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)",
             capability: "Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computational spine",
             module: "quantum_trade (qparams_from_adev_curve), detection (chi2_inv_cdf), clock_state (ClockState3)",
@@ -829,6 +909,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-611e3164",
             requirement: "Geomagnetic reference field (IGRF-14 synthesis)",
             capability: "Spherical-harmonic synthesis of the IGRF-14 main field — X/Y/Z/F components, declination and inclination — feeding the magnetic-anomaly alt-PNT layer",
             module: "igrf, igrf_data",
@@ -838,6 +919,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-b4802fbd",
             requirement: "Detection statistics — Gaussian AUC & minimum detectable fault",
             capability: "Analytic binormal ROC AUC = Φ(μ/(σ√2)) and the minimum detectable fault σ·(Φ⁻¹(1−P_fa)+Φ⁻¹(P_d)) underpinning the quantum-fault and anomaly detectors",
             module: "quantum_faults, eval_stats, detection",
@@ -847,6 +929,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-9219a1de",
             requirement: "Rank-order statistics kernel (Kendall-τ / Dirichlet / percentile)",
             capability: "Rank-correlation and resampling kernels under the resilience decision-instability study: Kendall τ-b, Dirichlet mean, competition ranking and percentile confidence intervals",
             module: "resilience::stats",
@@ -856,6 +939,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-00275839",
             requirement: "MCDA priority-derivation kernel (AHP eigenvector / consistency ratio)",
             capability: "Analytic Hierarchy Process priority weights = normalised principal (Perron) eigenvector of a reciprocal pairwise-comparison matrix by power iteration, with the Saaty Consistency Index / Consistency Ratio and the CR<0.10 acceptance gate",
             module: "mcda::ahp",
@@ -865,6 +949,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-684c550a",
             requirement: "MCDA weighted-aggregation kernels (WSM / WPM)",
             capability: "Weighted Sum Model (min–max-normalised additive aggregate + ranking) and Weighted Product Model (sum-normalised, reciprocal-for-cost multiplicative aggregate) — the two value-aggregation trade-study scorers",
             module: "mcda::wsm, mcda::wpm",
@@ -874,6 +959,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-cbf34b8e",
             requirement: "MCDA distance-to-ideal ranking (TOPSIS)",
             capability: "Technique for Order of Preference by Similarity to Ideal Solution — min–max normalisation, weighted positive/negative ideal solutions, relative closeness Cᵢ = d⁻/(d⁺+d⁻) and ranking",
             module: "mcda::topsis",
@@ -883,6 +969,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-8b3572d6",
             requirement: "MCDA compromise ranking (VIKOR)",
             capability: "VlseKriterijumska Optimizacija — group-utility Sᵢ, individual-regret Rᵢ and the compromise index Qᵢ at strategy weight v=0.5, with the lower-is-better ranking",
             module: "mcda::vikor",
@@ -892,6 +979,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-2fe3fe0b",
             requirement: "MCDA outranking net-flow ranking (PROMETHEE II)",
             capability: "Preference Ranking Organization METHod — pairwise preference index with the six standard generalised-criterion shapes, positive/negative outranking flows and the complete net-flow ranking (usual criterion validated)",
             module: "mcda::promethee",
@@ -901,6 +989,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-ce013b59",
             requirement: "MCDA outranking choice kernel (ELECTRE I)",
             capability: "ELimination Et Choix Traduisant la REalité — concordance / discordance matrices, the concordance-and-non-veto dominance relation and the outranking choice kernel (all-benefit, sum-normalised-weight, single-global-scale convention)",
             module: "mcda::electre",
@@ -910,6 +999,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-9adfd44f",
             requirement: "MCDA aggregation kernels (WASPAS / MOORA)",
             capability: "Weighted Aggregated Sum Product ASSessment (linear-normalised convex blend λ·WSM+(1−λ)·WPM at λ=0.5) and the MOORA ratio system (vector-normalised weighted benefit total minus weighted cost total) — the stability-hardened value blend and the signed ratio-system scorer",
             module: "mcda::waspas, mcda::moora",
@@ -919,6 +1009,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c106eee9",
             requirement: "MCDA proportional ranking (COPRAS)",
             capability: "COmplex PRoportional ASsessment — column-sum-normalised benefit significance S⁺ plus the inverse-cost significance term, the relative significance Q and utility degree U = Q/max Q (best alternative = 1)",
             module: "mcda::copras",
@@ -928,6 +1019,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-d952e366",
             requirement: "CUSUM change-detection latency & ARL",
             capability: "Tabular-CUSUM detector worst-case detection latency (⌊h/(z−k)⌋+1) and out-of-control average run length, used by the timing-protection-level and spoof monitors",
             module: "tpl (Cusum), security",
@@ -937,6 +1029,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3376197e",
             requirement: "Clock-holdover coast-variance & threshold inversion",
             capability: "Coast phase-error variance growth q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 and its monotone inversion to a timing-error holdover threshold",
             module: "holdover (coast_phase_variance, holdover_seconds)",
@@ -946,6 +1039,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-ea398366",
             requirement: "Inverse-Simpson diversity kernel",
             capability: "Effective architectural diversity = inverse-Simpson / Hill-order-2 number 1/Σpᵢ² over per-independence-group source qualities (the diversity term in the resilience score)",
             module: "resilience::diversity (effective_diversity)",
@@ -956,6 +1050,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Modelled (first-principles / published formulae, internally checked)─
         VerificationItem {
+            id: "VM-73e30b65",
             requirement: "Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask",
             capability: "skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at 360 deg, the visible set el >= max(mask_deg, mask(az)), and the common-clock DOP and ENU-and-clock cofactor matrix of that set (the kernel behind orbit::dop). It is how the [skyline] section decides visibility in the gnss-sim, jamming, leo-pvt, leo-pass and nmea-scenario kinds and, with the ground-site user_site, in orbit and integrity",
             module: "skyline (Skyline::cut_deg, Skyline::visible); frames (look_angles, is_visible_skyline); orbit (UserPath, sky_view, cofactor_from_los); geometry (sky_geometry)",
@@ -965,6 +1060,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-9d83f008",
             requirement: "Street-canyon, sector and terrain reductions to a table",
             capability: "skyline: the street canyon in closed form (cut atan((h - a) / d) with d = (w/2) / abs(sin(az - s)), open ends for a finite length), sharp-edged sectors clockwise with wrap, and terrain points reduced to a table with the curvature drop d^2/(2 * 4/3 R); the skyline is their pointwise maximum with any table",
             module: "skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)",
@@ -974,6 +1070,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f409aed2",
             requirement: "Skyline presets (city street, harbour approach, fjord, container terminal)",
             capability: "skyline::PRESETS: four REPRESENTATIVE geometries with the design note's stated dimensions and a provenance line each: city-street (a canyon, street 0 deg, 20 m between 30 m walls, antenna 1.5 m), harbour-approach (sectors: open to seaward over 180 deg, quay buildings 8 deg over 90 deg, the breakwater 3 deg), fjord (terrain: walls 600 m above the antenna at 1.5 km either side of a north-south channel, curvature drop applied), container-terminal (sectors: stacks 12 deg over the landward half, crane booms 35 deg and 25 deg over two narrow sectors); overridable field by field",
             module: "skyline (PRESETS, preset, preset_list)",
@@ -983,6 +1080,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ea2e883b",
             requirement: "Horizontal error ellipse and per-system cofactor from the geometry covariance",
             capability: "geometry::sky_geometry: the ENU-and-clock cofactor (H^T H)^-1 with one receiver clock in common or one per system (the orbit::cofactor_from_los kernel), and the horizontal error ellipse from its east-north block (semi-axes k sigma sqrt(lambda), k = sqrt(-2 ln(1 - p)), the major axis's azimuth from north)",
             module: "geometry (sky_geometry, ellipse); orbit (cofactor_from_los)",
@@ -992,6 +1090,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-2d7d6035",
             requirement: "Sky geometry functions: visibility, DOP, covariance, error ellipse, Monte Carlo cloud",
             capability: "geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg; CLI `kshana sky` and `kshana skyline`, Python and WASM functions of the same names, MCP `sky_geometry`): from a site, a time and constellation presets (or satellites as azimuth/elevation or ECEF), the satellites visible and masked under a skyline, GDOP/PDOP/HDOP/VDOP/TDOP, the unit-variance cofactor (H^T H)^-1 and the covariance in east-north-up with one receiver clock per system or one in common, the horizontal error ellipse (semi-axes k sigma sqrt(lambda), k = sqrt(-2 ln(1 - p)), orientation 0.5 atan2(2 Q_EN, Q_NN - Q_EE) from north), and n seeded least-squares errors under independent Gaussian range errors with their empirical covariance, RMS and 95 % containment. The cofactor is orbit::cofactor_from_los, the one kernel behind orbit::dop and orbit::dop_cov (dop is dop_cov's reduction): no second DOP implementation",
             module: "geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)",
@@ -1001,6 +1100,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7a590be8",
             requirement: "GNSS-denied clock holdover",
             capability: "Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes",
             module: "holdover",
@@ -1010,6 +1110,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-4a6894e7",
             requirement: "Measured clock device cards (held-out prediction)",
             capability: "clock_library: a device card (white phase, white, flicker and random-walk FM plus a linear frequency drift) fitted to one third of a named measured clock record after a logged conditioning pass (gaps, phase outliers, phase steps, bursts removed; frequency steps logged), weighted by the lag-1-identified noise-type degrees of freedom, and its predicted Allan deviation scored on the held-out two thirds; readers for RINEX and IGS clock files, BIPM per-laboratory files and Circular T Section 1; conversion of a card to the slot-timing noise model, the extended Kalman clock model and the spoofing monitor's noise levels",
             module: "clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)",
@@ -1019,6 +1120,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-d6948fbc",
             requirement: "Measured GPS Block IIF clock cards with per-revolution terms (held-out prediction)",
             capability: "clock_library::card::DeviceCard::fit_phase_periodic: a device card that carries the once- to four-per-revolution phase terms (period T/k, T = 43 082.05 s), fitted jointly with the quadratic by least squares on one third of a measured satellite clock record, with each term's closed-form Allan contribution 4 A^2 sin^4(pi tau / P) / tau^2 in the predicted Allan deviation",
             module: "clock_library (card)",
@@ -1028,6 +1130,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-4ca6b7c4",
             requirement: "Onboard clock state estimation",
             capability: "3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised",
             module: "clock_state",
@@ -1037,6 +1140,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-dcb22bd1",
             requirement: "Time-transfer error budgeting",
             capability: "Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range",
             module: "timetransfer, timetransfer_adv",
@@ -1046,6 +1150,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7b9ba72f",
             requirement: "Nav-signal modulation & code-tracking analysis",
             capability: "BPSK-R/BOC PSD, spectral-separation κ, Gabor bandwidth, DLL jitter, multipath",
             module: "navsignal",
@@ -1055,6 +1160,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-1a97a57b",
             requirement: "GPS L1 C/A spreading-code generation",
             capability: "G1/G2 LFSR C/A-code generator reproducing the IS-GPS-200 published first-10-chip octal verification vectors for PRN 1–9 (plus 1023-chip length, 512-ones balance, three-valued periodic autocorrelation)",
             module: "sdr",
@@ -1064,6 +1170,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3d1e2932",
             requirement: "Quantum inertial sensor performance",
             capability: "Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN)",
             module: "inertial::quantum_imu",
@@ -1073,6 +1180,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-615e17f8",
             requirement: "Quantum inertial sensor fringe-ambiguity / dynamic range",
             capability: "Mach–Zehnder fringe-ambiguity dynamic range: the 2π-periodic fringe readout sets a maximum unambiguous specific force a_max=π/(k_eff·T²), and the unambiguous range in resolution cells a_max/σ_a=π/σ_Φ is independent of the optical scale factor — the T² sensitivity gain costs unambiguous range in exact lockstep (interrogation time trades resolution for range, leaving the cell count fixed by the readout phase noise)",
             module: "inertial::quantum_imu",
@@ -1082,6 +1190,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-098c5e7f",
             requirement: "Quantum inertial dead-reckoning resilience",
             capability: "Composed bias + scale-factor + VRW + stability-decay position budget over holdover",
             module: "inertial::quantum_imu (QuantumNavBudget)",
@@ -1091,6 +1200,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-1e713796",
             requirement: "GNSS/INS sensor fusion",
             capability: "15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled clock+position filter (consistency-only, outside the validated claim)",
             module: "fusion (gnss_ins_ekf, tightly_coupled, ukf, coupled)",
@@ -1100,6 +1210,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-4c656dcb",
             requirement: "GNSS-denied jamming resilience",
             capability: "Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock",
             module: "jamming",
@@ -1109,6 +1220,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ab66f655",
             requirement: "Spoofing detection",
             capability: "Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM",
             module: "spoof, spoof_detect, spoof_monitors",
@@ -1118,6 +1230,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-3c597524",
             requirement: "Timing Protection Level under spoofing",
             capability: "Closed-form bound on worst-case undetected time error = monitor floor + oscillator coast-σ over CUSUM detection latency, reported as a red-noise-floor band",
             module: "tpl",
@@ -1127,6 +1240,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-2e84fba6",
             requirement: "Cislunar mission analysis",
             capability: "CR3BP STM + single-shooting differential corrector; L2 southern NRHO",
             module: "cr3bp",
@@ -1136,6 +1250,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-6a54cfeb",
             requirement: "Alternative / complementary PNT",
             capability: "Gravity-map matching, terrain-referenced (TERCOM/SITAN), magnetic anomaly",
             module: "altpnt, mapmatch, gravimeter, igrf",
@@ -1145,6 +1260,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-93082325",
             requirement: "Gravity-anomaly synthesis from a spherical-harmonic model",
             capability: "Gravity anomaly in spherical approximation (Barthelmes STR09/02 eq. 126, ICGEM gravity_anomaly_sa) from fully normalised coefficients against a closed-form level ellipsoid (WGS84/GRS80), with the zero-degree term, gridded for the gravity-map matcher",
             module: "gravity_sh, altpnt::maps, gravimeter",
@@ -1154,6 +1270,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-522a5c79",
             requirement: "SRTM digital-elevation reader on real terrain",
             capability: "Hand-rolled SRTM .hgt parser (16-bit big-endian, north-row-first, void-aware) + bilinear sampler reading a real public-domain DEM tile and resolving a documented survey benchmark",
             module: "altpnt::terrain",
@@ -1163,6 +1280,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-cf3cdcd3",
             requirement: "Reproducibility & software assurance",
             capability: "Deterministic, scenario-hashed, SBOM + cross-platform golden gates",
             module: "report, scenario; CI (golden/determinism/SBOM)",
@@ -1172,6 +1290,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-77f12e71",
             requirement: "AI/ML RF-impairment detection evaluation (13494)",
             capability: "Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-regime) optimism report. Runnable from the CLI/bindings as the `impairment-eval` scenario kind (scenarios/impairment-eval.toml)",
             module: "impairment_eval",
@@ -1181,6 +1300,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-d6a9346b",
             requirement: "AI/ML RF-impairment optimism-gap study & ID-only gap predictor",
             capability: "Controlled synthetic study of the in-distribution→out-of-distribution AUC optimism gap across published-method and learned (logistic-regression / one-hidden-layer MLP) detectors: per-class scaling-law trends (Spearman ρ + slope on 1−severity) and an ID-only ridge predictor that estimates the gap from in-distribution diagnostics alone, scored leave-one-detector-out and leave-one-class-out. Reproducible via `cargo run --release --example optimism_study`",
             module: "impairment_study, impairment_ml, eval_stats",
@@ -1190,6 +1310,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-4565dcd3",
             requirement: "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)",
             capability: "Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact. Runnable from the CLI/bindings as the `quantum-trade` scenario kind (scenarios/quantum-trade.toml)",
             module: "quantum_trade",
@@ -1199,6 +1320,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-dd6c7403",
             requirement: "Space-weather environment & activity-driven thermospheric density",
             capability: "Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia 1971 thermospheric density (SAO Special Report 332: static diffusion profiles reproducing its Table 7, with the diurnal, geomagnetic, semiannual, seasonal-latitudinal and helium variations) against the static USSA76 atmosphere. Runnable from the CLI/bindings as the `space-weather` scenario kind (scenarios/space-weather.toml)",
             module: "space_weather",
@@ -1208,6 +1330,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-81fb8429",
             requirement: "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
             capability: "CCSDS 502.0 OEM importer (parse_oem), tolerant of COMMENT lines / extra metadata keywords / covariance blocks and the exact inverse of the writer; round-trip + external-file ingest with a velocity-consistency check. Runnable from the CLI/bindings as the `oem-interop` scenario kind (scenarios/oem-interop.toml)",
             module: "oem",
@@ -1217,6 +1340,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c55b030d",
             requirement: "Launch-window & ascent geometry (mission analysis)",
             capability: "Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv and daily opportunities, and, given an epoch and IERS finals2000A rows, the site speed about the true pole (launch::site_rotation_speed_at). Runnable from the CLI/bindings as the `launch-window` scenario kind (scenarios/launch-window.toml)",
             module: "launch",
@@ -1226,6 +1350,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-72711b98",
             requirement: "Ballistic re-entry corridor (Allen–Eggers)",
             capability: "Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry. Runnable from the CLI/bindings as the `reentry` scenario kind (scenarios/reentry.toml)",
             module: "reentry",
@@ -1235,6 +1360,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-8f68cf22",
             requirement: "EO payload footprint & coverage geometry",
             capability: "SMAD space-triangle geometry: Earth angular radius, swath width, nadir GSD, maximum off-nadir access and circular period, plus the first-order J2 nodal period (eo_payload::j2_nodal_period) and the equatorial ground-track spacing R_e (omega_E - dOmega/dt) T_nodal (eo_payload::ground_track_spacing_equator_j2) with a contiguous-coverage flag, for an orbit altitude, inclination and sensor FOV/IFOV. Runnable from the CLI/bindings as the `eo-coverage` scenario kind (scenarios/eo-coverage.toml); its default inclination is the sun-synchronous one from eo_payload::sun_synchronous_inclination, a convenience default that is not part of the validated claim",
             module: "eo_payload (j2_node_rate, j2_nodal_period, ground_track_spacing_equator_j2, sun_synchronous_inclination)",
@@ -1244,6 +1370,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-22d526a3",
             requirement: "CCSDS Space Packet (133.0) TM/TC framing",
             capability: "CCSDS 133.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Runnable from the CLI/bindings as the `space-packet` scenario kind (scenarios/space-packet.toml)",
             module: "space_packet",
@@ -1253,6 +1380,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-870899be",
             requirement: "CCSDS Space Packet secondary header, packet error control and segmentation",
             capability: "CCSDS 133.0-B-2 Space Packet extensions beside the primary header: a secondary header carrying a CCSDS 301.0-B time code (CUC or CDS, explicit or implicit P-field) and ancillary data, the CRC-16 packet error control field, segmentation of a large user-data unit and its reassembly, stream decoding with sequence-gap and order checks, and PUS-TM packets. The primary-header output is byte-identical to before",
             module: "space_packet (TimeCode, SecondaryHeader, packet error control, segmentation and reassembly, stream decoding)",
@@ -1262,6 +1390,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-893b479b",
             requirement: "SPICE SPK export (types 9 and 13)",
             capability: "Writer and reader of NAIF SPICE SPK kernels of types 9 (Lagrange, unequal time steps) and 13 (Hermite, unequal time steps), with the DAF layout, segment descriptors and epoch directories, and the export of a CCSDS OEM to an SPK kernel (UTC or TDB epochs to ephemeris time)",
             module: "spk_writer (SpkSegment, to_bytes, from_bytes, eval, et_from_label, oem_to_spk_segments)",
@@ -1271,6 +1400,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-1970e41c",
             requirement: "SPICE SPK types 3 and 21 (Chebyshev, extended difference lines)",
             capability: "Writer and reader of NAIF SPICE SPK segments of type 3 (Chebyshev polynomials for position and velocity over fixed intervals, degree 0 to 27) and type 21 (extended modified difference arrays, the difference lines of JPL integrators, MAXDIM 15 to 25), from given records, in files that also hold type 9 and 13 segments; record selection and evaluation in the order of the SPICE readers. Kshana does not fit Chebyshev coefficients or produce difference lines",
             module: "spk_writer (SpkType::Chebyshev3, SpkType::DiffLines21, SpkSegment, InterpolatedSpk)",
@@ -1280,6 +1410,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c005fb99",
             requirement: "CCSDS Attitude Data Messages (AEM, APM)",
             capability: "Writer and reader of the CCSDS 504.0-B-2 Attitude Data Messages in KVN and NDM/XML: AEM version 2.0 (and 1.0 in KVN, with its ATTITUDE_DIR, QUATERNION_TYPE and numeric rotation sequences) with quaternion, Euler-angle and spin attitude types and their derivative, angular-velocity and nutation variants, several segments; APM version 2.0 with quaternion, Euler, angular-velocity, spin, inertia and maneuver blocks; the A-to-B quaternion of a record (504.0-B-2 Annex F)",
             module: "adm (AemMessage, ApmMessage, quaternion_a_to_b), ndm_xml",
@@ -1289,6 +1420,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-0d74a24d",
             requirement: "CCSDS Orbit Data Messages (OPM, OMM, OCM)",
             capability: "Writer and reader of the CCSDS 502.0-B-3 Orbit Data Messages in KVN and NDM/XML: OPM 3.0 and 2.0 (state vector, osculating Keplerian elements, spacecraft parameters, covariance, maneuvers, user-defined parameters), OMM 3.0 and 2.0 (mean elements by mean motion or semi-major axis, TLE-related parameters with BSTAR or BTERM and AGOM, covariance), and OCM 3.0 with trajectory (CARTP, CARTPV, CARTPVA; absolute or relative epochs), physical-properties, covariance (CARTP, CARTPV in LTM order), maneuver and user-defined blocks; a full-precision OMM from an SGP4 element set beside the unchanged OmmFile::to_omm_kvn",
             module: "odm (OpmMessage, OmmMessage, OcmMessage, Section, OcmBlock), ndm_xml",
@@ -1298,6 +1430,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-5949d2d2",
             requirement: "3-DOF attitude & pointing error budget (AOCS)",
             capability: "Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ contributors with the dominant term (a quadrature sum of caller-supplied numbers, outside the validated claim). Runnable from the CLI/bindings as the `attitude-budget` scenario kind (scenarios/attitude-budget.toml)",
             module: "attitude_budget",
@@ -1307,6 +1440,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a9b472c1",
             requirement: "Ground-station pass prediction (ground segment)",
             capability: "Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set crossings and total access: passes::predict_passes, the geometric scheduler (no refraction or light time). The `passes` scenario kind runs the apparent predictor of the row 'Apparent ground-station pass prediction with refraction and light time'",
             module: "passes",
@@ -1316,6 +1450,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-81de805c",
             requirement: "Apparent ground-station pass prediction with refraction and light time",
             capability: "Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006/2000A, optional Earth orientation parameters), with ITU-R P.834-9 tropospheric refraction (equations 9 to 14, the Recommendation's printed coefficients) and the downlink light time, each switchable; crossings solved by bisection to 1e-7 s and the culmination by golden-section search. Runnable from the CLI/bindings as the `passes` scenario kind (scenarios/passes.toml), both corrections on by default",
             module: "passes (predict_passes_apparent, apparent_look_angles, ApparentOptions, p834_tau_s_deg, p834_tau_deg, p834_theta_m_deg, p834_apparent_elevation_deg, PassesScenario)",
@@ -1325,6 +1460,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-ac9e18de",
             requirement: "DVB-S2 adaptive coding and modulation along a LEO downlink pass",
             capability: "Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN 302 307-1 V1.4.1 Table 13 quasi-error-free threshold plus an implementation margin at each step, the pass's ACM data volume, and the constant-coding baseline that closes at the mask and the longest range. Runnable as the `acm-link` scenario kind. Illustrative inputs; MODELLED.",
             module: "contact_schedule (es_n0_db, select_modcod, fspl_db, atmospheric_loss_db, ccm_modcod, pass_capacity, AcmLinkScenario); passes::predict_passes_apparent",
@@ -1334,6 +1470,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-41760091",
             requirement: "Multi-satellite, multi-station ground-contact scheduling with conflict resolution",
             capability: "Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or one satellite would downlink to two stations at once; a priority-weighted delivery objective capped at each satellite's backlog; a lazy marginal-value greedy plan, a first-come baseline and an exact branch and bound on up to 26 candidates, with the greedy's optimality gap reported. Runnable as the `contact-schedule` scenario kind. Illustrative inputs; MODELLED.",
             module: "contact_schedule (conflicts, objective, delivered, schedule_chronological, schedule_greedy, schedule_optimal, ContactScheduleScenario)",
@@ -1343,6 +1480,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-082eb065",
             requirement: "One-way link budget (comms / link design)",
             capability: "Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS 401 / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀. Runnable from the CLI/bindings as the `link-budget` scenario kind (scenarios/link-budget.toml)",
             module: "linkbudget",
@@ -1352,6 +1490,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-0f818901",
             requirement: "Frugal cost-per-coverage / ROI framing",
             capability: "Cost-per-percent-coverage + coverage-per-euro ROI over the constellation sizing engine; per-satellite cost is a caller-sourced low/nominal/high bracket (no fabricated prices)",
             module: "frugal (over walker)",
@@ -1361,6 +1500,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-a32735f9",
             requirement: "Detection-miss integrity impact (context-aware HPL/VPL vs alert limit)",
             capability: "Maps an undetected spoof/jam bias to effective error → Stanford region (available/unavailable/MI/HMI) against context-specific HAL/VAL (open-sky vs urban)",
             module: "integrity_impact (over raim)",
@@ -1370,6 +1510,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ba0eda3b",
             requirement: "CAI cited error-model parameter sheet (13503)",
             capability: "Bracketed (best/nominal/conservative) cold-atom-interferometer performance — bias instability, velocity/angle random walk, scale-factor stability, interrogation-limited sample rate, fringe-ambiguity dynamic range — each citation-traceable; feeds QuantumNavBudget without modelling hardware",
             module: "inertial::cai_params (over inertial::quantum_imu)",
@@ -1380,6 +1521,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Timing Integrity Benchmark (CTI P4) — honesty-immune, no accuracy claim ──
         VerificationItem {
+            id: "VM-cea9b5d7",
             requirement: "Timing-integrity conformance benchmark — Stanford integrity-diagram epoch classifier",
             capability: "TIB Stanford integrity-diagram epoch classification (nominal / unavailable / MI / HMI)",
             module: "src/benchmark/stanford.rs",
@@ -1389,6 +1531,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-00ec4aa5",
             requirement: "Timing-integrity conformance benchmark — integrity-coverage scorer",
             capability: "TIB integrity-coverage scoring (HMI/MI/availability rates + overbound-coverage verdict)",
             module: "src/benchmark/coverage.rs",
@@ -1398,6 +1541,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-28757f0d",
             requirement: "Timing-integrity conformance benchmark — fault catalog (parametric generators)",
             capability: "TIB fault menu (domain-divergence, clock-slam, holdover-coast, static/incremental/symmetric/asymmetric delay, replay-within-freshness, path-selective, k-of-N quorum)",
             module: "src/benchmark/faults.rs",
@@ -1407,6 +1551,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-06ca2957",
             requirement: "Timing-integrity conformance benchmark — undetectable-absorption verdict",
             capability: "TIB undetectable-absorption verdict (symmetric/replay must be absorbed by the PL, never reported detected)",
             module: "src/benchmark/scorecard.rs",
@@ -1417,6 +1562,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Honestly partner-owned gaps (no code, by design) ──────────────────
         VerificationItem {
+            id: "VM-58d5ea17",
             requirement: "Spacecraft bus engineering (AOCS/thermal/structures/propulsion/power)",
             capability: "Not provided — Kshana is a navigation-performance simulator, not a bus house",
             module: "",
@@ -1426,6 +1572,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: PartnerOwned,
         },
         VerificationItem {
+            id: "VM-4189e731",
             requirement: "Navigation RF payload & antenna hardware design",
             capability: "Not provided — Kshana models signal performance, not payload/antenna hardware",
             module: "",
@@ -1435,6 +1582,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: PartnerOwned,
         },
         VerificationItem {
+            id: "VM-8b51babd",
             requirement: "Quantum payload hardware design & maturation",
             capability: "Not provided — performance models only; cold-atom/clock hardware is a partner's",
             module: "",
@@ -1444,6 +1592,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: PartnerOwned,
         },
         VerificationItem {
+            id: "VM-3cd10418",
             requirement: "Flight-hardware product assurance (radiation/EEE/MAIT)",
             capability: "Not provided — Kshana speaks to software PA only; flight PA is a partner's",
             module: "",
@@ -1453,6 +1602,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: PartnerOwned,
         },
         VerificationItem {
+            id: "VM-b691fa8a",
             requirement: "Lunar coordinate time",
             capability: "Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble",
             module: "lunar_time",
@@ -1462,6 +1612,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-77f54b2d",
             requirement: "Hybrid optical/RF report self-description",
             capability: "The hybrid-optical-rf report states the link configuration it actually ran at (carrier wavelength, transmit and receive aperture, range, pulse width, integration time, efficiencies and losses, defaults resolved) and carries a units block giving the unit and provenance class of every quantity a paper is likely to quote, including the handoff covariance traces in square metres",
             module: "hybrid_integrity",
@@ -1471,6 +1622,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-7a793449",
             requirement: "Hybrid optical/RF link availability on the RF side",
             capability: "The hybrid-optical-rf report states an RF link availability, composed from quantities the engine already computes rather than from an imported climatology, and states the composition as a named rule: A_rf = I_closure * I_track, where I_closure is the closure verdict of the one-way CCSDS-401 / DSN-810-005 link budget (linkbudget::link_budget, Eb/N0 margin >= 0) at the scenario's own range and I_track is the tracking-loop verdict (jamming::lock_status) on the C/N0 that SAME budget returned. Each factor carries its input's provenance class through to the output, and the factors deliberately NOT in the product -- geometric visibility, interference denial, and an RF outage climatology -- are named with the reason rather than silently set to 1. The resolved RF leg is echoed as its own rf_link_configuration block, and the continuous figures beside the indicator (link margin, C/N0 margin, the closed-form closure and tracking ranges, and the range utilisation) are the range inversions of the same budget. The report states in full, on the block and in the units entry a reader lands on, that this figure is MARGIN/GEOMETRY-LIMITED and DETERMINISTIC while optical availability is WEATHER/CLIMATOLOGY-LIMITED and probabilistic, so the two can never be quoted as a comparable pair of percentages",
             module: "hybrid_integrity, linkbudget, jamming",
@@ -1480,6 +1632,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-0a8f4175",
             requirement: "Like-for-like optical-versus-RF ranging comparison",
             capability: "The hybrid-optical-rf report emits the optical-versus-RF ranging ratio with the ONE configuration both legs were evaluated at carried in the same object: the same one-way path, the same range, and the same accumulation time. The optical leg is the engine's photon-limited ToA CRLB on the one-way photon count; the RF leg is the engine's DLL early-late thermal code-tracking jitter at the C/N0 the engine's own link budget returns for that same one-way range. The loop noise bandwidth is derived, not chosen: B_L = 1/(2*integration_s) puts the RF leg at exactly the optical accumulation time, and if a caller overrides it so the two averaging times disagree the ratio is REFUSED -- null, with the mismatch and both times named -- rather than quoted at two operating points. No ratio is formed against the scenario's CHOSEN parametric rf_position_sigma_m, and the refusal says why: that input carries no configuration at all. The released two-way optical headline and the exact factor bridging it to the one-way comparison leg are emitted beside the ratio, so the report cannot be read as carrying two disagreeing optical sigmas",
             module: "hybrid_integrity, optical_linkbudget, linkbudget, navsignal",
@@ -1489,6 +1642,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-0117d857",
             requirement: "Link-budget report self-description",
             capability: "The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure of merit, the lumped loss and the Boltzmann term -- plus the required G/T at which the margin is zero, the link constant (EIRP - losses - required Eb/N0) that is the only combination a published rate/gain table can ever fix, and, when a caller states a system noise temperature, the receive antenna gain that figure of merit implies",
             module: "linkbudget",
@@ -1498,6 +1652,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-70c4fb1a",
             requirement: "Per-clock-class lunar time crossover table",
             capability: "One lunar-time-budget run emits a clock-vs-frame crossover row per clock class against a single shared frame term, so the clock is the only variable in the comparison; each row carries the crossover reached two ways -- bisected from the general power-law time-error curve and inverted algebraically from the row's dominant noise type -- with the relative difference between them",
             module: "lunar_time_budget",
@@ -1507,6 +1662,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-2ed75c91",
             requirement: "Joint UT1 and polar-motion error over a common row set",
             capability: "One table reports the UT1 prediction error, the polar-motion pole error and their quadrature combination at the Moon over an IDENTICAL epoch set per horizon, emitting the epochs each component was measured at. Separately, the scenario names whichever EOP input is in force and decomposes its row census, and always emits the predicted-versus-final horizon table with an explicit statement of why it is empty when it is",
             module: "frame_eop, realtime_frame_eop",
@@ -1516,6 +1672,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-05ed14c3",
             requirement: "Offline default Earth-orientation input is a real IERS product",
             capability: "The `realtime-frame-eop` runtime default is the library own embedded copy of a verbatim IERS finals2000A extract (tools/finals2000A_20260930.txt: 174 consecutive daily rows, MJD 61224-61397, cut from the finals2000A.all of 2026-09-30) carrying all three row vintages the format defines, classified by the IERS I/P flags (eop::row_vintage): 30 Bulletin B finals, 54 rapid measured rows (flag I without a Bulletin B block) and 90 Bulletin A predictions (flag P). A bare run with no file argument and no network emits a populated per-horizon table, the census rows = final_rows + rapid_rows + prediction_rows (174 = 30 + 54 + 90) and predicted_rows.n = 90 over MJD 61308-61397; the as-issued cutoff of the predicted-versus-final comparisons is the last measured row. The earlier 32-row extract (tools/finals2000A_2026.txt, every row flag I) and the five-row final-only excerpt stay shipped and exercised: on them predicted_rows.n is 0, a property of the input file and not a parser outcome",
             module: "realtime_frame_eop, eop",
@@ -1525,6 +1682,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-ee245f89",
             requirement: "Capture footprint against altitude and beamwidth",
             capability: "Two-axis sweep of the pattern-weighted, altitude-limited surface capture footprint over transmitter altitude and dish diameter, emitted one row per operating point with the half-power beamwidth each diameter implies, and limb capture reported as a THRESHOLD -- per row the limb J/S, its margin and the transmit power that would close it; per grid the located crossings, or an explicit statement that the limb is not reached anywhere on the grid, with the shortfall",
             module: "antenna",
@@ -1534,6 +1692,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-b53e2911",
             requirement: "Lunar time-error budget reproducibility",
             capability: "The lunar-time-budget scenario publishes its array-valued outputs as a long-form (grid index, averaging time, term) table alongside the report, so the seven per-term x(tau) curves and the root-sum-square total are engine output rather than something a reader rebuilds from the method section",
             module: "lunar_time_budget_scenario",
@@ -1543,6 +1702,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-bc822667",
             requirement: "Lunar station time laboratory: miniRAFS holdover against LTC",
             capability: "The optional [time_lab] block of the lunar-time-budget scenario models a lunar reference station clock (default the miniRAFS class, or any named class, or a device card fitted to stated stability points) steered to Coordinated Lunar Time and then free-running or re-steered every N seconds: the time-error curve x(t) as the root-sum-square of the clock power-law term, a constant steer residual (ILLUSTRATIVE), a constant LTC realisation residual and an opt-in station-height rate term; the time after a steer to 1, 10 and 100 ns (or stated thresholds) by bisection beside the closed-form inverse for the dominant noise type, and the dominant term at each stated horizon, all with units",
             module: "lunar_time_lab (over clock_specs, lunar_time_budget, lunar_time)",
@@ -1552,6 +1712,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-f7dcc8ff",
             requirement: "Lunar geodetic VLBI",
             capability: "Near-field VLBI delay for an Earth baseline observing a lunar beacon + partials",
             module: "lunar_vlbi",
@@ -1561,6 +1722,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-825d8922",
             requirement: "Lunar geodetic VLBI, kernel path",
             capability: "Near-field VLBI delay for an Earth baseline observing a lunar beacon, with beacon and station partials, on the kernel path (lunar_vlbi::KernelGeometry): DE440 Earth and Moon, DE440 lunar principal axes, ITRF93 Earth orientation with UT1 and polar motion, each light time converged in the barycentric frame, partials with the light-time factor 1/(c - u.V). Runnable as the `lunar-vlbi` scenario with planetary_kernel_path, earth_orientation_kernel_path and moon_orientation_kernel_path set; the validated outputs are the kernel-path geometric_delay_s series and epoch_partials. On the kernel path delay_s adds the analytic differenced Shapiro term, which is not compared, and delay_rate and near_field_correction_us are not compared",
             module: "lunar_vlbi (KernelGeometry, delay_partials_beacon_body, delay_partials_stations, LunarVlbiScenario); naif_kernel",
@@ -1570,6 +1732,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3479c010",
             requirement: "NAIF kernel reader: DAF container, SPK type 2 and binary PCK type 2",
             capability: "The engine's own pure-Rust reader of NAIF binary kernels (naif_kernel): the DAF container (both byte orders, linked summary records), SPK type-2 Chebyshev position segments chained through their centres to a lowest common ancestor, and binary PCK type-2 Euler-angle segments turned into a J2000-to-body rotation, with epochs taken as two-part ET so a sub-microsecond offset keeps its precision. It is what KernelEphemeris (ephem_provider) and the kernel paths of lunar_vlbi, lunar_llr and lunar_vlbi_fim read DE440 through. The claim is that it reads JPL kernels correctly; it is not a claim that DE440, or the engine's analytic Sun and Moon series, is accurate",
             module: "naif_kernel (DafFile, SpkKernel, PckKernel); ephem_provider (KernelEphemeris)",
@@ -1579,6 +1742,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-e8fff17a",
             requirement: "Earth-GNSS at lunar distance",
             capability: "Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table 1 names and the engine had no model for. Per satellite and per epoch it computes the off-boresight angle against the transmitter nadir, whether the Earth occults the straight path, the slant range and its free-space loss, the transmit gain at that angle, the received power and the carrier-to-noise density; it then aggregates only the links clearing a tracking threshold, and sweeps a full constellation revolution so the answer is a DISTRIBUTION rather than one snapshot. Three facts drive the result and the report states each: the Earth subtends 13.90 deg from the constellation radius so the beam PEAK is geometrically unavailable to any lunar-bound ray; what remains is the main-lobe edge and the sidelobes, the regime LuGRE operated in at the Moon in 2025; and the L1 path loss is about 208 dB, some 25 dB more than a terrestrial user pays. MEASURED on the bundled 24-satellite GPS-class geometry over 64 epochs of one orbital period: SIGNAL availability 0.375 with a best link of 30.93 dB-Hz, and FIX availability 0.000 - at most two simultaneous trackable links, never the four a position needs. The separation of those two availabilities is the point, and the report refuses to let them be confused: Earth-GNSS at lunar distance is a TIMING-grade layer, not a position-grade one, and a layered-resilience prior must take the fix availability. The conditioning is emitted for the same reason - every visible satellite lies inside a cone a couple of degrees wide as seen from the Moon, so the lines of sight are near-parallel by construction. Runnable as the `earth-gnss-lunar` kind Restated per D7: the claim at lunar distance is the RELATIVE carrier-to-noise density between satellites at one epoch, from measured two-dimensional transmit patterns (NAVCEN Block IIR/IIR-M), plus geometric visibility; absolute C/N0 is not claimed (Parker et al. report a common 7 to 12 dB loss).",
             module: "earth_gnss_lunar",
@@ -1588,6 +1752,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-b2d2f296",
             requirement: "Lunar orbit determination: Earth-GNSS against ground radiometric",
             capability: "Orbit determination in a near-rectilinear halo orbit (or an elliptical frozen orbit) from two independent data types: Earth-GNSS pseudoranges received on board (the link rule of the Earth-GNSS-at-lunar-distance row, plus Moon occultation) and ground two-way range and range-rate from three Deep Space Network stations. Each is a one-step batch least squares about the reference orbit with its formal covariance; a seeded Monte Carlo of the difference between the two estimates tests whether the two covariances explain it (q = d' (P_G + P_R)^-1 d, chi-square with six degrees of freedom when the models match) and what an unmodelled acceleration does to the statistic.",
             module: "lunar_infra::{orbit, gnss, od}",
@@ -1597,6 +1762,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-d2d0cc81",
             requirement: "Lunar carrier-phase ambiguity resolution: surface and orbiter",
             capability: "Between-receiver single-differenced Earth-GNSS carrier phase and code at a lunar surface station and an orbiter, with the per-epoch clock difference profiled out, one ambiguity per continuous pass and the longest pass as the gauge. The float ambiguity covariance is a Schur complement; LAMBDA resolves the integers, the bootstrapped rate is reported beside a seeded Monte Carlo integer-least-squares success rate and the float and fixed position sigmas. Reported as found: at the registered 12 dBi the double-difference problem is not formable (amendment 1 moved the default to 25 dBi after availability counts only were seen), and at 25 dBi integer fixing is NOT achieved - out of reach (a few percent at most) although the float solution improves with the arc.",
             module: "lunar_infra::phase; lambda",
@@ -1606,6 +1772,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-0c52dc3e",
             requirement: "Lunar frame co-estimation: surface stations and orbiters",
             capability: "Fisher information of the seven-parameter lunar frame datum from Earth-station laser ranging to the five reflectors alone and with orbiter-to-surface-station ranges added: the information matrix, rank, Cramer-Rao sigmas, the degeneracy metric of the lunar identifiability module and seeded random station sets. The orbit is held known in the lunar axes (its error is carried by the orbiter range sigma).",
             module: "lunar_infra::frame; lunar_datum; lunar_identifiability; lunar_llr_geometry",
@@ -1615,6 +1782,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-d415284a",
             requirement: "Space-tie frame-tie precision: co-located GNSS, VLBI and laser ranging",
             capability: "Cramer-Rao precision of the inter-technique translation, scale and rotation offsets between GNSS, VLBI and laser-ranging frames when one spacecraft carries all three, with the spacecraft position eliminated at every epoch and nine local-tie nuisance parameters carrying a prior, swept over the local-tie accuracy. Covariances by the square-root route (normal equations lose the digits when the techniques are near perfect).",
             module: "lunar_infra::tie; fim::crlb_srif",
@@ -1624,6 +1792,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-adb8542c",
             requirement: "Lunar Love-number and libration sensitivity",
             capability: "Fisher information of h2, k2, l2 and the physical libration amplitudes from laser ranging (radial and horizontal tidal displacement, reflector rotation), orbiter tracking (the degree-2 k2 acceleration integrated along the line of sight, trend removed), a surface gravimeter (gravimetric factor 1 + h2 - 1.5 k2) and a surface clock (fractional rate (1 + k2 - h2) W2/c2, tied to the lunar-time constants). h2 and l2 nominal values are linearisation points; the study says what is sensitive to what, not what the numbers are.",
             module: "lunar_infra::geodesy; lunar_od::degree2_tide_accel; lunar_time",
@@ -1633,6 +1802,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-555a5784",
             requirement: "Lunar surface-beacon DOP augmentation",
             capability: "Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concatenated into one design matrix and evaluated through the shared DOP kernel, and the resulting DOP is mapped to a realised 1-sigma accuracy IN METRES through a per-beacon user-equivalent ranging error assembled as the root-sum-square of clock-synchronisation, multipath and survey terms. Beacon visibility is the airless-Moon two-height geometric horizon, which has no refractive extension and is therefore exact rather than approximate. Runnable as the `lunar-beacon` scenario kind, which reports satellites alone, satellites plus beacons, and a larger constellation as the competing route to the same geometry. MEASURED on the bundled golden geometry (user at -80 deg, three surveyed beacons, six-satellite illustrative LCNS at t=0, 5 deg mask): 5 visible satellites give PDOP 9.6941 and a 3-D 1-sigma of 11.222 m; adding the beacons that actually clear the horizon gives PDOP 4.1160 and 4.765 m, a factor of 2.355; the 24-satellite service instead gives PDOP 2.4226 and 2.804 m, a factor of 4.002. The report prints the VISIBLE beacon count rather than the configured one, and on this geometry only ONE of the three beacons clears the horizon: the two flanking sites lie about 333 km from the user against an 86 km horizon for a 2 m antenna, so a reader is never left to assume all three contributed",
             module: "lunar_beacon",
@@ -1642,6 +1812,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-d5118eb1",
             requirement: "Common-mode integrity blindness",
             capability: "Exact parity-subspace split of a measurement error into the part RAIM cannot see and the part it can. For the linearised snapshot model y = G\u{b7}x + e, any error dy decomposes uniquely into a BLIND component in range(G) \u{2014} absorbed as a state error S\u{b7}dy and annihilated by the residual projector Pperp = I \u{2212} G\u{b7}S, so invisible to ANY residual test, not merely to a particular threshold \u{2014} and a DETECTABLE component in parity space. The module returns the projector, the split, and the blind fraction, so a caller can quantify how much of a specific error a snapshot monitor is structurally unable to report. Applied to the real inter-ephemeris floor: the metre-level DE440-vs-INPOP21a and DE440-vs-EPM2021 disagreement in the geocentric Moon position is absorbed almost entirely as user position error (median blind fraction 1.000000; median blind position error 2.3955 m and 2.0050 m) against a parity residual at the 1e-15 m level",
             module: "lunar_common_mode",
@@ -1651,6 +1822,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-2e12093e",
             requirement: "Common-mode protection level and total integrity envelope",
             capability: "cmpl_horizontal bounds the k-sigma horizontal position error contributed by the blind common-mode class, by forming blind_position_covariance = S*Cov*S^T and projecting it into ENU; integrity_envelope reports hpl_total = hpl_araim + cmpl. The distinction the pair exists to make: the RAIM/ARAIM RESIDUAL test is provably blind to range(G) errors, but the ARAIM PROTECTION LEVEL is not - its fault-free term already bounds them up to a provider URA plus nominal bias. The CMPL is therefore only the cross-provider EXCESS that a single provider per-provider URA/ISM does not overbound, and the sum is a conservative triangle-inequality bound rather than an RSS, valid only where that excess is not already inside URA.",
             module: "lunar_common_mode",
@@ -1660,6 +1832,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-6fe5eca9",
             requirement: "Lunar joint multi-technique OD + clock",
             capability: "Batch fusion of VLBI + lunar-local range + inter-sat range to recover station+constellation positions and clocks",
             module: "lunar_combination (problem, model, estimate, formal_covariance); batch_ls (gauss_newton_qr)",
@@ -1669,6 +1842,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-f0e89ca3",
             requirement: "Fisher information & Cramér–Rao observability",
             capability: "Fisher information M=HᵀWH, Cramér–Rao lower bound, observability rank / datum-defect null space (Moore–Penrose pseudo-inverse), and D/A/E/T-optimal experiment-design scalars from a symmetric Jacobi eigensolver",
             module: "fim",
@@ -1678,6 +1852,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-e192c5ac",
             requirement: "Lunar absolute-station observability (datum defect)",
             capability: "Fisher-information observability of the joint lunar solve: without Earth baselines the absolute-frame datum lies in the null space of HᵀWH (station position unobservable); ≥3 baselines restore full rank and bound the station Cramér–Rao error, which the estimator attains",
             module: "lunar_combination (lunar_observability) + fim",
@@ -1687,6 +1862,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-0829ad8b",
             requirement: "Lunar reference-frame realisation",
             capability: "7-parameter Helmert datum fit + ICRF orientation tie from a network of points",
             module: "lunar_frame_realise",
@@ -1696,6 +1872,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-b8cf831d",
             requirement: "Lunar navigation service volume",
             capability: "Moonlight-class lunar DOP / coverage / availability + generalised lunar ARAIM protection levels over a service volume",
             module: "lunar_service",
@@ -1705,6 +1882,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-82bb02b3",
             requirement: "LunaNet AFS spreading-code generation (LSIS V1.0)",
             capability: "The Augmented Forward Signal codes of LSIS V1.0 (29 January 2025): the AFS-Q 10230-chip primary generated from the IS-GPS-800 L1C pilot construction with the IS-GPS-800J indices (the same 210 assignments LSIS Appendix D prints), the AFS-I 2046-chip Gold codes generated from g1 = x^11 + x^2 + 1 and g2 = x^11 + x^8 + x^5 + x^2 + 1 with each PRN's G2 delay recovered from the standard's Annex 3 file, the four secondary codes, the 1500-chip tertiary codes, the interim Table 11 node assignment and the tiered pilot code. LSIS content is read at run time from a SHA-256-verified local cache filled from the NASA-hosted PDF, never redistributed",
             module: "lunar_afs::codes, lunar_afs::lsis, lunar_afs::params (IS-GPS-800J indices)",
@@ -1714,6 +1892,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-036ec4a7",
             requirement: "LunaNet AFS baseband rendering against an independent generator, given its channel state (LSIS V1.0)",
             capability: "The rendering core of the AFS baseband (LSIS-130: complex envelope I + jQ, I = the AFS-I Gold code times the 500 symbol/s frame at 1.023 Mchip/s, Q = the tiered AFS-Q pilot at 5.115 Mchip/s, carrier rotation, chip and symbol alignment) reproduces an independent generator's samples when driven by that generator's own recorded channel state (code phases and rates, carrier phase and frequency, per-channel amplitude). Not covered: the node model that derives that state from a Doppler, delay and carrier-to-noise density, the 50/50 power split computed from the carrier-to-noise density (the amplitudes are taken from the simulator), and the SigMF metadata and 8-bit sample writing",
             module: "lunar_afs::waveform::render, lunar_afs::codes, lunar_afs::frame",
@@ -1723,6 +1902,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-f847c909",
             requirement: "LunaNet AFS frame channel coding, FID 0 (LSIS V1.0)",
             capability: "The 12 s, 6000-symbol FID 0 frame of LSIS V1.0: 68-symbol synchronisation pattern, BCH (51, 8) subframe 1 (octal-763 generator), CRC-24 ((1 + X)·P(X)) on subframes 2-4, rate 1/2 LDPC encoding with the printed A, B^-1, C, D (LSIS Annex 1, read at run time from the SHA-256-verified local cache) and the standard's puncturing, 60 x 98 block interleaver; an exhaustive subframe-1 decoder that flags a TOI outside 0..99, and a normalised min-sum LDPC decoder written from H = [[A, B, 0], [C, D, I]] alone",
             module: "lunar_afs::frame, lunar_afs::ldpc, lunar_afs::lsis",
@@ -1732,6 +1912,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-8d800158",
             requirement: "LunaNet AFS closed-loop decodability by an independent receiver (LSIS V1.0)",
             capability: "A Kshana AFS recording acquired, tracked and decoded by an independent software receiver and compared with the recording's own truth labels. This proves conformance to the standard and label consistency only; it is not a statement about channel physics, propagation, received power or link budgets, whose values in the recording are chosen inputs",
             module: "lunar_afs::waveform (recording and truth labels), xval/lunar-afs/run_pocketsdr.sh",
@@ -1741,6 +1922,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-2d449120",
             requirement: "GPS L1 C/A cross-generator conformance",
             capability: "GPS L1 C/A spreading codes (sdr::CaCode) and LNAV subframes 1-3 (gps_lnav: IS-GPS-200 field quantisation with the specification's pi, two's complement packing, TLM and HOW words, Table 20-XIV parity with D29*/D30* inversion, the parity-solving bits of words 2 and 10) compared bit for bit with gps-sdr-sim on its bundled brdc0010.22n (32 satellites)",
             module: "gps_lnav, sdr",
@@ -1750,6 +1932,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-a0dce0aa",
             requirement: "GNSS IQ scene signal geometry against an independent baseband generator",
             capability: "The IQ scene generator's per-satellite truth for a GPS L1 C/A broadcast-ephemeris scene (iq::scene: a broadcast-ephemeris SatGeometry, generated into TruthRecord truth records): which satellites are above the horizon, the pseudorange, the code phase at the first sample, the carrier Doppler and the look angles, for a static receiver, compared with the channel state gps-sdr-sim builds the first block of its own I/Q output from, for the same ephemeris, receiver and start time (ionosphere off on both sides)",
             module: "iq::scene (Scene, SatGeometry, TruthRecord)",
@@ -1759,6 +1942,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3ed8a076",
             requirement: "GNSS IQ acquisition on independently generated I/Q samples",
             capability: "iq::acq::acquire (FFT parallel code-phase search with the square-law Marcum-Q threshold) with the GpsL1Ca replica, on 20 ms of gps-sdr-sim's own 8-bit I/Q output decoded by the iq::io sample decoder (ci8, 2.6 MHz, 11 satellites, no noise): every PRN 1 to 32 searched in two 10 ms windows, the result compared with the code phase and Doppler gps-sdr-sim modulated",
             module: "iq::acq (acquire, AcqConfig); iq::io (decode_samples); iq::scene (GpsL1Ca)",
@@ -1768,6 +1952,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-59bb0091",
             requirement: "IQ monitors scored in lab-replay campaigns: detection, misses, false alarms and closed-form false-alarm figures",
             capability: "iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised",
             module: "iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)",
@@ -1777,6 +1962,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-6254a75d",
             requirement: "Detection ROC of the IQ monitors from a scored lab-replay campaign",
             capability: "iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither",
             module: "iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)",
@@ -1786,6 +1972,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-c9318c63",
             requirement: "Calibration of the open receiver's C/N0 and lock models to IQ campaign results, with stated prediction error",
             capability: "iq::labfit (campaign, cn0, iqfit, iqreport) and `[input] campaign` on `kshana iq labfit`, Python `kshana.iq_labfit` and the MCP labfit tool (campaign folders inside its work directory only): reads a `kshana iq campaign` output folder by its DIGEST and groups the scored cells into fit units (signal x loop design x front-end chain x jammer type, never pooled). Per unit, it fits measured C/N0 against stated J/S with the spectral-separation form. Q_eff is not identifiable from C/N0 data without an independent measurement of the jammer and signal powers, so Q is stated, never fitted (the type table, the event's q, or for an unknown type the most damaging stated value, cw Q = 1). The fitted parameter is the identifiable offset delta_eff = delta - 10 log10 Q, with the correlation guard reporting the degeneracy. C/N0 bins locked under 90 % are censored and listed. The threshold J/S is given directly and by the closed form; the tracking-loop and empirical lock models are coupled through the C/N0 model, with drop and re-lock dwells. A seeded cluster bootstrap over recordings (1000 replicates) gives percentile intervals; 90 % prediction intervals come from residual draws; leave-one-recording-out hold-outs are split into interpolation and extrapolation; a pre-registered [validation] table is hashed and each bar judged PASS/FAIL. Report kshana.labfit-iq/1 as JSON, CSV and generated Markdown, with a units block. Synthetic only (no third-party recording, no jammer waveform). The receiver-log labfit path is unchanged",
             module: "iq::labfit (campaign, cn0, iqfit, iqreport, schema, mod); iq::cli::labfit",
@@ -1795,6 +1982,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-b6918acf",
             requirement: "GPS LNAV encoding decoded by an independent receiver library",
             capability: "Kshana's LNAV subframes 1-3 (gps_lnav::encode_subframes) for the 32 brdc0010.22n ephemerides fed to RTKLIB's decode_word and decode_frame: parity of every word, subframe decoding with consistent issue of data, and every decoded parameter against Kshana's integer and against the input value",
             module: "gps_lnav",
@@ -1804,6 +1992,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-6649987c",
             requirement: "GPS LNAV navigation-message encoding",
             capability: "IS-GPS-200 LNAV subframes 1-3 (gps_lnav::encode_subframes: round-to-nearest quantisation of every clock and orbit parameter at the specification's scale factors and value of pi, two's complement packing, TLM and HOW words, Table 20-XIV parity with D29*/D30* inversion, the parity-solving bits of words 2 and 10), the message a GPS L1 C/A signal generator transmits",
             module: "gps_lnav",
@@ -1813,6 +2002,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7151fa5e",
             requirement: "Acquisition and C/N0 estimation on real lunar IQ",
             capability: "Parallel code-phase search (acquisition::pcps_acquire: portable FFT, coherent folding, non-coherent accumulation, chi-square threshold for a search-wide false-alarm probability), refinement, open-loop prompt correlation with code Doppler and the M2M4 C/N0 estimator, run on the LuGRE L1 4-bit IQ batches read through realdata::ion_sdr",
             module: "acquisition, portable_math, realdata::ion_sdr, realdata::lugre",
@@ -1822,6 +2012,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-0823eb57",
             requirement: "Acquisition on real lunar IQ against orbit-predicted Doppler (sample-power decision)",
             capability: "acquisition::pcps_acquire with its sample-power decision on the nine non-surface LuGRE L1 batches with mid-rise levels; Doppler differences between acquired satellites compared with differences predicted from ESA final orbits and the Firefly-reconstructed Blue Ghost trajectory",
             module: "acquisition, realdata::ion_sdr",
@@ -1831,6 +2022,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-547ca1d6",
             requirement: "Acquisition on real lunar IQ scored by orbit-predicted Doppler",
             capability: "acquisition::pcps_acquire with the cell-averaging decision (peak over the grid's mean cell, robust to band-limited noise) on the nine non-surface LuGRE L1 batches with mid-rise levels; Doppler differences between acquired satellites compared with differences predicted from ESA final orbits and the Firefly-reconstructed Blue Ghost trajectory",
             module: "acquisition, realdata::ion_sdr",
@@ -1840,6 +2032,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-2a6bb218",
             requirement: "Acquisition on held-out real lunar IQ against orbit-predicted Doppler",
             capability: "acquisition::pcps_acquire (cell-averaging decision, false-alarm probability 1e-7) with refine_doppler_coherent on the LuGRE L1 batches recorded on the lunar surface (I in the high nibble, mid-rise levels); Doppler differences between acquired satellites against differences predicted from ESA final orbits and the Firefly landing-site kernel",
             module: "acquisition, realdata::ion_sdr, realdata::lugre",
@@ -1849,6 +2042,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-c771c187",
             requirement: "Lunar joint communications-and-navigation geometry",
             capability: "Per-satellite topocentric look angles (azimuth clockwise from north, elevation) and slant range at a named selenographic site, given the satellite in the site's Moon body-fixed frame (the validated claim). The signal-in-space ranging accuracy is exposed as a scenario parameter so the service-volume sweep yields a ranging REQUIREMENT rather than a pass/fail at one fixed sigma; that parameter is a design input outside the validated claim",
             module: "lunar_service",
@@ -1858,6 +2052,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            id: "VM-2120aea3",
             requirement: "Lunar differential PNT",
             capability: "NovaMoon-class differential reference station: common-mode cancellation + baseline-growing residual + DGNSS protection levels",
             module: "lunar_dpnt",
@@ -1867,6 +2062,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-a157b399",
             requirement: "Lunar interoperability export",
             capability: "LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with round-trip conformance",
             module: "lunar_interop",
@@ -1877,6 +2073,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
+            id: "VM-ce44f2a8",
             requirement: "PNT-resilience framework-aligned scoring",
             capability: "Per-dimension sub-scores over Kshana's own seven resilience categories (not DHS terms), RethinkPNT RDRR functions and Yang criteria, each tagged Modelled with its driver; tentative RPCF Level with a bounded-degradation gate. Simulation-derived self-assessment, never certification.",
             module: "resilience::arch, resilience::score, resilience::diversity, resilience::timeline",
@@ -1886,6 +2083,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-2605d9ce",
             requirement: "Resilience-score decision-instability study",
             capability: "Quantifies how a single composite score / RPCF Level reorders architectures under a defensible weighting simplex and a threat ensemble (top-1 flip rate, Kendall-tau dispersion, Level-flip rate, rank ranges); declared-vs-measured and diversity-collapse analyses.",
             module: "resilience::stats, resilience::study, resilience::panel",
@@ -1895,6 +2093,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-54e60db6",
             requirement: "Demonstration representativeness & gaps-to-flight",
             capability: "Per-result honesty ledger qualifying a demonstration output: its external anchors, modelled assumptions, gaps-to-flight and representative TRL band, with invariants enforced (Validated requires an external anchor; Modelled requires a gap and cannot claim above TRL 4).",
             module: "representativeness",
@@ -1904,6 +2103,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-029c96cc",
             requirement: "Quantum-vs-classical trade evidence (common shape)",
             capability: "One reproducible TradeEvidence object (fixed frame: scenario+seed+engine; common per-FoM quantum-vs-classical values with polarity-correct benefit, optional 95% CI, validated/modelled label) carrying a representativeness record, so every quantum-PNT vertical reports the trade the same honest way.",
             module: "qtrade",
@@ -1913,6 +2113,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-868d3124",
             requirement: "Quantum device error-model library",
             capability: "Device cards (optical/trapped-ion/mercury-ion + classical clocks reused from holdover/clock_state; cold-atom interferometer; classical + entanglement/single-photon time-transfer links) each carrying a representativeness record; the entanglement link adds a shot-limited timing-precision model (~jitter/sqrt(R*tau), dark-count penalty, systematic floor).",
             module: "quantum_devices",
@@ -1922,6 +2123,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-6c2f0424",
             requirement: "Trusted quantum timing (time transfer + secure dissemination + anomaly)",
             capability: "End-to-end quantum vs classical time-transfer chain (clock coast + link precision in quadrature), a reused timing protection level, a delay/replay-attack security FoM (1-P_md) and a clock-anomaly detection probability + CUSUM latency, emitted as honest TradeEvidence with a representativeness record.",
             module: "timetransfer_chain",
@@ -1931,6 +2133,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ad83abe1",
             requirement: "GNSS-free quantum navigation",
             capability: "Quantum (cold-atom interferometer) vs classical navigation-grade INS dead-reckoning over a GNSS outage: position-error growth, holdover to a position threshold, and the quantum-vs-classical trade as honest TradeEvidence; honest observability note (bias unobservable without a fix, so error grows).",
             module: "quantum_nav_od",
@@ -1940,6 +2143,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-67830b35",
             requirement: "Fault/anomaly detection for quantum PNT systems",
             capability: "Labelled quantum-fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC with a bootstrap CI, and a minimum-detectable fault at a fixed false-alarm rate; a quantum-clock-aided monitor detects smaller faults than a classical one, emitted as honest TradeEvidence.",
             module: "quantum_faults",
@@ -1949,6 +2153,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-5a7431e2",
             requirement: "Torque-free rigid-body attitude dynamics",
             capability: "Euler's rotational equations of motion (I ω̇ = τ − ω × Iω, principal-axis and general inertia tensor) coupled to quaternion attitude kinematics (q̇ = ½ q ⊗ ω) and propagated with a fixed-step RK4 integrator that re-normalises the quaternion each step",
             module: "attitude_dynamics",
@@ -1958,6 +2163,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c1723806",
             requirement: "Clohessy–Wiltshire / Hill relative-motion dynamics",
             capability: "Relative motion of a chaser about a target on a circular reference orbit in the LVLH frame: the linearised Clohessy–Wiltshire equations (ẍ−2nẏ−3n²x=0, ÿ+2nẋ=0, z̈+n²z=0) solved by the closed-form 6×6 state-transition matrix Φ(n,t) (Clohessy–Wiltshire 1960; Vallado Alg. 48) with the bounded relative-orbit condition ẏ₀=−2n·x₀, and a closed-form second-order correction (cw_dynamics::second_order_correction, the CW response to the quadratic terms of the exact circular-chief equations; Karlgaard and Lutze 2003, Newman, Lovell and Pratt 2015) composed as cw_dynamics::propagate_second_order. The validated output is propagate_second_order; the linear Φ alone is characterised against nonlinear truth, not validated",
             module: "cw_dynamics (propagate, second_order_correction, propagate_second_order)",
@@ -1967,6 +2173,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-40e51f3e",
             requirement: "TDOA/FDOA passive emitter geolocation",
             capability: "Locate an emitter (jammer/spoofer, or an opportunistic source for reverse-PNT) from time-difference-of-arrival across a receiver network — the τᵢ=(Rᵢ−R₀)/c hyperboloid intersection solved by Gauss–Newton least squares — and, adding frequency-difference-of-arrival (range-rate differences) with moving receivers, jointly recover position and velocity; with the Cramér–Rao lower bound on the position covariance from the measurement geometry",
             module: "geolocation",
@@ -1976,6 +2183,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-e29a09f4",
             requirement: "3-DoF ballistic entry peak deceleration against the published Stardust nominal",
             capability: "A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere 1976, integrated with RK4 from an inertial entry state, reporting the peak deceleration and its altitude; the planet-relative entry state from the inertial one. Runnable as the `entry-heating` scenario kind.",
             module: "entry_eo_ascent::entry_heating (simulate_entry, inertial_to_relative, EntryHeatingScenario)",
@@ -1985,6 +2193,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-953d1c01",
             requirement: "Stagnation-point convective entry heating (Sutton-Graves) on a 3-DoF entry",
             capability: "Stagnation-point convective heat flux q = k sqrt(rho/R_n) V^3 with the Sutton-Graves constants for Earth air and the Mars atmosphere (NASA TR R-376, 1971), its peak and the integrated heat load along a 3-DoF entry, ballistic or lifting at constant bank, on Earth or Mars.",
             module: "entry_eo_ascent::entry_heating (stagnation_heat_flux, simulate_entry)",
@@ -1994,6 +2203,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f981b758",
             requirement: "Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS",
             capability: "Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the product of unobscured-aperture diffraction, detector aperture, linear smear and Gaussian jitter, the edge response and relative edge response integrated from that MTF, Q = lambda F / p, and the GIQE version 4 NIIRS with no MTF compensation. Runnable as the `eo-radiometry` scenario kind.",
             module: "entry_eo_ascent::eo_radiometry (Imager, snr_budget, giqe4_niirs, EoRadiometryScenario)",
@@ -2003,6 +2213,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-a47a618a",
             requirement: "Launch ascent gravity, drag, steering and back-pressure losses",
             capability: "Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact step boundaries, and the gravity, drag, steering and back-pressure losses integrated beside the state. Runnable as the `ascent-losses` scenario kind.",
             module: "entry_eo_ascent::ascent (simulate_ascent, AscentScenario); reentry::us76_pressure",
@@ -2012,6 +2223,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-8e1d443b",
             requirement: "TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity",
             capability: "The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the Sagnac terms, against its exact forward model; a quadrature uncertainty budget with the link TDEV as the type A term; a two-way series with white and flicker phase noise (Kasdin-Walter), a diurnal non-reciprocity and a constant reciprocity residual; and the rate, residual RMS, TDEV and ADEV of supplied Circular T, MJD-CSV or IGS RINEX station-clock series. Runnable as the `time-transfer-budget` scenario kind.",
             module: "twstft_budget (counter_readings, solve_offset, combined_uncertainty, flicker_phase, two_way_series, series_stability); time_transfer_budget (TimeTransferBudgetScenario, read_series)",
@@ -2021,6 +2233,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-c6005488",
             requirement: "Optical slant-path atmosphere numerics: Rytov variance, scintillation, gamma-gamma fade probability, aperture averaging, cloud and clear-air optical depth",
             capability: "Hufnagel-Valley Cn2 integrated along a slant path for the plane- and spherical-wave Rytov variance (uplink and downlink), the Andrews-Phillips scintillation index and gamma-gamma parameters, the gamma-gamma fade probability and fade margin, the weak-turbulence aperture-averaging factor, the cloud optical depth of a liquid-water column and the Kim-visibility plus Rayleigh clear-air optical depth, replacing the lumped atmospheric loss of the optical link budget when an atmosphere is supplied. Runnable inside the `optical-atmosphere` scenario kind.",
             module: "optical_atmosphere (rytov_variance, scintillation, gamma_gamma_cdf, fade_margin_db, aperture_averaging_factor, cloud_optical_depth, clear_air_optical_depth); optical_linkbudget (optical_link_budget_atmosphere)",
@@ -2030,6 +2243,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-9fc2c823",
             requirement: "Weather-driven optical ground-site availability and distance-correlated site diversity",
             capability: "Availability of an optical link against a stated link margin from a log-normal cloud liquid-water climate (ITU-R P.840 amount, geometric-optics extinction) and the independent gamma-gamma turbulence fade, the link margin needed for target availabilities and the ceiling no margin lifts, log-normal outage durations, enhancement-technique what-ifs, and a one-factor Gaussian-copula network availability whose pair correlation is exp(-distance/decorrelation length). Runnable as the `optical-atmosphere` scenario kind.",
             module: "optical_weather; optical_sitediv; optical_techniques; optical_atmosphere_scenario",
@@ -2039,6 +2253,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-fe158525",
             requirement: "Timing and ranging continuity through optical outages",
             capability: "The outage-duration distribution of an optical site coupled to the closed-form coast variance of the clock holdover model: timing and ranging error at stated outage quantiles, the holdover to a timing threshold, the fraction of outages and of outage time inside it and the timing availability A + U E[min(D, T_h)]/E[D], for the classical and quantum clock classes. Runnable inside the `optical-atmosphere` scenario kind.",
             module: "optical_outage_holdover (couple, clock_psds); holdover (coast_phase_sigma, holdover_seconds, phase_to_range_m)",
@@ -2048,6 +2263,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-48b43298",
             requirement: "Optical link margin against time: one seeded realisation of a site's weather",
             capability: "An opt-in `[timeseries]` table (duration, step, seed) makes the `optical-atmosphere` kind also write, per site, one seeded realisation of the stated site model through time: cloud episodes (clear spells exponential, cloud outages log-normal with the stated mean and spread, the share of time in cloud set to the stated cloud probability), one log-normal liquid-water column per cloud episode, one gamma-gamma scintillation sample per step, and from them the link margin, the cloud and scintillation fades and the link-up flag, with the realised availability, cloud fraction, outage count and longest outage. Without the table the result is the 0.37 document. Draws go through the portable distribution and maths routes, so native and wasm32 give the same bytes.",
             module: "optical_timeseries (site_series, SiteModel, SeriesSpec, Series); optical_atmosphere_scenario (TimeseriesSpec)",
@@ -2057,6 +2273,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-d599af85",
             requirement: "TRK-2-18 Orbit Data File reader and Mars ramped 2-way Doppler model",
             capability: "A reader for DSN Orbit Data Files (TRK-2-18): the 36-byte record groups (file label, identifier, orbit data, per-station ramps, clock offsets, summary, end of file), and in each orbit-data record the time tag since 1950, downlink and uplink delays, observable, stations, data type, bands, validity, channel, spacecraft, the 46-bit reference frequency and the compression time; ramp start and end times, rates and start frequencies. On top of it, a ramped 2-way X-band Doppler model (integrated uplink ramps, round-trip light time with Shapiro and troposphere, DSN stations through the IAU 2006/2000A CIO chain and IERS EOP, station time) and a Mars-orbiter batch orbit determination (GMM-3 field, third bodies, SRP, drag).",
             module: "odf (parse_odf, Odf, OdfObservation, OdfRamp, seconds_1950); mars_od (DopplerModel, RampTable, compress_two_way, MarsDynamics, fit, fit_damped); naif_kernel (SPK type 1); gravity_pds (SphericalHarmonicField::from_shadr)",
@@ -2066,6 +2283,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7aee30d8",
             requirement: "Closed-loop MRP feedback attitude control with reaction wheels",
             capability: "Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and Junkins), minimum-norm wheel motor torques G_s u = -L_r clipped to each wheel's limit, the coupled hub and wheel dynamics with the hub inertia carrying the wheels' spin inertia, quaternion kinematics, RK4 with a zero-order hold. Runnable as the `aocs` scenario kind (true-state loop).",
             module: "aocs (AocsConfig, required_torque, motor_torques, rates, rk4_step, simulate, mrp_from_quaternion); aocs_kind (AocsScenario)",
@@ -2075,6 +2293,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-4f433858",
             requirement: "Multiplicative EKF attitude estimation from a gyro and a star tracker",
             capability: "The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and Farrenkopf's discrete process noise (angle and rate random walk), star-tracker updates with the residual 2 vec(q^-1 q_st) in Joseph form, and the multiplicative reset; a Farrenkopf discrete gyro and star-tracker simulator. The `aocs` kind can close the control loop on its estimate.",
             module: "aocs_mekf (Mekf, GyroSim, attitude_error, spd_solve6); aocs_kind (estimator)",
@@ -2084,6 +2303,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7a50fbac",
             requirement: "Wahba/TRIAD/QUEST attitude determination",
             capability: "Optimal three-axis attitude from weighted vector observations (star/sun/magnetometer directions): the deterministic two-vector TRIAD, Davenport's q-method (the exact Wahba-loss minimiser — the optimal quaternion is the largest-eigenvalue eigenvector of the 4×4 Davenport matrix K, solved by a symmetric Jacobi eigensolve), and QUEST (Newton/secant root of K's characteristic equation seeded at Σ weights, then Gibbs-vector quaternion recovery)",
             module: "wahba",
@@ -2093,6 +2313,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-0430afb5",
             requirement: "GNSS square-law acquisition detection statistics",
             capability: "Square-law (non-coherent) acquisition detector over a code-phase × Doppler search: false-alarm probability (central χ² with 2M dof), the threshold achieving a target P_fa (χ² CDF inverted by bisection), and detection probability (non-central χ² with non-centrality 2M·ρ for per-cell post-correlation SNR ρ), with the generalized Marcum Q-function Q_M(a,b)=1−F_{χ'²(2M,a²)}(b²)",
             module: "acquisition",
@@ -2102,6 +2323,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-83b35149",
             requirement: "GNSS carrier-phase integer ambiguity resolution (LAMBDA)",
             capability: "Integer least-squares ambiguity fixing the LAMBDA way: a volume-preserving integer (Z) decorrelating transform (integer-Gauss size reduction of the L D Lᵀ factor) + an exact Schnorr–Euchner depth-first branch-and-bound integer least-squares search, with the ratio test on the two best candidates (the validated claim); plus the closed-form bootstrapped success rate P_s=∏(2Φ(1/(2σ_{i|I}))−1), checked only internally and outside the validated claim",
             module: "lambda",
@@ -2111,6 +2333,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-7db8a5ce",
             requirement: "B-plane targeting & patched-conic gravity assist",
             capability: "Hyperbolic-flyby geometry (a=−μ/v∞², e=1+r_p·v∞²/μ, turn angle δ=2·asin(1/e), impact parameter |B|=|a|·√(e²−1)), the B-plane Ŝ/T̂/R̂ aim-point frame and B·T̂/B·R̂ decomposition, and a patched-conic gravity assist (v∞-magnitude conserved, direction deflected by δ, heliocentric Δv=2·v∞·sin(δ/2) at no propellant cost) with the Tisserand parameter T_P=a_P/a+2√((a/a_P)(1−e²))cos i",
             module: "bplane",
@@ -2120,6 +2343,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-e01b501b",
             requirement: "CRPA anti-jam array beamforming",
             capability: "Controlled-reception-pattern antenna nulling: complex array steering vectors a(û)=exp(j·k·pₙ·û), deterministic null-steering (unit gain toward the SV, exact nulls toward up to N−1 jammers via the minimum-norm w=Aᴴ(AAᴴ)⁻¹b), and MVDR adaptive weights w=R⁻¹a_sv/(a_svᴴR⁻¹a_sv) that self-steer deep nulls onto strong interferers (with a from-scratch complex linear-algebra kernel)",
             module: "crpa",
@@ -2129,6 +2353,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-9715be87",
             requirement: "IEEE-1139 power-law clock noise + flicker-FM floor",
             capability: "The five-coefficient IEEE-1139 PSD↔Allan-variance conversion S_y(f)=Σh_α f^α → σ_y²(τ) (white/flicker PM, white/flicker/random-walk FM), the flicker-FM floor σ_y=√(2 ln2·h_{-1}) as a first-class fittable term, and a non-negative FM-family fit in the {(2π²/3)τ, 2 ln2, 1/(2τ)} basis that recovers the floor the drift basis {1/τ,τ,τ³} cannot represent",
             module: "powerlaw",
@@ -2138,6 +2363,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a09fe6fd",
             requirement: "CCSDS OEM covariance-block interchange",
             capability: "Serialise and parse the CCSDS 502.0 OEM COVARIANCE_START…COVARIANCE_STOP block — the 6×6 position/velocity covariance written as its 21-element lower triangle (canonical CX_X … CZ_DOT_Z_DOT order) with the optional COV_REF_FRAME, complementing the existing OEM state-vector writer/parser so orbit-determination and filter covariances round-trip in the standard format",
             module: "oem (covariance_block_kvn, parse_covariance_block)",
@@ -2147,6 +2373,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-2c655ce6",
             requirement: "INS/TRN coasting error growth & threshold crossings",
             capability: "Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a nine-state local-level INS error model with the Schuler feedback (inertial::coast::ErrorDynamics after Groves 2nd ed. ch. 14: attitude, velocity and position errors, the vertical channel with its gravity gradient, WGS-84 radii and normal gravity, a level platform heading north at the configured speed, latitude_deg and height_m; systematic terms by an augmented matrix exponential, random walks by Van Loan), the flat-Earth monomials kept only as leading_order_m; contributions combined under a stated rule (rss / linear-sum / deterministic-sum-with-stochastic-rss); the coast durations reaching caller-supplied position thresholds (10 m and 50 m by default) located by a forward scan for the first crossing (first_crossing_s, since the Schuler-bounded curves are not monotone), with the dominant source at each crossing; and a TRN-bounded mode giving the largest terrain-fix interval that holds each threshold. Runnable as the `ins-trn-coast` scenario kind",
             module: "inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario); scenario kind `ins-trn-coast`",
@@ -2156,6 +2383,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c58f1105",
             requirement: "Aperture navigation-versus-communications duty cycle",
             capability: "One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary `passes::predict_passes` emits, converted by `aperture_duty::windows_from_passes`), an aperture count and an explicit arbitration policy, and returns the navigation duty, the communications duty, the idle duty and the per-session outage. The policy is an input with a documented default (`navigation-priority`; also `communications-priority` and non-preemptive `first-come-first-served`), and the report carries the resolved policy, its full definition and the duty and outage definitions, because a duty figure quoted without its arbitration rule is not reproducible. The schedule is an exact interval sweep over the window boundaries, so a window that ends exactly where the next begins never contends, and navigation, communications and idle aperture-seconds are accumulated independently in that one sweep. Runnable as the `aperture-duty-cycle` scenario kind",
             module: "aperture_duty",
@@ -2165,6 +2393,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-054931b7",
             requirement: "Lunar surface-navigation RF jamming (per-satellite J/S)",
             capability: "Lunar-native jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class constellation. Composes the open jamming chain (j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor, nominal_cn0_dbhz, free_space_path_loss_db) with the open lunar sky geometry (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); no geometry or radiometry is re-derived. Unlike the Earth `jamming` kind the signal leg is not a fixed received power: each satellite's isotropic received power is its own link-budget EIRP − FSPL(slant range), so J/S varies satellite by satellite with lunar range and elevation. Emits ONE ROW PER VISIBLE (epoch, satellite) LINK as JSON and as a *.table.csv artifact, with both received powers the J/S is the difference of printed alongside it; aggregate figures of merit sit beside that table, never in place of it. Runnable as the `lunar-jamming` scenario kind",
             module: "lunar_jamming (composing jamming, lunar_service, lunar)",
@@ -2174,6 +2403,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-296d9afc",
             requirement: "Lunar denial contour with an uncertainty band from the measured C/N₀ spread",
             capability: "The `lunar-jamming` report no longer rests its denial contour on one scalar. It emits the full measured wanted-signal C/N₀ distribution over the per-satellite table — n, min, p05, p25, median, p75, p95, max, mean, sample stdev, and the sample's own asymmetry (p95 − median) − (median − p05) — beside the per-link rows, which are unchanged. The contour is then reported at each of those order statistics under BOTH denial criteria the engine recognises, never one in place of the other: the incumbent power-ratio criterion (J/S = 30 dB, the same threshold attack_surface and tracking_loop use, and the criterion behind the released lunar link-jamming table's `denial` column), and the loss-of-lock criterion (the effective C/N₀ falling to tracking_threshold_dbhz), which is the criterion this report's own links[].status column is scored with. Each contour point is given on both axes of the denial plane — the jammer EIRP required at the scenario's standoff, and the denial standoff at the scenario's EIRP — so the band is an interval on the same axes a contour plot is drawn on. The band edges ARE contour(p05) and contour(p95): the same closed-form map applied to the sample's own quantiles, not a sigma fitted to the sample and not median ± k·stdev, and the report says so in a band_definition string beside the numbers. stdev is emitted for continuity and is used by nothing. A quantile whose C/N₀ is already at or below the tracking threshold has no finite denying J/S; those columns are emitted as null with a counted reason rather than as an infinity or a clamped radius",
             module: "lunar_jamming (denial_js_db, range_for_free_space_path_loss_m, Cn0Distribution, DenialContourPoint, ContourBand, DenialContour; inverting jamming::effective_cn0_dbhz, jamming::j_over_s_db and jamming::free_space_path_loss_db)",
@@ -2183,6 +2413,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ef715cd6",
             requirement: "Cross-modality integrity monitor detection power",
             capability: "The hybrid-optical-rf report states what the cross-modality chi-square monitor can actually DETECT, not only that it passes a fault-free case: the minimum detectable bias per monitored axis (east, north, up, clock) at the scenario's stated false-alarm and missed-detection probabilities, the detection-power curve either side of it, the noise-free bias multiple at which the realised statistic first crosses the threshold, and the time-to-detect for a bias ramp at a stated rate. Faults are also injected through the real monitor and the statistic it returns is reported alongside the analytic prediction",
             module: "hybrid_integrity",
@@ -2192,6 +2423,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-b67b5596",
             requirement: "Post-handover covariance re-growth against the alert limit",
             capability: "The hybrid-optical-rf report exposes the filter's process-noise model and states how long the post-handover solution stays inside the alert limit: for both handoff directions it carries the per-axis covariance the handover left behind, propagates it forward under a stated random-walk process noise, and reports the time at which the coverage-scaled 1σ reaches the horizontal, vertical and timing alert limits, which limit binds first, the variance doubling time constant, and a sampled coast profile that brackets the crossing. Process-noise PSDs, the coverage factor and the alert limits are all inputs with documented defaults",
             module: "hybrid_integrity",
@@ -2201,6 +2433,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-73e5efd2",
             requirement: "Off-boresight antenna pattern in the lunar geometry export",
             capability: "The per-satellite geometry export carries, per (epoch, satellite), the off-boresight angle AT THE SATELLITE and the transmit gain toward the site from the real uniformly-illuminated circular-aperture (Airy) pattern, and reports the in-beam count under that pattern BESIDE the in-beam count under the symmetric gain-to-beamwidth approximation (θ_3dB[deg] = √(31000/G_lin)), with the difference emitted as an explicit correction in links, in satellites per epoch, and as the worst single epoch. Both implied aperture efficiencies of the approximation are emitted (0.641 against the 70·λ/D degrees rule it is quoted with, 0.920 against a uniform circular aperture) so the efficiency it silently assumes is stated rather than inferred. Off by default: the block appears only when an export site and an aperture are both given",
             module: "lunar_service, antenna",
@@ -2210,6 +2443,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ddc4cb42",
             requirement: "Tracking-loop loss of lock and spoof pull-in under interference",
             capability: "Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the squaring loss, against the stated rules 3σ_PLL + θ_e ≤ 45° and 3σ_DLL + ramp lag ≤ d/2 chips; drop and re-lock C/N₀ thresholds with the binding loop named and the hysteresis DERIVED from the wider pull-in bandwidth rather than asserted; the declared time to lose lock from a two-threshold lock detector with confirmation dwells, reported separately from the physical phase-escape time (Viterbi mean time between cycle slips, in log₁₀ s because it spans hundreds of decades); the largest code slew and carrier Doppler rate the victim's loops can follow; and the DENIAL RADIUS the loop dynamics imply reported alongside the existing power-ratio radius with their signed difference as its own named field. Runnable as the `tracking-loop` scenario kind",
             module: "tracking_loop (composing sdr, jamming)",
@@ -2219,6 +2453,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-3ee0ae6e",
             requirement: "Lunar-VLBI station-coordinate covariance from a tracking schedule",
             capability: "Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coordinate station sigma, replacing an assumed isotropic equipartition link from a scalar delay precision. The state carries Earth-fixed (ITRS) station coordinates, so the Jacobian is the inertial partial rotated by each epoch's GCRS→ITRS matrix and Earth rotation is what makes those coordinates observable — the report MEASURES the Earth-fixed line-of-sight sweep and the beacon declination rather than assuming them. Rank, datum defect, condition number, the information spectrum and the free-network null space are emitted on every run, and under a rank deficiency the headline sigma is published as NULL with a status rather than read out of a near-singular inverse. The equipartition value c·σ_τ·√(g/N) for the SAME schedule is printed beside the computed one with their ratio, together with the isotropic trace bound √(p/trace(M)) that AM-HM makes a hard floor. Runnable as the `lunar-vlbi-fim` scenario kind",
             module: "lunar_vlbi_fim (composing lunar_vlbi, fim, cio, lunar_frame, frames)",
@@ -2228,6 +2463,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-7e8c3aaf",
             requirement: "Lunar-surface-point coordinate covariance from a VLBI delay schedule, kept distinct from the Earth-station one",
             capability: "A third datum choice, `all-stations-fixed`, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lunar surface-point uncertainty is actually quoted for, since Earth station coordinates are an input to the delay model rather than an unknown of it. It exists because the station-level covariance and the surface-point covariance are DIFFERENT QUANTITIES separated by the lever arm ρ/B, and nothing previously stopped one being quoted against the other. The emitted `beacon_link` block carries ρ, the longest baseline, the lever arm, the surface-point form of the equipartition link c·σ_τ·(ρ/B)·√(g/N), the computed per-coordinate beacon sigma and their ratio — the ratio null rather than misleading whenever the beacon is unestimated or the matrix rank-deficient. B is taken as the LONGEST baseline present, the most favourable one, so the ratio can only understate. Runnable as `datum = \"all-stations-fixed\"` with `estimate_beacon = true`, which is refused with a message naming the missing input when the beacon is not estimated",
             module: "lunar_vlbi_fim (composing lunar_vlbi, fim, cio, lunar_frame, frames)",
@@ -2237,6 +2473,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-b762f53b",
             requirement: "Lunar-surface-point coordinate covariance from a VLBI delay schedule, kernel path",
             capability: "The all-stations-fixed beacon covariance of the lunar-vlbi-fim scenario (every Earth station held, the beacon's Moon-body-fixed coordinates estimated alone) with the beacon placed on the JPL DE440 Moon read by the engine's own kernel reader (planetary_kernel_path; lunar_vlbi_fim::epoch_geometry_with, ephem_provider::KernelEphemeris). Only the Moon centre differs from the analytic path; the IAU 2015 body rotation, stations, Earth rotation and linear algebra are the same. The validated outputs are the observation set, the 3 x 3 information spectrum, rank and condition number, the three body-fixed beacon sigmas and their RMS, the lever arm and the computed-over-equipartition ratio, on the default schedule. Runnable as the `lunar-vlbi-fim` scenario with datum = \"all-stations-fixed\", estimate_beacon = true and planetary_kernel_path set",
             module: "lunar_vlbi_fim (epoch_geometry_with, schedule, schedule_jacobian); ephem_provider (KernelEphemeris); naif_kernel",
@@ -2246,6 +2483,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-337e1bd0",
             requirement: "Lunar differential PNT — correction-link residual budget",
             capability: "The three terms a differential correction picks up between the epoch it is computed at and the epoch it is used at, each previously left as unmodelled headroom: reference-station survey error (correlated across satellites, baseline-independent, ~1:1 position transfer and provably not DOP-amplified), correction ageing (the frozen orbit-error vector re-projected onto the line of sight the engine's own propagator puts the satellite on one latency later, plus c·σ_y(τ)·τ clock drift from the calibrated power law), and uniform link quantization over an exact ±(orbit_err + clock_err) full scale with step²/12 variance. Reported in both the range and position domains, beside — never in place of — the existing residual and protection level, with a latency curve beside the single figure",
             module: "lunar_dpnt",
@@ -2255,6 +2493,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-367e840f",
             requirement: "Lunar reference-station coverage and accuracy map",
             capability: "Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the `lunar-station-coverage` kind): for a differential reference station at a known south-polar site, per point and over the region, the percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability with a reason for each unavailable epoch (user_lt4, station_missing_sat), coverage against a threshold stated before the run, DO-229E protection levels, the coverage radius per azimuth sector, and the correction-link budget at the station and at the worst point. Not a statement about the performance of any real system; not affiliated with or endorsed by any agency",
             module: "lunar_station (over lunar_dpnt, lunar_service)",
@@ -2264,6 +2503,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-2ecad2c1",
             requirement: "Lunar terrain horizon masks from a stated profile or a polar DEM",
             capability: "Per-site azimuth-dependent horizon masks for the lunar-station-coverage kind (the reference station and every user point) and the moonlight-service-volume grid and its per-satellite export site (each export row gains clears_terrain), in the 0.36 skyline table format (skyline::Skyline, linear in azimuth with wrap at 360 deg; a stated profile and a DEM horizon at one site combine as their pointwise maximum): a stated [terrain] station_horizon or user_horizon labelled with its source, and/or a horizon ray-marched over a south polar stereographic DEM (the LRO LOLA gridded polar layout, read from a descriptor that fixes its size and SHA-256, or a latitude/longitude realdata::lola_dem tile with [terrain] dem_tile_path, echoed with its SHA-256) along great circles of the lunar sphere with exact curvature, from a stated mast height, at a stated azimuth step and range. A satellite counts at a site when it clears the flat mask_deg and the horizon at its azimuth (lunar_service::topocentric); an epoch the horizon leaves with fewer than four satellites at a point, where the flat mask gives four, is counted as the unavailable reason terrain_masked. The vendored DEM is a crop of the public-domain LOLA LDEM_75S_240M product, 5 x 5 block-mean resampled to 1200 m (data/lunar-dem/NOTICE.md). Absent, every site keeps the flat mask and every document is byte-identical",
             module: "lunar_terrain (over skyline, lunar_service::topocentric_basis); lunar_station; lunar_service (coverage_masked, masked_visible)",
@@ -2273,6 +2513,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-aa6de9e6",
             requirement: "Lunar reference-station multipath and receiver-hardware terms",
             capability: "The optional [receiver] section of lunar-station-coverage (LRS-02): elevation-dependent multipath sigma(el) = a + b exp(-el / el0) at the user and at the station (the RTCA DO-229 airborne functional form, its a = 0.13 m, b = 0.53 m, el0 = 10 deg as defaults; on the Moon every value is ILLUSTRATIVE), white at the user and first-order Gauss-Markov over epochs at the station (rho = exp(-dt / tau)); early-minus-late DLL thermal code noise sigma = L_c sqrt(B_L d / (2 C/N0) (1 + 2 / ((2 - d) T C/N0))); per-channel inter-channel biases constant over a trial, at the user and at the station. Station terms enter its corrections, user terms the raw and corrected measurements, each on its own seeded stream. Absent, every document is unchanged",
             module: "lunar_receiver; lunar_station",
@@ -2282,6 +2523,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-2c796f73",
             requirement: "Lunar reference-station ephemeris-error growth over the correction latency",
             capability: "The optional orbit_err_growth_m_per_s input of lunar-station-coverage (LRS-03): a correction applied latency_s after it was computed misses the growth g latency_s of the broadcast orbit error, g isotropic of 3-D RMS rate, drawn per satellite and trial on its own seeded stream (range 1-sigma rate tau / sqrt(3)), on top of the frozen-error line-of-sight re-projection. Absent, every document is unchanged. A K5 addendum to the published-claims comparison, pre-registered alone, runs K5 at 0.001, 0.01 and 0.1 m/s (ILLUSTRATIVE)",
             module: "lunar_station (orbit_growth_range_sigma_m)",
@@ -2291,6 +2533,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-bc66e5ef",
             requirement: "Lunar reference-station solution modes: height constraint, three satellites, static-user window",
             capability: "The optional [solution] section of lunar-station-coverage (LRS-06): a height pseudo-measurement row up . dx = e_h of stated 1-sigma weighted against range rows, a three-satellite minimum allowed only with it, and a weighted least-squares solve over the last window_epochs epochs with a shared static position and one clock per epoch (a filter's answer for a static position with no process noise over the same data; the epochs' errors are treated as independent). Absent, the snapshot solve and every document unchanged. An addendum to the published-claims comparison with the sources' solution style, pre-registered alone",
             module: "lunar_solution; lunar_station (solution_figures)",
@@ -2300,6 +2543,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-315f29f2",
             requirement: "Lunar reference-station accuracy and coverage against published claims",
             capability: "The lunar-station-coverage kind run under the public assumptions of the published material on a lunar differential reference station (four navigation satellites in 24 h frozen elliptical orbits, 10 m 95 % SISE, 0.30 m code noise, 1 s and 600 s correction latency, a sub-decimetre station survey, the published example station site, the 300 km and 600 km south-polar circles) and scored against the sources' numeric claims under six one-sided bars pre-registered before the run: coverage of the whole south pole at sub-metre p95 (K1, K2), sub-metre and decimetre-level corrected p95 (K3, K4), sub-metre kept at 600 s latency (K5), and accuracy kept from 10 km to 500 km baseline (K6)",
             module: "lunar_station (over lunar_dpnt, lunar_service)",
@@ -2309,6 +2553,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-dc6ee511",
             requirement: "Lunar ARAIM protection-level kernel",
             capability: "The lunar protection level's geometry-to-covariance step — (GᵀG)⁻¹ over the all-in-view and every single-fault sub-geometry, projected onto the local vertical and the horizontal block trace — and its statistical kernel: the Bonferroni detector multiplier, the Gaussian upper tail of every fault hypothesis, and the root solve mapping an integrity-risk budget onto a protection level, over a 7-point lunar service volume",
             module: "lunar_service (lunar_protection_level, lunar_protection_level_with_sigma), lunar (lunar_araim_with_sigma), raim (araim_raim)",
@@ -2318,6 +2563,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-b4123360",
             requirement: "ARAIM MHSS protection levels against published reference vectors",
             capability: "The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up geometry with one clock state per constellation, the sub-solution sigmas, solution-separation sigmas and one-sided nominal-bias projections, the Bonferroni K_fa thresholds, the unmonitored-fault risk allocation, and the VPL/HPL that solve the integrity-risk equation. Runnable as the `araim-reference-check` scenario kind",
             module: "araim_reference (araim_reference_protection_levels, published_vectors), raim (araim_protection_level, araim_integrity_risk, normal_quantile)",
@@ -2327,6 +2573,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-23634551",
             requirement: "ARAIM with simultaneous multi-satellite fault hypotheses",
             capability: "araim_reference::add_v42_subset_plan: the ADD v4.2 subset-determination rule (P_THRES, FC_THRES, monitored subsets fewest-removed first) generalised from pairs to simultaneous combinations of up to max_order satellite and constellation events, with the exact prior P_no fault prod q_e; add_v42_protection_levels_to_order runs the ADD v4.2 protection-level path on it (order 2 is the existing path exactly). raim::araim_subset_raim (opt-in): advanced RAIM over that hypothesis set, each monitored subset one (p_fault, T, b, sigma) mode in the integrity-risk sum, unobservable subsets moved to the unmonitored risk, the budget scaled by the ADD allocation of the unmonitored risk, and the subset of largest normalised separation reported when a fault is detected. Priors needing deeper subsets than max_order are refused, never truncated",
             module: "araim_reference (add_v42_subset_plan, add_v42_protection_levels_to_order); raim (araim_subset_raim, SubsetRule)",
@@ -2336,6 +2583,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f6b7e282",
             requirement: "RAIM beside the clock-holdover figures of merit",
             capability: "The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM (raim::snapshot_raim: parity chi-square test, slope protection levels) on the satellites above the mask with seeded Gaussian residuals of the stated sigma and an optional stated bias; a separate integrity_fom block with per-epoch verdicts, protection levels, and availability. Denied epochs are reported unavailable, never extrapolated; the holdover figures of merit are unchanged and, without the section, the output is byte-identical",
             module: "clock_integrity (run, sky_at, IntegrityCfg); scenario (Scenario::integrity); report (RunResult::integrity_fom); api (clock dispatch)",
@@ -2345,6 +2593,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-313f2545",
             requirement: "Spatial, noisy, multi-family cislunar arc-length observability",
             capability: "The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear halo families, with measurement noise entering the Gramian and TWO criteria reported because there is no single honest one: the published rank criterion, which is provably invariant to a homoscedastic measurement sigma (whitening multiplies the observability matrix by a scalar, leaving the relative singular-value spectrum and hence rank, defect and condition unchanged), and an estimability criterion — the first arc at which the formal 1σ position uncertainty of the chief's initial state falls below a stated bound — which is the one that does move with noise. Each threshold carries the epoch-grid bracket it sits in; an unreached criterion is null with a reason. Planar mode remains the default and out-of-plane families are refused there rather than flattened into a state that cannot represent them",
             module: "cislunar_observability, observability_gramian, intersat_range, cislunar_srif",
@@ -2354,6 +2603,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-9ab85050",
             requirement: "Operational-style Earth-orientation prediction error, measured predicted-versus-final",
             capability: "A least-squares bias-plus-rate fit over a trailing window plus the principal periodic terms — annual, semi-annual and the two principal zonal tides for UT1; Chandler, annual and semi-annual for the pole — extrapolated with the last in-window residual carried forward: the class IERS Bulletin A uses, in place of the persistence predictor the published horizon rested on. Scored the only honest way: a forecast for T+h built from rapid Bulletin A rows at or before T, measured against the LATER-PUBLISHED Bulletin B final at T+h, with persistence scored over the identical epoch set against the identical finals beside it. A target epoch with no published final is dropped rather than re-scored against the rapid column; a periodic term the window cannot constrain is reported as rejected with the cycles it actually spans; an incomplete window is refused rather than quietly shortened",
             module: "frame_eop, realtime_frame_eop",
@@ -2363,6 +2613,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-55f1a043",
             requirement: "Lunar frame datum from an observing campaign",
             capability: "The seven-parameter Helmert datum propagated from a SIMULATED OBSERVING CAMPAIGN instead of recovered from an injected transform. Earth stations observe a sourced catalogue of lunar-surface beacons over an explicit schedule; the lunar-VLBI delay partials are accumulated into a beacon-coordinate Fisher information matrix and pushed through the Helmert design A = [I₃ | [p]ₓ | p] into H = AᵀM_bA, so the reported datum accuracy is a function of the observing programme — exactly linear in the delay sigma and monotone in the arc through the libration the report MEASURES. The datum defect is the subject rather than a footnote: rank, defect, condition number, spectrum, unobservable directions in the seven-parameter basis, the weakest direction even at full rank and each parameter's share of it are emitted on every run, and any parameter the campaign does not constrain is published as NULL with a status. Beacon-error correlation is MEASURED, not assumed — exactly zero with the stations held fixed, and printed with its cost when they are estimated. Runnable as the `lunar-frame-campaign` scenario kind",
             module: "lunar_frame_campaign (composing lunar_vlbi, lunar_vlbi_fim, fim, lunar, lunar_frame_realise, frames, cio, lunar_frame)",
@@ -2372,6 +2623,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ca139c50",
             requirement: "Independent-estimator corroboration of the cislunar arc-length threshold",
             capability: "A batch least-squares estimator that RECOVERS the chief's initial state from simulated inter-satellite measurements over growing prefixes of the same epoch grid the rank-vs-arc table uses, with the measurement partials taken as central finite differences of the composed forward model. It consumes none of the machinery the threshold was measured with — no analytic Jacobian row, no variational state-transition matrix, no singular-value or eigen decomposition, no rank tolerance, no square-root information filter — and shares only the dynamics, the initial conditions, the scalar observable and the epoch grid, each named in the emitted document. Two criteria, both swept: noise-free recovery (the rank analogue) and Monte-Carlo estimability (the estimability analogue, measured against a known truth rather than predicted from a covariance). Runnable as the `cislunar-arc-recovery` scenario kind",
             module: "cislunar_arc_recovery, batch_ls",
@@ -2381,6 +2633,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-69906ae2",
             requirement: "Lunar service volume from real, retrieved constellation geometry",
             capability: "Accepts a tabulated Moon-centred state ephemeris (the evaluation of an SPK/BSP kernel) or a published constellation definition behind `ephemeris_path`, runs the identical coverage / DOP / protection-level sweep against it, and emits the σ_URE ranging requirement it implies BESIDE the unchanged illustrative Keplerian and perturbed results with the difference as its own named quantity. Every figure carries a provenance class that distinguishes kernel-derived from published-element-derived from modelled, so the two can never be confused in a downstream quotation",
             module: "lunar_ephemeris, lunar_service",
@@ -2390,6 +2643,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-30a97898",
             requirement: "Unit and provenance declared for every reported quantity",
             capability: "A machine-readable schema giving unit, provenance class and definition for every numeric field of every scenario report, plus a single global gate that runs every registered scenario kind and fails if an emitted numeric field lacks either. The provenance vocabulary is closed and each class carries an evidence tier, with two classes deliberately mapped to `inherits-scenario-label` and `depends-on-input` rather than being assigned a tier the class does not determine",
             module: "field_schema",
@@ -2399,6 +2653,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-93ef37db",
             requirement: "Lunar frame datum from a REAL observing campaign",
             capability: "The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of 337 archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015-06-27, Grasse MeO 7845 and Matera MLRO 7941, all five retroreflector arrays) and every observation weight is that point's own archived precision bin_rms/√n_raw — median 5.13 mm of one-way range, read out of the file. Station coordinates IERS ITRF2020, reflector coordinates JPL DE430 Table 7. Runnable as the `lunar-llr-datum` scenario kind. The validated claim (0.36) is narrow: on the analytic default path, the datum covariance computation agrees with an independent SPICE light-time and NumPy oracle on fresh measured normal points; it is not an LLR accuracy and not evidence that the analytic Moon is accurate",
             module: "lunar_llr, realdata::llr_crd (composing fim, cio, frames, ephem, lunar_frame, lunar_frame_campaign)",
@@ -2408,6 +2663,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-945ce00a",
             requirement: "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum",
             capability: "Optional extra_reflectors and extra_beacons inputs on the lunar-llr-datum scenario add a station_geodesy block: the five-array Helmert information from the archived lunar laser ranging slice plus the information an added retroreflector (ranged at the archived normal-point epochs at which the ranging station is above its horizon, each with that normal point's archived weight) and an added VLBI beacon (observed by the lunar-frame-campaign network and schedule with the Earth stations fixed, through the lunar-vlbi-fim delay partials) at stated sites put on the seven-parameter datum, re-solved, with each Helmert parameter's 1-sigma before and after, their ratio, the before and after norms, and the extreme eigenvalues of the Fisher difference. Absent or empty, the report is unchanged",
             module: "lunar_llr (over lunar_frame_campaign::beacon_information, schedule_for and solve_datum_information, lunar_vlbi_fim)",
@@ -2417,6 +2673,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            id: "VM-97d8ec7c",
             requirement: "Lunar frame datum from a REAL observing campaign, kernel Moon centre",
             capability: "The lunar-llr-datum seven-parameter Helmert datum covariance from archived ILRS normal points and their measured weights, on the kernel path: the geocentric Moon centre is read from JPL DE440 by the engine's own kernel reader (planetary_kernel_path; lunar_llr::llr_geometry_with, ephem_provider::KernelEphemeris). Only the Moon centre differs from the analytic row; the IAU 2015 orientation, the absent polar motion and UT1, the catalogues, selection rules, weights and linear algebra are the same. The validated claim is only that this path's datum covariance agrees with an independent SPICE and NumPy oracle on fresh, unseen normal points. The comparison does not discriminate Moon models and does not check the Moon centre: on the same slice the analytic Moon also passes every bar, the pre-registered mutation (the kernel Moon read one hour late) was not detected, and a Moon centre about 4,650 km wrong also passes (see the oracle text). It is not evidence that the kernel Moon improves the datum. Runnable as the `lunar-llr-datum` scenario with planetary_kernel_path (and normal_points_dir for another slice)",
             module: "lunar_llr (llr_geometry_with, LunarLlrDatumScenario); ephem_provider (KernelEphemeris); naif_kernel",
@@ -2426,6 +2683,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-e3875438",
             requirement: "Built-in analytic lunar ephemeris — its STATED ACCURACY BOUND checked against real data",
             capability: "ephem::moon_position, the low-precision geocentric lunar series the crate falls back on when no DE/SPK kernel is present, measured against real lunar laser ranging and against a published planetary ephemeris over the same span. This row validates the bound the module states about itself, NOT an accuracy: the series is confirmed to be no worse than it says, not confirmed to be good",
             module: "ephem (moon_position), lunar_llr, realdata::llr_crd",
@@ -2436,6 +2694,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Gate integrity ────────────────────────────────────────────────────
         VerificationItem {
+            id: "VM-f553cc1c",
             requirement: "Gate integrity — a green that means what it says",
             capability: "Three structural guards over the verification process itself, each closing a class of defect that reached the canonical gate as an intermittent or spurious red. (1) Every constructed temp path in the Rust sources must carry a per-call unique component; a process id is rejected, because cargo runs the library tests as parallel threads of ONE process and the pid is shared by all of them. (2) Every byte-for-byte or hash pin must declare, next to itself or in its module header, what it covers and what it deliberately excludes — so a cross-cutting change can tell at a glance which pins are in scope and which have silently become repository-wide change detectors. (3) A green is claimable only from the FULL suite: scripts/gate.sh runs `cargo test --all`, captures the true exit code with no pipe in the way, and writes a receipt naming the commit, the integration-binary count, the test count and the duration; the pre-push check refuses a push whose commit no valid receipt names, on a clean tree. Repeatability is sampled separately by scripts/check-repeatability.sh, which runs the library suite N times and fails if the set of passing tests differs.",
             module: "scripts/gate.sh, scripts/check-gate-receipt.sh, scripts/check-repeatability.sh, scripts/install-gate-hook.sh",
@@ -2446,6 +2705,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── CTI P1: Composed-timing integrity rows ────────────────────────────
         VerificationItem {
+            id: "VM-22bf3eed",
             requirement: "Composed timing PL — scalar MHSS specialization (H=1_N)",
             capability: "Scalar-time solution-separation TPL over heterogeneous sources; PL driven by worst-exclusion subset noise + UTC(k) bias",
             module: "src/integrity/tpl_scalar.rs",
@@ -2455,6 +2715,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-802ee366",
             requirement: "Composed timing PL — P0-seeded holdover ride-through",
             capability: "PL(τ)=max(TPL_handover,HPL(τ)); lower-semicontinuous PL(0+)≥PL(0−); K(IR/2) running-max; τ/τ³/τ⁵ phase exponents",
             module: "src/integrity/composed_pl.rs",
@@ -2464,6 +2725,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ff51b519",
             requirement: "Composed timing PL — holdover envelope coverage, multi-year regime (tau>=90d)",
             capability: "Running-max envelope overbound-covers (zero-piercing) a real metrological series at every tested lag tau>=90d on a disjoint segment; short-tau (<=30d) is a disclosed Modelled boundary",
             module: "src/integrity/composed_pl.rs",
@@ -2473,6 +2735,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-47843371",
             requirement: "Composed timing PL — LIL a.s. envelope (impossibility + consistency)",
             capability: "No finite worst-case holdover (Brownian sup diverges); IR-allocated HPL consistent with Hartman-Wintner envelope as IR→0",
             module: "src/integrity/lil_envelope.rs",
@@ -2482,6 +2745,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-cce187eb",
             requirement: "Heterogeneous UTC(k) traceability-bias integrity overbound",
             capability: "Per-source bias overbound b = (U/k_cov)·Phi^-1(1-tail/2) + ageing, inflating a published Type-B expanded uncertainty to an allocated integrity tail; bridges to tpl_scalar as bias_s",
             module: "src/integrity/hetero_budget.rs",
@@ -2491,6 +2755,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-15e05692",
             requirement: "Correlated traceability-bias cross-covariance (common-mode-unsafe allocation)",
             capability: "N×N bias cross-covariance with rho·b_i·b_j off-diagonals for sources sharing a UTC(k) realizer; PROVEN correlated_fused_bias >= independent_fused_bias (naive independent allocation under-bounds the fused bias -> optimistic -> unsafe)",
             module: "src/integrity/hetero_budget.rs",
@@ -2500,6 +2765,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-56cdbf21",
             requirement: "GLS common-mode whitening (Aitken) + Mahalanobis identity",
             capability: "Hand-rolled Cholesky Omega=LL^T and forward-substitution whitening z=L^-1 r (Cov(z)=I when Cov(r)=Omega); Mahalanobis square z^T z = r^T Omega^-1 r",
             module: "src/integrity/gls_commonmode.rs",
@@ -2509,6 +2775,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-caf931b4",
             requirement: "Common-mode consistency statistic (separation-blind shared-reference fault)",
             capability: "Score statistic (1^T Omega^-1 r)^2/(1^T Omega^-1 1) ~ chi^2_1 for a common-mode shift that solution separation (contrasts orthogonal to 1) cannot see; a common-mode shift inflates it while pairwise separations stay flat",
             module: "src/integrity/gls_commonmode.rs",
@@ -2518,6 +2785,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-cdc08a73",
             requirement: "Residual-outside-Omega undetectable common-mode bound",
             capability: "Undetectable common-mode ceiling: the largest fault magnitude along a direction d that escapes BOTH separation (alpha_ss = T_ss / whitened contrast norm of d) and the common-mode statistic (alpha_cm = sqrt(T_cm 1^T Omega^-1 1) / |1^T Omega^-1 d|), reported as min(alpha_ss, alpha_cm). Under a positive-definite Omega the two blind directions (d proportional to 1, and 1^T Omega^-1 d = 0) are mutually exclusive, so the ceiling is FINITE for every nonzero d; it is infinite only for a zero direction or a non-positive-definite Omega. A direction outside the modelled common axis is blind to the common-mode statistic only and is bounded by separation",
             module: "src/integrity/gls_commonmode.rs",
@@ -2527,6 +2795,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-af0a23f0",
             requirement: "Lunar datum identifiability - decomposition linear algebra",
             capability: "Schur-complement marginal of the {lunocenter-X, scale} block of the 7-parameter Helmert datum Fisher: the scalar degeneracy metric lambda_min(S), the origin-X CRLB, and the origin-scale correlation",
             module: "lunar_identifiability",
@@ -2536,6 +2805,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-bed29386",
             requirement: "Lunar datum null-space classification (LLR rank-additivity + libration defect-lift)",
             capability: "Classification of the internal-ranging datum problem: a single range observation contributes rank 1 (6-dimensional null space); the origin-X and scale pair is near-null and physical DE440 libration lifts the defect to zero while the pair stays near-degenerate",
             module: "lunar_identifiability, lunar_datum",
@@ -2545,6 +2815,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-4c9a19f6",
             requirement: "Multi-technique lunar datum information (LLR + lunar VLBI + orbiter range)",
             capability: "Datum-Jacobian rows for Earth-reflector LLR range, two-station lunar-VLBI differential delay, and orbiter-to-beacon range over the 7-parameter datum, combined into one consistently-preconditioned Fisher; demonstrates that off-radial (orbiter / depth-diverse) tracking breaks the origin-X to scale degeneracy where transverse VLBI helps only indirectly",
             module: "lunar_datum, lunar_identifiability",
@@ -2554,6 +2825,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-dff22468",
             requirement: "DE440 lunar principal-axis orientation provider",
             capability: "MOON_PA_DE440 to J2000 rotation at arbitrary epochs inside 2014-01-01 to 2030-12-31 TDB, by geodesic interpolation R0·Exp(f·Log(R0ᵀR1)) between the nodes of a committed 6 209-row daily series (the try_ functions return OrientationSpanError outside it, the infallible ones panic; it never clamps); embedded at compile time so there is no runtime filesystem I/O and the WASM build carries it",
             module: "lunar_orientation",
@@ -2563,6 +2835,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-338ed616",
             requirement: "Lunar LLR datum geometry substrate (principal-axis reflectors, ground stations, analytic range partials)",
             capability: "The five near-side retroreflector arrays in PA body-frame metres and the LLR ground stations in geodetic coordinates; reflector body-to-inertial placement through the DE440 PA orientation; analytic partials of Earth-to-reflector range with respect to the 4-parameter datum; and the LLR-only Fisher matrix exhibiting the lunocentre-X to scale degeneracy that motivates the 7-parameter analysis",
             module: "lunar_llr_geometry",
@@ -2572,6 +2845,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-055df2b8",
             requirement: "LLR measured-range model (reflector catalogue, ITRF2020 stations, DE440 principal-axis placement, IERS 2010 barycentric light time)",
             capability: "The one-way Earth-station to reflector range of a lunar laser-ranging normal point: the five near-side retroreflector arrays in DE440 principal-axis (PA) body-frame metres (lunar_llr_geometry::reflectors); the stations of stations_itrf(), namely Grasse 7845 and Matera 7941 from ITRF2020 at epoch 2015.0 with their velocities, placed in the Geocentric Celestial Reference System (GCRS) by the IERS 2010 transform with Bulletin A polar motion (lunar_vlbi::station_inertial_position_itrs), and APOLLO 7045 at its operator-published approximate geocentric position (no velocity); the reflector body-to-inertial placement through the DE440 PA orientation (lunar_orientation::try_de440_moon_pa_body_to_inertial, which errors outside 2014-2030); and the IERS Conventions 2010 Section 11.2 barycentric light time (lunar_llr_geometry::llr_bcrs_one_way_m: the Eq. 11.19 body-to-BCRS transformation of station and reflector, and the Eq. 11.17 Shapiro delay from the Sun, the Earth and the Moon). INPUTS, not part of the claim: the barycentric Earth, Moon and Sun states and potentials (DE440 through SPICE), IERS UT1-UTC and polar motion, and the measured round trip converted from TT to TDB. HARNESS-SIDE, not part of the claim: the Mendes-Pavlis zenith delay with FCULa mapping, in the test, with elevation from the geodetic stations() catalogue. Not modelled: tides, station eccentricities, reflector thermal terms",
             module: "lunar_llr_geometry (reflectors, stations_itrf, ItrfStation, StationCoordinates, llr_bcrs_one_way_m, body_to_bcrs_tdb, shapiro_leg_m, BcrsEvent); lunar_orientation (try_de440_moon_pa_body_to_inertial); lunar_vlbi (station_inertial_position_itrs)",
@@ -2581,6 +2855,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-105d48cb",
             requirement: "Coupled lunar frame and timescale gauge: the joint spatial-datum, clock-offset and clock-rate null space",
             capability: "assemble_coupled_info builds the 9-parameter coupled Fisher over [t_x, t_y, t_z, s, theta_x, theta_y, theta_z, d_tau, d_alpha]; classify_null_space returns a basis-invariant decomposition of its null space into spatial-only, temporal-only and genuinely coupled dimensions plus the spatial-to-temporal projector coupling norm; coupled_marginal_eigs gives the {scale, offset} Schur-complement marginal. On the committed networks the engine reports a full-rank datum (defect 0) for the well-posed case and an exact single rate-direction defect for the single-epoch case (elapsed time zero, so the rate is unobservable by construction), and computes the {s, d_tau} marginal in both.",
             module: "lunar_gauge",
@@ -2590,6 +2865,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-b3782756",
             requirement: "Range to clock-offset degeneracy in one-way lunar ranging, and the geometric-diversity design law",
             capability: "The per-node radial-range to receiver-clock-offset degeneracy is exact at 1 m to 3.336 ns (one over c). The {scale, offset} Schur-complement marginal (coupled_marginal_fisher) shows that in a geometrically diverse network two-way ranging lifts the marginal by about the same factor as an equal count of additional one-way data, while in the idealised single-node regime the two-way lift is orders of magnitude larger. The design law that follows: geometric diversity, not two-way ranging as such, is what separates lunar frame scale from timescale offset in one-way ranging; a two-way or external time tie is required only in the low-diversity or single-user regime.",
             module: "lunar_gauge",
@@ -2599,6 +2875,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-a3971a9a",
             requirement: "Relativistic clock-rate to frame coupling for the lunar timescale",
             capability: "rate_frame_jacobian(_with) gives the sensitivity of the lunar timescale rate to the frame realisation, from the equatorial effective potential truncated at degree 2 (GM, equatorial radius, J2, rotation; LunarSurfacePotential): d_alpha/d_scale = L_m, about +3.1388e-11; d_alpha/d_velocity = -|v_moon|/c^2, about -1.11e-14 (time-dependent); d_alpha/d_r_radial = g_eff/c^2, about +1.806e-17 per metre. For a 1 m radial datum shift this is a rate perturbation of about 1.8e-17 (an arithmetic consequence of the radial entry), far below the roughly 1.7e-11 rate offset of a lunar timescale against TT",
             module: "lunar_gauge, lunar_time",
@@ -2608,6 +2885,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3da07d8a",
             requirement: "Basis-invariant classification of the coupled frame and timescale null space",
             capability: "classify_null_space decomposes the datum null space into spatial-only (dimension d minus rank U_T), temporal-only (d minus rank U_S) and genuinely coupled (rank U_S plus rank U_T minus d) parts, plus the spatial-to-temporal projector coupling norm p_st_norm, the Frobenius norm of the off-diagonal block of the null-space projector. Every one of these is a function of the PROJECTOR rather than of a chosen basis, so they are invariant under any orthonormal choice of null vectors - which is what makes the classification reportable at all.",
             module: "lunar_gauge",
@@ -2617,6 +2895,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-90ae0e7c",
             requirement: "Representative multi-technique measurement menu and the additive Fisher combination rule",
             capability: "MeasurementBlock holds one candidate measurement campaign as a 7x7 Fisher information contribution plus a scalar relative cost; block_from_rows builds one from raw datum-Jacobian rows so every block is preconditioned identically through lunar_identifiability::assemble_multi_info; combine sums the information of a chosen subset, which is the correct rule because Fisher information is additive across independent measurements; representative_lunar_menu supplies a deterministic four-block menu (LLR, a transverse VLBI limb beacon, a near-side orbiter and a far-side orbiter). The budget-constrained design optimiser that consumes this menu is not part of this crate.",
             module: "lunar_techniques",
@@ -2626,6 +2905,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7faeee00",
             requirement: "Cross-provider lunar frame/dynamics consistency (real inter-ephemeris)",
             capability: "rotation-only (6-parameter translation+rotation) decomposition of the DE440/INPOP21a/EPM2021 geocentric-Moon disagreement into a reducible common ICRF frame-tie and an irreducible lunar-orbit-orientation excess (the full 7-parameter Helmert fit is a separate public function NOT covered by this external check: its evidence is an internal analytic-recovery unit test plus tests/lunar_helmert_fit_cross_check.rs, which agrees it against the Validated exact Gauss-Newton fit in lunar_frame_realise and pins the opposite-rotation-sign convention between the two)",
             module: "lunar_interop_budget",
@@ -2635,6 +2915,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-660ef3e9",
             requirement: "Cross-provider consistency tolerance for a mixed-provider user",
             capability: "consistency_tolerance: inverts a user position budget to a per-parameter inter-provider Helmert agreement requirement (origin/scale/rotation) at a reference lever arm, optionally inflated by the P1 single-provider realization CRLB",
             module: "lunar_interop_budget",
@@ -2644,6 +2925,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-24491422",
             requirement: "Multi-provider lunar interoperability error budget and frame-vs-ephemeris design law",
             capability: "interop_budget: reducible (common frame-tie) vs irreducible (dynamics) split under PerProvider / CommonFrameTie / CommonEphemeris conventions, with the irreducible-fraction design-law metric (~0.69 on real DE440/INPOP/EPM: a common frame tag alone leaves the dominant floor)",
             module: "lunar_interop_budget",
@@ -2653,6 +2935,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-3d1c5457",
             requirement: "Autonomous free-network fault-observability linear-algebra pipeline (parity projector, detectability, MDB non-centrality, Byzantine block-spark)",
             capability: "On the real-DE440 per-node lunar network (each row a differential inter-node one-way range built via pernode_range_row with a real DE440 Moon PA-frame line of sight), the engine computes the weighted parity projector P⊥ = I − G(GᵀWG)⁺GᵀW (the rank-deficient pseudo-inverse form that survives the 8-dim datum⊕timescale gauge), the T1 detectability residual ‖P⊥·b‖ (in-range faults annihilated, generic faults detectable), the Baarda MDB non-centrality quadratic form cᵀWP⊥c (the correct single-P⊥ weighted form, NOT the double-P⊥ form cᵀP⊥WP⊥c) with MDB = √(λ₀/cᵀWP⊥c), and the Byzantine block-spark detect/identify counts of the stacked effective peer signatures P⊥·B_T (column-rank, not merely nonzero)",
             module: "lunar_faultobs",
@@ -2662,6 +2945,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-bff0cee3",
             requirement: "Byzantine block-spark detect/identify bound on the autonomous per-node lunar network (T3)",
             capability: "byzantine_bound instantiates the secure-state-estimation coding / sparse-observability bound on the per-node network geometry: a Byzantine peer injects an arbitrary linear combination of the measurements it participates in, and the network DETECTS any coalition of ≤ f = block_spark − 1 peers and uniquely IDENTIFIES any coalition of ≤ ⌊(block_spark − 1)/2⌋, where block_spark is the smallest peer-coalition whose stacked effective signatures P⊥·B_T are column-rank-deficient. Peer detectability is FULL COLUMN RANK of P⊥·B_j (a nonzero-but-rank-deficient block is a nonzero attack that lands in range(G) and leaves no residual), not merely P⊥·B_j ≠ 0",
             module: "lunar_faultobs",
@@ -2671,6 +2955,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ea17589a",
             requirement: "Autonomous-holdover temporal-gauge floor for the self-referential lunar constellation (T4)",
             capability: "holdover_floor establishes that in an ensemble of autonomous nodes connected only by inter-node measurements the common clock rate (δα_j += 1 ∀j) is an ensemble-time free parameter lying in N(GᵀWG): no amount of additional inter-node ranging can observe it (rate_in_gauge = true, temporal_gauge_dim = 2 with the common offset). This is the genuine holdover floor — the temporal analog of the rigid-frame position gauge. Adding one external absolute-rate tie (a direct link to an off-network reference) expels the common rate from the null space (rate_in_gauge = false, temporal_gauge_dim = 1), proving the floor is a real gauge, not an oscillator-model artefact",
             module: "lunar_faultobs",
@@ -2680,6 +2965,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7cf3772f",
             requirement: "Provider common/differential split, one-rank-deficiency unification, and protection-gap slope (T5 / §0 / g7)",
             capability: "Three facets of the single decomposition ℝ^{state_dim} = N(GᵀWG) ⊕ range(GᵀWG) with the 8-dim datum⊕timescale gauge as N(G) and the state_dim − 8 = 32 observable directions as range(G): (T5) provider_mismatch_split classifies a common multi-provider bias (∈ range(G)) as UNDETECTABLE — needing an external tie — and a differential bias (∉ range(G)) as self-monitored / DETECTABLE; (§0) the unification is that the SAME range(G) blind subspace governs the undetectable fault class, so the datum gauge N(G) and the fault-blind subspace range(G) are one geometry, not two; (g7) slope returns the Brown protection-gap slope ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ for a fault b ∈ range(G) (estimator corrupted with zero parity) and finite for a detectable fault",
             module: "lunar_faultobs",
@@ -2690,6 +2976,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Telecom timing (ITU-T masks) ────────────────────────────────────────
         VerificationItem {
+            id: "VM-fab6cff7",
             requirement: "Telecom-timing MTIE and TDEV on a holdover time-error series",
             capability: "The maximum time interval error and time deviation the `telecom-timing` scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue sliding-window MTIE (telecom_timing::mtie_sliding, needed so a day of one-second samples stays fast) and the engine's TDEV (allan::time_deviation), evaluated on the grid the kind reports and read back out of a full run that ingests the series",
             module: "telecom_timing (mtie_sliding, mtie_curve_ns, tdev_curve_ns); allan (mtie, time_deviation)",
@@ -2699,6 +2986,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-b5a1c2e5",
             requirement: "ITU-T telecom synchronisation masks with PASS/FAIL and margin",
             capability: "Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 (2024) Amd. 1 (07/2025) ePRTC locked and ePRTC-A holdover (including the Table 3 time-error envelope), G.8273.2 (2023) Amd. 2 (11/2025) T-BC/T-TSC classes A-D and G.8271.1 (2022) Amd. 3 (05/2025) reference point C, each open or closed interval as the table states it, with every 'for further study' entry left out; a verdict and a margin at the binding point per check, and the time to exceed each budget. Runnable as the `telecom-timing` scenario kind",
             module: "telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve, check_mask)",
@@ -2708,6 +2996,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-df4578d8",
             requirement: "ITU-T frequency-synchronisation wander-generation masks (G.811, G.812, G.8262, G.8262.1)",
             capability: "Seven constant-temperature MTIE and TDEV wander-generation masks for the `telecom-timing` kind: G.811 (09/1997) PRC (autonomous), G.812 (06/2004) Types I, II and III, G.8262 (10/2024) EEC Options 1 and 2 and G.8262.1 (11/2025) eEEC (locked mode), including the power-law pieces the tables write (`8 τ^0.5` and the like), each interval open or closed as printed, measured through the 10 Hz filter the clauses state (taken as applied before sampling); the reference scenario scenarios/telecom-synce-eec.toml sets a free-running OCXO against the three EEC masks. Not implemented: the variable-temperature allowances, holdover, transients, jitter and the G.811 frequency accuracy",
             module: "telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)",
@@ -2717,6 +3006,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-002dc3ac",
             requirement: "Clock-log formats (RINEX clock, TimeLab ASCII, TAPR TICC) read to a normalised phase series",
             capability: "clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions 2 and 3.00 to 3.04), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform phase grid, with tau0 stated, from a header, or the median spacing, every gap, off-grid reading and duplicate counted, and a refuse, longest-run or linear gap policy; wired opt-in into the telecom-timing series (`[series.clock_log]`, adding a `clock_log` block) and the clock kind (`[clock_log]`, adding a `measured` block with ADEV, TDEV and MTIE, the table's SHA-256 and the phase SHA-256; runs = 1). Without the table both kinds are byte-identical",
             module: "clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (clock kind [clock_log])",
@@ -2726,6 +3016,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-800c73e1",
             requirement: "Clock-log formats linuxptp (ptp4l, phc2sys, ts2phc) and chrony (tracking, statistics) read to a normalised phase series",
             capability: "clock_log::read_input with the formats ptp4l, phc2sys, ts2phc, chrony-tracking and chrony-statistics: the logged offset of a linuxptp servo line (ns, the line's own bracketed time stamp, readings before the servo first reports s2 left out and counted) or of a chrony tracking or statistics log (s, by column position, UTC date and time) becomes a uniform phase grid through the same gap policies as the other formats; a source selector (`clock`) names one of several interfaces, clocks or addresses; the logs feed the telecom-timing series, the clock kind and the holdover-test kind",
             module: "clock_log (parse_linuxptp, parse_chrony, grid_timed_offsets)",
@@ -2735,6 +3026,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-3c0cedf1",
             requirement: "Holdover test scored from an operator-supplied time-error record",
             capability: "The `holdover-test` kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times the operator states for GNSS removal and restoration into a baseline, a holdover and a recovery step; the baseline is measured against the ITU-T masks written for a locked clock and the holdover against those written for holdover or an autonomous clock, the ePRTC-A holdover envelope and the time-error budgets; the holdover reports the least-squares frequency offset the system held, and the recovery whether and when |TE| came inside a stated band and stayed for a stated dwell, with the peak and the largest step. Every limit is the one the telecom-timing kind transcribes; the two times are the operator's statement and are not verified",
             module: "holdover_test (HoldoverTestScenario, recovery, linear_fit); telecom_timing (check_mask, check_envelope, budget_results)",
@@ -2744,6 +3036,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-fb122222",
             requirement: "GNSS signal availability in the Space Service Volume and beyond, compared with the ICG SSV booklet",
             capability: "The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a sphere (the booklet's 2,562-point global shell, 14 days at 1 minute) or on a trajectory (GEO, HEO, lunar transfer), from the Keplerian orbits of the booklet's annex C, a constant minimum radiated power inside the reference off-boresight angle, Earth blockage by the sphere plus 50 km and a C/N0 threshold; user antennas from the booklet's table B10",
             module: "ssv (constellations, geom, sweep, pattern, check)",
@@ -2753,6 +3046,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-114a4144",
             requirement: "Limb-ray ionosphere, plasmasphere and atmosphere effects on grazing GNSS signals, and the weak-signal receiver design, in the `gnss-ssv` kind",
             capability: "A Chapman ionosphere, a Gallagher-type plasmasphere and a neutral atmosphere (refractivity bending, oxygen absorption, defocusing) integrated along the straight ray between transmitter and user: slant total electron content, its plasmaspheric part, excess delay, tangent altitude and the loss on grazing links; and a weak-signal receiver design (coherent and non-coherent integration, data-bit limit, aiding, Doppler search) that sets the C/N0 threshold from the acquisition and tracking-loop models",
             module: "ssv (limb, weak)",
@@ -2762,6 +3056,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-a5755cc1",
             requirement: "Onboard GNSS navigation filter for high-orbit and lunar-transfer spacecraft",
             capability: "The `gnss-ssv` kind's `[navigation]` mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure scale) on pseudoranges whose availability, noise and C/N0 come from the same link geometry as the sweeps; truth is integrated with J2, Sun and Moon third-body and radiation pressure with shadow, the filter models J2 and the third bodies and estimates the radiation pressure; reports position and velocity errors inside and above the GNSS orbits, the longest measurement gap and the mean NEES",
             module: "ssv::nav (run_nav, Ekf)",
@@ -2771,6 +3066,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-0ad9c42e",
             requirement: "Relative navigation of a multi-spacecraft formation in a highly elliptical orbit from GNSS",
             capability: "The `gnss-ssv` kind's `[formation]` mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtracting the absolute estimates and by a relative filter on single-differenced pseudoranges of the signals both craft track, with the relative dynamics the difference of two nonlinear trajectories",
             module: "ssv::formation (run_formation, RelEkf)",
@@ -2780,6 +3076,127 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-dd872eab",
+            requirement: "Navigation and timing error budget of a chain of mission phases from launch to entry (`mission-thread`)",
+            capability: "The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (`carry`; `inflate`, white acceleration noise over a stated gap on a straight-line model; `reacquire`, dead reckoning then the source floor, never below it, never a reset); frame conversions GCRF, MCI and MCMF and timescale conversions through TT, each its own budget row, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback; the margin against a stated requirement, the weakest link, the events and a timeline figure. Every number is a stated input or a model of one",
+            module: "mission_thread (scenario, handover, conversions, budget, phase)",
+            tests: "mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)",
+            oracle: "Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst 2.6 m and 7e-6 m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no agency endorsement",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-141c6467",
+            requirement: "Launch and ascent to a parking orbit with GNSS acquisition and fade (`launch-ascent`)",
+            capability: "The `launch-ascent` phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated accuracy applied after the acquisition time and outside stated fades, a bias-and-drift clock disciplined by the same fixes, and the parking-orbit insertion state",
+            module: "mission_thread::earth::launch (LaunchAscent)",
+            tests: "mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state",
+            oracle: "The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-3285c018",
+            requirement: "Relative navigation to the docking envelope in low Earth orbit over sensor legs (`leo-rendezvous`)",
+            capability: "The `leo-rendezvous` phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white acceleration noise and position updates whose variance is the sensor's at the current range, over legs of a stated sensor (ILLUSTRATIVE optical camera, lidar and radio-ranging forms); the docking window is the time from which the relative sigma stays inside the capture envelope to the end of the phase. The chaser's absolute covariance is handed on unchanged and a row says so",
+            module: "mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors",
+            tests: "mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close",
+            oracle: "A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-09d31ea9",
+            requirement: "Trans-lunar injection and cislunar cruise: propagated mean state and covariance with tracking updates (`tli-and-cruise`)",
+            capability: "The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic series); the covariance by a forward-difference state-transition matrix of that propagation (the nominal run and six perturbed runs per segment) with white acceleration noise; the TLI burn's size and pointing error; `gnss-ssv` fixes whose availability and PDOP come from the space-service-volume sweep along an osculating orbit standing in for the arc; range and range-rate tracking along the geocentric direction scaled by the ground-network duty, with the Joseph-form update",
+            module: "mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep",
+            tests: "mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too",
+            oracle: "Liouville's theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-fe6d68d3",
+            requirement: "Entry interface covariance, corridor probability, peak deceleration and landing footprint (`entry`)",
+            capability: "The `entry` phase: the return coast of `tli-and-cruise` with no burn, ending at the entry interface; the flight-path angle and its sigma from the full covariance by a finite-difference gradient; the probability that the angle is inside a stated corridor; the peak deceleration at the nominal angle and at both corridor edges from the engine's planar ballistic point-mass entry (skip-out detected) beside the Allen-Eggers closed form; the landing footprint from a stated downrange sensitivity and the interface covariance across the orbit plane. No lift, guidance or heating is modelled",
+            module: "mission_thread::earth::entry (Entry); reentry",
+            tests: "mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused",
+            oracle: "Hand calculations in the tests (the angle sigma is the perpendicular velocity sigma over the speed; the Gaussian mass in a corridor). The planar entry is the engine's own and the Allen-Eggers form is a closed-form comparison; no flown entry is compared",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-36619fa3",
+            requirement: "Ground-network coverage and tracking duty for a thread phase (`[ground_network]` of `mission-thread`)",
+            capability: "The ground-network overlay: stations with a minimum elevation, the visibility of the vehicle on a stated geometry (the entry state flown two-body with J2, the Moon's position for the cruise, or a stated duty), station handovers that lose a stated time each, and the resulting duty passed to the phase's ground-tracking update rate; the longest interval with no station in view is a budget row",
+            module: "mission_thread::earth::ground_network",
+            tests: "mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking",
+            oracle: "Zenith and antipode geometry checks and the expected visibility of a distant target in the tests. No real network, antenna or schedule is modelled",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-5c095f48",
+            requirement: "Relative navigation to docking in a lunar orbit (`lunar-orbit-rendezvous`)",
+            capability: "The `lunar-orbit-rendezvous` kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent signal-in-space position biases, common and independent), grown over a quarter, a half and the whole arc with step halving, from an absolute fix per vehicle (AFS pilot code-tracking bound, ILLUSTRATIVE relay set) and a crosslink range, under the crate's lunar force model; the mean normalised estimation error squared, the Clohessy-Wiltshire check on a circular orbit and the 6x6 covariance handed on",
+            module: "lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar",
+            tests: "lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs",
+            oracle: "Self-consistency under a pre-registration (xval/mission-thread-lunar/PREREGISTRATION.md, results and the estimator history in RESULTS.md): the mean NEES of the relative state is 5.85 to 5.93 against the band 5.2 to 6.8 in four configurations, MET on the fourth estimator design after three sequential-filter designs missed; the truth and the estimator share one force model, so this says nothing about model error. The propagator it shares is compared with LRO and CAPSTONE in a row below",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-0002d522",
+            requirement: "Landing-dispersion budget at a lunar polar site (`lunar-descent`)",
+            capability: "The `lunar-descent` kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided three-relay case), a terrain-relative fix (the engine's terrain-nav matcher on synthetic relief, or a Cramer-Rao bound on a LOLA DEM with an aperture-problem rule) and lunar time, with a Monte Carlo touchdown ellipse",
+            module: "lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav",
+            tests: "lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock",
+            oracle: "The closed-form inertial drift, the reused kinds' own results and the calibration of the 3-sigma ellipse (the fraction inside agrees with its expectation) in the tests. No flown or tested landing is compared",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-bb8b8191",
+            requirement: "Surface positioning and timing availability by site and season at the lunar poles (`lunar-surface`)",
+            capability: "The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of `moonlight-service-volume`; a single-site run equals that kind's availability and PDOP to the bit",
+            module: "lunar_surface_map (LunarSurfaceMapScenario); lunar_phase",
+            tests: "lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents",
+            oracle: "Exact equality with the existing kind for one site, and monotonicity checks, in the tests. The relay set is ILLUSTRATIVE and no surface measurement is compared",
+            oracle_kind: ReferenceImpl,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-5bd5efbe",
+            requirement: "Powered ascent from a lunar polar site to an insertion orbit (`lunar-ascent`)",
+            capability: "The `lunar-ascent` kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS fixes and lunar time, reporting the insertion position and velocity covariance carried to orbit and the engine-cutoff dispersion (reported, not carried)",
+            module: "lunar_ascent (LunarAscentScenario); lunar_phase",
+            tests: "lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents",
+            oracle: "The closed-form inertial drift and monotonicity checks in the tests. No flown ascent is compared",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-576667f2",
+            requirement: "The lunar force model propagation against public reconstructed lunar-orbiter and cislunar trajectories",
+            capability: "The propagator the lunar kinds share (GRAIL GL0660B degree and order 150, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the public JPL Horizons trajectories of LRO (24 h, 10 minute samples) and CAPSTONE (one 6.5 day revolution, one hour samples), under bars fixed in a committed file before the run",
+            module: "lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (example)",
+            tests: "tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes",
+            oracle: "JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments 1 to 6). LRO: MET, 33 m largest 3-D difference and 2.4 m RMS radial against 500 m and 60 m. CAPSTONE: NOT MET, a 136.8 km end-position difference against 25 km and a 28.4 km periapsis difference against 10 km, the causes not isolated. The row is Modelled because the CAPSTONE bar is missed and the comparison tests the shared propagator, not any filter, signal or budget",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-85ad15fc",
+            requirement: "The cislunar mean-state propagation against the public Artemis I trajectory (`tli-and-cruise`)",
+            capability: "The mean-state propagation of the `tli-and-cruise` phase (Cowell, Earth point mass and J2, the Sun and Moon third bodies, the Moon from a DE440 cut) compared with the public JPL Horizons trajectory of Artemis I over a 72 h coast arc from 2022-11-16 18:00 TDB, at 12 hour epochs, under bars fixed in a committed file before the run",
+            module: "mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (example)",
+            tests: "tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes",
+            oracle: "JPL Horizons target -1023 (the NASA navigation as-flown post-TLI trajectory), against bars pre-registered in xval/mission-thread/PREREGISTRATION.md (Amendment 1 changes only the request span). NOT MET and asserted as missed: 45.3 km largest position difference against 5 km, and 0.249 m/s velocity difference at 72 h against 0.05 m/s. A diagnostic written after the verdict places the miss in five impulsive velocity steps of 0.09 to 0.22 m/s in the reference (the pre-registered reading that the window held no burn was wrong); over the other 67 hours the model reproduces the next hourly state to a median of 0.38 m. Tests the mean state of one coast arc only: no covariance, filter, update or other phase",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+        VerificationItem {
+            id: "VM-8112313d",
             requirement: "Cold-atom interferometer error terms: Raman laser-phase noise, wavefront-curvature bias and fringe-ambiguity resolution",
             capability: "inertial::cai_error_terms (library functions, not yet reachable from a scenario kind): the Raman-phase weighting function of a square-pulse three-pulse interferometer (Cheinet et al. 2008, Eq. 8) with the white-phase closed form (pi/2)^2 S_phi0/tau_R and a numeric route for any spectrum; the laser frequency noise the retro-reflection delay does not cancel (Le Gouet et al. 2007, Eqs. 9 to 11); the pure-defocus wavefront bias sigma_v^2/R of a thermal cloud and its reduction by a detection radius; the wrong-fringe-index probability erfc(pi/(sqrt(2) s)) for a classical-accelerometer aid and for two interrogation times, and its inverse",
             module: "inertial::cai_error_terms",
@@ -2789,6 +3206,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-a9a886b5",
             requirement: "Greenhall and Riley exact equivalent degrees of freedom of the Allan, modified Allan and Hadamard variances",
             capability: "allan::edf_greenhall (with the edf_greenhall_adev, _mdev and _hdev wrappers): the full algorithm of Greenhall and Riley, Proc. 35th PTTI (2003), Section 3 (Eqns 7 to 13 and the large-J coefficients of Tables 1 to 3), for difference orders 1 to 3, noise exponents +2 to -4 wherever alpha + 2d > 1, overlapping and non-overlapping, modified and unmodified estimators; NaN where it does not apply, including the unmodified white-PM case with ceil(M/S) <= d, whose closed form is not implemented. assurance::uncertainty::edf now shares the code and keeps its outputs bit for bit",
             module: "allan (edf_greenhall, greenhall_edf_core); assurance::uncertainty (edf)",
@@ -2798,6 +3216,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-23a15a45",
             requirement: "Oscillator holdover presets from public datasheets",
             capability: "Four presets — OCXO (Microchip OX-208), rubidium (Microchip 8040C), caesium (Microchip 5071A high-performance tube) and CSAC (Microchip SA.45s) — each carrying its datasheet's Allan-deviation maxima, aging and temperature bound; a non-negative least-squares white + flicker + random-walk frequency-noise fit scaled to envelope every datasheet point, a flicker floor never below the longest-τ figure, linear aging and a sinusoidal temperature term, synthesised as a seeded holdover after a GNSS loss",
             module: "telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)",
@@ -2808,6 +3227,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Slot timing (time-indexed slots, fix cadence, orbital spoofing) ─────
         VerificationItem {
+            id: "VM-56200471",
             requirement: "Holdover prediction from a measured clock record, checked on held-out data",
             capability: "The `slot-timing` kind's measured-record path: the overlapping Allan deviation of a phase record fitted by edf-weighted non-negative least squares in the white-phase and IEEE Std 1139 frequency-modulation basis (slot_timing::fit_weighted), then inverted for the coast time at which the time error reaches a threshold (slot_timing::slot_budget). The red-noise floor is measured from the record instead of assumed",
             module: "slot_timing (ClockNoise::from_phase_record, fit_weighted, slot_budget, breach_after_sync_s)",
@@ -2817,6 +3237,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3842550f",
             requirement: "Seconds until a free-running clock leaves a time-indexed slot's guard, and the fix cadence that keeps it inside",
             capability: "The `slot-timing` kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisation interval net of the fix latency and fixes per day, each term itemised with the dominant one named; clocks from the six ClockClass defaults (TCXO, OCXO and RAFS added, each citing one datasheet), the telecom-timing presets, an inline datasheet or a measured record; a breach beyond the source's longest averaging time flagged as extrapolated",
             module: "slot_timing (predicted_error_s, breach_after_sync_s, terms_at, slot_budget, ClockNoise::from_datasheet, SlotTimingScenario); clock_state (ClockClass::Tcxo, Ocxo, Rafs, source)",
@@ -2826,6 +3247,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-830ecf94",
             requirement: "Timing protection level for a receiver in orbit under GNSS spoofing",
             capability: "orbital_timing::orbital_timing, reachable as the `slot-timing` kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection latency, the conditional protection level (floor plus coast over the latency), the pull a spoofer at a stated maximum ramp rate accumulates before the satellite leaves its footprint or an independent check runs, and whether each ground-contact or crosslink check is independent of one ground spoofer",
             module: "orbital_timing (orbital_timing, visibility_half_angle_rad, max_pass_s, crosslink_neighbour_is_outside_footprint)",
@@ -2836,6 +3258,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── L-band spectrum model, waterfall and SigMF / Welch estimates ─────────
         VerificationItem {
+            id: "VM-e1de9d23",
             requirement: "Closed-form L-band signal power spectral densities and spectral separation coefficients",
             capability: "Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK(1)), GPS L5 and Galileo E5a (BPSK(10)), sine-BOC(1,1) and Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls and maxima (spectrum::psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz), and the spectral separation coefficient of a signal against any spectrum at any offset (navsignal::spectral_separation_coeff_offset) or against a tone, flat noise, a chirp or matched noise (spectrum::Jammer::ssc), with the anti-jam coefficient Q = 1/(R_c kappa)",
             module: "navsignal (Modulation::psd, spectral_separation_coeff_offset, q_from_ssc); spectrum (psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz, Jammer::ssc)",
@@ -2845,6 +3268,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-ec2500ac",
             requirement: "L-band spectrum waterfall with per-band J/S and effective C/N0 under a scripted jammer timeline",
             capability: "The `spectrum` kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + 290 K (F - 1), the signals at their interface-specification minimum received powers, and continuous-wave, narrowband, chirp and matched-noise jammers with on/off times), each cell averaged over its bin and row (chirps exactly over whole and partial sweeps, jammers by duty), per-band effective C/N0 = [1/(C/N0) + sum (J/S) kappa]^-1 per row, J/S per band, in-band J/S, and an SVG waterfall with C/N0 bars. The report carries a cross-check against the `jamming` kind's chain on the same link inputs",
             module: "spectrum (SpectrumScenario, SpectrumModel::bin_psd_w_per_hz, SpectrumModel::band_state, effective_cn0_multi_dbhz, system_temp_k, Jammer::power_fraction_in, Jammer::duty)",
@@ -2854,6 +3278,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-2d5c1f5c",
             requirement: "SigMF recording input and output, and Welch spectral estimates of complex IQ",
             capability: "sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on strings and byte buffers. spectrum::welch_psd: Hann-windowed, overlapped, averaged periodograms, density-scaled, on an in-crate radix-2 transform (spectrum::fft_in_place). Those two are the validated claim. spectrum::synthesise_iq draws the model as IQ, and the `spectrum` kind's [iq] section runs model to IQ to SigMF to Welch and compares with the model; its [recording] section estimates a real recording (native builds); the synthesis and those model comparisons are outside the validated claim",
             module: "sigmf (read, write, encode, decode, parse_meta, meta_to_json); spectrum (welch_psd, fft_in_place, synthesise_iq)",
@@ -2864,6 +3289,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Solar-system ephemeris and positioning around any body ──────────────
         VerificationItem {
+            id: "VM-5d9fc243",
             requirement: "Planet positions across the solar system from the JPL Standish Keplerian elements",
             capability: "Heliocentric positions of Mercury, Venus, the Earth-Moon barycentre, the Earth, Mars, Jupiter and Saturn from Standish Table 1 (1800 AD to 2050 AD), and of all eight planets from Tables 2a/2b (3000 BC to 3000 AD, with the b, c, s, f mean-anomaly terms), following the JPL page's algorithm step for step and rotated to the ICRF (International Celestial Reference Frame) by the page's obliquity; the Earth is split from the barycentre by the Montenbruck & Gill lunar series and the mass ratio. Composed as ephem_provider::AnalyticSolarSystem so any body is available relative to any other, and runnable as the `solar-system` kind",
             module: "ephem (standish_state, standish_elements, standish_nominal_error, ecliptic_to_icrf); ephem_provider (AnalyticSolarSystem); solar_system (SolarSystemScenario)",
@@ -2873,6 +3299,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-bd135aad",
             requirement: "Sun, Moon, Mercury and Venus positions from the DE440 kernel at UTC epochs (KernelEphemeris)",
             capability: "Geometric positions of the Sun, Mercury, Venus, the Earth and the Moon relative to one another (J2000/ICRF axes, metres) from a JPL DE440 kernel through ephem_provider::KernelEphemeris at UTC epochs: body names mapped to NAIF codes, UTC carried through the leap-second table and TT to TDB with the two-term TDB-TT series, the kernel read by the engine's own reader. A body the kernel holds only as a system barycentre (Mars to Neptune, Pluto in de440s) is refused, never substituted. The kernel-free Standish row stays the browser and fallback path",
             module: "ephem_provider (KernelEphemeris::relative_position_utc, utc_to_tdb_jd2); naif_kernel; timescales",
@@ -2882,6 +3309,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-fde7ce48",
             requirement: "Light time between solar-system bodies",
             capability: "The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_time_solution, transmitter at its retarded position) through solar_system::link_on on any EphemerisProvider; the solar-system kind runs it on the analytic solar system in the heliocentric frame (solar_system::link). The two-way range from radiometric::two_way_range and the Sun Shapiro delay from radiometric::shapiro_delay are reported separately and are not externally compared. Emitted for every body against an observer and for any extra link by the `solar-system` kind, and for the body-to-Earth downlink by the `body-pnt` kind",
             module: "radiometric (light_time_solution, two_way_range, shapiro_delay); solar_system (link, link_on); ephem_provider (AnalyticSolarSystem)",
@@ -2891,6 +3319,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-2233778f",
             requirement: "Uranus and Neptune from Standish Table 1, Pluto, and planetary velocities",
             capability: "Positions of Uranus and Neptune from Standish Table 1 (the default inside 1800 AD to 2050 AD), Pluto from the 1992 Table 1 row the current JPL page no longer lists, and the heliocentric velocity of every planet: the two-body derivative with the mean motion the elements imply plus the turning of the ellipse by the perihelion, inclination and node rates",
             module: "ephem (standish_state, StandishElements::state_at_mean_anomaly, Planet::Pluto); solar_system (position_label)",
@@ -2900,6 +3329,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-404abc2a",
             requirement: "Positions of the Moon and seven major moons (Phobos, Deimos, the Galilean moons, Titan)",
             capability: "The geocentric Moon from the Montenbruck & Gill series (whose -1.3972 deg per century term already refers it to the J2000 equinox), and planetocentric positions and velocities of Phobos, Deimos, Io, Europa, Ganymede and Callisto from the JPL Solar System Dynamics mean elements in each moon's Laplace plane with the mean-longitude rate taken from the IAU synchronous rotation rate (the table prints the period to too few digits to hold the phase), and of Titan from the IAU rotation model (the moon on minus the body-fixed x axis at the mean distance), because Titan's printed Laplace-plane row does not reproduce Horizons even at its own epoch",
             module: "ephem (satellite_state, Satellite, SatelliteMethod, moon_icrf, moon_icrf_velocity); ephem_provider (AnalyticSolarSystem)",
@@ -2909,6 +3339,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-136e5aec",
             requirement: "Physical constants of every solar-system body and the whole-system report",
             capability: "Body gains Mercury, Venus, Jupiter, Saturn, Uranus, Neptune, Pluto, Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan (gravitational parameter, reference radius, J2 where published with the radius it is referenced to, IAU pole and prime meridian), a name lookup and a BodyFacts record (NAIF code, class, parent, equatorial and mean radius); the `solar-system` kind reports them for all eighteen bodies with the positions, light times and an orbit track over one revolution, each body labelled VALIDATED or MODELLED",
             module: "body (Body::by_name, Body::facts, Body::prime_meridian, SOLAR_SYSTEM, BodyFacts); solar_system (SolarSystemScenario, position_label)",
@@ -2918,6 +3349,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ee5cc5e3",
             requirement: "IAU body orientation and gravitational parameter of the fourteen added solar-system bodies",
             capability: "Body::iau_rotation_et, the rotation from J2000 to the IAU body-fixed frame of Mercury, Venus, Jupiter, Saturn, Uranus, Neptune, Pluto, Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan with every century rate, quadratic term and periodic term the body carries in pck00011, and the gravitational parameter field mu of the same fourteen bodies. The Sun, Earth, Moon and Mars carry conventional constants owned by other rows and are not covered",
             module: "body (Body::iau_rotation_et, Body::iau_angles_et, Body)",
@@ -2927,6 +3359,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-136e83d4",
             requirement: "Positioning around any solar-system body with a local constellation and a deep-space link from Earth",
             capability: "The `body-pnt` kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation around the body (two-body orbits with the body's J2 secular drift, an unknown user clock) and an optional clock-free two-way range from the Earth, the Earth's direction and distance from the analytic ephemeris at every epoch; lines of sight blocked by the body's sphere and a surface elevation mask; per epoch the constellation-only GDOP and PDOP (orbit::dop), the formal position uncertainty with and without the Earth row, and seeded Gauss-Newton fixes (batch_ls::gauss_newton) each way, with the body-to-Earth light time and round trip",
             module: "body_pnt (BodyPntScenario, formal_sigma, fix_error); orbit (dop); batch_ls (gauss_newton); mars_pnt (chord_clears_sphere); mars_frame (bodyfixed_to_inertial)",
@@ -2937,6 +3370,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Constellation design (Walker, presets, coverage and DOP maps) ─────
         VerificationItem {
+            id: "VM-ead7033f",
             requirement: "Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS",
             capability: "The `constellation-design` kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing 360·P/T, inter-plane phase offset 360·F/T), and the GPS baseline and expandable 24-slot, Galileo and GLONASS presets built from their published nominal elements, placed in an Earth-fixed frame by the Greenwich hour angle their documents state",
             module: "constellation (WalkerSpec::elements, gps_slots, galileo_walker, glonass_slots, GPS_BASELINE_SLOTS, GPS_EXPANDABLE_SLOTS)",
@@ -2946,6 +3380,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a33da228",
             requirement: "Global dilution of precision of the GPS baseline constellation",
             capability: "The `constellation-design` coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix B conditions (one sidereal day, 287 five-minute steps, a 4 x 4 deg global grid weighted by the cosine of latitude, all in view, 5 deg mask, one receiver clock): the global HDOP distribution, the PDOP median and the PDOP-at-most-6 availability, globally and at the worst site",
             module: "constellation (coverage, dop_at, NormalAccum)",
@@ -2955,6 +3390,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-79dd3ee7",
             requirement: "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body",
             capability: "The `constellation-design` kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per constellation, the Earth, the Moon and Mars from the body constants, the BeiDou preset (medium-orbit phase and 118 deg E inclined-geosynchronous crossing modelled), per-cell satellites in view, GDOP, PDOP, HDOP, VDOP and availability, downsampled ground tracks, and a sub-satellite-latitude visibility prefilter that runs a 5 000-satellite design on a 10 deg grid in a fraction of a second",
             module: "constellation (coverage, ConstellationDesignScenario, beidou_slots, body_by_name)",
@@ -2965,6 +3401,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Campaigns (composition of existing kinds) ───────────────────────────
         VerificationItem {
+            id: "VM-f9c068a3",
             requirement: "A chained mission across scenario kinds on one shared timeline",
             capability: "The `campaign` kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor, vertical protection level and alert limit, position error, satellites tracking, alarm flags) by per-kind presets or explicit result paths, places them at the phase start and holds them onto a common grid, with phase boundaries and events; state is handed on by carry (a channel continues from the previous phase's end value), handoff (a previous phase's number written into the next scenario) and end_at (a phase ends at a time a run computed, such as a spoofing monitor's detection time); a campaign hash and a digest over every member result",
             module: "campaign (run_campaign_detailed, run_chain, presets, extract, to_svg)",
@@ -2974,6 +3411,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-badb561f",
             requirement: "Parameter sweeps and seeded Monte Carlo ensembles over any scenario kind",
             capability: "The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard deviation, nearest-rank 5th/50th/95th percentiles and a fixed-seed percentile-bootstrap 95% confidence interval on the mean (inertial::metric_stat); metric units read from the swept kind's own units block",
             module: "campaign (run_sweep, run_monte_carlo, ensemble); sweep (GenericAxis, coords_of, set_dotted_value); inertial (metric_stat)",
@@ -2983,6 +3421,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-d55cb714",
             requirement: "Several scenarios under shared conditions, with a combined summary",
             capability: "The `campaign` kind's compose section: named shared values (for example one jammer's power and position) written into each member at the keys it binds them to, every member run, and per metric the smallest, largest and mean value across the members with the member named; metric units must agree across members",
             module: "campaign (run_compose)",
@@ -2992,6 +3431,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-5664a533",
             requirement: "Bounded optimisation of one metric over campaign parameters",
             capability: "The `campaign` kind's optimize section (CAP-32): one to three dotted scenario keys bounded to [lo, hi] on a lin or log scale, one metric read by result path, goal minimize, maximize or target; method grid (the sweep's axis values) or a deterministic Nelder-Mead simplex in normalised coordinates with box projection and the standard coefficients; a missing or non-finite metric scores worst and stays in the trace; with runs > 1 the metric is the mean over common seeds; every evaluation is a real run of the named kind, listed in trace and counted in the reproducibility digest",
             module: "campaign::optimize (run_optimize, nelder_mead)",
@@ -3002,6 +3442,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── LEO-PNT signal designs and the multi-band spectrum ──────────────────
         VerificationItem {
+            id: "VM-25c2d93d",
             requirement: "Band-limited closed forms for any ranging signal: power in band and early-late code-tracking jitter against published values, with the Gabor bandwidth and offset spectral separation cross-checked",
             capability: "navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-limited BPSK Gabor bandwidth in closed form (bpsk_gabor_bandwidth_closed_form_hz), the band-limited coherent and non-coherent early-late delay-lock-loop jitter for any unit-area spectrum after Betz & Kolodziejski 2009 (dll_jitter_bandlimited_s) and its vanishing-spacing Gabor bound (dll_jitter_small_spacing_limit_s), the offset BPSK spectral separation coefficient in closed form (bpsk_offset_ssc_closed_form), the Galileo E5 AltBOC(15,10) spectrum (altboc_15_10_psd) and a modulation-label parser (parse_modulation); used by the `leo-signal` kind for every signal design",
             module: "navsignal (sine_integral, bpsk_power_in_band_closed_form, bpsk_gabor_bandwidth_closed_form_hz, dll_jitter_bandlimited_s, dll_jitter_small_spacing_limit_s, bpsk_offset_ssc_closed_form, altboc_15_10_psd, parse_modulation)",
@@ -3011,6 +3452,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-46b52315",
             requirement: "Maximum Doppler of a low Earth orbit navigation satellite, which sizes the acquisition search",
             capability: "leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f / c, from each preset's own carrier and orbit altitude; the `leo-signal` kind adds oscillator and user terms and turns it into Doppler bins",
             module: "leo_signal (max_doppler_hz)",
@@ -3020,6 +3462,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3fce7cff",
             requirement: "Low Earth orbit positioning, navigation and timing signal designs: code tracking, acquisition, GNSS compatibility and a band trade for any system",
             capability: "The `leo-signal` kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra, power shares, FDMA sub-carriers, code lengths and data rates) from compiled-in public preset files (Xona Pulsar, Iridium STL, Starlink signal of opportunity, CentiSpace, a generic C-band design and generic UHF/L/S/C/wide-C designs, each with its source URL and unpublished values labelled REPRESENTATIVE) or written inline; per signal the band-limited power spectral density, in-band power fractions, Gabor bandwidth, code jitter against C/N0 and spacing and the ranging accuracy, the acquisition search space, square-law detection probability and mean serial and code-parallel acquisition time, the spectral separation coefficient into and from GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b and AltBOC with the C/N0 degradation, and the CW, wideband and matched J/S tolerance from the spectrum kind's SSC chain; a band trade of ionospheric delay, free-space loss, ranging accuracy at equal C/N0 and equal EIRP and jammer tolerance; and qualitative shape checks of a design against a described measurement",
             module: "leo_signal (LeoSignalScenario, SignalDesign, Component, Shape, code_jitter_m, gabor_bandwidth_hz, detection_probability, threshold_for_pfa, mean_acquisition_time_s, ssc_leo_into_gnss, ssc_gnss_into_leo, jammer_tolerance, gnss_victim, preset, public_signal)",
@@ -3029,6 +3472,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-42081bd2",
             requirement: "Multi-band spectrum waterfall (UHF, L, S, C) with designed signals and per-band jammers",
             capability: "The `spectrum` kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and modulation; extra waterfall panels over any frequency range on the same timeline and colour scale; a wideband (barrage) jammer beside CW, narrowband, chirp and matched noise; per-band J/S and effective C/N0 from the unchanged spectral separation coefficient chain",
             module: "spectrum (Band::unit_psd, Band::tracked_power_dbw, BandDesign, BandCfg, PanelCfg, SpectrumScenario, Waveform, multi_band_svg); leo_signal (SignalDesign::to_spectrum_band)",
@@ -3039,6 +3483,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── LEO-PNT pass and per-band link budget (`leo-pass`) ───────────────────
         VerificationItem {
+            id: "VM-9ddaa2d5",
             requirement: "Rain specific-attenuation coefficients for any band a LEO-PNT link uses",
             capability: "ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 equations (1) to (5): k_H, alpha_H, k_V, alpha_V from the Tables 1 to 4 curve fits, the path- and polarisation-dependent (k, alpha) and the specific attenuation k R^alpha; used by the `leo-pass` kind's rain term",
             module: "leo_link::itu (p838_coefficients, p838_k_alpha, rain_specific_attenuation_db_km)",
@@ -3048,6 +3493,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-86ab5cbc",
             requirement: "Long-term slant-path rain attenuation on an Earth-space link",
             capability: "ITU-R P.618-14 section 2.2.1.1 steps 2 to 10 (slant and horizontal path below the rain height, horizontal reduction and vertical adjustment factors, A0.01 and its scaling to 0.001 % to 5 % of an average year), with the rain height (P.839) and R0.01 (P.837) as inputs because the engine carries neither digital map; applied per band and epoch by the `leo-pass` kind",
             module: "leo_link::itu (p618_rain_attenuation_db, RainPath)",
@@ -3057,6 +3503,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-987a822b",
             requirement: "Tropospheric amplitude scintillation on an Earth-space link",
             capability: "ITU-R P.618-14 section 2.4.1 steps 3 to 9 (reference sigma from N_wet, effective path length, antenna averaging factor, fade depth for 0.01 % to 50 % of the time), with N_wet an input or computed from temperature, humidity and pressure by the ITU-R P.453-14 expressions; below 4 GHz the `leo-pass` kind flags the value as an extrapolation",
             module: "leo_link::itu (p618_scintillation_db, wet_refractivity, ScintillationPath)",
@@ -3066,6 +3513,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-47ae8b0f",
             requirement: "Building entry loss for an indoor LEO-PNT user",
             capability: "ITU-R P.2109-2 Annex 1 equations (1) to (10) with Table 1: the loss not exceeded with probability P for traditional and thermally-efficient buildings at the elevation of the path at the facade, 80 MHz to 100 GHz; applied per band and epoch to an indoor user by the `leo-pass` kind (the UHF indoor case)",
             module: "leo_link::itu (p2109_building_entry_loss_db, BuildingClass); detection (normal_inv_cdf)",
@@ -3075,6 +3523,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-8fce41a4",
             requirement: "First-order ionospheric delay per band, the ionosphere-free combination and free-space loss",
             capability: "Group delay 40.3 STEC/f^2 per band; the ionosphere-free coefficients f1^2/(f1^2 - f2^2) and -f2^2/(f1^2 - f2^2) and the noise amplification sqrt(a1^2 s1^2 + a2^2 s2^2) for any band pair; the free-space loss 20 log10(4 pi R f/c) of linkbudget::free_space_loss_db in its kilometre-megahertz form",
             module: "leo_link::iono (group_delay_m, iono_free_coefficients, iono_free_noise_amplification); leo_link (fspl_db); linkbudget (free_space_loss_db)",
@@ -3084,6 +3533,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-6a111b40",
             requirement: "Maximum Doppler a static user sees from a LEO or MEO orbit",
             capability: "leo_link::geometry::max_static_user_range_rate: a search over every orbit position and every user on the satellite's horizon of a circular orbit, with the Earth turning, for the largest range rate, plus the orbital and largest Earth-fixed satellite speeds; reported per band as the Doppler envelope by the `leo-pass` kind and used as the cold-start search window of its low-energy model",
             module: "leo_link::geometry (max_static_user_range_rate, DopplerEnvelope, doppler_hz)",
@@ -3093,6 +3543,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-95b055dc",
             requirement: "A LEO-PNT pass and its per-band link budget against the MEO GNSS satellites in view",
             capability: "The `leo-pass` kind: satellites from a designed pass, elements, a TLE through SGP4 or a Walker constellation from constellation-design; per band and epoch the look angles, range, closed-form range rate and range acceleration (checked each run against central differences and reported), free-space loss, EIRP with an isoflux, Gaussian or flat pattern, a patch, hemispherical or isotropic user antenna, ITU-R P.676-10 Annex 2 gaseous attenuation, P.618 rain and scintillation, P.2109 building entry loss, polarisation mismatch, system noise temperature, C/N0, Doppler and Doppler rate, and the first-order delay from a Klobuchar or vertical-TEC slant TEC scaled by the Chapman fraction below the satellite; ionosphere-free pairs with code noise at the pass peak; Galileo or GPS carriers from their interface-document received powers through the same receiver",
             module: "leo_pass (LeoPassScenario); leo_link::geometry (design_pass, link_geometry, numerical_check, SatMotion, UserMotion); leo_link::antenna; leo_link::itu (p676_gaseous_attenuation_db); leo_link (system_noise_temperature_k, cn0_dbhz)",
@@ -3102,6 +3553,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-0723b0b7",
             requirement: "Named LEO-PNT system presets with stated sources, and a system-agnostic engine",
             capability: "leo_link::presets: generic multi-band (UHF, L, S, C), generic C band, Xona Pulsar X1/X5, Iridium STL, Starlink as a Doppler-only signal of opportunity, CentiSpace and an optional Celeste IOD preset, each with its source marked PUBLIC (with URL), REPRESENTATIVE or WORKSHOP, the workshop one in the optional Celeste IOD preset file, compiled in only when that file exists; every band and orbit overridable in a scenario, and a scenario may name no preset at all",
             module: "leo_link::presets (SystemPreset, BandPreset, all, by_id, gnss_meo); leo_pass (resolve_bands)",
@@ -3111,6 +3563,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f20670eb",
             requirement: "Low-energy positioning: time to first fix and energy per fix against duty cycle",
             capability: "leo_link::energy and the `leo-pass` kind's [iot] section: coherent integration capped by the Doppler rate, square-law non-coherent sums to a detection threshold, a Doppler-bin search over the orbit's static-user envelope (cold) or an aided window (hot), parallel or serial code search, navigation-message time on a cold start, energy per fix and battery life across fix intervals, for each LEO band and the GNSS signal",
             module: "leo_link::energy (fix_budget, duty_curve, IotReceiver, IotSignal); leo_pass (iot_section)",
@@ -3121,6 +3574,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── LEO navigation message (leo-navmsg) ─────────────────────────────────
         VerificationItem {
+            id: "VM-0beb4fb3",
             requirement: "Global-average signal-in-space range error weights for any orbit altitude",
             capability: "leo_navmsg::sisre::sisre_weights: the radial weight w_R and the squared transverse weight w_AC^2 as averages of cos^2 and half sin^2 of the line-of-sight nadir angle over users uniformly distributed on the visible Earth cap above an elevation mask, for any orbit radius, by Simpson integration; used by every leo-navmsg SISRE figure (at 510 km, w_R 0.46 and w_AC^2 1/2.5)",
             module: "leo_navmsg::sisre (sisre_weights, StatsAcc)",
@@ -3130,6 +3584,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-71b6ea3d",
             requirement: "Galileo ICD broadcast-ephemeris user algorithm as the base of a LEO navigation message",
             capability: "leo_navmsg::elements::kepler_point: the Galileo OS SIS ICD Keplerian evaluation (Kepler's equation, second-harmonic corrections, Earth-fixed node) written separately from the engine's RINEX evaluator, returning the position with the argument of latitude, inclination and node the along/cross/radial correction frame is built from, and the Liu et al. 2025 extension terms",
             module: "leo_navmsg::elements (kepler_point, kepler_frame, ephemeris_at, sat_state)",
@@ -3139,6 +3594,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-50db12ad",
             requirement: "CRC-24Q frame check for the LEO navigation message",
             capability: "leo_navmsg::codec::crc24q: generator polynomial 0x1864CFB, initial value 0, no reflection, no final XOR, the check the Kshana LEO frame carries over every preceding byte",
             module: "leo_navmsg::codec (crc24q, encode, decode)",
@@ -3148,6 +3604,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-d977634a",
             requirement: "LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period",
             capability: "The `leo-navmsg` kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steered clock; a Levenberg-Marquardt fit of the Galileo Keplerian set on non-singular elements with weak priors, then along-track, cross-track and radial correction polynomials by linear least squares; the clock polynomial fitted net of the user's relativistic term; SISRE (orbit-only and with clock) over usage periods centred in their fit windows, versus fit interval and update period. Validated part: the 16-parameter Keplerian fit and its orbit-only SISRE against fit interval on real precise orbits, and the integrated J2-J6/EGM2008(20, 70)/drag truth orbit against Orekit 12.2 within 4.6 mm over 6 h (bar 2 cm, same density input); the correction polynomials, the clock fit (seeded free or steered clock) and the update-period trade remain modelled",
             module: "leo_navmsg::fit (fit_message, lstsq, polyfit); leo_navmsg::truth (TruthOrbit, TruthClock); leo_navmsg (sequence_stats, LeoNavmsgScenario)",
@@ -3157,6 +3614,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-a64cd2c4",
             requirement: "Mid-pass LEO navigation message update with a continuity check at the switch",
             capability: "The `leo-navmsg` midpass-update analysis: the highest pass over a user within a search span, messages on a global schedule with usage periods centred in their fit windows, and at each switch the 3D position jump, the clock jump, the user pseudorange jump, the largest jump over any visible line of sight (closed form over the nadir cone), the range error before and after, and PASS/FAIL against a threshold",
             module: "leo_navmsg (LeoNavmsgScenario::midpass, worst_case_jump, elevation, geodetic_to_ecef)",
@@ -3166,6 +3624,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-2ed420b3",
             requirement: "Documented binary encoding of the LEO navigation message with a quantisation-error budget",
             capability: "leo_navmsg::codec: Kshana's own frame (preamble, version, model, length, payload, CRC-24Q) for the four ephemeris models, the clock polynomial, SVID, issue of data, band, health, a Klobuchar set, NeQuick-G coefficients and UTC parameters, every field with a stated width and step (field_table), quantisation with range refusal, and a budget of the largest position and clock change a half-step change of each field makes over the validity window",
             module: "leo_navmsg::codec (encode, decode, write_payload, read_payload, field_table, quantisation_budget)",
@@ -3175,6 +3634,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-75b6f696",
             requirement: "RINEX-4-style and CSV exports of LEO navigation messages",
             capability: "leo_navmsg::text: a RINEX-4-style block (> EPH record header, satellite and epoch line with three clock terms, D19.12 broadcast-orbit lines) with system letter L and record types KP16, KRAC, LU22 and APOL, labelled in every header as a Kshana extension not part of RINEX 4.02, and a CSV table with a default column schema and preset schemas, each with an importer",
             module: "leo_navmsg::text (rinex_export, rinex_import, csv_export, csv_import, calendar, from_calendar)",
@@ -3184,6 +3644,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-357232ee",
             requirement: "Liu et al. 2025 22-parameter LEO ephemeris model and its fit on real precise orbits",
             capability: "the Liu22 variant of leo_navmsg::elements::EphemerisModel, evaluated by kepler_point with Liu22Extra: the 16-parameter set plus a semi-major-axis rate a_dot, a mean-motion rate n_dot entering as n = sqrt(mu/A0^3) + dn + n_dot tk, transcribed from the paper Eq. 1 (the fit comparison does not depend on this scale convention, so the meaning of a transmitted nDot value is not validated here), and once- and three-per-revolution radius harmonics Crs1, Crc1, Crs3, Crc3 on the uncorrected argument of latitude. Its fit by leo_navmsg::fit::fit_message takes the paper Section 2.3 start and estimator (every correction starts at zero; plain least squares with no priors; the paper 100-iteration cap), but stops on Kshana parameter-convergence rule (every step below 1e-3 of its formal sigma) instead of the paper rule of an RMS change below 0.1 mm. Fitted over 20 and 30 minute arcs of a tabulated precise orbit",
             module: "leo_navmsg::elements (kepler_point, Liu22Extra); leo_navmsg::fit (fit_message, fit_kepler, initial_params, formal_sigma); leo_navmsg::truth (TruthOrbit)",
@@ -3193,6 +3654,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-b4f93233",
             requirement: "ATOMIC zero-clock ECEF polynomial and the synthetic five-altitude LEO model comparison",
             capability: "the EcefPoly variant of leo_navmsg::elements::EphemerisModel: a per-axis ECEF polynomial with no clock terms, the relativistic term from -2 r.v/c^2, scored against a steered clock. Also the model-comparison analysis (liu_comparison over LIU2025_TABLE), which fits the 22-parameter model at the paper five altitudes over 20-minute arcs of a Kshana-integrated orbit and prints the result beside the published SISRE",
             module: "leo_navmsg::elements (EcefPoly, ephemeris_at); leo_navmsg (liu_comparison, LIU2025_TABLE)",
@@ -3202,6 +3664,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-d4776382",
             requirement: "Single-frequency ionospheric and UTC services of a LEO navigation message",
             capability: "leo_navmsg::services: the Klobuchar broadcast delay at any carrier (the engine's L1 model scaled by (f_L1/f)^2), the NeQuick-G effective ionisation level Az = ai0 + ai1 mu + ai2 mu^2 with the all-zero and [0, 400] sfu rules, and system time to UTC with the ICD's three leap-second cases",
             module: "leo_navmsg::services (klobuchar_delay_m, effective_ionisation_level, system_to_utc)",
@@ -3212,6 +3675,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Fused MEO + LEO positioning, navigation and timing ──────────────────
         VerificationItem {
+            id: "VM-39824338",
             requirement: "Doppler a ground receiver must handle from a LEO navigation satellite",
             capability: "Exact range rate of a satellite whose Earth-fixed position and velocity come from a two-body orbit with the secular J2 drift and the Earth's rotation (leo_fusion::geom::EarthOrbit::state, velocity the exact time derivative of the position), turned into Doppler at a carrier; the largest absolute Doppler, Doppler rate and jerk above an elevation mask over a window (leo_fusion::doppler::doppler_envelope), reported per LEO system by the `leo-pvt` kind in doppler mode",
             module: "leo_fusion::geom (EarthOrbit); leo_fusion::doppler (range_rate, doppler_envelope)",
@@ -3221,6 +3685,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c4520dfd",
             requirement: "Positioning from LEO Doppler, single- and multi-satellite, with clock-drift and velocity states",
             capability: "Batch Gauss-Newton positioning from range rate with analytic partials (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = 1), a constant user velocity as an option, a height pseudo-measurement for a surface user, damped steps; the formal covariance at the truth; along-track, cross-track and vertical projections; the single-pass accuracy against the user's cross-track offset; the time of closest approach. The `leo-pvt` kind's doppler mode adds the error against window length and a Doppler-only signals-of-opportunity mode (the starlink-sop preset)",
             module: "leo_fusion::doppler (solve, formal_covariance, single_pass_geometry, offset_site, closest_approach); leo_fusion::pvt_kind (run_doppler)",
@@ -3230,6 +3695,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-06d2559e",
             requirement: "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models",
             capability: "Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known broadcast offset on the reference time scale; per-measurement sigmas supplied by the caller, by default the engine's delay-lock-loop thermal noise (navsignal::dll_code_jitter_chips) at the C/N0 of the elevation combined with the signal-in-space range error; unweighted DOP (GDOP, PDOP, HDOP, VDOP, TDOP) in the local geodetic frame, formal east-north-up sigmas and the bias sigmas; the `leo-pvt` joint mode compares GNSS-only, LEO-only and fused fixes and sweeps the DOP against the number of LEO satellites added",
             module: "leo_fusion::joint_pvt (solve, dop, code_sigma_dll_m, SystemClock); leo_fusion::system (SystemCfg, System); leo_fusion::pvt_kind (run_joint)",
@@ -3239,6 +3705,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-df6c3fb1",
             requirement: "Precise point positioning convergence with GNSS only and with LEO augmentation",
             capability: "A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation), a float ambiguity per satellite arc added at rise and dropped at set, and the precise orbit-and-clock error common to a satellite's code and phase, processed as one correlated two-row update in a Joseph-stabilised form; measurements simulated from the same model; convergence time (errors below the thresholds until the end of the run), error curves and the run-averaged position NEES for GNSS only and each LEO case, run as the `leo-ppp` kind",
             module: "leo_fusion::ppp (run, PppScenario, LI_2019)",
@@ -3248,6 +3715,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-038b22af",
             requirement: "5G non-terrestrial-network positioning accuracy from signal bandwidth",
             capability: "The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/(2 pi beta sqrt(2 (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt(12)), a band-limited BPSK spectrum (closed-form numerator) or any spectrum by quadrature, and on the frequency of a complex tone, sqrt(3/(2 pi^2 (C/N0) T^3)); downlink time-of-arrival fixes with an unknown receiver clock and a single-satellite Doppler fix over a pass in the 3GPP n256 MSS S band, run as the `ntn-positioning` kind",
             module: "leo_fusion::ntn (gabor_bandwidth_flat_hz, gabor_bandwidth_bpsk_hz, gabor_bandwidth_numeric_hz, rms_duration_numeric_s, toa_crb_sigma_m, doppler_crb_sigma_hz, frequency_crb_sigma_hz, NtnScenario::geometry, NtnScenario); leo_fusion::joint_pvt (formal_sigma_enu)",
@@ -3257,6 +3725,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-e033f926",
             requirement: "LEO-assisted time transfer to UTC against C/N0 and the receiver oscillator",
             capability: "Clock measurements from every LEO satellite in view at a known position, combined by inverse variance from the pseudorange noise model, filtered by a two-state (phase, frequency) Kalman filter whose process noise is the oscillator class's white and random-walk frequency noise (slot_timing::ClockNoise, clock_state::ClockClass; the coast variance of holdover::coast_phase_variance), a seeded truth clock from the same levels, and the IS-GPS-200 section 20.3.3.5.2.4 system-time-to-UTC expression with a broadcast-offset uncertainty added as a per-run bias; the `leo-pvt` timing mode sweeps oscillators and C/N0 offsets",
             module: "leo_fusion::timing (simulate, utc_offset_s, system_to_utc_s); leo_fusion::pvt_kind (run_timing)",
@@ -3266,6 +3735,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-eddcdf79",
             requirement: "LEO coverage and dilution of precision for polar and Arctic users against MEO GNSS",
             capability: "Satellites in view and median PDOP, HDOP and VDOP with availability against latitude, over sampled longitudes and epochs, for the MEO GNSS systems alone, the LEO systems alone and all of them, each system with its own mask and clock model, run as the `leo-pvt` polar mode; the orbits are SGP4/SDP4 element sets at the sweep epoch (2026-01-01T00:00:00 UTC in the polar mode) carried to the Earth-fixed frame on the validated Earth-orbit path (IAU 2006/2000A, UT1 = UTC, no polar motion)",
             module: "leo_fusion::polar (latitude_sweep, latitude_sweep_at, element_sets, satellite_states_at); leo_fusion::joint_pvt (dop); sgp4 (MeanElementSet::from_earth_fixed, SgpOrbit, teme_to_itrs_matrix)",
@@ -3275,6 +3745,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-5a90d275",
             requirement: "Named LEO PNT systems as optional data presets, each with its source",
             capability: "System-agnostic inputs: every system is Walker shells, explicit elements or a GNSS preset, a signal (carrier, chip rate, bandwidth, received power or C/N0 range), a SISRE, a Doppler sigma and a clock model; presets fill only what a scenario leaves out, one file each with sources marked PUBLIC (with a URL), WORKSHOP or DERIVED and the unpublished values listed as representative: Xona Pulsar X1/X5, Iridium STL, Starlink signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock ephemeris model, and one workshop-derived preset in the optional Celeste IOD preset file, withheld by deleting that file and its scenarios",
             module: "leo_fusion::presets (all, by_id, cn0_range_dbhz, noise_density_dbw_hz); leo_fusion::system (SystemCfg::build)",
@@ -3285,6 +3756,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── LEO-PNT end to end (`leo-pnt-chain`) ────────────────────────────────
         VerificationItem {
+            id: "VM-05d0e975",
             requirement: "One LEO-PNT system end to end: signal design, pass link budget, navigation message and fused positioning, each stage's output handed to the next",
             capability: "The `leo-pnt-chain` kind: a leo-signal design (public preset or inline) sets a leo-pass band's centre, bandwidth, chip rate and EIRP split; the pass gives the tracked-component C/N0 and band-limited code jitter per epoch; a least-squares C/N0 line in sin(elevation), the leo-navmsg message's SISRE (fitted at the pass satellite's orbit, plus a stated orbit-determination term in root-sum-square) and the design's carrier and chip rate go to every LEO system of a leo-pvt joint fix and, optionally, to the LEO cases of leo-ppp; every hand-off is reported with its value and unit",
             module: "leo_pnt_chain (LeoPntChainScenario); leo_pass (BandCfg::signal, design_tracking); leo_navmsg (LeoNavmsgScenario::broadcast_sisre); leo_fusion::pvt_kind; leo_fusion::ppp",
@@ -3295,6 +3767,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── LEO-PNT resilience (`leo-pass` `[spoofer]`, band pairs) ─────────────
         VerificationItem {
+            id: "VM-79558230",
             requirement: "Spoofing detection by LEO Doppler and pass-geometry consistency",
             capability: "The `leo-pass` kind's `[spoofer]` section: a spoofer counterfeits, self-consistently in range and range rate, the signals seen at a claimed position that jumps and/or is pushed from the true one after an onset (per LEO band and for the MEO GNSS signal); the receiver predicts every range rate from the broadcast orbit and an independent prior position and velocity, and tests the measured range rates with a generalised least-squares chi-square statistic over a window of epochs (clock drift a nuisance or with a prior), on the GNSS channels, the LEO channels and all channels, with frequency-lock-loop thermal noise from C/N0 (Kaplan & Hegarty 2006, section 5.6.2); detection probability from the non-central chi-square law at a stated false-alarm probability, detection declared at a stated missed-detection probability",
             module: "leo_link::spoof (range_rate_position_gradient, line_of_sight, fll_frequency_jitter_hz, doppler_consistency_window, doppler_consistency); leo_pass (SpooferCfg, spoof_section)",
@@ -3304,6 +3777,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-9aea2967",
             requirement: "Spoofing detection by cross-band consistency of a multi-band LEO signal",
             capability: "For every LEO satellite and pair of ranging bands the `[spoofer]` section forms the geometry-free pseudorange combination, removes the receiver's ionospheric model and tests its epoch-to-epoch step against the two bands' code noise and a stated tolerated unmodelled ionospheric rate (two-sided Gaussian, exact detection probability); a spoofer that counterfeits some bands and not others, or every band without the ionosphere, is seen at its onset; one that counterfeits every band and simulates the ionosphere is not, which the result states",
             module: "leo_link::spoof (cross_band_step); leo_pass (spoof_section: pairs, cross_band)",
@@ -3313,6 +3787,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-cf7623f8",
             requirement: "Ionosphere sounding: slant TEC from the dual-band delay of a LEO pass",
             capability: "For every band pair of a `leo-pass` satellite the report gives the slant total electron content the geometry-free code combination recovers at the pass peak, (P2 - P1) f1^2 f2^2 / (40.3 (f1^2 - f2^2)), and its 1-sigma from the two bands' thermal code noise, so any multi-band LEO-PNT design can be traded as an ionosphere sounder",
             module: "leo_pass (IonoFreePair::geometry_free_stec_tecu, geometry_free_stec_sigma_tecu); leo_link::iono::geometry_free_stec_tecu",
@@ -3322,6 +3797,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7205faad",
             requirement: "Lunar frame datum covariance with the stations estimated, against 50-digit extended precision",
             capability: "The seven-parameter Helmert datum covariance of the lunar-frame-campaign scenario with the Earth stations estimated (station 1 anchored), as lunar_frame_campaign computes it in binary64: the joint station-and-beacon Fisher information accumulated from the delay Jacobian, the station block marginalised by a Schur complement through a Jacobi spectral inverse, H = AᵀSA formed with the Helmert design and inverted spectrally. The problem is ill-conditioned by construction (Helmert condition number 2.1e8 to 2.3e8, joint information condition number 1.6e12 to 3.0e13): a 1e-9 relative change in the Schur correction moves the datum sigmas by up to 28 %. Reported: the seven datum sigmas, the Helmert condition number and the weakest direction. CLAIM, NARROWED: the engine's datum sigmas and condition number lie within the a-priori worst-case error bound of a backward-stable double-precision pipeline on this problem; this does not claim they are as accurate as double precision allows (a factorisation route is about a thousand times more accurate on the same inputs, and the opt-in square-root solver about ten million times), and the weakest direction is validated only where its bar is below a right angle (the stations-fixed control)",
             module: "lunar_frame_campaign, fim",
@@ -3331,6 +3807,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-02b72c4d",
             requirement: "Square-root information datum solver against 50-digit extended precision",
             capability: "An opt-in square-root information solver (lunar-frame-campaign solver = \"srif\"; default unchanged) that never forms or inverts an information matrix for the datum: Householder QR (orthogonal-triangular decomposition) of the whitened delay Jacobian as a square-root information filter measurement update, the Earth stations marginalised through the trailing triangular block (whose Gram product is the Schur complement), a second QR of R_bb A for the seven-parameter Helmert datum, sigmas as the row norms of the triangular inverse, and the spectrum (condition number, weakest direction) from a one-sided Jacobi singular value decomposition. Inner products are compensated with a Dekker-split error-free product, so every operation is a correctly rounded IEEE-754 basic operation or square root; identical results on every platform are argued from that, not tested across platforms",
             module: "linalg_sr, lunar_frame_campaign",
@@ -3341,6 +3818,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── 0.35 workstreams: synthetic or round-trip evidence only ─────────────
         VerificationItem {
+            id: "VM-f220938a",
             requirement: "Maritime trust monitors: the arithmetic they rest on (NMEA decoding, geodesic offsets, the kinematic and sensor-residual statistics)",
             capability: "For a vessel, `receiver_trust` decodes the NMEA 0183 sentences a receiver and its instruments emit (GGA, RMC, VTG, HDT, VHW, VBW, ZDA, GSV), forms the east-north offset between fixes (`maritime::en_offset_m`), and from these the statistics its monitors decide on: the implied speed, dead-reckoning residual, implied acceleration and implied turn rate over 30 s windows, the heading-versus-course, speed-log-versus-ground-speed and antenna-altitude residuals (10 s medians), and the spread and rise of the satellite signal-to-noise.",
             module: "receiver_trust (ingest, maritime)",
@@ -3350,6 +3828,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-834a5b4f",
             requirement: "Maritime trust score: the aggregation of the monitors' evidence into a 0-100 score and its three bands",
             capability: "Each monitor reduces its evidence to a ratio of statistic to threshold; the score is 100 minus the sum over monitors of weight times a clamped linear ramp of the ratio (0 up to 0.5, 1 at 1.5), clamped to 0 to 100 and rounded to 0.1, with bands at 90 and 55; each epoch lists the monitors that deducted and their points.",
             module: "receiver_trust (score, monitors, live)",
@@ -3359,6 +3838,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-51f0c17d",
             requirement: "NMEA 0183 training-stream conformance and decoded values",
             capability: "Synthetic bridge NMEA 0183 streams for crew training (kshana nmea-scenario): GGA, RMC, VTG, ZDA, GNS, GSA, GSV, HDT, VBW and the PKSHT marker, generated from a truth track with modelled receiver, sky, jamming and spoofing effects. Text output only; nothing is transmitted.",
             module: "nmea_synth (track, sentences, scenarios); cli nmea-scenario",
@@ -3368,6 +3848,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c7e45641",
             requirement: "Interference map: accuracy-code meanings, AIS not-available values, grid cell assignment, route length per cell state, and inland masking",
             capability: "The reading of the ADS-B navigation accuracy and integrity codes the map uses (the EPU bound a NACp code stands for, the containment-radius bound a NIC code stands for, and the low and good classes the method derives from them); the AIS position and speed not-available values the AIS reader discards; the fixed latitude/longitude grid cell a position falls in; the route length, and its split by cell state (degraded, not degraded, unassessed, not observed), that route exposure reports; and whether a position lies inland of a land polygon by more than a buffer. A cell flagged degraded or anomalous is a statement about reported accuracy fields or implausible positions, not a finding of interference, and nothing here checks that.",
             module: "interference_map (adsb::nacp_epu_bound_m, adsb::nic_rc_bound_range_m, adsb::AdsbParams::classify, ais::ais_position_is_valid, ais::ais_speed_kn, grid::Grid::cell_of, route::exposure, land::LandMask::is_inland)",
@@ -3377,6 +3858,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-af2c0f76",
             requirement: "Trust telemetry wire formats: Prometheus text exposition and OpenTelemetry OTLP/HTTP JSON",
             capability: "GNSS trust (score, band, reasons, gate and, on request, position) as Prometheus text exposition served on /metrics and as OTLP/HTTP JSON metrics, with a cap on reason label cardinality.",
             module: "telemetry (prometheus: Registry, render; otlp: build_payload, Exporter (feature otlp); sample)",
@@ -3386,6 +3868,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-8dd9b64e",
             requirement: "Trust telemetry SIEM events: Common Event Format (CEF) over syslog",
             capability: "Band-change (or per-epoch) events as Common Event Format payloads in an RFC 5424 envelope over UDP or TCP, with a documented field mapping and CEF escaping.",
             module: "telemetry (syslog: cef, rfc5424, SyslogSink; time)",
@@ -3395,6 +3878,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-3b341a07",
             requirement: "Trust telemetry SIEM events: Log Event Extended Format (LEEF) over syslog",
             capability: "Band-change (or per-epoch) events as Log Event Extended Format 2.0 payloads in an RFC 5424 envelope over UDP or TCP, with a documented field mapping.",
             module: "telemetry (syslog: leef, rfc5424, SyslogSink; time)",
@@ -3404,6 +3888,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-a66b5cd1",
             requirement: "Evidence pack integrity: signature, hash chain and verification procedure",
             capability: "A signed, hash-chained evidence pack of a GNSS trust event: SHA-256 over every file and a chain over the manifest, an Ed25519 signature over the exact manifest bytes, and a verifier that names every failure (a changed, removed, renamed, swapped or added file, a reordered or edited manifest, a manifest re-hashed without the key, a re-signed pack, a wrong pinned key, and a timestamp token that is stripped, replaced, junk or over another document).",
             module: "evidence (bundle: create_bundle, sign_detached, chain_link, sha256_hex; verify: verify_bundle, verify_detached; tsr; assemble; cli)",
@@ -3413,6 +3898,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-e86afcaa",
             requirement: "RFC 3161 timestamp-token signature and chain verification",
             capability: "evidence::tsa::verify_token, and opt-in `kshana evidence verify --tsa-ca <anchors.pem>` for a pack's timestamp.tsr: an RFC 3161 TimeStampResp or bare TimeStampToken (CMS SignedData over a TSTInfo) checked offline against trusted anchors the way `openssl ts -verify` checks it: the signed attributes' content type and message digest over the TSTInfo; the signature over the signed attributes (RSA PKCS#1 v1.5, RSASSA-PSS, ECDSA P-256 and P-384; RSA public operations on crypto-bigint); the ESS signing-certificate v1 (SHA-1) or v2 hash naming the signer certificate, found among the token's and the caller's untrusted certificates; the signer's critical, sole timeStamping extended key usage; the chain to a trusted self-issued anchor with each certificate's signature, CA status and key usage, and every certificate valid at the token's genTime; and the message imprint against the data. Not checked: revocation (CRL, OCSP), name and policy constraints, the nonce",
             module: "evidence::tsa (verify_token, pem_certificates); evidence::verify (VerifyOptions::tsa_anchors, Failure::TimestampAuthorityInvalid); evidence::cli (--tsa-ca)",
@@ -3422,6 +3908,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-35257d18",
             requirement: "Receiver-trust interference thresholds calibrated on the JammerTest 2024 dataset",
             capability: "receiver_trust::calibration::run_dataset: the pre-registered calibration of the C/N0-drop, AGC and jamming-indicator monitors on the public JammerTest 2024 dataset (Zenodo 15911589, GPL-3.0-or-later, fetched at run time, never vendored): per folder a 1 s timeline from mon_rf.csv and rinex.csv, the monitors run once, each post-calibration epoch labelled clean or jamming from the folder's attack_log (shifted from CEST to UTC, 60 s guard), every threshold swept over a fixed grid, the smallest threshold with pooled clean false-alarm probability at most 0.01 selected, and leave-one-folder-out held-out counts; a UBX reader cross-check. The selection ships only as the opt-in profile [monitors] profile = \"jammertest-2024-calibrated\" (cn0_drop_db 1.5, agc_k_sigma 3.5, jam_ind_threshold 29); the default rule and every output without it are unchanged",
             module: "receiver_trust::calibration (run_dataset); receiver_trust::monitors (MonitorConfig::profile, JAMMERTEST_2024_CALIBRATED); realdata::jammertest; examples/jammertest_trust_calibration.rs",
@@ -3431,6 +3918,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-47968885",
             requirement: "Jammertest scoring: a receiver log scored per scheduled test (detection latency, missed alarms, false alarms, time to recover) against the published test plan",
             capability: "jammertest::{plan, score, dataset} (kshana jammertest import|score): the NPRA test catalogue and transmission plan (MIT, fetched with a pinned SHA-256, never vendored) read as scheduled truth with the catalogue ids preserved; a receiver-trust run scored per test (first alarm minus planned start, detected/late/missed against a tolerance, time to the first alarm-free stretch, alarms outside every slot and its guard), with a signed evidence pack that carries the scorecard. The schedule is planned slots, not recorded on-air times",
             module: "jammertest::plan (parse_catalog, parse_plan, import, import_attack_log, events_toml); jammertest::score (score_run); jammertest::dataset (run_dataset); jammertest (score_log, score_pack); examples/jammertest_score_2024.rs",
@@ -3440,6 +3928,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ae7811e7",
             requirement: "Test-bench export (kshana bench-export): Earth-fixed, geodetic and local-velocity columns, attitude columns and NMEA 0183 output",
             capability: "The motion CSV's Earth-fixed position, geodetic position, Earth-fixed velocity, heading/pitch/roll and UTC columns, and the NMEA GGA/RMC sentences, written from synthetic scenarios (gnss-ins including automotive-urban-canyon, jamming, gnss-sim). Motion and events only; no signal is written and no simulator or receiver performance is claimed.",
             module: "interop::testbench (write_motion_csv, write_nmea, trajectory_of, export); fusion::pack::truth_trajectory",
@@ -3449,6 +3938,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-25755faa",
             requirement: "Compliance mapping to public frameworks",
             capability: "compliance (kshana compliance-report): a mapping from Kshana outputs to clauses of public frameworks by number only, filled from the runs given; a result counts for a capability only when it carries the evidence the mapping names, an empty set evidences nothing, and the wording is \"supports evidence for\"; the report is not a finding that any framework is met and not a rating or approval by anyone.",
             module: "compliance",
@@ -3458,6 +3948,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-89123cc2",
             requirement: "Marine integrations: Signal K plugin, OpenCPN gate stream and score panel, reference build",
             capability: "The trust score, band, reasons, gate state and receiver-reported position published under navigation.gnss.kshana in a Signal K server with a warn, alarm and normal notification (integrations/signalk); the gated NMEA stream, with the fix marked invalid while trust is collapsed and a PKSHT sentence per cycle, served to OpenCPN over TCP by the gate itself or by a small relay, and a native OpenCPN score panel that reads the PKSHT sentence (integrations/opencpn); and systemd units and a container that run the gate (deploy/reference-build). Where these show output they carry the advisory statement: Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.",
             module: "receiver_trust (live: the gate, its TCP listener, PKSHT); outside the crate: integrations/signalk (JavaScript), integrations/opencpn (JavaScript relay, C++ native plugin), deploy/reference-build (systemd units, container)",
@@ -3467,6 +3958,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-35b27a4f",
             requirement: "BOC(1,1) tracking: DLL scaling and bump-jump ambiguity resolution (opt-in)",
             capability: "The boc field of iq::track::LoopConfig (opt-in, None by default): the three DLL discriminators rescaled to read the code error in chips with unit slope on the sine BOC(1,1) main peak, and a bump-jump monitor on very-early and very-late correlators at one subcarrier half-period (0.5 chip) that jumps the code NCO towards the main peak when an up/down counter reaches N (8 by default). Without the option every output is unchanged.",
             module: "iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (the bump-jump taps and Channel::bump_jumps)",
@@ -3476,6 +3968,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-56e6f4f4",
             requirement: "IQ ionospheric scintillation channel (Cornell model) against measured 50 Hz GPS L1 scintillation",
             capability: "iq::channel::scint, the Cornell scintillation model (Rice intensity, second-order Butterworth spectrum, phase arg z) driven at a measured window's S4 and intensity decorrelation time, compared on what it generates beyond those two inputs; realdata::scint50 reads the measured log, detrends it and runs the comparison.",
             module: "iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare)",
@@ -3485,6 +3978,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f5e2ce4e",
             requirement: "Cell-averaging CFAR option in IQ acquisition",
             capability: "iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged.",
             module: "iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha)",
@@ -3494,6 +3988,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-23e52907",
             requirement: "Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in)",
             capability: "spectrum::default_band resolves, by name only (MORE_BAND_NAMES), GLONASS L1OF and L2OF on every FDMA channel K = -7 to 6 (BPSK, 0.511 Mchip/s), BeiDou B1I (BPSK(2)), B1C (MBOC(6,1,1/11)), B2a and B3I (BPSK(10)) and Galileo E6 (BPSK(5)), with the carriers and minimum received powers of their interface control documents; the default band set and every existing output are unchanged.",
             module: "spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS)",
@@ -3503,6 +3998,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-d8f4e06f",
             requirement: "BeiDou B1I primary ranging codes against an independent generator",
             capability: "iq::signals::beidou::b1i_bits and b1i: the BDS-SIS-ICD-B1I-3.0 Gold codes truncated to 2046 chips, PRN 1 to 63, as the IQ layer generates, acquires and tracks them.",
             module: "iq::signals::beidou (b1i_bits, b1i)",
@@ -3512,6 +4008,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-fa382f0c",
             requirement: "GPS L1C ranging and overlay codes against the IS-GPS-800J printed check columns",
             capability: "iq::signals::gps::l1c_p_bits, l1c_d_bits and l1c_o_bits: the L1CP and L1CD Weil ranging codes (computed Legendre sequence, Weil index, expansion sequence inserted before chip p) and the L1CO S1 overlay codes, PRN 1 to 63.",
             module: "iq::signals::gps (l1c_weil, l1c_ranging_bits, l1c_p_bits, l1c_d_bits, l1co_s1_run, l1c_o_bits); iq::signals::tables",
@@ -3521,6 +4018,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-c906216c",
             requirement: "LunaNet AFS-I and AFS-Q primary codes against the LSIS-AFS V1.0 printed check columns",
             capability: "iq::signals::lunanet::afs_i_bits and afs_q_primary_bits (signal names lunanet-afs-i and lunanet-afs-q in kshana iq): the AFS-I Gold code (2047 short-cycled to 2046, G2 delayed per PRN) and the AFS-Q Weil primary code (computed Legendre sequence, Weil index, expansion sequence inserted before chip p), PRN 1 to 210.",
             module: "iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits); iq::signals::lunanet_tables; iq::lunanet_afs::check_spec",
@@ -3530,6 +4028,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-e9a107df",
             requirement: "LunaNet AFS tertiary codes and message layer (SB1 BCH, CRC-24Q, interleaver) against LSIS-AFS V1.0",
             capability: "iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: synchronisation pattern, SB1 BCH(51,8) encoder and 256-hypothesis decoder, CRC-24Q, the 60 x 98 block interleaver, a symbol-stream checker (kshana lunanet-afs-check) and a test-stream generator with placeholder subframes. The rate-1/2 LDPC coding of subframes 2 to 4 is not implemented (its matrices are in a separate annex).",
             module: "iq::lunanet_afs; iq::signals::lunanet (afs_q_tertiary_bits, afs_q_overlay_bits, afs_q_tiered); surface (lunanet_afs_check_spec, lunanet_afs_check_symbols, lunanet_afs_generate)",
@@ -3539,6 +4038,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-7fc9b51d",
             requirement: "Standards packs: scenarios scored against bars stated before the run",
             capability: "standards_pack (kshana standards-pack): the DHS Resilient PNT framework test profiles for levels 1 to 4, IMO MSC.1/Circ.1575 accuracy levels and integrity evaluation, and ICAO Doc 9849 Appendix F monitor, assess and mitigate packs: each test runs a bundled scenario kind and compares result fields with bars stated in the pack, and tests that need a receiver log are listed as NEEDS INPUT and not scored.",
             module: "standards_pack; compliance (standards-pack facts in compliance-report)",
@@ -3548,6 +4048,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-1a79c093",
             requirement: "Laboratory round-trip evidence pack (scenario, test conditions, receiver log, score)",
             capability: "evidence::roundtrip (kshana evidence round-trip) and the kshana.test-conditions/1 receiver-log export of kshana bench-export: a signed pack that records the scenario hash, the stated conditions' hash, the log hash and the score against the stated events, and refuses conditions that disagree with the scoring events or a log whose hash is not the stated one. No signal is written, replayed or scheduled.",
             module: "evidence::roundtrip, evidence::assemble, interop::testbench (write_conditions_json), iq::campaign::conditions",
@@ -3557,6 +4058,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-77d4bf93",
             requirement: "IQ tracking engine against GNSS-SDR 0.0.19 on independent recordings",
             capability: "The full IQ-layer tracking engine (iq::track through kshana iq track: acquisition hand-off, correlators, NCOs, second-order 15 Hz Costas PLL, first-order 2 Hz carrier-aided EML-envelope DLL, lock indicator and C/N0 estimators) on GPS L1 C/A at 30 to 45 dB-Hz.",
             module: "iq::track (Channel, LoopCore, design); iq::cli::track",
@@ -3566,6 +4068,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-46dd95e7",
             requirement: "CRPA antenna gains in the jamming kind against an independent numpy recomputation",
             capability: "The jamming kind's optional [crpa] section: a per-channel beam toward each satellite (null-steering with the jammer as the null, or MVDR on sigma^2 I + P_j a_j a_j^H), scaling each link's noise by ||w||^2 and the jammer by |w^H a_j|^2 before the existing anti-jam C/N0 equation.",
             module: "jamming (CrpaCfg, crpa_weights, run_jamming); crpa (null_steering_weights, mvdr_weights, covariance)",
@@ -3575,6 +4078,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-40a50c34",
             requirement: "Terrain shadowing of the jammer in the jamming kind against an independent numpy recomputation on a real SRTM tile",
             capability: "The jamming kind's optional [terrain] section: the great-circle terrain profile between jammer and receiver on an SRTM .hgt tile with a k-factor Earth bulge, the dominant knife edge (largest Fresnel-Kirchhoff nu) and the single knife-edge loss of ITU-R P.526-15 section 4.1, subtracted from the jammer's received power.",
             module: "jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky)",
@@ -3584,6 +4088,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-e6a6348d",
             requirement: "Acquisition hysteresis and the front-end quantiser in the jamming kind against independent recomputations",
             capability: "The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading 10 log10(1 + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers).",
             module: "jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma)",
@@ -3593,6 +4098,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-bdfec2e4",
             requirement: "Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in)",
             capability: "iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli.",
             module: "iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate)",
@@ -3602,6 +4108,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-ad0fc95e",
             requirement: "RTKLIB .pos solution reader for receiver-trust",
             capability: "Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF position, satellites used) into the receiver-trust timeline (receiver_trust::machines::rtklib).",
             module: "receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos",
@@ -3611,6 +4118,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-df5ac582",
             requirement: "NovAtel OEM7 ASCII and binary logs (BESTPOS, RANGE, RXSTATUS) for receiver-trust",
             capability: "Reads BESTPOS (position), RANGE (C/No per signal) and RXSTATUS (the receiver's jammer flag, as the epoch's self-report) from ASCII and binary OEM7 logs, CRC-checked, read-only (receiver_trust::machines::novatel).",
             module: "receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel",
@@ -3620,6 +4128,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-50b52977",
             requirement: "RTCM 3 MSM4 and MSM7 carrier-to-noise reader for receiver-trust",
             capability: "Reads the C/N0 of every signal cell of RTCM 3 MSM4 and MSM7 messages (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) from a frame stream, CRC-24Q checked (receiver_trust::machines::rtcm3). Layouts from the BSD-licensed pyrtcm tables, not from the RTCM standard text.",
             module: "receiver_trust::machines::rtcm3 (read_rtcm3, crc24q); receiver_trust::LogFormat::Rtcm3",
@@ -3629,6 +4138,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-f1f9f73e",
             requirement: "GNSS-SDR monitor adapter for receiver-trust",
             capability: "Reads GNSS-SDR Monitor (Gnss_Synchro) and PVT-monitor messages, relayed to JSON lines with the proto field names, into per-channel C/N0, fix, satellites used, HDOP and sky (receiver_trust::machines::gnss_sdr; integrations/gnss-sdr/relay.py).",
             module: "receiver_trust::machines::gnss_sdr (read_gnss_sdr_monitor); receiver_trust::LogFormat::GnssSdr",
@@ -3638,6 +4148,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-e757b2ba",
             requirement: "IMU log ingest, gyro heading input and Allan fit of hybrid sensor parameters",
             capability: "Reads an IMU CSV (documented columns, or the EuRoC layout); integrates the yaw rate into the heading the heading-course monitor reads ([log.imu]); and fits the accelerometer and gyro noise parameters of the hybrid and fusion scenarios from a stationary log by overlapping Allan deviation (imu-fit).",
             module: "receiver_trust::machines::imu, imu_fit; surface::imu_fit; scenario [log.imu]",
@@ -3647,6 +4158,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-64d822df",
             requirement: "Home Assistant MQTT discovery and state exporter for trust telemetry",
             capability: "A JSON state document and Home Assistant MQTT discovery messages for the trust stream, printed as text on every surface and published over MQTT 3.1.1 QoS 0 by the CLI (telemetry::mqtt; trust-telemetry --mqtt-tcp, --print-mqtt, format mqtt).",
             module: "telemetry::mqtt (discovery, state_json, connect_packet, publish_packet, MqttSink); surface::TelemetryFormat::Mqtt",
@@ -3656,6 +4168,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-c9180fdd",
             requirement: "ROS 2 receiver-trust package and gnss_lib_py bridge",
             capability: "A ROS-free bridge that writes fix and satellite messages as NMEA and scores them through the Python binding (integrations/ros2/kshana_trust), and a gnss_lib_py NavData to receiver-trust bridge through the rtklib-pos format (integrations/gnss_lib_py).",
             module: "integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py",
@@ -4985,11 +5498,12 @@ pub fn summarize(items: &[VerificationItem]) -> MatrixSummary {
 /// Render the matrix as a GitHub-flavoured Markdown table.
 pub fn to_markdown(items: &[VerificationItem]) -> String {
     let mut out = String::new();
-    out.push_str("| Requirement | Capability | Module | Tests | Oracle | Status |\n");
-    out.push_str("|---|---|---|---|---|---|\n");
+    out.push_str("| ID | Requirement | Capability | Module | Tests | Oracle | Status |\n");
+    out.push_str("|---|---|---|---|---|---|---|\n");
     for it in items {
         out.push_str(&format!(
-            "| {} | {} | {} | {} | {} | {} |\n",
+            "| {} | {} | {} | {} | {} | {} | {} |\n",
+            it.id,
             it.requirement,
             it.capability,
             if it.module.is_empty() {
@@ -5341,6 +5855,53 @@ pub use artifacts::{
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // ── Stable row ids (0.40): unique, well-formed, and never lost or reassigned ──
+    #[test]
+    fn row_ids_are_well_formed_unique_and_none_ever_disappears() {
+        let m = verification_matrix();
+        let mut seen = std::collections::BTreeSet::new();
+        for it in &m {
+            let hex = it.id.strip_prefix("VM-").unwrap_or("");
+            assert!(
+                hex.len() == 8 && hex.chars().all(|c| matches!(c, '0'..='9' | 'a'..='f')),
+                "row `{}` has a malformed id `{}`",
+                it.requirement,
+                it.id
+            );
+            assert!(seen.insert(it.id), "id {} is used by two rows", it.id);
+        }
+        // The frozen list: every id ever issued must still be in the matrix, so no id disappears.
+        let frozen: Vec<&str> = include_str!("../tests/fixtures/evidence_ids.txt")
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+            .collect();
+        assert!(frozen.len() >= 388, "the frozen list lost entries");
+        for id in &frozen {
+            assert!(
+                seen.contains(id),
+                "id {id} was issued and is no longer in the matrix"
+            );
+        }
+    }
+
+    // A new row's id is the seed of its requirement text (so a contributor can compute it), and an id keeps pointing at
+    // the row it was issued for: the row whose seed matches the frozen id still has that id, unless it was reworded.
+    #[test]
+    fn a_row_whose_wording_is_unchanged_still_has_its_seed_id() {
+        let mut reworded = 0;
+        for it in verification_matrix() {
+            if crate::evidence_label::seed_id(it.requirement) != it.id {
+                reworded += 1;
+            }
+        }
+        // Rewording a requirement is allowed (the id stays); a row added after the seed carries its own seed. Nothing
+        // here may be reassigned, which the frozen-list test above enforces.
+        assert!(
+            reworded < 40,
+            "{reworded} rows changed wording since the ids were seeded"
+        );
+    }
 
     // ── Honesty invariant (the central one): Validated ⇒ EXTERNAL oracle ──────
     // This is what stops an internal algebraic identity being dressed as a

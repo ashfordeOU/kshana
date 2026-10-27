@@ -139,21 +139,28 @@ def read_timelab(text):
 
 
 def read_ticc(text, channel="chA"):
+    # Time stamps are read as exact decimals (fractions.Fraction): an f64 stamp at a few thousand
+    # seconds is rounded to about 5e-13 s, which is what the first version of this reader did and
+    # why the pre-registered B1 bar was 1e-13 s wide for this log (see RESULTS.md, 2026-10-24).
+    from fractions import Fraction
+
     t = []
     for line in text.splitlines():
         f = line.split()
         if len(f) != 2 or line.startswith("#"):
             continue
         try:
-            v = float(f[0])
+            v = Fraction(f[0])
         except ValueError:
             continue
         if f[1] == channel:
             t.append(v)
-    tau0 = median_spacing(t)
-    n = [round((tk - t[0]) / tau0) for tk in t]
-    x = [tk - t[0] - nk * tau0 for tk, nk in zip(t, n)]
-    out, n_grid, n_missing, n_gaps, filled = grid(t, x, tau0, True)
+    tau0 = median_spacing([float(v) for v in t])
+    tau0_exact = Fraction(f"{tau0:.4g}")
+    n = [round((tk - t[0]) / tau0_exact) for tk in t]
+    x = [float(tk - t[0] - nk * tau0_exact) for tk, nk in zip(t, n)]
+    tt = [float(tk) for tk in t]
+    out, n_grid, n_missing, n_gaps, filled = grid(tt, x, tau0, True)
     return dict(tau0_s=tau0, n_grid=n_grid, n_missing=n_missing, n_gaps=n_gaps,
                 n_interpolated=filled, phase_s=out)
 
