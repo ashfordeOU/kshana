@@ -17,3 +17,6 @@ seg-d6476863f862 = Võimekus
 
 # text
 seg-e0426ffe2628 = Märkus
+
+# text
+seg-de6c33774c9c = CLI

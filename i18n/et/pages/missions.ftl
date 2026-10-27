@@ -151,3 +151,6 @@ seg-7994e9983f27 = Deterministlik stsenaariumist, algväärtusest (seed) ja moot
 
 # attr:aria-label, text
 seg-9d3ee6a5613e = Käivitused
+
+# text
+seg-94de9433d99f = Stsenaariumifailid

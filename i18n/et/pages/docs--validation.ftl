@@ -35,3 +35,18 @@ seg-d12d4565b01d = Kuu geodeetiline VLBI, kernelitee
 
 # text
 seg-5ed34a5b402e = Kuu ühine mitmetehnikaline OD + kell
+
+# text
+seg-4bcec6e2dd9f = Kuu navigatsiooniteenuse ruumala
+
+# text
+seg-c04a3591074c = Kuu koostalitlusvõime eksport
+
+# text
+seg-20fee61b3107 = Kvantseadmete veamudelite teek
+
+# text
+seg-eaf341ff4522 = GNSS-ita kvantnavigatsioon
+
+# text
+seg-75636f9419b2 = Teadaolevad piirangud
