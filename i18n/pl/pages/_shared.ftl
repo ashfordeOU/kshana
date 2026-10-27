@@ -325,3 +325,15 @@ seg-85018a6b8966 = Orbity
 seg-cbb264f9962e = Przegląd
 
 seg-7fdb07b3b0ca = Księżycowe i cislunarne
+
+seg-1ae32cd48edc = Zaufanie na morzu
+
+seg-c13450e783db = Mapa zakłóceń i narażenie trasy
+
+seg-9ee32a9bcb05 = Weryfikacja Galileo OSNMA
+
+seg-aa2f95806d24 = EU NIS2, art. { "21" }
+
+seg-138f32dcf19f = EN { "16803" }
+
+seg-5fec3f16de7a = Przewodnik po Studio
