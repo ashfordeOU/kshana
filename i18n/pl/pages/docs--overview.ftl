@@ -49,3 +49,39 @@ seg-eaaed414a05a = Dane wejściowe z maszyn
 seg-0d4ccaba9b91 = Signal K i OpenCPN
 
 seg-2247a2344710 = Znaczenie
+
+seg-abd931555717 = Zegary i synchronizacja czasu
+
+seg-9a2a5f0a8a02 = Układ Słoneczny
+
+seg-a613a7447e3f = Studium na zamówienie
+
+seg-501d3a72ea43 = Integralność
+
+seg-f917e7fcac09 = Czym jest
+
+seg-cae10fb9bff8 = Scenariusz
+
+seg-d01db1c2710a = Źródła
+
+seg-298cc35fe9d1 = Inercyjne
+
+seg-f1f903f1b9ff = Odporność
+
+seg-6f253e0464fe = Morskie
+
+seg-a7cfe6f135f1 = Orbita i geometria
+
+seg-a5a572db3bed = Propagator numeryczny
+
+seg-57b120fb0aac = Manewry i projektowanie trajektorii
+
+seg-6af8e99df46d = Alt-PNT (bez GPS)
+
+seg-f9582184adea = Fuzja
+
+seg-ca67c864635c = Wyznaczanie orbity
+
+seg-4e28248ef77b = Obserwowalność i teoria estymacji
+
+seg-e386dced1d16 = Księżycowe i cislunarne

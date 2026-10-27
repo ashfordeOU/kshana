@@ -59,3 +59,5 @@ seg-f8cf777c0caa = Powierzchnie
 seg-b7b4540e63b6 = <s1>Poprzednia</s1>Każde polecenie
 
 seg-ce2349a1306f = <s1>Następna</s1>Dziedziny możliwości
+
+seg-f917e7fcac09 = Czym jest
