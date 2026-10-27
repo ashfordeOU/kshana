@@ -495,7 +495,7 @@ seg-f79d0ce7b945 = nenhum cenário membro da campanha tem algo que este formato 
 # c1: leo-signal
 # c2: leo-pass
 # c3: leo-pnt-chain
-seg-08b7e027318a = o tipo <c1/> analisa projetos de sinal (espectros, seguimento, aquisição, compatibilidade) sem posição de satélite nem de utilizador; exporte o cenário <c2/> ou <c3/> que percorre o projeto
+seg-08b7e027318a = o tipo <c1/> analisa projetos de sinal (espetros, seguimento, aquisição, compatibilidade) sem posição de satélite nem de utilizador; exporte o cenário <c2/> ou <c3/> que percorre o projeto
 
 # text
 # c1: leo-pass
@@ -531,7 +531,7 @@ seg-6271953188bd = o cenário <c1/> indica a latitude do local de lançamento ma
 seg-c9a63dfb34db = não exportado nesta versão: a órbita de referência de <c1/> é uma referência de ajuste cujo ângulo de rotação da Terra na época é uma entrada (<c2/>, por predefinição { "0" }), não derivado da data de calendário, pelo que as suas posições fixas à Terra não estão ligadas a uma data
 
 # text
-seg-a03c2f0426db = este cenário de espectro não tem bloco [iq], pelo que não são sintetizadas amostras para gravar
+seg-a03c2f0426db = este cenário de espetro não tem bloco [iq], pelo que não são sintetizadas amostras para gravar
 
 # text
 # c1: oem-interop

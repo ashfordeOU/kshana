@@ -67,14 +67,14 @@ seg-b95d4d1e45f0 = Sensibilidade de aceleração por disparo
 seg-c97f2fd35d48 = Ruído de fase referido à aceleração.
 
 # text
-seg-cda09ac79409 = ASD (densidade espectral de amplitude) limitada pelo ruído de disparo
+seg-cda09ac79409 = ASD (densidade espetral de amplitude) limitada pelo ruído de disparo
 
 # text
 # c1: T_c
 seg-4d84800a3adb = Amostragem a cada tempo de ciclo <c1/>; unidades (m/s²)/√Hz.
 
 # text
-seg-707ee648d1d5 = PSD (densidade espectral de potência) do passeio aleatório de velocidade
+seg-707ee648d1d5 = PSD (densidade espetral de potência) do passeio aleatório de velocidade
 
 # text
 # c1: AccelModel

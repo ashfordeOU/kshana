@@ -124,7 +124,7 @@ seg-4d3bd0301e59 = A predefinição Celeste IOD (demonstração em órbita) é u
 seg-5b348102cb63 = Os tipos e como se ligam
 
 # text
-seg-120b9be05fc3 = a densidade espectral de potência (PSD) limitada em banda de um projeto de sinal, potência em banda, largura de banda quadrática média (de Gabor), oscilação de seguimento de código em função da densidade de portadora para ruído (C/N0), pesquisa de aquisição e coeficientes de separação espetral (SSC) face a sinais GNSS; um compromisso de bandas (frequência ultra-alta (UHF), L, S, C)
+seg-120b9be05fc3 = a densidade espetral de potência (PSD) limitada em banda de um projeto de sinal, potência em banda, largura de banda quadrática média (de Gabor), oscilação de seguimento de código em função da densidade de portadora para ruído (C/N0), pesquisa de aquisição e coeficientes de separação espetral (SSC) face a sinais GNSS; um compromisso de bandas (frequência ultra-alta (UHF), L, S, C)
 
 # text
 seg-d9febf3c74c8 = formas fechadas VALIDATED, projetos e compromisso MODELLED

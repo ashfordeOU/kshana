@@ -342,7 +342,7 @@ seg-eb589aff44ad = <b>ROC de deteção dos monitores IQ</b> (PRO-32, <a1><c1/></
 # c1: docs/design/MONITORS-IN-CAMPAIGN.md
 # c2: [monitors]
 # c3: 2Q(k)
-seg-d25a34e23f1a = <b>Monitores IQ na campanha de repetição em laboratório</b> (PRO-31, <a1><c1/></a1>). Uma tabela opcional <c2/> num ficheiro de campanha executa os monitores IQ na passagem única do executor: potência e espectral após cada cadeia de front-end, e C/N0, SQM e bloqueio por canal seguido. Os seus alarmes são pontuados face aos eventos indicados: detetado ou em falta, tempo até à deteção e falsos alarmes por hora de exposição. Indica-se o valor de falso alarme em forma fechada de cada teste, incluindo um novo valor gaussiano bilateral para os testes SQM (<c3/>). Sem a tabela nada muda. Em campanhas sintéticas, os limiares de falso alarme de potência e SQM e o de falso alarme de C/N0 são atingidos; { "18" } de { "18" } atenuações são detetadas, mas o limite do tempo até à deteção, abaixo de uma amostra do detetor por construção, não é atingido e fica registado. MODELLED; linha do registo "IQ monitors scored in lab-replay campaigns".
+seg-d25a34e23f1a = <b>Monitores IQ na campanha de repetição em laboratório</b> (PRO-31, <a1><c1/></a1>). Uma tabela opcional <c2/> num ficheiro de campanha executa os monitores IQ na passagem única do executor: potência e espetral após cada cadeia de front-end, e C/N0, SQM e bloqueio por canal seguido. Os seus alarmes são pontuados face aos eventos indicados: detetado ou em falta, tempo até à deteção e falsos alarmes por hora de exposição. Indica-se o valor de falso alarme em forma fechada de cada teste, incluindo um novo valor gaussiano bilateral para os testes SQM (<c3/>). Sem a tabela nada muda. Em campanhas sintéticas, os limiares de falso alarme de potência e SQM e o de falso alarme de C/N0 são atingidos; { "18" } de { "18" } atenuações são detetadas, mas o limite do tempo até à deteção, abaixo de uma amostra do detetor por construção, não é atingido e fica registado. MODELLED; linha do registo "IQ monitors scored in lab-replay campaigns".
 
 # text
 # c1: tests/iq_labfit_followup.rs
@@ -547,13 +547,13 @@ seg-f445784a7f2d = Linhas: "BeiDou B1I primary ranging codes against an independ
 # c6: beidou-b2a
 # c7: beidou-b3i
 # c8: galileo-e6
-seg-001f48d86a3c = <b>Bandas GLONASS, BeiDou e Galileo E6 no modelo de espectro</b> (CAP-12, sinais): novos nomes de banda <c1/> e <c2/> (qualquer canal FDMA como <c3/>, K = −{ "7" } a { "6" }), <c4/>, <c5/>, <c6/>, <c7/> e <c8/>. Cada uma traz a portadora, a modulação e a potência mínima recebida do seu ICD. São opcionais por nome: o conjunto de bandas predefinido e todas as saídas existentes não mudam.
+seg-001f48d86a3c = <b>Bandas GLONASS, BeiDou e Galileo E6 no modelo de espetro</b> (CAP-12, sinais): novos nomes de banda <c1/> e <c2/> (qualquer canal FDMA como <c3/>, K = −{ "7" } a { "6" }), <c4/>, <c5/>, <c6/>, <c7/> e <c8/>. Cada uma traz a portadora, a modulação e a potência mínima recebida do seu ICD. São opcionais por nome: o conjunto de bandas predefinido e todas as saídas existentes não mudam.
 
 # text
 seg-158a6ec19d6b = Verificado face a limiares pré-registados em 5806f28b: os valores do ICD, os nulos, o composto B1C e o caminho C/N0 são atingidos.
 
 # text
-seg-805092ae8ca2 = Dois limiares não foram atingidos. O limiar de área unitária era inatingível tal como escrito (F1). As formas de onda B1I e B1C da camada IQ só coincidem com o modelo em média de banda, devido aos espectros de riscas irregulares dos seus códigos (F2).
+seg-805092ae8ca2 = Dois limiares não foram atingidos. O limiar de área unitária era inatingível tal como escrito (F1). As formas de onda B1I e B1C da camada IQ só coincidem com o modelo em média de banda, devido aos espetros de riscas irregulares dos seus códigos (F2).
 
 # text
 seg-db88f07d97bb = MODELLED; linha do registo "Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in)".
@@ -1630,10 +1630,10 @@ seg-5829841b58d7 = <b><c1/> lê ficheiros IONEX reais</b> ({ "0.36" }, WP-07): u
 # text
 # c1: galileo-e1
 # c2: galileo-e5a
-seg-a66bd6592b93 = <b>Potências recebidas de Galileo E1 e E5a segundo o OS SIS ICD Issue { "2.1" }</b> (revisão, 2026-10-14). As bandas de espectro <c1/> e <c2/>, e as vítimas GNSS de sinais LEO que delas retiram a sua potência, passam a usar as potências recebidas mínimas da Tabela { "12" } do Galileo OS SIS ICD Issue { "2.1" }: −{ "157.25" } dBW (era −{ "157.0" }) e −{ "155.25" } dBW (era −{ "155.0" }).
+seg-a66bd6592b93 = <b>Potências recebidas de Galileo E1 e E5a segundo o OS SIS ICD Issue { "2.1" }</b> (revisão, 2026-10-14). As bandas de espetro <c1/> e <c2/>, e as vítimas GNSS de sinais LEO que delas retiram a sua potência, passam a usar as potências recebidas mínimas da Tabela { "12" } do Galileo OS SIS ICD Issue { "2.1" }: −{ "157.25" } dBW (era −{ "157.0" }) e −{ "155.25" } dBW (era −{ "155.0" }).
 
 # text
-seg-b0386f62923f = Mudam nove resultados de cenários: os exemplos de espectro, a campanha de espectro, três verticais de resiliência LEO e três projetos de sinal LEO. O C/N0 efetivo muda −{ "0.25" } dB e o J/S +{ "0.25" } dB nestas bandas.
+seg-b0386f62923f = Mudam nove resultados de cenários: os exemplos de espetro, a campanha de espetro, três verticais de resiliência LEO e três projetos de sinal LEO. O C/N0 efetivo muda −{ "0.25" } dB e o J/S +{ "0.25" } dB nestas bandas.
 
 # text
 # c1: docs/revisions/CAP12-galileo-icd21-power-changes.md
@@ -1691,7 +1691,7 @@ seg-e2290a640df7 = Os códigos de memória do Galileo E1 deixam de ser incluído
 # c13: galileo-e1b
 # c14: galileo-e1c
 # c15: tests/iq_signals.rs
-seg-80f8ca869682 = <c1/> e <c2/> (Anexo C.7/C.8 do ICD) são removidos do repositório e dos pacotes. Os termos do ICD (citados em <c3/>) permitem que um utilizador guarde os códigos com a fonte reconhecida e os use num produto, mas só permitem a redistribuição para fins não comerciais, e o Kshana é também oferecido ao abrigo de uma licença comercial. <c4/> / <c5/> passam a devolver um <c6/> e a ler a cópia do próprio utilizador a partir de <c7/> / <c8/> ou, numa cópia de trabalho do código-fonte, a partir de <c9/>, onde o novo <c10/> os extrai do PDF do ICD (com verificação de hash). <c11/> / <c12/> são removidos. Sem as tabelas, os sinais Galileo E1 (<c13/>, <c14/>) devolvem um erro que indica como as fornecer, e os testes de E1 são ignorados com uma mensagem. Com as tabelas presentes, todas as saídas de E1 permanecem inalteradas. Nenhum cenário, resultado de referência ou saída de espectro usa as tabelas de códigos. Os ficheiros de teste de E5a dos Anexos C.3/C.4 (a referência independente de LFSR em <c15/>) são tratados da mesma forma: obtidos pelo mesmo script, ignorados pelo git, e o teste é ignorado sem eles.
+seg-80f8ca869682 = <c1/> e <c2/> (Anexo C.7/C.8 do ICD) são removidos do repositório e dos pacotes. Os termos do ICD (citados em <c3/>) permitem que um utilizador guarde os códigos com a fonte reconhecida e os use num produto, mas só permitem a redistribuição para fins não comerciais, e o Kshana é também oferecido ao abrigo de uma licença comercial. <c4/> / <c5/> passam a devolver um <c6/> e a ler a cópia do próprio utilizador a partir de <c7/> / <c8/> ou, numa cópia de trabalho do código-fonte, a partir de <c9/>, onde o novo <c10/> os extrai do PDF do ICD (com verificação de hash). <c11/> / <c12/> são removidos. Sem as tabelas, os sinais Galileo E1 (<c13/>, <c14/>) devolvem um erro que indica como as fornecer, e os testes de E1 são ignorados com uma mensagem. Com as tabelas presentes, todas as saídas de E1 permanecem inalteradas. Nenhum cenário, resultado de referência ou saída de espetro usa as tabelas de códigos. Os ficheiros de teste de E5a dos Anexos C.3/C.4 (a referência independente de LFSR em <c15/>) são tratados da mesma forma: obtidos pelo mesmo script, ignorados pelo git, e o teste é ignorado sem eles.
 
 # text
 # c1: f64
@@ -1752,7 +1752,7 @@ seg-a1a670a9c63e = O leitor NMEA passa a ler GSA (um GSA curto é ignorado, não
 
 # text
 # c1: navsignal
-seg-0bafbea5c75d = <b>Alteração de resultado: os interferidores de banda larga e de varrimento passam a usar Q = { "2" }.</b> A equação antiinterferência usa o ajuste de espectro alargado Q de manual para estes interferidores, onde usava { "1" }. Q = { "2" } é ruído branco sobre o lóbulo principal com a potência do sinal na banda normalizada; está fixado nos testes à forma fechada de <c1/>.
+seg-0bafbea5c75d = <b>Alteração de resultado: os interferidores de banda larga e de varrimento passam a usar Q = { "2" }.</b> A equação antiinterferência usa o ajuste de espetro alargado Q de manual para estes interferidores, onde usava { "1" }. Q = { "2" } é ruído branco sobre o lóbulo principal com a potência do sinal na banda normalizada; está fixado nos testes à forma fechada de <c1/>.
 
 # text
 # c1: q_override
@@ -1779,7 +1779,7 @@ seg-afb42538cfde = <c1/>: satélites perdidos { "26" } → { "0" }, distância m
 seg-8c2691f38d28 = <c1/>: raio de negação por dinâmica do laço { "75.2" } → { "53.2" } km;
 
 # text
-seg-096a24491872 = e as campanhas e verificações cruzadas de espectro que os contêm.
+seg-096a24491872 = e as campanhas e verificações cruzadas de espetro que os contêm.
 
 # text
 # c1: jamming
@@ -1787,7 +1787,7 @@ seg-096a24491872 = e as campanhas e verificações cruzadas de espectro que os c
 # c3: tracking-loop
 # c4: impairment-eval
 # c5: jamming_kind_cross_check
-seg-ecdf60335064 = <b>Consumidores afetados:</b> os tipos <c1/>, <c2/>, <c3/> e <c4/>, o <c5/> dos tipos de espectro, a curva de referência MODELLED da campanha de IQ e o Q predefinido de labfit, e a exportação de cenas de interoperabilidade.
+seg-ecdf60335064 = <b>Consumidores afetados:</b> os tipos <c1/>, <c2/>, <c3/> e <c4/>, o <c5/> dos tipos de espetro, a curva de referência MODELLED da campanha de IQ e o Q predefinido de labfit, e a exportação de cenas de interoperabilidade.
 
 # text
 # c1: DialogWrapper
@@ -2232,7 +2232,7 @@ seg-97c6243bac2e = jitter do discriminador PLL e DLL.
 # text
 # c1: jamming::effective_cn0_dbhz
 # c2: Q
-seg-014b28f61db8 = Junto a cada curva de degradação medida, é desenhada uma referência analítica de separação espectral (<c1/> com o <c2/> do tipo) e rotulada MODELLED onde quer que apareça.
+seg-014b28f61db8 = Junto a cada curva de degradação medida, é desenhada uma referência analítica de separação espetral (<c1/> com o <c2/> do tipo) e rotulada MODELLED onde quer que apareça.
 
 # text
 # c1: data_class
@@ -2597,7 +2597,7 @@ seg-5b05b2a54fab = <b>Potência total / AGC</b>: potência por bloco e o ganho q
 
 # text
 # c1: pulse_pfa
-seg-2a84a640d7f1 = <b>Espectro pré-correlação</b>: PSD de Welch por bloco face a uma linha de base aprendida. O limiar de excesso provém de um alvo de falso alarme. Também curtose complexa e um detetor de impulsos. O detetor de impulsos conta as amostras acima de um limiar em cada bloco e levanta um evento quando a cauda superior binomial exata dessa contagem é inferior a <c1/> (por predefinição { "1e-4" } por bloco), e não quando uma pontuação z ultrapassa um limite: com as pequenas contagens esperadas de blocos curtos, uma única amostra já são vários sigmas.
+seg-2a84a640d7f1 = <b>Espetro pré-correlação</b>: PSD de Welch por bloco face a uma linha de base aprendida. O limiar de excesso provém de um alvo de falso alarme. Também curtose complexa e um detetor de impulsos. O detetor de impulsos conta as amostras acima de um limiar em cada bloco e levanta um evento quando a cauda superior binomial exata dessa contagem é inferior a <c1/> (por predefinição { "1e-4" } por bloco), e não quando uma pontuação z ultrapassa um limite: com as pequenas contagens esperadas de blocos curtos, uma única amostra já são vários sigmas.
 
 # text
 seg-7704ac807c38 = <b>C/N0 por canal</b>: dois detetores de mudança CUSUM unilaterais (queda e subida), alimentados com estimativas independentes (o passo é definido a partir da janela de C/N0 do laço).
@@ -2637,7 +2637,7 @@ seg-e2cd6a55e49b = o indicador de bloqueio de fase face à média de fase de Ric
 seg-06291b1c6274 = num sinal C/A seguido, as dispersões do delta e da razão do SQM ficam a cerca de { "6" } % das formas fechadas de primeira ordem (medido { "5.97" } %; limiar do teste { "12" } %).
 
 # text
-seg-12deb36a2e3a = A fórmula de falso alarme do excesso espectral é uma aproximação; a taxa medida foi { "1.3" }× a fórmula. De ponta a ponta, os monitores assinalam:
+seg-12deb36a2e3a = A fórmula de falso alarme do excesso espetral é uma aproximação; a taxa medida foi { "1.3" }× a fórmula. De ponta a ponta, os monitores assinalam:
 
 # text
 seg-b002c66c7881 = um degrau de C/N0 de { "6" } dB (instante da mudança dentro de uma estimativa);
@@ -2649,7 +2649,7 @@ seg-2e828d106393 = um caminho refletido que surge a meio da gravação (teste da
 seg-68063f036e2c = uma interrupção de sinal (o PLI cai de { "0.999" } para −{ "0.3" } e o FLI de { "0.93" } para { "0.03" } durante ela);
 
 # text
-seg-0cd95f0197ec = um tom de banda estreita e amostras esparsas de grande amplitude (testes espectral, de impulsos e de curtose). São dados de entrada genéricos de teste de DSP, não modelos de interferência.
+seg-0cd95f0197ec = um tom de banda estreita e amostras esparsas de grande amplitude (testes espetral, de impulsos e de curtose). São dados de entrada genéricos de teste de DSP, não modelos de interferência.
 
 # text
 # c1: iq track
@@ -2851,7 +2851,7 @@ seg-3196836a2a0d = <b><c1/> atualizado para os dados atuais (uma alteração de 
 # c4: lunar-jamming
 # c5: spectrum
 # c6: q_override
-seg-55d5b16379aa = <b>O Q do interferidor CW/de banda estreita é agora { "1.0" }, e não { "1.5" }.</b> O valor de manual para um tom sobre a portadora é { "1" } (um tom mantém o pico espectral do sinal, <c1/>, <c2/>); o antigo { "1.5" } fazia um tom menos danoso do que ruído de banda larga com o mesmo J/S. Alteração de saída: cerca de −{ "1.8" } dB de C/N0 efetivo sob interferidores CW/de banda estreita com J/S elevado nos tipos <c3/>, <c4/> e de interoperabilidade (o tom do exemplo <c5/> incluído: { "17.98" } dB-Hz da tabela, era { "19.74" }). O Q de banda larga mantém-se em { "1.0" } (conservador, cerca de { "3" } dB abaixo do ~{ "2" } de manual) até à revisão de { "0.34" }. Defina <c6/> para manter o antigo { "1.5" }.
+seg-55d5b16379aa = <b>O Q do interferidor CW/de banda estreita é agora { "1.0" }, e não { "1.5" }.</b> O valor de manual para um tom sobre a portadora é { "1" } (um tom mantém o pico espetral do sinal, <c1/>, <c2/>); o antigo { "1.5" } fazia um tom menos danoso do que ruído de banda larga com o mesmo J/S. Alteração de saída: cerca de −{ "1.8" } dB de C/N0 efetivo sob interferidores CW/de banda estreita com J/S elevado nos tipos <c3/>, <c4/> e de interoperabilidade (o tom do exemplo <c5/> incluído: { "17.98" } dB-Hz da tabela, era { "19.74" }). O Q de banda larga mantém-se em { "1.0" } (conservador, cerca de { "3" } dB abaixo do ~{ "2" } de manual) até à revisão de { "0.34" }. Defina <c6/> para manter o antigo { "1.5" }.
 
 # text
 # c1: kshana iq scene
@@ -3168,7 +3168,7 @@ seg-a93515a6ff89 = separação de soluções por múltiplas hipóteses; nível d
 seg-9e93c8223a11 = PSD, IQ, SigMF
 
 # text
-seg-67248a79ac93 = densidade espectral de potência; amostras em fase e em quadratura; Signal Metadata Format
+seg-67248a79ac93 = densidade espetral de potência; amostras em fase e em quadratura; Signal Metadata Format
 
 # text
 seg-7dabf60fd17e = QPN
@@ -3241,7 +3241,7 @@ seg-b4136cdb8a98 = <b>Fornecedor de orientação lunar de eixos principais DE440
 # text
 # c1: welch_psd
 # c2: signal.welch
-seg-c28de00a491c = <b>Entrada e saída de gravações SigMF, e espectros de Welch</b> (Biblioteca), limitado à leitura e escrita de SigMF e a <c1/>: <c2/> do scipy { "1.18.1" } a menos de { "1e-12" } em termos relativos por intervalo (pior { "6.0e-14" }); gravações do sigmf-python { "1.13.0" } descodificadas de forma idêntica bit a bit; os metadados do crate válidos face ao esquema SigMF { "v1.2.6" }. A síntese IQ e as suas comparações de modelo ficam fora dele.
+seg-c28de00a491c = <b>Entrada e saída de gravações SigMF, e espetros de Welch</b> (Biblioteca), limitado à leitura e escrita de SigMF e a <c1/>: <c2/> do scipy { "1.18.1" } a menos de { "1e-12" } em termos relativos por intervalo (pior { "6.0e-14" }); gravações do sigmf-python { "1.13.0" } descodificadas de forma idêntica bit a bit; os metadados do crate válidos face ao esquema SigMF { "v1.2.6" }. A síntese IQ e as suas comparações de modelo ficam fora dele.
 
 # text
 seg-a7756d2e124a = <b>Ajustador de efemérides difundidas LEO e SISRE face ao intervalo de ajuste</b> (Medido), limitado ao ajuste kepleriano de 16 parâmetros e ao seu SISRE só de órbita: órbitas precisas ITSG do TU Graz de quatro satélites face às estatísticas de Liu et al. { "2025" }, componentes a menos de 1.5x ({ "0.804" } a { "1.087" }) e SISRE a menos de 1.5x ({ "0.716" } a { "0.809" }).
@@ -3354,7 +3354,7 @@ seg-8cc49496b4c6 = <b>Cegueira de integridade em modo comum</b> (P2): <c1/> do n
 seg-f0ff538b7329 = <b>OD e relógio lunares conjuntos multitécnica</b> (P2): o numpy recalcula cada passo de Gauss-Newton, sigma e erro de estação em seis redes (a menos de { "2.4e-11" }) após uma correção da resolução por QR.
 
 # text
-seg-7ed9b059f888 = <b>Covariância das coordenadas de estação do VLBI lunar</b> (Biblioteca): um jacobiano construído com o SPICE reproduz o calendário, o espectro, os sigmas e o espaço nulo a menos de { "1" } % e { "0.1" } graus; numpy até { "2e-13" }.
+seg-7ed9b059f888 = <b>Covariância das coordenadas de estação do VLBI lunar</b> (Biblioteca): um jacobiano construído com o SPICE reproduz o calendário, o espetro, os sigmas e o espaço nulo a menos de { "1" } % e { "0.1" } graus; numpy até { "2e-13" }.
 
 # text
 seg-0e4e1c3fc899 = <b>Limite do modo comum indetetável com resíduo fora de Omega</b> (P2, formulação corrigida por decisão do responsável): LAPACK do numpy em { "256" } casos a menos de { "1e-12" }, seis infinitos exatos.
@@ -3397,7 +3397,7 @@ seg-d059b9953c3f = <b>Ajustador de efemérides difundidas LEO</b>: a órbita ver
 seg-166d511bbba3 = <b>Constatações e linhas bloqueadas (continuam MODELLED).</b> O texto da referência independente de cada linha traz a constatação e o seu teste fixado.
 
 # text
-seg-7f233dbdf110 = Modulação de sinais de navegação (Betz { "2001" }, Hein { "2006" }): os espectros e as correlações concordam; os lóbulos laterais de { "24" } MHz e todos os enviesamentos de multipercurso ({ "11" } a { "15" } % baixos) não, causa por esclarecer.
+seg-7f233dbdf110 = Modulação de sinais de navegação (Betz { "2001" }, Hein { "2006" }): os espetros e as correlações concordam; os lóbulos laterais de { "24" } MHz e todos os enviesamentos de multipercurso ({ "11" } a { "15" } % baixos) não, causa por esclarecer.
 
 # text
 seg-4d5a6bb44d64 = Geolocalização TDOA/FDOA: os limites coincidem com os de Ho e Chan e de Ho e Xu, e com o código dos autores a menos de { "3e-12" }; os fatores de Ottawa impressos a partir de um Monte Carlo diferem em { "1.3" } % e { "4.4" } %.
@@ -3577,7 +3577,7 @@ seg-50b53908fb7c = Parte { "2" }, solucionador de datum de informação em raiz 
 # text
 # c1: linalg_sr
 # c2: solver = "srif"
-seg-4c6089cfac5e = Novo solucionador opcional de informação em raiz quadrada (<c1/>; <c2/> no cenário lunar-frame-campaign): QR de Householder, marginalização através do fator triangular, um SVD de Jacobi para o espectro, e produtos compensados apenas a partir de operações corretamente arredondadas. Face à referência independente de 50 dígitos (fixada antecipadamente b41908c9), os seus sigmas de datum concordam até { "3e-13" } numa nova data (2026-06-09); nas entradas de 2026-03-18 e 2024-01-01 o solucionador por predefinição está desviado até { "1e-5" }. Nova linha VALIDATED sob P2. O solucionador por predefinição e a sua saída não mudam. Os limiares fixados antecipadamente só atestam erros acima de cerca de { "2e-7" } em termos relativos: rejeitam o solucionador por predefinição mas não um sinal de Householder invertido, um produto escalar não compensado ou uma inversa final espectral, e a linha di-lo.
+seg-4c6089cfac5e = Novo solucionador opcional de informação em raiz quadrada (<c1/>; <c2/> no cenário lunar-frame-campaign): QR de Householder, marginalização através do fator triangular, um SVD de Jacobi para o espetro, e produtos compensados apenas a partir de operações corretamente arredondadas. Face à referência independente de 50 dígitos (fixada antecipadamente b41908c9), os seus sigmas de datum concordam até { "3e-13" } numa nova data (2026-06-09); nas entradas de 2026-03-18 e 2024-01-01 o solucionador por predefinição está desviado até { "1e-5" }. Nova linha VALIDATED sob P2. O solucionador por predefinição e a sua saída não mudam. Os limiares fixados antecipadamente só atestam erros acima de cerca de { "2e-7" } em termos relativos: rejeitam o solucionador por predefinição mas não um sinal de Householder invertido, um produto escalar não compensado ou uma inversa final espetral, e a linha di-lo.
 
 # text
 # c1: fim::crlb_srif
@@ -3970,7 +3970,7 @@ seg-aa8d43280c19 = <b>O globo da página inicial deixa de ficar em branco com o 
 seg-da4b78816df1 = <b>A consola de banda L da página inicial explica a sua banda vazia.</b> Em "Watch a jammer take the band", o painel GPS L5 / Galileo E5a ficava escuro durante todo o minuto, o que parecia uma avaria. Nenhum jammer transmite nessa banda neste cenário, e os sinais dos satélites ficam abaixo do piso de ruído, pelo que nada ali se eleva acima dele. Uma etiqueta discreta di-lo agora em qualquer troço de painel sem nada acima do piso (o painel L5 / E5a e o painel L2C antes de o seu jammer de ruído começar), com o C/N0 e o estado de bloqueio de cada banda da mesma execução. Só é colocada onde nada está acima do piso, pelo que nunca cobre energia de jammer.
 
 # text
-seg-e353fdee7033 = Uma versão de correção sobre a { "0.29.1" }. Remove código duplicado nos módulos de mensagem de navegação LEO, de fusão e de espectro, acrescenta um tema claro a kshana.dev, move o Kshana Studio para o seu próprio endereço, torna o site legível por motores de pesquisa e por assistentes de IA, corrige várias pequenas coisas no Studio e permite que as versões npm sejam publicadas sem um token guardado. Nenhuma saída do motor muda: todos os cenários incluídos dão um resultado idêntico byte a byte ao da { "0.29.1" }, exceto a marca de versão.
+seg-e353fdee7033 = Uma versão de correção sobre a { "0.29.1" }. Remove código duplicado nos módulos de mensagem de navegação LEO, de fusão e de espetro, acrescenta um tema claro a kshana.dev, move o Kshana Studio para o seu próprio endereço, torna o site legível por motores de pesquisa e por assistentes de IA, corrige várias pequenas coisas no Studio e permite que as versões npm sejam publicadas sem um token guardado. Nenhuma saída do motor muda: todos os cenários incluídos dão um resultado idêntico byte a byte ao da { "0.29.1" }, exceto a marca de versão.
 
 # text
 seg-e8bf0a4fdc35 = <b>Um tema claro para kshana.dev.</b> Todas as páginas podem ser lidas em modo claro ou escuro. O site segue a definição do sistema do leitor e tem um interruptor para a alterar.
@@ -4003,7 +4003,7 @@ seg-12f223b986bd = <b>Correções do Studio.</b> O ficheiro do motor é descarre
 # c3: leo_link::geometry
 # c4: leo_fusion::geom
 # c5: scenarios/
-seg-c130d8a4dc5e = <b>Menos código duplicado.</b> A tabela de unidades da mensagem de navegação LEO escrevia as mesmas dez linhas de estatísticas SISRE para quatro resumos de ajuste. Uma macro escreve-as agora uma só vez. Os dois gráficos em cascata de espectro partilham um eixo de tempo, uma barra de cor e um painel de barra de C/N0. A subamostragem da grelha principal reutiliza <c1/>, e o integral de Simpson reutiliza <c2/>. Os dois pontos de entrada do tipo de cenário de passagem LEO partilham um passo de configuração. <c3/> importa os auxiliares vetoriais de <c4/> em vez de os copiar. O relatório avançado importa o escape de HTML do relatório da API em vez de o copiar. Cada um dos { "139" } ficheiros de cenário em <c5/> foi executado na { "0.29.1" } e com este código, e todos os ficheiros de saída são idênticos byte a byte.
+seg-c130d8a4dc5e = <b>Menos código duplicado.</b> A tabela de unidades da mensagem de navegação LEO escrevia as mesmas dez linhas de estatísticas SISRE para quatro resumos de ajuste. Uma macro escreve-as agora uma só vez. Os dois gráficos em cascata de espetro partilham um eixo de tempo, uma barra de cor e um painel de barra de C/N0. A subamostragem da grelha principal reutiliza <c1/>, e o integral de Simpson reutiliza <c2/>. Os dois pontos de entrada do tipo de cenário de passagem LEO partilham um passo de configuração. <c3/> importa os auxiliares vetoriais de <c4/> em vez de os copiar. O relatório avançado importa o escape de HTML do relatório da API em vez de o copiar. Cada um dos { "139" } ficheiros de cenário em <c5/> foi executado na { "0.29.1" } e com este código, e todos os ficheiros de saída são idênticos byte a byte.
 
 # text
 # c1: src/leo_navmsg/units.rs

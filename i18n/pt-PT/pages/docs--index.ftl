@@ -127,7 +127,7 @@ seg-f63cc17a8b44 = <s1>Segurança do hardware</s1><s2>O Kshana é software de ca
 seg-8bf94416ec26 = <s1>Integridade e segurança</s1><s2>O Kshana comunica duas figuras de mérito (FoM) — Integridade e Segurança — que são fáceis de confundir com…</s2>
 
 # text
-seg-699230a0857c = <s1>Espectro e cascata</s1><s2>O tipo de cenário de espectro constrói a banda L do Global Navigation Satellite System (GNSS), e qualquer outra banda que…</s2>
+seg-699230a0857c = <s1>Espetro e cascata</s1><s2>O tipo de cenário de espetro constrói a banda L do Global Navigation Satellite System (GNSS), e qualquer outra banda que…</s2>
 
 # text
 seg-b89f63e94798 = <s1>Referência ARAIM</s1><s2>Esta nota documenta a implementação aberta do Kshana de Advanced Receiver Autonomous Integrity Monitoring…</s2>
@@ -322,7 +322,7 @@ seg-ec2b7abf2d82 = <s1>PNT alternativo com GPS negado</s1><s2>{ "5" } tipos de c
 seg-bfa814d38dca = <s1>Fusão inercial e sensores quânticos</s1><s2>{ "9" } tipos de cenário do motor v{ $version }. Consultivo: resultados de análise de uma ferramenta de investigação e engenharia, não…</s2>
 
 # text
-seg-69525243f8f1 = <s1>Jamming, spoofing e o espectro</s1><s2>{ "6" } tipos de cenário do motor v{ $version }. Consultivo: resultados de análise de uma ferramenta de investigação e engenharia, não…</s2>
+seg-69525243f8f1 = <s1>Jamming, spoofing e o espetro</s1><s2>{ "6" } tipos de cenário do motor v{ $version }. Consultivo: resultados de análise de uma ferramenta de investigação e engenharia, não…</s2>
 
 # text
 seg-0541e0421253 = <s1>Navegação em órbita terrestre baixa</s1><s2>{ "7" } tipos de cenário do motor v{ $version }. Consultivo: resultados de análise de uma ferramenta de investigação e engenharia, não…</s2>

@@ -746,7 +746,7 @@ seg-62b6f3df413b = Mais três respostas
 seg-80f67e30b341 = Vigilância de campanhas
 
 # text
-seg-2715eb0a90fd = Coexistência espectral
+seg-2715eb0a90fd = Coexistência espetral
 
 # text
 seg-aed2198e0810 = Serviço de tarefas nas instalações do cliente
@@ -885,7 +885,7 @@ seg-06f88c6df63a = Testam-se ambos os sentidos: a perda de C/N0 que cada plano c
 seg-6ed2560fa7cb = <b>O que não faz.</b> O resultado é um majorante: cada satélite à vista é tomado à potência recebida máxima, sem potência que varie com a elevação e sem diagrama de antena de receção. Não é um pedido de coordenação nem uma conclusão regulamentar.
 
 # text
-seg-60b335f177f1 = Coexistência espectral · <b>{ "4" } planos de sinais de exemplo</b>
+seg-60b335f177f1 = Coexistência espetral · <b>{ "4" } planos de sinais de exemplo</b>
 
 # attr:aria-label
 seg-1590505b1b83 = Vista

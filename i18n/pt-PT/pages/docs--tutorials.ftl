@@ -285,7 +285,7 @@ seg-3d6a8fd31402 = Os três tutoriais ficam pelos pacotes clássicos de relógio
 seg-2dc1d8680abb = Primeira linha do resumo
 
 # text
-seg-abd799395f27 = Espectro de banda L e cascata de jamming
+seg-abd799395f27 = Espetro de banda L e cascata de jamming
 
 # text
 seg-33453b2cfdf3 = O sistema solar numa época
