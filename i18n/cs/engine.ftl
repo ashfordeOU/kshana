@@ -11474,3 +11474,66 @@ engine-partner-text-error = { "  " }CHYBA: { $e }
 engine-partner-text-result-ok = výsledek: formát a metadata jsou úplné a čitelné
 
 engine-partner-text-result-not-ready = výsledek: není připraveno; opravte výše uvedené chyby
+
+engine-interference-map-locate-usage = použití: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom vyžaduje také --licence <text> --licence-url <url> --attribution <text>)
+    Zapíše emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv a -figure.svg: odhadnuté oblasti vysílače (oblasti zdroje rušení) při uvedených úrovních spolehlivosti, nikdy pouhý bod
+
+engine-interference-map-locate-wrote = zapsáno { $path }
+
+engine-interference-map-locate-summary = zveřejněno { $n_sessions ->
+        [one] { $n_sessions } relace
+        [few] { $n_sessions } relace
+        [many] { $n_sessions } relace
+       *[other] { $n_sessions } relací
+    }; zadrženo { $n_withheld ->
+        [one] { $n_withheld } kandidátní relace
+        [few] { $n_withheld } kandidátní relace
+        [many] { $n_withheld } kandidátní relace
+       *[other] { $n_withheld } kandidátních relací
+    } (méně než { $min } různých letadel nebo plavidel)
+
+engine-interference-map-locate-note-not-preregistered = poznámka: některá volba se liší od předregistrovaných parametrů, takže toto není předregistrovaná metoda
+
+engine-interference-map-locate-line-session = relace { $k }: { $start } až { $end }, { $affected } různých postižených, oblast { $level }% { $area } km², těžiště { $lat }, { $lon } (elipsa { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = relace { $k }: { $start } až { $end }, { $affected } různých postižených, hlášení oblast nezužují (neohraničeno)
+
+engine-interference-map-locate-fig-title = Odhadnutá oblast vysílače
+
+engine-interference-map-locate-fig-subtitle = Kde by za uvedených předpokladů mohl být zdroj zhoršených hlášení. Zobrazeno { $n ->
+        [one] { $n } relace
+        [few] { $n } relace
+        [many] { $n } relace
+       *[other] { $n } relací
+    }.
+
+engine-interference-map-locate-fig-none = Žádná relace nedosáhla minima pro zveřejnění, proto není zobrazena žádná oblast.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = oblast { $pct }%
+
+engine-interference-map-locate-fig-legend-ellipse = 95% elipsa aposteriorního rozdělení
+
+engine-interference-map-locate-fig-note-1 = Oblast není polohou žádného letadla, plavidla ani organizace a není zjištěním příčiny.
+
+engine-interference-map-locate-fig-note-2 = Terén není modelován a každá relace předpokládá jeden zdroj; úrovně spolehlivosti jsou podmíněny modelem.
+
+engine-e-interference-map-locate-bad-number = { $name } není číslo
+
+engine-e-interference-map-locate-bad-levels = --levels vyžaduje čísla oddělená čárkami ostře mezi 0 a 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km musí být mezi 0.5 a 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min musí být mezi 1 a 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m vyžaduje dvě čísla, min,max, s 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor řešení TDOA (receivers, tdoa_s, sigma_s, start), nebo řešení nekonvergovalo
+
+engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
+
+engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů
