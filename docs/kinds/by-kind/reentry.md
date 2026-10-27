@@ -59,6 +59,7 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 
 - **MODELLED** Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry. Tests: [reentry_point_mass_accelerometer_oracle.rs](../../../tests/reentry_point_mass_accelerometer_oracle.rs).
 - **MODELLED** Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact s
+- **MODELLED** The `entry` phase: the return coast of `tli-and-cruise` with no burn, ending at the entry interface; the flight-path angle and its sigma from the full covariance by a finite-difference gradient; the probability that the angle is inside a st
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
