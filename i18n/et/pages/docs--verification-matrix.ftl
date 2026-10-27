@@ -5699,3 +5699,22 @@ seg-6bb40f180cf0 = <s1>Eelmine</s1>Kontrolli olek
 
 # text
 seg-defb46c5bc80 = <s1>Järgmine</s1>Võimekuste kataloog
+
+# text
+# c1: docs/VERIFICATION-MATRIX.md
+seg-e8e0e0618afa = Allikas: <c1/>
+
+# text
+seg-4cb1d67922ed = Täielik masinkontrollitud tõenduste register (ledger): <b>{ "388" } rida — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult välise oraakli (sõltumatu etalon) korral (maatriksi invariantsuse testid jõustavad seda). Samad andmed koos klõpsatavate rea kaupa linkidega igale testile, moodulile ja sisestatud fikstuurile on <em>Validation ledger</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida ei ole välisvalideeritud.
+
+# text
+seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
+
+# text
+seg-b04cb81fc402 = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } juhtumit: kümme Kasdini astmeseaduse salvestust, b = { "0" } kuni -4, faasi- ja sagedusandmetena, af = { "1" } kuni { "64" }; alpha_int ja d identsed, halvim |d alpha| { "9.6e-13" } ja |d rho| { "4.8e-13" } piiri { "1e-9" } vastu; eelregistreeritud 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
+
+# text
+seg-9c4769edcf2b = osnma (page, subframe, dsm, merkle, signature, tesla, mac, maclt, navdata, verifier, ubx, cli)
+
+# text
+seg-af088012df3f = tests/osnma_official_vectors.rs (vabatahtlik, KSHANA_OSNMA_VECTORS: kõik { "18" } vektorikomplekti, { "186,382" } silti autenditud, { "0" } ebaõnnestunud, komplekti kaupa põrandad, ahelad välja kuulutatud, ADKD 0/4/12, häire kontrollitud, autentimise jätkumine pärast ahela lõppu, ahela ja võtme tühistamine ning uus avalik võti; võrguühenduseta, vektoreid ei levitata edasi); tests/osnma_synthetic.rs (ründekomplekt: võltsitud kauge tuleviku alamkaadrid, aegumine ja andmesidumine, häire ja „ära kasuta“, päise kinnitus, näiv silt, MACSEQ, võtmekonflikt, aegunud ja uuesti esitatud KROOT, CMAC-AES/SHA3-256/P-521 verifitseerija kaudu); osnma ühikutestid (RFC { "4231" }, RFC { "4493" }, FIPS { "197" }, FIPS { "202" }, RFC { "6979" } ja CRC-24Q teadaolevad vastused)

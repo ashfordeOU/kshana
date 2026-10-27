@@ -6185,3 +6185,441 @@ seg-c97e87cbcdd5 = Mootori BibTeX
 
 # text
 seg-24ff0a7466d6 = BibTeX
+
+# text
+seg-6d3d0f8c9b7c = Taotle Pro hindamist
+
+# text
+seg-8f101c803442 = Iga võimekus kannab <s1>oma tõendit.</s1>
+
+# text
+seg-9ef28b622a43 = { "388" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste oraaklite (sõltumatu etalon) vastu. <b>{ "208" } ausalt märgistatud kui modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
+
+# text
+seg-4f6445e5dd61 = Kontrollimaatriks <b>v{ $version }</b>
+
+# attr:aria-label
+seg-d9f0aabb4262 = Peata pühkimine
+
+# text
+seg-ae9e2459836c = võimekust
+
+# attr:aria-label
+seg-4adb5411062e = Kontrollimaatriks, üks lahter võimekuse kohta registri (ledger) järjekorras: { "176" } valideeritud (täidetud ruudud), { "208" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liiguvad lahtrite vahel; võimekus ja selle oraakel (sõltumatu etalon) loetakse ette allpool.
+
+# text
+seg-f97cb6bf8202 = Lahtri võimekuse ja seda hindava oraakli (sõltumatu etalon) nägemiseks liigu sellele kursoriga või fokuseeri see.
+
+# text
+seg-8a1cef0b9561 = Valideeritud: sõltumatu väline oraakel (sõltumatu etalon) nõustub
+
+# text
+# c1: web/data/verification-matrix.json
+# c2: src/verification.rs
+seg-582c4a762fc5 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "388" } rida · stsenaariumi ega algväärtust (seed) ei ole: mootori enda register (ledger)
+
+# text
+seg-d5c32303297d = Loe registrit (ledger)
+
+# text
+seg-f6112ab2dfdf = Register (ledger), tulemused, reprodutseeritavuse tempel ja nende taga olevad testid on kõik avatud mootoris.
+
+# text
+seg-69df15091cab = Pakib tõendid auditikvaliteediga reprodutseeritavaks tõendipaketiks ülevaatuskomisjonile. <a1>Vt allpool</a1>
+
+# text
+seg-9906d9824f3e = Vastab teie enda küsimusele samade siltidega, mitte sertifitseerimine. <a1>Vt allpool</a1>
+
+# text
+seg-f6a6cca2263c = Maatriks
+
+# attr:aria-label, text
+seg-78e5feea4a80 = Valideeritud tulemused
+
+# text
+seg-b3b972c50b99 = Sõnastik (dokumentatsioon)
+
+# text
+seg-92e427f220c0 = Valideeritud tulemused · iga võrreldud väärtus
+
+# text
+seg-a92d57eddda0 = Kontrollitud kellegi teise vastuse vastu.
+
+# text
+seg-978c14c0cbd8 = Iga plaat joonistab iga väärtuse, mida mootor sõltumatu etaloniga võrdles: avaldatud vektorid, eraldi lennudünaamika teek, täpsed efemeriidid, statistikateek, standardi väljaanne ja sobitamisest välja jäetud mõõdetud kellasalvestus. Väärtuse nägemiseks vii kursor märgile või fokuseeri see.
+
+# text
+seg-2b49d76005fd = Orbiidid · analüütilised
+
+# text
+seg-0155cf46a133 = SGP4 (Simplified General Perturbations { "4" }) orbiidi levitamine
+
+# text
+# c1: 4.12
+seg-3d4fd2b6704a = Iga AIAA (American Institute of Aeronautics and Astronautics) etalonvektor on taastatud, sh kaugkosmose SDP4 (Simplified Deep-space Perturbations { "4" }) juhtumid. Halvim juhtum <c1/> mm.
+
+# text
+seg-dbb66386afbf = Üks ruut võrreldud vektori kohta, värvitud selle asendivea järgi.
+
+# text
+seg-55fc928e19ae = oraakel (sõltumatu etalon) · AIAA 2006-6753 kontrollvektorid
+
+# text
+seg-1d60624d525d = Kuidas seda kontrolliti
+
+# text
+# c1: fc21ac4
+# c2: tests/sgp4_verification.rs
+seg-6adbc42697f9 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# text
+# c1: orbit-sgp4-gps.toml
+# c2: 17
+seg-58ca3da25e69 = Ava rakenduses Kshana Studio: sama propagaator, <c1/><s1> · algväärtus (seed) <c2/></s1>
+
+# attr:title
+seg-813d6d41b891 = Kopeeri käsk, mis seda reprodutseerib
+
+# text
+seg-a0ef302e2458 = Kopeeri käsk
+
+# text
+seg-3b6c7858f32d = { "171" } { "171" }-st RAIM-i (vastuvõtja autonoomne terviklikkuse seire) lävijuhtumist langeb SciPy-ga kokku vahemiku sees. Algväärtus (seed) { "7" }.
+
+# text
+seg-0921da0d292e = Terviklikkus · statistika
+
+# text
+seg-6f311aef88fe = juhtumit
+
+# text
+seg-36b744b97026 = RAIM-i tuvastusläved
+
+# text
+seg-db13900bdd77 = RAIM-i (vastuvõtja autonoomne terviklikkuse seire) statistiline tuum SciPy vastu, juhtum juhtumi haaval.
+
+# text
+seg-87734f6c52a2 = Üks ruut SciPy juhtumi kohta, rühmitatud tuuma järgi.
+
+# text
+seg-4957eddb39ed = oraakel (sõltumatu etalon) · SciPy
+
+# text
+# c1: fc21ac4
+# c2: tests/raim_reference.rs
+seg-c5d5cf50c8a9 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# text
+# c1: integrity-raim.toml
+# c2: 7
+seg-011e33e27f59 = Ava rakenduses Kshana Studio: tuum tegevuses, <c1/><s1> · algväärtus (seed) <c2/></s1>
+
+# text
+seg-e02df7620fc7 = Numbriline (Cowelli) orbiidi levitamine Orekiti vastu 24-tunnisel kaarel: halvim erinevus { "0.08" } m jõumudeli tasemetel { "1" } kuni { "5" }.
+
+# text
+seg-d52f564b4af8 = Orbiidid · numbrilised
+
+# text
+seg-e204506056b8 = Numbriline (Cowelli) levitamine
+
+# text
+seg-16e820be9d20 = Orekit { "12.2" } lennudünaamika teegi vastu 24-tunnise kaare igal epohhil, jõumudeli tase haaval.
+
+# text
+seg-2b1ea60e99a7 = Asendi erinevus ajas, jõumudeli taseme kaupa.
+
+# text
+seg-75344d6c427a = oraakel (sõltumatu etalon) · Orekit { "12.2" }
+
+# text
+# c1: fc21ac4
+# c2: tests/numerical_cowell_propagator_reference.rs
+seg-2e80a89ee20a = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# text
+seg-44988f3835ce = Kshana Studio vaadet ei ole: see võrdlus jookseb mootori testina.
+
+# text
+seg-6e9e7897bbc0 = Orbiidid · millimeetritest meetriteni
+
+# text
+seg-dcde8c6ec76a = m Galileo
+
+# text
+seg-f09e813feeb3 = m Swarm-A
+
+# text
+seg-3c258b4d5ac7 = Iga orbiidijääk ühel skaalal
+
+# text
+seg-211a071c2017 = Propagaatori kontrollidest kuni sobitusteni ESA (Euroopa Kosmoseagentuur) täpsete efemeriididega. Näidatud on ka läve kohal olev Kuu orbiiter.
+
+# text
+seg-f5b078c26ba8 = Iga jääk logaritmilisel skaalal ühest millimeetrist kahekümne meetrini.
+
+# text
+seg-6670ead3fa91 = oraakel (sõltumatu etalon) · ESA täpsed efemeriidid, Kuu orbiiteri rekonstrueeritud trajektoor, Orekit { "12.2" }, AIAA vektorid
+
+# text
+# c1: docs/AGENCY-ORBIT-VALIDATION.md
+# c2: fc21ac4
+seg-6ce9be05ab08 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
+
+# text
+seg-57c9f4e60efa = Kshana Studio vaadet ei ole: täpne orbiidi määramine jookseb mootori testidena.
+
+# text
+seg-f8f25ec2345b = Kellad · stabiilsus
+
+# text
+# c1: 12
+seg-912dbb14d171 = <c1/>-st avaldatud väärtusest
+
+# text
+seg-e0c144321893 = Taastab NIST-i (National Institute of Standards and Technology) eriväljaande (SP) { "1065" } tabeli { "31" } etalonväärtused selle enda 1000-punktilisel andmekogul.
+
+# text
+seg-5d3372dbff1f = Neli hälvet keskmistamisaja vastu, avaldatud väärtused ringidena.
+
+# text
+seg-9993e306ae64 = oraakel (sõltumatu etalon) · NIST SP { "1065" }
+
+# text
+# c1: fc21ac4
+# c2: tests/allan_nist_sp1065_1000point.rs
+seg-2a2794bda50f = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# text
+# c1: clock-holdover.toml
+# c2: 42
+seg-fc6a00946a11 = Ava rakenduses Kshana Studio: hindajad kellal, <c1/><s1> · algväärtus (seed) <c2/></s1>
+
+# text
+seg-4f484b09471e = Holdover-i ennustus mõõdetud tseesiumkella salvestusel: ennustatud mõõdetud suhtes vahemikus { "0.84" } kuni { "1.03" }, eelseatud teguri { "1.5" } piires.
+
+# text
+seg-4321e1b6bc12 = Kellad · holdover
+
+# text
+seg-7e2bad702e68 = kuni
+
+# text
+seg-62cf63a7bec7 = Holdover-i ennustus tegelikul tseesiumkellal
+
+# text
+# c1: 1.5
+seg-1f59d5bb3cff = Sobitatud mõõdetud tseesiumsalvestuse esimesele kolmandikule, ennustatud ülejäänud kahele kolmandikule: eelseatud teguri <c1/> piires.
+
+# text
+seg-46c1dbe5c6bc = Mõõdetud ja ennustatud ajaviga sõiduaja vastu ning suhtearv-aken.
+
+# text
+seg-449f52c56c67 = oraakel (sõltumatu etalon) · mõõdetud tseesiumsalvestus
+
+# text
+# c1: fc21ac4
+# c2: tests/slot_timing_cs5071a_holdout.rs
+seg-275351654591 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# text
+# c1: slot-timing-ocxo-leo.toml
+seg-c131867720cc = Ava rakenduses Kshana Studio: sama pöördülesanne, <c1/><s1> · deterministlik</s1>
+
+# text
+seg-05dd599ce14a = Üks lahter võimekuse kohta.
+
+# text
+seg-b19592bc5242 = Valideeritud tähendab, et sõltumatu väline allikas nõustub: avaldatud etalonvektorid, eraldi tööriist või mõõdetud andmed. Kõik muu ütleb modelleeritud. Sildi valimine tõstab selle lahtrid esile.
+
+# text
+seg-800e31fc8f7d = Hinnatud võimekused
+
+# text
+seg-1d2c8132218d = { "176" }<s1>{ "388" }-st valideeritud</s1>
+
+# text
+seg-e61158f71854 = Vii kursor lahtrile
+
+# attr:aria-label
+seg-b66d124aa8dd = Kontrollimaatriks: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri omanduses, kokku { "388" }
+
+# attr:title
+seg-d814d33d2b1e = allan::lag1_noise_id: Riley ja Greenhalli ({ "2004" }) lag-1 autokorrelatsiooni müra… · Valideeritud
+
+# attr:title
+seg-3f806067da69 = osnma + kshana osnma verify: avatud, puhtalt Rustis kirjutatud Galileo OSNMA vastuvõtjapoolne verifitseerija… · Valideeritud
+
+# attr:title
+seg-10698a330a88 = Alani/modifitseeritud/Hadamardi hälve + astmeseaduse müra tuvastus χ² usaldusvahemikega · Valideeritud
+
+# attr:title
+seg-b1508c42341f = Kattuv Alani + kattuv Hadamardi hälve tegelikul tseesiumstandardil · Valideeritud
+
+# attr:title
+seg-a8462102ee02 = Kattuv Alani + modifitseeritud Alani + ajahälve kogu AF-redelil · Valideeritud
+
+# attr:title
+seg-29e7bbbe508c = Theo1 ja kogu hälve (TOTVAR) — laiendatud ulatusega pika-tau stabiilsushinnangud… · Valideeritud
+
+# attr:title
+seg-1e52731cd30d = MTIE(τ): maksimaalne tipust tippu ajavea kõikumine mis tahes libiseva τ-pikkuse akna jooksul, τ =… · Valideeritud
+
+# attr:title
+seg-0bdb8a3e7052 = MDEV(τ): kattuv modifitseeritud Alani hälve (teise diferentsi libiseva akna… · Valideeritud
+
+# attr:title
+seg-e5651d7b5236 = Astmeseaduse (valge FM + punase müra põranda) NNLS taastamine avaldatud mõõdetud ⁸⁸Sr… · Valideeritud
+
+# attr:title
+seg-e7ada48a7ff9 = ARAIM mitme hüpoteesi lahenduse eraldamine vastavalt ARAIM Airborne Design Documentile… · Valideeritud
+
+# attr:title
+seg-a74e42c59d5f = SGP4/SDP4, Cowelli 6-DOF + häiringud, partii-/järjestik-OD · Valideeritud
+
+# attr:title
+seg-4f8eeede9609 = Cowelli numbriline propagaator hierarhilise jõumudeliga (kahe keha, J2–J6 vööndiline… · Valideeritud
+
+# attr:title
+seg-1fecb2c8c5d7 = SRP valgustatud osa WGS-84 ellipsoidiga varjava kehana (näiv Maa raadius… · Valideeritud
+
+# attr:title
+seg-da94fc5e3b03 = Mitte-kahurikuuli SRP: kast-tiib lametahvli mudel (Vallado võrrand 8-44; ühepoolne keha… · Valideeritud
+
+# attr:title
+seg-bf16e7dc6637 = SRP valgustatud osa kui servast tumenenud päikesevoo varjamata osa… · Modelleeritud
+
+# attr:title
+seg-5ccaafbaf99c = NRLMSISE-00 empiirilise termosfääri port (gtd7 ja gtd7d: liikide tihedused… · Valideeritud
+
+# attr:title
+seg-2fd4e498e5d6 = forces::DensityModel (Exponential vaikimisi, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) ja… · Valideeritud
+
+# attr:title
+seg-8c1643833e02 = Cowelli propagaatori vaiketakistus: ruuttakistus kaaspöörleva… vastu · Valideeritud
+
+# attr:title
+seg-c88dad1395e5 = Valikuline efemeriiditase kolmanda keha ja SRP liikmete jaoks numbrilises Cowellis… · Modelleeritud
+
+# attr:title
+seg-fc85378484a6 = Päevane S1 õhurõhu loode geopotentsiaali häiringuna: Biancale ja Bode… · Modelleeritud
+
+# attr:title
+seg-5d41c94116ae = Rayi ({ "2001" }) S2 õhurõhu harmoonilised (n <= { "4" }, prograadsed ja retrograadsed) teisendatud… · Valideeritud
+
+# attr:title
+seg-4e94ef6bbaf3 = Valikuline EGM2008 tesseraalne väli (kuni astme/järguni { "70" }) keskse gravitatsioonina… · Valideeritud
+
+# attr:title
+seg-1b8ba1d23a4f = Alavoolu- ja poolusekindel täielikult normaliseeritud välja arvutus kuni astmeni { "2190" }… · Modelleeritud
+
+# attr:title
+seg-ece10758305d = Hairer DOP853 { "8" }({ "5,3" }) otsene Runge-Kutta kombineeritud 5./3. järgu veaga… · Valideeritud
+
+# attr:title
+seg-c29a1f584c92 = Elliptiline Kepleri lahendaja kõigile { "0" } <= e < { "1" } ja kõigile keskanomaaliatele: Markley ({ "1995" }) kuupvõrrand… · Valideeritud
+
+# attr:title
+seg-ae484d7c73e7 = Epohhi oleku taastamine segatud kauguse, kauguskiiruse ja asimuudi/tõusunurga jälgimisest üle… · Modelleeritud
+
+# attr:title
+seg-7166587b7af6 = SP3 täpsuskoodide kaardistamine (päis ++ astendajad { "2" }^n mm, %f alus, kirje kohta alus^n mm… · Modelleeritud
+
+# attr:title
+seg-a352259cb1c3 = PDS SHADR sfääriliste harmoonikute tabelite lugemine (from_shadr, objektil SphericalHarmonicField … · Valideeritud
+
+# attr:title
+seg-bbdb377981c4 = with_gravity_field (objektil Body, failis src/gravity_pds.rs): ühenda mis tahes laaditud… · Modelleeritud
+
+# attr:title
+seg-0dad0a6df1ba = Epohhi oleku [r,v] taastamine maajaama kaugustest Gauss–Newtoni partii… · Valideeritud
+
+# attr:title
+seg-9aa6eccb7941 = Viibiv (allalingi) ühesuunaline valguse levimisaja lahend τ = |r_rx − r_target(t−τ)|/c … · Valideeritud
+
+# attr:title
+seg-44b327dce46e = IS-GPS-200 / Galileo-OS / BeiDou-OS ringhäälingu-efemeriidi Kepleri → ECEF satelliidi… · Valideeritud
+
+# attr:title
+seg-b2291e777ac3 = SP3 täpse efemeriidi satelliitide asendite IGS-standardne Lagrange'i interpolatsioon… · Valideeritud
+
+# attr:title
+seg-e64d4f89e37d = GPS CNAV teatetüübid 10/11/30, Galileo I/NAV sõnatüübid 1-5 nominaalsetel paaris/paaritu lehtedel… · Modelleeritud
+
+# attr:title
+seg-30fbb32b73fa = IONEX { "1.0" } lugeja (päis, fikseeritud veeruga I5 väärtused, TEC ja RMS kaardid, absoluutsed epohhid… · Valideeritud
+
+# attr:title
+seg-851595dfa46e = Lahknemisvaba Hatchi filter (ionosfäärivaba kood, mida kannab ionosfäärivaba… · Modelleeritud
+
+# attr:title
+seg-f22ecff347b8 = Lühikese baasjoone suhteline positsioneerimine tegelikust kahesageduslikust GPS-i koodist ja kandelaine faasist… · Valideeritud
+
+# attr:title
+seg-53b900e15215 = Vastuvõtja kell, mida hindab staatiline ujukomaga PPP filter tegelikul kahesageduslikul GPS-il… · Valideeritud
+
+# attr:title
+seg-53508398f315 = Staatiline ujukomaga PPP laiendatud Kalmani filter tegelikul kahesageduslikul GPS-i koodil ja kandelainel… · Valideeritud
+
+# attr:title
+seg-135f709cabd6 = RINEX 4.00-4.02 navigatsioonifailid: > EPH kirjed GPS-i LNAV, Galileo I/NAV ja F/NAV… · Valideeritud
+
+# attr:title
+seg-8217e6dad5f4 = RINEX 4.0x vaatluspäised (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE… · Modelleeritud
+
+# attr:title
+seg-5064320fefbc = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } geostatsionaarse satelliidi asend ringhäälingust… · Modelleeritud
+
+# attr:title
+seg-b3a6e424d368 = Satelliidi kellanihe tabuleeritud SP3 kellasõlmede vahel lineaarse interpolatsiooniga… · Valideeritud
+
+# attr:title
+seg-f3c33c897d1c = Veaoleku EKF { "15" } INS oleku, kaheoleks vastuvõtja kella ja ühe ujuva kandelaine üle… · Modelleeritud
+
+# attr:title
+seg-d18e059df2c0 = Kolm gnss-ins stsenaariumi trajektooriteegil (laev, mis siksakitab kiirusega { "8" } m/s ja… · Modelleeritud
+
+# attr:title
+seg-94ad91994306 = Üks pakitud Kalmani filter asendi, kiiruse, kellafaasi ja sageduse jaoks, mida söödetakse… · Modelleeritud
+
+# attr:title
+seg-6d46cb5414e3 = Suletud ahelaga 15-olekuline veaoleku EKF, mida juhivad IMU juurdekasvud GNSS-i antenni… · Valideeritud
+
+# attr:title
+seg-be8fb95782af = Avatud lähtekoodiga GNSS-simulaatori enda lugejatele antud bench-ekspordi liikumisfailid tulevad… · Valideeritud
+
+# attr:title
+seg-46797187781a = Valitavad liikumisprofiilid gnss-ins paketile (sirge, figure-8, linna stop-and-go… · Modelleeritud
+
+# attr:title
+seg-0d1622691877 = Kvaternioon-asendi, WGS-84 NED strapdown inertsiaalne mehhaniseerimine… · Valideeritud
+
+# attr:title
+seg-6c2952f49754 = Sfääriliste harmoonikute gravitatsiooni suurus + häiring (mGal) mis tahes ICGEM .gfc mudelist… · Valideeritud
+
+# attr:title
+seg-41ca7eec4a62 = Ringikujuline piiratud { "9" }:{ "2" } L2 lõunapoolne peaaegu sirgjooneline halo-orbiit, mis… · Modelleeritud
+
+# attr:title
+seg-42c26212e2c9 = cr3bp::to_moon_centred_icrf kaardistab mõõtmeteta Maa–Kuu CR3BP pöörleva oleku… · Valideeritud
+
+# attr:title
+seg-35b2be544d26 = Päikesesüsteemi liik koos planetary_kernel_path: iga teatatud keha, mille enda NAIF-i kood… · Valideeritud
+
+# attr:title
+seg-ad3763136cc7 = maneuver::porkchop_kernel: väljumiskuupäeva x saabumiskuupäeva pühkimine väljumise C3 jaoks (km²/s²)… · Valideeritud
+
+# attr:title
+seg-0f5ae623905f = maneuver::optimise_transfer_kernel: ülekande väljumis- ja saabumiskuupäevad… · Valideeritud
+
+# attr:title
+seg-0ae19001fe4b = Lamberti ülesande kõik lahendid kuni kolme täispöörde korral… · Valideeritud
+
+# attr:title
+seg-7eafc10ca9dc = Izzo-2015 ühe pöörde Lamberti lahendaja (r1, r2, lennuaeg → piir… · Valideeritud
+
+# attr:title
+seg-a8818aea1c75 = IAU 2006/2000A pretsessioon-nutatsioon, CIO GCRS↔ITRS, liigsekundi ajaskaalad · Valideeritud
+
+# attr:title
+seg-3713cbb8eb72 = UTC kalendrikuupäev ja kellaaeg kaheosaliseks UTC Juliuse kuupäevaks SOFA dtf2d abil… · Valideeritud
