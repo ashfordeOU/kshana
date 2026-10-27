@@ -834,7 +834,9 @@ pub enum PropagatorError {
 impl core::fmt::Display for PropagatorError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
-            PropagatorError::Sgp4(code) => write!(f, "SGP4 propagation error (code {code})"),
+            PropagatorError::Sgp4(code) => {
+                f.write_str(&crate::terr!("e-propagator-sgp4-error", code = code))
+            }
         }
     }
 }

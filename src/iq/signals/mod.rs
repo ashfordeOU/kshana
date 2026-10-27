@@ -90,13 +90,15 @@ pub enum SignalError {
 impl std::fmt::Display for SignalError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            SignalError::UnknownPrn { signal, prn } => {
-                write!(f, "{signal}: PRN {prn} is not defined by the ICD")
-            }
+            SignalError::UnknownPrn { signal, prn } => f.write_str(&crate::terr!(
+                "e-iq-signals-prn-not-defined",
+                signal = signal,
+                prn = prn
+            )),
             SignalError::FrequencyChannel(k) => {
-                write!(f, "GLONASS frequency channel {k} is outside -7..=6")
+                f.write_str(&crate::terr!("e-iq-signals-glonass-channel-outside", k = k))
             }
-            SignalError::Table(m) => write!(f, "code table: {m}"),
+            SignalError::Table(m) => f.write_str(&crate::terr!("e-iq-signals-code-table", m = m)),
         }
     }
 }

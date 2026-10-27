@@ -11248,5 +11248,784 @@
     "var": "w"
    }
   ]
+ },
+ {
+  "id": "e-animation-no-time-series-to-animate",
+  "error": true,
+  "parts": [
+   "no time series to animate: the ",
+   {
+    "var": "k"
+   },
+   " result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)"
+  ]
+ },
+ {
+  "id": "animation-svg-sub",
+  "error": false,
+  "parts": [
+   "kind ",
+   {
+    "var": "kind"
+   },
+   " · ",
+   {
+    "var": "t0"
+   },
+   " to ",
+   {
+    "var": "t1"
+   },
+   " · samples from result.json, drawn without resampling · Kshana ",
+   {
+    "var": "version"
+   }
+  ]
+ },
+ {
+  "id": "animation-svg-strip-events",
+  "error": false,
+  "parts": [
+   "events"
+  ]
+ },
+ {
+  "id": "animation-svg-strip-phases",
+  "error": false,
+  "parts": [
+   "phases"
+  ]
+ },
+ {
+  "id": "animation-svg-waterfall",
+  "error": false,
+  "parts": [
+   "waterfall: ",
+   {
+    "var": "title"
+   },
+   " [",
+   {
+    "var": "unit"
+   },
+   "], time runs downward, colour ",
+   {
+    "var": "lo"
+   },
+   " to ",
+   {
+    "var": "hi"
+   }
+  ]
+ },
+ {
+  "id": "animation-svg-mhz",
+  "error": false,
+  "parts": [
+   {
+    "var": "f"
+   },
+   " MHz"
+  ]
+ },
+ {
+  "id": "animation-epoch-index",
+  "error": false,
+  "parts": [
+   "epoch index"
+  ]
+ },
+ {
+  "id": "animation-svg-desc",
+  "error": false,
+  "parts": [
+   "Animated time series of a ",
+   {
+    "var": "kind"
+   },
+   " run: ",
+   {
+    "var": "n_panels"
+   },
+   " panel(s), ",
+   {
+    "var": "n_events"
+   },
+   " event(s), ",
+   {
+    "var": "n_phases"
+   },
+   " phase(s). Every point is a sample from the run's result.json."
+  ]
+ },
+ {
+  "id": "animation-html-title",
+  "error": false,
+  "parts": [
+   {
+    "var": "title"
+   },
+   " — Kshana animation"
+  ]
+ },
+ {
+  "id": "animation-html-sub",
+  "error": false,
+  "parts": [
+   "kind ",
+   {
+    "var": "kind"
+   },
+   " · ",
+   {
+    "var": "n"
+   },
+   " series from result.json, drawn without resampling · Kshana ",
+   {
+    "var": "version"
+   }
+  ]
+ },
+ {
+  "id": "animation-html-playback",
+  "error": false,
+  "parts": [
+   "Playback"
+  ]
+ },
+ {
+  "id": "animation-html-play",
+  "error": false,
+  "parts": [
+   "Play"
+  ]
+ },
+ {
+  "id": "animation-html-pause",
+  "error": false,
+  "parts": [
+   "Pause"
+  ]
+ },
+ {
+  "id": "animation-html-mission-time",
+  "error": false,
+  "parts": [
+   "Mission time"
+  ]
+ },
+ {
+  "id": "animation-html-speed",
+  "error": false,
+  "parts": [
+   "speed"
+  ]
+ },
+ {
+  "id": "animation-html-playback-speed",
+  "error": false,
+  "parts": [
+   "Playback speed"
+  ]
+ },
+ {
+  "id": "animation-html-events",
+  "error": false,
+  "parts": [
+   "Events"
+  ]
+ },
+ {
+  "id": "animation-html-footer-keys",
+  "error": false,
+  "parts": [
+   "Space plays or pauses, the arrow keys step, Home and End jump. This is a rendering of the run's own samples: it is exactly as good as the run and adds no evidence (MODELLED, internal consistency)."
+  ]
+ },
+ {
+  "id": "animation-html-footer-determinism",
+  "error": false,
+  "parts": [
+   "Same scenario, seed and options give a byte-identical file."
+  ]
+ },
+ {
+  "id": "animation-html-exports-heading",
+  "error": false,
+  "parts": [
+   "Exports written beside this player"
+  ]
+ },
+ {
+  "id": "animation-js-phases-and-events",
+  "error": false,
+  "parts": [
+   "phases and events"
+  ]
+ },
+ {
+  "id": "animation-js-waterfall",
+  "error": false,
+  "parts": [
+   "waterfall: ",
+   {
+    "var": "title"
+   },
+   " [",
+   {
+    "var": "unit"
+   },
+   "], time runs downward"
+  ]
+ },
+ {
+  "id": "animation-js-now",
+  "error": false,
+  "parts": [
+   "t = ",
+   {
+    "var": "time"
+   }
+  ]
+ },
+ {
+  "id": "animation-js-phase",
+  "error": false,
+  "parts": [
+   "phase: ",
+   {
+    "var": "name"
+   }
+  ]
+ },
+ {
+  "id": "e-evidence-bundle-bad-log-slice",
+  "error": true,
+  "parts": [
+   "bad log slice: ",
+   {
+    "var": "s"
+   }
+  ]
+ },
+ {
+  "id": "e-evidence-bundle-bad-window",
+  "error": true,
+  "parts": [
+   "bad window: ",
+   {
+    "var": "s"
+   }
+  ]
+ },
+ {
+  "id": "e-evidence-bundle-bad-creation-time",
+  "error": true,
+  "parts": [
+   "bad creation time: ",
+   {
+    "var": "s"
+   }
+  ]
+ },
+ {
+  "id": "e-evidence-bundle-bad-timestamp-token",
+  "error": true,
+  "parts": [
+   "bad timestamp token: ",
+   {
+    "var": "s"
+   }
+  ]
+ },
+ {
+  "id": "e-evidence-bundle-cannot-serialise",
+  "error": true,
+  "parts": [
+   "cannot serialise: ",
+   {
+    "var": "s"
+   }
+  ]
+ },
+ {
+  "id": "e-osnma-page-not-valid-hex",
+  "error": true,
+  "parts": [
+   "page is not valid hex"
+  ]
+ },
+ {
+  "id": "e-osnma-page-time-outside-week-number",
+  "error": true,
+  "parts": [
+   "page time is outside the 4096 weeks of a Galileo week number"
+  ]
+ },
+ {
+  "id": "e-osnma-page-bad-length",
+  "error": true,
+  "parts": [
+   "page has ",
+   {
+    "var": "n"
+   },
+   " hex digits, expected 60"
+  ]
+ },
+ {
+  "id": "e-osnma-page-malformed-line",
+  "error": true,
+  "parts": [
+   "malformed page line: ",
+   {
+    "var": "s"
+   }
+  ]
+ },
+ {
+  "id": "e-interchange-encode-payload",
+  "error": true,
+  "parts": [
+   "failed to encode payload: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interchange-invalid-envelope",
+  "error": true,
+  "parts": [
+   "not a valid interchange envelope: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interchange-not-kshana-artifact",
+  "error": true,
+  "parts": [
+   "not a Kshana artifact: format is ",
+   {
+    "var": "found"
+   },
+   ", expected ",
+   {
+    "var": "expected"
+   }
+  ]
+ },
+ {
+  "id": "e-interchange-incompatible-schema-version",
+  "error": true,
+  "parts": [
+   "incompatible schema version ",
+   {
+    "var": "v"
+   },
+   " (",
+   {
+    "var": "verdict"
+   },
+   "); this engine speaks ",
+   {
+    "var": "current"
+   }
+  ]
+ },
+ {
+  "id": "e-interchange-payload-mismatch",
+  "error": true,
+  "parts": [
+   "payload did not match the requested type: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interop-not-applicable",
+  "error": true,
+  "parts": [
+   "not applicable: ",
+   {
+    "var": "why"
+   }
+  ]
+ },
+ {
+  "id": "e-iq-io-error",
+  "error": true,
+  "parts": [
+   "I/O error: ",
+   {
+    "var": "m"
+   }
+  ]
+ },
+ {
+  "id": "e-iq-format-error",
+  "error": true,
+  "parts": [
+   "format error: ",
+   {
+    "var": "m"
+   }
+  ]
+ },
+ {
+  "id": "e-iq-signals-prn-not-defined",
+  "error": true,
+  "parts": [
+   {
+    "var": "signal"
+   },
+   ": PRN ",
+   {
+    "var": "prn"
+   },
+   " is not defined by the ICD"
+  ]
+ },
+ {
+  "id": "e-iq-signals-glonass-channel-outside",
+  "error": true,
+  "parts": [
+   "GLONASS frequency channel ",
+   {
+    "var": "k"
+   },
+   " is outside -7..=6"
+  ]
+ },
+ {
+  "id": "e-iq-signals-code-table",
+  "error": true,
+  "parts": [
+   "code table: ",
+   {
+    "var": "m"
+   }
+  ]
+ },
+ {
+  "id": "e-kepler-out-of-domain",
+  "error": true,
+  "parts": [
+   "Kepler equation: M or e out of domain"
+  ]
+ },
+ {
+  "id": "e-kepler-no-convergence",
+  "error": true,
+  "parts": [
+   "Kepler equation did not converge in ",
+   {
+    "var": "iters"
+   },
+   " steps (residual ",
+   {
+    "var": "residual"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-lunar-orientation-epoch-outside-series",
+  "error": true,
+  "parts": [
+   "epoch ",
+   {
+    "var": "t"
+   },
+   " Julian centuries from J2000 is outside the DE440 lunar orientation series (",
+   {
+    "var": "first"
+   },
+   " .. ",
+   {
+    "var": "last"
+   },
+   ", 2014-01-01 .. 2030-12-31 TDB)"
+  ]
+ },
+ {
+  "id": "e-propagator-sgp4-error",
+  "error": true,
+  "parts": [
+   "SGP4 propagation error (code ",
+   {
+    "var": "code"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-integrator-dop853-stopped",
+  "error": true,
+  "parts": [
+   "DOP853 stopped at t = ",
+   {
+    "var": "t"
+   },
+   " (",
+   {
+    "var": "failure"
+   },
+   ") after ",
+   {
+    "var": "accepted"
+   },
+   " steps"
+  ]
+ },
+ {
+  "id": "e-portable-distr-variance-non-finite",
+  "error": true,
+  "parts": [
+   "variance is non-finite in normal distribution"
+  ]
+ },
+ {
+  "id": "e-portable-distr-shape-not-positive",
+  "error": true,
+  "parts": [
+   "shape is not positive in gamma distribution"
+  ]
+ },
+ {
+  "id": "e-portable-distr-scale-not-positive",
+  "error": true,
+  "parts": [
+   "scale is not positive in gamma distribution"
+  ]
+ },
+ {
+  "id": "bench-tasks-clock-line-before-header",
+  "error": false,
+  "parts": [
+   "a clock line comes before any `@<PRN>` header"
+  ]
+ },
+ {
+  "id": "api-html-clock",
+  "error": false,
+  "parts": [
+   "Clock"
+  ]
+ },
+ {
+  "id": "api-html-fom-heading",
+  "error": false,
+  "parts": [
+   "Figures of merit"
+  ]
+ },
+ {
+  "id": "api-html-metric",
+  "error": false,
+  "parts": [
+   "Metric"
+  ]
+ },
+ {
+  "id": "api-html-value",
+  "error": false,
+  "parts": [
+   "Value"
+  ]
+ },
+ {
+  "id": "api-html-validation",
+  "error": false,
+  "parts": [
+   "Validation"
+  ]
+ },
+ {
+  "id": "api-html-tier-note",
+  "error": false,
+  "parts": [
+   "Each figure of merit is tagged VALIDATED (checked against an external oracle) or MODELLED (first-principles, internally tested), derived from the verification matrix."
+  ]
+ },
+ {
+  "id": "api-html-default-title",
+  "error": false,
+  "parts": [
+   "Kshana — scenario result"
+  ]
+ },
+ {
+  "id": "api-html-study-title",
+  "error": false,
+  "parts": [
+   {
+    "var": "title"
+   },
+   " — Kshana"
+  ]
+ },
+ {
+  "id": "api-html-eyebrow",
+  "error": false,
+  "parts": [
+   "क्षण · the precise instant"
+  ]
+ },
+ {
+  "id": "api-html-tagline",
+  "error": false,
+  "parts": [
+   "Hybrid quantum / classical PNT performance scorecard"
+  ]
+ },
+ {
+  "id": "api-html-chart-alt",
+  "error": false,
+  "parts": [
+   "Result chart"
+  ]
+ },
+ {
+  "id": "api-html-full-result",
+  "error": false,
+  "parts": [
+   "Full result (JSON)"
+  ]
+ },
+ {
+  "id": "api-html-footer-generated",
+  "error": false,
+  "parts": [
+   "Generated by Kshana ",
+   {
+    "var": "version"
+   },
+   "."
+  ]
+ },
+ {
+  "id": "api-html-footer-licence",
+  "error": false,
+  "parts": [
+   "Reproducible from scenario + seed + engine version. Free and open source (AGPL-3.0) — <a href=\"https://github.com/AshfordeOU/kshana\">source &amp; docs</a>."
+  ]
+ },
+ {
+  "id": "leo-signal-mhz-pair",
+  "error": false,
+  "parts": [
+   {
+    "var": "centre"
+   },
+   " MHz, ",
+   {
+    "var": "bandwidth"
+   },
+   " MHz"
+  ]
+ },
+ {
+  "id": "spectrum-dbw-per-hz",
+  "error": false,
+  "parts": [
+   {
+    "var": "level"
+   },
+   " dBW/Hz"
+  ]
+ },
+ {
+  "id": "mcp-main-usage",
+  "error": false,
+  "parts": [
+   "kshana-mcp: Model Context Protocol server for the Kshana PNT-resilience simulator.\n\nUSAGE:\n    kshana-mcp                      serve over stdio (the default; what MCP clients launch)\n    kshana-mcp --http <addr>        serve streamable HTTP at http://<addr>/mcp\n\nHTTP OPTIONS:\n    --http <addr>               bind address, e.g. 127.0.0.1:8080 (loopback only by default)\n    --allow-remote              permit a non-loopback address; needs KSHANA_MCP_HTTP_TOKEN\n    --allowed-host <host[:port]>  extra Host header accepted (repeatable)\n    --allow-origin <origin>     browser origin accepted (repeatable; none by default)\n    --max-body-bytes <n>        request body cap (default 5242880)\n    --request-timeout-secs <n>  per-request time limit (default 120)\n    --max-concurrent <n>        requests served at once (default 8)\n\nThe HTTP transport turns the IQ file tools off. Kshana does not host an endpoint: run it yourself.\n"
+  ]
+ },
+ {
+  "id": "e-mcp-main-unknown-argument",
+  "error": true,
+  "parts": [
+   "unknown argument `",
+   {
+    "var": "other"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-mcp-main-http-options-need-http",
+  "error": true,
+  "parts": [
+   "HTTP options need --http <addr>"
+  ]
+ },
+ {
+  "id": "e-mcp-http-refusing-to-bind",
+  "error": true,
+  "parts": [
+   "refusing to bind ",
+   {
+    "var": "addr"
+   },
+   ": it is not a loopback address. Use 127.0.0.1:<port>, or pass --allow-remote (and set ",
+   {
+    "var": "token_env"
+   },
+   ") to listen beyond this machine"
+  ]
+ },
+ {
+  "id": "e-mcp-http-refusing-to-bind-needs-token",
+  "error": true,
+  "parts": [
+   "refusing to bind ",
+   {
+    "var": "addr"
+   },
+   ": a non-loopback address needs a bearer token in the ",
+   {
+    "var": "token_env"
+   },
+   " environment variable"
+  ]
+ },
+ {
+  "id": "e-mcp-http-token-too-short",
+  "error": true,
+  "parts": [
+   {
+    "var": "token_env"
+   },
+   " is shorter than 16 characters; use a long random token"
+  ]
+ },
+ {
+  "id": "e-mcp-http-limits-must-be-above-zero",
+  "error": true,
+  "parts": [
+   "--max-body-bytes, --max-concurrent and --request-timeout-secs must be above zero"
+  ]
+ },
+ {
+  "id": "e-mcp-http-allow-origin-wildcard",
+  "error": true,
+  "parts": [
+   "--allow-origin does not accept `*`; name each origin"
+  ]
+ },
+ {
+  "id": "mcp-http-warning-remote",
+  "error": false,
+  "parts": [
+   "WARNING: kshana-mcp is listening on ",
+   {
+    "var": "addr"
+   },
+   " beyond this machine. Anyone who can reach it and holds the bearer token can run simulations on your hardware. Put TLS in front of it (a reverse proxy or your platform's HTTPS) and keep the token secret."
+  ]
  }
 ]

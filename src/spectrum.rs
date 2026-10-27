@@ -2287,12 +2287,12 @@ fn colour_bar(
     }
     s.push_str(&format!(
         "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{lo_db:.0}</text>\
-         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{} dBW/Hz</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
         lo_x,
         label_y,
         bx + bw_ + 4.0,
         label_y,
-        crate::i18n::num(hi_db, 0)
+        crate::t!("spectrum-dbw-per-hz", level = crate::i18n::num(hi_db, 0))
     ));
 }
 

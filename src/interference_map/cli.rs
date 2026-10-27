@@ -20,7 +20,10 @@ use super::{IdHasher, MapError};
 
 /// Usage text for `kshana interference-map`.
 pub fn map_usage() -> String {
-    crate::t!("interference-map-cli-usage-map", lit_0_5 = crate::i18n::num(0.5_f64, 1))
+    crate::t!(
+        "interference-map-cli-usage-map",
+        lit_0_5 = crate::i18n::num(0.5_f64, 1)
+    )
 }
 
 /// Usage text for `kshana route-exposure`.

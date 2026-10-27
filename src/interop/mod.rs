@@ -153,7 +153,9 @@ pub enum ExportError {
 impl std::fmt::Display for ExportError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ExportError::NotApplicable(why) => write!(f, "not applicable: {why}"),
+            ExportError::NotApplicable(why) => {
+                f.write_str(&crate::terr!("e-interop-not-applicable", why = why))
+            }
             ExportError::Failed(e) => write!(f, "{e}"),
         }
     }

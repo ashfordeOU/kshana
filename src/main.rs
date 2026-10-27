@@ -1722,7 +1722,11 @@ fn lunanet_afs_usage() -> String {
 /// `kshana lunanet-afs-check <spec|symbols|generate>`.
 fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
     let fail = |m: &str| {
-        eprintln!("{}\n{}", kshana::t!("main-fail", e = m), lunanet_afs_usage());
+        eprintln!(
+            "{}\n{}",
+            kshana::t!("main-fail", e = m),
+            lunanet_afs_usage()
+        );
         ExitCode::from(2)
     };
     let flag = |name: &str| -> Result<Option<String>, String> {
@@ -1897,7 +1901,11 @@ fn standards_pack_usage() -> String {
 /// `kshana standards-pack <list|run|rows|tests>`.
 fn run_standards_pack_cli(args: &[String]) -> ExitCode {
     let fail = |m: &str| {
-        eprintln!("{}\n{}", kshana::t!("main-fail", e = m), standards_pack_usage());
+        eprintln!(
+            "{}\n{}",
+            kshana::t!("main-fail", e = m),
+            standards_pack_usage()
+        );
         ExitCode::from(2)
     };
     let Some(cmd) = args.first().map(String::as_str) else {
