@@ -613,14 +613,14 @@ impl std::fmt::Display for KshanaError {
 }
 
 impl KshanaError {
-    /// A stable machine tag for the failure kind, so binding callers can branch on
-    /// it without parsing the human-readable message.
     /// The stable code of the message (`E-CLOCK-VERSION`), the same in every language, when the
     /// message is a catalogue error raised on this thread. Callers match on this, never on the text.
     pub fn code(&self) -> Option<String> {
         crate::i18n::code_of(&self.to_string())
     }
 
+    /// A stable machine tag for the failure kind, so binding callers can branch on
+    /// it without parsing the human-readable message.
     pub fn kind_tag(&self) -> &'static str {
         match self {
             KshanaError::InvalidInput(_) => "invalid_input",
