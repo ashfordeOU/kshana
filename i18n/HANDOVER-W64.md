@@ -53,3 +53,7 @@ of "bench"/"compliance" between English and translation; list English messages t
 7. ja and zh-Hans: `studio-replay-the-coast-is-natural-earth` ("1:10 百万": the digit check forbids a native numeral), digits kept where English spells a number as a word.
 8. Mixed caps emphasis words in data prose (FINDING, WHAT IS NOT CHECKED, REAL, SIMULATED ...) were translated in most languages; DERIVED and PROVEN are prose, translated
    inconsistently (some kept English).
+
+## Engine delta (branch `i18n/engine-delta-0.40`)
+engine.ftl is at 4,877 of 4,877 in all 17 languages (189 new ids from the final engine batch, the stale clock-log and `engine-main-usage` messages retranslated). `validate.py` 0 problems, `check` 0 errors for all 17.
+Native review: "usage:" and "or:" rendered per language in the usage blocks; "relay" and "ledger row" terms in the lunar and evidence-label messages; "pivot hop" in `engine-e-mission-thread-conversions-timescale-hop-is-not-pivot`; "not certified navigation equipment" kept as a negated phrase in the lunar kind descriptions; the long space runs in `engine-e-spectrum-unknown-band-the-spectrum-model` are collapsed in some languages.
