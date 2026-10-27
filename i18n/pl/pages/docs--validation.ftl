@@ -41,3 +41,5 @@ seg-f63dd3d7aad4 = Źródło
 seg-638b8d451550 = Czujnik
 
 seg-04f69a0edb2f = typ
+
+seg-b03d56f501c3 = Rodzaj

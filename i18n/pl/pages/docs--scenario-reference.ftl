@@ -205,3 +205,5 @@ seg-abf58b089d72 = Branża LEO-PNT: użytkownicy polarni i arktyczni.
 seg-a7de37959bb9 = Branża LEO-PNT: kolej i żegluga, dołączone scenariusze morskie i kolejowe plus LEO.
 
 seg-6962adaa6a1f = Wygenerowano podczas budowania ze scenariuszy repozytorium i macierzy weryfikacji.
+
+seg-cb9447893c7f = Jeden satelita nad jedną stacją: dla każdego przejścia odległość ukośna, elewacja i Es/N0 wzdłuż przejścia, MODCOD DVB-S2 wybrany w każdym kroku (progi ETSI EN { "302" } 307-1 Table { "13" } plus margines implementacyjny) oraz wolumen danych, który ACM przenosi względem punktu odniesienia ze stałym kodowaniem, który zamyka się na masce. MODELLED.

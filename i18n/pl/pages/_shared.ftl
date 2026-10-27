@@ -343,3 +343,73 @@ seg-039b7c5fd78a = Jednostka
 seg-37f058c4e1c3 = liczba
 
 seg-e88d3dbcfe0c = MODELLED
+
+seg-852814f107a7 = Strony rodzajów scenariuszy
+
+seg-1a26d420ba67 = Zobacz też
+
+seg-c4f4b2ca0647 = Wartość
+
+seg-e8968e86f31b = Ograniczenia
+
+seg-7dc0fcd6ef77 = aocs
+
+seg-c6ced184b8eb = campaign
+
+seg-bcc7452b7e9c = clock
+
+seg-00593bd8a3ed = ephemeris
+
+seg-0cb65c6c4f53 = fusion
+
+seg-dbe8c830ef6c = hybrid
+
+seg-eae62828dc7a = inertial
+
+seg-8af88a0e2a69 = integrity
+
+seg-9a63fde1d8b1 = jamming
+
+seg-f8450911ddd6 = orbit
+
+seg-6dd5a0d55f18 = passes
+
+seg-786068921d01 = pvt
+
+seg-63f112536118 = reentry
+
+seg-f79dad339a1e = spectrum
+
+seg-8ea9f458185d = spoof
+
+seg-460826ea7719 = sweep
+
+seg-55f3ac33d883 = timetransfer
+
+seg-a37260157d35 = Wejścia
+
+seg-0ffd6d4b0d8c = Ze schematu (<c1/>):
+
+seg-7a473d2b9b37 = Pola wymagane: brak
+
+seg-0484c5d57886 = nie podano
+
+seg-619be4963365 = tekst
+
+seg-15636cc68f72 = flaga
+
+seg-473eb8189015 = Uruchom
+
+seg-8b01aa51263e = Co daje
+
+seg-5aa75472f59d = Wyniki skalarne tego przebiegu, z jednostkami podanymi przez silnik:
+
+seg-dfd41abc16b5 = Wynik
+
+seg-0df8f55cbe06 = deg
+
+seg-4798bca2d7a7 = MODELLED: wiersze <a1>macierzy weryfikacji</a1>, które wymieniają ten rodzaj.
+
+seg-6338a873ee85 = Wiersze, które sam przebieg wykorzystał, wraz z wyrocznią, jaką macierz podaje dla każdego (publiczne źródła są tam wymienione):
+
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministyczne, haszowane na poziomie scenariusza, bramki SBOM i złotych wyników między platformami. Wyrocznia (ExternalDataset): zgodność SBOM z oficjalnym schematem JSON CycloneDX { "1.5" } (+ prawidłowe identyfikatory SPDX): zewnętrzny opublikowany standard, zero błędów walidacji w całym grafie zależności; część dotycząca determinizmu wskaźników jakości i odtwarzalności bajt w bajt pozostaje przypiętą kontrolą samospójności, więc wiersz pozostaje MODELLED
