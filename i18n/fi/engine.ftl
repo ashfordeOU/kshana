@@ -8433,7 +8433,7 @@ engine-fom-verdict-validated = VALIDATED
 
 engine-fom-verdict-modelled = MODELLED
 
-engine-fom-verdict-partial = OSITTAINEN
+engine-fom-verdict-partial = PARTIAL
 
 engine-fusion-hybrid-ukf-chart-nees = NEES
 
