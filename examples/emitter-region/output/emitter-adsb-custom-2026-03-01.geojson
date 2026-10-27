@@ -1,0 +1,868 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              [
+                -30.2436,
+                39.95251
+              ],
+              [
+                -30.20968,
+                39.95256
+              ],
+              [
+                -30.20958,
+                39.90055
+              ],
+              [
+                -30.17569,
+                39.90058
+              ],
+              [
+                -30.17565,
+                39.87458
+              ],
+              [
+                -30.10789,
+                39.87462
+              ],
+              [
+                -30.10788,
+                39.84862
+              ],
+              [
+                -29.9724,
+                39.84857
+              ],
+              [
+                -29.97236,
+                39.87457
+              ],
+              [
+                -29.9046,
+                39.87449
+              ],
+              [
+                -29.90453,
+                39.90049
+              ],
+              [
+                -29.87064,
+                39.90043
+              ],
+              [
+                -29.8704,
+                39.97844
+              ],
+              [
+                -29.83647,
+                39.97837
+              ],
+              [
+                -29.83628,
+                40.03038
+              ],
+              [
+                -29.87024,
+                40.03044
+              ],
+              [
+                -29.87008,
+                40.08245
+              ],
+              [
+                -29.93805,
+                40.08255
+              ],
+              [
+                -29.93799,
+                40.10855
+              ],
+              [
+                -30.14198,
+                40.10863
+              ],
+              [
+                -30.14195,
+                40.08262
+              ],
+              [
+                -30.17594,
+                40.0826
+              ],
+              [
+                -30.1759,
+                40.0566
+              ],
+              [
+                -30.20987,
+                40.05657
+              ],
+              [
+                -30.20978,
+                40.00456
+              ],
+              [
+                -30.24372,
+                40.00452
+              ],
+              [
+                -30.2436,
+                39.95251
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "properties": {
+        "area_km2": 761.0,
+        "confidence": 0.95,
+        "kind": "estimated_emitter_region",
+        "session": 1,
+        "unconstrained": false
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              [
+                -30.20963,
+                39.92655
+              ],
+              [
+                -30.17572,
+                39.92659
+              ],
+              [
+                -30.17569,
+                39.90058
+              ],
+              [
+                -30.1079,
+                39.90062
+              ],
+              [
+                -30.10789,
+                39.87462
+              ],
+              [
+                -29.97236,
+                39.87457
+              ],
+              [
+                -29.97232,
+                39.90057
+              ],
+              [
+                -29.90453,
+                39.90049
+              ],
+              [
+                -29.9044,
+                39.95249
+              ],
+              [
+                -29.87048,
+                39.95244
+              ],
+              [
+                -29.87024,
+                40.03044
+              ],
+              [
+                -29.9042,
+                40.0305
+              ],
+              [
+                -29.90413,
+                40.0565
+              ],
+              [
+                -29.9381,
+                40.05655
+              ],
+              [
+                -29.93805,
+                40.08255
+              ],
+              [
+                -29.97203,
+                40.08259
+              ],
+              [
+                -29.97199,
+                40.10859
+              ],
+              [
+                -30.10798,
+                40.10864
+              ],
+              [
+                -30.10797,
+                40.08264
+              ],
+              [
+                -30.14195,
+                40.08262
+              ],
+              [
+                -30.14193,
+                40.05662
+              ],
+              [
+                -30.1759,
+                40.0566
+              ],
+              [
+                -30.17587,
+                40.0306
+              ],
+              [
+                -30.20983,
+                40.03056
+              ],
+              [
+                -30.20963,
+                39.92655
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "properties": {
+        "area_km2": 577.0,
+        "confidence": 0.9,
+        "kind": "estimated_emitter_region",
+        "session": 1,
+        "unconstrained": false
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              [
+                -30.14184,
+                39.95261
+              ],
+              [
+                -30.10792,
+                39.95262
+              ],
+              [
+                -30.10791,
+                39.92662
+              ],
+              [
+                -30.00619,
+                39.9266
+              ],
+              [
+                -30.00616,
+                39.9526
+              ],
+              [
+                -29.97224,
+                39.95258
+              ],
+              [
+                -29.97207,
+                40.05659
+              ],
+              [
+                -30.10796,
+                40.05663
+              ],
+              [
+                -30.10794,
+                40.00463
+              ],
+              [
+                -30.14188,
+                40.00462
+              ],
+              [
+                -30.14184,
+                39.95261
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "properties": {
+        "area_km2": 176.0,
+        "confidence": 0.5,
+        "kind": "estimated_emitter_region",
+        "session": 1,
+        "unconstrained": false
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -29.85372,
+              40.00921
+            ],
+            [
+              -29.85666,
+              40.02076
+            ],
+            [
+              -29.86102,
+              40.03207
+            ],
+            [
+              -29.86677,
+              40.04304
+            ],
+            [
+              -29.87387,
+              40.05359
+            ],
+            [
+              -29.88226,
+              40.06364
+            ],
+            [
+              -29.89188,
+              40.07312
+            ],
+            [
+              -29.90266,
+              40.08195
+            ],
+            [
+              -29.91451,
+              40.09005
+            ],
+            [
+              -29.92735,
+              40.09739
+            ],
+            [
+              -29.94108,
+              40.10388
+            ],
+            [
+              -29.95559,
+              40.10949
+            ],
+            [
+              -29.97077,
+              40.11418
+            ],
+            [
+              -29.9865,
+              40.1179
+            ],
+            [
+              -30.00267,
+              40.12063
+            ],
+            [
+              -30.01915,
+              40.12235
+            ],
+            [
+              -30.03582,
+              40.12304
+            ],
+            [
+              -30.05254,
+              40.1227
+            ],
+            [
+              -30.0692,
+              40.12133
+            ],
+            [
+              -30.08565,
+              40.11895
+            ],
+            [
+              -30.10178,
+              40.11556
+            ],
+            [
+              -30.11747,
+              40.1112
+            ],
+            [
+              -30.13259,
+              40.1059
+            ],
+            [
+              -30.14702,
+              40.0997
+            ],
+            [
+              -30.16066,
+              40.09264
+            ],
+            [
+              -30.17341,
+              40.08479
+            ],
+            [
+              -30.18516,
+              40.0762
+            ],
+            [
+              -30.19583,
+              40.06694
+            ],
+            [
+              -30.20533,
+              40.05708
+            ],
+            [
+              -30.21359,
+              40.04668
+            ],
+            [
+              -30.22056,
+              40.03585
+            ],
+            [
+              -30.22618,
+              40.02464
+            ],
+            [
+              -30.2304,
+              40.01316
+            ],
+            [
+              -30.2332,
+              40.00149
+            ],
+            [
+              -30.23455,
+              39.98971
+            ],
+            [
+              -30.23444,
+              39.97792
+            ],
+            [
+              -30.23289,
+              39.96621
+            ],
+            [
+              -30.22989,
+              39.95466
+            ],
+            [
+              -30.22547,
+              39.94337
+            ],
+            [
+              -30.21967,
+              39.93242
+            ],
+            [
+              -30.21253,
+              39.92189
+            ],
+            [
+              -30.20411,
+              39.91186
+            ],
+            [
+              -30.19447,
+              39.90241
+            ],
+            [
+              -30.18368,
+              39.89361
+            ],
+            [
+              -30.17183,
+              39.88553
+            ],
+            [
+              -30.159,
+              39.87823
+            ],
+            [
+              -30.1453,
+              39.87176
+            ],
+            [
+              -30.13083,
+              39.86617
+            ],
+            [
+              -30.11569,
+              39.8615
+            ],
+            [
+              -30.10001,
+              39.8578
+            ],
+            [
+              -30.0839,
+              39.85508
+            ],
+            [
+              -30.06748,
+              39.85337
+            ],
+            [
+              -30.05088,
+              39.85269
+            ],
+            [
+              -30.03422,
+              39.85303
+            ],
+            [
+              -30.01763,
+              39.85439
+            ],
+            [
+              -30.00123,
+              39.85677
+            ],
+            [
+              -29.98516,
+              39.86014
+            ],
+            [
+              -29.96952,
+              39.86448
+            ],
+            [
+              -29.95445,
+              39.86976
+            ],
+            [
+              -29.94004,
+              39.87594
+            ],
+            [
+              -29.92642,
+              39.88297
+            ],
+            [
+              -29.91369,
+              39.89079
+            ],
+            [
+              -29.90193,
+              39.89935
+            ],
+            [
+              -29.89125,
+              39.90859
+            ],
+            [
+              -29.88172,
+              39.91843
+            ],
+            [
+              -29.87342,
+              39.92879
+            ],
+            [
+              -29.86641,
+              39.93961
+            ],
+            [
+              -29.86074,
+              39.9508
+            ],
+            [
+              -29.85646,
+              39.96227
+            ],
+            [
+              -29.85361,
+              39.97393
+            ],
+            [
+              -29.85219,
+              39.9857
+            ],
+            [
+              -29.85223,
+              39.99749
+            ],
+            [
+              -29.85372,
+              40.00921
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "azimuth_deg": 82.0,
+        "kind": "uncertainty_ellipse_95",
+        "semi_major_km": 16.3,
+        "semi_minor_km": 15.0,
+        "session": 1
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -30.0434,
+          39.9879
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "azimuth_deg": 82.0,
+        "kind": "estimated_emitter_centroid",
+        "note": "centroid of the posterior, always read with its uncertainty ellipse; not a position fix",
+        "semi_major_km": 16.3,
+        "semi_minor_km": 15.0,
+        "session": 1
+      },
+      "type": "Feature"
+    }
+  ],
+  "kshana_emitter_region": {
+    "data": {
+      "attribution": "Synthetic data made up for this example; not a measurement",
+      "coverage_notes": [
+        "Coverage of a user-supplied dataset is not described by Kshana."
+      ],
+      "dataset": "custom",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "name": "user-supplied dataset"
+    },
+    "first_day": "2026-03-01",
+    "format_version": 1,
+    "kshana_version": "0.39.0",
+    "last_day": "2026-03-01",
+    "method": {
+      "assumptions": [
+        "Radio horizon on a 4/3-earth radius from the report height and an emitter antenna height range; terrain is not modelled (it can only remove line of sight).",
+        "The emitter's power is unknown: an effective range is marginalised over a fixed list, up to line of sight only.",
+        "Each aircraft or vessel is susceptible with a fixed probability; a unit of a susceptible one within reach is affected with a fixed probability, and any other unit at a background rate.",
+        "One source per session; sessions are split in time by a gap and in space by reach overlap.",
+        "Susceptibility and a persistent equipment fault are latent properties of the aircraft or vessel and are summed out per aircraft, so the units of one aircraft are not counted as independent evidence and an unaffected aircraft with line of sight counts against a position by at most one aircraft.",
+        "The posterior is uniform a priori over the search domain, the cells within reach of at least one affected unit."
+      ],
+      "guards": [
+        "airborne ADS-B reports above the altitude floor only",
+        "an aircraft or vessel counts only with good reports elsewhere in the input (equipment baseline)",
+        "distinct aircraft or vessels are counted, not reports",
+        "sessions with fewer than the publication minimum of distinct aircraft or vessels are not published",
+        "hour-of-day counts below the publication minimum are null"
+      ],
+      "id": "kshana-interference-map/emitter-region/v1",
+      "input_stats": {
+        "aircraft_or_vessels_without_baseline": 0,
+        "reports_used": 2480,
+        "rows_read": 2480,
+        "sessions_withheld_below_min_distinct": 0,
+        "source_kind": "adsb",
+        "units": 2240,
+        "units_affected": 117
+      },
+      "limits": [
+        "Confidence levels are credibility under this model, not a measured coverage of real sources; the calibration is checked on synthetic data only.",
+        "Coverage bias: a region is wide where few aircraft or vessels were present, and a source with no traffic in reach cannot be located; a region that fills the domain is reported as unconstrained.",
+        "Terrain, ducting and diffraction are not modelled, so a source beyond the horizon or in a shadow can be missed.",
+        "Several simultaneous sources close together look like one, with a larger region.",
+        "A regional cause (a constellation or augmentation outage, space weather) gives a region that is not a source.",
+        "Aggregate only; a session below the publication minimum of distinct aircraft or vessels is withheld."
+      ],
+      "parameters": {
+        "adsb_altitude_floor_ft": 5000.0,
+        "confidence_levels": [
+          0.5,
+          0.9,
+          0.95
+        ],
+        "earth_radius_factor": "4/3",
+        "effective_ranges_km": [
+          12.0,
+          15.0,
+          18.75,
+          23.4375,
+          29.296875,
+          36.62109375,
+          45.7763671875,
+          57.220458984375,
+          71.52557373046875,
+          89.40696716308594,
+          111.75870895385742,
+          139.69838619232178,
+          174.62298274040222,
+          218.27872842550278,
+          272.84841053187847,
+          341.0605131648481,
+          426.3256414560601,
+          "line_of_sight_only"
+        ],
+        "emitter_height_m": [
+          2.0,
+          100.0
+        ],
+        "emitter_height_steps_log_spaced": 8,
+        "horizon_km_per_sqrt_m": 4.1219,
+        "likelihood_temper": 0.3,
+        "max_cells": 12000,
+        "max_refined_cells": 1000,
+        "max_units_per_session": 4000,
+        "min_baseline_good_reports": 5,
+        "p_background": 0.03,
+        "p_detect_unit_given_susceptible_in_reach": 0.9,
+        "p_persistent_fault": 0.03,
+        "p_susceptible": 0.6,
+        "per_aircraft_latent_susceptibility": true,
+        "publication_min_distinct": 5,
+        "reach_softness": 0.15,
+        "refine_factor": 4,
+        "search_cell_km_requested": 5.0,
+        "session_gap_s": 1800.0,
+        "unconstrained_share": 0.8,
+        "unit_affected_report_share": 0.5,
+        "unit_bin_s": 120.0
+      },
+      "summary": "Posterior over candidate emitter positions from radio line of sight to affected and unaffected aircraft or vessels, per session; highest-density regions at stated confidence levels, a posterior centroid and a moment ellipse."
+    },
+    "notice": "Estimated emitter regions: where, under the stated assumptions, a source of the degraded position reports could be. A region is not the position of any aircraft, vessel, person or organisation, is not a finding of the cause, and says nothing about who or what is behind a source. A region can be wrong when the assumptions fail. No aircraft or vessel identifiers appear in this file; a session is published only with at least the minimum number of distinct aircraft or vessels.",
+    "profile": {
+      "hours_per_day": {
+        "2026-03-01": 0.5
+      },
+      "note": "hour counts below the publication minimum are null (withheld), never zero",
+      "utc_hour_distinct_affected": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        21,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "utc_hour_session_minutes": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        30.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "schema": "kshana-emitter-region/v1",
+    "sessions": [
+      {
+        "affected_area_km2": 33236.0,
+        "affected_distinct": 21,
+        "affected_mean_position": {
+          "lat": 39.863,
+          "lon": -30.081
+        },
+        "centroid": {
+          "lat": 39.988,
+          "lon": -30.043
+        },
+        "duration_min": 30.0,
+        "end_utc": "2026-03-01T10:30Z",
+        "observed_distinct": 80,
+        "regions": [
+          {
+            "area_km2": 176.0,
+            "confidence": 0.5
+          },
+          {
+            "area_km2": 577.0,
+            "confidence": 0.9
+          },
+          {
+            "area_km2": 761.0,
+            "confidence": 0.95
+          }
+        ],
+        "search": {
+          "cell_km": 2.89,
+          "domain_area_km2": 1353881.0,
+          "unaffected_distinct_with_line_of_sight_to_centroid": 79,
+          "units_affected": 117,
+          "units_unaffected_thinned": 0,
+          "units_unaffected_used": 1163
+        },
+        "session": 1,
+        "start_utc": "2026-03-01T10:00Z",
+        "status": "constrained",
+        "uncertainty_ellipse_95": {
+          "azimuth_deg": 82.0,
+          "semi_major_km": 16.3,
+          "semi_minor_km": 15.0
+        }
+      }
+    ],
+    "sessions_published": 1,
+    "sessions_withheld": 0,
+    "source_kind": "adsb"
+  },
+  "type": "FeatureCollection",
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-bc70cb57",
+        "requirement": "Interference source region: a feasible emitter region from aircraft and ship position reports",
+        "status": "MODELLED"
+      }
+    ],
+    "tier": "MODELLED"
+  }
+}
