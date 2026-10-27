@@ -202,10 +202,14 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
 /// Write the optional `--json` and `--csv` artifacts.
 fn write_outputs(a: &Args, rows: &[Metrics], warnings: &[serde_json::Value]) -> Result<(), Fail> {
     if let Some(p) = a.get("--json") {
-        std::fs::write(p, to_json(rows, warnings)).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+        let body = crate::evidence_label::label_json("iq-track", &to_json(rows, warnings))
+            .map_err(Fail::Run)?;
+        std::fs::write(p, body).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     if let Some(p) = a.get("--csv") {
-        std::fs::write(p, to_csv(rows)).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+        let body =
+            crate::evidence_label::label_csv("iq-track", &to_csv(rows)).map_err(Fail::Run)?;
+        std::fs::write(p, body).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     Ok(())
 }

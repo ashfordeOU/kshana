@@ -1001,6 +1001,17 @@ Modelled row has no external oracle in [`docs/MODELLED-RATIONALE.md`](docs/MODEL
 - Maturity is stated honestly: optical-clock and optical-link figures are *targets /
   ground-demonstrator* results, not flown.
 
+### The evidence label on every figure
+
+Every figure and table a run writes says how far to trust it, and which ledger rows that rests on. The result JSON has an
+`evidence` key, the chart SVG a line under the plot (and a `<metadata id="kshana-evidence">` element), and the CSV table
+`# evidence:` comment lines in front (read with `comment='#'`). It names a tier, `VALIDATED`, `MODELLED` or `PARTNER`, and
+the ids (`VM-` and eight hex digits) of the verification-matrix rows the run exercised. The tier is the weakest of those
+rows, so a run that leans on one modelled row is labelled MODELLED however many validated rows sit beside it; the label
+can never claim more than the ledger does. Rows, statuses and ids are read from the matrix, not typed
+([`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), [`docs/SCHEMA.md`](docs/SCHEMA.md)), and
+`tests/evidence_labels_doc_sync.rs` fails if a figure has no label or a label disagrees with the matrix.
+
 ### Validation at a glance
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;

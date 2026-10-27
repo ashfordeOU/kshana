@@ -1230,10 +1230,12 @@ pub fn run_toml(src: &str) -> Result<TrustOutput, String> {
 /// Run an already-parsed scenario and render every output.
 pub fn run_scenario(scn: &ReceiverTrustScenario) -> Result<TrustOutput, String> {
     let r = run_receiver_trust(scn)?;
+    let label = crate::evidence_label::EvidenceLabel::for_tool("receiver-trust")
+        .ok_or("the receiver-trust evidence rows are not in the matrix")?;
     Ok(TrustOutput {
-        json: serde_json::to_string_pretty(&r).map_err(|e| e.to_string())?,
-        csv: to_csv(&r),
-        svg: to_svg(&r),
+        json: label.apply_json(&serde_json::to_string_pretty(&r).map_err(|e| e.to_string())?)?,
+        csv: label.apply_csv(&to_csv(&r)),
+        svg: label.apply_svg(to_svg(&r)),
         summary: summary(&r),
     })
 }

@@ -303,9 +303,12 @@ async fn export_table_csv_returns_the_golden_table_and_names_the_kinds_on_refusa
         Some(true),
         "export_table_csv returned an error"
     );
+    // The evidence label is `#` comment lines in front of the table; the table itself is the golden one.
+    let labelled = first_text(&res);
+    assert!(labelled.starts_with("# evidence: "));
+    let labelled = kshana::evidence_label::strip_csv(&labelled).expect("an evidence label");
     assert_eq!(
-        first_text(&res),
-        golden,
+        labelled, golden,
         "MCP CSV must equal the golden table byte for byte"
     );
 
@@ -1439,7 +1442,7 @@ async fn export_table_csv_returns_the_leo_navigation_message_and_telecom_tables(
         ))
         .await
         .expect("call export_table_csv");
-    let csv = text_at(&res, 0);
+    let csv = kshana::evidence_label::strip_csv(&text_at(&res, 0)).expect("an evidence label");
     let mut lines = csv.lines();
     let header: Vec<&str> = lines.next().expect("header").split(',').collect();
     assert_eq!(
@@ -1463,7 +1466,7 @@ async fn export_table_csv_returns_the_leo_navigation_message_and_telecom_tables(
         ))
         .await
         .expect("call export_table_csv on telecom-timing");
-    let csv = text_at(&res, 0);
+    let csv = kshana::evidence_label::strip_csv(&text_at(&res, 0)).expect("an evidence label");
     let mut lines = csv.lines();
     let header = lines.next().expect("header");
     assert!(
@@ -1524,7 +1527,10 @@ async fn assess_receiver_log_scores_an_inline_nmea_log() {
     assert_eq!(ev["latency_s"], 0.0, "{ev}");
     assert_eq!(ev["cn0_verdict"], "agree", "{ev}");
     assert!(
-        texts.iter().any(|t| t.starts_with("t_s,state,")),
+        texts
+            .iter()
+            .any(|t| kshana::evidence_label::strip_csv(t)
+                .is_some_and(|c| c.starts_with("t_s,state,"))),
         "the CSV block"
     );
     client.cancel().await.ok();
