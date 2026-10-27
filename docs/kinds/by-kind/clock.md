@@ -68,6 +68,8 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 - **MODELLED** The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM (raim::snapshot_ Tests: [clock_integrity.rs](../../../tests/clock_integrity.rs).
 - **MODELLED** clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions 2 and 3.00 to 3.04), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform pha Tests: [clock_log_allantools.rs](../../../tests/clock_log_allantools.rs).
 - **MODELLED** clock_log::read_input with the formats ptp4l, phc2sys, ts2phc, chrony-tracking and chrony-statistics: the logged offset of a linuxptp servo line (ns, the line's own bracketed time stamp, readings before the servo first reports s2 left out a
+- **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (`carry`; `inflate`, white acceleration noise over a stated gap Tests: [field_units_global.rs](../../../tests/field_units_global.rs).
+- and 1 more in the matrix.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 

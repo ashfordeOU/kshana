@@ -1,0 +1,722 @@
+[
+  {
+    "hour_after_start": 0.0,
+    "position_residual_m": 0.19862174941180105,
+    "velocity_residual_components_mps": [
+      -0.00009774662316885951,
+      -0.00006724698755533609,
+      -0.000032319883132458926
+    ],
+    "velocity_residual_mps": 0.0001229680223549129
+  },
+  {
+    "hour_after_start": 1.0,
+    "position_residual_m": 597.8718148662857,
+    "velocity_residual_components_mps": [
+      0.048758090117644315,
+      0.06041418847451041,
+      0.04714020799426066
+    ],
+    "velocity_residual_mps": 0.09082634381442505
+  },
+  {
+    "hour_after_start": 2.0,
+    "position_residual_m": 0.24718476017333124,
+    "velocity_residual_components_mps": [
+      -0.00011158449774484325,
+      -0.00006513334062674403,
+      -0.00003104135325315838
+    ],
+    "velocity_residual_mps": 0.000132879711807167
+  },
+  {
+    "hour_after_start": 3.0,
+    "position_residual_m": 0.2551283891990329,
+    "velocity_residual_components_mps": [
+      -0.00011673487642838154,
+      -0.00006472042468885775,
+      -0.00003118221712838931
+    ],
+    "velocity_residual_mps": 0.0001370696735667581
+  },
+  {
+    "hour_after_start": 4.0,
+    "position_residual_m": 0.2577424267188593,
+    "velocity_residual_components_mps": [
+      -0.0001210620164329157,
+      -0.00006432808936551737,
+      -0.00003134044771968547
+    ],
+    "velocity_residual_mps": 0.00014062837042180316
+  },
+  {
+    "hour_after_start": 5.0,
+    "position_residual_m": 0.2562091540641037,
+    "velocity_residual_components_mps": [
+      -0.00012170586819593154,
+      -0.00006269136133596476,
+      -0.00003100238384945442
+    ],
+    "velocity_residual_mps": 0.0001403697721870021
+  },
+  {
+    "hour_after_start": 6.0,
+    "position_residual_m": 0.2631934784989969,
+    "velocity_residual_components_mps": [
+      -0.0001253114332939731,
+      -0.00006276613942191034,
+      -0.00003115479913162744
+    ],
+    "velocity_residual_mps": 0.00014357285635193239
+  },
+  {
+    "hour_after_start": 7.0,
+    "position_residual_m": 0.26609260182576133,
+    "velocity_residual_components_mps": [
+      -0.00012877720928372582,
+      -0.00006309364835033193,
+      -0.000031306147093346226
+    ],
+    "velocity_residual_mps": 0.00014678028797795054
+  },
+  {
+    "hour_after_start": 8.0,
+    "position_residual_m": 0.26593402525009174,
+    "velocity_residual_components_mps": [
+      -0.00013040800058661262,
+      -0.00006272150733366288,
+      -0.00003113930037557111
+    ],
+    "velocity_residual_mps": 0.00014801989774042114
+  },
+  {
+    "hour_after_start": 9.0,
+    "position_residual_m": 0.2701032545125502,
+    "velocity_residual_components_mps": [
+      -0.00013232158835307928,
+      -0.00006250590308809478,
+      -0.00003099254720950739
+    ],
+    "velocity_residual_mps": 0.00014958786263488628
+  },
+  {
+    "hour_after_start": 10.0,
+    "position_residual_m": 0.27850435043791166,
+    "velocity_residual_components_mps": [
+      -0.00013627054363496427,
+      -0.00006321803971331974,
+      -0.000031192017388548265
+    ],
+    "velocity_residual_mps": 0.00015342465107188958
+  },
+  {
+    "hour_after_start": 11.0,
+    "position_residual_m": 0.28340068267932417,
+    "velocity_residual_components_mps": [
+      -0.00013942239752395835,
+      -0.00006343230791117094,
+      -0.0000312489757163803
+    ],
+    "velocity_residual_mps": 0.0001563290155460246
+  },
+  {
+    "hour_after_start": 12.0,
+    "position_residual_m": 0.288282329449656,
+    "velocity_residual_components_mps": [
+      -0.00014345135241455864,
+      -0.00006396476305781107,
+      -0.000031478744347168686
+    ],
+    "velocity_residual_mps": 0.00016018955261902135
+  },
+  {
+    "hour_after_start": 13.0,
+    "position_residual_m": 0.28995808271647927,
+    "velocity_residual_components_mps": [
+      -0.00014575052045984194,
+      -0.00006351779541091673,
+      -0.000031395641769904614
+    ],
+    "velocity_residual_mps": 0.00016205989901984407
+  },
+  {
+    "hour_after_start": 14.0,
+    "position_residual_m": 0.29470828596233206,
+    "velocity_residual_components_mps": [
+      -0.00014800060307607055,
+      -0.00006297593336057616,
+      -0.00003131298194603005
+    ],
+    "velocity_residual_mps": 0.0001638616780454439
+  },
+  {
+    "hour_after_start": 15.0,
+    "position_residual_m": 0.30240470069280423,
+    "velocity_residual_components_mps": [
+      -0.0001516290371910145,
+      -0.00006318117971204629,
+      -0.000031535049856756814
+    ],
+    "velocity_residual_mps": 0.0001672653154684141
+  },
+  {
+    "hour_after_start": 16.0,
+    "position_residual_m": 0.3063686069993196,
+    "velocity_residual_components_mps": [
+      -0.00015499959454245982,
+      -0.00006333310170703044,
+      -0.000031742497839104544
+    ],
+    "velocity_residual_mps": 0.000170421660152768
+  },
+  {
+    "hour_after_start": 17.0,
+    "position_residual_m": 347.29109754976486,
+    "velocity_residual_components_mps": [
+      -0.1381894347987327,
+      0.06552430983333579,
+      0.1601930803938103
+    ],
+    "velocity_residual_mps": 0.2214759085661146
+  },
+  {
+    "hour_after_start": 18.0,
+    "position_residual_m": 0.30968526226558674,
+    "velocity_residual_components_mps": [
+      -0.00015822105956431187,
+      -0.00006205445595242054,
+      -0.00003149120610146383
+    ],
+    "velocity_residual_mps": 0.0001728477805901172
+  },
+  {
+    "hour_after_start": 19.0,
+    "position_residual_m": 0.3167847672547938,
+    "velocity_residual_components_mps": [
+      -0.00016128482980093395,
+      -0.00006237436844003241,
+      -0.00003169889362197864
+    ],
+    "velocity_residual_mps": 0.0001758072183360702
+  },
+  {
+    "hour_after_start": 20.0,
+    "position_residual_m": 0.32039390636885307,
+    "velocity_residual_components_mps": [
+      -0.00016349476061350288,
+      -0.00006231108750398562,
+      -0.000031732941408790794
+    ],
+    "velocity_residual_mps": 0.0001778206623102324
+  },
+  {
+    "hour_after_start": 21.0,
+    "position_residual_m": 0.32397306469863485,
+    "velocity_residual_components_mps": [
+      -0.0001664437971840016,
+      -0.00006273102633258532,
+      -0.000031945382119147325
+    ],
+    "velocity_residual_mps": 0.00018071863967091746
+  },
+  {
+    "hour_after_start": 22.0,
+    "position_residual_m": 0.3246580522230413,
+    "velocity_residual_components_mps": [
+      -0.00016791652319625427,
+      -0.00006232410021311807,
+      -0.00003182458868877802
+    ],
+    "velocity_residual_mps": 0.00018191497100267167
+  },
+  {
+    "hour_after_start": 23.0,
+    "position_residual_m": 3639.265783818938,
+    "velocity_residual_components_mps": [
+      0.1342284392479769,
+      0.08629845943801229,
+      -0.007438661575235983
+    ],
+    "velocity_residual_mps": 0.15974990356915078
+  },
+  {
+    "hour_after_start": 24.0,
+    "position_residual_m": 0.33443115032772885,
+    "velocity_residual_components_mps": [
+      -0.00017247733728709136,
+      -0.00006241512596716348,
+      -0.000031965593819904825
+    ],
+    "velocity_residual_mps": 0.0001861877520552872
+  },
+  {
+    "hour_after_start": 25.0,
+    "position_residual_m": 0.3381722630414168,
+    "velocity_residual_components_mps": [
+      -0.00017441133820739196,
+      -0.00006221944443041139,
+      -0.00003196177780750986
+    ],
+    "velocity_residual_mps": 0.00018791521865229262
+  },
+  {
+    "hour_after_start": 26.0,
+    "position_residual_m": 0.3431472413547662,
+    "velocity_residual_components_mps": [
+      -0.0001769276220784377,
+      -0.00006235863008896558,
+      -0.000032109157871218486
+    ],
+    "velocity_residual_mps": 0.00019032335700092554
+  },
+  {
+    "hour_after_start": 27.0,
+    "position_residual_m": 0.3466508699673199,
+    "velocity_residual_components_mps": [
+      -0.00017905108268223557,
+      -0.00006227121161828109,
+      -0.000032175224788488777
+    ],
+    "velocity_residual_mps": 0.00019228166604301952
+  },
+  {
+    "hour_after_start": 28.0,
+    "position_residual_m": 0.35000196844641435,
+    "velocity_residual_components_mps": [
+      -0.00018108723304521845,
+      -0.00006215732878445124,
+      -0.00003223359917114976
+    ],
+    "velocity_residual_mps": 0.00019415232269823086
+  },
+  {
+    "hour_after_start": 29.0,
+    "position_residual_m": 0.353081522415688,
+    "velocity_residual_components_mps": [
+      -0.00018330513296405115,
+      -0.00006221419232588232,
+      -0.000032357405075345014
+    ],
+    "velocity_residual_mps": 0.00019626099755412515
+  },
+  {
+    "hour_after_start": 30.0,
+    "position_residual_m": 0.3550649041104855,
+    "velocity_residual_components_mps": [
+      -0.0001848759035283365,
+      -0.00006192547300543083,
+      -0.0000323281955161292
+    ],
+    "velocity_residual_mps": 0.0001976334388146252
+  },
+  {
+    "hour_after_start": 31.0,
+    "position_residual_m": 0.35804606695195773,
+    "velocity_residual_components_mps": [
+      -0.00018666253447463532,
+      -0.00006184458840152729,
+      -0.000032369309167279425
+    ],
+    "velocity_residual_mps": 0.00019928729780649762
+  },
+  {
+    "hour_after_start": 32.0,
+    "position_residual_m": 0.360985785143115,
+    "velocity_residual_components_mps": [
+      -0.000188412654097192,
+      -0.000061799878437796,
+      -0.000032411494004236374
+    ],
+    "velocity_residual_mps": 0.00020092052693157346
+  },
+  {
+    "hour_after_start": 33.0,
+    "position_residual_m": 0.3639096265996933,
+    "velocity_residual_components_mps": [
+      -0.00018989348120612703,
+      -0.00006162273882637237,
+      -0.00003238791404669428
+    ],
+    "velocity_residual_mps": 0.00020225200399833144
+  },
+  {
+    "hour_after_start": 34.0,
+    "position_residual_m": 6870.027339026099,
+    "velocity_residual_components_mps": [
+      0.028850356931684473,
+      -0.08952553425916676,
+      -0.007597901209294378
+    ],
+    "velocity_residual_mps": 0.09436573786211302
+  },
+  {
+    "hour_after_start": 35.0,
+    "position_residual_m": 0.3707247998540528,
+    "velocity_residual_components_mps": [
+      -0.00019361479030521878,
+      -0.00006184387905250333,
+      -0.00003257446257975971
+    ],
+    "velocity_residual_mps": 0.0002058456898104856
+  },
+  {
+    "hour_after_start": 36.0,
+    "position_residual_m": 0.373694632598939,
+    "velocity_residual_components_mps": [
+      -0.00019535319825081388,
+      -0.00006187036717619776,
+      -0.00003264187580498401
+    ],
+    "velocity_residual_mps": 0.00020750013604190076
+  },
+  {
+    "hour_after_start": 37.0,
+    "position_residual_m": 0.3765914491281203,
+    "velocity_residual_components_mps": [
+      -0.00019758340158659848,
+      -0.000062230416631337,
+      -0.00003286058080220755
+    ],
+    "velocity_residual_mps": 0.00020974184872671274
+  },
+  {
+    "hour_after_start": 38.0,
+    "position_residual_m": 0.3773593728602564,
+    "velocity_residual_components_mps": [
+      -0.00019875511441114213,
+      -0.0000618700125869509,
+      -0.00003277903687148864
+    ],
+    "velocity_residual_mps": 0.00021072721518664378
+  },
+  {
+    "hour_after_start": 39.0,
+    "position_residual_m": 0.38022171036829444,
+    "velocity_residual_components_mps": [
+      -0.00020041098150613834,
+      -0.00006184080376669954,
+      -0.00003284496682454119
+    ],
+    "velocity_residual_mps": 0.00021229139964791408
+  },
+  {
+    "hour_after_start": 40.0,
+    "position_residual_m": 0.383025145090188,
+    "velocity_residual_components_mps": [
+      -0.0002018069479845508,
+      -0.000061654519242893,
+      -0.000032841750623902044
+    ],
+    "velocity_residual_mps": 0.00021355538996230936
+  },
+  {
+    "hour_after_start": 41.0,
+    "position_residual_m": 0.38643555653012585,
+    "velocity_residual_components_mps": [
+      -0.0002033145104860523,
+      -0.00006161117858027865,
+      -0.000032901491977099795
+    ],
+    "velocity_residual_mps": 0.00021497729106711067
+  },
+  {
+    "hour_after_start": 42.0,
+    "position_residual_m": 0.39005819363167443,
+    "velocity_residual_components_mps": [
+      -0.000205026962021293,
+      -0.00006173752609583971,
+      -0.000033026929571633445
+    ],
+    "velocity_residual_mps": 0.0002166526144800585
+  },
+  {
+    "hour_after_start": 43.0,
+    "position_residual_m": 0.39248472987028865,
+    "velocity_residual_components_mps": [
+      -0.0002064491230839849,
+      -0.00006171251078512796,
+      -0.00003307647313022244
+    ],
+    "velocity_residual_mps": 0.00021799937496306087
+  },
+  {
+    "hour_after_start": 44.0,
+    "position_residual_m": 0.3948647443445206,
+    "velocity_residual_components_mps": [
+      -0.00020784229911896546,
+      -0.00006170600778432345,
+      -0.00003312588208359557
+    ],
+    "velocity_residual_mps": 0.00021932482021776007
+  },
+  {
+    "hour_after_start": 45.0,
+    "position_residual_m": 0.3972126415942468,
+    "velocity_residual_components_mps": [
+      -0.00020921010082020075,
+      -0.00006172071562104975,
+      -0.000033178195963046164
+    ],
+    "velocity_residual_mps": 0.00022063341929393958
+  },
+  {
+    "hour_after_start": 46.0,
+    "position_residual_m": 0.39956411054789376,
+    "velocity_residual_components_mps": [
+      -0.0002105687906350795,
+      -0.00006175740793423756,
+      -0.00003323598602378297
+    ],
+    "velocity_residual_mps": 0.00022194103674455715
+  },
+  {
+    "hour_after_start": 47.0,
+    "position_residual_m": 0.401916586948815,
+    "velocity_residual_components_mps": [
+      -0.00021192617884935316,
+      -0.00006180243786957362,
+      -0.00003329745388214178
+    ],
+    "velocity_residual_mps": 0.00022325090603028666
+  },
+  {
+    "hour_after_start": 48.0,
+    "position_residual_m": 0.4042590682765765,
+    "velocity_residual_components_mps": [
+      -0.00021327697697870462,
+      -0.00006184866833791602,
+      -0.00003336404827791739
+    ],
+    "velocity_residual_mps": 0.0002245561987606658
+  },
+  {
+    "hour_after_start": 49.0,
+    "position_residual_m": 0.4065763652641229,
+    "velocity_residual_components_mps": [
+      -0.00021461098100417075,
+      -0.00006188887334701576,
+      -0.0000334323054005381
+    ],
+    "velocity_residual_mps": 0.00022584469189274815
+  },
+  {
+    "hour_after_start": 50.0,
+    "position_residual_m": 0.40886722922556856,
+    "velocity_residual_components_mps": [
+      -0.0002159271353434633,
+      -0.0000619223466742369,
+      -0.00003350128525880791
+    ],
+    "velocity_residual_mps": 0.00022711503893241137
+  },
+  {
+    "hour_after_start": 51.0,
+    "position_residual_m": 0.41109271438275674,
+    "velocity_residual_components_mps": [
+      -0.0002172111731510995,
+      -0.0000619340750063202,
+      -0.00003356847398094942
+    ],
+    "velocity_residual_mps": 0.0002283492190351767
+  },
+  {
+    "hour_after_start": 52.0,
+    "position_residual_m": 0.41324159959839124,
+    "velocity_residual_components_mps": [
+      -0.0002184546000876253,
+      -0.00006193800754772383,
+      -0.00003363180209703387
+    ],
+    "velocity_residual_mps": 0.00022954264786901856
+  },
+  {
+    "hour_after_start": 53.0,
+    "position_residual_m": 0.4153032244131753,
+    "velocity_residual_components_mps": [
+      -0.0002196496187707453,
+      -0.00006193873673510097,
+      -0.00003369005489162191
+    ],
+    "velocity_residual_mps": 0.00023068892893477656
+  },
+  {
+    "hour_after_start": 54.0,
+    "position_residual_m": 0.41728337590701176,
+    "velocity_residual_components_mps": [
+      -0.00022079679376929562,
+      -0.00006193546772692571,
+      -0.000033745148073194287
+    ],
+    "velocity_residual_mps": 0.00023178861343870136
+  },
+  {
+    "hour_after_start": 55.0,
+    "position_residual_m": 0.41921227511634257,
+    "velocity_residual_components_mps": [
+      -0.00022190669335486746,
+      -0.00006195383377871622,
+      -0.00003379810422643459
+    ],
+    "velocity_residual_mps": 0.00023285869089401175
+  },
+  {
+    "hour_after_start": 56.0,
+    "position_residual_m": 0.42108738265627876,
+    "velocity_residual_components_mps": [
+      -0.00022298512652696445,
+      -0.00006197137253138862,
+      -0.00003385042623449408
+    ],
+    "velocity_residual_mps": 0.00023389884356688775
+  },
+  {
+    "hour_after_start": 57.0,
+    "position_residual_m": 13090.744473499597,
+    "velocity_residual_components_mps": [
+      0.03118291258414274,
+      -0.03004917819032471,
+      -0.14403994042098134
+    ],
+    "velocity_residual_mps": 0.15040888133226718
+  },
+  {
+    "hour_after_start": 58.0,
+    "position_residual_m": 0.4248775213344955,
+    "velocity_residual_components_mps": [
+      -0.0002252512661016226,
+      -0.00006222184839543843,
+      -0.00003403037939619935
+    ],
+    "velocity_residual_mps": 0.00023615198076657793
+  },
+  {
+    "hour_after_start": 59.0,
+    "position_residual_m": 0.4260032034247082,
+    "velocity_residual_components_mps": [
+      -0.00022613597150211717,
+      -0.00006215112995278105,
+      -0.00003402783718797764
+    ],
+    "velocity_residual_mps": 0.00023697707540035458
+  },
+  {
+    "hour_after_start": 60.0,
+    "position_residual_m": 0.4278331318686551,
+    "velocity_residual_components_mps": [
+      -0.00022717092423363283,
+      -0.00006222126819466212,
+      -0.00003409386872021969
+    ],
+    "velocity_residual_mps": 0.0002379926614776737
+  },
+  {
+    "hour_after_start": 61.0,
+    "position_residual_m": 0.42964592907506916,
+    "velocity_residual_components_mps": [
+      -0.0002282561222273216,
+      -0.00006234561084283996,
+      -0.000034190999457450744
+    ],
+    "velocity_residual_mps": 0.0002390750028119214
+  },
+  {
+    "hour_after_start": 62.0,
+    "position_residual_m": 0.43121648946544444,
+    "velocity_residual_components_mps": [
+      -0.00022920513350754845,
+      -0.00006236522438030079,
+      -0.00003423963190130053
+    ],
+    "velocity_residual_mps": 0.00023999326413663144
+  },
+  {
+    "hour_after_start": 63.0,
+    "position_residual_m": 0.4329752820666978,
+    "velocity_residual_components_mps": [
+      -0.00023019441971428023,
+      -0.00006241077869617584,
+      -0.000034306006398310274
+    ],
+    "velocity_residual_mps": 0.00024095949501951183
+  },
+  {
+    "hour_after_start": 64.0,
+    "position_residual_m": 0.4346348033285938,
+    "velocity_residual_components_mps": [
+      -0.00023112827426530203,
+      -0.00006244906984420595,
+      -0.00003436984576410396
+    ],
+    "velocity_residual_mps": 0.00024187073363082085
+  },
+  {
+    "hour_after_start": 65.0,
+    "position_residual_m": 0.43625943261517763,
+    "velocity_residual_components_mps": [
+      -0.0002320377540172558,
+      -0.00006248540881870213,
+      -0.00003443002918857019
+    ],
+    "velocity_residual_mps": 0.00024275784748291587
+  },
+  {
+    "hour_after_start": 66.0,
+    "position_residual_m": 0.4378045822650517,
+    "velocity_residual_components_mps": [
+      -0.00023290372928386205,
+      -0.00006252799670392051,
+      -0.000034486341178308066
+    ],
+    "velocity_residual_mps": 0.00024360460835953548
+  },
+  {
+    "hour_after_start": 67.0,
+    "position_residual_m": 0.4392960589320828,
+    "velocity_residual_components_mps": [
+      -0.00023374168773671045,
+      -0.00006256234263446458,
+      -0.00003454192474805495
+    ],
+    "velocity_residual_mps": 0.00024442251914915346
+  },
+  {
+    "hour_after_start": 68.0,
+    "position_residual_m": 0.4407824270829646,
+    "velocity_residual_components_mps": [
+      -0.000234389852039385,
+      -0.00006245692810580294,
+      -0.00003451666211162774
+    ],
+    "velocity_residual_mps": 0.00024501198046378574
+  },
+  {
+    "hour_after_start": 69.0,
+    "position_residual_m": 0.4429027339174238,
+    "velocity_residual_components_mps": [
+      -0.00023534228233756949,
+      -0.00006269469685094009,
+      -0.00003465441963612648
+    ],
+    "velocity_residual_mps": 0.00024600313751943145
+  },
+  {
+    "hour_after_start": 70.0,
+    "position_residual_m": 0.44428681061683056,
+    "velocity_residual_components_mps": [
+      -0.000236121372438447,
+      -0.00006277022896483686,
+      -0.00003471308309599408
+    ],
+    "velocity_residual_mps": 0.00024677601646947627
+  },
+  {
+    "hour_after_start": 71.0,
+    "position_residual_m": 0.44565266976791973,
+    "velocity_residual_components_mps": [
+      -0.00023688693892154333,
+      -0.00006286681394840343,
+      -0.00003477623960179699
+    ],
+    "velocity_residual_mps": 0.0002475420064726061
+  }
+]

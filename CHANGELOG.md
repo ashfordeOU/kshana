@@ -39,6 +39,60 @@ breaking changes are called out explicitly.
   new file writer is neither labelled nor listed with a reason. Outputs that carry none are listed in
   `docs/SURFACES.md`. The three README demo charts were re-rendered with the label (stripping it restores the old
   bytes; `docs/revisions/STUDIO15-evidence-label-0.40.md`). No claim changed.
+- The `mission-thread` scenario kind (`scenarios/mission-thread-artemis-class.toml`, `docs/MISSION-THREAD.md`): the
+  navigation and timing error budget of a chain of phases from launch to entry, every number MODELLED and every input stated.
+  Eight phase kinds: `launch-ascent`, `leo-rendezvous` (Clohessy-Wiltshire relative covariance over sensor legs, docking
+  window), `tli-and-cruise` (Cowell propagation with a finite-difference state-transition matrix, burn error, `gnss-ssv` and
+  ground-tracking updates, the Moon from an optional DE440 kernel cut), `entry` (flight-path-angle sigma, corridor
+  probability, peak deceleration at the corridor edges, landing footprint) and the four lunar kinds. Handover rules
+  (`carry`, `inflate`, `reacquire`), frame and timescale conversions as their own budget rows, an optional ground-network
+  overlay that sets each phase's tracking duty, the margin against stated requirements and the weakest link. The example
+  follows the sequence of a public NASA concept-of-operations slide deck with ILLUSTRATIVE numbers.
+  The cislunar propagation was compared with the public Artemis I trajectory over a 72 h arc against a bar fixed in
+  `xval/mission-thread/PREREGISTRATION.md` before the run: **NOT MET** (45 km and 0.25 m/s against 5 km and 0.05 m/s). The
+  diagnostic places the miss in five small impulsive events in the reference; between them the force model reproduces the
+  hourly states to a median of 0.4 m. The row stays MODELLED (`xval/mission-thread/RESULTS.md`).
+- The lunar segment of the Artemis-class mission thread: four scenario kinds, each also a phase kind of the
+  `mission-thread` interface (`src/mission_thread/lunar/`), every one MODELLED.
+  - `lunar-orbit-rendezvous`: relative navigation to docking in a 100 km circular polar orbit or a 100 km by 3000 km
+    elliptical polar one (`scenarios/lunar-orbit-rendezvous.toml`, `...-elfo.toml`). A batch Gauss-Newton estimate
+    over the arc fuses an absolute fix per vehicle from an illustrative LCNS-class relay set, a persistent
+    signal-in-space error (common to both vehicles and independent) and a crosslink range, under the crate's lunar
+    force model. It reports the relative position and velocity in the target's local axes, the fix availability, the
+    mean normalised estimation error squared against its expected value, the cost of ignoring the gravity harmonics,
+    the terminal relative-sensor models beside the signals-only figure, and the 6x6 covariance handed on.
+  - `lunar-descent`: the landing-dispersion budget at a south-polar site (`scenarios/lunar-descent.toml`;
+    `lunar-descent-lola.toml` reads the LOLA DEM from a checkout): a five-state per-axis inertial error model, an AFS
+    fix (standalone or differential, using the correction-link residual of `lunar-differential-pnt`), a
+    terrain-relative fix (the `terrain-nav` matcher on its synthetic relief, or the Cramer-Rao bound of matching the
+    LOLA DEM), and lunar time through the vehicle clock (`lunar-time-offset`). It reports the 3-sigma landing
+    ellipse, every aid combination, and a Monte Carlo calibration of the ellipse.
+  - `lunar-surface`: positioning and timing availability by site and season (`scenarios/lunar-surface.toml`;
+    `lunar-surface-terrain.toml` adds the ray-marched LOLA horizon): the single-site positioning figure equals
+    `moonlight-service-volume`'s to the bit; the Earth and Sun visibility from the analytic ephemerides is what moves
+    with the season.
+  - `lunar-ascent`: the ascent to the rendezvous orbit and the position-velocity covariance carried back to orbit
+    (`scenarios/lunar-ascent.toml`), with the engine cutoff dispersion reported beside it.
+  - `docs/MISSION-THREAD-LUNAR.md`; the pre-registration, its amendments and every result, misses included, in
+    `xval/mission-thread-lunar/`.
+
+### Evidence
+
+- Pre-registered in `xval/mission-thread-lunar/PREREGISTRATION.md` before any run, with six dated amendments (each
+  made before the data was fetched, except Amendment 6, which corrects an arithmetic error in a state count after the
+  fetch and before any A2 result; every amendment is disclosed in the file). No bar was loosened.
+- A1 (the propagator against the LRO reconstructed trajectory from JPL Horizons, 24 h): **MET**, a maximum 3-D
+  difference of 33 m against a bar of 500 m and an RMS radial difference of 2.4 m against 60 m.
+- A2 (the same propagator against the CAPSTONE NRHO over one 6.5-day revolution): **NOT MET**, an end position
+  difference of 136.8 km against a bar of 25 km and an osculating periapsis radius difference of 28.4 km against 10 km.
+  The row stays MODELLED, and the miss is pinned by `tests/mission_thread_lunar_oracles.rs`.
+- B1 (the rendezvous estimate's consistency with its own model) is MET on the fourth estimator design, mean NEES 5.85
+  to 5.93 against a band of [5.2, 6.8]; the three earlier designs, an extended Kalman filter in three variants,
+  missed it. A fifth change, made after the shipped 2 h scenario was found to send 4 of 50 trials into a local
+  minimum (mean NEES 1e9), runs the Gauss-Newton fit on a growing arc with step halving; B1 is unchanged by it and
+  the shipped scenarios give 6.51 and 6.33. The history is in `xval/mission-thread-lunar/RESULTS.md`.
+- Nothing here is VALIDATED: the oracle rows test the shared propagator, not a navigation filter, signal or budget.
+
 
 ## [0.39.0] - 2026-10-22
 
