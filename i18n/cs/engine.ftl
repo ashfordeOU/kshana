@@ -11003,3 +11003,474 @@ engine-api-html-chart-alt = Graf výsledku
 engine-api-html-full-result = Úplný výsledek (JSON)
 
 engine-api-html-footer-generated = Vygenerováno programem Kshana { $version }.
+
+engine-api-html-footer-licence = Reprodukovatelné ze scénáře + seedu + verze enginu. Svobodný software s otevřeným zdrojovým kódem (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">zdroj &amp; dokumentace</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: server Model Context Protocol pro simulátor odolnosti PNT Kshana.
+
+    POUŽITÍ:
+    { "    " }kshana-mcp                      poskytuje přes stdio (výchozí; takto jej spouštějí klienti MCP)
+    { "    " }kshana-mcp --http <addr>        poskytuje streamovatelné HTTP na http://<addr>/mcp
+
+    VOLBY HTTP:
+    { "    " }--http <addr>               adresa pro navázání, např. 127.0.0.1:8080 (ve výchozím stavu jen loopback)
+    { "    " }--allow-remote              povolí adresu mimo loopback; vyžaduje KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  další přijímaná hlavička Host (lze opakovat)
+    { "    " }--allow-origin <origin>     přijímaný původ prohlížeče (lze opakovat; ve výchozím stavu žádný)
+    { "    " }--max-body-bytes <n>        strop těla požadavku (výchozí 5242880)
+    { "    " }--request-timeout-secs <n>  časový limit na požadavek (výchozí 120)
+    { "    " }--max-concurrent <n>        počet současně obsluhovaných požadavků (výchozí 8)
+
+    Přenos HTTP vypíná souborové nástroje IQ. Kshana neprovozuje žádný koncový bod: spusťte jej sami.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = neznámý argument `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = volby HTTP vyžadují --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = odmítám navázat { $addr }: není to adresa loopback. Použijte 127.0.0.1:<port>, nebo zadejte --allow-remote (a nastavte { $token_env }), aby se naslouchalo i mimo tento počítač
+
+engine-e-mcp-http-refusing-to-bind-needs-token = odmítám navázat { $addr }: adresa mimo loopback vyžaduje token nositele v proměnné prostředí { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } je kratší než 16 znaků; použijte dlouhý náhodný token
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent a --request-timeout-secs musí být větší než nula
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin nepřijímá `*`; uveďte každý původ zvlášť
+
+engine-mcp-http-warning-remote = VAROVÁNÍ: kshana-mcp naslouchá na { $addr } i mimo tento počítač. Kdokoli, kdo se k němu dostane a drží token nositele, může spouštět simulace na vašem hardwaru. Předřaďte mu TLS (reverzní proxy nebo HTTPS vaší platformy) a token udržujte v tajnosti.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = zeměpisná šířka místa musí ležet v [-90, 90] a délka v [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s musí ležet v [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode musí být off, standalone nebo differential, zadáno `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode musí být off, ltc nebo tt, zadáno `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays musí ležet v 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s musí být kladné a afs_first_fix_s nezáporné
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km musí ležet v [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = vstupní kovariance není symetrická s nezápornou diagonálou
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent očekává vstupní hodiny v LTC nebo TT, zadáno { $timescale }; převod časových stupnic provádí řetězec
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s musí ležet v [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source musí být off, terrain-nav nebo lola-crlb, zadáno `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = časy oprav musí být kladné, afs_interval_s > 0 a trn_fix_time_s v rámci klesání
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m musí být alespoň 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m musí být kladné
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb vyžaduje DEM, který se nepodařilo načíst
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent očekává vstupní hodiny v LTC nebo TT, zadáno { $timescale }; převod časových stupnic provádí řetězec
+
+engine-e-lunar-landing-east-prior-is-not-positive = apriorní hodnota ve směru východ není pozitivně definitní
+
+engine-e-lunar-landing-north-prior-is-not-positive = apriorní hodnota ve směru sever není pozitivně definitní
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit musí být `llo` nebo `elfo`, zadáno `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = periapsa musí být alespoň 20 km nad povrchem
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m musí ležet v (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s musí ležet v (0, 60] a arc_s být alespoň jeden krok
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays musí ležet v 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s musí být kladné
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction musí ležet v [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model musí být `same` nebo `point-mass`, zadáno `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous očekává vstupní kovarianci v MCI; převod soustav provádí řetězec
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = apriorní kovariance není pozitivně definitní
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = normální rovnice nejsou pozitivně definitní
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = aposteriorní informace není pozitivně definitní
+
+engine-e-lunar-rendezvous-no-trial-ran = neproběhl žádný pokus
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = datum období `{ $s }` není ve tvaru YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = datum období `{ $s }`: neplatný rok
+
+engine-e-lunar-surface-map-season-date-bad-month = datum období `{ $s }`: neplatný měsíc
+
+engine-e-lunar-surface-map-season-date-bad-day = datum období `{ $s }`: neplatný den
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = datum období `{ $s }` leží mimo 1901-2099 nebo není datum
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites musí obsahovat mezi 1 a 64 záznamy
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = místo { $i }: zeměpisná šířka musí ležet v [-90, 90] a délka v [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates musí obsahovat alespoň jedno datum
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates musí obsahovat nejvýše 16 dat
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days musí ležet v (0, 400] a step_min v [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days a timing_floor_s musí být kladné a konečné
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = epocha `{ $s }` není ve tvaru YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = epocha `{ $s }`: neplatné číslo `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = epocha `{ $s }` leží mimo 1901-2099 nebo není datum
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces musí být "quantum" nebo "classical" (zadáno { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = dokument výsledku již obsahuje klíč `evidence`
+
+engine-e-evidence-label-the-result-document-is-not = dokument výsledku není objekt JSON
+
+engine-e-evidence-label-no-evidence-rows-are-listed = pro `{ $tool }` nejsou uvedeny žádné řádky důkazů
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = není soubor hodin RINEX: chybí záznam RINEX VERSION / TYPE
+
+engine-e-clock-log-rinex-version-type-record-has = záznam RINEX VERSION / TYPE nemá číslo verze (nalezeno { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = verze hodin RINEX { $v } se nečte: čtou se verze 2.00 a 3.00 až 3.04 (IGS publikuje formát hodin do 3.04; RINEX 4.00 až 4.02 soubor hodin nedefinují)
+
+engine-e-clock-log-rinex-clock-record-with-an = záznam hodin RINEX s nečitelným biasem hodin nebo epochou: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = řádek TimeLab { $line } obsahuje měření, které není konečné: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = převod soustavy { $a } -> { $b } není k dispozici (převádějí se jen Gcrf, Mci a Mcmf)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = přechod časové stupnice { $a } -> { $b } není přechod přes pivot
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: koridor musí vést od mělkého k příkřejšímu úhlu pod 90 stupňů, zadáno { $lo } až { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` musí ležet v [0, 90), zadáno { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` musí být alespoň 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` musí být větší než 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: vyžaduje alespoň jednu stanici
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: stanice `{ $id }` má neplatnou zeměpisnou šířku nebo délku
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: id stanice `{ $id }` je použito dvakrát
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: fáze `{ $phase }` má geometrii "stated" a vyžaduje `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: duty fáze `{ $phase }` musí ležet v [0, 1], zadáno { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: fáze `{ $phase }` má neznámou geometrii `{ $other }`; geometrie jsou entry-orbit, moon-direction a stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: vstupní dráha se nepropagovala
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: není žádná geometrie `{ $other }` k výpočtu
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: fáze `{ $phase }` vyžaduje pro svou geometrii vstup v GCRF, zadáno { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: útlum musí skončit po svém začátku ({ $a } až { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: očekává vstupní stav v GCRF, zadáno { $frame }; uveďte vstup v gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: fáze nevytvořila žádné vzorky
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: neznámý klíč modelu `{ $k }`; klíče jsou { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: model vyžaduje `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` musí být konečné číslo
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` musí být větší než 0, zadáno { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` musí být alespoň 0, zadáno { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` musí být řetězec
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` musí být pole tabulek
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` musí obsahovat tabulky
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 =
+    { $kind }: `{ $key }` musí být pole s { $n ->
+        [one] { $n } číslem
+        [few] { $n } čísly
+        [many] { $n } čísly
+       *[other] { $n } čísly
+    }
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got =
+    { $kind }: `{ $key }` musí obsahovat { $n ->
+        [one] { $n } číslo
+        [few] { $n } čísla
+        [many] { $n } čísla
+       *[other] { $n } čísel
+    }, zadáno { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` musí obsahovat konečná čísla
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: úsek vyžaduje `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: model vyžaduje alespoň jedno `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: začátek úseku { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: konec úseku { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: úsek { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` musí ležet v [0, 1], zadáno { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` a `ssv_step_min` musí být větší než 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: propagace nedosáhla { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: dráha po zážehu není vázaná (měrná energie { $energy } J/kg); zástupná dráha gnss-ssv vyžaduje eliptickou
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: přehled gnss-ssv nevrátil žádné pásmo
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: přehled gnss-ssv nevrátil žádnou skupinu
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: fáze uvádí gnss-ssv, takže model vyžaduje `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: fáze uvádí ground-tracking, takže model vyžaduje `ground_range_sigma_m`, `ground_range_rate_sigma_mps` a `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = předání { $name } musí být konečné číslo alespoň 0, zadáno { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = fáze `{ $id }`: { $key } jejího modelu je { $own_s } s, ale řetězec dává fázi duration_s = { $duration_s } s; sjednoťte je, nebo { $key } vynechejte
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = neznámá soustava `{ $other }`; očekává se jedna z gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = neznámá časová stupnice `{ $other }`; očekává se jedna z tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = neznámý zdroj navigace `{ $other }`; očekává se jeden z gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = neznámý zdroj času `{ $other }`; očekává se jeden z gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } musí být kladné konečné číslo, zadáno { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = pravidlo předání `{ $rule }` vyžaduje `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = neznámé pravidlo předání `{ $other }`; očekává se carry, inflate nebo reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = fáze má prázdné id
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s musí být konečné číslo alespoň 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x musí obsahovat šest konečných čísel
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind musí být "mission-thread", zadáno "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = řetězec mise vyžaduje alespoň jednu [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = id fáze `{ $id }` je použito dvakrát; id jsou jedinečná
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: fáze `{ $phase }` není fází tohoto řetězce
+
+engine-e-mission-thread-scenario-phase = fáze `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = fáze `{ $id }` skončila v { $t_s } s, ale začala v { $start_s } s a trvá { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = neznámý senzor relativní navigace `{ $other }`; očekává se jeden z optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = vzdálenost musí být kladné konečné číslo v metrech, zadáno { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = vzdálenost { $range_m } m překračuje limit senzoru { $max_range_m } m
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: neznámý klíč modelu `{ $bad }`; klíče jsou { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = řádky důkazů receiver-trust nejsou v matici
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = neznámá ablace `{ $other }`: B1 až B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = řádky balíčku důkazů nejsou v matici
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = řádky důkazů jammertest nejsou v matici
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: fit nemá žádný kmitočtový šum (bílý FM, flicker FM i náhodná procházka FM jsou nulové), takže není z čeho předpovědět holdover; záznam může obsahovat jen bílý fázový šum, nebo být příliš krátký
+
+engine-e-evidence-label-run-exercised-no-matrix-row = běh nepoužil žádný řádek verifikační matice
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent očekává vstupní kovarianci v MCI; převod soustav provádí řetězec
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent očekává vstupní kovarianci v MCI; převod soustav provádí řetězec
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface očekává vstupní stav v MCI nebo MCMF; převod soustav provádí řetězec
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km musí převyšovat poloměr Měsíce a excentricita ležet v [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = neznámý druh fáze `{ $kind }`; registrované druhy jsou { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` neuvádí žádný zdroj navigace
+
+engine-e-ssv-check-training-pattern-missing = chybí trénovací vzor { $sv }
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] vyžaduje tabulku [clock_log]: měřenou řadu, z níž se fit vytváří
+
+engine-lunar-phase-no-finite-points-to-plot = žádné konečné body k vykreslení
+
+engine-partner-cli-usage =
+    použití: kshana partner check <submission.toml> [--json]
+    { "  " }Kontroluje formát a metadata podání datového partnera (kshana.partner-submission/1) a čte jeho
+    { "  " }datový soubor vlastními čtečkami enginu. Nic nehodnotí ani neověřuje; viz docs/PARTNER-DATA.md.
+    { "  " }Stavový kód 0: podání je úplné a čitelné; 1: byly nalezeny chyby; 2: chyba použití.
+    Software pouze poradního charakteru, nikoli typově schválené navigační zařízení.
+
+engine-evidence-verify-evidence-label-ledger-rows =
+    štítek důkazů: { $tier } ({ $row_count ->
+        [one] { $row_count } řádek registru
+        [few] { $row_count } řádky registru
+        [many] { $row_count } řádku registru
+       *[other] { $row_count } řádků registru
+    }: { $rows }); je uvnitř config.json, takže podpis jej zahrnuje
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = žádný štítek důkazů (balíček před verzí 0.40)
+
+engine-e-ssv-check-pattern-missing = chybí vzor { $sv }
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | jen inerciálně { $inertial_pos } m / { $inertial_vel } m/s | s AFS { $afs_pos } m / { $afs_vel } m/s | rozptyl při vložení { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Měsíční výstup: 3D navigační poloha 1-sigma (m)
+
+engine-lunar-ascent-chart-subtitle = inerciální drift s opravami AFS | MODELLED, pouze poradní charakter
+
+engine-lunar-ascent-chart-x-axis = sekundy od startu
+
+engine-lunar-ascent-chart-series = poloha 1-sigma
+
+engine-lunar-chart-y-axis-metres = metry
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | jen inerciálně { $none_east }/{ $none_north } m (E/N) | s podporami { $all_east }/{ $all_north } m | rozptyl R95 { $r95 } m | 3-sigma elipsa { $major } x { $minor } m | { $inside }% uvnitř (očekáváno { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Rozptyl měsíčního přistání: R95 podle použitých podpor
+
+engine-lunar-landing-chart-subtitle = R95 podle podpor: { $aids } | MODELLED, pouze poradní charakter
+
+engine-lunar-landing-chart-x-axis = kombinace podpor (index)
+
+engine-lunar-landing-chart-series = R95 rozptylu přistání
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | odstup { $sep } m | opravy { $fixes }% | rel. poloha 1-sigma R/A/C { $radial }/{ $along }/{ $cross } m | střední NEES { $nees } (očekáváno 6) | konvergence { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = nikdy
+
+engine-lunar-rendezvous-converged-at = v { $s } s
+
+engine-lunar-rendezvous-chart-title = Měsíční setkání: formální relativní poloha 1-sigma (3D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | opravy { $fixes }% | střední NEES { $nees } (očekáváno 6) | MODELLED, pouze poradní charakter
+
+engine-lunar-rendezvous-chart-x-axis = minuty od začátku oblouku
+
+engine-lunar-rendezvous-chart-series = relativní poloha 1-sigma
+
+engine-lunar-surface-map-summary =
+    lunar-surface | { $n_sites ->
+        [one] { $n_sites } místo
+        [few] { $n_sites } místa
+        [many] { $n_sites } místa
+       *[other] { $n_sites } míst
+    } x { $n_seasons ->
+        [one] { $n_seasons } období
+        [few] { $n_seasons } období
+        [many] { $n_seasons } období
+       *[other] { $n_seasons } období
+    } | určování polohy { $position_min }% až { $position_max }% | nejhorší dostupnost času { $worst_timing }% | nejdelší mezera v čase { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Mapa PNT na povrchu Měsíce: dostupnost podle místa (nejhorší období, %)
+
+engine-lunar-surface-map-chart-subtitle = určování polohy = 4+ relé a PDOP pod prahem; čas = jedno relé nebo Země | MODELLED, pouze poradní charakter
+
+engine-lunar-surface-map-chart-x-axis = index místa
+
+engine-lunar-surface-map-chart-y-axis = procento okna
+
+engine-lunar-surface-map-chart-series-positioning = určování polohy
+
+engine-lunar-surface-map-chart-series-timing = čas
+
+engine-lunar-surface-map-chart-series-earth-visible = Země viditelná
+
+engine-mission-thread-weakest-link = nejslabší článek { $phase_id }
+
+engine-mission-thread-no-phases = žádné fáze
+
+engine-mission-thread-untitled = bez názvu
+
+engine-mission-thread-summary =
+    mission-thread | { $n_phases ->
+        [one] { $n_phases } fáze
+        [few] { $n_phases } fáze
+        [many] { $n_phases } fáze
+       *[other] { $n_phases } fází
+    } | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Řetězec mise
+
+engine-mission-thread-chart-position-caption = poloha 1-sigma, m
+
+engine-mission-thread-chart-time-caption = čas 1-sigma, s
+
+engine-mission-thread-chart-subtitle = MODELLED rozpočet chyb navigace a času; každá fáze je vykreslena stejně široká
+
+engine-evidence-label-line-one-row =
+    Důkazy: { $tier } · { $n ->
+        [one] { $n } řádek registru
+        [few] { $n } řádky registru
+        [many] { $n } řádku registru
+       *[other] { $n } řádků registru
+    } { $ids }
+
+engine-evidence-label-line-rows =
+    Důkazy: { $tier } · { $n ->
+        [one] { $n } řádek registru
+        [few] { $n } řádky registru
+        [many] { $n } řádku registru
+       *[other] { $n } řádků registru
+    } { $ids }
+
+engine-evidence-label-line-rows-more =
+    Důkazy: { $tier } · { $n ->
+        [one] { $n } řádek registru
+        [few] { $n } řádky registru
+        [many] { $n } řádku registru
+       *[other] { $n } řádků registru
+    } { $ids } +{ $n_more ->
+        [one] { $n_more } další
+        [few] { $n_more } další
+        [many] { $n_more } dalších
+       *[other] { $n_more } dalších
+    }
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }info: { $i }
+
+engine-partner-text-warning = { "  " }varování: { $w }
+
+engine-partner-text-error = { "  " }CHYBA: { $e }
+
+engine-partner-text-result-ok = výsledek: formát a metadata jsou úplné a čitelné
+
+engine-partner-text-result-not-ready = výsledek: není připraveno; opravte výše uvedené chyby
