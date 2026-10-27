@@ -117,10 +117,6 @@
    "count": 28,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
-  "src/celeste_iod.rs": {
-   "count": 35,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/cislunar_arc_recovery.rs": {
    "count": 200,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"

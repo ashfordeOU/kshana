@@ -89,6 +89,17 @@ pkgs = sorted(
 def purl(p):
     return f"pkg:cargo/{p['name']}@{p['version']}"
 
+# CycloneDX 1.5's own SPDX list (the vendored spdx.schema.json, SPDX 1.0-3.21) lacks identifiers that are
+# newer than it (Unicode-3.0, which tinystr and zerovec carry). A schema-valid `license.id` must be a member,
+# so a single identifier outside the list is written as `license.name` instead (the schema's other branch).
+spdx_ids = None
+schema = "tests/fixtures/reproducibility_software_assurance/spdx.schema.json"
+try:
+    with open(schema) as fh:
+        spdx_ids = set(json.load(fh)["enum"])
+except OSError:
+    pass
+
 components = []
 for p in pkgs:
     comp = {
@@ -98,7 +109,12 @@ for p in pkgs:
         "purl": purl(p),
     }
     if p.get("license"):
-        comp["licenses"] = [{"license": {"id": p["license"]}}]
+        lic = p["license"]
+        simple = not any(op in lic for op in (" OR ", " AND ", " WITH ", "/", "(", ")"))
+        if spdx_ids is not None and simple and lic not in spdx_ids:
+            comp["licenses"] = [{"license": {"name": lic}}]
+        else:
+            comp["licenses"] = [{"license": {"id": lic}}]
     src = p.get("source")
     if src:
         comp["properties"] = [{"name": "cargo:source", "value": src}]
