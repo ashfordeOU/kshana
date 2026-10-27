@@ -43,3 +43,5 @@ seg-621a18c07044 = Wykres zapisany przez silnik dla scenarios/sweep-nd-inertial.
 seg-ce006a6715e9 = <s1>Poprzednia</s1>spoof
 
 seg-b9f8771ffd3d = <s1>Następna</s1>sweep
+
+seg-8b701f465117 = logarytmiczna

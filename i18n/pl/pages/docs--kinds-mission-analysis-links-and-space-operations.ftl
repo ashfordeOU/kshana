@@ -157,3 +157,7 @@ seg-b0109481e8ff = Wykres zapisany przez silnik dla scenarios/reentry.toml, rodz
 seg-de2448d74c2b = Ramkowanie CCSDS 133.0-B Space Packet Protocol: kodowanie syntetycznego strumienia pakietów TM/TC (6-oktetowy nagłówek główny + pole danych) oraz raport dekodowania nagłówka każdego pakietu, łącznej liczby oktetów i dokładnego obiegu kodowanie↔dekodowanie. Deterministyczne ramkowanie o dokładnym układzie bitów — warstwa interoperacyjności formatów pakietów agencji; NIE jest to certyfikacja zgodności (bez logiki nagłówka wtórnego, CRC ani segmentacji poza flagami).
 
 seg-af1cf9aa9938 = Wykres zapisany przez silnik dla scenarios/space-packet.toml, rodzaj space-packet
+
+seg-953188c11165 = Jednokierunkowy bilans łącza według równania łącza CCSDS { "401" } / DSN 810-005: tłumienie w wolnej przestrzeni, C/N₀, Eb/N₀, zapas i domknięcie dla EIRP nadawania, G/T odbioru, odległości, szybkości danych i pasma (s|x|ka) względem wymaganego Eb/N₀. Deterministyczne obliczenie inżynierskie z podanych danych wejściowych (nie jest to skalibrowana karta katalogowa terminala).
+
+seg-bd375631bc7e = Wykres, który silnik zapisuje dla scenarios/link-budget.toml, rodzaj link-budget

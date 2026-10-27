@@ -49,3 +49,17 @@ seg-3319b18ac61f = oraz { "1" } kolejny w macierzy.
 seg-f6bd93155e41 = <b>MODELLED</b> Rozwiązania Gaussa–Newtona ważonych najmniejszych kwadratów dla dowolnej mieszanki systemów, jeden zegar odbiornika na system (bias międzysystemowy estymowany razem z położeniem) lub znane. Wyrocznia (InternalConsistency): ręcznie wyprowadzony czterosatelitarny DOP (jeden satelita w zenicie i trzy na horyzoncie co { "120" } deg, których macierz normalną odwraca się ręcznie), tożsamość strukturalna, że system z własnym zegarem i jednym satelitą nie dodaje geometrii, odtworzenie bez szumu położenia, zegara i biasu oraz błędy z ziarnem względem kowariancji. Tylko kontrole wewnętrzne; bez porównania z wynikiem odbiornika. { "0.30" } porównania zewnętrznego, ustalenie
 
 seg-4056b0470099 = <b>MODELLED</b> Dane wejściowe niezależne od systemu: każdy system to powłoki Walkera, jawne elementy lub ustawienie wstępne GNSS, sygnał (nośna, tempo chipów, szerokość pasma, moc odbierana lub zakres C/N0. Wyrocznia (InternalConsistency): transkrypcja przytoczonych wartości publicznych, sprawdzona pod względem struktury (każde źródło publiczne ma URL, wzorce Walkera dzielą się równo, C/N0 z mocy odbieranej przez kT przy { "290" } K), a nie względem zewnętrznej wyroczni. Wartości reprezentatywne są nazwane w każdym ustawieniu wstępnym i są ilustracyjne
+
+seg-df745ccdaceb = MODELLED wspólne pozycjonowanie pseudoodległościowe metodą ważonych najmniejszych kwadratów z jednym zegarem na system lub ze znanym przesunięciem; szum z modelu pętli śledzenia opóźnienia (delay-lock loop) przy obwiedni C/N0 plus błąd odległości sygnału w przestrzeni (wynik <c1/>)
+
+seg-c988291eb41d = MODELLED: wszystko pozostałe; DOP sprawdzono na przypadku wyprowadzonym ręcznie, wyznaczenia pozycji względem ich kowariancji, a model Dopplera względem tożsamości przyspieszenia odległości. (katalog rodzajów (<c1/>))
+
+seg-be908356ad19 = Ustawienie wstępne linii horyzontu jest REPRESENTATIVE (pochodzenie w docs/SKYLINE.md i <c1/>): rząd wielkości szerokości i deniwelacji głębokich fiordów zachodniej Norwegii, a nie pomiar żadnego fiordu. Tylko bezpośrednia widoczność: bez dyfrakcji, odbić ani odbioru bez bezpośredniej widoczności. Usuń sekcję [skyline], aby porównać z otwartym niebem. MODELLED. (komentarz w pliku scenariusza, wiersze { "15" } do { "18" })
+
+seg-1d0ab26930e1 = Wspólne pozycjonowanie pseudoodległościowe GNSS i LEO z odchyłkami międzysystemowymi i modelami błędów dla poszczególnych sygnałów ma poziom MODELLED, nie jest niezależnie sprawdzone względem wzorca zewnętrznego: sprawdzono je względem jego własnej tożsamości w postaci zamkniętej / analitycznej; wychwytuje błędy przepisania i współczynników, ale nie jest zewnętrzną wyrocznią. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
+
+seg-35916a8ac93e = Nazwane systemy LEO PNT jako opcjonalne dane predefiniowane, każdy z podanym źródłem, mają poziom MODELLED, nie są niezależnie sprawdzone względem wzorca zewnętrznego: sprawdzono je względem ich własnej tożsamości w postaci zamkniętej / analitycznej; wychwytuje błędy przepisania i współczynników, ale nie jest zewnętrzną wyrocznią. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
+
+seg-6ac7dcc57b2a = <s1>Poprzedni</s1>leo-ppp
+
+seg-458b3eda3250 = <s1>Następny</s1>leo-signal

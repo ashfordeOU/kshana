@@ -45,3 +45,5 @@ seg-cb00aca0268d = <b>MODELLED</b> Sekcje sweep rodzaju <c1/> (od jednego do trz
 seg-1750fbfc4a99 = <s1>Poprzednia</s1>sweep-nd
 
 seg-de5468ac32fc = <s1>Następna</s1>telecom-timing
+
+seg-8b701f465117 = logarytmiczna

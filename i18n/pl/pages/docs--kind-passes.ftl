@@ -41,3 +41,7 @@ seg-eb79c117f1df = MODELLED — prognozowanie przelotów nad stacją naziemną w
 seg-a7ddc8eeaf1e = <s1>Poprzednia</s1>orbit
 
 seg-3079cfb8decc = <s1>Następna</s1>pvt
+
+seg-58413589a025 = MODELLED { "2" } · VALIDATED { "2" }: wiersze <a1>macierzy weryfikacji</a1> dotyczące tego rodzaju.
+
+seg-df90e5910fb4 = godz.

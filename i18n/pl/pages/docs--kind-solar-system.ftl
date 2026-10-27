@@ -75,3 +75,5 @@ seg-ce15aaa5453c = Stałe fizyczne każdego ciała Układu Słonecznego i raport
 seg-ceadf891b1e2 = <s1>Poprzednia</s1>slot-timing
 
 seg-0493962a6937 = <s1>Następna</s1>space-packet
+
+seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: wiersze <a1>macierzy weryfikacji</a1> dotyczące tego rodzaju.
