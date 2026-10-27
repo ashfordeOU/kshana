@@ -55,11 +55,11 @@ engine-e-clock-log-the-rinex-clock-file-holds = the RINEX clock file holds { $ma
 
 engine-e-clock-log-no-as-or-ar-records = no AS or AR records for clock { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = the clock has a single epoch; tau0 cannot be found
+engine-e-clock-log-the-clock-has-single-epoch = the clock has a single epoch; at least two are needed (tau0 cannot be found)
 
 engine-e-clock-log-the-log-has-no-readings = the { $format } log has no readings
 
-engine-e-clock-log-unknown-phase-unit-expected-ms = unknown phase unit { $other }; expected s, ms, us, ns or ps
+engine-e-clock-log-unknown-phase-unit-expected-ms = unknown phase units { $other }; expected s, ms, us, ns or ps
 
 engine-e-clock-log-timelab-line-has-column-the = TimeLab line { $v1 } has { $v } column(s), the first data line has { $first }
 
@@ -9230,7 +9230,7 @@ engine-e-clock-log-clock-applies-to-the-rinex = clock applies to the rinex-clk, 
 
 engine-e-clock-log-single-column-timelab-log-needs = a single-column timelab log needs tau0: a `# tau0 = <s>` header or tau0_s
 
-engine-e-clock-log-the-ticc-log-has-no = the TICC log has no `<seconds> chA|chB|chC|TI(...)` readings
+engine-e-clock-log-the-ticc-log-has-no = the TICC log has no readings (`<seconds> chA|chB|chC|TI(...)` lines)
 
 ## src/conflict_resilience.rs
 
