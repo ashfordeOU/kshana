@@ -11146,3 +11146,60 @@ engine-partner-text-error = { "  " }VIRHE: { $e }
 engine-partner-text-result-ok = tulos: muoto ja metatiedot ovat täydelliset ja luettavissa
 
 engine-partner-text-result-not-ready = tulos: ei valmis; korjaa yllä olevat virheet
+
+engine-interference-map-locate-usage = käyttö: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom vaatii lisäksi --licence <text> --licence-url <url> --attribution <text>)
+    Kirjoittaa tiedostot emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv ja -figure.svg: arvioidut lähetinalueet ilmoitetuilla luottamustasoilla, ei koskaan pelkkää pistettä
+
+engine-interference-map-locate-wrote = kirjoitettu { $path }
+
+engine-interference-map-locate-summary = { $n_sessions } { $n_sessions ->
+        [one] istunto
+       *[other] istuntoa
+    } julkaistu; { $n_withheld } { $n_withheld ->
+        [one] ehdokasistunto
+       *[other] ehdokasistuntoa
+    } pidätetty (alle { $min } erillistä ilma-alusta tai alusta)
+
+engine-interference-map-locate-note-not-preregistered = huomio: jokin valinta poikkeaa ennalta rekisteröidyistä parametreista, joten tämä ei ole ennalta rekisteröity menetelmä
+
+engine-interference-map-locate-line-session = istunto { $k }: { $start } – { $end }, { $affected } erillistä kohdetta, { $level } %:n alue { $area } km², painopiste { $lat }, { $lon } (ellipsi { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = istunto { $k }: { $start } – { $end }, { $affected } erillistä kohdetta, raportit eivät rajaa aluetta (rajaamaton)
+
+engine-interference-map-locate-fig-title = Arvioitu lähetinalue
+
+engine-interference-map-locate-fig-subtitle = { $n ->
+        [one] Missä heikentyneiden raporttien häiriölähde voisi olla ilmoitetuin oletuksin. Näytetty istuntoja: { $n }.
+       *[other] Missä heikentyneiden raporttien häiriölähde voisi olla ilmoitetuin oletuksin. Näytetty istuntoja: { $n }.
+    }
+
+engine-interference-map-locate-fig-none = Yksikään istunto ei saavuttanut julkaisun vähimmäismäärää, joten aluetta ei näytetä.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct } %:n alue
+
+engine-interference-map-locate-fig-legend-ellipse = posteriorin 95 %:n ellipsi
+
+engine-interference-map-locate-fig-note-1 = Alue ei ole minkään ilma-aluksen, aluksen tai organisaation sijainti eikä todettu syy.
+
+engine-interference-map-locate-fig-note-2 = Maastoa ei mallinneta, ja jokaisessa istunnossa oletetaan yksi lähde; luottamustasot ovat ehdollisia mallille.
+
+engine-e-interference-map-locate-bad-number = { $name } ei ole luku
+
+engine-e-interference-map-locate-bad-levels = --levels vaatii pilkuin erotetut luvut, jotka ovat tiukasti välillä 0 ja 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km on oltava välillä 0.5 ja 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min on oltava välillä 1 ja 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m vaatii kaksi lukua, min,max, ehdolla 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } ei ole käyttökelpoinen TDOA-ratkaisutiedosto (receivers, tdoa_s, sigma_s, start), tai ratkaisu ei suppennut
+
+engine-e-interference-map-locate-source-required = --source adsb tai --source ais vaaditaan
+
+engine-e-interference-map-locate-no-evidence-rows = paikannustulosteille ei ole lueteltu todisterivejä
