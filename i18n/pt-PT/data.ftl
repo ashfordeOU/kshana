@@ -7165,7 +7165,7 @@ dat-a656659bd6dc = Pacotes de normas
 dat-7fc9b51d4100 = Pacotes de normas: cenários pontuados face a limiares indicados antes da execução
 
 # data/verification-matrix.json
-dat-30c0f1878852 = standards_pack (kshana standards-pack): os perfis de ensaio do enquadramento DHS Resilient PNT para os níveis { "1" } a { "4" }, níveis de exatidão e avaliação de integridade da IMO MSC.1/Circ.1575, e pacotes de monitorizar, avaliar e mitigar do ICAO Doc { "9849" } Apêndice F: cada ensaio executa um tipo de cenário incluído e compara campos de resultado com limiares indicados no pacote, e os ensaios que precisam de um registo de recetor são listados como NECESSITAM DE ENTRADA e não pontuados.
+dat-30c0f1878852 = standards_pack (kshana standards-pack): os perfis de ensaio do enquadramento DHS Resilient PNT para os níveis { "1" } a { "4" }, níveis de exatidão e avaliação de integridade da IMO MSC.1/Circ.1575, e pacotes de monitorizar, avaliar e mitigar do ICAO Doc { "9849" } Apêndice F: cada ensaio executa um tipo de cenário incluído e compara campos de resultado com limiares indicados no pacote, e os ensaios que precisam de um registo de recetor são listados como NEEDS INPUT e não pontuados.
 
 # data/verification-matrix.json
 dat-552f0a742c42 = standards_pack; compliance (factos dos pacotes de normas em compliance-report)

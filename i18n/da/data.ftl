@@ -1610,7 +1610,7 @@ dat-fa85ed0fb966 = G1/G2 LFSR-generator af C/A-koder, der gengiver de offentligg
 
 dat-71b6ea3dc71a = Galileo-ICD's brugeralgoritme for udsendt efemeride som grundlag for en LEO-navigationsbesked
 
-dat-c5e5f5f38caf = Galileo i medium Earth orbit — GRØN (< { "5" } m tærskel)
+dat-c5e5f5f38caf = Galileo i medium Earth orbit — GREEN (< { "5" } m tærskel)
 
 dat-455af4b55c5e = Galileo OSNMA: autentificering af navigationsdata i modtageren
 
@@ -1932,7 +1932,7 @@ dat-4bab7ea5f074 = horisontal fejl
 
 dat-ea2e883bd4e5 = Horisontal fejlellipse og kofaktor pr. system ud fra geometrikovariansen
 
-dat-ef7245602f73 = Hvordan en række forbliver GRØN
+dat-ef7245602f73 = Hvordan en række forbliver GREEN
 
 dat-baad56eb3581 = Hvordan en kørsel fungerer
 

@@ -3169,3 +3169,231 @@ dat-75377acf4c2b = GNSS-simulering i måledomenet: pseudoavstander med ionosfær
 dat-2c666c1e2e78 = Pseudoavstandssimulering i måledomenet (Klobuchar-ionosfære, Saastamoinen/Niell-troposfære) + RAIM.
 
 dat-45fe39205b36 = MeasurementBlock holder én kandidat til målekampanje som et bidrag med 7x7 Fisher-informasjon pluss en skalar relativ kostnad; block_from_rows bygger en fra rå rader i datum-Jacobian slik at hver blokk forhåndsbetinges identisk gjennom lunar_identifiability::assemble_multi_info; combine summerer informasjonen til en valgt delmengde, som er den riktige regelen fordi Fisher-informasjon er additiv over uavhengige målinger; representative_lunar_menu leverer en deterministisk meny med fire blokker (LLR, et tverrgående VLBI-limbfyr, en banefarkost på nærsiden og en banefarkost på baksiden). Budsjettbegrenset designoptimerer som bruker denne menyen er ikke en del av denne craten.
+
+dat-db4542b28f96 = Måler hvor mye tre uavhengige, autoritative månefemerider faktisk avviker fra hverandre, og gjør det om til en utformingslov: feilbudsjettet mellom referansesystem og efemeride som en bruker med blandede leverandører arver, og konsistenstoleransen en leverandør må holde for å holde dette budsjettet innenfor en oppgitt grense.
+
+dat-6bf9add7f9a1 = median målesigma
+
+dat-44a85c26ca72 = median PDOP, fusjonert
+
+dat-95f2f56e01be = Minnesikkerhet
+
+dat-3a624c54f288 = Metode, per datasett
+
+dat-00ec22dfa279 = MHSS på et reelt GPS- og Galileo-øyeblikksbilde · DO-316 med to konstellasjoner
+
+dat-b1afd6db660e = Microchip 8040C, standard ytelse
+
+dat-a64cd2c46359 = Oppdatering av LEO-navigasjonsmeldingen midt i passeringen, med kontinuitetskontroll ved overgangen
+
+dat-7b381bb57afd = Oppdatering midt i passeringen
+
+dat-94797732ab3e = Minste påvisbare bias { "8.20" } m horisontalt, { "12.30" } m vertikalt, { "24.6" } ns tidssynkronisering
+
+dat-010d33144c26 = Oppdragsanalyse
+
+dat-0c076868148b = Oppdragsanalyse og romoperasjoner
+
+dat-a18a8d78c40e = Oppdragsanalyse, lenker og romoperasjoner
+
+dat-7ab10162ea6a = Oppdragsanalyse, lenker og romoperasjoner (scenariotypefamilie)
+
+dat-9b2f9035d774 = Oppdrag og omfang
+
+dat-7201e8b3ed4d = Oppdragstidslinje: jamming, spoofing, holdover, integritetsalarm
+
+dat-bfb6aadeb79c = Oppdrag etter sektor
+
+dat-53c4a9dac575 = MIXED: hvert legeme har sin egen merkelapp. Planetposisjonene er VALIDATED mot JPL Horizons innenfor to ganger Standishs nominelle feil (Merkur til Saturn og Jorden fra tabell { "1" }; alle åtte planetene fra tabell 2a/2b); Uranus og Neptun fra tabell { "1" }, Pluto, Månen og de sju månene er MODELLED. Lystidene er newtonske, beregnet fra de samme posisjonene.
+
+dat-216727c98cec = Evalueringsmål for ML-detektorer (ROC/AUC/forvekslingsmatrise/Pfa-Pmd)
+
+dat-4a9d50bdc4a5 = Modellsammenligning
+
+dat-1ceb20c7b84a = MODELLED - todelegemebaner etter Kepler (valgfri sekulær J2) rundt et kulerundt legeme, geometrisk sikt over en elevasjonsmaske, fortynning av presisjon med alle satellitter i sikte og én mottakerklokke per konstellasjon med mindre clock = "common"; ingen signaleffekt, helse eller terreng. Walker-geometrien og de publiserte forhåndsinnstillingene er kontrollert mot Galileo OS SDD, GLONASS ICD og sporplatetabellene i GPS SPS Performance Standard, og de globale DOP-statistikkene for GPS-grunnlinjen mot SPS PS vedlegg B (se docs/VERIFICATION-MATRIX.md)
+
+dat-25b97bc7f3be = Modellerte egenskaper — begrunnelse
+
+dat-758dc439da1b = MODELLED ende-til-ende-feilbudsjett for koordinert måne-tid (LTC): de sju LTC-feilleddene satt sammen som…
+
+dat-969421c5f3ef = MODELLED feil- og avviksdeteksjon for kvante-PNT-systemer: en merket feilkatalog (klokke…
+
+dat-a4b692e5a29b = MODELLED GNSS-tilgjengelighet og linkstyrke i romtjenestevolumet og utover: for en bruker på en kule…
+
+dat-3000c4b9880d = MODELLED GNSS-fri kvantenavigasjon: under et GNSS-bortfall en kvante- (kaldatominterferometer) treghets…
+
+dat-9b16c0d8fcae = MODELLED felles kvalitetstall (P5) for heterogen optisk + RF PNT: setter sammen den toveis optiske lenken på { "1550" } nm…
+
+dat-1aa51bfc37c9 = MODELLED holdover-test av et tidssynkroniseringssystem, vurdert ut fra en tidsfeilregistrering som OPERATØREN leverer (en linuxptp…
+
+dat-0e17fe1278e7 = MODELLED test med uavhengig estimator av terskelen for observerbarhet over buelengde i cislunar rom.
+
+dat-421249b5cac2 = MODELLED test med uavhengig estimator av terskelen for observerbarhet over buelengde i cislunar rom. Denne terskelen er en…
+
+dat-f0f437a3d941 = MODELLED feilbudsjett for INS/TRN-glidning. Hvert bidrag forplantes gjennom en ni-tilstands lokalnivå-treghetsfeilmodell med Schuler-tilbakekobling (en vannrett plattform med kurs nord på et oppgitt sted, fritt treghetsnavigasjon inkludert den ustabile vertikalkanalen); de ledende lovene for kort glidning (bias t^{ "2" }, gyrobias-helling t^{ "3" }, hastighetsrandomvandring t^{ "1.5" }, vinkelrandomvandring t^{ "2.5" }, skalafaktor x tilbakelagt distanse) er kryssjekket mot motorens egen stokastiske dødregner og IMU-feilmodell; IMU-klassekoeffisientene er representative KLASSE-tall (Groves { "2013" } tabell { "4.1" }-områder), ikke et databrett for en enkelt del, og TRN-posisjonsrestleddet er en dokumentert inngangsverdi. Kryssingene finnes ved halvering på modellen, aldri ved manuskriptregning. Ikke sertifisert for operativ navigasjon.
+
+dat-edac3842f259 = Modellert felles månebanebestemmelse med flere teknikker + klokkebatchestimator på et SIMULERT nettverk: en Gauss-Newton…
+
+dat-42021475bfcc = MODELLED motstandsdyktighet med lagdelt PNT mot konflikt (P7): en bruker i et omstridt miljø har flere PNT-lag…
+
+dat-33e53db92437 = Modellert DIFFERENSIELL PNT på Månen (en månebasert DGNSS/SBAS-analog): en referansestasjon i NovaMoon-klassen på et KJENT…
+
+dat-19b562185ca8 = Modellert observerbar størrelse for geodetisk VLBI-forsinkelse på Månen: en jordbasert grunnlinje (to bakkestasjoner, GCRS) observerer et…
+
+dat-9cde2cedbe8f = Modellert interoperabilitetseksport for Månen: gir ut månens referansesystem, månens tidsskala og månens…
+
+dat-b7d01a1a004a = Modellert analyse av månenavigasjonens tjenestevolum fra en ILLUSTRATIVE Moonlight/LCNS-klasse med offentlige kilder…
+
+dat-b7b010efdc14 = Modellert realisering av månens referansesystem: en datumtilpasning med 7-parameter Helmert (likhet) — { "3" } translasjon, { "3" }…
+
+dat-1130107c852d = Modellert dekning av månens referansestasjon: en Monte Carlo-sveip av den differensielle PNT-modellen for Månen over en…
+
+dat-ded8dbce5b97 = MODELLED optisk PNT gjennom atmosfæren: for en optisk lenke og et sett bakkesteder med oppgitt skydekke…
+
+dat-1dfeaa96d84b = MODELLED observerbarhet for en plan cislunar konstellasjon (P6): følger fire romfartøyer med differensialkorrigert…
+
+dat-34f48a3aa757 = Modellert relativistisk klokkerate Jord–Måne (koordinert måne-tid, LTC/TCL): den sekulære LTC−TT-raten fra…
+
+dat-905b333364f2 = MODELLED studier av Månens bane og overflate som navigasjons- og geodetisk infrastruktur, fem studier…
+
+dat-0aad144628ca = MODELLED kjede for pålitelig kvantetidssynkronisering: en ende-til-ende kvante- (optisk gitterklokke +…
+
+dat-ff8122a55284 = MODELLED: en effekttetthetsspekter i L-båndet bygget fra signalspektre på lukket form (VALIDATED mot lærebokverdiene for hovedlobbredde og spektrale separasjonskoeffisienter), jammerspektre og et kT-støygulv, redusert til J/S og effektiv C/N0 med den spektrale separasjonskoeffisienten. Jammereffektene, tidslinjen og frontendebåndbreddene er scenarioinngangsdata, ikke målinger.
+
+dat-74105cf858dd = MODELLED: todelegemebaner for reléer med sekulær J2-drift, geometrisk sikt, gaussisk avstandsstøy og en momentan målemodell rundt et legeme ut fra de publiserte konstantene; ikke validert mot et oppdrags navigasjonsdata. Geometrien mellom Jorden og legemet arver merkelappene for solsystemets efemerider.
+
+dat-e105c78b99ec = MODELLED. Under de oppgitte forutsetningene (konstellasjonen, dens signal-i-rommet-feil, stasjonens oppmåling…
+
+dat-f6c3b2c35abd = Modelleringsvalg
+
+dat-f2098d5f0651 = Modifisert Allan-deviasjon / tidsdeviasjon (MDEV / TDEV)
+
+dat-e78b2a501784 = Modulasjon, anti-jam og kodesporing
+
+dat-02fc05c40ded = monitoraritmetikk kontrollert mot pynmea2 og GeographicLib
+
+dat-931d4bdd2598 = Monte Carlo-ensemble av holdover-scenarioet for klokken.
+
+dat-cadb0084efb5 = Monte Carlo-sveip av den differensielle PNT-modellen for Månen over et brukerrutenett ved sørpolen og et døgn med epoker (typen `lunar-station-coverage`): for en differensiell referansestasjon på et kjent sted ved sørpolen, per punkt og over regionen, persentilen av korrigert og ukorrigert posisjonsfeil (3D, horisontal, vertikal), tilgjengelighet med en årsak for hver utilgjengelige epoke (user_lt4, station_missing_sat), dekning mot en terskel oppgitt før kjøringen, DO-229E-beskyttelsesnivåer, dekningsradius per asimutsektor og korreksjonslenkens budsjett ved stasjonen og ved det verste punktet. Ikke en uttalelse om ytelsen til noe reelt system; ikke tilknyttet eller støttet av noe byrå
+
+dat-d3c6615231ae = Monte Carlo: fritt løpende klokkefeil mot sin lukkede form
+
+dat-62102430cf03 = Rotasjon fra MOON_PA_DE440 til J2000 ved vilkårlige epoker innenfor 2014-01-01 til 2030-12-31 TDB, ved geodetisk interpolasjon R0·Exp(f·Log(R0ᵀR1)) mellom nodene i en innsjekket daglig serie på { "6" } 209 rader (try_-funksjonene returnerer OrientationSpanError utenfor den, de som ikke kan feile, panikker; den klemmer aldri); innebygd ved kompilering, så det er ingen filsystem-I/O under kjøring, og WASM-bygget bærer den
+
+dat-0da5f74da642 = DOP / dekning / tilgjengelighet i Moonlight-klassen for Månen + generaliserte ARAIM-beskyttelsesnivåer for Månen over et tjenestevolum
+
+dat-99a5aea2e430 = moonlight-service-volume (scenariotype)
+
+dat-6c5f9b78f628 = Flere mottakere og sensorer
+
+dat-7e36d843a9a6 = Mesteparten av Kshana driver kvantesensorene sine fra publiserte Allan-/støykoeffisienter — oppslag i databrett (se…
+
+dat-549373bd6ba9 = MTIE(τ): det største topp-til-topp-svinget i tidsfeil over et hvilket som helst glidende vindu på τ = m·tau0, vandringsstatistikken fra ITU-T G.810/G.823/G.8261 som grensene for synkroniseringsnett (MTIE-masker) er skrevet mot — et ekstremalt (maks/min) tall, forskjellig fra RMS-Allan-familien
+
+dat-88ee36720462 = Flerbånds jamming-fossefall: posisjonering, navigasjon og tidssynkronisering (PNT) i lav jordbane (LEO)
+
+dat-42081bd2b622 = Flerbånds spektrumfossefall (UHF, L, S, C) med utformede signaler og jammere per bånd
+
+dat-92aa725751a3 = Dekning med flere konstellasjoner: de fire globale navigasjonssatellittsystemene (GNSS) sammen,
+
+dat-f1f2ad95c511 = Dekning med flere konstellasjoner: de fire globale navigasjonssatellittsystemene (GNSS) sammen, som et kart over satellitter i sikte, fortynning av presisjon (DOP) og tilgjengelighet over hele Jorden i ett døgn.
+
+dat-517674c0b261 = Multi-GNSS-tilgjengelighet fra banegeometri: GPS + Galileo kombinert.
+
+dat-5690a69a5609 = Multi-GNSS-innlesing av RINEX-3-kringkastede efemerider (GPS, Galileo, QZSS, BeiDou, GLONASS), en parser for RINEX-3-observasjoner (RINEX { "4.00" }-observasjonsoppsettet forventes å la seg parse, men ingen { "4.00" }-fil er lest gjennom den; RINEX { "4" }-navigasjonsfiler avvises ved navn), en leser/skriver for presise SP3-c/d-efemerider med Lagrange-interpolasjon, og eksport av CCSDS OEM { "2.0" } + OMM (middelelementer) for flydynamikkverktøy (GMAT, Orekit, STK), og parsing og utsending av CCSDS-TDM ({ "503" }) sporingsdatameldinger for radiometrisk sporing i dypt rom.
+
+dat-244914224635 = Feilbudsjett for månens interoperabilitet mellom flere leverandører og utformingslov for referansesystem mot efemeride
+
+dat-710b7e9bf0bd = Lambert-overføringsløser for flere omløp
+
+dat-4176009137fe = Planlegging av bakkekontakt for flere satellitter og flere stasjoner med konfliktløsning
+
+dat-2452094c2114 = Rekursjon av kovarians for clock_state i flere trinn (kryssjekk i samme kodebase); selve kjernen for glidningsvarians og holdover-invertering er eksternt validert mot scipy (se «Clock-holdover coast-variance & threshold inversion»). Holdover-tallene per klasse for rødstøygulvet forblir MODELLED
+
+dat-4c9a19f6d0bb = Datuminformasjon for Månen fra flere teknikker (LLR + VLBI på Månen + avstand til banefarkost)
+
+dat-4f433858284f = Multiplikativ EKF-holdningsestimering fra et gyro og en stjernesensor
+
+dat-17d5f2fec014 = N×N-biaskryssovarians med rho·b_i·b_j utenfor diagonalen for kilder som deler en UTC(k)-realiserer; BEVIST correlated_fused_bias >= independent_fused_bias (naiv uavhengig fordeling underavgrenser den fusjonerte biasen -> optimistisk -> utrygt)
+
+dat-6f344a0d0d7a = Radiometri og bildekvalitet for nadirbilder fra et ILLUSTRATIVE lite jordobservasjonskamera
+
+dat-0ad9754d6548 = Radiometri og bildekvalitet for nadirbilder: radians ved åpningen fra en lambertsk scene, kameraligningen…
+
+dat-51b4547ea6cb = Signal-til-støy-budsjett for nadirbilder (radians fra lambertsk scene, kameraligningen, skudd-, mørke-, lese- og kvantiseringsstøy), system-MTF ved Nyquist som produktet av diffraksjon i uhindret åpning, detektoråpning, lineær utsmøring og gaussisk jitter, kantresponsen og den relative kantresponsen integrert fra denne MTF-en, Q = lambda F / p, og GIQE versjon { "4" } NIIRS uten MTF-kompensasjon. Kan kjøres som scenariotypen `eo-radiometry`.
+
+dat-3479c010866d = NAIF-kjernelser: leser for DAF-container, SPK type { "2" } og binær PCK type { "2" }
+
+dat-07cdccc0b777 = NAIF SPICE Toolkit (CSPICE N0067 til og med spiceypy { "8.3.0" }) heliosentriske tilstander på de440s.bsp og pykep { "3.0.1" } lambert_problem (ESA, C++-kjernen kep3, MPL-2.0), en uavhengig Lambert-løser, kjørt som et eget program som ikke kaller noen Kshana-kode (tests/fixtures/porkchop_de440/, NOTICE.md); motoren leser et de440s-utsnitt bit for bit. Forhåndsregistrert 2d857fb1. En biblioteksjekk av sveipet. Resultater: docs/design/evidence/cap20b-porkchop-de440/RESULTS.md
+
+dat-ca14bad18ab1 = NAIF SPICE Toolkit (CSPICE N0067 til og med spiceypy { "8.3.0" }) spkezr heliosentriske tilstander på hele de440s.bsp, et eget program som ikke kaller noen Kshana-kode (tests/fixtures/solar_system_kernel/, NOTICE.md); motoren leser de440s-utsnitt bit for bit. Forhåndsregistrert f8e946ea. En biblioteksjekk av koblingen: selve DE440 og de analytiske legemene er ikke validert her. Resultater: docs/design/evidence/cap31-solar-system-kernel/RESULTS.md
+
+dat-c28c6114cab4 = NAIF SPICE Toolkit (CSPICE N0067 til og med spiceypy { "8.3.0" }) sxform av et todelt dynamisk referansesystem med to vektorer (primær +X langs Månens posisjon i forhold til Jorden, sekundær +Y langs dens hastighet, de440s), brukt på den dimensjonale roterende tilstanden bygget fra SPICEs egen månetilstand, av et eget program som ikke kaller noen Kshana-kode (tests/fixtures/cr3bp_to_mci_spice/, NOTICE.md). Forhåndsregistrert 2313eb1b, endret før noen kjøring i d5ef79b3 for å inkludere referansesystemets vinkelhastighet utenfor planet (uten den ville hastigheten vært opptil { "8e-2" } m/s feil). En biblioteksjekk av transformasjonen alene. Resultater: docs/design/evidence/rm34-cr3bp-to-mci/RESULTS.md
+
+dat-f44c484e12cf = NAIF SPICE Toolkit (CSPICE N0067 til og med spiceypy) pxform('J2000', 'IAU_<BODY>') på pck00011.tpc, en uavhengig implementasjon av den samme IAU-rotasjonsmodellen, og NAIF gm_de440.tpc for GM, med fixturene generert av et eget program som ikke kaller noen Kshana-kode (tests/fixtures/body_orientation_spice_oracle/, NOTICE.md). Forhåndsregistrert 154bc54 (med den opprinnelige terskelen på { "1e-9" } rad fra c2434204) før fixturen med ny epoke fantes; den nye fixturen ble generert på nytt uavhengig og er byte-identisk. GM er en transkripsjon av DE440 kontrollert mot den publiserte filen, ikke en uavhengig bestemmelse av GM. Resultater: docs/design/evidence/mr08-body-orientation/RESULTS.md
+
+dat-5a90d2752742 = Navngitte LEO-PNT-systemer som valgfrie datasett med forhåndsinnstillinger, hver med sin kilde
+
+dat-0723b0b7ceb4 = Navngitte forhåndsinnstillinger for LEO-PNT-systemer med oppgitte kilder, og en systemuavhengig motor
+
+dat-fdc52fd34ab0 = NASA Scientific Visualization Studio, CGI Moon Kit
+
+dat-14718faadcc1 = NASA Visible Earth, Blue Marble
+
+dat-75f2fe868368 = NASA/Johns Hopkins APL/Southwest Research Institute, New Horizons PIA20658
+
+dat-fd85af5be78f = NASA/JPL Three-Body Periodic Orbit Database (SSD, periodic_orbits.api; Jord–Måne L2 sørlig halo-familie, metodikk fra Howell/Davis) — eksternt publisert periode T, Jacobi-konstant C og startbetingelser for vinkelrett kryssing; kshanas enkeltskyting-STM-korrektor, sådd med katalogens startbetingelser og forstyrret, konvergerer tilbake til katalogmedlemmene
+
+dat-c9c53014817e = NASA/JPL-Caltech/University of Arizona, Cassini mosaic PIA22770
+
+dat-76653b26d23b = NASA/JPL/USGS, Galileo and Voyager mosaic
+
+dat-455d249be6fa = NASA/USGS SRTM v3 (1 buesekund) N36W117-flis — høydedata i PUBLIC-DOMAIN fra den amerikanske staten, fra den åpne AWS-speilingen elevation-tiles-prod, desimert til 6 buesekunder og innsjekket under tests/fixtures/terrain/ (se NOTICE.md), pluss utsnitt i full oppløsning av N36W117 og N36W119 kryssjekket node for node mot GDALs uavhengige SRTMHGT-leser og målepunktene Mount Whitney ({ "4421" } m) og Badwater (−{ "86" } m). Det dokumenterte målepunktet i Badwater Basin (−{ "86" } m, det laveste i Nord-Amerika) forankrer den georefererte lesingen. Terrengmatchingen/TERCOM-navigasjonsfiksen som bruker DEM-en forblir modellert (egen rad for alternativ/komplementær PNT)
+
+dat-03be6aa9524e = Innebygd utvidelse
+
+dat-7b9ba72f92b6 = Analyse av navigasjonssignalers modulasjon og kodesporing
+
+dat-0c0fef9b4157 = Ytelse for navigasjonssignaler
+
+dat-ab676dee9e09 = NaveGo v1.4 (R. Gonzalez m.fl., LGPL-3) kjørt under Octave — en uavhengig publisert INS-verktøykasse drevet av den identiske strømmen av (Δθ,Δv)-inkrementer. Holdningen stemmer bit for bit (samme konvensjoner for NED / skalar-først-kvaternion / jordrotasjon / transportrate); hastighet og posisjon stemmer til to dokumenterte forskjeller — nordgravitasjonsleddet fra loddavviket som NaveGo tar med og kshana utelater med vilje (lodd-gravitasjon; stemmer med Groves' lukkede form i hvert siffer, med en kontroll av nedre grense) og forskjeller i O(dt²)-integratoren — ikke mekaniseringsfeil
+
+dat-a59fe4bab866 = NaveGo v1.4 (R. Gonzalez, LGPL-3.0, kjørt som et verktøy under GNU Octave, aldri lenket inn): dets løst koblede ins_gnss på dets egen reelle Ekinox IMU/GNSS-kjøring med landkjøretøy, begge løsningene vurdert mot Ekinox-referansebanen. Begge filtrene leser de samme float32-inngangsdataene på { "20" } Hz, og Kshanas konfigurasjon er tilordnet mekanisk fra datasettets publiserte parametere. Kshanas horisontale og vertikale posisjons-RMS og dens RMS for posisjonsinnovasjon ligger innenfor 1,2 ganger NaveGos (målt { "0.912" }, { "0.940" } og { "0.861" }), og dens gjennomsnittlige normaliserte innovasjon er høyst { "1.5" } (målt { "0.395" }: omtrent 2,5 ganger for lite selvsikker, gitt datasettets oppgitte GNSS-sigmaer); toleransene ble fastsatt før sammenligningen. Omfang: GNSS er til stede på { "5" } Hz hele kjøringen, så ingen utfall eller glidning prøves, og kontrollen fanger grove filterfeil, ikke finjustering (råfikser korrigert for lever-arm ville havnet nær den vertikale terskelen); lever-arm-transformasjonen beregnes i testharnesset. Det tett koblede UKF-et og det koblede klokke+posisjon-filteret beholder sine konsistenssjekker mot filterpy { "1.4.5" } (lineære posteriorer til { "2.4e-12" }) og forblir utenfor den validerte påstanden
+
+dat-f6eab6730a5f = Navigasjonsmodus: et filter om bord
+
+dat-4189e731c118 = Utforming av RF-nyttelast og antennemaskinvare for navigasjon
+
+dat-a5c3941a0c4e = Kodere for navigasjonsmeldinger utover GPS LNAV (GPS CNAV, Galileo I/NAV og F/NAV)
+
+dat-5ccddaf75af8 = Deling av apertur mellom navigasjon og kommunikasjon
+
+dat-8e1c98a34d9b = navsignal: sinusintegralet (sine_integral), BPSK-R-andelen av effekten innenfor et dobbeltsidig bånd på lukket form (bpsk_power_in_band_closed_form), den båndbegrensede Gabor-båndbredden for BPSK på lukket form (bpsk_gabor_bandwidth_closed_form_hz), den båndbegrensede koherente og ikke-koherente jitteren i en tidlig-sen-forsinkelseslås for et hvilket som helst spektrum med enhetsareal etter Betz og Kolodziejski { "2009" } (dll_jitter_bandlimited_s) og dens Gabor-grense for forsvinnende avstand (dll_jitter_small_spacing_limit_s), den spektrale separasjonskoeffisienten for offset-BPSK på lukket form (bpsk_offset_ssc_closed_form), Galileo E5 AltBOC({ "15,10" })-spekteret (altboc_15_10_psd) og en parser for modulasjonsmerkelapper (parse_modulation); brukt av typen `leo-signal` for hver signalutforming
+
+dat-2300b8ef90c0 = navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) til { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } av effekten i hovedlobben for BPSK(1/3), BPSK({ "1" }), BPSK({ "5" }), BPSK({ "10" }), og den lukkede formen lik kvadratur til { "1e-7" } i { "10" }, { "15" }, { "20" } og { "51.15" } MHz; bpsk_gabor_closed_form_matches_numeric_and_asymptote — til { "1e-4" }, og asymptoten sqrt(B R_c / ({ "2" } pi^{ "2" })); bandlimited_dll_reduces_to_the_textbook_forms — koherent tidlig-sen BPSK({ "1" }) ved { "45" } dB-Hz, B_L { "1" } Hz, d { "1" } chip, T { "20" } ms: { "0.0039564" } chip ({ "1.159" } m) innenfor { "1" } %, den ikke-koherente formen lik navsignal::dll_code_jitter_chips innenfor { "1" } %, grensen for forsvinnende avstand lik sin lukkede form til { "1e-5" }; offset_bpsk_ssc_matches_parseval_closed_form — offset { "0" } til { "3.2" } R_c innenfor { "0.01" } dB og -71.86 dB/Hz ved null offset for BPSK({ "10" }); altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b; modulation_labels_round_trip)
+
+dat-074d46f6f98e = navsignal::tests (BPSK selv-SSC = 2/3R_c; PSD med enhetsareal; DLL); tests/nav_signal_modulation_code_tracking_reference.rs (kryss- og autokorrelasjon for GPS C/A Gold-koder med eksakt heltallssamsvar mot uavhengig IS-GPS-200-kodegenerering; PSD for BPSK-R({ "1" })/sinus-BOC({ "1,1" }) mot et uavhengig scipy-periodogram); tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath, festet)
+
+dat-5fbf3f1068a6 = Nærfelts VLBI-forsinkelse for en jordbasert grunnlinje som observerer et månefyr + partielle deriverte
+
+dat-5e50328089ad = Nærfelts VLBI-forsinkelse for en jordbasert grunnlinje som observerer et månefyr, med partielle deriverte for fyr og stasjon, på kjernestien (lunar_vlbi::KernelGeometry): DE440 for Jorden og Månen, DE440 for månens hovedakser, ITRF93-jordorientering med UT1 og polbevegelse, hver lystid konvergert i det barysentriske referansesystemet, partielle deriverte med lystidsfaktoren 1/(c - u.V). Kan kjøres som scenarioet `lunar-vlbi` med planetary_kernel_path, earth_orientation_kernel_path og moon_orientation_kernel_path satt; de validerte utdataene er serien geometric_delay_s og epoch_partials på kjernestien. På kjernestien legger delay_s til det analytiske differensierte Shapiro-leddet, som ikke sammenlignes, og delay_rate og near_field_correction_us sammenlignes ikke
+
+dat-5fb49ed30d7a = nettverkets holdover-fordeling, kort GNSS-avbrudd
+
+dat-eb198e9c2794 = nettverksgrense ved referansepunkt C
+
+dat-38cfda4792ce = Nye Studio-visninger
+
+dat-37901b388424 = Referansedeviasjoner fra NIST SP { "1065" } (Riley) / Stable32 på NBS14
+
+dat-51f0c17d1596 = Formatkontroll av NMEA { "0183" }-treningsstrømmer og dekodede verdier
+
+dat-a65b89641c3e = NMEA-treningsstrømmer: kshana nmea-scenario
+
+dat-c8fff0b939ce = nmea_synth (spor, setninger, scenarioer); cli nmea-scenario
+
+dat-24431d690b8d = Ingen ekstern uavhengig referanse, og ExternalDataset er avslått. De to inngangsverdiene er en Eb/N0-margin og en kryssing av en C/N0-terskel, begge funksjoner av en MODELLED EIRP, kvalitetstall og samlet tapsfordeling; det finnes ingen målt tilgjengelighetsregistrering for en hybrid optisk/RF-tjeneste mellom Jorden og Månen å sjekke det sammensatte tallet mot. Kontrollene som finnes er interne og er oppgitt som sådan: sammensetningen beregnes på nytt fra rapportens egne publiserte marginer, ikke fra senderens interne størrelser, og lukkingsavstanden verifiseres ved å kjøre lenkeligningen på nytt VED den og kreve at marginen forsvinner — en inversjonsrundtur, ikke en uavhengig implementasjon. Tallets ærlige begrensning er registrert på selve rapporten: det er en deterministisk 0/1-indikator, ikke en sannsynlighet, fordi ingenting i denne motoren måler en fordeling av RF-lenkeutfall på dette båndet og denne geometrien. Den manglende inngangsverdien er navngitt i rf_availability.factors_not_included i stedet for å bli funnet på, og å levere den er det en probabilistisk RF-tilgjengelighet ville trenge
+
+dat-ecd4bf05a7bc = Ingen ekstern uavhengig referanse, og ingen er mulig: dette er selvbeskrivelse, ikke en måling. Den er registrert fordi fraværet av den var en mangel — P5 måtte hente bærebølgelengden og senderaperturen fra kildestandardverdier, og slutte at en bar `variance` var i kvadratmeter ut fra en intern konsistenssjekk. Slutningen var riktig, og nettopp derfor betydde det noe: ingenting ville ha fanget det opp om den var feil
+
+dat-c8d2d183e4a2 = mpmath { "1.3.0" } (BSD-3-Clause) røtter med 50 sifre fra de nøyaktige binære inngangsverdiene. Terskler forhåndsregistrert i xval/kepler-mpmath/PREREGISTRATION.md (df22174), oppgitt relativt til |E| med betingelsesargumentet e -> { "1" }, M -> { "0" }; alle nådd (xval/kepler-mpmath/RESULTS.md). De eldre løserne (solve_kepler_checked, orbit::solve_kepler, ephem::solve_kepler) er numerisk uendret, fordi innsjekkede utdata avhenger av dem, og dekkes ikke av denne raden
