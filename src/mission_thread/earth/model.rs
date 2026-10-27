@@ -18,10 +18,11 @@ impl<'a> Model<'a> {
     pub fn only(&self, allowed: &[&str]) -> Result<(), String> {
         for k in self.table.keys() {
             if !allowed.contains(&k.as_str()) {
-                return Err(format!(
-                    "{}: unknown model key `{k}`; the keys are {}",
-                    self.kind,
-                    allowed.join(", ")
+                return Err(crate::terr!(
+                    "e-mission-thread-earth-model-unknown-model-key-the-keys",
+                    kind = self.kind,
+                    k = k,
+                    allowed = allowed.join(", ")
                 ));
             }
         }
@@ -37,10 +38,18 @@ impl<'a> Model<'a> {
     /// A required finite number.
     pub fn num(&self, key: &str) -> Result<f64, String> {
         match self.table.get(key) {
-            None => Err(format!("{}: the model needs `{key}`", self.kind)),
+            None => Err(crate::terr!(
+                "e-mission-thread-earth-model-the-model-needs",
+                kind = self.kind,
+                key = key
+            )),
             Some(_) => match self.raw(key) {
                 Some(v) if v.is_finite() => Ok(v),
-                _ => Err(format!("{}: `{key}` must be a finite number", self.kind)),
+                _ => Err(crate::terr!(
+                    "e-mission-thread-earth-model-must-be-finite-number",
+                    kind = self.kind,
+                    key = key
+                )),
             },
         }
     }
@@ -51,7 +60,12 @@ impl<'a> Model<'a> {
         if v > 0.0 {
             Ok(v)
         } else {
-            Err(format!("{}: `{key}` must be above 0, got {v}", self.kind))
+            Err(crate::terr!(
+                "e-mission-thread-earth-model-must-be-above-got",
+                kind = self.kind,
+                key = key,
+                v = crate::i18n::num_plain(v)
+            ))
         }
     }
 
@@ -61,9 +75,11 @@ impl<'a> Model<'a> {
         if v >= 0.0 {
             Ok(v)
         } else {
-            Err(format!(
-                "{}: `{key}` must be at least 0, got {v}",
-                self.kind
+            Err(crate::terr!(
+                "e-mission-thread-earth-model-must-be-at-least-got",
+                kind = self.kind,
+                key = key,
+                v = crate::i18n::num_plain(v)
             ))
         }
     }
@@ -81,10 +97,13 @@ impl<'a> Model<'a> {
     pub fn text(&self, key: &str) -> Result<Option<&str>, String> {
         match self.table.get(key) {
             None => Ok(None),
-            Some(v) => v
-                .as_str()
-                .map(Some)
-                .ok_or_else(|| format!("{}: `{key}` must be a string", self.kind)),
+            Some(v) => v.as_str().map(Some).ok_or_else(|| {
+                crate::terr!(
+                    "e-mission-thread-earth-model-must-be-string",
+                    kind = self.kind,
+                    key = key
+                )
+            }),
         }
     }
 
@@ -93,14 +112,24 @@ impl<'a> Model<'a> {
         match self.table.get(key) {
             None => Ok(Vec::new()),
             Some(v) => {
-                let arr = v
-                    .as_array()
-                    .ok_or_else(|| format!("{}: `{key}` must be an array of tables", self.kind))?;
+                let arr = v.as_array().ok_or_else(|| {
+                    crate::terr!(
+                        "e-mission-thread-earth-model-must-be-an-array-of",
+                        kind = self.kind,
+                        key = key
+                    )
+                })?;
                 arr.iter()
                     .map(|t| {
                         t.as_table()
                             .map(|t| Model::new(self.kind, t))
-                            .ok_or_else(|| format!("{}: `{key}` must hold tables", self.kind))
+                            .ok_or_else(|| {
+                                crate::terr!(
+                                    "e-mission-thread-earth-model-must-hold-tables",
+                                    kind = self.kind,
+                                    key = key
+                                )
+                            })
                     })
                     .collect()
             }
@@ -110,18 +139,28 @@ impl<'a> Model<'a> {
     /// An optional list of three or six finite numbers is not needed yet; a required array of
     /// `n` numbers.
     pub fn array(&self, key: &str, n: usize) -> Result<Vec<f64>, String> {
-        let v = self
-            .table
-            .get(key)
-            .ok_or_else(|| format!("{}: the model needs `{key}`", self.kind))?;
-        let a = v
-            .as_array()
-            .ok_or_else(|| format!("{}: `{key}` must be an array of {n} numbers", self.kind))?;
+        let v = self.table.get(key).ok_or_else(|| {
+            crate::terr!(
+                "e-mission-thread-earth-model-the-model-needs",
+                kind = self.kind,
+                key = key
+            )
+        })?;
+        let a = v.as_array().ok_or_else(|| {
+            crate::terr!(
+                "e-mission-thread-earth-model-must-be-an-array-of-2",
+                kind = self.kind,
+                key = key,
+                n = n
+            )
+        })?;
         if a.len() != n {
-            return Err(format!(
-                "{}: `{key}` must hold {n} numbers, got {}",
-                self.kind,
-                a.len()
+            return Err(crate::terr!(
+                "e-mission-thread-earth-model-must-hold-numbers-got",
+                kind = self.kind,
+                key = key,
+                n = n,
+                got_count = a.len()
             ));
         }
         a.iter()
@@ -129,7 +168,13 @@ impl<'a> Model<'a> {
                 x.as_float()
                     .or_else(|| x.as_integer().map(|i| i as f64))
                     .filter(|f| f.is_finite())
-                    .ok_or_else(|| format!("{}: `{key}` must hold finite numbers", self.kind))
+                    .ok_or_else(|| {
+                        crate::terr!(
+                            "e-mission-thread-earth-model-must-hold-finite-numbers",
+                            kind = self.kind,
+                            key = key
+                        )
+                    })
             })
             .collect()
     }
