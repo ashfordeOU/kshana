@@ -279,3 +279,29 @@ seg-257c477dc510 = WebAssembly
 seg-2192262e26c1 = spełnione
 
 seg-785218a0ea66 = Czym Kshana nie jest
+
+seg-b366150de755 = Zamów badanie
+
+seg-12f050093898 = Dlaczego potrzebuje go każdy
+
+seg-d997b6a5a416 = Dlaczego Pro, jeszcze więcej
+
+seg-4ff013b472ff = Który projekt wybrać do lotu?
+
+seg-f4eb65b9b27a = Księżycowa konstelacja nawigacyjna: najmniej satelitów wobec dostępności, cały Księżyc: uruchomiono { "608" } projektów, front Pareto z { "12" } projektów
+
+seg-c8ce2e4a6687 = Jak bardzo jesteśmy pewni i co napędza wynik?
+
+seg-049c503c23db = Holdover zegara przy niepewnym poziomie szumu: od 5. do 95. percentyla z { "2,000" } przebiegów wobec limitu { "20" } ns
+
+seg-3dd37275b448 = Czy misja spełnia swoje wymagania i czy możemy to przekazać?
+
+seg-7fbde256debf = niespełnione
+
+seg-f6ccb7a322b3 = otwarte pozycje
+
+seg-6d3d0f8c9b7c = Poproś o ocenę Pro
+
+seg-813d6d41b891 = Skopiuj polecenie, które to odtwarza
+
+seg-a0ef302e2458 = Skopiuj polecenie
