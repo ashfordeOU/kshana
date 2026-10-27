@@ -16,7 +16,7 @@ Recommendation.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="figures/0.38/timing-light.svg">
-  <img src="figures/0.38/timing-light.svg" alt="A holdover test scored from a time-error record, from a real run of engine v0.39.0 on scenarios/holdover-test-example.toml (601 samples every 5 s). GNSS is removed by the operator at 600 s and restored at 2400 s; the time error drifts to 299 ns at the end of holdover, past the 100 ns budget after 675 s, and returns inside the 100 ns band 70 s after restoration. Verdicts: baseline masks PASS, holdover masks FAIL, holdover envelope FAIL, recovery RECOVERED. Measured against the mask, not an approval. The times are the operator's statement, not verified by Kshana. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <img src="figures/0.38/timing-light.svg" alt="A holdover test scored from a time-error record, from a real run of engine v0.40.0 on scenarios/holdover-test-example.toml (601 samples every 5 s). GNSS is removed by the operator at 600 s and restored at 2400 s; the time error drifts to 299 ns at the end of holdover, past the 100 ns budget after 675 s, and returns inside the 100 ns band 70 s after restoration. Verdicts: baseline masks PASS, holdover masks FAIL, holdover envelope FAIL, recovery RECOVERED. Measured against the mask, not an approval. The times are the operator's statement, not verified by Kshana. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 ## The procedure
