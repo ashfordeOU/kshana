@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # 0.40.0 integration: handover (W63, 27 Oct 2026)
 
-Branch `integ/0.40.0-rc` (from `origin/main` bc04e98f, via `integ/0.40.0` up to 2f2e9d9c; merge commits only, Ashforde OÜ identity, no trailers). The brief is
+Branch `integ/0.40.0-rc2` (from `origin/main` bc04e98f, via `integ/0.40.0` up to 2f2e9d9c, then aa28d9ab; merge commits only, Ashforde OÜ identity, no trailers). The brief is
 in kshana-pro `ws/coordination` `docs/plans/0.40-INTEGRATION-BRIEF.md`; this page follows
 `docs/design/integration-0.38-handover.md`.
 
-## Merged, in the brief's order
+## Merged, in the brief's order (W55's engine batch is in at 8d915b22; its handover files were copied, not merged)
 
 1 chore/carry-0.40 a702f27b; 2 docs/partner-kit-0.40 a5a0c57e; 3 prereg/bench-0.40 b8fc95da; 4 prereg/space-0.40 22e08519;
 5 docs/screenshots-0.40 888169ce; 6 feat/clock-ingest-0.40 59f9484d; 7 feat/evidence-labels-0.40 3a33e482;
@@ -70,7 +70,7 @@ Conflict notes:
 4. WASM release build (`wasm-pack build --target web --out-dir web/pkg --release -- --features wasm`), Studio re-record at
    one engine commit including mission-thread, site build and port: W60.
 5. Full local suite once, resumable per target (558 test targets), after all merges; the four labfit-followup tests are left
-   to CI; the attribution check; push `integ/0.40.0-rc` (the integration branch; `integ/0.40.0` is left untouched). The coordinator opens a CI-only draft PR; the owner fast-forwards
+   to CI; the attribution check; push `integ/0.40.0-rc2` (the integration branch; `integ/0.40.0` and `integ/0.40.0-rc` are left untouched). The coordinator opens a CI-only draft PR; the owner fast-forwards
    main and tags.
 
 ## Toolchain and gotchas
@@ -87,4 +87,6 @@ Conflict notes:
   `CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 CARGO_PROFILE_RELEASE_DEBUG=0 CARGO_INCREMENTAL=0`; a debug `target` with
   debuginfo reached 16 GB. Delete `target` and any scratch copies between large steps.
 - A debug build of the crate plus a handful of test targets takes about 3 minutes on 4 cores.
+- `integ/0.40.0-rc` was abandoned because a merged-in file carried an address the attribution scan rejects; gate every push
+  on the scan's exit status (`scripts/check-no-attribution.sh && git push`), not on its last output line.
 - A hook suggested a different commit identity; declined (owner-identity rule: commits as Ashforde OÜ, never rewrite history).
