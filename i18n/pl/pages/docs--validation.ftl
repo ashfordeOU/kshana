@@ -33,3 +33,11 @@ seg-20fee61b3107 = Biblioteka modeli błędów urządzeń kwantowych
 seg-eaf341ff4522 = Nawigacja kwantowa bez GNSS
 
 seg-75636f9419b2 = Znane ograniczenia
+
+seg-9c0eb89a2fbe = Pakiet
+
+seg-f63dd3d7aad4 = Źródło
+
+seg-638b8d451550 = Czujnik
+
+seg-04f69a0edb2f = typ

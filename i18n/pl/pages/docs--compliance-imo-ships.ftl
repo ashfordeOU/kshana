@@ -51,3 +51,41 @@ seg-50fe2a3ff712 = Monitorowanie integralności i poziomy ochrony
 seg-3174ce5524ff = Kshana oblicza poziomy ochrony i dostępność względem limitu alarmowego dla modelowanej geometrii; wartości dokładności, dostępności i czasu ostrzeżenia z rezolucji nie są tu zapewniane.
 
 seg-f8a8be29dbba = Rezolucja A.1046({ "27" }), akapit załącznika { "2" } (wody oceaniczne)
+
+seg-94f9f0ab0866 = Wymagania dotyczące dokładności, częstości aktualizacji, dostępności i ostrzeżeń o integralności dla systemu radionawigacyjnego w fazie oceanicznej.
+
+seg-b0c066123693 = Jak wyżej, dla fazy oceanicznej.
+
+seg-7c1de7adc923 = MSC.401({ "95" }), { "3.1" } do { "3.2" }
+
+seg-c25b6768154b = Odbiornik wykorzystuje sygnały cywilne z co najmniej dwóch niezależnych systemów i dostarcza rozwiązanie pozycji, prędkości i czasu z wymaganą odpornością i integralnością.
+
+seg-ca762d135dc6 = Alternatywne i zróżnicowane źródła PNT; Monitorowanie integralności i poziomy ochrony
+
+seg-a06e2ebdc7db = Integralność w trybie wielokonstelacyjnym jest modelowana; faktyczne wykorzystanie dwóch systemów przez odbiornik jest przedmiotem testu produktu.
+
+seg-3c0debb679f9 = MSC.401({ "95" }), { "3.11" } do { "3.14" }
+
+seg-bf85bf6d0c72 = Odbiornik ocenia dokładność i integralność dla każdej fazy nawigacji, wydaje ostrzeżenie (caution), gdy nie może jej ocenić, wydaje alarm (warning), gdy nowe rozwiązanie nie nadchodzi na czas, i pokazuje ostatnią wiarygodną wartość wraz z jednoznacznym stanem.
+
+seg-97bac777685c = Ocena zaufania na podstawie dziennika odbiornika; Monitorowanie integralności i poziomy ochrony; Holdover i dryf bezwładnościowy
+
+seg-4a160a1d3d5c = Kshana odczytuje synchronizację czasu i zaufanie z dziennika; to, czy wyświetlane przedziały ostrzeżeń i alarmów odpowiadają wymaganiom normy, zależy od interfejsu użytkownika odbiornika, którego dziennik nie pokazuje.
+
+seg-fd5fb56607d3 = MSC.401({ "95" }), { "3.15" } do { "3.16" }
+
+seg-d9e313c81719 = Pokazuj stan wspomagania oraz pozycję, kurs, prędkość, czas i użyte źródła.
+
+seg-b76dba044d7f = Wymagania dotyczące wyświetlania; żaden wynik { -brand } się do nich nie odnosi.
+
+seg-9c7b4735bb5e = MSC.401({ "95" }), { "4.2" }
+
+seg-32b14cf2caaa = Działaj zadowalająco w normalnych warunkach zakłóceń, zgodnie z rezolucją A.694({ "17" }) (wymagania ogólne dla okrętowych urządzeń radiowych) oraz typowym środowiskiem radiowym na pokładzie i poza nim. Nie jest to wymaganie odporności na zagłuszanie (jamming) ani na spoofing.
+
+seg-ab36bad624ff = Skutki zagłuszania w bilansie łącza; Ocena zaufania na podstawie dziennika odbiornika
+
+seg-61d509831c2b = Testowanie w normalnych warunkach zakłóceń jest pomiarem laboratoryjnym na odbiorniku; samej rezolucji A.694({ "17" }) nie czytano.
+
+seg-24a0de8aecd8 = <s1>Poprzednia</s1>Ramy odpornego PNT Departamentu Bezpieczeństwa Wewnętrznego USA
+
+seg-77a3a225a389 = <s1>Następna</s1>Wytyczne EASA dla lotnictwa

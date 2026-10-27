@@ -5,3 +5,5 @@ seg-2247a2344710 = Znaczenie
 seg-adc34608c46b = Klasa
 
 seg-fdbb9db68f1d = brak
+
+seg-f63dd3d7aad4 = Źródło
