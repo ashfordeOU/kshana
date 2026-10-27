@@ -301,7 +301,7 @@ dat-d0d290dc8e8e = Une entrée à 3-DoF en masse ponctuelle au-dessus d'une Terr
 dat-bd64657e5505 = Un estimateur des moindres carrés par lots qui RETROUVE l'état initial du chef à partir de mesures inter-satellites simulées sur des préfixes croissants de la même grille d'époques que celle du tableau rang-arc, les dérivées partielles des mesures étant prises comme différences finies centrales du modèle direct composé. Il n'utilise rien de la machinerie avec laquelle le seuil a été mesuré — aucune ligne jacobienne analytique, aucune matrice de transition d'état variationnelle, aucune décomposition en valeurs singulières ou en valeurs propres, aucune tolérance de rang, aucun filtre d'information en racine carrée — et ne partage que la dynamique, les conditions initiales, l'observable scalaire et la grille d'époques, chacune nommée dans le document émis. Deux critères, tous deux balayés : la récupération sans bruit (l'analogue du rang) et l'estimabilité de Monte-Carlo (l'analogue de l'estimabilité, mesurée par rapport à une vérité connue plutôt que prédite à partir d'une covariance). Exécutable comme type de scénario `cislunar-arc-recovery`
 
 # data/search.json
-dat-ddbdc000f960 = Une exécution sur banc pour une pièce représentative du vol (cadrée, non réalisée)
+dat-ddbdc000f960 = Une exécution bench pour une pièce représentative du vol (cadrée, non réalisée)
 
 # data/verification-matrix.json
 dat-f9c068a3faae = Une mission enchaînée à travers des types de scénario sur une seule chronologie partagée
@@ -6566,13 +6566,13 @@ dat-ab8e111d6db1 = Géopotentiel tesséral dans le propagateur de Cowell
 dat-c481865fdebf = Essai appliqué
 
 # studio/data/capabilities.json
-dat-7e4f76cf5f02 = Export pour banc d'essai
+dat-7e4f76cf5f02 = Export test-bench
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-ae7811e71c53 = Export pour banc d'essai (kshana bench-export) : colonnes fixes par rapport à la Terre, géodésiques et de vitesse locale, colonnes d'attitude et sortie NMEA { "0183" }
 
 # data/verification-matrix.json
-dat-98bed4a06290 = Export pour banc d'essai lu par les lecteurs de fichiers de mouvement d'un simulateur (gps-sdr-sim)
+dat-98bed4a06290 = Export test-bench lu par les lecteurs de fichiers de mouvement d'un simulateur (gps-sdr-sim)
 
 # data/search.json
 dat-2c1e5ddbab6d = Tests et données de test

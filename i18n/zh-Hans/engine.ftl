@@ -2451,7 +2451,7 @@ engine-interop-stk-kshana-export-object = # Kshana { $v1 } 导出：{ $scene }�
 
 engine-interop-testbench-jammer-dbw-transmit-power-dbi = { $jammer_type } 干扰源，发射功率 { $power_dbw } dBW，天线增益 { $gain_dbi } dBi（场景链路预算的参数，而非信号）
 
-engine-e-interop-testbench-has-no-vehicle-trajectory-to = `{ $other }` 没有可导出的载体轨迹；试验台导出涵盖 gnss-ins、jamming 和 gnss-sim 类场景
+engine-e-interop-testbench-has-no-vehicle-trajectory-to = `{ $other }` 没有可导出的载体轨迹；test-bench 导出涵盖 gnss-ins、jamming 和 gnss-sim 类场景
 
 engine-e-interop-testbench-empty-motion-csv = 运动 CSV 为空
 
@@ -7712,9 +7712,9 @@ engine-kind-lunar-joint-od-clock-description = 经建模的联合多技术月球
 
 engine-kind-lunar-frame-realisation-description = 经建模的月球参考框架实现：一次 7 参数 Helmert（相似）基准拟合，包含 3 个平移、3 个小角度旋转和 1 个尺度，通过加权最小二乘（crate::batch_ls::gauss_newton）把一组估计的、由月面坐标导出的 MCMF 点坐标关联到基准，另有一个简单的取向关联，用来表示所实现的、绕 ICRF 轴的小旋转相对于 IAU 2015 WGCCRE 天体取向的值。该场景把已知的小变换（平移约数十 m，旋转约 µrad，尺度约 1e-7）注入一个分布良好的合成点网络，加入带随机种子的高斯噪声，恢复基准，并报告恢复的变换、各参数相对注入真值的恢复误差以及拟合后 RMS 残差。MODELLED 自洽性：恢复的是注入的相似变换（无噪声时接近机器精度），NOT 对照真实跟踪/VLBI 数据的实现；确定性（带随机种子）；无 TRL/飞行传承/机构背书。
 
-engine-kind-moonlight-service-volume-description = 经建模的月球导航服务区分析，基于一个说明性的、来自公开资料的 Moonlight/LCNS 级月球轨道星座（与 ESA 无隶属关系）：在一个时间范围内扫描月面经纬度网格，报告 DOP / 覆盖率 / 可用性（≥4 颗卫星且 PDOP < 阈值），以及覆盖该区域的广义月球 ARAIM 保护级（HPL/VPL）包络。DOP 几何复用已对照 gnss_lib_py 达到 VALIDATED 的核（crate::orbit::dop）；保护级复用 LunaNet LNIS 月球 ARAIM 机制（crate::lunar，σ_URE≈30 m），并在特例下退化为现有的南极保护级。MODELLED 的组合：圆轨道/椭圆开普勒中继集（不是真实的差分修正 LCNS/NRHO 星历），平均自转的月球（无天平动/进动极）。确定性（纯几何）。无 TRL/飞行传承/机构背书。
+engine-kind-moonlight-service-volume-description = 经建模的月球导航服务区分析，基于一个 ILLUSTRATIVE 的、来自公开资料的 Moonlight/LCNS 级月球轨道星座（与 ESA 无隶属关系）：在一个时间范围内扫描月面经纬度网格，报告 DOP / 覆盖率 / 可用性（≥4 颗卫星且 PDOP < 阈值），以及覆盖该区域的广义月球 ARAIM 保护级（HPL/VPL）包络。DOP 几何复用已对照 gnss_lib_py 达到 VALIDATED 的核（crate::orbit::dop）；保护级复用 LunaNet LNIS 月球 ARAIM 机制（crate::lunar，σ_URE≈30 m），并在特例下退化为现有的南极保护级。MODELLED 的组合：圆轨道/椭圆开普勒中继集（不是真实的差分修正 LCNS/NRHO 星历），平均自转的月球（无天平动/进动极）。确定性（纯几何）。无 TRL/飞行传承/机构背书。
 
-engine-kind-lunar-differential-pnt-description = 经建模的月球差分 PNT（月球版 DGNSS/SBAS）：一个 NovaMoon 级参考站位于已知的月面位置，根据一个说明性的、来自公开资料的 Moonlight/LCNS 级星座计算各卫星的差分修正（NovaMoon 仅作为系统类别提及，与 ESA 无隶属关系），距离参考站 baseline_km 的用户应用这些修正，使共模的轨道 + 钟差相互抵消。钟差项精确抵消（代数恒等式）；轨道项仅留下视线差投影，该投影随基线 → 0 而 → 0（空间去相关下限），并随基线近似线性增长。报告用户有修正与无修正时的3-D位置误差、降低倍数、误差与基线的关系曲线，以及复用 DO-229E SBAS 机制（crate::sbas）并采用差分残差 σ 的用户保护级。MODELLED：精确抵消恒等式 + 一阶去相关模型；未经真实数据验证；无 TRL/飞行传承/机构背书。带随机种子时为确定性。
+engine-kind-lunar-differential-pnt-description = 经建模的月球差分 PNT（月球版 DGNSS/SBAS）：一个 NovaMoon 级参考站位于已知的月面位置，根据一个 ILLUSTRATIVE 的、来自公开资料的 Moonlight/LCNS 级星座计算各卫星的差分修正（NovaMoon 仅作为系统类别提及，与 ESA 无隶属关系），距离参考站 baseline_km 的用户应用这些修正，使共模的轨道 + 钟差相互抵消。钟差项精确抵消（代数恒等式）；轨道项仅留下视线差投影，该投影随基线 → 0 而 → 0（空间去相关下限），并随基线近似线性增长。报告用户有修正与无修正时的3-D位置误差、降低倍数、误差与基线的关系曲线，以及复用 DO-229E SBAS 机制（crate::sbas）并采用差分残差 σ 的用户保护级。MODELLED：精确抵消恒等式 + 一阶去相关模型；未经真实数据验证；无 TRL/飞行传承/机构背书。带随机种子时为确定性。
 
 engine-kind-lunar-station-coverage-description = 经建模的月球参考站覆盖：对月球差分 PNT 模型在南极用户网格和一天历元上做蒙特卡罗扫描。位于已知南极站点的差分参考站修正一个给定的星座（说明性开普勒星座或表格化星历），给定空间信号误差、测量误差、修正延迟和链路量化；对每个点以及整个区域，报告修正后与未修正的位置误差百分位（3-D、水平、垂直）、可用性、对照给定阈值的覆盖率、DO-229E 保护级、每个方位角的覆盖半径，以及测站处和最差点处的修正链路预算。不代表任何真实系统的性能；与任何机构无隶属关系，亦未获其背书。MODELLED。
 
@@ -7808,7 +7808,7 @@ engine-kind-araim-reference-check-description = 已发布的 ARAIM 认证参考�
 
 engine-kind-lunar-frame-campaign-description = 七参数 Helmert（相似）框架基准，由一次模拟观测活动而不是由注入的变换驱动。一个地球测站网络按明确的计划观测一份月面信标星表；月球 VLBI 时延偏导数在该计划上累积成信标坐标费希尔信息矩阵，方式与 lunar-vlbi-fim 完全相同；该信息再经星表点处的 Helmert 设计 A = [I3 | [p]_x | p] 传播为基准协方差 H = A^T M_b A，并由 crate::fim::crlb 诊断。没有注入任何变换，也没有从预设答案中恢复任何东西，因此所报告的基准精度源自观测方案：时延 sigma 减半，则精度恰好减半；弧段延长则精度改善，因为报告所测量的天平动（sub_earth_direction_sweep_deg）正是把沿视线的信标坐标与天球面内的坐标区分开来的因素。秩、基准亏秩、条件数、完整谱、七参数基底中的不可观测方向、即使满秩时最弱的方向及各参数在其中所占份额，每次运行都会输出；活动未能约束的参数以 NULL 并附状态发布，绝不从近奇异的逆中读出。信标误差相关性是测量得到的，而不是假定的：测站保持固定时，没有观测会涉及两个信标，因此信息矩阵恰好是块对角的（offblock_fraction 为 0）；测站被估计时，经 Schur 边缘化的块是耦合的，所诱导的相关性会被打印出来，并且把相关性舍去后重新运行整个传播，使独立性假设的代价成为一个数。在各向同性的每坐标 sigma 下的同一传播，以及 lunar-frame-realisation 场景所报告的恢复误差，都在此运行，并与活动数值及其比值一并打印。MODELLED：信标星表有出处，但活动是模拟的：测站网络和时延 sigma 是说明性输入，各时延观测被视为相互独立，月心星历、测站时钟、对流层和地球定向参数保持固定，因此基准协方差是针对缩减参数集的克拉美-罗界。不是大地测量产品。
 
-engine-kind-lunar-llr-datum-description = 七参数 Helmert 月球框架基准，由一次真实的、已归档的观测活动而不是模拟活动驱动。lunar-frame-campaign 去掉了注入的变换，但仍把其测站网络、计划和逐观测 sigma 作为说明性输入给出；而此类别把这三者都取自测量：历元是已归档的 ILRS 综合激光测距数据归一化点的地面发射时刻，观测是向月球上五个后向反射器阵列真实发射的激光测距，每个观测权重都是该归一化点自身已归档、从文件读出的精度 bin_rms/sqrt(n_raw)。测站坐标来自 IERS ITRF2020 SLR 解（按其已发布速度推算到历元），反射器坐标来自 JPL DE430 表 7，处于 IAU 2015 WGCCRE 模型所实现的平均地球/平均自转框架中。测距偏导数累积成联合的反射器坐标费希尔信息矩阵，并经同一个 Helmert 设计传播为基准协方差，由 crate::fim::crlb 诊断。秩、亏秩、条件数、谱、七参数基底中的不可观测方向、满秩时最弱的方向及各参数在其中所占份额，每次运行都会输出，未被约束的参数以 NULL 并附状态发布。阵列间相关性被测得恰好为零而不是假定，因为一次激光测距只涉及一个阵列。星表无法定位的记录（例如没有已发布 ITRF 位置的测站）被跳过并计数，绝不给予替代坐标。哪些环节是测量的、哪些是 MODELLED 的，这是报告本身，而不是脚注：月心星历和 IAU 天体取向仍是建模的，其合并大小作为所用每个点的观测减计算单向距离残差输出；对流层、固体潮、测站偏心、极移、UT1-UTC、相对论延迟和测站时钟均未计入，而且在该残差之内。由于星历误差只通过各条视线的方向影响协方差，每次运行还会把全部偏导数按 sensitivity_tilt_deg（符号交替）倾斜后重新求解整个基准并输出比值，因此协方差对建模星历的不敏感性是一个数，而不是一个论证。模拟活动自身的数字被运行并与测量数字一并打印，而不是抄录。MODELLED：七参数数值是针对真实计划上缩减参数集的克拉美-罗界，不是已求解的基准，不是 LLR 分析，也不是大地测量产品。已提交的真实数据切片随仓库提供，但不随已发布的 crate 提供；请把 data_dir 指向它的一份副本。
+engine-kind-lunar-llr-datum-description = 七参数 Helmert 月球框架基准，由一次真实的、已归档的观测活动而不是模拟活动驱动。lunar-frame-campaign 去掉了注入的变换，但仍把其测站网络、计划和逐观测 sigma 作为 ILLUSTRATIVE 输入给出；而此类别把这三者都取自测量：历元是已归档的 ILRS 综合激光测距数据归一化点的地面发射时刻，观测是向月球上五个后向反射器阵列真实发射的激光测距，每个观测权重都是该归一化点自身已归档、从文件读出的精度 bin_rms/sqrt(n_raw)。测站坐标来自 IERS ITRF2020 SLR 解（按其已发布速度推算到历元），反射器坐标来自 JPL DE430 表 7，处于 IAU 2015 WGCCRE 模型所实现的平均地球/平均自转框架中。测距偏导数累积成联合的反射器坐标费希尔信息矩阵，并经同一个 Helmert 设计传播为基准协方差，由 crate::fim::crlb 诊断。秩、亏秩、条件数、谱、七参数基底中的不可观测方向、满秩时最弱的方向及各参数在其中所占份额，每次运行都会输出，未被约束的参数以 NULL 并附状态发布。阵列间相关性被 MEASURED 恰好为零而不是假定，因为一次激光测距只涉及一个阵列。星表无法定位的记录（例如没有已发布 ITRF 位置的测站）被跳过并计数，绝不给予替代坐标。哪些环节是 MEASURED 的、哪些是 MODELLED 的，这是报告本身，而不是脚注：月心星历和 IAU 天体取向仍是建模的，其合并大小作为所用每个点的观测减计算单向距离残差输出；对流层、固体潮、测站偏心、极移、UT1-UTC、相对论延迟和测站时钟均未计入，而且在该残差之内。由于星历误差只通过各条视线的方向影响协方差，每次运行还会把全部偏导数按 sensitivity_tilt_deg（符号交替）倾斜后重新求解整个基准并输出比值，因此协方差对建模星历的不敏感性是一个数，而不是一个论证。模拟活动自身的数字被运行并与测量数字一并打印，而不是抄录。MODELLED：七参数数值是针对真实计划上缩减参数集的克拉美-罗界，不是已求解的基准，不是 LLR 分析，也不是大地测量产品。已提交的真实数据切片随仓库提供，但不随已发布的 crate 提供；请把 data_dir 指向它的一份副本。
 
 engine-kind-lunar-beacon-description = 对月球轨道导航服务的地表信标增强，以可运行的前后对比表给出。南极用户在天空的一小块区域内看到稀疏的轨道星集，因此测距几何病态；少量经测量的地表信标提供全部位于头顶的星集所缺少的低高度角、宽方位角视线行，水平精度因子随之骤降。该场景报告同一历元下的三种配置：仅卫星、卫星加可见信标，以及更大的星座（作为达到同一几何的另一条途径）；每种配置都给出其可见源数量、完整的 DOP，以及通过乘以每信标用户等效测距误差得到的以 METRES（米）计的实现 1 sigma 精度，该误差由时钟同步、多路径和测量项按方和根组合而成。信标可见性是无大气月球的两高度几何地平线（没有大气，因此界限是精确的），DOP 组装是同一个核，已在 tests/dop_reference.rs 中与 gnss_lib_py 交叉核对。此类别存在的原因：其背后的模块自 L08/L09 起就在引擎中，并已对照独立的 DOP 路径核对，但从运行中无法触及：没有类别、没有分派分支、没有随附文件。README 宣传了该能力，而验证矩阵对它完全没有对应行，因此它在引擎中不可触及的同时，在行文中被声称、在台账（ledger）中却未被声称。默认值是已带有提交的黄金参考的几何（位于 -80 deg、天线高 2 m 的用户，位于 -80/0、-79/+60 和 -79/-60、高 2 km 的三个信标，t=0 时的六颗卫星说明性 LCNS 快照，5 deg 截止角），因此空运行复现的是已有参考基准覆盖的表，而不是凭空给出新数字。MODELLED：星座设计、信标布设和每个误差预算量值都是说明性输入，不是已部署的测量或实测链路；只有 DOP 算术、地平线闭式和 sigma = DOP x sigma_URE 关系有外部锚定。不是服务性能承诺。
 
@@ -7816,11 +7816,11 @@ engine-kind-earth-gnss-lunar-description = 月球距离处的地球 GNSS 接收�
 
 engine-kind-lunar-infrastructure-description = MODELLED 的研究，把月球的轨道和表面作为导航与大地测量基础设施，五项研究合用一个类别，由 `study` 选择：od-consistency（NRHO 或 ELFO 中的星上地球 GNSS 定轨，对照独立的地面无线电测量定轨，以带随机种子的蒙特卡罗中各自的协方差来判断）、carrier-phase（月面与轨道器联合的双差载波相位及用 LAMBDA 做的整周模糊度解算）、frame-coestimation（在地球测站测距基础上加入月面测站和轨道器，用于七参数月球框架基准）、space-tie（同一航天器上的 GNSS、VLBI 和激光测距，框架联结精度对照局部联结误差）以及 geodesy-sensitivity（来自激光测距、轨道器跟踪、月面重力仪和月面时钟的月球勒夫数 h2、k2、l2 和物理天平动的费希尔信息）。采用带有所述简化的限制性三体模型；数值经独立程序核对，没有任何东西与月球量的测量值作比较。
 
-engine-kind-cislunar-arc-recovery-description = MODELLED 的地月空间弧长可观测性阈值独立估计器检验。该阈值是在由解析测距雅可比各行和解析变分状态转移矩阵组装的可观测性矩阵上读取的秩，而其平方根信息滤波器交叉核对折叠的正是同样的行：这是两台数值机器之间的一致性检查，而不是佐证。此类别提供了缺失的裁决者：一个批最小二乘估计器，它根据仿真测量实际恢复主星的初始状态，测量偏导数取自复合正向模型的中心有限差分。它不调用任何解析雅可比行、变分 STM、奇异值或特征分解、秩容差和平方根信息滤波器，tests/cislunar_arc_recovery_reference.rs 中的源文本守卫使这一点可被强制检验；而动力学（同样的 RK4 CR3BP 流）、初始条件（同样的差分修正星座）、标量观测量和历元网格是有意共用的，并在输出的 `independence` 块中命名，因为对同一物理问题的两种分析必须在物理上一致才能比较。两个判据，各自在其自身界限的五个数量级范围内扫描：无噪声恢复（每个带随机种子的试验的最终状态误差至多为 recovery_factor 乘以其先验位移，即秩的类比，其中没有奇异值容差）和蒙特卡罗可估计性（带随机种子的噪声集合上测得的 RMS 位置误差低于所述界限，即可估计性的类比，是测得而非预测的）。支持平面四状态和空间六状态、DRO / L2 晕轨道 / L2 NRHO 族、测距和距离变化率观测量，以及以月球为中心的极坐标参数化，其中变换施加于状态，并在那里对正向模型重新做差分。在已发布的平面 DRO 网格上的实测：估计器从 { $lit_0_782609 } h 起即可恢复四状态，而秩判据为 { $lit_2_086957 } h（rel_tol 为 1e-6，比值 { $lit_0_375 }）：该秩阈值未得到证实，不能作为可恢复性边界；而实测的可估计性边界与形式边界落在同一个网格单元，为 { $lit_5_739130 } h，并且实测误差曲线在 21 个弧长上复现形式 1 sigma，几何平均比值为 { $lit_0_98 }。MODELLED：星座设计、历元网格、单条被跟踪链路、位移量值、测量 sigma 和两个所述界限。不是经认证的导航性能产品。
+engine-kind-cislunar-arc-recovery-description = MODELLED 的地月空间弧长可观测性阈值独立估计器检验。该阈值是在由解析测距雅可比各行和解析变分状态转移矩阵组装的可观测性矩阵上读取的秩，而其平方根信息滤波器交叉核对折叠的正是同样的行：这是两台数值机器之间的一致性检查，而不是佐证。此类别提供了缺失的裁决者：一个批最小二乘估计器，它根据仿真测量实际恢复主星的初始状态，测量偏导数取自复合正向模型的中心有限差分。它不调用任何解析雅可比行、变分 STM、奇异值或特征分解、秩容差和平方根信息滤波器，tests/cislunar_arc_recovery_reference.rs 中的源文本守卫使这一点可被强制检验；而动力学（同样的 RK4 CR3BP 流）、初始条件（同样的差分修正星座）、标量观测量和历元网格是有意共用的，并在输出的 `independence` 块中命名，因为对同一物理问题的两种分析必须在物理上一致才能比较。两个判据，各自在其自身界限的五个数量级范围内扫描：无噪声恢复（每个带随机种子的试验的最终状态误差至多为 recovery_factor 乘以其先验位移，即秩的类比，其中没有奇异值容差）和蒙特卡罗可估计性（带随机种子的噪声集合上测得的 RMS 位置误差低于所述界限，即可估计性的类比，是测得而非预测的）。支持平面四状态和空间六状态、DRO / L2 晕轨道 / L2 NRHO 族、测距和距离变化率观测量，以及以月球为中心的极坐标参数化，其中变换施加于状态，并在那里对正向模型重新做差分。在已发布的平面 DRO 网格上的 MEASURED：估计器从 { $lit_0_782609 } h 起即可恢复四状态，而秩判据为 { $lit_2_086957 } h（rel_tol 为 1e-6，比值 { $lit_0_375 }）：该秩阈值未得到证实，不能作为可恢复性边界；而实测的可估计性边界与形式边界落在同一个网格单元，为 { $lit_5_739130 } h，并且实测误差曲线在 21 个弧长上复现形式 1 sigma，几何平均比值为 { $lit_0_98 }。MODELLED：星座设计、历元网格、单条被跟踪链路、位移量值、测量 sigma 和两个所述界限。不是经认证的导航性能产品。
 
 engine-kind-telecom-timing-description = 电信授时：GNSS 守时（holdover）的钟差、最大时间间隔误差（MTIE）和时间偏差（TDEV），对照 ITU-T 掩码检查，每个掩码给出 PASS 或 FAIL 及余量。输入是合成守时（一个振荡器预设：ocxo、rubidium、caesium 或 csac，各自带有某份已命名的公开 Microchip 数据手册中的稳定度、老化和温度数值；外加 GNSS 丢失时间、记录长度和采样间隔；自由运行的时钟带有白噪声、闪烁噪声，以及在数据手册拟合需要时的随机游走频率噪声、线性老化和正弦温度项），或内联给出的 [time_s, time_error_ns] 对构成的摄入序列（仅在原生构建中，还可使用 CSV 文件）。掩码：ITU-T G.8272（07/2025）PRTC-A 和 PRTC-B（max|TE| 100 / 40 ns，MTIE 表 1-2，TDEV 表 3-4）；G.8272.1（2024）Amd. 1（07/2025）ePRTC 锁定（30 ns，表 1-2）和 ePRTC-A 守时（表 3 的钟差包络，在由锁定时长设定的守时期 H 内从 30 ns 升至 100 ns，MTIE 表 4，TDEV 表 5）；G.8273.2（2023）Amd. 2（11/2025）T-BC/T-TSC 的 A-C 类（max|TE|、恒定钟差、经低通滤波的 MTIE 和 TDEV）以及 D 类（max|TE_L| 5 ns，这是 D 类中唯一没有留待进一步研究的数字）；G.8271.1（2022）Amd. 3（05/2025）参考点 C（max|TE_L| 1100 / 600 / 100 ns，MTIE 表 7-1 至 7-3）。建议书中标记为留待进一步研究的每一项都不予填补，每份报告都列出未实现的内容。同时报告超出每个最大钟差预算的时间（默认：100 ns ePRTC max|TE_HO|、400 ns 网络守时分配、1100 ns 参考点 C、{ $lit_1_5 } us 4 类）、附每个掩码限值的 CSV 表格形式的 MTIE/TDEV 曲线，以及每个数值字段的单位与出处条目。VALIDATED：MTIE 和 TDEV 估计器在已提交的守时序列上对照 allantools 软件包。MODELLED：掩码表是抄录，合成守时是由数据手册最大值构建的模型，而不是对任何设备的测量。不是符合性测试。
 
-engine-kind-slot-timing-description = 时隙授时：自由运行时钟离开按时间索引的路由或任务时隙的保护带（该时隙所容许的最大绝对钟差）所需的秒数，在该时刻每一项的贡献并指出主导项（定位不确定度、白相位噪声、白噪声、闪烁噪声、随机游走与随机漂移频率噪声、残余频率偏差、温度、老化），距上次定位的剩余时间，以及扣除定位延迟后使时钟保持在其内的最大定位间隔。振荡器是类别默认值（csac、uso、dsac、tcxo、ocxo 或 rafs：一个有出处的一秒阿伦偏差和一个假定的红噪声下限）、电信授时的数据手册预设，或内联数据手册（作为包络拟合的阿伦偏差最大值，加上老化和温度系数），或内联实测相位记录（其重叠阿伦偏差在白相位和 IEEE Std 1139 调频基底上做加权最小二乘拟合，因此红噪声下限是测得的而不是假定的）。超出数据手册或记录所支持的最长平均时间的越界会被标记为外推。可选的欺骗干扰部分增加轨道接收机的授时保护级：轨道速度和周期、单个地面欺骗者每次过境能够触及卫星的时长、时钟辅助监测下限和 CUSUM 检测延迟、条件界限、欺骗者以所述最大斜坡速率在卫星离开其触及范围或独立检查运行之前累积的牵引，以及每次地面接触或星间链路检查是否独立于该欺骗者。VALIDATED：由拟合记录得到的守时反演，在对照氢原子钟测量的真实铯钟上做了保留检验（tests/slot_timing_cs5071a_holdout.rs，受数据门控）；在实测晶体振荡器上，保留预测偏保守但未达到判据，因此晶体情形为 MODELLED。MODELLED：类别和数据手册来源、确定性项以及欺骗干扰评估。
+engine-kind-slot-timing-description = 时隙授时：自由运行时钟离开按时间索引的路由或任务时隙的保护带（该时隙所容许的最大绝对钟差）所需的秒数，在该时刻每一项的贡献并指出主导项（定位不确定度、白相位噪声、白噪声、闪烁噪声、随机游走与随机漂移频率噪声、残余频率偏差、温度、老化），距上次定位的剩余时间，以及扣除定位延迟后使时钟保持在其内的最大定位间隔。振荡器是类别默认值（csac、uso、dsac、tcxo、ocxo 或 rafs：一个有出处的一秒阿伦偏差和一个假定的红噪声下限）、电信授时的数据手册预设，或内联数据手册（作为包络拟合的阿伦偏差最大值，加上老化和温度系数），或内联 MEASURED 相位记录（其重叠阿伦偏差在白相位和 IEEE Std 1139 调频基底上做加权最小二乘拟合，因此红噪声下限是测得的而不是假定的）。超出数据手册或记录所支持的最长平均时间的越界会被标记为外推。可选的欺骗干扰部分增加轨道接收机的授时保护级：轨道速度和周期、单个地面欺骗者每次过境能够触及卫星的时长、时钟辅助监测下限和 CUSUM 检测延迟、条件界限、欺骗者以所述最大斜坡速率在卫星离开其触及范围或独立检查运行之前累积的牵引，以及每次地面接触或星间链路检查是否独立于该欺骗者。VALIDATED：由拟合记录得到的守时反演，在对照氢原子钟测量的真实铯钟上做了保留检验（tests/slot_timing_cs5071a_holdout.rs，受数据门控）；在实测晶体振荡器上，保留预测偏保守但未达到判据，因此晶体情形为 MODELLED。MODELLED：类别和数据手册来源、确定性项以及欺骗干扰评估。
 
 engine-kind-spectrum-description = L 波段频谱模型与瀑布图：把整个 GNSS L 波段表示为一张功率谱密度（PSD），横向为频率，纵向为时间，覆盖一条脚本化的干扰机时间线。信号：GPS L1 C/A 和 L2C（BPSK(1)）、Galileo E1 开放服务（MBOC(6,1,1/11)，或 BOC(1,1)）、GPS L5 和 Galileo E5a（BPSK(10)），各在其载波上，除非被覆盖，否则取接口规范规定的最小接收功率（IS-GPS-200、IS-GPS-705、Galileo OS SIS ICD）；GLONASS、北斗和 Galileo E6 未建模。干扰机：连续波单音、平坦窄带噪声、线性锯齿线性调频，以及与某个频段自身调制匹配的宽带噪声，各自带有中心频率、带宽、接收功率（直接给定，或通过压制干扰（jamming）类别的自由空间路径损耗由 EIRP 和距离得到）以及开/关时间。每个干扰机按其在接收机带宽上的频谱分离系数 kappa 对每个频段评分，并有 (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1；对于单个干扰机，这等于压制干扰类别在 Q = 1/(R_c kappa) 时的抗干扰方程，报告附有这一交叉核对（以及它旁边压制干扰类别的代表性 Q 值）。噪声底为 k T_sys，其中 T_sys = T_ant + 290 K (F - 1)。瀑布图在每个单元格的频率箱及其所在行上取平均（线性调频精确处理，整段扫描加上不完整的一段；干扰机在行中途按占空比切换），因此 C/N0 时间线和图像出自同一批数字；result.json 携带按功率块平均的网格、每行每个频段的 C/N0 和 J/S，以及每个干扰机在每个频段上的 SSC、Q、J/S、带内 J/S 和稳态 C/N0。可选的 [iq]：该模型在某一时刻绘制为复 IQ，写入 SigMF 记录（cf32_le 或 ci16_le）再读回，并与 Welch 估计比较。可选的 [recording]（原生构建）：真实 SigMF 记录的 Welch PSD 与模型并列。VALIDATED：信号 PSD 对照教科书中的主瓣宽度（BPSK(n) 零点到零点为 2n x { $lit_1_023 } MHz；BOC(1,1) 的瓣中心位于 +/-{ $lit_1_023 } MHz），频谱分离系数对照其 Parseval 闭式以及 Kaplan & Hegarty 的 Q = 1（CW）和 { $lit_1_5 }（匹配）。MODELLED：干扰机功率、时间线、前端带宽、连续谱（无码线）处理，以及不含 AGC、消隐和天线方向图。
 
@@ -7865,3 +7865,1143 @@ engine-kind-optical-atmosphere-description = MODELLED 的穿过大气的光学 P
 engine-kind-holdover-test-description = MODELLED 的授时系统守时测试，根据由操作人员提供的钟差记录评分（linuxptp 的 ptp4l、phc2sys 或 ts2phc 日志，chrony 的 tracking 或 statistics 日志，TICC、TimeLab 或 RINEX 时钟日志，或 time_s,time_error_ns 对）。该测试有四个步骤，Kshana 一个也不执行：锁定的基线（BASELINE）、由操作人员在所述时刻移除的 GNSS（天线电缆或模拟器输出；Kshana 不发射也不驱动任何东西）、系统自身振荡器上的守时（HOLDOVER），以及操作人员在第二个所述时刻恢复 GNSS 之后的恢复（RECOVERY）。记录在这两个时刻处被拆分。基线：钟差统计量以及为锁定时钟编写的 ITU-T 掩码。守时：统计量、系统所保持的分数频率偏差（最小二乘直线）、为守时或自主时钟编写的掩码、由所述锁定时长得到的 ePRTC-A 守时包络，以及超出每个钟差预算的时间。恢复：|TE| 是否以及何时进入所述范围并保持在其中、峰值和最大阶跃。每个限值都抄录自公开的 ITU-T 表（电信授时掩码）；措辞为“对照掩码测得”，且这两个时刻是操作人员的陈述，未经验证。对某个掩码而言过短的记录为 INCOMPLETE，绝不外推。参见 docs/TIMING-HIL.md。
 
 engine-kind-gnss-ssv-description = MODELLED 的空间服务区及其以远的 GNSS 可用性与链路强度：对球面上的用户（ICG 手册的全球壳层）或开普勒轨迹上的用户（LEO 至月球转移），按星座（GPS、GLONASS、Galileo、BDS、QZSS、NavIC）并对全部合计，统计 C/N0 阈值以上的可用信号：至少一个信号和四个信号的可用性、最大中断时长、接收 C/N0、精度因子、主瓣与旁瓣链路，使用手册、参数化或用户提供的发射方向图，可选的掠过地球边缘射线的电离层、等离子体层和大气效应，以及可选的弱信号接收机设计；还包括面向 HEO 和月球转移航天器的星载 GNSS 扩展卡尔曼滤波器（轨道动力学、太阳辐射压、第三体、时钟），以及通过单差伪距对多航天器编队做相对导航。在预先登记（xval/gnss-ssv）下对照 ICG SSV 手册表格核对
+
+engine-advanced-report-monte-carlo-metrics = monte_carlo.metrics.{ $name }.{ $q }
+
+engine-advanced-report-kshana-animate-html = kshana { $q } --animate html
+
+engine-advanced-report-kshana-export-all = kshana { $q } --export all
+
+engine-advanced-report-bg-fg-muted-line-card = --bg:{ $p };--fg:{ $i };--muted:{ $m };--line:{ $r };--card:{ $c };--accent:{ $i };--val:{ $i };--mod:{ $i };--par:{ $i };
+
+engine-e-altpnt-terrain-hgt-window-length = { "." }hgt window length { $bytes } != 2*{ $n_rows }*{ $n_cols } = { $v2 }
+
+engine-animation-bg-fill-fg-fill-mu = { "." }bg{ "{" }fill:{ $bg }{ "}" }.fg{ "{" }fill:{ $fg }{ "}" }.mu{ "{" }fill:{ $mu }{ "}" }.gr{ "{" }stroke:{ $gr }{ "}" }.ax{ "{" }stroke:{ $ax }{ "}" }.ph0{ "{" }fill:{ $ph0 }{ "}" }.ph1{ "{" }fill:{ $ph1 }{ "}" }.phl{ "{" }fill:{ $phl }{ "}" }.ev{ "{" }stroke:{ $mu }{ "}" }.eva{ "{" }stroke:{ $alarm }{ "}" }.evt{ "{" }fill:{ $mu }{ "}" }.evta{ "{" }fill:{ $alarm }{ "}" }.cur{ "{" }stroke:{ $cur }{ "}" }
+
+engine-animation-text-font-family-tr-fill = text{ "{" }font-family:{ $v1 }{ "}" }.tr{ "{" }fill:none;stroke-width:1.6;stroke-linejoin:round{ "}" }.ev,.eva{ "{" }stroke-dasharray:3 3{ "}" }.cur{ "{" }stroke-width:1.4{ "}" }
+
+engine-animation-frame-svg = frame_{ $i }.svg
+
+engine-animation-bg-panel-fg-mu-grid = --bg:{ $t };--panel:{ $t2 };--fg:{ $t3 };--mu:{ $t4 };--grid:{ $t5 };--axis:{ $t6 };--ph0:{ $t7 };--ph1:{ $t8 };--cur:{ $t9 };--alarm:{ $t10 };--s0:{ $t11 };--s1:{ $t12 };--s2:{ $t13 };--s3:{ $t14 };--s4:{ $t15 };--s5:{ $t16 }
+
+engine-animation-root-color-scheme-light-dark =
+    :root{ "{" }color-scheme:light dark;{ $vars }{ "}" }
+    @media (prefers-color-scheme: dark){ "{" }:root{ "{" }{ $vars2 }{ "}" }{ "}" }{ "\u000A" }
+
+engine-bench-cli-predictions-json = { $stem }.predictions.json
+
+engine-bench-cli-result-json = { $stem }.result.json
+
+engine-bench-cli-truth-json = a-{ $split }.truth.json
+
+engine-bench-cli-truth-json-2 = c-{ $split }.truth.json
+
+engine-bench-cli-truth-json-3 = d-{ $split }.truth.json
+
+engine-bench-site-title-a = 任务 (a)：接收机日志上的检测
+
+engine-bench-site-title-b = 任务 (b)：IQ 上的检测
+
+engine-bench-site-title-c = 任务 (c)：授时守时（holdover）预测
+
+engine-bench-site-title-d = 任务 (d)：分布外乐观差距
+
+engine-bench-site-col-rmse-3600 = RMSE 3600 s (ns)
+
+engine-bench-site-col-rmse-300 = RMSE 300 s (ns)
+
+engine-bench-site-col-rmse-7200 = RMSE 7200 s (ns)
+
+engine-bench-site-col-auc-in = AUC（分布内）
+
+engine-bench-site-col-auc-out = AUC（分布外）
+
+engine-bench-site-col-optimism-gap = 乐观差距
+
+engine-bench-site-col-flag = 标记
+
+engine-bench-site-col-auc = AUC
+
+engine-bench-site-col-pd-at-pfa-cap = P_fa 上限处的 P_d（上界）
+
+engine-bench-site-flag-optimistic = 偏乐观
+
+engine-bench-site-flag-within-tolerance = 在容差内
+
+engine-bench-site-not-available = 不适用
+
+engine-bench-site-none-published = 尚未发布任何结果。只有在结果文件完成评分并加入后，此处才会出现一行；本页没有任何内容是估计值。
+
+engine-bench-site-none-for-task = 此任务尚无结果。
+
+engine-bench-site-region-label = { $title } { $split } 结果
+
+engine-bench-site-caption-split = 划分：{ $split }
+
+engine-bench-site-th-system = 系统
+
+engine-bench-site-th-provenance = 来源
+
+engine-bench-site-th-truth-sha256 = 真值 SHA-256
+
+engine-bench-site-provenance-carried = 沿用：{ $note }
+
+engine-bench-site-provenance-scored = 已评分
+
+engine-bench-site-heading = kshana-bench 排行榜
+
+engine-bench-site-lede = 按 <code>{ $spec }</code> 评分的结果文件。一行表示该文件在此划分上得到了该数值。这并不表示任何产品已被任何人评级或批准，也没有点名任何机构为背书方。
+
+engine-bench-site-foot = 除非某行说明外部参考基准（oracle）一致，否则每个得分均由模型得出。规范与清单的许可：拟采用 CC-BY-4.0 / CC0，所有者尚未决定。真实数据保留集并非保密：见规范第 4 节。
+
+engine-bench-site-meta-description = kshana-bench { $spec } 下已提交结果文件的得分。仅供参考。
+
+engine-bin-validation-report-body-font-14px-background-var = body{ "{" }font:14px/1.5 { $v1 };background:var(--bg);color:var(--fg);max-width:64rem;margin:2rem auto;padding:0 1rem{ "}" }h1{ "{" }font-size:1.5rem;margin:0 0 .25rem{ "}" }.sub{ "{" }color:var(--muted);margin:0 0 1.5rem{ "}" }table{ "{" }border-collapse:collapse;width:100%{ "}" }th,td{ "{" }border:1px solid var(--line);padding:.5rem .6rem;text-align:left;vertical-align:top{ "}" }th{ "{" }background:var(--card){ "}" }code{ "{" }font-size:.85em{ "}" }.ok{ "{" }color:var(--val);font-weight:600{ "}" }footer{ "{" }margin-top:1.5rem;color:var(--muted);font-size:.85em{ "}" }@media print{ "{" }body{ "{" }margin:0;max-width:none{ "}" }a{ "{" }color:inherit;text-decoration:none{ "}" }{ "}" }{ "\u000A" }
+
+engine-campaign-series-error-ns = { $side }.series[].error_ns
+
+engine-campaign-series-offset-ns = { $side }.series[].offset_ns
+
+engine-campaign-detect-time = { $side }.detect_time_s
+
+engine-campaign-series-error = { $side }.series[].error_m
+
+engine-campaign-timeline-phases-carried = timeline.phases[].carried.{ $ch }
+
+engine-campaign-timeline-channels-values = timeline.channels.{ $name }.values[]
+
+engine-campaign-sweep-axes-values = sweep.axes.{ $name }.values[]
+
+engine-campaign-sweep-nodes-coords = sweep.nodes[].coords.{ $name }
+
+engine-campaign-sweep-nodes-metrics = sweep.nodes[].metrics.{ $name }
+
+engine-campaign-monte-carlo-metrics = monte_carlo.metrics.{ $name }
+
+engine-campaign-compose-shared-value = compose.shared.{ $name }.value[]
+
+engine-campaign-compose-shared-value-2 = compose.shared.{ $name }.value
+
+engine-campaign-compose-members-metrics = compose.members.*.metrics.{ $name }
+
+engine-campaign-compose-combined = compose.combined.{ $name }
+
+engine-campaign-optimize-optimize-eval = optimize eval { $trace }
+
+engine-campaign-optimize-optimize-params-lo = optimize.params.{ $name }.lo
+
+engine-campaign-optimize-optimize-params-hi = optimize.params.{ $name }.hi
+
+engine-campaign-optimize-optimize-best-coords = optimize.best_coords.{ $name }
+
+engine-campaign-optimize-optimize-trace-coords = optimize.trace[].coords.{ $name }
+
+engine-ccsds-tdm-ccsds-tdm-vers = CCSDS_TDM_VERS = { $version }{ "\u000A" }
+
+engine-ccsds-tdm-creation-date = CREATION_DATE = { $creation_date }{ "\u000A" }
+
+engine-ccsds-tdm-time-system = TIME_SYSTEM = { $time_system }{ "\u000A" }
+
+engine-ccsds-tdm-transmit-band = TRANSMIT_BAND = { $b }{ "\u000A" }
+
+engine-ccsds-tdm-receive-band = RECEIVE_BAND = { $b }{ "\u000A" }
+
+engine-ccsds-tdm-turnaround-numerator = TURNAROUND_NUMERATOR = { $fmt_num }{ "\u000A" }
+
+engine-ccsds-tdm-turnaround-denominator = TURNAROUND_DENOMINATOR = { $fmt_num }{ "\u000A" }
+
+engine-ccsds-tdm-range-units = RANGE_UNITS = { $u }{ "\u000A" }
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-entry-eo-ascent-ascent-stages-propellant-kg = stages[{ $i }].propellant_kg
+
+engine-entry-eo-ascent-ascent-stages-thrust-vac = stages[{ $i }].thrust_vac_n
+
+engine-entry-eo-ascent-ascent-stages-isp-vac = stages[{ $i }].isp_vac_s
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
+
+engine-interference-map-observatory-observatory-adsb = observatory-adsb-{ $key }-{ $day }
+
+engine-interference-map-observatory-incidents-json = { $stem }.incidents.json
+
+engine-interference-map-observatory-manifest-json = { $stem }.manifest.json
+
+engine-interop-testbench-events-label-kind-onset-end =
+    { "\u000A" }{ "[" }[events]]
+    label = { $label }
+    kind = { $kind }
+    onset_s = { $round_dp }
+    end_s = { $round_dp2 }{ "\u000A" }
+
+engine-iq-campaign-conditions-sigmf-meta = { $base }.sigmf-meta
+
+engine-iq-campaign-report-roc-heading = 检测 ROC
+
+engine-iq-campaign-report-roc-note = <p class="note">标注为 <b>{ $label }</b>。每个给定的事件窗口为一个正样本，事件之外每个配置长度的窗口为一个负样本。当监测器自身的检验统计量在窗口内达到某一阈值时，该窗口在此阈值下计数。P<sub>fa</sub> 按每个负样本窗口计，而非按每次检验计。相同数据见 <code>roc.json</code>。</p>
+
+engine-iq-campaign-report-th-alarm-kind = 告警类型
+
+engine-iq-campaign-report-th-positives = 正样本
+
+engine-iq-campaign-report-th-negatives = 负样本
+
+engine-iq-campaign-report-th-auc = AUC
+
+engine-iq-campaign-report-th-threshold = 阈值
+
+engine-iq-campaign-report-th-pd-at-it = 该阈值下的 P<sub>d</sub>
+
+engine-iq-campaign-report-th-pfa-at-it = 该阈值下的 P<sub>fa</sub>
+
+engine-iq-campaign-report-title = 测评活动 { $name }
+
+engine-iq-campaign-report-heading = 实验室回放测评活动：{ $name }
+
+engine-iq-campaign-report-meta = 数据类别 <b>{ $data_class }</b> · Kshana { $engine } · { $n_recordings } 个记录 × { $n_frontends } 个前端 × { $n_designs } 个设计 = { $n_cells } 个单元，{ $n_done } 个已完成 · 摘要 <code>{ $digest }</code>
+
+engine-iq-campaign-report-digest-incomplete = （不完整：并非每个单元都已完成）
+
+engine-iq-campaign-report-reference-note = <p class="note">实测值来自对记录的跟踪。标注为 <b>{ $label }</b> 的虚线是在实验室所述 J/S 下的解析频谱分离参考 <code>{ $formula }</code>，其中 Q 由所述干扰类型给出。它们是对所述条件的模型，不是测量值，也不是对干扰的仿真。</p>
+
+engine-iq-campaign-report-summary-heading = 摘要
+
+engine-iq-campaign-report-th-recording = 记录
+
+engine-iq-campaign-report-th-front-end = 前端
+
+engine-iq-campaign-report-th-design = 设计
+
+engine-iq-campaign-report-th-satellites = 卫星
+
+engine-iq-campaign-report-th-mean-availability = 平均可用性
+
+engine-iq-campaign-report-th-events-lost = 失锁事件
+
+engine-iq-campaign-report-th-median-reacq = 重捕获中位数 (s)
+
+engine-iq-campaign-report-th-pass = 通过
+
+engine-iq-campaign-report-th-fail = 未通过
+
+engine-iq-campaign-report-degradation-heading = C/N0 劣化与所述 J/S
+
+engine-iq-campaign-report-scorecard-heading = 评分表
+
+engine-iq-campaign-report-scorecard-note-nwpr = <p class="meta">行与 <code>scorecard.csv</code> 相同。重捕获自事件偏移起算；中断自失锁起算。C/N0 列和劣化曲线使用 NWPR 估计（在环路自身抖动下读数偏低约 8 dB · Bn·T，因此其读数取决于环路设计）；两种估计均见 <code>scorecard.json</code>。</p>
+
+engine-iq-campaign-report-scorecard-note-m2m4 = <p class="meta">行与 <code>scorecard.csv</code> 相同。重捕获自事件偏移起算；中断自失锁起算。C/N0 列和劣化曲线使用 M2M4（对环路自身抖动不敏感）估计；两种估计均见 <code>scorecard.json</code>。</p>
+
+engine-iq-campaign-report-th-sat = 卫星
+
+engine-iq-campaign-report-th-scope = 范围
+
+engine-iq-campaign-report-th-event = 事件
+
+engine-iq-campaign-report-th-avail = 可用性
+
+engine-iq-campaign-report-th-loss = 失锁 (s)
+
+engine-iq-campaign-report-th-js-at-loss = 失锁时 J/S
+
+engine-iq-campaign-report-th-reacq = 重捕获 (s)
+
+engine-iq-campaign-report-th-outage = 中断 (s)
+
+engine-iq-campaign-report-th-cn0 = C/N0
+
+engine-iq-campaign-report-th-pll = PLL σ (°)
+
+engine-iq-campaign-report-th-dll = DLL σ (chip)
+
+engine-iq-campaign-report-th-false-locks = 假锁定
+
+engine-iq-campaign-report-th-verdict = 结论
+
+engine-iq-campaign-report-scope-run = 整次运行
+
+engine-iq-campaign-report-scope-event = 事件
+
+engine-iq-campaign-runner-events-jsonl = { $key }.events.jsonl
+
+engine-iq-campaign-runner-events-jsonl-tmp = { "." }{ $key }.events.jsonl.tmp{ $pid }
+
+engine-iq-cli-scene-sigmf-data = { $sigmf_base }.sigmf-data
+
+engine-iq-cli-scene-sigmf-meta = { $sigmf_base }.sigmf-meta
+
+engine-iq-cli-sweep-carrier-pll-bw-hz-code =
+    { "[" }carrier]
+    pll_bw_hz = { $pll }
+    { "[" }code]
+    bw_hz = { $dll }
+    { "[" }integration]
+    spacing_chips = { $sp }
+    coherent_periods = { $coh }{ "\u000A" }
+
+engine-iq-cli-sweep-pll-dll-sp-coh = pll{ $pll }_dll{ $dll }_sp{ $sp }_coh{ $coh }
+
+engine-iq-io-sigmf-stream-sigmf-data = { $base }.sigmf-data
+
+engine-iq-labfit-iqfit-loss-time-rms = loss_time_rms_s[{ $model }]
+
+engine-iq-monitor-cn0-cn0-baseline-dbhz = cn0.{ $l }.baseline_dbhz
+
+engine-iq-monitor-cn0-cn0-arl0-samples-independent = cn0.{ $l }.arl0_samples_independent
+
+engine-iq-monitor-cn0-cn0-arl1-samples-independent = cn0.{ $l }.arl1_samples_independent
+
+engine-iq-monitor-sqm-sqm-pair = sqm_pair_{ $x }
+
+engine-iq-monitor-sqm-sqm-spacing-chips = sqm.{ $label }.spacing_chips
+
+engine-iq-monitor-sqm-sqm-baseline = sqm.{ $label }.{ $name }.baseline
+
+engine-iq-scene-code-gps-l1-prn = GPS L1 C/A PRN { $prn }
+
+engine-iq-signals-beidou-beidou-b1i-prn = BeiDou B1I PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e1-prn = Galileo E1-B PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e1-prn-2 = Galileo E1-C PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e5a-prn = Galileo E5a-I PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e5a-prn-2 = Galileo E5a-Q PRN { $prn }
+
+engine-iq-signals-gps-gps-l1cd-prn = GPS L1CD PRN { $prn }
+
+engine-iq-signals-gps-gps-l1cp-prn = GPS L1CP PRN { $prn }
+
+engine-iq-signals-gps-gps-l5-i5-prn = GPS L5 I5 PRN { $prn }
+
+engine-iq-signals-gps-gps-l5-q5-prn = GPS L5 Q5 PRN { $prn }
+
+engine-iq-signals-gps-gps-l2-cm-prn = GPS L2 CM PRN { $prn }
+
+engine-iq-signals-gps-gps-l2-cl-prn = GPS L2 CL PRN { $prn }
+
+engine-iq-signals-gps-gps-l2c-prn = GPS L2C PRN { $prn }
+
+engine-iq-signals-lunanet-lunanet-afs-prn = LunaNet AFS-I PRN { $prn }
+
+engine-iq-track-sink-offset-chips = x{ $k }_offset_chips
+
+engine-jammertest-dataset-log-format-text =
+    { "[" }log]
+    format = "{ $format }"
+    text = ""
+    { $platform }
+
+engine-leo-signal-flat-mhz = FLAT({ $v1 } MHz)
+
+engine-lunar-afs-waveform-noise-seed = { $ns }:noise_seed
+
+engine-lunar-afs-waveform-noise-variance-per-dimension = { $ns }:noise_variance_per_dimension
+
+engine-lunar-afs-waveform-component-cn0-dbhz = { $ns }:component_cn0_dbhz
+
+engine-lunar-afs-waveform-code-scale = { $ns }:code_scale
+
+engine-lunar-afs-waveform-first-code-epoch = { $ns }:first_i_code_epoch_s
+
+engine-lunar-afs-waveform-frame-index = { $ns }:frame_index
+
+engine-lunar-beacon-gdop-pdop-hdop-vdop-tdop = GDOP { $gdop }  PDOP { $pdop }  HDOP { $hdop }  VDOP { $vdop }  TDOP { $tdop }
+
+engine-lunar-beacon-chart-pdop = PDOP { $pdop }
+
+engine-lunar-frame-realise-chart-tx = tx (m)
+
+engine-lunar-frame-realise-chart-ty = ty (m)
+
+engine-lunar-frame-realise-chart-tz = tz (m)
+
+engine-lunar-frame-realise-chart-theta-x = θx (µrad)
+
+engine-lunar-frame-realise-chart-theta-y = θy (µrad)
+
+engine-lunar-frame-realise-chart-theta-z = θz (µrad)
+
+engine-lunar-interop-chart-pass = PASS
+
+engine-lunar-interop-chart-fail = FAIL
+
+engine-lunar-interop-chart-ok = OK
+
+engine-lunar-jamming-chart-y-title = J/S (dB)
+
+engine-lunar-jamming-chart-locked = LOCKED
+
+engine-lunar-jamming-chart-degraded = DEGRADED
+
+engine-lunar-jamming-chart-lost = LOST
+
+engine-lunar-llr-datum-accuracy = /datum_accuracy/{ $k }
+
+engine-lunar-service-ephemeris-comparison = ephemeris_comparison.{ $geometry }.{ $field }
+
+engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
+
+engine-lunar-station-sise-los = SISE (LOS) { $los_sise_sigma_m } m
+
+engine-lunar-station-chart-zero-east = 0° E
+
+engine-lunar-time-budget-scenario-total-false = { $i },{ $tau },total,{ $total },false{ "\u000A" }
+
+engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
+
+engine-e-main-monte-carlo = --monte-carlo: { $e }
+
+engine-e-main-seed = --seed: { $e }
+
+engine-nmea-synth-cli-instructor-json = { $prefix }.instructor.json
+
+engine-nmea-synth-cli-instructor-txt = { $prefix }.instructor.txt
+
+engine-odm-user-defined = USER_DEFINED_{ $k }
+
+engine-oem-ccsds-oem-vers = CCSDS_OEM_VERS = { $version }{ "\u000A" }
+
+engine-oem-creation-date = CREATION_DATE = { $iso8601 }{ "\u000A" }
+
+engine-oem-object-name = OBJECT_NAME = { $object_name }{ "\u000A" }
+
+engine-oem-center-name = CENTER_NAME = { $center_name }{ "\u000A" }
+
+engine-oem-ref-frame = REF_FRAME = { $ref_frame }{ "\u000A" }
+
+engine-oem-start-time = START_TIME = { $iso8601 }{ "\u000A" }
+
+engine-oem-stop-time = STOP_TIME = { $iso8601 }{ "\u000A" }
+
+engine-oem-cov-ref-frame = COV_REF_FRAME = { $frame }{ "\u000A" }
+
+engine-omm-ccsds-omm-vers = CCSDS_OMM_VERS = { $version }{ "\u000A" }
+
+engine-omm-mean-element-theory = MEAN_ELEMENT_THEORY = { $mean_element_theory }{ "\u000A" }
+
+engine-omm-mean-motion = MEAN_MOTION = { $mean_motion_rev_day }{ "\u000A" }
+
+engine-omm-ra-of-asc-node = RA_OF_ASC_NODE = { $ra_of_asc_node_deg }{ "\u000A" }
+
+engine-omm-arg-of-pericenter = ARG_OF_PERICENTER = { $arg_of_pericenter_deg }{ "\u000A" }
+
+engine-omm-mean-anomaly = MEAN_ANOMALY = { $mean_anomaly_deg }{ "\u000A" }
+
+engine-omm-ephemeris-type = EPHEMERIS_TYPE = { $ephemeris_type }{ "\u000A" }
+
+engine-omm-classification-type = CLASSIFICATION_TYPE = { $classification }{ "\u000A" }
+
+engine-omm-norad-cat-id = NORAD_CAT_ID = { $norad_cat_id }{ "\u000A" }
+
+engine-palette-root-color-scheme-light-media =
+    :root{ "{" }{ $l }color-scheme:light{ "}" }
+    @media (prefers-color-scheme:dark){ "{" }:root:not([data-theme="light"]){ "{" }{ $d }color-scheme:dark{ "}" }{ "}" }
+    :root[data-theme="dark"]{ "{" }{ $d }color-scheme:dark{ "}" }{ "\u000A" }
+
+engine-python-runoutput-json-bytes-svg-bytes = RunOutput(json={ $json } bytes, svg={ $svg } bytes, csv={ $value } bytes, summary={ $value2 })
+
+engine-python-carrier-pll-bw-hz-code =
+    { "[" }carrier]
+    pll_bw_hz = { $p }
+    { "[" }code]
+    bw_hz = { $d }
+    { "[" }integration]
+    spacing_chips = { $s }
+    coherent_periods = { $c }{ "\u000A" }
+
+engine-python-pll-dll-sp-coh = pll{ $p }_dll{ $d }_sp{ $s }_coh{ $c }
+
+engine-raim-chart-hal = HAL { $al } m
+
+engine-raim-chart-val = VAL { $al } m
+
+engine-realtime-frame-eop-table3-joint-eop = table3_joint_eop[].{ $q }.n
+
+engine-realtime-frame-eop-table3-joint-eop-truth-fallback = table3_joint_eop[].{ $q }.truth_fallback_rows
+
+engine-realtime-frame-eop-table3-joint-eop-epochs-mjd = table3_joint_eop[].{ $q }.epochs_mjd
+
+engine-realtime-frame-eop-table3-joint-eop-rms-native = table3_joint_eop[].{ $q }.rms_native
+
+engine-realtime-frame-eop-table3-joint-eop-p50-native = table3_joint_eop[].{ $q }.p50_native
+
+engine-realtime-frame-eop-table3-joint-eop-p95-native = table3_joint_eop[].{ $q }.p95_native
+
+engine-realtime-frame-eop-table3-joint-eop-max-native = table3_joint_eop[].{ $q }.max_native
+
+engine-realtime-frame-eop-table3-joint-eop-rms-position = table3_joint_eop[].{ $q }.rms_position_m
+
+engine-realtime-frame-eop-table3-joint-eop-p95-position = table3_joint_eop[].{ $q }.p95_position_m
+
+engine-realtime-frame-eop-table3-joint-eop-rms-light = table3_joint_eop[].{ $q }.rms_light_time_ns
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit = operational_predictor_model.representative_fit.{ $q }.issue_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-2 = operational_predictor_model.representative_fit.{ $q }.window_first_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-3 = operational_predictor_model.representative_fit.{ $q }.window_last_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-4 = operational_predictor_model.representative_fit.{ $q }.n_fit
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-5 = operational_predictor_model.representative_fit.{ $q }.rms_fit_residual_native
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-6 = operational_predictor_model.representative_fit.{ $q }.anchor_residual_native
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-7 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].period_days
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-8 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].cycles_spanned
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-9 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].threshold_cycles
+
+engine-realtime-frame-eop-rows-horizon-days = { $t5 }.rows[].horizon_days
+
+engine-realtime-frame-eop-rows-epochs-mjd = { $t5 }.rows[].epochs_mjd
+
+engine-realtime-frame-eop-rows-target-mjds = { $t5 }.rows[].target_mjds
+
+engine-realtime-frame-eop-rows-min-fit-lead-days = { $t5 }.rows[].min_fit_lead_days
+
+engine-realtime-frame-eop-rows-fit-rows-min = { $t5 }.rows[].fit_rows_min
+
+engine-realtime-frame-eop-rows-fit-rows-max = { $t5 }.rows[].fit_rows_max
+
+engine-realtime-frame-eop-rows-improvement-factor = { $t5 }.rows[].*.improvement_factor
+
+engine-realtime-frame-eop-rows-rms-native = { $t5 }.rows[].*.{ $p }.rms_native
+
+engine-realtime-frame-eop-rows-p50-native = { $t5 }.rows[].*.{ $p }.p50_native
+
+engine-realtime-frame-eop-rows-p95-native = { $t5 }.rows[].*.{ $p }.p95_native
+
+engine-realtime-frame-eop-rows-max-native = { $t5 }.rows[].*.{ $p }.max_native
+
+engine-realtime-frame-eop-rows-rms-position = { $t5 }.rows[].*.{ $p }.rms_position_m
+
+engine-realtime-frame-eop-rows-p95-position = { $t5 }.rows[].*.{ $p }.p95_position_m
+
+engine-realtime-frame-eop-rows-rms-light-time-ns = { $t5 }.rows[].*.{ $p }.rms_light_time_ns
+
+engine-realtime-frame-eop-equivalent-horizon-days-target-position = { $t5 }.equivalent_horizon_days.target_position_m
+
+engine-realtime-frame-eop-equivalent-horizon-days = { $t5 }.equivalent_horizon_days.{ $q }.{ $p }
+
+engine-realtime-frame-eop-rows-horizon-days-2 = { $t6 }.rows[].horizon_days
+
+engine-realtime-frame-eop-rows-issue-mjd = { $t6 }.rows[].issue_mjd
+
+engine-realtime-frame-eop-rows-epochs-mjd-2 = { $t6 }.rows[].epochs_mjd
+
+engine-realtime-frame-eop-rows-rms-native-2 = { $t6 }.rows[].*.{ $p }.rms_native
+
+engine-realtime-frame-eop-rows-p50-native-2 = { $t6 }.rows[].*.{ $p }.p50_native
+
+engine-realtime-frame-eop-rows-p95-native-2 = { $t6 }.rows[].*.{ $p }.p95_native
+
+engine-realtime-frame-eop-rows-max-native-2 = { $t6 }.rows[].*.{ $p }.max_native
+
+engine-realtime-frame-eop-rows-rms-position-2 = { $t6 }.rows[].*.{ $p }.rms_position_m
+
+engine-realtime-frame-eop-rows-p95-position-2 = { $t6 }.rows[].*.{ $p }.p95_position_m
+
+engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms_light_time_ns
+
+engine-receiver-trust-machines-imu-fit-id-provenance-bias-va-gyro =
+    { "[" }{ $table }]
+    id = { $id }
+    provenance = { $provenance }
+    bias = { $bias }
+    q_va = { $q_va }
+    gyro_bias = { $gyro_bias }
+    q_arw = { $q_arw }
+    bias_instability = { $bias_instability }{ "\u000A" }
+
+engine-resilience-report-title = PNT 韧性自评估
+
+engine-resilience-report-status-partner = PARTNER
+
+engine-resilience-report-summary = <p>引擎 { $engine }，场景 { $scenario }，随机种子 { $seed }。证据划分：{ $n_validated } 个 { $validated } / { $n_modelled } 个 { $modelled } 子得分。暂定 RPCF 等级：{ $level }（{ $level_basis }）。</p>
+
+engine-resilience-report-h-rpcf = DHS RPCF 技术类别
+
+engine-resilience-report-h-rdrr = RethinkPNT 功能
+
+engine-resilience-report-h-yang = Yang 准则
+
+engine-resilience-report-th-category = 类别
+
+engine-resilience-report-th-function = 功能
+
+engine-resilience-report-th-criterion = 准则
+
+engine-resilience-report-th-subscore = 子得分
+
+engine-resilience-report-th-status = 状态
+
+engine-resilience-report-th-basis = 依据
+
+engine-resilience-report-integrity = <p>SHA-256 完整性：<code>{ $integrity }</code></p>
+
+engine-skyline-preset-overrides = preset:{ $p }+overrides
+
+engine-sp3-cp-orbit-igs14-hlm-kshana = #cP{ $year } { $month } { $day } { $hour } { $minute } { $second }  { $num_epochs } ORBIT IGS14 HLM KSHANA{ "\u000A" }
+
+engine-spectrum-sigmf-data = { $stem }.sigmf-data
+
+engine-spectrum-sigmf-data-2 = { $meta_path }.sigmf-data
+
+engine-ssv-check-mrtp-dbw = MRTP { $name } dBW
+
+engine-ssv-scenario-at-least-pct = { $root }.at_least_1_pct
+
+engine-ssv-scenario-at-least-pct-2 = { $root }.at_least_4_pct
+
+engine-ssv-scenario-max-outage-min = { $root }.max_outage_1_min
+
+engine-ssv-scenario-max-outage-min-2 = { $root }.max_outage_4_min
+
+engine-ssv-scenario-signals-best-cn0-dbhz = ,{ $band }_signals,{ $band }_best_cn0_dbhz
+
+engine-study-summary = 研究“{ $title }”：{ $n_scenarios } 个场景
+
+engine-study-metric-holdover = 守时（holdover）(s)
+
+engine-study-metric-timing-rms = 授时 RMS (ns)
+
+engine-study-metric-timing-p95 = 授时 p95 (ns)
+
+engine-study-metric-resilience-slope = 韧性斜率 (ns/s)
+
+engine-study-metric-availability = 可用性
+
+engine-study-metric-integrity = 完好性
+
+engine-study-metric-security = 安全性
+
+engine-study-th-metric = 指标
+
+engine-study-th-validation = 验证
+
+engine-study-not-applicable-no-attack = 不适用（无攻击）
+
+engine-study-page-title = { $title } — Kshana 研究
+
+engine-study-eyebrow = क्षण · 精确的瞬间
+
+engine-study-h-comparison = 并排对比
+
+engine-study-tier-note = 每个品质因数都标记为 { $validated }（已与外部参考基准（oracle）核对）或 { $modelled }（由第一性原理得出，经内部测试），源自验证矩阵。各列为独立场景；各场景之间的数值未作归一化。
+
+engine-study-footer = 由 Kshana { $version } 生成，为 { $n_scenarios } 个场景的汇总研究。每个场景均可由其场景 + 随机种子 + 引擎版本复现。免费开源（AGPL-3.0）— <a href="https://github.com/AshfordeOU/kshana">源码与文档</a>。
+
+engine-telecom-timing-mtie-limit-ns = ,{ $id }_mtie_limit_ns
+
+engine-telecom-timing-tdev-limit-ns = ,{ $id }_tdev_limit_ns
+
+engine-telemetry-prometheus-kshana-build-info-version = kshana_build_info{ "{" }version="{ $escape_label }"{ "}" } 1{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-score = kshana_trust_score { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-band-band = kshana_trust_band{ "{" }band="{ $b }"{ "}" } { $on }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-gate-gate = kshana_trust_gate{ "{" }gate="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-active-reason = kshana_trust_reason_active{ "{" }reason="{ $escape_label }"{ $class }{ "}" } { $v2 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epochs-total-band = kshana_trust_epochs_total{ "{" }band="{ $b }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-epochs-total = kshana_trust_reason_epochs_total{ "{" }reason="{ $escape_label }"{ "}" } { $n }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-input-errors-total = kshana_trust_input_errors_total { $input_errors }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-overflow-total = kshana_trust_reason_overflow_total { $reason_overflow }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-syslog-send-failures = kshana_trust_syslog_send_failures_total { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epoch-offset-seconds = kshana_trust_epoch_offset_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-last-sample-timestamp = kshana_trust_last_sample_timestamp_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-status = kshana_trust_geometry{ "{" }status="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-degraded = kshana_trust_geometry_degraded { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-signal-loss = kshana_trust_geometry_signal_loss { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-epochs-total = kshana_trust_geometry_epochs_total{ "{" }status="{ $st }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-label-label = kshana_trust_geometry_label{ "{" }label="{ $l }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-vdop = kshana_trust_geometry_vdop { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-help-type =
+    # HELP { $name } { $help }
+    # TYPE { $name } { $kind }{ "\u000A" }
+
+engine-telemetry-syslog-cat-gnss-trust-dvchost-cs1label = cat=gnss-trust dvchost={ $cef_ext_escape } cs1Label=band cs1={ $band }
+
+engine-telemetry-syslog-cs2label-reasons-cs2 = { " " }cs2Label=reasons cs2={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs3label-previousband-cs3 = { " " }cs3Label=previousBand cs3={ $p }
+
+engine-telemetry-syslog-cfp1label-trustscore-cfp1 = { " " }cfp1Label=trustScore cfp1={ $num }
+
+engine-telemetry-syslog-cfp2label-epochoffsetseconds-cfp2 = { " " }cfp2Label=epochOffsetSeconds cfp2={ $num }
+
+engine-telemetry-syslog-cs4label-logtime-cs4 = { " " }cs4Label=logTime cs4={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs5label-gate-cs5 = { " " }cs5Label=gate cs5={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs6label-geometry-cs6 = { " " }cs6Label=geometry cs6={ $status }{ $classes }
+
+engine-telemetry-syslog-cfp3label-geometryhdop-cfp3 = { " " }cfp3Label=geometryHdop cfp3={ $num }
+
+engine-telemetry-syslog-cfp4label-geometrypdop-cfp4 = { " " }cfp4Label=geometryPdop cfp4={ $num }
+
+engine-telemetry-syslog-cn1label-geometryusedsatellites-cn1 = { " " }cn1Label=geometryUsedSatellites cn1={ $v1 }
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
+
+engine-timetransfer-chart-rf = RF：{ $id }
+
+engine-verification-src-mod-rs = src/{ $rel }/mod.rs
+
+engine-verification-tests-fixtures = tests/fixtures/{ $base }
+
+engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
+
+engine-compliance-fw-imo-ships-title = IMO guidance on GNSS interference for ships
+
+engine-compliance-fw-easa-aviation-title = EASA guidance on GNSS interference for aviation
+
+engine-compliance-fw-nis2-art21-title = EU NIS2 Directive, Article 21 risk-management measures
+
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-based positioning for road ITS
+
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
+
+engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
+
+engine-compliance-source-dhs-rpcf-1-version = 2.0 版，2022 年 4 月 26 日（DHS 科学技术局，联合 CISA）
+
+engine-compliance-source-dhs-rpcf-1-checked = 文件已通读；未获取该出版物的着陆页
+
+engine-compliance-source-imo-ships-1-title = Deliberate interference with the United States Global Positioning System and other global navigation satellite systems
+
+engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644，2021 年 10 月 18 日
+
+engine-compliance-source-imo-ships-1-checked = 文本通读自该通函的这一第三方镜像，而非 IMO 网站；权威文本请查阅 IMO 文件库
+
+engine-compliance-source-imo-ships-2-title = Worldwide Radionavigation System
+
+engine-compliance-source-imo-ships-2-version = IMO 大会决议 A.1046(27)，2011 年 11 月 30 日通过
+
+engine-compliance-source-imo-ships-2-checked = 文件已通读
+
+engine-compliance-source-imo-ships-3-title = Performance standards for multi-system shipborne radionavigation receivers
+
+engine-compliance-source-imo-ships-3-version = IMO MSC.401(95)，2015 年 6 月 8 日通过（经 MSC.432(98) 修订，2017 年）
+
+engine-compliance-source-imo-ships-3-checked = 原决议已通读；未阅读 2017 年修正案文本。未发现晚于 MSC.1/Circ.1644 的 IMO GNSS 干扰通函；更新的通函请查阅 IMO 文件库
+
+engine-compliance-source-easa-aviation-1-title = Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation
+
+engine-compliance-source-easa-aviation-1-version = EASA 安全信息公告 SIB 2022-02R4，2026 年 7 月 3 日发布，2026 年 7 月 22 日更正（供参考，非强制）
+
+engine-compliance-source-easa-aviation-1-checked = 第 4 修订版已通读；由于该公告未给建议编号，各节按标题引用。2026-10-10 复查：该公告 PDF、EASA AD 工具页面（其中该公告的取代项为无）和 EASA GNSS 页面均未提及更晚的修订版，也没有编号为 2026-07 的公告；未发现提及 SIB 2026-07 第 2 修订版的横幅，因此该问题尚无定论，应在 EASA 实时页面上核对。冲突区信息公告未打开查阅
+
+engine-compliance-source-nis2-art21-1-title = Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS 2 Directive)
+
+engine-compliance-source-nis2-art21-1-version = OJ L 333，2022 年 12 月 27 日，第 80-152 页
+
+engine-compliance-source-nis2-art21-1-checked = 第 21 条各款的字母编号取自 EUR-Lex 页面的摘要，与已发布文本一致；在申报文件中引用某一字母项之前，请对照该页面确认
+
+engine-compliance-source-en-16803-1-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 1: Definitions and system engineering procedures for the establishment and assessment of performances
+
+engine-compliance-source-en-16803-1-version = EN 16803-1:2020（目录：自 2020 年 10 月 2 日起有效，取代 2016 年版）
+
+engine-compliance-source-en-16803-1-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读
+
+engine-compliance-source-en-16803-2-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals
+
+engine-compliance-source-en-16803-2-version = EN 16803-2:2020（目录：自 2020 年 10 月 2 日起有效）
+
+engine-compliance-source-en-16803-2-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读
+
+engine-compliance-source-en-16803-3-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals
+
+engine-compliance-source-en-16803-3-version = EN 16803-3:2020（目录：自 2020 年 10 月 2 日起有效）
+
+engine-compliance-source-en-16803-3-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读。目录文本只按编号点名了第 6 条（录制信号与模拟信号）和附录 A（对攻击的高层分类），没有点名其他内容；目录未给出委员会名称，因此此处不作说明
+
+engine-compliance-source-nist-ir-8323r1-1-title = Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services
+
+engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1，2023 年 1 月（NIST 内部报告）
+
+engine-compliance-source-nist-ir-8323r1-1-checked = 该 PDF 于 2026-10-18 获取（SHA-256 记录在 tests/fixtures/compliance/headings.json 中），并阅读了其概要表 3 至 25，以核对所引用的子类别；其他章节、附录和出版物着陆页未阅读。子类别标识符遵循该概要自身的表格，这些表格使用网络安全框架 1.1 的标识符
+
+engine-compliance-cap-receiver-log-trust-name = 接收机日志信任度评估
+
+engine-compliance-cap-receiver-log-trust-output = 真实接收机自身日志的逐历元信任状态、告警时刻，以及与运行前设定事件的吻合程度
+
+engine-compliance-cap-jamming-effects-name = 压制干扰（jamming）链路预算影响
+
+engine-compliance-cap-jamming-effects-output = 在设定的干扰源几何下，每颗卫星的载噪比密度与锁定状态
+
+engine-compliance-cap-spoofing-detection-name = 欺骗干扰（spoofing）与转发欺骗（meaconing）检测
+
+engine-compliance-cap-spoofing-detection-output = 在设定的欺骗干扰攻击下的检测器判决与检测器区分能力
+
+engine-compliance-cap-integrity-monitoring-name = 完好性监测与保护级
+
+engine-compliance-cap-integrity-monitoring-output = 保护级、相对于告警限值的可用性，以及故障检测结果
+
+engine-compliance-cap-holdover-name = 守时（holdover）与惯性滑行
+
+engine-compliance-cap-holdover-output = GNSS 被拒止期间位置或时间误差的增长，对照设定的阈值
+
+engine-compliance-cap-source-diversity-name = 替代与多样化的 PNT 源
+
+engine-compliance-cap-source-diversity-output = 来自独立于主 GNSS 频段的源的导航或授时性能
+
+engine-compliance-cap-resilience-scoring-name = 针对威胁集合的韧性评分
+
+engine-compliance-cap-resilience-scoring-output = 在设定的集合上，每个威胁向量的生存比与韧性比，并说明所作假设
+
+engine-compliance-cap-run-provenance-name = 可复现的运行溯源
+
+engine-compliance-cap-run-provenance-output = 每个结果中携带的场景哈希、引擎版本和随机种子，使运行可以重复
+
+engine-compliance-req-dhs-s5-2-reference = 第 5.2 节（预防、响应、恢复）
+
+engine-compliance-req-dhs-s5-2-asks = 韧性被描述为三项功能：预防危害、响应（检测、报告、缓解、遏制）和恢复。检测是概率性的，因此虚警与漏检都很重要。
+
+engine-compliance-req-dhs-s5-2-gap = 预防是产品设计属性，任何仿真输出都无法显示。来自合成数据或单次会话运行的检测统计量，并非已部署产品的实测虚警率或漏检率。
+
+engine-compliance-req-dhs-l1-r1-reference = 第 1 级，要求 1
+
+engine-compliance-req-dhs-l1-r1-asks = 检查来自外部源的存储数据是否符合相关标准的格式和取值范围。
+
+engine-compliance-req-dhs-l1-r1-gap = 这是被测产品的软件保证与输入校验属性。Kshana 不检查产品的输入处理。
+
+engine-compliance-req-dhs-l1-r2-reference = 第 1 级，要求 2
+
+engine-compliance-req-dhs-l1-r2-asks = 允许通过清除或复位存储器进行完全的手动恢复，在威胁消失后使系统回到规定的性能。
+
+engine-compliance-req-dhs-l1-r2-gap = 接收机日志显示定位何时变得不可信、何时恢复；但不显示手动复位是否清除了所有已存储的状态。
+
+engine-compliance-req-dhs-l1-r3-reference = 第 1 级，要求 3
+
+engine-compliance-req-dhs-l1-r3-asks = 安全地重新加载或更新固件。
+
+engine-compliance-req-dhs-l1-r3-gap = 固件更新的安全性不在任何 Kshana 输出所能观察的范围之内。
+
+engine-compliance-req-dhs-l2-r4-reference = 第 2 级，要求 4
+
+engine-compliance-req-dhs-l2-r4-asks = 识别受损的 PNT 源，并阻止它们破坏解算结果。
+
+engine-compliance-req-dhs-l2-r4-gap = Kshana 对其建模的、或在日志上运行的检测器和监测器评分；产品自身的源排除是否有效，需要产品的内部状态，而不仅仅是其日志。
+
+engine-compliance-req-dhs-l2-r5-reference = 第 2 级，要求 5
+
+engine-compliance-req-dhs-l2-r5-asks = 自动恢复各源和系统且不中断输出；在威胁期间仍提供解算结果，其劣化可能没有上限。
+
+engine-compliance-req-dhs-l2-r5-gap = 守时（holdover）运行约束的是针对设定的时钟或惯性模型的建模漂移，而不是产品自身的恢复行为。
+
+engine-compliance-req-dhs-l3-r6-reference = 第 3 级，要求 6
+
+engine-compliance-req-dhs-l3-r6-asks = 来自一个源的错误数据不得污染另一个源。
+
+engine-compliance-req-dhs-l3-r6-gap = Kshana 并排运行各源；产品内部的源隔离需要设计评审或对产品进行故障注入。
+
+engine-compliance-req-dhs-l3-r7-reference = 第 3 级，要求 7
+
+engine-compliance-req-dhs-l3-r7-asks = 对所有源的解算结果进行交叉验证，并使威胁期间的劣化保持有界。
+
+engine-compliance-req-dhs-l3-r7-gap = 有界劣化是针对建模的传感器给出的；产品自身的交叉检查未被观察。
+
+engine-compliance-req-dhs-l4-r8-reference = 第 4 级，要求 8
+
+engine-compliance-req-dhs-l4-r8-asks = 针对共模威胁使用不同技术的源，威胁期间无劣化。
+
+engine-compliance-req-dhs-l4-r8-gap = 共模论证需要真实产品的源集合，以及跨越这些源的威胁；场景只是设定了一个威胁，并不能证明产品没有共同的弱点。
+
+engine-compliance-req-dhs-s5-5-reference = 第 5.5 节（共模）
+
+engine-compliance-req-dhs-s5-5-asks = 多样化的机制不得共有同一弱点：例如覆盖两个频段的干扰源会使频段多样性失效。
+
+engine-compliance-req-dhs-s5-5-gap = 评分使用合成的威胁集合，并如实说明；它不是现场数据。
+
+engine-compliance-req-dhs-s8-1-8-3-reference = 第 8.1 至 8.3 节（评估）
+
+engine-compliance-req-dhs-s8-1-8-3-asks = 评估将静态分析与动态分析相结合，其中以测试向量代替威胁；测试类别为源故障、干扰和内部故障。仿真器被列为一种测试方法。
+
+engine-compliance-req-dhs-s8-1-8-3-gap = 导出的运动和事件可以驱动实验室仿真器（docs/TEST-BENCH.md）。Kshana 不生成任何信号，因此威胁由仿真器及其获授权的操作人员提供。
+
+engine-compliance-req-dhs-s8-6-reference = 第 8.6 节（测试计划要素）
+
+engine-compliance-req-dhs-s8-6-asks = 测试计划说明等级、要求、输入、参考资料、所需的数据访问、含通过或失败判据的程序、结果和备注。
+
+engine-compliance-req-dhs-s8-6-gap = 通过或失败判据由评估者选定；Kshana 记录其运行所用的输入、阈值和哈希。
+
+engine-compliance-req-imo-1644-3-reference = MSC.1/Circ.1644，第 3 段
+
+engine-compliance-req-imo-1644-3-asks = 蓄意的 GNSS 干扰对航行安全、人员、财产和环境构成重大风险。
+
+engine-compliance-req-imo-1644-3-gap = 这是一项风险陈述；Kshana 针对设定的几何量化影响，而不是某一海域的风险。
+
+engine-compliance-req-imo-1644-5-reference = MSC.1/Circ.1644，第 5 段
+
+engine-compliance-req-imo-1644-5-asks = 请成员国限制来自其领土的干扰，考虑向海员发出警告，并考虑针对未经授权发射的措施。
+
+engine-compliance-req-imo-1644-5-gap = 面向各国及其主管机关；没有任何仿真输出涉及此项。
+
+engine-compliance-req-imo-a1046-3-reference = 决议 A.1046(27)，附件第 3 段（港口入口、港口进近水域和沿海水域）
+
+engine-compliance-req-imo-a1046-3-asks = 只有当系统以设定的精度提供设定的完好性、以设定的速率更新，并在设定的时间内给出完好性告警时，才算可用。
+
+engine-compliance-req-imo-a1046-3-gap = Kshana 针对建模的几何计算保护级和相对于告警限值的可用性；该决议中的精度、可用性和告警时间数值在此不作断言。
+
+engine-compliance-req-imo-a1046-2-reference = 决议 A.1046(27)，附件第 2 段（远洋水域）
+
+engine-compliance-req-imo-a1046-2-asks = 无线电导航系统在远洋阶段的精度、更新速率、可用性和完好性告警要求。
+
+engine-compliance-req-imo-a1046-2-gap = 同上，针对远洋阶段。
+
+engine-compliance-req-imo-401-3-1-reference = MSC.401(95)，3.1 至 3.2
+
+engine-compliance-req-imo-401-3-1-asks = 接收机使用来自至少两个独立系统的民用信号，并提供具备所需韧性和完好性的位置、速度和时间解算。
+
+engine-compliance-req-imo-401-3-1-gap = 多星座完好性是建模的；接收机实际是否使用两个系统属于产品测试。
+
+engine-compliance-req-imo-401-3-11-reference = MSC.401(95)，3.11 至 3.14
+
+engine-compliance-req-imo-401-3-11-asks = 接收机按航行阶段评估精度和完好性，无法评估时给出提醒，在未及时得到新解算时发出警告，并以明确的状态显示最后一个合理值。
+
+engine-compliance-req-imo-401-3-11-gap = Kshana 从日志中读取授时和信任度；所显示的提醒与警告间隔是否符合该标准，需要接收机的用户界面，而日志并不显示。
+
+engine-compliance-req-imo-401-3-16-reference = MSC.401(95)，3.15 至 3.16
+
+engine-compliance-req-imo-401-3-16-asks = 显示增强系统的状态，以及位置、航向、航速、时间和所用的源。
+
+engine-compliance-req-imo-401-3-16-gap = 显示要求；没有任何 Kshana 输出涉及这些要求。
+
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
+
+engine-compliance-req-imo-401-4-2-asks = 在正常干扰条件下令人满意地工作，符合决议 A.694(17)（船载无线电设备一般要求）以及典型的船上和外部无线电环境。这不是抗压制干扰或抗欺骗干扰的要求。
+
+engine-compliance-req-imo-401-4-2-gap = 正常干扰测试是对接收机的实验室测量；决议 A.694(17) 本身未阅读。
+
+engine-compliance-req-easa-desc-reference = SIB 2022-02R4，说明
+
+engine-compliance-req-easa-desc-asks = 欺骗干扰（spoofing）比压制干扰（jamming）更难检测，也更危险；驾驶舱内没有能区分二者的告警；其影响从虚假地形告警到监视数据被破坏不等，并且在离开该区域后仍可能持续。
+
+engine-compliance-req-easa-desc-gap = Kshana 对检测器和链路影响建模；驾驶舱告警是设备属性。
+
+engine-compliance-req-easa-mfr-reference = SIB 2022-02R4，建议：航空器和设备制造商应当
+
+engine-compliance-req-easa-mfr-asks = 评估压制干扰和欺骗干扰对产品的影响（包括累积影响），并向运营人提供关于识别疑似欺骗干扰以及在 GNSS 丢失时的运行限制的指导。
+
+engine-compliance-req-easa-mfr-gap = 对产品本身的评估由制造商负责；Kshana 提供可重复的场景和已评分的接收机日志，作为其中的证据。
+
+engine-compliance-req-easa-ops-spoof-reference = SIB 2022-02R4，建议：航空运营人应当（欺骗干扰）
+
+engine-compliance-req-easa-ops-spoof-asks = 将 GNSS 位置和时间与非 GNSS 源比较，并关注位置不确定度数值和导航设施，以发现欺骗干扰。
+
+engine-compliance-req-easa-ops-spoof-gap = 运行程序和培训不在仿真输出的范围之内。
+
+engine-compliance-req-easa-ansp-reference = SIB 2022-02R4，建议：ATM/ANS 服务提供者应当；参与 ATM/ANS 设备设计或生产的组织应当
+
+engine-compliance-req-easa-ansp-asks = 评估 GNSS 授时丢失对通信、导航和监视系统的影响，保留地面导航设施，并协助检测干扰。
+
+engine-compliance-req-easa-ansp-gap = 授时守时（holdover）运行涉及授时丢失评估；地面系统设计和程序不在覆盖范围内。
+
+engine-compliance-req-easa-report-reference = SIB 2022-02R4，建议：关于报告的结束提醒
+
+engine-compliance-req-easa-report-asks = 依据事件报告法规报告影响安全的事件，并向制造商报告疑似欺骗干扰和风险较高的压制干扰。
+
+engine-compliance-req-easa-report-gap = 这是一项报告义务；没有任何输出涉及此项。
+
+engine-compliance-req-nis2-21-1-reference = 第 21(1) 条
+
+engine-compliance-req-nis2-21-1-asks = 根据最新技术水平、暴露程度、规模以及事件发生的可能性和严重程度，采取适当的技术、运行和组织措施来管理网络和信息系统的风险。
+
+engine-compliance-req-nis2-21-1-gap = Kshana 只涉及系统对定位和授时的依赖，而不涉及一般的信息安全风险。
+
+engine-compliance-req-nis2-21-2-a-reference = 第 21(2)(a) 条
+
+engine-compliance-req-nis2-21-2-a-asks = 关于风险分析和信息系统安全的政策。
+
+engine-compliance-req-nis2-21-2-a-gap = 为风险分析中的 PNT 部分提供证据支持（supports evidence for）；政策本身属于组织层面。
+
+engine-compliance-req-nis2-21-2-b-reference = 第 21(2)(b) 条
+
+engine-compliance-req-nis2-21-2-b-asks = 事件处理。
+
+engine-compliance-req-nis2-21-2-b-gap = 已评分的接收机日志有助于确定 PNT 干扰事件的起止时间；处理流程属于组织层面。
+
+engine-compliance-req-nis2-21-2-c-reference = 第 21(2)(c) 条
+
+engine-compliance-req-nis2-21-2-c-asks = 业务连续性，例如备份管理、灾难恢复和危机管理。
+
+engine-compliance-req-nis2-21-2-c-gap = 显示建模的后备方案能将授时或位置保持在界限内多长时间；连续性计划属于组织层面。
+
+engine-compliance-req-nis2-21-2-d-reference = 第 21(2)(d) 条
+
+engine-compliance-req-nis2-21-2-d-asks = 供应链安全，包括与直接供应商的关系。
+
+engine-compliance-req-nis2-21-2-d-gap = Kshana 不评估供应商。使用中立、可复现的 bench 进行接收机验收，是买方可以使用的一项输入，而不是供应链评估。
+
+engine-compliance-req-nis2-21-2-e-reference = 第 21(2)(e) 条
+
+engine-compliance-req-nis2-21-2-e-asks = 系统获取、开发和维护中的安全，包括漏洞处理与披露。
+
+engine-compliance-req-nis2-21-2-e-gap = 对接收机干扰行为的可重复验收测试，为采购部分提供证据支持（supports evidence for）；漏洞处理不在范围内。
+
+engine-compliance-req-nis2-21-2-f-reference = 第 21(2)(f) 条
+
+engine-compliance-req-nis2-21-2-f-asks = 用于评估网络安全风险管理措施有效性的政策和程序。
+
+engine-compliance-req-nis2-21-2-f-gap = 带哈希的可重复运行和评分前设定的事件，为有效性测试提供证据支持（supports evidence for）；政策及其时间表属于组织层面。
+
+engine-compliance-req-nis2-21-2-ghij-reference = 第 21(2)(g) 至 (j) 条
+
+engine-compliance-req-nis2-21-2-ghij-asks = 网络卫生与培训；密码学与加密；人力资源安全、访问控制与资产管理；多因素认证与安全通信。
+
+engine-compliance-req-nis2-21-2-ghij-gap = 无法通过定位和授时的运行输出来涉及。
+
+engine-compliance-req-nis2-21-3-reference = 第 21(3) 条
+
+engine-compliance-req-nis2-21-3-asks = 在选择供应链措施时，考虑每个供应商的漏洞，以及其产品的质量和安全开发。
+
+engine-compliance-req-nis2-21-3-gap = 见第 21(2)(d) 条。
+
+engine-compliance-req-en16803-1-reference = EN 16803-1（定义与系统工程程序）
+
+engine-compliance-req-en16803-1-asks = 定义道路 ITS 架构、性能特征和指标，以及比较测试环境的方法。不设定任何要求。
+
+engine-compliance-req-en16803-1-gap = 条款编号并不公开可见。持有许可的人员应将 Kshana 的输出字段对应到各指标定义。
+
+engine-compliance-req-en16803-2-reference = EN 16803-2（基于 GNSS 的终端基本性能）
+
+engine-compliance-req-en16803-2-asks = 针对位置输出的可用性、连续性、精度、完好性和首次定位时间的、基于回放的实验室测试程序。不设定最低值。
+
+engine-compliance-req-en16803-2-gap = Kshana 导出的运动可以驱动回放；该标准的程序、其对录制信号的处理及其指标计算在此均未复现，需要获得许可的文本。
+
+engine-compliance-req-en16803-3-6-reference = EN 16803-3，第 6 条
+
+engine-compliance-req-en16803-3-6-asks = 在安全测试中区分录制信号与模拟信号。
+
+engine-compliance-req-en16803-3-6-gap = Kshana 既不录制也不模拟信号。它导出运动和事件，并对接收机的日志评分。
+
+engine-compliance-req-en16803-3-a-reference = EN 16803-3，附录 A
+
+engine-compliance-req-en16803-3-a-asks = 对 GNSS 攻击的高层分类：干扰、压制干扰（jamming）、转发欺骗（meaconing）和欺骗干扰（spoofing）。
+
+engine-compliance-req-en16803-3-a-gap = Kshana 的场景以同样宽泛的措辞指明攻击类别；条款级对照需要获得许可的附录。
+
+engine-compliance-req-nist-id-ra-1-reference = ID.RA-1（风险评估）
+
+engine-compliance-req-nist-id-ra-1-asks = 识别、记录并报告 PNT 系统以及分发 PNT 数据的对象的漏洞；在安全的情况下，在法律和业务连续性限制内测试其对中断或操纵的易感性，这可能使用 PNT 信号仿真。
+
+engine-compliance-req-nist-id-ra-1-gap = Kshana 在建模场景和接收机的录制日志中刻画易感性。对真实系统漏洞的清查由运营方负责，任何 RF 测试均使用运营方自己的设备并经其授权进行：Kshana 不发射任何信号。
+
+engine-compliance-req-nist-id-ra-3-reference = ID.RA-3（风险评估）
+
+engine-compliance-req-nist-id-ra-3-asks = 识别并记录针对 PNT 的内部和外部威胁，从自然和无意的中断到压制干扰、欺骗干扰和延迟攻击等蓄意攻击。
+
+engine-compliance-req-nist-id-ra-3-gap = 场景设定威胁及其影响。针对用户自己的站点和系统的有据可查的威胁评估由用户自行编写；没有任何场景可作为该处存在威胁的证据。
+
+engine-compliance-req-nist-id-ra-4-reference = ID.RA-4（风险评估）
+
+engine-compliance-req-nist-id-ra-4-asks = 识别潜在影响和可能性；对每个威胁，说明影响范围、误差的表现形式（阶跃或斜坡）、检测阈值，以及误差在下游造成的后果。
+
+engine-compliance-req-nist-id-ra-4-gap = 运行针对建模的传感器和设定的威胁给出影响数值（误差增长、保护级、链路影响）。不产生可能性，建模的影响也不是实测的影响。
+
+engine-compliance-req-nist-id-ra-5-reference = ID.RA-5（风险评估）
+
+engine-compliance-req-nist-id-ra-5-asks = 利用威胁、漏洞、可能性和影响来评估风险，并定期重新评估，且在系统或威胁变化时重新评估。
+
+engine-compliance-req-nist-id-ra-5-gap = 评分使用合成的威胁集合，并如实说明。带哈希的可重复运行使重新评估具有可比性；风险判断及其时间表属于组织层面。
+
+engine-compliance-req-nist-pr-ds-6-reference = PR.DS-6（数据安全）
+
+engine-compliance-req-nist-pr-ds-6-asks = 在各源不一致时验证 PNT 数据的完好性，例如交叉检查多个频率、星座或独立源。
+
+engine-compliance-req-nist-pr-ds-6-gap = Kshana 针对建模的几何和传感器计算保护级和跨源结果；产品内部的完好性检查未被观察。
+
+engine-compliance-req-nist-pr-ip-10-reference = PR.IP-10（信息保护过程与程序）
+
+engine-compliance-req-nist-pr-ip-10-asks = 测试响应与恢复计划；对于有备用时间源的系统，移除主源，并确认时间精度、阶跃和斜坡保持在设定的时钟要求之内。
+
+engine-compliance-req-nist-pr-ip-10-gap = 守时（holdover）运行对移除过程建模，并对照设定的阈值检查误差；已评分的接收机日志显示真实的丢失与恢复。对运营方自己的时间服务器的测试及其所用的任何 RF，由运营方负责。
+
+engine-compliance-req-nist-pr-pt-5-reference = PR.PT-5（防护技术）
+
+engine-compliance-req-nist-pr-pt-5-asks = 使用在正常和不利条件下的韧性机制：拒绝不良信号和数据，并将守时（holdover）与异常检测、冗余或融合的源以及恢复相结合。
+
+engine-compliance-req-nist-pr-pt-5-gap = 显示建模的机制及其局限；产品是否实现这些机制属于产品测试。
+
+engine-compliance-req-nist-de-ae-2-reference = DE.AE-2（异常与事件）
+
+engine-compliance-req-nist-de-ae-2-asks = 实时及事后分析检测到的 PNT 事件（来源、误差统计量、持续时间、频率、位置），区分有害事件与正常运行，并保留原始数据和分析。
+
+engine-compliance-req-nist-de-ae-2-gap = Kshana 事后对录制的日志评分，并保留其所运行内容的哈希。它不对干扰源定位或归因，也不作为服务进行实时监测。
+
+engine-compliance-req-nist-de-ae-3-reference = DE.AE-3（异常与事件）
+
+engine-compliance-req-nist-de-ae-3-asks = 收集并关联来自多个来源和传感器的事件数据，并交叉检查来自多个源的 PNT 数据以检测异常行为。
+
+engine-compliance-req-nist-de-ae-3-gap = Kshana 的监测器对一份接收机日志或一个场景的各数据流进行交叉检查；跨运营方自己的传感器和日志的关联由运营方负责。
+
+engine-compliance-req-nist-de-ae-4-reference = DE.AE-4（异常与事件）
+
+engine-compliance-req-nist-de-ae-4-asks = 确定事件对 PNT 数据及依赖它的应用的影响，包括罕见事件。
+
+engine-compliance-req-nist-de-ae-4-gap = 影响显示在某次运行或某份日志的 PNT 输出上。对某个具体下游应用的影响，需要该应用自身的要求。
+
+engine-compliance-req-nist-de-ae-5-reference = DE.AE-5（异常与事件）
+
+engine-compliance-req-nist-de-ae-5-asks = 根据应用所需的误差和不确定度容差设定并记录事件告警阈值，并注明通知时间。
+
+engine-compliance-req-nist-de-ae-5-gap = 运行对照用户设定的阈值评分，并记录这些阈值。阈值的选择和告警程序由用户负责。
+
+engine-compliance-req-nist-de-cm-1-reference = DE.CM-1（安全持续监测）
+
+engine-compliance-req-nist-de-cm-1-asks = 对照基线监测 PNT 源和输出以检测异常，使用多样化的源以及故障检测与排除，并检查监测是否覆盖已识别的故障模式。
+
+engine-compliance-req-nist-de-cm-1-gap = Kshana 在日志和场景上运行此类监测器并评分。对在线系统的持续监测，以及对某产品所有故障模式的覆盖，不是一组运行所能显示的。
+
+engine-compliance-req-nist-de-dp-3-reference = DE.DP-3（检测过程）
+
+engine-compliance-req-nist-de-dp-3-asks = 定期并在升级后，针对当前威胁概况测试事件检测是否按预期工作。
+
+engine-compliance-req-nist-de-dp-3-gap = 可重复、带哈希的场景和评分前设定的事件，为此类测试提供证据支持（supports evidence for）；按计划在运营方自己的设备上运行该测试由运营方负责。
+
+engine-compliance-req-nist-rs-an-5-reference = RS.AN-5（分析）
+
+engine-compliance-req-nist-rs-an-5-asks = 针对已知故障模式和新发现的漏洞建立验证与确认，并记录事件中的正常与异常 PNT 数据，以改进今后的检测。
+
+engine-compliance-req-nist-rs-an-5-gap = 已评分的日志事后刻画一次事件。接收并处理已披露的漏洞，是任何运行之外的流程。
+
+engine-compliance-req-nist-rs-mi-2-reference = RS.MI-2（缓解）
+
+engine-compliance-req-nist-rs-mi-2-asks = 事件得到遏制后，用替代或互补的 PNT 源对其进行缓解，使运行得以继续，并使系统恢复到正常工作状态。
+
+engine-compliance-req-nist-rs-mi-2-gap = 运行显示建模的后备源能使误差保持有界多长时间；遏制和恢复服务属于运行步骤。
+
+engine-compliance-mapping-header-reference = 引用
+
+engine-compliance-mapping-header-asks = 要求内容（转述）
+
+engine-compliance-mapping-header-capabilities = 为其提供证据支持（supports evidence for）的 Kshana 输出
+
+engine-compliance-mapping-header-gap = 差距
+
+engine-compliance-mapping-none = 无
+
+engine-compliance-source-line = **{ $title }**：{ $version }。<{ $url }>。阅读于 { $accessed }：{ $checked }。

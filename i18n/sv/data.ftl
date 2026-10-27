@@ -559,7 +559,7 @@ dat-c9519067263f = Tillagt (validering av CEF-händelserna)
 dat-7f5832994cf3 = Tillagt (validering av telemetriformaten och bevispaketen)
 
 # data/search.json
-dat-f0450e0988f1 = Tillagt: compliance-mappning och export för testbänk
+dat-f0450e0988f1 = Tillagt: compliance-mappning och test-bench-export
 
 # data/search.json
 dat-f57e37e24737 = Lägga till eller ändra en sensormodell
@@ -1522,7 +1522,7 @@ dat-3e979a155df9 = COmplex PRoportional ASsessment — kolumnsummenormaliserad n
 dat-d42a6e229abe = compliance (kshana compliance-report): en mappning från Kshanas utdata till klausuler i offentliga ramverk enbart med nummer, ifylld från de körningar som ges; ett resultat räknas för en förmåga bara när det bär det belägg som mappningen namnger, en tom mängd ger inget belägg, och formuleringen är "ger belägg för"; rapporten är inget konstaterande att något ramverk är uppfyllt och inget betyg och inget godkännande från någon.
 
 # data/search.json
-dat-ca20459694bd = Compliance och testbänk
+dat-ca20459694bd = Compliance och test bench
 
 # data/search.json
 dat-61f05bd912b5 = Compliance-mappning
@@ -6570,13 +6570,13 @@ dat-ab8e111d6db1 = Tesseral gravitationspotential i Cowell-propagatorn
 dat-c481865fdebf = Tillämpat test
 
 # studio/data/capabilities.json
-dat-7e4f76cf5f02 = Export till testbädd
+dat-7e4f76cf5f02 = Test-bench-export
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-ae7811e71c53 = Export till testbädd (kshana bench-export): jordfasta, geodetiska och lokala hastighetskolumner, attitydkolumner och NMEA { "0183" }-utdata
 
 # data/verification-matrix.json
-dat-98bed4a06290 = Export till testbädd läst av en simulators rörelsefilsläsare (gps-sdr-sim)
+dat-98bed4a06290 = Test-bench-export läst av en simulators rörelsefilsläsare (gps-sdr-sim)
 
 # data/search.json
 dat-2c1e5ddbab6d = Tester och testdata

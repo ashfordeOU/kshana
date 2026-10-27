@@ -6607,11 +6607,11 @@ dat-ab8e111d6db1 = Tesserální geopotenciál v propagátoru Cowell
 
 dat-c481865fdebf = Použitý test
 
-dat-7e4f76cf5f02 = Export pro testovací stolici
+dat-7e4f76cf5f02 = Export test-bench
 
 dat-ae7811e71c53 = Export pro testovací stolici (kshana bench-export): sloupce pevné vůči Zemi, geodetické a lokální rychlosti, sloupce orientace a výstup NMEA { "0183" }
 
-dat-98bed4a06290 = Export pro testovací stolici čtený čtečkami souborů pohybu simulátoru (gps-sdr-sim)
+dat-98bed4a06290 = Export test-bench čtený čtečkami souborů pohybu simulátoru (gps-sdr-sim)
 
 dat-2c1e5ddbab6d = Testy a testovací data
 
