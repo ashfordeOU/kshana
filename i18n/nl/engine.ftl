@@ -11472,3 +11472,57 @@ engine-partner-text-error = { "  " }FOUT: { $e }
 engine-partner-text-result-ok = resultaat: het formaat en de metadata zijn compleet en leesbaar
 
 engine-partner-text-result-not-ready = resultaat: niet gereed; herstel de fouten hierboven
+
+engine-interference-map-locate-usage = gebruik: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom heeft ook --licence <tekst> --licence-url <url> --attribution <tekst> nodig)
+    Schrijft emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv en -figure.svg: geschatte zenderregio's bij vermelde betrouwbaarheidsniveaus, nooit een kaal punt
+
+engine-interference-map-locate-wrote = geschreven: { $path }
+
+engine-interference-map-locate-summary = { $n_sessions ->
+        [one] { $n_sessions } sessie
+       *[other] { $n_sessions } sessies
+    } gepubliceerd; { $n_withheld ->
+        [one] { $n_withheld } kandidaatsessie
+       *[other] { $n_withheld } kandidaatsessies
+    } achtergehouden (minder dan { $min } verschillende vliegtuigen of schepen)
+
+engine-interference-map-locate-note-not-preregistered = let op: een optie wijkt af van de vooraf geregistreerde parameters, dus dit is niet de vooraf geregistreerde methode
+
+engine-interference-map-locate-line-session = sessie { $k }: { $start } tot { $end }, { $affected } verschillende getroffen, regio van { $level }% { $area } km², zwaartepunt { $lat }, { $lon } (ellips { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = sessie { $k }: { $start } tot { $end }, { $affected } verschillende getroffen, de meldingen beperken de regio niet (onbegrensd)
+
+engine-interference-map-locate-fig-title = Geschatte zenderregio
+
+engine-interference-map-locate-fig-subtitle = Waar, onder de vermelde aannames, een bron van de verslechterde meldingen zich zou kunnen bevinden. Getoonde sessies: { $n }.
+
+engine-interference-map-locate-fig-none = Geen enkele sessie haalde het publicatieminimum, dus er wordt geen regio getoond.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = regio van { $pct }%
+
+engine-interference-map-locate-fig-legend-ellipse = ellips van 95% van de posterior
+
+engine-interference-map-locate-fig-note-1 = Een regio is niet de positie van enig vliegtuig, schip of enige organisatie, en geen vaststelling van de oorzaak.
+
+engine-interference-map-locate-fig-note-2 = Terrein wordt niet gemodelleerd en elke sessie gaat uit van één bron; betrouwbaarheidsniveaus zijn voorwaardelijk aan het model.
+
+engine-e-interference-map-locate-bad-number = { $name } is geen getal
+
+engine-e-interference-map-locate-bad-levels = --levels heeft kommagescheiden getallen nodig die strikt tussen 0 en 1 liggen
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km moet tussen 0.5 en 100 liggen
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min moet tussen 1 en 720 liggen
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m heeft twee getallen nodig, min,max, met 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } is geen bruikbaar TDOA-fixbestand (receivers, tdoa_s, sigma_s, start), of de fix is niet geconvergeerd
+
+engine-e-interference-map-locate-source-required = --source adsb of --source ais is vereist
+
+engine-e-interference-map-locate-no-evidence-rows = er zijn geen bewijsrijen vermeld voor de locate-uitvoer
