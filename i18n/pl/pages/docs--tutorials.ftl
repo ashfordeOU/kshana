@@ -27,3 +27,5 @@ seg-ec26df467b88 = Łączna fuzja czujników PNT filtrem Kalmana na tych samych 
 seg-4f19d4fb1341 = Ogólny przegląd N-wymiarowy dowolnego pakietu przez kluczowe TOML z kropkami / ścieżki metryk JSON.
 
 seg-e7ab7b55c969 = Przegląd 1-wymiarowy badania kompromisów po parametrze pakietu zegara.
+
+seg-e43910de5fd8 = Notatniki

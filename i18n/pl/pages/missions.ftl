@@ -97,3 +97,33 @@ seg-fa37e351f6b4 = Kopiuj
 seg-9d3ee6a5613e = Przebiegi
 
 seg-94de9433d99f = Pliki scenariuszy
+
+seg-99a7944884ce = Sektor
+
+seg-b37002818547 = Obronność i bezpieczeństwo
+
+seg-5d7a6650872e = Lotnictwo i drony
+
+seg-75d7d1930515 = Drogi
+
+seg-ea4149746f7b = Kolej
+
+seg-e7a61033ec40 = Infrastruktura krytyczna i czas
+
+seg-f246644479d0 = Nauka i badania
+
+seg-f2f6717849a7 = Kosmos: orbita okołoziemska
+
+seg-d038a1e09683 = Czy mój statek kosmiczny widzi dość satelitów nawigacyjnych, jak długo jego zegar utrzymuje czas między pozycjami i co dodałaby warstwa nawigacyjna na niskiej orbicie?
+
+seg-6010770a2bf6 = Księżyc i głęboka przestrzeń
+
+seg-33641ef6761c = Drogi i motoryzacja
+
+seg-94cca6b24bb2 = Ile sekund po wjeździe do tunelu pociąg nadal potrafi stwierdzić, na którym torze się znajduje?
+
+seg-2d2a4afa2708 = Telekomunikacja i 5G
+
+seg-af94e7a93923 = Jeśli zostanie utracone odniesienie czasu GNSS, czy zegar mojej sieci mieści się w maskach ITU-T i jak długo?
+
+seg-36d838421b86 = Czy mogę odtworzyć, rozszerzyć i zacytować wynik PNT, aż do ziarna?
