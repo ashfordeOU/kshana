@@ -182,7 +182,7 @@ seg-ebfc032d7898 = O que é calculado por sinal
 
 # text
 # c1: η = (2/π)[Si(πBT_c) − sin²(πBT_c/2)/(πBT_c/2)]
-seg-211f655e00fa = <b>Densidade espectral de potência (PSD) limitada em banda</b> e, por componente, a fração da sua potência que a banda de transmissão deixa passar. Para um componente BPSK no centro, a forma fechada <c1/> fica ao lado do valor numérico ({ "90.3" } % para o lóbulo principal).
+seg-211f655e00fa = <b>Densidade espetral de potência (PSD) limitada em banda</b> e, por componente, a fração da sua potência que a banda de transmissão deixa passar. Para um componente BPSK no centro, a forma fechada <c1/> fica ao lado do valor numérico ({ "90.3" } % para o lóbulo principal).
 
 # text
 # c1: β² = [B/2 − sin(πBT_c)/(2πT_c)] / (π² T_c η)

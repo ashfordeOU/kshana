@@ -88,7 +88,7 @@ seg-89d1923b3ed9 = <b>PNT em órbita terrestre baixa (LEO), de ponta a ponta.</b
 
 # text
 # c1: spectrum
-seg-2e5b57ccd454 = <b>Espectro.</b> Uma cascata de densidade espectral de potência em banda L (e em ultra-alta frequência (UHF), banda S e banda C) sob uma cronologia de jammer programada, com relação jammer-sinal por banda e densidade efetiva de portadora-ruído (<c1/>), e entrada e saída de gravações Signal Metadata Format (SigMF).
+seg-2e5b57ccd454 = <b>Espetro.</b> Uma cascata de densidade espetral de potência em banda L (e em ultra-alta frequência (UHF), banda S e banda C) sob uma cronologia de jammer programada, com relação jammer-sinal por banda e densidade efetiva de portadora-ruído (<c1/>), e entrada e saída de gravações Signal Metadata Format (SigMF).
 
 # text
 # c1: solar-system

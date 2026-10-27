@@ -26,7 +26,7 @@ seg-7884c9a7d883 = Cada sensor quântico (e clássico) é um <b>modelo de erro</
 # c1: ClockClass
 # c2: VALIDATION.md
 # c3: VERIFICATION-MATRIX.md
-seg-cad22f39d579 = <b>Relógios</b> — PSD (densidades espectrais de potência) de frequência branca e de frequência de passeio aleatório, um patamar de Allan de flicker (1/f) e deriva linear, a partir de folhas de especificações e artigos: o CSAC (relógio atómico à escala de chip) Microchip SA.45s; o relógio ótico de rede de estrôncio de Origlia et al. (arXiv:{ "1503.08457" }), um objetivo orientado para o espaço; e as seis predefinições de <c1/> (CSAC; USO, oscilador ultraestável; DSAC, Deep Space Atomic Clock; TCXO, oscilador de cristal compensado em temperatura; OCXO, oscilador de cristal com forno; RAFS, padrão de frequência atómico de rubídio), cada uma citando uma fonte. O desvio de Allan que estas produzem é validado face às inclinações padrão dos tipos de ruído (consulte <a1><c2/></a1>). Uma curva de relógio ótico é real: o desvio de Allan medido do relógio de pinças de ⁸⁸Sr de Norcia et al. (<em>Science</em> { "2019" }) é reproduzido pelo ajuste de ruído, uma linha VALIDATED em <a2><c3/></a2>; os valores de holdover construídos sobre a classe ótica continuam MODELLED.
+seg-cad22f39d579 = <b>Relógios</b> — PSD (densidades espetrais de potência) de frequência branca e de frequência de passeio aleatório, um patamar de Allan de flicker (1/f) e deriva linear, a partir de folhas de especificações e artigos: o CSAC (relógio atómico à escala de chip) Microchip SA.45s; o relógio ótico de rede de estrôncio de Origlia et al. (arXiv:{ "1503.08457" }), um objetivo orientado para o espaço; e as seis predefinições de <c1/> (CSAC; USO, oscilador ultraestável; DSAC, Deep Space Atomic Clock; TCXO, oscilador de cristal compensado em temperatura; OCXO, oscilador de cristal com forno; RAFS, padrão de frequência atómico de rubídio), cada uma citando uma fonte. O desvio de Allan que estas produzem é validado face às inclinações padrão dos tipos de ruído (consulte <a1><c2/></a1>). Uma curva de relógio ótico é real: o desvio de Allan medido do relógio de pinças de ⁸⁸Sr de Norcia et al. (<em>Science</em> { "2019" }) é reproduzido pelo ajuste de ruído, uma linha VALIDATED em <a2><c3/></a2>; os valores de holdover construídos sobre a classe ótica continuam MODELLED.
 
 # text
 # c1: inertial
@@ -81,7 +81,7 @@ seg-00c510117abc = três outros termos de erro do CAI <em>são agora modelados</
 # text
 # c1: σ_Φ² = (π/2)²·S_φ⁰/τ_R
 # c2: t_d = 2L/c
-seg-fcaf6ff00974 = <b>ruído de fase do laser Raman</b>: a ponderação pela função de sensibilidade de Cheinet et al. ({ "2008" }), Eq. { "8" }, com a forma fechada de ruído de fase branco <c1/> (Eq. { "18" } a um ciclo) e uma via numérica para qualquer espectro de ruído de fase, mais o ruído de frequência do laser que o atraso de retrorreflexão <c2/> não cancela (Le Gouët et al. { "2007" }, Eqs. { "9" } a { "11" });
+seg-fcaf6ff00974 = <b>ruído de fase do laser Raman</b>: a ponderação pela função de sensibilidade de Cheinet et al. ({ "2008" }), Eq. { "8" }, com a forma fechada de ruído de fase branco <c1/> (Eq. { "18" } a um ciclo) e uma via numérica para qualquer espetro de ruído de fase, mais o ruído de frequência do laser que o atraso de retrorreflexão <c2/> não cancela (Le Gouët et al. { "2007" }, Eqs. { "9" } a { "11" });
 
 # text
 # c1: δg = σ_v²/R

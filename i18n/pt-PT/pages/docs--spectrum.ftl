@@ -68,7 +68,7 @@ seg-64509c048541 = O que é modelado
 seg-f07519ff8071 = Fonte: <c1/>
 
 # text
-seg-901c3e032de7 = Modelo de espectro e cascata
+seg-901c3e032de7 = Modelo de espetro e cascata
 
 # text
 # c1: spectrum
@@ -86,7 +86,7 @@ seg-5e205b189b26 = Num repositório clonado, <c1/> executa o mesmo ficheiro.
 # c2: src/sigmf.rs
 # c3: src/navsignal.rs
 # c4: src/leo_signal.rs
-seg-261deb22b4fa = Código: <c1/> (o modelo, o tipo de cenário, o estimador de Welch), <c2/> (o codec de gravações), <c3/> (os espectros de sinal de área unitária e o coeficiente de separação espetral) e <c4/> (as predefinições de projeto de sinal que uma banda pode nomear).
+seg-261deb22b4fa = Código: <c1/> (o modelo, o tipo de cenário, o estimador de Welch), <c2/> (o codec de gravações), <c3/> (os espetros de sinal de área unitária e o coeficiente de separação espetral) e <c4/> (as predefinições de projeto de sinal que uma banda pode nomear).
 
 # text
 seg-bb1153873209 = Modulação
@@ -213,7 +213,7 @@ seg-d13b177946d2 = <c1/> — um varrimento linear em dente de serra de <c2/> a c
 # text
 # c1: matched
 # c2: matched_to
-seg-675fb74a89e4 = <c1/> — ruído de banda larga cujo espectro é a própria modulação da banda <c2/>.
+seg-675fb74a89e4 = <c1/> — ruído de banda larga cujo espetro é a própria modulação da banda <c2/>.
 
 # text
 # c1: received_power_dbw
@@ -240,7 +240,7 @@ seg-8e718c09f7d8 = O recetor (<c1/>) define o patamar de ruído, <c2/> com <c3/>
 # c4: f_min_mhz
 # c5: f_max_mhz
 # c6: n_freq
-seg-9b8078bd0df3 = A cascata principal cobre <c1/> (por predefinição, de { "1160" } a { "1590" } MHz em { "430" } intervalos). Cada entrada <c2/> (<c3/>, <c4/>, <c5/>, <c6/>, predefinição de { "200" } intervalos) acrescenta outra cascata sobre o seu próprio intervalo de frequências na mesma cronologia, para um espectro que abranja várias bandas.
+seg-9b8078bd0df3 = A cascata principal cobre <c1/> (por predefinição, de { "1160" } a { "1590" } MHz em { "430" } intervalos). Cada entrada <c2/> (<c3/>, <c4/>, <c5/>, <c6/>, predefinição de { "200" } intervalos) acrescenta outra cascata sobre o seu próprio intervalo de frequências na mesma cronologia, para um espetro que abranja várias bandas.
 
 # text
 seg-a550e89c2907 = A cadeia de interferência
@@ -250,7 +250,7 @@ seg-a550e89c2907 = A cadeia de interferência
 # c2: G_j
 # c3: B
 # c4: κ = ∫_B G_s(f) G_j(f) df
-seg-12a2c08191c0 = Para um sinal de espectro de área unitária <c1/> e um emissor de interferência de espectro de potência unitária <c2/>, o coeficiente de separação espetral (SSC) sobre a banda do recetor <c3/> é <c4/>, e a densidade efetiva entre a portadora e o ruído com vários emissores de interferência é
+seg-12a2c08191c0 = Para um sinal de espetro de área unitária <c1/> e um emissor de interferência de espetro de potência unitária <c2/>, o coeficiente de separação espetral (SSC) sobre a banda do recetor <c3/> é <c4/>, e a densidade efetiva entre a portadora e o ruído com vários emissores de interferência é
 
 # text
 # c1: jamming
@@ -267,7 +267,7 @@ seg-c11d0cb8e670 = O relatório imprime também o C/N₀ que o tipo de cenário 
 # c1: Q = 1
 # c2: κ = T_c
 # c3: Q = 1
-seg-5c21df11e35b = <b>CW e banda estreita: <c1/>.</b> Um tom CW sobre a portadora C/A tem <c2/>, pelo que <c3/>, e a tabela e os espectros concordam. No exemplo incluído, o tom dá { "17.98" } dB-Hz em ambos (a tabela dava { "19.74" } quando continha { "1.5" }).
+seg-5c21df11e35b = <b>CW e banda estreita: <c1/>.</b> Um tom CW sobre a portadora C/A tem <c2/>, pelo que <c3/>, e a tabela e os espetros concordam. No exemplo incluído, o tom dá { "17.98" } dB-Hz em ambos (a tabela dava { "19.74" } quando continha { "1.5" }).
 
 # text
 # c1: Q = 2
@@ -276,7 +276,7 @@ seg-5c21df11e35b = <b>CW e banda estreita: <c1/>.</b> Um tom CW sobre a portador
 seg-647e209b1efc = <b>Banda larga e varrido: <c1/>, desde a { "0.36" }.</b> Trata-se de ruído branco sobre o lóbulo principal, com a potência do sinal na banda normalizada a um, <c2/>. A tabela continha { "1" } até à { "0.36" }, cerca de { "3" } dB pessimista (<c3/>).
 
 # text
-seg-cd03b9c900e1 = O modelo de espectro deduz os seus próprios valores a partir dos espectros:
+seg-cd03b9c900e1 = O modelo de espetro deduz os seus próprios valores a partir dos espetros:
 
 # text
 # c1: Q = 1.5
@@ -348,7 +348,7 @@ seg-9ff066fb53a6 = nunca
 seg-63d4f00f622d = { "44.08" } dB-Hz
 
 # text
-seg-58b097691919 = O tom CW é a razão pela qual os dois sinais L1 se separam aos { "40" } s. Cai sobre o pico do espectro C/A e mantém o C/A em { "17.98" } dB-Hz, abaixo do limiar de { "25" } dB-Hz. Cai no nulo do espectro MBOC, pelo que o Galileo E1 regressa ao seu C/N₀ nominal quando o varrimento termina.
+seg-58b097691919 = O tom CW é a razão pela qual os dois sinais L1 se separam aos { "40" } s. Cai sobre o pico do espetro C/A e mantém o C/A em { "17.98" } dB-Hz, abaixo do limiar de { "25" } dB-Hz. Cai no nulo do espetro MBOC, pelo que o Galileo E1 regressa ao seu C/N₀ nominal quando o varrimento termina.
 
 # text
 seg-064579d5fbac = Os próprios sinais situam-se cerca de { "20" } dB abaixo do patamar de ruído, pelo que a cascata mostra o patamar e os emissores de interferência; as barras de C/N₀ mostram o que o desespalhamento recupera.
@@ -379,7 +379,7 @@ seg-47e55dfd4e0d = { "30" } s: ruído de banda larga, { "40" } MHz em torno de {
 seg-dfa416032770 = { "40" } s: ruído de banda estreita, { "2" } MHz na portadora S, −{ "128" } dBW.
 
 # text
-seg-1d119727a749 = { "50" } s: ruído adaptado ao próprio espectro do sinal da banda C, −{ "124" } dBW.
+seg-1d119727a749 = { "50" } s: ruído adaptado ao próprio espetro do sinal da banda C, −{ "124" } dBW.
 
 # text
 seg-abacb60b16a3 = O que a execução calcula (o C/N₀ dos sinais projetados é o do componente seguido, pelo que o valor nominal fica abaixo da potência total recebida na proporção do componente seguido):
@@ -418,7 +418,7 @@ seg-a6f2bb955ca2 = representativo, BPSK({ "10" }), −{ "152" } dBW
 seg-b9312cc881d2 = { "40.35" } dB-Hz
 
 # text
-seg-03bb124d45d2 = Só o varrimento retira um sinal (GPS L1 C/A, a partir de { "20" } s). Cada um dos outros emissores de interferência degrada apenas a banda que o seu espectro alcança: o ruído adaptado da banda C, por exemplo, tem um SSC de −{ "71.87" } dB/Hz com o sinal da banda C e inferior a −{ "133" } dB/Hz com todas as outras bandas.
+seg-03bb124d45d2 = Só o varrimento retira um sinal (GPS L1 C/A, a partir de { "20" } s). Cada um dos outros emissores de interferência degrada apenas a banda que o seu espetro alcança: o ruído adaptado da banda C, por exemplo, tem um SSC de −{ "71.87" } dB/Hz com o sinal da banda C e inferior a −{ "133" } dB/Hz com todas as outras bandas.
 
 # text
 seg-a8bea652a85d = O mesmo mecanismo conduz os cenários de resiliência LEO-PNT (<a1>LEO-PNT.md</a1>):
@@ -444,7 +444,7 @@ seg-42b00ae14ffe = IQ, SigMF e Welch
 # c1: [iq]
 # c2: cf32_le
 # c3: ci16_le
-seg-3418c31c4318 = <c1/> desenha o modelo num instante como amostras complexas em fase e em quadratura (IQ), escreve-as como uma gravação SigMF (<c2/> ou <c3/>), lê a gravação de volta e estima a sua PSD pelo método de Welch (janela de Hann, sobreposição de { "50" } %, periodogramas médios, escalados em densidade). O ruído térmico, os sinais e os emissores de interferência semelhantes a ruído são desenhados intervalo a intervalo a partir da própria densidade do modelo; um tom e um varrimento são desenhados como formas de onda reais. Apenas com emissores de interferência semelhantes a ruído, a estimativa de Welch fica a { "0.1" } dB do modelo (mediana). Um varrimento periódico é um espectro de riscas à sua taxa de varrimento, com ondulação e caudas para além dos limites da sua banda que o modelo suave omite: no exemplo incluído, a potência total concorda dentro de { "0.02" } % e o intervalo mediano difere em { "0.5" } dB. A captura instantânea é um ficheiro escrito para análise; nada é transmitido e nenhum equipamento de rádio é acionado.
+seg-3418c31c4318 = <c1/> desenha o modelo num instante como amostras complexas em fase e em quadratura (IQ), escreve-as como uma gravação SigMF (<c2/> ou <c3/>), lê a gravação de volta e estima a sua PSD pelo método de Welch (janela de Hann, sobreposição de { "50" } %, periodogramas médios, escalados em densidade). O ruído térmico, os sinais e os emissores de interferência semelhantes a ruído são desenhados intervalo a intervalo a partir da própria densidade do modelo; um tom e um varrimento são desenhados como formas de onda reais. Apenas com emissores de interferência semelhantes a ruído, a estimativa de Welch fica a { "0.1" } dB do modelo (mediana). Um varrimento periódico é um espetro de riscas à sua taxa de varrimento, com ondulação e caudas para além dos limites da sua banda que o modelo suave omite: no exemplo incluído, a potência total concorda dentro de { "0.02" } % e o intervalo mediano difere em { "0.5" } dB. A captura instantânea é um ficheiro escrito para análise; nada é transmitido e nenhum equipamento de rádio é acionado.
 
 # text
 # c1: [recording]
@@ -481,12 +481,12 @@ seg-7a642dd02e5c = Ida e volta, uma transformada de Fourier discreta direta, ide
 seg-1138c9e62a21 = Cascata multibanda com sinais projetados e emissores de interferência por banda
 
 # text
-seg-ac38681004e9 = Reduz-se à cadeia da banda L (uma banda de um só componente dá os mesmos números que antes da extensão) e aos espectros de sinal validados; os sinais projetados, os emissores de interferência e as larguras de banda são entradas
+seg-ac38681004e9 = Reduz-se à cadeia da banda L (uma banda de um só componente dá os mesmos números que antes da extensão) e aos espetros de sinal validados; os sinais projetados, os emissores de interferência e as larguras de banda são entradas
 
 # text
 # c1: tan y = 2y
 # c2: y = πf/(2R_c)
-seg-0c0c625a8ff5 = Uma correção a uma abreviatura corrente: os lóbulos do espectro BOC({ "1,1" }) estão <em>centrados</em> em ±{ "1.023" } MHz (entre o nulo da portadora e o nulo a { "2.046" } MHz), mas o máximo da PSD está em ±{ "0.759" } MHz, onde <c1/> com <c2/>. Os testes fixam ambos.
+seg-0c0c625a8ff5 = Uma correção a uma abreviatura corrente: os lóbulos do espetro BOC({ "1,1" }) estão <em>centrados</em> em ±{ "1.023" } MHz (entre o nulo da portadora e o nulo a { "2.046" } MHz), mas o máximo da PSD está em ±{ "0.759" } MHz, onde <c1/> com <c2/>. Os testes fixam ambos.
 
 # text
 seg-6ab6e241f7e5 = Estrutura de riscas do código de espalhamento (as riscas de { "1" } kHz do C/A): um tom é pontuado face à envolvente suave, e não face à risca de código mais próxima.
@@ -501,10 +501,10 @@ seg-0f195ea4126e = O diagrama da antena de receção na direção do emissor de 
 seg-d3d03da9c962 = Interferência de acesso múltiplo entre satélites de uma mesma banda.
 
 # text
-seg-db5c7566f49e = As emissões de um sinal projetado fora da sua largura de banda de transmissão: o seu espectro é truncado aí, pelo que nenhuma emissão fora de banda chega a uma banda vizinha.
+seg-db5c7566f49e = As emissões de um sinal projetado fora da sua largura de banda de transmissão: o seu espetro é truncado aí, pelo que nenhuma emissão fora de banda chega a uma banda vizinha.
 
 # text
-seg-9cbea7151036 = O efeito de um varrimento sobre o ciclo a taxas de varrimento comparáveis à largura de banda do ciclo: o seu C/N₀ usa o espectro médio por linha.
+seg-9cbea7151036 = O efeito de um varrimento sobre o ciclo a taxas de varrimento comparáveis à largura de banda do ciclo: o seu C/N₀ usa o espetro médio por linha.
 
 # text
 seg-d19ed16f451c = J. W. Betz, "Binary Offset Carrier Modulations for Radionavigation," <em>NAVIGATION</em> { "48" }({ "4" }), { "2001" }.

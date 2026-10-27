@@ -660,7 +660,7 @@ seg-a9bca0fa5b04 = Consola de banda L · o tipo spectrum
 seg-abbe9f20dd01 = Veja um jammer a tomar a banda.
 
 # text
-seg-7b1868001271 = A banda L do GNSS como uma única PSD (densidade espectral de potência): frequência na horizontal, tempo na vertical, cor para a potência acima do piso de ruído. Os sinais ficam abaixo desse piso, pelo que o que se acende são os jammers: um chirp, um tom CW (onda contínua) e ruído de banda estreita. Passe o rato, toque ou use as teclas de seta para ver o <b>C/N0</b> (densidade de portadora-ruído) e o <b>J/S</b> (razão jammer-sinal) de cada banda.
+seg-7b1868001271 = A banda L do GNSS como uma única PSD (densidade espetral de potência): frequência na horizontal, tempo na vertical, cor para a potência acima do piso de ruído. Os sinais ficam abaixo desse piso, pelo que o que se acende são os jammers: um chirp, um tom CW (onda contínua) e ruído de banda estreita. Passe o rato, toque ou use as teclas de seta para ver o <b>C/N0</b> (densidade de portadora-ruído) e o <b>J/S</b> (razão jammer-sinal) de cada banda.
 
 # text
 seg-06d71fc57b8d = <b>kshana</b> spectrum <s1>· <s2>l-band-waterfall-jamming.toml</s2></s1>

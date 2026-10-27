@@ -234,7 +234,7 @@ seg-181d2a2f800b = erro de tempo de volta a { "0" } ns; alarme em silêncio
 seg-26ef3dc422ff = As execuções de integridade usam a trajetória de utilizador própria do exemplo <c1/> (uma trajetória circular a { "0.4" } km de altitude), e não o local fixo do recetor de jamming, e a máscara de { "25" } graus representa o céu parcial de um recetor que está a readquirir. São escolhas de cenário, indicadas no ficheiro.
 
 # text
-seg-03ae98f17988 = Uma missão conduzida pelo espectro da banda L
+seg-03ae98f17988 = Uma missão conduzida pelo espetro da banda L
 
 # text
 # c1: scenarios/campaign-spectrum-holdover-integrity.toml
@@ -255,7 +255,7 @@ seg-471ec0d86f76 = <c1/>, <c2/> (chirp a partir dos { "10" } s), <c3/>
 
 # text
 # c1: timeline.bands[0].first_loss_t_s
-seg-00b032242ebc = L1 C/A { "43.48" } e E1 { "44.73" } dB-Hz; a fase termina na primeira perda de L1 C/A da própria execução de espectro (<c1/>); nível de proteção de { "21.6" } m face a { "50" } m
+seg-00b032242ebc = L1 C/A { "43.48" } e E1 { "44.73" } dB-Hz; a fase termina na primeira perda de L1 C/A da própria execução de espetro (<c1/>); nível de proteção de { "21.6" } m face a { "50" } m
 
 # text
 seg-50220d719d5d = holdover, { "600" } s
@@ -281,7 +281,7 @@ seg-62bcfd3e8732 = <c1/> (ressincronizado), <c2/> (tom CW na portadora L1), <c3/
 seg-d455f0c06ee6 = L1 C/A mantido em { "17.98" } dB-Hz, E1 de volta a { "44.73" } dB-Hz; nível de proteção de { "6.1" } a { "17.7" } m; alarme em silêncio
 
 # text
-seg-2db37e292efe = A recuperação de E1 sob o tom CW assenta no tratamento de espectro contínuo do tipo de cenário de espectro: o tom situa-se no nulo do espectro MBOC e não acopla nada. Um tom real acoplar-se-ia através das riscas espectrais do código; isso está indicado no ficheiro e em SPECTRUM.md.
+seg-2db37e292efe = A recuperação de E1 sob o tom CW assenta no tratamento de espetro contínuo do tipo de cenário de espetro: o tom situa-se no nulo do espetro MBOC e não acopla nada. Um tom real acoplar-se-ia através das riscas espetrais do código; isso está indicado no ficheiro e em SPECTRUM.md.
 
 # text
 # c1: [sweep]
@@ -549,7 +549,7 @@ seg-170bc86059fa = Um caso analítico.
 seg-0fd27291d6f4 = <c1/> executa { "200" } sementes de um relógio atómico à escala de chip com apenas ruído branco de frequência (q_wf = { "9e-20" } s^2/s, Microchip SA.45s sigma_y({ "1" } s) = { "3e-10" }), sincronizado até aos { "590" } s e a deslizar até aos { "3600" } s. O erro de tempo final é gaussiano com média { "0" } e desvio-padrão sqrt(q_wf * { "3010" } s) = { "16.459" } ns (o passeio aleatório da fase sob ruído branco de frequência, National Institute of Standards and Technology (NIST) Technical Note { "1337" }). O intervalo apresentado, [-2.52, { "1.59" }] ns, contém a verdadeira média { "0" }; o desvio-padrão amostral, { "14.93" } ns, dá uma estatística de qui-quadrado de { "164.5" } com { "199" } graus de liberdade, dentro do intervalo bilateral de { "99" }% [{ "151.37" }, { "254.14" }]. Com { "3000" } sementes, o mesmo cenário dá { "16.31" } ns.
 
 # text
-seg-61b54a16243f = <b>A cadeia conduzida pelo espectro</b> lê os números autónomos: a fase de início dura exatamente o tempo da primeira perda da execução de espectro, e cada valor de L1 C/A e de E1 na cronologia é igual, até { "1e-9" } dB, à linha do exemplo autónomo de cascata para o mesmo estado do emissor de jamming (nominal, só chirp, só tom CW).
+seg-61b54a16243f = <b>A cadeia conduzida pelo espetro</b> lê os números autónomos: a fase de início dura exatamente o tempo da primeira perda da execução de espetro, e cada valor de L1 C/A e de E1 na cronologia é igual, até { "1e-9" } dB, à linha do exemplo autónomo de cascata para o mesmo estado do emissor de jamming (nominal, só chirp, só tom CW).
 
 # text
 seg-5ebc02a24ce1 = <b>A cadeia</b> transmite o estado tal como documentado: a fase de spoofing dura exatamente o tempo de deteção da execução de spoofing, o holdover transporta exatamente o desvio da execução de spoofing na deteção, a recuperação não transporta nada, e o alarme está ativo sempre que o nível de proteção está em falta ou excede o limite de alerta.

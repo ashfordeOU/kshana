@@ -29,10 +29,10 @@ seg-e4b64d7277da = A deteção de spoofing é MODELLED, não validada: uma subaf
 seg-ee7dd15019d0 = Página do tópico: <a1>CAMPAIGNS.md</a1>
 
 # text
-seg-304496607bd7 = Tipo de cenário do motor v{ $version }, família <a1>Jamming, spoofing e o espectro</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-304496607bd7 = Tipo de cenário do motor v{ $version }, família <a1>Jamming, spoofing e o espetro</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
-seg-5d23d7f8f872 = Página da família: <a1>Jamming, spoofing e o espectro</a1>
+seg-5d23d7f8f872 = Página da família: <a1>Jamming, spoofing e o espetro</a1>
 
 # text
 seg-7707c45d1d30 = dBm

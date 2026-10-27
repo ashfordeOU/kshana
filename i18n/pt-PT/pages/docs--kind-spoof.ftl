@@ -32,10 +32,10 @@ seg-ee7dd15019d0 = Página do tópico: <a1>CAMPAIGNS.md</a1>
 seg-5a70fcb097dc = Campos opcionais: nenhum
 
 # text
-seg-304496607bd7 = Tipo de cenário do motor v{ $version }, família <a1>Jamming, spoofing e o espectro</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-304496607bd7 = Tipo de cenário do motor v{ $version }, família <a1>Jamming, spoofing e o espetro</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
-seg-5d23d7f8f872 = Página da família: <a1>Jamming, spoofing e o espectro</a1>
+seg-5d23d7f8f872 = Página da família: <a1>Jamming, spoofing e o espetro</a1>
 
 # text
 seg-03d8dc3de7ca = <b>MODELLED</b> χ² assistido por relógio, RAIM, AGC, SQM: FoM de segurança fundida por época Ensaios: <a1>spoof_texbat_validation.rs</a1>.
