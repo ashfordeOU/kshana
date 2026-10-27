@@ -93,3 +93,5 @@ seg-da3532b1444d = SBAS / DO-229E
 seg-a863d1da4182 = CCSDS { "401" } / DSN
 
 seg-fa37e351f6b4 = Kopiuj
+
+seg-9d3ee6a5613e = Przebiegi

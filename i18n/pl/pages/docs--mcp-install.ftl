@@ -19,3 +19,5 @@ seg-491167f2310c = Scoop
 seg-5c425ea185ee = Gotowy plik binarny
 
 seg-d107bc8e1950 = Rejestr MCP
+
+seg-842b77a21c5f = Kanał

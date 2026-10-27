@@ -431,3 +431,7 @@ seg-61817375c8ea = Orbita i powierzchnia Księżyca jako infrastruktura nawigacy
 seg-d2439abaeabb = wyrocznie numpy/scipy dla numeryki; trzy progi ustalone wstępnie NOT MET (xval/lunar-infra/RESULTS.md)
 
 seg-db45ac2940af = Pięć badań w ograniczonym modelu trzech ciał: pokładowe wyznaczanie orbity z GNSS Ziemi na prawie prostoliniowej orbicie halo względem niezależnego naziemnego wyznaczania odległości i prędkości zmiany odległości; łączne ustalanie całkowitoliczbowej niejednoznaczności fazy nośnej dla stacji powierzchniowej i orbitera (LAMBDA); informacja Fishera siedmioparametrowego księżycowego układu odniesienia z odległościami orbiter–powierzchnia i bez nich; przesunięcia GNSS, VLBI i pomiarów laserowych względem lokalnego powiązania; oraz wrażliwość na księżycowe parametry pływowe i libracji. MODELLED z danymi wejściowymi ilustracyjnymi: numeryka jest sprawdzana względem niezależnych programów numpy i scipy, a nie fizyka. Przy progach ustalonych wstępnie trzy są NOT MET: wstrzyknięty błąd siły nie jest wykrywany z podaną częstością (C3), odsetek sukcesu z bootstrapu różni się od wyroczni numpy o { "1.7e-6" } przy progu { "1e-9" } (Q3), a dodanie rodziny pomiarów odległości nie zawsze obniża ślad pseudoodwrotności (G3, połowa dotycząca śladu).
+
+seg-d6476863f862 = Możliwość
+
+seg-ad856ad710eb = Status
