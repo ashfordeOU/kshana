@@ -957,7 +957,7 @@ pub fn compliance_mapping(sources: bool) -> String {
         } else {
             framework_table_md(fw)
         };
-        s.push_str(&format!("## {}\n\n{}\n", fw.title(), body));
+        s.push_str(&format!("## {}\n\n{}\n", fw.title_localised(), body));
     }
     s
 }
@@ -1997,6 +1997,21 @@ mod tests {
         assert!(a.nmea.contains("\r\n") && a.log_json.contains("kshana-nmea-training/1"));
         assert!(!a.log_text.is_empty());
         assert!(nmea_training("[scenario]", None, MAX_INPUT_BYTES).is_err());
+    }
+
+    #[test]
+    fn compliance_mapping_english_is_the_recorded_original() {
+        // Recorded from the binary before the human renderings moved into the catalogue.
+        crate::i18n::in_english(|| {
+            assert_eq!(
+                compliance_mapping(false),
+                include_str!("../tests/fixtures/compliance/mapping_en.md")
+            );
+            assert_eq!(
+                compliance_mapping(true),
+                include_str!("../tests/fixtures/compliance/sources_en.md")
+            );
+        });
     }
 
     #[test]

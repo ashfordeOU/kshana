@@ -810,3 +810,49 @@ fn a_scenario_run_with_exports_writes_the_same_files() {
         &[".svg", ".html"],
     );
 }
+
+/// The mapping tables and the source list a person reads are in the language; the pseudo-locale
+/// accents and brackets every table text, and English is the recorded original byte for byte.
+#[test]
+fn the_compliance_mapping_tables_are_localised_and_english_is_unchanged() {
+    let run = |lang: &str, flag: &str| {
+        let o = Command::new(env!("CARGO_BIN_EXE_kshana"))
+            .args(["--lang", lang, "compliance-report", flag])
+            .output()
+            .unwrap();
+        assert!(o.status.success());
+        String::from_utf8(o.stdout).unwrap()
+    };
+    for (flag, recorded) in [
+        ("--mapping", "tests/fixtures/compliance/mapping_en.md"),
+        ("--sources", "tests/fixtures/compliance/sources_en.md"),
+    ] {
+        let en = run("en", flag);
+        assert_eq!(en, std::fs::read_to_string(repo(recorded)).unwrap());
+        let xa = run("en-XA", flag);
+        for english in [
+            "US DHS Resilient PNT Conformance Framework",
+            "NIST IR 8323r1, Foundational PNT Profile",
+        ] {
+            assert!(
+                en.contains(english) && !xa.contains(english),
+                "{flag}: {english}"
+            );
+        }
+        if flag == "--mapping" {
+            for english in [
+                "What it asks (paraphrased)",
+                "Level 1, requirement 1",
+                "Holdover and coasting",
+            ] {
+                assert!(
+                    en.contains(english) && !xa.contains(english),
+                    "{flag}: {english}"
+                );
+            }
+        } else {
+            assert!(!xa.contains("document read in full"), "{flag}");
+        }
+        assert!(xa.contains('['), "{flag}");
+    }
+}

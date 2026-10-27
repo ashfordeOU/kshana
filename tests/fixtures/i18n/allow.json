@@ -142,8 +142,12 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/compliance/mapping.rs": {
-   "count": 379,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 378,
+   "reason": "machine-document: the English data tables of the compliance mapping (framework, source, capability and row texts), which the JSON compliance report carries; the catalogue copies are engine-compliance-* and the unit test in mapping.rs compares them"
+  },
+  "src/compliance/mapping/ids.rs": {
+   "count": 228,
+   "reason": "identifier: the table of message ids (engine-compliance-*) that the mapping's Markdown renderers look up; written by scripts/i18n_compliance.py"
   },
   "src/compliance/mod.rs": {
    "count": 47,
