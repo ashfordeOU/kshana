@@ -3890,3 +3890,9 @@ seg-4e31c8daf798 = Registo
 
 # text
 seg-8980b5ae869b = Valor
+
+# text
+seg-f4d1ec6fc464 = Citar
+
+# attr:aria-label, text
+seg-d0566d4db829 = Reproduza-o

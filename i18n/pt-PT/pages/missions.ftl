@@ -154,3 +154,54 @@ seg-9d3ee6a5613e = Execuções
 
 # text
 seg-94de9433d99f = Ficheiros de cenário
+
+# text
+seg-99a7944884ce = Setor
+
+# text
+seg-b37002818547 = Defesa e segurança
+
+# text
+seg-5d7a6650872e = Aviação e drones
+
+# text
+seg-75d7d1930515 = Estrada
+
+# text
+seg-ea4149746f7b = Ferrovia
+
+# text
+seg-e7a61033ec40 = Infraestruturas críticas e temporização
+
+# text
+seg-f246644479d0 = Ciência e investigação
+
+# text
+seg-f2f6717849a7 = Espaço: órbita terrestre
+
+# text
+seg-d038a1e09683 = A minha nave espacial vê satélites de navegação suficientes, durante quanto tempo o seu relógio mantém a hora entre soluções de posição, e o que acrescentaria uma camada de navegação em órbita baixa?
+
+# text
+seg-6010770a2bf6 = Lunar e espaço profundo
+
+# text
+seg-33641ef6761c = Estrada e automóvel
+
+# text
+seg-94cca6b24bb2 = Quantos segundos dentro de um túnel consegue ainda um comboio dizer em que via está?
+
+# text
+seg-2d2a4afa2708 = Telecomunicações e 5G
+
+# text
+seg-af94e7a93923 = Se a referência de tempo GNSS se perder, o relógio da minha rede mantém-se dentro das máscaras da ITU-T, e durante quanto tempo?
+
+# text
+seg-36d838421b86 = Posso reproduzir, estender e citar um resultado PNT, até à semente?
+
+# attr:aria-label, text
+seg-821762272e2f = Setores
+
+# text
+seg-13e8e5460280 = Geometria
