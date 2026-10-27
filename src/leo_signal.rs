@@ -183,9 +183,17 @@ impl Shape {
             let mhz: f64 = rest
                 .strip_suffix(')')
                 .and_then(|v| v.parse().ok())
-                .ok_or_else(|| format!("modulation {label:?}: expected FLAT(<MHz>)"))?;
+                .ok_or_else(|| {
+                    crate::terr!(
+                        "e-leo-signal-modulation-expected-flat-mhz",
+                        label = format!("{:?}", label)
+                    )
+                })?;
             if !(mhz.is_finite() && mhz > 0.0) {
-                return Err(format!("modulation {label:?}: the width must be positive"));
+                return Err(crate::terr!(
+                    "e-leo-signal-modulation-the-width-must-be",
+                    label = format!("{:?}", label)
+                ));
             }
             return Ok(Shape::Flat {
                 bandwidth_hz: mhz * 1e6,
@@ -230,7 +238,9 @@ impl Shape {
     pub fn label(&self) -> String {
         match *self {
             Shape::Mod(m) => m.label(),
-            Shape::Flat { bandwidth_hz } => format!("FLAT({} MHz)", bandwidth_hz / 1e6),
+            Shape::Flat { bandwidth_hz } => {
+                crate::t!("leo-signal-flat-mhz", v1 = bandwidth_hz / 1e6)
+            }
         }
     }
 }
@@ -374,17 +384,24 @@ pub fn preset(name: &str) -> Result<PresetFile, String> {
         .iter()
         .find(|(n, _)| *n == name)
         .ok_or_else(|| {
-            format!(
-                "unknown signal preset {name:?}: the library has {}",
-                preset_names().join(", ")
+            crate::terr!(
+                "e-leo-signal-unknown-signal-preset-the-library",
+                name = format!("{:?}", name),
+                preset_names = preset_names().join(", ")
             )
         })?;
-    let p: PresetFile =
-        toml::from_str(text).map_err(|e| format!("preset {name}: invalid preset file: {e}"))?;
+    let p: PresetFile = toml::from_str(text).map_err(|e| {
+        crate::terr!(
+            "e-leo-signal-preset-invalid-preset-file",
+            name = name,
+            e = e
+        )
+    })?;
     if p.preset.name != name {
-        return Err(format!(
-            "preset file {name} names itself {:?}",
-            p.preset.name
+        return Err(crate::terr!(
+            "e-leo-signal-preset-file-names-itself",
+            name = name,
+            name2 = format!("{:?}", p.preset.name)
         ));
     }
     Ok(p)
@@ -505,30 +522,41 @@ impl SignalDesign {
     pub fn from_cfg(c: &SignalCfg) -> Result<SignalDesign, String> {
         let name = &c.name;
         if !(c.centre_mhz.is_finite() && c.centre_mhz > 0.0) {
-            return Err(format!("{name}: centre_mhz must be positive"));
+            return Err(crate::terr!(
+                "e-leo-signal-centre-mhz-must-be-positive",
+                name = name
+            ));
         }
         if !(c.tx_bandwidth_mhz.is_finite() && c.tx_bandwidth_mhz > 0.0) {
-            return Err(format!("{name}: tx_bandwidth_mhz must be positive"));
+            return Err(crate::terr!(
+                "e-leo-signal-tx-bandwidth-mhz-must-be",
+                name = name
+            ));
         }
         if c.components.is_empty() {
-            return Err(format!("{name}: a signal needs at least one component"));
+            return Err(crate::terr!(
+                "e-leo-signal-signal-needs-at-least-one",
+                name = name
+            ));
         }
         let mut comps = Vec::new();
         let mut total = 0.0;
         for (i, k) in c.components.iter().enumerate() {
             let shape = Shape::parse(&k.modulation).map_err(|e| format!("{name}: {e}"))?;
             if !(k.power_fraction.is_finite() && k.power_fraction > 0.0) {
-                return Err(format!(
-                    "{name}: component {} power_fraction must be positive",
-                    i + 1
+                return Err(crate::terr!(
+                    "e-leo-signal-component-power-fraction-must-be",
+                    name = name,
+                    v1 = i + 1
                 ));
             }
             total += k.power_fraction;
             let carriers = if k.fdma_offsets_mhz.is_empty() {
                 if !k.fdma_shares.is_empty() {
-                    return Err(format!(
-                        "{name}: component {} has fdma_shares but no fdma_offsets_mhz",
-                        i + 1
+                    return Err(crate::terr!(
+                        "e-leo-signal-component-has-fdma-shares-but",
+                        name = name,
+                        v1 = i + 1
                     ));
                 }
                 vec![(0.0, 1.0)]
@@ -539,16 +567,18 @@ impl SignalDesign {
                 } else if k.fdma_shares.len() == n {
                     let s: f64 = k.fdma_shares.iter().sum();
                     if (s - 1.0).abs() > 1e-6 || k.fdma_shares.iter().any(|v| *v <= 0.0) {
-                        return Err(format!(
-                            "{name}: component {} fdma_shares must be positive and sum to one",
-                            i + 1
+                        return Err(crate::terr!(
+                            "e-leo-signal-component-fdma-shares-must-be",
+                            name = name,
+                            v1 = i + 1
                         ));
                     }
                     k.fdma_shares.clone()
                 } else {
-                    return Err(format!(
-                        "{name}: component {} needs one fdma_share per offset",
-                        i + 1
+                    return Err(crate::terr!(
+                        "e-leo-signal-component-needs-one-fdma-share",
+                        name = name,
+                        v1 = i + 1
                     ));
                 };
                 k.fdma_offsets_mhz
@@ -559,11 +589,17 @@ impl SignalDesign {
             };
             if let Some(r) = k.data_rate_sps {
                 if !(r.is_finite() && r > 0.0) {
-                    return Err(format!("{name}: data_rate_sps must be positive"));
+                    return Err(crate::terr!(
+                        "e-leo-signal-data-rate-sps-must-be",
+                        name = name
+                    ));
                 }
             }
             if k.code_length_chips == Some(0) {
-                return Err(format!("{name}: code_length_chips must be positive"));
+                return Err(crate::terr!(
+                    "e-leo-signal-code-length-chips-must-be",
+                    name = name
+                ));
             }
             comps.push(Component {
                 role: k.role,
@@ -576,13 +612,18 @@ impl SignalDesign {
             });
         }
         if (total - 1.0).abs() > 1e-6 {
-            return Err(format!(
-                "{name}: component power fractions sum to {total}, not 1"
+            return Err(crate::terr!(
+                "e-leo-signal-component-power-fractions-sum-to",
+                name = name,
+                total = total
             ));
         }
         if let Some(h) = c.orbit_altitude_km {
             if !(h.is_finite() && h > 0.0) {
-                return Err(format!("{name}: orbit_altitude_km must be positive"));
+                return Err(crate::terr!(
+                    "e-leo-signal-orbit-altitude-km-must-be",
+                    name = name
+                ));
             }
         }
         Ok(SignalDesign {
@@ -673,17 +714,16 @@ impl SignalDesign {
         let tracked = match tc.shape {
             Shape::Mod(m) => m,
             Shape::Flat { .. } => {
-                return Err(format!(
-                    "{}: a flat (OFDM-like) component cannot be placed in the spectrum model",
-                    self.name
+                return Err(crate::terr!(
+                    "e-leo-signal-flat-ofdm-like-component-cannot",
+                    name = self.name
                 ))
             }
         };
         if tc.carriers.len() != 1 || tc.carriers[0].0 != 0.0 {
-            return Err(format!(
-                "{}: the tracked component sits on FDMA sub-carriers; the spectrum model \
-                 tracks a component at the band centre",
-                self.name
+            return Err(crate::terr!(
+                "e-leo-signal-the-tracked-component-sits-on",
+                name = self.name
             ));
         }
         let mut comps = Vec::new();
@@ -691,9 +731,9 @@ impl SignalDesign {
             let m = match c.shape {
                 Shape::Mod(m) => m,
                 Shape::Flat { .. } => {
-                    return Err(format!(
-                        "{}: a flat (OFDM-like) component cannot be placed in the spectrum model",
-                        self.name
+                    return Err(crate::terr!(
+                        "e-leo-signal-flat-ofdm-like-component-cannot",
+                        name = self.name
                     ))
                 }
             };
@@ -1308,10 +1348,16 @@ impl LeoSignalScenario {
         let mut names: Vec<&str> = out.iter().map(|s| s.name.as_str()).collect();
         names.sort_unstable();
         if let Some(w) = names.windows(2).find(|w| w[0] == w[1]) {
-            return Err(format!("signal {:?} is given twice", w[0]));
+            return Err(crate::terr!(
+                "e-leo-signal-signal-is-given-twice",
+                w = format!("{:?}", w[0])
+            ));
         }
         if out.len() > 24 {
-            return Err(format!("{} signals is more than the 24 allowed", out.len()));
+            return Err(crate::terr!(
+                "e-leo-signal-signals-is-more-than-the",
+                out = out.len()
+            ));
         }
         Ok((out, sources))
     }
@@ -1319,15 +1365,15 @@ impl LeoSignalScenario {
     fn validate(&self) -> Result<EarlyLate, String> {
         let r = &self.receiver;
         if !(r.loop_bandwidth_hz > 0.0 && r.integration_time_s > 0.0) {
-            return Err(
-                "receiver: loop_bandwidth_hz and integration_time_s must be positive".into(),
-            );
+            return Err(crate::terr!("e-leo-signal-receiver-loop-bandwidth-hz-and"));
         }
         if r.loop_bandwidth_hz * r.integration_time_s >= 1.0 {
-            return Err("receiver: loop_bandwidth_hz x integration_time_s must be below 1".into());
+            return Err(crate::terr!(
+                "e-leo-signal-receiver-loop-bandwidth-hz-integration"
+            ));
         }
         if r.cn0_dbhz.is_empty() || r.cn0_dbhz.len() > 40 {
-            return Err("receiver: give 1 to 40 cn0_dbhz values".into());
+            return Err(crate::terr!("e-leo-signal-receiver-give-to-40-cn0"));
         }
         if r.correlator_spacings_chips.is_empty()
             || r.correlator_spacings_chips.len() > 12
@@ -1336,11 +1382,9 @@ impl LeoSignalScenario {
                 .chain(std::iter::once(&r.reference_spacing_chips))
                 .any(|d| !(*d > 0.0 && *d < 2.0))
         {
-            return Err(
-                "receiver: 1 to 12 correlator spacings, each (like reference_spacing_chips) \
-                 between 0 and 2 chips"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-leo-signal-receiver-to-12-correlator-spacings"
+            ));
         }
         let a = &self.acquisition;
         if !(a.coherent_ms > 0.0
@@ -1354,24 +1398,22 @@ impl LeoSignalScenario {
             && a.user_speed_mps >= 0.0
             && (0.0..90.0).contains(&a.elevation_mask_deg))
         {
-            return Err(
-                "acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, \
-                        code_bin_chips > 0, altitude_km > 0, oscillator_ppm and user_speed_mps \
-                        ≥ 0, 0 ≤ elevation_mask_deg < 90"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-leo-signal-acquisition-coherent-ms-noncoherent-1000"
+            ));
         }
         if !(self.trade.slant_range_km > 0.0 && self.trade.slant_tec_tecu >= 0.0) {
-            return Err("trade: slant_range_km > 0 and slant_tec_tecu ≥ 0".into());
+            return Err(crate::terr!("e-leo-signal-trade-slant-range-km-and"));
         }
         if !(21..=2001).contains(&self.psd_points) {
-            return Err("psd_points must be between 21 and 2001".into());
+            return Err(crate::terr!("e-leo-signal-psd-points-must-be-between"));
         }
         match r.early_late.as_str() {
             "coherent" => Ok(EarlyLate::Coherent),
             "non-coherent" => Ok(EarlyLate::NonCoherent),
-            o => Err(format!(
-                "receiver.early_late {o:?}: use \"coherent\" or \"non-coherent\""
+            o => Err(crate::terr!(
+                "e-leo-signal-receiver-early-late-use-coherent",
+                o = format!("{:?}", o)
             )),
         }
     }
@@ -1383,7 +1425,9 @@ impl LeoSignalScenario {
         let r = &self.receiver;
         let t_sys = crate::spectrum::system_temp_k(r.antenna_temp_k, r.noise_figure_db);
         if !(t_sys.is_finite() && t_sys > 0.0) {
-            return Err("the system noise temperature must be positive".into());
+            return Err(crate::terr!(
+                "e-leo-signal-the-system-noise-temperature-must"
+            ));
         }
         let n0_db = crate::spectrum::noise_density_dbw_per_hz(t_sys);
         let victims: Vec<GnssVictim> = if self.compatibility.victims.is_empty() {
@@ -1397,9 +1441,10 @@ impl LeoSignalScenario {
                 .iter()
                 .map(|n| {
                     gnss_victim(n).ok_or_else(|| {
-                        format!(
-                            "compatibility: unknown GNSS signal {n:?} (known: {})",
-                            GNSS_VICTIM_NAMES.join(", ")
+                        crate::terr!(
+                            "e-leo-signal-compatibility-unknown-gnss-signal-known",
+                            n = format!("{:?}", n),
+                            gnss_victim_names = GNSS_VICTIM_NAMES.join(", ")
                         )
                     })
                 })
@@ -1417,7 +1462,12 @@ impl LeoSignalScenario {
             Some(n) => runs
                 .iter()
                 .position(|s| &s.design.name == n)
-                .ok_or_else(|| format!("trade.reference_signal {n:?} is not a scenario signal"))?,
+                .ok_or_else(|| {
+                    crate::terr!(
+                        "e-leo-signal-trade-reference-signal-is-not",
+                        n = format!("{:?}", n)
+                    )
+                })?,
         };
         let range_m = self.trade.slant_range_km * 1e3;
         let fspl_ref =
@@ -1489,7 +1539,10 @@ impl LeoSignalScenario {
                 .iter()
                 .find(|s| s.design.name == c.signal)
                 .ok_or_else(|| {
-                    format!("shape check: signal {:?} is not in the scenario", c.signal)
+                    crate::terr!(
+                        "e-leo-signal-shape-check-signal-is-not",
+                        signal = format!("{:?}", c.signal)
+                    )
                 })?;
             checks.push(shape_check(&s.design, s.eta, c)?);
         }
@@ -1544,15 +1597,15 @@ impl LeoSignalScenario {
             "units": crate::field_schema::units_block(UNITS),
         });
         let json = serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?;
-        let summary = format!(
-            "scenario leo-signal | {} signals | noise floor {:.1} dBW/Hz{}{}",
-            runs.len(),
-            n0_db,
-            match &best {
+        let summary = crate::t!(
+            "leo-signal-scenario-leo-signal-signals-noise",
+            runs = runs.len(),
+            n0_db = crate::i18n::localise_decimal(format!("{:.1}", n0_db)),
+            v3 = match &best {
                 Some((n, j, c)) => format!(" | finest ranging {n} {j:.3} m at {c:.1} dB-Hz"),
                 None => String::new(),
             },
-            if checks.is_empty() {
+            v4 = if checks.is_empty() {
                 String::new()
             } else {
                 format!(
@@ -2109,10 +2162,10 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "LEO-PNT signal designs",
-        &format!(
-            "left: band-limited PSD of each design (dB below peak, across its transmit band); right: code jitter vs total C/N0 at {} chip spacing",
-            r.reference_spacing_chips
+        &crate::t!("leo-signal-chart-title"),
+        &crate::t!(
+            "leo-signal-left-band-limited-psd-of",
+            reference_spacing_chips = r.reference_spacing_chips
         ),
     );
     let (lx, lw) = (150.0, 360.0);
@@ -2128,14 +2181,17 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             .fold(f64::NEG_INFINITY, f64::max);
         s.push_str(&format!(
             "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"{colour}\">{}</text>\
-             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"9\" fill=\"{MUTED}\">{:.3} MHz, {} MHz</text>",
+             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"9\" fill=\"{MUTED}\">{}</text>",
             lx - 8.0,
             top + ph / 2.0,
             esc(&run.design.name),
             lx - 8.0,
             top + ph / 2.0 + 12.0,
-            run.design.centre_hz / 1e6,
-            run.design.tx_bandwidth_hz / 1e6
+            crate::t!(
+                "leo-signal-mhz-pair",
+                centre = crate::i18n::num(run.design.centre_hz / 1e6, 3),
+                bandwidth = crate::i18n::num_plain(run.design.tx_bandwidth_hz / 1e6)
+            )
         ));
         s.push_str(&format!(
             "<rect x=\"{lx:.1}\" y=\"{top:.1}\" width=\"{lw:.1}\" height=\"{ph:.1}\" fill=\"none\" stroke=\"{AXIS}\"/>"
@@ -2154,9 +2210,10 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">offset across ±0.6 × transmit bandwidth; 0 to −50 dB below each peak</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
         lx + lw / 2.0,
-        70.0 + n as f64 * row_h + 4.0
+        70.0 + n as f64 * row_h + 4.0,
+        crate::t!("leo-signal-chart-psd-axis", lit_0_6 = crate::i18n::num(0.6_f64, 1))
     ));
     // Jitter panel.
     let (px, py, pw, ph) = (590.0, 80.0, 370.0, 360.0);
@@ -2165,7 +2222,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
         py,
         pw,
         py + ph,
-        "code jitter (m, log scale) vs total C/N0 (dB-Hz)",
+        &crate::t!("leo-signal-chart-jitter-caption"),
     ));
     let cn0s = &r.cn0_dbhz;
     let (c_lo, c_hi) = (
@@ -2211,18 +2268,19 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             px - 5.0,
             y + 3.0,
             if dec >= 0.0 {
-                format!("{}", 10f64.ppowf(dec))
+                crate::i18n::num_plain(10f64.ppowf(dec))
             } else {
-                format!("{:.prec$}", 10f64.ppowf(dec), prec = (-dec) as usize)
+                crate::i18n::num(10f64.ppowf(dec), (-dec) as usize)
             }
         ));
         dec += 1.0;
     }
     for c in cn0s {
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{MUTED}\">{c:.0}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
             xc(*c),
-            py + ph + 14.0
+            py + ph + 14.0,
+            crate::i18n::num(*c, 0)
         ));
     }
     for (k, run) in runs.iter().enumerate() {

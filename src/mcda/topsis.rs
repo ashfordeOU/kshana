@@ -73,28 +73,33 @@ pub fn topsis(
 ) -> Result<TopsisResult, String> {
     let m = matrix.len();
     if m == 0 {
-        return Err("TOPSIS: empty decision matrix".into());
+        return Err(crate::terr!("e-mcda-topsis-topsis-empty-decision-matrix"));
     }
     let n = weights.len();
     if n == 0 {
-        return Err("TOPSIS: no criteria".into());
+        return Err(crate::terr!("e-mcda-topsis-topsis-no-criteria"));
     }
     if types.len() != n {
-        return Err(format!(
-            "TOPSIS: {} weights but {} criterion types",
-            n,
-            types.len()
+        return Err(crate::terr!(
+            "e-mcda-topsis-topsis-weights-but-criterion-types",
+            n = n,
+            types = types.len()
         ));
     }
     for (i, row) in matrix.iter().enumerate() {
         if row.len() != n {
-            return Err(format!(
-                "TOPSIS: alternative {i} has {} values but there are {n} criteria",
-                row.len()
+            return Err(crate::terr!(
+                "e-mcda-topsis-topsis-alternative-has-values-but",
+                i = i,
+                row = row.len(),
+                n = n
             ));
         }
         if row.iter().any(|v| !v.is_finite()) {
-            return Err(format!("TOPSIS: alternative {i} has a non-finite value"));
+            return Err(crate::terr!(
+                "e-mcda-topsis-topsis-alternative-has-non-finite",
+                i = i
+            ));
         }
     }
 

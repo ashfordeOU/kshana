@@ -430,21 +430,30 @@ impl EoRadiometryScenario {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("{n} must be finite and positive"))
+                Err(crate::terr!(
+                    "e-aocs-kind-must-be-finite-and-positive",
+                    n = n
+                ))
             }
         };
         let unit = |v: f64, n: &str| {
             if v.is_finite() && v > 0.0 && v <= 1.0 {
                 Ok(())
             } else {
-                Err(format!("{n} must be in (0, 1]"))
+                Err(crate::terr!(
+                    "e-entry-eo-ascent-eo-radiometry-must-be-in",
+                    n = n
+                ))
             }
         };
         let nonneg = |v: f64, n: &str| {
             if v.is_finite() && v >= 0.0 {
                 Ok(())
             } else {
-                Err(format!("{n} must be finite and non-negative"))
+                Err(crate::terr!(
+                    "e-entry-eo-ascent-eo-radiometry-must-be-finite-and-non",
+                    n = n
+                ))
             }
         };
         pos(self.altitude_m, "altitude_m")?;
@@ -459,7 +468,9 @@ impl EoRadiometryScenario {
         unit(self.reflectance, "reflectance")?;
         pos(self.solar_irradiance_w_m2_um, "solar_irradiance_w_m2_um")?;
         if !(self.sun_zenith_deg.is_finite() && (0.0..90.0).contains(&self.sun_zenith_deg)) {
-            return Err("sun_zenith_deg must be in [0, 90)".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-eo-radiometry-sun-zenith-deg-must-be"
+            ));
         }
         unit(self.atmospheric_transmittance, "atmospheric_transmittance")?;
         nonneg(self.path_radiance_w_m2_sr_um, "path_radiance_w_m2_sr_um")?;
@@ -470,7 +481,9 @@ impl EoRadiometryScenario {
         nonneg(self.read_noise_e, "read_noise_e")?;
         pos(self.full_well_e, "full_well_e")?;
         if !(1..=24).contains(&self.adc_bits) {
-            return Err("adc_bits must be in 1..=24".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-eo-radiometry-adc-bits-must-be-in"
+            ));
         }
         Ok(())
     }
@@ -558,15 +571,15 @@ impl EoRadiometryScenario {
             "overshoot_h": h,
             "niirs_giqe4": niirs,
         });
-        let summary = format!(
-            "eo-radiometry: GSD {:.2} m, Q {:.2}, SNR {:.0} (well {:.0} %), MTF@Nyquist {:.3}, RER {:.3}, GIQE4 NIIRS {:.2} (MODELLED)",
-            gsd,
-            im.q(),
-            b.snr,
-            100.0 * b.well_fill,
-            fac.iter().product::<f64>(),
-            rer,
-            niirs
+        let summary = crate::t!(
+            "entry-eo-ascent-eo-radiometry-eo-radiometry-gsd-snr-well",
+            gsd = crate::i18n::localise_decimal(format!("{:.2}", gsd)),
+            im = crate::i18n::localise_decimal(format!("{:.2}", im.q())),
+            snr = crate::i18n::localise_decimal(format!("{:.0}", b.snr)),
+            v4 = crate::i18n::localise_decimal(format!("{:.0}", 100.0 * b.well_fill)),
+            fac = crate::i18n::localise_decimal(format!("{:.3}", fac.iter().product::<f64>())),
+            rer = crate::i18n::localise_decimal(format!("{:.3}", rer)),
+            niirs = crate::i18n::localise_decimal(format!("{:.2}", niirs))
         );
         let text = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((text, summary))

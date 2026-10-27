@@ -222,31 +222,37 @@ impl GeometryCfg {
             ("reported_vs_derived_tol", self.reported_vs_derived_tol),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return Err(format!("geometry: {name} must be finite and > 0 (got {v})"));
+                return Err(crate::terr!(
+                    "e-receiver-trust-geometry-geometry-must-be-finite-and",
+                    name = name,
+                    v = v
+                ));
             }
         }
         if !(self.reported_vs_derived_rel.is_finite() && self.reported_vs_derived_rel >= 0.0) {
-            return Err(format!(
-                "geometry: reported_vs_derived_rel must be finite and >= 0 (got {})",
-                self.reported_vs_derived_rel
+            return Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-reported-vs-derived-rel",
+                reported_vs_derived_rel = self.reported_vs_derived_rel
             ));
         }
         if self.min_used == 0 {
-            return Err("geometry: min_used must be at least 1".into());
+            return Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-min-used-must-be"
+            ));
         }
         if !(self.low_elev_deg.is_finite() && (0.0..=90.0).contains(&self.low_elev_deg)) {
-            return Err(format!(
-                "geometry: low_elev_deg must be in [0, 90] (got {})",
-                self.low_elev_deg
+            return Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-low-elev-deg-must",
+                low_elev_deg = self.low_elev_deg
             ));
         }
         if !(self.azimuth_gap_deg.is_finite()
             && self.azimuth_gap_deg > 0.0
             && self.azimuth_gap_deg <= 360.0)
         {
-            return Err(format!(
-                "geometry: azimuth_gap_deg must be in (0, 360] (got {})",
-                self.azimuth_gap_deg
+            return Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-azimuth-gap-deg-must",
+                azimuth_gap_deg = self.azimuth_gap_deg
             ));
         }
         if !(self.hdop_good.is_finite()
@@ -257,27 +263,31 @@ impl GeometryCfg {
             && self.pdop_good <= self.pdop_max
             && self.used_good >= self.min_used)
         {
-            return Err(format!(
-                "geometry: need 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max and \
-                 used_good >= min_used (got {}, {}, {})",
-                self.hdop_good, self.pdop_good, self.used_good
+            return Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-need-hdop-good-hdop",
+                hdop_good = crate::i18n::num_plain(self.hdop_good),
+                pdop_good = crate::i18n::num_plain(self.pdop_good),
+                used_good = self.used_good
             ));
         }
         if !(self.cap_points.is_finite() && (0.0..=100.0).contains(&self.cap_points)) {
-            return Err(format!(
-                "geometry: cap_points must be in [0, 100] (got {})",
-                self.cap_points
+            return Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-cap-points-must-be",
+                cap_points = self.cap_points
             ));
         }
         if !(self.full_ratio.is_finite() && self.full_ratio > 1.0) {
-            return Err(format!(
-                "geometry: full_ratio must be finite and > 1 (got {})",
-                self.full_ratio
+            return Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-full-ratio-must-be",
+                full_ratio = self.full_ratio
             ));
         }
         if let Some(f) = self.floor {
             if !(f.is_finite() && f > 0.0 && f <= 100.0) {
-                return Err(format!("geometry: floor must be in (0, 100] (got {f})"));
+                return Err(crate::terr!(
+                    "e-receiver-trust-geometry-geometry-floor-must-be-in",
+                    f = f
+                ));
             }
         }
         Ok(())
@@ -288,9 +298,10 @@ impl GeometryCfg {
     pub fn validate_with(&self, degraded_min: f64) -> Result<(), String> {
         self.validate()?;
         match self.floor {
-            Some(f) if f < degraded_min => Err(format!(
-                "geometry: floor ({f}) is below the score's degraded_min ({degraded_min}): \
-                 geometry alone could reach the untrusted band"
+            Some(f) if f < degraded_min => Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-floor-is-below-the",
+                f = f,
+                degraded_min = degraded_min
             )),
             _ => Ok(()),
         }
@@ -596,29 +607,37 @@ fn fmt_dop(x: Option<f64>) -> String {
 fn finish(g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
     let mut g = finish_status(g, cfg);
     g.label = label_of(&g, cfg);
-    let lead = format!(
-        "geometry {}: HDOP {}, PDOP {}, VDOP {}, {} satellites{}",
-        g.label.as_str(),
-        fmt_dop(g.hdop),
-        fmt_dop(g.pdop),
-        fmt_dop(g.vdop),
-        g.n_used.unwrap_or(0),
-        if g.signal_loss { ", signal loss" } else { "" }
+    let lead = crate::t!(
+        "receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites",
+        label = g.label.as_str(),
+        fmt_dop = fmt_dop(g.hdop),
+        fmt_dop2 = fmt_dop(g.pdop),
+        fmt_dop3 = fmt_dop(g.vdop),
+        n_used = g.n_used.unwrap_or(0),
+        v6 = if g.signal_loss { ", signal loss" } else { "" }
     );
     let rest = match (g.note.take(), g.label) {
         // The flag is never silent: with poor geometry the deduction is an inconsistency; with
         // good or fair geometry nothing is deducted, and the note says so.
         (Some(why), GeometryLabel::Poor) if g.reported_derived_mismatch => {
-            format!("{why}: the geometry deduction is classed an inconsistency")
+            crate::t!(
+                "receiver-trust-geometry-the-geometry-deduction-is-classed",
+                why = why
+            )
         }
         (Some(why), _) if g.reported_derived_mismatch => {
-            format!("{why}: reported, not scored (the geometry is not poor)")
+            crate::t!(
+                "receiver-trust-geometry-reported-not-scored-the-geometry",
+                why = why
+            )
         }
         (Some(why), _) => why,
         (None, GeometryLabel::Poor) => "poor: scored".into(),
-        (None, _) => format!(
-            "not scored (the score deducts only above HDOP {}, PDOP {} or below {} satellites)",
-            cfg.hdop_max, cfg.pdop_max, cfg.min_used
+        (None, _) => crate::t!(
+            "receiver-trust-geometry-not-scored-the-score-deducts",
+            hdop_max = cfg.hdop_max,
+            pdop_max = cfg.pdop_max,
+            min_used = cfg.min_used
         ),
     };
     g.note = Some(format!("{lead}; {rest}"));
@@ -650,27 +669,28 @@ fn finish_status(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
         reasons.push(GeometryReason::SkyBlocked);
     }
     let from = match g.source {
-        GeometrySource::Derived => format!("derived from {n} logged satellites"),
-        _ => format!("as the receiver reports it, {n} satellites used"),
+        GeometrySource::Derived => crate::t!(
+            "receiver-trust-geometry-derived-from-logged-satellites",
+            n = n
+        ),
+        _ => crate::t!("receiver-trust-geometry-as-the-receiver-reports-it", n = n),
     };
     g.signal_loss = g.signal_loss && !reasons.is_empty();
     let mismatch_note = |g: &EpochGeometry| {
-        format!(
-            "the stated HDOP {} disagrees with the HDOP {} derived from the stated sky beyond \
-             the tolerance",
-            fmt_dop(g.reported_hdop),
-            fmt_dop(g.hdop)
+        crate::t!(
+            "receiver-trust-geometry-the-stated-hdop-disagrees-with",
+            fmt_dop = fmt_dop(g.reported_hdop),
+            fmt_dop2 = fmt_dop(g.hdop)
         )
     };
     g.note = if g.reported_derived_mismatch {
         Some(mismatch_note(&g))
     } else if g.signal_loss {
-        Some(format!(
-            "satellites in view but not tracked ({} of {} at or above {} deg): signal \
-             environment, not geometry",
-            g.in_view.unwrap_or(0).saturating_sub(n),
-            g.in_view.unwrap_or(0),
-            cfg.low_elev_deg
+        Some(crate::t!(
+            "receiver-trust-geometry-satellites-in-view-but-not",
+            g = g.in_view.unwrap_or(0).saturating_sub(n),
+            in_view = g.in_view.unwrap_or(0),
+            low_elev_deg = cfg.low_elev_deg
         ))
     } else {
         None
@@ -687,26 +707,42 @@ fn finish_status(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
     g.note = (!reasons.is_empty()).then(|| {
         let mut parts = Vec::new();
         if reasons.contains(&GeometryReason::FewSatellites) {
-            parts.push(format!("{n} satellites, fewer than {}", cfg.min_used));
+            parts.push(crate::t!(
+                "receiver-trust-geometry-satellites-fewer-than",
+                n = n,
+                min_used = cfg.min_used
+            ));
         }
         if reasons.contains(&GeometryReason::HighPdop) {
-            parts.push(format!("PDOP {} above {}", fmt_dop(g.pdop), cfg.pdop_max));
+            parts.push(crate::t!(
+                "receiver-trust-geometry-pdop-above",
+                fmt_dop = fmt_dop(g.pdop),
+                pdop_max = cfg.pdop_max
+            ));
         }
         if reasons.contains(&GeometryReason::HighHdop) {
-            parts.push(format!("HDOP {} above {}", fmt_dop(g.hdop), cfg.hdop_max));
+            parts.push(crate::t!(
+                "receiver-trust-geometry-hdop-above",
+                fmt_dop = fmt_dop(g.hdop),
+                hdop_max = cfg.hdop_max
+            ));
         }
         if reasons.contains(&GeometryReason::SkyBlocked) {
             parts.push(match g.behind_skyline {
-                Some(m) => format!("{m} satellites behind the stated skyline"),
-                None => format!(
-                    "every satellite in one half of the sky (gap {} deg)",
-                    g.max_azimuth_gap_deg.unwrap_or(0.0)
+                Some(m) => crate::t!(
+                    "receiver-trust-geometry-satellites-behind-the-stated-skyline",
+                    m = m
+                ),
+                None => crate::t!(
+                    "receiver-trust-geometry-every-satellite-in-one-half",
+                    max_azimuth_gap_deg = g.max_azimuth_gap_deg.unwrap_or(0.0)
                 ),
             });
         }
-        format!(
-            "degraded by geometry: {} ({from}); not an inconsistency",
-            parts.join(", ")
+        crate::t!(
+            "receiver-trust-geometry-degraded-by-geometry-not-an",
+            parts = parts.join(", "),
+            from = from
         )
     });
     g.status = if reasons.is_empty() {

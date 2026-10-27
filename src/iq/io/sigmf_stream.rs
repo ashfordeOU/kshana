@@ -52,15 +52,16 @@ pub fn format_from_sigmf(datatype: &str) -> Result<SampleFormat, IqError> {
         });
     }
     let f = SampleFormat::parse(datatype).map_err(|_| {
-        IqError::Format(format!(
-            "unsupported SigMF core:datatype {datatype:?}: supported are ci8, cu8, ci16_le, \
-             ci16_be, cf32_le, cf32_be and the real ri8, ru8, ri16_le, ri16_be, rf32_le, rf32_be"
+        IqError::Format(crate::terr!(
+            "e-iq-io-sigmf-stream-unsupported-sigmf-core-datatype-supported",
+            datatype = format!("{:?}", datatype)
         ))
     })?;
     match sigmf_datatype(f) {
         Some(name) if name == datatype => Ok(f),
-        _ => Err(IqError::Format(format!(
-            "{datatype:?} is not a SigMF core:datatype"
+        _ => Err(IqError::Format(crate::terr!(
+            "e-iq-io-sigmf-stream-is-not-sigmf-core-datatype",
+            datatype = format!("{:?}", datatype)
         ))),
     }
 }
@@ -127,10 +128,16 @@ pub fn sigmf_datatype(f: SampleFormat) -> Option<&'static str> {
 /// (`core:num_channels` above one, samples interleaved channel by channel) are accepted;
 /// [`SigmfStream::select_channel`] picks the channel read.
 pub fn parse_meta_any(json: &str) -> Result<(Meta, SampleFormat), IqError> {
-    let meta: Meta = serde_json::from_str(json)
-        .map_err(|e| IqError::Format(format!("invalid SigMF metadata: {e}")))?;
+    let meta: Meta = serde_json::from_str(json).map_err(|e| {
+        IqError::Format(crate::terr!(
+            "e-iq-io-sigmf-stream-invalid-sigmf-metadata",
+            e = e
+        ))
+    })?;
     if meta.global.num_channels == Some(0) {
-        return Err(IqError::Format("SigMF core:num_channels = 0".into()));
+        return Err(IqError::Format(crate::terr!(
+            "e-iq-io-sigmf-stream-sigmf-core-num-channels"
+        )));
     }
     let f = format_from_sigmf(&meta.global.datatype)?;
     Ok((meta, f))
@@ -145,8 +152,9 @@ pub fn meta_for(
     description: &str,
 ) -> Result<Meta, IqError> {
     let dt = sigmf_datatype(format).ok_or_else(|| {
-        IqError::Format(format!(
-            "{format} has no SigMF core:datatype; write it as raw"
+        IqError::Format(crate::terr!(
+            "e-iq-io-sigmf-stream-has-no-sigmf-core-datatype",
+            format = format
         ))
     })?;
     let mut m = Meta::new(crate::sigmf::DataType::Ci8, fs_hz, 0.0, description);
@@ -222,9 +230,9 @@ impl SigmfStream {
     /// lazily, one part at a time, through a staging buffer of `chunk_bytes`.
     pub fn from_parts(parts: Vec<SigmfPart>, chunk_bytes: usize) -> Result<Self, IqError> {
         if parts.is_empty() {
-            return Err(IqError::Format(
-                "a SigMF stream needs at least one recording".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-sigmf-stream-sigmf-stream-needs-at-least"
+            )));
         }
         let mut format = None;
         let mut fs = None;
@@ -240,23 +248,27 @@ impl SigmfStream {
                 None => channels = Some(ch),
                 Some(c0) if c0 == ch => {}
                 Some(c0) => {
-                    return Err(IqError::Format(format!(
-                        "{}: core:num_channels {ch} does not match the first recording's {c0}",
-                        p.name
+                    return Err(IqError::Format(crate::terr!(
+                        "e-iq-io-sigmf-stream-core-num-channels-does-not",
+                        name = p.name,
+                        ch = ch,
+                        c0 = c0
                     )))
                 }
             }
             let f = format_from_sigmf(&p.meta.global.datatype)
                 .map_err(|e| IqError::Format(format!("{}: {e}", p.name)))?;
-            let rate = p
-                .meta
-                .global
-                .sample_rate
-                .ok_or_else(|| IqError::Format(format!("{}: no core:sample_rate", p.name)))?;
+            let rate = p.meta.global.sample_rate.ok_or_else(|| {
+                IqError::Format(crate::terr!(
+                    "e-iq-io-sigmf-stream-no-core-sample-rate",
+                    name = p.name
+                ))
+            })?;
             if !(rate.is_finite() && rate > 0.0) {
-                return Err(IqError::Format(format!(
-                    "{}: core:sample_rate {rate} is not positive",
-                    p.name
+                return Err(IqError::Format(crate::terr!(
+                    "e-iq-io-sigmf-stream-core-sample-rate-is-not",
+                    name = p.name,
+                    rate = rate
                 )));
             }
             match (format, fs) {
@@ -266,9 +278,13 @@ impl SigmfStream {
                 }
                 (Some(f0), Some(r0)) if f0 == f && r0 == rate => {}
                 (Some(f0), Some(r0)) => {
-                    return Err(IqError::Format(format!(
-                        "{}: {} at {rate} Hz does not match the first recording's {f0} at {r0} Hz",
-                        p.name, f
+                    return Err(IqError::Format(crate::terr!(
+                        "e-iq-io-sigmf-stream-at-hz-does-not-match",
+                        name = p.name,
+                        f = f,
+                        rate = rate,
+                        f0 = f0,
+                        r0 = r0
                     )))
                 }
                 _ => unreachable!(),
@@ -281,18 +297,19 @@ impl SigmfStream {
             let mut prev = s0;
             for c in &p.meta.captures {
                 if c.sample_start < prev || c.sample_start > n_file {
-                    return Err(IqError::Format(format!(
-                        "{}: capture at sample {} is out of order or beyond the {n_file} samples \
-                         in the data",
-                        p.name, c.sample_start
+                    return Err(IqError::Format(crate::terr!(
+                        "e-iq-io-sigmf-stream-capture-at-sample-is-out",
+                        name = p.name,
+                        sample_start = c.sample_start,
+                        n_file = n_file
                     )));
                 }
                 prev = c.sample_start;
             }
             if s0 * frame_bits % 8 != 0 {
-                return Err(IqError::Format(format!(
-                    "{}: first capture does not start on a byte boundary",
-                    p.name
+                return Err(IqError::Format(crate::terr!(
+                    "e-iq-io-sigmf-stream-first-capture-does-not-start",
+                    name = p.name
                 )));
             }
             if p.meta.captures.is_empty() {
@@ -357,15 +374,16 @@ impl SigmfStream {
     /// Call it before the first read.
     pub fn select_channel(mut self, channel: usize) -> Result<Self, IqError> {
         if channel >= self.channels {
-            return Err(IqError::Format(format!(
-                "channel {channel} requested; the recording has {} (channels count from 0)",
-                self.channels
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-sigmf-stream-channel-requested-the-recording-has",
+                channel = channel,
+                channels = self.channels
             )));
         }
         if self.pos != 0 || self.current.is_some() {
-            return Err(IqError::Format(
-                "select_channel must be called before reading".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-sigmf-stream-select-channel-must-be-called"
+            )));
         }
         self.channel = channel;
         Ok(self)
@@ -448,9 +466,9 @@ impl IqSource for SigmfStream {
                 let copied = std::io::copy(&mut (&mut data).take(skip), &mut std::io::sink())
                     .map_err(|e| IqError::Io(e.to_string()))?;
                 if copied < skip {
-                    return Err(IqError::Format(
-                        "SigMF data ends before its first capture".into(),
-                    ));
+                    return Err(IqError::Format(crate::terr!(
+                        "e-iq-io-sigmf-stream-sigmf-data-ends-before-its"
+                    )));
                 }
                 self.current = Some(
                     IqReader::with_chunk_bytes(data, self.format, self.spec, self.chunk_bytes)
@@ -505,7 +523,12 @@ struct CollectionDoc {
 pub fn parse_collection(json: &str) -> Result<Collection, IqError> {
     serde_json::from_str::<CollectionDoc>(json)
         .map(|d| d.collection)
-        .map_err(|e| IqError::Format(format!("invalid SigMF collection: {e}")))
+        .map_err(|e| {
+            IqError::Format(crate::terr!(
+                "e-iq-io-sigmf-stream-invalid-sigmf-collection",
+                e = e
+            ))
+        })
 }
 
 /// Serialise a collection as `.sigmf-collection` JSON.
@@ -542,8 +565,12 @@ mod files {
             .unwrap_or(&s)
             .to_string();
         (
-            PathBuf::from(format!("{base}.sigmf-meta")),
-            PathBuf::from(format!("{base}.sigmf-data")),
+            PathBuf::from(crate::i18n::in_english(|| {
+                crate::t!("iq-campaign-conditions-sigmf-meta", base = base)
+            })),
+            PathBuf::from(crate::i18n::in_english(|| {
+                crate::t!("iq-io-sigmf-stream-sigmf-data", base = base)
+            })),
         )
     }
 
@@ -553,9 +580,11 @@ mod files {
         if let Some(h) = expect_sha512 {
             let got = sha512_hex(&json_bytes);
             if !got.eq_ignore_ascii_case(h) {
-                return Err(IqError::Format(format!(
-                    "{}: SHA-512 {got} does not match the collection's {h}",
-                    mp.display()
+                return Err(IqError::Format(crate::terr!(
+                    "e-iq-io-sigmf-stream-sha-512-does-not-match",
+                    mp = mp.display(),
+                    got = got,
+                    h = h
                 )));
             }
         }

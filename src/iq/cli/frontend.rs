@@ -107,9 +107,16 @@ impl FrontendParams {
                 .split(',')
                 .map(|s| s.trim().parse::<f64>())
                 .collect::<Result<_, _>>()
-                .map_err(|_| Fail::Usage(format!("--bandpass wants lo,hi (got {v:?})")))?;
+                .map_err(|_| {
+                    Fail::Usage(crate::t!(
+                        "iq-cli-frontend-bandpass-wants-lo-hi-got",
+                        v = format!("{:?}", v)
+                    ))
+                })?;
             if parts.len() != 2 {
-                return Err(Fail::Usage("--bandpass wants two values: lo,hi".into()));
+                return Err(Fail::Usage(crate::terr!(
+                    "e-iq-cli-frontend-bandpass-wants-two-values-lo"
+                )));
             }
             p.bandpass = Some((parts[0], parts[1]));
         }
@@ -156,15 +163,17 @@ pub(crate) fn build_chain(p: &FrontendParams, fs_hz: f64) -> Result<Chain, Strin
     let mut chain = Chain::new();
     if let Some((lo, hi)) = p.bandpass {
         if lo >= hi {
-            return Err("--bandpass needs lo < hi".to_string());
+            return Err(crate::terr!("e-iq-cli-frontend-bandpass-needs-lo-hi"));
         }
         let half = 0.5 * (hi - lo);
         let transition = p.bandpass_transition_hz.unwrap_or(half);
         if half + transition >= fs_hz / 2.0 {
-            return Err(format!(
-                "--bandpass {lo},{hi} with transition {transition} Hz does not fit below fs/2 \
-                 ({} Hz); narrow the band or the transition",
-                fs_hz / 2.0
+            return Err(crate::terr!(
+                "e-iq-cli-frontend-bandpass-with-transition-hz-does",
+                lo = lo,
+                hi = hi,
+                transition = transition,
+                v1 = fs_hz / 2.0
             ));
         }
         let design = fir::bandpass(fs_hz, lo, hi, transition, p.bandpass_atten_db);
@@ -182,7 +191,10 @@ pub(crate) fn build_chain(p: &FrontendParams, fs_hz: f64) -> Result<Chain, Strin
     // AGC before the quantiser. An explicit --agc without a quantiser targets unit power.
     if let Some(bits) = p.bits {
         if !(1..=16).contains(&bits) {
-            return Err(format!("--bits must be 1..=16 (got {bits})"));
+            return Err(crate::terr!(
+                "e-iq-cli-frontend-bits-must-be-16-got",
+                bits = bits
+            ));
         }
         let quant = Quantiser::new(bits, p.quant_step.unwrap_or(1.0));
         let want_agc = p.agc || !p.no_agc;
@@ -246,10 +258,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let spec = opened.source.spec();
     let params = FrontendParams::from_args(&a)?;
     if !params.any() {
-        return Err(Fail::Usage(
-            "iq frontend needs at least one stage (--bandpass/--notch/--blank/--excise/--agc/--bits)"
-                .into(),
-        ));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-frontend-iq-frontend-needs-at-least"
+        )));
     }
     let mut chain = build_chain(&params, spec.fs_hz).map_err(Fail::Usage)?;
 
@@ -285,13 +296,13 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         description: Some("written by kshana iq frontend".into()),
     };
     let sidecar_path = write_sidecar(out, &sidecar)?;
-    Ok(format!(
-        "filtered {} samples ({} Hz) to {} ({}); sidecar {}",
-        total,
-        spec.fs_hz,
-        out.display(),
-        format.name(),
-        sidecar_path.display(),
+    Ok(crate::t!(
+        "iq-cli-frontend-filtered-samples-hz-to-sidecar",
+        total = total,
+        fs_hz = spec.fs_hz,
+        out = out.display(),
+        format = format.name(),
+        sidecar_path = sidecar_path.display()
     ))
 }
 

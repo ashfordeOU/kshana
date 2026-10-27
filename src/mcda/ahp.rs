@@ -92,32 +92,44 @@ impl PairwiseMatrix {
     pub fn new(a: Vec<Vec<f64>>) -> Result<Self, String> {
         let n = a.len();
         if n == 0 {
-            return Err("pairwise matrix is empty".into());
+            return Err(crate::terr!("e-mcda-ahp-pairwise-matrix-is-empty"));
         }
         for (i, row) in a.iter().enumerate() {
             if row.len() != n {
-                return Err(format!(
-                    "pairwise matrix is not square (row {i} has {} of {n})",
-                    row.len()
+                return Err(crate::terr!(
+                    "e-mcda-ahp-pairwise-matrix-is-not-square",
+                    i = i,
+                    row = row.len(),
+                    n = n
                 ));
             }
             for (j, &v) in row.iter().enumerate() {
                 if !v.is_finite() || v <= 0.0 {
-                    return Err(format!(
-                        "entry a[{i}][{j}] = {v} must be finite and positive"
+                    return Err(crate::terr!(
+                        "e-mcda-ahp-entry-must-be-finite-and",
+                        i = i,
+                        j = j,
+                        v = v
                     ));
                 }
             }
         }
         for (i, row) in a.iter().enumerate() {
             if (row[i] - 1.0).abs() > 1e-9 {
-                return Err(format!("diagonal a[{i}][{i}] = {} must be 1", row[i]));
+                return Err(crate::terr!(
+                    "e-mcda-ahp-diagonal-must-be",
+                    i = i,
+                    row = row[i]
+                ));
             }
             for (j, &aij) in row.iter().enumerate().skip(i + 1) {
                 let prod = aij * a[j][i];
                 if (prod - 1.0).abs() > 1e-6 {
-                    return Err(format!(
-                        "entries a[{i}][{j}]·a[{j}][{i}] = {prod} must be reciprocal (≈ 1)"
+                    return Err(crate::terr!(
+                        "e-mcda-ahp-entries-must-be-reciprocal",
+                        i = i,
+                        j = j,
+                        prod = prod
                     ));
                 }
             }
@@ -133,17 +145,21 @@ impl PairwiseMatrix {
         let mut a = vec![vec![1.0; n]; n];
         for (i, row) in upper.iter().enumerate() {
             if row.len() != n - 1 - i {
-                return Err(format!(
-                    "upper row {i} has {} entries, expected {}",
-                    row.len(),
-                    n - 1 - i
+                return Err(crate::terr!(
+                    "e-mcda-ahp-upper-row-has-entries-expected",
+                    i = i,
+                    row = row.len(),
+                    v2 = n - 1 - i
                 ));
             }
             for (k, &v) in row.iter().enumerate() {
                 let j = i + 1 + k;
                 if !v.is_finite() || v <= 0.0 {
-                    return Err(format!(
-                        "upper entry ({i},{j}) = {v} must be finite and positive"
+                    return Err(crate::terr!(
+                        "e-mcda-ahp-upper-entry-must-be-finite",
+                        i = i,
+                        j = j,
+                        v = v
                     ));
                 }
                 a[i][j] = v;

@@ -42,8 +42,9 @@ pub(crate) fn designs(a: &Args) -> Result<Vec<Design>, Fail> {
             "--design-name",
         ] {
             if a.get(k).is_some() {
-                return Err(Fail::Usage(format!(
-                    "{k} cannot be combined with --design: sweep runs every design in the file"
+                return Err(Fail::Usage(crate::t!(
+                    "iq-cli-sweep-cannot-be-combined-with-design",
+                    k = k
                 )));
             }
         }
@@ -70,12 +71,25 @@ pub(crate) fn designs(a: &Args) -> Result<Vec<Design>, Fail> {
                 for &coh in &coherents {
                     let coh = coh.max(1);
                     let d = base
-                        .with_overrides(&format!(
-                            "[carrier]\npll_bw_hz = {pll:?}\n[code]\nbw_hz = {dll:?}\n\
-                             [integration]\nspacing_chips = {sp:?}\ncoherent_periods = {coh}\n"
-                        ))
+                        .with_overrides(&crate::i18n::in_english(|| {
+                            crate::t!(
+                                "iq-cli-sweep-carrier-pll-bw-hz-code",
+                                pll = format!("{:?}", pll),
+                                dll = format!("{:?}", dll),
+                                sp = format!("{:?}", sp),
+                                coh = coh
+                            )
+                        }))
                         .map_err(Fail::Usage)?;
-                    out.push(d.renamed(&format!("pll{pll}_dll{dll}_sp{sp}_coh{coh}")));
+                    out.push(d.renamed(&crate::i18n::in_english(|| {
+                        crate::t!(
+                            "iq-cli-sweep-pll-dll-sp-coh",
+                            pll = pll,
+                            dll = dll,
+                            sp = sp,
+                            coh = coh
+                        )
+                    })));
                 }
             }
         }
@@ -196,7 +210,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .collect();
     let warnings = sampling_warnings(&spec, &codes);
     write_outputs(&a, &rows, &warnings)?;
-    Ok(table(&rows) + &warning_lines(&warnings))
+    Ok(table(&rows) + &warning_lines(&spec, &codes))
 }
 
 /// Write the optional `--json` and `--csv` artifacts.
@@ -260,9 +274,9 @@ fn to_json(rows: &[Metrics], warnings: &[serde_json::Value]) -> String {
 
 /// A human-readable table.
 fn table(rows: &[Metrics]) -> String {
-    let mut out = format!(
-        "loop-design sweep: {} (design, PRN) result(s)\n",
-        rows.len()
+    let mut out = crate::t!(
+        "iq-cli-sweep-loop-design-sweep-design-prn",
+        rows = rows.len()
     );
     out.push_str(
         "design\tcode\tepochs\tphase_jitter_deg\tcode_jitter_chips\tphase_lock\tcode_lock\tmean_cn0\n",

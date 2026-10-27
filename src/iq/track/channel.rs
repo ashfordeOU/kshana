@@ -207,19 +207,26 @@ impl Channel {
     pub fn new(spec: &SampleSpec, init: &ChannelInit, cfg: &LoopConfig) -> Result<Self, String> {
         let code = init.code.clone();
         if spec.fs_hz.is_nan() || spec.fs_hz <= 0.0 {
-            return Err("sample rate must be positive".into());
+            return Err(crate::terr!(
+                "e-iq-track-channel-sample-rate-must-be-positive"
+            ));
         }
         if cfg.coherent_periods == 0 {
-            return Err("coherent_periods must be positive".into());
+            return Err(crate::terr!(
+                "e-iq-track-channel-coherent-periods-must-be-positive"
+            ));
         }
         if cfg.cn0_windows == 0 {
-            return Err("cn0_windows must be positive".into());
+            return Err(crate::terr!(
+                "e-iq-track-channel-cn0-windows-must-be-positive"
+            ));
         }
         if let Some(ppb) = init.periods_per_bit {
             if ppb == 0 || ppb % cfg.coherent_periods != 0 {
-                return Err(format!(
-                    "coherent_periods {} must divide the bit length {ppb}",
-                    cfg.coherent_periods
+                return Err(crate::terr!(
+                    "e-iq-track-channel-coherent-periods-must-divide-the",
+                    coherent_periods = cfg.coherent_periods,
+                    ppb = ppb
                 ));
             }
         }
@@ -232,10 +239,11 @@ impl Channel {
             taps.extend([h, -h]);
         }
         if taps.len() > MAX_EXTRA_TAPS {
-            return Err(format!(
-                "at most {MAX_EXTRA_TAPS} extra taps are supported (got {}{})",
-                cfg.extra_taps_chips.len(),
-                if bump.is_some() {
+            return Err(crate::terr!(
+                "e-iq-track-channel-at-most-extra-taps-are",
+                MAX_EXTRA_TAPS = MAX_EXTRA_TAPS,
+                extra_taps_chips = cfg.extra_taps_chips.len(),
+                v2 = if bump.is_some() {
                     " plus the 2 bump-jump taps"
                 } else {
                     ""
@@ -246,8 +254,10 @@ impl Channel {
             .iter()
             .find(|t| !(t.is_finite() && t.abs() <= MAX_TAP_OFFSET_CHIPS))
         {
-            return Err(format!(
-                "extra tap offsets must be finite and within ±{MAX_TAP_OFFSET_CHIPS} chips (got {t})"
+            return Err(crate::terr!(
+                "e-iq-track-channel-extra-tap-offsets-must-be",
+                MAX_TAP_OFFSET_CHIPS = MAX_TAP_OFFSET_CHIPS,
+                t = t
             ));
         }
         let core = LoopCore::new(cfg, code.chip_rate_hz(), code.carrier_hz(), init.doppler_hz)?;
@@ -257,7 +267,7 @@ impl Channel {
             _ => cfg.cn0_window_periods,
         };
         if window_len < 2 {
-            return Err("a C/N0 window needs at least 2 prompts".into());
+            return Err(crate::terr!("e-iq-track-channel-n0-window-needs-at-least"));
         }
         let mut ch = Self {
             core,

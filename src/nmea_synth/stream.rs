@@ -165,10 +165,12 @@ pub struct UdpSink {
 impl UdpSink {
     /// Send to `dest`; `broadcast` sets SO_BROADCAST.
     pub fn new(dest: impl ToSocketAddrs, broadcast: bool) -> io::Result<Self> {
-        let dest = dest
-            .to_socket_addrs()?
-            .next()
-            .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "no UDP address"))?;
+        let dest = dest.to_socket_addrs()?.next().ok_or_else(|| {
+            io::Error::new(
+                io::ErrorKind::InvalidInput,
+                crate::terr!("e-nmea-synth-stream-no-udp-address"),
+            )
+        })?;
         let socket = UdpSocket::bind(if dest.is_ipv4() {
             "0.0.0.0:0"
         } else {

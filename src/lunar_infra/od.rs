@@ -74,7 +74,7 @@ fn solve(rows: &Rows, n: usize) -> Result<(Mat, Mat), String> {
         }
     }
     let p = la::inverse(&la::sym(&info))
-        .ok_or("the measurement set does not determine the orbit (singular information)")?;
+        .ok_or_else(|| crate::terr!("e-lunar-infra-od-the-measurement-set-does-not"))?;
     let m = rows.h.len();
     let mut k = la::zeros(n, m);
     for (c, (h, &w)) in rows.h.iter().zip(&rows.w).enumerate() {
@@ -150,14 +150,16 @@ fn run_inner(
     let n = ro.t_s.len();
     let trials = mc.trials.unwrap_or(400);
     if trials == 0 {
-        return Err("monte_carlo.trials must be at least 1".into());
+        return Err(crate::terr!("e-lunar-infra-od-monte-carlo-trials-must-be"));
     }
     let sig_rho = ground.range_sigma_m.unwrap_or(5.0);
     let sig_rr = ground.doppler_sigma_mm_s.unwrap_or(0.05) * 1e-3;
     let min_el = ground.min_elevation_deg.unwrap_or(10.0).to_radians();
     let phase = ground.earth_rotation_phase_deg.unwrap_or(0.0).to_radians();
     if !(sig_rho > 0.0 && sig_rr > 0.0) {
-        return Err("ground sigmas must be positive".into());
+        return Err(crate::terr!(
+            "e-lunar-infra-od-ground-sigmas-must-be-positive"
+        ));
     }
     let names = ground
         .stations
@@ -166,10 +168,9 @@ fn run_inner(
     let mut stations = Vec::new();
     for nm in &names {
         stations.push(
-            *DSN_STATIONS
-                .iter()
-                .find(|s| s.name == nm)
-                .ok_or_else(|| format!("unknown station `{nm}`: DSS-14, DSS-63 or DSS-43"))?,
+            *DSN_STATIONS.iter().find(|s| s.name == nm).ok_or_else(|| {
+                crate::terr!("e-lunar-infra-od-unknown-station-dss-14-dss", nm = nm)
+            })?,
         );
     }
     // The truth: the reference orbit, or the CR3BP orbit under an unmodelled acceleration.
@@ -263,19 +264,21 @@ fn run_inner(
         }
     }
     if g.h.len() < 8 {
-        return Err(
-            "too few trackable GNSS measurements to determine the orbit and the receiver clock"
-                .into(),
-        );
+        return Err(crate::terr!(
+            "e-lunar-infra-od-too-few-trackable-gnss-measurements"
+        ));
     }
     if r.h.len() < 6 {
-        return Err("too few ground measurements to determine the orbit".into());
+        return Err(crate::terr!(
+            "e-lunar-infra-od-too-few-ground-measurements-to"
+        ));
     }
     let (pg8, kg) = solve(&g, 8)?;
     let (pr, kr) = solve(&r, 6)?;
     let pg = la::block(&pg8, 6);
     let sum = la::sym(&la::add(&pg, &pr));
-    let sum_inv = la::inverse(&sum).ok_or("the covariance of the difference is singular")?;
+    let sum_inv = la::inverse(&sum)
+        .ok_or_else(|| crate::terr!("e-lunar-infra-od-the-covariance-of-the-difference"))?;
 
     // Systematic part (zero when the models match) and Monte Carlo noise.
     let bias_g = apply(&kg, &g.dy);

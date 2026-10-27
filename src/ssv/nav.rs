@@ -469,7 +469,7 @@ pub(super) fn signal_table(cfg: &NavConfig) -> Result<Vec<SigRow>, String> {
         }
     }
     if sats.is_empty() {
-        return Err("no signals for the chosen constellations and bands".into());
+        return Err(crate::terr!("e-ssv-nav-no-signals-for-the-chosen"));
     }
     Ok(sats)
 }
@@ -477,7 +477,7 @@ pub(super) fn signal_table(cfg: &NavConfig) -> Result<Vec<SigRow>, String> {
 /// Run the filter against the simulated truth.
 pub fn run_nav(cfg: &NavConfig, fx: &dyn LinkEffects) -> Result<NavResult, String> {
     if !(cfg.duration_min > 0.0 && cfg.step_s > 0.0) {
-        return Err("duration_min and step_s must be positive".into());
+        return Err(crate::terr!("e-ssv-formation-duration-min-and-step-must"));
     }
     let sats = signal_table(cfg)?;
     let mut rng = ChaCha8Rng::seed_from_u64(cfg.seed);

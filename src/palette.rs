@@ -388,11 +388,7 @@ pub fn theme_css(vars: &[(&str, &str, &str)]) -> String {
     };
     let l = block(false);
     let d = block(true);
-    format!(
-        ":root{{{l}color-scheme:light}}\n\
-         @media (prefers-color-scheme:dark){{:root:not([data-theme=\"light\"]){{{d}color-scheme:dark}}}}\n\
-         :root[data-theme=\"dark\"]{{{d}color-scheme:dark}}\n"
-    )
+    crate::t!("palette-root-color-scheme-light-media", l = l, d = d)
 }
 
 /// The standard custom properties of a generated HTML page, for both themes:

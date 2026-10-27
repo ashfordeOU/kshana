@@ -182,6 +182,9 @@ wasm-bindgen = { version = "0.2", optional = true }
 # Pure-Rust miniz_oxide backend only (no zlib-sys, no C), so it builds on wasm32 and keeps the
 # permissive-licence gate: flate2 is MIT OR Apache-2.0, miniz_oxide MIT OR Zlib OR Apache-2.0.
 flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
+fluent-bundle = "0.16.0"
+unic-langid = "0.9.6"
+fluent-syntax = "0.12"
 
 # Direct serial input to `kshana receiver-trust live --serial` (open read-only, set the local
 # line's speed and raw mode). Already in the tree; MIT OR Apache-2.0. Unix only.
@@ -213,13 +216,6 @@ otlp = []
 # (tests/sgp4_crate_comparison.rs). Test-only: never compiled into the library,
 # CLI, or the published bindings; the package excludes the test that uses it.
 sgp4 = "2.4"
-
-# Unoptimised curve arithmetic makes an Ed25519 verification take milliseconds, and the
-# evidence tests run thousands of them (every flipped bit of the published test vectors).
-# Optimising just these two crates in the dev and test profiles cuts the test time and
-# changes no result; the release profile is untouched.
-[profile.dev.package.curve25519-dalek]
-opt-level = 3
 
 [profile.dev.package.ed25519-dalek]
 opt-level = 3

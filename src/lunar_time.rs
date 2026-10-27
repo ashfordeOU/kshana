@@ -421,8 +421,13 @@ pub fn lunar_time_svg(r: &LunarTimeReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar coordinate time LTC−TT (rate {:.2} µs/day, band {:.0}–{:.0})</text>",
-        r.secular_rate_us_per_day, r.band_low, r.band_high
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!(
+            "lunar-time-chart-title",
+            rate = crate::i18n::num(r.secular_rate_us_per_day, 2),
+            low = crate::i18n::num(r.band_low, 0),
+            high = crate::i18n::num(r.band_high, 0)
+        )
     ));
     // Accumulated-offset line from the origin to the horizon.
     svg.push_str(&format!(
@@ -433,11 +438,14 @@ pub fn lunar_time_svg(r: &LunarTimeReport) -> String {
         yof(r.offset_at_horizon_us)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"12\">{:.2} µs at {:.2} d</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"12\">{}</text>",
         xof(r.horizon_days) - 120.0,
         yof(r.offset_at_horizon_us) - 8.0,
-        r.offset_at_horizon_us,
-        r.horizon_days
+        crate::t!(
+            "lunar-time-chart-offset",
+            offset = crate::i18n::num(r.offset_at_horizon_us, 2),
+            days = crate::i18n::num(r.horizon_days, 2)
+        )
     ));
     let axis_y = mt + ph;
     svg.push_str(&format!(

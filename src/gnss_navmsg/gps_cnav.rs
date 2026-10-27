@@ -260,7 +260,12 @@ pub fn type10_value(e: &CnavEphemeris, name: &str) -> Result<f64, String> {
         "integrity" => b(e.integrity),
         "l2c_phasing" => b(e.l2c_phasing),
         "reserved" => 0.0,
-        _ => return Err(format!("type 10 has no field {name}")),
+        _ => {
+            return Err(crate::terr!(
+                "e-gnss-navmsg-gps-cnav-type-10-has-no-field",
+                name = name
+            ))
+        }
     })
 }
 
@@ -279,7 +284,12 @@ pub fn type11_value(e: &CnavEphemeris, name: &str) -> Result<f64, String> {
         "cus" => e.cus,
         "cuc" => e.cuc,
         "reserved" => 0.0,
-        _ => return Err(format!("type 11 has no field {name}")),
+        _ => {
+            return Err(crate::terr!(
+                "e-gnss-navmsg-gps-cnav-type-11-has-no-field",
+                name = name
+            ))
+        }
     })
 }
 
@@ -317,19 +327,28 @@ pub fn type30_value(
         "beta3" => k.beta[3],
         "wnop" => f64::from(wnop & 0xFF),
         "reserved" => 0.0,
-        _ => return Err(format!("type 30 has no field {name}")),
+        _ => {
+            return Err(crate::terr!(
+                "e-gnss-navmsg-gps-cnav-type-30-has-no-field",
+                name = name
+            ))
+        }
     })
 }
 
 /// Assemble a 300-bit message from its header, type and body bits (238), adding the CRC.
 pub fn assemble(h: &CnavHeader, msg_type: u32, body: &[u8]) -> Result<Vec<u8>, String> {
     if body.len() != 238 {
-        return Err(format!("CNAV body has {} bits, expected 238", body.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gps-cnav-cnav-body-has-bits-expected",
+            body = body.len()
+        ));
     }
     if h.prn > 63 || h.tow_count >= 100_800 {
-        return Err(format!(
-            "PRN {} or TOW count {} out of range",
-            h.prn, h.tow_count
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gps-cnav-prn-or-tow-count-out",
+            prn = h.prn,
+            tow_count = h.tow_count
         ));
     }
     let mut m = Vec::with_capacity(MESSAGE_BITS);
@@ -395,14 +414,20 @@ pub struct CnavMessage {
 /// Decode a 300-bit message of type 10, 11 or 30, checking the preamble and the CRC.
 pub fn decode_message(bits: &[u8]) -> Result<CnavMessage, String> {
     if bits.len() != MESSAGE_BITS {
-        return Err(format!("{} bits, expected {MESSAGE_BITS}", bits.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gps-cnav-bits-expected",
+            bits = bits.len(),
+            MESSAGE_BITS = MESSAGE_BITS
+        ));
     }
     if read_bits(bits, 0, 8) != PREAMBLE {
-        return Err("preamble is not 10001011".into());
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gps-cnav-preamble-is-not-10001011"
+        ));
     }
     let crc = read_bits(bits, 276, 24) as u32;
     if crc24q(&bits[..276]) != crc {
-        return Err("CRC-24Q mismatch".into());
+        return Err(crate::terr!("e-gnss-navmsg-gal-fnav-crc-24q-mismatch"));
     }
     let h = unpack(HEADER, bits)?;
     let header = CnavHeader {
@@ -416,7 +441,12 @@ pub fn decode_message(bits: &[u8]) -> Result<CnavMessage, String> {
         10 => unpack(TYPE10, body)?,
         11 => unpack(TYPE11, body)?,
         30 => unpack(&type30_layout(), body)?,
-        t => return Err(format!("message type {t} is not decoded here")),
+        t => {
+            return Err(crate::terr!(
+                "e-gnss-navmsg-gps-cnav-message-type-is-not-decoded",
+                t = t
+            ))
+        }
     };
     Ok(CnavMessage {
         header,
@@ -432,7 +462,7 @@ pub fn ephemeris_from_messages(
     m11: &CnavMessage,
 ) -> Result<CnavEphemeris, String> {
     if m10.msg_type != 10 || m11.msg_type != 11 {
-        return Err("need a type 10 and a type 11 message".into());
+        return Err(crate::terr!("e-gnss-navmsg-gps-cnav-need-type-10-and-type"));
     }
     let a = |n: &str| get(&m10.fields, n).map(|d| d.value);
     let c = |n: &str| get(&m11.fields, n).map(|d| d.value);

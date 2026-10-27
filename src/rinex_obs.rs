@@ -148,7 +148,7 @@ impl RinexObs {
 fn parse_i(s: &str, what: &str) -> Result<i64, String> {
     s.trim()
         .parse::<i64>()
-        .map_err(|_| format!("bad {what}: {s:?}"))
+        .map_err(|_| crate::terr!("e-rinex-obs-bad", what = what, s = format!("{:?}", s)))
 }
 
 /// Parse one observation epoch header line (the `>`-prefixed line): the calendar
@@ -279,7 +279,7 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
         }
     }
     if !header_ended {
-        return Err("RINEX observation file has no END OF HEADER".into());
+        return Err(crate::terr!("e-rinex-obs-rinex-observation-file-has-no"));
     }
     let header = ObsHeader {
         version,
@@ -315,7 +315,9 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
     }
 
     if epochs.is_empty() {
-        return Err("RINEX observation file contained no epoch records".into());
+        return Err(crate::terr!(
+            "e-rinex-obs-rinex-observation-file-contained-no"
+        ));
     }
 
     Ok(RinexObs { header, epochs })

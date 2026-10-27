@@ -352,11 +352,14 @@ pub fn run_spoof_detect(scn: &SpoofDetectScenario) -> SpoofDetectResult {
         fired.push("SQM");
     }
     let verdict = if decision.fused.alert {
-        format!("SPOOF DETECTED (fused) — layers: {}", fired.join("+"))
+        crate::t!(
+            "spoof-detect-spoof-detected-fused-layers",
+            fired = fired.join("+")
+        )
     } else if !fired.is_empty() {
-        format!(
-            "single-layer indication ({}) below the fused threshold — corroboration needed",
-            fired.join("+")
+        crate::t!(
+            "spoof-detect-single-layer-indication-below-the",
+            fired = fired.join("+")
         )
     } else {
         "no spoof indication".to_string()
@@ -421,11 +424,12 @@ pub fn to_svg(r: &SpoofDetectResult) -> String {
             "<text x=\"12\" y=\"{ty}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{label}</text>\
              <rect x=\"{x0}\" y=\"{y}\" width=\"{bar}\" height=\"20\" fill=\"{colour}\"/>\
              <line x1=\"{thr_x}\" y1=\"{ly}\" x2=\"{thr_x}\" y2=\"{ly2}\" stroke=\"{INK_3}\" stroke-dasharray=\"3,3\"/>\
-             <text x=\"{vx}\" y=\"{ty}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{ratio:.2}x</text>",
+             <text x=\"{vx}\" y=\"{ty}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{ratio_txt}x</text>",
             ty = y + 15.0,
             ly = y - 3.0,
             ly2 = y + 23.0,
             vx = x0 + max_w + 2.0,
+            ratio_txt = crate::i18n::num(*ratio, 2),
         ));
     }
     svg.push_str("</svg>");

@@ -103,7 +103,7 @@ pub fn write(scene: &Scene) -> String {
                 "properties": {
                     "name": m.id,
                     "role": m.role.as_str(),
-                    "description": format!("{}. Earth-fixed positions; a MultiLineString is cut at the antimeridian, and times_utc then lists the original samples only.", m.description),
+                    "description": crate::t!("interop-geojson-earth-fixed-positions-multilinestring-is", description = m.description),
                     "times_utc": times,
                     "units": units_moving(),
                 },
@@ -169,7 +169,7 @@ pub fn write(scene: &Scene) -> String {
     let fc = json!({
         "type": "FeatureCollection",
         "name": scene.title(),
-        "description": format!("Kshana {} export. Epoch: {}.", env!("CARGO_PKG_VERSION"), scene.epoch_note),
+        "description": crate::t!("interop-geojson-kshana-export-epoch", v1 = env!("CARGO_PKG_VERSION"), epoch_note = scene.epoch_note),
         "features": feats,
     });
     let lines: Vec<String> = match fc.get("features").and_then(|f| f.as_array()) {
@@ -207,37 +207,45 @@ fn line_of(v: &Value) -> Option<&Value> {
 /// Read the first `LineString` of a GeoJSON document, checking RFC 7946's position
 /// rules: longitude first, longitude in [-180, 180], latitude in [-90, 90].
 pub fn parse_route(text: &str) -> Result<RouteIn, String> {
-    let v: Value = serde_json::from_str(text).map_err(|e| format!("invalid GeoJSON: {e}"))?;
-    let line = line_of(&v).ok_or(
-        "no LineString found: give a LineString geometry, a Feature holding one, or a \
-         FeatureCollection whose features include one",
-    )?;
+    let v: Value = serde_json::from_str(text)
+        .map_err(|e| crate::terr!("e-interop-geojson-invalid-geojson", e = e))?;
+    let line = line_of(&v)
+        .ok_or_else(|| crate::terr!("e-interop-geojson-no-linestring-found-give-linestring"))?;
     let coords = line
         .get("coordinates")
         .and_then(|c| c.as_array())
-        .ok_or("LineString has no coordinates array")?;
+        .ok_or_else(|| crate::terr!("e-interop-geojson-linestring-has-no-coordinates-array"))?;
     if coords.len() < 2 {
-        return Err("an RFC 7946 LineString needs two or more positions".into());
+        return Err(crate::terr!(
+            "e-interop-geojson-an-rfc-7946-linestring-needs"
+        ));
     }
     let mut points = Vec::with_capacity(coords.len());
     for (i, c) in coords.iter().enumerate() {
-        let a = c.as_array().filter(|a| a.len() >= 2).ok_or(format!(
-            "position {i} is not an array of two or three numbers"
+        let a = c
+            .as_array()
+            .filter(|a| a.len() >= 2)
+            .ok_or(crate::t!("interop-geojson-position-is-not-an-array", i = i))?;
+        let lon = a[0].as_f64().ok_or(crate::t!(
+            "interop-geojson-position-longitude-is-not-number",
+            i = i
         ))?;
-        let lon = a[0]
-            .as_f64()
-            .ok_or(format!("position {i}: longitude is not a number"))?;
-        let lat = a[1]
-            .as_f64()
-            .ok_or(format!("position {i}: latitude is not a number"))?;
+        let lat = a[1].as_f64().ok_or(crate::t!(
+            "interop-geojson-position-latitude-is-not-number",
+            i = i
+        ))?;
         if !(-180.0..=180.0).contains(&lon) {
-            return Err(format!(
-                "position {i}: longitude {lon} is outside [-180, 180] (GeoJSON puts longitude first)"
+            return Err(crate::terr!(
+                "e-interop-geojson-position-longitude-is-outside-180",
+                i = i,
+                lon = lon
             ));
         }
         if !(-90.0..=90.0).contains(&lat) {
-            return Err(format!(
-                "position {i}: latitude {lat} is outside [-90, 90] (GeoJSON puts longitude first)"
+            return Err(crate::terr!(
+                "e-interop-geojson-position-latitude-is-outside-90",
+                i = i,
+                lat = lat
             ));
         }
         points.push([lat, lon]);
@@ -263,12 +271,12 @@ pub fn route_to_track(
         p.len()
     };
     if n < 2 {
-        return Err("a track needs two or more waypoints".into());
+        return Err(crate::terr!("e-interop-geojson-track-needs-two-or-more"));
     }
     let dlat = (last[0] - first[0]) / (n - 1) as f64;
     let dlon = (last[1] - first[1]) / (n - 1) as f64;
     if dlon.abs() * (n - 1) as f64 > 180.0 {
-        return Err("the route spans more than 180 degrees of longitude; the track kinds step in plain degrees and cannot cross the antimeridian".into());
+        return Err(crate::terr!("e-interop-geojson-the-route-spans-more-than"));
     }
     if p.len() > 2 {
         let mut worst = (0usize, 0.0f64);
@@ -281,11 +289,11 @@ pub fn route_to_track(
             }
         }
         if worst.1 > tol_deg {
-            return Err(format!(
-                "position {} is {:.6} deg from an evenly spaced straight track (tolerance {} deg); \
-                 the track kinds fly start + i*step, so give evenly spaced positions on a line, or \
-                 only the two ends",
-                worst.0, worst.1, tol_deg
+            return Err(crate::terr!(
+                "e-interop-geojson-position-is-deg-from-an",
+                worst = worst.0,
+                worst2 = crate::i18n::localise_decimal(format!("{:.6}", worst.1)),
+                tol_deg = tol_deg
             ));
         }
     }
@@ -304,32 +312,32 @@ pub fn apply_route(src: &str, geojson: &str) -> Result<String, String> {
     match kind {
         K::Terrain | K::TerrainSlam | K::GravityMap | K::CombinedAltPnt => {}
         k => {
-            return Err(format!(
-            "a route applies to the kinds that fly a waypoint track (terrain-nav, terrain-slam, \
-                 gravity-map, combined-altpnt); `{}` takes no trajectory input",
-            k.as_str()
-        ))
+            return Err(crate::terr!(
+                "e-interop-geojson-route-applies-to-the-kinds",
+                k = k.as_str()
+            ))
         }
     }
     let route = parse_route(geojson)?;
     let mut value: toml::Value =
-        toml::from_str(src).map_err(|e| format!("invalid scenario TOML: {e}"))?;
+        toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-scenario-toml", e = e))?;
     let default_n = value
         .get("waypoints")
         .and_then(|w| w.as_integer())
         .filter(|&n| n >= 2)
         .map(|n| n as usize)
-        .ok_or(
-            "the scenario has no `waypoints` of 2 or more to spread a two-position route over",
-        )?;
+        .ok_or_else(|| crate::terr!("e-interop-geojson-the-scenario-has-no-waypoints"))?;
     let (la, lo, dla, dlo, n) = route_to_track(&route, default_n, ROUTE_TOLERANCE_DEG)?;
-    let t = value.as_table_mut().ok_or("scenario TOML is not a table")?;
+    let t = value
+        .as_table_mut()
+        .ok_or_else(|| crate::terr!("e-interop-geojson-scenario-toml-is-not-table"))?;
     t.insert("start_lat_deg".into(), toml::Value::Float(la));
     t.insert("start_lon_deg".into(), toml::Value::Float(lo));
     t.insert("step_lat_deg".into(), toml::Value::Float(dla));
     t.insert("step_lon_deg".into(), toml::Value::Float(dlo));
     t.insert("waypoints".into(), toml::Value::Integer(n as i64));
-    toml::to_string(&value).map_err(|e| format!("cannot serialise scenario: {e}"))
+    toml::to_string(&value)
+        .map_err(|e| crate::terr!("e-interop-geojson-cannot-serialise-scenario", e = e))
 }
 
 #[cfg(test)]

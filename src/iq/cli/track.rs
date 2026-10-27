@@ -84,9 +84,9 @@ fn design_with(a: &Args, acq_only: bool) -> Result<(Design, Vec<String>), Fail> 
         }
         None => {
             if a.get("--design-name").is_some() {
-                return Err(Fail::Usage(
-                    "--design-name needs --design <file.toml>".into(),
-                ));
+                return Err(Fail::Usage(crate::terr!(
+                    "e-iq-cli-track-design-name-needs-design-file"
+                )));
             }
             Design::builtin_default()
         }
@@ -202,20 +202,20 @@ pub(crate) fn acquire_inits(
     let mut inits = Vec::new();
     for (code, need) in codes.iter().zip(&needed) {
         if samples.len() < *need {
-            return Err(Fail::Run(format!(
-                "{}: recording holds {} samples, {need} needed to acquire",
-                code.name(),
-                samples.len()
+            return Err(Fail::Run(crate::t!(
+                "iq-cli-track-recording-holds-samples-needed-to",
+                code = code.name(),
+                samples = samples.len(),
+                need = need
             )));
         }
         let found = acquire_peak(&samples, spec, code, &cfg).map_err(Fail::Run)?;
         if !found.acquired {
-            return Err(Fail::Run(format!(
-                "{}: not acquired (statistic {:.2} < threshold {:.2}); raise --doppler-max, \
-                 --acq-coherent or --acq-noncoherent, or check the recording",
-                code.name(),
-                found.statistic,
-                found.threshold
+            return Err(Fail::Run(crate::t!(
+                "iq-cli-track-not-acquired-statistic-threshold-raise",
+                code = code.name(),
+                statistic = crate::i18n::localise_decimal(format!("{:.2}", found.statistic)),
+                threshold = crate::i18n::localise_decimal(format!("{:.2}", found.threshold))
             )));
         }
         let arc: Arc<dyn SpreadingCode + Send + Sync> = Arc::new(code.clone());
@@ -248,10 +248,10 @@ pub(crate) fn run_extra_taps<'a>(
         match &found {
             None => found = Some((d.name().to_string(), taps)),
             Some((first, t)) if *t != taps => {
-                return Err(Fail::Usage(format!(
-                    "designs {first:?} and {:?} differ in integration.extra_taps_chips; the \
-                     designs of one run must agree so every output record has the same columns",
-                    d.name()
+                return Err(Fail::Usage(crate::t!(
+                    "iq-cli-track-designs-and-differ-in-integration",
+                    first = format!("{:?}", first),
+                    d = format!("{:?}", d.name())
                 )))
             }
             Some(_) => {}
@@ -268,9 +268,9 @@ pub(crate) fn threads_from_args(a: &Args) -> Result<usize, Fail> {
         Some("auto") => Ok(std::thread::available_parallelism().map_or(1, |n| n.get())),
         Some(_) => match a.num::<usize>("--threads").map_err(Fail::Usage)? {
             Some(n) if n >= 1 => Ok(n),
-            _ => Err(Fail::Usage(
-                "--threads must be a positive integer or auto".into(),
-            )),
+            _ => Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-track-threads-must-be-positive-integer"
+            ))),
         },
     }
 }
@@ -282,17 +282,16 @@ pub(crate) fn epochs_writer(
 ) -> Result<Option<Box<dyn EpochSink>>, Fail> {
     let Some(p) = a.get("--epochs") else {
         if a.get("--epochs-format").is_some() {
-            return Err(Fail::Usage("--epochs-format needs --epochs <path>".into()));
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-track-epochs-format-needs-epochs-path"
+            )));
         }
         return Ok(None);
     };
     let fmt = match a.get("--epochs-format") {
         Some(f) => EpochFormat::parse(f).map_err(Fail::Usage)?,
         None => EpochFormat::from_path(p).ok_or_else(|| {
-            Fail::Usage(format!(
-                "--epochs {p}: name the format with --epochs-format csv|jsonl|bin, or end the \
-                 path in .csv, .jsonl or .bin"
-            ))
+            Fail::Usage(crate::t!("iq-cli-track-epochs-name-the-format-with", p = p))
         })?,
     };
     Ok(Some(fmt.writer(create(p)?, header)?))
@@ -453,13 +452,12 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .map_err(Fail::Run)?;
         std::fs::write(p, body).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
-    Ok(table(&names, &summary.channels) + &warning_lines(&warnings))
+    Ok(table(&names, &summary.channels) + &warning_lines(&spec, &codes))
 }
 
-/// The `commensurate_sampling` warnings for `codes` on a stream sampled as `spec`: one per
-/// distinct chip rate whose samples per chip is a multiple of 1/2 (see
-/// [`commensurate_samples_per_chip`]).
-pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<serde_json::Value> {
+/// The commensurate-sampling findings for `codes` on a stream sampled as `spec`: the chip rate,
+/// the samples per chip and the code's name, one per distinct chip rate.
+fn commensurate_findings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<(f64, f64, String)> {
     let mut seen: Vec<f64> = Vec::new();
     let mut out = Vec::new();
     for c in codes {
@@ -469,31 +467,48 @@ pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<
         }
         seen.push(rate);
         if let Some(r) = commensurate_samples_per_chip(spec.fs_hz, rate) {
-            out.push(serde_json::json!({
-                "kind": "commensurate_sampling",
-                "fs_hz": spec.fs_hz,
-                "chip_rate_hz": rate,
-                "samples_per_chip": r,
-                "message": format!(
-                    "{} Hz is {r} samples per chip of {}: commensurate sampling turns the code \
-                     discriminator into a staircase (at 2 samples/chip the DLL dithers, about \
-                     0.09 chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this \
-                     recording are not representative. Use a rate that is not a multiple of half \
-                     the chip rate to judge code loops.",
-                    spec.fs_hz,
-                    c.name()
-                ),
-            }));
+            out.push((rate, r, c.name().to_string()));
         }
     }
     out
 }
 
-/// The warnings as lines for the command's printed output.
-pub(crate) fn warning_lines(w: &[serde_json::Value]) -> String {
-    w.iter()
-        .filter_map(|v| v["message"].as_str())
-        .map(|m| format!("\nwarning: {m}"))
+/// The `commensurate_sampling` warnings for `codes` on a stream sampled as `spec`: one per
+/// distinct chip rate whose samples per chip is a multiple of 1/2 (see
+/// [`commensurate_samples_per_chip`]). These go into JSON documents, so their text is English
+/// in every language; [`warning_lines`] is the same warnings for the terminal.
+pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<serde_json::Value> {
+    crate::i18n::in_english(|| {
+        commensurate_findings(spec, codes)
+            .into_iter()
+            .map(|(rate, r, c)| {
+                serde_json::json!({
+                    "kind": "commensurate_sampling",
+                    "fs_hz": spec.fs_hz,
+                    "chip_rate_hz": rate,
+                    "samples_per_chip": r,
+                    "message": commensurate_message(spec.fs_hz, r, &c),
+                })
+            })
+            .collect()
+    })
+}
+
+fn commensurate_message(fs_hz: f64, r: f64, c: &str) -> String {
+    crate::t!(
+        "iq-cli-track-hz-is-samples-per-chip",
+        fs_hz = fs_hz,
+        r = r,
+        c = c,
+        lit_0_09 = crate::i18n::num(0.09_f64, 2)
+    )
+}
+
+/// The warnings as lines for the command's printed output, in the language of the run.
+pub(crate) fn warning_lines(spec: &SampleSpec, codes: &[SignalCode]) -> String {
+    commensurate_findings(spec, codes)
+        .into_iter()
+        .map(|(_, r, c)| format!("\nwarning: {}", commensurate_message(spec.fs_hz, r, &c)))
         .collect()
 }
 

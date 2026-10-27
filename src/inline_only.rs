@@ -65,9 +65,10 @@ pub fn reject_file_fields(toml_text: &str, max_bytes: usize) -> Result<(), Strin
 
 fn check(toml_text: &str, max_bytes: usize, refuse_file_reading_kinds: bool) -> Result<(), String> {
     if toml_text.len() > max_bytes {
-        return Err(format!(
-            "scenario is {} bytes, over the {max_bytes}-byte limit",
-            toml_text.len()
+        return Err(crate::terr!(
+            "e-inline-only-scenario-is-bytes-over-the",
+            toml_text = toml_text.len(),
+            max_bytes = max_bytes
         ));
     }
     let Ok(v) = toml_text.parse::<toml::Table>() else {
@@ -81,9 +82,9 @@ fn check(toml_text: &str, max_bytes: usize, refuse_file_reading_kinds: bool) -> 
     ) -> Result<(), String> {
         let kind = t.get("kind").and_then(toml::Value::as_str).unwrap_or(kind);
         if refuse_kinds && FILE_READING_KINDS.contains(&kind) {
-            return Err(format!(
-                "the scenario kind `{kind}` reads its data from files on the host, so this surface does \
-                 not run it; use the `kshana` command line"
+            return Err(crate::terr!(
+                "e-inline-only-the-scenario-kind-reads-its",
+                kind = kind
             ));
         }
         for (k, v) in t {
@@ -92,8 +93,9 @@ fn check(toml_text: &str, max_bytes: usize, refuse_file_reading_kinds: bool) -> 
                 .any(|(kd, keys)| *kd == kind && keys.contains(&k.as_str()));
             let in_table = k == "path" && FILE_SOURCE_TABLES.contains(&table_name);
             if FILE_SOURCE_KEYS.contains(&k.as_str()) || by_kind || in_table {
-                return Err(format!(
-                    "the field `{k}` names a file: this surface accepts inline content only"
+                return Err(crate::terr!(
+                    "e-inline-only-the-field-names-file-this",
+                    k = k
                 ));
             }
             match v {

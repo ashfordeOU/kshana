@@ -53,79 +53,83 @@ impl Default for Topics {
 /// The JSON state document of one epoch: band, score (null while there is none), the epoch
 /// offset, the reasons, and the advisory statement. Nothing about the position is included.
 pub fn state_json(s: &TrustSample) -> String {
-    json!({
-        "state": s.band.label(),
-        "score": s.score,
-        "untrusted": s.band == Band::Untrusted,
-        "t_s": s.t_s,
-        "time": s.time_label,
-        "reasons": s.reasons,
-        "gate": s.gate,
-        "advisory": "Advisory software, not type-approved navigation or timing equipment.",
+    crate::i18n::in_english(|| {
+        json!({
+            "state": s.band.label(),
+            "score": s.score,
+            "untrusted": s.band == Band::Untrusted,
+            "t_s": s.t_s,
+            "time": s.time_label,
+            "reasons": s.reasons,
+            "gate": s.gate,
+            "advisory": "Advisory software, not type-approved navigation or timing equipment.",
+        })
+        .to_string()
     })
-    .to_string()
 }
 
 /// Home Assistant MQTT discovery messages (retained): a score sensor, a band sensor and an
 /// "untrusted" binary sensor, all reading the state topic.
 pub fn discovery(t: &Topics) -> Vec<Message> {
-    let state = format!("{}/state", t.prefix);
-    let device = json!({
-        "identifiers": [t.node_id],
-        "name": "Kshana GNSS trust",
-        "manufacturer": "Ashforde OÜ",
-    });
-    let mk = |kind: &str, obj: &str, name: &str, extra: serde_json::Value| {
-        let mut c = json!({
-            "name": name,
-            "unique_id": format!("{}_{obj}", t.node_id),
-            "state_topic": state,
-            "device": device,
+    crate::i18n::in_english(|| {
+        let state = format!("{}/state", t.prefix);
+        let device = json!({
+            "identifiers": [t.node_id],
+            "name": "Kshana GNSS trust",
+            "manufacturer": "Ashforde OÜ",
         });
-        if let (Some(c), Some(e)) = (c.as_object_mut(), extra.as_object()) {
-            for (k, v) in e {
-                c.insert(k.clone(), v.clone());
+        let mk = |kind: &str, obj: &str, name: &str, extra: serde_json::Value| {
+            let mut c = json!({
+                "name": name,
+                "unique_id": format!("{}_{obj}", t.node_id),
+                "state_topic": state,
+                "device": device,
+            });
+            if let (Some(c), Some(e)) = (c.as_object_mut(), extra.as_object()) {
+                for (k, v) in e {
+                    c.insert(k.clone(), v.clone());
+                }
             }
-        }
-        Message {
-            topic: format!("{}/{kind}/{}/{obj}/config", t.discovery_prefix, t.node_id),
-            payload: c.to_string(),
-            retain: true,
-        }
-    };
-    vec![
-        mk(
-            "sensor",
-            "score",
-            "GNSS trust score",
-            json!({"value_template": "{{ value_json.score }}", "unit_of_measurement": "points",
+            Message {
+                topic: format!("{}/{kind}/{}/{obj}/config", t.discovery_prefix, t.node_id),
+                payload: c.to_string(),
+                retain: true,
+            }
+        };
+        vec![
+            mk(
+                "sensor",
+                "score",
+                "GNSS trust score",
+                json!({"value_template": "{{ value_json.score }}", "unit_of_measurement": "points",
                    "state_class": "measurement"}),
-        ),
-        mk(
-            "sensor",
-            "band",
-            "GNSS trust band",
-            json!({"value_template": "{{ value_json.state }}",
+            ),
+            mk(
+                "sensor",
+                "band",
+                "GNSS trust band",
+                json!({"value_template": "{{ value_json.state }}",
                    "json_attributes_topic": state,
                    "json_attributes_template": "{{ {'reasons': value_json.reasons} | tojson }}"}),
-        ),
-        mk(
-            "binary_sensor",
-            "untrusted",
-            "GNSS untrusted",
-            json!({"value_template": "{{ 'ON' if value_json.untrusted else 'OFF' }}",
+            ),
+            mk(
+                "binary_sensor",
+                "untrusted",
+                "GNSS untrusted",
+                json!({"value_template": "{{ 'ON' if value_json.untrusted else 'OFF' }}",
                    "payload_on": "ON", "payload_off": "OFF", "device_class": "problem"}),
-        ),
-    ]
+            ),
+        ]
+    })
 }
 
 /// The state message for one epoch.
 pub fn state_message(t: &Topics, s: &TrustSample) -> Message {
-    Message {
+    crate::i18n::in_english(|| Message {
         topic: format!("{}/state", t.prefix),
         payload: state_json(s),
         retain: true,
-    }
+    })
 }
 
 fn put_str(out: &mut Vec<u8>, s: &str) {

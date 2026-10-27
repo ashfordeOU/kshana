@@ -145,51 +145,64 @@ pub fn parse_crd(label: &str, text: &str) -> Result<Vec<LlrNormalPoint>, String>
             "h1" | "H1" => {
                 // h1 CRD <version> <production date…>
                 if f.len() < 3 {
-                    return Err(at("short h1 record"));
+                    return Err(at(&crate::terr!("e-realdata-llr-crd-short-h1-record")));
                 }
-                let v: u32 = f[2]
-                    .parse()
-                    .map_err(|_| at(&format!("unreadable CRD version {:?}", f[2])))?;
+                let v: u32 = f[2].parse().map_err(|_| {
+                    at(&crate::t!(
+                        "realdata-llr-crd-unreadable-crd-version",
+                        f = format!("{:?}", f[2])
+                    ))
+                })?;
                 if v != 1 && v != 2 {
-                    return Err(at(&format!(
-                        "CRD format version {v} is not supported (only 1 and 2 share the \
-                         record-11 field order this reader relies on)"
+                    return Err(at(&crate::t!(
+                        "realdata-llr-crd-crd-format-version-is-not",
+                        v = v
                     )));
                 }
             }
             "h2" | "H2" => {
                 if f.len() < 6 {
-                    return Err(at("short h2 (station) record"));
+                    return Err(at(&crate::terr!("e-realdata-llr-crd-short-h2-record")));
                 }
                 station_name = f[1].to_string();
-                station_id = f[2]
-                    .parse()
-                    .map_err(|_| at(&format!("unreadable station id {:?}", f[2])))?;
-                time_scale = f[5]
-                    .parse()
-                    .map_err(|_| at(&format!("unreadable time scale {:?}", f[5])))?;
+                station_id = f[2].parse().map_err(|_| {
+                    at(&crate::t!(
+                        "realdata-llr-crd-unreadable-station-id",
+                        f = format!("{:?}", f[2])
+                    ))
+                })?;
+                time_scale = f[5].parse().map_err(|_| {
+                    at(&crate::t!(
+                        "realdata-llr-crd-unreadable-time-scale",
+                        f = format!("{:?}", f[5])
+                    ))
+                })?;
                 if !matches!(time_scale, 3 | 4 | 7) {
-                    return Err(at(&format!(
-                        "CRD epoch time scale {time_scale} is not one of the three the \
-                         format specification says analysts accept (3 = UTC(USNO), \
-                         4 = UTC(GPS), 7 = UTC(BIH)); refusing to read it as UTC"
+                    return Err(at(&crate::t!(
+                        "realdata-llr-crd-crd-epoch-time-scale-is",
+                        time_scale = time_scale
                     )));
                 }
             }
             "h3" | "H3" => {
                 if f.len() < 2 {
-                    return Err(at("short h3 (target) record"));
+                    return Err(at(&crate::terr!("e-realdata-llr-crd-short-h3-record")));
                 }
                 target = f[1].to_string();
             }
             "h4" | "H4" => {
                 // h4 <data type> <sy sm sd sh smin ssec> <ey em ed eh emin esec> …
                 if f.len() < 14 {
-                    return Err(at("short h4 (session) record"));
+                    return Err(at(&crate::terr!("e-realdata-llr-crd-short-h4-record")));
                 }
                 let num = |i: usize| -> Result<f64, String> {
-                    f[i].parse::<f64>()
-                        .map_err(|_| at(&format!("unreadable h4 field {i}: {:?}", f[i])))
+                    f[i].parse::<f64>().map_err(|_| {
+                        at(&crate::t!(
+                            "realdata-llr-crd-unreadable-h4-field",
+                            i = i,
+                            f = format!("{:?}", f[i])
+                        ))
+                    })
                 };
                 let (y, mo, d) = (num(2)? as i32, num(3)? as u32, num(4)? as u32);
                 let (h, mi, s) = (num(5)?, num(6)?, num(7)?);
@@ -198,27 +211,40 @@ pub fn parse_crd(label: &str, text: &str) -> Result<Vec<LlrNormalPoint>, String>
             }
             "11" => {
                 if f.len() < 7 {
-                    return Err(at("short normal-point (11) record"));
+                    return Err(at(&crate::terr!(
+                        "e-realdata-llr-crd-short-normal-point-11-record"
+                    )));
                 }
                 if station_id == 0 || target.is_empty() || !start_jd.is_finite() {
-                    return Err(at(
-                        "a normal-point record appeared before its h2/h3/h4 session header",
-                    ));
+                    return Err(at(&crate::terr!(
+                        "e-realdata-llr-crd-normal-point-record-appeared-before"
+                    )));
                 }
                 let num = |i: usize| -> Result<f64, String> {
-                    f[i].parse::<f64>()
-                        .map_err(|_| at(&format!("unreadable field {i}: {:?}", f[i])))
+                    f[i].parse::<f64>().map_err(|_| {
+                        at(&crate::t!(
+                            "realdata-llr-crd-unreadable-field",
+                            i = i,
+                            f = format!("{:?}", f[i])
+                        ))
+                    })
                 };
                 let mut sod = num(1)?;
                 let tof = num(2)?;
-                let epoch_event: u32 = f[4]
-                    .parse()
-                    .map_err(|_| at(&format!("unreadable epoch event {:?}", f[4])))?;
+                let epoch_event: u32 = f[4].parse().map_err(|_| {
+                    at(&crate::t!(
+                        "realdata-llr-crd-unreadable-epoch-event",
+                        f = format!("{:?}", f[4])
+                    ))
+                })?;
                 let window = num(5)?;
                 let raw_ranges: u32 = num(6)? as u32;
                 let bin_rms = num(7).unwrap_or(0.0);
                 if !(tof.is_finite() && tof > 0.0) {
-                    return Err(at(&format!("non-physical time of flight {tof}")));
+                    return Err(at(&crate::t!(
+                        "realdata-llr-crd-non-physical-time-of-flight",
+                        tof = tof
+                    )));
                 }
                 // A session that crosses midnight keeps counting seconds of day from the new
                 // day while `h4` still names the old one. More than twelve hours *before* the
@@ -251,22 +277,27 @@ pub fn parse_crd(label: &str, text: &str) -> Result<Vec<LlrNormalPoint>, String>
 /// information matrix summed in a different order is a different float.
 pub fn read_crd_dir(dir: &Path) -> Result<Vec<LlrNormalPoint>, String> {
     let mut paths: Vec<_> = std::fs::read_dir(dir)
-        .map_err(|e| format!("cannot read normal-point directory {}: {e}", dir.display()))?
+        .map_err(|e| {
+            crate::terr!(
+                "e-realdata-llr-crd-cannot-read-normal-point-directory",
+                dir = dir.display(),
+                e = e
+            )
+        })?
         .filter_map(|e| e.ok().map(|e| e.path()))
         .filter(|p| p.extension().and_then(|s| s.to_str()) == Some("npt"))
         .collect();
     paths.sort();
     if paths.is_empty() {
-        return Err(format!(
-            "no *.npt normal-point files in {} — this scenario reads real archived \
-             measurements and will not run without them",
-            dir.display()
+        return Err(crate::terr!(
+            "e-realdata-llr-crd-no-npt-normal-point-files",
+            dir = dir.display()
         ));
     }
     let mut all = Vec::new();
     for p in &paths {
-        let text =
-            std::fs::read_to_string(p).map_err(|e| format!("cannot read {}: {e}", p.display()))?;
+        let text = std::fs::read_to_string(p)
+            .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-3", p = p.display(), e = e))?;
         let name = p
             .file_name()
             .and_then(|s| s.to_str())

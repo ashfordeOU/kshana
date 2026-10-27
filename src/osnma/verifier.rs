@@ -116,8 +116,10 @@ impl Config {
     /// Reject settings that would silently weaken the checks.
     pub fn validate(&self) -> Result<(), String> {
         match self.max_time_error_s {
-            Some(t) if t >= SUBFRAME_S => Err(format!(
-                "the time tolerance must be below one sub-frame ({SUBFRAME_S} s), got {t} s"
+            Some(t) if t >= SUBFRAME_S => Err(crate::terr!(
+                "e-osnma-verifier-the-time-tolerance-must-be",
+                SUBFRAME_S = SUBFRAME_S,
+                t = t
             )),
             _ => Ok(()),
         }

@@ -174,8 +174,10 @@ impl IntegrityCfg {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!(
-                    "integrity: {n} must be finite and positive, got {v}"
+                Err(crate::terr!(
+                    "e-clock-integrity-integrity-must-be-finite-and",
+                    n = n,
+                    v = v
                 ))
             }
         };
@@ -184,21 +186,31 @@ impl IntegrityCfg {
         pos("val_m", self.val_m)?;
         for (n, v) in [("p_fa", self.p_fa), ("p_md", self.p_md)] {
             if !(v > 0.0 && v < 1.0) {
-                return Err(format!("integrity: {n} must lie in (0, 1), got {v}"));
+                return Err(crate::terr!(
+                    "e-clock-integrity-integrity-must-lie-in-got",
+                    n = n,
+                    v = v
+                ));
             }
         }
         if !(self.mask_deg.is_finite() && (0.0..90.0).contains(&self.mask_deg)) {
-            return Err("integrity: mask_deg must lie in [0, 90)".into());
+            return Err(crate::terr!(
+                "e-clock-integrity-integrity-mask-deg-must-lie"
+            ));
         }
         if let Some(s) = self.step_s {
             pos("step_s", s)?;
         }
         if self.systems.is_empty() {
-            return Err("integrity: systems must name at least one preset".into());
+            return Err(crate::terr!(
+                "e-clock-integrity-integrity-systems-must-name-at"
+            ));
         }
         if let Some(b) = &self.injected_bias {
             if !(b.bias_m.is_finite() && b.t0_s.is_finite() && b.t1_s.is_finite()) {
-                return Err("integrity: injected_bias needs finite bias_m, t0_s and t1_s".into());
+                return Err(crate::terr!(
+                    "e-clock-integrity-integrity-injected-bias-needs-finite"
+                ));
             }
         }
         Ok(())
@@ -258,8 +270,10 @@ pub fn run(scn: &Scenario, cfg: &IntegrityCfg) -> Result<IntegrityFom, String> {
     let step = cfg.step_s.unwrap_or(scn.time.step_s.max(60.0));
     let n = (scn.time.duration_s / step).floor() as usize + 1;
     if n > MAX_EPOCHS {
-        return Err(format!(
-            "integrity: {n} epochs exceed the {MAX_EPOCHS}-epoch cap; raise step_s"
+        return Err(crate::terr!(
+            "e-clock-integrity-integrity-epochs-exceed-the-epoch",
+            n = n,
+            MAX_EPOCHS = MAX_EPOCHS
         ));
     }
     let user = crate::geometry::site_ecef(&cfg.site)?;

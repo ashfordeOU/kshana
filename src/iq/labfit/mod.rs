@@ -101,9 +101,12 @@ pub fn load_runs(sc: &LabFitScenario) -> Result<Vec<LabRun>, String> {
     sc.runs
         .iter()
         .map(|r| {
-            let bytes = load_source(&r.log.source, &format!("run `{}` log", r.label))?;
-            let timeline =
-                read_log(r.log.format, &bytes).map_err(|e| format!("run `{}`: {e}", r.label))?;
+            let bytes = load_source(
+                &r.log.source,
+                &crate::t!("iq-labfit-run-log", label = r.label),
+            )?;
+            let timeline = read_log(r.log.format, &bytes)
+                .map_err(|e| crate::terr!("e-iq-labfit-run", label = r.label, e = e))?;
             Ok(LabRun {
                 label: r.label.clone(),
                 sha256: format!("{:x}", Sha256::digest(&bytes)),
@@ -173,9 +176,10 @@ pub fn campaign_dir(sc: &LabFitScenario) -> Option<&str> {
 /// Native builds only.
 #[cfg(not(target_arch = "wasm32"))]
 pub fn run_campaign_scenario(sc: &LabFitScenario) -> Result<LabFitIqOutput, String> {
-    let dir = campaign_dir(sc).ok_or("the scenario's [input] names no campaign")?;
+    let dir =
+        campaign_dir(sc).ok_or_else(|| crate::terr!("e-iq-labfit-the-scenario-input-names-no"))?;
     if !sc.runs.is_empty() {
-        return Err("[input] campaign and [[runs]] are exclusive: give one".into());
+        return Err(crate::terr!("e-iq-labfit-input-campaign-and-runs-are"));
     }
     let data = campaign::load(std::path::Path::new(dir))?;
     let report = iqfit::analyse(&data, sc)?;
@@ -191,7 +195,8 @@ pub fn run_campaign_scenario(sc: &LabFitScenario) -> Result<LabFitIqOutput, Stri
 /// The output of either path, as the surfaces return it: the JSON report and its CSV and
 /// Markdown views.
 pub fn run_toml_views(src: &str) -> Result<[String; 4], String> {
-    let sc: LabFitScenario = toml::from_str(src).map_err(|e| format!("iq-labfit scenario: {e}"))?;
+    let sc: LabFitScenario =
+        toml::from_str(src).map_err(|e| crate::terr!("e-iq-labfit-iq-labfit-scenario", e = e))?;
     if campaign_dir(&sc).is_some() {
         #[cfg(not(target_arch = "wasm32"))]
         {
@@ -200,12 +205,7 @@ pub fn run_toml_views(src: &str) -> Result<[String; 4], String> {
         }
         #[cfg(target_arch = "wasm32")]
         {
-            Err(
-                "[input] campaign: a fit from an IQ campaign folder needs the native build \
-                 (the campaign layer is not built for WebAssembly); the receiver-log path \
-                 ([[runs]]) works here"
-                    .into(),
-            )
+            Err(crate::terr!("e-iq-labfit-input-campaign-fit-from-an"))
         }
     } else {
         let o = run_scenario(&sc)?;
@@ -216,6 +216,7 @@ pub fn run_toml_views(src: &str) -> Result<[String; 4], String> {
 /// Parse a TOML scenario and run it. Relative log paths are read relative to the
 /// working directory.
 pub fn run_toml(src: &str) -> Result<LabFitOutput, String> {
-    let sc: LabFitScenario = toml::from_str(src).map_err(|e| format!("iq-labfit scenario: {e}"))?;
+    let sc: LabFitScenario =
+        toml::from_str(src).map_err(|e| crate::terr!("e-iq-labfit-iq-labfit-scenario", e = e))?;
     run_scenario(&sc)
 }

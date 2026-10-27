@@ -327,7 +327,10 @@ impl BitWriter {
 /// Quantise a value to a field's integer code, refusing values outside its range.
 pub fn quantise(spec: &FieldSpec, value: f64) -> Result<i64, String> {
     if !value.is_finite() {
-        return Err(format!("field {} is not finite", spec.name));
+        return Err(crate::terr!(
+            "e-leo-navmsg-codec-field-is-not-finite",
+            name = spec.name
+        ));
     }
     let q = (value / spec.lsb).round();
     let (lo, hi) = if spec.signed {
@@ -339,12 +342,13 @@ pub fn quantise(spec: &FieldSpec, value: f64) -> Result<i64, String> {
         (0.0, 2f64.ppowi(spec.bits as i32) - 1.0)
     };
     if q < lo || q > hi {
-        return Err(format!(
-            "field {} = {value:e} {} is outside its {}-bit range (|x| <= {:e})",
-            spec.name,
-            spec.unit,
-            spec.bits,
-            spec.range()
+        return Err(crate::terr!(
+            "e-leo-navmsg-codec-field-is-outside-its-bit",
+            name = spec.name,
+            value = crate::i18n::localise_decimal(format!("{:e}", value)),
+            unit = spec.unit,
+            bits = spec.bits,
+            spec = crate::i18n::localise_decimal(format!("{:e}", spec.range()))
         ));
     }
     Ok(q as i64)
@@ -377,7 +381,7 @@ impl<'a> BitReader<'a> {
 
     fn pull(&mut self, bits: u8) -> Result<u64, String> {
         if self.pos + bits as usize > self.bytes.len() * 8 {
-            return Err("message truncated".to_string());
+            return Err(crate::terr!("e-leo-navmsg-codec-message-truncated"));
         }
         let mut v = 0u64;
         for _ in 0..bits {
@@ -418,9 +422,16 @@ impl Sink for FieldList {
 
 impl Source for FieldList {
     fn take(&mut self, spec: FieldSpec) -> Result<f64, String> {
-        let (s, v) = *self.fields.get(self.cursor).ok_or("field list exhausted")?;
+        let (s, v) = *self
+            .fields
+            .get(self.cursor)
+            .ok_or_else(|| crate::terr!("e-leo-navmsg-codec-field-list-exhausted"))?;
         if s.name != spec.name {
-            return Err(format!("field order mismatch: {} vs {}", s.name, spec.name));
+            return Err(crate::terr!(
+                "e-leo-navmsg-codec-field-order-mismatch-vs",
+                name = s.name,
+                name2 = spec.name
+            ));
         }
         self.cursor += 1;
         Ok(v)
@@ -480,7 +491,7 @@ fn take_kepler<S: Source>(s: &mut S) -> Result<Keplerian, String> {
 /// Write every payload field of `msg` into `s`, in transmission order.
 pub fn write_payload<S: Sink>(s: &mut S, msg: &LeoNavMessage) -> Result<(), String> {
     if msg.svid == 0 {
-        return Err("SVID must be 1-255".to_string());
+        return Err(crate::terr!("e-leo-navmsg-codec-svid-must-be-255"));
     }
     s.put(F_SVID, msg.svid as f64)?;
     s.put(F_IOD, msg.iod as f64)?;
@@ -509,15 +520,17 @@ pub fn write_payload<S: Sink>(s: &mut S, msg: &LeoNavMessage) -> Result<(), Stri
                 (&rac.radial, F_DEG_R),
             ] {
                 if list.is_empty() || list.len() > 8 {
-                    return Err("each correction polynomial needs 1-8 coefficients".to_string());
+                    return Err(crate::terr!(
+                        "e-leo-navmsg-codec-each-correction-polynomial-needs-coefficients"
+                    ));
                 }
                 s.put(spec, (list.len() - 1) as f64)?;
             }
             let e = rac.tau_s.plog2();
             if !(0.0..=15.0).contains(&e) || e.fract() != 0.0 {
-                return Err(format!(
-                    "correction time scale must be a power of two from 1 s to 32768 s; got {}",
-                    rac.tau_s
+                return Err(crate::terr!(
+                    "e-leo-navmsg-codec-correction-time-scale-must-be",
+                    tau_s = rac.tau_s
                 ));
             }
             s.put(F_RAC_TAU, e)?;
@@ -543,7 +556,9 @@ pub fn write_payload<S: Sink>(s: &mut S, msg: &LeoNavMessage) -> Result<(), Stri
         EphemerisModel::EcefPoly { poly } => {
             let n = poly.coeffs[0].len();
             if n == 0 || n > 11 || poly.coeffs.iter().any(|c| c.len() != n) {
-                return Err("ECEF polynomial needs 1-11 coefficients, equal per axis".to_string());
+                return Err(crate::terr!(
+                    "e-leo-navmsg-codec-ecef-polynomial-needs-11-coefficients"
+                ));
             }
             s.put(F_TREF, poly.t_ref)?;
             s.put(F_PDEG, (n - 1) as f64)?;
@@ -655,7 +670,10 @@ pub fn read_payload<S: Source>(s: &mut S, model: u8) -> Result<LeoNavMessage, St
             let t_ref = s.take(F_TREF)?;
             let n = s.take(F_PDEG)? as usize + 1;
             if n > 11 {
-                return Err(format!("ECEF polynomial degree {} exceeds 10", n - 1));
+                return Err(crate::terr!(
+                    "e-leo-navmsg-codec-ecef-polynomial-degree-exceeds-10",
+                    v1 = n - 1
+                ));
             }
             let mut coeffs: [Vec<f64>; 3] = Default::default();
             for (ax, names) in [NAMES_X, NAMES_Y, NAMES_Z].iter().enumerate() {
@@ -667,7 +685,7 @@ pub fn read_payload<S: Source>(s: &mut S, model: u8) -> Result<LeoNavMessage, St
                 poly: EcefPoly { t_ref, coeffs },
             }
         }
-        m => return Err(format!("unknown model id {m}")),
+        m => return Err(crate::terr!("e-leo-navmsg-codec-unknown-model-id", m = m)),
     };
     let mut services = Services::default();
     if flags & 2 != 0 {
@@ -735,7 +753,9 @@ pub fn encode(msg: &LeoNavMessage) -> Result<Vec<u8>, String> {
     write_payload(&mut w, msg)?;
     let payload = w.into_bytes();
     if payload.len() > 4095 {
-        return Err("payload exceeds 4095 bytes".to_string());
+        return Err(crate::terr!(
+            "e-leo-navmsg-codec-payload-exceeds-4095-bytes"
+        ));
     }
     let mut frame = Vec::with_capacity(payload.len() + 6);
     frame.push(PREAMBLE);
@@ -787,21 +807,30 @@ pub fn ephemeris_clock_bits(msg: &LeoNavMessage) -> Result<usize, String> {
 /// Decode a frame, checking the preamble, version, length and CRC-24Q.
 pub fn decode(frame: &[u8]) -> Result<LeoNavMessage, String> {
     if frame.len() < 7 {
-        return Err("frame shorter than header and CRC".to_string());
+        return Err(crate::terr!(
+            "e-leo-navmsg-codec-frame-shorter-than-header-and"
+        ));
     }
     if frame[0] != PREAMBLE {
-        return Err(format!("bad preamble 0x{:02X}", frame[0]));
+        return Err(crate::terr!(
+            "e-leo-navmsg-codec-bad-preamble-0x",
+            frame = format!("{:02X}", frame[0])
+        ));
     }
     let version = frame[1] >> 4;
     if version != VERSION {
-        return Err(format!("unsupported version {version}"));
+        return Err(crate::terr!(
+            "e-leo-navmsg-codec-unsupported-version",
+            version = version
+        ));
     }
     let model = frame[1] & 0x0F;
     let len = ((frame[2] as usize) << 4) | (frame[3] as usize >> 4);
     if frame.len() != 4 + len + 3 {
-        return Err(format!(
-            "frame length {} does not match the declared payload of {len} bytes",
-            frame.len()
+        return Err(crate::terr!(
+            "e-leo-navmsg-codec-frame-length-does-not-match",
+            frame = frame.len(),
+            len = len
         ));
     }
     let body = &frame[..4 + len];
@@ -809,8 +838,10 @@ pub fn decode(frame: &[u8]) -> Result<LeoNavMessage, String> {
     let got =
         ((frame[4 + len] as u32) << 16) | ((frame[5 + len] as u32) << 8) | frame[6 + len] as u32;
     if crc != got {
-        return Err(format!(
-            "CRC-24Q mismatch: computed 0x{crc:06X}, frame carries 0x{got:06X}"
+        return Err(crate::terr!(
+            "e-leo-navmsg-codec-crc-24q-mismatch-computed-0x",
+            crc = format!("{:06X}", crc),
+            got = format!("{:06X}", got)
         ));
     }
     let mut r = BitReader::new(&frame[4..4 + len]);

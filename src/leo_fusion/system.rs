@@ -254,7 +254,10 @@ impl SystemCfg {
         let sig = match leo {
             Some(p) if !p.signals.is_empty() => Some(p.signal(self.signal.as_deref())?),
             Some(p) if self.signal.is_some() => {
-                return Err(format!("preset {} carries no signal", p.id))
+                return Err(crate::terr!(
+                    "e-leo-fusion-presets-preset-carries-no-signal",
+                    id = p.id
+                ))
             }
             _ => None,
         };
@@ -285,9 +288,10 @@ impl SystemCfg {
             Some("gnss") => "gnss",
             Some("leo") => "leo",
             Some(r) => {
-                return Err(format!(
-                    "system {:?}: role must be gnss or leo, got {r:?}",
-                    self.name
+                return Err(crate::terr!(
+                    "e-leo-fusion-system-system-role-must-be-gnss",
+                    name = format!("{:?}", self.name),
+                    r = format!("{:?}", r)
                 ))
             }
             None if leo.is_some() || mean_alt < 3.0e6 => "leo",
@@ -334,9 +338,10 @@ impl SystemCfg {
             "estimated" => SystemClock::Estimated,
             "known" => SystemClock::Known(0.0),
             c => {
-                return Err(format!(
-                    "system {:?}: clock must be estimated or known, got {c:?}",
-                    self.name
+                return Err(crate::terr!(
+                    "e-leo-fusion-system-system-clock-must-be-estimated",
+                    name = format!("{:?}", self.name),
+                    c = format!("{:?}", c)
                 ))
             }
         };
@@ -347,20 +352,24 @@ impl SystemCfg {
             ("sigma_doppler_hz", sigma_doppler_hz),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return Err(format!("system {:?}: {what} must be positive", self.name));
+                return Err(crate::terr!(
+                    "e-leo-fusion-system-system-must-be-positive",
+                    name = format!("{:?}", self.name),
+                    what = what
+                ));
             }
         }
         if !(0.0..90.0).contains(&mask) {
-            return Err(format!(
-                "system {:?}: mask_deg must be in [0, 90)",
-                self.name
+            return Err(crate::terr!(
+                "e-leo-fusion-system-system-mask-deg-must-be",
+                name = format!("{:?}", self.name)
             ));
         }
         if let Some(s) = self.sigma_pr_m {
             if !(s.is_finite() && s > 0.0) {
-                return Err(format!(
-                    "system {:?}: sigma_pr_m must be positive",
-                    self.name
+                return Err(crate::terr!(
+                    "e-leo-fusion-system-system-sigma-pr-must-be",
+                    name = format!("{:?}", self.name)
                 ));
             }
         }
@@ -422,7 +431,7 @@ pub fn masked_count(systems: &[System], user: [f64; 3], up: [f64; 3], t: f64) ->
 /// Build every system of a run; at least one is required.
 pub fn build_all(cfgs: &[SystemCfg]) -> Result<Vec<System>, String> {
     if cfgs.is_empty() {
-        return Err("give at least one [[system]]".into());
+        return Err(crate::terr!("e-leo-fusion-system-give-at-least-one-system"));
     }
     cfgs.iter().map(|c| c.build()).collect()
 }

@@ -697,7 +697,9 @@ impl LunarAttackSurfaceScenario {
     /// Compose the six analyses into an [`AttackSurface`] result.
     pub fn analyse(&self) -> Result<AttackSurface, String> {
         if self.standoffs_m.is_empty() {
-            return Err("standoffs_m must contain at least one standoff".to_string());
+            return Err(crate::terr!(
+                "e-attack-surface-standoffs-must-contain-at-least"
+            ));
         }
 
         // 1. Link-budget deficit + sensitivity band.
@@ -763,11 +765,10 @@ impl LunarAttackSurfaceScenario {
             self.footprint_grid,
         );
         let fp = capture_footprint(&fp_params);
-        let fp_limb = fp
-            .points
-            .last()
-            .copied()
-            .ok_or_else(|| "capture_footprint emitted no points".to_string())?;
+        let fp_limb =
+            fp.points.last().copied().ok_or_else(|| {
+                crate::terr!("e-attack-surface-capture-footprint-emitted-no-points")
+            })?;
         let footprint_sweep = capture_footprint_sweep(
             &fp_params,
             &SweepAxis {
@@ -867,27 +868,35 @@ impl LunarAttackSurfaceScenario {
                 1.0 / a.deficit_factor_unrounded,
             )
         };
-        let summary = format!(
-            "lunar-attack-surface | AFS {:.1} dBW, {sense} {:.1} dB (band {:.1}–{:.1}, \
-             {:.0}×/{:.0}× {sense}) | \
-             spoof@{:.0} m {:.3} W | footprint {:.0}% cap, limb {} | spoof-capture {} (lock {:.2} s) | \
-             mast reach {:.1} km | OSNMA {:.0} bit/s ({:.0}% of 50 bit/s), {:.0} s latency",
-            a.afs_received_dbw,
-            a.deficit_db.abs(),
-            a.deficit_band_lo_db,
-            a.deficit_band_hi_db,
-            shown_rounded,
-            shown_unrounded,
-            self.standoffs_m[0],
-            nearest,
-            a.footprint_captured_fraction * 100.0,
-            a.footprint_limb_captured,
-            a.spoof_captured,
-            a.spoof_lock_time_s,
-            a.surface_transmitter_reach_m / 1000.0,
-            a.nma_overhead_bps,
-            a.nma_overhead_fraction * 100.0,
-            a.nma_auth_latency_s,
+        let summary = crate::t!(
+            "attack-surface-lunar-attack-surface-afs-dbw",
+            afs_received_dbw = crate::i18n::localise_decimal(format!("{:.1}", a.afs_received_dbw)),
+            sense = sense,
+            a = crate::i18n::localise_decimal(format!("{:.1}", a.deficit_db.abs())),
+            deficit_band_lo_db =
+                crate::i18n::localise_decimal(format!("{:.1}", a.deficit_band_lo_db)),
+            deficit_band_hi_db =
+                crate::i18n::localise_decimal(format!("{:.1}", a.deficit_band_hi_db)),
+            shown_rounded = crate::i18n::localise_decimal(format!("{:.0}", shown_rounded)),
+            shown_unrounded = crate::i18n::localise_decimal(format!("{:.0}", shown_unrounded)),
+            value = crate::i18n::localise_decimal(format!("{:.0}", self.standoffs_m[0])),
+            nearest = crate::i18n::localise_decimal(format!("{:.3}", nearest)),
+            a2 = crate::i18n::localise_decimal(format!(
+                "{:.0}",
+                a.footprint_captured_fraction * 100.0
+            )),
+            footprint_limb_captured = a.footprint_limb_captured,
+            spoof_captured = a.spoof_captured,
+            spoof_lock_time_s =
+                crate::i18n::localise_decimal(format!("{:.2}", a.spoof_lock_time_s)),
+            a3 = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                a.surface_transmitter_reach_m / 1000.0
+            )),
+            nma_overhead_bps = crate::i18n::localise_decimal(format!("{:.0}", a.nma_overhead_bps)),
+            a4 = crate::i18n::localise_decimal(format!("{:.0}", a.nma_overhead_fraction * 100.0)),
+            nma_auth_latency_s =
+                crate::i18n::localise_decimal(format!("{:.0}", a.nma_auth_latency_s))
         );
         // Appended, never interleaved: every character of the summary above is unchanged,
         // so the pre-existing line remains an exact prefix of this one.
@@ -916,65 +925,99 @@ impl LunarAttackSurfaceScenario {
             .copied()
             .fold(f64::NEG_INFINITY, f64::max);
         let limb = if lt.reached {
-            format!(
-                "reached ({} crossing(s), best {:.1} dB)",
-                lt.crossings.len(),
-                lt.best_limb_js_db
+            crate::t!(
+                "attack-surface-reached-crossing-best-db",
+                crossings = lt.crossings.len(),
+                best_limb_js_db =
+                    crate::i18n::localise_decimal(format!("{:.1}", lt.best_limb_js_db))
             )
         } else {
-            format!(
-                "NOT reached on this grid (best {:.1} dB, {:.1} dB short; needs {:.1} dBW vs {:.1} dBW)",
-                lt.best_limb_js_db,
-                lt.best_limb_shortfall_db,
-                lt.best_limb_capture_tx_power_dbw,
-                s.p_tx_dbw
+            crate::t!(
+                "attack-surface-not-reached-on-this-grid",
+                best_limb_js_db =
+                    crate::i18n::localise_decimal(format!("{:.1}", lt.best_limb_js_db)),
+                best_limb_shortfall_db =
+                    crate::i18n::localise_decimal(format!("{:.1}", lt.best_limb_shortfall_db)),
+                best_limb_capture_tx_power_dbw = crate::i18n::localise_decimal(format!(
+                    "{:.1}",
+                    lt.best_limb_capture_tx_power_dbw
+                )),
+                p_tx_dbw = crate::i18n::localise_decimal(format!("{:.1}", s.p_tx_dbw))
             )
         };
-        format!(
-            " | footprint sweep {}x{} (alt {:.0}-{:.0} km x HPBW {bw_lo:.2}-{bw_hi:.2} deg), \
-             capture {:.1}-{:.1}% | limb {limb}",
-            s.shape.first().copied().unwrap_or(0),
-            s.shape.get(1).copied().unwrap_or(0),
-            alt_lo / 1000.0,
-            alt_hi / 1000.0,
-            100.0
-                * s.points
-                    .iter()
-                    .map(|p| p.captured_fraction)
-                    .fold(f64::INFINITY, f64::min),
-            100.0
-                * s.points
-                    .iter()
-                    .map(|p| p.captured_fraction)
-                    .fold(f64::NEG_INFINITY, f64::max),
+        crate::t!(
+            "attack-surface-footprint-sweep-alt-km-hpbw",
+            s = s.shape.first().copied().unwrap_or(0),
+            s2 = s.shape.get(1).copied().unwrap_or(0),
+            v3 = crate::i18n::localise_decimal(format!("{:.0}", alt_lo / 1000.0)),
+            v4 = crate::i18n::localise_decimal(format!("{:.0}", alt_hi / 1000.0)),
+            bw_lo = crate::i18n::localise_decimal(format!("{:.2}", bw_lo)),
+            bw_hi = crate::i18n::localise_decimal(format!("{:.2}", bw_hi)),
+            v5 = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                100.0
+                    * s.points
+                        .iter()
+                        .map(|p| p.captured_fraction)
+                        .fold(f64::INFINITY, f64::min)
+            )),
+            v6 = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                100.0
+                    * s.points
+                        .iter()
+                        .map(|p| p.captured_fraction)
+                        .fold(f64::NEG_INFINITY, f64::max)
+            )),
+            limb = limb
         )
     }
 
     fn svg(&self, a: &AttackSurface) -> String {
         let lines = [
-            format!("AFS received: {:.1} dBW", a.afs_received_dbw),
-            format!(
-                "Deficit: {:.1} dB (band {:.1}-{:.1} dB, {:.0}x/{:.0}x)",
-                a.deficit_db,
-                a.deficit_band_lo_db,
-                a.deficit_band_hi_db,
-                a.deficit_factor_rounded,
-                a.deficit_factor_unrounded
+            crate::t!(
+                "attack-surface-afs-received-dbw",
+                afs_received_dbw =
+                    crate::i18n::localise_decimal(format!("{:.1}", a.afs_received_dbw))
             ),
-            format!(
-                "Capture footprint: {:.0}% of disk, limb captured: {}",
-                a.footprint_captured_fraction * 100.0,
-                a.footprint_limb_captured
+            crate::t!(
+                "attack-surface-deficit-db-band-db",
+                deficit_db = crate::i18n::localise_decimal(format!("{:.1}", a.deficit_db)),
+                deficit_band_lo_db =
+                    crate::i18n::localise_decimal(format!("{:.1}", a.deficit_band_lo_db)),
+                deficit_band_hi_db =
+                    crate::i18n::localise_decimal(format!("{:.1}", a.deficit_band_hi_db)),
+                deficit_factor_rounded =
+                    crate::i18n::localise_decimal(format!("{:.0}", a.deficit_factor_rounded)),
+                deficit_factor_unrounded =
+                    crate::i18n::localise_decimal(format!("{:.0}", a.deficit_factor_unrounded))
             ),
-            format!(
-                "Spoof-capture pull-in: {} (lock {:.2} s)",
-                a.spoof_captured, a.spoof_lock_time_s
+            crate::t!(
+                "attack-surface-capture-footprint-of-disk-limb",
+                a = crate::i18n::localise_decimal(format!(
+                    "{:.0}",
+                    a.footprint_captured_fraction * 100.0
+                )),
+                footprint_limb_captured = a.footprint_limb_captured
             ),
-            format!(
-                "Mast reach: {:.1} km | OSNMA {:.0} bit/s ({:.0}%)",
-                a.surface_transmitter_reach_m / 1000.0,
-                a.nma_overhead_bps,
-                a.nma_overhead_fraction * 100.0
+            crate::t!(
+                "attack-surface-spoof-capture-pull-in-lock",
+                spoof_captured = a.spoof_captured,
+                spoof_lock_time_s =
+                    crate::i18n::localise_decimal(format!("{:.2}", a.spoof_lock_time_s))
+            ),
+            crate::t!(
+                "attack-surface-mast-reach-km-osnma-bit",
+                a = crate::i18n::localise_decimal(format!(
+                    "{:.1}",
+                    a.surface_transmitter_reach_m / 1000.0
+                )),
+                nma_overhead_bps =
+                    crate::i18n::localise_decimal(format!("{:.0}", a.nma_overhead_bps)),
+                a2 = crate::i18n::localise_decimal(format!(
+                    "{:.0}",
+                    a.nma_overhead_fraction * 100.0
+                ))
             ),
             // Sixth line, appended: the five above keep their y positions (70..190) and
             // this one lands at y = 220, inside the existing 240-high canvas — so the SVG
@@ -986,14 +1029,25 @@ impl LunarAttackSurfaceScenario {
                     a.footprint_sweep.shape.get(1).copied().unwrap_or(0),
                 );
                 if lt.reached {
-                    format!(
-                        "Limb: captured on {na}x{nb} grid, {} crossing(s)",
-                        lt.crossings.len()
+                    crate::t!(
+                        "attack-surface-limb-captured-on-grid-crossing",
+                        na = na,
+                        nb = nb,
+                        crossings = lt.crossings.len()
                     )
                 } else {
-                    format!(
-                        "Limb: not captured on {na}x{nb} grid; needs {:.1} dBW (flown {:.1})",
-                        lt.best_limb_capture_tx_power_dbw, a.footprint_sweep.p_tx_dbw
+                    crate::t!(
+                        "attack-surface-limb-not-captured-on-grid",
+                        na = na,
+                        nb = nb,
+                        best_limb_capture_tx_power_dbw = crate::i18n::localise_decimal(format!(
+                            "{:.1}",
+                            lt.best_limb_capture_tx_power_dbw
+                        )),
+                        p_tx_dbw = crate::i18n::localise_decimal(format!(
+                            "{:.1}",
+                            a.footprint_sweep.p_tx_dbw
+                        ))
                     )
                 }
             },
@@ -1010,7 +1064,8 @@ impl LunarAttackSurfaceScenario {
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"240\" viewBox=\"0 0 640 240\">\
              <rect width=\"640\" height=\"240\" fill=\"{BG}\"/>\
              <text x=\"28\" y=\"36\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"18\" font-weight=\"bold\">\
-             Lunar signal-security attack surface (P1)</text>{body}</svg>"
+             {}</text>{body}</svg>",
+            crate::t!("attack-surface-chart-title")
         )
     }
 }

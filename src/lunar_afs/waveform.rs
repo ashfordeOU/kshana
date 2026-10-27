@@ -211,7 +211,9 @@ impl Generator {
     /// [`super::lsis`]).
     pub fn new(cfg: RecordingConfig) -> Result<Self, String> {
         if !(cfg.sample_rate_hz.is_finite() && cfg.sample_rate_hz > 0.0) {
-            return Err("sample rate must be positive".into());
+            return Err(crate::terr!(
+                "e-iq-track-channel-sample-rate-must-be-positive"
+            ));
         }
         let lsis = LsisCodes::load()?;
         let chips = cfg
@@ -316,15 +318,19 @@ pub fn truth_meta_json(cfg: &RecordingConfig) -> Result<String, String> {
         DataType::Ci8,
         fs,
         CARRIER_HZ,
-        &format!(
-            "LunaNet Augmented Forward Signal baseband, {LSIS_VERSION}; Kshana reference generator"
+        &crate::t!(
+            "lunar-afs-waveform-lunanet-augmented-forward-signal-baseband",
+            LSIS_VERSION = LSIS_VERSION
         ),
     );
     let mut global = Map::new();
     global.insert(format!("{ns}:standard"), json!(LSIS_VERSION));
-    global.insert(format!("{ns}:noise_seed"), json!(cfg.noise_seed));
     global.insert(
-        format!("{ns}:noise_variance_per_dimension"),
+        crate::t!("lunar-afs-waveform-noise-seed", ns = ns),
+        json!(cfg.noise_seed),
+    );
+    global.insert(
+        crate::t!("lunar-afs-waveform-noise-variance-per-dimension", ns = ns),
         json!(if cfg.noise_seed.is_some() { 1.0 } else { 0.0 }),
     );
     global.insert(format!("{ns}:ci8_scale"), json!(cfg.ci8_scale));
@@ -341,7 +347,10 @@ pub fn truth_meta_json(cfg: &RecordingConfig) -> Result<String, String> {
             sample_count: Some(total),
             freq_lower_edge: None,
             freq_upper_edge: None,
-            label: Some(format!("AFS node {}", node.codes.node_id)),
+            label: Some(crate::t!(
+                "lunar-afs-waveform-afs-node",
+                node_id = node.codes.node_id
+            )),
             comment: None,
         });
         let mut m = Map::new();
@@ -351,14 +360,20 @@ pub fn truth_meta_json(cfg: &RecordingConfig) -> Result<String, String> {
             serde_json::to_value(node).map_err(|e| e.to_string())?,
         );
         m.insert(
-            format!("{ns}:component_cn0_dbhz"),
+            crate::t!("lunar-afs-waveform-component-cn0-dbhz", ns = ns),
             json!(node.cn0_dbhz - 10.0 * 2f64.plog10()),
         );
-        m.insert(format!("{ns}:code_scale"), json!(node.code_scale()));
+        m.insert(
+            crate::t!("lunar-afs-waveform-code-scale", ns = ns),
+            json!(node.code_scale()),
+        );
         // Time from the first sample to the next AFS-I primary-code epoch (s).
         let st = node.state_at(0.0, fs);
         let to_next = (-st.i_phase_chips).rem_euclid(I_PRIMARY_LEN as f64) / st.i_rate_cps;
-        m.insert(format!("{ns}:first_i_code_epoch_s"), json!(to_next));
+        m.insert(
+            crate::t!("lunar-afs-waveform-first-code-epoch", ns = ns),
+            json!(to_next),
+        );
         ann_ext.push(m);
         for (k, t) in node.frame_edges(cfg.duration_s) {
             let f = frame_data(node, k);
@@ -367,16 +382,20 @@ pub fn truth_meta_json(cfg: &RecordingConfig) -> Result<String, String> {
                 sample_count: Some(((FRAME_S / node.code_scale()) * fs).round() as u64),
                 freq_lower_edge: None,
                 freq_upper_edge: None,
-                label: Some(format!(
-                    "AFS node {} frame TOI {}",
-                    node.codes.node_id, f.toi
+                label: Some(crate::t!(
+                    "lunar-afs-waveform-afs-node-frame-toi",
+                    node_id = node.codes.node_id,
+                    toi = f.toi
                 )),
                 comment: None,
             });
             let mut m = Map::new();
             m.insert(format!("{ns}:kind"), json!("frame"));
             m.insert(format!("{ns}:node_id"), json!(node.codes.node_id));
-            m.insert(format!("{ns}:frame_index"), json!(k));
+            m.insert(
+                crate::t!("lunar-afs-waveform-frame-index", ns = ns),
+                json!(k),
+            );
             m.insert(format!("{ns}:arrival_s"), json!(t));
             m.insert(format!("{ns}:fid"), json!(f.fid));
             m.insert(format!("{ns}:toi"), json!(f.toi));
