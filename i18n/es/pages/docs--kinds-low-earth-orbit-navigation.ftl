@@ -1,0 +1,228 @@
+# docs--kinds-low-earth-orbit-navigation: translations (es)
+
+# text
+seg-6e0cb6acc073 = VALIDATED
+
+# text
+seg-b03d56f501c3 = Tipo
+
+# text
+seg-867f3e41b5ab = Mensaje de navegación LEO: las efemérides y el reloj difundidos de un satélite de posicionamiento, navegación y temporización (PNT) de órbita terrestre baja (LEO), para cualquier órbita, portadora y modelo, con preajustes con nombre opcionales (Xona Pulsar, Iridium, Starlink, CentiSpace, un sistema representativo de banda C, el modelo de reloj cero ATOMIC, Celeste IOD). CONTENIDO: datos auxiliares (SVID, número de edición de datos, banda, salud de la señal), sincronización (semana, tiempo de la semana, un polinomio de reloj de segundo orden af0-af2 en torno a toc), efemérides en uno de cuatro modelos: el conjunto kepleriano de 16 parámetros del ICD SIS de Galileo OS; ese conjunto más polinomios de corrección a lo largo de la traza, transversal y radial; el modelo de 22 parámetros de Liu et al. { "2025" }; un polinomio ECEF sin términos de reloj (ATOMIC de reloj cero), y otros servicios (un conjunto de difusión Klobuchar, ai0-ai2 de NeQuick-G con el nivel de ionización efectivo, y parámetros de tiempo de sistema a UTC con la lógica de segundos intercalares del ICD). AJUSTADOR: una órbita de referencia integrada con gravedad zonal J2-J6 o EGM2008 hasta el grado elegido y con arrastre, y un reloj libre o gobernado con semilla; ajuste de Levenberg-Marquardt del conjunto kepleriano sobre elementos no singulares, luego polinomios de corrección por mínimos cuadrados lineales; reloj ajustado descontando el término relativista que añade el usuario. ANÁLISIS: fit-interval-trade (error de distancia en la señal en el espacio, SISRE, con pesos de promedio global para la altitud de la órbita, frente al intervalo de ajuste y el período de actualización, solo órbita y con reloj), model-comparison (cuatro modelos, número de parámetros, bits codificados, y el ajuste de Kshana a las altitudes de Liu et al. junto a las cifras publicadas), midpass-update (el paso más alto sobre un usuario, el salto de posición, de reloj y de distancia de usuario de cada cambio de mensaje, el salto de peor geometría, PASS/FAIL frente a un umbral de continuidad), encode-decode (la propia trama binaria documentada de Kshana con CRC-24Q, un presupuesto de cuantización de medio paso por campo, una comprobación de trama corrupta, una exportación e importación de registro de estilo RINEX-4 etiquetada como extensión de Kshana, y una tabla CSV). VALIDATED: los pesos de SISRE frente a la tabla MEO/GEO publicada (Montenbruck et al. { "2018" }); el algoritmo de usuario de Galileo frente a RTKLIB sobre efemérides difundidas reales de Galileo; el CRC-24Q frente a su valor de comprobación del catálogo y la trama de ejemplo RTCM { "1005" }. MODELLED: toda cifra de ajuste y de SISRE es error de representación frente a una referencia integrada por Kshana (sin error de determinación ni de predicción de órbita); la comparación con Liu et al. usa órbitas distintas; los formatos de codificación y de texto son propios de Kshana.
+
+# attr:alt
+seg-35e92abc6a23 = El gráfico que el motor escribe para scenarios/leo-navmsg-celeste-iod.toml, tipo de escenario leo-navmsg
+
+# text
+seg-c3861f7d717c = Paso LEO y presupuesto de enlace, banda por banda, para LEO-PNT (posicionamiento, navegación y temporización desde órbita terrestre baja), independiente del sistema: un usuario (terrestre, marítimo, aéreo o de interior, estático o en movimiento) y uno o más satélites LEO a partir de un PASO DISEÑADO (una órbita circular situada de modo que el usuario vea un paso de una elevación máxima elegida en un momento elegido, heliosíncrona si se pide), ELEMENTOS explícitos, un TLE (conjunto de elementos de dos líneas) mediante el SGP4 del motor, o una constelación WALKER construida por el código de diseño de constelaciones (se informa de los pasos más altos). Las bandas proceden de un preajuste con nombre (UHF/L/S/C multibanda genérico, banda C genérica, Xona Pulsar X1/X5, Iridium STL, Starlink como señal de oportunidad solo Doppler, CentiSpace, y un preajuste opcional Celeste IOD marcado WORKSHOP) o se escriben en el escenario; cada preajuste indica si sus cifras son PUBLIC (con URL), REPRESENTATIVE o WORKSHOP. Por satélite, banda y época: elevación, acimut, distancia, velocidad de variación de distancia y aceleración de distancia; pérdida de trayecto en espacio libre; EIRP y ganancia del patrón del satélite (isoflujo, haz gaussiano o plano); ganancia de la antena del usuario frente a la elevación (parche, hemisférica o isótropa); atenuación gaseosa (ITU-R P.676-10 Anexo { "2" }), atenuación por lluvia (coeficientes ITU-R P.838-3 y el procedimiento P.618-14, a partir de una tasa y una altura de lluvia), centelleo troposférico (ITU-R P.618-14 sección { "2.4.1" }), pérdida por penetración en edificios para un usuario de interior (ITU-R P.2109-2), desadaptación de polarización, temperatura de ruido del sistema y C/N0 (densidad de portadora a ruido); Doppler y tasa de Doppler en forma cerrada a partir de la velocidad de variación y la aceleración de distancia, cada uno comprobado frente a diferencias centrales; el retardo ionosférico de primer orden { "40.3" } STEC/f^{ "2" } a partir de un TEC oblicuo de Klobuchar o de TEC vertical, escalado a la parte de la ionosfera por debajo del satélite. Los pares de bandas obtienen los coeficientes libres de ionosfera, la amplificación de ruido y el ruido de código en el pico del paso. Los satélites MEO GNSS (preajustes de Galileo o GPS) se evalúan con el mismo modelo de antena y de ruido a partir de las potencias recibidas de sus documentos de interfaz, de modo que el paso LEO en forma de campana y las portadoras GNSS planas comparten un mismo gráfico. Una sección opcional [iot] da el tiempo hasta la primera fijación, la energía por fijación y la duración de la batería frente al ciclo de trabajo para un presupuesto de potencia de receptor declarado (MODELLED). Cada par de bandas da además el TEC oblicuo que recupera su combinación libre de geometría en el pico y el sigma de ruido de código de esa estimación (sondeo de la ionosfera). Una sección opcional [spoofer] falsifica las señales de una posición declarada que salta o es desplazada respecto de la verdadera tras un inicio, y ejecuta dos monitores con probabilidades de falsa alarma y de detección fallida declaradas: coherencia de Doppler y de geometría del paso (velocidades de variación de distancia medidas frente a las predichas a partir de las órbitas y de una posición y velocidad previas independientes, una prueba chi-cuadrado de mínimos cuadrados generalizados sobre una ventana, en los canales GNSS, LEO y todos) y coherencia entre bandas (el paso de época a época de la combinación libre de geometría corregida por modelo de cada par de bandas LEO), que informa de estadísticos por época y de cuándo detecta cada monitor (MODELLED). Componentes VALIDATED: pérdida en espacio libre, los coeficientes P.838-3 frente a su Tabla { "5" }, los procedimientos P.618-14 de lluvia y centelleo y la pérdida por penetración en edificios P.2109 frente a los ejemplos de validación del Grupo de Estudio { "3" } de la ITU-R, la relación de retardo de grupo L1/L2 de IS-GPS-200, y el Doppler máximo de usuario estático de una órbita circular frente a la Tabla { "1" } de arXiv { "2509.19551" }. MODELLED: EIRP, patrones, la fracción de Chapman del TEC por debajo del satélite y todo el paso.
+
+# attr:alt
+seg-02ae51cfada6 = El gráfico que el motor escribe para scenarios/leo-pass-iridium.toml, tipo de escenario leo-pass
+
+# text
+seg-81d1604171a5 = Un sistema LEO-PNT (posicionamiento, navegación y temporización desde órbita terrestre baja) de extremo a extremo, para cualquier constelación y señal: el diseño leo-signal indicado por signal_design (un preajuste público o un diseño [signal] en línea) fija el centro, el ancho de banda, la tasa de chip y el reparto de EIRP de una banda [pass]; el presupuesto de enlace leo-pass da el C/N0 seguido y la fluctuación de código limitada en banda a lo largo del paso; una recta de C/N0 en sin(elevación) y el SISRE de difusión del mensaje [navmsg] (ajustado a la altitud del satélite del paso) alimentan cada sistema LEO de la fijación conjunta leo-pvt de [fusion] y, opcionalmente, los casos leo-ppp de [ppp]; cada traspaso se lista con su valor y su unidad. MODELLED.
+
+# attr:alt
+seg-abe0599498c9 = El gráfico que el motor escribe para scenarios/leo-pnt-end-to-end.toml, tipo de escenario leo-pnt-chain
+
+# text
+seg-32a570f1a4fa = Convergencia del posicionamiento preciso de punto (PPP) solo con GNSS y con aumento LEO: un filtro de Kalman extendido flotante sobre código y fase de portadora libres de ionosfera con las coordenadas de estación estáticas, un reloj de receptor blanco, un sesgo entre sistemas por cada sistema adicional, un retardo cenital húmedo de paseo aleatorio proyectado por 1/sin(elevación) y una ambigüedad flotante por arco de satélite; el error de órbita y reloj precisos es blanco y común al código y a la fase de un satélite, por lo que cada satélite es una actualización correlacionada de dos filas en forma estabilizada de Joseph. Las mediciones se simulan con el mismo modelo con ruido con semilla sobre varios emplazamientos y semillas, y cada caso (primero solo GNSS, luego cada [[case]] de sistemas LEO, de cualquier constelación o preajuste) informa del tiempo de convergencia mediano (la primera época a partir de la cual los errores horizontal y vertical permanecen por debajo de los umbrales, { "10" } cm por defecto), la fracción convergida, las curvas de error medianas y la coherencia del filtro (el NEES de posición promediado por ejecución frente a la banda chi-cuadrado bilateral del { "95" }%). Opcionalmente junto a las cifras de latitud media publicadas de Li et al. ({ "2019" }, J. Geod. { "93" }:{ "749" }, doi 10.1007/s00190-018-1195-2): { "9.6" } min para multi-GNSS acortados a { "7.0" }, { "3.2" }, { "2.1" } y { "1.3" } min con { "60" }, { "96" }, { "192" } y { "288" } satélites LEO. MODELLED: una comparación de coherencia de la tendencia, no una reproducción de las constelaciones, el ruido ni las estaciones de ese estudio; sin resolución de ambigüedades, saltos de ciclo, phase wind-up, mareas ni errores de producto correlacionados en el tiempo.
+
+# attr:alt
+seg-225ef04c64af = El gráfico que el motor escribe para scenarios/leo-ppp-convergence.toml, tipo de escenario leo-ppp
+
+# text
+seg-093aac4b5ff1 = Posicionamiento, navegación y temporización (PNT) fusionado de órbita terrestre media (MEO) y órbita terrestre baja (LEO) sobre CUALQUIER constelación: cada [[system]] es un preajuste GNSS del tipo de escenario constellation-design, un preajuste LEO (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, el modelo de efemérides de reloj cero atomic, u otro archivo de preajuste, cada uno en su propio archivo con sus fuentes marcadas PUBLIC, WORKSHOP o DERIVED), capas Walker o conjuntos de elementos explícitos, con una portadora, una tasa de chip, una envolvente de densidad de portadora a ruido (C/N0) desde la máscara de elevación hasta el cénit, un error de distancia en la señal en el espacio (SISRE), un sigma de Doppler y un modelo de reloj (su propio reloj de receptor, de modo que se estima el sesgo entre sistemas, o un desfase de difusión conocido). Cuatro modos. DOPPLER: posicionamiento por lotes de Gauss-Newton a partir de la velocidad de variación de distancia con parciales analíticas, estados de deriva de reloj y de velocidad opcionales y una restricción de altura opcional, de uno o varios satélites, el error frente a la longitud de ventana, la envolvente de Doppler, tasa de Doppler y sacudida (jerk) de cada sistema LEO, y la precisión a lo largo de la traza y transversal de un solo paso frente al desplazamiento transversal (el error transversal crece sin límite a medida que el paso pasa por la vertical; un solo paso tiene además una solución especular a través de la traza sobre el suelo). Aquí se ejecuta una señal de oportunidad solo Doppler (starlink-sop). JOINT: fijaciones de pseudodistancia por mínimos cuadrados ponderados por época solo con GNSS, solo con LEO y con ambos, sigmas por medición a partir de un modelo de ruido térmico del lazo de enganche de retardo a C/N0 más el SISRE (o un sigma fijo, de modo que un modelo de señal pueda alimentarlos), los sesgos entre sistemas estimados, y PDOP/HDOP/VDOP frente al número de satélites LEO añadidos. POLAR: satélites a la vista y DOP frente a la latitud para GNSS, LEO y ambos. TIMING: transferencia de tiempo al Tiempo Universal Coordinado (UTC) desde satélites LEO en una posición conocida con un filtro de reloj de dos estados cuyo ruido de proceso procede de las clases de oscilador del motor, frente al C/N0 y al oscilador, y la expresión de tiempo de sistema a UTC de IS-GPS-200; con [timing] trace = true cada fila informa además de su error de tiempo y de su sigma predicho en cada época. VALIDATED: el mayor Doppler de un paso de la vertical al horizonte frente a las cifras publicadas de Iridium (hasta { "36" } kHz) y de Xona Pulsar X1 ({ "32" } a { "34" } kHz). MODELLED: todo lo demás; el DOP se comprueba frente a un caso derivado a mano, las fijaciones frente a su covarianza y el modelo de Doppler frente a la identidad de aceleración de distancia.
+
+# attr:alt
+seg-90361a6f4e3c = El gráfico que el motor escribe para scenarios/leo-pvt-fjord-skyline.toml, tipo de escenario leo-pvt
+
+# text
+seg-97b8d07150d4 = Diseños de señal LEO-PNT: señales parametrizadas de posicionamiento, navegación y temporización (PNT) de órbita terrestre baja (LEO) para cualquier sistema, banda y estructura. Una SEÑAL es una banda (frecuencia central, ancho de banda de transmisión, asignación ITU RNSS/RDSS/MSS/EESS/non-RNSS/other) y componentes (adquisición, datos, piloto; cualquier subconjunto), cada uno con una modulación (BPSK(n) con n fraccionario, BOC(m,n), MBOC({ "6,1" },p) o una banda plana de tipo OFDM), un reparto de potencia, desplazamientos de subportadora FDMA opcionales, una longitud de código y una tasa de datos. Las señales proceden de archivos de preajuste públicos compilados (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; cada uno con su URL de fuente y cada valor no publicado etiquetado REPRESENTATIVE) o se escriben en línea. POR SEÑAL: la densidad espectral de potencia limitada en banda y la fracción de la potencia de cada componente que deja pasar la banda de transmisión (forma cerrada de BPSK junto al valor numérico), el ancho de banda RMS (Gabor), la fluctuación de ruido térmico del seguimiento de código del lazo de enganche de retardo frente a C/N0 y el espaciado early-late a partir de la fórmula early-late coherente (o no coherente) limitada en banda de Betz & Kolodziejski { "2009" } con su forma de manual de banda ilimitada y su cota de Gabor de espaciado evanescente, la precisión de distancia en metros, el espacio de búsqueda de adquisición (casillas de Doppler a partir del Doppler máximo de la órbita más términos de oscilador y de usuario, por casillas de código), la probabilidad de detección de ley cuadrática y el tiempo medio de adquisición serie y paralelo de código, el coeficiente de separación espectral de la señal respecto de GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b y E5 AltBOC y de cada una respecto de la señal con la degradación de C/N0, y el J/S CW, de banda ancha y adaptado que tolera el componente seguido, a partir de la propia maquinaria SSC del tipo de escenario de espectro. Un ESTUDIO DE BANDAS: retardo ionosférico de primer orden ({ "40.3" } TEC/f^{ "2" }), pérdida en espacio libre, precisión de distancia a igual C/N0 y a igual EIRP, y tolerancia a jammers. Las COMPROBACIONES DE FORMA opcionales contrastan el espectro de un diseño con una medición descrita (coherencia MODELLED). VALIDATED: las formas cerradas de potencia BPSK en banda ({ "90.3" } % en el lóbulo principal) y de ancho de banda de Gabor, la fluctuación limitada en banda que se reduce a la forma early-late coherente de los manuales y a su cota de Gabor, el coeficiente de separación espectral de BPSK desplazada frente a su forma cerrada de Parseval, el área unidad del espectro AltBOC, y el Doppler LEO máximo frente a las cifras publicadas de Xona Pulsar (32-34 kHz) y de Iridium ({ "36" } kHz). MODELLED: todo diseño, reparto de potencia, C/N0 y nivel de jammer; los espectros EFQPSK, CSK y OFDM son aproximados.
+
+# attr:alt
+seg-8bf45b6989d1 = El gráfico que el motor escribe para scenarios/leo-band-trade.toml, tipo de escenario leo-signal
+
+# text
+seg-4f0edb786a35 = Posicionamiento a partir de un enlace descendente de una red no terrestre (NTN) 5G en la banda S del servicio móvil por satélite (MSS) (banda n256 de 3GPP, enlace descendente de { "2170" } a { "2200" } MHz; portadora por defecto { "2172.5" } MHz): la cota de Cramér-Rao (CRB) del tiempo de llegada, c / ({ "2" } pi beta sqrt({ "2" } (C/N0) T)) con beta el ancho de banda cuadrático medio (de Gabor) del espectro OFDM plano (B/sqrt({ "12" })), y del Doppler de un tono complejo, sqrt({ "3" } / ({ "2" } pi^{ "2" } (C/N0) T^{ "3" })), para cada señal (por defecto un canal New Radio de { "5" } MHz con { "4.5" } MHz ocupados y un canal de banda estrecha de { "200" } kHz con { "180" } kHz ocupados); a continuación, sobre cualquier constelación LEO, fijaciones por tiempo de llegada del enlace descendente con un reloj de receptor desconocido (con semilla, con la cota más un error de sincronización de la red como sigma), su PDOP y su sigma 3D formal, y una fijación Doppler de un solo satélite sobre el pase más largo con la altura fija. MODELLED: el paso del ancho de banda a la cota es la forma cerrada de los libros de texto, comprobada frente a la integración numérica de los espectros BPSK plano y de banda limitada (autoconsistencia interna, sin ninguna cifra publicada de referencia fijada), y la precisión de posicionamiento es una cota sobre un canal sin multitrayecto con un error de sincronización indicado, no un resultado alcanzado.
+
+# attr:alt
+seg-c200240dd65e = El gráfico que el motor genera para scenarios/ntn-5g-positioning.toml, tipo de escenario ntn-positioning
+
+# text
+seg-4e31c8daf798 = Registro
+
+# text
+seg-6800289a282d = { "7" } tipos de escenario del motor v{ $version }. De carácter consultivo: salida de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana. Todas las etiquetas de aquí son las del motor o las de la matriz de verificación; un tipo es MODELLED salvo que la matriz diga otra cosa (cómo se gana una etiqueta: la sección Evidence del README).
+
+# text
+seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
+
+# text
+seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+# text
+# c1: docs/kinds/low-earth-orbit-navigation.md
+seg-22eb3a688624 = Fuente: <c1/>
+
+# text
+seg-561a783e9516 = Navegación en órbita terrestre baja (familia de tipos de escenario)
+
+# text
+# c1: kshana scenarios/leo-pnt-end-to-end.toml
+seg-47751d798019 = Páginas temáticas: <a1>LEO-PNT</a1>, <a2>LEO-SIGNAL</a2>, <a3>LEO-PASS</a3>, <a4>LEO-NAVMSG</a4>. Ejecute uno: <c1/>. Todas las familias: <a5>KINDS.md</a5>.
+
+# attr:alt
+seg-4867ae5d108b = Hoja de contactos de los gráficos que genera el motor para los tipos de escenario de la familia Navegación en órbita terrestre baja
+
+# text
+seg-1e724b481e67 = Diseños de señal LEO-PNT: señales parametrizadas de posicionamiento, navegación y temporización (PNT) en órbita terrestre baja (LEO) para cualquier sistema, banda y estructura.
+
+# text
+seg-82ad7da67939 = Pasada LEO y presupuesto de enlace, banda por banda, para LEO-PNT (posicionamiento, navegación y temporización desde órbita terrestre baja), independiente del sistema: un usuario (terrestre, marítimo, aéreo o en interiores, estático o en movimiento) y uno o mo
+
+# text
+seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
+
+# text
+seg-c20a76308fb3 = Mensaje de navegación LEO: las efemérides y el reloj de difusión de un satélite de posicionamiento, navegación y temporización en órbita terrestre baja (LEO), para cualquier órbita, portadora y modelo, con ajustes preestablecidos con nombre opcionales (Xona P
+
+# text
+seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+
+# text
+seg-06236b581684 = Posicionamiento, navegación y temporización (PNT) fusionados en órbita terrestre media (MEO) y baja (LEO) sobre CUALQUIER constelación: cada [[system]] es un preajuste GNSS del tipo de escenario de diseño de constelaciones, un preajuste LEO
+
+# text
+seg-d9e5f4726bbb = Convergencia del posicionamiento de punto preciso (PPP) solo con GNSS y con aumentación LEO: un filtro de Kalman extendido en coma flotante sobre código y fase de portadora libres de ionosfera con las coordenadas estáticas de la estación, un
+
+# text
+seg-44f4148f4a5f = Posicionamiento a partir de un enlace descendente de red no terrestre (NTN) 5G en la banda S del servicio móvil por satélite (MSS) (banda n256 de 3GPP, enlace descendente de { "2170" } a { "2200" } MHz; portadora por defecto { "2172.5" } MHz): la cota de Cramér-Rao
+
+# text
+seg-1ee838a551ef = Un sistema LEO-PNT (posicionamiento, navegación y temporización desde órbita terrestre baja) de extremo a extremo, para cualquier constelación y señal: el diseño leo-signal indicado por signal_design (un preajuste público o un [s
+
+# text
+# c1: presets
+# c2: signals
+# c3: receiver
+# c4: acquisition
+# c5: compatibility
+# c6: trade
+# c7: shape_checks
+# c8: psd_points
+seg-70d1ac6ddc95 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+# text
+seg-472d9e86ee20 = <b>Registro:</b> MODELLED { "2" } · VALIDATED { "2" }. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>leo-signal</a1>.
+
+# text
+# c1: epoch
+# c2: duration_s
+# c3: step_s
+# c4: user
+# c5: atmosphere
+# c6: ionosphere
+# c7: satellite
+# c8: leo_constellation
+# c9: gnss
+# c10: iono_free_pairs
+# c11: iot
+# c12: spoofer
+# c13: name
+# c14: description
+# c15: skyline
+seg-17d1c06ba5c5 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+# text
+seg-9a7671c30d7e = <b>Registro:</b> MODELLED { "7" } · VALIDATED { "5" }. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>leo-pass</a1>.
+
+# text
+# c1: name
+# c2: description
+# c3: seed
+# c4: analysis
+# c5: preset
+# c6: orbit
+# c7: clock
+# c8: message
+# c9: trade
+# c10: comparison
+# c11: midpass
+seg-cba2c7f7050a = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+# text
+seg-7ba3e667487d = <b>Registro:</b> MODELLED { "5" } · VALIDATED { "6" }. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>leo-navmsg</a1>.
+
+# text
+# c1: mode
+# c2: seed
+# c3: duration_s
+# c4: step_s
+# c5: user
+# c6: dll
+# c7: doppler
+# c8: joint
+# c9: polar
+# c10: timing
+# c11: system
+# c12: skyline
+seg-8ca53a87d092 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>.
+
+# text
+seg-389c67090de1 = <b>Registro:</b> MODELLED { "3" } · VALIDATED { "2" }. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>leo-pvt</a1>.
+
+# text
+# c1: seed
+# c2: duration_s
+# c3: step_s
+# c4: runs
+# c5: criterion_horizontal_m
+# c6: criterion_vertical_m
+# c7: compare_li_2019
+# c8: noise
+# c9: site
+# c10: gnss
+# c11: case
+seg-e004092d6056 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+# text
+seg-e485df9372e6 = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>leo-ppp</a1>.
+
+# text
+# c1: seed
+# c2: carrier_hz
+# c3: signal
+# c4: integration_s
+# c5: doppler_integration_s
+# c6: cn0_dbhz
+# c7: sync_error_m
+# c8: user
+# c9: duration_s
+# c10: step_s
+# c11: system
+seg-089266c42199 = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+# text
+seg-e0a3133f468f = <b>Registro:</b> VALIDATED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>ntn-positioning</a1>.
+
+# text
+# c1: signal_design
+# c2: pass
+# c3: fusion
+# c4: name
+# c5: description
+# c6: seed
+# c7: signal
+# c8: navmsg
+# c9: od_sisre_m
+# c10: ppp
+seg-ea759d0040db = Campos obligatorios: <c1/>, <c2/>, <c3/>. Opcionales: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+# text
+seg-db08b7916378 = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>leo-pnt-chain</a1>.
+
+# text
+seg-534d13455a76 = <s1>Anterior</s1>Jamming, spoofing y el espectro
+
+# text
+seg-ec3fb19fb5bd = <s1>Siguiente</s1>Lunar y cislunar
