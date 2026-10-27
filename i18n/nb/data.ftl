@@ -2049,3 +2049,165 @@ dat-7a8163ea53f2 = Uavhengig krysskontroll mot sgp4-craten
 dat-a3c0d41e4b56 = Uavhengig numpy Monte Carlo-SDE-integrasjon av dobbeltintegrert hvit akselerasjonsstøy (validerer den analytiske VRW-variansen med en virkelig uavhengig algoritme) + et publisert referanseanker fra Groves { "2013" } for bias- og skaleringsfaktorleddene; CAI-enhetstallene tallfester partnerens maskinvare og forblir MODELLED
 
 dat-76097bbb6a19 = hybrid_integrity::tests (forholdstallet er lik de to utsendte leddene delt på hverandre, til { "1e-15" } relativt, og dets resiproke og desibelformer stemmer overens; hvert leds avstand og tidssigma henger sammen med nøyaktig c; den utsendte felles konfigurasjonen er slått fast å være lik scenarioets egen avstand og integrasjonstid, og RF-leddets avstand er slått fast å være lik det optiske leddets; RF-leddets C/N0 er bit for bit den samme som tilgjengelighetsblokkens, fra ett linkbudsjett, ikke en ny utledning; egenskapen SAMME-FOR-SAMME er MEASURED i stedet for påstått -- å firedoble den felles akkumuleringstiden halverer det optiske leddet til { "1e-12" } og RF-leddet til { "1e-7" } og lar forholdstallet være uberørt til { "3.19e-9" } relativt, noe et ledd som i hemmelighet midler over noe annet ikke kunne gjort; en rf_dll_bandwidth_hz-overstyring som bryter den felles middelverditiden gjør forholdstallet null med en årsak som navngir begge tidene, mens begge leddene fortsatt sendes ut; en enveiskjøring gjør sammenligningsleddet bit for bit lik den utgitte hovedverdien med en straffefaktor på nøyaktig { "1" }, og en toveiskjøring gjengir straffen 0.5/sqrt(geometrisk tap på returveien) omberegnet fra rapportens egen geometric_loss_db til { "1e-12" })
+
+dat-43824928dcfa = Uavhengig numpy-reimplementasjon av regelen med fire områder (scripts/gen_tib_scorer_reference.py) på det identiske utvalget; metode sitert fra Stanford–ESA-integritetsdiagrammet (Tossaint et al., ION GNSS { "2007" }) og RTCA DO-229 WAAS MOPS. IKKE en nøyaktighetsreferanse fra et ExternalDataset — referansetesten er immun mot ærlighetskravet.
+
+dat-ad2f021526e3 = Uavhengig numpy-omtelling av områdene i tests/fixtures/tib/reference.json; bare krysskontroll av skåringsmaskineriet, ingen nøyaktighetspåstand.
+
+dat-074151140053 = Uavhengig numpy-gjengivelse av krysskovariansen og ulikheten for fusjonert bias, korrelert mot uavhengig (InternalConsistency). Representativt kildesett; Modelled scenario.
+
+dat-329d1a3f6406 = Uavhengig numpy-gjengivelse av statistikken + egenskapstest på at en felles-modus-injeksjon blåser den opp (InternalConsistency). Modelled scenario. { "0.30" } runde { "2" } (forhåndsregistrert f9aa360d), blokkert (forblir MODELLED): numpy { "2.3.5" } LAPACK gesv gjengir statistikkverdien på { "261" } innsjekkede tilfeller (innenfor { "3.5e-15" } godt betinget, { "1.2e-9" } ved kondisjon opp til { "6.1e7" }); nullfordelingen chi-kvadrat({ "1" }) er en sitert teorem og de flate parvise separasjonene en identitet uten motorutdata å sammenligne med, så avgrensningen venter på en beslutning fra eieren
+
+dat-c445be3a080f = Uavhengig numpy/scipy-gjengivelse av lineær algebra på reelle DE440-siktlinjerader i Månens PA-system (P⊥ fra SVD av det hvitgjorte designet W^{ "{" }1/2{ "}" }G; ikke-sentraliteten for MDB fra den klassiske kvadrerte normen til paritetsunderrommet etter Baarda ({ "1968" }); blokkrangen fra en telling av singulærverdier i numpy SVD) — en virkelig annen numerisk vei enn kassens (crate) sykliske Jacobi-egendekomponering av GᵀWG. Omfang (etter tests/fixtures/faultobs/NOTICE.md): dette validerer bare KJEDEN FOR LINEÆR ALGEBRA på disse radene. Nodegeometrien er Modelled. Det er IKKE en operativ integritetsgaranti, en sertifisering av beskyttelsesnivå eller noen påstand om RAIM/ARAIM-tilgjengelighet, og IKKE en misjonsgaranti for bysantinsk feiltoleranse — ANTALLET tolererte feil for dette nettverket er Modelled, mens block-spark-GRENSEN for detect>f / identify>2f er Cited (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; blokkvis spark av Donoho–Elad { "2003" }) og bevist instansiert i kode
+
+dat-3ed8c34dff65 = Uavhengig SciPy/NumPy-referanse (scripts/gen_datum_identifiability_ref.py -> tests/fixtures/datum_identifiability/scipy_ref.csv): Schur-komplementet, dets egenverdier og den inverse 2x2-matrisen beregnet av et uavhengig bibliotek. Avgrenset til dekomponeringens LINEÆRE ALGEBRA; STØRRELSENE på månekorrelasjon/CRLB fra reell geometri forblir MODELLED.
+
+dat-bf70dda05c83 = Uavhengig tredjepartsreferanse ANISE { "0.10.2" } astro::Orbit Kepler-propagator (Nyx Space, MPL-2.0) — en ekvinoktial totegemssti som er forskjellig fra kshanas Newton-Raphson-Kepler; MCI-posisjonen per satellitt stemmer til <{ "1e-3" } m og det utledede antallet/settet av synlige satellitter stemmer nøyaktig i hvert rutenettpunkt. DOP-kjernen er validert mot gnss_lib_py; integritet bruker publiserte LunaNet/LCNS-parametere
+
+dat-706d8ac94114 = Uavhengig CCSDS-502-parser fra tredjepart `oem` { "0.4.5" } (MIT, https://pypi.org/project/oem/) — en egen kodebase som dekoder kshanas utsendte EME2000/UTC-OEM byteidentisk ({ "24" } tilstander over { "2" } fixtures, pos/vel Δ = { "0" }) og hvis strenge leser bekrefter metadatatokenene; kshanas parser stemmer likeledes overens med den på en medfølgende ekstern OEM. To ærlige interoperabilitetsfunn (oem-biblioteket avviser kshanas konvensjon med flere segmenter per satellitt og dens kovarianslinjer med flere oppføringer) er dokumentert i testen — så dette validerer utvekslingen av ett objekt som følger standarden, ikke full formatkontroll mot CCSDS-502 for hver kshana-variant
+
+dat-ca139c503573 = Bekreftelse med uavhengig estimator av terskelen for buelengde i cislunart rom
+
+dat-7ca7bc5655ea = Test med uavhengig estimator av observerbarhetsterskelen for buelengde i cislunart rom (R6, artikkel B).
+
+dat-83303f0fc1bf = LEO-PNT innendørs: hvorfor en UHF-bærebølge når inn i en bygning når L-, S- og C-båndene sliter.
+
+dat-03c73c444454 = inertial (scenariotype)
+
+dat-d3955f70a9bb = Treghets- og alternativ navigasjon
+
+dat-8787bea4d490 = Treghets- og terrengrelativ kysting gjennom et utfall
+
+dat-2894be3c02c4 = Attitydekontroll med treghetspeiling for et stivt hovedlegeme med tre eller flere balanserte reaksjonshjul: MRP-tilbakekoblingsloven L_r = -K sigma_BR - P omega_BR (Schaub og Junkins), motormoment for hjulene med minimumsnorm G_s u = -L_r begrenset til hvert hjuls grense, den koblede dynamikken for hovedlegeme og hjul der hovedlegemets treghet bærer hjulenes spinntreghet, kvaternionkinematikk, RK4 med nulteordens hold. Kan kjøres som scenariotypen `aocs` (sløyfe med sann tilstand).
+
+dat-b7887b8f1d7f = Treghets-, fusjons- og kvantesensorer
+
+dat-ec0ad7fe6b01 = Treghets-, fusjons- og kvantesensorer (scenariotypefamilie)
+
+dat-1452f6145884 = inertial::cai_error_terms (bibliotekfunksjoner, ennå ikke nåbare fra en scenariotype): Raman-fasevektingsfunksjonen for et interferometer med tre firkantpulser (Cheinet et al. { "2008" }, lign. { "8" }) med den lukkede formen for hvit fase (pi/2)^{ "2" } S_phi0/tau_R og en numerisk vei for et hvilket som helst spektrum; laserfrekvensstøyen som forsinkelsen ved retroreflektering ikke opphever (Le Gouet et al. { "2007" }, lign. { "9" } til { "11" }); den rene defokuserings-bølgefrontbiasen sigma_v^2/R for en termisk sky og dens reduksjon med en deteksjonsradius; sannsynligheten for feil frynseindeks erfc(pi/(sqrt({ "2" }) s)) for en klassisk akselerometerstøtte og for to avhørstider, og dens invers
+
+dat-ead1f2200ecb = inertial::cai_params (over inertial::quantum_imu)
+
+dat-af4b2f25c3ce = inertial::cai_params::tests (fysikkens VRW havner innenfor det siterte VRW-intervallet på alle { "3" } nivåer; rått frynsetvetydighetsområde beregnet fra k_eff·T²; konservativt budsjett driver mer enn best; hvert intervall har kilde + bekreftelsesflagg; vern for rekkefølgen på intervallene)
+
+dat-673e1254c2ad = inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario); scenariotype `ins-trn-coast`
+
+dat-a6a78dab5cde = Inndataformater
+
+dat-333776404b68 = Feilmodell for INS / IMU — validering mot datablad (src/inertial/)
+
+dat-822d746ee607 = ins-trn-coast (scenariotype)
+
+dat-fc4e1821dbe2 = ins-trn-coast | navigasjons-IMU, { "250" } m/s, kombinasjon rss | { "10" } m ved { "251.0" } s (accel_bias) | { "50" } m ved { "608.8" } s (accel_bias) | TRN kun posisjon, topp { "44.7" } m over { "1200" } s
+
+dat-2c655ce6782d = Feilvekst og terskelkrysninger ved INS/TRN-kysting
+
+dat-7a2fe446d5ad = Feilmodell for INS/TRN-kysting — posisjonsfeil mot kystetid, og kysten
+
+dat-69702698b049 = Feilmodell for INS/TRN-kysting: posisjonsfeil mot kystetid, bygget fra IMU-koeffisienter i stedet for…
+
+dat-c2f78c59827d = Installer i VS Code (Docker)
+
+dat-6a1ec92e0f29 = Installer i VS Code (npx)
+
+dat-c90e197be374 = Installer i VS Code Insiders (npx)
+
+dat-7863d678c01a = Installer Kshana MCP-serveren (v{ $version })
+
+dat-e51de9c804bb = Installer MCP-serveren
+
+dat-26a9ba641009 = Heltallsfiksering av flertydighet med minste kvadrater på LAMBDA-måten: en volumbevarende heltalls (Z) dekorrelerende transformasjon (heltallig Gauss-størrelsesreduksjon av L D Lᵀ-faktoren) + et eksakt dybde-først branch-and-bound-heltallsminstekvadratsøk etter Schnorr–Euchner, med forholdstesten på de to beste kandidatene (den validerte påstanden); pluss den lukkede formen for bootstrapped suksessrate P_s=∏(2Φ(1/(2σ_{ "{" }i|I{ "}" }))−{ "1" }), kontrollert bare internt og utenfor den validerte påstanden
+
+dat-6ce706901c78 = integrity (scenariotype)
+
+dat-50ed1429c00d = integrity | { "24" } satellitter | 344/361 epoker tilgjengelige ({ "95.3" }%) | HAL { "40" } m VAL { "50" } m | sigma { "1.0" } m | Stanford(V): { "0" } integritetshendelser, { "0" } HMI
+
+dat-b2d1da3f9b5d = Integritet og interferens
+
+dat-40295695fd8f = Integritet og sikkerhet: hva Kshana modellerer, og hva den ikke gjør
+
+dat-22adaac4cae5 = Kvalitetsmål for integritet — filterets selvkonsistens
+
+dat-7d09993d482a = Integritetspåvirkning
+
+dat-9f121a93c2f1 = integrity_impact (over raim)
+
+dat-a85d215fe8dd = integrity_impact::tests (den samme missen flipper Available→MI→HMI etter hvert som konteksten strammes; konservativ-PL→Unavailable; HMI per akse; vern for inndata)
+
+dat-6bf0e08e0072 = integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling, every_nonzero_direction_under_pd_omega_has_a_finite_ceiling); tests/gls_outside_omega_bound_numpy_oracle.rs::undetectable_common_mode_ceiling_matches_numpy_lapack ({ "256" } innsjekkede tilfeller: alpha_ss, alpha_cm og minimum innenfor { "1e-12" } relativt på { "210" } godt betingede tilfeller og grensetilfeller, verst { "3.3e-15" }; { "40" } dårlig betingede opp til kondisjon { "1.3e8" } innenfor en oppgitt kondisjonsskalert grense, verst { "1.1e-9" }; seks eksakte uendeligheter)
+
+dat-4f6cc44e6aa0 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack ({ "201" } innsjekkede SPD-tilfeller: faktor, hvitgjort residual, hvitgjøringsoperator og Mahalanobis-kvadrat mot numpy LAPACK innenfor { "1e-12" } relativt, verst { "7.9e-16" })
+
+dat-e8f307bea5aa = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (datastyrt: hopper over med en melding når BIPM-serien mangler); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (D9 runde { "3" }, prospektiv, ennå ikke kjørt: Circular T { "465" } kom 2026-10-12, og den forhåndsregistrerte regelen på 1000 verdier trenger utgaver til omtrent { "468" })
+
+dat-a821706da637 = integrity::lil_envelope::tests (divergens, terskel, dominans ved IR-innstramming)
+
+dat-83de804247c2 = integrity::tpl_scalar::tests (rang 1, fusjoner/ekskluder, biasdominans, IR-krysskontroll); tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy ({ "300" } innsjekkede tilfeller: numpy lstsq-delmengdeestimatorer, generell separasjonskovarians, scipy brentq PL; PL innenfor { "1e-9" } relativt, verst { "1.2e-10" }; drivende delmengde eksakt)
+
+dat-11a8b72872b7 = Brukere av IntelliJ, PyCharm og CLion
+
+dat-9eb185e5cb6c = Utvekslingsomslag (KIF, Kshana Interchange Format) — gjenkjenne en artefakt og kontrollere versjonen
+
+dat-7904abaf02c5 = Interferenskart
+
+dat-151056634773 = Interferenskart og ruteeksponering
+
+dat-efa77bd2f599 = Validering av interferenskart
+
+dat-c7e45641ff55 = Interferenskart: betydningen av nøyaktighetskoder, AIS-verdier for ikke tilgjengelig, tilordning til rutenettceller, rutelengde per celletilstand og maskering av innland
+
+dat-5ce9214818d0 = Interferenskart: gjennomgang av lisenser for datakilder
+
+dat-b76c44dec57e = Interferensobservatorium
+
+dat-eeea3f30179b = Interferensobservatorium: metodenotat
+
+dat-3ea7167853e6 = Intern konsistens (InternalConsistency): reduksjonen av orden 2 til den MAAST-kontrollerte ADD v4.2-stien, uavhengig ny utledning av apriorifordelingene og en konstruert feil på to satellitter. Ingen MAAST- eller RTKLIB-kjøring utover par er gjort, så de dypere hypotesesettene og beskyttelsesnivåene i delmengde-RAIM er ikke kontrollert eksternt. araim_subset_raim deler forenklingene til araim_dual_raim (én sigma for integritet og nøyaktighet, én klokke, den enkle normalhalen): den følger ikke ADD
+
+dat-f04a17478c6f = Intern konsistens (InternalConsistency): beskyttelsesnivåene er de fra snapshot_raim, som er validert mot RTKLIB i sin egen rad, omberegnet på samme geometri; oppførsel uten feil og med injisert feil. Himmelen er en representativ forhåndsinnstilt geometri (ikke et datert almanakk), residualene er syntetiske, og sigma, varslingsgrensene og sannsynlighetene er oppgitte inndata; ingenting her er en uttalelse om tilgjengeligheten til en reell mottaker
+
+dat-a1c78ee97d2d = Intern konsistens (hopp-identiteten og kjeglegrensen mot brute force-prøvetaking). Terskelen er en inndata; ingen publisert kontinuitetskrav for LEO er festet
+
+dat-6bed622b120d = Intern konsistens mot injisert referanse og lukkede former, under terskler forhåndsregistrert i 6b68f6cc (docs/design/evidence/boc-bump-jump/). Et BeiDou B1C-datasignal (PRN { "19" }, { "5" } MS/s) generert av iq::scene: med valget av forblir en start på sidetoppen falskt låst ved den forutsagte ±({ "0.5" } + d/4) chip (målt ±{ "0.549" }); med valget på ett hopp mot hovedtoppen ved { "0.08" } s og en RMS i det sene vinduet på { "0.0008" } chip ved { "45" } dB-Hz og { "0.0048" } chip ved { "35" } dB-Hz; intet hopp fra hovedtoppen ved { "35" }, { "40" } og { "45" } dB-Hz over { "4" } s; den skalerte EMLP-stigningen { "0.94" } til { "0.99" } på det samplede signalet (uskalert { "3.6" } til { "3.8" }). Bump-jump-detektoren alene, på korrelatortripler med den eksakte BOC({ "1,1" })-støykovariansen, gjorde ingen falske hopp i { "100 000" } oppdateringer ved { "25" } til { "45" } dB-Hz og oppdaget { "1000" } av { "1000" } starter på sidetoppen ved { "35" } dB-Hz. NOT MET (funn F1): det forhåndsregistrerte enhetstestrutenettet for skaleringen inneholder forskyvninger utenfor diskriminatorenes lineære område, der de skalerte avlesningene bommer på forskyvningen med opptil { "48" } %. HVA SOM IKKE ER KONTROLLERT: felt-IQ, båndbegrensede frontender, sammensatte MBOC/QMBOC-replikaer og enhver ekstern mottaker.
+
+dat-01f9118b836e = Intern konsistens mot injisert referanse: en syntetisk datafri GPS L1 C/A-kilde (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, ti støyfrø) der bærebølgefasen er kjent, under terskler forhåndsregistrert i 58789af0 (docs/design/evidence/fll-handover-floor/). MET: kontrollen (standarden uten tak overleverer aldri i { "9" } av { "10" } frø ved { "33" } dB-Hz); additivitet (standardhash og de eksisterende sporingstestene uendret); innsvinging fra en overlevering med { "100" } Hz avvik ved { "45" } dB-Hz. NOT MET: med et tak på { "1.0" } s, overlevering og hold i hver kjøring ({ "16" } av { "20" } ved { "33" } dB-Hz, { "8" } av { "20" } ved { "31" } dB-Hz; resten veksler mellom tvungne overleveringer og FLLs retur) og fasejitter innenfor { "25" } % av bare PLL ({ "10.8" } mot { "6.1" } grader ved { "33" } dB-Hz). HVA SOM IKKE ER KONTROLLERT: databiter, andre signaler og samplingsrater, feltopptak. Standarden er uendret; raden forblir MODELLED.
+
+dat-a9e65b1c6f91 = Intern konsistens i en oppgitt utformingsmodell: hver effekt, terskel og søkevalg er en inndata, og modellen ser bort fra bitkanttvetydighet, tapt deteksjon og ny akkvisisjon. Ikke sammenlignet med en målt mottaker
+
+dat-97c728c1d687 = Bare intern konsistens; INGEN ekstern uavhengig referanse hevdes, og ingen finnes for en værrealisering. Kontrollene sammenligner ett trekk med den statistiske utdataen fra den samme modellen, så en bestått kontroll sier at generatoren trekker fra de oppgitte fordelingene (trekkets tilgjengelighet og skyandel ligger innenfor forhåndsregistrerte toleranser for de oppgitte tallene), ikke at noe reelt sted oppfører seg slik. Serien er én realisering, ikke klimaet: dens tilgjengelighet avviker fra den oppgitte med trekkets utvalgsfeil, og scintillasjon i ulike steg er uavhengig, en oppgitt forenkling av en prosess som dekorrelerer på millisekunder. Værinndataene forblir scenarioets antakelser.
+
+dat-bdfafbf7deee = Bare intern konsistens: hvert tilføyde sted er et eget punkt, og en laseravstandsmåling eller en VLBI-forsinkelse fra en fast stasjon berører ett punkt, så informasjonen A_p^T M_p A_p er positivt semidefinitt og adderes; testen kontrollerer Fisher-differansen og hver varians mot det. Resultatet for fem arrayer er den eksisterende raden med reelle data og er uendret. Den tilføyde reflektoren gjenbruker epoker planlagt for de fem eksisterende arrayene, en ILLUSTRATIVE plan, og den tilføyde beaconens nettverk, plan og forsinkelsessigma er ILLUSTRATIVE inndata fra kampanjen for månens referansesystem; stedet er en ILLUSTRATIVE posisjon ved sørpolen. Et sted ved sørpolen ser Jorda lavt på horisonten eller ikke i det hele tatt, noe de eksisterende testene for synsvinkel uttrykker; ingen av stedene måles kontinuerlig. Tallene er Cramér–Rao-grenser for et redusert parametersett, ikke et løst datum og ikke en uttalelse om noen reell stasjon
+
+dat-244c19d279a3 = Bare intern konsistens: den bisekterte tiden til terskelen kontrolleres mot den lukkede inverse formen for klokkens dominerende støytype, og den frittgående klokkeleddet mot budsjettets eget klokkeledd. Klokkeklassene hviler på publiserte endagsspesifikasjoner (deres egne rader); LTC-raten utledes ikke på nytt her og beholder sin egen VALIDATED-rad (Månens koordinattid); styringsresidualen er ILLUSTRATIVE, realiseringsresidualen er en budsjettallokering og ingen termisk modell er inkludert. Målet på nanosekundnivå som beskrives i ICG WG-B Lunar PNT-materialet fra juni { "2024" }, er sitert som en kildeuttalelse og ikke tatt i bruk som en påstand; ingenting her er en uttalelse om noen reell stasjonsklokke
+
+dat-687e3bd46ba8 = Bare intern konsistens. Hvert publisert felt er definert i produsentens legemefaste system (GMM-3 i Mars-systemet til Konopliv et al. { "2006" }, GL0660B i månens hovedaksesystem DE421), mens feltet evalueres i IAU-systemet; forskyvningen er ikke modellert
+
+dat-c3a2c7e69283 = Intern konsistens med holdover-modulen, bit for bit; INGEN ekstern uavhengig referanse hevdes. Klassenes PSD-er er de syntetiserte gulvene ved lang tau som holdover-modulen allerede har, så tallene arver dens oppgitte forbehold om at holdover til en stram terskel styres av det antatte røde støygulvet og ikke av den siterte Allan-deviasjonen. Varighetene på utfallene er en lognormal modell med oppgitte parametere, ikke en målt registrering av skyopphold
+
+dat-81c69cadba70 = Intern konsistens: lukkede grenser og monotoni i diversitetsmodellen, den lukkede formen for skytaket og de lognormale identitetene for utfall. INGEN ekstern uavhengig referanse hevdes og ingen er sammenlignet: ingen målt tilgjengelighet for en optisk bakkestasjon eller registrering av skyfri sikt brukes. HVORFOR MODELLED: skyklimaet (sannsynlighet for sky, median og spredning av væskevannssøylen, varigheter på utfall), uavhengigheten mellom sky og turbulens, den gaussiske kopulaformen, dekorrelasjonslengden og hver teknikkgevinst er antakelser; de medfølgende scenarioene oppgir ILLUSTRATIVE klimaer, ikke et datasett. Å oppgradere denne raden krever en sitert målt tilgjengelighetsregistrering og en terskel registrert før sammenligningen
+
+dat-b7287210bebc = Intern konsistens: gjenvinning uten støy, den kinematiske identiteten rho_ddot = (|v|^{ "2" } - rho_dot^{ "2" } + d.a)/rho derivert numerisk, null Doppler ved nærmeste tilnærming, speilløsningen for en enkelt overflyvning og frøbestemte feil mot den formelle kovariansen. Starlink-tallet fra Kozhaya, Saroufim og Kassas (NAVIGATION { "72" }({ "1" }), { "2025" }: omtrent { "2" } m på { "20" } s med tre satellitter) er bare en sammenligning: den modellerte mottakeren, med en perfekt efemeride og hver feil samlet i en Doppler-sigma på { "30" } Hz, er flere ganger mindre nøyaktig over det samme vinduet, og artikkelens mottaker og målerate er ikke gjengitt
+
+dat-90e7c3f0b089 = Intern konsistens: det siterte VRW-intervallet krysskontrollert mot fysikken i CaiAccelerometer::accel_asd + rått dynamisk område beregnet fra frynsetvetydighetsgrensen; tallene er MODELLED intervaller fra litteraturoversikt (needs_source_confirmation), ingen enhet er validert, ingen valideringsglorie
+
+dat-f95438b160b3 = Intern konsistens: klassifiseringen kontrolleres mot reglene den oppgir og mot håndavledede forholdstall på syntetiske redigeringer av den innsjekkede demologgen, og festene for ingen endring holder utdataene fra { "0.35.0" }: ingen score endres med mindre geometrien er dårlig; merkelappen rapporteres alltid. HVORFOR MODELLED: tersklene er valgt, ikke tilpasset (opphav i hver kjørings geometry_model; tallene fra IEC 61108-1 og GPS SPS som sitert, som skal kontrolleres mot standardenes tekst), og det finnes ikke noe eksternt merket datasett over naturlig geometriforringelse mot angrep å validere klassifiseringen mot. Den utledede DOP-en gjenbruker kjernen orbit::dop, VALIDATED mot gnss_lib_py, hvis status denne raden ikke låner. En geometriklasse er en uttalelse om himmelen, ikke et funn om at intet angrep skjedde
+
+dat-e0a40eb480ea = Intern konsistens: den eksakte branch-and-bound stemmer overens med brute force-opptelling på små tilfeldige sett, hver plan kontrolleres som gjennomførbar mot konfliktreglene, og den grådige løsningen slår aldri det eksakte optimumet. HVA SOM IKKE ER: ingen ekstern planlegger eller operativ plan er sammenlignet; kontakter tas hele (ingen deling), etterslepet er fast ved vinduets start, svingetid utover den faste omsetningen og lagring om bord er ikke modellert.
+
+dat-de38b3520ddd = Intern konsistens: den eksakte identiteten utbrenthetshastighet = sum Isp g0 ln(m0/mf) minus de fire integrerte tapene (residual under { "1e-6" } m/s), Tsiolkovskijs ligning på en vertikal vakuumbrenning der tyngdekraften er det eneste tapet, og US76-trykkene ved havnivå og tropopause. HVA SOM IKKE ER: ingen publisert raketts tap er sammenlignet; ingen jordrotasjon, kysting, struping eller styring utover sparket; konstant C_D; ikke en baneoptimerer.
+
+dat-56c420c02926 = Intern konsistens: filterets normaliserte estimeringsfeil i kvadrat mot referanse simulert fra de samme sensormodellene over Monte Carlo-frø, og konvergens av attityde- og biasestimatene. HVA SOM IKKE ER: ingen ekstern estimator eller flydata er sammenlignet (Basilisk { "2.9.1" } har ingen MEKF-modul); sensormodellene er lærebokmodellene, uten feiljustering, skaleringsfaktor eller effekter av stjernesporerens synsfelt.
+
+dat-f698f5ba7ab8 = Intern konsistens: forovermodellen og den løste ligningen stemmer til { "1e-15" } s, Sagnac-leddet er lik modulens uavhengige BIPM 2A omega/c^{ "2" }-sløyfeform, det ionosfæriske leddet er { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, og støyprosessene viser sine forventede TDEV-former. HVA SOM IKKE ER: ingen reell TWSTFT-måling eller kalibreringsrapport er sammenlignet; de oppgitte forsinkelsene og usikkerhetene er inndata, ikke målt; stabiliteten til oppgitte serier rapporteres, ikke validert.
+
+dat-52ecbc039055 = Intern konsistens: målingene er syntetisert fra modellene filteret bruker (χ² NEES/NIS over frø, en konvergens uten støy, injeksjon av slip). MODELLED; ingen reelle mottakerdata eller tredjepartsfilter er sammenlignet
+
+dat-a64be9ada5d8 = Intern konsistens: det publiserte forskyvningsuttrykket evaluert for hånd, den normaliserte feilen over { "40" } frø, og gulvet satt av usikkerheten i forskyvningen. NIST-tallet for Iridium-tidsmottakere med en miniatyratomklokke (under { "40" } ns fra UTC(NIST) over { "40" } dager) er bare en sammenligning; det medfølgende Iridium-scenarioet gir { "10" } til { "11" } ns RMS ved nominell effekt med sin representative avstandsfeil på { "5" } m. Flicker-frekvensstøy og ionosfæreforsinkelse er ikke simulert
+
+dat-c0b1c86ee380 = Intern konsistens: sammenhengen og konstantene slik de står i NASA TR R-376, en konvergenskontroll med halvt steg og den forventede rekkefølgen på toppene for oppvarming og retardasjon. HVA SOM IKKE ER: ingen publisert oppvarmingsverdi er sammenlignet (Stardust-artiklene gir en utformingsgrense og et estimat for konvektiv pluss radiativ varme på omtrent { "1200" } W/cm2, som en bare-konvektiv sammenheng ikke kan treffe); ingen korreksjon for radiativ oppvarming, veggtemperatur eller katalyse, og ingen respons fra varmeskjold.
+
+dat-d473850d6518 = Intern konsistens: spektraleffektiviteten beregnet i lukket form fra tabell 5a K_bch og rammelengdene stemmer med effektivitetene tabell { "13" } skriver ut (en transkripsjonskontroll av terskeltabellen); linkbudsjettets deler stemmer med sine lukkede former; utvalget er monotont i Es/N0 og respekterer marginen; ACM flytter minst volumet med konstant koding. Overflyvningsgeometrien kommer fra den separat VALIDATED prediktoren for tilsynelatende overflyvninger. HVA SOM IKKE ER: intet eksternt verktøy eller målt link er sammenlignet; tersklene er standardens ideelle AWGN-verdier, ikke et modems; regnfading, pekingstap langs overflyvningen og piloter er ikke modellert.
+
+dat-2d9d8880f4f0 = Intern konsistens: referanse simulert fra filtrenes egne modeller (χ² NEES over Monte Carlo-frø, den frikoblede pakken på identiske sensorer). MODELLED
+
+dat-daeea93cf98c = Bare internt: den eksakte lukkede formen -20 log10(avstand) for linkligningen, et uavhengig brute force-rutenett over den samme typen og Rosenbrock-funksjonen. Terskelen for 1D i runde { "1" } er NOT MET (den forhåndsregistrerte boksen utelot løsningen på { "3" } dB; optimeringen stanset ved grensen), registrert i docs/design/evidence/cap32-optimize/RESULTS.md og ikke skåret på nytt. Optimumet er lokalt for boksen og starten; ingen påstand om globalt optimum
