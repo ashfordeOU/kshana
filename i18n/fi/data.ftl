@@ -7156,3 +7156,315 @@ dat-accb0008fb70 = Seitsemänparametrinen Helmert-datumin kovarianssi, jonka kak
 
 # data/verification-matrix.json
 dat-fdf50c7675aa = Seitsemänparametrinen Helmert-datum, joka on johdettu SIMULOIDUSTA HAVAINTOKAMPANJASTA eikä palautettu syötetystä muunnoksesta. Maa-asemat havaitsevat lähteistetyn kuun pinnan majakkakatalogin nimenomaisen aikataulun mukaan; kuun VLBI-viiveen osittaisderivaatat kertyvät majakkakoordinaattien Fisherin informaatiomatriisiin ja viedään Helmert-suunnittelumatriisin A = [I₃ | [p]ₓ | p] läpi muotoon H = AᵀM_bA, joten raportoitu datumin tarkkuus on havaintoohjelman funktio — täsmälleen lineaarinen viiveen sigman suhteen ja monotoninen kaaren suhteen libraation kautta, jonka raportti MITTAA. Datumin vajaus on aihe eikä alaviite: aste, vajaus, ehtoluku, spektri, havaitsemattomat suunnat seitsemänparametrisessa kannassa, heikoin suunta täydelläkin asteella ja kunkin parametrin osuus siitä tulostetaan jokaisella ajolla, ja jokainen parametri, jota kampanja ei rajoita, julkaistaan arvona NULL ja tilalla. Majakkavirheen korrelaatio on MEASURED, ei oletettu — täsmälleen nolla asemien ollessa kiinnitettyjä, ja tulostetaan hintoineen, kun ne estimoidaan. Ajettavissa `lunar-frame-campaign`-skenaariolajina
+
+# studio/data/capabilities.json
+dat-602bfa37c542 = Signaalisuorituskykykerros linkkibudjetin ja mittausalueen välillä: yksikköalaiset tehospektritiheydet BPSK-R(n):lle ja sini-BOC(m,n):lle, spektrierotuskerroin, joka johtaa häirinnänsietoisen Q:n, jota häirintämalli käyttää suoraan, todellisista signaali- ja häirintälähdespektreistä, RMS-kaistanleveys (Gabor), joka määrää etäisyysmittauksen informaatiosisällön (BOC > BPSK), koherentin early–late-DLL:n koodiseurannan terminen kohinahäiverto sekä koherentin early-minus-late-monitievirheen verhokäyrä kapean korrelaattorin vaimennuksella, ja etäisyyskoodin suunnittelukompromissi (m-sekvenssin/Goldin autokorrelaation sivukeilat ja kolmiarvoisen Goldin ristikorrelaatiorajan sekä koodin pituuden ja yksiselitteisen etäisyyden välinen käänteinen yhteys). Tämä on signaalisuorituskykyanalyysia, ei RF-hyötykuorman eikä antennilaitteiston suunnittelua.
+
+# data/verification-matrix.json
+dat-677d04005685 = Yhden kellon DOP-tekijät perustuvat ytimeen, joka on validoitu gnss_lib_py { "1.0.4" } -kirjastoa vasten (rivi 'GNSS geometry / dilution of precision (DOP)'); tämän rivin omat tarkistukset ovat sisäisiä: sky_geometry toistaa funktiot orbit::dop ja dop_cov samalla geometrialla, ellipsi toistaa analyyttisen 2x2-ominaishajotelman, ECEF- ja atsimuutti/korkeuskulma-syötteet täsmäävät, ja siemenluvulla ajetun pilven RMS ja { "95" } %:n sulkeuma täsmäävät geometrian kanssa. ENU-kovarianssi yhdellä kellolla järjestelmää kohti ja ellipsi on VALIDATED rivillä 'Horizontal error ellipse and per-system cofactor from the geometry covariance' (numpy, P2); tässä MODELLED pysyy koostaminen: esiasetusten eteneminen edustavalle taivaalle, Monte Carlo -pilvi (tarkistettu geometriaa vasten, josta se otostaa, itsejohdonmukaisuustarkistus) ja pinnat. Satelliittitähdistöesiasetukset antavat edustavan taivaan, ei päivättyä; Gaussin virhemalli ja UERE ovat ilmoitettuja syötteitä, eivät mitattu tarkkuus eivätkä eheysraja
+
+# data/search.json
+dat-0cbb8b176295 = Sivusto
+
+# data/search.json
+dat-ca71a91dc8eb = Horisonttiprofiili
+
+# data/search.json
+dat-da5865588453 = Skenaariolaji slot-timing vastaa kolmeen kysymykseen kellosta, joka käy vapaasti synkronointien välillä…
+
+# data/verification-matrix.json
+dat-83d1ec2f6e4a = Hetkellinen supistus ja ratkaisijan suljetun muodon tapaukset (InternalConsistency). Täydennys (tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md, ennalta rekisteröity erikseen tunnuksella 001ca100) { "1" } m:n korkeusrajoitteella, kolmella satelliitilla ja 6 epookin ikkunalla (ILLUSTRATIVE-asetukset; lähteet ilmoittavat suodattimen, korkeusrajoitteen ja kolme satelliittia mutta eivät niiden asetuksia): K1–K5 epäonnistuvat ja K6 läpäisee, { "1" }/{ "6" } kuten tallennetussa ajossa; R300:n korjattu p95 3D-virhe laskee arvosta { "280.6" } m arvoon { "2.11" } m (vaakasuunta { "0.90" } m, ei pisteytetty) ja kattavuus pysyy arvossa { "0" }. Ikkunan riippumattomuusoletus suosii sitä. Ei lausuma mistään todellisesta järjestelmästä
+
+# data/search.json
+dat-84c3e7c0b54b = Skenaariolaji spectrum rakentaa maailmanlaajuisen satelliittinavigointijärjestelmän (GNSS) L-kaistan ja minkä tahansa muun kaistan…
+
+# data/verification-matrix.json
+dat-73a3d167d96e = Desai, Mitcheltree ja Cheatwoodin ({ "1999" }, NASA NTRS { "20050042027" }) Stardustin nimellinen tapaus: suurin hidastuvuus { "33.4" } g nopeudesta { "12.6" } km/s planeettasuhteellisesti { "45.8" } kg:n laukaisumassalla, 6-DoF POST -lentorata täydellä aerodynaamisella tietokannalla; tulopinta lähteestä Desai, Lyons, Tooley ja Kangas (NTRS { "20090004445" }): säde { "6503.14" } km, inertiaalinen { "12.9" } km/s kulmassa -8.2 deg. Kynnykset rekisteröitiin ennalta tiedostossa xval/entry-stardust/PREREGISTRATION.md ennen yhtäkään ajoa näillä syötteillä; molemmat täyttyivät ensimmäisellä ajolla. MITÄ EI OLE: yksi julkaistu tapaus ja yksi suure (huippuhidastuvuus, joka ballistisessa approksimaatiossa ei riipu ballistisesta kertoimesta); tulon leveysaste ja suunta on oletettu; lämpenemistä, lämpökuormaa ja laskeutumispistettä ei tarkisteta sitä vasten; pistemassa vakio-C_D:llä, ei 6-DoF.
+
+# js/developers-data.mjs
+dat-5bea30c2f8ec = Staattinen julkisten kehysten kartoitus (`kshana compliance-report --mapping` / `--sources`) Markdown-muodossa: yksi taulukko kehystä kohti, jossa kunkin rivin uudelleen muotoiltu vaatimus, Kshanan tulosteet, jotka tukevat todisteita sille, ja aukko, jota tulosteet eivät sulje; tai, kun `sources` on tosi, taulukoiden viittaamat lähdedokumentit versioineen ja URL-osoitteineen.
+
+# data/search.json
+dat-0d3123f7d981 = Katukanjoni
+
+# studio/data/capabilities.json
+dat-06acdcc725b9 = Katukanjonin, sektorin ja maaston supistukset horisonttitaulukoksi, neljä edustavaa esiasetusta (kaupunkikatu, satamaan lähestyminen, vuono, konttiterminaali) ja funktiot, jotka kokoavat ne taivaankartaksi ja Monte Carlo -pilveksi, komentoriviltä, MCP:stä, Pythonista ja selaimessa. Esiasetukset ovat edustavia geometrioita valituin, ilmoitetuin mitoin, eivät mittauksia, ja supistukset tarkistetaan vain käsin laskettuja arvoja vasten.
+
+# data/search.json
+dat-cbb9fd521aa7 = Tekninen kynnys (ei neuvoteltavissa)
+
+# data/verification-matrix.json
+dat-2193be3cc46a = Kolme termiä, jotka differentiaalikorjaus kerää epookin, jolla se lasketaan, ja epookin, jolla sitä käytetään, välillä, kukin aiemmin jätetty mallintamattomaksi varaksi: vertailuaseman mittausvirhe (korreloitunut satelliittien kesken, kantaviivasta riippumaton, ~{ "1" }:{ "1" } paikan siirto ja todistettavasti DOP:n vahvistamaton), korjauksen vanheneminen (jäädytetty ratavirhevektori projisoituna uudelleen näkölinjalle, jolle moottorin oma etenemislaskija sijoittaa satelliitin yhden viiveen myöhemmin, sekä c·σ_y(τ)·τ kellon ajautuminen kalibroidusta potenssilaista) ja tasainen linkin kvantisointi tarkan ±(orbit_err + clock_err) täyden asteikon yli varianssilla step²/12. Raportoitu sekä etäisyys- että paikka-alueella, olemassa olevan residuaalin ja suojaustason rinnalla — ei koskaan niiden tilalla — ja viivekäyrä yksittäisen luvun rinnalla
+
+# data/search.json
+dat-c7fae9dce7f6 = Kolme läpikäytyä esimerkkiä
+
+# data/verification-matrix.json
+dat-8d9c177fc1ca = Luottamuspistemäärä, kaista, syyt, portin tila ja vastaanottimen ilmoittama paikka, jotka julkaistaan polussa navigation.gnss.kshana Signal K -palvelimessa varoitus-, hälytys- ja normaali-ilmoituksella (integrations/signalk); porttitettu NMEA-virta, jossa ratkaisu on merkitty virheelliseksi luottamuksen romahtaessa ja jossa on yksi PKSHT-lause jaksoa kohti, tarjottuna OpenCPN:lle TCP:llä portin itsensä tai pienen releen kautta, sekä PKSHT-lauseen lukeva natiivi OpenCPN-pistemääräpaneeli (integrations/opencpn); sekä systemd-yksiköt ja kontti, jotka ajavat portin (deploy/reference-build). Missä nämä näyttävät tulostetta, niissä on ohjeellisuuslausuma: Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC { "61108" }, IEC { "61162" }): käyttäjä vastaa edelleen aluksen navigoinnista.
+
+# data/verification-matrix.json
+dat-ab27e5de4c14 = TWSTFT:n kaksisuuntainen yhtälö ratkaistuna suureelle T_A - T_B aseman lähetys- ja vastaanottoviiveillä, Ku-kaistan ionosfäärin ylös/alas-epäsymmetrialla, transponderin viive-erolla ja Sagnac-termeillä, sen tarkkaa suoramallia vasten; neliösummaepävarmuusbudjetti, jossa linkin TDEV on tyypin A termi; kaksisuuntainen sarja valkoisella ja välkyntävaihekohinalla (Kasdin-Walter), vuorokausittaisella epäreziprookkisuudella ja vakioreziprookkisuusresiduaalilla; sekä toimitettujen Circular T-, MJD-CSV- tai IGS RINEX -asemakellosarjojen muutosnopeus, residuaalin RMS, TDEV ja ADEV. Ajettavissa `time-transfer-budget`-skenaariolajina.
+
+# data/verification-matrix.json
+dat-50788560e7d7 = Kahden yllä olevan rivin validoidut suljetut muodot, neliölakisen väärän hälytyksen identiteetti P_d(snr = { "0" }) = P_fa ja Holmesin keskimääräinen kaappausaika sekä supistus spectrum-lajin omaan SSC-ketjuun (sama Jammer::ssc-koodi). Itse suunnitelmat ovat syötteitä: esiasetukset, jotka on merkitty REPRESENTATIVE tai WORKSHOP, eivät ole julkaistuja spesifikaatioita, parannettu Feher-QPSK, koodinsiirtoavainnus ja OFDM-spektrit on approksimoitu, ja muototarkistukset vertaavat muotoja, ei kalibroituja tasoja.
+
+# data/search.json
+dat-16112a9a77ca = Alus
+
+# data/search.json
+dat-3f1d4e3f1ccb = Koko aurinkokunta yhdellä epookilla, PNT:lle (paikannus, navigointi ja ajanmääritys) minkä tahansa kappaleen ympärillä.
+
+# data/search.json
+dat-555eddd72c9c = Koko aurinkokunta yhdellä epookilla, PNT:lle (paikannus, navigointi ja ajanmääritys) minkä tahansa kappaleen ympärillä. Kun…
+
+# data/search.json, js/missions-runs.mjs
+dat-669e6375dd79 = Koko aurinkokunta yhdellä epookilla.
+
+# data/search.json
+dat-89aaa5f9ce5a = Sanat ja rajat
+
+# data/verification-matrix.json
+dat-b16d6e1433cb = Theo1 ja kokonaispoikkeama (TOTVAR) — laajennetun alueen pitkän tau:n stabiilisuusestimaattorit, jotka yltävät ~{ "75" } %:iin tallenteesta, kun Allanin poikkeama loppuu noin ~{ "50" } %:iin; niiden varaan rakennettu harhapoistettu ThêoH-hybridi (allan::theoh_curve) pysyy MODELLED-tasolla
+
+# data/search.json
+dat-66fa672b5002 = Nämä ominaisuudet on toteutettu julkaistusta tai ensimmäisten periaatteiden fysiikasta testeineen, mutta ne ovat rehellisesti…
+
+# data/search.json
+dat-cc1d1473669d = Tämä dokumentti kartoittaa RTCA:n (aiemmin Radio Technical Commission for Aeronautics) DO-229E:n (SBAS…
+
+# data/search.json
+dat-079cb1d71f11 = Tämä dokumentti kertoo, miten Kshanaa hallitaan: kuka tekee päätökset, miten, ja mitä projekti tekee ja mitä ei…
+
+# data/search.json
+dat-50eb6e6fec85 = Tämä huomautus dokumentoi Kshanan avoimen toteutuksen Advanced Receiver Autonomous Integrity Monitoringista…
+
+# data/search.json
+dat-bf2f1f92d9a4 = Tällä sivulla selitetään, mitä Kshana tekee ja miksi, alkaen nollasta ja rakentaen fysiikkaan asti.
+
+# data/search.json
+dat-af95fca25c5e = Tällä sivulla luetellaan jokainen raja, jonka telecom-timing-skenaariolaji tarkistaa, mistä kukin tulee ja mikä oli…
+
+# data/search.json
+dat-0ce7cfae4415 = Tässä käydään läpi yksi lentorata standardeihin perustuvien yhteentoimivuus- ja tehtäväanalyysiskenaariolajien läpi alusta loppuun…
+
+# data/verification-matrix.json
+dat-da8207aca260 = Kolme puolta yhdestä hajotelmasta ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG), jossa 8-ulotteinen datum⊕aikaskaala-gauge on N(G) ja state_dim − { "8" } = { "32" } havaittavaa suuntaa on range(G): (T5) provider_mismatch_split luokittelee yhteisen usean tarjoajan harhan (∈ range(G)) tilaan UNDETECTABLE — joka vaatii ulkoisen sidonnan — ja differentiaaliharhan (∉ range(G)) itsevalvotuksi / DETECTABLE; (§{ "0" }) yhdistäminen tarkoittaa, että SAMA range(G)-sokea aliavaruus hallitsee havaitsemattoman vian luokkaa, joten datumin gauge N(G) ja vikasokea aliavaruus range(G) ovat yksi geometria, eivät kaksi; (g7) slope palauttaa Brownin suojausaukon kaltevuuden ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ viralle b ∈ range(G) (estimaattori turmeltuu nollapariteetilla) ja äärellisen havaittavalle viralle
+
+# data/verification-matrix.json
+dat-fe38e57d2fb3 = Kolme koordinaatistomatriisia verrattuna alkio alkiolta tai kiertokulman mukaan ERFA:an mielivaltaisilla epookeilla: precession::precession_matrix (IAU { "2006" } -harhapresessio Fukushima-Williams-kulmilla), nutation::teme_to_gcrs_matrix (TEME–GCRS-kierto P^T N^T Rz(-EE) IAU { "2006" } -presessiolla, IAU 2000B -nutaatiolla ja päiväntasausten yhtälöllä kahdella johtavalla komplementaarisella termillään) ja cio::gcrs_to_cirs_matrix_with_offsets (GCRS–CIRS-kierto, jossa IERS:n taivaannavan siirrot dX, dY lisätään mallin CIP X, Y -arvoihin ennen kiertoa, SOFA cookbook -käytäntö; uusi). Itse mallivalintoja (2000B-nutaatio TEME-polulla, kaksitermiset komplementaarisarjat) ei validoida, vain niiden toteutus
+
+# data/verification-matrix.json
+dat-c6a5b4e18a0f = Kolme gnss-ins-skenaariota lentoratakirjastossa (alus, joka kiemurtelee nopeudella { "8" } m/s viiden minuutin katkolla; juna kahden satelliitin leikkauksen ja tunnelin läpi; ilma-alus, jonka katko kattaa 25 asteen kallistetun käännöksen) ja paketin valinnainen [tight]-taulukko: SGP4 Walker -satelliittitähdistön pseudoetäisyydet yhdistettynä suljetun silmukan navigaattorilla, jokainen satelliitti maskin yläpuolella nimellisessä tilassa ja korkeimmat muutama heikentyneessä tilassa
+
+# data/verification-matrix.json
+dat-6781f5f7c487 = Kolme riippumatonta arvovaltaista efemeridiä — DE440 (JPL), INPOP21a (IMCCE), EPM2021 (IAA RAS) — otostettuina IMCCE:n calcephilla, ristiintarkistettuina riippumattomalla numpy SVD -pienimmän neliösumman sovituksella. MIKSI TÄMÄ ON validoitu, KUN lunar_common_mode EI OLE, samoilla kolmella efemeridillä: tässä raportoitu suure ON julkaistun datan ominaisuus — niiden keskinäinen ero — joten efemeridit ovat oraakkeli, eivät syöte. Rivillä lunar_common_mode sama ero syöttää MODELLED-satelliittitähdistögeometriaan ja vastaus on kyseisen mallin ominaisuus, minkä vuoksi tuo rivi on oikein mallinnettu/ReferenceImpl.
+
+# data/search.json
+dat-e308dc95dc23 = Kolme skenaariolajia tarjoaa paikannusta, navigointia ja ajanmääritystä (PNT) matalan Maan kiertoradan satelliiteilla…
+
+# data/verification-matrix.json
+dat-b7376e140622 = Kolme rakenteellista vartijaa itse varmennusprosessin yllä, kukin sulkee virheluokan, joka pääsi kanoniseen porttiin ajoittaisena tai harhaisena punaisena. ({ "1" }) Jokaisen Rust-lähteissä muodostetun väliaikaispolun on sisällettävä kutsukohtaisesti yksilöllinen osa; prosessitunnus hylätään, koska cargo ajaa kirjastotestit YHDEN prosessin rinnakkaisina säikeinä ja kaikki jakavat pid:n. ({ "2" }) Jokaisen tavu tavulta -kiinnityksen tai tiivistekiinnityksen on ilmoitettava vierellään tai moduulin otsikossa, mitä se kattaa ja mitä se tarkoituksella sulkee pois — jotta poikkileikkaava muutos näkee yhdellä silmäyksellä, mitkä kiinnitykset ovat piirissä ja mistä on hiljaa tullut koko arkiston muutostunnistimia. ({ "3" }) Vihreä on väitettävissä vain KOKO sarjasta: scripts/gate.sh ajaa `cargo test --all`, tallentaa todellisen poistumiskoodin ilman putkea tiellä ja kirjoittaa kuitin, joka nimeää commitin, integraatiobinäärien määrän, testien määrän ja keston; push-tarkistus kieltäytyy pushista, jonka commitia ei nimeä yksikään voimassa oleva kuitti, puhtaassa puussa. Toistettavuus otostetaan erikseen skriptillä scripts/check-repeatability.sh, joka ajaa kirjastosarjan N kertaa ja epäonnistuu, jos läpäisevien testien joukko eroaa.
+
+# studio/data/capabilities.json
+dat-abb22745ef3d = Kolmiakselinen strapdown-INS — kvaternioniasento, WGS-84 NED -mekanisaatio, coning/sculling-kompensaatio ja täysi deterministinen IMU-virhemalli — sekä ensimmäisten periaatteiden kylmäatomi-interferometrikiihtyvyysmittari (Mach–Zehnder-vaihe, projektiokohina, kontrastin vaimeneminen, tärinäkytkentä) ja hiukkassuodatin maasto- tai painovoimaviitteiseen GPS-estettyyn navigointiin.
+
+# data/verification-matrix.json
+dat-8a384aa0ece5 = TIB-vikavalikko (domain-divergence, clock-slam, holdover-coast, staattinen/inkrementaalinen/symmetrinen/epäsymmetrinen viive, replay-within-freshness, path-selective, k-of-N-kvoorumi)
+
+# data/verification-matrix.json
+dat-ba55614d83be = TIB-eheyskattavuuden pisteytys (HMI/MI/saatavuusluvut + ylärajakattavuuden arvio)
+
+# data/verification-matrix.json
+dat-a94d5c81b3b5 = TIB:n Stanford-eheyskaavion epookkiluokitus (nimellinen / ei saatavilla / MI / HMI)
+
+# data/verification-matrix.json
+dat-ae4e9157f569 = TIB:n havaitsemattoman absorption arvio (symmetrinen/replay on absorboitava suojaustasolla, ei koskaan raportoida havaituksi)
+
+# data/search.json
+dat-96a1790c4953 = Vuorovedet geopotentiaalissa (src/tides.rs)
+
+# data/verification-matrix.json
+dat-1cece66370c3 = tides::tests (S1-termi on vuorokautinen, kiertää { "90" } deg neljänneksessä päivää ja sillä on kunkin rivin kuormituskertoimen amplitudi; fysikaalinen suuruus LEO:ssa); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+# studio/data/capabilities.json
+dat-570e93de692d = tiukasti kytketty UKF · { "0.77" } m RMS
+
+# studio/data/areas.json
+dat-7693dd3b7cf2 = Aikavirhe
+
+# studio/data/capabilities.json
+dat-6cece0b05a6a = Aikaskaalat ja Maan orientaatiokoordinaatistot
+
+# studio/data/capabilities.json
+dat-46048a345e4c = Aikajärjestelmät
+
+# data/search.json, js/missions-runs.mjs
+dat-a4f81aad2d9a = Ajansiirto UTC:hen LEO-satelliiteista, C/N0:aa ja vastaanottimen oskillaattoria vasten.
+
+# data/verification-matrix.json
+dat-e2efae3f8849 = Aika-alueen näkyvyysylilennot (AOS/TCA/LOS, suurin korkeuskulma, kesto) moottorin etenemislaskijalle asemalla korkeuskulmamaskin yläpuolella, interpoloiduilla nousu- ja laskuristeyksillä ja kokonaisaksessilla: passes::predict_passes, geometrinen aikatauluttaja (ei refraktiota eikä valoaikaa). `passes`-skenaariolaji ajaa rivin 'Apparent ground-station pass prediction with refraction and light time' näennäisen ennustajan
+
+# data/search.json
+dat-66eda5411853 = Ajan harhautuksen havaitseminen nimenomaisella hyökkäysmuodolla ja stokastisella ilmaisimella.
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-dcb22bd12a55 = Ajansiirron virhebudjetointi
+
+# data/search.json
+dat-5f88ca853243 = time-transfer-budget (skenaariolaji)
+
+# data/search.json
+dat-bbb4dcced418 = timetransfer (skenaariolaji)
+
+# data/verification-matrix.json
+dat-44dcbd5a239e = timetransfer_chain::tests (tarkkuus paranee integroinnilla; kvantti voi voittaa JA hävitä; PL äärellinen-positiivinen; turvallisuuden FoM välillä [{ "0,1" }] ja kasvaa hyökkäysviiveen mukana; poikkeaman Pd monotoninen; vertailu is_honest)
+
+# data/verification-matrix.json
+dat-9fd675aba21a = timetransfer::tests (resiprookkinen kumoutuminen; kaksimuotoinen Sagnac-identiteetti); tests/time_transfer_error_budgeting_reference.rs (päiväntasaajan kiertomatkan Sagnac = { "207.386" } ns vs. julkaistu Ashby { "207.4" } ns tarkkuudella <{ "0.05" } ns; sekä Sagnac-/geodist-geometria ristiintarkistettuna C-lähteestä käännettyä RTKLIB { "2.4.3" } geodist()-funktiota vasten)
+
+# data/search.json
+dat-bafdf56f480c = Ajoitus- ja holdover-testit
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-fe1585259034 = Ajoituksen ja etäisyysmittauksen jatkuvuus optisten katkojen läpi
+
+# studio/data/areas.json
+dat-572b994bdb6f = Ajoitusvirhe ajon aikana
+
+# data/search.json
+dat-60e75eec2266 = Ajoitus verkoille, spektrille, aurinkokunnalle, satelliittitähdistöille, kampanjoille ja LEO-PNT:lle
+
+# data/search.json
+dat-af3ae4c6ec29 = Ajoitus hardware-in-the-loop: vedä antenni irti, pisteytä holdover
+
+# studio/data/capabilities.json
+dat-a4bd95a08c10 = Ajoituksen eheys
+
+# data/verification-matrix.json
+dat-830ecf94efaa = Ajoituksen suojaustaso kiertoradalla olevalle vastaanottimelle GNSS-harhautuksen aikana
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-3c5975241acf = Ajoituksen suojaustaso harhautuksessa
+
+# data/search.json
+dat-81849f4dacd3 = Ajoitusseinä
+
+# data/verification-matrix.json
+dat-28757f0de384 = Ajoituseheyden vaatimustenmukaisuusvertailu — vikaluettelo (parametriset generaattorit)
+
+# data/verification-matrix.json
+dat-00ec4aa50d47 = Ajoituseheyden vaatimustenmukaisuusvertailu — eheyskattavuuden pisteyttäjä
+
+# data/verification-matrix.json
+dat-cea9b5d71933 = Ajoituseheyden vaatimustenmukaisuusvertailu — Stanford-eheyskaavion epookkiluokittelija
+
+# data/verification-matrix.json
+dat-06ca29579f23 = Ajoituseheyden vaatimustenmukaisuusvertailu — havaitsemattoman absorption arvio
+
+# js/missions-runs.mjs
+dat-d7ca79c5d894 = konvergoitumiseen, vain GNSS
+
+# data/search.json
+dat-73bf610fd7de = Ylätaso (kello- ja ratapaketit)
+
+# data/verification-matrix.json
+dat-5a7431e27e44 = Vääntömomentiton jäykän kappaleen asentodynamiikka
+
+# data/verification-matrix.json
+dat-b5235132847d = tpl::tests (suljetun muodon oraakkelit + CUSUM); examples/tpl_jammertest.rs (JammerTest { "2024" } oikean harhautuksen kalibrointi); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (kiinnittää havainnon); tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+# data/verification-matrix.json
+dat-cf0276f69bce = tracking_loop (koostaen sdr, jamming)
+
+# data/verification-matrix.json
+dat-e61b4ece5d0d = tracking_loop::tests (avoimen silmukan Costas-diskriminaattorin värinä verrattuna siemenluvulla ajettuun synteettiseen IF:ään askelletulla sdr::correlate-funktiolla, { "3" } yhdistettyä kohinatoteumaa × { "900" } epookkia, täsmäten { "0.63" } %:iin alueella 35-45 dB-Hz, kun neliöintihäviötermin vaaditaan sopivan vähintään { "3" }× paremmin kuin ilman neliöintihäviötä olevan muodon, missä se on erotettavissa; ~{ "32" } dB-Hz:n atan-diskriminaattorin kyllästyminen todennettu eikä pelkästään ilmoitettu, joten pätevyysraja on kiinnitetty; suljetun silmukan σ verrattuna askelletun sdr Costas -silmukkaan { "4000" } epookin yli { "3.7" } %:iin; ensimmäisen asteen DLL-ramppiviive verrattuna askelletun sdr DLL:n arvoon { "0.17" } %:iin; bessel_i0 verrattuna taulukoituun I₀:aan { "7.4e-8" }:iin; hystereesin leveyden vaaditaan osuvan välille [{ "5" }·log₁₀ r, { "10" }·log₁₀ r] { "4" } suhteella × { "2" } integrointiajalla × { "3" } kaistanleveydellä); api::tests::tracking_loop_kind_round_trips_through_the_dispatch; tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+# data/search.json
+dat-b47f3ef2ed91 = tracking-loop (skenaariolaji)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-ddc4cb423e89 = Seurantasilmukan lukon menetys ja harhautuksen sisäänveto häiriössä
+
+# data/search.json
+dat-6f5b10eb7cfb = Seurantasilmukan lukon menetys: C/N0 -> lukitus/lukituksen purku hystereesillä, aika, jonka se kestää
+
+# data/search.json
+dat-9171d7bdf4d8 = Seurantasilmukan lukon menetys: C/N0 -> lukitus/lukituksen purku HYSTEREESILLÄ, lukon menettämisen kesto ja harhautus…
+
+# data/search.json
+dat-a92df5c034d8 = Vertailututkimus: miten holdover skaalautuu kellon stabiilisuuden mukaan?
+
+# data/search.json
+dat-895e0a8d9ffd = Lentoratatila: kiertoradan varrella
+
+# data/verification-matrix.json
+dat-473bee0dc62d = Litteroidut rajat: ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC locked ja ePRTC-A holdover (mukaan lukien taulukon { "3" } aikavirheen verhokäyrä), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) T-BC/T-TSC-luokat A-D ja G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) vertailupiste C, kukin avoin tai suljettu väli sellaisena kuin taulukko sen esittää, kaikki 'for further study' -merkinnät pois jätettyinä; arvio ja marginaali sitovassa pisteessä tarkistusta kohti sekä aika, jossa kukin budjetti ylittyy. Ajettavissa `telecom-timing`-skenaariolajina
+
+# data/verification-matrix.json
+dat-973900257f13 = Siteerattujen julkisten lukujen litterointi ja johdonmukaisuustarkistus: julkaistusta pienimmästä vastaanotetusta tehosta asetettu EIRP ennustaa julkaistun suurimman tarkkuudella { "0.5" } dB tasaisella kuviolla. Se on etäisyyshajonnan tarkistus, ei minkään satelliitin antennin validointi; edustavat esiasetukset eivät väitä mitään todellisesta järjestelmästä
+
+# data/verification-matrix.json
+dat-75850c0e8a41 = Siteerattujen julkisten arvojen litterointi, tarkistettu rakenteen osalta (jokaisella julkisella lähteellä on URL, Walker-kuviot jakautuvat tasan, C/N0 vastaanotetusta tehosta jaettuna kT:llä lämpötilassa { "290" } K), ei ulkoista oraakkelia vasten. Edustavat arvot on nimetty kussakin esiasetuksessa ja ovat havainnollistavia
+
+# data/verification-matrix.json
+dat-757d75457718 = Nimettyjen suositusten litterointi (ladattu osoitteesta itu.int 2026-10-13), jokainen rivi luettu uudelleen tekstiä vasten, ja painettujen kertoimien implikoima taitepisteiden jatkuvuus rajattu testeissä (esimerkiksi { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns verrattuna G.812:n taulukon { "4" } { "100" } ns:n tasanteeseen). Standardien litterointi sisäisillä johdonmukaisuustarkistuksilla, ei vaatimustenmukaisuustesti eikä ulkoinen validointi. G.812 (06/2004) on listattu korvatuksi ennakkojulkaistulla 08/2026 -painoksella ja G.811:llä on Amd. { "1" } (04/2016); kumpaakaan ei voitu lukea, joten kumpaakaan ei tarkisteta. Vapaasti käyvä OCXO-skenaario liioittelee oskillaattorin osuutta havaintoväleillä, jotka ovat pitkiä silmukan aikavakioon nähden; se ei kerro mitään mistään laitekellosta
+
+# data/verification-matrix.json
+dat-41fde09e0536 = Nimettyjen suositusten litterointi (vapaasti ladattavissa osoitteesta itu.int), kukin raja sisältää taulukkonsa tai kohtansa, listattuna kaikkien vahvistamattomien tai toteuttamattomien kohtien kanssa tiedostossa docs/TELECOM-TIMING.md; taulukoiden implikoimat taitepisteiden jatkuvuusidentiteetit tarkistetaan testeissä. Standardien litterointi sisäisillä johdonmukaisuustarkistuksilla, ei vaatimustenmukaisuustesti eikä ulkoinen validointi. { "0.30" } kierros { "2" } (ennalta rekisteröity 970003ee), estetty (pysyy MODELLED-tasolla): kymmenen maskiarvoa ja kolmetoista ePRTC-A-holdover-arvoa, jotka suositukset esittävät laskettuina lukuina (G.8272 kuvat 1-2, G.8272.1 Amd.1 kohta { "8.2.1" } ja kuvat V.1-V.3, G.8271.1 Amd.3 kuvat 7-2 – 7-4), toistetaan puolen painetun yksikön sisällä, useimmat niistä taulukkovakioita tai taitepisteitä; G.8271.1:n kuva 7-2 merkitsee { "200" } ns kohtaan { "1.3" } s omaa taulukkoaan 7-1 vastaan ({ "197.5" } ns). G.8273.2:n luokkien A-D rajoilla ei ole painettua laskettua arvoa, ja G.8272.1:n ePRTC locked -taitepisteiden merkinnät (yhtenäisillä apuviivoilla) jätettiin pois ennalta rekisteröidyn valintasäännön mukaan, joten ne pysyvät litterointeina
+
+# data/verification-matrix.json
+dat-987a822b09b1 = Troposfäärin amplitudituike Maa–avaruus-yhteydellä
+
+# data/search.json
+dat-18b137f9f9d0 = Luottamuspistemäärä
+
+# data/search.json
+dat-f0430b8cc9f6 = Luottamuspistemäärä (alusalusta)
+
+# studio/data/capabilities.json
+dat-03c201e427bf = Luottamustelemetria turvallisuusoperaatioille
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-8dd9b64e7b1c = Luottamustelemetrian SIEM-tapahtumat: Common Event Format (CEF) syslogin yli
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-3b341a074b5a = Luottamustelemetrian SIEM-tapahtumat: Log Event Extended Format (LEEF) syslogin yli
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-af2c0f76b82d = Luottamustelemetrian siirtomuodot: Prometheus-tekstialtistus ja OpenTelemetry OTLP/HTTP JSON
+
+# data/search.json
+dat-462f51eddb7a = Luotettu kvanttiajoitus — päästä päähän -ketju, turvallinen jakelu, poikkeama + vertailu (src/timetransfer_chain.rs)
+
+# data/search.json
+dat-e2b23a03c196 = Luotettu kvanttiajoitus — päästä päähän -ajansiirtoketju, turvallinen jakelu,
+
+# data/verification-matrix.json
+dat-6c2f04247970 = Luotettu kvanttiajoitus (ajansiirto + turvallinen jakelu + poikkeama)
+
+# studio/channels.json
+dat-678b3b18dc8d = Kokeile selaimessa
+
+# data/search.json
+dat-fe6951113784 = Kokeile
+
+# studio/data/capabilities.json
+dat-2d7dadadb10a = Tsiolkovski < { "0.01" } % · Lambert-edestakaismatka kahden kappaleen totuuteen
+
+# data/search.json
+dat-792becc434c6 = Opas { "1" } — Ensimmäinen kiertoratani: missä GPS-satelliitit ovat
+
+# data/search.json
+dat-a424ed5ba327 = Opas { "2" } — Kellon holdover: kuinka pitkään voi liukua
+
+# data/search.json
+dat-43b0b402ae05 = Opas { "3" } — Kvantti vs. klassinen GNSS-kestävyys (päätösesimerkki)
+
+# data/verification-matrix.json
+dat-b349d9190a41 = Kaksi eri koodikannan sisäistä laskentaa samalle suureelle, ei yhtä uudelleen esitettyä: IEEE-1139:n potenssilakikäyrän bisektio ei tiedä mitään kohinatyypistä, kun taas suljettu muoto kääntää hallitsevan tyypin algebrallisesti, joten väärin luokiteltu kohinatyyppi tai huono haarukka näkyy ei-pienenä suhteellisena erona. Neljä arvoa myös toistavat artikkelin julkaistun taulukon puoleen sen viimeisestä painetusta numerosta -- mutta tuo taulukko rekonstruoitiin itse samasta suljetusta muodosta, joten se on toistettavuustarkistus eikä ulkoinen oraakkeli, ja kehystermi, jota vasten se mitataan, on mallinnettu allokaatio
+
+# data/verification-matrix.json
+dat-56afaff440ac = Kaksiakselinen pyyhkäisy kuviopainotetulle, korkeusrajoitetulle pinnan sieppausjalanjäljelle lähettimen korkeuden ja lautasen halkaisijan yli, tulostettuna yksi rivi toimintapistettä kohti kunkin halkaisijan implikoimalla puolitehokeilanleveydellä, ja horisontin sieppaus raportoituna KYNNYKSENÄ -- riviä kohti horisontin J/S, sen marginaali ja lähetysteho, joka sulkisi sen; ruudukkoa kohti paikannetut ylitykset tai nimenomainen toteamus, ettei horisonttia saavuteta missään ruudukon kohdassa, vajeineen
+
+# data/verification-matrix.json
+dat-d599af854f03 = TRK-2-18 Orbit Data File -lukija ja Marsin ramppaava 2-suuntainen Doppler-malli
