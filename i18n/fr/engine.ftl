@@ -11550,3 +11550,63 @@ engine-partner-text-error = { "  " }ERREUR : { $e }
 engine-partner-text-result-ok = résultat : le format et les métadonnées sont complets et lisibles
 
 engine-partner-text-result-not-ready = résultat : pas prêt ; corrigez les erreurs ci-dessus
+
+engine-interference-map-locate-usage = utilisation : kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom exige aussi --licence <text> --licence-url <url> --attribution <text>)
+    Écrit emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv et -figure.svg : des régions d'émetteur estimées à des niveaux de confiance indiqués, jamais un simple point
+
+engine-interference-map-locate-wrote = écrit { $path }
+
+engine-interference-map-locate-summary = { $n_sessions } { $n_sessions ->
+        [one] session publiée
+        [many] de sessions publiées
+       *[other] sessions publiées
+    } ; { $n_withheld } { $n_withheld ->
+        [one] session candidate écartée
+        [many] de sessions candidates écartées
+       *[other] sessions candidates écartées
+    } (moins de { $min } aéronefs ou navires distincts)
+
+engine-interference-map-locate-note-not-preregistered = note : une option diffère des paramètres préenregistrés ; il ne s'agit donc pas de la méthode préenregistrée
+
+engine-interference-map-locate-line-session = session { $k } : { $start } à { $end }, { $affected } distincts touchés, région à { $level } % { $area } km², centroïde { $lat }, { $lon } (ellipse { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = session { $k } : { $start } à { $end }, { $affected } distincts touchés, les rapports ne restreignent pas la région (non contrainte)
+
+engine-interference-map-locate-fig-title = Région d'émetteur estimée
+
+engine-interference-map-locate-fig-subtitle = { $n ->
+        [one] Où, sous des hypothèses indiquées, une source des rapports dégradés pourrait se trouver. Session affichée : { $n }.
+        [many] Où, sous des hypothèses indiquées, une source des rapports dégradés pourrait se trouver. Sessions affichées : { $n }.
+       *[other] Où, sous des hypothèses indiquées, une source des rapports dégradés pourrait se trouver. Sessions affichées : { $n }.
+    }
+
+engine-interference-map-locate-fig-none = Aucune session n'a atteint le minimum de publication ; aucune région n'est donc affichée.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = région à { $pct } %
+
+engine-interference-map-locate-fig-legend-ellipse = ellipse à 95 % de la distribution a posteriori
+
+engine-interference-map-locate-fig-note-1 = Une région n'est pas la position d'un aéronef, d'un navire ou d'une organisation, et ne constitue pas une conclusion sur la cause.
+
+engine-interference-map-locate-fig-note-2 = Le relief n'est pas modélisé et chaque session suppose une seule source ; les niveaux de confiance sont conditionnels au modèle.
+
+engine-e-interference-map-locate-bad-number = { $name } n'est pas un nombre
+
+engine-e-interference-map-locate-bad-levels = --levels exige des nombres séparés par des virgules, strictement compris entre 0 et 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km doit être compris entre 0.5 et 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min doit être compris entre 1 et 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m exige deux nombres, min,max, avec 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } n'est pas un fichier de solution TDOA utilisable (receivers, tdoa_s, sigma_s, start), ou la solution n'a pas convergé
+
+engine-e-interference-map-locate-source-required = --source adsb ou --source ais est requis
+
+engine-e-interference-map-locate-no-evidence-rows = aucune ligne de preuve n'est listée pour les sorties de locate
