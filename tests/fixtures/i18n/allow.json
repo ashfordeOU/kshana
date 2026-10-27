@@ -830,8 +830,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/leo_navmsg/tests.rs": {
-   "count": 22,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 28,
+   "reason": "developer: the host-mathematics scan's list of reviewed crate paths and its test messages"
   },
   "src/leo_navmsg/text.rs": {
    "count": 9,
