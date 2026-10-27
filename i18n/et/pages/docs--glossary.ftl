@@ -1182,3 +1182,2594 @@ seg-92ac0357d01e = CV
 
 # text
 seg-28f75c073917 = (ühine vaade aja edastamisel; kontekst ütleb, kumb)
+
+# text
+seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB — koordineeritud maailmaaeg / rahvusvaheline aatomaeg / maaaeg / maailmaaeg { "1" } (Maa pöörlemisega seotud aeg) / barütsentriline dünaamiline aeg.
+
+# text
+seg-507b8c235614 = CZML
+
+# text
+seg-0b76641dee1a = Cesium Language
+
+# text
+seg-fd0a7af2ebeb = CesiumJS-i JSON-stseenivorming
+
+# text
+seg-1aefbc0b799d = dB / dBW / dB-Hz
+
+# text
+seg-8a0d954bd13b = detsibell / detsibell-watt / detsibell-herts
+
+# text
+seg-c485de5bcd85 = võimsussuhe, absoluutne võimsus ja C/N0 ühik
+
+# text
+seg-6c0cbce59df5 = DC
+
+# text
+seg-ddd7d412fce7 = alalisvool
+
+# text
+seg-0ea7fccee332 = nullsageduse piirjuht
+
+# text
+seg-521e2abbe12d = DCM
+
+# text
+seg-3db4487dc2a4 = suunakoosinuste maatriks
+
+# text
+seg-9d3d9ca79a9d = pöördemaatriks
+
+# text
+seg-364a2fcec10b = DCO
+
+# text
+seg-110b1eb4f532 = Developer Certificate of Origin (arendaja päritolusertifikaat)
+
+# text
+seg-1545bd59f5ef = DCT
+
+# text
+seg-8b6866288bea = disainijuhtimistabel
+
+# text
+seg-80d95f099e9a = sideliini energiabilansi tabel (JPL DESCANSO Galileo X-riba näide)
+
+# text
+seg-7f9734bd79bc = DE / DE421 / DE430 / DE440 / DE441
+
+# text
+seg-ed8d5c361e79 = JPL Development Ephemeris (versioonid { "421" }, { "430" }, { "440" }, { "441" })
+
+# text
+seg-748af19e3f0b = planeetide ja Kuu efemeriidid; „DE-grade“ tähendab selle klassi täpsust
+
+# text
+seg-6f880928ce0c = DEM
+
+# text
+seg-eed6ad669d4c = digitaalne kõrgusmudel
+
+# text
+seg-920f5ff86fa2 = DESCANSO
+
+# text
+seg-6d1f2ffa8184 = Deep Space Communications and Navigation Systems Center of Excellence (süvakosmose side- ja navigatsioonisüsteemide tippkeskus)
+
+# text
+seg-2e11a1976171 = JPL-i monograafiasari
+
+# text
+seg-10dc0c578b92 = Deutsches Geodätisches Forschungsinstitut der Technischen Universität München (Müncheni Tehnikaülikooli Saksa geodeesia uurimisinstituut)
+
+# text
+seg-e7cedd55549e = peab EUROLAS-i andmekeskust
+
+# text
+seg-4389ecd5c81a = DGNSS
+
+# text
+seg-fb8c5992354b = diferentsiaalne GNSS
+
+# text
+seg-3fed847ae9ec = DHS
+
+# text
+seg-2845322fad33 = Ameerika Ühendriikide sisejulgeolekuministeerium
+
+# text
+seg-6b487421c547 = US
+
+# text
+seg-9e06c8655623 = DoD
+
+# text
+seg-7a7ea4a3f0d5 = Ameerika Ühendriikide kaitseministeerium
+
+# text
+seg-1f6c4757bee5 = DOF / DoF
+
+# text
+seg-e1daefad0696 = vabadusaste
+
+# text
+seg-bf5bc69cb873 = vt 1-DOF ülalpool
+
+# text
+seg-3b5c7c9b324d = DOR / Δ-DOR
+
+# text
+seg-3e0b6392f4d9 = diferentsiaalne ühesuunaline kaugusmõõtmine / delta-diferentsiaalne ühesuunaline kaugusmõõtmine
+
+# text
+seg-6ba2d3b5b724 = süvakosmose nurkjälgimine
+
+# text
+seg-58c55b8ab7fe = DP5 / RK4 / RK5 / DOP853
+
+# text
+seg-ea9b38a5d810 = Dormand–Prince { "5" }({ "4" }) / Runge–Kutta { "4" } / Runge–Kutta { "5" } / Dormand–Prince { "8" }({ "5,3" })
+
+# text
+seg-00ecc6de9912 = numbrilised integraatorid
+
+# text
+seg-16c4bf2faef3 = DRMS
+
+# text
+seg-8128cc0c1482 = kauguse ruutkeskmine
+
+# text
+seg-a8ed04890ded = vt 2DRMS
+
+# text
+seg-c9ab798458cb = DS00002980D / DS00002985D / DS00003047A
+
+# text
+seg-371644e70b75 = Microchipi andmelehtede dokumendinumbrid
+
+# text
+seg-f25e5c4de1e5 = DSAC
+
+# text
+seg-aa0d8d4b3a3b = Deep Space Atomic Clock (süvakosmose aatomkell)
+
+# text
+seg-e80350ed521f = NASA lõksu püütud elavhõbedaioonide kell
+
+# text
+seg-52e838301c0b = UT1 miinus UTC
+
+# text
+seg-fbce3b3b7b80 = Maa pöörlemise parandus
+
+# text
+seg-8aa996f34920 = bitienergia ja müratiheduse suhe
+
+# text
+seg-463b21c0b791 = inertsiaalsüsteem, mis on käigu alguses joondatud Maaga seotud süsteemiga
+
+# text
+seg-4dc987bd9dbf = kasutatakse leo-pass koostalitlusvõime eksportides
+
+# text
+seg-61f975df5e21 = ECMAScript / ES
+
+# text
+seg-c66e728cd2fa = JavaScripti aluseks olev standard / ES-moodul
+
+# text
+seg-e1a4fd0a6a76 = Empirical CODE Orbit Model { "2" }
+
+# text
+seg-2967e958f353 = GNSS-i päikesesurve mudel (CODE: Center for Orbit Determination in Europe, Euroopa orbiidi määramise keskus)
+
+# text
+seg-244af4062ccc = ECSS
+
+# text
+seg-b74029376aba = European Cooperation for Space Standardization (Euroopa kosmosestandardimise koostöö)
+
+# text
+seg-d452e23d503a = ECSS-E-ST-10-02 on selle kontrollistandard
+
+# text
+seg-becb6685ff13 = ED
+
+# text
+seg-b6448e14a567 = EUROCAE dokument
+
+# text
+seg-ee4ada9c4c6e = nagu dokumendis ED-259A
+
+# text
+seg-8a57ce8403b1 = EDL
+
+# text
+seg-0f065f2290f3 = atmosfääri sisenemine, laskumine ja maandumine
+
+# text
+seg-69f37001de44 = EEE
+
+# text
+seg-18a1b66286ee = elektri-, elektroon- ja elektromehaanilised (osad)
+
+# text
+seg-f814c1301059 = kosmosetoote kvaliteedi tagamine
+
+# text
+seg-08e455b17435 = EGM / EGM2008
+
+# text
+seg-1ed72a253035 = Earth Gravitational Model (Maa gravitatsioonimudel; väljalase { "2008" })
+
+# text
+seg-074e3ceb394e = NGA
+
+# text
+seg-69ba7307ea4c = EIGEN
+
+# text
+seg-4272020c0ebd = European Improved Gravity model of the Earth by New techniques (Maa täiustatud Euroopa gravitatsioonimudel uute meetoditega)
+
+# text
+seg-a49ce7809382 = ELECTRE
+
+# text
+seg-647519f3df17 = ELimination Et Choix Traduisant la REalité (eliminatsioon ja tegelikkust väljendav valik)
+
+# text
+seg-efb2f919955a = ülekaalumeetodil põhinev mitmekriteeriumiline meetod
+
+# text
+seg-88a2f1813af8 = Éphéméride Lunaire Parisienne, MPP02 versioon (Chapront)
+
+# text
+seg-b1d699d70339 = analüütiline Kuu teooria
+
+# text
+seg-aee5eeb23064 = Maa keskmine ekvaator ja pööripunkt epohhil J2000
+
+# text
+seg-16d9b8eac95d = inertsiaalsüsteem
+
+# text
+seg-e676d5eec6e3 = EML
+
+# text
+seg-f4bba0abbda7 = koodidiskriminaator
+
+# text
+seg-0e4110d33849 = EMT
+
+# text
+seg-103c6de62575 = efektiivne seirelävi
+
+# text
+seg-4b2101113387 = ARAIM-i väljund
+
+# text
+seg-0e2817aec74a = ENU / NED
+
+# text
+seg-56d5cf1544d9 = ida–põhi–üles / põhi–ida–alla
+
+# text
+seg-aae7610833a7 = kohalikud horisontaalsüsteemid
+
+# text
+seg-c7d5c5d5c5b2 = EO
+
+# text
+seg-24907930c730 = Maa seire
+
+# text
+seg-38f9c209c4ac = EPM / EPM2021
+
+# text
+seg-d15e1559b7f7 = Ephemerides of Planets and the Moon (planeetide ja Kuu efemeriidid; väljalase { "2021" })
+
+# text
+seg-bd2a27a17f6d = IAA RAS-i efemeriid
+
+# text
+seg-01a8e43fb6c7 = ERA
+
+# text
+seg-eb78ffaf7e1d = Maa pöördenurk
+
+# text
+seg-966ed500f705 = ESKF
+
+# text
+seg-e79112a3132a = veaseisundi Kalmani filter
+
+# text
+seg-25c6b6b19d75 = ESS
+
+# text
+seg-fe2b7be913f0 = efektiivne valimi maht
+
+# text
+seg-57ce1c1b617b = osakestefiltri puhul
+
+# text
+seg-f529300f944b = ESSR
+
+# text
+seg-869be8388d26 = European Space Software Repository (Euroopa kosmosetarkvara hoidla)
+
+# text
+seg-536d66d208e4 = ESA
+
+# text
+seg-27be9c1d7090 = ET
+
+# text
+seg-7cc2ef5b0748 = efemeriidiaeg
+
+# text
+seg-e0c49639649e = SPICE-i nimetus TDB jaoks
+
+# text
+seg-80de6914a5ec = EUROCAE
+
+# text
+seg-76897dd8c3be = Euroopa tsiviillennundusseadmete organisatsioon
+
+# text
+seg-b4f12b7813dd = EUROLAS
+
+# text
+seg-857527c69d6e = Euroopa laservõrk
+
+# text
+seg-fa7025d88c88 = satelliitide ja Kuu laserkaugusmõõtmine
+
+# text
+seg-13fc009b947c = FAQ
+
+# text
+seg-f5581b33ae89 = korduma kippuvad küsimused
+
+# text
+seg-67d10fd4a4e0 = FCC
+
+# text
+seg-0a558c281968 = Ameerika Ühendriikide föderaalne sidekomisjon
+
+# text
+seg-f6ade8c24d27 = FCNN
+
+# text
+seg-6098513947b8 = täielikult ühendatud närvivõrk
+
+# text
+seg-1de7b4410369 = FD
+
+# text
+seg-4e73ff36d37f = lõplik vahe
+
+# text
+seg-e43312a5fbbe = FDE
+
+# text
+seg-d6c9fb239b59 = rikete tuvastamine ja välistamine
+
+# text
+seg-8f9d11564223 = FES / FES2004
+
+# text
+seg-1a1cf1501056 = Finite Element Solution (lõplike elementide lahendus; väljalase { "2004" })
+
+# text
+seg-878b4a645ae9 = ookeanilainete mudel
+
+# text
+seg-55c14f474a10 = FIM
+
+# text
+seg-b68c86e68570 = Fisheri infomaatriks
+
+# text
+seg-d39671724dfc = Fowler–Noll–Vo räsi, variant 1a
+
+# text
+seg-3354ad42f7dd = kasutatakse kuldväljundite fikseerimiseks
+
+# text
+seg-efca4decfec0 = FOC / IOV
+
+# text
+seg-793d96ab9856 = täielik tegutsemisvõime / orbiidil valideerimine
+
+# text
+seg-ce13cca7f222 = satelliidisugupõlved (Galileo, Xona Pulsar)
+
+# text
+seg-58df7305e218 = FOV / IFOV
+
+# text
+seg-cafe1f8733ec = vaateväli / hetkeline vaateväli
+
+# text
+seg-4f7168e895d2 = FPGA / MCU / RTOS
+
+# text
+seg-abde801ec70b = programmeeritav loogikamaatriks / mikrokontroller / reaalajaoperatsioonisüsteem
+
+# text
+seg-a082e4570309 = FSL / FSPL
+
+# text
+seg-3a8ee2932a46 = vabaruumi sumbuvus / vabaruumi levikaosumbuvus
+
+# text
+seg-4535dadf79df = ITU-R P.525
+
+# text
+seg-c0209066dc76 = GB / KB / MB
+
+# text
+seg-184bb3d8b345 = gigabait / kilobait / megabait
+
+# text
+seg-8094e61fdd76 = GCRF
+
+# text
+seg-6c6337c7a855 = geotsentriline taevane tugisüsteem
+
+# text
+seg-f050f2b8dee1 = GDAL
+
+# text
+seg-98b12fcceb01 = Geospatial Data Abstraction Library (geoandmete abstraktsiooniteek)
+
+# text
+seg-1cef8718c772 = GEO
+
+# text
+seg-6131e4ea7858 = geostatsionaarne orbiit
+
+# text
+seg-bf09433a7342 = GeoJSON
+
+# text
+seg-f8654e88af67 = Geographic JavaScript Object Notation (geograafiline JavaScripti objektikirjeldus)
+
+# text
+seg-70dc52cd5059 = IETF RFC { "7946" }
+
+# text
+seg-bb8fbd2ebc28 = GG
+
+# text
+seg-b93ed4ab2b79 = gravitatsioonigradient
+
+# text
+seg-d8ef4d361e86 = nagu gravitatsioonigradiendi pöördemomendis
+
+# text
+seg-12fd4eb15c4d = GHz / kHz
+
+# text
+seg-0769cc8be024 = gigaherts / kiloherts
+
+# text
+seg-3946b69535e4 = GIM
+
+# text
+seg-ef5fc608b0e5 = globaalne ionosfäärikaart
+
+# text
+seg-8cbbff1bc1d1 = GINS / KF-GINS
+
+# text
+seg-fbe37a571772 = GNSS/INS-i integreerimine / Wuhani ülikooli Kalmani filtri GNSS/INS-i andmekogum ja kood
+
+# text
+seg-deca3cbe41ac = GIS
+
+# text
+seg-36275ece527d = geoinfosüsteem
+
+# text
+seg-ebe8194d12b3 = GIVE
+
+# text
+seg-6a99c12984b5 = võrgu ionosfääri vertikaalviga
+
+# text
+seg-20a40777d78a = SBAS-i sõnumi termin
+
+# text
+seg-6fbfc5108833 = gLAB
+
+# text
+seg-1be22ebbedc3 = GNSS-Lab Tool (GNSS-i laboritööriist)
+
+# text
+seg-93b2c5b68af0 = ESA levitatav GNSS-i andmetöötluse tarkvarakomplekt
+
+# text
+seg-2aa0f3147ad5 = GLIBC
+
+# text
+seg-096e00cb9d9b = GNU C teek
+
+# text
+seg-2630ae5f0bc5 = Venemaa ülemaailmne satelliitnavigatsioonisüsteem (Globalnaya Navigatsionnaya Sputnikovaya Sistema)
+
+# text
+seg-361f1f18d454 = GLS
+
+# text
+seg-397d58b727ee = üldistatud vähimruutude meetod
+
+# text
+seg-9bb2492e5d5d = GM
+
+# text
+seg-6bd8e46e9131 = gravitatsiooniparameeter
+
+# text
+seg-e3a296392ac0 = gravitatsioonikonstandi ja keha massi korrutis
+
+# text
+seg-45a8f50bce06 = General Mission Analysis Tool (üldine missioonianalüüsi tööriist)
+
+# text
+seg-60d33e61b446 = NASA
+
+# text
+seg-1edd65c52f46 = Goddard Mars Model { "3" }
+
+# text
+seg-45abee95253b = Marsi gravitatsiooniväli
+
+# text
+seg-558ea1e07042 = GMST
+
+# text
+seg-d3c4914f0d13 = Greenwichi keskmine tähtaeg
+
+# text
+seg-d853b1084a52 = GNC
+
+# text
+seg-34a9ddce3d5f = juhtimine, navigatsioon ja reguleerimine
+
+# text
+seg-d33e343f6635 = GPOD
+
+# text
+seg-2ef6bb5a52fc = Grid Processing On Demand (nõudmisel võrgutöötlus)
+
+# text
+seg-14782f821cde = GR
+
+# text
+seg-762f364a05f3 = üldrelatiivsusteooria
+
+# text
+seg-3e3f45ad1178 = GRGM / GRGM660PRIM
+
+# text
+seg-948167f5f1c3 = NASA Goddardi GRAIL-i Kuu gravitatsioonimudelid (GRAIL: Gravity Recovery and Interior Laboratory)
+
+# text
+seg-220fae5cfc61 = Geodetic Reference System { "1980" }
+
+# text
+seg-bb3c2a337ae8 = GSD
+
+# text
+seg-691791646eb3 = maapinna diskreetimissamm
+
+# text
+seg-448d7036fefe = GSE
+
+# text
+seg-d05b88e7d5c5 = maapealne tugiseadmestik
+
+# text
+seg-95d29f8138f9 = GSFC
+
+# text
+seg-2e1460089fed = Goddardi kosmoselennukeskus
+
+# text
+seg-7680e0663a5b = HDEV / OHDEV
+
+# text
+seg-1fd1e3322c86 = Hadamardi hälve / kattuv Hadamardi hälve
+
+# text
+seg-bb846135ceb4 = triivi suhtes tundetu stabiilsusmõõt
+
+# text
+seg-0edc4eed2775 = HIL
+
+# text
+seg-956a26e1ff6d = riistvara silmuses
+
+# text
+seg-48523cdbbbf5 = HMI / MI
+
+# text
+seg-d77e079194df = ohtlikult eksitav info / eksitav info
+
+# text
+seg-1cbf9d6f135d = Stanfordi diagrammi alad
+
+# text
+seg-b320746fafa5 = HP
+
+# text
+seg-465a952272f3 = HTML
+
+# text
+seg-45a46390d3ba = HyperText Markup Language (hüperteksti märgistuskeel)
+
+# text
+seg-25206f1161f0 = IAA RAS
+
+# text
+seg-1a4f063e3583 = Venemaa Teaduste Akadeemia Rakendusastronoomia Instituut
+
+# text
+seg-9f434fdc21f2 = IAG
+
+# text
+seg-08fb84d2e01a = Rahvusvaheline Geodeesia Assotsiatsioon
+
+# text
+seg-e4d6251ec64d = IAGA / V-MOD (VMOD)
+
+# text
+seg-01880debd7e0 = Rahvusvaheline Geomagnetismi ja Aeronoomia Assotsiatsioon / selle töörühm V-MOD (geomagnetvälja modelleerimine)
+
+# text
+seg-28805f15bae8 = haldab IGRF-i
+
+# text
+seg-d4ce72152bf2 = IC
+
+# text
+seg-fa95c4e7fdc2 = algtingimus
+
+# text
+seg-e4c4373d0c76 = ICAO
+
+# text
+seg-2fccffbaf4dc = Rahvusvaheline Tsiviillennunduse Organisatsioon
+
+# text
+seg-c2d2d459177d = ICD
+
+# text
+seg-a018300615e2 = liidesejuhtimisdokument
+
+# text
+seg-433b45040abd = nagu Galileo OS SIS ICD-s
+
+# text
+seg-5e1e49c5000e = ICGEM
+
+# text
+seg-c17be0db9e83 = Rahvusvaheline Globaalsete Maa Mudelite Keskus
+
+# text
+seg-e9650a618b38 = ID
+
+# text
+seg-e40875ab1090 = identifikaator (või identifitseerimine, nagu mürataseme ID-s)
+
+# text
+seg-c643488ba1ea = IEEE
+
+# text
+seg-e4b50d4d890f = Institute of Electrical and Electronics Engineers (elektri- ja elektroonikainseneride instituut)
+
+# text
+seg-91966e2931d4 = IETF / RFC
+
+# text
+seg-0804111ad44d = Internet Engineering Task Force / Request for Comments (interneti insenerivolinikud / kommentaaripäring)
+
+# text
+seg-ce9375732735 = IF
+
+# text
+seg-746eae5ce367 = vahesagedus
+
+# text
+seg-ed568f55aa8f = vastuvõtja diskreedid
+
+# text
+seg-cb4aaa2581bb = IGS-i teostus ITRF2014-st
+
+# text
+seg-bfa8e6d5d0d1 = IGRF / IGRF14
+
+# text
+seg-55fed0afea05 = Rahvusvaheline Geomagnetilise Tugivälja Mudel
+
+# text
+seg-669611e731d0 = IGRF-14 (fail IGRF14.shc) on 14. põlvkond
+
+# text
+seg-f7cf8ff44256 = IGSO
+
+# text
+seg-4833bd1e9c03 = kaldega geosünkroonne orbiit
+
+# text
+seg-2080ff6f98fd = IIF
+
+# text
+seg-cf7a31e569cd = GPS Block II Follow-on
+
+# text
+seg-8a19be8033a9 = GPS-satelliitide põlvkond
+
+# text
+seg-68cc1c937ce9 = ILRS
+
+# text
+seg-53cc8d1f6824 = Rahvusvaheline Laserkaugusmõõtmise Teenistus
+
+# text
+seg-fb5255ba4bc1 = ILS
+
+# text
+seg-b8af4d02e031 = täisarvuliste vähimruutude meetod
+
+# text
+seg-a214c483b8a8 = täisarvuliste mitmetähenduslikkuste lahendamine
+
+# text
+seg-4740fb9ef0b9 = IMCCE
+
+# text
+seg-e77c8324583a = Institut de mécanique céleste et de calcul des éphémérides (taevamehaanika ja efemeriidide arvutuse instituut)
+
+# text
+seg-22048a770612 = Pariisi observatoorium; avaldab INPOP-i
+
+# text
+seg-9717f14527d3 = Intégration Numérique Planétaire de l'Observatoire de Paris, versioon 21a
+
+# text
+seg-577acd29f11b = planeetide efemeriid
+
+# text
+seg-cdb9ea77f5a6 = IOAG
+
+# text
+seg-87f308314cd4 = Interagency Operations Advisory Group (asutustevaheline operatiivnõuandev rühm)
+
+# text
+seg-690414990ad8 = ION / ITM
+
+# text
+seg-b2fbe0c3507a = Institute of Navigation / selle rahvusvaheline tehniline kohtumine
+
+# text
+seg-53abad80634c = IoT
+
+# text
+seg-9b766d557bd1 = asjade internet
+
+# text
+seg-1b41d114662e = IR
+
+# text
+seg-ff2d89b32d07 = terviklikkuse risk
+
+# text
+seg-2dc9fcadccd6 = ohtlikult eksitava info tõenäosus
+
+# text
+seg-02aeac5e2435 = IRE
+
+# text
+seg-9c9c0011de8c = Institute of Radio Engineers (raadioinseneride instituut)
+
+# text
+seg-3fbae7e11fca = IEEE eelkäija
+
+# text
+seg-9e3d84279d56 = kellanihe kahe GNSS-i vahel
+
+# text
+seg-2ffee4396fbd = ISL
+
+# text
+seg-505dee046f7a = satelliitidevaheline link
+
+# text
+seg-010ea5a76e2e = ISM
+
+# text
+seg-330b25f923db = terviklikkuse tugisõnum
+
+# text
+seg-1f5a14efd417 = ARAIM
+
+# text
+seg-0ee7fcdaf5a9 = ISO
+
+# text
+seg-8c1341375f17 = Rahvusvaheline Standardiorganisatsioon
+
+# text
+seg-8291ac1ccba6 = ISO { "8601" } on selle kuupäeva ja kellaaja vorming
+
+# text
+seg-5b4dee02dccc = ITRF93 / ITRF2020
+
+# text
+seg-93458bf3ba01 = International Terrestrial Reference Frame { "1993" } / { "2020" } (rahvusvaheline maapealne tugisüsteem)
+
+# text
+seg-14dc2a58e2c3 = Rahvusvahelise Telekommunikatsiooniliidu raadiosidesektor
+
+# text
+seg-0e8094e4d45c = selle P-seeria soovitused modelleerivad levi
+
+# text
+seg-3e325d97365e = IVS
+
+# text
+seg-6f8a6ec848a6 = Rahvusvaheline VLBI teenistus geodeesia ja astromeetria jaoks
+
+# text
+seg-2dd00d470e14 = JD / MJD
+
+# text
+seg-107e6683f70d = Juliuse päev / modifitseeritud Juliuse päev
+
+# text
+seg-996d4952554f = JMLR
+
+# text
+seg-a1ef35b98931 = Journal of Machine Learning Research (masinõppe uurimise ajakiri)
+
+# text
+seg-d370f89393c7 = JOSA
+
+# text
+seg-12c154fcd073 = Journal of the Optical Society of America (Ameerika Optikaühingu ajakiri)
+
+# text
+seg-58fb16c8a046 = JRC / JRC122785
+
+# text
+seg-82f85268028f = Euroopa Komisjoni Teadusuuringute Ühiskeskus / üks selle aruannete numbritest
+
+# text
+seg-23f5be8ff49e = JS
+
+# text
+seg-516ee91e60c5 = JavaScript
+
+# text
+seg-02d421e784cd = JavaScript Object Notation (JavaScripti objektikirjeldus)
+
+# text
+seg-4da0210abab0 = JSTSP
+
+# text
+seg-9d88dcfe6818 = IEEE Journal of Selected Topics in Signal Processing (signaalitöötluse valitud teemade ajakiri)
+
+# text
+seg-919a951f3d02 = KF
+
+# text
+seg-436a208697f1 = Kalmani filter
+
+# text
+seg-9c92e0bc42aa = KML
+
+# text
+seg-caf09d501881 = Keyhole Markup Language
+
+# text
+seg-ffe25881cef6 = Google Earthi loetav OGC standard
+
+# text
+seg-6e9501f1d4ff = KP16 / KRAC / LU22 / APOL
+
+# text
+seg-e1552da90a21 = Kshana enda LEO navigatsioonisõnumi tekstivormingu kirjetüüpide sildid
+
+# text
+seg-3269a4e6b3e3 = Kshana laiendus, mitte standard
+
+# text
+seg-b7f0168b6037 = KPI
+
+# text
+seg-a5ff89f0923d = võtmetulemusnäitaja
+
+# text
+seg-1c4a7ccef434 = KSC
+
+# text
+seg-73a4bf4da46f = Kennedy kosmosekeskus
+
+# text
+seg-e401e5d923f0 = KVN
+
+# text
+seg-09f93b4d4d0b = Keyword = Value Notation (võtmesõna = väärtus kirjaviis)
+
+# text
+seg-7379ade4ee0e = CCSDS-i sõnumite tekstivorm
+
+# text
+seg-a24cf86216d0 = LANS
+
+# text
+seg-2ee81a2bc69b = Lunar Augmented Navigation Service (Kuu täiendatud navigatsiooniteenus)
+
+# text
+seg-849e3161b64b = LAPACK
+
+# text
+seg-3b4f3c08a5ba = Linear Algebra PACKage (lineaaralgebra teek)
+
+# text
+seg-69cd99d2f937 = LCG
+
+# text
+seg-bcddea3df96d = lineaarne kongruentsgeneraator
+
+# text
+seg-8927ca404e64 = NIST SP { "1065" } testsarja generaator
+
+# text
+seg-0b9b908055cf = LCNS
+
+# text
+seg-f9200a1b7246 = Lunar Communications and Navigation Services (Kuu side- ja navigatsiooniteenused)
+
+# text
+seg-5253cae4b05b = ESA Moonlight teenus
+
+# text
+seg-2361aef1e2e3 = LCRNS
+
+# text
+seg-470ea343b5ac = Lunar Communications Relay and Navigation Systems (Kuu sidereleed ja navigatsioonisüsteemid)
+
+# text
+seg-8fc87d3026e5 = LFSR
+
+# text
+seg-bfecf2f88f17 = lineaarse tagasisidega nihkeregister
+
+# text
+seg-5b09c8e3f127 = levikoodi genereerimine
+
+# text
+seg-944b45f65820 = LGPL
+
+# text
+seg-1e1bf7d7dc79 = GNU Lesser General Public License
+
+# text
+seg-0d4d5316b1d8 = LIL
+
+# text
+seg-6d040101c6fa = iteratiivse logaritmi seadus
+
+# text
+seg-e48d4b1feeaf = LLI / SSI
+
+# text
+seg-81ace10136b6 = lukustuskao indikaator / signaalitugevuse indikaator
+
+# text
+seg-7d95179a5a1f = RINEX-i vaatluslipud
+
+# text
+seg-2ac0ebb389e7 = LLR
+
+# text
+seg-29bcbb78931b = Kuu laserkaugusmõõtmine
+
+# text
+seg-20deda97c876 = LLVM
+
+# text
+seg-5a84a3219546 = LLVM-i kompilaatoritaristu (algselt Low Level Virtual Machine)
+
+# text
+seg-277ed5c4cbcc = LNAV
+
+# text
+seg-d2fa9c420999 = pärandnavigatsioonisõnum
+
+# text
+seg-7f5ad6ab8c23 = GPS
+
+# text
+seg-6379745571a9 = LNCSS
+
+# text
+seg-b8c48f2bfaf0 = Kuu navigatsiooni- ja sidesatelliitsüsteem
+
+# text
+seg-4ce3c0ea7a31 = konstellatsioonide juhtumiuuringud väljaandes NAVIGATION { "70" }({ "4" }), navi.613
+
+# text
+seg-b13c5776e35b = LNIS
+
+# text
+seg-7c67c5753d20 = LunaNet Interoperability Specification (LunaNeti koostalitlusvõime spetsifikatsioon)
+
+# text
+seg-881578d31056 = LNSS
+
+# text
+seg-25d4f3a4d3f6 = Lunar Navigation Satellite System (Kuu navigatsioonisatelliitsüsteem)
+
+# text
+seg-97ff1706b4bd = kavandatud Kuu konstellatsioon
+
+# text
+seg-ec733de1adc5 = LPV / LPV-200
+
+# text
+seg-40d72ae4bc9a = lokaliseerimisvõime vertikaalse juhtimisega / selle { "200" } jala otsustuskõrguse kategooria
+
+# text
+seg-090ba62634a8 = lennunduse lähenemine
+
+# text
+seg-b4921e83ddc9 = LRO
+
+# text
+seg-2d1b9f5efdb1 = Lunar Reconnaissance Orbiter (Kuu luureorbiiter)
+
+# text
+seg-8f782bde5659 = LS
+
+# text
+seg-c5bc49526464 = liigsekundid
+
+# text
+seg-54ea05b82cb4 = nagu Δt_LS-is
+
+# text
+seg-15111a93c6d7 = LT
+
+# text
+seg-35231d8b9b39 = valguse levi aeg
+
+# text
+seg-4729314afd46 = LTE
+
+# text
+seg-1a7e158f020f = Long-Term Evolution (pikaajaline areng)
+
+# text
+seg-3c1b3acc46d9 = 4G mobiilside standard
+
+# text
+seg-3530cdaca137 = LU
+
+# text
+seg-58ad64b9d450 = alumine–ülemine (lahutus)
+
+# text
+seg-ef1a45eba6aa = LuGRE
+
+# text
+seg-72ec36312101 = Lunar GNSS Receiver Experiment (Kuu GNSS-vastuvõtja eksperiment)
+
+# text
+seg-84874825a5d1 = lendas Kuule aastal { "2025" }
+
+# text
+seg-e6719690faa2 = LuPNT
+
+# text
+seg-be19fb902b36 = Stanfordi Kuu PNT teek
+
+# text
+seg-893ba320da76 = nimi
+
+# text
+seg-fc68b2fb9529 = MAAST
+
+# text
+seg-e98d356a165f = MATLAB Algorithm Availability Simulation Tool (MATLABi algoritmide kättesaadavuse simulatsioonitööriist)
+
+# text
+seg-a24b3840d248 = Stanford
+
+# text
+seg-71063143c8be = MAIT
+
+# text
+seg-2d7aa60c26ba = tootmine, kokkupanek, integreerimine ja katsetamine
+
+# text
+seg-0397322eae11 = MAR099 / JUP365 / SAT441
+
+# text
+seg-bd57191f860b = JPL-i satelliidiefemeriidide lahendused Marsi, Jupiteri ja Saturni kuude jaoks
+
+# text
+seg-9b0688bfc31e = identifikaatorid
+
+# text
+seg-a8748c38de15 = MASPS
+
+# text
+seg-e25a3738b952 = lennunduse süsteemi minimaalsed toimivusstandardid
+
+# text
+seg-16a3c8f74c1c = MATLAB
+
+# text
+seg-bebc110fded7 = MATrix LABoratory (maatrikslabor)
+
+# text
+seg-e722ea781fdf = numbriarvutuse tarkvaratoode
+
+# text
+seg-7c03fb6e56f6 = MAUT
+
+# text
+seg-e409f72ac9ab = mitmeatribuudiline kasuteooria
+
+# text
+seg-4a29ddd9b24e = MC
+
+# text
+seg-19a7ad528cf3 = MCD
+
+# text
+seg-202b82bfefcf = Marsi kliimaandmebaas
+
+# text
+seg-371da1e857e8 = MCDA
+
+# text
+seg-17d89019fd4a = mitmekriteeriumiline otsuseanalüüs
+
+# text
+seg-b522fc3d6c82 = MCI / MCMF
+
+# text
+seg-f5544acf642a = Kuu-tsentriline inertsiaalne / Kuu-tsentriline, Kuuga seotud
+
+# text
+seg-f7b59f61da60 = MDB
+
+# text
+seg-0c674a59d087 = minimaalne tuvastatav nihe
+
+# text
+seg-c769430226c3 = MDEV
+
+# text
+seg-33a4628c6e67 = modifitseeritud Alani hälve
+
+# text
+seg-bde3f0e5dfa7 = MEMS
+
+# text
+seg-8b08f307de8a = mikroelektromehaanilised süsteemid
+
+# text
+seg-c960c0e048b7 = MeO / MLRO
+
+# text
+seg-48623f76be86 = MéO (Métrologie Optique), Grasse'i laserjaam / Matera Laser Ranging Observatory
+
+# text
+seg-a8fcbefbbf4c = Kuu laserkaugusmõõtmise jaamad
+
+# text
+seg-8b597c678c3f = ME / PA
+
+# text
+seg-cb56efe2fb70 = keskmine Maa / peateljed
+
+# text
+seg-f30f1a2778cf = kaks Kuuga seotud süsteemi (MOON_ME, MOON_PA)
+
+# text
+seg-308d4c93a8a3 = MGEX
+
+# text
+seg-b2b632cd52d2 = Multi-GNSS Experiment (mitme GNSS-i eksperiment)
+
+# text
+seg-86fd2d84ed21 = IGS
+
+# text
+seg-79f8412f30f2 = MIT
+
+# text
+seg-70012b81c998 = Massachusettsi Tehnoloogiainstituut
+
+# text
+seg-e9d7062835a9 = nagu MIT litsentsis
+
+# text
+seg-a0b70e8c4c38 = MLP
+
+# text
+seg-77abd5634603 = mitmekihiline pertseptron
+
+# text
+seg-6975432180f6 = väike närvivõrk
+
+# text
+seg-a4be7b1d83e3 = MOD / TOD
+
+# text
+seg-421b9611e897 = kuupäeva keskmine / kuupäeva tegelik
+
+# text
+seg-1af66f9b771d = ekvaatori ja pööripunkti süsteemid
+
+# text
+seg-b5db821f8008 = MOORA
+
+# text
+seg-7f763036e34d = Multi-Objective Optimisation on the basis of Ratio Analysis (mitme eesmärgi optimeerimine suhtanalüüsi alusel)
+
+# text
+seg-d26a24b5d9f0 = MOPS
+
+# text
+seg-e8707522cf5f = minimaalsed operatiivsed toimivusstandardid
+
+# text
+seg-cd0720a78dbb = MPL
+
+# text
+seg-bcdaf8567381 = Mozilla Public License
+
+# text
+seg-0f45b55420be = MRO110 / MRO110B2
+
+# text
+seg-61415a003e40 = Mars Reconnaissance Orbiteri gravitatsioonimudelid { "110" } ja 110B2
+
+# text
+seg-8404f70361e7 = MSRV
+
+# text
+seg-26a6a79755f9 = minimaalne toetatud Rusti versioon
+
+# text
+seg-959fe8ad53df = MTF
+
+# text
+seg-70d61ab4eb42 = modulatsiooni ülekandefunktsioon
+
+# text
+seg-7f60d1ac40ad = optiline kujutamine
+
+# text
+seg-8598e499c145 = MVDR
+
+# text
+seg-c767dc9ae21a = minimaalse dispersiooniga moonutuseta vastus
+
+# text
+seg-83f57219e5b7 = adaptiivne kiirvormimine
+
+# text
+seg-e1ee50b3ea0a = MWL
+
+# text
+seg-12d9510328d2 = mikrolaineside
+
+# text
+seg-639266912f59 = ACES-i aja edastamise link
+
+# text
+seg-5ac07401e4f8 = NaN
+
+# text
+seg-722d679807ee = pole arv
+
+# text
+seg-0e4abc653325 = NavIC
+
+# text
+seg-355821380384 = Navigation with Indian Constellation (navigatsioon India konstellatsiooniga)
+
+# text
+seg-fc13b86a8365 = NAVISP
+
+# text
+seg-2eb6cc573946 = Navigation Innovation and Support Programme (navigatsiooniinnovatsiooni ja toetuse programm)
+
+# text
+seg-b518d44847fa = NAV / OBS
+
+# text
+seg-c6965d4d7202 = navigatsioon (sõnum) / vaatlus
+
+# text
+seg-1729ddf0eafa = kaks RINEX-i failitüüpi; Stanfordi NAV Lab on Navigation and Autonomous Vehicles Laboratory
+
+# text
+seg-f239334e4928 = NBS / NBS14
+
+# text
+seg-c8e5edff04d7 = endine Ameerika Ühendriikide riiklik standardibüroo / sagedusstabiilsuse etalonandmekogum NBS14
+
+# text
+seg-3d1ac5146fea = kasutatakse Alani hinnangute kontrollimiseks
+
+# text
+seg-37879f5ad9e0 = NEES / NIS
+
+# text
+seg-9610f0449fb2 = normaliseeritud hinnangu vea ruut / normaliseeritud innovatsiooni ruut
+
+# text
+seg-af167a77a1dc = filtri järjepidevuse testid
+
+# text
+seg-beb7a86721ec = National Geospatial-Intelligence Agency (Ameerika Ühendriikide riiklik geoluureamet)
+
+# text
+seg-7aa223cbfe13 = NGS / NOAA
+
+# text
+seg-3845b0011dcb = National Geodetic Survey / National Oceanic and Atmospheric Administration (riiklik geodeesiateenistus / riiklik ookeani- ja atmosfääriamet)
+
+# text
+seg-4a1040c5f2fa = NIMA / TR8350
+
+# text
+seg-4cf62b739fc6 = National Imagery and Mapping Agency / selle tehniline aruanne TR8350.2 (WGS { "84" } määratlus)
+
+# text
+seg-ffa6025b5a70 = NIMA on NGA endine nimi
+
+# text
+seg-af4be907e56c = NLOS
+
+# text
+seg-22ab7d58324b = ainult peegeldunud signaal
+
+# text
+seg-9887902c13a1 = NNLS
+
+# text
+seg-b4cb6d6bfce4 = mittenegatiivsete vähimruutude meetod
+
+# text
+seg-af8ca8550600 = NORAD
+
+# text
+seg-07428e7224cf = Põhja-Ameerika Aerokosmose Kaitse Väejuhatus
+
+# text
+seg-4edb033e3432 = peab avalikku satelliidikataloogi
+
+# text
+seg-dd984e16dbcd = NP
+
+# text
+seg-f92816d7c936 = Neyman–Pearson
+
+# text
+seg-fc214695fa83 = tuvastamisteooria
+
+# text
+seg-3ef8006482bb = NPA
+
+# text
+seg-81a072ee0520 = mittetäppislähenemine
+
+# text
+seg-b9fd2cf6a2b9 = lennundus
+
+# text
+seg-e6cb557ee6d1 = NPB
+
+# text
+seg-18510a95b308 = nutatsioon–pretsessioon–nihe
+
+# text
+seg-b4562efbafdf = IAU 2006/2000A maatriks
+
+# text
+seg-c5d8932f6956 = NRL / NRLMSISE-00
+
+# text
+seg-9c9f5eac83b2 = Naval Research Laboratory / selle Mass Spectrometer and Incoherent Scatter Radar Extended atmosfäärimudel, { "2000" }
+
+# text
+seg-bf373b9cd0c6 = NTN
+
+# text
+seg-0ae939342934 = mittemaapealne võrk
+
+# text
+seg-1ae0305d8455 = 5G satelliitidelt
+
+# text
+seg-20b98c32226f = NTRS
+
+# text
+seg-1470d2af037a = NASA Technical Reports Server (NASA tehniliste aruannete server)
+
+# text
+seg-243d375db224 = OC-0 … OC-13
+
+# text
+seg-d36b43dd505c = ülepaisutatud väidete identifikaatorid
+
+# text
+seg-47ba87f3730b = faili CLAIMS-VS-REALITY.md read
+
+# text
+seg-e0689f1fc932 = OCI
+
+# text
+seg-1a3377171d89 = Open Container Initiative
+
+# text
+seg-b5bf07ed6c8c = konteineripildi vorming
+
+# text
+seg-7b56c21cca93 = ODE / SDE
+
+# text
+seg-722bdf2ca73a = harilik / stohhastiline diferentsiaalvõrrand
+
+# text
+seg-a4da10cb1150 = ODM
+
+# text
+seg-b1c25bfe0612 = orbiidiandmesõnumid
+
+# text
+seg-35fe6a2f3de3 = CCSDS-i pere, kuhu kuuluvad OEM ja OMM
+
+# text
+seg-c06d6aa8ba3a = OGC
+
+# text
+seg-eb1feb23de1c = Open Geospatial Consortium
+
+# text
+seg-9737495b035c = OLS / WLS
+
+# text
+seg-63bf35c31a6a = harilikud / kaalutud vähimruutude meetod
+
+# text
+seg-487fb3dcfd01 = OPS-SAT / OPSSAT-AD
+
+# text
+seg-4be3f4155fc8 = ESA orbiidil asuv tarkvaralaboratooriumi satelliit / selle anomaaliate tuvastamise andmekogum
+
+# text
+seg-14b642ea59e1 = OSIP
+
+# text
+seg-4871060090a0 = Open Space Innovation Platform (avatud kosmoseinnovatsiooni platvorm)
+
+# text
+seg-251b3ff3eb9b = OSNMA / TESLA
+
+# text
+seg-aa0d98a5c95a = Open Service Navigation Message Authentication / Timed Efficient Stream Loss-tolerant Authentication
+
+# text
+seg-95b6b14facf1 = Galileo signaali autentimine
+
+# text
+seg-501a89e8b32b = OS / OSes
+
+# text
+seg-5a526cda4166 = avatud teenus (Galileo, BeiDou) või operatsioonisüsteem(id)
+
+# text
+seg-6db10af375e3 = kumb, selgub kontekstist
+
+# text
+seg-584a7e7d4f5e = OU
+
+# text
+seg-937187abcdf6 = Ornstein–Uhlenbeck
+
+# text
+seg-9be9042ec983 = keskmisele tagasipöörduv müraprotsess
+
+# text
+seg-08c583f40405 = PA
+
+# text
+seg-9a24d9f45aa4 = toote kvaliteedi tagamine (ka täppislähendus, nagu K_H,PA-s)
+
+# text
+seg-65ad442b3faa = PCK
+
+# text
+seg-c788fe80678e = planeedikonstantide tuum
+
+# text
+seg-46a00fdc9d5b = SPICE
+
+# text
+seg-417a52c9c154 = PDF
+
+# text
+seg-c462c83b47df = Portable Document Format (kaasaskantav dokumendivorming)
+
+# text
+seg-98aa544ec4de = Pd / Pfa
+
+# text
+seg-0c89f304435e = tuvastamise tõenäosus / valehäire tõenäosus
+
+# text
+seg-5bde4fd55ead = PEF
+
+# text
+seg-eb11dcb816ff = TEME ja ITRF vaheline süsteem
+
+# text
+seg-4682fd9daa70 = PG01 / PRN120 / GSAT0101
+
+# text
+seg-47cc346307a6 = satelliidi identifikaatorid: SP3 GPS-satelliidi silt, SBAS-i pseudojuhusliku müra number, Galileo satelliidi nimi
+
+# text
+seg-6ad2383f8545 = PHARAO
+
+# text
+seg-0d9ce504e8c7 = Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite (orbiidil aatomite jahutamisel põhineva aatomkella projekt)
+
+# text
+seg-302c8cb738ac = ACES-i tseesiumkell
+
+# text
+seg-2e823cd9d9a6 = PL
+
+# text
+seg-099bd07ef3cf = kaitsetase
+
+# text
+seg-7d7eaa5eb223 = PLL
+
+# text
+seg-9272ad22c094 = faasilukustusahel
+
+# text
+seg-80e051b734dd = PMC / PMC10301026
+
+# text
+seg-1f2a21c5e09f = PubMed Central / üks selle artiklite identifikaatoritest
+
+# text
+seg-3e4617444a63 = PM / FM
+
+# text
+seg-c79b1246fb61 = faasmodulatsioon / sagedusmodulatsioon
+
+# text
+seg-279251adb2eb = müra kella faasis või sageduses
+
+# text
+seg-685fc49957e2 = PN
+
+# text
+seg-209dacf76ff3 = nagu PN-kaugusmõõtmises
+
+# text
+seg-f9cfe4e70f9a = PNG
+
+# text
+seg-bde68df8ee7e = Portable Network Graphics (kaasaskantav võrgugraafika)
+
+# text
+seg-06998de7b6be = POD
+
+# text
+seg-178f55858efb = täpne orbiidi määramine
+
+# text
+seg-b7919977bf20 = PPN
+
+# text
+seg-ed81960f1282 = parametriseeritud post-Newtoni
+
+# text
+seg-9683f98bec2d = PPP / RTK / SPP
+
+# text
+seg-73d777100ecd = täpne punktpositsioneerimine / reaalajas kinemaatiline / ühepunktpositsioneerimine
+
+# text
+seg-edb97cd7ef8b = PPS
+
+# text
+seg-197b06571b4d = impulss sekundis
+
+# text
+seg-2619e854281a = PR
+
+# text
+seg-66c53cdfc3d9 = tõmbepäring (pull request)
+
+# text
+seg-e4dd8a3101cb = PRN
+
+# text
+seg-6fb1378e889a = pseudojuhuslik müra (koodinumber)
+
+# text
+seg-6f384580af80 = kuidas GNSS-i satelliite signaalides nimetatakse
+
+# text
+seg-e8ca48eb958b = PROMETHEE
+
+# text
+seg-e4e92d708223 = Preference Ranking Organization METHod for Enrichment of Evaluations (eelistuste järjestamise meetod hinnangute rikastamiseks)
+
+# text
+seg-d92234e26d53 = PRX
+
+# text
+seg-c5774fede0a9 = Physical Review X
+
+# text
+seg-8687e6badb6b = ajakiri
+
+# text
+seg-78a947083d45 = PSD
+
+# text
+seg-6eb799bd1582 = võimsusspektri tihedus
+
+# text
+seg-ab1af8b3d968 = vt ülalpool
+
+# text
+seg-f7c4f1cff2a4 = PS / SPS
+
+# text
+seg-e90e463df4b8 = toimivusstandard / standardne positsioneerimisteenus
+
+# text
+seg-2800b3a8cd2e = GPS SPS PS
+
+# text
+seg-c8aa5ca0a4ea = PTB
+
+# text
+seg-cf2a7714694f = Physikalisch-Technische Bundesanstalt (Saksamaa füüsikalis-tehniline instituut)
+
+# text
+seg-611e7e4a34f4 = Saksamaa riiklik metroloogiainstituut
+
+# text
+seg-2d4bc9f59158 = PTP
+
+# text
+seg-6291d09d3a93 = täppisaja protokoll
+
+# text
+seg-44a14eeae3dd = IEEE { "1588" }
+
+# text
+seg-bc4ad791804e = PVT
+
+# text
+seg-1939c4e19702 = asukoht, kiirus ja aeg
+
+# text
+seg-a9aedd1f9806 = PyO3 / PyPA / PyPI
+
+# text
+seg-95cead42b0d0 = Rusti ja Pythoni sidumisteek / Python Packaging Authority / Python Package Index
+
+# text
+seg-96b2c707a6b8 = Parametry Zemli { "1990" }
+
+# text
+seg-3d5012a62544 = GLONASS-i geodeetiline datum
+
+# text
+seg-9d14fb150c09 = QA
+
+# text
+seg-582cb8ea13ac = kvaliteedi tagamine
+
+# text
+seg-7025be647972 = QEMU
+
+# text
+seg-d2209c7eea42 = Quick Emulator (kiire emulaator)
+
+# text
+seg-d23b9bd48594 = QPSK
+
+# text
+seg-45db179e8e49 = kvadratuurne faasmanipulatsioon
+
+# text
+seg-b6d487bd53ed = QZSS
+
+# text
+seg-c0484340bc52 = Quasi-Zenith Satellite System (kvaasizeniitsatelliitsüsteem)
+
+# text
+seg-531943b17837 = Jaapan
+
+# text
+seg-697c55525b36 = RAAN
+
+# text
+seg-85cd6997e07e = tõusva sõlme rektastsensioon
+
+# text
+seg-79e641db1aae = RAFS
+
+# text
+seg-9fa6a6b0e193 = RDRR
+
+# text
+seg-19b00c5b9270 = Resist–Detect–Respond–Recover (vastu pidada, tuvastada, reageerida, taastuda)
+
+# text
+seg-76da7c5bf39a = RethinkPNT/Firesmithi vastupidavusmudel
+
+# text
+seg-7bb5ed20c788 = RF
+
+# text
+seg-35b036272c8e = raadiosagedus
+
+# text
+seg-404104795160 = RHEL
+
+# text
+seg-dd1bb2300eb5 = Red Hat Enterprise Linux
+
+# text
+seg-34b1e77b1ff0 = RHS
+
+# text
+seg-0b4bdbcd1476 = parem pool
+
+# text
+seg-f801cff658be = RMS / RSS
+
+# text
+seg-6b758beecbfc = ruutkeskmine / ruutude summa ruutjuur
+
+# text
+seg-8b2bd83256f1 = RNG
+
+# text
+seg-b90957003307 = juhuarvugeneraator
+
+# text
+seg-354b42e3a5d0 = RNTF
+
+# text
+seg-0ce1e8f8bd4a = Resilient Navigation and Timing Foundation (vastupidava navigatsiooni ja ajastuse sihtasutus)
+
+# text
+seg-43d17f884c69 = ROI
+
+# text
+seg-597432415e53 = investeeringutasuvus
+
+# text
+seg-7abb945359d0 = RPCF
+
+# text
+seg-8c71df162ddd = Resilient PNT Conformance Framework
+
+# text
+seg-2f030c1d70c1 = US DHS
+
+# text
+seg-82b81c1e28d6 = RTCM
+
+# text
+seg-7b855a1075d4 = Radio Technical Commission for Maritime Services (mereside raadiotehniline komisjon)
+
+# text
+seg-4a7703f1b605 = selle sõnumistandard kasutab CRC-24Q-d
+
+# text
+seg-520c91fa0ef0 = avatud lähtekoodiga GNSS-positsioneerimisteek (reaalajas kinemaatiline teek)
+
+# text
+seg-a8b2e577e381 = RTN
+
+# text
+seg-6ddf35119d08 = radiaalne, ristsuunaline, normaalsuunaline
+
+# text
+seg-b1b635ff08e4 = orbiidiga seotud süsteem
+
+# text
+seg-04f4b26e9283 = RW
+
+# text
+seg-b8b1a31739aa = juhuslik kõnd
+
+# text
+seg-8b593d7d5dbd = nagu nihke juhuslikus kõnnis
+
+# text
+seg-6f954dc5a005 = RWFM / WFM / FFM / WPM / FPM
+
+# text
+seg-928fe3abcd5b = juhusliku kõnni, valge ja flicker-sagedusmodulatsioon / valge ja flicker-faasmodulatsioon
+
+# text
+seg-7fced178bcc5 = astmeseaduslikud kellamüra tüübid
+
+# text
+seg-e39ddb9e8ec1 = SA.45s / SA65, OX-208
+
+# text
+seg-0c397d845610 = Microchipi tootenimed (kaks kiibimõõtmelist aatomkella, termostaadiga kvartsostsillaator)
+
+# text
+seg-8a1ae00c4a52 = nimed, mitte lühendid
+
+# text
+seg-a58426a850fd = SD
+
+# text
+seg-d46cb77d53f6 = standardhälve
+
+# text
+seg-e29dd726165f = SDD
+
+# text
+seg-0ebb68e4b6fd = teenuse määratluse dokument
+
+# text
+seg-9415da7a79ab = nagu Galileo OS SDD-s
+
+# text
+seg-1022626b788c = SDK
+
+# text
+seg-2076da4dd4dd = tarkvaraarenduskomplekt
+
+# text
+seg-9fb492bced01 = SDR
+
+# text
+seg-1a1082059103 = tarkvaraliselt defineeritud raadio
+
+# text
+seg-0a647acd4355 = SDS
+
+# text
+seg-d0f6ae60b687 = Space Defense Squadron (kosmosekaitse eskadrill)
+
+# text
+seg-c3f6fc1456ed = 18. SDS peab Ameerika Ühendriikide satelliidikataloogi
+
+# text
+seg-cf28e3e14401 = SEP
+
+# text
+seg-a67fb04e0911 = Päike–Maa–sond nurk (ka sfääriline tõenäoline viga)
+
+# text
+seg-0c7631f367e8 = SGD
+
+# text
+seg-d58ce1e25c08 = stohhastiline gradientlaskumine
+
+# text
+seg-2f25205204e4 = SHM
+
+# text
+seg-f2e2253a31b3 = lihtne harmooniline liikumine
+
+# text
+seg-b0973ab206ed = SI
+
+# text
+seg-35624e5e4630 = rahvusvaheline ühikute süsteem
+
+# text
+seg-02aa435dc884 = SIB
+
+# text
+seg-262a811c8b69 = ohutusteabe bülletään
+
+# text
+seg-b9ee445609f5 = EASA; EASA on Euroopa Liidu Lennundusohutusamet
+
+# text
+seg-8d6d4fe3d155 = SINEX
+
+# text
+seg-e5c071685532 = Solution INdependent EXchange format (lahendusest sõltumatu vahetusvorming)
+
+# text
+seg-3466519e4c62 = geodeetilised lahendused
+
+# text
+seg-b21a3d7fb59d = SIR
+
+# text
+seg-303809c700e2 = valimi olulisuse põhine ümbervalimine
+
+# text
+seg-7a2e0e9cac08 = osakestefilter
+
+# text
+seg-6da637028ef8 = SIS / SISA
+
+# text
+seg-9779a20e50d2 = ruumis olev signaal / ruumis oleva signaali täpsus
+
+# text
+seg-c0e9f44b333d = SITAN
+
+# text
+seg-3eec2c14b564 = Sandia Inertial Terrain-Aided Navigation (Sandia inertsiaalne maastikutoega navigatsioon)
+
+# text
+seg-ceee87dd4b5e = SLR
+
+# text
+seg-c8e722f1609c = satelliidi laserkaugusmõõtmine
+
+# text
+seg-76d80b0d2deb = SMAD
+
+# text
+seg-7fbda47e3858 = Space Mission Analysis and Design (kosmosemissioonide analüüs ja kavandamine)
+
+# text
+seg-dfc105c0178b = õpik
+
+# text
+seg-5278559437c5 = SNR
+
+# text
+seg-b97c29ce3b37 = signaali ja müra suhe
+
+# text
+seg-ff2faf259a15 = SOS / SSE
+
+# text
+seg-5a2e327af384 = ruutude summa / jääkide ruutude summa
+
+# text
+seg-453c4506fd59 = SOTA
+
+# text
+seg-7eaa0caa6916 = tehnika tipptase
+
+# text
+seg-127e73a3610b = NIST Special Publication { "1065" }
+
+# text
+seg-bedc9a3d8d9f = sama dokument mis NIST SP { "1065" }
+
+# text
+seg-cf2491c1a488 = SPD / PD
+
+# text
+seg-eade81634bf5 = sümmeetriline positiivselt määratud / positiivselt määratud
+
+# text
+seg-5fedf0f7b5c0 = SPDX
+
+# text
+seg-3aba3c5a5c19 = Software Package Data Exchange (tarkvarapakettide andmevahetus)
+
+# text
+seg-c10b1f20f37e = litsentsiidentifikaatorid failipäistes
+
+# text
+seg-b377a91a047f = SPK
+
+# text
+seg-5603642c612d = SPICE-i tuum kosmoselaevade ja planeetide efemeriidide jaoks
+
+# text
+seg-cf18ba9c86d8 = SPOF
+
+# text
+seg-cfab8d8a2cdf = üksik rikkekoht
+
+# text
+seg-c06f64211c40 = SQM
+
+# text
+seg-7e58d6a4a92c = signaali kvaliteedi seire
+
+# text
+seg-a4e75468e6f9 = korrelaatori kujul põhinevad spuufimiskontrollid
+
+# text
+seg-0bb7a4875914 = SRIF
+
+# text
+seg-82da1a1f1be4 = ruutjuurinfofilter
+
+# text
+seg-970edb8ec42f = SRP
+
+# text
+seg-ae097fbdabf9 = päikesekiirguse surve
+
+# text
+seg-edc814ba451b = SRTM / SRTMHGT
+
+# text
+seg-b756bc93d2ea = Shuttle Radar Topography Mission / selle kõrgusfaili vorming
+
+# text
+seg-4692354a98de = plaadid nimetatakse nende edelanurga järgi, näiteks N36W117
+
+# text
+seg-00f36f1678d6 = SSD
+
+# text
+seg-532285d8e6ce = Solar System Dynamics (Päikesesüsteemi dünaamika)
+
+# text
+seg-1d8167212f57 = JPL-i rühm
+
+# text
+seg-d21315ea8c52 = STEC
+
+# text
+seg-84689b829867 = kaldelektronsisaldus
+
+# text
+seg-eabee4bfb30e = Systems Tool Kit
+
+# text
+seg-a7ff60ab0bd9 = missioonianalüüsi tarkvaratoode
+
+# text
+seg-17d792c12885 = Iridiumi positsioneerimis- ja ajastusteenus
+
+# text
+seg-3efaadad9c96 = STM
+
+# text
+seg-da395fa674ec = olekuülemineku maatriks
+
+# text
+seg-d116578b987b = SV
+
+# text
+seg-caa37a1e7d12 = kosmoseaparaat (satelliit)
+
+# text
+seg-845e6f3a37ec = SVD
+
+# text
+seg-e775c436db4b = singulaarväärtuste lahutus
+
+# text
+seg-3e5561868a7f = Scalable Vector Graphics (skaleeritav vektorgraafika)
+
+# text
+seg-4c48f567e37c = TAES
+
+# text
+seg-db881ca72cd5 = IEEE Transactions on Aerospace and Electronic Systems
+
+# text
+seg-39b93d9b401a = TC / TM
+
+# text
+seg-b0df03cff98a = telekäsk / telemeetria
+
+# text
+seg-fafb84a9796a = TDD
+
+# text
+seg-ec3b92ad43c3 = testipõhine arendus
+
+# text
+seg-40defa915d0d = TDOA / FDOA
+
+# text
+seg-e7db8768b023 = saabumisaja / saabumissageduse vahe
+
+# text
+seg-aecac9c9d2d0 = passiivse kiirgusallika asukoha määramine
+
+# text
+seg-01861b3d63bf = TERCOM
+
+# text
+seg-9ef3f9cbbe77 = maastikuprofiili sobitamine
+
+# text
+seg-5da9ae904ae0 = TEXBAT
+
+# text
+seg-e90183a6fc69 = Texas Spoofing Test Battery (Texase spuufimistestide kogum)
+
+# text
+seg-941eccec7400 = salvestatud GNSS-i spuufimisandmed (OAKBAT on samasuguse klassi andmekogum)
+
+# text
+seg-e71c15afe44e = TIE
+
+# text
+seg-19bfea0d5c88 = ajavahemiku viga
+
+# text
+seg-eb12660210bd = TIES
+
+# text
+seg-9335f08b6381 = Telecommunication Information Exchange Service (telekommunikatsiooniteabe vahetuse teenus)
+
+# text
+seg-12f4af2b48c1 = ITU liikmekontod
+
+# text
+seg-c05ba396ac1e = ToA
+
+# text
+seg-78a41e672189 = saabumisaeg
+
+# text
+seg-7d821e75fdf7 = TOL
+
+# text
+seg-4c7600f40479 = tolerants
+
+# text
+seg-1f8b3be77dcc = TOPSIS
+
+# text
+seg-00812e7bff63 = Technique for Order of Preference by Similarity to Ideal Solution (eelistusjärjestuse meetod sarnasuse alusel ideaallahendusega)
+
+# text
+seg-c9a6058c9715 = TOTDEV / TOTVAR
+
+# text
+seg-53a19d838c2d = koguhälve / kogudispersioon
+
+# text
+seg-7350da5c5c30 = laiendatud ulatusega stabiilsushinnangud
+
+# text
+seg-91d2f49dc7c0 = TPAMI
+
+# text
+seg-e9b41a993d86 = IEEE Transactions on Pattern Analysis and Machine Intelligence
+
+# text
+seg-85692b01a12d = TPL
+
+# text
+seg-123ed92776a3 = ajastuse kaitsetase
+
+# text
+seg-10c9563602b7 = vt SLOT-TIMING.md
+
+# text
+seg-d1e3f93bc0aa = TPS
+
+# text
+seg-579b1467ca5f = termokaitsesüsteem
+
+# text
+seg-3b7fe44cc552 = TRN
+
+# text
+seg-5239a432b919 = maastikupõhine navigatsioon
+
+# text
+seg-1df3bcf7eb97 = TR / TN
+
+# text
+seg-ef0ff09dc412 = tehniline aruanne / tehniline märkus
+
+# text
+seg-643fa447bcee = TU Delft
+
+# text
+seg-5c5492ecd86f = Delfti Tehnikaülikool
+
+# text
+seg-f3f22590bc57 = TWSTFT / TWTFT
+
+# text
+seg-28c80c27a136 = kahesuunaline satelliidi aja ja sageduse edastamine / kahesuunaline aja ja sageduse edastamine
+
+# text
+seg-e1a149ff6c43 = UBX
+
+# text
+seg-fa0e9838530e = u-blox'i binaarne vastuvõtjaprotokoll
+
+# text
+seg-9555546fed38 = UDRE
+
+# text
+seg-5fd7aec5beda = kasutaja diferentsiaalse kauguse viga
+
+# text
+seg-a3f5dda611b0 = SBAS
+
+# text
+seg-b6f0baa6e478 = UERE
+
+# text
+seg-4d1cb1c3ade9 = kasutajaekvivalentne kauguse viga
+
+# text
+seg-7d87e82154ed = UFFC
+
+# text
+seg-02457dbb660b = Ultrasonics, Ferroelectrics, and Frequency Control (ultraheli, ferroelektrikud ja sageduse juhtimine)
+
+# text
+seg-f4da31f92a79 = IEEE Transactions'i väljaanne
+
+# text
+seg-573db7b5995b = { "300" } MHz kuni { "3" } GHz
+
+# text
+seg-3688c8d84cdc = UI / UX
+
+# text
+seg-42162760360f = kasutajaliides / kasutajakogemus
+
+# text
+seg-7a56f7e38c5a = ULA
+
+# text
+seg-4f4d9da7855c = ühtlane lineaarantennivõrk
+
+# text
+seg-db65f4a7586d = ULP
+
+# text
+seg-ae7458813685 = viimase koha ühik
+
+# text
+seg-d7f4df5a9d13 = ujukomaarvutuse korduvtäpsus
+
+# text
+seg-81dc0f4f1b2c = URA / URE
+
+# text
+seg-c92cbc3e3954 = kasutaja kauguse täpsus / kasutaja kauguse viga
+
+# text
+seg-17e8fb142c6c = URA on terviklikkuse piir, URE on täpsuse ruutkeskmine
+
+# text
+seg-1e02dfc0a52b = URL
+
+# text
+seg-f726bcd9d4ad = uniform resource locator (ressursi ühtne asukohaviit)
+
+# text
+seg-088e05d67af1 = USGS
+
+# text
+seg-ffed8eca324d = Ameerika Ühendriikide geoloogiateenistus
+
+# text
+seg-1ded2eb40061 = USNO
+
+# text
+seg-2b5f7bbe22e9 = Ameerika Ühendriikide mereväe observatoorium
+
+# text
+seg-39ed84639c60 = USO
+
+# text
+seg-f9f684640e53 = ülistabiilne ostsillaator
+
+# text
+seg-b3a829cb7d84 = US Standard Atmosphere { "1976" }
+
+# text
+seg-ba97a4005ee8 = VIKOR
+
+# text
+seg-dfb9c6638023 = VIseKriterijumska Optimizacija I Kompromisno Resenje (mitmekriteeriumiline optimeerimine ja kompromisslahendus)
+
+# text
+seg-7fe170288e4e = väga pika baasjoonega interferomeetria
+
+# text
+seg-2e95d53160df = WAAS / EGNOS
+
+# text
+seg-8a3ae96dd95a = Wide Area Augmentation System / European Geostationary Navigation Overlay Service (laialdase ulatusega täiendussüsteem / Euroopa geostatsionaarne navigatsiooni täiendusteenus)
+
+# text
+seg-1746693259e0 = SBAS; vt ülalpool
+
+# text
+seg-98f4f946a7ac = WASM
+
+# text
+seg-257c477dc510 = WebAssembly
+
+# text
+seg-eaf260aa0e21 = WASPAS
+
+# text
+seg-4da2350f07f2 = Weighted Aggregated Sum Product ASSessment (kaalutud summa ja korrutise koondhinnang)
+
+# text
+seg-c9710476b8b5 = Euroopa Liidu ja Ameerika Ühendriikide satelliitnavigatsioonikoostöö töörühm C
+
+# text
+seg-79f0e87410bf = avaldab ARAIM-i viitedokumendid
+
+# text
+seg-199e55106e0f = WGCCRE
+
+# text
+seg-9e2d0f828a0a = Working Group on Cartographic Coordinates and Rotational Elements (kartograafiliste koordinaatide ja pöörlemiselementide töörühm)
+
+# text
+seg-d1939d914701 = WGN
+
+# text
+seg-6bbc3adc6a53 = valge Gaussi müra
+
+# text
+seg-1e422c9001d4 = WGS72 / WGS84
+
+# text
+seg-dab1ec7739ae = World Geodetic System { "1972" } / { "1984" } (ülemaailmne geodeetiline süsteem)
+
+# text
+seg-5964aa61f847 = SGP4 kasutab WGS72 konstante
+
+# text
+seg-f4ea25131d04 = WHU
+
+# text
+seg-7d30c759d92f = Wuhani ülikool
+
+# text
+seg-5d028f5e2120 = WSM / WPM
+
+# text
+seg-ce407535733f = kaalutud summa mudel / kaalutud korrutise mudel
+
+# text
+seg-cc68c85bb2b9 = mitmekriteeriumiline koondamine (WPM tähendab ka valget faasmodulatsiooni; kumb, selgub kontekstist)
+
+# text
+seg-9041c866d202 = XML
+
+# text
+seg-0e55c3adc568 = Extensible Markup Language (laiendatav märgistuskeel)
+
+# text
+seg-93e0e8702167 = XOR
+
+# text
+seg-cfa3197f8c1d = välistav või
+
+# text
+seg-7fba187cb552 = X / Y / Z / F (XYZF), D / I
+
+# text
+seg-195082605699 = geomagnetvälja komponendid: põhi, ida, alla, kogu intensiivsus; deklinatsioon, inklinatsioon
+
+# text
+seg-94835748fcbb = YAGNI
+
+# text
+seg-76430d755d74 = you aren't gonna need it (sul seda ei lähe vaja)
+
+# text
+seg-e4e177088376 = disainiprintsiip
+
+# text
+seg-565c1908393c = ZHD
+
+# text
+seg-77a0948bc15d = zeniidi hüdrostaatiline viivitus
+
+# text
+seg-749be52554c5 = Reprodutseeritavus ja litsentsimine
+
+# text
+# c1: scenario + seed + version → identical result
+seg-d78d9bbb905c = <b>Reprodutseeritav (deterministlik).</b> Sama sisend annab alati bitthaaval identse väljundi — <c1/>. Mingit varjatud juhuslikkust ei ole.
+
+# text
+seg-1412347e2298 = <b>Algväärtus (seed).</b> Arv, millega algväärtustatakse (deterministlik) juhuarvugeneraator, et käigud oleksid korratavad.
+
+# text
+seg-3a35740e04a8 = <b>Avatud tuum.</b> Ärimudel: mootor on vaba ja avatud lähtekoodiga (AGPL-3.0, allpool määratletud GNU Affero General Public License; kahe litsentsiga, ka kommertslitsents); jätkusuutlik äri on tugi, integreerimine, kommertslitsentsid ja suletud lisandmoodulid — mitte kasutajakohatasud avatud mootori eest.
+
+# text
+seg-8ea21ebded3c = <b>AGPL-3.0.</b> GNU Affero General Public License v3 — OSI (Open Source Initiative) poolt heaks kiidetud tugeva copyleft-põhimõttega avatud lähtekoodiga litsents. Nagu GPL (GNU General Public License), kuid lisaklausliga (§{ "13" }), mis hõlmab tarkvara, mida pakutakse kasutajatele <b>üle võrgu</b>: üle võrgu kättesaadav muudetud versioon peab pakkuma neile kasutajatele oma vastavat lähtekoodi. Kshana avatud litsents.
+
+# text
+# c1: LICENSING.md
+seg-f87860d8197d = <b>Kahe litsentsiga levitamine.</b> Sama koodi pakutakse kahe litsentsi alusel, et kasutajad saaksid valida: siin AGPL-3.0 (avatud, copyleft) <b>või</b> Ashforde OÜ (Eesti osaühing) kommertslitsents suletud kasutuseks, mida AGPL ei sobita. Vt <c1/>.
+
+# text
+seg-dd5f4a1bbbf5 = Kasutusel ka saidil kshana.dev
+
+# text
+seg-9d0c42560a90 = Veebisaidil kasutatavad lühendid, mida ülaltoodud hoidla sõnastikus ei ole.
+
+# text
+seg-67a54ce8c89e = Global Positioning System (ülemaailmne positsioneerimissüsteem)
+
+# text
+seg-814b0d29bbb2 = kandja ja müratiheduse suhe, dB-Hz
+
+# text
+seg-f22a269bc575 = { "1" } kuni { "2" } GHz raadioriba, mida GNSS kasutab
+
+# text
+seg-1f4360a0405c = GPS L1 jämedus- ja hankekood
+
+# text
+seg-6f7910207534 = täiendatud edastatav signaal (Kuu)
+
+# text
+seg-74f02864ce32 = mikroelektromehaanilised süsteemid
+
+# text
+seg-0f931242ecc0 = UAS
+
+# text
+seg-dddfd223a3b1 = mehitamata õhusõidukisüsteem
+
+# text
+seg-7091aabf8b6d = PL · AL
+
+# text
+seg-12d88ab45197 = kaitsetase · häirepiir
+
+# text
+seg-78134bcc48da = lähenemine vertikaaljuhtimisega, tase I
+
+# text
+seg-27328b36b476 = LEO · GEO
+
+# text
+seg-b1ae7014a663 = madal Maa orbiit · geostatsionaarne orbiit
+
+# text
+seg-c1d933dd3965 = OEM · OMM · TDM
+
+# text
+seg-5d0ebe2bc51c = CCSDS-i orbiidi efemeriidi, orbiidi keskmiste elementide ja jälgimisandmete sõnumid
+
+# text
+seg-fa9240660ec4 = IGRF
+
+# text
+seg-c19fd59fdca0 = DSN
+
+# text
+seg-7979317c75d2 = Deep Space Network (süvakosmose võrk)
+
+# text
+seg-c194401c2039 = TCXO · OCXO
+
+# text
+seg-5c9d0b4c561d = temperatuurikompenseeritud · termostaadiga kvartsostsillaator
+
+# text
+seg-f3a7cc221b63 = PHM
+
+# text
+seg-08d5cfc5b460 = passiivne vesinikmaser
+
+# text
+seg-5ed928b1c6d0 = USO · DSAC
+
+# text
+seg-b77f2ea4a521 = ülistabiilne ostsillaator · süvakosmose aatomkell
+
+# text
+seg-553814463110 = MTIE · TDEV
+
+# text
+seg-2d9b8af50414 = maksimaalne ajavahemiku viga · ajahälve
+
+# text
+seg-5b155b60152f = PRTC · ePRTC
+
+# text
+seg-93d590e6408d = esmane etalonajakell · täiustatud PRTC
+
+# text
+seg-8541a73eef89 = ADEV · σy(τ)
+
+# text
+seg-a2ae4a40f486 = Alani hälve keskmistamisajal τ
+
+# text
+seg-96fae3b4fb8e = Rahvusvaheline Telekommunikatsiooniliit, telekommunikatsiooni standardimise sektor
+
+# text
+seg-24cab92c0fd3 = NIS · NEES
+
+# text
+seg-7e82e2927d59 = normaliseeritud innovatsiooni ruut · normaliseeritud hinnangu vea ruut
+
+# text
+seg-7175ab55e707 = JSON · CSV · SVG
+
+# text
+seg-a9a2906d15de = JavaScript Object Notation · komadega eraldatud väärtused · skaleeritav vektorgraafika
+
+# text
+seg-d3a9009a35c0 = CLI · API · IDE
+
+# text
+seg-c6418e1f785d = käsurealiides · rakendusliides · integreeritud arenduskeskkond
+
+# text
+seg-8df86177107a = SBOM · SLSA
+
+# text
+seg-e54326c78ab0 = tarkvara koostisosade loend · Supply-chain Levels for Software Artifacts
+
+# text
+seg-347b23148b8f = NDA
+
+# text
+seg-969d2489de28 = konfidentsiaalsuslepe
+
+# text
+seg-564cfa0d3084 = Digital Object Identifier (digitaalse objekti identifikaator)
+
+# text
+seg-5cbd99859d90 = C/N₀ juga
+
+# text
+seg-ed4a9e041a83 = diagramm kandja ja müratiheduse suhtest satelliidi kohta aja jooksul
+
+# text
+seg-1cb49c7e6c7f = HPL · VPL
+
+# text
+seg-ccdc7d672c8f = horisontaalne · vertikaalne kaitsetase
+
+# text
+seg-c7a40ebac7e1 = LROC
+
+# text
+seg-529f02f85a76 = Lunar Reconnaissance Orbiteri kaamera
+
+# text
+seg-c5da9d350518 = <s1>Eelmine</s1>Mõistete lühikursus
+
+# text
+seg-670504be0531 = <s1>Järgmine</s1>Stuudio juhend

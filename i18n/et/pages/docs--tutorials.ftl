@@ -29,3 +29,15 @@ seg-029de6b99be0 = Inertsiaalne dead-reckoning
 
 # text
 seg-9ef8f99ca6e4 = Aja edastamine
+
+# text
+seg-b03d56f501c3 = Liik
+
+# text
+seg-ec26df467b88 = Ühine Kalmani sensorite liitmise PNT samade hübriidsisendite üle.
+
+# text
+seg-4f19d4fb1341 = Üldine N-D pühkimine mis tahes paketi kohal punktiga eraldatud TOML-võtmete / JSON-i mõõdikuteede kaudu.
+
+# text
+seg-e7ab7b55c969 = 1-D kompromissiuuringu pühkimine kellapaketi parameetri kohal.

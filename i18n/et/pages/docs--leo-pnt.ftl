@@ -23,3 +23,6 @@ seg-587beeccaa11 = Eelseade
 
 # text
 seg-e305279d5b11 = Sisu
+
+# text
+seg-b03d56f501c3 = Liik

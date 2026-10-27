@@ -17,3 +17,12 @@ seg-f63dd3d7aad4 = Allikas
 
 # text
 seg-e305279d5b11 = Sisu
+
+# text
+seg-4d208b6c0eb8 = päev
+
+# text
+seg-a7d59ba6e225 = rad
+
+# text
+seg-02dc0d42fb21 = sfu

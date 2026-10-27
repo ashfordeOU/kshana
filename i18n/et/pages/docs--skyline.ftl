@@ -38,3 +38,12 @@ seg-d1e9715513b4 = Näide
 
 # text
 seg-587beeccaa11 = Eelseade
+
+# text
+seg-98f4f946a7ac = WASM
+
+# text
+seg-b03d56f501c3 = Liik
+
+# text
+seg-4dbf41c0ec3b = Funktsioon

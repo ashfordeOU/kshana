@@ -62,3 +62,6 @@ seg-638b8d451550 = Sensor
 
 # text
 seg-04f69a0edb2f = tüüp
+
+# text
+seg-b03d56f501c3 = Liik
