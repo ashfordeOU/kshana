@@ -10992,3 +10992,443 @@ engine-api-html-chart-alt = Resultatdiagram
 engine-api-html-full-result = Fuldt resultat (JSON)
 
 engine-api-html-footer-generated = Genereret af Kshana { $version }.
+
+engine-api-html-footer-licence = Kan genskabes fra scenarie + seed + engine-version. Gratis og open source (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">kildekode &amp; dokumentation</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: Model Context Protocol-server til Kshana PNT-resilienssimulatoren.
+
+    BRUG:
+    { "    " }kshana-mcp                      servér over stdio (standard; det MCP-klienter starter)
+    { "    " }kshana-mcp --http <addr>        servér streamable HTTP på http://<addr>/mcp
+
+    HTTP-INDSTILLINGER:
+    { "    " }--http <addr>               bindeadresse, f.eks. 127.0.0.1:8080 (som standard kun loopback)
+    { "    " }--allow-remote              tillad en adresse uden for loopback; kræver KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  ekstra accepteret Host-header (kan gentages)
+    { "    " }--allow-origin <origin>     accepteret browser-origin (kan gentages; som standard ingen)
+    { "    " }--max-body-bytes <n>        grænse for forespørgselskrop (standard 5242880)
+    { "    " }--request-timeout-secs <n>  tidsgrænse pr. forespørgsel (standard 120)
+    { "    " }--max-concurrent <n>        forespørgsler serveret på én gang (standard 8)
+
+    HTTP-transporten slår IQ-filværktøjerne fra. Kshana driver ikke et endpoint: kør det selv.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = ukendt argument `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = HTTP-indstillinger kræver --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = nægter at binde { $addr }: det er ikke en loopback-adresse. Brug 127.0.0.1:<port>, eller angiv --allow-remote (og sæt { $token_env }) for at lytte ud over denne maskine
+
+engine-e-mcp-http-refusing-to-bind-needs-token = nægter at binde { $addr }: en adresse uden for loopback kræver et bearer-token i miljøvariablen { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } er kortere end 16 tegn; brug et langt tilfældigt token
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent og --request-timeout-secs skal være over nul
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin accepterer ikke `*`; angiv hver origin
+
+engine-mcp-http-warning-remote = ADVARSEL: kshana-mcp lytter på { $addr } ud over denne maskine. Enhver, der kan nå den og har bearer-tokenet, kan køre simuleringer på din hardware. Sæt TLS foran (en reverse proxy eller din platforms HTTPS), og hold tokenet hemmeligt.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = stedets breddegrad skal ligge i [-90, 90] og længdegraden i [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s skal ligge i [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode skal være off, standalone eller differential, fik `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode skal være off, ltc eller tt, fik `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays skal ligge i 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s skal være positiv og afs_first_fix_s ikke-negativ
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km skal ligge i [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = indgangskovariansen er ikke symmetrisk med en ikke-negativ diagonal
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent forventer indgangsuret i LTC eller TT, fik { $timescale }; tråden omregner tidsskalaer
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s skal ligge i [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source skal være off, terrain-nav eller lola-crlb, fik `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = tidspunkter for positionsbestemmelse skal være positive, afs_interval_s > 0 og trn_fix_time_s inden for nedstigningen
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m skal være mindst 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m skal være positiv
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb kræver DEM'en, som ikke kunne indlæses
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent forventer indgangsuret i LTC eller TT, fik { $timescale }; tråden omregner tidsskalaer
+
+engine-e-lunar-landing-east-prior-is-not-positive = østpriorn er ikke positivt definit
+
+engine-e-lunar-landing-north-prior-is-not-positive = nordpriorn er ikke positivt definit
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit skal være `llo` eller `elfo`, fik `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = periapsis skal ligge mindst 20 km over overfladen
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m skal ligge i (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s skal ligge i (0, 60] og arc_s være mindst ét trin
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays skal ligge i 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s skal være positiv
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction skal ligge i [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model skal være `same` eller `point-mass`, fik `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous forventer indgangskovariansen i MCI; tråden omregner referencesystemer
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = priorkovariansen er ikke positivt definit
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = normalligningerne er ikke positivt definitte
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = posteriorinformationen er ikke positivt definit
+
+engine-e-lunar-rendezvous-no-trial-ran = intet forsøg blev kørt
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = årstidsdatoen `{ $s }` er ikke YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = årstidsdatoen `{ $s }`: ugyldigt år
+
+engine-e-lunar-surface-map-season-date-bad-month = årstidsdatoen `{ $s }`: ugyldig måned
+
+engine-e-lunar-surface-map-season-date-bad-day = årstidsdatoen `{ $s }`: ugyldig dag
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = årstidsdatoen `{ $s }` ligger uden for 1901-2099 eller er ikke en dato
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites skal indeholde mellem 1 og 64 poster
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = sted { $i }: breddegraden skal ligge i [-90, 90] og længdegraden i [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates skal indeholde mindst én dato
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates må indeholde højst 16 datoer
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days skal ligge i (0, 400] og step_min i [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days og timing_floor_s skal være positive og endelige
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = epoken `{ $s }` er ikke YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = epoken `{ $s }`: ugyldigt tal `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = epoken `{ $s }` ligger uden for 1901-2099 eller er ikke en dato
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces skal være "quantum" eller "classical" (fik { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = resultatdokumentet har allerede en `evidence`-nøgle
+
+engine-e-evidence-label-the-result-document-is-not = resultatdokumentet er ikke et JSON-objekt
+
+engine-e-evidence-label-no-evidence-rows-are-listed = ingen evidensrækker er angivet for `{ $tool }`
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = ikke en RINEX-urfil: ingen RINEX VERSION / TYPE-post
+
+engine-e-clock-log-rinex-version-type-record-has = RINEX VERSION / TYPE-posten har intet versionsnummer (fandt { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = RINEX-urversion { $v } læses ikke: versionerne 2.00 og 3.00 til 3.04 læses (IGS udgiver urformatet op til 3.04; RINEX 4.00 til 4.02 definerer ingen urfil)
+
+engine-e-clock-log-rinex-clock-record-with-an = RINEX-urpost med en ulæselig urbias eller epoke: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = TimeLab-linje { $line } indeholder en måling, der ikke er endelig: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = omregning af referencesystem { $a } -> { $b } er ikke tilgængelig (kun Gcrf, Mci og Mcmf omregnes)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = tidsskalaspring { $a } -> { $b } er ikke et pivotspring
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: korridoren skal løbe fra en flad til en stejlere vinkel under 90 grader, fik { $lo } til { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` skal ligge i [0, 90), fik { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` skal være mindst 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` skal være over 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: kræver mindst én station
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: stationen `{ $id }` har en ugyldig breddegrad eller længdegrad
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: station-id `{ $id }` bruges to gange
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: fasen `{ $phase }` har geometry "stated" og kræver `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: fasens `{ $phase }` duty skal ligge i [0, 1], fik { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: fasen `{ $phase }` har ukendt geometry `{ $other }`; geometrierne er entry-orbit, moon-direction og stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: indgangsbanen blev ikke propageret
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: ingen geometry `{ $other }` at beregne
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: fasen `{ $phase }` kræver en GCRF-indgang til sin geometri, fik { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: en fade skal slutte efter, den starter ({ $a } til { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: forventer en GCRF-indgangstilstand, fik { $frame }; angiv indgangen i gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: fasen gav ingen samples
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: ukendt modelnøgle `{ $k }`; nøglerne er { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: modellen kræver `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` skal være et endeligt tal
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` skal være over 0, fik { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` skal være mindst 0, fik { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` skal være en streng
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` skal være en array af tabeller
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` skal indeholde tabeller
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` skal være en array af { $n ->
+        [one] { $n } tal
+       *[other] { $n } tal
+    }
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` skal indeholde { $n ->
+        [one] { $n } tal
+       *[other] { $n } tal
+    }, fik { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` skal indeholde endelige tal
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: et ben kræver `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: modellen kræver mindst ét `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: ben { $leg } start: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: ben { $leg } slut: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: ben { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` skal ligge i [0, 1], fik { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` og `ssv_step_min` skal være over 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: propageringen nåede ikke { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: banen efter motorbrændingen er ikke bunden (specifik energi { $energy } J/kg); den stedfortrædende gnss-ssv-bane kræver en elliptisk
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: gnss-ssv-sweepet gav intet bånd
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: gnss-ssv-sweepet gav ingen gruppe
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: fasen angiver gnss-ssv, så modellen kræver `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: fasen angiver ground-tracking, så modellen kræver `ground_range_sigma_m`, `ground_range_rate_sigma_mps` og `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = overdragelsen { $name } skal være et endeligt tal på mindst 0, fik { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = fase `{ $id }`: dens models { $key } er { $own_s } s, men tråden angiver fasens duration_s = { $duration_s } s; få dem til at stemme, eller udelad { $key }
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = ukendt referencesystem `{ $other }`; forventet en af gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = ukendt tidsskala `{ $other }`; forventet en af tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = ukendt navigationskilde `{ $other }`; forventet en af gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = ukendt tidskilde `{ $other }`; forventet en af gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } skal være et positivt endeligt tal, fik { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = overdragelsesreglen `{ $rule }` kræver `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = ukendt overdragelsesregel `{ $other }`; forventet carry, inflate eller reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = en fase har et tomt id
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s skal være et endeligt tal på mindst 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x skal indeholde seks endelige tal
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind skal være "mission-thread", fik "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = en missionstråd kræver mindst én [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = fase-id `{ $id }` bruges to gange; id'er er unikke
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: fasen `{ $phase }` er ikke en fase i denne tråd
+
+engine-e-mission-thread-scenario-phase = fase `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = fase `{ $id }` sluttede ved { $t_s } s, men startede ved { $start_s } s og varer { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = ukendt sensor til relativ navigation `{ $other }`; forventet en af optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = afstanden skal være et positivt endeligt antal meter, fik { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = afstanden { $range_m } m ligger ud over sensorens grænse på { $max_range_m } m
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: ukendt modelnøgle `{ $bad }`; nøglerne er { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = receiver-trust-evidensrækkerne findes ikke i matricen
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = ukendt ablation `{ $other }`: B1 til B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = bevispakkens rækker findes ikke i matricen
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = jammertest-evidensrækkerne findes ikke i matricen
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: tilpasningen har ingen frekvensstøj (hvid FM, flicker-FM og random-walk-FM er alle nul), så der er intet at forudsige en holdover ud fra; loggen kan kun være hvid fasestøj eller for kort
+
+engine-e-evidence-label-run-exercised-no-matrix-row = kørslen berørte ingen række i verifikationsmatricen
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent forventer indgangskovariansen i MCI; tråden omregner referencesystemer
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent forventer indgangskovariansen i MCI; tråden omregner referencesystemer
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface forventer indgangstilstanden i MCI eller MCMF; tråden omregner referencesystemer
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km skal overstige Månens radius, og excentriciteten ligge i [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = ukendt fasekind `{ $kind }`; registrerede kinds er { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` angiver ingen navigationskilde
+
+engine-e-ssv-check-training-pattern-missing = træningsmønster { $sv } mangler
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] kræver en [clock_log]-tabel: den målte serie, tilpasningen laves ud fra
+
+engine-lunar-phase-no-finite-points-to-plot = ingen endelige punkter at plotte
+
+engine-partner-cli-usage =
+    brug: kshana partner check <submission.toml> [--json]
+    { "  " }Kontrollerer formatet og metadataene i en indsendelse fra en datapartner (kshana.partner-submission/1) og læser dens
+    { "  " }datafil med engine'ens egne læsere. Den scorer eller validerer intet; se docs/PARTNER-DATA.md.
+    { "  " }Exitstatus 0: indsendelsen er komplet og læsbar; 1: der blev fundet fejl; 2: brug.
+    Vejledende software, ikke typegodkendt navigationsudstyr.
+
+engine-evidence-verify-evidence-label-ledger-rows = bevisetiket: { $tier } ({ $row_count ->
+        [one] { $row_count } registerrække
+       *[other] { $row_count } registerrækker
+    }: { $rows }); det ligger i config.json, så signaturen dækker det
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = intet bevisetiket (pakke fra før 0.40)
+
+engine-e-ssv-check-pattern-missing = mønster { $sv } mangler
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | kun inertial { $inertial_pos } m / { $inertial_vel } m/s | med AFS { $afs_pos } m / { $afs_vel } m/s | indsætningsspredning { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Lunar opstigning: 3-D-navigationsposition 1-sigma (m)
+
+engine-lunar-ascent-chart-subtitle = inertial drift med AFS-positionsbestemmelser | MODELLED, kun vejledende
+
+engine-lunar-ascent-chart-x-axis = sekunder siden afgang
+
+engine-lunar-ascent-chart-series = position 1-sigma
+
+engine-lunar-chart-y-axis-metres = meter
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | kun inertial { $none_east }/{ $none_north } m (E/N) | med hjælpemidler { $all_east }/{ $all_north } m | spredning R95 { $r95 } m | 3-sigma-ellipse { $major } x { $minor } m | { $inside }% inden for (forventet { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Lunar landingsspredning: R95 mod brugte hjælpemidler
+
+engine-lunar-landing-chart-subtitle = R95 pr. hjælpemidler: { $aids } | MODELLED, kun vejledende
+
+engine-lunar-landing-chart-x-axis = hjælpemiddelkombination (indeks)
+
+engine-lunar-landing-chart-series = R95 for landingsspredning
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | afstand { $sep } m | positionsbestemmelser { $fixes }% | rel. pos. 1-sigma R/A/C { $radial }/{ $along }/{ $cross } m | gennemsnitlig NEES { $nees } (6 forventet) | konvergeret { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = aldrig
+
+engine-lunar-rendezvous-converged-at = ved { $s } s
+
+engine-lunar-rendezvous-chart-title = Lunar rendezvous: formel relativ position 1-sigma (3-D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | positionsbestemmelser { $fixes }% | gennemsnitlig NEES { $nees } (6 forventet) | MODELLED, kun vejledende
+
+engine-lunar-rendezvous-chart-x-axis = minutter siden buens start
+
+engine-lunar-rendezvous-chart-series = relativ position 1-sigma
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites ->
+        [one] { $n_sites } sted
+       *[other] { $n_sites } steder
+    } x { $n_seasons ->
+        [one] { $n_seasons } årstid
+       *[other] { $n_seasons } årstider
+    } | positionering { $position_min }% til { $position_max }% | værste tilgængelighed af tidssynkronisering { $worst_timing }% | længste hul i tidssynkronisering { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Lunart PNT-kort for overfladen: tilgængelighed pr. sted (værste årstid, %)
+
+engine-lunar-surface-map-chart-subtitle = positionering = 4+ relæer og PDOP under tærsklen; tidssynkronisering = ét relæ eller Jorden | MODELLED, kun vejledende
+
+engine-lunar-surface-map-chart-x-axis = stedsindeks
+
+engine-lunar-surface-map-chart-y-axis = procent af vinduet
+
+engine-lunar-surface-map-chart-series-positioning = positionering
+
+engine-lunar-surface-map-chart-series-timing = tidssynkronisering
+
+engine-lunar-surface-map-chart-series-earth-visible = Jorden synlig
+
+engine-mission-thread-weakest-link = svageste led { $phase_id }
+
+engine-mission-thread-no-phases = ingen faser
+
+engine-mission-thread-untitled = uden titel
+
+engine-mission-thread-summary = mission-thread | { $n_phases ->
+        [one] { $n_phases } fase
+       *[other] { $n_phases } faser
+    } | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Missionstråd
+
+engine-mission-thread-chart-position-caption = 1-sigma position, m
+
+engine-mission-thread-chart-time-caption = 1-sigma tid, s
+
+engine-mission-thread-chart-subtitle = MODELLED fejlbudget for navigation og tidssynkronisering; hver fase tegnet med samme bredde
+
+engine-evidence-label-line-one-row = { $n ->
+        [one] Evidens: { $tier } · { $n } registerrække { $ids }
+       *[other] Evidens: { $tier } · { $n } registerrækker { $ids }
+    }
+
+engine-evidence-label-line-rows = { $n ->
+        [one] Evidens: { $tier } · { $n } registerrække { $ids }
+       *[other] Evidens: { $tier } · { $n } registerrækker { $ids }
+    }
+
+engine-evidence-label-line-rows-more = { $n ->
+        [one] Evidens: { $tier } · { $n } registerrække { $ids } +{ $n_more } flere
+       *[other] Evidens: { $tier } · { $n } registerrækker { $ids } +{ $n_more } flere
+    }
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }info: { $i }
+
+engine-partner-text-warning = { "  " }advarsel: { $w }
+
+engine-partner-text-error = { "  " }FEJL: { $e }
+
+engine-partner-text-result-ok = resultat: formatet og metadataene er komplette og læsbare
+
+engine-partner-text-result-not-ready = resultat: ikke klar; ret fejlene ovenfor
