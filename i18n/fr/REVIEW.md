@@ -231,7 +231,7 @@ Machine draft by an AI model; NOT reviewed by a native speaker. English is the r
 
 ## 7. Terms to confirm
 
-See `i18n/<lang>/glossary.ftl` once it exists, and the term list in `tools/i18n/briefs/RULES_<lang>.md` (or the glossary JSON in kshana-pro `site/i18n-0.40/i18n/glossary/<lang>.json`).
+See `i18n/<lang>/glossary.ftl` once it exists (or the glossary JSON in kshana-pro `site/i18n-0.40/i18n/glossary/<lang>.json`).
 
 ## Second pass (plural selectors and the 66 added messages)
 
