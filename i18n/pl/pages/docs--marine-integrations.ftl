@@ -9,3 +9,5 @@ seg-2247a2344710 = Znaczenie
 seg-c3c260b7063e = Testy
 
 seg-06ff6eed7e99 = OpenCPN
+
+seg-ab1af8b3d968 = zob. wyżej
