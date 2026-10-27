@@ -2416,7 +2416,7 @@ dat-fa85ed0fb966 = Générateur de code C/A à LFSR G1/G2 reproduisant les vecte
 dat-71b6ea3dc71a = Algorithme utilisateur d'éphéméride diffusée de l'ICD Galileo comme base d'un message de navigation LEO
 
 # data/search.json
-dat-c5e5f5f38caf = Orbite terrestre moyenne Galileo — VERT (seuil < { "5" } m)
+dat-c5e5f5f38caf = Orbite terrestre moyenne Galileo — GREEN (seuil < { "5" } m)
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-455af4b55c5e = Authentification côté récepteur des données de navigation Galileo OSNMA
@@ -2899,7 +2899,7 @@ dat-4bab7ea5f074 = erreur horizontale
 dat-ea2e883bd4e5 = Ellipse d'erreur horizontale et cofacteur par système à partir de la covariance de géométrie
 
 # data/search.json
-dat-ef7245602f73 = Comment une ligne reste VERTE
+dat-ef7245602f73 = Comment une ligne reste GREEN
 
 # data/search.json
 dat-baad56eb3581 = Comment fonctionne une exécution
@@ -6371,7 +6371,7 @@ dat-a656659bd6dc = Paquets de normes
 dat-7fc9b51d4100 = Paquets de normes : scénarios notés par rapport à des seuils énoncés avant l'exécution
 
 # data/verification-matrix.json
-dat-30c0f1878852 = standards_pack (kshana standards-pack) : les profils d'essai du cadre PNT résilient du DHS pour les niveaux { "1" } à { "4" }, les niveaux de précision et l'évaluation d'intégrité de l'IMO MSC.1/Circ.1575, et les paquets surveiller, évaluer et atténuer de l'OACI Doc { "9849" } annexe F : chaque essai exécute un type de scénario intégré et compare des champs de résultat à des seuils énoncés dans le paquet, et les essais qui exigent un journal de récepteur sont listés comme ENTRÉE REQUISE et non notés.
+dat-30c0f1878852 = standards_pack (kshana standards-pack) : les profils d'essai du cadre PNT résilient du DHS pour les niveaux { "1" } à { "4" }, les niveaux de précision et l'évaluation d'intégrité de l'IMO MSC.1/Circ.1575, et les paquets surveiller, évaluer et atténuer de l'OACI Doc { "9849" } annexe F : chaque essai exécute un type de scénario intégré et compare des champs de résultat à des seuils énoncés dans le paquet, et les essais qui exigent un journal de récepteur sont listés comme NEEDS INPUT et non notés.
 
 # data/verification-matrix.json
 dat-552f0a742c42 = standards_pack ; compliance (faits de standards-pack dans compliance-report)

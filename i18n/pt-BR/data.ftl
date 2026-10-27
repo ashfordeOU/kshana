@@ -2416,7 +2416,7 @@ dat-fa85ed0fb966 = Gerador de código C/A por LFSR G1/G2 que reproduz os vetores
 dat-71b6ea3dc71a = Algoritmo de usuário de efemérides de difusão do ICD do Galileo como base de uma mensagem de navegação em LEO
 
 # data/search.json
-dat-c5e5f5f38caf = Galileo em órbita terrestre média — VERDE (limiar < { "5" } m)
+dat-c5e5f5f38caf = Galileo em órbita terrestre média — GREEN (limiar < { "5" } m)
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-455af4b55c5e = Autenticação de dados de navegação Galileo OSNMA no lado do receptor
@@ -2899,7 +2899,7 @@ dat-4bab7ea5f074 = erro horizontal
 dat-ea2e883bd4e5 = Elipse de erro horizontal e cofator por sistema a partir da covariância de geometria
 
 # data/search.json
-dat-ef7245602f73 = Como uma linha permanece VERDE
+dat-ef7245602f73 = Como uma linha permanece GREEN
 
 # data/search.json
 dat-baad56eb3581 = Como uma execução funciona

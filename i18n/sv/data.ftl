@@ -2286,7 +2286,7 @@ dat-fa85ed0fb966 = G1/G2 LFSR-generator för C/A-kod som återger de publicerade
 
 dat-71b6ea3dc71a = Användaralgoritmen för utsända efemerider enligt Galileo ICD som bas för ett navigeringsmeddelande i LEO
 
-dat-c5e5f5f38caf = Galileo, medelhög jordbana — GRÖN (< { "5" } m tröskel)
+dat-c5e5f5f38caf = Galileo, medelhög jordbana — GREEN (< { "5" } m tröskel)
 
 dat-455af4b55c5e = Galileo OSNMA: autentisering av navigeringsdata på mottagarsidan
 
@@ -2608,7 +2608,7 @@ dat-4bab7ea5f074 = horisontellt fel
 
 dat-ea2e883bd4e5 = Horisontell felellips och kofaktor per system utifrån geometrins kovarians
 
-dat-ef7245602f73 = Så förblir en rad GRÖN
+dat-ef7245602f73 = Så förblir en rad GREEN
 
 dat-baad56eb3581 = Så fungerar en körning
 
