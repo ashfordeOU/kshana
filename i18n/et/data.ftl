@@ -437,3 +437,267 @@ dat-d0d290dc8e8e = 3-DoF punktmassi sisenemine üle pöörleva sfäärilise Maa 
 
 # studio/data/capabilities.json
 dat-3f3e98fcc168 = Raamistikuga joondatud hindamismootor (DHS RPCF kategooriad), mis seab arhitektuuri simuleeritud käitumise vastavusse mõõtmekaupa alamhinnetega ning küsib seejärel, kas mõni üksik koondhinne või küpsustase on otsuse stabiilne alus: Dirichlet' kaalumissimpleksi, Kendalli tau järjestuse ebastabiilsuse, esikoha (top-1) võitja vahetumise määra ja ühisrežiimi mitmekesisuse kollapsi (Hill-N2) kaudu; koos terviklikkusräsiga kinnitatud kindlustusaruandega. Reprodutseeritav käsuga cargo run --example resilience_report. Modelleeritud sünteetilised arhitektuurid, joondatud RPCF v2.0-ga; enesehinnang, mitte sertifitseerimine.
+
+# studio/data/capabilities.json
+dat-c6d6f54662a9 = Nõue-moodul-test-oraakel-olek ristviide, mis on renderdatud mootorist endast (Markdown/CSV), ühikutestitud aususe invariantidega: rida võib olla märgitud valideeritud ainult siis, kui sellel on sõltumatu väline oraakel (NIST / AIAA / SOFA / IGS / avaldatud väärtus), nii et sisemine isekooskõla kontroll ei saa end valideerimisena maskeerida; ning riistvara/PA võimekused, mida Kshana ei paku, on kirja pandud partneri omanduses olevate lünkadena. Käivitatav selgroog ECSS-E-ST-10-02 verifitseerimise ristviitele.
+
+# data/verification-matrix.json
+dat-c0408697fed4 = ROS-vaba sild, mis kirjutab fiksi- ja satelliiditeateid NMEA-na ja hindab neid Pythoni sideme kaudu (integrations/ros2/kshana_trust), ning gnss_lib_py NavData-st vastuvõtja usaldusväärsuse sillani rtklib-pos formaadi kaudu (integrations/gnss_lib_py).
+
+# data/search.json
+dat-6d864a01c477 = Käivitus kirjutab tulemusdokumendi, diagrammi ja aruande. --export kirjutab ka stsenaariumi geomeetria või selle…
+
+# data/search.json
+dat-9801c2af3f99 = Ulatuse piir, kirja pandud, et keegi ei avastaks seda kohustusena koosolekul.
+
+# data/search.json, js/missions-runs.mjs
+dat-22f4ef767e4e = Algväärtusega Monte Carlo ansambel läbi kampaania, juhul, millel on suletud kuju.
+
+# data/search.json
+dat-bf1aa298962c = Laev siseneb sadamasse kaldasegaja all, kusjuures ees olevad kaihooned võtavad
+
+# data/search.json
+dat-fd6f3f62472b = Signaali disain
+
+# data/search.json
+dat-41bfe8168d0a = Petetud ajal rakendatud allkirjastatud käsk suunab ikkagi valesti
+
+# data/verification-matrix.json
+dat-41630d70066e = GNSS-i usaldussündmuse allkirjastatud, räsiahelaga tõendipakett: SHA-256 üle iga faili ja ahel üle manifesti, Ed25519 allkiri üle manifesti täpsete baitide ning verifitseerija, mis nimetab iga rikke (muudetud, eemaldatud, ümber nimetatud, välja vahetatud või lisatud fail, ümber järjestatud või muudetud manifest, võtmeta uuesti räsitud manifest, uuesti allkirjastatud pakett, vale kinnitatud võti ning ajatempli token, mis on eemaldatud, asendatud, rämps või teise dokumendi kohta).
+
+# data/search.json
+dat-00cc10649746 = Üks stsenaarium vastab ühele küsimusele ühe olukorra kohta.
+
+# studio/data/capabilities.json
+dat-b1a5ac35cd5f = Kosmoseilma keskkonnamudel: päikese (F10.7 / keskendatud 81-päevane F10.7a) ja geomagnetilise (Kp, definitsioonilise Kp↔ap tabeliga) aktiivsuse indeksid, nende juhitav Jacchia-1971 eksosfääri temperatuur ning aktiivsusega korrigeeritud versus staatiline termosfääri neutraaltihedus kõrgusel: päikesetsüklist sõltuv tihedus, mille staatiline atmosfäär välja jätab. Kalibreeritud esimese järgu skaalakõrguse sidestus, mitte andmete põhjal valideeritud NRLMSISE atmosfäär.
+
+# data/search.json
+dat-8f4292769e95 = Sünteetiline demo
+
+# data/search.json
+dat-35e7d2561585 = Tehniline märge ajaindekseeritud võrkude operaatoritele: konstellatsioonid, mis marsruudivad, määravad ülesandeid või annavad üle…
+
+# data/verification-matrix.json
+dat-74d13ad4e962 = Kolmas datumivalik, `all-stations-fixed`, mis hoiab iga Maa jaama fikseerituna ja hindab ainult MAJAKA Kuu-kehaga seotud koordinaate: konfiguratsioon, mille jaoks Kuu pinnapunkti ebakindlust tegelikult esitatakse, kuna Maa jaamade koordinaadid on viivitusmudeli sisend, mitte selle tundmatu. See on olemas seetõttu, et jaamatasandi kovariatsioon ja pinnapunkti kovariatsioon on ERINEVAD SUURUSED, mida lahutab õlavarre ρ/B, ja miski ei takistanud varem ühe esitamist teise vastu. Väljastatud `beacon_link` plokk kannab ρ-d, pikimat baasjoont, õlavarre, ekvipartitsioonilingi pinnapunktivormi c·σ_τ·(ρ/B)·√(g/N), arvutatud koordinaadikaupa majaka sigmat ja nende suhet; suhe on null, mitte eksitav, kui majakat ei hinnata või maatriksi auaste on puudulik. B võetakse PIKIMA kohalolevana baasjoonena, kõige soodsamana, nii et suhe saab ainult alahinnata. Käivitatav kujul `datum = "all-stations-fixed"` koos `estimate_beacon = true`, mis lükatakse tagasi puuduvat sisendit nimetava teatega, kui majakat ei hinnata
+
+# data/verification-matrix.json
+dat-6f57bdb89c4f = UTC kalendrikuupäev ja kellaaeg kaheosaliseks UTC Juliuse kuupäevaks SOFA dtf2d konventsiooniga päevade jaoks, mis lõpevad liigsekundiga ({ "86 401" } s pikad, { "23" }:{ "59" }:{ "60" }.x kehtiv), UTC TAI-ks ja tagasi ning UT1 UTC-st läbi TAI, kaheosalistel kuupäevadel alates 1972-01-01: ajatee, mida SGP4 (Sgp4::propagate_at, mõõdetud kaheosalisest epohhist) ja IAU 2006/2000A Maa-fikseeritud pööre (sgp4::teme_to_itrs_matrix_eop kaheosalise Maa pöördenurgaga) kasutavad
+
+# studio/data/capabilities.json
+dat-663f320a431f = Versioneeritud, ennast kirjeldav ümbris, mis mähib stsenaariumi tulemuse selle liigi, skeemiversiooni ning modelleeritud/valideeritud siltidega, nii et salvestatud artefakt jääb ennast dokumenteerivaks ja vanemad ümbrised jäävad ettepoole ühilduvalt loetavaks.
+
+# data/search.json
+dat-127255e50868 = Paigaldust mittevajav brauseritase
+
+# data/verification-matrix.json
+dat-239c20643ec7 = Aktsepteerib tabelina esitatud Kuu-keskset olekuefemeriidi (SPK/BSP tuuma hindamine) või avaldatud konstellatsiooni definitsiooni `ephemeris_path` taga, käivitab sellega identse kattuvuse / DOP-i / kaitsetaseme pühkimise ning väljastab sellest tuleneva σ_URE kaugusmõõtmise nõude MUUTMATA illustratiivsete Kepleri ja häiritud tulemuste KÕRVAL, kusjuures erinevus on oma nimega suurus. Iga arv kannab päritoluklassi, mis eristab tuumast tuletatut avaldatud elementidest tuletatust ja modelleeritust, nii et neid ei saa allavoolu tsiteerimisel kunagi segi ajada
+
+# data/search.json
+dat-a5e11f902927 = Juurdepääsetavus ja kujundus
+
+# studio/data/capabilities.json
+dat-ebda4408a75a = Kogub Kuu VLBI viivituse osatuletised Fisheri informatsioonimaatriksiks baasjoonte-ja-epohhide ajakava üle ning tagastab jaama koordinaatide kovariatsiooni, nii et samm viivituse täpsusest koordinaadi sigmani on hinnatud, mitte eeldatud. Vaba võrk esitatakse datumiga fikseeritud võrgu kõrval, koos selle auastmedefekti ja nimetatud vaatlematu suunaga. Pinnapunkti kovariatsioon hoitakse Maa jaama omast eraldi, sest lähivälja majaka osatuletis on kahe jaama ühikvektori vahe ega käitu nagu kaugvälja juhtum.
+
+# data/search.json
+dat-d00cc6e4476d = acm-link (stsenaariumi liik)
+
+# js/developers-data.mjs
+dat-f4f5f8cb9fcd = Omanda, seejärel jälgi üht või mitut PRN-i IQ-salvestise peal töökataloogis (`kshana iq track`): omandamine initsialiseerib iga kanali, seejärel taasesitab DLL/PLL (valikuliselt FLL-abistatud) silmusepank salvestise ühe korra.
+
+# data/verification-matrix.json
+dat-7151fa5ea3ca = Omandamine ja C/N0 hindamine päris Kuu IQ peal
+
+# data/verification-matrix.json
+dat-e6a6348d99e6 = Omandamise hüstereesi ja esiotsa kvantiseerija segamisliigis sõltumatute ümberarvutuste vastu
+
+# data/verification-matrix.json
+dat-2a6bb2188ff2 = Omandamine tagasihoitud päris Kuu IQ peal orbiidist ennustatud Doppleri vastu
+
+# data/verification-matrix.json
+dat-0823eb571951 = Omandamine päris Kuu IQ peal orbiidist ennustatud Doppleri vastu (valimivõimsuse otsus)
+
+# data/verification-matrix.json
+dat-547ca1d69c51 = Omandamine päris Kuu IQ peal, hinnatud orbiidist ennustatud Doppleriga
+
+# data/verification-matrix.json
+dat-039be7665174 = acquisition::pcps_acquire (rakkude keskmistamise otsus, valehäire tõenäosus { "1e-7" }) koos refine_doppler_coherent'iga Kuu pinnal salvestatud LuGRE L1 partiidel (I kõrges nibble'is, mid-rise tasemed); omandatud satelliitide vahelised Doppleri erinevused vs ESA lõplikest orbiitidest ja Firefly maandumiskoha tuumast ennustatud erinevused
+
+# data/verification-matrix.json
+dat-727510f3d9eb = acquisition::pcps_acquire koos oma valimivõimsuse otsusega üheksal mitte-pinnalisel LuGRE L1 partiil mid-rise tasemetega; omandatud satelliitide vahelised Doppleri erinevused võrreldud ESA lõplikest orbiitidest ja Firefly rekonstrueeritud Blue Ghosti trajektoorist ennustatud erinevustega
+
+# data/verification-matrix.json
+dat-d3c98afeb10e = acquisition::pcps_acquire rakkude keskmistamise otsusega (tipp üle võrgu keskmise raku, robustne ribapiiratud müra suhtes) üheksal mitte-pinnalisel LuGRE L1 partiil mid-rise tasemetega; omandatud satelliitide vahelised Doppleri erinevused võrreldud ESA lõplikest orbiitidest ja Firefly rekonstrueeritud Blue Ghosti trajektoorist ennustatud erinevustega
+
+# data/verification-matrix.json
+dat-1bcff7b1a35c = acquisition::tests (Marcum-Q kesksel juhul Q_1({ "0" },b)=exp(−b²/2); identiteet P_d=Q_M(√(2Mρ),√γ); P_fa↔lävi edasi-tagasi teisendus üle M ja P_fa; ROC monotoonsus: P_d kasvab SNR-iga, väheneb läveg, P_d→P_fa kui SNR→{ "0" }; mittekoherentse integreerimise võit tõstab P_d fikseeritud P_fa juures; Marcum-Q monotoonne a ja b suhtes ning piiratud vahemikus [{ "0,1" }]); tests/acquisition_reference.rs (üldistatud Marcum Q_M(a,b), P_d, P_fa ja P_fa→lävi pöördteisendus võrreldud scipy.stats.ncx2/chi2-ga üle (M,a,b)/(M,P_fa)/(M,SNR) võrgu täpsusega ~{ "1e-6" })
+
+# data/search.json
+dat-bac6412ec51e = Aktiivne ajaspuufimise rünnak: kas iga kella terviklikkusmonitor suudab spuufimise tabada
+
+# studio/channels.json
+dat-c635c738dc7e = Lisa Cursorisse (Docker)
+
+# studio/channels.json
+dat-8c77bde79959 = Lisa Cursorisse (npx)
+
+# data/search.json
+dat-cbe0614db622 = Lisatud (tõendipaketid)
+
+# data/search.json
+dat-5f952ed1e277 = Lisatud (MCP-serveri kanalid)
+
+# data/search.json
+dat-3160be870cb0 = Lisatud (õppevood)
+
+# data/search.json
+dat-9aa33966abe9 = Lisatud (usaldustelemeetria)
+
+# data/search.json
+dat-c9519067263f = Lisatud (CEF-sündmuste valideerimine)
+
+# data/search.json
+dat-7f5832994cf3 = Lisatud (telemeetriavormingute ja tõendipakettide valideerimine)
+
+# data/search.json
+dat-f0450e0988f1 = Lisatud: compliance-vastendus ja bench-test eksport
+
+# data/search.json
+dat-f57e37e24737 = Anduri mudeli lisamine või muutmine
+
+# data/verification-matrix.json
+dat-0a7acb53b711 = Fisheri informatsiooni aditiivsus sõltumatute mõõtmiste üle on suletud kujuga omadus, mida siin kontrollitakse sõltumatult kirjutatud elementide kaupa summa vastu ning sellest tulenevate järjestuse invariantsuse ja monotoonsuse vastu. MÄRKUS TÕENDUSE KOHTA: kombineerijal polnud varem üldse testi ning mooduli ainus test summeeris kaks infomaatriksit otse, selle asemel et seda kutsuda, nii et katkine kombineerija oleks jätnud mooduli roheliseks; test läheb nüüd läbi combine'i ja ebaõnnestub, kui seda mutatsioonitakse. Kõik majakate asukohad, orbiiteri geomeetria, tehnikakaupa täpsused ja suhtelised maksumused on esindusvalikud, mitte missiooniväärtused (vt tests/fixtures/llr_geometry/NOTICE.md), seega iga selle menüü kaudu saavutatud degeneratsioonimõõdik ja CRLB arv pärib lunar_identifiability::decompose Modelleeritud staatuse.
+
+# studio/data/capabilities.json
+dat-051b8bf0b463 = ADEV/MDEV/TDEV/HDEV vs NIST SP { "1065" } etalonhälbed
+
+# data/search.json
+dat-9f7eca309877 = Ainult nõuandev. Modelleeritud tulemused ettenähtud sisenditest ja simuleeritud tõest; mitte sertifikaat…
+
+# data/search.json
+dat-70392caeb231 = Nõuandev, mitte tüübikinnitust omav navigatsiooniseade: navigeerimise eest vastutab jätkuvalt operaator.
+
+# studio/data/capabilities.json
+dat-2059dbfcc62f = AGPL-3.0-only (kahe litsentsiga; kaubanduslik litsents saadaval Ashforde OÜ-lt)
+
+# studio/channels.json
+dat-d03147706094 = Tehisintellekti assistent (MCP-server, cargo)
+
+# data/search.json
+dat-26a023f49e65 = Tehisintellekti assistent: salvestatud kshana-mcp seanss
+
+# data/verification-matrix.json
+dat-77f12e71a06d = AI/ML RF-häirete tuvastamise hindamine ({ "13494" })
+
+# data/verification-matrix.json
+dat-d6a9346ba180 = AI/ML RF-häirete optimismilõhe uuring ja ainult ID-põhine lõhe ennustaja
+
+# data/verification-matrix.json
+dat-8e9678e918f3 = AIAA 2006-6753 SGP4 verifitseerimisvektorid
+
+# data/search.json
+dat-45fc946e2b26 = AIS-i kandidaadid
+
+# data/search.json
+dat-abc86caed83f = AIS-i meetod (kshana-interference-map/ais/v2)
+
+# data/search.json
+dat-0f67efd09716 = Joondatud, mitte hinnatud ega heaks kiidetud. See vastendab Kshana simuleeritud võimekused avaldatud PNT-vastupidavuse…
+
+# studio/data/capabilities.json
+dat-3e1f21cfad35 = kõik { "18" } ametlikku testvektorite komplekti: { "186,382" } silti autentitud, { "0" } ebaõnnestus
+
+# data/search.json
+dat-5518913058ed = Kõik Kshana olulised muudatused on dokumenteeritud siin.
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-374517c994b5 = Alani hindaja ühtivus kanoonilisel Stable32 etalonreal
+
+# data/verification-matrix.json
+dat-5d0a70d02616 = allan::edf_greenhall (koos edf_greenhall_adev, _mdev ja _hdev ümbristega): Greenhalli ja Riley täielik algoritm, Proc. 35th PTTI ({ "2003" }), jaotis { "3" } (võrrandid { "7" } kuni { "13" } ja suure J koefitsiendid tabelitest { "1" } kuni { "3" }), vahejärkude { "1" } kuni { "3" } jaoks, müraeksponentidega +{ "2" } kuni -4 kõikjal, kus alpha + 2d > { "1" }, kattuvad ja mittekattuvad, modifitseeritud ja modifitseerimata hindajad; NaN seal, kus see ei kehti, sealhulgas modifitseerimata valge PM juhul, kus ceil(M/S) <= d, mille suletud kuju pole realiseeritud. assurance::uncertainty::edf jagab nüüd koodi ja hoiab oma väljundid bitipõhiselt samad
+
+# data/verification-matrix.json
+dat-c61509f616d4 = allan::lag1_noise_id: Riley ja Greenhalli ({ "2004" }) lag-1 autokorrelatsiooni mürategur (detsimeeritud faas oma ruutliikme eemaldamisega või rühmakeskmistatud sagedus oma sirge eemaldamisega; korratud esimesed vahed, kuni delta = r1/({ "1" }+r1) < { "0.25" } või d = dmax), tagastades täisarvulise ja ümardamata astmeseaduse eksponendi alpha (+{ "2" } valge PM kuni -2 juhuslik kõnnak FM) mis tahes keskmistamisteguril; see seab mõõdetud kellaraamatukogu seadmekaartide mürategu vabadusastmed
+
+# data/verification-matrix.json
+dat-78a4054fea0c = Alani/modifitseeritud/Hadamardi hälve + astmeseaduse müra tuvastus χ² usaldusvahemikega
+
+# data/verification-matrix.json
+dat-b60211f13641 = allantools { "2024.06" }: sõltumatu kolmanda osapoole sagedusstabiilsuse teek: mdev() ja tdev() hermeetilisel NIST SP { "1065" } §{ "12.4" } LCG faasireal (sama rida mis Theo1/TOTDEV/MTIE ridadel), arvutades samu üheselt määratud hindajaid; ühtivus < { "1e-9" } suhteliselt. Taasloodav võrguühenduseta failiga tests/fixtures/mdev_tdev/generate_mdev_tdev_reference.py. (Andmetest sõltuv phasedat_reference.rs kontrollib neid ka Stable32 vastu täpsusega { "1e-3" }; see on range, alati sisselülitatud hermeetiline ristkontroll)
+
+# data/verification-matrix.json
+dat-5df774f32fe5 = allantools { "2024.06" }: sõltumatu kolmanda osapoole sagedusstabiilsuse teek: mtie() ja tdev() failil tests/fixtures/telecom_timing/holdover_te_series.csv, rida parsitud samast 17-kohalisest tekstist mõlemal poolel; etalon salvestab rea SHA-256 ja on taasloodav võrguühenduseta failiga tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Valideerib selle salvestise HINDAJAID, mitte seda tekitanud sünteetilist holdoverit
+
+# data/verification-matrix.json
+dat-dc3f05de2bac = allantools { "2024.06" }: sõltumatu kolmanda osapoole sagedusstabiilsuse teek: mtie() hermeetilisel NIST SP { "1065" } §{ "12.4" } LCG faasireal; MTIE on puhas max/min statistik, seega on hindaja väljund bitikaupa täpne allantoolsi vastu identselt ehitatud faasimassiivil (sisseviidud 15-kohalised etalonkonstandid jäävad { "1" } ULP piiresse). Taasloodav võrguühenduseta failiga tests/fixtures/mtie/generate_mtie_reference.py
+
+# data/verification-matrix.json
+dat-eac221ab207b = allantools { "2024.06" }: sõltumatu kolmanda osapoole sagedusstabiilsuse teek: theo1 (NIST SP { "1065" } valem { "30" }) ja totdev (NIST SP { "1065" } valem { "25" }) hermeetilisel NIST SP { "1065" } §{ "12.4" } LCG andmekogul; taasloodav võrguühenduseta failiga tests/fixtures/theo1_totvar/generate_theo1_totvar_reference.py
+
+# data/verification-matrix.json
+dat-77bc55c3a735 = allantools { "2024.06" } (A. Wallin; Kasdin & Walter { "1992" } / Vernotte { "2015" } koefitsiendid): sõltumatu kolmanda osapoole koodibaas ja viitejälg, mis arvutab SAMA üheselt määratud IEEE-1139 PSD→Alani teisenduse σ_y(τ) kõigi viie astmeseaduse mürategu jaoks. kshana powerlaw::allan_deviation ühtib allantoolsi suletud kujudega (valge/flicker-FM, RW-FM ja valge PM täpsusega <{ "5e-9" } suhteliselt; flicker-PM ~{ "1e-5" }: tegelik sõltumatuse signaal, kuna kshana kasutab NIST-SP-1065 tabelkonstanti { "1.038" } vs allantoolsi täielik 3γ−ln2), ja flicker-FM põhi √({ "2" } ln2·h_{ "{" }-1{ "}" }) ühtib allantoolsiga kogu redelil: sama lävi, mille Valideeritud MDEV/TDEV/Theo1/MTIE read ületavad. MODELLED statsionaarne astmeseaduse mudel: ilma deterministliku triivi (τ²) liikmeta; seadmekaupa koefitsiendid / mõõdetud põhjad jäävad Modelleeritud
+
+# data/verification-matrix.json
+dat-e0653b8582e5 = allantools { "2024.6" } autocorr_noise_id (A. Wallin ja kaasautorid, LGPL-3.0-or-later, käivitatud eraldi programmina etalongeneraatori poolt): avaldatud Riley-Greenhalli algoritmi sõltumatu realisatsioon, üheselt määratud suurus esitatud konventsioonide korral. Valideerib identifikaatorit, mitte ühegi päris kella müra sisu
+
+# data/verification-matrix.json
+dat-b7fd07001c69 = allantools { "2024.6" } ci.edf_greenhall, avaldatud algoritmi kolmanda osapoole realisatsioon, käivitatud skriptiga scripts/gen_greenhall_edf_ref.py üle võrgu, mis on eelregistreeritud failis xval/greenhall-edf/PREREGISTRATION.md (sisseviidud üksi, 0db0bb7a, enne mis tahes võrdlust): kõigis { "4 876" } punktis, kus see tagastab lõpliku edf-i, ühtib kshana suhtelise täpsusega { "6.0e-13" } (lävi { "1e-9" }); { "46" } NotImplementedError punktis tagastab kshana NaN-i; iga juhumärgis esineb; ümbrised on tuumaga bitikaupa võrdsed; uncertainty::edf on bitikaupa identne üle { "274 280" } väärtuse (kinnitatud SHA-256-na enne refaktoreerimist). { "32" } punktis (alpha -4, d { "3" }, modifitseerimata, juhtum { "2.2" }) ebaõnnestub allantools oma tabeli { "2" } otsingus, seega neil pole oraakli väärtust ja neid ei loeta. Stable32 ei käivitatud. { "0.36" } redaktsioon (docs/revisions/STUDIO15-greenhall-edf-portable.md): kaasaskantavas matemaatikas võtab tuum oma logaritmi topelttäpsuse hinnangust, mis on ümardatud üks kord (allan::greenhall_ln), ja muutmata lävi { "1" } kehtib taas kõigis { "4 876" } punktis, halvim suhteline { "6.0e-13" }; uncertainty::edf valve on uuesti baseeritud { "0.36" } kaasaskantavale väljavõttele ({ "3 746" } väärtust { "274 280" }-st liikus, kuni { "1.6e-12" } suhteliselt, hostmatemaatika baasist)
+
+# data/search.json
+dat-400b2cf3b7b1 = Allen-Eggersi ballistilise tagasisisenemise koridor: tippurdumine (ballistilisest koefitsiendist sõltumatu, V_e^{ "2" }…
+
+# data/search.json
+dat-dc5af852862a = Samuti ulatusest väljas
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-6a54cfeb126c = Alternatiivne / täiendav PNT
+
+# data/search.json
+dat-63c7e62e7996 = Selle dokumendi muutmine
+
+# studio/data/capabilities.json
+dat-ea6d5455c407 = Maa–Kuu ringikujuline piiratud kolme keha (CR3BP) propageerija pöörlevas tugisüsteemis: säilinud Jacobi konstant ja kõik viis Lagrange'i punkti, { "6" }×{ "6" } olekusiirdemaatriksi ja ühe laskmise diferentsiaalkorrektoriga, mis toodab tõeliselt perioodilisi halo / peaaegu sirgjoonelisi halo orbiite (NRHO): see reprodutseerib avaldatud L2 lõunapoolse { "9" }:{ "2" } NRHO (Gateway orbiit) perioodiga ~{ "6.57" } päeva ja perilunega ~{ "3,250" } km. Pluss LunaNet / LNIS tsislunaarne PNT geomeetria (MCI↔MCMF taandus, selenograafilised koordinaadid) Kuu lõunapooluse ARAIM läbilennuga, mis toob ausalt esile terviklikkuse lõhe: ~{ "30" } m σ_URE viib kaitsetaseme kaugelt üle { "50" } m häirepiiri.
+
+# data/search.json
+dat-a3b581ec82e8 = IMU logi teise anduri rollis
+
+# data/search.json
+dat-fa43d8d6027a = Kshana varasema versiooni sõltumatu audit registreeris neliteist ülekuulutust (OC-0…OC-13): kohad, kus…
+
+# data/verification-matrix.json
+dat-2ae0de249fed = Otsemudeli sõltumatu numpy lõplik vahe (F2). Midagi ei võrrelda päris Kuu tugisüsteemi lahenditega. Tegur on tingimuslik eeldatud teadaolevale orbiidile ja { "1" } m kaugusmõõtmise sigmale. MODELLED.
+
+# data/verification-matrix.json
+dat-da22d0c30e6c = Sõltumatu numpy lõplike vahede koostamine (G2) ja suletud kujuga hindamine (G4). Orbiiteri perekonna k2 tundlikkus on ülempiiri arv (orbiidi olek neelab siin ainult konstandi ja trendi). Ühtegi Kuu loodete või libratsiooni mõõtmist ei võrrelda; k2 on esitatud Lemoine jt { "2014" } nominaalväärtusena. MODELLED.
+
+# data/verification-matrix.json
+dat-df78f06bd353 = Sõltumatu numpy ümberarvutus (xval/jamming-terrain/oracle.py, ühist koodi pole: oma .hgt lugemine, bilineaarne interpolatsioon, WGS { "84" } edasi-tagasi tee, profiil, kühm, nu ja J(nu)) kümne segaja paigutuse jaoks vastuvõtja ümber Badwater Basinis sisseviidud päris SRTM kaldal tests/fixtures/terrain/N36W117_sub6.hgt. Läved ja paigutused eelregistreeritud 92cd2bfd juures. Kõik MET: aditiivsus (kõik { "150" } stsenaariumi tulemust baitidena identsed ilma sektsioonita); iga paigutuse profiilipunktid ja takistus võrdsed ning nu ja kadu täpsusega { "1.6e-10" } (lävi { "1e-9" }); kadu ei tõuse kunagi, kui segaja tõuseb { "2" }-lt { "4902" } m-ni; kadu alandab iga J/S täpselt iseenda võrra ja mitte millegi muu; J(nu) täpsusega { "1e-12" } dB oraakli omast. Leiud: paigutused üle Black ja Funeral mägede kaotavad { "44" } kuni { "48" } dB; kaks orunõo põhja paigutust kaotavad { "8" } ja { "15" } dB ainult Maa kühmust { "2" } m antennikõrgustel, ühe noatera mudeli puutejuhtum. MIDA EI KONTROLLITA: mis tahes mõõdetud levi, mitme noatera difraktsioon, maapinna peegeldus, segadus, DEM-i enda viga. Sama mudeli ümberarvutus, mitte väline oraakel; rida jääb MODELLED.
+
+# data/verification-matrix.json
+dat-39967d45af83 = Sõltumatu numpy lahendus samadele normaalvõrranditele eksporditud ridadest (Q3) ja toorjõuline täisarvuline loendamine (Q4). Ühtegi GNSS-i ega Kuu kandelaine faasi mõõtmist ei võrrelda. MODELLED.
+
+# data/verification-matrix.json
+dat-1d42a0145a24 = Sõltumatu numpy virnastatud süsteem, kus asukohatundmatud on elimineeritud selgete Schuri komplementidega (T3). GRASP-i, Genesis'e ega muude missiooniandmetega ei võrrelda. MODELLED.
+
+# data/verification-matrix.json
+dat-dea4ee566143 = Sõltumatu optimeerija: NAIF SPICE Toolkit (CSPICE N0067 läbi spiceypy { "8.3.0" }) heliotsentrilised olekud samal de440s lõikel, pykep { "3.0.1" } lambert_problem (ESA, MPL-2.0) ja SciPy { "1.18.1" } Nelder-Mead, mis ei kutsu ühtegi Kshana koodi. NASA Maa–Marsi käsiraamat (MIDAS, efemeriid täpsustamata, 2-päevane kuupäevavõrk) on teisene avaldatud etalon ega määra staatust
+
+# data/verification-matrix.json
+dat-dbc902d89b30 = Sõltumatu Pythoni ümberarvutus iga omandamislipu kohta (xval/jamming-acq-agc/hysteresis.py) mootori epohhikaupa efektiivsest C/N0-st, sõltumatu numpy Monte Carlo kvantiseerija kao kohta (xval/jamming-acq-agc/quantiser_mc.py, oma optimaalse sammu otsing, { "2" }^{ "22" } valimit) ning IQ kihi AGC silmus. Läved eelregistreeritud 70c72fcc juures, täiendava käivituskomplektiga { "37793290" }. MET: aditiivsus (kõik { "150" } stsenaariumi tulemust baitidena identsed ilma sektsioonideta); iga lipp võrdne täiendavatel käivitustel ({ "1824" } linki, neist { "732" } näitab hüstereesi); monotoonne lävendi suhtes; kvantiseerija kadu { "0.0007" } dB piires Monte Carlost { "1" } kuni { "4" } bitil (lävi { "0.02" } dB); AGC näit { "0.012" } dB piires AGC silmusest (lävi { "0.05" } dB). NOT MET: registreeritud hüstereesi käivitused (jamming-demo { "10" } kuni { "30" } dBW juures) olid mitteinformatiivsed, kõik lingid kadusid, ning nende H2 ja H4 on täidetud ainult triviaalselt. Leid: CW segajaga kaotab 1-bitine ADC umbes { "5" } dB rohkem kui Gaussi arv, mida mootor rakendab, ja märgitakse kehtetuks. MIDA EI KONTROLLITA: omandamisotsing ise, AGC dünaamika ajas, mis tahes vastuvõtja riistvara. Sama mudeli ümberarvutused, mitte väline oraakel; rida jääb MODELLED.
+
+# data/verification-matrix.json
+dat-2b3341041109 = Sõltumatu scipy/numpy programm integreerib samu variatsioonivõrrandeid (lävi O1). Midagi ei võrrelda Kuu orbiidi mõõtmisega. Oraakel kontrollib esitatud valemite numbrilisust, mitte füüsikat, seega jääb rida MODELLED. Piiratud kolme keha mudel: Päikest pole, Kuu harmoonikuid pole, Maa pöörlemistelg piki orbiidi normaali, ILLUSTRATIVE vastuvõtja ja jaama sisendid.
+
+# studio/data/capabilities.json
+dat-7b6f0f9a77ec = Avatud sügavkosmose / Marsi radiomeetriline navigatsioonimootor: iteratiivne valgusaeg + Shapiro viivitus, kahe-/ühe-/kolmesuunaline Doppler ja kaugus (Moyeri kaks jalga), koherentne transponderi pööre, regeneratiivne/PN kaugusmõõtmine ja Δ-DOR; CCSDS-TDM sisend/väljund; vähendatud dünaamikaga ruutjuur-infofilter (empiirilised kiirendused + pardakell + Marsi takistus), mis teeb Marsi-LMO orbiidi määramist sünteetilises suletud ahelas; ühesuunalise+kahesuunalise liitmine; ning MARCONI areostatsionaarne releekonstellatsioon otsast otsani GSE jõudlussimulaatoriga.
+
+# data/search.json
+dat-53d8e73eaa74 = Avatud ülesannete, jaotuste ja mõõdikute komplekt GNSS-häirete tuvastamiseks ja ajastuse holdoveriks.
+
+# studio/data/capabilities.json
+dat-fa2607562c2d = Avatud, puhtas Rustis vastuvõtja poolne verifitseerija Galileo avatud teenuse navigatsiooniteate autentimiseks: see kontrollib, millise satelliidi navigatsiooniandmeid saab vastuvõtja I/NAV lehtedelt või u-blox UBX voost autentida, läbi signaali kosmoses spetsifikatsiooni avaliku võtme, võtmeahela ja sildi kontrollide, ning teatab autentimise satelliidi ja aja kaupa. See autendib andmeid; see ei väida mingit spuufimisvastast jõudlust.
+
+# studio/data/capabilities.json
+dat-7e83d1cb3dc8 = Operatiivse stiiliga Maa orientatsiooni ennustaja: vähimruutude meetod üle nihke, kiiruse ja peamiste perioodiliste liikmete järgneval aknal, mõõdetud tegelikult arhiveeritud Bulletin A ennustuste vastu, mitte püsivuse vastu. Võrguühenduseta vaikesisend on päris IERS finals2000A toode, mis kannab Bulletin A ennustusridu, nii et paljas käivitus väljastab täidetud horisondikaupa tabeli tühja asemel. UT1 ja poolusliikumine esitatakse ühise reakomplekti peal koos nende kombinatsiooniga, nii et ühine arv on üks statistik, mitte kahe erineva valimi ruutsumma.
+
+# data/verification-matrix.json
+dat-f39279e0685c = Valikuline `[timeseries]` tabel (kestus, samm, algväärtus) paneb `optical-atmosphere` liigi kirjutama ka iga koha kohta ühe algväärtusega realisatsiooni esitatud koha mudelist läbi aja: pilveepisoodid (selged perioodid eksponentsiaalsed, pilvekatkestused log-normaalsed esitatud keskmise ja hajuvusega, pilves veedetud aja osa seatud esitatud pilvetõenäosusele), üks log-normaalne vedela vee sammas pilveepisoodi kohta, üks gamma-gamma stsintillatsiooni valim sammu kohta, ja neist linkide varu, pilve- ja stsintillatsioonivaibumised ning lingi töös lipp, koos realiseeritud kättesaadavuse, pilveosa, katkestuste arvu ja pikima katkestusega. Ilma tabelita on tulemuseks { "0.37" } dokument. Tõmbed lähevad läbi kaasaskantava jaotuse ja matemaatika teede, nii et natiivne ja wasm32 annavad samad baidid.
