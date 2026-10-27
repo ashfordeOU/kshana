@@ -326,7 +326,7 @@ seg-9e1df2016cd7 = Repete uma gravação IQ do diretório de trabalho com vário
 
 # text
 # c1: kshana iq monitor
-seg-a5af1743f993 = Executa os monitores de deteção de interferência e de spoofing sobre uma gravação IQ do diretório de trabalho (<c1/>): monitores de potência e espectrais de banda larga e monitores de C/N0 e de qualidade de sinal por satélite face a uma linha de base aprendida. Nomes e comprimentos das séries e até { "200" } eventos na resposta; o relatório completo a pedido como ficheiros. Um evento indica que uma grandeza medida saiu da sua linha de base, não porquê. MODELLED.
+seg-a5af1743f993 = Executa os monitores de deteção de interferência e de spoofing sobre uma gravação IQ do diretório de trabalho (<c1/>): monitores de potência e espetrais de banda larga e monitores de C/N0 e de qualidade de sinal por satélite face a uma linha de base aprendida. Nomes e comprimentos das séries e até { "200" } eventos na resposta; o relatório completo a pedido como ficheiros. Um evento indica que uma grandeza medida saiu da sua linha de base, não porquê. MODELLED.
 
 # text
 # c1: kshana iq labfit

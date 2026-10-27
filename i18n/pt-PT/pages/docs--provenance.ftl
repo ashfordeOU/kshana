@@ -288,7 +288,7 @@ seg-7876aa9fc732 = Balanço de ligação anti-jam
 
 # text
 # c1: [1/(C/N₀) + (J/S)/(Q·Rc)]⁻¹
-seg-75e1c40bdc0f = <c1/> (C/N₀ a relação portadora-ruído, J/S a relação jammer-sinal, Q o fator de separação espectral, Rc a taxa de chips) → C/N₀ efetivo → perda de bloqueio
+seg-75e1c40bdc0f = <c1/> (C/N₀ a relação portadora-ruído, J/S a relação jammer-sinal, Q o fator de separação espetral, Rc a taxa de chips) → C/N₀ efetivo → perda de bloqueio
 
 # text
 seg-7afcd0de9ae8 = Kaplan & Hegarty, <em>Understanding GPS/GNSS</em>, 3.ª ed., §{ "9.4" }

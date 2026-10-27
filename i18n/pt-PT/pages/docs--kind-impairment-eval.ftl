@@ -15,7 +15,7 @@ seg-2e6b437f3e99 = Fonte: <c1/>
 seg-134407946837 = <c1/> (tipo de cenário)
 
 # text
-seg-304496607bd7 = Tipo de cenário do motor v{ $version }, família <a1>Jamming, spoofing e o espectro</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-304496607bd7 = Tipo de cenário do motor v{ $version }, família <a1>Jamming, spoofing e o espetro</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-98e740d32860 = Bancada de avaliação de deteção de degradações de RF por aprendizagem automática ({ "13494" }): gerar um corpus SINTÉTICO rotulado e fundamentado em parâmetros (nominal/jamming/spoof de tempo/spoof de posição/multipercurso), pontuar um detector (energy|agc|sqm|parity|fused) com a estrutura de teste agnóstica ao detector, e indicar AUC/ROC/confusão + Pd por classe num Pfa-alvo, além da lacuna de otimismo dentro versus fora da distribuição. Apenas características operacionais MODELLED — nunca dados de campo/IQ, sem veredito bom/mau.
@@ -81,7 +81,7 @@ seg-376f86fbdcb7 = ÂMBITO HONESTO: apenas características operacionais MODELLE
 seg-882d67b9474f = A avaliação de deteção de degradações de RF por aprendizagem automática ({ "13494" }) é MODELLED, não validada: conferida contra a sua própria identidade analítica / de forma fechada — deteta erros de transcrição e de coeficientes, mas não é uma referência independente externa. (matriz de verificação (docs/MODELLED-RATIONALE.md))
 
 # text
-seg-5d23d7f8f872 = Página da família: <a1>Jamming, spoofing e o espectro</a1>
+seg-5d23d7f8f872 = Página da família: <a1>Jamming, spoofing e o espetro</a1>
 
 # text
 seg-6cf4bb2d7f7a = Página do tópico: <a1>BENCH.md</a1>

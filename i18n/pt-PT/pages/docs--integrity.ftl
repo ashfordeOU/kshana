@@ -41,7 +41,7 @@ seg-ee998b974e6f = aderente à norma <b>RTCA DO-229E / DO-316</b> ou <b>EUROCAE 
 seg-f84a56b6fe10 = FoM de segurança — limite analítico de deteção de spoofing
 
 # text
-seg-e532288ed262 = A FoM de segurança é um <b>limite de deteção de spoofing baseado na estabilidade do relógio</b>: dado o ruído de um relógio (PSD (densidades espectrais de potência) de frequência branca e de passeio aleatório) e uma janela de monitorização, é a margem de deteção analítica de um monitor de consistência de relógio único face a um spoofing de falso tempo de rampa lenta. Um relógio mais silencioso (por exemplo, um relógio ótico) deteta um spoofing menor e mais lento do que um mais ruidoso (por exemplo, um CSAC (relógio atómico à escala de chip)) — esse contraste é o objetivo do demonstrador.
+seg-e532288ed262 = A FoM de segurança é um <b>limite de deteção de spoofing baseado na estabilidade do relógio</b>: dado o ruído de um relógio (PSD (densidades espetrais de potência) de frequência branca e de passeio aleatório) e uma janela de monitorização, é a margem de deteção analítica de um monitor de consistência de relógio único face a um spoofing de falso tempo de rampa lenta. Um relógio mais silencioso (por exemplo, um relógio ótico) deteta um spoofing menor e mais lento do que um mais ruidoso (por exemplo, um CSAC (relógio atómico à escala de chip)) — esse contraste é o objetivo do demonstrador.
 
 # text
 # c1: spoof
@@ -218,7 +218,7 @@ seg-b61607c477f2 = O que se tenta em alternativa é o relatório que é público
 seg-0e98826cedcc = <s1>Anterior</s1>Segurança do hardware
 
 # text
-seg-e6f1e38977b7 = <s1>Seguinte</s1>Espectro e cascata
+seg-e6f1e38977b7 = <s1>Seguinte</s1>Espetro e cascata
 
 # text
 seg-38ab3bb65327 = RAIM real de instantâneo, de separação de soluções e ARAIM (src/raim.rs)
