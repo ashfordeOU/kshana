@@ -163,6 +163,19 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
         "Onboard GNSS navigation filter for high-orbit and lunar-transfer spacecraft",
         "Relative navigation of a multi-spacecraft formation in a highly elliptical orbit from GNSS",
     ]),
+    ("lunar-ascent", &["Powered ascent from a lunar polar site to an insertion orbit (`lunar-ascent`)", "The lunar force model propagation against public reconstructed lunar-orbiter and cislunar trajectories"]),
+    ("lunar-surface", &["Surface positioning and timing availability by site and season at the lunar poles (`lunar-surface`)"]),
+    ("lunar-descent", &["Landing-dispersion budget at a lunar polar site (`lunar-descent`)"]),
+    ("lunar-orbit-rendezvous", &["Relative navigation to docking in a lunar orbit (`lunar-orbit-rendezvous`)", "The lunar force model propagation against public reconstructed lunar-orbiter and cislunar trajectories"]),
+    ("mission-thread", &[
+        "Navigation and timing error budget of a chain of mission phases from launch to entry (`mission-thread`)",
+        "Launch and ascent to a parking orbit with GNSS acquisition and fade (`launch-ascent`)",
+        "Relative navigation to the docking envelope in low Earth orbit over sensor legs (`leo-rendezvous`)",
+        "Trans-lunar injection and cislunar cruise: propagated mean state and covariance with tracking updates (`tli-and-cruise`)",
+        "Entry interface covariance, corridor probability, peak deceleration and landing footprint (`entry`)",
+        "Ground-network coverage and tracking duty for a thread phase (`[ground_network]` of `mission-thread`)",
+        "The cislunar mean-state propagation against the public Artemis I trajectory (`tli-and-cruise`)",
+    ]),
     ("holdover-test", &["ITU-T telecom synchronisation masks with PASS/FAIL and margin", "Telecom-timing MTIE and TDEV on a holdover time-error series", "Holdover test scored from an operator-supplied time-error record"]),
     ("time-transfer-budget", &["TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"]),
 ];
@@ -560,6 +573,8 @@ pub struct EventRow {
 /// One verification-matrix row the run used.
 #[derive(Clone, Debug, Serialize)]
 pub struct CapabilityRow {
+    /// The stable ledger row id the evidence label of this run's figures uses ([`VerificationItem::id`]).
+    pub id: String,
     /// The matrix row's `requirement` text, the key [`KIND_CAPABILITIES`] maps kinds to.
     pub requirement: String,
     /// The capability the matrix row describes.
@@ -1644,6 +1659,7 @@ fn build_capabilities(
             let it = &matrix[i];
             let partner = it.status == VerificationStatus::PartnerOwned;
             CapabilityRow {
+                id: it.id.to_string(),
                 requirement: it.requirement.to_string(),
                 capability: it.capability.to_string(),
                 label: status_tag(it.status).to_string(),
@@ -2492,6 +2508,38 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
 // ---------------------------------------------------------------------------------------
 // The builder
 // ---------------------------------------------------------------------------------------
+
+/// The verification-matrix requirements the run of `src` that produced `json` exercised, in matrix order, with their
+/// status: the rows of the report's capabilities section ([`build_capabilities`]), so the evidence label a figure
+/// carries and the report's own table cannot disagree. `json` is the result document.
+pub fn exercised_requirements(
+    src: &str,
+    json: &str,
+) -> Result<Vec<(String, VerificationStatus)>, String> {
+    let doc: Value =
+        serde_json::from_str(json).map_err(|e| format!("the result document is not JSON: {e}"))?;
+    let scn = toml::from_str::<toml::Value>(src)
+        .map(|v| toml_to_json(&v))
+        .map_err(|e| format!("the scenario is not TOML: {e}"))?;
+    let kind = crate::api::ScenarioKind::classify(src)
+        .map(|k| k.as_str().to_string())
+        .map_err(|e| e.to_string())?;
+    let catalogue = crate::api::list_scenario_kinds();
+    let known: BTreeSet<&'static str> = catalogue.iter().map(|m| m.name).collect();
+    let matrix = verification_matrix();
+    let members = member_kinds(&scn, &doc, &known);
+    let caps = build_capabilities(&kind, &members, &scn, &doc, &matrix);
+    Ok(caps
+        .rows
+        .iter()
+        .filter_map(|r| {
+            matrix
+                .iter()
+                .find(|m| m.requirement == r.requirement)
+                .map(|m| (m.requirement.to_string(), m.status))
+        })
+        .collect())
+}
 
 /// Build the report of one run. `src` is the scenario file's exact text (before any
 /// `--eop` injection), `out` the run's output, `inv` how it was invoked. Pure: the same
@@ -3619,8 +3667,9 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     ));
     for c in &r.capabilities.rows {
         h.push_str(&format!(
-            "<tr><td><strong>{}</strong><br/><span class=\"note\">{}</span></td><td>{}<br/><span class=\"note\">{}</span></td><td>{}</td><td class=\"note\">{} <em>({})</em></td><td class=\"note\">{}</td></tr>",
+            "<tr><td><strong>{}</strong> <code>{}</code><br/><span class=\"note\">{}</span></td><td>{}<br/><span class=\"note\">{}</span></td><td>{}</td><td class=\"note\">{} <em>({})</em></td><td class=\"note\">{}</td></tr>",
             esc(&c.requirement),
+            esc(&c.id),
             esc(&c.capability),
             tag(&c.label),
             esc(&c.role),

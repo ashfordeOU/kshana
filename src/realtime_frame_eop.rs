@@ -1885,14 +1885,18 @@ mod tests {
     #[test]
     fn runtime_dispatch_emits_the_csv_artifact() {
         let out = crate::api::run_toml("kind=\"realtime-frame-eop\"\n").unwrap();
-        let csv = out
+        let labelled = out
             .csv
             .as_ref()
             .expect("realtime-frame-eop must emit a CSV artifact");
+        // The run's CSV carries the evidence label in front; the table itself is unchanged.
+        let unlabelled = crate::evidence_label::strip_csv(labelled).expect("the evidence label");
+        let csv = &unlabelled;
         assert!(csv.contains("table1,real-time,"));
         assert!(csv.contains("table2,final,"));
         // The runtime CSV equals the scenario's own to_csv() byte-for-byte.
         assert_eq!(csv, &RealtimeFrameEopScenario::default().to_csv().unwrap());
+        let csv = labelled;
         // And write_csv actually writes it to a path.
         let dir = std::env::temp_dir();
         let seq = TEMP_PATH_SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);

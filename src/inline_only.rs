@@ -20,6 +20,7 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
     "ephemeris_path",
     "gfc_path",
     "meta_path",
+    "moon_kernel_path",
     "moon_orientation_kernel_path",
     "normal_points_dir",
     "pattern_csv",
@@ -37,6 +38,8 @@ pub const FILE_SOURCE_KEYS_BY_KIND: &[(&str, &[&str])] = &[
     // `[[series]] paths`: the Circular T, MJD,ns CSV or RINEX clock files whose stability the
     // kind reports.
     ("time-transfer-budget", &["paths"]),
+    // The GRAIL spherical-harmonic table the rendezvous propagator reads when one is named.
+    ("lunar-orbit-rendezvous", &["gravity_table_path"]),
 ];
 
 /// Scenario kinds that read their data from files on the host even when the scenario names none

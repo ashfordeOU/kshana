@@ -52,6 +52,22 @@ pub struct BandResult {
     pub groups: Vec<ShellGroup>,
 }
 
+/// One interpretation choice of `xval/gnss-ssv/PREREGISTRATION-v2.md` campaign B, changed alone; the default changes nothing.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct Ablation {
+    /// B1: a Fibonacci spiral set of this many points on the sphere instead of the geodesic grid (shell sweep).
+    pub fibonacci_points: Option<usize>,
+    /// B3: at each epoch use the receive antenna that tracks the most satellites (ties: the first listed, the nadir
+    /// antenna) instead of the highest gain per satellite (trajectory sweep).
+    pub antenna_by_count: bool,
+    /// B4: the user orbit integrated with point-mass gravity, J2 and the Sun and Moon as point masses (the integrator of
+    /// the navigation mode's truth) instead of the two-body ellipse (trajectory sweep).
+    pub propagated: bool,
+    /// B5: the hemispherical user antenna's gain is `10 log10(cos theta)` dBi from the nadir boresight, floored at -20 dBi,
+    /// instead of 0 dBi over the hemisphere (shell sweep; matters only with a C/N0 threshold).
+    pub cosine_user_gain: bool,
+}
+
 /// The shell sweep's inputs.
 #[derive(Clone, Debug)]
 pub struct ShellConfig {
@@ -76,6 +92,8 @@ pub struct ShellConfig {
     /// Reference off-boresight angles that replace the signal table's, `(constellation, band, degrees)`; empty for the
     /// booklet's table B6.
     pub beam_override_deg: Vec<(Constellation, Band, f64)>,
+    /// One interpretation choice changed alone (campaign B of the v2 pre-registration); the default changes nothing.
+    pub ablation: Ablation,
 }
 
 struct SatInfo {
@@ -114,7 +132,10 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
         return Err(crate::terr!("e-ssv-sweep-duration-min-and-step-min"));
     }
     let n_epochs = (cfg.duration_min / cfg.step_min).round() as usize + 1;
-    let grid = geom::geodesic_grid(cfg.grid_levels);
+    let grid = match cfg.ablation.fibonacci_points {
+        Some(n) => geom::fibonacci_grid(n),
+        None => geom::geodesic_grid(cfg.grid_levels),
+    };
     let nu = grid.len();
     let ru = constellations::RE_BOOKLET_M + cfg.altitude_km * 1000.0;
     let (ux, uy, uz): (Vec<f64>, Vec<f64>, Vec<f64>) = (
@@ -204,6 +225,17 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
                         for b in bounds.iter().take(iv.n) {
                             hit |= c >= b.0 && c <= b.1;
                         }
+                        if hit && cfg.ablation.cosine_user_gain && cfg.hemisphere {
+                            if let Some(rho_max) = si.rho_max_m {
+                                // B5: the hemisphere's gain falls as cos(theta) from the nadir axis (floor -20 dBi), so the
+                                // range at which the threshold holds shrinks by 10^(gain/20).
+                                let d = geom::sub(s, user_pos[u]);
+                                let rho = geom::norm(d);
+                                let cos_t = -geom::dot(user_pos[u], d) / (ru * rho);
+                                let gain = (10.0 * cos_t.max(1e-12).plog10()).max(-20.0);
+                                hit = rho <= rho_max * 10f64.powf(gain / 20.0);
+                            }
+                        }
                         if hit {
                             counts[g][u] += 1;
                             counts[cg][u] += 1;
@@ -223,6 +255,15 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
                         }
                         if si.rho_max_m.is_some_and(|r| lg.range_m > r) {
                             continue;
+                        }
+                        if let (true, true, Some(rho_max)) =
+                            (cfg.ablation.cosine_user_gain, cfg.hemisphere, si.rho_max_m)
+                        {
+                            let cos_t = -geom::dot(*up, geom::sub(s, *up)) / (ru * lg.range_m);
+                            let gain = (10.0 * cos_t.max(1e-12).plog10()).max(-20.0);
+                            if lg.range_m > rho_max * 10f64.powf(gain / 20.0) {
+                                continue;
+                            }
                         }
                         counts[si.group][u] += 1;
                         counts[comb][u] += 1;
@@ -380,6 +421,8 @@ pub struct TrajectoryConfig {
     /// Reference off-boresight angles that replace the signal table's, `(constellation, band, degrees)`; empty for the
     /// booklet's table B6.
     pub beam_override_deg: Vec<(Constellation, Band, f64)>,
+    /// One interpretation choice changed alone (campaign B of the v2 pre-registration); the default changes nothing.
+    pub ablation: Ablation,
 }
 
 /// A summary of a quantity over the run.
@@ -606,6 +649,10 @@ pub fn run_trajectory(
     let n_epochs = (cfg.duration_min / cfg.step_min).round() as usize + 1;
     let rb = geom::blocking_radius_m();
     let nd = noise_density_dbw_hz();
+    let propagated = cfg
+        .ablation
+        .propagated
+        .then(|| propagate_user(&cfg.orbit, cfg.step_min * 60.0, n_epochs));
     let table_pattern = matches!(cfg.tx, TxPattern::Table(_));
     let mut bands_out = Vec::new();
     for &band in &cfg.bands {
@@ -654,7 +701,67 @@ pub fn run_trajectory(
         for k in 0..n_epochs {
             let t = k as f64 * cfg.step_min * 60.0;
             let era = geom::earth_rotation_angle(t);
-            let u = cfg.orbit.position(t);
+            let u = propagated
+                .as_ref()
+                .map_or_else(|| cfg.orbit.position(t), |p| p[k]);
+            // B3: the antenna that tracks the most satellites at this epoch (ties: the first listed).
+            let picked: &[UserAntenna] = if cfg.ablation.antenna_by_count && ants.len() > 1 {
+                let counts: Vec<usize> = (0..ants.len())
+                    .map(|ai| {
+                        sats.iter()
+                            .filter(|(_, sat, spec, mrtp)| {
+                                let s = sat.position(t);
+                                let boresight = if sat.constellation == Constellation::Navic {
+                                    let (la, lo) = (5f64.to_radians(), 83f64.to_radians());
+                                    let r = constellations::RE_BOOKLET_M;
+                                    let tgt = geom::ecef_to_eci(
+                                        [
+                                            r * la.pcos() * lo.pcos(),
+                                            r * la.pcos() * lo.psin(),
+                                            r * la.psin(),
+                                        ],
+                                        era,
+                                    );
+                                    geom::unit(geom::sub(tgt, s))
+                                } else {
+                                    geom::scale(geom::unit(s), -1.0)
+                                };
+                                let lg = geom::link(s, boresight, u, rb);
+                                if lg.blocked {
+                                    return false;
+                                }
+                                let los_to_tx = geom::scale(lg.line_of_sight, -1.0);
+                                let Some(gu) = ants[ai].gain_dbi(u, los_to_tx) else {
+                                    return false;
+                                };
+                                let Some(eirp) = cfg.tx.eirp_dbw(
+                                    *mrtp,
+                                    spec.beam_deg,
+                                    lg.off_boresight_deg,
+                                    0.0,
+                                ) else {
+                                    return false;
+                                };
+                                let loss_db = fx.effects(s, u, spec.freq_hz).loss_db;
+                                let cn0 = eirp + gu
+                                    - free_space_loss_db(lg.range_m, spec.freq_hz)
+                                    - nd
+                                    - loss_db;
+                                cfg.cn0_min_dbhz.is_none_or(|thr| cn0 >= thr)
+                            })
+                            .count()
+                    })
+                    .collect();
+                let mut best_i = 0;
+                for (i, &c) in counts.iter().enumerate() {
+                    if c > counts[best_i] {
+                        best_i = i;
+                    }
+                }
+                &ants[best_i..=best_i]
+            } else {
+                ants
+            };
             let mut los_comb: Vec<V3> = Vec::new();
             for (g, sat, spec, mrtp) in &sats {
                 let s = sat.position(t);
@@ -679,10 +786,11 @@ pub fn run_trajectory(
                     continue;
                 }
                 let los_to_tx = geom::scale(lg.line_of_sight, -1.0);
-                let gu = if ants.is_empty() {
+                let gu = if picked.is_empty() {
                     Some(0.0)
                 } else {
-                    ants.iter()
+                    picked
+                        .iter()
                         .filter_map(|a| a.gain_dbi(u, los_to_tx))
                         .fold(None, |m: Option<f64>, x| Some(m.map_or(x, |y| y.max(x))))
                 };
@@ -819,6 +927,27 @@ pub fn run_trajectory(
     })
 }
 
+/// The user orbit sampled every `step_s` seconds by integrating point-mass gravity, J2 and the Sun and Moon as point masses
+/// (the integrator of the navigation mode's truth), from the osculating state of the Keplerian elements at the epoch
+/// (central-difference velocity, as the navigation mode does), in sub-steps of at most 10 s. Campaign B4.
+fn propagate_user(orbit: &UserOrbit, step_s: f64, n_epochs: usize) -> Vec<V3> {
+    let r0 = orbit.position(0.0);
+    let v0 = geom::sub(orbit.position(0.5), orbit.position(-0.5));
+    let (mut r, mut v) = (r0, v0);
+    let sub_steps = (step_s / 10.0).ceil().max(1.0) as usize;
+    let h = step_s / sub_steps as f64;
+    let mut out = Vec::with_capacity(n_epochs);
+    out.push(r);
+    for k in 1..n_epochs {
+        for j in 0..sub_steps {
+            let t = (k - 1) as f64 * step_s + j as f64 * h;
+            (r, v) = super::nav::rk4(r, v, t, h, 0.0, false);
+        }
+        out.push(r);
+    }
+    out
+}
+
 #[allow(dead_code)]
 fn _unused(_: SatClass) {}
 
@@ -880,6 +1009,7 @@ mod tests {
             bands: vec![Band::L5],
             mrtp_reference_alt_km: 36000.0,
             beam_override_deg: Vec::new(),
+            ablation: Default::default(),
         };
         let r = run_shell(&cfg).unwrap();
         assert_eq!(r.len(), 1);

@@ -61,7 +61,9 @@ The scalar results of that run, with the units the engine states:
 
 ## Evidence
 
-No matrix row names this kind by name; the label on its result is the engine's own, above.
+MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+
+- **MODELLED** The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of `moonlight-service-volume`; a single-site run equals that kind's
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
@@ -82,4 +84,4 @@ What the run's own report says is not modelled or not validated:
 - Family page: [Lunar and cislunar](../lunar-and-cislunar.md#moonlight-service-volume)
 - All kinds: [KINDS.md](../../KINDS.md)
 - Topic page: [LUNAR-REFERENCE-STATION.md](../../LUNAR-REFERENCE-STATION.md)
-- Topic page: [integrations.md](../../integrations.md)
+- Topic page: [MISSION-THREAD-LUNAR.md](../../MISSION-THREAD-LUNAR.md)

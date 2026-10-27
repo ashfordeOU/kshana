@@ -178,6 +178,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("bench") {
         return ExitCode::from(kshana::bench::cli::run(&args[2..]) as u8);
     }
+    // `kshana partner check <submission.toml>` checks a data-partner submission's format and
+    // metadata (docs/PARTNER-DATA.md). Terminal; it reads local files and scores nothing.
+    if args.get(1).map(String::as_str) == Some("partner") {
+        return kshana::partner::cli::run(&args[2..]);
+    }
     // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
     // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.
     if args.get(1).map(String::as_str) == Some("bench-export") {

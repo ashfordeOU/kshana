@@ -833,6 +833,7 @@ impl GnssSsvScenario {
                 bands: self.constellations.bands.clone(),
                 mrtp_reference_alt_km: 36000.0,
                 beam_override_deg: Vec::new(),
+                ablation: Default::default(),
             };
             let r = run_shell(&cfg)?;
             summary = shell_summary(&r, s);
@@ -879,6 +880,7 @@ impl GnssSsvScenario {
                 tx: tx_pattern(&self.transmit)?,
                 mrtp_reference_alt_km: 36000.0,
                 beam_override_deg: Vec::new(),
+                ablation: Default::default(),
                 series_every_epochs: every,
                 collect_limb: self.atmosphere.is_some(),
             };
