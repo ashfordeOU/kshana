@@ -11402,3 +11402,60 @@ engine-partner-text-error = { "  " }VIGA: { $e }
 engine-partner-text-result-ok = tulemus: vorming ja metaandmed on täielikud ja loetavad
 
 engine-partner-text-result-not-ready = tulemus: ei ole valmis; paranda ülaltoodud vead
+
+engine-interference-map-locate-usage = kasutus: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom vajab ka --licence <text> --licence-url <url> --attribution <text>)
+    Kirjutab emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv ja -figure.svg: hinnangulised emitteri piirkonnad esitatud usaldustasemetel, mitte kunagi paljas punkt
+
+engine-interference-map-locate-wrote = kirjutatud { $path }
+
+engine-interference-map-locate-summary = { $n_sessions ->
+        [one] { $n_sessions } seanss
+       *[other] { $n_sessions } seanssi
+    } avaldatud; { $n_withheld ->
+        [one] { $n_withheld } kandidaatseanss
+       *[other] { $n_withheld } kandidaatseanssi
+    } tagasi hoitud (vähem kui { $min } eraldi õhusõidukit või laeva)
+
+engine-interference-map-locate-note-not-preregistered = märkus: üks valik erineb eelregistreeritud parameetritest, seega ei ole see eelregistreeritud meetod
+
+engine-interference-map-locate-line-session = seanss { $k }: { $start } kuni { $end }, { $affected } eraldi mõjutatut, { $level }% piirkond { $area } km², keskpunkt { $lat }, { $lon } (ellips { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = seanss { $k }: { $start } kuni { $end }, { $affected } eraldi mõjutatut, teated ei kitsenda piirkonda (piiramata)
+
+engine-interference-map-locate-fig-title = Hinnanguline emitteri piirkond
+
+engine-interference-map-locate-fig-subtitle = Kus võiks esitatud eelduste korral asuda halvenenud teadete allikas. Kuvatud seansse: { $n ->
+        [one] { $n }
+       *[other] { $n }
+    }.
+
+engine-interference-map-locate-fig-none = Ükski seanss ei saavutanud avaldamise miinimumi, seega piirkonda ei kuvata.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct }% piirkond
+
+engine-interference-map-locate-fig-legend-ellipse = posteeriori 95% ellips
+
+engine-interference-map-locate-fig-note-1 = Piirkond ei ole ühegi õhusõiduki, laeva ega organisatsiooni asukoht ega põhjuse tuvastus.
+
+engine-interference-map-locate-fig-note-2 = Maastikku ei modelleerita ja iga seanss eeldab ühte allikat; usaldustasemed sõltuvad mudelist.
+
+engine-e-interference-map-locate-bad-number = { $name } ei ole arv
+
+engine-e-interference-map-locate-bad-levels = --levels vajab komadega eraldatud arve, mis on rangelt vahemikus 0 kuni 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km peab olema vahemikus 0.5 kuni 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min peab olema vahemikus 1 kuni 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m vajab kahte arvu, min,max, kusjuures 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } ei ole kasutatav TDOA fikseeringu fail (receivers, tdoa_s, sigma_s, start) või fikseering ei koondunud
+
+engine-e-interference-map-locate-source-required = --source adsb või --source ais on nõutav
+
+engine-e-interference-map-locate-no-evidence-rows = locate väljundite jaoks pole tõendusridu loetletud
