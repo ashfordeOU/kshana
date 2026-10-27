@@ -115,20 +115,20 @@ fn a_per_run_language_applies_and_is_restored() {
 
 #[test]
 fn a_language_without_the_message_falls_back_to_english_and_an_unknown_id_shows_itself() {
-    // No translation file has any message yet: every language shows the English text.
-    let nl = resolve("nl").unwrap();
+    // A catalogue that has some messages but not this one (as a partly translated language does):
+    // registered for Swedish, which no other test in this process uses.
+    register_catalogue("sv", "engine-some-other-message = annat\n").unwrap();
+    let sv = resolve("sv").unwrap();
+    let args = [("other", "\"y\"".to_string())];
     assert_eq!(
-        tr_in(
-            &nl,
-            "e-clock-log-unknown-gap-policy-expected-refuse",
-            &[("other", "\"y\"".to_string())]
-        ),
+        tr_in(&sv, "e-clock-log-unknown-gap-policy-expected-refuse", &args),
         tr_in(
             &Lang::english(),
             "e-clock-log-unknown-gap-policy-expected-refuse",
-            &[("other", "\"y\"".to_string())]
+            &args
         )
     );
+    assert_eq!(tr_in(&sv, "some-other-message", &[]), "annat");
     assert_eq!(tr("no-such-message", &[]), "no-such-message");
 }
 
