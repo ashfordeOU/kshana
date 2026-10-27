@@ -33,3 +33,33 @@ seg-430b3c681347 = RTKLIB
 seg-051a168f774c = TCXO
 
 seg-ba5d469b1c66 = VLBI
+
+seg-e464509f3abb = stosunek mocy nośnej do gęstości szumu
+
+seg-68ff97cfdc03 = DOI
+
+seg-fa299d3dcaad = cyfrowy identyfikator obiektu
+
+seg-d41af8f18aed = GLONASS
+
+seg-1df73b95ae4d = IAU
+
+seg-e78cf68c3f5e = ICRF
+
+seg-f094d5944111 = Międzynarodowy Niebieski Układ Odniesienia
+
+seg-70fd83c6e862 = ISS
+
+seg-cc73228e1f0e = Międzynarodowa Stacja Kosmiczna
+
+seg-865e7d1794b6 = Secure Hash Algorithm, 256-bitowy
+
+seg-8104773e1484 = STK
+
+seg-ad20a7bebf23 = STL
+
+seg-e2dbcb4bc5f5 = Satellite Time and Location
+
+seg-71aee5eb55c5 = UHF
+
+seg-65e797f8bb42 = ultrawysoka częstotliwość

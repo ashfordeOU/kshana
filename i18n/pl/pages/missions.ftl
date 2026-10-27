@@ -95,3 +95,5 @@ seg-a863d1da4182 = CCSDS { "401" } / DSN
 seg-fa37e351f6b4 = Kopiuj
 
 seg-9d3ee6a5613e = Przebiegi
+
+seg-94de9433d99f = Pliki scenariuszy

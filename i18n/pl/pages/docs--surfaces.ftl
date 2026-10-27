@@ -11,3 +11,5 @@ seg-379f49bff6fb = Python
 seg-d6476863f862 = Możliwość
 
 seg-e0426ffe2628 = Uwaga
+
+seg-de6c33774c9c = CLI

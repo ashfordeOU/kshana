@@ -19,3 +19,5 @@ seg-c14b8fe46517 = Maska horyzontu zależna od azymutu: zbiór widocznych sateli
 seg-bbb1828b3db1 = Redukcje kanionu ulicznego, sektorów i terenu do tabeli
 
 seg-2c53381d48ae = Elipsa błędu poziomego i kofaktor dla poszczególnych systemów z kowariancji geometrii
+
+seg-de6c33774c9c = CLI
