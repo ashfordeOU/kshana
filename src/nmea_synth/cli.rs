@@ -11,29 +11,9 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 use std::time::Duration;
 
-const HELP: &str = "usage: kshana nmea-scenario <scenario.toml> [options]
-
-Writes or streams a synthetic bridge NMEA 0183 set (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
-for a vessel track with scripted jamming/spoofing events, and an instructor log.
-Training and testing only: never feed it to a vessel's live navigation systems.
-
-options:
-  --out <file.nmea>          write the stream to a file (default <name>.nmea when no
-                             network output is given)
-  --instructor-log <prefix>  write <prefix>.json and <prefix>.txt (default: next to the
-                             file, else <name> in the current directory)
-  --tcp <addr:port|port>     serve the stream over TCP (waits for a client first); a bare
-                             port listens on 127.0.0.1 only. There is no authentication:
-                             anyone who can reach the address can read the stream
-  --udp <addr:port|port>     send one sentence per UDP datagram to this address; a bare
-                             port sends to 127.0.0.1
-  --broadcast                allow --udp to use a broadcast address
-  --wait-clients <n>         clients to wait for before the TCP stream starts (default 1)
-  --realtime                 pace at real time (default for network output)
-  --speed <x>                pace at x times real time; 0 is as fast as possible
-                             (default for files)
-  --seed <n>                 replace the scenario seed
-  --no-marker                omit the synthetic-data marker sentence";
+fn usage() -> String {
+    crate::t!("nmea-synth-cli-usage")
+}
 
 /// A bare port means this machine only (`127.0.0.1:<port>`); a wider address, such as
 /// `0.0.0.0:10110`, has to be asked for in full.
@@ -46,7 +26,7 @@ pub fn localise_addr(a: &str) -> String {
 }
 
 fn fail(msg: impl std::fmt::Display) -> ExitCode {
-    eprintln!("error: {msg}");
+    eprintln!("{}", crate::t!("main-fail", e = msg));
     ExitCode::from(2)
 }
 
@@ -73,7 +53,7 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         let r: Result<(), String> = (|| {
             match a.as_str() {
                 "-h" | "--help" => {
-                    println!("{HELP}");
+                    println!("{}", usage());
                     std::process::exit(0);
                 }
                 "--out" => out = Some(PathBuf::from(val("--out")?)),
@@ -117,7 +97,7 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         }
     }
     let Some(path) = path else {
-        eprintln!("{HELP}");
+        eprintln!("{}", usage());
         return ExitCode::from(2);
     };
     let text = match fs::read_to_string(&path) {
@@ -220,7 +200,7 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         return fail(format!("stream: {e}"));
     }
     if let Some(p) = &file_path {
-        eprintln!("wrote {}", p.display());
+        eprintln!("{}", crate::t!("main-wrote", path = p.display()));
     }
     ExitCode::SUCCESS
 }

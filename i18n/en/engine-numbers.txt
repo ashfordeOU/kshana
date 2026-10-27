@@ -37,3 +37,4 @@ e-interference-map-cli-cell-deg-must-be-between: lit_0_01
 e-interference-map-observatory-cell-deg-must-be-between: lit_0_5
 e-leo-pass-rain-rate-mm-rain-exceedance: lit_0_001 lit_0_01
 e-leo-pass-spoofer-onset-within-the-window: lit_0_5
+interference-map-cli-usage-map: lit_0_5

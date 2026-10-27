@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+  <Document>
+    <name>gnss-ins scenario fd2ee0f2b70e</name>
+    <description>Kshana 0.39.0 export. Epoch: static scene: the gnss-ins kind flies its trajectory in a local tangent plane from this origin and exports no calendar time. Coordinates: WGS 84 longitude, latitude (deg) and height above the WGS 84 ellipsoid (m); altitudeMode absolute reads the height as above mean sea level, and the geoid undulation is not applied.</description>
+    <Style id="satellite">
+      <IconStyle><color>ff00c4ff</color><scale>0.8</scale></IconStyle>
+      <LineStyle><color>8000c4ff</color><width>2</width></LineStyle>
+      <PolyStyle><color>8000c4ff</color></PolyStyle>
+    </Style>
+    <Style id="user">
+      <IconStyle><color>ffffc800</color><scale>0.8</scale></IconStyle>
+      <LineStyle><color>80ffc800</color><width>2</width></LineStyle>
+      <PolyStyle><color>80ffc800</color></PolyStyle>
+    </Style>
+    <Style id="site">
+      <IconStyle><color>ffffc800</color><scale>0.8</scale></IconStyle>
+      <LineStyle><color>ffffc800</color><width>2</width></LineStyle>
+      <PolyStyle><color>ffffc800</color></PolyStyle>
+    </Style>
+    <Style id="jammer">
+      <IconStyle><color>ff1e1edc</color><scale>0.8</scale></IconStyle>
+      <LineStyle><color>501e1edc</color><width>2</width></LineStyle>
+      <PolyStyle><color>501e1edc</color></PolyStyle>
+    </Style>
+    <Style id="route">
+      <IconStyle><color>ffffc800</color><scale>0.8</scale></IconStyle>
+      <LineStyle><color>ffffc800</color><width>2</width></LineStyle>
+      <PolyStyle><color>ffffc800</color></PolyStyle>
+    </Style>
+    <Folder>
+      <name>Sites</name>
+      <Placemark>
+        <name>origin</name>
+        <description>tangent-plane origin; the simulated trajectory starts here and is flown in a flat local frame, so only the origin is placed (origin)</description>
+        <styleUrl>#site</styleUrl>
+        <Point>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>-57.3,45,50</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

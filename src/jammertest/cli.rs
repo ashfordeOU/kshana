@@ -15,21 +15,9 @@ use crate::telemetry::time::parse_rfc3339_utc;
 use std::path::Path;
 use std::process::ExitCode;
 
-const USAGE: &str = "usage:
-  kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
-  kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
-        [--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
-        [--local-offset-h <h>] [--year <y>] [--out <events.toml>]
-  kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
-  kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
-        [--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
-        [--recover-hold-s <s>] [--guard-s <s>] [--json]
-        [--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
-The plan and catalogue are the published NPRA/jammertest-plan JSON files (MIT; fetch them with
-xval/jammertest-plan/fetch.sh). Plan times are local wall-clock; --local-offset-h (default 2, CEST)
-says how far they are from UTC. The JammerTest 2024 dataset's attack_log stamps say Z but are local
-time: --time-shift-h defaults to -2. Events are scheduled truth, not recorded on-air times.
-Advisory software, not type-approved navigation equipment.";
+fn usage() -> String {
+    crate::t!("jammertest-cli-usage")
+}
 
 fn all_values(args: &[String], name: &str) -> Result<Vec<String>, String> {
     let mut v = Vec::new();
@@ -78,9 +66,9 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         Ok(()) => ExitCode::SUCCESS,
         Err(e) => {
             if !e.is_empty() {
-                eprintln!("error: {e}");
+                eprintln!("{}", crate::t!("main-fail", e = e));
             }
-            eprintln!("{USAGE}");
+            eprintln!("{}", usage());
             ExitCode::from(2)
         }
     }
@@ -366,7 +354,7 @@ fn run_score(args: &[String]) -> Result<(), String> {
                     signer_fingerprint = pack.signer_fingerprint
                 )
             );
-            eprintln!("verify with: kshana evidence verify {out} --pubkey <signer public key>");
+            eprintln!("{}", crate::t!("evidence-cli-verify-with", out = out));
             o.scorecard
         }
         None => crate::i18n::in_english_or_localised_error(|| score_log(&req))?.scorecard,

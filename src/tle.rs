@@ -440,7 +440,7 @@ pub fn parse_propagators_opts(
 ) -> Result<Vec<crate::orbit::Propagator>, String> {
     let report = parse_propagators_report(text, opts)?;
     for w in &report.warnings {
-        eprintln!("warning: {w}");
+        eprintln!("{}", crate::t!("tle-warning", w = w));
     }
     Ok(report.propagators)
 }

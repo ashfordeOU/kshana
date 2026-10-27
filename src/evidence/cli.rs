@@ -10,21 +10,9 @@ use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
 use std::path::{Path, PathBuf};
 use zeroize::Zeroizing;
 
-const USAGE: &str = "usage:
-  kshana evidence keygen --out <keyfile>
-  kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
-      [--allow-unpinned] [--json]      exit 0 verified, 1 failed, 3 intact but signer not pinned
-  kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
-      (reads the RFC 3161 token and binds it to the manifest; it does NOT verify the timestamp
-      authority's signature: use `openssl ts -verify`)
-  kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
-      [--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
-  kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
-      --key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
-      (links the scenario, the lab's test conditions, the receiver log and its score; the
-      <scenario.toml> is the receiver-trust scoring scenario; writes no signal)
-  <t0>/<t1>: seconds since the first epoch of the log, or an ISO-8601 UTC time when the log
-  states its start time. A pack is a technical record, not a legal opinion.";
+fn usage() -> String {
+    crate::t!("evidence-cli-usage")
+}
 
 pub(crate) fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
     match args.iter().position(|a| a == name) {
@@ -136,9 +124,9 @@ pub fn run_evidence(args: &[String]) -> i32 {
         Ok(code) => code,
         Err(e) => {
             if !e.is_empty() {
-                eprintln!("error: {e}");
+                eprintln!("{}", crate::t!("main-fail", e = e));
             }
-            eprintln!("{USAGE}");
+            eprintln!("{}", usage());
             2
         }
     }
@@ -209,8 +197,11 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             println!("{}", crate::t!("evidence-cli-public-key-pub", out = out));
             println!("{}", crate::t!("evidence-cli-public-key-hex", pk = pk));
             println!(
-                "fingerprint: {}",
-                fingerprint(&hex::decode(&pk).unwrap_or_default())
+                "{}",
+                crate::t!(
+                    "evidence-cli-fingerprint",
+                    fp = fingerprint(&hex::decode(&pk).unwrap_or_default())
+                )
             );
             println!(
                 "{}",
@@ -291,24 +282,26 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                 }
                 for f in &rep.failures {
                     println!(
-                        "  failure: {}",
-                        serde_json::to_string(f).unwrap_or_default()
+                        "{}",
+                        crate::t!(
+                            "evidence-cli-verify-failure",
+                            f = serde_json::to_string(f).unwrap_or_default()
+                        )
                     );
                 }
                 for n in &rep.notes {
-                    println!("  note: {n}");
+                    println!("{}", crate::t!("evidence-cli-verify-note", n = n));
                 }
                 let fp = rep.signer_fingerprint.as_deref().unwrap_or("(none)");
                 println!(
                     "{}",
                     match code {
                         0 if rep.signer_pinned => {
-                            "VERIFIED: every hash, the chain and the signature check out, for the key you supplied."
-                                .to_string()
+                            crate::t!("evidence-cli-verified-pinned")
                         }
-                        0 => format!("VERIFIED against the key the pack names itself, fingerprint {fp} (signer NOT pinned; pass --pubkey)."),
-                        3 => format!("INTACT, BUT THE SIGNER IS NOT PINNED: the hashes and signature are consistent with key {fp}, which the pack names itself. Pass --pubkey <signer public key> to establish who signed it (or --allow-unpinned to accept this knowingly)."),
-                        _ => "NOT VERIFIED: see the failures above.".to_string(),
+                        0 => crate::t!("evidence-cli-verified-unpinned", fp = fp),
+                        3 => crate::t!("evidence-cli-intact-signer-not-pinned", fp = fp),
+                        _ => crate::t!("evidence-cli-not-verified"),
                     }
                 );
                 println!("{}", crate::t!("evidence-cli-this-is-technical-record-not"));
@@ -339,9 +332,12 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             } else {
                 write_new_file(&target, &bytes, false)?;
             }
-            println!("attached {}", target.display());
+            println!(
+                "{}",
+                crate::t!("evidence-cli-attached", path = target.display())
+            );
             for n in &notes {
-                println!("note: {n}");
+                println!("{}", crate::t!("main-note", n = n));
             }
             println!("{}", crate::t!("evidence-cli-note-the-token-sits-beside"));
             Ok(0)
@@ -355,8 +351,8 @@ pub fn run_receiver_trust_evidence(args: &[String]) -> i32 {
     match receiver_trust_evidence(args, false) {
         Ok(()) => 0,
         Err(e) => {
-            eprintln!("error: {e}");
-            eprintln!("{USAGE}");
+            eprintln!("{}", crate::t!("main-fail", e = e));
+            eprintln!("{}", usage());
             2
         }
     }
@@ -517,7 +513,7 @@ fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), Stri
             )
         );
     }
-    println!("verify with: kshana evidence verify {out} --pubkey <signer public key>");
+    println!("{}", crate::t!("evidence-cli-verify-with", out = out));
     println!("{}", crate::t!("evidence-cli-pack-is-technical-record-not"));
     Ok(())
 }

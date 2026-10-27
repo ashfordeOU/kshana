@@ -117,15 +117,17 @@ fn every_scenario_kind_has_a_docs_page_that_matches_the_engine() {
     );
 }
 
-/// Every `or: kshana <word>` and `--flag` form of the usage text in `src/main.rs`.
+/// Every `or: kshana <word>` and `--flag` form of the usage text (the `main-usage` message).
 fn usage_commands() -> BTreeSet<String> {
-    let main = std::fs::read_to_string(root().join("src/main.rs")).expect("src/main.rs");
-    let start = main.find("const USAGE").expect("USAGE");
-    let usage = &main[start
-        ..main[start..]
-            .find("\";")
-            .map(|i| start + i)
-            .expect("end of USAGE")];
+    // The usage text is the catalogue message `main-usage` (i18n/en/engine.ftl): every `or: kshana <word>`
+    // line is in it verbatim, whatever the escaping of the leading blanks.
+    let ftl = std::fs::read_to_string(root().join("i18n/en/engine.ftl")).expect("engine.ftl");
+    let start = ftl.find("\nengine-main-usage =").expect("main-usage");
+    let usage = &ftl[start + 1
+        ..ftl[start + 1..]
+            .find("\nengine-")
+            .map(|i| start + 1 + i)
+            .expect("end of main-usage")];
     let mut out = BTreeSet::new();
     for part in usage.split("or: kshana ").skip(1) {
         let first = part.split_whitespace().next().unwrap_or("");

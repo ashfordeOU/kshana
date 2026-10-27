@@ -15,25 +15,16 @@ use super::{
 };
 
 /// Usage text for `kshana bench`.
-pub const BENCH_USAGE: &str = "usage: kshana bench spec
-   or: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-   or: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
-   or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-   or: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
-   or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
-   or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
-   or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
-   or: kshana bench verify-manifest <manifest.json> --root <dir>
-   or: kshana bench validate <result.json>...
-   or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)
-   (a seed file holds the secret behind a sealed holdout; keep it out of version control)";
+pub fn bench_usage() -> String {
+    crate::t!("bench-cli-usage")
+}
 
 /// Run `kshana bench ...`; returns the process exit code.
 pub fn run(args: &[String]) -> i32 {
     match run_inner(args) {
         Ok(code) => code,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", crate::t!("main-fail", e = e));
             2
         }
     }
@@ -172,13 +163,13 @@ fn slug(s: &str) -> String {
 
 fn run_inner(args: &[String]) -> Result<i32, BenchError> {
     let Some(sub) = args.first().map(String::as_str) else {
-        println!("{BENCH_USAGE}");
+        println!("{}", bench_usage());
         return Ok(0);
     };
     let rest = &args[1..];
     match sub {
         "--help" | "-h" | "help" => {
-            println!("{BENCH_USAGE}");
+            println!("{}", bench_usage());
             Ok(0)
         }
         "spec" => {
@@ -314,7 +305,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                 return Ok(1);
             }
             if reveal_check(task_arg(rest)?, &s, c) {
-                println!("match");
+                println!("{}", crate::t!("bench-cli-match"));
                 Ok(0)
             } else {
                 println!("{}", crate::t!("bench-cli-mismatch-the-seed-is-not"));
@@ -336,7 +327,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                     .map_err(|e| BenchError(crate::t!("bench-cli-is-not-json", f = f, e = e)))?;
                 let p = validate_result(&v);
                 if p.is_empty() {
-                    println!("{f}: valid");
+                    println!("{}", crate::t!("bench-cli-valid", f = f));
                 } else {
                     bad += 1;
                     for m in p {
@@ -396,7 +387,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         other => Err(BenchError(crate::t!(
             "bench-cli-unknown-subcommand",
             other = other,
-            BENCH_USAGE = BENCH_USAGE
+            BENCH_USAGE = bench_usage()
         ))),
     }
 }
@@ -677,7 +668,7 @@ fn manifest(args: &[String]) -> Result<i32, BenchError> {
         "folders": folders,
     });
     write(Path::new(need(args, "--out")?), &pretty(&doc))?;
-    println!("{} folder(s)", dirs.len());
+    println!("{}", crate::t!("bench-cli-folders", n = dirs.len()));
     Ok(0)
 }
 
@@ -723,18 +714,18 @@ fn verify_manifest(args: &[String]) -> Result<i32, BenchError> {
     for (rel, want) in &entries {
         let Some(want) = want else {
             unpinned += 1;
-            println!("unpinned: {rel}");
+            println!("{}", crate::t!("bench-cli-unpinned", rel = rel));
             continue;
         };
         match std::fs::read(root.join(rel)) {
             Err(_) => {
                 missing += 1;
-                println!("missing: {rel}");
+                println!("{}", crate::t!("bench-cli-missing", rel = rel));
             }
             Ok(b) if &sha256_hex(&b) == want => ok += 1,
             Ok(_) => {
                 bad += 1;
-                println!("MISMATCH: {rel}");
+                println!("{}", crate::t!("bench-cli-mismatch-line", rel = rel));
             }
         }
     }
