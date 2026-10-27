@@ -23,3 +23,12 @@ seg-638b8d451550 = Sensor
 
 # text
 seg-d4a762001549 = Litsents
+
+# text
+seg-60cd077d82a7 = Mudel
+
+# text
+seg-2afa300864a9 = Parameetrid
+
+# text
+seg-32b620b3574e = Kasutus

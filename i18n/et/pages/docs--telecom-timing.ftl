@@ -26,3 +26,6 @@ seg-f63dd3d7aad4 = Allikas
 
 # text
 seg-587beeccaa11 = Eelseade
+
+# text
+seg-edb7b16b6c0e = Valideerimine

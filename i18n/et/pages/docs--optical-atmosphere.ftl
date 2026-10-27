@@ -8,3 +8,6 @@ seg-1c6199627b90 = Andmed
 
 # text
 seg-ad856ad710eb = Staatus
+
+# text
+seg-53a7343c076e = Väide

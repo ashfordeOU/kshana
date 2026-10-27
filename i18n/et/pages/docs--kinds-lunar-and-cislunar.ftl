@@ -140,3 +140,517 @@ seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
 
 # text
 seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+# text
+# c1: docs/kinds/lunar-and-cislunar.md
+seg-a240ef37dc6d = Source: <c1/>
+
+# text
+seg-befef5f2f8dd = Kuu ja tsislunaarne ruum (stsenaariumi liikide perekond)
+
+# text
+seg-f964724ea446 = { "20" } stsenaariumi liiki mootorist v{ $version }. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
+
+# text
+# c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
+seg-369e7cfcc1d3 = Teemalehed: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Käivita üks: <c1/>. Kõik perekonnad: <a4>KINDS.md</a4>.
+
+# attr:alt
+seg-15b8e26dc24b = Kontaktlehe pilt diagrammidest, mille mootor kirjutab perekonna Kuu ja tsislunaarne ruum liikide jaoks
+
+# text
+seg-fd2a12be04c2 = Kuu lõunapooluse ARAIM-i kaitsetaseme läbimine võrreldes esindusliku LunaNeti releekomplektiga.
+
+# text
+seg-240eb5858113 = Modelleeritud relativistlik Maa–Kuu kella käik (Kuu koordinaataeg, LTC/TCL): sekulaarne LTC−TT käik omapotentsiaalide vahest ja Kuu kineetilisest liikmest, esitatud avaldatud { "56" }–{ "59" }
+
+# text
+seg-177bff8d753e = MODELLED otsast lõpuni Kuu koordineeritud aja (LTC) ajaveaeelarve: seitse LTC veaterminit koondatud ajavea kõverateks x_i(τ) kogu keskmistamisaja ruudustikul, ruutsummana liidetud x_Σ(τ)-ks, ning c
+
+# text
+seg-df0437ef8324 = Modelleeritud Kuu geodeetilise VLBI viivituse vaadeldav: Maa baasjoon (kaks maajaama, GCRS) vaatleb ühesuunalist signaali NovaMoon-klassi Kuu pinna majakalt.
+
+# text
+seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
+
+# text
+seg-38254487fb7f = Lunar-VLBI jaamakoordinaatide kovariatsioon: lunar-vlbi vaadeldava viivituse osatuletised, mis on kogutud selgesõnalise AJAKAVA (baasjooned x epohhid) kohta Fisheri infomaatriksiks, pööratud, ja esi
+
+# text
+seg-23706714da99 = Modelleeritud ühine mitmetehnikaline Kuu OD + kella paketthinnang SIMULEERITUD võrgul: Gauss–Newtoni hetktõmmise sobitus, mis liidab Maa baasjoone geodeetilised VLBI viivitused, Kuu-kohalikud jaama↔satelliidi kaugused
+
+# text
+seg-2359450b3967 = Modelleeritud Kuu tugisüsteemi realiseerimine: 7-parameetriline Helmerti (sarnasus)datumi sobitus — { "3" } nihe, { "3" } väikese nurga pööre, { "1" } mõõtkava — mis seob hinnatud selenograafiliselt tuletatud MCMF punkti k
+
+# text
+seg-2a5af9961e99 = Seitsmeparameetriline Helmerti (sarnasus)tugisüsteemi datum, mida juhib SIMULEERITUD VAATLUSKAMPAANIA, mitte sisestatud teisendus.
+
+# text
+seg-3615bea1ea75 = Seitsmeparameetriline Helmerti Kuu tugisüsteemi datum, mida juhib REAALNE ARHIVEERITUD vaatluskampaania, mitte simuleeritud.
+
+# text
+seg-5413116b8b42 = Modelleeritud Kuu navigatsiooniteenuse teenindusmahu analüüs ILLUSTRATIVE avaliku allika Moonlight/LCNS-klassi Kuu orbiidi konstellatsioonist (ESA-ga sidumata): pühib selenograafilist laius-/pikkusruudustikku üle
+
+# text
+seg-a0e202b3566c = Modelleeritud Kuu DIFERENTSIAAL-PNT (Kuu DGNSS/SBAS-i analoog): NovaMoon-klassi tugijaam TEATUD selenograafilises asukohas arvutab satelliidipõhised diferentsiaalparandused ILLUSTRATIVE
+
+# text
+seg-ed4ec8b6378c = Modelleeritud Kuu tugijaama katvus: Monte Carlo pühe Kuu diferentsiaal-PNT mudelist üle lõunapooluse kasutajaruudustiku ja ühe päeva epohhide.
+
+# text
+seg-aeec32be6092 = Kuu orbitaalse navigatsiooniteenuse pinnamajakatega täiendamine käivitatava enne/pärast tabelina.
+
+# text
+seg-b28693368acd = Modelleeritud Kuu koostalitlusvõime eksport: väljastab Kuu tugisüsteemi, Kuu ajaskaala ja Kuu efemeriidi LunaNet/IOAG-iga joondatud, CCSDS-põhistes vahetusvormides koos edasi-tagasi / väljade standardi järgimisega
+
+# text
+seg-d88605893c05 = MODELLED tasapinnalise tsislunaarse konstellatsiooni jälgitavus (P6): jälgib nelja kosmoseaparaadi diferentsiaalselt korrigeeritud tasapinnalist DRO konstellatsiooni satelliitidevahelise kaugusmõõtmisega ja annab aru, kui palju kosmoseaparaadi
+
+# text
+seg-8eaec90d1df5 = MODELLED sõltumatu hindaja test tsislunaarse kaare pikkuse jälgitavuse läve kohta.
+
+# text
+seg-9619b3d699c6 = Kuu pinnanavigatsiooni signaaliturbe ründepind (P1): komponeerib avatud signaaliturbe analüüsid üheks binaarselt kättesaadavaks jooksuks.
+
+# text
+seg-64c78e211181 = Kuu-natiivne RF-segamine: satelliidipõhine segaja ja signaali suhe, efektiivne C/N₀ ja lukustuse kadu selenograafilisele pinnakasutajale Kuu pinna (või tõstetud) segaja all, üle illustratiivse avaliku
+
+# text
+seg-df68720ee7a5 = Maa GNSS-i vastuvõtt Kuu kaugusel: nõrkade signaalide kiht, mida konfliktikindluse töö nimetab ja mille jaoks mootoril mudelit ei olnud.
+
+# text
+# c1: study
+seg-e6475fe9f443 = MODELLED uuringud Kuu orbiidist ja pinnast navigatsiooni- ja geodeesiataristuna, viis uuringut ühe liigi taga, mida valib <c1/>: od-consistency (pardal toimuv Maa GNSS-i orbiidi määramine
+
+# text
+# c1: step_s
+# c2: duration_s
+# c3: alert_limit_m
+# c4: p_hmi
+# c5: sigma_ure_m
+seg-ca4fac406beb = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+# text
+seg-da20b48985b9 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-integrity</a1>.
+
+# text
+# c1: epoch_year
+# c2: epoch_month
+# c3: epoch_day
+# c4: horizon_days
+seg-564b491c4bb8 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>.
+
+# text
+seg-0f0b2d0ca0b4 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-time-offset</a1>.
+
+# text
+# c1: clock
+# c2: tau_min_s
+# c3: tau_max_s
+# c4: points_per_decade
+# c5: clocks
+# c6: time_lab
+seg-128bf57a76d1 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+# text
+seg-d6aa5d645fb7 = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-time-budget</a1>.
+
+# text
+# c1: station1_lat_deg
+# c2: station1_lon_deg
+# c3: station1_alt_m
+# c4: station2_lat_deg
+# c5: station2_lon_deg
+# c6: station2_alt_m
+# c7: beacon_lat_deg
+# c8: beacon_lon_deg
+# c9: beacon_alt_m
+# c10: epoch_year
+# c11: epoch_month
+# c12: epoch_day
+# c13: horizon_hours
+# c14: step_min
+# c15: planetary_kernel_path
+# c16: earth_orientation_kernel_path
+# c17: moon_orientation_kernel_path
+seg-79140f2544ea = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>.
+
+# text
+seg-de468e4d4b46 = <b>Register (ledger):</b> MODELLED { "3" } · VALIDATED { "3" }. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-vlbi</a1>.
+
+# text
+# c1: stations
+# c2: beacon_lat_deg
+# c3: beacon_lon_deg
+# c4: beacon_alt_m
+# c5: epoch_year
+# c6: epoch_month
+# c7: epoch_day
+# c8: arc_hours
+# c9: step_min
+# c10: delay_sigma_s
+# c11: elevation_mask_deg
+# c12: datum
+# c13: estimate_beacon
+# c14: rel_tol
+# c15: equipartition_g
+# c16: planetary_kernel_path
+seg-7da3c3ff2386 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+# text
+seg-3119d4005897 = <b>Register (ledger):</b> MODELLED { "3" } · VALIDATED { "2" }. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-vlbi-fim</a1>.
+
+# text
+# c1: n_sat
+# c2: n_earth
+# c3: seed
+# c4: sigma_vlbi_s
+# c5: sigma_range_m
+# c6: sigma_isl_m
+# c7: station_lat_deg
+# c8: station_lon_deg
+# c9: station_alt_m
+# c10: orbit_radius_km
+# c11: sigma_clock_s
+# c12: orbit_ecc
+# c13: orbit_inc_deg
+# c14: orbit_argp_deg
+# c15: orbit_planes
+# c16: epoch_year
+# c17: epoch_month
+# c18: epoch_day
+seg-6f59a33a35b3 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+# text
+seg-142f2253e4d6 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-joint-od-clock</a1>.
+
+# text
+# c1: n_points
+# c2: tx_m
+# c3: ty_m
+# c4: tz_m
+# c5: rot_x_urad
+# c6: rot_y_urad
+# c7: rot_z_urad
+# c8: scale_ppb
+# c9: noise_sigma_m
+# c10: seed
+# c11: epoch_year
+# c12: epoch_month
+# c13: epoch_day
+seg-32c31af24e1b = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+# text
+seg-73c0415efd2f = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-frame-realisation</a1>.
+
+# text
+# c1: stations
+# c2: beacons
+# c3: epoch_year
+# c4: epoch_month
+# c5: epoch_day
+# c6: arc_hours
+# c7: step_min
+# c8: delay_sigma_s
+# c9: elevation_mask_deg
+# c10: earth_elevation_mask_deg
+# c11: station_datum
+# c12: rel_tol
+# c13: assumed_coordinate_sigma_m
+# c14: solver
+seg-96efcb8d55d1 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
+
+# text
+seg-ce2f0f85dda4 = <b>Register (ledger):</b> MODELLED { "2" } · VALIDATED { "3" }. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-frame-campaign</a1>.
+
+# text
+# c1: data_dir
+# c2: normal_points_dir
+# c3: reflectors_path
+# c4: stations_path
+# c5: dut1_s
+# c6: rel_tol
+# c7: compare_simulated_campaign
+# c8: sensitivity_tilt_deg
+# c9: planetary_kernel_path
+# c10: extra_reflectors
+# c11: extra_beacons
+# c12: extra_earth_elevation_mask_deg
+# c13: beacon_campaign
+seg-d9e24a9a8c0c = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+# text
+seg-4f05fad4b146 = <b>Register (ledger):</b> VALIDATED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-llr-datum</a1>.
+
+# text
+# c1: n_sats
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: lat_min_deg
+# c7: lat_max_deg
+# c8: lat_step_deg
+# c9: lon_min_deg
+# c10: lon_max_deg
+# c11: lon_step_deg
+# c12: horizon_hours
+# c13: step_min
+# c14: elev_mask_deg
+# c15: pdop_threshold
+# c16: alert_limit_m
+# c17: p_hmi
+# c18: perturbed
+# c19: sigma_ure_m
+# c20: export_site_lat_deg
+# c21: export_site_lon_deg
+# c22: export_antenna
+# c23: ephemeris_path
+# c24: planetary_kernel_path
+# c25: epoch_utc
+# c26: terrain
+seg-8d9e0277303e = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
+
+# text
+seg-204901ae3684 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>moonlight-service-volume</a1>.
+
+# text
+# c1: n_sats
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: ref_lat_deg
+# c7: ref_lon_deg
+# c8: baseline_km
+# c9: orbit_err_m
+# c10: clock_err_m
+# c11: noise_m
+# c12: seed
+# c13: t_s
+# c14: residual_sigma_m
+# c15: p_hmi
+# c16: survey_sigma_m
+# c17: latency_s
+# c18: quantization_bits
+seg-6fe67fa619d0 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+# text
+seg-c83350735643 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-differential-pnt</a1>.
+
+# text
+# c1: n_sats
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: ephemeris_path
+# c7: mask_deg
+# c8: station_lat_deg
+# c9: station_lon_deg
+# c10: station_height_m
+# c11: survey_sigma_m
+# c12: orbit_err_m
+# c13: clock_err_m
+# c14: sise_sigma_m
+# c15: sise_orbit_variance_fraction
+# c16: noise_m
+# c17: latency_s
+# c18: quantization_bits
+# c19: grid_lat_max_deg
+# c20: grid_lat_step_deg
+# c21: points
+# c22: t_start_s
+# c23: t_span_s
+# c24: t_step_s
+# c25: n_trials
+# c26: accuracy_threshold_m
+# c27: percentile
+# c28: alert_limit_m
+# c29: residual_sigma_m
+# c30: p_hmi
+# c31: seed
+# c32: terrain
+# c33: orbit_err_growth_m_per_s
+# c34: receiver
+# c35: solution
+seg-facc442295f1 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>.
+
+# text
+seg-8a2f6f535c4a = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-station-coverage</a1>.
+
+# text
+# c1: user
+# c2: beacons
+# c3: n_satellites
+# c4: comparison_n_satellites
+# c5: epoch_s
+# c6: elevation_mask_deg
+# c7: clock_sync_m
+# c8: multipath_m
+# c9: survey_m
+seg-a790c54ac1aa = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>.
+
+# text
+seg-4efffcd615df = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-beacon</a1>.
+
+# text
+# c1: frame
+# c2: time_system
+# c3: n_states
+# c4: epoch
+# c5: step_min
+# c6: object
+seg-720d0bbeaf6e = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+# text
+seg-019ca0f1051e = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-interop-export</a1>.
+
+# text
+# c1: mu
+# c2: arc_hours
+# c3: epochs
+# c4: steps
+# c5: rel_tol
+# c6: spatial
+# c7: sigma_range_m
+# c8: family
+# c9: n_spacecraft
+# c10: sigma_pos_threshold_km
+seg-28695dd2ecc3 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+# text
+seg-af5d871bc69e = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>cislunar-observability</a1>.
+
+# text
+# c1: mu
+# c2: arc_hours
+# c3: epochs
+# c4: steps
+# c5: spatial
+# c6: family
+# c7: n_spacecraft
+# c8: observable
+# c9: coordinates
+# c10: trials
+# c11: seed
+# c12: displacement_nd
+# c13: recovery_factor
+# c14: sigma_range_m
+# c15: sigma_range_rate_mm_s
+# c16: error_bound_km
+# c17: max_iterations
+# c18: rel_tol
+seg-f646e9fd7553 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+# text
+seg-5e7bd8bb1adf = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>cislunar-arc-recovery</a1>.
+
+# text
+# c1: afs_eirp_dbw
+# c2: user_gain_dbi
+# c3: slant_range_m
+# c4: slant_range_max_m
+# c5: carrier_hz
+# c6: gps_reference_dbw
+# c7: gps_reference_min_dbw
+# c8: afs_isotropic_signal_dbw
+# c9: transmitter_altitude_m
+# c10: transmitter_power_dbw
+# c11: antenna_diameter_m
+# c12: footprint_grid
+# c13: spoof_power_advantage_db
+# c14: spoof_code_offset_chips
+# c15: attacker_gain_dbi
+# c16: spoof_capture_js_db
+# c17: jam_denial_js_db
+# c18: standoffs_m
+# c19: mast_height_m
+# c20: user_antenna_height_m
+# c21: footprint_altitude_min_m
+# c22: footprint_altitude_max_m
+# c23: footprint_altitude_steps
+# c24: footprint_altitude_scale
+# c25: footprint_diameter_min_m
+# c26: footprint_diameter_max_m
+# c27: footprint_diameter_steps
+# c28: footprint_diameter_scale
+seg-3c514f3acc78 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>.
+
+# text
+seg-00b06a4fc0e0 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-attack-surface</a1>.
+
+# text
+# c1: n_sats
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: site_lat_deg
+# c7: site_lon_deg
+# c8: site_alt_m
+# c9: horizon_hours
+# c10: step_min
+# c11: elev_mask_deg
+# c12: sat_eirp_dbw
+# c13: carrier_hz
+# c14: chip_rate_hz
+# c15: user_boresight_gain_dbi
+# c16: temp_k
+# c17: tracking_threshold_dbhz
+# c18: degraded_margin_db
+# c19: jammer
+seg-079d2bb805f1 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+# text
+seg-63d4157e2294 = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-jamming</a1>.
+
+# text
+# c1: altitude_km
+# c2: inclination_deg
+# c3: planes
+# c4: sats_per_plane
+# c5: phasing_f
+# c6: epoch_s
+# c7: receiver_range_m
+# c8: receiver_ra_deg
+# c9: receiver_dec_deg
+# c10: tx_power_dbw
+# c11: tx_diameter_m
+# c12: tx_efficiency
+# c13: freq_hz
+# c14: rx_gain_dbi
+# c15: system_temp_k
+# c16: tracking_threshold_dbhz
+# c17: back_lobe_suppression_db
+# c18: epochs
+# c19: span_s
+seg-7bb977529f30 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+# text
+seg-287f89e6bf6b = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>earth-gnss-lunar</a1>.
+
+# text
+# c1: study
+# c2: seed
+# c3: orbit
+# c4: gnss
+# c5: ground
+# c6: monte_carlo
+# c7: surface
+# c8: llr
+# c9: orbiter
+# c10: gravimeter
+# c11: clock
+# c12: techniques
+# c13: nominal
+seg-f7ed8b60e7d1 = Kohustuslikud väljad: <c1/>. Valikulised: <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+# text
+seg-41e50e49da99 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-infrastructure</a1>.
+
+# text
+seg-09f7f99d04a6 = <s1>Eelmine</s1>Madala Maa orbiidi navigatsioon
+
+# text
+seg-74c6bf83988e = <s1>Järgmine</s1>Missioonianalüüs, sidelingid ja kosmoseoperatsioonid

@@ -47,3 +47,9 @@ seg-b03d56f501c3 = Liik
 
 # text
 seg-4dbf41c0ec3b = Funktsioon
+
+# text
+seg-2b0d77219437 = Eelseadistused
+
+# text
+seg-7338b6210228 = Rida
