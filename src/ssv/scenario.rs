@@ -705,9 +705,9 @@ impl GnssSsvScenario {
         }
         for v in [n.accel_psd, n.clock_drift_walk, n.srp_area_to_mass] {
             if !(v.is_finite() && v >= 0.0) {
-                return Err(
-                    "navigation: noise and radiation-pressure values must not be negative".into(),
-                );
+                return Err(crate::terr!(
+                    "e-ssv-scenario-navigation-noise-and-radiation-pressure"
+                ));
             }
         }
         for a in &n.antennas {
@@ -793,9 +793,9 @@ impl GnssSsvScenario {
                 }
             }
             if t.duration_min.is_some() == t.duration_periods.is_some() {
-                return Err(
-                    "trajectory: give exactly one of duration_min and duration_periods".into(),
-                );
+                return Err(crate::terr!(
+                    "e-ssv-scenario-trajectory-give-exactly-one-of-2"
+                ));
             }
             for a in &t.antennas {
                 antenna_named(a, Band::L1)?;

@@ -1730,11 +1730,9 @@ pub fn scenario_sha256(sc: &LabFitScenario) -> String {
 /// Fit every unit of `data` under the settings of `sc`.
 pub fn analyse(data: &CampaignData, sc: &LabFitScenario) -> Result<LabFitIqReport, String> {
     if sc.mode.as_deref() == Some("validation") && sc.validation.is_none() {
-        return Err(
-            "mode = \"validation\" needs a [validation] table, written before the \
-                    campaign results are read"
-                .into(),
-        );
+        return Err(crate::terr!(
+            "e-iq-labfit-iqfit-mode-validation-needs-validation-table"
+        ));
     }
     if let Some(m) = &sc.mode {
         if m != "validation" {

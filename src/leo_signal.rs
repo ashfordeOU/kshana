@@ -1360,9 +1360,7 @@ impl LeoSignalScenario {
     fn validate(&self) -> Result<EarlyLate, String> {
         let r = &self.receiver;
         if !(r.loop_bandwidth_hz > 0.0 && r.integration_time_s > 0.0) {
-            return Err(
-                "receiver: loop_bandwidth_hz and integration_time_s must be positive".into(),
-            );
+            return Err(crate::terr!("e-leo-signal-receiver-loop-bandwidth-hz-and"));
         }
         if r.loop_bandwidth_hz * r.integration_time_s >= 1.0 {
             return Err(crate::terr!(
@@ -1379,11 +1377,9 @@ impl LeoSignalScenario {
                 .chain(std::iter::once(&r.reference_spacing_chips))
                 .any(|d| !(*d > 0.0 && *d < 2.0))
         {
-            return Err(
-                "receiver: 1 to 12 correlator spacings, each (like reference_spacing_chips) \
-                 between 0 and 2 chips"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-leo-signal-receiver-to-12-correlator-spacings"
+            ));
         }
         let a = &self.acquisition;
         if !(a.coherent_ms > 0.0
@@ -1397,12 +1393,9 @@ impl LeoSignalScenario {
             && a.user_speed_mps >= 0.0
             && (0.0..90.0).contains(&a.elevation_mask_deg))
         {
-            return Err(
-                "acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, \
-                        code_bin_chips > 0, altitude_km > 0, oscillator_ppm and user_speed_mps \
-                        ≥ 0, 0 ≤ elevation_mask_deg < 90"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-leo-signal-acquisition-coherent-ms-noncoherent-1000"
+            ));
         }
         if !(self.trade.slant_range_km > 0.0 && self.trade.slant_tec_tecu >= 0.0) {
             return Err(crate::terr!("e-leo-signal-trade-slant-range-km-and"));

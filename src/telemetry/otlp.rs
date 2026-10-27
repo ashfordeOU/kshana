@@ -188,10 +188,7 @@ pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
 /// Split `http://host:port/path` into (`host:port`, `/path`). `https` is refused.
 pub fn parse_endpoint(url: &str) -> Result<(String, String), String> {
     if url.starts_with("https://") {
-        return Err(
-            "https is not supported by the built-in exporter; use a local collector over http"
-                .into(),
-        );
+        return Err(crate::terr!("e-telemetry-otlp-https-is-not-supported-by"));
     }
     let rest = url
         .strip_prefix("http://")
@@ -239,7 +236,7 @@ pub fn export(endpoint: &str, reg: &Registry, unix_nano: u64) -> Result<u16, Str
     resp.split_whitespace()
         .nth(1)
         .and_then(|c| c.parse().ok())
-        .ok_or_else(|| "no HTTP status in response".to_string())
+        .ok_or_else(|| crate::terr!("e-telemetry-otlp-no-http-status-in-response"))
 }
 
 /// Exports from a worker thread, so the caller never waits on a collector and never holds a

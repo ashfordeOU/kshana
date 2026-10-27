@@ -121,7 +121,7 @@ impl DemTile {
             });
         let mut next = || {
             nums.next()
-                .ok_or_else(|| "unexpected end of DEM".to_string())?
+                .ok_or_else(|| crate::terr!("e-realdata-lola-dem-unexpected-end-of-dem"))?
         };
         let lat_min_deg = next()?;
         let lat_max_deg = next()?;

@@ -245,11 +245,9 @@ impl LunarTimeBudgetScenario {
                     i, tau, t.name, x, t.grows_with_tau
                 ));
             }
-            let total = budget
-                .x_sigma_s
-                .get(i)
-                .copied()
-                .ok_or_else(|| "x_sigma_s is shorter than the tau grid".to_string())?;
+            let total = budget.x_sigma_s.get(i).copied().ok_or_else(|| {
+                crate::terr!("e-lunar-time-budget-scenario-sigma-is-shorter-than-the")
+            })?;
             s.push_str(&crate::t!(
                 "lunar-time-budget-scenario-total-false",
                 i = i,

@@ -1382,26 +1382,13 @@ pub fn resolve_user(
     jd0_ut1: f64,
 ) -> Result<(UserPath, Option<Skyline>), String> {
     let path = match (user, user_site) {
-        (Some(_), Some(_)) => {
-            return Err(
-                "give the user as `user` (an orbit) or `user_site` (a ground site), not both"
-                    .into(),
-            )
-        }
-        (None, None) => {
-            return Err(
-                "missing the user: give `user` (an orbit) or `user_site` (a ground site)".into(),
-            )
-        }
+        (Some(_), Some(_)) => return Err(crate::terr!("e-orbit-give-the-user-as-user")),
+        (None, None) => return Err(crate::terr!("e-orbit-missing-the-user-give-user")),
         (Some(u), None) => UserPath::Orbit(u.to_orbit()),
         (None, Some(s)) => UserPath::site(s, jd0_ut1)?,
     };
     if skyline.is_some() && matches!(path, UserPath::Orbit(_)) {
-        return Err(
-            "a [skyline] needs a ground site: give `user_site = { lat_deg, lon_deg, height_m }` \
-                    instead of an orbiting `user` (an orbit has no Earth-fixed azimuth)"
-                .into(),
-        );
+        return Err(crate::terr!("e-orbit-skyline-needs-ground-site-give"));
     }
     Ok((path, crate::skyline::resolve(skyline)?))
 }
@@ -1702,9 +1689,7 @@ impl OrbitClockScenario {
             files.extend(crate::omm::OmmFile::from_tle_block(b, "Kshana", &creation)?);
         }
         if files.is_empty() {
-            return Err(
-                "OMM export requires a TLE-defined constellation; this scenario has none".into(),
-            );
+            return Err(crate::terr!("e-orbit-omm-export-requires-tle-defined"));
         }
         Ok(files
             .iter()

@@ -132,11 +132,15 @@ pub fn parse_bbox(s: &str) -> Result<(f64, f64, f64, f64), MapError> {
         .split(',')
         .map(|x| x.trim().parse::<f64>())
         .collect::<Result<_, _>>()
-        .map_err(|_| MapError::Format("--bbox is south,west,north,east in degrees".into()))?;
+        .map_err(|_| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-observatory-bbox-is-south-west-north"
+            ))
+        })?;
     let [s, w, n, e] = v[..] else {
-        return Err(MapError::Format(
-            "--bbox is south,west,north,east in degrees".into(),
-        ));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-observatory-bbox-is-south-west-north"
+        )));
     };
     if !(-90.0..=90.0).contains(&s)
         || !(-90.0..=90.0).contains(&n)
@@ -145,9 +149,9 @@ pub fn parse_bbox(s: &str) -> Result<(f64, f64, f64, f64), MapError> {
         || s >= n
         || w >= e
     {
-        return Err(MapError::Format(
-            "--bbox must satisfy south < north and west < east, within the globe (no antimeridian crossing)".into(),
-        ));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-observatory-bbox-must-satisfy-south-north"
+        )));
     }
     Ok((s, w, n, e))
 }
@@ -810,9 +814,9 @@ fn refuse_opensky(ds: &Dataset) -> Result<(), MapError> {
     )
     .to_ascii_lowercase();
     if hay.contains("opensky") {
-        return Err(MapError::Format(
-            "OpenSky Network data is excluded: its licence does not allow commercial use or redistribution of derived maps (docs/data/INTERFERENCE-DATA-SOURCES.md)".into(),
-        ));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-observatory-opensky-network-data-is-excluded"
+        )));
     }
     Ok(())
 }
@@ -891,31 +895,45 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
         "--delay-hours",
     ];
     check_args(rest, &valued, &[], 1)?;
-    let input =
-        positional(rest, &valued).ok_or_else(|| MapError::Format("input file missing".into()))?;
+    let input = positional(rest, &valued).ok_or_else(|| {
+        MapError::Format(crate::terr!("e-interference-map-cli-input-file-missing"))
+    })?;
     let ds = dataset_checked(rest)?;
     let day = flag_value(rest, "--day")?
-        .ok_or_else(|| MapError::Format("--day is required".into()))?
+        .ok_or_else(|| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-observatory-day-is-required"
+            ))
+        })?
         .to_string();
     let cell_deg = match flag_value(rest, "--cell-deg")? {
         None => MIN_CELL_DEG,
-        Some(s) => s
-            .parse::<f64>()
-            .map_err(|_| MapError::Format("--cell-deg is not a number".into()))?,
+        Some(s) => s.parse::<f64>().map_err(|_| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-cli-cell-deg-is-not-number"
+            ))
+        })?,
     };
     let delay = match flag_value(rest, "--delay-hours")? {
         None => MIN_DELAY_HOURS,
-        Some(s) => s
-            .parse::<f64>()
-            .map_err(|_| MapError::Format("--delay-hours is not a number".into()))?,
+        Some(s) => s.parse::<f64>().map_err(|_| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-observatory-delay-hours-is-not-number"
+            ))
+        })?,
     };
     check_release(&day, delay, cell_deg, now_unix())?;
-    let grid = Grid::new(cell_deg)
-        .ok_or_else(|| MapError::Format("--cell-deg must be between 0.5 and 10".into()))?;
+    let grid = Grid::new(cell_deg).ok_or_else(|| {
+        MapError::Format(crate::terr!(
+            "e-interference-map-observatory-cell-deg-must-be-between",
+            lit_0_5 = crate::i18n::num(0.5_f64, 1)
+        ))
+    })?;
     let region = flag_value(rest, "--bbox")?.map(parse_bbox).transpose()?;
-    let out = PathBuf::from(
-        flag_value(rest, "--out")?.ok_or_else(|| MapError::Format("--out is required".into()))?,
-    );
+    let out =
+        PathBuf::from(flag_value(rest, "--out")?.ok_or_else(|| {
+            MapError::Format(crate::terr!("e-interference-map-cli-out-is-required"))
+        })?);
     let (agg, _) = read_day(
         Path::new(input),
         grid,
@@ -1276,15 +1294,20 @@ pub fn run_sensitivity(rest: &[String]) -> Result<(), MapError> {
         "--bbox",
     ];
     check_args(rest, &valued, &[], 1)?;
-    let input =
-        positional(rest, &valued).ok_or_else(|| MapError::Format("input file missing".into()))?;
+    let input = positional(rest, &valued).ok_or_else(|| {
+        MapError::Format(crate::terr!("e-interference-map-cli-input-file-missing"))
+    })?;
     let _ds = dataset_checked(rest)?;
     let day = flag_value(rest, "--day")?
-        .ok_or_else(|| MapError::Format("--day is required".into()))?
+        .ok_or_else(|| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-observatory-day-is-required"
+            ))
+        })?
         .to_string();
     let region = flag_value(rest, "--bbox")?.map(parse_bbox).transpose()?;
-    let out =
-        flag_value(rest, "--out")?.ok_or_else(|| MapError::Format("--out is required".into()))?;
+    let out = flag_value(rest, "--out")?
+        .ok_or_else(|| MapError::Format(crate::terr!("e-interference-map-cli-out-is-required")))?;
     let grid = Grid::new(MIN_CELL_DEG).ok_or_else(|| MapError::Format("grid".into()))?;
     let (_, rows) = read_day(
         Path::new(input),
@@ -1294,7 +1317,9 @@ pub fn run_sensitivity(rest: &[String]) -> Result<(), MapError> {
         true,
     )?;
     if rows.is_empty() {
-        return Err(MapError::Format("the input has no usable report".into()));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-observatory-the-input-has-no-usable-2"
+        )));
     }
     let rep = sensitivity_report(&rows, &day, region);
     write_new(Path::new(out), to_text(&rep)?.as_bytes())?;

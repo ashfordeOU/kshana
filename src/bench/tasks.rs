@@ -67,19 +67,18 @@ fn labels_of(truth: &Value) -> Result<Vec<Labeled>, BenchError> {
     let arr = truth
         .get("labels")
         .and_then(Value::as_array)
-        .ok_or_else(|| BenchError("truth has no `labels` array".into()))?;
+        .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-truth-has-no-labels-array")))?;
     arr.iter()
         .map(|l| {
             Ok(Labeled {
                 id: l
                     .get("id")
                     .and_then(Value::as_str)
-                    .ok_or_else(|| BenchError("a label has no `id`".into()))?
+                    .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-label-has-no-id")))?
                     .to_string(),
-                positive: l
-                    .get("positive")
-                    .and_then(Value::as_bool)
-                    .ok_or_else(|| BenchError("a label has no `positive`".into()))?,
+                positive: l.get("positive").and_then(Value::as_bool).ok_or_else(|| {
+                    BenchError(crate::terr!("e-bench-tasks-label-has-no-positive"))
+                })?,
             })
         })
         .collect()
@@ -89,7 +88,11 @@ fn scores_of(preds: &Value) -> Result<BTreeMap<String, f64>, BenchError> {
     let m = preds
         .get("scores")
         .and_then(Value::as_object)
-        .ok_or_else(|| BenchError("predictions have no `scores` object".into()))?;
+        .ok_or_else(|| {
+            BenchError(crate::terr!(
+                "e-bench-tasks-predictions-have-no-scores-object"
+            ))
+        })?;
     m.iter()
         .map(|(k, v)| {
             v.as_f64()
@@ -251,9 +254,9 @@ pub fn d_seed(split: Split, secret: Option<&[u8]>) -> Result<u64, BenchError> {
     match split {
         Split::Dev => Ok(1000),
         Split::Test => Ok(2000),
-        Split::Holdout => secret.map(|s| holdout_seed("d", s)).ok_or_else(|| {
-            BenchError("the holdout is sealed: pass the secret with --seed-file".into())
-        }),
+        Split::Holdout => secret
+            .map(|s| holdout_seed("d", s))
+            .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-the-holdout-is-sealed-pass"))),
     }
 }
 
@@ -647,11 +650,15 @@ pub fn score_c(truth: &Value, preds: &Value) -> Result<(Value, String), BenchErr
     let tarr = truth
         .get("truth")
         .and_then(Value::as_array)
-        .ok_or_else(|| BenchError("task (c) truth has no `truth` array".into()))?;
+        .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-task-truth-has-no-truth")))?;
     let pmap = preds
         .get("predictions")
         .and_then(Value::as_object)
-        .ok_or_else(|| BenchError("task (c) predictions have no `predictions` object".into()))?;
+        .ok_or_else(|| {
+            BenchError(crate::terr!(
+                "e-bench-tasks-task-predictions-have-no-predictions"
+            ))
+        })?;
     if pmap.len() != tarr.len() {
         return err(crate::t!(
             "bench-tasks-predictions-cover-cases-the-truth",
@@ -666,7 +673,7 @@ pub fn score_c(truth: &Value, preds: &Value) -> Result<(Value, String), BenchErr
         let id = t
             .get("id")
             .and_then(Value::as_str)
-            .ok_or_else(|| BenchError("a truth entry has no `id`".into()))?;
+            .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-truth-entry-has-no-id")))?;
         let tv = nums(t.get("truth_ns"), horizons.len(), id)?;
         let pv = nums(pmap.get(id), horizons.len(), id)?;
         for h in 0..horizons.len() {

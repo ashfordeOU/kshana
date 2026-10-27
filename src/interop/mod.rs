@@ -192,10 +192,9 @@ pub fn export_scene(scene: &scene::Scene, fmt: Format) -> Result<Vec<ExportFile>
             bytes: geojson::write(scene).into_bytes(),
         }]),
         Format::Stk => stk::write_all(scene),
-        Format::Sigmf => Err(ExportError::NotApplicable(
-            "SigMF records a signal, not geometry; it is written from the scenario, not a scene"
-                .into(),
-        )),
+        Format::Sigmf => Err(ExportError::NotApplicable(crate::terr!(
+            "e-interop-sigmf-records-signal-not-geometry"
+        ))),
     }
 }
 
@@ -322,18 +321,14 @@ fn reason_of(e: &ExportError) -> String {
 fn sigmf_applicability(src: &str) -> Result<(), String> {
     let kind = crate::api::ScenarioKind::classify(src).map_err(|e| e.to_string())?;
     if kind != crate::api::ScenarioKind::Spectrum {
-        return Err(
-            "SigMF holds complex baseband samples, which only the `spectrum` kind synthesises"
-                .into(),
-        );
+        return Err(crate::terr!(
+            "e-interop-sigmf-holds-complex-baseband-samples"
+        ));
     }
     let scn: crate::spectrum::SpectrumScenario = toml::from_str(src)
         .map_err(|e| crate::terr!("e-interop-invalid-spectrum-scenario", e = e))?;
     if scn.iq.is_none() {
-        return Err(
-            "this spectrum scenario has no [iq] block, so no samples are synthesised to record"
-                .into(),
-        );
+        return Err(crate::terr!("e-interop-this-spectrum-scenario-has-no"));
     }
     Ok(())
 }

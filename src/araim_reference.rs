@@ -512,11 +512,9 @@ pub fn araim_reference_protection_levels(case: &ReferenceCase) -> Result<Referen
     let p_not_monitored = p_two_or_more + p_unobservable;
     let factor = 1.0 - p_not_monitored / (k.p_hmi_vert + k.p_hmi_horz);
     if factor <= 0.0 {
-        return Err(
-            "the unmonitored fault risk exhausts the whole integrity budget; no finite \
-             protection level exists"
-                .to_string(),
-        );
+        return Err(crate::terr!(
+            "e-araim-reference-the-unmonitored-fault-risk-exhausts"
+        ));
     }
 
     let nmodes = modes.len() as f64;
@@ -1278,9 +1276,7 @@ pub fn add_v42_subset_plan(
         ));
     }
     if max_order < 2 {
-        return Err(
-            "the ADD v4.2 subset rule always enumerates pairs; max_order must be >= 2".into(),
-        );
+        return Err(crate::terr!("e-araim-reference-the-add-v4-subset-rule"));
     }
     // Events: one per satellite, then one per constellation that has satellites.
     let present: Vec<usize> = (0..constellations)

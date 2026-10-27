@@ -14,7 +14,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/altpnt/terrain.rs": {
-   "count": 16,
+   "count": 15,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/animation.rs": {
@@ -26,15 +26,15 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/aperture_duty.rs": {
-   "count": 75,
+   "count": 74,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api.rs": {
-   "count": 903,
+   "count": 901,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api/builtins.rs": {
-   "count": 83,
+   "count": 82,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api/kind_descriptions.rs": {
@@ -42,11 +42,11 @@
    "reason": "machine-document: the English descriptions of the scenario kinds, which are the machine document (list_scenario_kinds_json); the catalogue copies are engine-kind-*-description and tests/i18n_kinds.rs compares them"
   },
   "src/araim_reference.rs": {
-   "count": 104,
+   "count": 102,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/attack_surface.rs": {
-   "count": 104,
+   "count": 103,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/attitude_budget.rs": {
@@ -54,11 +54,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/cli.rs": {
-   "count": 56,
+   "count": 46,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/mod.rs": {
-   "count": 40,
+   "count": 39,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/site.rs": {
@@ -66,7 +66,7 @@
    "reason": "identifier: JSON pointers and keys of the result files; the page text is in the catalogue"
   },
   "src/bench/tasks.rs": {
-   "count": 39,
+   "count": 31,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/benchmark/faults.rs": {
@@ -106,7 +106,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/campaign.rs": {
-   "count": 91,
+   "count": 90,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/campaign/optimize.rs": {
@@ -114,11 +114,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/ccsds_tdm.rs": {
-   "count": 28,
+   "count": 27,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/cislunar_arc_recovery.rs": {
-   "count": 200,
+   "count": 199,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/cislunar_observability.rs": {
@@ -130,7 +130,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/clock_log.rs": {
-   "count": 84,
+   "count": 81,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/clock_specs.rs": {
@@ -154,7 +154,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/conflict_resilience.rs": {
-   "count": 139,
+   "count": 138,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/conflict_threat_params.rs": {
@@ -202,7 +202,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/eo_payload.rs": {
-   "count": 34,
+   "count": 33,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/ephem.rs": {
@@ -214,7 +214,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/ephemeris.rs": {
-   "count": 51,
+   "count": 50,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/assemble.rs": {
@@ -222,11 +222,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/bundle.rs": {
-   "count": 19,
+   "count": 18,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/cli.rs": {
-   "count": 24,
+   "count": 22,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/html.rs": {
@@ -234,7 +234,7 @@
    "reason": "signed-artifact: summary.html is hashed into manifest.json and signed, so it is English in every language (built under with_lang(english) in bundle.rs); not converted on purpose"
   },
   "src/evidence/lab.rs": {
-   "count": 3,
+   "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/roundtrip.rs": {
@@ -242,7 +242,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/tsa.rs": {
-   "count": 14,
+   "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/tsr.rs": {
@@ -254,7 +254,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/field_schema.rs": {
-   "count": 10,
+   "count": 7,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/fom_label.rs": {
@@ -294,7 +294,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/geometry.rs": {
-   "count": 17,
+   "count": 15,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/glonass.rs": {
@@ -322,7 +322,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/gravimeter.rs": {
-   "count": 33,
+   "count": 32,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/gravity_sh.rs": {
@@ -330,19 +330,19 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/gse_sim.rs": {
-   "count": 2,
+   "count": 1,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/holdover_test.rs": {
-   "count": 124,
+   "count": 120,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/hybrid.rs": {
-   "count": 29,
+   "count": 28,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/hybrid_integrity.rs": {
-   "count": 429,
+   "count": 427,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/impairment_eval.rs": {
@@ -386,31 +386,19 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/adsb.rs": {
-   "count": 56,
+   "count": 53,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/ais.rs": {
    "count": 49,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
-  "src/interference_map/api.rs": {
-   "count": 4,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/interference_map/cli.rs": {
-   "count": 29,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
-  "src/interference_map/land.rs": {
-   "count": 1,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
-  "src/interference_map/mod.rs": {
-   "count": 1,
+   "count": 15,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/observatory.rs": {
-   "count": 109,
+   "count": 95,
    "reason": "machine-document and developer: JSON keys and notes of the published files, the PNG text (hashed into the manifest, built in English), and command-line error messages not yet converted"
   },
   "src/interference_map/output.rs": {
@@ -418,7 +406,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/route.rs": {
-   "count": 28,
+   "count": 21,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/sources.rs": {
@@ -438,15 +426,15 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interop/mod.rs": {
-   "count": 14,
+   "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interop/scene.rs": {
-   "count": 42,
+   "count": 39,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interop/stk.rs": {
-   "count": 9,
+   "count": 7,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interop/testbench.rs": {
@@ -462,7 +450,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/acq_surface.rs": {
-   "count": 7,
+   "count": 6,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/campaign/conditions.rs": {
@@ -490,7 +478,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/acquire.rs": {
-   "count": 17,
+   "count": 14,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/campaign.rs": {
@@ -498,11 +486,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/channel.rs": {
-   "count": 15,
+   "count": 14,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/frontend.rs": {
-   "count": 11,
+   "count": 9,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/labfit.rs": {
@@ -510,15 +498,15 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/mod.rs": {
-   "count": 5,
+   "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/monitor.rs": {
-   "count": 12,
+   "count": 9,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/scene.rs": {
-   "count": 17,
+   "count": 8,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/sweep.rs": {
@@ -526,27 +514,19 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/cli/track.rs": {
-   "count": 60,
+   "count": 57,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/io/cli.rs": {
-   "count": 12,
+   "count": 6,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/io/inventory.rs": {
    "count": 4,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
-  "src/iq/io/resample.rs": {
-   "count": 3,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
-  "src/iq/io/sdrx.rs": {
-   "count": 2,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/iq/io/sigmf_stream.rs": {
-   "count": 6,
+   "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/labfit/campaign.rs": {
@@ -562,7 +542,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/labfit/iqfit.rs": {
-   "count": 177,
+   "count": 176,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/labfit/iqreport.rs": {
@@ -570,7 +550,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/labfit/mod.rs": {
-   "count": 10,
+   "count": 9,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/labfit/model.rs": {
@@ -622,7 +602,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/scene/truth.rs": {
-   "count": 2,
+   "count": 1,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/short.rs": {
@@ -662,7 +642,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/track/design.rs": {
-   "count": 30,
+   "count": 28,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/track/lock.rs": {
@@ -670,7 +650,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/track/sink.rs": {
-   "count": 16,
+   "count": 15,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/jammertest/cli.rs": {
@@ -802,11 +782,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/leo_navmsg/fit.rs": {
-   "count": 3,
+   "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/leo_navmsg/mod.rs": {
-   "count": 108,
+   "count": 106,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/leo_navmsg/presets/atomic.rs": {
@@ -846,7 +826,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/leo_pass.rs": {
-   "count": 398,
+   "count": 396,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/leo_pnt_chain.rs": {
@@ -854,7 +834,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/leo_signal.rs": {
-   "count": 336,
+   "count": 333,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/linkbudget.rs": {
@@ -862,7 +842,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/live_io.rs": {
-   "count": 10,
+   "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar.rs": {
@@ -902,11 +882,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_ephemeris.rs": {
-   "count": 16,
+   "count": 14,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_frame_campaign.rs": {
-   "count": 233,
+   "count": 232,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_frame_realise.rs": {
@@ -914,7 +894,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_infra/frame.rs": {
-   "count": 22,
+   "count": 21,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_infra/geodesy.rs": {
@@ -926,15 +906,15 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_infra/od.rs": {
-   "count": 32,
+   "count": 31,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_infra/phase.rs": {
-   "count": 18,
+   "count": 17,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_infra/tie.rs": {
-   "count": 9,
+   "count": 8,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_infra/units.rs": {
@@ -946,11 +926,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_jamming.rs": {
-   "count": 165,
+   "count": 164,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_llr.rs": {
-   "count": 357,
+   "count": 355,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_orientation.rs": {
@@ -962,7 +942,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_service.rs": {
-   "count": 168,
+   "count": 167,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_station.rs": {
@@ -974,7 +954,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_terrain.rs": {
-   "count": 82,
+   "count": 80,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_time.rs": {
@@ -986,11 +966,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_time_budget_scenario.rs": {
-   "count": 24,
+   "count": 23,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_time_lab.rs": {
-   "count": 59,
+   "count": 58,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_vlbi.rs": {
@@ -998,7 +978,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_vlbi_fim.rs": {
-   "count": 199,
+   "count": 198,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
@@ -1006,7 +986,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/mars_pnt.rs": {
-   "count": 32,
+   "count": 31,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/models.rs": {
@@ -1029,12 +1009,8 @@
    "count": 7,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
-  "src/nmea_synth/clock.rs": {
-   "count": 1,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/nmea_synth/config.rs": {
-   "count": 22,
+   "count": 19,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/nmea_synth/gen.rs": {
@@ -1082,7 +1058,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/orbit.rs": {
-   "count": 18,
+   "count": 14,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/orbital_timing.rs": {
@@ -1110,7 +1086,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/passes.rs": {
-   "count": 45,
+   "count": 44,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/portable_distr.rs": {
@@ -1130,11 +1106,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/pvt.rs": {
-   "count": 53,
+   "count": 52,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/python.rs": {
-   "count": 62,
+   "count": 60,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/qtrade.rs": {
@@ -1154,7 +1130,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/quantum_trade.rs": {
-   "count": 52,
+   "count": 48,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/raim.rs": {
@@ -1162,11 +1138,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/realdata/clk.rs": {
-   "count": 4,
+   "count": 3,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/realdata/ion_sdr.rs": {
-   "count": 15,
+   "count": 12,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/realdata/jammertest.rs": {
@@ -1177,15 +1153,7 @@
    "count": 6,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
-  "src/realdata/lola_dem.rs": {
-   "count": 1,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/realdata/lugre.rs": {
-   "count": 3,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
-  "src/realdata/raim.rs": {
    "count": 1,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
@@ -1194,7 +1162,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/calibration.rs": {
-   "count": 19,
+   "count": 18,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/geometry.rs": {
@@ -1206,7 +1174,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/live.rs": {
-   "count": 5,
+   "count": 4,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/machines/gnss_sdr.rs": {
@@ -1221,14 +1189,6 @@
    "count": 6,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
-  "src/receiver_trust/machines/rtcm3.rs": {
-   "count": 1,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
-  "src/receiver_trust/machines/rtklib.rs": {
-   "count": 1,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/receiver_trust/maritime.rs": {
    "count": 12,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -1238,7 +1198,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/monitors.rs": {
-   "count": 15,
+   "count": 13,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/platform.rs": {
@@ -1246,11 +1206,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/scenario.rs": {
-   "count": 27,
+   "count": 24,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/score.rs": {
-   "count": 5,
+   "count": 4,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/reentry.rs": {
@@ -1322,7 +1282,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/spectrum.rs": {
-   "count": 292,
+   "count": 291,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/spk_writer.rs": {
@@ -1354,11 +1314,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/ssv/scenario.rs": {
-   "count": 192,
+   "count": 190,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/ssv/weak.rs": {
-   "count": 5,
+   "count": 4,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/standards_pack.rs": {
@@ -1369,12 +1329,8 @@
    "count": 4,
    "reason": "identifier and data: FoM keys, JSON key, the page's CSS; the HTML text is in the catalogue"
   },
-  "src/suite.rs": {
-   "count": 2,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/surface.rs": {
-   "count": 33,
+   "count": 29,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/sweep.rs": {
@@ -1382,11 +1338,11 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telecom_timing.rs": {
-   "count": 247,
+   "count": 245,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/cli.rs": {
-   "count": 13,
+   "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/mqtt.rs": {
@@ -1394,7 +1350,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/otlp.rs": {
-   "count": 30,
+   "count": 28,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/prometheus.rs": {
@@ -1426,7 +1382,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/tle.rs": {
-   "count": 27,
+   "count": 24,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/tracking_loop.rs": {

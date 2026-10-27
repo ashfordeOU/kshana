@@ -210,14 +210,14 @@ const MAX_SAMPLES: usize = 5_000_000;
 
 fn time_grid(step_s: f64, duration_s: f64) -> Result<Vec<f64>, ExportError> {
     if !(step_s.is_finite() && step_s > 0.0) {
-        return Err(ExportError::Failed(
-            "time step must be positive and finite for an export".into(),
-        ));
+        return Err(ExportError::Failed(crate::terr!(
+            "e-interop-scene-time-step-must-be-positive"
+        )));
     }
     if !(duration_s.is_finite() && duration_s >= 0.0) {
-        return Err(ExportError::Failed(
-            "duration must be non-negative and finite for an export".into(),
-        ));
+        return Err(ExportError::Failed(crate::terr!(
+            "e-interop-scene-duration-must-be-non-negative"
+        )));
     }
     let n = (duration_s / step_s).round() as usize;
     if n >= MAX_SAMPLES {
@@ -729,9 +729,9 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                 .map(|a| a.iter().filter_map(toml_f64).collect::<Vec<f64>>())
                 .filter(|a| a.len() == 3);
             let Some(t) = truth else {
-                return Err(ExportError::NotApplicable(
-                    "this pvt scenario gives no `truth_ecef`, the only position it states".into(),
-                ));
+                return Err(ExportError::NotApplicable(crate::terr!(
+                    "e-interop-scene-this-pvt-scenario-gives-no"
+                )));
             };
             scene.epoch_note = "static scene: the receiver's reference position only".into();
             scene.sites.push(geodetic_site(

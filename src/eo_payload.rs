@@ -264,13 +264,7 @@ impl EoCoverageScenario {
         let period = circular_period(alt_m);
         let inc = match self.inclination_deg {
             Some(d) if d.is_finite() && d > 0.0 && d < 180.0 => d.to_radians(),
-            Some(_) => {
-                return Err(
-                    "inclination_deg must be in (0, 180) (an equatorial orbit has no \
-                            ascending node)"
-                        .to_string(),
-                )
-            }
+            Some(_) => return Err(crate::terr!("e-eo-payload-inclination-deg-must-be-in")),
             None => sun_synchronous_inclination(alt_m)?,
         };
         let nodal_period = j2_nodal_period(alt_m, inc);

@@ -155,23 +155,24 @@ pub(crate) fn report_from_args(
 fn open_monitored(a: &Args, path: &Path) -> Result<Box<dyn IqSource + Send>, Fail> {
     if !a.has("--follow") {
         if a.get("--idle-timeout").is_some() {
-            return Err(Fail::Usage("--idle-timeout only goes with --follow".into()));
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-monitor-idle-timeout-only-goes-with"
+            )));
         }
         return Ok(open_recording(path, raw_sidecar(a)?)?.source);
     }
     let p = path.to_string_lossy();
     if !(p.ends_with(".sigmf-meta") || p.ends_with(".sigmf-data") || p.ends_with(".sigmf")) {
-        return Err(Fail::Usage(
-            "--follow reads a SigMF recording (give the .sigmf-meta, the .sigmf-data or the base path)"
-                .into(),
-        ));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-monitor-follow-reads-sigmf-recording-give"
+        )));
     }
     let mut opts = FollowOptions::default();
     if let Some(s) = a.num::<f64>("--idle-timeout").map_err(Fail::Usage)? {
         if !(s.is_finite() && s > 0.0) {
-            return Err(Fail::Usage(
-                "--idle-timeout must be a positive number of seconds".into(),
-            ));
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-monitor-idle-timeout-must-be-positive"
+            )));
         }
         opts.idle = Duration::from_secs_f64(s);
     }

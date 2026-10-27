@@ -968,11 +968,7 @@ impl LunarJammingScenario {
         if let Some(j) = &self.jammer {
             let placed_selenographically = j.lat_deg.is_some() && j.lon_deg.is_some();
             if !placed_selenographically && (!j.range_m.is_finite() || j.range_m <= 0.0) {
-                return Err(
-                    "jammer.range_m must be finite and positive (or give jammer.lat_deg \
-                     and jammer.lon_deg to place the jammer selenographically)"
-                        .to_string(),
-                );
+                return Err(crate::terr!("e-lunar-jamming-jammer-range-must-be-finite"));
             }
             if !j.power_dbw.is_finite() {
                 return Err(crate::terr!("e-lunar-jamming-jammer-power-dbw-must-be"));

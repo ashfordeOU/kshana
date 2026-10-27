@@ -144,9 +144,9 @@ fn parse_llh(v: &str) -> Result<(f64, f64, f64), Fail> {
             ))
         })?;
     if parts.len() != 3 {
-        return Err(Fail::Usage(
-            "--rx-pos wants three values: lat,lon,alt (deg,deg,m)".into(),
-        ));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-rx-pos-wants-three-values"
+        )));
     }
     Ok((parts[0], parts[1], parts[2]))
 }
@@ -164,15 +164,17 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let fs_hz = a
         .num("--rate")
         .map_err(Fail::Usage)?
-        .ok_or(Fail::Usage("iq scene needs --rate <hz>".into()))?;
+        .ok_or(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-iq-scene-needs-rate-hz"
+        )))?;
     // The scene length: --duration, or --window (its alias in broadcast mode).
     let duration_s = a
         .num("--duration")
         .map_err(Fail::Usage)?
         .or(a.num("--window").map_err(Fail::Usage)?)
-        .ok_or(Fail::Usage(
-            "iq scene needs --duration <s> (or --window)".into(),
-        ))?;
+        .ok_or(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-iq-scene-needs-duration-or"
+        )))?;
     let seed = a.num("--seed").map_err(Fail::Usage)?.unwrap_or(1);
     let threads = a.num("--threads").map_err(Fail::Usage)?.unwrap_or(1);
     let cn0_dbhz = a.num("--cn0").map_err(Fail::Usage)?;
@@ -187,9 +189,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         let rx_llh_deg = match a.get("--rx-pos") {
             Some(v) => parse_llh(v)?,
             None => {
-                return Err(Fail::Usage(
-                    "iq scene --nav needs --rx-pos lat,lon,alt".into(),
-                ))
+                return Err(Fail::Usage(crate::terr!(
+                    "e-iq-cli-scene-iq-scene-nav-needs-rx"
+                )))
             }
         };
         let bp = BroadcastParams {
@@ -212,11 +214,15 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     } else {
         let signal = a
             .get("--signal")
-            .ok_or(Fail::Usage("iq scene needs --signal <name>".into()))?
+            .ok_or(Fail::Usage(crate::terr!(
+                "e-iq-cli-scene-iq-scene-needs-signal-name"
+            )))?
             .to_string();
         let ids: Vec<i64> = a.list("--prn").map_err(Fail::Usage)?;
         if ids.is_empty() {
-            return Err(Fail::Usage("iq scene needs --prn <list>".into()));
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-scene-iq-scene-needs-prn-list"
+            )));
         }
         let params = SceneParams {
             fs_hz,
@@ -307,7 +313,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let sdrx_format = sdrx_sample_format(a.get("--format"), &a.pos[0])?;
     let want_sdrx = sdrx_format.is_some();
     if want_sdrx && want_sigmf {
-        return Err(Fail::Usage("--format takes sigmf or sdrx, not both".into()));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-format-takes-sigmf-or-sdrx"
+        )));
     }
 
     let format = if want_sigmf {
@@ -563,7 +571,9 @@ fn sdrx_sample_format(flag: Option<&str>, out: &str) -> Result<Option<SampleForm
     let name = match (named, lower) {
         (Some(n), _) => n,
         (None, Some(f)) if f == "sigmf" => {
-            return Err(Fail::Usage("--format takes sigmf or sdrx, not both".into()))
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-scene-format-takes-sigmf-or-sdrx"
+            )))
         }
         (None, f) => f,
     };
@@ -572,11 +582,9 @@ fn sdrx_sample_format(flag: Option<&str>, out: &str) -> Result<Option<SampleForm
         Some(n) => SampleFormat::parse(&n)?,
     };
     if fmt != SampleFormat::CI8 && fmt != SampleFormat::CI16_LE {
-        return Err(Fail::Usage(
-            "--format sdrx writes ci8 (the default) or ci16_le (sdrx:ci16_le); the ION \
-             metadata standard has no floating-point coding"
-                .into(),
-        ));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-format-sdrx-writes-ci8-the"
+        )));
     }
     Ok(Some(fmt))
 }

@@ -92,9 +92,7 @@ impl CoupledCfg {
         g.sort_by(f64::total_cmp);
         g.dedup();
         if g.len() < 2 || g.iter().any(|v| !v.is_finite()) {
-            return Err(
-                "coupled.geometry needs at least two distinct finite line-of-sight factors".into(),
-            );
+            return Err(crate::terr!("e-hybrid-coupled-geometry-needs-at-least"));
         }
         Ok(())
     }

@@ -1319,11 +1319,7 @@ fn read_recording_files(cfg: &RecordingCfg) -> Result<(String, Vec<u8>, String),
 
 #[cfg(target_arch = "wasm32")]
 fn read_recording_files(_cfg: &RecordingCfg) -> Result<(String, Vec<u8>, String), String> {
-    Err(
-        "recording is not available in the WebAssembly build: pass the SigMF bytes to \
-         kshana::sigmf::read and kshana::spectrum::welch_psd instead"
-            .into(),
-    )
+    Err(crate::terr!("e-spectrum-recording-is-not-available-in"))
 }
 
 impl SpectrumScenario {

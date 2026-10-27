@@ -215,7 +215,8 @@ fn alg_hash(alg: &Tlv) -> Result<Hash, String> {
     let oid = a
         .first()
         .ok_or_else(|| crate::terr!("e-evidence-tsa-empty-algorithmidentifier"))?;
-    Hash::from_oid(oid.body).ok_or_else(|| "unsupported digest algorithm".to_string())
+    Hash::from_oid(oid.body)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-unsupported-digest-algorithm"))
 }
 
 // ── time ──────────────────────────────────────────────────────────────────────
@@ -652,13 +653,13 @@ fn verify_ecdsa(key: &Key, hash: Hash, msg: &[u8], sig: &[u8]) -> Result<(), Str
             let vk = p256::ecdsa::VerifyingKey::from_sec1_bytes(pt).map_err(|_| "bad P-256 key")?;
             let s = p256::ecdsa::Signature::from_der(sig).map_err(|_| "bad ECDSA signature")?;
             vk.verify_prehash(&pre, &s)
-                .map_err(|_| "signature failure".to_string())
+                .map_err(|_| crate::terr!("e-evidence-tsa-signature-failure"))
         }
         Key::P384(pt) => {
             let vk = p384::ecdsa::VerifyingKey::from_sec1_bytes(pt).map_err(|_| "bad P-384 key")?;
             let s = p384::ecdsa::Signature::from_der(sig).map_err(|_| "bad ECDSA signature")?;
             vk.verify_prehash(&pre, &s)
-                .map_err(|_| "signature failure".to_string())
+                .map_err(|_| crate::terr!("e-evidence-tsa-signature-failure"))
         }
         Key::Rsa { .. } => Err(crate::terr!("e-evidence-tsa-an-ecdsa-signature-needs-an")),
     }

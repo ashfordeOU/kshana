@@ -32,3 +32,8 @@ kind-tracking-loop-description: lit_0_6 lit_3_7 lit_0_17
 leo-signal-chart-psd-axis: lit_0_6
 sdr-sampling-rate-is-commensurate-with: lit_4_8876 lit_24_4379
 telecom-timing-the-mask-is-defined-through: lit_0_1
+e-interference-map-api-cell-size-must-be-between: lit_0_01
+e-interference-map-cli-cell-deg-must-be-between: lit_0_01
+e-interference-map-observatory-cell-deg-must-be-between: lit_0_5
+e-leo-pass-rain-rate-mm-rain-exceedance: lit_0_001 lit_0_01
+e-leo-pass-spoofer-onset-within-the-window: lit_0_5

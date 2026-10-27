@@ -141,9 +141,9 @@ pub(crate) fn stream_csv<R: std::io::BufRead, C>(
         }
     }
     if cols.is_none() {
-        return Err(MapError::Format(
-            "empty input: a header row is required".into(),
-        ));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-empty-input-header-row-is"
+        )));
     }
     Ok(())
 }

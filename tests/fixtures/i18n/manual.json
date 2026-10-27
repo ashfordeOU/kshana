@@ -7587,5 +7587,1590 @@
    },
    "."
   ]
+ },
+ {
+  "id": "e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces",
+  "error": true,
+  "parts": [
+   "combined-altpnt: `magnetic_grid` replaces the synthetic magnetic field, so `magnetic_mascons` must be empty when it is set"
+  ]
+ },
+ {
+  "id": "e-aperture-duty-the-reporting-horizon-must-have",
+  "error": true,
+  "parts": [
+   "the reporting horizon must have positive length (horizon_end_s > horizon_start_s)"
+  ]
+ },
+ {
+  "id": "e-api-figure-tiers-the-result-document",
+  "error": true,
+  "parts": [
+   "figure_tiers: the result document is not a pretty JSON object"
+  ]
+ },
+ {
+  "id": "e-api-builtins-integrity-reports-one-run-raim",
+  "error": true,
+  "parts": [
+   "[integrity] reports one run's RAIM beside its holdover figures; it needs runs = 1"
+  ]
+ },
+ {
+  "id": "e-araim-reference-the-unmonitored-fault-risk-exhausts",
+  "error": true,
+  "parts": [
+   "the unmonitored fault risk exhausts the whole integrity budget; no finite protection level exists"
+  ]
+ },
+ {
+  "id": "e-araim-reference-the-add-v4-subset-rule",
+  "error": true,
+  "parts": [
+   "the ADD v4.2 subset rule always enumerates pairs; max_order must be >= 2"
+  ]
+ },
+ {
+  "id": "e-attack-surface-capture-footprint-emitted-no-points",
+  "error": true,
+  "parts": [
+   "capture_footprint emitted no points"
+  ]
+ },
+ {
+  "id": "e-bench-cli-scale-is-not-number",
+  "error": true,
+  "parts": [
+   "--scale is not a number"
+  ]
+ },
+ {
+  "id": "e-bench-cli-truth-reads-dataset-and-is",
+  "error": true,
+  "parts": [
+   "`truth` reads a dataset and is for task a; tasks c and d use `cases`"
+  ]
+ },
+ {
+  "id": "e-bench-cli-task-has-no-sealed-holdout",
+  "error": true,
+  "parts": [
+   "task c has no sealed holdout"
+  ]
+ },
+ {
+  "id": "e-bench-cli-cases-makes-the-files-of",
+  "error": true,
+  "parts": [
+   "`cases` makes the files of tasks c and d; task a is the dataset itself (use `truth`)"
+  ]
+ },
+ {
+  "id": "e-bench-cli-threshold-is-not-number",
+  "error": true,
+  "parts": [
+   "--threshold is not a number"
+  ]
+ },
+ {
+  "id": "e-bench-cli-seed-file-is-required",
+  "error": true,
+  "parts": [
+   "--seed-file is required"
+  ]
+ },
+ {
+  "id": "e-bench-cli-validate-needs-at-least-one",
+  "error": true,
+  "parts": [
+   "validate needs at least one result file"
+  ]
+ },
+ {
+  "id": "e-bench-cli-manifest-is-for-task-the",
+  "error": true,
+  "parts": [
+   "`manifest` is for task a; the other tasks have committed manifests"
+  ]
+ },
+ {
+  "id": "e-bench-cli-verify-manifest-needs-one-manifest",
+  "error": true,
+  "parts": [
+   "verify-manifest needs one manifest file"
+  ]
+ },
+ {
+  "id": "e-bench-system-name-is-required",
+  "error": true,
+  "parts": [
+   "`system.name` is required"
+  ]
+ },
+ {
+  "id": "e-bench-tasks-truth-has-no-labels-array",
+  "error": true,
+  "parts": [
+   "truth has no `labels` array"
+  ]
+ },
+ {
+  "id": "e-bench-tasks-label-has-no-id",
+  "error": true,
+  "parts": [
+   "a label has no `id`"
+  ]
+ },
+ {
+  "id": "e-bench-tasks-label-has-no-positive",
+  "error": true,
+  "parts": [
+   "a label has no `positive`"
+  ]
+ },
+ {
+  "id": "e-bench-tasks-predictions-have-no-scores-object",
+  "error": true,
+  "parts": [
+   "predictions have no `scores` object"
+  ]
+ },
+ {
+  "id": "e-bench-tasks-the-holdout-is-sealed-pass",
+  "error": true,
+  "parts": [
+   "the holdout is sealed: pass the secret with --seed-file"
+  ]
+ },
+ {
+  "id": "e-bench-tasks-task-truth-has-no-truth",
+  "error": true,
+  "parts": [
+   "task (c) truth has no `truth` array"
+  ]
+ },
+ {
+  "id": "e-bench-tasks-task-predictions-have-no-predictions",
+  "error": true,
+  "parts": [
+   "task (c) predictions have no `predictions` object"
+  ]
+ },
+ {
+  "id": "e-bench-tasks-truth-entry-has-no-id",
+  "error": true,
+  "parts": [
+   "a truth entry has no `id`"
+  ]
+ },
+ {
+  "id": "e-campaign-compare-needs-threshold",
+  "error": true,
+  "parts": [
+   "compare needs a threshold"
+  ]
+ },
+ {
+  "id": "e-ccsds-tdm-tdm-missing-ccsds-tdm-vers",
+  "error": true,
+  "parts": [
+   "TDM: missing CCSDS_TDM_VERS header"
+  ]
+ },
+ {
+  "id": "e-cislunar-arc-recovery-the-chief-sits-on-the",
+  "error": true,
+  "parts": [
+   "the chief sits on the Moon: polar coordinates are singular"
+  ]
+ },
+ {
+  "id": "e-clock-log-clock-applies-to-the-rinex",
+  "error": true,
+  "parts": [
+   "clock applies to the rinex-clk, linuxptp and chrony formats only (TICC uses channel)"
+  ]
+ },
+ {
+  "id": "e-clock-log-single-column-timelab-log-needs",
+  "error": true,
+  "parts": [
+   "a single-column timelab log needs tau0: a `# tau0 = <s>` header or tau0_s"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-ticc-log-has-no",
+  "error": true,
+  "parts": [
+   "the TICC log has no `<seconds> chA|chB|chC|TI(...)` readings"
+  ]
+ },
+ {
+  "id": "e-conflict-resilience-intensity-grid-unexpectedly-empty",
+  "error": true,
+  "parts": [
+   "intensity grid unexpectedly empty"
+  ]
+ },
+ {
+  "id": "e-eo-payload-inclination-deg-must-be-in",
+  "error": true,
+  "parts": [
+   "inclination_deg must be in (0, 180) (an equatorial orbit has no ascending node)"
+  ]
+ },
+ {
+  "id": "e-evidence-bundle-its-imprint-is-not-the",
+  "error": true,
+  "parts": [
+   "its imprint is not the hash of this pack's manifest.json (a token can only be obtained after the pack exists: use `kshana evidence attach-timestamp`)"
+  ]
+ },
+ {
+  "id": "e-evidence-cli-pubkey-must-be-32-bytes",
+  "error": true,
+  "parts": [
+   "--pubkey must be 32 bytes (64 hex digits)"
+  ]
+ },
+ {
+  "id": "e-evidence-cli-that-is-the-private-key",
+  "error": true,
+  "parts": [
+   "that is the PRIVATE key of the signer. Never share it; pass the public key (the .pub file)"
+  ]
+ },
+ {
+  "id": "e-evidence-lab-lab-attestation-conducted-setup-needs",
+  "error": true,
+  "parts": [
+   "lab-attestation: a conducted setup needs attenuation_db, a finite number of dB, 0 or more"
+  ]
+ },
+ {
+  "id": "e-evidence-tsa-unsupported-digest-algorithm",
+  "error": true,
+  "parts": [
+   "unsupported digest algorithm"
+  ]
+ },
+ {
+  "id": "e-evidence-tsa-signature-failure",
+  "error": true,
+  "parts": [
+   "signature failure"
+  ]
+ },
+ {
+  "id": "e-field-schema-entry-is-not-an-object",
+  "error": true,
+  "parts": [
+   "entry is not an object"
+  ]
+ },
+ {
+  "id": "e-field-schema-no-unit-string",
+  "error": true,
+  "parts": [
+   "no `unit` string"
+  ]
+ },
+ {
+  "id": "e-field-schema-no-provenance-string",
+  "error": true,
+  "parts": [
+   "no `provenance` string"
+  ]
+ },
+ {
+  "id": "e-geometry-sky-tle-holds-no-complete",
+  "error": true,
+  "parts": [
+   "sky: tle holds no complete two-line element set"
+  ]
+ },
+ {
+  "id": "e-geometry-sky-epoch-dates-the-tle",
+  "error": true,
+  "parts": [
+   "sky: epoch dates the `tle` satellites; the preset `systems` and the satellites given directly carry no date, so give `tle` with it"
+  ]
+ },
+ {
+  "id": "e-gravimeter-gravity-map-reference-replaces-the",
+  "error": true,
+  "parts": [
+   "gravity-map: `reference` replaces the synthetic field, so `coeffs` and `mascons` must be empty when it is set"
+  ]
+ },
+ {
+  "id": "e-gse-sim-fusion-od-produced-no-steps",
+  "error": true,
+  "parts": [
+   "fusion OD produced no steps (too few observations)"
+  ]
+ },
+ {
+  "id": "e-holdover-test-give-one-of-series-samples",
+  "error": true,
+  "parts": [
+   "give one of series.samples, series.csv_path or series.clock_log"
+  ]
+ },
+ {
+  "id": "e-holdover-test-give-one-of-series-samples-2",
+  "error": true,
+  "parts": [
+   "give one of series.samples, series.csv_path or series.clock_log, not more than one"
+  ]
+ },
+ {
+  "id": "e-holdover-test-gnss-removed-must-be-finite",
+  "error": true,
+  "parts": [
+   "gnss_removed_s must be finite, locked_duration_days >= 0, recovery_band_ns > 0 and recovery_dwell_s >= 0"
+  ]
+ },
+ {
+  "id": "e-holdover-test-csv-path-is-not-available",
+  "error": true,
+  "parts": [
+   "csv_path is not available in the WebAssembly build; give the series inline as `samples` or `clock_log.text`"
+  ]
+ },
+ {
+  "id": "e-hybrid-coupled-geometry-needs-at-least",
+  "error": true,
+  "parts": [
+   "coupled.geometry needs at least two distinct finite line-of-sight factors"
+  ]
+ },
+ {
+  "id": "e-hybrid-integrity-optical-link-delivered-no-photons",
+  "error": true,
+  "parts": [
+   "optical link delivered no photons (infinite ranging CRLB); raise power / aperture / integration time"
+  ]
+ },
+ {
+  "id": "e-hybrid-integrity-rf-tracking-threshold-dbhz-and",
+  "error": true,
+  "parts": [
+   "rf_tracking_threshold_dbhz and rf_degraded_margin_db must be finite"
+  ]
+ },
+ {
+  "id": "e-interference-map-adsb-need-at-least-one-of",
+  "error": true,
+  "parts": [
+   "need at least one of columns `nic`, `nacp`"
+  ]
+ },
+ {
+  "id": "e-interference-map-adsb-gzip-decompressed-size-over-the",
+  "error": true,
+  "parts": [
+   "gzip: decompressed size over the limit"
+  ]
+ },
+ {
+  "id": "e-interference-map-adsb-trace-json-lacks-icao-timestamp",
+  "error": true,
+  "parts": [
+   "trace JSON lacks icao, timestamp or trace"
+  ]
+ },
+ {
+  "id": "e-interference-map-api-custom-dataset-needs-licence-licence",
+  "error": true,
+  "parts": [
+   "a custom dataset needs licence, licence URL and attribution text"
+  ]
+ },
+ {
+  "id": "e-interference-map-api-cell-size-must-be-between",
+  "error": true,
+  "parts": [
+   "cell size must be between ",
+   {
+    "var": "lit_0_01"
+   },
+   " and 10 degrees"
+  ]
+ },
+ {
+  "id": "e-interference-map-api-map-has-bad-date",
+  "error": true,
+  "parts": [
+   "map has a bad date"
+  ]
+ },
+ {
+  "id": "e-interference-map-api-no-map-falls-in-the",
+  "error": true,
+  "parts": [
+   "no map falls in the date range"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-dataset-is-required-so-the",
+  "error": true,
+  "parts": [
+   "--dataset is required so the licence and attribution are embedded"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-cell-deg-is-not-number",
+  "error": true,
+  "parts": [
+   "--cell-deg is not a number"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-cell-deg-must-be-between",
+  "error": true,
+  "parts": [
+   "--cell-deg must be between ",
+   {
+    "var": "lit_0_01"
+   },
+   " and 10"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-subcommand-is-required",
+  "error": true,
+  "parts": [
+   "a subcommand is required"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-input-file-missing",
+  "error": true,
+  "parts": [
+   "input file missing"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-out-is-required",
+  "error": true,
+  "parts": [
+   "--out is required"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-fetch-land-downloads-file-pass",
+  "error": true,
+  "parts": [
+   "fetch-land downloads a file: pass --allow-network to confirm"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-curl-failed-to-download-the",
+  "error": true,
+  "parts": [
+   "curl failed to download the land polygons"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-route-is-required",
+  "error": true,
+  "parts": [
+   "--route is required"
+  ]
+ },
+ {
+  "id": "e-interference-map-cli-at-least-one-map-is",
+  "error": true,
+  "parts": [
+   "at least one --map is required"
+  ]
+ },
+ {
+  "id": "e-interference-map-land-land-polygons-no-polygon-or",
+  "error": true,
+  "parts": [
+   "land polygons: no Polygon or MultiPolygon found"
+  ]
+ },
+ {
+  "id": "e-interference-map-empty-input-header-row-is",
+  "error": true,
+  "parts": [
+   "empty input: a header row is required"
+  ]
+ },
+ {
+  "id": "e-interference-map-observatory-bbox-is-south-west-north",
+  "error": true,
+  "parts": [
+   "--bbox is south,west,north,east in degrees"
+  ]
+ },
+ {
+  "id": "e-interference-map-observatory-bbox-must-satisfy-south-north",
+  "error": true,
+  "parts": [
+   "--bbox must satisfy south < north and west < east, within the globe (no antimeridian crossing)"
+  ]
+ },
+ {
+  "id": "e-interference-map-observatory-opensky-network-data-is-excluded",
+  "error": true,
+  "parts": [
+   "OpenSky Network data is excluded: its licence does not allow commercial use or redistribution of derived maps (docs/data/INTERFERENCE-DATA-SOURCES.md)"
+  ]
+ },
+ {
+  "id": "e-interference-map-observatory-day-is-required",
+  "error": true,
+  "parts": [
+   "--day is required"
+  ]
+ },
+ {
+  "id": "e-interference-map-observatory-delay-hours-is-not-number",
+  "error": true,
+  "parts": [
+   "--delay-hours is not a number"
+  ]
+ },
+ {
+  "id": "e-interference-map-observatory-cell-deg-must-be-between",
+  "error": true,
+  "parts": [
+   "--cell-deg must be between ",
+   {
+    "var": "lit_0_5"
+   },
+   " and 10"
+  ]
+ },
+ {
+  "id": "e-interference-map-observatory-the-input-has-no-usable-2",
+  "error": true,
+  "parts": [
+   "the input has no usable report"
+  ]
+ },
+ {
+  "id": "e-interference-map-route-not-kshana-interference-map-no",
+  "error": true,
+  "parts": [
+   "not a Kshana interference map (no `kshana_interference_map` member)"
+  ]
+ },
+ {
+  "id": "e-interference-map-route-map-has-no-date",
+  "error": true,
+  "parts": [
+   "map has no date"
+  ]
+ },
+ {
+  "id": "e-interference-map-route-map-has-no-grid-cell",
+  "error": true,
+  "parts": [
+   "map has no grid cell size"
+  ]
+ },
+ {
+  "id": "e-interference-map-route-map-has-an-invalid-grid",
+  "error": true,
+  "parts": [
+   "map has an invalid grid cell size"
+  ]
+ },
+ {
+  "id": "e-interference-map-route-route-no-linestring-found",
+  "error": true,
+  "parts": [
+   "route: no LineString found"
+  ]
+ },
+ {
+  "id": "e-interference-map-route-route-needs-at-least-two",
+  "error": true,
+  "parts": [
+   "route needs at least two waypoints"
+  ]
+ },
+ {
+  "id": "e-interference-map-route-route-waypoint-out-of-range",
+  "error": true,
+  "parts": [
+   "route: waypoint out of range"
+  ]
+ },
+ {
+  "id": "e-interop-sigmf-records-signal-not-geometry",
+  "error": true,
+  "parts": [
+   "SigMF records a signal, not geometry; it is written from the scenario, not a scene"
+  ]
+ },
+ {
+  "id": "e-interop-sigmf-holds-complex-baseband-samples",
+  "error": true,
+  "parts": [
+   "SigMF holds complex baseband samples, which only the `spectrum` kind synthesises"
+  ]
+ },
+ {
+  "id": "e-interop-this-spectrum-scenario-has-no",
+  "error": true,
+  "parts": [
+   "this spectrum scenario has no [iq] block, so no samples are synthesised to record"
+  ]
+ },
+ {
+  "id": "e-interop-scene-time-step-must-be-positive",
+  "error": true,
+  "parts": [
+   "time step must be positive and finite for an export"
+  ]
+ },
+ {
+  "id": "e-interop-scene-duration-must-be-non-negative",
+  "error": true,
+  "parts": [
+   "duration must be non-negative and finite for an export"
+  ]
+ },
+ {
+  "id": "e-interop-scene-this-pvt-scenario-gives-no",
+  "error": true,
+  "parts": [
+   "this pvt scenario gives no `truth_ecef`, the only position it states"
+  ]
+ },
+ {
+  "id": "e-interop-stk-an-stk-ephemeris-describes-vehicle",
+  "error": true,
+  "parts": [
+   "an STK ephemeris describes a vehicle's position and velocity against time; this scene has only fixed points or untimed tracks (a fixed point is an STK Facility, not an ephemeris)"
+  ]
+ },
+ {
+  "id": "e-interop-stk-scene-has-no-epoch",
+  "error": true,
+  "parts": [
+   "scene has no epoch"
+  ]
+ },
+ {
+  "id": "e-iq-acq-surface-surface-header-names-too-many",
+  "error": true,
+  "parts": [
+   "surface header names too many cells"
+  ]
+ },
+ {
+  "id": "e-iq-cli-acquire-needs-signal-name",
+  "error": true,
+  "parts": [
+   "needs --signal <name>"
+  ]
+ },
+ {
+  "id": "e-iq-cli-acquire-needs-prn-list",
+  "error": true,
+  "parts": [
+   "needs --prn <list>"
+  ]
+ },
+ {
+  "id": "e-iq-cli-acquire-surface-exports-one-search-surface",
+  "error": true,
+  "parts": [
+   "--surface exports one search surface: give exactly one --prn"
+  ]
+ },
+ {
+  "id": "e-iq-cli-channel-nlos-needs-reflected-path-add",
+  "error": true,
+  "parts": [
+   "--nlos needs a reflected path: add --multipath-height or --land-mobile"
+  ]
+ },
+ {
+  "id": "e-iq-cli-frontend-bandpass-wants-two-values-lo",
+  "error": true,
+  "parts": [
+   "--bandpass wants two values: lo,hi"
+  ]
+ },
+ {
+  "id": "e-iq-cli-frontend-iq-frontend-needs-at-least",
+  "error": true,
+  "parts": [
+   "iq frontend needs at least one stage (--bandpass/--notch/--blank/--excise/--agc/--bits)"
+  ]
+ },
+ {
+  "id": "e-iq-cli-no-iq-processing-command-given",
+  "error": true,
+  "parts": [
+   "no iq processing command given"
+  ]
+ },
+ {
+  "id": "e-iq-cli-missing-recording-path",
+  "error": true,
+  "parts": [
+   "missing recording path"
+  ]
+ },
+ {
+  "id": "e-iq-cli-monitor-idle-timeout-only-goes-with",
+  "error": true,
+  "parts": [
+   "--idle-timeout only goes with --follow"
+  ]
+ },
+ {
+  "id": "e-iq-cli-monitor-follow-reads-sigmf-recording-give",
+  "error": true,
+  "parts": [
+   "--follow reads a SigMF recording (give the .sigmf-meta, the .sigmf-data or the base path)"
+  ]
+ },
+ {
+  "id": "e-iq-cli-monitor-idle-timeout-must-be-positive",
+  "error": true,
+  "parts": [
+   "--idle-timeout must be a positive number of seconds"
+  ]
+ },
+ {
+  "id": "e-iq-cli-scene-rx-pos-wants-three-values",
+  "error": true,
+  "parts": [
+   "--rx-pos wants three values: lat,lon,alt (deg,deg,m)"
+  ]
+ },
+ {
+  "id": "e-iq-cli-scene-iq-scene-needs-rate-hz",
+  "error": true,
+  "parts": [
+   "iq scene needs --rate <hz>"
+  ]
+ },
+ {
+  "id": "e-iq-cli-scene-iq-scene-needs-duration-or",
+  "error": true,
+  "parts": [
+   "iq scene needs --duration <s> (or --window)"
+  ]
+ },
+ {
+  "id": "e-iq-cli-scene-iq-scene-nav-needs-rx",
+  "error": true,
+  "parts": [
+   "iq scene --nav needs --rx-pos lat,lon,alt"
+  ]
+ },
+ {
+  "id": "e-iq-cli-scene-iq-scene-needs-signal-name",
+  "error": true,
+  "parts": [
+   "iq scene needs --signal <name>"
+  ]
+ },
+ {
+  "id": "e-iq-cli-scene-iq-scene-needs-prn-list",
+  "error": true,
+  "parts": [
+   "iq scene needs --prn <list>"
+  ]
+ },
+ {
+  "id": "e-iq-cli-scene-format-takes-sigmf-or-sdrx",
+  "error": true,
+  "parts": [
+   "--format takes sigmf or sdrx, not both"
+  ]
+ },
+ {
+  "id": "e-iq-cli-scene-format-sdrx-writes-ci8-the",
+  "error": true,
+  "parts": [
+   "--format sdrx writes ci8 (the default) or ci16_le (sdrx:ci16_le); the ION metadata standard has no floating-point coding"
+  ]
+ },
+ {
+  "id": "e-iq-cli-track-design-name-needs-design-file",
+  "error": true,
+  "parts": [
+   "--design-name needs --design <file.toml>"
+  ]
+ },
+ {
+  "id": "e-iq-cli-track-threads-must-be-positive-integer",
+  "error": true,
+  "parts": [
+   "--threads must be a positive integer or auto"
+  ]
+ },
+ {
+  "id": "e-iq-cli-track-epochs-format-needs-epochs-path",
+  "error": true,
+  "parts": [
+   "--epochs-format needs --epochs <path>"
+  ]
+ },
+ {
+  "id": "e-iq-io-cli-iq-convert-needs-to-format",
+  "error": true,
+  "parts": [
+   "iq convert needs --to <format>"
+  ]
+ },
+ {
+  "id": "e-iq-io-cli-iq-extract-needs-start",
+  "error": true,
+  "parts": [
+   "iq extract needs --start"
+  ]
+ },
+ {
+  "id": "e-iq-io-cli-iq-extract-needs-duration",
+  "error": true,
+  "parts": [
+   "iq extract needs --duration"
+  ]
+ },
+ {
+  "id": "e-iq-io-cli-start-and-duration-must-be",
+  "error": true,
+  "parts": [
+   "--start and --duration must be non-negative"
+  ]
+ },
+ {
+  "id": "e-iq-io-cli-real-input-is-converted-to",
+  "error": true,
+  "parts": [
+   "a real input is converted to complex baseband: give --factor <d> (>= 2)"
+  ]
+ },
+ {
+  "id": "e-iq-io-cli-iq-decimate-needs-factor-or",
+  "error": true,
+  "parts": [
+   "iq decimate needs --factor <d>, or --up <l> and --down <m>"
+  ]
+ },
+ {
+  "id": "e-iq-io-resample-resampling-factors-must-be-positive",
+  "error": true,
+  "parts": [
+   "resampling factors must be positive"
+  ]
+ },
+ {
+  "id": "e-iq-io-resample-resampling-factors-must-be-positive-2",
+  "error": true,
+  "parts": [
+   "resampling factors must be positive and the filter non-empty"
+  ]
+ },
+ {
+  "id": "e-iq-io-resample-real-if-conversion-needs-decimation",
+  "error": true,
+  "parts": [
+   "real-IF conversion needs decimation by at least 2 to remove the image"
+  ]
+ },
+ {
+  "id": "e-iq-io-sdrx-sdrx-layout-chunk-holds-no",
+  "error": true,
+  "parts": [
+   ".sdrx layout: a chunk holds no whole lump"
+  ]
+ },
+ {
+  "id": "e-iq-io-sdrx-sdrx-data-ends-inside-its",
+  "error": true,
+  "parts": [
+   ".sdrx data ends inside its header"
+  ]
+ },
+ {
+  "id": "e-iq-io-sigmf-stream-sigmf-core-num-channels",
+  "error": true,
+  "parts": [
+   "SigMF core:num_channels = 0"
+  ]
+ },
+ {
+  "id": "e-iq-io-sigmf-stream-sigmf-stream-needs-at-least",
+  "error": true,
+  "parts": [
+   "a SigMF stream needs at least one recording"
+  ]
+ },
+ {
+  "id": "e-iq-io-sigmf-stream-select-channel-must-be-called",
+  "error": true,
+  "parts": [
+   "select_channel must be called before reading"
+  ]
+ },
+ {
+  "id": "e-iq-io-sigmf-stream-sigmf-data-ends-before-its",
+  "error": true,
+  "parts": [
+   "SigMF data ends before its first capture"
+  ]
+ },
+ {
+  "id": "e-iq-labfit-iqfit-mode-validation-needs-validation-table",
+  "error": true,
+  "parts": [
+   "mode = \"validation\" needs a [validation] table, written before the campaign results are read"
+  ]
+ },
+ {
+  "id": "e-iq-labfit-input-campaign-fit-from-an",
+  "error": true,
+  "parts": [
+   "[input] campaign: a fit from an IQ campaign folder needs the native build (the campaign layer is not built for WebAssembly); the receiver-log path ([[runs]]) works here"
+  ]
+ },
+ {
+  "id": "e-iq-scene-truth-missing-truth-csv-header",
+  "error": true,
+  "parts": [
+   "missing truth CSV header"
+  ]
+ },
+ {
+  "id": "e-iq-track-design-carrier-fll-pull-in-max-2",
+  "error": true,
+  "parts": [
+   "carrier.fll_pull_in_max_s applies only to fll_assist = \"pull-in\""
+  ]
+ },
+ {
+  "id": "e-iq-track-design-loop-design-file-holds-no",
+  "error": true,
+  "parts": [
+   "loop-design file holds no designs"
+  ]
+ },
+ {
+  "id": "e-iq-track-sink-short-record",
+  "error": true,
+  "parts": [
+   "short record"
+  ]
+ },
+ {
+  "id": "e-leo-navmsg-fit-correction-polynomial-fit-is-singular",
+  "error": true,
+  "parts": [
+   "correction polynomial fit is singular (too few samples for the degree)"
+  ]
+ },
+ {
+  "id": "e-leo-navmsg-each-trade-update-periods-must",
+  "error": true,
+  "parts": [
+   "each trade.update_periods_s must be in (0, update_fit_interval_s]"
+  ]
+ },
+ {
+  "id": "e-leo-navmsg-midpass-user-lat-deg-in",
+  "error": true,
+  "parts": [
+   "midpass: user_lat_deg in [-90, 90], mask_deg in [0, 60), search_s 600-172800"
+  ]
+ },
+ {
+  "id": "e-leo-pass-rain-rate-mm-rain-exceedance",
+  "error": true,
+  "parts": [
+   "rain_rate_mm_h >= 0, rain_exceedance_percent in [",
+   {
+    "var": "lit_0_001"
+   },
+   ", 5] and scintillation_percent in [",
+   {
+    "var": "lit_0_01"
+   },
+   ", 50]"
+  ]
+ },
+ {
+  "id": "e-leo-pass-spoofer-onset-within-the-window",
+  "error": true,
+  "parts": [
+   "spoofer: onset_s within the window, offset_m in [0, 1e6], push_rate_m_s in [0, 1000], positive prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz and fll_integration_s, p_fa and p_md in (0, ",
+   {
+    "var": "lit_0_5"
+   },
+   "), iono_rate_bound_m_s >= 0"
+  ]
+ },
+ {
+  "id": "e-leo-signal-receiver-loop-bandwidth-hz-and",
+  "error": true,
+  "parts": [
+   "receiver: loop_bandwidth_hz and integration_time_s must be positive"
+  ]
+ },
+ {
+  "id": "e-leo-signal-receiver-to-12-correlator-spacings",
+  "error": true,
+  "parts": [
+   "receiver: 1 to 12 correlator spacings, each (like reference_spacing_chips) between 0 and 2 chips"
+  ]
+ },
+ {
+  "id": "e-leo-signal-acquisition-coherent-ms-noncoherent-1000",
+  "error": true,
+  "parts": [
+   "acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm and user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90"
+  ]
+ },
+ {
+  "id": "e-live-io-baud-needs-number",
+  "error": true,
+  "parts": [
+   "--baud needs a number"
+  ]
+ },
+ {
+  "id": "e-live-io-configure-is-not-implemented-kshana",
+  "error": true,
+  "parts": [
+   "--configure is not implemented: Kshana never writes to a receiver. Configure it with the maker's own tool, then read it with --serial"
+  ]
+ },
+ {
+  "id": "e-live-io-more-than-one-session-file",
+  "error": true,
+  "parts": [
+   "more than one session file"
+  ]
+ },
+ {
+  "id": "e-live-io-follow-and-from-end-apply",
+  "error": true,
+  "parts": [
+   "--follow and --from-end apply to --file only"
+  ]
+ },
+ {
+  "id": "e-live-io-baud-applies-to-serial-only",
+  "error": true,
+  "parts": [
+   "--baud applies to --serial only"
+  ]
+ },
+ {
+  "id": "e-live-io-live-needs-session-toml",
+  "error": true,
+  "parts": [
+   "live needs a session .toml"
+  ]
+ },
+ {
+  "id": "e-live-io-listen-serves-the-gated-stream",
+  "error": true,
+  "parts": [
+   "--listen serves the gated stream: add --gate"
+  ]
+ },
+ {
+  "id": "e-live-io-two-outputs-would-share-stdout",
+  "error": true,
+  "parts": [
+   "two outputs would share stdout; send --json or --pksht to a file"
+  ]
+ },
+ {
+  "id": "e-lunar-ephemeris-lunar-ephemeris-give-exactly-one",
+  "error": true,
+  "parts": [
+   "lunar ephemeris: give exactly one of `mean_anom_deg` or `true_anom_deg`"
+  ]
+ },
+ {
+  "id": "e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must",
+  "error": true,
+  "parts": [
+   "lunar ephemeris: satellite indices must be contiguous from 0 with no gaps"
+  ]
+ },
+ {
+  "id": "e-lunar-frame-campaign-beacon-information-per-site-needs",
+  "error": true,
+  "parts": [
+   "beacon information per site needs station_datum = \"fixed\"; an estimated station datum couples the beacons"
+  ]
+ },
+ {
+  "id": "e-lunar-infra-frame-llr-sigma-surface-orbiter-range",
+  "error": true,
+  "parts": [
+   "llr.sigma_m, surface.orbiter_range_sigma_m and llr.epochs must be positive"
+  ]
+ },
+ {
+  "id": "e-lunar-infra-od-too-few-trackable-gnss-measurements",
+  "error": true,
+  "parts": [
+   "too few trackable GNSS measurements to determine the orbit and the receiver clock"
+  ]
+ },
+ {
+  "id": "e-lunar-infra-phase-fewer-than-two-connected-passes",
+  "error": true,
+  "parts": [
+   "fewer than two connected passes: no double-difference ambiguity to resolve"
+  ]
+ },
+ {
+  "id": "e-lunar-infra-tie-the-space-tie-information-matrix",
+  "error": true,
+  "parts": [
+   "the space-tie information matrix is singular"
+  ]
+ },
+ {
+  "id": "e-lunar-jamming-jammer-range-must-be-finite",
+  "error": true,
+  "parts": [
+   "jammer.range_m must be finite and positive (or give jammer.lat_deg and jammer.lon_deg to place the jammer selenographically)"
+  ]
+ },
+ {
+  "id": "e-lunar-llr-the-station-catalogue-states-no",
+  "error": true,
+  "parts": [
+   "the station catalogue states no position_epoch_year; an ITRF position without its epoch cannot be propagated"
+  ]
+ },
+ {
+  "id": "e-lunar-llr-beacon-campaign-beacons-is-not",
+  "error": true,
+  "parts": [
+   "beacon_campaign.beacons is not used here; state added beacons in extra_beacons"
+  ]
+ },
+ {
+  "id": "e-lunar-service-planetary-kernel-path-applies-to",
+  "error": true,
+  "parts": [
+   "planetary_kernel_path applies to an elements file stated in the OP frame"
+  ]
+ },
+ {
+  "id": "e-lunar-terrain-terrain-give-dem-path-dem",
+  "error": true,
+  "parts": [
+   "terrain: give dem_path, dem_tile_path, station_horizon or user_horizon (or omit [terrain])"
+  ]
+ },
+ {
+  "id": "e-lunar-terrain-terrain-station-horizon-has-no",
+  "error": true,
+  "parts": [
+   "terrain: station_horizon has no station in this kind; use user_horizon"
+  ]
+ },
+ {
+  "id": "e-lunar-time-budget-scenario-sigma-is-shorter-than-the",
+  "error": true,
+  "parts": [
+   "x_sigma_s is shorter than the tau grid"
+  ]
+ },
+ {
+  "id": "e-lunar-time-lab-time-lab-thresholds-ns-must",
+  "error": true,
+  "parts": [
+   "time_lab: thresholds_ns must be a non-empty list of positive numbers"
+  ]
+ },
+ {
+  "id": "e-lunar-vlbi-fim-datum-all-stations-fixed-holds",
+  "error": true,
+  "parts": [
+   "datum \"all-stations-fixed\" holds every station fixed, so it estimates nothing unless the beacon is estimated: set estimate_beacon = true"
+  ]
+ },
+ {
+  "id": "e-mars-pnt-fusion-od-run-produced-no",
+  "error": true,
+  "parts": [
+   "fusion OD run produced no steps (too few observations)"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-clock-not-numeric",
+  "error": true,
+  "parts": [
+   "not numeric"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-config-scenario-name-must-be-to",
+  "error": true,
+  "parts": [
+   "scenario.name must be 1 to 64 characters from A-Z a-z 0-9 . _ - and must not start with a dot (it names the output files)"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-config-receiver-parameters-out-of-range",
+  "error": true,
+  "parts": [
+   "receiver parameters out of range (mask 0-45 deg, track <= use threshold, 4-12 used satellites, noise >= 0, corr > 0, reacquire >= 0)"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-config-the-time-change-per-second",
+  "error": true,
+  "parts": [
+   "the time change per second reaches 1, so reported time would stop or run backwards; lengthen ramp_s/recovery_s or use a step (0)"
+  ]
+ },
+ {
+  "id": "e-orbit-give-the-user-as-user",
+  "error": true,
+  "parts": [
+   "give the user as `user` (an orbit) or `user_site` (a ground site), not both"
+  ]
+ },
+ {
+  "id": "e-orbit-missing-the-user-give-user",
+  "error": true,
+  "parts": [
+   "missing the user: give `user` (an orbit) or `user_site` (a ground site)"
+  ]
+ },
+ {
+  "id": "e-orbit-skyline-needs-ground-site-give",
+  "error": true,
+  "parts": [
+   "a [skyline] needs a ground site: give `user_site = { lat_deg, lon_deg, height_m }` instead of an orbiting `user` (an orbit has no Earth-fixed azimuth)"
+  ]
+ },
+ {
+  "id": "e-orbit-omm-export-requires-tle-defined",
+  "error": true,
+  "parts": [
+   "OMM export requires a TLE-defined constellation; this scenario has none"
+  ]
+ },
+ {
+  "id": "e-passes-earth-orientation-parameters-out-of",
+  "error": true,
+  "parts": [
+   "Earth orientation parameters out of range: |ut1_minus_utc_s| <= 1, |xp_arcsec| and |yp_arcsec| <= 2"
+  ]
+ },
+ {
+  "id": "e-pvt-no-priori-position-set-apriori",
+  "error": true,
+  "parts": [
+   "no a-priori position: set apriori_ecef, an observation-header APPROX POSITION XYZ, or truth_ecef"
+  ]
+ },
+ {
+  "id": "e-python-pll-bws-dll-bws-spacings",
+  "error": true,
+  "parts": [
+   "pll_bws, dll_bws, spacings and coherents cannot be combined with design: the sweep runs every design in the file"
+  ]
+ },
+ {
+  "id": "e-python-no-designs-to-sweep",
+  "error": true,
+  "parts": [
+   "no designs to sweep"
+  ]
+ },
+ {
+  "id": "e-quantum-trade-candidate-adev-taus-and-candidate",
+  "error": true,
+  "parts": [
+   "candidate_adev_taus and candidate_adev_values must be equal-length (>= 2)"
+  ]
+ },
+ {
+  "id": "e-quantum-trade-provide-either-candidate-adev-taus",
+  "error": true,
+  "parts": [
+   "provide either candidate_adev_taus + candidate_adev_values (measured) or candidate_clock_class"
+  ]
+ },
+ {
+  "id": "e-quantum-trade-candidate-adev-taus-and-candidate-2",
+  "error": true,
+  "parts": [
+   "candidate_adev_taus and candidate_adev_values must both be present (or both absent)"
+  ]
+ },
+ {
+  "id": "e-quantum-trade-timing-threshold-and-position-threshold",
+  "error": true,
+  "parts": [
+   "timing_threshold_s and position_threshold_m must be finite and > 0"
+  ]
+ },
+ {
+  "id": "e-realdata-clk-rinex-clock-file-is-mixed",
+  "error": true,
+  "parts": [
+   "RINEX clock file is mixed-system ('M') and declares no TIME SYSTEM ID; refusing to guess the time system of its epochs"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-more-than-one-block-only",
+  "error": true,
+  "parts": [
+   "more than one <block>: only single-lane files are read"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-this-layout-carries-reading-fill",
+  "error": true,
+  "parts": [
+   "this layout carries a reading (fill_lsb_first or mid_rise) the ION metadata standard has no field for; it cannot be written as .sdrx"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-the-layout-needs-positive-sample",
+  "error": true,
+  "parts": [
+   "the layout needs a positive sample rate and a rate factor of at least 1"
+  ]
+ },
+ {
+  "id": "e-realdata-lola-dem-unexpected-end-of-dem",
+  "error": true,
+  "parts": [
+   "unexpected end of DEM"
+  ]
+ },
+ {
+  "id": "e-realdata-lugre-not-raw-message",
+  "error": true,
+  "parts": [
+   "not a RAW message"
+  ]
+ },
+ {
+  "id": "e-realdata-lugre-not-an-acq-message",
+  "error": true,
+  "parts": [
+   "not an ACQ message"
+  ]
+ },
+ {
+  "id": "e-realdata-raim-no-priori-position-pass-one",
+  "error": true,
+  "parts": [
+   "no a-priori position: pass one or supply an observation-header APPROX POSITION XYZ"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-calibration-calibration-window-less-than-the",
+  "error": true,
+  "parts": [
+   "calibration window less than the guard before, or inside, an attack window"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-live-live-mode-needs-platform-kind",
+  "error": true,
+  "parts": [
+   "live mode needs [platform] kind = \"vessel\": the trust score is for a moving platform"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no",
+  "error": true,
+  "parts": [
+   "the RTCM 3 stream holds no MSM4 or MSM7 observation message"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes",
+  "error": true,
+  "parts": [
+   "RTKLIB .pos with degrees-minutes-seconds positions is not read: re-run rnx2rtkp/RTKPOST with decimal degrees (-degf 0)"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-monitors-engine-fix-the-rinex-observation",
+  "error": true,
+  "parts": [
+   "engine fix: the RINEX observation header has no APPROX POSITION XYZ to start the solve from"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-monitors-platform-declares-heading-sensor-true",
+  "error": true,
+  "parts": [
+   "platform declares heading_sensor = true but the log carries no HDT, THS or VHW heading"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-scenario-log-imu-the-imu-series",
+  "error": true,
+  "parts": [
+   "log.imu: the IMU series overlaps no epoch of the log; check time_offset_s"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-scenario-this-surface-does-not-carry",
+  "error": true,
+  "parts": [
+   "this surface does not carry the `[log.imu]` file: run the scenario with `kshana receiver-trust` on the host, or drop `[log.imu]`"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-scenario-log-nav-applies-only-to",
+  "error": true,
+  "parts": [
+   "log.nav applies only to a `rinex` log: the engine fix needs its pseudoranges"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-score-score-the-geometry-deduction-is",
+  "error": true,
+  "parts": [
+   "score: the geometry deduction is set in [geometry] (cap_points, full_ratio, floor), not in [score.weights]"
+  ]
+ },
+ {
+  "id": "e-spectrum-recording-is-not-available-in",
+  "error": true,
+  "parts": [
+   "recording is not available in the WebAssembly build: pass the SigMF bytes to kshana::sigmf::read and kshana::spectrum::welch_psd instead"
+  ]
+ },
+ {
+  "id": "e-ssv-scenario-navigation-noise-and-radiation-pressure",
+  "error": true,
+  "parts": [
+   "navigation: noise and radiation-pressure values must not be negative"
+  ]
+ },
+ {
+  "id": "e-ssv-scenario-trajectory-give-exactly-one-of-2",
+  "error": true,
+  "parts": [
+   "trajectory: give exactly one of duration_min and duration_periods"
+  ]
+ },
+ {
+  "id": "e-ssv-weak-receiver-pfa-total-and-receiver",
+  "error": true,
+  "parts": [
+   "receiver.pfa_total and receiver.pd must be probabilities in (0, 1)"
+  ]
+ },
+ {
+  "id": "e-suite-suite-manifest-is-missing-title",
+  "error": true,
+  "parts": [
+   "suite manifest is missing a `title`"
+  ]
+ },
+ {
+  "id": "e-suite-suite-manifest-has-no-scenarios",
+  "error": true,
+  "parts": [
+   "suite manifest has no `scenarios`: add a non-empty `scenarios = [...]` array"
+  ]
+ },
+ {
+  "id": "e-surface-path-sources-are-not-accepted",
+  "error": true,
+  "parts": [
+   "`path` sources are not accepted here: give the log inline as `text` or `base64`"
+  ]
+ },
+ {
+  "id": "e-surface-input-campaign-names-campaign-folder",
+  "error": true,
+  "parts": [
+   "[input] campaign names a campaign folder, and this surface reads no files; campaigns are read only by the CLI (`kshana iq labfit`), Python (`kshana.iq_labfit`), or the MCP labfit tool inside its IQ work directory"
+  ]
+ },
+ {
+  "id": "e-surface-bad-merkle-root-hex",
+  "error": true,
+  "parts": [
+   "bad Merkle root hex"
+  ]
+ },
+ {
+  "id": "e-surface-merkle-root-must-be-32",
+  "error": true,
+  "parts": [
+   "Merkle root must be 32 bytes"
+  ]
+ },
+ {
+  "id": "e-telecom-timing-csv-path-is-not-available",
+  "error": true,
+  "parts": [
+   "csv_path is not available in the WebAssembly build; give the series inline as `samples`"
+  ]
+ },
+ {
+  "id": "e-telemetry-cli-otlp-every-needs-whole-number",
+  "error": true,
+  "parts": [
+   "--otlp-every needs a whole number"
+  ]
+ },
+ {
+  "id": "e-telemetry-cli-registry-poisoned",
+  "error": true,
+  "parts": [
+   "registry poisoned"
+  ]
+ },
+ {
+  "id": "e-telemetry-otlp-https-is-not-supported-by",
+  "error": true,
+  "parts": [
+   "https is not supported by the built-in exporter; use a local collector over http"
+  ]
+ },
+ {
+  "id": "e-telemetry-otlp-no-http-status-in-response",
+  "error": true,
+  "parts": [
+   "no HTTP status in response"
+  ]
+ },
+ {
+  "id": "e-tle-invalid-designator-launch-year-in",
+  "error": true,
+  "parts": [
+   "invalid designator launch year in TLE"
+  ]
+ },
+ {
+  "id": "e-tle-invalid-epoch-year-in-tle-2",
+  "error": true,
+  "parts": [
+   "invalid epoch year in TLE"
+  ]
+ },
+ {
+  "id": "e-tle-invalid-epoch-day-in-tle",
+  "error": true,
+  "parts": [
+   "invalid epoch day in TLE"
+  ]
  }
 ]

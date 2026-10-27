@@ -201,7 +201,11 @@ pub fn truth_from_csv(text: &str) -> Result<Vec<TruthRecord>, IqError> {
     let mut lines = text.lines();
     match lines.next() {
         Some(h) if h.trim() == TruthRecord::CSV_HEADER => {}
-        _ => return Err(IqError::Format("missing truth CSV header".into())),
+        _ => {
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-scene-truth-missing-truth-csv-header"
+            )))
+        }
     }
     lines
         .filter(|l| !l.trim().is_empty())

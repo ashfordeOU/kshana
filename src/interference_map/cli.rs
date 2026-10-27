@@ -104,7 +104,9 @@ pub(super) fn read(path: &str) -> Result<String, MapError> {
 
 pub(super) fn dataset_from(args: &[String], kind: Kind) -> Result<Dataset, MapError> {
     let key = flag_value(args, "--dataset")?.ok_or_else(|| {
-        MapError::Format("--dataset is required so the licence and attribution are embedded".into())
+        MapError::Format(crate::terr!(
+            "e-interference-map-cli-dataset-is-required-so-the"
+        ))
     })?;
     let spec = if key == "custom" {
         let need = |n: &str| {
@@ -129,11 +131,18 @@ pub(super) fn dataset_from(args: &[String], kind: Kind) -> Result<Dataset, MapEr
 fn grid_from(args: &[String]) -> Result<Grid, MapError> {
     let deg = match flag_value(args, "--cell-deg")? {
         None => 0.5,
-        Some(s) => s
-            .parse::<f64>()
-            .map_err(|_| MapError::Format("--cell-deg is not a number".into()))?,
+        Some(s) => s.parse::<f64>().map_err(|_| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-cli-cell-deg-is-not-number"
+            ))
+        })?,
     };
-    Grid::new(deg).ok_or_else(|| MapError::Format("--cell-deg must be between 0.01 and 10".into()))
+    Grid::new(deg).ok_or_else(|| {
+        MapError::Format(crate::terr!(
+            "e-interference-map-cli-cell-deg-must-be-between",
+            lit_0_01 = crate::i18n::num(0.01_f64, 2)
+        ))
+    })
 }
 
 fn write_days(
@@ -228,7 +237,9 @@ pub fn run_map(args: &[String]) -> i32 {
 
 fn run_map_inner(args: &[String]) -> Result<(), MapError> {
     let Some(sub) = args.first().map(String::as_str) else {
-        return Err(MapError::Format("a subcommand is required".into()));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-cli-subcommand-is-required"
+        )));
     };
     if matches!(sub, "--help" | "-h" | "help") {
         println!("{MAP_USAGE}");
@@ -246,14 +257,14 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
                 "--attribution",
             ];
             check_args(rest, &valued, &[], 1)?;
-            let input = positional(rest, &valued)
-                .ok_or_else(|| MapError::Format("input file missing".into()))?;
+            let input = positional(rest, &valued).ok_or_else(|| {
+                MapError::Format(crate::terr!("e-interference-map-cli-input-file-missing"))
+            })?;
             let ds = dataset_from(rest, Kind::Adsb)?;
             let grid = grid_from(rest)?;
-            let out = PathBuf::from(
-                flag_value(rest, "--out")?
-                    .ok_or_else(|| MapError::Format("--out is required".into()))?,
-            );
+            let out = PathBuf::from(flag_value(rest, "--out")?.ok_or_else(|| {
+                MapError::Format(crate::terr!("e-interference-map-cli-out-is-required"))
+            })?);
             let mut agg = AdsbAggregator::new(grid, AdsbParams::PREREGISTERED_V1, IdHasher::new());
             read_adsb_input(&mut agg, Path::new(input))?;
             let stats = agg.stats.clone();
@@ -277,14 +288,14 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
                 "--attribution",
             ];
             check_args(rest, &valued, &[], 1)?;
-            let input = positional(rest, &valued)
-                .ok_or_else(|| MapError::Format("input file missing".into()))?;
+            let input = positional(rest, &valued).ok_or_else(|| {
+                MapError::Format(crate::terr!("e-interference-map-cli-input-file-missing"))
+            })?;
             let ds = dataset_from(rest, Kind::Ais)?;
             let grid = grid_from(rest)?;
-            let out = PathBuf::from(
-                flag_value(rest, "--out")?
-                    .ok_or_else(|| MapError::Format("--out is required".into()))?,
-            );
+            let out = PathBuf::from(flag_value(rest, "--out")?.ok_or_else(|| {
+                MapError::Format(crate::terr!("e-interference-map-cli-out-is-required"))
+            })?);
             let params = AisParams::PREREGISTERED_V1;
             let land = match flag_value(rest, "--land")? {
                 Some(p) => Some(LandMask::from_geojson_str(&read(p)?, params.land_buffer_m)?),
@@ -307,12 +318,13 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
         "fetch-land" => {
             check_args(rest, &["--out"], &["--allow-network"], 0)?;
             if !rest.iter().any(|a| a == "--allow-network") {
-                return Err(MapError::Format(
-                    "fetch-land downloads a file: pass --allow-network to confirm".into(),
-                ));
+                return Err(MapError::Format(crate::terr!(
+                    "e-interference-map-cli-fetch-land-downloads-file-pass"
+                )));
             }
-            let out = flag_value(rest, "--out")?
-                .ok_or_else(|| MapError::Format("--out is required".into()))?;
+            let out = flag_value(rest, "--out")?.ok_or_else(|| {
+                MapError::Format(crate::terr!("e-interference-map-cli-out-is-required"))
+            })?;
             fetch_land(out)
         }
         other => Err(MapError::Format(crate::terr!(
@@ -424,9 +436,9 @@ fn fetch_land(out: &str) -> Result<(), MapError> {
         })?;
     if !status.success() {
         let _ = std::fs::remove_file(&part);
-        return Err(MapError::Io(
-            "curl failed to download the land polygons".into(),
-        ));
+        return Err(MapError::Io(crate::terr!(
+            "e-interference-map-cli-curl-failed-to-download-the"
+        )));
     }
     verify_and_keep(&part, &dest, NATURAL_EARTH_LAND_SHA256)?;
     println!(
@@ -564,12 +576,15 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
         &["--json"],
         0,
     )?;
-    let route_path = flag_value(args, "--route")?
-        .ok_or_else(|| MapError::Format("--route is required".into()))?;
+    let route_path = flag_value(args, "--route")?.ok_or_else(|| {
+        MapError::Format(crate::terr!("e-interference-map-cli-route-is-required"))
+    })?;
     let pts = route::parse_route(&read(route_path)?)?;
     let maps = flag_values(args, "--map");
     if maps.is_empty() {
-        return Err(MapError::Format("at least one --map is required".into()));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-cli-at-least-one-map-is"
+        )));
     }
     let (from, to) = (flag_value(args, "--from")?, flag_value(args, "--to")?);
     let day = |s: Option<&str>, n: &str| -> Result<Option<i64>, MapError> {
@@ -604,7 +619,9 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
         (a.date.as_str(), a.source_kind.as_str()).cmp(&(b.date.as_str(), b.source_kind.as_str()))
     });
     if loaded.is_empty() {
-        return Err(MapError::Format("no map falls in the date range".into()));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-api-no-map-falls-in-the"
+        )));
     }
     let rows: Vec<_> = loaded
         .iter()

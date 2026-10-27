@@ -906,7 +906,7 @@ fn run_core<F: ForceModel>(
 
     let report = FusionOd::new(fm, cfg)
         .run(r0_guess, v0_guess, &obs)
-        .ok_or_else(|| "fusion OD run produced no steps (too few observations)".to_string())?;
+        .ok_or_else(|| crate::terr!("e-mars-pnt-fusion-od-run-produced-no"))?;
 
     // Per-epoch geometry: which relays are in view of the user at each epoch.
     let geometry = build_geometry(scn, constellation, &truth, times, nmax);

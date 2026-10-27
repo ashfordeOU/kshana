@@ -1681,7 +1681,7 @@ pub fn inject_eop(src: &str, finals2000a_body: &str) -> Result<String, String> {
         toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-scenario-toml", e = e))?;
     let table = value
         .as_table_mut()
-        .ok_or_else(|| "scenario TOML is not a table".to_string())?;
+        .ok_or_else(|| crate::terr!("e-interop-geojson-scenario-toml-is-not-table"))?;
     table.insert(
         "eop_finals2000a".to_string(),
         toml::Value::String(finals2000a_body.to_string()),
@@ -1959,9 +1959,9 @@ pub fn append_figure_tiers(json: &str, block: &serde_json::Value) -> Result<Stri
         ));
     }
     let body = json.trim_end();
-    let head = body.strip_suffix("\n}").ok_or_else(|| {
-        "figure_tiers: the result document is not a pretty JSON object".to_string()
-    })?;
+    let head = body
+        .strip_suffix("\n}")
+        .ok_or_else(|| crate::terr!("e-api-figure-tiers-the-result-document"))?;
     let pretty = serde_json::to_string_pretty(block)
         .map_err(|e| crate::terr!("e-api-failed-to-serialise-figure-tiers", e = e))?;
     let nested = pretty.replace('\n', "\n  ");

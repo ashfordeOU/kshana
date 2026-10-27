@@ -1290,9 +1290,9 @@ impl ConflictResilienceScenario {
             .clone()
             .unwrap_or(CorrelationGrid { values: None })
             .values()?;
-        let reference_intensity = *grid
-            .last()
-            .ok_or_else(|| "intensity grid unexpectedly empty".to_string())?;
+        let reference_intensity = *grid.last().ok_or_else(|| {
+            crate::terr!("e-conflict-resilience-intensity-grid-unexpectedly-empty")
+        })?;
 
         let intensity_sweep = sweep_intensity(&layers, &grid, trials, seed);
         let correlation_sweep = sweep_correlation(

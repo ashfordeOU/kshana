@@ -544,15 +544,13 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
                 baud = Some(
                     value("--baud")?
                         .parse::<u32>()
-                        .map_err(|_| usage("--baud needs a number".into()))?,
+                        .map_err(|_| usage(kshana::terr!("e-live-io-baud-needs-number")))?,
                 )
             }
             "--configure" => {
-                return Err(usage(
-                    "--configure is not implemented: Kshana never writes to a receiver. Configure \
-                     it with the maker's own tool, then read it with --serial"
-                        .into(),
-                ))
+                return Err(usage(kshana::terr!(
+                    "e-live-io-configure-is-not-implemented-kshana"
+                )))
             }
             "--gate" => gate = true,
             "--replay" => replay = true,
@@ -564,7 +562,7 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
             }
             s => {
                 if session.replace(PathBuf::from(s)).is_some() {
-                    return Err(usage("more than one session file".into()));
+                    return Err(usage(kshana::terr!("e-live-io-more-than-one-session-file")));
                 }
             }
         }
@@ -578,15 +576,19 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
         *f = follow;
         *e = from_end;
     } else if follow || from_end {
-        return Err(usage("--follow and --from-end apply to --file only".into()));
+        return Err(usage(kshana::terr!("e-live-io-follow-and-from-end-apply")));
     }
     match (&mut source, baud) {
         (Source::Serial { baud: b, .. }, Some(v)) => *b = v,
-        (_, Some(_)) => return Err(usage("--baud applies to --serial only".into())),
+        (_, Some(_)) => {
+            return Err(usage(kshana::terr!(
+                "e-live-io-baud-applies-to-serial-only"
+            )))
+        }
         _ => {}
     }
     let Some(session) = session else {
-        return Err(usage("live needs a session .toml".into()));
+        return Err(usage(kshana::terr!("e-live-io-live-needs-session-toml")));
     };
     let src = std::fs::read_to_string(&session).map_err(|e| {
         (
@@ -617,7 +619,9 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
     let mut stream = if gate { Sink::Stdout } else { Sink::None };
     if let Some(spec) = &listen {
         if !gate {
-            return Err(usage("--listen serves the gated stream: add --gate".into()));
+            return Err(usage(kshana::terr!(
+                "e-live-io-listen-serves-the-gated-stream"
+            )));
         }
         let addr = listen_addr(spec).map_err(&usage)?;
         let b = Broadcaster::new();
@@ -630,9 +634,9 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
         .filter(|s| s.is_stdout())
         .count();
     if stdout_users > 1 {
-        return Err(usage(
-            "two outputs would share stdout; send --json or --pksht to a file".into(),
-        ));
+        return Err(usage(kshana::terr!(
+            "e-live-io-two-outputs-would-share-stdout"
+        )));
     }
     eprintln!(
         "{}",

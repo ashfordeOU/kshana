@@ -148,9 +148,7 @@ impl WeakSignalReceiver {
         pos("dll_t_s", self.dll_t_s)?;
         pos("parallel_cells", self.parallel_cells)?;
         if !(self.pfa_total > 0.0 && self.pfa_total < 1.0 && self.pd > 0.0 && self.pd < 1.0) {
-            return Err(
-                "receiver.pfa_total and receiver.pd must be probabilities in (0, 1)".into(),
-            );
+            return Err(crate::terr!("e-ssv-weak-receiver-pfa-total-and-receiver"));
         }
         Ok(())
     }
