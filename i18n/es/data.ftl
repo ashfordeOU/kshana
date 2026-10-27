@@ -6569,13 +6569,13 @@ dat-ab8e111d6db1 = Geopotencial teseral en el propagador de Cowell
 dat-c481865fdebf = Prueba aplicada
 
 # studio/data/capabilities.json
-dat-7e4f76cf5f02 = Exportación para banco de pruebas
+dat-7e4f76cf5f02 = Exportación test-bench
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-ae7811e71c53 = Exportación para banco de pruebas (kshana bench-export): columnas fijas a la Tierra, geodésicas y de velocidad local, columnas de actitud y salida NMEA { "0183" }
 
 # data/verification-matrix.json
-dat-98bed4a06290 = Exportación para banco de pruebas leída por los lectores de archivos de movimiento de un simulador (gps-sdr-sim)
+dat-98bed4a06290 = Exportación test-bench leída por los lectores de archivos de movimiento de un simulador (gps-sdr-sim)
 
 # data/search.json
 dat-2c1e5ddbab6d = Pruebas y datos de prueba

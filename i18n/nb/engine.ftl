@@ -8345,9 +8345,9 @@ engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (hvithet)
 
 engine-fusion-hybrid-ukf-chart-nees = NEES
 
-engine-fusion-hybrid-ukf-chart-consistent = KONSISTENT
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
 
-engine-fusion-hybrid-ukf-chart-inconsistent = IKKE KONSISTENT
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
 
 ## src/fusion/pack.rs
 
@@ -9254,17 +9254,17 @@ engine-study-footer = Generert av Kshana { $version } som en samlet studie av { 
        *[other] { $n_scenarios } scenarioer
     }. Hvert scenario kan gjenskapes fra scenario + seed + motorversjon. Fri og åpen kildekode (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">kildekode og dokumentasjon</a>.
 
-engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS-tillit { $band }|{ $cef_severity }|{ $ext }
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
 
 engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
 
-engine-compliance-fw-imo-ships-title = IMO-veiledning om GNSS-interferens for skip
+engine-compliance-fw-imo-ships-title = IMO guidance on GNSS interference for ships
 
-engine-compliance-fw-easa-aviation-title = EASA-veiledning om GNSS-interferens for luftfart
+engine-compliance-fw-easa-aviation-title = EASA guidance on GNSS interference for aviation
 
-engine-compliance-fw-nis2-art21-title = EU NIS2-direktivet, artikkel 21 om tiltak for risikostyring
+engine-compliance-fw-nis2-art21-title = EU NIS2 Directive, Article 21 risk-management measures
 
-engine-compliance-fw-en-16803-title = EN 16803, GNSS-basert posisjonsbestemmelse for ITS på vei
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-based positioning for road ITS
 
 engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 

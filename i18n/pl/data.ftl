@@ -6441,11 +6441,11 @@ dat-ab8e111d6db1 = Geopotencjał tesseralny w propagatorze Cowella
 
 dat-c481865fdebf = Zastosowany test
 
-dat-7e4f76cf5f02 = Eksport do stanowiska testowego
+dat-7e4f76cf5f02 = Eksport test-bench
 
 dat-ae7811e71c53 = Eksport do stanowiska testowego (kshana bench-export): kolumny w układzie związanym z Ziemią, geodezyjne i lokalnej prędkości, kolumny atytudy oraz wyjście NMEA { "0183" }
 
-dat-98bed4a06290 = Eksport do stanowiska testowego odczytywany przez czytniki plików ruchu symulatora (gps-sdr-sim)
+dat-98bed4a06290 = Eksport test-bench odczytywany przez czytniki plików ruchu symulatora (gps-sdr-sim)
 
 dat-2c1e5ddbab6d = Testy i dane testowe
 

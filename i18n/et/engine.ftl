@@ -9289,73 +9289,73 @@ engine-verification-src-mod-rs = src/{ $rel }/mod.rs
 
 engine-verification-tests-fixtures = tests/fixtures/{ $base }
 
-engine-compliance-fw-dhs-rpcf-title = USA DHS vastupidava PNT vastavusraamistik
+engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
 
-engine-compliance-fw-imo-ships-title = IMO juhis GNSS-häirete kohta laevadele
+engine-compliance-fw-imo-ships-title = IMO guidance on GNSS interference for ships
 
-engine-compliance-fw-easa-aviation-title = EASA juhis GNSS-häirete kohta lennunduses
+engine-compliance-fw-easa-aviation-title = EASA guidance on GNSS interference for aviation
 
-engine-compliance-fw-nis2-art21-title = EL NIS2 direktiiv, artikkel 21 riskijuhtimismeetmed
+engine-compliance-fw-nis2-art21-title = EU NIS2 Directive, Article 21 risk-management measures
 
-engine-compliance-fw-en-16803-title = EN 16803, GNSS-põhine positsioneerimine maanteede ITS jaoks
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-based positioning for road ITS
 
-engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, PNT alusprofiil
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 
-engine-compliance-source-dhs-rpcf-1-title = Vastupidav positsioneerimise, navigatsiooni ja aja (PNT) vastavusraamistik
+engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
 
 engine-compliance-source-dhs-rpcf-1-version = Versioon 2.0, 26. aprill 2022 (DHS Science and Technology Directorate koostöös CISA-ga)
 
 engine-compliance-source-dhs-rpcf-1-checked = dokument loetud täielikult; väljaande sihtlehte ei laaditud
 
-engine-compliance-source-imo-ships-1-title = Tahtlik häirimine Ameerika Ühendriikide globaalse positsioneerimissüsteemi ja teiste globaalsete satelliitnavigatsioonisüsteemide suhtes
+engine-compliance-source-imo-ships-1-title = Deliberate interference with the United States Global Positioning System and other global navigation satellite systems
 
 engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644, 18. oktoober 2021
 
 engine-compliance-source-imo-ships-1-checked = tekst loetud täielikult tsirkulaari kolmanda osapoole peegelkoopiast, mitte IMO saidilt; autoriteetse koopia leiate IMO dokumendiraamatukogust
 
-engine-compliance-source-imo-ships-2-title = Ülemaailmne raadionavigatsioonisüsteem
+engine-compliance-source-imo-ships-2-title = Worldwide Radionavigation System
 
 engine-compliance-source-imo-ships-2-version = IMO assamblee resolutsioon A.1046(27), vastu võetud 30. novembril 2011
 
 engine-compliance-source-imo-ships-2-checked = dokument loetud täielikult
 
-engine-compliance-source-imo-ships-3-title = Mitme süsteemi laevaraadionavigatsiooni vastuvõtjate toimivusstandardid
+engine-compliance-source-imo-ships-3-title = Performance standards for multi-system shipborne radionavigation receivers
 
 engine-compliance-source-imo-ships-3-version = IMO MSC.401(95), vastu võetud 8. juunil 2015 (muudetud MSC.432(98), 2017)
 
 engine-compliance-source-imo-ships-3-checked = algne resolutsioon loetud täielikult; 2017. aasta muudatuse teksti ei loetud. Ühtegi IMO tsirkulaari GNSS-häirete kohta, mis oleks hilisem kui MSC.1/Circ.1644, ei leitud; uuemaid otsige IMO dokumendiraamatukogust
 
-engine-compliance-source-easa-aviation-1-title = Globaalse satelliitnavigatsioonisüsteemi katkestus ja muutused, mis põhjustavad side-, navigatsiooni- ja seirevõime halvenemist
+engine-compliance-source-easa-aviation-1-title = Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation
 
 engine-compliance-source-easa-aviation-1-version = EASA ohutusteabe bülletään SIB 2022-02R4, välja antud 3. juulil 2026, parandatud 22. juulil 2026 (teavitav, mitte kohustuslik)
 
 engine-compliance-source-easa-aviation-1-checked = redaktsioon 4 loetud täielikult; jaotistele viidatakse pealkirja järgi, sest bülletään ei nummerda oma soovitusi. Kontrollitud uuesti 2026-10-10: bülletääni PDF, EASA AD-tööriista leht (mis märgib selle asendamise puudumist) ja EASA GNSS-leht ei nimeta hilisemat redaktsiooni ega bülletääni numbriga 2026-07; bännerit, mis nimetaks SIB 2026-07 redaktsiooni 2, ei leitud, seega küsimus on lahtine ja tuleb kontrollida EASA aktiivselt lehelt. Konfliktipiirkonna teabebülletääne ei avatud
 
-engine-compliance-source-nis2-art21-1-title = Direktiiv (EL) 2022/2555 meetmete kohta kõrgetasemelise ühise küberturvalisuse tagamiseks kogu liidus (NIS 2 direktiiv)
+engine-compliance-source-nis2-art21-1-title = Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS 2 Directive)
 
 engine-compliance-source-nis2-art21-1-version = ELT L 333, 27.12.2022, lk 80–152
 
 engine-compliance-source-nis2-art21-1-checked = artikli 21 lõigete tähed loeti EUR-Lexi lehe kokkuvõttest ja need vastavad avaldatud tekstile; enne tähe viitamist avaldusel kontrollige seda lehe vastu
 
-engine-compliance-source-en-16803-1-title = Kosmos. GNSS-põhise positsioneerimise kasutamine maanteede intelligentsetes transpordisüsteemides (ITS). Osa 1: Definitsioonid ja süsteemitehnika protseduurid toimivuse kehtestamiseks ja hindamiseks
+engine-compliance-source-en-16803-1-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 1: Definitions and system engineering procedures for the establishment and assessment of performances
 
 engine-compliance-source-en-16803-1-version = EN 16803-1:2020 (kataloog: kehtib alates 2. oktoobrist 2020, asendab 2016. aasta väljaande)
 
 engine-compliance-source-en-16803-1-checked = ainult kataloogi ulatuse tekst; standard on tasuline ja seda ei loetud
 
-engine-compliance-source-en-16803-2-title = Kosmos. GNSS-põhise positsioneerimise kasutamine maanteede intelligentsetes transpordisüsteemides (ITS). Osa 2: GNSS-põhiste positsioneerimisterminalide põhitoimivuse hindamine
+engine-compliance-source-en-16803-2-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals
 
 engine-compliance-source-en-16803-2-version = EN 16803-2:2020 (kataloog: kehtib alates 2. oktoobrist 2020)
 
 engine-compliance-source-en-16803-2-checked = ainult kataloogi ulatuse tekst; standard on tasuline ja seda ei loetud
 
-engine-compliance-source-en-16803-3-title = Kosmos. GNSS-põhise positsioneerimise kasutamine maanteede intelligentsetes transpordisüsteemides (ITS). Osa 3: GNSS-põhiste positsioneerimisterminalide turvatoimivuse hindamine
+engine-compliance-source-en-16803-3-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals
 
 engine-compliance-source-en-16803-3-version = EN 16803-3:2020 (kataloog: kehtib alates 2. oktoobrist 2020)
 
 engine-compliance-source-en-16803-3-checked = ainult kataloogi ulatuse tekst; standard on tasuline ja seda ei loetud. Kataloogi tekst nimetab numbriga punkti 6 (salvestatud versus simuleeritud signaalid) ja lisa A (rünnakute kõrgetasemeline liigitus) ning mitte midagi muud; kataloog ei nimeta komiteed, seega siin seda ei esitata
 
-engine-compliance-source-nist-ir-8323r1-1-title = PNT alusprofiil: küberturvalisuse raamistiku rakendamine positsioneerimise, navigatsiooni ja aja (PNT) teenuste vastutustundlikuks kasutamiseks
+engine-compliance-source-nist-ir-8323r1-1-title = Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services
 
 engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1, jaanuar 2023 (NIST sisearuanne)
 
