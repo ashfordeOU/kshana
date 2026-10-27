@@ -45,21 +45,17 @@ Conflict notes:
   `web/capabilities.json`, `no_published_surface_states_a_stale_matrix_total`, `web_validation_counts_doc_sync`): the pages still say
   87 kinds and 388 rows; the site port and the Studio re-record fix them. Do not hand-edit `web/`.
 
+## Release state
+
+The engine side is at 0.40.0 on `integ/0.40.0-rc2` (final engine commit 52506606): version bump, re-blessed pins and SBOM fixture
+(recorded in `docs/revisions/STUDIO15-pins-0.40.0-version.md` and `docs/revisions/I18N-sbom-verdict-dependency-growth.md`), count
+surfaces at 401 rows (176 VALIDATED, 221 MODELLED, 4 PARTNER) and 92 kinds. The release date 2026-10-28 in CHANGELOG, CITATION.cff and
+the metadata files is a placeholder to confirm.
+
 ## Left, in order
 
-1. Merge the engine translation delta (189 ids) and the emitter-region branch with its delta. Re-run `check` on all 17 languages,
-   `status` 100% for every catalogue, `tools/i18n/w58/validate.py`, and the cargo `i18n_*` tests.
-2. Re-extract on the integrated tree (`node tools/i18n.mjs extract`, `jsx`, `data`); changed ids are the final delta (`migrate`
-   first, then `todo`).
-3. Release bump to 0.40.0 (CHANGELOG, README, CITATION, RELEASING, every surface `scripts/check-version-sync.sh` lists). The
-   version-bearing pins (geometry trust telemetry hashes, the skyline baseline, the IQ campaign digests, the README demo charts) and
-   the SBOM verdict fixture (110 -> 127 components) are re-blessed at the bump, after the final merges, each change recorded in
-   `docs/revisions/STUDIO15-pins-0.40.0-version.md` plus the SBOM revisions file
-   (`docs/revisions/I18N-sbom-verdict-dependency-growth.md`, re-run against the final lock). A pin or fixture that moves for any
-   reason other than the version string or the dependency list is a stop.
-4. WASM release build (`wasm-pack build --target web --out-dir web/pkg --release -- --features wasm`), Studio re-record at one
-   engine commit including the mission thread, site build and port.
-5. Full local suite once, resumable per target (558 test targets); the four labfit-followup tests are left to CI; the attribution
+1. WASM release build, Studio re-record at the final engine commit, site build and port (fixes the `web/*` count reds).
+2. Full local suite once, resumable per target (558 test targets); the four labfit-followup tests are left to CI; the attribution
    check; push. A CI-only draft PR follows; main is fast-forwarded and tagged afterwards.
 
 ## Toolchain and gotchas
