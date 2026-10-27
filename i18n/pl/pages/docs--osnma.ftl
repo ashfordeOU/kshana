@@ -3,3 +3,5 @@
 seg-fcd0ebea49bc = Wiersz poleceń
 
 seg-6816f4e1a0a0 = Wersja
+
+seg-94058315dfe4 = Dane wejściowe

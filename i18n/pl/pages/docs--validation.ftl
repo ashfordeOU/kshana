@@ -43,3 +43,7 @@ seg-638b8d451550 = Czujnik
 seg-04f69a0edb2f = typ
 
 seg-b03d56f501c3 = Rodzaj
+
+seg-35bf9a48e566 = Wielkość
+
+seg-f3526b0d95f8 = Zmierzono
