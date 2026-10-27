@@ -271,3 +271,5 @@ seg-62b5564e8d90 = Nagrana sesja jest tu odtwarzana krok po kroku.
 seg-2359edf78388 = <b>Ten sam przebieg w Studio:</b> silnik v{ $version } · <c1/> · ziarno { "42" }
 
 seg-f42465f7d066 = ns
+
+seg-ff90679d1de9 = Detekcja spoofingu
