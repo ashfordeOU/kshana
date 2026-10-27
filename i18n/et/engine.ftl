@@ -10989,3 +10989,416 @@ engine-api-html-chart-alt = Tulemuse diagramm
 engine-api-html-full-result = Täielik tulemus (JSON)
 
 engine-api-html-footer-generated = Genereerinud Kshana { $version }.
+
+engine-api-html-footer-licence = Reprodutseeritav stsenaariumist + algväärtusest + mootori versioonist. Vaba ja avatud lähtekoodiga (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">lähtekood ja dokumentatsioon</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: Model Context Protocol server Kshana PNT-vastupidavuse simulaatorile.
+
+    KASUTUS:
+    { "    " }kshana-mcp                      teenindab üle stdio (vaikimisi; selle käivitavad MCP-kliendid)
+    { "    " }kshana-mcp --http <addr>        teenindab voogedastavat HTTP-d aadressil http://<addr>/mcp
+
+    HTTP VALIKUD:
+    { "    " }--http <addr>               sidumisaadress, nt 127.0.0.1:8080 (vaikimisi ainult loopback)
+    { "    " }--allow-remote              lubab mitte-loopback-aadressi; vajab KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  lisaks aktsepteeritav Host-päis (korratav)
+    { "    " }--allow-origin <origin>     aktsepteeritav brauseri origin (korratav; vaikimisi ühtegi)
+    { "    " }--max-body-bytes <n>        päringu keha ülempiir (vaikimisi 5242880)
+    { "    " }--request-timeout-secs <n>  päringu ajapiir (vaikimisi 120)
+    { "    " }--max-concurrent <n>        samaaegselt teenindatavaid päringuid (vaikimisi 8)
+
+    HTTP-transport lülitab IQ failitööriistad välja. Kshana ei majuta lõpp-punkti: käivita see ise.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = tundmatu argument `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = HTTP valikud vajavad võtit --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = aadressiga { $addr } sidumisest keeldutakse: see ei ole loopback-aadress. Kasuta 127.0.0.1:<port> või anna --allow-remote (ja sea { $token_env }), et kuulata väljaspool seda masinat
+
+engine-e-mcp-http-refusing-to-bind-needs-token = aadressiga { $addr } sidumisest keeldutakse: mitte-loopback-aadress vajab keskkonnamuutujas { $token_env } kandjamärki (bearer token)
+
+engine-e-mcp-http-token-too-short = { $token_env } on lühem kui 16 märki; kasuta pikka juhuslikku märki
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent ja --request-timeout-secs peavad olema suuremad kui null
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin ei aktsepteeri `*`; nimeta iga origin
+
+engine-mcp-http-warning-remote = HOIATUS: kshana-mcp kuulab aadressil { $addr } väljaspool seda masinat. Igaüks, kes sellele ligi pääseb ja kellel on kandjamärk (bearer token), saab sinu riistvaral simulatsioone käivitada. Pane selle ette TLS (pöördvahendaja või platvormi HTTPS) ja hoia märk salajas.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = koha laiuskraad peab olema vahemikus [-90, 90] ja pikkuskraad vahemikus [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s peab olema vahemikus [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode peab olema off, standalone või differential, saadi `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode peab olema off, ltc või tt, saadi `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays peab olema vahemikus 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s peab olema positiivne ja afs_first_fix_s mittenegatiivne
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km peab olema vahemikus [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = sisenemiskovariatsioon ei ole sümmeetriline mittenegatiivse diagonaaliga
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent ootab sisenemiskella ajaskaalas LTC või TT, saadi { $timescale }; ahel teisendab ajaskaalasid
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s peab olema vahemikus [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source peab olema off, terrain-nav või lola-crlb, saadi `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = fiksatsiooniajad peavad olema positiivsed, afs_interval_s > 0 ja trn_fix_time_s laskumise sees
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m peab olema vähemalt 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m peab olema positiivne
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb vajab DEM-i, mida ei õnnestunud laadida
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent ootab sisenemiskella ajaskaalas LTC või TT, saadi { $timescale }; ahel teisendab ajaskaalasid
+
+engine-e-lunar-landing-east-prior-is-not-positive = idasuuna eelteadmine ei ole positiivselt määratud
+
+engine-e-lunar-landing-north-prior-is-not-positive = põhjasuuna eelteadmine ei ole positiivselt määratud
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit peab olema `llo` või `elfo`, saadi `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = periapsis peab olema pinnast vähemalt 20 km kõrgemal
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m peab olema vahemikus (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s peab olema vahemikus (0, 60] ja arc_s vähemalt üks samm
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays peab olema vahemikus 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s peab olema positiivne
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction peab olema vahemikus [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model peab olema `same` või `point-mass`, saadi `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous ootab sisenemiskovariatsiooni MCI-s; ahel teisendab tugisüsteeme
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = eelkovariatsioon ei ole positiivselt määratud
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = normaalvõrrandid ei ole positiivselt määratud
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = järelinformatsioon ei ole positiivselt määratud
+
+engine-e-lunar-rendezvous-no-trial-ran = ühtegi katset ei käivitatud
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = aastaaja kuupäev `{ $s }` ei ole kujul YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = aastaaja kuupäev `{ $s }`: vigane aasta
+
+engine-e-lunar-surface-map-season-date-bad-month = aastaaja kuupäev `{ $s }`: vigane kuu
+
+engine-e-lunar-surface-map-season-date-bad-day = aastaaja kuupäev `{ $s }`: vigane päev
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = aastaaja kuupäev `{ $s }` on väljaspool 1901-2099 või ei ole kuupäev
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites peab sisaldama 1 kuni 64 kirjet
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = koht { $i }: laiuskraad peab olema vahemikus [-90, 90] ja pikkuskraad vahemikus [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates peab sisaldama vähemalt ühte kuupäeva
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates peab sisaldama kuni 16 kuupäeva
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days peab olema vahemikus (0, 400] ja step_min vahemikus [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days ja timing_floor_s peavad olema positiivsed ja lõplikud
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = epohh `{ $s }` ei ole kujul YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = epohh `{ $s }`: vigane arv `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = epohh `{ $s }` on väljaspool 1901-2099 või ei ole kuupäev
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces peab olema "quantum" või "classical" (saadi { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = tulemusdokument kannab juba `evidence` võtit
+
+engine-e-evidence-label-the-result-document-is-not = tulemusdokument ei ole JSON-objekt
+
+engine-e-evidence-label-no-evidence-rows-are-listed = tööriista `{ $tool }` jaoks ei ole ühtegi tõenditerida loetletud
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = ei ole RINEX-i kellafail: puudub RINEX VERSION / TYPE kirje
+
+engine-e-clock-log-rinex-version-type-record-has = RINEX VERSION / TYPE kirjel puudub versiooninumber (leitud { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = RINEX-i kella versiooni { $v } ei loeta: loetakse versioone 2.00 ja 3.00 kuni 3.04 (IGS avaldab kellavormingu kuni 3.04; RINEX 4.00 kuni 4.02 ei määratle kellafaili)
+
+engine-e-clock-log-rinex-clock-record-with-an = RINEX-i kellakirje loetamatu kellanihke või epohhiga: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = TimeLab-i rida { $line } sisaldab näitu, mis ei ole lõplik: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = tugisüsteemi teisendus { $a } -> { $b } ei ole saadaval (teisendatakse ainult Gcrf, Mci ja Mcmf)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = ajaskaala hüpe { $a } -> { $b } ei ole pivot-hüpe
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: koridor peab kulgema madalalt järsemale nurgale alla 90 kraadi, saadi { $lo } kuni { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` peab olema vahemikus [0, 90), saadi { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` peab olema vähemalt 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` peab olema suurem kui 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: vajab vähemalt ühte jaama
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: jaamal `{ $id }` on kehtetu laius- või pikkuskraad
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: jaama id `{ $id }` on kasutatud kaks korda
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: faasil `{ $phase }` on geomeetria "stated" ja see vajab `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: faasi `{ $phase }` duty peab olema vahemikus [0, 1], saadi { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: faasil `{ $phase }` on tundmatu geomeetria `{ $other }`; geomeetriad on entry-orbit, moon-direction ja stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: sisenemisorbiiti ei õnnestunud propageerida
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: geomeetriat `{ $other }` ei ole arvutada
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: faas `{ $phase }` vajab oma geomeetria jaoks GCRF-sisenemist, saadi { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: hääbumine peab lõppema pärast selle algust ({ $a } kuni { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: ootab GCRF sisenemisolekut, saadi { $frame }; määra sisenemine tugisüsteemis gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: faas ei andnud ühtegi loendit
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: tundmatu mudelivõti `{ $k }`; võtmed on { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: mudel vajab `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` peab olema lõplik arv
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` peab olema suurem kui 0, saadi { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` peab olema vähemalt 0, saadi { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` peab olema string
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` peab olema tabelite massiiv
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` peab sisaldama tabeleid
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` peab olema { $n } arvu massiiv
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` peab sisaldama { $n } arvu, saadi { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` peab sisaldama lõplikke arve
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: lõik vajab `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: mudel vajab vähemalt ühte `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: lõigu { $leg } algus: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: lõigu { $leg } lõpp: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: lõik { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` peab olema vahemikus [0, 1], saadi { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` ja `ssv_step_min` peavad olema suuremad kui 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: propageerimine ei jõudnud väärtuseni { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: pärast põletust saavutatud orbiit ei ole seotud (erienergia { $energy } J/kg); gnss-ssv asendusorbiit vajab elliptilist
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: gnss-ssv pühkimine ei andnud ühtegi riba
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: gnss-ssv pühkimine ei andnud ühtegi rühma
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: faas loetleb gnss-ssv, seega mudel vajab `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: faas loetleb ground-tracking, seega mudel vajab `ground_range_sigma_m`, `ground_range_rate_sigma_mps` ja `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = üleandmine { $name } peab olema lõplik arv, vähemalt 0, saadi { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = faas `{ $id }`: selle mudeli { $key } on { $own_s } s, kuid ahel annab faasi duration_s = { $duration_s } s; vii need kokku või jäta { $key } ära
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = tundmatu tugisüsteem `{ $other }`; oodatud on üks väärtustest gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = tundmatu ajaskaala `{ $other }`; oodatud on üks väärtustest tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = tundmatu navigatsiooniallikas `{ $other }`; oodatud on üks väärtustest gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = tundmatu ajaallikas `{ $other }`; oodatud on üks väärtustest gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } peab olema positiivne lõplik arv, saadi { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = üleandmisreegel `{ $rule }` vajab `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = tundmatu üleandmisreegel `{ $other }`; oodatud on carry, inflate või reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = faasil on tühi id
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s peab olema lõplik arv, vähemalt 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x peab sisaldama kuut lõplikku arvu
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind peab olema "mission-thread", saadi "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = missiooniahel vajab vähemalt ühte [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = faasi id `{ $id }` on kasutatud kaks korda; id-d on unikaalsed
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: faas `{ $phase }` ei ole selle ahela faas
+
+engine-e-mission-thread-scenario-phase = faas `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = faas `{ $id }` lõppes hetkel { $t_s } s, kuid algas hetkel { $start_s } s ja kestab { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = tundmatu suhtelise navigatsiooni andur `{ $other }`; oodatud on üks väärtustest optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = kaugus peab olema positiivne lõplik arv meetrites, saadi { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = kaugus { $range_m } m ületab anduri piiri { $max_range_m } m
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: tundmatu mudelivõti `{ $bad }`; võtmed on { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = receiver-trust tõenditeread ei ole maatriksis
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = tundmatu ablatsioon `{ $other }`: B1 kuni B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = tõendipaketi read ei ole maatriksis
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = jammertest tõenditeread ei ole maatriksis
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: sobitusel puudub sagedusmüra (valge FM, flicker FM ja juhuslikkõnni FM on kõik null), seega ei ole millegi põhjal holdover'it ennustada; logi võib olla ainult valge faasimüra või liiga lühike
+
+engine-e-evidence-label-run-exercised-no-matrix-row = käivitus ei rakendanud ühtegi kontrollimaatriksi rida
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent ootab sisenemiskovariatsiooni MCI-s; ahel teisendab tugisüsteeme
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent ootab sisenemiskovariatsiooni MCI-s; ahel teisendab tugisüsteeme
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface ootab sisenemisolekut MCI-s või MCMF-is; ahel teisendab tugisüsteeme
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km peab ületama Kuu raadiuse ja ekstsentrilisus peab olema vahemikus [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = tundmatu faasi liik `{ $kind }`; registreeritud liigid on { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` ei loetle ühtegi navigatsiooniallikat
+
+engine-e-ssv-check-training-pattern-missing = treeningmuster { $sv } puudub
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] vajab [clock_log] tabelit: mõõdetud jada, millest sobitus tehakse
+
+engine-lunar-phase-no-finite-points-to-plot = joonistamiseks ei ole lõplikke punkte
+
+engine-partner-cli-usage =
+    kasutus: kshana partner check <submission.toml> [--json]
+    { "  " }Kontrollib andmepartneri esituse (kshana.partner-submission/1) vormingut ja metaandmeid ning loeb selle
+    { "  " }andmefaili mootori enda lugejatega. See ei skoori ega valideeri midagi; vt docs/PARTNER-DATA.md.
+    { "  " }Väljumisolek 0: esitus on täielik ja loetav; 1: leiti vigu; 2: kasutus.
+    Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade.
+
+engine-evidence-verify-evidence-label-ledger-rows = tõendimärgis: { $tier } ({ $row_count } registririda: { $rows }); see on failis config.json, seega allkiri katab selle
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = tõendimärgis puudub (enne 0.40 koostatud pakett)
+
+engine-e-ssv-check-pattern-missing = muster { $sv } puudub
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | ainult inertsiaalne { $inertial_pos } m / { $inertial_vel } m/s | AFS-iga { $afs_pos } m / { $afs_vel } m/s | sisenemise hajuvus { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Kuu tõus: 3-D navigatsiooni positsiooni 1-sigma (m)
+
+engine-lunar-ascent-chart-subtitle = inertsiaalne triiv AFS-fiksatsioonidega | MODELLED, ainult nõuandev
+
+engine-lunar-ascent-chart-x-axis = sekundit stardist
+
+engine-lunar-ascent-chart-series = positsiooni 1-sigma
+
+engine-lunar-chart-y-axis-metres = meetrit
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | ainult inertsiaalne { $none_east }/{ $none_north } m (E/N) | abivahenditega { $all_east }/{ $all_north } m | hajuvus R95 { $r95 } m | 3-sigma ellips { $major } x { $minor } m | { $inside }% sees (oodatud { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Kuu maandumishajuvus: R95 kasutatud abivahendite kaupa
+
+engine-lunar-landing-chart-subtitle = R95 abivahendite kaupa: { $aids } | MODELLED, ainult nõuandev
+
+engine-lunar-landing-chart-x-axis = abivahendite kombinatsioon (indeks)
+
+engine-lunar-landing-chart-series = maandumishajuvuse R95
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | vahe { $sep } m | fiksatsioone { $fixes }% | suht. positsiooni 1-sigma R/A/C { $radial }/{ $along }/{ $cross } m | keskmine NEES { $nees } (oodatud 6) | koondunud { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = mitte kunagi
+
+engine-lunar-rendezvous-converged-at = hetkel { $s } s
+
+engine-lunar-rendezvous-chart-title = Kuu kohtumine: formaalne suhtelise positsiooni 1-sigma (3-D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | fiksatsioone { $fixes }% | keskmine NEES { $nees } (oodatud 6) | MODELLED, ainult nõuandev
+
+engine-lunar-rendezvous-chart-x-axis = minutit kaare algusest
+
+engine-lunar-rendezvous-chart-series = suhtelise positsiooni 1-sigma
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites } kohta x { $n_seasons } aastaaega | positsioneerimine { $position_min }% kuni { $position_max }% | halvim ajastuse kättesaadavus { $worst_timing }% | pikim ajastuse lünk { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Kuu pinna PNT-kaart: kättesaadavus koha kaupa (halvim aastaaeg, %)
+
+engine-lunar-surface-map-chart-subtitle = positsioneerimine = 4+ releed ja PDOP alla läve; ajastus = üks rele või Maa | MODELLED, ainult nõuandev
+
+engine-lunar-surface-map-chart-x-axis = koha indeks
+
+engine-lunar-surface-map-chart-y-axis = protsenti aknast
+
+engine-lunar-surface-map-chart-series-positioning = positsioneerimine
+
+engine-lunar-surface-map-chart-series-timing = ajastus
+
+engine-lunar-surface-map-chart-series-earth-visible = Maa nähtav
+
+engine-mission-thread-weakest-link = nõrgim lüli { $phase_id }
+
+engine-mission-thread-no-phases = faase ei ole
+
+engine-mission-thread-untitled = pealkirjata
+
+engine-mission-thread-summary = mission-thread | { $n_phases } faasi | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Missiooniahel
+
+engine-mission-thread-chart-position-caption = 1-sigma positsioon, m
+
+engine-mission-thread-chart-time-caption = 1-sigma aeg, s
+
+engine-mission-thread-chart-subtitle = MODELLED navigatsiooni ja ajastuse veaeelarve; iga faas on joonistatud võrdse laiusega
+
+engine-evidence-label-line-one-row = Tõend: { $tier } · { $n } registririda { $ids }
+
+engine-evidence-label-line-rows = Tõend: { $tier } · { $n } registririda { $ids }
+
+engine-evidence-label-line-rows-more = Tõend: { $tier } · { $n } registririda { $ids } +{ $n_more } veel
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }info: { $i }
+
+engine-partner-text-warning = { "  " }hoiatus: { $w }
+
+engine-partner-text-error = { "  " }VIGA: { $e }
+
+engine-partner-text-result-ok = tulemus: vorming ja metaandmed on täielikud ja loetavad
+
+engine-partner-text-result-not-ready = tulemus: ei ole valmis; paranda ülaltoodud vead

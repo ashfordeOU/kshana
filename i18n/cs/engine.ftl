@@ -10588,3 +10588,418 @@ engine-main-usage-sky =
     na epochu nejnovější sady elementů, tedy reprezentativní oblohu. MODELLED; docs/SKYLINE.md.
 
 engine-e-interop-geojson-the-scenario-has-no-waypoints = scénář nemá `waypoints` o 2 nebo více bodech, mezi něž by se rozložila trasa o dvou polohách
+
+engine-main-usage-skyline =
+    použití: kshana skyline --preset <name> [--json]
+    { "   " }nebo: kshana skyline --presets
+    { "   " }nebo: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Vypíše předvolbu obzoru (city-street, harbour-approach, fjord, container-terminal) s jejím
+    původem a řezem pro každý stupeň azimutu, seznam předvoleb, nebo sekci obzoru
+    zredukovanou na 360položkovou tabulku, kterou engine používá. Předvolby REPRESENTATIVE; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    použití: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }nebo: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }nebo: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Vázáno na LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29. ledna 2025). `spec` kontroluje tuto implementaci proti tištěným tabulkám kódů
+    a řešeným příkladům dokumentu (prahy B1 až B10 z xval/lunanet-afs/PREREGISTRATION.md; s --strict
+    je stavový kód 1, pokud není splněn každý práh). `symbols` kontroluje proud symbolů s tvrdým rozhodnutím
+    (text z 0 a 1) na synchronizační vzor, dekódování SB1, FID, kontinuitu TOI a rozestup
+    snímků; podsnímky 2 až 4 (LDPC, CRC-24Q) NEJSOU ověřovány. `generate` zapisuje zkušební proud
+    symbolů se zástupnými podsnímky; není to průběh signálu a Kshana žádný signál nezapisuje. Pro
+    akvizici nebo sledování průběhu AFS v záznamu použijte `kshana iq acquire --signal lunanet-afs-i`
+    (nebo lunanet-afs-q). Pouze poradní charakter. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    použití: kshana standards-pack list
+    { "   " }nebo: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }nebo: kshana standards-pack rows <id>
+    { "   " }nebo: kshana standards-pack tests <id>
+
+    Standards pack je sada scénářů hodnocených proti prahům stanoveným před během a spojených s řádky
+    compliance-report, pro něž podporuje důkazy. `run` vypíše tabulku (nebo --json) a s
+    --out zapíše <base>.pack.json a <base>.pack.md; předejte JSON příkazu `kshana compliance-report`,
+    aby se zobrazily řádky. Test, který potřebuje záznam přijímače, je uveden jako NEEDS INPUT a nehodnotí se.
+    MODELLED: splněný práh (MET) říká, že modelovaný scénář splnil stanovený práh, nikoli že nějaký produkt splňuje
+    požadavek. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: platí
+
+engine-main-wrote = zapsáno { $path }
+
+engine-main-note = poznámka: { $n }
+
+engine-main-error-example-extra-argument = chyba: neočekávaný argument '{ $extra }' za `example <name>`; přijímá jediný název
+
+engine-main-lunanet-afs-generate-needs = generate vyžaduje --frames <n> a --out <file> (a celočíselné --toi0)
+
+engine-evidence-cli-usage =
+    použití:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      výstupní kód 0 ověřeno, 1 selhalo, 3 neporušeno, ale podepisující není připnut
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(přečte token RFC 3161 a naváže jej na manifest; NEOVĚŘUJE podpis časové autority:
+    { "      " }použijte `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(propojuje scénář, zkušební podmínky laboratoře, záznam přijímače a jeho skóre;
+    { "      " }<scenario.toml> je scénář hodnocení receiver-trust; nezapisuje žádný signál)
+    { "  " }<t0>/<t1>: sekundy od první epochy záznamu, nebo čas UTC ve formátu ISO-8601, pokud záznam
+    { "  " }uvádí svůj počáteční čas. Balíček je technický záznam, nikoli právní posudek.
+
+engine-evidence-cli-fingerprint = otisk: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }selhání: { $f }
+
+engine-evidence-cli-verify-note = { "  " }poznámka: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: všechny hashe, řetězec i podpis souhlasí, pro klíč, který jste zadali.
+
+engine-evidence-cli-verified-unpinned = VERIFIED vůči klíči, který balíček uvádí sám, otisk { $fp } (podepisující NENÍ připnut; zadejte --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: hashe a podpis jsou konzistentní s klíčem { $fp }, který balíček uvádí sám. Zadejte --pubkey <signer public key>, aby se určilo, kdo balíček podepsal (nebo --allow-unpinned, pokud to vědomě přijímáte).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: viz selhání výše.
+
+engine-evidence-cli-attached = připojeno { $path }
+
+engine-evidence-cli-verify-with = ověřte pomocí: kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    použití: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }nebo: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }nebo: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } nebo hrubší>] [--bbox <south,west,north,east>] [--delay-hours <24 nebo více>]
+    { "   " }nebo: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }nebo: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom vyžaduje také --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = použití: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = datum
+
+engine-interference-map-cli-col-src = zdroj
+
+engine-interference-map-cli-col-degraded = zhoršeno
+
+engine-interference-map-cli-col-not-degraded = nezhoršeno
+
+engine-interference-map-cli-col-unassessed = neposouzeno
+
+engine-interference-map-cli-col-not-observed = nepozorováno
+
+engine-bench-cli-usage =
+    použití: kshana bench spec
+    { "   " }nebo: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }nebo: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }nebo: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }nebo: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }nebo: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }nebo: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }nebo: kshana bench validate <result.json>...
+    { "   " }nebo: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (bez vstupů: prázdný stav; --fragment: vložitelná sekce)
+    { "   " }(soubor seed obsahuje tajemství za zapečetěným holdoutem; udržujte jej mimo správu verzí)
+
+engine-bench-cli-match = shoda
+
+engine-bench-cli-valid = { $f }: platné
+
+engine-bench-cli-folders =
+    { $n ->
+        [one] { $n } složka
+        [few] { $n } složky
+        [many] { $n } složky
+       *[other] { $n } složek
+    }
+
+engine-bench-cli-unpinned = nepřipnuto: { $rel }
+
+engine-bench-cli-missing = chybí: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+engine-osnma-cli-usage =
+    použití: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    stránky I/NAV: prostý formát (viz docs/OSNMA.md) nebo
+    { "                             " }rozvržení CSV zveřejněných zkušebních vektorů
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }rozvržení vstupu (výchozí: podle obsahu souboru). ubx je bajtový
+    { "                             " }proud u-blox se zprávami UBX-RXM-SFRBX (Galileo E1-B)
+    { "  " }--start-gst SECONDS        počáteční čas vektorového CSV v sekundách GST
+    { "                             " }(výchozí: načte se z názvu souboru jako 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          důvěryhodný kořen Merkle (64 hexadecimálních číslic) pro kontroly DSM-PKR
+    { "  " }--public-key ID:TYPE:HEX   důvěryhodný veřejný klíč, TYPE p256 nebo p521, komprimovaný bod
+    { "  " }--reference-time SECONDS   aktuální čas v sekundách GST z nezávislého zdroje. Jediný
+    { "                             " }okamžik: podrámce vzdálenější od něj než tolerance se odloží,
+    { "                             " }proto jej použijte pro živá nebo právě zaznamenaná data
+    { "  " }--max-time-error SECONDS   největší vzdálenost podrámce od referenčního času, pod
+    { "                             " }30 (výchozí 29); vyžaduje --reference-time
+    { "  " }--epochs                   vypíše také každý výsledek značky
+    { "  " }--json                     vypíše JSON místo textu
+
+    Stavový kód: 0 hotovo, 2 chyba použití nebo vstupu, 3 selhala kontrola dat některé družice.
+
+engine-iq-cli-usage =
+    použití: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }nebo: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }nebo: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }nebo: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (výchozí auto, ≈4 ms koherentně)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }nebo: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }nebo: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }nebo: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }nebo: kshana iq campaign report <out-dir>
+    { "   " }nebo: kshana iq conditions <test-conditions.toml|json>
+    { "   " }nebo: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }nebo: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }scénáře labfit: [[runs]] záznamů přijímače, nebo [input] campaign = "<out-dir>" označující výstupní složku kampaně kshana iq campaign (relativně k souboru scénáře)
+    { " " }návrhy smyček: soubor TOML kshana.loop-design/1 (docs/design/LOOP-DESIGN-TOML.md); explicitní příznaky smyčky a akvizice přebíjejí vybraný návrh
+    { " " }acquire/track/sweep přijímají také příznaky předního konce [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], použité před zpracováním (na akvizici i sledování stejně)
+    { " " }parametry kanálu scény: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }profil C/N0 scény: [--cn0-profile <toml>] časově proměnné posuny C/N0 pro každou družici (skok, rampa, body, útlum), aplikované přes kanál; cn0_dbhz v pravdě je sleduje
+    { " " }záznamy/surové vstupy bez sidecaru přijímají také: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; vstupy s více proudy přijímají --channel <k>
+    { " " }signály: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> je seznam oddělený čárkami (jedna hodnota na --prn, nebo jedna hodnota pro všechny)
+
+engine-iq-cli-usage-error = chyba použití: { $m }
+
+engine-iq-io-cli-usage =
+    použití: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }nebo: kshana iq info <recording>
+    { "   " }nebo: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }nebo: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }nebo: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }surové vstupy bez sidecaru přijímají také: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }vstupy s více proudy (vícekanálové SigMF, prokládané surové) přijímají --channel <k> (od 0; výchozí 0)
+    { " " }formáty: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12 bitů v 16 ci12r_le ci12l_be cu12r_le ..., zabalené 4bitové ci4_msb cu4_lsb ..., zabalené 2bitové c2tc_msb c2sm_lsb r2ob_msb ..., 2 bity na bajt c2sm_byte ..., reálné r..., Q jako první ..._qi
+
+engine-telemetry-cli-usage =
+    použití: kshana trust-telemetry [options]
+    { "  " }vstup (výchozí: řádky JSON na stdin):
+    { "    " }--input <file|->         čte řádky JSON ze souboru, nebo `-` ze stdin
+    { "    " }--result <result.json>   přehraje epochy souboru výsledku `kshana receiver-trust`
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     poskytuje /metrics (výchozí 127.0.0.1:9464, není-li zvolen jiný výstup)
+    { "    " }--print-metrics          na konci vstupu vypíše výslednou expozici na stdout
+    { "    " }--hold                   po skončení vstupu dál poskytuje data
+    { "    " }--expose-position        zveřejní také polohu hlášenou přijímačem jako měřidla (výchozí vypnuto)
+    { "  " }syslog (CEF nebo LEEF v obálce RFC 5424):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  rámcuje zprávy TCP počítáním oktetů (RFC 6587), ne jednu na řádek
+    { "    " }--format cef|leef        dialekt obsahu (výchozí cef)
+    { "    " }--syslog-all             jedna událost na epochu (výchozí: jedna na změnu pásma)
+    { "    " }--host <name>            název hostitele zařízení v událostech (výchozí `kshana`)
+    { "  " }Home Assistant / zařízení NTP (stav JSON + zjišťování MQTT; jen publikování, bez přihlašovacích údajů a TLS):
+    { "    " }--mqtt-tcp <host:port>   publikuje na místní broker MQTT 3.1.1 (uchovávané zprávy, QoS 0)
+    { "    " }--print-mqtt             vypíše zprávy jako řádky `topic<TAB>payload`
+    { "    " }--mqtt-prefix <p>        předpona tématu stavu (výchozí kshana/trust); --mqtt-node <id> (výchozí kshana)
+    { "    " }--mqtt-discovery <p>     předpona zjišťování Home Assistant (výchozí homeassistant)
+    { "  " }OpenTelemetry (sestavení s --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (výchozí 10)
+
+engine-jammertest-cli-usage =
+    použití:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    Plán a katalog jsou zveřejněné soubory JSON NPRA/jammertest-plan (MIT; stáhněte je pomocí
+    xval/jammertest-plan/fetch.sh). Časy plánu jsou místní nástěnný čas; --local-offset-h (výchozí 2, CEST)
+    říká, jak daleko jsou od UTC. Razítka attack_log datové sady JammerTest 2024 uvádějí Z, ale jde o místní
+    čas: --time-shift-h má výchozí hodnotu -2. Události jsou plánovaná pravda, nikoli zaznamenané časy vysílání.
+    Software pouze poradního charakteru, nikoli typově schválené navigační zařízení.
+
+engine-nmea-synth-cli-usage =
+    použití: kshana nmea-scenario <scenario.toml> [options]
+
+    Zapisuje nebo vysílá syntetickou sadu můstkového NMEA 0183 (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    pro trasu plavidla se skriptovanými událostmi rušení/podvržení signálu a záznam instruktora.
+    Pouze pro výcvik a testování: nikdy jej nepřivádějte do živých navigačních systémů plavidla.
+
+    options:
+    { "  " }--out <file.nmea>          zapíše proud do souboru (výchozí <name>.nmea, není-li zadán
+    { "                             " }síťový výstup)
+    { "  " }--instructor-log <prefix>  zapíše <prefix>.json a <prefix>.txt (výchozí: vedle
+    { "                             " }souboru, jinak <name> v aktuální složce)
+    { "  " }--tcp <addr:port|port>     poskytuje proud přes TCP (nejprve čeká na klienta); holý
+    { "                             " }port naslouchá jen na 127.0.0.1. Neexistuje ověřování:
+    { "                             " }kdokoli, kdo adresu dosáhne, může proud číst
+    { "  " }--udp <addr:port|port>     odešle jednu větu v jednom datagramu UDP na tuto adresu; holý
+    { "                             " }port odesílá na 127.0.0.1
+    { "  " }--broadcast                povolí --udp použít adresu pro všesměrové vysílání
+    { "  " }--wait-clients <n>         počet klientů, na které se čeká před startem proudu TCP (výchozí 1)
+    { "  " }--realtime                 tempo v reálném čase (výchozí pro síťový výstup)
+    { "  " }--speed <x>                tempo x-násobku reálného času; 0 je co nejrychleji
+    { "                             " }(výchozí pro soubory)
+    { "  " }--seed <n>                 nahradí seed scénáře
+    { "  " }--no-marker                vynechá větu se značkou syntetických dat
+
+engine-live-io-usage =
+    použití: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Čte NMEA 0183 (ve výchozím stavu ze stdin), hodnotí každou epochu polohy plavidla skóre 0-100 a zapisuje
+    jeden řádek JSON na epochu (ve výchozím stavu na stdout). S --gate se proud NMEA místo toho předává na stdout,
+    beze změny, dokud je poloha důvěryhodná, a s polohou označenou jako neplatná, dokud není, přičemž za každým
+    cyklem následuje věta $PKSHT; JSON pak jde jen tam, kam říká --json. Relace je
+    scénář .toml s [platform] kind = "vessel"; jeho tabulka [log] není potřeba.
+
+    --listen (s --gate) poskytuje hradlovaný proud libovolnému počtu klientů TCP (například mapovému
+    plotru) místo zápisu na stdout; výchozí adresou je loopback. Klient, který
+    nestíhá, je odpojen, takže nikdy nezdržuje ostatní ani vstup.
+
+    Čas přijímače se také kontroluje proti hodinám tohoto počítače, což má smysl jen pro
+    proud přicházející v reálném čase; pro uložený záznam přiváděný rychleji (stdin, tcp, udp) zadejte
+    --replay, a prosté --file (bez --follow) to již dělá.
+
+    --serial čte sériové nebo USB zařízení (jen Unix), pouze pro čtení: otevře zařízení ke čtení, nastaví
+    místní linku do raw režimu při --baud (výchozí 4800, rychlost NMEA 0183) a nikdy nezapíše do
+    přijímače ani bajt. Kshana přijímače nekonfiguruje; nastavte přijímač na výstup NMEA jeho vlastním nástrojem.
+
+    Toto je software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162):
+    za navigaci plavidla zůstává odpovědný provozovatel.
+
+engine-tle-warning = varování: { $w }
+
+engine-e-animation-no-time-series-to-animate = žádná časová řada k animaci: výsledek { $k } nenese žádnou vzorkovanou časovou osu (tvary, které exportér rozpoznává, viz docs/ANIMATION.md)
+
+engine-animation-svg-sub = druh { $kind } · { $t0 } až { $t1 } · vzorky z result.json, vykresleny bez převzorkování · Kshana { $version }
+
+engine-animation-svg-strip-events = události
+
+engine-animation-svg-strip-phases = fáze
+
+engine-animation-svg-waterfall = vodopád: { $title } [{ $unit }], čas běží dolů, barva { $lo } až { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = index epochy
+
+engine-animation-svg-desc = Animovaná časová řada běhu { $kind }: panelů { $n_panels }, událostí { $n_events }, fází { $n_phases }. Každý bod je vzorek z result.json běhu.
+
+engine-animation-html-title = { $title } — animace Kshana
+
+engine-animation-html-sub = druh { $kind } · řad z result.json: { $n }, vykresleny bez převzorkování · Kshana { $version }
+
+engine-animation-html-playback = Přehrávání
+
+engine-animation-html-play = Přehrát
+
+engine-animation-html-pause = Pozastavit
+
+engine-animation-html-mission-time = Čas mise
+
+engine-animation-html-speed = rychlost
+
+engine-animation-html-playback-speed = Rychlost přehrávání
+
+engine-animation-html-events = Události
+
+engine-animation-html-footer-keys = Mezerník přehrává nebo pozastavuje, šipky krokují, Home a End skáčou. Toto je vykreslení vlastních vzorků běhu: je stejně dobré jako běh a nepřidává žádný důkaz (MODELLED, vnitřní konzistence).
+
+engine-animation-html-footer-determinism = Stejný scénář, seed a volby dávají byte po bajtu shodný soubor.
+
+engine-animation-html-exports-heading = Exporty zapsané vedle tohoto přehrávače
+
+engine-animation-js-phases-and-events = fáze a události
+
+engine-animation-js-waterfall = vodopád: { $title } [{ $unit }], čas běží dolů
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = fáze: { $name }
+
+engine-e-evidence-bundle-bad-log-slice = neplatný výřez záznamu: { $s }
+
+engine-e-evidence-bundle-bad-window = neplatné okno: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = neplatný čas vytvoření: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = neplatný token časového razítka: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = nelze serializovat: { $s }
+
+engine-e-osnma-page-not-valid-hex = stránka není platný hexadecimální řetězec
+
+engine-e-osnma-page-time-outside-week-number = čas stránky leží mimo 4096 týdnů čísla týdne Galileo
+
+engine-e-osnma-page-bad-length = stránka má { $n } hexadecimálních číslic, očekává se 60
+
+engine-e-osnma-page-malformed-line = chybně utvořený řádek stránky: { $s }
+
+engine-e-interchange-encode-payload = nepodařilo se zakódovat obsah: { $e }
+
+engine-e-interchange-invalid-envelope = není platná výměnná obálka: { $e }
+
+engine-e-interchange-not-kshana-artifact = není artefakt Kshana: formát je { $found }, očekává se { $expected }
+
+engine-e-interchange-incompatible-schema-version = nekompatibilní verze schématu { $v } ({ $verdict }); tento engine mluví verzí { $current }
+
+engine-e-interchange-payload-mismatch = obsah neodpovídal požadovanému typu: { $e }
+
+engine-e-interop-not-applicable = nelze použít: { $why }
+
+engine-e-iq-io-error = chyba V/V: { $m }
+
+engine-e-iq-format-error = chyba formátu: { $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }: PRN { $prn } není ICD definováno
+
+engine-e-iq-signals-glonass-channel-outside = frekvenční kanál GLONASS { $k } leží mimo -7..=6
+
+engine-e-iq-signals-code-table = tabulka kódů: { $m }
+
+engine-e-kepler-out-of-domain = Keplerova rovnice: M nebo e mimo definiční obor
+
+engine-e-kepler-no-convergence = Keplerova rovnice nekonvergovala za { $iters } kroků (reziduum { $residual })
+
+engine-e-lunar-orientation-epoch-outside-series = epocha { $t } juliánských staletí od J2000 leží mimo řadu měsíční orientace DE440 ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+engine-e-propagator-sgp4-error = chyba propagace SGP4 (kód { $code })
+
+engine-e-integrator-dop853-stopped = DOP853 se zastavil v t = { $t } ({ $failure }) po { $accepted } krocích
+
+engine-e-portable-distr-variance-non-finite = rozptyl je nekonečný v normálním rozdělení
+
+engine-e-portable-distr-shape-not-positive = tvar není kladný v rozdělení gama
+
+engine-e-portable-distr-scale-not-positive = měřítko není kladné v rozdělení gama
+
+engine-bench-tasks-clock-line-before-header = řádek hodin předchází jakékoli hlavičce `@<PRN>`
+
+engine-api-html-clock = Hodiny
+
+engine-api-html-fom-heading = Ukazatele kvality
+
+engine-api-html-metric = Metrika
+
+engine-api-html-value = Hodnota
+
+engine-api-html-validation = Validace
+
+engine-api-html-tier-note = Každý ukazatel kvality je označen VALIDATED (ověřeno proti vnějšímu orákulu) nebo MODELLED (z prvních principů, vnitřně testováno), odvozeno z verifikační matice.
+
+engine-api-html-default-title = Kshana — výsledek scénáře
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · přesný okamžik
+
+engine-api-html-tagline = Přehled výkonu hybridního kvantového / klasického PNT
+
+engine-api-html-chart-alt = Graf výsledku
+
+engine-api-html-full-result = Úplný výsledek (JSON)
+
+engine-api-html-footer-generated = Vygenerováno programem Kshana { $version }.
