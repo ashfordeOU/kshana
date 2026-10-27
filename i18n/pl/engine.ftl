@@ -33,7 +33,7 @@ engine-e-clock-log-the-rinex-clock-file-holds = plik zegarowy RINEX zawiera zega
 
 engine-e-clock-log-no-as-or-ar-records = brak rekordów AS lub AR dla zegara { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = zegar ma jedną epokę; nie można wyznaczyć tau0
+engine-e-clock-log-the-clock-has-single-epoch = zegar ma jedną epokę; potrzebne są co najmniej dwie (nie można wyznaczyć tau0)
 
 engine-e-clock-log-the-log-has-no-readings = log { $format } nie zawiera odczytów
 
