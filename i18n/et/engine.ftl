@@ -9722,3 +9722,1270 @@ engine-compliance-mapping-header-gap = Lünk
 engine-compliance-mapping-none = puudub
 
 engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Loetud { $accessed }: { $checked }.
+
+engine-kind-lunar-ascent-description = MODELLED mootoriga tõus Kuu lõunapooluse pinnakohast kohtumisorbiidile ning positsiooni-kiiruse kovariatsioon, mille see orbiidile kaasa viib (Artemis-klass). Lunar-descent'i viieoleku telgede kaupa inertsiaalse vea mudel (positsioon, kiirus, kiirendusmõõturi nihe, orientatsiooni kalle, güroskoobi nihe, mida juhib erijõud) töötab kõigil kolmel kohatelje suunal pinnaolekust, millega faas algab; AFS-positsioonifiksatsioon ILLUSTRATIVE LCNS-klassi konstellatsiooni nähtavatelt releedelt (eraldiseisev või diferentsiaalne, kasutades lunar-differential-pnt'i parandusliini jääki, kusjuures kella toetatakse, kui nähtavaid releesid on ainult kolm) võetakse määratud intervalliga; Kuu aeg siseneb sõiduki kella ja piki rada kulgeva ajatempli vea kaudu. Väljastab suletud kujul inertsiaalsed allikad, abivahendi panuse, ablatsiooni, navigatsiooni 1-sigmad tõusu jooksul, mootori väljalülitamise hajuvuse navigatsioonilise teadmise kõrval ja täieliku 6x6 MCI kovariatsiooni orbiidile sisenemisel, positsiooni-kiiruse korrelatsioon säilitatuna. MODELLED: illustratiivne IMU klass, erijõud, releekomplekt ja väljalülitamise hajuvus; vead on hoitud stardikoha telgedes; nominaalne väljumisolek on asendusväärtus. Ei ole ühegi ametkonna heaks kiidetud; nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.
+
+engine-kind-lunar-surface-description = MODELLED pinnapositsioneerimise ja ajastuse kättesaadavus koha ja aastaaja kaupa Artemis-klassi lõunapooluse kohtades. Iga koha ja aastaaja kohta (epohh ja selle järel olev aken) esitab see releepositsioneerimise (ILLUSTRATIVE LCNS-klassi konstellatsiooni neli või rohkem releed nähtaval ja PDOP alla läve, samadest funktsioonidest nagu moonlight-service-volume ning maastikuosa korral lunar-station-coverage'i maastiku kiirtega läbi käidud horisondijoon), kas Maa ja Päike on koha horisondi kohal (analüütiline Päike, Kuu ja Kuu orientatsioon, libratsioon kaasa arvatud, mis aastaajaga muutub), ning ajastuse kättesaadavuse (rele või Maa nähtaval) koos pikima lõiguga, kus ei ole kumbagi, st holdover'iga, mille pinnakell peab üle elama. Ühe koha tulemus võrdub moonlight-service-volume'i omaga bitini. MODELLED: illustratiivne Kepleri releekomplekt keskmise pöörlemisega Kuul; releenäitaja aastaajaga ei muutu; maastik on 1200 m LOLA väljalõige. Ei ole ühegi ametkonna heaks kiidetud; nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.
+
+engine-kind-lunar-descent-description = MODELLED maandumishajuvuse eelarve mootoriga laskumiseks lõunapooluse kohta (Artemis-klass). Horisontaaltelje kohta juhib laskumise erijõud viieoleku inertsiaalse vea mudelit (positsioon, kiirus, kiirendusmõõturi nihe, orientatsiooni kalle, güroskoobi nihe); järjestikfilter võtab positsioonifiksatsioone lubatud abivahenditelt: AFS-fiksatsioon ILLUSTRATIVE LCNS-klassi konstellatsiooni nähtavatelt releedelt (eraldiseisev või diferentsiaalne, kasutades lunar-differential-pnt'i parandusliini jääki, kusjuures kella toetatakse, kui nähtavaid releesid on ainult kolm) ja maastikusuhteline fiksatsioon (crate'i TERCOM/SITAN sobitaja sünteetilisel reljeefil või päris LOLA lõunapooluse DEM-i kõrgusakna sobitamise Cramer-Rao piir). Kuu aeg siseneb sõiduki kella kaudu fiksatsioonide hetkel (lunar-time-offset'i LTC-TT nihe või selle avaldatud riba määramatus) ja piki rada kulgeva ajatempli veana. Väljastab 3-sigma maandumisellipsi, R95, suletud kujul inertsiaalsed allikad, iga abivahendi panuse, kõigi abivahendite kombinatsioonide ablatsiooni, ellipsi Monte Carlo kalibreerimise ja edasi antud kovariatsiooni. MODELLED: illustratiivne IMU klass, releekomplekt, laskumisprofiil ja juhtimisliige; maastikunavigatsioon kasutab sünteetilist reljeefi Maa meetriskaalal; AFS-i kättesaadavus on üks epohh tasasel maskil. Ei ole ühegi ametkonna heaks kiidetud; nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.
+
+engine-kind-lunar-orbit-rendezvous-description = MODELLED suhteline navigatsioon Orioni-laadse maanduri dokkimiseks madalal Kuu orbiidil või elliptilisel polaarorbiidil (Artemis-klass). Jälitaja ja sihtmärk lendavad samal orbiidil crate'i Kuu jõumudeli all; ühine 21-parameetriline pakett-Gauss-Newtoni hinnang kaare ulatuses (kaks sõiduki olekut ja püsivad signaali ruumis levimise nihked) liidab iga sõiduki absoluutse positsioonifiksatsiooni ILLUSTRATIVE LCNS-klassi releekomplektilt (Kuu taha jäävad releed jäetakse välja, vaja on nelja, sõidukite vaheline ühisrežiimi signaali ruumis levimise viga kaob) ja ristlingi kaugusmõõtmise, kusjuures kaugusmõõtmise täpsus tuleb LunaNet AFS-piloodi koodijälgimise piirist. Väljastab formaalse ja Monte Carlo suhtelise positsiooni- ja kiiruseveaga sihtmärgi LVLH telgedes, fiksatsiooni kättesaadavuse, keskmise normeeritud hinnangu vea ruudu oodatud väärtuse kõrval ja iga katse, mille iteratsioon ei koondunud, raskusjõuharmoonikute eiramisest tuleneva triivi ja täieliku edasi antud 6x6 kovariatsiooni. Ringjuhu jaoks kehtib suletud kujul Hilli/Clohessy-Wiltshire'i kontroll. MODELLED: illustratiivne releekomplekt, veaeelarve ja eelteadmised; tõeline olek ja hindaja jagavad üht jõumudelit, seega NEES kontrollib sisemist kooskõla, mitte mudeli viga. Ei ole ühegi ametkonna heaks kiidetud; nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.
+
+engine-kind-mission-thread-description = MODELLED navigatsiooni ja ajastuse veaeelarve määratud missioonifaaside ahelale starditest sisenemiseni: start ja tõus, madala Maa orbiidi kohtumine ja dokkimine (korratav), Kuule suunav siire ja tsislunaarne lend, Kuu orbiidi kohtumine, laskumine, viibimine pinnal, tõus ning tagasitulek ja sisenemine, iga faas üks kaheksast registreeritud liigist oma andurite ja filtriga. 6x6 kovariatsioon, kell ja tugisüsteem antakse faasilt faasile edasi määratud reegli järgi (kanna edasi, paisuta või omanda uuesti); tugisüsteemi ja ajaskaala teisendused (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) on oma eelarveread, Kuu olek valikulisest DE440 kerneli väljalõikest ja analüütiline rida määratud varuvariandina. Valikuline maajaamade võrgu kate määrab iga faasi jälgimistöötsükli. Väljastab faasipõhise eelarve (sisenemise, tipu ja väljumise 1-sigmad, iga panus koos ühikuga), varu määratud nõude suhtes, nõrgima lüli, sündmused ja ajajoone joonise. MODELLED: iga arv on määratud sisend; ahel järgib ühte komplekti ja ühtegi sõidukit ei modelleerita. Ainult avalikud allikad; ei ole seotud ühegi ametkonnaga ega nende heaks kiidetud; nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt: `magnetic_grid` asendab sünteetilise magnetvälja, seega peab `magnetic_mascons` olema tühi, kui see on antud
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = aruandlushorisondil peab olema positiivne pikkus (horizon_end_s > horizon_start_s)
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers: tulemusdokument ei ole kujundatud JSON-objekt
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] esitab ühe käivituse RAIM-i selle holdover-näitajate kõrval; see vajab väärtust runs = 1
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = jälgimata rikke risk ammendab kogu terviklikkuse eelarve; lõplikku kaitsetaset ei ole
+
+engine-e-araim-reference-the-add-v4-subset-rule = ADD v4.2 alamhulgareegel loetleb alati paarid; max_order peab olema >= 2
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint ei väljastanud ühtegi punkti
+
+engine-e-bench-cli-scale-is-not-number = --scale ei ole arv
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` loeb andmekogu ja on mõeldud ülesandele a; ülesanded c ja d kasutavad käsku `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = ülesandel c ei ole suletud holdout'i
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` teeb ülesannete c ja d failid; ülesanne a on ise andmekogu (kasuta `truth`)
+
+engine-e-bench-cli-threshold-is-not-number = --threshold ei ole arv
+
+engine-e-bench-cli-seed-file-is-required = --seed-file on nõutav
+
+engine-e-bench-cli-validate-needs-at-least-one = validate vajab vähemalt ühte tulemusfaili
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` on mõeldud ülesandele a; teistel ülesannetel on kinnitatud manifestid
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest vajab ühte manifestifaili
+
+engine-e-bench-system-name-is-required = `system.name` on nõutav
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth'il puudub `labels` massiiv
+
+engine-e-bench-tasks-label-has-no-id = sildil puudub `id`
+
+engine-e-bench-tasks-label-has-no-positive = sildil puudub `positive`
+
+engine-e-bench-tasks-predictions-have-no-scores-object = ennustustel puudub `scores` objekt
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = holdout on suletud: anna saladus edasi võtmega --seed-file
+
+engine-e-bench-tasks-task-truth-has-no-truth = ülesande (c) truth'il puudub `truth` massiiv
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = ülesande (c) ennustustel puudub `predictions` objekt
+
+engine-e-bench-tasks-truth-entry-has-no-id = truth'i kirjel puudub `id`
+
+engine-e-campaign-compare-needs-threshold = compare vajab läve
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM: puudub CCSDS_TDM_VERS päis
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = chief asub Kuul: polaarkoordinaadid on singulaarsed
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock kehtib ainult vormingutele rinex-clk, linuxptp ja chrony (TICC kasutab väärtust channel)
+
+engine-e-clock-log-single-column-timelab-log-needs = ühe veeruga timelab-logi vajab väärtust tau0: päis `# tau0 = <s>` või tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = TICC-logis ei ole ühtegi näitu (`<seconds> chA|chB|chC|TI(...)` read)
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = intensiivsusruudustik on ootamatult tühi
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg peab olema vahemikus (0, 180) (ekvatoriaalsel orbiidil ei ole tõusvat sõlme)
+
+engine-e-evidence-bundle-its-imprint-is-not-the = selle jäljend ei ole selle paketi manifest.json'i räsi (märgi saab hankida alles pärast paketi olemasolu: kasuta `kshana evidence attach-timestamp`)
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey peab olema 32 baiti (64 kuueteistkümnendnumbrit)
+
+engine-e-evidence-cli-that-is-the-private-key = see on allkirjastaja PRIVAATVÕTI. Ära jaga seda kunagi; anna edasi avalik võti (.pub fail)
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation: juhtmega seadistus vajab väärtust attenuation_db, lõplikku arvu dB-des, 0 või rohkem
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = toetamata räsialgoritm
+
+engine-e-evidence-tsa-signature-failure = allkirja rike
+
+engine-e-field-schema-entry-is-not-an-object = kirje ei ole objekt
+
+engine-e-field-schema-no-unit-string = puudub `unit` string
+
+engine-e-field-schema-no-provenance-string = puudub `provenance` string
+
+engine-e-geometry-sky-tle-holds-no-complete = sky: tle ei sisalda ühtegi täielikku kaherealist orbiidielementide komplekti
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky: epoch dateerib `tle` satelliidid; eelseadistatud `systems` ja otse antud satelliidid ei kanna kuupäeva, seega anna selle kõrval `tle`
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map: `reference` asendab sünteetilise välja, seega peavad `coeffs` ja `mascons` olema tühjad, kui see on antud
+
+engine-e-gse-sim-fusion-od-produced-no-steps = liitmis-OD ei andnud ühtegi sammu (liiga vähe vaatlusi)
+
+engine-e-holdover-test-give-one-of-series-samples = anna üks väärtustest series.samples, series.csv_path või series.clock_log
+
+engine-e-holdover-test-give-one-of-series-samples-2 = anna üks väärtustest series.samples, series.csv_path või series.clock_log, mitte rohkem kui üks
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s peab olema lõplik, locked_duration_days >= 0, recovery_band_ns > 0 ja recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path ei ole WebAssembly ehituses saadaval; anna jada otse väärtusena `samples` või `clock_log.text`
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry vajab vähemalt kahte erinevat lõplikku nähtavusjoone tegurit
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = optiline link ei andnud ühtegi footonit (lõpmatu kaugusmõõtmise CRLB); suurenda võimsust / apertuuri / integreerimisaega
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz ja rf_degraded_margin_db peavad olema lõplikud
+
+engine-e-interference-map-adsb-need-at-least-one-of = vaja on vähemalt ühte veergudest `nic`, `nacp`
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip: lahtipakitud suurus ületab piiri
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = trace JSON-ist puudub icao, timestamp või trace
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = oma andmekogu vajab litsentsi, litsentsi URL-i ja viidatava teksti
+
+engine-e-interference-map-api-cell-size-must-be-between = lahtri suurus peab olema vahemikus { $lit_0_01 } kuni 10 kraadi
+
+engine-e-interference-map-api-map-has-bad-date = kaardil on vigane kuupäev
+
+engine-e-interference-map-api-no-map-falls-in-the = ühtegi kaarti ei jää kuupäevavahemikku
+
+engine-e-interference-map-cli-dataset-is-required-so-the = --dataset on nõutav, et litsents ja viide manustataks
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg ei ole arv
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg peab olema vahemikus { $lit_0_01 } kuni 10
+
+engine-e-interference-map-cli-subcommand-is-required = alamkäsk on nõutav
+
+engine-e-interference-map-cli-input-file-missing = sisendfail puudub
+
+engine-e-interference-map-cli-out-is-required = --out on nõutav
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land laadib faili alla: kinnita võtmega --allow-network
+
+engine-e-interference-map-cli-curl-failed-to-download-the = curl ei suutnud maapolügoone alla laadida
+
+engine-e-interference-map-cli-route-is-required = --route on nõutav
+
+engine-e-interference-map-cli-at-least-one-map-is = vähemalt üks --map on nõutav
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = maapolügoonid: ühtegi Polygon'i ega MultiPolygon'i ei leitud
+
+engine-e-interference-map-empty-input-header-row-is = tühi sisend: päisrida on nõutav
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox on south,west,north,east kraadides
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox peab rahuldama tingimusi south < north ja west < east, gloobuse piires (ilma antimeridiaani ületamiseta)
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = OpenSky Networki andmed on välja jäetud: selle litsents ei luba tuletatud kaartide kommertskasutust ega levitamist (docs/data/INTERFERENCE-DATA-SOURCES.md)
+
+engine-e-interference-map-observatory-day-is-required = --day on nõutav
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours ei ole arv
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg peab olema vahemikus { $lit_0_5 } kuni 10
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = sisendis ei ole ühtegi kasutatavat aruannet
+
+engine-e-interference-map-route-not-kshana-interference-map-no = ei ole Kshana häirekaart (puudub `kshana_interference_map` liige)
+
+engine-e-interference-map-route-map-has-no-date = kaardil puudub kuupäev
+
+engine-e-interference-map-route-map-has-no-grid-cell = kaardil puudub ruudustiku lahtri suurus
+
+engine-e-interference-map-route-map-has-an-invalid-grid = kaardil on kehtetu ruudustiku lahtri suurus
+
+engine-e-interference-map-route-route-no-linestring-found = marsruut: ühtegi LineString'i ei leitud
+
+engine-e-interference-map-route-route-needs-at-least-two = marsruut vajab vähemalt kahte teekonnapunkti
+
+engine-e-interference-map-route-route-waypoint-out-of-range = marsruut: teekonnapunkt väljaspool vahemikku
+
+engine-e-interop-sigmf-records-signal-not-geometry = SigMF salvestab signaali, mitte geomeetriat; see kirjutatakse stsenaariumist, mitte stseenist
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = SigMF sisaldab kompleksseid baasriba loendeid, mida sünteesib ainult `spectrum` liik
+
+engine-e-interop-this-spectrum-scenario-has-no = sellel spectrum-stsenaariumil ei ole [iq] plokki, seega salvestamiseks loendeid ei sünteesita
+
+engine-e-interop-scene-time-step-must-be-positive = ekspordi ajasamm peab olema positiivne ja lõplik
+
+engine-e-interop-scene-duration-must-be-non-negative = ekspordi kestus peab olema mittenegatiivne ja lõplik
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = see pvt-stsenaarium ei anna väärtust `truth_ecef`, mis on ainus positsioon, mida see esitab
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = STK efemeriid kirjeldab sõiduki positsiooni ja kiirust ajas; sellel stseenil on ainult fikseeritud punktid või ajata rajad (fikseeritud punkt on STK Facility, mitte efemeriid)
+
+engine-e-interop-stk-scene-has-no-epoch = stseenil puudub epohh
+
+engine-e-iq-acq-surface-surface-header-names-too-many = pinna päis nimetab liiga palju lahtreid
+
+engine-e-iq-cli-acquire-needs-signal-name = vajab võtit --signal <name>
+
+engine-e-iq-cli-acquire-needs-prn-list = vajab võtit --prn <list>
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface ekspordib ühe otsingupinna: anna täpselt üks --prn
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos vajab peegeldunud teed: lisa --multipath-height või --land-mobile
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass tahab kahte väärtust: lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend vajab vähemalt ühte astet (--bandpass/--notch/--blank/--excise/--agc/--bits)
+
+engine-e-iq-cli-no-iq-processing-command-given = ühtegi iq töötlemiskäsku ei antud
+
+engine-e-iq-cli-missing-recording-path = salvestuse tee puudub
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout sobib ainult koos võtmega --follow
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow loeb SigMF-salvestust (anna .sigmf-meta, .sigmf-data või baastee)
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout peab olema positiivne sekundite arv
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos tahab kolme väärtust: lat,lon,alt (deg,deg,m)
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene vajab võtit --rate <hz>
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene vajab võtit --duration <s> (või --window)
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav vajab võtit --rx-pos lat,lon,alt
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene vajab võtit --signal <name>
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene vajab võtit --prn <list>
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format võtab väärtuse sigmf või sdrx, mitte mõlemat
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx kirjutab ci8 (vaikimisi) või ci16_le (sdrx:ci16_le); ION metaandmete standardis ei ole ujukomakodeeringut
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name vajab võtit --design <file.toml>
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads peab olema positiivne täisarv või auto
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format vajab võtit --epochs <path>
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert vajab võtit --to <format>
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract vajab võtit --start
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract vajab võtit --duration
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start ja --duration peavad olema mittenegatiivsed
+
+engine-e-iq-io-cli-real-input-is-converted-to = reaalne sisend teisendatakse kompleksseks baasribaks: anna --factor <d> (>= 2)
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate vajab võtit --factor <d> või --up <l> ja --down <m>
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = ümberdiskreetimise tegurid peavad olema positiivsed
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = ümberdiskreetimise tegurid peavad olema positiivsed ja filter mittetühi
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = reaalse IF-i teisendus vajab vähemalt 2-kordset detsimeerimist, et peegelsagedus eemaldada
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx paigutus: tükk ei sisalda ühtegi tervet lumpi
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx andmed lõpevad päises
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = SigMF-voog vajab vähemalt ühte salvestust
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = select_channel tuleb kutsuda enne lugemist
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = SigMF andmed lõpevad enne esimest jäädvustust
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" vajab [validation] tabelit, mis on kirjutatud enne kampaania tulemuste lugemist
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign: IQ kampaaniakausta sobitus vajab natiivset ehitust (kampaaniakiht ei ole WebAssembly jaoks ehitatud); vastuvõtjalogi tee ([[runs]]) töötab siin
+
+engine-e-iq-scene-truth-missing-truth-csv-header = puudub truth CSV päis
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s kehtib ainult siis, kui fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = ahelakujunduse fail ei sisalda ühtegi kujundust
+
+engine-e-iq-track-sink-short-record = lühike salvestus
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = paranduspolünoomi sobitus on singulaarne (astme jaoks liiga vähe loendeid)
+
+engine-e-leo-navmsg-each-trade-update-periods-must = iga trade.update_periods_s peab olema vahemikus (0, update_fit_interval_s]
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass: user_lat_deg vahemikus [-90, 90], mask_deg vahemikus [0, 60), search_s 600-172800
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0, rain_exceedance_percent vahemikus [{ $lit_0_001 }, 5] ja scintillation_percent vahemikus [{ $lit_0_01 }, 50]
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer: onset_s akna sees, offset_m vahemikus [0, 1e6], push_rate_m_s vahemikus [0, 1000], positiivsed prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz ja fll_integration_s, p_fa ja p_md vahemikus (0, { $lit_0_5 }), iono_rate_bound_m_s >= 0
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver: loop_bandwidth_hz ja integration_time_s peavad olema positiivsed
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver: 1 kuni 12 korrelaatori vahet, igaüks (nagu reference_spacing_chips) vahemikus 0 kuni 2 chip'i
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm ja user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90
+
+engine-e-live-io-baud-needs-number = --baud vajab arvu
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure ei ole realiseeritud: Kshana ei kirjuta kunagi vastuvõtjasse. Seadista see tootja enda tööriistaga ja loe seejärel võtmega --serial
+
+engine-e-live-io-more-than-one-session-file = rohkem kui üks sessioonifail
+
+engine-e-live-io-follow-and-from-end-apply = --follow ja --from-end kehtivad ainult võtmega --file
+
+engine-e-live-io-baud-applies-to-serial-only = --baud kehtib ainult võtmega --serial
+
+engine-e-live-io-live-needs-session-toml = live vajab sessiooni .toml-faili
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen teenindab väravdatud voogu: lisa --gate
+
+engine-e-live-io-two-outputs-would-share-stdout = kaks väljundit jagaksid stdout'i; saada --json või --pksht faili
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = Kuu efemeriid: anna täpselt üks väärtustest `mean_anom_deg` või `true_anom_deg`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = Kuu efemeriid: satelliidiindeksid peavad olema pidevad alates 0-st, ilma lünkadeta
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = majaki informatsioon koha kohta vajab väärtust station_datum = "fixed"; hinnatud jaama datum seob majakad
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m, surface.orbiter_range_sigma_m ja llr.epochs peavad olema positiivsed
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = liiga vähe jälgitavaid GNSS-mõõtmisi orbiidi ja vastuvõtja kella määramiseks
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = vähem kui kaks ühendatud ülelendu: topeltvahe mitmetähenduslikkust ei ole mida lahendada
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = kosmoseseose informatsioonimaatriks on singulaarne
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m peab olema lõplik ja positiivne (või anna jammer.lat_deg ja jammer.lon_deg, et segaja selenograafiliselt paigutada)
+
+engine-e-lunar-llr-the-station-catalogue-states-no = jaamakataloog ei määra väärtust position_epoch_year; ITRF-positsiooni ei saa ilma selle epohhita edasi arvutada
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = beacon_campaign.beacons ei kasutata siin; määra lisatud majakad väljal extra_beacons
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path kehtib elementide failile, mis on määratud OP-tugisüsteemis
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain: anna dem_path, dem_tile_path, station_horizon või user_horizon (või jäta [terrain] ära)
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain: station_horizon'il ei ole selles liigis jaama; kasuta user_horizon
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s on tau-ruudustikust lühem
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab: thresholds_ns peab olema positiivsete arvude mittetühi loend
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = datum "all-stations-fixed" hoiab kõiki jaamu fikseeritutena, seega ei hinda see midagi, välja arvatud juhul, kui majakat hinnatakse: sea estimate_beacon = true
+
+engine-e-mars-pnt-fusion-od-run-produced-no = liitmis-OD käivitus ei andnud ühtegi sammu (liiga vähe vaatlusi)
+
+engine-e-nmea-synth-clock-not-numeric = ei ole arv
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name peab olema 1 kuni 64 märki hulgast A-Z a-z 0-9 . _ - ega tohi alata punktiga (see nimetab väljundfailid)
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = vastuvõtja parameetrid väljaspool vahemikku (mask 0-45 deg, track <= use threshold, 4-12 kasutatud satelliiti, noise >= 0, corr > 0, reacquire >= 0)
+
+engine-e-nmea-synth-config-the-time-change-per-second = ajamuutus sekundis ulatub 1-ni, seega ettenäidatud aeg seiskuks või jookseks tagurpidi; pikenda ramp_s/recovery_s või kasuta astet (0)
+
+engine-e-orbit-give-the-user-as-user = anna kasutaja kui `user` (orbiit) või `user_site` (maajaam), mitte mõlemat
+
+engine-e-orbit-missing-the-user-give-user = kasutaja puudub: anna `user` (orbiit) või `user_site` (maajaam)
+
+engine-e-orbit-skyline-needs-ground-site-give = [skyline] vajab maajaama: anna `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }` orbiidil oleva `user` asemel (orbiidil ei ole Maaga seotud asimuuti)
+
+engine-e-orbit-omm-export-requires-tle-defined = OMM eksport nõuab TLE-ga määratud konstellatsiooni; sellel stsenaariumil seda ei ole
+
+engine-e-passes-earth-orientation-parameters-out-of = Maa orientatsiooniparameetrid väljaspool vahemikku: |ut1_minus_utc_s| <= 1, |xp_arcsec| ja |yp_arcsec| <= 2
+
+engine-e-pvt-no-priori-position-set-apriori = a priori positsiooni ei ole: sea apriori_ecef, vaatluspäise APPROX POSITION XYZ või truth_ecef
+
+engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings ja coherents ei saa olla koos väärtusega design: pühkimine käivitab iga faili kujunduse
+
+engine-e-python-no-designs-to-sweep = pühkimiseks ei ole kujundusi
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate = candidate_adev_taus ja candidate_adev_values peavad olema võrdse pikkusega (>= 2)
+
+engine-e-quantum-trade-provide-either-candidate-adev-taus = anna kas candidate_adev_taus + candidate_adev_values (mõõdetud) või candidate_clock_class
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate-2 = candidate_adev_taus ja candidate_adev_values peavad olema mõlemad olemas (või mõlemad puuduma)
+
+engine-e-quantum-trade-timing-threshold-and-position-threshold = timing_threshold_s ja position_threshold_m peavad olema lõplikud ja > 0
+
+engine-e-realdata-clk-rinex-clock-file-is-mixed = RINEX-i kellafail on segasüsteemne ('M') ega deklareeri TIME SYSTEM ID-d; selle epohhide ajasüsteemi ei hakata ära arvama
+
+engine-e-realdata-ion-sdr-more-than-one-block-only = rohkem kui üks <block>: loetakse ainult ühe rajaga faile
+
+engine-e-realdata-ion-sdr-this-layout-carries-reading-fill = see paigutus kannab lugemist (fill_lsb_first või mid_rise), millele ION metaandmete standardis välja ei ole; seda ei saa kirjutada kui .sdrx
+
+engine-e-realdata-ion-sdr-the-layout-needs-positive-sample = paigutus vajab positiivset diskreetimissagedust ja vähemalt 1 sagedustegurit
+
+engine-e-realdata-lola-dem-unexpected-end-of-dem = DEM-i ootamatu lõpp
+
+engine-e-realdata-lugre-not-raw-message = ei ole RAW-sõnum
+
+engine-e-realdata-lugre-not-an-acq-message = ei ole ACQ-sõnum
+
+engine-e-realdata-raim-no-priori-position-pass-one = a priori positsiooni ei ole: anna see või esita vaatluspäise APPROX POSITION XYZ
+
+engine-e-receiver-trust-calibration-calibration-window-less-than-the = kalibreerimisaken on lühem kui kaitseaeg enne ründeakent või jääb ründeakna sisse
+
+engine-e-receiver-trust-live-live-mode-needs-platform-kind = live-režiim vajab [platform] kind = "vessel": usaldusskoor on mõeldud liikuvale platvormile
+
+engine-e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no = RTCM 3 voog ei sisalda ühtegi MSM4 ega MSM7 vaatlussõnumit
+
+engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = RTKLIB .pos kraadid-minutid-sekundid positsioonidega ei ole loetav: käivita rnx2rtkp/RTKPOST uuesti kümnendkraadidega (-degf 0)
+
+engine-e-receiver-trust-monitors-engine-fix-the-rinex-observation = mootori fiksatsioon: RINEX-i vaatluspäisel puudub APPROX POSITION XYZ, millest lahendamist alustada
+
+engine-e-receiver-trust-monitors-platform-declares-heading-sensor-true = platvorm deklareerib heading_sensor = true, kuid logi ei kanna HDT, THS ega VHW suunda
+
+engine-e-receiver-trust-scenario-log-imu-the-imu-series = log.imu: IMU jada ei kattu ühegi logi epohhiga; kontrolli time_offset_s
+
+engine-e-receiver-trust-scenario-this-surface-does-not-carry = see pind ei kanna `[log.imu]` faili: käivita stsenaarium käsuga `kshana receiver-trust` hostil või jäta `[log.imu]` ära
+
+engine-e-receiver-trust-scenario-log-nav-applies-only-to = log.nav kehtib ainult `rinex` logile: mootori fiksatsioon vajab selle pseudovahemaid
+
+engine-e-receiver-trust-score-score-the-geometry-deduction-is = score: geomeetria mahaarvamine määratakse jaotises [geometry] (cap_points, full_ratio, floor), mitte jaotises [score.weights]
+
+engine-e-spectrum-recording-is-not-available-in = salvestus ei ole WebAssembly ehituses saadaval: anna SigMF baitid hoopis funktsioonidele kshana::sigmf::read ja kshana::spectrum::welch_psd
+
+engine-e-ssv-scenario-navigation-noise-and-radiation-pressure = navigation: müra ja kiirgusrõhu väärtused ei tohi olla negatiivsed
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of-2 = trajectory: anna täpselt üks väärtustest duration_min ja duration_periods
+
+engine-e-ssv-weak-receiver-pfa-total-and-receiver = receiver.pfa_total ja receiver.pd peavad olema tõenäosused vahemikus (0, 1)
+
+engine-e-suite-suite-manifest-is-missing-title = komplekti manifestil puudub `title`
+
+engine-e-suite-suite-manifest-has-no-scenarios = komplekti manifestil puudub `scenarios`: lisa mittetühi massiiv `scenarios = [...]`
+
+engine-e-surface-path-sources-are-not-accepted = `path` allikaid siin ei aktsepteerita: anna logi otse väärtusena `text` või `base64`
+
+engine-e-surface-input-campaign-names-campaign-folder = { "[" }input] campaign nimetab kampaaniakausta ja see pind ei loe faile; kampaaniaid loevad ainult CLI (`kshana iq labfit`), Python (`kshana.iq_labfit`) või MCP labfit-tööriist oma IQ töökataloogis
+
+engine-e-surface-bad-merkle-root-hex = vigane Merkle'i juure kuueteistkümnendkuju
+
+engine-e-surface-merkle-root-must-be-32 = Merkle'i juur peab olema 32 baiti
+
+engine-e-telecom-timing-csv-path-is-not-available = csv_path ei ole WebAssembly ehituses saadaval; anna jada otse väärtusena `samples`
+
+engine-e-telemetry-cli-otlp-every-needs-whole-number = --otlp-every vajab täisarvu
+
+engine-e-telemetry-cli-registry-poisoned = register on mürgitatud
+
+engine-e-telemetry-otlp-https-is-not-supported-by = https ei ole sisseehitatud eksportija poolt toetatud; kasuta kohalikku kogujat üle http
+
+engine-e-telemetry-otlp-no-http-status-in-response = vastuses puudub HTTP olek
+
+engine-e-tle-invalid-designator-launch-year-in = TLE-s on kehtetu tähise starditaasta
+
+engine-e-tle-invalid-epoch-year-in-tle-2 = TLE-s on kehtetu epohhi aasta
+
+engine-e-tle-invalid-epoch-day-in-tle = TLE-s on kehtetu epohhi päev
+
+engine-e-adm-record-without-epoch = kirje ilma <EPOCH>-ita
+
+engine-e-adm-ndm-holds-no = <ndm> ei sisalda ühtegi <{ $kind }>
+
+engine-e-adm-root-element-is-not = juurelement <{ $name }> ei ole <{ $kind }>
+
+engine-e-evidence-cli-keygen-needs-out-keyfile = keygen vajab võtit --out <keyfile>
+
+engine-e-evidence-cli-needs-key-keyfile-make-one = vajab võtit --key <keyfile> (tee see käsuga `kshana evidence keygen`)
+
+engine-e-evidence-cli-needs-out-dir = vajab võtit --out <dir>
+
+engine-e-evidence-cli-needs-scenario-bench-scenario = vajab võtit --scenario <bench scenario>
+
+engine-e-evidence-cli-needs-conditions-file = vajab võtit --conditions <file>
+
+engine-e-evidence-tsa-bad-ecdsa-signature = vigane ECDSA allkiri
+
+engine-e-evidence-tsa-certificate-signature-failure = sertifikaadi allkirja rike
+
+engine-e-evidence-tsa-unable-to-get-issuer-certificate = väljastaja sertifikaati ei õnnestunud hankida
+
+engine-e-evidence-tsa-unable-to-get-local-issuer = kohalikku väljastaja sertifikaati ei õnnestunud hankida
+
+engine-e-evidence-tsr-gentime-is-not-text = genTime ei ole tekst
+
+engine-e-glonass-bad-year = vigane aasta
+
+engine-e-glonass-bad-month = vigane kuu
+
+engine-e-glonass-bad-day = vigane päev
+
+engine-e-glonass-bad-hour = vigane tund
+
+engine-e-glonass-bad-minute = vigane minut
+
+engine-e-gravity-sh-bad-degree = vigane aste
+
+engine-e-gravity-sh-bad-order = vigane järk
+
+engine-e-interop-testbench-first-line-is-not-resolution = esimene rida ei ole `RESOLUTION: <ms>`
+
+engine-e-interop-testbench-bad-resolution = vigane resolutsioon
+
+engine-e-iq-signals-galileo-the-galileo-e1-memory-codes = Galileo E1 mälukoode ei ole kaasatud (ICD tingimused lubavad levitamist ainult mittekommertseesmärkidel; vt LICENSING.md). Anna oma ICD Annex C koopia ({ $file }) võtmega { $env }=<path> või käivita scripts/fetch_galileo_e1_codes.sh lähtekoodi väljavõttes ({ $path }: { $e })
+
+engine-e-jammertest-cli-key-needs-out-dir = --key vajab võtit --out <dir>
+
+engine-e-leo-signal-modulation-expected-flat-mhz = modulatsioon { $label }: oodatud on FLAT(<MHz>)
+
+engine-e-live-io-listen-takes-tcp-port-or = --listen võtab väärtuse tcp:<port> või tcp:<addr>:<port>
+
+engine-e-ndm-xml-bad-attribute-in = vigane atribuut elemendis <{ $name }>
+
+engine-e-ndm-xml-unquoted-attribute-in = jutumärkideta atribuut { $key } elemendis <{ $name }>
+
+engine-e-ndm-xml-is-not-closed = <{ $name }> ei ole suletud
+
+engine-e-nmea-synth-cli-wait-clients-not-number = --wait-clients: ei ole arv
+
+engine-e-nmea-synth-cli-speed-not-number = --speed: ei ole arv
+
+engine-e-nmea-synth-cli-seed-not-an-integer = --seed: ei ole täisarv
+
+engine-e-odm-user-defined-without-parameter = <USER_DEFINED> ilma parameetrita
+
+engine-e-osnma-cli-bad-public-key-id = vigane avaliku võtme id
+
+engine-e-osnma-cli-bad-public-key-hex = vigane avaliku võtme kuueteistkümnendkuju
+
+engine-e-realdata-ion-sdr-closing-tag-does-not-match = sulgemismärgend </{ $name }> ei sobi märgendiga <{ $name2 }>
+
+engine-e-realdata-ion-sdr-closing-tag-without-an-opening = sulgemismärgend </{ $name }> ilma avamismärgendita
+
+engine-e-realdata-ion-sdr-attribute-without-value-in = atribuut ilma väärtuseta elemendis <{ $name }>
+
+engine-e-realdata-ion-sdr-is-not-an-integer = <{ $name }> { $key } ei ole täisarv: { $v }
+
+engine-e-realdata-ion-sdr-chunk-lacks-sizeword = <chunk>-ilt puudub sizeword
+
+engine-e-realdata-ion-sdr-chunk-lacks-countwords = <chunk>-ilt puudub countwords
+
+engine-e-realdata-ion-sdr-is-not-an-integer-2 = <{ $key }> ei ole täisarv
+
+engine-e-realdata-ion-sdr-ratefactor-is-not-an-integer = <ratefactor> ei ole täisarv
+
+engine-e-realdata-ion-sdr-no-band-with-centerfreq-for = voole puudub <band> koos <centerfreq>-iga
+
+engine-e-realdata-ion-sdr-offset-is-not-an-integer = <offset> ei ole täisarv
+
+engine-e-receiver-trust-geometry-geometry-need-hdop-good-hdop = geometry: vaja on 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max ja used_good >= min_used (saadi { $hdop_good }, { $pdop_good }, { $used_good })
+
+engine-e-sp3-bad-epoch-count = vigane epohhide arv
+
+engine-e-spectrum-matched-jammer-needs-matched-to = { $name }: sobitatud segaja vajab väärtust matched_to = "<band name>"
+
+engine-e-spectrum-unknown-band-the-spectrum-model = tundmatu riba { $name }: spektrimudelis on { $band_names } ja nime järgi { $more_band_names } (GLONASS                      kanalid kui glonass-l1of-k<K>, K = -7 kuni 6); iga muu riba võtab                      `signal = "<preset signal>"` või `centre_mhz` koos `modulation` ja                      `signal_power_dbw`
+
+engine-e-evidence-assemble-the-log-does-not-state = logi ei määra sõelutavat algusaega; anna sekundid esimesest epohhist
+
+engine-e-interop-geojson-no-linestring-found-give-linestring = LineString'i ei leitud: anna LineString-geomeetria, seda sisaldav Feature või FeatureCollection, mille objektide hulgas see on
+
+engine-e-interop-geojson-the-scenario-has-no-waypoints = stsenaariumil ei ole 2 või rohkem `waypoints`, mille vahel kahe positsiooniga marsruuti laiali jaotada
+
+engine-e-leo-pnt-chain-the-chain-satellite-is-visible = ahela satelliit on nähtav alla kahe epohhi või ainult ühel kõrgusel; laienda ülelennu akent
+
+engine-e-nmea-synth-config-skyline-table-is-required-for = skyline-tabel on nõutav (näiteks skyline = { "{" } preset = "fjord" { "}" })
+
+engine-e-python-prns-must-list-at-least = prns peab loetlema vähemalt ühe PRN-i
+
+engine-e-python-design-name-needs-design = design_name vajab väärtust design
+
+engine-e-python-bandpass-needs-both-bandpass-lo = bandpass vajab nii bandpass_lo kui ka bandpass_hi
+
+engine-e-python-token-text-is-not-base64 = märgi tekst ei ole base64
+
+engine-e-python-unix-nano-must-be-between = unix_nano peab olema vahemikus 0 kuni 2**64 - 1
+
+engine-e-wasm-token-base64-is-not-base64 = token_base64 ei ole base64
+
+engine-e-wasm-log-base64-is-not-base64 = log_base64 ei ole base64
+
+engine-e-wasm-input-base64-is-not-base64 = input_base64 ei ole base64
+
+engine-e-wasm-seed-must-be-non-negative = seed peab olema mittenegatiivne täisarv
+
+engine-e-wasm-runs-json-must-be-an = runs_json peab olema massiiv kujul { "{" }label, result, scenario?{ "}" }
+
+engine-e-nmea-synth-stream-no-udp-address = UDP-aadress puudub
+
+engine-e-realdata-llr-crd-short-normal-point-11-record = lühike normaalpunkti (11) kirje
+
+engine-e-realdata-llr-crd-normal-point-record-appeared-before = normaalpunkti kirje ilmus enne oma h2/h3/h4 sessioonipäist
+
+engine-e-gravity-sh-line-bad-coefficient-non-finite = rida { $lineno }: vigane koefitsient (mitte lõplik)
+
+engine-e-interop-time-extra-fields-utc = ei ole UTC aeg `YYYY-MM-DDTHH:MM:SS`: lisaväljad: { $text }
+
+engine-e-interop-time-year-outside-2000-to-2099-utc = ei ole UTC aeg `YYYY-MM-DDTHH:MM:SS`: aasta väljaspool vahemikku 2000 kuni 2099: { $text }
+
+engine-e-interop-time-month-outside-to-12-utc = ei ole UTC aeg `YYYY-MM-DDTHH:MM:SS`: kuu väljaspool vahemikku 1 kuni 12: { $text }
+
+engine-e-interop-time-day-does-not-exist-in-utc = ei ole UTC aeg `YYYY-MM-DDTHH:MM:SS`: päeva ei ole sellel kuul olemas: { $text }
+
+engine-e-interop-time-hour-above-23-utc = ei ole UTC aeg `YYYY-MM-DDTHH:MM:SS`: tund üle 23: { $text }
+
+engine-e-interop-time-minute-above-59-utc = ei ole UTC aeg `YYYY-MM-DDTHH:MM:SS`: minut üle 59: { $text }
+
+engine-e-interop-time-seconds-outside-60-utc = ei ole UTC aeg `YYYY-MM-DDTHH:MM:SS`: sekundid väljaspool vahemikku [0, 60): { $text }
+
+engine-e-mcp-budget-work-budget-exceeded-for-call = MCP-serveri kaudu tehtud kõne töömaht ületati: { $errors }. Käivita suured uuringud käsurealt käsuga `kshana`.
+
+engine-e-mcp-iq-the-iq-sample-budget-must = IQ loendite eelarve peab olema vähemalt 1
+
+engine-e-mcp-iq-an-empty-path-was-given = anti tühi tee
+
+engine-e-mcp-iq-rate-hz-must-be-positive = rate_hz peab olema positiivne arv
+
+engine-e-mcp-iq-duration-must-be-positive-number = duration_s peab olema positiivne arv
+
+engine-e-mcp-iq-broadcast-mode-nav-needs-rx = leviedastusrežiim (nav) vajab rx_pos [lat, lon, alt]
+
+engine-e-mcp-iq-scene-needs-signal-or-nav = stseen vajab `signal` (või `nav` leviedastusrežiimi jaoks)
+
+engine-e-mcp-iq-scene-needs-at-least-one = stseen vajab vähemalt ühte PRN-i väljal `prns`
+
+engine-e-mcp-iq-surface-out-exports-one-surface = surface_out ekspordib ühe pinna: anna täpselt üks PRN
+
+engine-e-mcp-iq-surface-out-must-end-in = surface_out peab lõppema laiendiga .csv, .json või .bin
+
+engine-e-mcp-iq-max-seconds-must-be-positive = max_seconds peab olema positiivne arv
+
+engine-e-mcp-iq-epochs-out-must-end-in = epochs_out peab lõppema laiendiga .csv, .jsonl või .bin (vorming järgib laiendit)
+
+engine-e-mcp-iq-out-must-differ-from-input = out peab sisendist erinema
+
+engine-e-mcp-iq-pll-bws-hz-dll-bws = pll_bws_hz, dll_bws_hz, spacings_chips ja coherents ei saa olla koos väärtusega design: pühkimine käivitab iga faili kujunduse
+
+engine-e-mcp-iq-signal-and-prns-go-together = signal ja prns käivad koos
+
+engine-e-mcp-iq-iq-work-directory = IQ töökataloog { $dir }: { $e }
+
+engine-e-mcp-iq-iq-work-directory-is-not = IQ töökataloog { $dir } ei ole kataloog
+
+engine-e-mcp-iq-iq-file-tools-are-off = IQ failitööriistad on välja lülitatud: { $reason }
+
+engine-e-mcp-iq-output-does-not-name-file = väljund `{ $rel }` ei nimeta faili
+
+engine-e-mcp-iq-output-its-folder = väljund `{ $rel }`: selle kaust: { $e }
+
+engine-e-mcp-iq-output-is-symlink-refusing-to = väljund `{ $shown }` on sümbollink; kirjutamisest keeldutakse
+
+engine-e-mcp-iq-output-already-exists-pass-overwrite = väljund `{ $shown }` on juba olemas; anna overwrite: true, et see asendada
+
+engine-e-mcp-iq-output-exists-and-is-not = väljund `{ $shown }` on olemas ega ole fail
+
+engine-e-mcp-iq-its-data-file-lies-outside = { $path }: selle andmefail asub väljaspool IQ töökataloogi
+
+engine-e-mcp-iq-lies-outside-the-iq-work = { $path } asub väljaspool IQ töökataloogi
+
+engine-e-mcp-iq-input-campaign-the-campaign-folder = { "[" }input] campaign `{ $rel }`: { $message }; kampaaniakaust peab olema olemasolev kaust IQ töökataloogi sees
+
+engine-e-mcp-iq-out-dir-does-not-name = out_dir `{ $rel }` ei nimeta kausta
+
+engine-e-mcp-iq-is-samples-and-one-call = { $what } on { $samples } loendit ja üks kõne võib töödelda kuni { $max_samples } ({ $env }); { $remedy }
+
+engine-e-mcp-iq-threads-must-be-to = threads peab olema 1 kuni { $max_threads }
+
+engine-e-mcp-iq-truth-format-must-be-csv = truth_format peab olema csv või jsonl (saadi { $other })
+
+engine-e-mcp-iq-surface-out-would-hold-about = surface_out sisaldaks ligikaudu { $cells } lahtrit (Doppleri lahtrid × loendid koodiperioodi kohta; piir { $max_cells }, ligikaudu { $mb } MB binaarkujul): laienda doppler_step_hz või kitsenda doppler_max_hz
+
+engine-e-mcp-iq-no-campaign-here = { $out_dir }: siin ei ole kampaaniat ({ $e })
+
+engine-e-mcp-iq-design-prn-channels-at-most = { $n_channels } (kujundus, PRN) kanalit; kuni 256 ühe pühkimise kohta
+
+engine-e-mcp-iq-test-conditions-invalid = katsetingimused on kehtetud: { $e }
+
+engine-e-mcp-iq-labfit-failed = labfit ebaõnnestus: { $e }
+
+engine-e-mcp-marine-give-exactly-one-of-log = anna täpselt üks väärtustest `log` ja `log_base64`
+
+engine-e-mcp-marine-at-most-366-maps-per = kuni 366 kaarti ühe kõne kohta
+
+engine-e-mcp-marine-mode-symbols-needs-symbols = režiim `symbols` vajab `symbols`
+
+engine-e-mcp-marine-vessel-stream-assessment-failed = laeva voo hindamine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-jammertest-import-failed = jammertest import ebaõnnestus: { $e }
+
+engine-e-mcp-marine-jammertest-score-failed = jammertest skoorimine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-vessel-log-assessment-failed = laeva logi hindamine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-training-scenario-failed = treeningstsenaarium ebaõnnestus: { $e }
+
+engine-e-mcp-marine-evidence-pack-failed = tõendipaketi koostamine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over = pakett on { $size } baiti, üle { $max_bytes }-baidise vastusepiiri; kitsenda akent või kasuta käsureal käsku `kshana receiver-trust evidence`
+
+engine-e-mcp-marine-round-trip-pack-failed = ringkäigupaketi koostamine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-2 = pakett on { $size } baiti, üle { $max_bytes }-baidise vastusepiiri; kitsenda akent või kasuta käsureal käsku `kshana evidence round-trip`
+
+engine-e-mcp-marine-files-are-over-the-byte = failid ületavad { $max_bytes }-baidist piiri
+
+engine-e-mcp-marine-full-log-is-over-the = full_log ületab { $max_bytes }-baidist piiri
+
+engine-e-mcp-marine-interference-map-failed = häirekaardi koostamine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-the-map-is-bytes-over = kaart on { $total } baiti, üle { $max_bytes }-baidise vastusepiiri; kasuta jämedamat cell_deg-i, vähem päevi või käsureal käsku `kshana interference-map`
+
+engine-e-mcp-marine-route-exposure-failed = marsruudi ekspositsiooni arvutus ebaõnnestus: { $e }
+
+engine-e-mcp-marine-compliance-report-failed = compliance-aruande koostamine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-standards-pack-failed = standardipaketi töötlemine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-lunanet-afs-check-failed = lunanet-afs-check ebaõnnestus: { $e }
+
+engine-e-mcp-marine-mode-must-be-spec-symbols = mode peab olema spec, symbols või generate (saadi { $other })
+
+engine-e-mcp-marine-benchmark-scoring-failed = etalontesti skoorimine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-leaderboard-failed = edetabeli koostamine ebaõnnestus: { $e }
+
+engine-e-mcp-marine-test-bench-export-failed = katsepingi eksport ebaõnnestus: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-3 = pakett on { $size } baiti, üle { $max_bytes }-baidise vastusepiiri
+
+engine-e-mcp-server-give-exactly-one-of-request = anna täpselt üks väärtustest `request` (taevageomeetria päring) või `skyline_preset` (eelseadistuse nimi või tühi string nende loetlemiseks)
+
+engine-e-mcp-server-receiver-log-assessment-failed = vastuvõtja logi hindamine ebaõnnestus: { $e }
+
+engine-e-mcp-server-unknown-scenario-kind-list-scenario = tundmatu stsenaariumi liik `{ $k }`; list_scenario_kinds nimetab iga liigi
+
+engine-e-mcp-server-unknown-report-format-expected-json = tundmatu aruandevorming `{ $format }`; oodatud on json või html
+
+engine-e-mcp-server-report-failed = aruande koostamine ebaõnnestus: { $e }
+
+engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps annab { $n_frames } kaadrit ja vastus kannab kuni { $max_frames }; vähenda fps-i või duration_s-i või kirjuta pikem jada käsurealt (`kshana <scenario.toml> --animate frames`)
+
+engine-e-mcp-server-route-import-failed = marsruudi import ebaõnnestus: { $e }
+
+engine-e-mcp-server-sp3-export-failed = SP3 eksport ebaõnnestus: { $e }
+
+engine-e-mcp-server-omm-export-failed = OMM eksport ebaõnnestus: { $e }
+
+engine-e-mcp-server-oem-export-failed = OEM eksport ebaõnnestus: { $e }
+
+engine-e-mcp-server-scenario-kind-publishes-no-csv = stsenaariumi liik `{ $kind }` ei avalda CSV tabelit; seda teevad ainult { $kinds }
+
+engine-e-mcp-server-unknown-skyline-preset-known-presets = tundmatu horisondijoone eelseadistus "{ $name }"; teadaolevad eelseadistused: { $presets }
+
+engine-e-mcp-server-the-tool-call-did-not = tööriista kutse ei lõppenud: { $e }
+
+engine-e-mcp-server-the-server-is-at-its-concurrent-work-limit = server on oma samaaegse töö piiril (varasemad kutsed veel töötavad); proovi peagi uuesti
+
+engine-e-mcp-server-the-work-pool-is-closed = töökogum on suletud
+
+engine-e-mcp-iq-no-work-directory = töökataloogi ei ole
+
+engine-e-mcp-iq-input = sisend `{ $rel }`: { $e }
+
+engine-e-mcp-iq-input-is-not-file = sisend `{ $rel }` ei ole fail
+
+engine-e-mcp-iq-input-campaign-is-not-folder = { "[" }input] campaign `{ $rel }` ei ole kaust
+
+engine-e-mcp-iq-out-dir-is-not-folder = out_dir `{ $rel }` ei ole kaust
+
+engine-e-mcp-iq-out-dir = out_dir `{ $rel }`: { $e }
+
+engine-e-mcp-iq-iq-failed = iq { $args } ebaõnnestus: { $m }
+
+engine-e-adm-attitudestate-without = <attitudeState> ilma <{ $tag }>-ita
+
+engine-e-bench-cli-is-required = { $flag } on nõutav
+
+engine-e-bench-cli-is-empty = { $p } on tühi
+
+engine-e-evidence-tsa-bad-256-key = vigane P-256 võti
+
+engine-e-evidence-tsa-bad-384-key = vigane P-384 võti
+
+engine-e-interop-no-iq-block = [iq] plokki ei ole
+
+engine-e-ndm-xml-closes = </{ $close }> sulgeb elemendi <{ $name }>
+
+engine-e-odm-unexpected-in-data = ootamatu <{ $name }> elemendis <data>
+
+engine-e-odm-unsupported-in-ocm-data = toetamata <{ $name }> OCM-i elemendis <data>
+
+engine-e-realdata-ion-sdr-no-stream-element = <stream> elementi ei ole
+
+engine-e-realdata-ion-sdr-is-not-number = <{ $name }> ei ole arv: { $text }
+
+engine-e-realdata-ion-sdr-no-chunk-element = <chunk> elementi ei ole
+
+engine-e-realdata-ion-sdr-stream-lacks = <stream>-ilt puudub <{ $key }>
+
+engine-e-realdata-ion-sdr-no-system-element = <system> elementi ei ole
+
+engine-e-realdata-ion-sdr-no-file-with-url = <file>-i koos <url>-iga ei ole
+
+engine-e-surface-give-string-utf8-or-base64 = { $k }: anna string, { "{" }"utf8": ...{ "}" } või { "{" }"base64": ...{ "}" }
+
+engine-e-realdata-llr-crd-short-h1-record = lühike h1 kirje
+
+engine-e-realdata-llr-crd-short-h2-record = lühike h2 (jaama) kirje
+
+engine-e-realdata-llr-crd-short-h3-record = lühike h3 (sihtmärgi) kirje
+
+engine-e-realdata-llr-crd-short-h4-record = lühike h4 (sessiooni) kirje
+
+engine-e-mcp-main-needs-value = { $a } vajab väärtust
+
+engine-main-usage =
+    kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
+    { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
+    { "   " }või: kshana --study <suite.toml>
+    { "   " }või: kshana --validate <scenario.toml>
+    { "   " }või: kshana receiver-trust <scenario.toml>
+    { "   " }või: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+    { "   " }või: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }või: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+    { "   " }või: kshana jammertest <import|score> ... (kshana jammertest --help)
+    { "   " }või: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }või: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+    { "   " }või: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }või: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
+    { "   " }või: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+    { "   " }või: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+    { "   " }või: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }või: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+    { "   " }või: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+    { "   " }või: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+    { "   " }või: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+    { "   " }või: kshana partner check <submission.toml> [--json]
+    { "   " }või: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }või: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+    { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }või: kshana kinds [--json]
+    { "   " }või: kshana example [<name>]
+    { "   " }või: kshana --help | --version
+
+engine-main-usage-sky =
+    kasutus: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+    { "   " }või: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+    { "                  " }[--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+    { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+    { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+
+    Väljastab JSON-ina (sky_geometry) satelliidid, mida koht horisondijoone all näeb, nende DOP-i, ida-põhja-üles kofaktori
+    ja kovariatsiooni ning horisontaalse vea ellipsi; võtmega --monte-carlo n (kuni 5000) algväärtustatud
+    vähimruutude viga (sky_monte_carlo); võtmega --svg taevakaardi (skyplot).
+    Süsteemid on mootori eelseadistused (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
+    esindusliku geomeetria, mitte kuupäeva taeva kohas. --tle loeb kaherealisi elemendikomplekte
+    (kuni 4 MiB) ja propageerib neid SGP4-ga epohhini --epoch (UTC) pluss --time: taevas, mille need
+    elemendikomplektid sel epohhil annavad, mitte mõõtmine. Ilma --epoch'ita viiakse need uusima
+    elemendikomplekti epohhini, esindusliku taevani. MODELLED; docs/SKYLINE.md.
+
+engine-main-usage-skyline =
+    kasutus: kshana skyline --preset <name> [--json]
+    { "   " }või: kshana skyline --presets
+    { "   " }või: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Väljastab horisondijoone eelseadistuse (city-street, harbour-approach, fjord, container-terminal) koos selle
+    päritolu ja iga asimuudikraadi lõikega, eelseadistuste loendi või horisondijoone jaotise,
+    taandatuna 360-kirjelisele tabelile, mida mootor kasutab. REPRESENTATIVE eelseadistused; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    kasutus: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }või: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }või: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Seotud dokumendiga LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025). `spec` kontrollib seda realisatsiooni dokumendi trükitud koodi-
+    tabelite ja läbitöötatud näidete vastu (xval/lunanet-afs/PREREGISTRATION.md läved B1 kuni B10; võtmega --strict
+    on väljumisolek 1, kui iga lävi ei ole täidetud). `symbols` kontrollib kõvaotsustusega sümbolivoogu
+    (0-de ja 1-de tekst) sünkroniseerimismustri, SB1 dekodeerimise, FID-i, TOI järjepidevuse ja kaadri
+    vahe osas; alamkaadreid 2 kuni 4 (LDPC, CRC-24Q) EI kontrollita. `generate` kirjutab sümbolite testvoo
+    kohahoidja-alamkaadritega; see ei ole lainekuju ja Kshana ei kirjuta ühtegi signaali. AFS-i
+    lainekuju hõivamiseks või jälgimiseks salvestuses kasuta `kshana iq acquire --signal lunanet-afs-i`
+    (või lunanet-afs-q). Ainult nõuandev. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    kasutus: kshana standards-pack list
+    { "   " }või: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }või: kshana standards-pack rows <id>
+    { "   " }või: kshana standards-pack tests <id>
+
+    Standardipakett on stsenaariumide komplekt, mida hinnatakse enne käivitust määratud lävede vastu ja mis on seotud
+    compliance-report ridadega, mille jaoks see toetab tõendeid (supports evidence for). `run` väljastab tabeli (või --json) ja, kui on
+    antud --out, kirjutab <base>.pack.json ja <base>.pack.md; anna JSON käsule `kshana compliance-report`,
+    et ridu näha. Test, mis vajab vastuvõtja logi, on loetletud kui NEEDS INPUT ja seda ei hinnata.
+    MODELLED: täidetud MET lävi ütleb, et modelleeritud stsenaarium täitis määratud läve, mitte seda, et mõni toode
+    täidab nõude. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: kehtib
+
+engine-main-wrote = kirjutatud { $path }
+
+engine-main-note = märkus: { $n }
+
+engine-main-error-example-extra-argument = viga: ootamatu argument '{ $extra }' pärast `example <name>`; see võtab ühe nime
+
+engine-main-lunanet-afs-generate-needs = generate vajab võtmeid --frames <n> ja --out <file> (ning täisarvulist --toi0)
+
+engine-evidence-cli-usage =
+    kasutus:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      väljumiskood 0 kontrollitud, 1 ebaõnnestunud, 3 terve, kuid allkirjastaja pole kinnitatud
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(loeb RFC 3161 märgi ja seob selle manifestiga; see EI kontrolli ajatempliasutuse
+    { "      " }allkirja: kasuta `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(seob stsenaariumi, labori katsetingimused, vastuvõtja logi ja selle skoori;
+    { "      " }<scenario.toml> on receiver-trust skoorimisstsenaarium; ei kirjuta signaali)
+    { "  " }<t0>/<t1>: sekundid logi esimesest epohhist või ISO-8601 UTC aeg, kui logi
+    { "  " }määrab oma algusaja. Pakett on tehniline kirje, mitte õiguslik arvamus.
+
+engine-evidence-cli-fingerprint = sõrmejälg: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }rike: { $f }
+
+engine-evidence-cli-verify-note = { "  " }märkus: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: iga räsi, ahel ja allkiri klapivad sinu esitatud võtmega.
+
+engine-evidence-cli-verified-unpinned = VERIFIED paketi enda nimetatud võtme suhtes, sõrmejälg { $fp } (allkirjastajat EI ole kinnitatud; anna --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: räsid ja allkiri on kooskõlas võtmega { $fp }, mille pakett ise nimetab. Anna --pubkey <signer public key>, et kindlaks teha, kes allkirjastas (või --allow-unpinned, et see teadlikult vastu võtta).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: vt ülaltoodud rikkeid.
+
+engine-evidence-cli-attached = lisatud { $path }
+
+engine-evidence-cli-verify-with = kontrolli käsuga: kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    kasutus: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }või: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }või: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+    { "   " }või: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }või: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom vajab lisaks --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = kasutus: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = kuupäev
+
+engine-interference-map-cli-col-src = allikas
+
+engine-interference-map-cli-col-degraded = halvenenud
+
+engine-interference-map-cli-col-not-degraded = halvenemata
+
+engine-interference-map-cli-col-unassessed = hindamata
+
+engine-interference-map-cli-col-not-observed = vaatlemata
+
+engine-bench-cli-usage =
+    kasutus: kshana bench spec
+    { "   " }või: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }või: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }või: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }või: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }või: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }või: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }või: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }või: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }või: kshana bench validate <result.json>...
+    { "   " }või: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (sisendeid ei ole: tühi olek; --fragment: manustatav jaotis)
+    { "   " }(algväärtusefail hoiab suletud holdout'i taga olevat saladust; hoia see versioonihaldusest väljas)
+
+engine-bench-cli-match = kattub
+
+engine-bench-cli-valid = { $f }: kehtiv
+
+engine-bench-cli-folders = { $n } kausta
+
+engine-bench-cli-unpinned = kinnitamata: { $rel }
+
+engine-bench-cli-missing = puudub: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+engine-osnma-cli-usage =
+    kasutus: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    I/NAV leheküljed: lihtvorming (vt docs/OSNMA.md) või
+    { "                             " }avaldatud testvektorite CSV-paigutus
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }sisendi paigutus (vaikimisi: faili sisu järgi). ubx on u-blox
+    { "                             " }baidivoog UBX-RXM-SFRBX sõnumitega (Galileo E1-B)
+    { "  " }--start-gst SECONDS        vektori-CSV algusaeg GST sekundites
+    { "                             " }(vaikimisi: loetakse failinimest, näiteks 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          usaldatud Merkle'i juur (64 kuueteistkümnendnumbrit) DSM-PKR kontrollideks
+    { "  " }--public-key ID:TYPE:HEX   usaldatud avalik võti, TYPE p256 või p521, tihendatud punkt
+    { "  " }--reference-time SECONDS   praegune aeg GST sekundites sõltumatust allikast. Üks
+    { "                             " }hetk: sellest kaugemal asuvad alamkaadrid, kui lubatud tolerants, jäetakse
+    { "                             " }kõrvale, seega kasuta seda otse- või äsja salvestatud andmete jaoks
+    { "  " }--max-time-error SECONDS   alamkaadri suurim kaugus võrdlusajast, alla
+    { "                             " }30 (vaikimisi 29); vajab võtit --reference-time
+    { "  " }--epochs                   väljastab ka iga märgi tulemuse
+    { "  " }--json                     väljastab teksti asemel JSON-i
+
+    Väljumisolek: 0 tehtud, 2 kasutus- või sisendiviga, 3 mõne satelliidi andmete kontroll ebaõnnestus.
+
+engine-iq-cli-usage =
+    kasutus: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }või: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }või: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }või: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (vaikimisi auto, ≈4 ms koherentne)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }või: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }või: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }või: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }või: kshana iq campaign report <out-dir>
+    { "   " }või: kshana iq conditions <test-conditions.toml|json>
+    { "   " }või: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }või: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }labfit stsenaariumid: salvestuste [[runs]] vastuvõtja logidest või [input] campaign = "<out-dir>", mis nimetab kshana iq campaign väljundkausta (stsenaariumifaili suhtes)
+    { " " }ahelakujundused: kshana.loop-design/1 TOML-fail (docs/design/LOOP-DESIGN-TOML.md); selgesõnalised ahela-/hõivamislipud tühistavad valitud kujunduse
+    { " " }acquire/track/sweep võtavad ka sisendastme lipud [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], mida rakendatakse enne töötlemist (nii hõivamisele kui ka jälgimiskäigule)
+    { " " }stseeni kanali häälestused: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }stseeni C/N0 profiil: [--cn0-profile <toml>] ajas muutuvad C/N0 nihked satelliidi kohta (aste, tõus, punktid, hääbumine), rakendatuna kanali peale; tõe cn0_dbhz järgib seda
+    { " " }salvestuse/toorsisendi puhul ilma kõrvalfailita on lisaks: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; mitmevoolised sisendid võtavad --channel <k>
+    { " " }signaalid: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> on komadega eraldatud loend (üks --prn kohta või üks väärtus, mida rakendatakse kõigile)
+
+engine-iq-cli-usage-error = kasutusviga: { $m }
+
+engine-iq-io-cli-usage =
+    kasutus: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }või: kshana iq info <recording>
+    { "   " }või: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }või: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }või: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }toorsisendid ilma kõrvalfailita võtavad ka: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }mitmevoolised sisendid (mitmekanaliline SigMF, põimitud toor) võtavad --channel <k> (alates 0-st; vaikimisi 0)
+    { " " }vormingud: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bitine 16-s ci12r_le ci12l_be cu12r_le ..., pakitud 4-bitine ci4_msb cu4_lsb ..., pakitud 2-bitine c2tc_msb c2sm_lsb r2ob_msb ..., 2-bitine baidi kohta c2sm_byte ..., reaalne r..., Q-ees ..._qi
+
+engine-telemetry-cli-usage =
+    kasutus: kshana trust-telemetry [options]
+    { "  " }sisend (vaikimisi: JSON-read stdin'ist):
+    { "    " }--input <file|->         loe JSON-read failist või `-` stdin'i jaoks
+    { "    " }--result <result.json>   esita uuesti `kshana receiver-trust` tulemusfaili epohhid
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     teenindab /metrics (vaikimisi 127.0.0.1:9464, kui muud väljundit ei valita)
+    { "    " }--print-metrics          väljastab lõpliku eksponeeringu stdout'i sisendi lõpus
+    { "    " }--hold                   jätkab teenindamist pärast sisendi lõppu
+    { "    " }--expose-position        avaldab vastuvõtja teatatud positsiooni ka mõõdikutena (vaikimisi väljas)
+    { "  " }syslog (CEF või LEEF RFC 5424 ümbrises):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  raamistab TCP-sõnumid oktettide loendusega (RFC 6587), mitte ühe rea kaupa
+    { "    " }--format cef|leef        sisukeel (vaikimisi cef)
+    { "    " }--syslog-all             üks sündmus epohhi kohta (vaikimisi: üks riba muutuse kohta)
+    { "    " }--host <name>            seadme hostinimi sündmustes (vaikimisi `kshana`)
+    { "  " }Home Assistant / NTP seade (JSON olek + MQTT avastus; ainult avaldamine, ilma volituste ja TLS-ita):
+    { "    " }--mqtt-tcp <host:port>   avalda kohalikule MQTT 3.1.1 vahendajale (säilitatud sõnumid, QoS 0)
+    { "    " }--print-mqtt             väljastab sõnumid ridadena `topic<TAB>payload`
+    { "    " }--mqtt-prefix <p>        oleku teema eesliide (vaikimisi kshana/trust); --mqtt-node <id> (vaikimisi kshana)
+    { "    " }--mqtt-discovery <p>     Home Assistant avastuse eesliide (vaikimisi homeassistant)
+    { "  " }OpenTelemetry (ehita võtmega --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (vaikimisi 10)
+
+engine-jammertest-cli-usage =
+    kasutus:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    Plaan ja kataloog on avaldatud NPRA/jammertest-plan JSON-failid (MIT; hangi need käsuga
+    xval/jammertest-plan/fetch.sh). Plaani ajad on kohalik seinakella aeg; --local-offset-h (vaikimisi 2, CEST)
+    ütleb, kui kaugel need UTC-st on. JammerTest 2024 andmekogu attack_log tempel ütleb Z, kuid on kohalik
+    aeg: --time-shift-h vaikeväärtus on -2. Sündmused on planeeritud tõde, mitte salvestatud eetriajad.
+    Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade.
+
+engine-nmea-synth-cli-usage =
+    kasutus: kshana nmea-scenario <scenario.toml> [options]
+
+    Kirjutab või voogedastab sünteetilise sillal kasutatava NMEA 0183 komplekti (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    skriptitud segamis-/spuufimissündmustega laevatrajektoorile ning juhendaja logi.
+    Ainult koolituseks ja katsetamiseks: ära kunagi suuna seda laeva tegelikele navigatsioonisüsteemidele.
+
+    valikud:
+    { "  " }--out <file.nmea>          kirjuta voog faili (vaikimisi <name>.nmea, kui võrguväljundit
+    { "                             " }ei ole antud)
+    { "  " }--instructor-log <prefix>  kirjuta <prefix>.json ja <prefix>.txt (vaikimisi: faili
+    { "                             " }kõrvale, muidu <name> praeguses kataloogis)
+    { "  " }--tcp <addr:port|port>     teenindab voogu üle TCP (ootab esmalt klienti); ainult
+    { "                             " }port kuulab ainult aadressil 127.0.0.1. Autentimist ei ole:
+    { "                             " }igaüks, kes aadressini jõuab, saab voogu lugeda
+    { "  " }--udp <addr:port|port>     saadab ühe lause UDP-datagrammi kohta sellele aadressile; ainult
+    { "                             " }port saadab aadressile 127.0.0.1
+    { "  " }--broadcast                lubab --udp kasutada leviedastusaadressi
+    { "  " }--wait-clients <n>         kliente, mida oodata enne TCP-voo algust (vaikimisi 1)
+    { "  " }--realtime                 tempo reaalajas (vaikimisi võrguväljundile)
+    { "  " }--speed <x>                tempo x korda reaalajas; 0 on nii kiiresti kui võimalik
+    { "                             " }(vaikimisi failidele)
+    { "  " }--seed <n>                 asenda stsenaariumi algväärtus
+    { "  " }--no-marker                jäta sünteetiliste andmete markerlause ära
+
+engine-live-io-usage =
+    kasutus: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Loeb NMEA 0183 (vaikimisi stdin'ist), skoorib laeva fiksatsiooni iga epohhi 0-100 ja kirjutab ühe
+    JSON-rea epohhi kohta (vaikimisi stdout'i). Võtmega --gate suunatakse NMEA voog hoopis stdout'i
+    läbi: muutmata, kuni fiksatsiooni usaldatakse, ja fiksatsioon kehtetuks märgitud, kui ei usaldata; igale
+    tsüklile järgneb $PKSHT lause; JSON läheb siis ainult sinna, kuhu --json ütleb. Sessioon on
+    stsenaariumi .toml koos [platform] kind = "vessel"; selle [log] tabelit ei ole vaja.
+
+    --listen (koos --gate) teenindab väravdatud voogu suvalisele arvule TCP-klientidele (näiteks
+    kaardiplotter) stdout'i kirjutamise asemel; vaikeaadress on loopback. Klient, kes
+    sammu ei pea, visatakse välja, nii et see ei takista kunagi teisi ega sisendit.
+
+    Vastuvõtja aega kontrollitakse ka selle arvuti kella suhtes, mis on mõttekas ainult
+    reaalajas saabuva voo puhul; salvestatud logi puhul, mis söödetakse sisse kiiremini (stdin, tcp, udp), anna
+    --replay, ja lihtne --file (ilma --follow) teeb seda juba.
+
+    --serial loeb jadaseadet või USB-seadet (ainult Unix), ainult lugemiseks: see avab seadme lugemiseks, seab
+    kohaliku liini toorrežiimi kiirusele --baud (vaikimisi 4800, NMEA 0183 kiirus) ega kirjuta kunagi baiti
+    vastuvõtjasse. Kshana ei seadista vastuvõtjaid; sea vastuvõtja NMEA-d väljastama selle enda tööriistaga.
+
+    See on nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162):
+    laeva navigeerimise eest vastutab jätkuvalt operaator.
+
+engine-tle-warning = hoiatus: { $w }
+
+engine-e-animation-no-time-series-to-animate = animeeritavat ajajada ei ole: tulemus { $k } ei kanna diskreetitud ajatelge (vt docs/ANIMATION.md, milliseid kujusid eksportija tunneb)
+
+engine-animation-svg-sub = liik { $kind } · { $t0 } kuni { $t1 } · loendid failist result.json, joonistatud ilma ümberdiskreetimiseta · Kshana { $version }
+
+engine-animation-svg-strip-events = sündmused
+
+engine-animation-svg-strip-phases = faasid
+
+engine-animation-svg-waterfall = juga: { $title } [{ $unit }], aeg kulgeb allapoole, värv { $lo } kuni { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = epohhi indeks
+
+engine-animation-svg-desc = { $kind } käivituse animeeritud ajajada: { $n_panels } paneel(i), { $n_events } sündmus(t), { $n_phases } faas(i). Iga punkt on käivituse result.json loend.
+
+engine-animation-html-title = { $title } — Kshana animatsioon
+
+engine-animation-html-sub = liik { $kind } · { $n } jada failist result.json, joonistatud ilma ümberdiskreetimiseta · Kshana { $version }
+
+engine-animation-html-playback = Esitus
+
+engine-animation-html-play = Esita
+
+engine-animation-html-pause = Peata
+
+engine-animation-html-mission-time = Missiooniaeg
+
+engine-animation-html-speed = kiirus
+
+engine-animation-html-playback-speed = Esituskiirus
+
+engine-animation-html-events = Sündmused
+
+engine-animation-html-footer-keys = Tühik esitab või peatab, nooleklahvid astuvad, Home ja End hüppavad. See on käivituse enda loendite renderdus: see on täpselt sama hea kui käivitus ega lisa tõendeid (MODELLED, sisemine kooskõla).
+
+engine-animation-html-footer-determinism = Sama stsenaarium, algväärtus ja valikud annavad baidi kaupa identse faili.
+
+engine-animation-html-exports-heading = Selle esitaja kõrvale kirjutatud eksportfailid
+
+engine-animation-js-phases-and-events = faasid ja sündmused
+
+engine-animation-js-waterfall = juga: { $title } [{ $unit }], aeg kulgeb allapoole
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = faas: { $name }
+
+engine-e-evidence-bundle-bad-log-slice = vigane logilõik: { $s }
+
+engine-e-evidence-bundle-bad-window = vigane aken: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = vigane loomisaeg: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = vigane ajatempli märk: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = serialiseerimine ebaõnnestus: { $s }
+
+engine-e-osnma-page-not-valid-hex = lehekülg ei ole kehtiv kuueteistkümnendkuju
+
+engine-e-osnma-page-time-outside-week-number = lehekülje aeg jääb väljapoole Galileo nädalanumbri 4096 nädalat
+
+engine-e-osnma-page-bad-length = leheküljel on { $n } kuueteistkümnendnumbrit, oodatud 60
+
+engine-e-osnma-page-malformed-line = vigase kujuga lehekülje rida: { $s }
+
+engine-e-interchange-encode-payload = kasuliku koormuse kodeerimine ebaõnnestus: { $e }
+
+engine-e-interchange-invalid-envelope = ei ole kehtiv vahetusümbrik: { $e }
+
+engine-e-interchange-not-kshana-artifact = ei ole Kshana artefakt: vorming on { $found }, oodatud { $expected }
+
+engine-e-interchange-incompatible-schema-version = ühildumatu skeemiversioon { $v } ({ $verdict }); see mootor kõneleb versiooni { $current }
+
+engine-e-interchange-payload-mismatch = kasulik koormus ei vastanud nõutud tüübile: { $e }
+
+engine-e-interop-not-applicable = ei kohaldu: { $why }
+
+engine-e-iq-io-error = I/O viga: { $m }
+
+engine-e-iq-format-error = vormingu viga: { $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }: PRN { $prn } ei ole ICD-s määratletud
+
+engine-e-iq-signals-glonass-channel-outside = GLONASS sageduskanal { $k } on väljaspool vahemikku -7..=6
+
+engine-e-iq-signals-code-table = koodi tabel: { $m }
+
+engine-e-kepler-out-of-domain = Kepleri võrrand: M või e väljaspool määramispiirkonda
+
+engine-e-kepler-no-convergence = Kepleri võrrand ei koondunud { $iters } sammuga (jääk { $residual })
+
+engine-e-lunar-orientation-epoch-outside-series = epohh { $t } Juliuse sajandit J2000-st on väljaspool DE440 Kuu orientatsiooni rida ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+engine-e-propagator-sgp4-error = SGP4 propageerimise viga (kood { $code })
+
+engine-e-integrator-dop853-stopped = DOP853 peatus hetkel t = { $t } ({ $failure }) pärast { $accepted } sammu
+
+engine-e-portable-distr-variance-non-finite = normaaljaotuse dispersioon ei ole lõplik
+
+engine-e-portable-distr-shape-not-positive = gammajaotuse kujuparameeter ei ole positiivne
+
+engine-e-portable-distr-scale-not-positive = gammajaotuse skaalaparameeter ei ole positiivne
+
+engine-bench-tasks-clock-line-before-header = kellarida tuleb enne mis tahes `@<PRN>` päist
+
+engine-api-html-clock = Kell
+
+engine-api-html-fom-heading = Tulemusnäitajad
+
+engine-api-html-metric = Näitaja
+
+engine-api-html-value = Väärtus
+
+engine-api-html-validation = Valideerimine
+
+engine-api-html-tier-note = Iga tulemusnäitaja on märgitud kas VALIDATED (kontrollitud välise oraakli vastu) või MODELLED (esimestest printsiipidest, sisemiselt testitud), tuletatud kontrollimaatriksist.
+
+engine-api-html-default-title = Kshana — stsenaariumi tulemus
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · täpne hetk
+
+engine-api-html-tagline = Hübriid-kvant/klassikalise PNT jõudluse tulemuskaart
+
+engine-api-html-chart-alt = Tulemuse diagramm
+
+engine-api-html-full-result = Täielik tulemus (JSON)
+
+engine-api-html-footer-generated = Genereerinud Kshana { $version }.
