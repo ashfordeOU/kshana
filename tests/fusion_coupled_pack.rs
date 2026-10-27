@@ -22,7 +22,8 @@ fn sha(s: &str) -> String {
 fn hashes(name: &str) -> (String, String, String) {
     let path = format!("{}/scenarios/{name}.toml", env!("CARGO_MANIFEST_DIR"));
     let src = std::fs::read_to_string(path).unwrap();
-    let out = kshana::api::run_toml(&src).unwrap();
+    // The evidence label is additive and pinned on its own (tests/evidence_labels_doc_sync.rs).
+    let out = kshana::api::without_evidence_labels(kshana::api::run_toml(&src).unwrap());
     let v = env!("CARGO_PKG_VERSION");
     let json = out.json.replace(
         &format!("\"engine_version\": \"{v}\""),
