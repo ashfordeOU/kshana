@@ -1,0 +1,66 @@
+{
+ "source": "adsb",
+ "windows": [
+  [
+   "2025-09-15T12:00Z",
+   "2025-09-15T15:56Z"
+  ],
+  [
+   "2025-09-16T07:00Z",
+   "2025-09-16T10:54Z"
+  ],
+  [
+   "2025-09-16T12:30Z",
+   "2025-09-16T15:58Z"
+  ],
+  [
+   "2025-09-16T17:00Z",
+   "2025-09-16T20:00Z"
+  ],
+  [
+   "2025-09-18T07:00Z",
+   "2025-09-18T11:00Z"
+  ],
+  [
+   "2025-09-18T13:00Z",
+   "2025-09-18T16:00Z"
+  ]
+ ],
+ "published_sessions": 14,
+ "scheduled_sessions_n": 2,
+ "unscheduled_sessions": 12,
+ "sessions": [
+  {
+   "session": 12,
+   "start_utc": "2025-09-18T07:59Z",
+   "end_utc": "2025-09-18T10:11Z",
+   "areas": [
+    2
+   ],
+   "status": "unconstrained",
+   "affected_distinct": 6,
+   "hit_50": false,
+   "hit_90": false,
+   "hit_95": true,
+   "naive_mean_error_km": 652.6,
+   "area95_km2": 1681769.0
+  },
+  {
+   "session": 13,
+   "start_utc": "2025-09-18T12:43Z",
+   "end_utc": "2025-09-18T14:06Z",
+   "areas": [
+    2
+   ],
+   "status": "unconstrained",
+   "affected_distinct": 6,
+   "hit_50": false,
+   "hit_90": false,
+   "hit_95": false,
+   "naive_mean_error_km": 590.6,
+   "area95_km2": 1629352.0
+  }
+ ],
+ "outcome": "NOT ASSESSABLE",
+ "why": "n = 2 scheduled sessions, fewer than 4"
+}

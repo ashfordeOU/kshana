@@ -281,6 +281,7 @@ fn a_label_can_be_removed_leaving_exactly_the_unlabelled_bytes() {
 const LABELLED_WRITERS: &[&str] = &[
     "src/api.rs",
     "src/interference_map/cli.rs",
+    "src/interference_map/emitter_out.rs",
     "src/jammertest/cli.rs",
     "src/iq/cli/acquire.rs",
     "src/iq/cli/monitor.rs",

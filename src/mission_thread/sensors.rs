@@ -38,9 +38,9 @@ impl RelNavSensor {
             "lidar" => RelNavSensor::Lidar,
             "rf-ranging" => RelNavSensor::RfRanging,
             other => {
-                return Err(format!(
-                    "unknown relative-navigation sensor `{other}`; expected one of \
-                     optical-camera, lidar, rf-ranging"
+                return Err(crate::terr!(
+                    "e-mission-thread-sensors-unknown-relative-navigation-sensor-expected",
+                    other = other
                 ))
             }
         })
@@ -108,14 +108,16 @@ pub struct SensorSigma {
 /// The sigmas a sensor delivers at a range, or an error when the range is outside its limits.
 pub fn sensor_sigma(p: &SensorParams, range_m: f64) -> Result<SensorSigma, String> {
     if !(range_m.is_finite() && range_m > 0.0) {
-        return Err(format!(
-            "range must be a positive finite number of metres, got {range_m}"
+        return Err(crate::terr!(
+            "e-mission-thread-sensors-range-must-be-positive-finite",
+            range_m = crate::i18n::num_plain(range_m)
         ));
     }
     if range_m > p.max_range_m {
-        return Err(format!(
-            "range {range_m} m is beyond the sensor's {} m limit",
-            p.max_range_m
+        return Err(crate::terr!(
+            "e-mission-thread-sensors-range-is-beyond-the-sensor",
+            range_m = crate::i18n::num_plain(range_m),
+            max_range_m = crate::i18n::num_plain(p.max_range_m)
         ));
     }
     let range_sigma = (p.range_floor_m.powi(2) + (p.range_fraction * range_m).powi(2)).sqrt();
