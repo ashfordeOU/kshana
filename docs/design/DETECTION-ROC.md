@@ -65,6 +65,8 @@ scoring of PRO-31 is not affected: an alarm already open does not fire again, an
 false alarm. Against the pre-event negatives alone the AUC would be 1.0. That is a post-hoc
 observation, not a bar.
 
+R1 stays NOT MET. A separate design, with negatives from null recordings (bars R3 and R4, which passed), is in `xval/bench/RESULTS-0.40.md`; it does not change this result.
+
 A guard interval after each event, excluded from the negatives, would remove this. It would be
 a new pre-registration. `r1_the_cn0_drop_roc_separates_6_db_attenuations` stays strict and is
 ignored with these values. R2 runs in the release CI job.
