@@ -51,3 +51,17 @@ seg-05d34a27a0ba = <s1>Poprzednia</s1>Dziennik zmian
 seg-4f7f660eea0a = <s1>Następna</s1>Bezpieczeństwo
 
 seg-2d2b32369c30 = Co nie jest objęte tym podwójnym licencjonowaniem
+
+seg-a1bee28d1dfd = Źródło: <c1/>
+
+seg-b8dd205e82c4 = Kshana jest <b>objęta podwójną licencją</b>. Otwartego silnika można używać na podstawie <b>albo</b> licencji otwartej (AGPL-3.0), <b>albo</b> <b>licencji komercyjnej</b> od Ashforde OÜ. Wybierz tę, która odpowiada zamierzonemu sposobowi użycia.
+
+seg-5faea0aba960 = Ten dokument wyjaśnia model prostym językiem. Jest przewodnikiem, a nie poradą prawną, i nie zmienia samych licencji. Wiążące warunki znajdują się w <a1><c1/></a1> (GNU AGPL-3.0) oraz w każdej umowie komercyjnej podpisanej z Ashforde OÜ. Jeśli kiedykolwiek się różnią, rozstrzygają tamte dokumenty.
+
+seg-89bd60937f0b = Opcja A: otwarte oprogramowanie, GNU AGPL-3.0-only
+
+seg-785200a5419a = Domyślna. Pełny tekst znajduje się w <a1><c1/></a1>. W skrócie AGPL pozwala używać, badać, modyfikować i redystrybuować Kshana za darmo, <b>pod warunkiem że</b>:
+
+seg-5bc05999ee9d = jeśli <b>rozpowszechniasz</b> Kshana lub pochodną, udostępnisz <b>pełny odpowiadający kod źródłowy</b> na licencji AGPL; oraz
+
+seg-5c9136766fdf = jeśli umożliwiasz użytkownikom korzystanie ze <b>zmodyfikowanej</b> Kshana <b>przez sieć</b> (wyróżniająca klauzula AGPL, §{ "13" }), musisz zaoferować <b>tym użytkownikom</b> odpowiadający kod źródłowy swojej zmodyfikowanej wersji na licencji AGPL.

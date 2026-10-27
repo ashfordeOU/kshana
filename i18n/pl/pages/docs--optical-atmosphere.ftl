@@ -87,3 +87,5 @@ seg-309c70f2f4f8 = ITU-R P.840 (statystyki wody ciekłej w chmurach), P.1814 i P
 seg-83b30e1ca261 = <s1>Poprzednia</s1>Pakiety dowodowe
 
 seg-1474b58fb35a = <s1>Następna</s1>Taktowanie slotów
+
+seg-53a7343c076e = Twierdzenie

@@ -51,3 +51,5 @@ seg-3a677e343081 = Utrata zaczepu pętli śledzenia i wciągnięcie przez spoofi
 seg-e3a8f20108f3 = <s1>Poprzedni</s1>timetransfer
 
 seg-05e8854de548 = chip
+
+seg-72182c1aecd9 = Wykres, który silnik zapisuje dla scenariusza scenarios/tracking-loop.toml, rodzaj tracking-loop
