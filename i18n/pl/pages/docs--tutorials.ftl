@@ -29,3 +29,5 @@ seg-4f19d4fb1341 = Ogólny przegląd N-wymiarowy dowolnego pakietu przez kluczow
 seg-e7ab7b55c969 = Przegląd 1-wymiarowy badania kompromisów po parametrze pakietu zegara.
 
 seg-e43910de5fd8 = Notatniki
+
+seg-d78822583c64 = Notebook
