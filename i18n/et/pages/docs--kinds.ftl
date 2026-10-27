@@ -77,3 +77,73 @@ seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
 
 # text
 seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+
+# attr:alt
+seg-15b8e26dc24b = Kontaktlehe pilt diagrammidest, mille mootor kirjutab perekonna Kuu ja tsislunaarne ruum liikide jaoks
+
+# text
+seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
+
+# attr:alt
+seg-d6c5a581ffaf = Kontaktlehe pilt diagrammidest, mille mootor kirjutab perekonna Missioonianalüüs, sidelingid ja kosmoseoperatsioonid liikide jaoks
+
+# attr:alt
+seg-b8f937411028 = Kontaktlehe pilt diagrammidest, mille mootor kirjutab perekonna Optiline PNT liikide jaoks
+
+# text
+seg-5e658f01d9f4 = HETEROGENEOUS (tulemuse silt)
+
+# attr:alt
+seg-c20786d0eec5 = Kontaktlehe pilt diagrammidest, mille mootor kirjutab perekonna Kosmosekasutaja navigatsioon liikide jaoks
+
+# text
+# c1: docs/KINDS.md
+seg-f7f2a6c0cd15 = Source: <c1/>
+
+# text
+seg-6c7831311d4e = Stsenaariumi liigid perekondade kaupa
+
+# text
+seg-6bed0bef75bc = Iga stsenaariumi liik, mida mootor v{ $version } käivitab ({ "87" }), on jaotatud { "12" } perekonda. Igal perekonnal on leht, kus on üks kirje iga liigi kohta (mootori kirjeldus ja väljad, näidiskäsk, käivitusest saadud peamised arvud, seda liiki nimetavad maatriksiread ja mootori kirjutatud diagramm), ning nende diagrammide kontaktleht. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
+
+# text
+seg-d23eaa8bc98b = Perekonnad
+
+# text
+seg-3ac9e578414c = Kellad, ajastus ja holdover
+
+# text
+seg-b4b8aaf14aec = Inertsiaal-, liitmis- ja kvantandurid
+
+# text
+seg-93591ee6899f = GPS-ita alternatiivne PNT
+
+# text
+seg-b63bfec0aabf = Konstellatsioonid, katvus ja geomeetria
+
+# text
+seg-f2f84c689f14 = GNSS-i mõõtmised, positsioneerimine ja terviklikkus
+
+# text
+seg-2e736b1814f2 = Segamine, spuufimine ja spekter
+
+# text
+seg-fc23add4540b = Madala Maa orbiidi navigatsioon
+
+# text
+seg-dd8aa1ce4734 = Kosmosekasutaja navigatsioon
+
+# text
+seg-77aef8722995 = Optiline PNT
+
+# text
+seg-179dc850c643 = Missioonianalüüs, sidelingid ja kosmoseoperatsioonid
+
+# text
+seg-6339abe5314a = Perekond
+
+# text
+seg-3040e2ec62b1 = <s1>Eelmine</s1>Stsenaariumi liigid
+
+# text
+seg-1d6e6cc607f2 = <s1>Järgmine</s1>Kõik käsud

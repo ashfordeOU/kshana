@@ -5,3 +5,6 @@ seg-3d770dd786e4 = Kasutus
 
 # text
 seg-d4a762001549 = Litsents
+
+# attr:alt
+seg-81a87d14efda = Kshana: märk, täpset hetke tähistav kompassi-ristik, sõnamärgi kshana kõrval

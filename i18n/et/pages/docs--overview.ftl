@@ -305,3 +305,185 @@ seg-e251b385ff46 = Kaks sünteetilist häirekaardi päeva, mis on joonistatud fa
 
 # attr:alt
 seg-af0edceb1503 = Ühe sünteetilise vastuvõtja logi hindamine kolmetestilise ajakava vastu, mootori v{ $version } tegelikust käivitusest (`kshana jammertest score`). Logi on väljamõeldud: { "1800" } s NMEA-d, kus C/N0 langeb { "20" } dB kahe intervalli jooksul. Ajakava loetleb kolm ajapesa; keskmisel ajapesal ei ole segajat logis. Hinnang märgib { "2" } testi { "3" }-st tuvastatuks (mediaanviivitus { "0" } s) ja { "1" } tuvastamata, valehäire käivitusi { "0" } üle { "0.25" } h puhta aja. Siin ei öelda midagi päris vastuvõtja kohta. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC { "61108" }, IEC { "61162" }): laeva navigeerimise eest vastutab jätkuvalt operaator.
+
+# text
+seg-3ac9e578414c = Kellad, ajastus ja holdover
+
+# text
+seg-b4b8aaf14aec = Inertsiaal-, liitmis- ja kvantandurid
+
+# text
+seg-93591ee6899f = GPS-ita alternatiivne PNT
+
+# text
+seg-b63bfec0aabf = Konstellatsioonid, katvus ja geomeetria
+
+# text
+seg-f2f84c689f14 = GNSS-i mõõtmised, positsioneerimine ja terviklikkus
+
+# text
+seg-2e736b1814f2 = Segamine, spuufimine ja spekter
+
+# text
+seg-fc23add4540b = Madala Maa orbiidi navigatsioon
+
+# text
+seg-dd8aa1ce4734 = Kosmosekasutaja navigatsioon
+
+# text
+seg-77aef8722995 = Optiline PNT
+
+# text
+seg-179dc850c643 = Missioonianalüüs, sidelingid ja kosmoseoperatsioonid
+
+# text
+seg-6339abe5314a = Perekond
+
+# text
+seg-c5ce76c91ff7 = Silt
+
+# text
+seg-b88a2a9497c2 = Tööriist
+
+# attr:alt
+seg-69a98d01f489 = LunaNet AFS koodigeneraator, mida on kontrollitud spetsifikatsiooni trükitud veergude vastu, mootori v{ $version } tegelikust käivitusest (`kshana lunanet-afs-check spec`, fikseeritud versioonile LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, { "29" }. jaanuar { "2025" }; dokument märgib oma koodtabelid { "{" }LSIS-TBC{ "}" }). { "9" } kontrollist { "10" }-st on täidetud; B4 on NOT MET ({ "420" } { "421" }-st kattus). See kontrollib sümbolivoogu avaldatud spetsifikatsiooni ühe väljaande vastu ega ütle midagi ühegi LunaNet-i sõlme ega teenuse kohta. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. See kontrollib sümbolivoogu avaldatud spetsifikatsiooni ühe väljaande vastu ega ütle midagi ühegi LunaNet-i sõlme ega teenuse kohta.
+
+# attr:alt
+seg-18fc4ba766df = Pardal tehtud Maa-GNSS orbiidi määramise kooskõla peaaegu sirgjoonelises halo-orbiidis sõltumatu maapealse orbiidi määramisega, mootori v{ $version } tegelikest käivitustest stsenaariumil scenarios/lunar-infrastructure-od-consistency.toml ja mudelivea variandil ({ "400" } katset kummagi kohta). Keskmine normaliseeritud erinevus q on { "5.81" } ilma mudeliveata ja { "5.95" } süstitud kiirendusveaga { "3e-10" } m/s2, oodatava { "6" } vastu: need kaks orbiidilahendit on kooskõlas (lävi C1 MET). Katsete osakaal üle { "95" } % punkti on { "0.040" } ja { "0.052" }; süstitud vea tuvastamise lävi oli vähemalt { "0.5" }, seega on see NOT MET (C3): pardalahend on teada umbes { "352" } m täpsusega, maapealse oma { "23" } m vastu, nii et kümnemeetrine nihe jääb selle kovariatsiooni sisse peitu. MODELLED: piiratud kolme keha mudel, millel on sätestatud lihtsustused ja illustratiivsed sisendid, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus.
+
+# attr:alt
+seg-4c08262e2556 = Kandelaine täisarvulise mitmetähenduslikkuse fikseerimine Kuu pinnajaamade ja orbiidil oleva aparaadi vahel, mootori v{ $version } hinnatud käivituse kinnitatud tulemusest (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } kaare pikkust, igaühe kohta { "400" } tõmbega Monte Carlo, kirjutatud failiga scenarios/carrier-phase-scored.toml). { "1" } päev: edukus { "1.0" } % (standardviga { "0.5" } %), { "134" } mitmetähenduslikkust, orbiidil oleva aparaadi asukoha sigma { "45.6" } m ujuval ja { "18.5" } m fikseeritud lahendil; { "2" } päeva: edukus { "0.5" } % (standardviga { "0.4" } %), { "259" } mitmetähenduslikkust, orbiidil oleva aparaadi asukoha sigma { "21.5" } m ujuval ja { "8.7" } m fikseeritud lahendil; { "3" } päeva: edukus { "2.8" } % (standardviga { "0.8" } %), { "375" } mitmetähenduslikkust, orbiidil oleva aparaadi asukoha sigma { "6.3" } m ujuval ja { "2.1" } m fikseeritud lahendil. Täisarvulist fikseerimist ei saavutata: edukus jääb vahemikku { "1" } % kuni { "3" } % võimendusel { "25" } dBi ja registreeritud { "12" } dBi juures ei saa ülesannet moodustada. MODELLED: piiratud kolme keha mudel, millel on sätestatud lihtsustused ja illustratiivsed sisendid, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus.
+
+# attr:alt
+seg-7e5b10641b20 = Seitsmeparameetrilise Kuu datumi (kolm nihet, üks mastaap ja kolm pööret) korduvtäpsus Maa jaamade kaugusmõõtmisest, orbiidi ja pinnajaamade vaheliste kauguste olemasolul ja puudumisel, mootori v{ $version } tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-frame-coestimation.toml. Nihete ja pöörete Cramér–Rao sigma väheneb orbiidi lingide lisamisel (näiteks t_z väärtuselt { "0.98" } m väärtusele { "0.046" } m); väikseim informatsiooni omaväärtus tõuseb 111-kordseks ja CRLB jälg langeb väärtuseni { "1.0" } % (lävi F3 MET). See eeldab, et orbiit on Kuu telgedes teada ning selle viga kantakse orbiidi kauguse sigma { "1" } m kaudu. MODELLED: piiratud kolme keha mudel, millel on sätestatud lihtsustused ja illustratiivsed sisendid, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus.
+
+# attr:alt
+seg-377d29dcc6e8 = Ühe kosmoseaparaadi laserkaugusmõõtmise, VLBI ja GNSS asukohtade vaheliste nihete korduvtäpsus maapealse kohaliku sidumise vea suhtes, mootori v{ $version } tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-space-tie.toml (üks 6,56-päevane kaar, tehnikate sigmad GNSS { "10" } m, VLBI { "1" } m, laser { "0.1" } m). Kohaliku sidumise korral väärtusest { "1" } mm kuni { "1" } m püsib laser-miinus-GNSS nihke sigma lähedal väärtusele { "1.04" } m, kuni sidumine jõuab väärtuseni { "1" } m: seda piiravad tehnikate mõõtemüra, mitte kohalik sidumine. Ainult sidumisega seatud põhi on kahe ruutjuur korrutatud selle sigmaga. MODELLED: piiratud kolme keha mudel, millel on sätestatud lihtsustused ja illustratiivsed sisendid, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus.
+
+# attr:alt
+seg-9d507a371319 = Milline vaadeldavate suuruste perekond on tundlik Kuu Love'i arvude h2, k2 ja l2 suhtes, mootori v{ $version } tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Iga lahter on perekonna vaatluste RMS-osatuletis parameetri järgi selle perekonna enda ühikutes (seega võrreldakse lahtreid rea ulatuses, mitte veeru ulatuses); kriips tähendab, et perekonnal puudub tundlikkus. laserkaugusmõõtmine: h2 { "7.6" }, k2 puudub, l2 { "9.8" }. orbiidi jälgimine: h2 puudub, k2 { "0.00086" }, l2 puudub. pinnagravimeeter: h2 { "2.9e+03" }, k2 { "4.3e+03" }, l2 puudub. pinnakell: h2 { "2.8e-17" }, k2 { "2.8e-17" }, l2 puudub. Kõigi nelja perekonnaga on Cramér–Rao sigma { "0.36" } % nominaalsest h2-st, { "0.52" } % k2-st ja { "1.16" } % l2-st. Perekonna lisamine ei vähendanud kunagi väikseimat omaväärtust ({ "28" } lisamisest { "28" }-st), kuid pseudoinverteeritava jälg ei olnud suurem vaid { "16" } juhul { "28" }-st: see pool lävest G3 on NOT MET. Orbiidi perekond näeb k2 kiirenduse vaatejoone integraali, mis on ülempiiri tüüpi arv. MODELLED: piiratud kolme keha mudel, millel on sätestatud lihtsustused ja illustratiivsed sisendid, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus.
+
+# attr:alt
+seg-367ac9b4a8a6 = Mida `kshana imu-fit` loeb liikumatu IMU logist, mootori v{ $version } tegelikust käivitusest väljamõeldud logil ({ "20,000" } valimit sagedusel { "100" } Hz, { "200" } s): kiirendusmõõturi kiiruse juhuslik kõndimine q_va = { "4.02e-06" }, güroskoobi nurga juhuslik kõndimine q_arw = { "9e-08" }, nihke ebastabiilsus { "0.00296" } ja varased Alani hälbe tõusud (-0.51 ja -0.49; umbes -0.5 seal, kus domineerib valge müra). Selle kõrval olev tabel on TOML, mille käsk prindib. Hindajat on kontrollitud ainult sünteetiliste logidega. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus.
+
+# text
+seg-e127f2f26824 = Loetav
+
+# attr:alt
+seg-26ab8544afba = Usaldusskoor ühe sünteetilise reisi vältel, mootori v{ $version } tegelikust käivitusest andmetel examples/maritime-trust (väljamõeldud NMEA logi praamist Tallinna–Helsingi liinil, { "3001" } epohhi sagedusel { "1" } Hz). Kolm rada jagavad ühte ajatelge. Ülal: kaugus vastuvõtja teatatud asukoha ja laeva tegeliku asukoha vahel, mis püsib mõne meetri piires kuni umbes { "1576" } s, kui logi stsenaariumipärane asukoha nihutamine selle eemale tõmbab, samal ajal kui vastuvõtja jätkab kehtiva lahendi teatamist. Keskel: usaldusskoor vahemikus { "0" } kuni { "100" }, mida ei arvutata kalibreerimise esimese { "300" } s jooksul, nominal ribas (vähemalt { "90" }) kuni nihutamiseni, seejärel langemas läbi degraded riba (vähemalt { "55" }) untrusted ribasse. All: iga epohhi riba värvilise lindina koos selle nimega. Skoor on nõuandev. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC { "61108" }, IEC { "61162" }): laeva navigeerimise eest vastutab jätkuvalt operaator. Logi on välja mõeldud vormingu ja seirajate näitamiseks; see ei ole mõõtmine ega ütle midagi selle kohta, kuidas ükski vastuvõtja toimiks.
+
+# text
+seg-a683980168f7 = Docker
+
+# text
+seg-f3a2279d6df7 = Käsk või nupp
+
+# text
+seg-20c5ae650eb7 = Nõuab
+
+# text
+seg-af4d3ce85e11 = Fikseeritud kuju
+
+# text
+seg-0fdd85a80584 = <a1>npx (Node)</a1> · <a2>Docker</a2>
+
+# text
+seg-b02bdf7c7661 = Node või Docker
+
+# text
+seg-de23dcdd2647 = <a1>npx (Node)</a1> · <a2>Docker</a2> · <a3>Insiders (npx)</a3>
+
+# text
+seg-abf8b5fe685a = Node { "18" }+
+
+# text
+seg-06299cefbf9e = Python { "3.9" }+ koos uv või pipx-iga
+
+# text
+seg-26795c302f8a = brew
+
+# text
+seg-ded975fa67fa = valem versiooni v{ $version } jaoks
+
+# text
+# c1: scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket
+# c2: scoop install kshana-mcp
+seg-667d6dde705b = <c1/> seejärel <c2/>
+
+# text
+seg-f6e9fc5f46fe = Scoop (Windows)
+
+# text
+seg-bc4762d20004 = manifest versiooni v{ $version } jaoks
+
+# text
+seg-f7c0a2fbb0b5 = winget
+
+# text
+seg-9e599ab3c0a3 = winget (Windows)
+
+# text
+seg-091d1404bb8a = cargo
+
+# text
+seg-145ddf98e77f = Rust { "1.88" }+
+
+# text
+# c1: kshana-mcp
+# c2: kshana-mcp-<target>[.exe]
+# c3: SHA256SUMS
+# c4: gh attestation verify
+seg-b308519d4c8d = <a1>väljalaskeleht</a1>: <c1/> (Linux x86-64), <c2/>, kontrollitud käskudega <c3/> ja <c4/>
+
+# text
+seg-c39cac69f700 = v{ $version }
+
+# text
+# c1: io.github.ashfordeOU/kshana-mcp
+seg-e8f5e2b6580b = <c1/> (leiavad registrit tundvad kliendid)
+
+# text
+seg-b1a6e807f06f = registrit tundev klient
+
+# text
+seg-d5a3818ac3b6 = Kaug (voogedastatav HTTP)
+
+# text
+seg-5f1397b1ea30 = teie oma host
+
+# attr:alt
+seg-81a87d14efda = Kshana: märk, täpset hetke tähistav kompassi-ristik, sõnamärgi kshana kõrval
+
+# text
+# c1: kshana jammertest import
+# c2: docs/JAMMERTEST.md
+seg-27698c80b7f1 = Loeb avaldatud Jammertesti testikataloogi ja edastusplaani (NPRA/jammertest-plan, MIT) ajastatud tõena (<c1/>): ühe testiala pilud muutuvad vastuvõtja usalduse sündmusteks koos kataloogi id ja aastaga igas märgises. Planeeritud pilud, mitte salvestatud eetriajad; plaani ühtki kontaktivälja ei loeta. MODELLED. Vt <a1><c2/></a1>.
+
+# text
+# c1: kshana jammertest score
+# c2: log
+# c3: ubx
+# c4: sbf
+# c5: log_base64
+seg-23daf6121ca0 = Hindab vastuvõtja logi selle ajakava vastu (<c1/>): iga testi kohta tuvastusviivitus, tuvastamata alarmid ja taastumisaeg ning valehäired väljaspool iga pilu. Tekstilogid kui <c2/>, binaarsed (<c3/>, <c4/>) kui <c5/>. Allkirjastatud pakett vajab võtit: käsurida. Ainult nõuandev; MODELLED.
+
+# text
+# c1: hybrid
+# c2: fusion
+# c3: [accel_classical]
+# c4: kshana imu-fit
+seg-2b82a8a22298 = Stsenaariumide <c1/> ja <c2/> kiirendusmõõturi ja güroskoobi parameetrid, mis on sobitatud liikumatust IMU logist (CSV või EuRoC) Alani hälbega, koos kopeerimiseks valmis tabeliga <c3/> ja logi SHA-256-ga (<c4/>). Tekst sisse, JSON välja; MODELLED.
+
+# text
+# c1: kshana bench score
+# c2: bench/SPEC.md
+seg-b6abad1f2c9d = kshana-bench esitus, mida on hinnatud tõefaili vastu, mõlemad JSON-tekstina (<c1/>, <c2/>): tulemusfail koos spetsifikatsiooni versiooni, jaotuse, sisendräsidega ja ülesande mõõdikutega. MODELLED; kirjeldab logi või korpust, mitte kunagi toodet.
+
+# text
+seg-c7a0d7981bfd = kshana-bench tulemusfailid, mis on esitatud staatilise edetabeli lehena (HTML-tekst), igaüks eelnevalt valideeritud.
+
+# text
+seg-57f592bb676b = Paigaldage MCP server
+
+# attr:alt
+seg-b66ff9ca2ff4 = Treeningvoog stsenaariumist coastal-drag-off (mootor v{ $version }, algväärtus { "22" }, { "25" } minutit, üks fiks { "10" } s kohta õppejõu logist). Kaart näitab laeva tegelikku rada ja rada, mida vastuvõtja teatab: need langevad kokku, kuni skriptitud asukoha eemaletõmme algab hetkel { "421" } s, teatatud rada kõnnib seejärel tegelikust eemale, kuigi vastuvõtja säilitab kehtiva fiksi, ja astub tagasi, kui sündmus lõpeb hetkel { "1140" } s. Selle kõrval kahe raja vahemaa ajas ning vastuvõtja teatatud keskmine kandja-müra tihedus, mis tõuseb ühele kõrgendatud tasemele, kuni sündmus kestab. Kshana loodud sünteetilised treeningandmed. Ainult treeninguks ja testimiseks: ärge kunagi sööta seda voogu laeva elavatesse navigatsioonisüsteemidesse. Nõuandev, mitte tüübikinnitust omav navigatsiooniseade. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC { "61108" }, IEC { "61162" }): laeva navigeerimise eest vastutab jätkuvalt operaator. Asukohad, kuupäevad ja rajad on väljamõeldud.

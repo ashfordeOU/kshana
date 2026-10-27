@@ -217,3 +217,12 @@ seg-e0a3133f468f = <b>Register (ledger):</b> VALIDATED. Täielik leht koos sisen
 # c9: od_sisre_m
 # c10: ppp
 seg-ea759d0040db = Kohustuslikud väljad: <c1/>, <c2/>, <c3/>. Valikulised: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+# text
+seg-db08b7916378 = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>leo-pnt-chain</a1>.
+
+# text
+seg-534d13455a76 = <s1>Eelmine</s1>Segamine, spuufimine ja spekter
+
+# text
+seg-ec3fb19fb5bd = <s1>Järgmine</s1>Kuu ja tsislunaarne ruum

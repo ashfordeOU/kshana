@@ -17,3 +17,9 @@ seg-f5e7215e6835 = objekt
 
 # text
 seg-9da5d92757bd = objekt, valikuline
+
+# text
+seg-c353e7bec219 = Võti
+
+# text
+seg-a129b9e613d0 = Tüüp
