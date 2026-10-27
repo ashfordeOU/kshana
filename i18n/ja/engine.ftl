@@ -10682,3 +10682,5 @@ engine-e-interference-map-locate-bad-tdoa = { $path } は使用できる TDOA �
 engine-e-interference-map-locate-source-required = --source adsb または --source ais が必要です
 
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
+
+engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
