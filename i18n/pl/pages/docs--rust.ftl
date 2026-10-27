@@ -69,3 +69,83 @@ seg-9390336ecc01 = <b>Cytowanie</b> → <a1>CITATION.cff</a1> · DOI <a2>10.5281
 seg-d059e9fc67e1 = Wolne i otwarte oprogramowanie na licencji <b>GNU AGPL-3.0-only</b> (GNU Affero General Public License, wyłącznie wersja { "3" }). <b>Licencja komercyjna</b> jest dostępna od <a1>Ashforde® OÜ</a1> (estońskiej spółki z ograniczoną odpowiedzialnością; OÜ = osaühing) dla zamkniętej integracji; zob. <a2>LICENSING.md</a2>. Profesjonalnie rozwijane i utrzymywane przez Ashforde® OÜ.
 
 seg-8c83544270b5 = Sygnatura
+
+seg-8a438548bf52 = Źródło: <c1/>
+
+seg-9a65e21abcf4 = Kshana odtwarza zagłuszanie, spoofing i holdover zegara, gdy sygnały GNSS (globalny system nawigacji satelitarnej) zawodzą, i mówi, jak długo system utrzymuje czas i pozycję w granicach budżetu oraz który zegar lub czujnik daje największy zapas. To jest crate Rust: silnik jako biblioteka oraz polecenie <c1/>. Każdy przebieg jest odtwarzalny bit po bicie na podstawie scenariusza, ziarna (seed) i wersji silnika.
+
+seg-991c428a8063 = Użycie: biblioteka
+
+seg-6ef0d3fb5be0 = Przykład to kompletny program: zawiera własny scenariusz zapisany w TOML (Tom's Obvious, Minimal Language), więc uruchamia się jako <c1/> w nowym projekcie <c2/> po <c3/>, bez niczego innego na dysku.
+
+seg-cfb76f7da8da = <c1/> to dokument wyniku w JSON (JavaScript Object Notation), <c2/> to wykres w SVG (Scalable Vector Graphics), a <c3/>, dla rodzajów publikujących tabelę, to ta tabela w CSV (wartości rozdzielone przecinkami).
+
+seg-95b7a8022262 = Dokumentacja API, wygenerowana z src/api.rs
+
+seg-e271e742cec7 = Każda funkcja publiczna <c1/> w silniku v{ $version }, odczytana ze źródła podczas budowania.
+
+seg-9a8d288b2c57 = json z usuniętym końcowym blokiem figure_tiers, bajt po bajcie taki, jakim był dokument, zanim ten blok powstał; None, gdy dokument nie ma takiego bloku albo ma go, ale nie jako ostatni klucz (czego ten crate nigdy nie emituje, więc uprząż musi traktować to jako błąd, a nie usuwać czegoś, czego nie potrafi wyjaśnić).
+
+seg-6157f407ab8b = Wypisz każdy wbudowany rodzaj scenariusza wraz z jego metadanymi.
+
+seg-e9535491e871 = Wbudowane rodzaje scenariuszy i ich metadane jako tablica JSON, czyli postać, którą wiązania języków udostępniają do introspekcji programowej.
+
+seg-a3e3eeb83c46 = [KIND_MODULES] jako obiekt JSON: rodzaj do tablicy nazw modułów, w kolejności tabeli.
+
+seg-6739ddf8bba8 = [HEADLINE_FIELDS] jako JSON: { "{" }kind: { "{" }"headline": [path, ...]{ "}" }{ "}" }, w kolejności tabeli.
+
+seg-f76170c699d9 = Wyrenderuj wbudowany katalog rodzajów scenariuszy jako samodzielny opis w Markdown (docs/SCENARIOS.md): każdy rodzaj, który można wywołać, z jednozdaniowym opisem i jego wymaganymi i opcjonalnymi polami TOML.
+
+seg-295c8355634f = Sprawdź scenariusz TOML za pomocą własnej introspekcji crate i zwróć listę problemów, tak aby wywołujący mógł się dowiedzieć, co jest nie tak, PRZED (być może długim) przebiegiem, zamiast trafić na późną awarię w czasie działania.
+
+seg-4aab02ecf399 = Wyeksportuj propagowaną konstelację scenariusza orbitalnego lub konstelacji jako tekst SP3-c.
+
+seg-d577fc8351a2 = Jeśli src jest scenariuszem orbitalnym z export_sp3 = true, zwróć jego tekst SP3-c; w przeciwnym razie None.
+
+seg-024e29ac4bde = Wyeksportuj średnie elementy TLE scenariusza orbitalnego jako katalog CCSDS OMM: jeden OMM (Orbit Mean-Elements Message) na satelitę zdefiniowanego w TLE, w postaci KVN, z rzeczywistym numerem katalogowym NORAD, oznaczeniem COSPAR i epoką z każdego TLE.
+
+seg-d5dc817a3a24 = Jeśli src jest scenariuszem orbitalnym z export_omm = true, zwróć jego tekst katalogu OMM; w przeciwnym razie None.
+
+seg-3fe91ee29ac1 = Wyeksportuj propagowaną konstelację scenariusza orbitalnego jako tekst CCSDS OEM: szereg czasowy stanu inercjalnego (TEME), pozycji ORAZ prędkości, w formacie wymiany efemeryd statku kosmicznego, który czytają narzędzia dynamiki lotu (GMAT/Orekit/STK).
+
+seg-f102088f3208 = Jeśli src jest scenariuszem orbitalnym z export_oem = true, zwróć jego tekst OEM; w przeciwnym razie None.
+
+seg-5432a3921600 = Wstaw rzeczywistą treść IERS finals2000A do pola eop_finals2000a scenariusza (ścieżka CLI --eop <file>), zwracając scalony TOML.
+
+seg-dc707c3d1769 = Wstaw blok metadanych badania do już wyrenderowanego dokumentu wyniku JSON, zwracając dokument z kluczem najwyższego poziomu "meta" wstawionym zaraz po nawiasie otwierającym.
+
+seg-afa952d0c0f5 = Uruchom scenariusz i zwróć typowany wynik ze strukturalnym błędem: punkt wejścia, który powinni preferować wywołujący z wiązań, zamiast [run_toml] z błędem w postaci łańcucha.
+
+seg-d0a609bfd225 = Przetwórz, skieruj i uruchom scenariusz podany jako łańcuch TOML.
+
+seg-c62cff9a8dba = [run_toml] bez bloku figure_tiers dla danego rodzaju, który dopisuje [run_toml_inner] (RM-04): dla przebiegu, którego dokument jest osadzony w wyniku innego rodzaju (członek kampanii), tak aby dokument zewnętrzny zachował swoje bajty.
+
+seg-5a316ab76a7d = json z dopisanym blokiem jako jego ostatnim kluczem, figure_tiers, bajt po bajcie tak, jak zserializowałby go wrapper Documented: formatowanie z wcięciem dwóch spacji, blok zagnieżdżony o jeden poziom.
+
+seg-ef3b369866c5 = Formaty wymiany w crate: parser i zapis CCSDS Tracking Data Message (TDM) (<c1/>); Kshana Interchange Format (KIF) (<c2/>).
+
+seg-36184e41b65d = Użycie: CLI
+
+seg-c96267c06c3b = Instalacja z rejestru nie ma katalogu <c1/>, więc CLI nosi ze sobą scenariusze referencyjne; <c2/> wypisuje je i wskazuje te nieliczne, które pomija, wraz z powodem (każdy czyta wyłącznie dane dostarczane z repozytorium albo opiera się na ustawieniu wstępnym, które wydanie może wstrzymać).
+
+seg-35965c7df95f = Przebieg jest kierowany według <c1/> scenariusza i zapisuje <c2/>, <c3/>, <c4/> (drukowalną stronę raportu w HTML, HyperText Markup Language) oraz <c5/> (ten sam raport w postaci czytelnej maszynowo), a dla rodzajów publikujących tabelę także <c6/>, obok pliku scenariusza. <c7/> dodaje pliki wymiany: CZML (Cesium Language) i KML (Keyhole Markup Language) dla przeglądarek globusa, GeoJSON dla map, pliki efemeryd STK (Systems Tool Kit) oraz nagrania SigMF (Signal Metadata Format) dla rodzaju <c8/>. <c9/> dodaje animację w SVG, HTML lub klatka po klatce.
+
+seg-fc13b487ccc5 = Z klonu repozytorium te same polecenia przyjmują pliki w <c1/> bezpośrednio, w tym badanie wieloscenariuszowe (<c2/>) oraz <c3/>, jedyny scenariusz, który czyta rzeczywiste dane z pomiarów laserowych, dostarczany wyłącznie z repozytorium.
+
+seg-509e49e5df09 = <b>Zaufanie do GNSS na statku</b> (<c1/>, w tym <c2/>): wskaźnik 0-100 z uzasadnieniami na podstawie NMEA odbiornika, na żywo lub z dziennika; wyłącznie doradczo, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu.
+
+seg-0489fa168736 = <b>Pakiety dowodowe</b> (<c1/>): podpisany zapis techniczny okna dziennika, weryfikowalny offline.
+
+seg-aa4a7de921a3 = <b>Telemetria zaufania</b> (<c1/>): strumień zaufania jako metryki Prometheus, zdarzenia SIEM i opcjonalnie OpenTelemetry.
+
+seg-d2ecb7047abe = <b>Strumienie szkoleniowe</b> (<c1/>): syntetyczne NMEA mostka ze skryptowanym zagłuszaniem i spoofingiem oraz dziennik instruktora. Tylko tekst; nigdy dla żywych systemów nawigacyjnych statku.
+
+seg-e16769b8fab8 = <b>Mapa zakłóceń</b> (<c1/>): zbiorcze mapy pogorszonej nawigacji i narażenie trasy.
+
+seg-1944d0fada06 = <b>Test bench i mapowanie compliance</b> (<c1/>, <c2/>): ruch pojazdu i zdarzenia ze scenariusza dla laboratoryjnego symulatora GNSS oraz mapowanie na jawne ramy, wypełniane z dokumentów wyników.
+
+seg-68274ce67506 = <b>Laboratorium IQ GNSS</b> (<c1/>): sceny, akwizycja, śledzenie, monitory i kampanie na nagranych i syntetycznych danych IQ.
+
+seg-6dc7d52fef11 = <s1>Poprzednia</s1>npm i WebAssembly
+
+seg-8ff56af64ec2 = <s1>Następna</s1>Serwer MCP

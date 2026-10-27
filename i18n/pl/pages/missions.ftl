@@ -127,3 +127,7 @@ seg-2d2a4afa2708 = Telekomunikacja i 5G
 seg-af94e7a93923 = Jeśli zostanie utracone odniesienie czasu GNSS, czy zegar mojej sieci mieści się w maskach ITU-T i jak długo?
 
 seg-36d838421b86 = Czy mogę odtworzyć, rozszerzyć i zacytować wynik PNT, aż do ziarna?
+
+seg-821762272e2f = Sektory
+
+seg-13e8e5460280 = Geometria
