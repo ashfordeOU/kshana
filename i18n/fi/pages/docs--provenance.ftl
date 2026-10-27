@@ -341,7 +341,7 @@ seg-5b82ad0bd2c9 = Liu ym. ({ "2025" }), <em>Remote Sensing</em> { "17" }({ "16"
 
 seg-2080b4fc31a8 = Kaavion alkuperätietojen alatunniste
 
-seg-22d0b06d5df4 = Jokaiseen Kshanan piirtämään kaavioon — selaintestialustassa, komentorivin (CLI) <c1/>-viennissä ja tulostettavan <c2/>-raportin (HTML, HyperText Markup Language) kaaviossa — lisätään oikeaan alakulmaan leima:
+seg-22d0b06d5df4 = Jokaiseen Kshanan piirtämään kaavioon — selaintestialustassa, komentorivin (CLI) viennissä <c1/> ja tulostettavan raportin (<c2/>, HTML, HyperText Markup Language) kaaviossa — lisätään oikeaan alakulmaan leima:
 
 seg-d8b4de856202 = Kohta <c1/> on ajon <b>skenaariotiivisteen</b> { "12" } ensimmäistä heksamerkkiä: SHA-256 (SHA: Secure Hash Algorithm) skenaarion <em>kanonisesta</em> määrittelystä (siemenluku, kynnysarvot, mallin parametrit, GNSS-ikkunat ja niin edelleen). Se on sama sormenjälki, joka näkyy yksirivisessä ajoyhteenvedossa ja tulos-JSONin kentässä <c2/>. (Skenaariotyypit, joiden tulosasiakirjassa ei ole kenttää <c3/>, kuten eheys- ja kuuraportit, käyttävät varana skenaarion lähde-TOMLin (Tom's Obvious, Minimal Language) SHA-256-tiivistettä, joten jokaisella kaaviolla on silti vakaa sormenjälki.)
 

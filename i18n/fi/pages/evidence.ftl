@@ -2496,3 +2496,799 @@ seg-4e31c8daf798 = Kirjanpito
 seg-8980b5ae869b = Luku
 
 seg-f4d1ec6fc464 = Siteeraa
+
+seg-d0566d4db829 = Toista se
+
+seg-1d45f4717196 = Repositoriosta
+
+seg-b366150de755 = Pyydä selvitys
+
+seg-ac7e1a5e344a = Pro
+
+seg-8f2f47d609a1 = Kierto kehyksestä MOON_PA_DE440 kehykseen J2000 mielivaltaisina epookkeina välillä 2014-01-01 – 2030-12-31 TDB… · Validoitu
+
+seg-58aa8583d165 = Viisi Kuun lähipuolen retroreflektoriryhmää PA-kappalekehyksen metreinä ja LLR-maa… · Mallinnettu
+
+seg-2c37f225dfbd = Maa-aseman ja heijastimen välinen yksisuuntainen etäisyys Kuun laseretäisyysmittauksen normaalipisteessä:… · Validoitu
+
+seg-5bd57078f7ca = assemble_coupled_info muodostaa 9-parametrisen kytketyn Fisher-informaation yli [t_x, t_y, t_z, s… · Validoitu
+
+seg-2cc77f037f08 = Solmukohtainen radiaalietäisyyden ja vastaanottimen kellopoikkeaman degeneraatio on tarkka: { "1" } m vastaa { "3.336" }… · Mallinnettu
+
+seg-193fb9b9adcf = rate_frame_jacobian(_with) antaa Kuun aika-asteikon kulkunopeuden herkkyyden… · Validoitu
+
+seg-54e36f7a21b4 = classify_null_space hajottaa datumin nollavaruuden vain paikallisiin (ulottuvuus d miinus… · Validoitu
+
+seg-f719cc938742 = MeasurementBlock sisältää yhden ehdokasmittauskampanjan 7x7 Fisher-informaatio… · Mallinnettu
+
+seg-9a8d751557dc = pelkän kiertymän (6-parametrinen siirto+kierto) hajotelma… · Validoitu
+
+seg-37a04d53055c = consistency_tolerance: kääntää käyttäjän paikkabudjetin parametrikohtaiseksi palveluntarjoajien väliseksi… · Mallinnettu
+
+seg-99b19ea76ee8 = interop_budget: vähennettävissä oleva (yhteinen kehyssidonta) ja vähentämätön (dynamiikka) jako… · Mallinnettu
+
+seg-0bdcdf560cb2 = Todellisessa DE440-pohjaisessa solmukohtaisessa kuuverkossa (kukin rivi erotuksellinen solmujen välinen yksisuuntainen… · Validoitu
+
+seg-5ebd7b35bd1f = byzantine_bound toteuttaa turvallisen tilaestimoinnin koodaus- ja harvan havaittavuuden… · Mallinnettu
+
+seg-3899180aa58b = holdover_floor osoittaa, että itsenäisten solmujen joukossa, jotka on yhdistetty vain… · Mallinnettu
+
+seg-d323b519c245 = Kolme puolta yhdestä hajotelmasta ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG), jossa… · Mallinnettu
+
+seg-94d22b2503a8 = Suurin aikaintervallivirhe ja aikapoikkeama, jotka skenaariotyyppi telecom-timing… · Validoitu
+
+seg-a84558dbbbfe = Litteroidut rajat: ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025)… · Mallinnettu
+
+seg-e1d85bd6b885 = Seitsemän vakiolämpötilan MTIE- ja TDEV-vaelluksen generointimaskia skenaariotyypille telecom-timing… · Mallinnettu
+
+seg-fb20760cdc4c = clock_log::read_input: yksi jäsennyskerros, joka muuttaa RINEX-kellotiedoston (AS/AR-tietueet… · Mallinnettu
+
+seg-f786d891bc94 = clock_log::read_input muodoilla ptp4l, phc2sys, ts2phc, chrony-tracking ja… · Mallinnettu
+
+seg-a208919126f0 = Tyyppi holdover-test: aikavirhetallenne (linuxptp-, chrony-, TICC-, TimeLab- tai RINEX… · Mallinnettu
+
+seg-a9f96c67a8ea = Tyypin gnss-ssv saatavuuspyyhkäisyt: satelliittitähdistöittäin (GPS, GLONASS, Galileo, BDS… · Mallinnettu
+
+seg-7beec1fba869 = Chapman-ionosfääri, Gallagher-tyyppinen plasmasfääri ja neutraali ilmakehä… · Mallinnettu
+
+seg-9bd04213bd7b = Tyypin gnss-ssv [navigation]-tila: yhdeksäntilainen laajennettu Kalman-suodatin (paikka… · Mallinnettu
+
+seg-59b78f3897ba = Tyypin gnss-ssv [formation]-tila: pääsatelliitti ja apusatelliitit ajavat kukin absoluuttisen suodattimen… · Mallinnettu
+
+seg-41d36946a448 = inertial::cai_error_terms (kirjastofunktioita, joihin ei vielä pääse skenaariotyypistä)… · Mallinnettu
+
+seg-5960aff23d31 = allan::edf_greenhall (kääreinä edf_greenhall_adev, _mdev ja _hdev): täysi… · Validoitu
+
+seg-27745ffd98ee = Neljä esiasetusta: OCXO (Microchip OX-208), rubidium (Microchip 8040C), cesium (Microchip… · Mallinnettu
+
+seg-f2e36db87617 = Tyypin slot-timing mitatun tallenteen polku: vaihetallenteen limittäinen Allanin poikkeama… · Validoitu
+
+seg-109907bc9864 = Tyyppi slot-timing: ennustettu virhe E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| +… · Mallinnettu
+
+seg-1365b5beea5d = orbital_timing::orbital_timing, saatavilla tyypin slot-timing spoofing-osiona… · Mallinnettu
+
+seg-cf3bc790331a = Yksikköpinta-alan tehospektritiheydet: GPS L1 C/A ja L2C (BPSK({ "1" })), GPS L5 ja Galileo… · Validoitu
+
+seg-7c8f9549667b = Tyyppi spectrum: L-kaistan tehospektritiheyden taajuus–aika-ruudukko… · Mallinnettu
+
+seg-21a27551f400 = sigmf: Signal Metadata Format -tallenteiden luku ja kirjoitus (JSON .sigmf-meta ja ydin… · Validoitu
+
+seg-cbf9461da030 = Merkuriuksen, Venuksen, Maa–Kuu-barycentrin (painopisteen), Maan ja Marsin heliosentriset paikat… · Validoitu
+
+seg-6f84829bf6f5 = Auringon, Merkuriuksen, Venuksen, Maan ja Kuun geometriset paikat suhteessa toisiinsa… · Validoitu
+
+seg-2d4dc39d352b = Newtonin mekaniikan mukainen yksisuuntainen valoaika mistä tahansa kappaleesta mihin tahansa toiseen, vastaanotettuna epookkihetkellä… · Validoitu
+
+seg-ced7622e838b = Uranuksen ja Neptunuksen paikat Standishin taulukosta { "1" } (oletus välillä { "1800" } jKr. –… · Mallinnettu
+
+seg-abe80edcb2c5 = Geosentrinen Kuu Montenbruckin ja Gillin sarjasta (jonka -1.3972 astetta vuosisadassa… · Mallinnettu
+
+seg-56cf1bcf8251 = Body saa lisää kappaleita: Merkurius, Venus, Jupiter, Saturnus, Uranus, Neptunus, Pluto, Phobos, Deimos, Io… · Mallinnettu
+
+seg-c5fc2a8e4753 = Body::iau_rotation_et, kierto J2000-kehyksestä Merkuriuksen IAU-kappalekiinteään kehykseen… · Validoitu
+
+seg-175fb15dc664 = Tyyppi body-pnt: nimellä valitun kappaleen kiertäjä tai pintalaskeutuja navigoi… · Mallinnettu
+
+seg-fdefacb7aa4b = Tyypin constellation-design generaattorit: Walker delta- ja star-kuviot T/P/F-… · Validoitu
+
+seg-fc12c5b5204d = Tyypin constellation-design kattavuusmoottori GPS-lähtötason 24-paikkaisella esiasetuksella… · Validoitu
+
+seg-49e9a81112bf = Tyyppi constellation-design kahden kiinnitetyn tapauksen ulkopuolella: eksplisiittiset ja monikuoriset… · Mallinnettu
+
+seg-430480ee3de0 = Tyypin campaign vaiheet: kukin vaihe ajaa yhden tai useamman skenaarion olemassa olevista tyypeistä… · Mallinnettu
+
+seg-4d47d2917133 = Tyypin campaign pyyhkäisy (yhdestä kolmeen pisteillä erotettua avainta mistä tahansa tyypistä, yleisen pyyhkäisyn… · Mallinnettu
+
+seg-05fe232e052e = Tyypin campaign compose-osio: nimetyt jaetut arvot (esimerkiksi yhden häirintälähettimen teho… · Mallinnettu
+
+seg-61e08d3722d8 = Tyypin campaign optimize-osio (CAP-32): yhdestä kolmeen pisteillä erotettua skenaarioavainta, joita rajaa… · Mallinnettu
+
+seg-6d032eaa4ecd = navsignal: sini-integraali (sine_integral), BPSK-R-signaalin tehon osuus kaistan sisällä… · Validoitu
+
+seg-0344008faf5c = leo_signal::max_doppler_hz: suurin satelliitin Doppler zeniitin kautta kulkevalla ylilennolla… · Validoitu
+
+seg-1384d9815030 = Tyyppi leo-signal: parametrisoidut signaalisuunnitelmat (kaista, lähetyskaistanleveys, ITU… · Mallinnettu
+
+seg-bb691aa3e054 = Tyyppi spectrum laajennettuna L-kaistan ulkopuolelle: kaistat annetaan esiasetettuna signaalisuunnitelmana… · Mallinnettu
+
+seg-91cfb0c491d8 = ITU-R (Kansainvälinen televiestintäliitto, radioviestintäsektori) P.838-3… · Validoitu
+
+seg-c3262bd28ad8 = ITU-R P.618-14 kohta { "2.2.1.1" } vaiheet { "2" }–{ "10" } (vino ja vaakasuuntainen reitti sadekorkeuden alapuolella… · Validoitu
+
+seg-16f9554a4a2b = ITU-R P.618-14 kohta { "2.4.1" } vaiheet { "3" }–{ "9" } (vertailusigma suureesta N_wet, tehollinen reitti… · Validoitu
+
+seg-7398db38da80 = ITU-R P.2109-2 liite { "1" } yhtälöt ({ "1" })–({ "10" }) ja taulukko { "1" }: häviö, jota ei ylitetä… · Validoitu
+
+seg-d8aa9e586ecf = Ryhmäviive { "40.3" } STEC/f^{ "2" } kaistaa kohti; ionosfääristä vapaat kertoimet f1^2/(f1^{ "2" } - f2^{ "2" })… · Validoitu
+
+seg-c131312392cb = leo_link::geometry::max_static_user_range_rate: haku jokaisen ratapaikan ja… · Validoitu
+
+seg-10357ae7c9b3 = Tyyppi leo-pass: satelliitit suunnitellusta ylilennosta, radan elementeistä, SGP4-mallin kautta kulkevasta TLE-tiedosta tai… · Mallinnettu
+
+seg-0b4a68a05199 = leo_link::presets: yleinen monikaista (UHF, L, S, C), yleinen C-kaista, Xona Pulsar X1/X5… · Mallinnettu
+
+seg-f5e2c76caa01 = leo_link::energy ja tyypin leo-pass [iot]-osio: koherentti integrointi, jota rajoittaa… · Mallinnettu
+
+seg-43c4c2808e47 = leo_navmsg::sisre::sisre_weights: radiaalipaino w_R ja neliöity poikittais… · Validoitu
+
+seg-5bc0db905ba3 = leo_navmsg::elements::kepler_point: Galileo OS SIS ICD -määrityksen mukainen Kepler-arviointi… · Validoitu
+
+seg-4b5b2e636eaa = leo_navmsg::codec::crc24q: generaattoripolynomi 0x1864CFB, alkuarvo { "0" }, ei… · Validoitu
+
+seg-aa475ec1f38b = Tyypin leo-navmsg sovitus ja kompromissitarkastelu: todellinen rata integroituna vyöhykkeellisillä J2–J6- tai… · Validoitu
+
+seg-a8d1a0c8aa20 = Tyypin leo-navmsg ylilennon aikaisen päivityksen analyysi: korkein ylilento käyttäjän yllä hakuikkunan sisällä… · Mallinnettu
+
+seg-9877e2306ec7 = leo_navmsg::codec: Kshana-ohjelman oma kehys (johdanto, versio, malli, pituus, hyötykuorma… · Mallinnettu
+
+seg-b3674570d6c9 = leo_navmsg::text: RINEX-4-tyylinen lohko (> EPH-tietueen otsikko, satelliitti- ja epookkirivi… · Mallinnettu
+
+seg-30ece7b6f10e = leo_navmsg::elements::EphemerisModel-tyypin Liu22-muunnos, jonka kepler_point laskee… · Validoitu
+
+seg-24e95ef0c9ee = Tyypin leo_navmsg::elements::EphemerisModel muunnos EcefPoly: akselikohtainen ECEF-polynomi… · Mallinnettu
+
+seg-89d02bcdf9e8 = leo_navmsg::services: Klobuchar-lähetysviive millä tahansa kantoaallolla (moottorin L1… · Validoitu
+
+seg-26334e3d6bc5 = Satelliitin tarkka etäisyyden muutosnopeus, kun sen maakiinteä paikka ja nopeus tulevat… · Validoitu
+
+seg-5ac58c46dbbd = Eräajona tehtävä Gauss–Newton-paikannus etäisyyden muutosnopeudesta analyyttisin osittaisderivaatoin (d rho_dot / d r =… · Mallinnettu
+
+seg-1e63f2b7a7eb = Painotetun pienimmän neliösumman Gauss–Newton-ratkaisut mille tahansa järjestelmäyhdistelmälle, yksi vastaanottimen kello… · Mallinnettu
+
+seg-a0252001355f = Float-PPP-tyyppinen laajennettu Kalman-suodatin ionosfääristä vapaalle koodille ja vaiheelle: staattinen… · Mallinnettu
+
+seg-b2e485b4ead5 = Saapumisajan Cramér–Raon alaraja tehollisen (Gabor) kaistanleveyden… · Validoitu
+
+seg-4a487a69e0f4 = Kellomittaukset jokaiselta näkyvissä olevalta LEO-satelliitilta tunnetussa paikassa, yhdistettynä… · Mallinnettu
+
+seg-9750a328ac46 = Näkyvissä olevat satelliitit ja mediaani-PDOP, -HDOP ja -VDOP sekä saatavuus leveysasteen mukaan… · Validoitu
+
+seg-a584bac9a33d = Järjestelmäriippumattomat syötteet: jokainen järjestelmä on Walker-kuoria, eksplisiittisiä elementtejä tai GNSS… · Mallinnettu
+
+seg-cbfc7ff68128 = Tyyppi leo-pnt-chain: leo-signal-suunnitelma (julkinen esiasetus tai upotettu) määrittää leo-pass-… · Mallinnettu
+
+seg-36860c10b4d0 = Tyypin leo-pass [spoofer]-osio: harhauttaja väärentää sisäisesti johdonmukaisesti… · Mallinnettu
+
+seg-db029e7a6cc7 = Jokaiselle LEO-satelliitille ja etäisyysmittauskaistaparille [spoofer]-osio muodostaa… · Mallinnettu
+
+seg-8c87558cbceb = Jokaiselle leo-pass-satelliitin kaistaparille raportti antaa vinon kokonaiselektronipitoisuuden… · Mallinnettu
+
+seg-c047f25ef400 = Skenaarion lunar-frame-campaign seitsenparametrinen Helmert-datumin kovarianssi… · Validoitu
+
+seg-fd628e182c3e = Valinnainen neliöjuuri-informaatioratkaisin (lunar-frame-campaign solver = "srif"; oletus… · Validoitu
+
+seg-e95295d74586 = Alukselle receiver_trust purkaa NMEA { "0183" } -lauseet, jotka vastaanotin ja sen… · Validoitu
+
+seg-1d3aab6d8554 = Kukin monitori supistaa todisteensa tunnusluvun ja kynnyksen suhteeksi; pistemäärä on { "100" }… · Mallinnettu
+
+seg-43a58d2f2e32 = Synteettiset komentosillan NMEA { "0183" } -virrat miehistön koulutukseen (kshana nmea-scenario): GGA, RMC… · Validoitu
+
+seg-b53303d52991 = ADS-B-navigoinnin tarkkuus- ja eheyskoodien tulkinta, jota kartta käyttää (EPU… · Validoitu
+
+seg-3e274aa29264 = GNSS-luottamus (pistemäärä, luokka, syyt, portti ja pyynnöstä paikka) Prometheus-tekstinä… · Validoitu
+
+seg-16f2bbb013f5 = Luokanvaihtotapahtumat (tai epookkikohtaiset) Common Event Format -hyötykuormina RFC { "5424" } -… · Validoitu
+
+seg-b8601543ee77 = Luokanvaihtotapahtumat (tai epookkikohtaiset) Log Event Extended Format { "2.0" } -hyötykuormina RFC… · Mallinnettu
+
+seg-001347eb4f7e = Allekirjoitettu, tiivisteketjutettu todistepaketti GNSS-luottamustapahtumasta: SHA-256 jokaisen tiedoston ja… · Validoitu
+
+seg-7d9a0122ebcf = evidence::tsa::verify_token sekä valinnainen kshana evidence verify --tsa-ca <anchors.pem>… · Validoitu
+
+seg-cfc6c2986f15 = receiver_trust::calibration::run_dataset: ennakkorekisteröity kalibrointi… · Mallinnettu
+
+seg-7f6d9ae684a1 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): NPRA-testi… · Mallinnettu
+
+seg-a0f30d0040c6 = Liike-CSV-tiedoston maakiinteä paikka, geodeettinen paikka, maakiinteä nopeus… · Validoitu
+
+seg-ceb7d7c4aa9a = compliance (kshana compliance-report): kartoitus Kshana-tulosteista lausekkeisiin… · Mallinnettu
+
+seg-7a4ba53202ae = Luottamuspistemäärä, luokka, syyt, portin tila ja vastaanottimen ilmoittama paikka, jotka julkaistaan… · Mallinnettu
+
+seg-5618f7c6904c = iq::track::LoopConfig-rakenteen boc-kenttä (valinnainen, oletus None): kolme DLL… · Mallinnettu
+
+seg-b9c85204d2be = iq::channel::scint, Cornell-tuikemalli (Rice-intensiteetti, toisen kertaluvun… · Mallinnettu
+
+seg-962ef2cf8ab0 = iq::acq::ca_cfar ja ca_cfar_cells (valinnainen): sieppausruudukon solua verrataan… · Mallinnettu
+
+seg-b30aadd2c937 = spectrum::default_band ratkaisee pelkän nimen perusteella (MORE_BAND_NAMES) GLONASS L1OF- ja L2OF… · Mallinnettu
+
+seg-ef32d4666b43 = iq::signals::beidou::b1i_bits ja b1i: BDS-SIS-ICD-B1I-3.0 -Gold-koodit katkaistuna… · Validoitu
+
+seg-08e2f936c1c3 = iq::signals::gps::l1c_p_bits, l1c_d_bits ja l1c_o_bits: L1CP- ja L1CD-Weil-etäisyysmittauskoodit… · Validoitu
+
+seg-449f1fd5a4a0 = iq::signals::lunanet::afs_i_bits ja afs_q_primary_bits (signaalien nimet lunanet-afs-i ja… · Validoitu
+
+seg-a2f797219cd6 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs… · Mallinnettu
+
+seg-1780616b8677 = standards_pack (kshana standards-pack): DHS Resilient PNT -viitekehyksen testiprofiilit… · Mallinnettu
+
+seg-499dcb74620c = evidence::roundtrip (kshana evidence round-trip) ja kshana.test-conditions/1… · Mallinnettu
+
+seg-e885c4b88ddb = Täysi IQ-kerroksen seurantamoottori (iq::track, kshana iq track -komennon kautta: sieppaus… · Mallinnettu
+
+seg-9444c0bd9a44 = Tyypin jamming valinnainen [crpa]-osio: kanavakohtainen keila kohti kutakin satelliittia… · Mallinnettu
+
+seg-01e2f93ebd7c = Tyypin jamming valinnainen [terrain]-osio: suuren ympyrän mukainen maastoprofiili välillä… · Mallinnettu
+
+seg-de5a2ace5291 = Tyypin jamming valinnainen [acquisition]-osio (satelliitti otetaan kiinni tasolla tai sen yläpuolella… · Mallinnettu
+
+seg-337acb9b46a7 = iq::track-moduulin valinnainen carrier.fll_pull_in_max_s (kenttä fll_pull_in_max_s rakenteessa… · Mallinnettu
+
+seg-731c77d5b154 = Lukee RTKLIB-ratkaisutiedoston (kalenteri- tai GPS-viikko/TOW-aika, leveys-/pituusaste tai ECEF… · Mallinnettu
+
+seg-c55fdbe431b5 = Lukee BESTPOS (paikka), RANGE (C/No signaalikohtaisesti) ja RXSTATUS (vastaanottimen häirintä… · Mallinnettu
+
+seg-c4e9eae15690 = Lukee RTCM { "3" } MSM4- ja MSM7-viestien jokaisen signaalisolun C/N0-arvon (GPS, GLONASS… · Mallinnettu
+
+seg-1a0d48096470 = Lukee GNSS-SDR Monitor (Gnss_Synchro) - ja PVT-monitor-viestit, jotka välitetään JSON-riveinä… · Mallinnettu
+
+seg-c9e7077311e2 = Lukee IMU-CSV-tiedoston (dokumentoidut sarakkeet tai EuRoC-asettelu); integroi kääntönopeuden… · Mallinnettu
+
+seg-0a44618c7e98 = JSON-tila-asiakirja ja Home Assistant MQTT -löytöviestit luottamusvirralle… · Mallinnettu
+
+seg-2c0eeca292e0 = ROS-vapaa silta, joka kirjoittaa paikkaratkaisu- ja satelliittiviestit NMEA-muodossa ja pisteyttää ne… · Mallinnettu
+
+seg-83dc4863b9cb = Korosta yhden merkinnän solut
+
+seg-52696b2fa099 = Validoitu riippumatonta ulkoista oraakkelia vastaan
+
+seg-1e3ba1b099ba = Mallinnettu: toteutettu, ei vielä ulkoisesti validoitu
+
+seg-97b628450f8c = Kumppanin omistama: moottorin tekemän ulkopuolella
+
+seg-eef053d8c686 = Luvut ovat tarkkoja, ja ne tulevat moottorin varmennusmatriisista. Solut noudattavat kirjanpidon rivijärjestystä.
+
+seg-2ef0ba031af3 = Kolme sanaa, joita käytetään tiukasti
+
+seg-7a23624246c0 = Kshana-tuloste<s1>moottorin ajo</s1>
+
+seg-7042922a4050 = Riippumaton oraakkeli<s1>julkaistu vertailu</s1>
+
+seg-f402715031f4 = Vain riippumattomalla ulkoisella oraakkelilla: julkaistut vertailuvektorit, erillinen toteutus tai sovituksesta pois jätetty mitattu data. Kirjanpito nimeää oraakkelin ja testin, ja matriisin invarianttitestit valvovat sääntöä.
+
+seg-7091847e1c77 = Julkaistu malli tai dokumentoitu mallinnusvalinta, sisäisesti testattu, ilman vielä riippumatonta ulkoista oraakkelia. Sanotaan ääneen, ei pyöristetä ylöspäin.
+
+seg-1d17589ad647 = Avaruusaluksen alustatekniikka, navigointikuorma ja antennilaitteisto, kvanttikuorman laitteisto sekä lentolaitteiston tuotevarmistus. Kshana ei väitä kattavansa mitään niistä; kumppani omistaa ne.
+
+seg-5af3d58e83fa = <b>Pro-versiolla:</b> <b>tehtävädossier</b> tarkistaa jokaisen vaatimuksen todellisia ajoja vasten ja säilyttää nämä merkinnät varmennusmatriisissaan: vaatimus, joka on täytetty perusteella MODELLED tai PARTNER, merkitään. <a1>Katso todellinen dossier</a1>
+
+seg-400016e22379 = Validoinnin kirjanpito (ledger)
+
+seg-6ef0eb045293 = Kaikki { "388" } riviä, yksi rivi kutakin kohden.
+
+seg-20ec758fe328 = Jokainen rivi nimeää vaatimuksensa, tilansa ja sen toteuttavan moduulin. Avaa rivi nähdäksesi sen oraakkelin ja testit tai valitse toimiala rajataksesi.
+
+seg-08f2354cb22b = Suodata toimialan mukaan
+
+seg-f5a2e020b47e = Toimialoittain: palkin pituus on rivien määrä, väri on tila. Valitse yksi suodattaaksesi.
+
+seg-d8691ddf3170 = { "93" } rivistä validoitu
+
+seg-0272bc18f675 = { "19" } rivistä validoitu
+
+seg-d6687397eae9 = { "73" } rivistä validoitu
+
+seg-38ec110ef886 = Radat, koordinaatistot ja geometria
+
+seg-8d3ad903cd18 = { "76" } rivistä validoitu
+
+seg-a1c022c60fb6 = Inertia, fuusio ja vaihtoehtoinen PNT
+
+seg-223bf21e1d9b = { "25" } rivistä validoitu
+
+seg-b355dc732d29 = Signaalit ja häiriöt
+
+seg-fb01a581d5ee = { "28" } rivistä validoitu
+
+seg-d6c43e56d4cc = Tehtäväanalyysi, varmistus ja muut
+
+seg-5516d9825527 = { "55" } rivistä validoitu
+
+seg-d5b6224d2ec4 = Kaikki { "388" }
+
+seg-7038fab8b00c = Validoitu { "176" }
+
+seg-2bca452c28dd = Mallinnettu { "208" }
+
+seg-ba89c1119b21 = Kumppanin omistama { "4" }
+
+seg-cd12d85e2beb = Hae kirjanpidosta
+
+seg-f014d784ebe3 = Hae vaatimusta, oraakkelia, moduulia tai testiä
+
+seg-d0352364053e = Validoinnin kirjanpito, { "388" } riviä, vieritettävä
+
+seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } tapausta: kymmenen Kasdinin potenssilakitallennetta, b = { "0" } … -4, vaihe- ja taajuusdatana, af = { "1" } … { "64" }; alpha_int ja d identtiset, huonoin |d alpha| { "9.6e-13" } ja |d rho| { "4.8e-13" }…</s1>
+
+seg-06e5bf24f6cb = <s1>tests/osnma_official_vectors.rs (valinnainen, KSHANA_OSNMA_VECTORS: kaikki { "18" } vektorijoukkoa, { "186,382" } tunnistetta todennettu, { "0" } epäonnistui, joukkokohtaiset lattiat, ketjut ilmoitettu, ADKD 0/4/12, hälytys varmennettu, todennus jatkuu uudelleen…</s1>
+
+seg-59f1fce2addc = <s1>tests/cs5071a_reference.rs (todellinen 5071A Cs vs H-maser, { "556 990" } pistettä, { "16" } keskiarvoistuskerrointa vs Stable32 tarkkuudella { "1e-3" }; datan varassa skriptin scripts/fetch_cs5071a.sh kautta)</s1>
+
+seg-c99e283fa971 = <s1>tests/theo1_totvar_reference.rs (Theo1 + TOTDEV NIST SP { "1065" } §{ "12.4" } 1000-pisteisellä LCG-datajoukolla, { "6" } + { "6" } keskiarvoistuskerrointa vs allantools { "2024.06" } tarkkuudella <{ "1e-9" }); allan::tests (valko-FM:n suljetun muodon seuranta; TOTVAR=ADEV…</s1>
+
+seg-fd99ba5338f1 = <s1>tests/mtie_reference.rs (MTIE hermeettisellä NIST SP { "1065" } §{ "12.4" } 1000-pisteisellä LCG-vaihesarjalla, { "9" } keskiarvoistuskerrointa m={ "1" }..256 vs allantools { "2024.06" } mtie tarkkuudella <{ "1e-9" }, havaittu ≤{ "4e-15" }); allan::tests (käsin johdettu huipusta huippuun…</s1>
+
+seg-4ffcb6d162ba = <s1>tests/mdev_tdev_reference.rs (MDEV + TDEV hermeettisellä NIST SP { "1065" } §{ "12.4" } 1000-pisteisellä LCG-vaihesarjalla, { "8" } keskiarvoistuskerrointa m={ "1" }..200 vs allantools { "2024.06" } mdev/tdev suhteellisella tarkkuudella <{ "1e-9" }, sekä τ/√{ "3" }-identiteetti…</s1>
+
+seg-32f89bf69b73 = <s1>tests/optical_clock_adev_reference.rs (Norcia ym. ⁸⁸Sr-pinsettikellon σ_y(τ), { "8" } keskiarvoistusaikaa { "0.92" }–{ "117.76" } s, mukana sellaisenaan lisenssillä CC-BY-4.0: NNLS rekonstruoi käyrän ~{ "10" } %:n RMS-virheellä / ≤{ "21" } % huonoimmassa pisteessä; palautettu…</s1>
+
+seg-734313a995c1 = <s1>tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } todellisen geometrian tapausta, Celestrakin GPS+Galileo ja IGS SP3: huonoin |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m verrattuna ADD…</s1>
+
+seg-f48dbf60fb99 = <s1>tests/numerical_cowell_propagator_reference.rs ({ "275" } epookkia = { "11" } tapausta × { "25" } tunnin välein otettua tilaa, LEO+GTO, vs Orekit { "12.2" } DormandPrince853; konservatiiviset tasot T1–T5 huonoin |Δr| { "0.08" } m { "24" } h aikana; vastustustaso luonnehdittu arvolla { "333" } m)</s1>
+
+seg-2b6ce8db9bb0 = <s1>tests/srp_oblate_shadow_orekit_oracle.rs ({ "2400" } geometriaa varjon reunan yli, { "884" } puolivarjossa, LEO:sta GEO:on, Auringon deklinaatio { "0" } ja +-23.44 astetta, { "8" } atsimuuttia: huonoin |dnu| { "7.41e-9" } WGS-84:lle ja { "2.24e-9" } pallomaiselle…</s1>
+
+seg-df6d6c97de09 = <s1>tests/srp_boxwing_orekit_oracle.rs ({ "252" } Galileo-radan geometriaa, { "7" } Auringon tapausta mukaan lukien periheli- ja aphelietäisyydet, { "100" } satunnaista asentoa; tasolevysumma huonoin { "2.05e-15" } suhteellinen { "1056" } tapauksessa; päästä päähän…</s1>
+
+seg-352cf0bd15a5 = <s1>srp_shadow::tests (rengasmainen suljettu muoto, tasainen laki, joka toistaa kartiomaisen varjon, täyden auringonvalon ja umbran rajatapaukset)</s1>
+
+seg-fec5921215cf = <s1>tests/nrlmsise00_reference.rs ({ "720" } ruudukkopistettä, { "90" } – { "1000" } km, { "4" } leveysastetta, { "2" } paikallisaikaa, { "3" } päivää, matala/kohtalainen/korkea aktiivisuus: tiheys { "1.866e-6" } suhteellisella ja lämpötila { "1.97e-4" } K tarkkuudella pymsis-ohjelmasta; bitti-identtinen…</s1>
+
+seg-0861267dffb1 = <s1>tests/drag_tier_orekit_oracle.rs ({ "4" } tapausta × { "25" } tunnin välein otettua tilaa { "24" } h ajalta, ympyrärata { "51.6" } astetta, { "400" } km matalalla/kohtalaisella/korkealla aktiivisuudella ja { "300" } km: huonoin |dr| { "0.0303" } m ja |dv| { "3.36e-5" } m/s verrattuna { "3.3" } – { "141.8" } km:iin vastuksen…</s1>
+
+seg-f288a564c842 = <s1>tests/drag_exponential_gmat_oracle.rs (ekvatoriaaliset tapaukset E400, E300 ja E250x600 hetkellä J2000.0, { "25" } tunnin välein otettua tilaa { "24" } h ajalta: vastuksen aiheuttama siirtymä on GMATin kanssa yhtenevä korkeintaan { "0.016" } kynnyksestä { "0.5" } m + { "1e-3" }|D|…</s1>
+
+seg-f495c3fe4b80 = <s1>tests/propagator_de440_orekit_oracle.rs ({ "5" } tapausta × { "25" } tunnin välein otettua tilaa { "24" } h ajalta, LEO, GEO ja HEO, kolmas kappale sekä kolmas kappale + SRP: huonoin |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; analyyttisen sarjan kontrolli ohittaa { "9.96" } m; Aurinko…</s1>
+
+seg-ffd928487a96 = <s1>tides::tests (S1-termi on vuorokautinen, kääntyy { "90" } astetta neljänneksessä vuorokautta ja sillä on kunkin rivin kuormituskertoimen amplitudi; fysikaalinen suuruus LEO:ssa); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration</s1>
+
+seg-34fa42e9a136 = <s1>tests/s2_air_tide_gfz_table5.rs ({ "21" } aallosta { "21" } vastaa julkaistua mallia A2: huonoin { "0.00050" } cm, { "0.050" } astetta kynnyksiä { "0.0006" } cm, { "0.1" } astetta vasten); tests/tides_iers.rs (S2-amplitudikaista)</s1>
+
+seg-018bfa0a86ca = <s1>tests/cowell_tesseral_orekit_oracle.rs ({ "6" } tapausta × { "25" } tunnin välein otettua tilaa { "24" } h ajalta: EGM2008 8x8 ja 70x70 LEO:lla { "45" } astetta, polaarinen { "89.9" } astetta, aurinkosynkroninen { "98.2" } astetta, GTO, ja 70x70 Auringon/Kuun ja SRP:n kanssa; huonoin |dr| { "0.0355" } m…</s1>
+
+seg-c44a64c16085 = <s1>tests/gravity_sh_high_degree.rs (Orekit { "8" } akselin ulkopuolisessa pisteessä: enintään |da| { "2.2e-17" } m/s^{ "2" } kohdassa N = { "70" }, ajetaan aina; { "3.5e-17" }, { "3.9e-17" } ja { "7.3e-17" } m/s^{ "2" } kohdissa N = { "200" }, { "360" }, { "2190" }, datan varassa muuttujalla KSHANA_EGM2008_GFC)…</s1>
+
+seg-3f5f546d8f02 = <s1>tests/dop853_scipy_oracle.rs ({ "8" } yksittäistä askelta: tila { "5.55e-15" } suhteellisella tarkkuudella, FSAL-derivaatta { "3.46e-15" }, tiheä tuloste { "1.99e-14" }, hyväksy/hylkää-päätökset identtiset; { "3" } täyttä ajoa arvolla rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" }…</s1>
+
+seg-5bea85df4628 = <s1>tests/kepler_mpmath_oracle.rs ({ "405" } ruudukkopistettä, e välillä { "0" } – { "0.999999" }, M välillä [-pi, pi] aina arvoon { "1e-12" } asti: huonoin |E - E_ref| { "0.898" } eps|E| kynnystä { "8" } eps|E| vasten; { "9" } käämittyä M-pistettä huonoimmillaan { "0.013" } kynnyksestään; ei Newtonia…</s1>
+
+seg-3408741d4f83 = <s1>tests/od_tracking_measurements_reference.rs ({ "8" } skenaariota: etäisyyden muutosnopeus, atsimuutti/korkeus ja sekamuotoinen, LEO ja MEO, kohinaton ja siemenluvulla alustettu sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, { "5" } ja { "10" } asteen maskit, Orekit { "12.2" } -ohjelmaa vasten: näkyvät joukot identtiset…</s1>
+
+seg-e7ea69e06ac4 = <s1>tests/planetary_gravity_pds.rs (asteen 20 rajaukset ajetaan aina: huonoin |dg|/|g| { "9.7e-16" }, häiriösuhteellinen { "3.4e-11" }; GMM-3 d/o { "120" } koko pallolla { "3.7e-15" } / { "6.3e-12" } ja GL0660B d/o { "660" } kohdassa |lat| <= { "60" } astetta { "5.0e-14" } /…</s1>
+
+seg-32a31bdc95c9 = <s1>tests/deep_space_mars_radiometric_reference.rs ({ "24" } väliä { "8" } epookin yli { "2020" }–{ "2027" } vs ANISE DE440; huonoin |Δτ| { "1.03e-9" } s, |Δrange| { "0.31" } m jopa { "2.5" } AU:n etäisyydellä)</s1>
+
+seg-6eab5fdef15e = <s1>gnss_navmsg::tests (CRC-24Q-tarkistusarvo 0xCDE703; konvoluutiovaste impulssille; Viterbi korjaa lisätyt virheet; asettelun leveydet); tests/gnss_navmsg_roundtrip.rs (kenttien alkubitit ovat samat kuin ICD:n bittinumerot; koodaus ->…</s1>
+
+seg-8b30719c93a3 = <s1>tests/ionex_code_gim_oracle.rs (tallennettu synteettinen IONEX-kartta vs kaavavertailu: { "20 075" } solmua täsmälleen, interpolaation enintään |Δ| { "3.5e-13" } TECU; datan varassa muuttujalla KSHANA_IONEX_CODE_GIM_DIR, todellinen CODE final GIM…</s1>
+
+seg-260f56f3a4cf = <s1>tests/rtk_real_wettzell_oracle.rs (IGS-asemat WTZR tukiasemana / WTZZ liikkuvana, { "1.4" } m, 2025-02-24 00-03 h, { "30" } s: { "359" } epookkia, ratkaisut { "100" } %:ssa alkaen kohdasta { "00" }:{ "10" }, kiinteän perusviivan virheen mediaani { "4.5" } mm, p95 { "5.5" } mm; ensimmäiset { "10" } min kiinteä { "2.6" } mm…</s1>
+
+seg-323c83de82d9 = <s1>tests/ppp_real_wettzell_oracle.rs (IGS-asema WTZR, 2025-02-24 00-06 h, { "30" } s, pidätetty pois kehityksestä: viimeisen epookin vaakavirhe { "1.5" } mm, ylös −{ "2.9" } cm; 04-06 h 240/240 epookkia { "0.10" } m sisällä 3D:ssä, p95 { "6.7" } cm; vain koodi p95…</s1>
+
+seg-1f7a4468e913 = <s1>tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } vs BRDM00DLR_S RINEX { "3.04" } päivältä 2026-07-19, väli 00-02 h: G { "37" } / E { "478" } / C { "72" } tietuetta täsmäsi molempiin suuntiin, jokainen kenttä identtinen, paikka hetkellä Toe { "0" } m; koko päivä…</s1>
+
+seg-0c54a0c29630 = <s1>tests/rinex4_obs_mao0.rs (IGS MGEX RINEX { "4.00" } -tiedoston MAO000USA_R_20231980000_01D_30S_MO { "4" } ensimmäistä epookkia, { "58" } satelliittia, { "7" } järjestelmää: otsikkotietueet ja ensimmäisen epookin arvot ovat samat kuin julkaistut literaalit)…</s1>
+
+seg-ebf5ac05182a = <s1>tests/bds_geo_broadcast_oracle.rs (todelliset C01-C04-tietueet: geostationaarinen säde, pituuspiirit 140.02/80.04/110.55/159.99 astetta julkaistuissa paikoissa, |leveysaste| { "2.13" } astetta kallistuksen kanssa vs { "6.65" } ilman; ennakkorekisteröity…</s1>
+
+seg-00d9f55700d8 = <s1>tests/sp3_clock_igs_oracle.rs (IGS final { "15" } min SP3 päivältä 2025-02-24 vs IGS final { "30" } s kellot, { "32" } GPS-satelliittia: solmujen mediaani |Δ| { "2.6e-13" } s; { "3038" } välipistetietuetta RMS { "0.121" } ns, p95 { "0.265" } ns; solmun pitäminen sen sijaan…</s1>
+
+seg-58cc844d35d1 = <s1>tests/fusion_carrier_tc.rs (kuvio-8-ajo: vakaa 3D-RMS { "0.025" } m kantoaallolla vs { "0.470" } m koodilla samoilla mittauksilla; { "12" } siemenlukua, keskimääräinen NIS/dof { "1.00" } ja vakaa NEES/dof { "0.92" }; 1 jakson hyppy havaittu omalla epookillaan ilman…</s1>
+
+seg-9e2c501c7027 = <s1>tests/gnss_ins_packs.rs (kukin paketti: sulautettu vapaata INS:ää paremmin katkon aikana molemmilla antureilla; rail: tiukka { "5.3" } m vs löyhä { "12.9" } m navigointiluokassa ja { "15.6" } m vs { "18.8" } m taktisessa katkon aikana, saatavuus { "0.97" } vs { "0.95" }…</s1>
+
+seg-2d1083cc0d20 = <s1>tests/fusion_coupled_filters.rs (3D-suodatin { "60" } siemenluvulla: toisen puoliskon keskimääräinen NEES { "8.12" } { "8" } tilalle, viimeisen epookin χ²-summa { "95" } %:n kaistan sisällä; { "0.1" } ns:n kellokorjaus pienentää 3D-paikan sigmaa arvosta { "5.58" } m arvoon { "3.07" } m; harha…</s1>
+
+seg-2de7638c3fc3 = <s1>tests/fusion_kfgins_dataset_oracle.rs (synteettiset lataajat ja pyörivän alustan vipuvarsitestit aina; datan varassa muuttujalla KSHANA_KFGINS_DIR, ajettu 2026-10-13 KF-GINS-demodatalla: vaaka-/pystysuuntainen RMS { "0.0109" } /…</s1>
+
+seg-b3d67427253e = <s1>tests/testbench_gpssdrsim_oracle.rs ({ "6" } testiä: oraakkeli ja skenaariot, vientitavut lukittu, NMEA- ja LLH-lukijat, nelisarakkeinen ECEF-leikkaus, ajon 1 HAVAINTO koko leveyden CSV:stä, { "10" } Hz:n rivijoukko)</s1>
+
+seg-7670442550b0 = <s1>fusion::trajectory::tests (koordinoidussa käännöksessä ei ole sivuvoimaa ja kuormituskerroin on 1/cos φ; CSV-tuonti toistaa lennetyn profiilin tarkkuudella { "1e-3" } m/s ja { "1" } m); tests/gnss_ins_trajectory_library.rs (jokainen profiili ajetaan ja fuusio…</s1>
+
+seg-43684d842873 = <s1>tests/classical_strapdown_ins_reference.rs (staattinen/käännös/coning-profiilit, { "30" } epookkia kukin, vs NaveGo: asenne bitti-identtinen { "0" } rad; nopeus/paikka nimettyjen analyyttisten rajojen sisällä)</s1>
+
+seg-9a888143b12b = <s1>tests/icgem_gravity_reference.rs (GRS80-synteesi toistaa Somiglianan tarkkuudella { "3.5e-12" }; todellinen ICGEM EGM2008 -häiriökartta fysikaalinen)</s1>
+
+seg-16180ad1a02e = <s1>tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE maaliskuu { "2023" }, { "4" } periluunia ja { "5" } apoluunia: kiertoaika { "6.5004" } d vs { "6.5699" } d ({ "1.07" } %, kynnys { "3" } %), apoluuni { "71 182" } vs { "71 215" } km ({ "0.05" } %, kynnys { "5" } %)…</s1>
+
+seg-88442c3f67b7 = <s1>tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } tapausta: { "12" } epookkia tammikuussa { "2025" } x pisteet L1 ja L2, kaksi L2:n eteläistä halo-rataa ja yksi DRO-alkutila JPL:n Three-Body…</s1>
+
+seg-ce1903930dae = <s1>tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Merkurius, Venus, Maa ja Kuu hetkinä 2026-01-01, 2030-06-15 ja 2040-12-31: huonoin { "3.3e-5" } m ja { "1.0e-11" } m/s verrattuna arvoihin { "1" } mm ja { "1e-6" } m/s…</s1>
+
+seg-5475e346272a = <s1>tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (Maasta Marsin barycentriin, { "16" } lähtöä 2026-09-01..2027-01-29 x { "19" } saapumista 2027-06-01..2028-02-26: { "304" } solua äärellisiä molemmilta puolilta, huonoin C3…</s1>
+
+seg-d85e4cdff95b = <s1>tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (Maasta Marsin barycentriin, lähdöt 2026-09-15..2027-01-15 x saapumiset 2027-05-01..2028-03-01, tyyppi I/II x min C3 / min V-infinity…</s1>
+
+seg-8a7000ddbb4e = <s1>tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } tapausta: { "300" } satunnaista 3D-tapausta, { "18" } lähellä arvoa { "180" } astetta, { "24" } lähellä minimiaikaa, kun M = { "1" }..3, { "40" } heliosentristä; { "1058" } ratkaisua; lukumäärät ja…</s1>
+
+seg-d15a1c6e17c9 = <s1>tests/jd2_sofa_time_oracle.rs ({ "224" } UTC-hetkeä: kuusi kunkin { "27" } karkaussekunnin ympärillä 1972-2016, kaksi kiinteää, { "60" } siemenluvulla arvottua väliltä 1972-2026; dtf2d, utctai ja taiutc kukin { "1e-6" } s sisällä, huonoin { "1.9e-11" } s); jd2::tests…</s1>
+
+seg-7fd1d47c6025 = <s1>tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } kaksiosaista UT1/TT-päivämäärää 1980-2050 mukaan lukien +{ "1" }, +{ "10" }, +{ "50" } us:n askeleet kahtena päivänä: gmst82 { "1e-12" } rad sisällä, huonoin { "0" }; GCRS:stä ITRS:ään…</s1>
+
+seg-4450a3324ae4 = <s1>tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } TT-epookkia 1950-2100, dX ja dY enintään { "0.5" } mas: prekessioelementit { "1e-13" } sisällä, huonoin { "0" }; TEME:stä GCRS:ään { "5e-10" } rad sisällä, huonoin { "1.10e-10" } rad…</s1>
+
+seg-684ae107a510 = <s1>tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } UTC-hetkeä: neljä kunkin { "15" } TAI-UTC-lausekkeen alun ympärillä 1960-1972 ja { "60" } siemenluvulla arvottua väliltä 1960-1971; dtf2d, utctai ja taiutc…</s1>
+
+seg-9447c09c6106 = <s1>tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } tapausta: todellisen 2013-01-01 IGS MGEX -lähetystiedoston { "4" } GLONASS-tietuetta x { "73" } siirtymää välillä +/-900 s; kello { "1e-14" } sisällä…</s1>
+
+seg-540374d8dc58 = <s1>tests/earth_orbit_path_sgp4_erfa_oracle.rs (osuus { "1" }: { "4432" } TEME-paikkaa { "232" } tallennetusta elementtijoukosta python-sgp4-ohjelmaa { "2.24" } vasten, huonoin { "6.1e-8" } m, kynnys { "1" } cm; osuus { "2" }: { "108" } hetkeä, joista { "23" } Maan orientaatiolla…</s1>
+
+seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: kaikki { "104" } tarkistusta läpäistiin ensimmäisellä ajolla ennakkorekisteröinnin e50c88d2 jälkeen, huonoin varianssi { "3.2" } %, RMS { "1.6" } %, korrelaatio { "0.012" }…</s1>
+
+seg-57f448ea3c8d = <s1>tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: skenaarion scenarios/training/fjord-natural-degradation.toml synteettisellä vuonoreitillä samat { "624" } epookkia vähennetään sekä kanssa että ilman…</s1>
+
+seg-b8d1d3c43935 = <s1>tests/opssat_ad_reference.rs (todellinen ESA OPS-SAT, AUC toistaa scikit-learnin tarkkuudella { "1e-9" }); tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } tapausta todellisella OPSSAT-AD-testijaolla: koko toimintapiste…</s1>
+
+seg-e7d3a0262133 = <s1>tests/resilience_score_decision_instability_reference.rs ({ "124" } tapausta vs scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendall τ-b tarkkuudella { "2e-16" }, järjestys täsmälleen sama, Dirichlet-keskiarvo + persentiili-CI tarkkuudella { "1e-12" })</s1>
+
+seg-1a7fab04a137 = <s1>tests/mcda_ahp_reference.rs (Saatyn { "1980" } satunnaisindeksin taulukko n={ "1" }..10 TÄSMÄLLEEN; prioriteettivektori + λ_max + CR vs SciPy/LAPACK eig johdonmukaisella { "3" }×{ "3" } ja epäjohdonmukaisella { "3" }×{ "3" } / { "4" }×{ "4" } matriisilla, täsmäsi tarkkuudella <{ "1e-9" })</s1>
+
+seg-893579639f36 = <s1>tests/mcda_wsm_reference.rs (WSM-pisteet + järjestys) ja tests/mcda_wpm_reference.rs (WPM-pisteet + järjestys), kumpikin vs pymcdm tarkkuudella <{ "1e-9" } kiinteällä { "4" }×{ "3" } hyöty/kustannus-päätösmatriisilla</s1>
+
+seg-824021181461 = <s1>tests/mcda_topsis_reference.rs (läheisyyskertoimet + järjestys vs pymcdm tarkkuudella <{ "1e-9" } kiinteällä { "4" }×{ "3" } hyöty/kustannus-matriisilla)</s1>
+
+seg-bd60ed86fd18 = <s1>tests/mcda_vikor_reference.rs (Q-indeksi + järjestys vs pymcdm tarkkuudella <{ "1e-9" } kiinteällä { "4" }×{ "3" } hyöty/kustannus-matriisilla)</s1>
+
+seg-8552a96ec65d = <s1>tests/mcda_promethee_reference.rs (nettoylittävyysvirta + järjestys, tavallinen kriteeri, vs pymcdm tarkkuudella <{ "1e-9" } kiinteällä { "4" }×{ "3" } hyöty/kustannus-matriisilla)</s1>
+
+seg-b8e7db47be3c = <s1>tests/mcda_electre_reference.rs (konkordanssi-, diskordanssi- ja dominanssimatriisit alkioittain + ydin-/dominoitu joukko vs pyDecision tarkkuudella <{ "1e-9" } kiinteällä { "4" }×{ "3" } pelkkiä hyötyjä sisältävällä aineistolla)</s1>
+
+seg-4fb626bb143d = <s1>tests/mcda_waspas_reference.rs (WASPAS-preferenssit + järjestys) ja tests/mcda_moora_reference.rs (MOORA-pisteet + järjestys), kumpikin vs pymcdm tarkkuudella <{ "1e-9" } kiinteällä { "4" }×{ "3" } hyöty/kustannus-päätösmatriisilla</s1>
+
+seg-74495891f53d = <s1>tests/mcda_copras_reference.rs (hyötyasteet + järjestys vs pyDecision tarkkuudella <{ "1e-9" } kiinteällä { "4" }×{ "3" } hyöty/kustannus-matriisilla)</s1>
+
+seg-e42773002f0d = <s1>tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } deterministisen viiveen tapausta TÄSMÄLLEEN vs ensimmäisen läpäisyn oraakkeli; { "8" } ARL₁-tapausta, Monte Carlo @60k kokeilua vs Siegmundin approksimaatio + julkaistu Montgomery…</s1>
+
+seg-d963a63ff219 = <s1>tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } katselukulmaa kuudessa paikassa ja neljänä epookkina, kuusi maskitaulukkoa, { "142" } näkyvää joukkoa; huonoin |d el| { "1.3e-13" } astetta ja |d az|…</s1>
+
+seg-f44b2e44dd69 = <s1>tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } tapausta, vertailun { "142" } tallennettua näkyvää joukkoa skyline-vertailusta yhdellä yhteisellä kellolla ja yhdellä kellolla järjestelmää kohti; huonoin…</s1>
+
+seg-857773027c1e = <s1>holdover::tests (vs monivaiheinen Kalman-kovarianssirekursio; valko-FM täsmälleen; edestakainen kierto); coast-variance-ydin ulkoisesti validoitu tiedostossa tests/gnss_denied_clock_holdover_reference.rs (vs scipy Van-Loan/brentq)</s1>
+
+seg-2642a03475ff = <s1>clock_state::tests (analyyttinen van-Loan Q; NEES; PSD:n positiivisuus); tests/clock_state_reference.rs (koko ennuste+päivitys-liikerata — tila x ja { "3" }×{ "3" } kovarianssi P { "1925" } askeleen / { "4" } parametrijoukon yli vs filterpy { "1.4.5" }; huonoin…</s1>
+
+seg-56b3dcc8f005 = <s1>timetransfer::tests (vastavuoroinen kumoutuminen; kaksimuotoinen Sagnac-identiteetti); tests/time_transfer_error_budgeting_reference.rs (ekvaattorin ympäri kiertävä Sagnac = { "207.386" } ns vs julkaistu Ashby { "207.4" } ns tarkkuudella <{ "0.05" } ns…</s1>
+
+seg-a7eec0b252c2 = <s1>quantum_imu::tests (k_eff; Mach–Zehnder T²; Freier-2016-lattian haarukka); tests/quantum_inertial_sensor_reference.rs (siirtofunktio |H(ω)|, k_eff·T² ja kvanttikohinan (shot-noise) ASD vs julkaistu Cheinet { "2008" } / Peters / Freier…</s1>
+
+seg-8cf49f65ae5e = <s1>quantum_imu::tests (a_max sijaitsee ±π:n puolijuovan reunalla 1/T²-alueskaalauksella; kiedotun vaiheen palautus on täsmällinen välillä [−a_max,a_max] ja laskostuu täsmälleen { "2" }·a_max ulkopuolella; yksiselitteinen dynaaminen alue…</s1>
+
+seg-a4ab1740caf1 = <s1>budget_tests (harha vs AccelModel-integraattori; VRW vs analyyttinen integraali); tests/quantum_inertial_dead_reckoning_reference.rs (VRW vs riippumaton numpy-Monte Carlo -kaksoisintegrointi valkoisesta kiihtyvyyskohinasta, huonoin…</s1>
+
+seg-b56e2e538e2b = <s1>fusion::tests (UKF==lineaarinen KF -identiteetti; katkon ylitys; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } tapausta vs filterpy { "1.4.5" }: lineaarinen EKF löyhä/tiukka + kytketyt PNT-posteriorit tarkkuudella ≤{ "2.4e-12" }; UKF 40 epookin ajo huonoin…</s1>
+
+seg-97be148ec2ab = <s1>jamming::tests (broadband_q_equals_the_spectral_separation_closed_form ja cw_q_equals_the_spectral_separation_closed_form: Q-taulukko, CW ja kapeakaistainen { "1" }, laajakaistainen ja pyyhkäisevä { "2" }, lukittu navsignalin suljettuihin muotoihin…</s1>
+
+seg-67272ab552dd = <s1>cr3bp::tests (STM vs äärellinen erotus); tests/cislunar_mission_analysis_reference.rs ({ "5" } JPL L2-S NRHO -jäsentä: { "9" }:{ "2" } + { "4" } naapuria; huonoin |ΔC| { "1.5e-5" }, |ΔT|/T { "9.6e-5" }, periluuni { "0.7" } km JPL:n pituusyksiköissä)</s1>
+
+seg-4a73fb2c75bf = <s1>tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values CI:ssä kymmenellä siteeratulla ICGEM-solmulla; egm2008_n70_gravity_anomaly_sa_matches_icgem koko haetuilla 0.25 asteen ruudukoilla: Tšad 9-15N 19-25E ja…</s1>
+
+seg-0b579dcb5998 = <s1>tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — tallennettu 6 kaarisekunnin harvennus julkisen alueen SRTM v3 N36W117 -laatasta sijoittaa Badwater Basinin, Pohjois-Amerikan alimman pisteen…</s1>
+
+seg-21b8048577a6 = <s1>impairment_study::tests (luokkakohtainen oraakkeli-AUC≈{ "1" }, opitun optimismin kuilu>{ "0" }, ruudukon muoto + bootstrap-CI kehystää keskiarvon + positiivinen skaalautumistrendi, ID-piirteet äärellisiä, kuilun ennustaja voittaa keskiarvon ennustamisen MOLEMMISSA…</s1>
+
+seg-bb1a73581a82 = <s1>space_weather::tests (Kp↔ap täsmälleen ruudukkopisteissä + edestakainen kierto + monotoninen, päivittäisen Ap:n keskiarvo, eksosfäärin T vs julkaistut aurinkominimin/keskiarvon/maksimin + myrskykorotuksen ankkurit, tiheys yksi vertailupisteessä, aurinkosyklin heilahdus…</s1>
+
+seg-7c3b6a03e34f = <s1>tests/ccsds_oem_interop_reference.rs ({ "24" } tilaa / { "2" } testiaineistoa, jotka riippumaton oem-jäsennin purki tavu tavulta identtisesti, paikka/nopeus Δ = { "0" }); oem::tests (jäsennä ulkoisen työkalun OEM lisäavainsanoilla/kommenteilla/kovarianssilla…</s1>
+
+seg-01273c1047bc = <s1>reentry::tests (huippu-g ei riipu ballistisesta kertoimesta + fysikaalinen g-kaista, kasvaa jyrkemmällä γ:lla / nopeammalla sisääntulolla, huippu-g-nopeus = V_e·e^(−1/2) ja huippulämmitys = V_e·e^(−1/6) nopeammin, huippu-g-korkeus fysikaalinen +…</s1>
+
+seg-670306801d75 = <s1>eo_payload::tests (kulmasäde { "64" }° korkeudella { "700" } km + pienenee korkeuden mukana, nadir→zeniitti/nollaetäisyys, horisontti→ε=0/suurin keskuskulma, horisontin ohi menevät virheet, kaista-ala kasvaa FOV:n / GSD korkeuden mukana, ~{ "2750" } km solmuväli…</s1>
+
+seg-5292634e1534 = <s1>space_packet::tests (otsikon bitit vastaavat CCSDS-133-asettelua, koodaus→purku-kierto säilyttää kaikki kentät, alueen ulkopuoliset/katkaistut hylätään); tests/ccsds_space_packet_reference.rs ({ "33" } tapausta vs spacepackets { "0.32.0" }, mukaan lukien { "12" }…</s1>
+
+seg-c64d7ee3b5d3 = <s1>tests/space_packet_ext_oracle.rs (viisi ennakkorekisteröityä kynnystä: CRC, aikakoodit, virrat, aukko ja järjestys, PUS TM; nolla virheellistä vastaavuutta); space_packet::tests</s1>
+
+seg-68e5424ed6ae = <s1>tests/spk_writer_spice_oracle.rs (inventaario, arviointi, bitti- ja tavuidentiteetti, OEM-epookin muunnos; neljä suunniteltua mutaatiotarkistusta tekee siitä punaisen)</s1>
+
+seg-3ec80b15b047 = <s1>tests/odm_orekit_oracle.rs (L1 Orekit lukee { "30" } Kshana-tiedostoa, L2 Kshana lukee { "25" } Orekit-tiedostoa; havainnot lukittu ja varmistettu toistuviksi); odm::tests</s1>
+
+seg-08ddb272bbf1 = <s1>attitude_budget::tests (GG-momentti katoaa symmetriselle kappaleelle, kasvaa alempana, lineaarinen ΔI:n suhteen, RSS-neliösumma, varianssiosuuksien summa on 1); tests/attitude_gg_torque_reference.rs ({ "20" } tapausta vs riippumaton…</s1>
+
+seg-6f9fcbb8c941 = <s1>integrity_impact::tests (sama havaitsematta jäänyt tapahtuma kääntää tilan Available→MI→HMI kontekstin tiukentuessa; konservatiivinen PL→Unavailable; akselikohtainen HMI; syötteiden suojat)</s1>
+
+seg-73dd2999b16a = <s1>inertial::cai_params::tests (fysiikkapohjainen VRW osuu siteerattuun VRW-haarukkaan kaikilla { "3" } tasolla; raaka vyöhykeepäselvyyden alue laskettu suureesta k_eff·T²; konservatiivinen budjetti ajautuu enemmän kuin paras; jokainen haarukka lähteistetty +…</s1>
+
+seg-d1e5a6bf11d7 = <s1>src/benchmark/stanford.rs::tests (neljä aluetta + sisältävät rajat + |virhe| + PL>AL-saatavuuden puute); tests/tib_scorer_reference.rs (luokittelumäärät vs riippumaton numpy kiinteällä synteettisellä joukolla)</s1>
+
+seg-12f523034ea5 = <s1>src/benchmark/scorecard.rs::tests (vertailu-PL absorboi; rikkinäinen PL absorboimaton-ei-koskaan-havaittu; havaittavan kattavuuden tuomio; rehellisyysominaisuus, jonka mukaan mitään kattavuus- tai havaitsemistuomiota ei voi saavuttaa havaitsemattomalle…</s1>
+
+seg-2de847f37e06 = Ei mitään: merkitty kumppanin omistamaksi
+
+seg-863d635911ac = <s1>hybrid_integrity::tests (ratkaistu kokoonpano toistetaan oletuksille ja ohituksille ilman aallonpituuden edestakaista kiertoa metrien kautta; jokainen units-merkintä sisältää sekä yksikön että alkuperäluokan; jokainen…</s1>
+
+seg-ec8482ccf5c5 = <s1>hybrid_integrity::tests (saatavuus on kahden indikaattorin tulo laskettuna uudelleen raportin omista marginaaleista, ja nämä marginaalit kootaan uudelleen raportin omasta EIRP:stä, vapaan tilan vaimennuksesta…</s1>
+
+seg-1d720b86fed9 = <s1>hybrid_integrity::tests (suhde on kahden annetun haaran osamäärä suhteellisella tarkkuudella { "1e-15" }, ja sen käänteisluku ja desibelimuodot ovat samat; kunkin haaran etäisyyden ja ajan sigma liittyvät toisiinsa täsmälleen c:n kautta; annettu yhteinen…</s1>
+
+seg-a5e09c5baf6c = <s1>linkbudget::tests (kolmella kaistalla, neljällä etäisyysdekadilla ja molemmilla sulkeumatuomioilla marginaali ja sen alla oleva vapaan tilan vaimennus lasketaan uudelleen pelkästä raportista paremmalla kuin { "1e-9" } dB:n tarkkuudella; vaadittu G/T…</s1>
+
+seg-b15cce3f2860 = <s1>lunar_time_budget::tests ja lunar_time_budget_scenario::tests (kaikki neljä luokkaa läsnä yhdessä ajossa ja pyydetyssä osajoukon järjestyksessä; jokainen rivi vastaa omaa suljettua muotoaan paremmalla kuin { "1e-12" } suhteellisella tarkkuudella; skaalaus…</s1>
+
+seg-5afae1521f9f = <s1>frame_eop::tests ja realtime_frame_eop::tests (kaikilla kolmella komponentilla on yhtä suuret, alkioittain identtiset, tiukasti nousevat epookkijoukot molemmissa todellisissa IERS-otteissa; yhteinen joukko supistuu leikkaukseksi, kun…</s1>
+
+seg-55130d929fc6 = <s1>tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (kuusi täsmällistä kriteeriä: otteen tavut; { "174" } riviä; vintagekohtaiset määrät ja täydet MJD-luettelot…</s1>
+
+seg-4319252c1932 = <s1>antenna::tests ja attack_surface::tests (ruudukko on täydellinen ja jokainen kaapattu osuus on välillä [{ "0,1" }]; kaapattu osuus ei ole laskeva lähetystehon suhteen jokaisessa solmussa; se EI ole monotoninen keilanleveyden tai…</s1>
+
+seg-373635b17f69 = <s1>lunar_time_budget_scenario::tests (kaikki { "57" } keskiarvoistusaikaa x { "8" } termiä läsnä, ruudukon indeksi kulkee { "0" }..={ "56" } ja kantaa { "8" } riviä kutakin; kokonaisrivi on sen vieressä olevan seitsemän termin neliösumman neliöjuuri jokaisella tau-arvolla;…</s1>
+
+seg-273fc9f39f91 = <s1>lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term: kun ohjaus on pois, kelloterm vastaa budjetin kelloterm-arvoa bitilleen kaikilla neljällä luokalla; bisection_matches_the_closed_form { "1e-9" } sisällä…</s1>
+
+seg-6d60a3c0bffa = <s1>tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } viivettä { "25" } epookilla lähellä J2000:aa asemien DSS-14, DSS-43 ja DSS-63 yli: viiveet { "1" } ps sisällä, huonoin { "0.06" } ps; kappalekehyksen majakka…</s1>
+
+seg-f986e2e5c8f2 = <s1>tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } de440s.bsp-tilaa ja { "200" } MOON_PA_DE440-kiertoa { "200" } epookilla 1849-2150 ja satunnaisia kappaleparit arvottuna…</s1>
+
+seg-0280fb2b8502 = <s1>earth_gnss_lunar::tests ({ "11" } kirjastotestiä: Maan reunan puolikulma vs sen suljettu muoto asin(R/r) ja lisäväite, että KAIKKI peittymättömät yhteydet ovat tämän kartion ulkopuolella, joten peittotesti ja reunakulma…</s1>
+
+seg-bd5a02ba059e = <s1>tests/lunar_infra_od_consistency.rs (kynnys O1: kolmen päivän ja yhden kiertoajan yli ketjutettu tilasiirtymämatriisi vastaa scipy DOP853:a suhteellisella tarkkuudella { "1e-6" }; kynnys C1: keskimääräinen q ja 95 %:n sisällä oleva osuus; kynnys C2: otos yli…</s1>
+
+seg-a0bc9ccc18e0 = <s1>tests/lunar_infra_carrier_phase.rs (kynnys Q1: Monte Carlo -onnistumisosuus vähintään bootstrap-raja miinus kolme keskivirhettä; Q2: ei laskua kaaren pituuden mukana yli kolmen keskivirheen; Q4: LAMBDA vastaa raakaa voimaa…</s1>
+
+seg-a351ba6299d6 = <s1>tests/lunar_infra_studies_3_5.rs (kynnys F1: CRLB-jälki ei nouse eikä pienin ominaisarvo laske kiertäjäyhteyksien myötä, esimerkissä ja { "20" } siemenluvulla arvotussa satunnaisjoukossa; kynnys F2: etäisyyden osittaisderivaatat vastaavat…</s1>
+
+seg-7c519c33e94d = <s1>tests/lunar_infra_studies_3_5.rs (kynnys T1: siirtymän sigmat eivät laske paikallisen sidoksen löystyessä; T2: kun tekniikoiden sigmat skaalataan arvolla { "1e-6" }, kunkin parin siirtymän sigma on { "1" } %:n sisällä arvosta sqrt({ "2" }) kertaa paikallisen sidoksen…</s1>
+
+seg-d45bfe637f5c = <s1>tests/lunar_infra_studies_3_5.rs (kynnys G1: analyyttiset osittaisderivaatat vastaavat kunkin suoran mallin keskeistä äärellistä erotusta tarkkuudella { "1e-8" }; G2: 5x5-informaatio vastaa riippumatonta numpy-kokoamista tarkkuudella { "1e-6" }; G4: kellon vuorovesi…</s1>
+
+seg-548d662e2903 = <s1>lunar_beacon::tests (horisontin näkyvyys vs L01:n suljettu muoto; majakoilla täydennetty DOP vs paljas; virhebudjetin neliösumman neliöjuuri; DOP–metrit-suhde)…</s1>
+
+seg-16dacba36610 = <s1>lunar_common_mode::tests ({ "8" } kirjastotestiä: jako on additiivinen ja rekonstruoi dy:n; yhteismuotoinen kovarianssi antaa positiivisen yhteismuotoisen suojaustason, kun taas pelkkä pariteettikovarianssi antaa lähes nollan; …</s1>
+
+seg-f7d33a13cf7b = <s1>lunar_combination::tests (palauttaa simuloidun totuuden; VLBI palauttaa aseman 3D-havaittavuuden; deterministinen); tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } geometriaa × { "16" } parametria, { "31" } havaintoa kukin, vs Orekit { "12.2" } /…</s1>
+
+seg-38aa194db570 = <s1>tests/fim_observability_reference.rs (ominaisarvot vs numpy.linalg.eigh; CRLB-kovarianssi vs σ²(XᵀX)⁻¹ funktiolla numpy.linalg.inv; GNSS GDOP/PDOP/HDOP/VDOP/TDOP informaatiomatriisista vs numpy — kaikki täsmäsivät tarkkuudella { "1e-9" })…</s1>
+
+seg-b9ba2c91b976 = <s1>lunar_combination::tests (aste-vajaa ilman Maa-perusviivoja; kolme perusviivaa palauttaa täyden asteen — 3 aseman kynnys informaatioasteesta, ei ratkaisuvirheestä; aseman CRLB saavutetaan estimaattorilla…</s1>
+
+seg-e66fab330a70 = <s1>lunar_frame_realise::tests (palauttaa lisätyn Helmert-muunnoksen); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } tapausta vs riippumaton suljetun muodon Umeyama-SVD-ratkaisin; huonoin |Δ| siirtymä { "2.0e-5" } m…</s1>
+
+seg-d64c7d12097d = <s1>lunar_service::tests (DOP käyttää uudelleen validoitua ydintä; PL supistuu etelänavan tapaukseksi); tests/lunar_navigation_service_volume_reference.rs (satelliittikohtainen MCI-paikka tarkkuudella <{ "1e-3" } m + TÄSMÄLLEEN näkyvien satelliittien joukko yli…</s1>
+
+seg-2869e5710360 = <s1>lunar_afs::codes::tests (maksimipituiset rekisterit, Legendren tasapaino, G2-viiveen edestakainen kierto, tasojen koostaminen); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (ilman LSIS-välimuistia…</s1>
+
+seg-ae3ebfe11427 = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim ({ "210" } AFS-Q-ensiökoodia aina; muuttujalla KSHANA_LANS_RUN ja LSIS-välimuistilla kaikki { "630" } koodia, nolla chip-eroa)…</s1>
+
+seg-295278a84ccf = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (LSIS-välimuistilla: { "3" } kehystä, jotka LANS-AFS-SIM lähettää, rakennettuna samoista FID-, TOI- ja databiteistä: nolla { "18 000" } symbolista…</s1>
+
+seg-f24c41c419fc = <s1>tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satelliittia IGS-lähetystiedostosta päivältä { "2" } maaliskuuta { "2025" }: { "960" } / { "960" } sanaa läpäisee RTKLIB-pariteetin, { "96" } / { "96" }…</s1>
+
+seg-15ee42ed7c97 = <s1>lunar_service::tests (topocentrinen vs käsin laskettu geometria: yläpuolella, suoraan pohjoiseen/itään/länteen, vastakkainen piste ja rappeutunut napa-itäsuunta; viety näkyvyyslippu vastaa riippumatonta näkyvyyttä…</s1>
+
+seg-77da0b3e0b1c = <s1>lunar_dpnt::tests (kellon yhteismuoto kumoutuu täsmälleen; jäännös kasvaa perusviivan mukana; käyttää uudelleen SBAS PL:ää; satelliittimäärä toteutuu rakentajan rajaan { "24" } asti, joten suurempi tähdistö ei voi hiljaa palauttaa…</s1>
+
+seg-5db769e82e5c = <s1>lunar_interop::tests (OEM sisältää kuun REF_FRAME/TIME_SYSTEM; aikametadata säilyy edestakaisessa kierrossa; KIF-kirjekuori); tests/lunar_interoperability_export_reference.rs (kshanan tuottama kuun OEM jäsennetään uudelleen riippumattomalla oem…</s1>
+
+seg-4f6e54e86d48 = <s1>qtrade::tests (hyödyn polariteetti korkeampi/matalampi-on-parempi, kietoo todellisen TradeResultin uskollisesti, epärehelliset todisteet hylätään, validoitu-FoM tarvitsee ulkoisen ankkurin, deterministinen JSON)</s1>
+
+seg-f5bacc1a6bd7 = <s1>timetransfer_chain::tests (toistotarkkuus paranee integroinnilla; kvantti voi voittaa JA hävitä; PL äärellinen-positiivinen; turvallisuuden FoM välillä [{ "0,1" }] ja kasvaa hyökkäysviiveen mukana; poikkeaman Pd monotoninen; kompromissi is_honest)</s1>
+
+seg-e31dc5eb9af0 = <s1>quantum_nav_od::tests (kvantti voittaa klassisen pitkässä katkossa; etu riippuu katkon kestosta; kompromissi is_honest); tests/gnss_free_quantum_navigation_reference.rs (dead-reckoning-paikan kasvu vs riippumaton…</s1>
+
+seg-a591da195f89 = <s1>quantum_faults::tests (analyyttisen AUC:n tunnetut arvot; empiirinen bootstrap-AUC kehystää suljetun muodon; kvantti havaitsee pienempiä vikoja / suurempi AUC; etu katoaa valtavilla vioilla; 5 luokan katalogi; kompromissi is_honest)</s1>
+
+seg-5f53e711c909 = <s1>cw_dynamics::tests (Φ({ "0" })=I, poikkiradan irrotettu SHM); tests/cw_dynamics_reference.rs (suljetun muodon Φ vs riippumaton kiinteäaskelinen RK4-integrointi samoista Hillin differentiaaliyhtälöistä tarkkuudella <{ "1e-6" } kolmanneksen kiertoajasta; Φ(t)Φ(−t)=I tarkkuudella…</s1>
+
+seg-62ce807669f8 = <s1>geolocation::tests (kohinaton TDOA eteen→käänteinen tarkkuudella { "1e-6" } m; J·CRLB=I symmetrisellä PD-kovarianssilla; CRLB:n paikkavarianssin jälki ei kasva, kun vastaanotin lisätään; yhteinen TDOA+FDOA palauttaa liikkuvan…</s1>
+
+seg-046805e51094 = <s1>tests/entry_stardust_published.rs (huippu { "35.44" } g vs julkaistu { "33.4" } g, +{ "6.1" } %, kynnys { "10" } %; planeettasuhteellinen sisääntulonopeus { "12.551" } km/s vs { "12.6" }, kynnys { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (pyörivä kehys…</s1>
+
+seg-ac52f93507b3 = <s1>twstft_budget::tests (kaksisuuntainen yhtälö palauttaa poikkeaman täsmälleen; Sagnac-termi vastaa BIPM-silmukan suljettua muotoa; ionosfääritermi seuraa taajuusjakoa ja troposfääri kumoutuu; flicker-vaiheella on…</s1>
+
+seg-a9b476c32f84 = <s1>tests/optical_atmosphere_reference.rs (ennakkorekisteröidyt kynnykset A1-A3 riippumatonta mpmath-oraakkelia vasten: { "216" } Rytovin ruudukkopistettä, huonoin suhteellinen virhe { "3.4e-7" } kynnystä { "1e-6" } vasten, tuike huonoin { "4.5e-16" }, apertuurikerroin…</s1>
+
+seg-6ee49f7de98e = <s1>tests/optical_atmosphere_identities.rs (kynnys A4: rho = { "0" } vastaa riippumatonta yhdisteä ja rho = { "1" } parasta yksittäistä paikkaa tarkkuudella { "1e-12" }, ja nolla monotonisuusrikkomusta paikkojen määrässä ja korrelaatiossa; ensimmäinen…</s1>
+
+seg-a1da08c8ab20 = <s1>tests/optical_atmosphere_identities.rs (kynnys A6: katkokohtainen ajoitusvirhe on sama kuin holdover::coast_phase_sigma ja etäisyysvirhe sama kuin phase_to_range_m bitilleen { "9" } kellolla, { "3" } keskimääräisellä kestolla, { "3" } hajonnalla ja { "4" }…</s1>
+
+seg-760c332254b9 = <s1>tests/optical_atmosphere_timeseries.rs (kynnykset T1-T6 tiedostosta xval/optical-atmosphere/PREREGISTRATION-timeseries.md, kiinnitetty ennen ensimmäistä ajoa: sama siemenluku samat tavut ja toinen siemenluku toiset tavut; ei avainta ilman taulukkoa; yli…</s1>
+
+seg-5f819ec42753 = <s1>tests/mro_odf_reader_label_oracle.rs (todellinen MRO ODF, 2007-304/305, sen PDS-tunnistetta vasten: tietueiden määrä, ryhmien paikat, asemat, alku- ja loppuajat sekä datatyypit pitävät; tiedoston lopun taulukon rivimäärä ohittaa…</s1>
+
+seg-0f5890150b2a = <s1>tests/aocs_basilisk_oracle.rs ({ "3" } tapausta, { "601" } näytettä kukin: MRP huonoin { "2.4e-14" }, kynnys { "1e-9" }; kappaleen kulmanopeus { "1.6e-15" } rad/s, kynnys { "1e-9" }; vauhtipyörän nopeus { "2.9e-11" } rad/s, kynnys { "1e-6" }; käytetty moottorimomentti { "1.2e-13" } N m, kynnys { "1e-9" }; t = { "0" } momentit…</s1>
+
+seg-7a953365327a = <s1>aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds ({ "40" } siemenlukua, keskimääräinen kuusivapausasteinen NEES toisella puoliskolla välillä { "4.5" } – { "7.5" }); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error…</s1>
+
+seg-a54d1b51ac52 = <s1>wahba::tests (A(identiteettikvaternio)=I; Jacobin ominaisarvoratkaisin toteuttaa Kv=λv:n ja säilyttää jäljen tunnetulla symmetrisellä matriisilla; K on symmetrinen); tests/wahba_reference.rs (TRIAD, Davenportin q-menetelmä ja QUEST…</s1>
+
+seg-ea40d0a1466d = <s1>acquisition::tests (Marcum-Q:n keskeinen tapaus Q_1({ "0" },b)=exp(−b²/2); identiteetti P_d=Q_M(√(2Mρ),√γ); P_fa↔kynnys-edestakainen kierto yli M:n ja P_fa:n; ROC:n monotonisuus — P_d kasvaa SNR:n mukana, laskee kynnyksen mukana, P_d→P_fa kun…</s1>
+
+seg-68cac50395e0 = <s1>lambda::tests (L D Lᵀ rekonstruoi Q:n); tests/lambda_reference.rs (Z-muunnos on unimodulaarinen |det Z|={ "1" } ja Q_z=ZᵀQZ SPD, determinantin säilyttävä, ja pienempi kokonaiskorrelaatio epädiagonaalissa; Schnorr–Euchner ILS vastaa…</s1>
+
+seg-6c4c83ade953 = <s1>bplane::tests (ohituksen skalaarit toteuttavat suljetut muodot kahdella yhtenevällä |B|-identiteetillä ja |B|>r_p; kääntökulma pienenee periapsissäteen mukana ja saavuttaa rajat δ→{ "0" } / δ→π; taipuma säilyttää v∞-nopeuden ja…</s1>
+
+seg-2a5411e17787 = <s1>crpa::tests (kompleksilukuaritmetiikan identiteetit mm. z/z={ "1" }, |exp(jθ)|={ "1" }, zᴴz=|z|²; deterministinen nollanohjaus antaa täsmälleen yksikön SV-vahvistuksen ja <{ "1e-9" } häirintänollat 4-alkioisessa ULA:ssa { "3" } häirintälähettimellä; N-alkioinen ryhmä hylkää…</s1>
+
+seg-9439176716b3 = <s1>powerlaw::tests (kukin puhdas kohinatyyppi näyttää tunnusomaisen ADEV-log-log-kulmakertoimensa — valko-FM −½, flicker-FM { "0" }, random-walk-FM +½, valko-PM −{ "1" }; flicker-FM-termi on tasainen lattia, joka on √({ "2" } ln2·h_{ "{" }-1{ "}" }) viiden dekadin yli…</s1>
+
+seg-d0ba60840a33 = <s1>oem::tests (symmetrinen PD-kovarianssi säilyy edestakaisessa kierrossa KVN→jäsennys f64-pyöristysvirheeseen asti ja pysyy symmetrisenä; lohko tuottaa täsmälleen { "21" } alakolmioalkiota — i+{ "1" } matriisirivillä — COV_REF_FRAME kanssa/ilman; lohko, jossa…</s1>
+
+seg-b9cedff90c5f = <s1>tests/ins_coast_schuler_navego_oracle.rs::coast_error_model_matches_the_corrected_navego_runs ({ "48" } pistettä, kuusi virhetermiä välillä { "30" } s – { "3600" } s, taktinen luokka, { "45" } astetta N, vaaka ja pohjoiseen suunnattu: jokainen piste { "5" } %:n sisällä…</s1>
+
+seg-8d4441a16bbf = <s1>aperture_duty::tests (ikkuna, joka päättyy täsmälleen kun seuraava alkaa, ei kilpaile, ja sen siirtäminen sekunnin aikaisemmaksi maksaa täsmälleen sekunnin — off-by-one-suoja; päällekkäiset ikkunat apertuurimäärän yli…</s1>
+
+seg-9c561cfdd542 = <s1>hybrid_integrity::tests (havaitsemisvoimakäyrä kulkee väärän hälytyksen nopeudesta nollavirheellä arvoon { "1" } − P_md pienimmällä havaittavalla harhalla; pienin havaittava harha syötettynä takaisin funktion noncentral_chi2_cdf läpi…</s1>
+
+seg-e82ac3e32317 = <s1>hybrid_integrity::tests (rannikointi alkaa täsmälleen kovarianssin jäljestä, jonka luovutuslohko raportoi, molempiin suuntiin, joten toistettu diagonaali ei voi ajautua raportoidusta luovutuksesta; raportoitu ylitysaika…</s1>
+
+seg-193ac8bc7a82 = <s1>antenna::tests ja lunar_service::tests (kuviosta puolitusmenetelmällä paikannettu puolitehoylitys vastaa julkaistua Airy x = { "1.61634" } ja antaa täsmällisen leveyden { "1.02899" }·λ/D, kirjaten, että tavanomainen { "1.02" }…</s1>
+
+seg-67b8e74543ed = <s1>tracking_loop::tests (avoimen silmukan Costas-erottimen häiriö vs sdr::correlate eteenpäin askellettuna siemenluvulla luodulla synteettisellä IF:llä, { "3" } yhdistettyä kohinatoteutumaa × { "900" } epookkia, yhtenevä tarkkuudella { "0.63" } % alueella 35-45 dB-Hz, ja…</s1>
+
+seg-45f00cdcecc4 = <s1>lunar_vlbi_fim::tests ({ "24" } kirjastotestiä: analyyttinen Jacobin matriisi vs funktion lunar_vlbi::vlbi_delay_s keskeinen äärellinen erotus, otettuna reittiä, joka kiertää tilan omat koordinaatit eteenpäin eikä koskaan kosketa…</s1>
+
+seg-c94c1bafd6bb = <s1>lunar_vlbi_fim::tests ({ "7" } kirjastotestiä: jokainen datumin kirjoitusasu säilyy edestakaisessa kierrossa parse/as_str ja tuntematon hylätään; kaikkien asemien pitäminen ilman majakkaa hylätään virheellä, joka nimeää estimate_beacon; …</s1>
+
+seg-7802e95f2bc6 = <s1>lunar_dpnt::tests (puhtaasti additiivinen suoja, jonka avainjoukon ero on täsmälleen { "{" }correction_link, units{ "}" } ja jokainen olemassa oleva arvo bitti-identtinen muutosta ennen tallennettuja literaaleja vasten; kartoitusvirhe EI…</s1>
+
+seg-3358e5d2ce66 = <s1>tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: tarkkuudella { "1e-12" } m vastaanottimen kohinan kanssa ja ilman; zero_baseline_floor_is_zero_in_every_trial: { "0" } tarkkuudella { "1e-9" } m…</s1>
+
+seg-97ad6389fa09 = <s1>lunar_terrain::tests (bare_sphere_horizon_is_the_dip: säteenseuranta toistaa -acos(R / (R + a)) tarkkuudella { "1e-3" } astetta jokaisessa atsimuutissa; a_cone_on_a_lat_lon_tile_matches_the_analytic_cone: sama kartio näytteistettynä { "0.005" } asteen…</s1>
+
+seg-576b1eda3bf4 = <s1>tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: kasvu päällä miinus kasvu pois -yhteysvirheen otossigman nopeus tau / sqrt({ "3" }) { "6" } %:n sisällä { "1600" }…</s1>
+
+seg-c18cef305fc2 = <s1>lunar_solution::tests (one_epoch_without_height_is_the_snapshot_solve: vastaa funktiota lunar_dpnt::position_error_vector_from_range_errors tarkkuudella { "1e-8" } m, löysä korkeusrivi ei muuta mitään, tiukka kiinnittää korkeusvirheen…</s1>
+
+seg-fd1f10c41a66 = <s1>tests/lunar_protection_level_reference.rs ({ "7" } palvelualuetapausta — etelänapa-, keskileveysaste-, päiväntasaaja- ja korotettu ylänkö — { "6" } – { "19" } satelliittia, σ_URE 10/30/60 m, P_HMI { "1e-3" } aina arvoon { "1e-7" } asti, suojaustasot kattaen…</s1>
+
+seg-9544831a5a89 = <s1>tests/araim_reference_vectors.rs ({ "2" } julkaistua vektoria + { "6" } negatiivista kontrollia, testiaineisto tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: nimellisen harhan pudottaminen ohittaa julkaistun VPL:n { "2.6457" } m, { "10" }…</s1>
+
+seg-cbb5fec70449 = <s1>tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= { "3" }, valvomaton riski P_THRES:n sisällä, osajoukko, joka poistaa kolme tai…</s1>
+
+seg-a6a5b0b81816 = <s1>tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: holdover-luvut muuttumattomia, { "111" } evättyä epookkia ei saatavilla ilman suojaustasoa, hylätty kun ajoja > { "1" }…</s1>
+
+seg-1f02e6ff390a = <s1>cislunar_observability::tests ja observability_gramian::tests (oletusasiakirja lukittu bitilleen sen JSONin, yhteenvedon ja SVG:n FNV-1a-tiivisteellä, ja eksplisiittiset oletusarvot todetaan no-op-toimiksi ja kahdeksan…</s1>
+
+seg-ddd33dc7406d = <s1>lunar_frame_campaign::tests ({ "21" } kirjastotestiä: Helmert-suunnitelma vs funktion lunar_frame_realise::apply_helmert keskeinen äärellinen erotus — moduuli, JOTA VARTEN datumi on, ja joka ei laske derivaattaa, joten se lukitsee [p]ₓ…</s1>
+
+seg-0f4208761aa1 = <s1>cislunar_arc_recovery::tests ja tests/cislunar_arc_recovery_reference.rs (molemmat rajat ja niiden suhteet lukittu julkaistulla ruudukolla; mitattu virhekäyrä verrattuna muodolliseen kovarianssiin rivi riviltä…</s1>
+
+seg-0af954b5a4f8 = <s1>lunar_ephemeris::tests (muodon ja kehyksen jäsennys; Lagrangen interpolaatio täsmällinen solmuissa ja lineaarisella radalla solmujen välissä; ICRF-elementit saavat IAU { "2015" } -redusoinnin ja ovat tavu tavulta samat kuin eksplisiittinen icrf_to_iau_moon…</s1>
+
+seg-6fc822a083e1 = <s1>tests/field_units_global.rs (kaikki { "61" } rekisteröityä tyyppiä ajetaan, yksi asiakirjamuoto kutakin: jokaisen numeerisen lehden on ratkettava kyseisen asiakirjan oman units-lohkon merkintään; virheellinen merkintä lasketaan puuttuvaksi KAIKILLE tyypeille…</s1>
+
+seg-97e468fe62a1 = <s1>tests/lunar_llr_real_data.rs ({ "11" } testiä: kaikki { "15" } tallennettua CRD-tiedostoa tavu tavulta samat kuin niiden kirjatut tiivisteet; kaikki { "349" } tietuetta huomioitu, { "337" } käytetty ja { "12" } ohitettu nimetyn syyn takia; jokainen arkistoitu etäisyys sisällä…</s1>
+
+seg-be4e192d09c8 = <s1>tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: tyhjät luettelot ja perusviivaesimerkki antavat oletusraportin ja yhteenvedon tavu tavulta; an_added_site_never_increases_any_variance: …</s1>
+
+seg-3a90aaa2bab4 = <s1>tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } näkemätöntä 2019-Q2-normaalipistettä; sigmat ja normit { "4.0e-5" } sisällä arvosta { "1e-2" }, ehtoluku { "1.6e-5" } arvosta { "2e-2" }…</s1>
+
+seg-8e49f59ab515 = <s1>tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } viikoittaista geosentristä tilaa, huonoimman epookin kulma varmistettu < { "0.3" }° ja RMS < { "5e5" } m moduulin oman dokumentoidun väitteen vastaisesti…</s1>
+
+seg-405a4baa18c2 = <s1>tests/source_guards.rs ({ "9" } testiä: molemmat suojat koko lähdepuun yli, sekä mutaatiotestiaineistot, jotka arvioivat kumpaakin suojaa molempiin suuntiin — F22-kuvio raportoituna molemmilla törmäävillä poluilla, toimitettu atomisekvenssi…</s1>
+
+seg-97bf39b8d423 = <s1>tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } synteettistä 7x7 SPD-matriisia, jotka kattavat hyvin ehdollistetuista { "{" }{ "0,3" }{ "}" }-lähes-rappeutuneisiin; Schur lambda_min / origon CRLB / |corr| vs…</s1>
+
+seg-d9143b8478b2 = <s1>tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } ILRS-normaalipistettä: RMS { "2.81" } m; pelkät kaksi ITRF2020-asemaa { "2.96" } m; molemmat enintään { "10" } m)…</s1>
+
+seg-cd923a61d85b = <s1>tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } ominaisarvoa, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm ja { "{" }scale,offset{ "}" }-Schur-reunajakauma well_posed…</s1>
+
+seg-359b0ae05111 = <s1>tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m { "2.8e-6" } sisällä arvosta Ashby ja Patla { "2024" } ja J2 lähteestä AIUB-GRL350A/B…</s1>
+
+seg-c5530b3416de = <s1>lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation - akselinsuuntainen nollakanta ja sen { "0.6" } rad:n kierto antavat identtisen defectin, dim_spatialin, dim_temporalin, coupled_dimin ja p_st_normin…</s1>
+
+seg-f2d1f7f911eb = <s1>lunar_techniques::tests (combine_is_additive_order_independent_and_empty_is_zero - tyhjä valinta antaa nollamatriisin, yksittäinen valinta on identiteetti, pari vastaa erikseen kirjoitettua alkioittaista summaa, ja…</s1>
+
+seg-192a66dd5837 = <s1>tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible { "3" } palveluntarjoajaparille vs riippumaton SciPy SVD lstsq -sovitus…</s1>
+
+seg-f43b88acb648 = <s1>lunar_interop_budget::tests (monotonisuus budjetin suhteen; RSS-budjetin pienentäminen palveluntarjoajakohtaisella CRLB:llä; työstetty kiertotoleranssi kuun vipuvarrella; sitova termi = kierto)</s1>
+
+seg-286a2e81f845 = <s1>lunar_interop_budget::tests (CommonEphemeris nollaa budjetin; CommonFrameTie < PerProvider; irreducible_fraction > { "0.5" } todellisilla jaoilla; konventioiden järjestys)</s1>
+
+seg-240b8520d6bc = <s1>tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: { "84" }×{ "84" } P⊥ alkioittain, trace(P⊥) = parity_dim = { "52" } ja rank(G) = { "32" }, havaittavuusnormit + liput, MDB:n neliömuoto cᵀWP⊥c +…</s1>
+
+seg-c00b93a0b0fd = <s1>tests/telecom_timing_reference.rs ({ "17" } MTIE- ja { "12" } TDEV-keskiarvoistuskerrointa tallennetulla { "2" } 048 näytteen sirumittakaavaisen atomikellon holdover-sarjalla, jossa on ikääntymistä, flickeriä ja lämpötilaa, vs allantools { "2024.06" } tarkkuudella <{ "1e-12" } / <{ "1e-9" }…</s1>
+
+seg-f370ba86f559 = <s1>telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — avoimet ja suljetut päät, τ = { "400" } s:n aukko kohdassa G.8271.1 taulukko 7-3, jatkuvuus jokaisessa taulukoiden implikoimassa taitekohdassa…</s1>
+
+seg-54f65105891a = <s1>clock_log::tests (käsin kirjoitetut lokit muodoittain: otsikot, erottimet, yksiköt, taajuuden integrointi, TICC-kanavat ja -tilat, aukot ja käytännöt, kieltäytymiset); tests/clock_log_allantools.rs (ennakkorekisteröity vertailu…</s1>
+
+seg-626117af9cdf = <s1>telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — diskreetti ikääntymisramppi { "0.1" } %:n sisällä arvosta (1/2)·D·t² yli…</s1>
+
+seg-b8eed1ebd82a = <s1>tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: sovitus tallenteen ensimmäiseen kolmannekseen, yhden sigman ylityksen ennuste arvoilla { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } ja { "2.5" } ns, mittaus…</s1>
+
+seg-75b0ef8ae233 = <s1>tests/slot_timing_igs_holdout.rs ({ "10" } GPS Block IIF -satelliittikelloa, { "14" } päivää IGS final -kelloja: { "8" } kynnyksen { "1.5" } sisällä, G25 ja G30 optimistisia jopa noin 2x, lukittu); tests/slot_timing_ocxo_holdout.rs (mitattu…</s1>
+
+seg-5b4b3588e36c = <s1>orbital_timing::tests (reduces_to_the_terrestrial_tpl — täsmälleen tpl::timing_protection_level_ns, kun kellolla ei ole flicker-, valkovaihe- tai random-run-termiä; leo_geometry_matches_its_closed_forms…</s1>
+
+seg-bd9967650e32 = <s1>spectrum::tests (bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz — BPSK({ "1" }) { "2.046" } MHz ja BPSK({ "10" }) { "20.46" } MHz paikannettu numeerisesti suljetusta muodosta; boc11_lobes_are_centred_at_plus_minus_1_023_mhz — kantoaallon nolla…</s1>
+
+seg-48672b24258c = <s1>spectrum::tests (agrees_with_the_jamming_kind_chain — J/S vastaa funktiota jamming::j_over_s_db ja tehollinen C/N0 vastaa funktiota jamming::effective_cn0_dbhz, kun Q = 1/(R_c kappa) tarkkuudella { "1e-9" } dB, ja { "32.105" } dB:n ankkuri jamming…</s1>
+
+seg-7ecf03ff1966 = <s1>tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (barycentrit 1800-2050 taulukosta { "1" } ja { "3000" } eaa.–3000 jKr. taulukosta { "2" }, { "8908" } ja { "21857" } epookkia, huonoin RMS…</s1>
+
+seg-fd1cc8019558 = <s1>tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } paikkaa { "200" } UTC-epookilla 1973-2026 arvottuna ennakkorekisteröinnin tiivisteestä; huonoin { "0.66" } kynnyksestä, { "2.96" } m)…</s1>
+
+seg-d44a18dac6a9 = <s1>tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s (Merkuriuksen, Venuksen, Marsin, Jupiterin ja Saturnuksen barycentrit, Aurinko ja Kuu Maahan…</s1>
+
+seg-457d0bb2fc18 = <s1>tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: lukittu arvoihin { "2.04" } ja { "5.16" } kertaa nimellinen pituusasteen virhe, alle kuusi kertaa…</s1>
+
+seg-97266912f59e = <s1>tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: huonoin planeetalta nähty kulmavirhe välillä { "2000" } – { "2040" }, Phobos { "5.65" } astetta, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymede { "0.22" }…</s1>
+
+seg-130434c29134 = <s1>tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } epookkia { "1955" } – { "2044" }, { "574" } matriisia { "1e-9" } rad sisällä, huonoin Phobos { "1.43e-10" } rad)…</s1>
+
+seg-f0f5cad2f3b9 = <s1>constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (kaikki { "24" } RAAN- ja keskianomaliariviä tarkkuudella { "1e-9" } astetta); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (ICD:n paikkakaava ja…</s1>
+
+seg-1589b9b655fa = <s1>constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP:n mediaani { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, keskiarvo { "0.965" } vs { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } ja { "0.96" }, kynnys { "0.03" } kullakin kiinteällä…</s1>
+
+seg-0df9c964e180 = <s1>constellation::tests (prefilter_matches_brute_force_exactly — jokainen kartta ja laskuri vastaa suoralla korkeuskulmatestillä tehtyä skannausta; five_thousand_satellites_on_a_coarse_grid — { "5 000" } satelliittia, tulostaa ajoajan ja…</s1>
+
+seg-44fa74f15217 = <s1>tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — yhden jäsenen koostumus lukee erillisen luvun ja tuloksen tiivisteen)</s1>
+
+seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (ennakkorekisteröity fbe6c8b3 ja, kierroksen 1 protokollan ohituksen jälkeen, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1D-tavoiteratkaisu { "6.1e-15" } sisällä arvosta r* = r0 { "10" }^((m(r0)…</s1>
+
+seg-898a76c2719d = <s1>navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) tarkkuudella { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } tehosta pääkeilassa…</s1>
+
+seg-38df494c0225 = <s1>tests/leo_signal_reference.rs (monikaistainen vesiputous ajetaan neljällä paneelilla, UHF-, L5-kaista-, S- ja C-häirintälähettimet kieltävät kukin vain oman kaistansa, ja tavallisen kaistan ajo ei muutu laajennuksesta)…</s1>
+
+seg-5b584f66b1b9 = <s1>tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: kaikki { "115" } taulukon { "5" } riviä, { "1" } GHz – { "1000" } GHz, jokainen kerroin { "0.6" } sisällä viimeisestä painetusta numerosta; huonoin havaittu { "0.51" })</s1>
+
+seg-fcf54e4d09c3 = <s1>tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } tapausta viidessä paikassa, { "14.25" } ja { "29" } GHz, { "0.001" } % – { "1" } %, { "1e-4" } dB sisällä; havaittu { "5e-6" } dB)</s1>
+
+seg-f6b9a637b0d5 = <s1>tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } tapausta seitsemässä paikassa, { "14.25" } ja { "20" } GHz, { "1e-5" } dB sisällä; havaittu { "5e-7" } dB)</s1>
+
+seg-a0b65a73f2a4 = <s1>tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } arvoa, { "28" } GHz kulmassa { "0" } astetta ja { "2" } GHz kulmassa { "45" } astetta, molemmat luokat, P välillä { "1e-7" } – { "0.998" }, { "0.001" } dB sisällä)</s1>
+
+seg-53943b608329 = <s1>tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } astetta, Pulsar FOC polaarinen { "1080" } km { "97" } astetta, Pulsar FOC kalteva { "1080" } km { "53" } astetta ja GPS { "20180" } km { "55" } astetta; kiertonopeus…</s1>
+
+seg-d34f65fbc0f2 = <s1>leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } ja 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } ja 1/61.1, BeiDou MEO 1/54.2, geostationaarinen { "0.992" } ja 1/126.2 { "0" } asteen maskilla, kukin…</s1>
+
+seg-658e7640260b = <s1>tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — neljä todellista Galileo-lähetysefemeridiä E10, E19, E24, E25 hetkillä tk = { "0" }, +/-600, +/-1800, +/-3600 s, jokainen akseli { "1" } mm sisällä…</s1>
+
+seg-bbde673e86b7 = <s1>leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 ASCII-merkkijonolle { "123456789" }; crc24q_matches_the_rtcm_1005_example_frame — kolme tarkistustavua 0x360B98 RTCM { "10403" } -viestityypin…</s1>
+
+seg-026c16b76bc5 = <s1>leo_navmsg::tests::a_mid_pass_update_is_continuous (jokaisen vaihdon etäisyyshyppy vastaa etäisyysvirheen muutosta, ja korjattu { "300" } s:n sovitus, joka päivitetään { "150" } s välein, läpäisee { "5" } cm:n kynnyksen)…</s1>
+
+seg-206c8fedb40a = <s1>leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (jokainen malli { "0.1" } mm sisällä tekstilohkon jälkeen, CSV täsmällinen)</s1>
+
+seg-09284032f3ff = <s1>tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (neljä artikkelin päivää: radan suuntainen, poikkiradan, radiaalinen ja SISRE-suhteet { "0.755" } – { "1.138" } lähteestä Liu ym. { "2025" }, 1.5x sisällä)…</s1>
+
+seg-bdf321af446a = <s1>tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: yksi satelliitti korkeudella { "780" } km ja { "86.4" } astetta lennettynä vuorokauden ajan taajuudella { "1621" } MHz neljällä leveysasteella, maksimi { "5" } %:n sisällä arvosta { "36" } kHz…</s1>
+
+seg-1408cfaef991 = <s1>leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: { "1" } mm:n tarkkuudella ja ajautuma { "1e-6" } m/s…</s1>
+
+seg-9cedbeb3d672 = <s1>leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } siemenlukua, ajoilla keskiarvoistetun NEES:n keskiarvo välillä [{ "2.4" }, { "3.6" }] ja vähintään { "75" } % epookeista kaksipuolisen { "95" } %:n khiin neliö -kaistan sisällä; mitattu { "150" } siemenluvulla, keskiarvo…</s1>
+
+seg-1191202e90ca = <s1>tests/leo_polar_coverage_on_path_orekit_oracle.rs (konfiguraatiot A ja B, { "4040" } näytettä: maakiinteät paikat { "6.8e-5" } m sisällä, kynnys { "0.2" } m; näkyvissä olevien määrät identtiset 4040/4040; DOP:n mediaani { "2.3e-11" } suhteellisella tarkkuudella, kynnys…</s1>
+
+seg-d9a4ae25b196 = <s1>leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: vahvempi EIRP, pidempi sovitusväli ja suurempi radanmääritystermi kukin…</s1>
+
+seg-85d961f50587 = <s1>tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: vastaa ylilennon vinoa TEC:iä huipulla tarkkuudella { "1e-9" } ja sen sigma vastaa koodikohinan neliösummaa jaettuna { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" }))…</s1>
+
+seg-a17cc61fffba = <s1>tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: kolme skenaariota — asemat estimoituna uudella kampanjapäivällä 2026-03-18 (sitova), asemat kiinteinä sinä päivänä…</s1>
+
+seg-b2e472a6691a = <s1>tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: neljä skenaariota — asemat estimoituna uudella kampanjapäivällä 2026-06-09 (sitova), asemat kiinteinä sinä päivänä (kontrolli)…</s1>
+
+seg-a71282a84212 = <s1>telemetry::syslog::tests (täsmälliset LEEF-merkkijonot, escapointi, vakavuus, RFC { "5424" } -kirjekuori, toimituksen aikakatkaisut ja uudelleenyhdistäminen); tests/telemetry_cli.rs</s1>
+
+seg-0f6ad892e199 = <s1>tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ohitettu, datan varassa muuttujalla KSHANA_JAMMERTEST_DIR: tallennettu valinta, pidätetyt määrät, kynnystuomiot ja tuomio)…</s1>
+
+seg-fa68aadcc812 = <s1>tests/jammertest_plan_roundtrip.rs (datan varassa muuttujalla KSHANA_JAMMERTEST_PLAN_DIR: paikkamäärät testialuetta kohti vuoden { "2025" } suunnitelmassa, katalogitunnisteet, TOML-edestakainen kierto); tests/jammertest_score.rs (synteettinen loki, jossa tunnettu pudotus…</s1>
+
+seg-9029e168db2d = <s1>tests/receiver_trust_live_cli.rs (portti ja sen TCP-kuuntelija, Rust-puoli); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js ja integrations/signalk/test/plugin.test.js ({ "24" } Node…</s1>
+
+seg-33067eb81d16 = <s1>tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, rekisteröity tuomio varmistettu tallennetun mukaiseksi, havainto F1; finding_model_fades_are_deeper_and_longer_than_measured…</s1>
+
+seg-a7d806eca846 = <s1>tests/standards_packs.rs (pinned_outcomes: jokaisen testin tila, mukaan lukien ohitukset L4-T1 ja neljä IMO:n tarkkuustestiä); standards_pack::tests</s1>
+
+seg-b2e460fe9109 = <s1>receiver_trust::machines::novatel::tests (lukittu CRC, ASCII- ja binääritietueet, virheellinen CRC ohitettu, vihamielinen syöte); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report</s1>
+
+seg-af38bd301f7a = <s1>receiver_trust::machines::rtcm3::tests (CRC-24Q:n katalogin tarkistusarvo, MSM4/MSM7 C/N0 ja epookin yhdistäminen, GLONASS-ajan ja SBAS-tunnisteen kartoitus, virheellinen CRC ja muut viestit)</s1>
+
+seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: muoto, jonka gnss_lib_py-silta kirjoittaa, ajettuna receiver-trustin läpi); siltojen Python-testit ovat…</s1>
+
+seg-17ab1aee875b = Tuotettu moottorin varmennusmatriisista ja lukittu testillä. Vieritä luetteloa tai avaa rivi nähdäksesi sen ominaisuuden, oraakkelin ja testit. Koko taulukko, kaikki sarakkeet kerralla, on dokumentaatiossa: <a1>Ominaisuusviite</a1>.
+
+seg-41da0459d87a = Tarvitsetko tämän kirjanpidon tarkastuskelpoisena, toistettavana todistepakettina arviointilautakunnalle? <a1>Kshana Pro pakkaa sen</a1>.
