@@ -1024,8 +1024,7 @@ fn check(
                 crate::terr!("e-evidence-tsa-unable-to-get-issuer-certificate")
             } else {
                 crate::terr!("e-evidence-tsa-unable-to-get-local-issuer")
-            }
-            .into());
+            });
         };
         if !issuer.ca || issuer.key_usage.is_some_and(|k| k & (1 << 5) == 0) {
             return Err(crate::terr!("e-evidence-tsa-invalid-ca-certificate"));
