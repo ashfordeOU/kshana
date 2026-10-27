@@ -8,6 +8,8 @@
 // Both runs are recorded from the site's one engine checkout (src/tools/record_runs.py).
 import { fmt } from "../studio/lib/views.mjs";
 import { mountPlayer } from "./mcp-player.mjs";
+import { t, ready } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 
 const D = JSON.parse(document.getElementById("kpage").textContent);
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -54,8 +56,8 @@ const TEmax = Math.max(...CH.time_error_ns.filter((v) => v != null), CH.guard_ns
 const PLmax = Math.max(...CH.protection_level_m.filter((v) => v != null), CH.alert_limit_m.find((v) => v != null)) * 1.1;
 const CNmin = Math.floor(Math.min(...CH.cn0_dbhz) / 5) * 5 - 3, CNmax = Math.ceil(Math.max(...CH.cn0_dbhz) / 5) * 5 + 4;
 const CFG = {
-  te: { key: "time_error_ns", thrKey: "guard_ns", min: 0, max: TEmax, thrLabel: "guard", above: true, unit: "ns", d: 1 },
-  cn: { key: "cn0_dbhz", thrKey: "cn0_floor_dbhz", min: CNmin, max: CNmax, thrLabel: "floor", below: true, unit: "dB-Hz", d: 1 },
+  te: { key: "time_error_ns", thrKey: "guard_ns", min: 0, max: TEmax, get thrLabel() { return t("js-site-home-thr-guard", "guard"); }, above: true, unit: "ns", d: 1 },
+  cn: { key: "cn0_dbhz", thrKey: "cn0_floor_dbhz", min: CNmin, max: CNmax, get thrLabel() { return t("js-site-home-thr-floor", "floor"); }, below: true, unit: "dB-Hz", d: 1 },
   pl: { key: "protection_level_m", thrKey: "alert_limit_m", min: 0, max: PLmax, thrLabel: "AL", above: true, unit: "m", d: 1 },
 };
 const thrOf = (cfg) => CH[cfg.thrKey].find((v) => v != null);
@@ -97,7 +99,7 @@ function drawChart(svg, cfg, t0, t1, tNow, opt = {}) {
   if (opt.cursor) { const cx = X(tNow).toFixed(1); parts.push(`<line class="cp-cursor" x1="${cx}" x2="${cx}" y1="0" y2="${H}"/>`); }
   const v = vals[idxAt(tNow)];
   if (v != null) { const hx = Math.min(X(tNow), W - 3).toFixed(1), hy = Y(v).toFixed(1); parts.push(`<circle class="cp-halo" cx="${hx}" cy="${hy}" r="6"/><circle class="cp-dot" cx="${hx}" cy="${hy}" r="2.6"/>`); }
-  parts.push(`<text class="cp-thr-t" x="${W - 2}" y="${(ty - 4).toFixed(1)}" text-anchor="end">${cfg.thrLabel} ${fmt(thr)}</text>`);
+  parts.push(`<text class="cp-thr-t" x="${W - 2}" y="${(ty - 4).toFixed(1)}" text-anchor="end">${String(cfg.thrLabel).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c])} ${fmt(thr)}</text>`);
   svg.innerHTML = parts.join("");
 }
 let cid = 0;
@@ -109,14 +111,14 @@ function setPanel(panel, k, s) {
   const val = $("[data-v]", panel), st = $("[data-state]", panel);
   let breach = false, txt = "", bad = false;
   if (v == null) {
-    val.innerHTML = `<span class="na">no PL</span>`;
+    val.replaceChildren(el("span", "na", t("js-site-home-no-pl", "no PL")));
   } else {
     breach = cfg.above ? v > thr : v < thr;
     val.innerHTML = `${v.toFixed(cfg.d).replace("-", "\u2212")}<small>${cfg.unit}</small>`;
   }
-  if (k === "te") { txt = s.name === "holdover" || s.name === "integrity-alarm" ? (breach ? "holdover · outside the guard" : "holdover · free-running") : s.name === "spoofing" ? "spoofer pulling the clock" : "disciplined to GNSS"; bad = breach; }
-  if (k === "cn") { txt = s.trk === 0 ? `0 of ${maxTrk} tracking · no lock` : `${s.trk} of ${maxTrk} tracking`; bad = s.trk === 0; }
-  if (k === "pl") { txt = v == null ? (s.trk === 0 ? "no satellites, no PL" : s.name === "spoofing" ? "not computed in this phase" : "too few satellites") : breach ? "alarm · PL above AL" : `under the ${fmt(thr)} m AL`; bad = v == null ? s.name === "integrity-alarm" || s.trk === 0 : breach; }
+  if (k === "te") { txt = s.name === "holdover" || s.name === "integrity-alarm" ? (breach ? t("js-site-home-te-outside-guard", "holdover · outside the guard") : t("js-site-home-te-free-running", "holdover · free-running")) : s.name === "spoofing" ? t("js-site-home-te-spoofer", "spoofer pulling the clock") : t("js-site-home-te-disciplined", "disciplined to GNSS"); bad = breach; }
+  if (k === "cn") { txt = s.trk === 0 ? t("js-site-home-cn-no-lock", "0 of { $max } tracking · no lock", { max: maxTrk }) : t("js-site-home-cn-tracking", "{ $n } of { $max } tracking", { n: s.trk, max: maxTrk }); bad = s.trk === 0; }
+  if (k === "pl") { txt = v == null ? (s.trk === 0 ? t("js-site-home-pl-no-sats", "no satellites, no PL") : s.name === "spoofing" ? t("js-site-home-pl-not-computed", "not computed in this phase") : t("js-site-home-pl-too-few", "too few satellites")) : breach ? t("js-site-home-pl-alarm", "alarm · PL above AL") : t("js-site-home-pl-under-al", "under the { $thr } m AL", { thr: fmt(thr) }); bad = v == null ? s.name === "integrity-alarm" || s.trk === 0 : breach; }
   panel.classList.toggle("breach", breach);
   if (st) { st.textContent = txt; st.classList.toggle("bad", bad); }
 }
@@ -202,14 +204,14 @@ if (hero) {
     if (hPhase.dataset.i === String(s.pi)) return;
     hPhase.dataset.i = String(s.pi); hPhase.textContent = PN[s.name]; hPhase.style.setProperty("--c", `var(${PC[s.name]})`);
   };
-  const paint = (t, full) => {
-    const s = (heroS = state(t));
+  const paint = (tm, full) => {
+    const s = (heroS = state(tm));
     // mission so far: the first 20 minutes fill in from the left, then the axis compresses, so a
     // phase with no value (spoofing, holdover) still shows the run's earlier trace for context
-    panels.forEach((p) => drawChart($("[data-plot]", p), CFG[p.dataset.k], 0, full ? DUR : Math.max(t, WIN), t));
+    panels.forEach((p) => drawChart($("[data-plot]", p), CFG[p.dataset.k], 0, full ? DUR : Math.max(tm, WIN), tm));
     panels.forEach((p) => setPanel(p, p.dataset.k, s));
-    hClock.textContent = hms(t);
-    if (rxLabel) rxLabel.textContent = `Receiver · ${s.trk} tracking`;
+    hClock.textContent = hms(tm);
+    if (rxLabel) rxLabel.textContent = t("js-site-home-receiver-tracking", "Receiver · { $n } tracking", { n: s.trk });
     setPhase(s);
   };
   if (RM) {
@@ -220,11 +222,11 @@ if (hero) {
   } else {
     const t0 = performance.now();
     const loop = (now) => {
-      const t = missionAt(((now - t0) / 1000) % LOOP);
-      if (t < lastT) { evI = 0; pushLog("info", hms(0), `Replay restarted · ${C.file}`); }
-      while (evI < C.events.length && C.events[evI][0] <= t) { const e = C.events[evI++]; pushLog(e[2], e[1], e[3]); }
-      lastT = t;
-      if (vis) paint(t, false); else heroS = state(t);
+      const tm = missionAt(((now - t0) / 1000) % LOOP);
+      if (tm < lastT) { evI = 0; pushLog("info", hms(0), t("js-site-home-replay-restarted", "Replay restarted · { $file }", { file: C.file })); }
+      while (evI < C.events.length && C.events[evI][0] <= tm) { const e = C.events[evI++]; pushLog(e[2], e[1], e[3]); }
+      lastT = tm;
+      if (vis) paint(tm, false); else heroS = state(tm);
       requestAnimationFrame(loop);
     };
     requestAnimationFrame(loop);
@@ -243,18 +245,18 @@ if (tlSec) {
   const scrub = $("#scrub"), fill = $("#scrubFill"), handle = $("#scrubHandle"), labels = $$("#scrubLabels span"), side = $$("#tlSide .scn");
   const cap_ = (s) => {
     const n = s.name, p = s.p;
-    if (n === "nominal") return `${s.trk} satellites tracked at a mean C/N0 of ${fmt(s.cn)} dB-Hz. The clock is disciplined to GNSS time and the protection level (${fmt(s.pl)} m) sits under the ${fmt(s.al)} m alert limit.`;
-    if (n === "jamming") return `A broadband jammer ${F.S_JAMKM} km away at ${F.S_JAM1} dBW. C/N0 falls to ${fmt(s.cn)} dB-Hz, ${fmt(s.cn - s.floor)} dB above the ${fmt(s.floor)} dB-Hz tracking floor; all ${s.trk} satellites still track.`;
-    if (n === "spoofing") return `A spoofer pushes the receiver clock at ${F.S_RATE} ns/s. The RF (radio-frequency) detector alarms at once; the clock-aided monitor fires after ${F.S_DET_S} s, ending the phase with ${F.S_OFF} ns pulled in.`;
-    if (n === "holdover") return `The jammer goes to ${F.S_JAM2} dBW: ${s.trk} satellites tracking. The clock free-runs from the ${F.S_CARRY} ns the spoofer left and crosses its ${F.S_GUARD} ns guard at ${F.S_GUARD_T}; the INS coasts.`;
-    if (n === "integrity-alarm") return `Satellites return, but only above a ${fmt(maskOf(p))}° mask: ${s.trk} tracking. The protection level exceeds the ${fmt(s.al)} m alert limit or cannot be formed, so the monitor alarms and the clock stays in holdover.`;
-    return `GNSS re-synchronised: ${s.trk} satellites tracking, time error back to ${fmt(s.te)} ns, protection level ${fmt(s.pl)} m.`;
+    if (n === "nominal") return t("js-site-home-cap-nominal", "{ $trk } satellites tracked at a mean C/N0 of { $cn } dB-Hz. The clock is disciplined to GNSS time and the protection level ({ $pl } m) sits under the { $al } m alert limit.", { trk: s.trk, cn: fmt(s.cn), pl: fmt(s.pl), al: fmt(s.al) });
+    if (n === "jamming") return t("js-site-home-cap-jamming", "A broadband jammer { $km } km away at { $dbw } dBW. C/N0 falls to { $cn } dB-Hz, { $above } dB above the { $floor } dB-Hz tracking floor; all { $trk } satellites still track.", { km: F.S_JAMKM, dbw: F.S_JAM1, cn: fmt(s.cn), above: fmt(s.cn - s.floor), floor: fmt(s.floor), trk: s.trk });
+    if (n === "spoofing") return t("js-site-home-cap-spoofing", "A spoofer pushes the receiver clock at { $rate } ns/s. The RF (radio-frequency) detector alarms at once; the clock-aided monitor fires after { $det } s, ending the phase with { $off } ns pulled in.", { rate: F.S_RATE, det: F.S_DET_S, off: F.S_OFF });
+    if (n === "holdover") return t("js-site-home-cap-holdover", "The jammer goes to { $dbw } dBW: { $trk } satellites tracking. The clock free-runs from the { $carry } ns the spoofer left and crosses its { $guard } ns guard at { $at }; the INS coasts.", { dbw: F.S_JAM2, trk: s.trk, carry: F.S_CARRY, guard: F.S_GUARD, at: F.S_GUARD_T });
+    if (n === "integrity-alarm") return t("js-site-home-cap-integrity", "Satellites return, but only above a { $mask }° mask: { $trk } tracking. The protection level exceeds the { $al } m alert limit or cannot be formed, so the monitor alarms and the clock stays in holdover.", { mask: fmt(maskOf(p)), trk: s.trk, al: fmt(s.al) });
+    return t("js-site-home-cap-recovery", "GNSS re-synchronised: { $trk } satellites tracking, time error back to { $te } ns, protection level { $pl } m.", { trk: s.trk, te: fmt(s.te), pl: fmt(s.pl) });
   };
   const banner = (s) => {
-    if (s.name === "jamming") return ["Jamming · C/N0 near the floor", "--amber"];
-    if (s.name === "spoofing") return ["Spoofing alarm · RF detector", "--magenta"];
-    if (s.name === "holdover") return [s.te > s.guard ? "Holdover · clock outside the guard" : "GNSS lost · holdover", "--cyan"];
-    if (s.name === "integrity-alarm") return [s.pl == null ? "Integrity alarm · no protection level" : s.pl > s.al ? "Integrity alarm · PL > AL" : "Integrity alarm · holdover continues", "--coral"];
+    if (s.name === "jamming") return [t("js-site-home-banner-jamming", "Jamming · C/N0 near the floor"), "--amber"];
+    if (s.name === "spoofing") return [t("js-site-home-banner-spoofing", "Spoofing alarm · RF detector"), "--magenta"];
+    if (s.name === "holdover") return [s.te > s.guard ? t("js-site-home-banner-holdover-out", "Holdover · clock outside the guard") : t("js-site-home-banner-gnss-lost", "GNSS lost · holdover"), "--cyan"];
+    if (s.name === "integrity-alarm") return [s.pl == null ? t("js-site-home-banner-integrity-none", "Integrity alarm · no protection level") : s.pl > s.al ? t("js-site-home-banner-integrity-pl", "Integrity alarm · PL > AL") : t("js-site-home-banner-integrity-holdover", "Integrity alarm · holdover continues"), "--coral"];
     return null;
   };
   let curPi = -1, P = 0;
@@ -324,7 +326,7 @@ if (tlSec) {
     if (d) { e.preventDefault(); goP(P + d); }
   });
   const playBtn = $("#tlPlay");
-  const setPlayIcon = (on) => { $(".pl-ic", playBtn).setAttribute("d", on ? "M2 1h3v10H2zM7 1h3v10H7z" : "M2 1l9 5-9 5z"); playBtn.setAttribute("aria-label", on ? "Pause the mission" : "Play the mission"); };
+  const setPlayIcon = (on) => { $(".pl-ic", playBtn).setAttribute("d", on ? "M2 1h3v10H2zM7 1h3v10H7z" : "M2 1l9 5-9 5z"); playBtn.setAttribute("aria-label", on ? t("js-site-home-pause", "Pause the mission") : t("js-site-home-play", "Play the mission")); };
   playBtn.addEventListener("click", () => {
     if (playing) { cancelAnimationFrame(playing); playing = 0; setPlayIcon(false); return; }
     if (RM) { goP(1); return; }

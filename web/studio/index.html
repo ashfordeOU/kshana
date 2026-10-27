@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kshana Studio</title>
@@ -21,6 +22,7 @@
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="app.css">
 <link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="evidence.css">
 <script type="importmap">
 { "imports": {
   "three": "../vendor/three@0.160.0/build/three.module.js",
@@ -109,101 +111,101 @@
   <symbol id="d-optional" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></symbol>
 </svg>
 
-<a class="skip" href="#main">Skip to the content</a>
+<a class="skip" href="#main" data-l10n="studio-main-skip-to-the-content">Skip to the content</a>
 
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:radial-gradient(circle at 46.5% 49.5%,var(--cyan,#0795BA) 0 5%,transparent 11%),radial-gradient(circle at 87.5% 12%,var(--cyan,#0795BA) 0 4%,transparent 8%),var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag" data-studio-short>Studio</span></a>
-  <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:radial-gradient(circle at 46.5% 49.5%,var(--cyan,#0795BA) 0 5%,transparent 11%),radial-gradient(circle at 87.5% 12%,var(--cyan,#0795BA) 0 4%,transparent 8%),var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot; data-studio-short>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag" data-studio-short>Studio</span></span></a>
+  <nav class="crumbs" id="crumbs" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"></nav>
   <div class="bar-right">
-    <span class="engine-chip" id="engine-chip" data-mode="loading" title="Where the engine is running"><i></i><span id="engine-label">Engine loading</span><span class="e-short" aria-hidden="true">Loading</span><b class="bar-ind" aria-hidden="true"></b></span>
-    <a class="view-switch" id="geo-link" href="geometry/" title="Which satellites can you see from a place, and how good is their geometry? Skyplot, skyline and DOP from the engine in your browser" aria-label="Geometry: skyplot, skyline and DOP"><svg aria-hidden="true"><use href="#i-geo"/></svg><span class="lbl">Geometry</span></a>
-    <a class="view-switch" id="train-link" href="training/" title="Trainer debrief for kshana nmea-scenario instructor logs (training only; files stay in your browser)" aria-label="Training debrief: open an instructor log"><svg aria-hidden="true"><use href="#i-train"/></svg><span class="lbl">Training debrief</span></a>
-    <a class="view-switch" id="imap-link" href="interference/" title="Where did aircraft and ships report degraded navigation data on a past day? Open per-day map files (they stay in your browser)" aria-label="Interference map: open map files"><svg aria-hidden="true"><use href="#i-imap"/></svg><span class="lbl">Interference map</span></a>
-    <a class="view-switch" id="trust-link" href="trust/" title="Can the bridge trust this fix? Open a vessel receiver-trust run (files stay in your browser)" aria-label="Receiver trust: open a vessel run"><svg aria-hidden="true"><use href="#i-trust"/></svg><span class="lbl">Receiver trust</span></a>
-    <a class="view-switch" id="tools-link" href="tools/" title="Evidence packs, test-bench export, compliance mapping, OSNMA, command-line tools and the AI assistant (files stay in your browser)" aria-label="Tools: evidence, bench, compliance, OSNMA"><svg aria-hidden="true"><use href="#i-tools"/></svg><span class="lbl">Tools</span></a>
-    <details class="views-menu" id="views-menu"><summary aria-label="Views: Geometry, Receiver trust, Interference map, Training debrief, Tools" title="More views"><svg aria-hidden="true"><use href="#i-views"/></svg><span class="lbl">Views</span></summary>
-      <div class="vm-pop"><a href="geometry/"><svg aria-hidden="true"><use href="#i-geo"/></svg>Geometry</a><a href="lunar/"><svg aria-hidden="true"><use href="#i-lunar"/></svg>Lunar station</a><a href="trust/"><svg aria-hidden="true"><use href="#i-trust"/></svg>Receiver trust</a><a href="interference/"><svg aria-hidden="true"><use href="#i-imap"/></svg>Interference map</a><a href="training/"><svg aria-hidden="true"><use href="#i-train"/></svg>Training debrief</a><a href="replay/"><svg aria-hidden="true"><use href="#i-train"/></svg>Bridge replay</a><a href="optical/"><svg aria-hidden="true"><use href="#i-geo"/></svg>Optical PNT</a><a href="observatory/"><svg aria-hidden="true"><use href="#i-geo"/></svg>Interference observatory</a><a href="ssv/"><svg aria-hidden="true"><use href="#i-geo"/></svg>Space-user GNSS</a><a href="lunar-infra/"><svg aria-hidden="true"><use href="#i-geo"/></svg>Lunar infrastructure</a><a href="holdover/"><svg aria-hidden="true"><use href="#i-geo"/></svg>Holdover test</a><a href="tools/"><svg aria-hidden="true"><use href="#i-tools"/></svg>Tools</a></div></details>
-    <a class="view-switch" id="view-switch" href="advanced/" title="The full dashboard: every panel, field and tab" aria-label="Switch to the Advanced view"><svg aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl">Advanced view</span></a>
-    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette" title="Find a scenario, an area, a setting or a command"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
-    <button class="icon-btn" id="btn-theme" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <span class="engine-chip" id="engine-chip" data-mode="loading" title="Where the engine is running" data-l10n-attr="title:studio-engine-status"><i></i><span data-l10n-rich="seg-06486bf15cd4" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span id=\&quot;engine-label\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;},&quot;s2&quot;:{&quot;o&quot;:&quot;<span class=\&quot;e-short\&quot; aria-hidden=\&quot;true\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><span id="engine-label">Engine loading</span><span class="e-short" aria-hidden="true">Loading</span></span><b class="bar-ind" aria-hidden="true"></b></span>
+    <a class="view-switch" id="geo-link" href="geometry/" title="Which satellites can you see from a place, and how good is their geometry? Skyplot, skyline and DOP from the engine in your browser" aria-label="Geometry: skyplot, skyline and DOP" data-l10n-attr="aria-label:studio-view-geometry"><svg aria-hidden="true"><use href="#i-geo"/></svg><span class="lbl" data-l10n-rich="seg-13e8e5460280">Geometry</span></a>
+    <a class="view-switch" id="train-link" href="training/" title="Trainer debrief for kshana nmea-scenario instructor logs (training only; files stay in your browser)" aria-label="Training debrief: open an instructor log" data-l10n-attr="aria-label:studio-view-training"><svg aria-hidden="true"><use href="#i-train"/></svg><span class="lbl" data-l10n="studio-tools-training-debrief">Training debrief</span></a>
+    <a class="view-switch" id="imap-link" href="interference/" title="Where did aircraft and ships report degraded navigation data on a past day? Open per-day map files (they stay in your browser)" aria-label="Interference map: open map files" data-l10n-attr="aria-label:studio-view-interference"><svg aria-hidden="true"><use href="#i-imap"/></svg><span class="lbl" data-l10n="studio-interference-interference-map">Interference map</span></a>
+    <a class="view-switch" id="trust-link" href="trust/" title="Can the bridge trust this fix? Open a vessel receiver-trust run (files stay in your browser)" aria-label="Receiver trust: open a vessel run" data-l10n-attr="aria-label:studio-view-receiver-trust"><svg aria-hidden="true"><use href="#i-trust"/></svg><span class="lbl" data-l10n="studio-main-receiver-trust">Receiver trust</span></a>
+    <a class="view-switch" id="tools-link" href="tools/" title="Evidence packs, test-bench export, compliance mapping, OSNMA, command-line tools and the AI assistant (files stay in your browser)" aria-label="Tools: evidence, bench, compliance, OSNMA" data-l10n-attr="aria-label:studio-view-tools"><svg aria-hidden="true"><use href="#i-tools"/></svg><span class="lbl" data-l10n-rich="seg-2a56e1f52830">Tools</span></a>
+    <details class="views-menu" id="views-menu"><summary aria-label="Views: Geometry, Receiver trust, Interference map, Training debrief, Tools" title="More views" data-l10n-attr="aria-label:studio-views;title:studio-more-views"><svg aria-hidden="true"><use href="#i-views"/></svg><span class="lbl" data-l10n-rich="seg-d26c2ce37261">Views</span></summary>
+      <div class="vm-pop"><a href="geometry/"><svg aria-hidden="true"><use href="#i-geo"/></svg><span data-l10n-rich="seg-13e8e5460280">Geometry</span></a><a href="lunar/"><svg aria-hidden="true"><use href="#i-lunar"/></svg><span data-l10n-rich="seg-ee19f3717280">Lunar station</span></a><a href="trust/"><svg aria-hidden="true"><use href="#i-trust"/></svg><span data-l10n-rich="seg-8e5813cedc59">Receiver trust</span></a><a href="interference/"><svg aria-hidden="true"><use href="#i-imap"/></svg><span data-l10n-rich="seg-80f3f0aae42c">Interference map</span></a><a href="training/"><svg aria-hidden="true"><use href="#i-train"/></svg><span data-l10n-rich="seg-05562970ef4b">Training debrief</span></a><a href="replay/"><svg aria-hidden="true"><use href="#i-train"/></svg><span data-l10n-rich="seg-f5d247d49432">Bridge replay</span></a><a href="optical/"><svg aria-hidden="true"><use href="#i-geo"/></svg><span data-l10n-rich="seg-77aef8722995">Optical PNT</span></a><a href="observatory/"><svg aria-hidden="true"><use href="#i-geo"/></svg><span data-l10n-rich="seg-6f2cf14d4623">Interference observatory</span></a><a href="ssv/"><svg aria-hidden="true"><use href="#i-geo"/></svg><span data-l10n-rich="seg-b2f5c73a80ac">Space-user GNSS</span></a><a href="mission-thread/"><svg aria-hidden="true"><use href="#i-geo"/></svg><span data-l10n-rich="seg-940ff105c3a4">Mission thread</span></a><a href="lunar-infra/"><svg aria-hidden="true"><use href="#i-geo"/></svg><span data-l10n-rich="seg-8b65ea97e819">Lunar infrastructure</span></a><a href="holdover/"><svg aria-hidden="true"><use href="#i-geo"/></svg><span data-l10n-rich="seg-7881bdeae169">Holdover test</span></a><a href="tools/"><svg aria-hidden="true"><use href="#i-tools"/></svg><span data-l10n-rich="seg-2a56e1f52830">Tools</span></a></div></details>
+    <a class="view-switch" id="view-switch" href="advanced/" title="The full dashboard: every panel, field and tab" aria-label="Switch to the Advanced view" data-l10n-attr="aria-label:studio-advanced-switch;title:studio-advanced-full"><svg aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl" data-l10n="studio-main-advanced-view">Advanced view</span></a>
+    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette" title="Find a scenario, an area, a setting or a command" data-l10n-attr="title:studio-search-label"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl" data-l10n="studio-search">Search</span><kbd class="kmod">⌘K</kbd></button>
+    <button class="icon-btn" id="btn-theme" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
   <!-- ============ the opening screen ============ -->
   <section class="screen wrap" id="home" aria-labelledby="home-h" hidden>
-    <p class="kicker"><i style="--c:var(--tim)"></i>Kshana Studio</p>
-    <h1 id="home-h">What would you like to find out?</h1>
-    <p class="lede">A positioning, navigation and timing simulator that runs in your browser. Nothing is uploaded. <span class="lede-2">Pick a question, or start from the result below.</span></p>
-    <nav class="questions" id="questions" aria-label="Questions to start with">
-      <a class="q now" href="?scenario=constellation-multi-gnss-coverage" data-file="constellation-multi-gnss-coverage.toml" style="--c:var(--orb)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-constellations"/></svg></span><span class="q-tx"><b>How many satellites can I see, anywhere on Earth?</b><span>Showing below</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <a class="q" href="?scenario=integrity-raim" data-file="integrity-raim.toml" style="--c:var(--itg)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-integrity"/></svg></span><span class="q-tx"><b>Can I trust my position fix?</b><span>Integrity over 12 hours</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <a class="q" href="?scenario=clock-holdover" data-file="clock-holdover.toml" style="--c:var(--tim)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-timing"/></svg></span><span class="q-tx"><b>How long can a clock keep time without satellites?</b><span>Clock holdover</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <a class="q" href="?scenario=l-band-waterfall-jamming&amp;tab=spectrum&amp;play=1" data-file="l-band-waterfall-jamming.toml" data-tab="spectrum" style="--c:var(--int)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-spectrum"/></svg></span><span class="q-tx"><b>What does a jammer do to my receiver?</b><span>A radio waterfall</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <p class="kicker"><i style="--c:var(--tim)"></i><span data-l10n-rich="seg-6250e4ec851e">Kshana Studio</span></p>
+    <h1 id="home-h" data-l10n="studio-main-what-would-you-like-to">What would you like to find out?</h1>
+    <p class="lede" data-l10n-rich="seg-59dab91507b5" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;lede-2\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">A positioning, navigation and timing simulator that runs in your browser. Nothing is uploaded. <span class="lede-2" data-l10n="studio-main-pick-a-question-or-start">Pick a question, or start from the result below.</span></p>
+    <nav class="questions" id="questions" aria-label="Questions to start with" data-l10n-attr="aria-label:studio-starting-questions">
+      <a class="q now" href="?scenario=constellation-multi-gnss-coverage" data-file="constellation-multi-gnss-coverage.toml" style="--c:var(--orb)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-constellations"/></svg></span><span class="q-tx" data-l10n-rich="seg-a763be7ea9dc" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>How many satellites can I see, anywhere on Earth?</b><span data-l10n="studio-main-showing-below">Showing below</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="q" href="?scenario=integrity-raim" data-file="integrity-raim.toml" style="--c:var(--itg)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-integrity"/></svg></span><span class="q-tx" data-l10n-rich="seg-a39633d5b858" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Can I trust my position fix?</b><span data-l10n="studio-main-integrity-over-12-hours">Integrity over 12 hours</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="q" href="?scenario=clock-holdover" data-file="clock-holdover.toml" style="--c:var(--tim)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-timing"/></svg></span><span class="q-tx" data-l10n-rich="seg-d79f4c62922d" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>How long can a clock keep time without satellites?</b><span data-l10n="studio-clock-holdover">Clock holdover</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="q" href="?scenario=l-band-waterfall-jamming&amp;tab=spectrum&amp;play=1" data-file="l-band-waterfall-jamming.toml" data-tab="spectrum" style="--c:var(--int)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-spectrum"/></svg></span><span class="q-tx" data-l10n-rich="seg-1ad55eee4e81" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>What does a jammer do to my receiver?</b><span data-l10n="studio-main-a-radio-waterfall">A radio waterfall</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </nav>
     <div class="land-grid">
       <article class="card scope hero" id="hero" aria-labelledby="hero-h">
-        <div class="hero-top"><span class="chip-s" id="hero-area"><i class="dot" style="--c:var(--s-orb)"></i>Constellation design</span><span class="chip-s" id="hero-rec">Recorded result</span><span class="load-note" id="hero-load"><i></i>Engine loading. You can already explore this result.</span></div>
-        <h2 id="hero-h">How many navigation satellites can you see from anywhere on Earth?</h2>
-        <p class="answer" id="hero-answer">Loading the recorded result…</p>
+        <div class="hero-top"><span class="chip-s" id="hero-area"><i class="dot" style="--c:var(--s-orb)"></i><span data-l10n-rich="seg-2f7f3dd0b2f8">Constellation design</span></span><span class="chip-s" id="hero-rec" data-l10n="studio-main-recorded-result">Recorded result</span><span class="load-note" id="hero-load"><i></i><span data-l10n-rich="seg-9c1fc0ddcc14">Engine loading. You can already explore this result.</span></span></div>
+        <h2 id="hero-h" data-l10n="studio-main-how-many-navigation-satellites-can">How many navigation satellites can you see from anywhere on Earth?</h2>
+        <p class="answer" id="hero-answer" data-l10n="studio-main-loading-the-recorded-result">Loading the recorded result…</p>
         <div class="hero-body">
-          <figure class="map-fig"><div class="map-box" id="hero-map" role="img" aria-label="Map of satellites in view over the Earth, from the recorded run"></div><span class="clock" id="hero-clock" aria-live="off"></span><figcaption id="hero-cap"></figcaption></figure>
+          <figure class="map-fig"><div class="map-box" id="hero-map" role="img" aria-label="Map of satellites in view over the Earth, from the recorded run" data-l10n-attr="aria-label:studio-main-map-of-satellites-in-view"></div><span class="clock" id="hero-clock" aria-live="off"></span><figcaption id="hero-cap"></figcaption></figure>
           <dl class="hfigs" id="hero-figs"></dl>
         </div>
-        <div class="hero-act"><a class="btn-primary on-space" id="hero-open" href="?scenario=constellation-multi-gnss-coverage" data-file="constellation-multi-gnss-coverage.toml">Open this result <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a><p class="hero-meta" id="hero-meta"></p></div>
+        <div class="hero-act"><a class="btn-primary on-space" id="hero-open" href="?scenario=constellation-multi-gnss-coverage" data-file="constellation-multi-gnss-coverage.toml"><span data-l10n-rich="seg-ed7befb0e9f6">Open this result</span> <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a><p class="hero-meta" id="hero-meta"></p></div>
       </article>
       <section class="capmap" aria-labelledby="cap-h">
-        <div class="cap-head"><h2 id="cap-h">Everything Kshana can do</h2><p id="cap-sub">Each area shows a real recorded result and the mix of evidence behind it.</p></div>
+        <div class="cap-head"><h2 id="cap-h" data-l10n="studio-main-everything-kshana-can-do">Everything Kshana can do</h2><p id="cap-sub" data-l10n="studio-main-each-area-shows-a-real">Each area shows a real recorded result and the mix of evidence behind it.</p></div>
         <ul class="legend" id="legend"></ul>
         <div class="tiles" id="tiles"></div>
       </section>
     </div>
     <section class="more-views" aria-labelledby="mv-h">
-      <h2 id="mv-h">Open your own files</h2>
-      <p class="mv-sub">Pages that run the engine on your own settings and files. Each one works in this browser; nothing is uploaded.</p>
+      <h2 id="mv-h" data-l10n="studio-main-open-your-own-files">Open your own files</h2>
+      <p class="mv-sub" data-l10n="studio-main-pages-that-run-the-engine">Pages that run the engine on your own settings and files. Each one works in this browser; nothing is uploaded.</p>
       <ul class="mv-grid">
-        <li><a href="geometry/"><b>Geometry</b><span>Which satellites can you see from a place, and how good is their geometry? Draw the skyline.</span></a></li>
-        <li><a href="lunar/"><b>Lunar station</b><span>What accuracy could a reference station near the lunar south pole give, and where? MODELLED.</span></a></li>
-        <li><a href="trust/"><b>Receiver trust</b><span>Can the bridge trust this fix? Score a vessel's NMEA log.</span></a></li>
-        <li><a href="interference/"><b>Interference map</b><span>Where aircraft and ships reported degraded navigation data, and a route's exposure.</span></a></li>
-        <li><a href="training/"><b>Training debrief</b><span>Generate a drift or jamming exercise stream and debrief the instructor log.</span></a></li>
-        <li><a href="replay/"><b>Bridge replay</b><span>Two synthetic runs on one clock: track, trust score, live skyplot and the verdict.</span></a></li>
-        <li><a href="optical/"><b>Optical PNT</b><span>The two optical-atmosphere scenarios: availability against the cloud ceiling, outages and site diversity.</span></a></li>
-        <li><a href="ssv/"><b>Space-user GNSS</b><span>Which navigation signals a spacecraft far above the satellites can still use, and how well an onboard filter and a formation do with them.</span></a></li>
-        <li><a href="lunar-infra/"><b>Lunar infrastructure</b><span>What lunar orbiters and a surface station can do as navigation and geodetic infrastructure, with the misses stated.</span></a></li>
-        <li><a href="observatory/"><b>Interference observatory</b><span>Open a day's observatory files and read them: three states, no cause, nothing uploaded.</span></a></li>
-        <li><a href="holdover/"><b>Holdover test</b><span>Pull the antenna, score the holdover: a time-error record measured against the ITU-T masks.</span></a></li>
-        <li><a href="tools/#evidence"><b>Evidence packs</b><span>Check a signed pack, or attach a time stamp.</span></a></li>
-        <li><a href="tools/#bench"><b>Test-bench export</b><span>Motion and event files for a laboratory simulator.</span></a></li>
-        <li><a href="tools/#compliance"><b>Compliance mapping</b><span>What your runs evidence against published frameworks.</span></a></li>
-        <li><a href="tools/#osnma"><b>OSNMA check</b><span>Whether recorded Galileo data is authenticated, tag by tag.</span></a></li>
-        <li><a href="tools/#ai"><b>AI assistant</b><span>Use Kshana from your assistant through the MCP server.</span></a></li>
+        <li><a href="geometry/" data-l10n-rich="seg-ec3cd95a740d" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Geometry</b><span data-l10n="studio-main-which-satellites-can-you-see-2">Which satellites can you see from a place, and how good is their geometry? Draw the skyline.</span></a></li>
+        <li><a href="lunar/" data-l10n-rich="seg-9a71c933f4ad" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Lunar station</b><span data-l10n="studio-main-what-accuracy-could-a-reference">What accuracy could a reference station near the lunar south pole give, and where? MODELLED.</span></a></li>
+        <li><a href="trust/" data-l10n-rich="seg-4d3b961f22ce" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Receiver trust</b><span data-l10n="studio-main-can-the-bridge-trust-this-2">Can the bridge trust this fix? Score a vessel's NMEA log.</span></a></li>
+        <li><a href="interference/" data-l10n-rich="seg-eb9ebcd5e957" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Interference map</b><span data-l10n="studio-main-where-aircraft-and-ships-reported">Where aircraft and ships reported degraded navigation data, and a route's exposure.</span></a></li>
+        <li><a href="training/" data-l10n-rich="seg-49226589c585" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Training debrief</b><span data-l10n="studio-main-generate-a-drift-or-jamming">Generate a drift or jamming exercise stream and debrief the instructor log.</span></a></li>
+        <li><a href="replay/" data-l10n-rich="seg-6af0b916714c" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Bridge replay</b><span data-l10n="studio-main-two-synthetic-runs-on-one">Two synthetic runs on one clock: track, trust score, live skyplot and the verdict.</span></a></li>
+        <li><a href="optical/" data-l10n-rich="seg-4b6d98673341" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Optical PNT</b><span data-l10n="studio-main-the-two-optical-atmosphere-scenarios">The two optical-atmosphere scenarios: availability against the cloud ceiling, outages and site diversity.</span></a></li>
+        <li><a href="ssv/" data-l10n-rich="seg-b728f4816263" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Space-user GNSS</b><span data-l10n="studio-main-which-navigation-signals-a-spacecraft">Which navigation signals a spacecraft far above the satellites can still use, and how well an onboard filter and a formation do with them.</span></a></li>
+        <li><a href="lunar-infra/" data-l10n-rich="seg-e2ec2acef569" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Lunar infrastructure</b><span data-l10n="studio-main-what-lunar-orbiters-and-a">What lunar orbiters and a surface station can do as navigation and geodetic infrastructure, with the misses stated.</span></a></li>
+        <li><a href="observatory/" data-l10n-rich="seg-64a9035e2d0d" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Interference observatory</b><span data-l10n="studio-main-open-a-day-s-observatory">Open a day's observatory files and read them: three states, no cause, nothing uploaded.</span></a></li>
+        <li><a href="holdover/" data-l10n-rich="seg-e29d48cfd73a" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Holdover test</b><span data-l10n="studio-main-pull-the-antenna-score-the">Pull the antenna, score the holdover: a time-error record measured against the ITU-T masks.</span></a></li>
+        <li><a href="tools/#evidence" data-l10n-rich="seg-2d4efde06a1d" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Evidence packs</b><span data-l10n="studio-main-check-a-signed-pack-or">Check a signed pack, or attach a time stamp.</span></a></li>
+        <li><a href="tools/#bench" data-l10n-rich="seg-636556347905" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Test-bench export</b><span data-l10n="studio-main-motion-and-event-files-for">Motion and event files for a laboratory simulator.</span></a></li>
+        <li><a href="tools/#compliance" data-l10n-rich="seg-358b5ac6fa41" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>Compliance mapping</b><span data-l10n="studio-main-what-your-runs-evidence-against">What your runs evidence against published frameworks.</span></a></li>
+        <li><a href="tools/#osnma" data-l10n-rich="seg-4f3e10bb0823" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>OSNMA check</b><span data-l10n="studio-main-whether-recorded-galileo-data-is">Whether recorded Galileo data is authenticated, tag by tag.</span></a></li>
+        <li><a href="tools/#ai" data-l10n-rich="seg-8080417a0a93" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;s1&quot;:{&quot;o&quot;:&quot;<span>&quot;,&quot;c&quot;:&quot;</span>&quot;}}"><b>AI assistant</b><span data-l10n="studio-main-use-kshana-from-your-assistant">Use Kshana from your assistant through the MCP server.</span></a></li>
       </ul>
     </section>
   </section>
 
   <!-- ============ an area, or every scenario ============ -->
   <section class="screen wrap" id="browse" aria-labelledby="browse-h" hidden>
-    <a class="back" id="browse-back" href="./"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg>All questions</a>
-    <p class="kicker" id="browse-kicker"><i style="--c:var(--ink-3)"></i><span>Browse</span></p>
-    <h1 id="browse-h">All scenarios</h1>
-    <p class="lede" id="browse-lede">Pick one: it opens on its result straight away.</p>
-    <label class="search big"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="start-search" type="search" placeholder="Search by name, question or setting, for example elevation mask" aria-label="Search scenarios, areas or settings" autocomplete="off"></label>
+    <a class="back" id="browse-back" href="./"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span data-l10n-rich="seg-8673fda7dbe4">All questions</span></a>
+    <p class="kicker" id="browse-kicker"><i style="--c:var(--ink-3)"></i><span data-l10n-rich="seg-fc310f9d867c">Browse</span></p>
+    <h1 id="browse-h" data-l10n="studio-main-all-scenarios">All scenarios</h1>
+    <p class="lede" id="browse-lede" data-l10n="studio-main-pick-one-it-opens-on">Pick one: it opens on its result straight away.</p>
+    <label class="search big"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="start-search" type="search" placeholder="Search by name, question or setting, for example elevation mask" aria-label="Search scenarios, areas or settings" autocomplete="off" data-l10n-attr="aria-label:studio-search-scenarios;placeholder:studio-search-placeholder"></label>
     <div class="browse-evidence" id="browse-evidence" hidden></div>
     <div class="start-results" id="start-results" aria-live="polite"></div>
   </section>
 
   <!-- ============ a task screen ============ -->
   <section class="screen wrap" id="task" aria-labelledby="sc-title" hidden>
-    <a class="back" id="task-back" href="./"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span>All questions</span></a>
+    <a class="back" id="task-back" href="./"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span data-l10n="studio-main-all-questions">All questions</span></a>
     <div class="task-grid">
-      <div class="task-main" id="results" aria-label="Result">
+      <div class="task-main" id="results" aria-label="Result" data-l10n-attr="aria-label:studio-result">
         <header class="task-head">
           <p class="kicker" id="sc-domain"><i></i><span></span></p>
-          <h1 id="sc-title">Opening the scenario…</h1>
+          <h1 id="sc-title" data-l10n-rich="seg-e0fca417482a">Opening the scenario…</h1>
           <p class="t-sub" id="sc-question"></p>
         </header>
-        <section class="meaning" id="meaning" aria-label="What the result means" aria-live="polite">
+        <section class="meaning" id="meaning" aria-label="What the result means" aria-live="polite" data-l10n-attr="aria-label:studio-result-meaning">
           <div class="m-top" id="m-chips"></div>
           <p class="m-big" id="m-big"></p>
           <p class="m-line" id="m-line"></p>
@@ -211,249 +213,249 @@
         <p class="notice" id="notice" hidden></p>
         <div class="progress" id="progress" hidden><i></i></div>
         <div class="error" id="error" role="alert" hidden></div>
-        <section class="kpis-wrap" id="kpis-wrap" aria-label="Key figures" hidden><div class="kfigs" id="figs" role="list"></div></section>
+        <section class="kpis-wrap" id="kpis-wrap" aria-label="Key figures" hidden data-l10n-attr="aria-label:studio-key-figures"><div class="kfigs" id="figs" role="list"></div></section>
 
         <div class="tabs-wrap" id="tabs-wrap" hidden>
-          <p class="tabs-lbl" id="tabs-lbl">Views of this result</p>
-          <div class="tabs" id="tabs" role="tablist" aria-label="Views of this result" aria-describedby="tabs-lbl"></div>
+          <p class="tabs-lbl" id="tabs-lbl" data-l10n="studio-result-views">Views of this result</p>
+          <div class="tabs" id="tabs" role="tablist" aria-label="Views of this result" aria-describedby="tabs-lbl" data-l10n-attr="aria-label:studio-result-views"></div>
         </div>
       <div class="views" id="views">
-      <section class="view" id="v-overview" role="tabpanel" aria-label="Figures of merit" hidden>
+      <section class="view" id="v-overview" role="tabpanel" aria-label="Figures of merit" hidden data-l10n-attr="aria-label:studio-figures-of-merit">
         <div class="card" id="fom-card" hidden>
-          <div class="card-head"><h3>Figures of merit</h3><p class="card-note">The tier is each figure's validation status, read from the engine's own <code>figure_tiers</code> block: <b>validated</b> means checked against an independent external oracle; <b>modelled</b> means first-principles physics with tests, not yet oracle-checked.</p></div>
+          <div class="card-head"><h3 data-l10n="studio-figures-of-merit">Figures of merit</h3><p class="card-note" data-l10n-rich="seg-4f0ecff8525d" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>figure_tiers</code>&quot;},&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">The tier is each figure's validation status, read from the engine's own <code>figure_tiers</code> block: <b>validated</b> means checked against an independent external oracle; <b>modelled</b> means first-principles physics with tests, not yet oracle-checked.</p></div>
           <div class="table-scroll"><table class="tbl" id="fom-table"></table></div>
         </div>
         <div class="card" id="kf-card" hidden>
-          <div class="card-head"><h3>Every published figure</h3><p class="card-note">Read from the result document with the unit, note and provenance the engine records for each one.</p><label class="search small"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="kf-find" type="search" placeholder="Find a result field" aria-label="Find a result field" autocomplete="off"></label></div>
+          <div class="card-head"><h3 data-l10n="studio-main-every-published-figure">Every published figure</h3><p class="card-note" data-l10n="studio-main-read-from-the-result-document">Read from the result document with the unit, note and provenance the engine records for each one.</p><label class="search small"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="kf-find" type="search" placeholder="Find a result field" aria-label="Find a result field" autocomplete="off" data-l10n-attr="aria-label:studio-find-result-field;placeholder:studio-find-result-field"></label></div>
           <div class="table-scroll"><table class="tbl" id="kf-table"></table></div>
         </div>
         <div class="card" id="health-card" hidden>
-          <div class="card-head"><h3>Filter health <small>Kalman self-consistency</small></h3><p class="card-note">A consistent filter's reported uncertainty matches its actual errors. NIS (normalised innovation squared) should sit near 1 and NEES (normalised estimation error squared) near 2, each inside its 95% χ² band.</p></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-bdf48a0aa8ee" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Filter health <small data-l10n="studio-main-kalman-self-consistency">Kalman self-consistency</small></h3><p class="card-note" data-l10n="studio-main-a-consistent-filter-s-reported">A consistent filter's reported uncertainty matches its actual errors. NIS (normalised innovation squared) should sit near 1 and NEES (normalised estimation error squared) near 2, each inside its 95% χ² band.</p></div>
           <div class="health" id="health"></div>
         </div>
         <div class="card" id="label-card" hidden><p id="label-text" class="label-text"></p></div>
       </section>
 
-      <section class="view" id="v-cap" role="tabpanel" aria-label="Capability view" hidden>
+      <section class="view" id="v-cap" role="tabpanel" aria-label="Capability view" hidden data-l10n-attr="aria-label:studio-capability-view">
         <div class="cap-stage" id="cap-stage"></div>
         <div class="grid-2 cap-panels" id="cap-panels"></div>
       </section>
 
-      <section class="view" id="v-timeseries" role="tabpanel" aria-label="Time series" hidden>
+      <section class="view" id="v-timeseries" role="tabpanel" aria-label="Time series" hidden data-l10n-attr="aria-label:studio-time-series">
         <div class="card scope">
-          <div class="card-head row"><h3 id="ts-title">Time series</h3>
-            <div class="seg dark" role="tablist" aria-label="Chart source"><button role="tab" data-ts="live" aria-selected="true" id="ts-live-btn">Interactive</button><button role="tab" data-ts="engine" aria-selected="false" id="ts-engine-btn">Engine chart</button></div>
+          <div class="card-head row"><h3 id="ts-title" data-l10n="studio-time-series">Time series</h3>
+            <div class="seg dark" role="tablist" aria-label="Chart source" data-l10n-attr="aria-label:studio-chart-source"><button role="tab" data-ts="live" aria-selected="true" id="ts-live-btn" data-l10n-rich="seg-085ef6b1be9d">Interactive</button><button role="tab" data-ts="engine" aria-selected="false" id="ts-engine-btn" data-l10n="studio-main-engine-chart">Engine chart</button></div>
           </div>
-          <p class="card-note on-space pnote">Each series this run publishes, against time. Hover or drag across the chart to read the values.</p>
+          <p class="card-note on-space pnote" data-l10n="studio-main-each-series-this-run-publishes">Each series this run publishes, against time. Hover or drag across the chart to read the values.</p>
           <div class="chart-box" id="ts-live"></div>
           <div class="chart-box img" id="ts-engine" hidden></div>
           <div class="chart-tools" id="ts-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-signal" role="tabpanel" aria-label="Signal and band" hidden>
+      <section class="view" id="v-signal" role="tabpanel" aria-label="Signal and band" hidden data-l10n-attr="aria-label:studio-signal-band">
         <div class="grid-2">
           <div class="card scope span-2">
-            <div class="card-head row"><h3>C/N0 by satellite <small>carrier-to-noise density, dB-Hz</small></h3><div class="seg dark" role="group" aria-label="Signal field" id="sig-field"><button type="button" data-field="cn0_effective_dbhz" aria-pressed="true">With the jammer</button><button type="button" data-field="cn0_nominal_dbhz" aria-pressed="false">Without it</button></div><div class="legend-heat" id="heat-legend"></div></div>
+            <div class="card-head row"><h3 data-l10n-rich="seg-7db3c895178e" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">C/N0 by satellite <small data-l10n="studio-main-carrier-to-noise-density-db">carrier-to-noise density, dB-Hz</small></h3><div class="seg dark" role="group" aria-label="Signal field" id="sig-field" data-l10n-attr="aria-label:studio-signal-field"><button type="button" data-field="cn0_effective_dbhz" aria-pressed="true" data-l10n="studio-main-with-the-jammer">With the jammer</button><button type="button" data-field="cn0_nominal_dbhz" aria-pressed="false" data-l10n="studio-main-without-it">Without it</button></div><div class="legend-heat" id="heat-legend"></div></div>
             <div class="chart-box" id="sig-heat"></div>
-            <p class="card-note on-space">Each cell is one satellite at one epoch from this run. Hatched cells are below the receiver's tracking threshold: that satellite is lost.</p>
+            <p class="card-note on-space" data-l10n="studio-main-each-cell-is-one-satellite">Each cell is one satellite at one epoch from this run. Hatched cells are below the receiver's tracking threshold: that satellite is lost.</p>
             <div class="chart-tools" id="sig-tools"></div>
           </div>
-          <div class="card" id="band-card"><div class="card-head"><h3>Band</h3></div><dl class="kv" id="band-kv"></dl><div id="band-strip"></div></div>
-          <div class="card" id="sig-fom-card"><div class="card-head"><h3>Interference outcome</h3></div><dl class="kv" id="sig-kv"></dl></div>
+          <div class="card" id="band-card"><div class="card-head"><h3 data-l10n-rich="seg-a86ce24d81de">Band</h3></div><dl class="kv" id="band-kv"></dl><div id="band-strip"></div></div>
+          <div class="card" id="sig-fom-card"><div class="card-head"><h3 data-l10n="studio-main-interference-outcome">Interference outcome</h3></div><dl class="kv" id="sig-kv"></dl></div>
         </div>
       </section>
 
-      <section class="view" id="v-holdover" role="tabpanel" aria-label="Clock holdover" hidden>
+      <section class="view" id="v-holdover" role="tabpanel" aria-label="Clock holdover" hidden data-l10n-attr="aria-label:studio-clock-holdover">
         <div class="card scope">
-          <div class="card-head row"><h3>Holdover <small id="ho-sub">error since GNSS was lost</small></h3></div>
+          <div class="card-head row"><h3 data-l10n-rich="seg-9cebd87d7cb3" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small id=\&quot;ho-sub\&quot;>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Holdover <small id="ho-sub" data-l10n="studio-main-error-since-gnss-was-lost">error since GNSS was lost</small></h3></div>
           <div class="ho-ctl">
-            <label for="ho-thr">Budget <output id="ho-thr-out"></output></label>
+            <label for="ho-thr"><span data-l10n-rich="seg-42cdb8e987e6">Budget</span> <output id="ho-thr-out"></output></label>
             <input type="range" id="ho-thr" min="0" max="100" step="1">
-            <button class="btn-mini dark" id="ho-thr-reset">Scenario budget</button>
+            <button class="btn-mini dark" id="ho-thr-reset" data-l10n="studio-main-scenario-budget">Scenario budget</button>
           </div>
           <div class="chart-box" id="ho-chart"></div>
           <div class="ho-cards" id="ho-cards"></div>
-          <p class="card-note on-space">Move the budget and the time-to-breach is read off this run's own error record. The engine's holdover figure, computed at the scenario's budget, is shown alongside and is the authoritative number. Change the clock or the outage in the parameters to re-run the physics.</p>
+          <p class="card-note on-space" data-l10n="studio-main-move-the-budget-and-the">Move the budget and the time-to-breach is read off this run's own error record. The engine's holdover figure, computed at the scenario's budget, is shown alongside and is the authoritative number. Change the clock or the outage in the parameters to re-run the physics.</p>
           <div class="chart-tools" id="ho-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-masks" role="tabpanel" aria-label="Telecom timing masks" hidden>
+      <section class="view" id="v-masks" role="tabpanel" aria-label="Telecom timing masks" hidden data-l10n-attr="aria-label:studio-telecom-masks">
         <div class="mask-verdicts" id="mask-verdicts"></div>
         <div class="grid-2">
-          <div class="card scope"><div class="card-head"><h3>MTIE <small>maximum time interval error</small></h3></div><div class="chart-box" id="mtie-chart"></div><div class="chart-tools" id="mtie-tools"></div></div>
-          <div class="card scope"><div class="card-head"><h3>TDEV <small>time deviation</small></h3></div><div class="chart-box" id="tdev-chart"></div><div class="chart-tools" id="tdev-tools"></div></div>
+          <div class="card scope"><div class="card-head"><h3 data-l10n-rich="seg-bfd7751a9990" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">MTIE <small data-l10n="studio-main-maximum-time-interval-error">maximum time interval error</small></h3></div><div class="chart-box" id="mtie-chart"></div><div class="chart-tools" id="mtie-tools"></div></div>
+          <div class="card scope"><div class="card-head"><h3 data-l10n-rich="seg-9204b8664c7a" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">TDEV <small data-l10n="studio-main-time-deviation">time deviation</small></h3></div><div class="chart-box" id="tdev-chart"></div><div class="chart-tools" id="tdev-tools"></div></div>
         </div>
-        <div class="card"><div class="card-head"><h3>Mask checks and holdover budgets</h3><p class="card-note">Each check's limit is plotted as a ring at the averaging time where the margin was worst. Masks are transcribed from the ITU-T (International Telecommunication Union Telecommunication Standardization Sector) Recommendations named in each row.</p></div><div class="table-scroll"><table class="tbl" id="mask-table"></table></div></div>
+        <div class="card"><div class="card-head"><h3 data-l10n="studio-main-mask-checks-and-holdover-budgets">Mask checks and holdover budgets</h3><p class="card-note" data-l10n="studio-main-each-check-s-limit-is">Each check's limit is plotted as a ring at the averaging time where the margin was worst. Masks are transcribed from the ITU-T (International Telecommunication Union Telecommunication Standardization Sector) Recommendations named in each row.</p></div><div class="table-scroll"><table class="tbl" id="mask-table"></table></div></div>
       </section>
 
-      <section class="view" id="v-stability" role="tabpanel" aria-label="Clock stability" hidden>
+      <section class="view" id="v-stability" role="tabpanel" aria-label="Clock stability" hidden data-l10n-attr="aria-label:studio-clock-stability">
         <div class="card scope">
-          <div class="card-head"><h3>Clock stability <small>overlapping Allan deviation σ<sub>y</sub>(τ)</small></h3></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-70c2a1794fd5" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;},&quot;s2&quot;:{&quot;o&quot;:&quot;<sub>&quot;,&quot;c&quot;:&quot;</sub>&quot;}}">Clock stability <small>overlapping Allan deviation σ<sub>y</sub>(τ)</small></h3></div>
           <div class="chart-box" id="adev-chart"></div>
-          <p class="card-note on-space">Lower is better. Fractional-frequency stability against averaging time τ, on log axes.</p>
+          <p class="card-note on-space" data-l10n="studio-main-lower-is-better-fractional-frequency">Lower is better. Fractional-frequency stability against averaging time τ, on log axes.</p>
           <div class="chart-tools" id="adev-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-orbit" role="tabpanel" aria-label="3-D orbit" hidden>
+      <section class="view" id="v-orbit" role="tabpanel" aria-label="3-D orbit" hidden data-l10n-attr="aria-label:studio-orbit-3d">
         <div class="card scope">
-          <div class="card-head row"><h3>Orbit <small>Earth-centred inertial frame</small></h3><p class="card-note on-space" id="orbit-note">Drag to rotate, scroll to zoom.</p></div>
-          <div class="orbit-box" id="orbit-box"><canvas id="orbit-canvas" aria-label="Interactive 3-D view of the propagated track"></canvas></div>
+          <div class="card-head row"><h3 data-l10n-rich="seg-08c7323197b0" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Orbit <small data-l10n="studio-main-earth-centred-inertial-frame">Earth-centred inertial frame</small></h3><p class="card-note on-space" id="orbit-note" data-l10n="studio-main-drag-to-rotate-scroll-to">Drag to rotate, scroll to zoom.</p></div>
+          <div class="orbit-box" id="orbit-box"><canvas id="orbit-canvas" aria-label="Interactive 3-D view of the propagated track" data-l10n-attr="aria-label:studio-main-interactive-3-d-view-of"></canvas></div>
           <div class="chart-tools" id="orbit-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-ground" role="tabpanel" aria-label="Ground track" hidden>
+      <section class="view" id="v-ground" role="tabpanel" aria-label="Ground track" hidden data-l10n-attr="aria-label:studio-ground-track">
         <div class="card scope">
-          <div class="card-head row"><h3>Ground track</h3><p class="card-note on-space" id="gt-note"></p></div>
+          <div class="card-head row"><h3 data-l10n="studio-ground-track">Ground track</h3><p class="card-note on-space" id="gt-note"></p></div>
           <div class="chart-box" id="gt-chart"></div>
           <div class="chart-tools" id="gt-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-sweep" role="tabpanel" aria-label="Parameter sweep" hidden>
+      <section class="view" id="v-sweep" role="tabpanel" aria-label="Parameter sweep" hidden data-l10n-attr="aria-label:studio-parameter-sweep">
         <div class="card">
-          <div class="card-head"><h3>Parameter sweep</h3><p class="card-note">Run the engine once per value and plot one figure of merit. Add a second parameter for a heat map. Every point is a real engine run, up to 60.</p></div>
+          <div class="card-head"><h3 data-l10n="studio-parameter-sweep">Parameter sweep</h3><p class="card-note" data-l10n="studio-main-run-the-engine-once-per">Run the engine once per value and plot one figure of merit. Add a second parameter for a heat map. Every point is a real engine run, up to 60.</p></div>
           <div class="sweep-form" id="sweep-form">
-            <label>Parameter <select id="sweep-knob"></select></label>
-            <label>From <input id="sweep-min" type="number" step="any"></label>
-            <label>To <input id="sweep-max" type="number" step="any"></label>
-            <label>Steps <input id="sweep-steps" type="number" min="2" max="60" value="8"></label>
-            <label>Plot <select id="sweep-metric"></select></label>
-            <label class="sweep-2d">Second parameter <select id="sweep-knob2"><option value="">None (line chart)</option></select></label>
-            <label class="sweep-2d-range" hidden>From <input id="sweep-min2" type="number" step="any"></label>
-            <label class="sweep-2d-range" hidden>To <input id="sweep-max2" type="number" step="any"></label>
-            <button class="btn-run small" id="sweep-run"><svg aria-hidden="true"><use href="#i-play"/></svg>Sweep</button>
+            <label><span data-l10n-rich="seg-e73ea9921fcf">Parameter</span> <select id="sweep-knob"></select></label>
+            <label><span data-l10n-rich="seg-38ce4c90dd78">From</span> <input id="sweep-min" type="number" step="any"></label>
+            <label><span data-l10n-rich="seg-2cbf005ed5cc">To</span> <input id="sweep-max" type="number" step="any"></label>
+            <label><span data-l10n-rich="seg-0b921cae8f01">Steps</span> <input id="sweep-steps" type="number" min="2" max="60" value="8"></label>
+            <label><span data-l10n-rich="seg-1652b4fc1787">Plot</span> <select id="sweep-metric"></select></label>
+            <label class="sweep-2d"><span data-l10n-rich="seg-35ee2f01ec79">Second parameter</span> <select id="sweep-knob2"><option value="" data-l10n-rich="seg-60ac985235de">None (line chart)</option></select></label>
+            <label class="sweep-2d-range" hidden><span data-l10n-rich="seg-38ce4c90dd78">From</span> <input id="sweep-min2" type="number" step="any"></label>
+            <label class="sweep-2d-range" hidden><span data-l10n-rich="seg-2cbf005ed5cc">To</span> <input id="sweep-max2" type="number" step="any"></label>
+            <button class="btn-run small" id="sweep-run"><svg aria-hidden="true"><use href="#i-play"/></svg><span data-l10n-rich="seg-f4b7cada2310">Sweep</span></button>
           </div>
           <p class="status" id="sweep-status"></p>
         </div>
         <div class="card scope" id="sweep-out" hidden><div class="chart-box" id="sweep-chart"></div><div class="chart-tools" id="sweep-tools"></div></div>
       </section>
 
-      <section class="view" id="v-compare" role="tabpanel" aria-label="Compare runs" hidden>
+      <section class="view" id="v-compare" role="tabpanel" aria-label="Compare runs" hidden data-l10n-attr="aria-label:studio-compare-runs">
         <div class="card">
-          <div class="card-head row"><h3>Compare runs <small>pinned runs side by side</small></h3><button class="btn-mini" id="compare-clear">Clear pins</button></div>
+          <div class="card-head row"><h3 data-l10n-rich="seg-8ea98d881360" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Compare runs <small data-l10n="studio-main-pinned-runs-side-by-side">pinned runs side by side</small></h3><button class="btn-mini" id="compare-clear" data-l10n="studio-main-clear-pins">Clear pins</button></div>
           <div class="pins" id="pins"></div>
           <p class="card-note" id="compare-note"></p>
           <div class="table-scroll"><table class="tbl" id="compare-table"></table></div>
         </div>
-        <div class="card" id="compare-kpi-card" hidden><div class="card-head"><h3>Key figures, run against run</h3><p class="card-note">The headline readouts of each pinned run; the change is against run A.</p></div><div class="table-scroll"><table class="tbl" id="compare-kpi"></table></div></div>
+        <div class="card" id="compare-kpi-card" hidden><div class="card-head"><h3 data-l10n="studio-main-key-figures-run-against-run">Key figures, run against run</h3><p class="card-note" data-l10n="studio-main-the-headline-readouts-of-each">The headline readouts of each pinned run; the change is against run A.</p></div><div class="table-scroll"><table class="tbl" id="compare-kpi"></table></div></div>
         <div class="compare-overlays" id="compare-overlays"></div>
-        <div class="card scope" id="compare-chart-card" hidden><div class="card-head"><h3 id="compare-chart-title">Overlay</h3></div><div class="chart-box" id="compare-chart"></div><div class="chart-tools" id="compare-tools"></div></div>
+        <div class="card scope" id="compare-chart-card" hidden><div class="card-head"><h3 id="compare-chart-title" data-l10n-rich="seg-389a5d0bd567">Overlay</h3></div><div class="chart-box" id="compare-chart"></div><div class="chart-tools" id="compare-tools"></div></div>
       </section>
 
-      <section class="view" id="v-animation" role="tabpanel" aria-label="Animation" hidden>
+      <section class="view" id="v-animation" role="tabpanel" aria-label="Animation" hidden data-l10n-attr="aria-label:studio-animation">
         <div class="card" id="anim-card">
-          <div class="card-head"><h3>Animation <small>the engine's own export</small></h3><p class="card-note" id="anim-note"></p></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-26461891d3d8" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Animation <small data-l10n="studio-main-the-engine-s-own-export">the engine's own export</small></h3><p class="card-note" id="anim-note"></p></div>
           <p class="rec-line" id="anim-prov" hidden></p>
           <div class="frame-box" id="anim-box"></div>
           <div class="chart-tools" id="anim-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-report" role="tabpanel" aria-label="Engine report" hidden>
+      <section class="view" id="v-report" role="tabpanel" aria-label="Engine report" hidden data-l10n-attr="aria-label:studio-engine-report">
         <div class="card" id="report-card">
-          <div class="card-head"><h3>Run report <small>written by the engine</small></h3><p class="card-note" id="report-note"></p></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-5c28f6c1775a" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Run report <small data-l10n="studio-main-written-by-the-engine">written by the engine</small></h3><p class="card-note" id="report-note"></p></div>
           <p class="rec-line" id="report-prov" hidden></p>
           <div class="frame-box tall" id="report-box"></div>
           <div class="chart-tools" id="report-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-exports" role="tabpanel" aria-label="Exports and report" hidden>
+      <section class="view" id="v-exports" role="tabpanel" aria-label="Exports and report" hidden data-l10n-attr="aria-label:studio-exports">
         <div class="export-grid" id="export-grid"></div>
         <div class="card" id="interop-card" hidden>
-          <div class="card-head"><h3>Interoperability exports <small>CZML, KML, GeoJSON, STK ephemeris, SigMF</small></h3><p class="card-note" id="interop-note"></p></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-c6251ca94299" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Interoperability exports <small data-l10n="studio-main-czml-kml-geojson-stk-ephemeris">CZML, KML, GeoJSON, STK ephemeris, SigMF</small></h3><p class="card-note" id="interop-note"></p></div>
           <p class="rec-line" id="interop-prov" hidden></p>
           <div class="table-scroll"><table class="tbl" id="interop-table"></table></div>
         </div>
         <div class="card scope" id="geo-card" hidden>
-          <div class="card-head"><h3>The GeoJSON export on a map <small id="geo-sub"></small></h3></div>
+          <div class="card-head"><h3><span data-l10n-rich="seg-6f65cbd0e1f7">The GeoJSON export on a map</span> <small id="geo-sub"></small></h3></div>
           <div class="chart-box" id="geo-chart"></div>
           <div class="chart-tools" id="geo-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-json" role="tabpanel" aria-label="Full result document" hidden>
+      <section class="view" id="v-json" role="tabpanel" aria-label="Full result document" hidden data-l10n-attr="aria-label:studio-full-result">
         <div class="card">
-          <div class="card-head row"><h3>Full result <small>JSON</small></h3><span><button class="btn-mini" id="json-copy"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button> <button class="btn-mini" id="json-download"><svg aria-hidden="true"><use href="#i-down"/></svg>Download</button></span></div>
+          <div class="card-head row"><h3 data-l10n-rich="seg-0f6201634748" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Full result <small>JSON</small></h3><span><button class="btn-mini" id="json-copy"><svg aria-hidden="true"><use href="#i-copy"/></svg><span data-l10n-rich="seg-fa37e351f6b4">Copy</span></button> <button class="btn-mini" id="json-download"><svg aria-hidden="true"><use href="#i-down"/></svg><span data-l10n-rich="seg-5e1e7483eb79">Download</span></button></span></div>
           <pre class="json" id="json" tabindex="0"></pre>
         </div>
       </section>
       </div>
       </div>
 
-      <aside class="panel" id="panel" aria-label="Settings and details">
+      <aside class="panel" id="panel" aria-label="Settings and details" data-l10n-attr="aria-label:studio-settings">
         <section class="p-card" id="params" aria-labelledby="set-h">
-          <h2 id="set-h">Try other settings</h2>
-          <p class="p-next" id="params-hint">Change a value, then run again. The answer and the chart update in place.</p>
+          <h2 id="set-h" data-l10n="studio-main-try-other-settings">Try other settings</h2>
+          <p class="p-next" id="params-hint" data-l10n="studio-main-change-a-value-then-run">Change a value, then run again. The answer and the chart update in place.</p>
           <div class="knobs" id="knobs"></div>
-          <button class="btn-primary wide" id="run" type="button"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><span id="run-label">Run again</span></button>
-          <button class="btn-quiet wide" id="run-cancel" type="button" hidden>Cancel the run</button>
-          <p class="run-note status" id="status" role="status" aria-live="polite">Runs in your browser. Nothing is uploaded.</p>
+          <button class="btn-primary wide" id="run" type="button"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><span id="run-label" data-l10n="studio-main-run-again">Run again</span></button>
+          <button class="btn-quiet wide" id="run-cancel" type="button" hidden data-l10n="studio-main-cancel-the-run">Cancel the run</button>
+          <p class="run-note status" id="status" role="status" aria-live="polite" data-l10n="studio-main-runs-in-your-browser-nothing">Runs in your browser. Nothing is uploaded.</p>
         </section>
 
         <details class="more" id="adv">
-          <summary><span>Advanced settings</span><span class="sm-n" id="field-count"></span></summary>
+          <summary><span data-l10n="studio-main-advanced-settings">Advanced settings</span><span class="sm-n" id="field-count"></span></summary>
           <div class="adv-body">
-            <label class="search small"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="field-find" type="search" placeholder="Find a setting, for example mask" aria-label="Find a setting of this scenario" autocomplete="off"></label>
+            <label class="search small"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="field-find" type="search" placeholder="Find a setting, for example mask" aria-label="Find a setting of this scenario" autocomplete="off" data-l10n-attr="aria-label:studio-find-scenario-setting;placeholder:studio-find-setting"></label>
             <p class="hint" id="field-find-note" hidden></p>
             <div class="fields" id="fields"></div>
-            <p class="fine">Every setting comes from the scenario file. Edit the whole file under “For researchers”.</p>
+            <p class="fine" data-l10n="studio-main-every-setting-comes-from-the">Every setting comes from the scenario file. Edit the whole file under “For researchers”.</p>
           </div>
         </details>
 
         <details class="more" id="how">
-          <summary><span>How this is computed</span><span class="sm-lvl" id="how-lvl"></span></summary>
+          <summary><span data-l10n="studio-main-how-this-is-computed">How this is computed</span><span class="sm-lvl" id="how-lvl"></span></summary>
           <div class="how" id="how-body">
-            <h3>Method</h3>
+            <h3 data-l10n-rich="seg-613697670501">Method</h3>
             <div id="how-method"></div>
-            <h3>Level of evidence</h3>
+            <h3 data-l10n="studio-main-level-of-evidence">Level of evidence</h3>
             <div id="how-level"></div>
-            <h3>References</h3>
+            <h3 data-l10n-rich="seg-6cb7a787ac67">References</h3>
             <ul class="refs" id="how-refs"></ul>
-            <section class="headline" id="headline" aria-label="The engine's own summary" hidden>
-              <h3 id="hl-eyebrow">The engine's own one-line summary</h3>
+            <section class="headline" id="headline" aria-label="The engine's own summary" hidden data-l10n-attr="aria-label:studio-engine-summary">
+              <h3 id="hl-eyebrow" data-l10n="studio-main-the-engine-s-own-one">The engine's own one-line summary</h3>
               <div class="hl-badges" id="hl-badges"></div>
               <p class="summary" id="summary"></p>
               <dl class="meta" id="run-meta"></dl>
             </section>
-            <p class="fine">Every figure is labelled with its evidence tier. Validated means checked against an independent external oracle; modelled means first-principles physics with tests, not yet oracle-checked.</p>
+            <p class="fine" data-l10n="studio-main-every-figure-is-labelled-with">Every figure is labelled with its evidence tier. Validated means checked against an independent external oracle; modelled means first-principles physics with tests, not yet oracle-checked.</p>
           </div>
         </details>
 
         <details class="more" id="research">
-          <summary><span>For researchers</span><span class="sm-n">code, data, citation</span></summary>
+          <summary><span data-l10n="studio-main-for-researchers">For researchers</span><span class="sm-n" data-l10n="studio-main-code-data-citation">code, data, citation</span></summary>
           <div class="rsr" id="res-body">
-            <h3>Run it on your computer</h3>
-            <div class="code-snip"><pre id="cli"></pre><button class="copy" type="button" data-copy="cli"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></div>
+            <h3 data-l10n="studio-main-run-it-on-your-computer">Run it on your computer</h3>
+            <div class="code-snip"><pre id="cli"></pre><button class="copy" type="button" data-copy="cli"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span data-l10n-rich="seg-fa37e351f6b4">Copy</span></button></div>
             <p class="fine" id="cli-note"></p>
-            <h3>Run it from Python</h3>
-            <div class="code-snip"><pre id="py"></pre><button class="copy" type="button" data-copy="py"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></div>
+            <h3 data-l10n="studio-main-run-it-from-python">Run it from Python</h3>
+            <div class="code-snip"><pre id="py"></pre><button class="copy" type="button" data-copy="py"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span data-l10n-rich="seg-fa37e351f6b4">Copy</span></button></div>
             <p class="fine" id="py-note"></p>
-            <h3>Export</h3>
+            <h3 data-l10n-rich="seg-6f7a465c0685">Export</h3>
             <div class="exp-row" id="exp-row"></div>
-            <h3>Share</h3>
+            <h3 data-l10n-rich="seg-e11b46863c7c">Share</h3>
             <div class="exp-row" id="share-row"></div>
-            <h3>Cite</h3>
-            <div class="code-snip"><pre id="cite"></pre><button class="copy" type="button" data-copy="cite"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></div>
-            <p class="fine">Exported figures carry this DOI (digital object identifier) in their caption. The same scenario, seed and engine version give the same numbers.</p>
+            <h3 data-l10n-rich="seg-f4d1ec6fc464">Cite</h3>
+            <div class="code-snip"><pre id="cite"></pre><button class="copy" type="button" data-copy="cite"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span data-l10n-rich="seg-fa37e351f6b4">Copy</span></button></div>
+            <p class="fine" data-l10n="studio-main-exported-figures-carry-this-doi">Exported figures carry this DOI (digital object identifier) in their caption. The same scenario, seed and engine version give the same numbers.</p>
             <details class="panel src" id="source">
-              <summary><h3>The scenario file <small>TOML (Tom's Obvious, Minimal Language)</small></h3>
-                <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg>Reset</button><button class="btn-mini" id="src-copy" title="Copy the scenario text"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></span>
+              <summary><h3 data-l10n-rich="seg-85cfd83c90de" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">The scenario file <small data-l10n="studio-main-toml-tom-s-obvious-minimal">TOML (Tom's Obvious, Minimal Language)</small></h3>
+                <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario" data-l10n-attr="title:studio-restore-scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg><span data-l10n-rich="seg-43ed980c95fe">Reset</span></button><button class="btn-mini" id="src-copy" title="Copy the scenario text" data-l10n-attr="title:studio-copy-scenario"><svg aria-hidden="true"><use href="#i-copy"/></svg><span data-l10n-rich="seg-fa37e351f6b4">Copy</span></button></span>
               </summary>
               <div class="code" id="code">
                 <pre class="code-hl" id="code-hl" aria-hidden="true" tabindex="-1"></pre>
-                <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd"></textarea>
+                <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd" data-l10n-attr="aria-label:studio-scenario-source"></textarea>
               </div>
-              <p class="hint" id="toml-kbd">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on. Run again to use your edit.</p>
+              <p class="hint" id="toml-kbd" data-l10n="studio-main-in-the-editor-tab-indents">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on. Run again to use your edit.</p>
             </details>
-            <h3>Every panel and field</h3>
-            <p class="fine">The Advanced view is the full dashboard: every panel of this run side by side, every field of the scenario, sweeps, comparisons and the engine's own report. It opens on this scenario, with your settings.</p>
-            <a class="adv-link" id="open-advanced" href="advanced/"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg>Open in Advanced view</a>
-            <p class="pro-mini">Need a calibrated digital twin of your own device, an audit-grade evidence pack or closed-source integration? That is <a href="/editions#pro">Kshana Pro</a>, under contract.</p>
+            <h3 data-l10n="studio-main-every-panel-and-field">Every panel and field</h3>
+            <p class="fine" data-l10n="studio-main-the-advanced-view-is-the">The Advanced view is the full dashboard: every panel of this run side by side, every field of the scenario, sweeps, comparisons and the engine's own report. It opens on this scenario, with your settings.</p>
+            <a class="adv-link" id="open-advanced" href="advanced/"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg><span data-l10n-rich="seg-5ce2c22f6627">Open in Advanced view</span></a>
+            <p class="pro-mini" data-l10n-rich="seg-ca95c1e1237a" data-l10n-tags="{&quot;a1&quot;:{&quot;o&quot;:&quot;<a href=\&quot;/editions#pro\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;}}">Need a calibrated digital twin of your own device, an audit-grade evidence pack or closed-source integration? That is <a href="/editions#pro" data-l10n="studio-main-kshana-pro">Kshana Pro</a>, under contract.</p>
           </div>
         </details>
       </aside>
@@ -462,27 +464,27 @@
 </main>
 
 <footer class="foot res-foot" id="res-foot">
-  <p>Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde®. Every figure is labelled with its evidence tier; the <span data-studio-name>Kshana Studio</span>'s timing, integrity and security figures are modelled unless marked validated. Cite as doi:10.5281/zenodo.20528627.</p>
-  <p class="pro-line"><a href="/editions#pro">Kshana Pro</a>: a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration, available under contract. <a href="mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation">Request an evaluation</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence">Talk to us about a commercial licence</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20study%20request">Request a study</a></p>
-  <div class="install-line" id="install-line" aria-label="Install the engine"></div>
-  <p class="credit">Imagery: NASA Visible Earth (Blue Marble). Coastlines: Natural Earth. Every chart here is drawn from an engine run; a run, report, animation or export made by the native command-line engine is labelled as recorded.</p>
-  <p class="embed-only"><a href="/studio/" target="_blank" rel="noopener">Open in <span data-studio-name>Kshana Studio</span></a></p>
+  <p data-l10n-rich="seg-65296b223493" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span data-studio-name>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde®. Every figure is labelled with its evidence tier; the <span data-studio-name data-l10n="studio-main-kshana-studio">Kshana Studio</span>'s timing, integrity and security figures are modelled unless marked validated. Cite as doi:10.5281/zenodo.20528627.</p>
+  <p class="pro-line" data-l10n-rich="seg-fda27ae5d5f2" data-l10n-tags="{&quot;a1&quot;:{&quot;o&quot;:&quot;<a href=\&quot;/editions#pro\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a2&quot;:{&quot;o&quot;:&quot;<a href=\&quot;mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a3&quot;:{&quot;o&quot;:&quot;<a href=\&quot;mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a4&quot;:{&quot;o&quot;:&quot;<a href=\&quot;mailto:contact@ashforde.org?subject=Kshana%20study%20request\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;}}"><a href="/editions#pro" data-l10n="studio-main-kshana-pro">Kshana Pro</a>: a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration, available under contract. <a href="mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation" data-l10n="studio-main-request-an-evaluation">Request an evaluation</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence" data-l10n="studio-main-talk-to-us-about-a">Talk to us about a commercial licence</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20study%20request" data-l10n="studio-main-request-a-study">Request a study</a></p>
+  <div class="install-line" id="install-line" aria-label="Install the engine" data-l10n-attr="aria-label:studio-install-engine"></div>
+  <p class="credit" data-l10n="studio-main-imagery-nasa-visible-earth-blue">Imagery: NASA Visible Earth (Blue Marble). Coastlines: Natural Earth. Every chart here is drawn from an engine run; a run, report, animation or export made by the native command-line engine is labelled as recorded.</p>
+  <p class="embed-only"><a href="/studio/" target="_blank" rel="noopener" data-l10n-rich="seg-e02d92584d5a" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span data-studio-name>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Open in <span data-studio-name data-l10n="studio-main-kshana-studio">Kshana Studio</span></a></p>
 </footer>
 
 <!-- Command palette -->
-<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search scenarios and commands" hidden>
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search scenarios and commands" hidden data-l10n-attr="aria-label:studio-search-commands">
   <div class="pal-box">
-    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Find a scenario, area, setting, view or command" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list"><kbd>esc</kbd></div>
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Find a scenario, area, setting, view or command" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list" data-l10n-attr="aria-label:studio-search;placeholder:studio-search-all"><kbd>esc</kbd></div>
     <div class="pal-list" id="pal-list" role="listbox"></div>
-    <div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span><kbd>⌘↵</kbd> run</span></div>
+    <div class="pal-foot"><kbd>↑</kbd><span data-l10n-rich="seg-9c28d67257b7" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<kbd>↓</kbd>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<kbd>↵</kbd>&quot;},&quot;c3&quot;:{&quot;h&quot;:&quot;<kbd>⌘↵</kbd>&quot;}}"><kbd>↓</kbd> move<kbd>↵</kbd> open<kbd>⌘↵</kbd> run</span></div>
   </div>
 </div>
 
 <!-- History drawer (from the search box: "Open run history") -->
-<aside class="drawer" id="history" role="dialog" aria-modal="false" aria-label="Run history" hidden>
-  <div class="drawer-head"><h2>Run history <small>this session</small></h2><button class="icon-btn" id="history-close" aria-label="Close history"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+<aside class="drawer" id="history" role="dialog" aria-modal="false" aria-label="Run history" hidden data-l10n-attr="aria-label:studio-run-history">
+  <div class="drawer-head"><h2 data-l10n-rich="seg-08e485ae99c4" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Run history <small data-l10n="studio-main-this-session">this session</small></h2><button class="icon-btn" id="history-close" aria-label="Close history" data-l10n-attr="aria-label:studio-main-close-history"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <ol class="hist" id="hist-list"></ol>
-  <p class="hint" id="hist-empty">Runs you make appear here. Select one to bring back its scenario and result, or pin it to compare.</p>
+  <p class="hint" id="hist-empty" data-l10n="studio-main-runs-you-make-appear-here">Runs you make appear here. Select one to bring back its scenario and result, or pin it to compare.</p>
 </aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -538,5 +540,6 @@
     document.addEventListener("click", function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && d.open) { d.open = false; var s = d.querySelector("summary"); if (s) s.focus(); } }); })();
 </script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

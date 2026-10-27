@@ -7,6 +7,8 @@
 // different licences (for example ADS-B-derived files are ODbL and AIS-derived files are public domain
 // or NLOD), so one layer's data and notice never mix with another's. Tested in geojson-layer.test.mjs.
 
+import { t } from "./t.mjs";
+
 const GEOMS = new Set(["Point", "MultiPoint", "LineString", "MultiLineString", "Polygon", "MultiPolygon", "GeometryCollection"]);
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
 const isPos = (p) => Array.isArray(p) && p.length >= 2 && isNum(p[0]) && isNum(p[1]) && Math.abs(p[0]) <= 180 && Math.abs(p[1]) <= 90;
@@ -18,16 +20,16 @@ const NOTICE_KEY = /attribution|licen[cs]e|copyright|credit|terms|source|provena
 
 export function parseGeoJson(text, name = "file") {
   let o;
-  try { o = JSON.parse(String(text).replace(/^﻿/, "")); } catch (e) { return { error: `${name}: not JSON (${e.message}).` }; }
-  if (!o || typeof o !== "object") return { error: `${name}: not a GeoJSON object.` };
+  try { o = JSON.parse(String(text).replace(/^﻿/, "")); } catch (e) { return { error: t("js-geo-gj-not-json", "{ $name }: not JSON ({ $reason }).", { name, reason: e.message }) }; }
+  if (!o || typeof o !== "object") return { error: t("js-geo-gj-not-object", "{ $name }: not a GeoJSON object.", { name }) };
   let features;
   if (o.type === "FeatureCollection" && Array.isArray(o.features)) features = o.features;
   else if (o.type === "Feature") features = [o];
   else if (GEOMS.has(o.type)) features = [{ type: "Feature", properties: {}, geometry: o }];
-  else return { error: `${name}: not GeoJSON (a FeatureCollection, Feature or geometry was expected).` };
+  else return { error: t("js-geo-gj-not-geojson", "{ $name }: not GeoJSON (a FeatureCollection, Feature or geometry was expected).", { name }) };
   const meta = {};
   if (o.type === "FeatureCollection") for (const [k, v] of Object.entries(o)) if (!STANDARD.has(k)) meta[k] = v;
-  if (features.length > MAX_FEATURES) return { error: `${name}: ${features.length} features; this page draws at most ${MAX_FEATURES}.` };
+  if (features.length > MAX_FEATURES) return { error: t("js-geo-gj-too-many", "{ $name }: { $count } features; this page draws at most { $max }.", { name, count: features.length, max: MAX_FEATURES }) };
   const out = [];
   let skipped = 0;
   for (const f of features) {

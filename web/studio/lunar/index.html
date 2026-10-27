@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Lunar station view: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens, modules and the one WebAssembly engine. Every figure on it comes from the Kshana engine's lunar-station-coverage report: the recording that ships, a run in this browser, or a result file the reader opens. Nothing is fetched from anywhere else and nothing is sent. -->
 <base href="../">
@@ -15,6 +16,7 @@
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="app.css">
 <link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="evidence.css">
 <link rel="stylesheet" href="lunar/lunar.css">
 <link rel="modulepreload" href="lib/lunar-station.mjs">
 <script>
@@ -28,112 +30,114 @@
   <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <pattern id="ls-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" class="ls-hatch-bg"/><path d="M0 0v6" class="ls-hatch-line"/></pattern>
 </svg>
-<a class="skip" href="#main">Skip to the view</a>
+<a class="skip" href="#main" data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
-  <nav class="crumb" aria-label="Where you are"><span>Lunar station</span></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"><span data-l10n="studio-lunar-lunar-station">Lunar station</span></nav>
   <div class="bar-right">
-    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
-    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="view-switch" href="./" title="Back to the Studio" data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl" data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
 <div class="wrap ls">
-  <p class="kicker"><i style="--c:var(--orb)"></i>Lunar reference station</p>
-  <h1 id="ls-h">What accuracy could a reference station near the lunar south pole give, and where?</h1>
-  <p class="lede">A differential reference station at a surveyed site computes corrections for the lunar navigation satellites it sees; a user nearby applies them, and the errors the two share cancel. This view maps the error that is left over a south-polar grid and a day of epochs: the corrected percentile error per point, how far from the station it stays within a threshold, availability and protection levels. Every figure comes from the Kshana engine's <code>lunar-station-coverage</code> report. <a href="lunar/#about">What this shows</a>.</p>
+  <p class="kicker"><i style="--c:var(--orb)"></i><span data-l10n-rich="seg-5ddc79f228f8">Lunar reference station</span></p>
+  <h1 id="ls-h" data-l10n="studio-lunar-what-accuracy-could-a-reference">What accuracy could a reference station near the lunar south pole give, and where?</h1>
+  <p class="lede" data-l10n-rich="seg-ce9444c95be8" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>lunar-station-coverage</code>&quot;},&quot;a1&quot;:{&quot;o&quot;:&quot;<a href=\&quot;lunar/#about\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;}}">A differential reference station at a surveyed site computes corrections for the lunar navigation satellites it sees; a user nearby applies them, and the errors the two share cancel. This view maps the error that is left over a south-polar grid and a day of epochs: the corrected percentile error per point, how far from the station it stays within a threshold, availability and protection levels. Every figure comes from the Kshana engine's <code>lunar-station-coverage</code> report. <a href="lunar/#about" data-l10n="studio-geometry-what-this-shows">What this shows</a>.</p>
 
-  <div class="ls-honest" id="ls-honest" role="note" aria-label="What these figures are">
-    <p><b>MODELLED.</b> <b>Under the stated public assumptions, not a statement about the performance of any real system.</b> <b>Not affiliated with or endorsed by any agency.</b></p>
-    <p>The constellation, its signal-in-space error, the station's survey error, the correction latency and the link quantization are inputs stated in the scenario file, each with its source or marked illustrative. No figure here has been checked against a real station or flight data.</p>
+  <div class="ls-honest" id="ls-honest" role="note" aria-label="What these figures are" data-l10n-attr="aria-label:studio-lunar-what-these-figures-are">
+    <p><b>MODELLED.</b> <b data-l10n-rich="seg-fa063693b336">Under the stated public assumptions, not a statement about the performance of any real system.</b> <b data-l10n-rich="seg-41fbbeb0884b">Not affiliated with or endorsed by any agency.</b></p>
+    <p data-l10n="studio-lunar-the-constellation-its-signal-in">The constellation, its signal-in-space error, the station's survey error, the correction latency and the link quantization are inputs stated in the scenario file, each with its source or marked illustrative. No figure here has been checked against a real station or flight data.</p>
   </div>
-  <p class="ls-engine" id="ls-engine" role="status" aria-live="polite">Starting the engine…</p>
+  <p class="ls-engine" id="ls-engine" role="status" aria-live="polite" data-l10n="studio-geometry-starting-the-engine">Starting the engine…</p>
+  <p class="ls-evb"><span id="ls-evb" class="evb-host"></span></p>
 
   <div class="ls-grid">
     <form class="card ls-controls" id="ls-form" aria-labelledby="ls-set-h" novalidate>
-      <div class="card-head"><h2 id="ls-set-h" class="h3">Result</h2><p class="card-note">The source and every input you change are in the page address, so a copied link opens the same study.</p></div>
-      <fieldset class="ls-fs"><legend>Source</legend>
-        <label class="ls-radio"><input type="radio" name="ls-src" value="recorded"> The recording that ships with the Studio</label>
-        <label class="ls-radio"><input type="radio" name="ls-src" value="live"> Run it here, in this browser</label>
-        <label class="ls-file btn-ghost">Open a result file…<input id="ls-file" type="file" accept=".json,application/json"></label>
-        <p class="ls-small">A result file is the JSON the engine writes for this kind (the command line's JSON output, or a run saved from here). It is read in this page; nothing is sent.</p>
+      <div class="card-head"><h2 id="ls-set-h" class="h3" data-l10n="studio-result">Result</h2><p class="card-note" data-l10n="studio-lunar-the-source-and-every-input">The source and every input you change are in the page address, so a copied link opens the same study.</p></div>
+      <fieldset class="ls-fs"><legend data-l10n-rich="seg-f63dd3d7aad4">Source</legend>
+        <label class="ls-radio"><input type="radio" name="ls-src" value="recorded"> <span data-l10n-rich="seg-dbef3d1356c6">The recording that ships with the Studio</span></label>
+        <label class="ls-radio"><input type="radio" name="ls-src" value="live"> <span data-l10n-rich="seg-07199d1fe93e">Run it here, in this browser</span></label>
+        <label class="ls-file btn-ghost"><span data-l10n-rich="seg-888d7f02078c">Open a result file…</span><input id="ls-file" type="file" accept=".json,application/json"></label>
+        <p class="ls-small" data-l10n="studio-lunar-a-result-file-is-the">A result file is the JSON the engine writes for this kind (the command line's JSON output, or a run saved from here). It is read in this page; nothing is sent.</p>
       </fieldset>
-      <fieldset class="ls-fs" id="ls-inputs-fs"><legend>Inputs for a run here</legend>
+      <fieldset class="ls-fs" id="ls-inputs-fs"><legend data-l10n-rich="seg-9ea513d25c6c">Inputs for a run here</legend>
         <div class="ls-inputs" id="ls-inputs"></div>
-        <p class="ls-small" id="ls-inputs-note">Each field shows the scenario file's value until you change it. A day of epochs over the whole grid takes a while: fewer trials or a longer time step run faster.</p>
+        <p class="ls-small" id="ls-inputs-note" data-l10n="studio-lunar-each-field-shows-the-scenario">Each field shows the scenario file's value until you change it. A day of epochs over the whole grid takes a while: fewer trials or a longer time step run faster.</p>
         <div class="ls-actions">
-          <button type="button" class="btn-primary" id="ls-run">Run it here</button>
-          <button type="button" class="ls-chip" id="ls-reset">Back to the file's values</button>
+          <button type="button" class="btn-primary" id="ls-run" data-l10n="studio-lunar-run-it-here">Run it here</button>
+          <button type="button" class="ls-chip" id="ls-reset" data-l10n="studio-lunar-back-to-the-file-s">Back to the file's values</button>
         </div>
       </fieldset>
       <div class="ls-actions">
-        <button type="button" class="ls-chip" id="ls-copy">Copy a link</button>
-        <button type="button" class="ls-chip" id="ls-save" hidden>Save this result (JSON)</button>
+        <button type="button" class="ls-chip" id="ls-copy" data-l10n="studio-lunar-copy-a-link">Copy a link</button>
+        <button type="button" class="ls-chip" id="ls-save" hidden data-l10n="studio-lunar-save-this-result-json">Save this result (JSON)</button>
       </div>
       <p class="ls-small" id="ls-copy-out" role="status" aria-live="polite"></p>
       <ul class="ls-notes" id="ls-url-notes" aria-live="polite"></ul>
     </form>
 
     <section class="card ls-mapcard" aria-labelledby="ls-map-h">
-      <div class="card-head"><h2 id="ls-map-h" class="h3">Corrected error over the south-polar region</h2>
-        <p class="card-note">South-polar stereographic: the pole in the centre, the grid's edge on the rim, 0° longitude up, 90° east to the right. Each cell is one grid point; the heavy line is where the corrected error crosses the threshold, and the dashed line is the coverage radius per azimuth.</p></div>
-      <label class="ls-f ls-layer">Colour by <select id="ls-layer"><option value="error">corrected percentile error, against the threshold</option><option value="range">corrected percentile error, over its own range</option><option value="availability">availability</option><option value="coverage">coverage</option></select></label>
+      <div class="card-head"><h2 id="ls-map-h" class="h3" data-l10n="studio-lunar-corrected-error-over-the-south">Corrected error over the south-polar region</h2>
+        <p class="card-note" data-l10n="studio-lunar-south-polar-stereographic-the-pole">South-polar stereographic: the pole in the centre, the grid's edge on the rim, 0° longitude up, 90° east to the right. Each cell is one grid point; the heavy line is where the corrected error crosses the threshold, and the dashed line is the coverage radius per azimuth.</p></div>
+      <label class="ls-f ls-layer"><span data-l10n-rich="seg-7f92d408cc1c">Colour by</span> <select id="ls-layer"><option value="error" data-l10n-rich="seg-5c306feeac2d">corrected percentile error, against the threshold</option><option value="range" data-l10n-rich="seg-e7572abf9b3c">corrected percentile error, over its own range</option><option value="availability" data-l10n-rich="seg-c4f955d5f506">availability</option><option value="coverage" data-l10n-rich="seg-9378da73161e">coverage</option></select></label>
       <div class="ls-svgbox"><svg id="ls-map" viewBox="-246 -210 492 420" role="img" aria-labelledby="ls-map-h ls-map-desc"></svg></div>
       <p class="sr" id="ls-map-desc"></p>
       <p class="ls-small" id="ls-map-note" role="status"></p>
-      <ul class="ls-legend" id="ls-legend" aria-label="Map key"></ul>
+      <ul class="ls-legend" id="ls-legend" aria-label="Map key" data-l10n-attr="aria-label:studio-lunar-map-key"></ul>
     </section>
 
     <section class="card ls-region" aria-labelledby="ls-region-h">
-      <div class="card-head"><h2 id="ls-region-h" class="h3">Region figures</h2><p class="card-note">Over the whole grid: means weighted by area, and the worst point.</p></div>
+      <div class="card-head"><h2 id="ls-region-h" class="h3" data-l10n="studio-lunar-region-figures">Region figures</h2><p class="card-note" data-l10n="studio-lunar-over-the-whole-grid-means">Over the whole grid: means weighted by area, and the worst point.</p></div>
       <dl class="ls-figs" id="ls-region" aria-live="polite"></dl>
       <p class="ls-small" id="ls-counts"></p>
     </section>
 
     <section class="card ls-radius" aria-labelledby="ls-radius-h">
-      <div class="card-head"><h2 id="ls-radius-h" class="h3">Coverage radius per azimuth</h2><p class="card-note">Along each bearing from the station, the distance at which coverage first drops below 95 %.</p></div>
+      <div class="card-head"><h2 id="ls-radius-h" class="h3" data-l10n="studio-lunar-coverage-radius-per-azimuth">Coverage radius per azimuth</h2><p class="card-note" data-l10n="studio-lunar-along-each-bearing-from-the">Along each bearing from the station, the distance at which coverage first drops below 95 %.</p></div>
       <div class="ls-svgbox"><svg id="ls-radplot" viewBox="0 0 400 220" role="img" aria-labelledby="ls-radius-h ls-rad-desc"></svg></div>
       <p class="sr" id="ls-rad-desc"></p>
       <p class="ls-small" id="ls-rad-lim"></p>
-      <details class="ls-more"><summary>As a table</summary><div class="table-scroll"><table class="tbl" id="ls-radtab"><thead><tr><th scope="col">Azimuth, °</th><th scope="col">Radius, km</th><th scope="col">At the grid edge</th><th scope="col">Points along it</th></tr></thead><tbody></tbody></table></div></details>
+      <details class="ls-more"><summary data-l10n="studio-lunar-as-a-table">As a table</summary><div class="table-scroll"><table class="tbl" id="ls-radtab"><thead><tr><th scope="col" data-l10n="studio-geometry-azimuth">Azimuth, °</th><th scope="col" data-l10n="studio-lunar-radius-km">Radius, km</th><th scope="col" data-l10n="studio-lunar-at-the-grid-edge">At the grid edge</th><th scope="col" data-l10n="studio-lunar-points-along-it">Points along it</th></tr></thead><tbody></tbody></table></div></details>
     </section>
 
     <section class="card ls-avail" aria-labelledby="ls-avail-h">
-      <div class="card-head"><h2 id="ls-avail-h" class="h3">Availability</h2><p class="card-note">An epoch is unavailable at a point when the user sees fewer than four satellites, or the station does not see every satellite the user uses; no error is computed for it.</p></div>
+      <div class="card-head"><h2 id="ls-avail-h" class="h3" data-l10n-rich="seg-fa4468d4cb80">Availability</h2><p class="card-note" data-l10n="studio-lunar-an-epoch-is-unavailable-at">An epoch is unavailable at a point when the user sees fewer than four satellites, or the station does not see every satellite the user uses; no error is computed for it.</p></div>
       <dl class="ls-figs" id="ls-availfigs"></dl>
       <ul class="ls-reasons" id="ls-reasons"></ul>
     </section>
   </div>
 
   <details class="card ls-table" id="ls-tab">
-    <summary><span class="h3" role="heading" aria-level="2">Grid points, as a table</span> <span class="card-note" id="ls-tab-n">The same points as the map, nearest the station first.</span></summary>
-    <div class="table-scroll"><table class="tbl" id="ls-points"><thead><tr><th scope="col">Latitude, °</th><th scope="col">Longitude, °</th><th scope="col">From the station, km</th><th scope="col" id="ls-th-corr">Corrected error</th><th scope="col">Uncorrected error</th><th scope="col">Availability</th><th scope="col">Coverage</th><th scope="col">HPL median</th></tr></thead><tbody></tbody></table></div>
+    <summary><span class="h3" role="heading" aria-level="2" data-l10n="studio-lunar-grid-points-as-a-table">Grid points, as a table</span> <span class="card-note" id="ls-tab-n" data-l10n="studio-lunar-the-same-points-as-the">The same points as the map, nearest the station first.</span></summary>
+    <div class="table-scroll"><table class="tbl" id="ls-points"><thead><tr><th scope="col" data-l10n="studio-lunar-latitude">Latitude, °</th><th scope="col" data-l10n="studio-lunar-longitude">Longitude, °</th><th scope="col" data-l10n="studio-lunar-from-the-station-km">From the station, km</th><th scope="col" id="ls-th-corr" data-l10n="studio-lunar-corrected-error">Corrected error</th><th scope="col" data-l10n="studio-lunar-uncorrected-error">Uncorrected error</th><th scope="col" data-l10n-rich="seg-fa4468d4cb80">Availability</th><th scope="col" data-l10n-rich="seg-2e5a02a7a13f">Coverage</th><th scope="col" data-l10n="studio-lunar-hpl-median">HPL median</th></tr></thead><tbody></tbody></table></div>
   </details>
 
   <details class="card ls-table" id="ls-more">
-    <summary><span class="h3" role="heading" aria-level="2">The engine's statement, inputs and link budget</span></summary>
+    <summary><span class="h3" role="heading" aria-level="2" data-l10n="studio-lunar-the-engine-s-statement-inputs">The engine's statement, inputs and link budget</span></summary>
     <p class="ls-note" id="ls-note"></p>
-    <h3 class="ls-sub">Inputs, as the engine read them</h3>
+    <h3 class="ls-sub" data-l10n="studio-lunar-inputs-as-the-engine-read">Inputs, as the engine read them</h3>
     <dl class="ls-kv" id="ls-inputs-echo"></dl>
-    <h3 class="ls-sub">Error model</h3>
+    <h3 class="ls-sub" data-l10n="studio-lunar-error-model">Error model</h3>
     <dl class="ls-kv" id="ls-errmodel"></dl>
-    <h3 class="ls-sub">Correction-link budget at the station and at the worst point</h3>
+    <h3 class="ls-sub" data-l10n="studio-lunar-correction-link-budget-at-the">Correction-link budget at the station and at the worst point</h3>
     <dl class="ls-kv" id="ls-budget"></dl>
   </details>
 
   <section class="ls-fine" id="about" aria-labelledby="ls-about-h">
-    <h2 class="h3" id="ls-about-h">What this shows</h2>
+    <h2 class="h3" id="ls-about-h" data-l10n="studio-geometry-what-this-shows">What this shows</h2>
     <ul>
-      <li><b>The corrected error</b> at a grid point is the stated percentile (95 % unless the file says otherwise) of the user's three-dimensional position error after applying the station's corrections, over every available epoch and Monte Carlo trial. The <b>uncorrected</b> error is the same percentile without corrections, from the same random draws; their ratio is the improvement factor.</li>
-      <li><b>Coverage</b> at a point is the share of epochs whose percentile error is within the accuracy threshold. The <b>coverage radius</b> along a bearing is the distance from the station at which coverage first drops below 95 %.</li>
-      <li><b>Protection levels</b> (HPL, VPL) bound the horizontal and vertical error at a stated integrity risk; the alert limit they are compared with is illustrative, as no public value exists.</li>
-      <li><b>What it leaves out.</b> The errors the station and the user share cancel; what is left grows with the distance between them, plus the station's survey error, the age of the corrections and the link's rounding. Terrain masking beyond the elevation mask, multipath and the receiver are not modelled. Every figure is MODELLED under the stated public assumptions, and says nothing about how any real system performs.</li>
-      <li>The engine runs here as WebAssembly. Nothing is fetched from another site and nothing you set is sent anywhere.</li>
+      <li data-l10n-rich="seg-96947a209b1a" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>The corrected error</b> at a grid point is the stated percentile (95 % unless the file says otherwise) of the user's three-dimensional position error after applying the station's corrections, over every available epoch and Monte Carlo trial. The <b>uncorrected</b> error is the same percentile without corrections, from the same random draws; their ratio is the improvement factor.</li>
+      <li data-l10n-rich="seg-0489ee54e833" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Coverage</b> at a point is the share of epochs whose percentile error is within the accuracy threshold. The <b>coverage radius</b> along a bearing is the distance from the station at which coverage first drops below 95 %.</li>
+      <li data-l10n-rich="seg-0db07aa507b2" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Protection levels</b> (HPL, VPL) bound the horizontal and vertical error at a stated integrity risk; the alert limit they are compared with is illustrative, as no public value exists.</li>
+      <li data-l10n-rich="seg-85ed2fa9eba5" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>What it leaves out.</b> The errors the station and the user share cancel; what is left grows with the distance between them, plus the station's survey error, the age of the corrections and the link's rounding. Terrain masking beyond the elevation mask, multipath and the receiver are not modelled. Every figure is MODELLED under the stated public assumptions, and says nothing about how any real system performs.</li>
+      <li data-l10n="studio-geometry-the-engine-runs-here-as">The engine runs here as WebAssembly. Nothing is fetched from another site and nothing you set is sent anywhere.</li>
     </ul>
   </section>
 </div>
 </main>
 <script type="module" src="lunar/lunar.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

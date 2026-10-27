@@ -10,6 +10,7 @@
 // asked for a pack. Pure logic apart from the fetch function it is given.
 
 /// True when the bytes start with the gzip magic number.
+import { t } from "./t.mjs";
 export function isGzip(bytes) {
   return !!bytes && bytes.length > 2 && bytes[0] === 0x1f && bytes[1] === 0x8b;
 }
@@ -17,7 +18,7 @@ export function isGzip(bytes) {
 /// The text of a gzip-compressed (or plain) byte array.
 export async function bytesToText(bytes) {
   if (!isGzip(bytes)) return new TextDecoder().decode(bytes);
-  if (typeof DecompressionStream !== "function") throw new Error("this browser cannot unpack the recorded file");
+  if (typeof DecompressionStream !== "function") throw new Error(t("js-lib-packs-cannot-unpack", "this browser cannot unpack the recorded file"));
   return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).text();
 }
 

@@ -82,6 +82,6 @@ main>section:has(+section[data-nav-dark]){box-shadow:inset 0 calc(var(--dark-edg
 .hero-panels .cp-thr-t{stroke:color-mix(in oklab,color-mix(in oklab,var(--c,var(--cyan)) 6%,#F0F3F8) var(--inst-a),var(--bg-2))}
 .btn-code{background:color-mix(in oklab,#E3E9F2 var(--inst-a),var(--panel));border-color:color-mix(in oklab,var(--line-3) var(--inst-a),var(--line-2));box-shadow:0 1px 0 color-mix(in oklab,#FFFFFF calc(var(--inst-a) * .7),transparent) inset}
 .btn-code:hover{background:color-mix(in oklab,color-mix(in oklab,var(--cyan) 8%,#E3E9F2) var(--inst-a),var(--panel-2));border-color:color-mix(in oklab,var(--cyan) calc(var(--inst-a) * .55),var(--line-3))}
-.btn-code .cp{color:color-mix(in oklab,var(--cyan) var(--inst-a),var(--ink-3));border-left-color:color-mix(in oklab,var(--line-3) var(--inst-a),var(--line-2))}
+.btn-code .cp{color:color-mix(in oklab,var(--cyan) var(--inst-a),var(--ink-3));border-inline-start-color:color-mix(in oklab,var(--line-3) var(--inst-a),var(--line-2))}
 .btn-code:hover .cp{color:color-mix(in oklab,var(--ink) var(--inst-a),var(--ink-3))}
 

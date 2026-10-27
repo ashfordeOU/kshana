@@ -11,42 +11,54 @@
 // geometry monitor deducts only when the label is poor, and the view shows that deduction only when it is
 // non-zero. Nothing here computes a navigation figure. Pure; tested in trust-geometry.test.mjs.
 
+import { t } from "./t.mjs";
+
 export const GEO_STATUSES = Object.freeze(["good", "degraded", "unknown"]);
 export const GEO_LABELS = Object.freeze(["good", "fair", "poor", "unknown"]);
 export const CLASSES = Object.freeze(["geometry", "environment", "inconsistency"]);
 // Plain words for the reasons the engine gives (src/receiver_trust/geometry.rs).
+// The texts are getters so they are made when read (after the language catalogue loads), not once at import.
 export const GEO_REASONS = Object.freeze({
-  "few-satellites": "fewer satellites than the minimum",
-  "high-pdop": "PDOP above its threshold",
-  "high-hdop": "HDOP above its threshold",
-  "sky-blocked": "the tracked satellites leave a wide gap in azimuth (one side of the sky blocked)",
+  get "few-satellites"() { return t("js-trust-geo-reason-few-satellites", "fewer satellites than the minimum"); },
+  get "high-pdop"() { return t("js-trust-geo-reason-high-pdop", "PDOP above its threshold"); },
+  get "high-hdop"() { return t("js-trust-geo-reason-high-hdop", "HDOP above its threshold"); },
+  get "sky-blocked"() { return t("js-trust-geo-reason-sky-blocked", "the tracked satellites leave a wide gap in azimuth (one side of the sky blocked)"); },
 });
+// A plain string cannot be lazy: UNKNOWN_TEXT stays the English text for callers that compare it; the view uses unknownText().
+export const unknownText = () => t("js-trust-geo-unknown-no-gsv", "geometry unknown: no GSV or GSA in the log");
 export const UNKNOWN_TEXT = "geometry unknown: no GSV or GSA in the log";
 export const CLASS_TEXT = Object.freeze({
-  geometry: "geometry: the sky, not the signal",
-  environment: "environment: the signal (power, jamming, satellites lost while the sky is open)",
-  inconsistency: "inconsistency: attack-like, not explained by the sky or the signal",
+  get geometry() { return t("js-trust-class-geometry", "geometry: the sky, not the signal"); },
+  get environment() { return t("js-trust-class-environment", "environment: the signal (power, jamming, satellites lost while the sky is open)"); },
+  get inconsistency() { return t("js-trust-class-inconsistency", "inconsistency: attack-like, not explained by the sky or the signal"); },
 });
-const SOURCE_TEXT = Object.freeze({ derived: "derived from the satellites the log reports (GSV)", reported: "the receiver's stated DOP (GSA)", none: "nothing" });
+const SOURCE_TEXT = Object.freeze({
+  get derived() { return t("js-trust-geo-source-derived", "derived from the satellites the log reports (GSV)"); },
+  get reported() { return t("js-trust-geo-source-reported", "the receiver's stated DOP (GSA)"); },
+  get none() { return t("js-trust-geo-source-none", "nothing"); },
+});
+const notStated = () => t("js-trust-not-stated", "not stated");
 // The [geometry] fields of geometry_model, in the order shown, with their meaning.
+// Each entry is [key, meaning]; the meaning is a getter on the entry so it is made when read.
+const th = (k, what) => { const a = [k]; Object.defineProperty(a, 1, { get: what, enumerable: true }); return a; };
 export const THRESHOLDS = Object.freeze([
-  ["hdop_max", "HDOP above which the geometry is poor"],
-  ["pdop_max", "PDOP above which the geometry is poor"],
-  ["min_used", "fewest satellites used before the geometry is poor"],
-  ["hdop_good", "HDOP at or below which the geometry is good"],
-  ["pdop_good", "PDOP at or below which the geometry is good"],
-  ["used_good", "satellites used at or above which the geometry is good"],
-  ["azimuth_gap_deg", "azimuth gap, degrees, at or above which the sky is partly blocked"],
-  ["low_elev_deg", "elevation, degrees, below which a lost satellite is put down to the sky"],
-  ["reported_vs_derived_tol", "stated-versus-derived HDOP difference before the two disagree"],
-  ["reported_vs_derived_rel", "the same, as a share of the derived HDOP"],
-  ["sigma_uere_m", "user-equivalent range error the thresholds assume, metres"],
-  ["cap_points", "most points the geometry deduction may take"],
-  ["full_ratio", "ratio at which the geometry deduction reaches its cap"],
-  ["floor", "lowest score the geometry alone may leave (empty: the degraded band's edge)"],
-  ["cap_in_force", "most points the geometry deduction takes in this run"],
-  ["floor_in_force", "lowest score the geometry alone can leave in this run"],
-  ["hold_s", "how long sky positions and GSA count after they arrive, s"],
+  th("hdop_max", () => t("js-trust-thr-hdop-max", "HDOP above which the geometry is poor")),
+  th("pdop_max", () => t("js-trust-thr-pdop-max", "PDOP above which the geometry is poor")),
+  th("min_used", () => t("js-trust-thr-min-used", "fewest satellites used before the geometry is poor")),
+  th("hdop_good", () => t("js-trust-thr-hdop-good", "HDOP at or below which the geometry is good")),
+  th("pdop_good", () => t("js-trust-thr-pdop-good", "PDOP at or below which the geometry is good")),
+  th("used_good", () => t("js-trust-thr-used-good", "satellites used at or above which the geometry is good")),
+  th("azimuth_gap_deg", () => t("js-trust-thr-azimuth-gap", "azimuth gap, degrees, at or above which the sky is partly blocked")),
+  th("low_elev_deg", () => t("js-trust-thr-low-elev", "elevation, degrees, below which a lost satellite is put down to the sky")),
+  th("reported_vs_derived_tol", () => t("js-trust-thr-reported-tol", "stated-versus-derived HDOP difference before the two disagree")),
+  th("reported_vs_derived_rel", () => t("js-trust-thr-reported-rel", "the same, as a share of the derived HDOP")),
+  th("sigma_uere_m", () => t("js-trust-thr-sigma-uere", "user-equivalent range error the thresholds assume, metres")),
+  th("cap_points", () => t("js-trust-thr-cap-points", "most points the geometry deduction may take")),
+  th("full_ratio", () => t("js-trust-thr-full-ratio", "ratio at which the geometry deduction reaches its cap")),
+  th("floor", () => t("js-trust-thr-floor", "lowest score the geometry alone may leave (empty: the degraded band's edge)")),
+  th("cap_in_force", () => t("js-trust-thr-cap-in-force", "most points the geometry deduction takes in this run")),
+  th("floor_in_force", () => t("js-trust-thr-floor-in-force", "lowest score the geometry alone can leave in this run")),
+  th("hold_s", () => t("js-trust-thr-hold", "how long sky positions and GSA count after they arrive, s")),
 ]);
 
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
@@ -83,7 +95,7 @@ export const readClass = (c) => (CLASSES.includes(c) ? c : null);
 // A batch result's `geometry_model`: thresholds in force with their provenance, and the class rules in words.
 export function readGeometryModel(m) {
   if (!m || typeof m !== "object" || Array.isArray(m)) return null;
-  const thresholds = THRESHOLDS.filter(([k]) => isNum(m[k]) || (k === "floor" && m[k] === null)).map(([k, what]) => ({ key: k, value: isNum(m[k]) ? m[k] : null, what }));
+  const thresholds = THRESHOLDS.filter(([k]) => isNum(m[k]) || (k === "floor" && m[k] === null)).map((entry) => ({ key: entry[0], value: isNum(m[entry[0]]) ? m[entry[0]] : null, get what() { return entry[1]; } }));
   const prov = m.provenance && typeof m.provenance === "object" && !Array.isArray(m.provenance) ? m.provenance : {};
   const provenance = Object.keys(prov).filter((k) => typeof prov[k] === "string").sort().slice(0, 30).map((k) => ({ key: k.slice(0, 40), text: str(prov[k]) }));
   return { thresholds, provenance, classes: str(m.classes), capInForce: numOrNull(m.cap_in_force), floorInForce: numOrNull(m.floor_in_force) };
@@ -136,33 +148,36 @@ export function classKey(e) {
 // the view can underline it rather than hide the sky's share.
 export const geometryUnder = (e) => !!e.geometry && classKey(e) !== "geometry" && classesAt(e).has("geometry");
 
-const fmt = (x, d) => (x == null ? "not stated" : x.toFixed(d));
+const fmt = (x, d) => (x == null ? notStated() : x.toFixed(d));
 
 // What the panel shows for the epoch under the cursor: the engine's note as the heading (it opens with the label
 // and the metrics), then rows; the flags when set; the geometry deduction only when it is non-zero.
 export function geometryAt(e) {
   const g = e.geometry;
-  if (!g) return { heading: "No geometry in this run (an engine before 0.36 writes none).", tone: "missing", rows: [], flags: [] };
+  if (!g) return { heading: t("js-trust-geo-none-in-run", "No geometry in this run (an engine before 0.36 writes none)."), tone: "missing", rows: [], flags: [] };
   const unknown = g.status === "unknown" || g.label === "unknown";
   const heading = unknown
-    ? (g.odd ? `Geometry unknown (the file says "${g.odd}", which this page does not know).` : `${UNKNOWN_TEXT[0].toUpperCase()}${UNKNOWN_TEXT.slice(1)}.`)
-    : (g.note || `geometry ${g.label}`);
+    ? (g.odd ? t("js-trust-geo-unknown-odd", "Geometry unknown (the file says \"{ $odd }\", which this page does not know).", { odd: g.odd }) : t("js-trust-geo-unknown-no-gsv-sentence", "Geometry unknown: no GSV or GSA in the log."))
+    : (g.note || t("js-trust-geo-heading-label", "geometry { $label }", { label: g.label }));
+  const label = g.label === "fair" ? t("js-trust-geo-label-fair", "{ $label } (not scored)", { label: g.label })
+    : g.label === "poor" ? t("js-trust-geo-label-poor", "{ $label } (the only label the score deducts for)", { label: g.label }) : g.label;
+  const reasons = g.reasons.map((r) => (Object.hasOwn(GEO_REASONS, r) ? GEO_REASONS[r] : r)).join("; ");
   const rows = [
-    ["Label", g.label + (g.label === "fair" ? " (not scored)" : g.label === "poor" ? " (the only label the score deducts for)" : "")],
-    ["Status", g.status + (g.reasons.length ? `: ${g.reasons.map((r) => (Object.hasOwn(GEO_REASONS, r) ? GEO_REASONS[r] : r)).join("; ")}` : "")],
-    ["Satellites used", g.nUsed == null ? "not stated" : String(g.nUsed) + (g.inView != null ? ` of ${g.inView} in view` : "")],
+    [t("js-trust-geo-row-label", "Label"), label],
+    [t("js-trust-geo-row-status", "Status"), g.reasons.length ? t("js-trust-geo-status-reasons", "{ $status }: { $reasons }", { status: g.status, reasons }) : g.status],
+    [t("js-trust-geo-row-sats-used", "Satellites used"), g.nUsed == null ? notStated() : g.inView != null ? t("js-trust-geo-used-of-view", "{ $used } of { $inView } in view", { used: g.nUsed, inView: g.inView }) : String(g.nUsed)],
     ["HDOP", fmt(g.hdop, 2)], ["PDOP", fmt(g.pdop, 2)], ["VDOP", fmt(g.vdop, 2)],
-    ["Largest azimuth gap", g.gapDeg == null ? "not stated" : `${Math.round(g.gapDeg)}°`],
-    ["Open sky", g.openFraction == null ? "not stated" : `${Math.round(g.openFraction * 100)} %`],
-    ["Age of the sky", g.ageS == null ? "not stated" : `${g.ageS.toFixed(1)} s`],
-    ["From", g.source ? SOURCE_TEXT[g.source] : "not stated"],
+    [t("js-trust-geo-row-gap", "Largest azimuth gap"), g.gapDeg == null ? notStated() : `${Math.round(g.gapDeg)}°`],
+    [t("js-trust-geo-row-open-sky", "Open sky"), g.openFraction == null ? notStated() : `${Math.round(g.openFraction * 100)} %`],
+    [t("js-trust-geo-row-sky-age", "Age of the sky"), g.ageS == null ? notStated() : `${g.ageS.toFixed(1)} s`],
+    [t("js-trust-geo-row-from", "From"), g.source ? SOURCE_TEXT[g.source] : notStated()],
   ];
-  if (g.reportedHdop != null) rows.push(["HDOP the receiver states", g.reportedHdop.toFixed(1)]);
+  if (g.reportedHdop != null) rows.push([t("js-trust-geo-row-reported-hdop", "HDOP the receiver states"), g.reportedHdop.toFixed(1)]);
   const flags = [];
-  if (g.mismatch) flags.push({ kind: "mismatch", text: "The HDOP the receiver states disagrees with the one derived from the sky it reports: a geometry deduction counts as inconsistency." });
-  if (g.signalLoss) flags.push({ kind: "signal-loss", text: "Signal loss: satellites in view are not tracked although their geometry is good, so a geometry deduction counts as environment." });
+  if (g.mismatch) flags.push({ kind: "mismatch", text: t("js-trust-geo-flag-mismatch", "The HDOP the receiver states disagrees with the one derived from the sky it reports: a geometry deduction counts as inconsistency.") });
+  if (g.signalLoss) flags.push({ kind: "signal-loss", text: t("js-trust-geo-flag-signal-loss", "Signal loss: satellites in view are not tracked although their geometry is good, so a geometry deduction counts as environment.") });
   const ded = geometryDeduction(e);
-  if (ded) rows.push(["Geometry deduction", `${ded.points.toFixed(1)} points${ded.class ? ` (${ded.class})` : ""}`]);
+  if (ded) rows.push([t("js-trust-geo-row-deduction", "Geometry deduction"), ded.class ? t("js-trust-geo-deduction-class", "{ $points } points ({ $class })", { points: ded.points.toFixed(1), class: ded.class }) : t("js-trust-geo-deduction-points", "{ $points } points", { points: ded.points.toFixed(1) })]);
   return { heading, tone: unknown ? "unknown" : g.label, rows, flags };
 }
 
@@ -170,7 +185,11 @@ export function geometryAt(e) {
 export function describeGeometry(e) {
   const g = e.geometry;
   if (!g) return "";
-  if (g.status === "unknown" || g.label === "unknown") return UNKNOWN_TEXT;
+  if (g.status === "unknown" || g.label === "unknown") return unknownText();
   const ded = geometryDeduction(e);
-  return `geometry ${g.label}${g.hdop != null ? ` (HDOP ${g.hdop.toFixed(1)})` : ""}${g.mismatch ? ", stated HDOP disagrees" : ""}${ded ? `, geometry deduction ${ded.points.toFixed(1)} points` : ""}`;
+  return [
+    g.hdop != null ? t("js-trust-geo-say-label-hdop", "geometry { $label } (HDOP { $hdop })", { label: g.label, hdop: g.hdop.toFixed(1) }) : t("js-trust-geo-heading-label", "geometry { $label }", { label: g.label }),
+    g.mismatch ? t("js-trust-geo-say-mismatch", "stated HDOP disagrees") : "",
+    ded ? t("js-trust-geo-say-deduction", "geometry deduction { $points } points", { points: ded.points.toFixed(1) }) : "",
+  ].filter(Boolean).join(", ");
 }

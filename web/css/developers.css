@@ -15,7 +15,7 @@ section.block.dx-start{padding:clamp(44px,4vw,60px) 0}
 .dx-bar .live{display:flex;align-items:center;gap:8px;color:var(--ink-2)}
 .dx-bar .live i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px var(--lime-soft);animation:dx-pulse 2s infinite}
 .dx-bar .sep{width:1px;height:12px;background:var(--line-2);flex:none}
-.dx-bar .right{margin-left:auto;display:flex}
+.dx-bar .right{margin-inline-start:auto;display:flex}
 @keyframes dx-pulse{50%{box-shadow:0 0 0 7px transparent}}
 @media (max-width:760px){.dx-bar{gap:10px;font-size:10.5px}.dx-bar .hide-s,.dx-bar .right{display:none}}
 @media (prefers-reduced-motion:reduce){.dx-bar .live i{animation:none}}
@@ -55,7 +55,7 @@ section.block.dx-start{padding:clamp(44px,4vw,60px) 0}
 .dx-start .cfg pre{font-size:12px;max-height:190px}
 
 /* the kshana-mcp player (.mp) is shared: site.css + js/mcp-player.mjs */
-@media (max-width:360px){.dx-start .code-h .tag{white-space:normal;text-align:left;line-height:1.3}}
+@media (max-width:360px){.dx-start .code-h .tag{white-space:normal;text-align:start;line-height:1.3}}
 
 /* kshana-mcp tools: names as chips, the description on the chip's own line (no hover-only text) */
 .dx-tools{padding:14px 16px;display:grid;gap:10px;min-width:0}
@@ -102,7 +102,7 @@ section.block.dx-start{padding:clamp(44px,4vw,60px) 0}
 .bx-cli .cli>.card-h{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .cli-pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;padding:12px 14px;border-radius:10px;background:var(--panel-solid);border:1px solid var(--line);color:var(--ink);overflow-x:auto;font:400 12.5px/1.65 var(--mono)}
 .bx-facts{list-style:none;margin:0;padding:14px 16px 16px;display:grid;gap:10px}
-.bx-facts li{padding:11px 13px;border-radius:10px;border:1px solid var(--line);border-left:3px solid var(--c);background:var(--panel-2);font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.bx-facts li{padding:11px 13px;border-radius:10px;border:1px solid var(--line);border-inline-start:3px solid var(--c);background:var(--panel-2);font-size:13.5px;line-height:1.5;color:var(--ink-2)}
 .bx-facts b{color:var(--ink);font-weight:560}
 .bx-facts a{color:var(--cyan)}
 /* library tabs */
@@ -122,7 +122,7 @@ section.block.dx-start{padding:clamp(44px,4vw,60px) 0}
 .io-list li+li{border-top:1px solid var(--line)}
 .io-list summary{display:flex;align-items:center;gap:10px;min-height:44px;padding:7px 12px;cursor:pointer;list-style:none}
 .io-list summary::-webkit-details-marker{display:none}
-.io-list summary::before{content:"";flex:none;width:0;height:0;border:4px solid transparent;border-left:6px solid var(--ink-3);transition:transform .2s}
+.io-list summary::before{content:"";flex:none;width:0;height:0;border:4px solid transparent;border-inline-start:6px solid var(--ink-3);transition:transform .2s}
 .io-list details[open] summary::before{transform:rotate(90deg) translateX(2px)}
 .io-list summary:hover{background:var(--panel-2)}
 .io-n{flex:1;min-width:0;display:grid;gap:1px;font:600 13.5px/1.3 var(--sans);color:var(--ink)}
@@ -130,7 +130,7 @@ section.block.dx-start{padding:clamp(44px,4vw,60px) 0}
 .io-d{flex:none;font:500 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:5px 7px;border-radius:6px;border:1px solid var(--line-2);color:var(--ink-2)}
 .io-d.rw{color:var(--lime);border-color:color-mix(in oklab,var(--lime) 40%,var(--line))}
 .io-d.w{color:var(--cyan);border-color:color-mix(in oklab,var(--cyan) 40%,var(--line))}
-.io-list dl{margin:0;padding:2px 12px 12px 28px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:13px;color:var(--ink-2)}
+.io-list dl{margin:0;padding-block:2px 12px;padding-inline:28px 12px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:13px;color:var(--ink-2)}
 .io-list dt{font:500 10.5px/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .io-list dd{margin:0;min-width:0;overflow-wrap:anywhere}
 /* plugin + editions */

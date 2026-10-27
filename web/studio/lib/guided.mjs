@@ -7,6 +7,7 @@
 // sectioned read/patch and resolves which ≤6 knobs apply to a given scenario.
 // Pure logic, unit-tested in guided.test.mjs; the slider DOM lives in app.js.
 import { readScalar } from "./share.mjs";
+import { t } from "./t.mjs";
 
 // Match a `[section]` header line, capturing the section name.
 const headerRe = /^\s*\[([^\]]+)\]\s*(?:#.*)?$/;
@@ -65,22 +66,22 @@ const flt = (v) => parseFloat(v);
 /// scenarios show seed/threshold/duration/step/y0; orbit scenarios show
 /// seed/mask_deg/duration/step/inclination.
 export const GUIDED_KNOBS = [
-  { key: "seed", section: "", label: "Random seed", hint: "a different noise draw of the same physics", min: 1, max: 100, step: 1, parse: int, fmt: String, integer: true },
-  { key: "threshold_ns", section: "", label: "Spec threshold (ns)", hint: 'in-spec budget; "available" while error stays under it', min: 1, max: 100, step: 1, parse: flt, fmt: String },
-  { key: "step_s", section: "time", label: "Time step (s)", hint: "integration / sampling cadence", min: 1, max: 300, step: 1, parse: flt, fmt: String },
-  { key: "duration_s", section: "time", label: "Duration (s)", hint: "total run length", min: 60, max: 86400, step: 60, parse: flt, fmt: String },
-  { key: "mask_deg", section: "", label: "Elevation mask (°)", hint: "a satellite must be this high to count as visible", min: 0, max: 30, step: 1, parse: flt, fmt: String },
-  { key: "altitude_km", section: "user", label: "User altitude (km)", hint: "the user spacecraft's orbital altitude", min: 200, max: 36000, step: 50, parse: flt, fmt: String },
-  { key: "inclination_deg", section: "user", label: "User inclination (°)", hint: "the user orbit's inclination", min: 0, max: 100, step: 1, parse: flt, fmt: String },
-  { key: "sigma_uere_m", section: "", label: "Range error σ (m)", hint: "1-σ user-equivalent range error for the position summary", min: 0.1, max: 10, step: 0.1, parse: flt, fmt: String },
+  { key: "seed", section: "", get label() { return t("js-lib-guided-seed-label", "Random seed"); }, get hint() { return t("js-lib-guided-seed-hint", "a different noise draw of the same physics"); }, min: 1, max: 100, step: 1, parse: int, fmt: String, integer: true },
+  { key: "threshold_ns", section: "", get label() { return t("js-lib-guided-threshold-ns-label", "Spec threshold (ns)"); }, get hint() { return t("js-lib-guided-threshold-ns-hint", "in-spec budget; \"available\" while error stays under it"); }, min: 1, max: 100, step: 1, parse: flt, fmt: String },
+  { key: "step_s", section: "time", get label() { return t("js-lib-guided-time-step-s-label", "Time step (s)"); }, get hint() { return t("js-lib-guided-time-step-s-hint", "integration / sampling cadence"); }, min: 1, max: 300, step: 1, parse: flt, fmt: String },
+  { key: "duration_s", section: "time", get label() { return t("js-lib-guided-time-duration-s-label", "Duration (s)"); }, get hint() { return t("js-lib-guided-time-duration-s-hint", "total run length"); }, min: 60, max: 86400, step: 60, parse: flt, fmt: String },
+  { key: "mask_deg", section: "", get label() { return t("js-lib-guided-mask-deg-label", "Elevation mask (°)"); }, get hint() { return t("js-lib-guided-mask-deg-hint", "a satellite must be this high to count as visible"); }, min: 0, max: 30, step: 1, parse: flt, fmt: String },
+  { key: "altitude_km", section: "user", get label() { return t("js-lib-guided-user-altitude-km-label", "User altitude (km)"); }, get hint() { return t("js-lib-guided-user-altitude-km-hint", "the user spacecraft's orbital altitude"); }, min: 200, max: 36000, step: 50, parse: flt, fmt: String },
+  { key: "inclination_deg", section: "user", get label() { return t("js-lib-guided-user-inclination-deg-label", "User inclination (°)"); }, get hint() { return t("js-lib-guided-user-inclination-deg-hint", "the user orbit's inclination"); }, min: 0, max: 100, step: 1, parse: flt, fmt: String },
+  { key: "sigma_uere_m", section: "", get label() { return t("js-lib-guided-sigma-uere-m-label", "Range error σ (m)"); }, get hint() { return t("js-lib-guided-sigma-uere-m-hint", "1-σ user-equivalent range error for the position summary"); }, min: 0.1, max: 10, step: 0.1, parse: flt, fmt: String },
   // Ephemeris / ground-track knobs. Its step/duration live at the top level (not in
   // a [time] section) and it carries a [station]; these entries are last so they
   // only apply to a scenario where the earlier clock/orbit knobs are absent.
-  { key: "step_s", section: "", label: "Time step (s)", hint: "ground-track sampling cadence", min: 5, max: 300, step: 5, parse: flt, fmt: String },
-  { key: "duration_s", section: "", label: "Duration (s)", hint: "how long to propagate the ground track", min: 600, max: 86400, step: 600, parse: flt, fmt: String },
-  { key: "lat_deg", section: "station", label: "Station latitude (°)", hint: "ground-station latitude — drives the pass geometry", min: -90, max: 90, step: 1, parse: flt, fmt: String },
-  { key: "lon_deg", section: "station", label: "Station longitude (°)", hint: "ground-station longitude", min: -180, max: 180, step: 1, parse: flt, fmt: String },
-  { key: "dut1_s", section: "", label: "UT1−UTC (s)", hint: "Earth-rotation offset; shifts the ground track east/west", min: -0.9, max: 0.9, step: 0.05, parse: flt, fmt: String },
+  { key: "step_s", section: "", get label() { return t("js-lib-guided-step-s-label", "Time step (s)"); }, get hint() { return t("js-lib-guided-step-s-hint", "ground-track sampling cadence"); }, min: 5, max: 300, step: 5, parse: flt, fmt: String },
+  { key: "duration_s", section: "", get label() { return t("js-lib-guided-duration-s-label", "Duration (s)"); }, get hint() { return t("js-lib-guided-duration-s-hint", "how long to propagate the ground track"); }, min: 600, max: 86400, step: 600, parse: flt, fmt: String },
+  { key: "lat_deg", section: "station", get label() { return t("js-lib-guided-station-lat-deg-label", "Station latitude (°)"); }, get hint() { return t("js-lib-guided-station-lat-deg-hint", "ground-station latitude — drives the pass geometry"); }, min: -90, max: 90, step: 1, parse: flt, fmt: String },
+  { key: "lon_deg", section: "station", get label() { return t("js-lib-guided-station-lon-deg-label", "Station longitude (°)"); }, get hint() { return t("js-lib-guided-station-lon-deg-hint", "ground-station longitude"); }, min: -180, max: 180, step: 1, parse: flt, fmt: String },
+  { key: "dut1_s", section: "", get label() { return t("js-lib-guided-dut1-s-label", "UT1−UTC (s)"); }, get hint() { return t("js-lib-guided-dut1-s-hint", "Earth-rotation offset; shifts the ground track east/west"); }, min: -0.9, max: 0.9, step: 0.05, parse: flt, fmt: String },
 ];
 
 // Read a knob's raw value from the TOML, choosing the top-level or sectioned

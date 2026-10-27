@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Optical PNT: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
 <base href="../">
@@ -15,6 +16,7 @@
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="app.css">
 <link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="evidence.css">
 <link rel="stylesheet" href="optical/optical.css">
 <link rel="modulepreload" href="lib/optical.mjs">
 <script>
@@ -31,52 +33,53 @@
   <symbol id="i-back" viewBox="0 0 16 16"><path d="M4 2.5h1.8v11H4zM13 3v10a.5.5 0 0 1-.8.4L6 8.4a.5.5 0 0 1 0-.8l6.2-5A.5.5 0 0 1 13 3z" fill="currentColor"/></symbol>
   <symbol id="i-fwd" viewBox="0 0 16 16"><path d="M10.2 2.5H12v11h-1.8zM3 3v10a.5.5 0 0 0 .8.4l6.2-5a.5.5 0 0 0 0-.8L3.8 2.6A.5.5 0 0 0 3 3z" fill="currentColor"/></symbol>
 </svg>
-<a class="skip" href="#main">Skip to the view</a>
+<a class="skip" href="#main" data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
-  <nav class="crumb" aria-label="Where you are"><span>Optical PNT</span></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"><span data-l10n="studio-optical-optical-pnt">Optical PNT</span></nav>
   <div class="bar-right">
-    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
-    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="view-switch" href="./" title="Back to the Studio" data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl" data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
 <div class="wrap opt">
-  <p class="kicker"><i style="--c:var(--orb)"></i>Optical PNT</p>
-  <h1 id="op-h">Can an optical link get through the weather?</h1>
-  <p class="lede">An optical timing or ranging link cannot pass thick cloud, so each ground site has an availability ceiling that no extra margin lifts. These are the two <code>optical-atmosphere</code> scenarios the engine ships, drawn from the results it recorded: availability against that ceiling, the margin each target needs, how long outages last, the timing a clock keeps through them, and what more sites or better optics buy.</p>
-  <p class="op-model" role="note"><b>Model output.</b> Everything here is <b>MODELLED</b>: the cloud climates, the clock classes and the techniques are stated assumptions (the sites are ILLUSTRATIVE, not any dataset or place's measured weather), and the numerics are checked against an independent program that implements the same formulas, not against the atmosphere. The time series is one seeded draw from the stated site model, not the climate. <b>Advisory software.</b> Kshana is not type-approved navigation equipment and this is not a certified availability.</p>
+  <p class="kicker"><i style="--c:var(--orb)"></i><span data-l10n-rich="seg-77aef8722995">Optical PNT</span></p>
+  <h1 id="op-h" data-l10n="studio-optical-can-an-optical-link-get">Can an optical link get through the weather?</h1>
+  <p class="lede" data-l10n-rich="seg-35697523899f" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>optical-atmosphere</code>&quot;}}">An optical timing or ranging link cannot pass thick cloud, so each ground site has an availability ceiling that no extra margin lifts. These are the two <code>optical-atmosphere</code> scenarios the engine ships, drawn from the results it recorded: availability against that ceiling, the margin each target needs, how long outages last, the timing a clock keeps through them, and what more sites or better optics buy.</p>
+  <p class="op-model" role="note" data-l10n-rich="seg-5dceab2b33fd" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Model output.</b> Everything here is <b>MODELLED</b>: the cloud climates, the clock classes and the techniques are stated assumptions (the sites are ILLUSTRATIVE, not any dataset or place's measured weather), and the numerics are checked against an independent program that implements the same formulas, not against the atmosphere. The time series is one seeded draw from the stated site model, not the climate. <b>Advisory software.</b> Kshana is not type-approved navigation equipment and this is not a certified availability.</p>
 
   <section class="card op-pick" aria-label="Scenario">
-    <div class="op-tabs" id="op-tabs" role="tablist" aria-label="Optical-atmosphere scenarios"></div>
+    <div class="op-tabs" id="op-tabs" role="tablist" aria-label="Optical-atmosphere scenarios" data-l10n-attr="aria-label:studio-optical-optical-atmosphere-scenarios"></div>
     <p class="op-blurb" id="op-blurb"></p>
-    <p class="op-status" id="op-status" role="status" aria-live="polite">Opening the scenarios…</p>
+    <p class="op-status" id="op-status" role="status" aria-live="polite" data-l10n="studio-holdover-opening-the-scenarios">Opening the scenarios…</p>
   </section>
 
   <div id="op-body" hidden>
     <section class="card op-facts" aria-labelledby="op-facts-h">
-      <div class="card-head"><h2 id="op-facts-h" class="h3">The link</h2><p class="card-note" id="op-summary"></p></div>
+      <div class="card-head"><h2 id="op-facts-h" class="h3" data-l10n="studio-optical-the-link">The link</h2><span id="op-evb" class="evb-host"></span><p class="card-note" id="op-summary"></p></div>
       <dl class="op-kv" id="op-kv"></dl>
     </section>
     <div class="op-grid" id="op-charts"></div>
     <section class="card op-sites" aria-labelledby="op-sites-h">
-      <div class="card-head"><h2 id="op-sites-h" class="h3">Sites, as the engine states them</h2><p class="card-note">Inputs are marked; everything else is the engine's output for them.</p></div>
+      <div class="card-head"><h2 id="op-sites-h" class="h3" data-l10n="studio-optical-sites-as-the-engine-states">Sites, as the engine states them</h2><p class="card-note" data-l10n="studio-optical-inputs-are-marked-everything-else">Inputs are marked; everything else is the engine's output for them.</p></div>
       <div class="op-tablewrap"><table class="tbl" id="op-table"></table></div>
     </section>
     <p class="op-prov" id="op-prov"></p>
   </div>
 
-  <section class="op-fine" aria-label="About this page">
-    <h2 class="h3">What this page does and does not show</h2>
+  <section class="op-fine" aria-label="About this page" data-l10n-attr="aria-label:studio-interference-about-this-page">
+    <h2 class="h3" data-l10n="studio-observatory-what-this-page-does-and">What this page does and does not show</h2>
     <ul>
-      <li>It draws only what the engine recorded for each scenario, including its seeded time series. The page computes nothing: it scales the engine's numbers to the chart.</li>
-      <li>The sites, their cloud climates, the clock classes and the techniques are inputs chosen to illustrate, and are labelled so. No measured availability record has been compared.</li>
-      <li>You can run the scenarios yourself in the Studio (Advanced view, "Optical link through the atmosphere") or with <code>kshana scenarios/optical-atmosphere-network.toml</code>.</li>
+      <li data-l10n="studio-optical-it-draws-only-what-the">It draws only what the engine recorded for each scenario, including its seeded time series. The page computes nothing: it scales the engine's numbers to the chart.</li>
+      <li data-l10n="studio-optical-the-sites-their-cloud-climates">The sites, their cloud climates, the clock classes and the techniques are inputs chosen to illustrate, and are labelled so. No measured availability record has been compared.</li>
+      <li data-l10n-rich="seg-a27cd1efd1e0" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>kshana scenarios/optical-atmosphere-network.toml</code>&quot;}}">You can run the scenarios yourself in the Studio (Advanced view, "Optical link through the atmosphere") or with <code>kshana scenarios/optical-atmosphere-network.toml</code>.</li>
     </ul>
   </section>
 </div>
 </main>
 <script type="module" src="optical/optical.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

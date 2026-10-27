@@ -6,6 +6,7 @@
 // cursor round the horizon with the keyboard. Which satellites it hides, and what that does to the geometry,
 // is the engine's answer (lib/geometry-adapter.mjs). Pure; tested in skyline-edit.test.mjs.
 
+import { t } from "./t.mjs";
 export const BINS = 360;
 export const MAX_HALF = 179;            // 89.5 degrees: elevations are in [0, 90)
 export const ENCODED_LENGTH = 480;      // 360 bytes in base64url, no padding
@@ -99,11 +100,11 @@ export function keyEdit(table, cursor, key, shift = false, half = 0) {
 
 // A short description of the table, for the skyplot's text alternative.
 export function describe(table) {
-  if (isOpen(table)) return "Open horizon: no skyline.";
+  if (isOpen(table)) return t("js-lib-skyline-edit-open", "Open horizon: no skyline.");
   let top = 0;
   for (let k = 1; k < BINS; k++) if (table[k] > table[top]) top = k;
   const blocked = table.filter((v) => v > 0).length;
-  return `Skyline over ${blocked} of 360 degrees of azimuth; highest ${table[top] / 2}° at azimuth ${top}°.`;
+  return t("js-lib-skyline-edit-describe", "Skyline over { $blocked } of 360 degrees of azimuth; highest { $el }° at azimuth { $az }°.", { blocked, el: table[top] / 2, az: top });
 }
 
 // The outline as {az, el} points, one per bin, for drawing.

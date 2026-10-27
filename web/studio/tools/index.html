@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Trust and evidence tools: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
 <base href="../">
@@ -28,155 +29,155 @@
   <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
-<a class="skip" href="#main">Skip to the view</a>
+<a class="skip" href="#main" data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
-  <nav class="crumb" aria-label="Where you are"><span>Trust and evidence tools</span></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"><span data-l10n="studio-tools-trust-and-evidence-tools">Trust and evidence tools</span></nav>
   <div class="bar-right">
-    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
-    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="view-switch" href="./" title="Back to the Studio" data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl" data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
 <div class="wrap tl">
-  <p class="kicker"><i style="--c:var(--itg)"></i>Kshana 0.35 tools</p>
-  <h1 id="tl-h">Trust, evidence and test tools</h1>
-  <p class="lede">The 0.35 features that run in your browser, and where to find the ones that cannot. Files you open here are read in this page and never uploaded; the engine runs on your computer as WebAssembly.</p>
-  <p class="tl-advice" role="note"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. Its scores, authentication status and exports are aids to judgement and records of what the engine computed. They are not a certification, a legal opinion or a finding of fact about any event.</p>
-  <p class="tl-also">Also in the Studio: <a href="geometry/">Geometry</a>, the skyplot, skyline and dilution of precision for a place and a time; <a href="lunar/">Lunar station</a>, the modelled coverage of a lunar reference station; <a href="trust/">Maritime trust</a>; <a href="interference/">Interference map</a>; <a href="training/">Training debrief</a>.</p>
-  <p class="tl-engine" id="tl-engine" role="status" aria-live="polite">The engine starts when you use a tool.</p>
+  <p class="kicker"><i style="--c:var(--itg)"></i><span data-l10n-rich="seg-04506cef591e">Kshana 0.35 tools</span></p>
+  <h1 id="tl-h" data-l10n="studio-tools-trust-evidence-and-test-tools">Trust, evidence and test tools</h1>
+  <p class="lede" data-l10n="studio-tools-the-0-35-features-that">The 0.35 features that run in your browser, and where to find the ones that cannot. Files you open here are read in this page and never uploaded; the engine runs on your computer as WebAssembly.</p>
+  <p class="tl-advice" role="note" data-l10n-rich="seg-b7b26b97afbd" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. Its scores, authentication status and exports are aids to judgement and records of what the engine computed. They are not a certification, a legal opinion or a finding of fact about any event.</p>
+  <p class="tl-also" data-l10n-rich="seg-efb4dc713dd2" data-l10n-tags="{&quot;a1&quot;:{&quot;o&quot;:&quot;<a href=\&quot;geometry/\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a2&quot;:{&quot;o&quot;:&quot;<a href=\&quot;lunar/\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a3&quot;:{&quot;o&quot;:&quot;<a href=\&quot;trust/\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a4&quot;:{&quot;o&quot;:&quot;<a href=\&quot;interference/\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a5&quot;:{&quot;o&quot;:&quot;<a href=\&quot;training/\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;}}">Also in the Studio: <a href="geometry/">Geometry</a>, the skyplot, skyline and dilution of precision for a place and a time; <a href="lunar/" data-l10n="studio-lunar-lunar-station">Lunar station</a>, the modelled coverage of a lunar reference station; <a href="trust/" data-l10n="studio-tools-maritime-trust">Maritime trust</a>; <a href="interference/" data-l10n="studio-interference-interference-map">Interference map</a>; <a href="training/" data-l10n="studio-tools-training-debrief">Training debrief</a>.</p>
+  <p class="tl-engine" id="tl-engine" role="status" aria-live="polite" data-l10n="studio-tools-the-engine-starts-when-you">The engine starts when you use a tool.</p>
 
   <section class="card tl-map" aria-labelledby="tl-map-h">
-    <div class="card-head"><h2 id="tl-map-h" class="h3">Every 0.35 feature, and where it is</h2>
-      <p class="card-note">In this browser where it can run. The rest are command-line or server features, and the reason is stated.</p></div>
-    <div class="table-scroll"><table class="tbl tl-cov" id="tl-cov"><thead><tr><th scope="col">Feature</th><th scope="col">In the Studio</th><th scope="col">Also</th></tr></thead><tbody id="tl-cov-body"></tbody></table></div>
+    <div class="card-head"><h2 id="tl-map-h" class="h3" data-l10n="studio-tools-every-0-35-feature-and">Every 0.35 feature, and where it is</h2>
+      <p class="card-note" data-l10n="studio-tools-in-this-browser-where-it">In this browser where it can run. The rest are command-line or server features, and the reason is stated.</p></div>
+    <div class="table-scroll"><table class="tbl tl-cov" id="tl-cov"><thead><tr><th scope="col" data-l10n-rich="seg-b15b4194ca66">Feature</th><th scope="col" data-l10n="studio-tools-in-the-studio">In the Studio</th><th scope="col" data-l10n-rich="seg-d507260dfc9f">Also</th></tr></thead><tbody id="tl-cov-body"></tbody></table></div>
   </section>
 
   <div class="tl-tabs" role="tablist" aria-label="Tools" id="tl-tabs"></div>
 
   <section class="tl-panel" id="evidence" role="tabpanel" aria-labelledby="t-evidence" hidden>
     <div class="card">
-      <div class="card-head"><h2 class="h3">Verify an evidence pack</h2>
-        <p class="card-note">An evidence pack is a signed technical record of what the engine computed from a receiver log. It is not a legal opinion. Choose the files of a pack (<code>manifest.json</code>, <code>manifest.sig</code>, <code>log-slice.bin</code>, <code>config.json</code>, <code>epochs.json</code>, <code>summary.html</code>, and <code>timestamp.tsr</code> if there is one). Packs are made with the command line, Python or the AI assistant tools: signing needs a private key, which should not pass through a web page.</p></div>
+      <div class="card-head"><h2 class="h3" data-l10n="studio-tools-verify-an-evidence-pack">Verify an evidence pack</h2>
+        <p class="card-note" data-l10n-rich="seg-3b67fc078417" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>manifest.json</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>manifest.sig</code>&quot;},&quot;c3&quot;:{&quot;h&quot;:&quot;<code>log-slice.bin</code>&quot;},&quot;c4&quot;:{&quot;h&quot;:&quot;<code>config.json</code>&quot;},&quot;c5&quot;:{&quot;h&quot;:&quot;<code>epochs.json</code>&quot;},&quot;c6&quot;:{&quot;h&quot;:&quot;<code>summary.html</code>&quot;},&quot;c7&quot;:{&quot;h&quot;:&quot;<code>timestamp.tsr</code>&quot;}}">An evidence pack is a signed technical record of what the engine computed from a receiver log. It is not a legal opinion. Choose the files of a pack (<code>manifest.json</code>, <code>manifest.sig</code>, <code>log-slice.bin</code>, <code>config.json</code>, <code>epochs.json</code>, <code>summary.html</code>, and <code>timestamp.tsr</code> if there is one). Packs are made with the command line, Python or the AI assistant tools: signing needs a private key, which should not pass through a web page.</p></div>
       <div class="tl-row">
-        <label class="tl-file btn-primary">Choose pack files…<input id="ev-files" type="file" multiple></label>
-        <button type="button" class="tl-btn" id="ev-demo">Open the synthetic example pack</button>
-        <button type="button" class="tl-btn" id="ev-demo-bad">Open it with one byte changed</button>
+        <label class="tl-file btn-primary"><span data-l10n-rich="seg-7cb5ffdad54f">Choose pack files…</span><input id="ev-files" type="file" multiple></label>
+        <button type="button" class="tl-btn" id="ev-demo" data-l10n="studio-tools-open-the-synthetic-example-pack">Open the synthetic example pack</button>
+        <button type="button" class="tl-btn" id="ev-demo-bad" data-l10n="studio-tools-open-it-with-one-byte">Open it with one byte changed</button>
       </div>
-      <p class="tl-sel" id="ev-sel">No pack files chosen.</p>
+      <p class="tl-sel" id="ev-sel" data-l10n="studio-tools-no-pack-files-chosen">No pack files chosen.</p>
       <div class="tl-form">
-        <label>The signer's public key (64 hex digits, obtained from the signer by another route)<input id="ev-key" type="text" spellcheck="false" autocomplete="off" placeholder="leave empty to check integrity only"></label>
-        <label class="tl-chk"><input id="ev-ts" type="checkbox"> Require a timestamp token</label>
-        <label class="tl-file2">The full log, to check the pack's slice against it (optional)<input id="ev-log" type="file"></label>
+        <label><span data-l10n-rich="seg-ab7707938042">The signer's public key (64 hex digits, obtained from the signer by another route)</span><input id="ev-key" type="text" spellcheck="false" autocomplete="off" placeholder="leave empty to check integrity only" data-l10n-attr="placeholder:studio-tools-leave-empty-to-check-integrity"></label>
+        <label class="tl-chk"><input id="ev-ts" type="checkbox"> <span data-l10n-rich="seg-fb07400cdee2">Require a timestamp token</span></label>
+        <label class="tl-file2"><span data-l10n-rich="seg-76f892729439">The full log, to check the pack's slice against it (optional)</span><input id="ev-log" type="file"></label>
       </div>
-      <div class="tl-row"><button type="button" class="btn-primary" id="ev-run">Verify the pack</button></div>
+      <div class="tl-row"><button type="button" class="btn-primary" id="ev-run" data-l10n="studio-tools-verify-the-pack">Verify the pack</button></div>
       <div id="ev-out" class="tl-out" aria-live="polite"></div>
     </div>
     <div class="card">
-      <div class="card-head"><h3 class="h3">Attach a timestamp token</h3>
-        <p class="card-note">An RFC 3161 token binds a time to <code>manifest.json</code>. Request it with <code>openssl ts -query</code>, send it to your timestamp authority, then attach the reply here. <b>This does not check the authority's signature or certificate chain</b>: run <code>openssl ts -verify</code> for that.</p></div>
-      <div class="tl-row"><label class="tl-file2">Timestamp response (<code>.tsr</code>)<input id="ts-file" type="file"></label>
-        <label class="tl-chk"><input id="ts-replace" type="checkbox"> Replace an existing token</label>
-        <button type="button" class="tl-btn" id="ts-run">Attach to the chosen pack</button></div>
+      <div class="card-head"><h3 class="h3" data-l10n="studio-tools-attach-a-timestamp-token">Attach a timestamp token</h3>
+        <p class="card-note" data-l10n-rich="seg-d88c12129d44" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>manifest.json</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>openssl ts -query</code>&quot;},&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;c3&quot;:{&quot;h&quot;:&quot;<code>openssl ts -verify</code>&quot;}}">An RFC 3161 token binds a time to <code>manifest.json</code>. Request it with <code>openssl ts -query</code>, send it to your timestamp authority, then attach the reply here. <b>This does not check the authority's signature or certificate chain</b>: run <code>openssl ts -verify</code> for that.</p></div>
+      <div class="tl-row"><label class="tl-file2"><span data-l10n-rich="seg-d286e0e72e96" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>.tsr</code>&quot;}}">Timestamp response (<code>.tsr</code>)</span><input id="ts-file" type="file"></label>
+        <label class="tl-chk"><input id="ts-replace" type="checkbox"> <span data-l10n-rich="seg-b21dccf8bbaa">Replace an existing token</span></label>
+        <button type="button" class="tl-btn" id="ts-run" data-l10n="studio-tools-attach-to-the-chosen-pack">Attach to the chosen pack</button></div>
       <div id="ts-out" class="tl-out" aria-live="polite"></div>
     </div>
   </section>
 
   <section class="tl-panel" id="bench" role="tabpanel" aria-labelledby="t-bench" hidden>
     <div class="card">
-      <div class="card-head"><h2 class="h3">Export a scenario for a laboratory simulator</h2>
-        <p class="card-note">Kshana writes the vehicle motion, the NMEA, the waypoints and the event times. It writes <b>no signal</b>: nothing here synthesises or transmits a radio-frequency or baseband waveform, and an event is a labelled time interval, not a recipe for interference. Run a simulator only where that is authorised.</p></div>
+      <div class="card-head"><h2 class="h3" data-l10n="studio-tools-export-a-scenario-for-a">Export a scenario for a laboratory simulator</h2>
+        <p class="card-note" data-l10n-rich="seg-7fc355b93fb4" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">Kshana writes the vehicle motion, the NMEA, the waypoints and the event times. It writes <b>no signal</b>: nothing here synthesises or transmits a radio-frequency or baseband waveform, and an event is a labelled time interval, not a recipe for interference. Run a simulator only where that is authorised.</p></div>
       <div class="tl-form">
-        <label>Scenario (the <code>gnss-ins</code>, <code>jamming</code> and <code>gnss-sim</code> kinds have a vehicle trajectory)<select id="bn-scn"></select></label>
-        <label>UTC instant of motion time zero<input id="bn-epoch" type="text" spellcheck="false" placeholder="2024-01-01T00:00:00Z"></label>
+        <label><span data-l10n-rich="seg-51e293a72ec2" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>gnss-ins</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>jamming</code>&quot;},&quot;c3&quot;:{&quot;h&quot;:&quot;<code>gnss-sim</code>&quot;}}">Scenario (the <code>gnss-ins</code>, <code>jamming</code> and <code>gnss-sim</code> kinds have a vehicle trajectory)</span><select id="bn-scn"></select></label>
+        <label><span data-l10n-rich="seg-bb02baa8656c">UTC instant of motion time zero</span><input id="bn-epoch" type="text" spellcheck="false" placeholder="2024-01-01T00:00:00Z"></label>
       </div>
-      <div class="tl-row"><button type="button" class="btn-primary" id="bn-run">Export</button>
-        <label class="tl-file2">or your own scenario file<input id="bn-file" type="file" accept=".toml,text/*"></label></div>
+      <div class="tl-row"><button type="button" class="btn-primary" id="bn-run" data-l10n-rich="seg-6f7a465c0685">Export</button>
+        <label class="tl-file2"><span data-l10n-rich="seg-84dce60cabea">or your own scenario file</span><input id="bn-file" type="file" accept=".toml,text/*"></label></div>
       <div id="bn-out" class="tl-out" aria-live="polite"></div>
     </div>
   </section>
 
   <section class="tl-panel" id="compliance" role="tabpanel" aria-labelledby="t-compliance" hidden>
     <div class="card">
-      <div class="card-head"><h2 class="h3">Which public-framework rows do your runs support evidence for?</h2>
-        <p class="card-note"><b>Kshana outputs support evidence for a requirement. They do not certify a product, show that it complies with a framework, or make it conformant.</b> Kshana is not a conformity-assessment body. Requirement text is paraphrased, never reproduced. Choose result files (<code>*.result.json</code>) and, optionally, the scenario files beside them (<code>*.toml</code>, matched by name).</p></div>
+      <div class="card-head"><h2 class="h3" data-l10n="studio-tools-which-public-framework-rows-do">Which public-framework rows do your runs support evidence for?</h2>
+        <p class="card-note" data-l10n-rich="seg-5d30c2bb376f" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;c1&quot;:{&quot;h&quot;:&quot;<code>*.result.json</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>*.toml</code>&quot;}}"><b>Kshana outputs support evidence for a requirement. They do not certify a product, show that it complies with a framework, or make it conformant.</b> Kshana is not a conformity-assessment body. Requirement text is paraphrased, never reproduced. Choose result files (<code>*.result.json</code>) and, optionally, the scenario files beside them (<code>*.toml</code>, matched by name).</p></div>
       <div class="tl-row">
-        <label class="tl-file btn-primary">Choose result files…<input id="cp-files" type="file" multiple></label>
-        <button type="button" class="tl-btn" id="cp-demo">Use the synthetic example runs</button>
-        <button type="button" class="tl-btn" id="cp-map">Show the mapping tables</button>
-        <button type="button" class="tl-btn" id="cp-src">Show the sources they cite</button>
+        <label class="tl-file btn-primary"><span data-l10n-rich="seg-d255f50a38fd">Choose result files…</span><input id="cp-files" type="file" multiple></label>
+        <button type="button" class="tl-btn" id="cp-demo" data-l10n="studio-tools-use-the-synthetic-example-runs">Use the synthetic example runs</button>
+        <button type="button" class="tl-btn" id="cp-map" data-l10n="studio-tools-show-the-mapping-tables">Show the mapping tables</button>
+        <button type="button" class="tl-btn" id="cp-src" data-l10n="studio-tools-show-the-sources-they-cite">Show the sources they cite</button>
       </div>
-      <p class="tl-sel" id="cp-sel">No result files chosen.</p>
-      <div class="tl-row"><button type="button" class="btn-primary" id="cp-run">Build the report</button></div>
+      <p class="tl-sel" id="cp-sel" data-l10n="studio-tools-no-result-files-chosen">No result files chosen.</p>
+      <div class="tl-row"><button type="button" class="btn-primary" id="cp-run" data-l10n="studio-tools-build-the-report">Build the report</button></div>
       <div id="cp-out" class="tl-out" aria-live="polite"></div>
     </div>
   </section>
 
   <section class="tl-panel" id="osnma" role="tabpanel" aria-labelledby="t-osnma" hidden>
     <div class="card">
-      <div class="card-head"><h2 class="h3">Galileo OSNMA: is the navigation data authenticated?</h2>
-        <p class="card-note">Load a recorded u-blox <code>UBX-RXM-SFRBX</code> file or a plain I/NAV page file and see, per satellite and per tag, whether the data is cryptographically authenticated and why a check failed. Or open the JSON that <code>kshana osnma verify --json</code> wrote. Synthetic and official-vector samples only.</p></div>
-      <p class="tl-warn" role="note"><b>Advisory.</b> This is analysis and monitoring output and not type-approved navigation equipment. The authentication status reported here is not a navigation integrity service and must not be the sole basis for any navigation or safety decision. <b>Time:</b> checks are relative to the time stamps in the pages. Authentication says the data came from the system; it says nothing about the signal it arrived on or the quality of the fix.</p>
+      <div class="card-head"><h2 class="h3" data-l10n="studio-tools-galileo-osnma-is-the-navigation">Galileo OSNMA: is the navigation data authenticated?</h2>
+        <p class="card-note" data-l10n-rich="seg-7e5af60790ef" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>UBX-RXM-SFRBX</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>kshana osnma verify --json</code>&quot;}}">Load a recorded u-blox <code>UBX-RXM-SFRBX</code> file or a plain I/NAV page file and see, per satellite and per tag, whether the data is cryptographically authenticated and why a check failed. Or open the JSON that <code>kshana osnma verify --json</code> wrote. Synthetic and official-vector samples only.</p></div>
+      <p class="tl-warn" role="note" data-l10n-rich="seg-1ee9fc235717" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Advisory.</b> This is analysis and monitoring output and not type-approved navigation equipment. The authentication status reported here is not a navigation integrity service and must not be the sole basis for any navigation or safety decision. <b>Time:</b> checks are relative to the time stamps in the pages. Authentication says the data came from the system; it says nothing about the signal it arrived on or the quality of the fix.</p>
       <div class="tl-row">
-        <label class="tl-file btn-primary">Choose a file…<input id="os-file" type="file"></label>
-        <label class="tl-sel2">Synthetic example <select id="os-ex" aria-label="Synthetic OSNMA example"></select></label>
-        <button type="button" class="tl-btn" id="os-demo">Load it</button>
-        <button type="button" class="tl-btn" id="os-rec">Show the recorded result</button>
+        <label class="tl-file btn-primary"><span data-l10n-rich="seg-6d93ea33536f">Choose a file…</span><input id="os-file" type="file"></label>
+        <label class="tl-sel2"><span data-l10n-rich="seg-bd17501804af">Synthetic example</span> <select id="os-ex" aria-label="Synthetic OSNMA example" data-l10n-attr="aria-label:studio-tools-synthetic-osnma-example"></select></label>
+        <button type="button" class="tl-btn" id="os-demo" data-l10n="studio-tools-load-it">Load it</button>
+        <button type="button" class="tl-btn" id="os-rec" data-l10n="studio-tools-show-the-recorded-result">Show the recorded result</button>
       </div>
-      <p class="tl-sel" id="os-sel" role="status" aria-live="polite">Nothing open yet.</p>
+      <p class="tl-sel" id="os-sel" role="status" aria-live="polite" data-l10n="studio-interference-nothing-open-yet">Nothing open yet.</p>
       <div class="tl-form" id="os-opts">
-        <label>Format<select id="os-format"><option value="">Detect from the file</option><option value="pages">Plain pages</option><option value="vector-csv">Test-vector CSV</option><option value="ubx">u-blox UBX (SFRBX)</option></select></label>
-        <label>Start time of a test-vector CSV, GST seconds<input id="os-start" type="text" inputmode="numeric" spellcheck="false"></label>
-        <label>Trusted Merkle root (64 hex digits)<input id="os-root" type="text" spellcheck="false" autocomplete="off"></label>
-        <label>Trusted public keys, one per line as ID:TYPE:HEX<textarea id="os-keys" rows="2" spellcheck="false"></textarea></label>
-        <label>Reference time, GST seconds, from an independent source<input id="os-ref" type="text" inputmode="numeric" spellcheck="false"></label>
-        <label>Largest distance from the reference time, s<input id="os-maxerr" type="text" inputmode="numeric" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-f2ce7fc60cdf">Format</span><select id="os-format"><option value="" data-l10n-rich="seg-dcc9b1568c20">Detect from the file</option><option value="pages" data-l10n-rich="seg-a12c3181b54f">Plain pages</option><option value="vector-csv" data-l10n-rich="seg-6c2d8128925a">Test-vector CSV</option><option value="ubx" data-l10n-rich="seg-b7db2572d40b">u-blox UBX (SFRBX)</option></select></label>
+        <label><span data-l10n-rich="seg-0a5e9c73f0f4">Start time of a test-vector CSV, GST seconds</span><input id="os-start" type="text" inputmode="numeric" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-1461a3868bf5">Trusted Merkle root (64 hex digits)</span><input id="os-root" type="text" spellcheck="false" autocomplete="off"></label>
+        <label><span data-l10n-rich="seg-9d56e41f9b35">Trusted public keys, one per line as ID:TYPE:HEX</span><textarea id="os-keys" rows="2" spellcheck="false"></textarea></label>
+        <label><span data-l10n-rich="seg-d2bed15bbabe">Reference time, GST seconds, from an independent source</span><input id="os-ref" type="text" inputmode="numeric" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-3c4893f1cc60">Largest distance from the reference time, s</span><input id="os-maxerr" type="text" inputmode="numeric" spellcheck="false"></label>
       </div>
-      <div class="tl-row"><button type="button" class="btn-primary" id="os-run">Verify</button></div>
+      <div class="tl-row"><button type="button" class="btn-primary" id="os-run" data-l10n-rich="seg-8579207ae2e5">Verify</button></div>
       <div id="os-out" class="tl-out" aria-live="polite"></div>
     </div>
   </section>
 
   <section class="tl-panel" id="imufit" role="tabpanel" aria-labelledby="t-imufit" hidden>
     <div class="card">
-      <div class="card-head"><h2 class="h3">IMU fit: sensor parameters for the hybrid and fusion scenarios</h2>
-        <p class="card-note">The <code>hybrid</code> and <code>fusion</code> scenarios are simulations that take sensor noise parameters, not a measured series. This reads those parameters off a <b>stationary</b> IMU log (the overlapping Allan deviation of the integrated signal) and writes a ready-to-paste <code>[accel_classical]</code> table that names the log's SHA-256. The file is read in this browser and never uploaded.</p></div>
-      <p class="tl-warn" role="note"><b>MODELLED, advisory.</b> The estimator is checked on synthetic white-noise logs with known coefficients (recovered within 10 %), not against an external oracle. A log that is not still, under 2000 samples or unevenly sampled is refused or gives parameters the Allan slopes flag.</p>
-      <div class="tl-row"><label class="tl-file btn-primary">Stationary IMU log (CSV)…<input id="if-file" type="file" accept=".csv,.txt,text/*"></label></div>
-      <p class="tl-sel" id="if-sel" role="status" aria-live="polite">Nothing open yet.</p>
+      <div class="card-head"><h2 class="h3" data-l10n="studio-tools-imu-fit-sensor-parameters-for">IMU fit: sensor parameters for the hybrid and fusion scenarios</h2>
+        <p class="card-note" data-l10n-rich="seg-e0d931fb9fa8" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>hybrid</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>fusion</code>&quot;},&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;c3&quot;:{&quot;h&quot;:&quot;<code>[accel_classical]</code>&quot;}}">The <code>hybrid</code> and <code>fusion</code> scenarios are simulations that take sensor noise parameters, not a measured series. This reads those parameters off a <b>stationary</b> IMU log (the overlapping Allan deviation of the integrated signal) and writes a ready-to-paste <code>[accel_classical]</code> table that names the log's SHA-256. The file is read in this browser and never uploaded.</p></div>
+      <p class="tl-warn" role="note" data-l10n-rich="seg-0cad8b4bf3ec" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>MODELLED, advisory.</b> The estimator is checked on synthetic white-noise logs with known coefficients (recovered within 10 %), not against an external oracle. A log that is not still, under 2000 samples or unevenly sampled is refused or gives parameters the Allan slopes flag.</p>
+      <div class="tl-row"><label class="tl-file btn-primary"><span data-l10n-rich="seg-4807a85cc672">Stationary IMU log (CSV)…</span><input id="if-file" type="file" accept=".csv,.txt,text/*"></label></div>
+      <p class="tl-sel" id="if-sel" role="status" aria-live="polite" data-l10n="studio-interference-nothing-open-yet">Nothing open yet.</p>
       <div class="tl-form">
-        <label>Layout<select id="if-format"><option value="csv">CSV with a header row (t_s, gx, gy, gz, ax, ay, az)</option><option value="euroc">EuRoC MAV imu0 data.csv</option></select></label>
-        <label>Accelerometer axis to fit<select id="if-axis"><option value="x">x</option><option value="y">y</option><option value="z">z (vertical)</option></select></label>
-        <label>Specific force that axis reads at rest, m/s² (0 horizontal, about 9.80665 vertical)<input id="if-mean" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
-        <label>Table id<input id="if-id" type="text" value="bench-imu" maxlength="64" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-87aff08f344c">Layout</span><select id="if-format"><option value="csv" data-l10n-rich="seg-8ccd96682117">CSV with a header row (t_s, gx, gy, gz, ax, ay, az)</option><option value="euroc" data-l10n-rich="seg-ae381f746364">EuRoC MAV imu0 data.csv</option></select></label>
+        <label><span data-l10n-rich="seg-027283a63016">Accelerometer axis to fit</span><select id="if-axis"><option value="x">x</option><option value="y">y</option><option value="z" data-l10n-rich="seg-828bb842a924">z (vertical)</option></select></label>
+        <label><span data-l10n-rich="seg-e8e68a8be0a6">Specific force that axis reads at rest, m/s² (0 horizontal, about 9.80665 vertical)</span><input id="if-mean" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-cc3ced384846">Table id</span><input id="if-id" type="text" value="bench-imu" maxlength="64" spellcheck="false"></label>
       </div>
-      <div class="tl-row"><button type="button" class="btn-primary" id="if-run">Fit the parameters</button></div>
+      <div class="tl-row"><button type="button" class="btn-primary" id="if-run" data-l10n="studio-tools-fit-the-parameters">Fit the parameters</button></div>
       <div id="if-out" class="tl-out" aria-live="polite"></div>
     </div>
   </section>
 
   <section class="tl-panel" id="jammertest" role="tabpanel" aria-labelledby="t-jammertest" hidden>
     <div class="card">
-      <div class="card-head"><h2 class="h3">Jammertest: score a receiver log against the published test plan</h2>
-        <p class="card-note">The Norwegian Jammertest publishes a test catalogue and a transmission plan. Kshana reads them as <b>scheduled truth</b>, the slots the plan says, not recorded on-air times, and scores a receiver-trust run against them: per test, was it detected, how late, did it recover, and which alarms fell outside every slot. Choose the catalogue and plan files you downloaded yourself (Kshana does not bundle them) and a receiver log. Everything runs in this browser; nothing is uploaded.</p></div>
-      <p class="tl-warn" role="note"><b>MODELLED, advisory.</b> The slots are the plan's, so a detection probability is a lower bound; no external oracle states when a transmitter was on. A scorecard describes one log, never a product. Signed score packs are made with the command line (they need a signing key).</p>
+      <div class="card-head"><h2 class="h3" data-l10n="studio-tools-jammertest-score-a-receiver-log">Jammertest: score a receiver log against the published test plan</h2>
+        <p class="card-note" data-l10n-rich="seg-61e5733012cf" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">The Norwegian Jammertest publishes a test catalogue and a transmission plan. Kshana reads them as <b>scheduled truth</b>, the slots the plan says, not recorded on-air times, and scores a receiver-trust run against them: per test, was it detected, how late, did it recover, and which alarms fell outside every slot. Choose the catalogue and plan files you downloaded yourself (Kshana does not bundle them) and a receiver log. Everything runs in this browser; nothing is uploaded.</p></div>
+      <p class="tl-warn" role="note" data-l10n-rich="seg-8000f1fec7f7" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>MODELLED, advisory.</b> The slots are the plan's, so a detection probability is a lower bound; no external oracle states when a transmitter was on. A scorecard describes one log, never a product. Signed score packs are made with the command line (they need a signing key).</p>
       <div class="tl-row">
-        <label class="tl-file btn-primary">Catalogue (JSON)…<input id="jt-cat" type="file" accept=".json,application/json"></label>
-        <label class="tl-file btn-primary">Plan file(s) (JSON)…<input id="jt-plans" type="file" multiple accept=".json,application/json"></label>
-        <label class="tl-file btn-primary">Receiver log…<input id="jt-log" type="file"></label>
+        <label class="tl-file btn-primary"><span data-l10n-rich="seg-92c87f96cc3b">Catalogue (JSON)…</span><input id="jt-cat" type="file" accept=".json,application/json"></label>
+        <label class="tl-file btn-primary"><span data-l10n-rich="seg-79475ccedb0f">Plan file(s) (JSON)…</span><input id="jt-plans" type="file" multiple accept=".json,application/json"></label>
+        <label class="tl-file btn-primary"><span data-l10n-rich="seg-b1659454ecd9">Receiver log…</span><input id="jt-log" type="file"></label>
       </div>
-      <p class="tl-sel" id="jt-sel" role="status" aria-live="polite">Nothing open yet.</p>
+      <p class="tl-sel" id="jt-sel" role="status" aria-live="polite" data-l10n="studio-interference-nothing-open-yet">Nothing open yet.</p>
       <div class="tl-form">
-        <label>Log format<select id="jt-format"><option value="ubx">u-blox UBX</option><option value="sbf">Septentrio SBF</option><option value="rinex">RINEX observation</option><option value="android">Android GNSS logger</option><option value="nmea">NMEA 0183</option></select></label>
-        <label>Plan's offset from UTC, hours (CEST: 2)<input id="jt-off" type="text" inputmode="decimal" value="2" spellcheck="false"></label>
-        <label>Log's first epoch, UTC (ISO 8601; empty when the log states it)<input id="jt-start" type="text" placeholder="2025-09-17T08:00:00Z" spellcheck="false"></label>
-        <label>Test area (0: not given)<input id="jt-loc" type="text" inputmode="numeric" value="0" spellcheck="false"></label>
-        <label>Plan year (0: not given)<input id="jt-year" type="text" inputmode="numeric" value="0" spellcheck="false"></label>
-        <label>Recovery hold, s<input id="jt-hold" type="text" inputmode="decimal" value="10" spellcheck="false"></label>
-        <label>Guard around a slot, s<input id="jt-guard" type="text" inputmode="decimal" value="60" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-9c7eb1d43601">Log format</span><select id="jt-format"><option value="ubx" data-l10n-rich="seg-33aca285207a">u-blox UBX</option><option value="sbf" data-l10n-rich="seg-fa06706aec55">Septentrio SBF</option><option value="rinex" data-l10n-rich="seg-aff1d135221c">RINEX observation</option><option value="android" data-l10n-rich="seg-59b0b20d916b">Android GNSS logger</option><option value="nmea" data-l10n-rich="seg-30164b8a6c48">NMEA 0183</option></select></label>
+        <label><span data-l10n-rich="seg-0f4b846a7f39">Plan's offset from UTC, hours (CEST: 2)</span><input id="jt-off" type="text" inputmode="decimal" value="2" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-baacf578ad9c">Log's first epoch, UTC (ISO 8601; empty when the log states it)</span><input id="jt-start" type="text" placeholder="2025-09-17T08:00:00Z" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-dcf80b355d1d">Test area (0: not given)</span><input id="jt-loc" type="text" inputmode="numeric" value="0" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-14baa95aa211">Plan year (0: not given)</span><input id="jt-year" type="text" inputmode="numeric" value="0" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-9e98e0ba70a3">Recovery hold, s</span><input id="jt-hold" type="text" inputmode="decimal" value="10" spellcheck="false"></label>
+        <label><span data-l10n-rich="seg-2a9012fd4d5f">Guard around a slot, s</span><input id="jt-guard" type="text" inputmode="decimal" value="60" spellcheck="false"></label>
       </div>
-      <div class="tl-row"><button type="button" class="tl-btn" id="jt-import">Import the schedule</button><button type="button" class="btn-primary" id="jt-score">Score the log</button></div>
+      <div class="tl-row"><button type="button" class="tl-btn" id="jt-import" data-l10n="studio-tools-import-the-schedule">Import the schedule</button><button type="button" class="btn-primary" id="jt-score" data-l10n="studio-tools-score-the-log">Score the log</button></div>
       <div id="jt-out" class="tl-out" aria-live="polite"></div>
     </div>
   </section>
@@ -191,5 +192,6 @@
 </div>
 </main>
 <script type="module" src="tools/tools.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

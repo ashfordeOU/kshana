@@ -2,6 +2,9 @@
 // Optical PNT page: the DOM layer. What it reads and draws is in lib/optical.mjs. It fetches only this folder's own
 // recorded results (recorded/<scenario>.json); nothing leaves the page.
 import { SCENARIOS, readOptical, chartsOf, factRows, fmtPct } from "../lib/optical.mjs";
+import { mountBadge } from "../lib/evidence.mjs";
+import { t, ready } from "../lib/t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -14,28 +17,29 @@ async function open(id) {
   current = sc.id;
   for (const b of $("op-tabs").children) b.setAttribute("aria-selected", String(b.dataset.id === sc.id)), (b.tabIndex = b.dataset.id === sc.id ? 0 : -1);
   $("op-blurb").textContent = sc.blurb;
-  setStatus(`Opening ${sc.title}…`);
+  setStatus(t("js-opt-opening", "Opening { $title }…", { title: sc.title }));
   try {
     const r = await fetch(`recorded/${sc.id}.json`);
-    if (!r.ok) throw new Error("the recorded result did not load");
+    if (!r.ok) throw new Error(t("js-opt-result-not-loaded", "the recorded result did not load"));
     const { model: m, error } = readOptical(await r.json());
     if (error) throw new Error(error);
     if (current !== sc.id) return;
     draw(m, sc);
-    setStatus(`${sc.title}: the engine's recorded result (version ${m.engine}). Model output, not a measurement.`);
+    setStatus(t("js-opt-recorded", "{ $title }: the engine's recorded result (version { $version }). Model output, not a measurement.", { title: sc.title, version: m.engine }));
     try { const q = new URLSearchParams(location.search); q.set("scenario", sc.id); history.replaceState(null, "", `${location.pathname}?${q}`); } catch (e) { /* no history API */ }
-  } catch (e) { setStatus(`${sc.title} could not be opened: ${e && e.message ? e.message : e}.`, true); }
+  } catch (e) { setStatus(t("js-opt-open-failed", "{ $title } could not be opened: { $reason }.", { title: sc.title, reason: e && e.message ? e.message : e }), true); }
 }
 
 function draw(m, sc) {
   lastModel = m;
+  mountBadge($("op-evb"), m);
   $("op-body").hidden = false;
   $("op-summary").textContent = m.summary;
   $("op-kv").innerHTML = factRows(m).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
-  $("op-charts").innerHTML = chartsOf(m, { wide: matchMedia("(min-width: 901px)").matches }).map((c) => `<section class="card op-card${c.wide ? " op-wide" : ""}" aria-labelledby="op-c-${c.id}"><div class="card-head"><h3 id="op-c-${c.id}">${esc(c.title)}</h3><p class="card-note">${esc(c.note)}</p></div>${c.svg}<p class="op-tag">Model output</p></section>`).join("");
-  const rows = m.sites;
-  $("op-table").innerHTML = `<thead><tr><th scope="col">Site</th><th scope="col">Latitude, longitude</th><th scope="col">Cloud probability (input)</th><th scope="col">Clear-air loss</th><th scope="col">Fade budget</th><th scope="col">Availability</th><th scope="col">Ceiling</th><th scope="col">Mean outage</th><th scope="col">Outages per year</th><th scope="col">Scintillation index</th></tr></thead><tbody>${rows.map((s) => `<tr><th scope="row">${esc(s.name)}</th><td>${s.lat ?? "n/a"}, ${s.lon ?? "n/a"}</td><td>${s.pCloud == null ? "n/a" : `${Math.round(s.pCloud * 100)} %`}</td><td>${s.clearAirLossDb == null ? "n/a" : `${s.clearAirLossDb.toFixed(2)} dB`}</td><td>${s.fadeBudgetDb == null ? "n/a" : `${s.fadeBudgetDb.toFixed(1)} dB`}</td><td>${fmtPct(s.availability)}</td><td>${fmtPct(s.ceiling)}</td><td>${s.meanOutageH == null ? "n/a" : `${s.meanOutageH} h`}</td><td>${s.perYear == null ? "n/a" : Math.round(s.perYear)}</td><td>${s.turbulence && s.turbulence.scint != null ? s.turbulence.scint.toPrecision(3) : "n/a"}</td></tr>`).join("")}</tbody>`;
-  $("op-prov").textContent = `${m.label} Sites: ${rows.map((s) => `${s.name} (${s.source || "no source stated"})`).join("; ")}.`;
+  $("op-charts").innerHTML = chartsOf(m, { wide: matchMedia("(min-width: 901px)").matches }).map((c) => `<section class="card op-card${c.wide ? " op-wide" : ""}" aria-labelledby="op-c-${c.id}"><div class="card-head"><h3 id="op-c-${c.id}">${esc(c.title)}</h3><p class="card-note">${esc(c.note)}</p></div>${c.svg}<p class="op-tag">${esc(t("js-opt-model-output", "Model output"))}</p></section>`).join("");
+  const rows = m.sites, na = t("js-opt-na", "n/a");
+  $("op-table").innerHTML = `<thead><tr>${[t("js-opt-th-site", "Site"), t("js-opt-th-latlon", "Latitude, longitude"), t("js-opt-th-cloud-prob", "Cloud probability (input)"), t("js-opt-th-clear-air", "Clear-air loss"), t("js-opt-th-fade-budget", "Fade budget"), t("js-opt-th-availability", "Availability"), t("js-opt-th-ceiling", "Ceiling"), t("js-opt-th-mean-outage", "Mean outage"), t("js-opt-th-outages-year", "Outages per year"), t("js-opt-th-scint", "Scintillation index")].map((h) => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((s) => `<tr><th scope="row">${esc(s.name)}</th><td>${s.lat ?? na}, ${s.lon ?? na}</td><td>${s.pCloud == null ? na : `${Math.round(s.pCloud * 100)} %`}</td><td>${s.clearAirLossDb == null ? na : `${s.clearAirLossDb.toFixed(2)} dB`}</td><td>${s.fadeBudgetDb == null ? na : `${s.fadeBudgetDb.toFixed(1)} dB`}</td><td>${fmtPct(s.availability)}</td><td>${fmtPct(s.ceiling)}</td><td>${s.meanOutageH == null ? na : `${s.meanOutageH} h`}</td><td>${s.perYear == null ? na : Math.round(s.perYear)}</td><td>${s.turbulence && s.turbulence.scint != null ? s.turbulence.scint.toPrecision(3) : na}</td></tr>`).join("")}</tbody>`;
+  $("op-prov").textContent = t("js-opt-prov", "{ $label } Sites: { $sites }.", { label: m.label, sites: rows.map((s) => `${s.name} (${s.source || t("js-opt-no-source", "no source stated")})`).join("; ") });
 }
 
 let lastModel = null;

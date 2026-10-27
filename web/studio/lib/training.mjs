@@ -7,6 +7,8 @@
 // live navigation systems, and the file's own warning text is shown with it, verbatim. The page is for the
 // debrief: the log shows what was injected, so a trainer shows it after the exercise, not before.
 
+import { t } from "./t.mjs";
+
 export const SCHEMA = "kshana-nmea-training/1";
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
 const isObj = (x) => x && typeof x === "object" && !Array.isArray(x);
@@ -24,26 +26,40 @@ export const MAX_MOMENTS_SHOWN = 200;
 export const kindLabel = (k) => (typeof k === "string" && Object.hasOwn(KIND_LABEL, k) ? KIND_LABEL[k] : String(k));
 export const whatLabel = (w) => (typeof w === "string" && Object.hasOwn(WHAT_LABEL, w) ? WHAT_LABEL[w] : String(w));
 
-export const KIND_LABEL = { jamming: "Jamming", "drag-off": "Position drag-off", "time-spoof": "Time spoof", "replay-delay": "Replay delay", "natural-degradation": "Natural degradation (blocked sky)" };
-export const WHAT_LABEL = { onset: "Onset", "full-effect": "Full effect", "recovery-begins": "Recovery begins", recovered: "Recovered", "fix-lost": "Fix lost", "fix-regained": "Fix regained" };
+// Getters, so the labels are made when read (after the language catalogue loads), not once at import.
+export const KIND_LABEL = {
+  get jamming() { return t("js-training-kind-jamming", "Jamming"); },
+  get "drag-off"() { return t("js-training-kind-drag-off", "Position drag-off"); },
+  get "time-spoof"() { return t("js-training-kind-time-spoof", "Time spoof"); },
+  get "replay-delay"() { return t("js-training-kind-replay-delay", "Replay delay"); },
+  get "natural-degradation"() { return t("js-training-kind-natural-degradation", "Natural degradation (blocked sky)"); },
+};
+export const WHAT_LABEL = {
+  get onset() { return t("js-training-what-onset", "Onset"); },
+  get "full-effect"() { return t("js-training-what-full-effect", "Full effect"); },
+  get "recovery-begins"() { return t("js-training-what-recovery-begins", "Recovery begins"); },
+  get recovered() { return t("js-training-what-recovered", "Recovered"); },
+  get "fix-lost"() { return t("js-training-what-fix-lost", "Fix lost"); },
+  get "fix-regained"() { return t("js-training-what-fix-regained", "Fix regained"); },
+};
 
 // Position-error bands for colouring the reported track (metres). Stated on the page, not a standard.
 export const ERROR_BANDS = Object.freeze([
-  { id: "small", max: 25, label: "under 25 m" },
-  { id: "medium", max: 100, label: "25 to 100 m" },
-  { id: "large", max: Infinity, label: "over 100 m" },
+  { id: "small", max: 25, get label() { return t("js-training-band-small", "under 25 m"); } },
+  { id: "medium", max: 100, get label() { return t("js-training-band-medium", "25 to 100 m"); } },
+  { id: "large", max: Infinity, get label() { return t("js-training-band-large", "over 100 m"); } },
 ]);
 export const errorBand = (m) => (m == null ? null : ERROR_BANDS.find((b) => m < b.max).id);
 
 // Read one instructor log. Returns { log } or { error }.
 export function parseInstructorLog(text, name = "file") {
   let o;
-  try { o = JSON.parse(String(text).replace(/^﻿/, "")); } catch (e) { return { error: `${name}: not JSON (${e.message}).` }; }
-  if (!isObj(o) || typeof o.schema !== "string") return { error: `${name}: not a Kshana training instructor log (no schema tag).` };
-  if (!o.schema.startsWith("kshana-nmea-training/")) return { error: `${name}: unknown schema ${JSON.stringify(o.schema)}; this page reads ${SCHEMA}.` };
-  if (o.schema !== SCHEMA) return { error: `${name}: schema ${o.schema} is newer or different from ${SCHEMA}, which this page reads. Update the Studio rather than guess at its fields.` };
-  if (!Array.isArray(o.track) || !o.track.length) return { error: `${name}: the log has no track rows to draw.` };
-  if (o.track.length > MAX_ROWS) return { error: `${name}: the log has ${o.track.length} track rows; this page draws at most ${MAX_ROWS}. Log less often (log_interval_s) or open an excerpt.` };
+  try { o = JSON.parse(String(text).replace(/^﻿/, "")); } catch (e) { return { error: t("js-training-err-not-json", "{ $name }: not JSON ({ $reason }).", { name, reason: e.message }) }; }
+  if (!isObj(o) || typeof o.schema !== "string") return { error: t("js-training-err-no-schema", "{ $name }: not a Kshana training instructor log (no schema tag).", { name }) };
+  if (!o.schema.startsWith("kshana-nmea-training/")) return { error: t("js-training-err-unknown-schema", "{ $name }: unknown schema { $schema }; this page reads { $supported }.", { name, schema: JSON.stringify(o.schema), supported: SCHEMA }) };
+  if (o.schema !== SCHEMA) return { error: t("js-training-err-newer-schema", "{ $name }: schema { $schema } is newer or different from { $supported }, which this page reads. Update the Studio rather than guess at its fields.", { name, schema: o.schema, supported: SCHEMA }) };
+  if (!Array.isArray(o.track) || !o.track.length) return { error: t("js-training-err-no-track", "{ $name }: the log has no track rows to draw.", { name }) };
+  if (o.track.length > MAX_ROWS) return { error: t("js-training-err-too-many-rows", "{ $name }: the log has { $count } track rows; this page draws at most { $max }. Log less often (log_interval_s) or open an excerpt.", { name, count: o.track.length, max: MAX_ROWS }) };
   const warnings = [];
   const track = [];
   let skipped = 0;
@@ -59,8 +75,8 @@ export function parseInstructorLog(text, name = "file") {
       cn0: num(r.mean_cn0_dbhz), active: Array.isArray(r.active_events) ? r.active_events.filter(isNum) : [],
     });
   }
-  if (!track.length) return { error: `${name}: no usable track rows.` };
-  if (skipped) warnings.push(`${skipped} track row(s) were not valid and were skipped.`);
+  if (!track.length) return { error: t("js-training-err-no-usable-rows", "{ $name }: no usable track rows.", { name }) };
+  if (skipped) warnings.push(t("js-training-warn-rows-skipped", "{ $count } track row(s) were not valid and were skipped.", { count: skipped }));
   track.sort((a, b) => a.t_s - b.t_s);
   const events = (Array.isArray(o.events) ? o.events : []).filter((e) => isObj(e) && isNum(e.id)).map((e) => ({
     id: e.id, description: str(e.description), startUtc: str(e.start_utc), p: isObj(e.parameters) ? e.parameters : {},
@@ -70,7 +86,7 @@ export function parseInstructorLog(text, name = "file") {
   const timeline = (Array.isArray(o.timeline) ? o.timeline : []).filter((t) => isObj(t) && isNum(t.t_s)).map((t) => ({
     t_s: t.t_s, utc: str(t.utc), event: isNum(t.event) ? t.event : null, what: str(t.what), text: str(t.text),
   })).sort((a, b) => a.t_s - b.t_s);
-  if (!str(o.warning).trim()) warnings.push("This file carries no warning text. It is a training log: do not feed its stream to live navigation.");
+  if (!str(o.warning).trim()) warnings.push(t("js-training-warn-no-warning-text", "This file carries no warning text. It is a training log: do not feed its stream to live navigation."));
   // Peaks of the true and the reported track over the run (absent in older logs).
   const sm = isObj(o.summary) ? o.summary : null;
   const summary = sm && [sm.true_peak_sog_kn, sm.true_peak_accel_mps2, sm.reported_peak_sog_kn, sm.reported_peak_accel_mps2].every(isNum)
@@ -162,21 +178,38 @@ export function sensorCue(r) {
 // A sentence for the row at the cursor (read aloud by the page).
 export function describeRow(log, i) {
   const r = log.track[i];
-  const bits = [`T+${Math.round(r.t_s)} s`, r.fixValid ? "receiver reports a fix" : "no fix"];
-  if (r.errM != null) bits.push(`reported position ${r.errM < 10 ? r.errM.toFixed(1) : Math.round(r.errM)} m from true`);
-  if (Math.abs(r.timeOff) >= 0.05) bits.push(`reported time ${r.timeOff > 0 ? "ahead of" : "behind"} true by ${Math.abs(r.timeOff).toFixed(1)} s`);
-  bits.push(`${r.nUsed} of ${r.nTracked} satellites used`);
-  if (r.cn0 != null) bits.push(`mean C/N0 ${r.cn0.toFixed(1)} dB-Hz`);
-  if (r.active.length) bits.push(`active: ${r.active.map((id) => { const e = log.events.find((x) => x.id === id); return e ? kindLabel(e.p.kind) : `event ${id}`; }).join(", ")}`);
+  const bits = [`T+${Math.round(r.t_s)} s`, r.fixValid ? t("js-training-say-fix", "receiver reports a fix") : t("js-training-say-no-fix", "no fix")];
+  if (r.errM != null) bits.push(t("js-training-say-position-from-true", "reported position { $m } m from true", { m: r.errM < 10 ? r.errM.toFixed(1) : Math.round(r.errM) }));
+  if (Math.abs(r.timeOff) >= 0.05) bits.push(r.timeOff > 0 ? t("js-training-say-time-ahead", "reported time ahead of true by { $s } s", { s: Math.abs(r.timeOff).toFixed(1) }) : t("js-training-say-time-behind", "reported time behind true by { $s } s", { s: Math.abs(r.timeOff).toFixed(1) }));
+  bits.push(t("js-training-say-sats-used", "{ $used } of { $tracked } satellites used", { used: r.nUsed, tracked: r.nTracked }));
+  if (r.cn0 != null) bits.push(t("js-training-say-mean-cn0", "mean C/N0 { $cn0 } dB-Hz", { cn0: r.cn0.toFixed(1) }));
+  if (r.active.length) bits.push(t("js-training-say-active", "active: { $list }", { list: r.active.map((id) => { const e = log.events.find((x) => x.id === id); return e ? kindLabel(e.p.kind) : t("js-training-say-event-id", "event { $id }", { id }); }).join(", ") }));
   return bits.join(", ");
 }
 
 // A skyline given to a natural-degradation event, as one line: a preset by name, or a stated profile by its size. Never
 // "[object Object]": the value comes from the file.
-const skylineText = (v) => (v && typeof v === "object" && typeof v.preset === "string" ? `preset ${v.preset}` : v && typeof v === "object" ? "stated profile" : String(v));
+const skylineText = (v) => (v && typeof v === "object" && typeof v.preset === "string" ? t("js-training-skyline-preset", "preset { $name }", { name: v.preset }) : v && typeof v === "object" ? t("js-training-skyline-stated", "stated profile") : String(v));
 // One-line facts of an event's parameters for the list, in the order the log gives them.
 export function paramRows(p) {
-  const label = { kind: "Kind", label: "Label", start_s: "Onset, s", duration_s: "Duration, s", ramp_s: "Onset ramp, s", recovery_s: "Recovery ramp, s", cn0_drop_db: "C/N0 drop, dB", spread_db: "Per-satellite spread, dB", final_offset_m: "Final offset, m", bearing_deg: "Bearing, deg true", relative_bearing_deg: "Bearing relative to course, deg", offset_s: "Time offset, s", delay_s: "Delay, s", affect_time: "Affects time", counterfeit_cn0_dbhz: "Counterfeit C/N0, dB-Hz", skyline: "Skyline" };
+  const label = {
+    kind: t("js-training-param-kind", "Kind"),
+    label: t("js-training-param-label", "Label"),
+    start_s: t("js-training-param-start-s", "Onset, s"),
+    duration_s: t("js-training-param-duration-s", "Duration, s"),
+    ramp_s: t("js-training-param-ramp-s", "Onset ramp, s"),
+    recovery_s: t("js-training-param-recovery-s", "Recovery ramp, s"),
+    cn0_drop_db: t("js-training-param-cn0-drop-db", "C/N0 drop, dB"),
+    spread_db: t("js-training-param-spread-db", "Per-satellite spread, dB"),
+    final_offset_m: t("js-training-param-final-offset-m", "Final offset, m"),
+    bearing_deg: t("js-training-param-bearing-deg", "Bearing, deg true"),
+    relative_bearing_deg: t("js-training-param-relative-bearing-deg", "Bearing relative to course, deg"),
+    offset_s: t("js-training-param-offset-s", "Time offset, s"),
+    delay_s: t("js-training-param-delay-s", "Delay, s"),
+    affect_time: t("js-training-param-affect-time", "Affects time"),
+    counterfeit_cn0_dbhz: t("js-training-param-counterfeit-cn0-dbhz", "Counterfeit C/N0, dB-Hz"),
+    skyline: t("js-training-param-skyline", "Skyline"),
+  };
   return Object.entries(p).filter(([, v]) => v !== null && v !== undefined).map(([k, v]) => [(Object.hasOwn(label, k) && label[k]) || k.replace(/_/g, " "), k === "kind" ? kindLabel(v) : k === "skyline" ? skylineText(v) : String(v)]);
 }
 
@@ -184,9 +217,9 @@ export function paramRows(p) {
 // to the false track. Empty for other kinds and for older logs.
 export function eventExtraRows(e) {
   const rows = [];
-  if (e.resolvedBearingDeg != null) rows.push(["Bearing as applied, deg true", e.resolvedBearingDeg.toFixed(1)]);
-  if (e.peakDragSpeedMps != null) rows.push(["Peak speed the drag adds, m/s", e.peakDragSpeedMps.toFixed(3)]);
-  if (e.peakDragAccelMps2 != null) rows.push(["Peak acceleration the drag adds, m/s²", e.peakDragAccelMps2.toFixed(4)]);
+  if (e.resolvedBearingDeg != null) rows.push([t("js-training-extra-bearing", "Bearing as applied, deg true"), e.resolvedBearingDeg.toFixed(1)]);
+  if (e.peakDragSpeedMps != null) rows.push([t("js-training-extra-peak-speed", "Peak speed the drag adds, m/s"), e.peakDragSpeedMps.toFixed(3)]);
+  if (e.peakDragAccelMps2 != null) rows.push([t("js-training-extra-peak-accel", "Peak acceleration the drag adds, m/s²"), e.peakDragAccelMps2.toFixed(4)]);
   return rows;
 }
 
@@ -194,5 +227,5 @@ export function eventExtraRows(e) {
 export function peakFacts(log) {
   const s = log.summary;
   if (!s) return [];
-  return [["Peak speed, true / reported", `${s.truePeakSogKn.toFixed(1)} / ${s.reportedPeakSogKn.toFixed(1)} kn`], ["Peak acceleration, true / reported", `${s.truePeakAccelMps2.toFixed(4)} / ${s.reportedPeakAccelMps2.toFixed(4)} m/s²`]];
+  return [[t("js-training-fact-peak-speed", "Peak speed, true / reported"), `${s.truePeakSogKn.toFixed(1)} / ${s.reportedPeakSogKn.toFixed(1)} kn`], [t("js-training-fact-peak-accel", "Peak acceleration, true / reported"), `${s.truePeakAccelMps2.toFixed(4)} / ${s.reportedPeakAccelMps2.toFixed(4)} m/s²`]];
 }

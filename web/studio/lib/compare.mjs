@@ -7,11 +7,12 @@
 // The headline figures of merit, each tagged with whether smaller is better, so
 // the comparison can colour the winner correctly. `availability` and `holdover`
 // are "more is better"; the timing errors are "less is better".
+import { t } from "./t.mjs";
 export const COMPARE_METRICS = [
-  { key: "holdover_s", label: "Holdover", unit: "s", lowerBetter: false },
-  { key: "timing_rms_ns", label: "Timing RMS", unit: "ns", lowerBetter: true },
-  { key: "timing_p95_ns", label: "Timing p95", unit: "ns", lowerBetter: true },
-  { key: "availability", label: "Availability", unit: "", lowerBetter: false },
+  { key: "holdover_s", get label() { return t("js-lib-compare-holdover", "Holdover"); }, unit: "s", lowerBetter: false },
+  { key: "timing_rms_ns", get label() { return t("js-lib-compare-timing-rms", "Timing RMS"); }, unit: "ns", lowerBetter: true },
+  { key: "timing_p95_ns", get label() { return t("js-lib-compare-timing-p95", "Timing p95"); }, unit: "ns", lowerBetter: true },
+  { key: "availability", get label() { return t("js-lib-compare-availability", "Availability"); }, unit: "", lowerBetter: false },
 ];
 
 /// Compare two run results clock-by-clock. Returns one row per (clock, metric)

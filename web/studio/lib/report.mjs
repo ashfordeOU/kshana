@@ -12,6 +12,8 @@
 // engine/renderer SVGs (the holdover/Allan/orbit/sweep charts WE generate) go in
 // as raw markup, never anything from the TOML. Pure: returns a string.
 
+import { t } from "./t.mjs";
+
 /// Escape the five characters that matter in an HTML text/attribute context.
 /// Standard HTML-escape. Applied to every scenario-derived string in the report.
 export function escapeHtml(s) {
@@ -34,6 +36,8 @@ export function reportFilename(meta) {
 
 /// What a figure the run marks `applicable: false` shows instead of its value.
 export const NOT_APPLICABLE = "not applicable (no attack configured)";
+/// The same text in the current language, looked up when it is drawn (NOT_APPLICABLE stays the English constant).
+export const notApplicable = () => t("js-lib-report-not-applicable", "not applicable (no attack configured)");
 
 // Compact, human number for the FoM table (plain mid-range, exponential extremes).
 // The Rust report table (src/api.rs, fom_value) uses the same thresholds, so a small
@@ -89,7 +93,7 @@ export function buildReportHtml(payload) {
       const metric = r.unit ? `${escapeHtml(r.label)} (${escapeHtml(r.unit)})` : escapeHtml(r.label);
       const tier = r.tier || fomTier(r.metric);
       const tierCell = tier ? `<span class="tier">${escapeHtml(tier)}</span>` : "—";
-      const shown = r.applicable === false ? NOT_APPLICABLE : fmtVal(r.value);
+      const shown = r.applicable === false ? notApplicable() : fmtVal(r.value);
       return `<tr><td>${escapeHtml(r.clockLabel)}</td><td>${metric}</td><td class="num">${escapeHtml(shown)}</td><td>${tierCell}</td></tr>`;
     })
     .join("\n");
@@ -101,17 +105,20 @@ export function buildReportHtml(payload) {
     .map((c) => `<figure class="chart"><figcaption>${escapeHtml(c.title)}</figcaption>${c.svg}</figure>`)
     .join("\n");
 
+  // The two tier words are glossary terms set in their own spans: the sentence is one message, the words are swapped in after escaping.
+  const tierNote = escapeHtml(t("js-lib-report-tier-note", "Each figure of merit is tagged { $validated } (checked against an external oracle) or { $modelled } (first-principles, internally tested) — derived from the verification matrix.", { validated: "\u0001V\u0001", modelled: "\u0001M\u0001" }))
+    .replace("\u0001V\u0001", '<span class="tier">VALIDATED</span>').replace("\u0001M\u0001", '<span class="tier">MODELLED</span>');
   const fomBlock = rowsHtml
-    ? `<h2>Figures of merit</h2>\n<table class="fom"><thead><tr><th>Clock</th><th>Metric</th><th class="num">Value</th><th>Validation</th></tr></thead><tbody>\n${rowsHtml}\n</tbody></table>\n<p class="tier-note">Each figure of merit is tagged <span class="tier">VALIDATED</span> (checked against an external oracle) or <span class="tier">MODELLED</span> (first-principles, internally tested) — derived from the verification matrix.</p>`
+    ? `<h2>${escapeHtml(t("js-lib-report-figures-of-merit", "Figures of merit"))}</h2>\n<table class="fom"><thead><tr><th>${escapeHtml(t("js-lib-report-th-clock", "Clock"))}</th><th>${escapeHtml(t("js-lib-report-th-metric", "Metric"))}</th><th class="num">${escapeHtml(t("js-lib-report-th-value", "Value"))}</th><th>${escapeHtml(t("js-lib-report-th-validation", "Validation"))}</th></tr></thead><tbody>\n${rowsHtml}\n</tbody></table>\n<p class="tier-note">${tierNote}</p>`
     : "";
-  const chartsBlock = chartsHtml ? `<h2>Charts</h2>\n${chartsHtml}` : "";
+  const chartsBlock = chartsHtml ? `<h2>${escapeHtml(t("js-lib-report-charts", "Charts"))}</h2>\n${chartsHtml}` : "";
 
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Kshana — scenario report</title>
+<title>${escapeHtml(t("js-lib-report-title", "Kshana — scenario report"))}</title>
 <style>
 :root{color-scheme:light dark}
 body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;max-width:900px;margin:0 auto;padding:2rem 1.25rem 3rem;color:#1c1812;background:#fbf8f2}
@@ -134,14 +141,14 @@ footer{margin-top:2rem;padding-top:1rem;border-top:1px solid #8884;font-size:.82
 </style>
 </head>
 <body>
-<p class="eyebrow">क्षण · the precise instant</p>
-<h1>Kshana — scenario report</h1>
+<p class="eyebrow">क्षण · ${escapeHtml(t("js-lib-report-eyebrow", "the precise instant"))}</p>
+<h1>${escapeHtml(t("js-lib-report-title", "Kshana — scenario report"))}</h1>
 <p class="summary">${summary}</p>
 ${fomBlock}
 ${chartsBlock}
-<h2>Scenario definition (TOML)</h2>
+<h2>${escapeHtml(t("js-lib-report-scenario-definition", "Scenario definition (TOML)"))}</h2>
 <pre>${toml}</pre>
-<footer>Kshana v${ver} · scenario ${hash12} · generated ${iso}. Reproducible from scenario + seed + engine version. Runs locally; nothing uploaded.</footer>
+<footer>${escapeHtml(t("js-lib-report-footer", "Kshana { $version } · scenario { $hash } · generated { $iso }. Reproducible from scenario + seed + engine version. Runs locally; nothing uploaded.", { version: "v" + (payload.engineVersion || ""), hash: String(payload.scenarioHash || "").slice(0, 12), iso: payload.generatedIso || "" }))}</footer>
 </body>
 </html>
 `;

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Interference map: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
 <base href="../">
@@ -30,85 +31,86 @@
   <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
-<a class="skip" href="#main">Skip to the view</a>
+<a class="skip" href="#main" data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
-  <nav class="crumb" aria-label="Where you are"><span>Interference map</span></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"><span data-l10n="studio-interference-interference-map">Interference map</span></nav>
   <div class="bar-right">
-    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
-    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="view-switch" href="./" title="Back to the Studio" data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl" data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
 <div class="wrap im">
-  <p class="kicker"><i style="--c:var(--int)"></i>Interference map</p>
-  <h1 id="im-h">Where did position reports look degraded?</h1>
-  <p class="lede">Open the per-day GeoJSON files that <code>kshana interference-map</code> writes from openly licensed aircraft (ADS-B) and ship (AIS) tracking data. Each file is drawn as its own map, with its licence, attribution and method shown beside it. Files you open here are read in this page and never uploaded.</p>
+  <p class="kicker"><i style="--c:var(--int)"></i><span data-l10n-rich="seg-80f3f0aae42c">Interference map</span></p>
+  <h1 id="im-h" data-l10n="studio-interference-where-did-position-reports-look">Where did position reports look degraded?</h1>
+  <p class="lede" data-l10n-rich="seg-2afb1b2b483b" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>kshana interference-map</code>&quot;}}">Open the per-day GeoJSON files that <code>kshana interference-map</code> writes from openly licensed aircraft (ADS-B) and ship (AIS) tracking data. Each file is drawn as its own map, with its licence, attribution and method shown beside it. Files you open here are read in this page and never uploaded.</p>
 
-  <p class="im-advice" role="note"><b>What this is, and is not.</b> A description of what published position reports looked like on a past day. It is not a measurement of any receiver, not a forecast and not proof of interference: a degraded or anomalous cell has several possible causes, listed under each map. <b>A cell that is not drawn was not observed. That is not evidence of a clear cell.</b> Advisory information only.</p>
+  <p class="im-advice" role="note" data-l10n-rich="seg-97c316c29fa6" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>What this is, and is not.</b> A description of what published position reports looked like on a past day. It is not a measurement of any receiver, not a forecast and not proof of interference: a degraded or anomalous cell has several possible causes, listed under each map. <b>A cell that is not drawn was not observed. That is not evidence of a clear cell.</b> Advisory information only.</p>
 
   <section class="card im-load" aria-labelledby="im-load-h">
-    <div class="card-head"><h2 id="im-load-h" class="h3">Open map files</h2>
-      <p class="card-note">Choose one or more <code>adsb-&lt;dataset&gt;-YYYY-MM-DD.geojson</code> or <code>ais-&lt;dataset&gt;-YYYY-MM-DD.geojson</code> files. ADS-B and AIS files are always shown as separate maps and never combined: their licences differ (an ADS-B file carries its source's licence, ODbL 1.0 for the built-in source; AIS files are public domain or NLOD 2.0) and so does what a cell means.</p></div>
+    <div class="card-head"><h2 id="im-load-h" class="h3" data-l10n="studio-interference-open-map-files">Open map files</h2>
+      <p class="card-note" data-l10n-rich="seg-fd4e582c272e" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>adsb-&amp;lt;dataset&amp;gt;-YYYY-MM-DD.geojson</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>ais-&amp;lt;dataset&amp;gt;-YYYY-MM-DD.geojson</code>&quot;}}">Choose one or more <code>adsb-&lt;dataset&gt;-YYYY-MM-DD.geojson</code> or <code>ais-&lt;dataset&gt;-YYYY-MM-DD.geojson</code> files. ADS-B and AIS files are always shown as separate maps and never combined: their licences differ (an ADS-B file carries its source's licence, ODbL 1.0 for the built-in source; AIS files are public domain or NLOD 2.0) and so does what a cell means.</p></div>
     <div class="im-drop" id="im-drop">
-      <label class="im-file btn-primary">Choose files…<input id="im-files" type="file" multiple accept=".geojson,.json,application/geo+json,application/json"></label>
-      <span class="im-or">or drop them here</span>
-      <button class="im-demo" id="im-demo" type="button">Open the synthetic demo</button>
-      <button class="im-demo" id="im-clear" type="button" hidden>Close all maps</button>
+      <label class="im-file btn-primary"><span data-l10n-rich="seg-f4c16e6a9663">Choose files…</span><input id="im-files" type="file" multiple accept=".geojson,.json,application/geo+json,application/json"></label>
+      <span class="im-or" data-l10n="studio-interference-or-drop-them-here">or drop them here</span>
+      <button class="im-demo" id="im-demo" type="button" data-l10n="studio-interference-open-the-synthetic-demo">Open the synthetic demo</button>
+      <button class="im-demo" id="im-clear" type="button" hidden data-l10n="studio-interference-close-all-maps">Close all maps</button>
     </div>
-    <p class="im-status" id="im-status" role="status" aria-live="polite">Nothing open yet.</p>
+    <p class="im-status" id="im-status" role="status" aria-live="polite" data-l10n="studio-interference-nothing-open-yet">Nothing open yet.</p>
     <ul class="im-notes" id="im-notes"></ul>
   </section>
 
   <section class="card im-load" aria-labelledby="im-build-h">
-    <div class="card-head"><h2 id="im-build-h" class="h3">Build a map here</h2>
-      <p class="card-note">Run the engine in this browser on a CSV of ADS-B or AIS position reports and get one map file per UTC day, then see it below. Rows and columns are described in the interference-map guide. The data is read in this page and never uploaded; the engine fetches nothing. A dataset preset needs the data you obtained under that dataset's own licence; with <code>custom</code> you state the licence and attribution yourself, and they are written into the file.</p></div>
+    <div class="card-head"><h2 id="im-build-h" class="h3" data-l10n="studio-interference-build-a-map-here">Build a map here</h2>
+      <p class="card-note" data-l10n-rich="seg-3dc9c835a9ee" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>custom</code>&quot;}}">Run the engine in this browser on a CSV of ADS-B or AIS position reports and get one map file per UTC day, then see it below. Rows and columns are described in the interference-map guide. The data is read in this page and never uploaded; the engine fetches nothing. A dataset preset needs the data you obtained under that dataset's own licence; with <code>custom</code> you state the licence and attribution yourself, and they are written into the file.</p></div>
     <div class="im-buildrow">
-      <label>Source <select id="im-b-src"><option value="adsb">ADS-B (aircraft)</option><option value="ais">AIS (ships)</option></select></label>
-      <label>Dataset <select id="im-b-ds"><option value="custom">custom (state the licence)</option><option value="adsb-lol">adsb-lol</option><option value="noaa-marinecadastre">noaa-marinecadastre</option><option value="kystverket">kystverket</option></select></label>
-      <label>Cell size, degrees <input id="im-b-cell" type="text" inputmode="decimal" spellcheck="false" placeholder="0.5" aria-label="Cell size in degrees (empty for 0.5)"></label>
+      <label><span data-l10n-rich="seg-f63dd3d7aad4">Source</span> <select id="im-b-src"><option value="adsb" data-l10n-rich="seg-b19953c7935c">ADS-B (aircraft)</option><option value="ais" data-l10n-rich="seg-4bc3949d3db6">AIS (ships)</option></select></label>
+      <label><span data-l10n-rich="seg-b966dd26caa6">Dataset</span> <select id="im-b-ds"><option value="custom" data-l10n-rich="seg-7c938f98aae2">custom (state the licence)</option><option value="adsb-lol">adsb-lol</option><option value="noaa-marinecadastre">noaa-marinecadastre</option><option value="kystverket" data-l10n-rich="seg-14e847391f84">kystverket</option></select></label>
+      <label><span data-l10n-rich="seg-b022a11dd8f7">Cell size, degrees</span> <input id="im-b-cell" type="text" inputmode="decimal" spellcheck="false" placeholder="0.5" aria-label="Cell size in degrees (empty for 0.5)" data-l10n-attr="aria-label:studio-interference-cell-size-in-degrees-empty"></label>
     </div>
     <div class="im-buildrow" id="im-b-lic">
-      <label>Licence <input id="im-b-licence" type="text" spellcheck="false" autocomplete="off" placeholder="CC0-1.0"></label>
-      <label>Licence URL <input id="im-b-url" type="text" spellcheck="false" autocomplete="off" placeholder="https://…"></label>
-      <label class="im-wide">Attribution <input id="im-b-attr" type="text" spellcheck="false" autocomplete="off"></label>
+      <label><span data-l10n-rich="seg-d4a762001549">Licence</span> <input id="im-b-licence" type="text" spellcheck="false" autocomplete="off" placeholder="CC0-1.0"></label>
+      <label><span data-l10n-rich="seg-ba963d8caa19">Licence URL</span> <input id="im-b-url" type="text" spellcheck="false" autocomplete="off" placeholder="https://…" data-l10n-attr="placeholder:studio-interference-https"></label>
+      <label class="im-wide"><span data-l10n-rich="seg-86c668236bcd">Attribution</span> <input id="im-b-attr" type="text" spellcheck="false" autocomplete="off"></label>
     </div>
     <div class="im-drop">
-      <label class="im-file btn-primary">Choose a CSV…<input id="im-b-csv" type="file" accept=".csv,.txt,text/*"></label>
-      <label class="im-file im-demo">Land polygons (AIS, optional)…<input id="im-b-land" type="file" accept=".geojson,.json"></label>
-      <button class="im-demo" id="im-b-demo" type="button">Build from the synthetic sample</button>
+      <label class="im-file btn-primary"><span data-l10n-rich="seg-cf349420d4e6">Choose a CSV…</span><input id="im-b-csv" type="file" accept=".csv,.txt,text/*"></label>
+      <label class="im-file im-demo"><span data-l10n-rich="seg-ad64a2924107">Land polygons (AIS, optional)…</span><input id="im-b-land" type="file" accept=".geojson,.json"></label>
+      <button class="im-demo" id="im-b-demo" type="button" data-l10n="studio-interference-build-from-the-synthetic-sample">Build from the synthetic sample</button>
     </div>
     <p class="im-status" id="im-b-status" role="status" aria-live="polite"></p>
   </section>
 
   <section class="card im-load" aria-labelledby="im-route-h">
-    <div class="card-head"><h2 id="im-route-h" class="h3">Route exposure here</h2>
-      <p class="card-note">How much of a planned route lay in degraded cells on each day, from the maps open on this page (opened or built here). Pick a route (a GeoJSON line, or a CSV of <code>lat,lon</code> lines; waypoints are joined by straight lines, so add points on long legs) and, if you like, limit the days. Not a forecast; a cell nobody observed is not evidence of a clear route.</p></div>
+    <div class="card-head"><h2 id="im-route-h" class="h3" data-l10n="studio-interference-route-exposure-here">Route exposure here</h2>
+      <p class="card-note" data-l10n-rich="seg-40feef1e2296" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>lat,lon</code>&quot;}}">How much of a planned route lay in degraded cells on each day, from the maps open on this page (opened or built here). Pick a route (a GeoJSON line, or a CSV of <code>lat,lon</code> lines; waypoints are joined by straight lines, so add points on long legs) and, if you like, limit the days. Not a forecast; a cell nobody observed is not evidence of a clear route.</p></div>
     <div class="im-buildrow">
-      <label>From (YYYY-MM-DD) <input id="im-r-from" type="text" inputmode="numeric" spellcheck="false" placeholder="any"></label>
-      <label>To (YYYY-MM-DD) <input id="im-r-to" type="text" inputmode="numeric" spellcheck="false" placeholder="any"></label>
+      <label><span data-l10n-rich="seg-01407588c187">From (YYYY-MM-DD)</span> <input id="im-r-from" type="text" inputmode="numeric" spellcheck="false" placeholder="any"></label>
+      <label><span data-l10n-rich="seg-2df7968fe44c">To (YYYY-MM-DD)</span> <input id="im-r-to" type="text" inputmode="numeric" spellcheck="false" placeholder="any"></label>
     </div>
     <div class="im-drop">
-      <label class="im-file btn-primary">Choose a route…<input id="im-r-file" type="file" accept=".geojson,.json,.csv,.txt"></label>
-      <button class="im-demo" id="im-r-demo" type="button">Use the synthetic route</button>
+      <label class="im-file btn-primary"><span data-l10n-rich="seg-bbdd5511b2d4">Choose a route…</span><input id="im-r-file" type="file" accept=".geojson,.json,.csv,.txt"></label>
+      <button class="im-demo" id="im-r-demo" type="button" data-l10n="studio-interference-use-the-synthetic-route">Use the synthetic route</button>
     </div>
     <p class="im-status" id="im-r-status" role="status" aria-live="polite"></p>
   </section>
 
   <div id="im-maps"></div>
 
-  <section class="im-fine" aria-label="About this page">
-    <h2 class="h3">Reading these maps</h2>
+  <section class="im-fine" aria-label="About this page" data-l10n-attr="aria-label:studio-interference-about-this-page">
+    <h2 class="h3" data-l10n="studio-interference-reading-these-maps">Reading these maps</h2>
     <ul>
-      <li>The demo files are <b>synthetic</b>: every count is made up, on a made-up region, with no tracking source, partner data or real day behind them. Their data block says so.</li>
-      <li>Maps inherit the coverage of their source: volunteer ADS-B receivers leave open sea sparse, and open AIS data omits some vessel classes. Read the coverage notes in each file.</li>
-      <li>No coastline or basemap is drawn and nothing is fetched from any server; the grid is latitude and longitude only.</li>
-      <li>No identifier of any aircraft or vessel is in these files; cells with too few distinct aircraft or vessels are not published at all, and an AIS count of one or two is withheld.</li>
+      <li data-l10n-rich="seg-f6c5554e22a0" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">The demo files are <b>synthetic</b>: every count is made up, on a made-up region, with no tracking source, partner data or real day behind them. Their data block says so.</li>
+      <li data-l10n="studio-interference-maps-inherit-the-coverage-of">Maps inherit the coverage of their source: volunteer ADS-B receivers leave open sea sparse, and open AIS data omits some vessel classes. Read the coverage notes in each file.</li>
+      <li data-l10n="studio-interference-no-coastline-or-basemap-is">No coastline or basemap is drawn and nothing is fetched from any server; the grid is latitude and longitude only.</li>
+      <li data-l10n="studio-interference-no-identifier-of-any-aircraft">No identifier of any aircraft or vessel is in these files; cells with too few distinct aircraft or vessels are not published at all, and an AIS count of one or two is withheld.</li>
     </ul>
   </section>
 </div>
 </main>
 <script type="module" src="interference/interference.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

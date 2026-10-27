@@ -24,6 +24,7 @@
 //   and from monteCarlo(): { points: [[e, n, u]...], seed, samples, rmsHorizontalM, rms3dM, predictedHorizontalM,
 //     predicted3dM, inside95, provenance } | null
 // Tested in geometry-adapter.test.mjs.
+import { t } from "./t.mjs";
 import { SKYLINE_PRESETS, LEO_PRESETS } from "./geometry-url.mjs";
 import { tableFromVertices, emptyTable, BINS, snapHalf } from "./skyline-edit.mjs";
 
@@ -40,11 +41,11 @@ export const tleEpochOk = (s) => typeof s === "string" && /^20\d\d-(0[1-9]|1[0-2
 // What the page's TLE panel hands over: the pasted text and the epoch input's value (YYYY-MM-DDThh:mm[:ss],
 // entered as UTC). Returns { tle: {text, epochUtc} } or { error } in words for the page.
 export function readTleInput(text, epochValue) {
-  if (typeof text !== "string" || !text.trim()) return { error: "Paste one or more two-line element sets first." };
-  if (new TextEncoder().encode(text).length > MAX_TLE_BYTES) return { error: "The pasted elements are larger than 4 MiB, the engine's input limit." };
+  if (typeof text !== "string" || !text.trim()) return { error: t("js-geo-tle-paste-first", "Paste one or more two-line element sets first.") };
+  if (new TextEncoder().encode(text).length > MAX_TLE_BYTES) return { error: t("js-geo-tle-too-large", "The pasted elements are larger than 4 MiB, the engine's input limit.") };
   const v = typeof epochValue === "string" ? epochValue : "";
   const epochUtc = /^\d{4}-\d\d-\d\dT\d\d:\d\d$/.test(v) ? `${v}:00Z` : /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$/.test(v) ? `${v}Z` : "";
-  if (!tleEpochOk(epochUtc)) return { error: "Give a UTC epoch from 2000 to 2099." };
+  if (!tleEpochOk(epochUtc)) return { error: t("js-geo-tle-epoch", "Give a UTC epoch from 2000 to 2099.") };
   return { tle: { text, epochUtc } };
 }
 
@@ -54,10 +55,10 @@ export const INTERIM_FN = "nmea_training";
 export const INTERIM_EPOCH = "2026-10-12T00:00:00Z";
 
 export const SKYLINE_LABELS = Object.freeze({
-  "city-street": "City street",
-  "harbour-approach": "Harbour approach",
-  "fjord": "Fjord",
-  "container-terminal": "Container terminal",
+  get "city-street"() { return t("js-geo-skyline-city-street", "City street"); },
+  get "harbour-approach"() { return t("js-geo-skyline-harbour", "Harbour approach"); },
+  get "fjord"() { return t("js-geo-skyline-fjord", "Fjord"); },
+  get "container-terminal"() { return t("js-geo-skyline-container", "Container terminal"); },
 });
 
 // Until the engine's skyline_presets() is available: rough outlines in the spirit of the design note's
@@ -98,7 +99,6 @@ export function featuresFor(backend, engine, tleFields = TLE_FIELDS) {
 
 const num = (x) => (typeof x === "number" && Number.isFinite(x) ? x : null);
 const NO_DOP = Object.freeze({ gdop: null, pdop: null, hdop: null, vdop: null, tdop: null });
-const NEEDS_036 = "needs engine 0.36";
 
 // ---------------------------------------------------------------- interim backend: the training sky
 const TALKER = Object.freeze({ GP: "gps", GA: "galileo", GB: "beidou", BD: "beidou" });
@@ -159,19 +159,19 @@ export function parseInterimNmea(nmea) {
 
 async function computeInterim(engine, state) {
   const notes = [];
-  if (state.leo) notes.push(`LEO: ${NEEDS_036}; left out.`);
-  if (state.sky.kind !== "none") notes.push(`The skyline is drawn but not applied: applying it ${NEEDS_036}. Satellites behind it still count here.`);
-  if (Math.abs(state.lat) > 89) notes.push("This engine build models sites within 89° of the equator; the latitude was limited to that.");
-  notes.push(`Engine ${engine.version || ""} training-sky model (nmea_training) at ${interimInstant(state.t)}: angles in whole degrees and DOPs to one decimal, as receiver sentences carry them; the fix uses at most 12 satellites, chosen by signal strength.`.replace("  ", " "));
+  if (state.leo) notes.push(t("js-geo-note-leo-left-out", "LEO: needs engine 0.36; left out."));
+  if (state.sky.kind !== "none") notes.push(t("js-geo-note-skyline-not-applied", "The skyline is drawn but not applied: applying it needs engine 0.36. Satellites behind it still count here."));
+  if (Math.abs(state.lat) > 89) notes.push(t("js-geo-note-latitude-limited", "This engine build models sites within 89° of the equator; the latitude was limited to that."));
+  notes.push(t("js-geo-note-training-model", "Engine { $version } training-sky model (nmea_training) at { $instant }: angles in whole degrees and DOPs to one decimal, as receiver sentences carry them; the fix uses at most 12 satellites, chosen by signal strength.", { version: engine.version || "", instant: interimInstant(state.t) }).replace("  ", " "));
   const sys = state.sys.filter((s) => ["gps", "galileo", "beidou"].includes(s));
-  const base = { ...empty("interim"), missing: ["GDOP", "TDOP", "the open-sky fraction", "the error ellipse", "the Monte Carlo cloud", "LEO", "the skyline"] };
-  if (!sys.length) return { ...base, notes: ["Pick at least one of GPS, Galileo and BeiDou."] };
+  const base = { ...empty("interim"), missing: [t("js-geo-missing-gdop", "GDOP"), t("js-geo-missing-tdop", "TDOP"), t("js-geo-missing-open-sky", "the open-sky fraction"), t("js-geo-missing-ellipse", "the error ellipse"), t("js-geo-missing-monte-carlo", "the Monte Carlo cloud"), t("js-geo-missing-leo", "LEO"), t("js-geo-missing-skyline", "the skyline")] };
+  if (!sys.length) return { ...base, notes: [t("js-geo-note-pick-one", "Pick at least one of GPS, Galileo and BeiDou.")] };
   const raw = await engine.call(INTERIM_FN, buildInterimToml(state), Math.trunc(state.seed));
   let doc;
-  try { doc = JSON.parse(raw); } catch { throw new Error("the engine's reply was not JSON"); }
-  if (!doc || typeof doc.nmea !== "string") throw new Error("the engine's reply has no sentences");
+  try { doc = JSON.parse(raw); } catch { throw new Error(t("js-geo-err-reply-not-json", "the engine's reply was not JSON")); }
+  if (!doc || typeof doc.nmea !== "string") throw new Error(t("js-geo-err-no-sentences", "the engine's reply has no sentences"));
   const r = parseInterimNmea(doc.nmea);
-  return { ...base, source: `Kshana engine ${engine.version || ""}, training-sky model`.replace("  ", " "), sats: r.sats, nUsed: r.nUsed, nVisible: r.sats.length, nMasked: 0, dop: r.dop || { ...NO_DOP }, dopDigits: 1, notes };
+  return { ...base, source: t("js-geo-source-training", "Kshana engine { $version }, training-sky model", { version: engine.version || "" }).replace("  ", " "), sats: r.sats, nUsed: r.nUsed, nVisible: r.sats.length, nMasked: 0, dop: r.dop || { ...NO_DOP }, dopDigits: 1, notes };
 }
 
 // ---------------------------------------------------------------- 0.36 backend
@@ -240,7 +240,7 @@ const provenanceOf = (doc) => ({ label: text(doc.label, 40), statement: text(doc
 // Read the engine's sky_geometry reply into the normalised result. Every field is checked; a malformed reply
 // throws rather than drawing something the engine did not say.
 export function parseGeometry(doc, version = "") {
-  if (!doc || typeof doc !== "object" || Array.isArray(doc)) throw new Error("the engine's geometry reply is not an object");
+  if (!doc || typeof doc !== "object" || Array.isArray(doc)) throw new Error(t("js-geo-err-geometry-object", "the engine's geometry reply is not an object"));
   let unknown = 0;
   const sats = (Array.isArray(doc.satellites) ? doc.satellites : []).slice(0, 3000).flatMap((s) => {
     if (!s || typeof s !== "object") return [];
@@ -256,15 +256,15 @@ export function parseGeometry(doc, version = "") {
   const d = doc.dop && typeof doc.dop === "object" ? doc.dop : {};
   const dop = { gdop: num(d.gdop), pdop: num(d.pdop), hdop: num(d.hdop), vdop: num(d.vdop), tdop: num(d.tdop) };
   const notes = [];
-  if (unknown) notes.push(`${unknown} satellite record(s) of a system this view does not draw were left out.`);
+  if (unknown) notes.push(t("js-geo-note-unknown-systems", "{ $count } satellite record(s) of a system this view does not draw were left out.", { count: unknown }));
   const src = text(doc.skyline_source, 200);
-  if (src) notes.push(`Skyline: ${src}.`);
+  if (src) notes.push(t("js-geo-note-skyline-source", "Skyline: { $source }.", { source: src }));
   const skipped = (Array.isArray(doc.tle_skipped) ? doc.tle_skipped : []).filter((x) => typeof x === "string");
-  if (skipped.length) notes.push(`${skipped.length} element set(s) were skipped: ${skipped.slice(0, 5).map((x) => x.slice(0, 120)).join("; ")}${skipped.length > 5 ? "; …" : ""}.`);
+  if (skipped.length) notes.push(t("js-geo-note-elements-skipped", "{ $count } element set(s) were skipped: { $list }.", { count: skipped.length, list: `${skipped.slice(0, 5).map((x) => x.slice(0, 120)).join("; ")}${skipped.length > 5 ? "; …" : ""}` }));
   const of = num(doc.open_fraction);
   const below = num(doc.n_below_horizon);
   return {
-    backend: "geometry", source: `Kshana engine ${version}, sky_geometry`.replace("  ", " "),
+    backend: "geometry", source: t("js-geo-source-geometry", "Kshana engine { $version }, sky_geometry", { version }).replace("  ", " "),
     sats, nUsed: sats.filter((s) => s.used).length,
     nVisible: num(doc.n_visible) ?? sats.filter((s) => s.used).length, nMasked: num(doc.n_masked) ?? sats.filter((s) => s.masked).length, nBelow: below,
     dop, dopDigits: 2, openFraction: of !== null && of >= 0 && of <= 1 ? of : null,
@@ -276,7 +276,7 @@ export function parseGeometry(doc, version = "") {
 }
 
 export function parseMonteCarlo(doc) {
-  if (!doc || typeof doc !== "object" || Array.isArray(doc)) throw new Error("the engine's Monte Carlo reply is not an object");
+  if (!doc || typeof doc !== "object" || Array.isArray(doc)) throw new Error(t("js-geo-err-mc-object", "the engine's Monte Carlo reply is not an object"));
   const points = (Array.isArray(doc.samples_enu_m) ? doc.samples_enu_m : []).slice(0, 5000).filter((p) => Array.isArray(p) && p.length >= 2 && p.slice(0, 3).every((x) => num(x) !== null));
   const inside = num(doc.fraction_inside_95);
   return {
@@ -314,7 +314,7 @@ export function parseProfile(doc) {
 function empty(backend) {
   return { backend, source: "", sats: [], nUsed: 0, nVisible: 0, nMasked: 0, nBelow: null, dop: { ...NO_DOP }, dopDigits: 2, openFraction: null, ellipse: null, ellipse95: null, provenance: null, missing: [], notes: [] };
 }
-const parseJson = (raw, what) => { try { return JSON.parse(raw); } catch { throw new Error(`the engine's ${what} reply was not JSON`); } };
+const parseJson = (raw, what) => { try { return JSON.parse(raw); } catch { throw new Error(t("js-geo-err-reply-kind-not-json", "the engine's { $what } reply was not JSON", { what })); } };
 
 // ---------------------------------------------------------------- the adapter the view uses
 // engine: what lib/engine-page.mjs getEngine() resolves to ({available, version, has(fn), call(fn, ...args)}).
@@ -333,7 +333,7 @@ export function createGeometryAdapter(engine, tleFields = TLE_FIELDS) {
         presetCache = presetCache || parsePresets(parseJson(await engine.call("skyline_presets"), "skyline presets"));
         if (presetCache[name]) return { table: new Uint8Array(presetCache[name].table), provenance: presetCache[name].provenance };
       }
-      return { table: tableFromVertices(INTERIM_SKYLINES[name]), provenance: `Illustrative outline drawn by this page; applying a skyline ${NEEDS_036}.` };
+      return { table: tableFromVertices(INTERIM_SKYLINES[name]), provenance: t("js-geo-preset-illustrative", "Illustrative outline drawn by this page; applying a skyline needs engine 0.36.") };
     },
     // The table the engine will use for a canyon (or any non-table skyline), so the page draws exactly that.
     async profile(sky) {
@@ -343,7 +343,7 @@ export function createGeometryAdapter(engine, tleFields = TLE_FIELDS) {
     async compute(state, tle = null) {
       if (backend === "geometry") return parseGeometry(parseJson(await engine.call("sky_geometry", req(state, tle)), "geometry"), engine.version || "");
       if (backend === "interim") return computeInterim(engine, state);
-      return { ...empty("none"), notes: ["The engine is not running in this browser, so there is nothing to show. It runs as WebAssembly; a browser or host that blocks WebAssembly cannot run this view."] };
+      return { ...empty("none"), notes: [t("js-geo-note-no-engine", "The engine is not running in this browser, so there is nothing to show. It runs as WebAssembly; a browser or host that blocks WebAssembly cannot run this view.")] };
     },
     async monteCarlo(state, tle = null) {
       if (!features.monteCarlo || !state.mc) return null;

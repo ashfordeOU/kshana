@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Training debrief: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
 <base href="../">
@@ -29,43 +30,43 @@
   <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
-<a class="skip" href="#main">Skip to the view</a>
+<a class="skip" href="#main" data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
-  <nav class="crumb" aria-label="Where you are"><span>Training debrief</span></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"><span data-l10n="studio-tools-training-debrief">Training debrief</span></nav>
   <div class="bar-right">
-    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
-    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="view-switch" href="./" title="Back to the Studio" data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl" data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
 <div class="wrap tr">
-  <p class="kicker"><i style="--c:var(--spf)"></i>Training debrief</p>
-  <h1 id="tr-h">What did the crew see, and what was really happening?</h1>
-  <p class="lede">Open the instructor log (<code>*.instructor.json</code>) that <code>kshana nmea-scenario</code> writes next to a training stream. It shows the true track against the receiver-reported one, the events that were injected and when, and what the receiver said about its fix, signal, satellites and time. Files you open here are read in this page and never uploaded.</p>
+  <p class="kicker"><i style="--c:var(--spf)"></i><span data-l10n-rich="seg-05562970ef4b">Training debrief</span></p>
+  <h1 id="tr-h" data-l10n="studio-training-what-did-the-crew-see">What did the crew see, and what was really happening?</h1>
+  <p class="lede" data-l10n-rich="seg-b63ff9605b69" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>*.instructor.json</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>kshana nmea-scenario</code>&quot;}}">Open the instructor log (<code>*.instructor.json</code>) that <code>kshana nmea-scenario</code> writes next to a training stream. It shows the true track against the receiver-reported one, the events that were injected and when, and what the receiver said about its fix, signal, satellites and time. Files you open here are read in this page and never uploaded.</p>
 
-  <p class="tr-advice" role="note"><b>Training and testing only.</b> The streams this log belongs to are synthetic. They must never be fed to a vessel's live navigation systems. <b>Show this log only at the debrief:</b> it tells the crew what was injected. It is not type-approved equipment and says nothing about how any receiver or system would perform against real interference.</p>
+  <p class="tr-advice" role="note" data-l10n-rich="seg-8ea9c17dc6b0" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Training and testing only.</b> The streams this log belongs to are synthetic. They must never be fed to a vessel's live navigation systems. <b>Show this log only at the debrief:</b> it tells the crew what was injected. It is not type-approved equipment and says nothing about how any receiver or system would perform against real interference.</p>
 
   <section class="card tr-load" aria-labelledby="tr-load-h">
-    <div class="card-head"><h2 id="tr-load-h" class="h3">Open a log</h2>
-      <p class="card-note">Choose an instructor log, or open one of the five synthetic library scenarios written by the CLI.</p></div>
+    <div class="card-head"><h2 id="tr-load-h" class="h3" data-l10n="studio-training-open-a-log">Open a log</h2>
+      <p class="card-note" data-l10n="studio-training-choose-an-instructor-log-or">Choose an instructor log, or open one of the five synthetic library scenarios written by the CLI.</p></div>
     <div class="tr-drop" id="tr-drop">
-      <label class="tr-file btn-primary">Choose a file…<input id="tr-files" type="file" accept=".json,application/json"></label>
-      <span class="tr-or">or drop it here, or open a library scenario:</span>
-      <span class="tr-demos" id="tr-demos" role="group" aria-label="Synthetic library scenarios"></span>
+      <label class="tr-file btn-primary"><span data-l10n-rich="seg-6d93ea33536f">Choose a file…</span><input id="tr-files" type="file" accept=".json,application/json"></label>
+      <span class="tr-or" data-l10n="studio-training-or-drop-it-here-or">or drop it here, or open a library scenario:</span>
+      <span class="tr-demos" id="tr-demos" role="group" aria-label="Synthetic library scenarios" data-l10n-attr="aria-label:studio-training-synthetic-library-scenarios"></span>
     </div>
-    <p class="tr-status" id="tr-status" role="status" aria-live="polite">Nothing open yet.</p>
+    <p class="tr-status" id="tr-status" role="status" aria-live="polite" data-l10n="studio-interference-nothing-open-yet">Nothing open yet.</p>
     <ul class="tr-notes" id="tr-notes"></ul>
   </section>
 
   <section class="card tr-gen" aria-labelledby="tr-gen-h">
-    <div class="card-head"><h2 id="tr-gen-h" class="h3">Generate a stream here</h2>
-      <p class="card-note">Run the engine's NMEA training generator in this browser. You get the synthetic NMEA 0183 stream for the exercise and the instructor log, and can debrief it straight away. Nothing is uploaded; streaming to a bridge simulator over TCP or UDP is a command-line feature (see the Tools page).</p></div>
+    <div class="card-head"><h2 id="tr-gen-h" class="h3" data-l10n="studio-training-generate-a-stream-here">Generate a stream here</h2>
+      <p class="card-note" data-l10n="studio-training-run-the-engine-s-nmea">Run the engine's NMEA training generator in this browser. You get the synthetic NMEA 0183 stream for the exercise and the instructor log, and can debrief it straight away. Nothing is uploaded; streaming to a bridge simulator over TCP or UDP is a command-line feature (see the Tools page).</p></div>
     <div class="tr-genrow">
-      <label>Scenario <select id="tr-gen-scn" aria-label="Library scenario to generate"></select></label>
-      <label>Seed <input id="tr-gen-seed" type="text" inputmode="numeric" spellcheck="false" placeholder="from the scenario" aria-label="Random seed (optional)"></label>
-      <button type="button" class="tr-demo" id="tr-gen-run">Generate</button>
+      <label><span data-l10n-rich="seg-cae10fb9bff8">Scenario</span> <select id="tr-gen-scn" aria-label="Library scenario to generate" data-l10n-attr="aria-label:studio-training-library-scenario-to-generate"></select></label>
+      <label><span data-l10n-rich="seg-82128deeddae">Seed</span> <input id="tr-gen-seed" type="text" inputmode="numeric" spellcheck="false" placeholder="from the scenario" aria-label="Random seed (optional)" data-l10n-attr="aria-label:studio-training-random-seed-optional;placeholder:studio-training-from-the-scenario"></label>
+      <button type="button" class="tr-demo" id="tr-gen-run" data-l10n-rich="seg-bfb10aedf165">Generate</button>
     </div>
     <p class="tr-status" id="tr-gen-status" role="status" aria-live="polite"></p>
     <div class="tr-genout" id="tr-gen-out"></div>
@@ -79,70 +80,71 @@
       <dl class="tr-facts" id="tr-facts"></dl>
     </section>
 
-    <section class="tr-bar card" aria-label="Time cursor">
+    <section class="tr-bar card" aria-label="Time cursor" data-l10n-attr="aria-label:studio-training-time-cursor">
       <button class="tr-play" id="tr-play" type="button" aria-label="Play"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
-      <label class="tr-speed">Speed <select id="tr-speed" aria-label="Replay speed"><option>1</option><option>2</option><option>5</option><option selected>10</option><option>30</option><option>60</option></select>×</label>
-      <input class="tr-slider" id="tr-slider" type="range" min="0" max="0" value="0" step="1" aria-label="Time cursor, in log rows">
+      <label class="tr-speed"><span data-l10n-rich="seg-4f96553dab9e">Speed</span> <select id="tr-speed" aria-label="Replay speed" data-l10n-attr="aria-label:studio-training-replay-speed"><option>1</option><option>2</option><option>5</option><option selected>10</option><option>30</option><option>60</option></select>×</label>
+      <input class="tr-slider" id="tr-slider" type="range" min="0" max="0" value="0" step="1" aria-label="Time cursor, in log rows" data-l10n-attr="aria-label:studio-training-time-cursor-in-log-rows">
       <output class="tr-readout" id="tr-readout" for="tr-slider"></output>
       <div class="tr-tools">
-        <button type="button" id="tr-prev" class="tr-chip">Previous moment</button>
-        <button type="button" id="tr-next" class="tr-chip">Next moment</button>
-        <label class="tr-chip chk"><input type="checkbox" id="tr-truth" checked> True track</label>
+        <button type="button" id="tr-prev" class="tr-chip" data-l10n="studio-training-previous-moment">Previous moment</button>
+        <button type="button" id="tr-next" class="tr-chip" data-l10n="studio-training-next-moment">Next moment</button>
+        <label class="tr-chip chk"><input type="checkbox" id="tr-truth" checked> <span data-l10n-rich="seg-861fbd3d2940">True track</span></label>
       </div>
       <p class="tr-live" id="tr-live" aria-live="polite" aria-atomic="true"></p>
     </section>
 
     <div class="tr-grid">
       <section class="card tr-track" aria-labelledby="tr-track-h">
-        <div class="card-head"><h3 id="tr-track-h">True track against reported</h3>
-          <p class="card-note">North up, one scale on both axes. The thin grey line is where the vessel really was. The coloured line is what the receiver reported, coloured by how far it was from the truth. Where the receiver reported no fix, nothing is drawn for it.</p></div>
+        <div class="card-head"><h3 id="tr-track-h" data-l10n="studio-training-true-track-against-reported">True track against reported</h3>
+          <p class="card-note" data-l10n="studio-training-north-up-one-scale-on">North up, one scale on both axes. The thin grey line is where the vessel really was. The coloured line is what the receiver reported, coloured by how far it was from the truth. Where the receiver reported no fix, nothing is drawn for it.</p></div>
         <div class="tr-svgbox"><svg id="tr-track-svg" role="img" aria-labelledby="tr-track-h tr-track-desc"></svg></div>
         <p class="sr" id="tr-track-desc"></p>
         <ul class="tr-legend" id="tr-legend" aria-label="Legend"></ul>
       </section>
 
       <section class="card tr-time" aria-labelledby="tr-time-h">
-        <div class="card-head"><h3 id="tr-time-h">Events and what the receiver said</h3>
-          <p class="card-note">One shared time axis. Drag or click to move the cursor; the arrow keys step it. Event bars show the strength of each injected event over time.</p></div>
-        <div class="tr-svgbox"><svg id="tr-time-svg" tabindex="0" role="slider" aria-label="Debrief timeline: time cursor" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></svg></div>
+        <div class="card-head"><h3 id="tr-time-h" data-l10n="studio-training-events-and-what-the-receiver">Events and what the receiver said</h3>
+          <p class="card-note" data-l10n="studio-training-one-shared-time-axis-drag">One shared time axis. Drag or click to move the cursor; the arrow keys step it. Event bars show the strength of each injected event over time.</p></div>
+        <div class="tr-svgbox"><svg id="tr-time-svg" tabindex="0" role="slider" aria-label="Debrief timeline: time cursor" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" data-l10n-attr="aria-label:studio-training-debrief-timeline-time-cursor"></svg></div>
       </section>
 
       <section class="card tr-sky" aria-labelledby="tr-sky-h">
-        <div class="card-head"><h3 id="tr-sky-h">Sky at the cursor</h3>
-          <p class="card-note">The satellites the stream's own GSV lists. A filled marker has a signal strength; a hollow one is listed with none; a shaded sector is where the stream lists satellites and none is heard. Nominal constellation, not an ephemeris for the stream's date.</p></div>
+        <div class="card-head"><h3 id="tr-sky-h" data-l10n="studio-training-sky-at-the-cursor">Sky at the cursor</h3>
+          <p class="card-note" data-l10n="studio-training-the-satellites-the-stream-s">The satellites the stream's own GSV lists. A filled marker has a signal strength; a hollow one is listed with none; a shaded sector is where the stream lists satellites and none is heard. Nominal constellation, not an ephemeris for the stream's date.</p></div>
         <div class="tr-skybox"><svg id="tr-sky-svg" viewBox="0 0 240 240" role="img" aria-labelledby="tr-sky-h tr-sky-cap"></svg></div>
         <p class="tr-none" id="tr-sky-cap"></p>
       </section>
 
       <section class="card tr-now" aria-labelledby="tr-now-h">
-        <div class="card-head"><h3 id="tr-now-h">At the cursor</h3><p class="card-note" id="tr-now-note"></p></div>
+        <div class="card-head"><h3 id="tr-now-h" data-l10n="studio-training-at-the-cursor">At the cursor</h3><p class="card-note" id="tr-now-note"></p></div>
         <div id="tr-now"></div>
       </section>
 
       <section class="card tr-events" aria-labelledby="tr-ev-h">
-        <div class="card-head"><h3 id="tr-ev-h">Events injected</h3><p class="card-note">As the instructor log states them, with every parameter.</p></div>
+        <div class="card-head"><h3 id="tr-ev-h" data-l10n="studio-training-events-injected">Events injected</h3><p class="card-note" data-l10n="studio-training-as-the-instructor-log-states">As the instructor log states them, with every parameter.</p></div>
         <div id="tr-events"></div>
       </section>
 
       <section class="card tr-tl" aria-labelledby="tr-tl-h">
-        <div class="card-head"><h3 id="tr-tl-h">Debrief timeline</h3><p class="card-note">Choose a moment to move the cursor to it.</p></div>
+        <div class="card-head"><h3 id="tr-tl-h" data-l10n="studio-training-debrief-timeline">Debrief timeline</h3><p class="card-note" data-l10n="studio-training-choose-a-moment-to-move">Choose a moment to move the cursor to it.</p></div>
         <p class="tr-none" id="tr-tl-cap"></p>
         <ol class="tr-tlist" id="tr-tlist"></ol>
       </section>
     </div>
   </div>
 
-  <section class="tr-fine" aria-label="About this page">
-    <h2 class="h3">What this page does and does not show</h2>
+  <section class="tr-fine" aria-label="About this page" data-l10n-attr="aria-label:studio-interference-about-this-page">
+    <h2 class="h3" data-l10n="studio-observatory-what-this-page-does-and">What this page does and does not show</h2>
     <ul>
-      <li>The library scenarios are <b>synthetic text</b> with invented positions, dates and tracks. No real vessel, operator or recording is behind them.</li>
-      <li>Heading and log speed (HDT and VBW) stand in for a gyro compass and a Doppler log. <b>No event touches them</b>, so a gap between what GNSS reports and what they say is a debrief cue.</li>
-      <li>The satellite sky is a nominal constellation, not an ephemeris for the stream's date.</li>
-      <li>Nothing here is a measure of how any receiver or system performs against interference.</li>
+      <li data-l10n-rich="seg-b5765678da41" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">The library scenarios are <b>synthetic text</b> with invented positions, dates and tracks. No real vessel, operator or recording is behind them.</li>
+      <li data-l10n-rich="seg-fa131441c483" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">Heading and log speed (HDT and VBW) stand in for a gyro compass and a Doppler log. <b>No event touches them</b>, so a gap between what GNSS reports and what they say is a debrief cue.</li>
+      <li data-l10n="studio-training-the-satellite-sky-is-a">The satellite sky is a nominal constellation, not an ephemeris for the stream's date.</li>
+      <li data-l10n="studio-training-nothing-here-is-a-measure">Nothing here is a measure of how any receiver or system performs against interference.</li>
     </ul>
   </section>
 </div>
 </main>
 <script type="module" src="training/training.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>
