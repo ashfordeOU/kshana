@@ -83,3 +83,5 @@ seg-70a79ec95bf4 = niezaliczony
 seg-7a33a168b020 = zaliczony
 
 seg-2192262e26c1 = spełnione
+
+seg-a91762c0aabe = Bezpłatnie
