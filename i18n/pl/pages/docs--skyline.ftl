@@ -207,3 +207,21 @@ seg-0e1285fdfe52 = Pięć wierszy rejestru (<c1/>), tak jak zakresuje je nota pr
 seg-1aa76286f152 = Orekit { "12.2" } (kąty widzenia <c1/>, <c2/>) z gnss_lib_py { "1.0.4" } (<c3/> i macierz DOP), zarejestrowane z góry w <c4/> (commit e4b9d912), zanim uruchomiono którekolwiek: { "1173" } kątów widzenia w sześciu miejscach i czterech epokach, sześć tabel, { "142" } zbiorów widocznych; najgorsza elewacja { "1.3e-13" }°, azymut { "2.3e-13" }°, maska { "1.1e-12" }° wobec { "1e-9" }°; identyczne zbiory widocznych, żaden w paśmie granicznym; DOP { "3.3e-13" } względnie i kofaktor { "6.6e-13" } skali macierzy wobec { "1e-9" }. Zakres: maski tabelaryczne, kąty widzenia geodezyjne, zbiór zasłonięty oraz jego DOP ze wspólnym zegarem i kofaktor.
 
 seg-b33828edbe2f = wartości obliczone ręcznie; powyższe porównanie czyta ich tabele jako dane wejściowe i ich nie sprawdza
+
+seg-ca950752be62 = Wstępne ustawienia skyline
+
+seg-83946f66ca78 = brak: wybrane, jawnie podane wymiary (sprawdzane wyłącznie względem siebie)
+
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> i <c2/> (standard P2) na { "142" } zatwierdzonych widocznych zbiorach, przy wspólnym zegarze i jednym zegarze na system, wstępnie zarejestrowane w <c3/> (commit 0bbeeaee): { "270" } przypadków, osie { "5.1e-13" } względnie, orientacja { "5.3e-12" }°, kofaktor { "1.0e-12" } skali macierzy, wobec { "1e-9" } i { "1e-6" }°
+
+seg-44e5f9ca28f7 = Funkcje geometrii nieba
+
+seg-8e3953481bbf = kompozycja: propagacja ustawień wstępnych do reprezentatywnego nieba, chmura Monte Carlo (sprawdzana względem geometrii, którą próbkuje), powierzchnie
+
+seg-e8eec007c6b9 = Brak sekcji <c1/> jest sprawdzany bajt po bajcie względem wyników z wersji { "0.35.0" }, co pokazuje zgodność wsteczną i niczego nie potwierdza niezależnym wzorcem. gnss_lib_py stosuje wyłącznie jedną maskę elewacji, więc jest tu wyrocznią dla DOP, a nie dla maski.
+
+seg-d5894e54715b = Czego skyline nie modeluje: dyfrakcji na krawędzi ściany, odbić i sygnałów bez bezpośredniej widoczności, które rzeczywisty odbiornik może nadal śledzić (są odrzucane, a nie osłabiane), częściowej przezroczystości (żuraw kratownicowy jest nieprzezroczysty w całym swoim sektorze), terenu poza podanymi punktami oraz krzywizny Ziemi wewnątrz form kanionu i sektora.
+
+seg-745d19d6b35d = <s1>Poprzednia</s1>Integracje morskie
+
+seg-bbe8dd07d33b = <s1>Następna</s1>Zaufanie jako telemetria bezpieczeństwa
