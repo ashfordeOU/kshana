@@ -47,3 +47,5 @@ seg-bc51b666d070 = Błąd prognozy orientacji Ziemi w stylu operacyjnym, mierzon
 seg-653fad5e0afe = <s1>Poprzednia</s1>quantum-trade
 
 seg-5abe534d4ef1 = <s1>Następna</s1>reentry
+
+seg-a2889fb2b42a = Strona tematu: <a1>integrations.md</a1>

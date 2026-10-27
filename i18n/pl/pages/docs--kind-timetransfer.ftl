@@ -35,3 +35,5 @@ seg-3c9d28692f9f = <b>MODELLED</b> Dwukierunkowy transfer/TWSTFT (Sagnac), GNSS 
 seg-84fcf20588fb = <s1>Poprzedni</s1>time-transfer-budget
 
 seg-149ad280a1f9 = <s1>Następny</s1>tracking-loop
+
+seg-37a77f49f048 = ps

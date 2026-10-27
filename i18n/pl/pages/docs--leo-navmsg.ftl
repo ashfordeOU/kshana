@@ -349,3 +349,5 @@ seg-d1104b6ea7fa = <c1/> umieszcza użytkownika (domyślnie { "45" }° N, { "10"
 seg-7d91304c87e3 = Najwyższy przelot w ciągu doby sięga { "43.7" }° i trwa { "455" } s. Jego przełączenia:
 
 seg-02dc0d42fb21 = sfu
+
+seg-a7d59ba6e225 = rad

@@ -49,3 +49,5 @@ seg-9241a57823cd = --- geometria pętli ----------------------------------------
 seg-3a677e343081 = Utrata zaczepu pętli śledzenia i wciągnięcie przez spoofing w warunkach zakłóceń mają status MODELLED, nie są sprawdzone względem niezależnego wzorca zewnętrznego: sprawdzono je względem odrębnej implementacji w tej samej bazie kodu — niezależnej od testowanej jednostki, ale nie będącej zewnętrznym autorytetem. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
 
 seg-e3a8f20108f3 = <s1>Poprzedni</s1>timetransfer
+
+seg-05e8854de548 = chip

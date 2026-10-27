@@ -39,3 +39,5 @@ seg-94f3381476ee = <b>VALIDATED</b> Kodowanie i dekodowanie nagłówka główneg
 seg-bca17769398b = <s1>Poprzednia</s1>solar-system
 
 seg-6ef772483f30 = <s1>Następna</s1>space-weather
+
+seg-2ac27c1e55c0 = oktet

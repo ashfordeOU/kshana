@@ -19,3 +19,23 @@ seg-3bc1761c76ab = Tego rodzaju używają { "3" } dołączone scenariusze; pozos
 seg-4be479b81f39 = <s1>Poprzednia</s1>lunar-vlbi
 
 seg-2854e6a75833 = <s1>Następna</s1>moonlight-service-volume
+
+seg-c68502b9d675 = Źródło: <c1/>
+
+seg-46072326d616 = <c1/> (rodzaj scenariusza)
+
+seg-3f749aef8d89 = Głębokokosmiczny Mars PNT: symulowana konstelacja przekaźników MARCONI (przekaźniki areostacjonarne + nachylone nadające jednokierunkowo + przekazujące dwukierunkowo do stacji w głębokim kosmosie) nawiguje użytkownika referencyjnego (transfer | lmo | surface) przez wspólny estymator fuzji radiometrycznej jedno- i dwukierunkowej. Podaje geometrię/widoczność na epokę, osiągnięty RMS względem prawdy i formalną kowariancję (pozycja 1σ / 3σ) — uczciwy symulowany wskaźnik jakości, NIE certyfikowany poziom ochrony.
+
+seg-0254f9bd0ee6 = Jeden przebieg <c1/> podsumowuje się tak: mars-pnt 5aad87fcc94a | użytkownik lmo, zegar uso | { "5" } przekaźników (średnio { "3.1" } w widoku) | zbieżny RMS pozycji { "0.25" } m, formalne 1σ { "0.31" } m (3σ { "0.93" } m — wskaźnik jakości kowariancji, nie certyfikowany PL) | σ częstotliwości zegara { "3.71e-13" } | cov-PD true
+
+seg-8eb513e7aeea = Pola opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>
+
+seg-5a9640a3f9b4 = Przykład <c1/> ustawia między innymi:
+
+seg-8e0fecea19fc = uso
+
+seg-a16f2332397c = lmo
+
+seg-c564dca90854 = Wykres, który silnik zapisuje dla scenarios/mars-pnt-lmo.toml, rodzaj mars-pnt
+
+seg-83c3a84f6b98 = <b>VALIDATED</b> Odzyskanie stanu epoki [r,v] z odległości od stacji naziemnych za pomocą wsadowego korektora różnicowego Gaussa–Newtona i filtra sekwencyjnego, w modelu sił dwóch ciał+J2. Wyrocznia (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — niezależna zewnętrzna biblioteka estymacji na dopasowanym modelu sił; odzyskany stan epoki i RMS reszt po dopasowaniu zgadzają się do <{ "1e-3" } m bez szumu i <{ "3" } m przy poziomie szumu { "5" } m
