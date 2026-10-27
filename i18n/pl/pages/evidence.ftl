@@ -2485,3 +2485,5 @@ seg-e7d7d99fe538 = Most niezależny od ROS, który zapisuje komunikaty fixa i sa
 seg-05ded40b17d2 = Brak zewnętrznych: węzła ROS nie uruchomiono na działającym grafie ROS { "2" }, a nazw pól ublox_ubx_msgs nie sprawdzono względem działającego sterownika. gnss_lib_py (MIT) uruchomiono na potrzeby testu mostu
 
 seg-c3c260b7063e = Testy
+
+seg-417a52c9c154 = PDF

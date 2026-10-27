@@ -7,3 +7,5 @@ seg-9120d3e96e5e = odczyt
 seg-5ad814c7ef9e = Uwagi
 
 seg-aab745a65e76 = Moduł
+
+seg-bf09433a7342 = GeoJSON
