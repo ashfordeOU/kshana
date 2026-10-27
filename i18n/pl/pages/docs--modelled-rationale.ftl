@@ -743,3 +743,89 @@ seg-1b3245506847 = Zdarzenia zmiany pasma (lub dla każdej epoki) jako ładunki 
 seg-c04042b0270a = Progi zakłóceń odbiornika kalibrowane na zbiorze danych JammerTest { "2024" }
 
 seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: zarejestrowana wstępnie kalibracja monitorów spadku C/N0, AGC i wskaźnika zagłuszania na publicznym zbiorze danych JammerTest { "2024" } (Zenodo { "15911589" }, GPL-3.0-or-later, pobierany w czasie działania, nigdy nie kopiowany do repozytorium): dla każdego folderu oś czasu { "1" } s z mon_rf.csv i rinex.csv, monitory uruchamiane raz, każda epoka po kalibracji oznaczona jako czysta lub zagłuszana na podstawie attack_log folderu (przesuniętego z CEST na UTC, margines { "60" } s), każdy próg przeglądany po stałej siatce, wybierany najmniejszy próg ze zbiorczym prawdopodobieństwem fałszywego alarmu na czystych danych co najwyżej { "0.01" } oraz liczby wstrzymane z pominięciem jednego folderu; kontrola krzyżowa czytnika UBX. Wybór dostarczany jest tylko jako opcjonalny profil [monitors] profile = "jammertest-2024-calibrated" (cn0_drop_db { "1.5" }, agc_k_sigma { "3.5" }, jam_ind_threshold { "29" }); reguła domyślna i każde wyjście bez niego pozostają bez zmian
+
+seg-65a8361b4a22 = Ocena Jammertest: log odbiornika oceniany dla każdego zaplanowanego testu (opóźnienie detekcji, niewykryte alarmy, fałszywe alarmy, czas do powrotu do normy) względem opublikowanego planu testów
+
+seg-98d8c39f47ae = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): katalog testów i plan transmisji NPRA (MIT, pobierany z przypiętym SHA-256, nigdy nie dołączany do repozytorium) odczytane jako zaplanowana prawda odniesienia z zachowanymi identyfikatorami katalogowymi; przebieg receiver-trust oceniony dla każdego testu (pierwszy alarm minus planowany początek, wykryto/spóźniono/niewykryto względem tolerancji, czas do pierwszego odcinka bez alarmów, alarmy poza każdym slotem i jego marginesem ochronnym), z podpisanym pakietem dowodowym zawierającym kartę wyników. Harmonogram to planowane sloty, a nie zarejestrowane czasy emisji
+
+seg-ee99388f7b15 = compliance (kshana compliance-report): odwzorowanie wyników Kshana na punkty publicznych ram odniesienia wyłącznie według numeru, wypełniane z podanych przebiegów; wynik liczy się na rzecz możliwości tylko wtedy, gdy niesie dowód, który odwzorowanie wskazuje, pusty zbiór niczego nie dowodzi, a sformułowanie brzmi „dostarcza dowodów na (supports evidence for)”; raport nie jest ustaleniem, że jakiekolwiek ramy odniesienia są spełnione, ani oceną czy zatwierdzeniem przez kogokolwiek.
+
+seg-98c360d82d56 = Integracje morskie: wtyczka Signal K, strumień bramki i panel oceny OpenCPN, build referencyjny
+
+seg-7af9ce566646 = Wskaźnik zaufania, pasmo, przyczyny, stan bramki i położenie zgłaszane przez odbiornik, publikowane pod navigation.gnss.kshana na serwerze Signal K z powiadomieniem warn, alarm i normal (integrations/signalk); bramkowany strumień NMEA, z fixem oznaczonym jako nieważny, gdy zaufanie załamane, i jednym zdaniem PKSHT na cykl, udostępniany OpenCPN przez TCP przez samą bramkę lub przez mały przekaźnik, oraz natywny panel oceny OpenCPN odczytujący zdanie PKSHT (integrations/opencpn); a także jednostki systemd i kontener uruchamiające bramkę (deploy/reference-build). Tam, gdzie pokazują one wyniki, towarzyszy im oświadczenie doradcze: Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC { "61108" }, IEC { "61162" }): za nawigację statku odpowiada nadal operator.
+
+seg-89ab9ef155eb = Śledzenie BOC({ "1,1" }): skalowanie DLL i rozwiązywanie niejednoznaczności bump-jump (opcjonalne)
+
+seg-ef24be9b5917 = Pole boc w iq::track::LoopConfig (opcjonalne, domyślnie None): trzy dyskryminatory DLL przeskalowane tak, by odczytywały błąd kodu w chipach ze zboczem jednostkowym na głównym szczycie sinusoidalnego BOC({ "1,1" }), oraz monitor bump-jump na korelatorach bardzo wczesnym i bardzo późnym przy połowie okresu poddziałania nośnej ({ "0.5" } chipa), który przeskakuje NCO kodu w stronę głównego szczytu, gdy licznik w górę/w dół osiągnie N ({ "8" } domyślnie). Bez tej opcji każde wyjście pozostaje bez zmian.
+
+seg-2c32955cbfb3 = Kanał scyntylacji jonosferycznej IQ (model Cornell) względem zmierzonej scyntylacji GPS L1 { "50" } Hz
+
+seg-2fdcb373ab25 = iq::channel::scint, model scyntylacji Cornell (intensywność Rice'a, widmo Butterwortha drugiego rzędu, faza arg z) sterowany S4 i czasem dekorelacji intensywności zmierzonego okna, porównywany pod kątem tego, co generuje ponad te dwa wejścia; realdata::scint50 odczytuje zmierzony log, usuwa trend i wykonuje porównanie.
+
+seg-160507ac3702 = Opcja CFAR z uśrednianiem komórek w akwizycji IQ
+
+seg-7c0a1adc9ae6 = iq::acq::ca_cfar i ca_cfar_cells (opcjonalne): komórka siatki akwizycji jest porównywana ze średnią komórek odniesienia swojego wiersza Dopplera (opóźnienia ochronne i krokowe, zawijane wokół okresu), ze współczynnikiem alpha ustalonym ze wzoru zamkniętego na prawdopodobieństwo fałszywego alarmu CA-CFAR dla M blokowań niekoherentnych (ca_cfar_pfa, ca_cfar_alpha). Detektor mocy próbki pozostaje domyślny, a każde istniejące wyjście jest bez zmian.
+
+seg-5bd3bf0c22a7 = Model widma: pasma GLONASS, BeiDou i Galileo E6 (opcjonalne)
+
+seg-9c16189c63ac = spectrum::default_band rozpoznaje, wyłącznie po nazwie (MORE_BAND_NAMES), GLONASS L1OF i L2OF na każdym kanale FDMA K = -7 do { "6" } (BPSK, { "0.511" } Mchip/s), BeiDou B1I (BPSK({ "2" })), B1C (MBOC(6,1,1/11)), B2a i B3I (BPSK({ "10" })) oraz Galileo E6 (BPSK({ "5" })), z nośnymi i minimalnymi mocami odbieranymi z ich dokumentów kontroli interfejsu; domyślny zestaw pasm i każde istniejące wyjście pozostają bez zmian.
+
+seg-7b1ae0c7ca28 = Kody trzeciorzędowe LunaNet AFS i warstwa komunikatów (SB1 BCH, CRC-24Q, przeplatacz) względem LSIS-AFS V1.0
+
+seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: wzorzec synchronizacji, koder SB1 BCH({ "51,8" }) i dekoder 256 hipotez, CRC-24Q, przeplatacz blokowy { "60" } x { "98" }, sprawdzacz strumienia symboli (kshana lunanet-afs-check) oraz generator strumienia testowego z podramkami zastępczymi. Kodowanie LDPC o szybkości 1/2 podramek od { "2" } do { "4" } nie jest zaimplementowane (jego macierze są w osobnym załączniku).
+
+seg-0d7b17524c04 = Pakiety norm: scenariusze oceniane względem progów ustalonych przed przebiegiem
+
+seg-6e5c04fd4531 = standards_pack (kshana standards-pack): profile testów ram DHS Resilient PNT dla poziomów od { "1" } do { "4" }, poziomy dokładności i ocena integralności IMO MSC.1/Circ.1575 oraz pakiety ICAO Doc { "9849" } Appendix F monitorowania, oceny i łagodzenia: każdy test uruchamia dołączony rodzaj scenariusza i porównuje pola wyniku z progami podanymi w pakiecie, a testy wymagające logu odbiornika są wymienione jako WYMAGA DANYCH WEJŚCIOWYCH i nie są oceniane.
+
+seg-8a8f2c85e0c3 = Laboratoryjny pakiet dowodowy round-trip (scenariusz, warunki testu, log odbiornika, ocena)
+
+seg-a090b06a920d = evidence::roundtrip (kshana evidence round-trip) oraz eksport logu odbiornika kshana.test-conditions/1 z kshana bench-export: podpisany pakiet zapisujący skrót scenariusza, skrót podanych warunków, skrót logu i ocenę względem podanych zdarzeń, który odmawia przyjęcia warunków niezgodnych ze zdarzeniami oceny lub logu, którego skrót nie jest podanym. Żaden sygnał nie jest zapisywany, odtwarzany ani planowany.
+
+seg-a9189e4fe413 = Silnik śledzenia IQ względem GNSS-SDR { "0.0.19" } na niezależnych nagraniach
+
+seg-364de05e5b1b = Pełny silnik śledzenia warstwy IQ (iq::track przez kshana iq track: przekazanie z akwizycji, korelatory, NCO, PLL Costasa drugiego rzędu { "15" } Hz, DLL EML-envelope pierwszego rzędu { "2" } Hz wspomagany nośną, wskaźnik blokady i estymatory C/N0) na GPS L1 C/A przy { "30" } do { "45" } dB-Hz.
+
+seg-259d201c2ff8 = Wzmocnienia anten CRPA w rodzaju jamming względem niezależnego przeliczenia w numpy
+
+seg-192144c57783 = Opcjonalna sekcja [crpa] rodzaju jamming: wiązka dla każdego kanału w stronę każdego satelity (sterowanie zerem z zagłuszaczem jako zerem lub MVDR na sigma^{ "2" } I + P_j a_j a_j^H), skalująca szum każdego łącza przez ||w||^{ "2" } i zagłuszacz przez |w^H a_j|^{ "2" } przed istniejącym równaniem C/N0 odpornego na zagłuszanie.
+
+seg-a2f34cff9338 = Zacienianie terenu zagłuszacza w rodzaju jamming względem niezależnego przeliczenia w numpy na prawdziwym kafelku SRTM
+
+seg-334c569d9cae = Opcjonalna sekcja [terrain] rodzaju jamming: profil terenu po ortodromie między zagłuszaczem a odbiornikiem na kafelku SRTM .hgt z wybrzuszeniem Ziemi o współczynniku k, dominująca krawędź nożowa (największe nu Fresnela-Kirchhoffa) i strata pojedynczej krawędzi nożowej według ITU-R P.526-15, sekcja { "4.1" }, odjęta od mocy odbieranej zagłuszacza.
+
+seg-825c121c7512 = Histereza akwizycji i kwantyzator front-endu w rodzaju jamming względem niezależnych przeliczeń
+
+seg-f7207263d881 = Opcjonalna sekcja [acquisition] rodzaju jamming (satelita jest akwizycjonowany przy progu akwizycji lub powyżej po opóźnieniu ponownej akwizycji i utrzymywany, dopóki jest na progu śledzenia lub powyżej) oraz sekcja [front_end] (odczyt AGC { "10" } log10({ "1" } + J/N) i strata kwantyzatora ADC dla wejścia gaussowskiego, odejmowane od każdego łącza i oznaczone jako nieważne dla zagłuszaczy niegaussowskich).
+
+seg-9c46f1c76486 = Ograniczone wciąganie FLL poniżej progu przejścia z FLL na PLL w projekcie domyślnym (opcjonalne)
+
+seg-efa1d1a9e904 = Opcjonalne carrier.fll_pull_in_max_s w iq::track (pole fll_pull_in_max_s w iq::track::LoopConfig): przy fll_assist = pull-in FLL przekazuje sterowanie do PLL po stałym czasie wciągania niezależnie od PLI, z odpowiadającym mu czasem powrotu, aż PLI po raz pierwszy osiągnie fll_off_pli.
+
+seg-ac0f97e945a7 = Czytnik rozwiązań RTKLIB .pos dla receiver-trust
+
+seg-0b8bc2c89de4 = Odczytuje plik rozwiązania RTKLIB (czas kalendarzowy lub tydzień GPS/TOW, szerokość/długość geograficzna lub położenie ECEF, użyte satelity) do osi czasu receiver-trust (receiver_trust::machines::rtklib).
+
+seg-849393517c04 = Logi ASCII i binarne NovAtel OEM7 (BESTPOS, RANGE, RXSTATUS) dla receiver-trust
+
+seg-7e0021922025 = Odczytuje BESTPOS (położenie), RANGE (C/No dla każdego sygnału) i RXSTATUS (flaga zagłuszacza odbiornika, jako samozgłoszenie epoki) z logów OEM7 ASCII i binarnych, ze sprawdzaniem CRC, wyłącznie do odczytu (receiver_trust::machines::novatel).
+
+seg-a45c53a9deb3 = Czytnik stosunku nośnej do szumu RTCM { "3" } MSM4 i MSM7 dla receiver-trust
+
+seg-0a0c9976236f = Odczytuje C/N0 każdej komórki sygnału komunikatów RTCM { "3" } MSM4 i MSM7 (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) ze strumienia ramek, ze sprawdzaniem CRC-24Q (receiver_trust::machines::rtcm3). Układy pochodzą z tabel pyrtcm na licencji BSD, a nie z tekstu normy RTCM.
+
+seg-cd554a7c1649 = Adapter monitora GNSS-SDR dla receiver-trust
+
+seg-22b587ac642d = Odczytuje komunikaty GNSS-SDR Monitor (Gnss_Synchro) i monitora PVT, przekazane do linii JSON z nazwami pól proto, do C/N0 dla każdego kanału, fixa, użytych satelitów, HDOP i nieba (receiver_trust::machines::gnss_sdr; integrations/gnss-sdr/relay.py).
+
+seg-217e5953c128 = Wczytywanie logów IMU, wejście kursu z żyroskopu i dopasowanie Allana parametrów czujników hybrydowych
+
+seg-9dadc819daef = Odczytuje CSV z IMU (udokumentowane kolumny lub układ EuRoC); całkuje prędkość kątową odchylenia do kursu, który odczytuje monitor heading-course ([log.imu]); i dopasowuje parametry szumu akcelerometru i żyroskopu scenariuszy hybrydowych i fuzji na podstawie logu w spoczynku metodą nakładającego się odchylenia Allana (imu-fit).
+
+seg-15a852a2dcb0 = Wykrywanie MQTT Home Assistant i eksporter stanu telemetrii zaufania
+
+seg-6d6b07b26966 = Dokument stanu JSON i komunikaty wykrywania MQTT Home Assistant dla strumienia zaufania, drukowane jako tekst na każdej powierzchni i publikowane przez MQTT { "3.1.1" } QoS { "0" } z wiersza poleceń (telemetry::mqtt; trust-telemetry --mqtt-tcp, --print-mqtt, format mqtt).
+
+seg-68caf86157c2 = Pakiet ROS { "2" } receiver-trust i most gnss_lib_py
+
+seg-e7d7d99fe538 = Most niezależny od ROS, który zapisuje komunikaty fixa i satelitów jako NMEA i ocenia je przez wiązanie Pythona (integrations/ros2/kshana_trust), oraz most gnss_lib_py NavData do receiver-trust przez format rtklib-pos (integrations/gnss_lib_py).
