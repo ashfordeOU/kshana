@@ -121,3 +121,5 @@ seg-d0043d0f578a = <s1>Następna</s1>Jammertest jako arbiter
 seg-52946c9ff62a = Co nie jest zaimplementowane
 
 seg-339c9eeb510b = kshana lunanet-afs-check
+
+seg-53a7343c076e = Twierdzenie

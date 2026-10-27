@@ -13,3 +13,5 @@ seg-60cd077d82a7 = Model
 seg-c5ce76c91ff7 = Etykieta
 
 seg-7670cf4ceda3 = Wartość domyślna
+
+seg-430edd66bda0 = Niemodelowane

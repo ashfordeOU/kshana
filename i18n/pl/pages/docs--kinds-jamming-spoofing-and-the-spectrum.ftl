@@ -73,3 +73,5 @@ seg-268ebf4cba99 = Wykres zapisany przez silnik dla scenarios/spoof-detect.toml,
 seg-cbd77f6ffd63 = Stochastyczny detektor spoofingu czasu (Neyman–Pearson / χ²₁) z P_fa/P_md metodą Monte Carlo.
 
 seg-6f6a8c975111 = Wykres zapisany przez silnik dla scenarios/spoof-attack.toml, rodzaj spoof
+
+seg-72182c1aecd9 = Wykres, który silnik zapisuje dla scenariusza scenarios/tracking-loop.toml, rodzaj tracking-loop

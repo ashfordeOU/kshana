@@ -2926,3 +2926,141 @@ seg-21059291ea8b = telemetry::mqtt::tests (bajty pakietów, broker w pętli zwro
 seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: format zapisywany przez most gnss_lib_py, przepuszczony przez receiver-trust); testy w Pythonie mostów to integrations/ros2/kshana_trust/test/test_bridge.py (most z atrapą silnika), integrations/ros2/kshana_trust/test/test_engine_integration.py (prawdziwy pakiet wheel ocenia stałe rozwiązanie jako nominalne, a skok o { "1.1" } km jako niegodny zaufania) i integrations/gnss_lib_py/test_bridge.py (prawdziwy gnss_lib_py { "1.1.0" } i pakiet wheel), uruchamiane przez pytest, a nie przez cargo
+
+seg-55ca63edff02 = Detekcja spoofingu na podstawie spójności Dopplera LEO i geometrii przelotu
+
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs (pierwsze { "4" } epoki pliku IGS MGEX RINEX { "4.00" } MAO000USA_R_20231980000_01D_30S_MO, { "58" } satelitów, { "7" } systemów: rekordy nagłówka i wartości pierwszej epoki równe opublikowanym literałom); rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records (syntetyczny nagłówek { "4.02" } ze specyfikacji)
+
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs (prawdziwe rekordy C01-C04: promień geostacjonarny, długości 140.02/80.04/110.55/159.99 deg w opublikowanych slotach, |szerokość| { "2.13" } deg z uwzględnieniem nachylenia wobec { "6.65" } bez niego; wstępnie zarejestrowane porównanie broadcast z precyzyjnym SP3 jest uzależnione od danych w KSHANA_BDS_GEO_SP3 i nie zostało uruchomione); rinex::tests
+
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs (jazda po figurze 8: ustalony błąd 3D RMS { "0.025" } m dla fazy nośnej wobec { "0.470" } m dla kodu na identycznych pomiarach; { "12" } ziaren średnie NIS/dof { "1.00" } i ustalone NEES/dof { "0.92" }; poślizg o 1 cykl wykryty w swojej epoce bez fałszywych alarmów i z nienaruszonym rozwiązaniem; wyłączenie poprawek rozgłaszanych podnosi błąd kodu z { "0.51" } m do { "19.6" } m (jonosfera) i { "8.0" } m (troposfera); przebieg bez szumu zbiega do { "0.3" } mm)
+
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs (każdy pakiet: rozwiązanie fuzyjne poniżej swobodnego INS w czasie przerwy dla obu czujników; kolej: ścisłe { "5.3" } m wobec luźnego { "12.9" } m klasy nawigacyjnej i { "15.6" } m wobec { "18.8" } m klasy taktycznej w czasie przerwy, dostępność { "0.97" } wobec { "0.95" }; tabela ścisła sprawdzona); tests/gnss_ins_legacy_trajectory_pin.rs (domyślne sprzężenie luźne identyczne bit po bicie)
+
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs (filtr 3D po { "60" } ziarnach: średnie NEES drugiej połowy { "8.12" } dla { "8" } stanów, suma χ² ostatniej epoki w swoim paśmie { "95" } %; poprawka zegara { "0.1" } ns obniża sigma pozycji 3D z { "5.58" } m do { "3.07" } m; filtr obciążenia po { "60" } ziarnach: suma χ²({ "5" }) w paśmie, obciążenie w granicach { "3" } sigma w { "59" } z { "60" }; fusion-pnt-coupled z obciążonymi akcelerometrami: pozycja p95 { "18.7" } m / { "90.0" } m i integralność { "1.00" } / { "0.97" } w wersji sprzężonej wobec { "430" } m / { "4060" } m i { "0.006" } / { "0.000" } w rozprzężonej); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fusion i hybrid bez [coupled] identyczne bit po bicie)
+
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+seg-5a6b5289a473 = fusion::trajectory::tests (zakręt skoordynowany nie ma siły bocznej, a współczynnik przeciążenia wynosi 1/cos φ; import CSV odtwarza wykonany profil z dokładnością do { "1e-3" } m/s i { "1" } m); tests/gnss_ins_trajectory_library.rs (każdy profil się uruchamia, a rozwiązanie fuzyjne bije swobodny INS w czasie przerwy; każdy wykonuje swój nazwany ruch; obserwowalność kursu: sigma odchylenia kursowego po { "240" } s { "1.27" } deg przy jeździe prosto wobec { "0.039" } deg dla figury 8 i { "0.062" } deg dla jazdy z zatrzymaniami); tests/gnss_ins_legacy_trajectory_pin.rs (dawny wynik i skróty prawdy identyczne bit po bicie)
+
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE marzec { "2023" }, { "4" } perilunia i { "5" } apolunii: okres { "6.5004" } d wobec { "6.5699" } d ({ "1.07" } %, próg { "3" } %), apolunium { "71 182" } wobec { "71 215" } km ({ "0.05" } %, próg { "5" } %), perilunium { "3 385" } wobec { "3 245" } km ({ "4.1" } %, próg { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: wszystkie { "104" } sprawdzenia przechodzą w pierwszym przebiegu po wstępnej rejestracji e50c88d2, najgorsza wariancja { "3.2" } %, RMS { "1.6" } %, korelacja { "0.012" }, średnia { "2.2" } błędu standardowego, ułamek elipsy { "0.0039" }; negative_control_a_doubled_pdop_fails_every_geometry; negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries: obie kontrole zawodzą, jak wymagano; position_error_is_sigma_times_dop_on_masked_skies: dwie geometrie z zamaskowanym horyzontem z notatki projektowej, niebo 10sat-mixed pod presetami city-street ({ "4" } satelity, PDOP { "16.6" }) i container-terminal ({ "9" } satelitów, PDOP { "2.5" }), wszystkie { "26" } sprawdzeń przechodzi w pierwszym przebiegu po wstępnej rejestracji 03999c11, tests/fixtures/dop/PREREGISTRATION-MASKED.md); tests/position_error_dop_ci.rs (pierwsze, osobne sprawdzenie na czterech ręcznie dobranych niebach (otwarte, skupione, kanion, pół nieba; sigma { "1" } m, ziarno 0x0D0B5EED) z przedziałami ufności chi-kwadrat przy łącznym { "1e-6" } dla { "20" } sprawdzeń: stosunki od { "0.987" } do { "1.009" }, własne PDOP/GDOP solvera równe tym z jądra z dokładnością do { "2.5e-12" } oraz kontrole negatywne dla błędu DOP o { "10" } % i błędów 1/sin(elewacja); uruchomione przed wstępną rejestracją, więc zgłoszone, a nie wstępnie zarejestrowane); dop_error_mc::tests; dop_error_ci::tests
+
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: na syntetycznym przejściu przez fiord ze scenarios/training/fjord-natural-degradation.toml te same { "624" } epoki są odejmowane z podanym [skyline] i bez niego; z nim sky-blocked jest zgłaszane w { "680" } epokach ({ "0" } bez niego: awaryjna luka azymutu nic nie widzi w fiordzie z dwóch stron), open_fraction wynosi { "0.758" }, a epoki klasy środowiska spadają z { "78" } do { "33" }, reszta to utraty satelitów, które podany skyline zostawia na otwartej przestrzeni; poza zdarzeniem skyline nie zmienia żadnej oceny); receiver_trust::geometry::tests (ręcznie wyprowadzone stosunki na progach, krawędzie progów, narastanie i limit, dolna granica, krawędzie etykiet, nadpisania [geometry], DOP na sprawdzonym jądrze, niebo utrzymane i wygasłe, nieznane nie jest zgadywane, utrata sygnału, tolerancja słabej geometrii, wartownicy braku rozwiązania); tests/geometry_trust.rs (średnie zamaskowane niebo oznaczone i nieocenione, słabe zamaskowane niebo, utrata przy niskiej elewacji, spadek mocy, sfałszowany HDOP, całkowita utrata sygnału, drag-off przy słabej geometrii, nieznana geometria, nadpisania sesji, schemat na żywo); tests/geometry_trust_no_change.rs (obie przykładowe sesje identyczne bajt po bajcie z { "0.35.0" } po usunięciu dołączonych kluczy); tests/geometry_corpus_identity.rs (każdy zatwierdzony korpus NMEA statków, także jako otwarte niebo tylko z GPS, oraz scenariusze szkolenia załóg: identyczne bajt po bajcie z { "0.35.0" } z wyjątkiem słabych epok, które różnią się wyłącznie odjęciem za geometrię)
+
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (jądro z jednym zegarem względem gnss_lib_py)
+
+seg-085cbc64bab2 = holdover
+
+seg-b31ed8fc6801 = holdover::tests (względem wielokrokowej rekurencji kowariancji Kalmana; biały szum FM dokładnie; obieg tam i z powrotem); jądro wariancji dryfu zewnętrznie sprawdzone w tests/gnss_denied_clock_holdover_reference.rs (względem scipy Van-Loan/brentq)
+
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; wstępnie zarejestrowane 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; uzależnione od danych)
+
+seg-d302e2ef46ad = clock_library (card)
+
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; wstępnie zarejestrowane fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+seg-3016100a7015 = clock_state::tests (analityczne Q van-Loana; NEES; dodatniość PSD); tests/clock_state_reference.rs (pełna trajektoria predict+update — stan x i kowariancja P { "3" }×{ "3" } po { "1925" } krokach / { "4" } zestawach parametrów względem filterpy { "1.4.5" }; najgorsze |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (przypina ustalenie); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 runda { "3" })
+
+seg-509026100595 = timetransfer, timetransfer_adv
+
+seg-a1ad8fb8537d = timetransfer::tests (wzajemne znoszenie; tożsamość Sagnaca w dwóch postaciach); tests/time_transfer_error_budgeting_reference.rs (Sagnac obiegu równikowego = { "207.386" } ns wobec opublikowanego Ashby { "207.4" } ns z dokładnością do <{ "0.05" } ns; a także geometria Sagnac/geodist sprawdzona krzyżowo względem RTKLIB { "2.4.3" } geodist() skompilowanego ze źródła w C)
+
+seg-10e0cb39ac3b = navsignal
+
+seg-1035f877de94 = navsignal::tests (własne SSC BPSK = 2/3R_c; PSD o jednostkowym polu; DLL); tests/nav_signal_modulation_code_tracking_reference.rs (zgodność co do całkowitych wartości korelacji wzajemnej/własnej Golda GPS C/A z niezależnym generowaniem kodu IS-GPS-200; PSD BPSK-R({ "1" })/sine-BOC({ "1,1" }) względem niezależnego periodogramu scipy); tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath, przypięte)
+
+seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; przedział dolnej granicy Freier-2016); tests/quantum_inertial_sensor_reference.rs (funkcja przejścia |H(ω)|, k_eff·T² i ASD szumu śrutowego względem opublikowanych wektorów liczbowych Cheinet { "2008" } / Peters / Freier); tests/quantum_inertial_measured_qpn.rs (gauguet_finding_qpn_floor_sits_below_the_measured_noise, przypięte; gradiometer_qpn_line_matches_janvier_model)
+
+seg-81802510f112 = quantum_imu::tests (a_max leży na krawędzi półprążka ±π ze skalowaniem zakresu 1/T²; odzyskanie fazy zawiniętej jest dokładne wewnątrz [−a_max,a_max], a poza nim aliasuje dokładnie o { "2" }·a_max; jednoznaczny zakres dynamiczny a_max/σ_a=π/σ_Φ jest identyczny dla dwóch bardzo różnych współczynników skali długość fali/T; metody CaiAccelerometer zgadzają się z funkcjami swobodnymi)
+
+seg-ccc56dac1725 = inertial::quantum_imu (QuantumNavBudget)
+
+seg-60fb2adb58ce = budget_tests (obciążenie względem integratora AccelModel; VRW względem całki analitycznej); tests/quantum_inertial_dead_reckoning_reference.rs (VRW względem niezależnego dwukrotnego całkowania szumu przyspieszenia białego metodą Monte Carlo w numpy, najgorsze odchylenie { "0.42" }% w granicach ±{ "3" }% dla { "6" } czasów dryfu; obciążenie/współczynnik skali względem wartości w postaci zamkniętej Grovesa { "2013" }; obiegi holdover tam i z powrotem)
+
+seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form i cw_q_equals_the_spectral_separation_closed_form: tabela Q, CW i wąskopasmowe { "1" }, szerokopasmowe i z przemiataniem { "2" }, przypięte do postaci zamkniętych navsignal; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs (FSPL/J-S/efektywne C-N₀ względem niezależnego ponownego wyprowadzenia w numpy bilansu łącza Kaplan & Hegarty §{ "9.4" }; rzeczywiste C/N₀ z JammerTest maleje monotonicznie przez próg { "25" } dB-Hz); tests/jamming_jammertest_cn0_oracle.rs (wstępnie zarejestrowane, zablokowane, nieuruchomione)
+
+seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
+
+seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs (charakterystyka parametrów TEXBAT); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (przypina ustalenie); tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+seg-9cb72e60e080 = tpl
+
+seg-b96e16aba41a = tpl::tests (wyrocznie w postaci zamkniętej + CUSUM); examples/tpl_jammertest.rs (kalibracja rzeczywistego spoofingu JammerTest { "2024" }); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (przypina ustalenie); tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+seg-6094ed4985fc = altpnt, mapmatch, gravimeter, igrf
+
+seg-f841812dc204 = tests/alternative_complementary_pnt_reference.rs (CRLB dopasowania do mapy; pole IGRF-14); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (60-minutowy test bez GPS na rzeczywistym polu EGM2008 stopnia 70, wstępnie zarejestrowany w xval/icgem-egm2008/: dopasowano { "3106" } m, więc próg < { "500" } m jest NOT MET i potwierdzony jako chybiony, a dziesięciokrotne zmniejszenie dryfu { "70.6" } km jest MET; oraz Monte Carlo błędu mapy z ziarnem); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel i tests/emag2_real_grid.rs (czytnik EMAG2v3 uzależniony od danych na rzeczywistym wycinku; nie ogłoszono na nim żadnego wyniku nawigacyjnego); tests/terrain_slam_rbpf.rs (wspólne estymowanie mapy, RBPF w stylu FastSLAM, względem SITAN ze znaną mapą przy skorelowanym błędzie mapy { "15" } m w { "20" } ziarnach, wstępnie zarejestrowane w xval/terrain-slam-rbpf/: średni zysk { "1.5" }% i lepiej w { "10" } z { "20" }, więc progi { "10" }% i 12-of-20 są NOT MET i potwierdzone jako chybione; brak szkody na doskonałej mapie, MET)
+
+seg-4bcb7eeb020a = report, scenario; CI (golden/determinism/SBOM)
+
+seg-3667ebf0582a = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (wygenerowany SBOM przechodzi walidację z zerem błędów względem oficjalnego schematu JSON CycloneDX { "1.5" } dla całego dostarczanego grafu 66 komponentów: funkcje domyślne + python + wasm, bez zależności deweloperskich)
+
+seg-e4edd8fd654c = impairment_eval::tests (AUC perfect=1/identical=0.5/tie={ "0.125" }, ROC monotoniczna, fused>{ "0.8" }, rozdzielenie warstw według klas, zabezpieczenie przed wyciekiem, odtwarzalny korpus, flagi przesunięcia rozkładu sygnalizują optymizm); dominance_demonstrators (osiągalne + odtwarzalne + MODELLED-not-VALIDATED + luka optymizmu samospójna)
+
+seg-28583cba1c55 = impairment_study, impairment_ml, eval_stats
+
+seg-b30ce36e7afb = impairment_study::tests (wyrocznia AUC na klasę ≈{ "1" }, wyuczona luka optymizmu>{ "0" }, kształt siatki + przedział bootstrap obejmuje średnią + dodatni trend skalowania, cechy ID skończone, predyktor luki pokonuje przewidywanie średniej zarówno w walidacji krzyżowej z pominięciem jednego detektora, jak i jednej klasy (OBU) + deterministyczne); impairment_ml::tests (logreg rozdziela + deterministyczne + strata↓, MLP rozwiązuje XOR, czego model liniowy nie potrafi + z ziarnem); eval_stats::tests (bootstrap/DeLong/Spearman/ridge względem postaci zamkniętych)
+
+seg-e0f68f57399d = quantum_trade::tests (odzyskanie ADEV tam i z powrotem, nieujemność NNLS, ostrzeżenie o dolnej granicy obecne/nieobecne, korzyść>{ "1" }, monotoniczna obwiednia + granica alt-PNT); dominance_demonstrators (zmierzone ADEV jest sterowane danymi, a nie zakładaną dolną granicą, klasa założona flaguje granicę + ostrzeżenie, nieprawidłowa krzywa odrzucona, MODELLED-not-VALIDATED)
+
+seg-550bd3cee63e = space_weather::tests (Kp↔ap dokładne w punktach siatki + obieg tam i z powrotem + monotoniczne, średnia dziennego Ap, T egzosferyczna względem opublikowanych kotwic min/średnia/max słoneczne + przyrost burzowy, gęstość równa jedności w odniesieniu, wahanie cyklu słonecznego w obserwowanym przedziale { "5" }–{ "10" }×, scenariusz odtwarzalny + MODELLED-not-VALIDATED + odrzucenie spoza zakresu); dominance_demonstrators (osiągalne + odtwarzalne + fizyczne T + MODELLED-not-VALIDATED); tests/space_weather_density_accelerometer_oracle.rs::jacchia71_finding_is_pinned
+
+seg-80847ffc93bf = launch
+
+seg-2095b880eb39 = launch::tests (start dokładnie na wschód osiąga i=szerokość, KSC→ISS = podręcznikowe { "45" }°, polarny = N/S, i<szer. nieosiągalne, równikowa premia { "465" } m/s, zmiana płaszczyzny { "10" }° ≈ { "1.34" } km/s + { "180" }° = 2v, liczby dziennych okazji, scenariusz odtwarzalny/MODELLED + ścieżka dogleg); dominance_demonstrators (osiągalne + odtwarzalne + KSC→ISS { "45" }° + MODELLED-not-VALIDATED); tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding; tests/launch_geometry_orekit_oracle.rs::true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes
+
+seg-c763ac7e3cda = reentry::tests (szczytowe g niezależne od współczynnika balistycznego + fizyczne pasmo g, rośnie przy bardziej stromym γ / szybszym wejściu, prędkość szczytowego g = V_e·e^(−1/2), a szczytowego nagrzewania = V_e·e^(−1/6) szybsza, wysokość szczytowego g fizyczna + głębsza dla wyższego B, scenariusz odtwarzalny/MODELLED + odrzucenie zdegenerowanej geometrii); dominance_demonstrators (osiągalne + odtwarzalne + ułamek V_e·e^(−1/2) + MODELLED-not-VALIDATED); tests/reentry_reconstruction_oracle.rs::reentry_overprediction_is_recorded_as_a_finding; tests/reentry_point_mass_reconstruction_oracle.rs::point_mass_peak_deceleration_matches_reconstructed_entries (wyłącznie sprawdzenie krzyżowe); tests/reentry_point_mass_accelerometer_oracle.rs (zablokowane, nieuruchomione)
+
+seg-885946a29a26 = contact_schedule (es_n0_db, select_modcod, fspl_db, atmospheric_loss_db, ccm_modcod, pass_capacity, AcmLinkScenario); passes::predict_passes_apparent
+
+seg-00889ed96256 = contact_schedule::tests::modcod_efficiency_closed_form_matches_the_printed_table; contact_schedule::tests::modcod_selection_is_monotone_and_honours_the_margin; contact_schedule::tests::link_budget_pieces_have_closed_forms; contact_schedule::tests::acm_link_defaults_run_and_acm_beats_ccm
+
+seg-dece72e58683 = contact_schedule (conflicts, objective, delivered, schedule_chronological, schedule_greedy, schedule_optimal, ContactScheduleScenario)
+
+seg-d21204ff6b58 = contact_schedule::tests::conflicts_cover_turnaround_and_one_station_per_satellite; contact_schedule::tests::greedy_is_feasible_and_the_exact_solver_beats_or_ties_it; contact_schedule::tests::exact_solver_matches_brute_force_and_plans_are_feasible; contact_schedule::tests::exact_solver_declines_above_the_limit; contact_schedule::tests::contact_schedule_defaults_run_reproducibly; contact_schedule::tests::scenarios_reject_bad_inputs
+
+seg-c6fab6332435 = frugal (over walker)
+
+seg-257dfa053c24 = frugal::tests (ręcznie wyprowadzony koszt na pokrycie 48/96={ "0.5" }, współczynnik ROI { "2.667" }, kolejność przedziałów + zabezpieczenia zerowego pokrycia)
+
+seg-412105b0f541 = integrity_impact (over raim)
+
+seg-35bc1db56d2a = integrity_impact::tests (to samo niewykryte zdarzenie zmienia Available→MI→HMI w miarę zaostrzania kontekstu; zachowawcze PL→Unavailable; HMI na oś; zabezpieczenia danych wejściowych)
+
+seg-fd95a229bdb3 = inertial::cai_params (over inertial::quantum_imu)
+
+seg-061a65493a4a = inertial::cai_params::tests (fizyczne VRW mieści się w cytowanym przedziale VRW na wszystkich { "3" } poziomach; surowy zakres prążka obliczony z k_eff·T²; budżet zachowawczy dryfuje bardziej niż najlepszy; każdy przedział ma źródło i flagę potwierdzenia; zabezpieczenia kolejności przedziałów)
+
+seg-07ef7fe3d770 = src/benchmark/stanford.rs::tests (cztery obszary + granice włącznie + |błąd| + niedostępność PL>AL); tests/tib_scorer_reference.rs (liczby klasyfikacji względem niezależnego numpy na ustalonym zbiorze syntetycznym)
+
+seg-60f627e001ad = src/benchmark/coverage.rs::tests (czyste/niedoszacowane/wszystkie niedostępne/puste); tests/tib_scorer_reference.rs (liczby + wskaźniki + coverage_ok względem numpy do { "1e-12" })
+
+seg-6b48be996d76 = src/benchmark/faults.rs::tests (profile przesunięć, monotoniczny dryf, flagowanie zbioru niewykrywalnego, spójność max_offset, dokładnie dwie klasy niewykrywalne)
