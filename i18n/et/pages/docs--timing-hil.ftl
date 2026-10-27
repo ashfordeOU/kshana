@@ -241,7 +241,7 @@ seg-5d87a772c132 = Sõnad ja piirid
 seg-0810b24c6f3e = Tulemus on <b>mõõdetud maski suhtes</b>. Maskid on ärakirjastatud vabalt allalaaditavatest ITU-T soovitustest (samad tabelid mis liigil <c1/>, loetletud failis <a1><c2/></a1>) ning iga kirje, mille soovitused jätavad „for further study“ (edasiseks uurimiseks), puudub, seda ei ole täidetud. Kshana ei väida, et kell või süsteem täidab soovitust või on selle suhtes heaks kiidetud, ning aruanne ei väida seda samuti.
 
 # text
-seg-527189cf37c6 = <b>MODELLED.</b> Sammuloogikat, sirge sobitust ja taastumisreeglit kontrollitakse salvestustel, mis on ehitatud valemitest, mille vastused on enne käivitust teada; ühtegi laboratoorset holdover-it ei ole hinnatud välise oraakli (sõltumatu etalon) vastu ning ükski partner ega laboratoorium ei ole millegagi nõustunud. Enne kui mõnda kellaklassi kohta käivat arvu saaks ülendada, oleks vaja ajastuse laboratooriumi.
+seg-527189cf37c6 = <b>MODELLED.</b> Sammuloogikat, sirge sobitust ja taastumisreeglit kontrollitakse salvestustel, mis on ehitatud valemitest, mille vastused on enne käivitust teada; ühtegi laboratoorset holdover-it ei ole hinnatud välise sõltumatu etaloni vastu ning ükski partner ega laboratoorium ei ole millegagi nõustunud. Enne kui mõnda kellaklassi kohta käivat arvu saaks ülendada, oleks vaja ajastuse laboratooriumi.
 
 # text
 seg-ad8160fbed46 = <b>Mida ei kata</b>, esitatud igas aruandes: kas GNSS tõesti eemaldati ja taastati esitatud aegadel; iga samm, mida operaator ei salvestanud; maskid, mis on defineeritud { "0.1" } Hz filtri kaudu, salvestuse jaoks, mida diskreetiti harvem kui kord sekundis; instrumendi enda mõõtemääramatus; ning iga soovituse protseduur, mis ületab ajavea salvestust (temperatuuriprofiilid, pakettvõrgu koormus).

@@ -10,7 +10,7 @@ seg-37d16b499bc5 = dB
 seg-98151954f217 = false
 
 # text
-seg-cc2ad9e12064 = <b>MODELLED</b> Geomeetriline J/S lingibilanss, segamisvastane C/N₀, satelliidi kaupa sünkroonsuse kadu. Oraakel (sõltumatu etalon) (InternalConsistency): Segamisvastase C/N₀ lingibilansi võrrand, mida on risttõendatud sõltumatu numpy uuestituletusega (jagab sama suletud kuju → InternalConsistency) pluss tegeliku JammerTest-2024 C/N₀ halvenemise iseloomustusega. { "0.30" } ring { "2" }, blokeeritud (jääb MODELLED): mõõdetud JammerTest { "2024" } C/N0 langust lingibilansi ennustuse vastu (eelregistreeritud 6a66994b, { "3" } dB piires) ei jooksutatud, sest F8.1 antenni asukoht ja suunamine at
+seg-cc2ad9e12064 = <b>MODELLED</b> Geomeetriline J/S lingibilanss, segamisvastane C/N₀, satelliidi kaupa sünkroonsuse kadu. Sõltumatu etalon (InternalConsistency): Segamisvastase C/N₀ lingibilansi võrrand, mida on risttõendatud sõltumatu numpy uuestituletusega (jagab sama suletud kuju → InternalConsistency) pluss tegeliku JammerTest-2024 C/N₀ halvenemise iseloomustusega. { "0.30" } ring { "2" }, blokeeritud (jääb MODELLED): mõõdetud JammerTest { "2024" } C/N0 langust lingibilansi ennustuse vastu (eelregistreeritud 6a66994b, { "3" } dB piires) ei jooksutatud, sest F8.1 antenni asukoht ja suunamine at
 
 # text
 seg-143f3f1cc521 = GNSS-ita segamisvastane vastupidavus on MODELLED, mitte valideeritud: kontrollitud oma suletud kujul / analüütilise samasuse vastu — tabab ülekirjutus- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -90,7 +90,7 @@ seg-8b701f465117 = log
 seg-de295af20c55 = Mootori joonistatud diagramm failile scenarios/lunar-attack-surface.toml, liik lunar-attack-surface
 
 # text
-seg-c853e3e832c0 = <b>MODELLED</b> Kahetelgne pühkimine mustriga kaalutud, kõrgusega piiratud pinna haaramisjalajälje üle saatja kõrguse ja antenni läbimõõdu, esitatud üks rida tööpunkti kohta. Oraakel (sõltumatu etalon) (InternalConsistency): Hulga sisaldumine: segaja ja signaali suhe siseneb ühtlase detsibellinihkena, nii et kõrgema edastusvõimsuse haaratud hulk sisaldab madalama oma hulka ja osa saab ainult kasvada -- omadus, mida Airy muster EI anna kiirelaiuse ega kõrguse suhtes, kus haaratud piirkond laguneb rõngasteks ja osa on tõeliselt mittemonotoonne. Ükski avaldatud tabel ei anna Kuu orbitaalse saatja haaratud ketta osa
+seg-c853e3e832c0 = <b>MODELLED</b> Kahetelgne pühkimine mustriga kaalutud, kõrgusega piiratud pinna haaramisjalajälje üle saatja kõrguse ja antenni läbimõõdu, esitatud üks rida tööpunkti kohta. Sõltumatu etalon (InternalConsistency): Hulga sisaldumine: segaja ja signaali suhe siseneb ühtlase detsibellinihkena, nii et kõrgema edastusvõimsuse haaratud hulk sisaldab madalama oma hulka ja osa saab ainult kasvada -- omadus, mida Airy muster EI anna kiirelaiuse ega kõrguse suhtes, kus haaratud piirkond laguneb rõngasteks ja osa on tõeliselt mittemonotoonne. Ükski avaldatud tabel ei anna Kuu orbitaalse saatja haaratud ketta osa
 
 # text
 # c1: kshana kinds --json

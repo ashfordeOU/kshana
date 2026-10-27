@@ -62,7 +62,7 @@ seg-d76d59644d84 = Diagramm, mille mootor kirjutab failile scenarios/pvt-abmf.to
 seg-e6f678eeb384 = <b>MODELLED</b> Lahknemisvaba Hatchi filter (ionosfäärivaba kood, mida kannab ionosfäärivaba kandelaine, aken N epohhi, taaskäivitus lukustuse kadumisel, geomeetriavaba hüppe või lünga korral) täpse ühepunktpositsioneerimise koostus
 
 # text
-seg-5a42823318a8 = <b>VALIDATED</b> IS-GPS-200 / Galileo-OS / BeiDou-OS ringhäälestatud efemeriidi Kepleri → ECEF satelliidi asukoht parsitud RINEX-3 navigatsioonikirjest. Oraakel (sõltumatu etalon; ExternalDataset): RTKLIB v2.4.2-p13 eph2pos(), kompileeritud C lähtekoodist (T. Takasu, BSD-2-Clause) — sõltumatu IS-GPS-200/SIS-ICD teostus, mida söödeti identsete RINEX-3 nav kirjetega; satelliidi ECEF asukoht langes kokku täpsusega ~{ "62" } nm. (SP3 täpse efemeriidi interpolatsiooni valideeritakse eraldi — vt „SP3 täpse efemeriidi interpolatsioon“)
+seg-5a42823318a8 = <b>VALIDATED</b> IS-GPS-200 / Galileo-OS / BeiDou-OS ringhäälestatud efemeriidi Kepleri → ECEF satelliidi asukoht parsitud RINEX-3 navigatsioonikirjest. Sõltumatu etalon (sõltumatu etalon; ExternalDataset): RTKLIB v2.4.2-p13 eph2pos(), kompileeritud C lähtekoodist (T. Takasu, BSD-2-Clause) — sõltumatu IS-GPS-200/SIS-ICD teostus, mida söödeti identsete RINEX-3 nav kirjetega; satelliidi ECEF asukoht langes kokku täpsusega ~{ "62" } nm. (SP3 täpse efemeriidi interpolatsiooni valideeritakse eraldi — vt „SP3 täpse efemeriidi interpolatsioon“)
 
 # text
 seg-51cac2f918e0 = Teemaleht: <a1>POSITIONING.md</a1>

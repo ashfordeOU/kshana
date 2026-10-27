@@ -16,16 +16,16 @@ seg-be831b52a339 = ja veel { "4" } maatriksis.
 seg-a8d92406e428 = Strontsiumi optiline võrekell, kosmosele suunatud eesmärk sigma_y
 
 # text
-seg-f70076ea4a77 = <b>VALIDATED</b> Alani / modifitseeritud / Hadamardi hälve + astmeseaduse müra tuvastus χ² usaldusvahemikega. Oraakel (sõltumatu etalon) (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 etalonhälbed NBS14
+seg-f70076ea4a77 = <b>VALIDATED</b> Alani / modifitseeritud / Hadamardi hälve + astmeseaduse müra tuvastus χ² usaldusvahemikega. Sõltumatu etalon (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 etalonhälbed NBS14
 
 # text
-seg-5278ccdaf16f = <b>MODELLED</b> Suletud kujul libisemisvea kasv + holdover läveni; kvantkellade klassid. Oraakel (sõltumatu etalon) (ReferenceImpl): Mitmeastmeline clock_state kovariatsioonirekursioon (sama koodibaasi ristkontroll); aluseks olev libisemisdispersiooni ja holdover-i inversiooni tuum on väliselt valideeritud scipy vastu (vt „Clock-holdover coast-variance & threshold inversion“). Klassipõhised punase müra põranda holdover-i arvud jäävad MODELLED
+seg-5278ccdaf16f = <b>MODELLED</b> Suletud kujul libisemisvea kasv + holdover läveni; kvantkellade klassid. Sõltumatu etalon (ReferenceImpl): Mitmeastmeline clock_state kovariatsioonirekursioon (sama koodibaasi ristkontroll); aluseks olev libisemisdispersiooni ja holdover-i inversiooni tuum on väliselt valideeritud scipy vastu (vt „Clock-holdover coast-variance & threshold inversion“). Klassipõhised punase müra põranda holdover-i arvud jäävad MODELLED
 
 # text
-seg-3ea0aa9b3907 = <b>MODELLED</b> 3-olekuline (faas/sagedus/triiv) van-Loani Kalmani kell, Joseph-stabiliseeritud. Oraakel (sõltumatu etalon) (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), F funktsiooniga scipy.linalg.expm ja Q Van-Loani { "1978" } plokkmaatriksiga — sõltumatu etalonteostus, mis reprodutseerib kshana täieliku filtri trajektoori. Teostustevaheline kooskõla: kella füüsikat / Alani kalibreerimist ei ole väliselt valideeritud, seega jääb see MODELLED. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): IGS-i lõplikel { "30" } s kelladel { "11" } GPS Blo
+seg-3ea0aa9b3907 = <b>MODELLED</b> 3-olekuline (faas/sagedus/triiv) van-Loani Kalmani kell, Joseph-stabiliseeritud. Sõltumatu etalon (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), F funktsiooniga scipy.linalg.expm ja Q Van-Loani { "1978" } plokkmaatriksiga — sõltumatu etalonteostus, mis reprodutseerib kshana täieliku filtri trajektoori. Teostustevaheline kooskõla: kella füüsikat / Alani kalibreerimist ei ole väliselt valideeritud, seega jääb see MODELLED. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): IGS-i lõplikel { "30" } s kelladel { "11" } GPS Blo
 
 # text
-seg-b9174c70772f = <b>MODELLED</b> Kellaga toetatud χ², RAIM, AGC, SQM ühendatud epohhikaupa turvalisuse FoM. Oraakel (sõltumatu etalon) (ExternalDataset): TEXBAT-i stsenaariumi parameetrid (Humphreys { "2012" }) — iseloomustus, mitte fikseeritud vektorid. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): JammerTest { "2024" } (Bleik; GPL-3.0 andmed) ei tõstnud vaatlustaseme monitorid (kellaga toetatud hii-ruut, RAIM, lahenduse ebaõnnestumine) alarmi { "10" } s jooksul ühegi { "8" } hinnatava avaldatud spuufimise alguse suhtes (kus alguseelne aken oli puhas, tuli esimene alarm { "10.2" } kuni { "39" } s pärast pu
+seg-b9174c70772f = <b>MODELLED</b> Kellaga toetatud χ², RAIM, AGC, SQM ühendatud epohhikaupa turvalisuse FoM. Sõltumatu etalon (ExternalDataset): TEXBAT-i stsenaariumi parameetrid (Humphreys { "2012" }) — iseloomustus, mitte fikseeritud vektorid. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): JammerTest { "2024" } (Bleik; GPL-3.0 andmed) ei tõstnud vaatlustaseme monitorid (kellaga toetatud hii-ruut, RAIM, lahenduse ebaõnnestumine) alarmi { "10" } s jooksul ühegi { "8" } hinnatava avaldatud spuufimise alguse suhtes (kus alguseelne aken oli puhas, tuli esimene alarm { "10.2" } kuni { "39" } s pärast pu
 
 # text
 seg-e12f672ae71d = GNSS-ita kella holdover on MODELLED, mitte valideeritud: kontrollitud eraldi teostuse vastu samas koodibaasis — testitavast üksusest sõltumatu, kuid mitte väliselt autoriteetne. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -43,7 +43,7 @@ seg-d291f20074f0 = <b>VALIDATED</b> Maa pöörlemine kaheosalisest UT1 Juliuse k
 seg-5c031aaa3a33 = MODELLED { "4" } · VALIDATED { "4" }: selle liigi nimetavad <a1>kontrollimaatriksi</a1> read.
 
 # text
-seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP vaatejoone geomeetriast kaudu Q=(HᵀH)⁻¹ kohaliku ENU lahutusega. Oraakel (sõltumatu etalon) (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — sõltumatu teek, ühtib { "1e-6" } suhtelise täpsusega
+seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP vaatejoone geomeetriast kaudu Q=(HᵀH)⁻¹ kohaliku ENU lahutusega. Sõltumatu etalon (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — sõltumatu teek, ühtib { "1e-6" } suhtelise täpsusega
 
 # text
 seg-53a78e98af12 = Teemaleht: <a1>SKYLINE.md</a1>

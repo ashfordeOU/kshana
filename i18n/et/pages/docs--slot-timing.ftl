@@ -179,7 +179,7 @@ seg-5b61a42c76c2 = Valideerimine: pöördülesanne suletud reaalsel kellal
 # c1: tests/slot_timing_cs5071a_holdout.rs
 # c2: allantools
 # c3: tests/cs5071a_reference.rs
-seg-2220a1490923 = <c1/> kasutab 5071A tseesiumietaloni { "556" } 990-valimilist kirjet, mõõdetuna vesinikmaseri vastu (A. Wallin, levitatud koos <c2/>; sama kirje, mida kasutab hinnangu oraakel (sõltumatu etalon) <c3/>). Maseriga etalonina on kirje 6,4-päevane vabajooks.
+seg-2220a1490923 = <c1/> kasutab 5071A tseesiumietaloni { "556" } 990-valimilist kirjet, mõõdetuna vesinikmaseri vastu (A. Wallin, levitatud koos <c2/>; sama kirje, mida kasutab hinnangu sõltumatu etalon <c3/>). Maseriga etalonina on kirje 6,4-päevane vabajooks.
 
 # text
 seg-9bae4571f67c = Müramudel sobitatakse ainult kirje <b>esimesele kolmandikule</b>.

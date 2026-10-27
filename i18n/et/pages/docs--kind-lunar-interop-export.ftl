@@ -57,7 +57,7 @@ seg-0e86ff364c17 = Mootori joonistatud diagramm failile scenarios/lunar-interop-
 
 # text
 # c1: oem
-seg-98acb538942f = <b>MODELLED</b> LunaNet/IOAG-ga joondatud Kuu tugisüsteemi + aja + efemeriidi eksport (CCSDS OEM + KIF) edasi-tagasi ringi standardi järgimisega. Oraakel (sõltumatu etalon) (InternalConsistency): kshana Kuu OEM eksport, mis on uuesti parsitud sõltumatu kolmanda osapoole teegiga <c1/> (R. J. Anderson): tugisüsteemi/aja märgid ja epohhipõhine olek ühtivad kirjutustäpsusega ({ "1" } mm / { "1e-9" } km/s) ja eksport, millel on TIME_SYSTEM maha jäetud, lükatakse tagasi — struktuurne vahetuse edasi-tagasi ring; Kuu tugisüsteemi/aja füüsikalist semantikat valideeritakse nende endi ridadega, seega jääb see MODELLED. { "0.30" } väline võrdlus, leid (jääb MODELLED): üks se
+seg-98acb538942f = <b>MODELLED</b> LunaNet/IOAG-ga joondatud Kuu tugisüsteemi + aja + efemeriidi eksport (CCSDS OEM + KIF) edasi-tagasi ringi standardi järgimisega. Sõltumatu etalon (InternalConsistency): kshana Kuu OEM eksport, mis on uuesti parsitud sõltumatu kolmanda osapoole teegiga <c1/> (R. J. Anderson): tugisüsteemi/aja märgid ja epohhipõhine olek ühtivad kirjutustäpsusega ({ "1" } mm / { "1e-9" } km/s) ja eksport, millel on TIME_SYSTEM maha jäetud, lükatakse tagasi — struktuurne vahetuse edasi-tagasi ring; Kuu tugisüsteemi/aja füüsikalist semantikat valideeritakse nende endi ridadega, seega jääb see MODELLED. { "0.30" } väline võrdlus, leid (jääb MODELLED): üks se
 
 # text
 # c1: honesty

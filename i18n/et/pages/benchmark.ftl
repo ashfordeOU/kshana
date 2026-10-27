@@ -155,7 +155,7 @@ seg-00c8aea0d4fe = impairment-eval lähtetase: energy(cn0-drop) <s1>kshana-bench
 seg-ee090c2f6612 = Ülesanne (d): jaotusevälise andmestiku optimismilünk, test-tulemused
 
 # text
-seg-88c3cc6c3800 = Iga tulemus on modelleeritud, kui rida ei ütle, et väline oraakel (sõltumatu etalon) nõustus. Spetsifikatsiooni ja manifestide litsents: CC-BY-4.0 / CC0 on kavandatud, omaniku otsus on ootel. Päris andmete holdout ei ole salajane: vt spetsifikatsiooni jaotist { "4" }.
+seg-88c3cc6c3800 = Iga tulemus on modelleeritud, kui rida ei ütle, et väline sõltumatu etalon nõustus. Spetsifikatsiooni ja manifestide litsents: CC-BY-4.0 / CC0 on kavandatud, omaniku otsus on ootel. Päris andmete holdout ei ole salajane: vt spetsifikatsiooni jaotist { "4" }.
 
 # attr:aria-label
 seg-68e7ed4fc6ee = Mida rida tohib väita

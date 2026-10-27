@@ -104,7 +104,7 @@ seg-1452dfac9e06 = Esimesed kolm satelliiti esimesel näidissammul, ECEF km-des 
 seg-4fd0f95da0cf = Võtta PG01 geotsentriline raadius:
 
 # text
-seg-cb02d7c01561 = Mitte-ringsõltuv oraakel (sõltumatu etalon): kas see on tõesti GPS orbiit?
+seg-cb02d7c01561 = Mitte-ringsõltuv sõltumatu etalon: kas see on tõesti GPS orbiit?
 
 # text
 seg-a7c478360464 = Õpetus, mis kontrollib mootorit iseenda vastu, ei tõesta midagi. Siin on väline, <em>mitte-ringsõltuv</em> ankur igale ülaltoodud väitele.

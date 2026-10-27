@@ -61,7 +61,7 @@ seg-498b1aea3770 = Diagramm, mille mootor kirjutab failile scenarios/combined-al
 seg-619127334cf3 = Ükski maatriksirida ei nimeta seda liiki nimepidi; selle tulemuse silt on mootori enda, ülal.
 
 # text
-seg-0df60ac6343f = <b>MODELLED</b> Gravitatsioonikaardi sobitamine, maastikureferentsiga (TERCOM/SITAN), magnetanomaalia. Oraakel (sõltumatu etalon) (InternalConsistency): IGRF-14 koefitsiendid; esimestest printsiipidest sobitusfiltri CRLB. Päris välja gravitatsiooni bench-i väli on väliselt kontrollitud (rida „Gravity-anomaly synthesis from a spherical-harmonic model“), kuid selle navigatsioonitulemusel pole välist sõltumatut etaloni
+seg-0df60ac6343f = <b>MODELLED</b> Gravitatsioonikaardi sobitamine, maastikureferentsiga (TERCOM/SITAN), magnetanomaalia. Sõltumatu etalon (InternalConsistency): IGRF-14 koefitsiendid; esimestest printsiipidest sobitusfiltri CRLB. Päris välja gravitatsiooni bench-i väli on väliselt kontrollitud (rida „Gravity-anomaly synthesis from a spherical-harmonic model“), kuid selle navigatsioonitulemusel pole välist sõltumatut etaloni
 
 # text
 seg-d776abd5691c = Alternatiivne / täiendav PNT on MODELLED, mitte valideeritud: kontrollitud oma suletud kujul / analüütilise samasuse vastu — tabab ülekirjutus- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))

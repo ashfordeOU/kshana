@@ -4,7 +4,7 @@
 seg-cc651d9cef3b = Kood
 
 # text
-seg-cbf0f9bcd2d8 = Oraakel (sõltumatu etalon)
+seg-cbf0f9bcd2d8 = Sõltumatu etalon
 
 # text
 seg-6e0cb6acc073 = VALIDATED

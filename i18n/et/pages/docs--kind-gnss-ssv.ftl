@@ -88,20 +88,20 @@ seg-41bfe74c6f6f = <b>MODELLED</b> Liigi <c1/> režiim <c2/>: juhtaparaat ja abi
 
 # text
 # c1: gnss-ssv
-seg-de9a2a5b5f04 = <b>MODELLED</b> Liigi <c1/> kättesaadavuse pühkimised: iga konstellatsiooni (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) kohta ja kombineeritult (kasutaja, epohh) paaride osakaal vähemalt ühe signaali ja vähe. Oraakel (sõltumatu etalon) (ExternalDataset): ICG Space Service Volume'i brošüür (UN OOSA ST/SPACE/75, { "2018" }), ise simulatsioon, võrreldud eelregistreerimise all, mis on kinnitatud enne jooksu (xval/gnss-ssv/PREREGISTRATION.md; tulemused failis xval/gnss-ssv/RESULTS.md, fikseeritud testiga tests/ssv_booklet_results.rs, möödalaskmised kaasa arvatud). Jooks { "1" } eelregistreeritud lugemisel: minimaalse kiirgusvõimsuse konstandid ja Kuu lävi ühtivad (S0, S6 täidetud); ülemine ja alumine SSV, RF-lävi
+seg-de9a2a5b5f04 = <b>MODELLED</b> Liigi <c1/> kättesaadavuse pühkimised: iga konstellatsiooni (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) kohta ja kombineeritult (kasutaja, epohh) paaride osakaal vähemalt ühe signaali ja vähe. Sõltumatu etalon (ExternalDataset): ICG Space Service Volume'i brošüür (UN OOSA ST/SPACE/75, { "2018" }), ise simulatsioon, võrreldud eelregistreerimise all, mis on kinnitatud enne jooksu (xval/gnss-ssv/PREREGISTRATION.md; tulemused failis xval/gnss-ssv/RESULTS.md, fikseeritud testiga tests/ssv_booklet_results.rs, möödalaskmised kaasa arvatud). Jooks { "1" } eelregistreeritud lugemisel: minimaalse kiirgusvõimsuse konstandid ja Kuu lävi ühtivad (S0, S6 täidetud); ülemine ja alumine SSV, RF-lävi
 
 # text
-seg-f0b778c4922a = <b>MODELLED</b> Chapmani ionosfäär, Gallagheri tüüpi plasmasfäär ja neutraalne atmosfäär (murdumisnäitaja painutus, hapnikuneeldumine, defokuseerimine) integreeritud piki sirget. Oraakel (sõltumatu etalon) (InternalConsistency): Suletud kujud ja avaldatud suurusjärgud testides (Chapmani kihi tipp ja pinnalimbi painutus, paar TECU plasmasfääri GPS-ist GEO-ni kiirel); vastuvõtja kujundus taaskasutab hõive ja jälgimissilmuse mudeleid ja nende teste. Sellega ei võrrelda mõõdetud limbi sondeerimise ega nõrga signaali vastuvõtu andmeid
+seg-f0b778c4922a = <b>MODELLED</b> Chapmani ionosfäär, Gallagheri tüüpi plasmasfäär ja neutraalne atmosfäär (murdumisnäitaja painutus, hapnikuneeldumine, defokuseerimine) integreeritud piki sirget. Sõltumatu etalon (InternalConsistency): Suletud kujud ja avaldatud suurusjärgud testides (Chapmani kihi tipp ja pinnalimbi painutus, paar TECU plasmasfääri GPS-ist GEO-ni kiirel); vastuvõtja kujundus taaskasutab hõive ja jälgimissilmuse mudeleid ja nende teste. Sellega ei võrrelda mõõdetud limbi sondeerimise ega nõrga signaali vastuvõtu andmeid
 
 # text
 # c1: gnss-ssv
 # c2: [navigation]
-seg-77cef183420e = <b>MODELLED</b> Liigi <c1/> režiim <c2/>: üheksa oleku laiendatud Kalmani filter (positsioon, kiirus, vastuvõtja kella nihe ja triiv, päikesekiirguse rõhu sk. Oraakel (sõltumatu etalon) (InternalConsistency): Simuleeritud tõde filtri enda hinnangu vastu (kooskõlalise filtri keskmine normaliseeritud hindamisvea ruut on positsiooni jaoks umbes { "3" }) ja determinism fikseeritud algväärtuse (seed) korral. Lennu- ega salvestatud kõrgorbiidi GNSS-i andmeid ei ole võrreldud; Päike ja Kuu on madala täpsusega ringikujulised asendajad
+seg-77cef183420e = <b>MODELLED</b> Liigi <c1/> režiim <c2/>: üheksa oleku laiendatud Kalmani filter (positsioon, kiirus, vastuvõtja kella nihe ja triiv, päikesekiirguse rõhu sk. Sõltumatu etalon (InternalConsistency): Simuleeritud tõde filtri enda hinnangu vastu (kooskõlalise filtri keskmine normaliseeritud hindamisvea ruut on positsiooni jaoks umbes { "3" }) ja determinism fikseeritud algväärtuse (seed) korral. Lennu- ega salvestatud kõrgorbiidi GNSS-i andmeid ei ole võrreldud; Päike ja Kuu on madala täpsusega ringikujulised asendajad
 
 # text
 # c1: gnss-ssv
 # c2: [formation]
-seg-429e154cd691 = <b>MODELLED</b> Liigi <c1/> režiim <c2/>: juhtaparaat ja abiaparaadid jooksutavad igaüks absoluutfiltrit; abiaparaadi positsiooni juhtaparaadi suhtes hinnatakse lahutamise tea. Oraakel (sõltumatu etalon) (InternalConsistency): Sama simuleeritud tõde, mis absoluutfiltril: suhtelise filtri viga tõelise suhtelise oleku suhtes ja kontroll, et see on vähemalt sama hea kui kahe sõltumatu absoluutlahendi lahutamine. Lennuformatsiooni andmeid ei ole võrreldud
+seg-429e154cd691 = <b>MODELLED</b> Liigi <c1/> režiim <c2/>: juhtaparaat ja abiaparaadid jooksutavad igaüks absoluutfiltrit; abiaparaadi positsiooni juhtaparaadi suhtes hinnatakse lahutamise tea. Sõltumatu etalon (InternalConsistency): Sama simuleeritud tõde, mis absoluutfiltril: suhtelise filtri viga tõelise suhtelise oleku suhtes ja kontroll, et see on vähemalt sama hea kui kahe sõltumatu absoluutlahendi lahutamine. Lennuformatsiooni andmeid ei ole võrreldud
 
 # text
 # c1: label

@@ -66,7 +66,7 @@ seg-2fe411ae2153 = Diagramm, mille mootor kirjutab failile scenarios/cislunar-ar
 seg-99dd8cc0e3ef = <b>MODELLED</b> Pakettlahendi vähimruutude hindaja, mis TAASTAB juhtsatelliidi algoleku satelliitidevahelistest simuleeritud mõõtmistest sama epohhiruudustiku kasvavate eesliidete üle, mida kasutab astak-kaare tabel, mõõtmise osatuletistega, mis on võetud keskmiste lõplike vahedena Testid: <a1>cislunar_arc_recovery_reference.rs</a1>.
 
 # text
-seg-67aab2162719 = <b>MODELLED</b> Pakettlahendi vähimruutude hindaja, mis TAASTAB juhtsatelliidi algoleku satelliitidevahelistest simuleeritud mõõtmistest sama epohhiruudustiku kasvavate eesliidete üle. Oraakel (sõltumatu etalon) (ReferenceImpl): Eraldi hindaja selles koodibaasis teisel algoritmil ja lahkuneval koodirajal: mittelineaarne kaalutud Gauss-Newton lõplike vahede osatuletistega, selle otsus loetud mõõdetud olekutaastamise veana km ja mm/s. Sellel pole Gramiani astaku ja kovariatsiooni teega ühtegi ühist avaldist ning eraldatus on JÕUSTATUD allikatekstikaitsega, mitte väidetud. MEASURED avaldatud tasapinnalisel DRO ruudustikul: th
+seg-67aab2162719 = <b>MODELLED</b> Pakettlahendi vähimruutude hindaja, mis TAASTAB juhtsatelliidi algoleku satelliitidevahelistest simuleeritud mõõtmistest sama epohhiruudustiku kasvavate eesliidete üle. Sõltumatu etalon (ReferenceImpl): Eraldi hindaja selles koodibaasis teisel algoritmil ja lahkuneval koodirajal: mittelineaarne kaalutud Gauss-Newton lõplike vahede osatuletistega, selle otsus loetud mõõdetud olekutaastamise veana km ja mm/s. Sellel pole Gramiani astaku ja kovariatsiooni teega ühtegi ühist avaldist ning eraldatus on JÕUSTATUD allikatekstikaitsega, mitte väidetud. MEASURED avaldatud tasapinnalisel DRO ruudustikul: th
 
 # text
 # c1: label

@@ -16,7 +16,7 @@ seg-7b2721b7588d = Mootori v{ $version } stsenaariumi liik, perekond <a1>Inertsi
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Oraakel (sõltumatu etalon) (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
+seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Sõltumatu etalon (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
 
 # text
 seg-9955b1b1c018 = Kvantinertsiaalsensori toimivus on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -80,7 +80,7 @@ seg-d1beb62cf742 = { "6" } kaasasolevat stsenaariumi kasutab seda liiki; ülejä
 seg-7d993b676006 = Diagramm, mille mootor kirjutab failile scenarios/gnss-ins.toml, liik gnss-ins
 
 # text
-seg-ea4498cc0324 = <b>VALIDATED</b> 15-olekuline veaoleku EKF, lõdvalt seotud (valideeritud päris IMU/GNSS sõidul NaveGo vastu); tihedalt seotud pseudovahemaa/Doppleri UKF ja seotud kell+pos. Oraakel (sõltumatu etalon) (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, jooksutatud tööriistana GNU Octave'is, mitte kunagi lingitud): selle lõdvalt seotud ins_gnss oma päris Ekinox IMU/GNSS maismaasõiduki sõidul, mõlemad lahendid hinnatud Ekinoxi etalontrajektoori vastu. Mõlemad filtrid loevad sama { "20" } Hz float32 sisendit ja Kshana konfiguratsioon on kaardistatud mehaaniliselt andmestiku avaldatud parameetritest. Kshana horisontaalne ja vertikaalne positsiooni RMS ning selle
+seg-ea4498cc0324 = <b>VALIDATED</b> 15-olekuline veaoleku EKF, lõdvalt seotud (valideeritud päris IMU/GNSS sõidul NaveGo vastu); tihedalt seotud pseudovahemaa/Doppleri UKF ja seotud kell+pos. Sõltumatu etalon (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, jooksutatud tööriistana GNU Octave'is, mitte kunagi lingitud): selle lõdvalt seotud ins_gnss oma päris Ekinox IMU/GNSS maismaasõiduki sõidul, mõlemad lahendid hinnatud Ekinoxi etalontrajektoori vastu. Mõlemad filtrid loevad sama { "20" } Hz float32 sisendit ja Kshana konfiguratsioon on kaardistatud mehaaniliselt andmestiku avaldatud parameetritest. Kshana horisontaalne ja vertikaalne positsiooni RMS ning selle
 
 # text
 seg-742a29ca1fb7 = Teemaleht: <a1>TEST-BENCH.md</a1>

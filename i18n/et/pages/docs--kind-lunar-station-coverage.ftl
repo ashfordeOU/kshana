@@ -18,10 +18,10 @@ seg-1c1eeb2dcaa0 = Perekonna leht: <a1>Kuu ja tsislunaarne ruum</a1>
 seg-3bc1761c76ab = { "3" } kaasasolevat stsenaariumi kasutab seda liiki; ülejäänud on kaustas <a1><c1/></a1>.
 
 # text
-seg-6f4246bd8f6f = <b>MODELLED</b> NovaMoon-klassi diferentsiaaletaloonijaam: ühisrežiimi tühistamine + baseline-iga kasvav jääk + DGNSS kaitsetasemed. Oraakel (sõltumatu etalon) (InternalConsistency): Diferentsiaalvea tühistamise samasus + DO-229E SBAS PL masinavärgi taaskasutus; üksikdiferents + WLS lahendus on lisaks ristkontrollitud RTKLIB lsq()/matinv() vastu (Takasu, BSD-2-Clause, kompileeritud C) — sõltumatu lahendajakood, kuid sama esimest järku LOS-erinevuse algebra, seega siiski InternalConsistency
+seg-6f4246bd8f6f = <b>MODELLED</b> NovaMoon-klassi diferentsiaaletaloonijaam: ühisrežiimi tühistamine + baseline-iga kasvav jääk + DGNSS kaitsetasemed. Sõltumatu etalon (InternalConsistency): Diferentsiaalvea tühistamise samasus + DO-229E SBAS PL masinavärgi taaskasutus; üksikdiferents + WLS lahendus on lisaks ristkontrollitud RTKLIB lsq()/matinv() vastu (Takasu, BSD-2-Clause, kompileeritud C) — sõltumatu lahendajakood, kuid sama esimest järku LOS-erinevuse algebra, seega siiski InternalConsistency
 
 # text
-seg-8d02b1426187 = <b>MODELLED</b> Kolm liiget, mille diferentsiaalparandus omandab epohhi vahel, mil see arvutatakse, ja epohhi, mil seda kasutatakse, igaüks varem jäetud modelleerimata varuks:. Oraakel (sõltumatu etalon) (InternalConsistency): Suletud kujuga samasused ja sisemine kooskõla: ühtlase kvantori step²/12 dispersioon, täpne (GᵀG)⁻¹GᵀRG(GᵀG)⁻¹ kovariatsiooni levitamine, mis võrdse σ korral taandub kujule σ·PDOP, mõõdistusliikme { "1" }:{ "1" } ülekanne kui û_user ≈ û_ref tagajärg ja väljalülituse kvadratuuri sulgumine. PDOP ristkontroll orbit::dop vastu jagab normaalmaatriksit [−û, { "1" }], seega on see kooskõlakontroll ja on nii märgitud, mitte kui sõltumatu
+seg-8d02b1426187 = <b>MODELLED</b> Kolm liiget, mille diferentsiaalparandus omandab epohhi vahel, mil see arvutatakse, ja epohhi, mil seda kasutatakse, igaüks varem jäetud modelleerimata varuks:. Sõltumatu etalon (InternalConsistency): Suletud kujuga samasused ja sisemine kooskõla: ühtlase kvantori step²/12 dispersioon, täpne (GᵀG)⁻¹GᵀRG(GᵀG)⁻¹ kovariatsiooni levitamine, mis võrdse σ korral taandub kujule σ·PDOP, mõõdistusliikme { "1" }:{ "1" } ülekanne kui û_user ≈ û_ref tagajärg ja väljalülituse kvadratuuri sulgumine. PDOP ristkontroll orbit::dop vastu jagab normaalmaatriksit [−û, { "1" }], seega on see kooskõlakontroll ja on nii märgitud, mitte kui sõltumatu
 
 # text
 seg-7171b2e3f29d = Kuu diferentsiaal-PNT on MODELLED, mitte valideeritud: kontrollitud omaenda suletud kujul / analüütilise samasuse vastu — tabab ülekande- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -101,7 +101,7 @@ seg-4f5941f12127 = <b>MODELLED</b> Kuu diferentsiaal-PNT mudeli Monte Carlo püh
 
 # text
 # c1: lunar-station-coverage
-seg-d547d600ee2d = <b>MODELLED</b> Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapooluse kasutajaruudustiku ja ühe päeva epohhide (liik <c1/>): diferentsiaal. Oraakel (sõltumatu etalon) (InternalConsistency): Aritmeetika, mille arvutas uuesti sõltumatu numpy skript eksporditud juhtumitel (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; eelregistreeritud failis tests/fixtures/lunar_station/PREREGISTRATION.md, kinnitatud üksi commit-is 9caedf97 enne esimest käivitust): { "20" } juhtumil, kus iga vealiige on sees, on nähtavad hulgad ja olek identsed, toored ulatusvead ühtivad täpsusega { "1.4e-14" } m, asukohavea vektorid ja suurused täpsusega { "1.4e-9" } m vastu
+seg-d547d600ee2d = <b>MODELLED</b> Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapooluse kasutajaruudustiku ja ühe päeva epohhide (liik <c1/>): diferentsiaal. Sõltumatu etalon (InternalConsistency): Aritmeetika, mille arvutas uuesti sõltumatu numpy skript eksporditud juhtumitel (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; eelregistreeritud failis tests/fixtures/lunar_station/PREREGISTRATION.md, kinnitatud üksi commit-is 9caedf97 enne esimest käivitust): { "20" } juhtumil, kus iga vealiige on sees, on nähtavad hulgad ja olek identsed, toored ulatusvead ühtivad täpsusega { "1.4e-14" } m, asukohavea vektorid ja suurused täpsusega { "1.4e-9" } m vastu
 
 # text
 # c1: label

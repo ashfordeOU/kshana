@@ -16,7 +16,7 @@ seg-f7f12029e0ec = Perekonna leht: <a1>Inertsiaal-, liitmis- ja kvantsensorid</a
 seg-496b17a8d3b9 = Teemaleht: <a1>QUANTUM-MODELS.md</a1>
 
 # text
-seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 # c1: docs/kinds/by-kind/quantum-anomaly-detect.md
@@ -57,13 +57,13 @@ seg-25da07e56aa8 = kvant- vs klassikalise PNT anomaaliate tuvastami
 seg-2f1d14239d1a = Diagramm, mille mootor kirjutab failile scenarios/quantum-anomaly-detect.toml, liik quantum-anomaly-detect
 
 # text
-seg-af9aaf95d4f8 = <b>VALIDATED</b> Analüütiline binormaalne ROC AUC = Φ(μ/(σ√{ "2" })) ja minimaalne tuvastatav rike σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)), mis on kvantrikete ja anomaaliatuvastite aluseks. Oraakel (sõltumatu etalon; ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), mõlemad BSD-3-Clause — sõltumatud teegid, mis arvutavad samu üheselt määratletud Gaussi saba / AUC suurusi, ühtivad A&S-erf põhjatasemeni (~{ "7e-8" }). Selle peale ehitatud kvant-vs-klassikaline eelis jääb MODELLED
+seg-af9aaf95d4f8 = <b>VALIDATED</b> Analüütiline binormaalne ROC AUC = Φ(μ/(σ√{ "2" })) ja minimaalne tuvastatav rike σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)), mis on kvantrikete ja anomaaliatuvastite aluseks. Sõltumatu etalon (sõltumatu etalon; ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), mõlemad BSD-3-Clause — sõltumatud teegid, mis arvutavad samu üheselt määratletud Gaussi saba / AUC suurusi, ühtivad A&S-erf põhjatasemeni (~{ "7e-8" }). Selle peale ehitatud kvant-vs-klassikaline eelis jääb MODELLED
 
 # text
-seg-c37642bb24fe = <b>MODELLED</b> Üks reprodutseeritav TradeEvidence objekt (fikseeritud raam: scenario+seed+engine; ühised kvant-vs-klassikalised väärtused FoM-i kohta polaarsuse poolest õige kasuga, valikuline { "95" }%. Oraakel (sisemine kooskõla; InternalConsistency): kinnise kuju kasu/võitja samasused + olemasoleva quantum_trade::TradeResult'i truu ümbris; ausus seotud esinduslikkuse registri ja kontrollisiltidega
+seg-c37642bb24fe = <b>MODELLED</b> Üks reprodutseeritav TradeEvidence objekt (fikseeritud raam: scenario+seed+engine; ühised kvant-vs-klassikalised väärtused FoM-i kohta polaarsuse poolest õige kasuga, valikuline { "95" }%. Sõltumatu etalon (sisemine kooskõla; InternalConsistency): kinnise kuju kasu/võitja samasused + olemasoleva quantum_trade::TradeResult'i truu ümbris; ausus seotud esinduslikkuse registri ja kontrollisiltidega
 
 # text
-seg-b854cedc8a51 = <b>MODELLED</b> Sildistatud kvantrikete kataloog (kella sageduse hüpe/triiv/lukustuse kadu; anduri nihkeastang/väljalangemine), tuvastusstatistiku ROC AUC bootstrap-usaldusvahemikuga ja minimaalne . Oraakel (sisemine kooskõla; InternalConsistency): kinnise kuju Gaussi AUC = Phi(mu/(sigma*sqrt2)) ristkontrollitud väliselt valideeritud eval_stats::bootstrap_auc_ci vastu (vs scikit-learn) + tuvastuse analüütilised läved
+seg-b854cedc8a51 = <b>MODELLED</b> Sildistatud kvantrikete kataloog (kella sageduse hüpe/triiv/lukustuse kadu; anduri nihkeastang/väljalangemine), tuvastusstatistiku ROC AUC bootstrap-usaldusvahemikuga ja minimaalne . Sõltumatu etalon (sisemine kooskõla; InternalConsistency): kinnise kuju Gaussi AUC = Phi(mu/(sigma*sqrt2)) ristkontrollitud väliselt valideeritud eval_stats::bootstrap_auc_ci vastu (vs scikit-learn) + tuvastuse analüütilised läved
 
 # text
 # c1: kshana kinds --json

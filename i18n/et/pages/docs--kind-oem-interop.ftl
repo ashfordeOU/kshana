@@ -49,7 +49,7 @@ seg-cd29f08ef235 = <b>VALIDATED</b> CCSDS { "502.0" } OEM importija (parse_oem),
 
 # text
 # c1: oem
-seg-20071a16b316 = <b>VALIDATED</b> CCSDS { "502.0" } OEM importija (parse_oem), mis talub COMMENT-ridu / lisametaandmete võtmesõnu / kovariatsiooniplokke ja on kirjutaja täpne pöördfunktsioon; edasi-tagasi läbimine + . Oraakel (sõltumatu etalon; ExternalDataset): sõltumatu kolmanda osapoole CCSDS-502 parser <c1/> { "0.4.5" } (MIT, <a1>https://pypi.org/project/oem/</a1>) — eraldi koodibaas, mis dekodeerib kshana väljastatud EME2000/UTC OEM-i bait-baidilt identselt ({ "24" } olekut { "2" } testfailis, asukoha/kiiruse Δ = { "0" }) ja mille range lugeja kinnitab metaandmete märgid; kshana parser ühtib sellega samamoodi ka lisatud välisel OEM-il. Kaks ausat koostalitlusleidu (oem teek lükkab tagasi kshana satelliidikohase mu
+seg-20071a16b316 = <b>VALIDATED</b> CCSDS { "502.0" } OEM importija (parse_oem), mis talub COMMENT-ridu / lisametaandmete võtmesõnu / kovariatsiooniplokke ja on kirjutaja täpne pöördfunktsioon; edasi-tagasi läbimine + . Sõltumatu etalon (sõltumatu etalon; ExternalDataset): sõltumatu kolmanda osapoole CCSDS-502 parser <c1/> { "0.4.5" } (MIT, <a1>https://pypi.org/project/oem/</a1>) — eraldi koodibaas, mis dekodeerib kshana väljastatud EME2000/UTC OEM-i bait-baidilt identselt ({ "24" } olekut { "2" } testfailis, asukoha/kiiruse Δ = { "0" }) ja mille range lugeja kinnitab metaandmete märgid; kshana parser ühtib sellega samamoodi ka lisatud välisel OEM-il. Kaks ausat koostalitlusleidu (oem teek lükkab tagasi kshana satelliidikohase mu
 
 # text
 # c1: label

@@ -10,7 +10,7 @@ seg-619127334cf3 = Ükski maatriksirida ei nimeta seda liiki nimepidi; selle tul
 seg-7b2721b7588d = Mootori v{ $version } stsenaariumi liik, perekond <a1>Inertsiaal-, liitmis- ja kvantsensorid</a1>. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Oraakel (sõltumatu etalon) (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
+seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Sõltumatu etalon (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
 
 # text
 seg-9955b1b1c018 = Kvantinertsiaalsensori toimivus on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -19,7 +19,7 @@ seg-9955b1b1c018 = Kvantinertsiaalsensori toimivus on MODELLED, mitte valideerit
 seg-f7f12029e0ec = Perekonna leht: <a1>Inertsiaal-, liitmis- ja kvantsensorid</a1>
 
 # text
-seg-ea4498cc0324 = <b>VALIDATED</b> 15-olekuline veaoleku EKF, lõdvalt seotud (valideeritud päris IMU/GNSS sõidul NaveGo vastu); tihedalt seotud pseudovahemaa/Doppleri UKF ja seotud kell+pos. Oraakel (sõltumatu etalon) (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, jooksutatud tööriistana GNU Octave'is, mitte kunagi lingitud): selle lõdvalt seotud ins_gnss oma päris Ekinox IMU/GNSS maismaasõiduki sõidul, mõlemad lahendid hinnatud Ekinoxi etalontrajektoori vastu. Mõlemad filtrid loevad sama { "20" } Hz float32 sisendit ja Kshana konfiguratsioon on kaardistatud mehaaniliselt andmestiku avaldatud parameetritest. Kshana horisontaalne ja vertikaalne positsiooni RMS ning selle
+seg-ea4498cc0324 = <b>VALIDATED</b> 15-olekuline veaoleku EKF, lõdvalt seotud (valideeritud päris IMU/GNSS sõidul NaveGo vastu); tihedalt seotud pseudovahemaa/Doppleri UKF ja seotud kell+pos. Sõltumatu etalon (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, jooksutatud tööriistana GNU Octave'is, mitte kunagi lingitud): selle lõdvalt seotud ins_gnss oma päris Ekinox IMU/GNSS maismaasõiduki sõidul, mõlemad lahendid hinnatud Ekinoxi etalontrajektoori vastu. Mõlemad filtrid loevad sama { "20" } Hz float32 sisendit ja Kshana konfiguratsioon on kaardistatud mehaaniliselt andmestiku avaldatud parameetritest. Kshana horisontaalne ja vertikaalne positsiooni RMS ning selle
 
 # text
 # c1: docs/kinds/by-kind/hybrid-ukf.md
@@ -68,7 +68,7 @@ seg-4c8e2caeba5b = Ülistabiilne/optiline pardaostsillaatori klass, valge-FM sig
 seg-2968660fa880 = Diagramm, mille mootor kirjutab failile scenarios/hybrid-ukf.toml, liik hybrid-ukf
 
 # text
-seg-5719161d0b2a = <b>MODELLED</b> Piiritletud (parim/nominaalne/konservatiivne) külmaatomi-interferomeetri toimivus — nihke ebastabiilsus, kiiruse/nurga juhuslik ekslemine, skaalateguri stabiilsus, küsitlus. Oraakel (sõltumatu etalon) (InternalConsistency): Sisemine kooskõla: viidatud VRW piirang, mida on risttõendatud CaiAccelerometer::accel_asd füüsika ja triibumitmetähenduslikkuse piirist arvutatud toore dünaamilise ulatusega; arvud on MODELLED kirjanduse ülevaate piirangud (needs_source_confirmation), ühtegi seadet ei ole valideeritud, valideerimise halo puudub
+seg-5719161d0b2a = <b>MODELLED</b> Piiritletud (parim/nominaalne/konservatiivne) külmaatomi-interferomeetri toimivus — nihke ebastabiilsus, kiiruse/nurga juhuslik ekslemine, skaalateguri stabiilsus, küsitlus. Sõltumatu etalon (InternalConsistency): Sisemine kooskõla: viidatud VRW piirang, mida on risttõendatud CaiAccelerometer::accel_asd füüsika ja triibumitmetähenduslikkuse piirist arvutatud toore dünaamilise ulatusega; arvud on MODELLED kirjanduse ülevaate piirangud (needs_source_confirmation), ühtegi seadet ei ole valideeritud, valideerimise halo puudub
 
 # text
 # c1: modelled_note

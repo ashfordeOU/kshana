@@ -10,7 +10,7 @@ seg-37d29d8303fe = km
 seg-b054c73f22e5 = väärtus puudub
 
 # text
-seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-a3697ad561db = Hz
@@ -92,7 +92,7 @@ seg-72182c1aecd9 = Diagramm, mille mootor kirjutab failile scenarios/tracking-lo
 seg-346594a654f2 = <b>MODELLED</b> Lukustuse kadu arvutatud silmuse dünaamikast võimsussuhte asemel: kandelaine (Costas) ja koodi (mittekoherentne varajane/hiline) 1σ termiline värin versus C/N₀ ruutimiskaoga, nimetatud reeglite 3σ_PLL + θ_e ≤ { "45" }° ja 3σ_DLL + kaldviivitus vastu
 
 # text
-seg-3aa7f9748dc2 = <b>MODELLED</b> Lukustuse kadu arvutatud silmuse dünaamikast võimsussuhte asemel: kandelaine (Costas) ja koodi (mittekoherentne varajane/hiline) 1σ termiline värin versus C/N₀ ruutimiskaoga,. Oraakel (viiteteostus; ReferenceImpl): mootori enda sdr korrelaator (sdr::correlate / synth_if / CaCode), mida sammutatakse edasi algväärtustatud sünteetilisel IF-il kalibreeritud C/N₀ juures — eraldi koodirada, mis jõuab samade arvudeni valimiga IQ arvulise korrelatsiooni, mitte algebralise värinaavaldise kaudu, seega on see erinev tee, mitte ümbersõnastus — pluss tavalised tabelväärtustega modifitseeritud Besseli I₀ väärtused tsüklihüppe liikme jaoks. Silmuseteooria Kaplani ja Hegar järgi
+seg-3aa7f9748dc2 = <b>MODELLED</b> Lukustuse kadu arvutatud silmuse dünaamikast võimsussuhte asemel: kandelaine (Costas) ja koodi (mittekoherentne varajane/hiline) 1σ termiline värin versus C/N₀ ruutimiskaoga,. Sõltumatu etalon (viiteteostus; ReferenceImpl): mootori enda sdr korrelaator (sdr::correlate / synth_if / CaCode), mida sammutatakse edasi algväärtustatud sünteetilisel IF-il kalibreeritud C/N₀ juures — eraldi koodirada, mis jõuab samade arvudeni valimiga IQ arvulise korrelatsiooni, mitte algebralise värinaavaldise kaudu, seega on see erinev tee, mitte ümbersõnastus — pluss tavalised tabelväärtustega modifitseeritud Besseli I₀ väärtused tsüklihüppe liikme jaoks. Silmuseteooria Kaplani ja Hegar järgi
 
 # text
 # c1: label

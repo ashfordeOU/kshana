@@ -22,19 +22,19 @@ seg-a3697ad561db = Hz
 seg-496b17a8d3b9 = Teemaleht: <a1>QUANTUM-MODELS.md</a1>
 
 # text
-seg-a1810bbca337 = <b>MODELLED</b> Kahesuunaline/TWSTFT (Sagnac), GNSS common-view, PPP; lingi värin→vahemaa. Oraakel (sõltumatu etalon) (ExternalDataset): Sagnaci suurust kontrollitakse autoriteetse AVALDATUD VÄÄRTUSE vastu — N. Ashby, „Relativity in the GPS“, Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), valem { "1.29" }: idasuunaline ekvatoriaalne ümbermaailmareis kogub { "207.4" } ns (2ωA_E/c²); kshana reprodutseerib { "207.386" } ns. Sõltumatult kinnitatud RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), mis kannab sama 2Aω/c² geomeetriat. Komposiitne BIPM TWSTFT transponder/common-view/
+seg-a1810bbca337 = <b>MODELLED</b> Kahesuunaline/TWSTFT (Sagnac), GNSS common-view, PPP; lingi värin→vahemaa. Sõltumatu etalon (ExternalDataset): Sagnaci suurust kontrollitakse autoriteetse AVALDATUD VÄÄRTUSE vastu — N. Ashby, „Relativity in the GPS“, Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), valem { "1.29" }: idasuunaline ekvatoriaalne ümbermaailmareis kogub { "207.4" } ns (2ωA_E/c²); kshana reprodutseerib { "207.386" } ns. Sõltumatult kinnitatud RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), mis kannab sama 2Aω/c² geomeetriat. Komposiitne BIPM TWSTFT transponder/common-view/
 
 # text
 seg-a8beb8dfc757 = Aja edastamise veaeelarve koostamine on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
 
 # text
-seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-f44afe581836 = { $version }
 
 # text
-seg-c37642bb24fe = <b>MODELLED</b> Üks reprodutseeritav TradeEvidence objekt (fikseeritud raam: scenario+seed+engine; ühised kvant-vs-klassikalised väärtused FoM-i kohta polaarsuse poolest õige kasuga, valikuline { "95" }%. Oraakel (sisemine kooskõla; InternalConsistency): kinnise kuju kasu/võitja samasused + olemasoleva quantum_trade::TradeResult'i truu ümbris; ausus seotud esinduslikkuse registri ja kontrollisiltidega
+seg-c37642bb24fe = <b>MODELLED</b> Üks reprodutseeritav TradeEvidence objekt (fikseeritud raam: scenario+seed+engine; ühised kvant-vs-klassikalised väärtused FoM-i kohta polaarsuse poolest õige kasuga, valikuline { "95" }%. Sõltumatu etalon (sisemine kooskõla; InternalConsistency): kinnise kuju kasu/võitja samasused + olemasoleva quantum_trade::TradeResult'i truu ümbris; ausus seotud esinduslikkuse registri ja kontrollisiltidega
 
 # text
 seg-eb75c6a4dcec = Kvant-vs-klassikaline kompromissitõend (ühine kuju) on MODELLED, mitte valideeritud: kontrollitud oma kinnise kuju / analüütilise samasuse vastu — tabab ärakirjutus- ja koefitsiendivigu, kuid ei ole väline etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -72,7 +72,7 @@ seg-6b03fa15a60d = Näide <c1/> määrab muu hulgas:
 seg-09760f892c7b = Diagramm, mille mootor kirjutab failile scenarios/quantum-time-transfer.toml, liik quantum-time-transfer
 
 # text
-seg-873de4d05663 = <b>VALIDATED</b> Tabelaarse CUSUM-i detektori halvima juhu tuvastuslatentsus (⌊h/(z−k)⌋+{ "1" }) ja kontrolli alt väljas keskmine jooksupikkus, mida kasutavad ajastuse kaitsetaseme ja spuufimise monitorid. Oraakel (sõltumatu etalon; ExternalDataset): avaldatud tabelaarne CUSUM ARL: Siegmundi ({ "1985" }) Browni liikumise lähend (Hawkins & Olwell { "1998" }, valem { "3.7" }) ristankurdatud Montgomery teose Introduction to Statistical Quality Control (Wiley) ARL-tabelitega, k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministlik latentsus ühtib täpselt esmakordse läbimise etaloniga. Koostatud TPL-i piir jääb MODELLED
+seg-873de4d05663 = <b>VALIDATED</b> Tabelaarse CUSUM-i detektori halvima juhu tuvastuslatentsus (⌊h/(z−k)⌋+{ "1" }) ja kontrolli alt väljas keskmine jooksupikkus, mida kasutavad ajastuse kaitsetaseme ja spuufimise monitorid. Sõltumatu etalon (sõltumatu etalon; ExternalDataset): avaldatud tabelaarne CUSUM ARL: Siegmundi ({ "1985" }) Browni liikumise lähend (Hawkins & Olwell { "1998" }, valem { "3.7" }) ristankurdatud Montgomery teose Introduction to Statistical Quality Control (Wiley) ARL-tabelitega, k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministlik latentsus ühtib täpselt esmakordse läbimise etaloniga. Koostatud TPL-i piir jääb MODELLED
 
 # text
 # c1: kshana kinds --json

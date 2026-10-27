@@ -72,7 +72,7 @@ seg-45259ad33a01 = <b>MODELLED</b> Liik <c1/>: orbiter või pinnaleandur nimega 
 
 # text
 # c1: body-pnt
-seg-5c3f8ac041d3 = <b>MODELLED</b> Liik <c1/>: orbiter või pinnaleandur nimega valitud keha ümber navigeerib ühesuunaliste pseudovahemaadega Walkeri navigatsioonikonstellatsiooni abil keha ümber. Oraakel (sõltumatu etalon) (InternalConsistency): Suletud kujud ja sisemine kooskõla: Kepleri kolmas seadus releeperioodi jaoks, orbiidi raadius ja pinna raadius, mis püsivad jooksu vältel, mõõtmise lisamine, mis ei suurenda kunagi formaalset ebakindlust, ning algväärtusega (seed) vead, mis ühtivad kovariatsiooniga. Releeorbiidid ignoreerivad kolmandaid kehasid (Jupiteri tõmmet releedele Europa ümber ei modelleerita), müra on Gaussi väljaöeldud tasemetel ja mõõtemudel on hetkeline
+seg-5c3f8ac041d3 = <b>MODELLED</b> Liik <c1/>: orbiter või pinnaleandur nimega valitud keha ümber navigeerib ühesuunaliste pseudovahemaadega Walkeri navigatsioonikonstellatsiooni abil keha ümber. Sõltumatu etalon (InternalConsistency): Suletud kujud ja sisemine kooskõla: Kepleri kolmas seadus releeperioodi jaoks, orbiidi raadius ja pinna raadius, mis püsivad jooksu vältel, mõõtmise lisamine, mis ei suurenda kunagi formaalset ebakindlust, ning algväärtusega (seed) vead, mis ühtivad kovariatsiooniga. Releeorbiidid ignoreerivad kolmandaid kehasid (Jupiteri tõmmet releedele Europa ümber ei modelleerita), müra on Gaussi väljaöeldud tasemetel ja mõõtemudel on hetkeline
 
 # text
 # c1: label

@@ -73,14 +73,14 @@ seg-f16a176dc1f8 = <b>MODELLED</b> Liigi <c1/> faasid: iga faas käivitab ühe v
 seg-be831b52a339 = ja veel { "4" } maatriksis.
 
 # text
-seg-cc2ad9e12064 = <b>MODELLED</b> Geomeetriline J/S lingibilanss, segamisvastane C/N₀, satelliidi kaupa sünkroonsuse kadu. Oraakel (sõltumatu etalon) (InternalConsistency): Segamisvastase C/N₀ lingibilansi võrrand, mida on risttõendatud sõltumatu numpy uuestituletusega (jagab sama suletud kuju → InternalConsistency) pluss tegeliku JammerTest-2024 C/N₀ halvenemise iseloomustusega. { "0.30" } ring { "2" }, blokeeritud (jääb MODELLED): mõõdetud JammerTest { "2024" } C/N0 langust lingibilansi ennustuse vastu (eelregistreeritud 6a66994b, { "3" } dB piires) ei jooksutatud, sest F8.1 antenni asukoht ja suunamine at
+seg-cc2ad9e12064 = <b>MODELLED</b> Geomeetriline J/S lingibilanss, segamisvastane C/N₀, satelliidi kaupa sünkroonsuse kadu. Sõltumatu etalon (InternalConsistency): Segamisvastase C/N₀ lingibilansi võrrand, mida on risttõendatud sõltumatu numpy uuestituletusega (jagab sama suletud kuju → InternalConsistency) pluss tegeliku JammerTest-2024 C/N₀ halvenemise iseloomustusega. { "0.30" } ring { "2" }, blokeeritud (jääb MODELLED): mõõdetud JammerTest { "2024" } C/N0 langust lingibilansi ennustuse vastu (eelregistreeritud 6a66994b, { "3" } dB piires) ei jooksutatud, sest F8.1 antenni asukoht ja suunamine at
 
 # text
-seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 # c1: campaign
-seg-fa3ad6babe54 = <b>MODELLED</b> Liigi <c1/> pühkimine (üks kuni kolm punktidega võtit mis tahes liigist, üldise pühkimise telje väärtustel, soovi korral ansambel igas sõlmes) ja monte_carlo sec. Oraakel (sõltumatu etalon) (InternalConsistency): Faasi juhusliku ekslemise suletud kuju valge sageduse müra korral, dispersioon q_wf tau (NIST Technical Note { "1337" }), statistikamasinavärgi jaoks ning baitide tasemel võrdsus eraldiseisvate jooksudega seemendamise (seeding) jaoks. See kontrollib ansambli aritmeetikat mootori enda kellamudelil, mitte välist andmestikku
+seg-fa3ad6babe54 = <b>MODELLED</b> Liigi <c1/> pühkimine (üks kuni kolm punktidega võtit mis tahes liigist, üldise pühkimise telje väärtustel, soovi korral ansambel igas sõlmes) ja monte_carlo sec. Sõltumatu etalon (InternalConsistency): Faasi juhusliku ekslemise suletud kuju valge sageduse müra korral, dispersioon q_wf tau (NIST Technical Note { "1337" }), statistikamasinavärgi jaoks ning baitide tasemel võrdsus eraldiseisvate jooksudega seemendamise (seeding) jaoks. See kontrollib ansambli aritmeetikat mootori enda kellamudelil, mitte välist andmestikku
 
 # text
 # c1: label

@@ -60,10 +60,10 @@ seg-ad0e72e3b688 = Diagramm, mille mootor kirjutab failile scenarios/attitude-bu
 seg-95b159fb5e68 = <b>VALIDATED</b> Gravitatsioonigradiendi halvima juhu häiringumoment ((3/2)(μ/R³)ΔI) asendi üle tipuna (valideeritud väide), pluss RSS-suunamisvea eelarve nimetatud 1σ panustajate üle koos domineeriva liikmega (kutsuja antud arvude ruutsumma Testid: <a1>attitude_gg_torque_reference.rs</a1>.
 
 # text
-seg-f7c8d8994896 = <b>VALIDATED</b> Gravitatsioonigradiendi halvima juhu häiringumoment ((3/2)(μ/R³)ΔI) asendi üle tipuna (valideeritud väide), pluss RSS-suunamisvea eelarve nimetatud 1σ . Oraakel (sõltumatu etalon) (ExternalDataset): Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), täistensori gravitatsioonigradiendi momendi sõltumatu C++ teostus: Kshana tipp (3/2)(μ/R³)ΔI võrdub Basiliski momendiga { "45" } kraadi asendi juures suhtelise täpsusega { "1e-12" } (halvim { "2.1e-15" }) { "5" } kõrguse ja { "8" } inertsitensori üle ning piirab Basiliski momenti { "2000" } juhusliku asendi üle juhu kohta; tolerants fikseeritud enne võrdlust. Valideeritud väide: gravity-
+seg-f7c8d8994896 = <b>VALIDATED</b> Gravitatsioonigradiendi halvima juhu häiringumoment ((3/2)(μ/R³)ΔI) asendi üle tipuna (valideeritud väide), pluss RSS-suunamisvea eelarve nimetatud 1σ . Sõltumatu etalon (ExternalDataset): Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), täistensori gravitatsioonigradiendi momendi sõltumatu C++ teostus: Kshana tipp (3/2)(μ/R³)ΔI võrdub Basiliski momendiga { "45" } kraadi asendi juures suhtelise täpsusega { "1e-12" } (halvim { "2.1e-15" }) { "5" } kõrguse ja { "8" } inertsitensori üle ning piirab Basiliski momenti { "2000" } juhusliku asendi üle juhu kohta; tolerants fikseeritud enne võrdlust. Valideeritud väide: gravity-
 
 # text
-seg-d2a6cf813e95 = <b>PARTNER</b> Ei paku — Kshana on navigatsioonitulemuslikkuse simulaator, mitte platvormitootja. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-d2a6cf813e95 = <b>PARTNER</b> Ei paku — Kshana on navigatsioonitulemuslikkuse simulaator, mitte platvormitootja. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 # c1: label

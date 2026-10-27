@@ -73,7 +73,7 @@ seg-e4da113cbe18 = Mootori joonistatud diagramm failile scenarios/lunar-llr-datu
 seg-764e54be97a0 = <b>VALIDATED</b> Lunar-llr-datum seitsmeparameetriline Helmerti datumi kovariatsioon arhiveeritud ILRS normaalpunktidest ja nende mõõdetud kaaludest tuumateel: geotsentriline Kuu keskpunkt loetakse JPL DE440-st mootori enda tuumalugejaga (planetary_ker Testid: <a1>validate_llr_datum_kernel_moon.rs</a1>.
 
 # text
-seg-cae262db0e46 = <b>VALIDATED</b> Seitsmeparameetriline Helmerti datumi kovariatsioon, mille kaks simuleeritud sisendit on asendatud mõõdetutega: ajakava on { "337" } arhiiv. Oraakel (sõltumatu etalon) (ExternalDataset): Suletud kujuga samasused, sõltumatu hoidlasisene tee ja alates { "0.36" } sõltumatu SPICE ja NumPy teegi etalon värsketel mõõdetud andmetel (allpool); avaldatud Kuu-LLR datumi kovariatsiooni paari, mille vastu kontrollida, ei ole, seega ei väideta täpsust. Ainus uus tuletis — ulatuse osatuletis reflektori kehaga seotud asukoha suhtes — tuletatakse uuesti kahesuunalise valgusaja tsentraalse lõpliku erinevusega, mida see diffe
+seg-cae262db0e46 = <b>VALIDATED</b> Seitsmeparameetriline Helmerti datumi kovariatsioon, mille kaks simuleeritud sisendit on asendatud mõõdetutega: ajakava on { "337" } arhiiv. Sõltumatu etalon (ExternalDataset): Suletud kujuga samasused, sõltumatu hoidlasisene tee ja alates { "0.36" } sõltumatu SPICE ja NumPy teegi etalon värsketel mõõdetud andmetel (allpool); avaldatud Kuu-LLR datumi kovariatsiooni paari, mille vastu kontrollida, ei ole, seega ei väideta täpsust. Ainus uus tuletis — ulatuse osatuletis reflektori kehaga seotud asukoha suhtes — tuletatakse uuesti kahesuunalise valgusaja tsentraalse lõpliku erinevusega, mida see diffe
 
 # text
 # c1: label

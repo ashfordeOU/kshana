@@ -21,7 +21,7 @@ seg-337d23a873f5 = Kolmandate osapoolte AI klientide nimetamise lõik on siit v�
 seg-01a862ed86e6 = Reegel iga vastuse jaoks
 
 # text
-seg-0adf5e5ad79a = Käivita mootor; ära arva arve. Esita, mida tööriist tagastas, koos selle ühiku ja tõendustasemega (VALIDATED välise oraakli (sõltumatu etaloni) vastu või MODELLED), stsenaariumi, algväärtuse (seed) ja mootori versiooniga, et käivitust saaks korrata. Hoia iga tulemuse enda ettevaatusmärkused sellega koos.
+seg-0adf5e5ad79a = Käivita mootor; ära arva arve. Esita, mida tööriist tagastas, koos selle ühiku ja tõendustasemega (VALIDATED välise sõltumatu etaloni vastu või MODELLED), stsenaariumi, algväärtuse (seed) ja mootori versiooniga, et käivitust saaks korrata. Hoia iga tulemuse enda ettevaatusmärkused sellega koos.
 
 # text
 seg-f67845b891c5 = Milline tööriist millise küsimuse jaoks

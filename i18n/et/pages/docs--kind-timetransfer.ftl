@@ -10,7 +10,7 @@ seg-849c08d3ce70 = Perekonna leht: <a1>Kellad, ajastus ja holdover</a1>
 seg-5a70fcb097dc = Valikulised väljad: puuduvad
 
 # text
-seg-a1810bbca337 = <b>MODELLED</b> Kahesuunaline/TWSTFT (Sagnac), GNSS common-view, PPP; lingi värin→vahemaa. Oraakel (sõltumatu etalon) (ExternalDataset): Sagnaci suurust kontrollitakse autoriteetse AVALDATUD VÄÄRTUSE vastu — N. Ashby, „Relativity in the GPS“, Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), valem { "1.29" }: idasuunaline ekvatoriaalne ümbermaailmareis kogub { "207.4" } ns (2ωA_E/c²); kshana reprodutseerib { "207.386" } ns. Sõltumatult kinnitatud RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), mis kannab sama 2Aω/c² geomeetriat. Komposiitne BIPM TWSTFT transponder/common-view/
+seg-a1810bbca337 = <b>MODELLED</b> Kahesuunaline/TWSTFT (Sagnac), GNSS common-view, PPP; lingi värin→vahemaa. Sõltumatu etalon (ExternalDataset): Sagnaci suurust kontrollitakse autoriteetse AVALDATUD VÄÄRTUSE vastu — N. Ashby, „Relativity in the GPS“, Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), valem { "1.29" }: idasuunaline ekvatoriaalne ümbermaailmareis kogub { "207.4" } ns (2ωA_E/c²); kshana reprodutseerib { "207.386" } ns. Sõltumatult kinnitatud RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), mis kannab sama 2Aω/c² geomeetriat. Komposiitne BIPM TWSTFT transponder/common-view/
 
 # text
 seg-a8beb8dfc757 = Aja edastamise veaeelarve koostamine on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))

@@ -629,7 +629,7 @@ seg-92c73c398785 = kaasasolevat stsenaariumifaili
 seg-4fe9e7c5932f = võimekust kontrollimaatriksis
 
 # text
-seg-d2c0888d98f6 = kontrollitud sõltumatute väliste oraaklite (sõltumatu etalon) vastu
+seg-d2c0888d98f6 = kontrollitud sõltumatute väliste sõltumatute etalonide vastu
 
 # text
 # c1: →
@@ -1081,7 +1081,7 @@ seg-43ceda17e71c = Avatud tuum · tasuta · AGPL-3.0
 seg-0230217b1110 = Igaüks, kes saab asendi või aja GNSS-ist, on ohustatud: segamine, spuufimine ja signaali kadu tabavad võrdselt sõidukeid, võrke, elektrivõrke ja kosmoselaevu.
 
 # text
-seg-9e88a1981d1e = { "388" }-st võimekusest { "176" } nõustub sõltumatute väliste oraaklitega (sõltumatu etalon); ülejäänud on märgistatud kui modelleeritud, valjusti.
+seg-9e88a1981d1e = { "388" }-st võimekusest { "176" } nõustub sõltumatute väliste sõltumatute etalonidega; ülejäänud on märgistatud kui modelleeritud, valjusti.
 
 # text
 seg-4b41ffeb0030 = Kõik { "87" } stsenaariumi liiki, tasuta ilma funktsioonilukuta, deterministlikud stsenaariumist, algväärtusest (seed) ja mootori versioonist.

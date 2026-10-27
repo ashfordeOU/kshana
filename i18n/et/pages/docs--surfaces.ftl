@@ -622,7 +622,7 @@ seg-b5ae9f9fd5df = <b>ootel</b>: Studio vaadet veel pole; stsenaariumid töötav
 # c6: [clock_log]
 # c7: [series.clock_log]
 # c8: docs/CLOCK-LOG-FORMATS.md
-seg-3103be5ffa0a = Mõõdetud kellalogid, loetud faasireaks: linuxptp <c1/>, <c2/>, <c3/>, chrony <c4/> ja <c5/>, RINEX kella, TimeLabi ja TICC kõrval (<c6/> / <c7/>; <c8/>; MODELLED, ükski oraakel (sõltumatu etalon) ei võrdle parsimist teise lugejaga)
+seg-3103be5ffa0a = Mõõdetud kellalogid, loetud faasireaks: linuxptp <c1/>, <c2/>, <c3/>, chrony <c4/> ja <c5/>, RINEX kella, TimeLabi ja TICC kõrval (<c6/> / <c7/>; <c8/>; MODELLED, ükski sõltumatu etalon ei võrdle parsimist teise lugejaga)
 
 # text
 # c1: [clock_log]
