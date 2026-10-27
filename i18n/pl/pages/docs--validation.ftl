@@ -51,3 +51,5 @@ seg-f3526b0d95f8 = Zmierzono
 seg-7634c6f4b32c = Łącze
 
 seg-b966dd26caa6 = Zbiór danych
+
+seg-4fe4920a3fa1 = Standard
