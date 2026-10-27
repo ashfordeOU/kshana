@@ -1,0 +1,13 @@
+folders: 14 evaluable, 7 jamming, 7 other
+point estimate (pooled, 14 folders): 0.933190
+bootstrap B=2000 seed 4001: 2.5% = 0.850194, 97.5% = 0.999533, median = 0.937680
+A3 (2.5% quantile >= 0.80): MET
+leave-one-jamming-folder-out AUCs:
+  0: Jamming/dynamic/High Power (_10W)/Bands_E1_E5_E5a_E5b_E6_L1_L2_L3_L5/1.10.4: 0.920163
+  1: Jamming/dynamic/High Power (_10W)/Bands_E1_E5_E5a_E5b_E6_L1_L2_L3_L5/1.10.6: 0.987598
+  2: Jamming/stationary/Very High Power (≥10W)/Bands_L1_L2_L5/1.6.4: 0.937307
+  3: Jamming+Spoofing/dynamic/Low Power (_100mW)/Bands_L1/2.6.2: 0.922119
+  4: Jamming+Spoofing/dynamic/Low Power (_100mW)/Bands_L1/2.6.4: 0.917209
+  5: Jamming+Spoofing/stationary/Low Power (_100mW)/Bands_L1/2.6.1: 0.927877
+  6: Jamming+Spoofing/stationary/Low Power (_100mW)/Bands_L1/2.6.3: 0.941078
+cross-check with impairment_eval::auc: 0.933190

@@ -1592,6 +1592,108 @@ impl BuiltinKind for crate::lunar_time_budget_scenario::LunarTimeBudgetScenario 
     }
 }
 
+fn run_lunar_ascent(scn: &crate::lunar_ascent::LunarAscentScenario) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = scn.chart_svg(&json);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::lunar_ascent::LunarAscentScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_ascent(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_ascent::LunarAscentScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarAscent;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-ascent")
+    }
+}
+
+fn run_lunar_surface_map(
+    scn: &crate::lunar_surface_map::LunarSurfaceMapScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary, csv) = scn.run_json()?;
+    let svg = scn.chart_svg(&json);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: Some(csv),
+    })
+}
+
+impl Scenario for crate::lunar_surface_map::LunarSurfaceMapScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_surface_map(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_surface_map::LunarSurfaceMapScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarSurfaceMap;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-surface")
+    }
+}
+
+fn run_lunar_landing(
+    scn: &crate::lunar_landing::LunarLandingScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = scn.chart_svg(&json);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::lunar_landing::LunarLandingScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_landing(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_landing::LunarLandingScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarLanding;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-descent")
+    }
+}
+
+fn run_lunar_rendezvous(
+    scn: &crate::lunar_rendezvous::LunarRendezvousScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = scn.chart_svg(&json);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::lunar_rendezvous::LunarRendezvousScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_rendezvous(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_rendezvous::LunarRendezvousScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarRendezvous;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-orbit-rendezvous")
+    }
+}
+
 fn run_realtime_frame_eop(
     scn: &crate::realtime_frame_eop::RealtimeFrameEopScenario,
 ) -> Result<RunOutput, String> {
@@ -2779,6 +2881,17 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
         Some(s) => clock_log_measured(s),
         None => Ok(None),
     };
+    // `[clock_fit]`: the measured series replaces the named clock's noise; the run below uses the
+    // replaced scenario, so its hash covers the fitted values.
+    let fitted_run = match src {
+        Some(s) => clock_fit_of(s, scn)?,
+        None => None,
+    };
+    let (fitted_scn, fitted) = match fitted_run {
+        Some((s, f)) => (Some(s), Some(f)),
+        None => (None, None),
+    };
+    let scn = fitted_scn.as_ref().unwrap_or(scn);
     scn.time.validate()?;
     if scn.integrity.is_some() && scn.runs > 1 {
         return Err(crate::terr!(
@@ -2786,7 +2899,7 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
         ));
     }
     if scn.runs > 1 {
-        if measured_of(src)?.is_some() {
+        if fitted.is_none() && measured_of(src)?.is_some() {
             return Err(crate::terr!("e-api-builtins-clock-log-needs-runs-measured"));
         }
         // Monte Carlo ensemble: report confidence bands instead of one run.
@@ -2807,13 +2920,33 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
             p952 = crate::i18n::localise_decimal(format!("{:.0}", c.holdover_s.p95)),
             ns12 = ns1(c.timing_p95_ns.mean)
         );
-        return Ok(RunOutput {
-            json: json_of_with_units_and_tiers(
+        let json = match &fitted {
+            None => json_of_with_units_and_tiers(
                 &r,
                 crate::ensemble::UNITS,
                 &["quantum", "classical"],
                 crate::fom_label::CLOCK_FOM_FIELDS,
             )?,
+            Some(f) => {
+                let units: Vec<_> = crate::ensemble::UNITS
+                    .iter()
+                    .chain(crate::clock_fit::FITTED_UNITS)
+                    .copied()
+                    .collect();
+                json_of_with_units_and_tiers(
+                    &WithFitted {
+                        run: &r,
+                        measured: None,
+                        fitted: f,
+                    },
+                    &units,
+                    &["quantum", "classical"],
+                    crate::fom_label::CLOCK_FOM_FIELDS,
+                )?
+            }
+        };
+        return Ok(RunOutput {
+            json,
             svg: crate::ensemble::to_svg(&r),
             summary,
             csv: None,
@@ -2852,14 +2985,31 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
                 .collect()
         }
     };
-    let json = match &measured {
-        None => json_of_with_units_and_tiers(
+    let json = match (&measured, &fitted) {
+        (m, Some(f)) => {
+            let mut units: Vec<_> = units.clone();
+            if m.is_some() {
+                units.extend(crate::clock_log::MEASURED_UNITS.iter().copied());
+            }
+            units.extend(crate::clock_fit::FITTED_UNITS.iter().copied());
+            json_of_with_units_and_tiers(
+                &WithFitted {
+                    run: &r,
+                    measured: m.as_ref(),
+                    fitted: f,
+                },
+                &units,
+                &["quantum.fom", "classical.fom"],
+                crate::fom_label::CLOCK_FOM_FIELDS,
+            )?
+        }
+        (None, None) => json_of_with_units_and_tiers(
             &r,
             &units,
             &["quantum.fom", "classical.fom"],
             crate::fom_label::CLOCK_FOM_FIELDS,
         )?,
-        Some(m) => {
+        (Some(m), None) => {
             let units: Vec<_> = units
                 .iter()
                 .chain(crate::clock_log::MEASURED_UNITS)
@@ -2951,6 +3101,31 @@ impl BuiltinKind for crate::ssv::scenario::GnssSsvScenario {
     const KIND: ScenarioKind = ScenarioKind::GnssSsv;
     fn parse(src: &str) -> Result<Self, String> {
         parse_toml(src, "gnss-ssv")
+    }
+}
+
+fn run_mission_thread(
+    scn: &crate::mission_thread::scenario::MissionThreadScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary, svg) = scn.run_json()?;
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::mission_thread::scenario::MissionThreadScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_mission_thread(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::mission_thread::scenario::MissionThreadScenario {
+    const KIND: ScenarioKind = ScenarioKind::MissionThread;
+    fn parse(src: &str) -> Result<Self, String> {
+        crate::mission_thread::scenario::MissionThreadScenario::parse(src)
     }
 }
 

@@ -215,8 +215,21 @@ pub struct VerifyReport {
     /// The lab attestation the manifest records, if any: the operator's statement, as given.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lab_attestation: Option<super::lab::LabAttestation>,
+    /// The evidence label the pack's `config.json` carries (0.40 and later); `None` for a pack made before 0.40, which
+    /// has none and verifies unchanged.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub evidence: Option<EvidenceSummary>,
     /// Things worth knowing that are not failures.
     pub notes: Vec<String>,
+}
+
+/// The evidence label of a pack, as `kshana evidence verify` reports it.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+pub struct EvidenceSummary {
+    /// The tier: the weakest status among the rows.
+    pub tier: String,
+    /// The ledger row ids.
+    pub rows: Vec<String>,
 }
 
 /// Strict lower-case hex of exactly `N` bytes: no whitespace, no upper case, so no byte of
@@ -279,6 +292,7 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
         engine_version: None,
         timestamp: None,
         lab_attestation: None,
+        evidence: None,
         notes: Vec::new(),
     };
     fn close(r: &mut VerifyReport, name: &'static str, from: usize, ok_detail: &str) {
@@ -575,6 +589,35 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
                 from,
                 "hash matches and the slice is that range of it",
             );
+        }
+    }
+
+    // The evidence label (0.40): reported when `config.json` carries one; a pack without it predates 0.40.
+    if let Some(cfg) = files.get("config.json") {
+        let block = serde_json::from_slice::<serde_json::Value>(cfg)
+            .ok()
+            .and_then(|c| c.get("evidence").cloned());
+        match block.as_ref().and_then(|b| {
+            Some((
+                b.get("tier")?.as_str()?.to_string(),
+                b.get("rows")?
+                    .as_array()?
+                    .iter()
+                    .filter_map(|r| r.get("id").and_then(|i| i.as_str()).map(str::to_string))
+                    .collect::<Vec<_>>(),
+            ))
+        }) {
+            Some((tier, rows)) => {
+                r.notes.push(format!(
+                    "evidence label: {tier} ({} ledger rows: {}); it is inside config.json, so the signature covers it",
+                    rows.len(),
+                    rows.join(" ")
+                ));
+                r.evidence = Some(EvidenceSummary { tier, rows });
+            }
+            None => r
+                .notes
+                .push("no evidence label (pre-0.40 pack)".to_string()),
         }
     }
 

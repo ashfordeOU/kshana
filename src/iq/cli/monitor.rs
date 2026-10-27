@@ -186,7 +186,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let report = crate::i18n::in_english_or_localised_error(|| report_from_args(&a, None))?;
 
     if let Some(p) = a.get("--json") {
-        std::fs::write(p, report.to_json()?).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+        let body = crate::evidence_label::label_json("iq-monitor", &report.to_json()?)
+            .map_err(Fail::Run)?;
+        std::fs::write(p, body).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     if let Some(prefix) = a.get("--csv") {
         for (suffix, body) in [

@@ -237,6 +237,7 @@ pub const KINDS_EXCLUDED_FROM_FIGURE_TIERS: &[(&str, &str)] = &[
     ("solar-system", "its positions and light times are arrays; the only scalars are the epoch and the body count"),
     ("optical-atmosphere", "its figures are per-site and per-network-row arrays; the document carries its own MODELLED label"),
     ("gnss-ssv", "its figures are per-constellation and per-band arrays of availability and outage; the document carries its own MODELLED label"),
+    ("mission-thread", "its figures are per-phase budgets, rows, events and a timeline of 1-sigmas; the document carries its own MODELLED label and a units block"),
     ("holdover-test", "its figures are per-step statistics, mask verdicts and curves of a record the operator supplied; the document carries its own MODELLED label"),
     ("lunar-infrastructure", "five studies with different report shapes whose figures are per-arc rows, sweeps and matrices; each document carries its own MODELLED label and a units block"),
     ("sweep", "its results are arrays of member runs; the members carry their own tiers"),
@@ -497,6 +498,27 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
             ("crossover_x_s", "Per-clock-class lunar time crossover table"),
             ("frame_term_s", ""),
             ("time_lab.ltc_realisation_ns", "Lunar station time laboratory: miniRAFS holdover against LTC"),
+        ],
+        "lunar-ascent" => &[
+            ("insertion.dispersion_velocity_m_s", ""),
+            ("insertion.nav_sigma_position_m", ""),
+            ("insertion.nav_sigma_velocity_m_s", ""),
+        ],
+        "lunar-descent" => &[
+            ("touchdown.ellipse_3sigma_semi_major_m", ""),
+            ("touchdown.nav_sigma_east_m", ""),
+            ("inertial_only_sigma_east_m", ""),
+            ("monte_carlo.mean_nees", ""),
+        ],
+        "lunar-orbit-rendezvous" => &[
+            ("final_rel_pos_sigma_lvlh_m.total", ""),
+            ("fix_availability", ""),
+            ("monte_carlo.mean_nees", ""),
+        ],
+        "lunar-surface" => &[
+            ("exit_state.timing_floor_s", ""),
+            ("exit_state.longest_timing_gap_h", ""),
+            ("exit_state.stay_days", ""),
         ],
         "lunar-time-offset" => &[
             ("secular_rate_us_per_day", ""),

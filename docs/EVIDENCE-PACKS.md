@@ -219,6 +219,21 @@ must be SHA-256, SHA-384 or SHA-512 with a digest of that algorithm's length, an
 authority's signature and certificate chain are checked only when trusted anchors are given
 (`--tsa-ca`, below).
 
+## The evidence label (0.40)
+
+A pack built by 0.40 or later carries, inside `config.json`, an `evidence` entry (the tier, `VALIDATED`, `MODELLED` or
+`PARTNER`, which is the weakest status among its rows, and the ids and requirements of the verification-matrix rows the
+pack's contents rest on: the pack-integrity row, the receiver-trust rows, and the jammertest-scoring or round-trip rows
+for those packs) and `config_version` `"1.1"`. It is inside `config.json`, so the manifest's file hash, the hash chain
+and the signature cover it: changing it fails verification. `kshana evidence verify` reports the tier and the row ids.
+
+The change is additive and forward-only. The manifest's `format` stays `kshana-evidence/1`: the normative text above
+says a verifier MUST find that value, and the clean-room verifier in `scripts/` does. The minor version is therefore
+carried by `config_version` (absent for a pack made before 0.40, meaning 1.0), not by a new `format` string. A pack made
+before 0.40 has no label and verifies unchanged; `kshana evidence verify` says "no evidence label (pre-0.40 pack)". The
+tests are `tests/evidence_pack_label.rs` (including the committed pre-0.40 oracle packs) and
+`tests/evidence_labels_doc_sync.rs`.
+
 ## RFC 3161 timestamp (optional)
 
 A timestamp token from a timestamping authority shows the manifest existed at a time the
