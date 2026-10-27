@@ -205,3 +205,24 @@ seg-821762272e2f = Sektorid
 
 # text
 seg-13e8e5460280 = Geomeetria
+
+# text
+seg-b366150de755 = Telli uuring
+
+# attr:aria-label, text
+seg-e1acd19a6ac6 = Väljaannete võrdlus
+
+# text
+seg-5116f1a604ee = Kellele see on mõeldud
+
+# attr:title
+seg-f70fa3b93b11 = Mootori enda aruanne selle jooksutuse kohta
+
+# attr:title
+seg-d32a11c090e1 = Mootori tulemus, muutmata
+
+# attr:title
+seg-c459bc5805bb = Stsenaariumifail, mis jooksis
+
+# text
+seg-f18f76c10709 = <s1><a1>Aruanne</a1><a2>JSON</a2><a3>TOML</a3></s1>
