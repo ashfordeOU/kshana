@@ -23,3 +23,5 @@ seg-2c53381d48ae = Elipsa błędu poziomego i kofaktor dla poszczególnych syste
 seg-de6c33774c9c = CLI
 
 seg-d1e9715513b4 = Przykład
+
+seg-587beeccaa11 = Ustawienie predefiniowane
