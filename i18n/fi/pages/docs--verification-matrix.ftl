@@ -2325,3 +2325,65 @@ seg-e7d7d99fe538 = ROS-vapaa silta, joka kirjoittaa paikannus- ja satelliittivie
 seg-05ded40b17d2 = Ei mitään ulkoista: ROS-solmua ei ajettu elävällä ROS { "2" } -graafilla, eikä ublox_ubx_msgs-kenttien nimiä tarkistettu käynnissä olevaa ajuria vasten. gnss_lib_py (MIT) ajettiin siltatestiä varten
 
 seg-c3c260b7063e = Testit
+
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs (tiedoston MAO000USA_R_20231980000_01D_30S_MO (IGS MGEX RINEX { "4.00" }) ensimmäiset { "4" } epookkia, { "58" } satelliittia, { "7" } järjestelmää: otsikkotietueet ja ensimmäisen epookin arvot vastaavat julkaistuja literaaleja); rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records (synteettinen otsikko { "4.02" } määrittelystä)
+
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs (todelliset C01-C04-tietueet: geostationaarinen säde, pituusasteet 140.02/80.04/110.55/159.99 deg julkaistuissa paikoissa, |leveysaste| { "2.13" } deg kallistuksen kanssa vs { "6.65" } ilman; ennakkorekisteröity lähetetyn ja tarkan SP3:n vertailu riippuu datasta (KSHANA_BDS_GEO_SP3) eikä sitä ole ajettu); rinex::tests
+
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), skenaariot gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs (jokainen paketti: fuusio alittaa vapaan INS:n virheen katkon aikana molemmilla antureilla; rail: tiukka { "5.3" } m vs löyhä { "12.9" } m navigointiluokan anturilla ja { "15.6" } m vs { "18.8" } m taktisella anturilla katkon aikana, saatavuus { "0.97" } vs { "0.95" }; tiukka taulukko validoitu); tests/gnss_ins_legacy_trajectory_pin.rs (löyhästi kytketty oletus bittitarkasti identtinen)
+
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs (3-D-suodatin { "60" } siemenluvulla: toisen puoliskon keskimääräinen NEES { "8.12" }, kun tiloja on { "8" }, viimeisen epookin χ²-summa on sen { "95" } % kaistan sisällä; { "0.1" } ns kellokiinnitys pienentää 3-D-paikan sigmaa arvosta { "5.58" } m arvoon { "3.07" } m; harhasuodatin { "60" } siemenluvulla: χ²({ "5" }) summa kaistalla, harha on { "3" } sigman sisällä { "59" } / { "60" } tapauksessa; fusion-pnt-coupled harhaisilla kiihtyvyysantureilla: paikan p95 { "18.7" } m / { "90.0" } m ja eheys { "1.00" } / { "0.97" } kytkettynä vs { "430" } m / { "4060" } m ja { "0.006" } / { "0.000" } erotettuna); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fuusio ja hybridi ilman [coupled]-osiota bittitarkasti identtiset)
+
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE maaliskuu { "2023" }, { "4" } perilunaa ja { "5" } apolunaa: jakso { "6.5004" } d vs { "6.5699" } d ({ "1.07" } %, kynnys { "3" } %), apoluna { "71 182" } vs { "71 215" } km ({ "0.05" } %, kynnys { "5" } %), periluna { "3 385" } vs { "3 245" } km ({ "4.1" } %, kynnys { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: kaikki { "104" } tarkistusta menevät läpi ensimmäisellä ajolla ennakkorekisteröinnin e50c88d2 jälkeen, pahin varianssi { "3.2" } %, RMS { "1.6" } %, korrelaatio { "0.012" }, keskiarvo { "2.2" } keskivirhettä, ellipsiosuus { "0.0039" }; negative_control_a_doubled_pdop_fails_every_geometry; negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries: molemmat kontrollit epäonnistuvat vaaditusti; position_error_is_sigma_times_dop_on_masked_skies: suunnittelumuistion kaksi peitetyn horisonttiprofiilin geometriaa, 10sat-mixed-taivas esiasetusten city-street ({ "4" } satelliittia, PDOP { "16.6" }) ja container-terminal ({ "9" } satelliittia, PDOP { "2.5" }) alla, kaikki { "26" } tarkistusta menevät läpi ensimmäisellä ajolla ennakkorekisteröinnin 03999c11 jälkeen, tests/fixtures/dop/PREREGISTRATION-MASKED.md); tests/position_error_dop_ci.rs (ensimmäinen, erillinen tarkistus neljällä käsin valitulla taivaalla (avoin, ryhmittynyt, kanjoni, puolitaivas; sigma { "1" } m, siemenluku 0x0D0B5EED) khiin neliön luottamusväleillä, joiden kokonaisvirhetodennäköisyys on { "1e-6" } { "20" } tarkistuksen yli: suhteet välillä { "0.987" } ja { "1.009" }, ratkaisijan oma PDOP/GDOP vastaa ytimen arvoja tarkkuudella { "2.5e-12" }, ja negatiiviset kontrollit { "10" } % DOP-virheelle ja 1/sin(elevation)-virheille; ajettu ennen ennakkorekisteröintiä, joten se raportoidaan eikä ole ennakkorekisteröity); dop_error_mc::tests; dop_error_ci::tests
+
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: tiedoston scenarios/training/fjord-natural-degradation.toml synteettisellä fjordiylityksellä samat { "624" } epookkia vähennetään sekä ilmoitetulla [skyline]-osiolla että ilman sitä; sen kanssa sky-blocked raportoidaan { "680" } epookissa ({ "0" } ilman: atsimuuttiaukon varavaihtoehto ei näe mitään kaksipuolisessa fjordissa), open_fraction on { "0.758" }, ja ympäristöluokan epookit putoavat arvosta { "78" } arvoon { "33" }, loput ovat satelliittien menetyksiä, jotka ilmoitettu horisonttiprofiili jättää avoimeen; tapahtuman ulkopuolella horisonttiprofiili ei muuta yhtäkään pistemäärää); receiver_trust::geometry::tests (käsin johdetut suhteet kynnyksillä, kynnysten reunat, ramppi ja katto, lattia, nimikkeiden reunat, [geometry]-ohitukset, DOP validoidulla ytimellä, pidetyt ja vanhentuneet taivaat, tuntematonta ei arvata, signaalin menetys, heikon geometrian toleranssi, ei-kiinnitystä ilmaisevat sentinellit); tests/geometry_trust.rs (reilu peitetty taivas nimikoitu eikä pisteytetty, heikko peitetty taivas, matalan korkeuskulman menetys, tehon lasku, väärennetty HDOP, täysi signaalin menetys, harhautetun ratkaisun irtivetäminen heikon geometrian aikana, tuntematon geometria, istunnon ohitukset, live-skeema); tests/geometry_trust_no_change.rs (molemmat esimerkki-istunnot tavu tavulta identtiset version { "0.35.0" } kanssa, kun lisätyt avaimet poistetaan); tests/geometry_corpus_identity.rs (jokainen sitoutettu aluksen NMEA-korpus, myös vain GPS:n avoimena taivaana, ja miehistön harjoitusskenaariot: tavu tavulta identtiset version { "0.35.0" } kanssa lukuun ottamatta heikkoja epookkeja, jotka eroavat pelkästään geometriavähennyksen verran)
+
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (yhden kellon ydin gnss_lib_py-kirjastoa vastaan)
+
+seg-b31ed8fc6801 = holdover::tests (vs monivaiheinen Kalman-kovarianssirekursio; white-FM täsmällinen; edestakaiskierto); coast-variance-ydin validoitu ulkoisesti tiedostossa tests/gnss_denied_clock_holdover_reference.rs (vs scipy Van-Loan/brentq)
+
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; ennakkorekisteröity 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; riippuu datasta)
+
+seg-d302e2ef46ad = clock_library (card)
+
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; ennakkorekisteröity fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+seg-3016100a7015 = clock_state::tests (analyyttinen van-Loan Q; NEES; PSD:n positiivisuus); tests/clock_state_reference.rs (täysi predict+update-trajektori — tila x ja { "3" }×{ "3" } kovarianssi P { "1925" } askeleen / { "4" } parametrijoukon yli vs filterpy { "1.4.5" }; pahin |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (lukitsee löydöksen); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9-kierros { "3" })
+
+seg-509026100595 = timetransfer, timetransfer_adv
+
+seg-a1ad8fb8537d = timetransfer::tests (vastavuoroinen kumoutuminen; kaksimuotoinen Sagnac-identiteetti); tests/time_transfer_error_budgeting_reference.rs (päiväntasaajan kiertomatkan Sagnac = { "207.386" } ns vs julkaistu Ashby { "207.4" } ns erolla <{ "0.05" } ns; lisäksi Sagnac/geodist-geometria ristiintarkistettu RTKLIB { "2.4.3" } geodist()-funktiota vastaan, käännettynä C-lähdekoodista)
+
+seg-10e0cb39ac3b = navsignal
+
+seg-1035f877de94 = navsignal::tests (BPSK itse-SSC = 2/3R_c; yksikköpinta-alan PSD; DLL); tests/nav_signal_modulation_code_tracking_reference.rs (GPS C/A Gold -ristikorrelaatio/autokorrelaatio täsmää täsmälleen kokonaislukuina vs riippumaton IS-GPS-200-koodigenerointi; BPSK-R({ "1" })/sini-BOC({ "1,1" }) PSD vs riippumaton scipy-periodogrammi); tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath, lukittu)

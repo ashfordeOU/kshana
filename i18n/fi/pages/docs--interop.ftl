@@ -14,6 +14,10 @@ seg-bf09433a7342 = GeoJSON
 
 seg-9c92e0bc42aa = KML
 
+seg-b03d56f501c3 = Tyyppi
+
+seg-357c2320b43a = kyllä
+
 seg-c8c964a11462 = Lähde: <c1/>
 
 seg-881ec6f8fbe0 = Ajo kirjoittaa tulosasiakirjan, kaavion ja raportin. <c1/> kirjoittaa lisäksi skenaarion geometrian tai sen synteettisesti tuotetun signaalin muodoissa, joita muut työkalut jo lukevat: maapallonäkymä, työpöytäkartta, paikkatietojärjestelmä (GIS), tehtäväanalyysipaketti tai ohjelmistoradiotyökalu (SDR). Mikään tässä ei lue kelloa tai verkkoa, eikä yksikään vienti sisällä luontiaikaleimaa, joten sama skenaario tuottaa tavu tavulta identtiset tiedostot joka ajolla.

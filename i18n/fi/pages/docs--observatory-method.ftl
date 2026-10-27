@@ -3,3 +3,5 @@
 seg-0857a94a948e = Rajoitukset
 
 seg-2247a2344710 = Merkitys
+
+seg-b652b86e6b8e = Tila

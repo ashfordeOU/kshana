@@ -41,3 +41,5 @@ seg-f63dd3d7aad4 = Lähde
 seg-638b8d451550 = Anturi
 
 seg-04f69a0edb2f = tyyppi
+
+seg-b03d56f501c3 = Tyyppi
