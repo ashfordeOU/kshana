@@ -1,3 +1,0 @@
-{"type":"FeatureCollection","name":"gnss-ins scenario fd2ee0f2b70e","description":"Kshana 0.39.0 export. Epoch: static scene: the gnss-ins kind flies its trajectory in a local tangent plane from this origin and exports no calendar time.","features":[
-{"geometry":{"coordinates":[-57.3,45.0,50.0],"type":"Point"},"id":"site/origin","properties":{"description":"tangent-plane origin; the simulated trajectory starts here and is flown in a flat local frame, so only the origin is placed","name":"origin","role":"origin","units":{"coordinates":"deg (longitude), deg (latitude), m (height above the WGS 84 ellipsoid)"}},"type":"Feature"}
-]}

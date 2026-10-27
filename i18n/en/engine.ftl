@@ -10597,3 +10597,226 @@ engine-live-io-usage =
 
 engine-tle-warning = warning: { $w }
 
+## src/animation.rs
+
+engine-e-animation-no-time-series-to-animate = no time series to animate: the { $k } result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)
+
+engine-animation-svg-sub = kind { $kind } · { $t0 } to { $t1 } · samples from result.json, drawn without resampling · Kshana { $version }
+
+engine-animation-svg-strip-events = events
+
+engine-animation-svg-strip-phases = phases
+
+engine-animation-svg-waterfall = waterfall: { $title } [{ $unit }], time runs downward, colour { $lo } to { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = epoch index
+
+engine-animation-svg-desc = Animated time series of a { $kind } run: { $n_panels } panel(s), { $n_events } event(s), { $n_phases } phase(s). Every point is a sample from the run's result.json.
+
+engine-animation-html-title = { $title } — Kshana animation
+
+engine-animation-html-sub = kind { $kind } · { $n } series from result.json, drawn without resampling · Kshana { $version }
+
+engine-animation-html-playback = Playback
+
+engine-animation-html-play = Play
+
+engine-animation-html-pause = Pause
+
+engine-animation-html-mission-time = Mission time
+
+engine-animation-html-speed = speed
+
+engine-animation-html-playback-speed = Playback speed
+
+engine-animation-html-events = Events
+
+engine-animation-html-footer-keys = Space plays or pauses, the arrow keys step, Home and End jump. This is a rendering of the run's own samples: it is exactly as good as the run and adds no evidence (MODELLED, internal consistency).
+
+engine-animation-html-footer-determinism = Same scenario, seed and options give a byte-identical file.
+
+engine-animation-html-exports-heading = Exports written beside this player
+
+engine-animation-js-phases-and-events = phases and events
+
+engine-animation-js-waterfall = waterfall: { $title } [{ $unit }], time runs downward
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = phase: { $name }
+
+## src/evidence/bundle.rs
+
+engine-e-evidence-bundle-bad-log-slice = bad log slice: { $s }
+
+engine-e-evidence-bundle-bad-window = bad window: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = bad creation time: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = bad timestamp token: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = cannot serialise: { $s }
+
+
+## src/osnma/page.rs
+
+engine-e-osnma-page-not-valid-hex = page is not valid hex
+
+engine-e-osnma-page-time-outside-week-number = page time is outside the 4096 weeks of a Galileo week number
+
+engine-e-osnma-page-bad-length = page has { $n } hex digits, expected 60
+
+engine-e-osnma-page-malformed-line = malformed page line: { $s }
+
+
+## src/interchange.rs
+
+engine-e-interchange-encode-payload = failed to encode payload: { $e }
+
+engine-e-interchange-invalid-envelope = not a valid interchange envelope: { $e }
+
+engine-e-interchange-not-kshana-artifact = not a Kshana artifact: format is { $found }, expected { $expected }
+
+engine-e-interchange-incompatible-schema-version = incompatible schema version { $v } ({ $verdict }); this engine speaks { $current }
+
+engine-e-interchange-payload-mismatch = payload did not match the requested type: { $e }
+
+
+## src/interop/mod.rs
+
+engine-e-interop-not-applicable = not applicable: { $why }
+
+
+## src/iq/mod.rs
+
+engine-e-iq-io-error = I/O error: { $m }
+
+engine-e-iq-format-error = format error: { $m }
+
+
+## src/iq/signals/mod.rs
+
+engine-e-iq-signals-prn-not-defined = { $signal }: PRN { $prn } is not defined by the ICD
+
+engine-e-iq-signals-glonass-channel-outside = GLONASS frequency channel { $k } is outside -7..=6
+
+engine-e-iq-signals-code-table = code table: { $m }
+
+
+## src/kepler.rs
+
+engine-e-kepler-out-of-domain = Kepler equation: M or e out of domain
+
+engine-e-kepler-no-convergence = Kepler equation did not converge in { $iters } steps (residual { $residual })
+
+
+## src/lunar_orientation.rs
+
+engine-e-lunar-orientation-epoch-outside-series = epoch { $t } Julian centuries from J2000 is outside the DE440 lunar orientation series ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+
+## src/propagator.rs
+
+engine-e-propagator-sgp4-error = SGP4 propagation error (code { $code })
+
+
+## src/integrator.rs
+
+engine-e-integrator-dop853-stopped = DOP853 stopped at t = { $t } ({ $failure }) after { $accepted } steps
+
+
+## src/portable_distr.rs
+
+engine-e-portable-distr-variance-non-finite = variance is non-finite in normal distribution
+
+engine-e-portable-distr-shape-not-positive = shape is not positive in gamma distribution
+
+engine-e-portable-distr-scale-not-positive = scale is not positive in gamma distribution
+
+
+## src/bench/tasks.rs
+
+engine-bench-tasks-clock-line-before-header = a clock line comes before any `@<PRN>` header
+
+
+## src/api.rs
+
+engine-api-html-clock = Clock
+
+engine-api-html-fom-heading = Figures of merit
+
+engine-api-html-metric = Metric
+
+engine-api-html-value = Value
+
+engine-api-html-validation = Validation
+
+engine-api-html-tier-note = Each figure of merit is tagged VALIDATED (checked against an external oracle) or MODELLED (first-principles, internally tested), derived from the verification matrix.
+
+engine-api-html-default-title = Kshana — scenario result
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · the precise instant
+
+engine-api-html-tagline = Hybrid quantum / classical PNT performance scorecard
+
+engine-api-html-chart-alt = Result chart
+
+engine-api-html-full-result = Full result (JSON)
+
+engine-api-html-footer-generated = Generated by Kshana { $version }.
+
+engine-api-html-footer-licence = Reproducible from scenario + seed + engine version. Free and open source (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">source &amp; docs</a>.
+
+
+## src/leo_signal.rs
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+
+## src/spectrum.rs
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+## mcp/kshana-mcp/src/main.rs
+
+engine-mcp-main-usage =
+    kshana-mcp: Model Context Protocol server for the Kshana PNT-resilience simulator.
+
+    USAGE:
+    { "    " }kshana-mcp                      serve over stdio (the default; what MCP clients launch)
+    { "    " }kshana-mcp --http <addr>        serve streamable HTTP at http://<addr>/mcp
+
+    HTTP OPTIONS:
+    { "    " }--http <addr>               bind address, e.g. 127.0.0.1:8080 (loopback only by default)
+    { "    " }--allow-remote              permit a non-loopback address; needs KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  extra Host header accepted (repeatable)
+    { "    " }--allow-origin <origin>     browser origin accepted (repeatable; none by default)
+    { "    " }--max-body-bytes <n>        request body cap (default 5242880)
+    { "    " }--request-timeout-secs <n>  per-request time limit (default 120)
+    { "    " }--max-concurrent <n>        requests served at once (default 8)
+
+    The HTTP transport turns the IQ file tools off. Kshana does not host an endpoint: run it yourself.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = unknown argument `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = HTTP options need --http <addr>
+
+
+## mcp/kshana-mcp/src/http.rs
+
+engine-e-mcp-http-refusing-to-bind = refusing to bind { $addr }: it is not a loopback address. Use 127.0.0.1:<port>, or pass --allow-remote (and set { $token_env }) to listen beyond this machine
+
+engine-e-mcp-http-refusing-to-bind-needs-token = refusing to bind { $addr }: a non-loopback address needs a bearer token in the { $token_env } environment variable
+
+engine-e-mcp-http-token-too-short = { $token_env } is shorter than 16 characters; use a long random token
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent and --request-timeout-secs must be above zero
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin does not accept `*`; name each origin
+
+engine-mcp-http-warning-remote = WARNING: kshana-mcp is listening on { $addr } beyond this machine. Anyone who can reach it and holds the bearer token can run simulations on your hardware. Put TLS in front of it (a reverse proxy or your platform's HTTPS) and keep the token secret.
+

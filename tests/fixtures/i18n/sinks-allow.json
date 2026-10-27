@@ -1,173 +1,113 @@
 {
  "_comment": "Per-file allowance of string literals that sit in a human-facing sink (print, write, Display impl, error, markup text writer; scripts/i18n_sinks.py) and do not go through the catalogue. A count may fall and may never rise; a file not listed allows none. Replace 'unreviewed' by a specific reason once a file's remainder has been read.",
  "files": {
-  "mcp/kshana-mcp/src/http.rs": {
-   "count": 2,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
   "mcp/kshana-mcp/src/iq.rs": {
    "count": 4,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: MCP tool descriptions, the schema text served to the client model (English by design; the tool replies follow the caller's lang)"
   },
   "mcp/kshana-mcp/src/main.rs": {
-   "count": 3,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "count": 1,
+   "reason": "identifier: the version line `kshana-mcp <version>`"
   },
   "mcp/kshana-mcp/src/marine.rs": {
    "count": 2,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: MCP tool descriptions, the schema text served to the client model (English by design)"
   },
   "mcp/kshana-mcp/src/server.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: an MCP tool description, the schema text served to the client model (English by design)"
   },
   "src/animation.rs": {
-   "count": 16,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "count": 7,
+   "reason": "machine-format: CSS rule text (stroke/fill classes and keyframes) and the player script, whose user-visible strings are substituted from the catalogue; the `epoch` literal is compared, not shown"
   },
   "src/api.rs": {
-   "count": 4,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/bench/tasks.rs": {
-   "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "count": 2,
+   "reason": "machine-format: the stylesheet text inside the scorecard template (every text node is a message) and the generated docs/KINDS preamble written by gen_validation_artifacts"
   },
   "src/bin/crossover_study.rs": {
    "count": 2,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "developer: a maintainer's study binary (wrote / error lines for the maintainer)"
   },
   "src/bin/gen_araim_m3_study.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "developer: a maintainer's study generator (progress line)"
   },
   "src/bin/gen_calibration_ensembles.rs": {
    "count": 2,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "developer: a maintainer's generator (prints MET / NOT MET to the maintainer's terminal)"
   },
   "src/bin/gen_validation_artifacts.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "developer: a maintainer's generator of the docs artifacts (progress line)"
   },
   "src/bin/validation_report.rs": {
    "count": 5,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/evidence/bundle.rs": {
-   "count": 5,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "developer: the maintainer's generator of the published validation summary page (English by design, like docs/VERIFICATION-MATRIX.md); not part of the shipped command line"
   },
   "src/evidence/html.rs": {
    "count": 19,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "signed: summary.html of an evidence pack is hashed into the manifest the pack signs, so it is built in English whatever the language (commit 102266ea; docs/i18n.md)"
   },
   "src/fusion/gnss_ins_ekf.rs": {
    "count": 4,
-   "reason": "public API: update_tightly_coupled returns Result<_, &'static str>, which cannot carry a catalogue message without a breaking signature change; four short input-validation reasons"
-  },
-  "src/integrator.rs": {
-   "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/interchange.rs": {
-   "count": 5,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "error: public Result<_, &'static str> of the EKF update; a catalogue message cannot be a &'static str (kept on purpose)"
   },
   "src/interop/kml.rs": {
    "count": 10,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/interop/mod.rs": {
-   "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: KML element names and the folder names of the interchange file (Moving objects, Sites, Jammer footprints, Tracks); an exported file is a machine file and does not depend on the language"
   },
   "src/iq/acq_surface.rs": {
    "count": 6,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: the acquisition-surface CSV (header row and `# key=value` comment lines that are part of the file format)"
   },
   "src/iq/campaign/report.rs": {
    "count": 10,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/iq/mod.rs": {
-   "count": 2,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "identifier: the HTML attribute ` class=\"l\"` written beside cells whose text is already a message; no words a person reads"
   },
   "src/iq/signals/lunanet.rs": {
    "count": 2,
-   "reason": "identifier: the `signal` field of SignalError::UnknownPrn is a &'static str name of a signal (a label, not a sentence)"
-  },
-  "src/iq/signals/mod.rs": {
-   "count": 3,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "error: public Result<_, &'static str>; the LunaNet signal name is part of the message (kept on purpose)"
   },
   "src/jammertest/plan.rs": {
    "count": 10,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/kepler.rs": {
-   "count": 2,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/leo_signal.rs": {
-   "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/lunar_orientation.rs": {
-   "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: the events TOML the importer writes (keys, [[events]] tables, comment lines that are part of the file and carry the scheduled-truth notice in English, label field)"
   },
   "src/lunar_service.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: the `#` comment header of <scenario>.table.csv (part of the reproducibility table, golden-pinned)"
   },
   "src/lunar_time_budget_scenario.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: the `#` comment header of <scenario>.table.csv (part of the reproducibility table, golden-pinned)"
   },
   "src/main.rs": {
    "count": 12,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "identifier: the remaining literals are a version line (kshana <version>), JSON keys of the lunanet-afs-check document and of imu-fit output, a subcommand name compared with `cmd`, and the id of a legal message; no text a person reads"
   },
   "src/maneuver.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/osnma/page.rs": {
-   "count": 4,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/portable_distr.rs": {
-   "count": 3,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/propagator.rs": {
-   "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "developer: the text of an expect() on an infallible serialisation, not shown to a user"
   },
   "src/realtime_frame_eop.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
-  },
-  "src/spectrum.rs": {
-   "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: the `#` comment header of <scenario>.table.csv (part of the reproducibility table, golden-pinned)"
   },
   "src/study.rs": {
    "count": 2,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: the page skeleton (stylesheet text) and an `&mdash;` cell; every text node of the study page is a message"
   },
   "src/telemetry/otlp.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: the HTTP/1.1 request an OTLP exporter sends (protocol text)"
   },
   "src/telemetry/prometheus.rs": {
    "count": 1,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-format: the HTTP/1.1 response of the /metrics endpoint (protocol text)"
   },
   "src/verification.rs": {
    "count": 4,
-   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+   "reason": "machine-document: rows of the verification matrix (claims, oracles, notes); stays English in every language (docs/i18n.md)"
   }
  }
 }

@@ -155,11 +155,22 @@ pub enum EvidenceError {
 impl std::fmt::Display for EvidenceError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            EvidenceError::BadSlice(s) => write!(f, "bad log slice: {s}"),
-            EvidenceError::BadWindow(s) => write!(f, "bad window: {s}"),
-            EvidenceError::BadCreated(s) => write!(f, "bad creation time: {s}"),
-            EvidenceError::BadTimestamp(s) => write!(f, "bad timestamp token: {s}"),
-            EvidenceError::Serialise(s) => write!(f, "cannot serialise: {s}"),
+            EvidenceError::BadSlice(s) => {
+                f.write_str(&crate::terr!("e-evidence-bundle-bad-log-slice", s = s))
+            }
+            EvidenceError::BadWindow(s) => {
+                f.write_str(&crate::terr!("e-evidence-bundle-bad-window", s = s))
+            }
+            EvidenceError::BadCreated(s) => {
+                f.write_str(&crate::terr!("e-evidence-bundle-bad-creation-time", s = s))
+            }
+            EvidenceError::BadTimestamp(s) => f.write_str(&crate::terr!(
+                "e-evidence-bundle-bad-timestamp-token",
+                s = s
+            )),
+            EvidenceError::Serialise(s) => {
+                f.write_str(&crate::terr!("e-evidence-bundle-cannot-serialise", s = s))
+            }
             EvidenceError::BadAttestation(s) => write!(f, "{s}"),
         }
     }
