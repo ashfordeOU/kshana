@@ -5488,3 +5488,673 @@ dat-e80be678124e = IQ stseeni generaatori satelliidipõhine tõde GPS L1 C/A eda
 dat-d03526913ead = ITU-R uurimisrühma { "3" } Clutter ja BEL valideerimise töövihiku väärtused, ümber kirjutatud viite-MATLAB teostuse valideerimisskriptist (github.com/eeveetza/p2109), kinnitatud failis tests/fixtures/leo_link/p2109_bel.csv koos URL-i ja hankimiskuupäevaga. Töövihik trükib kolm kümnendkohta
 
 dat-2f20131152ee = Liigi jamming vabatahtlik jaotis [acquisition] (satelliit omandatakse omandamislävel või sellest kõrgemal pärast uuesti omandamise viivitust ja hoitakse, kuni see on jälgimislävel või sellest kõrgemal) ja jaotis [front_end] (AGC lugemine { "10" } log10({ "1" } + J/N) ja ADC Gaussi sisendiga kvantiseerija kadu, mis on igalt lingilt maha võetud, märgitud kui kehtetu mittegaussi segajate jaoks).
+
+dat-828c020a30e1 = scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q täpne, χ² <{ "5e-4" } töö-vabadusastmetel. Ainult tuumad — seadme jõudluse arvud jäävad mudelist arvutatuks (järgmine rida)
+
+dat-7c9bfa5ab641 = scipy { "1.18" } (BSD-3-Clause): linalg.expm arvutab Van-Loani { "1978" } diskreetse protsessimüra Q₀₀ = ∫₀ᵗ ΦQcΦᵀds Padé skaleerimise ja ruutu tõstmise meetodil { "6" }×{ "6" } laiendatud maatriksil — sõltumatu tee, mis ei näe kunagi kshana polünoomkoefitsiente; lisaks optimize.brentq, mis pöörab sama monotoonse kõvera ümber kshana poolitusmeetodi vastu. Kellaklasside kaupa punase müra põhitaseme näitajad (ClockClass) jäävad MODELLED
+
+dat-c1c604f3caec = scipy { "1.18" } (stats.kendalltau variant='b', rankdata) + numpy.percentile (BSD-3-Clause) — ühemõtteliselt defineeritud järgustatistikute sõltumatud teostused (merge-sort τ), mis ühtivad täpsusega { "1e-12" }. Nendele tuumadele ehitatud otsuse ebastabiilsuse uuring jääb MODELLED
+
+dat-44fe7f2f9c8e = SciPy { "1.18.1" } (BSD-3-Clause) solve_ivp(method=DOP853) ja selle üksiksammu, veanormi, tihedat väljundit ja algsammu arvutavad rutiinid, sõltumatu teostus; täpsed kahe keha olekud mpmath { "1.3.0" } abil { "40" } numbrikohaga. Lävid eelregistreeriti failis xval/dop853-scipy/PREREGISTRATION.md (ae1b25e) enne esimest võrdlust; kõik täidetud (xval/dop853-scipy/RESULTS.md). SciPy esimene samm antakse täielikel käikudel mõlemale lahendajale; algsammu rutiini võrreldakse eraldi. Hõlmamata: RKF7({ "8" }), jäikuse tuvastamine, sündmuste asukoha leidmine
+
+dat-296dc4051c11 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) sama perioodilise Hanni akna, kattuvuse, tihedusskaleerimise, trendi eemaldamata jätmise ja kahepoolse keskmise keskmistamisega: iga lahter jääb { "1e-12" } suhtelise täpsuse piiresse (täheldatud { "6.0e-14" }) { "27" } juhul, segmentide arvud võetud scipy enda spektrogrammist. sigmf-python { "1.13.0" } (LGPL-3.0, käivitatud tööriistana) kirjutab viis kolmanda osapoole salvestust (cf32_le, ci16_le, ci8, kaks märkustega salvestust, nullist erinev esimene sample_start), mille crate dekodeerib bititäpselt identsete põhiväljadega, ja loeb crate'i salvestused bititäpselt tagasi; SigMF { "v1.2.6" } metaandmete skeem ei teata crate'i metaandmetes ühtegi viga. Tolerantsid fikseeriti enne esimest võrdlust. Väitest väljas: spectrum::synthesise_iq ning [iq] ja [recording] võrdlused mudeliga (süntees ei anna ühte õiget vastust; perioodiline sirin näitab jooni, Fresneli lainetust ja servasabasid, mida sile mudel ei sisalda, kogu võimsus { "2" } % piires), täisarvu ja ujukomaarvu skaleerimise kokkulepe (crate jagab arvuga { "32767" } ja { "127" }, sigmf-pythoni autoscale arvudega { "2" }^{ "15" } ja { "2" }^{ "7" }, mida spetsifikatsioon jätab lahtiseks; võrdluses kasutatakse toorkoode), mitmekanalilised salvestused ja andmetüübid, mida lugeja tagasi lükkab
+
+dat-577e00a866ab = SciPy stats chi2/ncx2/norm (sõltumatu teek) — tests/raim_reference.rs (statistiline tuum; ARAIM MHSS PL väärtus pole fikseeritud)
+
+dat-ad6236daddef = scipy.spatial.transform.Rotation.align_vectors (SciPy { "1.13" }; Virtanen et al., Nature Methods { "2020" }) — Wahba ülesande Kabschi/Markley SVD-lahend, tõeliselt sõltumatu algoritm (asendimaatriksi SVD) ja koodibaas kshana Davenport-K omaväärtuslahendusest / QUEST karakteristliku juure meetodist, mis arvutab SAMA ühemõtteliselt defineeritud Wahba-optimaalse asendi. Müravabadel kaalutud vektorvaatluste hulkadel annavad TRIAD, q-meetod ja QUEST scipy optimaalse pöörde täpsusega <{ "1e-9" } rad (võrreldud märgiinvariantse asendivea nurga kaudu). Mürarikas Monte Carlo statistiline väide „optimaalne lööb TRIAD-i“ jääb MODELLED (sõltumatu etalon puudub); ainult punktsuunalised ühikvektorvaatlused — andurite vaatevälja, nihke ega ajalise korrelatsiooni modelleerimist pole ning QUEST on singulaarne { "180" }° juures (q-meetod katab selle juhu)
+
+dat-dc7c003995cc = scipy.stats.ncx2 / scipy.stats.chi2 (SciPy { "1.13" }; Cephes/Boost) — sõltumatu algoritm (jätkuv murd mittetsentraalse/tsentraalse χ² jaoks) kshana mittetäieliku gammafunktsiooni reast (raim::chi2_cdf / noncentral_chi2_cdf), mis arvutab sama ühemõtteliselt defineeritud tuvastusstatistikute TUUMA: üldistatud Marcumi Q_M(a,b)=ncx2.sf(b²,2M,a²), tuvastustõenäosus P_d, valehäire tõenäosus P_fa ja P_fa→lävi pöördamine, ühtivad täpsusega ~{ "1e-6" } — sama sõltumatuse alus kui kontrollitud reas „RAIM/ARAIM terviklikkuse statistiline tuum“. AINULT TUUM: lahtripõhine CFAR lahtrite keskmistamine ning kood/Doppleri-lahtrite ületamise kadu jäävad MODELLED
+
+dat-00b7ebc0a018 = SciPy/NumPy (BSD-3-Clause; scipy.linalg.null_space ja numpy.linalg.svd, LAPACK gesdd) klassifitseerivad samad sisseviidud maatriksid alamruumide ühisosa, dim null([F; E_T]) ja dim null([F; E_S]), ning SVD nullruumi projektori kaudu, mis erineb Kshana Jacobi omavektoritest ja Grami astaku valemitest; eelregistreeritud (d429993c): täisarvud täpsed, p_st_norm täpsusega { "1e-9" } (P2, sõltumatu arvutuskogu), astaku lävi fikseeritud ette ja spektrivahe vähemalt { "1e6" } tagatud. Rea väide on antud maatriksi klassifitseerimine, seega P2 katab selle täielikult. Konstrueeritud juhud sisaldavad otsesummat, seotud ja segatud nullruume ning juhuslikke baasivahetusi; seotud kalibreerimisvabaduse rea reaalse võrgu dimensioone siin uuesti ei loeta. Crate'i sisene invariantsuse test (pööratud nullbaas annab identsed tulemused) säilitatakse
+
+dat-ecdfcb899baa = Scoop bucket
+
+dat-a18e70a6324e = Hinda piiratud lõiku laeva NMEA { "0183" } voost samamoodi, nagu `kshana receiver-trust live` seda hindab, ja tagasta epohhipõhine usaldusolek (calibrating, nominal, degraded, untrusted) ning skoor 0-100 koos monitooridega, mis punkte maha arvasid (live JSON-lines skeem { "1.3" }: iga epohh sisaldab `position`, väidet `advisory`, et väljund on nõuandev, ja satelliidigeomeetriat `geometry` (good, degraded koos põhjustega nagu few-satellites või high-pdop, või unknown, kui lõigus pole GSV-d ega GSA-d) koos sildiga `label` (good, fair, poor; geomeetria arvab punkte maha ainult siis, kui see on poor); iga mahaarvamine kannab klassi `class`: geometry (taevas, mitte järeldus, et rünnakut ei toimunud), environment või inconsistency (ründetaoline)), kokkuvõte (arvud oleku, geomeetria ja klassi kaupa, madalaim ja lõppskoor, millal esimene untrusted epohh tuli) ja viimane `$PKSHT` lause.
+
+dat-b0851170eab0 = Hinda kshana-bench esitust (`kshana bench score`, bench/SPEC.md, docs/BENCH.md): ennustusfail (`kshana-bench-predictions/1`) tõefaili (`kshana-bench-truth/1`) vastu, mõlemad JSON-tekst, kummagi suurus kuni { "4" } MiB, ning tagasta tulemusfail (`kshana-bench-result/1`) koos spetsifikatsiooni versiooni, ülesande (a tuvastamine vastuvõtja logidel, b tuvastamine IQ-l, c ajastuse holdover-ennustus, d jaotusvälise optimismivahe), jaotuse, mõlema sisendi SHA-256 ja ülesande mõõdikutega (AUC, tuvastustõenäosus valehäire ülempiiri juures, RMSE horisondi kohta või optimismivahe).
+
+dat-e4e75b47727c = Hinda vastuvõtja logi Jammertesti ajakava vastu (`kshana jammertest score`): iga planeeritud testi kohta tuvastusviivitus (esimene alarm miinus planeeritud algus), kas see tuvastati tolerantsi piires, hilinenult või jäi tuvastamata, ja taastumisaeg (alarmivaba lõik pikkusega `recover_hold_s`), ning lisaks valehäired väljaspool iga ajaluuki ja selle kaitseintervalli.
+
+dat-5b577627cdf9 = Skoorstatistik ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 ühisrežiimi nihke jaoks, mida lahenduseraldus (kontrastid ortogonaalsed vektoriga { "1" }) ei näe; ühisrežiimi nihe suurendab seda, samal ajal kui paarikaupa eraldused jäävad tasaseks
+
+dat-4a9189f161fe = Hindab, kas laeva navigatsioonilahendusele saab tugineda, kasutades NMEA { "0183" } andmeid, mida selle vastuvõtja ja instrumendid juba väljastavad: skoor 0-100, kolm riba ja nende taga olevad põhjused, epohhi kaupa, pakettrežiimis, reaalajas või lüüsina. Monitoorid võrdlevad lahendust laeva enda liikumise, kursianduri, kiirusmõõturi ja satelliidisignaali tasemetega. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade: vastutab jätkuvalt operaator. Monitooride aritmeetikat kontrollitakse sõltumatute teekide vastu; skoori reegel ja läved on projekti enda ning jäävad mudelist arvutatuks.
+
+dat-389c8d89137d = sdr::code_tests (ca_first_ten_chips_match_is_gps_200_octal — PRN { "1" }–{ "9" } esimesed 10 kiipi reprodutseerivad IS-GPS-200 tabeli 3-Ia oktaalarvud 1440/1620/1710/1744/1133/1455/1131/1454/1626 täpselt; ca_code_has_1023_chips_and_is_balanced; ca_periodic_autocorrelation_is_three_valued)
+
+dat-f8b4b933bb97 = Otsi io.github.ashfordeOU/kshana-mcp.
+
+dat-3842550f02d0 = Sekundid, kuni vabalt käiv kell lahkub ajaindekseeritud ajaluugi kaitseintervallist, ja korrektuuride sagedus, mis hoiab selle sees
+
+dat-9101fe90af84 = Turvalisuse headusnäitaja — analüütiline spuufimise tuvastatavuse piir
+
+dat-5929ef9641ba = Turvapoliitika
+
+dat-2fa97693b70f = Vaata ka
+
+dat-b60237034eb8 = Valitavad liikumisprofiilid gnss-ins paketile (sirge, figure-8, linna seisma jäämisega sõit, õhusõiduki tõus ja koordineeritud pööre, mõõdistusdroon), mis on defineeritud Euleri kiiruste ja piki rada kiirenduse käskudega, suletuna tõeoleku olekule kinemaatilise IMU-ga (tsentripetaal-, raskus- ja Coriolisi liikmed), ning imporditud CSV tõeoleks, mis on muudetud seda reprodutseerivaks IMU-ks; varasem sõit jääb muutmata, kui profiili ei anta
+
+dat-0ef56cdaefab = Hindaja ja geomeetria sisemine kooskõla: otse–pöördteisenduse ringid, Fisheri/CRLB samasus J·CRLB=I, GDOP monotoonsus ja hindaja, mis saavutab oma Cramér–Rao piiri Monte Carlo müra korral — sisemise kooskõla kontrollid, MITTE väline andmekogu, seega jääb rea tase InternalConsistency. MODELLED passiivne geolokatsioon — punktallika vaatejoone mudel; mitmeteelevi / NLOS-i, vastuvõtja kella nihke ega atmosfäärirefraktsiooni liikmeid pole. { "0.30" } ümardatud arvuni { "2" }, Ho ja Chani { "1993" } ning Ho ja Xu { "2004" } vastu (eelregistreeritud f89018b8, { "1" } % iga trükitud väärtuse kohta), tulemus (jääb MODELLED): pinnaga piiratud TDOA piir reprodutseerib { "40" } N geomeetrilised tegurid (-0.11 %, -0.02 %) ja maksimaalse TDOA; ühine TDOA+FDOA piir reprodutseerib joonist { "6" } (+{ "0.06" } %, -0.17 %) ja allikal, mille autorite oma kood nimetab jooniseks { "7" } (muudatus kirjutatud pärast selle tulemuse nägemist, avaldatud), joonist { "7" } (+{ "0.11" } %, -0.02 %); see võrdub autorite avaldatud piirikoodiga (BSD-laadne, käivitatud GNU Octave'is) täpsusega { "3e-12" }; kovariatsiooniga kaalutud suurima tõenäosuse lahendaja saavutab trükitud piiri (+{ "0.3" } kuni +{ "0.4" } %). Ottawa tegurid, mille artikkel trükib Monte Carlo põhjal ({ "251" }, { "7.1" }), erinevad +{ "1.3" } % ja +{ "4.4" } %, väljaspool { "1" } % läve
+
+dat-48c06a69f626 = Üleandmiste sisemine kooskõla: iga edasi antud väärtus võrdub eelneva etapi enda väljundiga ning eelneva sisendi muutmine liigutab kõiki sellest sõltuvaid järgnevaid näitajaid. Etapid säilitavad oma sildid; ahel ei lisa füüsikat ega välist sõltumatut etaloni
+
+dat-c66a398789c3 = Interferomeetri vöötmudeli sisemine kooskõla: poolvööndi serv, 2π-perioodiline aliasingu struktuur ja skaalateguri taandumine ulatuse/lahutuse suhtes on suletud kujuga algebralised samasused, mida kontrollitakse mootori enda Mach–Zehnderi faasi ja tundlikkuse funktsioonide vastu — sisemise kooskõla kontrollid, MITTE väline andmekogu, seega jääb rea tase InternalConsistency. MODELLED ideaalne kolmeimpulsiline vööndi mitmetähenduslikkus; ühemõttelise ulatuse jaoks pole lainefrondi aberratsiooni ega kontrastikao piire
+
+dat-1edd3707cfc5 = Ainult sisemine kooskõla: avaldatud summat kontrollitakse samas failis olevate liikmete ruutude summa juure vastu ja väljastatud kõver reprodutseerib avaldatud p3_time_budget_curve.csv kõigis { "57" } punktis. Mõlemad kontrollid jagavad selle mootori enda liikmete definitsioone, seega kumbki pole sõltumatu. Kella liige tugineb avaldatud kella spetsifikatsioonidele, kuid lingi, tugisüsteemi, relativistliku ja efemeriidi põhitaseme SUURUSED on dokumenteeritud eelarve eraldised ilma välise sõltumatu etaloni; need ei ole sõltumatult kontrollitud
+
+dat-65858866917e = Ise majutamise juhend
+
+dat-9ac614e8f945 = Tundlikkusuuring
+
+dat-da902218b92d = Tundlikkusuuring (kolm päeva)
+
+dat-c884dc5cd017 = Septentrio SBF (format = "sbf")
+
+dat-f21f6312d77b = Järjestikune (rekursiivne) maastikupõhine navigatsioon — GPS-ita alt-PNT.
+
+dat-af686833dcf2 = Serialiseeri ja parsi CCSDS { "502.0" } OEM COVARIANCE_START…COVARIANCE_STOP plokk — { "6" }×{ "6" } asukoha/kiiruse kovariatsioon, kirjutatud selle 21-elemendilise alamkolmnurgana (kanooniline järjekord CX_X … CZ_DOT_Z_DOT) koos valikulise COV_REF_FRAME-ga, täiendades olemasolevat OEM olekuvektori kirjutajat/parserit, nii et orbiidi määramise ja filtrite kovariatsioonid käivad standardvormingus ringi
+
+dat-d5e280fe1d19 = Sea platvormile protsessori ja mälu piirang
+
+dat-f7f7c4ac51b3 = Hulga sisalduvus: jammeri ja signaali suhe siseneb ühtlase detsibellinihkena, nii et suurema saatevõimsuse korral hõlmatud hulk sisaldab väiksema võimsuse hulka ja osa saab ainult kasvada — omadus, mida Airy mustrist EI tulene kiirenurga ega kõrguse korral, kus hõlmatud piirkond laguneb rõngasteks ja osa on tegelikult mittemonotoonne. Ükski avaldatud tabel ei anna Kuu orbitaalsaatja hõlmatud ketta osa kõrguse ja kiirenurga funktsioonina, seega pole nende lahtrite kontrollimiseks midagi välist; aluseks olev muster on eraldi kontrollitud avaldatud Besseli väärtuste vastu ja sellel on oma rida
+
+dat-b499b8e2c8f2 = Settings → Plugins → Marketplace → otsi „Kshana“ (plugina ID dev.kshana.ide). Tee stsenaariumi .toml failil paremklõps ja vali Run Kshana Scenario.
+
+dat-5f452eb6f36c = Seitse püsitemperatuuri MTIE ja TDEV triivi genereerimise maski `telecom-timing` liigi jaoks: G.811 (09/1997) PRC (autonoomne), G.812 (06/2004) tüübid I, II ja III, G.8262 (10/2024) EEC valikud { "1" } ja { "2" } ning G.8262.1 (11/2025) eEEC (lukustatud režiim), sealhulgas tabelites kirjutatud astmeseadusega lõigud (`{ "8" } τ^{ "0.5" }` jms), iga vahemik avatud või suletud nii, nagu on trükitud, mõõdetud klauslites nimetatud { "10" } Hz filtri kaudu (võetud rakendatuks enne diskreetimist); etalonstsenaarium scenarios/telecom-synce-eec.toml seab vabalt käiva OCXO kolme EEC maski vastu. Teostamata: muutuva temperatuuri lubatud hälbed, holdover, siirded, värin ja G.811 sageduse täpsus
+
+dat-c154e22f0463 = Seitsmeparameetriline Helmerti (sarnasus) tugisüsteemi datum, mida juhib SIMULEERITUD VAATLUSKAMPAANIA, mitte…
+
+dat-5edf07579980 = Seitsmeparameetriline Helmerti Kuu tugisüsteemi datum, mida juhib TÕELINE, ARHIVEERITUD vaatluskampaania, mitte…
+
+dat-4b89cb3df611 = Seitsmeparameetriline Helmerti Kuu tugisüsteemi datum, mida juhib SIMULEERITUD VAATLUSKAMPAANIA (G9).
+
+dat-ce78e41f321f = Seitsmeparameetriline Helmerti Kuu tugisüsteemi datum TÕELISEST, ARHIVEERITUD vaatluskampaaniast (V3).
+
+dat-d55cb71472c4 = Mitu stsenaariumi ühiste tingimuste all koos kombineeritud kokkuvõttega
+
+dat-2fbb120bffe0 = SGP4/SDP4 propageerimine tegelikest kaherealistest elementidest (salvestatud Celestraki GPS-i hetktõmmis) või sünteetilistest Walkeri konstellatsioonidest, mille keskmised elemendid realiseerivad i:T/P/F valemi täpsusega alla { "1" } km { "24" } h jooksul. Mitme konstellatsiooni nähtavus, täpsuse halvenemise tegur ja GNSS-i kättesaadavus, konstellatsiooni kujunduse optimeerija, katvusribade mõõtmine ning Walkeri kujunduse pühkimine, mis annab tasandite × satelliitide ruudustikul Pareto-optimaalsed kujundused.
+
+dat-e82ed37686f0 = SGP4/SDP4 valideerimine kogukonna etaloni vastu
+
+dat-e58ad5dbbc32 = SGP4/SDP4, Cowelli 6-DOF + häiritused, pakett-/järjestikune OD
+
+dat-d458c3670e24 = Shell-režiim: brošüüri globaalne mõõdik
+
+dat-09e67d38f482 = Lühikese baasjoonega suhteline positsioneerimine tegelikust kaksiksagedusega GPS-i koodist ja kandelaine faasist: kaksikvahed kõrgeima satelliidi suhtes koos nende täieliku kovariatsiooniga, ujuv Kalmani filter baasjoone ja ühikvahede mitmetähenduslikkuste üle koos libisemise uuesti lähtestamisega, LAMBDA täisarvuline vähimruutude meetod suhtetestiga ning baasjoon, mis on tingitud fikseeritud täisarvudest
+
+dat-2d5c1f5c13a3 = SigMF salvestuse sisend ja väljund ning kompleksse IQ Welchi spektrihinnangud
+
+dat-e466797c6633 = sigmf: loe ja kirjuta Signal Metadata Format salvestusi (JSON .sigmf-meta põhiliste global-, captures- ja annotations-väljadega; töötlemata .sigmf-data kujul cf32_le, ci16_le või ci8, täisarvudekodeerijad jagatud realdata::iqif::load_iq-ga), kõik sõnede ja baidipuhvritega. spectrum::welch_psd: Hanni aknaga, kattuvad, keskmistatud periodogrammid, tihedusskaleeritud, crate'i sees oleval radix-2 teisendusel (spectrum::fft_in_place). Need kaks on kontrollitud väide. spectrum::synthesise_iq joonistab mudeli IQ-na ja `spectrum` liigi [iq] jaotis käitab mudelist IQ-ni, SigMF-ini ja Welchini ning võrdleb mudeliga; selle [recording] jaotis hindab tegelikku salvestust (natiivsed ehitused); süntees ja need mudeli võrdlused on kontrollitud väitest väljas
+
+dat-ca38e49660ad = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — põhi { "2" } % piires dispersioonist jagatud diskreetimissagedusega, Parsevali kogusumma { "2" } % piires, Hanni ekvivalentne müraribalaius { "1.5" } lahtrit; noise_like_synthesis_is_unbiased_through_welch — Welchi miinus mudeli mediaan { "0.1" } dB piires ci16_le ringi kaudu; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welchi PSD vs scipy { "1.18.1" } signal.welch lahtri kaupa täpsusega { "1e-12" } suhteliselt { "27" } juhul, täheldatud { "6.0e-14" }; viis sigmf-python { "1.13.0" } salvestust dekodeeritud bititäpselt identsete metaandmetega; crate'i kirjutatud salvestused loetud sigmf-pythoni poolt bititäpselt tagasi ja skeemikehtivad SigMF { "v1.2.6" } vastu)
+
+dat-9cd9dd4c33e3 = Signaali ja süsteemi eelseaded
+
+dat-b00bcd626c85 = signaalikujundused
+
+dat-0345ce0c3308 = Signal K plugina juhend
+
+dat-d59d6f542e93 = Signaali-ruumis vahemaaviga
+
+dat-ec7503f282d5 = signaali-ruumis vahemaaviga, RMS
+
+dat-9c6a9341490c = Allkirjastatud tõendipaketid
+
+dat-18a2db656f97 = Simuleeritud tõeolek filtri enda hinnangu vastu (järjepideva filtri keskmine normeeritud hinnangu ruutviga on asukoha puhul umbes { "3" }) ja determinism fikseeritud algväärtuse (seed) korral. Lennu- ega salvestatud kõrgorbiidi GNSS-andmeid ei võrrelda; Päike ja Kuu on väikese täpsusega ringorbiidiga asendajad
+
+dat-d56763338043 = Simulatsiooniga kontrollitud (kovariatsiooni / suletud ahela headusnäitajad, mitte sertifitseeritud kaitsetasemed); Päikese-tsentraalne Marsi dünaamika on ristkontrollitud JPL DE440 vastu täpsusega { "137" } m @ 1-päevasel kaarel; Marsi-LMO OD ≈ { "0.2" } m.
+
+dat-d4776382a489 = LEO navigatsioonisõnumi ühesagedusliku ionosfääri ja UTC teenused
+
+dat-531887b91757 = Ühe arvuga vastupidavusreitingud positsioneerimisele, navigatsioonile ja ajale on stabiilsed ainult seal, kus üks kujundus domineerib; kaalumine, oht ja deklareeritud tehnikad võivad neid ümber pöörata.
+
+dat-d541692e383b = Üksikpunkti positsioneerimine (PVT)
+
+dat-b668016e1890 = Taeva geomeetria
+
+dat-2d7d60357e41 = Taeva geomeetria funktsioonid: nähtavus, DOP, kovariatsioon, veaellips, Monte Carlo pilv
+
+dat-12c10c0617b0 = Taeva geomeetria asimuudist sõltuva skyline'i all (tänavakanjon, sadam, fjord, konteinerterminal): asukohast, ajast ja konstellatsioonide eelseadetest, kaherealistest elementidest (`tle`, UTC `epoch`-iga) või asimuudi/kõrguse või ECEF-iga antud satelliitidest lähtudes, millised satelliidid on nähtavad ja millised skyline'i poolt varjatud, GDOP/PDOP/HDOP/VDOP/TDOP gnss_lib_py-ga kontrollitud DOP-tuumast, ida-põhja-üles kofaktor ja kovariatsioon ühe vastuvõtja kellaga süsteemi kohta (või ühega ühiselt) ning horisontaalne veaellips ühe sigma juures ja antud usaldusnivool antud UERE korral.
+
+dat-39b1bcfec069 = Skyfield { "1.54" } (MIT), oma liigsekundite tabeli, oma TDB-TT ja sama NAIF de440s.bsp enda lugejaga (jplephem), käivitatud eraldi programmina UTC epohhidel. Eelregistreeritud (0bfafe6d) enne kinnituskomplekti olemasolu, ruudustik algväärtustatud selle commit'i räsiga, lävi { "5e-5" } s korrutatud suhtelise kiirusega (mootori deklareeritud kaheliikmelise TDB-TT täpsus) pluss { "1e-13" } barütsentrilisest kaugusest pluss { "1e-5" } m, komponendi kohta. Tulemus: kõik { "600" } sees, halvim { "0.66" } läve kohta ({ "2.96" } m kiirel paaril, TDB-TT rea enda viga). Mutatsioon: TT kasutamine TDB asemel ebaõnnestub { "33" } korda läve ületades. Mõlemad pooled loevad DE440: see kontrollib pakkujat ja selle ajaahelat, mitte DE440-t. Väitest väljas: planeedid Veenusest kaugemal kehadena (de440s sisaldab ainult nende barütsentreid), planeetide kuud ja täpsus alla kaheliikmelise TDB-TT rea (mõni meeter kiireimate paaride puhul)
+
+dat-a746656c3f42 = skyline + frames::look_angles + geometry::sky_geometry: satelliidi geodeetiline (WGS-84) asimuut ja kõrgus maapealsest asukohast, asimuudi/kõrguse maskitabel asimuudi järgi lineaarselt interpoleeritud ümbermähkimisega { "360" } kraadi juures, nähtav hulk el >= max(mask_deg, mask(az)) ning selle hulga ühiskella DOP ja ENU-ja-kella kofaktorimaatriks (tuum orbit::dop taga). Nii otsustab [skyline] jaotis nähtavuse liikides gnss-sim, jamming, leo-pvt, leo-pass ja nmea-scenario ning maapealse asukohaga user_site korral liikides orbit ja integrity
+
+dat-7d7fce0709c1 = Skyline'i maskid ja taeva geomeetria
+
+dat-f409aed2c1fd = Skyline'i eelseaded (linnatänav, sadamasissesõit, fjord, konteinerterminal)
+
+dat-127c914f92b1 = Skyline'i eelseaded ja taeva geomeetria funktsioonid
+
+dat-a2f8ef765eed = Skyline'iga maskeeritud nähtavus, DOP ja veaellips
+
+dat-f408f01299bd = skyline: tänavakanjon suletud kujul (lõige atan((h - a) / d) kui d = (w/2) / abs(sin(az - s)), lõpliku pikkuse korral avatud otsad), teravate servadega sektorid päripäeva ümbermähkimisega ning maastikupunktid, mis on taandatud tabeliks kõveruslangusega d^2/({ "2" } * 4/3 R); skyline on nende punktiviisiline maksimum mis tahes tabeliga
+
+dat-54d387cbe183 = skyline::PRESETS: neli REPRESENTATIVE geomeetriat disainimärkme esitatud mõõtmetega ja igaühel päritolurida: city-street (kanjon, tänav { "0" } kraadi, { "20" } m { "30" } m seinte vahel, antenn { "1.5" } m), harbour-approach (sektorid: avatud merepoole üle { "180" } kraadi, kai hooned { "8" } kraadi üle { "90" } kraadi, lainemurdja { "3" } kraadi), fjord (maastik: seinad { "600" } m antennist kõrgemal { "1.5" } km kaugusel mõlemal pool põhja-lõuna kanalit, kõveruslangus rakendatud), container-terminal (sektorid: virnad { "12" } kraadi maismaapoolsel poolel, kraana noolad { "35" } kraadi ja { "25" } kraadi kahes kitsas sektoris); alistatavad väljade kaupa
+
+dat-7969ca4fa6ac = Ajaluugi ajastus
+
+dat-581da7573890 = Ajaluugi ajastus: kui kaua ahjuga stabiliseeritud kvartsostsillaator (OCXO) madalal Maa orbiidil
+
+dat-42d4c827caff = Ajaluugi ajastus: sekundid, kuni vabalt käiv kell lahkub ajaindekseeritud marsruutimise või ülesannete jagamise ajaluugi kaitseintervallist…
+
+dat-296ef4327c8b = slot-timing (stsenaariumi liik)
+
+dat-111439f50e53 = SMAD kosmosekolmnurga geomeetria: Maa nurkraadius, haardelaius, nadiiri GSD, maksimaalne nadiirist kõrvalekalde juurdepääs ja ringperiood, pluss esimese järgu J2 sõlmeperiood (eo_payload::j2_nodal_period) ja ekvatoriaalne maapealse jälje vahe R_e (omega_E - dOmega/dt) T_nodal (eo_payload::ground_track_spacing_equator_j2) pideva katvuse lipuga, orbiidi kõrguse, kalde ja andurite FOV/IFOV jaoks. Käivitatav CLI-st/sidemetest stsenaariumi liigina `eo-coverage` (scenarios/eo-coverage.toml); selle vaikekalle on päikesesünkroonne kalle funktsioonist eo_payload::sun_synchronous_inclination, mugavuse vaikeväärtus, mis ei kuulu kontrollitud väitesse
+
+dat-31d991caf4b7 = Väike miehitamata õhusõiduk GNSS-i segamise all: kui kaugele lendkontrolleri klassi
+
+dat-2d806ce82e15 = Hetktõmmise / lahenduseraldusega / ARAIM RAIM koos HPL/VPL-iga ja Stanfordi diagrammiga.
+
+dat-c02622d843b3 = Hetktõmmise ja lahenduseraldusega RAIM horisontaalse ja vertikaalse kaitsetasemega (HPL/VPL), vea tuvastamise ja väljaarvamisega ning Stanfordi terviklikkuse diagrammidega — pluss selgesõnaline terviklikkusriski eelarve (MHSS) kaitsetase kahe-/mitme-konstellatsiooni konstellatsiooni hõlmava veaviisiga (EU ARAIM / DO-316).
+
+dat-07e36468d18e = hetktõmmise tuvastustuum (χ²/mittetsentraalne χ²/normaal) vs SciPy · ARAIM MHSS eelarve asutaja-lukustatud
+
+dat-ac6e25381f04 = Tarkvara koostisosade loetelu (SBOM)
+
+dat-dfdd58c878cd = Päikese servatumenemisega SRP vari (valikuline)
+
+dat-4cae6d94c5e5 = Päikesesüsteem
+
+dat-9b14e3a637d5 = Päikesesüsteem ja positsioneerimine teiste kehade ümber
+
+dat-aeceaa175523 = Päikesesüsteem kuupäeval 2026-09-28T00:{ "00" }:{ "00" } (JD { "2461311.50080" } TDB), { "18" } keha, vaatleja Maa
+
+dat-948e6ac60330 = Solar System Scope (solarsystemscope.com), NASA missioonide andmetest
+
+dat-f94d61e54b0d = solar-system (stsenaariumi liik)
+
+dat-cadb7067ec2a = Päikesesüsteemi liik JPL kernelil (planetary_kernel_path)
+
+dat-168753788f40 = Päikese/geomagnetilised indeksid (definitsiooniline Kp↔ap tabel), Jacchia-1971 eksosfääri temperatuur ja Jacchia { "1971" } termosfääri tihedus (SAO Special Report { "332" }: staatilised difusiooniprofiilid, mis reprodutseerivad selle tabelit { "7" }, ööpäevaste, geomagnetiliste, poolaastaste, hooajalis-laiuskraadiliste ja heeliumi variatsioonidega) staatilise USSA76 atmosfääri vastu. Käivitatav CLI-st/sidemetest stsenaariumi liigina `space-weather` (scenarios/space-weather.toml)
+
+dat-fe4496da9786 = Lähtedokumendid
+
+dat-6c042d27f9de = Loetud allikad
+
+dat-f7b86f0a9870 = SP3 täpsuskoodi vaatluskaalumine
+
+dat-6cc640b71719 = SP3 täpse kella interpoleerimine
+
+dat-771c34bd2a4c = SP3 täpse efemeriidi interpoleerimine
+
+dat-8425a5958c22 = Kosmosekeskkond
+
+dat-9cc2ab5cbf48 = space_packet (TimeCode, SecondaryHeader, paketi veakontroll, segmenteerimine ja uuesti kokkupanek, voo dekodeerimine)
+
+dat-8d60955a1a7a = space_packet::tests (päisebitid vastavad CCSDS-133 paigutusele, encode→decode ringid kõik väljad, vahemikust väljas/kärbitud lükatakse tagasi); tests/ccsds_space_packet_reference.rs ({ "33" } juhtu vs spacepackets { "0.32.0" }, sh { "12" } täispaketi võrdlust; null mittevastavat oktetti)
+
+dat-4c0b9d3def53 = space_weather::tests (Kp↔ap täpne ruudustiku punktides + ring + monotoonne, ööpäevane Ap keskmine, eksosfääri T vs avaldatud päikese miinimumi/keskmise/maksimumi + tormi juurdekasvu ankrud, tihedus ühik etalonis, päikesetsükli kõikumine täheldatud { "5" }–{ "10" }× ribas, stsenaarium reprodutseeritav + MODELLED-not-VALIDATED + vahemikust väljas tagasilükkamine); dominance_demonstrators (kättesaadav + reprodutseeritav + füüsikaline T + MODELLED-not-VALIDATED); tests/space_weather_density_accelerometer_oracle.rs::jacchia71_finding_is_pinned
+
+dat-0fc86c7266f7 = kosmosepõhine PNT transpordis, kaardistatud klauslinumbrite kaupa
+
+dat-fcbd1fed787d = space-packet (stsenaariumi liik)
+
+dat-d415284aa39c = Kosmose-sideme tugisüsteemi sideme korduvtäpsus: kooskõlastatud GNSS, VLBI ja laserkaugusmõõtmine
+
+dat-afa46fccf118 = Kosmosekasutaja navigatsioon
+
+dat-6bdb6a632c71 = Kosmosekasutaja navigatsioon (gnss-ssv)
+
+dat-03572ec754e6 = Kosmosekasutaja navigatsioon (stsenaariumi liikide perekond)
+
+dat-eaea0520ebaa = space-weather (stsenaariumi liik)
+
+dat-d52867e580c8 = Kosmoseilm ja termosfääri tihedus
+
+dat-dd6c740303aa = Kosmoseilma keskkond ja aktiivsusest sõltuv termosfääri tihedus
+
+dat-5c2344ccb652 = Kosmoseilma keskkonnamudeli demonstraator.
+
+dat-0e6f5ef95600 = Kosmoseilma keskkonnamudel: päikese (F10.7/F10.7a) ja geomagnetiline (Kp, definitsioonilise Kp↔ap-ga…
+
+dat-19f335d532a0 = Kosmos: Maa orbiit
+
+dat-46c8ffb19c16 = Kosmoselaeva asendijuhtimine: jäiga keskosa inertsiaalsuunaga pööre kolme või enama tasakaalustatud reaktsiooni…
+
+dat-58d5ea17d0e2 = Kosmoselaeva platvormi inseneeria (AOCS/termiline/konstruktsioonid/tõukejõud/toide)
+
+dat-cf0ad55ade53 = spacepackets { "0.32.0" } (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — CCSDS 133.0-B-2 sõltumatu kolmanda osapoole teostus; kshana encode_packet/decode_packet ühtis baidi täpsusega (6-oktetine primaarpäis { "33" } juhul + täielik kodeeritud pakett { "12" } juhul)
+
+dat-313f25455454 = Ruumiline, mürarikas, mitme perekonna tsislunaarse kaarepikkuse jälgitavus
+
+dat-56082f0c5a34 = spectrum (stsenaariumi liik)
+
+dat-3566fa37a298 = Spektri ja häire terminid
+
+dat-895941baaa2f = Spektrimudel ja juga
+
+dat-23e529074fb9 = Spektrimudel: GLONASS-i, BeiDou ja Galileo E6 ribad (valikuline)
+
+dat-af4fb64516ce = spectrum::default_band lahendab ainult nime järgi (MORE_BAND_NAMES) GLONASS-i L1OF ja L2OF igal FDMA kanalil K = -7 kuni { "6" } (BPSK, { "0.511" } Mchip/s), BeiDou B1I (BPSK({ "2" })), B1C (MBOC(6,1,1/11)), B2a ja B3I (BPSK({ "10" })) ning Galileo E6 (BPSK({ "5" })), nende liidese kontrolldokumentide kandesageduste ja minimaalsete vastuvõetud võimsustega; vaikeribade komplekt ja kõik olemasolevad väljundid on muutmata.
+
+dat-fb48bad788fc = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S võrdub jamming::j_over_s_db-ga ja efektiivne C/N0 võrdub jamming::effective_cn0_dbhz-ga, kui Q = 1/(R_c kappa), täpsusega { "1e-9" } dB, ning jamming-liigi enda testi { "32.105" } dB ankur; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
+
+dat-ff473eb01178 = spectrum::tests (bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz — BPSK({ "1" }) { "2.046" } MHz ja BPSK({ "10" }) { "20.46" } MHz leitud numbriliselt suletud kujul; boc11_lobes_are_centred_at_plus_minus_1_023_mhz — kandesageduse null, esimene null { "2.046" } MHz juures, hõlme keskpunkt { "1.023" } MHz ja täpne maksimum { "0.7590" } MHz juures sõltumatu tan y = 2y Newtoni lahendi vastu; ssc_matches_parseval_closed_forms — C/A x C/A 2/(3R_c) = -61.86 dB/Hz, BOC({ "1,1" }) x BOC({ "1,1" }) 1/(3R_c) = -64.87 dB/Hz, C/A x BOC({ "1,1" }) 1/(6R_c) = -67.88 dB/Hz, igaüks { "0.02" } dB piires; q_values_match_kaplan_hegarty — CW kandesageduse juures Q = { "1" }, sobitatud spektriga müra Q = { "1.5" }, lame nullist nullini müra Q = { "2.215" }; mboc_is_a_unit_area_one_eleventh_mix)
+
+dat-1963255525f8 = Sfäärilise harmoonilise gravitatsiooni suurus + häiring (mGal) mis tahes ICGEM .gfc mudelist; GRS80 normaalgravitatsioon
+
+dat-4c4d9657347b = IGRF-14 põhivälja sfääriline harmooniline süntees — komponendid X/Y/Z/F, deklinatsioon ja inklinatsioon — mis toidab magnetanomaalia alt-PNT kihti
+
+dat-893b479b98d2 = SPICE SPK eksport (tüübid { "9" } ja { "13" })
+
+dat-1970e41c7db3 = SPICE SPK tüübid { "3" } ja { "21" } (Tšebõšovi, laiendatud vahejooned)
+
+dat-14a3965e8d86 = spoof (stsenaariumi liik)
+
+dat-259577baf77c = spoof-detect (stsenaariumi liik)
+
+dat-01fb05e433c7 = Spuufitud ajanihe tuvastuspiiri vastu
+
+dat-fbaa936bd30b = Spuufimine ja signaali turvalisus
+
+dat-601535e5301e = Orbiidil asuva vastuvõtja spuufimine
+
+dat-ab66f65505aa = Spuufimise tuvastamine
+
+dat-9aea29675fd1 = Spuufimise tuvastamine mitmeribalise LEO signaali ribadevahelise kooskõla põhjal
+
+dat-795582307a23 = Spuufimise tuvastamine LEO Doppleri ja läbimise geomeetria kooskõla põhjal
+
+dat-4449d1faf895 = Spuufimise monitoorid ([spoofer])
+
+dat-a00bb0f6692e = Spuufimise kerimisjutustus
+
+dat-708502ba8fc3 = laiendkoodi joonestruktuur (näiteks C/A { "1" } kHz jooned): toone hinnatakse sileda ümbrise vastu
+
+dat-d0984226fd35 = Ruutseaduse (mittekoherentne) hõivedetektor kood-faasi × Doppleri otsingul: valehäire tõenäosus (tsentraalne χ² 2M vabadusastmega), lävi, mis saavutab sihttõenäosuse P_fa (χ² CDF pööratud poolitusmeetodiga), ja tuvastustõenäosus (mittetsentraalne χ² mittetsentraalsusega 2M·ρ lahtri korrelatsioonijärgse SNR-i ρ korral), üldistatud Marcumi Q-funktsiooniga Q_M(a,b)={ "1" }−F_{ "{" }χ'²(2M,a²){ "}" }(b²)
+
+dat-02b72c4d4ccf = Ruutjuure informatsiooni datumilahendaja 50-kohalise laiendatud täpsuse vastu
+
+dat-b76328f7c20d = src/benchmark/coverage.rs::tests (puhas/alampiiratud/kõik kättesaamatud/tühi); tests/tib_scorer_reference.rs (arvud + määrad + coverage_ok vs numpy täpsusega { "1e-12" })
+
+dat-295a4935fb39 = src/benchmark/faults.rs::tests (nihkeprofiilid, monotoonne väljajooks, tuvastamatu hulga märgistamine, max_offset kooskõla, täpselt kaks tuvastamatut klassi)
+
+dat-8bf16f8a0af4 = src/benchmark/scorecard.rs::tests (etalon-PL neelab; katkine PL neelamata-kunagi-tuvastamata; tuvastatava katvuse otsus; ausaduse omadus, et tuvastamatu stsenaariumi jaoks pole ühtki katvuse/tuvastuse otsust saavutatav)
+
+dat-f085fd399bfc = src/benchmark/stanford.rs::tests (neli piirkonda + kaasavad piirid + |viga| + PL>AL kättesaamatus); tests/tib_scorer_reference.rs (klassifitseerimise arvud vs sõltumatu numpy fikseeritud sünteetilisel hulgal)
+
+dat-760af7c983fd = src/clock_log.rs loeb mõõdetud kellalogi üheks normaliseeritud faasireaks: ühtlane ruudustik (time_s…
+
+dat-38323d630919 = src/sp3.rs ühiktestid; tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit (sisseviidud { "8" } h ESOC kinnituskomplekt, sigma { "0.032" } m päise astendajast { "5" }: Tier-1 3D RMS { "0.132" } m muutumatu, Tier-2 { "0.035" } m vs { "0.070" } m sigma { "1" } m korral, muutus tuleneb uuesti tasakaalustatud empiirilisest a priori piirangust); tests/agency_swarm.rs (Swarm-i toode ei kanna täpsuskoode ja langeb tagasi, fikseeritud)
+
+dat-727be105dbbe = SRP valgustatud osa kui servatumenenud päikesevoo varjamata osa (Eddingtoni lähenduse seadus I(mu)/I({ "1" }) = 2/5 + 3/5 mu, Gaussi–Legendre'i kvadratuur) sfäärilise või WGS-84 Maa kohal (srp_shadow::limb_darkened_shadow, ShadowModel variant OblateEarthLimbDarkened)
+
+dat-37268a33e432 = SRP valgustatud osa, kus WGS-84 ellipsoid on varjav keha (näiv Maa raadius ellipsoidi servast Päikese suunas, kaheketta läätsevalem; srp_shadow::oblate_conical_shadow), valikuline Cowelli jõumudelis kaudu propagator::ForceModel::srp_shadow (vaikimisi: sfääriline koonuskuju vari, muutmata)
+
+dat-d787ce4d3553 = srp_shadow::tests (rõngakujuline suletud vorm, ühtlane seadus, mis reprodutseerib koonusvarju, täispäikese ja täisvarju piirid)
+
+dat-522a5c7913ff = SRTM kõrgusmudeli lugeja tegelikul maastikul
+
+dat-1464d08b8d0b = Stable32 kattuv ADEV/HDEV mõõdetud 5071A tseesiumi faasireal (allantools)
+
+dat-3fd9b56ddf37 = Stable32 etalonhälbed failile PHASE.DAT (Riley; standardne regressioonirida)
+
+dat-953d1c01df40 = Stagnatsioonipunkti konvektiivne sisenemiskuumenemine (Sutton-Graves) 3-DoF sisenemisel
+
+dat-c17adedd6a3a = Stagnatsioonipunkti konvektiivne soojusvoog q = k sqrt(rho/R_n) V^{ "3" } Sutton-Gravesi konstantidega Maa õhu ja Marsi atmosfääri jaoks (NASA TR R-376, { "1971" }), selle tipp ja integreeritud soojuskoormus 3-DoF sisenemisel, ballistilisel või tõstejõuga püsiva kaldenurgaga, Maal või Marsil.
+
+dat-c16e0fa0d5e4 = Standardite vastavus — vahetusvormingud, lingibilanss ja terviklikkus (välise sõltumatu etaloni kontrollid)
+
+dat-cde2861556ff = Standardite ruudustik
+
+dat-a656659bd6dc = Standardipaketid
+
+dat-7fc9b51d4100 = Standardipaketid: stsenaariumid, mida hinnatakse enne käivitust kinnitatud läviväärtuste vastu
+
+dat-30c0f1878852 = standards_pack (kshana standards-pack): DHS Resilient PNT raamistiku testiprofiilid tasemetele { "1" } kuni { "4" }, IMO MSC.1/Circ.1575 täpsustasemed ja terviklikkuse hindamine ning ICAO Doc { "9849" } liite F jälgimise, hindamise ja leevendamise paketid: iga test käivitab kaasasoleva stsenaariumi liigi ja võrdleb tulemuse välju paketis kinnitatud läviväärtustega ning testid, mis vajavad vastuvõtja logi, on loetletud kui NEEDS INPUT ja neid ei hinnata.
+
+dat-552f0a742c42 = standards_pack; compliance (standards-pack faktid compliance-report'is)
+
+dat-486cd9e70c99 = Standishi tabel { "1" } ({ "1800" } pKr kuni { "2050" } pKr)
+
+dat-7f317d6ddb93 = Eemalehoidmine { "49.2" } km võimsussuhte järgi vs { "19.4" } km jälgimise kaotuse järgi
+
+dat-b419ad191c63 = Stanford-ESA terviklikkuse piirkonnad (Tossaint et al., NAVIGATION { "2007" })
+
+dat-2c5e380d079c = Stardusti proovi tagasitoomise kapsli sisenemine: avaldatud juhtum, mille vastu `entry-heating` liiki kontrollitakse
+
+dat-0cdc1ba1f8e1 = Öeldud lihtsustused
+
+dat-4bf59a70d0d0 = Staatiline ujuv PPP laiendatud Kalmani filter tegelikul kaksiksagedusega GPS koodil ja kandelaine faasil IGS-i lõplike orbiitide ja kelladega: ionosfäärivaba kombinatsioon, satelliidi ja vastuvõtja antenni nihked (vastuvõtja variatsioonid), tahke Maa tõusulaine, faasi mähkumine, Shapiro viivitus, hinnatud zeniidi märg viivitus, kaarepõhised ujuvad mitmetähenduslikkused geomeetriavaba / Melbourne-Wübbena libisemise tuvastamisega
+
+dat-d98ad9c58d79 = Sündmuste ja ennustuste väljendamine
+
+dat-ea454f190445 = Jaamageodeesia
+
+dat-dd56a93c9523 = Jaama ajalabor
+
+dat-3aef6f392405 = Selle tulemuse „avaldamise“ olek
+
+dat-9a3b2322b4bc = Olekuväärtused
+
+dat-64ed471bf2ad = Stohhastiline aja spuufimise detektor (Neyman–Pearson / χ²₁) Monte Carlo P_fa/P_md-ga.
+
+dat-019d612185bf = Strapdown INS ja kaardiabiga navigatsioon
+
+dat-b2b424efa9c6 = Strapdown INS mehhaniseerimine
+
+dat-9d83f008c8dc = Tänavakanjoni, sektori ja maastiku taandamine tabeliks
+
+dat-f584d32e64e7 = Studio juhend
+
+dat-d663969bf10e = Studio kaardilehe spetsifikatsioon
+
+dat-5b385c8573f7 = Studio vaate spetsifikatsioon
+
+dat-dc9b25bfd526 = Uuringukomplektid
+
+dat-550979cbd512 = Võta kokku, kui suur osa marsruudist läbib ühe või mitme häirekaardi degraded lahtreid (`kshana route-exposure`): iga kaardi kohta (üks allika ja UTC päeva kohta, GeoJSON, mille `build_interference_map` tagastab) marsruudi pikkus ja selle pikkuse osad degraded lahtrites, lahtrites, mis ei olnud degraded, lahtrites, kus oli hindamiseks liiga vähe valimit, ja lahtrites, mida ei vaadeldud.
+
+dat-bd135aadc5cf = Päikese, Kuu, Merkuuri ja Veenuse asukohad DE440 kernelist UTC epohhidel (KernelEphemeris)
+
+dat-3f341bceaa0e = Tugi ja professionaalsed teenused
+
+dat-aeb9d7cea04c = Toetatud versioonid
+
+dat-6574be41c5d5 = Pinnamajaka täiendus Kuu orbitaalsele navigatsiooniteenusele, käivitatava enne/pärast tabelina.
+
+dat-670ca7958895 = Pinnamajaka täiendus Kuu orbitaalsele navigatsiooniteenusele, käivitatava enne/pärast tabelina. A…
+
+dat-6caf5e331822 = Pinnamajaka täiendus Kuu orbitaalsele navigatsiooniteenusele.
+
+dat-9b2c6a9dc498 = sweep (stsenaariumi liik)
+
+dat-e81a46467c7f = sweep-nd (stsenaariumi liik)
+
+dat-adb728f42967 = Pühib illustratiivset Moonlight/LCNS-klassi konstellatsiooni selenograafilisel ruudustikul: nähtavus, täpsuse halvenemise tegur, katvus ja epohhipõhised ARAIM kaitsetasemed seadistatava häireläve vastu. Signaali-ruumis kaugusmõõtmise täpsus on parameeter, nii et pühkimine vastab kaugusmõõtmise nõudele kogu ruumala ulatuses, mitte ei anna läbi/kukku tulemust ühe fikseeritud väärtuse juures.
+
+dat-817243d2689f = Sünteetilised sillaga NMEA { "0183" } voogud meeskonna väljaõppeks (kshana nmea-scenario): GGA, RMC, VTG, ZDA, GNS, GSA, GSV, HDT, VBW ja PKSHT marker, genereeritud tõerajast koos modelleeritud vastuvõtja, taeva, segamise ja spuufimise mõjudega. Ainult tekstiväljund; midagi ei edastata.
+
+dat-128244e14447 = Sünteetilised kampaaniad Kshana enda GPS L1 C/A stseenidest (satelliitide enda signaalide sumbumised), enne käivitust eelregistreeritud lävede vastu failis docs/design/DETECTION-ROC.md (b47e358d). JÄRELDUS: R2 täidetud (juhuslik tase, kui tuvastada pole midagi). R1 NOT MET: cn0_drop AUC { "0.7855" } vs { "0.95" }, sest iga sündmusejärgne negatiivne aken pärib CUSUM-i languse tuvastusest (kõik { "18" } sündmusejärgset negatiivset jõuavad väärtuseni { "81" } või rohkemani; kõik { "18" } sündmuseelset jäävad väärtusele { "0" }). Ainult sisemine kooskõla: ühtegi tegelikku vastuvõtjat ega salvestatud häiret ei kontrollita
+
+dat-22098d1a0e92 = Sünteetiline: mudel joonistatud IQ-na ühel hetkel, kirjutatud SigMF-i ja tagasi loetud, seejärel hinnatud Welchi meetodil. Sünteesi, SigMF koodeki ja hindaja kooskõlakontroll, mitte mõõtmine. Perioodiline sirin joonistatakse tõelise saehamba pühkimisena, mille spektris on jooned pühkimissagedusel, Fresneli lainetus ja sabad üle selle ribaservade; mudel kannab oma sileda ümbrist, seega lahtrid sirina lähedal erinevad kavatsuslikult, samas kui kogu võimsus ühtib.
+
+dat-a41922ad3854 = Syslog: CEF ja LEEF
+
+dat-c2f7e50ffbb0 = Süsteemist sõltumatu kõigepealt
+
+dat-fa30e39cc07b = Süsteemist sõltumatud sisendid: iga süsteem on Walkeri kestad, selgesõnalised elemendid või GNSS-i eelseade, signaal (kandesagedus, kiipide määr, ribalaius, vastuvõetud võimsus või C/N0 vahemik), SISRE, Doppleri sigma ja kellamudel; eelseaded täidavad ainult selle, mille stsenaarium välja jätab, igaüks eraldi failina, allikad märgitud PUBLIC (URL-iga), WORKSHOP või tuletatud ning avaldamata väärtused loetletud kui representatiivsed: Xona Pulsar X1/X5, Iridium STL, Starlinki juhusliku võimaluse signaalid, CentiSpace, representatiivne C-riba süsteem, ATOMIC nullkella efemeriidi mudel ja üks töötoas tuletatud eelseade valikulises Celeste IOD eelseadete failis, mis hoitakse tagasi selle faili ja selle stsenaariumide kustutamisega
+
+dat-28b3c29ec163 = Süsteemid ja eelseaded
+
+dat-ac106aebfca0 = Tabelkujulise CUSUM-detektori halvima juhu tuvastusviivitus (⌊h/(z−k)⌋+{ "1" }) ja kontrolli alt väljas keskmine jooksupikkus, mida kasutavad ajastuse kaitsetaseme ja spuufimise monitoorid
+
+dat-1d1d94fb5397 = Räägi meiega
+
+dat-8d814e924017 = tau0 ja lüngad
+
+dat-40e51f3e52b4 = TDOA/FDOA passiivse emitteri geolokatsioon
+
+dat-0b5667e3b6d6 = Eelistusjärjestuse meetod ideaalse lahenduse sarnasuse järgi — min–max normaliseerimine, kaalutud positiivsed/negatiivsed ideaallahendused, suhteline lähedus Cᵢ = d⁻/(d⁺+d⁻) ja järjestamine
+
+dat-c21d2ec7ddf9 = Telekom ja 5G
+
+dat-7aef291b5a64 = Telekommunikatsiooni- ja energiaoperaatorid katsetavad ajastussüsteemi, võttes sellelt GNSS-i ära ja jälgides, mida kell teeb.
+
+dat-07054d4687e1 = Telekommunikatsiooni ajastuse etalon: rubiidiumkell, mis kaotab oma ülemaailmse satelliitnavigatsioonisüsteemi
+
+dat-f71ed795d93f = Telekommunikatsiooni ajastuse terminid
+
+dat-c49582e6cc02 = Telekommunikatsiooni ajastus, sageduse sünkroniseerimine: vabalt käiv ahjuga stabiliseeritud kvarts
+
+dat-c79310a5c33f = Telekommunikatsiooni ajastus, sisselugemise näide: sisseehitatud ajaintervalli vea (TIE) rida ja
+
+dat-fa27e7b01d87 = Telekommunikatsiooni ajastus: maskid, allikad ja eelseaded
+
+dat-20c2fd0046b5 = Telekommunikatsiooni ajastus: ajaviga, maksimaalne ajaintervalli viga (MTIE) ja ajahälve (TDEV) GNSS-i holdover-i…
+
+dat-dee462652608 = telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — diskreetne vananemisrampi { "0.1" } % piires väärtusest (1/2)·D·t² ööpäeva jooksul; same_seed_same_series_and_hash_different_seed_different_series); tests/oscillator_presets_measured.rs (caesium_finding_pinned; rubidium_finding_pinned; csac_finding_pinned; ocxo_preset_has_no_measured_record)
+
+dat-34e3624e28d4 = telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — avatud ja suletud otsad, τ = { "400" } s lünk G.8271.1 tabelis 7-3, pidevus igas murdepunktis, mida tabelid eeldavad; a_curve_exactly_on_the_limit_passes_and_just_above_fails; eprtc_a_holdover_envelope_follows_table_3; a_coarse_record_is_not_evaluated_against_a_filtered_mask); tests/telecom_timing_reference.rs (telecom_timing_kind_round_trips_through_the_dispatch); tests/telecom_masks_itu_printed_values.rs (mask_values_match_the_numbers_the_recommendations_print; figure_7_2_label_at_1_3_s_is_not_its_own_table_value)
+
+dat-75867f8f3368 = telecom-timing (stsenaariumi liik)
+
+dat-fab6cff7821d = Telekommunikatsiooni ajastuse MTIE ja TDEV holdover-i ajavea real
+
+dat-87e4b3ac215a = telemetry (prometheus: Registry, render; otlp: build_payload, Exporter (feature otlp); sample)
+
+dat-eb5b4a077138 = telemetry::mqtt::tests (paketi baidid, loopback-maakler, surnud maakler loetud); tests/receiver_trust_machines.rs::trust_telemetry_mqtt_text_has_discovery_then_state
+
+dat-d25190422275 = telemetry::syslog::tests (täpsed LEEF-sõned, paomärgistus, tõsidus, RFC { "5424" } ümbrik, kohaletoimetamise ajalõpud ja taasühendamine); tests/telemetry_cli.rs
+
+dat-0d2b23362c1b = Mallid (paigaldad need ise; Kshana ei käita ühtegi)
+
+dat-abf9b8fde128 = Maastiku horisondimaskid
+
+dat-40a50c3414d4 = Jammeri maastikuvarjutus jamming-liigis sõltumatu numpy ümberarvutuse vastu tegelikul SRTM plaadil
+
+dat-41233582d30a = terrain-nav (stsenaariumi liik)
+
+dat-fef2c45a4d49 = Maastikupõhine navigatsioon (TERCOM/SITAN) — GPS-ita alt-PNT.
+
+dat-67d9ad94161a = terrain-slam (stsenaariumi liik)
+
+dat-ab8e111d6db1 = Tesseraalne geopotentsiaal Cowelli propageerijas
+
+dat-c481865fdebf = Rakendatud test
+
+dat-7e4f76cf5f02 = Test-bench eksport
+
+dat-ae7811e71c53 = Test-bench eksport (kshana bench-export): Maaga fikseeritud, geodeetilised ja kohaliku kiiruse veerud, asendiveerud ja NMEA { "0183" } väljund
+
+dat-98bed4a06290 = Test-bench eksport, mida loevad simulaatori liikumisfaili lugejad (gps-sdr-sim)
+
+dat-2c1e5ddbab6d = Testid ja testandmed
+
+dat-9752924b1c93 = tests/adm_orekit_oracle.rs (L1 Orekit loeb { "33" } Kshana faili, L2 Kshana loeb { "31" } Orekit faili, L3 { "135" } kirje pööret; tulemused fikseeritud); adm::tests; ndm_xml::tests
+
+dat-8a55c6d3a79c = tests/alternative_complementary_pnt_reference.rs ({ "2520" } globaalset punkti × kõrgused vs ppigrf @ epohh { "2025.0" }; halvim |ΔXYZF| { "3.9e-4" } nT, |ΔD| { "2.8e-6" }°, |ΔI| { "3.6e-7" }°)
+
+dat-3ac6409e9de9 = tests/alternative_complementary_pnt_reference.rs (kaardiga sobitamise CRLB; IGRF-14 väli); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (60-minutiline GPS-ita võrdlustest tegelikul EGM2008 astme-70 väljal, eelregistreeritud kaustas xval/icgem-egm2008/: sobitatud { "3106" } m, seega < { "500" } m lävi on NOT MET ja fikseeritud mööda minnuna, ning kümnekordne vähendus { "70.6" } km triivil on MET; lisaks algväärtustatud kaardivea Monte Carlo); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel ja tests/emag2_real_grid.rs (andmetega lukustatud EMAG2v3 lugeja tegelikul väljalõikel; sellel ei väideta navigatsioonitulemust); tests/terrain_slam_rbpf.rs (ühine kaardihinnang, FastSLAM-laadne RBPF, teadaoleva kaardiga SITAN-i vastu { "15" } m korreleeritud kaardivea korral { "20" } algväärtuse (seed) peal, eelregistreeritud kaustas xval/terrain-slam-rbpf/: { "1.5" }% keskmine kasu ja parem { "10" } juhul { "20" }-st, seega { "10" }% ja 12-of-20 lävi on NOT MET ja fikseeritud mööda minnuna; kahju täiusliku kaardi korral pole, MET)
+
+dat-4991862705f8 = tests/aocs_basilisk_oracle.rs ({ "3" } juhtu, { "601" } valimit igaühes: MRP halvim { "2.4e-14" }, lävi { "1e-9" }; keha pöördekiirus { "1.6e-15" } rad/s, lävi { "1e-9" }; hooratta kiirus { "2.9e-11" } rad/s, lävi { "1e-6" }; rakendatud mootori pöördemoment { "1.2e-13" } N m, lävi { "1e-9" }; t = { "0" } pöördemomendid { "1e-12" } N m piires; küllastus saavutati mõlemas tööriistas); aocs::tests (impulsimoment säilib, minimaalnormiga kujutus, MRP haru, koondumine küllastuse korral); aocs_kind::tests
+
+dat-62bb9863a354 = tests/araim_reference_vectors.rs ({ "2" } avaldatud vektorit + { "6" } negatiivset kontrolli, kinnituskomplekt tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: nominaalse nihke väljajätmine möödub avaldatud VPL-ist { "2.6457" } m võrra, { "10" } % ISM viga { "0.2798" } m võrra, K_fa { "57" } režiimi korral { "12" } asemel { "0.4015" } m võrra, +{ "2" } %/+{ "5" } % terviklikkuse dispersiooni viga 0.0750/0.1971 m võrra — ja +{ "1" } % viga liigutab seda ainult { "0.0339" } m, mida esitatakse kontrolli lahutusvõime piirina, mitte ei peideta; kahe dokumendi vastused mööduvad teineteise omadest rohkem kui tolerants, seega pole vektorid omavahel asendatavad; sisseviidud kinnituskomplekt ja kompileeritud konstandid on kaks sõltumatut ümberkirjutust, mille ühtimine on kinnitatud, nii et avaldatud arvu ei saa ühel poolel muuta, et kontroll läbiks; ja C_int − C_acc = σ²_URA − σ²_URE = { "0.3125" } m² kehtib kõigi { "40" } ümberkirjutatud dispersiooni puhul, aritmeetiline samasus, mille ümberkirjutuse trükiviga rikuks)
+
+dat-7eace8da0834 = tests/batch_sequential_orbit_determination_reference.rs ({ "8" } stsenaariumi: { "6" } müravaba LEO/MEO/ekstsentriline/3–4-jaamaline + { "2" } σ={ "5" } m, vs Orekit { "12.2" }; halvim pakett |Δr| { "1e-3" } m / |Δv| { "1e-6" } m/s, järjestikune |Δr| { "0.9" } m)
+
+dat-a0759a29f9eb = tests/bds_geo_broadcast_oracle.rs (tegelikud C01-C04 kirjed: geostatsionaarne raadius, pikkuskraadid 140.02/80.04/110.55/159.99 kraadi avaldatud kohtades, |laiuskraad| { "2.13" } kraadi kaldega vs { "6.65" } ilma; eelregistreeritud edastatud vs täpse SP3 võrdlus on andmetega lukustatud muutujaga KSHANA_BDS_GEO_SP3 ja seda ei ole käivitatud); rinex::tests
+
+dat-74570c1b382b = tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } epohhi { "1955" } kuni { "2044" }, { "574" } maatriksit { "1e-9" } rad piires, halvim Phobos { "1.43e-10" } rad); tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_at_fresh_epochs ({ "41" } epohhi { "1961" } kuni { "2038" }, mida pole varem võrreldud, { "574" } maatriksit { "1e-9" } rad piires, halvim Phobos { "1.38e-10" } rad); tests/body_constants_naif_oracle.rs::constants_match_naif_pck00011_and_gm_de440 ({ "0" } konstanti { "84" }-st neljateistkümne keha puhul erineb NAIF-ist)
+
+dat-e52d88399d14 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — { "200" } algväärtust (seed) valge sageduse müraga kellast, mis jookseb tau = { "3010" } s: tõeline keskmine { "0" } teatatud intervalli sees, intervalli poolpikkus { "25" }% piires väärtusest { "1.96" } sigma/sqrt(n) ja valimi dispersioon kahepoolse { "99" }% hii-ruut intervalli sees sigma = sqrt(q_wf tau) = { "16.459" } ns korral; kalibreerimisansambel (CAP-10, eelregistreeritud ea451cb5, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): { "200" } sõltumatu ansambli peal katab intervall tõelise keskmise { "192" } juhul (Binomial({ "200" }, { "0.95" }) { "99" } % piirkonna [{ "181" }, { "197" }] sees) ja hii-ruut kontroll läbib { "196" } juhul, samas kui ühe algväärtuse protsentiili tolerants (p05 ja p95 { "0.3" } sigma piires) läbib ainult { "183" } juhul { "200" }-st, NOT MET eelregistreeritud { "190" } vastu, algväärtuse suhtes habras kontroll, mis on dokumenteeritud, mitte lõdvendatud; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+
+dat-d787395a7d7b = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — ühe liikmega kompositsioon loeb eraldiseisva arvu ja tulemuse räsi)
+
+dat-9b9bd42a133e = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — liikme tulemus baidiidentne eraldiseisva käiguga ja iga joondatud väärtus võrdne eraldiseisva reaga; the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
+
+dat-77ddbaccd8d1 = tests/campaign_optimize_reference.rs (eelregistreeritud fbe6c8b3 ja pärast 1. vooru protokolli möödalaskmist 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D sihtlahend { "6.1e-15" } piires väärtusest r* = r0 { "10" }^((m(r0) - { "3" })/20) { "96" } hindamisega; p3_prime_contour_target_grid_and_nelder_mead ja p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — ruudustikumeetodi parim bititäpselt võrdne sõltumatu { "41" } x { "41" } toorjõusilmusega üle run_toml, Nelder-Mead vähemalt sama hea { "177" } ja { "161" } hindamisega; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, mis fikseerib dokumenteeritud 1. vooru möödalaskmise); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" } { "234" } hindamisega; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
+
+dat-4110a819536a = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE märts { "2023" }, { "4" } perilunat ja { "5" } apolunat: periood { "6.5004" } d vs { "6.5699" } d ({ "1.07" } %, lävi { "3" } %), apolune { "71 182" } vs { "71 215" } km ({ "0.05" } %, lävi { "5" } %), perilune { "3 385" } vs { "3 245" } km ({ "4.1" } %, lävi { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+dat-467a6f74a046 = tests/ccsds_oem_interop_reference.rs ({ "24" } olekut / { "2" } kinnituskomplekti dekodeeritud baidiidentselt sõltumatu `oem` parseriga, asukoha/kiiruse Δ = { "0" }); oem::tests (välise tööriista OEM-i parsimine lisavõtmesõnade/kommentaaride/kovariatsiooniga, täisoleku kirjuta→loe ring, asukoht+kiirus+kiirendus talutud, ainult asukoht + puuduvad kohustuslikud metaandmed tagasi lükatud, stsenaariumi ring kõrge täpsusega + väline sisseloetamine); dominance_demonstrators (kättesaadav + reprodutseeritav + ring täpne + MODELLED-not-VALIDATED)
+
+dat-2834cacf45e8 = tests/cef_reference.rs (pycef_reads_every_tier_1_event_as_the_sample_implies, the_logstash_cef_codec_reads_every_event_including_escaped_headers_as_the_sample_implies, the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_registered); telemetry::syslog::tests (täpsed CEF-sõned, paomärgistus, tõsidus, RFC { "5424" } ümbrik); tests/telemetry_cli.rs
+
+dat-3325310b5a4d = tests/classical_strapdown_ins_reference.rs (staatilised/pööramis-/koonuseprofiilid, { "30" } epohhi igaüks, vs NaveGo: asend bititäpselt identne { "0" } rad; kiirus/asukoht nimetatud analüütiliste piiride sees)
+
+dat-a401554b72ff = tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: holdover-i näitajad muutmata, { "111" } keelatud epohhi kättesaamatud ilma kaitsetasemeta, tagasi lükatud käikudega > { "1" }; protection_levels_are_the_snapshot_raims_on_the_same_sky: iga valimisse võetud epohhi HPL ja VPL on täpselt võrdsed nullresiduaaliga snapshot_raim-iga samal eelseadistatud taeval ja veavaba käik ei tekita alarmi; a_stated_bias_is_detected_while_it_lasts: { "60" } m nihe annab alarmi täpselt neil { "10" } epohhil, mida see katab; every_integrity_field_has_a_unit); clock_integrity::tests; kella etalonväärtused muutmata
+
+dat-5d39f20e4a0c = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } juhtu: kümme Kasdini astmeseaduse kirjet, b = { "0" } kuni -4, faasi- ja sageduse andmetena, af = { "1" } kuni { "64" }; alpha_int ja d identsed, halvim |d alpha| { "9.6e-13" } ja |d rho| { "4.8e-13" } vs { "1e-9" }; eelregistreeritud 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
+
+dat-94a45e8fdaad = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; eelregistreeritud fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+dat-8ad76f467446 = tests/cowell_tesseral_orekit_oracle.rs ({ "6" } juhtu x { "25" } tunnipõhist olekut { "24" } h jooksul: EGM2008 8x8 ja 70x70 LEO-l { "45" } kraadi, polaarsel { "89.9" } kraadi, päikesesünkroonsel { "98.2" } kraadi, GTO-l, ning 70x70 koos Päikese/Kuu ja SRP-ga; halvim |dr| { "0.0355" } m, |dv| { "3.74e-5" } m/s; negatiivsed kontrollid lasevad mööda { "6168" } m (külmutatud Maa) ja { "20871" } m (ainult zonaalne)); propageerija ühiktestid (zonaalpiiri samasus täpsusega { "1e-12" }, CIO tugisüsteem bit-bitilt precise_od vastu, Jacobi integraal hoitud { "1e-9" } piires { "6" } h jooksul)
+
+dat-376a96b1391b = tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } juhtu: { "12" } epohhi jaanuaris { "2025" } x L1 ja L2 punktid, kaks L2 lõunapoolset halo- ja üks DRO algolek JPL Three-Body Periodic Orbits API-st ja üldine olek; halvim asukoht { "1.8e-7" } m vs { "1" } mm, kiirus { "1.2e-9" } m/s vs { "1e-6" } m/s; pöördteisendus { "2.7e-15" }); cr3bp::tests::moon_centred_map_round_trips_and_sends_the_moon_to_the_origin
+
+dat-602a3b3190eb = tests/cs5071a_reference.rs (tegelik 5071A Cs vs H-maser, { "556 990" } punkti, { "16" } keskmistamistegurit vs Stable32 täpsusega { "1e-3" }; andmetega lukustatud skripti scripts/fetch_cs5071a.sh kaudu)
+
+dat-9ddbaa71a383 = tests/deep_space_mars_radiometric_reference.rs ({ "24" } lõiku { "8" } epohhi kohta { "2020" }–{ "2027" } vs ANISE DE440; halvim |Δτ| { "1.03e-9" } s, |Δkaugus| { "0.31" } m kuni { "2.5" } AU juures)
+
+dat-133054c16cfb = tests/dop853_scipy_oracle.rs ({ "8" } üksiksammu: olek suhteliselt { "5.55e-15" } piires, FSAL tuletis { "3.46e-15" }, tihe väljund { "1.99e-14" }, aktsepteerimise/tagasilükkamise otsused identsed; { "3" } täielikku käiku rtol = atol = { "1e-12" } juures (LEO { "58000" } s, e = { "0.7" } { "5" } perioodi jooksul, Arenstorf ühe perioodi jooksul): algsamm identne, aktsepteeritud sammud 502/501, 390/390, 298/298 ja hindamised 6025/6013, 5497/5497, 4285/4285 vs SciPy, lõppolekud suhteliselt { "2.95e-13" } piires (kahe keha) ja { "1.58e-12" } (Arenstorf), tihe väljund { "9.5e-13" } piires; täpsus täpse mpmath Kepleri lahendi vastu võrdne SciPy omaga (LEO { "8.44e-5" } m, Arenstorfi perioodilisus { "1.475e-9" })); integraatori ja propageerija ühiktestid ({ "24" } h kahe keha täpse Kepleri vastu alla { "0.1" } m)
+
+dat-fcd10bcbfddb = tests/drag_exponential_gmat_oracle.rs (ekvatoriaalsed juhud E400, E300 ja E250x600 J2000.0 juures, { "25" } tunnipõhist olekut { "24" } h jooksul: takistusest tingitud nihe ühtib GMAT-i omaga kuni { "0.016" } läveni { "0.5" } m + { "1e-3" }|D| vs { "21.5" } kuni { "143.9" } km nihkest; +{ "1" } % Cd*A/m muutus jõuab { "9.83" } korda läveni; kaldega I400 juhtu raporteeritakse, { "10.4" } % erinevus, öeldud kõrgusdefinitsiooni erinevus)
+
+dat-44f31f568938 = tests/drag_tier_orekit_oracle.rs ({ "4" } juhtu x { "25" } tunnipõhist olekut { "24" } h jooksul, ringorbiit { "51.6" } kraadi, { "400" } km madala/mõõduka/kõrge aktiivsuse korral ja { "300" } km: halvim |dr| { "0.0303" } m ja |dv| { "3.36e-5" } m/s vs { "3.3" } kuni { "141.8" } km takistusnihe, halvim viga/lävi { "0.003" }; eksponentsiaalse tiheduse kontroll läheb mööda { "119.1" } m võrra); jõudude ja propageerija ühiktestid (vaikimisi bititäpselt identne; tase hindab porti Maaga fikseeritud geodeetilises punktis)
+
+dat-97921726d233 = tests/earth_orbit_path_sgp4_erfa_oracle.rs (lõik { "1" }: { "4432" } TEME asukohta { "232" } sisseviidud elemendikomplektist python-sgp4 { "2.24" } vastu, halvim { "6.1e-8" } m, lävi { "1" } cm; lõik { "2" }: { "108" } ajahetke, neist { "23" } Maa orientatsiooniparameetritega ja üks liigsekundipäeva viimasel sekundil, ERFA vastu: GCRS -> ITRS halvim { "2.9e-6" } mas, lävi { "0.1" } mas; TEME -> ITRS halvim { "0.41" } mas, lävi { "2" } mas); sgp4::tests (the_itrs_path_matches_the_orbit_module_iau_chain; an_earth_fixed_node_stays_at_its_longitude_at_the_epoch); tests/no_private_models.rs
+
+dat-308ef451bd7d = tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } juhtu, skyline'i võrdluse { "142" } sisseviidud nähtavat hulka ühe ühise kella ja ühe kella süsteemi kohta korral; halvim telg suhteliselt { "5.1e-13" } ja orientatsioon { "5.3e-12" } kraadi, ükski pole peaaegu ring, kofaktor { "1.0e-12" } maatriksi skaalast, vs { "1e-9" } ja { "1e-6" } kraadi; eelregistreeritud 0bbeeaee); geometry::tests (ellipse_of_an_analytic_two_by_two_case)
+
+dat-868e775e09f6 = tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (kuus täpset kriteeriumi: väljavõtte baidid; { "174" } rida; väljalaskekohased arvud ja täielikud MJD loendid 30/54/90; lipp P nii poolusliikumisel kui UT1-l igal ennustatud real; paljas vaikekäigu loendus; iga ennustatud rida võrdne IERS Bulletin A Vol. XXXIX No. { "039" } väärtusega selle viimase trükitud numbri piires, halvim { "5.0e-5" } kaaresekundit ja { "4.9e-6" } s); tests/embedded_eop_census_astropy_oracle.rs::vintage_census_matches_astropy (vana 32-realise väljavõtte regressioonifikseering lipuklassifitseerija all: { "20" } lõplikku, { "12" } kiiret, { "0" } ennustatud); tests/embedded_eop_census_astropy_oracle.rs::rows_called_prediction_only_are_flagged_measured_by_astropy (1. vooru tulemus, säilitatud); realtime_frame_eop::tests; tests/operational_eop_predictor_reference.rs
+
+dat-87ebc8805c38 = tests/entry_stardust_published.rs (tipp { "35.44" } g vs avaldatud { "33.4" } g, +{ "6.1" } %, lävi { "10" } %; planeedi suhtes sisenemiskiirus { "12.551" } km/s vs { "12.6" }, lävi { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (pöörleva tugisüsteemi energia langeb täpselt takistustöö võrra; vaakumis väljajooks säilitab Jacobi energia; mittepöörlev ballistiline juhtum ühtib reentry mooduli tasapinnalise punktmassiga; Allen-Eggersi suletud vorm oma režiimis)
+
+dat-19695386f4dd = tests/eval_metrics_reference.rs ({ "5" } andmekogumit, { "24" } läve; täpsed arvud + <{ "1e-9" })
+
+dat-4237f162cba1 = tests/evidence_crypto_reference.rs (RFC { "8032" } jaotise { "7.1" } vektorid { "1" }, { "2" }, { "3" } ja { "1024" }; FIPS 180-4 SHA-256 näited; täpne); tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case ({ "71" } juhtu); tests/evidence_pack.rs (rikkumistestid)
+
+dat-e3e102a02de3 = tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl (eelregistreeritud võrdlus); evidence::tsa::tests (kuupäevad ja kellaajad, base64, RSA avaliku võtme operatsioon); evidence::verify::tests::anchors_make_the_authority_checked (allkirjastamata token ebaõnnestub ankrutega; ilma nendeta aruanne ei muutu)
+
+dat-5774ed85af83 = tests/field_units_global.rs (kõik { "61" } registreeritud liiki käivituvad, igaühel üks dokumendivorm: iga numbrileht peab lahenduma kirjeks selle dokumendi enda units-plokis; väärvormis kirje loetakse puuduvaks IGA liigi puhul, vabastatud või mitte, nii et kohatäide ei osta katvust; vabastuste loend ei tohi ületada oma fikseeritud lage, loendis olev liik, mis osutub täielikult kaetuks, EBAÕNNESTUB väravas, nii et loendit ei saa täiendada, ja registreeritud liik, mida jooksutaja tabelis pole, ebaõnnestub, nii et uus pakett ei saa uurimata läbi lipsata — mis ka juhtus, tabades mõlemat liiki, mis lisati pärast selle töö algust; ühesuunaline hammasratas kirjeldatud-kuid-defineerimata mahajäämusele; ja aegumiskontroll sisseviidud skeemidokumendile); field_schema::tests
+
+dat-26f85ff13e7f = tests/fim_observability_reference.rs (omaväärtused vs numpy.linalg.eigh; CRLB kovariatsioon vs σ²(XᵀX)⁻¹ numpy.linalg.inv kaudu; GNSS GDOP/PDOP/HDOP/VDOP/TDOP informatsioonimaatriksist vs numpy — kõik ühtivad täpsusega { "1e-9" }); fim::tests (Jacobi omaväärtuslahendaja vs suletud kujuga spektrid; CRLB vs Kay { "1993" } suletud vormid — DC-in-WGN σ²/N ja joone sobitus σ²(XᵀX)⁻¹; Monte Carlo CRLB saavutamine; Moore–Penrose'i samasus MM⁺M=M; datumi defekti nullruum)
+
+dat-56f772ab5fc0 = tests/frame_reference_vectors.rs (Vallado otsast otsani; SOFA/ERFA vektorid)
+
+dat-9363676284ba = tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } TT epohhi 1950-2100, dX ja dY kuni { "0.5" } mas: pretsessiooni elemendid { "1e-13" } piires, halvim { "0" }; TEME GCRS-iks { "5e-10" } rad piires, halvim { "1.10e-10" } rad; CIO nihetega { "1e-13" } piires, halvim { "0" }; nullnihked bititäpselt identsed cio::gcrs_to_cirs_matrix-iga)
+
+dat-471a756dbd81 = tests/fusion_carrier_tc.rs (figure-8 sõit: püsiv 3-D RMS { "0.025" } m kandelaine vs { "0.470" } m kood identsetel mõõtmistel; { "12" } algväärtust (seed) keskmine NIS/dof { "1.00" } ja püsiv NEES/dof { "0.92" }; 1-tsükline libisemine tuvastati oma epohhil ilma valehäireteta ja lahend jäi terveks; edastatavate korrektuuride väljalülitamine tõstab koodivea { "0.51" } m-lt { "19.6" } m-ni (iono) ja { "8.0" } m-ni (tropo); müravaba käik koondub { "0.3" } mm-ni)
+
+dat-828938aa9e70 = tests/fusion_coupled_filters.rs (3-D filter { "60" } algväärtuse (seed) peal: teise poole keskmine NEES { "8.12" } { "8" } oleku jaoks, viimase epohhi χ² summa oma { "95" } % ribas; { "0.1" } ns kellaparandus vähendab 3-D asukoha sigmat { "5.58" } m-lt { "3.07" } m-ni; nihkefilter { "60" } algväärtuse (seed) peal: χ²({ "5" }) summa ribas, nihe { "3" } sigma piires { "59" } juhul { "60" }-st; fusion-pnt-coupled kallutatud kiirendusmõõturitega: asukoha p95 { "18.7" } m / { "90.0" } m ja terviklikkus { "1.00" } / { "0.97" } seotud vs { "430" } m / { "4060" } m ja { "0.006" } / { "0.000" } sidumata); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fusion ja hybrid ilma [coupled]-ita bititäpselt identsed)
+
+dat-c6449d14ea6b = tests/fusion_kfgins_dataset_oracle.rs (sünteetilised laadijad ja pöörleva platvormi hoova testid alati; andmetega lukustatud muutujaga KSHANA_KFGINS_DIR, käivitatud 2026-10-13 KF-GINS demoandmekogul: horisontaalne / vertikaalne RMS { "0.0109" } / { "0.0090" } m etalontrajektoori vastu vs KF-GINS C++ { "0.0111" } / { "0.0083" } m, kõik kuus eelregistreeritud läve peeti kinni; hoob välja lülitatud { "0.329" } m)
+
+dat-c4e0334e0432 = tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } juhtu: tegeliku 2013-01-01 IGS MGEX edastusfaili { "4" } GLONASS-i kirjet x { "73" } nihet +/-900 s piires; kell { "1e-14" } s piires, halvim { "0" } s; asukoht { "0.01" } m piires, halvim { "1.12e-3" } m)
+
+dat-f764501c858f = tests/gnss_denied_clock_holdover_reference.rs ({ "27" } juhtu vs scipy { "1.18" }: { "12" } väljajooksu dispersiooni vs linalg.expm Van-Loan Q₀₀ halvim suhteline { "1.1e-15" }; { "7" } holdover-i pööramist vs optimize.brentq halvim suhteline { "1.5e-16" })
+
+dat-e774576a2158 = tests/gnss_ins_packs.rs (iga pakett: ühendatud allpool vaba INS-i katkestuse ajal mõlema anduri jaoks; raudtee: tihe { "5.3" } m vs lõtv { "12.9" } m navigatsiooniklassi ja { "15.6" } m vs { "18.8" } m taktikaline katkestuse ajal, kättesaadavus { "0.97" } vs { "0.95" }; tihe tabel kontrollitud); tests/gnss_ins_legacy_trajectory_pin.rs (lõtvalt seotud vaikimisi bititäpselt identne)
+
+dat-8c517742780f = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (genereeritud SBOM kehtib nulli veaga ametliku CycloneDX { "1.5" } JSON-skeemi vastu kogu 66-komponendilisel tarnitud graafil: vaikimisi + python + wasm funktsioonid, arendussõltuvused välja arvatud)
+
+dat-e80854948446 = tests/gps_l1ca_gpssdrsim_cross_generator.rs::gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding (fikseeritud tulemus); tests/gps_l1ca_gpssdrsim_cross_generator.rs::ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly (range, ignoreeritud lünga tõttu); gps_lnav::tests
+
+dat-791bee5f80cd = tests/gps_lnav_rtklib_decode_oracle.rs::rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43 (fikseeritud tulemus); tests/gps_lnav_rtklib_decode_oracle.rs::kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters (range, ignoreeritud lünga tõttu)
+
+dat-b16187bab299 = tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satelliiti IGS edastusfailist kuupäevaga { "2" }. märts { "2025" }: { "960" } sõna { "960" }-st läbib RTKLIB pariteedi, { "96" } alamkaadrit { "96" }-st dekodeerub, { "608" } dekodeeritud edastatud täisarvust { "608" }-st võrdub Kshana omadega, iga sisend poole kvanti piires, nädal ja ajad täpsed); gps_lnav::tests
+
+dat-57e6de3ffc6c = tests/gravity_sh_high_degree.rs (Orekit { "8" } teljevälises punktis: max |da| { "2.2e-17" } m/s^{ "2" } juures N = { "70" }, käivitatakse alati; { "3.5e-17" }, { "3.9e-17" } ja { "7.3e-17" } m/s^{ "2" } juures N = { "200" }, { "360" }, { "2190" }, andmetega lukustatud muutujaga KSHANA_EGM2008_GFC); tests/cowell_tesseral_200_orekit_oracle.rs ({ "24" } h 200x200 orbiit, andmetega lukustatud: halvim |dr| { "0.1317" } m, |dv| { "1.45e-4" } m/s; astme-70 kontroll { "0.726" } m); gravity_sh ühiktestid (kokkulangevus klassikalise hindajaga täpsusega { "1e-13" } astmel { "70" }, lõplik vahe ja poolusepidevus astme-2190 väljal, alatäituv astme-2190 liige vs laiendatud astendajaga arvutus)
+
+dat-77f34261d4e6 = tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values CI-s kümnel viidatud ICGEM sõlmel; egm2008_n70_gravity_anomaly_sa_matches_icgem kogu toodud 0.25-kraadistel ruudustikel Tšaad 9-15N 19-25E ja Death Valley 35-38N 242-245E, { "794" } sõlme: RMS { "1.3e-8" } ja { "2.6e-8" } mGal, max { "2.9e-8" } mGal vs eelregistreeritud läved { "0.005" } / { "0.02" } mGal, xval/icgem-egm2008/); gravity_sh::tests
+
+dat-f79726002edb = tests/icgem_gravity_reference.rs (GRS80 süntees reprodutseerib Somigliana täpsusega { "3.5e-12" }; tegelik ICGEM EGM2008 häirekaart füüsikaline)
+
+dat-6eca51d18325 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } tegeliku geomeetriaga juhtu, Celestrak GPS+Galileo ja IGS SP3: halvim |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m vs ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (ühtlase sigma vahed, fikseeritud); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (tegelik IGS ABMF 2018-05-13, { "288" } epohhi, { "2016" } juhtu süstitud { "10" } kuni { "100" } m nihetega: 2016/2016 tuvastus- ja 801/801 väljaarvamisotsust identsed, kalde HPL/VPL { "2.7e-12" } m piires vs { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } kasutaja-epohhi paari tegelikel WAAS edastustel, sama kaitstud hulk, halvim |dVPL| { "7.1e-6" } m ja |dHPL| { "1.6e-5" } m vs { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (L5 tulemus, fikseeritud); tests/igs_real_data.rs ja tests/araim_dual_real_data.rs (usutavuskontroll tegelikul IGS SP3 ja Celestraki geomeetrial, säilitatud regressioonikontrollidena, mitte sõltumatute etalonidena)
+
+dat-260f38f6b63d = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes ({ "12" } NACp koodi, { "59" } NIC rida); tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding ({ "94" } kaadrit); tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely ({ "1770" } punkti, neli lahtri suurust); tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib ({ "8" } marsruuti, { "420" } lõiku, { "11634" } km); tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj ({ "996" } punkti); interference_map ühiktestid
+
+dat-07480ecb313c = tests/ionex_code_gim_oracle.rs (sisseviidud sünteetiline IONEX kaart vs valemi etalon: { "20 075" } sõlme täpset, interpolatsiooni max |Δ| { "3.5e-13" } TECU; andmetega lukustatud muutujaga KSHANA_IONEX_CODE_GIM_DIR, tegeliku CODE lõpliku GIM 2018-05-13 laiuskraadi väljalõike toob fetch.sh fikseeritud SHA-256-ga: sõlmed täpsed, interpolatsiooni max |Δ| { "3.6e-13" } TECU { "15 795" } valimil, kaldTEC { "5.1e-13" } TECU; andmetega lukustatud RTKLIB v2.4.2-p13 iontec { "6885" } päringupunktis, käivitatud 2026-10-13: max |Δ| { "3.6e-13" } TECU mõlemas ajarežiimis, lävi { "1e-5" } eelregistreeritud); ionex::tests
+
+dat-d555a4451aa3 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, registreeritud otsus fikseeritud nii nagu dokumenteeritud, tulemus F1, fikseeritud testiga finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq ühiktest ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
+
+dat-fcbaaca3a203 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level); iq::track::boc ühiktestid (b4_unit_grid_misses_are_the_recorded_ones: eelregistreeritud B4 ühiktesti lävi säilitatud nii nagu kirjutatud, selle dokumenteeritud möödalaskmised fikseeritud tulemusena F1)
+
+dat-741cdc789639 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } { "5900" } plokist vs { "99" } % binoomintervall [{ "40" }, { "80" }] kui P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, suhe { "0.0131" } vs { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } vs { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (range, ignoreeritud lünga tõttu); iq::campaign::detect testid; iq::monitor::stats testid (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (fikseeritud räsid on ilma tabelita muutmata)
+
+dat-5e0668be27cd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } öeldud sündmustel, mis midagi ei sumbuta); r1_the_cn0_drop_roc_separates_6_db_attenuations (range, ignoreeritud lünga tõttu); iq::campaign::detect testid (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
+
+dat-896aed641ee3 = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples (fikseeritud tulemus); tests/iq_gpssdrsim_cross_generator.rs::acquisition_finds_gps_sdr_sim_satellites_in_its_samples (range, ignoreeritud lünga tõttu)
+
+dat-0fc8d1c73d1e = tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels ({ "11" } kanalit: halvim pseudovahemaa { "1.6e-3" } m vs { "0.05" } m, koodifaas { "5.5e-6" } kiipi vs { "2e-4" }, Doppler { "7.4e-5" } Hz vs { "0.02" } Hz, vaatenurgad { "4e-9" } kraadi vs { "1e-4" }, nähtav hulk identne); tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing (etaloniseade reprodutseerib programmi enda trükitud kanaliloendi täpselt)
+
+dat-7eed519e8162 = tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (PI90 katvus { "0.891" } { "558" } lahtril, { "0.900" } { "10" } kaotuseni jääva aja sündmusel iga lukustusmudeli korral), the_report_carries_its_inputs_censoring_validation_and_labels (sisendid, tsensureerimine, [validation] räsi ja otsused, ühikuplokki audit), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db ja bar_b_prime_ci_subset (range, ignoreeritud lünga tõttu); bar_b_prime_full_set_of_50_campaigns (ignoreeritud, käivitatakse enne väljalaset); iq::labfit::cn0 testid (täpne Q-delta degeneratsioon, delta taastamine öeldud Q juures, suletud kujuga läve pöördfunktsioon); iq::labfit::iqfit testid (lukustusmudeli tingimused reprodutseerivad C/N0 mudelit täpselt); tests/iq_labfit_followup.rs (järeltöö, registreeritud 1e532f84: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign, mis kinnitab dokumenteeritud NOT MET, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, release-ehituses)
+
+dat-fe470eb68eb3 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, registreeritud otsus fikseeritud nii nagu dokumenteeritud, tulemus F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, ainult raporteeritud; andmetega lukustatud, toodud skriptiga scripts/fetch_scint_malindi.sh); realdata::scint50 ühiktestid (model_data_through_the_harness_shows_the_wrapped_phase_finding, tulemus F2)
+
+dat-8a869df22bb9 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned), arvudel, mis on tuletatud skriptiga tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py
+
+dat-130c6c103241 = tests/jammertest_plan_roundtrip.rs (andmetega lukustatud muutujaga KSHANA_JAMMERTEST_PLAN_DIR: ajaluukide arvud testpiirkonna kohta { "2025" } plaanis, kataloogi id-d, TOML ring); tests/jammertest_score.rs (teadaoleva langusega sünteetiline logi: tuvastatud, tuvastamata, hindamatu, valehäire käik, allkirjastatud pakett, mis kannab tulemuskaarti); jammertest::plan::tests; tests/jammertest_score_2024.rs (andmetega lukustatud muutujaga KSHANA_JAMMERTEST_DIR: salvestatud käik)
+
+dat-e57fd19b41c2 = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), vastu xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json ja expected_quantiser.json
+
+dat-76583d307118 = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr), vastu xval/crpa-jamming/expected.json, mis pärineb failist xval/crpa-jamming/oracle.py
+
+dat-46ab577738c4 = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), vastu xval/jamming-terrain/expected.json, mis pärineb failist xval/jamming-terrain/oracle.py
+
+dat-c26f0cab8179 = tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } kaheosalist UT1/TT kuupäeva 1980-2050, sealhulgas +{ "1" }, +{ "10" }, +{ "50" } us sammud kahel kuupäeval: gmst82 { "1e-12" } rad piires, halvim { "0" }; GCRS-ist ITRS-i elemendid { "5e-12" } piires, halvim { "2.7e-14" }; pööre +1/+10/+{ "50" } us juures ERFA-st { "1e-13" } rad piires, halvim { "1.1e-14" } rad, kus ühe f64 tee jätab +{ "1" } ja +{ "10" } us sammud täielikult märkamata); ephemeris::tests::two_part_jd_agrees_with_the_default_and_resolves_microsecond_steps; frames::tests::the_two_part_teme_to_itrf_round_trips_and_resolves_a_microsecond; jd2::tests::gmst82_matches_the_single_f64_gstime_away_from_the_floor; jd2::tests::two_part_types_convert_without_moving_the_instant
+
+dat-fc21fbeaacf0 = tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } UTC ajahetke: neli ümber iga { "15" } TAI-UTC avaldise alguse 1960-1972 ja { "60" } algväärtustatud 1960-1971 vahel; dtf2d, utctai ja taiutc igaüks { "1e-6" } s piires, halvim { "2.9e-11" } s); tests/jd2_pre1972_sofa_oracle.rs::post_1972_results_are_bit_identical (rea { "1972" }+ { "224" } ajahetke muutumatu bitt-bitilt)
+
+dat-73e355e34ce5 = tests/jd2_sofa_time_oracle.rs ({ "224" } UTC ajahetke: kuus ümber iga { "27" } liigsekundi 1972-2016, kaks fikseeritud, { "60" } algväärtustatud 1972-2026 vahel; dtf2d, utctai ja taiutc igaüks { "1e-6" } s piires, halvim { "1.9e-11" } s); jd2::tests (a_leap_second_day_is_86401_seconds_long_and_tai_steps_once; tai_to_utc_inverts_utc_to_tai_to_the_microsecond_across_a_leap_second; ut1_runs_through_tai_across_a_leap_second_day; the_two_part_earth_rotation_angle_matches_the_single_f64_one); sgp4::tests::propagate_at_measures_time_from_the_two_part_epoch
+
+dat-4697e90a0171 = tests/kepler_mpmath_oracle.rs ({ "405" } ruudustikupunkti, e vahemikus { "0" } kuni { "0.999999" }, M vahemikus [-pi, pi] kuni { "1e-12" }: halvim |E - E_ref| { "0.898" } eps|E| vs lävi { "8" } eps|E|; { "9" } mähitud M punkti halvimal { "0.013" } oma läve; Newtoni viimistlussammu pole vaja üheski { "414" } punktis; ümbris bititäpselt identne); kepler ühiktestid
+
+dat-68381f689540 = tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } asukohta { "200" } UTC epohhil 1973-2026, tõmmatud eelregistreerimise räsist; halvim { "0.66" } lävest, { "2.96" } m); tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present (andmetega lukustatud); tests/kernel_ephemeris_skyfield_oracle.rs::barycentre_only_bodies_are_refused_not_substituted; ephem_provider::tests
+
+dat-2980ec59545a = tests/klobuchar_reference.rs ({ "10" } juhtu üle kõrguse/asimuudi/kohaliku aja, kaks koefitsiendikomplekti)
+
+dat-7573bd793baa = tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } juhtu: { "300" } juhuslikku 3-D, { "18" } lähedal { "180" } kraadile, { "24" } lähedal minimaalsele ajale M = { "1" }..3, { "40" } heliotsentrilist; { "1058" } lahendit; arvud ja haarade järjekord võrdsed; kiirused suhteliselt { "1e-8" } piires, halvim { "1.6e-13" }; { "1" } % piires minimaalsest ajast { "1e-6" } piires, halvim { "7.5e-15" }; Kepleri maandumise sisemine kaitse maandab iga lahendi { "4.2e-12" } piires väärtusest |r2|, välja arvatud üks fikseeritud tulemus e = { "0.994" } kaarel, mis on kepler_universal piirang, mitte lahendaja oma)
+
+dat-31c0721aadc0 = tests/lambert_reference.rs ({ "13" } transferit vs lamberthub izzo2015; halvim |Δv| { "7e-12" } m/s)
+
+dat-de53fbf273c5 = tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: üks satelliit { "780" } km ja { "86.4" } kraadi juures, lennatud ööpäev sagedusel { "1621" } MHz üle nelja laiuskraadi, maksimum { "5" }% piires väärtusest { "36" } kHz; xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz: üks satelliit igast avaldatud kestast, { "1080" } km { "53" } ja { "97" } kraadi juures, { "1593.3225" } MHz, konstellatsiooni maksimum { "32" } kuni { "34" } kHz sees ilma laienemiseta ({ "33.6" } kHz, määratud { "97" } kraadi kesta poolt; { "53" } kraadi kest üksi saavutab tipu { "31.8" } kHz juures)); leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)
+
+dat-2e58e6363f7e = tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } kraadi, Pulsar FOC polaarne { "1080" } km { "97" } kraadi, Pulsar FOC kaldega { "1080" } km { "53" } kraadi ja GPS { "20180" } km { "55" } kraadi; orbitaalkiirus, maksimaalne ECEF-kiirus, maksimaalne suhteline kiirus ja maksimaalne L1- ja L5-riba kandesageduse Doppler, { "20" } väärtust, igaüks { "0.05" } % piires)
+
+dat-ff105b0b379b = tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } väärtust, { "28" } GHz { "0" } kraadi juures ja { "2" } GHz { "45" } kraadi juures, mõlemad klassid, P vahemikus { "1e-7" } kuni { "0.998" }, { "0.001" } dB piires)
+
+dat-f99830e0546d = tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } juhtu viies asukohas, { "14.25" } ja { "29" } GHz, { "0.001" } % kuni { "1" } %, { "1e-4" } dB piires; täheldatud { "5e-6" } dB)
+
+dat-0b3de5ce778d = tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } juhtu seitsmes asukohas, { "14.25" } ja { "20" } GHz, { "1e-5" } dB piires; täheldatud { "5e-7" } dB)
+
+dat-2bd97847c8f0 = tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: kõik { "115" } rida tabelist { "5" }, { "1" } GHz kuni { "1000" } GHz, iga koefitsient { "0.6" } piires oma viimasest trükitud numbrist; halvim täheldatud { "0.51" })
+
+dat-2d9e7dd60d75 = tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (neli artikli päeva: piki, risti, radiaalne ja SISRE suhted { "0.755" } kuni { "1.138" } Liu et al. { "2025" } väärtusest, 1.5x sees); tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_holds_on_held_out_days (kaheksa kõrvalejäetud päeva, kaks kaart igaühel: { "0.683" } kuni { "1.186" })
+
+dat-1ab2ddbf17ca = tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — neli tegelikku Galileo edastatud efemeriidi E10, E19, E24, E25 hetkedel tk = { "0" }, +/-600, +/-1800, +/-3600 s, iga telg { "1" } mm piires RTKLIB-ist; real_galileo_records_survive_the_binary_frame_and_the_text_block — { "5" } mm piires pärast Kshana binaarkaadrit ja { "1" } mm pärast RINEX-laadset plokki)
+
+dat-06f7c26a4ff7 = tests/leo_polar_coverage_on_path_orekit_oracle.rs (konfiguratsioonid A ja B, { "4040" } valimit: Maaga fikseeritud asukohad { "6.8e-5" } m piires, lävi { "0.2" } m; nähtavate arvud identsed 4040/4040; mediaan DOP suhteliselt { "2.3e-11" } piires, lävi { "1e-3" }; kättesaadavus ja keskmine nähtavate arv identsed); tests/earth_orbit_path_sgp4_erfa_oracle.rs (tee); leo_fusion::polar::tests (gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it); tests/leo_fusion_scenarios.rs (a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens); tests/leo_polar_coverage_orekit_oracle.rs (voor { "2" }, geomeetria antud olekutel); tests/leo_polar_coverage_full_claim_orekit_oracle.rs (1. vooru täisväite tulemus, fikseeritud)
+
+dat-3eacbe00d4f9 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: võrdub läbimise kaldTEC-iga tipus täpsusega { "1e-9" } ja selle sigma võrdub koodimüra ruutude summa juurega üle { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" })); tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+dat-3bd4cc0125b1 = tests/leo_signal_reference.rs (mitmeribaline juga töötab nelja paneeliga, UHF-, L5-riba, S- ja C-jammerid keelavad igaüks ainult oma riba ning tavalise riba käik ei muutu laienduse tõttu); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+dat-018136c43fe8 = tests/lugre_acquisition_cell_average_doppler_oracle.rs::strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed (fikseeritud tulemus, andmetega lukustatud); tests/lugre_acquisition_cell_average_doppler_oracle.rs::cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler (range, ignoreeritud lünga tõttu)
+
+dat-9e814d337bc2 = tests/lugre_acquisition_gnss_sdr_oracle.rs::finding_dc_artefacts_and_no_contemporaneous_flight_cn0 (fikseeritud tulemus, andmetega lukustatud); tests/lugre_acquisition_gnss_sdr_oracle.rs::acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver (range, ignoreeritud lünga tõttu); acquisition::tests; realdata::ion_sdr::tests; realdata::lugre::tests
+
+dat-3db3359e9a96 = tests/lugre_acquisition_predicted_doppler_oracle.rs::noise_alone_crosses_the_sample_power_threshold_on_lugre_iq (fikseeritud tulemus, andmetega lukustatud); tests/lugre_acquisition_predicted_doppler_oracle.rs::acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction (range, ignoreeritud lünga tõttu)
+
+dat-9f8024b299ab = tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (fikseeritud tulemus, andmetega lukustatud); tests/lugre_surface_acquisition_doppler_oracle.rs::surface_acquisitions_match_the_orbit_predicted_doppler (range, ignoreeritud lünga tõttu)
+
+dat-e740eb9219b9 = tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs::third_run_finding_c1_c2_hold_g0_is_receiver_nondeterminism (kolmas eelregistreerimine: { "2" } sõlme, { "4" } kanalit jälgitud, halvim Doppleri viga { "0.57" } Hz, halvim koodinihke viga { "0.008" } kiipi, kõik { "6" } kaadrit dekodeeritud õige TOI-ga üle { "99" } -> { "0" } ümbermähkimise ja ühtiva alamkaadriga { "2" }; G0 täitmata nii nagu kirjutatud, vastuvõtja enda käikudevaheline varieeruvus oma hõivekirjetes); tests/lunar_afs_decodability_pocketsdr_4bit_oracle.rs::decodability_finding_five_violations (teine: { "5" } rikkumist); tests/lunar_afs_decodability_pocketsdr_oracle.rs::first_run_finding_no_acquisition_outside_the_receivers_4_bit_range (esimene: tühi); kõigi kolme faili ranged testid on ignoreeritud oma lünkadega
+
+dat-5ef4abb4af1b = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (kõik { "210" } AFS-Q primaarkoodi alati; koos KSHANA_LANS_RUN ja LSIS vahemäluga kõik { "630" } koodi, null kiipide mittevastavust); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (LSIS vahemäluga: { "3" } kaadrit, null sümbolite mittevastavust; { "24" } sisseviidud { "2" } ms akent, |rho| = { "0.999990" }); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_full_run_matches_lans_afs_sim (andmetega lukustatud: kogu { "23.9" } s käik, |rho| = { "0.999990" }, halvim { "2" } ms plokk { "0.999948" }, faas { "8e-9" } rad)
+
+dat-6e321e50bafc = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (LSIS vahemäluga: { "3" } kaadrit, mida LANS-AFS-SIM edastab, ehitatud samast FID-ist, TOI-st ja andmebittidest: null { "18 000" } sümbolist erineb); tests/lunar_afs_frame_coding_oracle.rs::bch_worked_example_and_crc24_check_value_are_bit_exact (LSIS joonis { "8" }: 0x045 -> 0x229f61dbb84a0; CRC-24/LTE-A kontrollväärtus 0xCDE703; käivitub alati); tests/lunar_afs_frame_coding_oracle.rs::ldpc_codewords_satisfy_the_printed_parity_check_matrices ({ "100" } koodisõna, null täitmata kontrolli trükitud H-st); tests/lunar_afs_frame_coding_oracle.rs::decoder_from_parity_check_matrices_recovers_every_frame (dekooder ainult H-st, müravabalt ja { "3" } dB Es/N0 juures, ning { "10" } täiskaadrit); lunar_afs::ldpc::tests::printed_b_inverse_inverts_printed_b; lunar_afs::frame::tests
+
+dat-3b68979697e8 = tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } omaväärtust, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm ja { "{" }scale,offset{ "}" } Schuri marginaal võrkude well_posed 120-realine ja single_epoch 30-realine jaoks, rel<{ "1e-3" } ja abs<{ "1e-3" } täpsusega); lunar_gauge::tests (coupled_marginal_fisher_is_symmetric_and_psd, oneway_spatial_equals_orbiter_range_row_datum7, twoway_spatial_equals_oneway_spatial_at_same_geometry)
+
+dat-39f84288f885 = tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } sünteetilist 7x7 SPD maatriksit, mis ulatuvad hästi tinglikustest kuni { "{" }{ "0,3" }{ "}" }-peaaegu degenereerunuteni; Schuri lambda_min / lähtepunkti CRLB / |korr| vs SciPy/NumPy täpsusega <{ "1e-9" } rel)
+
+dat-ab15cee1ed2f = tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: { "84" }×{ "84" } P⊥ elementide kaupa, trace(P⊥) = parity_dim = { "52" } ja rank(G) = { "32" }, tuvastatavuse normid + lipud, MDB ruutvorm cᵀWP⊥c + MDB väärtus ning plokk-sädeme tuvastamise/identifitseerimise arvud iga kaaslaskoalitsiooni jaoks, reprodutseeritud sõltumatu numpy/scipy etaloni vastu täpsusega rel<{ "1e-3" } abs<{ "1e-3" } ja täisarvulised arvud täpsed; sisendid baidikooskõlalised kaudu examples/gen_faultobs_rows.rs + scripts/gen_faultobs_ref.py)
+
+dat-e0359be9446a = tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: kolm stsenaariumi — jaamad hinnatud uuel kampaaniakuupäeval 2026-03-18 (siduv), jaamad fikseeritud sellel kuupäeval (kontroll), jaamad hinnatud 2024-01-01 (varasema kahekordse täpsuse möödalaskmise stsenaarium); iga datumi sigma, tinglikkuse arv ja nõrgim suund tinglikkusega skaleeritud läve vastu, mis arvutatakse testis uuesti etaloni täpsetest tundlikkustest; engine_inputs_match_the_committed_fixture: sisseviidud Jacobi maatriks, kaalud ja Helmerti kavand on see, mida mootor nüüd ehitab; record_engine_accuracy_against_a_factorisation_route: mootori veariba ja NumPy Choleski diagnostika fikseeritud)
+
+dat-17f0109ca0f2 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: neli stsenaariumi — jaamad hinnatud uuel kampaaniakuupäeval 2026-06-09 (siduv), jaamad fikseeritud sellel kuupäeval (kontroll) ning 2026-03-18 ja 2024-01-01 jaamad-hinnatud sisendid; iga datumi sigma, tinglikkuse arv ja nõrgim suund ruutjuurvormi läve vastu, mis arvutatakse testis uuesti etaloni täpsetest koostisosadest; engine_inputs_match_the_committed_fixture); linalg_sr::tests ({ "9" } teegitesti: Dekkeri korrutis võrdne liitkorrutamise jäägiga { "20 000" } paaril, kustuva summa kompenseeritud summeerimine, R^T R võrdne A^T A-ga, järjestikused filtri uuendused võrdsed ühe pakettuuendusega, lõpuplokk võrdne Schuri komplemendi ruutjuurega, kolmnurkne pöördmaatriks, Jacobi SVD, kokkulangevus spektraalse datumiga hästi tinglikustatud juhul, bititäpselt identsed korduskäigud); lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected ja the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
+
+dat-982bb6b78dd6 = tests/lunar_infra_carrier_phase.rs (lävi Q1: Monte Carlo edukus vähemalt alglaadimispiir miinus kolm standardviga; Q2: kaare pikkusega ei lange üle kolme standardvea; Q4: LAMBDA võrdub toorjõuga loendamisega { "200" } tõmbe jaoks dimensiooniga kuni viis; Q3: ujuv kavand võrdub sõltumatu numpy lahendiga täpsusega { "1e-9" } mitmetähenduslikkuse ja asukoha kovariatsioonide jaoks ning alglaaditud määr on NOT MET täpsusel { "1e-9" }, fikseeritud: see erineb suhtelise { "1.7e-6" } võrra, sest LAMBDA normaaljaotuse CDF on Abramowitzi ja Stenguni lähendus)
+
+dat-42dcc7415045 = tests/lunar_infra_od_consistency.rs (lävi O1: olekuüleminekumaatriks, aheldatud kolmeks päevaks ja ühe perioodi jooksul, võrdub scipy DOP853-ga suhtelise täpsusega { "1e-6" }; lävi C1: keskmine q ja 95 %-sisese osa; lävi C2: valimi ja formaalse jälje suhe iga hindaja kohta; lävi C3, NOT MET ja fikseeritud: { "3e-10" } m/s2 modelleerimata kiirendusega on 95 %-sisese ületus { "0.0525" }, mitte vähemalt { "0.5" } - pardal olev hinnang on teada ainult sadade meetrite täpsusega, nii et umbes kümme meetrit nihet peitub selle kovariatsiooni sees); lunar_infra::orbit::tests, lunar_infra::gnss::tests, lunar_infra::od::tests, lunar_infra::la::tests
+
+dat-b77187fe96c5 = tests/lunar_infra_studies_3_5.rs (lävi F1: CRLB jälg ei tõuse ja väikseim omaväärtus ei lange orbiitri linkidega, näites ja { "20" } algväärtustatud juhuslikus hulgas; lävi F2: kaugusosatuletised võrduvad sõltumatu numpy longdouble lõplik-vahe tuletisega Rodriguesi otsemudelist { "50" } geomeetrial; lävi F3: väikseim omaväärtus tõuseb vähemalt 2.0x, leiti umbes 111x)
+
+dat-45afc3da9031 = tests/lunar_infra_studies_3_5.rs (lävi G1: analüütilised osatuletised võrduvad iga otsemudeli tsentraalse lõplik-vahega täpsusega { "1e-8" }; G2: 5x5 informatsioon võrdub sõltumatu numpy kokkupanekuga täpsusega { "1e-6" }; G4: kella tõusulaine amplituud ja selle k2 ja h2 tundlikkused võrduvad sõltumatu hindamisega täpsusega { "1e-9" }; lävi G3 NOT MET oma jäljepoolel, fikseeritud: perekonna lisamine ei langeta kunagi väikseimat omaväärtust ({ "28" } { "28" }-st), kuid pseudopöördmaatriksi jälg tõusis { "12" } juhul { "28" } lisamisest, sest lisatud perekond tõstis astaku)
+
+dat-ebd59fced24b = tests/lunar_infra_studies_3_5.rs (lävi T1: nihke sigmad ei lange, kui kohalik side lõtvub; T2: tehnika sigmatega skaleeritud { "1e-6" } on iga paari nihke sigma { "1" } % piires väärtusest sqrt({ "2" }) korda kohaliku sideme sigma, leitud { "3e-7" } piires; T3: informatsioonimaatriks võrdub sõltumatu numpy virnastatud kokkupanekuga täpsusega { "1e-9" }). Esimene T2 käik normaalvõrrandi pööramisega läks mööda ({ "1.3" } % { "0.1" } m sideme juures, väärtused põhitasemest allpool { "1" } m juures); põhjus oli numbriline ja kovariatsioon viidi ruutjuure teele enne, kui lävi uuesti hinnati.
+
+dat-87bad80dc788 = tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible { "3" } pakkujapaari kohta vs sõltumatu SciPy SVD lstsq sobitus failis tests/fixtures/inter_ephemeris/reference.json, rel<{ "1e-3" } abs<{ "1e-3" } m; kinnituskomplektid + etalon baidikooskõlalised kaudu scripts/gen_interop_ref.py avalikel DE440/INPOP21a/EPM2021 kernelitel IMCCE calceph kaudu)
+
+dat-d631712b98e1 = tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } ILRS normaalpunkti: RMS { "2.81" } m; kaks ITRF2020 jaama üksi { "2.96" } m; mõlemad kuni { "10" } m); tests/lunar_llr_geometry_range_oracle.rs::round2_finding_is_a_common_offset_of_about_eleven_metres (asendatud geotsentriline valgusaja mudel, { "10.94" } m, fikseeritud)
+
+dat-c5f6bad2097f = tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } iganädalast geotsentrilist olekut, halvima epohhi nurk kinnitatud < { "0.3" }° ja RMS < { "5e5" } m mooduli enda dokumenteeritud väite vastu, pluss LLR jääk kinnitatud ühtima radiaalse lahknevusega < { "5" }× piires); ::the_measured_residual_is_the_ephemeris_error ({ "337" } tegelikku normaalpunkti)
+
+dat-6c78f7784bb0 = tests/lunar_protection_level_reference.rs ({ "7" } teenindusmahu juhtu — lõunapolaarne, keskmine laiuskraad, ekvatoriaalne, tõstetud kõrgmaa — { "6" } kuni { "19" } satelliiti, σ_URE 10/30/60 m, P_HMI { "1e-3" } kuni { "1e-7" }, kaitsetasemed vahemikus { "1.7e2" } kuni { "6.9e3" } m: HPL/VPL koostatud RTKLIB + SciPy etaloni vastu, halvim |Δ| { "1.061e-8" } m ja { "1.044e-8" } m vs { "1e-6" } m tolerants; DOP RTKLIB-i enda (GᵀG)⁻¹ vastu suhtelise täpsusega { "1.790e-14" }; K_fa vs scipy.stats.norm.isf suhtelise täpsusega { "2.716e-11" }; kolm negatiivset kontrolli — { "5" } km satelliidinihe, { "1e-6" } suhteline σ_URE muutus ja { "0.1" } % rangem P_HMI — kumbki mõõdetud liigutama kaitsetaset vähemalt { "171" }× tolerantsi võrra; ning aegunud kinnituskomplekti kaitse, mis fikseerib sisseviidud geomeetria bit-bitilt selle külge, mida mootori enda konstellatsiooni- ja nähtavuskood toodab, nii et roheline ei saa üle elada konstellatsiooni muutumist selle all)
+
+dat-fad883319c6c = tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m { "2.8e-6" } piires Ashby ja Patla { "2024" } väärtusest J2-ga AIUB-GRL350A/B-st; entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields: radiaalkirje { "8.3e-5" } piires pyshtools astme-350 ekvatoriaalsest gravitatsioonist; entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed: kiiruskirje { "2.5e-3" } piires DE441 Kuu kiirusest { "2000" } epohhil); lunar_gauge::tests; regressioon tests/lunar_rate_frame_coupling_oracle.rs
+
+dat-9a65374995ab = tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: { "1e-12" } m täpsusega vastuvõtja müraga ja ilma; zero_baseline_floor_is_zero_in_every_trial: { "0" } kuni { "1e-9" } m; survey_floor_matches_the_survey_transfer_prediction: p95 { "5" } % ribas, mis öeldi enne käivitust; coverage_is_non_decreasing_in_the_threshold; corrected_error_grows_with_distance_along_an_azimuth; three_satellites_are_unavailable_with_a_reason_and_no_error; a_satellite_the_station_does_not_see_is_reported; deterministic_for_a_seed_and_moved_by_another; the_work_guard_refuses_an_oversized_grid; the_bundled_scenario_states_a_source_for_every_input; the_result_is_labelled_modelled_with_the_honesty_statement); tests/lunar_station_numpy_oracle.rs (eelregistreeritud numpy ümberarvutus, dokumenteeritud oma möödalaskmisega); lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid; tests/lunar_differential_pnt_reference.rs ning register ja platvormideülesed etalonväärtused muutmata (aditiivsus); tests/field_units_global.rs (iga väljastatud väli kirjeldatud, vabastusi pole)
+
+dat-c882b77b2bdf = tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: kasvuga miinus kasvuta lingi vea valimi sigma kiirus tau / sqrt({ "3" }) { "6" } % piires { "1600" } tõmbe peal; linear_growth_is_the_first_order_propagated_error: kiiruse viga dv, propageeritud koodipuus oleva kahe keha integraatoriga stsenaariumi orbiidilt, liigutab asukohta võrra dv tau { "1" } % piires { "60" } s ja { "600" } s juures); tests/lunar_station_published_oracle.rs::k5_growth_addendum_run (ignoreeritud, dokumenteeritud lisa)
