@@ -24,6 +24,12 @@ EXCLUDED_GROUPS = [
         ],
     ),
     (
+        'whole message: an error sentence whose English ends in a preposition ("to start the solve from"); one complete sentence, not assembled',
+        [
+            "e-receiver-trust-monitors-engine-fix-the-rinex-observation",
+        ],
+    ),
+    (
         'value word: the placeholder "n/a" shown in place of a missing number; one word, not a sentence piece',
         [
             "bench-site-not-available",

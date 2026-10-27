@@ -68,8 +68,12 @@ fn parse_args(args: &[String]) -> Result<Options, String> {
             "--reference-time" => o.reference = Some(num(&val("--reference-time")?)?),
             "--max-time-error" => o.max_err = Some(num(&val("--max-time-error")?)?),
             "--merkle-root" => {
-                let b = hex::decode(val("--merkle-root")?).map_err(|_| "bad Merkle root hex")?;
-                o.merkle_root = Some(b.try_into().map_err(|_| "Merkle root must be 32 bytes")?);
+                let b = hex::decode(val("--merkle-root")?)
+                    .map_err(|_| crate::terr!("e-surface-bad-merkle-root-hex"))?;
+                o.merkle_root = Some(
+                    b.try_into()
+                        .map_err(|_| crate::terr!("e-surface-merkle-root-must-be-32"))?,
+                );
             }
             "--public-key" => o.keys.push(parse_key(&val("--public-key")?)?),
             "--epochs" => o.epochs = true,
@@ -111,9 +115,11 @@ fn parse_key(s: &str) -> Result<PublicKey, String> {
         _ => return Err(crate::terr!("e-osnma-cli-public-key-type-must-be")),
     };
     Ok(PublicKey {
-        pkid: id.parse().map_err(|_| "bad public key id")?,
+        pkid: id
+            .parse()
+            .map_err(|_| crate::terr!("e-osnma-cli-bad-public-key-id"))?,
         key_type,
-        bytes: hex::decode(hx).map_err(|_| "bad public key hex")?,
+        bytes: hex::decode(hx).map_err(|_| crate::terr!("e-osnma-cli-bad-public-key-hex"))?,
     })
 }
 

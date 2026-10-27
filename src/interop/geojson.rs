@@ -209,10 +209,8 @@ fn line_of(v: &Value) -> Option<&Value> {
 pub fn parse_route(text: &str) -> Result<RouteIn, String> {
     let v: Value = serde_json::from_str(text)
         .map_err(|e| crate::terr!("e-interop-geojson-invalid-geojson", e = e))?;
-    let line = line_of(&v).ok_or(
-        "no LineString found: give a LineString geometry, a Feature holding one, or a \
-         FeatureCollection whose features include one",
-    )?;
+    let line = line_of(&v)
+        .ok_or_else(|| crate::terr!("e-interop-geojson-no-linestring-found-give-linestring"))?;
     let coords = line
         .get("coordinates")
         .and_then(|c| c.as_array())
@@ -328,9 +326,7 @@ pub fn apply_route(src: &str, geojson: &str) -> Result<String, String> {
         .and_then(|w| w.as_integer())
         .filter(|&n| n >= 2)
         .map(|n| n as usize)
-        .ok_or(
-            "the scenario has no `waypoints` of 2 or more to spread a two-position route over",
-        )?;
+        .ok_or_else(|| crate::terr!("e-interop-geojson-the-scenario-has-no-waypoints"))?;
     let (la, lo, dla, dlo, n) = route_to_track(&route, default_n, ROUTE_TOLERANCE_DEG)?;
     let t = value
         .as_table_mut()

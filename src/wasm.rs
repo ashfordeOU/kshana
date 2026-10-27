@@ -317,7 +317,7 @@ pub fn evidence_attach_timestamp(
         .map_err(|e| JsValue::from_str(&crate::t!("wasm-files-json-is-not-json", e = e)))?;
     let files = crate::surface::files_from_json(&v).map_err(|e| JsValue::from_str(&e))?;
     let token = crate::permalink::base64_decode(token_base64.trim())
-        .ok_or_else(|| JsValue::from_str("token_base64 is not base64"))?;
+        .ok_or_else(|| JsValue::from_str(&crate::terr!("e-wasm-token-base64-is-not-base64")))?;
     let t = crate::surface::evidence_attach_timestamp(
         &files,
         &token,
@@ -373,7 +373,8 @@ pub fn lunanet_afs_check_symbols(symbols: &str, max_sp_errors: u32) -> Result<St
 /// subframes 2 to 4 (not LDPC coded, no message): symbols, not a waveform.
 #[wasm_bindgen]
 pub fn lunanet_afs_generate(frames: u32, toi0: u32) -> Result<String, JsValue> {
-    let toi0 = u8::try_from(toi0).map_err(|_| JsValue::from_str("toi0 must be 0 to 99"))?;
+    let toi0 = u8::try_from(toi0)
+        .map_err(|_| JsValue::from_str(&crate::terr!("e-surface-toi0-must-be-to-99")))?;
     crate::surface::lunanet_afs_generate(frames as usize, toi0).map_err(|e| JsValue::from_str(&e))
 }
 
@@ -406,9 +407,9 @@ pub fn compliance_report(runs_json: &str) -> Result<String, JsValue> {
     use crate::surface::{ComplianceRunText, MAX_INPUT_BYTES};
     let v: serde_json::Value = serde_json::from_str(runs_json)
         .map_err(|e| JsValue::from_str(&crate::t!("wasm-runs-json-is-not-json", e = e)))?;
-    let arr = v.as_array().ok_or_else(|| {
-        JsValue::from_str("runs_json must be an array of {label, result, scenario?}")
-    })?;
+    let arr = v
+        .as_array()
+        .ok_or_else(|| JsValue::from_str(&crate::terr!("e-wasm-runs-json-must-be-an")))?;
     let mut texts = Vec::with_capacity(arr.len());
     for (i, r) in arr.iter().enumerate() {
         let field = |k: &str| r.get(k).and_then(|x| x.as_str()).map(str::to_string);
@@ -638,7 +639,7 @@ pub fn jammertest_score(
         .map_err(|e| JsValue::from_str(&crate::t!("wasm-plans-json-is-not-json", e = e)))?;
     let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
     let log = crate::permalink::base64_decode(log_base64.trim())
-        .ok_or_else(|| JsValue::from_str("log_base64 is not base64"))?;
+        .ok_or_else(|| JsValue::from_str(&crate::terr!("e-wasm-log-base64-is-not-base64")))?;
     crate::surface::jammertest_score_json(
         session_toml,
         &log,
@@ -777,7 +778,7 @@ pub fn osnma_verify(
         )));
     }
     let bytes = crate::permalink::base64_decode(b64)
-        .ok_or_else(|| JsValue::from_str("input_base64 is not base64"))?;
+        .ok_or_else(|| JsValue::from_str(&crate::terr!("e-wasm-input-base64-is-not-base64")))?;
     crate::surface::osnma_verify(
         &bytes,
         format,
@@ -821,7 +822,9 @@ pub fn sky_geometry(request_json: &str) -> Result<String, JsValue> {
 pub fn sky_monte_carlo(request_json: &str, seed: f64, n: u32) -> Result<String, JsValue> {
     if !(seed.is_finite() && seed >= 0.0 && seed.fract() == 0.0 && seed <= 9_007_199_254_740_991.0)
     {
-        return Err(JsValue::from_str("seed must be a non-negative integer"));
+        return Err(JsValue::from_str(&crate::terr!(
+            "e-wasm-seed-must-be-non-negative"
+        )));
     }
     crate::surface::sky_monte_carlo(
         request_json,

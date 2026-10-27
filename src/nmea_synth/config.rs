@@ -785,9 +785,9 @@ impl EventCfg {
                 }
             }
             EventKind::NaturalDegradation => {
-                let sk = self.skyline.as_ref().ok_or(
-                    "a skyline table is required (for example skyline = { preset = \"fjord\" })",
-                )?;
+                let sk = self.skyline.as_ref().ok_or_else(|| {
+                    crate::terr!("e-nmea-synth-config-skyline-table-is-required-for")
+                })?;
                 if sk.build()?.is_empty() {
                     return Err(crate::terr!(
                         "e-nmea-synth-config-the-skyline-describes-no-obstruction"

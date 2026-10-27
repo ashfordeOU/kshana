@@ -191,7 +191,8 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             Ok(0)
         }
         Some("keygen") => {
-            let out = flag_value(args, "--out")?.ok_or("keygen needs --out <keyfile>")?;
+            let out = flag_value(args, "--out")?
+                .ok_or_else(|| crate::terr!("e-evidence-cli-keygen-needs-out-keyfile"))?;
             let seed = Zeroizing::new(generate_seed());
             let text = Zeroizing::new(format!("{}\n", hex::encode(*seed)));
             write_new_file(Path::new(&out), text.as_bytes(), true)?;
@@ -393,8 +394,9 @@ fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), Stri
         flag_value(args, "--from")?.ok_or_else(|| crate::terr!("e-evidence-cli-needs-from"))?;
     let to = flag_value(args, "--to")?.ok_or_else(|| crate::terr!("e-evidence-cli-needs-to"))?;
     let key = flag_value(args, "--key")?
-        .ok_or("needs --key <keyfile> (make one with `kshana evidence keygen`)")?;
-    let out = flag_value(args, "--out")?.ok_or("needs --out <dir>")?;
+        .ok_or_else(|| crate::terr!("e-evidence-cli-needs-key-keyfile-make-one"))?;
+    let out =
+        flag_value(args, "--out")?.ok_or_else(|| crate::terr!("e-evidence-cli-needs-out-dir"))?;
     let seed = read_seed(&key)?;
     let created = match flag_value(args, "--created-utc")?.as_deref() {
         Some("none") => None,
@@ -454,8 +456,10 @@ fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), Stri
                 "e-evidence-cli-lab-attestation-applies-to-receiver"
             ));
         }
-        let sp = flag_value(args, "--scenario")?.ok_or("needs --scenario <bench scenario>")?;
-        let cp = flag_value(args, "--conditions")?.ok_or("needs --conditions <file>")?;
+        let sp = flag_value(args, "--scenario")?
+            .ok_or_else(|| crate::terr!("e-evidence-cli-needs-scenario-bench-scenario"))?;
+        let cp = flag_value(args, "--conditions")?
+            .ok_or_else(|| crate::terr!("e-evidence-cli-needs-conditions-file"))?;
         let scenario_text = std::fs::read_to_string(&sp)
             .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-6", sp = sp, e = e))?;
         let conditions_text = std::fs::read_to_string(&cp)

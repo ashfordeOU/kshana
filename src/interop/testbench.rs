@@ -820,10 +820,10 @@ pub fn read_waypoints(text: &str) -> Result<(u64, Vec<Waypoint>), String> {
     let ms: u64 = head
         .trim()
         .strip_prefix("RESOLUTION:")
-        .ok_or("first line is not `RESOLUTION: <ms>`")?
+        .ok_or_else(|| crate::terr!("e-interop-testbench-first-line-is-not-resolution"))?
         .trim()
         .parse()
-        .map_err(|_| "bad resolution")?;
+        .map_err(|_| crate::terr!("e-interop-testbench-bad-resolution"))?;
     let mut rows = Vec::new();
     for (n, line) in lines.enumerate() {
         if line.trim().is_empty() {

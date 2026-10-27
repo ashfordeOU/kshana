@@ -150,7 +150,7 @@ impl<'a> Parser<'a> {
         while !a.is_empty() {
             let eq = a
                 .find('=')
-                .ok_or_else(|| format!("bad attribute in <{name}>"))?;
+                .ok_or_else(|| crate::terr!("e-ndm-xml-bad-attribute-in", name = name))?;
             let key = a[..eq].trim().to_string();
             let v = a[eq + 1..].trim_start();
             let q = v
@@ -158,7 +158,11 @@ impl<'a> Parser<'a> {
                 .next()
                 .ok_or_else(|| crate::terr!("e-ndm-xml-attribute-without-value"))?;
             if q != '"' && q != '\'' {
-                return Err(format!("unquoted attribute {key} in <{name}>"));
+                return Err(crate::terr!(
+                    "e-ndm-xml-unquoted-attribute-in",
+                    key = key,
+                    name = name
+                ));
             }
             let close = v[1..]
                 .find(q)
@@ -180,7 +184,7 @@ impl<'a> Parser<'a> {
             let r = self.rest();
             let lt = r
                 .find('<')
-                .ok_or_else(|| format!("<{}> is not closed", el.name))?;
+                .ok_or_else(|| crate::terr!("e-ndm-xml-is-not-closed", name = el.name))?;
             text.push_str(&unescape(&r[..lt])?);
             self.pos += lt;
             let r = self.rest();

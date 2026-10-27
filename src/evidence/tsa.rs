@@ -651,13 +651,15 @@ fn verify_ecdsa(key: &Key, hash: Hash, msg: &[u8], sig: &[u8]) -> Result<(), Str
     match key {
         Key::P256(pt) => {
             let vk = p256::ecdsa::VerifyingKey::from_sec1_bytes(pt).map_err(|_| "bad P-256 key")?;
-            let s = p256::ecdsa::Signature::from_der(sig).map_err(|_| "bad ECDSA signature")?;
+            let s = p256::ecdsa::Signature::from_der(sig)
+                .map_err(|_| crate::terr!("e-evidence-tsa-bad-ecdsa-signature"))?;
             vk.verify_prehash(&pre, &s)
                 .map_err(|_| crate::terr!("e-evidence-tsa-signature-failure"))
         }
         Key::P384(pt) => {
             let vk = p384::ecdsa::VerifyingKey::from_sec1_bytes(pt).map_err(|_| "bad P-384 key")?;
-            let s = p384::ecdsa::Signature::from_der(sig).map_err(|_| "bad ECDSA signature")?;
+            let s = p384::ecdsa::Signature::from_der(sig)
+                .map_err(|_| crate::terr!("e-evidence-tsa-bad-ecdsa-signature"))?;
             vk.verify_prehash(&pre, &s)
                 .map_err(|_| crate::terr!("e-evidence-tsa-signature-failure"))
         }
@@ -1015,11 +1017,11 @@ fn check(
         let Some(issuer) = issuer else {
             let named = pool_chain.iter().any(|c| c.subject == cur.issuer);
             return Err(if named {
-                "certificate signature failure"
+                crate::terr!("e-evidence-tsa-certificate-signature-failure")
             } else if trusted {
-                "unable to get issuer certificate"
+                crate::terr!("e-evidence-tsa-unable-to-get-issuer-certificate")
             } else {
-                "unable to get local issuer certificate"
+                crate::terr!("e-evidence-tsa-unable-to-get-local-issuer")
             }
             .into());
         };

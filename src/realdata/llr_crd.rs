@@ -211,12 +211,14 @@ pub fn parse_crd(label: &str, text: &str) -> Result<Vec<LlrNormalPoint>, String>
             }
             "11" => {
                 if f.len() < 7 {
-                    return Err(at("short normal-point (11) record"));
+                    return Err(at(&crate::terr!(
+                        "e-realdata-llr-crd-short-normal-point-11-record"
+                    )));
                 }
                 if station_id == 0 || target.is_empty() || !start_jd.is_finite() {
-                    return Err(at(
-                        "a normal-point record appeared before its h2/h3/h4 session header",
-                    ));
+                    return Err(at(&crate::terr!(
+                        "e-realdata-llr-crd-normal-point-record-appeared-before"
+                    )));
                 }
                 let num = |i: usize| -> Result<f64, String> {
                     f[i].parse::<f64>().map_err(|_| {

@@ -159,7 +159,8 @@ pub fn parse_token(der: &[u8]) -> Result<TokenInfo, String> {
 
 /// `YYYYMMDDHHMMSS[.f+]Z` to RFC 3339.
 fn general_time(b: &[u8]) -> Result<String, String> {
-    let s = std::str::from_utf8(b).map_err(|_| "genTime is not text")?;
+    let s =
+        std::str::from_utf8(b).map_err(|_| crate::terr!("e-evidence-tsr-gentime-is-not-text"))?;
     let s = s
         .strip_suffix('Z')
         .ok_or_else(|| crate::terr!("e-evidence-tsr-gentime-is-not-utc"))?;
