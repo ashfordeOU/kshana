@@ -2240,7 +2240,7 @@ dat-db2732a90c3d = IMO-richtlijn voor GNSS-interferentie (schepen)
 dat-a325f121413c = IMO-richtlijn voor schepen, gekoppeld per clausulenummer
 
 # data/search.json
-dat-2d9493affef6 = IMO-richtlijn over GNSS-interferentie voor schepen: waarvoor Kshana levert bewijs voor
+dat-2d9493affef6 = IMO-richtlijn over GNSS-interferentie voor schepen: waar Kshana bewijs voor levert
 
 # data/search.json
 dat-b6b9647750e6 = De tekst van de IMO over GNSS-interferentie voor schepen is mager: MSC.1/Circ.1644 is vooral gericht aan lidstaten, en…
@@ -2901,3 +2901,321 @@ dat-11bb1751b520 = L-bandspectrummodel en waterval: de hele GNSS-L-band als éé
 
 # data/verification-matrix.json, studio/data/areas.json
 dat-ec2500acdc0f = L-bandspectrumwaterval met J/S en effectieve C/N0 per band onder een gescripte jammertijdlijn
+
+# data/search.json
+dat-8d2986accfa9 = L-bandwaterval onder jamming: het hele Global Navigation Satellite System (GNSS)
+
+# js/missions-runs.mjs
+dat-d5c09b6aa0d1 = L-bandwaterval onder jamming: de hele L-band van het Global Navigation Satellite System (GNSS) als één vermogensspectrale dichtheid (PSD), frequentie horizontaal, tijd naar beneden, terwijl een gescripte reeks jammers wordt ingeschakeld.
+
+# data/search.json
+dat-e3ba8107d024 = Ionosfeervrije tweefrequentiecombinatie L1/L5 (IS-GPS-705)
+
+# assets/capabilities/capabilities.json
+dat-cbfd8e94fba2 = L2-smalbandruis
+
+# data/search.json
+dat-76d168dd4dce = Lab-round-trip
+
+# data/verification-matrix.json
+dat-d2a629269229 = Gelabelde catalogus van kwantumfouten (klokfrequentiesprong/-drift/-lockverlies; sensorbiasstap/-uitval), een ROC-AUC van een detectiestatistiek met een bootstrap-BI en een minimaal detecteerbare fout bij een vaste kans op vals alarm; een met een kwantumklok ondersteunde monitor detecteert kleinere fouten dan een klassieke, uitgezonden als eerlijk TradeEvidence.
+
+# data/verification-matrix.json
+dat-a32744b4df1d = Gelabeld synthetisch corpus van degradaties + detectoronafhankelijke harness voor ROC/AUC/confusie/Pfa-Pmd; lekbewaking, gestratificeerde splitsing, optimismerapport voor distributieverschuiving (binnen tegenover buiten het regime). Uitvoerbaar vanuit de CLI/bindings als het scenariotype `impairment-eval` (scenarios/impairment-eval.toml)
+
+# data/verification-matrix.json
+dat-1a79c093494b = Bewijspakket van een laboratorium-round-trip (scenario, testomstandigheden, ontvangerlog, score)
+
+# data/verification-matrix.json
+dat-0ee9fbd69bbb = lambda::tests (L D Lᵀ reconstrueert Q); tests/lambda_reference.rs (de Z-transformatie is unimodulair |det Z|={ "1" } met Q_z=ZᵀQZ SPD, determinantbehoudend, en met een lagere totale correlatie buiten de diagonaal; de ILS van Schnorr–Euchner komt overeen met brute-force-opsomming over { "300" } willekeurige covarianties; de volledige pijplijn decorreleren→zoeken→terugtransformeren is gelijk aan de directe ILS en Z⁻ᵀZᵀ rondt gehele getallen heen en terug; het gesloten-vorm-bootstrapped slagingspercentage komt overeen met een Monte Carlo van 200k trials van sequentiële voorwaardelijke afronding tot <{ "0.01" }); tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances (de vaste gehele getallen zijn gelijk aan RTKLIB v2.4.2-p13 lambda() op { "300" } willekeurige covarianties, n { "2" } tot { "10" }, waarvan { "226" } niet oplosbaar zijn door afronding; de twee beste gekwadrateerde normen komen overeen tot { "1e-9" } relatief, gemeten { "5.6e-13" })
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-a5e13882f811 = Lambert-oplosser voor tweelichamenoverdracht
+
+# data/verification-matrix.json
+dat-212886eaa568 = lamberthub { "1.0.0" } izzo2015 (J. Martínez Garrido, MIT) — een onafhankelijke Lambert-oplosser van derden. Het Lambert-probleem met één omloop (M={ "0" }) heeft een unieke oplossing, dus overeenstemming tussen bibliotheken is een echte externe controle; overeenkomend tot <{ "1e-4" } m/s (waargenomen ~{ "1e-11" }), hetzelfde soort validatie dat DOP krijgt tegen gnss_lib_py
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-a47a618a3052 = Verliezen bij de lanceerklim door zwaartekracht, weerstand, sturing en tegendruk
+
+# data/search.json
+dat-e2640afd165e = launch-window (scenariotype)
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-c55b030d732f = Lanceervenster en klimgeometrie (missieanalyse)
+
+# data/search.json
+dat-df84809a79af = Demonstrator voor lanceervenster en klimgeometrie (missieanalyse, afwegingsniveau).
+
+# studio/data/capabilities.json
+dat-b57d88e1f3ac = Budgetten voor lancering, terugkeer, dekking en richting
+
+# data/verification-matrix.json
+dat-053038adfb79 = launch::tests (lancering pal oost bereikt i=breedtegraad, KSC→ISS = leerboek { "45" }°, polair = N/Z, i<breedtegraad onbereikbaar, evenaarsbonus van { "465" } m/s, vlakwijziging van { "10" }° ≈ { "1.34" } km/s + { "180" }° = 2v, aantallen dagelijkse mogelijkheden, scenario reproduceerbaar/MODELLED + dogleg-pad); dominance_demonstrators (bereikbaar + reproduceerbaar + KSC→ISS { "45" }° + MODELLED-not-VALIDATED); tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding; tests/launch_geometry_orekit_oracle.rs::true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes
+
+# data/search.json
+dat-0b9e0b427ff6 = Veerkracht van gelaagde PNT bij conflicten (artikel P7).
+
+# data/search.json
+dat-1445799c033a = Meer informatie
+
+# data/verification-matrix.json
+dat-70f6bd56bd8d = Leclere, Marathe en Reid, Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ { "2025" }, arXiv { "2509.19551" }, tabel { "1" } (stilstaande ontvanger op een bol van { "6371" } km, aardrotatie als enige ander effect): { "37751.7" } / { "33628.5" } / { "31813.4" } / { "4018.4" } Hz op L1. Dekt cirkelvormige tweelichamenbanen
+
+# data/verification-matrix.json
+dat-6712d7bb7953 = Tak { "1" }: python-sgp4 { "2.24" } (MIT-licentie; de referentie-C++-SGP4 van D. Vallado, de code die de verificatievectoren van AIAA 2006-6753 produceerde), WGS-72, verbeterde modus. Tak { "2" }: pyerfa { "2.0.1.5" } (ERFA, BSD-3-Clause, de SOFA-routines): c2t06a met TT uit utctai/taitt en UT1 uit utcut1, en voor TEME c2t06a . pnm06a^T . rz(-ee06a). Drempels vastgesteld vóór de run (vooraf vastgelegd 72ea9eb0). Gemeld: de eerste run faalde in tak { "2" } op 2016-12-31T23:{ "59" }:{ "59.5" } met één seconde rotatie (UT1 genomen uit de quasi-Juliaanse UTC-datum op een dag met een schrikkelseconde); de engine is gecorrigeerd (jd2::utc_to_ut1) en de tweede run komt overeen bij ongewijzigde drempels. Poolbeweging weggelaten ({ "46" } fouten) of WGS-84-constanten in plaats van WGS-72 ({ "4432" } fouten) maken de test rood. Dit ontwerp met drie takken verving een end-to-end-vergelijking met Orekit die faalde op de SDP4 van Orekit bij e = { "0" } en op zijn IERS-{ "1996" }-TEME (de bevinding blijft vastgezet in tests/leo_polar_coverage_full_claim_orekit_oracle.rs)
+
+# data/search.json
+dat-f8a01ddf6363 = Juridische opmerkingen (juridische beoordeling door de eigenaar nog in behandeling)
+
+# data/verification-matrix.json
+dat-d977634a13cf = Fitter voor LEO-broadcastefemeride en signal-in-space-afstandsfout tegen fitinterval en updateperiode
+
+# data/verification-matrix.json
+dat-eddcdf79a261 = LEO-dekking en dilution of precision voor polaire en Arctische gebruikers tegenover MEO-GNSS
+
+# studio/data/areas.json
+dat-4c857aecc818 = LEO-missies en -studies
+
+# data/search.json
+dat-5e84e0ede1d9 = LEO-navigatiebericht
+
+# js/missions-runs.mjs
+dat-5e1d3c478d19 = LEO-navigatiebericht — { "550" } km, { "97.6" } deg, zwaartekrachtgraad { "20" }, model kepler-rac
+
+# data/search.json
+dat-6e7cec61f5b0 = LEO-navigatiebericht: een berichtupdate midden in een passage, en of de gebruiker
+
+# data/search.json
+dat-d9368c8759e0 = LEO-navigatiebericht: vier efemeridemodellen op één baan, en de Liu et al. { "2025" }
+
+# data/search.json
+dat-0e5a7ce6ff86 = LEO-navigatiebericht: de binaire codering van Kshana, haar kwantisatiebudget, en de
+
+# data/search.json, js/missions-runs.mjs
+dat-154ffd6aa935 = LEO-navigatiebericht: signal-in-space-afstandsfout (SISRE) tegen fitinterval.
+
+# data/search.json
+dat-0236c81cf599 = LEO-navigatiebericht: de broadcastefemeride en -klok van een satelliet in een lage baan om de Aarde (LEO) voor positiebepaling, navigatie…
+
+# data/search.json
+dat-79ef88803f0a = LEO-passage en linkbudget (leo-pass)
+
+# data/search.json
+dat-d6717d382ee3 = LEO-passage en linkbudget, band voor band, voor LEO-PNT (positiebepaling, navigatie en tijdsynchronisatie vanuit lage…
+
+# js/missions-runs.mjs
+dat-e5f83d92ddc4 = Linkbudget van LEO-passage, gebruiker op de grond op { "48.14" }, { "11.57" }; { "1" } LEO-satelliet(en), venster van { "900" } s
+
+# js/missions-runs.mjs
+dat-ca559e9d03e6 = LEO-PVT (Doppler) op { "48.14" }, { "11.58" } over { "600" } s
+
+# js/missions-runs.mjs
+dat-44a5313bed5f = LEO-PVT (gezamenlijk) op { "40.42" }, -3.70 over { "1800" } s
+
+# js/missions-runs.mjs
+dat-809fd3d3d69d = LEO-PVT (tijdsynchronisatie) op { "39.99" }, -105.26 over { "21600" } s
+
+# data/verification-matrix.json
+dat-5110c76d9dec = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: tot { "1" } mm en de drift tot { "1e-6" } m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: de gewogen residu-RMS in [{ "0.8" }, { "1.2" }] en de fout onder vier formele sigma's); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (een vooraf vastgelegde proxy tegen de gepubliceerde percentielen van dataset 3 van "Unveiling Starlink for PNT", doi:10.33012/navi.685: met { "3" } satellieten (masker van { "47" } deg), zonder hoogtehulp en { "30" } Hz is de p90 van de 3D-fout { "92.2" } m bij { "20" } s en { "870" } m bij { "8" } s tegen de gepubliceerde { "2" } m en { "10" } m, dus beide factor-twee-drempels zijn NOT MET, aan de hoge kant, en als gemist vastgesteld; docs/design/evidence/cap11-starlink-doppler-proxy/)
+
+# data/verification-matrix.json
+dat-359bbd5ab82f = leo_fusion::ntn::tests (the_numerical_rms_bandwidth_matches_the_closed_forms; the_range_bound_scales_as_one_over_bandwidth_and_root_cn0: { "0.4157" } m met de hand bij { "5" } MHz, { "45" } dB-Hz, { "0.1" } s; the_frequency_bound_is_the_complex_tone_crlb; defaults_run_wider_is_better_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ntn_wide_channel_bounds_far_tighter_than_the_narrow_one); tests/ntn_crlb_published_value_oracle.rs (ssb_bounds_reproduce_the_published_values; ntn_fix_covariances_match_numpy; bpsk_rms_bandwidth_reproduces_betz_table_1)
+
+# data/verification-matrix.json
+dat-28ea4e14eab0 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } seeds, gemiddelde NEES gemiddeld over de run in [{ "2.4" }, { "3.6" }] en minstens { "75" }% van de epochs binnen de tweezijdige chikwadraatband van { "95" }%; gemeten met { "150" } seeds, gemiddelde { "2.84" } alleen GNSS en { "2.87" } met LEO; leo_augmentation_shortens_convergence; same_seed_same_answer_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+# data/verification-matrix.json
+dat-2fb048cfc2bd = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url; only_one_preset_uses_workshop_material; noise_density_at_290_k_is_minus_204_dbw_per_hz); tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios: bronnentekstscans van src, scenarios en tests); leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out; a_system_needs_no_preset; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+# data/verification-matrix.json
+dat-c48af19e208d = leo_link::energy en de sectie [iot] van het type `leo-pass`: coherente integratie begrensd door de Dopplersnelheid, niet-coherente sommen met kwadratische wet tot een detectiedrempel, een zoekactie in Dopplerbins over de omhullende van de statische gebruiker van de baan (koud) of een ondersteund venster (heet), parallelle of seriële codezoekactie, navigatieberichttijd bij een koude start, energie per positiebepaling en accuduur over positiebepalingsintervallen, voor elke LEO-band en het GNSS-signaal
+
+# data/verification-matrix.json
+dat-775a260dc9dc = leo_link::geometry::max_static_user_range_rate: een zoekactie over elke baanpositie en elke gebruiker op de horizon van de satelliet van een cirkelvormige baan, met draaiende Aarde, naar de grootste afstandssnelheid, plus de baansnelheid en de grootste aardvaste satellietsnelheid; per band gerapporteerd als de Dopplerenvelop door het type `leo-pass` en gebruikt als het zoekvenster bij koude start van zijn model met laag energieverbruik
+
+# data/verification-matrix.json
+dat-dff519e6b042 = leo_link::presets: generiek multiband (UHF, L, S, C), generieke C-band, Xona Pulsar X1/X5, Iridium STL, Starlink als Doppler-only-gelegenheidssignaal, CentiSpace en een optionele Celeste IOD-voorinstelling, elk met zijn bron gemarkeerd als PUBLIC (met URL), REPRESENTATIVE of WORKSHOP, de workshopvoorinstelling in het optionele Celeste IOD-voorinstellingsbestand, alleen ingecompileerd als dat bestand bestaat; elke band en baan kan in een scenario worden overschreven, en een scenario hoeft geen voorinstelling te noemen
+
+# data/verification-matrix.json
+dat-eed86179c6c3 = leo_navmsg::codec: het eigen frame van Kshana (preambule, versie, model, lengte, payload, CRC-24Q) voor de vier efemeridemodellen, het klokpolynoom, SVID, issue of data, band, gezondheid, een Klobuchar-set, NeQuick-G-coëfficiënten en UTC-parameters, elk veld met een vermelde breedte en stap (field_table), kwantisatie met weigering buiten bereik, en een budget van de grootste positie- en klokverandering die een halve-stapverandering van elk veld over het geldigheidsvenster maakt
+
+# data/verification-matrix.json
+dat-a0a243f31eb7 = leo_navmsg::codec::crc24q: genererend polynoom 0x1864CFB, beginwaarde { "0" }, geen reflectie, geen laatste XOR, de controle die het LEO-frame van Kshana over elke voorgaande byte draagt
+
+# data/verification-matrix.json
+dat-42cd133bcd0e = leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 voor de ASCII-string { "123456789" }; crc24q_matches_the_rtcm_1005_example_frame — de drie controlebytes 0x360B98 van het voorbeeldframe van RTCM { "10403" }-berichttype { "1005" }, en nul over het hele frame)
+
+# data/verification-matrix.json
+dat-5656921517c5 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer; week8_resolves_near_the_reference); leo_navmsg::tests::every_model_round_trips_through_the_binary_frame (elk model binnen { "2" } mm van het exacte bericht na decodering, bit-identiek opnieuw gecodeerd, een omgeslagen bit door de CRC geweigerd); leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+# data/verification-matrix.json
+dat-41bc4d49a080 = leo_navmsg::elements::kepler_point: de Keplerevaluatie van de Galileo OS SIS ICD (de vergelijking van Kepler, correcties van de tweede harmonische, aardvaste knoop) afzonderlijk geschreven van de RINEX-evaluator van de engine, die de positie teruggeeft met het breedteargument, de inclinatie en de knoop waaruit het correctieframe langs/dwars/radiaal is opgebouwd, en de uitbreidingstermen van Liu et al. { "2025" }
+
+# data/verification-matrix.json
+dat-03e4b5d56289 = leo_navmsg::services: de Klobuchar-broadcastvertraging op elke draaggolf (het L1-model van de engine geschaald met (f_L1/f)^{ "2" }), het effectieve NeQuick-G-ionisatieniveau Az = ai0 + ai1 mu + ai2 mu^{ "2" } met de nulregel en de regels [{ "0" }, { "400" }] sfu, en systeemtijd naar UTC met de drie schrikkelsecondegevallen van de ICD
+
+# data/verification-matrix.json
+dat-bac78dac563b = leo_navmsg::services::tests (klobuchar_scales_with_inverse_frequency_squared — de L1-waarde is de { "6.1278" } m van RTKLIB; nequick_az_rules; utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day; utc_drift_terms_follow_the_icd_formula; an_inserted_leap_second_reads_86400_at_the_end_of_the_day); tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa (Klobuchar op L1, L2 en L5 over { "4 320" } gevallen, slechtste { "7.0e-13" } m; Az over { "222" } coëfficiëntensets inclusief de nulregel en de regels met { "400" } sfu, slechtste { "5.7e-14" } sfu; UTC-drift over { "50" } gevallen, slechtste { "3.6e-15" } s; de drie schrikkelsecondegevallen over { "21 602" } momenten rond de echte schrikkelseconden van { "2015" } en { "2016" }, { "0" } s)
+
+# data/verification-matrix.json
+dat-8dfeecb0b6f2 = leo_navmsg::sisre::sisre_weights: het radiale gewicht w_R en het gekwadrateerde transversale gewicht w_AC^{ "2" } als gemiddelden van cos^{ "2" } en half sin^{ "2" } van de nadirhoek van de zichtlijn over gebruikers die gelijkmatig zijn verdeeld over de zichtbare aardkap boven een elevatiemasker, voor elke baanstraal, met Simpson-integratie; gebruikt door elk SISRE-cijfer van leo-navmsg (bij { "510" } km, w_R { "0.46" } en w_AC^{ "2" } 1/2.5)
+
+# data/verification-matrix.json
+dat-736676ef0437 = leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } en 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } en 1/61.1, BeiDou MEO 1/54.2, geostationair { "0.992" } en 1/126.2 bij een masker van { "0" } deg, elk binnen { "0.005" } van w_R en { "0.5" } van 1/w_AC^{ "2" }; leo_weights_shift_toward_the_transverse_axes — nadirhoek van de horizon { "67.8" } deg bij { "510" } km)
+
+# data/verification-matrix.json
+dat-62de45325cfe = leo_navmsg::tests::a_mid_pass_update_is_continuous (de afstandssprong van elke omschakeling is gelijk aan de verandering in afstandsfout, en een gecorrigeerde fit van { "300" } s die elke { "150" } s wordt bijgewerkt haalt een drempel van { "5" } cm); leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged; leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight (de gesloten vorm begrenst een dichte bemonstering van de kegel)
+
+# data/verification-matrix.json
+dat-906fde8e674c = leo_navmsg::text: een blok in RINEX-4-stijl (> EPH-recordheader, satelliet- en epochregel met drie kloktermen, D19.12-broadcastbaanregels) met stelselletter L en recordtypen KP16, KRAC, LU22 en APOL, in elke header gelabeld als een Kshana-extensie die geen deel van RINEX { "4.02" } uitmaakt, en een CSV-tabel met een standaardkolomschema en voorinstellingsschema's, elk met een importer
+
+# data/verification-matrix.json
+dat-ff83f603c40a = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (elk model binnen { "0.1" } mm na het tekstblok, de CSV exact)
+
+# data/verification-matrix.json
+dat-0f37818c7bb0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: een sterkere EIRP, een langer fitinterval en een grotere baanbepalingsterm verplaatsen elk de doorgegeven waarde en de gefuseerde positiebepaling; the_handed_on_values_are_the_stage_outputs; a_band_design_splits_the_eirp_and_reports_the_design_jitter; the_pass_export_reproduces_the_engine_range)
+
+# data/verification-matrix.json
+dat-5dd9c7750761 = leo_signal::max_doppler_hz: de grootste satelliet-Doppler op een passage recht boven het hoofd bij het elevatiemasker voor een cirkelvormige baan, v R_E cos(el) / (R_E + h) maal f / c, uit de eigen draaggolf en baanhoogte van elke voorinstelling; het type `leo-signal` voegt oscillator- en gebruikerstermen toe en zet het om in Dopplerbins
+
+# data/verification-matrix.json
+dat-2b3961126d2c = leo_signal::tests (every_public_preset_parses_and_cites_a_url; detector_reduces_to_pfa_and_grows_with_snr; detection_probability_with_several_looks_matches_the_noncentral_chi_square; mean_time_of_a_perfect_detector_is_half_the_cells; compatibility_ssc_magnitudes_match_independent_quadrature; to_spectrum_band_is_consistent_with_the_design; jammer_tolerance_orders_cw_matched_wideband; e5_centred_signal_hits_e5a_and_e5b_equally; defaults_run_on_the_generic_band_preset; inline_signal_and_bad_inputs); tests/leo_signal_reference.rs (elk meegeleverd systeemonafhankelijk scenario draait zonder workshopdata, de ionosferische verhoudingen van de bandafweging zijn gelijk aan (f_ref/f)^{ "2" } en haar vrije-ruimteverschillen aan { "20" } log10(f/f_ref), de jitter bij de referentie-C/N0 ligt tussen zijn Gabor-grens en zijn vorm met onbegrensde band, de E5-vormcontroles van het scenario met workshopparameters zijn consistent als dat bestand aanwezig is, en geen enkel bronbestand compileert dat bestand in)
+
+# data/verification-matrix.json
+dat-6af7285f6f2e = leo_signal::tests::max_doppler_matches_published_xona_and_iridium_figures — Xona Pulsar X1 ({ "1593.3225" } MHz, { "1080" } km) { "33.2" } kHz binnen de gepubliceerde { "32" } tot { "34" } kHz; Iridium ({ "1621" } MHz, { "780" } km) binnen { "0.5" } kHz van de gepubliceerde { "36" } kHz
+
+# data/verification-matrix.json
+dat-e033f9262fd0 = Door LEO ondersteunde tijdoverdracht naar UTC tegen C/N0 en de oscillator van de ontvanger
+
+# data/search.json
+dat-96378ecc465b = leo-navmsg (scenariotype)
+
+# data/search.json
+dat-97537bd045c0 = leo-pass (scenariotype)
+
+# data/search.json
+dat-af1eb4f8b776 = Bandafweging voor LEO-PNT, van UHF tot brede C-band: wat een satellietsignaal in een lage baan om de Aarde (LEO) voor positiebepaling,
+
+# js/missions-runs.mjs
+dat-65a98dd91600 = Bandafweging voor LEO-PNT, van UHF tot brede C-band: wat een signaal voor positiebepaling, navigatie en tijdsynchronisatie (PNT) in een lage baan om de Aarde (LEO) in elke band wint en verliest, los van enig specifiek systeem.
+
+# data/search.json
+dat-fac7345aa741 = LEO-PNT-campagnes
+
+# data/search.json
+dat-bf7043f2e175 = LEO-PNT end to end op een generieke constellatie: signaalontwerp -> linkbudget van de passage ->
+
+# js/missions-runs.mjs
+dat-830d144a441c = LEO-PNT end to end op een generieke constellatie: signaalontwerp -> linkbudget van de passage -> navigatiebericht -> gefuseerde MEO- + LEO-positiebepaling en convergentie van precise point positioning.
+
+# js/missions-runs.mjs
+dat-f77a6dd9a64d = LEO-PNT end to end, generieke constellatie van { "1080" } km
+
+# data/search.json
+dat-65015a720e6f = LEO-PNT-aandachtsgebied: compatibiliteit met 5G/6G non-terrestrial networks (NTN).
+
+# data/search.json
+dat-26a4d3c25329 = LEO-PNT-aandachtsgebied: aanvullende PNT-gegevensdiensten in het navigatiebericht.
+
+# data/search.json
+dat-eb0ad5f96922 = LEO-PNT-aandachtsgebied: positiebepaling met hoge nauwkeurigheid (precise point positioning, PPP).
+
+# data/search.json
+dat-27c77351ab17 = LEO-PNT-aandachtsgebied: navigatie binnenshuis met UHF.
+
+# data/search.json
+dat-9893cd919599 = LEO-PNT-aandachtsgebied: LEO-PNT-wetenschap, ionosfeerpeiling uit de tweebandsvertraging.
+
+# data/search.json
+dat-5935f4e01847 = LEO-PNT-aandachtsgebied: positiebepaling met laag energieverbruik voor het Internet of Things (IoT) en mobiel.
+
+# data/search.json
+dat-9daa1f42bf38 = LEO-PNT-aandachtsgebied: gefuseerde MEO- + LEO-PNT.
+
+# data/search.json
+dat-3d4073bef44a = LEO-PNT in Kshana
+
+# data/search.json
+dat-d76c463eef28 = LEO-PNT is positiebepaling, navigatie en tijdsynchronisatie (PNT) vanuit satellieten in een lage baan om de Aarde (LEO), naast of…
+
+# data/search.json
+dat-aa8e95efb332 = LEO-PNT is positiebepaling, navigatie en tijdsynchronisatie (PNT) vanuit satellieten in een lage baan om de Aarde (LEO).
+
+# data/search.json
+dat-f511574300f5 = Veerkracht van LEO-PNT tegen spoofing: consistentie van Doppler en passagegeometrie.
+
+# data/search.json, js/missions-runs.mjs
+dat-40cd7d788f7b = Veerkracht van LEO-PNT tegen spoofing: welke monitor welke spoofer ziet.
+
+# data/search.json
+dat-b844d192ebc3 = Veerkracht van LEO-PNT door banddiversiteit: één jammer, een ontvanger met vier banden.
+
+# data/search.json
+dat-87de513d418b = Veerkracht van LEO-PNT uit ontvangen vermogen: de jammer-tot-signaalmarge (J/S).
+
+# data/search.json, js/missions-runs.mjs
+dat-fef497edc3fe = Missie voor veerkracht van LEO-PNT: GNSS gejamd, LEO-PNT draagt de gebruiker, integriteit gehandhaafd.
+
+# data/search.json
+dat-6ca3401a408c = LEO-PNT-signaalontwerpen en het multibandspectrum
+
+# data/search.json
+dat-dce5c1ca8c13 = LEO-PNT-signaalontwerpen: geparametriseerde signalen voor positiebepaling, navigatie en tijdsynchronisatie (PNT) in een lage baan om de Aarde (LEO)…
+
+# data/search.json
+dat-d40e7ca25372 = LEO-PNT-signaaltermen
+
+# data/search.json
+dat-fa330dfa3d6f = LEO-PNT-vertical: assettracking en het Internet of Things (IoT), energie per positiebepaling.
+
+# data/search.json, js/missions-runs.mjs
+dat-92cf8c9d4beb = LEO-PNT-vertical: autonome voertuigen, een stadscanyon met een LEO-laag.
+
+# data/search.json, js/missions-runs.mjs
+dat-c6ecb593b85e = LEO-PNT-vertical: tijdsynchronisatie van kritieke infrastructuur, holdover met LEO-tijd.
+
+# data/search.json
+dat-8e9444205c16 = LEO-PNT-vertical: polaire en Arctische gebruikers.
+
+# data/search.json, js/missions-runs.mjs
+dat-8dea94ab1648 = LEO-PNT-vertical: spoor en maritiem, de meegeleverde maritieme en spoorscenario's plus LEO.
+
+# data/search.json
+dat-d9aa986c1126 = LEO-PNT-vertical: de stadscanyon voor autonome voertuigen, als vlakke afkap en als straat.
+
+# data/search.json, js/missions-runs.mjs
+dat-7a12939929e6 = LEO-PNT-vertical: draadloze netwerken, tijdsynchronisatie van 5G/6G-basisstations.
+
+# data/search.json
+dat-cf8cb3a6466e = leo-pnt-chain (scenariotype)
+
+# data/search.json
+dat-969562e04b91 = leo-ppp (scenariotype)
+
+# data/search.json
+dat-c087126c6d3b = leo-pvt (scenariotype)
+
+# data/search.json
+dat-613dc8286d33 = leo-signal (scenariotype)
+
+# data/search.json
+dat-3d2c62c5f121 = Bibliotheeksfuncties
+
+# data/search.json
+dat-3ac3fcb9758a = Gebruik als bibliotheek
+
+# data/verification-matrix.json
+dat-e01ee49b355c = Bibliotheek: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae, S-bandbuild, als afzonderlijk programma uitgevoerd); de samples van Kshana worden alleen aangestuurd door de vastgelegde kanaaltoestand van de simulator, en een print-only-tracebuild wordt byte-identiek bevonden aan de ongepatchte. Drempels vastgesteld vóór de run: nul chip- en symbolenverschillen, |rho| >= { "0.999" } over de run en >= { "0.99" } per blok van { "2" } ms, fase binnen { "0.05" } rad. Gelijke I- en Q-amplitudes zijn een invoer van de vergelijking, dus de vermogensverdeling wordt er niet door getest. LANS-AFS-SIM leest zijn tertiaire codes uit het bestand LSIS bijlage { "3" }, dus dat deel is niet onafhankelijk van de coderij. LANS-AFS-SIM en PocketSDR-AFS delen een auteur en tellen als één onafhankelijke implementatie. Gegevensafhankelijk: de vergelijking met LANS-AFS-SIM vraagt om de lokale LSIS V1.0-cache (xval/lunar-afs/fetch_lsis.sh, SHA-256 geverifieerd) en slaat over met een melding zonder die cache
+
+# data/verification-matrix.json
+dat-0d377b4ab75f = Bibliotheek: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae), waarvan de eigen BCH, CRC, LDPC en interleaver frames produceren die symbool voor symbool identiek zijn aan die van Kshana voor dezelfde inhoud (nul verschillen, drempel vastgesteld vóór de run). Bevestigd door referentiewaarden: het uitgewerkte BCH-voorbeeld van LSIS V1.0 figuur { "8" } en de controlewaarde van CRC-24/LTE-A (de catalogus van geparametriseerde CRC-algoritmen van Greg Cook), beide bitexact; en door PocketSDR-AFS dat elk subframe decodeerde van de frames die het in drie runs synchroniseerde, met geslaagde CRC en overeenkomende bits van subframe 2. De pariteitscontroletest is bijna een interne identiteit (hij bevestigt dat de gedrukte B^-1 de gedrukte B inverteert) en telt niet mee als onafhankelijke referentie. Gegevensafhankelijk: de vergelijking met LANS-AFS-SIM vraagt om de lokale LSIS V1.0-cache (xval/lunar-afs/fetch_lsis.sh, SHA-256 geverifieerd) en slaat over met een melding zonder die cache
+
+# data/verification-matrix.json
+dat-29a4033f3b1c = Bibliotheek: PocketSDR-AFS (T. Ebinuma naar PocketSDR { "0.13" } van T. Takasu, BSD-2-Clause, commit 5b23809f30d68518b7fad7a564fd0fac57cc497d, S-bandbuild, kopie met alleen-print-logniveau), onder criteria vastgesteld vóór elke run. De derde vooraf vastgelegde vergelijking haalt haar decodeer- en trackingdrempels C1 en C2 volledig maar haar guard G0 niet zoals geschreven (twee runs van de ongewijzigde ontvanger verschillen in dezelfde vier acquisitierecords), en de tweede miste met { "5" } schendingen, dus de rij blijft MODELLED. LANS-AFS-SIM en PocketSDR-AFS delen een auteur en tellen als één onafhankelijke implementatie; de controles met gedrukte vectoren in de rij voor framecodering beschermen tegen een gedeelde misinterpretatie
+
+# data/verification-matrix.json
+dat-fde7ce482e65 = Lichttijd tussen lichamen in het zonnestelsel
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-0a8f41750e4f = Vergelijking van optische tegenover RF-afstandsmeting onder gelijke voorwaarden
