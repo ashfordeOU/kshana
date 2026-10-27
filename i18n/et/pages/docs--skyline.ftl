@@ -29,3 +29,6 @@ seg-bbb1828b3db1 = Tänavakanjoni, sektori ja maastiku taandamine tabeliks
 
 # text
 seg-2c53381d48ae = Horisontaalne veaellips ja süsteemikohane kofaktor geomeetria kovariatsioonist
+
+# text
+seg-de6c33774c9c = CLI
