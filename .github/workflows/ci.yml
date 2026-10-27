@@ -542,6 +542,14 @@ jobs:
         run: node web/studio/lib/ssv.test.mjs
       - name: Test the lunar-infrastructure view's readers (0.38)
         run: node web/studio/lib/lunar-infra.test.mjs
+      - name: Test the evidence badge's ledger-row reader and CSV lines (0.40)
+        run: node web/studio/lib/evidence.test.mjs
+      - name: Test the Studio localisation core (Fluent bundles, negotiation, fallback) (0.40)
+        run: node web/studio/lib/l10n.test.mjs
+      - name: Test the Studio t() helper and data loaders (0.40)
+        run: node web/studio/lib/t.test.mjs
+      - name: Test the Mission thread view's reader (0.40)
+        run: node web/studio/lib/mission-thread.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #
