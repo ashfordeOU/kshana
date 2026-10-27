@@ -111,7 +111,7 @@ seg-32baa4a4b9f0 = „Puhas“ epohh on „väljaspool planeeritud ajapesi“, m
 seg-95cc22bbacc5 = Mõõtmisvaldkonna monitoride tuvastamine ei ütle midagi väikese võimsusega koherentse spuufija tuvastamise kohta.
 
 # text
-seg-2e91813cf9d7 = Ükski väline oraakel (sõltumatu etalon) ei esita tegelikke eetriaegu, seega ei ole siin miski VALIDATED.
+seg-2e91813cf9d7 = Ükski väline sõltumatu etalon ei esita tegelikke eetriaegu, seega ei ole siin miski VALIDATED.
 
 # text
 seg-cfdf09e38e6e = { "2024" } andmekogumi käivitus (eelregistreeritud)

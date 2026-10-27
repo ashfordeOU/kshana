@@ -80,7 +80,7 @@ seg-db35e4ebd275 = <b>VALIDATED</b> Mootori propageerija ajaplaanilised nähtavu
 seg-6799a54acee6 = <b>VALIDATED</b> SGP4 elemendikomplekti nähtavusläbimised (AOS, TCA, LOS, maksimaalne näiv tõusunurk, kestus) WGS-84 jaama kohal valideeritud Maa orbiidi rajal (IAU 2006/2000A, valikulised Maa orientatsiooniparameetrid), koos ITU-R P.834-9 troposfääri Testid: <a1>pass_predictor_on_path_orekit_oracle.rs</a1>.
 
 # text
-seg-42d4290ed718 = <b>VALIDATED</b> Mootori propageerija ajaplaanilised nähtavusläbimised (AOS/TCA/LOS, maksimaalne tõusunurk, kestus) jaama kohal üle tõusunurga maski, interpoleeritud tõusu-/loojanguga . Oraakel (sõltumatu etalon; ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) + Hipparchus { "3.1" } — sõltumatu lennudünaamika teek: ElevationDetector (Brenti juureleidja) + EventsLogger ITRF-efemeriidi kohal, jaam WGS-84 TopocentricFrame'ina. AOS/LOS/maksimaalne tõusunurk/läbimiste arv/kogu juurdepääs ühtisid identse orbiidi+jaama+maski+akna korral (kinnistatud testandmestik; draiver xval/orekit-passes)
+seg-42d4290ed718 = <b>VALIDATED</b> Mootori propageerija ajaplaanilised nähtavusläbimised (AOS/TCA/LOS, maksimaalne tõusunurk, kestus) jaama kohal üle tõusunurga maski, interpoleeritud tõusu-/loojanguga . Sõltumatu etalon (sõltumatu etalon; ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) + Hipparchus { "3.1" } — sõltumatu lennudünaamika teek: ElevationDetector (Brenti juureleidja) + EventsLogger ITRF-efemeriidi kohal, jaam WGS-84 TopocentricFrame'ina. AOS/LOS/maksimaalne tõusunurk/läbimiste arv/kogu juurdepääs ühtisid identse orbiidi+jaama+maski+akna korral (kinnistatud testandmestik; draiver xval/orekit-passes)
 
 # text
 # c1: label

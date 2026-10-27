@@ -80,7 +80,7 @@ seg-7342b50d34e4 = <b>VALIDATED</b> Lähivälja VLBI viivitus Maa baseline-ile, 
 seg-5547f1f662d3 = ja veel { "2" } maatriksis.
 
 # text
-seg-1461c84350d8 = <b>MODELLED</b> Lähivälja VLBI viivitus Maa baseline-ile, mis vaatleb Kuu majakat + osatuletised. Oraakel (sõltumatu etalon) (ReferenceImpl): Tasalaine delta_dor (sama koodibaas) kaugvälja piiris; lõplike erinevustega osatuletised. { "0.30" } väline võrdlus, leid (jääb MODELLED): ANISE { "0.10" } koondunud valgusaegade vastu läbi DE440 ({ "75" } viivitust kuupäeval 2024-01-01 kolme DSN baseline-i üle, genereeritud xval/anise-lunar-od abil ilma Kshana koodita), ükski viivitus ei jää { "1" } ps tolerantsi piiresse. Suurim vahe on { "24" } µs, analüütilisest Kuu keskpunktist (umbes { "200" } km DE
+seg-1461c84350d8 = <b>MODELLED</b> Lähivälja VLBI viivitus Maa baseline-ile, mis vaatleb Kuu majakat + osatuletised. Sõltumatu etalon (ReferenceImpl): Tasalaine delta_dor (sama koodibaas) kaugvälja piiris; lõplike erinevustega osatuletised. { "0.30" } väline võrdlus, leid (jääb MODELLED): ANISE { "0.10" } koondunud valgusaegade vastu läbi DE440 ({ "75" } viivitust kuupäeval 2024-01-01 kolme DSN baseline-i üle, genereeritud xval/anise-lunar-od abil ilma Kshana koodita), ükski viivitus ei jää { "1" } ps tolerantsi piiresse. Suurim vahe on { "24" } µs, analüütilisest Kuu keskpunktist (umbes { "200" } km DE
 
 # text
 # c1: kshana kinds --json

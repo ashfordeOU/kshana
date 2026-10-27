@@ -2,7 +2,7 @@
 
 # text
 # c1: campaign
-seg-fa3ad6babe54 = <b>MODELLED</b> Liigi <c1/> pühkimine (üks kuni kolm punktidega võtit mis tahes liigist, üldise pühkimise telje väärtustel, soovi korral ansambel igas sõlmes) ja monte_carlo sec. Oraakel (sõltumatu etalon) (InternalConsistency): Faasi juhusliku ekslemise suletud kuju valge sageduse müra korral, dispersioon q_wf tau (NIST Technical Note { "1337" }), statistikamasinavärgi jaoks ning baitide tasemel võrdsus eraldiseisvate jooksudega seemendamise (seeding) jaoks. See kontrollib ansambli aritmeetikat mootori enda kellamudelil, mitte välist andmestikku
+seg-fa3ad6babe54 = <b>MODELLED</b> Liigi <c1/> pühkimine (üks kuni kolm punktidega võtit mis tahes liigist, üldise pühkimise telje väärtustel, soovi korral ansambel igas sõlmes) ja monte_carlo sec. Sõltumatu etalon (InternalConsistency): Faasi juhusliku ekslemise suletud kuju valge sageduse müra korral, dispersioon q_wf tau (NIST Technical Note { "1337" }), statistikamasinavärgi jaoks ning baitide tasemel võrdsus eraldiseisvate jooksudega seemendamise (seeding) jaoks. See kontrollib ansambli aritmeetikat mootori enda kellamudelil, mitte välist andmestikku
 
 # text
 seg-d1c11e493795 = Parameetripühkimised ja algväärtusega (seed) Monte Carlo ansamblid üle mis tahes stsenaariumi liigi on MODELLED, mitte valideeritud: kontrollitud oma suletud kujul / analüütilise samasuse vastu — tabab ülekirjutus- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -23,10 +23,10 @@ seg-619127334cf3 = Ükski maatriksirida ei nimeta seda liiki nimepidi; selle tul
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Oraakel (sõltumatu etalon) (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
+seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Sõltumatu etalon (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
 
 # text
-seg-7e95210bcc48 = <b>MODELLED</b> Koostatud nihke + skaalateguri + VRW + stabiilsuse hääbumise positsioonieelarve holdover-i jooksul. Oraakel (sõltumatu etalon) (ReferenceImpl): Sõltumatu numpy Monte Carlo SDE integreerimine topeltintegreeritud valge kiirenduse müra jaoks (valideerib analüütilise VRW dispersiooni tõeliselt sõltumatu algoritmiga) + Grovesi { "2013" } avaldatud väärtuse ankur nihke/skaalateguri liikmete jaoks; CAI seadme arvud kvantifitseerivad partneri riistvara ja jäävad MODELLED
+seg-7e95210bcc48 = <b>MODELLED</b> Koostatud nihke + skaalateguri + VRW + stabiilsuse hääbumise positsioonieelarve holdover-i jooksul. Sõltumatu etalon (ReferenceImpl): Sõltumatu numpy Monte Carlo SDE integreerimine topeltintegreeritud valge kiirenduse müra jaoks (valideerib analüütilise VRW dispersiooni tõeliselt sõltumatu algoritmiga) + Grovesi { "2013" } avaldatud väärtuse ankur nihke/skaalateguri liikmete jaoks; CAI seadme arvud kvantifitseerivad partneri riistvara ja jäävad MODELLED
 
 # text
 seg-9955b1b1c018 = Kvantinertsiaalsensori toimivus on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -38,7 +38,7 @@ seg-5fef5e8cc64e = Kvantinertsiaalse kursiarvestuse vastupidavus on MODELLED, mi
 seg-5a70fcb097dc = Valikulised väljad: puuduvad
 
 # text
-seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-8b701f465117 = log

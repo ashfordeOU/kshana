@@ -63,7 +63,7 @@ seg-ff1f36904d38 = <b>VALIDATED</b> CCSDS 133.0-B kosmosepaketi primaarpäise ko
 seg-82c617034322 = <b>VALIDATED</b> CCSDS 133.0-B-2 kosmosepaketi laiendused primaarpäise kõrval: sekundaarpäis, mis kannab CCSDS 301.0-B ajakoodi (CUC või CDS, selgesõnaline või kaudne P-väli) ja lisaandmeid, CRC-16 paketivea kontrolli väli, segmenteerimine Testid: <a1>space_packet_ext_oracle.rs</a1>.
 
 # text
-seg-94f3381476ee = <b>VALIDATED</b> CCSDS 133.0-B kosmosepaketi primaarpäise kodeerimine/dekodeerimine (versioon/tüüp/sek-päis/APID/jada-lipud/loendur/andmepikkus) + raamistamise stsenaarium. Käivitatav CLI-st/sidumisest. Oraakel (sõltumatu etalon; ExternalDataset): spacepackets { "0.32.0" } (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — CCSDS 133.0-B-2 sõltumatu kolmanda osapoole teostus; kshana encode_packet/decode_packet ühtisid baidilt baidile (6-oktetine primaarpäis { "33" } juhul + täielik kodeeritud pakett { "12" } juhul)
+seg-94f3381476ee = <b>VALIDATED</b> CCSDS 133.0-B kosmosepaketi primaarpäise kodeerimine/dekodeerimine (versioon/tüüp/sek-päis/APID/jada-lipud/loendur/andmepikkus) + raamistamise stsenaarium. Käivitatav CLI-st/sidumisest. Sõltumatu etalon (sõltumatu etalon; ExternalDataset): spacepackets { "0.32.0" } (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — CCSDS 133.0-B-2 sõltumatu kolmanda osapoole teostus; kshana encode_packet/decode_packet ühtisid baidilt baidile (6-oktetine primaarpäis { "33" } juhul + täielik kodeeritud pakett { "12" } juhul)
 
 # text
 seg-bca17769398b = <s1>Eelmine</s1>solar-system

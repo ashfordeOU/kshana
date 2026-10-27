@@ -77,10 +77,10 @@ seg-0fd3c58fde09 = Diagramm, mille mootor kirjutab failile scenarios/ephemeris.t
 seg-d291f20074f0 = <b>VALIDATED</b> Maa pöörlemine kaheosalisest UT1 Juliuse kuupäevast orbiidi rajal, nii et Maaga seotud positsioon säilitab mikrosekundi, mille ühe f64 kuupäev kaotab (umbes { "3e-9" } rad ümber aasta { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, TEME konventsioon, kahel osal), cio:
 
 # text
-seg-976416e41291 = <b>VALIDATED</b> SGP4/SDP4, Cowell 6-DOF + häiringud, pakett-/järjestikune OD. Oraakel (sõltumatu etalon) (ExternalDataset): AIAA 2006-6753 SGP4 kontrollvektorid
+seg-976416e41291 = <b>VALIDATED</b> SGP4/SDP4, Cowell 6-DOF + häiringud, pakett-/järjestikune OD. Sõltumatu etalon (ExternalDataset): AIAA 2006-6753 SGP4 kontrollvektorid
 
 # text
-seg-7cf505668c3c = <b>VALIDATED</b> IAU 2006/2000A pretsessioon-nutatsioon, CIO GCRS↔ITRS, liigsekundiga ajaskaalad. Oraakel (sõltumatu etalon) (ExternalDataset): IAU SOFA / ERFA etalonvektorid; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
+seg-7cf505668c3c = <b>VALIDATED</b> IAU 2006/2000A pretsessioon-nutatsioon, CIO GCRS↔ITRS, liigsekundiga ajaskaalad. Sõltumatu etalon (ExternalDataset): IAU SOFA / ERFA etalonvektorid; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
 
 # text
 seg-f19ce44dc0c0 = Teemaleht: <a1>AGENCY-ORBIT-VALIDATION.md</a1>

@@ -19,7 +19,7 @@ seg-f7f12029e0ec = Perekonna leht: <a1>Inertsiaal-, liitmis- ja kvantsensorid</a
 seg-496b17a8d3b9 = Teemaleht: <a1>QUANTUM-MODELS.md</a1>
 
 # text
-seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-51cac2f918e0 = Teemaleht: <a1>POSITIONING.md</a1>
@@ -82,10 +82,10 @@ seg-fc46e95688ba = <b>VALIDATED</b> Mõõdetud ADEV NNLS-sobitus, NEES/NIS χ² 
 seg-6e2b62136cef = <b>MODELLED</b> Mõõdetud ADEV sisestus (NNLS), kompromissitabel (ajastuse/inertsiaalne holdover + kasu), vastupidavuse-ajas ümbris; põhjataseme hoiatus kantakse artefaktil kaasa.
 
 # text
-seg-b577b8464cf7 = <b>VALIDATED</b> Mõõdetud ADEV NNLS-sobitus, NEES/NIS χ² kooskõlavahemikud ja kella van-Loani diskreetse protsessimüra (holdover-libisemise) kovariatsioon — kompromissimootori arvutuslik. Oraakel (sõltumatu etalon; ExternalDataset): scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q täpne, χ² <{ "5e-4" } töö vabadusastmetel. Ainult tuumad — seadme jõudlusnumbrid jäävad modelleeritud tasemele (järgmine rida)
+seg-b577b8464cf7 = <b>VALIDATED</b> Mõõdetud ADEV NNLS-sobitus, NEES/NIS χ² kooskõlavahemikud ja kella van-Loani diskreetse protsessimüra (holdover-libisemise) kovariatsioon — kompromissimootori arvutuslik. Sõltumatu etalon (sõltumatu etalon; ExternalDataset): scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q täpne, χ² <{ "5e-4" } töö vabadusastmetel. Ainult tuumad — seadme jõudlusnumbrid jäävad modelleeritud tasemele (järgmine rida)
 
 # text
-seg-6b8aa8cd6d3e = <b>MODELLED</b> Mõõdetud ADEV sisestus (NNLS), kompromissitabel (ajastuse/inertsiaalne holdover + kasu), vastupidavuse-ajas ümbris; põhjataseme hoiatus kantakse artefaktil kaasa. Käivitatav alates. Oraakel (sõltumatu etalon; ExternalDataset): mõõdetud ADEV→PSD sobituse (NNLS) tuum ühtib scipy.optimize.nnls-iga (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — sõltumatu väline tuum; kuid kompromissi ARVUD kvantifitseerivad (mitte kunagi ei valideeri) partneri kella/CAI-d, mistõttu kompromiss ise jääb MODELLED, ilma valideerimise sära
+seg-6b8aa8cd6d3e = <b>MODELLED</b> Mõõdetud ADEV sisestus (NNLS), kompromissitabel (ajastuse/inertsiaalne holdover + kasu), vastupidavuse-ajas ümbris; põhjataseme hoiatus kantakse artefaktil kaasa. Käivitatav alates. Sõltumatu etalon (sõltumatu etalon; ExternalDataset): mõõdetud ADEV→PSD sobituse (NNLS) tuum ühtib scipy.optimize.nnls-iga (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — sõltumatu väline tuum; kuid kompromissi ARVUD kvantifitseerivad (mitte kunagi ei valideeri) partneri kella/CAI-d, mistõttu kompromiss ise jääb MODELLED, ilma valideerimise sära
 
 # text
 # c1: label

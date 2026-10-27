@@ -114,7 +114,7 @@ seg-d5640ad2cd08 = <c1/> (vaikimisi) võtab tabeli { "1" } vahemikus { "1800" } 
 # text
 # c1: tests/fixtures/solar_system/
 # c2: cargo test --test solar_system_horizons_reference -- --nocapture
-seg-912a2223e495 = Oraakel (sõltumatu etalon) on JPL Horizons (<a1>https://ssd.jpl.nasa.gov/horizons/</a1>, Development Ephemeris DE441), küsitud vektorid on kirjutatud sisse kataloogi <c1/>. Planeedi rida on VALIDATED seal, kus see jääb Standishi lehe enda nominaalvea kahekordse piiresse. Mõõdab <c2/>:
+seg-912a2223e495 = Sõltumatu etalon on JPL Horizons (<a1>https://ssd.jpl.nasa.gov/horizons/</a1>, Development Ephemeris DE441), küsitud vektorid on kirjutatud sisse kataloogi <c1/>. Planeedi rida on VALIDATED seal, kus see jääb Standishi lehe enda nominaalvea kahekordse piiresse. Mõõdab <c2/>:
 
 # text
 seg-d8bbd5e4f483 = Tabel { "1" }, Merkuurist Saturnini ja Maa–Kuu baarütsenter, { "12" } epohhi aastatel { "1800" } kuni { "2049" }: halvim { "1.87" } korda nominaalviga (Saturni kaugus).

@@ -58,7 +58,7 @@ seg-b745d05e2bf1 = <b><c1/></b> — see stsenaarium ei seadista rünnakut, seega
 seg-510e1cd8ed40 = <b><c1/></b> — siin on see <em>filtri enda kooskõla</em> (Kalmani filtri enda k-sigma piirides olevate katkestuse näidiste osa), <b>mitte</b> lennunduse horisontaalne ega vertikaalne kaitsetase (HPL/VPL). Vt <a1><c2/></a1>.
 
 # text
-seg-7cc0ba5e5d13 = Mitte-ringsõltuv oraakel (sõltumatu etalon): miks { "2610" } s CSAC jaoks?
+seg-7cc0ba5e5d13 = Mitte-ringsõltuv sõltumatu etalon: miks { "2610" } s CSAC jaoks?
 
 # text
 # c1: q_wf = σ_y(1 s)²
@@ -94,7 +94,7 @@ seg-8e570268f107 = <c1/> (peab vastu kogu katkestuse),
 
 # text
 # c1: classical holdover ∈ [2000, 3200] s
-seg-d60483c1af2e = <c1/> — taluvusvahemik SP-1065 valge-FM mõõtkava ümber, <em>mitte</em> maagiline arv. Sõltumatu etalon (oraakel) on seadus, mitte väärtus.
+seg-d60483c1af2e = <c1/> — taluvusvahemik SP-1065 valge-FM mõõtkava ümber, <em>mitte</em> maagiline arv. Sõltumatu etalon (sõltumatu etalon) on seadus, mitte väärtus.
 
 # text
 seg-e5f926d1055b = Lõksud ja ühikud

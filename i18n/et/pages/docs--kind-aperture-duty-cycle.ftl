@@ -59,7 +59,7 @@ seg-a8b38ed8e029 = Diagramm, mille mootor kirjutab failile scenarios/aperture-du
 seg-4636d450ef60 = <b>MODELLED</b> Üks jooks võtab kontaktiplaani (aos_s/los_s akende loend, millest igaüks küsib apertuurilt navigatsiooni või sidet — sama akende sõnavara, mida annab <c1/>, teisendatud funktsiooniga <c2/>), apertuuri
 
 # text
-seg-7a5aa78533d3 = <b>MODELLED</b> Üks jooks võtab kontaktiplaani (aos_s/los_s akende loend, millest igaüks küsib apertuurilt navigatsiooni või sidet — sama akende sõnavara, mida annab `passes::pre. Oraakel (sõltumatu etalon) (InternalConsistency): Sisemine kooskõla kolmest suurusest, mis on arvutatud samas pühkimises erinevate avaldistega ja millelt seejärel nõutakse sulgumist. Navigatsiooni apertuurisekundid, side apertuurisekundid ja jõudeoleku apertuurisekundid akumuleeritakse eraldi — jõudeolek (apertures − |served|) järgi elementaarintervalli kohta, mitte kunagi jäägina — ja nende summat kontrollitakse suhte apertures × horizon_s vastu, mida valesti sulgenud piir, topelt-c
+seg-7a5aa78533d3 = <b>MODELLED</b> Üks jooks võtab kontaktiplaani (aos_s/los_s akende loend, millest igaüks küsib apertuurilt navigatsiooni või sidet — sama akende sõnavara, mida annab `passes::pre. Sõltumatu etalon (InternalConsistency): Sisemine kooskõla kolmest suurusest, mis on arvutatud samas pühkimises erinevate avaldistega ja millelt seejärel nõutakse sulgumist. Navigatsiooni apertuurisekundid, side apertuurisekundid ja jõudeoleku apertuurisekundid akumuleeritakse eraldi — jõudeolek (apertures − |served|) järgi elementaarintervalli kohta, mitte kunagi jäägina — ja nende summat kontrollitakse suhte apertures × horizon_s vastu, mida valesti sulgenud piir, topelt-c
 
 # text
 # c1: label

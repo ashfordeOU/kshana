@@ -13,7 +13,7 @@ seg-1c1eeb2dcaa0 = Perekonna leht: <a1>Kuu ja tsislunaarne ruum</a1>
 seg-619127334cf3 = Ükski maatriksirida ei nimeta seda liiki nimepidi; selle tulemuse silt on mootori enda, ülal.
 
 # text
-seg-49f323360dc3 = <b>VALIDATED</b> 7-parameetriline Helmerti datumi sobitus + ICRF orientatsiooniside punktivõrgust. Oraakel (sõltumatu etalon) (ExternalDataset): Sõltumatu suletud kujul kaalutud Umeyama (Horn) sarnasusteisenduse lahendaja (numpy/scipy SVD-põhine; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — kshana iteratiivsest Gaussi–Newtoni sobitusest erinev algoritm, mis jõuab samale üheselt määratletud kaalutud vähimruutude optimumile baidiidentsetel punktivõrkudel
+seg-49f323360dc3 = <b>VALIDATED</b> 7-parameetriline Helmerti datumi sobitus + ICRF orientatsiooniside punktivõrgust. Sõltumatu etalon (ExternalDataset): Sõltumatu suletud kujul kaalutud Umeyama (Horn) sarnasusteisenduse lahendaja (numpy/scipy SVD-põhine; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — kshana iteratiivsest Gaussi–Newtoni sobitusest erinev algoritm, mis jõuab samale üheselt määratletud kaalutud vähimruutude optimumile baidiidentsetel punktivõrkudel
 
 # text
 # c1: docs/kinds/by-kind/lunar-frame-realisation.md

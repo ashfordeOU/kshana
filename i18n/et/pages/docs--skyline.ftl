@@ -16,7 +16,7 @@ seg-2bd2101ce454 = Pind
 seg-ad856ad710eb = Staatus
 
 # text
-seg-cbf0f9bcd2d8 = Oraakel (sõltumatu etalon)
+seg-cbf0f9bcd2d8 = Sõltumatu etalon
 
 # text
 seg-6e0cb6acc073 = VALIDATED
@@ -505,7 +505,7 @@ seg-8e3953481bbf = koostis: eelseade levitamine representatiivse taevani, Monte 
 
 # text
 # c1: [skyline]
-seg-e8eec007c6b9 = Jaotise <c1/> puudumist kontrollitakse bait baidi haaval väljundite { "0.35.0" } vastu, mis näitab tagasiühilduvust ega kinnita midagi. gnss_lib_py rakendab ainult ühte kõrgusnurga maski, seega on see siin DOP-i oraakel (sõltumatu etalon), mitte maski sõltumatu etalon.
+seg-e8eec007c6b9 = Jaotise <c1/> puudumist kontrollitakse bait baidi haaval väljundite { "0.35.0" } vastu, mis näitab tagasiühilduvust ega kinnita midagi. gnss_lib_py rakendab ainult ühte kõrgusnurga maski, seega on see siin DOP-i sõltumatu etalon, mitte maski sõltumatu etalon.
 
 # text
 seg-d5894e54715b = Mida horisondijoon ei modelleeri: difraktsioon seina serva kohal, peegeldused ja otsenähtavuseta signaalid, mida tegelik vastuvõtja võib siiski jälgida (need jäetakse välja, mitte ei halvendata), osaline läbipaistvus (võrkkraana on kogu oma sektoris läbipaistmatu), antud punktidest kaugemal olev maastik ning Maa kõverus kanjoni- ja sektorivormides.

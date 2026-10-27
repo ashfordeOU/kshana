@@ -4,7 +4,7 @@
 seg-cae10fb9bff8 = Stsenaarium
 
 # text
-seg-cbf0f9bcd2d8 = Oraakel (sõltumatu etalon)
+seg-cbf0f9bcd2d8 = Sõltumatu etalon
 
 # text
 seg-6e0cb6acc073 = VALIDATED
@@ -75,7 +75,7 @@ seg-59cebed2f589 = Kõigi LEO-PNT liikide ja stsenaariumide ülevaade: <a1>LEO-P
 # text
 # c1: tests/leo_link_reference.rs
 # c2: tests/fixtures/leo_link/
-seg-9646ce17cddf = Oraaklid (sõltumatud etalonid): <a1><c1/></a1>, testandmed kataloogis <c2/> koos nende allika URL-idega.
+seg-9646ce17cddf = Sõltumatud etalonid (sõltumatud etalonid): <a1><c1/></a1>, testandmed kataloogis <c2/> koos nende allika URL-idega.
 
 # text
 seg-c1020ac47091 = Mida üks käivitus arvutab

@@ -623,7 +623,7 @@ seg-4798bca2d7a7 = MODELLED: <a1>kontrollimaatriksi</a1> read, mis nimetavad sed
 seg-6338a873ee85 = Read, mida käivitus ise kasutas, koos sõltumatu etaloniga, mille maatriks igaühele annab (avalikud allikad on seal nimetatud):
 
 # text
-seg-fe24dcc6971f = <b>MODELLED</b> Deterministlikud, stsenaariumi räsiga, SBOM-i + platvormideülesed golden-väravad. Oraakel (sõltumatu etalon) (ExternalDataset): SBOM-i standardi järgimine ametliku CycloneDX-i { "1.5" } JSON-skeemi suhtes (+ kehtivad SPDX-i identifikaatorid) — väline avaldatud standard, null valideerimisviga kogu sõltuvusgraafil; FoM-i determinismi / baitide tasemel reprodutseeritavuse osa jääb fikseeritud sisemise kooskõla kontrolliks, mistõttu rida jääb MODELLED
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministlikud, stsenaariumi räsiga, SBOM-i + platvormideülesed golden-väravad. Sõltumatu etalon (ExternalDataset): SBOM-i standardi järgimine ametliku CycloneDX-i { "1.5" } JSON-skeemi suhtes (+ kehtivad SPDX-i identifikaatorid) — väline avaldatud standard, null valideerimisviga kogu sõltuvusgraafil; FoM-i determinismi / baitide tasemel reprodutseeritavuse osa jääb fikseeritud sisemise kooskõla kontrolliks, mistõttu rida jääb MODELLED
 
 # text
 seg-1fc08d2f0209 = Mida jooksu oma aruanne ütleb, et pole modelleeritud või valideeritud:

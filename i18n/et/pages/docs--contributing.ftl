@@ -74,7 +74,7 @@ seg-d30cb836d4c4 = <b>Valideeri standardse seose vastu,</b> mitte ainult sisemis
 # c5: docs/MODELLED-RATIONALE.md
 # c6: web/data/verification-matrix.json
 # c7: docs/VALIDATION.md
-seg-b52dd0dd550e = <b>Ole küpsuse osas aus.</b> Olekuregister on <c1/> — lisa või muuda seal rida, nimeta selle väline oraakel (sõltumatu etalon) (või ütle selgelt, et seda pole, mis teeb selle tasemeks <c2/>), seejärel genereeri avaldatud artefaktid uuesti käsuga <c3/>. <c4/>, <c5/> ja <c6/> on kõik genereeritud sellest funktsioonist ja ütlevad põhjusega „ära redigeeri käsitsi“. Uuenda ka narratiivi <c7/>, kui proosa seda vajab, ning märgi sihtmärgid või maapealsete demonstraatorite tulemused sellisena.
+seg-b52dd0dd550e = <b>Ole küpsuse osas aus.</b> Olekuregister on <c1/> — lisa või muuda seal rida, nimeta selle väline sõltumatu etalon (või ütle selgelt, et seda pole, mis teeb selle tasemeks <c2/>), seejärel genereeri avaldatud artefaktid uuesti käsuga <c3/>. <c4/>, <c5/> ja <c6/> on kõik genereeritud sellest funktsioonist ja ütlevad põhjusega „ära redigeeri käsitsi“. Uuenda ka narratiivi <c7/>, kui proosa seda vajab, ning märgi sihtmärgid või maapealsete demonstraatorite tulemused sellisena.
 
 # text
 seg-34b9c8b6f70c = Testipõhine: kirjuta kõigepealt ebaõnnestuv test, oodatava väärtusega, mis on füüsikast/seosest <b>käsitsi tuletatud</b> enne realiseerimist.

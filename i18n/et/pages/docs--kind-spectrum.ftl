@@ -4,7 +4,7 @@
 seg-37d16b499bc5 = dB
 
 # text
-seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-cb91473bfdda = Teemaleht: <a1>LEO-PNT.md</a1>
@@ -83,15 +83,15 @@ seg-7e315c5675d0 = <b>MODELLED</b> Liik <c1/>: sageduse-ajas ruudustik L-riba v�
 seg-7871f9f54ef4 = <b>VALIDATED</b> sigmf: Signal Metadata Format salvestiste lugemine ja kirjutamine (JSON .sigmf-meta koos põhiliste global-, captures- ja annotations-väljadega; töötlemata .sigmf-data kujul cf32_le, ci16_le või ci8, täisarvuliste dekooderitega, mida jagatakse realdata::iqif::load_iq-iga), kõik s
 
 # text
-seg-4e35cc861b15 = <b>VALIDATED</b> Ühikalaga võimsusspektri tihedused: GPS L1 C/A ja L2C (BPSK({ "1" })), GPS L5 ja Galileo E5a (BPSK({ "10" })), siinus-BOC({ "1,1" }) ja Galileo E1 MBOC(6,1,1/11) (navsignal::M. Oraakel (sõltumatu etalon; ExternalDataset): avaldatud õpikuväärtused: BPSK(n) peakast 2n x { "1.023" } MHz nullist nullini ja segamisvastased koefitsiendid Q = { "1" } kitsaribalise (CW) segaja jaoks ning Q = { "1.5" } C/A-le sobitatud hajaspektrisegaja jaoks (Kaplan & Hegarty, Understanding GPS/GNSS, 3. väljaanne, jaotis { "9.4" }); BOC(m,n) peakastid keskmega kohal pluss-miinus m x { "1.023" } MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION { "48" }({ "4" }), { "2001" }); the
+seg-4e35cc861b15 = <b>VALIDATED</b> Ühikalaga võimsusspektri tihedused: GPS L1 C/A ja L2C (BPSK({ "1" })), GPS L5 ja Galileo E5a (BPSK({ "10" })), siinus-BOC({ "1,1" }) ja Galileo E1 MBOC(6,1,1/11) (navsignal::M. Sõltumatu etalon (sõltumatu etalon; ExternalDataset): avaldatud õpikuväärtused: BPSK(n) peakast 2n x { "1.023" } MHz nullist nullini ja segamisvastased koefitsiendid Q = { "1" } kitsaribalise (CW) segaja jaoks ning Q = { "1.5" } C/A-le sobitatud hajaspektrisegaja jaoks (Kaplan & Hegarty, Understanding GPS/GNSS, 3. väljaanne, jaotis { "9.4" }); BOC(m,n) peakastid keskmega kohal pluss-miinus m x { "1.023" } MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION { "48" }({ "4" }), { "2001" }); the
 
 # text
 # c1: spectrum
 # c2: jamming
-seg-287de49e90a8 = <b>MODELLED</b> Liik <c1/>: sageduse-ajas ruudustik L-riba võimsusspektri tihedusest (termiline põhjatase k T_sys, kus T_sys = T_ant + { "290" } K (F - { "1" }), signaalid. Oraakel (sisemine kooskõla; InternalConsistency): taandamine olemasoleva liigi <c2/> segamisvastasele võrrandile ja lingieelarvele (sama kood, kutsutud samadel sisenditel) ning k T0 F müra põhjataseme kinnisele kujule. Aluseks olevad signaalispektrid on ülalolev valideeritud rida; segajate võimsused, ajajoon ja sisendotsa ribalaiused on stsenaariumi sisendid, spektrid on pidevad (hajutuskoodi jooni ei ole) ning segajale ei mõju automaatne võimenduse reguleerimine, blankimine ega antennidiagramm
+seg-287de49e90a8 = <b>MODELLED</b> Liik <c1/>: sageduse-ajas ruudustik L-riba võimsusspektri tihedusest (termiline põhjatase k T_sys, kus T_sys = T_ant + { "290" } K (F - { "1" }), signaalid. Sõltumatu etalon (sisemine kooskõla; InternalConsistency): taandamine olemasoleva liigi <c2/> segamisvastasele võrrandile ja lingieelarvele (sama kood, kutsutud samadel sisenditel) ning k T0 F müra põhjataseme kinnisele kujule. Aluseks olevad signaalispektrid on ülalolev valideeritud rida; segajate võimsused, ajajoon ja sisendotsa ribalaiused on stsenaariumi sisendid, spektrid on pidevad (hajutuskoodi jooni ei ole) ning segajale ei mõju automaatne võimenduse reguleerimine, blankimine ega antennidiagramm
 
 # text
-seg-4eca77cc59c4 = <b>VALIDATED</b> sigmf: Signal Metadata Format salvestiste lugemine ja kirjutamine (JSON .sigmf-meta koos põhiliste global-, captures- ja annotations-väljadega; töötlemata .sigmf-data kujul cf32_le, ci1. Oraakel (sõltumatu etalon; ExternalDataset): scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) sama perioodilise Hanni akna, kattuvuse, tiheduse skaleerimise, trendi eemaldamiseta ja kahepoolse keskmise keskmistamisega: iga bin suhtelise täpsusega { "1e-12" } (täheldatud { "6.0e-14" }) { "27" } juhul, kusjuures segmentide arvud on võetud scipy enda spektrogrammist. sigmf-python { "1.13.0" } (LGPL-3.0, käivitatud tööriistana) kirjutab viis kolmanda osapoole salvestist (cf32_le, ci16_le, ci8, kaks annotatsioonidega salvestust, nullist erinev fir
+seg-4eca77cc59c4 = <b>VALIDATED</b> sigmf: Signal Metadata Format salvestiste lugemine ja kirjutamine (JSON .sigmf-meta koos põhiliste global-, captures- ja annotations-väljadega; töötlemata .sigmf-data kujul cf32_le, ci1. Sõltumatu etalon (sõltumatu etalon; ExternalDataset): scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) sama perioodilise Hanni akna, kattuvuse, tiheduse skaleerimise, trendi eemaldamiseta ja kahepoolse keskmise keskmistamisega: iga bin suhtelise täpsusega { "1e-12" } (täheldatud { "6.0e-14" }) { "27" } juhul, kusjuures segmentide arvud on võetud scipy enda spektrogrammist. sigmf-python { "1.13.0" } (LGPL-3.0, käivitatud tööriistana) kirjutab viis kolmanda osapoole salvestist (cf32_le, ci16_le, ci8, kaks annotatsioonidega salvestust, nullist erinev fir
 
 # text
 # c1: not_modelled[0]

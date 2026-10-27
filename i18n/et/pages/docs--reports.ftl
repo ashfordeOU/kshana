@@ -117,7 +117,7 @@ seg-4271c092fa45 = stsenaariumitabelid väljadega <c1/>/<c2/>, <c3/>/<c4/>, <c5/
 seg-00bee96167aa = Kontrollimarkeerid
 
 # text
-seg-6dea392111a6 = iga kontrollimaatriksi rida, mida jooksu liigid rakendavad, koos selle sildi, oraakli (sõltumatu etalon) ja testitõendiga ning tulemuse esitatud arvukohaste tasemetega
+seg-6dea392111a6 = iga kontrollimaatriksi rida, mida jooksu liigid rakendavad, koos selle sildi, sõltumatu etaloni ja testitõendiga ning tulemuse esitatud arvukohaste tasemetega
 
 # text
 # c1: src/verification.rs

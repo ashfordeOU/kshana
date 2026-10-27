@@ -14,7 +14,7 @@ seg-94058315dfe4 = Sisend
 seg-09721fbcf7fc = Allikas: <c1/>
 
 # text
-seg-5b362d7b0903 = Kshana on avatud, reprodutseeritav <b>PNT (positsioneerimine, navigatsioon ja aeg) vastupidavuse tõendimootor</b>. Kirjeldatakse stsenaarium — andurid või kellad, GNSS-i (ülemaailmse satelliitnavigatsioonisüsteemi) katkestus, segamis- või spuufimisrünnak, eelarve — ja mootor ütleb, kui hästi aeg ja asukoht vastu peavad, hinnatuna operatiivsete kvaliteedinäitajate (FoM) vastu. Iga nende arvude taga olev võimekus on masinkontrollitud maatriksis märgitud kui <b>VALIDATED</b> (kontrollitud sõltumatu välise oraakli (sõltumatu etalon) vastu), <b>MODELLED</b> (sisemiselt kooskõlas, väliselt kontrollimata) või <b>PARTNER</b> (kuulub riistvarapartnerile). See leht ütleb, kus see juhib, milleks see on ja mis see ei ole.
+seg-5b362d7b0903 = Kshana on avatud, reprodutseeritav <b>PNT (positsioneerimine, navigatsioon ja aeg) vastupidavuse tõendimootor</b>. Kirjeldatakse stsenaarium — andurid või kellad, GNSS-i (ülemaailmse satelliitnavigatsioonisüsteemi) katkestus, segamis- või spuufimisrünnak, eelarve — ja mootor ütleb, kui hästi aeg ja asukoht vastu peavad, hinnatuna operatiivsete kvaliteedinäitajate (FoM) vastu. Iga nende arvude taga olev võimekus on masinkontrollitud maatriksis märgitud kui <b>VALIDATED</b> (kontrollitud sõltumatu välise sõltumatu etaloni vastu), <b>MODELLED</b> (sisemiselt kooskõlas, väliselt kontrollimata) või <b>PARTNER</b> (kuulub riistvarapartnerile). See leht ütleb, kus see juhib, milleks see on ja mis see ei ole.
 
 # text
 seg-48d576a345e3 = Kus see juhib: ajastus ja holdover kriitilise taristu jaoks
@@ -126,7 +126,7 @@ seg-ca243f3f8e8d = <b>See ei asenda MATLAB/Simulinkit, STK-d ega Orekiti.</b> Se
 seg-8fa4e93c3d0e = <b>See ei ole kandelaine faasiga GNSS-i töötlusmootor ega positsioneerimisteenus</b> (vt allpool).
 
 # text
-seg-8ba4b67bc813 = <b>See ei ole sertifitseerimisasutus.</b> Silt VALIDATED tähendab, et võimekus vastab välisele oraaklile (sõltumatu etalon); see ei ole ühegi toote ega operaatori sertifitseerimine.
+seg-8ba4b67bc813 = <b>See ei ole sertifitseerimisasutus.</b> Silt VALIDATED tähendab, et võimekus vastab välisele sõltumatule etalonile; see ei ole ühegi toote ega operaatori sertifitseerimine.
 
 # text
 seg-362b857140b9 = Mis Kshana on ja ei ole GNSS-i töötlusmootori kõrval

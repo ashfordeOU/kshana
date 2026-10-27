@@ -514,7 +514,7 @@ seg-fdd71491d5b0 = Pideva integratsiooni staatus harus main
 seg-fa8a7ec005a9 = Reakatvus ligikaudu { "95" } % kaustast src/, mõõdetud failis docs/COVERAGE.md ja nõutav { "85" } % pidevas integratsioonis
 
 # text
-seg-af101c048e7e = { "176" } võimekust { "388" }-st VALIDATED sõltumatu välise oraakli (sõltumatu etaloni) vastu, kontrollimaatriksist
+seg-af101c048e7e = { "176" } võimekust { "388" }-st VALIDATED sõltumatu välise sõltumatu etaloni vastu, kontrollimaatriksist
 
 # text
 seg-6499faeb5966 = SonarQube Cloudi kvaliteedivärava staatus
@@ -571,7 +571,7 @@ seg-371775dc255d = <a1>Teatmik</a1>: kasutus, stsenaariumi vorming, väljund, re
 seg-b48beb2ab181 = Kshana taasesitab segamist, spuufimist ja kella holdover-it (aja hoidmine ilma välise etalonita), kui GNSS-i (ülemaailmse satelliitnavigatsioonisüsteemi) signaalid ebaõnnestuvad, ning ütleb, kui kaua süsteem hoiab aega ja asukohta oma eelarve piires ning milline kell või andur toob kõige rohkem varu. See on üks Rusti mootor. See töötab terminalis, märkmikus, IDE-s (integreeritud arenduskeskkond), tehisintellekti (AI) assistendis või brauseris.
 
 # text
-seg-fc81e99583fe = Iga käitus on reprodutseeritav bitthaaval stsenaariumist, algväärtusest (seed) ja mootori versioonist lähtudes. Iga võimekus kannab masinkontrollitud registris (ledger) ühte kolmest sildist: <b>VALIDATED</b> (sõltumatu väline oraakel (sõltumatu etalon) nõustub), <b>MODELLED</b> (sisemiselt kooskõlas ja see on öeldud välja) või <b>PARTNER</b> (selle eest vastutab riistvarapartner).
+seg-fc81e99583fe = Iga käitus on reprodutseeritav bitthaaval stsenaariumist, algväärtusest (seed) ja mootori versioonist lähtudes. Iga võimekus kannab masinkontrollitud registris (ledger) ühte kolmest sildist: <b>VALIDATED</b> (sõltumatu väline sõltumatu etalon nõustub), <b>MODELLED</b> (sisemiselt kooskõlas ja see on öeldud välja) või <b>PARTNER</b> (selle eest vastutab riistvarapartner).
 
 # text
 seg-f2bf8028e0d4 = <b>Staatus: v{ $version }.</b> Valideeritud, reprodutseeritav simulatsioonialus PNT vastupidavuse jaoks. Ajastus ja holdover tulevad esimesena, sest see valdkond on kõige paremini valideeritud. Kshana on uuringu- ja kompromissivahend: mitte raadiosageduslik (RF) signaaligeneraatori riistvara (see ei juhi raadiot ega edasta midagi; selle signaalitaseme väljund on baasriba IQ-valimifailid tarkvaravastuvõtjatele), mitte riistvaraline ega sertifitseeritud GNSS-i vastuvõtja (selle tarkvaravastuvõtja on analüüsivahend) ja mitte lennutoode. Valdkonnaga uus? Alustuseks vt <a1>lihtkeelset sissejuhatust</a1> ja <a2>sõnastikku</a2>.
@@ -1648,22 +1648,22 @@ seg-36d838421b86 = Kas ma saan PNT tulemust reprodutseerida, laiendada ja tsitee
 seg-e31cf348fc57 = SGP4 kontrollitud kõigi { "666" } AIAA 2006-6753 etalonvektoriga, halvim asukohaviga { "4.12" } mm
 
 # text
-seg-707e2cf795f6 = <b>{ "176" } võimekust { "388" }-st</b> valideeritud sõltumatute väliste oraaklite (sõltumatu etalon) vastu; { "208" } on ausalt märgitud modelleeritud. Kontrollimaatriksi iga rida nimetab võimekuse, sõltumatu etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli käivitab, ning sellele järgneva sildi. Pidev integratsioon (CI) teeb võimatuks nimetada võimekust sildiga VALIDATED ilma sõltumatu välise etalonita.
+seg-707e2cf795f6 = <b>{ "176" } võimekust { "388" }-st</b> valideeritud sõltumatute väliste sõltumatute etalonide vastu; { "208" } on ausalt märgitud modelleeritud. Kontrollimaatriksi iga rida nimetab võimekuse, sõltumatu etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli käivitab, ning sellele järgneva sildi. Pidev integratsioon (CI) teeb võimatuks nimetada võimekust sildiga VALIDATED ilma sõltumatu välise etalonita.
 
 # attr:alt
-seg-2f81cf391eae = Kuidas võimekus oma sildi teenib. Kontrollimaatriksi iga rida nimetab võimekuse, oraakli (sõltumatu etalon), mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ning sellele järgneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiringud, partii/järjestikune OD, etalon AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Hetkearvud: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER { "388" } reast. Kokku { "176" } võimekust valideeritud sõltumatute väliste etalonide vastu; veel { "208" } on ausalt märgitud MODELLED ja { "4" } kuuluvad rühma PARTNER.
+seg-2f81cf391eae = Kuidas võimekus oma sildi teenib. Kontrollimaatriksi iga rida nimetab võimekuse, sõltumatu etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ning sellele järgneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiringud, partii/järjestikune OD, etalon AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Hetkearvud: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER { "388" } reast. Kokku { "176" } võimekust valideeritud sõltumatute väliste etalonide vastu; veel { "208" } on ausalt märgitud MODELLED ja { "4" } kuuluvad rühma PARTNER.
 
 # text
 seg-23d73e23b368 = Read
 
 # text
-seg-d16e0aac11d5 = sõltumatu väline oraakel (sõltumatu etalon) nõustub: päris andmed, sõltumatu teostus või avaldatud etalonvektorid
+seg-d16e0aac11d5 = sõltumatu väline sõltumatu etalon nõustub: päris andmed, sõltumatu teostus või avaldatud etalonvektorid
 
 # text
 seg-0c1beb3b59cc = kontrollitud analüütilise tõe või simulatsiooni sisemise kooskõla vastu ja see on öeldud välja
 
 # text
-seg-9dd73106acfc = kuulub riistvarapartnerile; Kshanal pole selle jaoks oraaklit (sõltumatut etaloni)
+seg-9dd73106acfc = kuulub riistvarapartnerile; Kshanal pole selle jaoks sõltumatut etaloni
 
 # text
 # c1: src/
@@ -1709,13 +1709,13 @@ seg-557da03648c5 = Iga rida jõustatakse CI-s nimetatud testiga. See tabel on <b
 # c1: CI
 # c2: tests/fixtures/
 # c3: scripts/fetch_*.sh
-seg-bae9b226350a = Veerg <b>Staatus</b> ütleb tõendi <em>liigi</em>, vastavalt ülal olevale valideerimisredelile: <b>VALIDATED</b> = kontrollitud sõltumatu välise oraakli (sõltumatu etalon) vastu (päris andmed, sõltumatu teek või avaldatud etalonvektorid); <b>MODELLED</b> = kontrollitud analüütilise tõe või simulatsiooni sisemise kooskõla vastu (sõltumatut välist andmestikku pole). VALIDATED kirjeldab kontrollimise <em>meetodit</em>, mitte läbimist/kukkumist — aus möödalask päris välise etaloni vastu jääb sildiks VALIDATED, samas kui võrdlus, mida ükski maatriksirida sõltumatuks etaloniks ei nimeta (ülal olev LRO — Lunar Reconnaissance Orbiter — sobitus), on näidatud kui MODELLED. <c1/> read on protsessikaitsed, mitte kvaliteedinäitajad. Mõned päris andmete saared (mõõdetud tseesiumkell, Stable32 PHASE.DAT ning OPS-SAT/ICGEM kontrollid, kus toorsisenditel puudub levitamisluba) on <b>andmetega piiratud</b>: test prindib vahelejätu teate ja jääb roheliseks, kui sisend puudub, ning avalikud etalonarvud on kinnitatud kataloogi <c2/>. Toorsisendid saab taasluua vastava skriptiga <c3/>.
+seg-bae9b226350a = Veerg <b>Staatus</b> ütleb tõendi <em>liigi</em>, vastavalt ülal olevale valideerimisredelile: <b>VALIDATED</b> = kontrollitud sõltumatu välise sõltumatu etaloni vastu (päris andmed, sõltumatu teek või avaldatud etalonvektorid); <b>MODELLED</b> = kontrollitud analüütilise tõe või simulatsiooni sisemise kooskõla vastu (sõltumatut välist andmestikku pole). VALIDATED kirjeldab kontrollimise <em>meetodit</em>, mitte läbimist/kukkumist — aus möödalask päris välise etaloni vastu jääb sildiks VALIDATED, samas kui võrdlus, mida ükski maatriksirida sõltumatuks etaloniks ei nimeta (ülal olev LRO — Lunar Reconnaissance Orbiter — sobitus), on näidatud kui MODELLED. <c1/> read on protsessikaitsed, mitte kvaliteedinäitajad. Mõned päris andmete saared (mõõdetud tseesiumkell, Stable32 PHASE.DAT ning OPS-SAT/ICGEM kontrollid, kus toorsisenditel puudub levitamisluba) on <b>andmetega piiratud</b>: test prindib vahelejätu teate ja jääb roheliseks, kui sisend puudub, ning avalikud etalonarvud on kinnitatud kataloogi <c2/>. Toorsisendid saab taasluua vastava skriptiga <c3/>.
 
 # text
 seg-3242773b78ee = Nõusolek
 
 # text
-seg-57a8676b67dd = Etalon / oraakel (sõltumatu etalon)
+seg-57a8676b67dd = Etalon / sõltumatu etalon
 
 # text
 seg-40ac2ed0add0 = SGP4/SDP4 levitamine
@@ -1750,7 +1750,7 @@ seg-ea1d05c7dc4e = maks <c1/> → ≤ { "0.86" } m maapinnal, ≤ { "3.6" } m GN
 
 # text
 # c1: finals2000A
-seg-aff9d97f7ce7 = ANISE (puhas Rust, NAIF/SPICE), sama IERS-i <c1/> EOP, { "8" } epohhi { "2020" }–{ "2023" } (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise oraaklina (sõltumatu etalon), seega seda ei märgita sildiga VALIDATED)
+seg-aff9d97f7ce7 = ANISE (puhas Rust, NAIF/SPICE), sama IERS-i <c1/> EOP, { "8" } epohhi { "2020" }–{ "2023" } (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise sõltumatu etalonina, seega seda ei märgita sildiga VALIDATED)
 
 # text
 seg-ae3d9181e784 = EGM2008 geopotentsiaal (aste/järk { "70" })
@@ -1858,7 +1858,7 @@ seg-4baacfef5f63 = <b>{ "0.61" } m</b> 3-D RMS, { "24" } h, a/j-70, ainult jõud
 # text
 # c1: ESA0MGNFIN
 # c2: finals2000A
-seg-416d96a084a4 = ESA/ESOC <c1/> lõplik orbiit (E11), päris <c2/> EOP (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise oraaklina (sõltumatu etalon), seega seda ei märgita sildiga VALIDATED)
+seg-416d96a084a4 = ESA/ESOC <c1/> lõplik orbiit (E11), päris <c2/> EOP (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise sõltumatu etalonina, seega seda ei märgita sildiga VALIDATED)
 
 # text
 seg-f64134a379e8 = Jõumudeli sobitus Swarm-A täppisefemeriidiga (redutseeritud dünaamika)
@@ -1868,7 +1868,7 @@ seg-7a3bbdc1b4d2 = <b>{ "0.10" } m</b> 3-D RMS (empiirilise taseme piir, mitte m
 
 # text
 # c1: SW_OPER_SP3ACOM_2_
-seg-8b39060411d2 = ESA <c1/> täppisorbiit (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise oraaklina (sõltumatu etalon), seega seda ei märgita sildiga VALIDATED)
+seg-8b39060411d2 = ESA <c1/> täppisorbiit (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise sõltumatu etalonina, seega seda ei märgita sildiga VALIDATED)
 
 # text
 seg-96a65ffbcdf1 = Jõumudeli sobitus LRO Kuu andmetega (aus möödalask)
@@ -1878,7 +1878,7 @@ seg-55be30a240c6 = <b>{ "6.67" } m</b> redutseeritud dünaamika, <em>üle</em> {
 
 # text
 # c1: GRGM660PRIM
-seg-e411f5f7d92b = JPL Horizons LRO (NAIF −{ "85" }) + GRAIL (Gravity Recovery and Interior Laboratory) <c1/> (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise oraaklina (sõltumatu etalon), seega seda ei märgita sildiga VALIDATED)
+seg-e411f5f7d92b = JPL Horizons LRO (NAIF −{ "85" }) + GRAIL (Gravity Recovery and Interior Laboratory) <c1/> (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise sõltumatu etalonina, seega seda ei märgita sildiga VALIDATED)
 
 # text
 seg-074b044becde = Kaugkosmose Marsi OD (redutseeritud dünaamika SRIF)
@@ -1897,7 +1897,7 @@ seg-adb60c85d110 = <b>{ "137" } m @ 1-päevase kaarega</b> (kasvab kaarega = mod
 
 # text
 # c1: xval/anise-mars-od
-seg-061dd1977246 = JPL DE440 ANISE kaudu (<c1/>, tuumaga piiratud) (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise oraaklina (sõltumatu etalon), seega seda ei märgita sildiga VALIDATED)
+seg-061dd1977246 = JPL DE440 ANISE kaudu (<c1/>, tuumaga piiratud) (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise sõltumatu etalonina, seega seda ei märgita sildiga VALIDATED)
 
 # text
 seg-b8d68fa3256d = Ühepunktpositsioneerimine vs mõõdistatud IGS-i koordinaat (päris vaatlused)
@@ -1973,7 +1973,7 @@ seg-2b20e50d96d3 = konstellatsiooni hõlmav veaolek päris GPS-il ja Galileol
 
 # text
 # c1: gps-ops
-seg-79e43be132e8 = EL-i ARAIM TR (tehniline aruanne) / DO-316; Celestrak <c1/> 2021-07-28 (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise oraaklina (sõltumatu etalon), seega seda ei märgita sildiga VALIDATED)
+seg-79e43be132e8 = EL-i ARAIM TR (tehniline aruanne) / DO-316; Celestrak <c1/> 2021-07-28 (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise sõltumatu etalonina, seega seda ei märgita sildiga VALIDATED)
 
 # text
 seg-2c76bcdc9ffb = GNSS-i geomeetria / DOP (GDOP/PDOP/HDOP/VDOP/TDOP)
@@ -2118,10 +2118,10 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % rida</b> failis <c1/>, välja arvatud <c2/> ja
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM mootor)
 
 # attr:alt
-seg-9fcd5cdd129d = Kuidas võimekus oma sildi teenib: nõue viitab moodulile kataloogis src, testile kataloogis tests, välisele oraaklile (sõltumatu etalon; päris andmestik, sõltumatu etalonteostus või avaldatud vektorid), staatusele — CI-s jõustatud kaitsega, et ühtegi võimekust ei saa valideerida ilma välise oraaklita. Hetkearvud: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri, kokku { "388" }
+seg-9fcd5cdd129d = Kuidas võimekus oma sildi teenib: nõue viitab moodulile kataloogis src, testile kataloogis tests, välisele sõltumatule etalonile (sõltumatu etalon; päris andmestik, sõltumatu etalonteostus või avaldatud vektorid), staatusele — CI-s jõustatud kaitsega, et ühtegi võimekust ei saa valideerida ilma välise sõltumatu etalonita. Hetkearvud: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri, kokku { "388" }
 
 # text
-seg-5262ee45dd08 = Kuidas võimekus oma sildi teenib — CI-s jõustatud invariant: ei ole välist oraaklit (sõltumatu etalon) ⇒ ei saa olla valideeritud · <a1>SVG</a1>
+seg-5262ee45dd08 = Kuidas võimekus oma sildi teenib — CI-s jõustatud invariant: ei ole välist sõltumatut etaloni ⇒ ei saa olla valideeritud · <a1>SVG</a1>
 
 # attr:alt
 seg-452fea06dd30 = Kuidas iga väidet toetatakse: valideeritud veerg on konstruktsiooni järgi { "176" } { "176" }-st ExternalDataset (CI-s jõustatud); modelleeritud read on ausalt märgitud InternalConsistency, ReferenceImpl või ExternalDataset; partneri ridadel pole Kshana sõltumatut etaloni
@@ -2133,7 +2133,7 @@ seg-c550a4bde1ff = SGP4/SDP4 halvima juhu asukohaviga vs AIAA 2006-6753 etalon r
 seg-2ad422aac6a1 = Üleval: iga valideeritud rida on konstruktsiooni järgi toetatud välise andmestikuga. All: SGP4 kattub ametliku etaloniga igas režiimis (halvim { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
 
 # attr:alt
-seg-faadba4f1f85 = Kontrolli staatus kõigil { "388" } võimekusel: { "176" } valideeritud (kontrollitud välise oraakli (sõltumatu etalon) vastu), { "208" } modelleeritud, { "4" } partneri omandis
+seg-faadba4f1f85 = Kontrolli staatus kõigil { "388" } võimekusel: { "176" } valideeritud (kontrollitud välise sõltumatu etaloni vastu), { "208" } modelleeritud, { "4" } partneri omandis
 
 # text
 seg-6c1edff3e035 = { "176" } valideeritud · { "208" } modelleeritud · { "4" } partneri — <a1>SVG</a1>
@@ -2822,7 +2822,7 @@ seg-8e80d89eb666 = Näidisväljund (kella holdover — pane tähele, kuidas arua
 # c6: applicable: false
 # c7: spoof
 # c8: figure_tiers
-seg-6cec0f5c28ca = Optilise kella 95. protsentiili (p95) ajaviga on { "1.20e-4" } ns: kokkuvõte prindib väikesed väärtused tüvenumbritega, mitte ei ümarda neid väärtuseks <c1/>. <c2/> on siin <c3/>, sest see stsenaarium ei seadista rünnakut, seega pole midagi tuvastada. JSON-tulemus kannab siiski iga kella analüütilist spuufimise tuvastatavuse piiri failis <c4/> ({ "0.997" } optilisel kellal, { "0.000" } kiibimõõtmetega aatomkellal, mille enda müra seirenäitusel ületab { "20" } ns spetsifikatsiooni), ja selle <c5/> plokk märgib selle arvu <c6/>. Stsenaariumi liik <c7/> hindab tuvastamist sissepandud rünnaku vastu. <c8/> annab ka igale esitatud näitajale selle kontrolli taseme — VALIDATED (kontrollitud välise oraakli (sõltumatu etalon) vastu) või MODELLED — ja kontrollmaatriksi rea, millest tase loetakse. Orbiidistsenaarium annab lisaks geomeetriaploki — fiksiga valimite osa ning parim/mediaan asukoha täpsuse halvenemise tegur (PDOP) ja asukoha täpsus — kella tulemuse kõrval.
+seg-6cec0f5c28ca = Optilise kella 95. protsentiili (p95) ajaviga on { "1.20e-4" } ns: kokkuvõte prindib väikesed väärtused tüvenumbritega, mitte ei ümarda neid väärtuseks <c1/>. <c2/> on siin <c3/>, sest see stsenaarium ei seadista rünnakut, seega pole midagi tuvastada. JSON-tulemus kannab siiski iga kella analüütilist spuufimise tuvastatavuse piiri failis <c4/> ({ "0.997" } optilisel kellal, { "0.000" } kiibimõõtmetega aatomkellal, mille enda müra seirenäitusel ületab { "20" } ns spetsifikatsiooni), ja selle <c5/> plokk märgib selle arvu <c6/>. Stsenaariumi liik <c7/> hindab tuvastamist sissepandud rünnaku vastu. <c8/> annab ka igale esitatud näitajale selle kontrolli taseme — VALIDATED (kontrollitud välise sõltumatu etaloni vastu) või MODELLED — ja kontrollmaatriksi rea, millest tase loetakse. Orbiidistsenaarium annab lisaks geomeetriaploki — fiksiga valimite osa ning parim/mediaan asukoha täpsuse halvenemise tegur (PDOP) ja asukoha täpsus — kella tulemuse kõrval.
 
 # text
 seg-b1ceeefaa419 = Loe neid kahte arvu hoolikalt.
@@ -3358,7 +3358,7 @@ seg-0604447208bc = Modelleeritud põhjendus
 seg-a384286e1947 = ülevaatajatele
 
 # text
-seg-d434379a43d2 = miks igal <b>modelleeritud</b> real puudub väline oraakel (sõltumatu etalon), esitatud rida realt
+seg-d434379a43d2 = miks igal <b>modelleeritud</b> real puudub väline sõltumatu etalon, esitatud rida realt
 
 # text
 seg-8784e57fff56 = iga anduriparameeter, mudel ja andmestik, jälgitud oma avaldatud allikani, ühes tsiteeritavas tabelis
