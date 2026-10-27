@@ -2032,7 +2032,7 @@ dat-71ce324b5c15 = insinöörit, jotka haluavat kshana-komennon
 
 dat-400bc19c3a9f = Parannustekniikoiden mitä-jos-tarkastelut yhdelle ILLUSTRATIVE maa-asemalle: aallonpituuden muutos, suurempi
 
-dat-9a47544497fb = Ensemble-ajan vapaiden parametrien argumentti (Percival { "1978" }; Lewandowski & Thomas { "1991" }) sovellettuna edustavaan todelliseen DE440-pohjaiseen solmukohtaiseen verkkoon: analyyttisen yhteisnopeusgeneraattorin suhteellisen residuaalin nollatesti GᵀWG:tä vasten, ja ratkaisevaksi tehty kontrasti erottaa aidon mittapuun oskillaattorimallin artefaktista. Edustava Modelled-geometria, ei sertifioitu ajoitusbudjetti
+dat-9a47544497fb = Ensemble-ajan vapaiden parametrien argumentti (Percival { "1978" }; Lewandowski & Thomas { "1991" }) sovellettuna edustavaan todelliseen DE440-pohjaiseen solmukohtaiseen verkkoon: analyyttisen yhteisnopeusgeneraattorin suhteellisen residuaalin nollatesti GᵀWG:tä vasten, ja ratkaisevaksi tehty kontrasti erottaa aidon mittapuun oskillaattorimallin artefaktista. Edustava mallinnettu geometria, ei sertifioitu ajoitusbudjetti
 
 dat-c6e592f3097e = entry_eo_ascent::entry_heating::tests::heat_flux_relation_has_the_published_form_and_constants; entry_eo_ascent::entry_heating::tests::lift_lowers_peak_deceleration_and_heat_flux_of_a_shallow_entry; entry_eo_ascent::entry_heating::tests::mars_entry_runs_with_the_mars_constants; tests/entry_stardust_published.rs (kirjaa { "746" } W/cm2 Stardustille ilman kynnystä)
 
@@ -2320,7 +2320,7 @@ dat-74ed4850ce5d = geolocation::tests (kohinaton TDOA eteen→käänteinen tarkk
 
 dat-611e316455d9 = Geomagneettinen vertailukenttä (IGRF-14-synteesi)
 
-dat-b4ef2c21bc63 = Lohkoittaisen spark- / turvallisen tilaestimoinnin rajan geometrinen instantiointi (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; Donoho–Eladin lohkoittainen spark { "2003" }; Candès–Tao { "2005" }) — EI Lamport–Shostak–Peasen 3f+{ "1" } -konsensuskynnys ('Byzantine' nimeää vain mielivaltaisen/salaisesti yhteistyötä tekevän vikamallin). Tietty siedettyjen vikojen lukumäärä on edustavan verkkogeometrian Modelled-ominaisuus, jonka sisäisen johdonmukaisuuden tarkistavat käsin rakennetut analyyttiset tapaukset ja lukumääräkaavat
+dat-b4ef2c21bc63 = Lohkoittaisen spark- / turvallisen tilaestimoinnin rajan geometrinen instantiointi (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; Donoho–Eladin lohkoittainen spark { "2003" }; Candès–Tao { "2005" }) — EI Lamport–Shostak–Peasen 3f+{ "1" } -konsensuskynnys ('Byzantine' nimeää vain mielivaltaisen/salaisesti yhteistyötä tekevän vikamallin). Tietty siedettyjen vikojen lukumäärä on edustavan verkkogeometrian mallinnettu ominaisuus, jonka sisäisen johdonmukaisuuden tarkistavat käsin rakennetut analyyttiset tapaukset ja lukumääräkaavat
 
 dat-2b09848842ee = Auringon, Merkuriuksen, Venuksen, Maan ja Kuun geometriset sijainnit toistensa suhteen (J2000/ICRF-akselit, metreinä) JPL DE440 -kernelistä ephem_provider::KernelEphemeris-luokan kautta UTC-epookeilla: kappaleiden nimet kuvattu NAIF-koodeiksi, UTC kuljetettu karkaussekuntitaulukon läpi ja TT:stä TDB:ksi kaksitermisellä TDB-TT-sarjalla, kernelin lukee moottorin oma lukija. Kappale, jonka kernel sisältää vain järjestelmän barycentrenä (Marsista Neptunukseen, Pluto tiedostossa de440s), hylätään, ei koskaan korvata. Kernelitön Standish-rivi pysyy selaimen ja varapolun reittinä
 
@@ -3345,3 +3345,271 @@ dat-fde7ce482e65 = Valoaika aurinkokunnan kappaleiden välillä
 dat-0a8f41750e4f = Vertailukelpoinen optisen ja RF-etäisyysmittauksen vertailu
 
 dat-5110c76d9dec = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: tarkkuuteen { "1" } mm ja ajautuma tarkkuuteen { "1e-6" } m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: painotettu residuaalin RMS välillä [{ "0.8" }, { "1.2" }] ja virhe neljän formaalin sigman alla); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (ennalta rekisteröity korvike julkaistuja aineiston 3 prosenttipisteitä vasten, ”Unveiling Starlink for PNT”, doi:10.33012/navi.685: { "3" } satelliitilla ({ "47" } asteen maski), ilman korkeusapua ja { "30" } Hz:llä p90 3D-virhe on { "92.2" } m hetkellä { "20" } s ja { "870" } m hetkellä { "8" } s julkaistuja { "2" } m ja { "10" } m vasten, joten molemmat kaksinkertaisuuskynnykset ovat NOT MET, yläpuolella, ja väitetään ohi menneiksi; docs/design/evidence/cap11-starlink-doppler-proxy/)
+
+dat-114a4144fb87 = Raajasäteen ionosfääri-, plasmasfääri- ja ilmakehävaikutukset hipoviin GNSS-signaaleihin sekä heikon signaalin vastaanotinsuunnitelma `gnss-ssv`-lajissa
+
+dat-5034bb0fd89f = Toteutetut rajat
+
+dat-1b52a209bbb2 = Käyttöpinnoittain eroavat rajat
+
+dat-ac6bd33f5040 = Rajat, ilmaistuina selvästi
+
+dat-000b3456923c = Rivikattavuus — virallinen mittaus
+
+dat-130c22407364 = linkkiyhtälö vs julkaistu DESCANSO/JPL Galileo DCT
+
+dat-c231b357d77a = Linkkimarginaali ajan funktiona ({ "0.38" })
+
+dat-dee5343ce0b9 = link-budget (skenaariolaji)
+
+dat-2b015a0d3554 = Linkkibudjetin häirintä: J/S → tehollinen C/N₀ → lukituksen menetys.
+
+dat-0117d8576f56 = Linkkibudjettiraportin itsekuvaus
+
+dat-a37b9fe51244 = linkbudget::tests (kolmen kaistan, neljän etäisyysdekadin ja molempien sulkeutumistuomioiden yli marginaali ja sen alla oleva vapaan tilan häviö lasketaan uudelleen pelkästä raportista tarkemmin kuin { "1e-9" } dB; yhtälön termeistä koottu vaadittu G/T täsmää samaan suureeseen, joka saadaan G/T miinus marginaali, ja uudelleenajo sillä nollaa marginaalin; kolme budjettia, joiden EIRP, häviö ja kynnys ovat hyvin erilaiset mutta linkkivakio yhtäläinen, antavat identtisen vaatimuksen, kun taas { "1" } dB vakiossa siirtää sitä täsmälleen { "1" } dB; vahvistusjako puuttuu, ellei kohinalämpötilaa ilmoiteta, ja ei-positiivinen hylätään; jokainen units-lohkon nimeämä kenttä todella lähetetään)
+
+dat-30e0aeabc8e6 = linkbudget::tests (vapaan tilan häviön muoto, linkkiyhtälön sulkeutuminen); tests/one_way_link_budget_reference.rs (DESCANSO/JPL Galileo X-kaistan DCT toistettu päästä päähän + { "6" } ITU-R P.525 FSL-tapausta DSN:n S/X/Ka-kaistojen keskitaajuuksilla; pahin |ΔFSL| { "4.6e-3" } dB, |Δkantoaalto| { "2.5e-2" } dB)
+
+dat-ef7a7b9adcd5 = linuxptp- ja chrony-lokit
+
+dat-4c745cc65a05 = Luettele jokainen sisäänrakennettu Kshana-skenaariolaji kuvauksineen ja vaadittuine/valinnaisine TOML-kenttineen JSON-taulukkona.
+
+dat-3d05346c4731 = Luettele mukana toimitetut vertailuskenaariot JSONina: `count` ja `scenarios`, taulukko, jossa `name`, `kind` ja `about` (tiedoston oman otsikkokommentin ensimmäinen virke).
+
+dat-c383ea75352f = Luettele standardipaketit (`kshana standards-pack list`): pisteytetyt skenaariojoukot DHS:n Resilient PNT -kehyksen testiprofiileille, IMO MSC.1/Circ.1575:lle ja ICAO Doc { "9849" } liitteelle F, kullakin ennen ajoa ilmoitetut kynnykset ja compliance-rivit, joille se tukee todisteita (supports evidence for).
+
+dat-357232ee1deb = Liu et al.:n { "2025" } 22-parametrinen LEO-efemeridimalli ja sen sovitus todellisille tarkoille radoille
+
+dat-055df2b81d5f = LLR:n mitatun etäisyyden malli (heijastinluettelo, ITRF2020-asemat, DE440:n pääakselisijoittelu, IERS { "2010" } barycentrinen valoaika)
+
+dat-38984e856168 = Tiedostojen lataaminen simulaattoriin
+
+dat-6612bd928a6e = Paikanna häirintälähetin tai harhautin (tai opportunistinen lähde käänteis-PNT:lle) saapumisaikaerojen hyperboloideista vastaanotinverkon yli, ratkaistuna Gauss–Newtonin pienimmän neliösumman menetelmällä; saapumistaajuuserojen lisääminen liikkuvilla vastaanottimilla palauttaa yhdessä lähettimen sijainnin ja nopeuden, sijaintikovarianssin Cramér–Rao-rajalla verkon geometriasta. Pistelähteen näkölinjamalli — ei monitie-etenemis-/NLOS-, vastaanottimen kellon harhan eikä refraktiotermejä.
+
+dat-11da74e54545 = Paikanna lähetin (häirintälähetin/harhautin tai opportunistinen lähde käänteis-PNT:lle) saapumisaikaerosta vastaanotinverkon yli — τᵢ=(Rᵢ−R₀)/c-hyperboloidien leikkaus ratkaistuna Gauss–Newtonin pienimmän neliösumman menetelmällä — ja lisäämällä saapumistaajuusero (etäisyysnopeuserot) liikkuvilla vastaanottimilla palauta yhdessä sijainti ja nopeus; sijaintikovarianssin Cramér–Rao-alarajalla mittausgeometriasta
+
+dat-afd805c16a68 = Lokit, joita se lukee
+
+dat-86ab5cbca459 = Pitkän aikavälin vinon reitin sadevaimennus Maa–avaruus-linkillä
+
+dat-777b13909a61 = Oletuksena loopback; ei-loopback-sidonta vaatii --allow-remote -valitsimen ja bearer-tunnuksen. Kshana ei ylläpidä päätepistettä.
+
+dat-2b31e9b2cb7e = Löyhästi kytketty GNSS/INS-EKF vipuvarrella KF-GINS-aineistolla
+
+dat-238441f93352 = Löyhästi ja tiukasti kytketty GNSS/INS-virhetila-EKF.
+
+dat-f48b40eaf85f = Löyhästi kytketty GNSS/INS: kolmiakselinen strapdown-navigaattori, jota kurinpitää
+
+dat-3bc0a108f9d6 = Lukituksen menetys laskettuna silmukkadynamiikasta tehosuhteen sijaan: kantoaallon (Costas) ja koodin (epäkoherentti aikainen/myöhäinen) 1σ lämpövärinä suhteessa C/N₀:aan neliöintihäviöllä, ilmoitettuja sääntöjä 3σ_PLL + θ_e ≤ { "45" }° ja 3σ_DLL + ramppiviive ≤ d/2 chipiä vasten; pudotus- ja uudelleenlukitus-C/N₀-kynnykset sitovan silmukan nimeämällä ja hystereesillä JOHDETTUNA leveämmästä sisäänvetokaistanleveydestä eikä väitettynä; ilmoitettu lukituksen menetyksen aika kaksikynnyksisestä lukitusilmaisimesta vahvistusviipymillä, raportoituna erikseen fysikaalisesta vaihepoistumisajasta (Viterbin keskimääräinen aika kierroslipsahdusten välillä, log₁₀ s:nä, koska se kattaa satoja dekadeja); suurin koodin kallistumisnopeus ja kantoaallon Dopplerin muutosnopeus, joita uhrin silmukat voivat seurata; sekä silmukkadynamiikan tarkoittama ESTOSÄDE raportoituna olemassa olevan tehosuhdesäteen rinnalla, niiden etumerkillinen ero omana nimettynä kenttänään. Ajettavissa `tracking-loop`-skenaariolajina
+
+dat-5599b89e5499 = Matalan Maan kiertoradan (LEO) navigointi
+
+dat-3fce7cffa945 = Matalan Maan kiertoradan paikannus-, navigointi- ja ajanmääritys-signaalisuunnitelmat: koodiseuranta, hankinta, GNSS-yhteensopivuus ja kaistakompromissi mille tahansa järjestelmälle
+
+dat-b115f7e639c8 = Matalan Maan kiertoradan navigointi
+
+dat-070beed16f4d = Matalan Maan kiertoradan navigointi (skenaariolajien perhe)
+
+dat-7d76203aada8 = Vähäenergiainen LEO-PNT IoT-seurantalaitteelle (esineiden internet): energia per paikannus suhteessa toimintasuhteeseen.
+
+dat-f20670ebd948 = Vähäenergiainen paikannus: aika ensimmäiseen paikannukseen ja energia per paikannus suhteessa toimintasuhteeseen
+
+dat-913ffc083579 = matalan kiertoradan huippu-C/N0
+
+dat-b06a1a10a8ff = LRO Kuu — validoitu, yli { "5" } m:n kynnyksen (rehellisesti) (P4 W4b)
+
+dat-bbe641ae75b7 = LSIS-AFS V1.0 (kuten yllä): pituuden 1499 Legendre-sarja (taulukko E-1, identtinen) ja tertiäärikoodin ensimmäiset ja viimeiset { "24" } chipiä (taulukot E-2–E-6: { "419" } / { "420" } saraketta identtisiä; dokumentti tulostaa samat viimeiset { "24" } chipiä, A14850, PRN:lle { "147" } ja PRN:lle { "151" }, ja generaattori toistaa PRN:n { "151" } chipit, joten PRN:n { "147" } merkintä on todennäköisimmin painovirhe; kynnys { "420" } / { "420" } on NOT MET ja ohitus lukitaan); SB1-koodin kuvan { "8" } työstetty esimerkki (yksi esimerkki: 0x045 koodautuu muotoon 0x229F61DBB84A0); CRC-24Q luettelon tarkistusarvoa 0xCDE703 vasten ASCII-merkkijonolle { "123456789" }; dokumentin oma kehysaritmetiikka. Kynnykset ennalta rekisteröity kohdassa b3ba5d5. Yksi kirjattu ohitus ja yksi työstetty esimerkki viestikerrokselle, joten rivi pysyy MODELLED. MITÄ EI TARKISTETA: LDPC ja CRC-sanat alikehyksissä { "2" }–{ "4" }, viestin sisältö ja mikään tallennettu virta
+
+dat-e04f4d780264 = LunaNet AFS
+
+dat-036ec4a7b3a2 = LunaNet AFS:n kantataajuusrenderöinti riippumatonta generaattoria vasten, kun sen kanavatila on annettu (LSIS V1.0)
+
+dat-8d80015811ed = LunaNet AFS:n suljetun silmukan dekoodattavuus riippumattomalla vastaanottimella (LSIS V1.0)
+
+dat-f847c909943e = LunaNet AFS:n kehyksen kanavakoodaus, FID { "0" } (LSIS V1.0)
+
+dat-82bb02b31ec1 = LunaNet AFS:n levityskoodien tuottaminen (LSIS V1.0)
+
+dat-e9a107df70e5 = LunaNet AFS:n tertiäärikoodit ja viestikerros (SB1 BCH, CRC-24Q, lomittaja) LSIS-AFS V1.0:aa vasten
+
+dat-c906216cda6e = LunaNet AFS-I:n ja AFS-Q:n ensisijaiskoodit LSIS-AFS V1.0:n painettuja tarkistussarakkeita vasten
+
+dat-b7830d73f66c = LunaNet Augmented Forward Signal: koodit, viestimuoto ja lunanet-afs-check
+
+dat-786926d72bbd = LunaNet/IOAG-linjattu Kuun koordinaatisto + aika + efemeridivienti (CCSDS OEM + KIF) kiertoajon vastaavuudella
+
+dat-e192c5acb8a0 = Kuun absoluuttisen aseman havaittavuus (datumivaje)
+
+dat-f799c666b129 = Kuu ja kuunläheinen avaruus
+
+dat-86a83ef8cdf9 = Kuu ja kuunläheinen avaruus (skenaariolajien perhe)
+
+dat-b801ec4bf573 = Kuu ja syvä avaruus
+
+dat-dc6ee5111659 = Kuun ARAIM-suojaustasoydin
+
+dat-d2d0cc81bd61 = Kuun kantoaallon vaiheen kokonaislukuepävarmuuden ratkaisu: pinta ja kiertäjä
+
+dat-b691fa8a4ad5 = Kuun koordinaattiaika
+
+dat-fa2fcf2c5b43 = Kuun koordinaattiaika — relativistinen Maa–Kuu-kellonopeus (src/lunar_time.rs)
+
+dat-d20f5e313023 = Kuun koordinaattiaika (LTC/TCL): relativistinen Maa–Kuu-kellonopeus.
+
+dat-af0a23f07c39 = Kuun datumin identifioituvuus - hajotelman lineaarialgebra
+
+dat-bed29386740f = Kuun datumin nolla-avaruuden luokittelu (LLR-asteen additiivisuus + libraation vajeen nosto)
+
+dat-d3f1690bde5f = Kuun estokäyrä mitatusta C/N₀-hajonnasta
+
+dat-296d9afc04ce = Kuun estokäyrä epävarmuuskaistalla mitatusta C/N₀-hajonnasta
+
+dat-2120aea3f590 = Kuun differentiaalinen PNT
+
+dat-8f22593d410c = Kuun DIFFERENTIAALINEN PNT — Kuun DGNSS / SBAS -vastine.
+
+dat-fc808feef17b = Kuun differentiaalinen PNT — yhteismuodon kumoaminen + kantaviivan mukana kasvava residuaali + DGNSS-suojaustasot (src/lunar_dpnt.rs)
+
+dat-337e1bd0dcf1 = Kuun differentiaalinen PNT — korjauslinkin residuaalibudjetti
+
+dat-0c52dc3ec157 = Kuun koordinaatiston yhteisestimointi: pinta-asemat ja kiertäjät
+
+dat-7205faad3126 = Kuun koordinaatistodatumin kovarianssi asemat estimoituna, 50-numeroista laajennettua tarkkuutta vasten
+
+dat-93ef37db90e6 = Kuun koordinaatistodatumi TODELLISESTA havaintokampanjasta
+
+dat-97d8ec7c5f7f = Kuun koordinaatistodatumi TODELLISESTA havaintokampanjasta, kernelin Kuun keskipiste
+
+dat-55f1a0438f19 = Kuun koordinaatistodatumi havaintokampanjasta
+
+dat-847608ac6479 = Kuun koordinaatistodatumi todellisesta laseretäisyysmittauksesta
+
+dat-f7dcc8ff3151 = Kuun geodeettinen VLBI
+
+dat-55c0d14f431a = Kuun geodeettinen VLBI — lähikentän viive Maan kantaviivalle, joka havaitsee Kuun majakan (src/lunar_vlbi.rs)
+
+dat-825d892290f1 = Kuun geodeettinen VLBI, kernelipolku
+
+dat-943ed950502b = Kuun geodeettinen VLBI: Maan kantaviiva, joka havaitsee Kuun pinnan majakan.
+
+dat-249b9676c0af = Kuun infrastruktuuri (lunar-infrastructure)
+
+dat-a157b399a269 = Kuun yhteentoimivuusvienti
+
+dat-dc7dd1edf29b = Kuun yhteentoimivuusvienti — LunaNet/IOAG-linjattu, CCSDS-pohjainen vaihto.
+
+dat-962471ff7cc1 = Kuun yhteentoimivuusvienti — LunaNet/IOAG-linjattu CCSDS OEM + KIF kiertoajon vastaavuudella (src/lunar_interop.rs)
+
+dat-c771c18714e5 = Kuun yhteinen viestintä- ja navigointigeometria
+
+dat-6fe5eca98c76 = Kuun yhteinen monitekniikka-OD + kello
+
+dat-3c303a270a97 = Kuun yhteinen monitekniikka-OD + kello — simuloitu suljetun silmukan palautus (src/lunar_combination.rs)
+
+dat-a8b73960c4b7 = Kuun yhteinen monitekniikka-OD- ja kellonmääritys (SIMULOITU verkko).
+
+dat-338ed6165c7f = Kuun LLR-datumigeometrian alusta (pääakseliheijastimet, maa-asemat, analyyttiset etäisyysosittaisderivaatat)
+
+dat-adb8542c2306 = Kuun Love-lukujen ja libraation herkkyys
+
+dat-b8cf831d1409 = Kuun navigointipalvelun tilavuus
+
+dat-39ccbb141f37 = Kuun navigointipalvelun tilavuus — DOP / peitto / saatavuus + yleistetty Kuun ARAIM-PL (src/lunar_service.rs)
+
+dat-3a82e1764744 = Kuun navigointipalvelun tilavuus ja ARAIM
+
+dat-0227d1ff18f5 = Kuun navigoinnin PALVELUTILAVUUDEN analyysi — Moonlight / LCNS-luokan tähdistö.
+
+dat-9b29005a3941 = Kuun rata ja pinta navigointi- ja geodeettisenä infrastruktuurina
+
+dat-b2d2f29622b9 = Kuun radanmääritys: Maa-GNSS maapohjaista radiometristä vasten
+
+dat-511b88f88b7b = Kuun vertailuasema
+
+dat-c949a2b18953 = Kuun vertailuaseman geodesia, LÄHTÖTASO: nykyiset viisi heijastinryhmää yksin.
+
+dat-554369ca1867 = Kuun vertailuaseman geodesia, ASEMALLA: viisi heijastinryhmää plus yksi
+
+dat-ad5ed73b495d = Kuun vertailuaseman aikalaboratorio: miniatyyrirubidiumkello (miniRAFS) ohjattuna
+
+dat-0829ad8be411 = Kuun koordinaatiston realisaatio
+
+dat-4ebbeba62243 = Kuun koordinaatiston realisaatio — 7-parametrinen Helmertin datumisovitus (src/lunar_frame_realise.rs)
+
+dat-0e0f62bb8a66 = Kuun koordinaatiston realisaatio — 7-parametrinen Helmertin (samankaltaisuus)datumisovitus.
+
+dat-315f29f20d81 = Kuun vertailuaseman tarkkuus ja peitto julkaistuja väitteitä vasten
+
+dat-367e840f7dfa = Kuun vertailuaseman peitto- ja tarkkuuskartta
+
+dat-156c87144a74 = Kuun vertailuaseman peitto JULKISESTI ILMOITETUILLA oletuksilla: sama laji kuin
+
+dat-3c466b32af48 = Kuun vertailuaseman peitto maastolla: mukana toimitettu lunar-station-coverage-skenaario
+
+dat-29ee8ab5edca = Kuun vertailuaseman peitto: mikä paikannustarkkuus ja suojaustaso käyttäjällä
+
+dat-2c796f7308dd = Kuun vertailuaseman efemeridivirheen kasvu korjausviiveen yli
+
+dat-945ce00a9e23 = Kuun vertailuaseman geodesia: lisätty heijastin ja VLBI-majakka viiden ryhmän datumia vasten
+
+dat-aa6de9e63306 = Kuun vertailuaseman monitie-etenemis- ja vastaanotinlaitteistotermit
+
+dat-bc66e5ef4847 = Kuun vertailuaseman ratkaisutilat: korkeusrajoite, kolme satelliittia, staattisen käyttäjän ikkuna
+
+dat-bc2068142d4f = Kuun vertailuasematutkimus
+
+dat-73b73600040b = Kuun relay
+
+dat-69906ae227f9 = Kuun palvelutilavuus todellisesta, haetusta tähdistögeometriasta
+
+dat-e3f922ee702f = Kuun etelänavan ARAIM-suojaustason ylilento edustavaa LunaNet-relay-joukkoa vasten. sigma_ure_m paljastaa…
+
+dat-7bf99378af27 = Kuun etelänavan eheys: Artemis-alueelle laskeutunut vastaanotin vasten
+
+dat-bc822667b92c = Kuun aseman aikalaboratorio: miniRAFS-holdover LTC:tä vasten
+
+dat-555a5784e0db = Kuun pintamajakan DOP-täydennys
+
+dat-054931b7071e = Kuun pintanavigoinnin RF-häirintä (satelliittikohtainen J/S)
+
+dat-d9dd563d89cd = Kuun pintanavigoinnin signaaliturvallisuuden hyökkäyspinta (P1): kokoaa avoimet signaaliturvallisuusanalyysit…
+
+dat-e5504a977338 = Kuun pintanavigoinnin signaaliturvallisuuden hyökkäyspinta (artikkeli P1).
+
+dat-2ecad2c187ce = Kuun maaston horisonttimaskit ilmoitetusta profiilista tai napa-alueen korkeusmallista
+
+dat-1e7ef82181d5 = Kuun aikaskaalat ja geodeettinen VLBI
+
+dat-b53e29115ece = Kuun aikavirhebudjetin toistettavuus
+
+dat-4c2e66fa8a55 = lunar_afs::codes::tests (maksimipituiset rekisterit, Legendren tasapaino, G2-viiveen kiertoajo, tasojen koostaminen); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (ilman LSIS-välimuistia: neljä siteerattua lukua lukitsee löydöksen; sen kanssa: { "2 937 232" } chipiä ja bittiä vs LSIS-liitteen { "3" } tiedostot, painetut ensimmäiset/viimeiset { "24" } chipiä, Legendren taulukot D-1 ja E-1 sekä G2-alustukset antavat täsmälleen yhden eroavan kohdan, taulukon E-5 PRN:n { "147" } ’viimeiset { "24" } chipiä’ -solun, joka kopioi PRN:n { "151" } solun, kun taas liitteen { "3" } tiedosto täsmää generaattoriin); tiukka ennalta rekisteröity testi afs_codes_match_lsis_v1_tables_and_annex3_bit_exact ohitetaan tämän aukon vuoksi
+
+dat-8be8ccf828da = lunar_afs::waveform (tallenne ja totuusleimat), xval/lunar-afs/run_pocketsdr.sh
+
+dat-5c670f2679d7 = lunar_beacon::tests (horisontin näkyvyys L01-suljettua muotoa vasten; majakalla täydennetty DOP paljasta vasten; virhebudjetin neliösumman juuri; DOP–metri-suhde); tests/validate_p2_beacon_before_after_table.rs (koko ennen/jälkeen-taulukko lukittu tallennettuun kultaiseen vertailuun tarkkuudella { "1e-9" } suhteellinen); tests/validate_p2_beacon_before_after_independent_dop.rs (sama geometria RIIPPUMATTOMAN DOP-polun kautta, jotta täydennystä ei tarkisteta sen tuottanutta ydintä vasten); tests/validate_lunar_beacon_anise_visibility_dop.rs::beacon_visibility_and_augmented_dop_match_anise_and_numpy
+
+dat-b9653998b456 = lunar_combination::tests (aste vajaa ilman Maan kantaviivoja; kolme kantaviivaa palauttaa täyden asteen — 3 aseman kynnys informaatioasteesta, ei ratkaisuvirheestä; aseman CRLB saavutetaan estimaattorilla hyötysuhteella { "0.98" }; CRLB tiukkenee monotonisesti kantaviivojen myötä); tests/lunar_observability_numpy_oracle.rs::lunar_observability_matches_numpy_on_the_committed_jacobians
+
+dat-0d66fd92c424 = lunar_combination::tests (palauttaa simuloidun totuuden; VLBI palauttaa aseman 3D-havaittavuuden; deterministinen); tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } geometriaa × { "16" } parametria, { "31" } havaintoa kutakin, vs Orekit { "12.2" } / Hipparchus Levenberg-Marquardt identtisillä havainnoilla; palautettu tila pahin |Δ| { "1.4e-8" } m); tests/lunar_joint_od_numpy_oracle.rs::joint_solve_linear_algebra_matches_numpy (kuusi verkkoa, mukaan lukien yksi ilman VLBI:tä: Gauss–Newton-askeleet { "4.3e-11" }:n sisällä, formaalit sigmat { "1.9e-11" }:n sisällä, asemavirheet yhtäläiset; { "0.36" } siirrettävän matematiikan syötteillä, { "2.4e-11" } ja { "1.3e-11" } { "0.30" }-syötteillä)
+
+dat-e12f3aa49fcb = lunar_common_mode::tests ({ "8" } kirjastotestiä: jako on additiivinen ja rekonstruoi dy:n; yhteismuotokovarianssi tuottaa positiivisen yhteismuotoisen suojaustason, kun taas pelkkä pariteettikovarianssi tuottaa lähes nollan; projektori nollaa avaruuden range(G)); tests/lunar_common_mode_integrity_reference.rs (moottorin jako riippumatonta numpy-laskentaa vasten tavu tavulta identtisillä syötteillä tallennetun 366 epookin otoksen yli, suhteellinen JA absoluuttinen virhe < { "1e-3" }); tests/lunar_common_mode_parity_numpy_oracle.rs::common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs ({ "1464" } pariteettia sisältävää tapausta 8 satelliitin geometrialla ja 6 satelliitin osajoukolla molempien todellisten efemeridiparien yli: blind_dx, residuaali ja normit { "1e-12" }:n sisällä |dy|:stä, pahin { "1.06e-14" })
+
+dat-08e91b48c1d8 = lunar_datum::tests (LLR/VLBI/kiertäjän analyyttiset osittaisderivaatat vs äärelliset erot); lunar_identifiability::tests (adding_an_offradial_technique_collapses_the_origin_scale_degeneracy; transverse-vs-radial via crlb_diag)
+
+dat-c42639deb6bf = lunar_dpnt::tests (puhtaasti additiivinen suoja, jonka avainjoukon ero on täsmälleen { "{" }correction_link, units{ "}" } ja jokainen olemassa oleva arvo bitti bitiltä identtinen ennen muutosta kaapattuja literaaleja vasten; kartoitusvirhe EI dekorreloidu kantaviivan mukana, kun taas ratatermi dekorreloituu, ja säilyy nollakantaviivalla, jossa ratatermi on täsmälleen nolla — rakenteellinen tarkistus, joka havaitsee termin kytkemisen väärään paikkaan; { "1" } m:n asemavirhe siirtyy { "1" }:{ "1" } ja todistetaan, ettei DOP vahvista sitä; nollaviive toistaa ikääntymättömän residuaalin bitti bitiltä ja residuaali on monotoninen viiveessä, lähetetyn käyrän ollessa yhtä suuri kuin suorat ajot; kvantisointiaskel puolittuu täsmälleen bittiä kohti ja σ² = askel²/12, ja täysi asteikko seuraa syötettyjä suuruuksia; kukin termi poiskytkettynä vuorollaan palauttaa kaksi muuta neliösummana; yhtäläinen satelliittikohtainen σ etenee täsmälleen arvoksi σ·PDOP ja tuo PDOP täsmää funktioon orbit::dop; jokaisella lähetetyllä kentällä on yksikkö ja alkuperäluokka, tarkistettu molempiin suuntiin)
+
+dat-71f3683e525c = lunar_dpnt::tests (kellon yhteismuoto kumoutuu täsmälleen; residuaali kasvaa kantaviivan mukana; käyttää uudelleen SBAS-PL:ää; satelliittien lukumäärää kunnioitetaan rakentajan rajaan { "24" } asti, joten suurempi tähdistö ei voi hiljaa palauttaa pienempää); tests/lunar_differential_pnt_reference.rs (yksittäisero-residuaali + WLS-sijaintiratkaisu vs RTKLIB:n C-lähteestä käännetty lsq())
+
+dat-91ebc69007eb = lunar_ephemeris::tests (muoto- ja kehysjäsennys; Lagrangen interpolointi tarkka solmuissa ja lineaarisella radalla solmujen välissä; ICRF-elementit saavat IAU { "2015" } -redukoinnin ja ovat tavu tavulta yhtä suuret kuin eksplisiittinen icrf_to_iau_moon-sovellus; tosi↔keskianomalia kiertää eteenpäin Kepler-ratkaisua vasten; virheelliset tiedostot hylätään syy nimettynä). lunar_service::tests (kun `ephemeris_path` on asettamatta, raportin avainjoukko ja SHA-256 on lukittu; Kepler-rivi on yhtä suuri kuin erillinen Kepler-ajo kenttä kentältä; identiteetti σ_required · HPL_max / σ_URE = AL, sitten PÄÄSTÄ PÄÄHÄN -uudelleenajo lasketulla vaatimuksella, joka saavuttaa { "100" } %:n suojaustason saatavuuden, ja { "1" } % sen yläpuolella oleva uudelleenajo, joka ei saavuta sitä; jokainen molempien uusien lohkojen lähetetty numeerinen kenttä käyty läpi tuotetusta JSONista yksikön ja alkuperäluokan osalta; tallennetut fixturet täsmätty lähdetaulukoihinsa satelliitti satelliitilta; taulukon lopun yli menevä horisontti hylätty); tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged; tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+dat-72359d75194d = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable (nollasta poikkeava mutta asteeltaan vajaa lohko ⇒ block_spark { "1" }, f_detect { "0" }; riippumattomat sarakkeet ⇒ block_spark { "2" }, f_detect { "1" }), byzantine_real_network_uniform_bias_is_clock_offset (vertainen, joka omistaa kaikki solmun mittaukset = kellosiirtymävirhe ∈ range(G), havaitsematon, selvällä Gramin spektrivälillä), byzantine_redundant_net_identifies_at_least_one (kuusi riippumatonta yhden mittauksen vertaista ⇒ block_spark { "7" }, f_identify { "3" }), byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations (P⊥ = I käsin tehdyt tapaukset lukitsevat f_detect = block_spark − { "1" }, f_identify = ⌊(block_spark − { "1" })/2⌋)
+
+dat-9f1b775126f5 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored (itseviittaava verkko: yhteinen nopeus on avaruudessa N(GᵀWG), temporal_gauge_dim { "2" }; yhden ulkoisen nopeussidosrivin jälkeen: nopeus poistettu mittapuusta, temporal_gauge_dim { "1" } yhteisen siirtymän säilyessä)
+
+dat-6c1f1713e449 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (yhteinen harha havaitsematon, differentiaalinen havaittava), slope_infinity_in_range_finite_detectable (g7: kaltevuus ∞, kun b ∈ range(G), äärellinen, kun b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" }: rank(GᵀWG) = state_dim − { "8" }, 8-ulotteinen mittapuu on koko nolla-avaruus >{ "1e6" } spektrivälillä)
+
+dat-4d69a4cada09 = lunar_frame_campaign (koostaa moduulit lunar_vlbi, lunar_vlbi_fim, fim, lunar, lunar_frame_realise, frames, cio, lunar_frame)
+
+dat-5f33ffde58d6 = lunar_frame_realise::tests (palauttaa syötetyn Helmert-muunnoksen); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } tapausta vs riippumaton suljetun muodon Umeyama-SVD-ratkaisija; pahin |Δ| siirto { "2.0e-5" } m, kierto { "5.3e-12" } rad, asteikko { "9.3e-2" } ppb, sovituksen jälkeinen RMS { "6.1e-9" } m)
+
+dat-7b25307d3ee9 = lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation - akselinsuuntainen nollakanta ja sen { "0.6" } rad:n kierto tuottavat identtisen defectin, dim_spatialin, dim_temporalin, coupled_dimin ja p_st_normin; classify_direct_sum_null ja classify_coupled_null - rakennetut suoran summan ja aidosti kytketyt tapaukset vahvistavat ulottuvuushajotelman; classify_basis_invariant; index_consts_are_correct); tests/lunar_gauge_classification_scipy_oracle.rs::classify_null_space_matches_scipy_subspace_intersection ({ "72" } rakennettua 9x9-Fisher-matriisia { "18" } nolla-aliavaruuden yli, kukin neljässä satunnaisessa ortonormaalissa uudelleenkannassa: defect, dim_spatial, dim_temporal ja coupled_dim tarkat; p_st_norm { "6.0e-15" }:n sisällä, kynnys { "1e-9" })
