@@ -336,7 +336,8 @@ reach edges uncertain by 15% per aircraft, persistent equipment faults, unknown 
 95% region held the true source in 0.99 (aircraft geometry) and 1.00 (ship geometry) of sessions and the 50% region in
 about 0.77: the levels are conservative, by the likelihood exponent of 0.3, and the centroid error of a session has a
 median of 23 km (aircraft) and 12 km (ships). Calibration is checked on synthetic data only; the Jammertest comparison
-is pre-registered in `emitter-region/PREREGISTRATION.md`. One source per session; several close sources look like one.
+was pre-registered (`emitter-region/PREREGISTRATION.md`) and run once: NOT ASSESSABLE for both sources
+(`emitter-region/RESULTS.md`). One source per session; several close sources look like one.
 A regional cause (a constellation outage, space weather) gives a region that is not a source. ADS-B gives few reports
 outside busy airspace, and only about a quarter of readsb trace points carry NIC and NACp, so sparse areas give wide or
 no regions (31% of the ship-geometry sessions were `unconstrained`).
