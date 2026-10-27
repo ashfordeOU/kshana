@@ -186,6 +186,32 @@ pub fn build_receiver_trust_pack_full(
         // geometry and the attribution of its degradation.
         "geometry_model": result.geometry_model,
     });
+    // The evidence label (0.40), inside `config.json` so the manifest's file hash, the hash chain and the signature cover
+    // it. A pack made before 0.40 has neither the `evidence` entry nor `config_version`; it verifies unchanged.
+    {
+        let mut ids: Vec<&str> = crate::evidence_label::TOOL_ROWS
+            .iter()
+            .find(|(t, _)| *t == "evidence-pack")
+            .map(|(_, ids)| ids.to_vec())
+            .unwrap_or_default();
+        for (k, _) in extra_config {
+            match *k {
+                // The jammertest scorecard: the scoring rows.
+                "jammertest_score" => ids.extend(["VM-47968885", "VM-35257d18"]),
+                // The laboratory round trip.
+                "round_trip" => ids.push("VM-1a79c093"),
+                _ => {}
+            }
+        }
+        let label = crate::evidence_label::EvidenceLabel::for_ids(&ids)
+            .ok_or("the evidence-pack rows are not in the matrix")?;
+        let o = config.as_object_mut().ok_or("config is not an object")?;
+        o.insert(
+            "evidence".to_string(),
+            serde_json::to_value(&label).map_err(|e| e.to_string())?,
+        );
+        o.insert("config_version".to_string(), json!("1.1"));
+    }
     for (k, v) in extra_config {
         let o = config.as_object_mut().ok_or("config is not an object")?;
         if o.insert((*k).to_string(), v.clone()).is_some() {

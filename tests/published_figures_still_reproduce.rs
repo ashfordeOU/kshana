@@ -122,7 +122,13 @@ fn every_readme_demo_chart_is_what_the_engine_emits_today() {
         let only_the_stamp = without_version_stamp(&committed) == without_version_stamp(&out.svg);
         let only_the_paint = without_paint(&without_version_stamp(&committed))
             == without_paint(&without_version_stamp(&out.svg));
-        let diagnosis = if only_the_stamp {
+        let only_the_label = kshana::evidence_label::strip_svg(&out.svg).is_some_and(|plain| {
+            plain == committed || without_version_stamp(&plain) == without_version_stamp(&committed)
+        });
+        let diagnosis = if only_the_label {
+            "ONLY the evidence label (0.40: the metadata element and the line under the plot) differs. \
+             Re-render the chart and record that stripping the label restores the committed bytes."
+        } else if only_the_stamp {
             "ONLY the engine-version stamp in the footer moved — every plotted value is \
              identical. This is the routine release re-render."
         } else if only_the_paint {
