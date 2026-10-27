@@ -40,7 +40,7 @@ seg-d1beb62cf742 = { "6" } meegeleverde scenario's gebruiken deze soort; de over
 
 seg-7d993b676006 = De grafiek die de engine schrijft voor scenarios/gnss-ins.toml, soort gnss-ins
 
-seg-ea4498cc0324 = <b>VALIDATED</b> 15-toestanden-error-state-EKF, los gekoppeld (gevalideerd op een echte IMU/GNSS-rit tegen NaveGo); een strak gekoppelde pseudorange/Doppler-UKF en een gekoppelde klok+pos. Onafhankelijke referentie (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, als hulpmiddel uitgevoerd onder GNU Octave, nooit gelinkt): zijn los gekoppelde ins_gnss op zijn eigen echte Ekinox-IMU/GNSS-rit met een landvoertuig, beide oplossingen gescoord tegen het Ekinox-referentietraject. Beide filters lezen dezelfde { "20" } Hz-float32-invoer, en de configuratie van Kshana is mechanisch afgeleid van de gepubliceerde parameters van de dataset. De horizontale en verticale positie-RMS van Kshana en zijn
+seg-ea4498cc0324 = <b>VALIDATED</b> 15-toestanden-error-state-EKF, los gekoppeld (getoetst op een echte IMU/GNSS-rit tegen NaveGo); een strak gekoppelde pseudorange/Doppler-UKF en een gekoppelde klok+pos. Onafhankelijke referentie (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, als hulpmiddel uitgevoerd onder GNU Octave, nooit gelinkt): zijn los gekoppelde ins_gnss op zijn eigen echte Ekinox-IMU/GNSS-rit met een landvoertuig, beide oplossingen gescoord tegen het Ekinox-referentietraject. Beide filters lezen dezelfde { "20" } Hz-float32-invoer, en de configuratie van Kshana is mechanisch afgeleid van de gepubliceerde parameters van de dataset. De horizontale en verticale positie-RMS van Kshana en zijn
 
 seg-742a29ca1fb7 = Onderwerppagina: <a1>TEST-BENCH.md</a1>
 

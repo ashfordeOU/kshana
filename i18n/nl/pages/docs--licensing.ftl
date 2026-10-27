@@ -32,7 +32,7 @@ seg-f68b536b93c0 = Een commerciële licentie heft de copyleft-verplichtingen voo
 
 seg-55f1a2f687d9 = Waarom een dubbele licentie op deze manier
 
-seg-42c1ce05ca5c = Het doel is <b>openbaar verifieerbaar</b> te zijn (zodat elke beoordelaar de engine kan uitvoeren en controleren), <b>zonder</b> dat een kapitaalkrachtige concurrent de gevalideerde engine kan forken, sluiten en als eigen concurrerend product kan uitbrengen zonder iets terug te geven. De netwerkcopyleft van de AGPL bereikt dat: een gesloten of gehoste afgeleide moet terugkeren naar open source, of een commerciële licentie van ons nemen. Openbare geloofwaardigheid en een verdedigde kern, tegelijkertijd.
+seg-42c1ce05ca5c = Het doel is <b>openbaar verifieerbaar</b> te zijn (zodat elke beoordelaar de engine kan uitvoeren en controleren), <b>zonder</b> dat een kapitaalkrachtige concurrent de getoetste engine kan forken, sluiten en als eigen concurrerend product kan uitbrengen zonder iets terug te geven. De netwerkcopyleft van de AGPL bereikt dat: een gesloten of gehoste afgeleide moet terugkeren naar open source, of een commerciële licentie van ons nemen. Openbare geloofwaardigheid en een verdedigde kern, tegelijkertijd.
 
 seg-32b1d38914fe = Wat <b>niet</b> onder deze dubbele licentie valt
 
