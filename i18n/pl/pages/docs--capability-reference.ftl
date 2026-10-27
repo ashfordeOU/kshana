@@ -2827,3 +2827,5 @@ seg-05ded40b17d2 = Brak zewnętrznych: węzła ROS nie uruchomiono na działają
 seg-6eee4b0e40b9 = <s1>Poprzednia</s1>Macierz weryfikacji
 
 seg-c3e7639ccf1a = <s1>Następna</s1>Dlaczego wiersze pozostają modelowane
+
+seg-55ca63edff02 = Detekcja spoofingu na podstawie spójności Dopplera LEO i geometrii przelotu

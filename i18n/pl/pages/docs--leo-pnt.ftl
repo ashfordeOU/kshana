@@ -385,3 +385,25 @@ seg-ee40b8cd109b = błąd odległości w sygnale w przestrzeni (SISRE): błąd r
 seg-b4b3dff58f3b = częstotliwość nośnej i tempo śledzonych chipów
 
 seg-4def115dba1b = Wartość jest przekazywana tylko tam, gdzie tabela dalej w łańcuchu jej nie ustawia, a każde przekazanie jest wypisane w tablicy <c1/> wyniku z wartością, jednostką i celem. Pasmo <c2/> musi wskazywać projekt (<c3/>); w ten sposób pasmo <c4/> niesie też samodzielnie dowolny projekt <c5/>: przyjmuje częstotliwość środkową projektu, szerokość pasma nadawania i tempo śledzonych chipów, dzieli swoje EIRP między składniki oraz w każdej epoce podaje C/N0 śledzonego składnika i ograniczone pasmem koherentne drgania śledzenia kodu wczesny-późny (Betz i Kolodziejski { "2009" }; odstęp pół chipa, pętla { "1" } Hz, { "20" } ms).
+
+seg-2a2b15256cf4 = generic: reprezentatywny projekt <c1/>, przelot na wysokości { "1080" } km pod kątem { "53" }° nad Madrytem, warstwa Walkera z 240 satelitami
+
+seg-bb05e8e505e3 = szczyt śledzonego C/N0 { "58.2" } dB-Hz, mediana jittera kodu { "0.050" } m; przekazywane SISRE { "0.250" } m; błąd 3D średniokwadratowy (RMS) tylko z GNSS { "1.60" } m, GNSS + LEO { "0.43" } m; zbieżność precyzyjnego pozycjonowania punktowego (PPP) { "11.5" } min tylko z GNSS, { "7.5" } min z warstwą LEO
+
+seg-4d1299ee4725 = Xona Pulsar X5 (arXiv { "2509.19551" }), powłoka nachylona do pozycjonowania i obie powłoki do PPP
+
+seg-a8fe501bf419 = szczyt śledzonego C/N0 { "66.3" } dB-Hz, mediana jittera kodu { "0.018" } m; błąd 3D RMS tylko z GNSS { "1.49" } m, GNSS + LEO { "0.68" } m; zbieżność PPP { "20.6" } min tylko z GNSS, { "5.9" } min z Pulsarem
+
+seg-002e4c918dda = <c1/> (opcjonalnie)
+
+seg-a608af78a360 = Konfiguracja Celeste IOD E5 nr 1 z presetem komunikatu Celeste (wstrzymana razem z presetem)
+
+seg-be428c21bd27 = przelot odtwarza szczytowe całkowite C/N0, do którego skalibrowano preset (wartość znajduje się w pliku presetu); dwa satelity ledwie zmieniają 95-minutowe rozwiązanie fuzyjne ({ "1.50" } m do { "1.48" } m RMS 3D)
+
+seg-bf44ba47e48b = zapisuje wynik, wykres, raport zaawansowany (który osadza animowany przelot i odsyła do eksportów), interaktywny odtwarzacz oraz pliki efemeryd geometrii przelotu w formatach CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON i STK (Systems Tool Kit).
+
+seg-a08e67a32d60 = Łańcuch jest MODELLED: nie dodaje żadnej fizyki, a każdy etap zachowuje własne oznaczenia. Model C/N0 etapu pozycjonowania jest prostą względem sin(elewacji), więc kształt właściwy dla przelotu sprowadza się do dwóch liczb; etap komunikatu nie modeluje wyznaczania orbity, dlatego <c1/> jest jawnie podaną daną wejściową ({ "0.25" } m w dołączonych scenariuszach, reprezentatywne dla decymetrowej dokładności pokładowego wyznaczania orbity i sterowanego zegara w skali układu scalonego, o której informuje ładunek ATOMIC: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
+
+seg-ee3c5b58e6fa = <s1>Poprzednia</s1>Orbita i powierzchnia Księżyca jako infrastruktura
+
+seg-6b951d6413c8 = <s1>Następna</s1>Projekty sygnałów LEO

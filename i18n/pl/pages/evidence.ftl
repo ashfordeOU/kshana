@@ -2491,3 +2491,5 @@ seg-417a52c9c154 = PDF
 seg-4e31c8daf798 = Rejestr (ledger)
 
 seg-8980b5ae869b = Wartość
+
+seg-55ca63edff02 = Detekcja spoofingu na podstawie spójności Dopplera LEO i geometrii przelotu
