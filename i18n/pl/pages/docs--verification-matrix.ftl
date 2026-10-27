@@ -7,3 +7,7 @@ seg-619f89bf160c = Realizacja księżycowego układu odniesienia
 seg-2db69c58f694 = Księżycowy różnicowy PNT
 
 seg-1ff1d8ebf1e7 = Odwzorowanie compliance na publiczne ramy
+
+seg-d6476863f862 = Możliwość
+
+seg-ad856ad710eb = Status

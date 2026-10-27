@@ -337,3 +337,7 @@ seg-aa2f95806d24 = EU NIS2, art. { "21" }
 seg-138f32dcf19f = EN { "16803" }
 
 seg-5fec3f16de7a = Przewodnik po Studio
+
+seg-039b7c5fd78a = Jednostka
+
+seg-37f058c4e1c3 = liczba

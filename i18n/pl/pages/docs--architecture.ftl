@@ -63,3 +63,93 @@ seg-a77d1a8a62b5 = <a1>RECEIVER-TRUST</a1>, <a2>MARITIME-TRUST</a2>
 seg-c311dfc2a161 = ta sama ocena na strumieniu w miarę jego nadchodzenia (stdin, dopisywany plik, TCP lub UDP), zdanie <c1/> i opcjonalna bramka; <c2/> to całość tego bez wejścia i wyjścia
 
 seg-07b2d6edf7b9 = podpisany, powiązany łańcuchem skrótów pakiet okna dziennika, jego konfiguracji i wyniku silnika, weryfikowalny offline; opcjonalny token znacznika czasu RFC { "3161" }
+
+seg-32d08730b9c0 = strumień zaufania jako metryki Prometheus, zdarzenia syslog (CEF lub LEEF) i opcjonalnie OpenTelemetry (funkcja <c1/>, domyślnie wyłączona)
+
+seg-53311b8c3b93 = syntetyczny most NMEA { "0183" } ze skryptowanymi zdarzeniami zagłuszania (jamming), odciągania (drag-off), spoofingu czasu i odtwarzania oraz dziennikiem instruktora, do szkolenia załóg (wyłącznie tekst)
+
+seg-f7cc3cfbdfc6 = zbiorcze mapy pogorszonej nawigacji na podstawie otwarcie licencjonowanych raportów statków powietrznych i okrętów oraz narażenie trasy na nie; wyłącznie pliki lokalne
+
+seg-83fe3c87e2d5 = weryfikator po stronie odbiornika dla Galileo OSNMA: odczytuje strony I/NAV (zwykłe strony, wektorowy CSV, strumień UBX), sprawdza podpisany klucz, łańcuch TESLA i kody MAC oraz zgłasza dla każdego satelity, czy dane nawigacyjne są uwierzytelnione; <c1/> to jedna ścieżka wspólna dla wiersza poleceń, Pythona i WebAssembly; wyłącznie status uwierzytelnienia, nie usługa integralności
+
+seg-bf8cd5a45deb = OSNMA
+
+seg-843a83b82283 = odwzorowuje wyniki Kshana na publiczne ramy odporności i wypełnia to odwzorowanie na podstawie dokumentów wyników; <c1/> i <c2/> przyjmują teksty, nie ścieżki
+
+seg-e16c483479ce = ruch pojazdu i zdarzenia scenariusza jako CSV ruchu, NMEA, tekst punktów trasy i pliki zdarzeń dla laboratoryjnego symulatora GNSS; żaden sygnał nie jest zapisywany
+
+seg-044c58c98397 = Integracje dla łodzi (wtyczka Signal K, tryb bramki OpenCPN i kompilacja referencyjna) wywołują narzędzie wiersza poleceń; zob. <a1>MARINE-INTEGRATIONS</a1>.
+
+seg-cb8d8ff847eb = { "2" }. Potok silnika (dla każdego przebiegu)
+
+seg-53e9e596ca44 = Każdy przebieg przeprowadza pojedynczy model czujnika przez siatkę czasu, dyscyplinując go, gdy GNSS jest nominalny, i pozwalając mu swobodnie dryfować (holdover / nawigacja zliczeniowa) podczas przerwy.
+
+seg-257407f3c375 = Scenariusz uruchamia ten potok dwukrotnie — raz dla czujnika kwantowego, raz dla klasycznego — z <b>niezależnymi ziarnami (seed)</b> (<c1/>), tak aby obie realizacje szumu były nieskorelowane.
+
+seg-4659e89ba5f5 = { "3" }. Interfejs modelu błędu (punkt rozszerzenia)
+
+seg-7b70e8b1b98a = Każdy czujnik implementuje ten sam pomysł: obiekt ze stanem, którego <c1/> przesuwa jego wewnętrzny błąd stochastyczny, a skumulowany stan jest odczytywany w każdym takcie. Zegary udostępniają skumulowaną fazę; akcelerometry — dwukrotnie scałkowaną pozycję; łącza — fluktuację dla każdego pomiaru.
+
+seg-79ab76c6dbc0 = <c1/> trafia do wyniku, dzięki czemu każda wartość w wynikach jest możliwa do prześledzenia do opublikowanego źródła wskazanego w <c2/>.
+
+seg-514c49659947 = Obok analitycznego <c1/> pakiet zegara uruchamia dwustanowy (faza, częstotliwość) filtr Kalmana (<c2/>), którego szum procesu odpowiada modelowi prawdziwemu. Podczas dryfu w czasie przerwy wariancja jego błędu fazy rośnie dokładnie do <c3/> — analitycznej zależności holdover — a jego bieżąca granica 1-σ służy do wyznaczenia wskaźnika jakości <b>Integralność</b> (odsetek próbek z przerwy, dla których błąd mieści się w granicy k-σ).
+
+seg-7404589deb40 = { "4" }. Dyspozytor (CLI i wiązania)
+
+seg-6138513a43f7 = <c1/> jest jedynym punktem wejścia: odczytuje najwyższego poziomu <c2/>, deserializuje pasujący scenariusz, uruchamia pakiet i zwraca <c3/> (<c4/> występuje tylko dla rodzajów, które publikują tabelę odtwarzalności). CLI zapisuje je do plików, wraz z raportem (<c5/>, <c6/>) i wszelkimi wynikami <c7/> / <c8/>; wiązania Pythona i WebAssembly zwracają je hostowi. Jeden dyspozytor, bez rozjazdów.
+
+seg-524f749be364 = Dyspozytor działa na typowanym enum <c1/>, dopasowywanym wyczerpująco (zob. następny podrozdział), więc dodanie pakietu jest zmianą sprawdzaną w czasie kompilacji. Brak <c2/> powoduje przejście do pakietu <c3/>, dzięki czemu istniejące scenariusze jednego rodzaju deserializują się bez zmian (<c4/> ignoruje pole <c5/> w każdej strukturze scenariusza). Nierozpoznany <c6/> zostaje odrzucony z <c7/>, który wskazuje najbliższy wbudowany rodzaj, gdy nazwa wygląda na literówkę.
+
+seg-eedaeae2a7e7 = Typowane wywoływanie i uporządkowane API
+
+seg-ca47f566eaee = Dyspozytor działa na typowanym enum <c1/>, a nie na dopasowywaniu surowego łańcucha: <c2/> rozstrzyga pole <c3/> do wariantu, a dyspozytor dopasowuje go wyczerpująco — dodanie pakietu jest zmianą sprawdzaną w czasie kompilacji, a nie literówką w łańcuchu. Obok zwracającego łańcuch <c4/> (zachowanego dla CLI i istniejących wiązań) działają dwie typowane powierzchnie:
+
+seg-167c47049329 = <b><c1/></b> — typowane wejście z uporządkowaną taksonomią błędów (<c2/>, <c3/>, <c4/>, <c5/>). Każdy błąd niesie stabilny <c6/>, dzięki czemu wywołujący może rozgałęziać się według kategorii niepowodzenia zamiast analizować komunikat. Wiązania udostępniają to jako <c7/>.
+
+seg-1943051b3b20 = <b><c1/></b> (oraz <c2/>, udostępniane we wiązaniach jako <c3/>) — introspekcja programowa: nazwa, opis oraz pola wymagane i opcjonalne każdego rodzaju, dla UI (interfejsu użytkownika) i autouzupełniania w notebookach.
+
+seg-630243592256 = Rozszerzanie Kshana o zewnętrzny pakiet
+
+seg-d1adedd2c08b = Pakiet zewnętrzny implementuje dwa niewielkie, stabilne semantycznie (semver) traity z <c1/>:
+
+seg-d01471b13324 = <c1/> ma też domyślną metodę <c2/>, która nic nie robi, chyba że pakiet włączy się w punkt dyspozycji rejestru w <c3/>. Wbudowany pakiet <c4/> jest podłączony przez <c5/> jako przykład roboczy; pakiety spoza drzewa stosują ten sam kontrakt bez rozwidlania rdzenia (odzwierciedlając punkt rozszerzenia <c6/> z §{ "3" }, z którego korzysta prywatna nakładka odporności).
+
+seg-5b0449d96bc3 = Kshana ma zatem <b>dwa stabilne punkty rozszerzenia</b> — dodanie <em>czujnika</em> przez implementację <c1/> (§{ "3" }) albo dodanie całego <em>rodzaju scenariusza</em> przez implementację <c2/> + <c3/> — oba stabilne semantycznie (semver), żaden nie wymaga rozwidlenia rdzenia:
+
+seg-3928a007756b = { "5" }. Hybrydowy kamień węgielny
+
+seg-7f38e825519a = Pakiet hybrydowy uruchamia <em>zestaw</em> (jeden zegar i jeden czujnik inercyjny) i wymaga, aby <b>zarówno</b> czas, jak i pozycja pozostawały w specyfikacji; <c1/> to czas do przekroczenia przez którekolwiek z nich. Opcjonalnie optyczne łącze międzysatelitarne resynchronizuje <b>zegar</b> w czasie przerwy — wyłącznie wspomaganie czasu; pozycja nie jest resynchronizowana, ponieważ transfer czasu daje czas, a nie pozycję. To właśnie wyodrębnia czujnik inercyjny jako czynnik ograniczający.
+
+seg-17a8683f0982 = { "6" }. Dostępność GNSS wyprowadzona z geometrii
+
+seg-afdb141ac367 = <c1/> to deterministyczna warstwa geometrii bez zależności. <c2/> to albo analityczna keplerowska <c3/> (dwa ciała, opcjonalnie wiekowe J2), albo pełny propagator <c4/> zbudowany z kompletnego zestawu elementów dwuwierszowych; generator Walker-delta tworzy syntetyczne konstelacje, a widoczność w linii prostej = przesłonięcie przez Ziemię + maska elewacji. Liczba widocznych satelitów odpowiada stanowi GNSS (≥{ "4" } = nominalny, { "1" }–{ "3" } = pogorszony, { "0" } = odmówiony), a <c5/> zamienia to na oś czasu dostępności, która napędza standardowy przebieg holdover zegara. Dostępność jest więc <em>wyprowadzona z geometrii</em>, a nie tworzona ręcznie, podczas gdy przebieg, estymator i ocena pozostają bez zmian.
+
+seg-da82c97ac5c8 = Konstelacja podana jako pełne TLE jest propagowana modelem SGP4/SDP4 w <c1/> (sprawdzonym względem wektorów AIAA (American Institute of Aeronautics and Astronautics) 2006-6753); elementy tylko z linii 2 zachowują analityczną ścieżkę dwóch ciał. Oba rodzaje można mieszać w jednym bloku konstelacji.
+
+seg-a47031620b54 = { "7" }. Wiązania
+
+seg-57fb29fdd9d9 = Rdzeń kompiluje się bez zmian do kodu natywnego, rozszerzenia Pythona i WebAssembly. Moduły Python (<c1/>, PyO3 abi3) i WebAssembly (<c2/>, wasm-bindgen) są opcjonalnymi zależnościami włączanymi funkcjami (<c3/> / <c4/>): domyślna kompilacja i zestaw testów nigdy ich nie kompilują, natomiast bramka audytu zależności (<c5/>) sprawdza ich drzewa zależności, ponieważ te biblioteki trafiają do pakietu wheel i pakietu npm. Oba wywołują <c6/>, więc każda powierzchnia zwraca identyczne wyniki. Moduł WebAssembly obsługuje przeglądarkowy plac zabaw w <c7/> i eksportuje trzynaście funkcji: <c8/>, <c9/> (jeden przebieg silnika zwracający razem wynik, wykres, podsumowanie i tabelę), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, kodek udostępnialnych adresów URL (URL: adres internetowy) <c16/> / <c17/> oraz trzy eksportery <c18/> / <c19/> / <c20/>, które obsługują menu eksportu placu zabaw. Dwa dalsze punkty wejścia docierają do tego samego <c21/>: <b>serwer MCP (Model Context Protocol)</b> (<c22/>, wyłączona z przestrzeni roboczej biblioteka <c23/> udostępniająca piętnaście narzędzi — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; oba narzędzia przykładowe odczytują dołączone scenariusze przez domyślnie wyłączoną funkcję biblioteki <c39/>, którą włącza tylko ten serwer) oraz <b>wtyczka do JetBrains IDE (zintegrowane środowisko programistyczne)</b> (<c40/>, projekt w Kotlinie, który wywołuje CLI <c41/> zamiast linkować bibliotekę).
+
+seg-a6620e0d6eef = Włączanie funkcjami: Python i WASM to <c1/> / <c2/>; dołączona tabela scenariuszy to <c3/> (jedyne jej użycie przez serwer MCP); serwer MCP i kontrole krzyżowe <c4/> to biblioteki WYŁĄCZONE z przestrzeni roboczej; wtyczka IDE niczego nie linkuje — uruchamia CLI.
+
+seg-7bc5df56e4e5 = { "8" }. Determinizm i odtwarzalność
+
+seg-fb95c37c7bb9 = Cała losowość przepływa przez jeden zasiany <c1/> na przebieg; kolejność kroków jest stała, więc <c2/>.
+
+seg-e026c87beb26 = Wynik zawiera <c1/> SHA-256 (SHA: Secure Hash Algorithm); <c2/> uruchamia scenariusz referencyjny dwukrotnie i stwierdza, że wynik jest identyczny co do bajta.
+
+seg-42a3bdcbd99f = Ten sam silnik kompiluje się do kodu natywnego, rozszerzenia Pythona i <c1/> na potrzeby przebiegów w przeglądarce, dających te same liczby.
+
+seg-12e00717c2d4 = { "9" }. Struktura odroczona / przyszła
+
+seg-8a8e1b93b704 = Warstwy astrodynamiki, fuzji i alt-PNT z §1a — pełny propagator SGP4/SDP4, numeryczny propagator Cowella z siedmioma zaburzeniami w modelu sił i dwoma adaptacyjnymi integratorami, projektowanie manewrów i trajektorii, wyznaczanie orbity, estymatory GNSS/INS o 15, 8 i 17 stanach, sprzężony filtr zegara i pozycji oraz dopasowanie do map grawitacyjnych — zostały dostarczone, wraz ze wskaźnikiem jakości bezpieczeństwa z aktywnym demonstratorem spoofingu, rzeczywistą geometrią TLE/wielu konstelacji, pasmami Monte Carlo, przeglądami badań kompromisowych, drukowalnym raportem HTML (HyperText Markup Language) z jego maszynowo czytelnym bliźniakiem oraz przepływami pracy wydań, publikacji, wheels i pages.
+
+seg-318ad50d3826 = Kilka możliwości wymienianych tu kiedyś jako przyszłe prace zostało od tego czasu <b>dostarczonych</b> i jest opisanych powyżej lub w <a1>VALIDATION</a1>: pełna nutacja IAU 2000A i wolna od równonocy redukcja CIO GCRS↔ITRS / ITRF (International Terrestrial Reference Frame) (sprawdzona co do bitu względem SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy)), geopotencjał EGM2008 (Earth Gravitational Model { "2008" }) do stopnia i rzędu { "70" }, składnik <b>Lense’a–Thirringa</b> (unoszenie układu inercjalnego), pływy stałe, oceaniczne i atmosferyczne, walidacja krzyżowa efemeryd klasy DE (DE440/ANISE (DE440: Development Ephemeris { "440" }; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — czysto rustowy zestaw narzędzi geometrii planetarnej)), zewnętrzna walidacja krzyżowa Orekit { "12.2" } numerycznego propagatora Cowella ({ "0.08" } m w ciągu { "24" } h) oraz wsadowego i sekwencyjnego wyznaczania orbity, a także 17-stanowy ściśle sprzężony nawigator udostępniony jako rodzaj scenariusza <c1/>.
+
+seg-068119b15b27 = Pozostałe prace następcze są śledzone w <a1>CHANGELOG</a1> <c1/>, a plan dla poszczególnych możliwości w <a2>CAPABILITY</a2>: zewnętrzna wartość wyroczni dla ewaluatora wysokiego stopnia EGM (Earth Gravitational Model) dokładnie na osi biegunowej oraz czyste względem pyshtools porównanie w pobliżu bieguna (ewaluator do stopnia { "2190" } i jego ładowarka <c2/> w czasie działania są dostarczone, MODELLED; zob. <c3/>), zmienny w czasie czynnik pogody kosmicznej dla opcjonalnego poziomu gęstości oporu NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) (domyślną gęstością oporu jest statyczny model wykładniczy, a gęstość Jacchia-71 rodzaju <c4/> jest scharakteryzowana względem NRLMSISE-00, ale przez niego nie zastąpiona), zewnętrzna kontrola opcjonalnego cienia z pociemnieniem brzegowym tarczy Słońca, ścisłe sprzężenie GNSS/INS z fazą nośnej oraz rzeczywista mapa grawitacyjna EGM2008/EIGEN (EIGEN: European Improved Gravity model of the Earth by New techniques) dla dopasowania alt-PNT.
+
+seg-b48f69ea54b3 = Prywatne repozytorium nakładki zawiera głębię odporności objętą ograniczeniami eksportowymi; podłącza się przez ten sam interfejs <c1/> (i kontrakt <c2/> z §{ "4" }) bez zmiany publicznego silnika.
+
+seg-2f88ab8f67e8 = <s1>Poprzednia</s1>Gdzie działa Kshana
+
+seg-02b0e0fdcdbe = <s1>Następna</s1>Gdzie Kshana się mieści

@@ -11,3 +11,7 @@ seg-a0b63210b807 = Czytaj dalej
 seg-a7cfe6f135f1 = Orbita i geometria
 
 seg-835df2d05f2a = Dziedzina pomiarowa GNSS
+
+seg-28e87f407a10 = Dziedzina
+
+seg-d6476863f862 = Możliwość

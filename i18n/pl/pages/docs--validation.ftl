@@ -15,3 +15,7 @@ seg-2eb6d1b0483d = RAIM / ARAIM
 seg-da3532b1444d = SBAS / DO-229E
 
 seg-d3af26f389f5 = IONEX / Klobuchar
+
+seg-d6476863f862 = Możliwość
+
+seg-ad856ad710eb = Status
