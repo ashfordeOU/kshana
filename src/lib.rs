@@ -271,6 +271,8 @@ pub mod orbital_timing;
 pub mod osnma;
 pub mod palette;
 pub mod particle_filter;
+/// Data-partner submissions and `kshana partner check` (docs/PARTNER-DATA.md).
+pub mod partner;
 pub mod passes;
 pub mod permalink;
 // Transcendental functions that return the same bits on every platform, for the
