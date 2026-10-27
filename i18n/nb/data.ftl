@@ -6148,3 +6148,834 @@ dat-accb0008fb70 = Kovariansen for syvparameters Helmert-datum, med de to simule
 
 # data/verification-matrix.json
 dat-fdf50c7675aa = Syvparameters Helmert-datum propagert fra en SIMULERT OBSERVASJONSKAMPANJE i stedet for gjenvunnet fra en injisert transformasjon. Jordstasjoner observerer en kildebelagt katalog av fyr på månens overflate over en eksplisitt plan; delene av månens VLBI-forsinkelse akkumuleres til en Fisher-informasjonsmatrise for fyrkoordinatene og sendes gjennom Helmert-designet A = [I₃ | [p]ₓ | p] inn i H = AᵀM_bA, så den oppgitte datumnøyaktigheten er en funksjon av observasjonsprogrammet — eksakt lineær i forsinkelsessigma og monoton i buen gjennom librasjonen rapporten MÅLER. Datumdefekten er temaet i stedet for en fotnote: rang, defekt, kondisjonstall, spektrum, uobserverbare retninger i syvparameters basis, den svakeste retningen selv ved full rang og hver parameters andel av den oppgis i hver kjøring, og enhver parameter kampanjen ikke begrenser publiseres som NULL med en status. Korrelasjon mellom fyrfeil er MEASURED, ikke antatt — eksakt null når stasjonene holdes fast, og oppgitt med sin kostnad når de estimeres. Kan kjøres som scenariotypen `lunar-frame-campaign`
+
+# studio/data/capabilities.json
+dat-602bfa37c542 = Signalytelseslaget mellom linkbudsjettet og måledomenet: spektraltettheter per arealenhet for BPSK-R(n) og sinus-BOC(m,n), spektralseparasjonskoeffisienten som utleder anti-jam-Q-en som jamming-modellen bruker direkte, fra de faktiske signal- og jammerspektrene, RMS-båndbredden (Gabor) som fastsetter innholdet av avstandsinformasjon (BOC > BPSK), den termiske støyjitteren for koherent tidlig–sen DLL-kodesporing, og den koherente feilomhyllingen for tidlig-minus-sen flerveisfeil med smalkorrelatorundertrykking, samt en utformingsavveining for avstandskoder (autokorrelasjonssidelobe for m-sekvens/Gold og den tre-verdige Gold-kryss-korrelasjonsgrensen, pluss inversjonen fra kodelengde til entydig avstand). Dette er signalytelsesanalyse, ikke utforming av RF-nyttelast eller antennemaskinvare.
+
+# data/verification-matrix.json
+dat-677d04005685 = DOP-faktorene for én klokke bygger på kjernen som er validert mot gnss_lib_py { "1.0.4" } (raden 'GNSS-geometri / presisjonsfortynning (DOP)'); denne radens egne kontroller er interne: sky_geometry gjengir orbit::dop og dop_cov på samme geometri, ellipsen gjengir en analytisk 2x2-egenverdidekomposisjon, ECEF- og asimut/elevasjon-inndata stemmer overens, og RMS-en og { "95" } %-inneslutningen i den seedede skyen stemmer med geometrien. ENU-kovariansen med én klokke per system og ellipsen er VALIDATED i raden 'Horisontal feilellipse og kofaktor per system fra geometrikovariansen' (numpy, P2); det som forblir MODELLED her er sammensetningen: forhåndsinnstillingens propagering til en representativ himmel, Monte Carlo-skyen (kontrollert mot geometrien den trekker utvalg fra, en selvkonsistenssjekk) og flatene. Konstellasjonens forhåndsinnstillinger gir en representativ himmel, ikke en datert en; den gaussiske feilmodellen og UERE er oppgitte inndata, ikke en målt nøyaktighet eller en integritetsgrense
+
+# data/search.json
+dat-0cbb8b176295 = Nettstedet
+
+# data/search.json
+dat-ca71a91dc8eb = Horisontprofilen
+
+# data/search.json
+dat-da5865588453 = Scenariotypen for sporingstidsluker svarer på tre spørsmål for en klokke som går fritt mellom synkroniseringer…
+
+# data/verification-matrix.json
+dat-83d1ec2f6e4a = Øyeblikksbilde-reduksjonen og løserens lukkede tilfeller (InternalConsistency). Tillegget (tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md, forhåndsregistrert alene i 001ca100) med en høydebegrensning på { "1" } m, tre satellitter og et vindu på 6 epoker (ILLUSTRATIVE-innstillinger; kildene oppgir et filter, en høydebegrensning og tre satellitter, men ikke innstillingene deres): K1 til K5 feiler og K6 består, { "1" } av { "6" } som i den registrerte kjøringen; den korrigerte p95-3D-feilen for R300 faller fra { "280.6" } m til { "2.11" } m (horisontalt { "0.90" } m, ikke vurdert) og dekningen forblir { "0" }. Vinduets uavhengighetsantakelse favoriserer det. Ikke en uttalelse om noe reelt system
+
+# data/search.json
+dat-84c3e7c0b54b = Spektrum-scenariotypen bygger L-båndet for Global Navigation Satellite System (GNSS), og ethvert annet bånd en…
+
+# data/verification-matrix.json
+dat-73a3d167d96e = Stardust-nominalen til Desai, Mitcheltree og Cheatwood ({ "1999" }, NASA NTRS { "20050042027" }): maksimal retardasjon { "33.4" } g fra { "12.6" } km/s planetrelativt med utskytningsmassen på { "45.8" } kg, en 6-DoF POST-bane med den fullstendige aerodynamiske databasen; innstegsgrensesnittet fra Desai, Lyons, Tooley og Kangas (NTRS { "20090004445" }): radius { "6503.14" } km, treghetsfart { "12.9" } km/s ved -8.2 deg. Terskler fastsatt på forhånd i xval/entry-stardust/PREREGISTRATION.md før noen kjøring på disse inndataene; begge holdt ved første kjøring. HVA SOM IKKE ER: ett publisert tilfelle og én størrelse (toppretardasjon, som i den ballistiske tilnærmingen ikke avhenger av den ballistiske koeffisienten); innstegsbredden og kursen er antatt; oppvarming, varmebelastning og landingspunktet er ikke kontrollert mot det; punktmasse med konstant C_D, ikke 6-DoF.
+
+# js/developers-data.mjs
+dat-5bea30c2f8ec = Den statiske kartleggingen mot offentlige rammeverk (`kshana compliance-report --mapping` / `--sources`) som Markdown: én tabell per rammeverk med hver rads parafraserte krav, Kshana-utdataene som gir belegg for det og gapet utdataene ikke lukker; eller, med `sources` satt til true, kildedokumentene tabellene siterer, med versjoner og URL-er.
+
+# data/search.json
+dat-0d3123f7d981 = Gatekløften
+
+# data/search.json
+dat-06acdcc725b9 = Gatekløft-, sektor- og terrengreduksjonene til en horisonttabell, fire representative forhåndsinnstillinger (bygate, havneinnseiling, fjord, containerterminal) og funksjonene som setter dem sammen til et skyplot og en Monte Carlo-sky, fra CLI, MCP, Python og nettleseren. Forhåndsinnstillingene er representative geometrier med valgte, oppgitte dimensjoner, ikke oppmålinger, og reduksjonene er bare kontrollert mot håndberegnede verdier.
+
+# data/search.json
+dat-cbb9fd521aa7 = Den tekniske terskelen (ikke omsettelig)
+
+# data/verification-matrix.json
+dat-2193be3cc46a = De tre leddene en differensialkorreksjon fanger opp mellom epoken den beregnes i og epoken den brukes i, hver tidligere stående igjen som umodellert rom: feil i referansestasjonens oppmåling (korrelert på tvers av satellitter, uavhengig av grunnlinjen, ~{ "1" }:{ "1" } posisjonsoverføring og bevisst ikke DOP-forsterket), korreksjonsaldring (den frosne banefeilvektoren reprojisert på siktlinjen motorens egen propagator plasserer satellitten på én latens senere, pluss c·σ_y(τ)·τ klokkedrift fra den kalibrerte potenslovskurven), og jevn linkkvantisering over et eksakt fullt utslag på ±(orbit_err + clock_err) med varians step²/12. Rapportert både i avstands- og posisjonsdomenet, ved siden av — aldri i stedet for — det eksisterende residualet og beskyttelsesnivået, med en latenskurve ved siden av enkelttallet
+
+# data/search.json
+dat-c7fae9dce7f6 = De tre gjennomgåtte eksemplene
+
+# data/verification-matrix.json
+dat-8d9c177fc1ca = Tillitsscoren, båndet, årsakene, portstatusen og den mottakerrapporterte posisjonen publisert under navigation.gnss.kshana i en Signal K-server med et varsel for advarsel, alarm og normal tilstand (integrations/signalk); den portstyrte NMEA-strømmen, med posisjonsbestemmelsen markert som ugyldig mens tilliten er kollapset og en PKSHT-setning per syklus, levert til OpenCPN over TCP av selve porten eller av et lite relé, og et innebygd OpenCPN-scorepanel som leser PKSHT-setningen (integrations/opencpn); og systemd-enheter og en container som kjører porten (deploy/reference-build). Der disse viser utdata, bærer de den veiledende uttalelsen: Veiledende programvare, ikke typegodkjent navigasjonsutstyr (IEC { "61108" }, IEC { "61162" }): operatøren er fortsatt ansvarlig for fartøyets navigasjon.
+
+# data/verification-matrix.json
+dat-ab27e5de4c14 = TWSTFT-tovegsligningen løst for T_A - T_B med stasjonenes sende- og mottaksforsinkelser, den ionosfæriske opp/ned-asymmetrien i Ku-båndet, transponderens forsinkelsesforskjell og Sagnac-leddene, mot sin eksakte foroverrettede modell; et kvadratisk usikkerhetsbudsjett med link-TDEV som type A-ledd; en tovegsserie med hvit og flimmer-fasestøy (Kasdin-Walter), en døgnlig ikke-resiprositet og et konstant resiprositetsresidual; og raten, residual-RMS-en, TDEV og ADEV for oppgitte Circular T-, MJD-CSV- eller IGS RINEX-stasjonsklokkeserier. Kan kjøres som scenariotypen `time-transfer-budget`.
+
+# data/verification-matrix.json
+dat-50788560e7d7 = De validerte lukkede formene for de to radene ovenfor, kvadratlov-identiteten for falsk alarm P_d(snr = { "0" }) = P_fa og Holmes' gjennomsnittlige anskaffelsestid, og reduksjon til spektrum-typens egen SSC-kjede (den samme Jammer::ssc-koden). Utformingene selv er inndata: forhåndsinnstillinger merket REPRESENTATIVE eller WORKSHOP er ikke publiserte spesifikasjoner, forbedret Feher QPSK, kodeskiftnøkling og OFDM-spektre er tilnærmet, og formkontrollene sammenlikner former, ikke kalibrerte nivåer.
+
+# data/search.json
+dat-16112a9a77ca = Fartøyet
+
+# data/search.json
+dat-3f1d4e3f1ccb = Hele solsystemet ved én epoke, for PNT (posisjonering, navigasjon og tidssynkronisering) rundt ethvert legeme.
+
+# data/search.json
+dat-555eddd72c9c = Hele solsystemet ved én epoke, for PNT (posisjonering, navigasjon og tidssynkronisering) rundt ethvert legeme. For…
+
+# data/search.json, js/missions-runs.mjs
+dat-669e6375dd79 = Hele solsystemet ved én epoke.
+
+# data/search.json
+dat-89aaa5f9ce5a = Ordene, og grensene
+
+# data/verification-matrix.json
+dat-b16d6e1433cb = Theo1 og totalavvik (TOTVAR) — stabilitetsestimatorer med utvidet rekkevidde for lange tau som når ~{ "75" }% av registreringen der Allan-deviasjonen gir opp nær ~{ "50" }%; det skjevhetsfrie ThêoH-hybridet (allan::theoh_curve) bygget på dem forblir MODELLED
+
+# data/search.json
+dat-66fa672b5002 = Disse funksjonene er implementert ut fra publisert eller førsteprinsipp-fysikk med tester, men er ærlig talt…
+
+# data/search.json
+dat-cc1d1473669d = Dette dokumentet kartlegger RTCA (tidligere Radio Technical Commission for Aeronautics) DO-229E (SBAS…
+
+# data/search.json
+dat-079cb1d71f11 = Dette dokumentet beskriver hvordan Kshana styres: hvem som tar beslutninger, hvordan, og hva prosjektet vil og ikke vil…
+
+# data/search.json
+dat-50eb6e6fec85 = Dette notatet dokumenterer Kshanas åpne implementasjon av Advanced Receiver Autonomous Integrity Monitoring…
+
+# data/search.json
+dat-bf2f1f92d9a4 = Denne siden forklarer hva Kshana gjør og hvorfor, fra null og opp til fysikken.
+
+# data/search.json
+dat-af95fca25c5e = Denne siden lister hver grense som scenariotypen for telekomsynkronisering kontrollerer, hvor hver av dem kommer fra, og hva som ble…
+
+# data/search.json
+dat-0ce7cfae4415 = Denne gjennomgangen følger én bane gjennom de standardbaserte scenariotypene for samvirke og oppdragsanalyse fra ende til ende…
+
+# data/verification-matrix.json
+dat-da8207aca260 = Tre fasetter av den enkle dekomposisjonen ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) med det 8-dimensjonale datum⊕tidsskala-gauge som N(G) og de state_dim − { "8" } = { "32" } observerbare retningene som range(G): (T5) provider_mismatch_split klassifiserer en felles bias fra flere leverandører (∈ range(G)) som UOPPDAGBAR — som krever en ekstern kobling — og en differensiell bias (∉ range(G)) som selvovervåket / OPPDAGBAR; (§{ "0" }) foreningen er at DET SAMME blinde underrommet range(G) styrer den uoppdagbare feilklassen, slik at datum-gaugen N(G) og det feilblinde underrommet range(G) er én geometri, ikke to; (g7) slope returnerer Brown-beskyttelsesgapets stigning ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ for en feil b ∈ range(G) (estimatoren korrumpert med null paritet) og endelig for en oppdagbar feil
+
+# data/verification-matrix.json
+dat-fe38e57d2fb3 = Tre rammematriser sammenliknet element for element eller etter rotasjonsvinkel med ERFA ved vilkårlige epoker: precession::precession_matrix (IAU { "2006" } skjevhets-presesjon med Fukushima-Williams-vinkler), nutation::teme_to_gcrs_matrix (rotasjonen TEME til GCRS P^T N^T Rz(-EE) med IAU { "2006" }-presesjon, IAU 2000B-nutasjon og jevndøgnsligningen med de to ledende komplementære leddene), og cio::gcrs_to_cirs_matrix_with_offsets (rotasjonen GCRS til CIRS med IERS himmelpolforskyvningene dX, dY lagt til modellens CIP X, Y før rotasjonen, SOFA-kokebokens konvensjon; ny). Modellvalgene selv (2000B-nutasjon på TEME-banen, den komplementære serien med to ledd) er ikke validert, bare implementasjonen deres
+
+# data/verification-matrix.json
+dat-c6a5b4e18a0f = Tre gnss-ins-scenarioer på banebiblioteket (et fartøy som slingrer med { "8" } m/s med et fem minutter langt bortfall; et tog gjennom en skjæring med to satellitter og en tunnel; et fly der bortfallet dekker en 25 graders krengende sving) og pakkens valgfrie [tight]-tabell: pseudoavstander fra en SGP4 Walker-konstellasjon fusjonert av den lukkede-sløyfe-navigatoren, hver satellitt over masken når nominell og de høyeste få når degradert
+
+# data/verification-matrix.json
+dat-6781f5f7c487 = Tre uavhengige autoritative efemerider — DE440 (JPL), INPOP21a (IMCCE), EPM2021 (IAA RAS) — samplet via IMCCE calceph, krysskontrollert med en uavhengig numpy SVD-minste kvadraters tilpasning. HVORFOR DETTE ER Validert DER lunar_common_mode IKKE ER DET, på de samme tre efemeridene: her ER den rapporterte størrelsen en egenskap ved de publiserte dataene — deres innbyrdes uenighet — så efemeridene er den uavhengige referansen, ikke en inndata. I lunar_common_mode mater den samme uenigheten en MODELLED konstellasjonsgeometri, og svaret er en egenskap ved den modellen, og derfor er den raden med rette Modellert/ReferenceImpl.
+
+# data/search.json
+dat-e308dc95dc23 = Tre scenariotyper gir posisjonering, navigasjon og tidssynkronisering (PNT) med satellitter i lav jordbane…
+
+# data/verification-matrix.json
+dat-b7376e140622 = Tre strukturelle vern over selve verifikasjonsprosessen, hvert av dem lukker en feilklasse som nådde den kanoniske porten som en periodisk eller falsk rød. ({ "1" }) Hver konstruerte midlertidige sti i Rust-kildene må ha en unik komponent per kall; en prosess-id avvises, fordi cargo kjører bibliotekstestene som parallelle tråder i ÉN prosess og pid-en deles av dem alle. ({ "2" }) Hver byte-for-byte- eller hashfeste må oppgi, ved siden av seg selv eller i modulhodet sitt, hva det dekker og hva det bevisst utelater — slik at en tverrgående endring med et øyekast kan se hvilke feste som er i omfang og hvilke som i det stille har blitt endringsdetektorer for hele depotet. ({ "3" }) En grønn kan bare hevdes fra HELE suiten: scripts/gate.sh kjører `cargo test --all`, fanger den sanne exit-koden uten noen pipe i veien, og skriver en kvittering som navngir committen, antallet integrasjonsbinærer, antallet tester og varigheten; pre-push-kontrollen avviser en push hvis commit ingen gyldig kvittering navngir, på et rent tre. Repeterbarheten samples separat av scripts/check-repeatability.sh, som kjører bibliotekssuiten N ganger og feiler hvis settet av beståtte tester er forskjellig.
+
+# studio/data/capabilities.json
+dat-abb22745ef3d = Tre-akset strapdown-INS — kvaternionholdning, WGS-84 NED-mekanisering, coning/sculling-kompensasjon og en fullstendig deterministisk IMU-feilmodell — pluss en førsteprinsipp-akselerometer med kald-atom-interferometer (Mach–Zehnder-fase, projeksjonsstøy, kontrastfall, vibrasjonskobling) og et partikkelfilter for terreng-/gravitasjonsreferert GPS-nektet navigasjon.
+
+# data/verification-matrix.json
+dat-8a384aa0ece5 = TIB-feilmeny (domenedivergens, klokkeslam, holdover-coast, statisk/inkrementell/symmetrisk/asymmetrisk forsinkelse, replay-innenfor-ferskhet, banevalgt, k-av-N-kvorum)
+
+# data/verification-matrix.json
+dat-ba55614d83be = TIB-poengsetting av integritetsdekning (HMI/MI/tilgjengelighetsrater + dom om overgrensedekning)
+
+# data/verification-matrix.json
+dat-a94d5c81b3b5 = TIB Stanford-integritetsdiagram, epokeklassifisering (nominell / utilgjengelig / MI / HMI)
+
+# data/verification-matrix.json
+dat-ae4e9157f569 = TIB-dom om uoppdagbar absorpsjon (symmetrisk/replay må absorberes av PL, aldri rapporteres som oppdaget)
+
+# data/search.json
+dat-96a1790c4953 = Tidevann på geopotensialet (src/tides.rs)
+
+# data/verification-matrix.json
+dat-1cece66370c3 = tides::tests (S1-leddet er døgnlig, dreier { "90" } deg på et kvarter av døgnet, og har lastfaktoramplituden til hver rad; fysisk størrelsesorden i LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+# studio/data/capabilities.json
+dat-570e93de692d = tett koblet UKF · { "0.77" } m RMS
+
+# studio/data/areas.json
+dat-7693dd3b7cf2 = Tidsfeil
+
+# studio/data/capabilities.json
+dat-6cece0b05a6a = Tidsskalaer og jordorienteringsrammer
+
+# studio/data/capabilities.json
+dat-46048a345e4c = Tidssystemer
+
+# data/search.json, js/missions-runs.mjs
+dat-a4f81aad2d9a = Tidsoverføring til UTC fra LEO-satellitter, mot C/N0 og mottakerens oscillator.
+
+# data/verification-matrix.json
+dat-e2efae3f8849 = Synlighetspasseringer i tidsdomenet (AOS/TCA/LOS, maksimal elevasjon, varighet) for en motorpropagator over en stasjon over en elevasjonsmaske, med interpolerte opp-/nedgangskryssinger og total tilgang: passes::predict_passes, den geometriske planleggeren (ingen refraksjon eller lystid). Scenariotypen `passes` kjører den tilsynelatende prediktoren fra raden 'Prediksjon av tilsynelatende passeringer over en bakkestasjon med refraksjon og lystid'
+
+# data/search.json
+dat-66eda5411853 = Tidsspoof-deteksjon med en eksplisitt angrepsform og en stokastisk detektor.
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-dcb22bd12a55 = Feilbudsjettering for tidsoverføring
+
+# data/search.json
+dat-5f88ca853243 = time-transfer-budget (scenariotype)
+
+# data/search.json
+dat-bbb4dcced418 = timetransfer (scenariotype)
+
+# data/verification-matrix.json
+dat-44dcbd5a239e = timetransfer_chain::tests (presisjonen forbedres med integrasjon; kvante kan vinne OG tape; PL endelig-positiv; sikkerhets-FoM i [{ "0,1" }] og vokser med angrepsforsinkelsen; anomali-Pd monoton; avveiningen is_honest)
+
+# data/verification-matrix.json
+dat-9fd675aba21a = timetransfer::tests (resiprok kansellering; Sagnac-identitet i to former); tests/time_transfer_error_budgeting_reference.rs (Sagnac for ekvatorial rundtur = { "207.386" } ns mot den publiserte Ashby-verdien { "207.4" } ns til <{ "0.05" } ns; pluss at Sagnac-/geodist-geometrien er krysskontrollert mot RTKLIB { "2.4.3" } geodist() kompilert fra C-kilde)
+
+# data/search.json
+dat-bafdf56f480c = Tester av tidssynkronisering og holdover
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-fe1585259034 = Tidssynkronisering og avstandsmåling med kontinuitet gjennom optiske bortfall
+
+# studio/data/areas.json
+dat-572b994bdb6f = Tidssynkroniseringsfeil over kjøringen
+
+# data/search.json
+dat-60e75eec2266 = Tidssynkronisering for nettverk, spektrum, solsystemet, konstellasjoner, kampanjer og LEO-PNT
+
+# data/search.json
+dat-af3ae4c6ec29 = Tidssynkronisering med maskinvare i løkken: trekk ut antennen, score holdover
+
+# studio/data/capabilities.json
+dat-a4bd95a08c10 = Tidssynkroniseringsintegritet
+
+# data/verification-matrix.json
+dat-830ecf94efaa = Beskyttelsesnivå for tidssynkronisering for en mottaker i bane under GNSS-spoofing
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-3c5975241acf = Beskyttelsesnivå for tidssynkronisering under spoofing
+
+# data/search.json
+dat-81849f4dacd3 = Tidsmuren
+
+# data/verification-matrix.json
+dat-28757f0de384 = Referansetest for tidssynkroniseringsintegritet — feilkatalog (parametriske generatorer)
+
+# data/verification-matrix.json
+dat-00ec4aa50d47 = Referansetest for tidssynkroniseringsintegritet — poengsetter for integritetsdekning
+
+# data/verification-matrix.json
+dat-cea9b5d71933 = Referansetest for tidssynkroniseringsintegritet — epokeklassifiserer for Stanford-integritetsdiagram
+
+# data/verification-matrix.json
+dat-06ca29579f23 = Referansetest for tidssynkroniseringsintegritet — dom om uoppdagbar absorpsjon
+
+# js/missions-runs.mjs
+dat-d7ca79c5d894 = til å konvergere, bare GNSS
+
+# data/search.json
+dat-73bf610fd7de = Øverste nivå (klokke- og baneprofiler)
+
+# data/verification-matrix.json
+dat-5a7431e27e44 = Momentfri stiv-legeme-holdningsdynamikk
+
+# data/verification-matrix.json
+dat-b5235132847d = tpl::tests (lukkede oraklene + CUSUM); examples/tpl_jammertest.rs (JammerTest { "2024" } kalibrering mot reell spoofing); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (fester funnet); tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+# data/verification-matrix.json
+dat-cf0276f69bce = tracking_loop (sammensetter sdr, jamming)
+
+# data/verification-matrix.json
+dat-e61b4ece5d0d = tracking_loop::tests (åpen-sløyfe Costas-diskriminatorjitter mot sdr::correlate steppet fremover på seedet syntetisk IF, { "3" } samlede støyrealisasjoner × { "900" } epoker, i samsvar til { "0.63" }% over 35-45 dB-Hz, der kvadreringstapsleddet kreves å passe minst { "3" }× bedre enn formen uten kvadreringstap overalt der det kan løses; atan-diskriminatormetningen ved ~{ "32" } dB-Hz påvist heller enn bare oppgitt, slik at gyldighetsgrensen er festet; lukket-sløyfe-σ mot en steppet sdr Costas-sløyfe over { "4000" } epoker til { "3.7" }%; førsteordens DLL-rampeetterslep mot en steppet sdr DLL til { "0.17" }%; bessel_i0 mot tabulert I₀ til { "7.4e-8" }; hysteresebredden som kreves å falle i [{ "5" }·log₁₀ r, { "10" }·log₁₀ r] over { "4" } forhold × { "2" } integrasjonstider × { "3" } båndbredder); api::tests::tracking_loop_kind_round_trips_through_the_dispatch; tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+# data/search.json
+dat-b47f3ef2ed91 = tracking-loop (scenariotype)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-ddc4cb423e89 = Tap av lås i sporingssløyfen og spoof-opptrekk under interferens
+
+# data/search.json
+dat-6f5b10eb7cfb = Tap av lås i sporingssløyfen: C/N0 -> lås/opphevet lås med hysterese, tiden det tar å
+
+# data/search.json
+dat-9171d7bdf4d8 = Tap av lås i sporingssløyfen: C/N0 -> lås/opphevet lås MED HYSTERESE, tiden det tar å miste lås, og spoof…
+
+# data/search.json
+dat-a92df5c034d8 = Avveiningsstudie: hvordan skalerer holdover med klokkestabilitet?
+
+# data/search.json
+dat-895e0a8d9ffd = Banemodus: langs en bane
+
+# data/verification-matrix.json
+dat-473bee0dc62d = Transkriberte grenser fra ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC låst og ePRTC-A holdover (inkludert Tabell { "3" }-tidsfeilomhyllingen), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) T-BC/T-TSC-klassene A-D og G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) referansepunkt C, hvert åpent eller lukket intervall slik tabellen oppgir det, med hver oppføring merket 'for further study' utelatt; en dom og en margin ved det bindende punktet per kontroll, og tiden til hvert budsjett overskrides. Kan kjøres som scenariotypen `telecom-timing`
+
+# data/verification-matrix.json
+dat-973900257f13 = Transkripsjon av de siterte offentlige tallene og en konsistenssjekk: en EIRP-verdi satt ut fra en publisert minste mottatt effekt forutsier den publiserte største innenfor { "0.5" } dB med et flatt mønster. Det er en kontroll av avstandsspredningen, ikke en validering av noen satellitts antenne; representative forhåndsinnstillinger gjør ingen påstand om noe reelt system
+
+# data/verification-matrix.json
+dat-75850c0e8a41 = Transkripsjon av de siterte offentlige verdiene, kontrollert for struktur (hver offentlig kilde har en URL, Walker-mønstre går opp, C/N0 fra mottatt effekt over kT ved { "290" } K), ikke mot en ekstern uavhengig referanse. Representative verdier er navngitt i hver forhåndsinnstilling og er illustrative
+
+# data/verification-matrix.json
+dat-757d75457718 = Transkripsjon av de navngitte anbefalingene (lastet ned fra itu.int 2026-10-13), hver rad lest på nytt mot teksten, med brytepunktkontinuiteten de trykte koeffisientene innebærer avgrenset i testene (for eksempel { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns mot platået på { "100" } ns i G.812 Tabell { "4" }). En standardtranskripsjon med interne konsistenssjekker, ikke en samsvarstest og ikke en ekstern validering. G.812 (06/2004) er oppført som erstattet av en forhåndspublisert utgave 08/2026, og G.811 har en Amd. { "1" } (04/2016); ingen av dem kunne leses, så ingen av dem er kontrollert. Scenarioet med fritt gående OCXO overdriver oscillatorens bidrag ved observasjonsintervaller som er lange i forhold til en sløyfes tidskonstant; det sier ingenting om noen utstyrsklokke
+
+# data/verification-matrix.json
+dat-41fde09e0536 = Transkripsjon av de navngitte anbefalingene (fritt nedlastbare fra itu.int), hver grense med sin tabell eller klausul, oppført sammen med hver ubekreftet eller uimplementert oppføring i docs/TELECOM-TIMING.md; identitetene for brytepunktkontinuitet som tabellene innebærer, kontrolleres i testene. En standardtranskripsjon med interne konsistenssjekker, ikke en samsvarstest og ikke en ekstern validering. { "0.30" } runde { "2" } (forhåndsregistrert 970003ee), blokkert (forblir MODELLED): de ti maskeverdiene og tretten ePRTC-A-holdover-verdiene som anbefalingene trykker som regnede tall (G.8272 fig. 1-2, G.8272.1 Amd.1 kl. { "8.2.1" } og fig. V.1-V.3, G.8271.1 Amd.3 fig. 7-2 til 7-4) gjengis innenfor en halv trykt enhet, de fleste av dem tabellkonstanter eller brytepunkter; G.8271.1 fig. 7-2 merker { "200" } ns ved { "1.3" } s mot sin egen Tabell 7-1 ({ "197.5" } ns). Grensene for klassene A-D i G.8273.2 har ingen trykt regnet verdi, og brytepunktmerkene for ePRTC låst i G.8272.1 (på hele konstruksjonslinjer) ble utelatt av den forhåndsregistrerte utvalgsregelen, så de forblir transkripsjoner
+
+# data/verification-matrix.json
+dat-d599af854f03 = TRK-2-18-leser for Orbit Data File og modell for rampet 2-veis Doppler fra Mars
+
+# data/verification-matrix.json
+dat-987a822b09b1 = Troposfærisk amplitudescintillasjon på en jord–rom-link
+
+# data/search.json
+dat-18b137f9f9d0 = Tillitsscore
+
+# data/search.json
+dat-f0430b8cc9f6 = Tillitsscore (fartøysplattform)
+
+# studio/data/capabilities.json
+dat-03c201e427bf = Tillitstelemetri for sikkerhetsoperasjoner
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-8dd9b64e7b1c = SIEM-hendelser for tillitstelemetri: Common Event Format (CEF) over syslog
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-3b341a074b5a = SIEM-hendelser for tillitstelemetri: Log Event Extended Format (LEEF) over syslog
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-af2c0f76b82d = Ledningsformater for tillitstelemetri: Prometheus tekstutstilling og OpenTelemetry OTLP/HTTP JSON
+
+# data/search.json
+dat-462f51eddb7a = Betrodd kvantetidssynkronisering — ende-til-ende-kjede, sikker formidling, anomali + avveining (src/timetransfer_chain.rs)
+
+# data/search.json
+dat-e2b23a03c196 = Betrodd kvantetidssynkronisering — ende-til-ende tidsoverføringskjede, sikker formidling,
+
+# data/verification-matrix.json
+dat-6c2f04247970 = Betrodd kvantetidssynkronisering (tidsoverføring + sikker formidling + anomali)
+
+# studio/channels.json
+dat-678b3b18dc8d = Prøv i nettleseren
+
+# data/search.json
+dat-fe6951113784 = Prøv selv
+
+# studio/data/capabilities.json
+dat-2d7dadadb10a = Tsiolkovsky < { "0.01" } % · Lambert-rundtur til tolegemesannhet
+
+# data/search.json
+dat-792becc434c6 = Opplæring { "1" } — Min første bane: hvor er GPS-satellittene
+
+# data/search.json
+dat-a424ed5ba327 = Opplæring { "2" } — Klokke-holdover: hvor lenge kan du seile på tregheten
+
+# data/search.json
+dat-43b0b402ae05 = Opplæring { "3" } — Kvante mot klassisk GNSS-robusthet (avslutningsøvelse)
+
+# data/verification-matrix.json
+dat-b349d9190a41 = To ulike beregninger i kodebasen av den samme størrelsen, ikke én omskrevet: halvering på IEEE-1139-potenslovskurven vet ingenting om støytype, mens den lukkede formen inverterer den dominerende typen algebraisk, slik at en feilklassifisert støytype eller et dårlig intervall viser seg som en ikke ubetydelig relativ forskjell. De fire verdiene gjengir også artikkelens publiserte tabell til halvparten av dens siste trykte siffer -- men den tabellen ble selv rekonstruert fra den samme lukkede formen, så det er en reproduserbarhetskontroll og ikke en ekstern uavhengig referanse, og rammeleddet den måles mot er en Modellert allokering
+
+# data/verification-matrix.json
+dat-56afaff440ac = Todimensjonal sveip av det mønstervektede, høydebegrensede fotavtrykket for overflatefangst over senderhøyde og skåldiameter, gitt ut som én rad per driftspunkt med halvmaktstrålebredden hver diameter innebærer, og limbfangst rapportert som en TERSKEL -- per rad limb-J/S, marginen og senderstyrken som ville lukke den; per rutenett de lokaliserte krysningene, eller en eksplisitt uttalelse om at limben ikke nås noe sted på rutenettet, med underskuddet
+
+# data/search.json
+dat-72905c49853b = Tolegemes oppskytnings- og stigningsgeometri: oppskytningsazimut (sin Az = cos i / cos lat), minste oppnåelige…
+
+# data/verification-matrix.json
+dat-d4efa5c1652f = Tolegemes oppskytningsazimut (sin Az = cos i / cos lat), minste oppnåelige inklinasjon, sirkulær hastighet, østlig bonus fra jordrotasjonen, Δv for planendring med dogleg og daglige muligheter, og, gitt en epoke og IERS finals2000A-rader, stedets fart om den sanne polen (launch::site_rotation_speed_at). Kan kjøres fra CLI/bindinger som scenariotypen `launch-window` (scenarios/launch-window.toml)
+
+# data/verification-matrix.json
+dat-ba0279e6f540 = Todelte juliandatoer og skuddsekunder på tidsbanen for jordbaner
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-349495a3c0b4 = Todelte juliandatoer gjennom jordrotasjon på banen
+
+# studio/data/capabilities.json
+dat-0286c8eb5794 = Kalman-holdover med to tilstander, Allan-familiens stabilitet (ADEV / MDEV / TDEV / HDEV) med konfidensintervaller og en fullstendig IEEE-1139-tilpasning av potenslov med fem koeffisienter, og de operative overføringsmetodene — TWSTFT med BIPMs lukkede Sagnac-form, GNSS common-view, PPP ionosfærefri overføring, en fri-rom-optisk link med turbulensscintillasjon og en tidsskala for klokkeensemble med invers varians. En holdover-kalkulator for GNSS-nektet klokke inverterer van-Loan-veksten i coast-feil til en holdover-til-terskel — hvor lenge en klokke går fritt før tidsfeilen overskrider budsjettet — på tvers av klassiske og kvanteklokkeklasser; modellert, og ærlig på at for en svært stabil klokke settes holdover til en stram terskel av den antatte langtau-støygulvet, ikke den siterte ADEV.
+
+# data/search.json
+dat-7f7007942495 = Tovegs satellitt-tids- og frekvensoverføring (TWSTFT) mellom to ILLUSTRATIVE stasjoner, en
+
+# data/search.json
+dat-5013dd9c3030 = Tovegs satellitt-tids- og frekvensoverføring mellom to stasjoner gjennom et geostasjonært relé: …
+
+# data/verification-matrix.json
+dat-cb59cc06f1d2 = Tovegs/TWSTFT (Sagnac), GNSS common-view, PPP; linkjitter→avstand
+
+# data/verification-matrix.json
+dat-8e1d443b5d7e = TWSTFT-tovegsligning, usikkerhetsbudsjett og linkstabilitet med flimmer og døgnlig ikke-resiprositet
+
+# data/verification-matrix.json
+dat-983d0f0e3e8a = twstft_budget::tests (tovegsligningen gjenvinner forskyvningen eksakt; Sagnac-leddet er lik BIPMs lukkede sløyfeform; det ionosfæriske leddet følger frekvensdelingen og troposfæren kanselleres; flimmerfase har en flat TDEV; et døgnlig residual løfter TDEV nær et halvt døgn; en resiprositetsbias forskyver forskyvningen og ikke TDEV; serie-stabilitet fjerner en rate); time_transfer_budget::tests
+
+# data/search.json
+dat-dd9ca7845a91 = Typet utsendelse og det strukturerte API-et
+
+# data/verification-matrix.json
+dat-989fe8c60f51 = Underflytsikker, polsikker evaluering av et fullt normalisert felt til grad { "2190" } (SphericalHarmonicField::acceleration_hf / potential_hf, Holmes-Featherstone { "2002" } modifisert foroverrettet kolonne med gradienten fri for 1/cos phi), en strømmende ICGEM .gfc-laster (from_gfc_file / from_gfc_reader; hele EGM2008 hentes ved kjøretid, ikke medfølgende), og Holmes-Featherstone-evaluatoren som kan velges på det frivillige Cowell Geopotential
+
+# data/verification-matrix.json
+dat-321e1c30be42 = Uoppdagbart felles tak: den største feilstørrelsen langs en retning d som slipper unna BÅDE separasjon (alpha_ss = T_ss / hvitnet kontrastnorm av d) og felleskomponentstatistikken (alpha_cm = sqrt(T_cm { "1" }^T Omega^-1 { "1" }) / |{ "1" }^T Omega^-1 d|), rapportert som min(alpha_ss, alpha_cm). Under en positivt definitt Omega utelukker de to blinde retningene (d proporsjonal med { "1" }, og { "1" }^T Omega^-1 d = { "0" }) hverandre, så taket er ENDELIG for hver d som ikke er null; det er uendelig bare for en nullretning eller en ikke-positivt-definitt Omega. En retning utenfor den modellerte felles aksen er blind bare for felleskomponentstatistikken og avgrenses av separasjon
+
+# data/search.json
+dat-de39e3e42f97 = Samlet evidens for avveining mellom kvante og klassisk (src/qtrade.rs)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-30a97898922e = Enhet og opphav oppgitt for hver rapporterte størrelse
+
+# studio/data/capabilities.json
+dat-bb1ab222d297 = Enhet og opphav på hver rapporterte størrelse
+
+# data/verification-matrix.json
+dat-19a913b31515 = Spektraltettheter per arealenhet for GPS L1 C/A og L2C (BPSK({ "1" })), GPS L5 og Galileo E5a (BPSK({ "10" })), sinus-BOC({ "1,1" }) og Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, med en MBOC-variant lagt til), deres numerisk lokaliserte nullpunkter og maksima (spectrum::psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz), og spektralseparasjonskoeffisienten for et signal mot et hvilket som helst spektrum ved en hvilken som helst forskyvning (navsignal::spectral_separation_coeff_offset) eller mot en tone, flatt støy, en chirp eller tilpasset støy (spectrum::Jammer::ssc), med anti-jam-koeffisienten Q = 1/(R_c kappa)
+
+# data/search.json
+dat-61d80f0e7425 = Enheter og opphav, per felt, for hver type
+
+# data/search.json
+dat-a9e9ab6d88d7 = Til og med { "0.36" } var hver jordsynlighetstest i motoren én elevasjonsgrense, mask_deg: en satellitt…
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-2233778f23ed = Uranus og Neptun fra Standish Tabell { "1" }, Pluto, og planethastigheter
+
+# data/search.json
+dat-c79c9837d30a = US DHS Resilient PNT Conformance Framework: hva Kshana gir belegg for
+
+# studio/data/capabilities.json
+dat-2b68c27525f2 = US DHS-rammeverk for robust PNT
+
+# assets/capabilities/capabilities.json
+dat-823f014c99fb = USGS / Planetary Data System, Voyager- og Galileo SSI-mosaikk
+
+# assets/capabilities/capabilities.json
+dat-cd4da8272226 = USGS Astrogeology / Planetary Data System, Viking-mosaikk (P. Stooke)
+
+# assets/capabilities/capabilities.json
+dat-dd59e97e8dcf = USGS Astrogeology Science Center
+
+# data/search.json
+dat-0ce0df0ff899 = Bruke Kshana fra en AI-agent
+
+# data/search.json
+dat-72f2e25e1d08 = Bruke reelle konstellasjons-TLE-er
+
+# data/verification-matrix.json
+dat-efc9b5010923 = UTC fra 1960-01-01 til 1971-12-31, da UTC gikk med en forskjøvet rate fra TAI og ble steppet med brøkdeler av et sekund, på banen med todelt juliansk dato: TAI - UTC fra driftstabellen for hver periode (timescales::tai_minus_utc_on_date), UTC-kalenderdatoen til en todelt juliansk UTC-dato med dagslengden { "86 400" } s + dleap (Jd2::from_utc_calendar), UTC til TAI med dagsbrøken skalert fra UTC til SI-sekunder (jd2::utc_to_tai) og TAI tilbake til UTC (jd2::tai_to_utc), etter SOFA dtf2d, utctai og taiutc. Før { "1960" } regnes TAI - UTC som { "0" } (SOFAs verdi; UTC udefinert) og er utenfor påstanden. Den enkle f64-varianten timescales::tai_minus_utc klemmer fortsatt til { "10" } s før { "1972" } og er ikke dekket
+
+# data/search.json
+dat-0bcbd6a488b7 = Hjelpefunksjoner
+
+# js/developers-data.mjs
+dat-04685dab3c55 = valid: detected scenario kind `clock`
+
+# js/developers-data.mjs
+dat-7ae5035a7d5a = Valider en testbetingelsesfil fra laboratoriet (`kshana iq conditions`): en `kshana.test-conditions/1`-fil, TOML- eller JSON-tekst, som oppgir laboratoriets kjente sannhet for en opptaking (satellittene som forventes, innsvingningstiden, den oppgitte jamming- eller interferensplanen).
+
+# data/search.json
+dat-9edfc7a39d2a = VALIDATED og MODELLED
+
+# studio/data/capabilities.json
+dat-0019c88828a9 = Validert på reelle IGS-data (stasjon ABMF, 2018-05-13) til { "5.7" } m 3D-RMS / { "1.1" } m horisontalt mot den oppmålte koordinaten.
+
+# data/search.json
+dat-dcc344df03dd = Validerte resultater
+
+# studio/data/capabilities.json
+dat-8ba36ed18039 = validerte rader krever en ekstern uavhengig referanse (invariant håndhevet i CI)
+
+# data/search.json
+dat-509ad71b1b5f = Validering og evidens
+
+# data/search.json
+dat-2c8f88b01581 = Validering på et øyeblikk
+
+# data/search.json
+dat-108d874b494e = Valideringsregister
+
+# data/search.json
+dat-4d1e3020f8f1 = Valideringspakker
+
+# data/search.json
+dat-4a43a8c1fd74 = Valideringsrunde { "2" }
+
+# data/search.json
+dat-d7b6a8ce3a7a = Valideringsstatus
+
+# data/search.json
+dat-2db9e436cfdd = Validering: inversjonen på en tilbakeholdt reell klokke
+
+# data/search.json
+dat-f4a97f622c0a = Variant: strontium-optisk klokke av laboratoriekvalitet mot CSAC.
+
+# data/search.json
+dat-795854adc6c4 = Oppsummering av dommer
+
+# data/search.json
+dat-66f52522c4b3 = Verifikasjonsmatrise
+
+# data/search.json
+dat-aedfff7efc5d = Verifikasjonsstatus
+
+# js/developers-data.mjs
+dat-0f25026f5234 = Verifiser en signert bevispakke (`kshana evidence verify`): hver fils SHA-256 mot manifestet, hashkjeden, Ed25519-signaturen, og med `public_key` (signerens nøkkel, fra signereren via en annen vei) at signereren er den forventede, og med `full_log` at loggen du har er den pakken registrerer og at utsnittet kom fra den.
+
+# studio/data/capabilities.json
+dat-068809535e3c = versjonert konvolutt · rundtur + forovertkompatibel lesing verifisert
+
+# data/verification-matrix.json
+dat-8c6a34721e44 = Synlighetspasseringer (AOS, TCA, LOS, maksimal tilsynelatende elevasjon, varighet) for et SGP4-elementsett over en WGS-84-stasjon på den validerte jordbanebanen (IAU 2006/2000A, valgfrie parametere for jordorientering), med troposfærisk refraksjon etter ITU-R P.834-9 (ligning { "9" } til { "14" }, anbefalingens trykte koeffisienter) og nedlinkens lystid, hver kan slås av og på; kryssinger løst ved halvering til { "1e-7" } s og kulminasjonen med gyllent snitt-søk. Kan kjøres fra CLI/bindinger som scenariotypen `passes` (scenarios/passes.toml), begge korreksjoner på som standard
+
+# studio/data/capabilities.json
+dat-a4d681c2f89b = VLBI-plan til stasjonskoordinatkovarians
+
+# data/verification-matrix.json
+dat-715f9872a12d = VlseKriterijumska Optimizacija — gruppenytte Sᵢ, individuell anger Rᵢ og kompromissindeksen Qᵢ ved strategivekt v={ "0.5" }, med rangeringen lavere-er-bedre
+
+# studio/channels.json
+dat-cec4d4f917b6 = VS Code (ett klikk)
+
+# studio/channels.json
+dat-aab2e31aee02 = VS Code- og Insiders-brukere
+
+# studio/data/capabilities.json
+dat-53b8139d7ee1 = mot uavhengig numpy/scipy-paritetsalgebra
+
+# studio/data/capabilities.json
+dat-d2bc1a8c41f0 = mot numpy/scipy Umeyama–Horn SVD
+
+# studio/data/capabilities.json
+dat-057b91b0c350 = mot offisielle BGS IGRF-14-verdier
+
+# data/verification-matrix.json
+dat-727093687049 = wahba::tests (A(identitetskvaternion)=I; Jacobi-egenverdiløseren tilfredsstiller Kv=λv og bevarer sporet på en kjent symmetrisk matrise; K er symmetrisk); tests/wahba_reference.rs (TRIAD, Davenports q-metode og QUEST gjengir scipy.spatial.transform.Rotation.align_vectors' optimale DCM på støyfrie vektede vektorsett til <{ "1e-9" } rad via den rammeuavhengige holdningsfeilvinkelen; pluss at q-metoden gjenvinner en kjent rotasjon med λ_max=Σ vekter og null Wahba-tap, q-metodens løsning minimerer Wahba-tapet under perturbasjon, QUEST stemmer med den optimale q-metoden til <{ "1e-7" } rad, og den optimale estimatoren slår tovektors-TRIAD i RMS-holdningsfeil over { "2000" } støyende Monte Carlo-forsøk)
+
+# data/verification-matrix.json
+dat-7a50fbacac97 = Wahba/TRIAD/QUEST-holdningsbestemmelse
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-ead7033f0cfa = Walker-konstellasjonsgeometri og de publiserte nominelle slottene til GPS, Galileo og GLONASS
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-b262774f5883 = Walker delta 1600/32/1; Walker delta 1600/32/7; Walker delta 1000/20/3; Walker star 800/16/1
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-a2c625238ffd = Walker delta 8/4/1; Walker delta 6/3/1
+
+# data/search.json
+dat-9f4d90082cce = Vil du ha ferske data?
+
+# data/search.json
+dat-b62354b3a6a8 = Måter å bruke det på
+
+# data/search.json
+dat-7ea36107ff6a = Vi som medlemmer, bidragsytere og ledere lover å gjøre deltakelse i fellesskapet vårt til en trakasseringsfri…
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-9fc2c82396a8 = Værdrevet tilgjengelighet for optiske bakkesteder og avstandskorrelert stedsdiversitet
+
+# studio/channels.json
+dat-cc207b5cd120 = web- og Node.js-utviklere
+
+# data/verification-matrix.json
+dat-14787aed1cf0 = Weighted Aggregated Sum Product ASSessment (lineært normalisert konveks blanding λ·WSM+({ "1" }−λ)·WPM ved λ={ "0.5" }) og MOORA-forholdssystemet (vektornormalisert vektet nyttesum minus vektet kostnadssum) — den stabilitetsforsterkede verdiblandingen og den fortegnsbærende forholdssystem-poengsetteren
+
+# data/verification-matrix.json
+dat-7b2ae275c7cf = Vektede minste kvadraters Gauss-Newton-posisjonsbestemmelser over en hvilken som helst blanding av systemer, én mottakerklokke per system (intersystembiasen estimert sammen med posisjonen) eller en kjent kringkastet forskyvning på referansetidsskalaen; sigmaer per måling oppgitt av kalleren, som standard motorens termiske støy i forsinkelseslåssløyfen (navsignal::dll_code_jitter_chips) ved C/N0 for elevasjonen kombinert med signal-i-rommet-avstandsfeilen; uvektet DOP (GDOP, PDOP, HDOP, VDOP, TDOP) i den lokale geodetiske rammen, formelle øst-nord-opp-sigmaer og bias-sigmaene; den felles modusen `leo-pvt` sammenlikner posisjonsbestemmelser med bare GNSS, bare LEO og fusjonerte, og sveiper DOP mot antallet LEO-satellitter som legges til
+
+# data/verification-matrix.json
+dat-70d1be2267c4 = Weighted Sum Model (min–maks-normalisert additiv aggregering + rangering) og Weighted Product Model (sumnormalisert, resiprok-for-kostnad multiplikativ aggregering) — de to poengsetterne for verdiaggregering i avveiningsstudier
+
+# data/search.json
+dat-32193a7618c9 = Beskyttelsesnivåer med vektede minste kvadrater (DO-229E tillegg J)
+
+# data/search.json
+dat-d321c3bd2268 = Hvordan «bra» ser ut
+
+# data/search.json
+dat-a7c1dc8dc6c8 = Hva en etikett i rapporten betyr
+
+# data/search.json
+dat-b0ebd80a8a88 = Hva en melding bærer
+
+# data/search.json
+dat-7527daffb359 = Hva en pakke ikke gjør
+
+# data/search.json
+dat-0d559928045e = Hva et resultat ikke sier
+
+# data/search.json
+dat-91b5336a4a1f = Hva en rad betyr
+
+# data/search.json
+dat-a9c9d77f4ae3 = Hva et validert residual betyr her
+
+# data/search.json
+dat-002d214117b2 = Hva som begrenser det
+
+# data/search.json
+dat-098bbea567ed = Hva som kommer ut
+
+# data/search.json
+dat-581f00be7809 = Hva som regnes som en tidsserie
+
+# data/search.json
+dat-218fae2d48b6 = Hva som ikke regnes
+
+# data/search.json
+dat-3384381cc8d6 = Hva hver kontroll fanger opp, og hva den ikke kan
+
+# data/search.json
+dat-6b4afd405535 = Hva hver fil inneholder
+
+# data/search.json
+dat-600eb20b965f = Hva hvert verktøy ikke vil gjøre
+
+# data/search.json
+dat-09153c033e1e = Hva som går inn
+
+# data/search.json
+dat-bcb352dedddd = Hva som kontrolleres
+
+# data/search.json
+dat-96d7e8438600 = Hva som kontrolleres, og mot hva
+
+# data/verification-matrix.json
+dat-45287ea80f6d = HVA SOM KONTROLLERES: denne crate-ens egne eksakte strengtester av den dokumenterte LEEF-feltkartleggingen, og feltene i RFC { "5424" }-konvolutten; det finnes ingen vedlikeholdt åpen kildekode-LEEF-parser (et søk i Python-pakkeindeksen fant ingen), så formatet er kontrollert mot sin egen spesifikasjon lest av den samme forfatteren, ikke mot en ekstern uavhengig referanse. HVA SOM IKKE ER: om LEEF-nyttelastene aksepteres av noen leverandørs parser eller SIEM; escape-reglene utover de dokumenterte; oppførselen til en reell syslog-samler.
+
+# data/search.json
+dat-f998b3c0c729 = Hva som beregnes
+
+# data/search.json
+dat-d90f873bae70 = Hva som beregnes per signal
+
+# data/verification-matrix.json
+dat-19486e94f8c9 = HVA SOM KONTROLLERES EKSTERNT, oppgitt snevert: gps-sdr-sim (MIT, commit 28ca29a6) readNmeaGGA, readUserMotion og readUserMotionLLH med sin egen WGS { "84" } llh2xyz, kalt gjennom xval/testbench-gpssdrsim/driver.c (ingen signalfunksjon kalt), mot bevegelses-CSV-ens jordfaste kolonner rad for rad, med terskler fastsatt på forhånd i xval/testbench-gpssdrsim/PREREGISTRATION.md før noen kjøring: hver sample lest på alle { "8" } scenarioer; NMEA verst { "1.21" } mm (terskel { "1" } cm); LLH-utsnitt verst { "0.145" } mm (terskel { "1" } mm); firekolonners jordfast utsnitt eksakt (terskel { "1" } um, endring { "1" }); gnss-ins-rader på simulatorens { "10" } Hz-rutenett til { "2.3e-13" } s. FUNN (kjøring { "1" }, festet): CSV-en i full bredde uten topptekst kan ikke leses av -u, fordi leserens linjebuffer på 100 tegn deler hver rad på 161 tegn i to sampler; docs/TEST-BENCH.md gir firekolonners utsnittet. HVA SOM IKKE ER: fysikken i scenarioets referansebane; gps-sdr-sims signalutdata; noen annen simulators leser; noen mottaker.
+
+# data/search.json
+dat-ad4d6d2f2bfe = Hva som er implementert
+
+# data/search.json
+dat-3459cd97e0ca = Hva en pakke inneholder
+
+# data/search.json
+dat-caaad7e970cd = Hva som er modellert
+
+# data/search.json
+dat-4ab5db8f7878 = Hva som ER modellert
+
+# data/search.json
+dat-f94c7e554898 = Hva som ikke dekkes av denne doble lisensen
+
+# data/search.json
+dat-ae82ac4e8c4c = Hva som ikke er implementert
+
+# data/search.json
+dat-e013e854b982 = Hva som IKKE er modellert
+
+# data/search.json
+dat-3bb561cded1b = Hva som IKKE er modellert (og hvorfor gulvet er optimistisk)
+
+# data/search.json
+dat-08a406b8ecc7 = Hva som ikke er verifisert, eller ikke utøvd
+
+# data/search.json
+dat-052f1075ebf9 = Hva som er verifisert
+
+# data/search.json
+dat-3281bb5ae242 = Hva som skrives
+
+# data/search.json
+dat-c74ea9dc9cd2 = Hva det gjør
+
+# data/search.json
+dat-303c182c2dd7 = Hva det gir
+
+# data/search.json
+dat-03cda2782bef = Hva det er / ikke er
+
+# data/search.json
+dat-9516c425aeb2 = Hva det ikke er
+
+# data/search.json
+dat-19270c6e5d05 = Hva det er, og hva det ikke er
+
+# data/search.json
+dat-3995ccf3a5df = Hva det leser
+
+# data/search.json
+dat-e9866ffcee45 = Hva Kshana ikke er
+
+# data/search.json
+dat-831115fee2e1 = Hva Kshana er, og ikke er, ved siden av en GNSS-prosesseringsmotor
+
+# data/search.json
+dat-8ec7e65cc362 = Hva som gjør det annerledes
+
+# data/search.json
+dat-15cba1bf87b0 = Hva én kjøring beregner
+
+# data/search.json
+dat-46be95cd5f6c = Hva kontrollene kan og ikke kan fortelle
+
+# data/search.json
+dat-ac58b43279d3 = Hva sammenlikningen med heftet viser
+
+# data/search.json
+dat-68e739bdfd0b = Hva observatoriet publiserer
+
+# data/search.json
+dat-d8c200aa93ea = Hva rapporten inneholder
+
+# data/search.json
+dat-8371eb305726 = Hva testen fester
+
+# data/search.json
+dat-10b52840a05f = Hva testene fester
+
+# data/search.json
+dat-71890a13e98e = Hva denne kryssreferansen ikke påstår
+
+# data/search.json
+dat-cda28621f9e2 = Hva dette ikke påstår
+
+# data/search.json
+dat-7dc2bd1e4fa9 = Hva dette betyr for en bidragsyter
+
+# data/search.json
+dat-5696cc1abc40 = Hva denne metoden ikke gjør
+
+# data/search.json
+dat-5f19a20eaa94 = Hva dette notatet ikke påstår
+
+# data/search.json
+dat-44252aa25aa2 = Hva dette scenarioet er
+
+# data/search.json
+dat-95bb71989246 = Hva du bør gjøre i stedet
+
+# data/search.json
+dat-357548784840 = Hva du bør ta vare på sammen med svaret
+
+# data/search.json
+dat-ac6245280999 = Hva du bør registrere
+
+# data/search.json
+dat-bb04b5c6d588 = Hva som ble kjørt
+
+# data/search.json
+dat-fd4063ae190d = Nytt i { "0.38" }
+
+# data/search.json
+dat-c053702f8863 = Nytt i { "0.39" }
+
+# data/search.json
+dat-244b436782d3 = Hvor en logg kan brukes
+
+# data/search.json
+dat-3c9d70c4d70c = Hvor er satellittene? (gevinsten)
+
+# data/search.json
+dat-06de3e854765 = Hvor hver funksjon er tilgjengelig
+
+# data/search.json
+dat-3c4d08956c69 = Hvor det leder: tidssynkronisering og holdover for kritisk infrastruktur
+
+# data/search.json
+dat-362660e7f896 = Hvor Kshana kjører, og hvor det ikke gjør det
+
+# data/search.json
+dat-c5ff30793b41 = Hvor Kshana står
+
+# data/search.json
+dat-d8ab4a0c1780 = Hva som kommer videre
+
+# data/search.json
+dat-8717ac9b7cc8 = Hvor klokken kommer fra
+
+# data/search.json
+dat-032c0650064d = Hvor utformingene brukes
+
+# data/search.json
+dat-1e8bdbc89372 = Hvor epokene kommer fra (kilde)
+
+# data/search.json
+dat-1623a97a2988 = Hvor filene kommer fra
+
+# data/search.json
+dat-f6dcdfe2a660 = Hvor posisjonene kommer fra
+
+# studio/data/capabilities.json
+dat-2323b2c7a3c9 = Hvilke satellitter et sted kan se når bygninger, kaier, kraner eller terreng blokkerer deler av himmelen, og hva det gjør med presisjonsfortynningen (DOP) og den horisontale feilellipsen. En azimutavhengig horisontprofil erstatter den enkle elevasjonsgrensen; det synlige settet, dets DOP og ellipsen kommer ut per epoke og per konstellasjon. En horisontprofil fjerner satellitter med siktlinje og ingenting mer: den modellerer ingen refleksjoner, ingen diffraksjon og ingen signalstyrke.
+
+# data/search.json
+dat-1589eaeb4b18 = Hvilket verktøy for hvilket spørsmål
+
+# data/search.json
+dat-7a53b264d1e3 = Mot hvilken wander-metrikk bør en slot godtas?
+
+# data/search.json
+dat-bcdecc549d07 = Hvem det er for
+
+# data/search.json
+dat-0da9ac688de8 = Hvorfor dobbeltlisensiere på denne måten
+
+# data/search.json
+dat-3e8a8aadf012 = Hvorfor klokken er det myke målet
+
+# data/search.json
+dat-1c9b4395c4e3 = Hvorfor N/A-cellene er N/A
+
+# data/search.json
+dat-500a9d78ddb1 = Hvorfor dette er limet, ikke en konkurrent
+
+# js/missions-runs.mjs
+dat-97c24222dad6 = med { "288" } satellitter i lav bane
+
+# data/verification-matrix.json
+dat-d1c342fccbf1 = with_gravity_field (på Body, i src/gravity_pds.rs): knytt et hvilket som helst lastet kulefunksjonsfelt (for eksempel GMM-3 eller GL0660B) til en Body slik at propagatoren evaluerer det legemefast; frivillig, standardlegemer uendret
+
+# data/search.json
+dat-816a8275fb4c = Gjennomgått eksempel — Kshana som limlag for oppdragsanalyse med flere verktøy
+
+# data/search.json
+dat-21a850bb20da = Gjennomgått eksempel: gps-sdr-sim som skriver en fil
+
+# data/search.json
+dat-8960dcd3c54c = Verkstedparametere
+
+# studio/data/capabilities.json
+dat-8b569b55f222 = Verste feil { "0.044" } m mot kildenes egen toleranse på { "0.05" } m
+
+# js/missions-runs.mjs
+dat-996b654e25b2 = verste avstandsfeil, tilpasning over { "60" } s
+
+# js/missions-runs.mjs
+dat-900c4a41066b = verste avstandsfeil, tilpasning over { "900" } s
+
+# data/verification-matrix.json
+dat-e4f36434be06 = Verste-tilfelle trekantgrense på Helmert-punktjacobianens virkning (lukket form)
+
+# js/developers-data.mjs
+dat-278a0de08553 = Skriv en GeoJSON-rute inn i et Kshana-scenario som flyr et veipunktspor, og returner den nye scenario-TOML-en (kjør den med run_scenario).
+
+# data/verification-matrix.json
+dat-c14c336c5c33 = Skriver og leser for NAIF SPICE SPK-kjerner av typene { "9" } (Lagrange, ujevne tidssteg) og { "13" } (Hermite, ujevne tidssteg), med DAF-oppsettet, segmentbeskrivelsene og epokekatalogene, og eksport av en CCSDS OEM til en SPK-kjerne (UTC- eller TDB-epoker til efemeridetid)
+
+# data/verification-matrix.json
+dat-3413fcac7dbb = Skriver og leser for NAIF SPICE SPK-segmenter av typen { "3" } (Chebyshev-polynomer for posisjon og hastighet over faste intervaller, grad { "0" } til { "27" }) og typen { "21" } (utvidede modifiserte differansematriser, differanselinjene til JPL-integratorer, MAXDIM { "15" } til { "25" }), fra gitte poster, i filer som også inneholder segmenter av typen { "9" } og { "13" }; postvalg og evaluering i rekkefølgen til SPICE-leserne. Kshana tilpasser ikke Chebyshev-koeffisienter og produserer ikke differanselinjer
+
+# data/verification-matrix.json
+dat-8373efd23d2e = Skriver og leser for CCSDS 502.0-B-3 Orbit Data Messages i KVN og NDM/XML: OPM { "3.0" } og { "2.0" } (tilstandsvektor, oskulerende keplerelementer, romfartøyparametere, kovarians, manøvrer, brukerdefinerte parametere), OMM { "3.0" } og { "2.0" } (middelelementer etter middelbevegelse eller halv storakse, TLE-relaterte parametere med BSTAR eller BTERM og AGOM, kovarians), og OCM { "3.0" } med bane (CARTP, CARTPV, CARTPVA; absolutte eller relative epoker), fysiske egenskaper, kovarians (CARTP, CARTPV i LTM-rekkefølge), manøver- og brukerdefinerte blokker; en OMM i full presisjon fra et SGP4-elementsett ved siden av den uendrede OmmFile::to_omm_kvn
+
+# data/verification-matrix.json
+dat-9df173efeef9 = Skriver og leser for CCSDS 504.0-B-2 Attitude Data Messages i KVN og NDM/XML: AEM versjon { "2.0" } (og { "1.0" } i KVN, med ATTITUDE_DIR, QUATERNION_TYPE og numeriske rotasjonssekvenser) med holdningstypene kvaternion, Euler-vinkel og spinn og deres derivat-, vinkelhastighets- og nutasjonsvarianter, flere segmenter; APM versjon { "2.0" } med kvaternion-, Euler-, vinkelhastighets-, spinn-, treghets- og manøverblokker; A-til-B-kvaternionen til en post (504.0-B-2 vedlegg F)
+
+# studio/data/capabilities.json
+dat-14a123e4b029 = Skriver et scenarios kjøretøybevegelse og hendelser som en CSV-bane og NMEA { "0183" } for en GNSS-simulator i laboratoriet: jordfaste, geodetiske og lokale hastighetskolonner, holdning og UTC. Bare bevegelse og hendelser: det skrives ikke noe signal, og det påstås ingen simulator- eller mottakerytelse.
+
+# studio/data/capabilities.json
+dat-83d4ec0ad790 = Skriver syntetisk bro-NMEA { "0183" } for en skriptet reise med instruktørskriptet jamming, posisjonsavdrift, tidsspoofing og replay-hendelser, med en instruktørlogg, slik at et mannskap kan se hvordan en degradert posisjonsbestemmelse ser ut på sine egne instrumenter. Bare tekst, aldri for et fartøys levende navigasjonssystemer; ingenting sendes og ingen radiosignal lages. Setningene og deres dekodede verdier er kontrollert; mottaker-, himmel- og hendelsesmodellene er modellert.
+
+# data/search.json
+dat-aeb0bd942720 = Xona Pulsar
+
+# data/search.json
+dat-79b6914906bf = Xona Pulsar fra ende til ende: det offentlige X5-signalet -> en Pulsar-passering -> en LEO-navigasjonsmelding
+
+# data/search.json
+dat-416271e91acb = Xona Pulsar-signaler: signalene X1 (L1-bånd) og X5 (L5-bånd) til en kommersiell lav
+
+# data/search.json
+dat-87de160b68f9 = Xona Pulsar X1 og X5 over én passering, med Pulsar-konstellasjonens høyeste passeringer.
+
+# data/search.json
+dat-a08318993154 = Yang Yuanxi-kriterier (delmengden som tidssynkroniserings- og deteksjonskvalitetsmålene taler til)
+
+# studio/channels.json
+dat-1868c76f244c = din egen vert
+
+# studio/data/capabilities.json
+dat-4c20ebade87f = χ²₁ NP-detektor · lukket form og Monte Carlo P_fa/P_md stemmer overens
