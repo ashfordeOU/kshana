@@ -4761,3 +4761,1710 @@ dat-c5145fd2e03a = Op afstand (streambare HTTP), zelf gehost
 dat-1074116f823e = Gebruik op afstand
 
 dat-2e84fa5b1f16 = Een GNSS-vertrouwensstroom of een resultaat van `receiver-trust` weergeven als beveiligingstelemetrie in tekst (`kshana trust-telemetry`, docs/TRUST-TELEMETRY.md), met dezelfde encoders die de opdrachtregel gebruikt: `prometheus` (de weergave van de eindtoestand), `cef` of `leef` (één RFC { "5424" }-syslogregel per bandwisseling, of per epoch met `syslog_all`; geen tijdstempel, omdat er geen klok wordt gelezen) of `otlp` (de OTLP/HTTP JSON-metricspayload).
+
+# js/developers-data.mjs
+dat-97b6f8107d65 = Geef kshana-bench-resultaatbestanden (`kshana bench leaderboard`) weer als statische ranglijstpagina, HTML-tekst in het antwoord: `results` is een lijst van JSON-teksten van `kshana-bench-result/1` (hoogstens { "256" }, elk van { "4" } MiB), elk eerst gevalideerd; een bestand dat onder een andere hoofdversie van de specificatie is gescoord, wordt geweigerd, omdat resultaten van verschillende hoofdversies nooit in één tabel worden gezet.
+
+# studio/data/capabilities.json
+dat-4da9624026cd = Vervangt de gesimuleerde campagne door echte data: { "337" } gearchiveerde ILRS-normaalpunten van lunaire laserafstandsmeting over vijf retroreflectorarrays, waarbij elke waarneming wordt gewogen met haar eigen vastgelegde precisie uit het bestand. De reflectorcoördinaten zijn een DE440-catalogus in hoofdassen die onder een eigen bestandsnaam wordt bewaard, los van de DE430-tabel van de gemiddelde aarde: de ene voeden met de rotatie van de andere verschuift een reflector met honderden meters zonder dat iets protesteert, omdat beide goed gevormde coördinaten zijn.
+
+# js/developers-data.mjs
+dat-2b7006be75b0 = Speel één IQ-opname in de werkmap af over meerdere tracking-lusontwerpen en rapporteer het stationaire resultaat van elk ontwerp (`kshana iq sweep`): de ontwerpen zijn elk ontwerp van een `kshana.loop-design/1`-bestand (`design`), of het product van de lijsten `pll_bws_hz`, `dll_bws_hz`, `spacings_chips` en `coherents` op het ingebouwde ontwerp.
+
+# js/developers-data.mjs
+dat-472a69341595 = Rapporteer de voortgang van een labreplay-campagne vanuit de uitvoermap in de werkmap, uitsluitend door bestanden te lezen: voltooide en openstaande cellen, de opnamen, front-ends en ontwerpen in het plan, en de `digest` zodra elke cel klaar is.
+
+# data/search.json
+dat-c73be453ef08 = Vorm van het rapport
+
+# js/developers-data.mjs
+dat-28fdcaf2ae5e = Rapporteer welke interoperabele exportformaten op een Kshana-scenario van toepassing zijn, zonder het uit te voeren: een JSON-array met één item per formaat (`czml`, `kml`, `geojson`, `stk`, `sigmf`) met `applies`, de `reason` wanneer het niet van toepassing is, en `spec_url`, de gepubliceerde specificatie die de schrijver volgt.
+
+# data/search.json
+dat-ed717cc7aa57 = Indeling van de repository
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-90ae0e7c5b74 = Representatief meettechniekenmenu met meerdere technieken en de additieve Fisher-combinatieregel
+
+# data/verification-matrix.json
+dat-2fe96d729f44 = Representatieve parametrische foutgeneratoren (gemodelleerd); de niet-detecteerbare verzameling (symmetrische vertraging, replay binnen de versheid) wordt geciteerd uit Mizrahi RFC { "7384" } en Narula & Humphreys (IEEE JSTSP { "2018" }). Geen externe referentie: een foutencatalogus doet geen gemeten bewering.
+
+# data/verification-matrix.json
+dat-af0f5b03123b = representativeness::tests (validated-needs-external-anchor, modelled-needs-gap, modelled-TRL-ceiling, malformed-band, JSON-velden)
+
+# data/search.json
+dat-2acc28904609 = Reproduceer het
+
+# studio/data/capabilities.json
+dat-fde7f9700f80 = Reproduceert de gepubliceerde L2 { "9" }:{ "2" } NRHO (~{ "6.57" } d periode · ~{ "3,250" } km perilune); STM gecontroleerd tegen eindige differenties
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-cf3cdcd38a71 = Reproduceerbaarheid en softwarewaarborging
+
+# data/search.json
+dat-f25d6003dd27 = Een run reproduceren vanuit zijn rapport
+
+# data/search.json
+dat-6fd92ffe10df = Onderzoek gebouwd op de open engine
+
+# data/verification-matrix.json
+dat-cdc08a73bbf1 = Niet-detecteerbare common-mode-grens van het residu buiten Omega
+
+# data/search.json
+dat-d08a743b9548 = Resilience- en verticale scenario's die deze lagen belasten
+
+# studio/data/capabilities.json
+dat-8b78202ccc91 = Resilience-beoordeling
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-2605d9ce54b2 = Studie naar beslisinstabiliteit van de resilience-score
+
+# data/verification-matrix.json
+dat-7113528fc9c1 = resilience::score::tests (monotonie, samengestelde grenzen, niveauplafond, gemodelleerde herkomst); resilience::diversity::tests (inverse Simpson, common-mode, SPOF)
+
+# data/verification-matrix.json
+dat-992973cfbd93 = resilience::stats::tests (Kendall-tau met de hand uitgewerkt voorbeeld, Dirichlet-simplex, flip-rate); resilience::study::tests (stabiliteitscontrole, instabiliteitsgetuige, opgegeven versus gemeten, diversiteitscollaps)
+
+# studio/data/capabilities.json
+dat-82ead35c51f5 = resilient-PNT Conformance Framework, afgebeeld op clausulenummer
+
+# data/search.json
+dat-b3c34e839397 = Resultaatschema: een Kshana *.result.json lezen
+
+# data/search.json
+dat-0c8c37a8723e = Vorm van het resultaat
+
+# data/search.json
+dat-04ac9d4c33e8 = Resultaten in één oogopslag (zie RESULTS.md)
+
+# data/verification-matrix.json
+dat-5a32ba404d72 = Vertraagde (neerwaartse) enkelvoudige lichttijdoplossing τ = |r_rx − r_target(t−τ)|/c voor radiometrische navigatie in de diepe ruimte (Aarde→Mars/Zon/Maan)
+
+# data/search.json
+dat-ef1ab791b91c = RethinkPNT / Firesmith RDRR-functies
+
+# js/developers-data.mjs
+dat-728a24371005 = Geef de TOML-tekst van één meegeleverd referentiescenario terug, byte voor byte het bestand dat de repository onder `scenarios/` meelevert.
+
+# data/verification-matrix.json
+dat-e81f7634cc1a = Hergebruikte klok-/CAI-coëfficiënten (holdover/clock_state, gepubliceerde waarden) plus gesloten-vorm-identiteiten voor hagelruis en verlies van de verstrengelingslink
+
+# data/verification-matrix.json
+dat-58e19955b02f = Hergebruikte traagheidsbudgetten, gecontroleerd tegen een onafhankelijke Octave-dubbele integratie van dezelfde dead-reckoning-ODE (andere runtime, gedeeld model → ReferenceImpl) plus de gepubliceerde kortetermijnruis van Freier 2016 als eenzijdig anker; het kwantum-versus-klassiek-composiet blijft MODELLED
+
+# data/search.json
+dat-f8202cdad075 = Herzieningen van gepubliceerde getallen
+
+# data/search.json
+dat-89c09991982e = RF-jamming: een grondgebonden breedbandjammer die GNSS weigert aan een nabije ontvanger.
+
+# assets/capabilities/capabilities.json
+dat-cc711597700b = Alarmen van RF-spoofingdetectoren (gefuseerde consistentie-, vermogens- en signaalkwaliteitsmonitors)
+
+# studio/data/capabilities.json
+dat-4bd936e033f9 = Evaluatie van RF-storingsdetectie en PNT-afweging
+
+# data/verification-matrix.json
+dat-e86afcaaf021 = Verificatie van handtekening en keten van RFC { "3161" }-tijdstempeltokens
+
+# studio/data/capabilities.json
+dat-09358410874d = RFC { "8032" }-vectoren byte voor byte; een clean-room-verificateur komt overeen op { "71" } pakketten
+
+# data/verification-matrix.json
+dat-020e03fb3eb3 = Lezen van RINEX-{ "4" }-navigatiebestanden
+
+# data/verification-matrix.json
+dat-93d6d0286991 = Lezen van RINEX-{ "4" }-waarnemingsbestanden
+
+# data/verification-matrix.json
+dat-a462a9621ac3 = RINEX 4.00-4.02-navigatiebestanden: `> EPH`-records van GPS LNAV, Galileo I/NAV en F/NAV, BeiDou D1/D2 en QZSS LNAV gedecodeerd naar het type uitgezonden efemeride; CNAV-, CNV1-3-, FDMA-, SBAS-, STO-, EOP- en ION-records overgeslagen tot de volgende recordkop; een record waarvan de kop een andere satelliet noemt, of een afgekapt record, wordt geweigerd
+
+# data/verification-matrix.json
+dat-aa1badb9e247 = RINEX 4.0x-waarnemingskoppen (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE; labels gematcht in kolommen 61-80 voor versie { "4" } en later) en epochrecords
+
+# data/verification-matrix.json
+dat-75b6f696e258 = Exports in RINEX-4-stijl en CSV van LEO-navigatieberichten
+
+# studio/data/capabilities.json
+dat-0a9873f56e5a = RINEX-, SP3- en CCSDS-formaten
+
+# studio/data/capabilities.json
+dat-5031212252b0 = risicobeheersmaatregelen, afgebeeld op clausulenummer
+
+# data/verification-matrix.json
+dat-1137b13d04e3 = RMS-aggregatie van de gevalideerde splitsingen per paar onder elke conventie (gesloten vorm)
+
+# js/missions-runs.mjs
+dat-2b86f200ac85 = RMS-tijdfout over de gevallen
+
+# data/search.json
+dat-92b1e1930a31 = Weg en automotive
+
+# data/search.json
+dat-cf1164c11e5c = Wegvoertuig door een stedelijke canyon: GNSS/INS-dead-reckoning over een onderdoorgang en
+
+# data/verification-matrix.json
+dat-801a11415a26 = Robuuste oplosser voor de Kepler-vergelijking
+
+# data/verification-matrix.json
+dat-eec113c3b401 = ROC-AUC + bootstrap-BI die echte gelabelde anomalieën scheidt; transparante detector (reproduces-labels)
+
+# data/verification-matrix.json
+dat-c9180fdd23b5 = ROS-{ "2" }-receiver-trust-pakket en gnss_lib_py-brug
+
+# data/verification-matrix.json
+dat-a1e4079f8526 = ontbinding met alleen rotatie (6 parameters, translatie+rotatie) van het verschil tussen de geocentrische maan volgens DE440/INPOP21a/EPM2021 in een reduceerbare gemeenschappelijke ICRF-frameverbinding en een onreduceerbaar overschot in de oriëntatie van de lunaire baan (de volledige Helmert-fit met 7 parameters is een aparte openbare functie die NIET door deze externe controle wordt gedekt: haar bewijs is een interne unittest voor analytisch herstel plus tests/lunar_helmert_fit_cross_check.rs, die haar vergelijkt met de gevalideerde exacte Gauss-Newton-fit in lunar_frame_realise en de conventie van tegengesteld rotatieteken tussen beide vastlegt)
+
+# data/verification-matrix.json
+dat-58c90b55942a = Rondreizen en de kalenderrekenkunde. RINEX { "4.02" } definieert geen LEO-navigatierecords (IGS RINEX { "4.02" }), dus de opmaak is een gedocumenteerde uitbreiding met arXiv { "2401.17767" } als geciteerde voorgaande stand van de techniek; er bestaat geen externe lezer om tegen te controleren
+
+# data/verification-matrix.json
+dat-135e90987fd9 = Rondreisidentiteiten en het budget zelf. Het formaat is dat van Kshana zelf, gemodelleerd naar de gepubliceerde berichtcomponenten en de veldenset van de Galileo-ICD; het is niet de bitindeling van Celeste of een ander systeem (geen enkele is openbaar), dus er is geen externe indeling om tegen te valideren
+
+# data/search.json
+dat-87efb827d651 = Blootstelling op de route
+
+# data/search.json
+dat-e180a48d5f50 = RTCM { "3" } MSM4 en MSM7 (format = "rtcm3")
+
+# data/verification-matrix.json
+dat-50b52977fb5e = RTCM-{ "3" }-MSM4- en MSM7-lezer voor carrier-to-noise voor receiver-trust
+
+# data/verification-matrix.json
+dat-0f3c12998a15 = RTK-dubbelverschillen met LAMBDA-geheeltallige fixing op echte RINEX-waarnemingen
+
+# data/verification-matrix.json
+dat-ad0fc95e68c9 = RTKLIB-lezer van .pos-oplossingen voor receiver-trust
+
+# data/verification-matrix.json
+dat-15810a686e7f = ECEF-posities van RTKLIB 2.4.2-p13 eph2pos (een onafhankelijke implementatie van hetzelfde ICD-algoritme) voor echte BKG/IGS-broadcastrecords van 2024-09-10, beide vastgelegd met herkomst in tests/fixtures/rinex_sp3_interop (NOTICE, rinex_ecef_reference.txt, brdc_multignss_slice.rnx). Dit valideert het Kepler-gebruikersalgoritme; de langs-/dwars-/radiale correcties daarbovenop worden door hun eigen rijen gedekt, en de Liu-termen door de rij Liu et al. { "2025" } met 22 parameters
+
+# studio/data/capabilities.json
+dat-cb8a4c8a6e6f = RTKLIB ionmodel (onafhankelijke referentie-implementatie) — tests/klobuchar_reference.rs
+
+# data/verification-matrix.json
+dat-72c81deddfcf = RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — onafhankelijke referentie-implementatie, uit de broncode gecompileerd; komt overeen met < { "1e-4" } m
+
+# data/verification-matrix.json
+dat-f3aed4069d2f = RTKLIB peph2pos(), gecompileerd uit C-broncode (preceph.c; T. Takasu, BSD-2-Clause) — de de-facto IGS-referentie, een onafhankelijke implementatie; de interpolator van kshana (die nu dezelfde correctie voor de aardrotatie per knoop bevat) komt overeen tot ~{ "15" } nm op een echt SP3-product, tegen ~{ "5.5" } cm vóór de correctie
+
+# data/verification-matrix.json
+dat-07c4ea8ea04c = RTKLIB SBAS-PL-fork — zsiki/rtklib_ws waasprotlevels() (Siki & Takács { "2017" }, "DO-229D Appendix J"), uitgevoerd door rnx2rtkp -ws op echte EGNOS GEO-PRN120-berichten + echte BUTE/Budapest-RINEX; onafhankelijke implementatie van een derde partij, HPL komt overeen met < { "2e-3" } m. gLAB { "v6.0.0" } (core/filter.c) bevestigde dezelfde conventie. Beide referenties ronden K_V af op { "5.33" } tegenover de exacte Φ⁻¹({ "1" }−{ "5e-8" })={ "5.3267" } van Kshana (~{ "0.06" }%), dus de verticale wordt gecontroleerd als de K-factorvrije d_U
+
+# studio/data/capabilities.json
+dat-15e519792d43 = RTKLIB SBAS-PL-fork waasprotlevels() (Siki & Takács { "2017" }, echte EGNOS+RINEX) — tests/sbas_reference.rs
+
+# data/verification-matrix.json
+dat-27eee8b0e0bc = RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) decode_word/decode_frame als apart programma, vooraf vastgelegd ca5f0142: R1 pariteit en decodering, R2 gedecodeerde waarde gelijk aan het gehele getal van Kshana maal de IS-GPS-200-schaal binnen { "2" }^-52 relatief, R3 binnen een half kwantum van de invoer. BEVINDING: R1 { "960" } van { "960" } woorden en { "96" } van { "96" } subframes; R3 elke parameter, week en referentietijd exact; R2 faalt op { "41" } waarden (af1, delta-n, IDOT) met { "1" } tot { "4" } eenheden in de laatste plaats, omdat P2_43 van RTKLIB de decimale { "1.136868377216160E-13" } is, { "2.6e-16" } relatief ten opzichte van { "2" }^-43; delen door de constante van RTKLIB geeft in elk geval het gehele getal van Kshana terug. Blijft MODELLED: de vastgelegde R2-drempel was te krap voor de eigen constante van de referentie
+
+# data/verification-matrix.json
+dat-de7b24f0672b = RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) readrnx dat het dagelijkse IGS-broadcastbestand BRDC00IGS_R_20250610000_01D_MN.rnx ontleedt en decode_word/decode_frame dat de woorden van Kshana decodeert, uitgevoerd als apart programma; vooraf vastgelegd d4d9eb9d voordat het bestand werd opgehaald, drempel van exacte gehele getallen. Mutatie: afkappen in plaats van afronden geeft { "235" } fouten. Eerdere vergelijkingen van dezelfde encoder zijn als bevindingen vastgelegd: tegen gps-sdr-sim, dat afkapt ({ "230" } velden), en tegen de geschaalde waarden van RTKLIB, waarvan de decimale constante { "2" }^-43 een drempel van één ulp miste ({ "41" } waarden). Verificatie achteraf door de integrator (blijft MODELLED): de vergelijking komt overeen en een mutatie van de pariteitsverzameling maakt haar ook rood, maar de preregistratie d4d9eb9d bereikte de openbare branch om { "20" }:{ "02" }:{ "29" } UTC, twee seconden na de resultaatcommit 1783f904 ({ "20" }:{ "02" }:{ "27" } UTC) die de uitvoer van RTKLIB voor het bestand al bevat, dus de volgorde 'vastgelegd voordat het bestand werd opgehaald' kan niet worden aangetoond; een nieuwe registratie die wordt gepusht vóór een nog ongezien broadcastbestand wordt opgehaald, zou dat beslechten
+
+# data/verification-matrix.json
+dat-a6564e08e3de = RTKLIB v2.4.2-p13 (T. Takasu, BSD-2-Clause, commit 71db0ffa) geph2clk en geph2pos, gecompileerd uit C-broncode in een apart harnas (xval/rtklib-glonass) dat hetzelfde RINEX-bestand met de eigen lezer van RTKLIB leest, zodat de parsering, het teken van -tau_n, de eenheden en de iteratie worden vergeleken, naast de klok en de baan. Vooraf vastgelegd e099c42a voordat de functie bestond en voordat het harnas werd gebouwd. Beide kanten evalueren dezelfde klokvorm in gesloten vorm, dus de klokvergelijking dekt de implementatie, niet de formule. De baanintegratoren verschillen (RTKLIB stapt { "60" } s en dan de rest, Kshana gelijke stappen van hoogstens { "60" } s) en de constanten ook (RTKLIB mu { "3.9860044e14" }, Kshana de PZ-90.11 { "3.986004418e14" }); het ergste geval van { "1.1" } mm is dat verschil, zoals vóór de run voorspeld. Bereik: de broadcast-efemeride binnen haar geldigheidsinterval, niet de ware baan of klok (geen vergelijking met precieze producten)
+
+# data/verification-matrix.json
+dat-23a7c545a6e2 = RTKLIB v2.4.2-p13 eph2pos(), gecompileerd uit C-broncode (T. Takasu, BSD-2-Clause) — een onafhankelijke implementatie van IS-GPS-200/SIS-ICD, gevoed met dezelfde RINEX-3-navigatierecords; ECEF-positie van de satelliet komt overeen tot ~{ "62" } nm. (Interpolatie van SP3-precieze efemeriden wordt afzonderlijk gevalideerd; zie 'SP3 precise-ephemeris interpolation')
+
+# data/verification-matrix.json
+dat-46d267fc9fd7 = RTKLIB v2.4.2-p13 lambda() (zijn bronbestand lambda.c, T. Takasu, BSD-2-Clause), een onafhankelijke LAMBDA-reductie en MLAMBDA-zoekactie, uit C gecompileerd en als hulpmiddel uitgevoerd, op { "300" } willekeurige covarianties (n { "2" } tot { "10" }): geheeltallige kleinste kwadraten heeft een unieke minimalisator, dus de vaste gehele getallen moeten identiek zijn ({ "0" } afwijkingen) en de twee beste gekwadrateerde normen, die de ratiotoets voeden, komen overeen tot { "1e-9" } relatief (gemeten { "5.6e-13" }); tolerantie vastgelegd vóór de vergelijking. Gevalideerde bewering: de ILS-oplossing en haar twee beste normen. RTKLIB berekent de bootstrapped succeskans niet, die intern gecontroleerd blijft tegen een Monte Carlo van het afrondingsproces; de Z-transformatie-invarianten en de brute-force-opsomming blijven als ondersteunende controles. Alleen Integer-Gauss-decorrelatie (de herordeningspermutaties van de volledige LAMBDA-reductie versnellen de zoekactie maar veranderen noch het exacte ILS-antwoord noch de bootstrapped kans)
+
+# data/series.json
+dat-ff7cf30748a2 = rubidiumfrequentiestandaard
+
+# js/developers-data.mjs
+dat-9aa9a60d9ef1 = Voer een Kshana-PNT-resilience-scenario uit vanuit een TOML-definitie en geef de kwaliteitscijfers terug.
+
+# js/developers-data.mjs
+dat-1c7701c705d4 = Voer een Kshana-scenario uit en geef zijn rapport terug: een samenvatting voor het management, de invoer, elk resultaatcijfer met zijn eenheid en zijn label VALIDATED of MODELLED, de gebeurtenissen, de mogelijkheidsrijen die de run heeft belast, en een reproduceerbaarheidsrecord (engineversie, SHA-256-digests van scenario en resultaat, seed, de opdracht die het reproduceert).
+
+# js/developers-data.mjs
+dat-75e5319cbe9a = Voer een Kshana-scenario uit en geef zijn reproduceerbaarheidstabel terug als CSV-tekst: de byte-stabiele tabel die de CLI schrijft als `<scenario>.table.csv` en die de artikelen citeren.
+
+# js/developers-data.mjs
+dat-9ab5e05e51f5 = Voer een Kshana-scenario uit en geef zijn tijdreeks terug als animatie.
+
+# js/developers-data.mjs
+dat-ec1aaa65133b = Voer een labreplay-campagne uit die in de werkmap staat (`kshana iq campaign`): opnamen (elk beschreven door een `kshana.test-conditions/1`-bestand met de bekende referentie van het lab) x front-end-ketens x lusontwerpen, elke cel getrackt en gescoord tegen de opgegeven omstandigheden (tijd tot verlies van lock, heracquisitietijd, C/N0-degradatie tegen de opgegeven J/S naast een analytische referentie met het label MODELLED, false-lock-rate, PLL/DLL-jitter, beschikbaarheid).
+
+# data/search.json
+dat-ceb9abb2ce79 = Uitvoeren in een echte Signal K-server
+
+# data/search.json
+dat-958ca26c6a61 = Voer het uit
+
+# data/search.json
+dat-6dd15f4d068f = Voer het live uit
+
+# js/developers-data.mjs
+dat-01aa04474471 = Voer één standaardenpakket uit (`kshana standards-pack run <id>`): elk scenario erin, gescoord tegen drempels die vóór de run zijn vastgelegd.
+
+# data/search.json
+dat-2ccc7674adad = Runrapporten
+
+# js/developers-data.mjs
+dat-cc236be12ad8 = Voer de monitors voor interferentie- en spoofingdetectie uit over een IQ-opname in de werkmap (`kshana iq monitor`): de breedbandmonitors `power` en `spectral` en, gegeven `signal` + `prns`, de C/N0- en signaalkwaliteitsmonitors per satelliet, elk tegen een basislijn die is geleerd uit de eerste `baseline_s` seconden (of uit een instellingenbestand).
+
+# data/search.json
+dat-cf84cc24dc6c = Een ontvanger laten draaien op een geëxporteerd scenario
+
+# data/search.json
+dat-497fd7afb641 = Uitvoeren
+
+# data/search.json
+dat-20a0d95a48d4 = kshana-mcp over HTTP draaien (zelf gehost)
+
+# data/verification-matrix.json
+dat-285d8b3b2591 = Een omhullende van het lopende maximum overbegrenst (zonder doorboring van nul) een echte metrologische reeks bij elke geteste lag tau>=90d op een disjuncte reeksdeel; korte tau (<=30d) is een bekendgemaakte gemodelleerde grens
+
+# data/search.json
+dat-0f021bf393d9 = Rust-crate
+
+# studio/channels.json
+dat-254487736712 = Rust-ontwikkelaars die de engine inbouwen
+
+# studio/channels.json
+dat-d7263050102a = Rust-bibliotheek
+
+# data/verification-matrix.json
+dat-555b07073e12 = S1-atmosferisch getij (opt-in)
+
+# data/verification-matrix.json
+dat-9ad1723eb987 = Coëfficiënten van het S2-atmosferische getij in de IERS-conventie
+
+# studio/data/capabilities.json
+dat-7fb836da2e71 = Saastamoinen ZHD ≈ { "2.3" } m · Niell eenheid in het zenit · Klobuchar volgens IS-GPS-200
+
+# data/verification-matrix.json
+dat-8956ab177d4c = De canonieke Random Index-tabel van Saaty ({ "1980" }) (RI({ "5" })={ "1.12" }) exact gereproduceerd + SciPy/LAPACK scipy.linalg.eig (BSD-3-Clause) als onafhankelijke eigenwaardenoplosser die dezelfde eenduidig gedefinieerde Perron-eigenvector/eigenwaarde berekent, overeenkomend tot <{ "1e-9" }. De Pareto-/gevoeligheids-/MAUT-beslislaag die op deze kern is gebouwd, blijft MODELLED (de aggregatoren WSM/WPM/TOPSIS/VIKOR/PROMETHEE/ELECTRE worden afzonderlijk extern gevalideerd; zie de rijen hieronder)
+
+# data/verification-matrix.json
+dat-edb4b96985d4 = Sagnac-grootte gecontroleerd tegen een gezaghebbende GEPUBLICEERDE WAARDE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), vgl. { "1.29" }: een oostwaartse equatoriale rondvaart levert { "207.4" } ns op (2ωA_E/c²); kshana reproduceert { "207.386" } ns. Onafhankelijk bevestigd door RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), dat dezelfde 2Aω/c²-geometrie hanteert. Het samengestelde BIPM-TWSTFT-budget voor transponder/common-view/PPP heeft geen externe referentie, dus de mogelijkheid blijft gemodelleerd
+
+# data/verification-matrix.json
+dat-b98f3132cc5e = Klokoffset van de satelliet tussen de getabelleerde SP3-klokknopen door lineaire interpolatie over de twee omsluitende geldige knopen (het RTKLIB-pephclk-schema; bad-clock-sentinel overgeslagen), en dezelfde knopen ingevoerd in de keten voor precieze producten als records die gelijkwaardig zijn aan RINEX-klokken
+
+# data/search.json
+dat-f6c975ef31f2 = Satellietgeometrie
+
+# data/search.json
+dat-b2dc998c2287 = Satellieten in zicht en dilution of precision van de evenaar tot de pool: alleen MEO-GNSS,
+
+# data/verification-matrix.json
+dat-0956f8724209 = Satellieten in zicht en mediaan van PDOP, HDOP en VDOP met beschikbaarheid tegen de breedtegraad, over bemonsterde lengtegraden en epochs, voor alleen de MEO-GNSS-systemen, alleen de LEO-systemen en alle samen, elk systeem met zijn eigen masker en klokmodel, uitgevoerd als de `leo-pvt`-polaire modus; de banen zijn SGP4/SDP4-elementensets op de sweep-epoch (2026-01-01T00:{ "00" }:{ "00" } UTC in de polaire modus) overgebracht naar het aardvaste frame op het gevalideerde aardbaanpad (IAU 2006/2000A, UT1 = UTC, geen poolbeweging)
+
+# studio/data/areas.json
+dat-4603a7dea1f1 = Satellieten in zicht en nog in tracking
+
+# studio/data/capabilities.json
+dat-0b21fe9fd383 = SBAS-/WAAS-beschermingsniveaus en dubbele frequentie
+
+# studio/data/capabilities.json
+dat-ff124777183f = SBAS-/WAAS-beschermingsniveaus in de gewogen-kleinste-kwadratenvorm van DO-229E (K-factoren voor precisienadering en en-route) en de ionosfeervrije combinatie van twee frequenties L1/L5 (IS-GPS-705) die DO-316 ondersteunt, met de geometrie van het beschermingsniveau gecontroleerd tegen een referentie-implementatie van lineaire algebra.
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json, studio/data/areas.json
+dat-b9fd9dfe8887 = SBAS-beschermingsniveau (HPL/VPL met gewogen kleinste kwadraten volgens DO-229E)
+
+# data/verification-matrix.json
+dat-7f0ab2f59f77 = Formaatcontrole van de SBOM tegen het officiële CycloneDX-{ "1.5" }-JSON-schema (+ geldige SPDX-identificatoren) — een externe gepubliceerde standaard, nul validatiefouten over de volledige afhankelijkheidsgraaf; het deel FoM-determinisme/byte-reproduceerbaarheid blijft een vastgezette zelfconsistentiecontrole, dus de rij blijft MODELLED
+
+# data/verification-matrix.json
+dat-c7403ab6c4d6 = TPL met oplossingsscheiding voor scalaire tijd over heterogene bronnen; PL gestuurd door de ruis van de slechtste uitsluitingsdeelverzameling + UTC(k)-bias
+
+# assets/capabilities/capabilities.json
+dat-49d7aae02a91 = scenario 0d4dd01b3160 | sgp4 (TLE) | { "559" } samples | hoogte { "419" }–{ "434" } km | |lat| ≤ { "51.8" }° | snelheid { "7653" }–{ "7661" } m/s | max el { "25.7" }° piek-Doppler { "34.3" } kHz
+
+# assets/capabilities/capabilities.json
+dat-3b5649bce5c3 = scenario 1c20b4b0743b | gnss-ins | kwantum uitval-RMS gefuseerd 1.9m vs vrij 314.5m (hold 60s, besch. { "1.00" }) | klassiek gefuseerd 114.3m vs vrij 15364.1m (hold 28s, besch. { "0.80" })
+
+# assets/capabilities/capabilities.json
+dat-82eb26bba4b8 = scenario 2b6bd22c3b80 | spoof LinearRamp { "{" } rate_ns_per_s: { "0.1" } { "}" } vs { "20.000" } ns spec (P_fa { "0.010" }) | kwantum beveiliging { "1.000" } (P_md { "0.000" }, MC { "0.000" }) gedetecteerd 70s | klassiek beveiliging { "0.558" } (P_md { "0.442" }, MC { "0.444" }) gedetecteerd 430s
+
+# assets/capabilities/capabilities.json
+dat-762b7e2f06dc = scenario 5aac34b045c7 | jamming AAN | beschikbaarheid onder jamming { "0.00" } (nominaal { "1.00" }) | min tracking { "0" } | gem. J/S { "72.2" } dB
+
+# assets/capabilities/capabilities.json, js/developers-data.mjs
+dat-edf59f5d7522 = scenario 5ba83a232b94 | kwantum holdover 6600s p95 1.20e-4ns integriteit { "1.000" } beveiliging n.v.t. (geen aanval) | klassiek holdover 2610s p95 19.7ns integriteit { "1.000" } beveiliging n.v.t. (geen aanval)
+
+# data/search.json
+dat-b752486e2bb4 = Scenarioatlas
+
+# data/search.json
+dat-2bd7d6b7c492 = Scenariovelden
+
+# data/search.json
+dat-572dc097de97 = Scenarioformaat
+
+# data/search.json
+dat-05d32aead832 = Families van scenariotypen
+
+# data/search.json
+dat-4d5e1f4334f7 = Pagina's van scenariotypen
+
+# data/search.json
+dat-339a770d5cd6 = Scenariotypen
+
+# data/search.json
+dat-88c2271e1c70 = Scenariotypen, per familie
+
+# js/missions-runs.mjs
+dat-58fbbaa1a234 = scenario leo-signal | { "5" } signalen | ruisvloer -202.0 dBW/Hz | fijnste afstandsmeting generic-c-wide { "0.022" } m bij { "45.0" } dB-Hz
+
+# data/search.json
+dat-a39b38024a6b = Scenarioreferentie
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-6f6e7eade044 = scenario spectrum | { "5" } banden | { "3" } jammers | ruisvloer -202.0 dBW/Hz | slechtste band gps-l1ca min C/N0 { "3.2" } dB-Hz (J/S { "60.2" } dB)
+
+# data/verification-matrix.json
+dat-324adeabff57 = Schur-complement-marginale Fisher van de gekoppelde informatiematrix, in lineaire algebra in gesloten vorm, gecontroleerd tegen de twee grensregimes die zij voorspelt. De equivalentie van { "1" } m met { "3.336" } ns is de definitie van de meter via c en geen empirisch resultaat. De waarnemingsnetwerken zijn representatieve gemodelleerde geometrie, dus de ontwerpwet is een uitspraak over de geometrie die eraan wordt voorgelegd en doet geen enkele bewering over een in gebruik zijnd lunair netwerk.
+
+# data/verification-matrix.json
+dat-6cad309e8ce7 = Schur-complement-marginaal van het { "{" }lunocenter-X, scale{ "}" }-blok van de Fisher van het 7-parameter-Helmert-datum: de scalaire ontaardingsmaat lambda_min(S), de CRLB van de oorsprong-X en de correlatie tussen oorsprong en schaal
+
+# data/search.json
+dat-96507e29f147 = Wetenschap en onderzoek
+
+# data/verification-matrix.json
+dat-b4ef38009099 = scikit-bio { "0.7.3" } skbio.diversity.alpha.inv_simpson (McDonald et al., BSD-3-Clause) — een onafhankelijke bibliotheek van derden die de eenduidig gedefinieerde inverse Simpson-index berekent; byte voor byte gereproduceerd. Het scoringskader DHS-RPCF (gewichten/niveaus) dat daarop is gebouwd, blijft MODELLED
+
+# data/verification-matrix.json
+dat-14a294fa5008 = scikit-learn { "1.9.0" } (Pedregosa et al., JMLR { "2011" }) — onafhankelijke bibliotheek, exacte overeenkomst
+
+# data/verification-matrix.json
+dat-b0df8ec2da5c = scikit-learn roc_auc_score op de OPSSAT-AD-testsplitsing (Ruszczak et al. { "2025" }, CC BY { "4.0" }) — echte OPS-SAT-telemetrie
+
+# data/verification-matrix.json
+dat-2af5f540cc70 = scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), beide BSD-3-Clause — onafhankelijke bibliotheken die dezelfde eenduidig gedefinieerde Gauss-staart-/AUC-grootheden berekenen, overeenkomend tot de A&S-erf-vloer (~{ "7e-8" }). Het kwantum-versus-klassiek-voordeel dat daarop is gebouwd, blijft MODELLED
+
+# data/verification-matrix.json
+dat-04ea5481c128 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — onafhankelijke bibliotheek (Cephes/Boost), een ander algoritme dan de reeks van Kshana voor de onvolledige gammafunctie; overeenkomend tot ≤{ "1e-6" } rel. Alleen de kern. De *toewijzing* van het ARAIM-MHSS-P_HMI-budget is niet langer zonder gepubliceerde numerieke referentie: het eigen uitgewerkte voorbeeld van de ARAIM Technical Subgroup van WG-C ondersteunt nu de afzonderlijke rij 'ARAIM MHSS protection levels against published reference vectors', overeenkomend bij de eigen TOL_PL = { "5e-2" } m van de referentie, dus het bereik van deze rij is de statistische kern en die rij draagt de toewijzing (zie docs/ARAIM_REFERENCE.md)
+
+# data/verification-matrix.json
+dat-828c020a30e1 = scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exact, χ² <{ "5e-4" } bij de gebruiks-dof. Alleen kernen: prestatiecijfers van apparaten blijven gemodelleerd (volgende rij)
+
+# data/verification-matrix.json
+dat-7c9bfa5ab641 = scipy { "1.18" } (BSD-3-Clause): linalg.expm die de discrete procesruis Q₀₀ = ∫₀ᵗ ΦQcΦᵀds van Van Loan ({ "1978" }) berekent via Padé-scaling-and-squaring op de uitgebreide matrix van { "6" }×{ "6" } — een onafhankelijke route die de polynoomcoëfficiënten van kshana nooit ziet; plus optimize.brentq die dezelfde monotone curve inverteert tegenover de bisectie van kshana. De cijfers van de roodruisvloer per klasse (ClockClass) blijven MODELLED
+
+# data/verification-matrix.json
+dat-c1c604f3caec = scipy { "1.18" } (stats.kendalltau variant='b', rankdata) + numpy.percentile (BSD-3-Clause) — onafhankelijke implementaties (merge-sort τ) van de eenduidig gedefinieerde rangstatistieken, overeenkomend tot { "1e-12" }. De studie naar beslisinstabiliteit die op deze kernen is gebouwd, blijft MODELLED
+
+# data/verification-matrix.json
+dat-44fe7f2f9c8e = SciPy { "1.18.1" } (BSD-3-Clause) solve_ivp(method=DOP853) en zijn routines voor enkele stap, foutnorm, dense output en beginstap, een onafhankelijke implementatie; exacte tweelichamentoestanden uit mpmath { "1.3.0" } met { "40" } cijfers. Drempels vooraf vastgelegd in xval/dop853-scipy/PREREGISTRATION.md (ae1b25e) vóór de eerste vergelijking; allemaal gehaald (xval/dop853-scipy/RESULTS.md). De eerste stap van SciPy wordt in de volledige runs aan beide oplossers gegeven; de beginstaproutine wordt afzonderlijk vergeleken. Niet gedekt: RKF7({ "8" }), stijfheidsdetectie, gebeurtenislocatie
+
+# data/verification-matrix.json
+dat-296dc4051c11 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) met hetzelfde periodieke Hann-venster, dezelfde overlap, dichtheidsschaling, geen detrend en tweezijdig gemiddelde: elke bin binnen { "1e-12" } relatief (waargenomen { "6.0e-14" }) over { "27" } gevallen, met segmentaantallen uit het eigen spectrogram van scipy. sigmf-python { "1.13.0" } (LGPL-3.0, als hulpmiddel uitgevoerd) schrijft vijf opnamen van derden (cf32_le, ci16_le, ci8, twee captures met annotaties, een eerste sample_start ongelijk aan nul) die de crate bit-identiek decodeert met identieke kernvelden, en leest de opnamen van de crate bit-identiek terug; het metadataschema van SigMF { "v1.2.6" } meldt nul fouten op de metadata van de crate. Toleranties vastgelegd vóór de eerste vergelijking. Buiten de bewering: spectrum::synthesise_iq en de vergelijkingen van [iq] en [recording] met het model (een synthese heeft geen enkel juist antwoord; een periodieke chirp toont lijnen, Fresnel-rimpel en randstaarten die het gladde model weglaat, totaal vermogen binnen { "2" } %), de conventie voor schaling van geheel getal naar float (de crate deelt door { "32767" } en { "127" }, de autoscale van sigmf-python door { "2" }^{ "15" } en { "2" }^{ "7" }, wat de specificatie openlaat; de vergelijking gebruikt ruwe codes), opnamen met meerdere kanalen en de gegevenstypen die de lezer weigert
+
+# studio/data/capabilities.json
+dat-577e00a866ab = SciPy stats chi2/ncx2/norm (onafhankelijke bibliotheek) — tests/raim_reference.rs (statistische kern; ARAIM-MHSS-PL-waarde niet vastgezet)
+
+# data/verification-matrix.json
+dat-ad6236daddef = scipy.spatial.transform.Rotation.align_vectors (SciPy { "1.13" }; Virtanen et al., Nature Methods { "2020" }) — de Kabsch/Markley-SVD-oplossing van het probleem van Wahba, een werkelijk onafhankelijk algoritme (SVD van de houdingsprofielmatrix) en codebasis ten opzichte van de Davenport-K-eigenwaardenoplossing / QUEST-karakteristieke-wortelmethode van kshana, die DEZELFDE eenduidig gedefinieerde Wahba-optimale houding berekent. Op ruisvrije gewogen verzamelingen vectorwaarnemingen reproduceren TRIAD, de q-methode en QUEST de optimale rotatie van scipy tot <{ "1e-9" } rad (vergeleken via de tekeninvariante houdingsfouthoek). De statistische Monte-Carlo-bewering met ruis 'optimaal verslaat TRIAD' blijft MODELLED (geen externe referentie); alleen eenheidsvectorwaarnemingen van puntrichtingen: geen modellering van het beeldveld, de bias of de temporele correlatie van de sensor, en QUEST is singulier bij { "180" }° (de q-methode dekt dat geval)
+
+# data/verification-matrix.json
+dat-dc7c003995cc = scipy.stats.ncx2 / scipy.stats.chi2 (SciPy { "1.13" }; Cephes/Boost) — een onafhankelijk algoritme (kettingbreuk niet-centrale/centrale χ²) ten opzichte van de onvolledige-gammareeks van kshana (raim::chi2_cdf / noncentral_chi2_cdf), dat dezelfde eenduidig gedefinieerde detectiestatistiek-KERN berekent: de gegeneraliseerde Marcum Q_M(a,b)=ncx2.sf(b²,2M,a²), de detectiekans P_d, de kans op vals alarm P_fa en de inversie van P_fa naar drempel, overeenkomend tot ~{ "1e-6" } — dezelfde onafhankelijkheidsbasis als de gevalideerde rij 'RAIM/ARAIM integrity statistical kernel'. Alleen de KERN: de CFAR-celmiddeling per cel en het verlies door code-/Dopplerbin-overspanning blijven MODELLED
+
+# data/verification-matrix.json
+dat-00b7ebc0a018 = SciPy/NumPy (BSD-3-Clause; scipy.linalg.null_space en numpy.linalg.svd, LAPACK gesdd) classificeren dezelfde vastgelegde matrices via doorsnede van deelruimten, dim null([F; E_T]) en dim null([F; E_S]), en de SVD-nulruimteprojector, die verschilt van de Jacobi-eigenvectoren en de Gram-rangformules van Kshana; vooraf vastgelegd (d429993c): gehele getallen exact, p_st_norm tot { "1e-9" } (P2, een onafhankelijke numerieke bibliotheek), met de rangdrempel vooraf vastgelegd en een spectrale kloof van ten minste { "1e6" } bevestigd. De bewering van de rij is de classificatie van een opgegeven matrix, dus P2 dekt haar volledig. De geconstrueerde gevallen omvatten directe-somnulruimten, gekoppelde en gemengde nulruimten en willekeurige herbasering; de dimensies van het echte netwerk van de rij met gekoppelde ijk worden hier niet opnieuw geteld. De invariantietest in de crate (een geroteerde nulruimtebasis geeft identieke resultaten) blijft behouden
+
+# studio/channels.json
+dat-ecdfcb899baa = Scoop-bucket
+
+# js/developers-data.mjs
+dat-a18e70a6324e = Score een beperkt fragment van de NMEA-{ "0183" }-stroom van een vaartuig zoals `kshana receiver-trust live` die scoort, en geef de vertrouwenstoestand per epoch terug (calibrating, nominal, degraded, untrusted) en de score van 0-100 met de monitors die hebben afgetrokken (live JSON-lines-schema { "1.3" }: elke epoch bevat `position`, een `advisory`-verklaring dat de uitvoer adviserend is, en zijn satellietgeometrie `geometry` (good, degraded met redenen zoals few-satellites of high-pdop, of unknown wanneer het fragment geen GSV of GSA heeft) met een `label` (good, fair, poor; geometrie trekt alleen af wanneer poor); elke aftrek draagt een `class`: geometry (de hemel, geen bevinding dat er geen aanval was), environment of inconsistency (aanvalsachtig)), de samenvatting (aantallen per toestand, geometrie en klasse, laagste en laatste score, wanneer de eerste untrusted epoch kwam) en de laatste `$PKSHT`-zin.
+
+# js/developers-data.mjs
+dat-b0851170eab0 = Score een kshana-bench-inzending (`kshana bench score`, bench/SPEC.md, docs/BENCH.md): een voorspellingenbestand (`kshana-bench-predictions/1`) tegen een referentiebestand (`kshana-bench-truth/1`), beide JSON-tekst, hoogstens { "4" } MiB elk, en geef het resultaatbestand (`kshana-bench-result/1`) terug met de specificatieversie, de taak (a detectie op ontvangerlogs, b detectie op IQ, c voorspelling van tijdsynchronisatie-holdover, d optimismekloof buiten de verdeling), de splitsing, de SHA-256 van beide invoeren en de maten van de taak (AUC, detectiekans bij een plafond voor valse alarmen, RMSE per horizon, of de optimismekloof).
+
+# js/developers-data.mjs
+dat-e4e75b47727c = Score een ontvangerlog tegen het Jammertest-schema (`kshana jammertest score`): per geplande test de detectielatentie (eerste alarm min geplande start), of deze binnen de tolerantie werd gedetecteerd, te laat of gemist, en de hersteltijd (een alarmvrij stuk van `recover_hold_s`), plus de valse alarmen buiten elk slot en zijn guard.
+
+# data/verification-matrix.json
+dat-5b577627cdf9 = Scorestatistiek ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 voor een common-mode-verschuiving die oplossingsscheiding (contrasten orthogonaal op { "1" }) niet kan zien; een common-mode-verschuiving blaast haar op terwijl paarsgewijze scheidingen vlak blijven
+
+# studio/data/capabilities.json
+dat-4a9189f161fe = Beoordeelt of de navigatiepositie van een vaartuig te vertrouwen is op basis van de NMEA-{ "0183" } die de ontvanger en instrumenten al uitzenden: een score van 0-100, drie banden en de redenen erachter, per epoch, in batch, live of als poort. Monitors vergelijken de positie met de eigen beweging van het vaartuig, de koerssensor, het snelheidslog en de signaalniveaus van de satellieten. Adviserende software, geen typegoedgekeurde navigatieapparatuur: de exploitant blijft verantwoordelijk. De rekenkunde van de monitors is gecontroleerd tegen onafhankelijke bibliotheken; de regel en de drempels van de score zijn die van het project zelf en blijven gemodelleerd.
+
+# data/verification-matrix.json
+dat-389c8d89137d = sdr::code_tests (ca_first_ten_chips_match_is_gps_200_octal — de eerste 10 chips van PRN { "1" }–{ "9" } reproduceren de octalen 1440/1620/1710/1744/1133/1455/1131/1454/1626 uit IS-GPS-200 Tabel 3-Ia exact; ca_code_has_1023_chips_and_is_balanced; ca_periodic_autocorrelation_is_three_valued)
+
+# studio/channels.json
+dat-f8b4b933bb97 = Zoek io.github.ashfordeOU/kshana-mcp.
+
+# data/verification-matrix.json
+dat-3842550f02d0 = Seconden tot een vrijlopende klok de guard van een tijdgeïndexeerd slot verlaat, en de positiebepalingsfrequentie die haar erbinnen houdt
+
+# data/search.json
+dat-9101fe90af84 = Beveiligings-FoM: analytische grens voor spoofingdetecteerbaarheid
+
+# data/search.json
+dat-5929ef9641ba = Beveiligingsbeleid
+
+# data/search.json
+dat-2fa97693b70f = Zie ook
+
+# data/verification-matrix.json
+dat-0ef56cdaefab = Zelfconsistentie van de schatter en de geometrie: heen-en-terug-rondreizen voorwaarts→inverse, de Fisher/CRLB-identiteit J·CRLB=I, GDOP-monotonie, en de schatter die zijn eigen Cramér–Rao-grens bereikt onder Monte-Carlo-ruis — controles van interne consistentie, GEEN externe dataset, dus de rij blijft InternalConsistency. MODELLED passieve geolocatie: bronpuntmodel met zichtlijn; geen termen voor multipath / NLOS, ontvangerklokbias of atmosferische refractie. { "0.30" } ronde { "2" }, tegen Ho en Chan { "1993" } en Ho en Xu { "2004" } (vooraf vastgelegd f89018b8, { "1" } % van elke afgedrukte waarde), een bevinding (blijft MODELLED): de oppervlaktebeperkte TDOA-grens reproduceert de { "40" } N geometrische factoren (-0.11 %, -0.02 %) en de maximale TDOA; de gezamenlijke TDOA+FDOA-grens reproduceert Fig. { "6" } (+{ "0.06" } %, -0.17 %) en, bij de bron die de eigen code van de auteurs voor Fig. { "7" } noemt (amendement geschreven nadat dat resultaat was gezien, bekendgemaakt), Fig. { "7" } (+{ "0.11" } %, -0.02 %); zij is gelijk aan de gepubliceerde grenscode van de auteurs (BSD-stijl, uitgevoerd onder GNU Octave) tot { "3e-12" }; de covariantiegewogen maximum-likelihood-oplosser bereikt de afgedrukte grens (+{ "0.3" } tot +{ "0.4" } %). De Ottawa-factoren die het artikel uit een Monte Carlo afdrukt ({ "251" }, { "7.1" }) wijken +{ "1.3" } % en +{ "4.4" } % af, buiten de drempel van { "1" } %
+
+# data/verification-matrix.json
+dat-48c06a69f626 = Zelfconsistentie van de overdrachten: elke doorgegeven waarde is gelijk aan de eigen uitvoer van de voorgaande fase, en het muteren van een invoer stroomopwaarts verschuift elk stroomafwaarts cijfer dat ervan afhangt. De fasen behouden hun eigen labels; de keten voegt geen fysica en geen externe referentie toe
+
+# data/verification-matrix.json
+dat-c66a398789c3 = Zelfconsistentie van het franjemodel van de interferometer: de halve-franjerand, de 2π-periodieke aliasingstructuur en de opheffing van de schaalfactor in de verhouding bereik/resolutie zijn algebraïsche identiteiten in gesloten vorm, gecontroleerd tegen de eigen Mach–Zehnder-fase- en gevoeligheidsfuncties van de engine — controles van interne consistentie, GEEN externe dataset, dus de rij blijft InternalConsistency. MODELLED ideale franje-ambiguïteit met drie pulsen; geen grenzen voor golffrontaberratie of contrastverlies op het ondubbelzinnige bereik
+
+# data/verification-matrix.json
+dat-1edd3707cfc5 = Alleen zelfconsistentie: het gepubliceerde totaal wordt gecontroleerd tegen de wortel uit de som van de kwadraten van de termen in hetzelfde bestand, en de uitgezonden curve reproduceert de vrijgegeven p3_time_budget_curve.csv over alle { "57" } punten. Beide controles delen de eigen termdefinities van deze engine, dus geen van beide is onafhankelijk. De klokterm berust op gepubliceerde klokspecificaties, maar de GROOTTEN van de link-, frame-, relativistische en efemeridevloer zijn gedocumenteerde budgettoewijzingen zonder externe referentie
+
+# studio/channels.json
+dat-65858866917e = Gids voor zelf hosten
+
+# data/search.json
+dat-9ac614e8f945 = Gevoeligheidsstudie
+
+# data/search.json
+dat-da902218b92d = Gevoeligheidsstudie (drie dagen)
+
+# data/search.json
+dat-c884dc5cd017 = Septentrio SBF (format = "sbf")
+
+# data/search.json
+dat-f21f6312d77b = Sequentiële (recursieve) terreinreferentienavigatie: alt-PNT zonder GPS.
+
+# data/verification-matrix.json
+dat-af686833dcf2 = Serialiseer en ontleed het CCSDS-{ "502.0" }-OEM-blok COVARIANCE_START…COVARIANCE_STOP — de { "6" }×{ "6" }-positie-/snelheidscovariantie geschreven als zijn onderste driehoek van 21 elementen (canonieke volgorde CX_X … CZ_DOT_Z_DOT) met de optionele COV_REF_FRAME, als aanvulling op de bestaande OEM-toestandsvectorschrijver/-ontleder, zodat baanbepalings- en filtercovarianties in het standaardformaat heen en weer kunnen worden omgezet
+
+# data/search.json
+dat-d5e280fe1d19 = Een CPU- en geheugenlimiet instellen op het platform
+
+# data/verification-matrix.json
+dat-f7f7c4ac51b3 = Verzamelingsinclusie: de jammer-tot-signaalverhouding komt binnen als een uniforme offset in decibel, dus de gevangen verzameling bij een hoger zendvermogen bevat de verzameling bij een lager en de fractie kan alleen stijgen -- een eigenschap die het Airy-patroon in bundelbreedte of hoogte NIET geeft, waar het gevangen gebied in ringen uiteenvalt en de fractie werkelijk niet-monotoon is. Geen gepubliceerde tabel geeft de gevangen schijffractie van een lunaire orbitale zender tegen hoogte en bundelbreedte, dus er is niets externs om deze cellen tegen te controleren; het patroon eronder is afzonderlijk gevalideerd tegen gepubliceerde Bessel-waarden en heeft zijn eigen rij
+
+# studio/channels.json
+dat-b499b8e2c8f2 = Settings → Plugins → Marketplace → zoek "Kshana" (plugin-ID dev.kshana.ide). Klik met de rechtermuisknop op een scenario-.toml en kies Run Kshana Scenario.
+
+# data/verification-matrix.json
+dat-5f452eb6f36c = Zeven MTIE- en TDEV-wandermaskers voor constante temperatuur voor het type `telecom-timing`: G.811 (09/1997) PRC (autonoom), G.812 (06/2004) Types I, II en III, G.8262 (10/2024) EEC Options { "1" } en { "2" } en G.8262.1 (11/2025) eEEC (vergrendelde modus), inclusief de machtswetdelen die de tabellen schrijven (`{ "8" } τ^{ "0.5" }` en dergelijke), elk interval open of gesloten zoals afgedrukt, gemeten door het filter van { "10" } Hz dat de clausules noemen (opgevat als toegepast vóór de bemonstering); het referentiescenario scenarios/telecom-synce-eec.toml zet een vrijlopende OCXO tegenover de drie EEC-maskers. Niet geïmplementeerd: de toegestane waarden bij variabele temperatuur, holdover, transiënten, jitter en de frequentienauwkeurigheid van G.811
+
+# data/search.json
+dat-c154e22f0463 = Frame-datum van een similariteitstransformatie met zeven parameters (Helmert), aangestuurd door een GESIMULEERDE WAARNEMINGSCAMPAGNE in plaats van door een…
+
+# data/search.json
+dat-5edf07579980 = Lunair frame-datum met zeven parameters (Helmert), aangestuurd door een ECHTE, GEARCHIVEERDE waarnemingscampagne in plaats van een…
+
+# data/search.json
+dat-4b89cb3df611 = Lunair frame-datum met zeven parameters (Helmert), aangestuurd door een GESIMULEERDE WAARNEMINGSCAMPAGNE (G9).
+
+# data/search.json
+dat-ce78e41f321f = Lunair frame-datum met zeven parameters (Helmert) uit een ECHTE, GEARCHIVEERDE waarnemingscampagne (V3).
+
+# data/verification-matrix.json
+dat-d55cb71472c4 = Meerdere scenario's onder gedeelde omstandigheden, met een gecombineerde samenvatting
+
+# studio/data/capabilities.json
+dat-2fbb120bffe0 = SGP4/SDP4-propagatie vanuit echte two-line elements (een vastgelegde Celestrak-GPS-momentopname) of synthetische Walker-constellaties waarvan de gemiddelde elementen de i:T/P/F-formule realiseren tot minder dan { "1" } km over { "24" } h. Zichtbaarheid van meerdere constellaties, dilution of precision en GNSS-beschikbaarheid, een optimalisator voor constellatieontwerp, dimensionering met streets-of-coverage, en een Walker-ontwerpsweep die de Pareto-optimale ontwerpen rapporteert over een raster van vlakken × satellieten.
+
+# data/search.json
+dat-e82ed37686f0 = SGP4/SDP4-validatie tegen de referentie van de gemeenschap
+
+# data/verification-matrix.json
+dat-e58ad5dbbc32 = SGP4/SDP4, Cowell 6-DOF + verstoringen, batch-/sequentiële baanbepaling
+
+# data/search.json
+dat-d458c3670e24 = Shell-modus: de globale maat van het boekje
+
+# data/verification-matrix.json
+dat-09e67d38f482 = Relatieve positiebepaling over korte basislijnen uit echte tweefrequentie-GPS-code en draaggolffase: dubbele verschillen tegen de hoogste satelliet met hun volledige covariantie, een float-Kalmanfilter over de basislijn en enkelvoudige-verschil-ambiguïteiten met herinitialisatie bij slips, LAMBDA-geheeltallige kleinste kwadraten met de ratiotoets, en de basislijn geconditioneerd op de vaste gehele getallen
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-2d5c1f5c13a3 = SigMF-opname als invoer en uitvoer, en Welch-spectrumschattingen van complexe IQ
+
+# data/verification-matrix.json
+dat-e466797c6633 = sigmf: lees en schrijf opnamen in Signal Metadata Format (JSON .sigmf-meta met de kernvelden global, captures en annotations; ruwe .sigmf-data als cf32_le, ci16_le of ci8, de gehele-getaldecoders gedeeld met realdata::iqif::load_iq), alles op strings en bytebuffers. spectrum::welch_psd: periodogrammen met Hann-venster, overlappend en gemiddeld, met dichtheidsschaling, op een radix-2-transformatie in de crate (spectrum::fft_in_place). Die twee vormen de gevalideerde bewering. spectrum::synthesise_iq tekent het model als IQ, en de sectie [iq] van het type `spectrum` voert model naar IQ naar SigMF naar Welch uit en vergelijkt met het model; zijn sectie [recording] schat een echte opname (native builds); de synthese en die modelvergelijkingen vallen buiten de gevalideerde bewering
+
+# data/verification-matrix.json
+dat-ca38e49660ad = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — vloer binnen { "2" } % van variantie gedeeld door samplefrequentie, totaal volgens Parseval binnen { "2" } %, equivalente ruisbandbreedte van Hann { "1.5" } bins; noise_like_synthesis_is_unbiased_through_welch — mediaan van Welch min model binnen { "0.1" } dB via een ci16_le-rondreis; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch-PSD tegen scipy { "1.18.1" } signal.welch per bin tot { "1e-12" } relatief over { "27" } gevallen, waargenomen { "6.0e-14" }; vijf sigmf-python-{ "1.13.0" }-opnamen bit-identiek gedecodeerd met identieke metadata; door de crate geschreven opnamen bit-identiek teruggelezen door sigmf-python en schemageldig tegen SigMF { "v1.2.6" })
+
+# data/search.json
+dat-9cd9dd4c33e3 = Voorinstellingen voor signaal en systeem
+
+# js/missions-runs.mjs
+dat-b00bcd626c85 = signaalontwerpen
+
+# studio/channels.json
+dat-0345ce0c3308 = Gids voor de Signal K-plugin
+
+# data/search.json
+dat-d59d6f542e93 = Signal-in-space-afstandsfout
+
+# js/missions-runs.mjs
+dat-ec7503f282d5 = signal-in-space-afstandsfout, RMS
+
+# studio/data/capabilities.json
+dat-9c6a9341490c = Ondertekende bewijspakketten
+
+# data/verification-matrix.json
+dat-18a2db656f97 = Gesimuleerde referentie tegen de eigen schatting van het filter (de gemiddelde genormaliseerde gekwadrateerde schattingsfout van een consistent filter is ongeveer { "3" } voor de positie) en determinisme bij een vaste seed. Er worden geen vlucht- of opgenomen GNSS-data voor hoge banen vergeleken; de zon en de maan zijn cirkelvormige stand-ins met lage precisie
+
+# studio/data/capabilities.json
+dat-d56763338043 = Gevalideerd met simulatie (covariantie-/closed-loop-kwaliteitscijfers, geen gecertificeerde beschermingsniveaus); de zon-centrale Mars-dynamica is gecontroleerd tegen JPL DE440 tot { "137" } m @ een boog van 1 dag; Mars-LMO-baanbepaling ≈ { "0.2" } m.
+
+# data/verification-matrix.json
+dat-d4776382a489 = Ionosferische en UTC-diensten voor één frequentie van een LEO-navigatiebericht
+
+# data/search.json
+dat-531887b91757 = Beoordelingen van resilience met één getal voor plaatsbepaling, navigatie en tijdsynchronisatie zijn alleen stabiel waar één ontwerp domineert; weging, dreiging en opgegeven technieken kunnen ze omkeren.
+
+# studio/data/capabilities.json
+dat-d541692e383b = Enkelvoudige positiebepaling (PVT)
+
+# data/search.json, studio/data/capabilities.json
+dat-b668016e1890 = Hemelgeometrie
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-2d7d60357e41 = Hemelgeometriefuncties: zichtbaarheid, DOP, covariantie, foutellips, Monte-Carlo-wolk
+
+# js/developers-data.mjs
+dat-12c10c0617b0 = Hemelgeometrie onder een azimutafhankelijke skyline (een straatcanyon, een haven, een fjord, een containerterminal): vanaf een locatie, een tijdstip en constellatievoorinstellingen, two-line-elementensets (`tle`, met een UTC-`epoch`) of satellieten gegeven als azimut/elevatie of ECEF, welke satellieten zichtbaar zijn en welke door de skyline worden verborgen, GDOP/PDOP/HDOP/VDOP/TDOP uit de met gnss_lib_py gecontroleerde DOP-kern, de east-north-up-cofactor en -covariantie met één ontvangerklok per systeem (of één gemeenschappelijke), en de horizontale foutellips bij één sigma en bij een opgegeven betrouwbaarheid voor een opgegeven UERE.
+
+# data/verification-matrix.json
+dat-39b1bcfec069 = Skyfield { "1.54" } (MIT), met zijn eigen schrikkelsecondentabel, zijn eigen TDB-TT en zijn eigen lezer van hetzelfde NAIF de440s.bsp (jplephem), als apart programma uitgevoerd op UTC-epochs. Vooraf vastgelegd (0bfafe6d) vóór de fixture bestond, het raster geseed met de hash van die commit, met een drempel van { "5e-5" } s maal de relatieve snelheid (de opgegeven nauwkeurigheid van de engine voor TDB-TT met twee termen) plus { "1e-13" } van de barycentrische afstand plus { "1e-5" } m, per component. Resultaat: alle { "600" } binnen, ergste { "0.66" } van de drempel ({ "2.96" } m op een snel paar, de eigen fout van de TDB-TT-reeks). Mutatie: TT gebruikt als TDB faalt bij { "33" } maal de drempel. Beide kanten lezen DE440: dit valideert de provider en zijn tijdketen, niet DE440. Buiten de bewering: de planeten voorbij Venus als lichamen (de440s bevat alleen hun barycentra), de maanden van de planeten, en precisie onder de TDB-TT-reeks met twee termen (enkele meters voor de snelste paren)
+
+# data/verification-matrix.json
+dat-a746656c3f42 = skyline + frames::look_angles + geometry::sky_geometry: het geodetische (WGS-84) azimut en de elevatie van een satelliet vanaf een grondstation, een azimut-/elevatiemaskertabel lineair geïnterpoleerd in azimut met wrap bij { "360" } deg, de zichtbare verzameling el >= max(mask_deg, mask(az)), en de DOP met gemeenschappelijke klok en de ENU-en-klok-cofactormatrix van die verzameling (de kern achter orbit::dop). Zo beslist de sectie [skyline] over zichtbaarheid in de typen gnss-sim, jamming, leo-pvt, leo-pass en nmea-scenario en, met het grondstation user_site, in orbit en integrity
+
+# data/search.json
+dat-7d7fce0709c1 = Skylinemaskers en hemelgeometrie
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-f409aed2c1fd = Skyline-voorinstellingen (stadsstraat, havenaanloop, fjord, containerterminal)
+
+# studio/data/capabilities.json
+dat-127c914f92b1 = Skyline-voorinstellingen en de hemelgeometriefuncties
+
+# studio/data/capabilities.json
+dat-a2f8ef765eed = Zichtbaarheid, DOP en foutellips met skylinemasker
+
+# data/verification-matrix.json
+dat-f408f01299bd = skyline: de straatcanyon in gesloten vorm (cut atan((h - a) / d) met d = (w/2) / abs(sin(az - s)), open uiteinden voor een eindige lengte), scherp afgebakende sectoren met de klok mee met wrap, en terreinpunten gereduceerd tot een tabel met de krommingsdaling d^2/({ "2" } * 4/3 R); de skyline is hun puntsgewijze maximum met elke tabel
+
+# data/verification-matrix.json
+dat-54d387cbe183 = skyline::PRESETS: vier REPRESENTATIVE geometrieën met de opgegeven afmetingen van de ontwerpnotitie en elk een herkomstregel: city-street (een canyon, straat { "0" } deg, { "20" } m tussen muren van { "30" } m, antenne { "1.5" } m), harbour-approach (sectoren: open naar zee over { "180" } deg, kadegebouwen { "8" } deg over { "90" } deg, de golfbreker { "3" } deg), fjord (terrein: wanden { "600" } m boven de antenne op { "1.5" } km aan weerszijden van een noord-zuidkanaal, krommingsdaling toegepast), container-terminal (sectoren: stapels { "12" } deg over de landzijdige helft, kraanbomen { "35" } deg en { "25" } deg over twee smalle sectoren); veld voor veld te overschrijven
+
+# data/search.json
+dat-7969ca4fa6ac = Slottiming
+
+# data/search.json
+dat-581da7573890 = Slottiming: hoe lang een oven-gestuurde kristaloscillator (OCXO) in een lage aardbaan
+
+# data/search.json
+dat-42d4c827caff = Slottiming: seconden tot een vrijlopende klok de guard van een tijdgeïndexeerd routerings- of taaktoewijzingsslot verlaat…
+
+# data/search.json
+dat-296ef4327c8b = slot-timing (scenariotype)
+
+# data/verification-matrix.json
+dat-111439f50e53 = Ruimtedriehoekgeometrie volgens SMAD: hoekstraal van de aarde, zwadbreedte, nadir-GSD, maximale off-nadir-toegang en cirkelvormige periode, plus de nodale periode van J2 in eerste orde (eo_payload::j2_nodal_period) en de grondspoorafstand op de evenaar R_e (omega_E - dOmega/dt) T_nodal (eo_payload::ground_track_spacing_equator_j2) met een vlag voor aaneengesloten dekking, voor een baanhoogte, inclinatie en sensor-FOV/IFOV. Uitvoerbaar vanuit de CLI/bindings als het scenariotype `eo-coverage` (scenarios/eo-coverage.toml); zijn standaardinclinatie is de zonsynchrone uit eo_payload::sun_synchronous_inclination, een gemaksstandaard die geen deel uitmaakt van de gevalideerde bewering
+
+# data/search.json
+dat-31d991caf4b7 = Klein onbemand vliegtuig onder GNSS-jamming: hoe ver een vluchtcontroller van de klasse
+
+# data/search.json
+dat-2d806ce82e15 = Snapshot-/oplossingsscheiding-/ARAIM-RAIM met HPL/VPL en een Stanford-diagram.
+
+# studio/data/capabilities.json
+dat-c02622d843b3 = Snapshot- en oplossingsscheiding-RAIM met horizontale en verticale beschermingsniveaus (HPL/VPL), foutdetectie en -uitsluiting, en Stanford-integriteitsdiagrammen — plus een expliciet beschermingsniveau met integriteitsrisicobudget (MHSS) met de constellatiebrede foutmodus voor twee of meer constellaties (EU ARAIM / DO-316).
+
+# studio/data/capabilities.json
+dat-07e36468d18e = snapshotdetectiekern (χ²/niet-centrale χ²/normaal) tegen SciPy · ARAIM-MHSS-budget afhankelijk van de oprichter
+
+# data/search.json
+dat-ac6e25381f04 = Software bill of materials (SBOM)
+
+# data/verification-matrix.json
+dat-dfdd58c878cd = SRP-schaduw met zonneschijfverduistering (opt-in)
+
+# studio/data/areas.json
+dat-4cae6d94c5e5 = Zonnestelsel
+
+# data/search.json
+dat-9b14e3a637d5 = Zonnestelsel en positiebepaling rond andere lichamen
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-aeceaa175523 = Zonnestelsel op 2026-09-28T00:{ "00" }:{ "00" } (JD { "2461311.50080" } TDB), { "18" } lichamen, waarnemer Aarde
+
+# data/verification-matrix.json
+dat-b60237034eb8 = Selecteerbare bewegingsprofielen voor het gnss-ins-pakket (recht, figuur-8, stedelijk stop-en-ga, vliegtuigklim en gecoördineerde bocht, survey-drone), gedefinieerd door commando's voor Eulersnelheid en versnelling langs het spoor die op de referentietoestand worden gesloten met de kinematische IMU (centripetale, zwaartekracht- en Coriolistermen), en geïmporteerde CSV-referentie omgezet in de IMU die haar reproduceert; de historische rit ongewijzigd wanneer er geen profiel wordt gegeven
+
+# assets/capabilities/capabilities.json
+dat-948e6ac60330 = Solar System Scope (solarsystemscope.com), uit NASA-missiedata
+
+# data/search.json
+dat-f94d61e54b0d = solar-system (scenariotype)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-cadb7067ec2a = Zonnestelseltype op een JPL-kernel (planetary_kernel_path)
+
+# data/verification-matrix.json
+dat-168753788f40 = Zonne-/geomagnetische indices (definitionele Kp↔ap-tabel), de exosferische temperatuur volgens Jacchia-1971 en de thermosferische dichtheid volgens Jacchia { "1971" } (SAO Special Report { "332" }: statische diffusieprofielen die zijn Tabel { "7" } reproduceren, met de dagelijkse, geomagnetische, halfjaarlijkse, seizoens-breedtegraad- en heliumvariaties) tegen de statische USSA76-atmosfeer. Uitvoerbaar vanuit de CLI/bindings als het scenariotype `space-weather` (scenarios/space-weather.toml)
+
+# data/search.json
+dat-fe4496da9786 = Brondocumenten
+
+# data/search.json
+dat-6c042d27f9de = Gelezen bronnen
+
+# data/verification-matrix.json
+dat-f7b86f0a9870 = Waarnemingsweging met SP3-nauwkeurigheidscodes
+
+# data/verification-matrix.json
+dat-6cc640b71719 = Interpolatie van SP3-precieze klokken
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-771c34bd2a4c = Interpolatie van SP3-precieze efemeriden
+
+# studio/data/capabilities.json
+dat-8425a5958c22 = Ruimteomgeving
+
+# data/verification-matrix.json
+dat-9cc2ab5cbf48 = space_packet (TimeCode, SecondaryHeader, foutcontrole van het pakket, segmentatie en hermontage, streamdecodering)
+
+# data/verification-matrix.json
+dat-8d60955a1a7a = space_packet::tests (kopbits komen overeen met de CCSDS-133-indeling, encode→decode-rondreizen van alle velden, buiten bereik/afgekapt geweigerd); tests/ccsds_space_packet_reference.rs ({ "33" } gevallen tegen spacepackets { "0.32.0" }, waaronder { "12" } vergelijkingen van volledige pakketten; nul afwijkende octetten)
+
+# data/verification-matrix.json
+dat-4c0b9d3def53 = space_weather::tests (Kp↔ap exact op rasterpunten + rondreis + monotoon, daggemiddelde van Ap, exosferische T tegen gepubliceerde ankers voor zonneminimum/-gemiddelde/-maximum + stormtoename, dichtheid eenheid bij de referentie, zonnecyclusuitslag in de waargenomen band van { "5" }–{ "10" }×, scenario reproduceerbaar + MODELLED-not-VALIDATED + weigering buiten bereik); dominance_demonstrators (bereikbaar + reproduceerbaar + fysische T + MODELLED-not-VALIDATED); tests/space_weather_density_accelerometer_oracle.rs::jacchia71_finding_is_pinned
+
+# studio/data/capabilities.json
+dat-0fc86c7266f7 = ruimtegebaseerde PNT in transport, afgebeeld op clausulenummer
+
+# data/search.json
+dat-fcbd1fed787d = space-packet (scenariotype)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-d415284aa39c = Precisie van de space-tie-frameverbinding: GNSS, VLBI en laserafstandsmeting op dezelfde locatie
+
+# data/search.json
+dat-afa46fccf118 = Navigatie voor ruimtegebruikers
+
+# data/search.json
+dat-6bdb6a632c71 = Navigatie voor ruimtegebruikers (gnss-ssv)
+
+# data/search.json
+dat-03572ec754e6 = Navigatie voor ruimtegebruikers (familie van scenariotypen)
+
+# data/search.json
+dat-eaea0520ebaa = space-weather (scenariotype)
+
+# studio/data/capabilities.json
+dat-d52867e580c8 = Ruimteweer en thermosferische dichtheid
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-dd6c740303aa = Ruimteweeromgeving en door activiteit gedreven thermosferische dichtheid
+
+# data/search.json
+dat-5c2344ccb652 = Demonstrator van het ruimteweeromgevingsmodel.
+
+# data/search.json
+dat-0e6f5ef95600 = Ruimteweeromgevingsmodel: zonne- (F10.7/F10.7a) en geomagnetische (Kp, met de definitionele Kp↔ap…
+
+# data/search.json
+dat-19f335d532a0 = Ruimte: aardbaan
+
+# data/search.json
+dat-46c8ffb19c16 = Standregeling van een ruimtevaartuig: een traagheidsgerichte slew van een star lichaam met drie of meer gebalanceerde reactie…
+
+# data/verification-matrix.json
+dat-58d5ea17d0e2 = Engineering van het ruimtevaartuigplatform (AOCS/thermisch/structuren/aandrijving/vermogen)
+
+# data/verification-matrix.json
+dat-cf0ad55ade53 = spacepackets { "0.32.0" } (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — een onafhankelijke implementatie van CCSDS 133.0-B-2 door een derde partij; encode_packet/decode_packet van kshana kwamen byte-exact overeen (de primaire kop van 6 octetten voor { "33" } gevallen + het volledige gecodeerde pakket voor { "12" })
+
+# data/verification-matrix.json
+dat-313f25455454 = Ruimtelijke, ruizige cislunaire waarneembaarheid van de booglengte met meerdere families
+
+# data/search.json
+dat-56082f0c5a34 = spectrum (scenariotype)
+
+# data/search.json
+dat-3566fa37a298 = Termen voor spectrum en interferentie
+
+# data/search.json
+dat-895941baaa2f = Spectrummodel en waterfall
+
+# data/verification-matrix.json
+dat-23e529074fb9 = Spectrummodel: banden van GLONASS, BeiDou en Galileo E6 (opt-in)
+
+# data/verification-matrix.json
+dat-af4fb64516ce = spectrum::default_band lost, uitsluitend op naam (MORE_BAND_NAMES), GLONASS L1OF en L2OF op elk FDMA-kanaal K = -7 tot { "6" } (BPSK, { "0.511" } Mchip/s), BeiDou B1I (BPSK({ "2" })), B1C (MBOC(6,1,1/11)), B2a en B3I (BPSK({ "10" })) en Galileo E6 (BPSK({ "5" })) op, met de draaggolven en minimale ontvangen vermogens uit hun interface control documents; de standaardbandenset en elke bestaande uitvoer blijven ongewijzigd.
+
+# data/verification-matrix.json
+dat-fb48bad788fc = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S gelijk aan jamming::j_over_s_db en effectieve C/N0 gelijk aan jamming::effective_cn0_dbhz met Q = 1/(R_c kappa) tot { "1e-9" } dB, en het anker van { "32.105" } dB uit de eigen test van het jamming-type; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
+
+# data/verification-matrix.json
+dat-ff473eb01178 = spectrum::tests (bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz — BPSK({ "1" }) { "2.046" } MHz en BPSK({ "10" }) { "20.46" } MHz numeriek gelokaliseerd op de gesloten vorm; boc11_lobes_are_centred_at_plus_minus_1_023_mhz — nul bij de draaggolf, eerste nul bij { "2.046" } MHz, middelpunt van de lob { "1.023" } MHz, en het exacte maximum bij { "0.7590" } MHz tegen een onafhankelijke Newton-oplossing van tan y = 2y; ssc_matches_parseval_closed_forms — C/A x C/A 2/(3R_c) = -61.86 dB/Hz, BOC({ "1,1" }) x BOC({ "1,1" }) 1/(3R_c) = -64.87 dB/Hz, C/A x BOC({ "1,1" }) 1/(6R_c) = -67.88 dB/Hz, elk binnen { "0.02" } dB; q_values_match_kaplan_hegarty — CW bij de draaggolf Q = { "1" }, ruis met gematcht spectrum Q = { "1.5" }, vlakke ruis van nul tot nul Q = { "2.215" }; mboc_is_a_unit_area_one_eleventh_mix)
+
+# data/verification-matrix.json
+dat-1963255525f8 = Grootte van de zwaartekracht en verstoring (mGal) met sferische harmonischen uit elk ICGEM-.gfc-model; normale zwaartekracht volgens GRS80
+
+# data/verification-matrix.json
+dat-4c4d9657347b = Sferisch-harmonische synthese van het IGRF-14-hoofdveld — componenten X/Y/Z/F, declinatie en inclinatie — dat de magnetische-anomalielaag voor alt-PNT voedt
+
+# data/verification-matrix.json
+dat-893b479b98d2 = SPICE-SPK-export (typen { "9" } en { "13" })
+
+# data/verification-matrix.json
+dat-1970e41c7db3 = SPICE-SPK-typen { "3" } en { "21" } (Chebyshev, uitgebreide verschillijnen)
+
+# data/search.json
+dat-14a3965e8d86 = spoof (scenariotype)
+
+# data/search.json
+dat-259577baf77c = spoof-detect (scenariotype)
+
+# studio/data/areas.json
+dat-01fb05e433c7 = Gespoofde tijdoffset tegen de detectiegrens
+
+# studio/data/areas.json
+dat-fbaa936bd30b = Spoofing en signaalbeveiliging
+
+# data/search.json
+dat-601535e5301e = Een ontvanger in een baan spoofen
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-ab66f65505aa = Spoofingdetectie
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-9aea29675fd1 = Spoofingdetectie via bandoverschrijdende consistentie van een LEO-signaal met meerdere banden
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-795582307a23 = Spoofingdetectie via consistentie van LEO-Doppler en passagegeometrie
+
+# data/search.json
+dat-4449d1faf895 = Spoofingmonitors ([spoofer])
+
+# data/search.json
+dat-a00bb0f6692e = Scrollverhaal over spoofing
+
+# assets/capabilities/capabilities.json
+dat-708502ba8fc3 = lijnstructuur van de spreidingscode (bijvoorbeeld de lijnen van { "1" } kHz van C/A): tonen worden gescoord tegen de gladde omhullende
+
+# data/verification-matrix.json
+dat-d0984226fd35 = Kwadratische (niet-coherente) acquisitiedetector over een zoekruimte van codefase × Doppler: kans op vals alarm (centrale χ² met 2M dof), de drempel die een doel-P_fa haalt (χ²-CDF omgekeerd door bisectie) en detectiekans (niet-centrale χ² met niet-centraliteit 2M·ρ voor de SNR ρ na correlatie per cel), met de gegeneraliseerde Marcum Q-functie Q_M(a,b)={ "1" }−F_{ "{" }χ'²(2M,a²){ "}" }(b²)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-02b72c4d4ccf = Oplosser voor het datum met vierkantswortelinformatie tegen uitgebreide precisie van 50 cijfers
+
+# data/verification-matrix.json
+dat-b76328f7c20d = src/benchmark/coverage.rs::tests (clean/under-bounded/all-unavailable/empty); tests/tib_scorer_reference.rs (aantallen + percentages + coverage_ok tegen numpy tot { "1e-12" })
+
+# data/verification-matrix.json
+dat-295a4935fb39 = src/benchmark/faults.rs::tests (offsetprofielen, monotone uitloop, markering van niet-detecteerbare verzamelingen, consistentie van max_offset, precies twee niet-detecteerbare klassen)
+
+# data/verification-matrix.json
+dat-8bf16f8a0af4 = src/benchmark/scorecard.rs::tests (referentie-PL absorbeert; kapotte PL niet-geabsorbeerd-nooit-gedetecteerd; oordeel over detecteerbare dekking; de eerlijkheidseigenschap dat voor een niet-detecteerbaar scenario geen dekkings-/detectieoordeel bereikbaar is)
+
+# data/verification-matrix.json
+dat-f085fd399bfc = src/benchmark/stanford.rs::tests (vier gebieden + inclusieve grenzen + |fout| + PL>AL-onbeschikbaarheid); tests/tib_scorer_reference.rs (classificatieaantallen tegen onafhankelijke numpy op een vaste synthetische verzameling)
+
+# data/search.json
+dat-760af7c983fd = src/clock_log.rs leest een gemeten kloklog in één genormaliseerde fasereeks: een uniform raster van (time_s…
+
+# data/verification-matrix.json
+dat-38323d630919 = src/sp3.rs-unittests; tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit (vastgelegde fixture van { "8" } h van ESOC, sigma { "0.032" } m uit de kopexponent { "5" }: Tier-1 3D-RMS { "0.132" } m ongewijzigd, Tier-2 { "0.035" } m tegen { "0.070" } m bij sigma { "1" } m, waarbij de wijziging voortkomt uit de opnieuw gebalanceerde empirische a-priorirestrictie); tests/agency_swarm.rs (het Swarm-product draagt geen nauwkeurigheidscodes en valt terug, vastgezet)
+
+# data/verification-matrix.json
+dat-727be105dbbe = SRP-belichte fractie als de niet-bedekte fractie van de zonneflux met randverduistering (Eddington-benaderingswet I(mu)/I({ "1" }) = 2/5 + 3/5 mu, Gauss-Legendre-kwadratuur) over een sferische of WGS-84-aarde (srp_shadow::limb_darkened_shadow, de ShadowModel-variant OblateEarthLimbDarkened)
+
+# data/verification-matrix.json
+dat-37268a33e432 = SRP-belichte fractie met het WGS-84-ellipsoïde als bedekkend lichaam (schijnbare aardstraal van de ellipsoïdelimb naar de zon, tweeschijvenlensformule; srp_shadow::oblate_conical_shadow), opt-in op het Cowell-krachtmodel via propagator::ForceModel::srp_shadow (standaard: de sferische kegelschaduw, ongewijzigd)
+
+# data/verification-matrix.json
+dat-d787ce4d3553 = srp_shadow::tests (de annulaire gesloten vorm, de uniforme wet die de kegelschaduw reproduceert, volle zon en umbra als grensgevallen)
+
+# data/verification-matrix.json
+dat-522a5c7913ff = SRTM-digitaalhoogtemodellezer op echt terrein
+
+# data/verification-matrix.json
+dat-1464d08b8d0b = Stable32 overlappende ADEV/HDEV op de gemeten fasereeks van de 5071A-cesiumklok (allantools)
+
+# data/verification-matrix.json
+dat-3fd9b56ddf37 = Stable32-referentiedeviaties voor PHASE.DAT (Riley; de standaardregressiereeks)
+
+# data/verification-matrix.json
+dat-953d1c01df40 = Convectieve verwarming bij binnenkomst in het stagnatiepunt (Sutton-Graves) op een 3-DoF-binnenkomst
+
+# data/verification-matrix.json
+dat-c17adedd6a3a = Convectieve warmteflux in het stagnatiepunt q = k sqrt(rho/R_n) V^{ "3" } met de Sutton-Graves-constanten voor aardlucht en de Marsatmosfeer (NASA TR R-376, { "1971" }), haar piek en de geïntegreerde warmtebelasting langs een 3-DoF-binnenkomst, ballistisch of met lift bij constante rolhoek, op Aarde of Mars.
+
+# data/search.json
+dat-c16e0fa0d5e4 = Controle tegen standaarden — uitwisselingsformaten, linkbudget en integriteit (controles met een externe referentie)
+
+# data/search.json
+dat-cde2861556ff = Standaardenraster
+
+# data/search.json
+dat-a656659bd6dc = Standaardenpakketten
+
+# data/verification-matrix.json
+dat-7fc9b51d4100 = Standaardenpakketten: scenario's gescoord tegen drempels die vóór de run zijn vastgelegd
+
+# data/verification-matrix.json
+dat-30c0f1878852 = standards_pack (kshana standards-pack): de testprofielen van het DHS Resilient PNT-kader voor niveaus { "1" } tot { "4" }, nauwkeurigheidsniveaus en integriteitsevaluatie volgens IMO MSC.1/Circ.1575, en de pakketten monitor, assess en mitigate volgens ICAO Doc { "9849" } Appendix F: elke test voert een meegeleverd scenariotype uit en vergelijkt resultaatvelden met drempels die in het pakket staan, en tests die een ontvangerlog nodig hebben, staan als NEEDS INPUT vermeld en worden niet gescoord.
+
+# data/verification-matrix.json
+dat-552f0a742c42 = standards_pack; compliance (feiten van het standaardenpakket in het compliance-rapport)
+
+# assets/capabilities/capabilities.json
+dat-486cd9e70c99 = Standish Tabel { "1" } ({ "1800" } AD tot { "2050" } AD)
+
+# studio/data/capabilities.json
+dat-7f317d6ddb93 = Standoff van { "49.2" } km volgens vermogensverhouding tegen { "19.4" } km volgens verlies van lock
+
+# studio/data/capabilities.json
+dat-b419ad191c63 = Stanford-ESA-integriteitsgebieden (Tossaint et al., NAVIGATION { "2007" })
+
+# data/search.json
+dat-2c5e380d079c = Binnenkomst van de Stardust-monsterretourcapsule: het gepubliceerde geval waartegen het type `entry-heating` wordt gecontroleerd
+
+# data/search.json
+dat-0cdc1ba1f8e1 = Opgegeven vereenvoudigingen
+
+# data/verification-matrix.json
+dat-4bf59a70d0d0 = Statische float-PPP met uitgebreid Kalmanfilter op echte tweefrequentie-GPS-code en draaggolffase met finale IGS-banen en -klokken: ionosfeervrije combinatie, antenneoffsets van satelliet en ontvanger (ontvangervariaties), vastelandgetij, phase wind-up, Shapirovertraging, geschatte zenitale natte vertraging, float-ambiguïteiten per boog met slipdetectie via geometry-free / Melbourne-Wübbena
+
+# data/search.json
+dat-d98ad9c58d79 = Gebeurtenissen en voorspellingen opgeven
+
+# data/search.json
+dat-ea454f190445 = Stationsgeodesie
+
+# data/search.json
+dat-dd56a93c9523 = Stationstijdlaboratorium
+
+# data/search.json
+dat-3aef6f392405 = Status van het "publiceren" van dit resultaat
+
+# data/search.json
+dat-9a3b2322b4bc = Statuswaarden
+
+# data/search.json
+dat-64ed471bf2ad = Stochastische tijdspoofingdetector (Neyman–Pearson / χ²₁) met Monte-Carlo-P_fa/P_md.
+
+# studio/data/capabilities.json
+dat-019d612185bf = Strapdown-INS en kaartondersteunde navigatie
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-b2b424efa9c6 = Strapdown-INS-mechanisatie
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-9d83f008c8dc = Reducties van straatcanyon, sector en terrein tot een tabel
+
+# studio/channels.json
+dat-f584d32e64e7 = Studiogids
+
+# data/search.json
+dat-d663969bf10e = Specificatie van de kaartpagina van de Studio
+
+# data/search.json
+dat-5b385c8573f7 = Specificatie van de weergave van de Studio
+
+# data/search.json
+dat-dc9b25bfd526 = Studiesuites
+
+# js/developers-data.mjs
+dat-550979cbd512 = Vat samen hoeveel van een route door gedegradeerde cellen van een of meer interferentiekaarten loopt (`kshana route-exposure`): voor elke kaart (één per bron per UTC-dag, de GeoJSON die `build_interference_map` teruggeeft) de routelengte en de aandelen van haar lengte in gedegradeerde cellen, in cellen die niet gedegradeerd waren, in cellen met te weinig steekproef om te beoordelen, en in cellen die niet zijn waargenomen.
+
+# data/verification-matrix.json
+dat-bd135aadc5cf = Posities van zon, maan, Mercurius en Venus uit de DE440-kernel op UTC-epochs (KernelEphemeris)
+
+# data/search.json
+dat-3f341bceaa0e = Ondersteuning en professionele diensten
+
+# data/search.json
+dat-aeb9d7cea04c = Ondersteunde versies
+
+# data/search.json
+dat-6574be41c5d5 = Augmentatie met oppervlaktebakens van een lunaire orbitale navigatiedienst, als uitvoerbare voor-en-na-tabel.
+
+# data/search.json
+dat-670ca7958895 = Augmentatie met oppervlaktebakens van een lunaire orbitale navigatiedienst, als uitvoerbare voor-en-na-tabel. Een…
+
+# data/search.json
+dat-6caf5e331822 = Augmentatie met oppervlaktebakens van een lunaire orbitale navigatiedienst.
+
+# data/search.json
+dat-9b2c6a9dc498 = sweep (scenariotype)
+
+# data/search.json
+dat-e81a46467c7f = sweep-nd (scenariotype)
+
+# studio/data/capabilities.json
+dat-adb728f42967 = Sweept een illustratieve constellatie van de klasse Moonlight/LCNS over een selenografisch raster: zichtbaarheid, dilution of precision, dekking en ARAIM-beschermingsniveaus per epoch tegen een instelbare alarmlimiet. De nauwkeurigheid van de signal-in-space-afstandsmeting is een parameter, zodat de sweep een afstandsmetingseis over het hele volume beantwoordt in plaats van geslaagd/gefaald bij één vaste waarde.
+
+# data/verification-matrix.json
+dat-817243d2689f = Synthetische NMEA-{ "0183" }-streams van een brug voor bemanningstraining (kshana nmea-scenario): GGA, RMC, VTG, ZDA, GNS, GSA, GSV, HDT, VBW en de PKSHT-markering, gegenereerd uit een referentiespoor met gemodelleerde effecten van ontvanger, hemel, jamming en spoofing. Alleen tekstuitvoer; er wordt niets uitgezonden.
+
+# assets/capabilities/capabilities.json
+dat-22098d1a0e92 = Synthetisch: het model getekend als IQ op één moment, geschreven naar SigMF en teruggelezen, daarna geschat met Welch. Een consistentiecontrole van de synthese, de SigMF-codec en de schatter, geen meting. Een periodieke chirp wordt getekend als een echte zaagtandsweep, waarvan het spectrum lijnen heeft op de sweepfrequentie, Fresnel-rimpel en staarten voorbij de bandranden; het model draagt zijn gladde omhullende, dus bins nabij een chirp verschillen per ontwerp terwijl het totale vermogen overeenkomt.
+
+# data/search.json
+dat-a41922ad3854 = Syslog: CEF en LEEF
+
+# data/search.json
+dat-c2f7e50ffbb0 = Eerst systeemonafhankelijk
+
+# data/verification-matrix.json
+dat-fa30e39cc07b = Systeemonafhankelijke invoer: elk systeem is Walker-schillen, expliciete elementen of een GNSS-voorinstelling, een signaal (draaggolf, chipsnelheid, bandbreedte, ontvangen vermogen of C/N0-bereik), een SISRE, een Dopplersigma en een klokmodel; voorinstellingen vullen alleen in wat een scenario openlaat, één bestand per stuk met bronnen gemarkeerd als PUBLIC (met een URL), WORKSHOP of DERIVED en de niet-gepubliceerde waarden vermeld als representatief: Xona Pulsar X1/X5, Iridium STL, Starlink-signals-of-opportunity, CentiSpace, een representatief C-bandsysteem, het ATOMIC-efemeridemodel met nulklok, en één in een workshop afgeleide voorinstelling in het optionele Celeste-IOD-voorinstellingsbestand, achtergehouden door dat bestand en zijn scenario's te verwijderen
+
+# data/search.json
+dat-28b3c29ec163 = Systemen en voorinstellingen
+
+# data/verification-matrix.json
+dat-ac106aebfca0 = Detectielatentie in het slechtste geval van de tabellaire CUSUM-detector (⌊h/(z−k)⌋+{ "1" }) en gemiddelde runlengte buiten controle, gebruikt door de beschermingsniveaus voor tijdsynchronisatie en de spoofingmonitors
+
+# data/search.json
+dat-1d1d94fb5397 = Neem contact met ons op
+
+# data/search.json
+dat-8d814e924017 = tau0 en hiaten
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-40e51f3e52b4 = Passieve geolocatie van emitters met TDOA/FDOA
+
+# data/verification-matrix.json
+dat-0b5667e3b6d6 = Technique for Order of Preference by Similarity to Ideal Solution — min–max-normalisatie, gewogen positieve/negatieve ideale oplossingen, relatieve nabijheid Cᵢ = d⁻/(d⁺+d⁻) en rangschikking
+
+# data/search.json
+dat-c21d2ec7ddf9 = Telecom en 5G
+
+# data/search.json
+dat-7aef291b5a64 = Telecom- en energiebedrijven testen een tijdsynchronisatiesysteem door er GNSS van weg te nemen en te kijken wat de klok doet.
+
+# data/search.json
+dat-07054d4687e1 = Telecomtijdsynchronisatiereferentie: een rubidiumklok die zijn Global Navigation Satellite
+
+# data/search.json
+dat-f71ed795d93f = Termen voor telecomtijdsynchronisatie
+
+# data/search.json
+dat-c49582e6cc02 = Telecomtijdsynchronisatie, frequentiesynchronisatie: een vrijlopend oven-gestuurd kristal
+
+# data/search.json
+dat-c79310a5c33f = Telecomtijdsynchronisatie, voorbeeld van inlezen: een reeks van time interval error (TIE) inline gegeven en
+
+# data/search.json
+dat-fa27e7b01d87 = Telecomtijdsynchronisatie: maskers, bronnen en voorinstellingen
+
+# data/search.json
+dat-20c2fd0046b5 = Telecomtijdsynchronisatie: tijdfout, maximum time interval error (MTIE) en time deviation (TDEV) van een GNSS-holdover…
+
+# data/verification-matrix.json
+dat-dee462652608 = telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — de discrete verouderingshelling binnen { "0.1" } % van (1/2)·D·t² over een dag; same_seed_same_series_and_hash_different_seed_different_series); tests/oscillator_presets_measured.rs (caesium_finding_pinned; rubidium_finding_pinned; csac_finding_pinned; ocxo_preset_has_no_measured_record)
+
+# data/verification-matrix.json
+dat-34e3624e28d4 = telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — open en gesloten uiteinden, de τ = { "400" } s-kloof van G.8271.1 Tabel 7-3, continuïteit bij elk breekpunt dat de tabellen impliceren; a_curve_exactly_on_the_limit_passes_and_just_above_fails; eprtc_a_holdover_envelope_follows_table_3; a_coarse_record_is_not_evaluated_against_a_filtered_mask); tests/telecom_timing_reference.rs (telecom_timing_kind_round_trips_through_the_dispatch); tests/telecom_masks_itu_printed_values.rs (mask_values_match_the_numbers_the_recommendations_print; figure_7_2_label_at_1_3_s_is_not_its_own_table_value)
+
+# data/search.json
+dat-75867f8f3368 = telecom-timing (scenariotype)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-fab6cff7821d = MTIE en TDEV van telecomtijdsynchronisatie op een tijdfoutreeks van holdover
+
+# data/verification-matrix.json
+dat-87e4b3ac215a = telemetry (prometheus: Registry, render; otlp: build_payload, Exporter (feature otlp); sample)
+
+# data/verification-matrix.json
+dat-eb5b4a077138 = telemetry::mqtt::tests (pakketbytes, loopback-broker, dode broker geteld); tests/receiver_trust_machines.rs::trust_telemetry_mqtt_text_has_discovery_then_state
+
+# data/verification-matrix.json
+dat-d25190422275 = telemetry::syslog::tests (exacte LEEF-strings, escaping, ernst, RFC-{ "5424" }-envelop, time-outs bij levering en herverbinding); tests/telemetry_cli.rs
+
+# data/search.json
+dat-0d2b23362c1b = Sjablonen (u zet ze zelf in; Kshana voert er geen uit)
+
+# data/search.json
+dat-abf9b8fde128 = Terreinhorizonmaskers
+
+# data/verification-matrix.json
+dat-40a50c3414d4 = Terreinafscherming van de jammer in het jamming-type tegen een onafhankelijke numpy-herberekening op een echte SRTM-tegel
+
+# data/search.json
+dat-41233582d30a = terrain-nav (scenariotype)
+
+# data/search.json
+dat-fef2c45a4d49 = Terreinreferentienavigatie (TERCOM/SITAN): alt-PNT zonder GPS.
+
+# data/search.json
+dat-67d9ad94161a = terrain-slam (scenariotype)
+
+# data/verification-matrix.json
+dat-ab8e111d6db1 = Tesserale geopotentiaal in de Cowell-propagator
+
+# data/search.json
+dat-c481865fdebf = Toegepaste test
+
+# studio/data/capabilities.json
+dat-7e4f76cf5f02 = Test-bench-export
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-ae7811e71c53 = Test-bench-export (kshana bench-export): aardvaste, geodetische en lokale-snelheidskolommen, houdingskolommen en NMEA-{ "0183" }-uitvoer
+
+# data/verification-matrix.json
+dat-98bed4a06290 = Test-bench-export gelezen door de bewegingsbestandslezers van een simulator (gps-sdr-sim)
+
+# data/search.json
+dat-2c1e5ddbab6d = Tests en testdata
+
+# data/verification-matrix.json
+dat-9752924b1c93 = tests/adm_orekit_oracle.rs (L1 Orekit leest { "33" } Kshana-bestanden, L2 Kshana leest { "31" } Orekit-bestanden, L3 { "135" } recordrotaties; bevindingen vastgezet); adm::tests; ndm_xml::tests
+
+# data/verification-matrix.json
+dat-8a55c6d3a79c = tests/alternative_complementary_pnt_reference.rs ({ "2520" } wereldwijde punten × hoogtes tegen ppigrf @ epoch { "2025.0" }; ergste |ΔXYZF| { "3.9e-4" } nT, |ΔD| { "2.8e-6" }°, |ΔI| { "3.6e-7" }°)
+
+# data/verification-matrix.json
+dat-3ac6409e9de9 = tests/alternative_complementary_pnt_reference.rs (CRLB voor kaartmatching; IGRF-14-veld); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (de benchmark van 60 min zonder GPS op het echte EGM2008-veld van graad 70, vooraf vastgelegd in xval/icgem-egm2008/: gematcht { "3106" } m, dus de drempel < { "500" } m is NOT MET en wordt als gemist bevestigd, en de tienvoudige reductie van de drift van { "70.6" } km is MET; plus de Monte Carlo met kaartfout met seed); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel en tests/emag2_real_grid.rs (datageblokkeerde EMAG2v3-lezer op een echt uitgesneden stuk; daarop wordt geen navigatieresultaat beweerd); tests/terrain_slam_rbpf.rs (gezamenlijke kaartschatting, een RBPF in FastSLAM-stijl, tegen SITAN met bekende kaart bij een gecorreleerde kaartfout van { "15" } m over { "20" } seeds, vooraf vastgelegd in xval/terrain-slam-rbpf/: { "1.5" }% gemiddelde winst en beter in { "10" } van { "20" }, dus de drempels van { "10" }% en 12 van 20 zijn NOT MET en worden als gemist bevestigd; geen schade op een perfecte kaart, MET)
+
+# data/verification-matrix.json
+dat-4991862705f8 = tests/aocs_basilisk_oracle.rs ({ "3" } gevallen, elk { "601" } samples: MRP ergste { "2.4e-14" }, drempel { "1e-9" }; lichaamssnelheid { "1.6e-15" } rad/s, drempel { "1e-9" }; wielsnelheid { "2.9e-11" } rad/s, drempel { "1e-6" }; toegepast motormoment { "1.2e-13" } N m, drempel { "1e-9" }; momenten bij t = { "0" } binnen { "1e-12" } N m; verzadiging bereikt in beide hulpmiddelen); aocs::tests (impulsmoment behouden, afbeelding met minimale norm, MRP-tak, convergentie onder verzadiging); aocs_kind::tests
+
+# data/verification-matrix.json
+dat-62bb9863a354 = tests/araim_reference_vectors.rs ({ "2" } gepubliceerde vectoren + { "6" } negatieve controles, fixture tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: het weglaten van de nominale bias mist de gepubliceerde VPL met { "2.6457" } m, een ISM-fout van { "10" } % met { "0.2798" } m, K_fa bij { "57" } modi in plaats van { "12" } met { "0.4015" } m, een integriteitsvariantiefout van +{ "2" } %/+{ "5" } % met 0.0750/0.1971 m — en een fout van +{ "1" } % verschuift haar slechts { "0.0339" } m, gerapporteerd als de resolutiegrens van de controle in plaats van verborgen; de antwoorden van de twee documenten missen elkaars antwoord elk met meer dan de tolerantie, dus de vectoren zijn niet uitwisselbaar; de vastgelegde fixture en de gecompileerde constanten zijn twee onafhankelijke transcripties waarvan wordt bevestigd dat ze overeenkomen, zodat een gepubliceerd cijfer niet aan één kant kan worden aangepast om een controle te laten slagen; en C_int − C_acc = σ²_URA − σ²_URE = { "0.3125" } m² geldt voor alle { "40" } getranscribeerde varianties, een rekenkundige identiteit die een typefout in de transcriptie zou breken)
+
+# data/verification-matrix.json
+dat-7eace8da0834 = tests/batch_sequential_orbit_determination_reference.rs ({ "8" } scenario's: { "6" } ruisvrije LEO/MEO/excentrische/3–4-stations + { "2" } σ={ "5" } m, tegen Orekit { "12.2" }; ergste batch |Δr| { "1e-3" } m / |Δv| { "1e-6" } m/s, sequentieel |Δr| { "0.9" } m)
+
+# data/verification-matrix.json
+dat-128244e14447 = Synthetische campagnes uit Kshana's eigen GPS-L1-C/A-scènes (verzwakkingen van de eigen signalen van de satellieten), tegen drempels die vooraf zijn vastgelegd in docs/design/DETECTION-ROC.md (b47e358d). BEVINDING: R2 gehaald (kansniveau als er niets te detecteren valt). R1 NOT MET: cn0_drop AUC { "0.7855" } tegen { "0.95" }, omdat elk negatief venster na een gebeurtenis het verval van de CUSUM na de detectie overneemt (alle { "18" } negatieven na de gebeurtenis bereiken { "81" } of meer; alle { "18" } negatieven vóór de gebeurtenis blijven op { "0" }). Alleen interne consistentie: er wordt geen echte ontvanger of opgenomen interferentie gecontroleerd
+
+# data/verification-matrix.json
+dat-a0759a29f9eb = tests/bds_geo_broadcast_oracle.rs (echte C01-C04-records: geostationaire straal, lengtegraden 140.02/80.04/110.55/159.99 deg op de gepubliceerde slots, |breedtegraad| { "2.13" } deg met de kanteling tegenover { "6.65" } zonder; de vooraf vastgelegde vergelijking van broadcast met precieze SP3 is datageblokkeerd op KSHANA_BDS_GEO_SP3 en is niet uitgevoerd); rinex::tests
+
+# data/verification-matrix.json
+dat-74570c1b382b = tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } epochs { "1955" } tot { "2044" }, { "574" } matrices binnen { "1e-9" } rad, ergste Phobos { "1.43e-10" } rad); tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_at_fresh_epochs ({ "41" } epochs { "1961" } tot { "2038" } nooit eerder vergeleken, { "574" } matrices binnen { "1e-9" } rad, ergste Phobos { "1.38e-10" } rad); tests/body_constants_naif_oracle.rs::constants_match_naif_pck00011_and_gm_de440 ({ "0" } van { "84" } constanten van de veertien lichamen wijken af van NAIF)
+
+# data/verification-matrix.json
+dat-e52d88399d14 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — { "200" } seeds van een klok met witte frequentieruis die uitloopt tau = { "3010" } s: het ware gemiddelde { "0" } binnen het gerapporteerde interval, de halve breedte van het interval binnen { "25" }% van { "1.96" } sigma/sqrt(n), en de steekproefvariantie binnen het tweezijdige { "99" }%-chikwadraatinterval van sigma = sqrt(q_wf tau) = { "16.459" } ns; kalibratie-ensemble (CAP-10, vooraf vastgelegd ea451cb5, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): over { "200" } onafhankelijke ensembles bedekt het interval het ware gemiddelde bij { "192" } (binnen het Binomial({ "200" }, { "0.95" })-gebied van { "99" } % [{ "181" }, { "197" }]) en slaagt de chikwadraatcontrole bij { "196" }, terwijl de percentieltolerantie met één seed (p05 en p95 binnen { "0.3" } sigma) slechts bij { "183" } van { "200" } slaagt, NOT MET tegenover de vooraf vastgelegde { "190" }, een seed-kwetsbare controle die is vastgelegd in plaats van versoepeld; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+
+# data/verification-matrix.json
+dat-d787395a7d7b = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — een samenstelling met één lid leest het zelfstandige getal en de resultaat-digest)
+
+# data/verification-matrix.json
+dat-9b9bd42a133e = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — het resultaat van het lid byte-identiek aan de zelfstandige run en elke uitgelijnde waarde gelijk aan de zelfstandige reeks; the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
+
+# data/verification-matrix.json
+dat-77ddbaccd8d1 = tests/campaign_optimize_reference.rs (vooraf vastgelegd fbe6c8b3 en, na een protocolmis in ronde 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D-doeloplossing binnen { "6.1e-15" } van r* = r0 { "10" }^((m(r0) - { "3" })/20) in { "96" } evaluaties; p3_prime_contour_target_grid_and_nelder_mead en p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — het beste resultaat van de rastermethode bit-gelijk aan een onafhankelijke brute-force-lus van { "41" } x { "41" } over run_toml, Nelder-Mead minstens even goed in { "177" } en { "161" } evaluaties; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, die de vastgelegde misser van ronde 1 vastzet); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" } in { "234" } evaluaties; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
+
+# data/verification-matrix.json
+dat-4110a819536a = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE maart { "2023" }, { "4" } perilunes en { "5" } apolunes: periode { "6.5004" } d tegenover { "6.5699" } d ({ "1.07" } %, drempel { "3" } %), apolune { "71 182" } tegenover { "71 215" } km ({ "0.05" } %, drempel { "5" } %), perilune { "3 385" } tegenover { "3 245" } km ({ "4.1" } %, drempel { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+# data/verification-matrix.json
+dat-467a6f74a046 = tests/ccsds_oem_interop_reference.rs ({ "24" } toestanden / { "2" } fixtures byte-identiek gedecodeerd door de onafhankelijke `oem`-parser, pos/vel Δ = { "0" }); oem::tests (een OEM van een extern hulpmiddel met extra trefwoorden/opmerkingen/covariantie ontleden, rondreis schrijven→lezen van de volledige toestand, pos+vel+versn. getolereerd, alleen positie + ontbrekende verplichte metadata geweigerd, scenariorondreis met hoge getrouwheid + externe inname); dominance_demonstrators (bereikbaar + reproduceerbaar + rondreis exact + MODELLED-not-VALIDATED)
+
+# data/verification-matrix.json
+dat-2834cacf45e8 = tests/cef_reference.rs (pycef_reads_every_tier_1_event_as_the_sample_implies, the_logstash_cef_codec_reads_every_event_including_escaped_headers_as_the_sample_implies, the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_registered); telemetry::syslog::tests (exacte CEF-strings, escaping, ernst, RFC-{ "5424" }-envelop); tests/telemetry_cli.rs
+
+# data/verification-matrix.json
+dat-3325310b5a4d = tests/classical_strapdown_ins_reference.rs (statische/bocht-/coningprofielen, elk { "30" } epochs, tegen NaveGo: houding bit-identiek { "0" } rad; snelheid/positie binnen benoemde analytische grenzen)
+
+# data/verification-matrix.json
+dat-a401554b72ff = tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: holdovercijfers ongewijzigd, { "111" } geweigerde epochs onbeschikbaar zonder beschermingsniveau, geweigerd bij runs > { "1" }; protection_levels_are_the_snapshot_raims_on_the_same_sky: HPL en VPL van elke bemonsterde epoch zijn exact gelijk aan een snapshot_raim zonder residu op dezelfde voorinstellingshemel, en de foutvrije run geeft geen alarm; a_stated_bias_is_detected_while_it_lasts: een bias van { "60" } m geeft alarm op precies de { "10" } epochs die zij bestrijkt; every_integrity_field_has_a_unit); clock_integrity::tests; de klokgoldens ongewijzigd
+
+# data/verification-matrix.json
+dat-5d39f20e4a0c = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } gevallen: tien Kasdin-machtswetrecords, b = { "0" } tot -4, als fase- en frequentiedata, af = { "1" } tot { "64" }; alpha_int en d identiek, ergste |d alpha| { "9.6e-13" } en |d rho| { "4.8e-13" } tegen { "1e-9" }; vooraf vastgelegd 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
+
+# data/verification-matrix.json
+dat-94a45e8fdaad = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; vooraf vastgelegd fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+# data/verification-matrix.json
+dat-8ad76f467446 = tests/cowell_tesseral_orekit_oracle.rs ({ "6" } gevallen x { "25" } uurlijkse toestanden over { "24" } h: EGM2008 8x8 en 70x70 op LEO { "45" } deg, polair { "89.9" } deg, zonsynchroon { "98.2" } deg, GTO, en 70x70 met zon/maan en SRP; ergste |dr| { "0.0355" } m, |dv| { "3.74e-5" } m/s; negatieve controles missen met { "6168" } m (bevroren aarde) en { "20871" } m (alleen zonaal)); unittests van de propagator (zonale-limietidentiteit tot { "1e-12" }, CIO-frame bit voor bit tegen precise_od, Jacobi-integraal behouden tot { "1e-9" } over { "6" } h)
+
+# data/verification-matrix.json
+dat-376a96b1391b = tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } gevallen: { "12" } epochs in januari { "2025" } x de punten L1 en L2, twee zuidelijke L2-halo's en één DRO-begintoestand van de JPL Three-Body Periodic Orbits API en een generieke toestand; ergste positie { "1.8e-7" } m tegen { "1" } mm, snelheid { "1.2e-9" } m/s tegen { "1e-6" } m/s; inverse { "2.7e-15" }); cr3bp::tests::moon_centred_map_round_trips_and_sends_the_moon_to_the_origin
+
+# data/verification-matrix.json
+dat-602a3b3190eb = tests/cs5071a_reference.rs (echte 5071A Cs tegen H-maser, { "556 990" } punten, { "16" } middelingsfactoren tegen Stable32 tot { "1e-3" }; datageblokkeerd via scripts/fetch_cs5071a.sh)
+
+# data/verification-matrix.json
+dat-9ddbaa71a383 = tests/deep_space_mars_radiometric_reference.rs ({ "24" } trajecten over { "8" } epochs { "2020" }–{ "2027" } tegen ANISE DE440; ergste |Δτ| { "1.03e-9" } s, |Δafstand| { "0.31" } m bij tot { "2.5" } AU)
+
+# data/verification-matrix.json
+dat-133054c16cfb = tests/dop853_scipy_oracle.rs ({ "8" } enkele stappen: toestand binnen { "5.55e-15" } relatief, FSAL-afgeleide { "3.46e-15" }, dense output { "1.99e-14" }, accepteer-/verwerpbeslissingen identiek; { "3" } volledige runs bij rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" } over { "5" } perioden, Arenstorf over één periode): beginstap identiek, geaccepteerde stappen 502/501, 390/390, 298/298 en evaluaties 6025/6013, 5497/5497, 4285/4285 tegenover SciPy, eindtoestanden binnen { "2.95e-13" } relatief (tweelichamen) en { "1.58e-12" } (Arenstorf), dense output binnen { "9.5e-13" }; nauwkeurigheid tegen de exacte mpmath-Kepleroplossing gelijk aan die van SciPy (LEO { "8.44e-5" } m, Arenstorf-periodiciteit { "1.475e-9" })); unittests van integrator en propagator ({ "24" } h tweelichamen tegen exacte Kepler onder { "0.1" } m)
+
+# data/verification-matrix.json
+dat-fcd10bcbfddb = tests/drag_exponential_gmat_oracle.rs (equatoriale gevallen E400, E300 en E250x600 op J2000.0, { "25" } uurlijkse toestanden over { "24" } h: de door weerstand veroorzaakte verplaatsing komt met die van GMAT overeen tot hoogstens { "0.016" } van de drempel { "0.5" } m + { "1e-3" }|D| tegen { "21.5" } tot { "143.9" } km verplaatsing; een verandering van +{ "1" } % in Cd*A/m bereikt { "9.83" } maal de drempel; het hellende geval I400 wordt gerapporteerd, { "10.4" } % afwijkend, het opgegeven verschil in hoogtedefinitie)
+
+# data/verification-matrix.json
+dat-44f31f568938 = tests/drag_tier_orekit_oracle.rs ({ "4" } gevallen x { "25" } uurlijkse toestanden over { "24" } h, cirkelvormig { "51.6" } deg, { "400" } km bij lage/matige/hoge activiteit en { "300" } km: ergste |dr| { "0.0303" } m en |dv| { "3.36e-5" } m/s tegen { "3.3" } tot { "141.8" } km weerstandsverplaatsing, ergste fout/drempel { "0.003" }; de controle met exponentiële dichtheid mist met { "119.1" } m); unittests van krachten en propagator (standaard bit-identiek; het niveau evalueert de port op het aardvaste geodetische punt)
+
+# data/verification-matrix.json
+dat-97921726d233 = tests/earth_orbit_path_sgp4_erfa_oracle.rs (been { "1" }: { "4432" } TEME-posities van de { "232" } vastgelegde elementensets tegen python-sgp4 { "2.24" }, ergste { "6.1e-8" } m, drempel { "1" } cm; been { "2" }: { "108" } momenten, { "23" } daarvan met aardoriëntatieparameters en één in de laatste seconde van een schrikkelsecondedag, tegen ERFA: GCRS -> ITRS ergste { "2.9e-6" } mas, drempel { "0.1" } mas; TEME -> ITRS ergste { "0.41" } mas, drempel { "2" } mas); sgp4::tests (the_itrs_path_matches_the_orbit_module_iau_chain; an_earth_fixed_node_stays_at_its_longitude_at_the_epoch); tests/no_private_models.rs
+
+# data/verification-matrix.json
+dat-308ef451bd7d = tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } gevallen, de { "142" } vastgelegde zichtbare verzamelingen van de skylinevergelijking onder één gemeenschappelijke klok en onder één klok per systeem; ergste as { "5.1e-13" } relatief en oriëntatie { "5.3e-12" } deg, geen enkele bijna cirkelvormig, cofactor { "1.0e-12" } van de matrixschaal, tegen { "1e-9" } en { "1e-6" } deg; vooraf vastgelegd 0bbeeaee); geometry::tests (ellipse_of_an_analytic_two_by_two_case)
+
+# data/verification-matrix.json
+dat-868e775e09f6 = tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (zes exacte criteria: de bytes van het extract; { "174" } rijen; aantallen per vintage en volledige MJD-lijsten 30/54/90; vlag P op zowel poolbeweging als UT1 van elke voorspelde rij; de telling van de kale standaardrun; elke voorspelde rij gelijk aan IERS Bulletin A Vol. XXXIX Nr. { "039" } binnen haar laatste afgedrukte cijfer, ergste { "5.0e-5" } boogseconde en { "4.9e-6" } s); tests/embedded_eop_census_astropy_oracle.rs::vintage_census_matches_astropy (regressievastzetting van het oude extract van 32 rijen onder de vlagclassificatie: { "20" } definitief, { "12" } snel, { "0" } voorspeld); tests/embedded_eop_census_astropy_oracle.rs::rows_called_prediction_only_are_flagged_measured_by_astropy (de bevinding van ronde 1, behouden); realtime_frame_eop::tests; tests/operational_eop_predictor_reference.rs
+
+# data/verification-matrix.json
+dat-87ebc8805c38 = tests/entry_stardust_published.rs (piek { "35.44" } g tegen de gepubliceerde { "33.4" } g, +{ "6.1" } %, drempel { "10" } %; planeetrelatieve binnenkomstsnelheid { "12.551" } km/s tegen { "12.6" }, drempel { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (de energie in het roterende frame daalt met precies de weerstandsarbeid; vacuümuitloop behoudt de Jacobi-energie; niet-roterend ballistisch geval komt overeen met de vlakke puntmassa van de reentry-module; de gesloten vorm van Allen-Eggers in zijn regime)
+
+# data/verification-matrix.json
+dat-19695386f4dd = tests/eval_metrics_reference.rs ({ "5" } datasets, { "24" } drempels; exacte aantallen + <{ "1e-9" })
+
+# data/verification-matrix.json
+dat-4237f162cba1 = tests/evidence_crypto_reference.rs (RFC { "8032" } sectie { "7.1" } vectoren { "1" }, { "2" }, { "3" } en { "1024" }; FIPS 180-4 SHA-256-voorbeelden; exact); tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case ({ "71" } gevallen); tests/evidence_pack.rs (manipulatietests)
+
+# data/verification-matrix.json
+dat-e3e102a02de3 = tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl (de vooraf vastgelegde vergelijking); evidence::tsa::tests (burgerlijke datums en tijden, base64, de openbare RSA-bewerking); evidence::verify::tests::anchors_make_the_authority_checked (een niet-ondertekend token faalt met ankers; zonder ankers blijft het rapport ongewijzigd)
+
+# data/verification-matrix.json
+dat-5774ed85af83 = tests/field_units_global.rs (alle { "61" } geregistreerde typen draaien, elk met één documentvorm: elk numeriek blad moet verwijzen naar een item in het eigen units-blok van dat document; een misvormd item telt als ontbrekend voor ELK type, vrijgesteld of niet, zodat een plaatshouder geen dekking oplevert; de vrijstellingslijst mag haar vastgezette plafond niet overschrijden, een vermeld type dat volledig gedekt blijkt te zijn FAALT de poort zodat de lijst niet kan worden opgevuld, en een geregistreerd type dat in de runnertabel ontbreekt faalt zodat een nieuw pakket niet ongezien binnen kan glippen — wat gebeurde en beide typen ving die na het begin van dit werk werden toegevoegd; een eenrichtingsratel op de achterstand van beschreven-maar-niet-gedefinieerd; en een veroudering-controle op het vastgelegde schemadocument); field_schema::tests
+
+# data/verification-matrix.json
+dat-26f85ff13e7f = tests/fim_observability_reference.rs (eigenwaarden tegen numpy.linalg.eigh; CRLB-covariantie tegen σ²(XᵀX)⁻¹ via numpy.linalg.inv; GNSS-GDOP/PDOP/HDOP/VDOP/TDOP uit de informatiematrix tegen numpy — alle overeenkomend tot { "1e-9" }); fim::tests (Jacobi-eigenoplosser tegen spectra in gesloten vorm; CRLB tegen de gesloten vormen van Kay { "1993" } — DC-in-WGN σ²/N en lijnfit σ²(XᵀX)⁻¹; bereiken van de CRLB in Monte Carlo; Moore–Penrose-identiteit MM⁺M=M; nulruimte van het datumdefect)
+
+# data/verification-matrix.json
+dat-56f772ab5fc0 = tests/frame_reference_vectors.rs (Vallado end-to-end; SOFA/ERFA-vectoren)
+
+# data/verification-matrix.json
+dat-9363676284ba = tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } TT-epochs 1950-2100, dX en dY tot { "0.5" } mas: precessie-elementen binnen { "1e-13" }, ergste { "0" }; TEME naar GCRS binnen { "5e-10" } rad, ergste { "1.10e-10" } rad; CIO met offsets binnen { "1e-13" }, ergste { "0" }; nuloffsets bit-identiek aan cio::gcrs_to_cirs_matrix)
+
+# data/verification-matrix.json
+dat-471a756dbd81 = tests/fusion_carrier_tc.rs (rit in figuur-8: stationaire 3D-RMS { "0.025" } m met draaggolf tegen { "0.470" } m met code op identieke metingen; { "12" } seeds gemiddelde NIS/dof { "1.00" } en stationaire NEES/dof { "0.92" }; een slip van 1 cyclus gedetecteerd bij zijn epoch zonder valse alarmen en met intacte oplossing; het uitschakelen van de broadcastcorrecties verhoogt de codefout van { "0.51" } m naar { "19.6" } m (iono) en { "8.0" } m (tropo); ruisvrije run convergeert tot { "0.3" } mm)
+
+# data/verification-matrix.json
+dat-828938aa9e70 = tests/fusion_coupled_filters.rs (3D-filter over { "60" } seeds: gemiddelde NEES in de tweede helft { "8.12" } voor { "8" } toestanden, χ²-som van de laatste epoch binnen zijn band van { "95" } %; een klokfix van { "0.1" } ns verlaagt de 3D-positiesigma van { "5.58" } m naar { "3.07" } m; biasfilter over { "60" } seeds: χ²({ "5" })-som in de band, bias binnen { "3" } sigma bij { "59" } van { "60" }; fusion-pnt-coupled met bevooroordeelde versnellingsmeters: positie p95 { "18.7" } m / { "90.0" } m en integriteit { "1.00" } / { "0.97" } gekoppeld tegen { "430" } m / { "4060" } m en { "0.006" } / { "0.000" } ontkoppeld); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fusion en hybrid zonder [coupled] bit-identiek)
+
+# data/verification-matrix.json
+dat-c6449d14ea6b = tests/fusion_kfgins_dataset_oracle.rs (synthetische loaders en tests met hefboomarm op een draaiend platform altijd; datageblokkeerd op KSHANA_KFGINS_DIR, uitgevoerd 2026-10-13 op de KF-GINS-demodataset: horizontale / verticale RMS { "0.0109" } / { "0.0090" } m tegen de referentietrajectorie tegenover KF-GINS C++ { "0.0111" } / { "0.0083" } m, alle zes vooraf vastgelegde drempels behouden; hefboomarm uit { "0.329" } m)
+
+# data/verification-matrix.json
+dat-c4e0334e0432 = tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } gevallen: de { "4" } GLONASS-records van het echte IGS-MGEX-broadcastbestand van 2013-01-01 x { "73" } offsets binnen +/-900 s; klok binnen { "1e-14" } s, ergste { "0" } s; positie binnen { "0.01" } m, ergste { "1.12e-3" } m)
+
+# data/verification-matrix.json
+dat-f764501c858f = tests/gnss_denied_clock_holdover_reference.rs ({ "27" } gevallen tegen scipy { "1.18" }: { "12" } uitloopvarianties tegen linalg.expm Van-Loan Q₀₀ ergste rel { "1.1e-15" }; { "7" } holdoverinversies tegen optimize.brentq ergste rel { "1.5e-16" })
+
+# data/verification-matrix.json
+dat-e774576a2158 = tests/gnss_ins_packs.rs (elk pakket: gefuseerd onder vrij INS over de uitval voor beide sensoren; rail: strak { "5.3" } m tegenover los { "12.9" } m navigatieklasse en { "15.6" } m tegenover { "18.8" } m tactisch over de uitval, beschikbaarheid { "0.97" } tegenover { "0.95" }; strakke tabel gevalideerd); tests/gnss_ins_legacy_trajectory_pin.rs (de losgekoppelde standaard bit-identiek)
+
+# data/verification-matrix.json
+dat-8c517742780f = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (de gegenereerde SBOM valideert zonder fouten tegen het officiële CycloneDX-{ "1.5" }-JSON-schema over de volledige meegeleverde graaf van 66 componenten: standaard + python + wasm-features, dev-afhankelijkheden uitgesloten)
+
+# data/verification-matrix.json
+dat-e80854948446 = tests/gps_l1ca_gpssdrsim_cross_generator.rs::gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding (vastgezette bevinding); tests/gps_l1ca_gpssdrsim_cross_generator.rs::ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly (strikt, genegeerd met de kloof); gps_lnav::tests
+
+# data/verification-matrix.json
+dat-791bee5f80cd = tests/gps_lnav_rtklib_decode_oracle.rs::rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43 (vastgezette bevinding); tests/gps_lnav_rtklib_decode_oracle.rs::kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters (strikt, genegeerd met de kloof)
+
+# data/verification-matrix.json
+dat-b16187bab299 = tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satellieten van het IGS-broadcastbestand van { "2" } maart { "2025" }: { "960" } van { "960" } woorden slagen voor de RTKLIB-pariteit, { "96" } van { "96" } subframes decoderen, { "608" } van { "608" } gedecodeerde broadcast-gehele getallen gelijk aan die van Kshana, elke invoer binnen een half kwantum, week en tijden exact); gps_lnav::tests
+
+# data/verification-matrix.json
+dat-57e6de3ffc6c = tests/gravity_sh_high_degree.rs (Orekit op { "8" } punten buiten de as: max |da| { "2.2e-17" } m/s^{ "2" } bij N = { "70" }, altijd uitgevoerd; { "3.5e-17" }, { "3.9e-17" } en { "7.3e-17" } m/s^{ "2" } bij N = { "200" }, { "360" }, { "2190" }, datageblokkeerd op KSHANA_EGM2008_GFC); tests/cowell_tesseral_200_orekit_oracle.rs ({ "24" } h baan 200x200, datageblokkeerd: ergste |dr| { "0.1317" } m, |dv| { "1.45e-4" } m/s; controle met graad 70 { "0.726" } m); unittests van gravity_sh (overeenstemming met de klassieke evaluator tot { "1e-13" } bij graad { "70" }, eindige differentie en poolcontinuïteit op een veld van graad 2190, een onderlopende term van graad 2190 tegen een berekening met uitgebreide exponent)
+
+# data/verification-matrix.json
+dat-77f34261d4e6 = tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values in CI op tien geciteerde ICGEM-knopen; egm2008_n70_gravity_anomaly_sa_matches_icgem over de volledige opgehaalde rasters van 0.25 deg van Tsjaad 9-15N 19-25E en Death Valley 35-38N 242-245E, { "794" } knopen: RMS { "1.3e-8" } en { "2.6e-8" } mGal, max { "2.9e-8" } mGal tegen vooraf vastgelegde drempels van { "0.005" } / { "0.02" } mGal, xval/icgem-egm2008/); gravity_sh::tests
+
+# data/verification-matrix.json
+dat-f79726002edb = tests/icgem_gravity_reference.rs (GRS80-synthese reproduceert Somigliana tot { "3.5e-12" }; echte ICGEM-EGM2008-verstoringskaart fysisch)
+
+# data/verification-matrix.json
+dat-6eca51d18325 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } gevallen met echte geometrie, Celestrak GPS+Galileo en IGS SP3: ergste |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m tegen de ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (de kloven bij uniforme sigma, vastgezet); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (echte IGS ABMF 2018-05-13, { "288" } epochs, { "2016" } gevallen met geïnjecteerde biases van { "10" } tot { "100" } m: 2016/2016 detectie- en 801/801 uitsluitingsbeslissingen identiek, slope-HPL/VPL binnen { "2.7e-12" } m tegen { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } gebruiker-epochparen op echte WAAS-broadcasts, dezelfde beschermde verzameling, ergste |dVPL| { "7.1e-6" } m en |dHPL| { "1.6e-5" } m tegen { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (de L5-bevinding, vastgezet); tests/igs_real_data.rs en tests/araim_dual_real_data.rs (plausibiliteit op echte IGS-SP3 en Celestrak-geometrie, behouden als regressiecontroles, geen referenties)
+
+# data/verification-matrix.json
+dat-260f38f6b63d = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes ({ "12" } NACp-codes, { "59" } NIC-rijen); tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding ({ "94" } frames); tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely ({ "1770" } punten, vier celgroottes); tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib ({ "8" } routes, { "420" } stukken, { "11634" } km); tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj ({ "996" } punten); unittests van interference_map
+
+# data/verification-matrix.json
+dat-07480ecb313c = tests/ionex_code_gim_oracle.rs (vastgelegde synthetische IONEX-kaart tegen de formulereferentie: { "20 075" } knopen exact, interpolatie max |Δ| { "3.5e-13" } TECU; datageblokkeerd op KSHANA_IONEX_CODE_GIM_DIR, de echte uitsnede op breedtegraad van de finale CODE-GIM van 2018-05-13, opgehaald door fetch.sh met een vastgezette SHA-256: knopen exact, interpolatie max |Δ| { "3.6e-13" } TECU over { "15 795" } samples, schuine TEC { "5.1e-13" } TECU; datageblokkeerde RTKLIB v2.4.2-p13 iontec op { "6885" } querypunten, uitgevoerd 2026-10-13: max |Δ| { "3.6e-13" } TECU in beide tijdmodi, drempel { "1e-5" } vooraf vastgelegd); ionex::tests
+
+# data/verification-matrix.json
+dat-d555a4451aa3 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, het vastgelegde oordeel bevestigd zoals vastgelegd, bevinding F1, vastgezet door finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq-unittest ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
+
+# data/verification-matrix.json
+dat-fcbaaca3a203 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level); iq::track::boc-unittests (b4_unit_grid_misses_are_the_recorded_ones: de vooraf vastgelegde unittestdrempel van B4 behouden zoals geschreven, zijn vastgelegde missers bevestigd als bevinding F1)
+
+# data/verification-matrix.json
+dat-741cdc789639 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } van { "5900" } blokken tegen het binomiale interval van { "99" } % [{ "40" }, { "80" }] van P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } tegen { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } tegen { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strikt, genegeerd met de kloof); iq::campaign::detect-tests; iq::monitor::stats-tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (de vastgezette digests blijven ongewijzigd zonder de tabel)
+
+# data/verification-matrix.json
+dat-5e0668be27cd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } op opgegeven gebeurtenissen die niets verzwakken); r1_the_cn0_drop_roc_separates_6_db_attenuations (strikt, genegeerd met de kloof); iq::campaign::detect-tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
+
+# data/verification-matrix.json
+dat-896aed641ee3 = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples (vastgezette bevinding); tests/iq_gpssdrsim_cross_generator.rs::acquisition_finds_gps_sdr_sim_satellites_in_its_samples (strikt, genegeerd met de kloof)
+
+# data/verification-matrix.json
+dat-0fc8d1c73d1e = tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels ({ "11" } kanalen: ergste pseudoafstand { "1.6e-3" } m tegen { "0.05" } m, codefase { "5.5e-6" } chip tegen { "2e-4" }, Doppler { "7.4e-5" } Hz tegen { "0.02" } Hz, kijkhoeken { "4e-9" } graad tegen { "1e-4" }, zichtbare verzameling identiek); tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing (het referentieharnas reproduceert de eigen afgedrukte kanaallijst van het programma exact)
+
+# data/verification-matrix.json
+dat-7eed519e8162 = tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (PI90-dekking { "0.891" } over { "558" } bins, { "0.900" } over { "10" } gebeurtenissen van tijd tot verlies onder elk lockmodel), the_report_carries_its_inputs_censoring_validation_and_labels (invoer, censurering, hash en oordelen van [validation], audit van het units-blok), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db en bar_b_prime_ci_subset (strikt, genegeerd met de kloof); bar_b_prime_full_set_of_50_campaigns (genegeerd, uitgevoerd vóór de release); iq::labfit::cn0-tests (exacte Q-delta-ontaarding, herstel van delta bij de opgegeven Q, inverse van de drempel in gesloten vorm); iq::labfit::iqfit-tests (de voorwaarden van het lockmodel reproduceren het C/N0-model exact); tests/iq_labfit_followup.rs (het vervolg dat is vastgelegd in 1e532f84: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign die de vastgelegde NOT MET bevestigt, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, in release)
+
+# data/verification-matrix.json
+dat-fe470eb68eb3 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, het vastgelegde oordeel bevestigd zoals vastgelegd, bevinding F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, alleen gerapporteerd; datageblokkeerd, opgehaald door scripts/fetch_scint_malindi.sh); unittests van realdata::scint50 (model_data_through_the_harness_shows_the_wrapped_phase_finding, bevinding F2)
+
+# data/verification-matrix.json
+dat-8a869df22bb9 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned), op getallen afgeleid door tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py
+
+# data/verification-matrix.json
+dat-130c6c103241 = tests/jammertest_plan_roundtrip.rs (datageblokkeerd door KSHANA_JAMMERTEST_PLAN_DIR: slotaantallen per testgebied van het plan van { "2025" }, catalogus-id's, TOML-rondreis); tests/jammertest_score.rs (een synthetische log met een bekende daling: gedetecteerd, gemist, niet-evalueerbaar, run met vals alarm, ondertekend pakket met de scorecard); jammertest::plan::tests; tests/jammertest_score_2024.rs (datageblokkeerd door KSHANA_JAMMERTEST_DIR: de vastgelegde run)
+
+# data/verification-matrix.json
+dat-e57fd19b41c2 = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), tegen xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json en expected_quantiser.json
+
+# data/verification-matrix.json
+dat-76583d307118 = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr), tegen xval/crpa-jamming/expected.json uit xval/crpa-jamming/oracle.py
+
+# data/verification-matrix.json
+dat-46ab577738c4 = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), tegen xval/jamming-terrain/expected.json uit xval/jamming-terrain/oracle.py
+
+# data/verification-matrix.json
+dat-c26f0cab8179 = tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } tweedelige UT1/TT-datums 1980-2050 inclusief stappen van +{ "1" }, +{ "10" }, +{ "50" } us op twee datums: gmst82 binnen { "1e-12" } rad, ergste { "0" }; elementen van GCRS naar ITRS binnen { "5e-12" }, ergste { "2.7e-14" }; rotatie over +1/+10/+{ "50" } us binnen { "1e-13" } rad van ERFA, ergste { "1.1e-14" } rad, waar het pad met één f64 de stappen van +{ "1" } en +{ "10" } us volledig mist); ephemeris::tests::two_part_jd_agrees_with_the_default_and_resolves_microsecond_steps; frames::tests::the_two_part_teme_to_itrf_round_trips_and_resolves_a_microsecond; jd2::tests::gmst82_matches_the_single_f64_gstime_away_from_the_floor; jd2::tests::two_part_types_convert_without_moving_the_instant
+
+# data/verification-matrix.json
+dat-fc21fbeaacf0 = tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } UTC-momenten: vier rond elk van de { "15" } begindata van een TAI-UTC-uitdrukking 1960-1972 en { "60" } met seed verspreid over 1960-1971; dtf2d, utctai en taiutc elk binnen { "1e-6" } s, ergste { "2.9e-11" } s); tests/jd2_pre1972_sofa_oracle.rs::post_1972_results_are_bit_identical (de { "224" } momenten van de rij van { "1972" }+ bit voor bit ongewijzigd)
+
+# data/verification-matrix.json
+dat-73e355e34ce5 = tests/jd2_sofa_time_oracle.rs ({ "224" } UTC-momenten: zes rond elk van de { "27" } schrikkelseconden 1972-2016, twee vast, { "60" } met seed verspreid over 1972-2026; dtf2d, utctai en taiutc elk binnen { "1e-6" } s, ergste { "1.9e-11" } s); jd2::tests (a_leap_second_day_is_86401_seconds_long_and_tai_steps_once; tai_to_utc_inverts_utc_to_tai_to_the_microsecond_across_a_leap_second; ut1_runs_through_tai_across_a_leap_second_day; the_two_part_earth_rotation_angle_matches_the_single_f64_one); sgp4::tests::propagate_at_measures_time_from_the_two_part_epoch
+
+# data/verification-matrix.json
+dat-4697e90a0171 = tests/kepler_mpmath_oracle.rs ({ "405" } rasterpunten, e van { "0" } tot { "0.999999" }, M in [-pi, pi] tot { "1e-12" }: ergste |E - E_ref| { "0.898" } eps|E| tegen een drempel van { "8" } eps|E|; { "9" } punten met opgewonden M bij ergste { "0.013" } van hun drempel; geen Newton-polijststap nodig bij een van de { "414" } punten; wrapper bit-identiek); unittests van kepler
+
+# data/verification-matrix.json
+dat-68381f689540 = tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } posities op { "200" } UTC-epochs 1973-2026 getrokken uit de preregistratiehash; ergste { "0.66" } van de drempel, { "2.96" } m); tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present (datageblokkeerd); tests/kernel_ephemeris_skyfield_oracle.rs::barycentre_only_bodies_are_refused_not_substituted; ephem_provider::tests
+
+# data/verification-matrix.json
+dat-2980ec59545a = tests/klobuchar_reference.rs ({ "10" } gevallen over elevatie/azimut/lokale tijd, twee coëfficiëntensets)
+
+# data/verification-matrix.json
+dat-7573bd793baa = tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } gevallen: { "300" } willekeurige 3D, { "18" } nabij { "180" } deg, { "24" } nabij de minimumtijd van M = { "1" }..3, { "40" } heliocentrisch; { "1058" } oplossingen; aantallen en volgorde van de takken gelijk; snelheden binnen { "1e-8" } relatief, ergste { "1.6e-13" }; binnen { "1" } % van de minimumtijd binnen { "1e-6" }, ergste { "7.5e-15" }; een interne Kepler-landingsbewaking laat elke oplossing landen binnen { "4.2e-12" } van |r2|, behalve één vastgezette bevinding op een boog met e = { "0.994" }, een beperking van kepler_universal, niet van de oplosser)
+
+# data/verification-matrix.json
+dat-31c0721aadc0 = tests/lambert_reference.rs ({ "13" } transfers tegen lamberthub izzo2015; ergste |Δv| { "7e-12" } m/s)
+
+# data/verification-matrix.json
+dat-de53fbf273c5 = tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: één satelliet op { "780" } km en { "86.4" } deg een dag lang gevlogen bij { "1621" } MHz over vier breedtegraden, maximum binnen { "5" }% van { "36" } kHz; xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz: één satelliet van elke gepubliceerde schil, { "1080" } km bij { "53" } en { "97" } deg, { "1593.3225" } MHz, het constellatiemaximum binnen { "32" } tot { "34" } kHz zonder verbreding ({ "33.6" } kHz, bepaald door de schil van { "97" } deg; de schil van { "53" } deg alleen piekt op { "31.8" } kHz)); leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)
+
+# data/verification-matrix.json
+dat-2e58e6363f7e = tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } deg, Pulsar FOC polair { "1080" } km { "97" } deg, Pulsar FOC hellend { "1080" } km { "53" } deg en GPS { "20180" } km { "55" } deg; baansnelheid, maximale ECEF-snelheid, maximale relatieve snelheid en maximale draaggolf-Doppler in de L1- en L5-band, { "20" } waarden, elk binnen { "0.05" } %)
+
+# data/verification-matrix.json
+dat-ff105b0b379b = tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } waarden, { "28" } GHz bij { "0" } deg en { "2" } GHz bij { "45" } deg, beide klassen, P van { "1e-7" } tot { "0.998" }, binnen { "0.001" } dB)
+
+# data/verification-matrix.json
+dat-f99830e0546d = tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } gevallen op vijf locaties, { "14.25" } en { "29" } GHz, { "0.001" } % tot { "1" } %, binnen { "1e-4" } dB; waargenomen { "5e-6" } dB)
+
+# data/verification-matrix.json
+dat-0b3de5ce778d = tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } gevallen op zeven locaties, { "14.25" } en { "20" } GHz, binnen { "1e-5" } dB; waargenomen { "5e-7" } dB)
+
+# data/verification-matrix.json
+dat-2bd97847c8f0 = tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: alle { "115" } rijen van Tabel { "5" }, { "1" } GHz tot { "1000" } GHz, elke coëfficiënt binnen { "0.6" } van zijn laatste afgedrukte cijfer; ergste waargenomen { "0.51" })
+
+# data/verification-matrix.json
+dat-2d9e7dd60d75 = tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (vier dagen uit het artikel: verhoudingen van langs-, dwars-, radiaal en SISRE { "0.755" } tot { "1.138" } van Liu et al. { "2025" }, binnen 1.5x); tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_holds_on_held_out_days (acht achtergehouden dagen, elk twee bogen: { "0.683" } tot { "1.186" })
+
+# data/verification-matrix.json
+dat-1ab2ddbf17ca = tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — vier echte Galileo-broadcastefemeriden E10, E19, E24, E25 bij tk = { "0" }, +/-600, +/-1800, +/-3600 s, elke as binnen { "1" } mm van RTKLIB; real_galileo_records_survive_the_binary_frame_and_the_text_block — binnen { "5" } mm na het binaire frame van Kshana en { "1" } mm na het blok in RINEX-stijl)
+
+# data/verification-matrix.json
+dat-06f7c26a4ff7 = tests/leo_polar_coverage_on_path_orekit_oracle.rs (configuraties A en B, { "4040" } samples: aardvaste posities binnen { "6.8e-5" } m, drempel { "0.2" } m; aantallen in zicht identiek bij 4040/4040; mediane DOP binnen { "2.3e-11" } relatief, drempel { "1e-3" }; beschikbaarheid en gemiddelde in zicht identiek); tests/earth_orbit_path_sgp4_erfa_oracle.rs (het pad); leo_fusion::polar::tests (gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it); tests/leo_fusion_scenarios.rs (a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens); tests/leo_polar_coverage_orekit_oracle.rs (ronde { "2" }, geometrie op gegeven toestanden); tests/leo_polar_coverage_full_claim_orekit_oracle.rs (bevinding van ronde 1 over de volledige bewering, vastgezet)
+
+# data/verification-matrix.json
+dat-3eacbe00d4f9 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: is gelijk aan de schuine TEC van de passage bij de piek tot { "1e-9" } en zijn sigma is gelijk aan de RSS van de coderuis over { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" })); tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+# data/verification-matrix.json
+dat-3bd4cc0125b1 = tests/leo_signal_reference.rs (de multibandwaterfall draait met vier panelen, de jammers voor UHF, L5-band, S en C weigeren elk alleen hun eigen band, en een run met gewone band blijft door de uitbreiding ongewijzigd); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+# data/verification-matrix.json
+dat-018136c43fe8 = tests/lugre_acquisition_cell_average_doppler_oracle.rs::strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed (vastgezette bevinding, datageblokkeerd); tests/lugre_acquisition_cell_average_doppler_oracle.rs::cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler (strikt, genegeerd met de kloof)
+
+# data/verification-matrix.json
+dat-9e814d337bc2 = tests/lugre_acquisition_gnss_sdr_oracle.rs::finding_dc_artefacts_and_no_contemporaneous_flight_cn0 (vastgezette bevinding, datageblokkeerd); tests/lugre_acquisition_gnss_sdr_oracle.rs::acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver (strikt, genegeerd met de kloof); acquisition::tests; realdata::ion_sdr::tests; realdata::lugre::tests
+
+# data/verification-matrix.json
+dat-3db3359e9a96 = tests/lugre_acquisition_predicted_doppler_oracle.rs::noise_alone_crosses_the_sample_power_threshold_on_lugre_iq (vastgezette bevinding, datageblokkeerd); tests/lugre_acquisition_predicted_doppler_oracle.rs::acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction (strikt, genegeerd met de kloof)
+
+# data/verification-matrix.json
+dat-9f8024b299ab = tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (vastgezette bevinding, datageblokkeerd); tests/lugre_surface_acquisition_doppler_oracle.rs::surface_acquisitions_match_the_orbit_predicted_doppler (strikt, genegeerd met de kloof)
+
+# data/verification-matrix.json
+dat-e740eb9219b9 = tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs::third_run_finding_c1_c2_hold_g0_is_receiver_nondeterminism (derde preregistratie: { "2" } knopen, { "4" } kanalen getrackt, ergste Dopplerfout { "0.57" } Hz, ergste codeoffsetfout { "0.008" } chip, alle { "6" } frames gedecodeerd met de juiste TOI over de wrap van { "99" } -> { "0" } en overeenkomend subframe { "2" }; G0 niet gehaald zoals geschreven, de eigen variatie van de ontvanger van run tot run in zijn acquisitierecords); tests/lunar_afs_decodability_pocketsdr_4bit_oracle.rs::decodability_finding_five_violations (tweede: { "5" } schendingen); tests/lunar_afs_decodability_pocketsdr_oracle.rs::first_run_finding_no_acquisition_outside_the_receivers_4_bit_range (eerste: leeg); de strikte tests van de drie bestanden worden genegeerd met hun kloven
+
+# data/verification-matrix.json
+dat-5ef4abb4af1b = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (de { "210" } primaire AFS-Q-codes altijd; met KSHANA_LANS_RUN en de LSIS-cache alle { "630" } codes, nul chipafwijkingen); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (met de LSIS-cache: { "3" } frames, nul symboolafwijkingen; { "24" } vastgelegde vensters van { "2" } ms, |rho| = { "0.999990" }); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_full_run_matches_lans_afs_sim (datageblokkeerd: hele run van { "23.9" } s, |rho| = { "0.999990" }, ergste blok van { "2" } ms { "0.999948" }, fase { "8e-9" } rad)
+
+# data/verification-matrix.json
+dat-6e321e50bafc = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (met de LSIS-cache: de { "3" } frames die LANS-AFS-SIM uitzendt, gebouwd uit dezelfde FID, TOI en databits: nul van { "18 000" } symbolen wijken af); tests/lunar_afs_frame_coding_oracle.rs::bch_worked_example_and_crc24_check_value_are_bit_exact (LSIS Figuur { "8" }: 0x045 -> 0x229f61dbb84a0; CRC-24/LTE-A-controlewaarde 0xCDE703; draait altijd); tests/lunar_afs_frame_coding_oracle.rs::ldpc_codewords_satisfy_the_printed_parity_check_matrices ({ "100" } codewoorden, nul niet-voldane controles van de afgedrukte H); tests/lunar_afs_frame_coding_oracle.rs::decoder_from_parity_check_matrices_recovers_every_frame (decoder uitsluitend uit H, ruisvrij en bij { "3" } dB Es/N0, en { "10" } volledige frames); lunar_afs::ldpc::tests::printed_b_inverse_inverts_printed_b; lunar_afs::frame::tests
+
+# data/verification-matrix.json
+dat-3b68979697e8 = tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } eigenwaarden, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm en de Schur-marginaal van { "{" }scale,offset{ "}" } voor de netwerken well_posed met 120 rijen en single_epoch met 30 rijen, tot rel<{ "1e-3" } en abs<{ "1e-3" }); lunar_gauge::tests (coupled_marginal_fisher_is_symmetric_and_psd, oneway_spatial_equals_orbiter_range_row_datum7, twoway_spatial_equals_oneway_spatial_at_same_geometry)
+
+# data/verification-matrix.json
+dat-39f84288f885 = tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } synthetische 7x7-SPD-matrices van goed geconditioneerd tot bijna ontaard in { "{" }{ "0,3" }{ "}" }; Schur lambda_min / CRLB van de oorsprong / |corr| tegen SciPy/NumPy tot <{ "1e-9" } rel)
+
+# data/verification-matrix.json
+dat-ab15cee1ed2f = tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: de { "84" }×{ "84" } P⊥ element voor element, trace(P⊥) = parity_dim = { "52" } en rang(G) = { "32" }, detecteerbaarheidsnormen + vlaggen, de kwadratische vorm van de MDB cᵀWP⊥c + MDB-waarde, en de aantallen detecteren/identificeren met blokgewijze spark voor elke coalitie van peers, gereproduceerd tegen een onafhankelijke numpy/scipy-referentie tot rel<{ "1e-3" } abs<{ "1e-3" } met exacte gehele aantallen; invoer byte-consistent via examples/gen_faultobs_rows.rs + scripts/gen_faultobs_ref.py)
+
+# data/verification-matrix.json
+dat-e0359be9446a = tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: drie scenario's — stations geschat op een nieuwe campagnedatum 2026-03-18 (bindend), stations vast op die datum (controle), stations geschat op 2024-01-01 (het scenario van de eerdere misser in dubbele precisie); elke datumsigma, het conditiegetal en de zwakste richting tegen een voor de conditie geschaalde drempel die in de test opnieuw wordt berekend uit de exacte gevoeligheden van de referentie; engine_inputs_match_the_committed_fixture: de vastgelegde Jacobiaan, gewichten en Helmert-ontwerp zijn wat de engine nu bouwt; record_engine_accuracy_against_a_factorisation_route: de foutband van de engine en de NumPy-Cholesky-diagnostiek vastgezet)
+
+# data/verification-matrix.json
+dat-17f0109ca0f2 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: vier scenario's — stations geschat op een nieuwe campagnedatum 2026-06-09 (bindend), stations vast op die datum (controle), en de invoer met geschatte stations van 2026-03-18 en 2024-01-01; elke datumsigma, het conditiegetal en de zwakste richting tegen een drempel in vierkantswortelvorm die in de test opnieuw wordt berekend uit de exacte ingrediënten van de referentie; engine_inputs_match_the_committed_fixture); linalg_sr::tests ({ "9" } bibliotheektests: het Dekker-product gelijk aan het residu van de gefuseerde vermenigvuldiging-optelling op { "20 000" } paren, gecompenseerde sommatie van een som met opheffing, R^T R gelijk aan A^T A, sequentiële filterupdates gelijk aan één batchupdate, het resterende blok gelijk aan de vierkantswortel van het Schur-complement, de driehoeksinverse, de Jacobi-SVD, overeenstemming met het spectrale datum in een goed geconditioneerd geval, bit-identieke herhalingen); lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected en the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
+
+# data/verification-matrix.json
+dat-982bb6b78dd6 = tests/lunar_infra_carrier_phase.rs (drempel Q1: Monte-Carlo-succes minstens de bootstrapgrens min drie standaardfouten; Q2: geen daling met de booglengte voorbij drie standaardfouten; Q4: LAMBDA is gelijk aan brute-force-opsomming voor { "200" } trekkingen van dimensie tot vijf; Q3: het float-ontwerp is gelijk aan een onafhankelijke numpy-oplossing tot { "1e-9" } voor de covarianties van ambiguïteit en positie, en de bootstrapped kans is NOT MET bij { "1e-9" }, vastgezet: zij wijkt relatief { "1.7e-6" } af omdat de normale CDF van LAMBDA een benadering van Abramowitz en Stegun is)
+
+# data/verification-matrix.json
+dat-42dcc7415045 = tests/lunar_infra_od_consistency.rs (drempel O1: de toestandsovergangsmatrix geketend over drie dagen en over één periode is gelijk aan scipy DOP853 tot relatief { "1e-6" }; drempel C1: gemiddelde q en de fractie binnen 95 %; drempel C2: steekproef over formeel spoor van elke schatter; drempel C3, NOT MET en vastgezet: met { "3e-10" } m/s2 aan ongemodelleerde versnelling is de overschrijding binnen 95 % { "0.0525" }, niet minstens { "0.5" } - de schatting aan boord is slechts op honderden meters bekend, dus ongeveer tien meter verplaatsing verbergt zich binnen haar covariantie); lunar_infra::orbit::tests, lunar_infra::gnss::tests, lunar_infra::od::tests, lunar_infra::la::tests
+
+# data/verification-matrix.json
+dat-b77187fe96c5 = tests/lunar_infra_studies_3_5.rs (drempel F1: het spoor van de CRLB stijgt niet en de kleinste eigenwaarde daalt niet met orbiterlinks, in het voorbeeld en in { "20" } willekeurige verzamelingen met seed; drempel F2: de afstandspartiëlen zijn gelijk aan een onafhankelijke numpy-longdouble-eindige-differentie van het voorwaartse Rodrigues-model op { "50" } geometrieën; drempel F3: de kleinste eigenwaarde stijgt met minstens 2.0x, gevonden ongeveer 111x)
+
+# data/verification-matrix.json
+dat-45afc3da9031 = tests/lunar_infra_studies_3_5.rs (drempel G1: analytische partiëlen zijn gelijk aan een centrale eindige differentie van elk voorwaarts model tot { "1e-8" }; G2: de informatie van 5x5 is gelijk aan een onafhankelijke numpy-assemblage tot { "1e-6" }; G4: de amplitude van het klokgetij en zijn gevoeligheden voor k2 en h2 zijn gelijk aan een onafhankelijke evaluatie tot { "1e-9" }; drempel G3 NOT MET in zijn spoorhelft, vastgezet: het toevoegen van een familie verlaagt de kleinste eigenwaarde nooit ({ "28" } van { "28" }) maar het spoor van de pseudo-inverse steeg bij { "12" } van { "28" } toevoegingen omdat de toegevoegde familie de rang verhoogde)
+
+# data/verification-matrix.json
+dat-ebd59fced24b = tests/lunar_infra_studies_3_5.rs (drempel T1: translatiesigma's dalen niet naarmate de lokale verbinding losser wordt; T2: met technieksigma's geschaald met { "1e-6" } ligt de translatiesigma van elk paar binnen { "1" } % van sqrt({ "2" }) maal de sigma van de lokale verbinding, gevonden binnen { "3e-7" }; T3: de informatiematrix is gelijk aan een onafhankelijke numpy-gestapelde assemblage tot { "1e-9" }). De eerste T2-run met inversie van de normaalvergelijkingen miste ({ "1.3" } % bij een verbinding van { "0.1" } m, waarden onder de vloer bij { "1" } m); de oorzaak was numeriek en de covariantie verhuisde naar de vierkantswortelroute voordat de drempel opnieuw werd gescoord.
+
+# data/verification-matrix.json
+dat-87bad80dc788 = tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible voor { "3" } providerparen tegen de onafhankelijke SciPy-SVD-lstsq-fit in tests/fixtures/inter_ephemeris/reference.json, rel<{ "1e-3" } abs<{ "1e-3" } m; fixtures + referentie byte-consistent via scripts/gen_interop_ref.py op openbare DE440/INPOP21a/EPM2021-kernels via IMCCE calceph)
+
+# data/verification-matrix.json
+dat-d631712b98e1 = tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } ILRS-normaalpunten: RMS { "2.81" } m; de twee ITRF2020-stations alleen { "2.96" } m; beide hoogstens { "10" } m); tests/lunar_llr_geometry_range_oracle.rs::round2_finding_is_a_common_offset_of_about_eleven_metres (het vervangen geocentrische lichttijdmodel, { "10.94" } m, vastgezet)
+
+# data/verification-matrix.json
+dat-c5f6bad2097f = tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } wekelijkse geocentrische toestanden, hoek in het ergste epoch bevestigd als < { "0.3" }° en RMS < { "5e5" } m tegen de eigen gedocumenteerde bewering van de module, plus het LLR-residu bevestigd als overeenkomend met het radiale verschil tot < { "5" }×); ::the_measured_residual_is_the_ephemeris_error ({ "337" } echte normaalpunten)
+
+# data/verification-matrix.json
+dat-6c78f7784bb0 = tests/lunar_protection_level_reference.rs ({ "7" } gevallen voor servicevolumes — zuidpolair, gemiddelde breedtegraad, equatoriaal, verhoogd hoogland — { "6" } tot { "19" } satellieten, σ_URE 10/30/60 m, P_HMI { "1e-3" } tot { "1e-7" }, beschermingsniveaus van { "1.7e2" } tot { "6.9e3" } m: HPL/VPL tegen de samengestelde RTKLIB + SciPy-referentie, ergste |Δ| { "1.061e-8" } m en { "1.044e-8" } m tegen een tolerantie van { "1e-6" } m; DOP tegen de eigen (GᵀG)⁻¹ van RTKLIB tot { "1.790e-14" } relatief; K_fa tegen scipy.stats.norm.isf tot { "2.716e-11" } relatief; drie negatieve controles — een verschuiving van de satelliet met { "5" } km, een relatieve verandering van σ_URE met { "1e-6" } en een { "0.1" } % strengere P_HMI — elk gemeten als het beschermingsniveau met minstens { "171" }× de tolerantie verschuivend; en een verouderingsbewaking voor fixtures die de vastgelegde geometrie bit voor bit vastzet op wat de eigen constellatie- en zichtbaarheidscode van de engine produceert, zodat een groen resultaat niet kan blijven bestaan terwijl de constellatie eronder verandert)
+
+# data/verification-matrix.json
+dat-fad883319c6c = tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m binnen { "2.8e-6" } van Ashby en Patla { "2024" } met J2 uit AIUB-GRL350A/B; entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields: het radiale item binnen { "8.3e-5" } van de equatoriale zwaartekracht van graad 350 volgens pyshtools; entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed: het snelheidsitem binnen { "2.5e-3" } van de lunaire snelheid volgens DE441 bij { "2000" } epochs); lunar_gauge::tests; regressie tests/lunar_rate_frame_coupling_oracle.rs
+
+# data/verification-matrix.json
+dat-9a65374995ab = tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: tot { "1e-12" } m met en zonder ontvangerruis; zero_baseline_floor_is_zero_in_every_trial: { "0" } tot { "1e-9" } m; survey_floor_matches_the_survey_transfer_prediction: p95 binnen de band van { "5" } % die vóór de run is opgegeven; coverage_is_non_decreasing_in_the_threshold; corrected_error_grows_with_distance_along_an_azimuth; three_satellites_are_unavailable_with_a_reason_and_no_error; a_satellite_the_station_does_not_see_is_reported; deterministic_for_a_seed_and_moved_by_another; the_work_guard_refuses_an_oversized_grid; the_bundled_scenario_states_a_source_for_every_input; the_result_is_labelled_modelled_with_the_honesty_statement); tests/lunar_station_numpy_oracle.rs (de vooraf vastgelegde numpy-herberekening, vastgelegd met haar misser); lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid; tests/lunar_differential_pnt_reference.rs en de registry- en platformoverschrijdende goldens ongewijzigd (additiviteit); tests/field_units_global.rs (elk uitgezonden veld beschreven, geen vrijstelling)
+
+# data/verification-matrix.json
+dat-c882b77b2bdf = tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: het verschil in linkfout tussen groei aan en groei uit heeft steekproefsigma rate tau / sqrt({ "3" }) binnen { "6" } % over { "1600" } trekkingen; linear_growth_is_the_first_order_propagated_error: een snelheidsfout dv, gepropageerd met de tweelichamenintegrator in de repository vanuit de baan van het scenario, verplaatst de positie met dv tau tot binnen { "1" } % bij { "60" } s en { "600" } s); tests/lunar_station_published_oracle.rs::k5_growth_addendum_run (genegeerd, het vastgelegde addendum)
+
+# data/verification-matrix.json
+dat-432a5d12fd83 = tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: lege lijsten en het basisvoorbeeld geven het standaardrapport en de samenvatting byte voor byte; an_added_site_never_increases_any_variance: de kleinste eigenwaarde van H_after - H_before is niet-negatief tot { "1e-9" } van de grootste, elke verhouding van sigma na/voor is hoogstens één, en beide toegevoegde locaties worden waargenomen; the_rest_of_the_report_is_the_five_array_result; every_station_geodesy_field_has_a_unit; a_beacon_list_inside_the_campaign_block_is_refused); scenarios/lunar-station-geodesy-baseline.toml en scenarios/lunar-station-geodesy-with-station.toml (hetzelfde gearchiveerde schema en hetzelfde VLBI-campagneblok)
+
+# data/verification-matrix.json
+dat-8afb011ab0ce = tests/lunar_station_published_oracle.rs::recorded_finding_one_of_six_bars_passes (de vastgelegde cijfers tegen de vastgelegde drempels); tests/lunar_station_published_oracle.rs::published_claims_comparison_run (genegeerd, ongeveer { "7" } s in release: voert de zes vastgelegde gevallen opnieuw uit en bevestigt de vastgelegde cijfers)
+
+# data/verification-matrix.json
+dat-42761b650f10 = tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } vertragingen op { "25" } epochs rond J2000 over DSS-14, DSS-43 en DSS-63: vertragingen binnen { "1" } ps, ergste { "0.06" } ps; partiëlen van bakens in het lichaamsframe binnen { "1e-6" }, ergste { "7.4e-9" }; ITRF93-stationspartiëlen binnen { "1e-6" }, ergste { "3.8e-11" }); tests/lunar_vlbi_spice_oracle.rs::spice_2024_epochs_finding_is_unchanged; tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference (kruiscontrole van de kernelevaluatie); tests/naif_kernel_reader_check.rs; lunar_vlbi::tests
+
+# data/verification-matrix.json
+dat-365fd9ac437e = tests/lunar_vlbi_surface_point_spice_oracle.rs::surface_point_covariance_kernel_path_matches_spice_geometry_and_numpy ({ "16" } waarnemingen identiek; rang 3/3; eigenwaarden binnen { "5.9e-5" }; conditie { "5.9e-5" }; bakensigma's binnen { "1.7e-3" } tegen { "1e-2" }; RMS { "2.9e-5" }; hefboomarm { "1.4e-8" }; P2-sigma's { "3.9e-14" } tegen { "1e-9" }); lunar_vlbi_fim::tests
+
+# data/verification-matrix.json
+dat-e563869f208e = tests/maritime_trust_reference.rs (t1_nmea_decoding_matches_pynmea2, t2_east_north_offsets_match_the_wgs84_geodesic, t3_t4_monitor_input_statistics_match_the_oracle) tegen tests/fixtures/maritime_trust/reference.json, opnieuw gegenereerd door scripts/gen_maritime_trust_ref.py uit de synthetische NMEA die examples/gen_maritime_trust_ref_inputs.rs schrijft; toleranties vooraf vastgelegd in tests/fixtures/maritime_trust/PREREGISTRATION.md
+
+# data/verification-matrix.json
+dat-b747427dbd24 = tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests (monotoon in elke statistiek, het toevoegen van een monitor verhoogt de score nooit, gezonde statistieken blijven op { "100" })
+
+# data/verification-matrix.json
+dat-0552f7815a0e = tests/mcda_ahp_reference.rs (Random Index-tabel van Saaty { "1980" } n={ "1" }..10 EXACT; prioriteitsvector + λ_max + CR tegen SciPy/LAPACK eig op een consistente { "3" }×{ "3" } en inconsistente { "3" }×{ "3" } / { "4" }×{ "4" }, overeenkomend tot <{ "1e-9" })
+
+# data/verification-matrix.json
+dat-e4b415c63205 = tests/mcda_copras_reference.rs (nutsgraden + rangschikking tegen pyDecision tot <{ "1e-9" } op een vaste baten-/kostenmatrix van { "4" }×{ "3" })
+
+# data/verification-matrix.json
+dat-31879945a6ad = tests/mcda_electre_reference.rs (concordantie-, discordantie- en dominantiematrices element voor element + kern/gedomineerde verzameling tegen pyDecision tot <{ "1e-9" } op een vaste dataset van { "4" }×{ "3" } met alleen baten)
+
+# data/verification-matrix.json
+dat-4df54d9cfae7 = tests/mcda_promethee_reference.rs (netto-overtreffingsstroom + rangschikking, gebruikelijk criterium, tegen pymcdm tot <{ "1e-9" } op een vaste baten-/kostenmatrix van { "4" }×{ "3" })
+
+# data/verification-matrix.json
+dat-70e8f57e731c = tests/mcda_topsis_reference.rs (nabijheidscoëfficiënten + rangschikking tegen pymcdm tot <{ "1e-9" } op een vaste baten-/kostenmatrix van { "4" }×{ "3" })
+
+# data/verification-matrix.json
+dat-4ad47001c3b1 = tests/mcda_vikor_reference.rs (Q-index + rangschikking tegen pymcdm tot <{ "1e-9" } op een vaste baten-/kostenmatrix van { "4" }×{ "3" })
+
+# data/verification-matrix.json
+dat-a61ccfe39384 = tests/mcda_waspas_reference.rs (WASPAS-voorkeuren + rangschikking) en tests/mcda_moora_reference.rs (MOORA-scores + rangschikking), elk tegen pymcdm tot <{ "1e-9" } op een vaste baten-/kosten-beslismatrix van { "4" }×{ "3" }
+
+# data/verification-matrix.json
+dat-6cccd5e2c6f1 = tests/mcda_wsm_reference.rs (WSM-scores + rangschikking) en tests/mcda_wpm_reference.rs (WPM-scores + rangschikking), elk tegen pymcdm tot <{ "1e-9" } op een vaste baten-/kosten-beslismatrix van { "4" }×{ "3" }
+
+# data/verification-matrix.json
+dat-08bc288f8940 = tests/mdev_tdev_reference.rs (MDEV + TDEV op de hermetische NIST SP { "1065" } §{ "12.4" } LCG-fasereeks van 1000 punten, { "8" } middelingsfactoren m={ "1" }..200 tegen allantools { "2024.06" } mdev/tdev tot <{ "1e-9" } relatief, plus de τ/√{ "3" }-identiteit op de echte reeks); allan::tests (witte-FM-helling −1/2; met de hand afgeleid klein MDEV-geval)
+
+# data/verification-matrix.json
+dat-b056f2d56e07 = tests/mro_odf_reader_label_oracle.rs (een echte MRO-ODF, 2007-304/305, tegen zijn PDS-label: aantal records, groepsposities, stations, begin- en eindtijden en gegevenstypen kloppen; het aantal rijen van de tabel aan het einde van het bestand wijkt met één af, een inconsistentie in het label, vastgezet als bevinding); odf::tests (met de hand gebouwde recordrondreis, epoch van { "1950" }); tests/mro_odf_short_arc_od_oracle.rs (datageblokkeerd, SHA-256 van de invoer vastgezet, maandelijkse CI met echte data vereist: Doppler voorspeld uit de MRO-navigatiereconstructie mro_psp5 op de gescoorde passages van DSS { "63" } en DSS { "14" }, { "12.5" } mHz RMS, drempel { "30" } mHz, gehaald; de vastgelegde baanbepaling leverde geen baan op, vastgezet als bevinding; run { "2" } met een gedempte schatter, afzonderlijk vastgelegd: baan { "0.36" } km RMS en { "0.53" } km maximum tegen mro_psp5, gehaald, Doppler na de fit { "48.6" } mHz tegen { "30" } mHz, niet gehaald, vastgezet als bevinding; SPK-type { "1" }-lezer tegen CSPICE, { "5e-7" } m); mars_od::tests
+
+# data/verification-matrix.json
+dat-86300b94b4a1 = tests/mtie_reference.rs (MTIE op de hermetische NIST SP { "1065" } §{ "12.4" } LCG-fasereeks van 1000 punten, { "9" } middelingsfactoren m={ "1" }..256 tegen allantools { "2024.06" } mtie tot <{ "1e-9" }, waargenomen ≤{ "4e-15" }); allan::tests (met de hand afgeleide piek-tot-piek; monotoon niet-dalend in τ; exact a·m op een zuivere helling)
+
+# data/verification-matrix.json
+dat-e41e8ad07e53 = tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } toestanden uit de440s.bsp en { "200" } rotaties van MOON_PA_DE440 op { "200" } epochs 1849-2150 en willekeurige lichaamsparen getrokken uit de eigen hash van de preregistratiecommit, tegen SPICE en ANISE op uitgesneden kernels die bit-identiek zijn aan die van NAIF: ergste verschil { "0.6" } % van zijn drempel, { "1.95e-3" } m absoluut); tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_full_naif_kernels_when_present (hetzelfde op de volledige NAIF-bestanden, SHA-256 gecontroleerd; datageblokkeerd); tests/naif_kernel_reader_check.rs (technische bewaking, geen bewijs); naif_kernel::tests; ephem_provider::tests
+
+# data/verification-matrix.json
+dat-889f0ec0409c = tests/nmea_training_reference.rs (vergelijking met de pynmea2-referentie); tests/nmea_training_scenarios.rs::every_sentence_is_checksum_valid_and_the_reader_accepts_it, ::every_sentence_type_is_present_each_epoch, ::deterministic_per_seed_and_sensitive_to_it
+
+# data/verification-matrix.json
+dat-77bfa933c0bb = tests/nrlmsise00_reference.rs ({ "720" } rasterpunten, { "90" } tot { "1000" } km, { "4" } breedtegraden, { "2" } lokale tijden, { "3" } dagen, lage/matige/hoge activiteit: dichtheid binnen { "1.866e-6" } relatief en temperatuur binnen { "1.97e-4" } K van pymsis; bit-identiek aan de C-port; de { "17" } gepubliceerde C-testgevallen, { "187" } waarden binnen { "0.496" } eenheden van het 7e significante cijfer); unittests van nrlmsise00
+
+# data/verification-matrix.json
+dat-4d7f401c0e3f = tests/numerical_cowell_propagator_reference.rs ({ "275" } epochs = { "11" } gevallen × { "25" } uurlijkse toestanden, LEO+GTO, tegen Orekit { "12.2" } DormandPrince853; conservatieve niveaus T1–T5 ergste |Δr| { "0.08" } m over { "24" } h; weerstandsniveau gekarakteriseerd op { "333" } m)
+
+# data/verification-matrix.json
+dat-9c4d3014a5d5 = tests/od_tracking_measurements_reference.rs ({ "8" } scenario's: afstandssnelheid, az/el en gemengd, LEO en MEO, ruisvrij en met seed met sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, maskers van { "5" } en { "10" } deg, tegen Orekit { "12.2" }: zichtbare verzamelingen identiek; meetwaarden binnen { "5.84e-8" } m, { "6.30e-10" } m/s, { "1.44e-13" } rad; STM binnen { "1.2e-14" } relatief; ruizige toestanden binnen { "1.74" } cm en { "1.14e-5" } m/s; RMS na de fit per type binnen { "2.7e-4" } relatief; ruisvrij kshana tegen de referentie { "1.06e-8" } m; ruisvrij kshana tegen Orekit { "1.464" } en { "1.740" } cm in twee scenario's, een vastgelegde misser van de drempel van { "1" } cm); unittests van orbit_determination en batch_ls
+
+# data/verification-matrix.json
+dat-c6fd6abf90b2 = tests/odm_orekit_oracle.rs (L1 Orekit leest { "30" } Kshana-bestanden, L2 Kshana leest { "25" } Orekit-bestanden; bevindingen vastgezet en bevestigd als terugkerend); odm::tests
+
+# data/verification-matrix.json
+dat-228579b91f19 = tests/opssat_ad_reference.rs (echte ESA OPS-SAT, AUC reproduceert scikit-learn tot { "1e-9" }); tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } gevallen op de echte OPSSAT-AD-testsplitsing: volledige confusiematrix van het werkpunt + Pd/Pfa/precisie/F1 tegen scikit-learn, exact in gehele getallen)
+
+# data/verification-matrix.json
+dat-b54cfb219638 = tests/optical_atmosphere_identities.rs (drempel A4: rho = { "0" } is gelijk aan de onafhankelijke unie en rho = { "1" } aan de beste enkele locatie tot { "1e-12" }, en nul schendingen van monotonie in het aantal locaties en in de correlatie; de eerste run van deze drempel miste met { "3e-9" } omdat de gebruikte normale CDF de vorm van Abramowitz-Stegun met { "1.5e-7" } was, een implementatiefout die is vervangen door de CDF van de onvolledige gammafunctie met ongewijzigde drempel); optical_weather::tests en optical_sitediv::tests (monotone marge, het wolkenplafond als gesloten vorm, de identiteiten voor uitvalduur, inversie van de margezoektocht)
+
+# data/verification-matrix.json
+dat-f178febd56d4 = tests/optical_atmosphere_identities.rs (drempel A6: de tijdfout per uitval is gelijk aan holdover::coast_phase_sigma en de afstandsfout aan phase_to_range_m bit voor bit over { "9" } klokken, { "3" } gemiddelde duren, { "3" } spreidingen en { "4" } kwantielen); optical_outage_holdover::tests
+
+# data/verification-matrix.json
+dat-b4a04929852b = tests/optical_atmosphere_reference.rs (vooraf vastgelegde drempels A1-A3 tegen de onafhankelijke mpmath-referentie: { "216" } Rytov-rasterpunten ergste relatieve fout { "3.4e-7" } tegen een drempel van { "1e-6" }, scintillatie ergste { "4.5e-16" }, aperturefactor ergste { "5.7e-16" }, { "96" } gamma-gamma-fadekansen ergste { "1.3e-12" } in log10, optische diepte van wolken en heldere lucht ergste { "6.6e-16" }); tests/optical_atmosphere_no_moved_output.rs (drempel A5: het linkbudget met samengebald verlies en de bestaande uitvoer voor locatiebeschikbaarheid zijn bit-identiek aan de basiscommit over { "1,000" } parametersets)
+
+# data/verification-matrix.json
+dat-07e189a8c1c8 = tests/optical_atmosphere_timeseries.rs (drempels T1-T6 van xval/optical-atmosphere/PREREGISTRATION-timeseries.md, vastgelegd vóór de eerste run: dezelfde seed dezelfde bytes en een andere seed andere bytes; geen sleutel zonder de tabel; over { "8760" } h bij { "600" } s, seeds { "37" } en { "38" }, de gerealiseerde beschikbaarheid van elk van de drie standaardlocaties binnen { "6" } punten van de opgegeven (ergste { "3.3" }) en de gerealiseerde wolkenfractie binnen { "5" } punten van de opgegeven kans (ergste { "2.1" }); de marge is gelijk aan het budget min de twee fades en up is gelijk aan marge niet negatief bij elke stap; geen niet-draagbare wiskundeaanroep in de module; te lange runs en foute stappen geweigerd)
+
+# data/verification-matrix.json
+dat-a16e3d31e142 = tests/optical_clock_adev_reference.rs (⁸⁸Sr-tweezerklok σ_y(τ) van Norcia et al., { "8" } middelingstijden { "0.92" }–{ "117.76" } s letterlijk overgenomen onder CC-BY-4.0: NNLS reconstrueert de curve tot ~{ "10" }% RMS / ≤{ "21" }% ergste punt; herstelde √q_wf = { "4.33e-16" } komt overeen met de gepubliceerde 4.7e-16/√τ; q_rw > { "0" } gemeten roodruisvloer)
+
+# data/verification-matrix.json
+dat-5ae9860f805b = tests/osnma_official_vectors.rs (opt-in, KSHANA_OSNMA_VECTORS: alle { "18" } vectorsets, { "186,382" } tags geauthenticeerd, { "0" } mislukt, vloeren per set, aangekondigde ketens, ADKD 0/4/12, alarm geverifieerd, authenticatie die hervat na het einde van een keten, intrekking van keten en sleutel en nieuwe openbare sleutel; offline, vectoren niet verder verspreid); tests/osnma_synthetic.rs (de aanvalssuite: gespoofde subframes ver in de toekomst, verval en databinding, alarm en don't-use, bevestiging van de kop, dummytags, MACSEQ, sleutelconflict, verouderde en afgespeelde KROOT, CMAC-AES/SHA3-256/P-521 via de verificateur); unittests van osnma (bekende antwoorden van RFC { "4231" }, RFC { "4493" }, FIPS { "197" }, FIPS { "202" }, RFC { "6979" } en CRC-24Q)
+
+# data/verification-matrix.json
+dat-8eb49ef77a68 = tests/pass_predictor_on_path_orekit_oracle.rs ({ "60" } gevallen, { "1210" } passages: AOS/LOS binnen { "3.4e-6" } s, drempel { "5" } ms; maximale elevatie binnen { "5.5e-7" } deg, drempel { "1e-3" } deg; { "8979" } schijnbare richtingen binnen { "8.8e-7" } deg, drempel { "1e-4" } deg); tests/earth_orbit_path_sgp4_erfa_oracle.rs (het pad); passes::tests (p834_equations_9_and_14_are_consistent_and_vanish_toward_the_zenith; refraction_lengthens_passes_and_light_time_delays_them); tests/pass_predictor_apparent_orekit_oracle.rs (bevinding van ronde 1, vastgezet; orekit_p834_coefficient_differs_from_the_recommendation_above_sea_level)
+
+# data/verification-matrix.json
+dat-36eb4569c48e = tests/phasedat_reference.rs (Stable32 PHASE.DAT, { "139" } middelingsfactoren, OADEV/MDEV/TDEV tot { "1e-3" }; datageblokkeerd via scripts/fetch_phasedat.sh)
+
+# data/verification-matrix.json
+dat-39895214483b = tests/planetary_gravity_pds.rs (uitsneden van graad 20 draaien altijd: ergste |dg|/|g| { "9.7e-16" }, verstoringsrelatief { "3.4e-11" }; GMM-3 d/o { "120" } over de hele bol { "3.7e-15" } / { "6.3e-12" } en GL0660B d/o { "660" } bij |lat| <= { "60" } deg { "5.0e-14" } / { "1.0e-10" }, datageblokkeerd; koppen en geselecteerde coëfficiënten gelijk aan de gepubliceerde PDS-producten, recordaantallen { "7380" } en { "218790" }); unittests van gravity_pds
+
+# data/verification-matrix.json
+dat-e7b30bd8852b = tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (Aarde naar het barycentrum van Mars, { "16" } vertrekken 2026-09-01..2027-01-29 x { "19" } aankomsten 2027-06-01..2028-02-26: { "304" } cellen eindig aan beide kanten, ergste C3 { "2.5e-14" } en V-oneindig { "2.6e-14" } relatief tegen { "1e-8" }, dezelfde cel met minimale C3, { "9.1997" } km²/s²)
+
+# data/verification-matrix.json
+dat-89dc3412193d = tests/ppp_real_wettzell_oracle.rs (IGS-station WTZR, 2025-02-24 00-06 h, { "30" } s, tijdens de ontwikkeling achtergehouden: horizontaal in het laatste epoch { "1.5" } mm, up −{ "2.9" } cm; 04-06 h 240/240 epochs binnen { "0.10" } m 3D, p95 { "6.7" } cm; alleen code p95 { "1.70" } m; datageblokkeerd ZTD-RMS { "1.7" } cm tegen EUREF); ppp_real::tests; tests/ppp_parity_glab_rtklib.rs (RM-31: RTKLIB v2.4.2-p13 PPP op dezelfde invoer komt overeen binnen { "0.05" } m bij 240/240 epochs, { "9.7" } mm bij de laatste, bij de derde registratie na twee runs waarvan de RTKLIB-configuratie het vastelandgetij miste en de antenne op de basisslot zette, beide vastgelegd als bevindingen; de pariteitsdrempel voor SPP werd gemist, { "1.085" } m mediaan tegen { "0.50" } m; gLAB { "6.0.0" } bij zijn eerste vastgelegde run, opdrachtregel van amendement { "4" }: PPP binnen { "0.05" } m bij 240/240 epochs en { "5.0" } mm bij de laatste, SPP-drempel gemist, { "1.187" } m mediaan, een bevinding: de eigen SPP-oplossingen van de twee referentiehulpmiddelen verschillen { "0.852" } m mediaan, dus die drempel was strenger gesteld dan de overeenstemming tussen de hulpmiddelen onderling)
+
+# data/verification-matrix.json
+dat-c5f07c62ad61 = tests/ppp_time_igs_station_clock.rs (WTZR 2025-02-24, { "04" }:00-05:{ "55" }, { "24" } epochs: Kshana min IGS std { "0.075" } ns, drempel { "0.20" }; gemiddelde -0.659 ns, drempel { "5.0" })
+
+# data/verification-matrix.json
+dat-176e7b1b2f96 = tests/propagator_de440_orekit_oracle.rs ({ "5" } gevallen x { "25" } uurlijkse toestanden over { "24" } h, LEO, GEO en HEO, derde lichaam en derde lichaam + SRP: ergste |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; analytische-reeksencontrole mist met { "9.96" } m; zon { "6.39" } m en maan { "0.244" } m van de DE440-posities van Orekit, een vastgelegde misser); unittests van de propagator (weigering door de provider, fallbacktelling gedeeld over klonen)
+
+# data/verification-matrix.json
+dat-474722aa2db9 = tests/quantum_faults_reference.rs ({ "109" } gevallen tegen scipy { "1.17" } norm.cdf/ppf + scikit-learn roc_auc_score; ergste |Δ| AUC { "6.9e-8" }, minimaal detecteerbare fout { "1.3e-8" }, empirische AUC { "1.1e-16" })
+
+# data/verification-matrix.json
+dat-657e4137d8c0 = tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= { "3" }, het onbewaakte risico binnen P_THRES, een deelverzameling die drie of meer satellieten verwijdert bewaakt, en meer dan tien bewaakte a-priorikansen onafhankelijk opnieuw afgeleid als P_no fault q^k tot { "1e-12" }; a_two_satellite_fault_is_found_as_a_pair: geen alarm zonder fout, en een bias van { "30" } m op twee satellieten gedetecteerd met het paar als deelverzameling met de grootste genormaliseerde scheiding); tests/araim_reference_vectors.rs en tests/integrity_araim_stanford_oracle.rs ongewijzigd (het pad van orde 2 is het door MAAST gecontroleerde)
+
+# data/verification-matrix.json
+dat-59df4c757eca = tests/raim_reference.rs ({ "171" } gevallen: χ²-CDF/-kwantiel, normale CDF/kwantiel, niet-centrale χ²-CDF, pbias over de bereiken van P_fa/P_md/redundantie)
+
+# data/verification-matrix.json
+dat-40821ee76be6 = tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (genegeerd, datageblokkeerd door KSHANA_JAMMERTEST_DIR: de vastgelegde selectie, achtergehouden aantallen, drempeloordelen en het oordeel); receiver_trust::calibration::tests (tijdstempels, vensterparing en de tijdzoneverschuiving, labels, guardbanden, uitsluiting, selectie); receiver_trust::monitors::tests::threshold_profile_is_opt_in
+
+# data/verification-matrix.json
+dat-1d2fdc610c00 = tests/receiver_trust_live_cli.rs (de poort en zijn TCP-listener, Rust-kant); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js en integrations/signalk/test/plugin.test.js ({ "24" } Node-tests op vastgelegde synthetische uitvoer); integrations/opencpn/test/relay.test.mjs ({ "5" } Node-tests); integrations/opencpn/test/e2e-live.mjs (de echte binary naar een TCP-consument, met de hand en in CI uitgevoerd); integrations/opencpn/plugin/test/pksht_test.cpp en integrations/opencpn/plugin/test/trust_state_test.cpp (C++-controles van de PKSHT-parser en de paneeltoestand); deploy/reference-build/check-units.sh en deploy/reference-build/test-entrypoint.sh
+
+# data/verification-matrix.json
+dat-8e2108c6b488 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: het formaat dat de gnss_lib_py-brug schrijft, door receiver-trust gehaald); de Python-tests van de bruggen zijn integrations/ros2/kshana_trust/test/test_bridge.py (brug met een nepengine), integrations/ros2/kshana_trust/test/test_engine_integration.py (het echte wheel scoort een stabiele positie nominal en een sprong van { "1.1" } km untrusted) en integrations/gnss_lib_py/test_bridge.py (echte gnss_lib_py { "1.1.0" } en het wheel), uitgevoerd met pytest, niet door cargo
+
+# data/verification-matrix.json
+dat-bcb53e987527 = tests/resilience_diversity_reference.rs ({ "17" } gevallen: { "14" } tegen scikit-bio inv_simpson + { "3" } vastgezette randgevallen met nul; ergste |Δ| { "0.0" })
+
+# data/verification-matrix.json
+dat-c3c16b96275c = tests/resilience_score_decision_instability_reference.rs ({ "124" } gevallen tegen scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendall τ-b tot { "2e-16" }, rangschikking exact, Dirichlet-gemiddelde + percentiel-BI tot { "1e-12" })
+
+# data/verification-matrix.json
+dat-cf873e80e5e1 = tests/rinex_sp3_interop_reference.rs ({ "84" } SV-epochgevallen: GPS + Galileo + BeiDou-MEO, { "12" } SV's × { "7" } offsets, tegen RTKLIB eph2pos; ergste |Δ| per as { "6.2e-8" } m)
+
+# data/verification-matrix.json
+dat-9a8caef80254 = tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } tegen BRDM00DLR_S RINEX { "3.04" } van 2026-07-19, uitsnede 00-02 h: G { "37" } / E { "478" } / C { "72" } records aan beide kanten gematcht, elk veld identiek, positie bij Toe { "0" } m; volledige dag datageblokkeerd: G { "416" } / E { "5668" } / C { "865" } / J { "118" }); rinex::tests
+
+# data/verification-matrix.json
+dat-bbb3d37cf9a3 = tests/rinex4_obs_mao0.rs (eerste { "4" } epochs van het IGS-MGEX-RINEX-{ "4.00" }-bestand MAO000USA_R_20231980000_01D_30S_MO, { "58" } satellieten, { "7" } systemen: kopparen en waarden van het eerste epoch gelijk aan de gepubliceerde literalen); rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records (synthetische kop van { "4.02" } uit de specificatie)
+
+# data/verification-matrix.json
+dat-d08207568a97 = tests/rtk_real_wettzell_oracle.rs (IGS-stations WTZR basis / WTZZ rover, { "1.4" } m, 2025-02-24 00-03 h, { "30" } s: { "359" } epochs, fixes bij { "100" } % vanaf { "00" }:{ "10" }, fout van vaste basislijn mediaan { "4.5" } mm, p95 { "5.5" } mm; eerste { "10" } min vast { "2.6" } mm tegen float { "13" } cm); rtk_real::tests
+
+# data/verification-matrix.json
+dat-3c907d007e9f = tests/s2_air_tide_gfz_table5.rs ({ "21" } van { "21" } golven komen overeen met het gepubliceerde model A2: ergste { "0.00050" } cm, { "0.050" } deg tegen drempels van { "0.0006" } cm, { "0.1" } deg); tests/tides_iers.rs (amplitudeband van S2)
+
+# data/verification-matrix.json
+dat-c88096add505 = tests/sbas_reference.rs ({ "6" } echte EGNOS-epochs: HPL direct gematcht, verticale d_U K-factorvrij gecontroleerd)
+
+# data/verification-matrix.json
+dat-21037fbc2a71 = tests/scipy_reference.rs (NNLS; χ² bij gebruiks-dof ≥ { "48" }; Van-Loan-Q)
+
+# data/verification-matrix.json
+dat-b972dc635eb0 = tests/sgp4_verification.rs ({ "666" } AIAA-verificatievectoren, ergste { "4.12" } mm); tests/sgp4_crate_comparison.rs (onafhankelijke sgp4-crate)
+
+# data/verification-matrix.json
+dat-65d61457a4e4 = tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } kijkhoeken op zes locaties en vier epochs, zes maskertabellen, { "142" } zichtbare verzamelingen; ergste |d el| { "1.3e-13" } deg en |d az| { "2.3e-13" } deg tegen { "1e-9" }, ergste |d mask| { "1.1e-12" } deg tegen { "1e-9" }, zichtbare verzamelingen identiek zonder enige in de grensband van { "1e-6" } deg, ergste DOP { "3.3e-13" } relatief en cofactor { "6.6e-13" } van de matrixschaal tegen { "1e-9" }; vooraf vastgelegd e4b9d912); skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam); tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release)
+
+# data/verification-matrix.json
+dat-dddadfd377b1 = tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: fit op het eerste derde van de record, voorspel de overschrijding van één sigma bij { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } en { "2.5" } ns, meet die op de andere twee derde vanaf een synchronisatiepunt elke { "997" } s; drempel, vastgelegd vóór de eerste run, een factor { "1.5" } in beide richtingen; waargenomen verhoudingen { "0.84" } tot { "1.03" }; een controle, de Allan-deviatie van één seconde gelezen als witte FM, mist met een factor van ongeveer { "1 000" } en moet de drempel falen; een mutatie die het witte-FM-niveau halveert, laat de test falen); slot_timing::tests (a_measured_white_fm_record_recovers_its_level; reduces_to_the_holdover_inversion; ieee1139_conversion_matches_the_powerlaw_module)
+
+# data/verification-matrix.json
+dat-c42bb6c40ea6 = tests/slot_timing_igs_holdout.rs ({ "10" } klokken van GPS Block IIF-satellieten, { "14" } dagen finale IGS-klokken: { "8" } binnen de drempel van { "1.5" }, G25 en G30 optimistisch tot ongeveer 2x, vastgezet); tests/slot_timing_ocxo_holdout.rs (een gemeten OCXO: achtergehouden voorspelling nooit optimistisch, { "0.59" } tot { "0.70" } van de gemeten overschrijding; in de steekproef binnen { "0.98" } tot { "1.17" }; zonder de term voor de fixfrequentie is de voorspelling in de steekproef bij elke drempel optimistisch); slot_timing::tests (fix_frequency_uncertainty_alone_is_linear_in_time; reduces_to_the_holdover_inversion — elke klasse tegen holdover::holdover_seconds tot { "1e-9" }; white_fm_with_fix_error_has_its_closed_form; flicker_floor_alone_is_linear_in_time; ageing_alone_is_quadratic_in_time; frequency_offsets_add_in_magnitude; the_error_at_the_breach_is_the_guard; datasheet_fit_envelopes_every_point; datasheet_classes_match_their_presets_at_one_second; a_breach_beyond_the_datasheet_is_flagged_as_extrapolated; the_report_carries_the_result_and_a_unit_for_each_field)
+
+# data/verification-matrix.json
+dat-fa8d19607f01 = tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: ergste hoekfout gezien vanaf de planeet over { "2000" } tot { "2040" }, Phobos { "5.65" } deg, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymedes { "0.22" }, Callisto { "0.27" }, Titan { "3.31" }; geocentric_moon_tracks_horizons: { "0.046" } deg); ephem::tests (moons_sit_at_their_mean_distance_and_move_at_their_mean_speed); ephem_provider::tests (earth_and_moon_balance_about_their_barycentre)
+
+# data/verification-matrix.json
+dat-3600b56b6940 = tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: vastgezet op { "2.04" } en { "5.16" } maal de nominale lengtefout, onder zes maal; pluto_from_the_1992_row_is_measured_not_validated: binnen { "39" } boogseconden en { "1.14e9" } m; standish_velocities_track_horizons_to_one_percent: ergste { "3.7e-3" } van de snelheid); ephem::tests (standish_velocity_is_the_derivative_of_the_position; pluto_has_no_table2_row_and_no_stated_error)
+
+# data/verification-matrix.json
+dat-88277c0e8966 = tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Mercurius, Venus, de Aarde en de Maan op 2026-01-01, 2030-06-15 en 2040-12-31: ergste { "3.3e-5" } m en { "1.0e-11" } m/s tegen { "1" } mm en { "1e-6" } m/s; het kernelblok en de labels exact); tests/solar_system_kernel_oracle.rs::without_a_kernel_the_report_has_no_kernel_block
+
+# data/verification-matrix.json
+dat-d26d3b6f95b6 = tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s (de barycentra van Mercurius, Venus, Mars, Jupiter en Saturnus, de Zon en de Maan tot het centrum van de Aarde, { "1576" } epochs elk op geïnterpoleerde DE441-posities, ergste { "6.7e-9" } s tegen { "1e-6" } s); niet-blokkerende nauwkeurigheidsverklaring voor het analytische pad: tests/solar_system_light_time_preregistered.rs (RMS c dLT { "0.17" } tot { "0.30" } van de positiedrempel in Tabel { "8.10.1" }); solar_system::tests
+
+# data/verification-matrix.json
+dat-60fed260026a = tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (barycentra 1800-2050 uit Tabel { "1" } en { "3000" } BC-3000 AD uit Tabel { "2" }, { "8908" } en { "21857" } epochs, ergste RMS { "0.778" } van het cijfer in Tabel { "8.10.1" }); tests/solar_system_standish_earth_icrf_preregistered.rs (earth_from_the_split_barycentre_is_within_the_emb_table_8_10_1_rms: de Aarde via AnalyticSolarSystem en icrf_to_ecliptic, RMS { "0.483" } van het EMB-cijfer; icrf_positions_are_within_the_table_8_10_1_rms: ICRF-posities van de lichamen uit Tabel { "1" } en de Aarde, ergste { "0.778" }; earth_minus_barycentre_offset_matches_de441_1950_to_2050: de splitsing met de lunaire reeks, ergste { "0.088" } deg en { "6.1" } km); ephem::tests (standish_periods_obey_keplers_third_law; a_planet_track_is_one_closed_ellipse). Niet-blokkerende regressie: tests/solar_system_horizons_reference.rs
+
+# data/verification-matrix.json
+dat-92d3638904a2 = tests/source_guards.rs ({ "9" } tests: beide bewakingen over de hele broncodeboom, plus mutatiefixtures die elke bewaking in beide richtingen beoordelen — het F22-patroon gemeld op beide botsende paden, de meegeleverde fix met atomaire reeks geaccepteerd, een halve fix gemeld op precies het pad dat zijn unieke component verloor, een tempfile-handle en een overgeërfde unieke map geaccepteerd, een wandklok afgewezen; een niet-aangegeven pin gemeld, een aangegeven geaccepteerd, een scope zonder uitsluiting afgewezen, een aangifte in de doc-opmerking van de omsluitende test geaccepteerd en aangetoond dat zij niet naar de volgende test lekt; en elke pinspelling — hex, decimaal, digeststring, bytelengte, benoemd bytesaantal, goldenbestand — gezien terwijl algoritmeconstanten, RNG-seeds en kleine kardinaliteitscontroles dat niet zijn)
+
+# data/verification-matrix.json
+dat-a298dd9a3233 = tests/sp3_clock_igs_oracle.rs (finale IGS-SP3 van { "15" } min van 2025-02-24 tegen de finale IGS-klokken van { "30" } s, { "32" } GPS-satellieten: mediaan van knoop |Δ| { "2.6e-13" } s; { "3038" } records op het middelpunt RMS { "0.121" } ns, p95 { "0.265" } ns; de knoop vasthouden in plaats daarvan { "4.24" } ns RMS); sp3::tests::clock_interpolation_is_linear_between_valid_nodes_and_exact_at_them
+
+# data/verification-matrix.json
+dat-28f81116b40c = tests/sp3_interp_reference.rs ({ "72" } SV-epochgevallen buiten de knopen / { "6" } satellieten tegen RTKLIB peph2pos; ergste |Δ| per as { "1.5e-8" } m)
+
+# data/verification-matrix.json
+dat-1636be2adefe = tests/space_packet_ext_oracle.rs (vijf vooraf vastgelegde drempels: CRC, tijdcodes, streams, hiaat en volgorde, PUS TM; nul afwijkingen); space_packet::tests
+
+# data/verification-matrix.json
+dat-f403e1bff89a = tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities_verdict_is_the_recorded_one, bevinding F1, vastgezet door finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_verdict_is_the_recorded_one, bevinding F2, vastgezet door finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, alleen gerapporteerd)
+
+# data/verification-matrix.json
+dat-77160f0d4810 = tests/spk_3_21_spice_oracle.rs (inventaris, evaluatie in beide richtingen, byte-identiteit); spk_writer::tests
+
+# data/verification-matrix.json
+dat-a12336407649 = tests/spk_writer_spice_oracle.rs (inventaris, evaluatie, bit- en byte-identiteit, omzetting van OEM-epochs; vier geplande mutatiecontroles maken haar rood)
+
+# data/verification-matrix.json
+dat-047020caa02b = tests/spoof_texbat_validation.rs (karakterisering van TEXBAT-parameters); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (zet de bevinding vast); tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+# data/verification-matrix.json
+dat-56762c52bd16 = tests/srp_boxwing_orekit_oracle.rs ({ "252" } geometrieën van Galileo-banen, { "7" } zongevallen inclusief perihelium- en aphelium-afstanden, { "100" } willekeurige houdingen; som voor vlakke platen ergste { "2.05e-15" } relatief over { "1056" } gevallen; end-to-end met de eigen houding en druk van Orekit ergste { "2.39e-15" } over { "747" } gevallen met volle zon, terwijl de standaarddrukconstanten van Orekit >= { "4.43e-3" } verschillen, zodat de vergelijking de constante onderscheidt; nominale yaw-matrix ergste { "1.89e-15" }; partiële van de stralingsfactor ergste { "1.35e-15" }; partiëlen per paneel ergste { "4.12e-13" } relatief tegen centrale differenties van Orekit over { "10836" } paneelgevallen; ECOM2-versnelling en partiëlen ergste { "1.74e-15" }); unittests van srp_boxwing (limieten in gesloten vorm, partiëlen met eindige differentie); bedradingstests van propagator en precise_od
+
+# data/verification-matrix.json
+dat-b063b8b90601 = tests/srp_oblate_shadow_orekit_oracle.rs ({ "2400" } geometrieën over de schaduwrand, { "884" } in de halfschaduw, LEO tot GEO, declinatie van de zon { "0" } en +-23.44 deg, { "8" } azimuts: ergste |dnu| { "7.41e-9" } voor WGS-84 en { "2.24e-9" } voor de sferische basislijn; de WGS-84- en sferische verhoudingen van Orekit verschillen tot { "0.98" }, dus de verzameling onderscheidt de afplatting); unittests van srp_shadow en propagator
+
+# data/verification-matrix.json
+dat-e38941e52102 = tests/standards_packs.rs (pinned_outcomes: de status van elke test, inclusief de missers L4-T1 en de vier IMO-nauwkeurigheidstests); standards_pack::tests
+
+# data/verification-matrix.json
+dat-855c85453ab2 = tests/telecom_timing_reference.rs ({ "17" } middelingsfactoren voor MTIE en { "12" } voor TDEV op een vastgelegde holdoverreeks van { "2" } 048 samples van een chip-scale atoomklok met veroudering, flicker en temperatuur, tegen allantools { "2024.06" } tot <{ "1e-12" } / <{ "1e-9" } relatief, waargenomen exact / { "1.1e-15" }; dezelfde curven uitgelezen uit een volledige telecom-timing-run die de CSV inleest); telecom_timing::tests (lopende MTIE gelijk aan allan::mtie bij elk venster; met de hand afgeleide MTIE en TDEV; monotone MTIE)
+
+# data/verification-matrix.json
+dat-6bd0f403b84f = tests/telemetry_formats_reference.rs (prometheus_client_reads_our_exposition_as_the_registry_implies, the_official_otlp_proto_reads_our_json_as_the_registry_implies, awkward_reason_text_survives_the_parser, the_committed_outputs_are_what_this_crate_produces; schema { "1.3" }: prometheus_client_reads_the_schema_13_exposition_as_the_registry_implies, the_official_otlp_proto_reads_the_schema_13_json_as_the_registry_implies, promtool_accepts_the_schema_13_exposition, the_collector_receives_and_exports_the_schema_13_payload_unchanged); tests/telemetry_cli.rs; telemetry::prometheus::tests (golden-exposition)
+
+# data/verification-matrix.json
+dat-b7e8cebff6ad = tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — de vastgelegde decimatie van 6 boogseconden van de SRTM-v3-tegel N36W117 in het publiek domein plaatst Badwater Basin, het laagste punt van Noord-Amerika, op −{ "78" } m binnen de landmetingsband van [−{ "95" },−{ "70" }] m en leest het ware reliëf van ~{ "2.2" } km van het oostelijke gebergte van de tegel; plus, op twee vastgelegde letterlijke uitsneden van 1 boogseconde van 361x361 van N36W119 en N36W117, real_srtm_tile_whitney_in_survey_band ({ "4412.1" } m in de band van [{ "4380,4430" }] m rond de landmeting van { "4421" } m), real_srtm_tile_badwater_in_survey_band (−{ "78.0" } m in [−{ "95" },−{ "70" }] m) en gdal_cross_check (de dichtstbijzijnde knoop is exact gelijk aan GDAL { "3.8.4" } gdallocationinfo op de volledige tegels bij alle { "8" } vooraf vastgelegde punten, xval/srtm-ungate/; plus de met de hand gebouwde bilineaire-middelpunt- en synthetische-fixture-parserreferenties)
+
+# data/verification-matrix.json
+dat-6ba7a03118d7 = tests/testbench_gpssdrsim_oracle.rs ({ "6" } tests: referentie en scenario's, exportbytes vastgezet, NMEA- en LLH-lezers, uitsnede van vier ECEF-kolommen, BEVINDING van run 1 op de CSV over de volle breedte, rij-raster van { "10" } Hz)
+
+# data/verification-matrix.json
+dat-8a797add2918 = tests/testbench_reference.rs ({ "7" } tests: referentiepins, exportbytes, ergste geval over elke rij, positiekolommen, lokale snelheid tegen ware NED-snelheid, Eulerhoeken tegen scipy, NMEA tegen pynmea2); tests/interop_testbench.rs (de eigen rondreizen van de schrijver)
+
+# data/verification-matrix.json
+dat-f0bbcc6ee88b = tests/theo1_totvar_reference.rs (Theo1 + TOTDEV op de NIST SP { "1065" } §{ "12.4" } LCG-dataset van 1000 punten, { "6" } + { "6" } middelingsfactoren tegen allantools { "2024.06" } tot <{ "1e-9" }); allan::tests (volgen van de gesloten vorm van witte FM; identiteit TOTVAR=ADEV bij m={ "1" }; invariantie van Theo1/TOTVAR voor fase-/frequentie-offset; helling −1/2 van witte FM)
+
+# data/verification-matrix.json
+dat-20f11494c9e6 = tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } gevallen met deterministische latentie EXACT tegen een eerste-passagereferentie; { "8" } ARL₁-gevallen, Monte Carlo @60k trekkingen tegen de benadering van Siegmund + gepubliceerde tabellen van Montgomery)
+
+# data/verification-matrix.json
+dat-cbb4f14ac189 = tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (Aarde naar het barycentrum van Mars, vertrekken 2026-09-15..2027-01-15 x aankomsten 2027-05-01..2028-03-01, Type I/II x min C3 / min V-oneindig: ergste doelfunctie { "8.7e-13" } relatief, datums binnen { "1e-5" } dag, andere grootheid binnen { "2.5e-7" } relatief, tegen vooraf vastgelegde drempels van { "1e-7" }, { "0.01" } dag en { "1e-4" }; docs/design/evidence/cap20cd-transfer-optimiser/); tests/transfer_optimiser_oracle.rs::transfer_optimiser_against_the_published_2026_handbook (secundaire gepubliceerde referentie NASA/TM-2010-216764 Tabel { "2" }: Type II min C3 { "9.182" } tegen { "9.144" } en Type II min V-oneindig { "2.564" } tegen { "2.565" } MET; Type I min C3 { "10.535" } tegen { "11.11" }, -5.18 %, NOT MET en bevestigd als gemist, waarbij de bibliotheekreferentie met Kshana overeenkomt)
+
+# data/verification-matrix.json
+dat-3e10bf718fa2 = tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } ongeziene normaalpunten van 2019-Q2; sigma's en normen binnen { "4.0e-5" } van { "1e-2" }, conditie { "1.6e-5" } van { "2e-2" }, verhoudingen { "7.6e-5" } van { "2e-2" }, boekhouding en rangen exact); tests/validate_llr_datum_kernel_moon.rs (de diagnostiek op reeds geziene data van { "2015" }, { "0.049" } % op tz; geen bewijs voor deze rij); lunar_llr::tests
+
+# data/search.json
+dat-f82fb602e1ff = Tekstexports
+
+# data/search.json
+dat-28da188a34bd = Bedankt voor uw interesse. Kshana wil een neutrale, reproduceerbare, eerlijk gevalideerde referentie zijn voor…
+
+# data/search.json
+dat-4e63b7b36722 = De "~{ "95" } % regeldekking" op de README-badge, de README-CI-tabel (continuous integration), de crates.io…
+
+# data/verification-matrix.json
+dat-4cf9e6d30521 = Het type `body-pnt`: een orbiter of een lander op het oppervlak rond een bij naam gekozen lichaam navigeert met enkelvoudige pseudoafstanden van een Walker-navigatieconstellatie rond het lichaam (tweelichamenbanen met de seculiere drift van J2 van het lichaam, een onbekende gebruikersklok) en een optionele klokvrije tweewegsafstand vanaf de Aarde, waarbij de richting en afstand van de Aarde bij elk epoch uit de analytische efemeride komen; zichtlijnen geblokkeerd door de bol van het lichaam en een elevatiemasker aan het oppervlak; per epoch de GDOP en PDOP met alleen de constellatie (orbit::dop), de formele positieonzekerheid met en zonder de Aarderij, en Gauss-Newton-fixes met seed (batch_ls::gauss_newton) in beide gevallen, met de lichttijd en de heen-en-terugtijd van lichaam naar Aarde
+
+# data/verification-matrix.json
+dat-4660720bc92f = De sectie compose van het type `campaign`: benoemde gedeelde waarden (bijvoorbeeld het vermogen en de positie van één jammer) die in elk lid worden geschreven op de sleutels waaraan het ze bindt, elk lid wordt uitgevoerd, en per maat de kleinste, grootste en gemiddelde waarde over de leden met vermelding van het lid; eenheden van maten moeten bij alle leden overeenkomen
+
+# data/verification-matrix.json
+dat-18ac605f9caf = De sectie optimize van het type `campaign` (CAP-32): één tot drie gepuncte scenariosleutels begrensd tot [lo, hi] op een lin- of log-schaal, één maat gelezen via een resultaatpad, doel minimize, maximize of target; methode grid (de aswaarden van de sweep) of een deterministische Nelder-Mead-simplex in genormaliseerde coördinaten met boxprojectie en de standaardcoëfficiënten; een ontbrekende of niet-eindige maat scoort het slechtst en blijft in de trace; met runs > { "1" } is de maat het gemiddelde over gemeenschappelijke seeds; elke evaluatie is een echte run van het genoemde type, vermeld in trace en meegeteld in de reproduceerbaarheidsdigest
+
+# data/verification-matrix.json
+dat-a4238a69ab89 = De fasen van het type `campaign`: elke fase voert via run_toml een of meer scenario's van bestaande typen uit, leest hun uitvoer in benoemde kanalen (tijdfout en guard van de klok, gemiddelde effectieve draaggolf-ruisdichtheidsverhouding en trackingvloer, verticaal beschermingsniveau en alarmlimiet, positiefout, satellieten in tracking, alarmvlaggen) via voorinstellingen per type of expliciete resultaatpaden, plaatst ze bij het begin van de fase en houdt ze vast op een gemeenschappelijk raster, met fasegrenzen en gebeurtenissen; toestand wordt doorgegeven door carry (een kanaal gaat verder vanaf de eindwaarde van de vorige fase), handoff (het nummer van een vorige fase wordt in het volgende scenario geschreven) en end_at (een fase eindigt op een tijdstip dat een run berekende, zoals de detectietijd van een spoofingmonitor); een campagne-hash en een digest over elk ledenresultaat
+
+# data/verification-matrix.json
+dat-b1324ba13721 = De secties sweep (één tot drie gepuncte sleutels van elk type, op de aswaarden van de generieke sweep, optioneel een ensemble bij elke knoop) en monte_carlo van het type `campaign`: realisatie k draait op base_seed + k; elke maat rapporteert gemiddelde, standaardafwijking, percentielen 5/50/95 volgens de nearest-rank-methode en een percentiel-bootstrap-betrouwbaarheidsinterval van { "95" }% met vaste seed op het gemiddelde (inertial::metric_stat); eenheden van maten worden gelezen uit het eigen units-blok van het gesweepte type
+
+# data/verification-matrix.json
+dat-9c2d0a602027 = De coverage-engine van `constellation-design` op de GPS-baseline-voorinstelling met 24 slots onder de voorwaarden van Appendix B van de GPS Standard Positioning Service Performance Standard (SPS PS) (één siderische dag, { "287" } stappen van vijf minuten, een wereldraster van { "4" } x { "4" } deg gewogen met de cosinus van de breedtegraad, alles in zicht, masker van { "5" } deg, één ontvangerklok): de wereldwijde HDOP-verdeling, de mediaan van PDOP en de beschikbaarheid van PDOP-hoogstens-6, wereldwijd en op de slechtste locatie
+
+# data/verification-matrix.json
+dat-d0812004ed2d = Het type `constellation-design` voorbij de twee vastgezette gevallen: expliciete ontwerpen en ontwerpen met meerdere schillen, meerdere constellaties per run met één ontvangerklok per constellatie, de Aarde, de Maan en Mars uit de lichaamsconstanten, de BeiDou-voorinstelling (middenbaanfase en kruising van { "118" } deg E van de hellende geosynchrone baan gemodelleerd), satellieten in zicht per cel, GDOP, PDOP, HDOP, VDOP en beschikbaarheid, gedownsamplede grondsporen, en een zichtbaarheidsvoorfilter op de breedtegraad van het subsatellietpunt waarmee een ontwerp van { "5" } 000 satellieten op een raster van { "10" } deg in een fractie van een seconde wordt uitgevoerd
+
+# data/verification-matrix.json
+dat-447a8eb7060e = De generatoren van het type `constellation-design`: Walker-delta- en -starpatronen in de T/P/F-conventie (knoopafstand 360/P of 180/P, afstand in het vlak { "360" }·P/T, faseverschuiving tussen vlakken { "360" }·F/T), en de GPS-baseline- en uitbreidbare 24-slot-, Galileo- en GLONASS-voorinstellingen gebouwd uit hun gepubliceerde nominale elementen, geplaatst in een aardvast frame met de Greenwich-uurhoek die hun documenten opgeven
+
+# data/verification-matrix.json
+dat-e0f06e198998 = De modus `[formation]` van het type `gnss-ssv`: een chief en deputies voeren elk het absolute filter uit; de positie van de deputy ten opzichte van de chief wordt geschat door de absolute schattingen af te trekken en door een relatief filter op pseudoafstanden met enkelvoudig verschil van de signalen die beide ruimtevaartuigen tracken, waarbij de relatieve dynamica het verschil is van twee niet-lineaire trajecten
+
+# data/verification-matrix.json
+dat-ba82c9a3e940 = De modus `[navigation]` van het type `gnss-ssv`: een uitgebreid Kalmanfilter met negen toestanden (positie, snelheid, bias en drift van de ontvangerklok, een schaal voor zonnestralingsdruk) op pseudoafstanden waarvan beschikbaarheid, ruis en C/N0 uit dezelfde linkgeometrie komen als bij de sweeps; de referentie wordt geïntegreerd met J2, derde-lichaamzwaartekracht van zon en maan en stralingsdruk met schaduw, het filter modelleert J2 en de derde lichamen en schat de stralingsdruk; rapporteert positie- en snelheidsfouten binnen en boven de GNSS-banen, de langste meetonderbreking en de gemiddelde NEES
+
+# data/verification-matrix.json
+dat-075d0bc3259d = De beschikbaarheidssweeps van het type `gnss-ssv`: per constellatie (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) en gecombineerd, het aandeel van (gebruiker, epoch)-paren met minstens één en minstens vier signalen en de langste uitval, voor een gebruiker op een bol (de wereldwijde schil van 2.562 punten uit het boekje, { "14" } dagen met { "1" } minuut) of op een traject (GEO, HEO, lunaire transfer), uit de Kepler-banen van bijlage C van het boekje, een constant minimaal uitgestraald vermogen binnen de off-boresighthoek van de referentie, aardafscherming door de bol plus { "50" } km en een C/N0-drempel; gebruikersantennes uit tabel B10 van het boekje
+
+# data/verification-matrix.json
+dat-16b1c5951537 = Het type `holdover-test`: een tijdfoutrecord (een kloglog van linuxptp, chrony, TICC, TimeLab of RINEX, of paren time_s,time_error_ns) wordt op de twee tijdstippen die de operator opgeeft voor het wegnemen en herstellen van GNSS gesplitst in een basislijn-, een holdover- en een herstelstap; de basislijn wordt gemeten tegen de ITU-T-maskers voor een vergrendelde klok en de holdover tegen die voor holdover of een autonome klok, de holdover-omhullende van ePRTC-A en de tijdfoutbudgetten; de holdover rapporteert de frequentie-offset volgens kleinste kwadraten die het systeem vasthield, en het herstel of en wanneer |TE| binnen een opgegeven band kwam en daar gedurende een opgegeven verblijftijd bleef, met de piek en de grootste stap. Elke limiet is er een die het type telecom-timing overneemt; de twee tijdstippen zijn de verklaring van de operator en worden niet geverifieerd
+
+# data/verification-matrix.json
+dat-090f9036a5e3 = De fitter en afweging van het type `leo-navmsg`: een referentiebaan geïntegreerd met zonale J2-J6- of EGM2008-zwaartekracht tot de gekozen graad en weerstand, en een vrijlopende of gestuurde klok met seed; een Levenberg-Marquardt-fit van de Galileo-Kepler-set op niet-singuliere elementen met zwakke a-prioriwaarden, daarna langs-, dwars- en radiale correctiepolynomen met lineaire kleinste kwadraten; het klokpolynoom gefit na aftrek van de relativistische term van de gebruiker; SISRE (alleen baan en met klok) over gebruiksperioden gecentreerd in hun fitvensters, tegenover fitinterval en updateperiode. Gevalideerd deel: de Kepler-fit met 16 parameters en zijn SISRE met alleen baan tegen het fitinterval op echte precieze banen, en de geïntegreerde referentiebaan met J2-J6/EGM2008({ "20" }, { "70" })/weerstand tegen Orekit { "12.2" } binnen { "4.6" } mm over { "6" } h (drempel { "2" } cm, dezelfde dichtheidsinvoer); de correctiepolynomen, de klokfit (vrijlopende of gestuurde klok met seed) en de afweging van de updateperiode blijven gemodelleerd
+
+# data/verification-matrix.json
+dat-0bbf24039580 = De midpass-updateanalyse van `leo-navmsg`: de hoogste passage boven een gebruiker binnen een zoekperiode, berichten op een wereldwijd schema met gebruiksperioden gecentreerd in hun fitvensters, en bij elke omschakeling de 3D-positiesprong, de klokssprong, de sprong in de pseudoafstand van de gebruiker, de grootste sprong over een zichtbare zichtlijn (gesloten vorm over de nadirkegel), de afstandsfout vóór en na, en PASS/FAIL tegen een drempel
+
+# data/verification-matrix.json
+dat-26fd0990083f = Het type `leo-pass`: satellieten uit een ontworpen passage, elementen, een TLE via SGP4 of een Walker-constellatie uit constellation-design; per band en epoch de kijkhoeken, afstand, afstandssnelheid en afstandsversnelling in gesloten vorm (elke run gecontroleerd tegen centrale differenties en gerapporteerd), vrije-ruimteverlies, EIRP met een isoflux-, Gauss- of vlak patroon, een patch-, halfbol- of isotrope gebruikersantenne, gasdemping volgens ITU-R P.676-10 Annex { "2" }, regen en scintillatie volgens P.618, binnendringverlies van gebouwen volgens P.2109, polarisatiemismatch, systeemruistemperatuur, C/N0, Doppler en Dopplersnelheid, en de eerste-ordevertraging uit een Klobuchar- of verticale-TEC-schuine TEC geschaald met de Chapman-fractie onder de satelliet; ionosfeervrije paren met coderuis bij de piek van de passage; Galileo- of GPS-draaggolven uit de ontvangen vermogens van hun interfacedocumenten via dezelfde ontvanger
+
+# data/verification-matrix.json
+dat-ca395f5c8555 = De sectie `[spoofer]` van het type `leo-pass`: een spoofer vervalst, zelfconsistent in afstand en afstandssnelheid, de signalen die op een geclaimde positie worden gezien die na een begin springt en/of van de ware wordt weggeduwd (per LEO-band en voor het MEO-GNSS-signaal); de ontvanger voorspelt elke afstandssnelheid uit de uitgezonden baan en een onafhankelijke voorafgaande positie en snelheid, en toetst de gemeten afstandssnelheden met een gegeneraliseerde chikwadraatstatistiek volgens kleinste kwadraten over een venster van epochs (klokdrift een storingsparameter of met een voorafgaande waarde), op de GNSS-kanalen, de LEO-kanalen en alle kanalen, met thermische ruis van de frequentievergrendelingslus uit C/N0 (Kaplan & Hegarty { "2006" }, paragraaf { "5.6.2" }); detectiekans uit de niet-centrale chikwadraatwet bij een opgegeven kans op vals alarm, detectie verklaard bij een opgegeven kans op gemiste detectie
+
+# data/verification-matrix.json
+dat-5bb6fbb42629 = Het type `leo-pnt-chain`: een leo-signal-ontwerp (openbare voorinstelling of inline) bepaalt het midden, de bandbreedte, de chipsnelheid en de EIRP-verdeling van een leo-pass-band; de passage geeft per epoch de C/N0 van de getrackte component en de bandbegrensde codejitter; een C/N0-lijn volgens kleinste kwadraten in sin(elevatie), de SISRE van het leo-navmsg-bericht (gefit op de baan van de passagesatelliet, plus een opgegeven term voor baanbepaling in wortel uit de som van kwadraten) en de draaggolf en chipsnelheid van het ontwerp gaan naar elk LEO-systeem van een gezamenlijke leo-pvt-fix en, optioneel, naar de LEO-gevallen van leo-ppp; elke overdracht wordt gerapporteerd met haar waarde en eenheid
+
+# data/verification-matrix.json
+dat-1ff771fc71ec = Het type `leo-signal`: geparametriseerde signaalontwerpen (band, zendbandbreedte, ITU-toewijzing; acquisitie-, data- en pilootcomponenten met BPSK(n)-, BOC(m,n)-, MBOC- of vlakke spectra, vermogensaandelen, FDMA-subdraaggolven, codelengtes en datasnelheden) uit ingebouwde openbare voorinstellingsbestanden (Xona Pulsar, Iridium STL, Starlink-signal-of-opportunity, CentiSpace, een generiek C-bandontwerp en generieke UHF/L/S/C/brede-C-ontwerpen, elk met zijn bron-URL en niet-gepubliceerde waarden gelabeld REPRESENTATIVE) of inline geschreven; per signaal de bandbegrensde vermogensspectraaldichtheid, in-bandvermogensfracties, Gabor-bandbreedte, codejitter tegen C/N0 en afstand en de afstandsmetingsnauwkeurigheid, de acquisitiezoekruimte, detectiekans met kwadratische wet en gemiddelde seriële en codeparallelle acquisitietijd, de spectrale scheidingscoëfficiënt naar en van GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b en AltBOC met de C/N0-degradatie, en de J/S-tolerantie voor CW, breedband en gematcht uit de SSC-keten van het type spectrum; een bandafweging van ionosferische vertraging, vrije-ruimteverlies, afstandsmetingsnauwkeurigheid bij gelijke C/N0 en gelijke EIRP en jammertolerantie; en kwalitatieve vormcontroles van een ontwerp tegen een beschreven meting
+
+# data/verification-matrix.json
+dat-6798389914c5 = De runtimestandaard van `realtime-frame-eop` is de eigen ingebedde kopie van de bibliotheek van een letterlijk IERS-finals2000A-extract (tools/finals2000A_20260930.txt: { "174" } opeenvolgende dagelijkse rijen, MJD 61224-61397, uitgesneden uit de finals2000A.all van 2026-09-30) met alle drie de rij-vintages die het formaat definieert, geclassificeerd door de IERS I/P-vlaggen (eop::row_vintage): { "30" } finale Bulletin B-rijen, { "54" } snelle gemeten rijen (vlag I zonder Bulletin B-blok) en { "90" } Bulletin A-voorspellingen (vlag P). Een kale run zonder bestandsargument en zonder netwerk geeft een gevulde tabel per horizon, de telling rows = final_rows + rapid_rows + prediction_rows ({ "174" } = { "30" } + { "54" } + { "90" }) en predicted_rows.n = { "90" } over MJD 61308-61397; de afkapgrens zoals uitgegeven van de vergelijkingen van voorspeld tegenover finaal is de laatste gemeten rij. Het eerdere extract van 32 rijen (tools/finals2000A_2026.txt, elke rij met vlag I) en het uittreksel van vijf rijen met alleen finale rijen blijven meegeleverd en in gebruik: daarop is predicted_rows.n { "0" }, een eigenschap van het invoerbestand en geen uitkomst van de parser
+
+# data/verification-matrix.json
+dat-06202554b764 = Het type `slot-timing`: de voorspelde fout E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² omgekeerd voor de overschrijding, de resterende tijd, het hersynchronisatie-interval na aftrek van de fixlatentie en fixes per dag, elke term gespecificeerd met de dominante genoemd; klokken uit de zes standaardwaarden van ClockClass (TCXO, OCXO en RAFS toegevoegd, elk met verwijzing naar één datasheet), de voorinstellingen voor telecom-timing, een inline datasheet of een gemeten record; een overschrijding voorbij de langste middelingstijd van de bron wordt gemarkeerd als geëxtrapoleerd
+
+# data/verification-matrix.json
+dat-124e198cbbac = Het pad voor gemeten records van het type `slot-timing`: de overlappende Allan-deviatie van een faserecord gefit met edf-gewogen niet-negatieve kleinste kwadraten in de basis van witte fase en IEEE Std { "1139" }-frequentiemodulatie (slot_timing::fit_weighted), daarna omgekeerd voor de uitlooptijd waarop de tijdfout een drempel bereikt (slot_timing::slot_budget). De roodruisvloer wordt uit het record gemeten in plaats van aangenomen
+
+# data/verification-matrix.json
+dat-d0eb6e0a3491 = Het type `solar-system` met planetary_kernel_path: elk gerapporteerd lichaam waarvan de eigen NAIF-code in de SPK staat, neemt zijn heliocentrische J2000-positie en -snelheid uit de kernel via de eigen lezer van de engine (label KERNEL), een link waarvan beide uiteinden in de kernel staan wordt erop berekend, barycentra worden nooit voor een planeet in de plaats gesteld, en elk ander lichaam blijft analytisch met zijn eigen label; het rapport krijgt alleen een kernelblok (pad, SHA-256, de lichamen en links die eruit komen) wanneer de optie is ingesteld. Met de440s.bsp zijn dat Mercurius, Venus, de Aarde en de Maan
+
+# data/verification-matrix.json
+dat-d7f042833835 = Het type `spectrum` uitgebreid voorbij de L-band: banden gegeven als een voorinstelling van een signaalontwerp (getekend met elke component, bandbegrensd tot de zendbandbreedte, C/N0 en J/S betrokken op de getrackte component) of als een eigen draaggolf en modulatie; extra waterfallpanelen over elk frequentiebereik op dezelfde tijdlijn en kleurschaal; een breedband- (barrage-)jammer naast CW-, smalband-, chirp- en gematchte ruisjammers; per band J/S en effectieve C/N0 uit de ongewijzigde keten met spectrale scheidingscoëfficiënt
+
+# data/verification-matrix.json
+dat-e38e42f51624 = Het type `spectrum`: een raster van frequentie bij tijd van de vermogensspectraaldichtheid in de L-band (thermische vloer k T_sys met T_sys = T_ant + { "290" } K (F - { "1" }), de signalen bij hun minimale ontvangen vermogens volgens de interfacespecificatie, en jammers met continue golf, smalband, chirp en gematchte ruis met aan-/uittijden), elke cel gemiddeld over zijn bin en rij (chirps exact over hele en gedeeltelijke sweeps, jammers naar werkcyclus), effectieve C/N0 per band = [1/(C/N0) + sum (J/S) kappa]^-1 per rij, J/S per band, J/S in de band, en een SVG-waterfall met C/N0-balken. Het rapport bevat een kruiscontrole met de keten van het type `jamming` op dezelfde linkinvoer
