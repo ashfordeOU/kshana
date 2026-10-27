@@ -19,3 +19,5 @@ seg-d4a762001549 = Licencja
 seg-60cd077d82a7 = Model
 
 seg-2afa300864a9 = Parametry
+
+seg-32b620b3574e = Zastosowanie
