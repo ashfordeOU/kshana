@@ -377,13 +377,20 @@ is compared with the log, not fitted to it";
 
 #[cfg(not(target_arch = "wasm32"))]
 fn read_path(path: &str) -> Result<Vec<u8>, String> {
-    std::fs::read(path).map_err(|e| format!("cannot read {path:?}: {e}"))
+    std::fs::read(path).map_err(|e| {
+        crate::terr!(
+            "e-interference-map-cli-cannot-read",
+            path = format!("{:?}", path),
+            e = e
+        )
+    })
 }
 
 #[cfg(target_arch = "wasm32")]
 fn read_path(path: &str) -> Result<Vec<u8>, String> {
-    Err(format!(
-        "cannot read {path:?}: the WebAssembly build has no file system; pass the file inline as `text` or `base64`"
+    Err(crate::terr!(
+        "e-receiver-trust-scenario-cannot-read-the-webassembly-build",
+        path = format!("{:?}", path)
     ))
 }
 
@@ -394,12 +401,20 @@ pub fn load_source(src: &FileSource, what: &str) -> Result<Vec<u8>, String> {
         (None, Some(t), None) => Ok(t.clone().into_bytes()),
         (None, None, Some(b)) => {
             let compact: String = b.chars().filter(|c| !c.is_whitespace()).collect();
-            crate::permalink::base64_decode(&compact)
-                .ok_or_else(|| format!("{what}: `base64` is not valid standard base64"))
+            crate::permalink::base64_decode(&compact).ok_or_else(|| {
+                crate::terr!(
+                    "e-receiver-trust-scenario-base64-is-not-valid-standard",
+                    what = what
+                )
+            })
         }
-        (None, None, None) => Err(format!("{what}: give one of `path`, `text` or `base64`")),
-        _ => Err(format!(
-            "{what}: give only one of `path`, `text` or `base64`"
+        (None, None, None) => Err(crate::terr!(
+            "e-receiver-trust-scenario-give-one-of-path-text",
+            what = what
+        )),
+        _ => Err(crate::terr!(
+            "e-receiver-trust-scenario-give-only-one-of-path",
+            what = what
         )),
     }
 }
@@ -432,19 +447,26 @@ fn validate(scn: &ReceiverTrustScenario) -> Result<(), String> {
         ("compare.cn0_tol_db", c.cn0_tol_db),
     ] {
         if !(v.is_finite() && v > 0.0) {
-            return Err(format!("{name} must be a positive number, got {v}"));
+            return Err(crate::terr!(
+                "e-receiver-trust-scenario-must-be-positive-number-got",
+                name = name,
+                v = v
+            ));
         }
     }
     for e in &scn.events {
         if !e.onset_s.is_finite() || e.onset_s < 0.0 {
-            return Err(format!(
-                "event {:?}: onset_s must be a non-negative number",
-                e.label
+            return Err(crate::terr!(
+                "e-receiver-trust-scenario-event-onset-must-be-non",
+                label = format!("{:?}", e.label)
             ));
         }
         if let Some(end) = e.end_s {
             if !end.is_finite() || end <= e.onset_s {
-                return Err(format!("event {:?}: end_s must be after onset_s", e.label));
+                return Err(crate::terr!(
+                    "e-receiver-trust-scenario-event-end-must-be-after",
+                    label = format!("{:?}", e.label)
+                ));
             }
         }
     }
@@ -470,7 +492,9 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
 /// Returns how many epochs it filled.
 fn apply_imu(tl: &mut Timeline, cfg: &ImuCfg, bytes: &[u8]) -> Result<usize, String> {
     if !cfg.heading0_deg.is_finite() || !cfg.time_offset_s.is_finite() {
-        return Err("log.imu: heading0_deg and time_offset_s must be finite".into());
+        return Err(crate::terr!(
+            "e-receiver-trust-scenario-log-imu-heading0-deg-and"
+        ));
     }
     let samples = read_imu(cfg.format, &String::from_utf8_lossy(bytes))?;
     let series: Vec<(f64, f64)> = gyro_heading(&samples, cfg.heading0_deg, cfg.yaw_axis_down)
@@ -488,9 +512,9 @@ fn apply_imu(tl: &mut Timeline, cfg: &ImuCfg, bytes: &[u8]) -> Result<usize, Str
         }
     }
     if filled == 0 {
-        return Err(
-            "log.imu: the IMU series overlaps no epoch of the log; check time_offset_s".into(),
-        );
+        return Err(crate::terr!(
+            "e-receiver-trust-scenario-log-imu-the-imu-series"
+        ));
     }
     if !tl.observables.iter().any(|o| o == "imu_heading") {
         tl.observables.push("imu_heading".to_string());
@@ -524,11 +548,9 @@ pub fn run_receiver_trust_bytes_imu(
             apply_imu(&mut timeline, cfg, b)?;
         }
         (Some(_), None) => {
-            return Err(
-                "this surface does not carry the `[log.imu]` file: run the scenario \
-                        with `kshana receiver-trust` on the host, or drop `[log.imu]`"
-                    .into(),
-            )
+            return Err(crate::terr!(
+                "e-receiver-trust-scenario-this-surface-does-not-carry"
+            ))
         }
         _ => {}
     }
@@ -560,9 +582,9 @@ pub fn run_receiver_trust_on_imu(
 
     // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     if nav_bytes.is_some() && scn.log.format != LogFormat::Rinex {
-        return Err(
-            "log.nav applies only to a `rinex` log: the engine fix needs its pseudoranges".into(),
-        );
+        return Err(crate::terr!(
+            "e-receiver-trust-scenario-log-nav-applies-only-to"
+        ));
     }
     let engine_inputs = match &nav_bytes {
         Some(nav) => {
@@ -680,22 +702,34 @@ pub fn run_receiver_trust_on_imu(
 
     let after_cal = states.nominal_epochs + states.degraded_epochs + states.untrusted_epochs;
     let mut verdict = match trust.first_alarm_s {
-        None => format!("trusted throughout: no monitor alarmed in {after_cal} epochs after calibration"),
-        Some(t) => format!(
-            "first alarm at {t:.1} s; untrusted for {} and degraded for {} of {after_cal} epochs after calibration",
-            states.untrusted_epochs, states.degraded_epochs
+        None => crate::t!(
+            "receiver-trust-scenario-trusted-throughout-no-monitor-alarmed",
+            after_cal = after_cal
+        ),
+        Some(t) => crate::t!(
+            "receiver-trust-scenario-first-alarm-at-untrusted-for",
+            t = crate::i18n::localise_decimal(format!("{:.1}", t)),
+            untrusted_epochs = states.untrusted_epochs,
+            degraded_epochs = states.degraded_epochs,
+            after_cal = after_cal
         ),
     };
     if events_evaluable > 0 {
-        verdict.push_str(&format!(
-            "; {events_detected} of {events_evaluable} stated events detected within {} s",
-            scn.compare.detect_tol_s
+        verdict.push_str("; ");
+        verdict.push_str(&crate::t!(
+            "receiver-trust-scenario-of-stated-events-detected-within",
+            events_detected = events_detected,
+            events_evaluable = events_evaluable,
+            detect_tol_s = scn.compare.detect_tol_s
         ));
     }
     if predictions_evaluable > 0 {
-        verdict.push_str(&format!(
-            "; {predictions_agreeing} of {predictions_evaluable} C/N0 predictions within {} dB",
-            scn.compare.cn0_tol_db
+        verdict.push_str("; ");
+        verdict.push_str(&crate::t!(
+            "receiver-trust-scenario-of-n0-predictions-within-db",
+            predictions_agreeing = predictions_agreeing,
+            predictions_evaluable = predictions_evaluable,
+            cn0_tol_db = scn.compare.cn0_tol_db
         ));
     }
 
@@ -717,7 +751,12 @@ pub fn run_receiver_trust_on_imu(
             scores.iter().copied().min_by(f64::total_cmp),
             scores.last().copied(),
         ) {
-            verdict.push_str(&format!("; trust score lowest {min:.1}, final {last:.1}"));
+            verdict.push_str("; ");
+            verdict.push_str(&crate::t!(
+                "receiver-trust-scenario-trust-score-lowest-final",
+                min = crate::i18n::localise_decimal(format!("{:.1}", min)),
+                last = crate::i18n::localise_decimal(format!("{:.1}", last))
+            ));
         }
     }
 
@@ -796,14 +835,14 @@ pub fn run_receiver_trust_on_imu(
 
 /// One-line summary for the command line.
 pub fn summary(r: &ReceiverTrustResult) -> String {
-    format!(
-        "scenario {} | receiver-trust | {} log, {} epochs over {:.0} s | monitors {} | {}",
-        &r.scenario_hash[..12],
-        format_name(r.log.format),
-        r.log.epochs,
-        r.log.duration_s,
-        r.monitors_run.len(),
-        r.verdict
+    crate::t!(
+        "receiver-trust-scenario-scenario-receiver-trust-log-epochs",
+        r = &r.scenario_hash[..12],
+        format_name = format_name(r.log.format),
+        epochs = r.log.epochs,
+        duration_s = crate::i18n::localise_decimal(format!("{:.0}", r.log.duration_s)),
+        monitors_run = r.monitors_run.len(),
+        verdict = r.verdict
     )
 }
 
@@ -930,7 +969,7 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
          <desc>{}</desc>\
          <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>",
-        esc(super::ADVISORY),
+        esc(&crate::legal::text("legal-receiver-trust-advisory")),
         esc(&r.verdict.chars().take(110).collect::<String>())
     );
 
@@ -955,8 +994,9 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
     };
     let (ty0, ty1) = (46.0_f64, 292.0_f64);
     svg.push_str(&format!(
-        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">receiver-reported track, north up</text>",
-        ty0 - 6.0
+        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{}</text>",
+        ty0 - 6.0,
+        crate::t!("receiver-trust-chart-track-caption")
     ));
     if pts.len() >= 2 {
         let (mut e_lo, mut e_hi, mut n_lo, mut n_hi) = (f64::MAX, f64::MIN, f64::MAX, f64::MIN);
@@ -996,11 +1036,13 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
         let (first, last) = (pts[0], pts[pts.len() - 1]);
         svg.push_str(&format!(
             "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"{INK}\"/>\
-             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">start</text>\
+             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>\
              <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"none\" stroke=\"{INK}\" stroke-width=\"1.5\"/>\
-             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">end of log</text>",
+             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>",
             px(first.0), py(first.1), px(first.0) + 7.0, py(first.1) + 3.0,
+            crate::t!("receiver-trust-chart-start"),
             px(last.0), py(last.1), px(last.0) - 52.0, py(last.1) - 8.0,
+            crate::t!("receiver-trust-chart-end-of-log"),
         ));
         // A scale bar of a round length.
         let target = 0.2 * (x1 - x0) / scale;
@@ -1011,9 +1053,9 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
             .filter(|b| *b <= target)
             .fold(mag, f64::max);
         let label = if bar_m >= 1000.0 {
-            format!("{:.0} km", bar_m / 1000.0)
+            format!("{} km", crate::i18n::num(bar_m / 1000.0, 0))
         } else {
-            format!("{bar_m:.0} m")
+            format!("{} m", crate::i18n::num(bar_m, 0))
         };
         svg.push_str(&format!(
             "<line x1=\"{x0}\" x2=\"{:.1}\" y1=\"{}\" y2=\"{}\" stroke=\"{INK}\"/>\
@@ -1025,8 +1067,9 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
         ));
     } else {
         svg.push_str(&format!(
-            "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">no positions in the log</text>",
-            (ty0 + ty1) / 2.0
+            "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{}</text>",
+            (ty0 + ty1) / 2.0,
+            crate::t!("receiver-trust-chart-no-positions")
         ));
     }
 
@@ -1036,8 +1079,9 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
     let sx = |t: f64| x0 + (x1 - x0) * t / t_max;
     let sc = |v: f64| sy1 - (sy1 - sy0) * v / 100.0;
     svg.push_str(&format!(
-        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">trust score, 0 to 100</text>",
-        sy0 - 8.0
+        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{}</text>",
+        sy0 - 8.0,
+        crate::t!("receiver-trust-chart-score-axis")
     ));
     for (v, label) in [
         (100.0, "100"),
@@ -1094,12 +1138,18 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">0 s</text>\
          <text x=\"{x1}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
-         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal (score at or above {nominal_min:.0}), amber degraded (at or above {degraded_min:.0}), red untrusted, grey calibrating</text>\
-         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"9\">Advisory software, not type-approved navigation equipment; the operator remains responsible.</text></svg>",
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>\
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"9\">{}</text></svg>",
         band_y + 26.0,
         band_y + 26.0,
         band_y + 42.0,
-        band_y + 56.0
+        crate::t!(
+            "receiver-trust-chart-legend-vessel",
+            nominal = crate::i18n::num(nominal_min, 0),
+            degraded = crate::i18n::num(degraded_min, 0)
+        ),
+        band_y + 56.0,
+        crate::t!("receiver-trust-chart-advisory")
     ));
     svg
 }
@@ -1135,10 +1185,11 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
          <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>\
-         <text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\" transform=\"rotate(-90 12 {})\">mean C/N0, dB-Hz</text>",
+         <text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\" transform=\"rotate(-90 12 {})\">{}</text>",
         esc(&r.verdict.chars().take(110).collect::<String>()),
         (y0 + y1) / 2.0 + 40.0,
-        (y0 + y1) / 2.0 + 40.0
+        (y0 + y1) / 2.0 + 40.0,
+        crate::t!("receiver-trust-chart-cn0-axis")
     );
     for c in [lo, (lo + hi) / 2.0, hi] {
         svg.push_str(&format!(
@@ -1189,10 +1240,11 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">0 s</text>\
          <text x=\"{x1}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
-         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal, amber degraded, red untrusted, grey calibrating</text></svg>",
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text></svg>",
         band_y + 26.0,
         band_y + 26.0,
-        band_y + 40.0
+        band_y + 40.0,
+        crate::t!("receiver-trust-chart-legend")
     ));
     svg
 }
@@ -1215,12 +1267,13 @@ pub struct TrustOutput {
 /// command line, the Python bindings, the WebAssembly build and the Model Context
 /// Protocol server share. In the WebAssembly build, files must be given inline.
 pub fn run_toml(src: &str) -> Result<TrustOutput, String> {
-    let scn: ReceiverTrustScenario =
-        toml::from_str(src).map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
+    let scn: ReceiverTrustScenario = toml::from_str(src)
+        .map_err(|e| crate::terr!("e-evidence-cli-invalid-receiver-trust-scenario", e = e))?;
     if let Some(k) = scn.kind.as_deref() {
         if k != "receiver-trust" {
-            return Err(format!(
-                "this is a {k:?} scenario, not a receiver-trust one"
+            return Err(crate::terr!(
+                "e-receiver-trust-scenario-this-is-scenario-not-receiver",
+                k = format!("{:?}", k)
             ));
         }
     }
@@ -1228,15 +1281,33 @@ pub fn run_toml(src: &str) -> Result<TrustOutput, String> {
 }
 
 /// Run an already-parsed scenario and render every output.
+///
+/// The result document and the CSV are machine files and are English in every language. The chart
+/// and the summary are for a person: in another language the run is made again in that language
+/// for them (an English run is one run).
 pub fn run_scenario(scn: &ReceiverTrustScenario) -> Result<TrustOutput, String> {
-    let r = run_receiver_trust(scn)?;
+    let wanted = crate::i18n::current();
+    let r = crate::i18n::in_english_or_localised_error(|| run_receiver_trust(scn))?;
     let label = crate::evidence_label::EvidenceLabel::for_tool("receiver-trust")
         .ok_or("the receiver-trust evidence rows are not in the matrix")?;
+    let (json, csv) = crate::i18n::in_english(|| {
+        Ok::<_, String>((
+            label.apply_json(&serde_json::to_string_pretty(&r).map_err(|e| e.to_string())?)?,
+            label.apply_csv(&to_csv(&r)),
+        ))
+    })?;
+    // A run that succeeds in English succeeds in every language; if it does not, English stands.
+    let human = if wanted.is_english() {
+        None
+    } else {
+        run_receiver_trust(scn).ok()
+    };
+    let h = human.as_ref().unwrap_or(&r);
     Ok(TrustOutput {
-        json: label.apply_json(&serde_json::to_string_pretty(&r).map_err(|e| e.to_string())?)?,
-        csv: label.apply_csv(&to_csv(&r)),
-        svg: label.apply_svg(to_svg(&r)),
-        summary: summary(&r),
+        json,
+        csv,
+        svg: label.apply_svg(to_svg(h)),
+        summary: summary(h),
     })
 }
 

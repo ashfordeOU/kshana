@@ -144,8 +144,11 @@ impl FilterPriorCfg {
             ("sigma_gyro_bias", self.sigma_gyro_bias),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return Err(format!(
-                    "{slot}.filter_prior.{name} must be finite and > 0, got {v}"
+                return Err(crate::terr!(
+                    "e-fusion-pack-filter-prior-must-be-finite",
+                    slot = slot,
+                    name = name,
+                    v = v
                 ));
             }
         }
@@ -836,15 +839,15 @@ impl GnssInsScenario {
     pub fn validate(&self) -> Result<(), String> {
         if let Some(tc) = &self.tight {
             if !(tc.sigma_range_m.is_finite() && tc.sigma_range_m > 0.0) {
-                return Err(format!(
-                    "tight.sigma_range_m must be finite and > 0, got {}",
-                    tc.sigma_range_m
+                return Err(crate::terr!(
+                    "e-fusion-pack-tight-sigma-range-must-be",
+                    sigma_range_m = tc.sigma_range_m
                 ));
             }
             if !(tc.mask_deg.is_finite() && (-90.0..90.0).contains(&tc.mask_deg)) {
-                return Err(format!(
-                    "tight.mask_deg must be in [-90, 90), got {}",
-                    tc.mask_deg
+                return Err(crate::terr!(
+                    "e-fusion-pack-tight-mask-deg-must-be",
+                    mask_deg = tc.mask_deg
                 ));
             }
         }
@@ -924,14 +927,17 @@ pub fn to_svg(result: &GnssInsResult) -> String {
     svg.push_str(&format!(
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
-    svg.push_str(&format!("<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Loosely-coupled GNSS/INS horizontal error</text>"));
+    svg.push_str(&format!(
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!("fusion-pack-chart-title")
+    ));
     svg.push_str(&crate::chart::y_axis(
         ml,
         mt,
         pw,
         ph,
         y_max,
-        "horizontal error (m)",
+        &crate::t!("fusion-pack-chart-horizontal-error-m"),
     ));
     svg.push_str(&format!(
         "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
@@ -942,10 +948,13 @@ pub fn to_svg(result: &GnssInsResult) -> String {
     ));
     svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>", ml + pw));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec {:.0} m</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + 4.0,
         thr_y - 4.0,
-        result.threshold_m
+        crate::t!(
+            "fusion-pack-chart-spec-threshold",
+            threshold = crate::i18n::num(result.threshold_m, 0)
+        )
     ));
     svg.push_str(&format!(
         "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",

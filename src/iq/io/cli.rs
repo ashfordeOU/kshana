@@ -20,14 +20,9 @@ use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
 /// Usage text of the `kshana iq` command group.
-pub const USAGE: &str = "usage: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
-   or: kshana iq info <recording>
-   or: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
-   or: kshana iq convert <in> <out> --to <format> [--gain <g>]
-   or: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
- raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
- multi-stream inputs (multi-channel SigMF, interleaved raw) take --channel <k> (from 0; default 0)
- formats: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be cu12r_le ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi";
+pub fn usage() -> String {
+    crate::t!("iq-io-cli-usage")
+}
 
 const CHUNK_SAMPLES: usize = 1 << 14;
 const VALUE_FLAGS: &[&str] = &[
@@ -69,14 +64,16 @@ impl Args {
         while i < args.len() {
             let s = args[i].as_str();
             if VALUE_FLAGS.contains(&s) {
-                let v = args.get(i + 1).ok_or(format!("{s} needs a value"))?;
+                let v = args
+                    .get(i + 1)
+                    .ok_or(crate::t!("iq-cli-needs-value", s = s))?;
                 a.opts.insert(s.to_string(), v.clone());
                 i += 2;
             } else if SWITCHES.contains(&s) {
                 a.switches.push(s.to_string());
                 i += 1;
             } else if s.starts_with("--") {
-                return Err(format!("unknown option {s}"));
+                return Err(crate::terr!("e-iq-io-cli-unknown-option", s = s));
             } else {
                 a.pos.push(s.to_string());
                 i += 1;
@@ -89,8 +86,9 @@ impl Args {
         self.opts
             .get(k)
             .map(|v| {
-                v.parse::<T>()
-                    .map_err(|_| format!("{k}: cannot parse {v:?}"))
+                v.parse::<T>().map_err(|_| {
+                    crate::terr!("e-iq-cli-cannot-parse", k = k, v = format!("{:?}", v))
+                })
             })
             .transpose()
     }
@@ -105,7 +103,9 @@ impl Args {
         };
         Ok(Some(RawSidecar {
             format: format.clone(),
-            sample_rate_hz: self.num("--rate")?.ok_or("--format needs --rate")?,
+            sample_rate_hz: self
+                .num("--rate")?
+                .ok_or_else(|| crate::terr!("e-iq-io-cli-format-needs-rate"))?,
             center_hz: self.num("--center")?,
             if_hz: self.num("--if")?,
             header_bytes: self.num("--header")?,
@@ -132,7 +132,7 @@ impl From<IqError> for Fail {
 pub fn run(args: &[String]) -> i32 {
     let r = match args.first().map(String::as_str) {
         None | Some("--help" | "-h" | "help") => {
-            println!("{USAGE}");
+            println!("{}", usage());
             return if args.is_empty() { 2 } else { 0 };
         }
         Some(cmd) => Args::parse(&args[1..])
@@ -145,11 +145,11 @@ pub fn run(args: &[String]) -> i32 {
             0
         }
         Err(Fail::Usage(m)) => {
-            eprintln!("error: {m}\n{USAGE}");
+            eprintln!("{}\n{}", crate::t!("main-fail", e = m), usage());
             2
         }
         Err(Fail::Run(m)) => {
-            eprintln!("error: {m}");
+            eprintln!("{}", crate::t!("main-fail", e = m));
             1
         }
     }
@@ -157,9 +157,11 @@ pub fn run(args: &[String]) -> i32 {
 
 fn need_pos(a: &Args, n: usize, cmd: &str) -> Result<(), Fail> {
     if a.pos.len() != n {
-        return Err(Fail::Usage(format!(
-            "iq {cmd} takes {n} path argument(s), got {}",
-            a.pos.len()
+        return Err(Fail::Usage(crate::t!(
+            "iq-io-cli-iq-takes-path-argument-got",
+            cmd = cmd,
+            n = n,
+            pos = a.pos.len()
         )));
     }
     Ok(())
@@ -174,7 +176,8 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
                 hash: !a.has("--no-hash"),
                 workers: a.num("--workers").map_err(Fail::Usage)?.unwrap_or(0),
             };
-            let rows = scan_dir(Path::new(&a.pos[0]), opts)?;
+            // The rows go into JSON and CSV: their error texts are English in every language.
+            let rows = crate::i18n::in_english(|| scan_dir(Path::new(&a.pos[0]), opts))?;
             if let Some(p) = a.opts.get("--json") {
                 std::fs::write(p, rows_to_json(&rows)?)
                     .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
@@ -185,7 +188,8 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             }
             Ok(inventory_table(&rows))
         }
-        "info" => {
+        // The document is the whole output and is read by programs: English in every language.
+        "info" => crate::i18n::in_english_or_localised_error(|| {
             need_pos(a, 1, cmd)?;
             let p = Path::new(&a.pos[0]);
             let mut e = super::inventory::inventory_entry(p, true);
@@ -203,7 +207,7 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
                 e.error = None;
             }
             serde_json::to_string_pretty(&e).map_err(|e| Fail::Run(e.to_string()))
-        }
+        }),
         "extract" | "convert" | "decimate" => {
             need_pos(a, 2, cmd)?;
             let input = open_recording_with(
@@ -214,7 +218,9 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             let to = match a.opts.get("--to") {
                 Some(t) => SampleFormat::parse(t)?,
                 None if cmd == "convert" => {
-                    return Err(Fail::Usage("iq convert needs --to <format>".into()))
+                    return Err(Fail::Usage(crate::terr!(
+                        "e-iq-io-cli-iq-convert-needs-to-format"
+                    )))
                 }
                 None => input.format,
             };
@@ -222,18 +228,22 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             let mut src = input.source;
             let mut limit = None;
             if cmd == "extract" {
-                let start: f64 = a
-                    .num("--start")
-                    .map_err(Fail::Usage)?
-                    .ok_or(Fail::Usage("iq extract needs --start".into()))?;
+                let start: f64 =
+                    a.num("--start")
+                        .map_err(Fail::Usage)?
+                        .ok_or(Fail::Usage(crate::terr!(
+                            "e-iq-io-cli-iq-extract-needs-start"
+                        )))?;
                 let dur: f64 = a
                     .num("--duration")
                     .map_err(Fail::Usage)?
-                    .ok_or(Fail::Usage("iq extract needs --duration".into()))?;
+                    .ok_or(Fail::Usage(crate::terr!(
+                        "e-iq-io-cli-iq-extract-needs-duration"
+                    )))?;
                 if !(start >= 0.0 && dur >= 0.0) {
-                    return Err(Fail::Usage(
-                        "--start and --duration must be non-negative".into(),
-                    ));
+                    return Err(Fail::Usage(crate::terr!(
+                        "e-iq-io-cli-start-and-duration-must-be"
+                    )));
                 }
                 let spec = src.spec();
                 skip_samples(src.as_mut(), spec.samples_in(start) as u64, CHUNK_SAMPLES)?;
@@ -244,7 +254,10 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             }
             write_output(Path::new(&a.pos[1]), src.as_mut(), to, gain, limit)
         }
-        other => Err(Fail::Usage(format!("unknown iq command {other:?}"))),
+        other => Err(Fail::Usage(crate::t!(
+            "iq-io-cli-unknown-iq-command",
+            other = format!("{:?}", other)
+        ))),
     }
 }
 
@@ -269,9 +282,9 @@ fn decimator(
     let up: Option<usize> = a.num("--up").map_err(Fail::Usage)?;
     let down: Option<usize> = a.num("--down").map_err(Fail::Usage)?;
     if !complex {
-        let d = factor.ok_or(Fail::Usage(
-            "a real input is converted to complex baseband: give --factor <d> (>= 2)".into(),
-        ))?;
+        let d = factor.ok_or(Fail::Usage(crate::terr!(
+            "e-iq-io-cli-real-input-is-converted-to"
+        )))?;
         let if_hz = match a.num::<f64>("--if-hz").map_err(Fail::Usage)? {
             Some(f) => f,
             None => src.spec().if_hz,
@@ -284,9 +297,9 @@ fn decimator(
         (Some(d), None, None) => PolyphaseResampler::decimator(d)?,
         (None, Some(l), Some(m)) => PolyphaseResampler::new(l, m)?,
         _ => {
-            return Err(Fail::Usage(
-                "iq decimate needs --factor <d>, or --up <l> and --down <m>".into(),
-            ))
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-io-cli-iq-decimate-needs-factor-or"
+            )))
         }
     };
     Ok(Box::new(ResampledSource::new(
@@ -345,16 +358,18 @@ fn write_output(
             files.push(write_sidecar(&data_path, &sc)?);
         }
     }
-    Ok(format!(
-        "wrote {n} samples ({to}, {} Hz) to {}; {} saturated element(s){}",
-        spec.fs_hz,
-        files
+    Ok(crate::t!(
+        "iq-io-cli-wrote-samples-hz-to-saturated",
+        n = n,
+        to = to,
+        fs_hz = spec.fs_hz,
+        files = files
             .iter()
             .map(|p| p.display().to_string())
             .collect::<Vec<_>>()
             .join(", "),
-        w.clipped(),
-        if w.padded_elements() > 0 {
+        w = w.clipped(),
+        v4 = if w.padded_elements() > 0 {
             format!(
                 "; last byte padded with {} packed slot(s)",
                 w.padded_elements()

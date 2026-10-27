@@ -119,9 +119,10 @@ impl ClockLogFormat {
             "ts2phc" => Ok(Self::Ts2phc),
             "chrony-tracking" => Ok(Self::ChronyTracking),
             "chrony-statistics" => Ok(Self::ChronyStatistics),
-            other => Err(format!(
-                "unknown clock-log format {other:?}; expected one of {}",
-                FORMAT_NAMES.join(", ")
+            other => Err(crate::terr!(
+                "e-clock-log-unknown-clock-log-format-expected",
+                other = format!("{:?}", other),
+                format_names = FORMAT_NAMES.join(", ")
             )),
         }
     }
@@ -159,8 +160,9 @@ impl GapPolicy {
             "refuse" => Ok(Self::Refuse),
             "longest" => Ok(Self::Longest),
             "linear" => Ok(Self::Linear),
-            other => Err(format!(
-                "unknown gap policy {other:?}; expected refuse, longest or linear"
+            other => Err(crate::terr!(
+                "e-clock-log-unknown-gap-policy-expected-refuse",
+                other = format!("{:?}", other)
             )),
         }
     }
@@ -282,40 +284,43 @@ impl NormalisedPhase {
 pub fn read_input(inp: &ClockLogInput) -> Result<NormalisedPhase, String> {
     let fmt = ClockLogFormat::from_name(&inp.format)?;
     let text = match (&inp.text, &inp.path) {
-        (Some(_), Some(_)) => return Err("give either the log text or its path, not both".into()),
+        (Some(_), Some(_)) => return Err(crate::terr!("e-clock-log-give-either-the-log-text")),
         (Some(t), None) => t.clone(),
         (None, Some(p)) => read_file(p)?,
-        (None, None) => return Err("a clock log needs its text or a path".into()),
+        (None, None) => return Err(crate::terr!("e-clock-log-clock-log-needs-its-text")),
     };
     if let Some(t) = inp.tau0_s {
         if !(t.is_finite() && t > 0.0) {
-            return Err(format!("tau0_s must be finite and > 0 (got {t})"));
+            return Err(crate::terr!("e-clock-log-tau0-must-be-finite-and", t = t));
         }
     }
     let gaps = GapPolicy::from_name(inp.gaps.as_deref().unwrap_or("refuse"))?;
     if fmt != ClockLogFormat::TimeLab && (inp.units.is_some() || inp.data.is_some()) {
-        return Err("units and data apply to the timelab format only".into());
+        return Err(crate::terr!("e-clock-log-units-and-data-apply-to"));
     }
     if inp.clock.is_some() && (fmt == ClockLogFormat::TimeLab || fmt == ClockLogFormat::Ticc) {
-        return Err(
-            "clock applies to the rinex-clk, linuxptp and chrony formats only (TICC uses channel)"
-                .into(),
-        );
+        return Err(crate::terr!("e-clock-log-clock-applies-to-the-rinex"));
     }
     if fmt != ClockLogFormat::Ticc && inp.channel.is_some() {
-        return Err("channel applies to the ticc format only".into());
+        return Err(crate::terr!("e-clock-log-channel-applies-to-the-ticc"));
     }
     parse(fmt, &text, inp, gaps)
 }
 
 #[cfg(not(target_arch = "wasm32"))]
 fn read_file(path: &str) -> Result<String, String> {
-    std::fs::read_to_string(path).map_err(|e| format!("cannot read clock log {path:?}: {e}"))
+    std::fs::read_to_string(path).map_err(|e| {
+        crate::terr!(
+            "e-clock-log-cannot-read-clock-log",
+            path = format!("{:?}", path),
+            e = e
+        )
+    })
 }
 
 #[cfg(target_arch = "wasm32")]
 fn read_file(_path: &str) -> Result<String, String> {
-    Err("a clock-log path is not available in the WebAssembly build; give the log as text".into())
+    Err(crate::terr!("e-clock-log-clock-log-path-is-not"))
 }
 
 /// Parse `text` in format `fmt` with the selectors of `inp` and the gap policy `gaps`.
@@ -384,12 +389,12 @@ fn finish(g: Gridded, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
     let (kept, n_interpolated) = match gaps {
         _ if n_missing == 0 => (s.clone(), 0),
         GapPolicy::Refuse => {
-            return Err(format!(
-                "the {} log has {n_missing} missing epoch(s) in {n_gaps} gap(s) on a {} s grid; \
-                 set gaps = \"longest\" to keep the longest gap-free run or gaps = \"linear\" \
-                 to interpolate",
-                g.format.name(),
-                s.tau0
+            return Err(crate::terr!(
+                "e-clock-log-the-log-has-missing-epoch",
+                format = g.format.name(),
+                n_missing = n_missing,
+                n_gaps = n_gaps,
+                tau0 = s.tau0
             ))
         }
         GapPolicy::Longest => (s.longest_run(), 0),
@@ -418,10 +423,10 @@ fn finish(g: Gridded, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
         }
     };
     if kept.x.len() < 3 {
-        return Err(format!(
-            "the {} log yields {} usable sample(s); at least 3 are needed",
-            g.format.name(),
-            kept.x.len()
+        return Err(crate::terr!(
+            "e-clock-log-the-log-yields-usable-sample",
+            format = g.format.name(),
+            x = kept.x.len()
         ));
     }
     let tau0 = kept.tau0;
@@ -488,36 +493,43 @@ fn parse_rinex(
         .lines()
         .any(|l| l.get(60..).map(str::trim_end) == Some("END OF HEADER"))
     {
-        return Err("not a RINEX clock file: no END OF HEADER record".into());
+        return Err(crate::terr!("e-clock-log-not-rinex-clock-file-no"));
     }
     let as_recs = parse_clock_rinex_records(text, "AS")
         .map_err(|e| format!("RINEX clock record with an unreadable clock bias or epoch: {e}"))?;
     let ar_recs = parse_clock_rinex_records(text, "AR")
         .map_err(|e| format!("RINEX clock record with an unreadable clock bias or epoch: {e}"))?;
-    let id =
-        match &inp.clock {
-            Some(c) => c.clone(),
-            None => {
-                let mut names: Vec<&String> =
-                    as_recs.sats.keys().chain(ar_recs.sats.keys()).collect();
-                names.sort();
-                names.dedup();
-                match names.as_slice() {
-                    [one] => (*one).clone(),
-                    [] => return Err("the RINEX clock file has no AS or AR records".into()),
-                    many => {
-                        return Err(format!(
-                        "the RINEX clock file holds {} clocks; name one with clock = \"...\" ({})",
-                        many.len(),
-                        many.iter().map(|s| s.as_str()).collect::<Vec<_>>().join(", ")
+    let id = match &inp.clock {
+        Some(c) => c.clone(),
+        None => {
+            let mut names: Vec<&String> = as_recs.sats.keys().chain(ar_recs.sats.keys()).collect();
+            names.sort();
+            names.dedup();
+            match names.as_slice() {
+                [one] => (*one).clone(),
+                [] => return Err(crate::terr!("e-clock-log-the-rinex-clock-file-has")),
+                many => {
+                    return Err(crate::terr!(
+                        "e-clock-log-the-rinex-clock-file-holds",
+                        many = many.len(),
+                        many2 = many
+                            .iter()
+                            .map(|s| s.as_str())
+                            .collect::<Vec<_>>()
+                            .join(", ")
                     ))
-                    }
                 }
             }
-        };
+        }
+    };
     let epochs: Vec<f64> = match as_recs.sats.get(&id).or_else(|| ar_recs.sats.get(&id)) {
         Some(v) => v.iter().map(|p| p.0).collect(),
-        None => return Err(format!("no AS or AR records for clock {id:?}")),
+        None => {
+            return Err(crate::terr!(
+                "e-clock-log-no-as-or-ar-records",
+                id = format!("{:?}", id)
+            ))
+        }
     };
     let (tau0, src) = match inp.tau0_s {
         Some(t) => (t, "input"),
@@ -548,7 +560,10 @@ fn parse_rinex(
 impl Gridded {
     fn finish_with(self, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
         if self.series.x.is_empty() {
-            return Err(format!("the {} log has no readings", self.format.name()));
+            return Err(crate::terr!(
+                "e-clock-log-the-log-has-no-readings",
+                format = self.format.name()
+            ));
         }
         finish(self, gaps)
     }
@@ -620,29 +635,35 @@ fn parse_timelab(
                 }
                 if let Some(first) = rows.first() {
                     if first.len() != v.len() {
-                        return Err(format!(
-                            "TimeLab line {} has {} column(s), the first data line has {}",
-                            i + 1,
-                            v.len(),
-                            first.len()
+                        return Err(crate::terr!(
+                            "e-clock-log-timelab-line-has-column-the",
+                            v1 = i + 1,
+                            v = v.len(),
+                            first = first.len()
                         ));
                     }
                 }
                 rows.push(v);
             }
             Ok(v) => {
-                return Err(format!(
-                    "TimeLab line {} has {} columns; one (value) or two (time value) are read",
-                    i + 1,
-                    v.len()
+                return Err(crate::terr!(
+                    "e-clock-log-timelab-line-has-columns-one",
+                    v1 = i + 1,
+                    v = v.len()
                 ))
             }
             Err(_) if rows.is_empty() && !header_seen => header_seen = true,
-            Err(_) => return Err(format!("TimeLab line {} is not numeric: {l:?}", i + 1)),
+            Err(_) => {
+                return Err(crate::terr!(
+                    "e-clock-log-timelab-line-is-not-numeric",
+                    v1 = i + 1,
+                    l = format!("{:?}", l)
+                ))
+            }
         }
     }
     if rows.is_empty() {
-        return Err("the timelab log has no readings".into());
+        return Err(crate::terr!("e-clock-log-the-timelab-log-has-no"));
     }
     let data = match inp
         .data
@@ -654,8 +675,9 @@ fn parse_timelab(
         "phase" => "phase",
         "frequency" => "frequency",
         other => {
-            return Err(format!(
-                "unknown data {other:?}; expected phase or frequency"
+            return Err(crate::terr!(
+                "e-clock-log-unknown-data-expected-phase-or",
+                other = format!("{:?}", other)
             ))
         }
     };
@@ -665,7 +687,12 @@ fn parse_timelab(
                 .next()
                 .and_then(|s| s.parse::<f64>().ok())
                 .filter(|t| t.is_finite() && *t > 0.0)
-                .ok_or_else(|| format!("tau0 header {v:?} is not a positive number of seconds"))?,
+                .ok_or_else(|| {
+                    crate::terr!(
+                        "e-clock-log-tau0-header-is-not-positive",
+                        v = format!("{:?}", v)
+                    )
+                })?,
         ),
         None => None,
     };
@@ -677,7 +704,9 @@ fn parse_timelab(
                 Some("1")
             )
         {
-            return Err("frequency data is fractional frequency; its units can only be 1".into());
+            return Err(crate::terr!(
+                "e-clock-log-frequency-data-is-fractional-frequency"
+            ));
         }
         ("1", 1.0)
     } else {
@@ -687,23 +716,29 @@ fn parse_timelab(
     let (tau0, src);
     if two {
         if data == "frequency" {
-            return Err("two-column frequency logs are not read; give frequency as a single column with tau0".into());
+            return Err(crate::terr!("e-clock-log-two-column-frequency-logs-are"));
         }
         let tscale = match h_time.as_deref().map(str::trim) {
             None | Some("s") => 1.0,
             Some("mjd") => 86_400.0,
-            Some(o) => return Err(format!("unknown time_units {o:?}; expected s or mjd")),
+            Some(o) => {
+                return Err(crate::terr!(
+                    "e-clock-log-unknown-time-units-expected-or",
+                    o = format!("{:?}", o)
+                ))
+            }
         };
         samples = rows.iter().map(|r| (r[0] * tscale, r[1] / scale)).collect();
         let times: Vec<f64> = samples.iter().map(|s| s.0).collect();
         if times.windows(2).any(|w| w[1] <= w[0]) {
-            return Err("the timelab log's time column must increase".into());
+            return Err(crate::terr!("e-clock-log-the-timelab-log-time-column"));
         }
         (tau0, src) = match (inp.tau0_s, header_tau0) {
             (Some(t), _) => (t, "input"),
             (None, Some(t)) => (t, "header"),
             (None, None) => (
-                detect_tau0(&times).ok_or("a single reading; tau0 cannot be found")?,
+                detect_tau0(&times)
+                    .ok_or_else(|| crate::terr!("e-clock-log-single-reading-tau0-cannot-be"))?,
                 "median-spacing",
             ),
         };
@@ -712,10 +747,7 @@ fn parse_timelab(
             (Some(t), _) => (t, "input"),
             (None, Some(t)) => (t, "header"),
             (None, None) => {
-                return Err(
-                    "a single-column timelab log needs tau0: a `# tau0 = <s>` header or tau0_s"
-                        .into(),
-                )
+                return Err(crate::terr!("e-clock-log-single-column-timelab-log-needs"))
             }
         };
         let v: Vec<f64> = rows.iter().map(|r| r[0]).collect();
@@ -738,9 +770,9 @@ fn parse_timelab(
     }
     let (series, log) = PhaseSeries::from_samples(&samples, tau0);
     if log.non_finite > 0 {
-        return Err(format!(
-            "the timelab log has {} non-finite reading(s)",
-            log.non_finite
+        return Err(crate::terr!(
+            "e-clock-log-the-timelab-log-has-non",
+            non_finite = log.non_finite
         ));
     }
     Gridded {
@@ -846,9 +878,9 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
                 )
             }
             many => {
-                return Err(format!(
-                    "the TICC log holds channels {}; name one with channel = \"...\"",
-                    many.join(", ")
+                return Err(crate::terr!(
+                    "e-clock-log-the-ticc-log-holds-channels",
+                    many = many.join(", ")
                 ))
             }
         },
@@ -858,16 +890,17 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         .find(|(k, _)| *k == channel)
         .map(|(_, v)| v.clone())
         .ok_or_else(|| {
-            format!(
-                "no readings on channel {channel:?} (found {})",
-                labels.join(", ")
+            crate::terr!(
+                "e-clock-log-no-readings-on-channel-found",
+                channel = format!("{:?}", channel),
+                labels = labels.join(", ")
             )
         })?;
     let interval = channel.starts_with("TI");
     let (series, tau0_source) = if interval {
         let tau0 = inp
             .tau0_s
-            .ok_or("TICC interval-mode lines carry no time; give tau0_s (the event period)")?;
+            .ok_or_else(|| crate::terr!("e-clock-log-ticc-interval-mode-lines-carry"))?;
         (
             PhaseSeries {
                 t0: 0.0,
@@ -878,16 +911,17 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         )
     } else {
         if vals.windows(2).any(|w| w[1] <= w[0]) {
-            return Err(format!(
-                "the {channel} readings do not increase, so they are not time stamps (TICC \
-                 Period mode output is not read; use Timestamp mode)"
+            return Err(crate::terr!(
+                "e-clock-log-the-readings-do-not-increase",
+                channel = channel
             ));
         }
         let times: Vec<f64> = vals.iter().map(|v| *v as f64 / FS_PER_S).collect();
         let (tau0, src) = match inp.tau0_s {
             Some(t) => (t, "input"),
             None => (
-                detect_tau0(&times).ok_or("a single time stamp; tau0 cannot be found")?,
+                detect_tau0(&times)
+                    .ok_or_else(|| crate::terr!("e-clock-log-single-time-stamp-tau0-cannot"))?,
                 "median-spacing",
             ),
         };
@@ -906,8 +940,11 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
             let step_s = (w[1] - w[0]) as f64 / FS_PER_S;
             let k = (step_s / tau0).round();
             if k < 1.0 {
-                return Err(format!(
-                    "two {channel} time stamps {step_s} s apart, under half of tau0 = {tau0} s"
+                return Err(crate::terr!(
+                    "e-clock-log-two-time-stamps-apart-under",
+                    channel = channel,
+                    w = step_s,
+                    tau0 = tau0
                 ));
             }
             let k = k as usize;
@@ -967,16 +1004,17 @@ fn grid_timed_offsets(
     n_skipped_lines: usize,
 ) -> Result<Gridded, String> {
     if times.windows(2).any(|w| w[1] < w[0]) {
-        return Err(format!(
-            "the {} time stamps of {clock:?} go backwards (a restarted daemon or a clock step); \
-             split the log and read each part",
-            format.name()
+        return Err(crate::terr!(
+            "e-clock-log-the-time-stamps-of-go",
+            format = format.name(),
+            clock = format!("{:?}", clock)
         ));
     }
     let (tau0, tau0_source) = match inp.tau0_s {
         Some(t) => (t, "input"),
         None => (
-            detect_tau0(times).ok_or("a single time stamp; tau0 cannot be found")?,
+            detect_tau0(times)
+                .ok_or_else(|| crate::terr!("e-clock-log-single-time-stamp-tau0-cannot"))?,
             "median-spacing",
         ),
     };
@@ -1034,12 +1072,18 @@ fn pick_source(
         Some(c) => c.clone(),
         None => match names.as_slice() {
             [one] => one.clone(),
-            [] => return Err(format!("the log has no {what} readings")),
+            [] => {
+                return Err(crate::terr!(
+                    "e-clock-log-the-log-has-no-readings-2",
+                    what = what
+                ))
+            }
             many => {
-                return Err(format!(
-                    "the log holds {} sources; name one with {selector} = \"...\" ({})",
-                    many.len(),
-                    many.join(", ")
+                return Err(crate::terr!(
+                    "e-clock-log-the-log-holds-sources-name",
+                    many = many.len(),
+                    selector = selector,
+                    many2 = many.join(", ")
                 ))
             }
         },
@@ -1047,7 +1091,14 @@ fn pick_source(
     by_source
         .into_iter()
         .find(|(k, _)| *k == id)
-        .ok_or_else(|| format!("no {what} readings for {id:?} (found {})", names.join(", ")))
+        .ok_or_else(|| {
+            crate::terr!(
+                "e-clock-log-no-readings-for-found",
+                what = what,
+                id = format!("{:?}", id),
+                names = names.join(", ")
+            )
+        })
 }
 
 /// Find a `[seconds.fraction]` time stamp in `head`, and the text after it. Syslog's
@@ -1127,7 +1178,12 @@ fn parse_linuxptp(
         readings
             .iter()
             .position(|r| r.locked == Some(true))
-            .ok_or_else(|| format!("the servo of {id:?} never reached the locked state s2"))?
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-clock-log-the-servo-of-never-reached",
+                    id = format!("{:?}", id)
+                )
+            })?
     } else {
         0
     };
@@ -1215,7 +1271,7 @@ fn parse_chrony(
     let (id, readings) = if fmt == ClockLogFormat::ChronyTracking && inp.clock.is_none() {
         let all: Vec<TimedOffset> = by_source.into_iter().flat_map(|(_, v)| v).collect();
         if all.is_empty() {
-            return Err("the log has no chrony tracking readings".into());
+            return Err(crate::terr!("e-clock-log-the-log-has-no-chrony"));
         }
         ("local clock".to_string(), all)
     } else {

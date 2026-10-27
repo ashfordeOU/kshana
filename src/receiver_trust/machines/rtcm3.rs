@@ -169,9 +169,12 @@ pub fn read_rtcm3(bytes: &[u8]) -> Result<Timeline, String> {
     let tl = map.finish(skipped);
     if tl.epochs.is_empty() {
         return Err(if any_frame {
-            "the RTCM 3 stream holds no MSM4 or MSM7 observation message".to_string()
+            crate::terr!("e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no")
         } else {
-            format!("no valid RTCM 3 frame was found ({skipped} candidates failed the CRC)")
+            crate::t!(
+                "receiver-trust-machines-rtcm3-no-valid-rtcm-frame-was",
+                skipped = skipped
+            )
         });
     }
     Ok(tl)
@@ -241,8 +244,12 @@ fn msm(p: &[u8], map: &mut EpochMap) -> Option<()> {
     };
     let (sats, sigs) = (ids(sat_mask, 64), ids(sig_mask & 0xFFFF_FFFF, 32));
     let e = map.at(key);
-    e.time_label
-        .get_or_insert_with(|| format!("GPS TOW {:.3} s", key as f64 / 1000.0));
+    e.time_label.get_or_insert_with(|| {
+        crate::t!(
+            "receiver-trust-machines-gnss-sdr-gps-tow",
+            v1 = crate::i18n::localise_decimal(format!("{:.3}", key as f64 / 1000.0))
+        )
+    });
     for ((s, g), raw) in cells.into_iter().zip(cnr) {
         let dbhz = if is7 { raw as f64 / 16.0 } else { raw as f64 };
         let (Some(id), Some(bd)) = (sat_id(sys, sats[s]), band(sys, sigs[g])) else {

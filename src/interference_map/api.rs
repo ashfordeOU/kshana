@@ -67,33 +67,38 @@ pub fn resolve_dataset(spec: &DatasetSpec, kind: Kind) -> Result<Dataset, MapErr
                 || licence_url.trim().is_empty()
                 || attribution.trim().is_empty()
             {
-                return Err(MapError::Format(
-                    "a custom dataset needs licence, licence URL and attribution text".into(),
-                ));
+                return Err(MapError::Format(crate::terr!(
+                    "e-interference-map-api-custom-dataset-needs-licence-licence"
+                )));
             }
             sources::custom(kind, licence, licence_url, attribution)
         }
         DatasetSpec::Preset(key) => sources::preset(key).ok_or_else(|| {
-            MapError::Format(format!(
-                "unknown dataset `{key}`; approved: {}, or a custom dataset",
-                sources::preset_keys().join(", ")
+            MapError::Format(crate::terr!(
+                "e-interference-map-api-unknown-dataset-approved-or-custom",
+                key = key,
+                v1 = sources::preset_keys().join(", ")
             ))
         })?,
     };
     if ds.kind != kind {
-        return Err(MapError::Format(format!(
-            "dataset `{}` is {} data but the input kind is {}",
-            ds.key,
-            ds.kind.as_str(),
-            kind.as_str()
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-api-dataset-is-data-but-the",
+            key = ds.key,
+            kind = ds.kind.as_str(),
+            kind2 = kind.as_str()
         )));
     }
     Ok(ds)
 }
 
 fn grid(cell_deg: f64) -> Result<Grid, MapError> {
-    Grid::new(cell_deg)
-        .ok_or_else(|| MapError::Format("cell size must be between 0.01 and 10 degrees".into()))
+    Grid::new(cell_deg).ok_or_else(|| {
+        MapError::Format(crate::terr!(
+            "e-interference-map-api-cell-size-must-be-between",
+            lit_0_01 = crate::i18n::num(0.01_f64, 2)
+        ))
+    })
 }
 
 fn day_maps(
@@ -193,7 +198,12 @@ pub fn route_exposure(
     let pts = route::parse_route(route_text)?;
     let bound = |s: Option<&str>, name: &str| -> Result<Option<i64>, MapError> {
         s.map(|s| {
-            parse_day(s).ok_or_else(|| MapError::Format(format!("{name} is not a YYYY-MM-DD date")))
+            parse_day(s).ok_or_else(|| {
+                MapError::Format(crate::terr!(
+                    "e-interference-map-api-is-not-yyyy-mm-dd",
+                    name = name
+                ))
+            })
         })
         .transpose()
     };
@@ -201,13 +211,17 @@ pub fn route_exposure(
     let mut loaded = Vec::new();
     for text in map_geojson {
         let m = route::load_map(text)?;
-        let d = parse_day(&m.date).ok_or_else(|| MapError::Format("map has a bad date".into()))?;
+        let d = parse_day(&m.date).ok_or_else(|| {
+            MapError::Format(crate::terr!("e-interference-map-api-map-has-bad-date"))
+        })?;
         if from_d.is_none_or(|x| d >= x) && to_d.is_none_or(|x| d <= x) {
             loaded.push(m);
         }
     }
     if loaded.is_empty() {
-        return Err(MapError::Format("no map falls in the date range".into()));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-api-no-map-falls-in-the"
+        )));
     }
     loaded.sort_by(|a, b| {
         (a.date.as_str(), a.source_kind.as_str()).cmp(&(b.date.as_str(), b.source_kind.as_str()))

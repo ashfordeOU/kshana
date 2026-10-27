@@ -149,17 +149,30 @@ fn walk(got: &serde_json::Value, want: &serde_json::Value, path: &str, out: &mut
                         out.push(format!("  {path}: {g} vs {w}"));
                     }
                 }
-                _ => out.push(format!("  {path}: {g} vs {w} (not representable as f64)")),
+                _ => out.push(crate::t!(
+                    "test-support-vs-not-representable-as-f64",
+                    path = path,
+                    g = g,
+                    w = w
+                )),
             }
         }
         (V::Object(g), V::Object(w)) => {
             let gk: std::collections::BTreeSet<&String> = g.keys().collect();
             let wk: std::collections::BTreeSet<&String> = w.keys().collect();
             for k in gk.difference(&wk) {
-                out.push(format!("  {path}.{k}: present, expected absent"));
+                out.push(crate::t!(
+                    "test-support-present-expected-absent",
+                    path = path,
+                    k = k
+                ));
             }
             for k in wk.difference(&gk) {
-                out.push(format!("  {path}.{k}: absent, expected present"));
+                out.push(crate::t!(
+                    "test-support-absent-expected-present",
+                    path = path,
+                    k = k
+                ));
             }
             for k in gk.intersection(&wk) {
                 walk(&g[*k], &w[*k], &format!("{path}.{k}"), out);

@@ -287,43 +287,55 @@ impl EarthGnssLunarScenario {
     pub fn compute(&self) -> Result<EarthGnssLunarReport, String> {
         let altitude_km = self.altitude_km.unwrap_or(20_180.0);
         if altitude_km <= 0.0 {
-            return Err(format!("altitude_km must be positive; got {altitude_km}"));
+            return Err(crate::terr!(
+                "e-earth-gnss-lunar-altitude-km-must-be-positive",
+                altitude_km = altitude_km
+            ));
         }
         let planes = self.planes.unwrap_or(6);
         let sats_per_plane = self.sats_per_plane.unwrap_or(4);
         if planes == 0 || sats_per_plane == 0 {
-            return Err("planes and sats_per_plane must both be non-zero".to_string());
+            return Err(crate::terr!("e-earth-gnss-lunar-planes-and-sats-per-plane"));
         }
         let freq_hz = self.freq_hz.unwrap_or(L1_HZ);
         if freq_hz <= 0.0 {
-            return Err(format!("freq_hz must be positive; got {freq_hz}"));
+            return Err(crate::terr!(
+                "e-earth-gnss-lunar-freq-hz-must-be-positive",
+                freq_hz = freq_hz
+            ));
         }
         let tx_diameter_m = self.tx_diameter_m.unwrap_or(0.35);
         let tx_efficiency = self.tx_efficiency.unwrap_or(0.6);
         if !(0.0..=1.0).contains(&tx_efficiency) || tx_efficiency <= 0.0 {
-            return Err(format!(
-                "tx_efficiency must be in (0, 1]; got {tx_efficiency}"
+            return Err(crate::terr!(
+                "e-earth-gnss-lunar-tx-efficiency-must-be-in",
+                tx_efficiency = tx_efficiency
             ));
         }
         let tx_power_dbw = self.tx_power_dbw.unwrap_or(13.4);
         let rx_gain_dbi = self.rx_gain_dbi.unwrap_or(12.0);
         let temp_k = self.system_temp_k.unwrap_or(290.0);
         if temp_k <= 0.0 {
-            return Err(format!("system_temp_k must be positive; got {temp_k}"));
+            return Err(crate::terr!(
+                "e-earth-gnss-lunar-system-temp-must-be-positive",
+                temp_k = temp_k
+            ));
         }
         let threshold = self.tracking_threshold_dbhz.unwrap_or(25.0);
         let epoch_s = self.epoch_s.unwrap_or(0.0);
         let back_lobe_suppression_db = self.back_lobe_suppression_db.unwrap_or(25.0);
         if back_lobe_suppression_db < 0.0 {
-            return Err(format!(
-                "back_lobe_suppression_db must be non-negative; got {back_lobe_suppression_db}"
+            return Err(crate::terr!(
+                "e-earth-gnss-lunar-back-lobe-suppression-db-must",
+                back_lobe_suppression_db = back_lobe_suppression_db
             ));
         }
 
         let range_m = self.receiver_range_m.unwrap_or(MEAN_LUNAR_DISTANCE_M);
         if range_m <= R_EARTH_EQUATORIAL_M {
-            return Err(format!(
-                "receiver_range_m must be outside the Earth; got {range_m}"
+            return Err(crate::terr!(
+                "e-earth-gnss-lunar-receiver-range-must-be-outside",
+                range_m = range_m
             ));
         }
         let ra = self.receiver_ra_deg.unwrap_or(0.0).to_radians();
@@ -677,65 +689,81 @@ fn units_block() -> serde_json::Value {
 }
 
 fn egl_json(r: &EarthGnssLunarReport) -> Result<String, String> {
-    let mut doc = serde_json::to_value(r).map_err(|e| format!("serialising report: {e}"))?;
+    let mut doc = serde_json::to_value(r)
+        .map_err(|e| crate::terr!("e-body-pnt-serialising-report", e = e))?;
     match doc.as_object_mut() {
         Some(o) => {
             o.insert("units".into(), units_block());
         }
-        None => return Err("the report must serialise to a JSON object".to_string()),
+        None => return Err(crate::terr!("e-body-pnt-the-report-must-serialise-to")),
     }
-    serde_json::to_string_pretty(&doc).map_err(|e| format!("serialising report: {e}"))
+    serde_json::to_string_pretty(&doc)
+        .map_err(|e| crate::terr!("e-body-pnt-serialising-report", e = e))
 }
 
 fn egl_summary(r: &EarthGnssLunarReport) -> String {
     let mut s = String::new();
-    s.push_str(&format!(
-        "Earth-GNSS at lunar distance — {} satellites, receiver at {:.0} km\n",
-        r.n_satellites,
-        r.receiver_range_m / 1000.0
+    s.push_str(&crate::t!(
+        "earth-gnss-lunar-earth-gnss-at-lunar-distance",
+        n_satellites = r.n_satellites,
+        r = crate::i18n::localise_decimal(format!("{:.0}", r.receiver_range_m / 1000.0))
     ));
-    s.push_str(&format!(
-        "  Earth limb from the constellation: {:.2} deg off nadir — any lunar-bound ray \
-         must exceed this\n",
-        r.earth_limb_half_angle_deg
+    s.push_str(&crate::t!(
+        "earth-gnss-lunar-earth-limb-from-the-constellation",
+        earth_limb_half_angle_deg =
+            crate::i18n::localise_decimal(format!("{:.2}", r.earth_limb_half_angle_deg))
     ));
-    s.push_str(&format!(
-        "  {} of {} not occulted; {} clear the {:.1} dB-Hz tracking threshold\n",
-        r.n_geometrically_visible, r.n_satellites, r.n_trackable, r.tracking_threshold_dbhz
+    s.push_str(&crate::t!(
+        "earth-gnss-lunar-of-not-occulted-clear-the",
+        n_geometrically_visible = r.n_geometrically_visible,
+        n_satellites = r.n_satellites,
+        n_trackable = r.n_trackable,
+        tracking_threshold_dbhz =
+            crate::i18n::localise_decimal(format!("{:.1}", r.tracking_threshold_dbhz))
     ));
     match r.best_cn0_dbhz {
-        Some(c) => s.push_str(&format!("  best link {c:.2} dB-Hz\n")),
+        Some(c) => s.push_str(&crate::t!(
+            "earth-gnss-lunar-best-link-db-hz",
+            c = crate::i18n::localise_decimal(format!("{:.2}", c))
+        )),
         None => s.push_str("  no link reaches the threshold\n"),
     }
     match r.los_cone_half_angle_deg {
-        Some(a) => s.push_str(&format!(
-            "  every trackable line of sight lies inside a {a:.3} deg half-cone — the \
-             geometry is nearly degenerate\n"
+        Some(a) => s.push_str(&crate::t!(
+            "earth-gnss-lunar-every-trackable-line-of-sight",
+            a = crate::i18n::localise_decimal(format!("{:.3}", a))
         )),
         None => s.push_str("  fewer than two trackable links; no angular spread to report\n"),
     }
     match &r.dop {
-        Some(d) => s.push_str(&format!(
-            "  GDOP {:.1}  PDOP {:.1}  HDOP {:.1}  VDOP {:.1}  TDOP {:.3}\n",
-            d.gdop, d.pdop, d.hdop, d.vdop, d.tdop
+        Some(d) => s.push_str(&crate::t!(
+            "earth-gnss-lunar-gdop-pdop-hdop-vdop-tdop",
+            gdop = crate::i18n::localise_decimal(format!("{:.1}", d.gdop)),
+            pdop = crate::i18n::localise_decimal(format!("{:.1}", d.pdop)),
+            hdop = crate::i18n::localise_decimal(format!("{:.1}", d.hdop)),
+            vdop = crate::i18n::localise_decimal(format!("{:.1}", d.vdop)),
+            tdop = crate::i18n::localise_decimal(format!("{:.3}", d.tdop))
         )),
         None => s.push_str("  fewer than four trackable links, or a singular geometry: no DOP\n"),
     }
     let w = &r.sweep;
-    s.push_str(&format!(
-        "  SWEEP over {} epochs / {:.0} s: signal availability {:.3}, FIX availability {:.3}\n",
-        w.epochs.len(),
-        w.span_s,
-        w.signal_availability,
-        w.fix_availability
+    s.push_str(&crate::t!(
+        "earth-gnss-lunar-sweep-over-epochs-signal-availability",
+        epochs = w.epochs.len(),
+        span_s = crate::i18n::localise_decimal(format!("{:.0}", w.span_s)),
+        signal_availability =
+            crate::i18n::localise_decimal(format!("{:.3}", w.signal_availability)),
+        fix_availability = crate::i18n::localise_decimal(format!("{:.3}", w.fix_availability))
     ));
-    s.push_str(&format!(
-        "    trackable links mean {:.2}, max {}; best C/N0 {}; best PDOP {}\n",
-        w.mean_trackable,
-        w.max_trackable,
-        w.best_cn0_dbhz
+    s.push_str(&crate::t!(
+        "earth-gnss-lunar-trackable-links-mean-max-best",
+        mean_trackable = crate::i18n::localise_decimal(format!("{:.2}", w.mean_trackable)),
+        max_trackable = w.max_trackable,
+        w = w
+            .best_cn0_dbhz
             .map_or("none".to_string(), |v| format!("{v:.2} dB-Hz")),
-        w.best_pdop
+        w2 = w
+            .best_pdop
             .map_or("none".to_string(), |v| format!("{v:.1}"))
     ));
     s.push_str(
@@ -758,7 +786,8 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
          font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">\
          <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>\
          <text x=\"24\" y=\"30\" font-size=\"15\" fill=\"{TITLE}\">\
-         Earth-GNSS at lunar distance — C/N0 against off-boresight angle</text>"
+         {}</text>",
+        crate::t!("earth-gnss-lunar-chart-title")
     );
     let (ml, mt, pw, ph) = (70.0_f64, 56.0_f64, w - 110.0, h - 110.0);
     let cn0s: Vec<f64> = r.links.iter().map(|l| l.cn0_dbhz).collect();
@@ -795,22 +824,28 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
     s.push_str(&format!(
         "<line x1=\"{ml}\" y1=\"{ty:.1}\" x2=\"{:.1}\" y2=\"{ty:.1}\" stroke=\"{CORAL}\" \
          stroke-dasharray=\"5,4\"/>\
-         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{CORAL}\">track {:.0} dB-Hz</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + pw,
         ml + pw - 96.0,
         ty - 5.0,
-        r.tracking_threshold_dbhz
+        crate::t!(
+            "earth-gnss-lunar-chart-track-threshold",
+            threshold = crate::i18n::num(r.tracking_threshold_dbhz, 0)
+        )
     ));
     // Earth-limb line.
     let lx = ml + (r.earth_limb_half_angle_deg / max_ang) * pw;
     s.push_str(&format!(
         "<line x1=\"{lx:.1}\" y1=\"{mt}\" x2=\"{lx:.1}\" y2=\"{:.1}\" stroke=\"{INK_4}\" \
          stroke-dasharray=\"3,3\"/>\
-         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{MUTED}\">Earth limb {:.1}°</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{MUTED}\">{}</text>",
         mt + ph,
         lx + 6.0,
         mt + 14.0,
-        r.earth_limb_half_angle_deg
+        crate::t!(
+            "earth-gnss-lunar-chart-earth-limb",
+            angle = crate::i18n::num(r.earth_limb_half_angle_deg, 1)
+        )
     ));
     // One marker per link.
     for l in &r.links {
@@ -828,14 +863,19 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{MUTED}\">off-boresight angle (deg)</text>\
-         <text x=\"20\" y=\"{:.0}\" fill=\"{MUTED}\">C/N0 (dB-Hz)</text>\
-         <text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">gold = trackable · red = too weak · \
-         grey = Earth-occulted · MODELLED transmit pattern</text></svg>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{MUTED}\">{}</text>\
+         <text x=\"20\" y=\"{:.0}\" fill=\"{MUTED}\">{}</text>\
+         <text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">{}</text></svg>",
         ml + pw / 2.0 - 70.0,
         mt + ph + 34.0,
+        crate::t!("earth-gnss-lunar-chart-off-boresight-angle"),
         mt - 12.0,
-        h - 16.0
+        crate::t!("earth-gnss-lunar-chart-cn0"),
+        h - 16.0,
+        crate::t!(
+            "earth-gnss-lunar-chart-legend",
+            modelled = crate::t!("fom-verdict-modelled")
+        )
     ));
     s
 }

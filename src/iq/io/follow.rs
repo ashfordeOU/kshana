@@ -85,16 +85,16 @@ pub fn open_sigmf_follow(
     let (meta, _) = parse_meta_any(&json)
         .map_err(|e| IqError::Format(format!("{}: {e}", meta_path.display())))?;
     if meta.global.num_channels.unwrap_or(1) > 1 {
-        return Err(IqError::Format(format!(
-            "{}: --follow reads single-channel recordings only",
-            meta_path.display()
+        return Err(IqError::Format(crate::terr!(
+            "e-iq-io-follow-follow-reads-single-channel-recordings",
+            meta_path = meta_path.display()
         )));
     }
     if meta.captures.len() > 1 {
-        return Err(IqError::Format(format!(
-            "{}: --follow reads a recording with one capture, this one has {}",
-            meta_path.display(),
-            meta.captures.len()
+        return Err(IqError::Format(crate::terr!(
+            "e-iq-io-follow-follow-reads-recording-with-one",
+            meta_path = meta_path.display(),
+            captures = meta.captures.len()
         )));
     }
     let format = format_from_sigmf(&meta.global.datatype)
@@ -104,18 +104,18 @@ pub fn open_sigmf_follow(
         .sample_rate
         .filter(|r| r.is_finite() && *r > 0.0)
         .ok_or_else(|| {
-            IqError::Format(format!(
-                "{}: no positive core:sample_rate",
-                meta_path.display()
+            IqError::Format(crate::terr!(
+                "e-iq-io-follow-no-positive-core-sample-rate",
+                meta_path = meta_path.display()
             ))
         })?;
     let capture = meta.captures.first();
     let start = capture.map(|c| c.sample_start).unwrap_or(0);
     let bits = start * format.bits_per_sample() as u64;
     if bits % 8 != 0 {
-        return Err(IqError::Format(format!(
-            "{}: the capture does not start on a byte boundary",
-            meta_path.display()
+        return Err(IqError::Format(crate::terr!(
+            "e-iq-io-follow-the-capture-does-not-start",
+            meta_path = meta_path.display()
         )));
     }
     let mut file = File::open(&data_path).map_err(|e| io(&data_path, e))?;

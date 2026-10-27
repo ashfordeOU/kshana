@@ -1000,7 +1000,7 @@ impl ConstellationCfg {
                 sats.push(Propagator::from(*best));
             }
             if sats.is_empty() {
-                return Err("rinex block parsed but contained no supported ephemerides".into());
+                return Err(crate::terr!("e-orbit-rinex-block-parsed-but-contained"));
             }
             return Ok(sats);
         }
@@ -1100,7 +1100,7 @@ impl SiteCfg {
         if !(self.lat_deg.is_finite() && self.lon_deg.is_finite() && self.height_m.is_finite())
             || self.lat_deg.abs() > 90.0
         {
-            return Err("user_site: lat_deg must be in [-90, 90] and every field finite".into());
+            return Err(crate::terr!("e-orbit-user-site-lat-deg-must"));
         }
         Ok(crate::frames::Geodetic {
             lat_rad: self.lat_deg.to_radians(),
@@ -1382,26 +1382,13 @@ pub fn resolve_user(
     jd0_ut1: f64,
 ) -> Result<(UserPath, Option<Skyline>), String> {
     let path = match (user, user_site) {
-        (Some(_), Some(_)) => {
-            return Err(
-                "give the user as `user` (an orbit) or `user_site` (a ground site), not both"
-                    .into(),
-            )
-        }
-        (None, None) => {
-            return Err(
-                "missing the user: give `user` (an orbit) or `user_site` (a ground site)".into(),
-            )
-        }
+        (Some(_), Some(_)) => return Err(crate::terr!("e-orbit-give-the-user-as-user")),
+        (None, None) => return Err(crate::terr!("e-orbit-missing-the-user-give-user")),
         (Some(u), None) => UserPath::Orbit(u.to_orbit()),
         (None, Some(s)) => UserPath::site(s, jd0_ut1)?,
     };
     if skyline.is_some() && matches!(path, UserPath::Orbit(_)) {
-        return Err(
-            "a [skyline] needs a ground site: give `user_site = { lat_deg, lon_deg, height_m }` \
-                    instead of an orbiting `user` (an orbit has no Earth-fixed azimuth)"
-                .into(),
-        );
+        return Err(crate::terr!("e-orbit-skyline-needs-ground-site-give"));
     }
     Ok((path, crate::skyline::resolve(skyline)?))
 }
@@ -1648,7 +1635,7 @@ impl OrbitClockScenario {
     pub fn to_sp3_string(&self) -> Result<String, String> {
         let sats = self.all_satellites()?;
         if sats.is_empty() {
-            return Err("no satellites to export".into());
+            return Err(crate::terr!("e-orbit-no-satellites-to-export"));
         }
         let ids: Vec<String> = (1..=sats.len()).map(|i| format!("G{i:02}")).collect();
         let start = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
@@ -1662,7 +1649,7 @@ impl OrbitClockScenario {
         );
         let step_s = self.time.step_s;
         if step_s <= 0.0 {
-            return Err("time.step_s must be positive for SP3 export".into());
+            return Err(crate::terr!("e-orbit-time-step-must-be-positive"));
         }
         let num_epochs = (self.time.duration_s / step_s).round() as usize + 1;
         Ok(crate::sp3::Sp3File::from_propagators(
@@ -1702,9 +1689,7 @@ impl OrbitClockScenario {
             files.extend(crate::omm::OmmFile::from_tle_block(b, "Kshana", &creation)?);
         }
         if files.is_empty() {
-            return Err(
-                "OMM export requires a TLE-defined constellation; this scenario has none".into(),
-            );
+            return Err(crate::terr!("e-orbit-omm-export-requires-tle-defined"));
         }
         Ok(files
             .iter()
@@ -1724,13 +1709,13 @@ impl OrbitClockScenario {
     pub fn to_oem_string(&self) -> Result<String, String> {
         let sats = self.all_satellites()?;
         if sats.is_empty() {
-            return Err("no satellites to export".into());
+            return Err(crate::terr!("e-orbit-no-satellites-to-export"));
         }
         let ids: Vec<String> = (1..=sats.len()).map(|i| format!("G{i:02}")).collect();
         let start = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
         let step_s = self.time.step_s;
         if step_s <= 0.0 {
-            return Err("time.step_s must be positive for OEM export".into());
+            return Err(crate::terr!("e-orbit-time-step-must-be-positive-2"));
         }
         let num_epochs = (self.time.duration_s / step_s).round() as usize + 1;
         Ok(

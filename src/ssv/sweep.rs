@@ -129,7 +129,7 @@ fn with_beam(
 /// Run the shell sweep.
 pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
     if !(cfg.duration_min > 0.0 && cfg.step_min > 0.0) {
-        return Err("duration_min and step_min must be positive".into());
+        return Err(crate::terr!("e-ssv-sweep-duration-min-and-step-min"));
     }
     let n_epochs = (cfg.duration_min / cfg.step_min).round() as usize + 1;
     let grid = match cfg.ablation.fibonacci_points {
@@ -644,7 +644,7 @@ pub fn run_trajectory(
     fx: &dyn LinkEffects,
 ) -> Result<TrajectoryResult, String> {
     if !(cfg.duration_min > 0.0 && cfg.step_min > 0.0) {
-        return Err("duration_min and step_min must be positive".into());
+        return Err(crate::terr!("e-ssv-sweep-duration-min-and-step-min"));
     }
     let n_epochs = (cfg.duration_min / cfg.step_min).round() as usize + 1;
     let rb = geom::blocking_radius_m();

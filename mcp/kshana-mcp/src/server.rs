@@ -51,6 +51,12 @@ pub struct RunScenarioRequest {
     /// When true, also return the result chart as an SVG text block. Default false.
     #[serde(default)]
     pub include_chart: bool,
+    /// Language of the summary, the chart text and any error message: `en` (default), `nl`, `pl`,
+    /// `pt-BR`, `pt-PT`, `fi`, `sv`, `da`, `nb`, `cs`, `uk`, `ru`, `de`, `fr`, `es`, `et`, `ja` or
+    /// `zh-Hans`. The result JSON is the same in every language. An error carries its stable
+    /// `code` (`E-...`, the same in every language) in the error data.
+    #[serde(default)]
+    pub lang: Option<String>,
 }
 
 /// Parameters for [`KshanaServer::assess_receiver_log`].
@@ -75,6 +81,15 @@ pub struct ReceiverTrustRequest {
 pub struct TomlRequest {
     /// The scenario definition as a Kshana TOML document.
     pub toml: String,
+}
+
+/// Parameters for [`KshanaServer::list_scenario_kinds`].
+#[derive(Debug, Default, serde::Deserialize, schemars::JsonSchema)]
+pub struct ListKindsRequest {
+    /// Language of each kind's `description`, as a tag such as `de`, `fr`, `ja` or `zh-Hans`.
+    /// Omit it for English. The names and the field lists are the same in every language.
+    #[serde(default)]
+    pub lang: Option<String>,
 }
 
 /// Parameters for [`KshanaServer::list_example_scenarios`].
@@ -327,10 +342,12 @@ impl KshanaServer {
         Parameters(RunScenarioRequest {
             toml,
             include_chart,
+            lang,
         }): Parameters<RunScenarioRequest>,
     ) -> Result<CallToolResult, McpError> {
         inline_only(&toml)?;
-        match kshana::api::run_toml(&toml) {
+        let lang = lang.as_deref().unwrap_or("en");
+        match kshana::api::run_toml_lang(&toml, lang) {
             Ok(out) => {
                 let mut contents = vec![
                     ContentBlock::text(out.summary),
@@ -341,20 +358,37 @@ impl KshanaServer {
                 }
                 Ok(CallToolResult::success(contents))
             }
-            Err(e) => Err(McpError::invalid_params(
-                format!("scenario run failed: {e}"),
-                None,
-            )),
+            Err(e) => {
+                // The code of the failure is data, so a client matches on it, not on the text.
+                let data = serde_json::from_str::<serde_json::Value>(
+                    &kshana::api::error_info_json(&toml, lang),
+                )
+                .ok();
+                // The sentence around `e` is in the language the caller asked for, like `e` itself.
+                let message = match kshana::i18n::resolve(lang) {
+                    Ok(l) => kshana::i18n::with_lang(l, || {
+                        kshana::terr!("e-surface-scenario-run-failed", e = e)
+                    }),
+                    Err(_) => kshana::terr!("e-surface-scenario-run-failed", e = e),
+                };
+                Err(McpError::invalid_params(message, data))
+            }
         }
     }
 
     #[tool(
         description = "List every built-in Kshana scenario kind with its description and required/optional TOML fields, as a JSON array. Use this to discover what scenarios can be run and how to construct a valid scenario TOML for run_scenario."
     )]
-    fn list_scenario_kinds(&self) -> Result<CallToolResult, McpError> {
-        Ok(CallToolResult::success(vec![ContentBlock::text(
-            kshana::api::list_scenario_kinds_json(),
-        )]))
+    fn list_scenario_kinds(
+        &self,
+        Parameters(ListKindsRequest { lang }): Parameters<ListKindsRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let json = match lang.as_deref() {
+            None => kshana::api::list_scenario_kinds_json(),
+            Some(l) => kshana::api::list_scenario_kinds_json_lang(l)
+                .map_err(|e| McpError::invalid_params(e, None))?,
+        };
+        Ok(CallToolResult::success(vec![ContentBlock::text(json)]))
     }
 
     #[tool(
@@ -369,7 +403,10 @@ impl KshanaServer {
         // `classify` is permissive by design (unknown/unparseable input falls back to the
         // clock pack), so do a strict TOML parse here to actually catch malformed input.
         if let Err(e) = toml::from_str::<toml::Value>(&toml) {
-            return Err(McpError::invalid_params(format!("invalid TOML: {e}"), None));
+            return Err(McpError::invalid_params(
+                kshana::terr!("e-surface-invalid-toml", e = e),
+                None,
+            ));
         }
         let kind = kind_of(&toml);
         Ok(CallToolResult::success(vec![ContentBlock::text(format!(
@@ -403,7 +440,7 @@ impl KshanaServer {
                 Ok(CallToolResult::success(contents))
             }
             Err(e) => Err(McpError::invalid_params(
-                format!("receiver log assessment failed: {e}"),
+                kshana::terr!("e-mcp-server-receiver-log-assessment-failed", e = e),
                 None,
             )),
         }
@@ -423,7 +460,7 @@ impl KshanaServer {
                 .any(|m| m.name == k)
         {
             return Err(McpError::invalid_params(
-                format!("unknown scenario kind `{k}`; list_scenario_kinds names every kind"),
+                kshana::terr!("e-mcp-server-unknown-scenario-kind-list-scenario", k = k),
                 None,
             ));
         }
@@ -483,12 +520,16 @@ impl KshanaServer {
             .unwrap_or_else(|| "json".to_string());
         if format != "json" && format != "html" {
             return Err(McpError::invalid_params(
-                format!("unknown report format `{format}`; expected json or html"),
+                kshana::terr!(
+                    "e-mcp-server-unknown-report-format-expected-json",
+                    format = format
+                ),
                 None,
             ));
         }
-        let out = kshana::api::run_toml(&toml)
-            .map_err(|e| McpError::invalid_params(format!("scenario run failed: {e}"), None))?;
+        let out = kshana::api::run_toml(&toml).map_err(|e| {
+            McpError::invalid_params(kshana::terr!("e-surface-scenario-run-failed", e = e), None)
+        })?;
         let invocation = kshana::advanced_report::Invocation {
             scenario_arg: scenario_file
                 .as_deref()
@@ -498,8 +539,9 @@ impl KshanaServer {
                 .to_string(),
             ..Default::default()
         };
-        let report = kshana::advanced_report::build(&out, &toml, &invocation)
-            .map_err(|e| McpError::invalid_params(format!("report failed: {e}"), None))?;
+        let report = kshana::advanced_report::build(&out, &toml, &invocation).map_err(|e| {
+            McpError::invalid_params(kshana::terr!("e-mcp-server-report-failed", e = e), None)
+        })?;
         let text = if format == "html" {
             report.to_html(&out.svg)
         } else {
@@ -538,16 +580,16 @@ impl KshanaServer {
         // Checked before the run, so a bad option costs nothing.
         opts.validate().map_err(bad)?;
         if format == AnimationFormat::Frames && opts.frame_count() > MAX_FRAMES_IN_REPLY {
-            return Err(bad(format!(
-                "duration_s x fps gives {} frames and a reply carries at most \
-                 {MAX_FRAMES_IN_REPLY}; lower fps or duration_s, or write a longer sequence \
-                 with the command line (`kshana <scenario.toml> --animate frames`)",
-                opts.frame_count()
+            return Err(bad(kshana::terr!(
+                "e-mcp-server-duration-fps-gives-frames-and",
+                n_frames = opts.frame_count(),
+                max_frames = MAX_FRAMES_IN_REPLY
             )));
         }
         let kind = kind_of(&toml);
-        let out = kshana::api::run_toml(&toml)
-            .map_err(|e| McpError::invalid_params(format!("scenario run failed: {e}"), None))?;
+        let out = kshana::api::run_toml(&toml).map_err(|e| {
+            McpError::invalid_params(kshana::terr!("e-surface-scenario-run-failed", e = e), None)
+        })?;
         let animation = kshana::animation::animate_result(&out.json, Some(kind), format, &opts)
             .map_err(|e| bad(e.to_string()))?;
         let names: Vec<String> = animation.files.iter().map(|f| f.name.clone()).collect();
@@ -573,7 +615,10 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         inline_only(&toml)?;
         if let Err(e) = toml::from_str::<toml::Value>(&toml) {
-            return Err(McpError::invalid_params(format!("invalid TOML: {e}"), None));
+            return Err(McpError::invalid_params(
+                kshana::terr!("e-surface-invalid-toml", e = e),
+                None,
+            ));
         }
         let rows: Vec<serde_json::Value> = kshana::interop::plan(&toml)
             .into_iter()
@@ -601,9 +646,9 @@ impl KshanaServer {
         inline_only(&toml)?;
         let bad = |m: String| McpError::invalid_params(format!("export failed: {m}"), None);
         let fmt = kshana::interop::Format::parse(format.trim()).map_err(|_| {
-            bad(format!(
-                "unknown export format `{}`; expected one of czml, kml, geojson, stk or sigmf",
-                format.trim()
+            bad(kshana::terr!(
+                "e-surface-unknown-export-format-expected-one",
+                format = format.trim()
             ))
         })?;
         let files = kshana::interop::export(&toml, fmt)
@@ -645,7 +690,7 @@ impl KshanaServer {
         match kshana::interop::geojson::apply_route(&toml, &geojson) {
             Ok(merged) => Ok(CallToolResult::success(vec![ContentBlock::text(merged)])),
             Err(e) => Err(McpError::invalid_params(
-                format!("route import failed: {e}"),
+                kshana::terr!("e-mcp-server-route-import-failed", e = e),
                 None,
             )),
         }
@@ -662,7 +707,7 @@ impl KshanaServer {
         match kshana::api::export_sp3(&toml) {
             Ok(sp3) => Ok(CallToolResult::success(vec![ContentBlock::text(sp3)])),
             Err(e) => Err(McpError::invalid_params(
-                format!("SP3 export failed: {e}"),
+                kshana::terr!("e-mcp-server-sp3-export-failed", e = e),
                 None,
             )),
         }
@@ -679,7 +724,7 @@ impl KshanaServer {
         match kshana::api::export_omm(&toml) {
             Ok(omm) => Ok(CallToolResult::success(vec![ContentBlock::text(omm)])),
             Err(e) => Err(McpError::invalid_params(
-                format!("OMM export failed: {e}"),
+                kshana::terr!("e-mcp-server-omm-export-failed", e = e),
                 None,
             )),
         }
@@ -696,7 +741,7 @@ impl KshanaServer {
         match kshana::api::export_oem(&toml) {
             Ok(oem) => Ok(CallToolResult::success(vec![ContentBlock::text(oem)])),
             Err(e) => Err(McpError::invalid_params(
-                format!("OEM export failed: {e}"),
+                kshana::terr!("e-mcp-server-oem-export-failed", e = e),
                 None,
             )),
         }
@@ -710,15 +755,18 @@ impl KshanaServer {
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
         inline_only(&toml)?;
-        let out = kshana::api::run_toml(&toml)
-            .map_err(|e| McpError::invalid_params(format!("scenario run failed: {e}"), None))?;
+        let out = kshana::api::run_toml(&toml).map_err(|e| {
+            McpError::invalid_params(kshana::terr!("e-surface-scenario-run-failed", e = e), None)
+        })?;
         match out.csv {
             Some(csv) => Ok(CallToolResult::success(vec![ContentBlock::text(csv)])),
             None => {
                 let kind = kind_of(&toml);
                 Err(McpError::invalid_params(
-                    format!(
-                        "scenario kind `{kind}` publishes no CSV table; only {CSV_TABLE_KINDS} do"
+                    kshana::terr!(
+                        "e-mcp-server-scenario-kind-publishes-no-csv",
+                        kind = kind,
+                        kinds = CSV_TABLE_KINDS
                     ),
                     None,
                 ))
@@ -740,17 +788,14 @@ impl KshanaServer {
                 .into_iter()
                 .find(|p| p.name == name.trim())
                 .ok_or_else(|| {
-                    format!(
-                        "unknown skyline preset \"{name}\"; known presets: {}",
-                        kshana::skyline::preset_names().join(", ")
+                    kshana::terr!(
+                        "e-mcp-server-unknown-skyline-preset-known-presets",
+                        name = name,
+                        presets = kshana::skyline::preset_names().join(", ")
                     )
                 })
                 .and_then(|p| serde_json::to_string_pretty(&p).map_err(|e| e.to_string())),
-            _ => Err(
-                "give exactly one of `request` (a sky-geometry request) or `skyline_preset` \
-                      (a preset name, or an empty string to list them)"
-                    .to_string(),
-            ),
+            _ => Err(kshana::terr!("e-mcp-server-give-exactly-one-of-request")),
         }
         .map_err(|e| McpError::invalid_params(e, None))?;
         Ok(CallToolResult::success(vec![ContentBlock::text(out)]))
@@ -772,16 +817,17 @@ impl ServerHandler for KshanaServer {
         let permit = if self.pool.shed {
             permits.try_acquire_owned().map_err(|_| {
                 McpError::internal_error(
-                    "the server is at its concurrent-work limit (earlier calls are still running); \
-                     retry shortly",
+                    kshana::terr!("e-mcp-server-the-server-is-at-its-concurrent-work-limit"),
                     None,
                 )
             })?
         } else {
-            permits
-                .acquire_owned()
-                .await
-                .map_err(|_| McpError::internal_error("the work pool is closed", None))?
+            permits.acquire_owned().await.map_err(|_| {
+                McpError::internal_error(
+                    kshana::terr!("e-mcp-server-the-work-pool-is-closed"),
+                    None,
+                )
+            })?
         };
         let this = self.clone();
         let runtime = tokio::runtime::Handle::current();
@@ -791,7 +837,12 @@ impl ServerHandler for KshanaServer {
             runtime.block_on(this.tool_router.call(tcc))
         })
         .await
-        .map_err(|e| McpError::internal_error(format!("the tool call did not finish: {e}"), None))?
+        .map_err(|e| {
+            McpError::internal_error(
+                kshana::terr!("e-mcp-server-the-tool-call-did-not", e = e),
+                None,
+            )
+        })?
     }
 
     fn get_info(&self) -> ServerInfo {

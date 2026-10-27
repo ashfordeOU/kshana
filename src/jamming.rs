@@ -348,20 +348,20 @@ pub struct CrpaCfg {
 impl CrpaCfg {
     fn check(&self) -> Result<(), String> {
         if self.elements_enu_m.is_empty() {
-            return Err("crpa.elements_enu_m must list at least one element".into());
+            return Err(crate::terr!("e-jamming-crpa-elements-enu-must-list"));
         }
         if self.elements_enu_m.iter().flatten().any(|v| !v.is_finite()) {
-            return Err("crpa.elements_enu_m must be finite".into());
+            return Err(crate::terr!("e-jamming-crpa-elements-enu-must-be"));
         }
         if !["null-steering", "mvdr"].contains(&self.weighting.as_str()) {
-            return Err(format!(
-                "crpa.weighting {:?}: expected \"null-steering\" or \"mvdr\"",
-                self.weighting
+            return Err(crate::terr!(
+                "e-jamming-crpa-weighting-expected-null-steering",
+                weighting = format!("{:?}", self.weighting)
             ));
         }
         if let Some(b) = self.bandwidth_mhz {
             if !(b.is_finite() && b > 0.0) {
-                return Err(format!("crpa.bandwidth_mhz must be positive (got {b})"));
+                return Err(crate::terr!("e-jamming-crpa-bandwidth-mhz-must-be", b = b));
             }
         }
         Ok(())
@@ -675,7 +675,7 @@ pub fn run_jamming_sky(
     // With terrain: the knife-edge loss on the jammer's path, one number for the static pair.
     let jammer_terrain = match (&scn.terrain, &scn.jammer) {
         (None, _) => None,
-        (Some(_), None) => return Err("terrain: the section needs a [jammer]".into()),
+        (Some(_), None) => return Err(crate::terr!("e-jamming-terrain-the-section-needs-jammer")),
         (Some(t), Some(j)) => {
             t.check()?;
             let dem = t.load()?;
@@ -937,11 +937,21 @@ pub fn to_svg(result: &JammingResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{TEXT}\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"));
-    svg.push_str(&format!("<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Satellites visible vs. tracking under jamming</text>"));
-    svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, "satellites"));
+    svg.push_str(&format!(
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!("jamming-chart-title")
+    ));
+    svg.push_str(&crate::chart::y_axis(
+        ml,
+        mt,
+        pw,
+        ph,
+        y_max,
+        &crate::t!("jamming-chart-y-title"),
+    ));
     svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>", ml + pw));
     let four_y = yof(4.0);
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{four_y:.1}\" x2=\"{:.0}\" y2=\"{four_y:.1}\" stroke=\"{FAULT}\" stroke-dasharray=\"6 4\"/><text x=\"{:.0}\" y=\"{:.1}\" fill=\"{FAULT}\">4-SV fix</text>", ml + pw, ml + 4.0, four_y - 4.0));
+    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{four_y:.1}\" x2=\"{:.0}\" y2=\"{four_y:.1}\" stroke=\"{FAULT}\" stroke-dasharray=\"6 4\"/><text x=\"{:.0}\" y=\"{:.1}\" fill=\"{FAULT}\">{}</text>", ml + pw, ml + 4.0, four_y - 4.0, crate::t!("jamming-chart-four-sv-fix")));
     svg.push_str(&format!(
         "<polyline fill=\"none\" stroke=\"{MUTED}\" stroke-width=\"2\" points=\"{}\"/>",
         poly(&|e| e.visible as f64)
@@ -950,7 +960,7 @@ pub fn to_svg(result: &JammingResult) -> String {
         "<polyline fill=\"none\" stroke=\"{OK}\" stroke-width=\"2\" points=\"{}\"/>",
         poly(&|e| e.tracking as f64)
     ));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"{MUTED}\">visible</text><text x=\"{:.0}\" y=\"60\" fill=\"{OK}\">tracking</text>", ml + 10.0, ml + 10.0));
+    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"{MUTED}\">{}</text><text x=\"{:.0}\" y=\"60\" fill=\"{OK}\">{}</text>", ml + 10.0, crate::t!("jamming-chart-visible"), ml + 10.0, crate::t!("jamming-chart-tracking")));
     svg.push_str("</svg>");
     svg
 }

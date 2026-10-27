@@ -5521,9 +5521,12 @@ pub fn to_markdown(items: &[VerificationItem]) -> String {
         ));
     }
     let s = summarize(items);
-    out.push_str(&format!(
-        "\n{} rows: {} externally validated, {} modelled, {} partner-owned.\n",
-        s.total, s.validated, s.modelled, s.partner_owned
+    out.push_str(&crate::t!(
+        "verification-rows-externally-validated-modelled-partner",
+        total = s.total,
+        validated = s.validated,
+        modelled = s.modelled,
+        partner_owned = s.partner_owned
     ));
     out
 }
@@ -5658,7 +5661,7 @@ mod artifacts {
             }
             let rel = name.replace("::", "/");
             push(format!("src/{rel}.rs"), &mut out);
-            push(format!("src/{rel}/mod.rs"), &mut out);
+            push(crate::t!("verification-src-mod-rs", rel = rel), &mut out);
         }
         out
     }
@@ -5702,7 +5705,7 @@ mod artifacts {
         for tp in test_paths {
             let stem = Path::new(tp).file_stem()?.to_str()?;
             let base = stem.strip_suffix("_reference").unwrap_or(stem);
-            let rel = format!("tests/fixtures/{base}");
+            let rel = crate::t!("verification-tests-fixtures", base = base);
             if !repo_root.join(&rel).is_dir() {
                 continue;
             }
@@ -5779,14 +5782,12 @@ mod artifacts {
              src/verification.rs; pinned by tests/verification_artifacts_doc_sync.rs. \
              Do not edit by hand. -->\n\n",
         );
-        out.push_str(&format!(
-            "The complete, machine-checked evidence ledger: **{} rows — {} VALIDATED, \
-             {} MODELLED, {} PARTNER**. A row may be VALIDATED only with an independent \
-             external oracle (the matrix invariant tests enforce this). The same data, \
-             with clickable per-row links to each test, module and committed fixture, is \
-             the *Validation ledger* on https://kshana.dev. See [MODELLED-RATIONALE.md]\
-             (MODELLED-RATIONALE.md) for why each Modelled row is not externally validated.\n\n",
-            s.total, s.validated, s.modelled, s.partner_owned
+        out.push_str(&crate::t!(
+            "verification-the-complete-machine-checked-evidence",
+            total = s.total,
+            validated = s.validated,
+            modelled = s.modelled,
+            partner_owned = s.partner_owned
         ));
         out.push_str(&to_markdown(items));
         out
@@ -5838,9 +5839,9 @@ mod artifacts {
             ));
         }
         let s = summarize(items);
-        out.push_str(&format!(
-            "\n{} capabilities labelled MODELLED.\n",
-            s.modelled
+        out.push_str(&crate::t!(
+            "verification-capabilities-labelled-modelled",
+            modelled = s.modelled
         ));
         out
     }

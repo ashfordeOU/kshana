@@ -68,10 +68,10 @@ pub fn read_log(format: LogFormat, bytes: &[u8]) -> Result<Timeline, String> {
         LogFormat::Sbf => ("SBF", read_sbf(bytes)),
     };
     if tl.epochs.is_empty() {
-        return Err(format!(
-            "the log holds no epochs: nothing in it was readable as {name} \
-             ({} records skipped as corrupt or unparsable); check the format setting",
-            tl.skipped_records
+        return Err(crate::terr!(
+            "e-receiver-trust-ingest-the-log-holds-no-epochs",
+            name = name,
+            skipped_records = tl.skipped_records
         ));
     }
     Ok(tl)
@@ -515,10 +515,14 @@ impl UbxState {
             let ftow = f64::from(le_i32(p, 4).unwrap_or(0)) * 1e-9;
             let tow = f64::from(itow) / 1000.0 + ftow;
             self.week_ref = Some((week, key.div_euclid(WEEK_MS)));
-            self.map
-                .entry(key)
-                .or_default()
-                .set_label(RANK_GPS_WEEK, format!("GPS week {week} TOW {tow:.3} s"));
+            self.map.entry(key).or_default().set_label(
+                RANK_GPS_WEEK,
+                crate::t!(
+                    "receiver-trust-ingest-gps-week-tow",
+                    week = week,
+                    tow = crate::i18n::localise_decimal(format!("{:.3}", tow))
+                ),
+            );
         }
         true
     }
@@ -677,9 +681,16 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
             let label = match week_ref {
                 Some((week, idx)) => {
                     let w = week + (k.div_euclid(WEEK_MS) - idx);
-                    format!("GPS week {w} TOW {tow:.3} s")
+                    crate::t!(
+                        "receiver-trust-ingest-gps-week-tow-2",
+                        w = w,
+                        tow = crate::i18n::localise_decimal(format!("{:.3}", tow))
+                    )
                 }
-                None => format!("GPS TOW {tow:.3} s"),
+                None => crate::t!(
+                    "receiver-trust-ingest-gps-tow",
+                    tow = crate::i18n::localise_decimal(format!("{:.3}", tow))
+                ),
             };
             acc.set_label(0, label);
         }
@@ -1781,12 +1792,12 @@ impl NmeaFeed {
                 Some(b) => iso_utc_ms(b * DAY_MS + k),
                 None => {
                     let r = k.rem_euclid(DAY_MS);
-                    format!(
-                        "{:02}:{:02}:{:02}.{:03} UTC (date not in log)",
-                        r / 3_600_000,
-                        r / 60_000 % 60,
-                        r / 1000 % 60,
-                        r % 1000
+                    crate::t!(
+                        "receiver-trust-ingest-utc-date-not-in-log",
+                        v1 = format!("{:02}", r / 3_600_000),
+                        v2 = format!("{:02}", r / 60_000 % 60),
+                        v3 = format!("{:02}", r / 1000 % 60),
+                        v4 = format!("{:03}", r % 1000)
                     )
                 }
             };

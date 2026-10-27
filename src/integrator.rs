@@ -755,11 +755,12 @@ pub struct Dop853Error {
 
 impl core::fmt::Display for Dop853Error {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        write!(
-            f,
-            "DOP853 stopped at t = {} ({:?}) after {} accepted steps",
-            self.t, self.failure, self.accepted
-        )
+        f.write_str(&crate::terr!(
+            "e-integrator-dop853-stopped",
+            t = crate::i18n::num_plain(self.t),
+            failure = format!("{:?}", self.failure),
+            accepted = self.accepted
+        ))
     }
 }
 

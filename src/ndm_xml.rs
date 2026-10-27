@@ -49,9 +49,9 @@ fn unescape(s: &str) -> Result<String, String> {
     let mut rest = s;
     while let Some(i) = rest.find('&') {
         out.push_str(&rest[..i]);
-        let j = rest[i..]
-            .find(';')
-            .ok_or_else(|| format!("unterminated entity in {s:?}"))?;
+        let j = rest[i..].find(';').ok_or_else(|| {
+            crate::terr!("e-ndm-xml-unterminated-entity-in", s = format!("{:?}", s))
+        })?;
         let ent = &rest[i + 1..i + j];
         match ent {
             "lt" => out.push('<'),
@@ -63,7 +63,7 @@ fn unescape(s: &str) -> Result<String, String> {
                 let c = u32::from_str_radix(&ent[2..], 16)
                     .ok()
                     .and_then(char::from_u32)
-                    .ok_or_else(|| format!("bad character reference &{ent};"))?;
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-bad-character-reference", ent = ent))?;
                 out.push(c);
             }
             _ if ent.starts_with('#') => {
@@ -71,10 +71,10 @@ fn unescape(s: &str) -> Result<String, String> {
                     .parse::<u32>()
                     .ok()
                     .and_then(char::from_u32)
-                    .ok_or_else(|| format!("bad character reference &{ent};"))?;
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-bad-character-reference", ent = ent))?;
                 out.push(c);
             }
-            _ => return Err(format!("unknown entity &{ent};")),
+            _ => return Err(crate::terr!("e-ndm-xml-unknown-entity", ent = ent)),
         }
         rest = &rest[i + j + 1..];
     }
@@ -106,13 +106,19 @@ impl<'a> Parser<'a> {
             let t = r.trim_start();
             self.pos += r.len() - t.len();
             if t.starts_with("<?") {
-                let e = t.find("?>").ok_or("unterminated processing instruction")?;
+                let e = t
+                    .find("?>")
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-processing-instruction"))?;
                 self.pos += e + 2;
             } else if t.starts_with("<!--") {
-                let e = t.find("-->").ok_or("unterminated comment")?;
+                let e = t
+                    .find("-->")
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-comment"))?;
                 self.pos += e + 3;
             } else if t.starts_with("<!") {
-                let e = t.find('>').ok_or("unterminated declaration")?;
+                let e = t
+                    .find('>')
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-declaration"))?;
                 self.pos += e + 1;
             } else {
                 return Ok(());
@@ -123,9 +129,14 @@ impl<'a> Parser<'a> {
     fn element(&mut self) -> Result<Element, String> {
         let r = self.rest();
         if !r.starts_with('<') {
-            return Err(format!("expected an element at byte {}", self.pos));
+            return Err(crate::terr!(
+                "e-ndm-xml-expected-an-element-at-byte",
+                pos = self.pos
+            ));
         }
-        let end = r.find('>').ok_or("unterminated start tag")?;
+        let end = r
+            .find('>')
+            .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-start-tag"))?;
         let mut tag = &r[1..end];
         let empty = tag.ends_with('/');
         if empty {
@@ -139,14 +150,23 @@ impl<'a> Parser<'a> {
         while !a.is_empty() {
             let eq = a
                 .find('=')
-                .ok_or_else(|| format!("bad attribute in <{name}>"))?;
+                .ok_or_else(|| crate::terr!("e-ndm-xml-bad-attribute-in", name = name))?;
             let key = a[..eq].trim().to_string();
             let v = a[eq + 1..].trim_start();
-            let q = v.chars().next().ok_or("attribute without a value")?;
+            let q = v
+                .chars()
+                .next()
+                .ok_or_else(|| crate::terr!("e-ndm-xml-attribute-without-value"))?;
             if q != '"' && q != '\'' {
-                return Err(format!("unquoted attribute {key} in <{name}>"));
+                return Err(crate::terr!(
+                    "e-ndm-xml-unquoted-attribute-in",
+                    key = key,
+                    name = name
+                ));
             }
-            let close = v[1..].find(q).ok_or("unterminated attribute value")?;
+            let close = v[1..]
+                .find(q)
+                .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-attribute-value"))?;
             attrs.push((key, unescape(&v[1..1 + close])?));
             a = v[close + 2..].trim_start();
         }
@@ -164,28 +184,40 @@ impl<'a> Parser<'a> {
             let r = self.rest();
             let lt = r
                 .find('<')
-                .ok_or_else(|| format!("<{}> is not closed", el.name))?;
+                .ok_or_else(|| crate::terr!("e-ndm-xml-is-not-closed", name = el.name))?;
             text.push_str(&unescape(&r[..lt])?);
             self.pos += lt;
             let r = self.rest();
             if r.starts_with("</") {
-                let e = r.find('>').ok_or("unterminated end tag")?;
+                let e = r
+                    .find('>')
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-end-tag"))?;
                 let close = r[2..e].trim();
                 if close != el.name {
-                    return Err(format!("</{close}> closes <{}>", el.name));
+                    return Err(crate::terr!(
+                        "e-ndm-xml-closes",
+                        close = close,
+                        name = el.name
+                    ));
                 }
                 self.pos += e + 1;
                 el.text = text.trim().to_string();
                 return Ok(el);
             } else if r.starts_with("<!--") {
-                let e = r.find("-->").ok_or("unterminated comment")?;
+                let e = r
+                    .find("-->")
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-comment"))?;
                 self.pos += e + 3;
             } else if r.starts_with("<![CDATA[") {
-                let e = r.find("]]>").ok_or("unterminated CDATA")?;
+                let e = r
+                    .find("]]>")
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-cdata"))?;
                 text.push_str(&r[9..e]);
                 self.pos += e + 3;
             } else if r.starts_with("<?") {
-                let e = r.find("?>").ok_or("unterminated processing instruction")?;
+                let e = r
+                    .find("?>")
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-processing-instruction"))?;
                 self.pos += e + 2;
             } else {
                 el.children.push(self.element()?);
@@ -201,7 +233,7 @@ pub fn parse(text: &str) -> Result<Element, String> {
     let root = p.element()?;
     p.skip_misc()?;
     if !p.rest().trim().is_empty() {
-        return Err("content after the root element".into());
+        return Err(crate::terr!("e-ndm-xml-content-after-the-root-element"));
     }
     Ok(root)
 }

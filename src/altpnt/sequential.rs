@@ -517,13 +517,20 @@ pub fn sequential_trn_svg(r: &SequentialTrnResult) -> String {
          viewBox=\"0 0 {w} {h}\" font-family=\"{FONT_SANS}\" fill=\"{TEXT}\">\
          <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <text x=\"16\" y=\"24\" font-size=\"16\" font-weight=\"bold\">\
-         Sequential terrain-referenced navigation (recursive SITAN)</text>\
+         {}</text>\
          <polyline fill=\"none\" stroke=\"{CORAL}\" stroke-width=\"2\" points=\"{free_pts}\"/>\
          <polyline fill=\"none\" stroke=\"{LIME}\" stroke-width=\"2\" points=\"{match_pts}\"/>\
-         <text x=\"{lx}\" y=\"{ly1}\" font-size=\"12\" fill=\"{CORAL}\">free-inertial drift (grows)</text>\
-         <text x=\"{lx}\" y=\"{ly2}\" font-size=\"12\" fill=\"{LIME}\">terrain-matched (bounded)</text>\
-         <text x=\"16\" y=\"{yb}\" font-size=\"11\" fill=\"{MUTED}\">waypoint \u{2192}    full scale {maxv:.0} m</text>\
+         <text x=\"{lx}\" y=\"{ly1}\" font-size=\"12\" fill=\"{CORAL}\">{}</text>\
+         <text x=\"{lx}\" y=\"{ly2}\" font-size=\"12\" fill=\"{LIME}\">{}</text>\
+         <text x=\"16\" y=\"{yb}\" font-size=\"11\" fill=\"{MUTED}\">{}</text>\
          </svg>",
+        crate::t!("altpnt-sequential-title"),
+        crate::t!("altpnt-sequential-free-inertial-drift-grows"),
+        crate::t!("altpnt-sequential-terrain-matched-bounded"),
+        crate::t!(
+            "altpnt-sequential-waypoint-full-scale",
+            maxv = crate::i18n::num(maxv, 0)
+        ),
         lx = x0 + 12.0,
         ly1 = y0 + 16.0,
         ly2 = y0 + 32.0,

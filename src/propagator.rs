@@ -511,9 +511,10 @@ impl ForceModel {
                 .relative_position_jd2(&body, &Body::earth(), jd_tdb)
                 .is_none()
             {
-                return Err(format!(
-                    "the ephemeris provider has no geocentric {} at JD(TT) {}",
-                    body.name, self.epoch_jd_tt
+                return Err(crate::terr!(
+                    "e-propagator-the-ephemeris-provider-has-no",
+                    name = body.name,
+                    epoch_jd_tt = self.epoch_jd_tt
                 ));
             }
         }
@@ -833,7 +834,9 @@ pub enum PropagatorError {
 impl core::fmt::Display for PropagatorError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
-            PropagatorError::Sgp4(code) => write!(f, "SGP4 propagation error (code {code})"),
+            PropagatorError::Sgp4(code) => {
+                f.write_str(&crate::terr!("e-propagator-sgp4-error", code = code))
+            }
         }
     }
 }

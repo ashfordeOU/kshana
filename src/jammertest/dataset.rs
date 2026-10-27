@@ -234,9 +234,9 @@ pub fn run_dataset(root: &Path) -> Result<DatasetReport, String> {
         .filter_map(|d| score_folder(root, d, &opt))
         .collect();
     if folders.is_empty() {
-        return Err(format!(
-            "no folder with a scenario.json and a .ubx under {}",
-            root.display()
+        return Err(crate::terr!(
+            "e-jammertest-dataset-no-folder-with-scenario-json",
+            root = root.display()
         ));
     }
     report_from(folders)
@@ -260,10 +260,12 @@ fn session_v2(format: &str, dynamic: bool) -> Result<ReceiverTrustScenario, Stri
     } else {
         ""
     };
-    toml::from_str(&format!(
-        "[log]\nformat = \"{format}\"\ntext = \"\"\n{platform}"
+    toml::from_str(&crate::t!(
+        "jammertest-dataset-log-format-text",
+        format = format,
+        platform = platform
     ))
-    .map_err(|e| format!("scenario: {e}"))
+    .map_err(|e| crate::terr!("e-jammertest-dataset-scenario", e = e))
 }
 
 fn score_folder_v2(root: &Path, dir: &Path, opt: &ScoreOptions) -> FolderScore {
@@ -313,19 +315,24 @@ fn score_folder_v2(root: &Path, dir: &Path, opt: &ScoreOptions) -> FolderScore {
     ubx.sort();
     let result = (|| -> Result<_, String> {
         if let Some(path) = ubx.first() {
-            let bytes = std::fs::read(path).map_err(|e| format!("read: {e}"))?;
+            let bytes = std::fs::read(path)
+                .map_err(|e| crate::terr!("e-jammertest-dataset-read", e = e))?;
             let scn = session_v2("ubx", dynamic)?;
             let tl = read_log(scn.log.format, &bytes)?;
             // Rule 1: a log that states its start only as GPS time of week is placed from the date.
             let start = match tl.start_label.as_deref().and_then(tow_of_label) {
                 Some(tow) => {
-                    let date = meta
-                        .get("date")
-                        .and_then(|v| v.as_str())
-                        .ok_or("scenario.json has no date")?;
+                    let date = meta.get("date").and_then(|v| v.as_str()).ok_or_else(|| {
+                        crate::terr!("e-jammertest-dataset-scenario-json-has-no-date")
+                    })?;
                     let day =
                         crate::telemetry::time::parse_rfc3339_utc(&format!("{date}T00:00:00Z"))
-                            .ok_or_else(|| format!("scenario.json date `{date}` is not a date"))?;
+                            .ok_or_else(|| {
+                                crate::terr!(
+                                    "e-jammertest-dataset-scenario-json-date-is-not",
+                                    date = date
+                                )
+                            })?;
                     Some(day + tow.rem_euclid(86_400.0) - GPS_MINUS_UTC_S)
                 }
                 None => None,
@@ -345,7 +352,7 @@ fn score_folder_v2(root: &Path, dir: &Path, opt: &ScoreOptions) -> FolderScore {
             let mon = std::fs::read_to_string(dir.join("mon_rf.csv")).unwrap_or_default();
             let rnx = std::fs::read_to_string(dir.join("rinex.csv")).unwrap_or_default();
             let (tl, t0) = crate::receiver_trust::calibration::timeline_from_csv(&mon, &rnx)
-                .ok_or("no readable epoch in mon_rf.csv or rinex.csv")?;
+                .ok_or_else(|| crate::terr!("e-jammertest-dataset-no-readable-epoch-in-mon"))?;
             let scn = session_v2("ubx", dynamic)?; // the format field is not read for a built timeline
             let bytes = [mon.as_bytes(), rnx.as_bytes()].concat();
             score_timeline(
@@ -387,9 +394,9 @@ pub fn run_dataset_v2(root: &Path) -> Result<DatasetReport, String> {
         .map(|d| score_folder_v2(root, d, &opt))
         .collect();
     if folders.is_empty() {
-        return Err(format!(
-            "no folder with a scenario.json under {}",
-            root.display()
+        return Err(crate::terr!(
+            "e-jammertest-dataset-no-folder-with-scenario-json-2",
+            root = root.display()
         ));
     }
     report_from(folders)
@@ -469,13 +476,7 @@ fn report_from(folders: Vec<FolderScore>) -> Result<DatasetReport, String> {
         Bar {
             id: "B4",
             statement: "recovery: share of alarmed jamming windows recovered >= 0.80 and their median time to recover <= 60 s",
-            measured: format!(
-                "{} recovered ({} of {}), median {} s",
-                f2(j.recovered_share),
-                j.recovered,
-                j.alarmed,
-                f2(j.median_time_to_recover_s)
-            ),
+            measured: crate::t!("jammertest-dataset-recovered-of-median", f2 = f2(j.recovered_share), recovered = j.recovered, alarmed = j.alarmed, f22 = f2(j.median_time_to_recover_s)),
             verdict: verdict(match (j.recovered_share, j.median_time_to_recover_s) {
                 (Some(r), Some(t)) => Some(r >= 0.80 && t <= 60.0),
                 (Some(_), None) => Some(false),

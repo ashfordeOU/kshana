@@ -96,11 +96,13 @@ fn numbers(line: &str, lineno: usize, min: usize) -> Result<Option<Vec<f64>>, St
         .filter(|s| !s.is_empty())
         .map(str::parse::<f64>)
         .collect();
-    let v = v.map_err(|e| format!("line {lineno}: {e}"))?;
+    let v = v.map_err(|e| crate::terr!("e-fusion-kfgins-line", lineno = lineno, e = e))?;
     if v.len() < min {
-        return Err(format!(
-            "line {lineno}: {} columns, at least {min} expected",
-            v.len()
+        return Err(crate::terr!(
+            "e-fusion-kfgins-line-columns-at-least-expected",
+            lineno = lineno,
+            v = v.len(),
+            min = min
         ));
     }
     Ok(Some(v))
@@ -128,7 +130,11 @@ pub fn parse_gnss(text: &str) -> Result<Vec<GnssFix>, String> {
         if let Some(v) = numbers(line, i + 1, 7)? {
             let s = if v.len() >= 13 { 7 } else { 4 };
             if v.len() > 7 && v.len() < 10 {
-                return Err(format!("line {}: {} columns", i + 1, v.len()));
+                return Err(crate::terr!(
+                    "e-fusion-kfgins-line-columns",
+                    v1 = i + 1,
+                    v = v.len()
+                ));
             }
             out.push(GnssFix {
                 t: v[0],
@@ -191,17 +197,25 @@ pub fn parse_yaml_subset(text: &str) -> Result<BTreeMap<String, YamlValue>, Stri
         let indent = line.len() - line.trim_start().len();
         let body = line.trim();
         if body.starts_with('-') {
-            return Err(format!("line {lineno}: block lists are not supported"));
+            return Err(crate::terr!(
+                "e-fusion-kfgins-line-block-lists-are-not",
+                lineno = lineno
+            ));
         }
-        let (key, val) = body
-            .split_once(':')
-            .ok_or_else(|| format!("line {lineno}: expected `key: value`"))?;
+        let (key, val) = body.split_once(':').ok_or_else(|| {
+            crate::terr!("e-fusion-kfgins-line-expected-key-value", lineno = lineno)
+        })?;
         let key = key.trim().to_string();
         let val = val.trim();
         let full = if indent > 0 {
             match &parent {
                 Some(p) => format!("{p}.{key}"),
-                None => return Err(format!("line {lineno}: indented key without a parent")),
+                None => {
+                    return Err(crate::terr!(
+                        "e-fusion-kfgins-line-indented-key-without-parent",
+                        lineno = lineno
+                    ))
+                }
             }
         } else {
             parent = None;
@@ -209,15 +223,21 @@ pub fn parse_yaml_subset(text: &str) -> Result<BTreeMap<String, YamlValue>, Stri
         };
         if val.is_empty() {
             if indent > 0 {
-                return Err(format!("line {lineno}: only one level of nesting"));
+                return Err(crate::terr!(
+                    "e-fusion-kfgins-line-only-one-level-of",
+                    lineno = lineno
+                ));
             }
             parent = Some(key);
             continue;
         }
         let value = if let Some(inner) = val.strip_prefix('[') {
-            let inner = inner
-                .strip_suffix(']')
-                .ok_or_else(|| format!("line {lineno}: unterminated flow list"))?;
+            let inner = inner.strip_suffix(']').ok_or_else(|| {
+                crate::terr!(
+                    "e-fusion-kfgins-line-unterminated-flow-list",
+                    lineno = lineno
+                )
+            })?;
             YamlValue::List(
                 inner
                     .split(',')
@@ -315,8 +335,11 @@ impl KfGinsConfig {
         let scalar = |k: &str| -> Result<String, String> {
             match m.get(k) {
                 Some(YamlValue::Scalar(s)) => Ok(s.clone()),
-                Some(YamlValue::List(_)) => Err(format!("`{k}` is a list, a scalar expected")),
-                None => Err(format!("`{k}` missing")),
+                Some(YamlValue::List(_)) => Err(crate::terr!(
+                    "e-fusion-kfgins-is-list-scalar-expected",
+                    k = k
+                )),
+                None => Err(crate::terr!("e-fusion-kfgins-missing", k = k)),
             }
         };
         let num = |k: &str| -> Result<f64, String> {
@@ -331,11 +354,16 @@ impl KfGinsConfig {
                     }
                     Ok(Some(o))
                 }
-                Some(_) => Err(format!("`{k}` must be a three-element list")),
+                Some(_) => Err(crate::terr!(
+                    "e-fusion-kfgins-must-be-three-element-list",
+                    k = k
+                )),
                 None => Ok(None),
             }
         };
-        let req = |k: &str| -> Result<Vec3, String> { v3(k)?.ok_or(format!("`{k}` missing")) };
+        let req = |k: &str| -> Result<Vec3, String> {
+            v3(k)?.ok_or_else(|| crate::terr!("e-fusion-kfgins-missing", k = k))
+        };
         let gbstd = req("imunoise.gbstd")?;
         let abstd = req("imunoise.abstd")?;
         Ok(Self {
@@ -481,7 +509,7 @@ pub fn run(
     let k0 = imu
         .iter()
         .position(|s| s.t >= cfg.starttime)
-        .ok_or("no IMU sample at or after starttime")?;
+        .ok_or_else(|| crate::terr!("e-fusion-kfgins-no-imu-sample-at-or"))?;
     let q0 = Quaternion::from_dcm(dcm_from_euler([
         cfg.initatt[0] * D2R,
         cfg.initatt[1] * D2R,
@@ -556,7 +584,10 @@ pub fn run(
         let dt_raw = cur.t - t_prev;
         let dt = if dt_raw < 0.1 { dt_raw } else { nominal_dt };
         if dt <= 0.0 {
-            return Err(format!("IMU time not increasing at {}", cur.t));
+            return Err(crate::terr!(
+                "e-fusion-kfgins-imu-time-not-increasing-at",
+                t = cur.t
+            ));
         }
         // Drop fixes that fell behind (more than the tolerance before this interval).
         while let Some(j) = gi {

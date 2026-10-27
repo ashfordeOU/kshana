@@ -468,41 +468,65 @@ impl AscentScenario {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("{n} must be finite and positive"))
+                Err(crate::terr!(
+                    "e-aocs-kind-must-be-finite-and-positive",
+                    n = n
+                ))
             }
         };
         if self.stages.is_empty() || self.stages.len() > 6 {
-            return Err("between one and six stages are required".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-ascent-between-one-and-six-stages"
+            ));
         }
         for (i, s) in self.stages.iter().enumerate() {
-            pos(s.propellant_kg, &format!("stages[{i}].propellant_kg"))?;
-            pos(s.thrust_vac_n, &format!("stages[{i}].thrust_vac_n"))?;
-            pos(s.isp_vac_s, &format!("stages[{i}].isp_vac_s"))?;
+            pos(
+                s.propellant_kg,
+                &crate::t!("entry-eo-ascent-ascent-stages-propellant-kg", i = i),
+            )?;
+            pos(
+                s.thrust_vac_n,
+                &crate::t!("entry-eo-ascent-ascent-stages-thrust-vac", i = i),
+            )?;
+            pos(
+                s.isp_vac_s,
+                &crate::t!("entry-eo-ascent-ascent-stages-isp-vac", i = i),
+            )?;
             if !(s.dry_mass_kg.is_finite() && s.dry_mass_kg >= 0.0) {
-                return Err(format!(
-                    "stages[{i}].dry_mass_kg must be finite and non-negative"
+                return Err(crate::terr!(
+                    "e-entry-eo-ascent-ascent-stages-dry-mass-kg-must",
+                    i = i
                 ));
             }
             if !(s.exit_area_m2.is_finite() && s.exit_area_m2 >= 0.0) {
-                return Err(format!(
-                    "stages[{i}].exit_area_m2 must be finite and non-negative"
+                return Err(crate::terr!(
+                    "e-entry-eo-ascent-ascent-stages-exit-area-m2-must",
+                    i = i
                 ));
             }
         }
         if !(self.payload_kg.is_finite() && self.payload_kg >= 0.0) {
-            return Err("payload_kg must be finite and non-negative".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-ascent-payload-kg-must-be-finite"
+            ));
         }
         pos(self.drag_coefficient, "drag_coefficient")?;
         pos(self.reference_area_m2, "reference_area_m2")?;
         pos(self.step_s, "step_s")?;
         if !(self.kick_altitude_m.is_finite() && self.kick_altitude_m >= 0.0) {
-            return Err("kick_altitude_m must be finite and non-negative".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-ascent-kick-altitude-must-be-finite"
+            ));
         }
         if !(self.kick_angle_deg.is_finite() && (0.0..45.0).contains(&self.kick_angle_deg)) {
-            return Err("kick_angle_deg must be in [0, 45)".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-ascent-kick-angle-deg-must-be"
+            ));
         }
         if !(self.kick_duration_s.is_finite() && self.kick_duration_s >= 0.0) {
-            return Err("kick_duration_s must be finite and non-negative".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-ascent-kick-duration-must-be-finite"
+            ));
         }
         Ok(Vehicle {
             stages: self.stages.clone(),
@@ -527,7 +551,10 @@ impl AscentScenario {
         let t0 = s0.thrust_vac_n - us76_pressure(0.0) * s0.exit_area_m2;
         let tw = t0 / (m0 * G0);
         if tw <= 1.0 {
-            return Err(format!("lift-off thrust-to-weight {tw:.3} must exceed 1"));
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-ascent-lift-off-thrust-to-weight",
+                tw = crate::i18n::localise_decimal(format!("{:.3}", tw))
+            ));
         }
         let r = simulate_ascent(&v, self.step_s);
         let losses =
@@ -578,18 +605,20 @@ impl AscentScenario {
             "stage_burnouts": r.stage_burnouts.iter().map(|(h, s)| serde_json::json!({"altitude_m": h, "speed_m_s": s})).collect::<Vec<_>>(),
             "crashed": r.crashed,
         });
-        let summary = format!(
-            "ascent-losses: ideal dv {:.0} m/s, losses {:.0} m/s (gravity {:.0}, drag {:.0}, steering {:.0}, back-pressure {:.0}); burnout {:.0} km at {:.0} m/s, gamma {:.1} deg; max-Q {:.1} kPa (MODELLED)",
-            r.ideal_dv_m_s,
-            losses,
-            r.gravity_loss_m_s,
-            r.drag_loss_m_s,
-            r.steering_loss_m_s,
-            r.back_pressure_loss_m_s,
-            r.end_altitude_m / 1000.0,
-            r.end_speed_m_s,
-            r.end_gamma_rad.to_degrees(),
-            r.max_q_pa / 1000.0
+        let summary = crate::t!(
+            "entry-eo-ascent-ascent-ascent-losses-ideal-dv-losses",
+            ideal_dv_m_s = crate::i18n::localise_decimal(format!("{:.0}", r.ideal_dv_m_s)),
+            losses = crate::i18n::localise_decimal(format!("{:.0}", losses)),
+            gravity_loss_m_s = crate::i18n::localise_decimal(format!("{:.0}", r.gravity_loss_m_s)),
+            drag_loss_m_s = crate::i18n::localise_decimal(format!("{:.0}", r.drag_loss_m_s)),
+            steering_loss_m_s =
+                crate::i18n::localise_decimal(format!("{:.0}", r.steering_loss_m_s)),
+            back_pressure_loss_m_s =
+                crate::i18n::localise_decimal(format!("{:.0}", r.back_pressure_loss_m_s)),
+            r = crate::i18n::localise_decimal(format!("{:.0}", r.end_altitude_m / 1000.0)),
+            end_speed_m_s = crate::i18n::localise_decimal(format!("{:.0}", r.end_speed_m_s)),
+            r2 = crate::i18n::localise_decimal(format!("{:.1}", r.end_gamma_rad.to_degrees())),
+            r3 = crate::i18n::localise_decimal(format!("{:.1}", r.max_q_pa / 1000.0))
         );
         let text = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((text, summary))

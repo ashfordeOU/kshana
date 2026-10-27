@@ -10,21 +10,9 @@ use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
 use std::path::{Path, PathBuf};
 use zeroize::Zeroizing;
 
-const USAGE: &str = "usage:
-  kshana evidence keygen --out <keyfile>
-  kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
-      [--allow-unpinned] [--json]      exit 0 verified, 1 failed, 3 intact but signer not pinned
-  kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
-      (reads the RFC 3161 token and binds it to the manifest; it does NOT verify the timestamp
-      authority's signature: use `openssl ts -verify`)
-  kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
-      [--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
-  kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
-      --key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
-      (links the scenario, the lab's test conditions, the receiver log and its score; the
-      <scenario.toml> is the receiver-trust scoring scenario; writes no signal)
-  <t0>/<t1>: seconds since the first epoch of the log, or an ISO-8601 UTC time when the log
-  states its start time. A pack is a technical record, not a legal opinion.";
+fn usage() -> String {
+    crate::t!("evidence-cli-usage")
+}
 
 pub(crate) fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
     match args.iter().position(|a| a == name) {
@@ -33,7 +21,7 @@ pub(crate) fn flag_value(args: &[String], name: &str) -> Result<Option<String>, 
             .get(i + 1)
             .cloned()
             .map(Some)
-            .ok_or_else(|| format!("{name} needs a value")),
+            .ok_or_else(|| crate::terr!("e-evidence-cli-needs-value", name = name)),
     }
 }
 
@@ -58,9 +46,9 @@ fn write_new_file(path: &Path, bytes: &[u8], private: bool) -> Result<(), String
     let _ = private;
     let mut f = o
         .open(path)
-        .map_err(|e| format!("cannot create {}: {e}", path.display()))?;
+        .map_err(|e| crate::terr!("e-evidence-cli-cannot-create", path = path.display(), e = e))?;
     f.write_all(bytes)
-        .map_err(|e| format!("cannot write {}: {e}", path.display()))
+        .map_err(|e| crate::terr!("e-evidence-cli-cannot-write", path = path.display(), e = e))
 }
 
 pub(crate) fn read_seed(path: &str) -> Result<Zeroizing<[u8; 32]>, String> {
@@ -69,29 +57,39 @@ pub(crate) fn read_seed(path: &str) -> Result<Zeroizing<[u8; 32]>, String> {
         use std::os::unix::fs::PermissionsExt;
         if let Ok(md) = std::fs::metadata(path) {
             if md.permissions().mode() & 0o077 != 0 {
-                eprintln!("warning: {path} is readable by other users; restrict it (chmod 600)");
+                eprintln!(
+                    "{}",
+                    crate::t!("evidence-cli-warning-is-readable-by-other", path = path)
+                );
             }
         }
     }
     let t = Zeroizing::new(
-        std::fs::read_to_string(path).map_err(|e| format!("cannot read key {path}: {e}"))?,
+        std::fs::read_to_string(path)
+            .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-key", path = path, e = e))?,
     );
-    let v = Zeroizing::new(hex::decode(t.trim()).map_err(|_| format!("{path} is not a hex key"))?);
+    let v = Zeroizing::new(
+        hex::decode(t.trim())
+            .map_err(|_| crate::terr!("e-evidence-cli-is-not-hex-key", path = path))?,
+    );
     <[u8; 32]>::try_from(v.as_slice())
         .map(Zeroizing::new)
-        .map_err(|_| format!("{path} must hold a 32-byte key as 64 hex digits"))
+        .map_err(|_| crate::terr!("e-evidence-cli-must-hold-32-byte-key", path = path))
 }
 
 /// Read a pack directory. Anything that is not a regular file is recorded under its name
 /// with empty content, so verification reports it as an unlisted file.
 pub fn read_dir(dir: &Path) -> Result<Files, String> {
     let mut f = Files::new();
-    for e in std::fs::read_dir(dir).map_err(|e| format!("cannot read {}: {e}", dir.display()))? {
+    for e in std::fs::read_dir(dir)
+        .map_err(|e| crate::terr!("e-evidence-cli-cannot-read", dir = dir.display(), e = e))?
+    {
         let e = e.map_err(|e| e.to_string())?;
         let name = e.file_name().to_string_lossy().to_string();
         let ty = e.file_type().map_err(|e| e.to_string())?;
         let bytes = if ty.is_file() {
-            std::fs::read(e.path()).map_err(|e| format!("cannot read {name}: {e}"))?
+            std::fs::read(e.path())
+                .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-2", name = name, e = e))?
         } else {
             Vec::new()
         };
@@ -107,9 +105,13 @@ pub(crate) fn write_dir(dir: &Path, files: &Files) -> Result<(), String> {
             .next()
             .is_some()
     {
-        return Err(format!("{} exists and is not empty", dir.display()));
+        return Err(crate::terr!(
+            "e-evidence-cli-exists-and-is-not-empty",
+            dir = dir.display()
+        ));
     }
-    std::fs::create_dir_all(dir).map_err(|e| format!("cannot create {}: {e}", dir.display()))?;
+    std::fs::create_dir_all(dir)
+        .map_err(|e| crate::terr!("e-evidence-cli-cannot-create-2", dir = dir.display(), e = e))?;
     for (n, b) in files {
         write_new_file(&dir.join(n), b, false)?;
     }
@@ -122,9 +124,9 @@ pub fn run_evidence(args: &[String]) -> i32 {
         Ok(code) => code,
         Err(e) => {
             if !e.is_empty() {
-                eprintln!("error: {e}");
+                eprintln!("{}", crate::t!("main-fail", e = e));
             }
-            eprintln!("{USAGE}");
+            eprintln!("{}", usage());
             2
         }
     }
@@ -143,20 +145,20 @@ fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
             if let Ok(md) = std::fs::metadata(arg) {
                 if md.permissions().mode() & 0o077 == 0 && !arg.ends_with(".pub") {
                     eprintln!(
-                        "warning: {arg} is owner-only (mode 600) and not named *.pub: \
-                         it may be a private key. Pass the public key file."
+                        "{}",
+                        crate::t!("evidence-cli-warning-is-owner-only-mode", arg = arg)
                     );
                 }
             }
         }
         std::fs::read_to_string(arg).map_err(|e| {
-            format!("--pubkey `{arg}` is neither 64 hex digits nor a readable file ({e})")
+            crate::terr!("e-evidence-cli-pubkey-is-neither-64-hex", arg = arg, e = e)
         })?
     };
     let bytes = hex::decode(text.trim())
-        .map_err(|_| format!("--pubkey `{arg}` does not hold hex digits"))?;
+        .map_err(|_| crate::terr!("e-evidence-cli-pubkey-does-not-hold-hex", arg = arg))?;
     let key = <[u8; 32]>::try_from(bytes.as_slice())
-        .map_err(|_| "--pubkey must be 32 bytes (64 hex digits)".to_string())?;
+        .map_err(|_| crate::terr!("e-evidence-cli-pubkey-must-be-32-bytes"))?;
     // Is this actually the private seed of the key the pack names?
     let named = files
         .get("manifest.json")
@@ -165,10 +167,7 @@ fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
     if named.as_deref() == Some(public_key_hex(&key).as_str())
         && hex::encode(key) != named.unwrap_or_default()
     {
-        return Err(
-            "that is the PRIVATE key of the signer. Never share it; pass the public key (the .pub file)"
-                .into(),
-        );
+        return Err(crate::terr!("e-evidence-cli-that-is-the-private-key"));
     }
     Ok(key)
 }
@@ -180,7 +179,8 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             Ok(0)
         }
         Some("keygen") => {
-            let out = flag_value(args, "--out")?.ok_or("keygen needs --out <keyfile>")?;
+            let out = flag_value(args, "--out")?
+                .ok_or_else(|| crate::terr!("e-evidence-cli-keygen-needs-out-keyfile"))?;
             let seed = Zeroizing::new(generate_seed());
             let text = Zeroizing::new(format!("{}\n", hex::encode(*seed)));
             write_new_file(Path::new(&out), text.as_bytes(), true)?;
@@ -190,15 +190,22 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                 format!("{pk}\n").as_bytes(),
                 false,
             )?;
-            println!("private key: {out}  (keep it secret; never commit it)");
-            println!("public key:  {out}.pub");
-            println!("public key (hex): {pk}");
             println!(
-                "fingerprint: {}",
-                fingerprint(&hex::decode(&pk).unwrap_or_default())
+                "{}",
+                crate::t!("evidence-cli-private-key-keep-it-secret", out = out)
+            );
+            println!("{}", crate::t!("evidence-cli-public-key-pub", out = out));
+            println!("{}", crate::t!("evidence-cli-public-key-hex", pk = pk));
+            println!(
+                "{}",
+                crate::t!(
+                    "evidence-cli-fingerprint",
+                    fp = fingerprint(&hex::decode(&pk).unwrap_or_default())
+                )
             );
             println!(
-                "Give verifiers the public key by a route they trust; they pin it with --pubkey."
+                "{}",
+                crate::t!("evidence-cli-give-verifiers-the-public-key")
             );
             Ok(0)
         }
@@ -206,7 +213,7 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             let dir = args
                 .get(1)
                 .filter(|a| !a.starts_with("--"))
-                .ok_or("verify needs a bundle directory")?;
+                .ok_or_else(|| crate::terr!("e-evidence-cli-verify-needs-bundle-directory"))?;
             let files = read_dir(Path::new(dir))?;
             let pin = match flag_value(args, "--pubkey")? {
                 None => None,
@@ -214,16 +221,22 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             };
             let full = match flag_value(args, "--log")? {
                 None => None,
-                Some(p) => Some(std::fs::read(&p).map_err(|e| format!("cannot read {p}: {e}"))?),
+                Some(p) => Some(
+                    std::fs::read(&p)
+                        .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-3", p = p, e = e))?,
+                ),
             };
             let anchors = match flag_value(args, "--tsa-ca")? {
                 None => None,
                 Some(p) => {
-                    let text =
-                        std::fs::read_to_string(&p).map_err(|e| format!("cannot read {p}: {e}"))?;
+                    let text = std::fs::read_to_string(&p)
+                        .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-3", p = p, e = e))?;
                     let certs = crate::evidence::tsa::pem_certificates(&text)?;
                     if certs.is_empty() {
-                        return Err(format!("{p}: no PEM certificate found"));
+                        return Err(crate::terr!(
+                            "e-evidence-cli-no-pem-certificate-found",
+                            p = p
+                        ));
                     }
                     Some(certs)
                 }
@@ -261,56 +274,72 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                     };
                     println!("{tag}  {:<18} {}", c.name, c.detail);
                     if c.name == "timestamp" && rep.timestamp.is_some() {
-                        println!("      timestamp authority signature not verified by Kshana");
+                        println!(
+                            "{}",
+                            crate::t!("evidence-cli-timestamp-authority-signature-not-verified")
+                        );
                     }
                 }
                 for f in &rep.failures {
                     println!(
-                        "  failure: {}",
-                        serde_json::to_string(f).unwrap_or_default()
+                        "{}",
+                        crate::t!(
+                            "evidence-cli-verify-failure",
+                            f = serde_json::to_string(f).unwrap_or_default()
+                        )
                     );
                 }
                 for n in &rep.notes {
-                    println!("  note: {n}");
+                    println!("{}", crate::t!("evidence-cli-verify-note", n = n));
                 }
                 let fp = rep.signer_fingerprint.as_deref().unwrap_or("(none)");
                 println!(
                     "{}",
                     match code {
                         0 if rep.signer_pinned => {
-                            "VERIFIED: every hash, the chain and the signature check out, for the key you supplied."
-                                .to_string()
+                            crate::t!("evidence-cli-verified-pinned")
                         }
-                        0 => format!("VERIFIED against the key the pack names itself, fingerprint {fp} (signer NOT pinned; pass --pubkey)."),
-                        3 => format!("INTACT, BUT THE SIGNER IS NOT PINNED: the hashes and signature are consistent with key {fp}, which the pack names itself. Pass --pubkey <signer public key> to establish who signed it (or --allow-unpinned to accept this knowingly)."),
-                        _ => "NOT VERIFIED: see the failures above.".to_string(),
+                        0 => crate::t!("evidence-cli-verified-unpinned", fp = fp),
+                        3 => crate::t!("evidence-cli-intact-signer-not-pinned", fp = fp),
+                        _ => crate::t!("evidence-cli-not-verified"),
                     }
                 );
-                println!("This is a technical record, not a legal opinion.");
+                println!("{}", crate::t!("evidence-cli-this-is-technical-record-not"));
             }
             Ok(code)
         }
         Some("attach-timestamp") => {
-            let dir = args
-                .get(1)
-                .ok_or("attach-timestamp needs a bundle directory")?;
-            let tok = args.get(2).ok_or("attach-timestamp needs a token file")?;
+            let dir = args.get(1).ok_or_else(|| {
+                crate::terr!("e-evidence-cli-attach-timestamp-needs-bundle-directory")
+            })?;
+            let tok = args
+                .get(2)
+                .ok_or_else(|| crate::terr!("e-evidence-cli-attach-timestamp-needs-token-file"))?;
             let replace = args.iter().any(|a| a == "--replace");
-            let bytes = std::fs::read(tok).map_err(|e| format!("cannot read {tok}: {e}"))?;
+            let bytes = std::fs::read(tok)
+                .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-4", tok = tok, e = e))?;
             let mut files = read_dir(Path::new(dir))?;
             let notes = attach_timestamp(&mut files, &bytes, replace)?;
             let target = Path::new(dir).join("timestamp.tsr");
             if replace {
-                std::fs::write(&target, bytes)
-                    .map_err(|e| format!("cannot write {}: {e}", target.display()))?;
+                std::fs::write(&target, bytes).map_err(|e| {
+                    crate::terr!(
+                        "e-evidence-cli-cannot-write-2",
+                        target = target.display(),
+                        e = e
+                    )
+                })?;
             } else {
                 write_new_file(&target, &bytes, false)?;
             }
-            println!("attached {}", target.display());
+            println!(
+                "{}",
+                crate::t!("evidence-cli-attached", path = target.display())
+            );
             for n in &notes {
-                println!("note: {n}");
+                println!("{}", crate::t!("main-note", n = n));
             }
-            println!("note: the token sits beside the signed manifest, not inside it; verify with --require-timestamp to insist on it.");
+            println!("{}", crate::t!("evidence-cli-note-the-token-sits-beside"));
             Ok(0)
         }
         _ => Err(String::new()),
@@ -322,8 +351,8 @@ pub fn run_receiver_trust_evidence(args: &[String]) -> i32 {
     match receiver_trust_evidence(args, false) {
         Ok(()) => 0,
         Err(e) => {
-            eprintln!("error: {e}");
-            eprintln!("{USAGE}");
+            eprintln!("{}", crate::t!("main-fail", e = e));
+            eprintln!("{}", usage());
             2
         }
     }
@@ -348,20 +377,22 @@ fn round_trip_pack(
     _conditions_text: &str,
     _seed: &[u8; 32],
 ) -> Result<super::PackSummary, String> {
-    Err("round-trip packs are not built for WebAssembly".to_string())
+    Err(crate::terr!("e-evidence-cli-round-trip-packs-are-not"))
 }
 
 fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), String> {
     let scn_path = PathBuf::from(
         args.first()
             .filter(|a| !a.starts_with("--"))
-            .ok_or("needs a scenario path")?,
+            .ok_or_else(|| crate::terr!("e-evidence-cli-needs-scenario-path"))?,
     );
-    let from = flag_value(args, "--from")?.ok_or("needs --from")?;
-    let to = flag_value(args, "--to")?.ok_or("needs --to")?;
+    let from =
+        flag_value(args, "--from")?.ok_or_else(|| crate::terr!("e-evidence-cli-needs-from"))?;
+    let to = flag_value(args, "--to")?.ok_or_else(|| crate::terr!("e-evidence-cli-needs-to"))?;
     let key = flag_value(args, "--key")?
-        .ok_or("needs --key <keyfile> (make one with `kshana evidence keygen`)")?;
-    let out = flag_value(args, "--out")?.ok_or("needs --out <dir>")?;
+        .ok_or_else(|| crate::terr!("e-evidence-cli-needs-key-keyfile-make-one"))?;
+    let out =
+        flag_value(args, "--out")?.ok_or_else(|| crate::terr!("e-evidence-cli-needs-out-dir"))?;
     let seed = read_seed(&key)?;
     let created = match flag_value(args, "--created-utc")?.as_deref() {
         Some("none") => None,
@@ -371,17 +402,23 @@ fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), Stri
     let title = flag_value(args, "--title")?.unwrap_or_else(|| "GNSS trust evidence pack".into());
     let lab = match flag_value(args, "--lab-attestation")? {
         Some(p) => {
-            let text = std::fs::read_to_string(&p)
-                .map_err(|e| format!("cannot read lab attestation {p}: {e}"))?;
+            let text = std::fs::read_to_string(&p).map_err(|e| {
+                crate::terr!("e-evidence-cli-cannot-read-lab-attestation", p = p, e = e)
+            })?;
             Some(super::lab::LabAttestation::from_toml(&text)?)
         }
         None => None,
     };
 
-    let src = std::fs::read_to_string(&scn_path)
-        .map_err(|e| format!("cannot read {}: {e}", scn_path.display()))?;
-    let mut scn: ReceiverTrustScenario =
-        toml::from_str(&src).map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
+    let src = std::fs::read_to_string(&scn_path).map_err(|e| {
+        crate::terr!(
+            "e-evidence-cli-cannot-read-5",
+            scn_path = scn_path.display(),
+            e = e
+        )
+    })?;
+    let mut scn: ReceiverTrustScenario = toml::from_str(&src)
+        .map_err(|e| crate::terr!("e-evidence-cli-invalid-receiver-trust-scenario", e = e))?;
     scenario::resolve_paths(&mut scn, scn_path.parent().unwrap_or(Path::new("")));
     let log_bytes = scenario::load_source(&scn.log.source, "log")?;
     let nav_bytes = match &scn.log.nav {
@@ -411,40 +448,72 @@ fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), Stri
     };
     let pack = if round_trip {
         if lab.is_some() {
-            return Err("--lab-attestation applies to `receiver-trust evidence`, not to `evidence round-trip` (whose pack records the test conditions)".into());
+            return Err(crate::terr!(
+                "e-evidence-cli-lab-attestation-applies-to-receiver"
+            ));
         }
-        let sp = flag_value(args, "--scenario")?.ok_or("needs --scenario <bench scenario>")?;
-        let cp = flag_value(args, "--conditions")?.ok_or("needs --conditions <file>")?;
-        let scenario_text =
-            std::fs::read_to_string(&sp).map_err(|e| format!("cannot read {sp}: {e}"))?;
-        let conditions_text =
-            std::fs::read_to_string(&cp).map_err(|e| format!("cannot read {cp}: {e}"))?;
+        let sp = flag_value(args, "--scenario")?
+            .ok_or_else(|| crate::terr!("e-evidence-cli-needs-scenario-bench-scenario"))?;
+        let cp = flag_value(args, "--conditions")?
+            .ok_or_else(|| crate::terr!("e-evidence-cli-needs-conditions-file"))?;
+        let scenario_text = std::fs::read_to_string(&sp)
+            .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-6", sp = sp, e = e))?;
+        let conditions_text = std::fs::read_to_string(&cp)
+            .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-7", cp = cp, e = e))?;
         round_trip_pack(&req, &scenario_text, &conditions_text, &seed)?
     } else {
         super::assemble::build_receiver_trust_pack_attested(&req, &seed, None, lab.as_ref())?
     };
     write_dir(Path::new(&out), &pack.files)?;
-    println!("evidence pack written to {out}");
     println!(
-        "  epochs in window: {}  ({} s to {} s)",
-        pack.epochs_in_window, pack.window.from_s, pack.window.to_s
+        "{}",
+        crate::t!("evidence-cli-evidence-pack-written-to", out = out)
     );
-    println!("  signer fingerprint: {}", pack.signer_fingerprint);
     println!(
-        "  SHA-256 of manifest.json (what an RFC 3161 authority should stamp): {}",
-        pack.manifest_sha256
+        "{}",
+        crate::t!(
+            "evidence-cli-epochs-in-window-to",
+            epochs_in_window = pack.epochs_in_window,
+            from_s = pack.window.from_s,
+            to_s = pack.window.to_s
+        )
+    );
+    println!(
+        "{}",
+        crate::t!(
+            "evidence-cli-signer-fingerprint",
+            signer_fingerprint = pack.signer_fingerprint
+        )
+    );
+    println!(
+        "{}",
+        crate::t!(
+            "evidence-cli-sha-256-of-manifest-json",
+            manifest_sha256 = pack.manifest_sha256
+        )
     );
     match pack.slice {
-        Some((a, b)) => println!("  log slice: bytes {a} to {b} of {}", log_bytes.len()),
-        None => println!("  log slice: whole log (this log gives no byte range for the window)"),
+        Some((a, b)) => println!(
+            "{}",
+            crate::t!(
+                "evidence-cli-log-slice-bytes-to-of",
+                a = a,
+                b = b,
+                log_bytes = log_bytes.len()
+            )
+        ),
+        None => println!("{}", crate::t!("evidence-cli-log-slice-whole-log-this")),
     }
     if lab.is_some() {
         println!(
-            "  lab attestation recorded in the signed manifest ({})",
-            super::lab::STANDING
+            "{}",
+            crate::t!(
+                "evidence-cli-lab-attestation-recorded-in-the",
+                v1 = super::lab::STANDING
+            )
         );
     }
-    println!("verify with: kshana evidence verify {out} --pubkey <signer public key>");
-    println!("A pack is a technical record, not a legal opinion.");
+    println!("{}", crate::t!("evidence-cli-verify-with", out = out));
+    println!("{}", crate::t!("evidence-cli-pack-is-technical-record-not"));
     Ok(())
 }

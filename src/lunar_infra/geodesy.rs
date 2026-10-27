@@ -441,7 +441,9 @@ pub fn build(
     let gs = grav.sigma_nm_s2.unwrap_or(10.0);
     let cs = clock.sigma_fractional.unwrap_or(1e-16);
     if !(ls > 0.0 && os > 0.0 && gs > 0.0 && cs > 0.0) {
-        return Err("all sigmas must be positive".into());
+        return Err(crate::terr!(
+            "e-lunar-infra-geodesy-all-sigmas-must-be-positive"
+        ));
     }
     Ok(Families {
         llr: llr_rows(llr.epochs.unwrap_or(400), ls),
