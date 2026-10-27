@@ -2027,3 +2027,1321 @@ dat-84df77a11730 = Ansvar för tillämpning
 
 # data/verification-matrix.json
 dat-3ce71fc10565 = Geometrisk struktur återgiven av motorn plus den slutna 2x2-Schur-identiteten; konsistent i STRUKTUR med Sosnica m.fl. { "2025" } (arXiv:{ "2510.15484" }), vars rapporterade storleksordningar INTE återges här. Klassificeringen är strukturell; storleksordningarna för korrelation/CRLB under verklig geometri är MODELLED (reflektorkoordinater och orientering hålls fasta). Extern jämförelse { "0.30" }, ett fynd (förblir MODELLED): mot Sosnica m.fl. { "2025" } ligger origo–skal-korrelationen i Fishermatrisen för avstånd (-0.993 / -0.988) inom { "0.05" } från den publicerade -0.97, men på artikelns egen geometri med fem reflektorer är den likaviktade 7-parameters Helmert-korrelationen -0.78 (det publicerade värdet vilar på fel per reflektor som artikeln inte skriver ut), och CRLB för origo ({ "0.6" } till { "1.2" } mm vid { "3" } mm avståndsbrus) ligger { "96" } till { "98" } % under artikelns { "3.07" } cm mot en tolerans på { "20" } %. Storleksordningarna återges inte
+
+dat-71ce324b5c15 = ingenjörer som vill ha kommandot kshana
+
+dat-400bc19c3a9f = Tänkbara scenarier för förbättringsmetoder för en ILLUSTRATIVE markplats: en ändrad våglängd, en större
+
+dat-9a47544497fb = Argument om fria parametrar i ensembletid (Percival { "1978" }; Lewandowski & Thomas { "1991" }) tillämpat på det representativa verkliga DE440-nätverket per nod: ett nolltest av relativ residual för den analytiska generatorn för gemensam takt mot GᵀWG, där den kontrast som avgörs med tiebreak skiljer den äkta gaugen från en artefakt i oscillatormodellen. Representativ modellerad geometri, inte en certifierad tidsbudget
+
+dat-c6e592f3097e = entry_eo_ascent::entry_heating::tests::heat_flux_relation_has_the_published_form_and_constants; entry_eo_ascent::entry_heating::tests::lift_lowers_peak_deceleration_and_heat_flux_of_a_shallow_entry; entry_eo_ascent::entry_heating::tests::mars_entry_runs_with_the_mars_constants; tests/entry_stardust_published.rs (registrerar { "746" } W/cm2 för Stardust utan tröskel)
+
+dat-1c384f6889ae = entry-heating (scenariotyp)
+
+dat-8f68cf228b03 = EO-nyttolastens fotavtryck och täckningsgeometri
+
+dat-9c217e1fa930 = eo_payload::tests (vinkelradie { "64" }° vid { "700" } km + krymper med höjden, nadir→zenit/noll avstånd, horisont→ε=0/största centralvinkel, fel bortom horisonten, svepbredd växer med FOV / GSD med höjden, ~{ "2750" } km nodavstånd, scenario reproducerbart/MODELLED + avvisning av felaktiga indata); dominance_demonstrators (nåbart + reproducerbart + vinkelradie { "64" }° + MODELLED-inte-VALIDATED); tests/eo_payload_coverage_orekit_oracle.rs::eo_coverage_matches_orekit_and_geographiclib (höjder 400-1500 km, inklinationer 1-98 grader, halv FOV 7,5-50 grader, IFOV 10-50 mikroradianer, slew { "30" } och { "89" } grader: varje storhet inom sin tröskel som fastställdes i förväg, sammanhängande flagga 168/168); tests/eo_payload_coverage_orekit_oracle.rs::exempt_flag_points_are_the_engines; regressionstest tests/eo_payload_coverage_reference.rs
+
+dat-aa34cd815b82 = eo-coverage (scenariotyp)
+
+dat-832954e1ab06 = eo-radiometry (scenariotyp)
+
+dat-43edc76409df = ephem::moon_position, den lågprecisa geocentriska månserie som cratet faller tillbaka på när ingen DE/SPK-kärna finns, mätt mot verklig månlaseravståndsmätning och mot en publicerad planetefemerid över samma tidsspann. Raden validerar den gräns som modulen anger om sig själv, INTE en noggrannhet: serien bekräftas vara inte sämre än den säger, inte bekräftad som bra
+
+dat-56ac091b7946 = efemerid (scenariotyp)
+
+dat-dfdb8b1830d4 = Efemerid och markspår — "var är satelliten just nu".
+
+dat-0a5f0ccea300 = Efemerid och markspår: propagera en satellit (TLE→SGP4 eller analytisk bana) och ge dess TEME/GCRS-tillstånd…
+
+dat-7537824e5fa4 = Efemerismodeller
+
+dat-467c38cefe09 = ePRTC standardvärde för max|TE_HO|
+
+dat-93491417cbd1 = Felstatus-EKF över { "15" } INS-tillstånd, en klocka i mottagaren med två tillstånd och en flytande bärvågsosäkerhet per följd satellit; pseudoavstånd, bärvågsfas och valfri avståndstakt från en SGP4 Walker-konstellation (ljustid och Sagnac), Klobuchar- och Saastamoinen/Niell-korrektioner tillämpade i slingan vid filtrets egen position; detektering av slip med tidsdifferentierad bärvåg med en tröskel per satellit som vidgas av hastighetsosäkerheten; ny initiering av osäkerheten vid slip och återinfångning
+
+dat-974cec6ca18d = ESA Celeste, förinställning för demonstration i omloppsbana (IOD): det enda scenario som använder material
+
+dat-ba165ef085c4 = ESA Celeste IOD, signalkonfiguration #1, alla band under en passage. WORKSHOP-FÖRINSTÄLLNING.
+
+dat-ff5b73c0368c = EU:s NIS2-direktiv, artikel { "21" }: vad Kshana ger belägg för
+
+dat-0d03e418ffb7 = Eulers rörelseekvationer för rotation (I ω̇ = τ − ω × Iω, huvudaxlar och allmän tröghetstensor) kopplade till kvaternionkinematik för attityd (q̇ = ½ q ⊗ ω) och propagerade med en RK4-integrator med fast steg som renormerar kvaternionen vid varje steg
+
+dat-5bbbf431e6ab = Varje medföljande scenariofil ({ "182" }), grupperad efter typ, med sina viktigaste inställningar.
+
+dat-aad102ace39c = Varje förmåga finns på de ytor där den är rimlig; där en yta inte kan bära en förmåga, den…
+
+dat-41b0cdc1970e = Varje förmåga i den offentliga kartan, per område, med sin etikett i registret.
+
+dat-4047554f9246 = Varje kanal
+
+dat-f207df64c582 = Varje kommando
+
+dat-ef3d1e821ab5 = Varje underkommando på kommandoraden, och vem som täcker det
+
+dat-307e233de9a9 = Varje typ
+
+dat-ec6240868245 = Varje typ går att nå
+
+dat-3ed5e2e671f4 = Varje installationsavsnitt för MCP
+
+dat-73f2b3a67364 = Varje numeriskt fält som ett scenario ger ut har en enhet och en proveniensklass hämtad ur ett slutet ordförråd, med en definition där det finns en, publicerat som ett maskinläsbart schema bredvid motorn. En spärr som bara kan skärpas kör varje inbyggd typ och fallerar på ett fält som saknar båda; de typer som ännu inte är kompletta anges en och en med skälet till att var och en fortfarande är öppen, och listan kan bara bli kortare. Rapporter som anger sina egna konstanter — länkbudgeten för enkelriktad länk, den optiska budgeten och RF-budgeten — låter en läsare räkna om huvudtalet utifrån rapporten ensam.
+
+dat-3758e7e92c29 = Alla andra förkortningar, A till Ö
+
+dat-850eaeab84a6 = Varje körning av kommandoradsgränssnittet (CLI) skriver en rapport bredvid sitt resultat: en utskrivbar HyperText…
+
+dat-11ec1dec50d3 = Varje körning skriver en versionshanterad, självbeskrivande JSON-artefakt (JavaScript Object Notation) bredvid scenariot.
+
+dat-77715c30e206 = Varje scenariofil
+
+dat-616604728e4a = Varje scenariotyp efter familj
+
+dat-969cb32dcc07 = Varje scenariotyp som motorn v{ $version } skickar vidare ({ "87" }), ordnad i { "12" } familjer.
+
+dat-7f43add9cf63 = Varje lösning av Lamberts problem med upp till tre fullständiga varv (maneuver::lambert_multirev: lösningen med ett varv, därefter vänster och höger gren för varje varvantal, Izzo { "2015" }), med randhastigheterna v1 och v2, för prograda och retrograda överföringar, i kanoniska och heliocentriska SI-enheter, inklusive överföringar inom { "1" } % av ett varvantals minsta flygtid och geometrier nära 180 grader. Enbart en tvåkroppslösare (inga störningar)
+
+dat-eb7aa5b77168 = Varje yta
+
+dat-a66b5cd13708 = Bevispaketets integritet: signatur, hashkedja och verifieringsförfarande
+
+dat-7ff30b2bd9df = Bevispaket: en signerad post över en GNSS-förtroendehändelse
+
+dat-d05fbf248c20 = Evidensnivåer och förbehåll på varje yta
+
+dat-90d604b9625f = Evidensnivåer: VALIDATED, MODELLED, PARTNER
+
+dat-e072a69b96e7 = evidence::roundtrip (kshana evidence round-trip) och exporten av mottagarlogg kshana.test-conditions/1 från kshana bench-export: ett signerat paket som registrerar scenariots hash, hashen för de angivna villkoren, loggens hash och poängen mot de angivna händelserna, och som avvisar villkor som inte stämmer med poängsättningens händelser eller en logg vars hash inte är den angivna. Ingen signal skrivs, spelas upp eller schemaläggs.
+
+dat-8286d0105f8c = evidence::tsa::verify_token, och valfritt `kshana evidence verify --tsa-ca <anchors.pem>` för ett pakets timestamp.tsr: ett RFC { "3161" } TimeStampResp eller en ren TimeStampToken (CMS SignedData över en TSTInfo) kontrollerad offline mot betrodda ankare på det sätt som `openssl ts -verify` kontrollerar den: de signerade attributens innehållstyp och meddelandesammandrag över TSTInfo; signaturen över de signerade attributen (RSA PKCS#1 v1.5, RSASSA-PSS, ECDSA P-256 och P-384; offentliga RSA-operationer på crypto-bigint); ESS signing-certificate v1 (SHA-1) eller v2-hashen som anger signerarens certifikat, funnet bland tokenens och anroparens obetrodda certifikat; signerarens kritiska, enda utökade nyckelanvändning timeStamping; kedjan till ett betrott självutfärdat ankare med varje certifikats signatur, CA-status och nyckelanvändning, och varje certifikat giltigt vid tokenens genTime; samt meddelandeavtrycket mot data. Kontrolleras inte: spärrning (CRL, OCSP), namn- och policybegränsningar, nonce
+
+dat-5fc6684d0d96 = Exakt identitet för gemensamt läge · modellerad dekorrelation
+
+dat-4a07db4dbd5c = Exakt uppdelning i paritetsunderrum av ett mätfel i den del som RAIM inte kan se och den del som den kan se. För den linjäriserade ögonblicksmodellen y = G·x + e delas varje fel dy entydigt upp i en BLIND komponent i range(G) — som absorberas som ett tillståndsfel S·dy och utplånas av residualprojektorn Pperp = I − G·S, och därför är osynlig för VILKET residualtest som helst, inte bara för en viss tröskel — och en DETECTABLE komponent i paritetsrummet. Modulen ger projektorn, uppdelningen och den blinda andelen, så att en anropare kan kvantifiera hur mycket av ett visst fel som en ögonblicksövervakare strukturellt inte kan rapportera. Tillämpat på den verkliga golvnivån mellan efemerider: den meterstora skillnaden mellan DE440 och INPOP21a samt mellan DE440 och EPM2021 i den geocentriska månpositionen absorberas nästan helt som användarpositionsfel (blind andel, median { "1.000000" }; blindt positionsfel, median { "2.3955" } m och { "2.0050" } m) mot en paritetsresidual på nivån { "1e-15" } m
+
+dat-f537bd68f028 = Exakt avståndstakt för en satellit vars jordfasta position och hastighet kommer från en tvåkroppsbana med sekulär J2-drift och jordens rotation (leo_fusion::geom::EarthOrbit::state, hastigheten är den exakta tidsderivatan av positionen), omvandlad till Doppler vid en bärvåg; den största absoluta Dopplern, Dopplertakten och ryckningen över en elevationsmask under ett fönster (leo_fusion::doppler::doppler_envelope), rapporterad per LEO-system av `leo-pvt`-typen i Dopplerläge
+
+dat-7d66430cac56 = Exempel på hur en dag ser ut: den 2026-09-15 innehöll arkivet { "110,619,797" } positionsrader i { "79,826" } spårfiler…
+
+dat-b2315ae1399b = Befintliga VALIDATED-rader som granskats på nytt enligt regeln
+
+dat-f1a39ad85134 = Exportera ett Kshana-scenario i ett interoperabilitetsformat: `czml` (Cesium Language, för CesiumJS), `kml` (Keyhole Markup Language, för Google Earth och verktyg för geografiska informationssystem), `geojson` (RFC { "7946" }), `stk` (Systems Tool Kit-efemerid `.e`, en fil per satellit) eller `sigmf` (Signal Metadata Format-inspelning av de syntetiserade samplingarna i ett `spectrum`-scenario).
+
+dat-208fcbd85f84 = Exportera ett scenarios fordonsrörelse och händelser för en GNSS-simulator i laboratorium (`kshana bench-export`, docs/TEST-BENCH.md): en rörelse-CSV och dess JSON-beskrivning (jordfast och geodetisk position, hastighet, attityd, UTC), NMEA { "0183" }-satserna GGA/RMC, en vägpunktstext när samplingsrutnätet är regelbundet i millisekunder, samt scenariots händelser som CSV och som `[[events]]`-TOML för ett `receiver-trust`-scenario.
+
+dat-a8d63bc86950 = Exportera de medelelement för ett `orbit`-scenario som en CCSDS 502.0-B-2 OMM-katalog (Orbit Mean-Elements Message) — ett OMM per satellit.
+
+dat-36de1c0dc4eb = Exportera den propagerade konstellationen för ett `orbit`-scenario som CCSDS OEM { "2.0" }-efemeristext — den tröghetsbaserade (TEME) tillståndstidsserien med både position OCH hastighet, som verktyg för flygdynamik (GMAT / Orekit / STK) läser.
+
+dat-7d5167ead5f7 = Exportera den propagerade konstellationen för ett `orbit`-scenario som SP3-c-text med precisa efemerider (standardformatet för efterbearbetning av GNSS).
+
+dat-cc130a30c4bc = Exportkontroll
+
+dat-3a4c43b5bf27 = Exportkontroll / anmärkning om produkter med dubbla användningsområden
+
+dat-2ca20377e3ba = Exporterar förtroendeflödet som Prometheus-mätvärden, OpenTelemetry (OTLP/HTTP) och CEF- eller LEEF-syslog-händelser över stdout, HTTP, UDP eller TCP, så att ett säkerhetsövervakningscentrum ser ett navigeringsfel bredvid sina övriga larm. En död insamlare varken stoppar bedömningen eller går obemärkt förbi. Prometheus, OTLP och CEF läses tillbaka av oberoende tolkare; LEEF kontrolleras bara mot sin egen specifikation.
+
+dat-5ced49135e1b = Frekvensstabilitet över utökat område (Theo1 / TOTDEV)
+
+dat-7417992b5612 = Att utöka Kshana med ett externt paket
+
+dat-8adb938b0ec9 = Extern validering
+
+dat-dbd8d18fa40a = Detektering av fel och avvikelser för kvant-PNT-system (src/quantum_faults.rs)
+
+dat-bacb005cc742 = Felinjektion ger övervakaren över flera modaliteter en detektionsförmåga i stället för ett felfritt godkännande: en minsta detekterbar bias per axel vid en angiven budget för falsklarm och missad detektion. Efter en överlämning propageras kovariansens återväxt mot larmgränserna, så att rapporten anger hur länge lösningen med en enda modalitet håller sig inom dem och inte bara att överlämningen var kontinuerlig. De optiska och RF-baserade avståndsmätningsbenen jämförs bara vid matchad ackumuleringstid och väg, och rapporten vägrar bilda en kvot mot ett värde som valts i stället för uppmätts.
+
+dat-67830b359edc = Detektering av fel och avvikelser för kvant-PNT-system
+
+dat-270cf09d3f50 = Detektering av fel och avvikelser för kvant-PNT-system — märkt felkatalog +
+
+dat-c86cb649be68 = FFT-infångning av en eller flera PRN över en IQ-inspelning i arbetskatalogen (`kshana iq acquire`).
+
+dat-c5dcfc24a46c = Fyll i kartläggningen mot offentliga ramverk utifrån Kshanas resultatdokument (`kshana compliance-report`): vilka rader i sex ramverk och standarder för resiliens (US DHS Resilient PNT framework v2.0, IMO-vägledning för fartyg, EASA-vägledning för luftfart, NIS2 artikel { "21" }, EN { "16803" }, NIST IR 8323r1) som de angivna körningarna ger belägg för, vilka de inte gör, och det gap som varje rad behåller.
+
+dat-2cc31a09464e = FYND mot den publicerade ITRF2020-koordinaten för WTZR: de trösklar som fastställdes i förväg (utjämnad median och p95 högst { "0.6" } x rå; tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_HATCH.md) nåddes inte, kvoterna blev { "0.718" } och { "0.923" }; det kvarvarande felet på meternivå är biasliknande (C1C-kodbias, antenn, tidvatten, långperiodisk flervägsutbredning), inte det vita brus som utjämningen tar bort. MODELLED: filtrets statistik kontrolleras internt
+
+dat-bfb797420441 = finaste kodjitter vid lika C/N0
+
+dat-8fce41a44ee9 = Jonosfärsfördröjning av första ordningen per band, den jonosfärsfria kombinationen och förlust i fritt rum
+
+dat-1e096cfcd7a5 = Uppdragsbudgetar av första ordningen, var och en ett körbart scenario: tvåkroppsgeometri för uppskjutning och uppstigning (uppskjutningsazimut, minsta inklination, bonus från jordens rotation, Δv för planbyte med dogleg, dagliga tillfällen), en ballistisk återinträdeskorridor enligt Allen–Eggers (högsta retardation, hastigheter vid högsta g och högsta uppvärmning), geometri för täckning vid jordobservation (svepbredd / nadir-GSD / åtkomst utanför nadir / återbesök via SMAD:s rymdtriangel), en attityd- och pekfelsbudget med 3 frihetsgrader (gravitationsgradientmoment + RSS-pekbudget), förutsägelse av markstationspassager (AOS/TCA/LOS, maximal elevation, åtkomst) och en enkelriktad länkbudget över länkekvationen för CCSDS { "401" } / DSN 810-005 (FSPL, C/N₀, Eb/N₀, marginal, slutning). Det analytiska lagret före hårdvara under STK/GMAT/Basilisk — modellerade budgetar av första ordningen, inte en ersättning för 6-DoF eller radiometri.
+
+dat-704f88840a7b = CAI-accelerometer från grundprinciper · härledd VRW korskontrollerad mot en oberoende integrator
+
+dat-f0e89ca3d3a3 = Fisher-information och Cramér–Rao-observerbarhet
+
+dat-0327cec1f316 = Fisher-information och observerbarhet
+
+dat-dd058b375937 = Fisher-information M=HᵀWH, Cramér–Rao-nedre gräns, observerbarhetsrang / nollrum för datumdefekt (Moore–Penrose-pseudoinvers) och D/A/E/T-optimala skalärer för experimentutformning från en symmetrisk Jacobi-egenvärdeslösare
+
+dat-2af9930fb955 = Fisher-information för h2, k2, l2 och de fysikaliska libration-amplituderna från laseravståndsmätning (radiell och horisontell tidvattenförskjutning, reflektorrotation), omloppsspårning (k2-accelerationen av grad 2 integrerad längs siktlinjen, trend borttagen), en markgravimeter (gravimetrisk faktor { "1" } + h2 - { "1.5" } k2) och en markklocka (fraktionell takt ({ "1" } + k2 - h2) W2/c2, knuten till månens tidskonstanter). Nominella värden för h2 och l2 är linjäriseringspunkter; studien säger vad som är känsligt för vad, inte vad talen är.
+
+dat-57f1e8fd30f8 = Fisher-information för det sjuparametriga månreferensdatumet från laseravståndsmätning från jordstationer till de fem reflektorerna enbart och med avstånd mellan omloppsfarkost och markstation tillagda: informationsmatrisen, rang, Cramér–Rao-sigman, degenerationsmåttet i modulen för identifierbarhet på månen och slumpmässiga stationsuppsättningar med fast frö. Banan hålls känd i månaxlarna (dess fel bärs av avståndssigman för omloppsfarkosten).
+
+dat-d9c6cdc0d9c5 = Observerbarhet med Fisher-information för den gemensamma månlösningen: utan baslinjer på jorden ligger det absoluta referensdatumet i nollrummet för HᵀWH (stationsposition inte observerbar); ≥{ "3" } baslinjer återställer full rang och begränsar stationens Cramér–Rao-fel, vilket estimatorn uppnår
+
+dat-f447d405ebe2 = Anpassa sensorparametrarna för scenarierna `hybrid` och `fusion` utifrån en IMU-logg i stillastående (`kshana imu-fit`, docs/MACHINE-INPUTS.md).
+
+dat-42945e827ef2 = Anpassa förlustmodellen för spårningsslingans låsförlust till laboratoriekörningar (`kshana iq labfit`): ett `iq-labfit`-scenario i TOML namnger en eller flera körningar, var och en en mottagarlogg plus dess angivna testvillkor; motorn läser in varje logg, anpassar slingans och de empiriska modellerna, bootstrappar osäkerheten och beräknar felet mot den undanhållna datamängden.
+
+dat-b8e5ec121c6e = anpassad till verkliga precisa banor från ESA/ESOC
+
+dat-ebf65964bc6f = Avvägning av anpassningsintervall
+
+dat-1f3a45325a7c = anpassad till maxvärdena för Allan-deviation i databladet för Microchip (Vectron) OX-208 ugnsstyrd kristalloscillator, Rev 12-1-2021, skalad så att den ligger på eller över varje punkt
+
+dat-501ee15a17bf = Fem studier i en begränsad trekroppsmodell: en bestämning av omloppsbana ombord med Jorden–GNSS i en nästan rätlinjig haloomloppsbana mot en oberoende bestämning av avstånd och avståndstakt från marken; gemensam fastställning av heltalsosäkerhet i bärvågsfas för markstation och omloppsfarkost (LAMBDA); Fisher-informationen för ett sjuparametrigt månreferensdatum med och utan avstånd mellan omloppsfarkost och markstation; GNSS-, VLBI- och laseravståndsoffseter mot den lokala kopplingen; samt känslighet för månens tidvatten- och librationsparametrar. MODELLED med illustrativa indata: numeriken kontrolleras mot oberoende numpy- och scipy-program, inte fysiken. Under de trösklar som fastställdes i förväg är tre NOT MET: ett injicerat kraftfel upptäcks inte i den angivna takten (C3), den bootstrappade andelen lyckade skiljer sig från numpy-referensen med { "1.7e-6" } mot en tröskel på { "1e-9" } (Q3), och att lägga till en avståndsmätningsfamilj sänker inte alltid pseudoinversens spår (G3, spårdelen).
+
+dat-51fbca73345c = Testdata skrivna för Kshana utifrån demonernas offentliga radlayouter, med påhittade värden (NOTICE.md i testdatamappen); ingen logg från en verklig installation lästes och ingen referens jämför tolkningen med en annan läsare, så en layout som skiljer sig mellan daemonversioner kan ändå avvisas eller misstolkas. De estimatorer som matas av fasserien är de som validerats mot allantools i raderna ovan
+
+dat-3cd10418c5a4 = Produktsäkring för flyghårdvara (strålning/EEE/MAIT)
+
+dat-8381d0919ccf = Precis punktpositionering med flytande lösning på verkliga RINEX-observationer
+
+dat-0637629a0c8f = Följer den angivna fysiken och klarar interna kontroller; ännu inte jämförd med en extern referens.
+
+dat-ef9cc14902d4 = FoMScores (fom-objektet)
+
+dat-c704e14dcf3c = För en rymdfarkost på en sfär (det globala skalet i ICG:s booklet om Space Service Volume) eller på en keplersk bana från LEO till månöverföring räknas per konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) och för alla tillsammans de signaler som ligger över en C/N0-tröskel: tillgänglighet för en och för fyra signaler, längsta avbrott, mottagen C/N0, geometrisk försämring av precisionen (DOP) och länkar i huvudlob mot länkar i sidolob. Sändningsdiagrammen är bookletens, en parametrisk ersättning eller ett som du anger; en limbstrålemodell för jonosfär, plasmasfär och atmosfär samt en utformning av mottagare för svaga signaler är valfria; ett GNSS-filter ombord för höga banor och banor för månöverföring samt relativ navigering i formation ingår. MODELLED: jämfört med bookletens tabeller enligt en förhandsregistrering som fastställdes före körningen stämmer konstanterna för minsta utstrålade effekt och månens tröskel överens, de övriga trösklarna är NOT MET enligt den förhandsregistrerade läsningen (nästan alla på grund av bookletens inkonsekventa strålevinkel för GLONASS), och den parametriska sidolobsersättningen återger inte de uppmätta GPS-panelmönstren.
+
+dat-a1979d51f7e2 = För ett fartyg avkodar `receiver_trust` de NMEA { "0183" }-satser som en mottagare och dess instrument ger ut (GGA, RMC, VTG, HDT, VHW, VBW, ZDA, GSV), bildar förskjutningen i öst–nord mellan positionsbestämningarna (`maritime::en_offset_m`) och utifrån dessa de statistiska mått som dess övervakare avgör på: den underförstådda farten, residualen vid dödräkning, den underförstådda accelerationen och den underförstådda girtakten över fönster på { "30" } s, residualerna för rubrik mot kurs, loggfart mot fart över grund och antennhöjd (medianer över { "10" } s), samt spridningen och ökningen av satelliternas signal-brusförhållande.
+
+dat-9814a5e133fb = För en agent (eller personen som styr en): vilket verktyg som ska anropas för vilken fråga, vad verktygen kommer att och…
+
+dat-416c090dc463 = För varje bandpar för en `leo-pass`-satellit anger rapporten det sneda totala elektroninnehåll som den geometrifria kodkombinationen återger vid passagens topp, (P2 - P1) f1^{ "2" } f2^{ "2" } / ({ "40.3" } (f1^{ "2" } - f2^{ "2" })), och dess 1-sigma från de två bandens termiska kodbrus, så att vilken LEO-PNT-utformning med flera band som helst kan vägas som ett jonosfärsekolod
+
+dat-97d9d30e725b = För varje LEO-satellit och varje par av avståndsmätningsband bildar avsnittet `[spoofer]` den geometrifria pseudoavståndskombinationen, tar bort mottagarens jonosfärsmodell och testar dess steg från epok till epok mot de två bandens kodbrus och en angiven tolererad omodellerad jonosfärstakt (tvåsidig gaussisk, exakt detektionssannolikhet); en spoofer som förfalskar vissa band men inte andra, eller varje band utan jonosfären, upptäcks vid sin början; en som förfalskar varje band och simulerar jonosfären upptäcks inte, vilket resultatet anger
+
+dat-0669507306b7 = Validering av kraftmodeller genom efemerisanpassning — metod och validerade residualer
+
+dat-8a504682bc0b = Validering av kraftmodeller genom efemerisanpassning (src/precise_od.rs)
+
+dat-0629a6a5359f = forces::DensityModel (Exponential som standard, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) och propagator::ForceModel::drag_density: kvadratisk luftmotståndskraft mot den medroterande atmosfären med NRLMSISE-00-densiteten vid den geodetiska WGS-84-punkten (jordens rotationsvinkel med UT1 = TT, lokal soltid UT + lon/15), konstant rymdväder per modell; som standard av och bitidentisk
+
+dat-a20b66db9189 = Formatöverensstämmelse på en verklig publicerad RINEX { "4.00" }-fil (inlästa värden är lika med filens utskrivna litteraler) och ett specifikationsbaserat huvud; ingen oberoende läsare kördes, därför MODELLED
+
+dat-bd6169063ab6 = Formatversion och fält
+
+dat-503ed22693cf = Formationsläge: relativ navigering
+
+dat-8fac1150529a = Format som motorn talar
+
+dat-7eaefdd4a9c0 = Framåtriktad syntes av pseudoavstånd / Doppler med Klobuchar-jonosfär (utsänd) och IONEX / TEC-rutnät (uppmätt) — inklusive en IONEX-filtolkare, tidsinterpolation och avbildning av tunt skal med sned vinkel — Saastamoinen- och Niell-troposfär samt RAIM för ögonblicksbild.
+
+dat-72a0705bd82f = Fyra förinställningar — OCXO (Microchip OX-208), rubidium (Microchip 8040C), cesium (Microchip 5071A högpresterande rör) och CSAC (Microchip SA.45s) — var och en med databladets maxvärden för Allan-deviation, åldrande och temperaturgräns; en icke-negativ minsta kvadratanpassning av frekvensbrus av typen vitt + flicker + slumpvandring skalad så att den omsluter varje punkt i databladet, ett flickergolv som aldrig ligger under värdet för längsta τ, linjärt åldrande och en sinusformad temperaturterm, syntetiserad som ett holdover med fast frö efter en GNSS-förlust
+
+dat-a676a683f30b = Rammatriser mot ERFA-vektorer: IAU { "2006" } bias-precession, TEME till GCRS och CIO-kedjan med förskjutningar av himmelspolen
+
+dat-a10174fa0280 = System och konventioner
+
+dat-d36daebd0efc = Referenssystem och tid
+
+dat-1be00e3f7219 = fri tröghetsnavigering
+
+dat-e910c86d9cbe = Förlust i fritt rum, C/N₀, Eb/N₀, marginal och slutning över länkekvationen för CCSDS { "401" } / DSN 810-005 för EIRP/G·T/avstånd/takt/band mot ett krävt Eb/N₀. Kan köras från CLI/bindningar som scenariotypen `link-budget` (scenarios/link-budget.toml)
+
+dat-27e53cda32db = Karakterisering av frekvensstabilitet
+
+dat-f329e4558e9f = Frekvensstabilitet på en verklig uppmätt klocka
+
+dat-6d224d115687 = Frekvenssynkronisering: wander-generering enligt G.811, G.812, G.8262 och G.8262.1 ({ "0.36" })
+
+dat-e2a2e2c97af5 = Från kod
+
+dat-eb9476cc9794 = Från Python och WebAssembly
+
+dat-d90fd2aeef6a = Från Python, WebAssembly och MCP
+
+dat-c32cf6bb95d1 = frugal (över walker)
+
+dat-0f8189016ddc = Sparsam ansats med kostnad per täckning / ROI
+
+dat-64418b3e7e3c = frugal::tests (handhärledd kostnad per täckning 48/96={ "0.5" }, ROI-kvot { "2.667" }, kontroll av intervallordning + skydd mot noll täckning)
+
+dat-821431fc22ea = Utsändning av hela bågen, nivå { "1" } (före rättelse†)
+
+dat-6dd8e31b0dcd = sammanvägd positionsbestämning, RMS-fel
+
+dat-85439cf1f56d = Sammanvägd median-PDOP mot SISRE för LEO
+
+dat-e4d34ebcb276 = Sammanvägd positionering, navigering och tidssynkronisering (PNT) med medelhög (MEO) och låg (LEO) omloppsbana över VILKEN…
+
+dat-b798d233f73e = Sammanvägd MEO- och LEO-positionering för ett fartyg djupt inne i en fjord, där dalsidorna skymmer
+
+dat-d3bf21538bac = Sammanvägd positionering, navigering och tidssynkronisering med MEO och LEO
+
+dat-76d49a741f36 = Sammanvägd pseudoavståndspositionering med MEO och LEO: GPS och Galileo med ett navigeringslager i LEO.
+
+dat-a672a7aa19d7 = sammanvägd med låg omloppsbana
+
+dat-3ada6ff9e069 = fusion (scenariotyp)
+
+dat-ec5d8ca74e7d = fusion::pack (TightCfg, [tight]), scenarierna gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+dat-95e88ecc34df = fusion::tests (UKF==identitet med linjärt KF; kursfärd under avbrott; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } fall mot filterpy { "1.4.5" }: linjärt EKF löst/tätt kopplat + kopplade PNT-posteriorer till ≤{ "2.4e-12" }; UKF-körning över 40 epoker sämsta |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (NaveGo v1.4:s löst kopplade lösning på NaveGos verkliga IMU/GNSS-körning med Ekinox: horisontell RMS 0.912x, vertikal 0.940x, RMS för positionsinnovation 0.861x av NaveGos, medelvärde av normaliserad innovation { "0.395" }; trösklar 1.2x, 1.2x, 1.2x och { "1.5" } fastställda före körningen)
+
+dat-fa85ed0fb966 = G1/G2 LFSR-generator för C/A-kod som återger de publicerade verifieringsvektorerna i oktal för de första 10 chipen i IS-GPS-200 för PRN { "1" }–{ "9" } (plus längden 1023 chip, balansen med 512 ettor, trevärd periodisk autokorrelation)
+
+dat-71b6ea3dc71a = Användaralgoritmen för utsända efemerider enligt Galileo ICD som bas för ett navigeringsmeddelande i LEO
+
+dat-c5e5f5f38caf = Galileo, medelhög jordbana — GRÖN (< { "5" } m tröskel)
+
+dat-455af4b55c5e = Galileo OSNMA: autentisering av navigeringsdata på mottagarsidan
+
+dat-9025636fcc85 = Galileo OSNMA: verifierare på mottagarsidan
+
+dat-b674eba809eb = Galileo OSNMA-verifiering
+
+dat-6e3ed81e2232 = Galileo OSNMA-verifierare
+
+dat-8a9416290ca3 = Galileo Walker 24/3/1, Galileo OS SDD utgåva { "1.1" } tabellerna { "1" } och { "23" }
+
+dat-4a49a3de27d2 = driftsättningar med gate och bench
+
+dat-f553cc1c927b = Gate-integritet — ett grönt som betyder det det säger
+
+dat-6a610bcc14b9 = Gate-läge
+
+dat-e3b2d3da9750 = GDOP/PDOP/HDOP/VDOP/TDOP från geometrin för siktlinjer via Q=(HᵀH)⁻¹ med lokal ENU-uppdelning
+
+dat-731732835cd7 = Gemini CLI
+
+dat-b3d237b0dc32 = Generera en GNSS-IQ-scen med flera satelliter till en fil i arbetskatalogen (`kshana iq scene`).
+
+dat-8bf4ec225897 = Generera syntetisk NMEA { "0183" } för bryggan till besättningsutbildning utifrån en `nmea-scenario`-TOML (`kshana nmea-scenario`): ett fartygsspår och en tidslinje med skriptade händelser (jamming, positionsavdrift, tidsspoofing, återuppspelningsfördröjning, med återhämtning).
+
+dat-26c58834fe9d = Genereras av `cargo run --bin gen_validation_artifacts` och fastlåst av tests/verification_artifacts_doc_sync.rs. Redigera inte för hand.
+
+dat-4837fbbcb35b = Generellt N-dimensionellt parametersvep över VILKEN scenariotyp som helst. Till skillnad från det som bara gäller klockor
+
+dat-3df08ace2207 = Generellt N-dimensionellt svep över vilket paket som helst via punktade TOML-nycklar / JSON-mätvärdessökvägar.
+
+dat-74ed4850ce5d = geolocation::tests (brusfri TDOA framåt→invers till { "1e-6" } m; J·CRLB=I med en symmetrisk positivt definit kovarians; spåret av positionsvariansen i CRLB är icke-växande när en mottagare läggs till; gemensam TDOA+FDOA återger position+hastighet för en rörlig sändare; <{ "4" } mottagare avvisas); tests/geolocation_reference.rs (rundturer över fyra geometrier med ett nätverk som är 3-D-mångsidigt; Gauss–Newton-estimatorn når sin Cramér–Rao-gräns — den empiriska felkovariansen följer den analytiska gränsen över { "4000" } Monte Carlo-försök); tests/geolocation_crlb_published_oracle.rs (ho_chan_1993_maximum_tdoa; ho_xu_2004_fig7_with_the_authors_corrected_source; ho_xu_2004_bound_matches_the_authors_code; finding_ho_chan_ottawa_printed_values_are_not_the_bound och finding_ho_xu_fig7_printed_source_is_not_the_plotted_one, fastlåsta)
+
+dat-611e316455d9 = Geomagnetiskt referensfält (IGRF-14-syntes)
+
+dat-b4ef2c21bc63 = Geometrisk instansiering av den blockvisa spark-gränsen / gränsen för säker tillståndsskattning (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; blockvis spark av Donoho–Elad { "2003" }; Candès–Tao { "2005" }) — INTE tröskeln 3f+{ "1" } för konsensus av Lamport–Shostak–Pease ('Byzantine' namnger bara MODELLEN för godtyckliga/samverkande fel). Det angivna antalet tolererade fel är en modellerad egenskap hos nätverksgeometrin i det representativa nätverket, kontrollerad för självkonsistens med handkonstruerade analytiska fall och formlerna för antalet
+
+dat-2b09848842ee = Geometriska positioner för Solen, Merkurius, Venus, Jorden och Månen i förhållande till varandra (axlar J2000/ICRF, meter) från en JPL DE440-kärna via ephem_provider::KernelEphemeris vid UTC-epoker: kroppsnamn avbildade på NAIF-koder, UTC fört genom tabellen över skottsekunder och TT till TDB med TDB-TT-serien med två termer, kärnan inläst av motorns egen läsare. En kropp som kärnan bara innehåller som ett systems barycentrum (Mars till Neptunus, Pluto i de440s) avvisas, aldrig ersätts. Standish-raden utan kärna förblir vägen för webbläsaren och reservvägen
+
+dat-39e185a7bce6 = Geometri — GNSS-tillgänglighet utifrån banor
+
+dat-5b62a8ae98f6 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg; CLI `kshana sky` och `kshana skyline`, Python- och WASM-funktioner med samma namn, MCP `sky_geometry`): från en plats, en tid och konstellationsförinställningar (eller satelliter som azimut/elevation eller ECEF) de satelliter som syns och de som skyms av en skyline, GDOP/PDOP/HDOP/VDOP/TDOP, kofaktorn med enhetsvarians (H^T H)^-1 och kovariansen i öst-nord-upp med en mottagarklocka per system eller en gemensam, den horisontella felellipsen (halvaxlar k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), orientering { "0.5" } atan2({ "2" } Q_EN, Q_NN - Q_EE) från norr), samt n minsta kvadratfel med fast frö under oberoende gaussiska avståndsfel med deras empiriska kovarians, RMS och { "95" } % inneslutning. Kofaktorn är orbit::cofactor_from_los, den enda kärnan bakom orbit::dop och orbit::dop_cov (dop är en reduktion av dop_cov): ingen annan DOP-implementation
+
+dat-9d3c13673a52 = Geometrisk J/S-länkbudget, C/N₀ med anti-jam, förlust av lås per satellit
+
+dat-564d4b9fd1ed = Geometrimedveten förtroendeklassificering
+
+dat-f7f6e62db727 = Geometrimedveten förtroendeklassificering: satellitgeometri bredvid förtroendepoängen för mottagaren och en klass på varje avdrag
+
+dat-e10a325ec82d = Geometri: naturlig försämring skild från attackliknande inkonsekvens
+
+dat-1ce585aa8de3 = geometry::sky_geometry: kofaktorn (H^T H)^-1 för ENU och klocka med en mottagarklocka gemensam eller en per system (kärnan orbit::cofactor_from_los), och den horisontella felellipsen från dess öst-nord-block (halvaxlar k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), huvudaxelns azimut från norr)
+
+dat-b643c15103c2 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (kärnan med en klocka mot gnss_lib_py)
+
+dat-61e8d44ad423 = Kom igång
+
+dat-3023f7e52c16 = GitHub container registry
+
+dat-f7ecb6756caa = GitHub-release
+
+dat-a33da228eb84 = Global geometrisk försämring av precisionen för GPS-konstellationens baslinje
+
+dat-0beb4fb3e33d = Globalt genomsnittliga vikter för signal-i-rymden-avståndsfel för vilken banhöjd som helst
+
+dat-2015f8efbc2f = GLONASS 24/3/1, GLONASS ICD utgåva { "5.1" } ({ "2008" }) avsnitt { "5.2" }
+
+dat-3123f2d9a593 = Utsänd satellitklocka och propagering av utsänd bana för GLONASS
+
+dat-49146c124e2d = GLONASS G1/G2, BeiDou B1/B2 och Galileo E6
+
+dat-56cdbf2137c2 = GLS-vitning av gemensamt läge (Aitken) + Mahalanobis-identitet
+
+dat-b9b08309b102 = GMAT R2022a (NASA GSFC, Apache-2.0) GmatConsole med den exponentiella atmosfären (samma tabell med 28 band), punktmassa-Jorden och PrinceDormand78, körd, aldrig inkluderad i källkoden. Trösklar förhandsregistrerade i xval/drag-exponential-gmat/PREREGISTRATION.md (640c85c1) för luftmotståndsförskjutningen på varje sida (körning med luftmotstånd minus körning utan), vilket tar ut de två värdena för jordens mu och integratorerna; alla nådda (RESULTS.md). GMAT tar geodetisk höjd och kshana sfärisk höjd: de sammanfaller bara vid ekvatorn, så VALIDATED gäller ekvatoriella banor; utanför ekvatorn skiljer sig modellerna åt av konstruktion ({ "10.4" } % av { "24" } h förskjutning vid { "51.6" } grader, { "400" } km). GMATs offentliga bygge har ingen NRLMSISE-00 (insticksmodulen saknas), så NRLMSISE-00-nivån har bara Orekit som referens. Tabellens noggrannhet mot uppmätt densitet täcks inte
+
+dat-900ba38459e6 = GMAT R2026a (Apache-2.0, körd som ett separat program) på { "192" } hyperboliska jordtillstånd: B.T, B.R och |B| inom { "1e-6" } km (sämst { "1.35e-8" } km), svängvinkeln och båda asymptoterna inom { "1e-9" } rad (sämst { "9.3e-15" } rad); hastighetsändringen vid assist från GMAT C3 och asymptoter inom { "1e-9" } v_inf (sämst { "5.6e-14" }); heliocentrisk SMA, ECC och INC på { "350" } solcentrerade tillstånd före och efter assisten inom { "1e-9" } relativt och { "1e-12" } rad (sämst { "2.2e-14" } och { "4.1e-14" } rad); Tisserand-parametern mot sbpy { "0.6.0" } (BSD-3) på GMAT-element inom { "1e-9" } (sämst { "1.3e-15" }) och mot { "3" } - C3/v_c^{ "2" } ({ "8.9e-16" }); samt den slutna formen för Tisserand mot Kasuga och Jewitt ({ "2019" }) tabell { "8.1" } för { "12" } objekt inom den tryckta avrundningsgränsen (sämst { "0.39" } av den; ett publicerat räknat värde av klass P1). Förhandsregistrerad (436293bf; heliocentrisk reparation 6fd9f5e6); tillägget 374c806b, skrivet sedan referensfilerna genererats och före något Kshana-värde, vidgade indatafiltret för inklination från { "1e-2" } till { "1e-3" } rad, så att fler och sämre konditionerade tillstånd behölls. Räckvidd för MODELLED: tvåkroppsförbiflygning med patched conic på en cirkulär planetbana, ingen övergång mellan påverkanssfärer, inga störningar vid mötet och ingen efemerid
+
+dat-aa6ddeb93b15 = GNSS / INS-sensorfusion
+
+dat-58fdfb5544c3 = enbart GNSS, RMS-fel
+
+dat-2cad73f47600 = GNSS-autentisering
+
+dat-ebddc70e47f7 = GNSS-tillgänglighet + DOP från en omloppskonstellation (Walker / TLE / RINEX).
+
+dat-f045dfa9ea84 = GNSS-tillgänglighet och geometrisk försämring av precisionen längst ner i en stadsgata: `orbit`
+
+dat-ab69eba7be35 = GNSS-tillgänglighet härledd ur banornas geometri (inte handskrivna fönster).
+
+dat-17bb8b5c7578 = GNSS-tillgänglighet för en användare i mycket excentrisk bana (Molniya), utifrån banornas geometri.
+
+dat-55e2648633a9 = GNSS-tillgänglighet utifrån en verklig utsänd RINEX { "3" }-efemerid.
+
+dat-eeb36e87af2a = GNSS-tillgänglighet utifrån VERKLIG satellitgeometri, via tvåradiga elementmängder.
+
+dat-b3d70ccc7bd2 = GNSS-tillgänglighet utifrån den VERKLIGA GPS-konstellationen propagerad med SGP4/SDP4.
+
+dat-a44b2b91bca4 = GNSS bortom konstellationen: typen gnss-ssv
+
+dat-840f672ac80e = GNSS bortom konstellationen: Space Service Volume och bortom den
+
+dat-83b3514917c4 = Lösning av heltalsosäkerhet i bärvågsfas för GNSS (LAMBDA)
+
+dat-bb79da35fc9c = GNSS-geometri / geometrisk försämring av precisionen (DOP)
+
+dat-e273c919d879 = GNSS-integritet (RAIM), tillgänglighet över en GPS-lik konstellation.
+
+dat-3ed8a076bc17 = GNSS-IQ-infångning på oberoende genererade I/Q-sampel
+
+dat-f09cd8d61760 = Signaturer för GNSS-IQ och mottagarförtroende
+
+dat-a0dce0aacba8 = Signalgeometri i en GNSS-IQ-scen mot en oberoende basbandsgenerator
+
+dat-793ccdd5cb86 = Fotavtryck för GNSS-jamming
+
+dat-f04784542a0c = Mätdomän för GNSS
+
+dat-4e35d01aa3d8 = GNSS-mätningar, positionering och integritet
+
+dat-e32da0beede4 = GNSS-mätningar, positionering och integritet (familj av scenariotyper)
+
+dat-3a4061afb712 = GNSS median-C/N0
+
+dat-d5e0f4289cb5 = GNSS på en månöverföring, med en mottagare för svaga signaler som förtjänar sin känslighet.
+
+dat-7d5e1c1fc67e = GNSS-positionering
+
+dat-f71f41147efa = GNSS-positionering tillsammans med de två demonstrationssatelliterna ESA Celeste i omloppsbana.
+
+dat-fb12222228a2 = Tillgänglighet av GNSS-signaler i Space Service Volume och bortom den, jämförd med ICG:s SSV-booklet
+
+dat-eb68247b6d8c = Tillgänglighet av GNSS-signaler i det övre SSV-skalet: bookletens globala mått, i en storlek som körs på en sekund.
+
+dat-0430afb51651 = Detektionsstatistik för GNSS-infångning med kvadratisk detektor
+
+dat-ab0faa9843fa = GNSS-förtroende (poäng, band, skäl, gate och, på begäran, position) som Prometheus-textexponering på /metrics och som OTLP/HTTP-JSON-mätvärden, med ett tak för kardinaliteten hos etiketter för skäl.
+
+dat-4a56bffdc113 = GNSS-förtroende som säkerhetstelemetri
+
+dat-babe120b27d3 = DOP från gnss_lib_py { "1.0.4" } (Stanford NAV Lab) — oberoende bibliotek, överensstämmande till { "1e-6" } relativt
+
+dat-6d8275b71221 = gnss_navmsg::tests (kontrollvärde för CRC-24Q 0xCDE703; impulssvar för faltningskod; Viterbi rättar injicerade fel; layoutbredder); tests/gnss_navmsg_roundtrip.rs (fältens startbitar är lika med bitnumren i ICD; kodning -> FEC -> interfoliering -> Viterbi -> avkodning ger rundturer inom en halv LSB); tests/gnss_navmsg_galileo_brdc_grid.rs (IGS BRDC 2018-133 Galileo-poster på LSB-rutnätet, sämst { "3.6e-3" } LSB; tröskeln för antal satelliter som fastställdes i förväg nåddes inte, { "15" } av { "20" }, FYND)
+
+dat-7a590be82e74 = Holdover för klocka utan GNSS
+
+dat-4c656dcbfb0b = Motståndskraft mot jamming utan GNSS
+
+dat-ad83abe1a009 = Kvantnavigering utan GNSS
+
+dat-17b5e6774026 = Kvantnavigering utan GNSS — kvant (kallatom-interferometer) mot klassisk
+
+dat-c0d5518e2983 = Kvantnavigering utan GNSS (src/quantum_nav_od.rs)
+
+dat-9d4a626d6fc3 = gnss-ins (scenariotyp)
+
+dat-7d66f55cfbd0 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, paketet för Ubuntu { "24.04" }, körd som ett separat program; bara härledda tal incheckade) som spårar samma numpy-inspelningar (oberoende av motorn), båda mätta mot den analytiska referensen. Trösklar förhandsregistrerade vid 48edd4a5, ändrade före någon testinspelning vid 1e4288c4 (en FLL på { "10" } Hz bara under inledande inlåsning i båda mottagarna, efter att den registrerade kalibreringen misslyckats på en felaktig överlämning till GNSS-SDR, fynd F3). MET vid { "30" }, { "35" }, { "40" } och { "45" } dB-Hz: bärvågsjitter inom { "4.3" } %, kodjitter inom { "4.6" } % och medelvärde och spridning för Doppler inom GNSS-SDR:s. NOT MET: motorns NWPR-C/N0 läser { "2.3" } till { "7.1" } dB under GNSS-SDR:s SNV (fynd F4, den kända gränsen för NWPR; dess M2M4 ligger inom { "0.06" } dB från referensen); indikatorerna för faslås skiljer sig per definition (F5); vid { "30" } dB-Hz slirade GNSS-SDR två gånger och motorn inte (F6). GNSS-SDR:s egen överlämning låste på fel frekvens i { "3" } av { "30" } kalibreringskörningar. VAD SOM INTE KONTROLLERAS: andra signaler, borttagning av databitar, återinfångning, fältinspelningar. Raden förblir MODELLED.
+
+dat-88626853d609 = GNSS-SDR { "0.0.19" } (GPL-3.0, separat program, fastlåst konfiguration) på de nio L1-partierna utan yta och flygmottagarens RAW-C/N0 (LuGRE Mission Data, Zenodo { "16411687" }, CC BY { "4.0" }), förhandsregistrerad 768cb62b. FYND: Kshanas läsare avkodar alla { "288" } jämförda spann identiskt med en oberoende omvandlare; GNSS-SDR deklarerar { "266" } av { "288" } sökningar som positiva och Kshana är överens om alla { "266" } beslut, men bara { "250" } ligger på GNSS-SDR:s cell (A2 faller); C/N0-delen är tom, eftersom ingen RAW-epok från flygningen ligger inom { "30" } s från något parti (närmast { "141" } s). De flesta positiva är artefakter: de bara tvåkomplementsnivåerna har ett medelvärde på -0.5 på I och Q, en nollfrekvenslinje { "32" } dB över bruset i en { "1" } kHz-bin, som båda mottagarna fångar in. Två partier (OP5, OP12) undantogs av misstag: en läsning av deras metadata med siffrorna borttagna togs för en motsägelse mot deras huvuden; den verkliga orsaken var att läsaren inte kunde läsa ett sampel bredare än ett ord (sedan rättat). Förblir MODELLED
+
+dat-f1f9f73e43f8 = Adapter för GNSS-SDR-övervakning till receiver-trust
+
+dat-ce3f6373b5d3 = GNSS-SDR { "v0.0.19" } (tagg { "v0.0.19" }, commit 1ddd4562), en oberoende implementation med öppen källkod av samma ICD: dess beidou_b1i_code_gen_int, kompilerad fristående, genererade alla { "63" } koder. Bara dess programutdata är incheckade: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, ett prefix på 64 chip och SHA-256 för varje kod på 2046 chip. Dessa utdata är de BeiDou B1I-PRN-koder som den offentliga BDS-SIS-ICD-B1I-3.0 definierar; ingen källkod eller binär från GNSS-SDR finns i arkivet. Tröskel förhandsregistrerad vid 911106d1 (xval/beidou-b1i-gnss-sdr/): alla { "2046" } chip för alla { "63" } PRN identiska, ingen invertering, förskjutning eller omdöpning. Resultat: { "63" } av { "63" } identiska; testdatat återskapades från en ny utcheckning av { "v0.0.19" } (källfilens SHA-256 enligt registret) och är byteidentiskt. VAD SOM INTE KONTROLLERAS: den sekundära koden NH20, listan över GEO-PRN, bärvågen och chiptakten.
+
+dat-abeeb9e52652 = gnss-sim (scenariotyp)
+
+dat-ab23598ddddf = gnss-ssv (scenariotyp)
+
+dat-f381b2207626 = Paket för GNSS/INS till sjöss, på järnväg och i luftfart med ett alternativ för tät koppling
+
+dat-1e713796059f = GNSS/INS-sensorfusion
+
+dat-a606add53511 = Bibliotek med GNSS/INS-banor och import av referens i CSV
+
+dat-c8272b47794a = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, commit 55ea3344, körd som ett separat program via en testsele; ingen GNSSTk-kod ingår): getIonoCorr för KlobucharIonoNavData vid L1, L2 och L5, getEffIonoLevel för NeQuickIonoNavData för Az med regeln för alla nollor och regeln [{ "0" }, { "400" }] sfu, och getOffset för GPSLNavTimeOffset för UTC-driften, inom { "1e-3" } m, { "1e-6" } sfu och { "1e-9" } s; samt ERFA via pyerfa { "2.0.1.5" } (BSD-3), som härleder UTC ur IERS tabell över skottsekunder, för de tre fallen med skottsekunder i ICD över de verkliga skottsekunderna 2015-06-30 och 2016-12-31 inklusive läsningen { "23" }:{ "59" }:{ "60" }, inom { "1e-9" } s (GNSSTk implementerar inte regeln för dygnslängd i ICD-fall (b) och användes därför inte där, som det står i förhandsregistreringen). Indata är de verkliga huvudkoefficienterna i IGS BRDC. Förhandsregistrerad (6a66994b; tillägget 88807a7e incheckade en delmängd på { "21" } 602 rader av rutnätet för skottsekunder före något jämfört Kshana-värde). Integreringen av elektrontäthet i NeQuick är inte implementerad, och ingen korrektion görs för en LEO-satellit som flyger inne i jonosfären
+
+dat-acf30276f7a0 = GPS baslinje med konstellation på 24 positioner, GPS SPS Performance Standard 5:e utg. ({ "2020" }) tabellerna 3.2-1 och 3.2-3
+
+dat-8c382c68132d = GPS C/A Gold, kors-/autokorrelation, överensstämmer EXAKT (heltal ±65/−1/63) med oberoende generering av kod enligt IS-GPS-200; PSD-formen för BPSK-R({ "1" })/BOC({ "1,1" }) mot ett oberoende scipy-periodogram. De slutna formerna för modulation/SSC/DLL (Betz { "2001" } / Kaplan & Hegarty) förblir analytiska, så raden förblir MODELLED — men delpåståendet om kodkorrelation är externt matchat. { "0.30" } omgång { "2" }, mot de tryckta värdena hos Betz { "2001" } och Hein et al. { "2006" } (förhandsregistrerad 9f4f2ce8, en halv tryckt enhet), ett fynd (förblir MODELLED): alla { "45" } spektralceller i tabell { "1" }, korrelationsvärdena vid { "1" } GHz, siffrorna för MBOC-interferens och { "2" } av { "3" } förskjutningar i fig. { "17" } stämmer; de första sidolobsmaxima vid { "24" } MHz, förskjutningen för BOC({ "8,4" }) i fig. { "17" } och varje flervägsbias i värsta fall i fig. 18-21 ({ "11" } till { "15" } % för låg) gör det inte. Kshana och en oberoende NumPy-utvärdering av den förhandsregistrerade läsningen är överens, så gapet ligger i den läsningen eller i en ouppgiven detalj i artikeln; orsaken är olöst
+
+dat-71345b993a9b = GPS CNAV-meddelandetyperna 10/11/30, Galileo I/NAV-ordtyperna 1-5 i nominella jämna/udda sidor och Galileo F/NAV-sidtyperna 1-4: paketering av fält och kvantisering enligt ICD, CRC-24Q, faltningskodning med takt 1/2 och K={ "7" } (G2 inverterad för Galileo), blockinterfoliering och synkmönster, med motsvarande testavkodare
+
+dat-2d449120b935 = Formatkontroll för GPS L1 C/A mellan generatorer
+
+dat-ed4980281dd2 = Spridningskoder för GPS L1 C/A (sdr::CaCode) och LNAV-underramarna 1-3 (gps_lnav: kvantisering av fält enligt IS-GPS-200 med specifikationens pi, paketering i tvåkomplement, orden TLM och HOW, paritet enligt tabell 20-XIV med inversion av D29*/D30*, de paritetslösande bitarna i orden { "2" } och { "10" }) jämförda bit för bit med gps-sdr-sim på dess medföljande brdc0010.22n ({ "32" } satelliter)
+
+dat-1a97a57b83e7 = Generering av spridningskoder för GPS L1 C/A
+
+dat-fa382f0c49f6 = Avståndsmätnings- och överlagringskoder för GPS L1C mot de tryckta kontrollkolumnerna i IS-GPS-800J
+
+dat-b6918acff4da = GPS LNAV-kodning avkodad av ett oberoende mottagarbibliotek
+
+dat-6649987ce0e6 = Kodning av navigeringsmeddelandet GPS LNAV
+
+dat-661bb3c8a237 = GPS SPS PS 5:e utgåvan (april { "2020" }) bilaga B avsnitten B.3.2.2 och B.3.2.3, den publicerade globalt genomsnittliga fördelningen av HDOP för den fullt besatta baslinjekonstellationen med 24 positioner (median { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, medelvärde { "0.96" }), tabell 3.8-1 (tillgänglighet av PDOP) och tabell B.3-1 (ensemble-PDOP för en försämrad konstellation, används bara som övre gräns), plus en handhärledd sluten form för en epok. Fördelningarna av VDOP och PDOP för den fullständiga konstellationen publiceras bara som en figur, så PDOP fastlåses ensidigt; den sämsta punkten i tid och rum (HDOP { "2.40" } och VDOP { "5.22" } här, { "2.49" } och { "5.43" } publicerade) beror på rutnätet och redovisas, inte fastlåst
+
+dat-c8e4f15b7206 = Alternativ PNT utan GPS
+
+dat-bc954d668981 = Alternativ PNT utan GPS (familj av scenariotyper)
+
+dat-60b1448d2ac3 = Kombinerad navigator utan GPS med gravitation + magnetfält + terräng: tre skalära fältkanaler sammanvägda per vägpunkt…
+
+dat-db37b7cd3c4f = Kartmatchande navigering med gravitation utan GPS: en kallatomgravimeter återskapar en konstant INS-drift från…
+
+dat-c79931a093e0 = Sekventiell (rekursiv) terrängreferensnavigering utan GPS: ett partikelfilter kör terrängmatchningen…
+
+dat-fd36d4cd58c4 = Terrängreferensnavigering utan GPS (TERCOM/SITAN): en radar-/barometrisk höjdmätare matchar markhöjden…
+
+dat-3a18e1b86eec = fusion::trajectory::tests (koordinerad sväng har ingen sidokraft och lastfaktor 1/cos φ; CSV-import återger en flugen profil till { "1e-3" } m/s och { "1" } m); tests/gnss_ins_trajectory_library.rs (varje profil körs och fusion slår fri INS under avbrottet; varje profil flyger sin namngivna rörelse; observerbarhet av kurs: girens sigma efter { "240" } s { "1.27" } grader vid rak marschfart mot { "0.039" } grader för figur-8 och { "0.062" } grader för stanna-och-kör); tests/gnss_ins_legacy_trajectory_pin.rs (äldre resultat och referens-hashar bitidentiska)
+
+dat-3af71f34aee3 = gps-sdr-sim (MIT, commit 28ca29a6, körd som ett separat program via en incheckad testsele), förhandsregistrerad f88f2969 med en bitexakt tröskel för (A) C/A-chip, (B) varje beräknat LNAV-fält, (C) varje paritetsbit. FYND: (A) { "0" } av { "32 736" } chip skiljer sig, (C) pariteten skiljer sig för { "0" } av { "1 920" } ord, (B) { "230" } av { "1 152" } beräknade fält skiljer sig med en enhet: eph2sbf i gps-sdr-sim trunkerar mot noll med C-cast där det utsända heltalet kräver avrundning (varje avvikande värde ligger inom { "0.01" } av en enhet från Kshanas avrundade heltal). Förblir MODELLED: den registrerade tröskeln var konjunktionen
+
+dat-cca90e8b2987 = I/Q-sampel från gps-sdr-sim (MIT, commit 28ca29a6) och dess eget kanaltillstånd, förhandsregistrerad 7777da53: (B1) varje simulerad PRN infångad, (B2) ingen annan PRN infångad, (B3) kodfas inom { "0.5" } chip, (B4) Doppler inom { "125" } Hz. FYND: B1, B3 och B4 håller i båda fönstren (sämst { "0.195" } chip, { "72" } Hz), men B2 faller: alla { "21" } PRN som gps-sdr-sim inte simulerade passerar också tröskeln (statistik { "151" } till { "206" } mot { "79.5" }; simulerade PRN { "1 300" } och uppåt). Tröskeln är satt för gaussiskt brus av den uppmätta samplingseffekten; gps-sdr-sim lägger inte till något brus, så cellerna för en frånvarande PRN innehåller de andra satelliternas korskorrelation. Förblir MODELLED: den registrerade tröskeln var konjunktionen
+
+dat-52d3c8bd9d2c = gps-sdr-sim (T. Ebinuma, MIT, commit 28ca29a6), en oberoende basbandsgenerator för GPS L1 C/A, byggd med sin egen Makefile och körd som ett separat program på sin medföljande brdc0010.22n vid exempelplatsen i sin användningstext (scripts/gen_iq_gpssdrsim_ref.sh); en incheckad testsele länkad mot samma bygge skriver ut kanaltillståndet (computeRange, computeCodePhase) bakom programmets första block. Trösklar fastställda innan generatorn kördes (förhandsregistrerad 7777da53). Omfattning: GPS L1 C/A-geometri för en stillastående mottagare utan jonosfär, troposfär eller mottagarklocka; scenens kanalmodeller, brus och innehåll i navigeringsdata ingår inte i den här raden
+
+dat-be8f88b2f462 = Graderade övningar
+
+dat-0a9eb1c3aa34 = Grafana-instrumentpanel
+
+dat-9d8f413a2486 = Tyngdkraftsanomali i sfärisk approximation (Barthelmes STR09/02 ekv. { "126" }, ICGEM gravity_anomaly_sa) från fullt normaliserade koefficienter mot en nivåellipsoid i sluten form (WGS84/GRS80), med termen av grad noll, rutnätsindelad för tyngdkraftskartans matchare
+
+dat-93082325851e = Syntes av tyngdkraftsanomali från en sfärisk-harmonisk modell
+
+dat-52d2b4907601 = Syntes av funktionaler för tyngdfältet (tyngdkraftsstödd navigeringskarta / navigering utan GNSS)
+
+dat-9c57c1677418 = Värsta fallets störmoment från gravitationsgradient ((3/2)(μ/R³)ΔI) som toppvärdet över attityd (det validerade påståendet), plus en RSS-budget för pekfel över namngivna bidrag på 1σ med den dominerande termen (en kvadratsumma av tal som anroparen anger, utanför det validerade påståendet). Kan köras från CLI/bindningar som scenariotypen `attitude-budget` (scenarios/attitude-budget.toml)
+
+dat-b54b88ffb24b = gravity-map (scenariotyp)
+
+dat-56286e67cf33 = Navigering med tyngdkraftskarta / alt-PNT (src/gravimeter.rs, src/mapmatch.rs, src/particle_filter.rs, src/altpnt/terrain.rs)
+
+dat-a4942a2ee924 = Kartmatchning av tyngdkraft, terrängreferens (TERCOM/SITAN), magnetisk anomali
+
+dat-51f9b6ca7476 = Förluster vid uppstigning med gravitationssväng för en ILLUSTRATIVE tvåstegs bärraket med fotogen/syre (ingen verklig
+
+dat-179f6f50879d = Kartmatchning av tyngdkraft, terräng och magnetfält
+
+dat-a9a886b55894 = Greenhalls och Rileys exakta ekvivalenta frihetsgrader för Allan-, modifierad Allan- och Hadamard-varians
+
+dat-35263996f593 = Planering av markkontakt för flera satelliter över flera stationer: skenbara åtkomstfönster (SGP4, IAU…
+
+dat-d880e28889ce = Planering av markkontakt: tre illustrativa satelliter över tre illustrativa stationer för
+
+dat-359b73a38bd7 = Siffror från markbaserat labb mot flygkvalificerade siffror
+
+dat-a9b472c1bb4e = Förutsägelse av markstationspassager (marksegment)
+
+dat-0c1f2799015f = Demonstrator för förutsägelse av markstationspassager (marksegment och drift).
+
+dat-9fd044c96d13 = Förutsägelse av markstationspassager: passagerna med sikt i tidsdomänen (AOS/TCA/LOS, högsta skenbara elevation…
+
+dat-0e1c7cbf518f = Gruppfördröjning { "40.3" } STEC/f^{ "2" } per band; de jonosfärsfria koefficienterna f1^2/(f1^{ "2" } - f2^{ "2" }) och -f2^2/(f1^{ "2" } - f2^{ "2" }) och brusförstärkningen sqrt(a1^{ "2" } s1^{ "2" } + a2^{ "2" } s2^{ "2" }) för vilket bandpar som helst; förlusten i fritt rum { "20" } log10({ "4" } pi R f/c) för linkbudget::free_space_loss_db i dess form med kilometer och megahertz
+
+dat-872abf4f27e1 = GRS80 (Moritz { "1980" }, IAG) normal tyngdkraft enligt Somigliana + publicerade γ_e/γ_p; verkligt ICGEM EGM2008-fält
+
+dat-398ee3faaf1b = Hairer DOP853 { "8" }({ "5,3" }) explicit Runge-Kutta med den kombinerade felskattaren av 5:e/3:e ordningen, stegregulatorn från SciPy/Hairer, automatiskt första steg, ett stegskydd som stänger vid fel och tät utdata av 7:e ordningen; kan väljas som integratorvarianten Dop853 / propagator::propagate_dop853 i propagatorn
+
+dat-13ba5b5dba8c = Handberäkning på poster byggda av formler vars lutning, steg, extremvärde och återhämtningstid är kända före körningen (testerna anger dem), och masker, hölje och budgetar i raderna ovan för telekomtidssynkronisering. Ingen laboratoriemätning av ett verkligt holdover bedömdes och ingen extern referens jämfördes, så typen gör inget påstående om någon klocka eller något system; en partner med tidslaboratorium behövs innan någon siffra per klockklass kan lyftas
+
+dat-9b8e133e0848 = handberäknade värden och den geometri som molnet samplar; ingen extern referens
+
+dat-cf38c7df09e5 = Handhärledda formler per mått: inverterad Simpson-diversitet, viktat medelvärde som sammansatt mått, avgränsade/obegränsade tidslinjelängder, nivåstege efter svagaste länk
+
+dat-7fa3bc8204f6 = Handhärledd statistik mot slutna former (binormal AUC Φ(d'/√{ "2" }), DeLong-varians, Spearman med rangbindningar, exakt OLS-återskapande) + CV med uteslutning av en i taget mot baslinjen att förutsäga medelvärdet. Korpusen är SYNTETISK (grundad i parametrar, aldrig fält/IQ) och optimismgapet är en syntetisk→syntetisk förskjutning av svårighetsgrad, INTE ett resultat från simulering till fält
+
+dat-686f5ce810aa = Handskriven Cholesky Omega=LL^T och vitning med framåtsubstitution z=L^-1 r (Cov(z)=I när Cov(r)=Omega); Mahalanobis kvadrat z^T z = r^T Omega^-1 r
+
+dat-9fba5b35e3f7 = Handskriven tolkare för SRTM .hgt (16 bitar big-endian, nordraden först, medveten om tomrum) + bilinjär samplare som läser en verklig DEM-ruta i det offentliga området och löser en dokumenterad lantmäteribenchmark
+
+dat-d558a721805a = Praktiska, genomarbetade exempel som tar dig från ”kör ett medföljande scenario” till ”kvantifiera och försvara ett resultat”…
+
+dat-7e24fec1e03d = Hårdvarusäkerhet: vad Kshana gör med hårdvara, och vad den aldrig gör
+
+dat-f40289c2bc44 = Hatch-utjämning av kod med bärvåg på verkliga RINEX-observationer
+
+dat-6af8f8015b04 = hatch::tests (brusfri genomströmning; varians för vitt brus 1/(2N-1); omstarter); tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned (WTZR 2025-02-24 01-06 h, { "600" } epoker, N = { "100" }: median av 3-D-fel { "1.553" } -> { "1.116" } m, p95 { "3.473" } -> { "3.207" } m)
+
+dat-5b10e4dfa6be = Heliocentriska positioner för Merkurius, Venus, Jord–Måne-barycentrum, Jorden, Mars, Jupiter och Saturnus från Standish tabell { "1" } ({ "1800" } e.Kr. till { "2050" } e.Kr.), och för alla åtta planeterna från tabellerna 2a/2b ({ "3000" } f.Kr. till { "3000" } e.Kr., med termerna b, c, s, f för medelanomali), som följer JPL-sidans algoritm steg för steg och roteras till ICRF (International Celestial Reference Frame) med sidans snedhet; Jorden skiljs från barycentrum med månserien av Montenbruck & Gill och massförhållandet. Sammansatt som ephem_provider::AnalyticSolarSystem så att vilken kropp som helst är tillgänglig i förhållande till vilken annan som helst, och körbar som typen `solar-system`
+
+dat-931dbfaa77ef = Heterogen gemensam tillgänglighet / precision / integritet för optisk + RF-PNT (P5).
+
+dat-cce187eb5278 = Överskattande gräns för integritet för heterogen UTC(k)-spårbarhetsbias
+
+dat-011311b1bdbb = Tyngdkraft med sfäriska harmoniker av hög grad (EGM2008 till { "2190" })
+
+dat-562004710f16 = Förutsägelse av holdover från en uppmätt klockregistrering, kontrollerad på undanhållna data
+
+dat-3a1c4a617632 = Holdover-test av en linuxptp-logg: samma fyra steg som i holdover-test-example.toml, med registreringen
+
+dat-3c0cedf176f1 = Holdover-test bedömt utifrån en tidsfelsregistrering från operatören
+
+dat-df8a87246d35 = Holdover-test, exempel på inläsning: en tidsfelsregistrering bedömd av typen holdover-test
+
+dat-4e1af12fdb95 = holdover_floor fastställer att i en ensemble av autonoma noder som bara är förbundna med mätningar mellan noderna är den gemensamma klocktakten (δα_j += { "1" } ∀j) en fri parameter för ensembletid som ligger i N(GᵀWG): ingen mängd ytterligare avståndsmätning mellan noder kan observera den (rate_in_gauge = true, temporal_gauge_dim = { "2" } med den gemensamma förskjutningen). Detta är det verkliga holdover-golvet — den tidsmässiga motsvarigheten till gaugen för positionen i ett stelt system. Att lägga till en extern absolut takt-koppling (en direkt länk till en referens utanför nätverket) driver ut den gemensamma takten ur nollrummet (rate_in_gauge = false, temporal_gauge_dim = { "1" }), vilket visar att golvet är en verklig gauge, inte en artefakt i oscillatormodellen
+
+dat-df12bdd03b04 = holdover-test (scenariotyp)
+
+dat-866e2b2acaad = Holdover, stabilitet och överföring av tid och frekvens
+
+dat-25cc7eb2491b = holdover::tests (mot rekursion av Kalman-kovarians i flera steg; vitt FM exakt; rundtur); kärnan för varians vid kursfärd validerad externt i tests/gnss_denied_clock_holdover_reference.rs (mot scipy Van-Loan/brentq)
+
+dat-b11a218aa23c = Home Assistant och NTP-apparater (MQTT)
+
+dat-64d822df0f16 = Home Assistant: MQTT-upptäckt och tillståndsexportör för förtroendetelemetri
+
+dat-ba11a646e67a = Homebrew tap
+
+dat-41c193393b62 = Ärliga gränser
+
+dat-8ffd3c3b4c0a = Ärlig omfattning
+
+dat-ec5ca67b1822 = Ärlighetskontrakt
+
+dat-0391a2f2f55d = Ärlighetsetiketter
+
+dat-26ee49586173 = horisontellt kriterium
+
+dat-4bab7ea5f074 = horisontellt fel
+
+dat-ea2e883bd4e5 = Horisontell felellips och kofaktor per system utifrån geometrins kovarians
+
+dat-ef7245602f73 = Så förblir en rad GRÖN
+
+dat-baad56eb3581 = Så fungerar en körning
+
+dat-8ce529e13ddf = Så fattas besluten
+
+dat-e7acb3670542 = Så modelleras fel (klockbrus)
+
+dat-893da1c76fb5 = Så skalar det
+
+dat-cc213ff67576 = Hur mycket en störningsdetektor förlorar under förskjutna förhållanden kan förutsägas från dess egna poäng inom fördelningen; syntetiska resultat, kontrollerade på öppna fältinspelningar.
+
+dat-39700e54758f = Hur ofta en optisk länk för tidsöverföring är uppe när atmosfären ligger i vägen. För varje markplats ger motorn förlusten i klar luft, turbulenstillståndet enligt Hufnagel-Valley med gamma-gamma-scintillationsfädningar och aperturmedelvärdesbildning, tillgängligheten mot länkmarginalen utifrån ett angivet molnklimat, taket som ingen marginal kan lyfta, fördelningen av avbrottens längd och det tidsfel som ett avbrott kostar en klocka i holdover. Därefter visar den vad fler platser, en större apertur, en annan våglängd eller adaptiv optik ger. De medföljande molnklimaten är illustrativa, inte uppmätta; utdata är rådgivande.
+
+dat-958f5e83ef0a = Så mäts stabilitet
+
+dat-b1e4554edba5 = Hur stabilt är ett PNT-resiliensbetyg? Beslutsinstabilitet hos resiliensbetyg i ett enda tal under viktning i linje med ramverk
+
+dat-7b1cd59f3ddf = Så kontrolleras exporterna
+
+dat-32dd3fc5fe68 = Så upprätthålls regeln
+
+dat-efaa5003d60d = Så citerar och reproducerar du
+
+dat-578287a3e1ac = Så läser du de tre siffrorna tillsammans
+
+dat-6c70a5a10273 = Så kör du en handledning
+
+dat-6a398070976f = HTTP-läge (egen drift)
+
+dat-f7185ed2e5f0 = Hufnagel-Valley Cn2 integrerad längs en sned bana för Rytov-variansen för plan och sfärisk våg (upplänk och nedlänk), Andrews–Phillips scintillationsindex och gamma-gamma-parametrar, sannolikheten för gamma-gamma-fädning och fädningsmarginalen, aperturmedelvärdesfaktorn vid svag turbulens, det optiska molndjupet för en vattenkolonn i vätskeform och det optiska djupet i klar luft enligt Kim-sikt plus Rayleigh, som ersätter den klumpade atmosfärsförlusten i den optiska länkbudgeten när en atmosfär anges. Kan köras inom scenariotypen `optical-atmosphere`.
+
+dat-ab23183506b5 = hybrid (scenariotyp)
+
+dat-7a7934499b49 = Tillgänglighet för hybridlänk optisk/RF på RF-sidan
+
+dat-77f54b2dc326 = Självbeskrivning i rapporten för hybridlänk optisk/RF
+
+dat-78671230a9be = Slutdemonstration av hybrid-PNT: en helt kvantbaserad uppsättning (optisk klocka + kallatom-IMU + optisk ISL
+
+dat-fcc929094892 = Slutdemonstration av hybrid-PNT: stöd från klocka + IMU + tidsöverföring.
+
+dat-f4fd30b7e91b = hybrid_integrity::tests (tillgängligheten är lika med produkten av de två indikatorerna omräknade från rapportens egna marginaler, och dessa marginaler sätts i sin tur ihop på nytt från rapportens egen EIRP, förlust i fritt rum, klumpad förlust, kvalitetstal, Boltzmann-term, datatakt och krav till { "1e-9" } dB; värdet mäts vara { "0" } eller { "1" } medan den optiska tillgängligheten vid samma körning mäts vara strikt mellan dem; varje faktorrad bär en proveniensklass ur det slutna ordförrådet field_schema; det rapporterade slutningsintervallet körd om genom länkbudgeten ger en marginal på { "0" } till { "1e-9" } dB och mäts vara oberoende av det avstånd som körningen låg på över fyra dekader, medan avståndsutnyttjandet ändras med exakt avståndskvoten; en länk på -40 dBW ger tillgänglighet { "0" }, LOST, och ett utnyttjande över { "1" } i stället för en bråkdel; den ersatta anmärkningen 'ingen RF-tillgänglighetsmotsvarighet beräknas av den här motorn' intygas vara borttagen och ersättningen intygas nämna det nya fältet; en felaktig RF-indata avvisas i stället för att begränsas)
+
+dat-c683ad6a43e0 = hybrid_integrity::tests (kursfärden startar från exakt det kovariansspår som överlämningsblocket rapporterar, för båda riktningarna, så att den uppspelade diagonalen inte kan avvika från den rapporterade överlämningen; den rapporterade korsningstiden räknas om från rapportens egen sigma vid överlämning, PSD för processbrus och täckningsfaktor, och gränsen ligger inom larmgränsen strax före den och utanför strax efter; kursfärdstiden skalas exakt omvänt mot PSD för processbrus och blir kortare när larmgränsen skärps; en kursfärd med noll i PSD ger null i stället för en tid noll, eftersom aldrig inte är omedelbart; den utsända profilen korsar exakt en gång och omsluter den rapporterade korsningen; fördubblingstiden för variansen och tiden till korsning av larmgränsen hålls isär, och skiljer sig åt med åtta storleksordningar efter det täta optiska steget och inom en storleksordning efter det glesa RF-steget; att lämna den optiska modaliteten ger mer kursfärdstid än att lämna RF, med exakt kovariansskillnaden delad med den horisontella tillväxttakten; och random_walk_time_to_limit skiljer mellan redan-utanför, korsar-vid-t och korsar-aldrig)
+
+dat-76097bbb6a19 = hybrid_integrity::tests (kvoten är lika med de två utsända benen dividerade, till { "1e-15" } relativt, och dess invers och decibelform stämmer överens; varje bens avstånds- och tidssigma förhåller sig exakt som c; den utsända gemensamma konfigurationen intygas vara lika med scenariots eget avstånd och integrationstid och RF-benets avstånd intygas vara lika med det optiska benets; RF-benets C/N0 är bit för bit tillgänglighetsblockets, från en enda länkbudget, inte en omhärledning; egenskapen LIKA MOT LIKA är MEASURED i stället för påstådd -- om den gemensamma ackumuleringstiden fyrdubblas halveras det optiska benet till { "1e-12" } och RF-benet till { "1e-7" } och kvoten lämnas oförändrad till { "3.19e-9" } relativt, vilket ett ben som i hemlighet medelvärdesbildar över något annat inte kunde göra; en åsidosättning av rf_dll_bandwidth_hz som bryter den gemensamma medelvärdestiden gör kvoten null med ett skäl som namnger båda tiderna, medan båda benen fortfarande sänds ut; en enkelriktad körning gör jämförelsebenet bit för bit lika med den släppta huvudsiffran med en straffaktor på exakt { "1" }, och en dubbelriktad körning återger straffet 0.5/sqrt(geometrisk förlust på returvägen) omräknat från rapportens egen geometric_loss_db till { "1e-12" })
+
+dat-4a6077a9c2c3 = hybrid_integrity::tests (den lösta konfigurationen ekas för standardvärden och för åsidosättningar, utan att våglängden skickas fram och tillbaka via meter; varje post i units bär både en enhet och en proveniensklass; varje fält som units-blocket namnger sänds faktiskt ut, så att det inte kan dokumentera ett spökfält)
+
+dat-4925e948ec7d = hybrid-optical-rf (scenariotyp)
+
+dat-1d3f2d8fe71f = hybrid-ukf (scenariotyp)
+
+dat-85dd3280dd3e = Geometri för hyperbolisk förbiflygning (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, svängvinkel δ={ "2" }·asin(1/e), träffparameter |B|=|a|·√(e²−{ "1" })), B-planets sikt-/mål-ramverk Ŝ/T̂/R̂ och uppdelningen B·T̂/B·R̂, och en gravitationsassist med patched conic (v∞-storleken bevaras, riktningen böjs av δ, heliocentriskt Δv={ "2" }·v∞·sin(δ/2) utan kostnad i drivmedel) med Tisserand-parametern T_P=a_P/a+{ "2" }√((a/a_P)({ "1" }−e²))cos i
+
+dat-1fe5cc9bfe4f = IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, tidsskalor med skottsekunder
+
+dat-ee5cc5e3262d = IAU:s kroppsorientering och gravitationsparameter för de fjorton tillagda kropparna i solsystemet
+
+dat-cdb9c1e8cbe2 = IAU SOFA / ERFA referensvektorer; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
+
+dat-cb5220c1ec12 = IAU:s riktning för synkron rotation vid JPL:s medelavstånd, tillagd för Saturnus från Standish tabell { "1" } ({ "1800" } e.Kr. till { "2050" } e.Kr.)
+
+dat-1200f27eb7e0 = Tabeller i ICG:s SSV-booklet, förhandsregistrerade; de flesta trösklar NOT MET (xval/gnss-ssv/RESULTS.md)
+
+dat-b963797d4ff9 = ICGEM Calculation Service (GFZ Potsdam), en oberoende implementation: EGM2008 trunkerad vid grad { "70" }, gravity_anomaly_sa, WGS84, tidvattenfri, term av grad noll, h = { "0" }. Tjänstens utdata har ingen uttrycklig licens, så rutnäten hämtas vid testtillfället med en fastlåst SHA-256 (tools/fetch_icgem_grid.sh) och bara tio värden citeras med angivande av källa
+
+dat-477edaf1dd1f = ICRF (ekvatoriell J2000), heliocentrisk; meter, meter per sekund
+
+dat-c81ac54a597c = Identiteter: startsteget för en jonosfärsfri spoofer är lika med skillnaden i modellerad jonosfärsfördröjning mellan paret, tröskeln är den tvåsidiga normalkvantilen gånger stegets standardavvikelse plus hastighetsgränsen. Mottagarens jonosfärsmodell är motorns, så den autentiska residualen är noll i medelvärde per konstruktion; ingen extern referens
+
+dat-9715be87b6c1 = Klockbrus enligt IEEE-1139 med potenslag + golv för flicker-FM
+
+dat-57c8c05cdd7d = Tidsskalorna UTC / TAI / TT / UT1 med skottsekunder enligt IERS, ett API för juliansk dag, jordrotationsvinkeln enligt IAU-2000, GMST-baserade TEME ↔ ECEF och geodetiska system för WGS-84, full nutation enligt IAU 2000A/2000B och precession enligt IAU { "2006" }, samt den ekvinoxfria CIO-baserade reduktionen GCRS↔ITRS enligt IAU 2006/2000A med polrörelse från IERS — validerad bit för bit mot vektorerna från SOFA/ERFA och oberoende korskontrollerad mot ANISE (SPICE i ren Rust): GCRS→ITRS mot ANISE ITRF93, samma IERS EOP, stämmer till ≤ { "0.86" } m på marken / ≤ { "3.6" } m i GNSS-bana.
+
+dat-610c770c6114 = Koefficienter för IGRF-14; CRLB för matchat filter från grundprinciper. Fältet i riktmärket för verklig tyngdkraft är externt kontrollerat (raden 'Syntes av tyngdkraftsanomali från en sfärisk-harmonisk modell'), men dess navigeringsutfall har ingen extern referens
+
+dat-8f73e1bb24ce = Slutlig kombination av satellitklockor från IGS på { "30" } s (IGS0OPSFIN 30S CLK, 2025-02-24): publicerade klockskattningar vid förfrågningstillfällena, inte interpolerade ur SP3; trösklar förhandsregistrerade i tests/fixtures/sp3_clock_igs_oracle/PREREGISTRATION.md före den första körningen (RMS { "0.15" } ns, p95 { "0.30" } ns, nodmedian { "1e-12" } s, diskriminering 2x)
+
+dat-2d8fff0e9c24 = Lagrange-interpolation enligt IGS-standard av satellitpositioner i precisa SP3-efemerider med korrektion för jordens rotation per nod (rotera varje nod med ω⊕·(t_node−t) in i förfrågningstillfällets jordfasta system före polynomanpassningen)
+
+dat-db2732a90c3d = IMO:s vägledning om GNSS-störning (fartyg)
+
+dat-a325f121413c = IMO:s vägledning för fartyg, avbildad per klausulnummer
+
+dat-2d9493affef6 = IMO:s vägledning om GNSS-störning för fartyg: vad Kshana ger belägg för
+
+dat-b6b9647750e6 = IMO:s text om GNSS-störning för fartyg är tunn: MSC.1/Circ.1644 riktar sig huvudsakligen till medlemsstaterna, och…
+
+dat-fee1e90fb1da = impairment_eval::tests (AUC perfekt=1/identisk=0.5/lika={ "0.125" }, ROC monoton, sammanvägd>{ "0.8" }, separation per klass i lagret, skydd mot läckage, reproducerbar korpus, förskjutning av fördelningen flaggar optimism); dominance_demonstrators (nåbar + reproducerbar + MODELLED-inte-VALIDATED + optimismgap självkonsistent)
+
+dat-825a8d353671 = impairment_study::tests (AUC≈{ "1" } för referens per klass, inlärt optimismgap>{ "0" }, rutnätets form + bootstrap-konfidensintervall omsluter medelvärdet + positiv skalningstrend, ID-egenskaper ändliga, gap-prediktorn slår att förutsäga medelvärdet under BÅDE CV med uteslutning av en detektor i taget och CV med uteslutning av en klass i taget + deterministisk); impairment_ml::tests (logreg separerar + deterministisk + förlust↓, MLP löser XOR som en linjär modell inte kan + fast frö); eval_stats::tests (bootstrap/DeLong/Spearman/ridge mot slutna former)
+
+dat-f70d14110dad = impairment-eval (scenariotyp)
+
+dat-c28838cded13 = Implementation mot specifikation, INTE en extern referens: en Python-omimplementation i ren miljö (scripts/maritime_score_cleanroom.py), skriven av en läsare som bara fått docs/RECEIVER-TRUST.md och docs/MARITIME-TRUST.md och inte Rust-källkoden, stämmer med score_from_ratios på { "600" } kvotvektorer (poäng, band, poäng och ordningen på avdrag, skillnad { "0" }), sedan dokumentationen kompletterats där den första läsaren fann den tyst eller inkonsekvent (ordning vid lika, avrundning, kvoten för en övervakare av typen godkänd-eller-underkänd, två exempel vars tal inte stämde med formeln). Det visar att dokumentationen räcker och att koden gör vad den säger. VAD SOM INTE KONTROLLERAS, och varför raden förblir MODELLED: själva regeln (vikterna, rampen, bandgränserna, evidenshållningen) är det här projektets egen, förhandsregistrerad men utan extern källa, och ingenting här visar att en poäng på { "80" } eller { "40" } betyder vad en navigatör skulle vilja att den betydde vid verklig störning; ingen siffra av det slaget anges. Övervakarnas trösklar är likaså det här projektets egna (rad A kontrollerar bara deras aritmetik).
+
+dat-108c4798153a = Importera kshana-grafana-*.json från releasen.
+
+dat-c80a768c4432 = Optimerare för impulsiv överföring på DE440-efemeriden
+
+dat-c81cb948fbeb = Impulsiva ΔV-noder med propagering av { "6" }×{ "6" }-kovarians, integrering av ändlig motorgång kontrollerad mot Tsiolkovskijs raketekvation till under { "0.01" } %, en Lambert-lösare för ett varv enligt Izzo-2015 och en exakt Kepler-propagator med universella variabler, samt ett porkchop-svep (uppskjutning × ankomst) av C3 / ankomst-V∞ som ges ut som ett JSON-konturrutnät — lagret för prestandasimulering ovanför GMAT/Orekit.
+
+dat-ce3c739652af = IMU i scenarierna hybrid och fusion (kshana imu-fit)
+
+dat-e757b2baccd6 = Inläsning av IMU-logg, gyrokursindata och Allan-anpassning av sensorparametrar för hybrid
+
+dat-593077adf8f0 = I det cislunära rymden gäller inte geometrisk försämring av precisionen: länkar med enbart avstånd lämnar hastigheten oobserverbar vid varje ögonblick, så krav hör hemma i budgetar för båglängd, konditionering och mätningstyp.
+
+dat-fd612e5a3b73 = i sikte i genomsnitt
+
+dat-ad6442b40262 = Oberoende sluten form av viktad Umeyama (Horn)-likformighetstransformation (numpy/scipy, SVD-baserad; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — en annan algoritm än kshanas iterativa Gauss–Newton-anpassning, som når samma entydigt definierade viktade minsta kvadrat-optimum på byteidentiska punktnätverk
+
+dat-7a8163ea53f2 = Oberoende korskontroll mot cratet sgp4
+
+dat-a3c0d41e4b56 = Oberoende SDE-integration med Monte Carlo i numpy av dubbelintegrerat vitt accelerationsbrus (validerar den analytiska VRW-variansen med en genuint oberoende algoritm) + ett publicerat värde från Groves { "2013" } som ankare för termerna för bias/skalfaktor; talen för CAI-enheten kvantifierar partnerhårdvara och förblir MODELLED
+
+dat-43824928dcfa = Oberoende omimplementation i numpy av regeln med fyra regioner (scripts/gen_tib_scorer_reference.py) på samma urval; metod hämtad ur integritetsdiagrammet från Stanford–ESA (Tossaint et al., ION GNSS { "2007" }) och RTCA DO-229 WAAS MOPS. INTE en referens för noggrannhet med ExternalDataset — riktmärket är immunt mot ärlighetsbrister.
+
+dat-ad2f021526e3 = Oberoende omräkning av regioner i numpy i tests/fixtures/tib/reference.json; endast korskontroll av bedömningsmaskineriet, inget påstående om noggrannhet.
+
+dat-074151140053 = Oberoende reproduktion i numpy av korskovariansen och olikheten för korrelerad mot oberoende sammanvägd bias (InternalConsistency). Representativ källuppsättning; modellerat scenario.
+
+dat-329d1a3f6406 = Oberoende reproduktion i numpy av statistikan + egenskapstest att en injektion i gemensamt läge blåser upp den (InternalConsistency). Modellerat scenario. { "0.30" } omgång { "2" } (förhandsregistrerad f9aa360d), blockerad (förblir MODELLED): numpy { "2.3.5" } LAPACK gesv återger statistikans värde på { "261" } incheckade fall (inom { "3.5e-15" } välkonditionerade, { "1.2e-9" } vid kondition upp till { "6.1e7" }); nollfördelningen chi-kvadrat({ "1" }) är en citerad sats och de platta parvisa separationerna en identitet utan motorutdata att jämföra med, så avgränsningen väntar på ett beslut från ägaren
+
+dat-c445be3a080f = Oberoende reproduktion med linjär algebra i numpy/scipy på verkliga rader för siktlinjer i månens PA-system från DE440 (P⊥ ur SVD av den vitade designen W^{ "{" }1/2{ "}" }G; icke-centraliteten för MDB ur den klassiska kvadratnormen i paritetsunderrummet enligt Baarda ({ "1968" }); blockrangen ur en räkning av singulärvärden med numpy-SVD) — en genuint annan numerisk väg än cratets cykliska Jacobi-egenuppdelning av GᵀWG. Omfattning (enligt tests/fixtures/faultobs/NOTICE.md): detta validerar ENDAST LINJÄRALGEBRAKEDJAN på de här raderna. Nodgeometrin är modellerad. Det är INTE en operativ integritetsgaranti, en certifiering av skyddsnivå eller något påstående om tillgänglighet för RAIM/ARAIM, och INTE en uppdragsgaranti för Byzantine-feltolerans — ANTALET tolererade fel för det här nätverket är modellerat, medan GRÄNSEN detect>f / identify>2f för blockvis spark är citerad (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; blockvis spark av Donoho–Elad { "2003" }) och bevisad instansiering i kod
+
+dat-3ed8c34dff65 = Oberoende referens i SciPy/NumPy (scripts/gen_datum_identifiability_ref.py -> tests/fixtures/datum_identifiability/scipy_ref.csv): Schur-komplementet, dess egenvärden och den inversa 2x2-matrisen beräknade av ett oberoende bibliotek. Avgränsad till uppdelningens LINJÄRA ALGEBRA; STORLEKARNA på månens korrelation/CRLB från verklig geometri förblir MODELLED.
+
+dat-bf70dda05c83 = Oberoende tredjepartsreferens ANISE { "0.10.2" } astro::Orbit, kepleriansk propagator (Nyx Space, MPL-2.0) — en ekvinoktial tvåkroppskodväg som skiljer sig från kshanas Newton-Raphson-Kepler; MCI-positionen per satellit stämmer till <{ "1e-3" } m och det härledda antalet/mängden synliga satelliter är exakt lika i varje rutnätspunkt. DOP-kärnan är validerad mot gnss_lib_py; integriteten använder publicerade LunaNet-/LCNS-parametrar
+
+dat-706d8ac94114 = Oberoende tredjepartstolkare för CCSDS-502 `oem` { "0.4.5" } (MIT, https://pypi.org/project/oem/) — en separat kodbas som avkodar kshanas utsända EME2000/UTC-OEM byteidentiskt ({ "24" } tillstånd över { "2" } testdata, pos/vel Δ = { "0" }) och vars strikta läsare bekräftar metadatatokens; kshanas tolkare stämmer likaså med den på en medföljande extern OEM. Två ärliga fynd om interoperabilitet (biblioteket oem avvisar kshanas konvention med flera segment per satellit och dess kovarianslinjer med flera poster) dokumenteras i testet — så detta validerar den standardenliga utväxlingen av ett enda objekt, inte full överensstämmelse med CCSDS-502 för varje kshana-variant
+
+dat-ca139c503573 = Bekräftelse med oberoende estimator av tröskeln för båglängd i det cislunära rymden
+
+dat-7ca7bc5655ea = Test med oberoende estimator av tröskeln för observerbarhet vid båglängd i det cislunära rymden (R6, artikel B).
+
+dat-83303f0fc1bf = LEO-PNT inomhus: varför en UHF-bärvåg når in i en byggnad när L-, S- och C-banden har svårt.
+
+dat-03c73c444454 = inertial (scenariotyp)
+
+dat-d3955f70a9bb = Tröghetsnavigering och alternativ navigering
+
+dat-8787bea4d490 = Tröghets- och terrängrelativ kursfärd genom ett avbrott
+
+dat-2894be3c02c4 = Attitydreglering med tröghetspekning av ett stelt nav med tre eller fler balanserade reaktionshjul: MRP-återkopplingslagen L_r = -K sigma_BR - P omega_BR (Schaub och Junkins), miniminorm för hjulmotorernas moment G_s u = -L_r begränsad till varje hjuls gräns, den kopplade dynamiken för nav och hjul där navets tröghet bär hjulens spinntröghet, kvaternionkinematik, RK4 med nollte ordningens hållning. Kan köras som scenariotypen `aocs` (slinga med verkligt tillstånd).
+
+dat-b7887b8f1d7f = Tröghets-, fusions- och kvantsensorer
+
+dat-ec0ad7fe6b01 = Tröghets-, fusions- och kvantsensorer (familj av scenariotyper)
+
+dat-1452f6145884 = inertial::cai_error_terms (biblioteksfunktioner, ännu inte nåbara från en scenariotyp): viktningsfunktionen för Raman-fasen hos en interferometer med tre fyrkantspulser (Cheinet et al. { "2008" }, ekv. { "8" }) med den slutna formen för vit fas (pi/2)^{ "2" } S_phi0/tau_R och en numerisk väg för vilket spektrum som helst; det laserfrekvensbrus som fördröjningen vid retroreflektion inte tar bort (Le Gouet et al. { "2007" }, ekv. { "9" } till { "11" }); den rena defokuseringsbiasen i vågfronten sigma_v^2/R hos ett termiskt moln och dess minskning med en detektionsradie; sannolikheten för fel fransindex erfc(pi/(sqrt({ "2" }) s)) för stöd från en klassisk accelerometer och för två förhörstider, och dess invers
+
+dat-ead1f2200ecb = inertial::cai_params (över inertial::quantum_imu)
+
+dat-af4b2f25c3ce = inertial::cai_params::tests (fysikens VRW hamnar inom det citerade VRW-intervallet på alla { "3" } nivåer; rått omfång för fransosäkerhet beräknat ur k_eff·T²; konservativ budget driver mer än bästa; varje intervall har källa + bekräftelseflagga; skydd för intervallordning)
+
+dat-673e1254c2ad = inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario); scenariotypen `ins-trn-coast`
+
+dat-a6a78dab5cde = Indataformat
+
+dat-333776404b68 = Felmodell för INS / IMU — validering mot datablad (src/inertial/)
+
+dat-822d746ee607 = ins-trn-coast (scenariotyp)
+
+dat-fc4e1821dbe2 = ins-trn-coast | navigations-IMU, { "250" } m/s, kombination rss | { "10" } m vid { "251.0" } s (accel_bias) | { "50" } m vid { "608.8" } s (accel_bias) | TRN enbart position, topp { "44.7" } m över { "1200" } s
+
+dat-2c655ce6782d = Felväxt och tröskelpassager vid kursfärd med INS/TRN
+
+dat-7a2fe446d5ad = Felmodell för kursfärd med INS/TRN — positionsfel mot kursfärdens längd, och kursfärden
+
+dat-69702698b049 = Felmodell för kursfärd med INS/TRN: positionsfel mot kursfärdens längd, byggd av IMU-koefficienter i stället för…
+
+dat-c2f78c59827d = Installera i VS Code (Docker)
+
+dat-6a1ec92e0f29 = Installera i VS Code (npx)
+
+dat-c90e197be374 = Installera i VS Code Insiders (npx)
+
+dat-7863d678c01a = Installera MCP-servern för Kshana (v{ $version })
+
+dat-e51de9c804bb = Installera MCP-servern
+
+dat-26a9ba641009 = Minsta kvadrat med heltal för osäkerhetslösning på LAMBDA-sättet: en volymbevarande heltalstransform (Z) som dekorrelerar (heltals-Gauss-storleksreduktion av faktorn L D Lᵀ) + en exakt depth-first branch-and-bound-sökning enligt Schnorr–Euchner för minsta kvadrat med heltal, med kvottest på de två bästa kandidaterna (det validerade påståendet); plus den slutna formen för den bootstrappade andelen lyckade P_s=∏(2Φ(1/(2σ_{ "{" }i|I{ "}" }))−{ "1" }), kontrollerad bara internt och utanför det validerade påståendet
+
+dat-6ce706901c78 = integrity (scenariotyp)
+
+dat-50ed1429c00d = integritet | { "24" } satelliter | 344/361 epoker tillgängliga ({ "95.3" }%) | HAL { "40" } m VAL { "50" } m | sigma { "1.0" } m | Stanford(V): { "0" } integritetshändelser, { "0" } HMI
+
+dat-b2d1da3f9b5d = Integritet och störning
+
+dat-40295695fd8f = Integritet och säkerhet: vad Kshana modellerar, och vad den inte gör
+
+dat-22adaac4cae5 = Kvalitetsmått för integritet — filtrets självkonsistens
+
+dat-7d09993d482a = Inverkan på integriteten
+
+dat-9f121a93c2f1 = integrity_impact (över raim)
+
+dat-a85d215fe8dd = integrity_impact::tests (samma miss växlar Available→MI→HMI när sammanhanget skärps; konservativ PL→Unavailable; HMI per axel; skydd för indata)
+
+dat-6bf0e08e0072 = integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling, every_nonzero_direction_under_pd_omega_has_a_finite_ceiling); tests/gls_outside_omega_bound_numpy_oracle.rs::undetectable_common_mode_ceiling_matches_numpy_lapack ({ "256" } incheckade fall: alpha_ss, alpha_cm och minimum inom { "1e-12" } relativt på { "210" } välkonditionerade fall och gränsfall, sämst { "3.3e-15" }; { "40" } illakonditionerade upp till kondition { "1.3e8" } inom en angiven konditionsskalad gräns, sämst { "1.1e-9" }; sex exakta oändligheter)
+
+dat-4f6cc44e6aa0 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack ({ "201" } incheckade SPD-fall: faktor, vitad residual, vitningsoperator och Mahalanobis kvadrat mot numpy LAPACK inom { "1e-12" } relativt, sämst { "7.9e-16" })
+
+dat-e8f307bea5aa = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (datastyrd: hoppar över med ett meddelande när BIPM-serien saknas); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (D9 omgång { "3" }, prospektiv, ännu inte körd: Circular T { "465" } kom den 2026-10-12, och regeln med 1000 värden som fastställdes i förväg behöver nummer till ungefär { "468" })
+
+dat-a821706da637 = integrity::lil_envelope::tests (divergens, tröskel, dominans vid IR-skärpning)
+
+dat-83de804247c2 = integrity::tpl_scalar::tests (rang 1, sammanvägning/uteslutning, biasdominans, korskontroll av IR); tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy ({ "300" } incheckade fall: numpy lstsq-estimatorer för delmängder, allmän separationskovarians, scipy brentq PL; PL inom { "1e-9" } relativt, sämst { "1.2e-10" }; styrande delmängd exakt)
+
+dat-11a8b72872b7 = Användare av IntelliJ, PyCharm och CLion
+
+dat-9eb185e5cb6c = Utväxlingskuvert (KIF, Kshana Interchange Format) — igenkänning och versionskontroll av en artefakt
+
+dat-7904abaf02c5 = Störningskarta
+
+dat-151056634773 = Störningskarta och exponering längs rutten
+
+dat-efa77bd2f599 = Validering av störningskartan
+
+dat-c7e45641ff55 = Störningskarta: betydelser av noggrannhetskoder, värden för AIS ej tillgänglig, tilldelning av rutnätsceller, ruttlängd per celltillstånd och maskning av inlandet
+
+dat-5ce9214818d0 = Störningskarta: granskning av licens för datakälla
+
+dat-b76c44dec57e = Störningsobservatorium
+
+dat-eeea3f30179b = Störningsobservatorium: metodanteckning
+
+dat-3ea7167853e6 = Intern konsistens (InternalConsistency): reduktionen av ordning 2 till den MAAST-kontrollerade vägen enligt ADD v4.2, oberoende omhärledning av apriorierna och ett konstruerat fel med två satelliter. Ingen körning med MAAST eller RTKLIB utöver par har gjorts, så de djupare hypotesmängderna och skyddsnivåerna för delmängds-RAIM är inte externt kontrollerade. araim_subset_raim delar förenklingarna hos araim_dual_raim (en sigma för integritet och noggrannhet, en klocka, den vanliga normalsvansen): den är inte ADD-konform
+
+dat-f04a17478c6f = Intern konsistens (InternalConsistency): skyddsnivåerna är de från snapshot_raim, som är validerad mot RTKLIB i sin egen rad, omräknade på samma geometri; beteende utan fel och med injicerat fel. Himlen är en representativ förinställd geometri (inte en daterad almanacka), residualerna är syntetiska och sigma, larmgränserna och sannolikheterna är angivna indata; ingenting här är ett påstående om en verklig mottagares tillgänglighet
+
+dat-a1c78ee97d2d = Intern konsistens (hoppidentiteten och konsgränsen mot sampling med brute force). Tröskeln är en indata; inget publicerat krav på kontinuitet för LEO är fastlåst
+
+dat-6bed622b120d = Intern konsistens mot injicerad referens och slutna former, under trösklar förhandsregistrerade vid 6b68f6cc (docs/design/evidence/boc-bump-jump/). En BeiDou B1C-datasignal (PRN { "19" }, { "5" } MS/s) genererad av iq::scene: med alternativet av förblir en start vid en sidotopp falskt låst vid den förutsagda ±({ "0.5" } + d/4) chip (uppmätt ±{ "0.549" }); med det på ett hopp mot huvudtoppen vid { "0.08" } s och en RMS i sent fönster på { "0.0008" } chip vid { "45" } dB-Hz och { "0.0048" } chip vid { "35" } dB-Hz; inget hopp från huvudtoppen vid { "35" }, { "40" } och { "45" } dB-Hz under { "4" } s; den skalade EMLP-lutningen { "0.94" } till { "0.99" } på den samplade signalen (oskalad { "3.6" } till { "3.8" }). Enbart bump-jump-detektorn, på korrelatortripplar med den exakta brukovariansen för BOC({ "1,1" }), gjorde inget falskt hopp på { "100 000" } uppdateringar vid { "25" } till { "45" } dB-Hz och upptäckte { "1000" } av { "1000" } starter vid sidotopp vid { "35" } dB-Hz. NOT MET (fynd F1): rutnätet för enhetstest som fastställdes i förväg för skalningen innehåller förskjutningar utanför diskriminatorernas linjära område, där de skalade avläsningarna missar förskjutningen med upp till { "48" } %. VAD SOM INTE KONTROLLERAS: IQ från fältet, bandbegränsade frontändar, sammansatta MBOC/QMBOC-repliker och varje extern mottagare.
+
+dat-01f9118b836e = Intern konsistens mot injicerad referens: en syntetisk datafri GPS L1 C/A-källa (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, tio brusfrön) vars bärvågsfas är känd, under trösklar förhandsregistrerade vid 58789af0 (docs/design/evidence/fll-handover-floor/). MET: kontrollen (standardvärdet utan tak lämnar aldrig över i { "9" } av { "10" } frön vid { "33" } dB-Hz); additivitet (standardhash och de befintliga spårningstesterna oförändrade); inlåsning vid en överlämning med { "100" } Hz fel vid { "45" } dB-Hz. NOT MET: med ett tak på { "1.0" } s, överlämning och hållning i varje körning ({ "16" } av { "20" } vid { "33" } dB-Hz, { "8" } av { "20" } vid { "31" } dB-Hz; resten växlar mellan påtvingade överlämningar och FLL:ens återkomst) och fasjitter inom { "25" } % av enbart PLL ({ "10.8" } mot { "6.1" } grader vid { "33" } dB-Hz). VAD SOM INTE KONTROLLERAS: databitar, andra signaler och samplingstakter, fältinspelningar. Standardvärdet är oförändrat; raden förblir MODELLED.
+
+dat-a9e65b1c6f91 = Intern konsistens hos en angiven utformningsmodell: varje effekt, tröskel och sökval är en indata, och modellen ignorerar tvetydighet vid bitkant, missad detektion och återinfångning. Inte jämförd med en uppmätt mottagare
+
+dat-97c728c1d687 = Enbart intern konsistens; INGEN extern referens görs gällande och ingen finns för en väderutveckling. Kontrollerna jämför ett dragningsutfall med den statistiska utdatan från samma modell, så ett godkänt resultat säger att generatorn samplar de angivna fördelningarna (dragningens tillgänglighet och molnandel ligger inom toleranser som fastställdes i förväg för de angivna siffrorna), inte att någon verklig plats beter sig så. Serien är en realisering, inte klimatet: dess tillgänglighet skiljer sig från den angivna med dragningens samplingsfel, och scintillation vid olika steg är oberoende, en angiven förenkling av en process som dekorrelerar på millisekunder. Väderindata förblir scenariots antaganden.
+
+dat-bdfafbf7deee = Enbart intern konsistens: varje tillagd plats är en egen punkt och en laseravståndsmätning eller en VLBI-fördröjning från fast station berör en punkt, så dess information A_p^T M_p A_p är positivt semidefinit och adderas; testet kontrollerar Fisher-differensen och varje varians mot det. Resultatet för fem fält är den befintliga raden med verkliga data och är oförändrat. Den tillagda reflektorn återanvänder epoker som schemalagts för de fem befintliga fälten, ett ILLUSTRATIVE schema, och den tillagda beaconens nätverk, schema och fördröjningssigma är de ILLUSTRATIVE indata för kampanjen för månens referenssystem; platsen är en ILLUSTRATIVE position vid sydpolen. En plats vid sydpolen ser Jorden lågt vid horisonten eller inte alls, vilket de befintliga testerna av siktvinklar uttrycker; ingen av platserna avståndsmäts kontinuerligt. Siffrorna är Cramér–Rao-gränser för en reducerad parameteruppsättning, inte ett löst datum och inte ett påstående om någon verklig station
+
+dat-244c19d279a3 = Enbart intern konsistens: den bisekterade tiden till tröskeln kontrolleras mot den slutna inversen för klockans dominerande brustyp, och den fritt gående klocktermen mot budgetens egen klockterm. Klockklasserna vilar på publicerade specifikationer för en dag (deras egna rader); LTC-takten härleds inte på nytt här och behåller sin egen VALIDATED-rad (Månens koordinattid); styrresidualen är ILLUSTRATIVE, realiseringsresidualen är en budgetallokering och ingen termisk modell ingår. Målet på nanosekundnivå som beskrivs i materialet om månens PNT från ICG WG-B i juni { "2024" } citeras som ett källpåstående, inte antaget som ett påstående; ingenting här är ett påstående om någon verklig stationsklocka
+
+dat-687e3bd46ba8 = Enbart intern konsistens. Varje publicerat fält är definierat i sin producents kroppsfasta system (GMM-3 i Marssystemet från Konopliv et al. { "2006" }, GL0660B i månens huvudaxelsystem DE421), medan fältet utvärderas i IAU-systemet; förskjutningen modelleras inte
+
+dat-c3a2c7e69283 = Intern konsistens med holdover-modulen, bit för bit; INGEN extern referens görs gällande. PSD:erna för klasserna är de syntetiserade golven för långt tau som holdover-modulen redan bär, så siffrorna ärver dess angivna förbehåll att holdover till en snäv tröskel styrs av det antagna golvet för rött brus och inte av den citerade Allan-deviationen. Avbrottens längder är en lognormal modell med angivna parametrar, inte en uppmätt registrering av molnvaraktighet
+
+dat-81c69cadba70 = Intern konsistens: slutna gränsvärden och monotonitet hos diversitetsmodellen, den slutna formen för molntaket och de lognormala identiteterna för avbrott. INGEN extern referens görs gällande och ingen har jämförts: ingen uppmätt tillgänglighet för optiska markstationer och ingen registrering av molnfri siktlinje används. VARFÖR MODELLED: molnklimatet (sannolikhet för moln, median och spridning för vätskevattenkolonnen, avbrottens längder), oberoendet mellan moln och turbulens, den gaussiska kopulaformen, dekorrelationslängden och varje teknikvinst är antaganden; de medföljande scenarierna anger ILLUSTRATIVE klimat, inte en datamängd. För att uppgradera raden behövs en citerad uppmätt tillgänglighetsregistrering och en tröskel som registrerats före jämförelsen
+
+dat-b7287210bebc = Intern konsistens: brusfritt återskapande, den kinematiska identiteten rho_ddot = (|v|^{ "2" } - rho_dot^{ "2" } + d.a)/rho deriverad numeriskt, noll Doppler vid närmaste passage, spegellösningen för en enskild passage och fel med fast frö mot den formella kovariansen. Siffran för Starlink av Kozhaya, Saroufim och Kassas (NAVIGATION { "72" }({ "1" }), { "2025" }: cirka { "2" } m på { "20" } s med tre satelliter) är bara en jämförelse: den modellerade mottagaren, med en perfekt efemerid och varje fel i en Dopplersigma på { "30" } Hz, är flera gånger mindre noggrann över samma fönster, och artikelns mottagare och mätfrekvens återges inte
+
+dat-90e7c3f0b089 = Intern konsistens: det citerade VRW-intervallet korskontrollerat mot fysiken i CaiAccelerometer::accel_asd + rått dynamiskt omfång beräknat ur gränsen för fransosäkerhet; talen är MODELLED intervall ur litteraturöversikt (needs_source_confirmation), ingen enhet validerad, ingen valideringsgloria
+
+dat-f95438b160b3 = Intern konsistens: klassificeringen kontrolleras mot de regler den anger och mot handhärledda kvoter på syntetiska ändringar av den incheckade demologgen, och kontrollerna av oförändrat resultat låser utdata från { "0.35.0" }: ingen poäng ändras om inte geometrin är dålig; etiketten rapporteras alltid. VARFÖR MODELLED: trösklarna är valda, inte anpassade (proveniens i varje körnings geometry_model; siffrorna i IEC 61108-1 och GPS SPS som citerade, att kontrolleras mot standardernas text), och det finns ingen extern märkt datamängd om naturlig försämring av geometrin mot attacker att validera klassificeringen mot. Den härledda DOP återanvänder kärnan orbit::dop, VALIDATED mot gnss_lib_py, vars status den här raden inte lånar. En geometriklass är ett påstående om himlen, inte ett fynd att ingen attack förekom
+
+dat-e0a40eb480ea = Intern konsistens: den exakta branch and bound stämmer med uttömmande uppräkning på små slumpmässiga mängder, varje plan kontrolleras vara genomförbar mot konfliktreglerna och den giriga lösningen slår aldrig det exakta optimumet. VAD SOM INTE KONTROLLERAS: ingen extern schemaläggare eller operativ plan har jämförts; kontakter tas hela (ingen delning), eftersläpningen är fast vid fönstrets start, omställningstid utöver den fasta vändtiden och lagring ombord modelleras inte.
+
+dat-de38b3520ddd = Intern konsistens: den exakta identiteten utbränningshastighet = summa Isp g0 ln(m0/mf) minus de fyra integrerade förlusterna (residual under { "1e-6" } m/s), Tsiolkovskijs ekvation på en lodrät vakuumbränning med gravitationen som enda förlust, och trycken i US76 vid havsnivå och tropopaus. VAD SOM INTE KONTROLLERAS: inga publicerade farkosters förluster har jämförts; ingen jordrotation, glidflykt, strypning eller styrning utöver sparken; konstant C_D; inte en banoptimerare.
+
+dat-56c420c02926 = Intern konsistens: filtrets normaliserade skattningsfel i kvadrat mot referens simulerad från samma sensormodeller över Monte Carlo-frön, och konvergens hos skattningarna av attityd och bias. VAD SOM INTE KONTROLLERAS: ingen extern estimator eller flygdata har jämförts (Basilisk { "2.9.1" } har ingen MEKF-modul); sensormodellerna är läroboksmodellerna, utan snedställning, skalfaktor eller effekter av stjärnsensorns synfält.
+
+dat-f698f5ba7ab8 = Intern konsistens: framåtmodellen och den lösta ekvationen stämmer till { "1e-15" } s, Sagnac-termen är lika med modulens oberoende slingform omega/c^{ "2" } enligt BIPM 2A, jonosfärstermen är { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, och brusprocesserna visar sina förväntade TDEV-former. VAD SOM INTE KONTROLLERAS: ingen verklig TWSTFT-mätning eller kalibreringsrapport har jämförts; de angivna fördröjningarna och osäkerheterna är indata, inte uppmätta; stabiliteten hos tillhandahållna serier rapporteras, inte valideras.
+
+dat-52ecbc039055 = Intern konsistens: mätningarna syntetiseras ur de modeller som filtret använder (χ² NEES/NIS över frön, en brusfri konvergens, injektion av slip). MODELLED; ingen verklig mottagardata eller tredjepartsfilter har jämförts
+
+dat-a64be9ada5d8 = Intern konsistens: det publicerade uttrycket för förskjutningen utvärderat för hand, det normaliserade felet över { "40" } frön och golvet som sätts av förskjutningens osäkerhet. NIST:s siffra för Iridium-tidsmottagare med en miniatyratomklocka (under { "40" } ns från UTC(NIST) över { "40" } dagar) är bara en jämförelse; det medföljande Iridium-scenariot ger { "10" } till { "11" } ns RMS vid nominell effekt med dess representativa avståndsfel på { "5" } m. Flickerfrekvensbrus och jonosfärsfördröjning simuleras inte
+
+dat-c0b1c86ee380 = Intern konsistens: relationen och konstanterna som de är tryckta i NASA TR R-376, en kontroll av konvergens med halverat steg och den förväntade ordningen på topparna för uppvärmning och retardation. VAD SOM INTE KONTROLLERAS: inget publicerat uppvärmningsvärde har jämförts (Stardust-artiklarna anger en konstruktionsgräns och en uppskattning av konvektiv plus strålande uppvärmning på cirka { "1200" } W/cm2, som en relation enbart för konvektion inte kan matcha); ingen strålningsuppvärmning, ingen korrektion för väggtemperatur eller katalycitet, och inget svar från värmeskyddet.
+
+dat-d473850d6518 = Intern konsistens: den spektrala effektiviteten beräknad i sluten form ur K_bch i tabell 5a och ramlängderna stämmer med de effektiviteter som tabell { "13" } skriver ut (en kontroll av transkription av tröskeltabellen); länkbudgetens delar stämmer med sina slutna former; valet är monotont i Es/N0 och respekterar marginalen; ACM flyttar minst volymen med konstant kodning. Passagegeometrin kommer från den separat VALIDATED prediktorn för skenbara passager. VAD SOM INTE KONTROLLERAS: inget externt verktyg eller uppmätt länk har jämförts; trösklarna är standardens ideala AWGN-värden, inte ett modems; regnfädning, pekförlust längs passagen och piloter modelleras inte.
+
+dat-2d9d8880f4f0 = Intern konsistens: referens simulerad ur filtrens egna modeller (χ² NEES över Monte Carlo-frön, det frikopplade paketet på identiska sensorer). MODELLED
+
+dat-daeea93cf98c = Enbart internt: den exakta slutna formen -20 log10(avstånd) i länkekvationen, ett oberoende rutnät med brute force över samma typ, och Rosenbrock-funktionen. Omgång { "1" }:s 1-D-tröskel är NOT MET (rutan som fastställdes i förväg uteslöt lösningen på { "3" } dB; optimeraren stannade vid gränsen), registrerat i docs/design/evidence/cap32-optimize/RESULTS.md och inte poängsatt på nytt. Optimum är lokalt för rutan och startpunkten; inget påstående om globalt optimum
+
+dat-a29f8eefacae = Intern rundtur och kända svar enligt ICD; ingen avkodare från tredje part har körts (testselen för RTKLIB/GNSS-SDR som läser KSHANA_NAVMSG_ORACLE_JSON är datastyrd). MODELLED
+
+dat-aaf97798d80e = Internt: varje pakets kvalitetsmått mot dess egen referens och en jämförelse mellan löst och tätt kopplat på identiska indata. MODELLED; granskningens jämförelse med NaveGo har inte körts
+
+dat-202435a7c894 = Internt: identiteter för kinematik hos stela kroppar, CSV-rundturen och filtrets egen kovarians. MODELLED (ingen verklig körlogg jämförs)
+
+dat-7a31016388bf = Internt: de slutna formerna kontrolleras mot handberäknade värden (elevationer vid väggtopparna i en angiven gata, villkoret för öppen ände, krökningsfallet i en angiven punkt). Ingen extern referens: konstruktionsanteckningen avgränsar dessa reduktioner som MODELLED, och Orekits ElevationMask tar en tabell, så jämförelsen i raden 'Azimutberoende skylinemask: synlig mängd, azimut och elevation, och DOP under masken' läser deras tabeller med 360 punkter som indata och kontrollerar dem inte
+
+dat-d89068397b90 = interop_budget: reducerbar (gemensam kopplingsram) mot icke reducerbar (dynamik) uppdelning under konventionerna PerProvider / CommonFrameTie / CommonEphemeris, med måttet för den icke reducerbara andelen som utformningslag (~{ "0.69" } på verkliga DE440/INPOP/EPM: enbart en gemensam ramtagg lämnar det dominerande golvet kvar)
+
+dat-135f9f077d50 = Exporter och importer för interoperabilitet
+
+dat-8b90f6e29b1d = flerfaldig åtkomststörning inom systemet mellan satelliter i ett band
+
+dat-ea398366399a = Kärna för inverterad Simpson-diversitet
+
+dat-facb1472c0a6 = IONEX { "1.0" }-läsare (huvud, värden med fast kolumn I5, TEC- och RMS-kartor, absoluta epoker, saknade värden) med bilinjär rumslig interpolation, formatets tidsinterpolation med närmaste / på varandra följande / roterad karta (ekv. 1-3) och sned TEC i tunt skal
+
+dat-fd4e4555a123 = IONEX-läsare och interpolation för globala jonosfärskartor på en verklig CODE GIM
+
+dat-090bdd3a20d7 = Jonosfär och UTC
+
+dat-e84294bda6aa = Jonosfärsekolodning
+
+dat-cf7623f8cc77 = Jonosfärsekolodning: sned TEC ur tvåbandsfördröjningen vid en LEO-passage
+
+dat-56e6f4f45539 = Kanal för jonosfärisk scintillation i IQ (Cornell-modellen) mot uppmätt GPS L1-scintillation på { "50" } Hz
+
+dat-59bb00916102 = IQ-övervakare bedömda i kampanjer med uppspelning i laboratorium: detektion, missar, falsklarm och slutna siffror för falsklarm
+
+dat-77d4bf93fd63 = Spårningsmotor för IQ mot GNSS-SDR { "0.0.19" } på oberoende inspelningar
+
+dat-9f6c2ea4b900 = IQ, SigMF och Welch
+
+dat-82972761ec44 = iq::acq::acquire (parallell FFT-sökning av kodfas med tröskeln Marcum-Q för kvadratisk detektor) med repliken GpsL1Ca, på { "20" } ms av gps-sdr-sims egen 8-bitars I/Q-utdata avkodad av sampelavkodaren iq::io (ci8, { "2.6" } MHz, { "11" } satelliter, inget brus): varje PRN { "1" } till { "32" } sökt i två fönster på { "10" } ms, resultatet jämfört med kodfasen och Dopplern som gps-sdr-sim modulerade
+
+dat-11650ae9d344 = iq::acq::ca_cfar och ca_cfar_cells (valfria): en cell i ett infångningsrutnät jämförs med medelvärdet av referensceller i sin Dopplerrad (skydds- och stegfördröjningar, som löper runt perioden), med en faktor alpha satt utifrån den slutna formen för falsklarmssannolikheten för CA-CFAR för M icke-koherenta block (ca_cfar_pfa, ca_cfar_alpha). Detektorn för samplingseffekt förblir standard och varje befintlig utdata är oförändrad.
+
+dat-0199997adc84 = iq::campaign::detect (windows, roc) och iq::campaign::report::rocs: varje cell i en kampanj med övervakare behåller, per larmtyp och kanal, maximum av övervakarens egen teststatistik över varje angivet händelsefönster (positiv) och över sammanfogade roc_window_s-fönster utanför händelserna (negativ). Statistikerna är blockeffektens avvikelse, PSD-överskottet, kurtosis-z, SQM |z| av det medelvärdesbildade måttet och CUSUM för C/N0. Rapporten slår ihop dem per typ till en empirisk ROC på fönsternivå med dess AUC och arbetspunkten vid den konfigurerade tröskeln, skriven som roc.json (kshana.campaign-roc/1) och ett avsnitt Detection ROC i report.html. En kampanj utan övervakare skriver ingetdera
+
+dat-d1b249ae6ffb = iq::campaign::detect och kampanjkörningen: en valfri tabell [monitors] kör IQ-övervakarna på varje cell i körningens enda pass. Effekt- och spektralövervakarna ser samplingarna efter varje frontändskedja; övervakarna för C/N0, SQM och lås ser varje spårad kanals slinguppdateringar. Varje larm bedöms mot de angivna händelserna: upptäckt eller missad per (händelse, larmtyp, kanal), tid till detektion och falsklarm utanför händelserna över deras exponering. Varje tests slutna siffra för falsklarm anges: effekt per block (exakt gamma-svans), spektralt överskott per block (approximation), kurtosis (ensidig gaussisk), pulser (binomialtak), SQM per medelvärdesbildad uppdatering (2Q(k) = Q(1/2, k^2/2), ny) och ARL0 för CUSUM för C/N0 (Siegmund). Utan tabellen är celler, nycklar och sammandrag oförändrade. Ingen störningsvågform syntetiseras
+
+dat-6c1b33814763 = iq::channel::scint, Cornell-modellen för scintillation (Rice-intensitet, Butterworth-spektrum av andra ordningen, fas arg z) driven vid ett uppmätt fönsters S4 och intensitetens dekorrelationstid, jämförd på vad den genererar utöver de två indata; realdata::scint50 läser den uppmätta loggen, tar bort trenden och kör jämförelsen.
+
+dat-afcaffa37013 = iq::signals::beidou::b1i_bits och b1i: Gold-koderna enligt BDS-SIS-ICD-B1I-3.0 trunkerade till { "2046" } chip, PRN { "1" } till { "63" }, så som IQ-lagret genererar, infångar och spårar dem.
+
+dat-3200312cc2f5 = iq::signals::gps::l1c_p_bits, l1c_d_bits och l1c_o_bits: Weil-avståndsmätningskoderna L1CP och L1CD (beräknad Legendre-sekvens, Weil-index, expansionssekvens insatt före chip p) och överlagringskoderna L1CO S1, PRN { "1" } till { "63" }.
+
+dat-a24e4b9ee5c8 = iq::signals::lunanet::afs_i_bits och afs_q_primary_bits (signalnamnen lunanet-afs-i och lunanet-afs-q i kshana iq): Gold-koden AFS-I ({ "2047" } kortcyklad till { "2046" }, G2 fördröjd per PRN) och den primära Weil-koden AFS-Q (beräknad Legendre-sekvens, Weil-index, expansionssekvens insatt före chip p), PRN { "1" } till { "210" }.
+
+dat-55fd4b161c14 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: synkroniseringsmönster, SB1 BCH({ "51,8" })-kodare och avkodare med 256 hypoteser, CRC-24Q, blockinterfolieraren { "60" } x { "98" }, en kontroll av symbolströmmar (kshana lunanet-afs-check) och en testströmsgenerator med platshållare för underramar. LDPC-kodningen med takt 1/2 av underramarna { "2" } till { "4" } är inte implementerad (dess matriser finns i en separat bilaga).
+
+dat-e365c476045e = iq::track (LoopConfig, FllGate, design); iq::track::channel (FLL-grinden)
+
+dat-4b34cc7a4d00 = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (bump-jump-tappar och Channel::bump_jumps)
+
+dat-b8db16d3eb7d = Valfria carrier.fll_pull_in_max_s i iq::track (fältet fll_pull_in_max_s i iq::track::LoopConfig): under fll_assist = pull-in lämnar FLL över till PLL efter en fast inlåsningstid oavsett PLI, med en motsvarande returtid tills PLI först når fll_off_pli.
+
+dat-f6eb7f5b0879 = Iridium STL-skurar (satellitens tid och position) sedda från ett flygplan.
+
+dat-84fa351fb984 = Keplersk satellitposition i ECEF utifrån utsända efemerider i IS-GPS-200 / Galileo-OS / BeiDou-OS, från en tolkad navigeringspost i RINEX-3
+
+dat-2bbce8b617b0 = LNAV-underramarna 1-3 enligt IS-GPS-200 (gps_lnav::encode_subframes: kvantisering till närmaste av varje klock- och banparameter vid specifikationens skalfaktorer och värde på pi, paketering i tvåkomplement, orden TLM och HOW, paritet enligt tabell 20-XIV med inversion av D29*/D30*, de paritetslösande bitarna i orden { "2" } och { "10" }), det meddelande som en signalgenerator för GPS L1 C/A sänder
+
+dat-817d2e90e97c = IS-GPS-200 avsnitt { "20.3.3.3.3.2" }, som anger gruppfördröjningskvoten mellan L1/L2 gamma = (77/60)^{ "2" } som följer av skalning med 1/f^{ "2" } av första ordningen, och Friis överföringsformel (Proc. IRE, { "1946" }). Validerar skalningslagarna, inte en sned TEC
+
+dat-fe11c7ba2e68 = IS-GPS-200 tabell 3-Ia 'Code Phase Assignments' — de auktoritativa publicerade verifieringsvektorerna i OKTAL för de första 10 chipen, i det offentliga området hos den amerikanska regeringen (GPS Directorate, navcen.uscg.gov); kshanas egen G1/G2 LFSR återskapar varje vektor för PRN { "1" }–{ "9" } exakt. De efterföljande slutna formerna för modulation/SSC/DLL förblir modellerade (separat rad)
+
+dat-5e6cd6a5fd6c = IS-GPS-800J (01-AUG-2022, distributionsmarkering A), kontrollkolumnerna som den skriver ut bredvid generatorparametrarna: tabell 3.2-2 första och sista { "24" } chipen i varje L1CP- och L1CD-kod, tabell 3.2-3 första och sista { "11" } bitarna i varje L1CO-kod, tabell 6.2-1 Legendre-sekvensen med längden 10223; transkriberade av scripts/extract_is_gps_800_tables.py från PDF-filen (SHA-256 c4aad710...). Trösklar förhandsregistrerade vid fe372e26 (docs/design/evidence/l1c-codes/): { "252" } av { "252" } kolumner, { "63" } av { "63" } överlagringar och { "10 223" } av { "10 223" } Legendre-bitar identiska; extraktionens --check klarar sig; en negativ kontroll fallerar på omdöpta, inverterade och förskjutna koder. VAD SOM INTE KONTROLLERAS: själva generatorparametrarna (de kommer från samma tabeller), chipen mellan de utskrivna kolumnerna, subbärvågsmönstret TMBOC och L1CO S2-koderna.
+
+dat-d80cdd567de9 = dess bärvåg
+
+dat-93fc08e65d73 = ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 ekvationerna ({ "1" }) till ({ "5" }): k_H, alpha_H, k_V, alpha_V ur kurvanpassningarna i tabellerna { "1" } till { "4" }, det bana- och polarisationsberoende (k, alpha) och den specifika dämpningen k R^alpha; används för regntermen i typen `leo-pass`
+
+dat-9ef4b4d3d9e0 = ITU-R P.2109-2 bilaga { "1" } ekvationerna ({ "1" }) till ({ "10" }) med tabell { "1" }: förlusten som inte överskrids med sannolikheten P för traditionella och värmeeffektiva byggnader vid banans elevation vid fasaden, { "80" } MHz till { "100" } GHz; tillämpad per band och epok på en användare inomhus av typen `leo-pass` (inomhusfallet i UHF)
+
+dat-afe2285e9326 = ITU-R P.618-14 avsnitt { "2.2.1.1" } steg { "2" } till { "10" } (sned och horisontell bana under regnhöjden, horisontell reduktion och vertikal justering, A0.01 och dess skalning till { "0.001" } % till { "5" } % av ett genomsnittligt år), med regnhöjden (P.839) och R0.01 (P.837) som indata eftersom motorn inte bär någon av de digitala kartorna; tillämpad per band och epok av typen `leo-pass`
+
+dat-7ef27622d182 = ITU-R P.618-14 avsnitt { "2.4.1" } steg { "3" } till { "9" } (referenssigma ur N_wet, effektiv banlängd, antennens medelvärdesfaktor, fädningsdjup för { "0.01" } % till { "50" } % av tiden), med N_wet som indata eller beräknad ur temperatur, fuktighet och tryck med uttrycken i ITU-R P.453-14; under { "4" } GHz flaggar typen `leo-pass` värdet som en extrapolering
+
+dat-6ecd38f18c23 = ITU-R P.838-3 (03/2005) tabell { "5" }, rekommendationens egna tabellerade k_H, alpha_H, k_V, alpha_V, incheckade i tests/fixtures/leo_link/p838_3_table5.csv med PDF-adress och hämtningsdatum. Tabellen är avrundad till sina tryckta siffror, så tröskeln är den avrundningen
+
+dat-2a28f86695ef = Valideringsexempel från ITU-R Study Group { "3" } (CG-3M3J-13-ValEx-Rev8.3.0) för scintillation enligt P.618-14, med varje platss N_wet enligt P.453-14 ur samma exempel; incheckade i tests/fixtures/leo_link/p618_14_scintillation.csv med adresser och hämtningsdatum. Uttrycket för våt refraktivitet ur temperatur och fuktighet täcks inte av den här raden
+
+dat-a886222f05f9 = Valideringsexempel från ITU-R Study Group { "3" }, filen CG-3M3J-13-ValEx-Rev8.3.0, för P.618-14, tabellerade av valideringssidorna hos ITU-Rpy, med varje platss regnhöjd enligt P.839-4 ur samma exempel; incheckade i tests/fixtures/leo_link/p618_14_rain_attenuation.csv med adresser och hämtningsdatum. Validerar förfarandet givet h_R och R0.01, inte kartorna
+
+dat-df4578d82419 = Masker för wander-generering vid frekvenssynkronisering enligt ITU-T (G.811, G.812, G.8262, G.8262.1)
+
+dat-cff162d9187f = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) klausul { "7.3.1" } (max|TE_L|, jämfört ofiltrerat)
+
+dat-77c2200d4d5d = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) tabell V.1, felscenario (b) (ett exempel på allokering)
+
+dat-6e29e623b912 = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025): nätverksgränser vid referenspunkt C
+
+dat-bcbed1d0d924 = ITU-T G.8272 (07/2025): PRTC-A och PRTC-B, låst läge
+
+dat-b5a1c2e5c1f7 = Masker för telekomsynkronisering enligt ITU-T med PASS/FAIL och marginal
+
+dat-d90380668de8 = Lambert-lösare för ett varv enligt Izzo-2015 (r1, r2, flygtid → randhastigheter) över överföringar LEO→GEO→heliocentriska, prograda och retrograda
+
+dat-8fbc07c76b3d = Jacchia-71 validerad mot publicerat solminimum / medel / solmaximum
+
+dat-c217fb165af1 = Svep över störsändareffekt: tillgänglighet och J/S mot sändeffekt
+
+dat-8c1089d909db = Jammertest-poängsättning
+
+dat-47968885d24d = Jammertest-poängsättning: en mottagarlogg bedömd per schemalagt test (detektionsfördröjning, missade larm, falsklarm, tid till återhämtning) mot den publicerade testplanen
+
+dat-89081dfce977 = Jammertest-poängsättning: den publicerade planen som schemalagd referens
+
+dat-344bf5abab35 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): NPRA:s testkatalog och sändningsplan (MIT, hämtad med en fastlåst SHA-256, aldrig inkluderad i källkoden) inlästa som schemalagd referens med katalogens id:n bevarade; en körning av receiver-trust bedömd per test (första larm minus planerad start, upptäckt/sent/missat mot en tolerans, tid till den första larmfria perioden, larm utanför varje lucka och dess skyddstid), med ett signerat bevispaket som bär resultatkortet. Schemat är planerade luckor, inte registrerade sändningstider
+
+dat-ec34bb92d750 = jamming (scenariotyp)
+
+dat-9cb9f9eb4c7a = Jamming och spoofingdetektering i flera lager
+
+dat-e93b98801604 = Jamming, spoofing och spektrumet
+
+dat-213d714a2567 = Jamming, spoofing och spektrumet (familj av scenariotyper)
+
+dat-80368debe8fa = Jamming, spoofing, holdover och integritet: ett sammankopplat uppdrag
+
+dat-a510ab4b17fb = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form och cw_q_equals_the_spectral_separation_closed_form: Q-tabellen, CW och smalband { "1" }, bredband och svepande { "2" }, fastlåst mot de slutna formerna i navsignal; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs (FSPL/J-S/effektiv C-N₀ mot en oberoende omhärledning i numpy av länkbudgeten i Kaplan & Hegarty §{ "9.4" }; verklig C/N₀ i JammerTest faller monotont genom tröskeln på { "25" } dB-Hz); tests/jamming_jammertest_cn0_oracle.rs (förhandsregistrerad, blockerad, inte körd)
+
+dat-484eb9503fdb = JavaScript och WebAssembly
+
+dat-8291eea5a66e = Insticksmodul för JetBrains IDE
+
+dat-bd7fb71b8ded = JetBrains Marketplace
+
+dat-3620b9b6002e = Insticksmodul för JetBrains
+
+dat-06d2559e26c3 = Gemensam pseudoavståndspositionering med GNSS och LEO med bias mellan system och felmodeller per signal
+
+dat-7d1a4f4e5a0a = PNT med gemensam sensorfusion i Kalmanfilter över samma hybridindata.
+
+dat-bbc595a0c9e4 = PNT med gemensam sensorfusion: ett enda Kalmanfilter är navigatorn och sammanväger
+
+dat-2ed75c9110e0 = Gemensamt fel i UT1 och polrörelse över en gemensam radmängd
+
+dat-1c4f5655c567 = Geometriska heliocentriska vektorer från JPL Horizons DE441 (ekliptika och ICRF), hämtade efter förhandsregistreringens commits { "80451866" }, 8d38a28b och 558cc807. Tröskel: per planet och komponent RMS högst 1.0x de ungefärliga felen i Explanatory Supplement 3:e uppl. tabell { "8.10.1" } (raden EMB för Jorden); uppdelningen Jorden–EMB kontrolleras direkt mot DE441 { "399" } minus { "3" }, högst { "0.3" } grader och { "8.1" } km vid varje epok 1950-2050 (längdtröskeln på { "8.1" } km kommer från den noggrannhet för månserien som anges i Kshanas egen dokumentation av efemerider, med hänvisning till Montenbruck och Gill, och kontrollerades inte mot boken; de uppmätta { "6.09" } km ligger nära den). RMS-statistikan valdes med vetskap om att en tidigare jämförelse över 27 epoker nådde 1.87x nominellt som mest; fel vid enskilda epoker når 3.83x (3.87x i fallet ICRF). Supplement definierar inte sina siffror som RMS. Fall B roterar båda sidorna med IAU { "1976" }-snedheten som skrivits in i testet, så rotationen kontrolleras inte mot sig själv. Standardvalet av tabell i AnalyticSolarSystem prövas inte (testerna tvingar tabell { "1" }). Uranus och Neptunus ur tabell { "1" } är en separat MODELLED rad
+
+dat-2708eb1195c9 = JPL Horizons DE441, newtonsk ljustid LT för enkelriktad nedlänk (VEC_CORR=LT, observatör i jordens centrum), förhandsregistrerad (480037d3, tillägget 54d5c86f ändrade bara avståndet mellan interpolationsnoder efter att den första hämtningen föll på sitt förkrav på { "10" } m interpolationsprecision, före någon jämförd ljustid) med en tröskel på { "1e-6" } s per ljustid, där lösaren matades med barycentriska positioner från DE441 så att iterationen för den försenade sändaren syns (en lösare med första iterat missar med upp till { "0.1" } s). På de analytiska positionerna enligt Standish är ljustiden bara så bra som dessa positioner (se raden för planeternas positioner); den medföljande länken behandlar Solen som ett tröghetscentrum, vilket stannar inom det positionsfelet men inte är separat validerat. two_way_range och shapiro_delay är inte externt jämförda
+
+dat-06c0e0912c84 = JPL:s medelelement i Laplace-planet, takten för medellängd ur IAU:s takt för synkron rotation, tillagd för sin planet från Standish tabell { "1" } ({ "1800" } e.Kr. till { "2050" } e.Kr.)
+
+dat-308200212f26 = JSON-fält (schema kshana-nmea-training/1)
+
+dat-fbd2f7c7c5df = Schema för JSON-rader (version { "1.1" })
+
+dat-0edf2112b963 = Viktiga referenser
+
+dat-a839e105d911 = Klobuchar L1-fördröjning mot RTKLIB ionmodel · läsaren för IONEX TEC-kartor är tolerant, ännu ingen extern referens
+
+dat-bc161bde4fd2 = Klobuchar, jonosfärisk gruppfördröjning på L1 med en frekvens, sned, ur de åtta utsända koefficienterna α/β
+
+dat-a3c71b90162b = Kända begränsningar
+
+dat-6634dc6d0f3e = kshana <scenario.toml> kör ett scenario; varje annat kommando är ett underkommando. kshana --help skriver ut användningen…
+
+dat-24cf378f970d = Dokumentation för Kshana
+
+dat-1d9bf86b5165 = Kshana har ingen egen slutpunkt. Det finns ingen delad kshana-server att peka en klient mot.
+
+dat-7aa638d6f7f5 = Kshana för JetBrains IDE
+
+dat-952551ceada8 = Styrning av Kshana
+
+dat-5173065af4e3 = Kshana implementerar spridningskoderna och meddelandelagret för LunaNet Augmented Forward Signal (AFS) som…
+
+dat-49082d942568 = Kshana Interchange Format (KIF)
+
+dat-35e47d84ddbb = kshana interference-map bygger en dagsbild av var flygplan och fartyg rapporterade försämrad navigering…
+
+dat-c87066c769f2 = Kshana är en motor för evidens om prestanda och resiliens för PNT (positionering, navigering och tidssynkronisering), inte en full…
+
+dat-3ba3df57e8ff = Kshana är en simulator för PNT-resiliens (PNT: positionering, navigering och tidssynkronisering) med kvantsensor…
+
+dat-8987b327f921 = Kshana är rådgivande programvara för forskning, simulering och test.
+
+dat-101c892cc9ee = Kshana är en öppen, reproducerbar motor för evidens om resiliens för PNT (positionering, navigering och tidssynkronisering).
+
+dat-9d579b82c0da = Kshana är byggd för att vara reproducerbar: samma indata ger samma resultat, och byggartefakterna kan…
+
+dat-41e9ab084c3f = Kshana har dubbel licens. Du får använda den öppna motorn under antingen den öppna licensen (AGPL-3.0) eller en…
+
+dat-f7d7345b9571 = Kshana är en motor organiserad i lager över en gemensam kärna: sensorpaketen (klocka, tröghet…
+
+dat-c458ec382804 = kshana jammertest import läser testkatalogen och sändningsplanen för Jammertest och gör ett testområdes…
+
+dat-56cb5c1f531b = kshana lunanet-afs-check
+
+dat-65e9f25fb026 = Kshanas infrastrukturscenario för månen: bärvågsfas, SNABBA exemplet (två korta bågar, { "10" } dragningar, sekunder;
+
+dat-80999e400f4f = Kshanas infrastrukturscenario för månen: samtidig skattning av referenssystem. MODELLED; utformningen, indata och trösklarna är
+
+dat-4d06c8c660d7 = Kshanas infrastrukturscenario för månen: känslighet i geodesi. MODELLED; utformningen, indata och trösklarna är
+
+dat-f72ee9ad542b = Kshanas infrastrukturscenario för månen: konsistens vid banbestämning med en omodellerad acceleration. MODELLED; utformningen, indata och trösklarna är
+
+dat-94631dd6553d = Kshanas infrastrukturscenario för månen: konsistens vid banbestämning. MODELLED; utformningen, indata och trösklarna är
+
+dat-d81c2d0b95b9 = Kshanas infrastrukturscenario för månen: koppling i rymden. MODELLED; utformningen, indata och trösklarna är
+
+dat-b8fc6290e9b9 = Kshana Pro
+
+dat-c3cf36041fa0 = kshana receiver-trust kan för ett fartyg i rörelse poängsätta ett levande förtroendetal på 0-100 för varje positionsbestämning, utifrån…
+
+dat-355baa93b96b = kshana receiver-trust läser en logg från en verklig mottagare för globala satellitnavigeringssystem (GNSS), kör förtroende…
+
+dat-69924ca5c4b3 = Kshanas referensscenario: { "2" } h körning, { "10" } min GNSS-synkronisering och därefter ~{ "1.8" } h nekad.
+
+dat-733d86587cfa = Kshana spelar upp jamming, spoofing och klockans holdover när GNSS-signaler (Global Navigation Satellite System)…
+
+dat-241d1d4d3d04 = Kshana redovisar två kvalitetsmått (FoM) — Integrity och Security — som lätt förväxlas med…
+
+dat-28bded6f1c5f = Kshana levereras med ett förstklassigt programmeringsgränssnitt (API) för Python, byggt med PyO3 och maturin.
+
+dat-11b55b025a73 = Kshana talar de vanliga utväxlingsformaten för GNSS (globala satellitnavigeringssystem)…
+
+dat-2b2d76637268 = Kshana Studio
+
+dat-64058caf6bf1 = Kshana Studio: kör motorn i webbläsaren, utan installation.
+
+dat-a4f1502412f6 = kshana trust-telemetry gör GNSS-förtroendeflödet per epok (poäng 0-100, band, skäl) till signaler som en…
+
+dat-b009ca1db730 = kshana-mcp är en server för Model Context Protocol (MCP) för Kshana, simulatorn med öppen källkod för PNT…
+
+dat-2560462eb5c9 = kshana-mcp: fråga din AI-assistent, och motorn svarar
+
+dat-88477cc0d773 = Kshanas centrala ärlighetsdisciplin är att varje sensorparameter, fysikalisk modell och valideringsdatamängd…
+
+dat-d0f998c80b79 = Kshanas motor med full kraftmodell (src/precise_od.rs) anpassad till verkliga precisa banprodukter från myndigheter, med ärliga…
+
+dat-620214b6e277 = Kshanas LNAV-underramar 1-3 (gps_lnav::encode_subframes) för de { "32" } efemeriderna i brdc0010.22n matade till RTKLIB:s decode_word och decode_frame: paritet för varje ord, avkodning av underramar med konsekvent datautgåva och varje avkodad parameter mot Kshanas heltal och mot indatavärdet
+
+dat-6e7521634ff6 = kshanas export av månens OEM omtolkad av det oberoende tredjepartsbiblioteket `oem` (R. J. Anderson): tokens för system/tid och tillstånd per epok stämmer till skrivprecisionen ({ "1" } mm / { "1e-9" } km/s) och en export med TIME_SYSTEM borttagen avvisas — en strukturell rundtur för utväxling; den fysikaliska semantiken för månens system/tid validerades av sina egna rader, så detta förblir MODELLED. Extern jämförelse { "0.30" }, ett fynd (förblir MODELLED): en andra oberoende läsare, tolkaren för CCSDS OEM i Orekit { "12.2" } (Apache-2.0, strikta standardvärden), avvisar båda månfilerna eftersom den inte implementerar tidssystemen LTC och TCL (den avkodar cratets EME2000/UTC-OEM, och avkodar månfilerna när TIME_SYSTEM ersätts med TDB); oem { "0.4.5" } avkodar dem inom skrivprecisionen bara genom att falla tillbaka från det tidssystem som inte stöds. Utväxling av dessa månfiler med vanliga CCSDS-läsare är inte fastställd
+
+dat-af85235a485a = Kshanas förtroendepoäng för sjöfart (MARITIME-TRUST.md) kan nås från programvara som båtägare redan kör: en Signal K…
+
+dat-b3b0b32a29d2 = Kshanas banpropagator är validerad mot den kanoniska referensen i gemenskapen för SGP4/SDP4 (SGP4…
+
+dat-11bb1751b520 = Spektrummodell och vattenfall för L-bandet: hela GNSS-L-bandet som en effektspektraltäthet (PSD), frekvens…
+
+dat-ec2500acdc0f = Spektrumvattenfall för L-bandet med J/S per band och effektiv C/N0 under en skriptad tidslinje för störsändare
+
+dat-8d2986accfa9 = Vattenfall för L-bandet under jamming: hela det globala satellitnavigeringssystemet (GNSS)
+
+dat-d5c09b6aa0d1 = Vattenfall för L-bandet under jamming: hela GNSS-L-bandet (globala satellitnavigeringssystem) som en effektspektraltäthet (PSD), frekvens på tvären, tid nedåt, medan en skriptad följd av störsändare slås på.
+
+dat-e3ba8107d024 = Jonosfärsfri kombination av L1/L5 med två frekvenser (IS-GPS-705)
+
+dat-cbfd8e94fba2 = Smalbandigt brus på L2
+
+dat-76d168dd4dce = Rundtur i laboratorium
+
+dat-d2a629269229 = Märkt katalog över kvantfel (klockans frekvenshopp/drift/låsförlust; sensorns biassteg/bortfall), en ROC-AUC för detektionsstatistik med ett bootstrap-konfidensintervall, och ett minsta detekterbart fel vid en fast falsklarmstakt; en övervakare med stöd av kvantklocka upptäcker mindre fel än en klassisk, redovisat som ärligt TradeEvidence.
+
+dat-a32744b4df1d = Märkt syntetisk korpus av störningar + detektoroberoende ROC/AUC/förväxlingsmatris/Pfa-Pmd-harness; skydd mot läckage, stratifierad delning, rapport om optimism vid förskjutning av fördelningen (inom mot utanför regimen). Kan köras från CLI/bindningar som scenariotypen `impairment-eval` (scenarios/impairment-eval.toml)
+
+dat-1a79c093494b = Bevispaket för rundtur i laboratorium (scenario, testvillkor, mottagarlogg, poäng)
+
+dat-0ee9fbd69bbb = lambda::tests (L D Lᵀ återskapar Q); tests/lambda_reference.rs (Z-transformen är unimodulär |det Z|={ "1" } med Q_z=ZᵀQZ SPD, determinantbevarande och lägre total korrelation utanför diagonalen; ILS enligt Schnorr–Euchner stämmer med uttömmande uppräkning över { "300" } slumpmässiga kovarianser; hela kedjan dekorrelera→sök→återtransformera är lika med direkt ILS och Z⁻ᵀZᵀ ger heltalen tillbaka i rundtur; den slutna formen för den bootstrappade andelen lyckade stämmer med en Monte Carlo med 200k försök av sekventiell villkorlig avrundning till <{ "0.01" }); tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances (de fixerade heltalen är lika med RTKLIB v2.4.2-p13 lambda() på { "300" } slumpmässiga kovarianser, n { "2" } till { "10" }, { "226" } av dem inte lösbara med avrundning; de två bästa kvadratnormerna stämmer till { "1e-9" } relativt, uppmätt { "5.6e-13" })
+
+dat-a5e13882f811 = Lösare för tvåkroppsöverföring enligt Lambert
+
+dat-212886eaa568 = lamberthub { "1.0.0" } izzo2015 (J. Martínez Garrido, MIT) — en oberoende Lambert-lösare från tredje part. Lambert-problemet med ett varv (M={ "0" }) har en entydig lösning, så överensstämmelse mellan bibliotek är en genuin extern kontroll; matchad till <{ "1e-4" } m/s (observerat ~{ "1e-11" }), samma slags validering som DOP får mot gnss_lib_py
+
+dat-a47a618a3052 = Förluster vid uppskjutning och uppstigning: gravitation, luftmotstånd, styrning och mottryck
+
+dat-e2640afd165e = launch-window (scenariotyp)
+
+dat-c55b030d732f = Uppskjutningsfönster och geometri vid uppstigning (uppdragsanalys)
+
+dat-df84809a79af = Demonstrator för uppskjutningsfönster och geometri vid uppstigning (uppdragsanalys, nivå för avvägningsstudie).
+
+dat-b57d88e1f3ac = Budgetar för uppskjutning, återinträde, täckning och pekning
+
+dat-053038adfb79 = launch::tests (uppskjutning rakt österut når i=latitud, KSC→ISS = läroboksvärdet { "45" }°, polär = N/S, i<lat onåbar, bonus vid ekvatorn { "465" } m/s, planbyte { "10" }° ≈ { "1.34" } km/s + { "180" }° = 2v, antal dagliga tillfällen, scenario reproducerbart/MODELLED + dogleg-bana); dominance_demonstrators (nåbart + reproducerbart + KSC→ISS { "45" }° + MODELLED-inte-VALIDATED); tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding; tests/launch_geometry_orekit_oracle.rs::true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes
+
+dat-0b9e0b427ff6 = Motståndskraft mot konflikter i PNT i flera lager (artikel P7).
+
+dat-1445799c033a = Läs mer
+
+dat-70f6bd56bd8d = Leclere, Marathe och Reid, Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ { "2025" }, arXiv { "2509.19551" }, tabell { "1" } (stillastående mottagare på en sfär med radie { "6371" } km, jordrotationen den enda andra effekten): { "37751.7" } / { "33628.5" } / { "31813.4" } / { "4018.4" } Hz på L1. Täcker cirkulära tvåkroppsbanor
+
+dat-6712d7bb7953 = Led { "1" }: python-sgp4 { "2.24" } (MIT-licens; D. Vallados referens-C++-SGP4, koden som tog fram verifieringsvektorerna i AIAA 2006-6753), WGS-72, förbättrat läge. Led { "2" }: pyerfa { "2.0.1.5" } (ERFA, BSD-3-Clause, rutinerna från SOFA): c2t06a med TT från utctai/taitt och UT1 från utcut1, och för TEME c2t06a . pnm06a^T . rz(-ee06a). Trösklar fastställda före körningen (förhandsregistrerad 72ea9eb0). Redovisat: den första körningen föll på led { "2" } vid 2016-12-31T23:{ "59" }:{ "59.5" } med en sekunds rotation (UT1 togs ur det kvasijulianska datumet i UTC på en dag med skottsekund); motorn rättades (jd2::utc_to_ut1) och den andra körningen stämmer vid oförändrade trösklar. Utebliven polrörelse ({ "46" } fel) eller konstanter för WGS-84 i stället för WGS-72 ({ "4432" } fel) gör testet rött. Denna utformning med tre led ersatte en jämförelse från början till slut med Orekit som föll på Orekits SDP4 vid e = { "0" } och på dess IERS { "1996" } TEME (fyndet förblir fastlåst i tests/leo_polar_coverage_full_claim_orekit_oracle.rs)
+
+dat-f8a01ddf6363 = Juridiska anteckningar (juridisk granskning av ägaren väntar)
+
+dat-d977634a13cf = Anpassare av utsända efemerider för LEO och avståndsfel för signal i rymden mot anpassningsintervall och uppdateringsperiod
+
+dat-eddcdf79a261 = LEO-täckning och geometrisk försämring av precisionen för polära och arktiska användare mot GNSS i MEO
+
+dat-4c857aecc818 = Uppdrag och studier i LEO
+
+dat-5e84e0ede1d9 = Navigeringsmeddelande för LEO
+
+dat-5e1d3c478d19 = Navigeringsmeddelande för LEO — { "550" } km, { "97.6" } grader, gravitationsgrad { "20" }, modell kepler-rac
+
+dat-6e7cec61f5b0 = Navigeringsmeddelande för LEO: en meddelandeuppdatering mitt i en passage, och om användaren
+
+dat-d9368c8759e0 = Navigeringsmeddelande för LEO: fyra efemerismodeller på en bana, och Liu et al. { "2025" }
+
+dat-0e5a7ce6ff86 = Navigeringsmeddelande för LEO: Kshanas binära kodning, dess kvantiseringsbudget och
+
+dat-154ffd6aa935 = Navigeringsmeddelande för LEO: avståndsfel för signal i rymden (SISRE) mot anpassningsintervall.
+
+dat-0236c81cf599 = Navigeringsmeddelande för LEO: den utsända efemeriden och klockan för en låg omloppsbana (LEO), positionering, navigering…
+
+dat-79ef88803f0a = LEO-passage och länkbudget (leo-pass)
+
+dat-d6717d382ee3 = LEO-passage och länkbudget, band för band, för LEO-PNT (positionering, navigering och tidssynkronisering från låg jordbana…
+
+dat-e5f83d92ddc4 = Länkbudget för LEO-passage, användare på marken vid { "48.14" }, { "11.57" }; { "1" } LEO-satellit(er), fönster på { "900" } s
+
+dat-ca559e9d03e6 = LEO PVT (doppler) vid { "48.14" }, { "11.58" } över { "600" } s
+
+dat-44a5313bed5f = LEO PVT (joint) vid { "40.42" }, -3.70 över { "1800" } s
+
+dat-809fd3d3d69d = LEO PVT (timing) vid { "39.99" }, -105.26 över { "21600" } s
+
+dat-5110c76d9dec = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: till { "1" } mm och driften till { "1e-6" } m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: den viktade residualens RMS i [{ "0.8" }, { "1.2" }] och felet under fyra formella sigma); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (en proxy som förhandsregistrerats mot de publicerade percentilerna i datamängd 3 i "Unveiling Starlink for PNT", doi:10.33012/navi.685: med { "3" } satelliter (mask på { "47" } grader), utan höjdstöd och { "30" } Hz är p90 för 3-D-felet { "92.2" } m vid { "20" } s och { "870" } m vid { "8" } s mot de publicerade { "2" } m och { "10" } m, så båda trösklarna med faktor två är NOT MET, på den höga sidan, och intygade som missade; docs/design/evidence/cap11-starlink-doppler-proxy/)
+
+dat-359bbd5ab82f = leo_fusion::ntn::tests (the_numerical_rms_bandwidth_matches_the_closed_forms; the_range_bound_scales_as_one_over_bandwidth_and_root_cn0: { "0.4157" } m för hand vid { "5" } MHz, { "45" } dB-Hz, { "0.1" } s; the_frequency_bound_is_the_complex_tone_crlb; defaults_run_wider_is_better_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ntn_wide_channel_bounds_far_tighter_than_the_narrow_one); tests/ntn_crlb_published_value_oracle.rs (ssb_bounds_reproduce_the_published_values; ntn_fix_covariances_match_numpy; bpsk_rms_bandwidth_reproduces_betz_table_1)
+
+dat-28ea4e14eab0 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } frön, medelvärdet av NEES medelvärdesbildat över körningen i [{ "2.4" }, { "3.6" }] och minst { "75" }% av epokerna inom det tvåsidiga chi-kvadratbandet på { "95" }%; uppmätt med { "150" } frön, medelvärde { "2.84" } enbart GNSS och { "2.87" } med LEO; leo_augmentation_shortens_convergence; same_seed_same_answer_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+dat-2fb048cfc2bd = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url; only_one_preset_uses_workshop_material; noise_density_at_290_k_is_minus_204_dbw_per_hz); tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios: genomsökningar av källtext i src, scenarios och tests); leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out; a_system_needs_no_preset; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+dat-c48af19e208d = leo_link::energy och avsnittet [iot] i typen `leo-pass`: koherent integrering begränsad av Dopplertakten, icke-koherenta summor med kvadratisk detektor upp till en detektionströskel, en sökning i Dopplerbins över omloppsbanans hölje för stillastående användare (kall) eller ett stött fönster (varm), parallell eller seriell kodsökning, tid för navigeringsmeddelandet vid kallstart, energi per positionsbestämning och batteritid över intervall mellan positionsbestämningar, för varje LEO-band och GNSS-signalen
+
+dat-775a260dc9dc = leo_link::geometry::max_static_user_range_rate: en sökning över varje banposition och varje användare vid satellitens horisont på en cirkulär bana, med jordens rotation, efter den största avståndstakten, plus de orbitala och största jordfasta satellithastigheterna; rapporteras per band som Dopplerhöljet av typen `leo-pass` och används som sökfönster vid kallstart i dess lågenergimodell
+
+dat-dff519e6b042 = leo_link::presets: generiskt flerband (UHF, L, S, C), generiskt C-band, Xona Pulsar X1/X5, Iridium STL, Starlink som en opportunistisk signal med enbart Doppler, CentiSpace och en valfri förinställning för Celeste IOD, var och en med sin källa markerad PUBLIC (med URL), REPRESENTATIVE eller WORKSHOP, den från workshop i den valfria förinställningsfilen för Celeste IOD, kompilerad bara när den filen finns; varje band och bana kan åsidosättas i ett scenario, och ett scenario får inte namnge någon förinställning alls
+
+dat-eed86179c6c3 = leo_navmsg::codec: Kshanas egen ram (preambel, version, modell, längd, nyttolast, CRC-24Q) för de fyra efemerismodellerna, klockpolynomet, SVID, datautgåva, band, hälsa, en Klobuchar-uppsättning, NeQuick-G-koefficienter och UTC-parametrar, varje fält med en angiven bredd och ett angivet steg (field_table), kvantisering med avvisning vid överskridet område, och en budget för den största förändring av position och klocka som en förändring med ett halvt steg i varje fält ger över giltighetsfönstret
+
+dat-a0a243f31eb7 = leo_navmsg::codec::crc24q: generatorpolynom 0x1864CFB, startvärde { "0" }, ingen reflektion, ingen slutlig XOR, den kontroll som Kshanas LEO-ram bär över varje föregående byte
+
+dat-42cd133bcd0e = leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 för ASCII-strängen { "123456789" }; crc24q_matches_the_rtcm_1005_example_frame — de tre kontrollbytena 0x360B98 i exempelramen för RTCM { "10403" } meddelandetyp { "1005" }, och noll över hela ramen)
+
+dat-5656921517c5 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer; week8_resolves_near_the_reference); leo_navmsg::tests::every_model_round_trips_through_the_binary_frame (varje modell inom { "2" } mm från det exakta meddelandet efter avkodning, omkodning bitidentisk, en vänd bit avvisad av CRC); leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+dat-41bc4d49a080 = leo_navmsg::elements::kepler_point: Keplerutvärderingen enligt Galileo OS SIS ICD (Keplers ekvation, korrektioner av andra harmoniken, jordfast nod) skriven separat från motorns RINEX-utvärderare, som ger positionen med latitudargumentet, inklinationen och noden som korrektionssystemet längs/tvärs/radiellt byggs av, och tilläggstermerna från Liu et al. { "2025" }
+
+dat-03e4b5d56289 = leo_navmsg::services: den utsända Klobuchar-fördröjningen vid vilken bärvåg som helst (motorns L1-modell skalad med (f_L1/f)^{ "2" }), den effektiva joniseringsnivån Az = ai0 + ai1 mu + ai2 mu^{ "2" } i NeQuick-G med regeln för alla nollor och regeln [{ "0" }, { "400" }] sfu, och systemtid till UTC med de tre fallen med skottsekunder i ICD
+
+dat-bac78dac563b = leo_navmsg::services::tests (klobuchar_scales_with_inverse_frequency_squared — L1-värdet är RTKLIB:s { "6.1278" } m; nequick_az_rules; utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day; utc_drift_terms_follow_the_icd_formula; an_inserted_leap_second_reads_86400_at_the_end_of_the_day); tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa (Klobuchar vid L1, L2 och L5 över { "4 320" } fall, sämst { "7.0e-13" } m; Az över { "222" } koefficientuppsättningar inklusive reglerna för alla nollor och { "400" } sfu, sämst { "5.7e-14" } sfu; UTC-drift över { "50" } fall, sämst { "3.6e-15" } s; de tre fallen med skottsekunder över { "21 602" } ögonblick kring de verkliga skottsekunderna { "2015" } och { "2016" }, { "0" } s)
+
+dat-8dfeecb0b6f2 = leo_navmsg::sisre::sisre_weights: den radiella vikten w_R och den kvadratiska tvärvikten w_AC^{ "2" } som medelvärden av cos^{ "2" } och halva sin^{ "2" } av nadirvinkeln för siktlinjen över användare jämnt fördelade på den synliga jordkalotten över en elevationsmask, för vilken banradie som helst, med Simpson-integrering; används av varje SISRE-siffra för leo-navmsg (vid { "510" } km, w_R { "0.46" } och w_AC^{ "2" } 1/2.5)
+
+dat-736676ef0437 = leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } och 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } och 1/61.1, BeiDou MEO 1/54.2, geostationär { "0.992" } och 1/126.2 vid en mask på { "0" } grader, var och en inom { "0.005" } av w_R och { "0.5" } av 1/w_AC^{ "2" }; leo_weights_shift_toward_the_transverse_axes — nadirvinkel vid horisonten { "67.8" } grader vid { "510" } km)
+
+dat-62de45325cfe = leo_navmsg::tests::a_mid_pass_update_is_continuous (varje växlings avståndshopp är lika med ändringen i avståndsfel, och en korrigerad anpassning på { "300" } s uppdaterad var { "150" } s klarar en tröskel på { "5" } cm); leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged; leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight (den slutna formen begränsar en tät sampling av konen)
+
+dat-906fde8e674c = leo_navmsg::text: ett block i RINEX-4-stil (> EPH-posthuvud, rad för satellit och epok med tre klocktermer, D19.12-rader för utsänd bana) med systembokstaven L och posttyperna KP16, KRAC, LU22 och APOL, märkt i varje huvud som ett tillägg från Kshana och inte en del av RINEX { "4.02" }, och en CSV-tabell med ett standardschema för kolumner och förinställda scheman, var och ett med en importerare
+
+dat-ff83f603c40a = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (varje modell inom { "0.1" } mm efter textblocket, CSV exakt)
+
+dat-0f37818c7bb0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: en starkare EIRP, ett längre anpassningsintervall och en större term för banbestämning flyttar var och en det vidareförda värdet och den sammanvägda positionsbestämningen; the_handed_on_values_are_the_stage_outputs; a_band_design_splits_the_eirp_and_reports_the_design_jitter; the_pass_export_reproduces_the_engine_range)
+
+dat-5dd9c7750761 = leo_signal::max_doppler_hz: den största Dopplern hos satelliten vid en passage rakt ovanför vid elevationsmasken för en cirkulär bana, v R_E cos(el) / (R_E + h) gånger f / c, ur varje förinställnings egen bärvåg och banhöjd; typen `leo-signal` lägger till termer för oscillator och användare och gör om den till Dopplerbins
+
+dat-2b3961126d2c = leo_signal::tests (every_public_preset_parses_and_cites_a_url; detector_reduces_to_pfa_and_grows_with_snr; detection_probability_with_several_looks_matches_the_noncentral_chi_square; mean_time_of_a_perfect_detector_is_half_the_cells; compatibility_ssc_magnitudes_match_independent_quadrature; to_spectrum_band_is_consistent_with_the_design; jammer_tolerance_orders_cw_matched_wideband; e5_centred_signal_hits_e5a_and_e5b_equally; defaults_run_on_the_generic_band_preset; inline_signal_and_bad_inputs); tests/leo_signal_reference.rs (varje medföljande systemoberoende scenario körs utan workshop-data, bandavvägningens jonosfärskvoter är lika med (f_ref/f)^{ "2" } och dess skillnader i fritt rum { "20" } log10(f/f_ref), jittern vid referens-C/N0 ligger mellan sin Gabor-gräns och sin form med obegränsat band, kontrollerna av E5-formen för scenariot med workshop-parametrar är konsekventa när den filen finns, och ingen källfil kompilerar in den filen)
+
+dat-6af7285f6f2e = leo_signal::tests::max_doppler_matches_published_xona_and_iridium_figures — Xona Pulsar X1 ({ "1593.3225" } MHz, { "1080" } km) { "33.2" } kHz inom de publicerade { "32" } till { "34" } kHz; Iridium ({ "1621" } MHz, { "780" } km) inom { "0.5" } kHz från de publicerade { "36" } kHz
+
+dat-e033f9262fd0 = Tidsöverföring med stöd av LEO till UTC mot C/N0 och mottagarens oscillator
+
+dat-96378ecc465b = leo-navmsg (scenariotyp)
+
+dat-97537bd045c0 = leo-pass (scenariotyp)
+
+dat-af1eb4f8b776 = Bandavvägning för LEO-PNT, UHF till brett C-band: vad en signal för positionering,
+
+dat-65a98dd91600 = Bandavvägning för LEO-PNT, UHF till brett C-band: vad en signal för positionering, navigering och tidssynkronisering (PNT) från låg jordbana (LEO) vinner och förlorar i varje band, oberoende av något särskilt system.
+
+dat-fac7345aa741 = Kampanjer för LEO-PNT
+
+dat-bf7043f2e175 = LEO-PNT från början till slut på en generisk konstellation: signalutformning -> länkbudget för passage ->
+
+dat-830d144a441c = LEO-PNT från början till slut på en generisk konstellation: signalutformning -> länkbudget för passage -> navigeringsmeddelande -> sammanvägd positionsbestämning med MEO + LEO och konvergens för precis punktpositionering.
+
+dat-f77a6dd9a64d = LEO-PNT från början till slut, generisk konstellation på { "1080" } km
+
+dat-65015a720e6f = Fokusområde för LEO-PNT: kompatibilitet med icke-terrestra nät (NTN) för 5G/6G.
+
+dat-26a4d3c25329 = Fokusområde för LEO-PNT: ytterligare PNT-datatjänster i navigeringsmeddelandet.
+
+dat-eb0ad5f96922 = Fokusområde för LEO-PNT: positionering med hög noggrannhet (precis punktpositionering, PPP).
+
+dat-27c77351ab17 = Fokusområde för LEO-PNT: navigering inomhus med UHF.
+
+dat-9893cd919599 = Fokusområde för LEO-PNT: vetenskap med LEO-PNT, jonosfärsekolodning ur tvåbandsfördröjningen.
+
+dat-5935f4e01847 = Fokusområde för LEO-PNT: positionering med låg energi för sakernas internet (IoT) och mobil.
+
+dat-9daa1f42bf38 = Fokusområde för LEO-PNT: sammanvägd PNT med MEO + LEO.
+
+dat-3d4073bef44a = LEO-PNT i Kshana
+
+dat-d76c463eef28 = LEO-PNT är positionering, navigering och tidssynkronisering (PNT) från satelliter i låg jordbana (LEO), vid sidan av eller…
+
+dat-aa8e95efb332 = LEO-PNT är positionering, navigering och tidssynkronisering (PNT) från satelliter i låg jordbana (LEO).
+
+dat-f511574300f5 = Motståndskraft hos LEO-PNT mot spoofing: konsistens i Doppler och passagegeometri.
+
+dat-40cd7d788f7b = Motståndskraft hos LEO-PNT mot spoofing: vilken övervakare som ser vilken spoofer.
+
+dat-b844d192ebc3 = Motståndskraft hos LEO-PNT genom banddiversitet: en störsändare, en mottagare med fyra band.
+
+dat-87de513d418b = Motståndskraft hos LEO-PNT utifrån mottagen effekt: marginalen mellan störsändare och signal (J/S).
+
+dat-fef497edc3fe = Uppdrag för motståndskraft hos LEO-PNT: GNSS störs ut, LEO-PNT bär användaren, integriteten upprätthålls.
+
+dat-6ca3401a408c = Signalutformningar för LEO-PNT och flerbandsspektrumet
+
+dat-dce5c1ca8c13 = Signalutformningar för LEO-PNT: parametriserade signaler för positionering, navigering och tidssynkronisering (PNT) från låg jordbana (LEO)…
+
+dat-d40e7ca25372 = Signaltermer för LEO-PNT
+
+dat-fa330dfa3d6f = Bransch för LEO-PNT: spårning av tillgångar och sakernas internet (IoT), energi per positionsbestämning.
+
+dat-92cf8c9d4beb = Bransch för LEO-PNT: autonoma fordon, en stadsgata med ett lager av LEO.
+
+dat-c6ecb593b85e = Bransch för LEO-PNT: tidssynkronisering för kritisk infrastruktur, holdover med LEO-tid.
+
+dat-8e9444205c16 = Bransch för LEO-PNT: polära och arktiska användare.
+
+dat-8dea94ab1648 = Bransch för LEO-PNT: järnväg och sjöfart, de medföljande scenarierna för sjöfart och järnväg plus LEO.
+
+dat-d9aa986c1126 = Bransch för LEO-PNT: stadsgatan för autonoma fordon, som en platt gräns och som en gata.
+
+dat-7a12939929e6 = Bransch för LEO-PNT: trådlösa nät, tidssynkronisering för basstationer i 5G/6G.
+
+dat-cf8cb3a6466e = leo-pnt-chain (scenariotyp)
+
+dat-969562e04b91 = leo-ppp (scenariotyp)
+
+dat-c087126c6d3b = leo-pvt (scenariotyp)
+
+dat-613dc8286d33 = leo-signal (scenariotyp)
+
+dat-3d2c62c5f121 = Biblioteksfunktioner
+
+dat-3ac3fcb9758a = Användning som bibliotek
+
+dat-e01ee49b355c = Bibliotek: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae, bygge för S-band, körd som ett separat program); Kshanas sampel drivs bara av simulatorns registrerade kanaltillstånd, och ett bygge med enbart utskriftsspår kontrolleras vara byteidentiskt med det opatchade. Trösklar fastställda före körningen: noll avvikelser i chip och symboler, |rho| >= { "0.999" } över körningen och >= { "0.99" } per block på { "2" } ms, fas inom { "0.05" } rad. Lika amplituder för I och Q är en indata i jämförelsen, så effektfördelningen testas inte av den. LANS-AFS-SIM läser sina tertiära koder ur filen LSIS bilaga { "3" }, så den delen är inte oberoende av kodraden. LANS-AFS-SIM och PocketSDR-AFS har en gemensam upphovsman och räknas som en oberoende implementation. Datastyrd: jämförelsen med LANS-AFS-SIM behöver den lokala cachen för LSIS V1.0 (xval/lunar-afs/fetch_lsis.sh, SHA-256 verifierad) och hoppas över med ett meddelande utan den
+
+dat-0d377b4ab75f = Bibliotek: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae), vars egna BCH, CRC, LDPC och interfolierare ger ramar som är symbolidentiska med Kshanas för samma innehåll (noll avvikelser, tröskel fastställd före körningen). Styrkt av referensvärden: det genomräknade BCH-exemplet i LSIS V1.0 figur { "8" } och kontrollvärdet för CRC-24/LTE-A (Greg Cooks katalog över parametriserade CRC-algoritmer), båda bitexakta; och av PocketSDR-AFS som avkodar varje underram i de ramar den synkroniserade i tre körningar med godkänd CRC och matchande bitar i underram 2. Testet av paritetskontroll ligger nära en intern identitet (det bekräftar att den tryckta B^-1 inverterar den tryckta B) och räknas inte som en referens. Datastyrd: jämförelsen med LANS-AFS-SIM behöver den lokala cachen för LSIS V1.0 (xval/lunar-afs/fetch_lsis.sh, SHA-256 verifierad) och hoppas över med ett meddelande utan den
+
+dat-29a4033f3b1c = Bibliotek: PocketSDR-AFS (T. Ebinuma efter T. Takasus PocketSDR { "0.13" }, BSD-2-Clause, commit 5b23809f30d68518b7fad7a564fd0fac57cc497d, bygge för S-band, kopia med loggnivå som bara skriver ut), under kriterier fastställda före varje körning. Den tredje förhandsregistrerade jämförelsen uppfyller sina trösklar C1 och C2 för avkodning och spårning fullt ut men inte sitt skydd G0 som det är skrivet (två körningar av den omodifierade mottagaren skiljer sig i samma fyra infångningsposter), och den andra missade med { "5" } överträdelser, så raden förblir MODELLED. LANS-AFS-SIM och PocketSDR-AFS har en gemensam upphovsman och räknas som en oberoende implementation; kontrollerna av tryckta vektorer i raden för ramkodning skyddar mot en gemensam felläsning
+
+dat-fde7ce482e65 = Ljustid mellan kroppar i solsystemet
+
+dat-0a8f41750e4f = Jämförelse av optisk och RF-baserad avståndsmätning på lika villkor
