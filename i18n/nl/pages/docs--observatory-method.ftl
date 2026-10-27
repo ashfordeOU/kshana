@@ -70,7 +70,7 @@ seg-95e48f0286d9 = De pijplijn is deterministisch in alles wat ze publiceert (de
 
 seg-65236a42e316 = Gevoeligheidsstudie
 
-seg-0c843e799b8f = <c1/> speelt de meldingen van één dag opnieuw af onder wijzigingen van elke vooraf vastgelegde parameter, één per keer (telkens twee waarden, plus een raster van { "1.0" } graad) en rapporteert, per variant, het aantal verslechterde, niet verslechterde en niet waargenomen cellen, de Jaccard-index van de verslechterde verzameling met de vastgelegde, de cellen waarvan de toestand veranderde, en de verslechterde oppervlakte. Het verandert niets aan de vastgelegde regel: een variant is geen gevalideerd alternatief, en een grote verandering onder een parameter zegt hoezeer het oordeel van die parameter afhangt, niet welke waarde juist is. De resultaten voor de back-catalogus staan in <c2/>.
+seg-0c843e799b8f = <c1/> speelt de meldingen van één dag opnieuw af onder wijzigingen van elke vooraf vastgelegde parameter, één per keer (telkens twee waarden, plus een raster van { "1.0" } graad) en rapporteert, per variant, het aantal verslechterde, niet verslechterde en niet waargenomen cellen, de Jaccard-index van de verslechterde verzameling met de vastgelegde, de cellen waarvan de toestand veranderde, en de verslechterde oppervlakte. Het verandert niets aan de vastgelegde regel: een variant is geen getoetst alternatief, en een grote verandering onder een parameter zegt hoezeer het oordeel van die parameter afhangt, niet welke waarde juist is. De resultaten voor de back-catalogus staan in <c2/>.
 
 seg-cc57d45c4b0a = <b>Dekking.</b> adsb.lol volgt vrijwilligersontvangers; open zee en dun bedekt luchtruim zijn schaars, en <c1/> komt daar vaak voor. Een kaart toont de dekking van zijn bron.
 

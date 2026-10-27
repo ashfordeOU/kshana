@@ -16,7 +16,7 @@ seg-954f4f934461 = Het <b>krachtmodel</b> bevat elke verstoring die bij de beoog
 
 seg-710f89c088cc = De <b>schatter</b> is een echte Gauss–Newton-batchkleinstekwadratenmethode met een variationele <b>toestandsovergangsmatrix</b> (gecontroleerd tegen eindige differenties over de hele boog tot < { "1e-6" }), <c1/>-weging van waarnemingen en n-sigma-uitschietersbewerking.
 
-seg-dd5dcc66ed22 = <b>Frames en tijd</b> gebruiken <b>echte IERS finals2000A-aardoriëntatieparameters (EOP)</b> (UT1 (Universal Time { "1" }, aardrotatietijd)−UTC (Coordinated Universal Time), poolbeweging; <c1/>) via de gevalideerde keten IAU (International Astronomical Union) 2006/2000A CIO (Celestial Intermediate Origin) (<c2/>). SP3 (Standard Product { "3" }, het formaat voor precieze banen) GPS-tijd (Global Positioning System) → TT (Terrestrial Time) via de vaste offset van { "51.184" } s (<c3/>).
+seg-dd5dcc66ed22 = <b>Frames en tijd</b> gebruiken <b>echte IERS finals2000A-aardoriëntatieparameters (EOP)</b> (UT1 (Universal Time { "1" }, aardrotatietijd)−UTC (Coordinated Universal Time), poolbeweging; <c1/>) via de getoetste keten IAU (International Astronomical Union) 2006/2000A CIO (Celestial Intermediate Origin) (<c2/>). SP3 (Standard Product { "3" }, het formaat voor precieze banen) GPS-tijd (Global Positioning System) → TT (Terrestrial Time) via de vaste offset van { "51.184" } s (<c3/>).
 
 seg-665bb53b81fb = <b>Residuen</b> worden gerapporteerd in <b>RTN</b> (radiaal/along-track/cross-track) en 3D, <b>met en zonder</b> empirische versnellingen, naast de ruwe overlap (zonder fit).
 

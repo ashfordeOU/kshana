@@ -12,7 +12,7 @@ seg-5b362d7b0903 = Kshana is een open, reproduceerbare <b>evidence-engine voor d
 
 seg-48d576a345e3 = Waar het vooroploopt: tijdsynchronisatie en holdover voor kritieke infrastructuur
 
-seg-f41d8a48ff13 = Het best gevalideerde deel van de engine is tijdsynchronisatie. Telecomnetwerken, elektriciteitsnetten en financiële handelsplaatsen ontlenen hun tijd aan GNSS, en elk moet de <b>holdover</b> dimensioneren: hoe lang een lokale klok vrij kan doorlopen tijdens een GNSS-verlies voordat haar tijdfout het budget overschrijdt.
+seg-f41d8a48ff13 = Het best getoetste deel van de engine is tijdsynchronisatie. Telecomnetwerken, elektriciteitsnetten en financiële handelsplaatsen ontlenen hun tijd aan GNSS, en elk moet de <b>holdover</b> dimensioneren: hoe lang een lokale klok vrij kan doorlopen tijdens een GNSS-verlies voordat haar tijdfout het budget overschrijdt.
 
 seg-70d00c5fe203 = <b>Wat VALIDATED is.</b> De schatters voor frequentiestabiliteit waarop een holdover-antwoord is gebouwd — Allan-deviatie (ADEV), gemodificeerde Allan-deviatie (MDEV), tijdsdeviatie (TDEV), maximale tijdintervalfout (MTIE) en de Theo1-schatter met uitgebreid bereik — worden gecontroleerd aan de referentiedeviaties van Stable32, de onafhankelijke bibliotheek <c1/> en een echte gemeten cesiumklok. De berekening van de coast-variantie voor holdover en de inversie ervan naar een holdovertijd worden gecontroleerd aan SciPy. Zie <a1><c2/></a1> voor elke rij, de bijbehorende test en het orakel.
 

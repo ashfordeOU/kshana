@@ -86,7 +86,7 @@ seg-058781b052c4 = Wat het niet is
 
 seg-90edc7ff2a55 = Geen multi-tenantdienst. Wie het token heeft, draait simulaties op uw hardware; er zijn geen quota per gebruiker buiten de bovenstaande limieten.
 
-seg-5b3b9c610f31 = Adviserend, geen typegoedgekeurde navigatieapparatuur: de exploitant blijft verantwoordelijk voor de navigatie. De uitvoer van de simulator bestaat uit gemodelleerde of gevalideerde cijfers voor analyse, zoals overal elders in Kshana.
+seg-5b3b9c610f31 = Adviserend, geen typegoedgekeurde navigatieapparatuur: de exploitant blijft verantwoordelijk voor de navigatie. De uitvoer van de simulator bestaat uit gemodelleerde of getoetste cijfers voor analyse, zoals overal elders in Kshana.
 
 seg-c33947d44b06 = <s1>Vorige</s1>MCP-server: elk installatiekanaal
 

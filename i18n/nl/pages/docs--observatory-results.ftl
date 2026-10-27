@@ -64,7 +64,7 @@ seg-7ba403b84fbd = <b>Een grover raster ({ "1.0" } graad) verandert het beeld</b
 
 seg-4db2f5313410 = Een dag zonder vastgelegde verslechterde cel (10-03) heeft verslechterde cellen onder { "9" } van de { "22" } niet-rastervarianten (tot { "8" } met <c1/> { "6" }): "geen verslechterde cel" is ook een van drempels afhankelijke uitspraak.
 
-seg-a818be844f3a = Geen enkele variant is een gevalideerd alternatief, en de vastgelegde regel blijft door deze studie ongewijzigd. De studie zegt niet welke parameterwaarden juist zijn.
+seg-a818be844f3a = Geen enkele variant is een getoetst alternatief, en de vastgelegde regel blijft door deze studie ongewijzigd. De studie zegt niet welke parameterwaarden juist zijn.
 
 seg-98c799bfbc25 = <s1>Vorige</s1>Interferentieobservatorium: methode
 

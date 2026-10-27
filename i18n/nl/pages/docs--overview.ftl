@@ -306,7 +306,7 @@ seg-2b82a8a22298 = Versnellingsmeter- en gyroparameters van de scenario's <c1/> 
 
 seg-b6abad1f2c9d = Een kshana-bench-inzending gescoord tegen een referentiebestand, beide JSON-tekst (<c1/>, <c2/>): het resultaatbestand met de specificatieversie, de split, de invoerhashes en de metrieken van de taak. MODELLED; beschrijft een log of corpus, nooit een product.
 
-seg-c7a0d7981bfd = kshana-bench-resultaatbestanden weergegeven als de statische ranglijstpagina (HTML-tekst), elk eerst gevalideerd.
+seg-c7a0d7981bfd = kshana-bench-resultaatbestanden weergegeven als de statische ranglijstpagina (HTML-tekst), elk eerst getoetst.
 
 seg-57f592bb676b = De MCP-server installeren
 
@@ -1518,7 +1518,7 @@ seg-14380916caba = Gebruik: de opdrachtregel in zijn geheel
 
 seg-a3536fe2dc4e = Draai een willekeurig scenario; de CLI dispatcht op het veld <c1/> van het scenario en schrijft <c2/>, <c3/>, <c4/> en <c5/> ernaast — plus <c6/> voor de soorten die een tabel publiceren. Het rapport (een HyperText Markup Language-pagina (HTML) en een JSON-document met dezelfde inhoud) bevat een managementsamenvatting, elke invoer met zijn eenheid, de resultaten en grafieken, de sweep-, Monte Carlo- of ketentabellen van een campagne, een tijdlijn van gebeurtenissen, het label VALIDATED / MODELLED / PARTNER en de bron van elke mogelijkheid die de run heeft gebruikt, wat niet is gemodelleerd en een reproduceerbaarheidsrecord (engineversie, Secure Hash Algorithm 256-bit (SHA-256)-digests, seed, platform en de exacte opdracht). Het wordt vanuit de browser op A4- of Letter-papier afgedrukt naar een schoon PDF-bestand (Portable Document Format); de engine schrijft zelf geen PDF. Zie <a1><c7/></a1>.
 
-seg-422d0ded3988 = <c1/> schrijft CZML (de Cesium Language), KML (Keyhole Markup Language), GeoJSON (Request for Comments { "7946" }), Ansys STK-efemeriden (Systems Tool Kit) <c2/> en SigMF-opnamen (Signal Metadata Format) naast het scenario, en <c3/> voert een GeoJSON-lijn in de soorten die een spoor vliegen. Elk formaat wordt gevalideerd aan zijn gepubliceerde specificatie, en een scenario waarop een formaat niet van toepassing is zegt waarom: zie <a1>docs/INTEROP.md</a1>.
+seg-422d0ded3988 = <c1/> schrijft CZML (de Cesium Language), KML (Keyhole Markup Language), GeoJSON (Request for Comments { "7946" }), Ansys STK-efemeriden (Systems Tool Kit) <c2/> en SigMF-opnamen (Signal Metadata Format) naast het scenario, en <c3/> voert een GeoJSON-lijn in de soorten die een spoor vliegen. Elk formaat wordt getoetst aan zijn gepubliceerde specificatie, en een scenario waarop een formaat niet van toepassing is zegt waarom: zie <a1>docs/INTEROP.md</a1>.
 
 seg-73f6c3c859fa = <b>Andere CLI-modi</b> — een scenario linten, echte aardoriëntatiegegevens invoeren of een hele suite draaien:
 
