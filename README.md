@@ -874,7 +874,7 @@ of all of them. The commands are `--study`, `--validate`, `kinds`, `example`, `r
 `trust-telemetry`, `imu-fit`, `nmea-scenario`, `interference-map` (`adsb`, `ais`, `daily`, `sensitivity`,
 `fetch-land`), `route-exposure`, `bench` (`spec`, `truth`, `cases`, `score`, `baseline`, `seal`, `reveal-check`,
 `manifest`, `verify-manifest`, `validate`, `leaderboard`), `bench-export`, `compliance-report`,
-`lunanet-afs-check`, `standards-pack`, `osnma`, `iq` (`scene`, `acquire`, `track`, `sweep`, `labfit`, `campaign`,
+`lunanet-afs-check`, `standards-pack`, `partner` (`check`), `osnma`, `iq` (`scene`, `acquire`, `track`, `sweep`, `labfit`, `campaign`,
 `conditions`, `frontend`, `monitor`, `inventory`, `info`, `extract`, `convert`, `decimate`), `sky` and `skyline`.
 [`docs/COMMANDS.md`](docs/COMMANDS.md) gives each one's purpose, a verified example and its docs page.
 
@@ -2298,6 +2298,7 @@ entry for every user-visible change. Participation is governed by our
 | [Kshana Studio](web/README.md) | everyone | run the engine in your browser (WebAssembly); build &amp; deploy notes |
 | [Glossary](docs/GLOSSARY.md) | everyone | plain-language definitions of every term |
 | [Scenario kinds](docs/KINDS.md) | everyone | every kind the engine dispatches: what it does, its fields, an example command, its ledger rows and the chart the engine writes for it |
+| [Partner data](docs/PARTNER-DATA.md) | laboratories and makers holding measured data | which MODELLED rows a measured clock or IMU record could promote, the formats, how a submission is checked (`kshana partner check`), scored and credited |
 | [Architecture](docs/ARCHITECTURE.md) | developers / reviewers | module map, engine pipeline, dispatch, and diagrams |
 | [Validation status](docs/VALIDATION.md) | reviewers / citers | what is `validated` vs `not modeled`, with evidence |
 | [Verification matrix](docs/VERIFICATION-MATRIX.md) | reviewers / citers | the machine-checked evidence ledger — every capability row with its status, module, test and external oracle, generated from `src/verification.rs` |
