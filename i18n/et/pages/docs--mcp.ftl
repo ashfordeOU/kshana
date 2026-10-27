@@ -35,3 +35,9 @@ seg-d6476863f862 = Võimekus
 
 # text
 seg-fdbb9db68f1d = puudub
+
+# text
+seg-1759a8cce7d6 = Liigid
+
+# text
+seg-564133d6a0c4 = Konstellatsioonid mis tahes keha ümber

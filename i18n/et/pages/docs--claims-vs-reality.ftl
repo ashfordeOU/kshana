@@ -14,3 +14,6 @@ seg-ad856ad710eb = Staatus
 
 # text
 seg-98d0bc6b40ce = Avalike raamistike compliance-kaardistus
+
+# text
+seg-80f3f0aae42c = Häirekaart
