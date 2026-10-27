@@ -7149,3 +7149,1056 @@ dat-d03526913ead = Wartości skoroszytu walidacyjnego Clutter and BEL z ITU-R St
 
 # data/verification-matrix.json
 dat-2f20131152ee = Opcjonalna sekcja [acquisition] rodzaju jamming (satelita jest akwizycjonowany przy progu akwizycji lub powyżej niego po opóźnieniu ponownej akwizycji i utrzymywany, dopóki jest na progu śledzenia lub powyżej niego) oraz sekcja [front_end] (odczyt AGC { "10" } log10({ "1" } + J/N) i strata kwantyzatora ADC dla wejścia gaussowskiego odjęta od każdego łącza, oznaczona jako nieważna dla zagłuszaczy niegaussowskich).
+
+# data/verification-matrix.json
+dat-062548149812 = Opcjonalna sekcja [crpa] rodzaju jamming: wiązka dla każdego kanału skierowana na każdego satelitę (z zerem w kierunku zagłuszacza lub MVDR na sigma^{ "2" } I + P_j a_j a_j^H), skalująca szum każdego łącza przez ||w||^{ "2" } i zagłuszacz przez |w^H a_j|^{ "2" } przed istniejącym równaniem C/N0 z ochroną przed zagłuszaniem.
+
+# data/verification-matrix.json
+dat-f7f1d21b678b = Opcjonalna sekcja [terrain] rodzaju jamming: profil terenu po ortodromie między zagłuszaczem a odbiornikiem na kaflu SRTM .hgt z wybrzuszeniem Ziemi o współczynniku k, dominująca krawędź noża (największe nu Fresnela-Kirchhoffa) i strata pojedynczej krawędzi noża z ITU-R P.526-15, sekcja { "4.1" }, odjęta od mocy odbieranej z zagłuszacza.
+
+# data/search.json
+dat-2c34bbc8b62e = Dokument JSON
+
+# data/search.json
+dat-58a78c79e5a1 = Rodzaje i jak się łączą
+
+# data/search.json
+dat-3ba792aa6d28 = Witryna kshana.dev
+
+# data/search.json
+dat-04c749ab6ebe = Pole atestacji laboratoryjnej
+
+# data/verification-matrix.json
+dat-813f52a95891 = Multiplikatywny EKF Leffertsa-Markleya-Shustera: stany błędu orientacji w układzie ciała i odchyłki żyroskopu, propagacja z prędkością kątową z żyroskopu pomniejszoną o estymatę odchyłki i dyskretnym szumem procesu Farrenkopfa (błądzenie losowe kąta i prędkości), aktualizacje ze star trackera z residuum { "2" } vec(q^-1 q_st) w formie Josepha oraz reset multiplikatywny; dyskretny symulator żyroskopu i star trackera Farrenkopfa. Rodzaj `aocs` może zamknąć pętlę sterowania na swojej estymacie.
+
+# data/search.json
+dat-8f3d057cd4a6 = Rodzaj scenariusza leo-navmsg buduje rozgłaszane efemerydy i komunikat zegara satelity na niskiej orbicie okołoziemskiej (LEO)…
+
+# data/search.json
+dat-6a2c66c8a402 = Rodzaj scenariusza leo-signal analizuje sygnały pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO).
+
+# data/search.json
+dat-e7e4a7fad758 = Obserwacja LEO w porównaniu z GNSS
+
+# studio/data/capabilities.json
+dat-a65e01b98a79 = Algebra liniowa, której samoodniesiona konstelacja księżycowa potrzebuje, aby wykrywać własne uszkodzenia bez prawdy odniesienia: ważony rzutnik parzystości w postaci pseudoodwrotności dla macierzy o niepełnym rzędzie, która przetrwa cechowanie datum i skali czasu, wykrywalność dla każdego węzła, minimalna wykrywalna odchyłka Baardy oraz liczby detekcji i identyfikacji bizantyjskich iskier blokowych na rzeczywistej geometrii międzywęzłowej DE440.
+
+# data/verification-matrix.json
+dat-a5de09f9dd3d = Raport bilansu łącza podaje każdą stałą bezwzględną, z której obliczono jego własny zapas -- częstotliwość nośną użytą w tłumieniu w wolnej przestrzeni, EIRP, współczynnik dobroci, straty zbiorcze i człon Boltzmanna -- oraz wymagane G/T, przy którym zapas wynosi zero, stałą łącza (EIRP - straty - wymagane Eb/N0), która jest jedyną kombinacją, jaką może kiedykolwiek ustalić opublikowana tabela szybkości i zysku, a gdy wywołujący poda temperaturę szumową systemu, także zysk anteny odbiorczej, który ten współczynnik dobroci implikuje
+
+# data/verification-matrix.json
+dat-264de1df4f0a = wariant Liu22 z leo_navmsg::elements::EphemerisModel, obliczany przez kepler_point z Liu22Extra: zestaw 16 parametrów plus szybkość wielkiej półosi a_dot, szybkość średniego ruchu n_dot wchodząca jako n = sqrt(mu/A0^{ "3" }) + dn + n_dot tk, przepisane z równania { "1" } pracy (porównanie dopasowań nie zależy od tej konwencji skali, więc znaczenie przesyłanej wartości nDot nie jest tu zwalidowane), oraz harmoniczne promienia raz i trzy razy na obrót Crs1, Crc1, Crs3, Crc3 na nieskorygowanym argumencie szerokości. Jego dopasowanie przez leo_navmsg::fit::fit_message przyjmuje start i estymator z sekcji { "2.3" } pracy (każda poprawka zaczyna od zera; zwykłe najmniejsze kwadraty bez priorów; limit 100 iteracji z pracy), ale zatrzymuje się według reguły zbieżności parametrów Kshana (każdy krok poniżej { "1e-3" } swojej formalnej sigmy) zamiast reguły z pracy, czyli zmiany RMS poniżej { "0.1" } mm. Dopasowane na { "20" }- i { "30" }-minutowych łukach stablicowanej orbity precyzyjnej
+
+# data/verification-matrix.json
+dat-e2d220bec7ee = Krok od geometrii do kowariancji poziomu ochrony dla Księżyca — (GᵀG)⁻¹ dla wszystkich widocznych i dla każdej podgeometrii z pojedynczym uszkodzeniem, zrzutowane na lokalną pionową i ślad bloku poziomego — oraz jego jądro statystyczne: mnożnik detektora Bonferroniego, gaussowski górny ogon każdej hipotezy uszkodzenia i rozwiązanie pierwiastka odwzorowujące budżet ryzyka integralności na poziom ochrony, dla 7-punktowej księżycowej objętości usługi
+
+# data/verification-matrix.json
+dat-8b334001363f = Siedmioparametrowa kowariancja datum Helmerta lunar-llr-datum z archiwalnych punktów normalnych ILRS i ich zmierzonych wag, na ścieżce jądra: geocentryczny środek Księżyca jest odczytywany z JPL DE440 własnym czytnikiem jąder silnika (planetary_kernel_path; lunar_llr::llr_geometry_with, ephem_provider::KernelEphemeris). Z wierszem analitycznym różni się tylko środek Księżyca; orientacja IAU { "2015" }, brak ruchu bieguna i UT1, katalogi, reguły doboru, wagi i algebra liniowa są te same. Zwalidowane twierdzenie jest tylko takie, że kowariancja datum na tej ścieżce zgadza się z niezależnym wzorcem SPICE i NumPy na świeżych, niewidzianych punktach normalnych. Porównanie nie rozróżnia modeli Księżyca i nie sprawdza środka Księżyca: na tym samym wycinku analityczny Księżyc także spełnia każdy próg, wstępnie zarejestrowana mutacja (Księżyc z jądra odczytany godzinę za późno) nie została wykryta, a środek Księżyca błędny o około { "4,650" } km także go spełnia (zob. tekst wzorca). Nie jest to dowód, że Księżyc z jądra poprawia datum. Można uruchomić jako scenariusz `lunar-llr-datum` z planetary_kernel_path (i normal_points_dir dla innego wycinka)
+
+# data/verification-matrix.json
+dat-d399db8ab42e = Rodzaj lunar-station-coverage uruchomiony przy publicznych założeniach opublikowanych materiałów o księżycowej różnicowej stacji referencyjnej (cztery satelity nawigacyjne na zamrożonych orbitach eliptycznych { "24" } h, SISE { "10" } m { "95" } %, szum kodu { "0.30" } m, opóźnienie poprawek { "1" } s i { "600" } s, pomiar stacji poniżej decymetra, opublikowane przykładowe miejsce stacji, okręgi okołobiegunowe południowe { "300" } km i { "600" } km) i oceniony względem twierdzeń liczbowych źródeł według sześciu progów jednostronnych wstępnie zarejestrowanych przed przebiegiem: pokrycie całego bieguna południowego przy p95 poniżej metra (K1, K2), skorygowane p95 poniżej metra i na poziomie decymetra (K3, K4), wynik poniżej metra utrzymany przy opóźnieniu { "600" } s (K5) oraz dokładność utrzymana od linii bazowej { "10" } km do { "500" } km (K6)
+
+# data/verification-matrix.json
+dat-24e1cb4885b2 = Scenariusz lunar-time-budget publikuje swoje wyniki tablicowe jako długą tabelę (indeks siatki, czas uśredniania, człon) obok raportu, dzięki czemu siedem krzywych x(tau) dla członów i całkowita suma pierwiastkowa kwadratów są wynikiem silnika, a nie czymś, co czytelnik odbudowuje z opisu metody
+
+# data/verification-matrix.json
+dat-52997960d5b8 = Maksymalny błąd interwału czasu i odchylenie czasu raportowane przez rodzaj scenariusza `telecom-timing` na zapisie holdover w skali telekomunikacyjnej: przesuwne okno MTIE O(n) z monotoniczną kolejką (telecom_timing::mtie_sliding, potrzebne, aby doba próbek jednosekundowych pozostała szybka) oraz TDEV silnika (allan::time_deviation), obliczone na siatce raportowanej przez ten rodzaj i odczytane z pełnego przebiegu, który wczytuje ten szereg
+
+# data/verification-matrix.json
+dat-9c7c156edc60 = Jądro dopasowania zmierzonego ADEV→PSD (NNLS) jest zgodne z scipy.optimize.nnls (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — niezależnym jądrem zewnętrznym; ale LICZBY kompromisu kwantyfikują (nigdy nie walidują) zegar partnera/CAI, więc sam kompromis pozostaje MODELLED, bez aureoli walidacji
+
+# data/search.json
+dat-0fc2baa2494b = Filtr pomiarowy
+
+# data/verification-matrix.json
+dat-b3e182285f77 = Własne postacie zamknięte monitorów na własnych scenach GPS L1 C/A Kshana (szum i sygnały prawidłowe; zdarzenia tłumienia własnych sygnałów satelitów), względem progów wstępnie zarejestrowanych w docs/design/MONITORS-IN-CAMPAIGN.md (382ab2f4). USTALENIE: M1, M2 i M4 spełnione. M3 spełnione w detekcji ({ "18" } z { "18" } tłumień, P_md { "0" }) i NOT MET w klauzuli czasowej: mediana czasu do detekcji wynosi { "1.001" } s względem { "2" } x ARL1 próbek = { "0.433" } s. CUSUM widzi jedną estymatę na okno { "1" } s, więc granica liczby próbek jest poniżej jednej próbki. Tylko spójność wewnętrzna: nie sprawdza się żadnego prawdziwego odbiornika ani zarejestrowanych zakłóceń
+
+# data/verification-matrix.json
+dat-43640ae1cf86 = Kolumny CSV ruchu: pozycja związana z Ziemią, pozycja geodezyjna, prędkość związana z Ziemią, kurs/pochylenie/przechył i UTC oraz zdania NMEA GGA/RMC, zapisane ze scenariuszy syntetycznych (gnss-ins, w tym automotive-urban-canyon, jamming, gnss-sim). Tylko ruch i zdarzenia; żaden sygnał nie jest zapisywany i nie podaje się żadnych właściwości symulatora ani odbiornika.
+
+# data/search.json
+dat-89e233c63635 = Widmo wielopasmowe
+
+# data/verification-matrix.json
+dat-4dc48a3e5ebd = Samo równanie poziomu ochrony z separacją rozwiązań dla wielu hipotez: ważone najmniejsze kwadraty dla wszystkich widocznych i dla każdego trybu uszkodzenia na geometrii wschód/północ/góra z jednym stanem zegara na konstelację, sigmy podrozwiązań, sigmy separacji rozwiązań i jednostronne rzuty nominalnej odchyłki, progi Bonferroniego K_fa, przydział ryzyka niemonitorowanych uszkodzeń oraz VPL/HPL rozwiązujące równanie ryzyka integralności. Można uruchomić jako rodzaj scenariusza `araim-reference-check`
+
+# data/search.json
+dat-2ce06c348216 = Komunikat nawigacyjny
+
+# data/verification-matrix.json
+dat-16fdeef4af41 = Test chi-kwadrat NEES jest kontrolą spójności wewnętrznej (wzorzec i filtr dzielą model). Trend porównano z Li i in., LEO constellation-augmented multi-GNSS for rapid PPP convergence, J. Geod. { "93" }:749-764 ({ "2019" }), doi 10.1007/s00190-018-1195-2: multi-GNSS { "9.6" } min skrócone do { "7.0" }, { "3.2" }, { "2.1" } i { "1.3" } min przy { "60" }, { "96" }, { "192" } i { "288" } satelitach LEO. Dołączony scenariusz daje { "7.4" }, { "4.8" }, { "3.2" }, { "2.7" } i { "2.3" } min z własnymi reprezentatywnymi powłokami { "1000" } km, { "60" } deg, szumem i stacjami; konstelacje, szum i definicja zbieżności z pracy nie są odtwarzane, więc jest to spójność trendu MODELLED (monotoniczne skracanie, największa konstelacja poniżej jednej trzeciej czasu tylko GNSS), a nie walidacja
+
+# data/verification-matrix.json
+dat-d6f28e310ff2 = Newtonowski jednokierunkowy czas światła od dowolnego ciała do dowolnego innego, odbierany w epoce, rozwiązany radiometrycznym solverem czasu światła z punktem stałym (radiometric::light_time_solution, nadajnik w swojej pozycji opóźnionej) przez solar_system::link_on na dowolnym EphemerisProvider; rodzaj solar-system uruchamia go na analitycznym Układzie Słonecznym w układzie heliocentrycznym (solar_system::link). Dwukierunkowa odległość z radiometric::two_way_range i opóźnienie Shapiro od Słońca z radiometric::shapiro_delay są raportowane osobno i nie są porównywane z zewnętrznymi źródłami. Emitowany dla każdego ciała względem obserwatora i dla dowolnego dodatkowego łącza przez rodzaj `solar-system` oraz dla łącza w dół ciało-Ziemia przez rodzaj `body-pnt`
+
+# data/search.json
+dat-82ac4850886b = Niekołowy wzorzec: analityczne a Monte Carlo P_md
+
+# data/search.json
+dat-aca5442415ce = Niekołowy wzorzec: czy to naprawdę orbita GPS?
+
+# data/search.json
+dat-813b2afefcac = Niekołowy wzorzec: holdover pozycji { "350" } s
+
+# data/search.json
+dat-ba2f435b2480 = Niekołowy wzorzec: dlaczego { "2610" } s dla CSAC?
+
+# data/verification-matrix.json
+dat-64b0b715e5da = Numeryka jest porównana z niezależnym programem (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } przy { "30" } cyfrach, kwadratura tanh-sinh na pierwotnej zmiennej wysokości i gęstości gamma-gamma z Bessel-K), który nie dzieli z Kshana żadnego kodu, względem progów ustalonych, zanim powstała jakakolwiek implementacja (xval/optical-atmosphere/PREREGISTRATION.md). DLACZEGO MODELLED: ten wzorzec oblicza te same opublikowane wzory, więc sprawdza implementację podanych wzorów, a nie atmosferę; nie użyto żadnego przykładu walidacyjnego ITU-R ani zmierzonego zapisu scyntylacji czy ekstynkcji na ścieżce ukośnej (wartości ITU to otwarta decyzja licencyjna i pozostają poza repozytorium). Poziom profilu Cn2, widzialność, wysokości skali aerozoli i cząsteczek, długość ścieżki uśredniania apertury oraz dopasowanie momentów użyte do zastosowania uśredniania apertury do parametrów gamma-gamma są podanymi danymi wejściowymi lub konwencjami. Wiersz źródła w module odnotowuje, że jeden szeroko kopiowany przegląd drukuje drugi wykładnik scyntylacji jako 7/6, gdzie Andrews i Phillips podają 5/6; zaimplementowana jest postać 5/6
+
+# data/search.json
+dat-31f0e7e8b147 = Obserwabla i metoda bazowa
+
+# data/verification-matrix.json
+dat-795cb54aff09 = Oficjalne wektory testowe Galileo OSNMA opublikowane przez European GNSS Service Centre jako załącznik do Receiver Guidelines (Test_vectors.zip, sha256 ef9b9afc6ef9e1c57393415cf2a1dc80c4035e7c06123907ea0bb97dd3ccf370): { "18" } z { "18" } zestawów, { "186,382" } uwierzytelnionych znaczników, { "0" } nieudanych, uruchomione offline 2026-10-10 (zapis dowodowy w kshana-pro docs/evidence). Zakres: wektory walidują weryfikację kryptograficzną (Merkle, KROOT/ECDSA, łańcuch TESLA, znaczniki MACK, ADKD 0/4/12) i jej wyniki na opublikowanych scenariuszach; używają tylko HMAC-SHA-256, łańcucha SHA-256, kluczy 128-bitowych, znaczników 40-bitowych i wpisów tablicy { "33" } i { "34" }, więc CMAC-AES, łańcuchy SHA3-256 i inne parametry są pokryte wyłącznie opublikowanymi testami znanych odpowiedzi dla prymitywów i testami syntetycznymi. Utwardzenie czasu zaufanego, wiązania danych, wygaśnięcia i potwierdzenia nagłówka jest testowane syntetycznymi testami ataków, a nie zewnętrznym wzorcem. Niesprawdzone: listy unieważnionych certyfikatów, sygnały na żywo ani odbiornik na żywo (układ słów UBX jest sprawdzany tylko na ramkach syntetycznych), drzewa Merkle SHA3-256, świeżość bez niezależnego czasu. Nie jest to usługa UE
+
+# data/search.json
+dat-02fc3466eb93 = Granica otwarte / zamknięte
+
+# data/search.json
+dat-c1c7288e6e34 = Rodzaj scenariusza optical-atmosphere odpowiada, jak często łącze optyczne do ziemi działa, dlaczego zawodzi…
+
+# data/verification-matrix.json
+dat-c96aa9fcd785 = Opcjonalna sekcja [integrity] rodzaju clock (clock_integrity::run): z podanego miejsca i presetów konstelacji (geometry::sky_geometry), w każdej epoce integralności, dopóki oś czasu GNSS nie jest zablokowana, migawkowy RAIM (raim::snapshot_raim: test chi-kwadrat parzystości, poziomy ochrony ze spadkiem) na satelitach powyżej maski z ziarnowanymi gaussowskimi residuami o podanej sigmie i opcjonalną podaną odchyłką; osobny blok integrity_fom z werdyktami dla każdej epoki, poziomami ochrony i dostępnością. Epoki zablokowane są raportowane jako niedostępne, nigdy nie ekstrapolowane; mierniki jakości holdover są niezmienione, a bez tej sekcji wynik jest identyczny bajtowo
+
+# data/verification-matrix.json
+dat-2511de383cdd = Opcjonalna sekcja [receiver] lunar-station-coverage (LRS-02): zależna od elewacji sigma wielodrogowości(el) = a + b exp(-el / el0) u użytkownika i na stacji (postać funkcjonalna pokładowa RTCA DO-229, jej a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } deg jako wartości domyślne; na Księżycu każda wartość jest ILLUSTRATIVE), biała u użytkownika i pierwszego rzędu Gaussa-Markowa po epokach na stacji (rho = exp(-dt / tau)); termiczny szum kodu DLL early-minus-late sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); odchyłki międzykanałowe dla każdego kanału stałe w próbie, u użytkownika i na stacji. Człony stacji wchodzą do jej poprawek, człony użytkownika do pomiarów surowych i skorygowanych, każdy na własnym strumieniu ziarnowanym. Gdy sekcji brak, każdy dokument jest niezmieniony
+
+# data/verification-matrix.json
+dat-5b071d009bc1 = Opcjonalna sekcja [solution] lunar-station-coverage (LRS-06): wiersz pseudopomiaru wysokości up . dx = e_h o podanym 1-sigma, ważony względem wierszy odległości, minimum trzech satelitów dozwolone tylko z nią oraz ważone najmniejsze kwadraty na ostatnich window_epochs epokach ze wspólną statyczną pozycją i jednym zegarem na epokę (odpowiedź filtra dla statycznej pozycji bez szumu procesu na tych samych danych; błędy epok są traktowane jako niezależne). Gdy sekcji brak, rozwiązanie migawkowe i każdy dokument są niezmienione. Dodatek do porównania z opublikowanymi twierdzeniami w stylu rozwiązania źródeł, wstępnie zarejestrowany osobno
+
+# data/verification-matrix.json
+dat-98937e2b27b7 = Opcjonalny blok [time_lab] scenariusza lunar-time-budget modeluje zegar księżycowej stacji referencyjnej (domyślnie klasa miniRAFS, dowolna nazwana klasa albo karta urządzenia dopasowana do podanych punktów stabilności) sterowany do Coordinated Lunar Time, a następnie swobodnie działający lub ponownie sterowany co N sekund: krzywa błędu czasu x(t) jako suma pierwiastkowa kwadratów członu potęgowego zegara, stałej reszty sterowania (ILLUSTRATIVE), stałej reszty realizacji LTC i opcjonalnego członu szybkości zmiany wysokości stacji; czas po sterowaniu do { "1" }, { "10" } i { "100" } ns (lub podanych progów) przez bisekcję obok odwrotności w postaci zamkniętej dla dominującego typu szumu oraz dominujący człon przy każdym podanym horyzoncie, wszystko z jednostkami
+
+# data/verification-matrix.json
+dat-5bc49ba7fcb7 = Opcjonalne wejście orbit_err_growth_m_per_s lunar-station-coverage (LRS-03): poprawka zastosowana latency_s po obliczeniu mija się ze wzrostem g latency_s rozgłaszanego błędu orbity, g izotropowe o szybkości RMS 3D, losowane dla każdego satelity i próby na własnym strumieniu ziarnowanym (szybkość 1-sigma zakresu tau / sqrt({ "3" })), na wierzch ponownej projekcji zamrożonego błędu na linię widzenia. Gdy go brak, każdy dokument jest niezmieniony. Dodatek K5 do porównania z opublikowanymi twierdzeniami, wstępnie zarejestrowany osobno, uruchamia K5 przy { "0.001" }, { "0.01" } i { "0.1" } m/s (ILLUSTRATIVE)
+
+# data/verification-matrix.json
+dat-09591bd30be5 = Rozkład czasu trwania przerw miejsca optycznego sprzężony z postacią zamkniętą wariancji dobiegu modelu holdover zegara: błąd czasu i odległości przy podanych kwantylach przerw, holdover do progu czasu, ułamek przerw i czasu przerw wewnątrz niego oraz dostępność czasu A + U E[min(D, T_h)]/E[D], dla klasycznych i kwantowych klas zegarów. Można uruchomić w rodzaju scenariusza `optical-atmosphere`.
+
+# data/verification-matrix.json
+dat-783048fbbf26 = Degeneracja radialnej odległości do odchyłki zegara odbiornika dla każdego węzła jest dokładna przy { "1" } m do { "3.336" } ns (1/c). Brzegowy dopełnienia Schura { "{" }skala, przesunięcie{ "}" } (coupled_marginal_fisher) pokazuje, że w geometrycznie zróżnicowanej sieci pomiar dwukierunkowy podnosi brzegową o mniej więcej ten sam czynnik co równa liczba dodatkowych danych jednokierunkowych, podczas gdy w wyidealizowanym reżimie pojedynczego węzła podniesienie dwukierunkowe jest o rzędy wielkości większe. Wynikająca z tego zasada projektowa: to zróżnicowanie geometryczne, a nie sam pomiar dwukierunkowy, oddziela skalę układu księżycowego od przesunięcia skali czasu w pomiarach jednokierunkowych; dwukierunkowe lub zewnętrzne powiązanie czasu jest wymagane tylko w reżimie niskiego zróżnicowania lub pojedynczego użytkownika.
+
+# data/verification-matrix.json
+dat-2ec9862606b9 = Eksport geometrii dla każdego satelity niesie, dla każdej (epoka, satelita), kąt od osi głównej W SATELLICIE i wzmocnienie nadawcze w kierunku miejsca z rzeczywistego wzorca kołowej apertury równomiernie oświetlonej (Airy'ego), i raportuje liczbę satelitów w wiązce według tego wzorca OBOK liczby w wiązce według symetrycznego przybliżenia wzmocnienie-szerokość wiązki (θ_3dB[deg] = √(31000/G_lin)), przy czym różnica jest emitowana jako jawna korekta w łączach, w satelitach na epokę i jako najgorsza pojedyncza epoka. Emitowane są obie implikowane sprawności apertury przybliżenia ({ "0.641" } względem reguły { "70" }·λ/D stopni, z którą jest cytowane, { "0.920" } względem jednorodnej apertury kołowej), aby sprawność, którą ono milcząco zakłada, była podana, a nie wnioskowana. Domyślnie wyłączone: blok pojawia się tylko wtedy, gdy podano zarówno miejsce eksportu, jak i aperturę
+
+# data/search.json
+dat-940e5ca338cc = Potok
+
+# data/search.json
+dat-36996982c5c7 = Plan i katalog
+
+# data/search.json
+dat-6196b779861f = Procedura
+
+# data/search.json
+dat-1bbca90efb82 = Reguła awansu
+
+# data/verification-matrix.json
+dat-976de57c6004 = Ścieżka propagacji i układów odniesienia wspólna dla każdego rodzaju na orbicie okołoziemskiej: zestaw elementów średnich SGP4 z dwuczęściową epoką UTC (sgp4::MeanElementSet, odczytany z elementów constellation-design przez MeanElementSet::from_earth_fixed) propagowany przez SGP4/SDP4 do TEME (sgp4::SgpOrbit) oraz rotacje TEME -> ITRS i GCRS -> ITRS łańcucha IAU 2006/2000A z UT1 - UTC i ruchem bieguna (sgp4::teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop, formy bezparametrowe teme_to_itrs_matrix i gcrs_to_itrs_matrix). TEME to prawdziwy równik daty ze średnim punktem równonocy, osiągany z GCRS przez precesję z biasem IAU { "2006" }, nutację IAU 2000B i równanie równonocy
+
+# data/verification-matrix.json
+dat-428ad2136253 = Opublikowana tabela współczynników wagowych SISRE Montenbrucka, Steigenbergera i Hauschilda ({ "2018" }), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research { "61" }({ "12" }):3020-3038, doi 10.1016/j.asr.2018.03.041: GPS { "0.98" } i 1/49, GLONASS { "0.98" } i 1/45, Galileo { "0.98" } i 1/61, BeiDou MEO { "0.98" } i 1/54, BeiDou IGSO/GEO { "0.99" } i 1/126. Ta sama średnia obliczona na promieniach LEO daje wagi LEO; żadna opublikowana tabela LEO nie jest przypięta, więc wartości LEO to zastosowana zwalidowana metoda, a nie osobno zwalidowane
+
+# data/verification-matrix.json
+dat-d572d32bf414 = Odczyt kodów dokładności i integralności nawigacji ADS-B używany przez mapę (granica EPU, którą oznacza kod NACp, granica promienia zawierania, którą oznacza kod NIC, oraz klasy niska i dobra, które metoda z nich wyprowadza); wartości niedostępności pozycji i prędkości AIS odrzucane przez czytnik AIS; stała komórka siatki szerokość/długość geograficzna, w której leży pozycja; długość trasy i jej podział według stanu komórki (degraded, not degraded, unassessed, not observed), które raportuje ekspozycja trasy; oraz to, czy pozycja leży w głębi lądu poza wielokątem lądu o więcej niż bufor. Komórka oznaczona jako degraded lub anomalna jest stwierdzeniem o raportowanych polach dokładności lub nieprawdopodobnych pozycjach, a nie ustaleniem zakłóceń, i nic tu tego nie sprawdza.
+
+# assets/capabilities/capabilities.json
+dat-abc1dd0c01b2 = wzorzec anteny odbiorczej w kierunku zagłuszacza poza jedną wartością wzmocnienia
+
+# data/verification-matrix.json
+dat-c7f246747fa9 = Zegar odbiornika estymowany przez statyczny filtr float PPP na rzeczywistym dwuczęstotliwościowym kodzie i fazie GPS z finalnymi orbitami i zegarami IGS: transfer czasu z odbiornika do czasu IGS, rozwiązanie czasu PPP wolne od jonosfery.
+
+# data/search.json
+dat-7b4b1b50aa19 = Porównanie z samoraportem odbiornika
+
+# data/search.json
+dat-6f5606020684 = Własne flagi odbiornika
+
+# data/search.json
+dat-9c518b5ec811 = Własne flagi spoofingu i zagłuszania odbiornika (UBX)
+
+# data/search.json
+dat-7c64579f4ddb = Pozostała luka (plan rozwoju)
+
+# data/verification-matrix.json
+dat-3e46d08f39d5 = Rdzeń renderowania pasma podstawowego AFS (LSIS-130: obwiednia zespolona I + jQ, I = kod Golda AFS-I razy ramka { "500" } symboli/s przy { "1.023" } Mchip/s, Q = warstwowy pilot AFS-Q przy { "5.115" } Mchip/s, rotacja nośnej, wyrównanie chipów i symboli) odtwarza próbki niezależnego generatora, gdy jest sterowany własnym zapisanym stanem kanałów tego generatora (fazy i szybkości kodu, faza i częstotliwość nośnej, amplituda dla każdego kanału). Nieobjęte: model węzła wyprowadzający ten stan z Dopplera, opóźnienia i stosunku nośnej do gęstości szumu, podział mocy 50/50 obliczany ze stosunku nośnej do gęstości szumu (amplitudy są brane z symulatora) oraz metadane SigMF i zapis próbek 8-bitowych
+
+# data/search.json
+dat-3591d85a0ba5 = Raport
+
+# data/search.json
+dat-99348c91a583 = Tabela odtwarzalności
+
+# data/search.json
+dat-4e9dc7c15dbc = Reszta silnika
+
+# data/search.json
+dat-4d88e08f47f8 = Reguła
+
+# data/search.json
+dat-042dd05b607e = Reguła dla każdej odpowiedzi
+
+# data/search.json
+dat-d299c1a24acf = Bezpieczne ustawienia domyślne
+
+# data/verification-matrix.json
+dat-9fd0af13eca1 = Połączony plik rozgłoszeniowy IGS RINEX { "3" } z tej samej doby (dane opublikowane, zapisane innym generatorem plików z tych samych komunikatów rozgłoszeniowych); progi wstępnie zarejestrowane w tests/fixtures/brdc_rinex4_2026200/PREREGISTRATION.md (7aa264b) przed pierwszym przebiegiem
+
+# data/search.json
+dat-0d170f85e055 = To samo przewidywanie na prawdziwym oscylatorze kwarcowym: zachowawcze, niezwalidowane
+
+# data/search.json
+dat-6149b8367932 = To samo przewidywanie na zegarach atomowych na orbicie: { "8" } z { "10" }, niezwalidowane
+
+# data/verification-matrix.json
+dat-ac1b5bd75a02 = Ta sama symulowana prawda co dla filtra bezwzględnego: błąd filtra względnego względem prawdziwego stanu względnego oraz kontrola, że radzi sobie co najmniej tak dobrze jak odjęcie dwóch niezależnych rozwiązań bezwzględnych. Nie porównuje się żadnych danych z lotu w formacji
+
+# data/search.json
+dat-51e3aab053e7 = Scenariusz
+
+# data/search.json
+dat-2f3b5663c8ba = Biblioteka scenariuszy
+
+# data/search.json
+dat-1f72323a66cf = Czujniki, które porównuje Kshana
+
+# studio/data/capabilities.json
+dat-9bcd172f4744 = Objętość usługi działa na opublikowanych projektach konstelacji zamiast na ilustracyjnym: pięciosatelitarny referencyjny zestaw demonstracji interoperacyjności LANS, studia przypadków LNCSS dla { "8" }, { "12" } i { "16" } satelitów oraz cztery statki kosmiczne faktycznie znajdujące się na orbicie księżycowej 2023-01-01 z JPL Horizons. Każdy plik podaje własny układ odniesienia i własną klasę pochodzenia, horyzont poza końcem stablicowanych efemeryd jest odrzucany zamiast ekstrapolowany, a ilustracyjny wynik keplerowski jest emitowany obok pobranego wraz z różnicą między nimi i nigdy nie jest nim zastępowany.
+
+# data/verification-matrix.json
+dat-accb0008fb70 = Siedmioparametrowa kowariancja datum Helmerta, w której dwa symulowane wejścia zastąpiono zmierzonymi: harmonogram to epoki nadawania z ziemi { "337" } archiwalnych punktów normalnych laserowego pomiaru odległości do Księżyca ILRS (2015-04-08 do 2015-06-27, Grasse MeO { "7845" } i Matera MLRO { "7941" }, wszystkie pięć retroreflektorów), a waga każdej obserwacji to archiwalna precyzja tego punktu bin_rms/√n_raw — mediana { "5.13" } mm odległości jednokierunkowej, odczytana z pliku. Współrzędne stacji IERS ITRF2020, współrzędne reflektorów JPL DE430 Tabela { "7" }. Można uruchomić jako rodzaj scenariusza `lunar-llr-datum`. Zwalidowane twierdzenie ({ "0.36" }) jest wąskie: na analitycznej ścieżce domyślnej obliczenie kowariancji datum zgadza się z niezależnym wzorcem SPICE czasu światła i NumPy na świeżych zmierzonych punktach normalnych; nie jest to dokładność LLR ani dowód, że analityczny Księżyc jest dokładny
+
+# data/verification-matrix.json
+dat-fdf50c7675aa = Siedmioparametrowe datum Helmerta propagowane z SYMULOWANEJ KAMPANII OBSERWACYJNEJ zamiast odzyskiwane z wstrzykniętej transformacji. Stacje ziemskie obserwują katalog radiolatarni powierzchniowych Księżyca z podanym źródłem według jawnego harmonogramu; pochodne cząstkowe opóźnienia lunar-VLBI są akumulowane w macierz informacji Fishera współrzędnych radiolatarni i przepuszczane przez projekt Helmerta A = [I₃ | [p]ₓ | p] do H = AᵀM_bA, więc raportowana dokładność datum jest funkcją programu obserwacji — dokładnie liniową względem sigmy opóźnienia i monotoniczną względem łuku przez librację, którą raport MIERZY. Defekt datum jest przedmiotem, a nie przypisem: rząd, defekt, współczynnik uwarunkowania, widmo, nieobserwowalne kierunki w bazie siedmioparametrowej, najsłabszy kierunek nawet przy pełnym rzędzie i udział każdego parametru w nim są emitowane w każdym przebiegu, a każdy parametr, którego kampania nie ogranicza, jest publikowany jako NULL ze statusem. Korelacja błędów radiolatarni jest zmierzona (MEASURED), a nie zakładana — dokładnie zero przy stałych stacjach i drukowana wraz z kosztem, gdy są estymowane. Można uruchomić jako rodzaj scenariusza `lunar-frame-campaign`
+
+# studio/data/capabilities.json
+dat-602bfa37c542 = Warstwa wydajności sygnału między bilansem łącza a dziedziną pomiarową: widmowe gęstości mocy o jednostkowym polu dla BPSK-R(n) i sinusoidalnego BOC(m,n), współczynnik separacji widmowej, który wyprowadza anty-zagłuszeniowe Q zużywane bezpośrednio przez model zagłuszania z rzeczywistych widm sygnału i zagłuszacza, pierwiastkowa średniokwadratowa (Gabora) szerokość pasma, która ustala zawartość informacji o odległości (BOC > BPSK), koherentny termiczny jitter śledzenia kodu DLL early–late, koherentna obwiednia błędu wielodrogowości early-minus-late z tłumieniem korelatora wąskiego oraz kompromis projektowy kodów dalmierczych (poziomy listków bocznych autokorelacji m-sekwencji/Golda i trójwartościowa granica korelacji wzajemnej Golda, a także odwrócenie długości kodu na jednoznaczny zasięg). To jest analiza wydajności sygnału, a nie projekt sprzętu ładunku RF ani anteny.
+
+# data/verification-matrix.json
+dat-677d04005685 = Współczynniki DOP dla pojedynczego zegara opierają się na jądrze zwalidowanym względem gnss_lib_py { "1.0.4" } (wiersz 'GNSS geometry / dilution of precision (DOP)'); własne kontrole tego wiersza są wewnętrzne: sky_geometry odtwarza orbit::dop i dop_cov na tej samej geometrii, elipsa odtwarza analityczny rozkład własny 2x2, dane wejściowe ECEF i azymut/elewacja się zgadzają, a RMS i { "95" } % zawierania ziarnowanej chmury zgadzają się z geometrią. Kowariancja ENU z jednym zegarem na system i elipsa są VALIDATED w wierszu 'Horizontal error ellipse and per-system cofactor from the geometry covariance' (numpy, P2); tutaj pozostaje MODELLED kompozycja: propagacja presetu do reprezentatywnego nieba, chmura Monte Carlo (sprawdzona względem geometrii, z której próbkuje, czyli kontrola samospójności) i powierzchnie. Presety konstelacji dają niebo reprezentatywne, a nie datowane; gaussowski model błędu i UERE są podanymi danymi wejściowymi, a nie zmierzoną dokładnością ani granicą integralności
+
+# data/search.json
+dat-0cbb8b176295 = Witryna
+
+# data/search.json
+dat-ca71a91dc8eb = Linia horyzontu
+
+# data/search.json
+dat-da5865588453 = Rodzaj scenariusza slot-timing odpowiada na trzy pytania dla zegara, który działa swobodnie między synchronizacjami…
+
+# data/verification-matrix.json
+dat-83d1ec2f6e4a = Redukcja migawkowa i przypadki solvera w postaci zamkniętej (InternalConsistency). Dodatek (tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md, wstępnie zarejestrowany osobno w 001ca100) z ograniczeniem wysokości { "1" } m, trzema satelitami i oknem 6 epok (ustawienia ILLUSTRATIVE; źródła podają filtr, ograniczenie wysokości i trzy satelity, ale nie ich ustawienia): K1 do K5 nie przechodzą, a K6 przechodzi, { "1" } z { "6" } jak w zapisanym przebiegu; skorygowany błąd p95 3D dla R300 spada z { "280.6" } m do { "2.11" } m (poziomy { "0.90" } m, nieoceniany), a pokrycie pozostaje { "0" }. Założenie niezależności okna mu sprzyja. Nie jest to stwierdzenie o żadnym rzeczywistym systemie
+
+# data/search.json
+dat-84c3e7c0b54b = Rodzaj scenariusza spectrum buduje pasmo L globalnego systemu nawigacji satelitarnej (GNSS) oraz każde inne pasmo, które…
+
+# data/verification-matrix.json
+dat-73a3d167d96e = Nominał Stardust z Desai, Mitcheltree i Cheatwood ({ "1999" }, NASA NTRS { "20050042027" }): maksymalne opóźnienie { "33.4" } g od { "12.6" } km/s względem planety przy masie startowej { "45.8" } kg, trajektoria 6-DoF POST z pełną bazą aerodynamiczną; interfejs wejścia z Desai, Lyons, Tooley i Kangas (NTRS { "20090004445" }): promień { "6503.14" } km, prędkość inercjalna { "12.9" } km/s przy -8.2 deg. Progi wstępnie zarejestrowane w xval/entry-stardust/PREREGISTRATION.md przed jakimkolwiek przebiegiem na tych danych wejściowych; oba dotrzymane w pierwszym przebiegu. CZEGO TO NIE OBEJMUJE: jeden opublikowany przypadek i jedna wielkość (szczytowe opóźnienie, które w przybliżeniu balistycznym nie zależy od współczynnika balistycznego); szerokość i kurs wejścia są założone; nagrzewanie, obciążenie cieplne i punkt lądowania nie są względem niego sprawdzane; punkt materialny ze stałym C_D, a nie 6-DoF.
+
+# js/developers-data.mjs
+dat-5bea30c2f8ec = Statyczne odwzorowanie publicznych ram (`kshana compliance-report --mapping` / `--sources`) jako Markdown: jedna tabela na ramy z sparafrazowanym wymaganiem każdego wiersza, wynikami Kshana, które dostarczają dowodów na (supports evidence for) ten wiersz, oraz luką, której wyniki nie zamykają; lub, gdy `sources` ma wartość true, dokumenty źródłowe cytowane w tabelach z wersjami i adresami URL.
+
+# data/search.json
+dat-0d3123f7d981 = Kanion uliczny
+
+# studio/data/capabilities.json
+dat-06acdcc725b9 = Redukcje kanionu ulicznego, sektora i terenu do tabeli linii horyzontu, cztery reprezentatywne presety (ulica miejska, podejście do portu, fiord, terminal kontenerowy) oraz funkcje, które składają je w skyplot i chmurę Monte Carlo, z CLI, MCP, Pythona i przeglądarki. Presety są reprezentatywnymi geometriami z wybranymi, podanymi wymiarami, a nie pomiarami terenowymi, a redukcje są sprawdzane wyłącznie względem wartości obliczonych ręcznie.
+
+# data/search.json
+dat-cbb9fd521aa7 = Próg techniczny (nienegocjowalny)
+
+# data/verification-matrix.json
+dat-2193be3cc46a = Trzy człony, które poprawka różnicowa zbiera między epoką, w której jest obliczana, a epoką, w której jest użyta, z których każdy był wcześniej pozostawiony jako niemodelowany zapas: błąd pomiaru stacji referencyjnej (skorelowany między satelitami, niezależny od linii bazowej, przeniesienie pozycji ~{ "1" }:{ "1" } i dowodliwie niewzmacniany przez DOP), starzenie poprawki (zamrożony wektor błędu orbity przeprojektowany na linię widzenia, na którą własny propagator silnika ustawia satelitę po jednym opóźnieniu, plus dryf zegara c·σ_y(τ)·τ z skalibrowanego prawa potęgowego) oraz jednorodna kwantyzacja łącza na dokładnej skali pełnej ±(orbit_err + clock_err) z wariancją step²/12. Raportowane w dziedzinie odległości i pozycji, obok — nigdy zamiast — istniejącej reszty i poziomu ochrony, z krzywą opóźnienia obok pojedynczej wartości
+
+# data/search.json
+dat-c7fae9dce7f6 = Trzy rozwiązane przykłady
+
+# data/verification-matrix.json
+dat-8d9c177fc1ca = Wskaźnik zaufania, pasmo, powody, stan bramki i pozycja zgłaszana przez odbiornik, publikowane pod navigation.gnss.kshana na serwerze Signal K wraz z powiadomieniem warn, alarm i normal (integrations/signalk); bramkowany strumień NMEA z poprawką oznaczoną jako nieważna, gdy zaufanie załamało się, i zdaniem PKSHT na cykl, serwowany do OpenCPN przez TCP przez samą bramkę lub mały przekaźnik, oraz natywny panel wyniku OpenCPN, który czyta zdanie PKSHT (integrations/opencpn); a także jednostki systemd i kontener, które uruchamiają bramkę (deploy/reference-build). Tam, gdzie pokazują one wynik, niosą oświadczenie doradcze: Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC { "61108" }, IEC { "61162" }): za nawigację statku odpowiada nadal operator.
+
+# data/verification-matrix.json
+dat-ab27e5de4c14 = Dwukierunkowe równanie TWSTFT rozwiązane względem T_A - T_B z opóźnieniami nadawania i odbioru stacji, asymetrią jonosferyczną góra/dół w paśmie Ku, różnicą opóźnień transpondera i członami Sagnaca, względem swojego dokładnego modelu wprost; kwadraturowy budżet niepewności z TDEV łącza jako członem typu A; szereg dwukierunkowy z białym szumem fazy i szumem flicker (Kasdin-Walter), dobową nieodwracalnością i stałą resztą odwracalności; oraz szybkość, RMS reszt, TDEV i ADEV dostarczonych szeregów zegarów stacji Circular T, MJD-CSV lub IGS RINEX. Można uruchomić jako rodzaj scenariusza `time-transfer-budget`.
+
+# data/verification-matrix.json
+dat-50788560e7d7 = Zwalidowane postacie zamknięte dwóch powyższych wierszy, tożsamość fałszywego alarmu detektora kwadratowego P_d(snr = { "0" }) = P_fa i średni czas akwizycji Holmesa oraz redukcja do własnego łańcucha SSC rodzaju spectrum (ten sam kod Jammer::ssc). Same projekty są danymi wejściowymi: presety oznaczone REPRESENTATIVE lub WORKSHOP nie są opublikowanymi specyfikacjami, ulepszone widma Feher QPSK, kluczowania przesunięciem kodu i OFDM są przybliżone, a kontrole kształtu porównują kształty, a nie skalibrowane poziomy.
+
+# data/search.json
+dat-16112a9a77ca = Statek
+
+# data/search.json
+dat-3f1d4e3f1ccb = Cały Układ Słoneczny w jednej epoce, dla PNT (pozycjonowania, nawigacji i czasu) wokół dowolnego ciała.
+
+# data/search.json
+dat-555eddd72c9c = Cały Układ Słoneczny w jednej epoce, dla PNT (pozycjonowania, nawigacji i czasu) wokół dowolnego ciała. Dla…
+
+# data/search.json, js/missions-runs.mjs
+dat-669e6375dd79 = Cały Układ Słoneczny w jednej epoce.
+
+# data/search.json
+dat-89aaa5f9ce5a = Słowa i ograniczenia
+
+# data/verification-matrix.json
+dat-b16d6e1433cb = Theo1 i całkowite odchylenie (TOTVAR) — estymatory stabilności długiego tau o rozszerzonym zakresie, sięgające ~{ "75" }% zapisu tam, gdzie odchylenie Allana wyczerpuje się w okolicach ~{ "50" }%; hybryda ThêoH z usuniętym obciążeniem (allan::theoh_curve) zbudowana na nich pozostaje MODELLED
+
+# data/search.json
+dat-66fa672b5002 = Te możliwości są zaimplementowane na podstawie opublikowanej lub pierwszozasadowej fizyki z testami, ale uczciwie…
+
+# data/search.json
+dat-cc1d1473669d = Ten dokument odwzorowuje RTCA (dawniej Radio Technical Commission for Aeronautics) DO-229E (SBAS…
+
+# data/search.json
+dat-079cb1d71f11 = Ten dokument określa, jak zarządzana jest Kshana: kto podejmuje decyzje, jak, i co projekt będzie, a czego nie będzie…
+
+# data/search.json
+dat-50eb6e6fec85 = Ta notatka dokumentuje otwartą implementację Advanced Receiver Autonomous Integrity Monitoring w Kshana…
+
+# data/search.json
+dat-bf2f1f92d9a4 = Ta strona wyjaśnia, co robi Kshana i dlaczego, zaczynając od zera i budując aż do fizyki.
+
+# data/search.json
+dat-af95fca25c5e = Ta strona wymienia każdy limit sprawdzany przez rodzaj scenariusza telecom-timing, skąd pochodzi każdy z nich i co zostało…
+
+# data/search.json
+dat-0ce7cfae4415 = To przeprowadza jedną trajektorię przez oparte na standardach rodzaje scenariuszy interoperacyjności i analizy misji, od końca do…
+
+# data/verification-matrix.json
+dat-da8207aca260 = Trzy aspekty jednego rozkładu ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) z 8-wymiarowym cechowaniem datum⊕skala czasu jako N(G) i state_dim − { "8" } = { "32" } obserwowalnymi kierunkami jako range(G): (T5) provider_mismatch_split klasyfikuje wspólną odchyłkę wielu dostawców (∈ range(G)) jako NIEWYKRYWALNĄ — wymagającą zewnętrznego powiązania — a odchyłkę różnicową (∉ range(G)) jako samomonitorowaną / WYKRYWALNĄ; (§{ "0" }) unifikacja polega na tym, że TA SAMA ślepa podprzestrzeń range(G) rządzi klasą uszkodzeń niewykrywalnych, więc cechowanie datum N(G) i podprzestrzeń ślepa na uszkodzenia range(G) są jedną geometrią, a nie dwiema; (g7) slope zwraca nachylenie luki ochrony Browna ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ dla uszkodzenia b ∈ range(G) (estymator zepsuty przy zerowej parzystości) i skończone dla uszkodzenia wykrywalnego
+
+# data/verification-matrix.json
+dat-fe38e57d2fb3 = Trzy macierze układów odniesienia porównane element po elemencie lub kątem obrotu z ERFA w dowolnych epokach: precession::precession_matrix (precesja z biasem IAU { "2006" } przez kąty Fukushimy-Williamsa), nutation::teme_to_gcrs_matrix (rotacja TEME do GCRS P^T N^T Rz(-EE) z precesją IAU { "2006" }, nutacją IAU 2000B i równaniem równonocy z jego dwoma wiodącymi członami uzupełniającymi) oraz cio::gcrs_to_cirs_matrix_with_offsets (rotacja GCRS do CIRS z przesunięciami bieguna niebieskiego IERS dX, dY dodanymi do modelowych X, Y CIP przed rotacją, konwencja SOFA cookbook; nowe). Same wybory modelu (nutacja 2000B na ścieżce TEME, dwuczłonowy szereg uzupełniający) nie są walidowane, tylko ich implementacja
+
+# data/verification-matrix.json
+dat-c6a5b4e18a0f = Trzy scenariusze gnss-ins na bibliotece trajektorii (statek zygzakujący z prędkością { "8" } m/s z pięciominutową przerwą; pociąg przez przekop z dwoma satelitami i tunel; samolot, którego przerwa obejmuje zakręt z przechyłem 25 stopni) oraz opcjonalna tabela [tight] pakietu: pseudoodległości z konstelacji Walkera SGP4 scalane przez nawigator z zamkniętą pętlą, każdy satelita powyżej maski w stanie nominalnym i kilka najwyższych w stanie pogorszonym
+
+# data/verification-matrix.json
+dat-6781f5f7c487 = Trzy niezależne autorytatywne efemerydy — DE440 (JPL), INPOP21a (IMCCE), EPM2021 (IAA RAS) — próbkowane przez IMCCE calceph, sprawdzone krzyżowo niezależnym dopasowaniem najmniejszych kwadratów numpy SVD. DLACZEGO TO JEST zwalidowane, A lunar_common_mode NIE JEST, na tych samych trzech efemerydach: tutaj raportowana wielkość JEST własnością opublikowanych danych — ich wzajemną rozbieżnością — więc efemerydy są wzorcem, a nie daną wejściową. W lunar_common_mode ta sama rozbieżność zasila MODELLED geometrię konstelacji, a odpowiedź jest własnością tego modelu, dlatego ten wiersz jest słusznie Modelled/ReferenceImpl.
+
+# data/search.json
+dat-e308dc95dc23 = Trzy rodzaje scenariuszy zapewniają pozycjonowanie, nawigację i czas (PNT) z satelitami na niskiej orbicie okołoziemskiej…
+
+# data/verification-matrix.json
+dat-b7376e140622 = Trzy strażniki strukturalne nad samym procesem weryfikacji, z których każdy zamyka klasę defektów, które dotarły do kanonicznej bramki jako przerywany lub fałszywy wynik czerwony. ({ "1" }) Każda skonstruowana ścieżka tymczasowa w źródłach Rust musi zawierać składnik unikalny dla wywołania; identyfikator procesu jest odrzucany, ponieważ cargo uruchamia testy biblioteki jako równoległe wątki JEDNEGO procesu, a pid jest wspólny dla wszystkich. ({ "2" }) Każde przypięcie bajt po bajcie lub skrótu musi zadeklarować, obok siebie lub w nagłówku modułu, co obejmuje, a co celowo wyklucza — aby zmiana przekrojowa mogła na pierwszy rzut oka stwierdzić, które przypięcia są w zakresie, a które po cichu stały się detektorami zmian w całym repozytorium. ({ "3" }) Zielony wynik można zgłosić tylko z PEŁNEGO zestawu: scripts/gate.sh uruchamia `cargo test --all`, przechwytuje prawdziwy kod wyjścia bez potoku na drodze i zapisuje pokwitowanie podające commit, liczbę binariów integracyjnych, liczbę testów i czas trwania; kontrola przed wypchnięciem odrzuca wypchnięcie, którego commitu nie wymienia żadne ważne pokwitowanie, na czystym drzewie. Powtarzalność jest próbkowana osobno przez scripts/check-repeatability.sh, który uruchamia zestaw biblioteki N razy i kończy się niepowodzeniem, jeśli zbiór zaliczanych testów się różni.
+
+# studio/data/capabilities.json
+dat-abb22745ef3d = Trójosiowy bezkardanowy INS — orientacja kwaternionowa, mechanizacja WGS-84 NED, kompensacja coning/sculling i pełny deterministyczny model błędów IMU — plus pierwszozasadowy akcelerometr z interferometrem zimnych atomów (faza Macha–Zehndera, szum projekcji, zanik kontrastu, sprzężenie drgań) oraz filtr cząsteczkowy do nawigacji odniesionej do terenu/grawitacji w warunkach braku GPS.
+
+# data/verification-matrix.json
+dat-8a384aa0ece5 = Menu uszkodzeń TIB (rozbieżność dziedzin, clock-slam, dobieg holdover, opóźnienie statyczne/przyrostowe/symetryczne/asymetryczne, powtórzenie w ramach świeżości, selektywne dla ścieżki, kworum k z N)
+
+# data/verification-matrix.json
+dat-ba55614d83be = Punktowanie pokrycia integralności TIB (wskaźniki HMI/MI/dostępności + werdykt pokrycia nadgranicznego)
+
+# data/verification-matrix.json
+dat-a94d5c81b3b5 = Klasyfikacja epok TIB na diagramie integralności Stanforda (nominalna / niedostępna / MI / HMI)
+
+# data/verification-matrix.json
+dat-ae4e9157f569 = Werdykt pochłaniania niewykrywalnego TIB (symetryczne/powtórzenie muszą zostać pochłonięte przez PL i nigdy nie być zgłoszone jako wykryte)
+
+# data/search.json
+dat-96a1790c4953 = Pływy na geopotencjale (src/tides.rs)
+
+# data/verification-matrix.json
+dat-1cece66370c3 = tides::tests (człon S1 jest dobowy, obraca się o { "90" } deg w ćwierć doby i ma amplitudę współczynnika obciążenia każdego wiersza; wielkość fizyczna na LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+# studio/data/capabilities.json
+dat-570e93de692d = ściśle sprzężony UKF · { "0.77" } m RMS
+
+# studio/data/areas.json
+dat-7693dd3b7cf2 = Błąd czasu
+
+# studio/data/capabilities.json
+dat-6cece0b05a6a = Skale czasu i układy odniesienia orientacji Ziemi
+
+# studio/data/capabilities.json
+dat-46048a345e4c = Systemy czasu
+
+# data/search.json, js/missions-runs.mjs
+dat-a4f81aad2d9a = Transfer czasu do UTC z satelitów LEO, względem C/N0 i oscylatora odbiornika.
+
+# data/verification-matrix.json
+dat-e2efae3f8849 = Widoczność w dziedzinie czasu (AOS/TCA/LOS, maksymalna elewacja, czas trwania) propagatora silnika nad stacją powyżej maski elewacji, z interpolowanymi przekroczeniami wschodu/zachodu i całkowitym dostępem: passes::predict_passes, harmonogram geometryczny (bez refrakcji i czasu światła). Rodzaj scenariusza `passes` uruchamia predyktor pozorny z wiersza 'Apparent ground-station pass prediction with refraction and light time'
+
+# data/search.json
+dat-66eda5411853 = Detekcja spoofingu czasu z jawnym kształtem ataku i stochastycznym detektorem.
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-dcb22bd12a55 = Budżet błędu transferu czasu
+
+# data/search.json
+dat-5f88ca853243 = time-transfer-budget (rodzaj scenariusza)
+
+# data/search.json
+dat-bbb4dcced418 = timetransfer (rodzaj scenariusza)
+
+# data/verification-matrix.json
+dat-44dcbd5a239e = timetransfer_chain::tests (precyzja poprawia się z całkowaniem; kwantowe może zarówno wygrać, JAK I przegrać; PL skończony dodatni; FoM bezpieczeństwa w [{ "0,1" }] i rośnie z opóźnieniem ataku; Pd anomalii monotoniczne; kompromis is_honest)
+
+# data/verification-matrix.json
+dat-9fd675aba21a = timetransfer::tests (wzajemne znoszenie; tożsamość Sagnaca w dwóch formach); tests/time_transfer_error_budgeting_reference.rs (Sagnac obiegu równikowego = { "207.386" } ns względem opublikowanego Ashby { "207.4" } ns do <{ "0.05" } ns; ponadto geometria Sagnac/geodist sprawdzona krzyżowo z geodist() RTKLIB { "2.4.3" } skompilowanym ze źródła w C)
+
+# data/search.json
+dat-bafdf56f480c = Testy synchronizacji i holdover
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-fe1585259034 = Ciągłość czasu i wyznaczania odległości przez przerwy optyczne
+
+# studio/data/areas.json
+dat-572b994bdb6f = Błąd czasu w trakcie przebiegu
+
+# data/search.json
+dat-60e75eec2266 = Czas dla sieci, widma, Układu Słonecznego, konstelacji, kampanii i LEO-PNT
+
+# data/search.json
+dat-af3ae4c6ec29 = Synchronizacja w pętli ze sprzętem: odłącz antenę, oceń holdover
+
+# studio/data/capabilities.json
+dat-a4bd95a08c10 = Integralność czasu
+
+# data/verification-matrix.json
+dat-830ecf94efaa = Poziom ochrony czasu dla odbiornika na orbicie pod spoofingiem GNSS
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-3c5975241acf = Poziom ochrony czasu pod spoofingiem
+
+# data/search.json
+dat-81849f4dacd3 = Bariera czasu
+
+# data/verification-matrix.json
+dat-28757f0de384 = Test porównawczy zgodności integralności czasu — katalog uszkodzeń (generatory parametryczne)
+
+# data/verification-matrix.json
+dat-00ec4aa50d47 = Test porównawczy zgodności integralności czasu — punktator pokrycia integralności
+
+# data/verification-matrix.json
+dat-cea9b5d71933 = Test porównawczy zgodności integralności czasu — klasyfikator epok diagramu integralności Stanforda
+
+# data/verification-matrix.json
+dat-06ca29579f23 = Test porównawczy zgodności integralności czasu — werdykt pochłaniania niewykrywalnego
+
+# js/missions-runs.mjs
+dat-d7ca79c5d894 = do zbieżności, tylko GNSS
+
+# data/search.json
+dat-73bf610fd7de = Najwyższy poziom (pakiety zegara i orbity)
+
+# data/verification-matrix.json
+dat-5a7431e27e44 = Dynamika orientacji ciała sztywnego bez momentu sił
+
+# data/verification-matrix.json
+dat-b5235132847d = tpl::tests (wzorce w postaci zamkniętej + CUSUM); examples/tpl_jammertest.rs (kalibracja na rzeczywistym spoofingu JammerTest { "2024" }); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (przypina ustalenie); tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+# data/verification-matrix.json
+dat-cf0276f69bce = tracking_loop (składa sdr, jamming)
+
+# data/verification-matrix.json
+dat-e61b4ece5d0d = tracking_loop::tests (jitter dyskryminatora Costasa w pętli otwartej względem sdr::correlate krokowo przesuwanego na ziarnowanym syntetycznym IF, { "3" } połączone realizacje szumu × { "900" } epok, zgodne do { "0.63" }% w zakresie 35-45 dB-Hz, przy czym człon strat kwadratowania musi pasować co najmniej { "3" }× lepiej niż postać bez strat kwadratowania wszędzie tam, gdzie jest rozróżnialny; nasycenie dyskryminatora atan przy ~{ "32" } dB-Hz stwierdzone w asercji, a nie tylko podane, więc granica ważności jest przypięta; sigma w pętli zamkniętej względem krokowo przesuwanej pętli Costasa sdr w { "4000" } epokach do { "3.7" }%; opóźnienie rampy DLL pierwszego rzędu względem krokowo przesuwanego DLL sdr do { "0.17" }%; bessel_i0 względem stablicowanego I₀ do { "7.4e-8" }; szerokość histerezy wymagana, aby mieścić się w [{ "5" }·log₁₀ r, { "10" }·log₁₀ r] dla { "4" } stosunków × { "2" } czasów całkowania × { "3" } szerokości pasma); api::tests::tracking_loop_kind_round_trips_through_the_dispatch; tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+# data/search.json
+dat-b47f3ef2ed91 = tracking-loop (rodzaj scenariusza)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-ddc4cb423e89 = Utrata zaczepienia pętli śledzenia i wciągnięcie przez spoofing pod wpływem zakłóceń
+
+# data/search.json
+dat-6f5b10eb7cfb = Utrata zaczepienia pętli śledzenia: C/N0 -> zaczepienie/utrata z histerezą, czas, jaki zajmuje
+
+# data/search.json
+dat-9171d7bdf4d8 = Utrata zaczepienia pętli śledzenia: C/N0 -> zaczepienie/utrata Z HISTEREZĄ, czas utraty zaczepienia i spoofing…
+
+# data/search.json
+dat-a92df5c034d8 = Badanie kompromisu: jak holdover zależy od stabilności zegara?
+
+# data/search.json
+dat-895e0a8d9ffd = Tryb trajektorii: wzdłuż orbity
+
+# data/verification-matrix.json
+dat-473bee0dc62d = Przepisane limity ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC zsynchronizowanego i holdover ePRTC-A (w tym obwiednia błędu czasu z Tabeli { "3" }), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) klasy T-BC/T-TSC A-D oraz G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) punkt odniesienia C, każdy przedział otwarty lub zamknięty tak, jak podaje tabela, z pominięciem każdego wpisu 'for further study'; werdykt i zapas w punkcie wiążącym dla każdej kontroli oraz czas do przekroczenia każdego budżetu. Można uruchomić jako rodzaj scenariusza `telecom-timing`
+
+# data/verification-matrix.json
+dat-973900257f13 = Przepisanie przytoczonych danych publicznych i kontrola spójności: EIRP ustawione z opublikowanej minimalnej mocy odbieranej przewiduje opublikowaną maksymalną w granicach { "0.5" } dB z płaskim wzorcem. To jest kontrola rozrzutu odległości, a nie walidacja anteny żadnego satelity; reprezentatywne presety nie zawierają twierdzeń o rzeczywistym systemie
+
+# data/verification-matrix.json
+dat-75850c0e8a41 = Przepisanie przytoczonych wartości publicznych, sprawdzone pod względem struktury (każde źródło publiczne ma adres URL, wzory Walkera dzielą się równo, C/N0 z mocy odbieranej przez kT przy { "290" } K), a nie względem zewnętrznego wzorca. Wartości reprezentatywne są nazwane w każdym presecie i są ilustracyjne
+
+# data/verification-matrix.json
+dat-757d75457718 = Przepisanie wymienionych Zaleceń (pobranych z itu.int 2026-10-13), każdy wiersz ponownie odczytany względem tekstu, z ciągłością punktów załamania, jaką implikują drukowane współczynniki, ograniczoną w testach (na przykład { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns względem plateau { "100" } ns z G.812 Tabela { "4" }). Przepisanie normy z kontrolami spójności wewnętrznej, a nie test zgodności i nie walidacja zewnętrzna. G.812 (06/2004) jest wymieniona jako zastąpiona wstępnie opublikowanym wydaniem 08/2026, a G.811 ma Amd. { "1" } (04/2016); żadnego nie dało się odczytać, więc żadne nie jest sprawdzone. Scenariusz swobodnie działającego OCXO przecenia wkład oscylatora w interwałach obserwacji długich względem stałej czasowej pętli; nie mówi nic o zegarze żadnego urządzenia
+
+# data/verification-matrix.json
+dat-41fde09e0536 = Przepisanie wymienionych Zaleceń (swobodnie dostępnych do pobrania z itu.int), każdy limit z odwołaniem do tabeli lub punktu, wymieniony wraz z każdą niepotwierdzoną lub niezaimplementowaną pozycją w docs/TELECOM-TIMING.md; tożsamości ciągłości punktów załamania implikowane przez tabele są sprawdzane w testach. Przepisanie normy z kontrolami spójności wewnętrznej, a nie test zgodności i nie walidacja zewnętrzna. { "0.30" } runda { "2" } (wstępnie zarejestrowana 970003ee), zablokowane (pozostaje MODELLED): dziesięć wartości masek i trzynaście wartości holdover ePRTC-A, które Zalecenia drukują jako liczby przykładowe (G.8272 Figs. 1-2, G.8272.1 Amd.1 cl. { "8.2.1" } i Figs. V.1-V.3, G.8271.1 Amd.3 Figs. 7-2 do 7-4), są odtworzone w granicach pół drukowanej jednostki, w większości będąc stałymi tabel lub punktami załamania; G.8271.1 Fig. 7-2 oznacza { "200" } ns przy { "1.3" } s względem własnej Tabeli 7-1 ({ "197.5" } ns). Limity klas G.8273.2 A-D nie mają drukowanej wartości przykładowej, a etykiety punktów załamania ePRTC zsynchronizowanego z G.8272.1 (na ciągłych liniach konstrukcyjnych) zostały wykluczone przez wstępnie zarejestrowaną regułę doboru, więc pozostają przepisaniami
+
+# data/verification-matrix.json
+dat-987a822b09b1 = Troposferyczna scyntylacja amplitudy na łączu Ziemia-przestrzeń
+
+# data/search.json
+dat-18b137f9f9d0 = Wskaźnik zaufania
+
+# data/search.json
+dat-f0430b8cc9f6 = Wskaźnik zaufania (platforma statku)
+
+# studio/data/capabilities.json
+dat-03c201e427bf = Telemetria zaufania dla operacji bezpieczeństwa
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-8dd9b64e7b1c = Zdarzenia SIEM telemetrii zaufania: Common Event Format (CEF) przez syslog
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-3b341a074b5a = Zdarzenia SIEM telemetrii zaufania: Log Event Extended Format (LEEF) przez syslog
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-af2c0f76b82d = Formaty przesyłania telemetrii zaufania: ekspozycja tekstowa Prometheus i JSON OpenTelemetry OTLP/HTTP
+
+# data/search.json
+dat-462f51eddb7a = Zaufany kwantowy czas — łańcuch od końca do końca, bezpieczna dystrybucja, anomalia + kompromis (src/timetransfer_chain.rs)
+
+# data/search.json
+dat-e2b23a03c196 = Zaufany kwantowy czas — łańcuch transferu czasu od końca do końca, bezpieczna dystrybucja,
+
+# data/verification-matrix.json
+dat-6c2f04247970 = Zaufany kwantowy czas (transfer czasu + bezpieczna dystrybucja + anomalia)
+
+# studio/channels.json
+dat-678b3b18dc8d = Wypróbuj w przeglądarce
+
+# data/search.json
+dat-fe6951113784 = Wypróbuj
+
+# studio/data/capabilities.json
+dat-2d7dadadb10a = Ciołkowski < { "0.01" } % · obiegi Lamberta w obie strony do wzorca dwóch ciał
+
+# data/search.json
+dat-792becc434c6 = Samouczek { "1" } — Moja pierwsza orbita: gdzie są satelity GPS
+
+# data/search.json
+dat-a424ed5ba327 = Samouczek { "2" } — Holdover zegara: jak długo można dryfować
+
+# data/search.json
+dat-43b0b402ae05 = Samouczek { "3" } — Kwantowa a klasyczna odporność GNSS (zadanie końcowe)
+
+# data/verification-matrix.json
+dat-b349d9190a41 = Dwa różne obliczenia tej samej wielkości w kodzie, a nie jedno powtórzone: bisekcja na krzywej prawa potęgowego IEEE-1139 nic nie wie o typie szumu, podczas gdy postać zamknięta odwraca typ dominujący algebraicznie, więc błędnie sklasyfikowany typ szumu lub zły przedział pokazuje się jako niemała różnica względna. Cztery wartości odtwarzają też opublikowaną tabelę z pracy z dokładnością do połowy ostatniej drukowanej cyfry -- ale ta tabela sama została zrekonstruowana z tej samej postaci zamkniętej, więc jest to kontrola odtwarzalności, a nie zewnętrzny wzorzec, a człon ramki, względem którego jest mierzona, to alokacja modelowana
+
+# data/verification-matrix.json
+dat-56afaff440ac = Dwuosiowy przegląd ważonego wzorcem, ograniczonego wysokością śladu przechwytu powierzchni względem wysokości nadajnika i średnicy czaszy, emitowany po jednym wierszu na punkt pracy z szerokością wiązki połowy mocy, którą implikuje każda średnica, oraz przechwytywanie limbu raportowane jako PRÓG -- dla każdego wiersza J/S na limbie, jego zapas i moc nadawania, która by go zamknęła; dla każdej siatki zlokalizowane przecięcia lub jawne stwierdzenie, że limb nie jest osiągany nigdzie na siatce, wraz z niedoborem
+
+# data/verification-matrix.json
+dat-d599af854f03 = Czytnik TRK-2-18 Orbit Data File i model 2-way Dopplera z rampą dla Marsa
+
+# data/search.json
+dat-72905c49853b = Geometria startu i wznoszenia dwóch ciał: azymut(y) startu (sin Az = cos i / cos lat), minimalne osiągalne…
+
+# data/verification-matrix.json
+dat-d4efa5c1652f = Azymut(y) startu dwóch ciał (sin Az = cos i / cos lat), minimalne osiągalne nachylenie, prędkość kołowa, wschodni bonus z rotacji Ziemi, Δv zmiany płaszczyzny typu dogleg i dobowe okazje, a przy podanej epoce i wierszach IERS finals2000A także prędkość miejsca wokół prawdziwego bieguna (launch::site_rotation_speed_at). Można uruchomić z CLI/powiązań jako rodzaj scenariusza `launch-window` (scenarios/launch-window.toml)
+
+# data/verification-matrix.json
+dat-ba0279e6f540 = Dwuczęściowe daty juliańskie i sekundy przestępne na ścieżce czasu orbity okołoziemskiej
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-349495a3c0b4 = Dwuczęściowe daty juliańskie aż po rotację Ziemi na ścieżce orbity
+
+# studio/data/capabilities.json
+dat-0286c8eb5794 = Dwustanowy holdover Kalmana, stabilność rodziny Allana (ADEV / MDEV / TDEV / HDEV) z przedziałami ufności i pełne dopasowanie prawa potęgowego IEEE-1139 o pięciu współczynnikach oraz operacyjne metody transferu — TWSTFT z postacią zamkniętą Sagnaca BIPM, GNSS common-view, transfer PPP wolny od jonosfery, łącze optyczne w wolnej przestrzeni ze scyntylacją turbulencyjną i skala czasu zespołu zegarów ważona odwrotnością wariancji. Kalkulator holdover zegara bez GNSS odwraca wzrost błędu dobiegu van Loana do holdover do progu — jak długo zegar działa swobodnie, zanim jego błąd czasu przekroczy budżet — dla klas zegarów klasycznych i kwantowych; modelowany i uczciwie zaznaczający, że dla bardzo stabilnego zegara holdover do ścisłego progu jest ustalany przez założony próg szumu długiego tau, a nie przez przytoczone ADEV.
+
+# data/search.json
+dat-7f7007942495 = Dwukierunkowy transfer czasu i częstotliwości przez satelitę (TWSTFT) między dwiema stacjami ILLUSTRATIVE, jedną
+
+# data/search.json
+dat-5013dd9c3030 = Dwukierunkowy transfer czasu i częstotliwości przez satelitę między dwiema stacjami przez przekaźnik geostacjonarny: …
+
+# data/verification-matrix.json
+dat-cb59cc06f1d2 = Dwukierunkowy/TWSTFT (Sagnac), GNSS common-view, PPP; jitter łącza→odległość
+
+# data/verification-matrix.json
+dat-8e1d443b5d7e = Dwukierunkowe równanie TWSTFT, budżet niepewności i stabilność łącza z szumem flicker i dobową nieodwracalnością
+
+# data/verification-matrix.json
+dat-983d0f0e3e8a = twstft_budget::tests (równanie dwukierunkowe odzyskuje przesunięcie dokładnie; człon Sagnaca równa się postaci zamkniętej pętli BIPM; człon jonosferyczny podąża za podziałem częstotliwości, a troposfera się znosi; faza flicker ma płaskie TDEV; dobowa reszta podnosi TDEV w okolicy pół doby; odchyłka odwracalności przesuwa offset, a nie TDEV; stabilność szeregu usuwa szybkość); time_transfer_budget::tests
+
+# data/search.json
+dat-dd9ca7845a91 = Wywołanie typowane i ustrukturyzowane API
+
+# data/verification-matrix.json
+dat-989fe8c60f51 = Odporna na niedomiar i na bieguny ewaluacja w pełni znormalizowanego pola do stopnia { "2190" } (SphericalHarmonicField::acceleration_hf / potential_hf, zmodyfikowana kolumna w przód Holmesa-Featherstone'a { "2002" } z gradientem wolnym od 1/cos phi), strumieniowy loader ICGEM .gfc (from_gfc_file / from_gfc_reader; pełne EGM2008 jest pobierane w czasie działania, a nie dołączane) oraz ewaluator Holmesa-Featherstone'a wybieralny w opcjonalnym Cowell Geopotential
+
+# data/verification-matrix.json
+dat-321e1c30be42 = Pułap niewykrywalnego trybu wspólnego: największa wielkość uszkodzenia wzdłuż kierunku d, która umyka ZARÓWNO separacji (alpha_ss = T_ss / wybielona norma kontrastu d), JAK I statystyce trybu wspólnego (alpha_cm = sqrt(T_cm { "1" }^T Omega^-1 { "1" }) / |{ "1" }^T Omega^-1 d|), raportowana jako min(alpha_ss, alpha_cm). Przy dodatnio określonej Omega dwa kierunki ślepe (d proporcjonalne do { "1" } oraz { "1" }^T Omega^-1 d = { "0" }) wzajemnie się wykluczają, więc pułap jest SKOŃCZONY dla każdego niezerowego d; jest nieskończony tylko dla kierunku zerowego lub nieokreślonej dodatnio Omega. Kierunek poza modelowaną osią wspólną jest ślepy tylko dla statystyki trybu wspólnego i jest ograniczony separacją
+
+# data/search.json
+dat-de39e3e42f97 = Ujednolicone dowody kompromisu kwantowy a klasyczny (src/qtrade.rs)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-30a97898922e = Jednostka i pochodzenie zadeklarowane dla każdej raportowanej wielkości
+
+# studio/data/capabilities.json
+dat-bb1ab222d297 = Jednostka i pochodzenie przy każdej raportowanej wielkości
+
+# data/verification-matrix.json
+dat-19a913b31515 = Widmowe gęstości mocy o jednostkowym polu GPS L1 C/A i L2C (BPSK({ "1" })), GPS L5 i Galileo E5a (BPSK({ "10" })), sinusoidalnego BOC({ "1,1" }) oraz Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, z dodanym wariantem MBOC), ich numerycznie zlokalizowane zera i maksima (spectrum::psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz) oraz współczynnik separacji widmowej sygnału względem dowolnego widma przy dowolnym przesunięciu (navsignal::spectral_separation_coeff_offset) lub względem tonu, szumu płaskiego, chirpa albo szumu dopasowanego (spectrum::Jammer::ssc), ze współczynnikiem anty-zagłuszeniowym Q = 1/(R_c kappa)
+
+# data/search.json
+dat-61d80f0e7425 = Jednostki i pochodzenie, dla każdego pola, dla każdego rodzaju
+
+# data/search.json
+dat-a9e9ab6d88d7 = Do { "0.36" } każdy test widoczności Ziemi w silniku był jednym odcięciem elewacji, mask_deg: satelita…
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-2233778f23ed = Uran i Neptun z Tabeli { "1" } Standisha, Pluton i prędkości planet
+
+# data/search.json
+dat-c79c9837d30a = US DHS Resilient PNT Conformance Framework: na co Kshana dostarcza dowodów (supports evidence for)
+
+# studio/data/capabilities.json
+dat-2b68c27525f2 = Ramy US DHS dla odpornego PNT
+
+# assets/capabilities/capabilities.json
+dat-823f014c99fb = USGS / Planetary Data System, mozaika Voyager i Galileo SSI
+
+# assets/capabilities/capabilities.json
+dat-cd4da8272226 = USGS Astrogeology / Planetary Data System, mozaika Viking (P. Stooke)
+
+# assets/capabilities/capabilities.json
+dat-dd59e97e8dcf = USGS Astrogeology Science Center
+
+# data/search.json
+dat-0ce0df0ff899 = Używanie Kshana z agenta AI
+
+# data/search.json
+dat-72f2e25e1d08 = Używanie rzeczywistych TLE konstelacji
+
+# data/verification-matrix.json
+dat-efc9b5010923 = UTC od 1960-01-01 do 1971-12-31, gdy UTC chodziło z przesuniętą szybkością względem TAI i przeskakiwało o ułamki sekundy, na ścieżce dwuczęściowej daty juliańskiej: TAI - UTC z tabeli dryfu każdego okresu (timescales::tai_minus_utc_on_date), data kalendarzowa UTC do dwuczęściowej daty juliańskiej UTC z długością doby { "86 400" } s + dleap (Jd2::from_utc_calendar), UTC do TAI z ułamkiem doby przeskalowanym z UTC do sekund SI (jd2::utc_to_tai) i TAI z powrotem do UTC (jd2::tai_to_utc), zgodnie z SOFA dtf2d, utctai i taiutc. Przed { "1960" } TAI - UTC przyjmuje się jako { "0" } (wartość SOFA; UTC niezdefiniowane) i leży poza twierdzeniem. Pojedyncze f64 timescales::tai_minus_utc nadal obcina do { "10" } s przed { "1972" } i nie jest objęte
+
+# data/search.json
+dat-0bcbd6a488b7 = Funkcje pomocnicze
+
+# js/developers-data.mjs
+dat-04685dab3c55 = poprawne: wykryto rodzaj scenariusza `clock`
+
+# js/developers-data.mjs
+dat-7ae5035a7d5a = Waliduj plik warunków testu laboratoryjnego (`kshana iq conditions`): plik `kshana.test-conditions/1`, tekst TOML lub JSON, podający znaną prawdę laboratorium dla nagrania (oczekiwane satelity, czas ustalania, podany harmonogram zagłuszania lub zakłóceń).
+
+# data/search.json
+dat-9edfc7a39d2a = VALIDATED i MODELLED
+
+# studio/data/capabilities.json
+dat-0019c88828a9 = Zwalidowane na rzeczywistych danych IGS (stacja ABMF, 2018-05-13) do { "5.7" } m RMS 3D / { "1.1" } m poziomo względem zmierzonej współrzędnej.
+
+# data/search.json
+dat-dcc344df03dd = Zwalidowane wyniki
+
+# studio/data/capabilities.json
+dat-8ba36ed18039 = zwalidowane wiersze wymagają zewnętrznego wzorca (niezmiennik wymuszany w CI)
+
+# data/search.json
+dat-509ad71b1b5f = Walidacja i dowody
+
+# data/search.json
+dat-2c8f88b01581 = Walidacja w skrócie
+
+# data/search.json
+dat-108d874b494e = Rejestr walidacji
+
+# data/search.json
+dat-4d1e3020f8f1 = Pakiety walidacyjne
+
+# data/search.json
+dat-4a43a8c1fd74 = Runda walidacji { "2" }
+
+# data/search.json
+dat-d7b6a8ce3a7a = Stan walidacji
+
+# data/search.json
+dat-2db9e436cfdd = Walidacja: inwersja na wstrzymanym rzeczywistym zegarze
+
+# data/search.json
+dat-f4a97f622c0a = Wariant: laboratoryjny optyczny zegar strontowy względem CSAC.
+
+# data/search.json
+dat-795854adc6c4 = Podsumowanie werdyktów
+
+# data/search.json
+dat-66f52522c4b3 = Macierz weryfikacji
+
+# data/search.json
+dat-aedfff7efc5d = Stan weryfikacji
+
+# js/developers-data.mjs
+dat-0f25026f5234 = Zweryfikuj podpisany pakiet dowodowy (`kshana evidence verify`): SHA-256 każdego pliku względem manifestu, łańcuch skrótów, podpis Ed25519 oraz, z `public_key` (kluczem podpisującego, uzyskanym od niego inną drogą), że podpisującym jest oczekiwana osoba, a z `full_log`, że posiadany dziennik jest tym, który zapisuje pakiet, i że wycinek pochodzi z niego.
+
+# studio/data/capabilities.json
+dat-068809535e3c = wersjonowana koperta · odczyt w obie strony i zgodny w przód zweryfikowany
+
+# data/verification-matrix.json
+dat-8c6a34721e44 = Przeloty widoczności (AOS, TCA, LOS, maksymalna elewacja pozorna, czas trwania) zestawu elementów SGP4 nad stacją WGS-84 na zwalidowanej ścieżce orbity okołoziemskiej (IAU 2006/2000A, opcjonalne parametry orientacji Ziemi), z refrakcją troposferyczną ITU-R P.834-9 (równania { "9" } do { "14" }, drukowane współczynniki Zalecenia) i czasem światła łącza w dół, każde przełączane; przekroczenia rozwiązane bisekcją do { "1e-7" } s, a kulminacja wyszukiwaniem złotego podziału. Można uruchomić z CLI/powiązań jako rodzaj scenariusza `passes` (scenarios/passes.toml), obie korekty domyślnie włączone
+
+# studio/data/capabilities.json
+dat-a4d681c2f89b = Harmonogram VLBI do kowariancji współrzędnych stacji
+
+# data/verification-matrix.json
+dat-715f9872a12d = VlseKriterijumska Optimizacija — użyteczność grupowa Sᵢ, żal indywidualny Rᵢ i indeks kompromisu Qᵢ przy wadze strategii v={ "0.5" }, z rankingiem, w którym mniej znaczy lepiej
+
+# studio/channels.json
+dat-cec4d4f917b6 = VS Code (jedno kliknięcie)
+
+# studio/channels.json
+dat-aab2e31aee02 = Użytkownicy VS Code i Insiders
+
+# studio/data/capabilities.json
+dat-53b8139d7ee1 = względem niezależnej algebry parzystości numpy/scipy
+
+# studio/data/capabilities.json
+dat-d2bc1a8c41f0 = względem SVD Umeyamy–Horna z numpy/scipy
+
+# studio/data/capabilities.json
+dat-057b91b0c350 = względem oficjalnych wartości BGS IGRF-14
+
+# data/verification-matrix.json
+dat-727093687049 = wahba::tests (A(kwaternion tożsamości)=I; solver własny Jacobiego spełnia Kv=λv i zachowuje ślad na znanej macierzy symetrycznej; K jest symetryczna); tests/wahba_reference.rs (TRIAD, metoda q Davenporta i QUEST odtwarzają optymalny DCM z scipy.spatial.transform.Rotation.align_vectors na bezszumowych ważonych zbiorach wektorów do <{ "1e-9" } rad przez niezależny od układu kąt błędu orientacji; ponadto metoda q odzyskuje znaną rotację z λ_max=Σ wag i zerową stratą Wahby, rozwiązanie metody q minimalizuje stratę Wahby pod zaburzeniem, QUEST zgadza się z optymalną metodą q do <{ "1e-7" } rad, a estymator optymalny pokonuje dwuwektorowy TRIAD pod względem RMS błędu orientacji w { "2000" } zaszumionych próbach Monte Carlo)
+
+# data/verification-matrix.json
+dat-7a50fbacac97 = Wyznaczanie orientacji Wahba/TRIAD/QUEST
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-ead7033f0cfa = Geometria konstelacji Walkera i opublikowane sloty nominalne GPS, Galileo i GLONASS
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-b262774f5883 = Walker delta 1600/32/1; Walker delta 1600/32/7; Walker delta 1000/20/3; Walker star 800/16/1
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-a2c625238ffd = Walker delta 8/4/1; Walker delta 6/3/1
+
+# data/search.json
+dat-9f4d90082cce = Chcesz świeżych danych?
+
+# data/search.json
+dat-b62354b3a6a8 = Sposoby użycia
+
+# data/search.json
+dat-7ea36107ff6a = My, członkowie, współtwórcy i liderzy, zobowiązujemy się uczynić udział w naszej społeczności wolnym od nękania…
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-9fc2c82396a8 = Zależna od pogody dostępność optycznych stacji naziemnych i różnorodność stacji skorelowana z odległością
+
+# studio/channels.json
+dat-cc207b5cd120 = deweloperzy web i Node.js
+
+# data/verification-matrix.json
+dat-14787aed1cf0 = Weighted Aggregated Sum Product ASSessment (liniowo znormalizowana wypukła mieszanka λ·WSM+({ "1" }−λ)·WPM przy λ={ "0.5" }) i system ilorazowy MOORA (wektorowo znormalizowana ważona suma korzyści minus ważona suma kosztów) — wzmocniona pod względem stabilności mieszanka wartości i punktator systemu ilorazowego ze znakiem
+
+# data/verification-matrix.json
+dat-7b2ae275c7cf = Ważone rozwiązania Gaussa-Newtona metodą najmniejszych kwadratów dla dowolnej mieszanki systemów, jeden zegar odbiornika na system (odchyłka międzysystemowa estymowana wraz z pozycją) lub znane przesunięcie rozgłaszane na odniesieniowej skali czasu; sigmy dla każdego pomiaru podawane przez wywołującego, domyślnie termiczny szum pętli śledzenia opóźnienia silnika (navsignal::dll_code_jitter_chips) przy C/N0 elewacji połączony z błędem odległości sygnału w przestrzeni; nieważone DOP (GDOP, PDOP, HDOP, VDOP, TDOP) w lokalnym układzie geodezyjnym, formalne sigmy wschód-północ-góra i sigmy odchyłek; wspólny tryb `leo-pvt` porównuje rozwiązania tylko GNSS, tylko LEO i scalone oraz przegląda DOP względem liczby dodanych satelitów LEO
+
+# data/verification-matrix.json
+dat-70d1be2267c4 = Weighted Sum Model (addytywny agregat znormalizowany min–max + ranking) i Weighted Product Model (multiplikatywny agregat znormalizowany sumą, z odwrotnością dla kosztu) — dwa punktatory agregacji wartości w badaniu kompromisów
+
+# data/search.json
+dat-32193a7618c9 = Poziomy ochrony metodą ważonych najmniejszych kwadratów (DO-229E Appendix J)
+
+# data/search.json
+dat-d321c3bd2268 = Jak wygląda „dobrze”
+
+# data/search.json
+dat-a7c1dc8dc6c8 = Co oznacza etykieta w raporcie
+
+# data/search.json
+dat-b0ebd80a8a88 = Co niesie komunikat
+
+# data/search.json
+dat-7527daffb359 = Czego pakiet nie robi
+
+# data/search.json
+dat-0d559928045e = Czego wynik nie mówi
+
+# data/search.json
+dat-91b5336a4a1f = Co oznacza wiersz
+
+# data/search.json
+dat-a9c9d77f4ae3 = Co oznacza tutaj zwalidowana reszta
+
+# data/search.json
+dat-002d214117b2 = Co to ogranicza
+
+# data/search.json
+dat-098bbea567ed = Co z tego wychodzi
+
+# data/search.json
+dat-581f00be7809 = Co się liczy jako szereg czasowy
+
+# data/search.json
+dat-218fae2d48b6 = Co się nie liczy
+
+# data/search.json
+dat-3384381cc8d6 = Co wychwytuje każda kontrola, a czego nie potrafi
+
+# data/search.json
+dat-6b4afd405535 = Co zawiera każdy plik
+
+# data/search.json
+dat-600eb20b965f = Czego nie zrobi żadne z narzędzi
+
+# data/search.json
+dat-09153c033e1e = Co wchodzi
+
+# data/search.json
+dat-bcb352dedddd = Co jest sprawdzane
+
+# data/search.json
+dat-96d7e8438600 = Co jest sprawdzane i względem czego
+
+# data/verification-matrix.json
+dat-45287ea80f6d = CO JEST SPRAWDZANE: własne testy dokładnych łańcuchów tego crate'a dla udokumentowanego odwzorowania pól LEEF oraz pola koperty RFC { "5424" }; nie istnieje utrzymywany otwartoźródłowy parser LEEF (przeszukanie indeksu pakietów Pythona żadnego nie znalazło), więc format jest sprawdzany względem własnej specyfikacji odczytanej przez tego samego autora, a nie względem zewnętrznego wzorca. CZEGO NIE: czy ładunki LEEF są akceptowane przez parser lub SIEM któregokolwiek dostawcy; reguły ucieczki poza udokumentowanymi; zachowanie prawdziwego kolektora syslog.
+
+# data/search.json
+dat-f998b3c0c729 = Co jest obliczane
+
+# data/search.json
+dat-d90f873bae70 = Co jest obliczane dla każdego sygnału
+
+# data/verification-matrix.json
+dat-19486e94f8c9 = CO JEST SPRAWDZANE ZEWNĘTRZNIE, ujęte wąsko: readNmeaGGA, readUserMotion i readUserMotionLLH z gps-sdr-sim (MIT, commit 28ca29a6) z jego własnym WGS { "84" } llh2xyz, wywoływane przez xval/testbench-gpssdrsim/driver.c (bez wywołania żadnej funkcji sygnału), względem kolumn motion CSV związanych z Ziemią wiersz po wierszu, z progami wstępnie zarejestrowanymi w xval/testbench-gpssdrsim/PREREGISTRATION.md przed jakimkolwiek przebiegiem: każda próbka odczytana we wszystkich { "8" } scenariuszach; NMEA najgorsze { "1.21" } mm (próg { "1" } cm); wycinek LLH najgorszy { "0.145" } mm (próg { "1" } mm); czterokolumnowy wycinek związany z Ziemią dokładny (próg { "1" } um, poprawka { "1" }); wiersze gnss-ins na siatce { "10" } Hz symulatora do { "2.3e-13" } s. USTALENIE (przebieg { "1" }, przypięte): pełnoszerokościowy CSV z usuniętym nagłówkiem nie jest czytelny dla -u, ponieważ 100-znakowy bufor wiersza czytnika dzieli każdy 161-znakowy wiersz na dwie próbki; docs/TEST-BENCH.md podaje wycinek czterokolumnowy. CZEGO NIE: fizyka trajektorii wzorcowej scenariusza; wyjście sygnałowe gps-sdr-sim; czytnik jakiegokolwiek innego symulatora; jakikolwiek odbiornik.
+
+# data/search.json
+dat-ad4d6d2f2bfe = Co jest zaimplementowane
+
+# data/search.json
+dat-3459cd97e0ca = Co jest w pakiecie
+
+# data/search.json
+dat-caaad7e970cd = Co jest modelowane
+
+# data/search.json
+dat-4ab5db8f7878 = Co JEST modelowane
+
+# data/search.json
+dat-f94c7e554898 = Czego nie obejmuje ta podwójna licencja
+
+# data/search.json
+dat-ae82ac4e8c4c = Czego nie zaimplementowano
+
+# data/search.json
+dat-e013e854b982 = Czego NIE modeluje się
+
+# data/search.json
+dat-3bb561cded1b = Czego NIE modeluje się (i dlaczego próg jest optymistyczny)
+
+# data/search.json
+dat-08a406b8ecc7 = Co nie jest zweryfikowane lub nie jest wykonywane
+
+# data/search.json
+dat-052f1075ebf9 = Co jest zweryfikowane
+
+# data/search.json
+dat-3281bb5ae242 = Co jest zapisywane
+
+# data/search.json
+dat-c74ea9dc9cd2 = Co robi
+
+# data/search.json
+dat-303c182c2dd7 = Co daje
+
+# data/search.json
+dat-03cda2782bef = Czym jest, a czym nie jest
+
+# data/search.json
+dat-9516c425aeb2 = Czym nie jest
+
+# data/search.json
+dat-19270c6e5d05 = Czym jest, a czym nie jest
+
+# data/search.json
+dat-3995ccf3a5df = Co odczytuje
+
+# data/search.json
+dat-e9866ffcee45 = Czym Kshana nie jest
+
+# data/search.json
+dat-831115fee2e1 = Czym Kshana jest, a czym nie jest, w porównaniu z silnikiem przetwarzania GNSS
+
+# data/search.json
+dat-8ec7e65cc362 = Co ją wyróżnia
+
+# data/search.json
+dat-15cba1bf87b0 = Co oblicza jeden przebieg
+
+# data/search.json
+dat-46be95cd5f6c = Co kontrole mogą, a czego nie mogą powiedzieć
+
+# data/search.json
+dat-ac58b43279d3 = Co pokazuje porównanie z broszurą
+
+# data/search.json
+dat-68e739bdfd0b = Co publikuje obserwatorium
+
+# data/search.json
+dat-d8c200aa93ea = Co zawiera raport
+
+# data/search.json
+dat-8371eb305726 = Co przypina test
+
+# data/search.json
+dat-10b52840a05f = Co przypinają testy
+
+# data/search.json
+dat-71890a13e98e = Czego to odwzorowanie nie twierdzi
+
+# data/search.json
+dat-cda28621f9e2 = Czego to nie twierdzi
+
+# data/search.json
+dat-7dc2bd1e4fa9 = Co to oznacza dla współtwórcy
+
+# data/search.json
+dat-5696cc1abc40 = Czego ta metoda nie robi
+
+# data/search.json
+dat-5f19a20eaa94 = Czego ta notatka nie twierdzi
+
+# data/search.json
+dat-44252aa25aa2 = Czym jest ten scenariusz
+
+# data/search.json
+dat-95bb71989246 = Co robić zamiast tego
+
+# data/search.json
+dat-357548784840 = Co zachować razem z odpowiedzią
+
+# data/search.json
+dat-ac6245280999 = Co zapisać
+
+# data/search.json
+dat-bb04b5c6d588 = Co uruchomiono
+
+# data/search.json
+dat-fd4063ae190d = Co nowego w { "0.38" }
+
+# data/search.json
+dat-c053702f8863 = Co nowego w { "0.39" }
+
+# data/search.json
+dat-244b436782d3 = Gdzie można użyć dziennika
+
+# data/search.json
+dat-3c9d70c4d70c = Gdzie są satelity? (efekt końcowy)
+
+# data/search.json
+dat-06de3e854765 = Gdzie każda możliwość jest dostępna
+
+# data/search.json
+dat-3c4d08956c69 = Dokąd to prowadzi: czas i holdover dla infrastruktury krytycznej
+
+# data/search.json
+dat-362660e7f896 = Gdzie Kshana działa, a gdzie nie
+
+# data/search.json
+dat-c5ff30793b41 = Gdzie jest Kshana
+
+# data/search.json
+dat-d8ab4a0c1780 = Co dalej
+
+# data/search.json
+dat-8717ac9b7cc8 = Skąd bierze się zegar
+
+# data/search.json
+dat-032c0650064d = Gdzie projekty są używane
+
+# data/search.json
+dat-1e8bdbc89372 = Skąd pochodzą epoki (źródło)
+
+# data/search.json
+dat-1623a97a2988 = Skąd pochodzą pliki
+
+# data/search.json
+dat-f6dcdfe2a660 = Skąd pochodzą pozycje
+
+# studio/data/capabilities.json
+dat-2323b2c7a3c9 = Które satelity stacja może widzieć, gdy budynki, nabrzeża, dźwigi lub teren zasłaniają część nieba, i jak to wpływa na rozmycie dokładności (DOP) oraz poziomą elipsę błędu. Zależna od azymutu linia horyzontu zastępuje pojedyncze odcięcie elewacji; widoczny zbiór, jego DOP i elipsa wychodzą dla każdej epoki i każdej konstelacji. Linia horyzontu usuwa satelity w linii widzenia i nic więcej: nie modeluje odbić, dyfrakcji ani siły sygnału.
+
+# data/search.json
+dat-1589eaeb4b18 = Które narzędzie do którego pytania
+
+# data/search.json
+dat-7a53b264d1e3 = Względem jakiej metryki dryfu powinien być akceptowany slot?
+
+# data/search.json
+dat-bcdecc549d07 = Dla kogo
+
+# data/search.json
+dat-0da9ac688de8 = Dlaczego podwójna licencja w ten sposób
+
+# data/search.json
+dat-3e8a8aadf012 = Dlaczego zegar jest miękkim celem
+
+# data/search.json
+dat-1c9b4395c4e3 = Dlaczego komórki N/A są N/A
+
+# data/search.json
+dat-500a9d78ddb1 = Dlaczego to jest klej, a nie konkurent
+
+# js/missions-runs.mjs
+dat-97c24222dad6 = z { "288" } satelitami na niskiej orbicie
+
+# data/verification-matrix.json
+dat-d1c342fccbf1 = with_gravity_field (na Body, w src/gravity_pds.rs): dołącza dowolne wczytane pole harmoniczne sferyczne (na przykład GMM-3 lub GL0660B) do Body, tak aby propagator obliczał je w układzie związanym z ciałem; opcjonalne, domyślne ciała bez zmian
+
+# data/search.json
+dat-816a8275fb4c = Przykład rozwiązany — Kshana jako warstwa łącząca wielu narzędzi do analizy misji
+
+# data/search.json
+dat-21a850bb20da = Przykład rozwiązany: gps-sdr-sim zapisujący plik
+
+# data/search.json
+dat-8960dcd3c54c = Parametry warsztatowe
+
+# studio/data/capabilities.json
+dat-8b569b55f222 = Najgorszy błąd { "0.044" } m względem własnej tolerancji źródeł { "0.05" } m
+
+# js/missions-runs.mjs
+dat-996b654e25b2 = najgorszy błąd odległości, dopasowanie { "60" } s
+
+# js/missions-runs.mjs
+dat-900c4a41066b = najgorszy błąd odległości, dopasowanie { "900" } s
+
+# data/verification-matrix.json
+dat-e4f36434be06 = Granica trójkąta dla najgorszego przypadku działania jakobianu punktowego Helmerta (postać zamknięta)
+
+# js/developers-data.mjs
+dat-278a0de08553 = Zapisz trasę GeoJSON do scenariusza Kshana, który leci po torze punktów drogi, i zwróć nowy scenariusz TOML (uruchom go przez run_scenario).
+
+# data/verification-matrix.json
+dat-c14c336c5c33 = Zapis i odczyt jąder NAIF SPICE SPK typów { "9" } (Lagrange, nierówne kroki czasu) i { "13" } (Hermite, nierówne kroki czasu), z układem DAF, deskryptorami segmentów i katalogami epok, oraz eksport CCSDS OEM do jądra SPK (epoki UTC lub TDB do czasu efemerydalnego)
+
+# data/verification-matrix.json
+dat-3413fcac7dbb = Zapis i odczyt segmentów NAIF SPICE SPK typu { "3" } (wielomiany Czebyszewa dla pozycji i prędkości w stałych przedziałach, stopień od { "0" } do { "27" }) i typu { "21" } (rozszerzone zmodyfikowane tablice różnic, linie różnic integratorów JPL, MAXDIM od { "15" } do { "25" }), z podanych rekordów, w plikach, które zawierają także segmenty typu { "9" } i { "13" }; dobór rekordów i ewaluacja w kolejności czytników SPICE. Kshana nie dopasowuje współczynników Czebyszewa ani nie wytwarza linii różnic
+
+# data/verification-matrix.json
+dat-8373efd23d2e = Zapis i odczyt komunikatów danych orbity CCSDS 502.0-B-3 w KVN i NDM/XML: OPM { "3.0" } i { "2.0" } (wektor stanu, oskulacyjne elementy keplerowskie, parametry statku kosmicznego, kowariancja, manewry, parametry zdefiniowane przez użytkownika), OMM { "3.0" } i { "2.0" } (elementy średnie przez średni ruch lub wielką półoś, parametry związane z TLE z BSTAR lub BTERM i AGOM, kowariancja) oraz OCM { "3.0" } z trajektorią (CARTP, CARTPV, CARTPVA; epoki bezwzględne lub względne), właściwościami fizycznymi, kowariancją (CARTP, CARTPV w kolejności LTM), blokami manewrów i zdefiniowanymi przez użytkownika; pełnoprecyzyjny OMM z zestawu elementów SGP4 obok niezmienionego OmmFile::to_omm_kvn
+
+# data/verification-matrix.json
+dat-9df173efeef9 = Zapis i odczyt komunikatów danych orientacji CCSDS 504.0-B-2 w KVN i NDM/XML: AEM wersja { "2.0" } (i { "1.0" } w KVN, z jego ATTITUDE_DIR, QUATERNION_TYPE i numerycznymi sekwencjami obrotów) z typami orientacji kwaternionowym, kątów Eulera i spinowym oraz ich wariantami pochodnej, prędkości kątowej i nutacji, kilka segmentów; APM wersja { "2.0" } z blokami kwaternionu, Eulera, prędkości kątowej, spinu, bezwładności i manewru; kwaternion A-do-B dla rekordu (504.0-B-2 Annex F)
+
+# studio/data/capabilities.json
+dat-14a123e4b029 = Zapisuje ruch pojazdu i zdarzenia scenariusza jako trajektorię CSV i NMEA { "0183" } dla laboratoryjnego symulatora GNSS: kolumny związane z Ziemią, geodezyjne i prędkości lokalnej, orientacja i UTC. Tylko ruch i zdarzenia: żaden sygnał nie jest zapisywany i nie podaje się żadnych właściwości symulatora ani odbiornika.
+
+# studio/data/capabilities.json
+dat-83d4ec0ad790 = Zapisuje syntetyczne NMEA { "0183" } mostka dla skryptowanego rejsu ze skryptowanymi przez instruktora zdarzeniami zagłuszania, odsunięcia pozycji, spoofingu czasu i powtórzenia, wraz z dziennikiem instruktora, aby załoga mogła zobaczyć, jak wygląda pogorszona poprawka na własnych przyrządach. Tylko tekst, nigdy dla żywych systemów nawigacyjnych statku; nic nie jest nadawane i nie powstaje żaden sygnał radiowy. Zdania i ich zdekodowane wartości są sprawdzane; modele odbiornika, nieba i zdarzeń są modelowane.
+
+# data/search.json
+dat-aeb0bd942720 = Xona Pulsar
+
+# data/search.json
+dat-79b6914906bf = Xona Pulsar od końca do końca: publiczny sygnał X5 -> przelot Pulsar -> komunikat nawigacyjny LEO
+
+# data/search.json
+dat-416271e91acb = Sygnały Xona Pulsar: sygnały X1 (pasmo L1) i X5 (pasmo L5) komercyjnej niskiej
+
+# data/search.json
+dat-87de160b68f9 = Xona Pulsar X1 i X5 w jednym przelocie, z najwyższymi przelotami konstelacji Pulsar.
+
+# data/search.json
+dat-a08318993154 = Kryteria Yang Yuanxi (podzbiór, do którego odnoszą się mierniki jakości czasu/detekcji)
+
+# studio/channels.json
+dat-1868c76f244c = własny host
+
+# studio/data/capabilities.json
+dat-4c20ebade87f = detektor χ²₁ NP · postać zamknięta i Monte Carlo P_fa/P_md zgadzają się
