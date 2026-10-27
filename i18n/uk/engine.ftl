@@ -8694,3 +8694,1178 @@ engine-kind-optical-atmosphere-description = MODELLED оптична PNT крі�
 engine-kind-holdover-test-description = MODELLED тест holdover системи часу, оцінений за записом похибки часу, який надає ОПЕРАТОР (журнал linuxptp ptp4l, phc2sys або ts2phc, журнал відстеження чи статистики chrony, журнал годинника TICC, TimeLab або RINEX, чи пари time_s,time_error_ns). Тест має чотири кроки, і Kshana не виконує жодного з них: БАЗОВИЙ захоплений стан, GNSS ПРИБРАНО оператором (антенний кабель або вихід симулятора; Kshana нічого не передає і нічим не керує) у заявлений час, HOLDOVER на власному генераторі системи та ВІДНОВЛЕННЯ після того, як оператор повертає GNSS у другий заявлений час. Запис розділяється за цими двома часами. База: статистика похибки часу та маски ITU-T, написані для захопленого годинника. Holdover: статистика, дробове зміщення частоти, яке тримала система (лінія за найменшими квадратами), маски, написані для holdover чи автономного годинника, огинаюча holdover ePRTC-A із заявленої тривалості захопленого стану та час до перевищення кожного бюджету похибки часу. Відновлення: чи й коли |TE| потрапила в заявлену смугу та залишилася там, пік і найбільший крок. Кожну межу переписано з публічної таблиці ITU-T (маски telecom-timing); формулювання — «виміряно щодо маски», а ці два часи є твердженням оператора, не перевіреним. Запис, закороткий для маски, є INCOMPLETE, ніколи не екстраполюється. Див. docs/TIMING-HIL.md.
 
 engine-kind-gnss-ssv-description = MODELLED доступність GNSS і сила каналу в Космічному об'ємі обслуговування та за його межами: для користувача на сфері (глобальна оболонка буклета ICG) або на кеплерівській траєкторії (від LEO до місячного переходу) подає на орбітальне угруповання (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) і для всіх разом сигнали, придатні вище порога C/N0 - доступність щонайменше одного та чотирьох сигналів, максимальну тривалість перерви, прийняте C/N0, погіршення точності, канали головної пелюстки проти бічних - з буклетною, параметричною або наданою користувачем діаграмою передавання, необов'язковими ефектами іоносфери променів по лімбу, плазмосфери й атмосфери та необов'язковим проєктом слабкосигнального приймача; а також бортовий розширений фільтр Калмана GNSS для апаратів на HEO та місячному переході (орбітальна динаміка, тиск сонячного випромінювання, треті тіла, годинник) і відносну навігацію групи з кількох апаратів за одинарними різницями псевдодальностей. Перевірено за таблицями буклета ICG SSV за попередньої реєстрації (xval/gnss-ssv)
+
+engine-advanced-report-monte-carlo-metrics = monte_carlo.metrics.{ $name }.{ $q }
+
+engine-advanced-report-kshana-animate-html = kshana { $q } --animate html
+
+engine-advanced-report-kshana-export-all = kshana { $q } --export all
+
+engine-advanced-report-bg-fg-muted-line-card = --bg:{ $p };--fg:{ $i };--muted:{ $m };--line:{ $r };--card:{ $c };--accent:{ $i };--val:{ $i };--mod:{ $i };--par:{ $i };
+
+engine-animation-bg-fill-fg-fill-mu = { "." }bg{ "{" }fill:{ $bg }{ "}" }.fg{ "{" }fill:{ $fg }{ "}" }.mu{ "{" }fill:{ $mu }{ "}" }.gr{ "{" }stroke:{ $gr }{ "}" }.ax{ "{" }stroke:{ $ax }{ "}" }.ph0{ "{" }fill:{ $ph0 }{ "}" }.ph1{ "{" }fill:{ $ph1 }{ "}" }.phl{ "{" }fill:{ $phl }{ "}" }.ev{ "{" }stroke:{ $mu }{ "}" }.eva{ "{" }stroke:{ $alarm }{ "}" }.evt{ "{" }fill:{ $mu }{ "}" }.evta{ "{" }fill:{ $alarm }{ "}" }.cur{ "{" }stroke:{ $cur }{ "}" }
+
+engine-animation-text-font-family-tr-fill = text{ "{" }font-family:{ $v1 }{ "}" }.tr{ "{" }fill:none;stroke-width:1.6;stroke-linejoin:round{ "}" }.ev,.eva{ "{" }stroke-dasharray:3 3{ "}" }.cur{ "{" }stroke-width:1.4{ "}" }
+
+engine-animation-frame-svg = frame_{ $i }.svg
+
+engine-animation-bg-panel-fg-mu-grid = --bg:{ $t };--panel:{ $t2 };--fg:{ $t3 };--mu:{ $t4 };--grid:{ $t5 };--axis:{ $t6 };--ph0:{ $t7 };--ph1:{ $t8 };--cur:{ $t9 };--alarm:{ $t10 };--s0:{ $t11 };--s1:{ $t12 };--s2:{ $t13 };--s3:{ $t14 };--s4:{ $t15 };--s5:{ $t16 }
+
+engine-animation-root-color-scheme-light-dark =
+    :root{ "{" }color-scheme:light dark;{ $vars }{ "}" }
+    @media (prefers-color-scheme: dark){ "{" }:root{ "{" }{ $vars2 }{ "}" }{ "}" }{ "\u000A" }
+
+engine-bench-cli-predictions-json = { $stem }.predictions.json
+
+engine-bench-cli-result-json = { $stem }.result.json
+
+engine-bench-cli-truth-json = a-{ $split }.truth.json
+
+engine-bench-cli-truth-json-2 = c-{ $split }.truth.json
+
+engine-bench-cli-truth-json-3 = d-{ $split }.truth.json
+
+engine-bench-site-title-a = Завдання (a): виявлення за журналами приймача
+
+engine-bench-site-title-b = Завдання (b): виявлення за IQ
+
+engine-bench-site-title-c = Завдання (c): прогнозування holdover синхронізації часу
+
+engine-bench-site-title-d = Завдання (d): розрив оптимізму поза розподілом
+
+engine-bench-site-col-rmse-3600 = RMSE 3600 s (ns)
+
+engine-bench-site-col-rmse-300 = RMSE 300 s (ns)
+
+engine-bench-site-col-rmse-7200 = RMSE 7200 s (ns)
+
+engine-bench-site-col-auc-in = AUC всередині
+
+engine-bench-site-col-auc-out = AUC ззовні
+
+engine-bench-site-col-optimism-gap = Розрив оптимізму
+
+engine-bench-site-col-flag = Позначка
+
+engine-bench-site-col-auc = AUC
+
+engine-bench-site-col-pd-at-pfa-cap = P_d за обмеження P_fa (верхня межа)
+
+engine-bench-site-flag-optimistic = оптимістично
+
+engine-bench-site-flag-within-tolerance = у межах допуску
+
+engine-bench-site-not-available = н/д
+
+engine-bench-site-none-published = Результатів ще не опубліковано. Рядок з'являється тут лише тоді, коли файл результату оцінено й додано; нічого на цій сторінці не є оцінкою.
+
+engine-bench-site-none-for-task = Для цього завдання результатів ще немає.
+
+engine-bench-site-region-label = { $title }: результати { $split }
+
+engine-bench-site-caption-split = Розбиття: { $split }
+
+engine-bench-site-th-system = Система
+
+engine-bench-site-th-provenance = Походження
+
+engine-bench-site-th-truth-sha256 = SHA-256 істинних даних
+
+engine-bench-site-provenance-carried = перенесено: { $note }
+
+engine-bench-site-provenance-scored = оцінено
+
+engine-bench-site-heading = таблиця лідерів kshana-bench
+
+engine-bench-site-lede = Файли результатів, оцінені за <code>{ $spec }</code>. Рядок означає, що цей файл набрав це число на цьому розбитті. Це не означає, що будь-який продукт хтось оцінив чи схвалив, і жодну організацію не названо як таку, що підтримує.
+
+engine-bench-site-foot = Кожна оцінка є модельною, якщо рядок не вказує, що зовнішній оракул погодився. Ліцензія специфікації та маніфестів: запропоновано CC-BY-4.0 / CC0, рішення власника очікується. Реальний набір holdout не є секретним: див. специфікацію, розділ 4.
+
+engine-bench-site-meta-description = Оцінки поданих файлів результатів за kshana-bench { $spec }. Лише консультативно.
+
+engine-bin-validation-report-body-font-14px-background-var = body{ "{" }font:14px/1.5 { $v1 };background:var(--bg);color:var(--fg);max-width:64rem;margin:2rem auto;padding:0 1rem{ "}" }h1{ "{" }font-size:1.5rem;margin:0 0 .25rem{ "}" }.sub{ "{" }color:var(--muted);margin:0 0 1.5rem{ "}" }table{ "{" }border-collapse:collapse;width:100%{ "}" }th,td{ "{" }border:1px solid var(--line);padding:.5rem .6rem;text-align:left;vertical-align:top{ "}" }th{ "{" }background:var(--card){ "}" }code{ "{" }font-size:.85em{ "}" }.ok{ "{" }color:var(--val);font-weight:600{ "}" }footer{ "{" }margin-top:1.5rem;color:var(--muted);font-size:.85em{ "}" }@media print{ "{" }body{ "{" }margin:0;max-width:none{ "}" }a{ "{" }color:inherit;text-decoration:none{ "}" }{ "}" }{ "\u000A" }
+
+engine-campaign-series-error-ns = { $side }.series[].error_ns
+
+engine-campaign-series-offset-ns = { $side }.series[].offset_ns
+
+engine-campaign-detect-time = { $side }.detect_time_s
+
+engine-campaign-series-error = { $side }.series[].error_m
+
+engine-campaign-timeline-phases-carried = timeline.phases[].carried.{ $ch }
+
+engine-campaign-timeline-channels-values = timeline.channels.{ $name }.values[]
+
+engine-campaign-sweep-axes-values = sweep.axes.{ $name }.values[]
+
+engine-campaign-sweep-nodes-coords = sweep.nodes[].coords.{ $name }
+
+engine-campaign-sweep-nodes-metrics = sweep.nodes[].metrics.{ $name }
+
+engine-campaign-monte-carlo-metrics = monte_carlo.metrics.{ $name }
+
+engine-campaign-compose-shared-value = compose.shared.{ $name }.value[]
+
+engine-campaign-compose-shared-value-2 = compose.shared.{ $name }.value
+
+engine-campaign-compose-members-metrics = compose.members.*.metrics.{ $name }
+
+engine-campaign-compose-combined = compose.combined.{ $name }
+
+engine-campaign-optimize-optimize-params-lo = optimize.params.{ $name }.lo
+
+engine-campaign-optimize-optimize-params-hi = optimize.params.{ $name }.hi
+
+engine-campaign-optimize-optimize-best-coords = optimize.best_coords.{ $name }
+
+engine-campaign-optimize-optimize-trace-coords = optimize.trace[].coords.{ $name }
+
+engine-ccsds-tdm-ccsds-tdm-vers = CCSDS_TDM_VERS = { $version }{ "\u000A" }
+
+engine-ccsds-tdm-creation-date = CREATION_DATE = { $creation_date }{ "\u000A" }
+
+engine-ccsds-tdm-time-system = TIME_SYSTEM = { $time_system }{ "\u000A" }
+
+engine-ccsds-tdm-transmit-band = TRANSMIT_BAND = { $b }{ "\u000A" }
+
+engine-ccsds-tdm-receive-band = RECEIVE_BAND = { $b }{ "\u000A" }
+
+engine-ccsds-tdm-turnaround-numerator = TURNAROUND_NUMERATOR = { $fmt_num }{ "\u000A" }
+
+engine-ccsds-tdm-turnaround-denominator = TURNAROUND_DENOMINATOR = { $fmt_num }{ "\u000A" }
+
+engine-ccsds-tdm-range-units = RANGE_UNITS = { $u }{ "\u000A" }
+
+engine-earth-gnss-lunar-gdop-pdop-hdop-vdop-tdop = { "  " }GDOP { $gdop }  PDOP { $pdop }  HDOP { $hdop }  VDOP { $vdop }  TDOP { $tdop }{ "\u000A" }
+
+engine-entry-eo-ascent-ascent-stages-propellant-kg = stages[{ $i }].propellant_kg
+
+engine-entry-eo-ascent-ascent-stages-thrust-vac = stages[{ $i }].thrust_vac_n
+
+engine-entry-eo-ascent-ascent-stages-isp-vac = stages[{ $i }].isp_vac_s
+
+# The validation-tier words. The glossary: one message per word, shown next to a figure of merit in the study report and the run summary.
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
+
+engine-geometry-pdop-hdop-vdop = PDOP { $pdop } HDOP { $hdop } VDOP { $vdop }
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
+
+engine-e-interference-map-adsb-gzip = gzip: { $e }
+
+engine-interference-map-observatory-observatory-adsb = observatory-adsb-{ $key }-{ $day }
+
+engine-interference-map-observatory-incidents-json = { $stem }.incidents.json
+
+engine-interference-map-observatory-manifest-json = { $stem }.manifest.json
+
+engine-interop-testbench-events-label-kind-onset-end =
+    { "\u000A" }{ "[" }[events]]
+    label = { $label }
+    kind = { $kind }
+    onset_s = { $round_dp }
+    end_s = { $round_dp2 }{ "\u000A" }
+
+engine-iq-campaign-conditions-sigmf-meta = { $base }.sigmf-meta
+
+engine-iq-campaign-report-roc-heading = ROC виявлення
+
+engine-iq-campaign-report-roc-note = <p class="note">Позначено <b>{ $label }</b>. Кожне вказане вікно події є позитивним, а кожне вікно налаштованої довжини поза подіями — негативним. Вікно враховується за порогу, коли тестова статистика самого монітора досягає його в цьому вікні. P<sub>fa</sub> обчислено на негативне вікно, а не на тест. Ті самі значення є в <code>roc.json</code>.</p>
+
+engine-iq-campaign-report-th-alarm-kind = Вид тривоги
+
+engine-iq-campaign-report-th-positives = Позитивні
+
+engine-iq-campaign-report-th-negatives = Негативні
+
+engine-iq-campaign-report-th-auc = AUC
+
+engine-iq-campaign-report-th-threshold = Поріг
+
+engine-iq-campaign-report-th-pd-at-it = P<sub>d</sub> за нього
+
+engine-iq-campaign-report-th-pfa-at-it = P<sub>fa</sub> за нього
+
+engine-iq-campaign-report-title = Кампанія { $name }
+
+engine-iq-campaign-report-heading = Кампанія лабораторного відтворення: { $name }
+
+engine-iq-campaign-report-meta = Клас даних <b>{ $data_class }</b> · Kshana { $engine } · записів: { $n_recordings } × входів: { $n_frontends } × проєктів: { $n_designs } = комірок: { $n_cells }, виконано: { $n_done } · дайджест <code>{ $digest }</code>
+
+engine-iq-campaign-report-digest-incomplete = (неповний: не кожну комірку виконано)
+
+engine-iq-campaign-report-reference-note = <p class="note">Виміряні значення отримано відстеженням записів. Штрихові лінії з позначкою <b>{ $label }</b> — це аналітичний еталон спектрального розділення <code>{ $formula }</code> за вказаного лабораторією J/S, з Q за вказаним видом завад. Вони є моделлю вказаної умови, а не вимірюванням і не симуляцією завад.</p>
+
+engine-iq-campaign-report-summary-heading = Підсумок
+
+engine-iq-campaign-report-th-recording = Запис
+
+engine-iq-campaign-report-th-front-end = Вхідний тракт
+
+engine-iq-campaign-report-th-design = Проєкт
+
+engine-iq-campaign-report-th-satellites = Супутники
+
+engine-iq-campaign-report-th-mean-availability = Середня доступність
+
+engine-iq-campaign-report-th-events-lost = Втрачені події
+
+engine-iq-campaign-report-th-median-reacq = Медіанне повторне захоплення (s)
+
+engine-iq-campaign-report-th-pass = Пройдено
+
+engine-iq-campaign-report-th-fail = Не пройдено
+
+engine-iq-campaign-report-degradation-heading = Погіршення C/N0 залежно від вказаного J/S
+
+engine-iq-campaign-report-scorecard-heading = Картка оцінок
+
+engine-iq-campaign-report-scorecard-note-nwpr = <p class="meta">Ті самі рядки, що й у <code>scorecard.csv</code>. Повторне захоплення вимірюється від зміщення події; перерва вимірюється від втрати захоплення. Стовпець C/N0 і криві погіршення використовують оцінку NWPR (занижує приблизно на 8 dB · Bn·T за власного джиттера контуру, тож її показники залежать від проєкту контуру); обидві оцінки є в <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-scorecard-note-m2m4 = <p class="meta">Ті самі рядки, що й у <code>scorecard.csv</code>. Повторне захоплення вимірюється від зміщення події; перерва вимірюється від втрати захоплення. Стовпець C/N0 і криві погіршення використовують оцінку M2M4 (нечутлива до власного джиттера контуру); обидві оцінки є в <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-th-sat = Суп.
+
+engine-iq-campaign-report-th-scope = Область
+
+engine-iq-campaign-report-th-event = Подія
+
+engine-iq-campaign-report-th-avail = Дост.
+
+engine-iq-campaign-report-th-loss = Втрата (s)
+
+engine-iq-campaign-report-th-js-at-loss = J/S за втрати
+
+engine-iq-campaign-report-th-reacq = Повт. захоплення (s)
+
+engine-iq-campaign-report-th-outage = Перерва (s)
+
+engine-iq-campaign-report-th-cn0 = C/N0
+
+engine-iq-campaign-report-th-pll = PLL σ (°)
+
+engine-iq-campaign-report-th-dll = DLL σ (chip)
+
+engine-iq-campaign-report-th-false-locks = Хибні захоплення
+
+engine-iq-campaign-report-th-verdict = Вердикт
+
+engine-iq-campaign-report-scope-run = прогін
+
+engine-iq-campaign-report-scope-event = подія
+
+engine-iq-campaign-runner-events-jsonl = { $key }.events.jsonl
+
+engine-iq-campaign-runner-events-jsonl-tmp = { "." }{ $key }.events.jsonl.tmp{ $pid }
+
+engine-iq-cli-scene-sigmf-data = { $sigmf_base }.sigmf-data
+
+engine-iq-cli-scene-sigmf-meta = { $sigmf_base }.sigmf-meta
+
+engine-iq-cli-sweep-carrier-pll-bw-hz-code =
+    { "[" }carrier]
+    pll_bw_hz = { $pll }
+    { "[" }code]
+    bw_hz = { $dll }
+    { "[" }integration]
+    spacing_chips = { $sp }
+    coherent_periods = { $coh }{ "\u000A" }
+
+engine-iq-cli-sweep-pll-dll-sp-coh = pll{ $pll }_dll{ $dll }_sp{ $sp }_coh{ $coh }
+
+engine-iq-io-sigmf-stream-sigmf-data = { $base }.sigmf-data
+
+engine-iq-labfit-iqfit-loss-time-rms = loss_time_rms_s[{ $model }]
+
+engine-iq-monitor-cn0-cn0-baseline-dbhz = cn0.{ $l }.baseline_dbhz
+
+engine-iq-monitor-cn0-cn0-arl0-samples-independent = cn0.{ $l }.arl0_samples_independent
+
+engine-iq-monitor-cn0-cn0-arl1-samples-independent = cn0.{ $l }.arl1_samples_independent
+
+engine-iq-monitor-sqm-sqm-pair = sqm_pair_{ $x }
+
+engine-iq-monitor-sqm-sqm-spacing-chips = sqm.{ $label }.spacing_chips
+
+engine-iq-monitor-sqm-sqm-baseline = sqm.{ $label }.{ $name }.baseline
+
+engine-iq-scene-code-gps-l1-prn = GPS L1 C/A PRN { $prn }
+
+engine-iq-signals-beidou-beidou-b1c-data-prn = BeiDou B1C data PRN { $prn }
+
+engine-iq-signals-beidou-beidou-b1c-pilot-prn = BeiDou B1C pilot PRN { $prn }
+
+engine-iq-signals-beidou-beidou-b1i-prn = BeiDou B1I PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e1-prn = Galileo E1-B PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e1-prn-2 = Galileo E1-C PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e5a-prn = Galileo E5a-I PRN { $prn }
+
+engine-iq-signals-galileo-galileo-e5a-prn-2 = Galileo E5a-Q PRN { $prn }
+
+engine-iq-signals-gps-gps-l1cd-prn = GPS L1CD PRN { $prn }
+
+engine-iq-signals-gps-gps-l1cp-prn = GPS L1CP PRN { $prn }
+
+engine-iq-signals-gps-gps-l5-i5-prn = GPS L5 I5 PRN { $prn }
+
+engine-iq-signals-gps-gps-l5-q5-prn = GPS L5 Q5 PRN { $prn }
+
+engine-iq-signals-gps-gps-l2-cm-prn = GPS L2 CM PRN { $prn }
+
+engine-iq-signals-gps-gps-l2-cl-prn = GPS L2 CL PRN { $prn }
+
+engine-iq-signals-gps-gps-l2c-prn = GPS L2C PRN { $prn }
+
+engine-iq-signals-lunanet-lunanet-afs-prn = LunaNet AFS-I PRN { $prn }
+
+engine-iq-track-sink-offset-chips = x{ $k }_offset_chips
+
+engine-jammertest-dataset-log-format-text =
+    { "[" }log]
+    format = "{ $format }"
+    text = ""
+    { $platform }
+
+engine-leo-pnt-chain-pdop-rms-3d = PDOP { $f } RMS 3D { $f2 }
+
+engine-leo-signal-flat-mhz = FLAT({ $v1 } MHz)
+
+engine-lunar-afs-waveform-noise-seed = { $ns }:noise_seed
+
+engine-lunar-afs-waveform-noise-variance-per-dimension = { $ns }:noise_variance_per_dimension
+
+engine-lunar-afs-waveform-component-cn0-dbhz = { $ns }:component_cn0_dbhz
+
+engine-lunar-afs-waveform-code-scale = { $ns }:code_scale
+
+engine-lunar-afs-waveform-first-code-epoch = { $ns }:first_i_code_epoch_s
+
+engine-lunar-afs-waveform-frame-index = { $ns }:frame_index
+
+engine-lunar-beacon-gdop-pdop-hdop-vdop-tdop = GDOP { $gdop }  PDOP { $pdop }  HDOP { $hdop }  VDOP { $vdop }  TDOP { $tdop }
+
+engine-lunar-beacon-chart-pdop = PDOP { $pdop }
+
+engine-lunar-frame-realise-chart-tx = tx (m)
+
+engine-lunar-frame-realise-chart-ty = ty (m)
+
+engine-lunar-frame-realise-chart-tz = tz (m)
+
+engine-lunar-frame-realise-chart-theta-x = θx (µrad)
+
+engine-lunar-frame-realise-chart-theta-y = θy (µrad)
+
+engine-lunar-frame-realise-chart-theta-z = θz (µrad)
+
+engine-lunar-interop-chart-pass = PASS
+
+engine-lunar-interop-chart-fail = FAIL
+
+engine-lunar-interop-chart-ok = OK
+
+engine-lunar-jamming-chart-y-title = J/S (dB)
+
+engine-lunar-jamming-chart-locked = LOCKED
+
+engine-lunar-jamming-chart-degraded = DEGRADED
+
+engine-lunar-jamming-chart-lost = LOST
+
+engine-lunar-llr-datum-accuracy = /datum_accuracy/{ $k }
+
+engine-lunar-service-ephemeris-comparison = ephemeris_comparison.{ $geometry }.{ $field }
+
+engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
+
+engine-lunar-station-chart-zero-east = 0° E
+
+engine-e-lunar-terrain-dem = dem: { $descriptor_path }: { $e }
+
+engine-e-lunar-terrain-dem-tile = dem_tile: { $path }: { $e }
+
+engine-lunar-time-budget-scenario-total-false = { $i },{ $tau },total,{ $total },false{ "\u000A" }
+
+engine-e-lunar-time-lab-time-lab-device-card = time_lab: device_card: { $e }
+
+engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
+
+engine-e-main-monte-carlo = --monte-carlo: { $e }
+
+engine-e-main-seed = --seed: { $e }
+
+engine-nmea-synth-cli-instructor-json = { $prefix }.instructor.json
+
+engine-nmea-synth-cli-instructor-txt = { $prefix }.instructor.txt
+
+engine-odm-user-defined = USER_DEFINED_{ $k }
+
+engine-oem-ccsds-oem-vers = CCSDS_OEM_VERS = { $version }{ "\u000A" }
+
+engine-oem-creation-date = CREATION_DATE = { $iso8601 }{ "\u000A" }
+
+engine-oem-object-name = OBJECT_NAME = { $object_name }{ "\u000A" }
+
+engine-oem-center-name = CENTER_NAME = { $center_name }{ "\u000A" }
+
+engine-oem-ref-frame = REF_FRAME = { $ref_frame }{ "\u000A" }
+
+engine-oem-start-time = START_TIME = { $iso8601 }{ "\u000A" }
+
+engine-oem-stop-time = STOP_TIME = { $iso8601 }{ "\u000A" }
+
+engine-oem-cov-ref-frame = COV_REF_FRAME = { $frame }{ "\u000A" }
+
+engine-omm-ccsds-omm-vers = CCSDS_OMM_VERS = { $version }{ "\u000A" }
+
+engine-omm-mean-element-theory = MEAN_ELEMENT_THEORY = { $mean_element_theory }{ "\u000A" }
+
+engine-omm-mean-motion = MEAN_MOTION = { $mean_motion_rev_day }{ "\u000A" }
+
+engine-omm-ra-of-asc-node = RA_OF_ASC_NODE = { $ra_of_asc_node_deg }{ "\u000A" }
+
+engine-omm-arg-of-pericenter = ARG_OF_PERICENTER = { $arg_of_pericenter_deg }{ "\u000A" }
+
+engine-omm-mean-anomaly = MEAN_ANOMALY = { $mean_anomaly_deg }{ "\u000A" }
+
+engine-omm-ephemeris-type = EPHEMERIS_TYPE = { $ephemeris_type }{ "\u000A" }
+
+engine-omm-classification-type = CLASSIFICATION_TYPE = { $classification }{ "\u000A" }
+
+engine-omm-norad-cat-id = NORAD_CAT_ID = { $norad_cat_id }{ "\u000A" }
+
+engine-palette-root-color-scheme-light-media =
+    :root{ "{" }{ $l }color-scheme:light{ "}" }
+    @media (prefers-color-scheme:dark){ "{" }:root:not([data-theme="light"]){ "{" }{ $d }color-scheme:dark{ "}" }{ "}" }
+    :root[data-theme="dark"]{ "{" }{ $d }color-scheme:dark{ "}" }{ "\u000A" }
+
+engine-python-runoutput-json-bytes-svg-bytes = RunOutput(json={ $json } bytes, svg={ $svg } bytes, csv={ $value } bytes, summary={ $value2 })
+
+engine-python-carrier-pll-bw-hz-code =
+    { "[" }carrier]
+    pll_bw_hz = { $p }
+    { "[" }code]
+    bw_hz = { $d }
+    { "[" }integration]
+    spacing_chips = { $s }
+    coherent_periods = { $c }{ "\u000A" }
+
+engine-python-pll-dll-sp-coh = pll{ $p }_dll{ $d }_sp{ $s }_coh{ $c }
+
+engine-quantum-faults-chart-title = quantum-anomaly-detect AUC (MODELLED)
+
+engine-quantum-nav-od-chart-title = quantum-gnss-free-nav (MODELLED)
+
+engine-raim-chart-hal = HAL { $al } m
+
+engine-raim-chart-val = VAL { $al } m
+
+engine-realtime-frame-eop-table3-joint-eop = table3_joint_eop[].{ $q }.n
+
+engine-realtime-frame-eop-table3-joint-eop-truth-fallback = table3_joint_eop[].{ $q }.truth_fallback_rows
+
+engine-realtime-frame-eop-table3-joint-eop-epochs-mjd = table3_joint_eop[].{ $q }.epochs_mjd
+
+engine-realtime-frame-eop-table3-joint-eop-rms-native = table3_joint_eop[].{ $q }.rms_native
+
+engine-realtime-frame-eop-table3-joint-eop-p50-native = table3_joint_eop[].{ $q }.p50_native
+
+engine-realtime-frame-eop-table3-joint-eop-p95-native = table3_joint_eop[].{ $q }.p95_native
+
+engine-realtime-frame-eop-table3-joint-eop-max-native = table3_joint_eop[].{ $q }.max_native
+
+engine-realtime-frame-eop-table3-joint-eop-rms-position = table3_joint_eop[].{ $q }.rms_position_m
+
+engine-realtime-frame-eop-table3-joint-eop-p95-position = table3_joint_eop[].{ $q }.p95_position_m
+
+engine-realtime-frame-eop-table3-joint-eop-rms-light = table3_joint_eop[].{ $q }.rms_light_time_ns
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit = operational_predictor_model.representative_fit.{ $q }.issue_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-2 = operational_predictor_model.representative_fit.{ $q }.window_first_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-3 = operational_predictor_model.representative_fit.{ $q }.window_last_mjd
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-4 = operational_predictor_model.representative_fit.{ $q }.n_fit
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-5 = operational_predictor_model.representative_fit.{ $q }.rms_fit_residual_native
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-6 = operational_predictor_model.representative_fit.{ $q }.anchor_residual_native
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-7 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].period_days
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-8 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].cycles_spanned
+
+engine-realtime-frame-eop-operational-predictor-model-representative-fit-9 = operational_predictor_model.representative_fit.{ $q }.terms_rejected[].threshold_cycles
+
+engine-realtime-frame-eop-rows-horizon-days = { $t5 }.rows[].horizon_days
+
+engine-realtime-frame-eop-rows-epochs-mjd = { $t5 }.rows[].epochs_mjd
+
+engine-realtime-frame-eop-rows-target-mjds = { $t5 }.rows[].target_mjds
+
+engine-realtime-frame-eop-rows-min-fit-lead-days = { $t5 }.rows[].min_fit_lead_days
+
+engine-realtime-frame-eop-rows-fit-rows-min = { $t5 }.rows[].fit_rows_min
+
+engine-realtime-frame-eop-rows-fit-rows-max = { $t5 }.rows[].fit_rows_max
+
+engine-realtime-frame-eop-rows-improvement-factor = { $t5 }.rows[].*.improvement_factor
+
+engine-realtime-frame-eop-rows-rms-native = { $t5 }.rows[].*.{ $p }.rms_native
+
+engine-realtime-frame-eop-rows-p50-native = { $t5 }.rows[].*.{ $p }.p50_native
+
+engine-realtime-frame-eop-rows-p95-native = { $t5 }.rows[].*.{ $p }.p95_native
+
+engine-realtime-frame-eop-rows-max-native = { $t5 }.rows[].*.{ $p }.max_native
+
+engine-realtime-frame-eop-rows-rms-position = { $t5 }.rows[].*.{ $p }.rms_position_m
+
+engine-realtime-frame-eop-rows-p95-position = { $t5 }.rows[].*.{ $p }.p95_position_m
+
+engine-realtime-frame-eop-rows-rms-light-time-ns = { $t5 }.rows[].*.{ $p }.rms_light_time_ns
+
+engine-realtime-frame-eop-equivalent-horizon-days-target-position = { $t5 }.equivalent_horizon_days.target_position_m
+
+engine-realtime-frame-eop-equivalent-horizon-days = { $t5 }.equivalent_horizon_days.{ $q }.{ $p }
+
+engine-realtime-frame-eop-rows-horizon-days-2 = { $t6 }.rows[].horizon_days
+
+engine-realtime-frame-eop-rows-issue-mjd = { $t6 }.rows[].issue_mjd
+
+engine-realtime-frame-eop-rows-epochs-mjd-2 = { $t6 }.rows[].epochs_mjd
+
+engine-realtime-frame-eop-rows-rms-native-2 = { $t6 }.rows[].*.{ $p }.rms_native
+
+engine-realtime-frame-eop-rows-p50-native-2 = { $t6 }.rows[].*.{ $p }.p50_native
+
+engine-realtime-frame-eop-rows-p95-native-2 = { $t6 }.rows[].*.{ $p }.p95_native
+
+engine-realtime-frame-eop-rows-max-native-2 = { $t6 }.rows[].*.{ $p }.max_native
+
+engine-realtime-frame-eop-rows-rms-position-2 = { $t6 }.rows[].*.{ $p }.rms_position_m
+
+engine-realtime-frame-eop-rows-p95-position-2 = { $t6 }.rows[].*.{ $p }.p95_position_m
+
+engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms_light_time_ns
+
+engine-receiver-trust-ingest-gps-tow = GPS TOW { $tow } s
+
+engine-receiver-trust-machines-gnss-sdr-gps-tow = GPS TOW { $v1 } s
+
+engine-receiver-trust-machines-imu-fit-id-provenance-bias-va-gyro =
+    { "[" }{ $table }]
+    id = { $id }
+    provenance = { $provenance }
+    bias = { $bias }
+    q_va = { $q_va }
+    gyro_bias = { $gyro_bias }
+    q_arw = { $q_arw }
+    bias_instability = { $bias_instability }{ "\u000A" }
+
+engine-resilience-report-title = Самооцінка стійкості PNT
+
+engine-resilience-report-status-partner = PARTNER
+
+engine-resilience-report-summary = <p>Рушій { $engine }, сценарій { $scenario }, зерно (seed) { $seed }. Розподіл доказів: { $n_validated } { $validated } / { $n_modelled } { $modelled } підоцінок. Орієнтовний рівень RPCF: { $level } ({ $level_basis }).</p>
+
+engine-resilience-report-h-rpcf = Категорії методів DHS RPCF
+
+engine-resilience-report-h-rdrr = Функції RethinkPNT
+
+engine-resilience-report-h-yang = Критерії Yang
+
+engine-resilience-report-th-category = Категорія
+
+engine-resilience-report-th-function = Функція
+
+engine-resilience-report-th-criterion = Критерій
+
+engine-resilience-report-th-subscore = Підоцінка
+
+engine-resilience-report-th-status = Стан
+
+engine-resilience-report-th-basis = Підстава
+
+engine-resilience-report-integrity = <p>Цілісність SHA-256: <code>{ $integrity }</code></p>
+
+engine-skyline-preset-overrides = preset:{ $p }+overrides
+
+engine-solar-system-au-lon-deg = { "  " }{ $name } { $heliocentric_distance_au } au  lon { $ecliptic_longitude_deg } deg  { $lt }  [{ $label }]{ "\u000A" }
+
+engine-sp3-cp-orbit-igs14-hlm-kshana = #cP{ $year } { $month } { $day } { $hour } { $minute } { $second }  { $num_epochs } ORBIT IGS14 HLM KSHANA{ "\u000A" }
+
+engine-spectrum-sigmf-data = { $stem }.sigmf-data
+
+engine-spectrum-sigmf-data-2 = { $meta_path }.sigmf-data
+
+engine-ssv-check-mod1-min = { $key } MOD1 min
+
+engine-ssv-check-mod4-min = { $key } MOD4 min
+
+engine-ssv-check-mrtp-dbw = MRTP { $name } dBW
+
+engine-ssv-scenario-at-least-pct = { $root }.at_least_1_pct
+
+engine-ssv-scenario-at-least-pct-2 = { $root }.at_least_4_pct
+
+engine-ssv-scenario-max-outage-min = { $root }.max_outage_1_min
+
+engine-ssv-scenario-max-outage-min-2 = { $root }.max_outage_4_min
+
+engine-ssv-scenario-signals-best-cn0-dbhz = ,{ $band }_signals,{ $band }_best_cn0_dbhz
+
+engine-study-summary = дослідження «{ $title }»: сценаріїв — { $n_scenarios }
+
+engine-study-metric-holdover = Holdover (s)
+
+engine-study-metric-timing-rms = RMS синхронізації часу (ns)
+
+engine-study-metric-timing-p95 = p95 синхронізації часу (ns)
+
+engine-study-metric-resilience-slope = Нахил стійкості (ns/s)
+
+engine-study-metric-availability = Доступність
+
+engine-study-metric-integrity = Цілісність
+
+engine-study-metric-security = Безпека
+
+engine-study-th-metric = Метрика
+
+engine-study-th-validation = Валідація
+
+engine-study-not-applicable-no-attack = н/д (без атаки)
+
+engine-study-page-title = { $title } — дослідження Kshana
+
+engine-study-eyebrow = क्षण · the precise instant
+
+engine-study-h-comparison = Порівняння поруч
+
+engine-study-tier-note = Кожну характеристику позначено { $validated } (перевірено за зовнішнім оракулом) або { $modelled } (з перших принципів, перевірено внутрішньо), виведено з матриці верифікації. Стовпці — незалежні сценарії; значення не нормалізовано між сценаріями.
+
+engine-study-footer = Створено Kshana { $version } як зведене дослідження сценаріїв: { $n_scenarios }. Кожен сценарій відтворюється за своїм сценарієм + зерном (seed) + версією рушія. Вільне програмне забезпечення з відкритим кодом (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">джерельний код і документація</a>.
+
+engine-telecom-timing-mtie-limit-ns = ,{ $id }_mtie_limit_ns
+
+engine-telecom-timing-tdev-limit-ns = ,{ $id }_tdev_limit_ns
+
+engine-telemetry-prometheus-kshana-build-info-version = kshana_build_info{ "{" }version="{ $escape_label }"{ "}" } 1{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-score = kshana_trust_score { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-band-band = kshana_trust_band{ "{" }band="{ $b }"{ "}" } { $on }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-gate-gate = kshana_trust_gate{ "{" }gate="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-active-reason = kshana_trust_reason_active{ "{" }reason="{ $escape_label }"{ $class }{ "}" } { $v2 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epochs-total-band = kshana_trust_epochs_total{ "{" }band="{ $b }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-epochs-total = kshana_trust_reason_epochs_total{ "{" }reason="{ $escape_label }"{ "}" } { $n }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-input-errors-total = kshana_trust_input_errors_total { $input_errors }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-overflow-total = kshana_trust_reason_overflow_total { $reason_overflow }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-syslog-send-failures = kshana_trust_syslog_send_failures_total { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epoch-offset-seconds = kshana_trust_epoch_offset_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-last-sample-timestamp = kshana_trust_last_sample_timestamp_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-status = kshana_trust_geometry{ "{" }status="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-degraded = kshana_trust_geometry_degraded { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-signal-loss = kshana_trust_geometry_signal_loss { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-epochs-total = kshana_trust_geometry_epochs_total{ "{" }status="{ $st }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-label-label = kshana_trust_geometry_label{ "{" }label="{ $l }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-vdop = kshana_trust_geometry_vdop { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-help-type =
+    # HELP { $name } { $help }
+    # TYPE { $name } { $kind }{ "\u000A" }
+
+engine-telemetry-syslog-cat-gnss-trust-dvchost-cs1label = cat=gnss-trust dvchost={ $cef_ext_escape } cs1Label=band cs1={ $band }
+
+engine-telemetry-syslog-cs2label-reasons-cs2 = { " " }cs2Label=reasons cs2={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs3label-previousband-cs3 = { " " }cs3Label=previousBand cs3={ $p }
+
+engine-telemetry-syslog-cfp1label-trustscore-cfp1 = { " " }cfp1Label=trustScore cfp1={ $num }
+
+engine-telemetry-syslog-cfp2label-epochoffsetseconds-cfp2 = { " " }cfp2Label=epochOffsetSeconds cfp2={ $num }
+
+engine-telemetry-syslog-cs4label-logtime-cs4 = { " " }cs4Label=logTime cs4={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs5label-gate-cs5 = { " " }cs5Label=gate cs5={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs6label-geometry-cs6 = { " " }cs6Label=geometry cs6={ $status }{ $classes }
+
+engine-telemetry-syslog-cfp3label-geometryhdop-cfp3 = { " " }cfp3Label=geometryHdop cfp3={ $num }
+
+engine-telemetry-syslog-cfp4label-geometrypdop-cfp4 = { " " }cfp4Label=geometryPdop cfp4={ $num }
+
+engine-telemetry-syslog-cn1label-geometryusedsatellites-cn1 = { " " }cn1Label=geometryUsedSatellites cn1={ $v1 }
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
+
+engine-timetransfer-chart-rf = RF: { $id }
+
+engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
+
+engine-verification-src-mod-rs = src/{ $rel }/mod.rs
+
+engine-verification-tests-fixtures = tests/fixtures/{ $base }
+
+engine-compliance-fw-dhs-rpcf-title = Рамки стійкого PNT Міністерства внутрішньої безпеки США (US DHS Resilient PNT Conformance Framework)
+
+engine-compliance-fw-imo-ships-title = Настанови IMO щодо завад GNSS для суден
+
+engine-compliance-fw-easa-aviation-title = Настанови EASA щодо завад GNSS для авіації
+
+engine-compliance-fw-nis2-art21-title = Директива ЄС NIS2, стаття 21: заходи управління ризиками
+
+engine-compliance-fw-en-16803-title = EN 16803, визначення місцеположення на основі GNSS для дорожніх ІТС
+
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, базовий профіль PNT (Foundational PNT Profile)
+
+engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework (рамки стійкого позиціонування, навігації та часу)
+
+engine-compliance-source-dhs-rpcf-1-version = Версія 2.0, 26 квітня 2022 року (Директорат науки і технологій DHS разом із CISA)
+
+engine-compliance-source-dhs-rpcf-1-checked = документ прочитано повністю; цільову сторінку публікації не завантажували
+
+engine-compliance-source-imo-ships-1-title = Навмисні завади Глобальній системі позиціонування США та іншим глобальним навігаційним супутниковим системам
+
+engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644, 18 жовтня 2021 року
+
+engine-compliance-source-imo-ships-1-checked = текст прочитано повністю з цього стороннього дзеркала циркуляра, а не з сайту IMO; авторитетну копію шукайте в бібліотеці документів IMO
+
+engine-compliance-source-imo-ships-2-title = Всесвітня радіонавігаційна система
+
+engine-compliance-source-imo-ships-2-version = Резолюція Асамблеї IMO A.1046(27), прийнята 30 листопада 2011 року
+
+engine-compliance-source-imo-ships-2-checked = документ прочитано повністю
+
+engine-compliance-source-imo-ships-3-title = Експлуатаційні стандарти для суднових радіонавігаційних приймачів із кількома системами
+
+engine-compliance-source-imo-ships-3-version = IMO MSC.401(95), прийнята 8 червня 2015 року (зі змінами MSC.432(98), 2017)
+
+engine-compliance-source-imo-ships-3-checked = оригінальну резолюцію прочитано повністю; текст поправки 2017 року не читали. Жодного циркуляра IMO щодо завад GNSS пізнішого за MSC.1/Circ.1644 не знайдено; новіші шукайте в бібліотеці документів IMO
+
+engine-compliance-source-easa-aviation-1-title = Вихід із ладу та зміни Глобальної навігаційної супутникової системи, що призводять до погіршення зв'язку, навігації та спостереження
+
+engine-compliance-source-easa-aviation-1-version = Інформаційний бюлетень безпеки EASA SIB 2022-02R4, виданий 3 липня 2026 року, виправлений 22 липня 2026 року (інформаційний, не обов'язковий)
+
+engine-compliance-source-easa-aviation-1-checked = редакцію 4 прочитано повністю; розділи цитовано за заголовками, бо бюлетень не нумерує свої рекомендації. Повторно перевірено 2026-10-10: PDF бюлетеня, сторінка інструмента EASA AD (яка вказує, що його заміщення немає) і сторінка EASA про GNSS не називають жодної пізнішої редакції та жодного бюлетеня з номером 2026-07; банера з редакцією 2 бюлетеня SIB 2026-07 не знайдено, тож питання відкрите і його слід перевірити на чинній сторінці EASA. Бюлетені інформації про зони конфлікту не відкривали
+
+engine-compliance-source-nis2-art21-1-title = Директива (ЄС) 2022/2555 про заходи для високого спільного рівня кібербезпеки в усьому Союзі (Директива NIS 2)
+
+engine-compliance-source-nis2-art21-1-version = OJ L 333, 27.12.2022, с. 80-152
+
+engine-compliance-source-nis2-art21-1-checked = літери пунктів статті 21 прочитано з підсумку сторінки EUR-Lex, і вони збігаються з опублікованим текстом; перед тим як посилатися на літеру в поданні, звірте її зі сторінкою
+
+engine-compliance-source-en-16803-1-version = EN 16803-1:2020 (каталог: чинний з 2 жовтня 2020 року, замінює видання 2016 року)
+
+engine-compliance-source-en-16803-1-checked = лише текст сфери застосування з каталогу; стандарт платний і його не читали
+
+engine-compliance-source-en-16803-2-version = EN 16803-2:2020 (каталог: чинний з 2 жовтня 2020 року)
+
+engine-compliance-source-en-16803-2-checked = лише текст сфери застосування з каталогу; стандарт платний і його не читали
+
+engine-compliance-source-en-16803-3-version = EN 16803-3:2020 (каталог: чинний з 2 жовтня 2020 року)
+
+engine-compliance-source-en-16803-3-checked = лише текст сфери застосування з каталогу; стандарт платний і його не читали. Текст каталогу називає за номером лише пункт 6 (записані й імітовані сигнали) і додаток A (високорівнева класифікація атак) і більше нічого; каталог не вказує назви комітету, тому тут її не наведено
+
+engine-compliance-source-nist-ir-8323r1-1-title = Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services (базовий профіль PNT: застосування Cybersecurity Framework для відповідального використання служб позиціонування, навігації та часу)
+
+engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1, січень 2023 року (внутрішній звіт NIST)
+
+engine-compliance-source-nist-ir-8323r1-1-checked = PDF завантажено 2026-10-18 (SHA-256 записано в tests/fixtures/compliance/headings.json), а його таблиці профілю 3-25 прочитано для цитованих підкатегорій; інші розділи, додатки та цільову сторінку публікації не читали. Ідентифікатори підкатегорій відповідають власним таблицям профілю, які використовують ідентифікатори Cybersecurity Framework 1.1
+
+engine-compliance-cap-receiver-log-trust-name = Оцінка довіри до журналу приймача
+
+engine-compliance-cap-receiver-log-trust-output = стан довіри на кожну епоху за власним журналом реального приймача, моменти тривог і збіг із подіями, визначеними до прогону
+
+engine-compliance-cap-jamming-effects-name = Вплив глушіння за енергетичним бюджетом лінії
+
+engine-compliance-cap-jamming-effects-output = відношення несівної до спектральної щільності шуму та стан захоплення за кожним супутником за вказаної геометрії глушника
+
+engine-compliance-cap-spoofing-detection-name = Виявлення спуфінгу та міконінгу (meaconing)
+
+engine-compliance-cap-spoofing-detection-output = рішення детекторів і розрізнювальна здатність детекторів за вказаної атаки спуфінгу
+
+engine-compliance-cap-integrity-monitoring-name = Моніторинг цілісності та рівні захисту
+
+engine-compliance-cap-integrity-monitoring-output = рівні захисту, доступність відносно меж тривоги та результати виявлення відмов
+
+engine-compliance-cap-holdover-name = Holdover та утримання за інерцією
+
+engine-compliance-cap-holdover-output = зростання похибки положення або часу за відмови GNSS відносно вказаного порогу
+
+engine-compliance-cap-source-diversity-name = Альтернативні та різнорідні джерела PNT
+
+engine-compliance-cap-source-diversity-output = навігаційні або часові характеристики від джерел, незалежних від основного діапазону GNSS
+
+engine-compliance-cap-resilience-scoring-name = Оцінювання стійкості за ансамблями загроз
+
+engine-compliance-cap-resilience-scoring-output = співвідношення виживання та стійкості за кожним вектором загрози в межах вказаного ансамблю, із зазначеними припущеннями
+
+engine-compliance-cap-run-provenance-name = Відтворюване походження прогону
+
+engine-compliance-cap-run-provenance-output = хеш сценарію, версія рушія та зерно (seed) у кожному результаті, щоб прогін можна було повторити
+
+engine-compliance-req-dhs-s5-2-reference = Розділ 5.2 (запобігання, реагування, відновлення)
+
+engine-compliance-req-dhs-s5-2-asks = Стійкість описано як три функції: запобігання шкоді, реагування (виявлення, повідомлення, пом'якшення, стримування) та відновлення. Виявлення є ймовірнісним, тому важливі і хибні тривоги, і пропущені виявлення.
+
+engine-compliance-req-dhs-s5-2-gap = Запобігання є властивістю проєктування продукту, яку не показує жоден результат симуляції. Статистика виявлення із синтетичного або односеансового прогону не є виміряною частотою хибних тривог чи пропусків для продукту в експлуатації.
+
+engine-compliance-req-dhs-l1-r1-reference = Рівень 1, вимога 1
+
+engine-compliance-req-dhs-l1-r1-asks = Перевіряти, що збережені дані із зовнішніх джерел відповідають форматам і діапазонам значень відповідних стандартів.
+
+engine-compliance-req-dhs-l1-r1-gap = Властивість забезпечення якості програмного забезпечення та перевірки вхідних даних для продукту, що тестується. Kshana не перевіряє обробку вхідних даних продуктом.
+
+engine-compliance-req-dhs-l1-r2-reference = Рівень 1, вимога 2
+
+engine-compliance-req-dhs-l1-r2-asks = Допускати повне ручне відновлення очищенням або скиданням пам'яті, повертаючи систему до визначених характеристик після зникнення загрози.
+
+engine-compliance-req-dhs-l1-r2-gap = Журнал приймача показує, коли визначення перестало бути довіреним і коли відновилося; він не показує, що ручне скидання очищує кожен збережений стан.
+
+engine-compliance-req-dhs-l1-r3-reference = Рівень 1, вимога 3
+
+engine-compliance-req-dhs-l1-r3-asks = Безпечно перезавантажувати або оновлювати вбудоване програмне забезпечення.
+
+engine-compliance-req-dhs-l1-r3-gap = Безпека оновлення вбудованого програмного забезпечення лежить поза тим, що спостерігає будь-який результат Kshana.
+
+engine-compliance-req-dhs-l2-r4-reference = Рівень 2, вимога 4
+
+engine-compliance-req-dhs-l2-r4-asks = Виявляти скомпрометовані джерела PNT і не допускати, щоб вони спотворювали розв'язок.
+
+engine-compliance-req-dhs-l2-r4-gap = Kshana оцінює детектори та монітори, які моделює або запускає над журналом; чи працює власне виключення джерел у продукті, потребує внутрішнього стану продукту, а не лише його журналу.
+
+engine-compliance-req-dhs-l2-r5-reference = Рівень 2, вимога 5
+
+engine-compliance-req-dhs-l2-r5-asks = Автоматично відновлювати джерела та систему без переривання виводу; розв'язок надається і під час загрози, можливо з необмеженим погіршенням.
+
+engine-compliance-req-dhs-l2-r5-gap = Прогони holdover обмежують змодельований дрейф для вказаної моделі годинника або інерціальної моделі, а не власну поведінку продукту під час відновлення.
+
+engine-compliance-req-dhs-l3-r6-reference = Рівень 3, вимога 6
+
+engine-compliance-req-dhs-l3-r6-asks = Спотворені дані від одного джерела не повинні забруднювати інше джерело.
+
+engine-compliance-req-dhs-l3-r6-gap = Kshana запускає джерела поряд; ізоляція джерел усередині продукту потребує огляду проєкту або введення відмов у продукт.
+
+engine-compliance-req-dhs-l3-r7-reference = Рівень 3, вимога 7
+
+engine-compliance-req-dhs-l3-r7-asks = Перехресно перевіряти розв'язки всіх джерел і тримати погіршення під час загрози в межах.
+
+engine-compliance-req-dhs-l3-r7-gap = Обмежене погіршення показано для змодельованих датчиків; власну перехресну перевірку продукту не спостерігають.
+
+engine-compliance-req-dhs-l4-r8-reference = Рівень 4, вимога 8
+
+engine-compliance-req-dhs-l4-r8-asks = Використовувати джерела різних технологій проти загроз спільного режиму без погіршення під час загрози.
+
+engine-compliance-req-dhs-l4-r8-gap = Аргумент щодо спільного режиму потребує набору джерел реального продукту та загрози, що охоплює їх усі; сценарій задає одну таку загрозу, але не доводить, що в продукту немає спільної слабкості.
+
+engine-compliance-req-dhs-s5-5-reference = Розділ 5.5 (спільний режим)
+
+engine-compliance-req-dhs-s5-5-asks = Різнорідні механізми не повинні мати спільної слабкості: наприклад, глушник, що охоплює два діапазони, зводить нанівець різноманіття діапазонів.
+
+engine-compliance-req-dhs-s5-5-gap = Оцінювання використовує синтетичний ансамбль загроз, про що сказано прямо; це не польові дані.
+
+engine-compliance-req-dhs-s8-1-8-3-reference = Розділи 8.1-8.3 (оцінювання)
+
+engine-compliance-req-dhs-s8-1-8-3-asks = Оцінювання поєднує статичний аналіз із динамічним, де тестові вектори замінюють загрози; класи тестів — відмова джерела, завади та внутрішні відмови. Симулятори названо методом тестування.
+
+engine-compliance-req-dhs-s8-1-8-3-gap = Експортований рух і події можуть керувати лабораторним симулятором (docs/TEST-BENCH.md). Kshana не записує жодного сигналу, тож загрозу забезпечують симулятор і його уповноважений оператор.
+
+engine-compliance-req-dhs-s8-6-reference = Розділ 8.6 (елементи плану тестування)
+
+engine-compliance-req-dhs-s8-6-asks = План тестування вказує рівень, вимогу, вхідні дані, еталони, потрібний доступ до даних, процедуру з критеріями PASS або FAIL, результати та примітки.
+
+engine-compliance-req-dhs-s8-6-gap = Критерії успіху чи неуспіху обирає оцінювач; Kshana записує вхідні дані, пороги та хеші, з якими працювала.
+
+engine-compliance-req-imo-1644-3-reference = MSC.1/Circ.1644, пункт 3
+
+engine-compliance-req-imo-1644-3-asks = Навмисні завади GNSS є суттєвим ризиком для безпеки навігації, людей, майна та довкілля.
+
+engine-compliance-req-imo-1644-3-gap = Це твердження про ризик; Kshana кількісно оцінює вплив для вказаної геометрії, а не ризик у морському районі.
+
+engine-compliance-req-imo-1644-5-reference = MSC.1/Circ.1644, пункт 5
+
+engine-compliance-req-imo-1644-5-asks = Державам-членам пропонується обмежувати завади зі своєї території, розглядати попередження для мореплавців і розглядати заходи проти несанкціонованих передач.
+
+engine-compliance-req-imo-1644-5-gap = Звернено до держав і адміністрацій; жоден результат симуляції цього не стосується.
+
+engine-compliance-req-imo-a1046-3-reference = Резолюція A.1046(27), пункт 3 додатка (входи в гавані, підходи до гаваней і прибережні води)
+
+engine-compliance-req-imo-a1046-3-asks = Систему вважають доступною лише доти, доки вона забезпечує вказану цілісність за вказаної точності, з оновленням із вказаною частотою та з попередженням про цілісність протягом вказаного часу.
+
+engine-compliance-req-imo-a1046-3-gap = Kshana обчислює рівні захисту та доступність відносно межі тривоги для змодельованої геометрії; значення точності, доступності та часу попередження з резолюції тут не стверджуються.
+
+engine-compliance-req-imo-a1046-2-reference = Резолюція A.1046(27), пункт 2 додатка (води океану)
+
+engine-compliance-req-imo-a1046-2-asks = Вимоги до точності, частоти оновлення, доступності та попередження про цілісність радіонавігаційної системи на океанській фазі.
+
+engine-compliance-req-imo-a1046-2-gap = Як вище, для океанської фази.
+
+engine-compliance-req-imo-401-3-1-reference = MSC.401(95), 3.1-3.2
+
+engine-compliance-req-imo-401-3-1-asks = Приймач використовує цивільні сигнали щонайменше двох незалежних систем і видає розв'язок положення, швидкості та часу з потрібними стійкістю та цілісністю.
+
+engine-compliance-req-imo-401-3-1-gap = Цілісність за кількох орбітальних угруповань змодельовано; фактичне використання приймачем двох систем є тестом продукту.
+
+engine-compliance-req-imo-401-3-11-reference = MSC.401(95), 3.11-3.14
+
+engine-compliance-req-imo-401-3-11-asks = Приймач оцінює точність і цілісність для кожної навігаційної фази, подає застереження, коли не може, попереджає, коли новий розв'язок не надходить вчасно, і показує останнє правдоподібне значення з явним станом.
+
+engine-compliance-req-imo-401-3-11-gap = Kshana зчитує синхронізацію часу та довіру з журналу; чи збігаються відображені інтервали застережень і попереджень зі стандартом, залежить від інтерфейсу користувача приймача, якого журнал не показує.
+
+engine-compliance-req-imo-401-3-16-reference = MSC.401(95), 3.15-3.16
+
+engine-compliance-req-imo-401-3-16-asks = Показувати стан доповнення, а також положення, курс, швидкість, час і використані джерела.
+
+engine-compliance-req-imo-401-3-16-gap = Вимоги до відображення; жоден результат Kshana їх не стосується.
+
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
+
+engine-compliance-req-imo-401-4-2-asks = Задовільно працювати за звичайних умов завад, відповідно до резолюції A.694(17) (загальні вимоги до суднового радіообладнання) та типового бортового й зовнішнього радіосередовища. Це не вимога протидії глушінню чи спуфінгу.
+
+engine-compliance-req-imo-401-4-2-gap = Тестування за звичайних завад є лабораторним вимірюванням приймача; саму резолюцію A.694(17) не читали.
+
+engine-compliance-req-easa-desc-reference = SIB 2022-02R4, опис
+
+engine-compliance-req-easa-desc-asks = Спуфінг важче виявити, і він небезпечніший за глушіння; кабіна екіпажу не має сповіщення, яке розрізняло б ці два явища; наслідки варіюються від хибних сповіщень про рельєф до спотворених даних спостереження і можуть зберігатися після виходу з району.
+
+engine-compliance-req-easa-desc-gap = Kshana моделює вплив на детектори та лінію; сповіщення в кабіні є властивістю обладнання.
+
+engine-compliance-req-easa-mfr-reference = SIB 2022-02R4, рекомендація(ї): виробникам повітряних суден і обладнання, слід
+
+engine-compliance-req-easa-mfr-asks = Оцінювати вплив глушіння та спуфінгу на продукт, зокрема сукупний вплив, і надавати операторам настанови щодо розпізнавання підозрюваного спуфінгу та експлуатаційних обмежень у разі втрати GNSS.
+
+engine-compliance-req-easa-mfr-gap = Оцінювання самого продукту належить виробнику; Kshana надає повторюваний сценарій і оцінений журнал приймача як докази в ньому.
+
+engine-compliance-req-easa-ops-spoof-reference = SIB 2022-02R4, рекомендація(ї): авіаційним операторам слід (спуфінг)
+
+engine-compliance-req-easa-ops-spoof-asks = Порівнювати положення та час GNSS із джерелами, не пов'язаними з GNSS, і стежити за показником невизначеності положення та навігаційними засобами, щоб помітити спуфінг.
+
+engine-compliance-req-easa-ops-spoof-gap = Експлуатаційна процедура та навчання лежать поза результатами симуляції.
+
+engine-compliance-req-easa-ansp-reference = SIB 2022-02R4, рекомендація(ї): постачальникам ATM/ANS слід; організаціям, залученим до проєктування чи виробництва обладнання ATM/ANS, слід
+
+engine-compliance-req-easa-ansp-asks = Оцінювати вплив втрати синхронізації часу GNSS на системи зв'язку, навігації та спостереження, зберігати наземні навігаційні засоби та допомагати виявляти завади.
+
+engine-compliance-req-easa-ansp-gap = Прогони holdover синхронізації часу стосуються оцінювання втрати часу; проєктування наземних систем і процедури не охоплено.
+
+engine-compliance-req-easa-report-reference = SIB 2022-02R4, рекомендація(ї): завершальні нагадування щодо звітування
+
+engine-compliance-req-easa-report-asks = Повідомляти про події, що впливають на безпеку, згідно з регламентом про звітування про події, а про підозрюваний спуфінг і глушіння з вищим ризиком повідомляти виробнику.
+
+engine-compliance-req-easa-report-gap = Обов'язок звітування; жоден результат його не стосується.
+
+engine-compliance-req-nis2-21-1-reference = Стаття 21(1)
+
+engine-compliance-req-nis2-21-1-asks = Вживати пропорційних технічних, операційних та організаційних заходів для управління ризиками для мереж та інформаційних систем з урахуванням сучасного рівня, піддатливості, розміру, а також імовірності та тяжкості інцидентів.
+
+engine-compliance-req-nis2-21-1-gap = Kshana стосується лише залежності системи від позиціонування та часу, а не інформаційної безпеки загалом.
+
+engine-compliance-req-nis2-21-2-a-reference = Стаття 21(2)(a)
+
+engine-compliance-req-nis2-21-2-a-asks = Політики аналізу ризиків і безпеки інформаційних систем.
+
+engine-compliance-req-nis2-21-2-a-gap = Підтримує докази для частини аналізу ризиків, що стосується PNT (supports evidence for); сама політика є організаційною.
+
+engine-compliance-req-nis2-21-2-b-reference = Стаття 21(2)(b)
+
+engine-compliance-req-nis2-21-2-b-asks = Опрацювання інцидентів.
+
+engine-compliance-req-nis2-21-2-b-gap = Оцінений журнал приймача допомагає датувати початок і кінець інциденту із завадами PNT; процес опрацювання є організаційним.
+
+engine-compliance-req-nis2-21-2-c-reference = Стаття 21(2)(c)
+
+engine-compliance-req-nis2-21-2-c-asks = Безперервність діяльності, зокрема керування резервними копіями, аварійне відновлення та кризове управління.
+
+engine-compliance-req-nis2-21-2-c-gap = Показує, як довго змодельований резерв утримує межу часу чи положення; плани безперервності є організаційними.
+
+engine-compliance-req-nis2-21-2-d-reference = Стаття 21(2)(d)
+
+engine-compliance-req-nis2-21-2-d-asks = Безпека ланцюга постачання, зокрема відносини з прямими постачальниками.
+
+engine-compliance-req-nis2-21-2-d-gap = Kshana не оцінює постачальників. Використання нейтрального, відтворюваного стенда (bench) для приймання приймачів є одним із вхідних даних, які може використати покупець, а не оцінюванням ланцюга постачання.
+
+engine-compliance-req-nis2-21-2-e-reference = Стаття 21(2)(e)
+
+engine-compliance-req-nis2-21-2-e-asks = Безпека під час придбання, розроблення та супроводу систем, зокрема опрацювання вразливостей і їх розкриття.
+
+engine-compliance-req-nis2-21-2-e-gap = Повторювані приймальні випробування поведінки приймача за завад підтримують докази для частини придбання (supports evidence for); опрацювання вразливостей лежить поза ними.
+
+engine-compliance-req-nis2-21-2-f-reference = Стаття 21(2)(f)
+
+engine-compliance-req-nis2-21-2-f-asks = Політики та процедури оцінювання ефективності заходів управління ризиками кібербезпеки.
+
+engine-compliance-req-nis2-21-2-f-gap = Хешовані, повторювані прогони та події, визначені до оцінювання, підтримують докази для перевірки ефективності (supports evidence for); політика та її графік є організаційними.
+
+engine-compliance-req-nis2-21-2-ghij-reference = Стаття 21(2)(g)-(j)
+
+engine-compliance-req-nis2-21-2-ghij-asks = Кібергігієна та навчання; криптографія та шифрування; безпека людських ресурсів, контроль доступу та управління активами; багатофакторна автентифікація та захищений зв'язок.
+
+engine-compliance-req-nis2-21-2-ghij-gap = Не може бути охоплено результатами прогонів позиціонування та часу.
+
+engine-compliance-req-nis2-21-3-reference = Стаття 21(3)
+
+engine-compliance-req-nis2-21-3-asks = Обираючи заходи для ланцюга постачання, враховувати вразливості кожного постачальника, а також якість і безпечну розробку його продуктів.
+
+engine-compliance-req-nis2-21-3-gap = Див. статтю 21(2)(d).
+
+engine-compliance-req-en16803-1-reference = EN 16803-1 (визначення та процедури системної інженерії)
+
+engine-compliance-req-en16803-1-asks = Визначає архітектуру дорожніх ІТС, характеристики та метрики продуктивності й метод порівняння тестових середовищ. Не встановлює вимог.
+
+engine-compliance-req-en16803-1-gap = Номери пунктів не видно публічно. Власник ліцензії має зіставити поля результатів Kshana з визначеннями метрик.
+
+engine-compliance-req-en16803-2-reference = EN 16803-2 (базова продуктивність терміналів на основі GNSS)
+
+engine-compliance-req-en16803-2-asks = Лабораторні процедури тестування на основі відтворення для доступності, безперервності, точності, цілісності та часу до першого визначення вихідного положення. Не встановлює мінімальних значень.
+
+engine-compliance-req-en16803-2-gap = Експортований рух Kshana може керувати відтворенням; процедура стандарту, його обробка записаних сигналів і обчислення метрик тут не відтворені та потребують ліцензованого тексту.
+
+engine-compliance-req-en16803-3-6-reference = EN 16803-3, пункт 6
+
+engine-compliance-req-en16803-3-6-asks = Розрізняє записані та імітовані сигнали в тестах безпеки.
+
+engine-compliance-req-en16803-3-6-gap = Kshana не записує і не імітує сигнал. Вона експортує рух і події та оцінює журнал приймача.
+
+engine-compliance-req-en16803-3-a-reference = EN 16803-3, додаток A
+
+engine-compliance-req-en16803-3-a-asks = Високорівнева класифікація атак на GNSS: завади, глушіння, міконінг (meaconing) і спуфінг.
+
+engine-compliance-req-en16803-3-a-gap = Сценарії Kshana називають класи атак такими самими загальними термінами; зіставлення на рівні пунктів потребує ліцензованого додатка.
+
+engine-compliance-req-nist-id-ra-1-reference = ID.RA-1 (оцінювання ризиків)
+
+engine-compliance-req-nist-id-ra-1-asks = Виявляти, документувати та повідомляти про вразливості системи PNT і того, що розповсюджує дані PNT; де безпечно, перевіряти чутливість до збою чи маніпуляції, що може використовувати симуляцію сигналів PNT, у межах закону та безперервності діяльності.
+
+engine-compliance-req-nist-id-ra-1-gap = Kshana характеризує чутливість у змодельованих сценаріях і в записаному журналі приймача. Інвентаризація вразливостей реальної системи належить оператору, а будь-яке радіочастотне випробування проводять власним обладнанням і з дозволу оператора: Kshana нічого не передає.
+
+engine-compliance-req-nist-id-ra-3-reference = ID.RA-3 (оцінювання ризиків)
+
+engine-compliance-req-nist-id-ra-3-asks = Виявляти та документувати внутрішні й зовнішні загрози для PNT: від природних і ненавмисних збоїв до навмисної атаки, як-от глушіння, спуфінг і атаки із затримкою.
+
+engine-compliance-req-nist-id-ra-3-gap = Сценарії задають загрози та їх наслідки. Задокументована оцінка загроз для власного майданчика й системи користувача складається користувачем; жоден сценарій не є доказом того, що загроза там існує.
+
+engine-compliance-req-nist-id-ra-4-reference = ID.RA-4 (оцінювання ризиків)
+
+engine-compliance-req-nist-id-ra-4-asks = Визначати потенційні наслідки та імовірності; для кожної загрози вказувати масштаб впливу, як проявляється похибка (стрибок чи наростання), пороги виявлення та що похибка спричиняє далі.
+
+engine-compliance-req-nist-id-ra-4-gap = Прогони дають значення впливу (зростання похибки, рівні захисту, вплив на лінію) для змодельованих датчиків і вказаної загрози. Імовірності не обчислюються, а змодельований вплив не є виміряним.
+
+engine-compliance-req-nist-id-ra-5-reference = ID.RA-5 (оцінювання ризиків)
+
+engine-compliance-req-nist-id-ra-5-asks = Використовувати загрози, вразливості, імовірності та наслідки для оцінювання ризику й повторно оцінювати його періодично та за зміни системи чи загрози.
+
+engine-compliance-req-nist-id-ra-5-gap = Оцінювання використовує синтетичний ансамбль загроз, про що сказано прямо. Хешовані, повторювані прогони роблять повторне оцінювання порівнянним; судження про ризик і його графік є організаційними.
+
+engine-compliance-req-nist-pr-ds-6-reference = PR.DS-6 (безпека даних)
+
+engine-compliance-req-nist-pr-ds-6-asks = Перевіряти цілісність даних PNT, коли джерела розходяться, наприклад перехресною перевіркою кількох частот, орбітальних угруповань або незалежних джерел.
+
+engine-compliance-req-nist-pr-ds-6-gap = Kshana обчислює рівні захисту та результати перехресної перевірки джерел для змодельованої геометрії та датчиків; перевірки цілісності всередині продукту не спостерігають.
+
+engine-compliance-req-nist-pr-ip-10-reference = PR.IP-10 (процеси та процедури захисту інформації)
+
+engine-compliance-req-nist-pr-ip-10-asks = Тестувати плани реагування та відновлення; для системи з резервним джерелом часу вилучити основне джерело й підтвердити, що точність часу, стрибки та наростання залишаються в межах вказаних вимог до годинника.
+
+engine-compliance-req-nist-pr-ip-10-gap = Прогін holdover моделює вилучення й перевіряє похибку відносно вказаного порогу; оцінений журнал приймача показує реальну втрату та відновлення. Випробування на власному сервері часу оператора та будь-яке радіочастотне випромінювання для нього належать оператору.
+
+engine-compliance-req-nist-pr-pt-5-reference = PR.PT-5 (захисна технологія)
+
+engine-compliance-req-nist-pr-pt-5-asks = Використовувати механізми стійкості за звичайних і несприятливих умов: відхиляти погані сигнали та дані й поєднувати holdover із виявленням аномалій, надлишковими або комплексованими джерелами та відновленням.
+
+engine-compliance-req-nist-pr-pt-5-gap = Показано змодельовані механізми та їх межі; чи реалізує їх продукт, є тестом продукту.
+
+engine-compliance-req-nist-de-ae-2-reference = DE.AE-2 (аномалії та події)
+
+engine-compliance-req-nist-de-ae-2-asks = Аналізувати виявлені події PNT у реальному часі та згодом (джерело, статистика похибок, тривалість, частота, місце), відрізняти шкідливі події від нормальної роботи та зберігати необроблені дані й аналіз.
+
+engine-compliance-req-nist-de-ae-2-gap = Kshana оцінює записаний журнал постфактум і зберігає хеші того, з чим працювала. Вона не локалізує й не атрибутує джерело завад і не здійснює моніторинг у реальному часі як послугу.
+
+engine-compliance-req-nist-de-ae-3-reference = DE.AE-3 (аномалії та події)
+
+engine-compliance-req-nist-de-ae-3-asks = Збирати та співвідносити дані подій із кількох джерел і датчиків, а також перехресно перевіряти дані PNT більш ніж з одного джерела, щоб виявити аномальну поведінку.
+
+engine-compliance-req-nist-de-ae-3-gap = Монітори Kshana перехресно перевіряють потоки одного журналу приймача чи одного сценарію; співвіднесення між власними датчиками й журналами оператора належить оператору.
+
+engine-compliance-req-nist-de-ae-4-reference = DE.AE-4 (аномалії та події)
+
+engine-compliance-req-nist-de-ae-4-asks = Визначати вплив подій на дані PNT і на застосунки, що від них залежать, зокрема рідкісних подій.
+
+engine-compliance-req-nist-de-ae-4-gap = Вплив показано на виході PNT прогону чи журналу. Вплив на конкретний застосунок нижчого рівня потребує власних вимог цього застосунку.
+
+engine-compliance-req-nist-de-ae-5-reference = DE.AE-5 (аномалії та події)
+
+engine-compliance-req-nist-de-ae-5-asks = Задавати та документувати пороги сповіщення про інциденти на підставі допусків похибки й невизначеності, потрібних застосунку, з часом сповіщення.
+
+engine-compliance-req-nist-de-ae-5-gap = Прогони оцінюють відносно порогів, які задає користувач, і записують їх. Вибір порогів і процедури сповіщення належить користувачеві.
+
+engine-compliance-req-nist-de-cm-1-reference = DE.CM-1 (безперервний моніторинг безпеки)
+
+engine-compliance-req-nist-de-cm-1-asks = Відстежувати джерела та виходи PNT відносно базових рівнів для виявлення аномалій, використовуючи різнорідні джерела та виявлення й виключення відмов, і перевіряти, що моніторинг охоплює визначені режими відмов.
+
+engine-compliance-req-nist-de-cm-1-gap = Kshana запускає й оцінює такі монітори на журналах і сценаріях. Безперервний моніторинг чинної системи та охоплення кожного режиму відмов продукту набір прогонів не показує.
+
+engine-compliance-req-nist-de-dp-3-reference = DE.DP-3 (процеси виявлення)
+
+engine-compliance-req-nist-de-dp-3-asks = Перевіряти, що виявлення подій працює як задумано, періодично та після оновлень, відносно поточних профілів загроз.
+
+engine-compliance-req-nist-de-dp-3-gap = Повторювані, хешовані сценарії та події, визначені до оцінювання, підтримують докази для такого тесту (supports evidence for); запуск його на обладнанні оператора за графіком належить оператору.
+
+engine-compliance-req-nist-rs-an-5-reference = RS.AN-5 (аналіз)
+
+engine-compliance-req-nist-rs-an-5-asks = Налаштувати верифікацію та валідацію для відомих режимів відмов і щойно виявлених вразливостей, а також записувати номінальні й аномальні дані PNT з інцидентів для покращення подальшого виявлення.
+
+engine-compliance-req-nist-rs-an-5-gap = Оцінений журнал характеризує один інцидент постфактум. Отримання розкритих вразливостей і реагування на них є процесом поза будь-яким прогоном.
+
+engine-compliance-req-nist-rs-mi-2-reference = RS.MI-2 (пом'якшення)
+
+engine-compliance-req-nist-rs-mi-2-asks = Після стримування інциденту пом'якшувати його альтернативними чи додатковими джерелами PNT, щоб робота тривала, і повернути систему в належний робочий стан.
+
+engine-compliance-req-nist-rs-mi-2-gap = Прогони показують, як довго змодельовані резервні джерела тримають похибку в межах; стримування та повернення до роботи є операційними кроками.
+
+engine-compliance-mapping-header-reference = Посилання
+
+engine-compliance-mapping-header-asks = Що вимагається (переказ)
+
+engine-compliance-mapping-header-capabilities = Результати Kshana, що підтримують докази для цього (supports evidence for)
+
+engine-compliance-mapping-header-gap = Прогалина
+
+engine-compliance-mapping-none = немає
+
+engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Прочитано { $accessed }: { $checked }.
