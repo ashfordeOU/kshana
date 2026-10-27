@@ -448,6 +448,8 @@ pub const TOOL_ROWS: &[(&str, &[&str])] = &[
     ),
     // `kshana interference-map route` exposure report.
     ("interference-map", &["VM-c7e45641"]),
+    // `kshana interference-map locate`: the emitter-region estimate, its GeoJSON, summary, table and figure.
+    ("interference-map-locate", &["VM-bc70cb57"]),
     // `kshana receiver-trust evidence` packs (the pack's `config.json`); the jammertest and round-trip packs add rows.
     (
         "evidence-pack",

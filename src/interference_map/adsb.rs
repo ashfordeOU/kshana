@@ -196,19 +196,19 @@ pub struct AdsbReadStats {
 }
 
 /// The code stored for an absent NIC or NACp value in a [`RecordedRow`].
-const NONE_CODE: u8 = 255;
+pub(crate) const NONE_CODE: u8 = 255;
 
 /// One input row as kept by [`AdsbAggregator::record_rows`]. The identifier is the per-run
 /// salted hash used for distinct-counting, never the aircraft address.
 #[derive(Debug, Clone, Copy)]
 pub struct RecordedRow {
-    ts: f64,
-    aid: u64,
-    lat: f64,
-    lon: f64,
-    alt_ft: f64,
-    nic: u8,
-    nacp: u8,
+    pub(crate) ts: f64,
+    pub(crate) aid: u64,
+    pub(crate) lat: f64,
+    pub(crate) lon: f64,
+    pub(crate) alt_ft: f64,
+    pub(crate) nic: u8,
+    pub(crate) nacp: u8,
 }
 
 /// Aggregation state across one input (which may span several UTC days).
