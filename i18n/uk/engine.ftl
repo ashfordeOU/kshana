@@ -11555,3 +11555,68 @@ engine-partner-text-result-ok = результат: формат і метада
 engine-partner-text-result-not-ready = результат: не готово; виправте помилки вище
 
 engine-lunar-ascent-chart-title = Місячний підйом: 1-сигма навігаційного положення 3-D (m)
+
+engine-interference-map-locate-usage = використання: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom також потребує --licence <text> --licence-url <url> --attribution <text>)
+    Записує emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv і -figure.svg: оцінені області випромінювача із заданими рівнями довіри, ніколи не окрему точку
+
+engine-interference-map-locate-wrote = записано { $path }
+
+engine-interference-map-locate-summary =
+    { $n_sessions ->
+        [one] опубліковано { $n_sessions } сесію
+        [few] опубліковано { $n_sessions } сесії
+        [many] опубліковано { $n_sessions } сесій
+       *[other] опубліковано { $n_sessions } сесії
+    }; { $n_withheld ->
+        [one] не оприлюднено { $n_withheld } сесію-кандидата
+        [few] не оприлюднено { $n_withheld } сесії-кандидати
+        [many] не оприлюднено { $n_withheld } сесій-кандидатів
+       *[other] не оприлюднено { $n_withheld } сесії-кандидата
+    } (менше ніж { $min } різних повітряних чи морських суден)
+
+engine-interference-map-locate-note-not-preregistered = примітка: параметр відрізняється від попередньо зареєстрованих, тож це не попередньо зареєстрований метод
+
+engine-interference-map-locate-line-session = сесія { $k }: { $start } до { $end }, різних зачеплених: { $affected }, область { $level }% — { $area } km², центроїд { $lat }, { $lon } (еліпс { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = сесія { $k }: { $start } до { $end }, різних зачеплених: { $affected }, звіти не звужують область (необмежено)
+
+engine-interference-map-locate-fig-title = Оцінена область випромінювача
+
+engine-interference-map-locate-fig-subtitle =
+    Де, за заданих припущень, могло б перебувати джерело погіршених звітів. { $n ->
+        [one] Показано { $n } сесію.
+        [few] Показано { $n } сесії.
+        [many] Показано { $n } сесій.
+       *[other] Показано { $n } сесії.
+    }
+
+engine-interference-map-locate-fig-none = Жодна сесія не досягла мінімуму для публікації, тому область не показано.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = область { $pct }%
+
+engine-interference-map-locate-fig-legend-ellipse = 95% еліпс апостеріорного розподілу
+
+engine-interference-map-locate-fig-note-1 = Область не є положенням жодного повітряного судна, морського судна чи організації і не є висновком про причину.
+
+engine-interference-map-locate-fig-note-2 = Рельєф не моделюється, і кожна сесія припускає одне джерело; рівні довіри залежать від моделі.
+
+engine-e-interference-map-locate-bad-number = { $name } не є числом
+
+engine-e-interference-map-locate-bad-levels = --levels потребує чисел, розділених комами, строго між 0 і 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km має бути між 0.5 і 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min має бути між 1 і 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m потребує двох чисел, min,max, де 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } не є придатним файлом виправлення TDOA (receivers, tdoa_s, sigma_s, start), або виправлення не зійшлося
+
+engine-e-interference-map-locate-source-required = потрібен --source adsb або --source ais
+
+engine-e-interference-map-locate-no-evidence-rows = для виводів locate не перелічено жодного рядка доказів
