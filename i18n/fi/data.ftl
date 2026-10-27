@@ -3133,3 +3133,215 @@ dat-b3b0b32a29d2 = Kshanan ratamalli on validoitu SGP4/SDP4:n kanoonista yhteis�
 dat-11bb1751b520 = L-kaistan spektrimalli ja vesiputous: koko GNSS-L-kaista yhtenä tehospektritiheytenä (PSD), taajuus…
 
 dat-ec2500acdc0f = L-kaistan spektrivesiputous kaistakohtaisella J/S:llä ja tehollisella C/N0:lla käsikirjoitetun häirintälähettimen aikajanalla
+
+dat-8d2986accfa9 = L-kaistan vesiputous häirinnän alla: koko maailmanlaajuinen satelliittinavigointijärjestelmä (GNSS)
+
+dat-d5c09b6aa0d1 = L-kaistan vesiputous häirinnän alla: koko maailmanlaajuisen satelliittinavigointijärjestelmän (GNSS) L-kaista yhtenä tehospektritiheytenä (PSD), taajuus vaakaan, aika alas, kun käsikirjoitettu häirintälähettimien sarja kytkeytyy päälle.
+
+dat-e3ba8107d024 = L1/L5 kaksitaajuinen ionosfäärivapaa yhdistelmä (IS-GPS-705)
+
+dat-cbfd8e94fba2 = L2:n kapeakaistainen kohina
+
+dat-76d168dd4dce = Laboratoriokiertoajo
+
+dat-d2a629269229 = Merkitty kvanttivikaluettelo (kellon taajuushyppy/ajautuma/lukituksen menetys; anturin harha-askel/katkos), havaitsemistunnusluvun ROC AUC bootstrap-luottamusvälillä ja pienin havaittavissa oleva vika kiinteällä väärän hälytyksen nopeudella; kvanttikellolla avustettu monitori havaitsee pienempiä vikoja kuin klassinen, tuotettuna rehellisenä TradeEvidencena.
+
+dat-a32744b4df1d = Merkitty synteettinen häiriökorpus + ilmaisimesta riippumaton ROC/AUC/sekaannus/Pfa-Pmd-testialusta; vuotosuoja, kerrostettu jako, jakaumasiirtymän (jakauman sisäinen vs ulkopuolinen) optimismiraportti. Ajettavissa CLI:stä/sidoksista `impairment-eval`-skenaariolajina (scenarios/impairment-eval.toml)
+
+dat-1a79c093494b = Laboratorion kiertoajon todistepaketti (skenaario, testiolosuhteet, vastaanotinloki, pistemäärä)
+
+dat-0ee9fbd69bbb = lambda::tests (L D Lᵀ rekonstruoi Q:n); tests/lambda_reference.rs (Z-muunnos on unimodulaarinen |det Z|={ "1" } kun Q_z=ZᵀQZ SPD, determinantin säilyttävä ja pienemmällä kokonaisdiagonaalin ulkopuolisella korrelaatiolla; Schnorr–Euchner-ILS täsmää raa'an voiman luetteloinnin kanssa { "300" } satunnaisella kovarianssilla; koko dekorreloi→hae→takaisinmuunna-putki on yhtä kuin suora ILS ja Z⁻ᵀZᵀ kiertää kokonaisluvut; suljetun muodon bootstrap-onnistumisosuus täsmää 200k kokeen Monte Carlo -menetelmään peräkkäisestä ehdollisesta pyöristyksestä tarkkuudella <{ "0.01" }); tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances (kiinteät kokonaisluvut ovat yhtä kuin RTKLIB v2.4.2-p13 lambda() { "300" } satunnaisella kovarianssilla, n { "2" }–{ "10" }, joista { "226" } ei ole ratkaistavissa pyöristämällä; kaksi parasta neliönormia täsmäävät tarkkuudella { "1e-9" } suhteellinen, mitattu { "5.6e-13" })
+
+dat-a5e13882f811 = Lambertin kahden kappaleen siirtoratkaisija
+
+dat-212886eaa568 = lamberthub { "1.0.0" } izzo2015 (J. Martínez Garrido, MIT) — riippumaton kolmannen osapuolen Lambert-ratkaisija. Yhden kierroksen (M={ "0" }) Lambertin ongelmalla on yksikäsitteinen ratkaisu, joten kirjasto-vastaan-kirjasto-täsmäys on aito ulkoinen tarkistus; täsmätty tarkkuudella <{ "1e-4" } m/s (havaittu ~{ "1e-11" }), samanlainen validointi kuin DOP saa vs gnss_lib_py
+
+dat-a47a618a3052 = Laukaisun nousun painovoima-, vastus-, ohjaus- ja vastapainehäviöt
+
+dat-e2640afd165e = launch-window (skenaariolaji)
+
+dat-c55b030d732f = Laukaisuikkuna ja nousugeometria (tehtäväanalyysi)
+
+dat-df84809a79af = Laukaisuikkunan ja nousugeometrian demonstraattori (tehtäväanalyysi, kompromissitutkimuksen taso).
+
+dat-b57d88e1f3ac = Laukaisu-, paluu-, peitto- ja osoitusbudjetit
+
+dat-053038adfb79 = launch::tests (suoraan itään tehty laukaisu saavuttaa i=leveysaste, KSC→ISS = oppikirjan { "45" }°, napa = N/S, i<lat saavuttamaton, { "465" } m/s päiväntasaajan bonus, tasonmuutos { "10" }° ≈ { "1.34" } km/s + { "180" }° = 2v, päivittäisten mahdollisuuksien lukumäärät, skenaario toistettava/MODELLED + dogleg-polku); dominance_demonstrators (tavoitettavissa + toistettava + KSC→ISS { "45" }° + MODELLED-ei-VALIDATED); tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding; tests/launch_geometry_orekit_oracle.rs::true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes
+
+dat-0b9e0b427ff6 = Kerrostetun PNT:n konfliktikestävyys (artikkeli P7).
+
+dat-1445799c033a = Lue lisää
+
+dat-70f6bd56bd8d = Leclere, Marathe ja Reid, Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ { "2025" }, arXiv { "2509.19551" }, taulukko { "1" } (staattinen vastaanotin { "6371" } km:n pallolla, Maan pyöriminen ainoana muuna vaikutuksena): { "37751.7" } / { "33628.5" } / { "31813.4" } / { "4018.4" } Hz L1:llä. Kattaa ympyrämäiset kahden kappaleen radat
+
+dat-6712d7bb7953 = Haara { "1" }: python-sgp4 { "2.24" } (MIT-lisenssi; D. Vallalon referenssi-C++-SGP4, koodi, joka tuotti AIAA 2006-6753 -varmennusvektorit), WGS-72, parannettu tila. Haara { "2" }: pyerfa { "2.0.1.5" } (ERFA, BSD-3-Clause, SOFA-rutiinit): c2t06a TT:llä utctai/taitt-funktioista ja UT1:llä utcut1-funktiosta, ja TEME:lle c2t06a . pnm06a^T . rz(-ee06a). Kynnykset asetettu ennen ajoa (ennalta rekisteröity 72ea9eb0). Ilmoitettu: ensimmäinen ajo epäonnistui haarassa { "2" } hetkellä 2016-12-31T23:{ "59" }:{ "59.5" } yhden pyörimissekunnin verran (UT1 otettiin UTC:n kvasi-Julian-päivämäärästä karkaussekuntipäivänä); moottori korjattiin (jd2::utc_to_ut1) ja toinen ajo täsmää muuttumattomilla kynnyksillä. Napaliikkeen pudottaminen ({ "46" } epäonnistumista) tai WGS-84-vakioiden käyttö WGS-72:n sijaan ({ "4432" } epäonnistumista) punaistaa testin. Tämä kolmihaarainen suunnitelma korvasi päästä päähän -Orekit-vertailun, joka epäonnistui Orekitin SDP4:ssä, kun e = { "0" }, ja sen IERS { "1996" } TEME:ssä (löydös pysyy lukittuna tiedostossa tests/leo_polar_coverage_full_claim_orekit_oracle.rs)
+
+dat-f8a01ddf6363 = Oikeudelliset huomautukset (omistajan juridinen tarkastus kesken)
+
+dat-d977634a13cf = LEO-lähetetyn efemeridin sovitin ja signaali-avaruudessa -etäisyysvirhe suhteessa sovitusväliin ja päivitysjaksoon
+
+dat-eddcdf79a261 = LEO-peitto ja tarkkuuden heikkenemiskerroin napa- ja arktisille käyttäjille MEO-GNSS:ää vasten
+
+dat-4c857aecc818 = LEO-tehtävät ja -tutkimukset
+
+dat-5e84e0ede1d9 = LEO-navigointiviesti
+
+dat-5e1d3c478d19 = LEO-navigointiviesti — { "550" } km, { "97.6" } astetta, painovoima-aste { "20" }, malli kepler-rac
+
+dat-6e7cec61f5b0 = LEO-navigointiviesti: viestipäivitys ylilennon keskellä ja se, onko käyttäjä
+
+dat-d9368c8759e0 = LEO-navigointiviesti: neljä efemeridimallia yhdellä radalla ja Liu et al. { "2025" }
+
+dat-0e5a7ce6ff86 = LEO-navigointiviesti: Kshanan binäärikoodaus, sen kvantisointibudjetti ja
+
+dat-154ffd6aa935 = LEO-navigointiviesti: signaali-avaruudessa -etäisyysvirhe (SISRE) suhteessa sovitusväliin.
+
+dat-0236c81cf599 = LEO-navigointiviesti: matalan Maan kiertoradan (LEO) paikannuksen, navigoinnin ja ajanmäärityksen lähetetty efemeridi ja kello…
+
+dat-79ef88803f0a = LEO-ylilento ja linkkibudjetti (leo-pass)
+
+dat-d6717d382ee3 = LEO-ylilento ja linkkibudjetti kaista kaistalta LEO-PNT:lle (paikannus, navigointi ja ajanmääritys matalalta Maan kiertoradalta…
+
+dat-e5f83d92ddc4 = LEO-ylilennon linkkibudjetti, maakäyttäjä paikassa { "48.14" }, { "11.57" }; { "1" } LEO-satelliittia, { "900" } s:n ikkuna
+
+dat-ca559e9d03e6 = LEO PVT (doppler) paikassa { "48.14" }, { "11.58" } { "600" } s:n yli
+
+dat-44a5313bed5f = LEO PVT (joint) paikassa { "40.42" }, -3.70 { "1800" } s:n yli
+
+dat-809fd3d3d69d = LEO PVT (timing) paikassa { "39.99" }, -105.26 { "21600" } s:n yli
+
+dat-359bbd5ab82f = leo_fusion::ntn::tests (the_numerical_rms_bandwidth_matches_the_closed_forms; the_range_bound_scales_as_one_over_bandwidth_and_root_cn0: { "0.4157" } m käsin laskettuna tasolla { "5" } MHz, { "45" } dB-Hz, { "0.1" } s; the_frequency_bound_is_the_complex_tone_crlb; defaults_run_wider_is_better_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ntn_wide_channel_bounds_far_tighter_than_the_narrow_one); tests/ntn_crlb_published_value_oracle.rs (ssb_bounds_reproduce_the_published_values; ntn_fix_covariances_match_numpy; bpsk_rms_bandwidth_reproduces_betz_table_1)
+
+dat-28ea4e14eab0 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } siemenluku, ajojen keskiarvoistettu NEES-keskiarvo välillä [{ "2.4" }, { "3.6" }] ja vähintään { "75" } % epookeista kaksipuolisen { "95" } %:n khii-neliökaistan sisällä; mitattu { "150" } siemenluvulla, keskiarvo { "2.84" } pelkällä GNSS:llä ja { "2.87" } LEO:n kanssa; leo_augmentation_shortens_convergence; same_seed_same_answer_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+dat-2fb048cfc2bd = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url; only_one_preset_uses_workshop_material; noise_density_at_290_k_is_minus_204_dbw_per_hz); tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios: lähdetekstiskannaukset hakemistoista src, scenarios ja tests); leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out; a_system_needs_no_preset; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+dat-c48af19e208d = leo_link::energy ja `leo-pass`-lajin [iot]-osio: Dopplerin muutosnopeuden rajoittama koherentti integrointi, neliölakiset epäkoherentit summat havaitsemiskynnykseen, Doppler-lokerohaku radan staattisen käyttäjän verhokäyrän yli (kylmä) tai avustetun ikkunan yli (kuuma), rinnakkainen tai sarjahaku koodille, navigointiviestin aika kylmäkäynnistyksessä, energia per paikannus ja akunkesto paikannusvälien yli, kullekin LEO-kaistalle ja GNSS-signaalille
+
+dat-775a260dc9dc = leo_link::geometry::max_static_user_range_rate: haku jokaisen radan sijainnin ja jokaisen satelliitin horisontissa olevan käyttäjän yli ympyräradalla Maan pyöriessä suurimmalle etäisyysnopeudelle, sekä kiertoradan ja suurimman maakiinteän satelliittinopeuden; `leo-pass`-laji raportoi kaistakohtaisesti Doppler-verhokäyränä ja sen matalaenergiamallin kylmäkäynnistyksen hakuikkunana käyttämänä
+
+dat-dff519e6b042 = leo_link::presets: yleinen monikaista (UHF, L, S, C), yleinen C-kaista, Xona Pulsar X1/X5, Iridium STL, Starlink pelkkänä Doppler-hyödyntämissignaalina, CentiSpace ja valinnainen Celeste IOD -esiasetus, kunkin lähde merkitty PUBLIC (URL:llä), REPRESENTATIVE tai WORKSHOP, työpajan lähde valinnaisessa Celeste IOD -esiasetustiedostossa, käännettynä mukaan vain kun tiedosto on olemassa; jokainen kaista ja rata ylikirjoitettavissa skenaariossa, ja skenaario voi olla nimeämättä mitään esiasetusta lainkaan
+
+dat-eed86179c6c3 = leo_navmsg::codec: Kshanan oma kehys (johdanto, versio, malli, pituus, hyötykuorma, CRC-24Q) neljälle efemeridimallille, kellopolynomille, SVID:lle, datan julkaisulle, kaistalle, terveydelle, Klobuchar-joukolle, NeQuick-G-kertoimille ja UTC-parametreille, jokainen kenttä ilmoitetulla leveydellä ja askeleella (field_table), kvantisointi alueen hylkäyksellä sekä budjetti suurimmasta sijainti- ja kellomuutoksesta, jonka kunkin kentän puoliaskelmuutos aiheuttaa voimassaoloikkunan yli
+
+dat-a0a243f31eb7 = leo_navmsg::codec::crc24q: generaattoripolynomi 0x1864CFB, alkuarvo { "0" }, ei heijastusta, ei lopullista XOR:ia, tarkistus, jonka Kshanan LEO-kehys kantaa jokaisen edeltävän tavun yli
+
+dat-42cd133bcd0e = leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 ASCII-merkkijonolle { "123456789" }; crc24q_matches_the_rtcm_1005_example_frame — RTCM { "10403" } -viestityypin { "1005" } esimerkkikehyksen kolme tarkistustavua 0x360B98, ja nolla koko kehyksen yli)
+
+dat-5656921517c5 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer; week8_resolves_near_the_reference); leo_navmsg::tests::every_model_round_trips_through_the_binary_frame (jokainen malli { "2" } mm:n sisällä tarkasta viestistä dekoodauksen jälkeen, uudelleenkoodaus bitti bitiltä identtinen, käännetty bitti hylätty CRC:llä); leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+dat-41bc4d49a080 = leo_navmsg::elements::kepler_point: Galileo OS SIS ICD:n Kepler-arviointi (Keplerin yhtälö, toisen harmonisen korjaukset, maakiinteä solmu) kirjoitettuna erikseen moottorin RINEX-arvioijasta, palauttaen sijainnin sekä leveysargumentin, inklinaation ja solmun, joista pitkin/poikki/radiaali-korjauskehys rakennetaan, ja Liu et al.:n { "2025" } laajennustermit
+
+dat-03e4b5d56289 = leo_navmsg::services: Klobucharin lähetetty viive millä tahansa kantoaallolla (moottorin L1-malli skaalattuna (f_L1/f)^{ "2" }), NeQuick-G:n tehollinen ionisaatiotaso Az = ai0 + ai1 mu + ai2 mu^{ "2" } nollasäännöllä ja [{ "0" }, { "400" }] sfu -säännöillä, sekä järjestelmäaika UTC:hen ICD:n kolmella karkaussekuntitapauksella
+
+dat-bac78dac563b = leo_navmsg::services::tests (klobuchar_scales_with_inverse_frequency_squared — L1-arvo on RTKLIB:n { "6.1278" } m; nequick_az_rules; utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day; utc_drift_terms_follow_the_icd_formula; an_inserted_leap_second_reads_86400_at_the_end_of_the_day); tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa (Klobuchar L1:llä, L2:lla ja L5:llä { "4 320" } tapauksen yli, pahin { "7.0e-13" } m; Az { "222" } kerroinjoukon yli mukaan lukien nollasääntö ja { "400" } sfu -säännöt, pahin { "5.7e-14" } sfu; UTC-ajautuma { "50" } tapauksen yli, pahin { "3.6e-15" } s; kolme karkaussekuntitapausta { "21 602" } hetken yli todellisten { "2015" } ja { "2016" } karkaussekuntien poikki, { "0" } s)
+
+dat-8dfeecb0b6f2 = leo_navmsg::sisre::sisre_weights: radiaalipaino w_R ja poikittaispaino w_AC^{ "2" } neliöpainona, keskiarvoina cos^{ "2" }:sta ja puoli sin^{ "2" }:sta näkölinjan nadirikulmasta käyttäjille, jotka ovat tasaisesti jakautuneet korkeuskulmamaskin yläpuolella olevalle näkyvälle Maan kalotille, mille tahansa ratasäteelle, Simpsonin integroinnilla; kaikkien leo-navmsg-SISRE-lukujen käyttämä (tasolla { "510" } km, w_R { "0.46" } ja w_AC^{ "2" } 1/2.5)
+
+dat-736676ef0437 = leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } ja 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } ja 1/61.1, BeiDou MEO 1/54.2, geostationaarinen { "0.992" } ja 1/126.2 { "0" } asteen maskilla, kukin { "0.005" }:n sisällä w_R:stä ja { "0.5" }:n sisällä 1/w_AC^{ "2" }:sta; leo_weights_shift_toward_the_transverse_axes — horisontin nadirikulma { "67.8" } astetta tasolla { "510" } km)
+
+dat-62de45325cfe = leo_navmsg::tests::a_mid_pass_update_is_continuous (jokaisen vaihdon etäisyyshyppy on yhtä suuri kuin etäisyysvirheen muutos, ja korjattu { "300" } s:n sovitus, jota päivitetään { "150" } s:n välein, läpäisee { "5" } cm:n kynnyksen); leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged; leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight (suljettu muoto rajaa kartion tiheän näytteistyksen)
+
+dat-906fde8e674c = leo_navmsg::text: RINEX-4-tyylinen lohko (> EPH-tietueen otsikko, satelliitti- ja epookkirivi kolmella kellotermillä, D19.12-lähetetyn radan rivit) järjestelmäkirjaimella L ja tietuetyypeillä KP16, KRAC, LU22 ja APOL, merkittynä jokaisessa otsikossa Kshana-laajennukseksi, joka ei kuulu RINEX { "4.02" }:een, sekä CSV-taulukko oletussarakeskeemalla ja esiasetusskeemoilla, kullekin tuoja
+
+dat-ff83f603c40a = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (jokainen malli { "0.1" } mm:n sisällä tekstilohkon jälkeen, CSV tarkka)
+
+dat-0f37818c7bb0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: vahvempi EIRP, pidempi sovitusväli ja suurempi radanmääritystermi siirtävät kukin eteenpäin annetun arvon ja fuusioidun paikannuksen; the_handed_on_values_are_the_stage_outputs; a_band_design_splits_the_eirp_and_reports_the_design_jitter; the_pass_export_reproduces_the_engine_range)
+
+dat-5dd9c7750761 = leo_signal::max_doppler_hz: suurin satelliitin Doppler yläpuolisella ylilennolla korkeuskulmamaskilla ympyräradalle, v R_E cos(el) / (R_E + h) kertaa f / c, kunkin esiasetuksen omasta kantoaallosta ja ratakorkeudesta; `leo-signal`-laji lisää oskillaattori- ja käyttäjätermit ja muuttaa sen Doppler-lokeroiksi
+
+dat-2b3961126d2c = leo_signal::tests (every_public_preset_parses_and_cites_a_url; detector_reduces_to_pfa_and_grows_with_snr; detection_probability_with_several_looks_matches_the_noncentral_chi_square; mean_time_of_a_perfect_detector_is_half_the_cells; compatibility_ssc_magnitudes_match_independent_quadrature; to_spectrum_band_is_consistent_with_the_design; jammer_tolerance_orders_cw_matched_wideband; e5_centred_signal_hits_e5a_and_e5b_equally; defaults_run_on_the_generic_band_preset; inline_signal_and_bad_inputs); tests/leo_signal_reference.rs (jokainen mukana toimitettu järjestelmäagnostinen skenaario ajetaan ilman työpajadataa, kaistakompromissin ionosfäärisuhteet ovat yhtä kuin (f_ref/f)^{ "2" } ja sen vapaan tilan erot { "20" } log10(f/f_ref), värinä vertailu-C/N0:lla on sen Gabor-rajan ja rajoittamattoman kaistan muodon välissä, työpajaparametriskenaarion E5-muototarkistukset ovat johdonmukaisia, kun tuo tiedosto on olemassa, eikä mikään lähdetiedosto käännä tuota tiedostoa mukaan)
+
+dat-6af7285f6f2e = leo_signal::tests::max_doppler_matches_published_xona_and_iridium_figures — Xona Pulsar X1 ({ "1593.3225" } MHz, { "1080" } km) { "33.2" } kHz julkaistun { "32" }–{ "34" } kHz:n sisällä; Iridium ({ "1621" } MHz, { "780" } km) { "0.5" } kHz:n sisällä julkaistusta { "36" } kHz:stä
+
+dat-e033f9262fd0 = LEO-avusteinen ajansiirto UTC:hen suhteessa C/N0:aan ja vastaanottimen oskillaattoriin
+
+dat-96378ecc465b = leo-navmsg (skenaariolaji)
+
+dat-97537bd045c0 = leo-pass (skenaariolaji)
+
+dat-af1eb4f8b776 = LEO-PNT-kaistakompromissi, UHF:stä leveään C-kaistaan: mitä matalan Maan kiertoradan (LEO) paikannus-,
+
+dat-65a98dd91600 = LEO-PNT-kaistakompromissi, UHF:stä leveään C-kaistaan: mitä matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritys (PNT) -signaali voittaa ja häviää kullakin kaistalla, riippumatta mistään tietystä järjestelmästä.
+
+dat-fac7345aa741 = LEO-PNT-kampanjat
+
+dat-bf7043f2e175 = LEO-PNT päästä päähän yleisellä tähdistöllä: signaalisuunnittelu -> ylilennon linkkibudjetti ->
+
+dat-830d144a441c = LEO-PNT päästä päähän yleisellä tähdistöllä: signaalisuunnittelu -> ylilennon linkkibudjetti -> navigointiviesti -> fuusioitu MEO + LEO -paikannus ja tarkkapistepaikannuksen (PPP) suppeneminen.
+
+dat-f77a6dd9a64d = LEO-PNT päästä päähän, yleinen { "1080" } km:n tähdistö
+
+dat-65015a720e6f = LEO-PNT-painopistealue: 5G/6G-maanpäällisen ulkopuolisen verkon (NTN) yhteensopivuus.
+
+dat-26a4d3c25329 = LEO-PNT-painopistealue: lisäksi PNT-datapalveluita navigointiviestissä.
+
+dat-eb0ad5f96922 = LEO-PNT-painopistealue: tarkka paikannus (tarkkapistepaikannus, PPP).
+
+dat-27c77351ab17 = LEO-PNT-painopistealue: sisätilanavigointi UHF:llä.
+
+dat-9893cd919599 = LEO-PNT-painopistealue: LEO-PNT-tiede, ionosfäärin luotaus kaksikaistaviiveestä.
+
+dat-5935f4e01847 = LEO-PNT-painopistealue: vähäenergiainen paikannus esineiden internetille (IoT) ja mobiilille.
+
+dat-9daa1f42bf38 = LEO-PNT-painopistealue: MEO + LEO fuusioitu PNT.
+
+dat-3d4073bef44a = LEO-PNT Kshanassa
+
+dat-d76c463eef28 = LEO-PNT on paikannus, navigointi ja ajanmääritys (PNT) matalan Maan kiertoradan (LEO) satelliiteista, rinnalla tai…
+
+dat-aa8e95efb332 = LEO-PNT on paikannus, navigointi ja ajanmääritys (PNT) matalan Maan kiertoradan (LEO) satelliiteista.
+
+dat-f511574300f5 = LEO-PNT:n kestävyys harhautusta vastaan: Dopplerin ja ylilentogeometrian johdonmukaisuus.
+
+dat-40cd7d788f7b = LEO-PNT:n kestävyys harhautusta vastaan: mikä monitori näkee minkä harhauttimen.
+
+dat-b844d192ebc3 = LEO-PNT:n kestävyys kaistamonimuotoisuudella: yksi häirintälähetin, nelikaistainen vastaanotin.
+
+dat-87de513d418b = LEO-PNT:n kestävyys vastaanotetusta tehosta: häirintä–signaali (J/S) -marginaali.
+
+dat-fef497edc3fe = LEO-PNT-kestävyystehtävä: GNSS häiritty, LEO-PNT kantaa käyttäjää, eheys säilytetty.
+
+dat-6ca3401a408c = LEO-PNT-signaalisuunnitelmat ja monikaistainen spektri
+
+dat-dce5c1ca8c13 = LEO-PNT-signaalisuunnitelmat: parametrisoidut matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritys (PNT) -signaalit…
+
+dat-d40e7ca25372 = LEO-PNT-signaalitermit
+
+dat-fa330dfa3d6f = LEO-PNT-sovellusala: omaisuuden seuranta ja esineiden internet (IoT), energia per paikannus.
+
+dat-92cf8c9d4beb = LEO-PNT-sovellusala: autonomiset ajoneuvot, kaupunkikuilu LEO-kerroksella.
+
+dat-c6ecb593b85e = LEO-PNT-sovellusala: kriittisen infrastruktuurin ajoitus, holdover LEO-ajalla.
+
+dat-8e9444205c16 = LEO-PNT-sovellusala: napa- ja arktiset käyttäjät.
+
+dat-8dea94ab1648 = LEO-PNT-sovellusala: rautatie ja merenkulku, mukana toimitetut merenkulku- ja rautatieskenaariot plus LEO.
+
+dat-d9aa986c1126 = LEO-PNT-sovellusala: autonomisen ajoneuvon kaupunkikuilu, tasaisena katkaisurajana ja katuna.
+
+dat-7a12939929e6 = LEO-PNT-sovellusala: langattomat verkot, 5G/6G-tukiaseman ajoitus.
+
+dat-cf8cb3a6466e = leo-pnt-chain (skenaariolaji)
+
+dat-969562e04b91 = leo-ppp (skenaariolaji)
+
+dat-c087126c6d3b = leo-pvt (skenaariolaji)
+
+dat-613dc8286d33 = leo-signal (skenaariolaji)
+
+dat-3d2c62c5f121 = Kirjastofunktiot
+
+dat-3ac3fcb9758a = Kirjaston käyttö
+
+dat-e01ee49b355c = Kirjasto: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae, S-kaistan käännös, ajettu erillisenä ohjelmana); Kshanan näytteitä ohjaa vain simulaattorin tallennettu kanavatila, ja vain tulostava jäljityskäännös tarkistetaan tavu tavulta identtiseksi paikkaamattoman kanssa. Kynnykset asetettu ennen ajoa: nolla chip- ja symbolierotusta, |rho| >= { "0.999" } ajon yli ja >= { "0.99" } { "2" } ms:n lohkoa kohti, vaihe { "0.05" } radiaanin sisällä. Yhtäläiset I- ja Q-amplitudit ovat vertailun syöte, joten tehojakoa ei testata sillä. LANS-AFS-SIM lukee tertiäärikoodinsa LSIS-liitteen { "3" } tiedostosta, joten tuo osa ei ole riippumaton koodirivistä. LANS-AFS-SIM ja PocketSDR-AFS jakavat tekijän ja lasketaan yhdeksi riippumattomaksi toteutukseksi. Dataportitettu: LANS-AFS-SIM-vertailu tarvitsee paikallisen LSIS V1.0 -välimuistin (xval/lunar-afs/fetch_lsis.sh, SHA-256 varmennettu) ja ohittaa ilmoituksella ilman sitä
+
+dat-0d377b4ab75f = Kirjasto: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae), jonka oma BCH, CRC, LDPC ja lomittaja tuottavat kehykset symbolit identtisinä Kshanan kanssa samalle sisällölle (nolla eroavuutta, kynnys asetettu ennen ajoa). Vahvistettu viitearvoilla: LSIS V1.0:n kuvan { "8" } BCH-työstetty esimerkki ja CRC-24/LTE-A-tarkistusarvo (Greg Cookin parametrisoitujen CRC-algoritmien luettelo), molemmat bittitarkat; sekä PocketSDR-AFS:llä, joka dekoodasi jokaisen alikehyksen kehyksistä, jotka se synkronoi kolmessa ajossa, CRC läpäisten ja alikehyksen 2 bittien täsmätessä. Pariteettitarkistustesti on lähellä sisäistä identiteettiä (se vahvistaa, että painettu B^-1 kääntää painetun B:n) eikä sitä lasketa oraakkeliksi. Dataportitettu: LANS-AFS-SIM-vertailu tarvitsee paikallisen LSIS V1.0 -välimuistin (xval/lunar-afs/fetch_lsis.sh, SHA-256 varmennettu) ja ohittaa ilmoituksella ilman sitä
+
+dat-29a4033f3b1c = Kirjasto: PocketSDR-AFS (T. Ebinuma T. Takasun PocketSDR { "0.13" }:n pohjalta, BSD-2-Clause, commit 5b23809f30d68518b7fad7a564fd0fac57cc497d, S-kaistan käännös, vain tulostava lokitason kopio), ennen kutakin ajoa asetetuin kriteerein. Kolmas ennalta rekisteröity vertailu täyttää dekoodaus- ja seurantakynnyksensä C1 ja C2 kokonaan mutta ei suojaansa G0 sellaisena kuin se on kirjoitettu (kaksi muokkaamattoman vastaanottimen ajoa eroavat samoissa neljässä hankintatietueessa), ja toinen ohitti { "5" } rikkomuksella, joten rivi pysyy MODELLED. LANS-AFS-SIM ja PocketSDR-AFS jakavat tekijän ja lasketaan yhdeksi riippumattomaksi toteutukseksi; kehyskoodausrivin painetut vektoritarkistukset suojaavat yhteiseltä väärinluvulta
+
+dat-fde7ce482e65 = Valoaika aurinkokunnan kappaleiden välillä
+
+dat-0a8f41750e4f = Vertailukelpoinen optisen ja RF-etäisyysmittauksen vertailu
+
+dat-5110c76d9dec = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: tarkkuuteen { "1" } mm ja ajautuma tarkkuuteen { "1e-6" } m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: painotettu residuaalin RMS välillä [{ "0.8" }, { "1.2" }] ja virhe neljän formaalin sigman alla); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (ennalta rekisteröity korvike julkaistuja aineiston 3 prosenttipisteitä vasten, ”Unveiling Starlink for PNT”, doi:10.33012/navi.685: { "3" } satelliitilla ({ "47" } asteen maski), ilman korkeusapua ja { "30" } Hz:llä p90 3D-virhe on { "92.2" } m hetkellä { "20" } s ja { "870" } m hetkellä { "8" } s julkaistuja { "2" } m ja { "10" } m vasten, joten molemmat kaksinkertaisuuskynnykset ovat NOT MET, yläpuolella, ja väitetään ohi menneiksi; docs/design/evidence/cap11-starlink-doppler-proxy/)
