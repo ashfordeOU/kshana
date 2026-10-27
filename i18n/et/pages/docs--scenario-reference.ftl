@@ -575,3 +575,584 @@ seg-9a2bb9809aed = Kahesuunaline satelliitaja ja sageduse edastus kahe jaama vah
 
 # text
 seg-ccb244e60d60 = Optiline vs RF kahesuunaline aja/sageduse edastus.
+
+# text
+seg-1e4d5b2f4810 = Iga kaasasolev stsenaariumifail ({ "182" }), rühmitatud liigi järgi. Kirjeldus on faili enda päisekommentaar; põhiparameetrid on selle ülemise taseme seaded. Olek loeb liigi mooduli kontrollimaatriksist. <b>Ava Kshana Studios</b> avab salvestatud jooksu.
+
+# text
+seg-e701392324d0 = liik acm-link
+
+# text
+seg-c4d65df7ab98 = ei ole nime järgi registri (ledger) mooduliga seotud
+
+# text
+seg-7b09a77bfada = DVB-S2 adaptiivne kodeerimine ja modulatsioon (ACM) ühe satelliidi läbilendudel ühe jaama kohal. Läbilennu ajal muutuvad kaldkaugus ja kõrgus, seega muutub allalingi Es/N0. Jooks valib igal sammul kõige efektiivsema MODCOD-i, mille ETSI EN { "302" } 307-1 tabeli { "13" } lävi pluss teostusvaru side ületab. See teatab iga läbilennu Es/N0 vahemiku ja ACM-i liigutatud andmemahu, võrreldes püsikodeerimise lähtetasemega, mis sulgub maskikõrgusel ja pikima kauguse juures.
+
+# text
+seg-c36379e65043 = <a1>Ava Kshana Studios</a1> · <a2>Vaata GitHubis</a2>
+
+# text
+seg-b6ddd25a35c3 = liik aocs
+
+# text
+seg-944f5a95638f = liik aperture-duty-cycle
+
+# text
+seg-2c27404856f6 = liik araim-reference-check
+
+# text
+seg-6fc2c7863922 = liik ascent-losses
+
+# text
+seg-6ad78e934bec = ILLUSTRATIVE kaheastmelise petrooleumi/hapniku kanderaketi (mitte reaalne sõiduk) gravitatsioonipöörde tõusukaod: vertikaalne tõus { "1" } km-ni, { "3" } kraadi tõusunurga löök { "10" } s jooksul, seejärel tõukejõud piki kiirust. Jooks integreerib gravitatsiooni, takistuse, juhtimise ja vastusurve kaod ning kontrollib, et ideaalne dv miinus kaod võrdub põlemise lõppkiirusega. MODELLED: tasapinnaline, mittepöörlev Maa, konstantne C_D, ilma libisemiseta, ilma juhtimiseta peale tõusunurga löögi.
+
+# text
+seg-602ac3a69ef9 = liik attitude-budget
+
+# text
+seg-01ed69f79080 = liigil on valideeritud registri (ledger) ridu · { "1" } reast { "1" } valideeritud
+
+# text
+seg-be0ff8b9fe3b = liik body-pnt
+
+# text
+seg-eb1f3742071d = liik campaign
+
+# text
+seg-a40718a9a53e = Aheldatud missioon: nominaalne, segamine, spuufimine, GNSS-i kadu koos kella holdover-i ja inertsiaalse libisemisega, terviklikkuse häire ja taastumine ühel ühisel ajajoonel.
+
+# text
+# c1: link-budget
+# c2: trace
+seg-e745211204ab = Optimeerimine kampaania kaudu: lingieelarve näite X-riba link ({ "55" } dBW EIRP, { "53" } dB/K G/T, { "3" } dB muid kadusid, { "4.5" } dB nõutav Eb/N0), otsitud ulatuse ja andmekiiruse üle tööpunkti jaoks, mis jätab täpselt { "3" } dB varu. Iga hindamine on tavaline <c1/> jooks. Nelder-Meadi simpleks töötab logaritmiliselt normaliseeritud koordinaatides esitatud piirides ja iga hindamine on loetletud tulemuse väljal <c2/>.
+
+# text
+seg-decc6966e201 = Valdkondadeülene kompositsioon: üks segaja, kaks platvormi. Laev Soome lahes ({ "59.80" } N, { "24.90" } E, mere-väina-segamise näite vastuvõtja) ja auto Helsingi rannateel ({ "60.17" } N, { "24.94" } E) asuvad sama laiaribalise segaja all, mis on paigutatud kohta { "59.80" } N, { "25.44" } E, { "30" } m kõrgusele (umbes { "30" } km laevast ja { "50" } km autost).
+
+# text
+seg-f2588213d3d3 = Aheldatud missioon, mida juhib L-riba spekter: sirina-segaja võtab GPS L1 C/A ja Galileo E1, kell hoiab holdover-is ja L1 kandjale jäetud pidevlaine (CW) toon hoiab C/A all, kuni E1 taastub, nii et vastuvõtja langeb tagasi Galileole ja selle terviklikkuse monitor töötab ainult Galileo taeva peal.
+
+# text
+# c1: jamming
+seg-031c509abbfa = Parameetri pühkimine kampaania kaudu: segamise näite vastuvõtja ({ "52" } N, { "4" } E, GPS-i taoline 24-satelliidiline Walkeri kest) laiaribalise segaja all { "1" } km kaugusel, segaja saatevõimsust pühitakse väärtusest -50 dBW ({ "10" } nW) väärtuseni +{ "10" } dBW ({ "10" } W) { "5" } dB sammuga. Iga sõlm on tavaline <c1/> jooks; kampaania salvestab sõlme kohta nende epohhide osakaalu, kus vähemalt neli satelliiti on endiselt jälgitavad, keskmise segaja-signaali suhte (J/S) ja vähima jälgitavate satelliitide arvu.
+
+# text
+seg-ef32cd18fab5 = liik cislunar-arc-recovery
+
+# text
+seg-e9866967471c = liik cislunar-observability
+
+# text
+seg-9c3bc8bbd361 = liik clock
+
+# text
+seg-ddd9856d154a = Kshana etalonstsenaarium: { "2" } h jooks, { "10" } min GNSS-sünkroon, seejärel ~{ "1.8" } h keelatud. Kella valge-FM müra kalibreeritud avaldatud sigma_y({ "1" } s) järgi: q_wf = sigma_y(1s)^{ "2" }. Valideeritud simuleeritud Alani hälbe vastu failis tests/calibration.rs (~{ "2" }%).
+
+# text
+seg-460f63835b3f = Variant: laborikvaliteediga strontsiumi optiline kell vs CSAC. Labori Sr kellad jõuavad väärtuseni sigma_y({ "1" } s) = { "4.8e-17" } (Oelker jt { "2019" }, Nature Photonics).
+
+# text
+seg-092f76e5d820 = liik combined-altpnt
+
+# text
+seg-3455b653ea6f = liik conflict-resilience
+
+# text
+seg-c6b21e897ce0 = Konstellatsiooni kavandamine suures mahus: Walkeri DELTA ja Walkeri STAR mustrid konventsioonis i: T/P/F (sõlmed hajutatud { "360" } või { "180" } kraadi peale, tasandisisene vahe { "360" }*P/T, tasandite vaheline faasinihe { "360" }*F/T), selgesõnalised elementide loendid ja mitme kesta kavandid, mitu konstellatsiooni ühes jooksus, ümber Maa, Kuu, Marsi või mis tahes muu planeedi, Pluuto või suure kuu, kasutades mooduli body konstante (samu, mida kasutavad liigid solar-system ja body-pnt). EELSEADED avaldatud nominaalsetest elementidest: gps-baseline ja gps-expandable ({ "24" } pesa ja kuus ees/taga laiendatavat paari dokumendist GPS Standard Positioning Service Performance Standard, 5. väljaanne { "2020" }, tabelid 3.2-1 kuni 3.2-3), galileo (Walker 24/3/1 kõrgusel { "29 599.801" } km ja { "56" } kraadi, Galileo Open Service Service Definition Document väljaanne { "1.1" } tabelid { "1" } ja { "23" }), beidou ja beidou-meo (Walker 24/3/1 kõrgusel { "21 528" } km ja { "55" } kraadi pluss kolm geostatsionaarset satelliiti pikkustel { "80" }, { "110.5" } ja { "140" } kraadi E ning kolm kaldus geosünkroonset satelliiti { "55" } kraadi juures, BeiDou Open Service Performance Standard { "3.0" } jaotis { "4.1" }; MEO faas ja { "118" } kraadi E kaldus-geosünkroonse ristumine on modelleeritud, sest standard neid ei esita) ja glonass (24/3/1 kõrgusel { "19 100" } km ja { "64.8" } kraadi GLONASS Interface Control Document väljaande { "5.1" } jaotise { "5.2" } pesavalemist). KATE JA TÄPSUSE HALVENEMISE TEGUR: üle laius-/pikkusruudustiku ja diskreetitud akna kõrgusmaskiga nähtavate satelliitide arv, GDOP, PDOP, HDOP ja VDOP lahtri kohta, kättesaadavus (lahendus, mille PDOP on läve või alla selle, vaikimisi { "6" }) lahtri kohta, globaalselt (pindalaga kaalutud) ja halvimas kohas, ühe vastuvõtja kellaga konstellatsiooni kohta, kui clock = "common". See skaleerub tuhandete satelliitideni: nähtavus on skalaarkorrutis iga satelliidi kattepoolnurgaga ja satelliidid jaotatakse epohhi kaupa satelliidialuse laiuse ribadesse, nii et ruudustiku rida testib ainult neid, mis võivad olla nähtavad; aruanne loendab säästetud paaritestid. JSON kannab ruudustikukaarte ja hõrendatud satelliidipõhiseid maapealseid jälgi. VALIDATED: Walkeri generaator Galileo OS SDD tabeli { "23" } ja GLONASS ICD pesavalemi vastu, GPS-i eelseade SPS PS tabeli 3.2-1 avaldatud ekvaatoriületuse veeru vastu ja GPS-i lähtetaseme globaalne HDOP jaotus SPS PS lisa B vastu (mediaan { "0.94" }, { "95" }% { "1.25" }, keskmine { "0.96" }, tolerants { "0.03" }). MODELLED: kahe keha orbiidid valikulise sekulaarse J2-ga, sfääriline keha, ainult geomeetriline nähtavus (ei signaali võimsust, tervist ega maastikku) ja eri süsteemide suhteline faas, mis ei ole ühegi reaalse kuupäeva hetktõmmis.
+
+# text
+seg-fa78684a644d = liik constellation-design
+
+# text
+seg-22e4cbe23fb2 = Mitmekonstellatsiooniline kate: kõik neli globaalset satelliitnavigatsioonisüsteemi (GNSS) koos, nähtavate satelliitide kaardina, täpsuse halvenemise tegurina (DOP) ja kättesaadavusena üle kogu Maa ühe päeva jooksul.
+
+# text
+seg-cd74615ba3dd = Madala Maa orbiidi positsioneerimise, navigatsiooni ja aja (PNT) megakonstellatsioon: { "5 000" } satelliiti neljas Walkeri kestas, hinnatud katte ja täpsuse halvenemise teguri (DOP) kaardina.
+
+# text
+seg-59bb18c802a3 = Kuu releesi- ja navigatsioonikonstellatsioon: satelliidid elliptilistel Kuu külmunud orbiitidel (ELFO) pluss ringikujuline madala Kuu orbiidi kest, hinnatud katte ja täpsuse halvenemise teguri (DOP) kaardina üle kogu Kuu ühe päeva jooksul.
+
+# text
+seg-64e634b04436 = liik contact-schedule
+
+# text
+seg-b6736838f1d6 = Maapealse kontakti planeerimine: kolm illustratiivset satelliiti kolme illustratiivse jaama kohal { "12" } tunni jooksul. Jooks annab igale satelliidi-jaama läbilennule selle juurdepääsuakna ja andmemahu, mida DVB-S2 adaptiivne kodeerimine ja modulatsioon (ACM) selles liigutada saab (ETSI EN { "302" } 307-1 tabeli { "13" } läved pluss teostusvaru). Seejärel ehitab see konfliktivaba kontaktiplaani, kus iga antenn teenindab korraga ühte satelliiti, kontaktide vahel on ümberlülitus, ning iga satelliit saadab alla ühele jaamale korraga. Kohaletoimetamist kaalutakse prioriteediga ja piiratakse iga satelliidi tagavaraga. Kolm plaani esitatakse kõrvuti: piirväärtusega ahne, esimesena-saabunu lähtetase ja, kui kandidaatide hulk on väike, täpne optimum koos ahne plaani optimaalsuse lõhega.
+
+# text
+seg-12fb09af17f6 = liik earth-gnss-lunar
+
+# text
+seg-0f550587e7e0 = liigi registri (ledger) read on modelleeritud · { "1" } reast { "0" } valideeritud
+
+# text
+seg-435e296b48ab = liik entry-heating
+
+# text
+# c1: entry-heating
+seg-d7ec70cdbcfc = Stardusti proovitagastuskapsli sisenemine: avaldatud juhtum, mille vastu liiki <c1/> kontrollitakse (xval/entry-stardust/PREREGISTRATION.md; tests/entry_stardust_published.rs).
+
+# text
+seg-c2dc08297b0f = liik eo-coverage
+
+# text
+seg-fbb405d27780 = liik eo-radiometry
+
+# text
+seg-f178d4dbb034 = Nadiiri kujutise radiomeetria ja pildikvaliteet ILLUSTRATIVE väikese Maa-vaatluskaamera jaoks (ühegi operaatori kavand): { "0.40" } m ava, { "3.6" } m fookuskaugus (F/9), { "5.5" } um pikslid, kõrguselt { "500" } km. Jooks annab { "15" } % peegeldusega stseeni signaali ja müra eelarve, süsteemi MTF-i Nyquisti sagedusel, suhtelise servavastuse ja GIQE versiooni { "4" } NIIRS-i. MODELLED: NIIRS on empiiriline regressioon, mida hinnatakse modelleeritud sisenditel, mitte hinnatud pilt.
+
+# text
+seg-2487ebfca518 = liik ephemeris
+
+# text
+seg-2771a42a30a7 = liik fusion
+
+# text
+seg-6452c9a86abf = Ühine andurite liitmise PNT: üks Kalmani filter on navigaator, liites kella ja inertsiaalsed olekud ning abistatuna optilisest ISL-i aja edastamisest, mitte ei koosta sõltumatuid ennustajaid. GNSS keelatud { "1.8" } h.
+
+# text
+# c1: fusion-pnt.toml
+# c2: [coupled]
+# c3: rho = g * position + c * clock phase + noise
+# c4: fusion-pnt.toml
+# c5: fusion-pnt.toml
+seg-9b62a8213db0 = Seotud ühine andurite liitmise PNT: samad komplektid ja GNSS-i katkestus nagu <c1/>, kuid navigaator on ÜKS virnastatud Kalmani filter asukoha, kiiruse, kellafaasi, kellasageduse ja kiirendusmõõturi nihke üle (tabel <c2/>). Kuni GNSS on nominaalne, võtab see pseudovahemaid, igaüks <c3/> piki vaatejoone tegurit g, nii et üks mõõtmine piirab asukohta ja kella koos ning filter kannab nende ristkovariatsiooni; katkestuse ajal optilise aja edastamise uuesti sünkroonimised on ainult kella pseudovahemaad. Siinsed kiirendusmõõturid kannavad konstantset nihet, mida nihke olek õpib enne katkestust (<c4/> nullib nihked, sest selle filtritel ei ole nihke olekut). Tootjaneutraalne; kella ja müra parameetrid nagu failis <c5/>, nihked on illustratiivsed. MODELLED.
+
+# text
+seg-8e5c015bcaf4 = liik gnss-ins
+
+# text
+seg-8f43fc2f8b71 = Maanteesõiduk linnakanjonis: GNSS/INS surnud lugemine läbi tunneli ja teeäärse segaja, rajatasemelise eelarve vastu.
+
+# text
+# c1: inertial
+seg-8eefd1c4bea9 = Lõdvalt seotud GNSS/INS: kolmeteljeline strapdown-navigaator, mida distsiplineerib 15-olekuline veaoleku EKF, seejärel libisemine läbi { "60" } s GNSS-i katkestuse. Erinevalt paketist <c1/> (1-DOF skalaarne surnud lugemi arvutaja koos tõe-külge-nulli lähtestamisega igal lahendusel) käitab see tegelikku suletud silmusega filtrit: see õpib mürarikastest lahendustest, kui GNSS on üleval, ja libiseb vahepeal parandatud olekul. Teatatud viga on tegelik horisontaalne jääk tõe vastu; iga andur kannab ka oma avatud silmusega vaba INS-i RMS-i, nii et filtri väärtus on selge.
+
+# text
+# c1: aircraft
+# c2: [tight]
+seg-e0a3e777d810 = Lennunduse GNSS/INS tiheda sidestusega: kerglennuk tõuseb õhku, tõuseb { "6" } kraadi nurga all, lõpetab tõusu ja lendab { "25" } kraadi kaldega koordineeritud pöörde (trajektoori profiil <c1/>); GNSS on keelatud kaheks minutiks, mis katavad pöörde, libisemise kõige raskema osa, sest suuna ja asendi vead projitseeritakse siis horisontaali. Tihedalt seotud (<c2/>) GPS-i taolisel SGP4 Walkeri konstellatsioonil.
+
+# text
+# c1: gnss-ins.toml
+# c2: [trajectory]
+# c3: figure8
+seg-736606e5f26d = Mere GNSS/INS: laev kiirusega { "8" } m/s (umbes { "15.5" } sõlme), mis kudub täisringe kiirusega { "1" } kraadi/s, seejärel viieminutiline GNSS-i katkestus, samal suletud silmusega 15-olekulisel GNSS/INS filtril nagu <c1/>. Liikumine tuleb trajektooriteegist (<c2/>, profiil <c3/>): aeglane, püsiv pööramine, laeva, mitte auto režiim.
+
+# text
+# c1: stop_go
+# c2: [tight]
+seg-d30ac9fd7056 = Raudtee GNSS/INS tiheda sidestusega: rong sõidab peatuste vahel kiirusega { "30" } m/s õrnade { "20" } kraadi kurvidega (trajektoori profiil <c1/>), läbib sügava lõike, kus nähtaval püsib ainult kaks satelliiti, seejärel kaheminutilise tunneli. Vastuvõtja on tihedalt seotud (<c2/>): see liidab jätkuvalt kahe satelliidi pseudovahemaid, mida see lõikes veel jälgib, kus lõdvalt seotud vastuvõtjal ei ole lahendust üldse. Satelliidid tulevad GPS-i taolisest SGP4 Walkeri konstellatsioonist.
+
+# text
+# c1: gnss-ins.toml
+seg-ea32ce169216 = Väike pilootideta õhusõiduk GNSS-i segamise all: kui kaugele lennukontrolleri klassi MEMS-inertsiaalseade triivib, kui vastuvõtja kaotab lukustuse, taktikalise klassi seadme vastu, samal suletud silmusega GNSS/INS filtril nagu <c1/>.
+
+# text
+seg-f8ac956d2974 = liik gnss-sim
+
+# text
+# c1: gnss-sim
+# c2: container-terminal
+seg-2bedb057a0e6 = Pseudovahemaad ja RAIM konteinerkai lahtise portaalveduki jaoks, kus mere pool on laevalt kaldale kraanad ja maa pool konteinerivirnad: stsenaarium <c1/> horisondijoone eelseade <c2/> all.
+
+# text
+seg-769a624a8ba0 = Mõõtmisruumi GNSS-i simulatsioon: pseudovahemaad ionosfääri ja troposfääri viivitustega, mis antakse hetktõmmise RAIM-ile kaitsetasemete jaoks.
+
+# text
+seg-4f53c4dbffec = liik gnss-ssv
+
+# text
+seg-b05ef0179faf = liik gravity-map
+
+# text
+seg-10b07a5e6990 = liik holdover-test
+
+# text
+seg-e41c625df8c5 = Holdover-i test, sissetoomise näide: ajavea kirje, mida hindab liik holdover-test („tõmba antenn välja, hinda holdover-it“). Kirje jagatakse kahel ajahetkel, mille OPERAATOR esitab, siin GNSS eemaldati ajal { "600" } s ja taastati ajal { "2 400" } s, ning iga sammu mõõdetakse selle jaoks kirjutatud ITU-T maskide vastu.
+
+# text
+seg-d2d4b620af4b = Linuxptp logi holdover-i test: samad neli sammu nagu failis holdover-test-example.toml, kirjega, mis loetakse ptp4l servologist läbi [series.clock_log] (vorming „ptp4l“, nihked ns-des, deemoni enda ajatemplid, siin { "5" } s vahedega).
+
+# text
+seg-56269cd82ed4 = liik hybrid
+
+# text
+seg-098fb3a74071 = Hübriid-PNT tippnäide: täiskvantkomplekt (optiline kell + külmaatomi IMU + optilise ISL-i aja edastamise abi) vs täisklassikaline komplekt (CSAC + navigatsioonitaseme IMU + RF). GNSS keelatud { "1.8" } h.
+
+# text
+seg-e1678a444911 = liik hybrid-optical-rf
+
+# text
+seg-703bf09ca356 = liik hybrid-ukf
+
+# text
+seg-a65d5e564286 = liik impairment-eval
+
+# text
+seg-39f1050e5129 = liik inertial
+
+# text
+seg-3b8cc1893361 = Surnud lugem GNSS-i katkestuse ajal: külmaatomi kvantkiirendusmõõtur vs navigatsioonitase. Nihe = GNSS-i-järgse kalibreerimise jääk = avaldatud nihkestabiilsus; q_va = (müra juur-PSD)^{ "2" }.
+
+# text
+seg-9035c0bc73eb = Kvantide eelseade: külmaatomi interferomeetri (CAI) kiirendusmõõtur, ehitatud oma interferomeetri füüsikast, navigatsioonitaseme kvartskiirendusmõõturi vastu GNSS-i katkestuse ajal. Ühemõõtmeline surnud lugemi libisemine: { "10" } minutit GNSS-i, seejärel { "110" } minutit keelatud.
+
+# text
+seg-7d03a68ac877 = liik ins-trn-coast
+
+# text
+seg-c6ab90fcbc23 = INS/TRN libisemise veamudel — asukohaviga libisemise kestuse suhtes ja libisemise kestused, mille juures see ületab { "10" } m ja { "50" } m.
+
+# text
+seg-542b2d91bff8 = Mereline sadamasse lähenemine segatud GNSS-iga: kui kaua inertsiaalnavigatsioonisüsteem (INS) hoiab laeva sadamasse lähenemise täpsuseelarve piires, kui ülemaailmne satelliitnavigatsioonisüsteem (GNSS) on kadunud.
+
+# text
+seg-471f2e00f244 = Raudteetunneli libisemine: kui kaua rongi inertsiaalnavigatsioonisüsteem (INS) hoiab seda rööbasteede eristamise eelarve piires, kui tunnelis ei ole ülemaailmset satelliitnavigatsioonisüsteemi (GNSS).
+
+# text
+seg-35c6036b9099 = liik integrity
+
+# text
+# c1: araim_dual
+seg-b874df525f79 = Kahe konstellatsiooni ARAIM-i kättesaadavus: GPS + Galileo hinnatud täiustatud ARAIM-i mootoriga, kaasa arvatud kogu konstellatsiooni rikkehüpotees (<c1/>).
+
+# text
+# c1: integrity
+# c2: user_site
+# c3: harbour-approach
+seg-af9e9ed1468c = ARAIM-i kättesaadavus sadamasse sisenevale laevale: liik <c1/> maapealse kasutajaga (<c2/>) horisondijoone eelseade <c3/> all.
+
+# text
+seg-5387b81f072b = liik jamming
+
+# text
+# c1: jamming
+# c2: harbour-approach
+seg-79c636fca6b1 = Laev siseneb sadamasse kaldasegaja all, kusjuures ees olevad kaihooned võtavad selles suunas madalad satelliidid: stsenaarium <c1/> horisondijoone eelseade <c2/> all.
+
+# text
+seg-d7a49be6aa37 = Mereline GNSS-i segamine: kalda- või laevalt toimiv laiaribaline segaja, mis keelab ülemaailmse satelliitnavigatsioonisüsteemi (GNSS) avavees ristuvale laevale.
+
+# text
+seg-6c9aae72c01b = liik launch-window
+
+# text
+seg-784412eac737 = liik leo-navmsg
+
+# text
+seg-af46a64149f5 = ESA Celeste orbiidil demonstratsiooni (IOD) eelseade: ainus stsenaarium, mis kasutab ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT töötoas { "2026" } esitatud materjali. Hoidke see väljalasest eemal, kustutades selle faili ja src/leo_navmsg/presets/celeste_iod.rs (vt selle faili päist).
+
+# text
+seg-c7deba26589d = LEO navigatsioonisõnum: Kshana kahendkodeering, selle kvantimiseelarve ning RINEX-i-taolised ja CSV-eksportimised.
+
+# text
+seg-ea14c04a5e2f = LEO navigatsioonisõnum: sõnumi uuendus läbilennu keskel ja kas kasutaja näeb hüpet.
+
+# text
+seg-92932c07a7cb = LEO navigatsioonisõnum: neli efemeriidimudelit ühel orbiidil ja Liu jt { "2025" } SISRE-vs-kõrguse tabel.
+
+# text
+seg-28fc0b60d88c = liik leo-pass
+
+# text
+seg-cf353e8a27df = liik leo-pnt-chain
+
+# text
+seg-1465309100f6 = Celeste IOD otsast lõpuni (valikuline eelseade): E5 konfiguratsiooni #1 signaal -> Celeste IOD läbilend -> Celeste-stiilis navigatsioonisõnum -> GPS + Galileo + Celeste IOD liidetud lahendus.
+
+# text
+seg-73db6e9fc765 = LEO-PNT otsast lõpuni üldisel konstellatsioonil: signaali kavand -> läbilennu sidelingi eelarve -> navigatsioonisõnum -> liidetud MEO + LEO lahendus ja täpse punktpositsioneerimise koondumine.
+
+# text
+seg-ad6744824a5f = Xona Pulsar otsast lõpuni: avalik X5 signaal -> Pulsari läbilend -> LEO navigatsioonisõnum -> GPS + Galileo + Pulsar liidetud lahendus ja täpse punktpositsioneerimise koondumine.
+
+# text
+seg-b2c874e083a6 = liik leo-ppp
+
+# text
+seg-017f8db74a59 = liik leo-pvt
+
+# text
+# c1: leo-pvt
+# c2: fjord
+seg-923f04fa9b36 = Liidetud MEO ja LEO positsioneerimine fjordi sügavuses olevale laevale, kus oru seinad varjavad kõik madalad satelliidid üle kanali: liigi <c1/> ühisrežiim horisondijoone eelseade <c2/> all.
+
+# text
+seg-dde47f233669 = Nähtavad satelliidid ja täpsuse halvenemise tegur ekvaatorilt poolusele: ainult MEO GNSS, ainult polaarilähedane LEO konstellatsioon ja mõlemad.
+
+# text
+seg-ef202b7d50ed = liik leo-signal
+
+# text
+seg-22cd3a939c19 = Celeste IOD signaalikavandid: sagedusribad ja „Classical Pilot“ signaali konfiguratsioon #1 ESA Celeste orbiidil demonstratsiooni (IOD) madala Maa orbiidi (LEO) positsioneerimise, navigatsiooni ja aja (PNT) missioonil, parameetriseeritud signaalikavanditena.
+
+# text
+seg-f5caf70c73f0 = LEO-PNT ribade kompromiss, UHF-ist laia C-ribani: mida madala Maa orbiidi (LEO) positsioneerimise, navigatsiooni ja aja (PNT) signaal igas ribas võidab ja kaotab, sõltumata konkreetsest süsteemist.
+
+# text
+# c1: xona-pulsar
+seg-90239179296f = Xona Pulsari signaalid: kommertsliku madala Maa orbiidi (LEO) positsioneerimise, navigatsiooni ja aja (PNT) konstellatsiooni X1 (L1 riba) ja X5 (L5 riba) signaalid nende avaldatud signaalitabelist (Leclère, Marathe ja Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551), kompileeritud eelseadena <c1/>.
+
+# text
+seg-a440eecbe1c9 = liik link-budget
+
+# text
+seg-fb3f2dcccbf7 = liik lunar-attack-surface
+
+# text
+seg-4486fa88f989 = liik lunar-beacon
+
+# text
+seg-2707dd910b99 = liik lunar-differential-pnt
+
+# text
+seg-ff296a13dcc8 = liik lunar-frame-campaign
+
+# text
+seg-319137c1458e = liik lunar-frame-realisation
+
+# text
+seg-d4a6801f9670 = liik lunar-infrastructure
+
+# text
+seg-a3dc5227b366 = Kshana Kuu taristu stsenaarium: kandelaine faas, KIIRE näide (kaks lühikest kaart, { "10" } tõmmet, sekundid; hinnatud konfiguratsioon, kolm kaart ja { "400" } tõmmet, on xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; kavand, sisendid ja läved on fikseeritud failis xval/lunar-infra/PREREGISTRATION.md (sissekantud enne ühtegi jooksu). ILLUSTRATIVE sisendid on seal sildistatud oma avalike allikatega.
+
+# text
+seg-1f55219aed27 = Kshana Kuu taristu stsenaarium: frame-coestimation. MODELLED; kavand, sisendid ja läved on fikseeritud failis xval/lunar-infra/PREREGISTRATION.md (sissekantud enne ühtegi jooksu). ILLUSTRATIVE sisendid on seal sildistatud oma avalike allikatega.
+
+# text
+seg-4e990ecb6404 = Kshana Kuu taristu stsenaarium: geodesy-sensitivity. MODELLED; kavand, sisendid ja läved on fikseeritud failis xval/lunar-infra/PREREGISTRATION.md (sissekantud enne ühtegi jooksu). ILLUSTRATIVE sisendid on seal sildistatud oma avalike allikatega.
+
+# text
+seg-e27e1de1a233 = Kshana Kuu taristu stsenaarium: od-consistency. MODELLED; kavand, sisendid ja läved on fikseeritud failis xval/lunar-infra/PREREGISTRATION.md (sissekantud enne ühtegi jooksu). ILLUSTRATIVE sisendid on seal sildistatud oma avalike allikatega.
+
+# text
+seg-30dc631d148f = Kshana Kuu taristu stsenaarium: od-consistency modelleerimata kiirendusega. MODELLED; kavand, sisendid ja läved on fikseeritud failis xval/lunar-infra/PREREGISTRATION.md (sissekantud enne ühtegi jooksu). ILLUSTRATIVE sisendid on seal sildistatud oma avalike allikatega.
+
+# text
+seg-68eaba3db338 = Kshana Kuu taristu stsenaarium: space-tie. MODELLED; kavand, sisendid ja läved on fikseeritud failis xval/lunar-infra/PREREGISTRATION.md (sissekantud enne ühtegi jooksu). ILLUSTRATIVE sisendid on seal sildistatud oma avalike allikatega.
+
+# text
+seg-01d06e830746 = liik lunar-integrity
+
+# text
+seg-afb7372a588a = Kuu lõunapooluse terviklikkus: Artemise piirkonnas maandunud vastuvõtja representatiivse LunaNeti releekomplekti vastu, ARAIM-i kaitsetasemed { "24" } h läbilennu jooksul.
+
+# text
+seg-e0180b8a7560 = liik lunar-interop-export
+
+# text
+seg-8a38317ae6d1 = liik lunar-jamming
+
+# text
+seg-ea44c47623c9 = liik lunar-joint-od-clock
+
+# text
+seg-f796750036cc = liik lunar-llr-datum
+
+# text
+seg-fb08183a8243 = Kuu etaloniaama geodeesia, JAAMAGA: viis retroreflektorivõret pluss üks retroreflektor ja üks VLBI majakas Kuu lõunapolaarses etaloniaama asukohas.
+
+# text
+seg-2255165dd833 = liik lunar-station-coverage
+
+# text
+seg-5c55b91fa564 = Kuu etaloniaama kate: millise positsioneerimise täpsuse ja kaitsetaseme saab kasutaja Kuu diferentsiaalsest etaloniaamast teadaolevas lõunapolaarses asukohas lõunapolaarse piirkonna kohal ja ühe päeva jooksul.
+
+# text
+seg-e1a3830ad9ed = Kuu etaloniaama kate AVALIKULT ESITATUD eelduste korral: sama liik mis lunar-station-coverage.toml, kus iga sisend, mille avalik allikas esitab, on sellest seatud ja viidatud allika id järgi; iga sisend, mida ükski allikas ei esita, on hoitud puusisesest vaikeväärtusest ja sildistatud ILLUSTRATIVE. Allikad (hangitud 2026-10-12; pealkirjad, identifikaatorid ja litsentsid failis docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, „Lunar local Differential PNT and Selenodetic Reference Station“ (slaidid) S3 UNOOSA ICG WG-B, Lunar PNT, juuni { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, „Moonlight Programme Development Status“
+
+# text
+seg-d168096a3514 = Kuu etaloniaama kate maastikuga: kaasasolev stsenaarium lunar-station-coverage koos asukohapõhise horisondiga, mis on kiirtega kõnnitud üle reaalse Kuu digitaalse kõrgusmudeli jaamas ja igas kasutajapunktis, lameda kõrgusmaski asemel üksi.
+
+# text
+seg-88a9a6405048 = liik lunar-time-budget
+
+# text
+seg-efaa5b60d16f = Kuu etaloniaama ajalabor: miniatuurne rubiidiumkell (miniRAFS), mis on juhitud Kuu koordineeritud ajaga (LTC) ja seejärel vabalt käima jäetud.
+
+# text
+seg-debab0063d91 = liik lunar-time-offset
+
+# text
+seg-79c5a9295ed5 = liik lunar-vlbi
+
+# text
+seg-8d967bfd5689 = Kuu-VLBI jaamakoordinaatide kovariatsioon: liigi lunar-vlbi vaatlussuuruse viivituse osatuletised, mis on kogutud selgesõnalise GRAAFIKU (baasjooned x epohhid) kohal Fisheri infomaatriksiks, pööratud ja esitatud jaamakoordinaatide kovariatsiooni ja koordinaadipõhise jaama sigmana — arvutatud mootori väljund, mitte skalaarne viivituse täpsus, mis on surutud läbi eeldatud isotroopse g = { "3" } võrdjaotuse teguri. Olek kannab Maaga seotud (ITRS) jaamakoordinaate, seega on Jacobi maatriks inertsiaalne osatuletis, mis on pööratud iga epohhi GCRS->ITRS maatriksiga: Maa pöörlemine teeb need koordinaadid vaadeldavaks ja aruanne MÕÕDAB Maaga seotud vaatejoone pühkimise ja majaka deklinatsiooni, mitte ei eelda neid. Üks vaatlus on üks (baasjoon, epohh) paar, kus MÕLEMAD jaamad on kõrgusmaski kohal, kaalutud 1/delay_sigma_s^{ "2" }. Teatab astaku, datumi defekti, tingimusarvu, täieliku infospektri, kovariatsioonimaatriksi, jaamapõhised telje ja 3-D sigmad ning vaba võrgu nullruumi igal jooksul; astakupuuduse korral avaldatakse põhisigma kui NULL koos olekuga, mitte kunagi ei loeta seda peaaegu singulaarsest pöördmaatriksist. Võrdjaotuse väärtus c*delay_sigma_s*sqrt(g/N) SAMA graafiku jaoks väljastatakse arvutatud väärtuse kõrval koos suhtega, koos isotroopse jäljepiiriga sqrt(p/trace(M)), mille AM-HM teeb kõvaks põhjaks — nii et suhe on anisotroopia, mille eeldus kõrvale heitis. Viivituse sulgemine tau_ik = tau_ij + tau_jk teeb geomeetriliselt sõltumatuks ainult n-1 baasjoont n(n-1)/2-st; aruanne esitab mõlemad arvud. MODELLED: Kuu keskpunkti efemeriid, jaamakellad, troposfäär ja Maa orientatsiooni parameetrid hoitakse FIKSEERITUNA ja vaatlusi käsitletakse sõltumatutena, seega on kovariatsioon Cramér-Rao piir vähendatud parameetrikomplekti jaoks, mitte prognoositud sessiooni tulemus; viivituse sigma, jaamakoordinaadid ja graafik on sisendid. Osatuletis, mille geomeetrilise viivituse Jacobi maatriks välja jätab (diferentseeritud Shapiro liige), mõõdetakse lõplike vahedega ja väljastatakse. Mitte geodeetiline toode.
+
+# text
+seg-a558fdefae3d = liik lunar-vlbi-fim
+
+# text
+seg-50eb943d4ef7 = liik mars-pnt
+
+# text
+seg-79aed7a6b416 = Marsi PNT — madala Marsi orbiidi kasutaja, kes navigeerib simuleeritud MARCONI releekonstellatsiooni (areostatsionaarsed releed edastavad ühesuunalist + relee kahesuunalist sügavkosmose jaamale) vastu ühise ühesuunalise/kahesuunalise radiomeetrilise liitmise hindaja kaudu.
+
+# text
+seg-852783147633 = Marsi PNT — fikseeritud pinnakasutaja (maandur / rover pöörleval Marsi pinnal), kes navigeerib simuleeritud MARCONI releekonstellatsiooni vastu ühise ühesuunalise/kahesuunalise radiomeetrilise liitmise hindaja kaudu.
+
+# text
+seg-1b2748b538ae = Marsi PNT — Marsi ülekande- / püüdekasutaja (kõrge, ekstsentriline areotsentriline kaar — pikk kaar, mida sõiduk lendab lähenemisel / püüdeorbiidil), kes navigeerib simuleeritud MARCONI releekonstellatsiooni vastu ühise ühesuunalise/kahesuunalise radiomeetrilise liitmise hindaja kaudu.
+
+# text
+seg-28938416c04b = liik moonlight-service-volume
+
+# text
+seg-f0ccaa966a0d = liik ntn-positioning
+
+# text
+seg-95202f70f915 = liik oem-interop
+
+# text
+seg-64b58fe6b7e1 = liik optical-atmosphere
+
+# text
+seg-b8648cc3c266 = Optiline PNT läbi atmosfääri: kolm ILLUSTRATIVE maapealset asukohta (pilvisem põhjapoolne asukoht, keskmine keskasukoht ja selgem lõunapoolne asukoht), mis vaatavad LEO optilist terminali { "30" } kraadi kõrgusel lainepikkusel { "1550" } nm. Pilveklimaadid on esitatud sisendid, mitte mõõtmised ega ühegi andmekogu väärtused, seega on iga allolev kättesaadavus MODELLED. Jooks teatab asukoha kohta selge õhu kao, Hufnagel-Valley turbulentsi oleku, kättesaadavuse lingi varu suhtes, varu, mis on vajalik { "40" } / { "50" } / { "60" } / { "70" } protsendi jaoks (optiline link ei läbi paksu pilve, seega on asukohal kättesaadavuse lagi, mida ükski varu ei tõsta, teatatud asukoha kaupa), katkestuse kestuse jaotuse ja ajavea kasvu katkestuse kohta kolme kellaklassi jaoks, seejärel parima { "1" }, { "2" } ja { "3" } asukoha asukohtade mitmekesisuse kättesaadavuse sõltumatu ja kaugusega korreleeritud ilmaga ({ "500" } km dekorrelatsioonipikkus).
+
+# text
+seg-f85f23a4fa5c = Täiustustehnikate mis-juhtub-kui stsenaariumid ühe ILLUSTRATIVE maapealse asukoha jaoks: lainepikkuse muutus, suurem vastuvõtuava, adaptiivoptika sädelemise vähendamine ja lisavaru, igaüks ennustatud kättesaadavuse kasvuna sama asukoha lähtetaseme suhtes. Kasvud on esitatud sisendid (Kshana ei modelleeri adaptiivoptika silmust), uus lainepikkus või ava hindab uuesti selge taeva eelarvet, selge õhu kadu ja ava keskmistamist ning kõik on MODELLED. Terminal on teadlikult varupiiratud (umbes { "3" } dB enne atmosfääri), et tehnikad loeksid; jooks esitab ka pilvelae, mida ükski tehnika ei tõsta. Sihid alla { "100" } protsendi varutabelist esitatakse vajaliku lisavaruna (negatiivne tähendab ülejääki).
+
+# text
+seg-b226ac4eebdf = liik orbit
+
+# text
+# c1: orbit
+# c2: user_site
+# c3: city-street
+seg-4fe91b7e2c29 = GNSS-i kättesaadavus ja täpsuse halvenemise tegur linnatänava põhjas: liik <c1/> maapealse kasutajaga (<c2/>) horisondijoone eelseade <c3/> all.
+
+# text
+seg-9f0a005cfe62 = liik passes
+
+# text
+seg-c2f9d49da519 = liik pvt
+
+# text
+seg-1e5828af879a = liik quantum-anomaly-detect
+
+# text
+seg-d3897f9ebb6c = Rikke/anomaalia tuvastamine kvant-PNT süsteemidele — sildistatud rikkekataloog + ROC AUC + vähim tuvastatav rike, kvantkellaga abistatud vs klassikaline monitor. MODELLED; illustratiivsed avaliku allika parameetrid; modelleerib klassi, TRL-i/lennuväidet ei ole.
+
+# text
+seg-95db949095b8 = liik quantum-gnss-free-nav
+
+# text
+seg-b5e010553b6a = GNSS-ita kvantnavigatsioon — kvant- (külmaatomi interferomeeter) vs klassikaline navigatsioonitaseme INS-i surnud lugem GNSS-i katkestuse jooksul. MODELLED; illustratiivsed avaliku allika seadmeparameetrid; modelleerib klassi, TRL-i/lennuväidet ei ole.
+
+# text
+seg-6d0a57c5b71d = liik quantum-time-transfer
+
+# text
+seg-6d837ea24f97 = Usaldusväärne kvantajastus — otsast lõpuni aja edastamise ahel, turvaline levitamine, anomaalia tuvastamine ning kvant- vs klassikaline kompromiss. MODELLED; illustratiivsed avaliku allika seadme-/lingiparameetrid; modelleerib klassi, TRL-i/lennuväidet ei ole.
+
+# text
+seg-09ba30218f38 = liik quantum-trade
+
+# text
+seg-e39997960d5d = liik realtime-frame-eop
+
+# text
+seg-bb2002e9948d = liik reentry
+
+# text
+seg-b1c293c644d1 = liik slot-timing
+
+# text
+seg-65401b133472 = Pesa ajastus: kui kaua ahjuga kontrollitud kvartsostsillaator (OCXO) madala Maa orbiidi väikesatelliidil püsib ajaindekseeritud marsruutimispesa kaitseaknas pärast oma viimast ülemaailmse satelliitnavigatsioonisüsteemi (GNSS) lahendust ja kui tihti see lahendust vajab.
+
+# text
+seg-b1d59d7a3350 = liik solar-system
+
+# text
+seg-67928e2d349f = liik space-packet
+
+# text
+seg-ce6afe97c0a4 = liik space-weather
+
+# text
+seg-008e207782f6 = liik spectrum
+
+# text
+seg-ac1083b109f8 = L-riba juga segamise all: kogu ülemaailmse satelliitnavigatsioonisüsteemi (GNSS) L-riba ühe võimsusspektritiheduse (PSD) kujul, sagedus risti, aeg alla, samal ajal kui stsenaariumipõhine segajate jada lülitub sisse.
+
+# text
+seg-859958a06acc = Mitmeribaline segamisjuga: madala Maa orbiidi (LEO) positsioneerimise, navigatsiooni ja aja (PNT) signaalid neljas ribas (UHF, L, S ja C) GPS-i ja Galileo kõrval, igal ribal oma segaja, joonistatud ühe joana riba kohta ühel ajajoonel.
+
+# text
+seg-559fe9211290 = liik spoof
+
+# text
+seg-6e099f8a060a = Aktiivne aja spuufimise rünnak: kas iga kella terviklikkuse monitor suudab spuufimise tabada enne, kui see kahju teeb?
+
+# text
+seg-43dad2e00cde = liik spoof-detect
+
+# text
+seg-0d6c2e664734 = liik sweep
+
+# text
+seg-5fb588430052 = liik sweep-nd
+
+# text
+# c1: sweep
+# c2: sweep-nd
+# c3: [base]
+seg-b22e7ba4a1a0 = Üldine N-D parameetrite pühkimine MIS TAHES stsenaariumi liigi kohal. Erinevalt ainult kellaga liigist <c1/> varieerib <c2/> stsenaariumi <c3/> punktidega TOML-võtmeid telgede Descartes'i korrutise kohal, käitab iga ruudustiku sõlme uuesti ja loeb valitud mõõdikud tulemusest punktidega JSON-tee abil. See töötab iga paketi (inertsiaalne, gnss-ins, integrity, spoof, …) puhul, sest see opereerib TOML-i/tulemuse piiril, mitte paketipõhisel Rusti tüübil. Natiivsed jooksud hindavad ruudustikku paralleelselt (lisasõltuvust ei ole); wasm langeb tagasi järjestikusele. Väljundruudustik on deterministlik ja ridade kaupa (viimane telg varieerub kiiremini).
+
+# text
+seg-5f1e87304f90 = liik telecom-timing
+
+# text
+seg-999121d87895 = Telekommunikatsiooni ajastuse etalon: rubiidiumkell, mis kaotab oma ülemaailmse satelliitnavigatsioonisüsteemi (GNSS) etaloni ja hoiab holdover-is { "24" } tundi, kontrollituna Rahvusvahelise Telekommunikatsiooniliidu telekommunikatsiooni standardimise sektori (ITU-T) maskide vastu.
+
+# text
+seg-3cfcd6f8717b = Telekommunikatsiooni ajastus, sageduse sünkroniseerimine: vabalt käiv ahjuga kontrollitud kvartsostsillaator (OCXO) vastandatud sünkroonse Etherneti seadme kella (EEC) hälbe genereerimise maskidele, mis kuuluvad Rahvusvahelise Telekommunikatsiooniliidu telekommunikatsiooni standardimise sektorile (ITU-T).
+
+# text
+seg-afd374569777 = Telekommunikatsiooni ajastus, sissetoomise näide: aja intervalli vea (TIE) jada, mis on antud sisse kirjutatuna ja kontrollitud Rahvusvahelise Telekommunikatsiooniliidu telekommunikatsiooni standardimise sektori (ITU-T) maskide vastu.
+
+# text
+seg-eb02c7911f72 = liik terrain-nav
+
+# text
+seg-b83a1fbd3435 = liik terrain-slam
+
+# text
+seg-c988dce87d81 = liik time-transfer-budget
+
+# text
+seg-a063a0ecc543 = Kahesuunaline satelliidi aja ja sageduse edastamine (TWSTFT) kahe ILLUSTRATIVE jaama vahel, üks Kesk-Euroopas ja teine Ida-Põhja-Ameerikas, läbi geostatsionaarse releesatelliidi pikkusel { "10" } kraadi W. Jooks lahendab kahesuunalise võrrandi T_A - T_B jaoks esitatud seadme, transponderi, ionosfääri (Ku-riba, 14/11 GHz) ja Sagnaci liikmetest. See moodustab määramatuse eelarve, mille statistiline liige on ühe päeva TDEV simuleeritud lingi jaoks valge ja flicker faasimüra ning ööpäevase mittereziprookse viivitusega. Viivitused ja määramatused on illustratiivsed, mitte ühegi labori kalibreerimine. MODELLED. Reaalse UTC-UTC(k) või jaamakella jada saab lisada jaotise [[series]] alla (vorming circular-t, mjd-csv või rinex-clock), et selle stabiilsust esitada.
+
+# text
+seg-69138a582b9a = liik timetransfer
+
+# text
+seg-a79dfece857e = Jälgimissilmuse lukustuse kadu: C/N0 -> lukustus/lukustuse kadu HÜSTEREESIGA, lukustuse kaotamiseks kuluv aeg ja spuufimise sissetõmme koodi ja kandja nihke KIIRUSE funktsioonina. Mootori olemasolevad keelamise ja haaramise kriteeriumid on vastuvõetud võimsuse suhted (segaja keelab suhtel J/S = { "30" } dB, spuufer haarab suhtel { "3" } dB); reaalne lukustuse kadu ei ole võimsuse suhe, see on koht, kus silmuse värin pluss dünaamiline pinge jätab selle jälgimislävi eelarve. Teatab ({ "1" }) kandja (Costas) ja koodi (mittekoherentne varane/hiline) 1-sigma termilise värina C/N0 suhtes, ruutimiskadu kaasa arvatud, esitatud reeglite { "3" }*sigma_PLL + theta_e <= { "45" } kraadi (15-kraadi reegel kolme sigma kujul) ja { "3" }*sigma_DLL + kiirenduse viivitus <= d/2 koodiperioodi vastu; ({ "2" }) languse ja taaslukustuse C/N0 läved koos nimetatud siduva silmusega, taaslukustuse lävi TULETATUD laiemast ribalaiusest, millega vastuvõtja uuesti sisse tõmbab, mitte väidetud, nii et hüstereesi laius peab jääma vahemikku { "5" }*log10(ratio) kuni { "10" }*log10(ratio) dB; ({ "3" }) deklareeritud lukustuse kaotamise aeg kahe lävega lukustusdetektorist, kus kinnitusviibimised on juhitud üle C/N0 kallaku, teatatud eraldi füüsilisest faasipõgenemise ajast (Viterbi keskmine aeg tsüklinihete vahel, log10 s-des, sest see ulatub sadade suurusjärkude peale); ({ "4" }) spuufimise sissetõmbe piirid — suurim koodi liikumine ja kandja Doppleri kiirus, mida ohvri silmused suudavad järgida, koos kaardiga üle mõlema telje, sest spuufer, mis liigub kiiremini kui need, ei haara silmust, vaid jookseb sellest ette; ja ({ "5" }) silmuse dünaamikast tulenev KEELAMISRAADIUS, teatatud KÕRVAL olemasoleva võimsussuhte raadiusega, mitte kunagi selle asemel, nende märgiga vahe oma nimelise väljana (denial_radius_delta_km) ja definitsioon selle kõrval. Iga väljastatud arvuline väli kannab ühikut ja päritoluklassi. VALIDATED kinnised kujud: kandja ja koodi värina avaldised, silmusefiltri taandus sqrt({ "2" }*B_n*T) ja esimese järgu kiirenduse viivitus on ristkontrollitud mootori enda sdr-korrelaatori vastu, mis on astutud algväärtustatud sünteetilise IF-i kohal — teine tee samade arvudeni — vastavalt { "0.6" } %, { "3.7" } % ja { "0.17" } % täpsusega ning modifitseeritud Besseli I0 tsüklinihke aja taga standardsete tabeldatud väärtuste vastu täpsusega { "1e-7" }. Alumine kehtivuspiir on kinnitatud, mitte lihtsalt esitatud: alla ~{ "32" } dB-Hz väärtusel { "1" } ms küllastub reaalne atan-diskriminaator oma +-pi/2 ulatuse vastu ja mõõdab vähem värinat kui ükski lineaarne teooria. MODELLED: silmuse ribalaiused, integreerimisaeg, korrelaatori vahe, sissetõmbe ribalaiuse suhe, kinnitusviibimised, segaja võimsus ja antenni võimendused on representatiivsed riba arvud, mitte andmeleht. EI modelleerita: ostsillaatori (Alani hälbe) ja vibratsiooni värinat, sisendastme ribalaiuse piiramist, mitmeteelevi, AGC dünaamikat, andmebitiüleminekukadu, välist abi ja mis tahes pooltsükli parandust Costase tsüklinihke valemile. Silmuse dünaamika korral ei ole spuufimise haaramisel üldse raadiust — siduv piirang on nihke kiirus, mitte võimsus — seega on see väli null koos põhjusega, mitte väljamõeldud arv. Ei ole sertifitseeritud vastuvõtja toimivuse toode.
+
+# text
+seg-0b943d7e5f66 = liik tracking-loop
+
+# text
+seg-003cc12a2c96 = Jälgimissilmuse lukustuse kadu: C/N0 -> lukustus/lukustuse kadu hüstereesiga, lukustuse kaotamiseks kuluv aeg ja spuufimise sissetõmbe piirid, mille seab koodi ja kandja nihke KIIRUS.
+
+# text
+seg-9ce64f725193 = Uuringukomplektid
+
+# text
+# c1: kshana --study
+# c2: study.json
+# c3: study.html
+seg-b871497364ff = Komplekt on stsenaariumifail, mis loetleb teisi stsenaariume; <c1/> käitab selle üheks tempeldatud <c2/> ja <c3/>. See on tasuta komplektikäitaja, mitte tasuline kohandatud uuring.
+
+# text
+seg-b0569509d058 = Kvantvõimalustega PNT demonstraator — kolm rakendusvaldkonda ühe uuringuna.
+
+# text
+seg-2f09b9930e10 = Vaata GitHubis
+
+# text
+seg-67f767701c6d = <s1>Eelmine</s1>Võimekuse valdkonnad
+
+# text
+seg-ea79a68b0587 = <s1>Järgmine</s1>Tulemuse skeem
