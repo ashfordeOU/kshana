@@ -9,8 +9,33 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.40.0] - 2026-10-28
+
+0.40 adds the Artemis-class mission thread and its lunar segment, an evidence label on every figure and table a run writes,
+measured-clock ingest and fitting, a data-partner submission check, an estimated emitter region from ADS-B or AIS reports, the
+0.40 benchmark re-campaign, and the command line, reports and Studio in seventeen languages beside English (machine documents stay
+English). The verification matrix grows from 388 to 401 rows: 176 VALIDATED (unchanged), 221 MODELLED (was 208) and 4 PARTNER. No
+row was promoted to VALIDATED. The scenario kinds grow from 87 to 92. Every bar a pre-registered comparison missed is stated below
+and stays pinned; none was loosened. The advisory statement is unchanged: Kshana is advisory software, not type-approved navigation
+equipment and not a certification; the operator remains responsible.
+
+### Known limits
+
+- Non-English runs take about twice as long, because the scenario runs twice (once in English for the machine files, once in the
+  chosen language for the person).
+- Some Studio sentences are assembled from fragments and may lack articles in languages that have grammatical gender.
+- The translations are machine translations that no native speaker has reviewed; English is the reference.
+
 ### Added
 
+- **Seventeen languages beside English** for the engine's human-facing text and the site and Studio: nl, pl, pt-BR, pt-PT, fi, sv,
+  da, nb, cs, uk, ru, de, fr, es, et, ja, zh-Hans (`--lang`, `KSHANA_LANG`, the locale variables; `lang` on the library, Python,
+  WebAssembly and MCP calls). Command-line messages and errors, run summaries, chart text, `report.html`, kind descriptions and the
+  advisories are translated; machine documents (JSON, CSV, error codes, the verification matrix) stay English, and a non-English run
+  executes the scenario once in English for the machine files and once in the chosen language for the person
+  ([`docs/i18n.md`](docs/i18n.md)). **The translations are machine translations, not reviewed by native speakers; English is the reference**; each language's
+  `REVIEW.md` lists what a reviewer should check first, and the site pages carry a notice saying so. Verdict words, evidence tiers and
+  the advisory scope ("not type-approved", "not a certification", "the operator remains responsible") are kept in every language.
 - `kshana interference-map locate`: an **estimated emitter region** from ADS-B or AIS reports. A posterior over where a source of
   degraded position reports can be (radio line of sight on a 4/3-earth radius, emitter antenna height and power marginalised,
   affected aircraft pulling and unaffected aircraft with line of sight pushing back), written as regions at 50, 90 and 95%, a
@@ -19,10 +44,30 @@ breaking changes are called out explicitly.
   `geolocation`. Outputs: GeoJSON, JSON summary, sessions CSV and an SVG figure, each carrying the licence, attribution, method id,
   assumptions, limits and its evidence label. Library `interference_map::api::emitter_regions_from_*`, Python and WebAssembly
   `interference_emitter_regions`. MODELLED (ledger row `VM-bc70cb57`; the matrix is now 401 rows, 176 VALIDATED, 221 MODELLED,
-  4 PARTNER, and the count surfaces are not yet updated); calibrated on synthetic data only, with the comparison against the
-  Jammertest 2025 transmitter sites pre-registered and run once: ADS-B and AIS both NOT ASSESSABLE (too few scheduled sessions), so the row stays MODELLED (`docs/emitter-region/RESULTS.md`). Neutral wording, aggregate only; publishing
+  4 PARTNER); calibrated on synthetic data only, with the comparison against the
+  Jammertest 2025 transmitter sites pre-registered and run once: ADS-B and AIS both NOT ASSESSABLE (too few scheduled sessions in the open data), so the row stays MODELLED (`docs/emitter-region/RESULTS.md`). Neutral wording, aggregate only; publishing
   emitter regions in the public observatory stays off. A synthetic example is in `examples/emitter-region/`
   ([`docs/INTERFERENCE-MAP.md`](docs/INTERFERENCE-MAP.md#emitter-region-interference-map-locate)).
+- **Measured clock logs.** `src/clock_log.rs` reads a measured clock log into one phase series: eight formats (RINEX clock, TimeLab,
+  TICC, linuxptp `ptp4l`, `phc2sys` and `ts2phc`, chrony tracking and statistics), each a documented subset; anything outside it is
+  refused with an error that names what was found. It is used by `telecom-timing` (`[series.clock_log]`) and the clock kind
+  (`[clock_log]`, which adds a `measured` block with the log's SHA-256 and the overlapping ADEV, TDEV and MTIE), with the bundled
+  `clock-measured-log` scenario ([`docs/CLOCK-LOG-FORMATS.md`](docs/CLOCK-LOG-FORMATS.md)). Compared with allantools on real public
+  data against pre-registered bars: the first run **missed** B1 (5 of 11 cases, all TICC time stamps held as `f64`), B2, B3 (7 of 24
+  cases) and B4 (the header version was not checked); after the fixes B1, B3 and B4 are met and B2 is met except one MTIE pair, which
+  is pinned and is not an engine defect (allantools 2024.6 removes the mean frequency before it integrates; against its phase-mode
+  MTIE the engine agrees within 1e-10). The row stays MODELLED (`tests/fixtures/clock_log_real/RESULTS.md`).
+- **A holdover driven by a fitted measured series**: the clock kind's `[clock_fit]` fits the noise of a measured series and
+  drives the holdover from it (`src/clock_fit.rs`, bundled `clock-fitted-log` scenario). Pre-registered comparison: F1(b), F3 and
+  F4 met; F1(a) (recovering the registered random-walk FM) **NOT MET** on the C3 records (unidentifiable by construction) and on two
+  of three C4 records (random-walk FM absorbed by flicker FM and drift); F2 (noise identification against allantools) met on
+  eleven of twelve records and D3 and **NOT MET** on D2 as registered (met like-for-like). All misses are pinned
+  (`tests/clock_fit_known_noise.rs`); the `fitted` block and the holdover driven by it stay MODELLED
+  (`tests/fixtures/clock_fit/RESULTS.md`).
+- **The 0.40 benchmark re-campaign**, pre-registered with the owner's sign-off before any run: A3 (EXPLORATORY, the folder-clustered
+  bootstrap AUC of `agc_k_sigma`, 2.5 % quantile 0.8502 against 0.80), D3 (EXPLORATORY, three of five detectors exceed an
+  optimism gap of 0.05 at scale 0.25), R3 (AUC 1.0) and R4 (P_fa 0.0, P_d 1.0): all MET, all MODELLED. A2, D1 and R1 are untouched
+  and stay **NOT MET**; nothing here closes them (`xval/bench/RESULTS-0.40.md`, [Bench](docs/BENCH.md)).
 - `kshana partner check <submission.toml>`: checks the format and metadata of a data-partner submission
   (`kshana.partner-submission/1`: device, data file and SHA-256, how it was taken, the MODELLED rows it is offered against, licence,
   statements) and reads the data with the engine's own clock-log or IMU readers. It scores nothing and validates nothing. A synthetic
@@ -59,9 +104,10 @@ breaking changes are called out explicitly.
   probability, peak deceleration at the corridor edges, landing footprint) and the four lunar kinds. Handover rules
   (`carry`, `inflate`, `reacquire`), frame and timescale conversions as their own budget rows, an optional ground-network
   overlay that sets each phase's tracking duty, the margin against stated requirements and the weakest link. The example
-  follows the sequence of a public NASA concept-of-operations slide deck with ILLUSTRATIVE numbers.
+  follows the sequence of a public NASA concept-of-operations slide deck with ILLUSTRATIVE numbers: an end-to-end Artemis-class
+  example over 11 phases, Earth and lunar segments.
   The cislunar propagation was compared with the public Artemis I trajectory over a 72 h arc against a bar fixed in
-  `xval/mission-thread/PREREGISTRATION.md` before the run: **NOT MET** (45 km and 0.25 m/s against 5 km and 0.05 m/s). The
+  `xval/mission-thread/PREREGISTRATION.md` before the run: **NOT MET** (45.3 km and 0.25 m/s against 5 km and 0.05 m/s). The
   diagnostic places the miss in five small impulsive events in the reference; between them the force model reproduces the
   hourly states to a median of 0.4 m. The row stays MODELLED (`xval/mission-thread/RESULTS.md`).
 - The lunar segment of the Artemis-class mission thread: four scenario kinds, each also a phase kind of the
