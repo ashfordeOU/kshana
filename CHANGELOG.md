@@ -20,7 +20,7 @@ breaking changes are called out explicitly.
   assumptions, limits and its evidence label. Library `interference_map::api::emitter_regions_from_*`, Python and WebAssembly
   `interference_emitter_regions`. MODELLED (ledger row `VM-bc70cb57`; the matrix is now 401 rows, 176 VALIDATED, 221 MODELLED,
   4 PARTNER, and the count surfaces are not yet updated); calibrated on synthetic data only, with the comparison against the
-  Jammertest 2025 transmitter sites pre-registered separately and not yet scored. Neutral wording, aggregate only; publishing
+  Jammertest 2025 transmitter sites pre-registered and run once: ADS-B and AIS both NOT ASSESSABLE (too few scheduled sessions), so the row stays MODELLED (`docs/emitter-region/RESULTS.md`). Neutral wording, aggregate only; publishing
   emitter regions in the public observatory stays off. A synthetic example is in `examples/emitter-region/`
   ([`docs/INTERFERENCE-MAP.md`](docs/INTERFERENCE-MAP.md#emitter-region-interference-map-locate)).
 - `kshana partner check <submission.toml>`: checks the format and metadata of a data-partner submission
