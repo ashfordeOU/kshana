@@ -11432,3 +11432,60 @@ engine-partner-text-error = { "  " }FEJL: { $e }
 engine-partner-text-result-ok = resultat: formatet og metadataene er komplette og læsbare
 
 engine-partner-text-result-not-ready = resultat: ikke klar; ret fejlene ovenfor
+
+engine-interference-map-locate-usage = brug: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom kræver også --licence <text> --licence-url <url> --attribution <text>)
+    Skriver emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv og -figure.svg: estimerede emitterområder (interferenskildeområder) ved angivne konfidensniveauer, aldrig blot et punkt
+
+engine-interference-map-locate-wrote = skrev { $path }
+
+engine-interference-map-locate-summary = { $n_sessions } { $n_sessions ->
+        [one] session
+       *[other] sessioner
+    } publiceret; { $n_withheld } { $n_withheld ->
+        [one] kandidatsession
+       *[other] kandidatsessioner
+    } tilbageholdt (færre end { $min } forskellige fly eller fartøjer)
+
+engine-interference-map-locate-note-not-preregistered = bemærk: en indstilling afviger fra de præregistrerede parametre, så dette er ikke den præregistrerede metode
+
+engine-interference-map-locate-line-session = session { $k }: { $start } til { $end }, { $affected } forskellige berørte, { $level }% område { $area } km², centroide { $lat }, { $lon } (ellipse { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = session { $k }: { $start } til { $end }, { $affected } forskellige berørte, rapporterne indsnævrer ikke området (ubegrænset)
+
+engine-interference-map-locate-fig-title = Estimeret emitterområde
+
+engine-interference-map-locate-fig-subtitle = { $n ->
+        [one] Hvor en kilde til de forringede rapporter under angivne antagelser kan befinde sig. Viste sessioner: { $n }.
+       *[other] Hvor en kilde til de forringede rapporter under angivne antagelser kan befinde sig. Viste sessioner: { $n }.
+    }
+
+engine-interference-map-locate-fig-none = Ingen session nåede publiceringsminimum, så intet område vises.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct }% område
+
+engine-interference-map-locate-fig-legend-ellipse = 95% ellipse for posteriorfordelingen
+
+engine-interference-map-locate-fig-note-1 = Et område er ikke positionen for noget fly, fartøj eller nogen organisation og ikke en konstatering af årsagen.
+
+engine-interference-map-locate-fig-note-2 = Terræn er ikke modelleret, og hver session antager én kilde; konfidensniveauerne er betinget af modellen.
+
+engine-e-interference-map-locate-bad-number = { $name } er ikke et tal
+
+engine-e-interference-map-locate-bad-levels = --levels kræver kommaseparerede tal strengt mellem 0 og 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km skal være mellem 0.5 og 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min skal være mellem 1 og 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m kræver to tal, min,max, med 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } er ikke en brugbar TDOA-fix-fil (receivers, tdoa_s, sigma_s, start), eller fixet konvergerede ikke
+
+engine-e-interference-map-locate-source-required = --source adsb eller --source ais er påkrævet
+
+engine-e-interference-map-locate-no-evidence-rows = ingen evidensrækker er angivet for locate-outputtene

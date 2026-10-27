@@ -11287,3 +11287,60 @@ engine-partner-text-error = { "  " }ERROR: { $e }
 engine-partner-text-result-ok = resultat: formatet och metadata är kompletta och läsbara
 
 engine-partner-text-result-not-ready = resultat: inte klar; åtgärda felen ovan
+
+engine-interference-map-locate-usage = användning: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom behöver också --licence <text> --licence-url <url> --attribution <text>)
+    Skriver emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv och -figure.svg: uppskattade sändarområden (störkällsområden) vid angivna konfidensnivåer, aldrig en enskild punkt
+
+engine-interference-map-locate-wrote = skrev { $path }
+
+engine-interference-map-locate-summary = { $n_sessions ->
+        [one] { $n_sessions } session publicerad
+       *[other] { $n_sessions } sessioner publicerade
+    }; { $n_withheld ->
+        [one] { $n_withheld } kandidatsession undanhållen
+       *[other] { $n_withheld } kandidatsessioner undanhållna
+    } (färre än { $min } distinkta flygplan eller fartyg)
+
+engine-interference-map-locate-note-not-preregistered = obs: ett alternativ avviker från de förhandsregistrerade parametrarna, så detta är inte den förhandsregistrerade metoden
+
+engine-interference-map-locate-line-session = session { $k }: { $start } till { $end }, { $affected } distinkta påverkade, { $level }% område { $area } km², centroid { $lat }, { $lon } (ellips { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = session { $k }: { $start } till { $end }, { $affected } distinkta påverkade, rapporterna begränsar inte området (obegränsat)
+
+engine-interference-map-locate-fig-title = Uppskattat sändarområde
+
+engine-interference-map-locate-fig-subtitle = { $n ->
+        [one] Var, under angivna antaganden, en källa till de försämrade rapporterna kan finnas. Visad session: { $n }.
+       *[other] Var, under angivna antaganden, en källa till de försämrade rapporterna kan finnas. Visade sessioner: { $n }.
+    }
+
+engine-interference-map-locate-fig-none = Ingen session nådde minimikravet för publicering, så inget område visas.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct }% område
+
+engine-interference-map-locate-fig-legend-ellipse = 95% ellips för posteriorn
+
+engine-interference-map-locate-fig-note-1 = Ett område är inte positionen för något flygplan, fartyg eller någon organisation, och inte ett fastställande av orsaken.
+
+engine-interference-map-locate-fig-note-2 = Terräng modelleras inte och varje session förutsätter en källa; konfidensnivåerna är villkorade av modellen.
+
+engine-e-interference-map-locate-bad-number = { $name } är inte ett tal
+
+engine-e-interference-map-locate-bad-levels = --levels behöver kommaseparerade tal strikt mellan 0 och 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km måste vara mellan 0.5 och 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min måste vara mellan 1 och 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m behöver två tal, min,max, med 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } är inte en användbar TDOA-fixfil (receivers, tdoa_s, sigma_s, start), eller så konvergerade inte fixen
+
+engine-e-interference-map-locate-source-required = --source adsb eller --source ais krävs
+
+engine-e-interference-map-locate-no-evidence-rows = inga belägg-rader är listade för locate-utdata
