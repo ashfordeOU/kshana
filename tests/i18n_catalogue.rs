@@ -424,6 +424,8 @@ const USED_BY_ID_PREFIX: &[&str] = &[];
 /// they are merged into whole-sentence messages.
 const FRAGMENT_BASELINE: usize = 0;
 
+// The baseline is 0 today; it is a ratchet that may be raised, so the comparison stays.
+#[allow(clippy::absurd_extreme_comparisons)]
 #[test]
 fn sentence_fragments_are_listed_and_never_grow() {
     let text = std::fs::read_to_string(root().join("i18n/en/engine-fragments.txt"))
