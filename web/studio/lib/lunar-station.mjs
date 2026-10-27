@@ -6,15 +6,18 @@
 // Every figure shown comes from the report; the projection, cell outlines, threshold boundary and the azimuth
 // lines here only place those figures on the drawing. Pure; tested in lunar-station.test.mjs.
 
+import { t } from "./t.mjs";
+
 export const KIND = "lunar-station-coverage";
 export const SCENARIO_FILE = "scenarios/lunar-station-coverage.toml";
 export const RECORDED_FILE = "recorded/lunar-station-coverage.json";
 // Shown on every result, whatever the file says (the plan's rules 1, 3 and 4).
-export const HONESTY = Object.freeze([
-  "MODELLED.",
-  "Under the stated public assumptions, not a statement about the performance of any real system.",
-  "Not affiliated with or endorsed by any agency.",
-]);
+// The text is produced when read (the language can change after import): each entry is a getter on the frozen array.
+export const HONESTY = Object.freeze(Object.defineProperties(["", "", ""], {
+  0: { enumerable: true, get() { return "MODELLED."; } },
+  1: { enumerable: true, get() { return t("js-lunar-honesty-assumptions", "Under the stated public assumptions, not a statement about the performance of any real system."); } },
+  2: { enumerable: true, get() { return t("js-lunar-honesty-affiliation", "Not affiliated with or endorsed by any agency."); } },
+}));
 // Text from a file is shown only when it names no programme or agency: the view uses generic names only.
 const NAMED = /nova\s*moon|moonlight|\besa\b|european space agency|\bnasa\b/i;
 export const textIsGeneric = (s) => typeof s === "string" && !NAMED.test(s);
@@ -31,7 +34,10 @@ export const FIELDS = Object.freeze({
   in: { stationLat: "station_lat_deg", stationLon: "station_lon_deg", threshold: "accuracy_threshold_m", percentile: "percentile", alert: "alert_limit_m", latMax: "grid_lat_max_deg", latStep: "grid_lat_step_deg", moonRadius: "moon_radius_m" },
 });
 // The reasons an epoch is unavailable at a point (engine: user_lt4, station_missing_sat).
-export const REASONS = Object.freeze({ user_lt4: "fewer than four satellites in view of the user", station_missing_sat: "the station does not see every satellite the user uses" });
+export const REASONS = Object.freeze({
+  get user_lt4() { return t("js-lunar-reason-user-lt4", "fewer than four satellites in view of the user"); },
+  get station_missing_sat() { return t("js-lunar-reason-station-missing", "the station does not see every satellite the user uses"); },
+});
 // Mean lunar radius, metres: used only to draw the coverage radius on the map; the report does not state one.
 export const MOON_RADIUS_M = 1737400;
 
@@ -45,14 +51,14 @@ const MAX_POINTS = 20000, MAX_RADIUS = 3600;
 // {report: …}. Returns {report, svg, engineVersion} or {error}.
 export function unwrap(x) {
   let v = x, svg = "", engineVersion = null;
-  if (typeof v === "string") { try { v = JSON.parse(v); } catch { return { error: "This file is not JSON." }; } }
-  if (!obj(v)) return { error: "This file is not a JSON object." };
+  if (typeof v === "string") { try { v = JSON.parse(v); } catch { return { error: t("js-lunar-file-not-json", "This file is not JSON.") }; } }
+  if (!obj(v)) return { error: t("js-lunar-file-not-object", "This file is not a JSON object.") };
   if (typeof v.engine_version === "string") engineVersion = v.engine_version.slice(0, 40);
   if (typeof v.svg === "string") svg = v.svg;
-  if (typeof v.json === "string") { try { v = JSON.parse(v.json); } catch { return { error: "The file's json field is not JSON." }; } }
+  if (typeof v.json === "string") { try { v = JSON.parse(v.json); } catch { return { error: t("js-lunar-json-field-not-json", "The file's json field is not JSON.") }; } }
   else if (obj(v.json)) v = v.json;
   else if (obj(v.report)) v = v.report;
-  if (!obj(v) || (v[FIELDS.kind] !== undefined && v[FIELDS.kind] !== KIND) || !obj(v[FIELDS.region]) || !Array.isArray(v[FIELDS.points])) return { error: `This is not a ${KIND} report.` };
+  if (!obj(v) || (v[FIELDS.kind] !== undefined && v[FIELDS.kind] !== KIND) || !obj(v[FIELDS.region]) || !Array.isArray(v[FIELDS.points])) return { error: t("js-lunar-not-report", "This is not a { $kind } report.", { kind: KIND }) };
   return { report: v, svg, engineVersion };
 }
 
@@ -106,6 +112,7 @@ export function readReport(input) {
     inputs: Object.entries(inp).filter(([, v]) => isNum(v) || typeof v === "boolean" || (typeof v === "string" && v.length <= 200)).slice(0, 80),
     units: Object.fromEntries(Object.entries(units).filter(([, v]) => typeof v === "string").map(([k, v]) => [k.slice(0, 60), v.slice(0, 40)])),
     svg: u.svg, engineVersion: u.engineVersion,
+    evidence: obj(rep.evidence) || undefined,   // the engine's evidence label (absent in a run of an older engine)
   };
 }
 
@@ -113,15 +120,15 @@ export function readReport(input) {
 // The inputs a reader may change, with their scenario key and bounds. Only keys given in the address are written
 // into the scenario file; everything else keeps the file's own value.
 export const INPUTS = Object.freeze([
-  { q: "slat", key: "station_lat_deg", label: "Station latitude, degrees", min: -90, max: -80, step: 0.1 },
-  { q: "slon", key: "station_lon_deg", label: "Station longitude, degrees", min: -180, max: 180, step: 0.1 },
-  { q: "thr", key: "accuracy_threshold_m", label: "Accuracy threshold, metres", min: 0.05, max: 100, step: 0.05 },
-  { q: "survey", key: "survey_sigma_m", label: "Station survey error (1-sigma), metres", min: 0, max: 10, step: 0.01 },
-  { q: "lat", key: "latency_s", label: "Correction latency, seconds", min: 0, max: 60, step: 0.5 },
-  { q: "trials", key: "n_trials", label: "Monte Carlo trials per epoch", min: 1, max: 1000, step: 1, int: true },
-  { q: "tstep", key: "t_step_s", label: "Time step, seconds", min: 60, max: 86400, step: 60, int: true },
-  { q: "gstep", key: "grid_lat_step_deg", label: "Grid ring spacing, degrees", min: 0.25, max: 5, step: 0.25 },
-  { q: "seed", key: "seed", label: "Seed", min: 0, max: 2147483647, step: 1, int: true },
+  { q: "slat", key: "station_lat_deg", get label() { return t("js-lunar-in-station-lat", "Station latitude, degrees"); }, min: -90, max: -80, step: 0.1 },
+  { q: "slon", key: "station_lon_deg", get label() { return t("js-lunar-in-station-lon", "Station longitude, degrees"); }, min: -180, max: 180, step: 0.1 },
+  { q: "thr", key: "accuracy_threshold_m", get label() { return t("js-lunar-in-threshold", "Accuracy threshold, metres"); }, min: 0.05, max: 100, step: 0.05 },
+  { q: "survey", key: "survey_sigma_m", get label() { return t("js-lunar-in-survey-error", "Station survey error (1-sigma), metres"); }, min: 0, max: 10, step: 0.01 },
+  { q: "lat", key: "latency_s", get label() { return t("js-lunar-in-latency", "Correction latency, seconds"); }, min: 0, max: 60, step: 0.5 },
+  { q: "trials", key: "n_trials", get label() { return t("js-lunar-in-trials", "Monte Carlo trials per epoch"); }, min: 1, max: 1000, step: 1, int: true },
+  { q: "tstep", key: "t_step_s", get label() { return t("js-lunar-in-time-step", "Time step, seconds"); }, min: 60, max: 86400, step: 60, int: true },
+  { q: "gstep", key: "grid_lat_step_deg", get label() { return t("js-lunar-in-grid-spacing", "Grid ring spacing, degrees"); }, min: 0.25, max: 5, step: 0.25 },
+  { q: "seed", key: "seed", get label() { return t("js-lunar-in-seed", "Seed"); }, min: 0, max: 2147483647, step: 1, int: true },
 ]);
 export const MAX_QUERY = 512;
 
@@ -129,14 +136,14 @@ export const MAX_QUERY = 512;
 export function parseState(search) {
   const notes = [], set = {};
   let s = typeof search === "string" ? search : "";
-  if (s.length > MAX_QUERY) { notes.push("The address was too long; the defaults are shown."); s = ""; }
+  if (s.length > MAX_QUERY) { notes.push(t("js-lunar-address-too-long", "The address was too long; the defaults are shown.")); s = ""; }
   const q = new URLSearchParams(s.replace(/^\?/, ""));
   const src = q.get("src") === "live" ? "live" : "recorded";
-  if (q.has("src") && !["live", "recorded"].includes(q.get("src"))) notes.push("Unknown source in the address; the recording is shown.");
+  if (q.has("src") && !["live", "recorded"].includes(q.get("src"))) notes.push(t("js-lunar-address-unknown-source", "Unknown source in the address; the recording is shown."));
   for (const d of INPUTS) {
     if (!q.has(d.q)) continue;
     const raw = q.get(d.q), v = Number(raw);
-    if (raw === "" || !/^-?\d+(\.\d+)?$/.test(raw) || !Number.isFinite(v) || v < d.min || v > d.max || (d.int && !Number.isInteger(v))) { notes.push(`${d.label}: "${raw.slice(0, 20)}" is outside ${d.min} to ${d.max}; the file's value is used.`); continue; }
+    if (raw === "" || !/^-?\d+(\.\d+)?$/.test(raw) || !Number.isFinite(v) || v < d.min || v > d.max || (d.int && !Number.isInteger(v))) { notes.push(t("js-lunar-address-outside-range", "{ $label }: \"{ $raw }\" is outside { $min } to { $max }; the file's value is used.", { label: d.label, raw: raw.slice(0, 20), min: d.min, max: d.max })); continue; }
     set[d.q] = v;
   }
   return { state: { src, set }, notes };
@@ -162,12 +169,12 @@ export function withInputs(toml, set) {
   for (const d of INPUTS) {
     if (!isNum(set?.[d.q])) continue;
     const v = set[d.q];
-    if (v < d.min || v > d.max || (d.int && !Number.isInteger(v))) return { error: `${d.label} is out of range.` };
+    if (v < d.min || v > d.max || (d.int && !Number.isInteger(v))) return { error: t("js-lunar-input-out-of-range", "{ $label } is out of range.", { label: d.label }) };
     const re = new RegExp(`^(\\s*${d.key}\\s*=\\s*)(-?\\d+(?:\\.\\d+)?(?:[eE][-+]?\\d+)?)(\\s*(?:#.*)?)$`, "m");
     if (!re.test(out)) { missing.push(d.key); continue; }
     out = out.replace(re, (_, a, _b, c) => `${a}${v}${c}`);
   }
-  if (missing.length) return { error: `The scenario file has no ${missing.join(", ")}; it cannot be changed here.` };
+  if (missing.length) return { error: t("js-lunar-scenario-missing-keys", "The scenario file has no { $keys }; it cannot be changed here.", { keys: missing.join(", ") }) };
   return { toml: out };
 }
 
@@ -274,5 +281,5 @@ export function dominantShare(bins) {
   for (const b of n) c[b] = (c[b] || 0) + 1;
   return Math.max(...Object.values(c)) / n.length;
 }
-export const pct = (x) => (x == null ? "not stated" : `${(x * 100).toFixed(x > 0.999 && x < 1 ? 2 : 1)} %`);
-export const metres = (x) => (x == null ? "not stated" : x < 10 ? `${x.toFixed(2)} m` : `${x.toFixed(1)} m`);
+export const pct = (x) => (x == null ? t("js-lunar-not-stated", "not stated") : `${(x * 100).toFixed(x > 0.999 && x < 1 ? 2 : 1)} %`);
+export const metres = (x) => (x == null ? t("js-lunar-not-stated", "not stated") : x < 10 ? `${x.toFixed(2)} m` : `${x.toFixed(1)} m`);

@@ -18,6 +18,7 @@ import * as V from "./views.mjs";
 import * as K from "./kinds.mjs";
 import * as G from "./stages.mjs";
 import { own } from "./own.mjs";
+import { t } from "./t.mjs";
 
 export const DEFAULT_KIND = "holdover";
 
@@ -89,7 +90,7 @@ export function previewOf(result, toml) {
     const p = sm && tryLine(sm, sm.title);
     if (p) return p;
     const hm = V.holdoverModel(result);
-    if (hm) { const q = tryLine(hm, "Holdover"); if (q) return q; }
+    if (hm) { const q = tryLine(hm, t("js-lib-areas-holdover", "Holdover")); if (q) return q; }
     // A coverage map: a coarse heat grid of its first field.
     const cf = G.coverageFields(result);
     if (cf.length && result.grid && Array.isArray(result.grid[cf[0].key])) {
@@ -103,7 +104,7 @@ export function previewOf(result, toml) {
       }
     }
     const gt = V.groundTrack(result);
-    if (gt && Array.isArray(gt.points)) { const q = sparkPoints(gt.points.map((x, i) => [i, x[0] ?? x.lat])); if (q) return { type: "line", title: "Ground track", points: q }; }
+    if (gt && Array.isArray(gt.points)) { const q = sparkPoints(gt.points.map((x, i) => [i, x[0] ?? x.lat])); if (q) return { type: "line", title: t("js-lib-areas-ground-track", "Ground track"), points: q }; }
   } catch { /* a result shape this preview does not know: no preview */ }
   return null;
 }

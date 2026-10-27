@@ -16,6 +16,7 @@
 
 // The engine functions a caller may request. Anything else is refused, so a message
 // can never name an arbitrary property of the wasm module.
+import { t } from "./t.mjs";
 export const ENGINE_FNS = Object.freeze([
   "run",
   "run_all",
@@ -132,7 +133,7 @@ export function isCancelled(e) {
 // "Running…" / "Running… 7 s": whole seconds, shown once a second has passed.
 export function busyLabel(verb, elapsedMs) {
   const s = Math.floor(Math.max(0, elapsedMs) / 1000);
-  return s >= 1 ? `${verb}… ${s} s` : `${verb}…`;
+  return s >= 1 ? t("js-lib-engine-busy-seconds", "{ $verb }… { $s } s", { verb, s }) : t("js-lib-engine-busy", "{ $verb }…", { verb });
 }
 
 // createEngineClient({ spawn, local, defer })
@@ -206,7 +207,7 @@ export function createEngineClient({ spawn, local, defer, init } = {}) {
       }
       // The engine died mid-call (e.g. out of memory): fail what was in flight and
       // start a fresh worker for the next call.
-      const msg = errorMessage(ev && (ev.error || ev.message) ? (ev.error || ev.message) : "engine worker crashed");
+      const msg = errorMessage(ev && (ev.error || ev.message) ? (ev.error || ev.message) : t("js-lib-engine-worker-crashed", "engine worker crashed"));
       for (const [id, p] of pending) {
         pending.delete(id);
         p.reject(new Error(msg));

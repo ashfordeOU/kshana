@@ -12,6 +12,8 @@
 // named as what it is and placed after the matrix figures. Pure logic; app.js puts the
 // strings into the page with textContent.
 
+import { t } from "./t.mjs";
+
 /// `{total, validated, modelled, partner}` counted from the ledger's rows. Throws when
 /// the file's own `summary` block disagrees with its rows, so a hand-edited or
 /// half-regenerated file cannot put a wrong number on the page.
@@ -42,12 +44,10 @@ export function matrixCounts(ledger) {
 /// The headline tally: the verification matrix first, in the same terms as the
 /// READMEs, then the capability cards named as a summary of it.
 export function explorerTally(m, cards) {
-  const matrix = `${m.validated} of ${m.total} capabilities validated against an external oracle · ${m.modelled} modelled · ${m.partner} partner-owned`;
-  const layer = `shown here as ${cards.total} capability cards in ${cards.domains} domains, ${cards.evidence} evidence claims`;
-  return `${matrix} — ${layer}`;
+  return t("js-lib-counts-explorer-tally", "{ $validated } of { $total } capabilities validated against an external oracle · { $modelled } modelled · { $partner } partner-owned — shown here as { $cards } capability cards in { $domains } domains, { $evidence } evidence claims", { validated: m.validated, total: m.total, modelled: m.modelled, partner: m.partner, cards: cards.total, domains: cards.domains, evidence: cards.evidence });
 }
 
 /// The tally when the "Validated only" filter is on.
 export function explorerValidatedTally(m, cards) {
-  return `${m.validated} of ${m.total} capabilities validated against an external oracle — shown here as ${cards.validated} capability cards and ${cards.evidenceValidated} evidence claims`;
+  return t("js-lib-counts-validated-tally", "{ $validated } of { $total } capabilities validated against an external oracle — shown here as { $cards } capability cards and { $evidence } evidence claims", { validated: m.validated, total: m.total, cards: cards.validated, evidence: cards.evidenceValidated });
 }
