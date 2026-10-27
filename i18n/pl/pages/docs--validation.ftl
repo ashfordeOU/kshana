@@ -593,3 +593,589 @@ seg-403b15ec1b9b = Pełny silnik sił (+ opór atmosferyczny) dopasowany do dos�
 seg-3be5a6bee187 = Księżyc LRO (Lunar Reconnaissance Orbiter) — sprawdzone względem niezależnego wzorca, powyżej { "5" } m (uczciwie)
 
 seg-d2be90186a89 = Dopasowanie modelu sił <b>wokół Księżyca</b> (<c1/>): pole grawitacyjne GRAIL <b>GRGM660PRIM</b> (d/o { "100" }) w księżycowym układzie głównych osi związanym z ciałem (<c2/>, średni układ Ziemia–Księżyc IAU { "2015" } + stałe przesunięcie DE421 (Development Ephemeris { "421" }) od średniej Ziemi do osi głównych (ME→PA), stosowane tak, jak definiuje je SPICE od { "0.36" }: dotąd było stosowane w złym kierunku, o około { "208" }″ obok) + trzecie ciało Ziemia/Słońce, dopasowane przez <em>ten sam</em> ogólny estymator Gaussa–Newtona co zbiory danych Ziemi do rzeczywistej zrekonstruowanej orbity <b>JPL Horizons LRO</b> (NAIF −{ "85" }), { "4" } h / { "241" } epok, ~{ "98" } km. Uczciwe wartości po dopasowaniu ({ "0.36" }): <b>dynamiczne { "12.05" } m</b> (RTN 2.91/10.11/5.88), <b>zredukowanodynamiczne { "6.67" } m</b> (RTN 3.41/4.58/3.44, empiria { "1" }+2 na obieg), z surowego nakładania { "39.9" } m (przed poprawką ME→PA: { "12.6" } m, { "6.65" } m, { "53.8" } m) — <b>powyżej</b> progu < { "5" } m, a nie wina estymatora (identyczne przy d/o 100/150 i <c3/> 1e-6/1e-9). <b>Kontrola krzyżowa klasy DE</b> (<c4/>: księżycowa orientacja osi głównych DE440 (Development Ephemeris { "440" }) + efemerydy DE440 przez ANISE) <b>skorygowała</b> twierdzenie o czynniku ograniczającym — dała { "12.0" } m dynamicznie i { "6.67" } m zredukowanodynamicznie, co poprawiony stos analityczny teraz odtwarza na obu poziomach (wcześniejsza luka dynamiczna, { "12.6" } → { "12.0" } m, była błędem przesunięcia ME→PA), więc podłoga operacyjna <b>nie</b> jest analityczną orientacją/efemerydami, lecz nieredukowalną na poziomie empirycznym resztą (najbardziej zgodną z niemodelowaną niegrawitacyjną dynamiką LRO na krótkim łuku); szczupły stos analityczny już dorównuje klasie DE dla orbity zredukowanodynamicznej. Pochodzenie + SHA-256 w <c5/>; pełny zapis w <c6/>. <b>Sprawdzone względem rzeczywistej prawdy agencji: { "3" } z { "3" }; spełniające < { "5" } m: { "2" } z { "3" }.</b>
+
+seg-3d3cbf5f043d = Nawigacja z mapą grawitacyjną / alt-PNT (<c1/>, <c2/>, <c3/>, <c4/>)
+
+seg-89f2cbf55842 = Pole anomalii grawitacyjnych w postaci harmonik sferycznych
+
+seg-76cae5c530f2 = <c1/>: pole niskiego stopnia, w pełni znormalizowane, sprawdzone względem funkcji Legendre'a w postaci zamkniętej (<c2/>, <c3/>, <c4/>) oraz wyprowadzonej ręcznie anomalii jednego składnika o wartości { "1.897" } mGal.
+
+seg-f00f82b70e6e = Model pomiaru grawimetru z zimnymi atomami
+
+seg-49090598c525 = Poziom szumu białego wyprowadza się z ASD akcelerometru CAI (<c1/>) i wstrzykuje jako deterministyczny ciąg zależny od ziarna (dopasowywanie nigdy nie otrzymuje prawdy bez szumu, a przebieg mimo to jest odtwarzalny co do bitu).
+
+seg-0556db62c45f = Filtr cząsteczkowy z sekwencyjnym ważeniem i resamplingiem
+
+seg-3df4251aedbd = <c1/>: deterministyczny rdzeń jest ustalony dokładnie: ESS (efektywna liczebność próby) w zakresie { "1" }…N, resampling systematyczny wybierający indeksy proporcjonalnie do wagi, kombinacja wypukła w średniej ważonej, gaussowska funkcja wiarygodności przyciągająca estymatę do pomiaru oraz determinizm kroku predykcji przy danym ziarnie.
+
+seg-7dca80b16a00 = Wiarygodność dopasowania do mapy i odzyskiwanie pozycji
+
+seg-eb40ab2607ae = <c1/>: <c2/> osiąga maksimum (= { "1" }) przy idealnym dopasowaniu, a przy jednym sigma spada do <c3/>; filtr cząsteczkowy na wyrazistym fragmencie syntetycznego terenu odzyskuje prawdziwą pozycję z dokładnością do { "0.1" }.
+
+seg-446d9f03a860 = Benchmark 60 minut bez GPS
+
+seg-ed29fb24d9d5 = <c1/> (<c2/>): utrata sygnału na ~{ "700" } km / jedną godzinę, podczas której rozwiązanie inercyjne dryfuje do <b>≈ { "70" } km</b>, zostaje odzyskana do <b>≈ { "145" } m (< { "500" } m)</b> przez hierarchiczny algorytm dopasowania od zgrubnego do dokładnego, odtwarzalny co do bitu, stabilny dla różnych realizacji szumu i dowodnie ograniczony rozdzielczością (pojedyncza zgrubna siatka zatrzymuje się na ~{ "2" } km).
+
+seg-81a2963c26cc = Wczytywanie plików <c1/> z SRTM (Shuttle Radar Topography Mission) jako DEM (cyfrowy model wysokości) i próbkowanie dwuliniowe (WYROCZNIA A)
+
+seg-5e7bbf951faf = <c1/> / <c2/>: ręcznie zbudowany bufor <c3/> o rozmiarze { "2" }×{ "2" } z narożnikami [{ "100,200" };{ "300,400" }] daje w interpolacji dwuliniowej <b>dokładnie { "250.0" }</b> w środku komórki (wyrocznia w postaci zamkniętej), 16-bitowy zapis i odczyt big-endian jest dokładny, a odwrócenie wierszy umieszcza najbardziej północny wiersz pliku na najwyższej zapisanej szerokości geograficznej; wszystko to względem <b>specyfikacji sterownika SRTMHGT (format plików wysokości Shuttle Radar Topography Mission) w GDAL (Geospatial Data Abstraction Library)</b> (16-bitowe liczby ze znakiem, big-endian, wierszami, pierwszy wiersz północny, wartość pusta -32768, <a1>https://gdal.org/en/stable/drivers/raster/srtmhgt.html</a1>). Zatwierdzony do repozytorium wzorzec { "11" }×{ "11" } (<c4/>) sprawdza parser w CI; a <b>zatwierdzony do repozytorium rzeczywisty kafelek SRTM v3 z NASA/USGS (USGS: United States Geological Survey), należący do domeny publicznej</b> (N36W117, Dolina Śmierci, zredukowany do 6 sekund łuku, { "722" } KB, <c5/>), jest odczytywany w CI (nieignorowany, <c6/>) i umieszcza <b>Badwater Basin na ≈ −{ "78" } m w udokumentowanym przedziale [−{ "95" },−{ "70" }] m</b> (pomiar NGS/NOAA (NGS: National Geodetic Survey; NOAA: National Oceanic and Atmospheric Administration) ≈ −{ "86" } m), przy maksimum kafelka ≈ { "2161" } m; źródłem prawdy jest pomiar geodezyjny, a testowany jest DEM (bez cyklicznej zależności). Większe opublikowane wysokości punktowe (Mount Whitney { "4421" } m) pozostają w testach pełnych kafelków za bramką <c7/>.
+
+seg-80f985ea3e11 = Zbieżność nawigacji odniesionej do terenu (TERCOM/SITAN (TERCOM: terrain contour matching; SITAN: Sandia Inertial Terrain-Aided Navigation)) (WYROCZNIA B)
+
+seg-9ad7bf3a8c3e = <c1/> (<c2/>): <b>wyprowadzony ręcznie</b> wstrzyknięty dryf INS ({ "0.5" }°N, −{ "0.4" }°E ≈ { "70" } km na ~{ "12" }° szer., obliczony jako dryf° × M_na_stopień × cos szer.) zostaje odzyskany do <b>< { "500" } m</b> (w granicach dolnego progu rozdzielczości siatki <c3/>), czyli ponad { "100" }-krotne zmniejszenie względem swobodnej inercji; sprawdzone względem <em>wstrzykniętej</em> wartości, nigdy względem DEM (bez cyklicznej zależności), odtwarzalne co do bitu i stabilne dla różnych ziaren szumu.
+
+seg-5b7c1dc72436 = Zysk z połączenia grawitacji, magnetyzmu i terenu (WYROCZNIA C)
+
+seg-7e3818f2ee2b = <c1/> (<c2/>): trzy kanały skalarne (Δg · anomalia skorupowa |B| · wysokość) połączone jako iloczyn funkcji wiarygodności dają <b>ograniczony błąd poniżej { "500" } m</b> w 60-minutowej utracie sygnału, który po uśrednieniu po ziarnach jest <b>nie gorszy niż najlepszy pojedynczy kanał</b> (addytywność informacji / niższa granica CRLB (dolna granica Craméra–Rao)). Mieści się w opublikowanym zakresie „kilkudziesięciu metrów” CEP (promień błędu kołowego prawdopodobnego) dla TERCOM / nawigacji odniesionej do terenu (TRN) (<a1>https://en.wikipedia.org/wiki/TERCOM</a1>; PeerJ { "2024" } ESKF-TERCOM (ESKF: filtr Kalmana stanu błędu), <a2>https://peerj.com/articles/cs-3118/</a2>).
+
+seg-fe23ff839bce = Uczciwy zakres: pole grawitacyjne to niski stopień plus syntetyczne maskony, <b>a nie</b> pełny zestaw współczynników EGM2008/EIGEN (EIGEN: European Improved Gravity model of the Earth by New techniques); kanał magnetyczny opiera się na gładkim głównym polu IGRF oraz <b>syntetycznych</b> maskonach anomalii skorupowych (rzeczywista mapa skorupy o wysokiej częstotliwości to dalszy krok); pole terenu w CI dla benchmarków <em>poprawki nawigacyjnej</em> to samodzielny syntetyczny DEM, natomiast sam czytnik <c1/> jest już walidowany w CI względem zatwierdzonego do repozytorium rzeczywistego kafelka SRTM v3 (powyżej); rzeczywiste kafelki w pełnej rozdzielczości pozostają za bramką <c2/>. Monte Carlo błędu reprezentacji mapy pozostaje dalszym krokiem. Wszystkie trzy nawigatory są już podłączone do silnika scenariuszy przez <c3/> (<c4/>, <c5/>, <c6/>).
+
+seg-d9f7e199e5d0 = Model błędów INS / IMU: walidacja względem kart katalogowych (<c1/>)
+
+seg-48266c2faaed = Stochastyczny model błędów IMU jest sprawdzany względem <b>opublikowanych specyfikacji z kart katalogowych producentów i zbiorów danych</b>, nigdy względem wartości wytworzonej przez samą Kshana. Pomostem od specyfikacji w jednostkach polowych do modelu szumu w SI (International System of Units) jest standardowa identyfikacja odchyleniem Allana (Riley, NIST SP { "1065" } §{ "5" }; IEEE (Institute of Electrical and Electronics Engineers) Std { "952" }): współczynnik błądzenia losowego <c1/> to nakładające się ADEV odczytane przy τ = { "1" } s na nachyleniu τ⁻¹ᐟ², a współczynnik niestabilności biasu to płaski płaskowyż Allana (<c2/>, hermetycznie, bez pobierania).
+
+seg-702de63000d2 = Dowód / wyrocznia
+
+seg-c3fed48b98b1 = Warstwa przeliczania jednostek (ryzyko cykliczności nr 1)
+
+seg-6cdc88d36bfd = Sprawdzone ręcznie: { "0.15" } deg/√hr = { "4.3633e-5" } rad/√s; { "3.6" } µg = { "3.5304e-5" } m/s²; { "2.0" } deg/hr = { "9.6963e-6" } rad/s.
+
+seg-75afa5abcd08 = Błądzenie losowe kąta żyroskopu
+
+seg-d5fd60857e4d = ADIS16465 ARW { "0.15" } deg/√hr (karta katalogowa Analog Devices) odzyskane z ADEV({ "1" } s) z błędem poniżej { "5" }%.
+
+seg-c5e2d361b83f = Błądzenie losowe prędkości akcelerometru
+
+seg-4413d3bb39b4 = ADIS16465 VRW { "0.1" } m/s/√hr odzyskane z błędem poniżej { "5" }%.
+
+seg-ebeb0bb0e0fb = Nachylenie Allana dla szumu białego
+
+seg-f674ce82dc2c = Nachylenie log-log gałęzi białej ADIS16460 −{ "0.5" } ± { "0.05" }.
+
+seg-40afd130f31d = Płaskowyż niestabilności biasu w trakcie pracy
+
+seg-94acb18a94cb = Niestabilność biasu (BI) żyroskopu ADIS16465 { "2.0" } deg/hr odzyskana jako płaskie minimum Allana z błędem poniżej { "15" }%.
+
+seg-b359e0e92e20 = Drugi profil IMU
+
+seg-1a304949bcf9 = NaveGo ADIS16488 (ARW { "0.3" } deg/√hr, VRW { "0.029" } m/s/√hr), oba odzyskane z błędem poniżej { "5" }%.
+
+seg-fea9287d6533 = Uczciwy zakres: sprawdzany jest <b>stochastyczny model błędów</b> względem współczynników Allana z kart katalogowych. Zbiór danych pojazdu i2Nav-WHU (WHU: Wuhan University) <b>KF-GINS</b> służy jako odrębna kontrola uzależniona od danych: słabo sprzężony EKF stanu błędu w zamkniętej pętli, z modelem ramienia dźwigni GNSS, jest wierszem VALIDATED w <a1>macierzy weryfikacji</a1> (<em>Słabo sprzężony EKF GNSS/INS z ramieniem dźwigni na zbiorze danych KF-GINS</em>), porównanym z referencyjną trajektorią C++ z KF-GINS względem progów zarejestrowanych przed przebiegiem. Działa tylko tam, gdzie dostarczono zbiór danych (<c1/>); bez niego uruchamiane są testy syntetycznego loadera i ramienia dźwigni. Warianty ściśle sprzężone i z fazą nośnej nie są objęte tym wierszem (wiersz ściśle sprzężonego GNSS/INS z fazą nośnej to MODELLED).
+
+seg-f0ab98c1a79d = PNT w głębokiej przestrzeni kosmicznej i na Marsie: fundament D0 (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>)
+
+seg-bd222b27949c = Pierwszy kamień milowy silnika nawigacji w głębokiej przestrzeni kosmicznej: uogólnienie rdzenia na stałe związanego z Ziemią do dowolnego ciała centralnego, dodanie dynamiki Marsa, interfejsu dostawcy efemeryd, czasu z dokładnością poniżej mikrosekundy oraz podstawowych funkcji czasu światła i opóźnienia relatywistycznego. <b>Każdy istniejący scenariusz ziemski jest identyczny co do bajtu</b>: wzorce odtwarzalności międzyplatformowej (<c1/>, <c2/>) przechodzą bez zmian, bez ponownego generowania, co jest wymuszane przy każdym commicie.
+
+seg-e0cdbfcbb28a = Abstrakcja ciała centralnego (Ziemia identyczna co do bajtu)
+
+seg-7d20649189fa = <c1/>: <c2/> z <c3/>. <c4/> potwierdza, że <c5/> i <c6/> są równe dawnym funkcjom ziemskim z <b>dokładną równością bitową</b> (<c7/>), a łuk ziemski z domyślnym <c8/> jest identyczny co do bajtu: wzorce odtwarzalności nie zmieniają się (ten sam SHA, bez ponownego generowania).
+
+seg-658acc8112e3 = Grawitacja Marsa (tesseralna GMM-3 (GMM: Goddard Mars Model), w układzie związanym z ciałem)
+
+seg-9b058665cf4b = <c1/>: zonalne C̄20/C̄30/C̄{ "40" } z J2/J3/J4 MRO110 (rozwiązanie grawitacyjne Mars Reconnaissance Orbiter) (<c2/>, J2 po konwersji w obie strony daje { "1.9604e-3" }) oraz sektorialne/tesseralne MRO110B2 C̄22/S̄{ "22" }, C̄32/S̄{ "32" } (Konopliv i in. { "2011" }; zestawione w Liu, Baoyin & Ma { "2012" }), obliczane w układzie IAU związanym z Marsem. <c3/> sprawdza konwersję w obie strony, odchylenie rzędu J2 od masy punktowej oraz to, że pole rzeczywiście jest związane z ciałem (zmiana orientacji o ćwierć doby marsjańskiej zmienia przyspieszenie inercjalne). Wyższy stopień i rząd wczytuje się z dołączonego pliku <c4/> przez <c5/>.
+
+seg-1dcbee768418 = Układ związany z Marsem (biegun IAU)
+
+seg-0708e5b37d69 = <c1/>: obrót IAU 3-1-3 <c2/> (konwencja WGCCRE/NAIF (WGCCRE: Working Group on Cartographic Coordinates and Rotational Elements), taka sama jak w <c3/>). Testy: ortonormalność do { "1e-12" } przy det +{ "1" }, tożsamość po konwersji w obie strony, południk zerowy przesuwa się o <c4/> na dobę.
+
+seg-5b6355a143c7 = Propagacja względem Marsa / Słońca
+
+seg-4ab87f666765 = <c1/> (spójność wewnętrzna)
+
+seg-12e3d173340b = <c1/>: niska orbita marsjańska wraca do punktu startu po jednym okresie keplerowskim (domknięcie); energia właściwa ε=v²/2−μ/r dryfuje o <{ "1e-9" } na łuku; wiekowa regresja węzła z powodu J2 Marsa zgadza się z analityczną wartością Vallado (obliczoną niezależnie ≈ −{ "5.15" } °/dobę przy nachyleniu { "60" }°) z dokładnością { "3" }%; orbita heliocentryczna odtwarza ~687-dniowy rok marsjański (vis-viva + niezależne odzyskanie okresu z łuku). Bez danych zewnętrznych.
+
+seg-acff4c016089 = Walidacja krzyżowa z DE440 (Mars heliocentryczny)
+
+seg-ed164e298754 = <c1/> (wyłączone z workspace; ANISE na licencji MPL-2.0 ograniczone do własnego Cargo.lock; odpowiednik <c2/>): porównuje propagację Marsa względem Słońca w Kshana z JPL DE440 (przez ANISE), z prawdą z Horizons cytowaną dosłownie (pochodzenie + SHA-256). <b>Odtworzony wynik</b> (epoka początkowa JD (data juliańska) { "2459580.5" } TDB (czas dynamiczny barycentryczny), <c3/> SHA-256 <c4/>): residuum pozycji <b>{ "137" } m na łuku 1-dobowym</b> ({ "5.97" }×{ "10" }⁻¹⁰ heliocentrycznej odległości { "2.299" }×10¹¹ m), rosnące do { "3.3" } km po { "5" } d, { "87.9" } km po { "30" } d, { "1.71" } Mm po { "90" } d; residuum <em>rośnie</em> z długością łuku, ponieważ dwuciałowy model względem Słońca celowo pomija zaburzenia planetarne (głównie Jowisza) oraz wewnętrzny ruch układu Marsa, które zawiera barycentryczna efemeryda DE440, więc ten wzrost jest uczciwą sygnaturą niezamodelowanej dynamiki n ciał, a nie błędu integratora; krótki łuk pozostający drobnym ułamkiem odległości heliocentrycznej potwierdza, że mechanizm względem Słońca jest poprawny. Działa tylko wtedy, gdy jądro DE440 jest dostępne (<c5/>, lub pobierane automatycznie ~{ "32" } MB): to ręczna kontrola klasy DE / <c6/>, <b>a nie</b> domyślna bramka CI, więc opublikowany crate i każda domyślna bramka pozostają bez zmian co do bajtu.
+
+seg-a7d79066a53b = Czas światła i opóźnienie Shapiro
+
+seg-798148171dab = <c1/>: iteracyjne rozwiązanie czasu światła w epoce opóźnionej (zbieżne przy |Δτ|<{ "1e-12" } s, z ograniczeniem liczby iteracji) oraz opóźnienie Shapiro Δt=(2μ/c³)·ln[(r1+r2+r12)/(r1+r2−r12)]. Testy: Ziemia–Słońce ≈ { "499" } s i Ziemia–Księżyc ≈ { "1.28" } s przez wbudowaną efemerydę; syntetyczny emiter o stałej prędkości odtwarza analityczne rozwiązanie opóźnione z dokładnością <{ "1e-9" } s (solver dowodnie niezależny od jakiejkolwiek rzeczywistej efemerydy); Shapiro zgadza się dokładnie z wartością policzoną ręcznie i daje ~{ "100" }–{ "250" } µs dla promienia ocierającego się o koniunkcję górną Ziemia–Mars.
+
+seg-1bc28f6bdc8f = Interfejs dostawcy efemeryd
+
+seg-34d6a07ad252 = <c1/>: <c2/> + niewymagające jąder <c3/> (Montenbruck–Gill Słońce/Księżyc, geocentrycznie); zwraca <c4/> dla ciał, dla których nie ma szeregu (np. Mars), a dla nich drogą jest dostawca ANISE klasy DE: ten sam podział na wbudowany i ANISE co w <c5/>/<c6/>.
+
+seg-5e1fed7a98c0 = Czas dwuczęściowy + TT↔TDB
+
+seg-5ebca9b5f2db = <c1/>: <c2/> z akumulacją dwusumy Knutha odzyskuje przedziały poniżej mikrosekundy, które pojedyncza data JD w f64 traci w pobliżu J2000 (>{ "1000" }× lepiej, przetestowane); <c3/>/<c4/> używają dominującego szeregu okresowego Fairheada–Bretagnona (|TDB−TT|≲{ "1.7" } ms, sprawdzone ręcznie w J2000). Rozwiązanie addytywne: istniejąca ścieżka czasu w pojedynczym f64 pozostaje bez zmian.
+
+seg-d2da2e1d1711 = Radiometryczne wielkości obserwowane w głębokiej przestrzeni kosmicznej i CCSDS Tracking Data Message: D1 (<c1/>, <c2/>)
+
+seg-b98f508f2375 = Drugi kamień milowy silnika nawigacji w głębokiej przestrzeni kosmicznej: <b>model wielkości obserwowanych</b>, który zamienia jądro czasu światła i opóźnienia relatywistycznego z D0 w rzeczywiste wielkości, jakie podaje przelot śledzony przez Deep Space Network (DSN) lub ESTRACK (European Space Tracking network): zasięg, dopplera jedno-, dwu- i trójdrogowego, spójne przetwarzanie transpondera, zasięg regeneracyjny/PN (PN: pseudo-noise), Δ-DOR (DOR: differential one-way ranging) oraz ośrodki propagacji, a także wejście/wyjście <b>CCSDS (Consultative Committee for Space Data Systems) 503.0-B Tracking Data Message (TDM)</b>, które wczytuje i zapisuje standardowy plik śledzenia agencji. <b>Uczciwy zakres:</b> są to <b>dokładne modele geometryczne</b> oparte na konwencjach Moyera / CCSDS; <em>szum</em> pomiaru to podawane przez wywołującego <c1/> dla każdej obserwacji, a nie część modelu. Odtworzenie <em>konkretnego rzeczywistego przelotu</em> wymaga rzeczywistych danych TDM oraz solvera wyznaczania orbity w głębokiej przestrzeni kosmicznej: to jest <b>D2</b>, a nie D1. Wszystko poniżej jest addytywne (wzorce odtwarzalności bez zmian; ten sam SHA, bez ponownego generowania).
+
+seg-d1d2dc7906c8 = Zasięg i doppler 1/2/3-drogowy (rozwiązanie dwóch odcinków wg Moyera)
+
+seg-e2176b844df8 = <c1/>: <c2/>/<c3/> składają rozwiązania czasu światła D0 dla odcinka opóźnionego (w dół) i wyprzedzonego (w górę); pełna konwencja drogi tam i z powrotem to <c4/> (m), udokumentowana i spójna. <c5/>/<c6/>/<c7/> tworzą przesunięcie nośnej <c8/> (Hz) z prędkości zmiany zasięgu wzdłuż linii widzenia, <b>konwencja znaku: zbliżający się statek kosmiczny daje dodatnie (niebieskie) przesunięcie</b>. Testy: zasięg dwudrogowy = suma odcinków z dokładnością <{ "1" } mm (~{ "2" } AU w obie strony Ziemia–Słońce); zasięg jednodrogowy = <c9/> dokładnie; doppler jednodrogowy zgadza się z analitycznym <c10/> dla radialnego emitera o stałej prędkości z dokładnością do ppt; trójdrogowy ze stacjami w tym samym miejscu redukuje się co do bajtu do dwudrogowego.
+
+seg-638697be5b5b = Spójne przetwarzanie transpondera (dokładne współczynniki DSN)
+
+seg-781aa4041c58 = <c1/>: dokładne wymierne liczby przetwarzania DSN/CCSDS <c2/> (Moyer §{ "13" }; DSN 810-005 moduł 201/214): S/S 240/221, S/X 880/221, X/S 240/749, X/X 880/749, X/Ka 3344/749, Ka/Ka 3360/3599. Testowane na dokładną równość; niezdefiniowana para pasm powoduje <b>panikę</b> (głośna awaria, nigdy wymyślanie współczynnika). <c3/> stosuje nośną pasma i współczynnik od początku do końca i jest równe jawnemu <c4/> z dokładnością maszynową.
+
+seg-f24f9da1570c = Zasięg regeneracyjny / PN (CCSDS { "414" }; niejednoznaczność)
+
+seg-1abd8c221e8d = <c1/>: <c2/> = <c3/> (jednoznaczny zasięg w skali rozdzielczości na chip) oraz <c4/> = to razy długość kodu (pełny jednoznaczny zasięg kodu PN <c5/>), wg CCSDS 414.1-B. Testowane: zegar zasięgu { "1" } MHz daje ~{ "149.9" } m; kod PN CCSDS-414.1 z ważonym głosowaniem ({ "1 009 470" } chipów) przy { "1" } Mchip/s daje projektowy zasięg jednoznaczny ~{ "151 000" } km; podwojenie częstotliwości chipów zmniejsza niejednoznaczność na chip o połowę.
+
+seg-16b9fdd916a7 = Δ-DOR (CCSDS { "506" }, płaszczyzna nieba)
+
+seg-93055e944306 = <c1/>: różnicowe opóźnienie w płaszczyźnie nieba <c2/> (s) dla bazy interferometru <c3/> (CCSDS 506.1-B). Testowane: zgodność z dokładnym rzutem analitycznym <c4/> dla znanego przesunięcia wyrównanego z bazą z dokładnością { "1e-15" } s, z wielkością dla małych kątów <c5/> oraz z <b>zerem</b> (statek kosmiczny współliniowy z kwazarem daje dokładnie zerowe opóźnienie różnicowe).
+
+seg-4e5258bb04d5 = Kalibracja plazmy 1/f² w dwóch częstotliwościach
+
+seg-e3b340103825 = <c1/>: <c2/> = <c3/> (dyspersyjne <c4/> opóźnienie grupowe cząstek naładowanych, <c5/>); <c6/> kolumna korony klasy Cassini <c7/> (analityczny zamiennik, nie skalibrowana korona); <c8/> odwrócenie dyspersji <c9/>, którego DSN używa do usuwania plazmy. Testowane: prawo 1/f² <c10/>; korona rośnie w kierunku koniunkcji; a <b>wstrzyknięte TEC zostaje odzyskane z błędem poniżej { "1" } %</b> (w istocie ≪ { "1e-9" } bez szumu): <c11/>.
+
+seg-e1e265ab499a = Ośrodki tropo- / jonosferyczne (ponowne użycie modeli GNSS)
+
+seg-2d9aa52f318b = <c1/>/<c2/>: naziemny segment stacji dla głębokiej przestrzeni kosmicznej przechodzi przez tę samą atmosferę Ziemi, którą pakiet GNSS już modeluje, więc deleguje do <c3/> (zenit Saastamoinena + odwzorowanie Niella, niedyspersyjne) i <c4/> (jonosfera z transmisji). Testowane: podłączenie i fizyczny znak: troposfera dodatnia i większa przy niskiej elewacji niż w zenicie; jonosfera jako nieujemne opóźnienie ukośne (wierność numeryczna to własne testy pakietu GNSS oparte na kartach katalogowych).
+
+seg-44ba6e0411fd = CCSDS-TDM { "503" } parsowanie / zapis + most radiometryczny
+
+seg-18eafe936dcb = <c1/>: czytnik <b>i</b> zapis CCSDS 503.0-B-2 KVN (notacja klucz-wartość) (nagłówek + segmenty <c2/> / <c3/>; rekordy <c4/>/<c5/>/<c6/>/<c7/>). Testy (<c8/> + <c9/>): wzorcowy plik parsuje się do oczekiwanych nazwanych pól; <b>parsowanie→zapis→parsowanie daje równą strukturę</b> (semantyczna konwersja w obie strony); most <c10/> mapuje jednoznaczne rekordy <c11/>/<c12/> na <c13/> (liczba dróg z <c14/> <c15/>/<c16/>/<c17/>, pasmo z <c18/>, km→m); plik wielosegmentowy resetuje automat stanów. <b>Uczciwe pomijanie zamiast zgadywania:</b> kąty/częstotliwości, nieznane pasma, epoki w dniach roku i nierozpoznane skale czasu są <b>pomijane</b>, nigdy błędnie mapowane, a <c19/> pozostaje <c20/>, by wywołujący nadał wagę.
+
+seg-e8ca55dd29b1 = Benchmark DSN/ESTRACK (precyzja modelu ≫ opublikowany próg)
+
+seg-247b9e7b2be8 = <c1/>: wielkości obserwowane to dokładne obliczenia geometryczne, więc uczciwy benchmark polega na tym, że <b>własny błąd numeryczny modelu jest znacznie poniżej opublikowanego progu pomiarowego DSN/ESTRACK</b>: to nie model jest wąskim gardłem dokładności, lecz podawane przez wywołującego σ. Każdy test oblicza wielkość obserwowaną na dwa niezależne sposoby (lub odzyskuje wstrzykniętą prawdę) i sprawdza, że residuum jest poniżej progu: <b>zasięg</b> po konwersji w obie strony <{ "1" } mm ≪ ~{ "1" } m próg zasięgu PN (DSN 810-005 mod. { "214" } / CCSDS 414.1-B); <b>doppler</b> zgadza się z dokładną postacią zamkniętą opóźnionej prędkości zmiany zasięgu <c2/> do ~{ "10" }⁻⁶ m/s, kilkakrotnie poniżej progu ~{ "0.05" } mm/s w paśmie X (DSN 810-005 mod. { "203" } / Moyer); residuum to próg różnicowania zasięgu w f64 przy ~{ "1" } AU, cecha numeryczna, a nie błąd modelowania; <b>Δ-DOR</b> odtwarza rzut w postaci zamkniętej do równoważnego kąta w płaszczyźnie nieba ≪ { "1" } nrad ≪ próg ~{ "1" }–{ "10" } nrad (DSN 810-005 mod. { "210" } / CCSDS 506.1-B); <b>plazma</b> w dwóch częstotliwościach odzyskuje wstrzyknięte opóźnienie z błędem ≪ { "1" } %; a opóźnienie <b>Shapiro</b> mieści się w opublikowanym paśmie ~{ "100" }–{ "250" } µs dla koniunkcji Ziemia–Mars. Opublikowane wartości są podane i opisane jako <b>rzędy wielkości</b> specyfikacji DSN, a nie zmyślone dokładne liczby, a dokumentacja modułu wyraźnie stwierdza, że ten benchmark dotyczy PRECYZJI MODELU, a nie odtworzenia rzeczywistego przelotu (to jest D2 + rzeczywiste TDM).
+
+seg-2a25e6a8a5b1 = Zredukowanie dynamiczne OD w głębokiej przestrzeni kosmicznej: D2 (<c1/>, <c2/>, <c3/>)
+
+seg-0d7a1b75a0ea = Trzeci kamień milowy silnika nawigacji w głębokiej przestrzeni kosmicznej: <b>estymator</b>, który zamienia radiometryczne wielkości obserwowane z D1 w odzyskaną trajektorię: numerycznie odporny pierwiastkowy filtr informacyjny (SRIF, Square-Root Information Filter) z zredukowanymi dynamicznie przyspieszeniami empirycznymi, trójstanowym zegarem pokładowym, modelem oporu Marsa oraz pochodnymi cząstkowymi pomiarów radiometrycznych łączącymi zasięg/dopplera ze stanem filtru, domknięty od początku do końca syntetycznym odzyskaniem orbity w niskiej orbicie marsjańskiej (LMO). <b>Uczciwy zakres:</b> odzyskanie jest <b>syntetyczną pętlą zamkniętą</b> (prawda i filtr używają tego samego propagatora Marsa, a obserwacje to ten sam geometryczny model wielkości obserwowanych, który filtr odwraca, plus wstrzyknięty szum gaussowski): sprawdza <b>mechanizm estymatora</b>, a nie bezwzględną wierność modelu sił Marsa; zewnętrzną kontrolą klasy DE jest crate <c1/> uzależniony od jądra (D0.8b). Wszystko poniżej jest addytywne (wzorce odtwarzalności bez zmian; ten sam SHA, bez ponownego generowania).
+
+seg-51f203291066 = Rdzeń SRIF (pierwiastkowy filtr informacyjny)
+
+seg-9d5fd8c1d37d = <c1/>: ręcznie napisany pierwiastkowy filtr informacyjny Biermana: górnotrójkątna <c2/> z <c3/>, wektor informacji <c4/>, aktualizacje pomiaru/czasu Householdera, arytmetyka na gołym <c5/> (bez nalgebra). Testy: sekwencyjny SRIF zgadza się z rozwiązaniem wsadowym ważonych najmniejszych kwadratów (<c6/>) <b>zarówno w stanie, jak i w kowariancji do { "1e-9" }</b> na zaprojektowanym liniowo-gaussowskim zadaniu (<c7/>); odzyskana kowariancja <c8/> jest <b>symetryczna ({ "1e-12" }) i z konstrukcji dodatnio określona</b> po długiej sekwencji aktualizacji pomiaru/czasu (<c9/>, rozkład Choleskiego się udaje); a informacja się kumuluje (ślad <c10/> maleje monotonicznie w miarę dodawania pomiarów o identycznej geometrii).
+
+seg-f9ffa1ef4688 = Zredukowane dynamicznie przyspieszenia empiryczne (strojenie między lotem a LMO)
+
+seg-b0612a7140c3 = <c1/>: dziewięciostanowy filtr <c2/> z przyspieszeniami empirycznymi RTN jako stanami procesów Gaussa–Markowa pierwszego rzędu, technika zredukowanej dynamiki JPL/ESOC wystawiona jako pojedyncze pokrętło <c3/> (blisko dynamiki ⇒ wygładza szum na łuku balistycznym; blisko kinematyki ⇒ warstwa empiryczna pochłania niezamodelowany manewr/opór). Testy: filtr bliski kinematyce śledzi <b>skokowy manewr (ciąg silnika)</b> z residuum mniejszym niż <½ residuum filtru bliskiego dynamice, natomiast filtr bliski dynamice lepiej <b>wygładza zaszumiony łuk balistyczny</b> (<c4/>); przesuwanie ścisłości zmienia residuum po dopasowaniu <b>monotonicznie</b>, jako kontinuum, a nie przełącznik (<c5/>).
+
+seg-9d5db4d63990 = 3-stanowy zegar pokładowy (faza/częstotliwość/dryf, Q van Loana, Allan)
+
+seg-fe5beef74e24 = <c1/>: stan błędu fazy + ułamkowej częstotliwości + dryfu częstotliwości z <b>dokładnym dyskretnym szumem procesu van Loana</b> i aktualizacją stabilizowaną metodą Josepha. Testy: zdyskretyzowane <c2/> zgadza się z ręcznie wyprowadzonym wielomianem van Loana <b>do { "1e-12" }</b> i <b>redukuje się dokładnie do Q dwustanowego KalmanClock, gdy dryf = { "0" }</b> (ścisły nadzbiór); wieloetapowy wybieg zwiększa wariancję fazy do analitycznej zależności holdover wg NIST SP { "1065" } przez składnik błądzenia losowego <c3/>; stan dryfu <b>odzyskuje prawdziwą rampę starzenia z błędem poniżej { "5" } %</b>; <b>odzyskiwany jest profil Allana klasy USO</b> (nakładające się ADEV przy τ={ "1" } s w granicach bramki kalibracyjnej), a estymator pozostaje spójny w sensie NEES (>{ "95" } % wewnątrz 3σ) i PSD w trakcie przebiegu z ostrym <c4/>. <c5/> zawiera cytowane wartości <c6/> dla CSAC/USO/DSAC (USO: ultra-stable oscillator; DSAC: Deep Space Atomic Clock) oraz próg dopplera <c7/>.
+
+seg-8666d18daa2b = Opór atmosfery Marsa (Mars-GRAM-lite (GRAM: Global Reference Atmospheric Model))
+
+seg-6a64c2b9e553 = <c1/>: kawałkami wykładniczy profil gęstości neutralnej atmosfery Marsa (przy powierzchni ~{ "0.020" } kg/m³, wysokość skali przy powierzchni ~{ "11" } km, niskopyłowa średnia Mars-GRAM { "2010" } / MCD (Mars Climate Database)) oraz kwadratowe przyspieszenie oporu liczone względem <b>współobracającej się</b> atmosfery Marsa, a także wariant <c2/>, który SRIF może mnożyć. Testy: gęstość maleje monotonicznie i ciągle między pasmami, odzyskana wysokość skali przy powierzchni jest fizyczna, ~{ "11" } km, opór jest <b>ściśle antyrównoległy do prędkości względnej</b> (iloczyn wektorowy znika do { "1e-12" }) przy rozsądnej wielkości ~{ "3e-4" } m/s² na LMO i jest liniowy względem członu balistycznego. <b>Uczciwy zakres:</b> reprezentatywna atmosfera inżynierska, a nie zwalidowana w locie Mars-GRAM/MCD z zależnością od pyłu, pory roku i czasu lokalnego.
+
+seg-452f32dace80 = Pochodne cząstkowe pomiarów radiometrycznych (zasięg/doppler) dla SRIF
+
+seg-6661d241cdaf = <c1/> / <c2/>: pochodne cząstkowe zasięgu wzdłuż linii widzenia <c3/> (∂ρ/∂r = û, ∂ρ/∂v = { "0" }) i prędkości zmiany zasięgu <c4/> (∂ρ̇/∂v = û, ∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ), które łączą wielkości obserwowane D1 ze stanem filtru, oraz pochodna cząstkowa częstotliwości zegara dla dopplera jednodrogowego <c5/>. Testy: obie pochodne zgadzają się z <b>centralną różnicą skończoną wielkości obserwowanej do { "1e-6" }</b> (<c6/>, <c7/>); pojedyncza aktualizacja zasięgu <b>zmniejsza kowariancję w obserwowanym kierunku (linii widzenia, LOS) ≫{ "1000" }-krotnie</b> i zachowuje jej dodatnią określoność (PD), a aktualizacja dopplera zmniejsza wariancję <b>prędkości</b> wzdłuż LOS (<c8/>, <c9/>).
+
+seg-9a2cb6292477 = Kompleksowe OD na Marsie (LMO) z danych radiometrycznych
+
+seg-6318968b683a = <c1/>: prawdziwy łuk niskiej orbity marsjańskiej propagowany przy grawitacji <c2/> generuje zaszumiony dwudrogowy <b>zasięg (σ={ "1" } m) + doppler (σ={ "0.1" } mm/s)</b> względem dwóch stacji śledzących; zredukowany dynamicznie SRIF odzyskuje go ze stanu początkowego <b>zaburzonego o ~{ "2.7" } km</b>. Osiągnięto: zbieżne <b>RMS pozycji ≈ { "0.2" } m</b> (poniżej metra, znacznie poniżej kryterium wykonania rzędu metrów do dziesiątek metrów) na łuku 3 orbit z kadencją { "30" } s, przy <b>dodatnio określonej rozłożonej kowariancji w każdej epoce</b> (gwarancja SRIF, sprawdzana przez cały czas). <b>Kontinuum strojenia od lotu do LMO</b> jest sprawdzone od początku do końca: przy prawdzie z niezamodelowanym oporem, którego nie ma szablon filtru, pokrętło zredukowanej dynamiki (ścisłość { "1" }) odzyskuje ~{ "14" } m wobec ~{ "677" } m dla przebiegu bliskiego dynamice (ścisłość { "0" }), czyli { "48" }-krotna poprawa dzięki warstwie empirycznej pochłaniającej opór. <b>Uczciwy zakres:</b> syntetyczna pętla zamknięta (prawda = ten sam propagator, którego używa filtr); zewnętrzną kontrolą klasy DE jest <c3/> uzależnione od jądra (D0.8b), tu nigdy nieuruchamiane, bez sieci.
+
+seg-559176eb1a82 = Scenariusz PNT w głębokiej przestrzeni kosmicznej i fuzja jedno- i dwudrogowa: D3 (<c1/>, <c2/>)
+
+seg-bdb5da496071 = Czwarty kamień milowy silnika nawigacji w głębokiej przestrzeni kosmicznej: uruchamialny <b>produktowy scenariusz Mars-PNT</b>, który wiąże ciało/układ Marsa z D0, radiometryczne wielkości obserwowane z D1 i zredukowane dynamicznie OD z D2 w jeden rodzaj scenariusza <c1/>. Modeluje małą <b>konstelację przekaźnikową w stylu MARCONI</b>, nadającą jednodrogowy (sprzężony z zegarem) sygnał w przestrzeni oraz przekazującą dwudrogowe (spójne, niezależne od zegara) łącze do stacji w głębokiej przestrzeni kosmicznej, i nawiguje trzech użytkowników odniesienia (transfer na Marsa, orbiter na niskiej orbicie marsjańskiej, stały punkt na powierzchni) przez <b>estymator fuzji łączny jedno- i dwudrogowy D3.1</b>, czyli dwunastostanowy SRIF, który rozszerza zredukowany dynamicznie blok orbity/empiryczny z D2 o trójstanowy zegar pokładowy. <b>Uczciwy zakres:</b> każdy wskaźnik jakości to <b>formalna granica kowariancji</b> estymatora (1σ / 3σ pozycji w każdej epoce) oraz osiągnięte RMS względem <b>syntetycznej prawdy w pętli zamkniętej</b> (prawda i filtr dzielą tę samą dynamikę Marsa i ten sam geometryczny model wielkości obserwowanych, plus wstrzyknięty szum gaussowski): symulowany wskaźnik jakości nawigacji, <b>NIE</b> poziom ochrony certyfikowany dla lotnictwa i <b>NIE</b> twierdzenie o locie (brak certyfikowanego modelu usterek, brak monitora integralności, brak rzeczywistych danych śledzenia). Wszystko poniżej jest addytywne (wzorce odtwarzalności bez zmian; ten sam SHA, bez ponownego generowania).
+
+seg-b81920d2df82 = Łączna fuzja radiometryczna jedno- i dwudrogowa (fuzja jest lepsza niż każde łącze osobno)
+
+seg-cd9d2a7dd08f = <c1/>: zredukowany dynamicznie SRIF z D2.2 rozszerzony o trzy stany zegara pokładowego (<c2/>), przyjmujący mieszany szereg czasowy zasięgu/dopplera <b>dwudrogowego</b> (niezależnego od zegara, wiążącego orbitę: zerowe kolumny zegara w pochodnej cząstkowej) i <b>jednodrogowego</b> (sprzężonego z zegarem: pochodna częstotliwości <c3/>) przez <c4/>. Struktura „skalibruj, potem wybiegaj”: przeloty dwudrogowe wiążą orbitę, a dane jednodrogowe kalibrują zegar i prowadzą orbitę między przelotami z błędem ograniczonym stabilnością Allana zegara. Testowane w <c5/> <c6/>: rozwiązanie <b>łączne</b> jest lepsze niż <b>każdy typ łącza osobno</b>; błąd wybiegu przebiegu wyłącznie jednodrogowego rośnie wraz z przerwą między przelotami dwudrogowymi, zgodnie z ograniczeniem Allana dla klasy zegara; łączna kowariancja pozostaje SPD (symetryczna dodatnio określona) przez cały czas.
+
+seg-26a4bfa8e6ad = Konstelacja MARCONI (promień areostacjonarny, zakrycie)
+
+seg-f2c2e1b83411 = <c1/>: zestaw pięciu przekaźników: trzy przekaźniki <b>areostacjonarne</b> na <c2/> (promień synchroniczny Marsa z opublikowanych μ/prędkości obrotu; testowany w przedziale <b>{ "20 400" }–{ "20 500" } km</b>), rozmieszczone równomiernie co { "120" }° długości z nachyleniem { "5" }°, oraz dwa przekaźniki na wyższej ({ "1.4" }× areostacjonarnej) kołowej orbicie o nachyleniu { "60" }° dla pokrycia w płaszczyźnie nieba. Stany przekaźników w każdej epoce są całkowane w przód przy grawitacji <c3/>; test widoczności przy <b>zakryciu przez Marsa</b> to geometria cięciwy omijającej kulę (<c4/>, testowane: przekaźnik po przeciwnej stronie jest zakryty, przekaźnik nad głową jest widoczny). <b>Uczciwy zakres:</b> minimalna reprezentatywna geometria nadawania i przekazywania zbudowana z opublikowanych stałych Marsa, a nie projekt konkretnej konstelacji lotniczej.
+
+seg-b53ea4dd9f7d = Scenariusz <c1/> dostępny przez CLI / Python / WASM (WebAssembly) / MCP (Model Context Protocol)
+
+seg-3a01d13ad2e7 = <c1/> / <c2/> jest podłączone jako scenariusz <c3/> na wszystkich powierzchniach (D3.3): runner CLI, wiązanie Pythona, kompilacja WASM/playground i dyspozytor serwera MCP kierują do niego (test konwersji w obie strony <c4/> <c5/>). Dostarczone scenariusze referencyjne: <c6/>, <c7/>, <c8/>. Wynik zawiera jawne <c9/> opisujące wskaźnik jakości jako granicę kowariancji (a nie certyfikowany PL), a wyjścia <c10/> / <c11/> powtarzają etykietę uczciwości.
+
+seg-28a49a455a74 = Odtworzone cele MARCONI / LightShip: <b>orbiter < { "100" } m</b>, <b>łazik < { "15" } m</b>
+
+seg-28da71940857 = <c1/>: opublikowane cele programu MARCONI / LightShip (orbiter < { "100" } m, powierzchnia/łazik < { "15" } m) odtworzone w symulacji. <b>Wspólne założenia:</b> domyślna pięcioprzekaźnikowa konstelacja MARCONI; każdy przekaźnik w zasięgu widzenia daje w każdej epoce jednodrogowy zasięg + doppler; spójny dwudrogowy przelot stacji co <b>{ "30" } min</b>; szum klasy DSN (<b>σ zasięgu = { "1" } m, σ dopplera = { "0.1" } mm/s</b>); łączny filtr fuzji zredukowanej dynamicznie orbity i 3-stanowego zegara zainicjowany stanem a priori <b>zaburzonym o ~{ "2.7" } km</b> (ścisłość { "0.1" }); wskaźnik jakości = zbieżne RMS pozycji 3-D w drugiej połowie łuku względem syntetycznej prawdy. <b>Orbiter</b> (LMO ~{ "400" } km / nachylenie { "60" }°, zegar <b>USO</b>, kadencja { "60" } s, łuk ~{ "2" } h ≈ jedna orbita): osiągnięte zbieżne RMS <b>≈ { "0.40" } m</b> ≪ cel { "100" } m (średnio { "3.1" } przekaźnika w zasięgu, kowariancja SPD przez cały czas). <b>Łazik</b> (stały punkt na powierzchni przy równiku, zegar <b>USO</b>, kadencja { "30" } s, łuk ~{ "2" } h): osiągnięte zbieżne RMS <b>≈ { "5.1" } m</b> < cel { "15" } m (średnio { "3.0" } przekaźnika w zasięgu, kowariancja SPD). <b>Oba cele osiągnięte bez rozluźniania jakiejkolwiek asercji</b>: USO jest <em>mniej</em> zdolną z realistycznych klas zegara pokładowego (DSAC mógłby tylko pomóc), a dwudrogowa kadencja 30 min jest zachowawcza dla rutynowego harmonogramu sieci przekaźników, więc założenia są fizycznie uczciwe dla systemu klasy MARCONI, a nie dostrojone tak, by przeszły. <b>Uczciwy zakres:</b> symulowane odtworzenie przy podanych założeniach, a NIE twierdzenie o locie ani certyfikowany poziom ochrony; syntetyczna prawda w pętli zamkniętej dzieli z filtrem dynamikę Marsa i model wielkości obserwowanych.
+
+seg-37b2bad62854 = Księżycowy czas współrzędnych: relatywistyczne tempo zegara Ziemia–Księżyc (<c1/>)
+
+seg-787705fa0fac = Księżycowa skala czasu współrzędnych (LTC/TCL (TCL: Temps-Coordonnée Lunaire, francuska nazwa księżycowego czasu współrzędnych)) wymaga wiekowego tempa, w jakim zegar na powierzchni Księżyca chodzi względem zegara na geoidzie ziemskiej (TT). <c1/> oblicza je z zasad pierwszych: pierwsza tożsamość postnewtonowska sumująca <b>różnicę potencjałów własnych</b> (konwencjonalny potencjał geoidy IAU <c2/> <c3/> minus potencjał własny powierzchni Księżyca <c4/>) oraz <b>człon kinetyczny (dopplera drugiego rzędu)</b> <c5/> z geocentrycznej prędkości Księżyca (różnicowanej skończenie z księżycowego szeregu Montenbrucka–Gilla w <c6/>). Dominujący człon potencjału własnego daje <b>≈ { "57.5" } µs/dobę</b>, człon kinetyczny <b>≈ −{ "0.5" } µs/dobę</b>, razem <b>≈ { "57" } µs/dobę</b>. Scenariusz <c7/> podaje to tempo, skumulowane przesunięcie LTC−TT w danym horyzoncie i obsługuje minimalny zespół ważony odwrotnością wariancji (księżycowy zegar papierowy); konwersje TT↔LTC zgadzają się w obie strony z dokładnością < { "1" } ns/dobę.
+
+seg-beeb6561ef6b = Wyrocznia / uczciwy zakres
+
+seg-4500e65ede97 = Relatywistyczne tempo zegara Ziemia–Księżyc (LTC/TCL)
+
+seg-4c7a29bc3003 = <c1/>, <c2/>/<c3/>, <c4/>, <c5/>. <b>Wyrocznia: wewnętrzna relatywistyczna tożsamość w postaci zamkniętej</b> (geopotencjał IAU <c6/> / konwencji IERS oraz potencjał własny GM/r (GM: parametr grawitacyjny, G razy masa)), <b>skontrolowana krzyżowo względem opublikowanego przedziału tempa zegara księżycowego [{ "56" }, { "59" }] µs/dobę</b>. Testy (<c7/>): człon potencjału własnego ≈ { "57.5" } µs/dobę, prędkość Księżyca ≈ { "1" } km/s, człon kinetyczny niewielki i ujemny, suma w przedziale, a wymienione człony sumują się do niej, 1-dobowe przesunięcie LTC−TT ≈ { "57" } µs oraz konwersja TT↔LTC w obie strony z dokładnością < { "1" } ns/dobę. <b>Uczciwy zakres:</b> główna wartość µs/dobę <b>zależy od odniesienia</b>: zależy od wybranych powierzchni odniesienia (geoida ziemska <c8/> a selenoida), od okna uśredniania czasu i od pominiętych poprawek odśrodkowych/J₂ poniżej µs/dobę, dlatego publikowanym wynikiem jest <b>przedział</b>, a nie pojedyncza certyfikowana liczba. To jest kontrola spójności <c9/>, <b>NIE</b> walidacja zewnętrzna, <b>NIE</b> bezwzględna dokładność poniżej nanosekundy i <b>NIE</b> certyfikowane do operacyjnego utrzymywania czasu.
+
+seg-b4e3228c84b8 = Księżycowe geodezyjne VLBI: opóźnienie w polu bliskim dla bazy ziemskiej obserwującej księżycowy radiolatarnię (<c1/>)
+
+seg-bbb634953ebf = Geodezyjna wielkość obserwowana VLBI (interferometria z bardzo długą bazą) dla dwóch stacji naziemnych na Ziemi (baza) obserwujących jednodrogowy sygnał nadajnika klasy NovaMoon na powierzchni Księżyca. Księżyc znajduje się w <b>polu bliskim</b>, a nie jest falą płaską, więc opóźnienie geometryczne to dokładna różnica dwóch odległości <c1/>, a nie rzut na płaszczyznę nieba. Pełna wielkość obserwowana dodaje różnicę przesunięć zegarów stacji i różnicowy człon Shapiro potencjału Ziemi (ponownie użyty z <c2/>). Stacje są umieszczane we współrzędnych geocentrycznych inercjalnych (GCRS) przez <c3/> + <c4/>; latarnia przez <c5/> (Księżyc geocentrycznie) + <c6/> (selenograficzne→MCMF (MCMF: związany z Księżycem, ze środkiem w Księżycu)) + <c7/> (związany z ciałem ME IAU-2015→inercjalny). Scenariusz <c8/> próbkuje opóźnienie, jego tempo różnicy skończonej i poprawkę pola bliskiego w trakcie przelotu.
+
+seg-b2b758337ebc = <b>Wyrocznia</b> to płaskofalowa wielkość obserwowana Δ-DOR z tej samej bazy kodu <c1/> w <c2/>: w granicy pola dalekiego (syntetyczna latarnia w odległości { "1e15" } m) opóźnienie geometryczne musi sprowadzić się do <c3/> z dokładnością maszynową; przy rzeczywistej odległości księżycowej poprawka pola bliskiego z krzywizny czoła fali jest niezerowa (dziesiątki do setek µs). Pochodne cząstkowe latarni <c4/> (i pochodne stacji) są weryfikowane centralną różnicą skończoną (błąd względny < { "1e-5" }).
+
+seg-107b9d328f69 = Opóźnienie księżycowego geodezyjnego VLBI i pochodne cząstkowe
+
+seg-acee0ad60cf4 = <c1/>, <c2/>, <c3/>/<c4/>/<c5/>, <c6/>, <c7/>. <b>Wyrocznia: <c8/></b>: płaskofalowe <c9/> z tej samej bazy kodu (<c10/>) w granicy pola dalekiego, plus <b>pochodne cząstkowe różnic skończonych</b>. Testy (<c11/>): wielkość stacji ≈ promień Ziemi, odległość latarni przy dystansie księżycowym ({ "356" }–{ "407" } Mm), opóźnienie geometryczne w polu dalekim zgadza się z <c12/> z dokładnością < { "1e-9" } s, niezerowa poprawka pola bliskiego przy dystansie księżycowym, pochodne latarni/stacji metodą różnic skończonych w granicach { "1e-5" } względnie, dokładny człon zegara oraz skończony przebieg scenariusza wysłany przez <c13/>. <b>Uczciwy zakres:</b> <c14/>, <b>NIE</b> zwalidowane względem rzeczywistych danych VLBI. Ruch bieguna jest pomijany (<c15/>), więc inercjalne pozycje stacji niosą kilkumetrowy błąd układu; latarnia łączy szereg Księżyca względem średniego równika daty z przesunięciem związanym z ciałem w ICRF (International Celestial Reference Frame) (<c16/>), co jest niespójnością układów poniżej wierności modelu, ale nie jest rygorystyczne; brak iteracji czasu światła, obrotu Ziemi w czasie światła, członów ośrodka (tropo/jono/plazma) i aberracji poza różnicowym Shapiro. Nie twierdzi się nic o TRL (poziom gotowości technologicznej), dziedzictwie lotniczym ani poparciu agencji. { "0.30" }: względem czasów światła ANISE przez DE440 żadne opóźnienie tej ścieżki analitycznej nie mieści się w { "1" } ps (największa różnica { "24" } µs); ustalenie jest przypięte.
+
+seg-d90c67f098f7 = <c1/> (Ziemia i Księżyc z DE440, główne osie księżycowe DE440, orientacja Ziemi ITRF93, każdy czas światła zbieżny w układzie barycentrycznym), uruchamiane przez scenariusz <c2/>, gdy ustawiono trzy ścieżki jąder. <b>Wyrocznia: biblioteka</b> NAIF SPICE Toolkit N0067 (spiceypy { "8.2.0" }) zbieżne czasy światła do DSS-14/43/63, zarejestrowane wstępnie: { "75" } opóźnień w granicach { "1" } ps (najgorsze { "0.06" } ps), pochodne cząstkowe latarni i stacji w granicach { "1e-6" }, w { "25" } epokach w pobliżu J2000 (poprawka po tym, jak { "2024" } epok zawiodło z powodu własnej epoki emisji SPICE w podwójnej precyzji, około { "6" } ps, ujawniona i przypięta). Różnicowy człon Shapiro, tempo opóźnienia i poprawka pola bliskiego w scenariuszu nie są porównywane.
+
+seg-8bed75c5402d = Księżycowe łączne OD wielotechnikowe + zegar: symulowane odzyskanie w pętli zamkniętej (<c1/>)
+
+seg-d518eead07c4 = Jednoepokowe (migawkowe) dopasowanie wsadowe najmniejszych kwadratów (<c1/>, krok QR Householdera od { "0.30" }), które <b>łączy techniki geodezyjnego VLBI, radiometrycznego/księżycowego lokalnego pomiaru zasięgu i pomiaru zasięgu między satelitami</b> na SYMULOWANEJ sieci księżycowej, aby odzyskać <em>razem</em> pozycję 3-D księżycowej stacji powierzchniowej, pozycje poszczególnych satelitów małej konstelacji oraz przesunięcie zegara każdego obiektu. Wielkości obserwowane to: ({ "1" }) opóźnienia geodezyjnego VLBI bazy ziemskiej do stacji księżycowej traktowanej jak latarnia (z ponownym użyciem <c2/>, geocentrycznie inercjalnie), główna technika; ({ "2" }) geocentryczne zasięgi radiometryczne stacja ziemska→satelita (które wielolateracyjnie wyznaczają konstelację z dobrze rozmieszczonych stacji ziemskich) oraz lokalne księżycowe zasięgi stacja↔satelita (euklidesowa odległość MCI (Moon-centred inertial) plus różnicowy człon zegara); ({ "3" }) zasięgi międzysatelitarne (ta sama postać); plus pojedyncza pseudoobserwacja synchronizacji zegara stacji, która zakotwicza niedostrzegalne inaczej wspólne przesunięcie zegara. Wektor stanu to <c3/>. <b>Brak propagacji modelu sił wewnątrz solvera</b>: satelity są stałymi, odrębnymi, ilustracyjnymi punktami na reprezentatywnej orbicie księżycowej; to celowo czyste dopasowanie migawkowe. Wewnętrznie pozycje są skalowane, a zegary estymowane w metrach równoważnych zasięgowi, aby macierz normalna pozostała dobrze uwarunkowana w f64; zasięgi VLBI i odległości księżycowe są pozbawione średniej wokół nominalnej geometrii, by jakobian różnic skończonych nie cierpiał na katastrofalne znoszenie. Scenariusz <c4/> uruchamia rozwiązanie z odnogami VLBI i bez nich na tym samym ziarnie/prawdzie i podaje oba rozwiązania oraz współczynnik poprawy obserwowalności stacji.
+
+seg-f634e976b583 = <b>Główny uczciwy wynik</b>: lokalny księżycowy pomiar zasięgu z biegunowej stacji do garstki satelitów, które leżą po jednej stronie nieba, pozostawia pozycję stacji <b>słabo obserwowaną wzdłuż jednego kierunku</b>, więc rozwiązanie wyłącznie z zasięgów jest źle uwarunkowane, a odzyskany błąd stacji 3-D jest duży (lub rozwiązanie nie jest zbieżne). <b>Dodanie opóźnień VLBI bazy ziemskiej czyni pełną pozycję 3-D stacji obserwowalną</b>, a odzyskany błąd stacji spada do poziomu metra. Test <c1/> potwierdza, że błąd stacji z VLBI jest wyraźnie (≥{ "5" }×) mniejszy niż błąd wyłącznie z zasięgów przy identycznej wstrzykniętej prawdzie; sensem tej fazy jest to, że VLBI przywraca inaczej niedostrzegalny kierunek stacji.
+
+seg-d5feea2381b7 = <b>Wyrocznia</b> to spójność wewnętrzna: wstrzyknięty stan prawdziwy (stacja ~{ "50" } m/oś, satelity ~{ "30" } m/oś, zegary ~{ "1e-7" } s, z losowym szumem na składową zależnym od ziarna) jest odwzorowywany na syntetyczne wielkości obserwowane przez <em>ten sam</em> model geometrii, który odwraca solver, dodaje się gaussowski szum zależny od ziarna (ilustracyjne wartości domyślne: σ VLBI ≈ { "1e-11" } s, σ zasięgu ≈ { "0.1" } m, σ ISL ≈ { "0.1" } m; wagi <c1/>), a estymator musi odzyskać wstrzykniętą prawdę w granicach szumu ze startowego przybliżenia zerowego. Średnie NEES <c2/> metodą Monte Carlo po ziarnach (<c3/>) mieści się w luźnym przedziale wokół <c4/>, co jest kontrolą realizmu kowariancji.
+
+seg-abc40f1f301a = <c1/> ({ "0.30" }, P2: algebra liniowa rozwiązania)
+
+seg-87de27c2421a = <c1/>, <c2/>, <c3/>. <b>Wyrocznia { "0.30" }: P2</b>: numpy { "2.4.6" } (LAPACK gelsd i inv) ponownie oblicza każdy krok Gaussa–Newtona, zbieżne rozwiązanie ważone, formalne sigmy i błąd stacji na zatwierdzonych jakobianach sześciu sieci (<c4/>, kroki w granicach { "2.4e-11" }, sigmy w granicach { "1.3e-11" }); fizyczne modele obserwacji i ich wielkości pozostają MODELLED. <b>Wcześniejsza wyrocznia: <c5/></b>: odzyskanie wstrzykniętej symulowanej prawdy + spójność kowariancji NEES. Testy (<c6/>): pełna fuzja odzyskuje prawdę (stacja < { "5" } m, RMS satelitów < { "5" } m, zegary < { "1e-8" } s, zbieżność); VLBI przywraca obserwowalność stacji 3-D (błąd stacji ≥{ "5" }× mniejszy z VLBI niż wyłącznie z zasięgów przy tej samej prawdzie); deterministyczność (to samo ziarno → rozwiązanie identyczne co do bitu, inne ziarno → inne, ale odzyskane); średnie NEES w luźnym przedziale wokół <c7/>; skończone/zabezpieczone raportowane liczby nawet gdy wyłącznie zasięgi są źle uwarunkowane; scenariusz wysłany przez <c8/>. <b>Uczciwy zakres:</b> to jest <b>symulowane odzyskanie w pętli zamkniętej</b>: prawda dzieli model obserwacji, <b>NIE</b> walidacja na rzeczywistych danych; brak propagacji modelu sił wewnątrz solvera; pozycje satelitów oraz geometria stacji ziemskich i księżycowych są ilustracyjne. Nie twierdzi się nic o TRL, dziedzictwie lotniczym ani poparciu agencji.
+
+seg-7620f3a821f6 = Realizacja księżycowego układu odniesienia: 7-parametrowe dopasowanie datum Helmerta (<c1/>)
+
+seg-240271b9d7de = Podczas gdy <c1/> <em>stosuje</em> orientację księżycowego ciała IAU { "2015" } WGCCRE (model prosty), ten moduł <em>estymuje</em> (realizuje) księżycowy układ odniesienia z sieci estymowanych współrzędnych punktów powiązanych z datum. Rdzeń estymacji to klasyczne <b>7-parametrowe przekształcenie podobieństwa (Helmerta)</b>: trzy parametry przesunięcia, trzy małego obrotu i jeden skali, odwzorowujące punkty <c2/> (układ estymowany) na <c3/> (układ datum) jako <c4/>, przy <c5/> zbudowanym z <c6/>. Siedem parametrów <c7/> jest estymowanych z ≥ { "3" } niewspółliniowych par punktów metodą ważonych najmniejszych kwadratów przez <c8/>: model prosty przewiduje każde <c9/> z jego <c10/> i spłaszcza wszystkie trzy składowe wszystkich punktów do wektora wielkości obserwowanych, obserwowane współrzędne datum tworzą <c11/>, wagi to <c12/>, a rozwiązanie startuje z <c13/>. Kąty obrotu są estymowane w µrad, a skala w ppb, aby jakobian różnic skończonych pozostał dobrze skalowany przy wielkości współrzędnych na powierzchni Księżyca (~{ "1.7e6" } m). Mała funkcja <c14/> składa zrealizowany mały obrót przez orientację ciała IAU→ICRF (<c15/>) i zwraca resztkowe małokątowe przesunięcie zrealizowanego układu wokół osi ICRF: celowo prosta zmiana układu wyrażenia, <b>a nie</b> niezależna estymata bieguna Księżyca.
+
+seg-75769fc9671c = <b>Wyrocznia</b> to spójność wewnętrzna: znane przekształcenie Helmerta (przesunięcie ~dziesiątki m, obrót ~µrad, skala ~{ "1e-7" }) jest <em>wstrzykiwane</em> do dobrze rozmieszczonej syntetycznej sieci punktów (zróżnicowana szerokość/długość selenograficzna → MCMF, część punktów na wysokości), dodawany jest gaussowski szum zależny od ziarna, a dopasowanie musi odzyskać wstrzyknięte parametry. Na danych bez szumu odzyskanie następuje z dokładnością zbliżoną do maszynowej (przesunięcie < { "1e-6" } m, obrót < { "1e-9" } rad, skala < { "1e-12" }); przy szumie rzędu metra odzyskane parametry mieszczą się w granicach kilku razy formalnego σ, a RMS residuum po dopasowaniu jest bliskie poziomowi szumu. Scenariusz <c1/> podaje odzyskane datum, błąd odzyskania każdego parametru względem wstrzykniętej prawdy, RMS residuum po dopasowaniu oraz powiązanie orientacji ICRF zrealizowanego obrotu.
+
+seg-3768ce021e23 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <b>Wyrocznia: <c6/></b>: odzyskanie wstrzykniętego 7-parametrowego przekształcenia podobieństwa plus algebraiczna tożsamość konwersji w obie strony <c7/>. Testy (<c8/>): odzyskanie wstrzykniętego przekształcenia bez szumu (przesunięcie < { "1e-6" } m, obrót < { "1e-9" } rad, skala < { "1e-12" }); odzyskanie z szumem w granicach kilku razy σ, a RMS residuum blisko poziomu szumu; zastosowanie i odwrócenie w obie strony; deterministyczność (to samo ziarno → identyczne co do bitu, inne ziarno → inne, ale odzyskane); powiązanie ICRF przy zerowym obrocie jest zerowe i zachowuje wielkość obrotu; scenariusz wysłany przez <c9/>. <b>Uczciwy zakres:</b> to jest kontrola <b>spójności wewnętrznej</b>: odzyskuje <em>wstrzyknięte</em> przekształcenie na <em>syntetycznej</em> sieci, <b>NIE</b> realizację księżycowego układu odniesienia względem rzeczywistych danych śledzenia / VLBI i nie rości sobie bezwzględnej dokładności układu. Powiązanie orientacji ICRF to prosta zmiana wyrażenia, a nie niezależna estymata bieguna. Nie twierdzi się nic o TRL, dziedzictwie lotniczym ani poparciu agencji.
+
+seg-f14930d33f47 = Księżycowy wolumen usługi nawigacyjnej: DOP / pokrycie / dostępność + uogólniony księżycowy poziom ochrony ARAIM (<c1/>)
+
+seg-9b4f13e138e4 = Ten moduł <em>składa</em> już zbudowane elementy w analizę <b>wolumenu usługi</b> nawigacji księżycowej: przeszukuje siatkę szerokości/długości selenograficznych w horyzoncie czasu względem <b>ilustracyjnej, opartej na źródłach publicznych konstelacji na orbicie księżycowej klasy Moonlight / LCNS</b> (LCNS: Lunar Communications and Navigation Services) i podaje DOP / pokrycie / dostępność oraz uogólnioną obwiednię księżycowego poziomu ochrony ARAIM. Dwa ponowne użycia są nośne i jawne. <b>Geometria DOP</b> to jądro <b>VALIDATED</b> (względem gnss_lib_py) <c1/>: <c2/> to cienki filtr maski elewacji plus to jądro, a test potwierdza tożsamość (<c3/> równa się bezpośredniemu <c4/> na tych samych widocznych pozycjach). <b>Integralność</b> wykorzystuje ponownie mechanizm księżycowego ARAIM LunaNet LNIS (LunaNet Interoperability Specification) <c5/> (σ_URE ≈ { "30" } m, <c6/> ≈ { "1e-4" }); <c7/> uogólnia istniejący poziom ochrony dla bieguna południowego na dowolny punkt powierzchni, a test potwierdza, że <b>redukuje się do przypadku bieguna południowego</b> (na biegunie południowym przy tej samej geometrii/budżecie zwraca dokładnie istniejący wynik <c8/> z dokładnością < { "1e-9" }).
+
+seg-456bf257f689 = Parametry konstelacji to <b>ilustracyjne przybliżenie publicznych opisów ESA</b> tej klasy systemu (≈ { "4" } satelity na eliptycznych zamrożonych orbitach księżycowych sprzyjających pokryciu bieguna południowego: apolun nad półkulą południową; { "4" } to wartość domyślna biblioteki, a dołączony <c1/> ustawia { "8" }, ponieważ poziom ochrony wymaga co najmniej { "6" } widocznych). To <b>nie jest</b> rzeczywista efemeryda Moonlight/LCNS i <b>nie</b> oznacza żadnej przynależności, poparcia, dziedzictwa, certyfikacji ani TRL. Złożenie (pokrycie / dostępność / integralność) jest <b>MODELLED</b>: zestaw przekaźników na orbitach kołowych/eliptycznych keplerowskich (a nie skorygowana różnicowo efemeryda LCNS / NRHO (near-rectilinear halo orbit) { "9" }:{ "2" }), Księżyc ze średnim obrotem (bez fizycznej libracji i precesji bieguna) oraz opublikowane parametry integralności LunaNet LNIS. Pokazuje <em>metodę</em> wolumenu usługi, a nie operacyjną liczbę dostępności. Deterministyczne (czysta geometria; bez losowości). Scenariusz <c2/> podaje procent pokrycia, obwiednie liczby widocznych satelitów i PDOP, obwiednię HPL/VPL w wolumenie oraz dostępność poziomu ochrony względem limitu alarmowego.
+
+seg-c28e56391894 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <b>Geometria DOP sprawdzona przez ponowne użycie</b> jądra <c7/> sprawdzonego względem gnss_lib_py; integralność wykorzystuje ponownie opublikowany księżycowy ARAIM LunaNet/LNIS (<c8/>, σ_URE ≈ { "30" } m). Testy (<c9/>): <c10/> jest tożsamością na sprawdzonym jądrze; <c11/> na biegunie południowym równa się istniejącemu PL <c12/> z dokładnością < { "1e-9" } (redukuje się do przypadku bieguna południowego); pokrycie nie maleje wraz z rozmiarem konstelacji; widoczność respektuje maskę elewacji; scenariusz jest deterministyczny i wysyłany przez <c13/>. <b>Uczciwy zakres:</b> konstelacja jest <b>ilustracyjna, oparta na źródłach publicznych, NIE powiązana z ESA</b>: to nie jest rzeczywista efemeryda Moonlight/LCNS; złożenie pokrycia/dostępności/integralności jest <b>MODELLED</b> (przekaźniki na orbitach kołowych/eliptycznych keplerowskich, Księżyc ze średnim obrotem, opublikowane parametry LNIS), <b>NIE</b> operacyjną liczbą dostępności Moonlight. Nie twierdzi się nic o TRL, dziedzictwie lotniczym ani poparciu agencji.
+
+seg-4ff4929f71df = Księżycowy różnicowy PNT: znoszenie składowej wspólnej + residuum rosnące z bazą + poziomy ochrony DGNSS (<c1/>)
+
+seg-8f94c4bf3fe6 = Księżycowy analog DGNSS (różnicowa nawigacja satelitarna) / SBAS: <b>stacja referencyjna klasy NovaMoon</b> w <em>znanej</em> lokalizacji selenograficznej oblicza różnicowe poprawki dla każdego satelity z <b>ilustracyjnej, opartej na źródłach publicznych konstelacji klasy Moonlight / LCNS</b>, a użytkownik ruchomy, przesunięty od niej o bazę, stosuje je, tak że znoszą się <b>wspólne</b> błędy efemeryd nadawanych. Każdy satelita <c1/> niesie wstrzyknięty wspólny wektor błędu orbity 3-D <c2/> i wspólny błąd zegara <c3/>. Residuum pseudoodległości stacji referencyjnej jest poprawką <c4/>; surowy błąd użytkownika to <c5/>; skorygowany błąd użytkownika to ich różnica <c6/>. <b>Człon zegara <c7/> znosi się dokładnie</b> (jest identyczny w obu obserwacjach), a <b>człon orbity sprowadza się do rzutu na różnicę dwóch jednostkowych wektorów linii widzenia</b>, który → { "0" } przy bazie → { "0" } (próg dekorelacji przestrzennej) i rośnie ≈ liniowo z bazą. Skorygowane błędy zasięgu poszczególnych satelitów są odwzorowywane przez geometrię użytkownika małym, mało zależnym od bibliotek rozwiązaniem migawkowym ważonych najmniejszych kwadratów (stan <c8/> przez <c9/>; stały błąd systematyczny zasięgu jest pochłaniany przez niewiadomą zegara, a nie psuje poprawki), co daje błąd <b>pozycji</b> użytkownika. <b>Poziom ochrony użytkownika wykorzystuje ponownie mechanizm poziomu ochrony SBAS wg DO-229E</b> (<c10/>, współczynniki K podejścia precyzyjnego), przyjmując różnicowe σ residuum jako budżet błędu 1-σ każdego satelity.
+
+seg-06978cfaebe3 = NovaMoon jest przywoływany <b>wyłącznie jako klasa systemu</b> (publiczny opis księżycowej stacji referencyjnej); konstelacja wykorzystuje ponownie ilustracyjną, opartą na źródłach publicznych <c1/>. Są to ilustracyjne parametry do ćwiczenia <em>metody</em> różnicowej, <b>nie</b> rzeczywista efemeryda, i <b>nie</b> oznaczają żadnej przynależności, poparcia, dziedzictwa, certyfikacji ani TRL. Scenariusz <c2/> podaje błąd pozycji użytkownika z poprawkami i bez nich, współczynnik redukcji, krzywą błędu w funkcji bazy i poziom ochrony. W konfiguracji domyślnej skorygowany błąd użytkownika przy bazie { "50" } km wynosi ≈ { "0.008" } m wobec ≈ { "24" } m bez poprawek (redukcja ~{ "3000" }×), a ≈ { "0" } przy zerowej bazie.
+
+seg-6bb4dbe998f9 = <b>Wyrocznia</b> to spójność wewnętrzna: znoszenie składowej wspólnej jest <b>dokładną tożsamością algebraiczną</b> (przy <c1/> skorygowany błąd < { "1e-6" } m przy zerowej bazie; człon zegara znosi się z dokładnością maszynową przy dowolnej bazie), residuum <b>rośnie monotonicznie z bazą</b>, a poziom ochrony to <b>ten sam algorytm DO-229E</b>, względem którego sprawdzany jest stos SBAS. Residuum dekorelacji przestrzennej to model geometryczny <b>pierwszego rzędu</b>, <b>a nie</b> dopasowany model dekorelacji z rzeczywistego śledzenia księżycowego.
+
+seg-fd282b10cc77 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <b>Wyrocznia: <c6/></b>: różnicowa tożsamość znoszenia błędów plus ponowne użycie mechanizmu poziomu ochrony SBAS wg DO-229E (<c7/>). Testy (<c8/>): przy zerowej bazie skorygowany błąd użytkownika i każdy skorygowany błąd zasięgu poszczególnego satelity wynoszą ~{ "0" } (< { "1e-6" } m) i są ≪ błędu nieskorygowanego; człon zegara znosi się dokładnie przy dowolnej bazie (przypadek zerowego błędu orbity); skorygowany błąd rośnie monotonicznie z bazą, pozostając ≪ nieskorygowanego przy umiarkowanych bazach; różnicowy jest wyraźnie lepszy niż samodzielny (> { "2" }×); poziom ochrony równa się bezpośredniemu wywołaniu <c9/> i skaluje się z σ residuum; geometria niedookreślona zwraca <c10/>; scenariusz jest deterministyczny (zależny od ziarna) i wysyłany przez <c11/>. <b>Uczciwy zakres:</b> <b>MODELLED</b>: znoszenie składowej wspólnej jest dokładną tożsamością, ale residuum dekorelacji przestrzennej to model geometryczny <b>pierwszego rzędu</b>, <b>NIE</b> dopasowany model dekorelacji z rzeczywistego śledzenia księżycowego, i <b>NIE</b> jest to sprawdzone na rzeczywistych danych. NovaMoon jest przywoływany <b>wyłącznie jako klasa systemu</b> (ilustracyjnie, na źródłach publicznych, <b>bez powiązania z ESA</b>). Nie twierdzi się nic o TRL, dziedzictwie lotniczym ani poparciu agencji.
+
+seg-08e8a73f3426 = Księżycowy eksport interoperacyjności: CCSDS OEM + KIF dostosowane do LunaNet/IOAG, z kontrolą pól w obie strony (<c1/>)
+
+seg-39b875078d27 = Księżycowy układ odniesienia, księżycowa skala czasu i księżycowa efemeryda są eksportowane w <b>formach wymiany opartych na CCSDS, dostosowanych do LunaNet/IOAG (IOAG: Interagency Operations Advisory Group)</b>. Ta faza <b>nie</b> wymyśla formatu przewodowego: <b>wykorzystuje ponownie</b> istniejący emiter i parser CCSDS OEM (Orbit Ephemeris Message) { "2.0" } w crate (<c1/> / <c2/>) oraz kopertę Kshana Interchange Format (<c3/>), ponownie oznaczone dla kontekstu księżycowego. <c4/> ustawia <c5/> w OEM na <b>księżycowy układ ciała IAU { "2015" } WGCCRE</b> (<c6/> średni-Ziemia lub <c7/> osie główne), <c8/> na <b>księżycową skalę czasu</b> (<c9/> / <c10/> / <c11/>), a <c12/> na <c13/>, dla przykładowej <b>ilustracyjnej, opartej na źródłach publicznych</b> efemerydy klasy LCNS (pozycje z <c14/>, prędkość centralną różnicą skończoną). <c15/> emituje deskryptor czasu księżycowego dostosowany do LunaNet/IOAG (identyfikator skali, wiekowe tempo µs/dobę z <c16/>, opublikowany przedział { "56" }–{ "59" } µs/dobę, powierzchnia odniesienia), który wraca w obie strony przez serde_json. <c17/> opakowuje OEM + deskryptor + etykietę układu w istniejącą kopertę KIF z etykietą uczciwości MODELLED.
+
+seg-bbfce5323abb = <b>Wyrocznia</b> to spójność w obie strony i na poziomie pól. Ponieważ <c1/> udostępnia <em>oba</em> kierunki, OEM jest przepuszczany w obie strony przez <c2/> (z powrotem do równego segmentu, z zachowaniem księżycowego układu/czasu i liczby stanów) <b>oraz</b> niezależnie sprawdzany przez <c3/>, która weryfikuje, że obecne jest każde wymagane słowo kluczowe nagłówka CCSDS/LunaNet, że <c4/> niesie księżycowy token <c5/>, a <c6/> nie jest puste, że obowiązuje ramowanie <c7/> i że linie danych pozycji+prędkości są poprawnie sformułowane; zwraca ustrukturyzowany wynik pozytywny plus listę pól obecnych/brakujących, tak aby zepsuty eksport (np. z utraconym <c8/>) został wychwycony i nazwany. Metadane czasu wracają w obie strony przez <c9/>, a koperta KIF wraca w obie strony przez <c10/> do równych artefaktów niosących etykietę MODELLED.
+
+seg-cb9dfbed826d = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <b>Wyrocznia: <c7/></b>: deterministyczny test w obie strony (CCSDS OEM przez <c8/>; KIF przez <c9/>; metadane czasu przez serde_json) plus kontrola nazw pól względem opublikowaną semantyką pól CCSDS OEM + LunaNet/IOAG. Testy (<c10/>): wyeksportowany OEM niesie księżycowe tokeny <c11/> (<c12/>/<c13/>) i <c14/> (<c15/>/<c16/>), <c17/>, obiekt i poprawnie sformułowane linie danych; metadane czasu księżycowego wracają w obie strony (tempo/przedział/odniesienie) i odrzucają śmieci; koperta KIF serializuje się i deserializuje do równej wartości z obecną etykietą uczciwości MODELLED; celowo zepsuty OEM (bez <c18/>) nie przechodzi <c19/> i jest zgłaszany jako brakujący; scenariusz jest wysyłany przez <c20/>. <b>Uczciwy zakres:</b> <b>nazwy/jednostki</b> pól są wyrównane z <b>publicznymi</b> standardami (CCSDS 502.0-B OEM, księżycowe układy IAU WGCCRE { "2015" }, specyfikacja interoperacyjności LunaNet / architektura księżycowa IOAG); eksport jest <b>MODELLED</b>: wyrocznią jest deterministyczny test w obie strony + kontrola nazw pól, to <b>NIE</b> jest certyfikowany test interoperacyjności, efemeryda jest <b>ilustracyjna, na źródłach publicznych, bez powiązania z ESA</b>, i nie twierdzi się nic o TRL, dziedzictwie lotniczym ani poparciu agencji.
+
+seg-69a214b7236d = Predykcje zarejestrowane wstępnie
+
+seg-343fe86f6a50 = Predykcja zarejestrowana wstępnie to wynik MODELLED zamrożony, zanim istnieją jakiekolwiek dane do jego oceny, przy jednoczesnym ustaleniu protokołu oceny. Nie jest to walidacja i nie dodaje wiersza do rejestru. Każda znajduje się w <c1/>, wraz z zamrożonymi danymi wejściowymi, wynikiem i ich skrótami SHA-256, a <c2/> zawodzi, jeśli jakikolwiek zamrożony bajt się zmieni; zmienione założenie jest obsługiwane nową, datowaną predykcją obok starej, nigdy edycją starej.
+
+seg-e65d79893e2c = Predykcja
+
+seg-f9e2d4b52b79 = Zamrożono
+
+seg-dd68891f75e2 = Oceniana względem
+
+seg-d5a09f26a028 = Pokrycie księżycowej stacji referencyjnej
+
+seg-c68f124a16e7 = c05dac1d, 2026-10-12
+
+seg-293404a9cb92 = opublikowana dokładność, dostępność, pokrycie i poziomy ochrony księżycowej różnicowej stacji na biegunie południowym, przez dowolną stronę
+
+seg-4e7d9449a880 = jeszcze nie oceniono (brak opublikowanych wyników)
+
+seg-ad1995b3ed17 = Rejestr reprezentatywności demonstracji i luk do lotu (<c1/>)
+
+seg-86b70551c37f = Wynik symulacji jest użyteczny jako dowód tylko wtedy, gdy wprost podaje, do czego jest zakotwiczony, co zakłada i co wciąż dzieli go od systemu lotniczego. Rejestr reprezentatywności czyni to pierwszorzędnym, sprawdzanym maszynowo wynikiem: rekord <c1/> zawiera zewnętrzne <c2/> demonstracji, jej zamodelowane założenia, jej <c3/> do lotu (każda z fazą/działaniem, które by ją zamknęło) oraz pasmo TRL, dla którego jest reprezentatywna. Jest to towarzysz każdego wyniku dla macierzy <c4/> na poziomie możliwości.
+
+seg-ccd039d5e6a4 = <b>Wyrocznia</b> to zbiór niezmienników w postaci zamkniętej, wymuszanych przez <c1/>: rekord <c2/> musi wymieniać co najmniej jedną kotwicę <c3/> (symulacja nie może być zwalidowana względem samej siebie); rekord <c4/> musi wymieniać co najmniej jedną lukę do lotu i nie może deklarować reprezentatywnego pasma TRL powyżej { "4" } (dojrzewanie powyżej wymaga dowodów sprzętowych/lotniczych, które są luką, a nie wynikiem symulacji); pasmo TRL musi być poprawnie sformułowane; a rekord <c5/> nie może niczego twierdzić. Te niezmienniki urzeczywistniają dyscyplinę „reprezentatywność uzasadniona + pozostałe luki do lotu jasno wskazane”.
+
+seg-6b29111096ca = Rejestr reprezentatywności i luk do lotu
+
+seg-f6b9a2c22ae6 = <c1/>/<c2/>/<c3/>, <c4/>/<c5/>/<c6/>/<c7/>. <b>Wyrocznia: <c8/></b>: niezmienniki uczciwości w postaci zamkniętej powiązane z granicą statusu/rodzaju wyroczni w <c9/>. Testy (<c10/>): rekord Validated bez zewnętrznej kotwicy nie przechodzi; kotwica wewnętrzna (ReferenceImpl) nie spełnia Validated; rekord Modelled bez luki nie przechodzi; rekord Modelled powyżej TRL { "4" } nie przechodzi; źle sformułowane pasma TRL są wychwytywane; rekord serializuje się do JSON z oczekiwanymi polami i renderuje czytelny raport. <b>Uczciwy zakres:</b> rejestr sprawdza <em>klasyfikację</em> dowodów wyniku: nie dowodzi, że wymienione kotwice wskazują na działające testy (są one dobierane ręcznie, dokładnie jak macierz <c11/>); twierdzenie „sprawdzane maszynowo” dotyczy wyłącznie niezmienników statusu/kotwicy/luki/TRL.
+
+seg-7e9190395eb6 = Ujednolicony dowód kompromisu kwantowe a klasyczne (<c1/>)
+
+seg-534e48755e2c = Każdy obszar zastosowań kwantowego PNT odpowiada na to samo pytanie w ten sam sposób: ustalić jedną ramę porównania (scenariusz + ziarno + wersja silnika), skierować kwantowego kandydata i klasyczny punkt odniesienia przez jedną neutralną ścieżkę kodu, ocenić je według wspólnych wskaźników jakości i zgłosić, z przedziałem ufności i uczciwą etykietą sprawdzone względem wzorca/zamodelowane, gdzie wygrywa technika kwantowa, a gdzie nie. <c1/> nadaje tej odpowiedzi jeden kształt, aby pionowe obszary czasu, nawigacji i detekcji anomalii emitowały <b>ten sam</b> odtwarzalny, uczciwie oznaczony obiekt. Nie implementuje ponownie żadnego kompromisu: liczby dla poszczególnych wskaźników pochodzą z istniejących silników (<c2/>, <c3/> i modułów pionowych); to jest kontrakt oraz opakowanie odtwarzalności/reprezentatywności, zbudowane na rejestrze reprezentatywności i etykietach weryfikacji.
+
+seg-5a52fb6670d1 = <b>Wyrocznia</b> to tożsamości korzyści/zwycięzcy w postaci zamkniętej plus wierne opakowanie istniejącego wyniku kompromisu. <c1/>: współczynnik korzyści ma poprawną polaryzację (zorientowany tak, że <c2/> zawsze oznacza lepszą stronę kwantową, zarówno dla wskaźników holdover, w których więcej znaczy lepiej, jak i błędu, w którym mniej znaczy lepiej); obiekt dowodu zbudowany z rzeczywistego <c3/> odtwarza jego współczynniki korzyści; nieuczciwy dowód jest odrzucany (reprezentatywność Modelled bez luki lub wskaźnik <c4/>, którego rekord kompromisu nie niesie zewnętrznej kotwicy); JSON jest deterministyczny i niesie pola ramy/ziarna/silnika/wskaźnika/reprezentatywności.
+
+seg-ae87cea429ba = Dowód kompromisu kwantowe a klasyczne
+
+seg-6622ae19989c = <c1/>/<c2/>/<c3/>/<c4/>. <b>Wyrocznia: <c5/></b>: tożsamości korzyści/zwycięzcy w postaci zamkniętej + wierne opakowanie <c6/>; uczciwość powiązana z rejestrem reprezentatywności i granicą statusu weryfikacji/rodzaju wyroczni. Testy (<c7/>) jak wyżej. <b>Uczciwy zakres:</b> ten zestaw ujednolica, <em>jak</em> kompromis jest raportowany i odtwarzany; fizyka poszczególnych wskaźników jest taka, jaką dostarcza wnoszący silnik, wraz z jego własną etykietą sprawdzone/zamodelowane: <c8/> nie podnosi zamodelowanego wskaźnika do rangi sprawdzonego.
+
+seg-ce13223e04d0 = Biblioteka modeli błędów urządzeń kwantowych (<c1/>)
+
+seg-c206fc7d58d6 = Jedno miejsce udostępniające urządzenia kwantowego PNT, które demonstrator porównuje: zegary optyczne / na uwięzionych jonach / na jonach rtęci, klasyczne zegary referencyjne, interferometr zimnych atomów i łącza transferu czasu, każde jako <c1/> niosące swoją główną specyfikację i rekord reprezentatywności. Większość fizyki urządzeń jest <b>ponownie użyta</b> (stabilności zegarów z <c2/> i <c3/>; interferometr zimnych atomów z <c4/>/<c5/>; klasyczne łącza optyczne/RF z <c6/>). Jedynym naprawdę nowym modelem jest <b>łącze transferu czasu na splątaniu / pojedynczych fotonach</b>, którego precyzja czasowa jest ograniczona szumem śrutowym: <c7/> w wykrytej częstości koincydencji <c8/> i czasie całkowania <c9/>, pogarszana karą za ciemne zliczenia <c10/> i ograniczona od dołu nieusuwalnym błędem systematycznym.
+
+seg-7e8f4f3a5442 = <b>Wyrocznia</b> to ponownie użyte, opublikowane współczynniki zegarów/CAI plus tożsamości szumu śrutowego/strat w postaci zamkniętej. <c1/>: ponownie użyta kolejność stabilności zegarów jest rozsądna (sieć optyczna < jony rtęci < CSAC w σ_y({ "1" } s)); precyzja splątania poprawia się jak <c2/> ({ "4" }× całkowania zmniejsza σ o połowę), gdy dominuje szum śrutowy; wykryta częstość koincydencji spada { "10" }× na każde { "10" } dB strat łącza; ciemne zliczenia monotonicznie pogarszają precyzję; próg systematyczny ogranicza precyzję od dołu; każda karta urządzenia jest poprawnym rekordem reprezentatywności Modelled.
+
+seg-24dd5c3725b9 = <c1/>, <c2/>/<c3/>, <c4/>. <b>Wyrocznia: <c5/></b>: ponownie użyte opublikowane współczynniki zegarów/CAI + tożsamości szumu śrutowego/strat w postaci zamkniętej dla łącza splątania. Testy (<c6/>) jak wyżej. <b>Uczciwy zakres:</b> parametry urządzeń zegarów/CAI są ponownie użyte z istniejących modeli silnika opartych na opublikowanych współczynnikach; model łącza splątania jest MODELLED na podstawie opublikowanego zachowania kwantowej synchronizacji zegarów z ilustracyjnymi, opartymi na źródłach publicznych wartościami częstości par/sprawności/strat: <b>nie jest</b> sprawdzony na zmierzonym łączu, a rzeczywisty sprzęt źródła/kanału/detektora jest wprost wskazaną luką do lotu.
+
+seg-f6d8e7ad6bec = Zaufany czas kwantowy: łańcuch od końca do końca, bezpieczna dystrybucja, anomalie + kompromis (<c1/>)
+
+seg-3160cfec0d1f = Scenariusz <c1/> składa łańcuch czasu, jakiego potrzebuje demonstrator kwantowego PNT: budżet czasu użytkownika od końca do końca (błąd wybiegu zegara referencyjnego i precyzja czasowa łącza połączone kwadraturowo) dla łańcucha <b>kwantowego</b> (zegar w sieci optycznej + łącze splątania/pojedynczych fotonów) w porównaniu z łańcuchem <b>klasycznym</b> (CSAC + dwudrogowe łącze RF); <b>poziom ochrony czasu</b> (TPL, ponownie użyty z <c2/>) ograniczający niewykryty błąd czasu; <b>wskaźnik jakości bezpieczeństwa wobec ataku z opóźnieniem/powtórzeniem</b> <c3/> przy podanym współczynniku fałszywych alarmów (ponownie użyty z <c4/>); <b>prawdopodobieństwo detekcji anomalii zegara + opóźnienie detekcji zmian CUSUM (cumulative sum)</b>; oraz porównanie kwantowe a klasyczne jako uczciwe <c5/> niosące rekord reprezentatywności i luk do lotu.
+
+seg-6fa095264bdc = <b>Wyrocznia</b> to budżet kwadraturowy w postaci zamkniętej na ponownie użytych, osobno sprawdzonych jądrach (ADEV względem Stable32/NIST; granica TPL; <c1/>/<c2/>). <c3/>: precyzja kwantowa poprawia się z czasem całkowania; łańcuch kwantowy może wygrać <em>i</em> może przegrać we wskaźniku precyzji (uczciwie: to nie jest uniwersalna wygrana; bardzo stratne łącze odwraca wynik); poziom ochrony jest skończony i dodatni; wskaźnik bezpieczeństwa mieści się w [{ "0,1" }] i rośnie wraz z opóźnieniem ataku; prawdopodobieństwo detekcji anomalii jest monotoniczne względem wielkości usterki; a dowód kompromisu jest wewnętrznie uczciwy (<c4/>).
+
+seg-42a7d1170cc3 = Zaufany czas kwantowy (łańcuch + bezpieczna dystrybucja + anomalie + kompromis)
+
+seg-44855d0cec4f = <c1/>/<c2/>, <c3/>; <c4/>. <b>Wyrocznia: <c5/></b>: budżet kwadraturowy w postaci zamkniętej na ponownie użytych sprawdzonych jądrach (ADEV/Stable32-NIST, granica TPL, analityczne Pd/Pmd detekcji); uczciwość powiązana z rejestrem reprezentatywności. Testy (<c6/>) jak wyżej. <b>Uczciwy zakres:</b> parametry zegarów i łączy są ilustracyjne, oparte na źródłach publicznych; łącze splątania to model MODELLED ograniczony szumem śrutowym z <c7/>; modeluje to <em>klasę</em> systemu zaufanego czasu: <b>nie jest</b> sprawdzone na zmierzonym łączu od końca do końca, a rzeczywisty sprzęt zegara/łącza/kanału kosmicznego jest wprost wskazaną luką do lotu; nie twierdzi się nic o TRL, dziedzictwie lotniczym ani certyfikacji.
+
+seg-c6ae292a6331 = Nawigacja kwantowa bez GNSS (<c1/>)
+
+seg-f34f784e928c = Scenariusz <c1/> porównuje nawigację zliczeniową podczas utraty GNSS z <b>kwantowym</b> budżetem inercyjnym (akcelerometr interferometru zimnych atomów, ponownie użyty z <c2/>/<c3/>, którego próg szumu białego CAI jest sprawdzony w granicach ~{ "2" } rzędów wielkości względem Freier i in. { "2016" }) oraz <b>klasycznym</b> INS klasy nawigacyjnej. Podaje wzrost błędu pozycji w czasie wybiegu, czas holdover do progu pozycji oraz kompromis kwantowe a klasyczne jako uczciwe <c4/>. Obserwowalność jest przedstawiona uczciwie: bez zewnętrznej poprawki podczas utraty sygnału bias akcelerometru jest niedostrzegalny, więc błąd pozycji rośnie bez ograniczenia (≈ ½·bias·t² plus człon błądzenia losowego prędkości); czujnik kwantowy o niższym biasie <em>spowalnia</em> ten wzrost, ale nie zamyka luki: robi to tylko zewnętrzna poprawka.
+
+seg-4cfde3de8f94 = <b>Wyrocznia</b> to ponownie użyte budżety inercyjne (<c1/>/<c2/>, oba implementujące cechę <c3/>) plus tożsamości dryfu w postaci zamkniętej. <c4/>: budżet kwantowy jest lepszy od klasycznego przy długiej utracie sygnału (mniejszy błąd, dłuższy holdover); błąd rośnie z czasem trwania utraty sygnału w obu (luka obserwowalności); przewaga zależy od czasu utraty sygnału i nie jest stałym współczynnikiem wygranej (krzywa kwantowa jest zdominowana szumem przy krótkim wybiegu, a biasem przy długim); dowód kompromisu jest wewnętrznie uczciwy.
+
+seg-0488b6ec9982 = <c1/>/<c2/>, <c3/>; <c4/>. <b>Wyrocznia: <c5/></b>: ponownie użyte budżety inercyjne (CAI sprawdzone przez ponowne użycie ~{ "2" } rzędów względem Freier { "2016" }; klasyczny dryf w postaci zamkniętej); uczciwość powiązana z rejestrem reprezentatywności. Testy (<c6/>) jak wyżej. <b>Uczciwy zakres:</b> statyczne porównanie budżetów nawigacji zliczeniowej, a nie dynamiczny filtr na rzeczywistych trajektoriach; niedostrzegalność biasu bez poprawki jest podana wprost; parametry urządzeń są ilustracyjne, oparte na źródłach publicznych; modeluje <em>klasę</em> kwantowej nawigacji bez GNSS: rzeczywisty sprzęt IMU na zimnych atomach, platforma dynamiczna i środowisko lotu są wprost wskazanymi lukami do lotu; nie twierdzi się nic o TRL, locie ani certyfikacji.
+
+seg-e23e583ecf21 = Detekcja usterek / anomalii dla kwantowych systemów PNT (<c1/>)
+
+seg-6e6df91ae779 = Scenariusz <c1/> definiuje oznaczony katalog usterek kwantowego PNT (skok częstotliwości zegara, dryf, utrata synchronizacji; skok biasu czujnika, wypadnięcie), ocenia statystykę detekcji na oknach nominalnych i z usterką oraz podaje zdolność detektora do rozróżniania jako ROC AUC i minimalną wykrywalną usterkę przy ustalonym współczynniku fałszywych alarmów. Aspekt kwantowe a klasyczne: stabilniejszy kwantowy zegar referencyjny obniża szum monitora σ, więc wykrywa mniejsze usterki, co jest emitowane jako uczciwe <c2/> z rekordem reprezentatywności.
+
+seg-eeb3c7d1f507 = <b>Wyrocznia</b> to AUC w postaci zamkniętej dla gaussowskiej statystyki detekcji (nominalna <c1/>, usterka <c2/> ⇒ <c3/>), skontrolowane krzyżowo względem zewnętrznie sprawdzonego <c4/> (sprawdzonego względem scikit-learn) i analitycznych progów <c5/>. <c6/>: analityczne AUC zgadza się ze znanymi wartościami ({ "0.5" } przy μ={ "0" }, →{ "1" } dla dużego μ/σ, monotonicznie); empiryczny przedział ufności bootstrapowego AUC obejmuje postać zamkniętą; monitor kwantowy ma wyższe AUC i mniejszą minimalną wykrywalną usterkę; przewaga zanika dla ogromnych usterek (oba wykrywają idealnie: to nie jest uniwersalny margines); katalog ma pięć oznaczonych klas; kompromis jest wewnętrznie uczciwy.
+
+seg-9dda4ab0647a = Detekcja usterek/anomalii dla kwantowego PNT
+
+seg-cfa7a5c43d14 = <c1/>, <c2/>/<c3/>, <c4/>, <c5/>; <c6/>. <b>Wyrocznia: <c7/></b>: gaussowskie AUC w postaci zamkniętej skontrolowane krzyżowo względem zewnętrznie sprawdzonego bootstrapowego AUC <c8/> (względem scikit-learn) i analitycznych progów <c9/>. Testy (<c10/>) jak wyżej. <b>Uczciwy zakres:</b> statystyka detekcji to model gaussowski, a nie rzeczywista telemetria; katalog usterek jest oznaczony jako syntetyczny; poziomy szumu monitorów kwantowego i klasycznego są ilustracyjne, oparte na źródłach publicznych; modeluje <em>klasę</em> detekcji anomalii kwantowego PNT: rzeczywista telemetria sprzętowa z etykietami prawdy jest wprost wskazaną luką do lotu; nie twierdzi się nic o TRL, locie ani certyfikacji.
+
+seg-24ad75143bed = Kontrole standardów: formaty wymiany, budżet łącza i integralność (kontrole względem wyroczni zewnętrznej)
+
+seg-9d31773e0ecd = Te standardy są sprawdzane przez odtworzenie <b>dosłownych przykładów opracowanych / wartości referencyjnych opublikowanych w samych standardach</b> (lub w niezależnej implementacji referencyjnej), a nie przez własny test w obie strony wykonany przez Kshana. Odtworzenie przykładu z załącznika samego standardu to najsilniejsza dostępna kontrola poprawności parsera formatu wymiany.
+
+seg-7ec3d508c64f = Wyrocznia zewnętrzna
+
+seg-e06aa022e7e9 = <b>CCSDS OEM</b> (502.0-B Orbit Data Messages)
+
+seg-65de0a1335d6 = <c1/>: <c2/> odtwarza dokładne epoki i wektory stanu X/Y/Z/Ẋ/Ẏ/Ż przykładu OEM w notacji KVN z <b>CCSDS 502.0-B-3, Annex G §G6, Figure G-11</b> („OEM Example with No Acceleration, No Covariance”, s. G-10): oba segmenty efemerydy, w tym wartości źródłowe z wiodącymi zerami (<c3/>). Wzorzec <c4/> jest odtworzony znak po znaku z oficjalnej Blue Book (redakcyjne znaczniki „< intervening data records omitted here >”, które nie są poprawnymi rekordami OEM, nie są uwzględnione).
+
+seg-54cff1deebc7 = <b>CCSDS TDM</b> (503.0-B Tracking Data Message)
+
+seg-a5c6b58e0053 = <c1/>: <c2/> odtwarza wszystkie { "41" } rekordy RANGE (pierwszy { "3198.03679519614" } km, ostatni { "3270.46440460551" } km) oraz metadane przykładu TDM w notacji KVN z <b>CCSDS 503.0-B-2, Annex E, Figure E-9</b> („Range Data with TIMETAG_REF=TRANSMIT”, s. E-9). Wzorzec <c3/> jest dosłowny z Blue Book. (To jest wyrocznia z opublikowanej Blue Book obok wcześniejszego, ręcznie napisanego testu w obie strony <c4/> w <c5/>.)
+
+seg-c9a23ec7956b = <b>CCSDS { "133.0" }</b> (Space Packet Protocol)
+
+seg-aaffd3d25c5f = <c1/>: koder odtwarza bajtowe wektory testowe głównego nagłówka niezależnej <b>biblioteki <c2/></b> (us-irs/spacepackets-py, <c3/>), np. <c4/> i przypadek wszystkich maksimów <c5/>, plus kanoniczny przypadek telemetrii (TM) z samych jedynek, każdy przepuszczony w obie strony przez dekodowanie. Szerokości/kolejność pól bitowych wg <b>CCSDS 133.0-B-2 §{ "4.1.3" }</b>.
+
+seg-e48472df251a = <b>CCSDS { "401" } / DSN</b> (budżet łącza, DSN 810-005)
+
+seg-c6caa639e1c6 = <c1/>: łańcuch FSPL (strata propagacji w wolnej przestrzeni) i C/N₀ odtwarza opublikowaną tabelę projektowo-kontrolną telemetrii w głębokiej przestrzeni kosmicznej z <b>J. H. Yuen (red.), <em>Deep Space Telecommunications Systems Engineering</em> (DESCANSO/JPL (DESCANSO: Deep Space Communications and Navigation Systems Center of Excellence) Pub. 82-76), Table 1-1</b>: łącze w dół Galileo w paśmie X ({ "8420.43" } MHz) przy { "6.37" } AU: strata w wolnej przestrzeni <b>{ "290.54" } dB</b> (<{ "0.05" } dB) i odebrane <b>Pr/N₀ = { "54.6" } dB-Hz</b> (<{ "0.2" } dB). Środki pasm mieszczą się w przydziałach łączy w dół w głębokiej przestrzeni kosmicznej DSN/CCSDS-401 (DSN 810-005 Module { "201" }). <em>Domyślne parametry misji</em> pozostają reprezentatywne (nie jest to skalibrowany transponder); przypięte jest <em>równanie</em> łącza.
+
+seg-c2cee7d5c7b1 = Standardy GNSS: status wyroczni zewnętrznej i uczciwe pozostałe luki:
+
+seg-d8f653b3c955 = Status i uczciwe zastrzeżenie
+
+seg-fff735bd32a1 = <b>Jądro, geometria i poziom ochrony ARAIM sprawdzone zewnętrznie.</b> <em>Jądro</em> detekcji (próg detekcji usterek χ², niecentralność niewykrytego zdarzenia w niecentralnym χ² oraz mnożniki K prawa normalnego) odtwarza <b>SciPy</b> (<c1/>, { "171" } przypadków, ≤ { "1e-6" } względnie), a otaczająca je geometria odtwarza <b>gnss_lib_py</b> (DOP). <em>Wartość</em> poziomu ochrony (PL) ARAIM jest teraz również przypięta: względem „LPV-200 (LPV: localizer performance with vertical guidance) numerical example” z WG-C (WG: Working Group) ARAIM Reference ADD (Algorithm Description Document) v3.1, <c2/> / <c3/> dają VPL { "18.2926" } m wobec { "18.3" } m, HPL { "13.4063" } m wobec { "13.45" } m i σ_v,acc { "1.3694" } m wobec { "1.3694" } m, w granicach własnego <c4/> = { "0.05" } m wzorca (rodzaj <c5/>). Zakres: tryby usterek do jednego satelity lub jednej konstelacji (<c6/>); wielozdarzeniowe podzbiory usterek i wykluczanie nie są zaimplementowane, a klasyczny RAIM nadal <b>nie ma kanonicznego opublikowanego wektora testowego wejście→HPL</b>. Zob. <a1><c7/></a1>.
+
+seg-e6a47dfb7e54 = <b>Algorytm poziomu ochrony jest teraz sprawdzony zewnętrznie.</b> Przy danych dla każdego satelity (el, az, σ) <c1/> w kshana odtwarza <b>fork RTKLIB SBAS-PL</b> (<c2/> <c3/>, Siki & Takács { "2017" }, „DO-229D Appendix J”): zasilony <b>własnym</b> σ tego narzędzia, obliczonym z <b>rzeczywistych</b> komunikatów EGNOS i rzeczywistego RINEX z BUTE, do <b>< { "2e-3" } m HPL</b> w { "6" } epokach (<c4/>); ESA gLAB { "v6.0.0" } (<c5/>) potwierdził identyczną konwencję. Współczynniki K (<c6/>, <c7/>, <c8/>) zgadzają się z DO-229E Appendix J. <b>Co jest sprawdzone, a co nie:</b> przypina to <em>algorytm</em> PL (σ na wejściu → HPL/VPL na wyjściu); <em>modelowanie</em> σ ze źródłowych komunikatów UDRE/GIVE leży poza zakresem kshana: tam niezależne narzędzia <em>pełnego potoku</em> nadal różnią się o metry na rzeczywistych danych. K_V zgodziło się przy zaokrąglonej wartości wyroczni { "5.33" } (dokładne <c9/> w kshana → VPL mniejszy o ~{ "0.06" } %; wertykalna jest sprawdzona bez współczynnika K jako <c10/>).
+
+seg-4ef39e8ea75c = <b>Model nadawany sprawdzony zewnętrznie.</b> Model Klobuchara L1 odtwarza <b><c1/> z RTKLIB</b> (<c2/>, < { "1e-4" } m): <em>parytet implementacji</em> z de facto otwartym wzorcem, ponieważ nie istnieje oficjalny przykład opracowany z <em>zmierzoną prawdą</em>. Czytnik map TEC IONEX już istnieje (<c3/>, testowany jednostkowo); pozostałą luką jest kontrola krzyżowa tego czytnika względem rzeczywistego produktu GIM, a nie model nadawany. Zob. wiersze Klobuchara w <a1>Deklaracje a rzeczywistość</a1>.
+
+seg-fa3058dffb2a = Kod rozpraszający GPS L1 C/A (IS-GPS-200)
+
+seg-53ac231770fb = Generowanie kodu sprawdzone zewnętrznie.
+
+seg-04db7c613bd5 = <c1/> (<c2/>): generator kodu C/A z LFSR (rejestr przesuwny ze sprzężeniem zwrotnym) G1/G2 odtwarza <b>opublikowane przypisania fazy kodu w IS-GPS-200 Table 3-Ia</b>: ósemkowe pierwsze dziesięć chipów dla PRN (pseudo-random noise) { "1" }–{ "9" } ({ "{" }{ "1440" }, { "1620" }, { "1710" }, { "1744" }, { "1133" }, { "1455" }, { "1131" }, { "1454" }, { "1626" }{ "}" }) dokładnie. Przypina to <b>ciąg chipów kodu rozpraszającego</b> względem specyfikacji interfejsu GPS; otaczające elementy modulacji, separacji widmowej i śledzenia kodu w DLL (pętla z opóźnieniem) (<c3/>) pozostają MODELLED.
+
+seg-e5f1b960777a = Czas dla sieci, widma, Układu Słonecznego, konstelacji, kampanii i LEO-PNT
+
+seg-c5bf3b23d688 = Możliwości dodane w linii { "0.28" } są oceniane wiersz po wierszu w generowanym <a1><c1/></a1>; ta sekcja podsumowuje, które z nich mają wyrocznię zewnętrzną. Wiersz jest VALIDATED tylko przy niezależnej wyroczni zewnętrznej; wszystko inne jest MODELLED.
+
+seg-d791a48b3895 = Możliwość (rodzaj)
+
+seg-d4779be2efd8 = Wyrocznia zewnętrzna lub powód, dla którego pozostaje zamodelowane
+
+seg-0d7bb0fc1c5e = Telekomunikacyjne MTIE (maksymalny błąd przedziału czasu) i TDEV (odchylenie czasu) na szeregu holdover (<c1/>)
+
+seg-18894b55b6c1 = <c1/>: { "17" } współczynników uśredniania MTIE i { "12" } TDEV na zatwierdzonym do repozytorium szeregu holdover zegara w skali układu o { "2" } 048 próbkach, względem allantools { "2024.06" }, do < { "1e-12" } / < { "1e-9" } względnie. Werdykty maski ITU-T (International Telecommunication Union Telecommunication Standardization Sector) PASS/FAIL oraz ustawienia wstępne oscylatorów z kart katalogowych pozostają MODELLED. Zob. <a1><c2/></a1>.
+
+seg-ff9cb967ae08 = Predykcja holdover z zmierzonego zapisu zegara (<c1/>)
+
+seg-7821227795d8 = <c1/>: dopasowanie na pierwszej trzeciej części rzeczywistego zapisu cezowego 5071A, predykcja czasu przekroczenia jednego sigma przy sześciu progach, pomiar na zatrzymanych dwóch trzecich; próg czynnik { "1.5" } w każdą stronę, zaobserwowane stosunki od { "0.84" } do { "1.03" }. Budżet ochronny szczeliny i kadencja poprawek zbudowane na tym pozostają MODELLED.
+
+seg-2667e3ddf829 = Widmowe gęstości mocy w paśmie L w postaci zamkniętej i separacja widmowa (<c1/>)
+
+seg-1a0c6ef49f98 = Postacie zamknięte <c1/> względem opublikowanych wartości (wiersz macierzy „Closed-form L-band signal power spectral densities…”). Wodospad z J/S (stosunek zakłócacza do sygnału) dla każdego pasma i efektywnym C/N0 (gęstość nośna do szumu) oraz wejście/wyjście SigMF (Signal Metadata Format) pozostają MODELLED.
+
+seg-46278e9c03c1 = Pozycje planet z elementów Standisha JPL (Jet Propulsion Laboratory) i czas światła między ciałami (<c1/>)
+
+seg-43cfeb9f2403 = { "0.30" }, zarejestrowane wstępnie względem JPL Horizons (DE441): <c1/> i <c2/>, RMS na planetę i składową co najwyżej równe wartości z Explanatory Supplement Table { "8.10.1" } (najgorsze { "0.778" }), z uwzględnieniem podziału Ziemi i obrotu ICRF; <c3/>, solver czasu światła na pozycjach DE441 w granicach { "1e-6" } s od czasu światła z Horizons (najgorsze { "6.7e-9" } s). Wcześniejsze porównanie z podwójną wartością nominalną (<c4/>), którego próg ustalono po pierwszym porównaniu, jest zachowane jako niebramkujące porównanie regresyjne. Uran/Neptun z Table { "1" }, Pluton, księżyce, stałe ciał i <c5/> pozostają MODELLED.
+
+seg-b96d8ea13c87 = Geometria Walkera oraz opublikowane sloty GPS, Galileo i GLONASS (GLObal NAvigation Satellite System); globalny współczynnik rozmycia dokładności GPS (<c1/>)
+
+seg-85c293b8d235 = <c1/>: Walker 24/3/1 odtwarza tabelę definicji usługi otwartej Galileo do { "1e-9" }°, wzór slotów z dokumentu kontroli interfejsu GLONASS, równikowe przejścia GPS; mediana HDOP bazowego GPS { "0.940" } względem { "0.94" } ze standardu wydajności Standard Positioning Service. Dowolne mapy pokrycia wielokonstelacyjnego wokół dowolnego ciała pozostają MODELLED.
+
+seg-f0187be4b97f = Kampanie: łańcuchy misji, przeglądy parametrów, zespoły Monte Carlo, przebiegi ze wspólnymi warunkami (<c1/>)
+
+seg-b5c45fc12e5f = <c1/> ({ "11" } testów): kampania jednofazowa odtwarza samodzielny przebieg bajt po bajcie, przegląd jednowęzłowy odczytuje tę samą liczbę, zespół zależny od ziarna jest stabilny co do bajtu. Tożsamości składania, a nie wyrocznia zewnętrzna.
+
+seg-bc25d20125e7 = Fizyka łącza LEO (niska orbita okołoziemska): współczynniki deszczu ITU-R (ITU Radiocommunication Sector) P.838, tłumienie deszczu i scyntylacja P.618, strata wnikania do budynku P.2109, jonosfera pierwszego rzędu, maksymalny Doppler
+
+seg-b1f3bd37d169 = <c1/>, <c2/>: własne tabele Zaleceń ITU-R i przykłady walidacyjne Study Group { "3" } (zatwierdzone do repozytorium wraz ze źródłem i datą pobrania), stosunek opóźnień grupowych z IS-GPS-200 dla jonosfery oraz opublikowana tabela maksymalnego dopplera Leclere, Marathe i Reid (ION GNSS+ { "2025" }, arXiv { "2509.19551" }).
+
+seg-492917f11386 = Komunikat nawigacyjny LEO: algorytm użytkownika efemerydy nadawanej Galileo ICD (dokument kontroli interfejsu), CRC-24Q (24-bitowa cykliczna kontrola nadmiarowa), globalnie uśrednione wagi SISRE (błąd zasięgu sygnału w przestrzeni) (<c1/>)
+
+seg-514a7da01582 = <c1/>: algorytm użytkownika Galileo odtwarza RTKLIB (otwartoźródłową bibliotekę kinematycznego pozycjonowania w czasie rzeczywistym) z dokładnością { "1" } mm na czterech rzeczywistych efemerydach nadawanych Galileo; CRC-24Q daje wartość kontrolną z katalogu 0xCDE703 i bajty kontrolne przykładowej ramki RTCM (Radio Technical Commission for Maritime Services) { "1005" }; wagi SISRE odtwarzają opublikowaną tabelę MEO/GEO. Dopasowywacz, aktualizacja w trakcie przelotu, kodowanie binarne, tekst w stylu RINEX-4/CSV (wartości rozdzielane przecinkami) i wybieralne modele efemeryd pozostają MODELLED.
+
+seg-94bbcd43e03a = Projekt sygnału LEO, przelot i budżet łącza, Doppler oraz łączne pozycjonowanie GNSS+LEO, zbieżność PPP (precyzyjne pozycjonowanie punktowe), pozycjonowanie 5G NTN (sieć nienaziemna), transfer czasu LEO (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>)
+
+seg-4c37a8cfac87 = <c1/>, <c2/>: postacie zamknięte, spójność filtru (na przykład uśrednione po przebiegach NEES filtru PPP w jego paśmie { "95" }%) oraz porównania opublikowanych trendów; bez danych terenowych.
+
+seg-91cf4e399f0a = Jeden system LEO-PNT od końca do końca (<c1/>)
+
+seg-fb947da2e8b4 = <c1/>: każda przekazana wartość równa się własnemu wynikowi etapu wcześniejszego, a zmiana wejścia wcześniejszego przesuwa każdą zależną od niego wartość dalszą.
+
+seg-7e230aa73770 = Odporność LEO i obszary pionowe (spoofing przez Doppler i przez spójność międzypasmową, sondowanie jonosfery)
+
+seg-ab2542cfc295 = <c1/> ({ "10" } testów). Scenariusze odporności i pionowe są wymienione w <a1><c2/></a1>.
+
+seg-2d3ead293658 = Wyniki będące renderingami, a nie dowodami, mają testy, ale nie mają wiersza w macierzy: eksporty wymiany (CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, efemeryda STK (Systems Tool Kit), SigMF (Signal Metadata Format)), każdy wczytany z powrotem przez walidator napisany ze specyfikacji formatu (<c1/>, { "13" } testów; zob. <a1><c2/></a1>); animacje (<c3/>: powtórne przebiegi identyczne co do bajtu, dokładne liczby klatek, poprawnie sformułowany SVG (Scalable Vector Graphics), brak zewnętrznego adresu w odtwarzaczu HTML (HyperText Markup Language)); oraz raport z przebiegu (<c4/>, <c5/>: każdy dołączony scenariusz raportuje bez pustej sekcji i wartości zastępczej, etykiety odpowiadają macierzy, a zapisane polecenie odtwarza <c6/> i raport bajt po bajcie).
+
+seg-903e4e51dda1 = Obwiednia działania
+
+seg-e226ad523a3d = Każdy pakiet jest ćwiczony w całym zadeklarowanym zakresie wejść przez <c1/>, który potwierdza, że każde liczbowe wyjście jest skończone (bez NaN/Inf (NaN: nie liczba)) i ograniczone. Tabela podaje przetestowany zakres wejść dla każdego pakietu, oczekiwane zachowanie wyjścia i test pokrywający.
+
+seg-8bd4f586f3c7 = Zmieniane wejście
+
+seg-3ebc1201a545 = Przetestowany zakres
+
+seg-a1198518d667 = Oczekiwane wyjście
+
+seg-7bf563f5420a = Test pokrywający
+
+seg-4906c027a805 = <c1/> (specyfikacja czasu)
+
+seg-d91e18ce3773 = { "1" } – { "500" } ns
+
+seg-10cf765fdd75 = skończone wskaźniki jakości holdover/czasu/bezpieczeństwa
+
+seg-fe640e9c3c1e = { "1e-7" } – { "1e-2" } m/s² (zimne atomy → prymitywny MEMS (mikroukłady elektromechaniczne))
+
+seg-456c32a126a2 = skończone, ograniczone RMS/p95 pozycji
+
+seg-dae96fd3a01b = <c1/> (maska elewacji)
+
+seg-a54c3c8933c6 = skończone DOP/dostępność; ograniczone
+
+seg-bf506e17cf81 = { "0.1" } – { "50" } ns/s
+
+seg-b6d0d587046e = skończone P_md / bezpieczeństwo, ograniczone
+
+seg-fda0b32d7784 = { "10" } – { "1000" } m
+
+seg-132fdea2270f = skończony holdover czasu/pozycji
+
+seg-c9099375b99f = orbita (rzeczywista)
+
+seg-952b94eda0ff = rzeczywiste TLE Celestrak <c1/>
+
+seg-60009932477c = migawka 30 satelitów, ścisła kontrola sum kontrolnych
+
+seg-deb16d50741e = wczytuje się tylko z poprawnymi sumami kontrolnymi; ograniczona geometria
+
+seg-c46d726e35b3 = zegar (flicker)
+
+seg-15939085bf3a = <c1/> włączone/wyłączone
+
+seg-504a95f55b88 = { "0" } wobec { "1e-12" }
+
+seg-e1cce0c2028e = włączenie progu 1/f <b>pogarsza</b> wybieg p95 czasu
+
+seg-bdd4e56bdef9 = fuzja (realizm)
+
+seg-09af9dd78fe3 = <c1/> { "0" } wobec { "5.88e-7" } m/s²
+
+seg-0a6723be642c = zero wobec realistycznej wartości niezerowej
+
+seg-a9eb04be2b9f = filtr nadal jest zbieżny, w granicach { "3" }× błędu przy zerowym biasie
+
+seg-2a839953aa6a = Wiersze flicker-FM i biasu fuzji zamykają dwie konkretne luki realizmu: człony szumu są <b>domyślnie wyłączone, ale po włączeniu wyraźnie wpływają na wynik</b>, a łączny filtr fuzji <b>nie zależy od tego, że biasy są wyzerowane</b>: jest zbieżny także przy realistycznym resztkowym biasie klasy zimnych atomów.
+
+seg-4f0e9f9d4cdf = Przebiegi kwantowe i klasyczne używają teraz niezależnych ziaren RNG (generator liczb losowych) (ziarno klasyczne = ziarno + 0x9e3779b97f4a7c15), więc ich realizacje szumu są nieskorelowane: poprawione po przeglądzie.
+
+seg-3b6b785f401a = <c1/> uwzględnia segmenty: osie czasu utraty sygnału są dzielone na ciągłe segmenty przy ponownym zdobyciu GNSS, a podawana wartość to najgorszy (najkrótszy) wybieg spośród nich. Pozostaje ograniczona rozdzielczością siatki czasu (dolna granica).
+
+seg-4a830113b13d = Ponowna synchronizacja transferu czasu ISL modeluje resztkową niepewność łącza jako świeży jitter o zerowej średniej w każdym kroku pomiaru plus ponowne zakotwiczenie w skonfigurowanym odstępie.
+
+seg-30c4d89aa433 = Deklaracje a rzeczywistość: krótkie zestawienie
+
+seg-27a22de7b8c0 = Lista kontrolna wrogiego recenzenta. Dla każdego terminu, który można odczytać jako coś więcej, niż jest: co Kshana robi dziś i gdzie na mapie drogowej leży prawdziwa wersja.
+
+seg-759eb0cfafe4 = Termin, który można zobaczyć
+
+seg-6a2d3691d642 = Czym naprawdę jest dziś
+
+seg-bbd0145bfb95 = Czym <b>nie</b> jest (jeszcze)
+
+seg-a6fdb038b003 = „hybrydowy symulator kwantowego/klasycznego PNT”
+
+seg-4421f8bd0967 = klasyczny symulator stochastyczny sterowany opublikowanymi współczynnikami Allana/szumu czujników kwantowych
+
+seg-3885661aafff = fizyka kwantowa z zasad pierwszych (faza Macha–Zehndera, szum projekcji, błędy systematyczne): zob. <a1><c1/></a1>
+
+seg-1d28debd0302 = „łączna fuzja Kalmana” / pakiet fusion
+
+seg-d13beba21ba7 = uruchamialny pakiet <c1/> obserwuje zegar i pozycję <b>osobno</b> (bezpośrednia poprawka czasu i bezpośrednia poprawka pozycji), dla czego optymalny estymator jest rzeczywiście blokowo-diagonalny: dwa dwustanowe filtry ze wspólnym wskaźnikiem jakości
+
+seg-25c2fe6fa6d3 = <em>sprzężony</em> filtr dla przypadku <b>pseudoodległości</b> już <b>istnieje</b> jako <c1/> (4-stanowy ułożony <c2/>, niezerowa kowariancja międzyblokowa, sprawdzony pod kątem NEES), ale <b>nie jest jeszcze podłączony do uruchamialnego pakietu</b>, a pakiet jest <b>1-DOF (jeden stopień swobody)</b>: rozszerzenie 3-D z 8 stanami to praca na przyszłość
+
+seg-5cce1ca5b86f = Wskaźnik jakości bezpieczeństwa (rodzaj <c1/>)
+
+seg-d55c30f63023 = <c1/> <b>stochastycznego detektora fałszowania czasu</b>: dwustronny test χ²₁ / Neymana–Pearsona na statystyce monitora wspomaganego zegarem, z progiem ustawionym z docelowego <c2/>, <c3/> obliczone <b>przy wielkości ze specyfikacji</b> zarówno w postaci zamkniętej, jak i metodą Monte Carlo (zgodne z dokładnością kilku ×1/√N)
+
+seg-dbf2039a4a8e = wielosatelitarny detektor RAIM/ARAIM: zob. <a1><c1/></a1>; statystyka monitora jest modelem gaussowskim ze σ zegara wyprowadzonym z PSD, a nie korelacją na poziomie sygnału
+
+seg-32bcb801e49c = „detekcja spoofingu wspomagana zegarem”
+
+seg-58e4d22075e9 = <b>jednozegarowy</b> monitor rozbieżności czasu (statystyka gaussowska, σ z PSD zegara), NIE wielosatelitarny (SV: pojazd kosmiczny, czyli satelita) RAIM
+
+seg-f3f6f95bc559 = RAIM wielosatelitarny w dziedzinie zasięgu z poziomami ochrony
+
+seg-a5faedaab13e = P_md detektora spoofingu (postać zamknięta wobec Monte Carlo)
+
+seg-0362489c341a = analityczne <c2/> oparte na <c1/> i empiryczna estymata z prób <c3/> zgadzają się w granicach błędu próbkowania (≈ 1/√N); sprawdzone w testach <c4/> / <c5/> przy wymuszonym odchyleniu (μ/σ = { "2" })
+
+seg-8fa5c9468ff5 = zmierzona ROC detektora na zarejestrowanych danych spoofingu
+
+seg-8f895aa1c657 = model pseudoodległości <c1/>
+
+seg-a5e5e1e7a0e9 = <b>symulacja prosta</b>: <c1/>. Każdy model atmosfery jest testowany jednostkowo względem wartości policzonych ręcznie (ZHD (zenitowe opóźnienie hydrostatyczne) ≈ { "2.3" } m, Niell = { "1" } w zenicie, skośność Klobuchara), a pełny nadawany model Klobuchara jest <b>skontrolowany krzyżowo względem implementacji referencyjnej <c2/> z RTKLIB</b> z dokładnością poniżej milimetra (<c3/>, { "6.1278" } m dla przypadku domyślnych współczynników RTKLIB; nie istnieje oficjalny opublikowany wektor testowy Klobuchara, więc to jest parytet implementacji, a nie zmierzona prawda); <b>przebieg bez szumu odtwarza geometrię + poprawki z dokładnością poniżej milimetra</b> (residuum RAIM ≈ { "0" })
+
+seg-adc8a5d89cbd = <b>rozwiązanie</b> pozycji z rzeczywistych sygnałów (PPP/RTK (PPP: precyzyjne pozycjonowanie punktowe)), dwuczęstotliwościowa kombinacja bez wpływu jonosfery lub rozwiązywanie niejednoznaczności fazy nośnej: niezamodelowane
+
+seg-a56533528c6e = model jammingu (rodzaj <c1/>)
+
+seg-0a4a28fcd53a = łańcuch <b>budżetu łącza</b>: J/S ze straty propagacji w wolnej przestrzeni + zysku anteny dla każdego kierunku → efektywne C/N₀ z równania antyzakłóceniowego (zysk rozpraszania × separacja widmowa <c1/>) → utrata synchronizacji przy progu (Kaplan & Hegarty §{ "9.4" })
+
+seg-b53e210487fb = wielodrogowość, dynamika AGC (automatyczna regulacja wzmocnienia) w czasie, sam przeszukiwanie akwizycji (opcjonalna histereza <c1/> to para progów); opcjonalna strata kwantyzatora <c2/> dotyczy wejścia gaussowskiego i nie obowiązuje dla zakłócacza CW; opcjonalna tablica <c3/> jest wąskopasmowa i idealna (bez sprzężeń i niedopasowań), a opcjonalne zacienianie <c4/> to jedna krawędź noża na jednym kafelku SRTM; <c5/> jest reprezentatywną stałą dla danego typu, a nie wyprowadzoną ze zmierzonego PSD zakłócacza
+
+seg-523d66d56f97 = Wskaźnik jakości integralności (pakiety zegara/holdover)
+
+seg-d0702ee52d37 = <b>samospójność</b> filtru (ułamek próbek utraty sygnału wewnątrz jego własnej granicy k·σ)
+
+seg-b4b68065e521 = HPL/VPL, ryzyko integralności / P_HMI, limity alarmowe, DO-229E/316/ED-259A: są raportowane osobno przez rodzaj <c1/> (RAIM / ARAIM) i funkcje SBAS, nigdy nie włączane do tego wskaźnika
+
+seg-d5b1f858f0e3 = wskaźnik jakości starszego <b>pakietu</b> scenariuszy <c1/>
+
+seg-e9fe365d7318 = <b>jednoosiowy (1-DOF)</b> budżet błędów akcelerometru/żyroskopu (VRW/ARW, niestabilność biasu) z resetem do prawdy
+
+seg-604e8d96c2c2 = <em>starszy</em> pakiet jest 1-DOF; <b>ścieżka 3-osiowa jest dostarczana w pakiecie <c1/></b> (następny wiersz)
+
+seg-e2a4a1c47f2c = 3-osiowa <b>biblioteka</b> strapdown + <b>pakiet</b> <c1/> (<c2/>, <c3/>)
+
+seg-01e5672a37a4 = zweryfikowany nawigator kwaternionowy/NED (NED: północ-wschód-dół) z deterministycznym modelem błędów IMU: modelowane są <b>współczynnik skali, niewspółosiowość, wrażliwość na g, kwantyzacja, narastanie szybkości</b> (IEEE Std 952-1997 §A.2; Groves { "2013" } §{ "4.3" }), teraz <b>sterowane przez pakiet scenariuszy <c1/></b> i <b>konfigurowalne dla każdego czujnika z TOML (Tom's Obvious Minimal Language, format scenariusza)</b> (<c2/>)
+
+seg-acecd6b81859 = <b>niezamodelowane:</b> błąd prostowania drgań, dryf od gradientu temperatury. Błąd wybiegu fuzji jest ograniczony od dołu przez błąd orientacji przy przekazaniu (pochylenie/bias akcelerometru słabo rozdzielne), więc kalibracja poszczególnych biasów nie jest deklarowana
+
+seg-6b04fc376c0d = „Hybrydowa integracja PNT” (pakiet <c1/>)
+
+seg-cd3125081b5c = nawigacja zliczeniowa w pętli otwartej ograniczona resetami GNSS do prawdy
+
+seg-578c93c67ae7 = sprzężone (luźno/ściśle) połączenie GNSS–INS filtrem Kalmana: to osobny pakiet <c1/> (EKF) i rodzaj <c2/>
+
+seg-57f603da0331 = „Positioning Performance” (pakiety zegara)
+
+seg-278aafe7fadf = RMS <b>czasu</b> fazy zegara w ns (<c1/>)
+
+seg-a6af364cbcdc = dokładność w dziedzinie pozycji ważona RMS/CEP/SEP/DOP (SEP: sferyczny błąd prawdopodobny)
+
+seg-b68c5a4363a5 = inercjalny wskaźnik jakości pozycji (<c1/>)
+
+seg-850e030bb5e3 = <b>jednoosiowe</b> RMS/p95 pozycji w metrach, z jednego ziarna, chyba że <c1/> żąda zespołu (wtedy średnia, rozrzut i bootstrapowy { "95" }% przedział ufności dla każdej metryki)
+
+seg-be77929afa2c = rozkład CEP / 2DRMS (dwukrotne RMS odległości) zespołu (mapa drogowa: CEP metodą Monte Carlo)
+
+seg-75f239679dc2 = „sprawdzone z dokładnością do ~{ "2" }%”
+
+seg-2d593a99a2b1 = <em>typowa</em> zaobserwowana zgodność; <b>wymuszana bramka to { "20" }–{ "25" }%</b> błędu względnego
+
+seg-34cfd0e08235 = gwarantowana granica dokładności { "2" }%
+
+seg-d3402cc1ebd5 = „odtwarzalne / identyczne co do bitu”
