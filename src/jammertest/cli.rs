@@ -165,7 +165,9 @@ fn run_import(args: &[String]) -> Result<(), String> {
             let text = String::from_utf8(b.clone())
                 .map_err(|_| crate::terr!("e-jammertest-cli-is-not-utf-3", a = a))?;
             (
-                import_attack_log(&text, shift, log_start_utc, duration)?,
+                crate::i18n::in_english_or_localised_error(|| {
+                    import_attack_log(&text, shift, log_start_utc, duration)
+                })?,
                 vec![(file_name(&a), sha256_hex(&b))],
             )
         }
@@ -176,20 +178,19 @@ fn run_import(args: &[String]) -> Result<(), String> {
             for p in &src.plan_jsons {
                 slots.extend(parse_plan(p, offset)?);
             }
-            let imp = import(
-                &slots,
-                &catalog,
-                &ImportOptions {
-                    location: num::<u32>(args, "--location")?,
-                    log_start_utc,
-                    log_duration_s: duration,
-                    year: num::<u32>(args, "--year")?,
-                },
-            )?;
+            let options = ImportOptions {
+                location: num::<u32>(args, "--location")?,
+                log_start_utc,
+                log_duration_s: duration,
+                year: num::<u32>(args, "--year")?,
+            };
+            // The events are a machine file: English in every language.
+            let imp =
+                crate::i18n::in_english_or_localised_error(|| import(&slots, &catalog, &options))?;
             (imp, src.names)
         }
     };
-    let text = events_toml(&imp, &names);
+    let text = crate::i18n::in_english(|| events_toml(&imp, &names));
     match flag_value(args, "--out")? {
         Some(o) => {
             std::fs::write(&o, &text)
@@ -352,7 +353,9 @@ fn run_score(args: &[String]) -> Result<(), String> {
                 None => Some(now_rfc3339()),
             };
             let title = flag_value(args, "--title")?.unwrap_or_else(|| "Jammertest score".into());
-            let (o, pack) = score_pack(&req, &log_name, &title, created.as_deref(), &seed)?;
+            let (o, pack) = crate::i18n::in_english_or_localised_error(|| {
+                score_pack(&req, &log_name, &title, created.as_deref(), &seed)
+            })?;
             write_dir(Path::new(&out), &pack.files)?;
             eprintln!(
                 "{}",
@@ -365,7 +368,7 @@ fn run_score(args: &[String]) -> Result<(), String> {
             eprintln!("verify with: kshana evidence verify {out} --pubkey <signer public key>");
             o.scorecard
         }
-        None => score_log(&req)?.scorecard,
+        None => crate::i18n::in_english_or_localised_error(|| score_log(&req))?.scorecard,
     };
     if args.iter().any(|a| a == "--json") {
         println!(

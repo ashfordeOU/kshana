@@ -181,7 +181,8 @@ fn open_monitored(a: &Args, path: &Path) -> Result<Box<dyn IqSource + Send>, Fai
 /// Run `kshana iq monitor <args>`.
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let a = parse_args(args)?;
-    let report = report_from_args(&a, None)?;
+    // The report's notes are keys of a machine file: English in every language.
+    let report = crate::i18n::in_english_or_localised_error(|| report_from_args(&a, None))?;
 
     if let Some(p) = a.get("--json") {
         std::fs::write(p, report.to_json()?).map_err(|e| Fail::Run(format!("{p}: {e}")))?;

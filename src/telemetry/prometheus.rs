@@ -199,189 +199,191 @@ impl Registry {
 
     /// Render the exposition text.
     pub fn render(&self) -> String {
-        let mut o = String::new();
-        header(
-            &mut o,
-            "kshana_build_info",
-            "Engine version; constant 1.",
-            "gauge",
-        );
-        o.push_str(&crate::t!(
-            "telemetry-prometheus-kshana-build-info-version",
-            escape_label = escape_label(&self.version)
-        ));
-        if let Some(sc) = self.score {
+        crate::i18n::in_english(|| {
+            let mut o = String::new();
             header(
+                &mut o,
+                "kshana_build_info",
+                "Engine version; constant 1.",
+                "gauge",
+            );
+            o.push_str(&crate::t!(
+                "telemetry-prometheus-kshana-build-info-version",
+                escape_label = escape_label(&self.version)
+            ));
+            if let Some(sc) = self.score {
+                header(
                 &mut o,
                 "kshana_trust_score",
                 "Latest GNSS trust score, 0 (no trust) to 100 (full trust). Absent when the source computes none.",
                 "gauge",
             );
-            o.push_str(&crate::t!(
-                "telemetry-prometheus-kshana-trust-score",
-                fmt_f64 = fmt_f64(sc)
-            ));
-        }
-        header(
-            &mut o,
-            "kshana_trust_band",
-            "Latest GNSS trust band: 1 for the current band, 0 for the others.",
-            "gauge",
-        );
-        for b in Band::ALL {
-            let on = u8::from(self.band == Some(b));
-            o.push_str(&crate::t!(
-                "telemetry-prometheus-kshana-trust-band-band",
-                b = b.label(),
-                on = on
-            ));
-        }
-        if let Some(g) = &self.gate {
+                o.push_str(&crate::t!(
+                    "telemetry-prometheus-kshana-trust-score",
+                    fmt_f64 = fmt_f64(sc)
+                ));
+            }
             header(
+                &mut o,
+                "kshana_trust_band",
+                "Latest GNSS trust band: 1 for the current band, 0 for the others.",
+                "gauge",
+            );
+            for b in Band::ALL {
+                let on = u8::from(self.band == Some(b));
+                o.push_str(&crate::t!(
+                    "telemetry-prometheus-kshana-trust-band-band",
+                    b = b.label(),
+                    on = on
+                ));
+            }
+            if let Some(g) = &self.gate {
+                header(
                 &mut o,
                 "kshana_trust_gate",
                 "Latest gate state of the live stream: 1 for the current state, 0 for the others.",
                 "gauge",
             );
-            let cur = if GATES[..3].contains(&g.as_str()) {
-                g.as_str()
-            } else {
-                "unknown"
-            };
-            for st in GATES {
-                o.push_str(&crate::t!(
-                    "telemetry-prometheus-kshana-trust-gate-gate",
-                    st = st,
-                    v1 = u8::from(st == cur)
-                ));
+                let cur = if GATES[..3].contains(&g.as_str()) {
+                    g.as_str()
+                } else {
+                    "unknown"
+                };
+                for st in GATES {
+                    o.push_str(&crate::t!(
+                        "telemetry-prometheus-kshana-trust-gate-gate",
+                        st = st,
+                        v1 = u8::from(st == cur)
+                    ));
+                }
             }
-        }
-        if let (true, Some(p)) = (self.expose_position, self.position) {
-            for (name, help, v) in [
-                (
-                    "kshana_trust_position_latitude_degrees",
-                    "Latitude the receiver reported at the latest epoch, degrees.",
-                    p.lat_deg,
-                ),
-                (
-                    "kshana_trust_position_longitude_degrees",
-                    "Longitude the receiver reported at the latest epoch, degrees.",
-                    p.lon_deg,
-                ),
-                (
-                    "kshana_trust_position_height_meters",
-                    "Height the receiver reported at the latest epoch, metres.",
-                    p.height_m,
-                ),
-            ] {
-                header(&mut o, name, help, "gauge");
-                o.push_str(&format!("{name} {}\n", fmt_f64(v)));
+            if let (true, Some(p)) = (self.expose_position, self.position) {
+                for (name, help, v) in [
+                    (
+                        "kshana_trust_position_latitude_degrees",
+                        "Latitude the receiver reported at the latest epoch, degrees.",
+                        p.lat_deg,
+                    ),
+                    (
+                        "kshana_trust_position_longitude_degrees",
+                        "Longitude the receiver reported at the latest epoch, degrees.",
+                        p.lon_deg,
+                    ),
+                    (
+                        "kshana_trust_position_height_meters",
+                        "Height the receiver reported at the latest epoch, metres.",
+                        p.height_m,
+                    ),
+                ] {
+                    header(&mut o, name, help, "gauge");
+                    o.push_str(&format!("{name} {}\n", fmt_f64(v)));
+                }
             }
-        }
-        header(
+            header(
             &mut o,
             "kshana_trust_reason_active",
             "1 if the reason was present at the latest epoch, 0 if it was seen earlier but is not now.",
             "gauge",
         );
-        for (r, on) in &self.reason_active {
-            // A reason that came with a class (schema 1.3) carries it as a label.
-            let class = self
-                .reason_class
-                .get(r)
-                .map(|c| format!(",class=\"{c}\""))
-                .unwrap_or_default();
+            for (r, on) in &self.reason_active {
+                // A reason that came with a class (schema 1.3) carries it as a label.
+                let class = self
+                    .reason_class
+                    .get(r)
+                    .map(|c| format!(",class=\"{c}\""))
+                    .unwrap_or_default();
+                o.push_str(&crate::t!(
+                    "telemetry-prometheus-kshana-trust-reason-active-reason",
+                    escape_label = escape_label(r),
+                    class = class,
+                    v2 = u8::from(*on)
+                ));
+            }
+            header(
+                &mut o,
+                "kshana_trust_epochs_total",
+                "Epochs received, by trust band.",
+                "counter",
+            );
+            for b in Band::ALL {
+                o.push_str(&crate::t!(
+                    "telemetry-prometheus-kshana-trust-epochs-total-band",
+                    b = b.label(),
+                    value = self.epochs_by_band[b.index()]
+                ));
+            }
+            header(
+                &mut o,
+                "kshana_trust_reason_epochs_total",
+                "Epochs in which a reason was present, by reason.",
+                "counter",
+            );
+            for (r, n) in &self.reason_epochs {
+                o.push_str(&crate::t!(
+                    "telemetry-prometheus-kshana-trust-reason-epochs-total",
+                    escape_label = escape_label(r),
+                    n = n
+                ));
+            }
+            header(
+                &mut o,
+                "kshana_trust_input_errors_total",
+                "Input lines that could not be parsed as trust samples.",
+                "counter",
+            );
             o.push_str(&crate::t!(
-                "telemetry-prometheus-kshana-trust-reason-active-reason",
-                escape_label = escape_label(r),
-                class = class,
-                v2 = u8::from(*on)
+                "telemetry-prometheus-kshana-trust-input-errors-total",
+                input_errors = self.input_errors
             ));
-        }
-        header(
-            &mut o,
-            "kshana_trust_epochs_total",
-            "Epochs received, by trust band.",
-            "counter",
-        );
-        for b in Band::ALL {
-            o.push_str(&crate::t!(
-                "telemetry-prometheus-kshana-trust-epochs-total-band",
-                b = b.label(),
-                value = self.epochs_by_band[b.index()]
-            ));
-        }
-        header(
-            &mut o,
-            "kshana_trust_reason_epochs_total",
-            "Epochs in which a reason was present, by reason.",
-            "counter",
-        );
-        for (r, n) in &self.reason_epochs {
-            o.push_str(&crate::t!(
-                "telemetry-prometheus-kshana-trust-reason-epochs-total",
-                escape_label = escape_label(r),
-                n = n
-            ));
-        }
-        header(
-            &mut o,
-            "kshana_trust_input_errors_total",
-            "Input lines that could not be parsed as trust samples.",
-            "counter",
-        );
-        o.push_str(&crate::t!(
-            "telemetry-prometheus-kshana-trust-input-errors-total",
-            input_errors = self.input_errors
-        ));
-        header(
+            header(
             &mut o,
             "kshana_trust_reason_overflow_total",
             "Reason occurrences folded into reason=\"other\" because 64 distinct reasons were already in use.",
             "counter",
         );
-        o.push_str(&crate::t!(
-            "telemetry-prometheus-kshana-trust-reason-overflow-total",
-            reason_overflow = self.reason_overflow
-        ));
-        header(
-            &mut o,
-            "kshana_trust_syslog_send_failures_total",
-            "Syslog events not delivered (queue full, collector down or stalled).",
-            "counter",
-        );
-        o.push_str(&crate::t!(
-            "telemetry-prometheus-kshana-trust-syslog-send-failures",
-            value = self.syslog_failures.load(Ordering::Relaxed)
-        ));
-        if let Some(t) = self.t_s {
+            o.push_str(&crate::t!(
+                "telemetry-prometheus-kshana-trust-reason-overflow-total",
+                reason_overflow = self.reason_overflow
+            ));
             header(
                 &mut o,
-                "kshana_trust_epoch_offset_seconds",
-                "Offset of the latest epoch from the start of the log or session, seconds.",
-                "gauge",
+                "kshana_trust_syslog_send_failures_total",
+                "Syslog events not delivered (queue full, collector down or stalled).",
+                "counter",
             );
             o.push_str(&crate::t!(
-                "telemetry-prometheus-kshana-trust-epoch-offset-seconds",
-                fmt_f64 = fmt_f64(t)
+                "telemetry-prometheus-kshana-trust-syslog-send-failures",
+                value = self.syslog_failures.load(Ordering::Relaxed)
             ));
-        }
-        if let Some(u) = self.last_sample_unix {
-            header(
+            if let Some(t) = self.t_s {
+                header(
+                    &mut o,
+                    "kshana_trust_epoch_offset_seconds",
+                    "Offset of the latest epoch from the start of the log or session, seconds.",
+                    "gauge",
+                );
+                o.push_str(&crate::t!(
+                    "telemetry-prometheus-kshana-trust-epoch-offset-seconds",
+                    fmt_f64 = fmt_f64(t)
+                ));
+            }
+            if let Some(u) = self.last_sample_unix {
+                header(
                 &mut o,
                 "kshana_trust_last_sample_timestamp_seconds",
                 "Wall-clock time the latest epoch was received, Unix seconds. Alert on its age to detect a stalled stream.",
                 "gauge",
             );
-            o.push_str(&crate::t!(
-                "telemetry-prometheus-kshana-trust-last-sample-timestamp",
-                fmt_f64 = fmt_f64(u)
-            ));
-        }
-        if self.geometry_seen {
-            self.render_geometry(&mut o);
-        }
-        o
+                o.push_str(&crate::t!(
+                    "telemetry-prometheus-kshana-trust-last-sample-timestamp",
+                    fmt_f64 = fmt_f64(u)
+                ));
+            }
+            if self.geometry_seen {
+                self.render_geometry(&mut o);
+            }
+            o
+        })
     }
 
     /// The geometry series (schema 1.3 inputs only), after every 0.35 series so a 0.35

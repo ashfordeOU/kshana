@@ -390,9 +390,9 @@ impl TestConditions {
             let rec = tc.recording_path(path);
             let name = rec.to_string_lossy().to_string();
             let meta = match name.strip_suffix(".sigmf-data") {
-                Some(base) => {
-                    PathBuf::from(crate::t!("iq-campaign-conditions-sigmf-meta", base = base))
-                }
+                Some(base) => PathBuf::from(crate::i18n::in_english(|| {
+                    crate::t!("iq-campaign-conditions-sigmf-meta", base = base)
+                })),
                 None if name.ends_with(".sigmf-meta") => rec.clone(),
                 None => {
                     return Err(crate::terr!(
