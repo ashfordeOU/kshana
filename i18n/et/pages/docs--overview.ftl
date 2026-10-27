@@ -296,3 +296,12 @@ seg-7cf2608b2b2f = Tõendipaketi struktuur. Vastuvõtja logi (NMEA, u-blox UBX, 
 
 # text
 seg-d4a762001549 = Litsents
+
+# text
+seg-13fc009b947c = FAQ
+
+# attr:alt
+seg-e251b385ff46 = Kaks sünteetilist häirekaardi päeva, mis on joonistatud failis examples/interference-map/output olevatest kommititud näidistest, kummalgi oma sünteetiline marsruut ja mootori teatatud marsruudi kokkupuute osakaalud. Vasakul ADS-B päev: { "1" } halvenenud lahter, { "6" } mittehalvenenud, { "4" } hindamata (viirutatud) ning kirjeta lahtrid, joonistatud tühjadena, mida ei vaadeldud. Marsruut on { "525" } km: { "11.5" } % selle pikkusest halvenenud lahtrites, { "38.3" } % mittehalvenenud, { "9.1" } % hindamata ja { "41.1" } % vaatlemata. Paremal AIS-päev: ringi- ja maismaadetektorite märgitud lahtrid, mitteanomaalsed lahtrid ja tühjad lahtrid; marsruut on { "454" } km, millest { "10.5" } % anomaalsetes lahtrites, { "21.2" } % mitteanomaalsed, { "0.0" } % hindamata ja { "68.3" } % vaatlemata. ADS-B ja AIS on eraldi kihid, mida kunagi ei kombineerita. Märgitud lahter ei ole häirimise tuvastamine ning värvita lahtrit ei vaadeldud, mis ei ole sama mis selge. Kõik andmed on väljamõeldud, Atlandi ookeani avaosas, ja ei ole mõõtmine.
+
+# attr:alt
+seg-af0edceb1503 = Ühe sünteetilise vastuvõtja logi hindamine kolmetestilise ajakava vastu, mootori v{ $version } tegelikust käivitusest (`kshana jammertest score`). Logi on väljamõeldud: { "1800" } s NMEA-d, kus C/N0 langeb { "20" } dB kahe intervalli jooksul. Ajakava loetleb kolm ajapesa; keskmisel ajapesal ei ole segajat logis. Hinnang märgib { "2" } testi { "3" }-st tuvastatuks (mediaanviivitus { "0" } s) ja { "1" } tuvastamata, valehäire käivitusi { "0" } üle { "0.25" } h puhta aja. Siin ei öelda midagi päris vastuvõtja kohta. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC { "61108" }, IEC { "61162" }): laeva navigeerimise eest vastutab jätkuvalt operaator.

@@ -250,3 +250,62 @@ seg-c02dd9cc5640 = Avatud küsimused koordinaatorile
 
 # text
 seg-b44414247e17 = <b>ODbL samadel tingimustel jagamine (adsb.lol).</b> Avaldatud ruudupõhised päevafailid on tõenäoliselt Derived Database. Valikud: (a) kiita heaks ja avaldada häirekaardi GeoJSON, mis kasutab adsb.lol-i ODbL { "1.0" } all (manustatud viide ja litsentsiväli ütleksid seda; Kshana enda kood jääb AGPL-i alla); (b) piirata avalikud väljundid renderdatud piltidega (Produced Works); (c) loobuda adsb.lol-ist, jättes ADS-B allika välja. Soovitatud: (a), kuna väljundid on koondandmed, mida soovime teistel lasta taaskasutada. Kommertsväljaanded peaksid kandma sama ODbL-i teadet igal sellisel failil.
+
+# text
+seg-6f3bc6e3094e = Leht tagastas ülevaatusele HTTP { "403" }, tingimusi ei loetud
+
+# text
+seg-40ccc6e27c8f = <b>Eri allikatest väljundid.</b> ADS-B päevad (ODbL) ja AIS-päevad (avalik omand / NLOD) peavad jääma eraldi failidesse, millest igaüks kannab oma litsentsi, et ODbL ei kehtiks AIS-kihile.
+
+# text
+seg-b5bb632d7017 = <b>Allikad, mis on märgitud „pending“.</b> Kas airplanes.live'i, Taani ametit ja Digitraffici tuleks lähemalt uurida (lugeda tegelikke tingimusi või võtta ühendust avaldajaga) või jätta need versioonist { "0.35.0" } välja? Soovitus: jätta välja.
+
+# text
+seg-020198db0951 = <b>Rannajoone fail.</b> Kas lisada hoidlasse (vendor) Natural Earth { "1" }:10m maa polügoonid (umbes { "10" } MB GeoJSON-ina, mistõttu tuleks need vajaliku ala jaoks lihtsustada) või võtta need ainult kasutaja sisendina?
+
+# text
+seg-c054ec59d79f = <b>Identifikaatorid.</b> Kinnitada, et lugejad võivad MMSI-d ja ICAO hex-i mälus sõeluda „eri õhusõidukite või laevade“ loendamiseks, kuid ei tohi neid kunagi kirjutada ega logida. Loendamine kasutab käivituskohast soolaga räsi, mida ei säilitata.
+
+# text
+seg-b47980b1e428 = Otsuste kokkuvõte
+
+# text
+seg-fca8ed827b2c = Heaks kiidetud kandidaat ADS-B jaoks: adsb.lol (tingimusel, et küsimus { "1" } lahendub).
+
+# text
+seg-3d88b7af43ab = Heaks kiidetud kandidaat AIS-i jaoks: NOAA MarineCadastre, Kystverketi avaandmed.
+
+# text
+seg-58252a879ae0 = Rannajoon: Natural Earth.
+
+# text
+seg-e797e4dab0ad = Välja jäetud: OpenSky, ADS-B Exchange, kommertslikud AIS-i tarnijad; ootel: airplanes.live, Taani Meresõiduamet, Digitraffic.
+
+# text
+seg-57f9c5b1e44d = Otsused (koordinaator, 2026-10-09)
+
+# text
+seg-34526eaad1f9 = adsb.lol on heaks kiidetud. Avaldatud lahtripõhine ADS-B GeoJSON antakse välja litsentsi ODbL { "1.0" } all, litsents ja omistus on failis sisse ehitatud; Kshana kood jääb AGPL-iks; kommertsväljaanded kannavad selliste failide peal sama märget.
+
+# text
+seg-bd5d319b9425 = ADS-B ja AIS väljundid on eraldi failid, igaühel oma litsentsiväli, mida kunagi ei liideta.
+
+# text
+# c1: Digitraffic-User
+seg-6f9cdef62db6 = Heaks kiidetud AIS: NOAA MarineCadastre ja Kystverket (katvuse kallutatus on väljundis märgitud). airplanes.live ja Taani Meresõiduamet jäävad versioonist { "0.35" } välja. Digitraffic: teine katse luges selle avaldatud API juhiseid (kiiruspiirangud ja nõue lisada tuvastav päis <c1/>), kuid mitte litsentsi teksti ega omistuse sõnastust, mistõttu see <b>jäetakse välja</b>; selle saab lisada, kui selle litsents on loetud ja viidatud.
+
+# text
+# c1: interference-map fetch-land --allow-network
+seg-fce6c63550ee = Natural Earthi maafaili ei hoita hoidlas (vendored). CLI võtab kasutaja antud maa polügoonifaili; vabatahtlik abiline (<c1/>) laadib selle alla.
+
+# text
+seg-861a08eb3c23 = Identifikaatoreid sõelutakse ainult mälus, räsitakse käivituskohase soolaga ning neid ei kirjutata ega logita kunagi.
+
+# text
+seg-7b7d27fbaff3 = Lisatud reegel: lahtrit, kus on vähem kui { "5" } eri õhusõidukit või laeva, ei avaldata.
+
+# text
+seg-9fa94e1a7511 = <s1>Eelmine</s1>Häirekaart ja marsruudi kokkupuude
+
+# text
+seg-8a2c9a7992f4 = <s1>Järgmine</s1>Mere integratsioonid

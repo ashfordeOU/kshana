@@ -524,3 +524,112 @@ seg-852814f107a7 = Stsenaariumi liikide lehed
 
 # text
 seg-1a26d420ba67 = Vt ka
+
+# text
+seg-c4f4b2ca0647 = Väärtus
+
+# text
+seg-e8968e86f31b = Piirangud
+
+# text
+seg-7dc0fcd6ef77 = aocs
+
+# text
+seg-c6ced184b8eb = campaign
+
+# text
+seg-bcc7452b7e9c = clock
+
+# text
+seg-00593bd8a3ed = ephemeris
+
+# text
+seg-0cb65c6c4f53 = fusion
+
+# text
+seg-dbe8c830ef6c = hybrid
+
+# text
+seg-eae62828dc7a = inertial
+
+# text
+seg-8af88a0e2a69 = integrity
+
+# text
+seg-9a63fde1d8b1 = jamming
+
+# text
+seg-f8450911ddd6 = orbit
+
+# text
+seg-6dd5a0d55f18 = passes
+
+# text
+seg-786068921d01 = pvt
+
+# text
+seg-63f112536118 = reentry
+
+# text
+seg-f79dad339a1e = spectrum
+
+# text
+seg-8ea9f458185d = spoof
+
+# text
+seg-460826ea7719 = sweep
+
+# text
+seg-55f3ac33d883 = timetransfer
+
+# text
+seg-a37260157d35 = Sisendid
+
+# text
+# c1: kshana kinds --json
+seg-0ffd6d4b0d8c = Skeemist (<c1/>):
+
+# text
+seg-7a473d2b9b37 = Nõutavad väljad: puuduvad
+
+# text
+seg-0484c5d57886 = ei ole märgitud
+
+# text
+seg-619be4963365 = tekst
+
+# text
+seg-15636cc68f72 = lipp
+
+# text
+seg-473eb8189015 = Käivitamine
+
+# text
+seg-8b01aa51263e = Mida see annab
+
+# text
+seg-5aa75472f59d = Selle käivituse skalaartulemused koos ühikutega, mida mootor ütleb:
+
+# text
+seg-dfd41abc16b5 = Tulemus
+
+# text
+seg-0df8f55cbe06 = deg
+
+# text
+seg-4798bca2d7a7 = MODELLED: <a1>kontrollimaatriksi</a1> read, mis nimetavad seda liiki.
+
+# text
+seg-6338a873ee85 = Read, mida käivitus ise kasutas, koos sõltumatu etaloniga, mille maatriks igaühele annab (avalikud allikad on seal nimetatud):
+
+# text
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministlikud, stsenaariumi räsiga, SBOM-i + platvormideülesed golden-väravad. Oraakel (sõltumatu etalon) (ExternalDataset): SBOM-i standardi järgimine ametliku CycloneDX-i { "1.5" } JSON-skeemi suhtes (+ kehtivad SPDX-i identifikaatorid) — väline avaldatud standard, null valideerimisviga kogu sõltuvusgraafil; FoM-i determinismi / baitide tasemel reprodutseeritavuse osa jääb fikseeritud sisemise kooskõla kontrolliks, mistõttu rida jääb MODELLED
+
+# text
+seg-1fc08d2f0209 = Mida jooksu oma aruanne ütleb, et pole modelleeritud või valideeritud:
+
+# text
+seg-58c4d7218e70 = Reprodutseeritavus ja tarkvara kvaliteedi tagamine on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-1bf3d5817274 = Kõik liigid: <a1>KINDS.md</a1>
