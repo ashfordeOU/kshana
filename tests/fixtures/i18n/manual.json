@@ -9828,5 +9828,790 @@
     "var": "text"
    }
   ]
+ },
+ {
+  "id": "e-mcp-budget-work-budget-exceeded-for-call",
+  "error": true,
+  "parts": [
+   "work budget exceeded for a call through the MCP server: ",
+   {
+    "var": "errors"
+   },
+   ". Run large studies with the `kshana` command line."
+  ]
+ },
+ {
+  "id": "e-mcp-iq-the-iq-sample-budget-must",
+  "error": true,
+  "parts": [
+   "the IQ sample budget must be at least 1"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-an-empty-path-was-given",
+  "error": true,
+  "parts": [
+   "an empty path was given"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-rate-hz-must-be-positive",
+  "error": true,
+  "parts": [
+   "rate_hz must be a positive number"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-duration-must-be-positive-number",
+  "error": true,
+  "parts": [
+   "duration_s must be a positive number"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-broadcast-mode-nav-needs-rx",
+  "error": true,
+  "parts": [
+   "broadcast mode (nav) needs rx_pos [lat, lon, alt]"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-scene-needs-signal-or-nav",
+  "error": true,
+  "parts": [
+   "a scene needs `signal` (or `nav` for broadcast mode)"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-scene-needs-at-least-one",
+  "error": true,
+  "parts": [
+   "a scene needs at least one PRN in `prns`"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-surface-out-exports-one-surface",
+  "error": true,
+  "parts": [
+   "surface_out exports one surface: give exactly one PRN"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-surface-out-must-end-in",
+  "error": true,
+  "parts": [
+   "surface_out must end in .csv, .json or .bin"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-max-seconds-must-be-positive",
+  "error": true,
+  "parts": [
+   "max_seconds must be a positive number"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-epochs-out-must-end-in",
+  "error": true,
+  "parts": [
+   "epochs_out must end in .csv, .jsonl or .bin (the format follows the suffix)"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-out-must-differ-from-input",
+  "error": true,
+  "parts": [
+   "out must differ from input"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-pll-bws-hz-dll-bws",
+  "error": true,
+  "parts": [
+   "pll_bws_hz, dll_bws_hz, spacings_chips and coherents cannot be combined with design: the sweep runs every design in the file"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-signal-and-prns-go-together",
+  "error": true,
+  "parts": [
+   "signal and prns go together"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-iq-work-directory",
+  "error": true,
+  "parts": [
+   "IQ work directory ",
+   {
+    "var": "dir"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-iq-iq-work-directory-is-not",
+  "error": true,
+  "parts": [
+   "IQ work directory ",
+   {
+    "var": "dir"
+   },
+   " is not a directory"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-iq-file-tools-are-off",
+  "error": true,
+  "parts": [
+   "IQ file tools are off: ",
+   {
+    "var": "reason"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-iq-output-does-not-name-file",
+  "error": true,
+  "parts": [
+   "output `",
+   {
+    "var": "rel"
+   },
+   "` does not name a file"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-output-its-folder",
+  "error": true,
+  "parts": [
+   "output `",
+   {
+    "var": "rel"
+   },
+   "`: its folder: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-iq-output-is-symlink-refusing-to",
+  "error": true,
+  "parts": [
+   "output `",
+   {
+    "var": "shown"
+   },
+   "` is a symlink; refusing to write"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-output-already-exists-pass-overwrite",
+  "error": true,
+  "parts": [
+   "output `",
+   {
+    "var": "shown"
+   },
+   "` already exists; pass overwrite: true to replace it"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-output-exists-and-is-not",
+  "error": true,
+  "parts": [
+   "output `",
+   {
+    "var": "shown"
+   },
+   "` exists and is not a file"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-its-data-file-lies-outside",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": its data file lies outside the IQ work directory"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-lies-outside-the-iq-work",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " lies outside the IQ work directory"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-input-campaign-the-campaign-folder",
+  "error": true,
+  "parts": [
+   "[input] campaign `",
+   {
+    "var": "rel"
+   },
+   "`: ",
+   {
+    "var": "message"
+   },
+   "; the campaign folder must be an existing folder inside the IQ work directory"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-out-dir-does-not-name",
+  "error": true,
+  "parts": [
+   "out_dir `",
+   {
+    "var": "rel"
+   },
+   "` does not name a folder"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-is-samples-and-one-call",
+  "error": true,
+  "parts": [
+   {
+    "var": "what"
+   },
+   " is ",
+   {
+    "var": "samples"
+   },
+   " samples and one call may process at most ",
+   {
+    "var": "max_samples"
+   },
+   " (",
+   {
+    "var": "env"
+   },
+   "); ",
+   {
+    "var": "remedy"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-iq-threads-must-be-to",
+  "error": true,
+  "parts": [
+   "threads must be 1 to ",
+   {
+    "var": "max_threads"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-iq-truth-format-must-be-csv",
+  "error": true,
+  "parts": [
+   "truth_format must be csv or jsonl (got ",
+   {
+    "var": "other"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-surface-out-would-hold-about",
+  "error": true,
+  "parts": [
+   "surface_out would hold about ",
+   {
+    "var": "cells"
+   },
+   " cells (Doppler bins × samples per code period; limit ",
+   {
+    "var": "max_cells"
+   },
+   ", about ",
+   {
+    "var": "mb"
+   },
+   " MB as binary): widen doppler_step_hz or narrow doppler_max_hz"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-no-campaign-here",
+  "error": true,
+  "parts": [
+   {
+    "var": "out_dir"
+   },
+   ": no campaign here (",
+   {
+    "var": "e"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-design-prn-channels-at-most",
+  "error": true,
+  "parts": [
+   {
+    "var": "n_channels"
+   },
+   " (design, PRN) channels; at most 256 per sweep"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-test-conditions-invalid",
+  "error": true,
+  "parts": [
+   "test conditions invalid: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-iq-labfit-failed",
+  "error": true,
+  "parts": [
+   "labfit failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-give-exactly-one-of-log",
+  "error": true,
+  "parts": [
+   "give exactly one of `log` and `log_base64`"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-at-most-366-maps-per",
+  "error": true,
+  "parts": [
+   "at most 366 maps per call"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-mode-symbols-needs-symbols",
+  "error": true,
+  "parts": [
+   "mode `symbols` needs `symbols`"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-vessel-stream-assessment-failed",
+  "error": true,
+  "parts": [
+   "vessel stream assessment failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-jammertest-import-failed",
+  "error": true,
+  "parts": [
+   "jammertest import failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-jammertest-score-failed",
+  "error": true,
+  "parts": [
+   "jammertest score failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-vessel-log-assessment-failed",
+  "error": true,
+  "parts": [
+   "vessel log assessment failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-training-scenario-failed",
+  "error": true,
+  "parts": [
+   "training scenario failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-evidence-pack-failed",
+  "error": true,
+  "parts": [
+   "evidence pack failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-the-pack-is-bytes-over",
+  "error": true,
+  "parts": [
+   "the pack is ",
+   {
+    "var": "size"
+   },
+   " bytes, over the ",
+   {
+    "var": "max_bytes"
+   },
+   "-byte reply limit; narrow the window or use `kshana receiver-trust evidence` on the command line"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-round-trip-pack-failed",
+  "error": true,
+  "parts": [
+   "round-trip pack failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-the-pack-is-bytes-over-2",
+  "error": true,
+  "parts": [
+   "the pack is ",
+   {
+    "var": "size"
+   },
+   " bytes, over the ",
+   {
+    "var": "max_bytes"
+   },
+   "-byte reply limit; narrow the window or use `kshana evidence round-trip` on the command line"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-files-are-over-the-byte",
+  "error": true,
+  "parts": [
+   "files are over the ",
+   {
+    "var": "max_bytes"
+   },
+   "-byte limit"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-full-log-is-over-the",
+  "error": true,
+  "parts": [
+   "full_log is over the ",
+   {
+    "var": "max_bytes"
+   },
+   "-byte limit"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-interference-map-failed",
+  "error": true,
+  "parts": [
+   "interference map failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-the-map-is-bytes-over",
+  "error": true,
+  "parts": [
+   "the map is ",
+   {
+    "var": "total"
+   },
+   " bytes, over the ",
+   {
+    "var": "max_bytes"
+   },
+   "-byte reply limit; use a coarser cell_deg, fewer days, or `kshana interference-map` on the command line"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-route-exposure-failed",
+  "error": true,
+  "parts": [
+   "route exposure failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-compliance-report-failed",
+  "error": true,
+  "parts": [
+   "compliance report failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-standards-pack-failed",
+  "error": true,
+  "parts": [
+   "standards pack failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-lunanet-afs-check-failed",
+  "error": true,
+  "parts": [
+   "lunanet-afs-check failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-mode-must-be-spec-symbols",
+  "error": true,
+  "parts": [
+   "mode must be spec, symbols or generate (got ",
+   {
+    "var": "other"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-mcp-marine-benchmark-scoring-failed",
+  "error": true,
+  "parts": [
+   "benchmark scoring failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-leaderboard-failed",
+  "error": true,
+  "parts": [
+   "leaderboard failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-test-bench-export-failed",
+  "error": true,
+  "parts": [
+   "test-bench export failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-marine-the-pack-is-bytes-over-3",
+  "error": true,
+  "parts": [
+   "the pack is ",
+   {
+    "var": "size"
+   },
+   " bytes, over the ",
+   {
+    "var": "max_bytes"
+   },
+   "-byte reply limit"
+  ]
+ },
+ {
+  "id": "e-mcp-server-give-exactly-one-of-request",
+  "error": true,
+  "parts": [
+   "give exactly one of `request` (a sky-geometry request) or `skyline_preset` (a preset name, or an empty string to list them)"
+  ]
+ },
+ {
+  "id": "e-mcp-server-receiver-log-assessment-failed",
+  "error": true,
+  "parts": [
+   "receiver log assessment failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-server-unknown-scenario-kind-list-scenario",
+  "error": true,
+  "parts": [
+   "unknown scenario kind `",
+   {
+    "var": "k"
+   },
+   "`; list_scenario_kinds names every kind"
+  ]
+ },
+ {
+  "id": "e-mcp-server-unknown-report-format-expected-json",
+  "error": true,
+  "parts": [
+   "unknown report format `",
+   {
+    "var": "format"
+   },
+   "`; expected json or html"
+  ]
+ },
+ {
+  "id": "e-mcp-server-report-failed",
+  "error": true,
+  "parts": [
+   "report failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-server-duration-fps-gives-frames-and",
+  "error": true,
+  "parts": [
+   "duration_s x fps gives ",
+   {
+    "var": "n_frames"
+   },
+   " frames and a reply carries at most ",
+   {
+    "var": "max_frames"
+   },
+   "; lower fps or duration_s, or write a longer sequence with the command line (`kshana <scenario.toml> --animate frames`)"
+  ]
+ },
+ {
+  "id": "e-mcp-server-route-import-failed",
+  "error": true,
+  "parts": [
+   "route import failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-server-sp3-export-failed",
+  "error": true,
+  "parts": [
+   "SP3 export failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-server-omm-export-failed",
+  "error": true,
+  "parts": [
+   "OMM export failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-server-oem-export-failed",
+  "error": true,
+  "parts": [
+   "OEM export failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-server-scenario-kind-publishes-no-csv",
+  "error": true,
+  "parts": [
+   "scenario kind `",
+   {
+    "var": "kind"
+   },
+   "` publishes no CSV table; only ",
+   {
+    "var": "kinds"
+   },
+   " do"
+  ]
+ },
+ {
+  "id": "e-mcp-server-unknown-skyline-preset-known-presets",
+  "error": true,
+  "parts": [
+   "unknown skyline preset \"",
+   {
+    "var": "name"
+   },
+   "\"; known presets: ",
+   {
+    "var": "presets"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-server-the-tool-call-did-not",
+  "error": true,
+  "parts": [
+   "the tool call did not finish: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-server-the-server-is-at-its-concurrent-work-limit",
+  "error": true,
+  "parts": [
+   "the server is at its concurrent-work limit (earlier calls are still running); retry shortly"
+  ]
+ },
+ {
+  "id": "e-mcp-server-the-work-pool-is-closed",
+  "error": true,
+  "parts": [
+   "the work pool is closed"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-no-work-directory",
+  "error": true,
+  "parts": [
+   "no work directory"
+  ]
  }
 ]
