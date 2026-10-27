@@ -11,3 +11,6 @@ seg-2247a2344710 = Tähendus
 
 # text
 seg-c3c260b7063e = Testid
+
+# text
+seg-06ff6eed7e99 = OpenCPN

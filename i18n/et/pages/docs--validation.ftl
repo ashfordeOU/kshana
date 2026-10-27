@@ -50,3 +50,15 @@ seg-eaf341ff4522 = GNSS-ita kvantnavigatsioon
 
 # text
 seg-75636f9419b2 = Teadaolevad piirangud
+
+# text
+seg-9c0eb89a2fbe = Pakett
+
+# text
+seg-f63dd3d7aad4 = Allikas
+
+# text
+seg-638b8d451550 = Sensor
+
+# text
+seg-04f69a0edb2f = tüüp

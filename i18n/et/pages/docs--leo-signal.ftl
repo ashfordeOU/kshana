@@ -11,3 +11,9 @@ seg-cbf0f9bcd2d8 = Oraakel (sõltumatu etalon)
 
 # text
 seg-6e0cb6acc073 = VALIDATED
+
+# text
+seg-f63dd3d7aad4 = Allikas
+
+# text
+seg-587beeccaa11 = Eelseade

@@ -14,3 +14,12 @@ seg-1759a8cce7d6 = Liigid
 
 # text
 seg-71aee5eb55c5 = UHF
+
+# text
+seg-f63dd3d7aad4 = Allikas
+
+# text
+seg-587beeccaa11 = Eelseade
+
+# text
+seg-e305279d5b11 = Sisu
