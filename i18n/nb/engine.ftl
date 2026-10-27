@@ -11419,28 +11419,28 @@ engine-interference-map-locate-wrote = skrev { $path }
 
 engine-interference-map-locate-summary =
     { $n_sessions ->
-        [one] { $n_sessions } sesjon
-       *[other] { $n_sessions } sesjoner
+        [one] { $n_sessions } økt
+       *[other] { $n_sessions } økter
     } publisert; { $n_withheld ->
-        [one] { $n_withheld } kandidatsesjon
-       *[other] { $n_withheld } kandidatsesjoner
+        [one] { $n_withheld } kandidatøkt
+       *[other] { $n_withheld } kandidatøkter
     } holdt tilbake (færre enn { $min } ulike fly eller fartøy)
 
 engine-interference-map-locate-note-not-preregistered = merk: et valg avviker fra de forhåndsregistrerte parameterne, så dette er ikke den forhåndsregistrerte metoden
 
-engine-interference-map-locate-line-session = sesjon { $k }: { $start } til { $end }, { $affected } ulike berørte, { $level }%-område { $area } km², tyngdepunkt { $lat }, { $lon } (ellipse { $a } x { $b } km)
+engine-interference-map-locate-line-session = økt { $k }: { $start } til { $end }, { $affected } ulike berørte, { $level }%-område { $area } km², tyngdepunkt { $lat }, { $lon } (ellipse { $a } x { $b } km)
 
-engine-interference-map-locate-line-unconstrained = sesjon { $k }: { $start } til { $end }, { $affected } ulike berørte, rapportene avgrenser ikke området (ubegrenset)
+engine-interference-map-locate-line-unconstrained = økt { $k }: { $start } til { $end }, { $affected } ulike berørte, rapportene avgrenser ikke området (ubegrenset)
 
 engine-interference-map-locate-fig-title = Estimert senderområde
 
 engine-interference-map-locate-fig-subtitle =
     Hvor, under oppgitte forutsetninger, en kilde til de degraderte rapportene kan ha vært. Viste { $n ->
-        [one] sesjon
-       *[other] sesjoner
+        [one] økt
+       *[other] økter
     }: { $n }.
 
-engine-interference-map-locate-fig-none = Ingen sesjon nådde publiseringsminimum, så ingen område vises.
+engine-interference-map-locate-fig-none = Ingen økt nådde publiseringsminimum, så ingen område vises.
 
 engine-interference-map-locate-fig-scale = { $km } km
 
@@ -11450,7 +11450,7 @@ engine-interference-map-locate-fig-legend-ellipse = 95 %-ellipse for posteriorfo
 
 engine-interference-map-locate-fig-note-1 = Et område er ikke posisjonen til noe fly, fartøy eller noen organisasjon, og ikke en konklusjon om årsaken.
 
-engine-interference-map-locate-fig-note-2 = Terreng er ikke modellert, og hver sesjon forutsetter én kilde; konfidensnivåene er betinget av modellen.
+engine-interference-map-locate-fig-note-2 = Terreng er ikke modellert, og hver økt forutsetter én kilde; konfidensnivåene er betinget av modellen.
 
 engine-e-interference-map-locate-bad-number = { $name } er ikke et tall
 

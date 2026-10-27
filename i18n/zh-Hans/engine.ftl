@@ -10695,24 +10695,24 @@ engine-interference-map-locate-usage = 用法：kshana interference-map locate <
 engine-interference-map-locate-wrote = 已写出 { $path }
 
 engine-interference-map-locate-summary = 已发布 { $n_sessions ->
-        *[other] { $n_sessions } 个时段
+        *[other] { $n_sessions } 个会话
     }；{ $n_withheld ->
-        *[other] { $n_withheld } 个候选时段
+        *[other] { $n_withheld } 个候选会话
     }已扣留（不同的飞机或船舶少于 { $min } 个）
 
 engine-interference-map-locate-note-not-preregistered = 注意：有一项选项与预先登记的参数不同，因此这不是预先登记的方法
 
-engine-interference-map-locate-line-session = 时段 { $k }：{ $start } 至 { $end }，受影响的不同对象 { $affected } 个，{ $level }% 区域 { $area } km²，质心 { $lat }，{ $lon }（椭圆 { $a } x { $b } km）
+engine-interference-map-locate-line-session = 会话 { $k }：{ $start } 至 { $end }，受影响的不同对象 { $affected } 个，{ $level }% 区域 { $area } km²，质心 { $lat }，{ $lon }（椭圆 { $a } x { $b } km）
 
-engine-interference-map-locate-line-unconstrained = 时段 { $k }：{ $start } 至 { $end }，受影响的不同对象 { $affected } 个，这些报告无法缩小该区域（不受约束）
+engine-interference-map-locate-line-unconstrained = 会话 { $k }：{ $start } 至 { $end }，受影响的不同对象 { $affected } 个，这些报告无法缩小该区域（不受约束）
 
 engine-interference-map-locate-fig-title = 估计的发射源区域
 
 engine-interference-map-locate-fig-subtitle = { $n ->
-        *[other] 所示时段：{ $n }。
+        *[other] 所示会话：{ $n }。
     }
 
-engine-interference-map-locate-fig-none = 没有任何时段达到发布下限，因此不显示任何区域。
+engine-interference-map-locate-fig-none = 没有任何会话达到发布下限，因此不显示任何区域。
 
 engine-interference-map-locate-fig-scale = { $km } km
 
@@ -10722,7 +10722,7 @@ engine-interference-map-locate-fig-legend-ellipse = 后验的 95% 椭圆
 
 engine-interference-map-locate-fig-note-1 = 区域并不是任何飞机、船舶或组织的位置，也不是对成因的认定。
 
-engine-interference-map-locate-fig-note-2 = 未对地形建模，且每个时段假定只有一个源；置信水平以该模型为条件。
+engine-interference-map-locate-fig-note-2 = 未对地形建模，且每个会话假定只有一个源；置信水平以该模型为条件。
 
 engine-e-interference-map-locate-bad-number = { $name } 不是数字
 
