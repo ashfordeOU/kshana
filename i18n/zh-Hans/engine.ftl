@@ -35,7 +35,7 @@ engine-e-clock-log-the-rinex-clock-file-holds = RINEX 钟差文件包含 { $many
 
 engine-e-clock-log-no-as-or-ar-records = 时钟 { $id } 没有 AS 或 AR 记录
 
-engine-e-clock-log-the-clock-has-single-epoch = 该时钟只有一个历元；无法确定 tau0
+engine-e-clock-log-the-clock-has-single-epoch = 该时钟只有一个历元；至少需要两个（无法确定 tau0）
 
 engine-e-clock-log-the-log-has-no-readings = { $format } 日志中没有读数
 
@@ -9863,3 +9863,825 @@ engine-main-usage-sky =
     （至多 4 MiB），并用 SGP4 外推到 --epoch（UTC）加 --time：即这些
     根数集在该历元给出的天空，而不是测量值。没有 --epoch 时，外推到最新
     根数集的历元，即有代表性的天空。MODELLED；docs/SKYLINE.md。
+
+engine-main-usage-skyline =
+    用法：kshana skyline --preset <name> [--json]
+    { "   " }或：kshana skyline --presets
+    { "   " }或：kshana skyline --profile <skyline.json|skyline.toml>
+
+    输出一个天际线预设（city-street、harbour-approach、fjord、container-terminal）及其
+    出处和每一度方位角上的截断高度、预设列表，或把一个 skyline 段
+    化简为引擎使用的 360 项表。REPRESENTATIVE 预设；docs/SKYLINE.md。
+
+engine-main-usage-lunanet-afs-check =
+    用法：kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }或：kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }或：kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    固定于 LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025)。`spec` 对照该文件印出的码表和算例检查本实现
+    （xval/lunanet-afs/PREREGISTRATION.md 的判据 B1 至 B10；带 --strict 时，
+    除非每条判据都达到，退出状态为 1）。`symbols` 检查硬判决符号流
+    （由 0 和 1 组成的文本）的同步图案、SB1 解码、FID、TOI 连续性和帧
+    间距；子帧 2 至 4（LDPC、CRC-24Q）不予验证。`generate` 写出带占位子帧的
+    符号测试流；它不是波形，Kshana 不写出任何信号。要在
+    录制文件中捕获或跟踪 AFS 波形，请使用 `kshana iq acquire --signal lunanet-afs-i`
+    （或 lunanet-afs-q）。仅供参考。docs/LUNANET-AFS.md。
+
+engine-main-usage-standards-pack =
+    用法：kshana standards-pack list
+    { "   " }或：kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }或：kshana standards-pack rows <id>
+    { "   " }或：kshana standards-pack tests <id>
+
+    标准包是一组场景，按运行前已声明的判据评分，并与它为之提供证据支持（supports evidence for）的
+    compliance-report 行相对应。`run` 输出一张表（或 --json），带 --out 时，
+    写出 <base>.pack.json 和 <base>.pack.md；把该 JSON 交给 `kshana compliance-report`
+    即可查看这些行。需要接收机日志的测试列为 NEEDS INPUT，不予评分。
+    MODELLED：一条 MET 判据说明的是某个建模场景达到了既定判据，而不是任何产品满足
+    某项要求。docs/compliance/README.md。
+
+engine-main-applies = { $fmt }：适用
+
+engine-main-wrote = 已写入 { $path }
+
+engine-main-note = 注：{ $n }
+
+engine-main-error-example-extra-argument = 错误：`example <name>` 之后出现意外参数“{ $extra }”；它只接受一个名称
+
+engine-main-lunanet-afs-generate-needs = generate 需要 --frames <n> 和 --out <file>（以及整数 --toi0）
+
+engine-evidence-cli-usage =
+    用法：
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      退出码 0 表示已验证，1 表示失败，3 表示完好但签名者未固定
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }（读取 RFC 3161 令牌并将其绑定到清单；它不验证时间戳
+    { "      " }机构的签名：请使用 `openssl ts -verify`）
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }（把场景、实验室的测试条件、接收机日志及其评分关联起来；
+    { "      " }<scenario.toml> 是 receiver-trust 评分场景；不写出任何信号）
+    { "  " }<t0>/<t1>：自日志第一个历元起的秒数；日志给出起始时间时，也可为 ISO-8601 UTC 时间。
+    { "  " }证据包是技术记录，不是法律意见。
+
+engine-evidence-cli-fingerprint = 指纹：{ $fp }
+
+engine-evidence-cli-verify-failure = { "  " }失败：{ $f }
+
+engine-evidence-cli-verify-note = { "  " }注：{ $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED：每个哈希、哈希链和签名均与所提供的密钥核对一致。
+
+engine-evidence-cli-verified-unpinned = VERIFIED，所依据的是证据包自行声明的密钥，指纹 { $fp }（签名者未固定；请传入 --pubkey）。
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED：哈希和签名与密钥 { $fp } 一致，而该密钥由证据包自行声明。请传入 --pubkey <signer public key> 以确定签名者是谁（或传入 --allow-unpinned 以在明知的情况下接受）。
+
+engine-evidence-cli-not-verified = NOT VERIFIED：见上方的失败项。
+
+engine-evidence-cli-attached = 已附加 { $path }
+
+engine-evidence-cli-verify-with = 验证命令：kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    用法：kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }或：kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }或：kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+    { "   " }或：kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }或：kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }（--dataset custom 还需要 --licence <text> --licence-url <url> --attribution <text>）
+
+engine-interference-map-cli-usage-route = 用法：kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = 日期
+
+engine-interference-map-cli-col-src = 来源
+
+engine-interference-map-cli-col-degraded = 降级
+
+engine-interference-map-cli-col-not-degraded = 未降级
+
+engine-interference-map-cli-col-unassessed = 未评估
+
+engine-interference-map-cli-col-not-observed = 未观测
+
+engine-bench-cli-usage =
+    用法：kshana bench spec
+    { "   " }或：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }或：kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }或：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }或：kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }或：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }或：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }或：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }或：kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }或：kshana bench validate <result.json>...
+    { "   " }或：kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   （无输入：空状态；--fragment：可嵌入的片段）
+    { "   " }（种子文件保存封存保留集背后的密钥；请勿纳入版本控制）
+
+engine-bench-cli-match = 一致
+
+engine-bench-cli-valid = { $f }：有效
+
+engine-bench-cli-folders = { $n } 个文件夹
+
+engine-bench-cli-unpinned = 未固定：{ $rel }
+
+engine-bench-cli-missing = 缺失：{ $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH：{ $rel }
+
+engine-osnma-cli-usage =
+    用法：kshana osnma verify <input> [options]
+
+    { "  " }<input>                    I/NAV 页：纯文本格式（见 docs/OSNMA.md），或
+    { "                             " }已发布测试向量的 CSV 布局
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }输入布局（默认：按文件内容判断）。ubx 是含
+    { "                             " }UBX-RXM-SFRBX 消息的 u-blox 字节流（Galileo E1-B）
+    { "  " }--start-gst SECONDS        向量 CSV 的起始时间，以 GST 秒计
+    { "                             " }（默认：从类似 16_AUG_2023_GST_05_00_01.csv 的文件名读取）
+    { "  " }--merkle-root HEX          用于 DSM-PKR 检查的可信 Merkle 根（64 位十六进制数字）
+    { "  " }--public-key ID:TYPE:HEX   可信公钥，TYPE 为 p256 或 p521，压缩点
+    { "  " }--reference-time SECONDS   来自独立来源的当前时间，以 GST 秒计。是单个
+    { "                             " }时刻：与它的距离超出容差的子帧将被
+    { "                             " }剔除，因此用于实时或刚录制的数据
+    { "  " }--max-time-error SECONDS   子帧与参考时间之间允许的最大距离，小于
+    { "                             " }30（默认 29）；需要 --reference-time
+    { "  " }--epochs                   同时输出每个标签的结果
+    { "  " }--json                     输出 JSON 而不是文本
+
+    退出状态：0 完成，2 用法或输入错误，3 对某颗卫星数据的检查失败。
+
+engine-iq-cli-usage =
+    用法：kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }或：kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }或：kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }或：kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> （默认 auto，≈4 ms 相干）] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }或：kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }或：kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }或：kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }或：kshana iq campaign report <out-dir>
+    { "   " }或：kshana iq conditions <test-conditions.toml|json>
+    { "   " }或：kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }或：kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }labfit 场景：由接收机日志组成的 [[runs]]，或 [input] campaign = "<out-dir>"，指向 kshana iq campaign 的输出文件夹（相对于场景文件）
+    { " " }环路设计：kshana.loop-design/1 TOML 文件（docs/design/LOOP-DESIGN-TOML.md）；显式给出的环路/捕获标志会覆盖所选设计
+    { " " }acquire/track/sweep 也接受前端标志 [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>]，在处理之前应用（对捕获和跟踪两遍同样适用）
+    { " " }场景信道参数：[--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }场景 C/N0 剖面：[--cn0-profile <toml>] 各卫星随时间变化的 C/N0 偏移（阶跃、斜坡、点、衰落），叠加在信道之上；真值的 cn0_dbhz 随之变化
+    { " " }没有边车文件的录制/原始输入还接受：--format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]；多流输入接受 --channel <k>
+    { " " }信号：gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> 是以逗号分隔的列表（每个 --prn 一项，或一个应用于全部的单值）
+
+engine-iq-cli-usage-error = 用法错误：{ $m }
+
+engine-iq-io-cli-usage =
+    用法：kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }或：kshana iq info <recording>
+    { "   " }或：kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }或：kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }或：kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }没有边车文件的原始输入还接受：--format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }多流输入（多通道 SigMF、交织原始数据）接受 --channel <k>（从 0 起；默认 0）
+    { " " }格式：ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be，16 位中的 12 位 ci12r_le ci12l_be cu12r_le ...，压缩 4 位 ci4_msb cu4_lsb ...，压缩 2 位 c2tc_msb c2sm_lsb r2ob_msb ...，每字节 2 位 c2sm_byte ...，实数 r...，Q 在前 ..._qi
+
+engine-telemetry-cli-usage =
+    用法：kshana trust-telemetry [options]
+    { "  " }输入（默认：标准输入上的 JSON 行）：
+    { "    " }--input <file|->         从文件读取 JSON 行，或用 `-` 表示标准输入
+    { "    " }--result <result.json>   重放 `kshana receiver-trust` 结果文件的各历元
+    { "  " }Prometheus：
+    { "    " }--listen <addr:port>     提供 /metrics（未选择其他输出时，默认 127.0.0.1:9464）
+    { "    " }--print-metrics          在输入结束时将最终的暴露文本输出到标准输出
+    { "    " }--hold                   输入结束后继续提供服务
+    { "    " }--expose-position        同时将接收机报告的位置作为仪表值发布（默认关闭）
+    { "  " }syslog（RFC 5424 封装中的 CEF 或 LEEF）：
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  用八位组计数为 TCP 消息分帧（RFC 6587），而不是每行一条
+    { "    " }--format cef|leef        载荷方言（默认 cef）
+    { "    " }--syslog-all             每个历元一个事件（默认：每次频段变化一个）
+    { "    " }--host <name>            事件中的设备主机名（默认 `kshana`）
+    { "  " }Home Assistant / NTP 设备（JSON 状态 + MQTT 发现；仅发布，不含凭据或 TLS）：
+    { "    " }--mqtt-tcp <host:port>   发布到本地 MQTT 3.1.1 代理（保留消息，QoS 0）
+    { "    " }--print-mqtt             将消息输出为 `topic<TAB>payload` 行
+    { "    " }--mqtt-prefix <p>        状态主题前缀（默认 kshana/trust）；--mqtt-node <id>（默认 kshana）
+    { "    " }--mqtt-discovery <p>     Home Assistant 发现前缀（默认 homeassistant）
+    { "  " }OpenTelemetry（用 --features otlp 构建）：
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs>（默认 10）
+
+engine-jammertest-cli-usage =
+    用法：
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    计划和目录是已发布的 NPRA/jammertest-plan JSON 文件（MIT；用
+    xval/jammertest-plan/fetch.sh 获取）。计划时间为当地挂钟时间；--local-offset-h（默认 2，CEST）
+    表示它们与 UTC 相差多少。JammerTest 2024 数据集的 attack_log 时间戳标注为 Z，实际是当地
+    时间：--time-shift-h 默认为 -2。事件是计划的真值，不是实际空中发射的时间。
+    仅供参考的软件，不是经型式认可的导航设备。
+
+engine-nmea-synth-cli-usage =
+    用法：kshana nmea-scenario <scenario.toml> [options]
+
+    为带有脚本化压制/欺骗事件的船舶航迹写出或流式输出一组合成的驾驶台 NMEA 0183
+    （GGA RMC VTG GSV GSA GNS ZDA HDT VBW）语句，并附带教员日志。
+    仅用于训练和测试：切勿将其接入船舶的实时导航系统。
+
+    选项：
+    { "  " }--out <file.nmea>          将数据流写入文件（未给出网络输出时，默认为
+    { "                             " }<name>.nmea）
+    { "  " }--instructor-log <prefix>  写出 <prefix>.json 和 <prefix>.txt（默认：与
+    { "                             " }文件同目录，否则为当前目录中的 <name>）
+    { "  " }--tcp <addr:port|port>     通过 TCP 提供数据流（先等待客户端）；仅给端口时
+    { "                             " }只监听 127.0.0.1。没有认证：
+    { "                             " }任何能访问该地址的人都能读取数据流
+    { "  " }--udp <addr:port|port>     向该地址每个 UDP 数据报发送一条语句；仅给端口时
+    { "                             " }发送到 127.0.0.1
+    { "  " }--broadcast                允许 --udp 使用广播地址
+    { "  " }--wait-clients <n>         TCP 流开始前要等待的客户端数（默认 1）
+    { "  " }--realtime                 按实时节奏推进（网络输出的默认值）
+    { "  " }--speed <x>                按实时的 x 倍推进；0 表示尽可能快
+    { "                             " }（文件的默认值）
+    { "  " }--seed <n>                 替换场景的随机种子
+    { "  " }--no-marker                省略合成数据标记语句
+
+engine-live-io-usage =
+    用法：kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    读取 NMEA 0183（默认来自标准输入），对船舶定位的每个历元按 0-100 评分，并为每个历元写出一行
+    JSON（默认写到标准输出）。带 --gate 时，改为在标准输出上透传 NMEA 流，
+    定位可信时原样不变，不可信时将定位标记为无效，每个
+    周期之后附一条 $PKSHT 语句；此时 JSON 只输出到 --json 指定的位置。会话是
+    带有 [platform] kind = "vessel" 的场景 .toml；不需要其 [log] 表。
+
+    --listen（与 --gate 一起使用）向任意数量的 TCP 客户端（例如海图
+    显示器）提供经门控的数据流，而不是写到标准输出；默认地址为环回地址。跟不上
+    的客户端会被断开，因此它绝不会拖慢其他客户端或输入。
+
+    接收机的时间还会与本计算机的时钟比对，这只对实时到达的
+    数据流有意义；对于以更快速度送入的已存日志（stdin、tcp、udp），请传入
+    --replay，而普通的 --file（不带 --follow）已自动如此。
+
+    --serial 读取串口或 USB 设备（仅 Unix），只读：它以只读方式打开设备，在 --baud（默认 4800，
+    即 NMEA 0183 的速率）下将本地线路设为原始模式，绝不向
+    接收机写入任何字节。Kshana 不配置接收机；请用其自带工具将接收机设为输出 NMEA。
+
+    这是仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：
+    船舶航行的责任仍由操作人员承担。
+
+engine-tle-warning = 警告：{ $w }
+
+engine-e-animation-no-time-series-to-animate = 没有可制作动画的时间序列：{ $k } 结果不含采样时间轴（导出器可识别的结构见 docs/ANIMATION.md）
+
+engine-animation-svg-sub = 类别 { $kind } · { $t0 } 至 { $t1 } · 采样来自 result.json，未经重采样绘制 · Kshana { $version }
+
+engine-animation-svg-strip-events = 事件
+
+engine-animation-svg-strip-phases = 阶段
+
+engine-animation-svg-waterfall = 瀑布图：{ $title } [{ $unit }]，时间向下推进，颜色 { $lo } 至 { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = 历元序号
+
+engine-animation-svg-desc = { $kind } 运行的动态时间序列：{ $n_panels } 个面板、{ $n_events } 个事件、{ $n_phases } 个阶段。每个点都是该运行 result.json 中的采样。
+
+engine-animation-html-title = { $title } — Kshana 动画
+
+engine-animation-html-sub = 类别 { $kind } · 来自 result.json 的 { $n } 条序列，未经重采样绘制 · Kshana { $version }
+
+engine-animation-html-playback = 回放
+
+engine-animation-html-play = 播放
+
+engine-animation-html-pause = 暂停
+
+engine-animation-html-mission-time = 任务时间
+
+engine-animation-html-speed = 速度
+
+engine-animation-html-playback-speed = 播放速度
+
+engine-animation-html-events = 事件
+
+engine-animation-html-footer-keys = 空格键播放或暂停，方向键逐步移动，Home 和 End 键跳转。这是对该运行自身采样的渲染：其质量完全取决于该运行，且不增加任何证据（MODELLED，内部自洽）。
+
+engine-animation-html-footer-determinism = 相同的场景、随机种子和选项会得到逐字节相同的文件。
+
+engine-animation-html-exports-heading = 与此播放器一同写出的导出文件
+
+engine-animation-js-phases-and-events = 阶段和事件
+
+engine-animation-js-waterfall = 瀑布图：{ $title } [{ $unit }]，时间向下推进
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = 阶段：{ $name }
+
+engine-e-evidence-bundle-bad-log-slice = 日志切片有误：{ $s }
+
+engine-e-evidence-bundle-bad-window = 窗口有误：{ $s }
+
+engine-e-evidence-bundle-bad-creation-time = 创建时间有误：{ $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = 时间戳令牌有误：{ $s }
+
+engine-e-evidence-bundle-cannot-serialise = 无法序列化：{ $s }
+
+engine-e-osnma-page-not-valid-hex = 页不是有效的十六进制
+
+engine-e-osnma-page-time-outside-week-number = 页时间超出 Galileo 周数的 4096 周范围
+
+engine-e-osnma-page-bad-length = 页有 { $n } 个十六进制数字，应为 60
+
+engine-e-osnma-page-malformed-line = 页行格式有误：{ $s }
+
+engine-e-interchange-encode-payload = 载荷编码失败：{ $e }
+
+engine-e-interchange-invalid-envelope = 不是有效的交换信封：{ $e }
+
+engine-e-interchange-not-kshana-artifact = 不是 Kshana 产物：格式为 { $found }，应为 { $expected }
+
+engine-e-interchange-incompatible-schema-version = 模式版本 { $v } 不兼容（{ $verdict }）；本引擎使用 { $current }
+
+engine-e-interchange-payload-mismatch = 载荷与所请求的类型不匹配：{ $e }
+
+engine-e-interop-not-applicable = 不适用：{ $why }
+
+engine-e-iq-io-error = I/O 错误：{ $m }
+
+engine-e-iq-format-error = 格式错误：{ $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }：PRN { $prn } 未由 ICD 定义
+
+engine-e-iq-signals-glonass-channel-outside = GLONASS 频率通道 { $k } 超出 -7..=6
+
+engine-e-iq-signals-code-table = 码表：{ $m }
+
+engine-e-kepler-out-of-domain = 开普勒方程：M 或 e 超出定义域
+
+engine-e-kepler-no-convergence = 开普勒方程在 { $iters } 步内未收敛（残差 { $residual }）
+
+engine-e-lunar-orientation-epoch-outside-series = 历元 { $t }（自 J2000 起的儒略世纪数）超出 DE440 月球姿态序列范围（{ $first } .. { $last }，2014-01-01 .. 2030-12-31 TDB）
+
+engine-e-propagator-sgp4-error = SGP4 外推错误（代码 { $code }）
+
+engine-e-integrator-dop853-stopped = DOP853 在 t = { $t } 处停止（{ $failure }），已完成 { $accepted } 步
+
+engine-e-portable-distr-variance-non-finite = 正态分布中的方差为非有限值
+
+engine-e-portable-distr-shape-not-positive = 伽马分布中的形状参数不是正数
+
+engine-e-portable-distr-scale-not-positive = 伽马分布中的尺度参数不是正数
+
+engine-bench-tasks-clock-line-before-header = 时钟行出现在任何 `@<PRN>` 头部之前
+
+engine-api-html-clock = 时钟
+
+engine-api-html-fom-heading = 性能指标
+
+engine-api-html-metric = 指标
+
+engine-api-html-value = 值
+
+engine-api-html-validation = 验证
+
+engine-api-html-tier-note = 每个性能指标都标有 VALIDATED（已与外部参考基准（oracle）核对）或 MODELLED（由第一性原理计算，经内部测试），由验证矩阵得出。
+
+engine-api-html-default-title = Kshana — 场景结果
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · 精确的一瞬
+
+engine-api-html-tagline = 量子/经典混合 PNT 性能评分卡
+
+engine-api-html-chart-alt = 结果图表
+
+engine-api-html-full-result = 完整结果（JSON）
+
+engine-api-html-footer-generated = 由 Kshana { $version } 生成。
+
+engine-api-html-footer-licence = 可由场景 + 随机种子 + 引擎版本复现。免费开源（AGPL-3.0）—— <a href="https://github.com/AshfordeOU/kshana">源码与文档</a>。
+
+engine-leo-signal-mhz-pair = { $centre } MHz，{ $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp：面向 Kshana PNT 韧性仿真器的模型上下文协议（Model Context Protocol）服务器。
+
+    用法：
+    { "    " }kshana-mcp                      通过 stdio 提供服务（默认；MCP 客户端以此启动）
+    { "    " }kshana-mcp --http <addr>        在 http://<addr>/mcp 提供可流式传输的 HTTP 服务
+
+    HTTP 选项：
+    { "    " }--http <addr>               绑定地址，例如 127.0.0.1:8080（默认仅限环回）
+    { "    " }--allow-remote              允许非环回地址；需要 KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  额外接受的 Host 头（可重复）
+    { "    " }--allow-origin <origin>     接受的浏览器来源（可重复；默认无）
+    { "    " }--max-body-bytes <n>        请求体上限（默认 5242880）
+    { "    " }--request-timeout-secs <n>  每个请求的时间限制（默认 120）
+    { "    " }--max-concurrent <n>        同时处理的请求数（默认 8）
+
+    HTTP 传输会关闭 IQ 文件工具。Kshana 不托管端点：请自行运行。{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = 未知参数 `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = HTTP 选项需要 --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = 拒绝绑定 { $addr }：它不是环回地址。请使用 127.0.0.1:<port>，或传入 --allow-remote（并设置 { $token_env }）以在本机之外监听
+
+engine-e-mcp-http-refusing-to-bind-needs-token = 拒绝绑定 { $addr }：非环回地址需要在环境变量 { $token_env } 中提供 bearer 令牌
+
+engine-e-mcp-http-token-too-short = { $token_env } 短于 16 个字符；请使用较长的随机令牌
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes、--max-concurrent 和 --request-timeout-secs 必须大于零
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin 不接受 `*`；请逐一指明各来源
+
+engine-mcp-http-warning-remote = 警告：kshana-mcp 正在 { $addr } 上监听，范围超出本机。任何能访问它并持有 bearer 令牌的人，都可以在托管它的硬件上运行仿真。请在其前面加上 TLS（反向代理或所在平台的 HTTPS），并对令牌保密。
+
+engine-e-lunar-ascent-site-latitude-must-be-in = 站点纬度必须在 [-90, 90] 内，经度在 [-180, 360] 内
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s 必须在 [120, 1800] 内
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode 必须是 off、standalone 或 differential，得到 `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode 必须是 off、ltc 或 tt，得到 `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays 必须在 3..=24 内
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s 必须为正，afs_first_fix_s 必须非负
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km 必须在 [10, 1000] 内
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = 进入协方差不是对角线非负的对称矩阵
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent 要求进入时钟为 LTC 或 TT，得到 { $timescale }；任务链负责转换时标
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s 必须在 [60, 3600] 内
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source 必须是 off、terrain-nav 或 lola-crlb，得到 `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = 修正时刻必须为正，afs_interval_s > 0，且 trn_fix_time_s 在下降过程之内
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m 必须至少为 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m 必须为正
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb 需要 DEM，而它无法加载
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent 要求进入时钟为 LTC 或 TT，得到 { $timescale }；任务链负责转换时标
+
+engine-e-lunar-landing-east-prior-is-not-positive = 东向先验不是正定的
+
+engine-e-lunar-landing-north-prior-is-not-positive = 北向先验不是正定的
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }：{ $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit 必须是 `llo` 或 `elfo`，得到 `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = 近月点必须至少在表面之上 20 km
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m 必须在 (0, 50000) 内
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s 必须在 (0, 60] 内，且 arc_s 至少为一步
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays 必须在 4..=24 内
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s 必须为正
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction 必须在 [0, 1) 内
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model 必须是 `same` 或 `point-mass`，得到 `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous 要求进入协方差在 MCI 中；任务链负责转换坐标系
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = 先验协方差不是正定的
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = 法方程不是正定的
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = 后验信息矩阵不是正定的
+
+engine-e-lunar-rendezvous-no-trial-ran = 没有运行任何试验
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = 季节日期 `{ $s }` 不是 YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = 季节日期 `{ $s }`：年份有误
+
+engine-e-lunar-surface-map-season-date-bad-month = 季节日期 `{ $s }`：月份有误
+
+engine-e-lunar-surface-map-season-date-bad-day = 季节日期 `{ $s }`：日有误
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = 季节日期 `{ $s }` 超出 1901-2099，或不是日期
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites 必须包含 1 至 64 个条目
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = 站点 { $i }：纬度必须在 [-90, 90] 内，经度在 [-180, 360] 内
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates 必须至少包含一个日期
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates 最多包含 16 个日期
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days 必须在 (0, 400] 内，step_min 在 [1, 720] 内
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days 和 timing_floor_s 必须为正且有限
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = 历元 `{ $s }` 不是 YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = 历元 `{ $s }`：数字 `{ $x }` 有误
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = 历元 `{ $s }` 超出 1901-2099，或不是日期
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces 必须是 "quantum" 或 "classical"（得到 { $other }）
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]：{ $e }
+
+engine-e-evidence-label-the-result-document-already-carries = 结果文档已带有 `evidence` 键
+
+engine-e-evidence-label-the-result-document-is-not = 结果文档不是 JSON 对象
+
+engine-e-evidence-label-no-evidence-rows-are-listed = 没有为 `{ $tool }` 列出证据行
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = 不是 RINEX 钟差文件：没有 RINEX VERSION / TYPE 记录
+
+engine-e-clock-log-rinex-version-type-record-has = RINEX VERSION / TYPE 记录没有版本号（得到 { $field }）
+
+engine-e-clock-log-rinex-clock-version-is-not = 不读取 RINEX 钟差版本 { $v }：可读取版本为 2.00 和 3.00 至 3.04（IGS 发布的钟差格式至 3.04；RINEX 4.00 至 4.02 未定义钟差文件）
+
+engine-e-clock-log-rinex-clock-record-with-an = RINEX 钟差记录的钟差或历元无法读取：{ $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = TimeLab 第 { $line } 行含有非有限的读数：{ $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = 坐标系转换 { $a } -> { $b } 不可用（只有 Gcrf、Mci 和 Mcmf 可转换）
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = 时标跳转 { $a } -> { $b } 不是枢轴跳转
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }：走廊必须从浅角延伸到更陡的角度，且小于 90 度，得到 { $lo } 至 { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network：`min_elevation_deg` 必须在 [0, 90) 内，得到 { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network：`handover_gap_s` 必须至少为 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network：`step_s` 必须大于 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network：至少需要一个站点
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network：站点 `{ $id }` 的纬度或经度无效
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network：站点标识 `{ $id }` 使用了两次
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network：阶段 `{ $phase }` 的 geometry 为 "stated"，需要 `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network：阶段 `{ $phase }` 的 duty 必须在 [0, 1] 内，得到 { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network：阶段 `{ $phase }` 的 geometry `{ $other }` 未知；可用的 geometry 为 entry-orbit、moon-direction 和 stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network：进入轨道没有完成外推
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network：没有可计算的 geometry `{ $other }`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network：阶段 `{ $phase }` 的 geometry 需要 GCRF 进入状态，得到 { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }：衰落必须在其开始之后结束（{ $a } 至 { $b } s）
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }：要求 GCRF 进入状态，得到 { $frame }；请以 gcrf 给出进入状态
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }：该阶段没有产生任何采样
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }：未知的模型键 `{ $k }`；可用的键为 { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }：模型需要 `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }：`{ $key }` 必须是有限数
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }：`{ $key }` 必须大于 0，得到 { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }：`{ $key }` 必须至少为 0，得到 { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }：`{ $key }` 必须是字符串
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }：`{ $key }` 必须是表的数组
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }：`{ $key }` 必须包含表
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }：`{ $key }` 必须是由 { $n } 个数组成的数组
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }：`{ $key }` 必须包含 { $n } 个数，得到 { $got_count } 个
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }：`{ $key }` 必须包含有限数
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }：每一段需要 `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }：模型至少需要一个 `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }：第 { $leg } 段起点：{ $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }：第 { $leg } 段终点：{ $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }：第 { $leg } 段：{ $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }：`ground_duty` 必须在 [0, 1] 内，得到 { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }：`ssv_window_s` 和 `ssv_step_min` 必须大于 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }：外推没有到达 { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }：点火后的轨道不是束缚轨道（比能 { $energy } J/kg）；gnss-ssv 的替代轨道需要椭圆轨道
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }：gnss-ssv 扫描没有返回任何频段
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }：gnss-ssv 扫描没有返回任何分组
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }：该阶段列出了 gnss-ssv，因此模型需要 `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }：该阶段列出了 ground-tracking，因此模型需要 `ground_range_sigma_m`、`ground_range_rate_sigma_mps` 和 `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = 交接 { $name } 必须是不小于 0 的有限数，得到 { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = 阶段 `{ $id }`：其模型的 { $key } 为 { $own_s } s，而任务链给出该阶段的 duration_s = { $duration_s } s；请使二者一致，或省去 { $key }
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = 未知的坐标系 `{ $other }`；应为 gcrf、itrf、mci、mcmf、lvlh 之一
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = 未知的时标 `{ $other }`；应为 tt、tdb、utc、ltc 之一
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = 未知的导航源 `{ $other }`；应为 gnss、gnss-ssv、ground-tracking、lunanet、trn、inertial、relative-optical 之一
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = 未知的时间源 `{ $other }`；应为 gnss、ground-clock、lunar-time、onboard-holdover 之一
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } 必须是正的有限数，得到 { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = 交接规则 `{ $rule }` 需要 `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = 未知的交接规则 `{ $other }`；应为 carry、inflate 或 reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = 某个阶段的标识为空
+
+engine-e-mission-thread-scenario-entry = entry：{ $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry：sigma_drift_s_per_s 必须是不小于 0 的有限数
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry：x 必须包含六个有限数
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread：{ $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind 必须是 "mission-thread"，得到 "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = 任务链至少需要一个 [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = 阶段标识 `{ $id }` 使用了两次；标识必须唯一
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network：阶段 `{ $phase }` 不是该任务链的阶段
+
+engine-e-mission-thread-scenario-phase = 阶段 `{ $id }`：{ $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = 阶段 `{ $id }` 在 { $t_s } s 结束，但在 { $start_s } s 开始，并持续 { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = 未知的相对导航传感器 `{ $other }`；应为 optical-camera、lidar、rf-ranging 之一
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = 距离必须是以米为单位的正的有限数，得到 { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = 距离 { $range_m } m 超出了传感器 { $max_range_m } m 的上限
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }：未知的模型键 `{ $bad }`；可用的键为 { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = receiver-trust 的证据行不在矩阵中
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = 未知的消融 `{ $other }`：B1 至 B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = 证据包的行不在矩阵中
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = jammertest 的证据行不在矩阵中
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]：该拟合没有频率噪声（白噪声调频、闪烁调频和随机游走调频均为零），因此没有可据以预测守时（holdover）的依据；日志可能只含白相位噪声，或过短
+
+engine-e-evidence-label-run-exercised-no-matrix-row = 该运行没有涉及任何验证矩阵行
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent 要求进入协方差在 MCI 中；任务链负责转换坐标系
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent 要求进入协方差在 MCI 中；任务链负责转换坐标系
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface 要求进入状态在 MCI 或 MCMF 中；任务链负责转换坐标系
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km 必须大于月球半径，且偏心率在 [0, { $lit_0_9 }) 内
+
+engine-e-mission-thread-unknown-phase-kind = 未知的阶段类别 `{ $kind }`；已注册的类别为 { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` 没有列出任何导航源
+
+engine-e-ssv-check-training-pattern-missing = 缺少训练图案 { $sv }
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] 需要一个 [clock_log] 表：即拟合所用的实测序列
+
+engine-lunar-phase-no-finite-points-to-plot = 没有可绘制的有限点
+
+engine-partner-cli-usage =
+    用法：kshana partner check <submission.toml> [--json]
+    { "  " }检查数据合作方提交材料（kshana.partner-submission/1）的格式和元数据，并用引擎自己的读取器
+    { "  " }读取其数据文件。它不评分，也不验证任何内容；见 docs/PARTNER-DATA.md。
+    { "  " }退出状态 0：提交材料完整且可读取；1：发现错误；2：用法错误。
+    仅供参考的软件，不是经型式认可的导航设备。
+
+engine-evidence-verify-evidence-label-ledger-rows = 证据标签：{ $tier }（{ $row_count } 条台账行：{ $rows }）；它位于 config.json 内，因此签名涵盖它
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = 无证据标签（0.40 之前的证据包）
+
+engine-e-ssv-check-pattern-missing = 缺少图案 { $sv }
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | 仅惯性 { $inertial_pos } m / { $inertial_vel } m/s | 带 AFS { $afs_pos } m / { $afs_vel } m/s | 入轨散布 { $dispersion } m/s（MODELLED）
+
+engine-lunar-ascent-chart-subtitle = 带 AFS 修正的惯性漂移 | MODELLED，仅供参考
+
+engine-lunar-ascent-chart-x-axis = 离开地面后的秒数
+
+engine-lunar-ascent-chart-series = 位置 1σ
+
+engine-lunar-chart-y-axis-metres = 米
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | 仅惯性 { $none_east }/{ $none_north } m（东/北） | 带辅助手段 { $all_east }/{ $all_north } m | 散布 R95 { $r95 } m | 3σ 椭圆 { $major } x { $minor } m | { $inside }% 在内（期望 { $expect }%）（MODELLED）
+
+engine-lunar-landing-chart-title = 月球着陆散布：R95 与所用辅助手段的关系
+
+engine-lunar-landing-chart-subtitle = 按辅助手段的 R95：{ $aids } | MODELLED，仅供参考
+
+engine-lunar-landing-chart-x-axis = 辅助手段组合（序号）
+
+engine-lunar-landing-chart-series = 着陆散布的 R95
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | 间距 { $sep } m | 修正 { $fixes }% | 相对位置 1σ R/A/C { $radial }/{ $along }/{ $cross } m | 平均 NEES { $nees }（期望 6）| 收敛情况：{ $converged }（MODELLED）
+
+engine-lunar-rendezvous-converged-never = 从未
+
+engine-lunar-rendezvous-converged-at = 于 { $s } s
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | 修正 { $fixes }% | 平均 NEES { $nees }（期望 6）| MODELLED，仅供参考
+
+engine-lunar-rendezvous-chart-x-axis = 自弧段起点起的分钟数
+
+engine-lunar-rendezvous-chart-series = 相对位置 1σ
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites } 个站点 x { $n_seasons } 个季节 | 定位 { $position_min }% 至 { $position_max }% | 最差授时可用性 { $worst_timing }% | 最长授时间隙 { $gap_h } h（MODELLED）
+
+engine-lunar-surface-map-chart-title = 月球地表 PNT 地图：各站点的可用性（最差季节，%）
+
+engine-lunar-surface-map-chart-subtitle = 定位 = 4 颗以上中继星且 PDOP 低于阈值；授时 = 一颗中继星或地球 | MODELLED，仅供参考
+
+engine-lunar-surface-map-chart-x-axis = 站点序号
+
+engine-lunar-surface-map-chart-y-axis = 占时间窗的百分比
+
+engine-lunar-surface-map-chart-series-positioning = 定位
+
+engine-lunar-surface-map-chart-series-timing = 授时
+
+engine-lunar-surface-map-chart-series-earth-visible = 地球可见
+
+engine-mission-thread-weakest-link = 最薄弱环节 { $phase_id }
+
+engine-mission-thread-no-phases = 无阶段
+
+engine-mission-thread-untitled = 无标题
+
+engine-mission-thread-summary = mission-thread | { $n_phases } 个阶段 | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = 任务链
+
+engine-mission-thread-chart-position-caption = 1σ 位置，m
+
+engine-mission-thread-chart-time-caption = 1σ 时间，s
+
+engine-mission-thread-chart-subtitle = MODELLED 的导航与授时误差预算；每个阶段按等宽绘制
+
+engine-evidence-label-line-one-row = 证据：{ $tier } · { $n } 条台账行 { $ids }
+
+engine-evidence-label-line-rows = 证据：{ $tier } · { $n } 条台账行 { $ids }
+
+engine-evidence-label-line-rows-more = 证据：{ $tier } · { $n } 条台账行 { $ids }，另有 { $n_more } 条
+
+engine-partner-text-header = kshana partner check：{ $submission }
+
+engine-partner-text-info = { "  " }信息：{ $i }
+
+engine-partner-text-warning = { "  " }警告：{ $w }
+
+engine-partner-text-error = { "  " }错误：{ $e }
+
+engine-partner-text-result-ok = 结果：格式和元数据完整且可读取
+
+engine-partner-text-result-not-ready = 结果：尚未就绪；请修正上述错误
+
+engine-lunar-ascent-chart-title = 月球上升：3-D 导航位置 1σ（m）
+
+engine-lunar-rendezvous-chart-title = 月球交会：形式相对位置 1σ（3-D，m）
