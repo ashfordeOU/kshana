@@ -3345,3 +3345,271 @@ dat-29a4033f3b1c = Bibliotek: PocketSDR-AFS (T. Ebinuma efter T. Takasus PocketS
 dat-fde7ce482e65 = Ljustid mellan kroppar i solsystemet
 
 dat-0a8f41750e4f = Jämförelse av optisk och RF-baserad avståndsmätning på lika villkor
+
+dat-114a4144fb87 = Effekter av limbstrålar i jonosfär, plasmasfär och atmosfär på GNSS-signaler som tangerar jorden, och utformningen av mottagare för svaga signaler, i typen `gnss-ssv`
+
+dat-5034bb0fd89f = Implementerade gränser
+
+dat-1b52a209bbb2 = Gränser som skiljer sig mellan ytor
+
+dat-ac6bd33f5040 = Gränser, uttryckta rakt ut
+
+dat-000b3456923c = Radtäckning — det mått som gäller
+
+dat-130c22407364 = länkekvation mot publicerad DESCANSO/JPL Galileo DCT
+
+dat-c231b357d77a = Länkmarginal mot tid ({ "0.38" })
+
+dat-dee5343ce0b9 = link-budget (scenariotyp)
+
+dat-2b015a0d3554 = Jamming i länkbudgeten: J/S → effektiv C/N₀ → förlust av lås.
+
+dat-0117d8576f56 = Självbeskrivning i rapporten för länkbudget
+
+dat-a37b9fe51244 = linkbudget::tests (över tre band, fyra dekader av avstånd och båda utfallen för slutning räknas marginalen och förlusten i fritt rum under den om från enbart rapporten till bättre än { "1e-9" } dB; det krävda G/T sammansatt av ekvationens termer stämmer med samma storhet nådd som G/T minus marginal, och en ny körning vid det nollar marginalen; tre budgetar med vitt skilda EIRP, förlust och tröskel men lika länkkonstant ger identiskt krav, medan { "1" } dB på konstanten flyttar det exakt { "1" } dB; uppdelningen av förstärkningen saknas om ingen brustemperatur anges och en icke-positiv avvisas; varje fält som units-blocket namnger sänds faktiskt ut)
+
+dat-30e0aeabc8e6 = linkbudget::tests (form för förlust i fritt rum, slutning av länkekvationen); tests/one_way_link_budget_reference.rs (DESCANSO/JPL Galileo X-band DCT återskapad från början till slut + { "6" } fall av FSL enligt ITU-R P.525 över bandmitterna S/X/Ka för DSN; sämst |ΔFSL| { "4.6e-3" } dB, |Δbärvåg| { "2.5e-2" } dB)
+
+dat-ef7a7b9adcd5 = loggar från linuxptp och chrony
+
+dat-4c745cc65a05 = Lista varje inbyggd scenariotyp i Kshana med sin beskrivning och obligatoriska/valfria TOML-fält, som en JSON-matris.
+
+dat-3d05346c4731 = Lista de medföljande referensscenarierna som JSON: `count`, och `scenarios`, en matris av `name`, `kind` och `about` (första meningen i filens egen kommentar i huvudet).
+
+dat-c383ea75352f = Lista standardpaketen (`kshana standards-pack list`): poängsatta scenariouppsättningar för testprofilerna i ramverket DHS Resilient PNT, IMO MSC.1/Circ.1575 och ICAO Doc { "9849" } bilaga F, var och en med de trösklar den anger före körningen och de rader för compliance som den ger belägg för.
+
+dat-357232ee1deb = Liu et al. { "2025" } efemerismodell för LEO med 22 parametrar och dess anpassning till verkliga precisa banor
+
+dat-055df2b81d5f = Modell för uppmätt avstånd vid LLR (reflektorkatalog, stationer i ITRF2020, placering enligt huvudaxlar i DE440, barycentrisk ljustid enligt IERS { "2010" })
+
+dat-38984e856168 = Att läsa in filerna i en simulator
+
+dat-6612bd928a6e = Lokalisera en störsändare eller spoofer (eller en opportunistisk källa för omvänd PNT) utifrån hyperboloider för ankomsttidsskillnad över ett mottagarnätverk, löst med minsta kvadrat enligt Gauss–Newton; att lägga till frekvensskillnad vid ankomst med rörliga mottagare återskapar gemensamt sändarens position och hastighet, med Cramér–Rao-gränsen för positionskovariansen ur nätverkets geometri. En punktkällmodell med siktlinje — inga termer för flervägsutbredning / NLOS, klockbias i mottagaren eller refraktion.
+
+dat-11da74e54545 = Lokalisera en sändare (störsändare/spoofer, eller en opportunistisk källa för omvänd PNT) utifrån ankomsttidsskillnad över ett mottagarnätverk — skärningen av hyperboloiderna τᵢ=(Rᵢ−R₀)/c löst med minsta kvadrat enligt Gauss–Newton — och, genom att lägga till frekvensskillnad vid ankomst (skillnader i avståndstakt) med rörliga mottagare, återskapa position och hastighet gemensamt; med Cramér–Rao-nedre gräns för positionskovariansen ur mätgeometrin
+
+dat-afd805c16a68 = Loggar som den läser
+
+dat-86ab5cbca459 = Långsiktig regndämpning längs sned bana på en länk mellan jorden och rymden
+
+dat-777b13909a61 = Loopback som standard; en bindning som inte är loopback kräver --allow-remote och en bearer-token. Kshana har ingen egen slutpunkt.
+
+dat-2b31e9b2cb7e = Löst kopplat GNSS/INS-EKF med hävarm på datamängden KF-GINS
+
+dat-238441f93352 = Löst och tätt kopplat GNSS/INS-EKF med felstatus.
+
+dat-f48b40eaf85f = Löst kopplat GNSS/INS: den treaxliga strapdown-navigatorn disciplinerad av en
+
+dat-3bc0a108f9d6 = Förlust av lås beräknad ur slingdynamik i stället för en effektkvot: termisk jitter på 1σ för bärvåg (Costas) och kod (icke-koherent tidig/sen) mot C/N₀ med kvadreringsförlusten, mot de angivna reglerna 3σ_PLL + θ_e ≤ { "45" }° och 3σ_DLL + släpning vid ramp ≤ d/2 chip; trösklar i C/N₀ för tappat och återvunnet lås med den bindande slingan namngiven och hysteresen HÄRLEDD ur den bredare inlåsningsbandbredden i stället för påstådd; den deklarerade tiden till förlorat lås från en låsdetektor med två trösklar och bekräftande uppehåll, rapporterad skild från den fysikaliska tiden för faslöpning (Viterbis medeltid mellan cykelslip, i log₁₀ s eftersom den spänner över hundratals dekader); den största kodändring och bärvågs-Dopplertakt som offrets slingor kan följa; och SPÄRRADIEN som slingdynamiken ger, rapporterad vid sidan av den befintliga radien utifrån effektkvoten med deras teckenbehäftade skillnad som ett eget namngivet fält. Kan köras som scenariotypen `tracking-loop`
+
+dat-5599b89e5499 = Navigering med låg jordbana (LEO)
+
+dat-3fce7cffa945 = Signalutformningar för positionering, navigering och tidssynkronisering från låg jordbana: kodspårning, infångning, kompatibilitet med GNSS och en bandavvägning för vilket system som helst
+
+dat-b115f7e639c8 = Navigering med låg jordbana
+
+dat-070beed16f4d = Navigering med låg jordbana (familj av scenariotyper)
+
+dat-7d76203aada8 = LEO-PNT med låg energi för en spårare för sakernas internet (IoT): energi per positionsbestämning mot driftcykel.
+
+dat-f20670ebd948 = Positionering med låg energi: tid till första positionsbestämning och energi per positionsbestämning mot driftcykel
+
+dat-913ffc083579 = högsta C/N0 i låg bana
+
+dat-b06a1a10a8ff = LRO på månen — validerad, över tröskeln på { "5" } m (ärligt) (P4 W4b)
+
+dat-bbe641ae75b7 = LSIS-AFS V1.0 (som ovan): Legendre-sekvensen med längden 1499 (tabell E-1, identisk) och de första och sista { "24" } chipen i tertiärkoden (tabellerna E-2 till E-6: { "419" } av { "420" } kolumner identiska; dokumentet skriver ut samma sista { "24" } chip, A14850, för PRN { "147" } och PRN { "151" } och generatorn återskapar PRN { "151" }:s, så posten för PRN { "147" } är med största sannolikhet ett tryckfel; tröskeln på { "420" } av { "420" } är NOT MET och missen är fastlåst); det genomräknade exemplet i figur { "8" } för SB1-koden (ett exempel: 0x045 kodas till 0x229F61DBB84A0); CRC-24Q mot katalogens kontrollvärde 0xCDE703 för ASCII { "123456789" }; dokumentets egen ramaritmetik. Trösklar förhandsregistrerade vid b3ba5d5. En miss på registret och ett genomräknat exempel för meddelandelagret, så raden förblir MODELLED. VAD SOM INTE KONTROLLERAS: LDPC och CRC-orden i underramarna { "2" } till { "4" }, meddelandeinnehåll och varje inspelad ström
+
+dat-e04f4d780264 = LunaNet AFS
+
+dat-036ec4a7b3a2 = Basbandsrendering av LunaNet AFS mot en oberoende generator, givet dess kanaltillstånd (LSIS V1.0)
+
+dat-8d80015811ed = Avkodbarhet i sluten slinga för LunaNet AFS av en oberoende mottagare (LSIS V1.0)
+
+dat-f847c909943e = Kanalkodning av ramar i LunaNet AFS, FID { "0" } (LSIS V1.0)
+
+dat-82bb02b31ec1 = Generering av spridningskoder för LunaNet AFS (LSIS V1.0)
+
+dat-e9a107df70e5 = Tertiärkoder och meddelandelager för LunaNet AFS (SB1 BCH, CRC-24Q, interfolierare) mot LSIS-AFS V1.0
+
+dat-c906216cda6e = Primärkoderna AFS-I och AFS-Q i LunaNet AFS mot de tryckta kontrollkolumnerna i LSIS-AFS V1.0
+
+dat-b7830d73f66c = LunaNet Augmented Forward Signal: koder, meddelandeformat och lunanet-afs-check
+
+dat-786926d72bbd = Export av månens system + tid + efemerid i linje med LunaNet/IOAG (CCSDS OEM + KIF) med formatkontroll vid rundtur
+
+dat-e192c5acb8a0 = Observerbarhet för absolut stationsposition på månen (datumdefekt)
+
+dat-f799c666b129 = Månen och det cislunära rymden
+
+dat-86a83ef8cdf9 = Månen och det cislunära rymden (familj av scenariotyper)
+
+dat-b801ec4bf573 = Månen och djuprymden
+
+dat-dc6ee5111659 = Kärna för skyddsnivåer med ARAIM på månen
+
+dat-d2d0cc81bd61 = Lösning av osäkerhet i bärvågsfas på månen: yta och omloppsfarkost
+
+dat-b691fa8a4ad5 = Månens koordinattid
+
+dat-fa2fcf2c5b43 = Månens koordinattid — relativistisk klocktakt mellan Jorden och Månen (src/lunar_time.rs)
+
+dat-d20f5e313023 = Månens koordinattid (LTC/TCL): den relativistiska klocktakten mellan Jorden och Månen.
+
+dat-af0a23f07c39 = Identifierbarhet av månens datum - linjär algebra för uppdelningen
+
+dat-bed29386740f = Klassificering av nollrummet för månens datum (rangadditivitet för LLR + liftning av defekt vid libration)
+
+dat-d3f1690bde5f = Spärrkontur på månen utifrån en uppmätt spridning i C/N₀
+
+dat-296d9afc04ce = Spärrkontur på månen med ett osäkerhetsband utifrån den uppmätta spridningen i C/N₀
+
+dat-2120aea3f590 = Differentiell PNT på månen
+
+dat-8f22593d410c = DIFFERENTIELL PNT på månen — en motsvarighet till DGNSS / SBAS på månen.
+
+dat-fc808feef17b = Differentiell PNT på månen — upphävande av gemensamt läge + residual som växer med baslinjen + skyddsnivåer för DGNSS (src/lunar_dpnt.rs)
+
+dat-337e1bd0dcf1 = Differentiell PNT på månen — budget för residualen i korrektionslänken
+
+dat-0c52dc3ec157 = Samtidig skattning av månens referenssystem: markstationer och omloppsfarkoster
+
+dat-7205faad3126 = Kovarians för månens referensdatum med stationerna skattade, mot utökad precision på 50 siffror
+
+dat-93ef37db90e6 = Månens referensdatum från en VERKLIG observationskampanj
+
+dat-97d8ec7c5f7f = Månens referensdatum från en VERKLIG observationskampanj, kärnans månmedelpunkt
+
+dat-55f1a0438f19 = Månens referensdatum från en observationskampanj
+
+dat-847608ac6479 = Månens referensdatum från verklig laseravståndsmätning
+
+dat-f7dcc8ff3151 = Geodetisk VLBI på månen
+
+dat-55c0d14f431a = Geodetisk VLBI på månen — fördröjning i närfältet för en baslinje på jorden som observerar en fyr på månen (src/lunar_vlbi.rs)
+
+dat-825d892290f1 = Geodetisk VLBI på månen, väg via kärnan
+
+dat-943ed950502b = Geodetisk VLBI på månen: en baslinje på jorden som observerar en fyr på månens yta.
+
+dat-249b9676c0af = Infrastruktur på månen (lunar-infrastructure)
+
+dat-a157b399a269 = Export för interoperabilitet på månen
+
+dat-dc7dd1edf29b = Export för interoperabilitet på månen — i linje med LunaNet / IOAG, utväxling baserad på CCSDS.
+
+dat-962471ff7cc1 = Export för interoperabilitet på månen — CCSDS OEM + KIF i linje med LunaNet/IOAG med formatkontroll vid rundtur (src/lunar_interop.rs)
+
+dat-c771c18714e5 = Gemensam geometri för kommunikation och navigering på månen
+
+dat-6fe5eca98c76 = Gemensam banbestämning med flera tekniker + klocka på månen
+
+dat-3c303a270a97 = Gemensam banbestämning med flera tekniker + klocka på månen — simulerat återskapande i sluten slinga (src/lunar_combination.rs)
+
+dat-a8b73960c4b7 = Gemensam banbestämning med flera tekniker + klockbestämning på månen (ett SIMULERAT nätverk).
+
+dat-338ed6165c7f = Substrat för geometri av LLR-datum på månen (reflektorer i huvudaxlar, markstationer, analytiska partialer för avstånd)
+
+dat-adb8542c2306 = Känslighet för Love-tal och libration på månen
+
+dat-b8cf831d1409 = Servicevolym för navigering på månen
+
+dat-39ccbb141f37 = Servicevolym för navigering på månen — DOP / täckning / tillgänglighet + generaliserad PL med ARAIM på månen (src/lunar_service.rs)
+
+dat-3a82e1764744 = Servicevolym för navigering på månen och ARAIM
+
+dat-0227d1ff18f5 = Analys av SERVICEVOLYM för navigering på månen — konstellation av klassen Moonlight / LCNS.
+
+dat-9b29005a3941 = Månens omloppsbana och yta som infrastruktur för navigering och geodesi
+
+dat-b2d2f29622b9 = Banbestämning på månen: GNSS från Jorden mot radiometri från marken
+
+dat-511b88f88b7b = Referensstation på månen
+
+dat-c949a2b18953 = Geodesi för referensstation på månen, BASLINJE: dagens fem retroreflektorfält ensamma.
+
+dat-554369ca1867 = Geodesi för referensstation på månen, MED STATION: de fem retroreflektorfälten plus en
+
+dat-ad5ed73b495d = Tidslaboratorium vid referensstation på månen: en miniatyrklocka med rubidium (miniRAFS) styrd mot
+
+dat-0829ad8be411 = Realisering av månens referenssystem
+
+dat-4ebbeba62243 = Realisering av månens referenssystem — anpassning av Helmert-datum med 7 parametrar (src/lunar_frame_realise.rs)
+
+dat-0e0f62bb8a66 = Realisering av månens referenssystem — anpassning av ett Helmert-datum (likformighet) med 7 parametrar.
+
+dat-315f29f20d81 = Noggrannhet och täckning för referensstation på månen mot publicerade påståenden
+
+dat-367e840f7dfa = Karta över täckning och noggrannhet för referensstation på månen
+
+dat-156c87144a74 = Täckning för referensstation på månen under de OFFENTLIGT ANGIVNA antagandena: samma typ som
+
+dat-3c466b32af48 = Täckning för referensstation på månen med terräng: det medföljande scenariot lunar-station-coverage
+
+dat-29ee8ab5edca = Täckning för referensstation på månen: vilken positioneringsnoggrannhet och skyddsnivå en användare
+
+dat-2c796f7308dd = Tillväxt av efemeridfel för referensstation på månen över korrektionens latens
+
+dat-945ce00a9e23 = Geodesi för referensstation på månen: tillagd retroreflektor och VLBI-fyr mot datumet med fem fält
+
+dat-aa6de9e63306 = Termer för flervägsutbredning och mottagarhårdvara för referensstation på månen
+
+dat-bc66e5ef4847 = Lösningslägen för referensstation på månen: höjdbegränsning, tre satelliter, fönster för stillastående användare
+
+dat-bc2068142d4f = Studie av referensstation på månen
+
+dat-73b73600040b = Relä på månen
+
+dat-69906ae227f9 = Servicevolym på månen utifrån verklig, hämtad konstellationsgeometri
+
+dat-e3f922ee702f = Pass för skyddsnivå med ARAIM vid månens sydpol mot en representativ uppsättning LunaNet-reläer. sigma_ure_m exponerar…
+
+dat-7bf99378af27 = Integritet vid månens sydpol: en mottagare landad i Artemis-regionen mot en
+
+dat-bc822667b92c = Tidslaboratorium på månstation: holdover med miniRAFS mot LTC
+
+dat-555a5784e0db = DOP-förstärkning med ytfyr på månen
+
+dat-054931b7071e = RF-jamming mot navigering på månens yta (J/S per satellit)
+
+dat-d9dd563d89cd = Attackyta för signalsäkerhet vid navigering på månens yta (P1): sammanför de öppna analyserna av signalsäkerhet…
+
+dat-e5504a977338 = Attackyta för signalsäkerhet vid navigering på månens yta (artikel P1).
+
+dat-2ecad2c187ce = Terränghorisontmasker för månen utifrån en angiven profil eller en polär DEM
+
+dat-1e7ef82181d5 = Månens tidsskalor och geodetisk VLBI
+
+dat-b53e29115ece = Reproducerbarhet för budgeten för tidsfel på månen
+
+dat-4c2e66fa8a55 = lunar_afs::codes::tests (register med maximal längd, Legendre-balans, rundtur för G2-fördröjning, sammansättning av nivåer); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (utan cachen för LSIS: fyra citerade tal fastlåser fyndet; med den: { "2 937 232" } chip och bitar mot filerna i LSIS bilaga { "3" }, utskrivna första/sista { "24" } chip, Legendre-tabellerna D-1 och E-1 och initialiseringar av G2 ger exakt en avvikande post, cellen 'sista { "24" } chip' för PRN { "147" } i tabell E-5, som duplicerar PRN { "151" }:s medan filen i bilaga { "3" } stämmer med generatorn); det strikta test som förhandsregistrerats, afs_codes_match_lsis_v1_tables_and_annex3_bit_exact, ignoreras med det gapet
+
+dat-8be8ccf828da = lunar_afs::waveform (inspelning och etiketter för referens), xval/lunar-afs/run_pocketsdr.sh
+
+dat-5c670f2679d7 = lunar_beacon::tests (horisontsikt mot den slutna formen L01; den fyrförstärkta DOP mot den bara; felbudgetens kvadratiska summa; relationen mellan DOP och meter); tests/validate_p2_beacon_before_after_table.rs (hela tabellen före/efter fastlåst mot ett incheckat facit vid { "1e-9" } relativt); tests/validate_p2_beacon_before_after_independent_dop.rs (samma geometri genom en OBEROENDE DOP-väg, så att förstärkningen inte kontrolleras mot kärnan som tog fram den); tests/validate_lunar_beacon_anise_visibility_dop.rs::beacon_visibility_and_augmented_dop_match_anise_and_numpy
+
+dat-b9653998b456 = lunar_combination::tests (rangbrist utan baslinjer på jorden; tre baslinjer återställer full rang — tröskeln på 3 stationer ur informationsrangen, inte ur lösningsfel; stationens CRLB nås av estimatorn med effektiviteten { "0.98" }; CRLB skärps monotont med baslinjer); tests/lunar_observability_numpy_oracle.rs::lunar_observability_matches_numpy_on_the_committed_jacobians
+
+dat-0d66fd92c424 = lunar_combination::tests (återskapar simulerad referens; VLBI återställer observerbarhet i 3-D för stationen; deterministisk); tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } geometrier × { "16" } parametrar, { "31" } observationer vardera, mot Orekit { "12.2" } / Hipparchus Levenberg-Marquardt på identiska observationer; återskapat tillstånd sämst |Δ| { "1.4e-8" } m); tests/lunar_joint_od_numpy_oracle.rs::joint_solve_linear_algebra_matches_numpy (sex nätverk inklusive ett utan VLBI: Gauss-Newton-steg inom { "4.3e-11" }, formella sigma inom { "1.9e-11" }, stationsfel lika; på de portabla matematikindata för { "0.36" }, { "2.4e-11" } och { "1.3e-11" } på indata för { "0.30" })
+
+dat-e12f3aa49fcb = lunar_common_mode::tests ({ "8" } bibliotekstest: uppdelningen är additiv och återskapar dy; en kovarians för gemensamt läge ger en positiv skyddsnivå för gemensamt läge medan en kovarians med enbart paritet ger en nära noll; projektorn utplånar range(G)); tests/lunar_common_mode_integrity_reference.rs (motorns uppdelning mot en oberoende beräkning i numpy på byteidentiska indata över det incheckade urvalet med 366 epoker, relativt OCH absolut fel < { "1e-3" }); tests/lunar_common_mode_parity_numpy_oracle.rs::common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs ({ "1464" } fall med paritet på geometrin med 8 satelliter och en delmängd med 6 satelliter över båda verkliga paren av efemerider: blind_dx, residual och normer inom { "1e-12" } av |dy|, sämst { "1.06e-14" })
+
+dat-08e91b48c1d8 = lunar_datum::tests (analytiska partialer för LLR/VLBI/omloppsfarkost mot finita differenser); lunar_identifiability::tests (adding_an_offradial_technique_collapses_the_origin_scale_degeneracy; transversell mot radiell via crlb_diag)
+
+dat-c42639deb6bf = lunar_dpnt::tests (ett rent additivt skydd vars skillnad i nyckelmängd är exakt { "{" }correction_link, units{ "}" } med varje befintligt värde bitidentiskt mot litteraler som fångats före ändringen; mätfelet dekorrelerar INTE med baslinjen medan banans term gör det, och överlever en nollbaslinje där banans term är exakt noll — den strukturella kontroll som fångar att termen kopplats på fel ställe; ett stationsfel på { "1" } m överförs { "1" }:{ "1" } och bevisas inte vara DOP-förstärkt; noll latens återger den icke åldrade residualen bit för bit och residualen är monoton i latens, med den utsända kurvan lika med direkta körningar; kvantiseringssteget halveras exakt per bit och σ² = step²/12, och full skala följer de injicerade storheterna; varje term avstängd i tur och ordning återger de andra två i kvadratur; lika σ per satellit propageras till exakt σ·PDOP och den PDOP stämmer med orbit::dop; varje utsänt fält bär en enhet och en proveniensklass, kontrollerat i båda riktningarna)
+
+dat-71f3683e525c = lunar_dpnt::tests (klockans gemensamma läge upphävs exakt; residualen växer med baslinjen; återanvänder PL för SBAS; antalet satelliter respekteras upp till byggarens gräns på { "24" }, så att en större konstellation inte i tysthet kan ge en mindre); tests/lunar_differential_pnt_reference.rs (residual för enkeldifferens + positionslösning med WLS mot RTKLIB:s lsq() kompilerad från C-källkod)
+
+dat-91ebc69007eb = lunar_ephemeris::tests (tolkning av format och system; Lagrange-interpolation exakt vid noder och på ett linjärt spår utanför noderna; ICRF-element tar reduktionen enligt IAU { "2015" } och är byteslika med en uttrycklig tillämpning av icrf_to_iau_moon; sann↔medelanomali ger rundtur mot en framåtriktad Kepler-lösning; felaktiga filer avvisas med skälet angivet). lunar_service::tests (med `ephemeris_path` osatt är rapportens nyckelmängd och SHA-256 fastlåsta; raden med Kepler är lika med den fristående Kepler-körningen fält för fält; identiteten σ_required · HPL_max / σ_URE = AL, därefter en omkörning FRÅN BÖRJAN TILL SLUT vid det beräknade kravet som når { "100" } % tillgänglighet för skyddsnivån och en omkörning { "1" } % över det som inte når den; varje utsänt numeriskt fält i båda de nya blocken genomgånget i den framställda JSON för en enhet och en proveniensklass; de incheckade testdata matchade mot sina källtabeller satellit för satellit; en horisont bortom slutet av en tabell avvisas); tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged; tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+dat-72359d75194d = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable (nollskilt men rangbristande block ⇒ block_spark { "1" }, f_detect { "0" }; oberoende kolumner ⇒ block_spark { "2" }, f_detect { "1" }), byzantine_real_network_uniform_bias_is_clock_offset (en peer som äger alla mätningar för en nod = ett klockoffsetfel ∈ range(G), icke detekterbart, med ett tydligt spektralt Gram-gap), byzantine_redundant_net_identifies_at_least_one (sex oberoende peers med en mätning vardera ⇒ block_spark { "7" }, f_identify { "3" }), byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations (P⊥ = I i handfallen fastlåser f_detect = block_spark − { "1" }, f_identify = ⌊(block_spark − { "1" })/2⌋)
+
+dat-9f1b775126f5 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored (självrefererande nät: den gemensamma takten ligger i N(GᵀWG), temporal_gauge_dim { "2" }; efter en rad med extern takt-koppling: takten utdriven ur gaugen, temporal_gauge_dim { "1" } med den gemensamma förskjutningen kvar)
+
+dat-6c1f1713e449 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (gemensam bias icke detekterbar, differentiell detekterbar), slope_infinity_in_range_finite_detectable (g7: lutning ∞ för b ∈ range(G), ändlig för b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" }: rank(GᵀWG) = state_dim − { "8" }, gaugen med 8 dimensioner är hela nollrummet med ett spektralt gap på >{ "1e6" })
+
+dat-4d69a4cada09 = lunar_frame_campaign (sammansätter lunar_vlbi, lunar_vlbi_fim, fim, lunar, lunar_frame_realise, frames, cio, lunar_frame)
+
+dat-5f33ffde58d6 = lunar_frame_realise::tests (återskapar injicerad Helmert-transform); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } fall mot en oberoende lösare med sluten form enligt Umeyama-SVD; sämst |Δ| translation { "2.0e-5" } m, rotation { "5.3e-12" } rad, skala { "9.3e-2" } ppb, RMS efter anpassning { "6.1e-9" } m)
+
+dat-7b25307d3ee9 = lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation - en axelinriktad nollbas och dess rotation med { "0.6" } rad ger identisk defekt, dim_spatial, dim_temporal, coupled_dim och p_st_norm; classify_direct_sum_null och classify_coupled_null - konstruerade fall med direkt summa och genuint kopplade bekräftar dimensionsuppdelningen; classify_basis_invariant; index_consts_are_correct); tests/lunar_gauge_classification_scipy_oracle.rs::classify_null_space_matches_scipy_subspace_intersection ({ "72" } konstruerade Fisher-matriser 9x9 över { "18" } nollunderrum, var och en i fyra slumpmässiga ortonormala ombaseringar: defekt, dim_spatial, dim_temporal och coupled_dim exakta; p_st_norm inom { "6.0e-15" }, tröskel { "1e-9" })
