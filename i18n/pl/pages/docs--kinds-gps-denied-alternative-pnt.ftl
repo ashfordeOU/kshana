@@ -13,3 +13,47 @@ seg-4dd2bcc206db = Wykres zapisywany przez silnik dla scenarios/conflict-resilie
 seg-9a58a7b09423 = Nawigacja z dopasowaniem do mapy grawitacyjnej bez GPS: grawimetr na zimnych atomach odtwarza stały dryf INS z ciągu anomalii grawitacyjnych, przez który przelatuje.
 
 seg-c42d90057e9f = Wykres zapisany przez silnik dla scenarios/gravity-map-nav.toml, rodzaj gravity-map
+
+seg-4aca87f022dc = Wykres zapisywany przez silnik dla scenarios/terrain-slam.toml, rodzaj terrain-slam
+
+seg-4e31c8daf798 = Rejestr (ledger)
+
+seg-efd15cff3d32 = MODELLED (etykieta wyniku)
+
+seg-9d9aeff4f2ee = Źródło: <c1/>
+
+seg-d9fdaf3208ca = Alternatywne PNT w warunkach braku GPS (rodzina rodzajów scenariuszy)
+
+seg-9fde6af9e09f = { "5" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Każda etykieta tutaj pochodzi z silnika lub z macierzy weryfikacji; rodzaj ma status MODELLED, chyba że macierz stanowi inaczej (jak zdobywa się etykietę: sekcja Evidence w README).
+
+seg-0d3b170b9fbc = Strony tematyczne: <a1>CAPABILITY</a1>, <a2>RESILIENCE-CROSSWALK</a2>. Uruchom jeden: <c1/>. Wszystkie rodziny: <a3>KINDS.md</a3>.
+
+seg-6dfd2dc2721a = Arkusz miniatur wykresów zapisywanych przez silnik dla rodzajów z rodziny Alternatywne PNT w warunkach braku GPS
+
+seg-cff60d8c17d2 = Sekwencyjna (rekurencyjna) nawigacja z odniesieniem do terenu w warunkach braku GPS: filtr cząsteczkowy uruchamia model pomiaru dopasowania do terenu epoka po epoce (SITAN jako filtr bieżący), tak aby zmienny w czasie dryf INS był śl
+
+seg-9d8f69b51742 = Odporność warstwowego PNT na konflikt MODELLED (P7): użytkownik w środowisku spornym korzysta z kilku warstw PNT (GNSS usługi otwartej, szerokopasmowy GNSS, uwierzytelniona konstelacja, przekaźnik wspomagający), każda z
+
+seg-28486745bb43 = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>. Opcjonalne: <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>.
+
+seg-c2187e8291f9 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>gravity-map</a1>.
+
+seg-b1ff6f0e1769 = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Opcjonalne: <c13/>, <c14/>, <c15/>.
+
+seg-9bd19903f577 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>terrain-nav</a1>.
+
+seg-3ec7b38184b7 = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Opcjonalne: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+seg-7c777178ee8f = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>terrain-slam</a1>.
+
+seg-c5124441822e = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>. Opcjonalne: <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>.
+
+seg-d78bd011956c = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>combined-altpnt</a1>.
+
+seg-2d95ddbf01c4 = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-ab895b157152 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>conflict-resilience</a1>.
+
+seg-c0ef7d676ec1 = <s1>Poprzedni</s1>Pomiary GNSS, pozycjonowanie i integralność
+
+seg-54b45b00a2f0 = <s1>Następny</s1>Fuzja inercyjna i czujniki kwantowe

@@ -13,3 +13,5 @@ seg-587beeccaa11 = Ustawienie predefiniowane
 seg-1ff32b87e030 = Satelity
 
 seg-a6c63abeb7e6 = Dołączone scenariusze
+
+seg-60cd077d82a7 = Model

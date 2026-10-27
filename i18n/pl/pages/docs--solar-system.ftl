@@ -7,3 +7,5 @@ seg-31a05429b836 = Ciała
 seg-1c78d5337e16 = Pluton
 
 seg-6e0cb6acc073 = VALIDATED
+
+seg-60cd077d82a7 = Model

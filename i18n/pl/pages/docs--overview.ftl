@@ -203,3 +203,25 @@ seg-e251b385ff46 = Dwa syntetyczne dni mapy zakłóceń narysowane z zatwierdzon
 seg-af0edceb1503 = Ocena jednego syntetycznego logu odbiornika względem harmonogramu z trzema testami, z rzeczywistego przebiegu silnika v{ $version } (`kshana jammertest score`). Log jest zmyślony: { "1800" } s NMEA ze spadkiem C/N0 o { "20" } dB w dwóch przedziałach. Harmonogram zawiera trzy sloty; w środkowym slocie w logu nie ma zagłuszarki. Ocena wskazuje { "2" } z { "3" } testów wykrytych (mediana opóźnienia { "0" } s) i { "1" } niewykryty, przy { "0" } przebiegach fałszywych alarmów w { "0.25" } h czystego czasu. Nic tutaj nie mówi o rzeczywistym odbiorniku. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC { "61108" }, IEC { "61162" }): za nawigację statku odpowiada nadal operator.
 
 seg-13fc009b947c = FAQ
+
+seg-3ac9e578414c = Zegary, synchronizacja czasu i holdover
+
+seg-b4b8aaf14aec = Czujniki inercyjne, fuzja i czujniki kwantowe
+
+seg-93591ee6899f = Alternatywne PNT w warunkach braku GPS
+
+seg-b63bfec0aabf = Konstelacje, pokrycie i geometria
+
+seg-f2f84c689f14 = Pomiary GNSS, pozycjonowanie i integralność
+
+seg-2e736b1814f2 = Zagłuszanie (jamming), spoofing i widmo
+
+seg-fc23add4540b = Nawigacja z niskiej orbity okołoziemskiej
+
+seg-dd8aa1ce4734 = Nawigacja użytkownika w przestrzeni kosmicznej
+
+seg-77aef8722995 = Optyczne PNT
+
+seg-179dc850c643 = Analiza misji, łącza i operacje kosmiczne
+
+seg-6339abe5314a = Rodzina
