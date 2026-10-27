@@ -9123,3 +9123,641 @@ engine-kind-optical-atmosphere-description = MODELLED optische PNT door de atmos
 engine-kind-holdover-test-description = MODELLED holdovertest van een tijdsynchronisatiesysteem, beoordeeld op basis van een tijdfoutrecord dat de EXPLOITANT aanlevert (een linuxptp-ptp4l-, phc2sys- of ts2phc-log, een chrony-tracking- of statistiekenlog, een TICC-, TimeLab- of RINEX-klokbestand, of paren time_s,time_error_ns). De test heeft vier stappen en Kshana voert er geen enkele uit: een gelockte BASELINE, GNSS VERWIJDERD door de exploitant (de antennekabel of de simulatoruitvoer; Kshana zendt niets uit en stuurt niets aan) op een vermelde tijd, HOLDOVER op de eigen oscillator van het systeem, en HERSTEL nadat de exploitant GNSS op een tweede vermelde tijd herstelt. Het record wordt op die twee tijden gesplitst. Baseline: tijdfoutstatistieken en de ITU-T-maskers voor een gelockte klok. Holdover: statistieken, de fractionele frequentieoffset die het systeem hield (een kleinstekwadratenlijn), de maskers voor holdover of een autonome klok, de ePRTC-A-holdoveromhullende uit de vermelde gelockte duur, en de tijd tot overschrijding van elk tijdfoutbudget. Herstel: of en wanneer |TE| binnen een vermelde band kwam en daar bleef, de piek en de grootste stap. Elke limiet is overgenomen uit een openbare ITU-T-tabel (de maskers van telecom-timing); de bewoording is 'gemeten tegen het masker', en de twee tijden zijn de verklaring van de exploitant, niet geverifieerd. Een record dat te kort is voor een masker is INCOMPLETE, nooit geëxtrapoleerd. Zie docs/TIMING-HIL.md.
 
 engine-kind-gnss-ssv-description = MODELLED GNSS-beschikbaarheid en linksterkte in het Space Service Volume en daarbuiten: voor een gebruiker op een bol (de globale schil van het ICG-boekje) of op een Kepler-baan (van LEO tot maantransfer) telt het, per constellatie (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) en voor alle samen, de bruikbare signalen boven een C/N0-drempel - beschikbaarheid van minstens één en van vier signalen, maximale uitvalduur, ontvangen C/N0, precisieverdunning, links via hoofdlob tegenover zijlobben - met een zendpatroon uit het boekje, parametrisch of door de gebruiker aangeleverd, optionele limb-straaleffecten van ionosfeer, plasmasfeer en atmosfeer en een optioneel ontwerp voor een zwaksignaalontvanger; ook een GNSS-uitgebreid-Kalman-filter aan boord voor HEO- en maantransfervaartuigen (baandynamica, zonnestralingsdruk, derde lichamen, klok) en relatieve navigatie van een formatie van meerdere vaartuigen via enkelvoudig gedifferentieerde pseudoranges. Gecontroleerd tegen de tabellen van het ICG-SSV-boekje onder een preregistratie (xval/gnss-ssv)
+
+engine-bench-site-title-a = Taak (a): detectie op ontvangerlogs
+
+engine-bench-site-title-b = Taak (b): detectie op IQ
+
+engine-bench-site-title-c = Taak (c): voorspelling van tijdsynchronisatie in holdover
+
+engine-bench-site-title-d = Taak (d): optimismekloof buiten de verdeling
+
+engine-bench-site-col-rmse-3600 = RMSE 3600 s (ns)
+
+engine-bench-site-col-rmse-300 = RMSE 300 s (ns)
+
+engine-bench-site-col-rmse-7200 = RMSE 7200 s (ns)
+
+engine-bench-site-col-auc-in = AUC binnen
+
+engine-bench-site-col-auc-out = AUC buiten
+
+engine-bench-site-col-optimism-gap = Optimismekloof
+
+engine-bench-site-col-flag = Vlag
+
+engine-bench-site-col-auc = AUC
+
+engine-bench-site-col-pd-at-pfa-cap = P_d bij P_fa-limiet (bovengrens)
+
+engine-bench-site-flag-optimistic = optimistisch
+
+engine-bench-site-flag-within-tolerance = binnen tolerantie
+
+engine-bench-site-not-available = n.v.t.
+
+engine-bench-site-none-published = Er zijn nog geen resultaten gepubliceerd. Een rij verschijnt hier pas wanneer een resultaatbestand is gescoord en toegevoegd; niets op deze pagina is een schatting.
+
+engine-bench-site-none-for-task = Nog geen resultaten voor deze taak.
+
+engine-bench-site-region-label = { $title } { $split } resultaten
+
+engine-bench-site-caption-split = Split: { $split }
+
+engine-bench-site-th-system = Systeem
+
+engine-bench-site-th-provenance = Herkomst
+
+engine-bench-site-th-truth-sha256 = SHA-256 van de referentie
+
+engine-bench-site-provenance-carried = overgenomen: { $note }
+
+engine-bench-site-provenance-scored = gescoord
+
+engine-bench-site-heading = kshana-bench-ranglijst
+
+engine-bench-site-lede = Resultaatbestanden gescoord volgens <code>{ $spec }</code>. Een rij zegt dat dit bestand dit getal scoorde op deze split. Het betekent niet dat een product door wie dan ook is beoordeeld of goedgekeurd, en er wordt geen organisatie als voorstander genoemd.
+
+engine-bench-site-foot = Elke score is gemodelleerd, tenzij een rij zegt dat een externe onafhankelijke referentie het ermee eens was. Licentie van de specificatie en de manifesten: CC-BY-4.0 / CC0 voorgesteld, beslissing van de eigenaar nog open. De holdout met echte data is niet geheim: zie de specificatie, sectie 4.
+
+engine-bench-site-meta-description = Scores van ingediende resultaatbestanden onder kshana-bench { $spec }. Alleen adviserend.
+
+engine-iq-campaign-report-roc-heading = Detectie-ROC
+
+engine-iq-campaign-report-roc-note = <p class="note">Gelabeld <b>{ $label }</b>. Elk vermeld gebeurtenisvenster is een positief en elk venster met de ingestelde lengte buiten de gebeurtenissen een negatief. Een venster telt bij een drempel mee wanneer de eigen toetsstatistiek van de monitor die drempel in het venster bereikt. P<sub>fa</sub> geldt per negatief venster, niet per toets. Dezelfde cijfers staan in <code>roc.json</code>.</p>
+
+engine-iq-campaign-report-th-alarm-kind = Alarmtype
+
+engine-iq-campaign-report-th-positives = Positieven
+
+engine-iq-campaign-report-th-negatives = Negatieven
+
+engine-iq-campaign-report-th-auc = AUC
+
+engine-iq-campaign-report-th-threshold = Drempel
+
+engine-iq-campaign-report-th-pd-at-it = P<sub>d</sub> daarbij
+
+engine-iq-campaign-report-th-pfa-at-it = P<sub>fa</sub> daarbij
+
+engine-iq-campaign-report-title = Campagne { $name }
+
+engine-iq-campaign-report-heading = Labreplay-campagne: { $name }
+
+engine-iq-campaign-report-meta = Dataklasse <b>{ $data_class }</b> · Kshana { $engine } · { $n_recordings } opname(n) × { $n_frontends } front-end(s) × { $n_designs } ontwerp(en) = { $n_cells } cellen, { $n_done } klaar · digest <code>{ $digest }</code>
+
+engine-iq-campaign-report-digest-incomplete = (onvolledig: niet elke cel is klaar)
+
+engine-iq-campaign-report-reference-note = <p class="note">Gemeten waarden komen uit het tracken van de opnamen. Gestippelde lijnen met het label <b>{ $label }</b> zijn de analytische referentie voor spectrale scheiding <code>{ $formula }</code> bij de opgegeven J/S van het lab, met Q uit het opgegeven interferentietype. Ze zijn een model van de opgegeven omstandigheid, geen meting en geen simulatie van de interferentie.</p>
+
+engine-iq-campaign-report-summary-heading = Samenvatting
+
+engine-iq-campaign-report-th-recording = Opname
+
+engine-iq-campaign-report-th-front-end = Front-end
+
+engine-iq-campaign-report-th-design = Ontwerp
+
+engine-iq-campaign-report-th-satellites = Satellieten
+
+engine-iq-campaign-report-th-mean-availability = Gemiddelde beschikbaarheid
+
+engine-iq-campaign-report-th-events-lost = Verloren gebeurtenissen
+
+engine-iq-campaign-report-th-median-reacq = Mediaan heracquisitie (s)
+
+engine-iq-campaign-report-th-pass = Geslaagd
+
+engine-iq-campaign-report-th-fail = Mislukt
+
+engine-iq-campaign-report-degradation-heading = C/N0-degradatie ten opzichte van opgegeven J/S
+
+engine-iq-campaign-report-scorecard-heading = Scorekaart
+
+engine-iq-campaign-report-scorecard-note-nwpr = <p class="meta">Dezelfde rijen als in <code>scorecard.csv</code>. Heracquisitie wordt gemeten vanaf de offset van de gebeurtenis; uitval wordt gemeten vanaf het verlies van lock. De C/N0-kolom en de degradatiecurven gebruiken de NWPR-schatting (leest ongeveer 8 dB · Bn·T te laag onder de eigen jitter van de lus, dus de waarden hangen af van het lusontwerp); beide schattingen staan in <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-scorecard-note-m2m4 = <p class="meta">Dezelfde rijen als in <code>scorecard.csv</code>. Heracquisitie wordt gemeten vanaf de offset van de gebeurtenis; uitval wordt gemeten vanaf het verlies van lock. De C/N0-kolom en de degradatiecurven gebruiken de M2M4-schatting (ongevoelig voor de eigen jitter van de lus); beide schattingen staan in <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-th-sat = Sat
+
+engine-iq-campaign-report-th-scope = Bereik
+
+engine-iq-campaign-report-th-event = Gebeurtenis
+
+engine-iq-campaign-report-th-avail = Besch.
+
+engine-iq-campaign-report-th-loss = Verlies (s)
+
+engine-iq-campaign-report-th-js-at-loss = J/S bij verlies
+
+engine-iq-campaign-report-th-reacq = Heracq. (s)
+
+engine-iq-campaign-report-th-outage = Uitval (s)
+
+engine-iq-campaign-report-th-cn0 = C/N0
+
+engine-iq-campaign-report-th-pll = PLL σ (°)
+
+engine-iq-campaign-report-th-dll = DLL σ (chip)
+
+engine-iq-campaign-report-th-false-locks = Valse locks
+
+engine-iq-campaign-report-th-verdict = Oordeel
+
+engine-iq-campaign-report-scope-run = run
+
+engine-iq-campaign-report-scope-event = gebeurtenis
+
+engine-resilience-report-title = PNT-weerbaarheid: zelfbeoordeling
+
+engine-resilience-report-status-partner = PARTNER
+
+engine-resilience-report-summary = <p>Engine { $engine }, scenario { $scenario }, seed { $seed }. Verdeling van het bewijs: { $n_validated } { $validated } / { $n_modelled } { $modelled } deelscores. Voorlopig RPCF-niveau: { $level } ({ $level_basis }).</p>
+
+engine-resilience-report-h-rpcf = Technieklassen van DHS RPCF
+
+engine-resilience-report-h-rdrr = Functies van RethinkPNT
+
+engine-resilience-report-h-yang = Criteria van Yang
+
+engine-resilience-report-th-category = Categorie
+
+engine-resilience-report-th-function = Functie
+
+engine-resilience-report-th-criterion = Criterium
+
+engine-resilience-report-th-subscore = Deelscore
+
+engine-resilience-report-th-status = Status
+
+engine-resilience-report-th-basis = Basis
+
+engine-resilience-report-integrity = <p>SHA-256-integriteit: <code>{ $integrity }</code></p>
+
+engine-study-summary = studie "{ $title }": { $n_scenarios } scenario's
+
+engine-study-metric-holdover = Holdover (s)
+
+engine-study-metric-timing-rms = RMS van tijdsynchronisatie (ns)
+
+engine-study-metric-timing-p95 = p95 van tijdsynchronisatie (ns)
+
+engine-study-metric-resilience-slope = Helling van weerbaarheid (ns/s)
+
+engine-study-metric-availability = Beschikbaarheid
+
+engine-study-metric-integrity = Integriteit
+
+engine-study-metric-security = Beveiliging
+
+engine-study-th-metric = Maat
+
+engine-study-th-validation = Validatie
+
+engine-study-not-applicable-no-attack = n.v.t. (geen aanval)
+
+engine-study-page-title = { $title } — Kshana-studie
+
+engine-study-eyebrow = क्षण · het precieze moment
+
+engine-study-h-comparison = Vergelijking naast elkaar
+
+engine-study-tier-note = Elke kwaliteitsmaat is gemarkeerd met { $validated } (getoetst aan een externe onafhankelijke referentie) of { $modelled } (uit eerste principes, intern getest), afgeleid uit de verificatiematrix. Kolommen zijn onafhankelijke scenario's; waarden zijn niet genormaliseerd over scenario's heen.
+
+engine-study-footer = Gegenereerd door Kshana { $version } als geaggregeerde studie van { $n_scenarios } scenario's. Elk scenario is reproduceerbaar uit zijn scenario + seed + engineversie. Gratis en open source (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">broncode &amp; documentatie</a>.
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
+
+engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
+
+engine-compliance-fw-imo-ships-title = IMO-richtsnoeren voor GNSS-interferentie bij schepen
+
+engine-compliance-fw-easa-aviation-title = EASA-richtsnoeren voor GNSS-interferentie in de luchtvaart
+
+engine-compliance-fw-nis2-art21-title = EU NIS2-richtlijn, artikel 21: maatregelen voor risicobeheer
+
+engine-compliance-fw-en-16803-title = EN 16803, op GNSS gebaseerde positiebepaling voor ITS in het wegverkeer
+
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
+
+engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
+
+engine-compliance-source-dhs-rpcf-1-version = Versie 2.0, 26 april 2022 (DHS Science and Technology Directorate, met CISA)
+
+engine-compliance-source-dhs-rpcf-1-checked = document volledig gelezen; de landingspagina van de publicatie is niet opgehaald
+
+engine-compliance-source-imo-ships-1-title = Deliberate interference with the United States Global Positioning System and other global navigation satellite systems
+
+engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644, 18 oktober 2021
+
+engine-compliance-source-imo-ships-1-checked = tekst volledig gelezen van deze spiegel van de circulaire bij een derde partij, niet van de IMO-site; raadpleeg de documentenbibliotheek van de IMO voor de gezaghebbende versie
+
+engine-compliance-source-imo-ships-2-title = Worldwide Radionavigation System
+
+engine-compliance-source-imo-ships-2-version = IMO Assembly resolution A.1046(27), aangenomen op 30 november 2011
+
+engine-compliance-source-imo-ships-2-checked = document volledig gelezen
+
+engine-compliance-source-imo-ships-3-title = Performance standards for multi-system shipborne radionavigation receivers
+
+engine-compliance-source-imo-ships-3-version = IMO MSC.401(95), aangenomen op 8 juni 2015 (gewijzigd door MSC.432(98), 2017)
+
+engine-compliance-source-imo-ships-3-checked = oorspronkelijke resolutie volledig gelezen; de tekst van de wijziging van 2017 is niet gelezen. Er is geen IMO-circulaire over GNSS-interferentie gevonden die later is dan MSC.1/Circ.1644; raadpleeg de documentenbibliotheek van de IMO voor nieuwere
+
+engine-compliance-source-easa-aviation-1-title = Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation
+
+engine-compliance-source-easa-aviation-1-version = EASA Safety Information Bulletin SIB 2022-02R4, uitgegeven op 3 juli 2026, gecorrigeerd op 22 juli 2026 (informatief, niet verplicht)
+
+engine-compliance-source-easa-aviation-1-checked = revisie 4 volledig gelezen; onderdelen worden met hun kopje aangehaald omdat het bulletin zijn aanbevelingen niet nummert. Opnieuw gecontroleerd op 2026-10-10: de pdf van het bulletin, de pagina van de EASA AD-tool (die als vervanging geen vermeldt) en de EASA GNSS-pagina noemen geen latere revisie en geen bulletin met nummer 2026-07; een banner met Revision 2 van SIB 2026-07 is niet gevonden, dus de vraag is open en moet op de actuele EASA-pagina worden gecontroleerd. Conflict Zone Information Bulletins zijn niet geopend
+
+engine-compliance-source-nis2-art21-1-title = Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS 2 Directive)
+
+engine-compliance-source-nis2-art21-1-version = PB L 333, 27.12.2022, blz. 80-152
+
+engine-compliance-source-nis2-art21-1-checked = de letters van de leden van artikel 21 zijn gelezen uit een samenvatting van de EUR-Lex-pagina en komen overeen met de gepubliceerde tekst; controleer de pagina voordat u in een dossier een letter aanhaalt
+
+engine-compliance-source-en-16803-1-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 1: Definitions and system engineering procedures for the establishment and assessment of performances
+
+engine-compliance-source-en-16803-1-version = EN 16803-1:2020 (catalogus: geldig vanaf 2 oktober 2020, ter vervanging van de editie van 2016)
+
+engine-compliance-source-en-16803-1-checked = alleen de reikwijdtetekst uit de catalogus; de norm is betaald en niet gelezen
+
+engine-compliance-source-en-16803-2-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals
+
+engine-compliance-source-en-16803-2-version = EN 16803-2:2020 (catalogus: geldig vanaf 2 oktober 2020)
+
+engine-compliance-source-en-16803-2-checked = alleen de reikwijdtetekst uit de catalogus; de norm is betaald en niet gelezen
+
+engine-compliance-source-en-16803-3-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals
+
+engine-compliance-source-en-16803-3-version = EN 16803-3:2020 (catalogus: geldig vanaf 2 oktober 2020)
+
+engine-compliance-source-en-16803-3-checked = alleen de reikwijdtetekst uit de catalogus; de norm is betaald en niet gelezen. De catalogustekst noemt clausule 6 (opgenomen versus gesimuleerde signalen) en bijlage A (een categorisering van aanvallen op hoog niveau) en verder niets met nummer; de catalogus noemt geen commissie, dus hier wordt er geen vermeld
+
+engine-compliance-source-nist-ir-8323r1-1-title = Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services
+
+engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1, januari 2023 (NIST Internal Report)
+
+engine-compliance-source-nist-ir-8323r1-1-checked = de pdf is opgehaald op 2026-10-18 (SHA-256 vastgelegd in tests/fixtures/compliance/headings.json) en de Profile-tabellen 3 tot en met 25 zijn gelezen voor de aangehaalde subcategorieën; de andere secties, de bijlagen en de landingspagina van de publicatie zijn niet gelezen. Identificatiecodes van subcategorieën volgen de eigen tabellen van het Profile, die identificatiecodes van Cybersecurity Framework 1.1 gebruiken
+
+engine-compliance-cap-receiver-log-trust-name = Vertrouwensbeoordeling van ontvangerlogs
+
+engine-compliance-cap-receiver-log-trust-output = vertrouwenstoestand per epoch van het eigen log van een echte ontvanger, alarmtijden en overeenstemming met gebeurtenissen die vóór de run zijn vermeld
+
+engine-compliance-cap-jamming-effects-name = Effecten van jamming op de linkbudgetten
+
+engine-compliance-cap-jamming-effects-output = draaggolf-ruisdichtheid en lock-toestand per satelliet onder een opgegeven jammergeometrie
+
+engine-compliance-cap-spoofing-detection-name = Detectie van spoofing en meaconing
+
+engine-compliance-cap-spoofing-detection-output = beslissingen van de detector en onderscheidend vermogen van de detector onder een opgegeven spoofingaanval
+
+engine-compliance-cap-integrity-monitoring-name = Integriteitsbewaking en beschermingsniveaus
+
+engine-compliance-cap-integrity-monitoring-output = beschermingsniveaus, beschikbaarheid ten opzichte van alarmgrenzen en resultaten van foutdetectie
+
+engine-compliance-cap-holdover-name = Holdover en coasting
+
+engine-compliance-cap-holdover-output = groei van de positie- of tijdfout terwijl GNSS is geweigerd, ten opzichte van een opgegeven drempel
+
+engine-compliance-cap-source-diversity-name = Alternatieve en diverse PNT-bronnen
+
+engine-compliance-cap-source-diversity-output = navigatie- of tijdsynchronisatieprestaties van bronnen die onafhankelijk zijn van de primaire GNSS-band
+
+engine-compliance-cap-resilience-scoring-name = Weerbaarheidsscore over dreigingsensembles
+
+engine-compliance-cap-resilience-scoring-output = overlevings- en weerbaarheidsverhoudingen per dreigingsvector over een opgegeven ensemble, met vermelding van de aannames
+
+engine-compliance-cap-run-provenance-name = Reproduceerbare herkomst van runs
+
+engine-compliance-cap-run-provenance-output = scenariohash, engineversie en seed die in elk resultaat worden meegedragen zodat een run kan worden herhaald
+
+engine-compliance-req-dhs-s5-2-reference = Sectie 5.2 (Prevent, Respond, Recover)
+
+engine-compliance-req-dhs-s5-2-asks = Weerbaarheid wordt beschreven als drie functies: schade voorkomen, reageren (detecteren, melden, mitigeren, indammen) en herstellen. Detectie is probabilistisch, dus zowel valse alarmen als gemiste detecties doen ertoe.
+
+engine-compliance-req-dhs-s5-2-gap = Preventie is een ontwerpeigenschap van het product die geen enkele simulatie-uitvoer toont. Detectiestatistieken uit een synthetische run of een run van één sessie zijn geen gemeten kans op vals alarm of gemiste detectie voor een product in gebruik.
+
+engine-compliance-req-dhs-l1-r1-reference = Niveau 1, eis 1
+
+engine-compliance-req-dhs-l1-r1-asks = Controleer dat opgeslagen data uit externe bronnen overeenkomt met de formaten en waardebereiken van de relevante normen.
+
+engine-compliance-req-dhs-l1-r1-gap = Een eigenschap van softwarekwaliteit en invoervalidatie van het geteste product. Kshana controleert de invoerafhandeling van een product niet.
+
+engine-compliance-req-dhs-l1-r2-reference = Niveau 1, eis 2
+
+engine-compliance-req-dhs-l1-r2-asks = Laat volledig handmatig herstel toe door het geheugen te wissen of te resetten, zodat het systeem terugkeert naar de gedefinieerde prestaties zodra de dreiging voorbij is.
+
+engine-compliance-req-dhs-l1-r2-gap = Een ontvangerlog toont wanneer een positiebepaling onbetrouwbaar werd en wanneer die herstelde; het toont niet dat een handmatige reset elke opgeslagen toestand wist.
+
+engine-compliance-req-dhs-l1-r3-reference = Niveau 1, eis 3
+
+engine-compliance-req-dhs-l1-r3-asks = Laad firmware veilig opnieuw of werk die veilig bij.
+
+engine-compliance-req-dhs-l1-r3-gap = De beveiliging van firmware-updates valt buiten wat enige Kshana-uitvoer waarneemt.
+
+engine-compliance-req-dhs-l2-r4-reference = Niveau 2, eis 4
+
+engine-compliance-req-dhs-l2-r4-asks = Identificeer gecompromitteerde PNT-bronnen en voorkom dat ze de oplossing verstoren.
+
+engine-compliance-req-dhs-l2-r4-gap = Kshana scoort detectoren en monitoren die het modelleert of over een log laat lopen; of de eigen uitsluiting van bronnen in een product werkt, vereist de interne toestand van het product en niet alleen het log.
+
+engine-compliance-req-dhs-l2-r5-reference = Niveau 2, eis 5
+
+engine-compliance-req-dhs-l2-r5-asks = Herstel bronnen en het systeem automatisch zonder de uitvoer te onderbreken; tijdens de dreiging wordt nog steeds een oplossing geleverd, mogelijk met onbegrensde degradatie.
+
+engine-compliance-req-dhs-l2-r5-gap = Holdover-runs begrenzen de gemodelleerde drift voor een opgegeven klok- of traagheidsmodel, niet het eigen herstelgedrag van het product.
+
+engine-compliance-req-dhs-l3-r6-reference = Niveau 3, eis 6
+
+engine-compliance-req-dhs-l3-r6-asks = Corrupte data uit de ene bron mag een andere bron niet besmetten.
+
+engine-compliance-req-dhs-l3-r6-gap = Kshana laat bronnen naast elkaar lopen; isolatie van bronnen binnen een product vereist een ontwerpbeoordeling of foutinjectie in het product.
+
+engine-compliance-req-dhs-l3-r7-reference = Niveau 3, eis 7
+
+engine-compliance-req-dhs-l3-r7-asks = Controleer de oplossingen van alle bronnen onderling en houd de degradatie tijdens een dreiging begrensd.
+
+engine-compliance-req-dhs-l3-r7-gap = Begrensde degradatie wordt getoond voor de gemodelleerde sensoren; de eigen kruiscontrole van het product wordt niet waargenomen.
+
+engine-compliance-req-dhs-l4-r8-reference = Niveau 4, eis 8
+
+engine-compliance-req-dhs-l4-r8-asks = Gebruik bronnen met verschillende technologieën tegen dreigingen met gemeenschappelijke oorzaak, zonder degradatie tijdens de dreiging.
+
+engine-compliance-req-dhs-l4-r8-gap = Een redenering over gemeenschappelijke oorzaken vereist de bronnenset van het echte product en een dreiging die ze allemaal omvat; een scenario stelt er een, het bewijst niet dat het product geen gedeelde zwakte heeft.
+
+engine-compliance-req-dhs-s5-5-reference = Sectie 5.5 (gemeenschappelijke oorzaak)
+
+engine-compliance-req-dhs-s5-5-asks = Diverse mechanismen mogen geen zwakte delen: een jammer die twee banden bestrijkt, maakt bijvoorbeeld bandendiversiteit nutteloos.
+
+engine-compliance-req-dhs-s5-5-gap = De score gebruikt een synthetisch dreigingsensemble, als zodanig vermeld; het zijn geen veldgegevens.
+
+engine-compliance-req-dhs-s8-1-8-3-reference = Secties 8.1 tot en met 8.3 (evaluatie)
+
+engine-compliance-req-dhs-s8-1-8-3-asks = De evaluatie combineert statische analyse met dynamische analyse, waarbij testvectoren dreigingen vervangen; de testklassen zijn bronuitval, interferentie en interne fouten. Simulatoren worden genoemd als testmethode.
+
+engine-compliance-req-dhs-s8-1-8-3-gap = Geëxporteerde beweging en gebeurtenissen kunnen een laboratoriumsimulator aansturen (docs/TEST-BENCH.md). Kshana schrijft geen signaal, dus de simulator en de bevoegde operator leveren de dreiging.
+
+engine-compliance-req-dhs-s8-6-reference = Sectie 8.6 (elementen van een testplan)
+
+engine-compliance-req-dhs-s8-6-asks = Een testplan vermeldt het niveau, de eis, de invoer, de referenties, de benodigde toegang tot data, de procedure met slaag- of faalcriteria, de resultaten en de opmerkingen.
+
+engine-compliance-req-dhs-s8-6-gap = Slaag- of faalcriteria worden door de beoordelaar gekozen; Kshana legt de invoer, de drempels en de hashes vast waarmee het liep.
+
+engine-compliance-req-imo-1644-3-reference = MSC.1/Circ.1644, paragraaf 3
+
+engine-compliance-req-imo-1644-3-asks = Opzettelijke GNSS-interferentie is een aanzienlijk risico voor de veiligheid van navigatie, mensen, eigendommen en het milieu.
+
+engine-compliance-req-imo-1644-3-gap = Een risicoverklaring; Kshana kwantificeert effecten voor een opgegeven geometrie, niet het risico in een zeegebied.
+
+engine-compliance-req-imo-1644-5-reference = MSC.1/Circ.1644, paragraaf 5
+
+engine-compliance-req-imo-1644-5-asks = Lidstaten wordt gevraagd interferentie vanaf hun grondgebied te beperken, waarschuwingen aan zeevarenden te overwegen en maatregelen tegen ongeautoriseerde uitzendingen te overwegen.
+
+engine-compliance-req-imo-1644-5-gap = Gericht aan staten en overheden; geen simulatie-uitvoer gaat hierover.
+
+engine-compliance-req-imo-a1046-3-reference = Resolution A.1046(27), bijlage paragraaf 3 (havenmonden, havenaanlopen en kustwateren)
+
+engine-compliance-req-imo-a1046-3-asks = Een systeem geldt alleen als beschikbaar zolang het de opgegeven integriteit levert bij de opgegeven nauwkeurigheid, bijgewerkt met een opgegeven frequentie, met een integriteitswaarschuwing binnen een opgegeven tijd.
+
+engine-compliance-req-imo-a1046-3-gap = Kshana berekent beschermingsniveaus en beschikbaarheid ten opzichte van een alarmgrens voor een gemodelleerde geometrie; de waarden van de resolutie voor nauwkeurigheid, beschikbaarheid en waarschuwingstijd worden hier niet beweerd.
+
+engine-compliance-req-imo-a1046-2-reference = Resolution A.1046(27), bijlage paragraaf 2 (oceaanwateren)
+
+engine-compliance-req-imo-a1046-2-asks = Eisen voor het systeem voor radionavigatie in de oceaanfase: nauwkeurigheid, updatefrequentie, beschikbaarheid en integriteitswaarschuwing.
+
+engine-compliance-req-imo-a1046-2-gap = Zoals hierboven voor de oceaanfase.
+
+engine-compliance-req-imo-401-3-1-reference = MSC.401(95), 3.1 tot en met 3.2
+
+engine-compliance-req-imo-401-3-1-asks = De ontvanger gebruikt civiele signalen van ten minste twee onafhankelijke systemen en levert een positie-, snelheids- en tijdoplossing met de benodigde weerbaarheid en integriteit.
+
+engine-compliance-req-imo-401-3-1-gap = Integriteit met meerdere constellaties wordt gemodelleerd; of de ontvanger echt twee systemen gebruikt, is een producttest.
+
+engine-compliance-req-imo-401-3-11-reference = MSC.401(95), 3.11 tot en met 3.14
+
+engine-compliance-req-imo-401-3-11-asks = De ontvanger beoordeelt nauwkeurigheid en integriteit per navigatiefase, geeft een voorzichtigheidsmelding wanneer dat niet kan, waarschuwt wanneer er niet tijdig een nieuwe oplossing komt en toont de laatste aannemelijke waarde met een expliciete toestand.
+
+engine-compliance-req-imo-401-3-11-gap = Kshana leest tijdsynchronisatie en vertrouwen uit een log; of de getoonde voorzichtigheids- en waarschuwingsintervallen aan de norm voldoen, vereist de gebruikersinterface van de ontvanger, die een log niet toont.
+
+engine-compliance-req-imo-401-3-16-reference = MSC.401(95), 3.15 tot en met 3.16
+
+engine-compliance-req-imo-401-3-16-asks = Toon de status van augmentatie en de positie, koers, snelheid, tijd en gebruikte bronnen.
+
+engine-compliance-req-imo-401-3-16-gap = Weergave-eisen; geen enkele Kshana-uitvoer gaat hierover.
+
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
+
+engine-compliance-req-imo-401-4-2-asks = Naar behoren werken onder normale interferentieomstandigheden, in overeenstemming met resolutie A.694(17) (algemene eisen voor scheepsradioapparatuur) en de typische radio-omgeving aan boord en buiten het schip. Dit is geen anti-jamming- of anti-spoofingeis.
+
+engine-compliance-req-imo-401-4-2-gap = Testen onder normale interferentie is een laboratoriummeting aan de ontvanger; resolutie A.694(17) zelf is niet gelezen.
+
+engine-compliance-req-easa-desc-reference = SIB 2022-02R4, Description
+
+engine-compliance-req-easa-desc-asks = Spoofing is moeilijker te detecteren en gevaarlijker dan jamming; er is geen cockpitalarm dat de twee onderscheidt; de effecten lopen uiteen van valse terreinwaarschuwingen tot verstoorde surveillancedata en kunnen blijven bestaan nadat het gebied is verlaten.
+
+engine-compliance-req-easa-desc-gap = Kshana modelleert effecten op detector en link; cockpitalarmering is een eigenschap van de apparatuur.
+
+engine-compliance-req-easa-mfr-reference = SIB 2022-02R4, Recommendation(s): aircraft and equipment manufacturers, should
+
+engine-compliance-req-easa-mfr-asks = Beoordeel de effecten van jamming en spoofing op het product, ook cumulatieve effecten, en geef operators richtlijnen voor het herkennen van vermoedelijke spoofing en voor bedrijfsgrenzen wanneer GNSS wegvalt.
+
+engine-compliance-req-easa-mfr-gap = De beoordeling van het product zelf is aan de fabrikant; Kshana levert een herhaalbaar scenario en een gescoord ontvangerlog als bewijs daarin.
+
+engine-compliance-req-easa-ops-spoof-reference = SIB 2022-02R4, Recommendation(s): air operators should (spoofing)
+
+engine-compliance-req-easa-ops-spoof-asks = Vergelijk GNSS-positie en -tijd met niet-GNSS-bronnen en let op de positie-onzekerheidswaarde en de navigatiehulpmiddelen om spoofing op te merken.
+
+engine-compliance-req-easa-ops-spoof-gap = Operationele procedures en training vallen buiten simulatie-uitvoer.
+
+engine-compliance-req-easa-ansp-reference = SIB 2022-02R4, Recommendation(s): ATM/ANS providers should; organisations involved in the design or production of ATM/ANS equipment, should
+
+engine-compliance-req-easa-ansp-asks = Beoordeel het effect van verlies van GNSS-tijdsynchronisatie op communicatie-, navigatie- en surveillancesystemen, behoud navigatiehulpmiddelen op de grond en help interferentie te detecteren.
+
+engine-compliance-req-easa-ansp-gap = Holdover-runs voor tijdsynchronisatie gaan over de beoordeling van het tijdverlies; het ontwerp en de procedures van grondsystemen vallen erbuiten.
+
+engine-compliance-req-easa-report-reference = SIB 2022-02R4, Recommendation(s): closing reminders on reporting
+
+engine-compliance-req-easa-report-asks = Meld gebeurtenissen die de veiligheid raken volgens de verordening over het melden van voorvallen, en meld vermoedelijke spoofing en jamming met hoger risico aan de fabrikant.
+
+engine-compliance-req-easa-report-gap = Een meldplicht; geen enkele uitvoer gaat hierover.
+
+engine-compliance-req-nis2-21-1-reference = Artikel 21, lid 1
+
+engine-compliance-req-nis2-21-1-asks = Neem passende en evenredige technische, operationele en organisatorische maatregelen om de risico's voor netwerk- en informatiesystemen te beheersen, gelet op de stand van de techniek, de blootstelling, de omvang en de waarschijnlijkheid en ernst van incidenten.
+
+engine-compliance-req-nis2-21-1-gap = Kshana gaat alleen over de afhankelijkheid van een systeem van positiebepaling en tijdsynchronisatie, niet over informatiebeveiligingsrisico in het algemeen.
+
+engine-compliance-req-nis2-21-2-a-reference = Artikel 21, lid 2, onder a
+
+engine-compliance-req-nis2-21-2-a-asks = Beleid inzake risicoanalyse en beveiliging van informatiesystemen.
+
+engine-compliance-req-nis2-21-2-a-gap = Levert bewijs voor het PNT-deel van een risicoanalyse; het beleid zelf is organisatorisch.
+
+engine-compliance-req-nis2-21-2-b-reference = Artikel 21, lid 2, onder b
+
+engine-compliance-req-nis2-21-2-b-asks = Incidentafhandeling.
+
+engine-compliance-req-nis2-21-2-b-gap = Een gescoord ontvangerlog helpt het begin en einde van een PNT-interferentie-incident te dateren; het afhandelingsproces is organisatorisch.
+
+engine-compliance-req-nis2-21-2-c-reference = Artikel 21, lid 2, onder c
+
+engine-compliance-req-nis2-21-2-c-asks = Bedrijfscontinuïteit, zoals back-upbeheer, noodherstel en crisisbeheer.
+
+engine-compliance-req-nis2-21-2-c-gap = Toont hoe lang een gemodelleerde terugvaloptie een tijds- of positiegrens aanhoudt; continuïteitsplannen zijn organisatorisch.
+
+engine-compliance-req-nis2-21-2-d-reference = Artikel 21, lid 2, onder d
+
+engine-compliance-req-nis2-21-2-d-asks = Beveiliging van de toeleveringsketen, inclusief de relaties met rechtstreekse leveranciers.
+
+engine-compliance-req-nis2-21-2-d-gap = Kshana beoordeelt geen leveranciers. Een neutrale, reproduceerbare bench gebruiken voor de acceptatie van ontvangers is één invoer die een koper kan gebruiken, geen beoordeling van de toeleveringsketen.
+
+engine-compliance-req-nis2-21-2-e-reference = Artikel 21, lid 2, onder e
+
+engine-compliance-req-nis2-21-2-e-asks = Beveiliging bij het verwerven, ontwikkelen en onderhouden van systemen, inclusief de omgang met en bekendmaking van kwetsbaarheden.
+
+engine-compliance-req-nis2-21-2-e-gap = Herhaalbare acceptatietests van het interferentiegedrag van een ontvanger leveren bewijs voor het verwervingsdeel; de omgang met kwetsbaarheden valt erbuiten.
+
+engine-compliance-req-nis2-21-2-f-reference = Artikel 21, lid 2, onder f
+
+engine-compliance-req-nis2-21-2-f-asks = Beleid en procedures om de doeltreffendheid van de maatregelen voor cyberbeveiligingsrisicobeheer te beoordelen.
+
+engine-compliance-req-nis2-21-2-f-gap = Gehashte, herhaalbare runs en gebeurtenissen die vóór het scoren zijn vermeld, leveren bewijs voor een doeltreffendheidstest; het beleid en de planning ervan zijn organisatorisch.
+
+engine-compliance-req-nis2-21-2-ghij-reference = Artikel 21, lid 2, onder g tot en met j
+
+engine-compliance-req-nis2-21-2-ghij-asks = Cyberhygiëne en training; cryptografie en versleuteling; beveiliging van personeel, toegangsbeheer en beheer van activa; multifactorauthenticatie en beveiligde communicatie.
+
+engine-compliance-req-nis2-21-2-ghij-gap = Niet te behandelen met uitvoer van runs voor positiebepaling en tijdsynchronisatie.
+
+engine-compliance-req-nis2-21-3-reference = Artikel 21, lid 3
+
+engine-compliance-req-nis2-21-3-asks = Houd bij het kiezen van maatregelen voor de toeleveringsketen rekening met de kwetsbaarheden van elke leverancier en met de kwaliteit en veilige ontwikkeling van zijn producten.
+
+engine-compliance-req-nis2-21-3-gap = Zie artikel 21, lid 2, onder d.
+
+engine-compliance-req-en16803-1-reference = EN 16803-1 (definities en systeemengineeringprocedures)
+
+engine-compliance-req-en16803-1-asks = Definieert de ITS-architectuur voor het wegverkeer, prestatiekenmerken en -maten, en een methode om testomgevingen te vergelijken. Stelt geen eisen.
+
+engine-compliance-req-en16803-1-gap = Clausulenummers zijn niet openbaar zichtbaar. Een licentiehouder moet de uitvoervelden van Kshana aan de maatdefinities koppelen.
+
+engine-compliance-req-en16803-2-reference = EN 16803-2 (basisprestaties van op GNSS gebaseerde terminals)
+
+engine-compliance-req-en16803-2-asks = Op replay gebaseerde laboratoriumtestprocedures voor beschikbaarheid, continuïteit, nauwkeurigheid, integriteit en tijd tot de eerste positiebepaling van de positie-uitvoer. Stelt geen minimumwaarden.
+
+engine-compliance-req-en16803-2-gap = De geëxporteerde beweging van Kshana kan een replay aansturen; de procedure van de norm, de verwerking van opgenomen signalen en de berekening van de maten worden hier niet gereproduceerd en vereisen de gelicentieerde tekst.
+
+engine-compliance-req-en16803-3-6-reference = EN 16803-3, clausule 6
+
+engine-compliance-req-en16803-3-6-asks = Maakt in de beveiligingstests onderscheid tussen opgenomen en gesimuleerde signalen.
+
+engine-compliance-req-en16803-3-6-gap = Kshana neemt geen signaal op en simuleert er geen. Het exporteert beweging en gebeurtenissen en scoort het log van de ontvanger.
+
+engine-compliance-req-en16803-3-a-reference = EN 16803-3, bijlage A
+
+engine-compliance-req-en16803-3-a-asks = Een categorisering op hoog niveau van aanvallen op GNSS: interferentie, jamming, meaconing en spoofing.
+
+engine-compliance-req-en16803-3-a-gap = De scenario's van Kshana noemen aanvalsklassen in dezelfde algemene termen; een koppeling op clausuleniveau vereist de gelicentieerde bijlage.
+
+engine-compliance-req-nist-id-ra-1-reference = ID.RA-1 (Risk Assessment)
+
+engine-compliance-req-nist-id-ra-1-asks = Identificeer, documenteer en meld kwetsbaarheden van het PNT-systeem en van wat PNT-data distribueert; test waar dat veilig kan de gevoeligheid voor verstoring of manipulatie, wat PNT-signaalsimulatie kan gebruiken, binnen de grenzen van de wet en van bedrijfscontinuïteit.
+
+engine-compliance-req-nist-id-ra-1-gap = Kshana karakteriseert gevoeligheid in gemodelleerde scenario's en in het opgenomen log van een ontvanger. Een inventaris van de kwetsbaarheden van het echte systeem is aan de operator, en elke RF-test wordt uitgevoerd met de eigen apparatuur en machtiging van de operator: Kshana zendt niets uit.
+
+engine-compliance-req-nist-id-ra-3-reference = ID.RA-3 (Risk Assessment)
+
+engine-compliance-req-nist-id-ra-3-asks = Identificeer en documenteer interne en externe dreigingen voor PNT, van natuurlijke en onbedoelde verstoring tot opzettelijke aanvallen zoals jamming, spoofing en vertragingsaanvallen.
+
+engine-compliance-req-nist-id-ra-3-gap = Scenario's stellen dreigingen en hun effecten. Een gedocumenteerde dreigingsbeoordeling voor de eigen locatie en het eigen systeem van de gebruiker moet de gebruiker zelf schrijven; geen enkel scenario is bewijs dat een dreiging daar bestaat.
+
+engine-compliance-req-nist-id-ra-4-reference = ID.RA-4 (Risk Assessment)
+
+engine-compliance-req-nist-id-ra-4-asks = Identificeer mogelijke gevolgen en waarschijnlijkheden; vermeld voor elke dreiging de omvang van het gevolg, hoe de fout zich toont (stap of helling), de detectiedrempels en wat de fout verderop veroorzaakt.
+
+engine-compliance-req-nist-id-ra-4-gap = Runs geven gevolgcijfers (foutgroei, beschermingsniveaus, linkeffecten) voor gemodelleerde sensoren en een opgegeven dreiging. Waarschijnlijkheden worden niet geproduceerd, en een gemodelleerd gevolg is geen gemeten gevolg.
+
+engine-compliance-req-nist-id-ra-5-reference = ID.RA-5 (Risk Assessment)
+
+engine-compliance-req-nist-id-ra-5-asks = Gebruik dreigingen, kwetsbaarheden, waarschijnlijkheden en gevolgen om risico te beoordelen, en beoordeel het periodiek opnieuw en wanneer het systeem of de dreiging verandert.
+
+engine-compliance-req-nist-id-ra-5-gap = De score gebruikt een synthetisch dreigingsensemble, als zodanig vermeld. Gehashte, herhaalbare runs maken een herbeoordeling vergelijkbaar; het risico-oordeel en de planning ervan zijn organisatorisch.
+
+engine-compliance-req-nist-pr-ds-6-reference = PR.DS-6 (Data Security)
+
+engine-compliance-req-nist-pr-ds-6-asks = Verifieer de integriteit van PNT-data wanneer bronnen het oneens zijn, bijvoorbeeld door meerdere frequenties, constellaties of onafhankelijke bronnen onderling te controleren.
+
+engine-compliance-req-nist-pr-ds-6-gap = Kshana berekent beschermingsniveaus en resultaten over meerdere bronnen voor gemodelleerde geometrie en sensoren; de integriteitscontroles binnen een product worden niet waargenomen.
+
+engine-compliance-req-nist-pr-ip-10-reference = PR.IP-10 (Information Protection Processes and Procedures)
+
+engine-compliance-req-nist-pr-ip-10-asks = Test respons- en herstelplannen; verwijder voor een systeem met een back-uptijdbron de primaire bron en bevestig dat tijdnauwkeurigheid, stappen en hellingen binnen de opgegeven klokeisen blijven.
+
+engine-compliance-req-nist-pr-ip-10-gap = Een holdover-run modelleert de verwijdering en toetst de fout aan een opgegeven drempel; een gescoord ontvangerlog toont een echt verlies en herstel. De test op de eigen tijdserver van de operator, en alle RF die daarvoor wordt gebruikt, zijn aan de operator.
+
+engine-compliance-req-nist-pr-pt-5-reference = PR.PT-5 (Protective Technology)
+
+engine-compliance-req-nist-pr-pt-5-asks = Gebruik mechanismen voor weerbaarheid in normale en ongunstige omstandigheden: weiger slechte signalen en data, en combineer holdover met anomaliedetectie, redundante of gefuseerde bronnen en herstel.
+
+engine-compliance-req-nist-pr-pt-5-gap = Gemodelleerde mechanismen en hun grenzen worden getoond; of een product ze implementeert, is een producttest.
+
+engine-compliance-req-nist-de-ae-2-reference = DE.AE-2 (Anomalies and Events)
+
+engine-compliance-req-nist-de-ae-2-asks = Analyseer gedetecteerde PNT-gebeurtenissen in realtime en achteraf (bron, foutstatistieken, duur, frequentie, locatie), onderscheid schadelijke gebeurtenissen van normaal bedrijf, en bewaar de ruwe data en de analyse.
+
+engine-compliance-req-nist-de-ae-2-gap = Kshana scoort een opgenomen log achteraf en bewaart hashes van wat het liet lopen. Het lokaliseert of attribueert geen interferentiebron en bewaakt niet in realtime als dienst.
+
+engine-compliance-req-nist-de-ae-3-reference = DE.AE-3 (Anomalies and Events)
+
+engine-compliance-req-nist-de-ae-3-asks = Verzamel en correleer gebeurtenisdata uit meerdere bronnen en sensoren, en controleer PNT-data uit meer dan één bron onderling om afwijkend gedrag te detecteren.
+
+engine-compliance-req-nist-de-ae-3-gap = De monitoren van Kshana controleren de stromen van één ontvangerlog of één scenario onderling; correlatie over de eigen sensoren en logs van een operator is aan de operator.
+
+engine-compliance-req-nist-de-ae-4-reference = DE.AE-4 (Anomalies and Events)
+
+engine-compliance-req-nist-de-ae-4-asks = Bepaal het gevolg van gebeurtenissen voor PNT-data en voor de toepassingen die ervan afhangen, ook voor zeldzame gebeurtenissen.
+
+engine-compliance-req-nist-de-ae-4-gap = Het gevolg wordt getoond op de PNT-uitvoer van een run of een log. Effecten op een specifieke toepassing verderop vereisen de eigen eisen van die toepassing.
+
+engine-compliance-req-nist-de-ae-5-reference = DE.AE-5 (Anomalies and Events)
+
+engine-compliance-req-nist-de-ae-5-asks = Stel drempels voor incidentalarmen vast en documenteer ze, op basis van de fout- en onzekerheidstoleranties die de toepassing nodig heeft, met de meldtijd.
+
+engine-compliance-req-nist-de-ae-5-gap = Runs worden gescoord ten opzichte van drempels die de gebruiker opgeeft en leggen die vast. De drempels en de alarmprocedure kiezen is aan de gebruiker.
+
+engine-compliance-req-nist-de-cm-1-reference = DE.CM-1 (Security Continuous Monitoring)
+
+engine-compliance-req-nist-de-cm-1-asks = Bewaak PNT-bronnen en -uitvoer ten opzichte van basislijnen om anomalieën te detecteren, met diverse bronnen en foutdetectie en -uitsluiting, en controleer of de bewaking de geïdentificeerde foutmodi dekt.
+
+engine-compliance-req-nist-de-cm-1-gap = Kshana laat zulke monitoren lopen en scoort ze op logs en scenario's. Continue bewaking van een live systeem, en dekking van elke foutmodus van een product, worden niet getoond door een set runs.
+
+engine-compliance-req-nist-de-dp-3-reference = DE.DP-3 (Detection Processes)
+
+engine-compliance-req-nist-de-dp-3-asks = Test dat gebeurtenisdetectie werkt zoals bedoeld, periodiek en na upgrades, tegen actuele dreigingsprofielen.
+
+engine-compliance-req-nist-de-dp-3-gap = Herhaalbare, gehashte scenario's en gebeurtenissen die vóór het scoren zijn vermeld, leveren bewijs voor zo'n test; het volgens planning uitvoeren op de apparatuur van de operator is aan de operator.
+
+engine-compliance-req-nist-rs-an-5-reference = RS.AN-5 (Analysis)
+
+engine-compliance-req-nist-rs-an-5-asks = Zet verificatie en validatie op voor bekende foutmodi en nieuw gevonden kwetsbaarheden, en leg nominale en afwijkende PNT-data van incidenten vast om latere detectie te verbeteren.
+
+engine-compliance-req-nist-rs-an-5-gap = Een gescoord log karakteriseert één incident achteraf. Het ontvangen van en handelen naar bekendgemaakte kwetsbaarheden is een proces buiten elke run.
+
+engine-compliance-req-nist-rs-mi-2-reference = RS.MI-2 (Mitigation)
+
+engine-compliance-req-nist-rs-mi-2-asks = Mitigeer een incident, zodra het is ingedamd, met alternatieve of aanvullende PNT-bronnen zodat het bedrijf doorgaat, en breng het systeem terug in een goede werkende toestand.
+
+engine-compliance-req-nist-rs-mi-2-gap = Runs tonen hoe lang gemodelleerde terugvalbronnen een fout begrensd houden; indamming en terugkeer naar bedrijf zijn operationele stappen.
+
+engine-compliance-mapping-header-reference = Verwijzing
+
+engine-compliance-mapping-header-asks = Wat het vraagt (geparafraseerd)
+
+engine-compliance-mapping-header-capabilities = Kshana-uitvoer die er bewijs voor levert
+
+engine-compliance-mapping-header-gap = Hiaat
+
+engine-compliance-mapping-none = geen
+
+engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Gelezen { $accessed }: { $checked }.

@@ -9303,7 +9303,7 @@ engine-study-footer = Erzeugt von Kshana { $version } als aggregierte Studie von
        *[other] { $n_scenarios } Szenarien
     }. Jedes Szenario ist aus seinem Szenario + Seed + Engine-Version reproduzierbar. Frei und quelloffen (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">Quelltext &amp; Dokumentation</a>.
 
-engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS-Vertrauen { $band }|{ $cef_severity }|{ $ext }
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
 
 engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
 

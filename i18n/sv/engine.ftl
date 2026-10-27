@@ -8969,3 +8969,641 @@ engine-kind-optical-atmosphere-description = MODELLED optisk PNT genom atmosfär
 engine-kind-holdover-test-description = MODELLED holdovertest av ett system för tidssynkronisering, poängsatt ur en tidsfelsregistrering som OPERATÖREN tillhandahåller (en logg från linuxptp ptp4l, phc2sys eller ts2phc, en chrony-logg för tracking eller statistics, en loggfil från TICC, TimeLab eller RINEX-klocka, eller time_s,time_error_ns-par). Testet har fyra steg och Kshana utför inget av dem: en låst BASLINJE, GNSS BORTTAGET av operatören (antennkabeln eller simulatorns utgång; Kshana sänder och styr ingenting) vid en angiven tid, HOLDOVER på systemets egen oscillator och ÅTERHÄMTNING efter att operatören återställer GNSS vid en andra angiven tid. Registreringen delas vid de två tiderna. Baslinje: tidsfelsstatistik och de ITU-T-masker som skrivits för en låst klocka. Holdover: statistik, den relativa frekvensförskjutning som systemet höll (en minstakvadratlinje), de masker som skrivits för holdover eller en autonom klocka, holdoverkuvertet för ePRTC-A utifrån den angivna låsta varaktigheten och tiden för att överskrida varje budget för tidsfel. Återhämtning: om och när |TE| kom inom ett angivet band och stannade där, toppvärdet och det största steget. Varje gräns är avskriven ur en offentlig ITU-T-tabell (masken i telecom-timing); orden är "uppmätt mot masken", och de två tiderna är operatörens uppgift, inte verifierade. En registrering som är för kort för en mask är INCOMPLETE och extrapoleras aldrig. Se docs/TIMING-HIL.md.
 
 engine-kind-gnss-ssv-description = MODELLED GNSS-tillgänglighet och länkstyrka i Space Service Volume och bortom: för en användare på en sfär (ICG-häftets globala skal) eller på en Kepler-bana (LEO till månöverföring) räknas, per konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) och för alla tillsammans, de signaler som är användbara över en C/N0-tröskel - tillgänglighet för minst en och för fyra signaler, maximal avbrottslängd, mottaget C/N0, försämring av precisionen, länkar via huvudlob mot sidolob - med ett sändarmönster från häftet, parametriskt eller angivet av användaren, valfria effekter av jonosfär, plasmasfär och atmosfär för limbstrålar och en valfri utformning av svagsignalsmottagare; också ett GNSS-EKF ombord för HEO- och månöverföringsfarkoster (banmekanik, solstrålningstryck, tredje kroppar, klocka) och relativ navigering för en formation av flera farkoster med enkeldifferentierade pseudoavstånd. Kontrollerad mot tabellerna i ICG SSV-häftet under en förhandsregistrering (xval/gnss-ssv)
+
+engine-bench-site-title-a = Uppgift (a): detektering i mottagarloggar
+
+engine-bench-site-title-b = Uppgift (b): detektering i IQ
+
+engine-bench-site-title-c = Uppgift (c): prediktion av holdover för tidssynkronisering
+
+engine-bench-site-title-d = Uppgift (d): optimismglapp utanför träningsfördelningen
+
+engine-bench-site-col-rmse-3600 = RMSE 3600 s (ns)
+
+engine-bench-site-col-rmse-300 = RMSE 300 s (ns)
+
+engine-bench-site-col-rmse-7200 = RMSE 7200 s (ns)
+
+engine-bench-site-col-auc-in = AUC inom
+
+engine-bench-site-col-auc-out = AUC utanför
+
+engine-bench-site-col-optimism-gap = Optimismglapp
+
+engine-bench-site-col-flag = Flagga
+
+engine-bench-site-col-auc = AUC
+
+engine-bench-site-col-pd-at-pfa-cap = P_d vid P_fa-tak (övre gräns)
+
+engine-bench-site-flag-optimistic = optimistisk
+
+engine-bench-site-flag-within-tolerance = inom toleransen
+
+engine-bench-site-not-available = saknas
+
+engine-bench-site-none-published = Inga resultat har publicerats ännu. En rad visas här först när en resultatfil har poängsatts och lagts till; ingenting på den här sidan är en uppskattning.
+
+engine-bench-site-none-for-task = Inga resultat ännu för den här uppgiften.
+
+engine-bench-site-region-label = Resultat för { $title } { $split }
+
+engine-bench-site-caption-split = Delmängd: { $split }
+
+engine-bench-site-th-system = System
+
+engine-bench-site-th-provenance = Proveniens
+
+engine-bench-site-th-truth-sha256 = Referens-SHA-256
+
+engine-bench-site-provenance-carried = överförd: { $note }
+
+engine-bench-site-provenance-scored = poängsatt
+
+engine-bench-site-heading = Resultattavla för kshana-bench
+
+engine-bench-site-lede = Resultatfiler som poängsatts enligt <code>{ $spec }</code>. En rad anger att den här filen fick det här värdet på den här delmängden. Det betyder inte att någon produkt har betygsatts eller godkänts av någon, och ingen organisation anges som stödjande part.
+
+engine-bench-site-foot = Varje poäng är modellerad om inte en rad anger att en extern oberoende referens instämde. Licens för specifikationen och manifesten: CC-BY-4.0 / CC0 föreslås, ägarens beslut väntar. Den undanhållna datamängden med verkliga data är inte hemlig: se specifikationen, avsnitt 4.
+
+engine-bench-site-meta-description = Poäng för inskickade resultatfiler enligt kshana-bench { $spec }. Endast rådgivande.
+
+engine-iq-campaign-report-roc-heading = Detekterings-ROC
+
+engine-iq-campaign-report-roc-note = <p class="note">Märkt <b>{ $label }</b>. Varje angivet händelsefönster är en positiv och varje fönster av den konfigurerade längden utanför händelserna är en negativ. Ett fönster räknas vid en tröskel när monitorns eget teststatistikvärde når den i fönstret. P<sub>fa</sub> gäller per negativt fönster, inte per test. Samma värden finns i <code>roc.json</code>.</p>
+
+engine-iq-campaign-report-th-alarm-kind = Larmtyp
+
+engine-iq-campaign-report-th-positives = Positiva
+
+engine-iq-campaign-report-th-negatives = Negativa
+
+engine-iq-campaign-report-th-auc = AUC
+
+engine-iq-campaign-report-th-threshold = Tröskel
+
+engine-iq-campaign-report-th-pd-at-it = P<sub>d</sub> vid den
+
+engine-iq-campaign-report-th-pfa-at-it = P<sub>fa</sub> vid den
+
+engine-iq-campaign-report-title = Kampanj { $name }
+
+engine-iq-campaign-report-heading = Återuppspelningskampanj i labb: { $name }
+
+engine-iq-campaign-report-meta = Dataklass <b>{ $data_class }</b> · Kshana { $engine } · { $n_recordings } inspelning(ar) × { $n_frontends } frontend(er) × { $n_designs } utformning(ar) = { $n_cells } celler, { $n_done } klara · digest <code>{ $digest }</code>
+
+engine-iq-campaign-report-digest-incomplete = (ofullständig: inte alla celler är klara)
+
+engine-iq-campaign-report-reference-note = <p class="note">Uppmätta värden kommer från spårning av inspelningarna. Streckade linjer märkta <b>{ $label }</b> är den analytiska referensen för spektral separation <code>{ $formula }</code> vid labbets angivna J/S, med Q utifrån den angivna störningstypen. De är en modell av det angivna förhållandet, inte en mätning och inte en simulering av störningen.</p>
+
+engine-iq-campaign-report-summary-heading = Sammanfattning
+
+engine-iq-campaign-report-th-recording = Inspelning
+
+engine-iq-campaign-report-th-front-end = Frontend
+
+engine-iq-campaign-report-th-design = Utformning
+
+engine-iq-campaign-report-th-satellites = Satelliter
+
+engine-iq-campaign-report-th-mean-availability = Medeltillgänglighet
+
+engine-iq-campaign-report-th-events-lost = Förlorade händelser
+
+engine-iq-campaign-report-th-median-reacq = Median återinfångning (s)
+
+engine-iq-campaign-report-th-pass = Klarade
+
+engine-iq-campaign-report-th-fail = Underkända
+
+engine-iq-campaign-report-degradation-heading = C/N0-försämring mot angiven J/S
+
+engine-iq-campaign-report-scorecard-heading = Resultatkort
+
+engine-iq-campaign-report-scorecard-note-nwpr = <p class="meta">Samma rader som i <code>scorecard.csv</code>. Återinfångning mäts från händelsens förskjutning; avbrott mäts från förlusten av låsning. C/N0-kolumnen och försämringskurvorna använder skattningen NWPR (visar ungefär 8 dB · Bn·T för lågt vid slingans egen jitter, så dess värden beror på slingans utformning); båda skattningarna finns i <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-scorecard-note-m2m4 = <p class="meta">Samma rader som i <code>scorecard.csv</code>. Återinfångning mäts från händelsens förskjutning; avbrott mäts från förlusten av låsning. C/N0-kolumnen och försämringskurvorna använder skattningen M2M4 (okänslig för slingans egen jitter); båda skattningarna finns i <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-th-sat = Sat
+
+engine-iq-campaign-report-th-scope = Omfattning
+
+engine-iq-campaign-report-th-event = Händelse
+
+engine-iq-campaign-report-th-avail = Tillg.
+
+engine-iq-campaign-report-th-loss = Förlust (s)
+
+engine-iq-campaign-report-th-js-at-loss = J/S vid förlust
+
+engine-iq-campaign-report-th-reacq = Återinf. (s)
+
+engine-iq-campaign-report-th-outage = Avbrott (s)
+
+engine-iq-campaign-report-th-cn0 = C/N0
+
+engine-iq-campaign-report-th-pll = PLL σ (°)
+
+engine-iq-campaign-report-th-dll = DLL σ (chip)
+
+engine-iq-campaign-report-th-false-locks = Falska låsningar
+
+engine-iq-campaign-report-th-verdict = Utfall
+
+engine-iq-campaign-report-scope-run = körning
+
+engine-iq-campaign-report-scope-event = händelse
+
+engine-resilience-report-title = Självbedömning av PNT-resiliens
+
+engine-resilience-report-status-partner = PARTNER
+
+engine-resilience-report-summary = <p>Motor { $engine }, scenario { $scenario }, frö { $seed }. Evidensfördelning: { $n_validated } { $validated } / { $n_modelled } { $modelled } delpoäng. Preliminär RPCF-nivå: { $level } ({ $level_basis }).</p>
+
+engine-resilience-report-h-rpcf = Teknikkategorier i DHS RPCF
+
+engine-resilience-report-h-rdrr = Funktioner i RethinkPNT
+
+engine-resilience-report-h-yang = Yangs kriterier
+
+engine-resilience-report-th-category = Kategori
+
+engine-resilience-report-th-function = Funktion
+
+engine-resilience-report-th-criterion = Kriterium
+
+engine-resilience-report-th-subscore = Delpoäng
+
+engine-resilience-report-th-status = Status
+
+engine-resilience-report-th-basis = Underlag
+
+engine-resilience-report-integrity = <p>SHA-256-integritet: <code>{ $integrity }</code></p>
+
+engine-study-summary = studie "{ $title }": { $n_scenarios } scenarier
+
+engine-study-metric-holdover = Holdover (s)
+
+engine-study-metric-timing-rms = Tidssynkroniserings-RMS (ns)
+
+engine-study-metric-timing-p95 = Tidssynkronisering p95 (ns)
+
+engine-study-metric-resilience-slope = Resiliens, lutning (ns/s)
+
+engine-study-metric-availability = Tillgänglighet
+
+engine-study-metric-integrity = Integritet
+
+engine-study-metric-security = Säkerhet
+
+engine-study-th-metric = Mått
+
+engine-study-th-validation = Validering
+
+engine-study-not-applicable-no-attack = saknas (ingen attack)
+
+engine-study-page-title = { $title } — Kshana-studie
+
+engine-study-eyebrow = क्षण · det exakta ögonblicket
+
+engine-study-h-comparison = Jämförelse sida vid sida
+
+engine-study-tier-note = Varje kvalitetsmått är märkt { $validated } (kontrollerad mot en extern oberoende referens) eller { $modelled } (härledd ur grundprinciper, internt testad), härlett ur verifieringsmatrisen. Kolumnerna är oberoende scenarier; värdena är inte normaliserade mellan scenarier.
+
+engine-study-footer = Genererad av Kshana { $version } som en aggregerad studie av { $n_scenarios } scenarier. Varje scenario kan återskapas från sitt scenario + frö + motorversion. Fri och öppen källkod (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">källkod &amp; dokumentation</a>.
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
+
+engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
+
+engine-compliance-fw-imo-ships-title = IMO:s vägledning om GNSS-störning för fartyg
+
+engine-compliance-fw-easa-aviation-title = EASA:s vägledning om GNSS-störning för luftfart
+
+engine-compliance-fw-nis2-art21-title = EU:s NIS2-direktiv, artikel 21 om riskhanteringsåtgärder
+
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-baserad positionering för ITS på väg
+
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
+
+engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
+
+engine-compliance-source-dhs-rpcf-1-version = Version 2.0, 26 april 2022 (DHS Science and Technology Directorate, tillsammans med CISA)
+
+engine-compliance-source-dhs-rpcf-1-checked = dokumentet har lästs i sin helhet; publikationens startsida har inte hämtats
+
+engine-compliance-source-imo-ships-1-title = Deliberate interference with the United States Global Positioning System and other global navigation satellite systems
+
+engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644, 18 oktober 2021
+
+engine-compliance-source-imo-ships-1-checked = texten har lästs i sin helhet från den här tredjepartsspegeln av cirkuläret, inte från IMO:s webbplats; kontrollera IMO:s dokumentbibliotek för den auktoritativa versionen
+
+engine-compliance-source-imo-ships-2-title = Worldwide Radionavigation System
+
+engine-compliance-source-imo-ships-2-version = IMO:s församlingsresolution A.1046(27), antagen 30 november 2011
+
+engine-compliance-source-imo-ships-2-checked = dokumentet har lästs i sin helhet
+
+engine-compliance-source-imo-ships-3-title = Performance standards for multi-system shipborne radionavigation receivers
+
+engine-compliance-source-imo-ships-3-version = IMO MSC.401(95), antagen 8 juni 2015 (ändrad genom MSC.432(98), 2017)
+
+engine-compliance-source-imo-ships-3-checked = den ursprungliga resolutionen har lästs i sin helhet; texten till ändringen från 2017 har inte lästs. Inget IMO-cirkulär om GNSS-störning som är senare än MSC.1/Circ.1644 hittades; kontrollera IMO:s dokumentbibliotek för nyare
+
+engine-compliance-source-easa-aviation-1-title = Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation
+
+engine-compliance-source-easa-aviation-1-version = EASA Safety Information Bulletin SIB 2022-02R4, utfärdat 3 juli 2026, rättat 22 juli 2026 (upplysande, inte obligatoriskt)
+
+engine-compliance-source-easa-aviation-1-checked = revision 4 har lästs i sin helhet; avsnitt anges med rubrik eftersom bulletinen inte numrerar sina rekommendationer. Kontrollerades på nytt 2026-10-10: bulletinens PDF, EASA:s AD-verktygssida (som anger att den inte ersatts av någon annan) och EASA:s GNSS-sida nämner ingen senare revision och ingen bulletin med numret 2026-07; en banderoll som nämner revision 2 av SIB 2026-07 hittades inte, så frågan är öppen och bör kontrolleras på EASA:s aktiva sida. Conflict Zone Information Bulletins öppnades inte
+
+engine-compliance-source-nis2-art21-1-title = Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS 2 Directive)
+
+engine-compliance-source-nis2-art21-1-version = EUT L 333, 27.12.2022, s. 80-152
+
+engine-compliance-source-nis2-art21-1-checked = bokstäverna i artikel 21:s punkter lästes från en sammanfattning av EUR-Lex-sidan och motsvarar den publicerade texten; bekräfta mot sidan innan en bokstav anges i en inlaga
+
+engine-compliance-source-en-16803-1-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 1: Definitions and system engineering procedures for the establishment and assessment of performances
+
+engine-compliance-source-en-16803-1-version = EN 16803-1:2020 (katalog: gäller från 2 oktober 2020, ersätter utgåvan från 2016)
+
+engine-compliance-source-en-16803-1-checked = endast katalogens omfattningstext; standarden är avgiftsbelagd och har inte lästs
+
+engine-compliance-source-en-16803-2-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals
+
+engine-compliance-source-en-16803-2-version = EN 16803-2:2020 (katalog: gäller från 2 oktober 2020)
+
+engine-compliance-source-en-16803-2-checked = endast katalogens omfattningstext; standarden är avgiftsbelagd och har inte lästs
+
+engine-compliance-source-en-16803-3-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals
+
+engine-compliance-source-en-16803-3-version = EN 16803-3:2020 (katalog: gäller från 2 oktober 2020)
+
+engine-compliance-source-en-16803-3-checked = endast katalogens omfattningstext; standarden är avgiftsbelagd och har inte lästs. Katalogtexten nämner med nummer endast avsnitt 6 (inspelade kontra simulerade signaler) och bilaga A (en övergripande kategorisering av attacker); katalogen anger inget kommitténamn, så inget anges här
+
+engine-compliance-source-nist-ir-8323r1-1-title = Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services
+
+engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1, januari 2023 (NIST Internal Report)
+
+engine-compliance-source-nist-ir-8323r1-1-checked = PDF-filen hämtades 2026-10-18 (SHA-256 antecknat i tests/fixtures/compliance/headings.json) och profilens tabeller 3 till 25 lästes för de underkategorier som anges; övriga avsnitt, bilagorna och publikationens startsida har inte lästs. Underkategoriernas identifierare följer profilens egna tabeller, som använder identifierare från Cybersecurity Framework 1.1
+
+engine-compliance-cap-receiver-log-trust-name = Förtroendebedömning av mottagarlogg
+
+engine-compliance-cap-receiver-log-trust-output = förtroendetillstånd per epok för en verklig mottagares egen logg, larmtider och samstämmighet med händelser som angetts före körningen
+
+engine-compliance-cap-jamming-effects-name = Länkbudgetseffekter av jamming
+
+engine-compliance-cap-jamming-effects-output = bärvåg-till-brus-täthet och låsningstillstånd per satellit under en angiven jammergeometri
+
+engine-compliance-cap-spoofing-detection-name = Detektering av spoofing och meaconing
+
+engine-compliance-cap-spoofing-detection-output = detektorbeslut och detektorns urskiljningsförmåga under en angiven spoofingattack
+
+engine-compliance-cap-integrity-monitoring-name = Integritetsövervakning och skyddsnivåer
+
+engine-compliance-cap-integrity-monitoring-output = skyddsnivåer, tillgänglighet mot larmgränser och resultat av feldetektering
+
+engine-compliance-cap-holdover-name = Holdover och frirullning
+
+engine-compliance-cap-holdover-output = tillväxt av position- eller tidsfel medan GNSS är nekat, mot en angiven tröskel
+
+engine-compliance-cap-source-diversity-name = Alternativa och diversifierade PNT-källor
+
+engine-compliance-cap-source-diversity-output = navigerings- eller tidsprestanda från källor som är oberoende av det primära GNSS-bandet
+
+engine-compliance-cap-resilience-scoring-name = Resiliensbedömning över hotensembler
+
+engine-compliance-cap-resilience-scoring-output = överlevnads- och resilienskvoter per hotvektor över en angiven ensemble, med antagandena angivna
+
+engine-compliance-cap-run-provenance-name = Reproducerbar proveniens för körningar
+
+engine-compliance-cap-run-provenance-output = scenariohash, motorversion och frö som följer med varje resultat så att en körning kan upprepas
+
+engine-compliance-req-dhs-s5-2-reference = Avsnitt 5.2 (Prevent, Respond, Recover)
+
+engine-compliance-req-dhs-s5-2-asks = Resiliens beskrivs som tre funktioner: att förebygga skada, att reagera (upptäcka, rapportera, begränsa, hejda) och att återhämta sig. Detektering är probabilistisk, så både falsklarm och missade detekteringar spelar roll.
+
+engine-compliance-req-dhs-s5-2-gap = Förebyggande är en egenskap hos produktens utformning som ingen simuleringsutdata visar. Detekteringsstatistik från en syntetisk körning eller en körning i en enda session är inte en uppmätt falsklarms- eller missfrekvens för en produkt i drift.
+
+engine-compliance-req-dhs-l1-r1-reference = Nivå 1, krav 1
+
+engine-compliance-req-dhs-l1-r1-asks = Kontrollera att lagrade data som kommer från externa källor stämmer med formaten och värdeintervallen i de relevanta standarderna.
+
+engine-compliance-req-dhs-l1-r1-gap = En egenskap hos programvarusäkring och indatavalidering i produkten som testas. Kshana granskar inte en produkts hantering av indata.
+
+engine-compliance-req-dhs-l1-r2-reference = Nivå 1, krav 2
+
+engine-compliance-req-dhs-l1-r2-asks = Tillåt full manuell återhämtning genom att rensa eller återställa minnet, så att systemet återgår till definierad prestanda när hotet är borta.
+
+engine-compliance-req-dhs-l1-r2-gap = En mottagarlogg visar när en positionsbestämning blev ej betrodd och när den återhämtade sig; den visar inte att en manuell återställning rensar alla lagrade tillstånd.
+
+engine-compliance-req-dhs-l1-r3-reference = Nivå 1, krav 3
+
+engine-compliance-req-dhs-l1-r3-asks = Ladda om eller uppdatera firmware på ett säkert sätt.
+
+engine-compliance-req-dhs-l1-r3-gap = Säkerheten i firmwareuppdatering ligger utanför det som någon Kshana-utdata observerar.
+
+engine-compliance-req-dhs-l2-r4-reference = Nivå 2, krav 4
+
+engine-compliance-req-dhs-l2-r4-asks = Identifiera komprometterade PNT-källor och hindra dem från att förvanska lösningen.
+
+engine-compliance-req-dhs-l2-r4-gap = Kshana poängsätter detektorer och monitorer som den modellerar eller kör över en logg; om en produkts egen källuteslutning fungerar kräver produktens interna tillstånd, inte bara dess logg.
+
+engine-compliance-req-dhs-l2-r5-reference = Nivå 2, krav 5
+
+engine-compliance-req-dhs-l2-r5-asks = Återställ källor och systemet automatiskt utan att avbryta utdata; en lösning tillhandahålls fortfarande under hotet, med möjligen obegränsad försämring.
+
+engine-compliance-req-dhs-l2-r5-gap = Holdover-körningar avgränsar modellerad drift för en angiven klock- eller tröghetsmodell, inte produktens eget återhämtningsbeteende.
+
+engine-compliance-req-dhs-l3-r6-reference = Nivå 3, krav 6
+
+engine-compliance-req-dhs-l3-r6-asks = Korrupta data från en källa får inte förorena en annan källa.
+
+engine-compliance-req-dhs-l3-r6-gap = Kshana kör källor sida vid sida; källisolering inuti en produkt kräver designgranskning eller felinjektion i produkten.
+
+engine-compliance-req-dhs-l3-r7-reference = Nivå 3, krav 7
+
+engine-compliance-req-dhs-l3-r7-asks = Korskontrollera lösningarna från alla källor och håll försämringen under ett hot avgränsad.
+
+engine-compliance-req-dhs-l3-r7-gap = Avgränsad försämring visas för de modellerade sensorerna; produktens egen korskontroll observeras inte.
+
+engine-compliance-req-dhs-l4-r8-reference = Nivå 4, krav 8
+
+engine-compliance-req-dhs-l4-r8-asks = Använd källor med olika teknik mot hot med gemensam orsak, utan försämring under hotet.
+
+engine-compliance-req-dhs-l4-r8-gap = Ett resonemang om gemensam orsak kräver den verkliga produktens källuppsättning och ett hot som omfattar dem; ett scenario anger ett sådant, det bevisar inte att produkten saknar en delad svaghet.
+
+engine-compliance-req-dhs-s5-5-reference = Avsnitt 5.5 (gemensam orsak)
+
+engine-compliance-req-dhs-s5-5-asks = Diversifierade mekanismer får inte dela en svaghet: till exempel besegrar en jammer som täcker två band banddiversiteten.
+
+engine-compliance-req-dhs-s5-5-gap = Poängsättningen använder en syntetisk hotensemble, angiven som sådan; den är inte fältdata.
+
+engine-compliance-req-dhs-s8-1-8-3-reference = Avsnitt 8.1 till 8.3 (utvärdering)
+
+engine-compliance-req-dhs-s8-1-8-3-asks = Utvärderingen kombinerar statisk analys med dynamisk analys, där testvektorer står i för hot; testklasserna är källfel, störning och interna fel. Simulatorer nämns som testmetod.
+
+engine-compliance-req-dhs-s8-1-8-3-gap = Exporterad rörelse och exporterade händelser kan styra en laboratoriesimulator (docs/TEST-BENCH.md). Kshana skriver ingen signal, så simulatorn och dess behöriga operatör står för hotet.
+
+engine-compliance-req-dhs-s8-6-reference = Avsnitt 8.6 (delar i en testplan)
+
+engine-compliance-req-dhs-s8-6-asks = En testplan anger nivå, krav, indata, referenser, nödvändig dataåtkomst, procedur med pass- eller fail-kriterier, resultat och anteckningar.
+
+engine-compliance-req-dhs-s8-6-gap = Pass- eller fail-kriterier väljs av bedömaren; Kshana registrerar de indata, trösklar och hashar den körde med.
+
+engine-compliance-req-imo-1644-3-reference = MSC.1/Circ.1644, punkt 3
+
+engine-compliance-req-imo-1644-3-asks = Avsiktlig GNSS-störning är en väsentlig risk för sjösäkerheten, för människor, egendom och miljön.
+
+engine-compliance-req-imo-1644-3-gap = Ett påstående om risk; Kshana kvantifierar effekter för en angiven geometri, inte risken i ett havsområde.
+
+engine-compliance-req-imo-1644-5-reference = MSC.1/Circ.1644, punkt 5
+
+engine-compliance-req-imo-1644-5-asks = Medlemsstater uppmanas att begränsa störning från sitt territorium, överväga varningar till sjöfarande och överväga åtgärder mot otillåtna sändningar.
+
+engine-compliance-req-imo-1644-5-gap = Riktat till stater och förvaltningar; ingen simuleringsutdata berör det.
+
+engine-compliance-req-imo-a1046-3-reference = Resolution A.1046(27), bilaga punkt 3 (hamninlopp, hamnanlöp och kustvatten)
+
+engine-compliance-req-imo-a1046-3-asks = Ett system räknas som tillgängligt endast så länge det levererar den angivna integriteten vid den angivna noggrannheten, uppdaterat med en angiven takt, med en integritetsvarning inom en angiven tid.
+
+engine-compliance-req-imo-a1046-3-gap = Kshana beräknar skyddsnivåer och tillgänglighet mot en larmgräns för en modellerad geometri; resolutionens värden för noggrannhet, tillgänglighet och varningstid görs inte gällande här.
+
+engine-compliance-req-imo-a1046-2-reference = Resolution A.1046(27), bilaga punkt 2 (oceaner)
+
+engine-compliance-req-imo-a1046-2-asks = Krav på noggrannhet, uppdateringstakt, tillgänglighet och integritetsvarning för radionavigationssystemet i oceanfasen.
+
+engine-compliance-req-imo-a1046-2-gap = Som ovan för oceanfasen.
+
+engine-compliance-req-imo-401-3-1-reference = MSC.401(95), 3.1 till 3.2
+
+engine-compliance-req-imo-401-3-1-asks = Mottagaren använder civila signaler från minst två oberoende system och levererar en lösning för position, hastighet och tid med den resiliens och integritet som krävs.
+
+engine-compliance-req-imo-401-3-1-gap = Integritet med flera konstellationer modelleras; mottagarens faktiska användning av två system är ett produkttest.
+
+engine-compliance-req-imo-401-3-11-reference = MSC.401(95), 3.11 till 3.14
+
+engine-compliance-req-imo-401-3-11-asks = Mottagaren bedömer noggrannhet och integritet per navigeringsfas, ger en försiktighetsvarning när den inte kan, varnar när ingen ny lösning kommer i tid och visar det senaste rimliga värdet med ett uttryckligt tillstånd.
+
+engine-compliance-req-imo-401-3-11-gap = Kshana läser tidssynkronisering och förtroende från en logg; om de visade försiktighets- och varningsintervallen motsvarar standardens behov kräver det mottagarens användargränssnitt, vilket en logg inte visar.
+
+engine-compliance-req-imo-401-3-16-reference = MSC.401(95), 3.15 till 3.16
+
+engine-compliance-req-imo-401-3-16-asks = Visa status för förstärkning samt position, kurs, fart, tid och de källor som används.
+
+engine-compliance-req-imo-401-3-16-gap = Visningskrav; ingen Kshana-utdata berör dem.
+
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
+
+engine-compliance-req-imo-401-4-2-asks = Fungera tillfredsställande under normala störningsförhållanden, i linje med resolution A.694(17) (allmänna krav för fartygsburen radioutrustning) och den typiska radiomiljön ombord och utanför. Detta är inte ett krav på skydd mot jamming eller spoofing.
+
+engine-compliance-req-imo-401-4-2-gap = Provning under normal störning är en laboratoriemätning på mottagaren; själva resolution A.694(17) har inte lästs.
+
+engine-compliance-req-easa-desc-reference = SIB 2022-02R4, beskrivning
+
+engine-compliance-req-easa-desc-asks = Spoofing är svårare att upptäcka och farligare än jamming; det finns inget cockpitlarm som skiljer de två åt; effekterna sträcker sig från falska terrängvarningar till förvanskade övervakningsdata och kan finnas kvar efter att man lämnat området.
+
+engine-compliance-req-easa-desc-gap = Kshana modellerar detektor- och länkeffekter; cockpitlarm är en utrustningsegenskap.
+
+engine-compliance-req-easa-mfr-reference = SIB 2022-02R4, rekommendation(er): flygplans- och utrustningstillverkare bör
+
+engine-compliance-req-easa-mfr-asks = Bedöma effekterna av jamming och spoofing på produkten, inklusive ackumulerade effekter, och ge operatörer vägledning om hur man upptäcker misstänkt spoofing och om driftbegränsningar när GNSS förloras.
+
+engine-compliance-req-easa-mfr-gap = Bedömningen av själva produkten ligger hos tillverkaren; Kshana tillhandahåller ett repeterbart scenario och en poängsatt mottagarlogg som evidens i den.
+
+engine-compliance-req-easa-ops-spoof-reference = SIB 2022-02R4, rekommendation(er): lufttrafikföretag bör (spoofing)
+
+engine-compliance-req-easa-ops-spoof-asks = Jämföra GNSS-position och GNSS-tid med icke-GNSS-källor och följa värdet för positionsosäkerhet och navigeringshjälpmedel för att upptäcka spoofing.
+
+engine-compliance-req-easa-ops-spoof-gap = Operativa rutiner och utbildning ligger utanför simuleringsutdata.
+
+engine-compliance-req-easa-ansp-reference = SIB 2022-02R4, rekommendation(er): ATM/ANS-leverantörer bör; organisationer som deltar i utformning eller tillverkning av ATM/ANS-utrustning bör
+
+engine-compliance-req-easa-ansp-asks = Bedöma effekten av förlorad GNSS-tidssynkronisering på kommunikations-, navigerings- och övervakningssystem, behålla markbaserade navigeringshjälpmedel och hjälpa till att upptäcka störning.
+
+engine-compliance-req-easa-ansp-gap = Körningar av tidssynkroniserings-holdover berör bedömningen av förlorad tidssynkronisering; markssystemens utformning och rutiner omfattas inte.
+
+engine-compliance-req-easa-report-reference = SIB 2022-02R4, rekommendation(er): avslutande påminnelser om rapportering
+
+engine-compliance-req-easa-report-asks = Rapportera händelser som påverkar säkerheten enligt förordningen om rapportering av händelser, och rapportera misstänkt spoofing och jamming med högre risk till tillverkaren.
+
+engine-compliance-req-easa-report-gap = En rapporteringsskyldighet; ingen utdata berör den.
+
+engine-compliance-req-nis2-21-1-reference = Artikel 21.1
+
+engine-compliance-req-nis2-21-1-asks = Vidta proportionerliga tekniska, operativa och organisatoriska åtgärder för att hantera riskerna för nät- och informationssystem, med hänsyn till det senaste tekniska utvecklingsläget, exponering, storlek samt sannolikheten för och allvarlighetsgraden hos incidenter.
+
+engine-compliance-req-nis2-21-1-gap = Kshana berör endast ett systems beroende av positionering och tidssynkronisering, inte informationssäkerhetsrisker i allmänhet.
+
+engine-compliance-req-nis2-21-2-a-reference = Artikel 21.2 a
+
+engine-compliance-req-nis2-21-2-a-asks = Policyer för riskanalys och för säkerhet i informationssystem.
+
+engine-compliance-req-nis2-21-2-a-gap = Ger belägg för PNT-delen av en riskanalys; själva policyn är organisatorisk.
+
+engine-compliance-req-nis2-21-2-b-reference = Artikel 21.2 b
+
+engine-compliance-req-nis2-21-2-b-asks = Incidenthantering.
+
+engine-compliance-req-nis2-21-2-b-gap = En poängsatt mottagarlogg hjälper till att datera början och slutet på en incident med PNT-störning; hanteringsprocessen är organisatorisk.
+
+engine-compliance-req-nis2-21-2-c-reference = Artikel 21.2 c
+
+engine-compliance-req-nis2-21-2-c-asks = Kontinuitet i verksamheten, till exempel hantering av säkerhetskopior, katastrofåterställning och krishantering.
+
+engine-compliance-req-nis2-21-2-c-gap = Visar hur länge en modellerad reservlösning håller ett tids- eller positionsfel avgränsat; kontinuitetsplaner är organisatoriska.
+
+engine-compliance-req-nis2-21-2-d-reference = Artikel 21.2 d
+
+engine-compliance-req-nis2-21-2-d-asks = Säkerhet i leveranskedjan, inklusive relationer med direkta leverantörer.
+
+engine-compliance-req-nis2-21-2-d-gap = Kshana bedömer inte leverantörer. Att använda en neutral, reproducerbar bench för mottagaracceptans är ett underlag som en köpare kan använda, inte en bedömning av leveranskedjan.
+
+engine-compliance-req-nis2-21-2-e-reference = Artikel 21.2 e
+
+engine-compliance-req-nis2-21-2-e-asks = Säkerhet vid anskaffning, utveckling och underhåll av system, inklusive hantering och utlämnande av sårbarheter.
+
+engine-compliance-req-nis2-21-2-e-gap = Upprepningsbara acceptanstester av en mottagares störningsbeteende ger belägg för anskaffningsdelen; hantering av sårbarheter ligger utanför.
+
+engine-compliance-req-nis2-21-2-f-reference = Artikel 21.2 f
+
+engine-compliance-req-nis2-21-2-f-asks = Policyer och rutiner för att bedöma hur effektiva åtgärderna för cybersäkerhetsriskhantering är.
+
+engine-compliance-req-nis2-21-2-f-gap = Hashade, upprepningsbara körningar och händelser som angetts före poängsättningen ger belägg för ett effektivitetstest; policyn och dess tidsplan är organisatoriska.
+
+engine-compliance-req-nis2-21-2-ghij-reference = Artikel 21.2 g till j
+
+engine-compliance-req-nis2-21-2-ghij-asks = Cyberhygien och utbildning; kryptografi och kryptering; personalsäkerhet, åtkomstkontroll och tillgångshantering; multifaktorautentisering och säkrad kommunikation.
+
+engine-compliance-req-nis2-21-2-ghij-gap = Kan inte åtgärdas med utdata från körningar av positionering och tidssynkronisering.
+
+engine-compliance-req-nis2-21-3-reference = Artikel 21.3
+
+engine-compliance-req-nis2-21-3-asks = Vid val av åtgärder för leveranskedjan, beakta varje leverantörs sårbarheter samt kvaliteten och den säkra utvecklingen av dess produkter.
+
+engine-compliance-req-nis2-21-3-gap = Se artikel 21.2 d.
+
+engine-compliance-req-en16803-1-reference = EN 16803-1 (definitioner och systemtekniska förfaranden)
+
+engine-compliance-req-en16803-1-asks = Definierar arkitekturen, prestandaegenskaperna och måtten för ITS på väg samt en metod för att jämföra testmiljöer. Ställer inga krav.
+
+engine-compliance-req-en16803-1-gap = Avsnittsnumren är inte offentligt synliga. En licensinnehavare bör koppla Kshanas utdatafält till måttdefinitionerna.
+
+engine-compliance-req-en16803-2-reference = EN 16803-2 (grundläggande prestanda hos GNSS-baserade terminaler)
+
+engine-compliance-req-en16803-2-asks = Laboratorietestprocedurer baserade på återuppspelning för tillgänglighet, kontinuitet, noggrannhet, integritet och tid till första positionsbestämning för positionsutdata. Anger inga miniminivåer.
+
+engine-compliance-req-en16803-2-gap = Kshanas exporterade rörelse kan driva en återuppspelning; standardens procedur, dess hantering av inspelade signaler och dess måttberäkning återges inte här och kräver den licensierade texten.
+
+engine-compliance-req-en16803-3-6-reference = EN 16803-3, avsnitt 6
+
+engine-compliance-req-en16803-3-6-asks = Skiljer inspelade signaler från simulerade signaler i säkerhetstesterna.
+
+engine-compliance-req-en16803-3-6-gap = Kshana varken spelar in eller simulerar en signal. Den exporterar rörelse och händelser och poängsätter mottagarens logg.
+
+engine-compliance-req-en16803-3-a-reference = EN 16803-3, bilaga A
+
+engine-compliance-req-en16803-3-a-asks = En övergripande kategorisering av attacker mot GNSS: störning, jamming, meaconing och spoofing.
+
+engine-compliance-req-en16803-3-a-gap = Kshanas scenarier anger attackklasser i samma övergripande termer; en korsreferens på avsnittsnivå kräver den licensierade bilagan.
+
+engine-compliance-req-nist-id-ra-1-reference = ID.RA-1 (Risk Assessment)
+
+engine-compliance-req-nist-id-ra-1-asks = Identifiera, dokumentera och rapportera sårbarheter hos PNT-systemet och hos det som distribuerar PNT-data; där det är säkert, testa känsligheten för störning eller manipulation, vilket kan använda simulering av PNT-signaler, inom gränserna för lagen och verksamhetskontinuiteten.
+
+engine-compliance-req-nist-id-ra-1-gap = Kshana karakteriserar känslighet i modellerade scenarier och i en mottagares inspelade logg. En förteckning över det verkliga systemets sårbarheter ligger hos operatören, och varje RF-test körs med operatörens egen utrustning och egna tillstånd: Kshana sänder ingenting.
+
+engine-compliance-req-nist-id-ra-3-reference = ID.RA-3 (Risk Assessment)
+
+engine-compliance-req-nist-id-ra-3-asks = Identifiera och dokumentera interna och externa hot mot PNT, från naturliga och oavsiktliga störningar till avsiktliga attacker som jamming, spoofing och fördröjningsattacker.
+
+engine-compliance-req-nist-id-ra-3-gap = Scenarier anger hot och deras effekter. En dokumenterad hotbedömning för användarens egen plats och eget system är användarens att skriva; inget scenario är evidens för att ett hot finns där.
+
+engine-compliance-req-nist-id-ra-4-reference = ID.RA-4 (Risk Assessment)
+
+engine-compliance-req-nist-id-ra-4-asks = Identifiera möjliga konsekvenser och sannolikheter; ange för varje hot konsekvensens omfattning, hur felet visar sig (steg eller ramp), detekteringströsklarna och vad felet gör längre fram i kedjan.
+
+engine-compliance-req-nist-id-ra-4-gap = Körningar ger konsekvensvärden (feltillväxt, skyddsnivåer, länkeffekter) för modellerade sensorer och ett angivet hot. Sannolikheter tas inte fram, och en modellerad konsekvens är inte en uppmätt.
+
+engine-compliance-req-nist-id-ra-5-reference = ID.RA-5 (Risk Assessment)
+
+engine-compliance-req-nist-id-ra-5-asks = Använd hot, sårbarheter, sannolikheter och konsekvenser för att bedöma risk, och bedöm den på nytt regelbundet och när systemet eller hotet ändras.
+
+engine-compliance-req-nist-id-ra-5-gap = Poängsättningen använder en syntetisk hotensemble, angiven som sådan. Hashade, upprepningsbara körningar gör en ny bedömning jämförbar; riskbedömningen och dess tidsplan är organisatoriska.
+
+engine-compliance-req-nist-pr-ds-6-reference = PR.DS-6 (Data Security)
+
+engine-compliance-req-nist-pr-ds-6-asks = Verifiera integriteten hos PNT-data när källor avviker från varandra, till exempel genom korskontroll av flera frekvenser, konstellationer eller oberoende källor.
+
+engine-compliance-req-nist-pr-ds-6-gap = Kshana beräknar skyddsnivåer och resultat över flera källor för modellerad geometri och modellerade sensorer; integritetskontrollerna inuti en produkt observeras inte.
+
+engine-compliance-req-nist-pr-ip-10-reference = PR.IP-10 (Information Protection Processes and Procedures)
+
+engine-compliance-req-nist-pr-ip-10-asks = Testa planer för respons och återhämtning; för ett system med en reservtidskälla, ta bort den primära källan och bekräfta att tidsnoggrannheten, stegen och rampena håller sig inom de angivna klockkraven.
+
+engine-compliance-req-nist-pr-ip-10-gap = En holdover-körning modellerar borttagningen och kontrollerar felet mot en angiven tröskel; en poängsatt mottagarlogg visar en verklig förlust och återhämtning. Testet på operatörens egen tidsserver, och all RF som används för det, ligger hos operatören.
+
+engine-compliance-req-nist-pr-pt-5-reference = PR.PT-5 (Protective Technology)
+
+engine-compliance-req-nist-pr-pt-5-asks = Använd mekanismer för resiliens under normala och ogynnsamma förhållanden: förkasta dåliga signaler och data, och para holdover med anomalidetektering, redundanta eller fuserade källor och återhämtning.
+
+engine-compliance-req-nist-pr-pt-5-gap = Modellerade mekanismer och deras begränsningar visas; om en produkt implementerar dem är ett produkttest.
+
+engine-compliance-req-nist-de-ae-2-reference = DE.AE-2 (Anomalies and Events)
+
+engine-compliance-req-nist-de-ae-2-asks = Analysera upptäckta PNT-händelser i realtid och efteråt (källa, felstatistik, varaktighet, frekvens, plats), skilj skadliga händelser från normal drift och behåll rådata och analys.
+
+engine-compliance-req-nist-de-ae-2-gap = Kshana poängsätter en inspelad logg i efterhand och behåller hashar av det den körde. Den lokaliserar eller tillskriver inte en störningskälla och övervakar inte i realtid som en tjänst.
+
+engine-compliance-req-nist-de-ae-3-reference = DE.AE-3 (Anomalies and Events)
+
+engine-compliance-req-nist-de-ae-3-asks = Samla in och korrelera händelsedata från flera källor och sensorer, och korskontrollera PNT-data från mer än en källa för att upptäcka avvikande beteende.
+
+engine-compliance-req-nist-de-ae-3-gap = Kshanas monitorer korskontrollerar strömmarna i en mottagarlogg eller ett scenario; korrelation över en operatörs egna sensorer och loggar ligger hos operatören.
+
+engine-compliance-req-nist-de-ae-4-reference = DE.AE-4 (Anomalies and Events)
+
+engine-compliance-req-nist-de-ae-4-asks = Fastställ händelsernas konsekvenser för PNT-data och för de tillämpningar som är beroende av dem, inklusive sällsynta händelser.
+
+engine-compliance-req-nist-de-ae-4-gap = Konsekvensen visas på PNT-utdata från en körning eller en logg. Effekter på en viss tillämpning längre fram i kedjan kräver den tillämpningens egna krav.
+
+engine-compliance-req-nist-de-ae-5-reference = DE.AE-5 (Anomalies and Events)
+
+engine-compliance-req-nist-de-ae-5-asks = Ange och dokumentera larmtrösklar för incidenter utifrån de fel- och osäkerhetstoleranser som tillämpningen behöver, med aviseringstiden.
+
+engine-compliance-req-nist-de-ae-5-gap = Körningar poängsätts mot trösklar som användaren anger och registrerar dem. Att välja trösklarna och larmproceduren ligger hos användaren.
+
+engine-compliance-req-nist-de-cm-1-reference = DE.CM-1 (Security Continuous Monitoring)
+
+engine-compliance-req-nist-de-cm-1-asks = Övervaka PNT-källor och utdata mot baslinjer för att upptäcka anomalier, med diversifierade källor samt feldetektering och uteslutning, och kontrollera att övervakningen täcker de identifierade felmoderna.
+
+engine-compliance-req-nist-de-cm-1-gap = Kshana kör och poängsätter sådana monitorer på loggar och scenarier. Kontinuerlig övervakning av ett live-system och täckning av alla felmoder hos en produkt visas inte av en uppsättning körningar.
+
+engine-compliance-req-nist-de-dp-3-reference = DE.DP-3 (Detection Processes)
+
+engine-compliance-req-nist-de-dp-3-asks = Testa att händelsedetekteringen fungerar som avsett, regelbundet och efter uppgraderingar, mot aktuella hotprofiler.
+
+engine-compliance-req-nist-de-dp-3-gap = Upprepningsbara, hashade scenarier och händelser som angetts före poängsättningen ger belägg för ett sådant test; att köra det på operatörens utrustning enligt en tidsplan ligger hos operatören.
+
+engine-compliance-req-nist-rs-an-5-reference = RS.AN-5 (Analysis)
+
+engine-compliance-req-nist-rs-an-5-asks = Inrätta verifiering och validering för kända felmoder och nyupptäckta sårbarheter, och registrera nominella och avvikande PNT-data från incidenter för att förbättra senare detektering.
+
+engine-compliance-req-nist-rs-an-5-gap = En poängsatt logg karakteriserar en incident i efterhand. Att ta emot och agera på utlämnade sårbarheter är en process utanför varje körning.
+
+engine-compliance-req-nist-rs-mi-2-reference = RS.MI-2 (Mitigation)
+
+engine-compliance-req-nist-rs-mi-2-asks = När en incident har hejdats, begränsa den med alternativa eller kompletterande PNT-källor så att driften fortsätter, och återför systemet till ett riktigt arbetsläge.
+
+engine-compliance-req-nist-rs-mi-2-gap = Körningar visar hur länge modellerade reservkällor håller ett fel avgränsat; hejdande och återgång till drift är operativa steg.
+
+engine-compliance-mapping-header-reference = Referens
+
+engine-compliance-mapping-header-asks = Vad det kräver (parafraserat)
+
+engine-compliance-mapping-header-capabilities = Kshana-utdata som ger belägg för det
+
+engine-compliance-mapping-header-gap = Lucka
+
+engine-compliance-mapping-none = ingen
+
+engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Läst { $accessed }: { $checked }.
