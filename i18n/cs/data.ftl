@@ -6626,3 +6626,1273 @@ dat-4991862705f8 = tests/aocs_basilisk_oracle.rs ({ "3" } případy, { "601" } v
 dat-62bb9863a354 = tests/araim_reference_vectors.rs ({ "2" } publikované vektory + { "6" } negativních kontrol, fixtura tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: vynechání nominálního biasu mine publikovanou VPL o { "2.6457" } m, chyba ISM { "10" } % o { "0.2798" } m, K_fa při { "57" } režimech místo { "12" } o { "0.4015" } m, chyba integritního rozptylu +{ "2" } %/+{ "5" } % o 0.0750/0.1971 m — a chyba +{ "1" } % ji pohne jen o { "0.0339" } m, uvedeno jako mez rozlišení kontroly, nikoli skryto; odpovědi obou dokumentů se vzájemně míjejí o více než tolerance, takže vektory nejsou zaměnitelné; zapsaná fixtura a zkompilované konstanty jsou dva nezávislé přepisy, u nichž se vynucuje shoda, takže publikovaný údaj nelze upravit na jedné straně, aby kontrola prošla; a C_int − C_acc = σ²_URA − σ²_URE = { "0.3125" } m² platí pro všech { "40" } přepsaných rozptylů, aritmetická identita, kterou by překlep v přepisu porušil)
 
 dat-7eace8da0834 = tests/batch_sequential_orbit_determination_reference.rs ({ "8" } scénářů: { "6" } bezšumových LEO/MEO/excentrických/3–4 stanice + { "2" } σ={ "5" } m, vs Orekit { "12.2" }; nejhorší dávkové |Δr| { "1e-3" } m / |Δv| { "1e-6" } m/s, sekvenční |Δr| { "0.9" } m)
+
+dat-a0759a29f9eb = tests/bds_geo_broadcast_oracle.rs (skutečné záznamy C01-C04: geostacionární poloměr, délky 140.02/80.04/110.55/159.99 deg na zveřejněných pozicích, |zeměpisná šířka| { "2.13" } deg se sklonem oproti { "6.65" } bez něj; předregistrované srovnání broadcast oproti přesnému SP3 je podmíněno dostupností dat přes KSHANA_BDS_GEO_SP3 a nebylo provedeno); rinex::tests
+
+dat-74570c1b382b = tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } epoch { "1955" } až { "2044" }, { "574" } matic v rozmezí { "1e-9" } rad, nejhorší Phobos { "1.43e-10" } rad); tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_at_fresh_epochs ({ "41" } epoch { "1961" } až { "2038" }, nikdy dříve neporovnávaných, { "574" } matic v rozmezí { "1e-9" } rad, nejhorší Phobos { "1.38e-10" } rad); tests/body_constants_naif_oracle.rs::constants_match_naif_pck00011_and_gm_de440 ({ "0" } z { "84" } konstant čtrnácti těles se liší od NAIF)
+
+dat-e52d88399d14 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — { "200" } seedů hodin s bílým frekvenčním šumem při setrvání tau = { "3010" } s: skutečná střední hodnota { "0" } uvnitř uvedeného intervalu, poloviční šířka intervalu v rozmezí { "25" }% z { "1.96" } sigma/sqrt(n) a výběrový rozptyl uvnitř oboustranného { "99" }% intervalu chí-kvadrát pro sigma = sqrt(q_wf tau) = { "16.459" } ns; kalibrační ensemble (CAP-10, předregistrováno ea451cb5, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): z { "200" } nezávislých ensemblů interval pokrývá skutečnou střední hodnotu u { "192" } (uvnitř { "99" } % oblasti Binomial({ "200" }, { "0.95" }) [{ "181" }, { "197" }]) a kontrola chí-kvadrát projde u { "196" }, zatímco tolerance percentilů z jediného seedu (p05 a p95 v rozmezí { "0.3" } sigma) projde pouze u { "183" } z { "200" }, NOT MET oproti předregistrovaným { "190" }, kontrola citlivá na seed, zaznamenaná a nikoli rozvolněná; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+
+dat-d787395a7d7b = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — kompozice o jednom členu přečte samostatné číslo a výtah (digest) výsledku)
+
+dat-9b9bd42a133e = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — výsledek člena je bajt po bajtu shodný se samostatným během a každá zarovnaná hodnota se rovná samostatné řadě; the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
+
+dat-77ddbaccd8d1 = tests/campaign_optimize_reference.rs (předregistrováno fbe6c8b3 a po nesplnění protokolu v 1. kole 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D řešení cíle v rozmezí { "6.1e-15" } od r* = r0 { "10" }^((m(r0) - { "3" })/20) za { "96" } vyhodnocení; p3_prime_contour_target_grid_and_nelder_mead a p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — nejlepší hodnota metody mřížky bitově shodná s nezávislou brute-force smyčkou { "41" } x { "41" } nad run_toml, Nelder-Mead alespoň stejně dobrý za { "177" } a { "161" } vyhodnocení; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, který zachycuje zaznamenané nesplnění v 1. kole); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" } za { "234" } vyhodnocení; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
+
+dat-4110a819536a = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE, březen { "2023" }, { "4" } perilunia a { "5" } apolunií: perioda { "6.5004" } d oproti { "6.5699" } d ({ "1.07" } %, práh { "3" } %), apolunium { "71 182" } oproti { "71 215" } km ({ "0.05" } %, práh { "5" } %), perilunium { "3 385" } oproti { "3 245" } km ({ "4.1" } %, práh { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+dat-467a6f74a046 = tests/ccsds_oem_interop_reference.rs ({ "24" } stavů / { "2" } fixtury dekódované bajt po bajtu nezávislým parserem `oem`, poloha/rychlost Δ = { "0" }); oem::tests (parsování OEM z externího nástroje s dalšími klíčovými slovy/komentáři/kovariancí, zápis→čtení s plným stavem, tolerována poloha+rychlost+zrychlení, odmítnuta pouze poloha a chybějící povinná metadata, round-trip scénáře s vysokou věrností + externí načtení); dominance_demonstrators (dosažitelné + reprodukovatelné + přesný round-trip + MODELLED, nikoli VALIDATED)
+
+dat-2834cacf45e8 = tests/cef_reference.rs (pycef_reads_every_tier_1_event_as_the_sample_implies, the_logstash_cef_codec_reads_every_event_including_escaped_headers_as_the_sample_implies, the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_registered); telemetry::syslog::tests (přesné řetězce CEF, escapování, závažnost, obálka RFC { "5424" }); tests/telemetry_cli.rs
+
+dat-3325310b5a4d = tests/classical_strapdown_ins_reference.rs (statický profil, profil zatáčky a coningu, vždy { "30" } epoch, oproti NaveGo: orientace bitově shodná { "0" } rad; rychlost/poloha v rámci pojmenovaných analytických mezí)
+
+dat-a401554b72ff = tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: údaje o holdover beze změny, { "111" } odepřených epoch nedostupných bez ochranné úrovně, odmítnuto při běhu s více než { "1" }; protection_levels_are_the_snapshot_raims_on_the_same_sky: HPL a VPL každé vzorkované epochy se přesně rovnají snapshot_raim s nulovým rezidui na stejné předvolbě oblohy a běh bez poruchy nevyvolá žádný alarm; a_stated_bias_is_detected_while_it_lasts: bias { "60" } m vyvolá alarm přesně v { "10" } epochách, které pokrývá; every_integrity_field_has_a_unit); clock_integrity::tests; goldeny hodin beze změny
+
+dat-5d39f20e4a0c = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } případů: deset záznamů mocninného šumu Kasdin, b = { "0" } až -4, jako fázová a frekvenční data, af = { "1" } až { "64" }; alpha_int a d shodné, nejhorší |d alpha| { "9.6e-13" } a |d rho| { "4.8e-13" } oproti { "1e-9" }; předregistrováno 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
+
+dat-94a45e8fdaad = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; předregistrováno fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+dat-8ad76f467446 = tests/cowell_tesseral_orekit_oracle.rs ({ "6" } případů x { "25" } hodinových stavů za { "24" } h: EGM2008 8x8 a 70x70 na LEO { "45" } deg, polární { "89.9" } deg, slunečně synchronní { "98.2" } deg, GTO a 70x70 se Sluncem/Měsícem a SRP; nejhorší |dr| { "0.0355" } m, |dv| { "3.74e-5" } m/s; negativní kontroly se míjejí o { "6168" } m (zmrazená Země) a { "20871" } m (pouze zonální)); jednotkové testy propagátoru (zonální limitní identita na { "1e-12" }, rám CIO bit po bitu oproti precise_od, Jacobiho integrál udržen na { "1e-9" } po { "6" } h)
+
+dat-376a96b1391b = tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } případů: { "12" } epoch v lednu { "2025" } x body L1 a L2, dva jižní halo orbity kolem L2 a jeden počáteční stav DRO z JPL Three-Body Periodic Orbits API a obecný stav; nejhorší poloha { "1.8e-7" } m oproti { "1" } mm, rychlost { "1.2e-9" } m/s oproti { "1e-6" } m/s; inverzní { "2.7e-15" }); cr3bp::tests::moon_centred_map_round_trips_and_sends_the_moon_to_the_origin
+
+dat-602a3b3190eb = tests/cs5071a_reference.rs (skutečný Cs 5071A oproti H-maseru, { "556 990" } bodů, { "16" } faktorů průměrování oproti Stable32 na { "1e-3" }; podmíněno dostupností dat přes scripts/fetch_cs5071a.sh)
+
+dat-9ddbaa71a383 = tests/deep_space_mars_radiometric_reference.rs ({ "24" } spojů za { "8" } epoch { "2020" }–{ "2027" } oproti ANISE DE440; nejhorší |Δτ| { "1.03e-9" } s, |Δrange| { "0.31" } m až do { "2.5" } AU)
+
+dat-133054c16cfb = tests/dop853_scipy_oracle.rs ({ "8" } jednotlivých kroků: stav v rozmezí { "5.55e-15" } relativně, derivace FSAL { "3.46e-15" }, hustý výstup { "1.99e-14" }, rozhodnutí o přijetí/zamítnutí shodná; { "3" } celé běhy při rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" } přes { "5" } period, Arenstorf přes jednu periodu): počáteční krok shodný, přijaté kroky 502/501, 390/390, 298/298 a vyhodnocení 6025/6013, 5497/5497, 4285/4285 oproti SciPy, koncové stavy v rozmezí { "2.95e-13" } relativně (dvoutělesový) a { "1.58e-12" } (Arenstorf), hustý výstup v rozmezí { "9.5e-13" }; přesnost oproti přesnému řešení Kepler v mpmath shodná s SciPy (LEO { "8.44e-5" } m, periodicita Arenstorf { "1.475e-9" })); jednotkové testy integrátoru a propagátoru ({ "24" } h dvoutělesový problém oproti přesnému Keplerovi pod { "0.1" } m)
+
+dat-fcd10bcbfddb = tests/drag_exponential_gmat_oracle.rs (rovníkové případy E400, E300 a E250x600 v J2000.0, { "25" } hodinových stavů za { "24" } h: posun vyvolaný odporem se shoduje s GMAT nejvýše na { "0.016" } prahu { "0.5" } m + { "1e-3" }|D| oproti { "21.5" } až { "143.9" } km posunu; změna +{ "1" } % Cd*A/m dosáhne { "9.83" } násobku prahu; nakloněný případ I400 je uveden, { "10.4" } % od sebe, což je uvedený rozdíl v definici výšky)
+
+dat-44f31f568938 = tests/drag_tier_orekit_oracle.rs ({ "4" } případy x { "25" } hodinových stavů za { "24" } h, kruhová dráha { "51.6" } deg, { "400" } km při nízké/střední/vysoké aktivitě a { "300" } km: nejhorší |dr| { "0.0303" } m a |dv| { "3.36e-5" } m/s oproti { "3.3" } až { "141.8" } km posunu odporem, nejhorší chyba/práh { "0.003" }; kontrola s exponenciální hustotou se míjí o { "119.1" } m); jednotkové testy sil a propagátoru (výchozí stav bitově shodný; úroveň vyhodnocuje port v pozemně pevném geodetickém bodě)
+
+dat-97921726d233 = tests/earth_orbit_path_sgp4_erfa_oracle.rs (část { "1" }: { "4432" } poloh TEME z { "232" } uložených množin elementů oproti python-sgp4 { "2.24" }, nejhorší { "6.1e-8" } m, práh { "1" } cm; část { "2" }: { "108" } okamžiků, z toho { "23" } s parametry orientace Země a jeden v poslední sekundě dne s přestupnou sekundou, oproti ERFA: GCRS -> ITRS nejhorší { "2.9e-6" } mas, práh { "0.1" } mas; TEME -> ITRS nejhorší { "0.41" } mas, práh { "2" } mas); sgp4::tests (the_itrs_path_matches_the_orbit_module_iau_chain; an_earth_fixed_node_stays_at_its_longitude_at_the_epoch); tests/no_private_models.rs
+
+dat-308ef451bd7d = tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } případů, { "142" } uložených množin viditelných družic srovnání skyline pod jedněmi společnými hodinami a pod jedněmi hodinami na systém; nejhorší osa { "5.1e-13" } relativně a orientace { "5.3e-12" } deg, žádná téměř kruhová, kofaktor { "1.0e-12" } měřítka matice, oproti { "1e-9" } a { "1e-6" } deg; předregistrováno 0bbeeaee); geometry::tests (ellipse_of_an_analytic_two_by_two_case)
+
+dat-868e775e09f6 = tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (šest přesných kritérií: bajty výpisu; { "174" } řádků; počty podle vintage a úplné seznamy MJD 30/54/90; příznak P u pohybu pólu i UT1 každého predikovaného řádku; census holého výchozího běhu; každý predikovaný řádek roven IERS Bulletin A Vol. XXXIX No. { "039" } v rozmezí své poslední vytištěné číslice, nejhorší { "5.0e-5" } arcsec a { "4.9e-6" } s); tests/embedded_eop_census_astropy_oracle.rs::vintage_census_matches_astropy (regresní zachycení starého výpisu s 32 řádky pod klasifikátorem příznaků: { "20" } final, { "12" } rapid, { "0" } predicted); tests/embedded_eop_census_astropy_oracle.rs::rows_called_prediction_only_are_flagged_measured_by_astropy (zjištění z 1. kola, ponecháno); realtime_frame_eop::tests; tests/operational_eop_predictor_reference.rs
+
+dat-87ebc8805c38 = tests/entry_stardust_published.rs (špička { "35.44" } g oproti zveřejněným { "33.4" } g, +{ "6.1" } %, práh { "10" } %; vstupní rychlost vůči planetě { "12.551" } km/s oproti { "12.6" }, práh { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (energie v rotující soustavě klesá přesně o práci odporu; setrvání ve vakuu zachovává Jacobiho energii; nerotující balistický případ odpovídá rovinnému hmotnému bodu modulu reentry; uzavřený tvar Allen-Eggers ve svém režimu)
+
+dat-19695386f4dd = tests/eval_metrics_reference.rs ({ "5" } datasetů, { "24" } prahových hodnot; přesné počty + <{ "1e-9" })
+
+dat-4237f162cba1 = tests/evidence_crypto_reference.rs (RFC { "8032" } oddíl { "7.1" } vektory { "1" }, { "2" }, { "3" } a { "1024" }; příklady FIPS 180-4 SHA-256; přesně); tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case ({ "71" } případů); tests/evidence_pack.rs (testy manipulace)
+
+dat-e3e102a02de3 = tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl (předregistrované srovnání); evidence::tsa::tests (občanská data a časy, base64, veřejná operace RSA); evidence::verify::tests::anchors_make_the_authority_checked (nepodepsaný token s kotvami neprojde; bez nich je zpráva beze změny)
+
+dat-5774ed85af83 = tests/field_units_global.rs (všech { "61" } registrovaných druhů běží, každý s jedním tvarem dokumentu: každý číselný list musí odpovídat položce v bloku jednotek vlastního dokumentu; poškozená položka se počítá jako chybějící pro KAŽDÝ druh, osvobozený či nikoli, takže zástupný text nezíská žádné pokrytí; seznam výjimek nesmí překročit svůj zafixovaný strop, uvedený druh, který se ukáže jako plně pokrytý, brány NEPROJDE, aby se seznam nedal navyšovat, a registrovaný druh chybějící v tabulce běhu bránu NEPROJDE, aby se nový balíček nemohl proklouznout neprozkoumaný — což se stalo a zachytilo to oba druhy přidané po zahájení této práce; jednosměrná západka na nedoložené zpoždění popsaného, ale nedefinovaného; a kontrola zastaralosti uloženého dokumentu schématu); field_schema::tests
+
+dat-26f85ff13e7f = tests/fim_observability_reference.rs (vlastní čísla oproti numpy.linalg.eigh; kovariance CRLB oproti σ²(XᵀX)⁻¹ přes numpy.linalg.inv; GNSS GDOP/PDOP/HDOP/VDOP/TDOP z informační matice oproti numpy — vše shodné na { "1e-9" }); fim::tests (Jacobiho řešič vlastních čísel oproti uzavřeným spektrům; CRLB oproti uzavřeným tvarům Kay { "1993" } — DC ve WGN σ²/N a proložení přímky σ²(XᵀX)⁻¹; dosažení CRLB metodou Monte Carlo; identita Moore–Penrose MM⁺M=M; nulový prostor defektu datumu)
+
+dat-56f772ab5fc0 = tests/frame_reference_vectors.rs (Vallado od začátku do konce; vektory SOFA/ERFA)
+
+dat-9363676284ba = tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } epoch TT 1950-2100, dX a dY až { "0.5" } mas: elementy precese v rozmezí { "1e-13" }, nejhorší { "0" }; TEME do GCRS v rozmezí { "5e-10" } rad, nejhorší { "1.10e-10" } rad; CIO s posuny v rozmezí { "1e-13" }, nejhorší { "0" }; nulové posuny bitově shodné s cio::gcrs_to_cirs_matrix)
+
+dat-471a756dbd81 = tests/fusion_carrier_tc.rs (jízda figure-8: ustálené 3-D RMS { "0.025" } m s nosnou oproti { "0.470" } m s kódem na totožných měřeních; { "12" } seedů průměrné NIS/dof { "1.00" } a ustálené NEES/dof { "0.92" }; 1-cyklový skluz zjištěn ve své epoše bez falešných poplachů a s neporušeným řešením; vypnutí vysílaných korekcí zvýší chybu kódu z { "0.51" } m na { "19.6" } m (iono) a { "8.0" } m (tropo); běh bez šumu konverguje na { "0.3" } mm)
+
+dat-828938aa9e70 = tests/fusion_coupled_filters.rs (3-D filtr přes { "60" } seedů: průměrné NEES druhé poloviny { "8.12" } pro { "8" } stavů, součet χ² poslední epochy uvnitř svého { "95" } % pásma; oprava hodin o { "0.1" } ns sníží 3-D sigma polohy z { "5.58" } m na { "3.07" } m; filtr biasu přes { "60" } seedů: součet χ²({ "5" }) v pásmu, bias do { "3" } sigma v { "59" } z { "60" }; fusion-pnt-coupled s vychýlenými akcelerometry: poloha p95 { "18.7" } m / { "90.0" } m a integrita { "1.00" } / { "0.97" } při vázání oproti { "430" } m / { "4060" } m a { "0.006" } / { "0.000" } bez vázání); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fusion a hybrid bez [coupled] bitově shodné)
+
+dat-c6449d14ea6b = tests/fusion_kfgins_dataset_oracle.rs (syntetické loadery a testy páky na rotující platformě vždy; podmíněno dostupností dat přes KSHANA_KFGINS_DIR, spuštěno 2026-10-13 na datové sadě KF-GINS demo: horizontální / vertikální RMS { "0.0109" } / { "0.0090" } m oproti referenční trajektorii vs KF-GINS C++ { "0.0111" } / { "0.0083" } m, všech šest předregistrovaných prahů dodrženo; páka vypnuta { "0.329" } m)
+
+dat-c4e0334e0432 = tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } případů: { "4" } záznamy GLONASS ze skutečného broadcast souboru IGS MGEX z 2013-01-01 x { "73" } posunů v rozmezí +/-900 s; hodiny v rozmezí { "1e-14" } s, nejhorší { "0" } s; poloha v rozmezí { "0.01" } m, nejhorší { "1.12e-3" } m)
+
+dat-f764501c858f = tests/gnss_denied_clock_holdover_reference.rs ({ "27" } případů oproti scipy { "1.18" }: { "12" } rozptylů setrvání oproti linalg.expm Van-Loan Q₀₀ nejhorší rel { "1.1e-15" }; { "7" } inverzí holdover oproti optimize.brentq nejhorší rel { "1.5e-16" })
+
+dat-e774576a2158 = tests/gnss_ins_packs.rs (každý balíček: fúzovaný pod volné INS během výpadku u obou senzorů; kolej: těsná { "5.3" } m oproti volné { "12.9" } m navigační třída a { "15.6" } m oproti { "18.8" } m taktická třída během výpadku, dostupnost { "0.97" } oproti { "0.95" }; těsná tabulka ověřena); tests/gnss_ins_legacy_trajectory_pin.rs (volně vázaný výchozí stav bitově shodný)
+
+dat-8c517742780f = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (vygenerovaný SBOM se validuje s nulou chyb oproti oficiálnímu schématu JSON CycloneDX { "1.5" } přes celý dodávaný graf o 66 komponentách: výchozí + python + wasm funkce, bez vývojářských závislostí)
+
+dat-e80854948446 = tests/gps_l1ca_gpssdrsim_cross_generator.rs::gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding (zachycené zjištění); tests/gps_l1ca_gpssdrsim_cross_generator.rs::ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly (striktní, ignorováno kvůli mezeře); gps_lnav::tests
+
+dat-791bee5f80cd = tests/gps_lnav_rtklib_decode_oracle.rs::rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43 (zachycené zjištění); tests/gps_lnav_rtklib_decode_oracle.rs::kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters (striktní, ignorováno kvůli mezeře)
+
+dat-b16187bab299 = tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } družic z broadcast souboru IGS z { "2" } března { "2025" }: { "960" } z { "960" } slov projde paritou RTKLIB, { "96" } z { "96" } podrámců se dekóduje, { "608" } z { "608" } dekódovaných vysílaných celých čísel se rovná těm z Kshana, každý vstup v rozmezí poloviny kvanta, týden a časy přesně); gps_lnav::tests
+
+dat-57e6de3ffc6c = tests/gravity_sh_high_degree.rs (Orekit v { "8" } mimoosých bodech: max |da| { "2.2e-17" } m/s^{ "2" } při N = { "70" }, běží vždy; { "3.5e-17" }, { "3.9e-17" } a { "7.3e-17" } m/s^{ "2" } při N = { "200" }, { "360" }, { "2190" }, podmíněno dostupností dat přes KSHANA_EGM2008_GFC); tests/cowell_tesseral_200_orekit_oracle.rs ({ "24" } h dráha 200x200, podmíněno daty: nejhorší |dr| { "0.1317" } m, |dv| { "1.45e-4" } m/s; kontrola se stupněm 70 { "0.726" } m); jednotkové testy gravity_sh (shoda s klasickým vyhodnocovačem na { "1e-13" } při stupni { "70" }, konečná diference a spojitost na pólu u pole stupně 2190, podtékající člen stupně 2190 oproti výpočtu s rozšířeným exponentem)
+
+dat-77f34261d4e6 = tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values v CI na deseti citovaných uzlech ICGEM; egm2008_n70_gravity_anomaly_sa_matches_icgem přes celé stažené mřížky 0.25-deg Čadu 9-15N 19-25E a Údolí smrti 35-38N 242-245E, { "794" } uzlů: RMS { "1.3e-8" } a { "2.6e-8" } mGal, max { "2.9e-8" } mGal oproti předregistrovaným prahům { "0.005" } / { "0.02" } mGal, xval/icgem-egm2008/); gravity_sh::tests
+
+dat-f79726002edb = tests/icgem_gravity_reference.rs (syntéza GRS80 reprodukuje Somiglianu na { "3.5e-12" }; skutečná mapa poruch EGM2008 z ICGEM fyzikálně věrohodná)
+
+dat-6eca51d18325 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } případů se skutečnou geometrií, Celestrak GPS+Galileo a IGS SP3: nejhorší |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m oproti TOL_PL { "0.05" } m z ADD); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (mezery při jednotném sigma, zachycené); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (skutečná data IGS ABMF 2018-05-13, { "288" } epoch, { "2016" } případů se vstříknutými biasy { "10" } až { "100" } m: 2016/2016 rozhodnutí o detekci a 801/801 o vyloučení shodných, slope HPL/VPL v rozmezí { "2.7e-12" } m oproti { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } dvojic uživatel-epocha na skutečných vysíláních WAAS, stejná chráněná množina, nejhorší |dVPL| { "7.1e-6" } m a |dHPL| { "1.6e-5" } m oproti { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (zjištění pro L5, zachycené); tests/igs_real_data.rs a tests/araim_dual_real_data.rs (věrohodnost na skutečných IGS SP3 a geometrii Celestrak, ponechány jako regresní kontroly, nikoli orákula)
+
+dat-260f38f6b63d = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes ({ "12" } kódů NACp, { "59" } řádků NIC); tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding ({ "94" } rámců); tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely ({ "1770" } bodů, čtyři velikosti buněk); tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib ({ "8" } tras, { "420" } úseků, { "11634" } km); tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj ({ "996" } bodů); jednotkové testy interference_map
+
+dat-07480ecb313c = tests/ionex_code_gim_oracle.rs (uložená syntetická mapa IONEX oproti referenci podle vzorce: { "20 075" } uzlů přesně, interpolace max |Δ| { "3.5e-13" } TECU; podmíněno dostupností dat přes KSHANA_IONEX_CODE_GIM_DIR, skutečný výřez finálního CODE GIM z 2018-05-13 podle zeměpisné šířky stažený přes fetch.sh s pevně daným SHA-256: uzly přesně, interpolace max |Δ| { "3.6e-13" } TECU přes { "15 795" } vzorků, šikmé TEC { "5.1e-13" } TECU; podmíněno daty RTKLIB v2.4.2-p13 iontec v { "6885" } dotazovaných bodech, spuštěno 2026-10-13: max |Δ| { "3.6e-13" } TECU v obou časových režimech, práh { "1e-5" } předregistrován); ionex::tests
+
+dat-d555a4451aa3 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, zaznamenaný verdikt uplatněn tak, jak byl zaznamenán, zjištění F1, zachyceno testem finding_noise_free_sidelobes_exceed_the_cfar_rate); jednotkový test iq::acq ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
+
+dat-fcbaaca3a203 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level); jednotkové testy iq::track::boc (b4_unit_grid_misses_are_the_recorded_ones: předregistrovaný práh jednotkového testu B4 ponechán tak, jak byl napsán, jeho zaznamenaná nesplnění uplatněna jako zjištění F1)
+
+dat-741cdc789639 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } z { "5900" } bloků oproti { "99" }% binomickému intervalu [{ "40" }, { "80" }] pro P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, poměr { "0.0131" } oproti { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } oproti { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (striktní, ignorováno kvůli mezeře); testy iq::campaign::detect; testy iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (zafixované digesty beze změny bez tabulky)
+
+dat-5e0668be27cd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } u uvedených událostí, které nic neztlumí); r1_the_cn0_drop_roc_separates_6_db_attenuations (striktní, ignorováno kvůli mezeře); testy iq::campaign::detect (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
+
+dat-896aed641ee3 = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples (zachycené zjištění); tests/iq_gpssdrsim_cross_generator.rs::acquisition_finds_gps_sdr_sim_satellites_in_its_samples (striktní, ignorováno kvůli mezeře)
+
+dat-0fc8d1c73d1e = tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels ({ "11" } kanálů: nejhorší pseudovzdálenost { "1.6e-3" } m oproti { "0.05" } m, fáze kódu { "5.5e-6" } chip oproti { "2e-4" }, Doppler { "7.4e-5" } Hz oproti { "0.02" } Hz, úhly pohledu { "4e-9" } stupně oproti { "1e-4" }, množina viditelných družic shodná); tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing (harness orákula reprodukuje přesně vlastní vytištěný výpis kanálů programu)
+
+dat-7eed519e8162 = tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (pokrytí PI90 { "0.891" } přes { "558" } binů, { "0.900" } přes { "10" } událostí času do ztráty při každém modelu uzamčení), the_report_carries_its_inputs_censoring_validation_and_labels (vstupy, cenzorování, hash [validation] a verdikty, audit bloku jednotek), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db a bar_b_prime_ci_subset (striktní, ignorováno kvůli mezeře); bar_b_prime_full_set_of_50_campaigns (ignorováno, spouští se před vydáním); testy iq::labfit::cn0 (přesná degenerace Q-delta, obnovení delta při uvedeném Q, inverze uzavřeného tvaru prahu); testy iq::labfit::iqfit (podmínky modelu uzamčení přesně reprodukují model C/N0); tests/iq_labfit_followup.rs (navazující registrace v 1e532f84: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign uplatňující zaznamenané NOT MET, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, v release)
+
+dat-fe470eb68eb3 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, zaznamenaný verdikt uplatněn tak, jak byl zaznamenán, zjištění F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, pouze uvedeno; podmíněno daty, stahováno přes scripts/fetch_scint_malindi.sh); jednotkové testy realdata::scint50 (model_data_through_the_harness_shows_the_wrapped_phase_finding, zjištění F2)
+
+dat-8a869df22bb9 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned), na číslech odvozených skriptem tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py
+
+dat-130c6c103241 = tests/jammertest_plan_roundtrip.rs (podmíněno dostupností dat přes KSHANA_JAMMERTEST_PLAN_DIR: počty slotů na testovací oblast plánu { "2025" }, identifikátory katalogu, round trip TOML); tests/jammertest_score.rs (syntetický log se známým výpadkem: zjištěno, nezachyceno, nehodnotitelné, běh s falešným poplachem, podepsaný balíček nesoucí skórekartu); jammertest::plan::tests; tests/jammertest_score_2024.rs (podmíněno dostupností dat přes KSHANA_JAMMERTEST_DIR: zaznamenaný běh)
+
+dat-e57fd19b41c2 = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), oproti xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json a expected_quantiser.json
+
+dat-76583d307118 = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr), oproti xval/crpa-jamming/expected.json z xval/crpa-jamming/oracle.py
+
+dat-46ab577738c4 = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), oproti xval/jamming-terrain/expected.json z xval/jamming-terrain/oracle.py
+
+dat-c26f0cab8179 = tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } dvoudílných dat UT1/TT 1980-2050 včetně kroků +{ "1" }, +{ "10" }, +{ "50" } us ve dvou datech: gmst82 v rozmezí { "1e-12" } rad, nejhorší { "0" }; elementy GCRS do ITRS v rozmezí { "5e-12" }, nejhorší { "2.7e-14" }; rotace při +1/+10/+{ "50" } us v rozmezí { "1e-13" } rad od ERFA, nejhorší { "1.1e-14" } rad, kde cesta s jediným f64 kroky +{ "1" } a +{ "10" } us zcela mine); ephemeris::tests::two_part_jd_agrees_with_the_default_and_resolves_microsecond_steps; frames::tests::the_two_part_teme_to_itrf_round_trips_and_resolves_a_microsecond; jd2::tests::gmst82_matches_the_single_f64_gstime_away_from_the_floor; jd2::tests::two_part_types_convert_without_moving_the_instant
+
+dat-fc21fbeaacf0 = tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } okamžiků UTC: čtyři kolem každého z { "15" } počátků výrazu TAI-UTC 1960-1972 a { "60" } náhodně se seedem rozložených přes 1960-1971; dtf2d, utctai a taiutc každý v rozmezí { "1e-6" } s, nejhorší { "2.9e-11" } s); tests/jd2_pre1972_sofa_oracle.rs::post_1972_results_are_bit_identical ({ "224" } okamžiků řádku { "1972" }+ beze změny bit po bitu)
+
+dat-73e355e34ce5 = tests/jd2_sofa_time_oracle.rs ({ "224" } okamžiků UTC: šest kolem každé z { "27" } přestupných sekund 1972-2016, dva pevné, { "60" } náhodně se seedem rozložených přes 1972-2026; dtf2d, utctai a taiutc každý v rozmezí { "1e-6" } s, nejhorší { "1.9e-11" } s); jd2::tests (a_leap_second_day_is_86401_seconds_long_and_tai_steps_once; tai_to_utc_inverts_utc_to_tai_to_the_microsecond_across_a_leap_second; ut1_runs_through_tai_across_a_leap_second_day; the_two_part_earth_rotation_angle_matches_the_single_f64_one); sgp4::tests::propagate_at_measures_time_from_the_two_part_epoch
+
+dat-4697e90a0171 = tests/kepler_mpmath_oracle.rs ({ "405" } bodů mřížky, e od { "0" } do { "0.999999" }, M v [-pi, pi] až do { "1e-12" }: nejhorší |E - E_ref| { "0.898" } eps|E| oproti prahu { "8" } eps|E|; { "9" } bodů s navinutým M nejvýše na { "0.013" } svého prahu; v žádném z { "414" } bodů nebyl potřeba Newtonův zpřesňující krok; wrapper bitově shodný); jednotkové testy kepler
+
+dat-68381f689540 = tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } poloh v { "200" } epochách UTC 1973-2026 vybraných z hashe předregistrace; nejhorší { "0.66" } prahu, { "2.96" } m); tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present (podmíněno daty); tests/kernel_ephemeris_skyfield_oracle.rs::barycentre_only_bodies_are_refused_not_substituted; ephem_provider::tests
+
+dat-2980ec59545a = tests/klobuchar_reference.rs ({ "10" } případů napříč elevací/azimutem/místním časem, dvě sady koeficientů)
+
+dat-7573bd793baa = tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } případů: { "300" } náhodných 3-D, { "18" } poblíž { "180" } deg, { "24" } poblíž minimálního času pro M = { "1" }..3, { "40" } heliocentrických; { "1058" } řešení; počty a pořadí větví shodné; rychlosti v rozmezí { "1e-8" } relativně, nejhorší { "1.6e-13" }; v rozmezí { "1" } % od minimálního času v rozmezí { "1e-6" }, nejhorší { "7.5e-15" }; vnitřní kontrola přistání Kepler přistane každé řešení v rozmezí { "4.2e-12" } od |r2| kromě jednoho zachyceného zjištění na oblouku s e = { "0.994" }, což je omezení kepler_universal, nikoli řešiče)
+
+dat-31c0721aadc0 = tests/lambert_reference.rs ({ "13" } přenosů oproti lamberthub izzo2015; nejhorší |Δv| { "7e-12" } m/s)
+
+dat-de53fbf273c5 = tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: jedna družice ve výšce { "780" } km a { "86.4" } deg létaná den na { "1621" } MHz přes čtyři zeměpisné šířky, maximum v rozmezí { "5" }% z { "36" } kHz; xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz: jedna družice z každé zveřejněné slupky, { "1080" } km při { "53" } a { "97" } deg, { "1593.3225" } MHz, maximum konstelace uvnitř { "32" } až { "34" } kHz bez rozšíření ({ "33.6" } kHz, dáno slupkou { "97" } deg; samotná slupka { "53" } deg dosahuje špičky { "31.8" } kHz)); leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)
+
+dat-2e58e6363f7e = tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } deg, Pulsar FOC polární { "1080" } km { "97" } deg, Pulsar FOC nakloněný { "1080" } km { "53" } deg a GPS { "20180" } km { "55" } deg; orbitální rychlost, maximální rychlost v ECEF, maximální relativní rychlost a maximální Doppler nosné v pásmech L1 a L5, { "20" } hodnot, každá v rozmezí { "0.05" } %)
+
+dat-ff105b0b379b = tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } hodnot, { "28" } GHz při { "0" } deg a { "2" } GHz při { "45" } deg, obě třídy, P od { "1e-7" } do { "0.998" }, v rozmezí { "0.001" } dB)
+
+dat-f99830e0546d = tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } případů na pěti lokalitách, { "14.25" } a { "29" } GHz, { "0.001" } % až { "1" } %, v rozmezí { "1e-4" } dB; pozorováno { "5e-6" } dB)
+
+dat-0b3de5ce778d = tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } případů na sedmi lokalitách, { "14.25" } a { "20" } GHz, v rozmezí { "1e-5" } dB; pozorováno { "5e-7" } dB)
+
+dat-2bd97847c8f0 = tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: všech { "115" } řádků tabulky { "5" }, { "1" } GHz až { "1000" } GHz, každý koeficient v rozmezí { "0.6" } své poslední vytištěné číslice; nejhorší pozorováno { "0.51" })
+
+dat-2d9e7dd60d75 = tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (čtyři dny z článku: poměry podélné, příčné, radiální složky a SISRE { "0.755" } až { "1.138" } hodnot Liu et al. { "2025" }, uvnitř 1.5x); tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_holds_on_held_out_days (osm zadržených dnů, po dvou obloucích: { "0.683" } až { "1.186" })
+
+dat-1ab2ddbf17ca = tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — čtyři skutečné vysílané efemeridy Galileo E10, E19, E24, E25 při tk = { "0" }, +/-600, +/-1800, +/-3600 s, každá osa v rozmezí { "1" } mm od RTKLIB; real_galileo_records_survive_the_binary_frame_and_the_text_block — v rozmezí { "5" } mm po binárním rámci Kshana a { "1" } mm po bloku ve stylu RINEX)
+
+dat-06f7c26a4ff7 = tests/leo_polar_coverage_on_path_orekit_oracle.rs (konfigurace A a B, { "4040" } vzorků: pozemně pevné polohy v rozmezí { "6.8e-5" } m, práh { "0.2" } m; počty viditelných družic shodné u 4040/4040; mediánové DOP v rozmezí { "2.3e-11" } relativně, práh { "1e-3" }; dostupnost a průměr viditelných shodné); tests/earth_orbit_path_sgp4_erfa_oracle.rs (dráha); leo_fusion::polar::tests (gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it); tests/leo_fusion_scenarios.rs (a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens); tests/leo_polar_coverage_orekit_oracle.rs (kolo { "2" }, geometrie na zadaných stavech); tests/leo_polar_coverage_full_claim_orekit_oracle.rs (zjištění plného tvrzení z 1. kola, zachyceno)
+
+dat-3eacbe00d4f9 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: rovná se šikmému TEC průletu ve vrcholu na { "1e-9" } a jeho sigma se rovná RSS kódovému šumu přes { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" })); tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+dat-3bd4cc0125b1 = tests/leo_signal_reference.rs (víceúsekový waterfall běží se čtyřmi panely, rušiče UHF, pásma L5, S a C každý odepře pouze své vlastní pásmo a běh s prostým pásmem se rozšířením nemění); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+dat-018136c43fe8 = tests/lugre_acquisition_cell_average_doppler_oracle.rs::strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed (zachycené zjištění, podmíněno daty); tests/lugre_acquisition_cell_average_doppler_oracle.rs::cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler (striktní, ignorováno kvůli mezeře)
+
+dat-9e814d337bc2 = tests/lugre_acquisition_gnss_sdr_oracle.rs::finding_dc_artefacts_and_no_contemporaneous_flight_cn0 (zachycené zjištění, podmíněno daty); tests/lugre_acquisition_gnss_sdr_oracle.rs::acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver (striktní, ignorováno kvůli mezeře); acquisition::tests; realdata::ion_sdr::tests; realdata::lugre::tests
+
+dat-3db3359e9a96 = tests/lugre_acquisition_predicted_doppler_oracle.rs::noise_alone_crosses_the_sample_power_threshold_on_lugre_iq (zachycené zjištění, podmíněno daty); tests/lugre_acquisition_predicted_doppler_oracle.rs::acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction (striktní, ignorováno kvůli mezeře)
+
+dat-9f8024b299ab = tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (zachycené zjištění, podmíněno daty); tests/lugre_surface_acquisition_doppler_oracle.rs::surface_acquisitions_match_the_orbit_predicted_doppler (striktní, ignorováno kvůli mezeře)
+
+dat-e740eb9219b9 = tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs::third_run_finding_c1_c2_hold_g0_is_receiver_nondeterminism (třetí předregistrace: { "2" } uzly, { "4" } sledované kanály, nejhorší chyba Dopplera { "0.57" } Hz, nejhorší chyba posunu kódu { "0.008" } chip, všech { "6" } rámců dekódováno se správným TOI přes přechod { "99" } -> { "0" } a shodným podrámcem { "2" }; G0 není splněno tak, jak bylo napsáno, kvůli vlastnímu kolísání přijímače mezi běhy v jeho záznamech akvizice); tests/lunar_afs_decodability_pocketsdr_4bit_oracle.rs::decodability_finding_five_violations (druhá: { "5" } porušení); tests/lunar_afs_decodability_pocketsdr_oracle.rs::first_run_finding_no_acquisition_outside_the_receivers_4_bit_range (první: neplatná); striktní testy všech tří souborů jsou ignorovány kvůli jejich mezerám
+
+dat-5ef4abb4af1b = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (vždy { "210" } primárních kódů AFS-Q; s KSHANA_LANS_RUN a cache LSIS všech { "630" } kódů, nula neshod chipů); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (s cache LSIS: { "3" } rámce, nula neshod symbolů; { "24" } uložených { "2" } ms oken, |rho| = { "0.999990" }); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_full_run_matches_lans_afs_sim (podmíněno daty: celý běh { "23.9" } s, |rho| = { "0.999990" }, nejhorší { "2" } ms blok { "0.999948" }, fáze { "8e-9" } rad)
+
+dat-6e321e50bafc = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (s cache LSIS: { "3" } rámce vysílané LANS-AFS-SIM, sestavené ze stejného FID, TOI a datových bitů: nula z { "18 000" } symbolů se liší); tests/lunar_afs_frame_coding_oracle.rs::bch_worked_example_and_crc24_check_value_are_bit_exact (LSIS obrázek { "8" }: 0x045 -> 0x229f61dbb84a0; kontrolní hodnota CRC-24/LTE-A 0xCDE703; běží vždy); tests/lunar_afs_frame_coding_oracle.rs::ldpc_codewords_satisfy_the_printed_parity_check_matrices ({ "100" } kódových slov, nula nesplněných kontrol vytištěné H); tests/lunar_afs_frame_coding_oracle.rs::decoder_from_parity_check_matrices_recovers_every_frame (dekodér pouze z H, bez šumu a při { "3" } dB Es/N0, a { "10" } plných rámců); lunar_afs::ldpc::tests::printed_b_inverse_inverts_printed_b; lunar_afs::frame::tests
+
+dat-3b68979697e8 = tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } vlastních čísel, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm a Schurova marginála { "{" }scale,offset{ "}" } pro sítě well_posed o 120 řádcích a single_epoch o 30 řádcích, na rel<{ "1e-3" } a abs<{ "1e-3" }); lunar_gauge::tests (coupled_marginal_fisher_is_symmetric_and_psd, oneway_spatial_equals_orbiter_range_row_datum7, twoway_spatial_equals_oneway_spatial_at_same_geometry)
+
+dat-39f84288f885 = tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } syntetických matic SPD 7x7 od dobře podmíněných až po téměř degenerované { "{" }{ "0,3" }{ "}" }; Schurovo lambda_min / CRLB počátku / |corr| oproti SciPy/NumPy na <{ "1e-9" } rel)
+
+dat-ab15cee1ed2f = tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: matice P⊥ { "84" }×{ "84" } prvek po prvku, trace(P⊥) = parity_dim = { "52" } a rank(G) = { "32" }, normy detekovatelnosti + příznaky, kvadratická forma MDB cᵀWP⊥c + hodnota MDB a počty detekce/identifikace block-spark pro každou koalici protějšků, reprodukováno oproti nezávislému orákulu numpy/scipy na rel<{ "1e-3" } abs<{ "1e-3" } s přesnými celočíselnými počty; vstupy bajtově konzistentní přes examples/gen_faultobs_rows.rs + scripts/gen_faultobs_ref.py)
+
+dat-e0359be9446a = tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: tři scénáře — stanice odhadované k novému datu kampaně 2026-03-18 (závazné), stanice fixované k tomuto datu (kontrola), stanice odhadované k 2024-01-01 (scénář dřívějšího nesplnění v dvojité přesnosti); každá sigma datumu, číslo podmíněnosti a nejslabší směr oproti prahu škálovanému podmíněností, přepočítanému v testu z přesných citlivostí orákula; engine_inputs_match_the_committed_fixture: uložená Jacobiho matice, váhy a Helmertův návrh jsou to, co engine staví nyní; record_engine_accuracy_against_a_factorisation_route: pásmo chyb enginu a diagnostika NumPy Cholesky zachyceny)
+
+dat-17f0109ca0f2 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: čtyři scénáře — stanice odhadované k novému datu kampaně 2026-06-09 (závazné), stanice fixované k tomuto datu (kontrola) a vstupy s odhadovanými stanicemi z 2026-03-18 a 2024-01-01; každá sigma datumu, číslo podmíněnosti a nejslabší směr oproti prahu ve tvaru druhé odmocniny, přepočítanému v testu z přesných složek orákula; engine_inputs_match_the_committed_fixture); linalg_sr::tests ({ "9" } testů knihovny: Dekkerův součin rovný reziduu fused multiply-add na { "20 000" } dvojicích, kompenzované sčítání rušícího se součtu, R^T R rovné A^T A, sekvenční aktualizace filtru rovné jedné dávkové aktualizaci, koncový blok rovný druhé odmocnině Schurova doplňku, trojúhelníková inverze, Jacobiho SVD, shoda se spektrálním datumem na dobře podmíněném případu, bitově shodné opakování běhů); lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected a the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
+
+dat-982bb6b78dd6 = tests/lunar_infra_carrier_phase.rs (práh Q1: úspěšnost Monte Carlo alespoň na hranici bootstrapu minus tři standardní chyby; Q2: žádný pokles s délkou oblouku nad tři standardní chyby; Q4: LAMBDA se rovná vyčerpávajícímu výčtu pro { "200" } tahů o dimenzi až pět; Q3: plovoucí návrh se rovná nezávislému řešení numpy na { "1e-9" } pro kovariance nejednoznačností a polohy a bootstrapovaná míra je NOT MET na { "1e-9" }, zachyceno: liší se o relativních { "1.7e-6" }, protože normální CDF v LAMBDA je aproximace Abramowitze a Steguna)
+
+dat-42dcc7415045 = tests/lunar_infra_od_consistency.rs (práh O1: matice přechodu stavů řetězená přes tři dny a přes jednu periodu se rovná scipy DOP853 na relativních { "1e-6" }; práh C1: průměrné q a podíl uvnitř 95 %; práh C2: výběrová ku formální stopě každého estimátoru; práh C3, NOT MET a zachyceno: při { "3e-10" } m/s2 nemodelovaného zrychlení je překročení in-95 % { "0.0525" }, nikoli alespoň { "0.5" } - palubní odhad je znám jen na stovky metrů, takže se uvnitř jeho kovariance skryje asi deset metrů posunu); lunar_infra::orbit::tests, lunar_infra::gnss::tests, lunar_infra::od::tests, lunar_infra::la::tests
+
+dat-b77187fe96c5 = tests/lunar_infra_studies_3_5.rs (práh F1: stopa CRLB neroste a nejmenší vlastní číslo neklesá s odkazy orbiteru, v příkladu a ve { "20" } náhodných množinách se seedem; práh F2: parciální derivace vzdálenosti se rovnají nezávislé konečné diferenci numpy longdouble dopředného modelu Rodrigues na { "50" } geometriích; práh F3: nejmenší vlastní číslo stoupne alespoň 2.0x, zjištěno asi 111x)
+
+dat-45afc3da9031 = tests/lunar_infra_studies_3_5.rs (práh G1: analytické parciální derivace se rovnají centrální konečné diferenci každého dopředného modelu na { "1e-8" }; G2: informace 5x5 se rovná nezávislému sestavení v numpy na { "1e-6" }; G4: amplituda slapu hodin a její citlivosti na k2 a h2 se rovnají nezávislému vyhodnocení na { "1e-9" }; práh G3 NOT MET v části o stopě, zachyceno: přidání rodiny nikdy nesníží nejmenší vlastní číslo ({ "28" } z { "28" }), ale stopa pseudoinverze stoupla u { "12" } z { "28" } přidání, protože přidaná rodina zvýšila hodnost)
+
+dat-ebd59fced24b = tests/lunar_infra_studies_3_5.rs (práh T1: sigmy translace neklesají, když se lokální vazba uvolňuje; T2: s technickými sigmami škálovanými { "1e-6" } je sigma translace každé dvojice v rozmezí { "1" } % od sqrt({ "2" }) násobku sigmy lokální vazby, zjištěno v rozmezí { "3e-7" }; T3: informační matice se rovná nezávislému stackovanému sestavení v numpy na { "1e-9" }). První běh T2 s inverzí normálních rovnic nesplnil ({ "1.3" } % při vazbě { "0.1" } m, hodnoty pod prahem při { "1" } m); příčina byla numerická a kovariance přešla na cestu druhé odmocniny, než byl práh přehodnocen.
+
+dat-87bad80dc788 = tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible pro { "3" } dvojice poskytovatelů oproti nezávislému proložení SciPy SVD lstsq v tests/fixtures/inter_ephemeris/reference.json, rel<{ "1e-3" } abs<{ "1e-3" } m; fixtury + orákulum bajtově konzistentní přes scripts/gen_interop_ref.py na veřejných jádrech DE440/INPOP21a/EPM2021 přes IMCCE calceph)
+
+dat-d631712b98e1 = tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } normálních bodů ILRS: RMS { "2.81" } m; samotné dvě stanice ITRF2020 { "2.96" } m; obojí nejvýše { "10" } m); tests/lunar_llr_geometry_range_oracle.rs::round2_finding_is_a_common_offset_of_about_eleven_metres (nahrazený geocentrický model světelného času, { "10.94" } m, zachyceno)
+
+dat-c5f6bad2097f = tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } týdenních geocentrických stavů, úhel nejhorší epochy ověřen < { "0.3" }° a RMS < { "5e5" } m oproti vlastnímu zdokumentovanému tvrzení modulu, plus reziduum LLR ověřeno jako shodné s radiálním nesouhlasem na < { "5" }×); ::the_measured_residual_is_the_ephemeris_error ({ "337" } skutečných normálních bodů)
+
+dat-6c78f7784bb0 = tests/lunar_protection_level_reference.rs ({ "7" } případů servisního objemu — jižně polární, středních šířek, rovníkový, vyvýšená vysočina — { "6" } až { "19" } družic, σ_URE 10/30/60 m, P_HMI { "1e-3" } až { "1e-7" }, ochranné úrovně v rozsahu { "1.7e2" } až { "6.9e3" } m: HPL/VPL oproti složenému orákulu RTKLIB + SciPy, nejhorší |Δ| { "1.061e-8" } m a { "1.044e-8" } m oproti toleranci { "1e-6" } m; DOP oproti vlastnímu (GᵀG)⁻¹ z RTKLIB na { "1.790e-14" } relativně; K_fa oproti scipy.stats.norm.isf na { "2.716e-11" } relativně; tři negativní kontroly — posun družice o { "5" } km, relativní změna σ_URE o { "1e-6" } a o { "0.1" } % přísnější P_HMI — u každé naměřeno, že posune ochrannou úroveň alespoň o { "171" }× toleranci; a ochrana před zastaralou fixturou, která bit po bitu zafixuje uloženou geometrii na to, co produkuje vlastní kód konstelace a viditelnosti enginu, takže zelený výsledek nemůže přežít změnu konstelace pod ním)
+
+dat-fad883319c6c = tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m v rozmezí { "2.8e-6" } od Ashby a Patla { "2024" } s J2 z AIUB-GRL350A/B; entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields: radiální položka v rozmezí { "8.3e-5" } od rovníkové gravitace pyshtools stupně 350; entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed: rychlostní položka v rozmezí { "2.5e-3" } od lunární rychlosti DE441 v { "2000" } epochách); lunar_gauge::tests; regresní tests/lunar_rate_frame_coupling_oracle.rs
+
+dat-9a65374995ab = tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: na { "1e-12" } m s šumem přijímače i bez něj; zero_baseline_floor_is_zero_in_every_trial: { "0" } na { "1e-9" } m; survey_floor_matches_the_survey_transfer_prediction: p95 v pásmu { "5" } % stanoveném před během; coverage_is_non_decreasing_in_the_threshold; corrected_error_grows_with_distance_along_an_azimuth; three_satellites_are_unavailable_with_a_reason_and_no_error; a_satellite_the_station_does_not_see_is_reported; deterministic_for_a_seed_and_moved_by_another; the_work_guard_refuses_an_oversized_grid; the_bundled_scenario_states_a_source_for_every_input; the_result_is_labelled_modelled_with_the_honesty_statement); tests/lunar_station_numpy_oracle.rs (předregistrovaný přepočet v numpy, zaznamenaný i s nesplněním); lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid; tests/lunar_differential_pnt_reference.rs a goldeny registru a napříč platformami beze změny (aditivita); tests/field_units_global.rs (každé vysílané pole popsáno, bez výjimky)
+
+dat-c882b77b2bdf = tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: rozdíl chyby spoje se zapnutým a vypnutým růstem má výběrovou sigmu rate tau / sqrt({ "3" }) v rozmezí { "6" } % přes { "1600" } tahů; linear_growth_is_the_first_order_propagated_error: chyba rychlosti dv propagovaná vestavěným dvoutělesovým integrátorem z orbity scénáře posune polohu o dv tau v rozmezí { "1" } % při { "60" } s a { "600" } s); tests/lunar_station_published_oracle.rs::k5_growth_addendum_run (ignorováno, zaznamenaný dodatek)
+
+dat-432a5d12fd83 = tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: prázdné seznamy a základní příklad dávají výchozí zprávu i souhrn bajt po bajtu; an_added_site_never_increases_any_variance: nejmenší vlastní číslo H_after - H_before je nezáporné na { "1e-9" } z největšího, každý poměr sigma po/před je nejvýše jedna a obě přidané lokality jsou pozorovány; the_rest_of_the_report_is_the_five_array_result; every_station_geodesy_field_has_a_unit; a_beacon_list_inside_the_campaign_block_is_refused); scenarios/lunar-station-geodesy-baseline.toml a scenarios/lunar-station-geodesy-with-station.toml (stejný archivovaný rozvrh a stejný blok kampaně VLBI)
+
+dat-8afb011ab0ce = tests/lunar_station_published_oracle.rs::recorded_finding_one_of_six_bars_passes (zaznamenané hodnoty oproti registrovaným prahům); tests/lunar_station_published_oracle.rs::published_claims_comparison_run (ignorováno, asi { "7" } s v release: znovu spustí šest registrovaných případů a ověří zaznamenané hodnoty)
+
+dat-42761b650f10 = tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } zpoždění v { "25" } epochách poblíž J2000 přes DSS-14, DSS-43 a DSS-63: zpoždění v rozmezí { "1" } ps, nejhorší { "0.06" } ps; parciální derivace majáku v tělesové soustavě v rozmezí { "1e-6" }, nejhorší { "7.4e-9" }; parciální derivace stanic v ITRF93 v rozmezí { "1e-6" }, nejhorší { "3.8e-11" }); tests/lunar_vlbi_spice_oracle.rs::spice_2024_epochs_finding_is_unchanged; tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference (křížová kontrola vyhodnocení jádra); tests/naif_kernel_reader_check.rs; lunar_vlbi::tests
+
+dat-365fd9ac437e = tests/lunar_vlbi_surface_point_spice_oracle.rs::surface_point_covariance_kernel_path_matches_spice_geometry_and_numpy ({ "16" } pozorování shodných; hodnost 3/3; vlastní čísla v rozmezí { "5.9e-5" }; podmíněnost { "5.9e-5" }; sigmy majáku v rozmezí { "1.7e-3" } oproti { "1e-2" }; RMS { "2.9e-5" }; páka { "1.4e-8" }; sigmy P2 { "3.9e-14" } oproti { "1e-9" }); lunar_vlbi_fim::tests
+
+dat-e563869f208e = tests/maritime_trust_reference.rs (t1_nmea_decoding_matches_pynmea2, t2_east_north_offsets_match_the_wgs84_geodesic, t3_t4_monitor_input_statistics_match_the_oracle) oproti tests/fixtures/maritime_trust/reference.json, znovu vygenerovanému skriptem scripts/gen_maritime_trust_ref.py ze syntetického NMEA zapsaného příkladem examples/gen_maritime_trust_ref_inputs.rs; tolerance předregistrované v tests/fixtures/maritime_trust/PREREGISTRATION.md
+
+dat-b747427dbd24 = tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests (monotónní v každé statistice, přidání monitoru skóre nikdy nezvýší, zdravé statistiky zůstávají na { "100" })
+
+dat-0552f7815a0e = tests/mcda_ahp_reference.rs (tabulka Random Index Saatyho { "1980" } n={ "1" }..10 PŘESNĚ; vektor priorit + λ_max + CR oproti SciPy/LAPACK eig na konzistentní { "3" }×{ "3" } a nekonzistentní { "3" }×{ "3" } / { "4" }×{ "4" }, shodné na <{ "1e-9" })
+
+dat-e4b415c63205 = tests/mcda_copras_reference.rs (stupně užitečnosti + pořadí oproti pyDecision na <{ "1e-9" } na pevné matici benefit/cost { "4" }×{ "3" })
+
+dat-31879945a6ad = tests/mcda_electre_reference.rs (matice konkordance, diskordance a dominance prvek po prvku + jádro/dominovaná množina oproti pyDecision na <{ "1e-9" } na pevné datové sadě { "4" }×{ "3" } se samými kritérii typu benefit)
+
+dat-4df54d9cfae7 = tests/mcda_promethee_reference.rs (čistý tok převahy + pořadí, obvyklé kritérium, oproti pymcdm na <{ "1e-9" } na pevné matici benefit/cost { "4" }×{ "3" })
+
+dat-70e8f57e731c = tests/mcda_topsis_reference.rs (koeficienty blízkosti + pořadí oproti pymcdm na <{ "1e-9" } na pevné matici benefit/cost { "4" }×{ "3" })
+
+dat-4ad47001c3b1 = tests/mcda_vikor_reference.rs (index Q + pořadí oproti pymcdm na <{ "1e-9" } na pevné matici benefit/cost { "4" }×{ "3" })
+
+dat-a61ccfe39384 = tests/mcda_waspas_reference.rs (preference WASPAS + pořadí) a tests/mcda_moora_reference.rs (skóre MOORA + pořadí), každý oproti pymcdm na <{ "1e-9" } na pevné rozhodovací matici benefit/cost { "4" }×{ "3" }
+
+dat-6cccd5e2c6f1 = tests/mcda_wsm_reference.rs (skóre WSM + pořadí) a tests/mcda_wpm_reference.rs (skóre WPM + pořadí), každý oproti pymcdm na <{ "1e-9" } na pevné rozhodovací matici benefit/cost { "4" }×{ "3" }
+
+dat-08bc288f8940 = tests/mdev_tdev_reference.rs (MDEV + TDEV na hermetické 1000bodové fázové řadě LCG podle NIST SP { "1065" } §{ "12.4" }, { "8" } faktorů průměrování m={ "1" }..200 oproti allantools { "2024.06" } mdev/tdev na <{ "1e-9" } relativně, plus identita τ/√{ "3" } na skutečné řadě); allan::tests (sklon −1/2 u bílého FM; ručně odvozený malý případ MDEV)
+
+dat-b056f2d56e07 = tests/mro_odf_reader_label_oracle.rs (skutečný MRO ODF, 2007-304/305, oproti jeho popisku PDS: počet záznamů, pozice skupin, stanice, časy začátku a konce a datové typy sedí; počet řádků tabulky na konci souboru se míjí o jedničku, nekonzistence popisku, zachyceno jako zjištění); odf::tests (ručně sestavený round trip záznamu, epocha { "1950" }); tests/mro_odf_short_arc_od_oracle.rs (podmíněno daty, SHA-256 vstupů zafixováno, měsíční CI vyžaduje skutečná data: Doppler předpovězený z navigační rekonstrukce MRO mro_psp5 na hodnocených průletech DSS { "63" } a DSS { "14" }, { "12.5" } mHz RMS, práh { "30" } mHz, splněno; registrované určování oběžné dráhy neprodukovalo žádnou dráhu, zachyceno jako zjištění; běh { "2" } s tlumeným estimátorem, registrován zvlášť: dráha { "0.36" } km RMS a { "0.53" } km maximum oproti mro_psp5, splněno, Doppler po proložení { "48.6" } mHz oproti { "30" } mHz, nesplněno, zachyceno jako zjištění; čtečka SPK typu { "1" } oproti CSPICE, { "5e-7" } m); mars_od::tests
+
+dat-86300b94b4a1 = tests/mtie_reference.rs (MTIE na hermetické 1000bodové fázové řadě LCG podle NIST SP { "1065" } §{ "12.4" }, { "9" } faktorů průměrování m={ "1" }..256 oproti allantools { "2024.06" } mtie na <{ "1e-9" }, pozorováno ≤{ "4e-15" }); allan::tests (ručně odvozený rozkmit; monotónně neklesající v τ; přesně a·m na čisté rampě)
+
+dat-e41e8ad07e53 = tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } stavů de440s.bsp a { "200" } rotací MOON_PA_DE440 v { "200" } epochách 1849-2150 a náhodné dvojice těles vybrané z hashe vlastního commitu předregistrace, oproti SPICE a ANISE na ořezaných jádrech bitově shodných s NAIF: nejhorší rozdíl { "0.6" } % svého prahu, { "1.95e-3" } m absolutně); tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_full_naif_kernels_when_present (totéž na úplných souborech NAIF, kontrola SHA-256; podmíněno daty); tests/naif_kernel_reader_check.rs (technická pojistka, nikoli důkaz); naif_kernel::tests; ephem_provider::tests
+
+dat-889f0ec0409c = tests/nmea_training_reference.rs (srovnání s orákulem pynmea2); tests/nmea_training_scenarios.rs::every_sentence_is_checksum_valid_and_the_reader_accepts_it, ::every_sentence_type_is_present_each_epoch, ::deterministic_per_seed_and_sensitive_to_it
+
+dat-77bfa933c0bb = tests/nrlmsise00_reference.rs ({ "720" } bodů mřížky, { "90" } až { "1000" } km, { "4" } šířky, { "2" } místní časy, { "3" } dny, nízká/střední/vysoká aktivita: hustota v rozmezí { "1.866e-6" } relativně a teplota v rozmezí { "1.97e-4" } K od pymsis; bitově shodné s portem v C; { "17" } zveřejněných testovacích případů v C, { "187" } hodnot v rozmezí { "0.496" } jednotky 7. platné číslice); jednotkové testy nrlmsise00
+
+dat-4d7f401c0e3f = tests/numerical_cowell_propagator_reference.rs ({ "275" } epoch = { "11" } případů × { "25" } hodinových stavů, LEO+GTO, oproti Orekit { "12.2" } DormandPrince853; konzervativní úrovně T1–T5 nejhorší |Δr| { "0.08" } m za { "24" } h; úroveň odporu charakterizována na { "333" } m)
+
+dat-9c4d3014a5d5 = tests/od_tracking_measurements_reference.rs ({ "8" } scénářů: rychlost změny vzdálenosti, az/el a smíšené, LEO a MEO, bez šumu i se seedovaným sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, masky { "5" } a { "10" } deg, oproti Orekit { "12.2" }: množiny viditelných družic shodné; hodnoty měření v rozmezí { "5.84e-8" } m, { "6.30e-10" } m/s, { "1.44e-13" } rad; STM v rozmezí { "1.2e-14" } relativně; zašuměné stavy v rozmezí { "1.74" } cm a { "1.14e-5" } m/s; RMS po proložení podle typu v rozmezí { "2.7e-4" } relativně; kshana bez šumu oproti skutečnosti { "1.06e-8" } m; kshana bez šumu oproti Orekit { "1.464" } a { "1.740" } cm ve dvou scénářích, zaznamenané nesplnění prahu { "1" } cm); jednotkové testy orbit_determination a batch_ls
+
+dat-c6fd6abf90b2 = tests/odm_orekit_oracle.rs (L1 Orekit čte { "30" } souborů Kshana, L2 Kshana čte { "25" } souborů Orekit; zjištění zachycena a ověřena jako opakující se); odm::tests
+
+dat-228579b91f19 = tests/opssat_ad_reference.rs (skutečný ESA OPS-SAT, AUC reprodukuje scikit-learn na { "1e-9" }); tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } případů na skutečném testovacím rozdělení OPSSAT-AD: plná konfuzní matice v provozním bodě + Pd/Pfa/precision/F1 oproti scikit-learn, celočíselně přesně)
+
+dat-b54cfb219638 = tests/optical_atmosphere_identities.rs (práh A4: rho = { "0" } se rovná nezávislému sjednocení a rho = { "1" } nejlepší jediné lokalitě na { "1e-12" } a nula porušení monotonie v počtu lokalit i v korelaci; první běh tohoto prahu se míjel o { "3e-9" }, protože použité normální CDF byl tvar Abramowitze-Steguna s přesností { "1.5e-7" }, vada implementace nahrazená CDF z neúplné funkce gama bez změny prahu); optical_weather::tests a optical_sitediv::tests (monotónní rezerva, strop oblačnosti v uzavřeném tvaru, identity trvání výpadku, inverze hledání rezervy)
+
+dat-f178febd56d4 = tests/optical_atmosphere_identities.rs (práh A6: časová chyba na výpadek se rovná holdover::coast_phase_sigma a chyba vzdálenosti se rovná phase_to_range_m bit po bitu přes { "9" } hodin, { "3" } střední doby trvání, { "3" } rozptyly a { "4" } kvantily); optical_outage_holdover::tests
+
+dat-b4a04929852b = tests/optical_atmosphere_reference.rs (předregistrované prahy A1-A3 oproti nezávislému orákulu mpmath: { "216" } bodů mřížky Rytov, nejhorší relativní chyba { "3.4e-7" } oproti prahu { "1e-6" }, scintilace nejhorší { "4.5e-16" }, faktor apertury nejhorší { "5.7e-16" }, { "96" } pravděpodobností úniku gamma-gamma nejhorší { "1.3e-12" } v log10, optická hloubka oblačnosti a čistého vzduchu nejhorší { "6.6e-16" }); tests/optical_atmosphere_no_moved_output.rs (práh A5: rozpočet spoje se souhrnnou ztrátou a stávající výstupy dostupnosti lokalit jsou bitově shodné se základním commitem přes { "1,000" } sad parametrů)
+
+dat-07e189a8c1c8 = tests/optical_atmosphere_timeseries.rs (prahy T1-T6 z xval/optical-atmosphere/PREREGISTRATION-timeseries.md, stanovené před prvním během: stejný seed dává stejné bajty a jiný seed jiné bajty; žádný klíč bez tabulky; přes { "8760" } h při { "600" } s, seedy { "37" } a { "38" }, realizovaná dostupnost každé ze tří výchozích lokalit v rozmezí { "6" } bodů od uvedené (nejhorší { "3.3" }) a realizovaný podíl oblačnosti v rozmezí { "5" } bodů od uvedené pravděpodobnosti (nejhorší { "2.1" }); rezerva se rovná rozpočtu minus dva úniky a up se rovná rezervě nezáporné v každém kroku; žádné nepřenositelné matematické volání v modulu; příliš dlouhé běhy a chybné kroky odmítnuty)
+
+dat-a16e3d31e142 = tests/optical_clock_adev_reference.rs (Norcia et al. ⁸⁸Sr tweezer-clock σ_y(τ), { "8" } průměrovacích dob { "0.92" }–{ "117.76" } s převzatých doslovně pod CC-BY-4.0: NNLS rekonstruuje křivku na ~{ "10" }% RMS / ≤{ "21" }% nejhorší bod; obnovená √q_wf = { "4.33e-16" } odpovídá zveřejněným 4.7e-16/√τ; q_rw > { "0" } naměřená hladina červeného šumu)
+
+dat-5ae9860f805b = tests/osnma_official_vectors.rs (opt-in, KSHANA_OSNMA_VECTORS: všech { "18" } sad vektorů, { "186,382" } autentizovaných tagů, { "0" } neúspěšných, spodní meze podle sad, oznámené řetězce, ADKD 0/4/12, ověřený alert, autentizace pokračující po konci řetězce, odvolání řetězce a klíče a nový veřejný klíč; offline, vektory se nedistribuují); tests/osnma_synthetic.rs (sada útoků: podvržené podrámce z daleké budoucnosti, expirace a vazba na data, alert a don't-use, potvrzení hlavičky, fiktivní tagy, MACSEQ, konflikt klíčů, zastaralý a přehraný KROOT, CMAC-AES/SHA3-256/P-521 přes ověřovač); jednotkové testy osnma (známé odpovědi RFC { "4231" }, RFC { "4493" }, FIPS { "197" }, FIPS { "202" }, RFC { "6979" } a CRC-24Q)
+
+dat-8eb49ef77a68 = tests/pass_predictor_on_path_orekit_oracle.rs ({ "60" } případů, { "1210" } průletů: AOS/LOS v rozmezí { "3.4e-6" } s, práh { "5" } ms; maximální elevace v rozmezí { "5.5e-7" } deg, práh { "1e-3" } deg; { "8979" } zdánlivých směrů v rozmezí { "8.8e-7" } deg, práh { "1e-4" } deg); tests/earth_orbit_path_sgp4_erfa_oracle.rs (dráha); passes::tests (p834_equations_9_and_14_are_consistent_and_vanish_toward_the_zenith; refraction_lengthens_passes_and_light_time_delays_them); tests/pass_predictor_apparent_orekit_oracle.rs (zjištění z 1. kola, zachyceno; orekit_p834_coefficient_differs_from_the_recommendation_above_sea_level)
+
+dat-36eb4569c48e = tests/phasedat_reference.rs (Stable32 PHASE.DAT, { "139" } faktorů průměrování, OADEV/MDEV/TDEV na { "1e-3" }; podmíněno dostupností dat přes scripts/fetch_phasedat.sh)
+
+dat-39895214483b = tests/planetary_gravity_pds.rs (výřezy stupně 20 běží vždy: nejhorší |dg|/|g| { "9.7e-16" }, relativně k poruše { "3.4e-11" }; GMM-3 d/o { "120" } přes celou kouli { "3.7e-15" } / { "6.3e-12" } a GL0660B d/o { "660" } při |lat| <= { "60" } deg { "5.0e-14" } / { "1.0e-10" }, podmíněno daty; hlavičky a vybrané koeficienty rovné zveřejněným produktům PDS, počty záznamů { "7380" } a { "218790" }); jednotkové testy gravity_pds
+
+dat-e7b30bd8852b = tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (Země do barycentra Marsu, { "16" } odletů 2026-09-01..2027-01-29 x { "19" } příletů 2027-06-01..2028-02-26: { "304" } buněk konečných na obou stranách, nejhorší C3 { "2.5e-14" } a V-infinity { "2.6e-14" } relativně oproti { "1e-8" }, stejná buňka s minimem C3, { "9.1997" } km²/s²)
+
+dat-89dc3412193d = tests/ppp_real_wettzell_oracle.rs (stanice IGS WTZR, 2025-02-24 00-06 h, { "30" } s, zadržená před vývojem: horizontálně v poslední epoše { "1.5" } mm, nahoru −{ "2.9" } cm; 04-06 h 240/240 epoch v rozmezí { "0.10" } m 3-D, p95 { "6.7" } cm; pouze kód p95 { "1.70" } m; podmíněno daty ZTD RMS { "1.7" } cm oproti EUREF); ppp_real::tests; tests/ppp_parity_glab_rtklib.rs (RM-31: PPP v RTKLIB v2.4.2-p13 na stejných vstupech se shoduje v rozmezí { "0.05" } m u 240/240 epoch, { "9.7" } mm v poslední, při třetí registraci po dvou bězích, jejichž konfigurace RTKLIB postrádala pevné slapy a umístila anténu na základní slot, obojí zaznamenáno jako zjištění; práh shody SPP nebyl splněn, medián { "1.085" } m oproti { "0.50" } m; gLAB { "6.0.0" } při prvním registrovaném běhu, příkazový řádek dodatku { "4" }: PPP v rozmezí { "0.05" } m u 240/240 epoch a { "5.0" } mm v poslední, práh SPP nesplněn, medián { "1.187" } m, zjištění: řešení SPP obou referenčních nástrojů se mezi sebou liší o medián { "0.852" } m, takže tento práh byl nastaven přísněji než shoda mezi nástroji)
+
+dat-c5f07c62ad61 = tests/ppp_time_igs_station_clock.rs (WTZR 2025-02-24, { "04" }:00-05:{ "55" }, { "24" } epoch: Kshana minus IGS std { "0.075" } ns, práh { "0.20" }; průměr -0.659 ns, práh { "5.0" })
+
+dat-176e7b1b2f96 = tests/propagator_de440_orekit_oracle.rs ({ "5" } případů x { "25" } hodinových stavů za { "24" } h, LEO, GEO a HEO, třetí těleso a třetí těleso + SRP: nejhorší |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; kontrola analytickou řadou se míjí o { "9.96" } m; Slunce { "6.39" } m a Měsíc { "0.244" } m od poloh DE440 z Orekit, zaznamenané nesplnění); jednotkové testy propagátoru (odmítnutí poskytovatelem, počítání záloh sdílené napříč klony)
+
+dat-474722aa2db9 = tests/quantum_faults_reference.rs ({ "109" } případů oproti scipy { "1.17" } norm.cdf/ppf + scikit-learn roc_auc_score; nejhorší |Δ| AUC { "6.9e-8" }, minimální detekovatelná porucha { "1.3e-8" }, empirické AUC { "1.1e-16" })
+
+dat-657e4137d8c0 = tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= { "3" }, nemonitorované riziko v rámci P_THRES, monitorovaná podmnožina odstraňující tři nebo více družic a více než deset monitorovaných apriorních hodnot nezávisle odvozených jako P_no fault q^k na { "1e-12" }; a_two_satellite_fault_is_found_as_a_pair: bez poruchy žádný alarm a bias { "30" } m na dvou družicích zjištěn s dvojicí jako podmnožinou s největší normalizovanou separací); tests/araim_reference_vectors.rs a tests/integrity_araim_stanford_oracle.rs beze změny (cesta řádu 2 je ta ověřená přes MAAST)
+
+dat-59df4c757eca = tests/raim_reference.rs ({ "171" } případů: CDF/kvantil χ², CDF/kvantil normálního rozdělení, necentrální CDF χ², pbias napříč rozsahy P_fa/P_md/redundance)
+
+dat-40821ee76be6 = tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignorováno, podmíněno daty přes KSHANA_JAMMERTEST_DIR: zaznamenaný výběr, počty zadržených, verdikty prahů a verdikt); receiver_trust::calibration::tests (časová razítka, párování oken a posun časového pásma, popisky, ochranná pásma, vyloučení, výběr); receiver_trust::monitors::tests::threshold_profile_is_opt_in
+
+dat-1d2fdc610c00 = tests/receiver_trust_live_cli.rs (brána a její posluchač TCP, strana Rust); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js a integrations/signalk/test/plugin.test.js ({ "24" } testů Node na zaznamenaném syntetickém výstupu); integrations/opencpn/test/relay.test.mjs ({ "5" } testů Node); integrations/opencpn/test/e2e-live.mjs (skutečný binární soubor ke spotřebiteli TCP, spouštěno ručně a v CI); integrations/opencpn/plugin/test/pksht_test.cpp a integrations/opencpn/plugin/test/trust_state_test.cpp (kontroly v C++ parseru PKSHT a stavu panelu); deploy/reference-build/check-units.sh a deploy/reference-build/test-entrypoint.sh
+
+dat-8e2108c6b488 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formát, který zapisuje most gnss_lib_py, spuštěný přes receiver-trust); testy mostů v Pythonu jsou integrations/ros2/kshana_trust/test/test_bridge.py (most s atrapou enginu), integrations/ros2/kshana_trust/test/test_engine_integration.py (skutečný wheel ohodnotí stabilní fix jako nominální a skok o { "1.1" } km jako nedůvěryhodný) a integrations/gnss_lib_py/test_bridge.py (skutečný gnss_lib_py { "1.1.0" } a wheel), spouštěné přes pytest, nikoli přes cargo
+
+dat-bcb53e987527 = tests/resilience_diversity_reference.rs ({ "17" } případů: { "14" } oproti scikit-bio inv_simpson + { "3" } zafixované nulové okrajové; nejhorší |Δ| { "0.0" })
+
+dat-c3c16b96275c = tests/resilience_score_decision_instability_reference.rs ({ "124" } případů oproti scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendallovo τ-b na { "2e-16" }, pořadí přesné, Dirichletův průměr + percentilový CI na { "1e-12" })
+
+dat-cf873e80e5e1 = tests/rinex_sp3_interop_reference.rs ({ "84" } případů SV-epocha: GPS + Galileo + BeiDou-MEO, { "12" } SV × { "7" } posunů, oproti RTKLIB eph2pos; nejhorší |Δ| na osu { "6.2e-8" } m)
+
+dat-9a8caef80254 = tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } oproti BRDM00DLR_S RINEX { "3.04" } z 2026-07-19, výřez 00-02 h: záznamy G { "37" } / E { "478" } / C { "72" } spárované oběma směry, každé pole shodné, poloha v Toe { "0" } m; celý den podmíněn daty: G { "416" } / E { "5668" } / C { "865" } / J { "118" }); rinex::tests
+
+dat-bbb3d37cf9a3 = tests/rinex4_obs_mao0.rs (prvních { "4" } epochy souboru IGS MGEX RINEX { "4.00" } MAO000USA_R_20231980000_01D_30S_MO, { "58" } družic, { "7" } systémů: záznamy hlavičky a hodnoty první epochy se rovnají zveřejněným literálům); rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records (syntetická hlavička { "4.02" } podle specifikace)
+
+dat-d08207568a97 = tests/rtk_real_wettzell_oracle.rs (stanice IGS WTZR základna / WTZZ rover, { "1.4" } m, 2025-02-24 00-03 h, { "30" } s: { "359" } epoch, fixy na { "100" } % od { "00" }:{ "10" }, medián chyby fixované základny { "4.5" } mm, p95 { "5.5" } mm; prvních { "10" } min fixováno { "2.6" } mm oproti float { "13" } cm); rtk_real::tests
+
+dat-3c907d007e9f = tests/s2_air_tide_gfz_table5.rs ({ "21" } z { "21" } vln se shoduje se zveřejněným modelem A2: nejhorší { "0.00050" } cm, { "0.050" } deg oproti prahům { "0.0006" } cm, { "0.1" } deg); tests/tides_iers.rs (pásmo amplitudy S2)
+
+dat-c88096add505 = tests/sbas_reference.rs ({ "6" } skutečných epoch EGNOS: HPL shodné přímo, vertikální d_U ověřen bez faktoru K)
+
+dat-21037fbc2a71 = tests/scipy_reference.rs (NNLS; χ² při provozních dof ≥ { "48" }; van-Loan Q)
+
+dat-b972dc635eb0 = tests/sgp4_verification.rs ({ "666" } ověřovacích vektorů AIAA, nejhorší { "4.12" } mm); tests/sgp4_crate_comparison.rs (nezávislý crate sgp4)
+
+dat-65d61457a4e4 = tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } úhlů pohledu na šesti lokalitách a čtyřech epochách, šest tabulek masek, { "142" } množin viditelných družic; nejhorší |d el| { "1.3e-13" } deg a |d az| { "2.3e-13" } deg oproti { "1e-9" }, nejhorší |d mask| { "1.1e-12" } deg oproti { "1e-9" }, množiny viditelných družic shodné, žádná v hraničním pásmu { "1e-6" } deg, nejhorší DOP { "3.3e-13" } relativně a kofaktor { "6.6e-13" } měřítka matice oproti { "1e-9" }; předregistrováno e4b9d912); skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam); tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release)
+
+dat-dddadfd377b1 = tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: proložení na první třetině záznamu, předpověď překročení jedné sigma při { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } a { "2.5" } ns, měření na zbylých dvou třetinách ze synchronizačního bodu každých { "997" } s; práh, stanovený před prvním během, faktor { "1.5" } na obě strany; pozorované poměry { "0.84" } až { "1.03" }; kontrola, jednosekundová Allanova odchylka čtená jako bílé FM, se míjí o faktor asi { "1 000" } a musí prahem neprojít; mutace snižující hladinu bílého FM na polovinu test neprojde); slot_timing::tests (a_measured_white_fm_record_recovers_its_level; reduces_to_the_holdover_inversion; ieee1139_conversion_matches_the_powerlaw_module)
+
+dat-c42bb6c40ea6 = tests/slot_timing_igs_holdout.rs ({ "10" } hodin družic GPS Block IIF, { "14" } dní finálních hodin IGS: { "8" } v rámci prahu { "1.5" }, G25 a G30 optimistické až asi 2x, zachyceno); tests/slot_timing_ocxo_holdout.rs (naměřený OCXO: předpověď na zadržených datech nikdy optimistická, { "0.59" } až { "0.70" } naměřeného překročení; ve vzorku v rozmezí { "0.98" } až { "1.17" }; bez členu frekvence fixu je předpověď ve vzorku optimistická při každém prahu); slot_timing::tests (fix_frequency_uncertainty_alone_is_linear_in_time; reduces_to_the_holdover_inversion — každá třída oproti holdover::holdover_seconds na { "1e-9" }; white_fm_with_fix_error_has_its_closed_form; flicker_floor_alone_is_linear_in_time; ageing_alone_is_quadratic_in_time; frequency_offsets_add_in_magnitude; the_error_at_the_breach_is_the_guard; datasheet_fit_envelopes_every_point; datasheet_classes_match_their_presets_at_one_second; a_breach_beyond_the_datasheet_is_flagged_as_extrapolated; the_report_carries_the_result_and_a_unit_for_each_field)
+
+dat-fa8d19607f01 = tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: nejhorší úhlová chyba viděná z planety přes { "2000" } až { "2040" }, Phobos { "5.65" } deg, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymede { "0.22" }, Callisto { "0.27" }, Titan { "3.31" }; geocentric_moon_tracks_horizons: { "0.046" } deg); ephem::tests (moons_sit_at_their_mean_distance_and_move_at_their_mean_speed); ephem_provider::tests (earth_and_moon_balance_about_their_barycentre)
+
+dat-3600b56b6940 = tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: zachyceno na { "2.04" } a { "5.16" } násobku nominální chyby délky, pod šestinásobkem; pluto_from_the_1992_row_is_measured_not_validated: v rozmezí { "39" } arcsec a { "1.14e9" } m; standish_velocities_track_horizons_to_one_percent: nejhorší { "3.7e-3" } rychlosti); ephem::tests (standish_velocity_is_the_derivative_of_the_position; pluto_has_no_table2_row_and_no_stated_error)
+
+dat-88277c0e8966 = tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Merkur, Venuše, Země a Měsíc v 2026-01-01, 2030-06-15 a 2040-12-31: nejhorší { "3.3e-5" } m a { "1.0e-11" } m/s oproti { "1" } mm a { "1e-6" } m/s; blok jádra a popisky přesně); tests/solar_system_kernel_oracle.rs::without_a_kernel_the_report_has_no_kernel_block
+
+dat-d26d3b6f95b6 = tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s (barycentra Merkuru, Venuše, Marsu, Jupiteru a Saturnu, Slunce a Měsíc ke středu Země, vždy { "1576" } epoch na interpolovaných polohách DE441, nejhorší { "6.7e-9" } s oproti { "1e-6" } s); nehradlující prohlášení o přesnosti pro analytickou cestu: tests/solar_system_light_time_preregistered.rs (RMS c dLT { "0.17" } až { "0.30" } prahu polohy v tabulce { "8.10.1" }); solar_system::tests
+
+dat-60fed260026a = tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (barycentra 1800-2050 z tabulky { "1" } a { "3000" } BC-3000 AD z tabulky { "2" }, { "8908" } a { "21857" } epoch, nejhorší RMS { "0.778" } hodnoty z tabulky { "8.10.1" }); tests/solar_system_standish_earth_icrf_preregistered.rs (earth_from_the_split_barycentre_is_within_the_emb_table_8_10_1_rms: Země přes AnalyticSolarSystem a icrf_to_ecliptic, RMS { "0.483" } hodnoty EMB; icrf_positions_are_within_the_table_8_10_1_rms: polohy ICRF těles z tabulky { "1" } a Země, nejhorší { "0.778" }; earth_minus_barycentre_offset_matches_de441_1950_to_2050: rozdělení lunární řadou, nejhorší { "0.088" } deg a { "6.1" } km); ephem::tests (standish_periods_obey_keplers_third_law; a_planet_track_is_one_closed_ellipse). Nehradlující regrese: tests/solar_system_horizons_reference.rs
+
+dat-92d3638904a2 = tests/source_guards.rs ({ "9" } testů: obě pojistky přes celý zdrojový strom, plus mutační fixtury, které hodnotí každou pojistku v obou směrech — vzor F22 hlášený na obou kolidujících cestách, dodaná oprava s atomickou sekvencí přijata, poloviční oprava hlášena přesně na cestě, která ztratila svou jedinečnou složku, handle dočasného souboru a zděděný jedinečný adresář přijaty, nástěnné hodiny odmítnuty; nedeklarovaný pin hlášen, deklarovaný přijat, rozsah bez výjimky odmítnut, deklarace v dokumentačním komentáři okolního testu přijata a ukázáno, že neprosakuje do dalšího testu; a každý pravopis pinu — hex, desítkový, řetězec digestu, délka v bajtech, pojmenovaný počet bajtů, golden soubor — zachycen, zatímco konstanty algoritmů, seedy RNG a kontroly malé kardinality nikoli)
+
+dat-a298dd9a3233 = tests/sp3_clock_igs_oracle.rs (finální SP3 IGS po { "15" } min z 2025-02-24 oproti finálním hodinám IGS po { "30" } s, { "32" } družic GPS: medián uzlu |Δ| { "2.6e-13" } s; { "3038" } záznamů ve středních bodech RMS { "0.121" } ns, p95 { "0.265" } ns; při držení uzlu místo toho { "4.24" } ns RMS); sp3::tests::clock_interpolation_is_linear_between_valid_nodes_and_exact_at_them
+
+dat-28f81116b40c = tests/sp3_interp_reference.rs ({ "72" } případů SV-epocha mimo uzly / { "6" } družic oproti RTKLIB peph2pos; nejhorší |Δ| na osu { "1.5e-8" } m)
+
+dat-1636be2adefe = tests/space_packet_ext_oracle.rs (pět předregistrovaných prahů: CRC, časové kódy, proudy, mezera a pořadí, PUS TM; nula neshod); space_packet::tests
+
+dat-f403e1bff89a = tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities_verdict_is_the_recorded_one, zjištění F1, zachyceno testem finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_verdict_is_the_recorded_one, zjištění F2, zachyceno testem finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, pouze uvedeno)
+
+dat-77160f0d4810 = tests/spk_3_21_spice_oracle.rs (inventář, vyhodnocení oběma směry, bajtová identita); spk_writer::tests
+
+dat-a12336407649 = tests/spk_writer_spice_oracle.rs (inventář, vyhodnocení, bitová a bajtová identita, převod epoch OEM; čtyři plánované mutační kontroly ho zčervenají)
+
+dat-047020caa02b = tests/spoof_texbat_validation.rs (charakterizace parametrů TEXBAT); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (zachycuje zjištění); tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+dat-56762c52bd16 = tests/srp_boxwing_orekit_oracle.rs ({ "252" } geometrií drah Galileo, { "7" } případů Slunce včetně vzdáleností v periheliu a afeliu, { "100" } náhodných orientací; součet plochých desek nejhorší { "2.05e-15" } relativně přes { "1056" } případů; od začátku do konce s vlastní orientací a tlakem z Orekit nejhorší { "2.39e-15" } přes { "747" } případů plného slunečního světla, zatímco výchozí konstanty tlaku v Orekit se liší o >= { "4.43e-3" }, takže srovnání konstantu rozlišuje; nominální matice stáčení nejhorší { "1.89e-15" }; parciální derivace faktoru záření nejhorší { "1.35e-15" }; parciální derivace podle panelu nejhorší { "4.12e-13" } relativně oproti centrálním diferencím Orekit přes { "10836" } případů panelů; zrychlení ECOM2 a parciální derivace nejhorší { "1.74e-15" }); jednotkové testy srp_boxwing (limity v uzavřeném tvaru, parciální derivace konečnou diferencí); testy zapojení propagátoru a precise_od
+
+dat-b063b8b90601 = tests/srp_oblate_shadow_orekit_oracle.rs ({ "2400" } geometrií přes okraj stínu, { "884" } v polostínu, od LEO po GEO, deklinace Slunce { "0" } a +-23.44 deg, { "8" } azimutů: nejhorší |dnu| { "7.41e-9" } pro WGS-84 a { "2.24e-9" } pro sférický základ; poměry WGS-84 a sférický z Orekit se liší až o { "0.98" }, takže množina rozlišuje zploštění); jednotkové testy srp_shadow a propagátoru
+
+dat-e38941e52102 = tests/standards_packs.rs (pinned_outcomes: stav každého testu, včetně nesplnění L4-T1 a čtyř testů přesnosti IMO); standards_pack::tests
+
+dat-855c85453ab2 = tests/telecom_timing_reference.rs ({ "17" } faktorů průměrování MTIE a { "12" } TDEV na uložené řadě holdover čipových atomových hodin o { "2" } 048 vzorcích se stárnutím, flicker šumem a teplotou, oproti allantools { "2024.06" } na <{ "1e-12" } / <{ "1e-9" } relativně, pozorováno přesně / { "1.1e-15" }; tytéž křivky přečtené z celého běhu telecom-timing, který načítá CSV); telecom_timing::tests (klouzavé MTIE rovné allan::mtie v každém okně; ručně odvozené MTIE a TDEV; monotónní MTIE)
+
+dat-6bd0f403b84f = tests/telemetry_formats_reference.rs (prometheus_client_reads_our_exposition_as_the_registry_implies, the_official_otlp_proto_reads_our_json_as_the_registry_implies, awkward_reason_text_survives_the_parser, the_committed_outputs_are_what_this_crate_produces; schéma { "1.3" }: prometheus_client_reads_the_schema_13_exposition_as_the_registry_implies, the_official_otlp_proto_reads_the_schema_13_json_as_the_registry_implies, promtool_accepts_the_schema_13_exposition, the_collector_receives_and_exports_the_schema_13_payload_unchanged); tests/telemetry_cli.rs; telemetry::prometheus::tests (golden expozice)
+
+dat-b7e8cebff6ad = tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — uložená 6-obloukovosekundová decimace dlaždice SRTM v3 N36W117 z public domain umisťuje Badwater Basin, nejnižší bod Severní Ameriky, na −{ "78" } m v rámci geodetického pásma [−{ "95" },−{ "70" }] m a čte skutečný reliéf východního hřebene dlaždice ~{ "2.2" } km; plus na dvou uložených doslovných 1-obloukovosekundových výřezech 361x361 z N36W119 a N36W117 real_srtm_tile_whitney_in_survey_band ({ "4412.1" } m v pásmu [{ "4380,4430" }] m kolem geodetických { "4421" } m), real_srtm_tile_badwater_in_survey_band (−{ "78.0" } m v [−{ "95" },−{ "70" }] m) a gdal_cross_check (nejbližší uzel se přesně rovná GDAL { "3.8.4" } gdallocationinfo na úplných dlaždicích ve všech { "8" } předregistrovaných bodech, xval/srtm-ungate/; plus ručně sestavené orákulum bilineárního středu a orákula parseru syntetické fixtury)
+
+dat-6ba7a03118d7 = tests/testbench_gpssdrsim_oracle.rs ({ "6" } testů: orákulum a scénáře, bajty exportu zafixovány, čtečky NMEA a LLH, čtyřsloupcový řez ECEF, ZJIŠTĚNÍ z běhu 1 na CSV plné šířky, mřížka řádků { "10" } Hz)
+
+dat-8a797add2918 = tests/testbench_reference.rs ({ "7" } testů: zafixování orákula, bajty exportu, nejhorší případ přes každý řádek, sloupce polohy, lokální rychlost oproti skutečné rychlosti NED, Eulerovy úhly oproti scipy, NMEA oproti pynmea2); tests/interop_testbench.rs (vlastní round trips zapisovače)
+
+dat-f0bbcc6ee88b = tests/theo1_totvar_reference.rs (Theo1 + TOTDEV na datové sadě LCG o 1000 bodech podle NIST SP { "1065" } §{ "12.4" }, { "6" } + { "6" } faktorů průměrování oproti allantools { "2024.06" } na <{ "1e-9" }); allan::tests (sledování uzavřeným tvarem u bílého FM; identita TOTVAR=ADEV při m={ "1" }; invariance Theo1/TOTVAR vůči posunu fáze/frekvence; sklon -1/2 u bílého FM)
+
+dat-20f11494c9e6 = tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } případů s deterministickou latencí PŘESNĚ oproti orákulu prvního průchodu; { "8" } případů ARL₁, Monte Carlo @60k pokusů oproti Siegmundově aproximaci + zveřejněným tabulkám Montgomeryho)
+
+dat-cbb4f14ac189 = tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (Země do barycentra Marsu, odlety 2026-09-15..2027-01-15 x přílety 2027-05-01..2028-03-01, typ I/II x min C3 / min V-infinity: nejhorší cíl { "8.7e-13" } relativně, data v rozmezí { "1e-5" } dne, další veličina v rozmezí { "2.5e-7" } relativně, oproti předregistrovaným prahům { "1e-7" }, { "0.01" } dne a { "1e-4" }; docs/design/evidence/cap20cd-transfer-optimiser/); tests/transfer_optimiser_oracle.rs::transfer_optimiser_against_the_published_2026_handbook (sekundární zveřejněná reference NASA/TM-2010-216764 tabulka { "2" }: typ II min C3 { "9.182" } oproti { "9.144" } a typ II min V-infinity { "2.564" } oproti { "2.565" } MET; typ I min C3 { "10.535" } oproti { "11.11" }, -5.18 %, NOT MET a ověřeno jako nesplněné, přičemž orákulum knihovny souhlasí s Kshana)
+
+dat-3e10bf718fa2 = tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } neviděných normálních bodů 2019-Q2; sigmy a normy v rozmezí { "4.0e-5" } z { "1e-2" }, podmíněnost { "1.6e-5" } z { "2e-2" }, poměry { "7.6e-5" } z { "2e-2" }, účetnictví a hodnosti přesně); tests/validate_llr_datum_kernel_moon.rs (diagnostika na viděných datech z { "2015" }, { "0.049" } % na tz; není důkazem pro tento řádek); lunar_llr::tests
+
+dat-f82fb602e1ff = Textové exporty
+
+dat-28da188a34bd = Děkujeme za váš zájem. Kshana usiluje o to být neutrální, reprodukovatelnou a poctivě ověřenou referencí pro…
+
+dat-4e63b7b36722 = „~{ "95" } % pokrytí řádků“ na odznaku v README, tabulka CI (průběžná integrace) v README, crates.io…
+
+dat-4cf9e6d30521 = Druh `body-pnt`: orbiter nebo povrchový lander kolem tělesa zvoleného jménem navigují pomocí jednosměrných pseudovzdáleností z navigační konstelace Walker kolem tělesa (dvoutělesové dráhy se sekulárním driftem J2 tělesa, neznámé hodiny uživatele) a volitelné dvoucestné vzdálenosti od Země bez hodin, přičemž směr a vzdálenost Země se berou z analytických efemerid v každé epoše; zorné přímky blokované koulí tělesa a povrchová maska elevace; v každé epoše GDOP a PDOP samotné konstelace (orbit::dop), formální polohová nejistota s řádkem Země i bez něj a seedovaná řešení Gauss-Newton (batch_ls::gauss_newton) pro oba případy, se světelným časem a oběhem signálu mezi tělesem a Zemí
+
+dat-4660720bc92f = Sekce compose druhu `campaign`: pojmenované sdílené hodnoty (například výkon a poloha jednoho rušiče) zapsané do každého člena na klíče, na které je váže, běh každého člena a pro každou metriku nejmenší, největší a průměrná hodnota napříč členy s uvedením člena; jednotky metrik se musí napříč členy shodovat
+
+dat-18ac605f9caf = Sekce optimize druhu `campaign` (CAP-32): jeden až tři tečkou oddělené klíče scénáře omezené na [lo, hi] na lineární nebo logaritmické stupnici, jedna metrika čtená cestou ve výsledku, cíl minimize, maximize nebo target; metoda mřížka (hodnoty os průchodu) nebo deterministický simplex Nelder-Mead v normalizovaných souřadnicích s projekcí do boxu a standardními koeficienty; chybějící nebo nekonečná metrika se hodnotí jako nejhorší a zůstává ve stopě; při runs > { "1" } je metrikou průměr přes společné seedy; každé vyhodnocení je skutečný běh pojmenovaného druhu, uvedený ve stopě a započítaný do digestu reprodukovatelnosti
+
+dat-a4238a69ab89 = Fáze druhu `campaign`: každá fáze spouští jeden nebo více scénářů stávajících druhů přes run_toml, čte jejich výstupy do pojmenovaných kanálů (časová chyba hodin a ochranné pásmo, průměrný efektivní poměr nosné a hustoty šumu a práh sledování, vertikální ochranná úroveň a mez alarmu, chyba polohy, sledované družice, příznaky alarmu) podle předvoleb pro daný druh nebo explicitních cest ve výsledku, umisťuje je na začátek fáze a drží je na společné mřížce, s hranicemi fází a událostmi; stav se předává přes carry (kanál pokračuje od koncové hodnoty předchozí fáze), handoff (číslo předchozí fáze zapsané do dalšího scénáře) a end_at (fáze končí v čase, který vypočetl některý běh, například v čase detekce monitoru spoofingu); hash kampaně a digest přes každý výsledek člena
+
+dat-b1324ba13721 = Sekce sweep druhu `campaign` (jeden až tři tečkou oddělené klíče libovolného druhu, na hodnotách os obecného průchodu, volitelně ensemble v každém uzlu) a monte_carlo: realizace k běží při base_seed + k; každá metrika uvádí průměr, směrodatnou odchylku, percentily 5./50./95. podle nejbližšího pořadí a percentilový bootstrap { "95" }% intervalu spolehlivosti průměru s pevným seedem (inertial::metric_stat); jednotky metrik se čtou z vlastního bloku jednotek průchodem zvoleného druhu
+
+dat-9c2d0a602027 = Pokrývací engine `constellation-design` na základní předvolbě GPS s 24 sloty za podmínek přílohy B standardu GPS Standard Positioning Service Performance Standard (SPS PS) (jeden hvězdný den, { "287" } pětiminutových kroků, globální mřížka { "4" } x { "4" } deg vážená kosinem zeměpisné šířky, vše ve výhledu, maska { "5" } deg, jedny hodiny přijímače): globální rozdělení HDOP, medián PDOP a dostupnost PDOP nejvýše 6, globálně i na nejhorší lokalitě
+
+dat-d0812004ed2d = Druh `constellation-design` nad rámec dvou zafixovaných případů: explicitní a víceslupkové návrhy, několik konstelací v jednom běhu s jedněmi hodinami přijímače na konstelaci, Země, Měsíc a Mars z konstant těles, předvolba BeiDou (modelována fáze střední oběžné dráhy a { "118" } deg E průsečík nakloněné geosynchronní dráhy), družice ve výhledu na buňku, GDOP, PDOP, HDOP, VDOP a dostupnost, podvzorkované pozemní stopy a předfiltr viditelnosti podle zeměpisné šířky subsatelitního bodu, který spočítá návrh o { "5" } 000 družicích na mřížce { "10" } deg za zlomek sekundy
+
+dat-447a8eb7060e = Generátory druhu `constellation-design`: vzory Walker delta a star v konvenci T/P/F (rozestup uzlů 360/P nebo 180/P, rozestup v rovině { "360" }·P/T, fázový posun mezi rovinami { "360" }·F/T) a základní a rozšiřitelné 24slotové předvolby GPS, předvolby Galileo a GLONASS sestavené z jejich zveřejněných nominálních elementů, umístěné v pozemně pevné soustavě podle greenwichského hodinového úhlu, který uvádějí jejich dokumenty
+
+dat-e0f06e198998 = Režim `[formation]` druhu `gnss-ssv`: chief a deputies každý spouští absolutní filtr; poloha deputy vůči chief se odhaduje odečtením absolutních odhadů a relativním filtrem na jednoduše diferencovaných pseudovzdálenostech signálů, které sledují obě družice, přičemž relativní dynamika je rozdílem dvou nelineárních trajektorií
+
+dat-ba82c9a3e940 = Režim `[navigation]` druhu `gnss-ssv`: devítistavový rozšířený Kalmanův filtr (poloha, rychlost, bias a drift hodin přijímače, měřítko tlaku slunečního záření) na pseudovzdálenostech, jejichž dostupnost, šum a C/N0 pocházejí ze stejné geometrie spoje jako průchody; skutečnost se integruje s J2, třetími tělesy Slunce a Měsíc a tlakem záření se stínem, filtr modeluje J2 a třetí tělesa a tlak záření odhaduje; uvádí chyby polohy a rychlosti uvnitř drah GNSS i nad nimi, nejdelší mezeru v měření a průměrné NEES
+
+dat-075d0bc3259d = Průchody dostupnosti druhu `gnss-ssv`: pro každou konstelaci (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) i kombinovaně podíl dvojic (uživatel, epocha) s alespoň jedním a alespoň čtyřmi signály a nejdelší výpadek, pro uživatele na kouli (globální slupka brožury o 2,562 bodech, { "14" } dní po { "1" } minutě) nebo na trajektorii (GEO, HEO, lunární přechod), z keplerovských drah z přílohy C brožury, konstantního minimálního vyzářeného výkonu uvnitř referenčního úhlu mimo osu, zákrytu Zemí podle koule plus { "50" } km a prahu C/N0; uživatelské antény z tabulky B10 brožury
+
+dat-16b1c5951537 = Druh `holdover-test`: záznam časové chyby (log hodin z linuxptp, chrony, TICC, TimeLab nebo RINEX, nebo dvojice time_s,time_error_ns) se v obou časech uvedených operátorem pro odebrání a obnovení GNSS rozdělí na základní, holdover a obnovovací krok; základní krok se měří oproti maskám ITU-T psaným pro uzamčené hodiny a holdover oproti maskám psaným pro holdover nebo autonomní hodiny, obálce holdover ePRTC-A a rozpočtům časové chyby; holdover uvádí frekvenční posun metodou nejmenších čtverců, který systém udržel, a obnovení uvádí, zda a kdy |TE| vstoupila do uvedeného pásma a zůstala v něm po uvedenou dobu, s maximem a největším skokem. Každý limit je ten, který přepisuje druh telecom-timing; oba časy jsou prohlášením operátora a neověřují se
+
+dat-090f9036a5e3 = Fitter a obchodní kompromis druhu `leo-navmsg`: skutečná dráha integrovaná se zonální gravitací J2-J6 nebo EGM2008 do zvoleného stupně a s odporem a seedované volné nebo řízené hodiny; fit keplerovské sady Galileo metodou Levenberg-Marquardt na nesingulárních elementech se slabými apriorními hodnotami, poté korekční polynomy podél dráhy, napříč dráhou a radiální lineárními nejmenšími čtverci; polynom hodin proložený po odečtení relativistického členu uživatele; SISRE (pouze dráha a s hodinami) přes doby používání vystředěné v okně svého fitu, oproti intervalu fitu a periodě aktualizace. Ověřená část: 16parametrový keplerovský fit a jeho SISRE pouze dráhy oproti intervalu fitu na skutečných přesných drahách a integrovaná skutečná dráha J2-J6/EGM2008({ "20" }, { "70" })/odpor oproti Orekit { "12.2" } v rozmezí { "4.6" } mm za { "6" } h (práh { "2" } cm, stejný vstup hustoty); korekční polynomy, fit hodin (seedované volné nebo řízené hodiny) a kompromis periody aktualizace zůstávají modelované
+
+dat-0bbf24039580 = Analýza aktualizace uprostřed průletu druhu `leo-navmsg`: nejvyšší průlet nad uživatelem v rámci hledaného intervalu, zprávy podle globálního rozvrhu s dobami používání vystředěnými v okně jejich fitu a při každém přepnutí 3D skok polohy, skok hodin, skok pseudovzdálenosti uživatele, největší skok přes libovolnou viditelnou zorné přímky (uzavřený tvar přes nadirový kužel), chyba vzdálenosti před a po a PASS/FAIL oproti prahu
+
+dat-26fd0990083f = Druh `leo-pass`: družice z navrženého průletu, elementů, TLE přes SGP4 nebo konstelace Walker z constellation-design; pro každé pásmo a epochu úhly pohledu, vzdálenost, rychlost změny vzdálenosti a zrychlení vzdálenosti v uzavřeném tvaru (při každém běhu kontrolované centrálními diferencemi a uváděné), ztráta ve volném prostoru, EIRP s isoflux, gaussovským nebo plochým diagramem, plošná, hemisférická nebo izotropní uživatelská anténa, plynné útlum podle ITU-R P.676-10 příloha { "2" }, déšť a scintilace podle P.618, ztráta průchodu budovou podle P.2109, polarizační nesoulad, šumová teplota systému, C/N0, Doppler a rychlost Dopplera a zpoždění prvního řádu ze šikmého TEC podle Klobuchara nebo vertikálního TEC škálovaného Chapmanovým zlomkem pod družicí; dvojice bez vlivu ionosféry se šumem kódu ve vrcholu průletu; nosné Galileo nebo GPS z přijatých výkonů v dokumentech rozhraní přes stejný přijímač
+
+dat-ca395f5c8555 = Sekce `[spoofer]` druhu `leo-pass`: spoofer padělá, vnitřně konzistentně ve vzdálenosti i její rychlosti změny, signály viděné na deklarované poloze, která po začátku skočí a/nebo je posouvána od skutečné (pro každé pásmo LEO a pro signál MEO GNSS); přijímač předpovídá každou rychlost změny vzdálenosti z vysílané dráhy a nezávislé apriorní polohy a rychlosti a testuje naměřené rychlosti statistikou chí-kvadrát zobecněných nejmenších čtverců přes okno epoch (drift hodin jako rušivý parametr nebo s apriorní hodnotou), na kanálech GNSS, kanálech LEO a všech kanálech, s tepelným šumem smyčky frekvenčního závěsu z C/N0 (Kaplan & Hegarty { "2006" }, oddíl { "5.6.2" }); pravděpodobnost detekce z necentrálního rozdělení chí-kvadrát při uvedené pravděpodobnosti falešného poplachu, detekce prohlášená při uvedené pravděpodobnosti nezachycené události
+
+dat-5bb6fbb42629 = Druh `leo-pnt-chain`: návrh leo-signal (veřejná předvolba nebo vložený) nastavuje střed, šířku pásma, čipovou rychlost a rozdělení EIRP pásma leo-pass; průlet dává C/N0 sledované složky a kódový jitter omezený pásmem v každé epoše; přímka C/N0 podle nejmenších čtverců v sin(elevace), SISRE zprávy leo-navmsg (fitované na dráze družice průletu, plus uvedený člen určování oběžné dráhy v odmocnině součtu čtverců) a nosná a čipová rychlost návrhu jdou do každého systému LEO společného řešení leo-pvt a volitelně do případů LEO v leo-ppp; každé předání je uvedeno se svou hodnotou a jednotkou
+
+dat-1ff771fc71ec = Druh `leo-signal`: parametrizované návrhy signálů (pásmo, vysílací šířka pásma, přidělení ITU; složky akvizice, dat a pilotní se spektry BPSK(n), BOC(m,n), MBOC nebo plochými, podíly výkonu, subnosné FDMA, délky kódů a datové rychlosti) ze zkompilovaných veřejných souborů předvoleb (Xona Pulsar, Iridium STL, Starlink signal of opportunity, CentiSpace, obecný návrh v pásmu C a obecné návrhy UHF/L/S/C/široké C, každý s adresou URL zdroje a nepublikovanými hodnotami označenými REPRESENTATIVE) nebo zapsaných přímo; pro každý signál výkonová spektrální hustota omezená pásmem, podíly výkonu v pásmu, Gaborova šířka pásma, kódový jitter oproti C/N0 a rozestupu a přesnost určování vzdálenosti, prostor hledání akvizice, pravděpodobnost detekce kvadratickým detektorem a střední doba sériové a kódově paralelní akvizice, koeficient spektrální separace do a z GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b a AltBOC s degradací C/N0 a tolerance J/S pro CW, širokopásmový a přizpůsobený rušič z řetězce SSC druhu spectrum; kompromis pásem z ionosférického zpoždění, ztráty ve volném prostoru, přesnosti určování vzdálenosti při stejném C/N0 a stejném EIRP a tolerance rušiče; a kvalitativní kontroly tvaru návrhu oproti popsanému měření
+
+dat-6798389914c5 = Výchozí hodnota běhu `realtime-frame-eop` je vlastní vložená kopie knihovny doslovného výpisu IERS finals2000A (tools/finals2000A_20260930.txt: { "174" } po sobě jdoucích denních řádků, MJD 61224-61397, vyříznutých z finals2000A.all z 2026-09-30), nesoucí všechny tři vintage řádků, které formát definuje, klasifikované příznaky IERS I/P (eop::row_vintage): { "30" } finálních z Bulletinu B, { "54" } rychlých naměřených řádků (příznak I bez bloku Bulletinu B) a { "90" } predikcí z Bulletinu A (příznak P). Holý běh bez argumentu souboru a bez sítě vydá vyplněnou tabulku podle horizontu, census rows = final_rows + rapid_rows + prediction_rows ({ "174" } = { "30" } + { "54" } + { "90" }) a predicted_rows.n = { "90" } přes MJD 61308-61397; hranicí srovnání predikovaných a finálních hodnot v době vydání je poslední naměřený řádek. Dřívější výpis s 32 řádky (tools/finals2000A_2026.txt, každý řádek s příznakem I) a pětiřádkový výňatek pouze s finálními hodnotami zůstávají dodávány a procvičovány: u nich je predicted_rows.n rovno { "0" }, což je vlastnost vstupního souboru, nikoli výsledek parseru
+
+dat-06202554b764 = Druh `slot-timing`: předpovězená chyba E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² invertovaná pro překročení, zbývající čas, interval resynchronizace po odečtení latence fixu a fixy za den, každý člen rozepsaný s uvedením dominantního; hodiny ze šesti výchozích ClockClass (TCXO, OCXO a RAFS přidány, každý s odkazem na jeden datasheet), předvoleb telecom-timing, vloženého datasheetu nebo naměřeného záznamu; překročení za nejdelší průměrovací dobou zdroje označeno jako extrapolované
+
+dat-124e198cbbac = Cesta naměřeného záznamu druhu `slot-timing`: překrývající se Allanova odchylka fázového záznamu proložená nezápornými nejmenšími čtverci vážené edf v bázi bílé fáze a frekvenční modulace podle IEEE Std { "1139" } (slot_timing::fit_weighted), poté invertovaná pro čas setrvání, při němž časová chyba dosáhne prahu (slot_timing::slot_budget). Hladina červeného šumu se měří ze záznamu místo předpokladu
+
+dat-d0eb6e0a3491 = Druh `solar-system` s planetary_kernel_path: každé hlášené těleso, jehož vlastní kód NAIF SPK obsahuje, přebírá svou heliocentrickou polohu a rychlost v J2000 z jádra přes vlastní čtečku enginu (popisek KERNEL), spoj, jehož oba konce jsou v jádru, se počítá na něm, barycentra se za planetu nikdy nenahrazují a každé další těleso zůstává analytické se svým vlastním popiskem; zpráva získá blok jádra (cesta, SHA-256, tělesa a spoje z něj převzaté) pouze tehdy, je-li volba nastavena. S de440s.bsp to je Merkur, Venuše, Země a Měsíc
+
+dat-d7f042833835 = Druh `spectrum` rozšířený za pásmo L: pásma zadaná jako předvolba návrhu signálu (vykreslená se všemi složkami, omezená na vysílací šířku pásma, C/N0 a J/S vztažené ke sledované složce) nebo jako vlastní nosná a modulace; další panely waterfallu přes libovolný frekvenční rozsah na stejné časové ose a barevné stupnici; širokopásmový (barrage) rušič vedle CW, úzkopásmového, chirp a přizpůsobeného šumu; J/S a efektivní C/N0 v každém pásmu z nezměněného řetězce koeficientu spektrální separace
+
+dat-e38e42f51624 = Druh `spectrum`: mřížka výkonové spektrální hustoty pásma L podle frekvence a času (tepelná hladina k T_sys s T_sys = T_ant + { "290" } K (F - { "1" }), signály při jejich minimálních přijímaných výkonech ze specifikace rozhraní a rušiče s nepřetržitou vlnou, úzkopásmové, chirp a s přizpůsobeným šumem se časy zapnutí/vypnutí), každá buňka zprůměrovaná přes svůj bin a řádek (chirpy přesně přes celé i částečné průchody, rušiče podle střídy), efektivní C/N0 podle pásma = [1/(C/N0) + sum (J/S) kappa]^-1 na řádek, J/S podle pásma, J/S v pásmu a waterfall v SVG s pruhy C/N0. Zpráva obsahuje křížovou kontrolu oproti řetězci druhu `jamming` na stejných vstupech spoje
+
+dat-69c14cdfcc7e = Snímek FID { "0" } o délce { "12" } s a 6000 symbolů podle LSIS V1.0: synchronizační vzor o 68 symbolech, podsnímek { "1" } s kódem BCH ({ "51" }, { "8" }) (generátor osmičkově 763), CRC-24 (({ "1" } + X)·P(X)) na podsnímcích 2-4, kódování LDPC s poměrem 1/2 s vytištěnými maticemi A, B^-1, C, D (LSIS Annex { "1" }, za běhu čtené z lokální cache ověřené pomocí SHA-256) a děrováním podle normy, blokový prokládač { "60" } x { "98" }; vyčerpávající dekodér podsnímku 1, který označí TOI mimo { "0" }..99, a normalizovaný dekodér LDPC typu min-sum napsaný pouze z H = [[A, B, { "0" }], [C, D, I]]
+
+dat-75015cee780c = řádek Pluta z tabulky { "1" } Standishe z roku { "1992" } (od { "1800" } n. l. do { "2050" } n. l.)
+
+dat-681e5eb569d5 = Běh datové sady z roku { "2024" } (předregistrovaný)
+
+dat-042a44e406c8 = Datová sada SimulaMet NMEA z roku { "2025" }
+
+dat-cc81837dc23b = { "87" } vestavěných druhů scénářů, mezi které rozděluje volání kshana::api::run_toml, každý s jednořádkovým…
+
+dat-edb99ed7056e = Přijímané druhy orákula (nezávislé reference)
+
+dat-1e7784e47c5b = Kovarianční matice majáku ve scénáři lunar-vlbi-fim se všemi stanicemi pevnými (všechny pozemní stanice zafixovány, odhadují se pouze souřadnice majáku vázané na těleso Měsíce) s majákem umístěným na Měsíci podle JPL DE440, čteném vlastním čtečem jader enginu (planetary_kernel_path; lunar_vlbi_fim::epoch_geometry_with, ephem_provider::KernelEphemeris). Od analytické cesty se liší pouze střed Měsíce; rotace tělesa podle IAU { "2015" }, stanice, rotace Země a lineární algebra jsou stejné. Ověřovanými výstupy jsou množina pozorování, informační spektrum { "3" } x { "3" }, hodnost a číslo podmíněnosti, tři sigma majáku vázaná na těleso a jejich RMS, rameno páky a poměr vypočteného k ekvipartičnímu, a to na výchozím harmonogramu. Spustitelné jako scénář `lunar-vlbi-fim` s datum = "all-stations-fixed", estimate_beacon = true a nastaveným planetary_kernel_path
+
+dat-062309bbfc86 = Kódy Augmented Forward Signal podle LSIS V1.0 ({ "29" }. ledna { "2025" }): primární kód AFS-Q o 10230 čipech generovaný podle konstrukce pilotního signálu L1C z IS-GPS-800 s indexy z IS-GPS-800J (tytéž { "210" } přiřazení, které uvádí LSIS Appendix D), Goldovy kódy AFS-I o 2046 čipech generované z g1 = x^{ "11" } + x^{ "2" } + { "1" } a g2 = x^{ "11" } + x^{ "8" } + x^{ "5" } + x^{ "2" } + { "1" } se zpožděním G2 každého PRN získaným ze souboru Annex { "3" } normy, čtyři sekundární kódy, terciární kódy o 1500 čipech, předběžné přiřazení uzlů podle tabulky { "11" } a odstupňovaný pilotní kód. Obsah LSIS se za běhu čte z lokální cache ověřené pomocí SHA-256, naplněné z PDF hostovaného NASA, a nikdy se nedistribuuje dál
+
+dat-70ebea6a759e = Kompromis mezi pásmy
+
+dat-704672c69e2f = Soubory pohybu z exportu bench předložené vlastním čtečkám open-source simulátoru GNSS se vrací jako exportovaná trajektorie: soubor NMEA GGA (-g), řez čas/šířka/délka/výška z pohybového CSV (-x) a jeho řez čas/x/y/z (-u), na { "6" } scénářích gnss-ins (včetně balíčků pro námořní, železniční a letecký provoz, čtených do limitu simulátoru 3000 vzorků) a { "2" } stacionárních. Pouze pohyb; žádný signál se nezapisuje ani negeneruje.
+
+dat-c1c47b44c729 = Pole boc ve struktuře iq::track::LoopConfig (nepovinné, ve výchozím stavu None): tři diskriminátory DLL přeškálované tak, aby kódovou chybu udávaly v čipech s jednotkovou směrnicí na hlavním vrcholu sinusového BOC({ "1,1" }), a monitor skoku na vedlejší vrchol na velmi časném a velmi pozdním korelátoru ve vzdálenosti jedné poloviny periody podnosné ({ "0.5" } čipu), který přeskočí kódový NCO k hlavnímu vrcholu, jakmile čítač nahoru/dolů dosáhne N (ve výchozím stavu { "8" }). Bez této volby je každý výstup beze změny.
+
+dat-120c7d695bdc = Přibalený příklad
+
+dat-e3bb896fad9d = Přibalená mise
+
+dat-75496101f053 = Přibalený scenarios/orbit-sgp4-gps.toml už obsahuje skutečné TLE (dvouřádkové sady prvků): Celestrak…
+
+dat-29b47e7d8c20 = Karty schopností a všech { "388" } řádků verifikační matice.
+
+dat-0fd20c9b79b7 = Závěrečná práce. Spustíte scénář detektoru spoofingu a úplnou fúzní určování polohy, navigace a času…
+
+dat-fbbde49b40ee = Katalog
+
+dat-9c59bd57922a = Kruhová omezená dráha { "9" }:{ "2" } typu L2 jižní téměř přímková halo, kterou opravuje cr3bp::differential_correct_halo (rodina drah Gateway a CAPSTONE), porovnaná podle průměrné geometrie (perioda, poloměr periluny, poloměr apoluny) s dráhou, kterou CAPSTONE skutečně letěl. Měření toho, jak dobře člen CR3BP popisuje skutečnou dráhu; dráha CR3BP není dráha podle efemeridového modelu a neporovnává se epochu po epoše
+
+dat-fb500eedea51 = Práh pozorovatelnosti podle délky oblouku v cislunárním prostoru v PROSTOROVÉM šestistavovém CR3BP namísto planárního čtyřstavového, napříč rodinami DRO, L2 halo a L2 téměř přímkové halo, se šumem měření vstupujícím do Gramiánu a s hlášenými DVĚMA kritérii, protože neexistuje jediné poctivé: publikované kritérium hodnosti, které je prokazatelně invariantní vůči homoskedastickému sigma měření (vybělení násobí matici pozorovatelnosti skalárem, takže relativní spektrum singulárních hodnot, a tedy hodnost, defekt i číslo podmíněnosti zůstávají nezměněny), a kritérium odhadnutelnosti — první oblouk, na kterém formální 1σ nejistota polohy počátečního stavu hlavního tělesa klesne pod stanovenou mez — které se jako jediné se šumem mění. Každý práh nese závorku mřížky epoch, v níž leží; nedosažené kritérium je null s uvedeným důvodem. Planární režim zůstává výchozí a rodiny mimo rovinu se v něm odmítají, namísto aby se zploštily do stavu, který je nedokáže reprezentovat
+
+dat-488aabf41877 = Tvrzení
+
+dat-113a40cd5c91 = pravidlo klasifikace a prahy jsou vlastní projektu a kontrolují se vůči sobě samým
+
+dat-9b5368f0a6bb = Uzavřený tvar náhodné procházky fáze při bílém frekvenčním šumu, rozptyl q_wf tau (NIST Technical Note { "1337" }), pro statistický aparát a bajtová shoda se samostatnými běhy pro nastavení seedu. Kontroluje aritmetiku souboru běhů na vlastním modelu hodin enginu, nikoli externí datovou sadu
+
+dat-a6e9b5070197 = Uzavřená smyčka 15stavového chybového EKF řízeného přírůstky IMU s polohami antén GNSS fúzovanými přes model ramene páky H = [I { "0" } −[(C_b^n l_b)×] { "0" } { "0" }], nakonfigurovaného ze souboru KF-GINS YAML (počáteční stav a sigma, ARW/VRW, Gaussovy-Markovovy biasy)
+
+dat-4fa4e8d6f1f5 = Vytištěné hodnoty CODE GIM (přesné v každém uzlu; mapa se stahuje v době testu a není přibalena, protože její licence není potvrzena) a nezávislá reimplementace interpolačních vzorců IONEX { "1.0" } ve standardní knihovně Pythonu, potvrzená spolu s fixturou (prahy předregistrované e4d8b1f, { "1e-9" } TECU). Kontrola třetí stranou (B6, předregistrovaná, první běh): RTKLIB v2.4.2-p13 iontec (BSD-2-Clause, spuštěný jako samostatný nástroj) v { "6885" } dotazových bodech souhlasí s IonexFile::vtec_at na { "3.6e-13" } TECU v obou interpolačních režimech proti prahu { "1e-5" } TECU. Vázáno na data: CODE GIM se stahuje v době testu, připíná se podle SHA; RTKLIB čte celý soubor, protože jeho getindex odmítá ořez podle šířky. tests/fixtures/ionex_code_gim/fetch.sh jej stáhne a zkontroluje SHA-256, test selže při jakýchkoli jiných bajtech a run_rtklib.sh je zdokumentovaná cesta k reprodukci (je nutný přístup k síti). Povýšeno na VALIDATED rozhodnutím vlastníka na základě důkazů vázaných na data (2026-10-13)
+
+dat-074a734bc416 = Úplný, strojově kontrolovaný registr důkazů: { "388" } řádků — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.
+
+dat-2d6bb4ed3b3d = Druh constellation-design sestaví jednu nebo více družicových konstelací kolem Země, Měsíce, Marsu…
+
+dat-03f96e411f6b = Druh constellation-design používá týž katalog k sestavení konstelací kolem kteréhokoli z těchto těles…
+
+dat-c82c139877a9 = Cena jižní polární lunární geometrie a povrchové majáky jako efektivní oprava: analýza zhoršení přesnosti (DOP)
+
+dat-091babf6b654 = Cramérova-Raova mez pro dobu příchodu z efektivní (Gaborovy) šířky pásma, c/({ "2" } pi beta sqrt({ "2" } (C/N0) T)), pro ploché spektrum OFDM (beta = B/sqrt({ "12" })), pásmově omezené spektrum BPSK (uzavřený tvar čitatele) nebo libovolné spektrum kvadraturou, a pro frekvenci komplexního tónu, sqrt(3/({ "2" } pi^{ "2" } (C/N0) T^{ "3" })); sestupné určení polohy z dob příchodu s neznámými hodinami přijímače a určení polohy z Dopplera jedné družice během přeletu v pásmu S 3GPP n256 MSS, spuštěné jako druh `ntn-positioning`
+
+dat-af3dc778c309 = Kontrolní hodnota CRC z katalogu pro tyto parametry (katalog CRC reveng.sourceforge.io, CRC-24/LTE-A: šířka { "24" }, polynom 0x864CFB, init { "0" }, kontrola 0xCDE703), což jsou parametry CRC-24Q z RTCM { "10403" } a Galileo OS SIS ICD, a ukázkový rámec zprávy typu { "1005" } vytištěný v RTCM { "10403" }
+
+dat-0d69a5d0ea83 = Upozornění k různým platformám (a jak s ním zacházejí zlaté referenční soubory)
+
+dat-7e26802aeb83 = Publikované protokoly událostí datové sady (okna attack_log) jako pravda o událostech, podle předregistrace xval/jammertest-trust/PREREGISTRATION.md (potvrzené samostatně, 0fa012b, před během testovací sady). První a jediný běh (xval/jammertest-trust/RESULTS.md): { "14" } z { "24" } složek vyhodnotitelných ({ "7" } s rušením), { "3,502" } čistých a { "9,560" } epoch s rušením. Pravděpodobnost falešného poplachu na odložených čistých datech: cn0_drop_db { "0.0231" } (81/3502) proti prahu { "0.02" }, FAIL; agc_k_sigma { "0.0003" }, splněno; jam_ind_threshold { "0.0094" }, splněno; sjednocení všech tří: falešné poplachy { "0.0328" }, detekce { "0.807" } proti { "0.05" } a { "0.50" }, splněno. Podle registrovaného pravidla je řádek MODELLED (jeden práh nesplněn). Úzký rozsah: jeden typ přijímače (u-blox ZED-F9P), jedna událost, plánované jednominutové sloty jako pravda (detekce je dolní mez; čisté znamená mimo zaznamenaná okna); kalibrováno na protokolech CSV a čtečka UBX dává na dvou složkách více falešných poplachů. Pásma skóre důvěryhodnosti pro námořní provoz nejsou kalibrována
+
+dat-f80e71128603 = Publikovaná referenční trajektorie datové sady a program KF-GINS v C++ (GPL-3.0, commit 8291a93e, spuštěný jako samostatný nástroj); prahy předregistrované v xval/kfgins/PREREGISTRATION.md a KF-GINS na těchto datech před touto registrací nebyl spuštěn (zkontrolováno v jejích Results). Všech šest prahů při prvním běhu splněno. VÁZÁNO NA DATA: ukázková datová sada KF-GINS (skutečná IMU Leador-A15 a RTK GNSS s referenční trajektorií) nemá licenci, a proto není přibalena; xval/kfgins/fetch.sh ji stahuje v době testu s připnutým SHA-256 každého souboru a test selže při neshodě; cesta k reprodukci, která vyžaduje přístup k síti, je v xval/kfgins/PREREGISTRATION.md. Povýšeno na VALIDATED rozhodnutím vlastníka na základě důkazů vázaných na data (2026-10-13)
+
+dat-23e375065874 = Výchozí odpor prostředí propagátoru Cowell: kvadratický odpor vůči společně rotující atmosféře pomocí forces::atmospheric_density, po částech exponenciální tabulka Vallado Table 8-4 ve sférické výšce (propagator::ForceModel::drag s výchozí exponenciální variantou forces::DensityModel)
+
+dat-afaabcc55f97 = Návrhy, vstupy a prahy byly stanoveny v xval/lunar-infra/PREREGISTRATION.md (potvrzeno před jakoukoli studií…
+
+dat-63ceb941b521 = Distribuční jádro, na kterém stojí každá ochranná úroveň: práh detekce poruchy ze snímku χ²₁₋ₚfₐ(dof), necentralita nezachycené události pbias=√λ a násobitele K_fa/K_md/K_V pro oddělení řešení
+
+dat-ffdfc5695574 = Denní slapy tlaku vzduchu S1 jako porucha geopotenciálu: model Biancale a Bode ({ "2006" }) N1, stupně { "2" } až { "6" }, přes vzorec zatížení IERS { "2010" } Eq. { "6.21" } (tides::atmospheric_tide_s1, s1_air_tide_acceleration), nepovinné v přesných silových modelech Cowell (air_tide_s1, ve výchozím stavu vypnuto)
+
+dat-0b0b14fbb4f3 = Varianta EcefPoly typu leo_navmsg::elements::EphemerisModel: polynom ECEF po osách bez členů hodin, relativistický člen z -2 r.v/c^{ "2" }, hodnocený proti řízeným hodinám. Také analýza porovnání modelů (liu_comparison přes LIU2025_TABLE), která fituje 22parametrový model v pěti výškách z článku na 20minutových obloucích dráhy integrované v Kshaně a vytiskne výsledek vedle publikovaného SISRE
+
+dat-8c11fa32f6c8 = Engine při práci: pět zaznamenaných běhů
+
+dat-32d258734469 = Engine běží lokálně jako WebAssembly; nic se nenahrává.
+
+dat-dcd1816166ac = Ochranné úrovně ARAIM enginu proti VLASTNÍM propočteným příkladům podskupiny WG-C.
+
+dat-9bcc1610cb35 = Ochranné úrovně MHSS enginu spuštěné proti vlastním publikovaným propočteným příkladům referenčního palubního algoritmu Pracovní skupiny C EU–USA, každý přepsaný s adresou URL pro získání, datem, stránkou a SHA-256 souboru a uložený na dvou místech, o jejichž shodě test tvrdí. Akceptačním vektorem je vnitřně konzistentní Reference Airborne Algorithm Description Document v3.1, Appendix D. Zpráva Milestone { "3" } obsahuje dvě vnitřní vady — překlep ve znaménku v geometrii a multiplikátor falešného poplachu vyhodnocený pro { "57" } režimů poruch, zatímco text uvádí jeden — a proto se její ochranné úrovně uvádějí jako naměřené rozdíly, nikoli jako hodnocené, a vady se prokazují spuštěním vlastních čísel dokumentu.
+
+dat-018674b953c1 = Vlastní čtečka binárních jader NAIF enginu napsaná v čistém Rustu (naif_kernel): kontejner DAF (obě pořadí bajtů, propojené záznamy shrnutí), segmenty polohy SPK typu 2 s Čebyševovými polynomy řetězené přes své středy až k nejnižšímu společnému předku a segmenty binárního PCK typu 2 s Eulerovými úhly převedené na rotaci J2000-na-těleso, s epochami branými jako dvoudílné ET, aby submikrosekundový posun zachoval přesnost. Čtou jím DE440 KernelEphemeris (ephem_provider) a cesty k jádrům lunar_vlbi, lunar_llr a lunar_vlbi_fim. Tvrzení je, že čte jádra JPL správně; není to tvrzení, že DE440 nebo analytické řady Slunce a Měsíce enginu jsou přesné
+
+dat-55ced794518c = Druh ephemeris
+
+dat-83412650cfee = Model chyb
+
+dat-3b8baef60d7f = Reprodukce maximální URA z Milestone { "3" } ARAIM WG-C EU–USA (CAP-05c)
+
+dat-0735d802096a = Ukazatele kvality (jak se běh hodnotí)
+
+dat-5fb23c7bbc43 = Identita disperze prvního řádu, přesná z konstrukce proti vlastnímu zpoždění enginu prvního řádu (jehož škálování 1/f^{ "2" } je VALIDATED proti IS-GPS-200 ve vlastním řádku); preciznost je pouze tepelný kódový šum, bez vícecestného šíření a meziřekvenčních biasů. { "0.30" } kolo { "2" }, změřeno (předregistrováno 5e795f93), zjištění (zůstává MODELLED): globální ionosférická mapa CODE CODG1330.18I proti kódům ABMF C1C/C2W s biasy CODE dává { "33" } z { "36" } průměrů oblouků do { "3" } TECU (nejhorší +{ "6.84" } TECU na večerním oblouku; RMS na epochu { "3.95" } TECU), proti prahu každého oblouku; neověřeno nezávislou referencí
+
+dat-5bc7ed23d2d6 = Fitter
+
+dat-d861d0eb791b = Pět retroreflektorových polí na přivrácené straně v metrech v tělesné soustavě PA a pozemní stanice LLR v geodetických souřadnicích; umístění reflektoru z tělesné do inerciální soustavy přes orientaci PA podle DE440; analytické parciální derivace vzdálenosti Země–reflektor podle 4parametrového datumu; a Fisherova matice pouze z LLR, vykazující degeneraci mezi X lunocentra a měřítkem, která motivuje 7parametrovou analýzu
+
+dat-e0833db0d4e8 = Pětikoeficientový převod IEEE-1139 PSD↔Allanův rozptyl S_y(f)=Σh_α f^α → σ_y²(τ) (bílý/flicker PM, bílý/flicker/náhodná procházka FM), podlaha flicker-FM σ_y=√({ "2" } ln2·h_{ "{" }-1{ "}" }) jako plnohodnotný fitovatelný člen a nezáporný fit rodiny FM v bázi { "{" }(2π²/3)τ, { "2" } ln2, 1/(2τ){ "}" }, který obnoví podlahu, již driftová báze { "{" }1/τ,τ,τ³{ "}" } nedokáže reprezentovat
+
+dat-e161cf180678 = Formáty
+
+dat-f781f17606ed = Čtyři jmenované datasheety Microchip (čísla dokumentů a adresy URL v každém presetu a v docs/TELECOM-TIMING.md) pro vstupní hodnoty; uzavřený tvar rampy stárnutí a vlastnost obálky fitu jako vnitřní kontroly. To, jak se hodnoty stanou modelem šumu — fit, pravidlo podlahy, 30denní měsíc, lineární čtení teploty — je modelářská volba; žádný preset není měřením konkrétního kusu. { "0.30" } kolo { "2" }, jednostranné prahy proti naměřeným kusům (předregistrováno a01c491c), zjištění (zůstává MODELLED): stanice IGS THU2 Symmetricom 8040C v konečných hodinách ESA MGEX má Allanovu odchylku { "0.35" } až { "0.87" } presetu rubidia, ale chybu holdover { "1.07" } až { "1.60" } z něj; záznam 5071A leží mimo preset cesia až do { "1000" } s (bílý fázový šum měření, 30x při { "1" } s) a v holdover ({ "1.15" } až { "8.74" }); nejhorší produkční SA.45s z roku { "2011" } je 1.26x preset CSAC při { "1" } s; OX-208 nemá žádný naměřený záznam (blokováno)
+
+dat-9a28fe159b53 = Posloupnost rámců
+
+dat-3f5a65d7990a = Rámec popisuje úrovně odolnosti od { "0" } do { "4" } sestavené z osmi číslovaných požadavků a vyhodnocení…
+
+dat-3d5ad3333240 = Úplný sledovací engine vrstvy IQ (iq::track přes kshana iq track: předání z akvizice, korelátory, NCO, Costasova PLL druhého řádu { "15" } Hz, DLL prvního řádu { "2" } Hz s nosnou podporou s obálkou EML, indikátor zachycení a odhady C/N0) na GPS L1 C/A při { "30" } až { "45" } dB-Hz.
+
+dat-caf35a8f2065 = Úplný katalog druhů scénářů
+
+dat-16352dec86ef = Geocentrický Měsíc z řady Montenbruck & Gill (jejíž člen -1.3972 deg za století ho již vztahuje k rovnodennosti J2000) a planetocentrické polohy a rychlosti Phobosu, Deimosu, Io, Europy, Ganymedu a Callisto z průměrných prvků JPL Solar System Dynamics v Laplaceově rovině každého měsíce se střední délkou odvozenou z rychlosti synchronní rotace podle IAU (tabulka uvádí periodu na příliš málo číslic, než aby udržela fázi) a Titanu z rotačního modelu IAU (měsíc na záporné tělesné ose x ve střední vzdálenosti), protože vytištěný řádek Laplaceovy roviny Titanu nereprodukuje Horizons ani ve vlastní epoše
+
+dat-bf490e9fffe5 = Vysílaný bias družicových hodin GLONASS -tau_n + gamma_n (t - t_b) v čase čteném na družicových hodinách (glonass::GlonassEphemeris::sv_clock_bias_s, posun opravený o bias hodin dvěma iteracemi pevného bodu) a poloha ve vázané soustavě PZ-90 vysílaného stavového vektoru propagovaného RK4 přes pohybové rovnice GLONASS ICD v rozmezí +/-15 min od referenční epochy (GlonassEphemeris::position_ecef), ze skutečných navigačních záznamů GLONASS ve formátu RINEX { "3" }. Neaplikuje se žádná transformace PZ-90.11 na ITRF (shodují se na úrovni centimetrů od roku { "2014" }; RTKLIB také žádnou neaplikuje). Není zapojeno do výstupu žádného scénáře: knihovní funkce
+
+dat-b783d2d5c4a3 = Nastavení vrstvy IQ GNSS jako JSON: `signals` (názvy signálů, které přijímají iq_scene, iq_acquire a iq_track), `enabled` (zda jsou nástroje pro soubory IQ zapnuté), `work_dir` (jediná složka, kterou čtou a do které zapisují; každý argument cesty je k ní relativní), `max_samples` (nejvíce komplexních vzorků, které může jedno volání vygenerovat nebo zpracovat) a, když je vypnuto, `reason`.
+
+dat-c2ec83f3f756 = Nástroje IQ GNSS: soubory na vstupu, kompaktní JSON na výstupu
+
+dat-f6f5b12dca2f = Uzavřený tvar sigma růstového členu a kontrola šíření prvního řádu (InternalConsistency). Dodatek K5 (tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md, předregistrovaný samostatně v 59d88248): K5 selhává při každé rychlosti, opravené p95 3-D { "369.8" } m, { "2315" } m a { "22797" } m proti prahu { "1.5" } m ({ "292.96" } m zaznamenáno bez růstu), jak bylo uvedeno před během. Žádný veřejný zdroj neuvádí rychlost lunárního růstu: ILLUSTRATIVE
+
+dat-3dd68f00357a = Zpráva hybrid-optical-rf uvádí poměr optického a RF určování vzdálenosti s JEDNOU konfigurací, při níž byly obě větve vyhodnoceny, nesenou ve stejném objektu: stejná jednosměrná dráha, stejná vzdálenost a stejná doba akumulace. Optická větev je fotonově omezená mez CRLB doby příchodu enginu na jednosměrný počet fotonů; RF větev je tepelný šum sledování kódu enginu (DLL, early-late) při C/N0, které vrací vlastní bilance spoje enginu pro tutéž jednosměrnou vzdálenost. Šířka pásma šumu smyčky je odvozená, nikoli zvolená: B_L = 1/({ "2" }*integration_s) staví RF větev přesně na optickou dobu akumulace, a pokud ji volající přepíše tak, že se obě doby průměrování liší, poměr je REFUSED -- null, s uvedeným nesouladem a oběma dobami -- namísto aby byl uveden ve dvou pracovních bodech. Proti VOLENÉMU parametrickému rf_position_sigma_m scénáře se žádný poměr netvoří a odmítnutí říká proč: tento vstup nenese vůbec žádnou konfiguraci. Zveřejněný dvousměrný optický hlavní údaj a přesný činitel, který jej přemosťuje na jednosměrnou srovnávací větev, se vydávají vedle poměru, takže zprávu nelze číst tak, že nese dvě neshodující se optická sigma
+
+dat-1d33befcd454 = Zpráva hybrid-optical-rf zveřejňuje model procesního šumu filtru a uvádí, jak dlouho zůstává řešení po předání uvnitř poplachového limitu: pro oba směry předání nese kovarianci po osách, kterou předání zanechalo, propaguje ji dopředu při uvedeném procesním šumu náhodné procházky a hlásí čas, kdy koeficientem pokrytí škálované 1σ dosáhne horizontálního, vertikálního a časového poplachového limitu, který limit se uplatní první, časovou konstantu zdvojnásobení rozptylu a vzorkovaný profil doběhu, který přechod ohraničuje. Spektrální hustoty procesního šumu, koeficient pokrytí a poplachové limity jsou všechny vstupy se zdokumentovanými výchozími hodnotami
+
+dat-51684871e838 = Zpráva hybrid-optical-rf uvádí konfiguraci spoje, s níž skutečně běžela (vlnová délka nosné, vysílací a přijímací apertura, vzdálenost, šířka impulzu, doba integrace, účinnosti a ztráty, výchozí hodnoty vyřešeny) a nese blok jednotek udávající jednotku a třídu původu každé veličiny, kterou článek pravděpodobně cituje, včetně stop kovariance předání v metrech čtverečních
+
+dat-0eaec3576c68 = Zpráva hybrid-optical-rf uvádí, co monitor chí-kvadrát napříč modalitami skutečně dokáže DETEKOVAT, nikoli pouze to, že projde případem bez poruchy: minimální detekovatelný bias na sledovanou osu (východ, sever, nahoru, hodiny) při uvedených pravděpodobnostech falešného poplachu a nezachycené události scénáře, křivku výkonu detekce po obou stranách, násobek biasu bez šumu, při němž realizovaná statistika poprvé překročí práh, a dobu do detekce pro rampu biasu s uvedenou rychlostí. Poruchy se také vkládají skutečným monitorem a statistika, kterou vrací, se uvádí vedle analytické předpovědi
+
+dat-f9ec6cd581df = Brožura ICG Space Service Volume (UN OOSA ST/SPACE/75, { "2018" }), sama simulací, porovnaná podle předregistrace potvrzené před během (xval/gnss-ssv/PREREGISTRATION.md; výsledky v xval/gnss-ssv/RESULTS.md, připnuté pomocí tests/ssv_booklet_results.rs, včetně nezdarů). Běh { "1" } na předregistrovaném čtení: konstanty minimálního vyzářeného výkonu a lunární práh souhlasí (S0, S6 splněny); prahy horního a dolního SSV, RF prahu, GEO a HEO jsou NOT MET, téměř všechny kvůli GLONASS, pro nějž brožura uvádí { "20" } a { "28" } stupňů v tabulkách B2 a B6 a { "26" } a { "34" } stupňů v tabulce { "4.2" }. Diagnostická varianta s úhly z tabulky { "4.2" } souhlasí v každé buňce horního SSV, dolního SSV a šesti misí GEO (nenahrazuje běh { "1" }; buňky RF, HEO a lunární se stále míjejí). Měřené panelové diagramy GPS L1 parametrická náhrada nereprodukuje (RMS { "6" } až { "9" } dB proti prahu { "3" } dB). Shoda ukazuje, že metoda uvedená v brožuře je reprodukována, nikoli že se signály GNSS takto chovají
+
+dat-5eae227f06ee = Konečné kombinované hodiny IGS pro stanici WTZR (záznamy AR z IGS0OPSFIN_20250550000_01D_05M_CLK, SHA-256 d19f3d45...993d, kombinace síťových řešení několika analytických center; produkty IGS, volné použití s uvedením zdroje); prahy předregistrované v xval/ppp-time/PREREGISTRATION.md před jakýmkoli porovnáním; všechny splněny při prvním běhu. CO TO NENÍ: jedna stanice a jedno dvouhodinové konvergované okno; čas IGS, nikoli UTC(k); konstantní posun zahrnuje kódové biasy přijímače a je omezený, nikoli kalibrovaný; žádná návaznost na Circular T.
+
+dat-c56d232ffcff = Protokol instruktora
+
+dat-144d64379960 = Řetězec interference
+
+dat-e80be678124e = Pravda generátoru scény IQ pro jednu družici ve scéně GPS L1 C/A s vysílanými efemeridami (iq::scene: SatGeometry z vysílaných efemerid, generovaná do záznamů pravdy TruthRecord): které družice jsou nad obzorem, pseudovzdálenost, kódová fáze v prvním vzorku, Dopplerův posun nosné a úhly pohledu, pro statický přijímač, porovnaná se stavem kanálu, z něhož gps-sdr-sim sestavuje první blok vlastního výstupu I/Q, pro tytéž efemeridy, přijímač a čas startu (ionosféra na obou stranách vypnuta)
+
+dat-d03526913ead = Hodnoty ze sešitu validace ITU-R Study Group { "3" } Clutter a BEL, přepsané ve validačním skriptu referenční implementace v MATLABu (github.com/eeveetza/p2109), potvrzené v tests/fixtures/leo_link/p2109_bel.csv s adresou URL a datem získání. Sešit uvádí tři desetinná místa
+
+dat-2f20131152ee = Nepovinná sekce [acquisition] druhu jamming (družice se zachytí při prahu zachycení nebo nad ním po prodlevě opětovného zachycení a drží se, dokud je na úrovni prahu sledování nebo nad ní) a sekce [front_end] (AGC čtoucí { "10" } log10({ "1" } + J/N) a ztráta kvantizéru ADC při gaussovském vstupu odečtená od každého spoje, označená jako neplatná pro negaussovská rušení).
+
+dat-062548149812 = Nepovinná sekce [crpa] druhu jamming: paprsek na kanál směřující ke každé družici (potlačení s nulou namířenou na rušič, nebo MVDR na sigma^{ "2" } I + P_j a_j a_j^H), který škáluje šum každého spoje hodnotou ||w||^{ "2" } a rušení hodnotou |w^H a_j|^{ "2" } před stávající rovnicí C/N0 při ochraně proti rušení.
+
+dat-f7f1d21b678b = Nepovinná sekce [terrain] druhu jamming: profil terénu po geodetice mezi rušičem a přijímačem na dlaždici SRTM .hgt s vyboulením Země podle k-faktoru, dominantní ostrá hrana (největší Fresnelův-Kirchhoffův parametr nu) a ztráta jedinou ostrou hranou podle ITU-R P.526-15, oddíl { "4.1" }, odečtená od přijímaného výkonu rušiče.
+
+dat-2c34bbc8b62e = Dokument JSON
+
+dat-58a78c79e5a1 = Druhy a jak na sebe navazují
+
+dat-3ba792aa6d28 = Web kshana.dev
+
+dat-04c749ab6ebe = Pole laboratorní atestace
+
+dat-813f52a95891 = Multiplikativní EKF podle Lefferts-Markley-Shuster: stavy chyby polohy v tělesné soustavě a biasu gyroskopu, propagace s úhlovou rychlostí gyroskopu zmenšenou o odhad biasu a Farrenkopfovým diskrétním procesním šumem (náhodná procházka úhlu a rychlosti), aktualizace hvězdným senzorem s rezidui { "2" } vec(q^-1 q_st) v Josephově formě a multiplikativní reset; Farrenkopfův diskrétní simulátor gyroskopu a hvězdného senzoru. Druh `aocs` může uzavřít regulační smyčku na svém odhadu.
+
+dat-8f3d057cd4a6 = Druh scénáře leo-navmsg sestaví vysílané efemeridy a hodinovou zprávu pro nízkou oběžnou dráhu Země (LEO)…
+
+dat-6a2c66c8a402 = Druh scénáře leo-signal analyzuje signály pro určování polohy, navigaci a čas (PNT) z nízké oběžné dráhy Země (LEO).
+
+dat-e7e4a7fad758 = Pozorování LEO oproti GNSS
+
+dat-a65e01b98a79 = Lineární algebra, kterou samoreferenční lunární konstelace potřebuje k detekci vlastních poruch bez pozemní pravdy: vážený paritní projektor v pseudoinverzní formě pro matici s nedostatečnou hodností, která přežije kalibraci datumu a časové stupnice, detekovatelnost na jednotlivý uzel, Baardova minimální detekovatelná odchylka (bias) a počty detekce/identifikace byzantských blokových jisker nad skutečnou geometrií mezi uzly podle DE440.
+
+dat-a5de09f9dd3d = Zpráva o bilanci spoje uvádí každou absolutní konstantu, ze které byla vypočtena její vlastní rezerva -- nosnou frekvenci použitou pro ztrátu ve volném prostoru, EIRP, ukazatel kvality, souhrnnou ztrátu a Boltzmannův člen -- dále požadované G/T, při kterém je rezerva nulová, konstantu spoje (EIRP - ztráty - požadované Eb/N0), která je jedinou kombinací, jíž může publikovaná tabulka rychlostí a zisků kdy zafixovat, a, když volající uvede šumovou teplotu systému, zisk přijímací antény, který tento ukazatel kvality implikuje
+
+dat-264de1df4f0a = Varianta Liu22 typu leo_navmsg::elements::EphemerisModel, vyhodnocená funkcí kepler_point s Liu22Extra: 16parametrová sada plus rychlost změny hlavní poloosy a_dot, rychlost změny středního pohybu n_dot vstupující jako n = sqrt(mu/A0^{ "3" }) + dn + n_dot tk, přepsané z rovnice Eq. { "1" } článku (porovnání fitu na této konvenci měřítka nezávisí, takže význam vysílané hodnoty nDot se zde neověřuje nezávislou referencí), a harmonické členy poloměru jednou a třikrát za oběh Crs1, Crc1, Crs3, Crc3 na neopraveném argumentu šířky. Jeho fit pomocí leo_navmsg::fit::fit_message přebírá start a estimátor z oddílu { "2.3" } článku (každá oprava začíná nulou; prostá metoda nejmenších čtverců bez apriorních hodnot; limit 100 iterací z článku), ale zastavuje se podle pravidla konvergence parametrů v Kshaně (každý krok pod { "1e-3" } svého formálního sigma) namísto pravidla z článku, tj. změny RMS pod { "0.1" } mm. Fitováno na { "20" }minutových a { "30" }minutových obloucích tabelované přesné dráhy
+
+dat-e2d220bec7ee = Krok od geometrie ke kovarianci u lunární ochranné úrovně — (GᵀG)⁻¹ přes geometrii se všemi viditelnými družicemi a každou dílčí geometrii s jednou poruchou, promítnutý na místní vertikálu a stopu horizontálního bloku — a její statické jádro: Bonferroniho násobitel detektoru, Gaussův horní chvost každé hypotézy poruchy a řešení kořene, které převádí rozpočet rizika integrity na ochrannou úroveň, nad lunárním servisním objemem o 7 bodech
+
+dat-8b334001363f = Kovarianční matice sedmiparametrového Helmertova datumu lunar-llr-datum z archivovaných normálních bodů ILRS a jejich měřených vah, na cestě přes jádro: geocentrický střed Měsíce se čte z JPL DE440 vlastním čtečem jader enginu (planetary_kernel_path; lunar_llr::llr_geometry_with, ephem_provider::KernelEphemeris). Od analytického řádku se liší pouze střed Měsíce; orientace podle IAU { "2015" }, chybějící polární pohyb a UT1, katalogy, pravidla výběru, váhy a lineární algebra jsou stejné. Tvrzení ověřené nezávislou referencí je pouze to, že kovarianční matice datumu na této cestě souhlasí s nezávislým orákulem (nezávislou referencí) SPICE a NumPy na čerstvých, dosud neviděných normálních bodech. Porovnání nerozlišuje modely Měsíce a nekontroluje střed Měsíce: na stejném výřezu splňuje všechny prahy i analytický Měsíc, předregistrovaná mutace (jádrový Měsíc čtený o hodinu později) nebyla zjištěna a prochází i střed Měsíce chybný asi o { "4,650" } km (viz text orákula). Není to důkaz, že jádrový Měsíc datum zlepšuje. Spustitelné jako scénář `lunar-llr-datum` s planetary_kernel_path (a normal_points_dir pro jiný výřez)
+
+dat-d399db8ab42e = Druh lunar-station-coverage spuštěný za veřejných předpokladů publikovaných materiálů o lunární diferenciální referenční stanici (čtyři navigační družice na zmrazených eliptických drahách s periodou { "24" } h, { "10" } m { "95" } % SISE, { "0.30" } m kódový šum, latence oprav { "1" } s a { "600" } s, geodetické zaměření stanice na sub-decimetrové úrovni, publikované příkladové umístění stanice, jižní polární kruhy o { "300" } km a { "600" } km) a hodnocený proti číselným tvrzením zdrojů podle šesti jednostranných prahů předregistrovaných před během: pokrytí celého jižního pólu při sub-metrovém p95 (K1, K2), sub-metrové a decimetrové opravené p95 (K3, K4), sub-metrové zachované při latenci { "600" } s (K5) a přesnost zachovaná od základny { "10" } km po { "500" } km (K6)
+
+dat-24e1cb4885b2 = Scénář lunar-time-budget publikuje své výstupy ve formě polí jako dlouhou tabulku (index mřížky, doba průměrování, člen) vedle zprávy, takže sedm křivek x(tau) na člen a celkový součet kvadratickým součtem jsou výstupem enginu, nikoli něčím, co si čtenář znovu sestavuje z popisu metody
+
+dat-52997960d5b8 = Maximální chyba časového intervalu a časová odchylka, které druh `telecom-timing` hlásí, na záznamu holdover v telekomunikačním měřítku: MTIE s posuvným oknem a monotónní frontou O(n) (telecom_timing::mtie_sliding, nutné, aby den jednosekundových vzorků zůstal rychlý) a TDEV enginu (allan::time_deviation), vyhodnocené na mřížce, kterou druh hlásí, a zpětně přečtené z úplného běhu, který řadu načítá
+
+dat-9c7c156edc60 = Jádro fitu naměřené ADEV→PSD (NNLS) odpovídá scipy.optimize.nnls (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — nezávislému externímu jádru; ale ČÍSLA kompromisu pouze kvantifikují (nikdy neověřují nezávislou referencí) partnerské hodiny/CAI, takže samotný kompromis zůstává MODELLED, bez příznaku ověření
+
+dat-0fc2baa2494b = Měřicí filtr
+
+dat-b3e182285f77 = Vlastní uzavřené tvary monitorů na vlastních scénách GPS L1 C/A v Kshaně (šum a legitimní signály; události útlumu vlastních signálů družic), proti prahům předregistrovaným v docs/design/MONITORS-IN-CAMPAIGN.md (382ab2f4). ZJIŠTĚNÍ: M1, M2 a M4 splněny. M3 splněn v detekci ({ "18" } z { "18" } útlumů, P_md { "0" }) a NOT MET v časové klauzuli: střední doba do detekce je { "1.001" } s proti { "2" } x ARL1 vzorků = { "0.433" } s. CUSUM vidí jeden odhad na okno { "1" } s, takže mez v počtu vzorků je menší než jeden vzorek. Pouze vnitřní konzistence: nekontroluje se žádný skutečný přijímač ani zaznamenaná interference
+
+dat-43640ae1cf86 = Sloupce pohybového CSV se Zemí vázanou polohou, geodetickou polohou, Zemí vázanou rychlostí, kurzem/sklonem/náklonem a UTC a věty NMEA GGA/RMC zapsané ze syntetických scénářů (gnss-ins včetně automotive-urban-canyon, jamming, gnss-sim). Pouze pohyb a události; žádný signál se nezapisuje a netvrdí se výkonnost žádného simulátoru ani přijímače.
+
+dat-89e233c63635 = Vícepásmové spektrum
+
+dat-4dc48a3e5ebd = Samotná rovnice ochranné úrovně s oddělením řešení při více hypotézách: vážené nejmenší čtverce se všemi viditelnými družicemi a pro každý režim poruchy na geometrii východ/sever/nahoru s jedním stavem hodin na konstelaci, sigma dílčích řešení, sigma oddělení řešení a jednostranné projekce nominálního biasu, Bonferroniho prahy K_fa, alokace rizika nemonitorovaných poruch a VPL/HPL, které řeší rovnici rizika integrity. Spustitelné jako druh scénáře `araim-reference-check`
+
+dat-2ce06c348216 = Navigační zpráva
+
+dat-16fdeef4af41 = Test chí-kvadrát NEES je kontrola vnitřní konzistence (pravda a filtr sdílejí model). Trend se porovnává s Li et al., LEO constellation-augmented multi-GNSS for rapid PPP convergence, J. Geod. { "93" }:749-764 ({ "2019" }), doi 10.1007/s00190-018-1195-2: multi-GNSS { "9.6" } min se zkrátilo na { "7.0" }, { "3.2" }, { "2.1" } a { "1.3" } min s { "60" }, { "96" }, { "192" } a { "288" } družicemi LEO. Přibalený scénář dává { "7.4" }, { "4.8" }, { "3.2" }, { "2.7" } a { "2.3" } min s vlastními reprezentativními skořepinami { "1000" } km, { "60" } deg, šumem a stanicemi; konstelace, šum a definice konvergence z článku se nereprodukují, takže jde o MODELLED konzistenci trendu (monotónní zkracování, největší konstelace pod třetinou času pouze s GNSS), nikoli o ověření nezávislou referencí
+
+dat-d6f28e310ff2 = Newtonovská jednosměrná světelná doba z libovolného tělesa do libovolného jiného, přijatá v dané epoše, řešená radiometrickým řešičem světelné doby s pevným bodem (radiometric::light_time_solution, vysílač v retardované poloze) přes solar_system::link_on na libovolném EphemerisProvider; druh solar-system ji spouští na analytické sluneční soustavě v heliocentrické soustavě (solar_system::link). Dvousměrná vzdálenost z radiometric::two_way_range a Shapirovo zpoždění Slunce z radiometric::shapiro_delay se uvádějí zvlášť a externě se neporovnávají. Vydává se pro každé těleso vůči pozorovateli a pro libovolný další spoj druhem `solar-system` a pro sestupný spoj z tělesa na Zemi druhem `body-pnt`
+
+dat-82ac4850886b = Nekruhové orákulum (nezávislá reference): analytická vs. Monte Carlo P_md
+
+dat-aca5442415ce = Nekruhové orákulum (nezávislá reference): je to skutečně dráha GPS?
+
+dat-813b2afefcac = Nekruhové orákulum (nezávislá reference): { "350" } s holdover polohy
+
+dat-ba2f435b2480 = Nekruhové orákulum (nezávislá reference): proč { "2610" } s u CSAC?
+
+dat-64b0b715e5da = Numerika se porovnává s nezávislým programem (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } na { "30" } číslic, kvadratura tanh-sinh na původní výškové proměnné a hustoty gama-gama pomocí Besselovy funkce K), který s Kshanou nesdílí žádný kód, podle prahů stanovených před existencí jakékoli implementace (xval/optical-atmosphere/PREREGISTRATION.md). PROČ MODELLED: toto orákulum (nezávislá reference) vyhodnocuje tytéž publikované vzorce, takže kontroluje implementaci uvedených vzorců, nikoli atmosféru; nepoužívá se žádný validační příklad ITU-R ani změřený záznam scintilace či extinkce na šikmé dráze (hodnoty ITU jsou otevřeným licenčním rozhodnutím a v repozitáři nejsou). Úroveň profilu Cn2, dohlednost, výšky aerosolové a molekulové stupnice, délka dráhy pro průměrování apertury a párování momentů použité k aplikaci průměrování apertury na parametry gama-gama jsou uvedené vstupy nebo konvence. Řádek zdroje v modulu zaznamenává, že jeden široce kopírovaný přehled uvádí druhý exponent scintilace jako 7/6, kde Andrews a Phillips uvádějí 5/6; implementována je forma 5/6
+
+dat-31f0e7e8b147 = Pozorovatelná veličina a základní metoda
+
+dat-795cb54aff09 = Oficiální testovací vektory Galileo OSNMA zveřejněné Evropským střediskem služeb GNSS jako příloha Receiver Guidelines (Test_vectors.zip, sha256 ef9b9afc6ef9e1c57393415cf2a1dc80c4035e7c06123907ea0bb97dd3ccf370): { "18" } z { "18" } sad, { "186,382" } autentizovaných značek, { "0" } selhání, spuštěno offline dne 2026-10-10 (záznam důkazů v kshana-pro docs/evidence). Rozsah: vektory ověřují nezávislou referencí kryptografické ověření (Merkle, KROOT/ECDSA, řetězec TESLA, značky MACK, ADKD 0/4/12) a jeho výsledky na publikovaných scénářích; používají pouze HMAC-SHA-256, řetězec SHA-256, 128bitové klíče, 40bitové značky a položky vyhledávací tabulky { "33" } a { "34" }, takže CMAC-AES, řetězce SHA3-256 a další parametry jsou pokryty pouze publikovanými testy známých odpovědí primitiv a syntetickými testy. Zpevnění kolem důvěryhodného času, vazby dat, expirace a potvrzení hlavičky se testuje syntetickými testy útoků, nikoli externím orákulem (nezávislou referencí). Nekontroluje se: seznamy odvolaných certifikátů, živé signály ani živý přijímač (rozložení slov UBX se kontroluje pouze na syntetických rámcích), Merkleovy stromy SHA3-256, čerstvost bez nezávislého času. Nejde o službu EU
+
+dat-02fc3466eb93 = Hranice mezi otevřeným a uzavřeným
+
+dat-c1c7288e6e34 = Druh scénáře optical-atmosphere odpovídá na otázku, jak často optický spoj k zemi funguje, proč selhává…
+
+dat-c96aa9fcd785 = Nepovinná sekce [integrity] druhu clock (clock_integrity::run): z uvedeného místa a presetů konstelace (geometry::sky_geometry), v každé epoše integrity, dokud není časová osa GNSS odepřena, snímkový RAIM (raim::snapshot_raim: paritní test chí-kvadrát, ochranné úrovně podle sklonu) na družicích nad maskou s reziduemi gaussovského rozdělení s generátorem seed o uvedeném sigma a volitelným uvedeným biasem; samostatný blok integrity_fom s verdikty na epochu, ochrannými úrovněmi a dostupností. Odepřené epochy se hlásí jako nedostupné, nikdy se neextrapolují; ukazatele kvality holdover jsou beze změny a bez této sekce je výstup bajtově shodný
+
+dat-2511de383cdd = Nepovinná sekce [receiver] druhu lunar-station-coverage (LRS-02): vícecestné sigma závislé na elevaci sigma(el) = a + b exp(-el / el0) u uživatele a na stanici (funkční tvar RTCA DO-229 pro letadla, jeho a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } deg jako výchozí hodnoty; na Měsíci je každá hodnota ILLUSTRATIVE), bílé u uživatele a Gaussův-Markovův proces prvního řádu přes epochy na stanici (rho = exp(-dt / tau)); tepelný kódový šum DLL early-minus-late sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); biasy mezi kanály na kanál konstantní po dobu pokusu, u uživatele a na stanici. Členy stanice vstupují do jejích oprav, členy uživatele do surových a opravených měření, každý na vlastním proudu se seedem. Je-li sekce nepřítomná, každý dokument zůstává beze změny
+
+dat-5b071d009bc1 = Nepovinná sekce [solution] druhu lunar-station-coverage (LRS-06): řádek pseudoměření výšky up . dx = e_h o uvedeném 1-sigma váženém proti řádkům vzdálenosti, minimum tří družic povolené pouze s ním a řešení váženými nejmenšími čtverci přes posledních window_epochs epoch se sdílenou statickou polohou a jedněmi hodinami na epochu (odpověď filtru pro statickou polohu bez procesního šumu nad stejnými daty; chyby epoch se považují za nezávislé). Je-li sekce nepřítomná, snímkové řešení i každý dokument zůstávají beze změny. Dodatek k porovnání s publikovanými tvrzeními ve stylu řešení zdrojů, předregistrovaný samostatně
+
+dat-98937e2b27b7 = Nepovinný blok [time_lab] scénáře lunar-time-budget modeluje hodiny lunární referenční stanice (ve výchozím stavu třída miniRAFS, nebo libovolná pojmenovaná třída, nebo karta zařízení fitovaná na uvedené body stability) řízené na Coordinated Lunar Time a poté volně běžící nebo znovu řízené každých N sekund: křivka časové chyby x(t) jako kvadratický součet členu mocninného zákona hodin, konstantního zbytku řízení (ILLUSTRATIVE), konstantního zbytku realizace LTC a nepovinného členu rychlosti změny výšky stanice; čas po řízení do { "1" }, { "10" } a { "100" } ns (nebo uvedených prahů) bisekcí vedle uzavřeného inverzního tvaru pro dominantní typ šumu a dominantní člen na každém uvedeném horizontu, vše s jednotkami
+
+dat-5bc49ba7fcb7 = Nepovinný vstup orbit_err_growth_m_per_s druhu lunar-station-coverage (LRS-03): oprava aplikovaná latency_s po svém výpočtu postrádá růst g latency_s chyby vysílané dráhy, g izotropní o 3-D RMS rychlosti, generovaný náhodně na družici a pokus na vlastním proudu se seedem (1-sigma rychlosti rozsahu tau / sqrt({ "3" })), nad rámec reprojekce zmrazené chyby do směru pohledu. Je-li vstup nepřítomný, každý dokument zůstává beze změny. Dodatek K5 k porovnání s publikovanými tvrzeními, předregistrovaný samostatně, spouští K5 při { "0.001" }, { "0.01" } a { "0.1" } m/s (ILLUSTRATIVE)
+
+dat-09591bd30be5 = Rozdělení doby výpadku optického místa spojené s uzavřeným tvarem rozptylu doběhu modelu holdover hodin: chyba časování a určování vzdálenosti při uvedených kvantilech výpadku, holdover do časového prahu, podíl výpadků a doby výpadků uvnitř něj a dostupnost časování A + U E[min(D, T_h)]/E[D], pro klasické a kvantové třídy hodin. Spustitelné uvnitř druhu scénáře `optical-atmosphere`.
+
+dat-783048fbbf26 = Degenerace mezi radiální vzdáleností na uzel a posunem hodin přijímače je přesná při { "1" } m k { "3.336" } ns (jedna ku c). Schurovo-komplementové marginální { "{" }měřítko, posun{ "}" } (coupled_marginal_fisher) ukazuje, že v geometricky různorodé síti dvousměrné určování vzdálenosti zvedá marginální hodnotu zhruba o stejný činitel jako stejný počet dalších jednosměrných dat, zatímco v idealizovaném režimu jednoho uzlu je dvousměrný zisk o řády větší. Z toho plyne návrhový zákon: geometrická různorodost, nikoli dvousměrné určování vzdálenosti jako takové, odděluje lunární měřítko soustavy od posunu časové stupnice při jednosměrném určování vzdálenosti; dvousměrné nebo externí časové napojení je nutné pouze v režimu s nízkou různorodostí nebo jednoho uživatele.
+
+dat-2ec9862606b9 = Export geometrie na družici nese pro každou (epochu, družici) úhel od osy ZÁŘENÍ NA DRUŽICI a vysílací zisk směrem k místu ze skutečného diagramu rovnoměrně osvětlené kruhové apertury (Airy) a uvádí počet družic v paprsku podle tohoto diagramu VEDLE počtu družic v paprsku podle symetrické aproximace zisk-na-šířku-paprsku (θ_3dB[deg] = √(31000/G_lin)), přičemž rozdíl se vydává jako explicitní korekce v počtu spojů, v družicích na epochu a jako nejhorší jednotlivá epocha. Obě implikované účinnosti apertury této aproximace se vydávají ({ "0.641" } proti pravidlu { "70" }·λ/D stupňů, s nímž se uvádí, { "0.920" } proti rovnoměrné kruhové apertuře), takže účinnost, kterou tiše předpokládá, je uvedena, nikoli odvozována. Ve výchozím stavu vypnuto: blok se objeví, pouze když je zadáno místo exportu i apertura
+
+dat-940e5ca338cc = Zpracovatelský řetězec
+
+dat-36996982c5c7 = Plán a katalog
+
+dat-6196b779861f = Postup
+
+dat-1bbca90efb82 = Pravidlo povýšení
+
+dat-976de57c6004 = Cesta propagace a soustav, kterou sdílí každý směrovaný druh pro oběžné dráhy kolem Země: sada středních prvků SGP4 s dvoudílnou epochou UTC (sgp4::MeanElementSet, čtená z prvků constellation-design pomocí MeanElementSet::from_earth_fixed) propagovaná pomocí SGP4/SDP4 do TEME (sgp4::SgpOrbit) a rotace TEME -> ITRS a GCRS -> ITRS z řetězce IAU 2006/2000A s UT1 - UTC a polárním pohybem (sgp4::teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop, bezparametrové tvary teme_to_itrs_matrix a gcrs_to_itrs_matrix). TEME je pravý rovník data se středním jarním bodem, dosažený z GCRS přes precesní bias IAU { "2006" }, nutaci IAU 2000B a rovnici rovnodenností
+
+dat-428ad2136253 = Publikovaná tabulka vážicích činitelů SISRE od Montenbrucka, Steigenbergera a Hauschilda ({ "2018" }), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research { "61" }({ "12" }):3020-3038, doi 10.1016/j.asr.2018.03.041: GPS { "0.98" } a 1/49, GLONASS { "0.98" } a 1/45, Galileo { "0.98" } a 1/61, BeiDou MEO { "0.98" } a 1/54, BeiDou IGSO/GEO { "0.99" } a 1/126. Tentýž průměr vyhodnocený v poloměrech LEO dává váhy pro LEO; žádná publikovaná tabulka pro LEO není připnuta, takže hodnoty pro LEO jsou aplikovanou metodou ověřenou nezávislou referencí, nikoli samostatně ověřené nezávislou referencí
+
+dat-d572d32bf414 = Čtení kódů přesnosti a integrity navigace ADS-B, které mapa používá (mez EPU, kterou představuje kód NACp, mez poloměru ohraničení, kterou představuje kód NIC, a nízké a dobré třídy, které z nich metoda odvozuje); hodnoty „nedostupné“ pro polohu a rychlost AIS, které čtečka AIS zahazuje; pevná buňka mřížky zeměpisné šířky/délky, do níž poloha spadá; délka trasy a její rozdělení podle stavu buňky (zhoršená, nezhoršená, nehodnocená, nepozorovaná), které uvádí expozice trasy; a zda poloha leží ve vnitrozemí od polygonu pevniny o více než vyrovnávací pásmo. Buňka označená jako zhoršená nebo anomální je tvrzením o hlášených polích přesnosti nebo nevěrohodných polohách, nikoli zjištěním interference, a nic zde to nekontroluje.
+
+dat-abc1dd0c01b2 = diagram přijímací antény směrem k rušiči nad rámec jediné hodnoty zisku
+
+dat-c7f246747fa9 = Hodiny přijímače odhadnuté statickým filtrem PPP s float řešením na skutečném dvoufrekvenčním kódu a fázi GPS s konečnými drahami a hodinami IGS: přenos času z přijímače na čas IGS, časové řešení PPP bez ionosféry.
+
+dat-7b4b1b50aa19 = Porovnání s vlastním hlášením přijímače
+
+dat-6f5606020684 = Vlastní příznaky přijímače
+
+dat-9c518b5ec811 = Vlastní příznaky spoofingu a rušení přijímače (UBX)
+
+dat-7c64579f4ddb = Zbývající mezera (plán)
+
+dat-3e46d08f39d5 = Jádro vykreslování základního pásma AFS (LSIS-130: komplexní obálka I + jQ, I = Goldův kód AFS-I krát rámec { "500" } symbolů/s při { "1.023" } Mchip/s, Q = odstupňovaný pilot AFS-Q při { "5.115" } Mchip/s, rotace nosné, zarovnání čipů a symbolů) reprodukuje vzorky nezávislého generátoru, když je řízeno vlastním zaznamenaným stavem kanálu tohoto generátoru (kódové fáze a rychlosti, fáze a frekvence nosné, amplituda na kanál). Nepokryto: model uzlu, který tento stav odvozuje z Dopplera, zpoždění a poměru nosné k hustotě šumu, rozdělení výkonu 50/50 vypočtené z poměru nosné k hustotě šumu (amplitudy se přebírají ze simulátoru) a metadata SigMF a zápis 8bitových vzorků
+
+dat-3591d85a0ba5 = Zpráva
+
+dat-99348c91a583 = Tabulka reprodukovatelnosti
+
+dat-4e9dc7c15dbc = Zbytek enginu
+
+dat-4d88e08f47f8 = Pravidlo
+
+dat-042dd05b607e = Pravidlo pro každou odpověď
+
+dat-d299c1a24acf = Bezpečné výchozí hodnoty
+
+dat-9fd0af13eca1 = Sloučený vysílaný soubor IGS RINEX { "3" } téhož dne (publikovaná data, zapsaná jiným generátorem souborů ze stejných vysílaných zpráv); prahy předregistrované v tests/fixtures/brdc_rinex4_2026200/PREREGISTRATION.md (7aa264b) před prvním během
+
+dat-0d170f85e055 = Táž předpověď na skutečném krystalovém oscilátoru: konzervativní, neověřeno nezávislou referencí
+
+dat-6149b8367932 = Táž předpověď na atomových hodinách na oběžné dráze: { "8" } z { "10" }, neověřeno nezávislou referencí
+
+dat-ac1b5bd75a02 = Táž simulovaná pravda jako u absolutního filtru: chyba relativního filtru proti skutečnému relativnímu stavu a kontrola, že si vede alespoň stejně dobře jako odečtení dvou nezávislých absolutních určení polohy. Neporovnávají se žádná letová data formace
+
+dat-51e3aab053e7 = Scénář
+
+dat-2f3b5663c8ba = Knihovna scénářů
+
+dat-1f72323a66cf = Senzory, které Kshana porovnává
+
+dat-9bcd172f4744 = Servisní objem běží na publikovaných návrzích konstelací namísto ilustrativního: referenční sada pěti družic pro demonstraci interoperability LANS, případové studie LNCSS s { "8" }, { "12" } a { "16" } družicemi a čtyři kosmické lodě, které byly skutečně na lunární oběžné dráze dne 2023-01-01, podle JPL Horizons. Každý soubor uvádí vlastní soustavu a vlastní třídu původu, horizont za koncem tabelovaných efemerid se odmítá, nikoli extrapoluje, a ilustrativní keplerovský výsledek se vydává vedle získaného s rozdílem mezi nimi a nikdy se jím nenahrazuje.
+
+dat-accb0008fb70 = Kovarianční matice sedmiparametrového Helmertova datumu s jejími dvěma simulovanými vstupy nahrazenými naměřenými: harmonogram tvoří epochy vysílání ze země { "337" } archivovaných normálních bodů lunárního laserového určování vzdálenosti ILRS (2015-04-08 až 2015-06-27, Grasse MeO { "7845" } a Matera MLRO { "7941" }, všech pět retroreflektorových polí) a každá váha pozorování je vlastní archivovaná preciznost daného bodu bin_rms/√n_raw — medián { "5.13" } mm jednosměrné vzdálenosti, přečtený ze souboru. Souřadnice stanic IERS ITRF2020, souřadnice reflektorů JPL DE430 Table { "7" }. Spustitelné jako druh scénáře `lunar-llr-datum`. Tvrzení ověřené nezávislou referencí ({ "0.36" }) je úzké: na analytické výchozí cestě výpočet kovarianční matice datumu souhlasí s nezávislým orákulem (nezávislou referencí) SPICE se světelnou dobou a NumPy na čerstvých naměřených normálních bodech; není to přesnost LLR ani důkaz, že analytický Měsíc je přesný
+
+dat-fdf50c7675aa = Sedmiparametrový Helmertův datum propagovaný ze SIMULOVANÉ POZOROVACÍ KAMPANĚ namísto obnoveného z vložené transformace. Pozemní stanice pozorují katalog lunárních povrchových majáků z uvedeného zdroje podle explicitního harmonogramu; lunární VLBI parciální derivace zpoždění se akumulují do Fisherovy informační matice souřadnic majáků a promítají se přes Helmertův návrh A = [I₃ | [p]ₓ | p] do H = AᵀM_bA, takže hlášená přesnost datumu je funkcí pozorovacího programu — přesně lineární v sigma zpoždění a monotónní v oblouku skrz libraci, kterou zpráva MĚŘÍ. Defekt datumu je předmětem, nikoli poznámkou pod čarou: hodnost, defekt, číslo podmíněnosti, spektrum, nepozorovatelné směry v sedmiparametrové bázi, nejslabší směr i při plné hodnosti a podíl každého parametru na něm se vydávají při každém běhu a každý parametr, který kampaň neomezuje, se publikuje jako NULL se stavem. Korelace chyb majáků je MEASURED, nikoli předpokládaná — přesně nulová při pevných stanicích a vytištěná i s cenou, když se stanice odhadují. Spustitelné jako druh scénáře `lunar-frame-campaign`
+
+dat-602bfa37c542 = Vrstva výkonnosti signálu mezi bilancí spoje a doménou měření: spektrální hustoty výkonu s jednotkovou plochou pro BPSK-R(n) a sinusové BOC(m,n), koeficient spektrálního oddělení, který odvozuje Q ochrany proti rušení, jež rušicí model spotřebovává přímo, ze skutečných spekter signálu a rušiče, efektivní (Gaborova) šířka pásma, která určuje informační obsah pro určování vzdálenosti (BOC > BPSK), tepelný šum jitteru koherentního sledování kódu early–late DLL a obálka chyby vícecestného šíření koherentního early-minus-late s potlačením úzkým korelátorem, a návrhový kompromis pro rozlišovací kódy (postranní laloky autokorelace m-sekvence/Goldova kódu a tříhodnotová mez Goldovy křížové korelace, plus inverze od délky kódu k jednoznačné vzdálenosti). Jde o analýzu výkonnosti signálu, nikoli o návrh RF nákladu ani anténního hardwaru.
+
+dat-677d04005685 = Faktory DOP pro jedny hodiny stojí na jádru ověřeném nezávislou referencí proti gnss_lib_py { "1.0.4" } (řádek 'GNSS geometry / dilution of precision (DOP)'); vlastní kontroly tohoto řádku jsou vnitřní: sky_geometry reprodukuje orbit::dop a dop_cov na téže geometrii, elipsa reprodukuje analytický vlastní rozklad 2x2, vstupy ECEF a azimut/elevace souhlasí a RMS a { "95" }% uzavření nasazeného mraku souhlasí s geometrií. Kovariance ENU s jedněmi hodinami na systém a elipsa jsou VALIDATED v řádku 'Horizontal error ellipse and per-system cofactor from the geometry covariance' (numpy, P2); MODELLED zde zůstává složení: propagace presetů na reprezentativní oblohu, mrak Monte Carlo (kontrolovaný proti geometrii, ze které vzorkuje, tedy kontrola vlastní konzistence) a plochy. Presety konstelací dávají reprezentativní oblohu, nikoli datovanou; gaussovský model chyb a UERE jsou uvedené vstupy, nikoli změřená přesnost ani mez integrity
+
+dat-0cbb8b176295 = Web
+
+dat-ca71a91dc8eb = Skyline
+
+dat-da5865588453 = Druh scénáře slot-timing odpovídá na tři otázky pro hodiny, které mezi synchronizacemi běží volně…
+
+dat-83d1ec2f6e4a = Redukce snímku a uzavřené případy řešiče (InternalConsistency). Dodatek (tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md, předregistrovaný samostatně v 001ca100) s výškovým omezením { "1" } m, třemi družicemi a oknem o 6 epochách (nastavení ILLUSTRATIVE; zdroje uvádějí filtr, výškové omezení a tři družice, ale ne jejich nastavení): K1 až K5 selhávají a K6 je splněn, { "1" } z { "6" } jako v zaznamenaném běhu; opravená chyba R300 p95 3-D klesá z { "280.6" } m na { "2.11" } m (horizontální { "0.90" } m, nehodnoceno) a pokrytí zůstává { "0" }. Předpoklad nezávislosti v okně mu nahrává. Není to tvrzení o žádném skutečném systému
+
+dat-84c3e7c0b54b = Druh scénáře spectrum sestaví pásmo L globálního družicového navigačního systému (GNSS) a libovolné další pásmo…
+
+dat-73a3d167d96e = Nominální průběh Stardust podle Desai, Mitcheltree a Cheatwood ({ "1999" }, NASA NTRS { "20050042027" }): maximální zpomalení { "33.4" } g z { "12.6" } km/s vůči planetě s vzletovou hmotností { "45.8" } kg, trajektorie POST se 6 stupni volnosti s úplnou aerodynamickou databází; vstupní rozhraní podle Desai, Lyons, Tooley a Kangas (NTRS { "20090004445" }): poloměr { "6503.14" } km, inerciální { "12.9" } km/s při -8.2 deg. Prahy předregistrované v xval/entry-stardust/PREREGISTRATION.md před jakýmkoli během na těchto vstupech; oba splněny při prvním běhu. CO TO NENÍ: jeden publikovaný případ a jedna veličina (špičkové zpomalení, které v balistické aproximaci nezávisí na balistickém koeficientu); šířka a kurz vstupu jsou předpokládané; ohřev, tepelné zatížení a bod přistání se proti němu nekontrolují; hmotný bod s konstantním C_D, nikoli 6 stupňů volnosti.
+
+dat-5bea30c2f8ec = Statické mapování na veřejné rámce (`kshana compliance-report --mapping` / `--sources`) jako Markdown: jedna tabulka na rámec s parafrázovaným požadavkem každého řádku, výstupy Kshany, které pro něj podporují důkazy (supports evidence for), a mezerou, kterou výstupy neuzavírají; nebo, s `sources` true, zdrojové dokumenty, které tabulky citují, s verzemi a adresami URL.
+
+dat-0d3123f7d981 = Městský kaňon
+
+dat-06acdcc725b9 = Redukce městského kaňonu, sektorů a terénu na tabulku skyline, čtyři reprezentativní presety (městská ulice, přístavní přiblížení, fjord, kontejnerový terminál) a funkce, které je skládají do skyplotu a mraku Monte Carlo, z CLI, MCP, Pythonu a prohlížeče. Presety jsou reprezentativní geometrie se zvolenými, uvedenými rozměry, nikoli zaměření, a redukce se kontrolují pouze proti ručně vypočteným hodnotám.
+
+dat-cbb9fd521aa7 = Technický práh (nesmlouvavý)
+
+dat-2193be3cc46a = Tři členy, které diferenciální oprava získá mezi epochou, v níž se vypočte, a epochou, v níž se použije, každý dříve ponechaný jako nemodelovaná rezerva: chyba zaměření referenční stanice (korelovaná mezi družicemi, nezávislá na základně, přenos polohy ~{ "1" }:{ "1" } a prokazatelně nezesilovaná DOP), stárnutí opravy (zmrazený vektor chyby dráhy znovu promítnutý do směru pohledu, kam vlastní propagátor enginu staví družici o jednu latenci později, plus drift hodin c·σ_y(τ)·τ z kalibrovaného mocninného zákona) a rovnoměrná kvantizace spoje na přesném plném rozsahu ±(orbit_err + clock_err) s rozptylem step²/12. Uvádí se v doméně vzdálenosti i polohy, vedle — nikdy místo — stávajícího rezidua a ochranné úrovně, s křivkou latence vedle jediné hodnoty
+
+dat-c7fae9dce7f6 = Tři propočtené příklady
+
+dat-8d9c177fc1ca = Skóre důvěryhodnosti, pásmo, důvody, stav brány a poloha hlášená přijímačem publikované pod navigation.gnss.kshana v serveru Signal K s oznámením warn, alarm a normal (integrations/signalk); filtrovaný proud NMEA, s fixem označeným jako neplatný, dokud je důvěra zhroucená, a větou PKSHT na cyklus, poskytovaný OpenCPN přes TCP samotnou bránou nebo malým relé, a nativní panel skóre OpenCPN, který čte větu PKSHT (integrations/opencpn); a jednotky systemd a kontejner, které bránu provozují (deploy/reference-build). Kde tyto výstupy zobrazují, nesou poradní prohlášení: Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC { "61108" }, IEC { "61162" }): za navigaci plavidla zůstává odpovědný provozovatel.
+
+dat-ab27e5de4c14 = Dvousměrná rovnice TWSTFT řešená pro T_A - T_B se zpožděními vysílání a příjmu na stanici, asymetrií ionosféry v pásmu Ku nahoru/dolů, rozdílem zpoždění transpondéru a Sagnacovými členy, proti svému přesnému přímému modelu; rozpočet nejistoty kvadraturou s TDEV spoje jako členem typu A; dvousměrná řada s bílým a flicker fázovým šumem (Kasdin-Walter), denní nereciprocitou a konstantním reziduem reciprocity; a rychlost, reziduální RMS, TDEV a ADEV dodaných řad hodin stanic ve formátu Circular T, MJD-CSV nebo IGS RINEX. Spustitelné jako druh scénáře `time-transfer-budget`.
+
+dat-50788560e7d7 = Uzavřené tvary ověřené nezávislou referencí z obou řádků výše, identita falešného poplachu při kvadratickém zákonu P_d(snr = { "0" }) = P_fa a Holmesova střední doba akvizice a redukce na vlastní řetězec SSC druhu spectrum (týž kód Jammer::ssc). Samotné návrhy jsou vstupy: presety označené REPRESENTATIVE nebo WORKSHOP nejsou publikované specifikace, spektra vylepšeného Feherova QPSK, kódového klíčování posunem a OFDM jsou aproximována a kontroly tvaru porovnávají tvary, nikoli kalibrované úrovně.
+
+dat-16112a9a77ca = Plavidlo
+
+dat-3f1d4e3f1ccb = Celá sluneční soustava v jedné epoše pro PNT (určování polohy, navigaci a čas) kolem libovolného tělesa.
+
+dat-555eddd72c9c = Celá sluneční soustava v jedné epoše pro PNT (určování polohy, navigaci a čas) kolem libovolného tělesa. Pro…
+
+dat-669e6375dd79 = Celá sluneční soustava v jedné epoše.
+
+dat-89aaa5f9ce5a = Slova a meze
+
+dat-b16d6e1433cb = Theo1 a celková odchylka (TOTVAR) — estimátory stability s rozšířeným rozsahem pro dlouhé tau, dosahující ~{ "75" }% záznamu tam, kde Allanova odchylka dosáhne své meze přibližně při ~{ "50" }%; hybrid ThêoH s odstraněným biasem (allan::theoh_curve) postavený na nich zůstává MODELLED
+
+dat-66fa672b5002 = Tyto schopnosti jsou implementovány z publikované fyziky nebo fyziky z prvních principů s testy, ale poctivě…
+
+dat-cc1d1473669d = Tento dokument mapuje RTCA (dříve Radio Technical Commission for Aeronautics) DO-229E (SBAS…
+
+dat-079cb1d71f11 = Tento dokument uvádí, jak je Kshana řízena: kdo rozhoduje, jak a co projekt bude a nebude…
+
+dat-50eb6e6fec85 = Tato poznámka dokumentuje otevřenou implementaci Advanced Receiver Autonomous Integrity Monitoring v Kshaně…
+
+dat-bf2f1f92d9a4 = Tato stránka vysvětluje, co Kshana dělá a proč, od nuly a postupně až k fyzice.
+
+dat-af95fca25c5e = Tato stránka uvádí každý limit, který druh scénáře telecom-timing kontroluje, odkud každý pochází a co bylo…
+
+dat-0ce7cfae4415 = Zde se jedna trajektorie provede standardizovanými druhy scénářů pro interoperabilitu a analýzu misí od začátku do konce…
+
+dat-da8207aca260 = Tři aspekty jediného rozkladu ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) s 8rozměrnou kalibrací datum⊕časová stupnice jako N(G) a state_dim − { "8" } = { "32" } pozorovatelnými směry jako range(G): (T5) provider_mismatch_split klasifikuje společný bias více poskytovatelů (∈ range(G)) jako NEDETEKOVATELNÝ — vyžadující externí napojení — a diferenciální bias (∉ range(G)) jako samomonitorovaný / DETEKOVATELNÝ; (§{ "0" }) sjednocení spočívá v tom, že STEJNÝ slepý podprostor range(G) řídí třídu nedetekovatelných poruch, takže kalibrace datumu N(G) a podprostor slepý vůči poruchám range(G) jsou jedna geometrie, nikoli dvě; (g7) slope vrací Brownův sklon mezery ochrany ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ pro poruchu b ∈ range(G) (estimátor poškozený s nulovou paritou) a konečný pro detekovatelnou poruchu
+
+dat-fe38e57d2fb3 = Tři matice soustav porovnané prvek po prvku nebo úhlem rotace s ERFA v libovolných epochách: precession::precession_matrix (precesní bias IAU { "2006" } pomocí úhlů Fukushima-Williams), nutation::teme_to_gcrs_matrix (rotace TEME do GCRS P^T N^T Rz(-EE) s precesí IAU { "2006" }, nutací IAU 2000B a rovnicí rovnodenností se dvěma vedoucími doplňkovými členy) a cio::gcrs_to_cirs_matrix_with_offsets (rotace GCRS do CIRS s posuny nebeského pólu IERS dX, dY přičtenými k modelovým CIP X, Y před rotací, konvence kuchařky SOFA; nové). Samotné volby modelu (nutace 2000B na cestě TEME, dvoučlenná doplňková řada) nejsou ověřeny nezávislou referencí, pouze jejich implementace
+
+dat-c6a5b4e18a0f = Tři scénáře gnss-ins na knihovně trajektorií (plavidlo kličkující rychlostí { "8" } m/s s pětiminutovým výpadkem; vlak průsekem se dvěma družicemi a tunelem; letadlo, jehož výpadek pokrývá 25stupňovou zatáčku v náklonu) a nepovinná tabulka [tight] balíčku: pseudovzdálenosti ze SGP4 konstelace Walker fúzované navigátorem s uzavřenou smyčkou, všechny družice nad maskou při nominálním stavu a nejvyšších několik při zhoršeném
+
+dat-6781f5f7c487 = Tři nezávislé autoritativní efemeridy — DE440 (JPL), INPOP21a (IMCCE), EPM2021 (IAA RAS) — vzorkované přes IMCCE calceph, křížově zkontrolované nezávislým fitem nejmenších čtverců numpy SVD. PROČ JE TOTO ověřeno nezávislou referencí, ZATÍMCO lunar_common_mode NENÍ, na týchž třech efemeridách: zde je hlášená veličina vlastností publikovaných dat — jejich vzájemný nesouhlas — takže efemeridy jsou orákulum (nezávislá reference), nikoli vstup. V lunar_common_mode tentýž nesouhlas vstupuje do MODELLED geometrie konstelace a odpověď je vlastností onoho modelu, proto je ten řádek správně modelováno/ReferenceImpl.
+
+dat-e308dc95dc23 = Tři druhy scénářů poskytují určování polohy, navigaci a čas (PNT) s družicemi na nízké oběžné dráze Země…
+
+dat-b7376e140622 = Tři strukturální pojistky nad samotným procesem verifikace, z nichž každá uzavírá třídu vad, která se dostala do kanonické brány jako občasná nebo falešná červená. ({ "1" }) Každá sestavená cesta k dočasnému souboru ve zdrojích v Rustu musí nést jedinečnou složku pro každé volání; id procesu se odmítá, protože cargo spouští knihovní testy jako paralelní vlákna JEDNOHO procesu a pid sdílejí všechna. ({ "2" }) Každé přišpendlení po bajtech nebo podle hashe musí vedle sebe nebo v hlavičce modulu uvádět, co pokrývá a co záměrně vylučuje — aby průřezová změna na první pohled poznala, které pevné hodnoty jsou v rozsahu a které se tiše staly detektory změn v celém repozitáři. ({ "3" }) Zelený výsledek lze tvrdit pouze z ÚPLNÉ sady: scripts/gate.sh spouští `cargo test --all`, zachytí skutečný návratový kód bez roury v cestě a zapíše potvrzenku uvádějící commit, počet integračních binárních souborů, počet testů a dobu trvání; kontrola před pushem odmítne push, jehož commit žádná platná potvrzenka neuvádí, na čistém stromě. Opakovatelnost se vzorkuje zvlášť pomocí scripts/check-repeatability.sh, který spustí knihovní sadu N-krát a selže, pokud se množina prošlých testů liší.
+
+dat-abb22745ef3d = Třísosý strapdown INS — kvaternionová poloha, mechanizace WGS-84 NED, kompenzace coningu/scullingu a úplný deterministický chybový model IMU — plus akcelerometr se studenými atomy a interferometrem z prvních principů (fáze Mach–Zehnder, projekční šum, pokles kontrastu, vazba vibrací) a částicový filtr pro navigaci referencovanou terénem/gravitací bez GPS.
+
+dat-8a384aa0ece5 = Nabídka poruch TIB (divergence domén, clock-slam, holdover-coast, statické/inkrementální/symetrické/asymetrické zpoždění, replay-within-freshness, path-selective, kvorum k z N)
+
+dat-ba55614d83be = Hodnocení pokrytí integrity TIB (míry HMI/MI/dostupnosti + verdikt pokrytí nadhraničením)
+
+dat-a94d5c81b3b5 = Klasifikace epoch TIB podle Stanfordova diagramu integrity (nominální / nedostupná / MI / HMI)
+
+dat-ae4e9157f569 = Verdikt TIB o nedetekovatelné absorpci (symetrické/replay musí být absorbovány PL, nikdy ne hlášeny jako detekované)
+
+dat-96a1790c4953 = Slapy na geopotenciálu (src/tides.rs)
+
+dat-1cece66370c3 = tides::tests (člen S1 je denní, otočí se o { "90" } deg za čtvrt dne a má amplitudu zatěžovacího činitele každého řádku; fyzikální velikost na LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+dat-570e93de692d = těsně vázaný UKF · { "0.77" } m RMS
+
+dat-7693dd3b7cf2 = Časová chyba
+
+dat-6cece0b05a6a = Časové stupnice a soustavy orientace Země
+
+dat-46048a345e4c = Časové systémy
+
+dat-a4f81aad2d9a = Přenos času na UTC z družic LEO, v závislosti na C/N0 a oscilátoru přijímače.
+
+dat-e2efae3f8849 = Časová doména viditelnostních přeletů (AOS/TCA/LOS, maximální elevace, trvání) propagátoru enginu nad stanicí nad elevační maskou, s interpolovanými průchody východu/západu a celkovým přístupem: passes::predict_passes, geometrický plánovač (bez refrakce a světelné doby). Druh scénáře `passes` spouští zdánlivý prediktor z řádku 'Apparent ground-station pass prediction with refraction and light time'
+
+dat-66eda5411853 = Detekce časového spoofingu s explicitním tvarem útoku a stochastickým detektorem.
+
+dat-dcb22bd12a55 = Rozpočet chyb přenosu času
+
+dat-5f88ca853243 = time-transfer-budget (druh scénáře)
+
+dat-bbb4dcced418 = timetransfer (druh scénáře)
+
+dat-44dcbd5a239e = timetransfer_chain::tests (preciznost se s integrací zlepšuje; kvantové řešení může vyhrát I prohrát; PL konečná a kladná; bezpečnostní FoM v [{ "0,1" }] a roste se zpožděním útoku; Pd anomálie monotónní; kompromis is_honest)
+
+dat-9fd675aba21a = timetransfer::tests (reciproční vyrušení; identita Sagnacova jevu ve dvou tvarech); tests/time_transfer_error_budgeting_reference.rs (Sagnac při obletu po rovníku = { "207.386" } ns proti publikovaným { "207.4" } ns Ashbyho na <{ "0.05" } ns; plus geometrie Sagnac/geodist křížově zkontrolovaná proti geodist() z RTKLIB { "2.4.3" } přeloženému ze zdroje v C)
+
+dat-bafdf56f480c = Testy časování a holdover
+
+dat-fe1585259034 = Kontinuita časování a určování vzdálenosti při optických výpadcích
+
+dat-572b994bdb6f = Časová chyba během běhu
+
+dat-60e75eec2266 = Časování pro sítě, spektrum, sluneční soustavu, konstelace, kampaně a LEO-PNT
+
+dat-af3ae4c6ec29 = Časování s hardwarem ve smyčce: odpojte anténu, ohodnoťte holdover
+
+dat-a4bd95a08c10 = Integrita času
+
+dat-830ecf94efaa = Ochranná úroveň času pro přijímač na oběžné dráze při spoofingu GNSS
+
+dat-3c5975241acf = Ochranná úroveň času při spoofingu
+
+dat-81849f4dacd3 = Zeď časování
+
+dat-28757f0de384 = Srovnávací test shody integrity času — katalog poruch (parametrické generátory)
+
+dat-00ec4aa50d47 = Srovnávací test shody integrity času — hodnotitel pokrytí integrity
+
+dat-cea9b5d71933 = Srovnávací test shody integrity času — klasifikátor epoch podle Stanfordova diagramu integrity
+
+dat-06ca29579f23 = Srovnávací test shody integrity času — verdikt o nedetekovatelné absorpci
+
+dat-d7ca79c5d894 = do konvergence, pouze GNSS
+
+dat-73bf610fd7de = Nejvyšší úroveň (balíčky hodin a drah)
+
+dat-5a7431e27e44 = Dynamika polohy tuhého tělesa bez momentu
+
+dat-b5235132847d = tpl::tests (uzavřená orákula (nezávislé reference) + CUSUM); examples/tpl_jammertest.rs (kalibrace skutečného spoofingu JammerTest { "2024" }); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (připíná zjištění); tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+dat-cf0276f69bce = tracking_loop (skládající sdr, jamming)
+
+dat-e61b4ece5d0d = tracking_loop::tests (jitter diskriminátoru Costas s otevřenou smyčkou proti sdr::correlate krokovanému na seedované syntetické IF, { "3" } sdružené realizace šumu × { "900" } epoch, shoda na { "0.63" }% při 35-45 dB-Hz, přičemž člen ztráty kvadrováním musí sedět alespoň { "3" }× lépe než tvar bez ztráty kvadrováním všude, kde je rozlišitelný; saturace diskriminátoru atan při ~{ "32" } dB-Hz tvrzená, nikoli pouze uvedená, takže mez platnosti je připnutá; sigma s uzavřenou smyčkou proti krokované smyčce Costas v sdr přes { "4000" } epoch na { "3.7" }%; zpoždění rampy DLL prvního řádu proti krokovanému DLL v sdr na { "0.17" }%; bessel_i0 proti tabelovanému I₀ na { "7.4e-8" }; šířka hystereze, která musí spadat do [{ "5" }·log₁₀ r, { "10" }·log₁₀ r] přes { "4" } poměry × { "2" } doby integrace × { "3" } šířky pásma); api::tests::tracking_loop_kind_round_trips_through_the_dispatch; tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+dat-b47f3ef2ed91 = tracking-loop (druh scénáře)
+
+dat-ddc4cb423e89 = Ztráta zachycení sledovací smyčky a stažení spoofingem při interferenci
+
+dat-6f5b10eb7cfb = Ztráta zachycení sledovací smyčky: C/N0 -> zachycení/ztráta s hysterezí, doba, za kterou
+
+dat-9171d7bdf4d8 = Ztráta zachycení sledovací smyčky: C/N0 -> zachycení/ztráta S HYSTEREZÍ, doba, za kterou se zachycení ztratí, a spoof…
+
+dat-a92df5c034d8 = Studie kompromisu: jak holdover závisí na stabilitě hodin?
+
+dat-895e0a8d9ffd = Režim trajektorie: podél oběžné dráhy
+
+dat-473bee0dc62d = Přepsané limity ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC zachycený a holdover ePRTC-A (včetně obálky časové chyby z tabulky { "3" }), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) třídy T-BC/T-TSC A-D a G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) referenční bod C, každý otevřený nebo uzavřený interval tak, jak jej tabulka uvádí, přičemž každá položka 'for further study' je vynechána; verdikt a rezerva v určujícím bodě na kontrolu a čas do překročení každého rozpočtu. Spustitelné jako druh scénáře `telecom-timing`
+
+dat-973900257f13 = Přepis citovaných veřejných údajů a kontrola konzistence: EIRP stanovené z publikovaného minimálního přijímaného výkonu předpovídá publikované maximum s přesností { "0.5" } dB s plochým diagramem. To je kontrola rozptylu vzdáleností, nikoli ověření nezávislou referencí antény kterékoli družice; reprezentativní presety nic netvrdí o skutečném systému
+
+dat-75850c0e8a41 = Přepis citovaných veřejných hodnot, zkontrolovaný na strukturu (každý veřejný zdroj má adresu URL, vzory Walker se dělí beze zbytku, C/N0 z přijímaného výkonu nad kT při { "290" } K), nikoli proti externímu orákulu (nezávislé referenci). Reprezentativní hodnoty jsou pojmenovány v každém presetu a jsou ilustrativní
+
+dat-757d75457718 = Přepis pojmenovaných Doporučení (stažených z itu.int dne 2026-10-13), každý řádek znovu přečtený proti textu, se spojitostí v zlomových bodech, kterou vytištěné koeficienty implikují, omezenou v testech (například { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns proti plató { "100" } ns v tabulce { "4" } G.812). Přepis normy s kontrolami vnitřní konzistence, nikoli test shody a nikoli externí ověření nezávislou referencí. G.812 (06/2004) je uvedena jako nahrazená předpublikovaným vydáním 08/2026 a G.811 má Amd. { "1" } (04/2016); ani jedno nebylo možné přečíst, takže se nekontroluje ani jedno. Scénář volně běžícího OCXO nadhodnocuje příspěvek oscilátoru při intervalech pozorování dlouhých vůči časové konstantě smyčky; o hodinách žádného zařízení neříká nic
+
+dat-41fde09e0536 = Přepis pojmenovaných Doporučení (volně ke stažení z itu.int), každý limit s uvedenou tabulkou nebo klauzulí, uvedený se všemi nepotvrzenými nebo neimplementovanými položkami v docs/TELECOM-TIMING.md; identity spojitosti v zlomových bodech, které tabulky implikují, se kontrolují v testech. Přepis normy s kontrolami vnitřní konzistence, nikoli test shody a nikoli externí ověření nezávislou referencí. { "0.30" } kolo { "2" } (předregistrováno 970003ee), blokováno (zůstává MODELLED): deset hodnot masky a třináct hodnot holdover ePRTC-A, které Doporučení uvádějí jako propočtená čísla (G.8272 obr. 1-2, G.8272.1 Amd.1 kl. { "8.2.1" } a obr. V.1-V.3, G.8271.1 Amd.3 obr. 7-2 až 7-4), se reprodukuje s přesností do poloviny vytištěné jednotky, většinou jde o konstanty tabulek nebo zlomové body; G.8271.1 obr. 7-2 uvádí { "200" } ns při { "1.3" } s proti vlastní tabulce 7-1 ({ "197.5" } ns). Limity tříd G.8273.2 A-D nemají žádnou vytištěnou propočtenou hodnotu a popisky zlomových bodů zachyceného ePRTC podle G.8272.1 (na plných konstrukčních čarách) byly vyloučeny předregistrovaným pravidlem výběru, takže zůstávají přepisy
+
+dat-d599af854f03 = Čtečka souborů Orbit Data File TRK-2-18 a model Dopplera Marsu typu 2-way s rampou
+
+dat-987a822b09b1 = Troposférická amplitudová scintilace na spoji Země–vesmír
+
+dat-18b137f9f9d0 = Skóre důvěryhodnosti
+
+dat-f0430b8cc9f6 = Skóre důvěryhodnosti (platforma plavidla)
+
+dat-03c201e427bf = Telemetrie důvěry pro bezpečnostní operace
+
+dat-8dd9b64e7b1c = Události SIEM telemetrie důvěry: Common Event Format (CEF) přes syslog
+
+dat-3b341a074b5a = Události SIEM telemetrie důvěry: Log Event Extended Format (LEEF) přes syslog
+
+dat-af2c0f76b82d = Přenosové formáty telemetrie důvěry: textová expozice Prometheus a OpenTelemetry OTLP/HTTP JSON
+
+dat-462f51eddb7a = Důvěryhodné kvantové časování — řetězec od konce ke konci, zabezpečená distribuce, anomálie + kompromis (src/timetransfer_chain.rs)
+
+dat-e2b23a03c196 = Důvěryhodné kvantové časování — řetězec přenosu času od konce ke konci, zabezpečená distribuce,
+
+dat-6c2f04247970 = Důvěryhodné kvantové časování (přenos času + zabezpečená distribuce + anomálie)
+
+dat-678b3b18dc8d = Vyzkoušet v prohlížeči
+
+dat-fe6951113784 = Vyzkoušet
+
+dat-2d7dadadb10a = Ciolkovskij < { "0.01" } % · Lambert se vrací ke dvoutělesové pravdě
+
+dat-792becc434c6 = Tutoriál { "1" } — Moje první oběžná dráha: kde jsou družice GPS
+
+dat-a424ed5ba327 = Tutoriál { "2" } — Holdover hodin: jak dlouho vydržíte
+
+dat-43b0b402ae05 = Tutoriál { "3" } — Odolnost GNSS kvantová vs. klasická (závěrečná práce)
+
+dat-b349d9190a41 = Dva různé výpočty téže veličiny v rámci kódové základny, nikoli jeden přeformulovaný: bisekce na mocninné křivce IEEE-1139 nic neví o typu šumu, zatímco uzavřený tvar invertuje dominantní typ algebraicky, takže chybně klasifikovaný typ šumu nebo špatné ohraničení se projeví jako ne zanedbatelný relativní rozdíl. Čtyři hodnoty také reprodukují publikovanou tabulku z článku na polovinu její poslední vytištěné číslice -- ale tato tabulka sama byla rekonstruována ze stejného uzavřeného tvaru, takže jde o kontrolu reprodukovatelnosti, nikoli o externí orákulum (nezávislou referenci), a člen soustavy, proti němuž se měří, je modelovaná alokace
+
+dat-56afaff440ac = Dvouosý průchod stopou povrchového zachycení vážené diagramem a omezené výškou přes výšku vysílače a průměr paraboly, vydávaný jako jeden řádek na pracovní bod s polovičním výkonovým úhlem svazku, který každý průměr implikuje, a zachycení na limbu hlášené jako PRÁH -- na řádek J/S na limbu, jeho rezerva a vysílací výkon, který by ji uzavřel; na mřížku nalezené průsečíky, nebo explicitní konstatování, že limbu není nikde na mřížce dosaženo, s nedostatkem
+
+dat-72905c49853b = Dvoutělesová geometrie startu a výstupu: azimut(y) startu (sin Az = cos i / cos lat), minimální dosažitelná…
+
+dat-d4efa5c1652f = Dvoutělesový azimut(y) startu (sin Az = cos i / cos lat), minimální dosažitelná inklinace, kruhová rychlost, východní bonus rotace Země, Δv pro změnu roviny typu dogleg a denní příležitosti, a, je-li dána epocha a řádky IERS finals2000A, rychlost místa kolem skutečného pólu (launch::site_rotation_speed_at). Spustitelné z CLI/vazeb jako druh scénáře `launch-window` (scenarios/launch-window.toml)
+
+dat-ba0279e6f540 = Dvoudílná juliánská data a přestupné sekundy na časové cestě pro oběžné dráhy kolem Země
+
+dat-349495a3c0b4 = Dvoudílná juliánská data přes rotaci Země na dráhové cestě
+
+dat-0286c8eb5794 = Dvoustavový Kalmanův holdover, stabilita z rodiny Allanových (ADEV / MDEV / TDEV / HDEV) s intervaly spolehlivosti a úplný fit mocninného zákona s pěti koeficienty IEEE-1139 a provozní metody přenosu — TWSTFT s uzavřeným tvarem Sagnacova jevu podle BIPM, společné pozorování GNSS, přenos PPP bez ionosféry, optický spoj ve volném prostoru se scintilací z turbulence a časová stupnice souboru hodin s inverzními rozptyly. Kalkulátor holdover hodin bez GNSS invertuje růst chyby doběhu podle van Loana na holdover do prahu — jak dlouho hodiny běží volně, než jejich časová chyba překročí rozpočet — napříč třídami klasických a kvantových hodin; modelováno a poctivě s upozorněním, že u velmi stabilních hodin je holdover do těsného prahu dán předpokládanou podlahou šumu při dlouhém tau, nikoli citovanou ADEV.
+
+dat-7f7007942495 = Dvousměrný družicový přenos času a frekvence (TWSTFT) mezi dvěma ILLUSTRATIVE stanicemi, jedna
+
+dat-5013dd9c3030 = Dvousměrný družicový přenos času a frekvence mezi dvěma stanicemi přes geostacionární relé: …
+
+dat-cb59cc06f1d2 = Dvousměrný přenos/TWSTFT (Sagnac), společné pozorování GNSS, PPP; jitter spoje→vzdálenost
+
+dat-8e1d443b5d7e = Dvousměrná rovnice TWSTFT, rozpočet nejistoty a stabilita spoje s flicker šumem a denní nereciprocitou
+
+dat-983d0f0e3e8a = twstft_budget::tests (dvousměrná rovnice přesně obnoví posun; Sagnacův člen se rovná uzavřenému tvaru smyčky BIPM; ionosférický člen sleduje rozdělení frekvencí a troposféra se vyruší; flicker fáze má plochou TDEV; denní reziduum zvedá TDEV poblíž půl dne; bias reciprocity posouvá offset, nikoli TDEV; stabilita řady odstraní rychlost); time_transfer_budget::tests
+
+dat-dd9ca7845a91 = Typované rozdělování a strukturované API
+
+dat-989fe8c60f51 = Vyhodnocení plně normalizovaného pole do stupně { "2190" } bezpečné proti podtečení a pólu (SphericalHarmonicField::acceleration_hf / potential_hf, modifikovaný sloupec dopředné rekurze Holmes-Featherstone { "2002" } s gradientem bez 1/cos phi), streamovací načítač ICGEM .gfc (from_gfc_file / from_gfc_reader; úplný EGM2008 se stahuje za běhu, není přibalen) a vyhodnocovač Holmes-Featherstone volitelný v nepovinném geopotenciálu Cowell
+
+dat-321e1c30be42 = Strop nedetekovatelného společného módu: největší velikost poruchy ve směru d, která unikne OBĚMA, jak oddělení (alpha_ss = T_ss / vybělená norma kontrastu d), tak statistice společného módu (alpha_cm = sqrt(T_cm { "1" }^T Omega^-1 { "1" }) / |{ "1" }^T Omega^-1 d|), hlášený jako min(alpha_ss, alpha_cm). Při pozitivně definitní Omega se obě slepé směry (d úměrné { "1" } a { "1" }^T Omega^-1 d = { "0" }) vzájemně vylučují, takže strop je KONEČNÝ pro každé nenulové d; nekonečný je pouze pro nulový směr nebo nepozitivně definitní Omega. Směr mimo modelovanou společnou osu je slepý pouze vůči statistice společného módu a je omezen oddělením
+
+dat-de39e3e42f97 = Sjednocené důkazy kompromisu kvantové vs. klasické řešení (src/qtrade.rs)
+
+dat-30a97898922e = Jednotka a původ deklarované pro každou hlášenou veličinu
+
+dat-bb1ab222d297 = Jednotka a původ u každé hlášené veličiny
+
+dat-19a913b31515 = Spektrální hustoty výkonu na jednotku plochy pro GPS L1 C/A a L2C (BPSK({ "1" })), GPS L5 a Galileo E5a (BPSK({ "10" })), sinusové BOC({ "1,1" }) a Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, s přidanou variantou MBOC), jejich numericky lokalizované nuly a maxima (spectrum::psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz) a koeficient spektrálního oddělení signálu proti libovolnému spektru při libovolném posunu (navsignal::spectral_separation_coeff_offset) nebo proti tónu, plochému šumu, čirpu či přizpůsobenému šumu (spectrum::Jammer::ssc), s koeficientem ochrany proti rušení Q = 1/(R_c kappa)
+
+dat-61d80f0e7425 = Jednotky a původ, po polích, pro každý druh
+
+dat-a9e9ab6d88d7 = Do verze { "0.36" } byl každý test viditelnosti Země v enginu jediným elevačním prahem, mask_deg: družice…
+
+dat-2233778f23ed = Uran a Neptun ze Standishovy tabulky { "1" }, Pluto a planetární rychlosti
+
+dat-c79c9837d30a = Rámec shody odolného PNT amerického ministerstva vnitřní bezpečnosti (US DHS): pro co Kshana podporuje důkazy (supports evidence for)
+
+dat-2b68c27525f2 = Rámec odolného PNT amerického ministerstva vnitřní bezpečnosti (US DHS)
+
+dat-823f014c99fb = USGS / Planetary Data System, mozaika Voyager a Galileo SSI
+
+dat-cd4da8272226 = USGS Astrogeology / Planetary Data System, mozaika Viking (P. Stooke)
+
+dat-dd59e97e8dcf = USGS Astrogeology Science Center
+
+dat-0ce0df0ff899 = Použití Kshany z AI agenta
+
+dat-72f2e25e1d08 = Použití skutečných TLE konstelací
+
+dat-efc9b5010923 = UTC od 1960-01-01 do 1971-12-31, kdy UTC běželo posunutou rychlostí vůči TAI a krokovalo po zlomcích sekundy, na cestě dvoudílného juliánského data: TAI - UTC z tabulky driftu každého období (timescales::tai_minus_utc_on_date), kalendářní datum UTC na dvoudílné juliánské datum UTC s délkou dne { "86 400" } s + dleap (Jd2::from_utc_calendar), UTC na TAI se zlomkem dne přeškálovaným z UTC na sekundy SI (jd2::utc_to_tai) a TAI zpět na UTC (jd2::tai_to_utc), podle SOFA dtf2d, utctai a taiutc. Před rokem { "1960" } se TAI - UTC bere jako { "0" } (hodnota SOFA; UTC nedefinováno) a leží mimo tvrzení. Jednoduchá funkce timescales::tai_minus_utc s f64 stále omezuje na { "10" } s před rokem { "1972" } a není pokryta
+
+dat-0bcbd6a488b7 = Pomocné funkce
+
+dat-04685dab3c55 = platné: zjištěný druh scénáře `clock`
+
+dat-7ae5035a7d5a = Ověřte platnost souboru laboratorních testovacích podmínek (`kshana iq conditions`): souboru `kshana.test-conditions/1`, textu TOML nebo JSON, uvádějícího známou pravdu laboratoře o záznamu (očekávané družice, dobu ustálení, uvedený plán rušení nebo interference).
+
+dat-9edfc7a39d2a = VALIDATED a MODELLED
+
+dat-0019c88828a9 = Ověřeno nezávislou referencí na skutečných datech IGS (stanice ABMF, 2018-05-13) na { "5.7" } m 3-D RMS / { "1.1" } m horizontálně proti zaměřené souřadnici.
+
+dat-dcc344df03dd = Výsledky ověřené nezávislou referencí
+
+dat-8ba36ed18039 = řádky ověřené nezávislou referencí vyžadují externí orákulum (nezávislou referenci) (invariant vynucený v CI)
+
+dat-509ad71b1b5f = Validace a důkazy
+
+dat-2c8f88b01581 = Validace v kostce
+
+dat-108d874b494e = Registr validace (ledger)
+
+dat-4d1e3020f8f1 = Balíčky validace
+
+dat-4a43a8c1fd74 = Kolo validace { "2" }
+
+dat-d7b6a8ce3a7a = Stav validace
+
+dat-2db9e436cfdd = Validace: inverze na odložených skutečných hodinách
+
+dat-f4a97f622c0a = Varianta: laboratorní stronciové optické hodiny vs. CSAC.
+
+dat-795854adc6c4 = Souhrn verdiktů
+
+dat-66f52522c4b3 = Verifikační matice
+
+dat-aedfff7efc5d = Stav verifikace
+
+dat-0f25026f5234 = Ověřte podepsaný balíček důkazů (`kshana evidence verify`): SHA-256 každého souboru proti manifestu, řetězec hashů, podpis Ed25519 a s `public_key` (klíč podepisujícího, získaný od podepisujícího jinou cestou), že podepisující je očekávaný, a s `full_log`, že protokol, který držíte, je ten, který balíček zaznamenává, a že z něj řez pochází.
+
+dat-068809535e3c = verzovaná obálka · ověřeno zpětné i dopředně kompatibilní čtení a round-trip
+
+dat-8c6a34721e44 = Viditelnostní přelety (AOS, TCA, LOS, maximální zdánlivá elevace, trvání) sady prvků SGP4 nad stanicí WGS-84 na cestě pro oběžné dráhy kolem Země ověřené nezávislou referencí (IAU 2006/2000A, volitelné parametry orientace Země), s troposférickou refrakcí podle ITU-R P.834-9 (rovnice { "9" } až { "14" }, vytištěné koeficienty Doporučení) a sestupnou světelnou dobou, každé přepínatelné; průchody řešené bisekcí na { "1e-7" } s a kulminace vyhledáváním zlatého řezu. Spustitelné z CLI/vazeb jako druh scénáře `passes` (scenarios/passes.toml), obě korekce ve výchozím stavu zapnuty
+
+dat-a4d681c2f89b = Harmonogram VLBI na kovarianci souřadnic stanice
+
+dat-715f9872a12d = VlseKriterijumska Optimizacija — skupinová užitečnost Sᵢ, individuální lítost Rᵢ a kompromisní index Qᵢ při váze strategie v={ "0.5" }, s pořadím, kde nižší je lepší
+
+dat-cec4d4f917b6 = VS Code (jedno kliknutí)
+
+dat-aab2e31aee02 = Uživatelé VS Code a Insiders
+
+dat-53b8139d7ee1 = vs nezávislá paritní algebra numpy/scipy
+
+dat-d2bc1a8c41f0 = vs numpy/scipy Umeyama–Horn SVD
+
+dat-057b91b0c350 = vs oficiální hodnoty BGS IGRF-14
+
+dat-727093687049 = wahba::tests (A(jednotkový kvaternion)=I; Jacobiho řešič vlastních čísel splňuje Kv=λv a zachovává stopu na známé symetrické matici; K je symetrická); tests/wahba_reference.rs (TRIAD, Davenportova q-metoda a QUEST reprodukují optimální DCM z scipy.spatial.transform.Rotation.align_vectors na bezšumových vážených sadách vektorů na <{ "1e-9" } rad pomocí úhlu chyby polohy nezávislého na soustavě; plus q-metoda obnoví známou rotaci s λ_max=Σ vah a nulovou ztrátou Wahba, řešení q-metodou minimalizuje ztrátu Wahba při poruše, QUEST souhlasí s optimální q-metodou na <{ "1e-7" } rad a optimální estimátor překoná dvouvektorový TRIAD v RMS chyby polohy přes { "2000" } zašuměných pokusů Monte Carlo)
+
+dat-7a50fbacac97 = Určování polohy Wahba/TRIAD/QUEST
+
+dat-ead7033f0cfa = Geometrie konstelace Walker a publikované nominální sloty GPS, Galileo a GLONASS
+
+dat-b262774f5883 = Walker delta 1600/32/1; Walker delta 1600/32/7; Walker delta 1000/20/3; Walker star 800/16/1
+
+dat-a2c625238ffd = Walker delta 8/4/1; Walker delta 6/3/1
+
+dat-9f4d90082cce = Chcete čerstvá data?
+
+dat-b62354b3a6a8 = Způsoby použití
+
+dat-7ea36107ff6a = My jako členové, přispěvatelé a vedoucí se zavazujeme, že účast v naší komunitě bude bez obtěžování…
+
+dat-9fc2c82396a8 = Dostupnost optického pozemního místa řízená počasím a diverzita míst korelovaná se vzdáleností
+
+dat-cc207b5cd120 = weboví vývojáři a vývojáři Node.js
+
+dat-14787aed1cf0 = Weighted Aggregated Sum Product ASSessment (lineárně normalizovaná konvexní směs λ·WSM+({ "1" }−λ)·WPM při λ={ "0.5" }) a poměrový systém MOORA (vektorově normalizovaný vážený celkový užitek minus vážené celkové náklady) — hodnotová směs zesílená proti nestabilitě a znaménkový hodnotitel poměrového systému
+
+dat-7b2ae275c7cf = Řešení polohy vážených nejmenších čtverců Gauss-Newtonovou metodou pro libovolnou směs systémů, s jedněmi hodinami přijímače na systém (mezisystémový bias odhadovaný spolu s polohou) nebo známým vysílaným posunem na referenční časové stupnici; sigma na měření dodaná volajícím, ve výchozím stavu tepelný šum smyčky zachycení zpoždění enginu (navsignal::dll_code_jitter_chips) při C/N0 dané elevace spojený s chybou vzdálenosti v signálu v prostoru; neváženo DOP (GDOP, PDOP, HDOP, VDOP, TDOP) v lokální geodetické soustavě, formální sigma východ-sever-nahoru a sigma biasů; společný režim `leo-pvt` porovnává určení polohy pouze z GNSS, pouze z LEO a fúzované a proměřuje DOP proti počtu přidaných družic LEO
+
+dat-70d1be2267c4 = Weighted Sum Model (aditivní agregát normalizovaný min–max + pořadí) a Weighted Product Model (multiplikativní agregát normalizovaný součtem, s převrácenou hodnotou pro náklady) — dva hodnotitelé agregace hodnot pro studie kompromisu
+
+dat-32193a7618c9 = Ochranné úrovně vážených nejmenších čtverců (DO-229E, příloha J)
+
+dat-d321c3bd2268 = Jak vypadá „dobré“
+
+dat-a7c1dc8dc6c8 = Co znamená štítek ve zprávě
+
+dat-b0ebd80a8a88 = Co zpráva nese
+
+dat-7527daffb359 = Co balíček nedělá
+
+dat-0d559928045e = Co výsledek neříká
+
+dat-91b5336a4a1f = Co znamená řádek
+
+dat-a9c9d77f4ae3 = Co zde znamená rezidui ověřené nezávislou referencí
+
+dat-002d214117b2 = Co to omezuje
+
+dat-098bbea567ed = Co vychází
+
+dat-581f00be7809 = Co se počítá za časovou řadu
+
+dat-218fae2d48b6 = Co se nepočítá
+
+dat-3384381cc8d6 = Co každá kontrola zachytí a co nezachytí
+
+dat-6b4afd405535 = Co obsahuje každý soubor
+
+dat-600eb20b965f = Co každý nástroj nedělá
+
+dat-09153c033e1e = Co vstupuje
+
+dat-bcb352dedddd = Co se kontroluje
+
+dat-96d7e8438600 = Co se kontroluje a proti čemu
+
+dat-45287ea80f6d = CO SE KONTROLUJE: vlastní testy přesných řetězců tohoto crate pro zdokumentované mapování polí LEEF a pole obálky RFC { "5424" }; neexistuje žádný udržovaný open-source parser LEEF (hledání v indexu balíčků Pythonu žádný nenašlo), takže formát se kontroluje proti vlastní specifikaci čtené týmž autorem, nikoli proti externímu orákulu (nezávislé referenci). CO TO NENÍ: zda jsou datové části LEEF přijímány parserem kteréhokoli dodavatele nebo SIEM; pravidla escapování nad rámec zdokumentovaných; chování skutečného kolektoru syslog.
+
+dat-f998b3c0c729 = Co se počítá
+
+dat-d90f873bae70 = Co se počítá pro každý signál
+
+dat-19486e94f8c9 = CO SE KONTROLUJE EXTERNĚ, uvedeno úzce: gps-sdr-sim (MIT, commit 28ca29a6) readNmeaGGA, readUserMotion a readUserMotionLLH s vlastním llh2xyz WGS { "84" }, volané přes xval/testbench-gpssdrsim/driver.c (žádná funkce signálu se nevolá), proti sloupcům pohybového CSV vázaným na Zemi řádek po řádku, s prahy předregistrovanými v xval/testbench-gpssdrsim/PREREGISTRATION.md před jakýmkoli během: každý vzorek přečten na všech { "8" } scénářích; NMEA nejhůře { "1.21" } mm (práh { "1" } cm); řez LLH nejhůře { "0.145" } mm (práh { "1" } mm); čtyřsloupcový řez vázaný na Zemi přesný (práh { "1" } um, dodatek { "1" }); řádky gnss-ins na mřížce simulátoru { "10" } Hz na { "2.3e-13" } s. ZJIŠTĚNÍ (běh { "1" }, připnuto): CSV v plné šířce s odstraněnou hlavičkou není čitelné pomocí -u, protože 100znakový řádkový buffer čtečky rozdělí každý 161znakový řádek na dva vzorky; docs/TEST-BENCH.md uvádí čtyřsloupcový řez. CO TO NENÍ: fyzika pravdivé trajektorie scénáře; signálový výstup gps-sdr-sim; čtečka jakéhokoli jiného simulátoru; jakýkoli přijímač.
+
+dat-ad4d6d2f2bfe = Co je implementováno
+
+dat-3459cd97e0ca = Co je v balíčku
+
+dat-caaad7e970cd = Co je modelováno
+
+dat-4ab5db8f7878 = Co JE modelováno
+
+dat-f94c7e554898 = Co toto duální licencování nepokrývá
+
+dat-ae82ac4e8c4c = Co není implementováno
+
+dat-e013e854b982 = Co NENÍ modelováno
+
+dat-3bb561cded1b = Co NENÍ modelováno (a proč je podlaha optimistická)
+
+dat-08a406b8ecc7 = Co není ověřeno nebo není vyzkoušeno
+
+dat-052f1075ebf9 = Co je ověřeno
+
+dat-3281bb5ae242 = Co se zapisuje
+
+dat-c74ea9dc9cd2 = Co to dělá
+
+dat-303c182c2dd7 = Co to dává
+
+dat-03cda2782bef = Čím to je / není
+
+dat-9516c425aeb2 = Čím to není
+
+dat-19270c6e5d05 = Čím to je a čím není
+
+dat-3995ccf3a5df = Co to čte
+
+dat-e9866ffcee45 = Čím Kshana není
+
+dat-831115fee2e1 = Čím Kshana je a není ve srovnání s enginem pro zpracování GNSS
+
+dat-8ec7e65cc362 = V čem je jiná
+
+dat-15cba1bf87b0 = Co vypočte jeden běh
+
+dat-46be95cd5f6c = Co kontroly mohou a nemohou říci
+
+dat-ac58b43279d3 = Co ukazuje porovnání s brožurou
+
+dat-68e739bdfd0b = Co observatoř publikuje
+
+dat-d8c200aa93ea = Co obsahuje zpráva
+
+dat-8371eb305726 = Co test připíná
+
+dat-10b52840a05f = Co testy připínají
+
+dat-71890a13e98e = Co toto křížové mapování netvrdí
+
+dat-cda28621f9e2 = Co toto netvrdí
+
+dat-7dc2bd1e4fa9 = Co to znamená pro přispěvatele
+
+dat-5696cc1abc40 = Co tato metoda nedělá
+
+dat-5f19a20eaa94 = Co tato poznámka netvrdí
+
+dat-44252aa25aa2 = Čím tento scénář je
+
+dat-95bb71989246 = Co dělat místo toho
+
+dat-357548784840 = Co ponechat s odpovědí
+
+dat-ac6245280999 = Co zaznamenat
+
+dat-bb04b5c6d588 = Co bylo spuštěno
+
+dat-fd4063ae190d = Co je nového ve verzi { "0.38" }
+
+dat-c053702f8863 = Co je nového ve verzi { "0.39" }
+
+dat-244b436782d3 = Kde lze protokol použít
+
+dat-3c9d70c4d70c = Kde jsou družice? (odměna)
+
+dat-06de3e854765 = Kde je která schopnost dostupná
+
+dat-3c4d08956c69 = Kam to vede: časování a holdover pro kritickou infrastrukturu
+
+dat-362660e7f896 = Kde Kshana běží a kde ne
+
+dat-c5ff30793b41 = Kde Kshana stojí
+
+dat-d8ab4a0c1780 = Kam dál
+
+dat-8717ac9b7cc8 = Odkud hodiny pocházejí
+
+dat-032c0650064d = Kde se návrhy používají
+
+dat-1e8bdbc89372 = Odkud epochy pocházejí (zdroj)
+
+dat-1623a97a2988 = Odkud soubory pocházejí
+
+dat-f6dcdfe2a660 = Odkud polohy pocházejí
+
+dat-2323b2c7a3c9 = Které družice místo vidí, když část oblohy zakrývají budovy, nábřeží, jeřáby nebo terén, a co to dělá s faktorem DOP (zhoršení přesnosti) a horizontální elipsou chyb. Azimutově závislá siluseta (skyline) nahrazuje jediný elevační práh; viditelná množina, její DOP a elipsa vycházejí na epochu a konstelaci. Skyline odstraňuje družice s přímou viditelností a nic víc: nemodeluje žádné odrazy, žádný ohyb ani sílu signálu.
+
+dat-1589eaeb4b18 = Který nástroj pro kterou otázku
+
+dat-7a53b264d1e3 = Proti jaké metrice driftu by se měl slot přijímat?
+
+dat-bcdecc549d07 = Pro koho to je
+
+dat-0da9ac688de8 = Proč takto duálně licencovat
+
+dat-3e8a8aadf012 = Proč jsou hodiny měkkým cílem
+
+dat-1c9b4395c4e3 = Proč jsou buňky N/A označeny N/A
+
+dat-500a9d78ddb1 = Proč je to pojivo, nikoli konkurent
+
+dat-97c24222dad6 = s { "288" } družicemi na nízké oběžné dráze
+
+dat-d1c342fccbf1 = with_gravity_field (na Body, v src/gravity_pds.rs): připojí libovolné načtené sférickoharmonické pole (například GMM-3 nebo GL0660B) k Body, aby je propagátor vyhodnocoval ve vázané soustavě tělesa; nepovinné, výchozí tělesa beze změny
+
+dat-816a8275fb4c = Propočtený příklad — Kshana jako pojivová vrstva pro analýzu mise s více nástroji
+
+dat-21a850bb20da = Propočtený příklad: gps-sdr-sim zapisující soubor
+
+dat-8960dcd3c54c = Parametry workshopu
+
+dat-8b569b55f222 = Nejhorší chyba { "0.044" } m proti vlastní toleranci zdrojů { "0.05" } m
+
+dat-996b654e25b2 = nejhorší chyba vzdálenosti, fit { "60" } s
+
+dat-900c4a41066b = nejhorší chyba vzdálenosti, fit { "900" } s
+
+dat-e4f36434be06 = Trojúhelníková mez nejhoršího případu pro působení Jacobiánu bodu Helmertovy transformace (uzavřený tvar)
+
+dat-278a0de08553 = Zapíše trasu GeoJSON do scénáře Kshany, který letí po stopě trasových bodů, a vrátí nový scénář TOML (spusťte jej pomocí run_scenario).
+
+dat-c14c336c5c33 = Zapisovač a čtečka jader NAIF SPICE SPK typů { "9" } (Lagrange, nestejné časové kroky) a { "13" } (Hermite, nestejné časové kroky), s rozložením DAF, deskriptory segmentů a adresáři epoch, a export CCSDS OEM do jádra SPK (epochy UTC nebo TDB na efemeridový čas)
+
+dat-3413fcac7dbb = Zapisovač a čtečka segmentů NAIF SPICE SPK typu { "3" } (Čebyševovy polynomy pro polohu a rychlost přes pevné intervaly, stupeň { "0" } až { "27" }) a typu { "21" } (rozšířená pole modifikovaných diferencí, diferenční řádky integrátorů JPL, MAXDIM { "15" } až { "25" }), z daných záznamů, v souborech, které obsahují také segmenty typu { "9" } a { "13" }; výběr záznamů a vyhodnocení v pořadí čteček SPICE. Kshana nefituje Čebyševovy koeficienty ani nevytváří diferenční řádky
+
+dat-8373efd23d2e = Zapisovač a čtečka zpráv CCSDS 502.0-B-3 Orbit Data Messages ve formátech KVN a NDM/XML: OPM { "3.0" } a { "2.0" } (stavový vektor, oskulační keplerovské prvky, parametry kosmické lodi, kovariance, manévry, uživatelsky definované parametry), OMM { "3.0" } a { "2.0" } (střední prvky podle středního pohybu nebo hlavní poloosy, parametry související s TLE s BSTAR nebo BTERM a AGOM, kovariance) a OCM { "3.0" } s trajektorií (CARTP, CARTPV, CARTPVA; absolutní nebo relativní epochy), fyzikálními vlastnostmi, kovariancí (CARTP, CARTPV v pořadí LTM), bloky manévrů a uživatelských dat; OMM s plnou přesností ze sady prvků SGP4 vedle nezměněného OmmFile::to_omm_kvn
+
+dat-9df173efeef9 = Zapisovač a čtečka zpráv CCSDS 504.0-B-2 Attitude Data Messages ve formátech KVN a NDM/XML: AEM verze { "2.0" } (a { "1.0" } v KVN, s ATTITUDE_DIR, QUATERNION_TYPE a číselnými rotačními posloupnostmi) s typy polohy kvaternion, Eulerovy úhly a spin a jejich variantami derivace, úhlové rychlosti a nutace, několik segmentů; APM verze { "2.0" } s bloky kvaternion, Euler, úhlová rychlost, spin, setrvačnost a manévr; kvaternion A-do-B záznamu (504.0-B-2 Annex F)
+
+dat-14a123e4b029 = Zapíše pohyb vozidla ve scénáři a události jako trajektorii CSV a NMEA { "0183" } pro laboratorní simulátor GNSS: sloupce vázané na Zemi, geodetické a lokální rychlosti, poloha a UTC. Pouze pohyb a události: žádný signál se nezapisuje a netvrdí se výkonnost žádného simulátoru ani přijímače.
+
+dat-83d4ec0ad790 = Zapíše syntetické můstkové NMEA { "0183" } pro skriptovanou plavbu s instruktorem skriptovanými událostmi rušení, stržení polohy, časového spoofingu a replay, s protokolem instruktora, aby posádka viděla, jak vypadá zhoršené určení polohy na vlastních přístrojích. Pouze text, nikdy pro živé navigační systémy plavidla; nic se nevysílá a nevzniká žádný rádiový signál. Věty a jejich dekódované hodnoty se kontrolují; modely přijímače, oblohy a událostí jsou modelovány.
+
+dat-aeb0bd942720 = Xona Pulsar
+
+dat-79b6914906bf = Xona Pulsar od konce ke konci: veřejný signál X5 -> přelet Pulsar -> navigační zpráva LEO
+
+dat-416271e91acb = Signály Xona Pulsar: signály X1 (pásmo L1) a X5 (pásmo L5) komerční nízké
+
+dat-87de160b68f9 = Xona Pulsar X1 a X5 během jednoho přeletu s nejvyššími přelety konstelace Pulsar.
+
+dat-a08318993154 = Kritéria Yang Yuanxi (podmnožina, ke které promlouvají ukazatele kvality času/detekce)
+
+dat-1868c76f244c = vlastní hostitel
+
+dat-4c20ebade87f = detektor χ²₁ NP · uzavřený tvar a Monte Carlo P_fa/P_md souhlasí
