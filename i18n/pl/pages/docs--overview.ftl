@@ -225,3 +225,85 @@ seg-77aef8722995 = Optyczne PNT
 seg-179dc850c643 = Analiza misji, łącza i operacje kosmiczne
 
 seg-6339abe5314a = Rodzina
+
+seg-c5ce76c91ff7 = Etykieta
+
+seg-b88a2a9497c2 = Narzędzie
+
+seg-69a98d01f489 = Generator kodów LunaNet AFS sprawdzony względem drukowanych kolumn specyfikacji, z prawdziwego przebiegu silnika v{ $version } (`kshana lunanet-afs-check spec`, przypięty do LNIS V5, AD1 Tom A (LSIS-AFS) V1.0, { "29" } stycznia { "2025" }; dokument oznacza swoje tabele kodów { "{" }LSIS-TBC{ "}" }). Spełnionych jest { "9" } z { "10" } sprawdzeń; B4 jest NOT MET ({ "420" } z { "421" } zgodnych). Sprawdza strumień symboli względem jednego wydania opublikowanej specyfikacji i nic nie mówi o żadnym węźle ani usłudze LunaNet. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Sprawdza strumień symboli względem jednego wydania opublikowanej specyfikacji i nic nie mówi o żadnym węźle ani usłudze LunaNet.
+
+seg-18fc4ba766df = Spójność pokładowego wyznaczania orbity z użyciem Earth-GNSS na prawie prostoliniowej orbicie halo z niezależnym naziemnym wyznaczaniem orbity, z prawdziwych przebiegów silnika v{ $version } na scenarios/lunar-infrastructure-od-consistency.toml oraz wariancie z błędem modelu ({ "400" } prób każdy). Średnia znormalizowana różnica q wynosi { "5.81" } bez błędu modelu i { "5.95" } ze wstrzykniętym błędem przyspieszenia { "3e-10" } m/s2, przy oczekiwanej wartości { "6" }: oba rozwiązania orbity są spójne (próg C1 MET). Odsetek prób powyżej punktu { "95" } % wynosi { "0.040" } i { "0.052" }; próg wykrycia wstrzykniętego błędu wynosił co najmniej { "0.5" }, więc jest NOT MET (C3): rozwiązanie pokładowe jest znane z dokładnością około { "352" } m wobec { "23" } m dla naziemnego, więc dziesięciometrowe przesunięcie ukrywa się w jego kowariancji. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i poglądowymi danymi wejściowymi, nie pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia.
+
+seg-4c08262e2556 = Ustalanie całkowitoliczbowej niejednoznaczności fazy nośnej między księżycowymi stacjami powierzchniowymi a orbiterem, z zatwierdzonego wyniku ocenianego przebiegu silnika v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } długości łuków, po { "400" } losowań Monte Carlo każda, zapisane przez scenarios/carrier-phase-scored.toml). { "1" } doba: powodzenie { "1.0" } % (błąd standardowy { "0.5" } %), { "134" } niejednoznaczności, sigma położenia orbitera { "45.6" } m dla float i { "18.5" } m dla fixed; { "2" } doby: powodzenie { "0.5" } % (błąd standardowy { "0.4" } %), { "259" } niejednoznaczności, sigma położenia orbitera { "21.5" } m dla float i { "8.7" } m dla fixed; { "3" } doby: powodzenie { "2.8" } % (błąd standardowy { "0.8" } %), { "375" } niejednoznaczności, sigma położenia orbitera { "6.3" } m dla float i { "2.1" } m dla fixed. Ustalenie wartości całkowitych nie zostaje osiągnięte: powodzenie pozostaje między { "1" } % a { "3" } % przy { "25" } dBi, a przy zarejestrowanych { "12" } dBi zadania nie da się sformułować. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i poglądowymi danymi wejściowymi, nie pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia.
+
+seg-7e5b10641b20 = Precyzja siedmioparametrowego układu księżycowego (trzy przesunięcia, skala i trzy obroty) z pomiarów odległości ze stacji ziemskich, z pomiarami odległości orbiter–stacja powierzchniowa i bez nich, z prawdziwego przebiegu silnika v{ $version } na scenariuszu scenarios/lunar-infrastructure-frame-coestimation.toml. Sigma Cramera–Rao przesunięć i obrotów maleje dzięki łączom orbitera (na przykład t_z z { "0.98" } m do { "0.046" } m); najmniejsza wartość własna informacji rośnie 111-krotnie, a ślad CRLB spada do { "1.0" } % (próg F3 MET). Zakłada to, że orbita jest znana w osiach księżycowych, a jej błąd jest niesiony przez sigmę odległości orbitera równą { "1" } m. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i poglądowymi danymi wejściowymi, nie pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia.
+
+seg-377d29dcc6e8 = Precyzja przesunięć między położeniami z pomiarów laserowych, VLBI i GNSS jednego statku kosmicznego, względem błędu naziemnego lokalnego powiązania, z prawdziwego przebiegu silnika v{ $version } na scenariuszu scenarios/lunar-infrastructure-space-tie.toml (jeden łuk 6.56-dobowy, sigmy technik: GNSS { "10" } m, VLBI { "1" } m, laser { "0.1" } m). Przy lokalnym powiązaniu od { "1" } mm do { "1" } m sigma przesunięcia laser minus GNSS pozostaje bliska { "1.04" } m, aż powiązanie osiągnie { "1" } m: jest ograniczona szumem pomiarowym technik, a nie lokalnym powiązaniem. Dolna granica wyznaczona samym powiązaniem to pierwiastek z dwóch razy jego sigma. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i poglądowymi danymi wejściowymi, nie pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia.
+
+seg-9d507a371319 = Która rodzina obserwabli jest wrażliwa na liczby Love'a Księżyca h2, k2 i l2, z prawdziwego przebiegu silnika v{ $version } na scenariuszu scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Każda komórka to średniokwadratowa pochodna cząstkowa obserwacji danej rodziny względem parametru, we własnych jednostkach tej rodziny (więc komórki porównuje się w obrębie wiersza, a nie kolumny); kreska oznacza, że rodzina nie wykazuje wrażliwości. pomiary laserowe odległości: h2 { "7.6" }, k2 brak, l2 { "9.8" }. śledzenie orbitera: h2 brak, k2 { "0.00086" }, l2 brak. grawimetr powierzchniowy: h2 { "2.9e+03" }, k2 { "4.3e+03" }, l2 brak. zegar powierzchniowy: h2 { "2.8e-17" }, k2 { "2.8e-17" }, l2 brak. Przy wszystkich czterech rodzinach sigma Cramera–Rao wynosi { "0.36" } % nominalnego h2, { "0.52" } % k2 i { "1.16" } % l2. Dodanie rodziny nigdy nie obniżyło najmniejszej wartości własnej ({ "28" } z { "28" } dodań), ale ślad pseudoodwrotności nie był większy tylko w { "16" } z { "28" }: ta połowa progu G3 jest NOT MET. Rodzina orbitera widzi całkę wzdłuż linii widzenia z przyspieszenia k2, wartość z górnego krańca. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i poglądowymi danymi wejściowymi, nie pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia.
+
+seg-367ac9b4a8a6 = Co `kshana imu-fit` odczytuje ze stacjonarnego dziennika IMU, z prawdziwego przebiegu silnika v{ $version } na wymyślonym dzienniku ({ "20,000" } próbek przy { "100" } Hz, { "200" } s): błądzenie losowe prędkości akcelerometru q_va = { "4.02e-06" }, błądzenie losowe kąta żyroskopu q_arw = { "9e-08" }, niestabilność biasu { "0.00296" } oraz wczesne nachylenia Allana (-0.51 i -0.49; około -0.5 tam, gdzie dominuje szum biały). Tabela obok to TOML wypisywany przez polecenie. Estymator jest sprawdzony wyłącznie na dziennikach syntetycznych. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia.
+
+seg-e127f2f26824 = Odczytywane
+
+seg-a683980168f7 = Docker
+
+seg-f3a2279d6df7 = Polecenie lub przycisk
+
+seg-20c5ae650eb7 = Wymaga
+
+seg-af4d3ce85e11 = Postać przypięta
+
+seg-0fdd85a80584 = <a1>npx (Node)</a1> · <a2>Docker</a2>
+
+seg-b02bdf7c7661 = Node lub Docker
+
+seg-de23dcdd2647 = <a1>npx (Node)</a1> · <a2>Docker</a2> · <a3>Insiders (npx)</a3>
+
+seg-abf8b5fe685a = Node { "18" }+
+
+seg-06299cefbf9e = Python { "3.9" }+ z uv lub pipx
+
+seg-26795c302f8a = brew
+
+seg-ded975fa67fa = formuła dla v{ $version }
+
+seg-667d6dde705b = <c1/>, następnie <c2/>
+
+seg-f6e9fc5f46fe = Scoop (Windows)
+
+seg-bc4762d20004 = manifest dla v{ $version }
+
+seg-f7c0a2fbb0b5 = winget
+
+seg-9e599ab3c0a3 = winget (Windows)
+
+seg-091d1404bb8a = cargo
+
+seg-145ddf98e77f = Rust { "1.88" }+
+
+seg-b308519d4c8d = <a1>strona wydania</a1>: <c1/> (Linux x86-64), <c2/>, sprawdzane przez <c3/> i <c4/>
+
+seg-c39cac69f700 = v{ $version }
+
+seg-e8f5e2b6580b = <c1/> (znajdowany przez klientów obsługujących rejestr)
+
+seg-b1a6e807f06f = klient obsługujący rejestr
+
+seg-d5a3818ac3b6 = Zdalnie (streamable HTTP)
+
+seg-5f1397b1ea30 = własny host
+
+seg-81a87d14efda = Kshana: znak, celownik kompasu wyznaczający precyzyjny moment, obok logotypu słownego kshana
+
+seg-27698c80b7f1 = Odczytuje opublikowany katalog testów Jammertest i plan nadawania (NPRA/jammertest-plan, MIT) jako zaplanowaną prawdę odniesienia (<c1/>): przedziały jednego obszaru testowego stają się zdarzeniami zaufania do odbiornika z identyfikatorem katalogowym i rokiem w każdej etykiecie. Przedziały planowane, a nie zarejestrowane czasy emisji; żadne pole kontaktowe planu nie jest odczytywane. MODELLED. Zob. <a1><c2/></a1>.
+
+seg-23daf6121ca0 = Ocenia dziennik odbiornika względem tego harmonogramu (<c1/>): dla każdego testu opóźnienie detekcji, pominięte alarmy i czas powrotu do normy oraz fałszywe alarmy poza każdym przedziałem. Dzienniki tekstowe jako <c2/>, binarne (<c3/>, <c4/>) jako <c5/>. Podpisany pakiet wymaga klucza: wiersz poleceń. Wyłącznie doradczo; MODELLED.
+
+seg-2b82a8a22298 = Parametry akcelerometru i żyroskopu scenariuszy <c1/> i <c2/> dopasowane z nieruchomego dziennika IMU (CSV lub EuRoC) za pomocą odchylenia Allana, z gotową do wklejenia tabelą <c3/> i SHA-256 dziennika (<c4/>). Tekst na wejściu, JSON na wyjściu; MODELLED.
+
+seg-b6abad1f2c9d = Zgłoszenie kshana-bench ocenione względem pliku wzorca prawdy, oba jako tekst JSON (<c1/>, <c2/>): plik wyniku z wersją specyfikacji, podziałem, skrótami danych wejściowych i metrykami zadania. MODELLED; opisuje dziennik lub korpus, nigdy produkt.
+
+seg-c7a0d7981bfd = Pliki wyników kshana-bench zapisane jako statyczna strona rankingu (tekst HTML), każdy wcześniej zwalidowany.
+
+seg-57f592bb676b = Instalacja serwera MCP
