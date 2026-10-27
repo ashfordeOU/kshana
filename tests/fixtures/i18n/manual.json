@@ -9172,5 +9172,661 @@
   "parts": [
    "invalid epoch day in TLE"
   ]
+ },
+ {
+  "id": "e-adm-record-without-epoch",
+  "error": true,
+  "parts": [
+   "record without <EPOCH>"
+  ]
+ },
+ {
+  "id": "e-adm-ndm-holds-no",
+  "error": true,
+  "parts": [
+   "<ndm> holds no <",
+   {
+    "var": "kind"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-adm-root-element-is-not",
+  "error": true,
+  "parts": [
+   "root element <",
+   {
+    "var": "name"
+   },
+   "> is not <",
+   {
+    "var": "kind"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-evidence-cli-keygen-needs-out-keyfile",
+  "error": true,
+  "parts": [
+   "keygen needs --out <keyfile>"
+  ]
+ },
+ {
+  "id": "e-evidence-cli-needs-key-keyfile-make-one",
+  "error": true,
+  "parts": [
+   "needs --key <keyfile> (make one with `kshana evidence keygen`)"
+  ]
+ },
+ {
+  "id": "e-evidence-cli-needs-out-dir",
+  "error": true,
+  "parts": [
+   "needs --out <dir>"
+  ]
+ },
+ {
+  "id": "e-evidence-cli-needs-scenario-bench-scenario",
+  "error": true,
+  "parts": [
+   "needs --scenario <bench scenario>"
+  ]
+ },
+ {
+  "id": "e-evidence-cli-needs-conditions-file",
+  "error": true,
+  "parts": [
+   "needs --conditions <file>"
+  ]
+ },
+ {
+  "id": "e-evidence-tsa-bad-ecdsa-signature",
+  "error": true,
+  "parts": [
+   "bad ECDSA signature"
+  ]
+ },
+ {
+  "id": "e-evidence-tsa-certificate-signature-failure",
+  "error": true,
+  "parts": [
+   "certificate signature failure"
+  ]
+ },
+ {
+  "id": "e-evidence-tsa-unable-to-get-issuer-certificate",
+  "error": true,
+  "parts": [
+   "unable to get issuer certificate"
+  ]
+ },
+ {
+  "id": "e-evidence-tsa-unable-to-get-local-issuer",
+  "error": true,
+  "parts": [
+   "unable to get local issuer certificate"
+  ]
+ },
+ {
+  "id": "e-evidence-tsr-gentime-is-not-text",
+  "error": true,
+  "parts": [
+   "genTime is not text"
+  ]
+ },
+ {
+  "id": "e-glonass-bad-year",
+  "error": true,
+  "parts": [
+   "bad year"
+  ]
+ },
+ {
+  "id": "e-glonass-bad-month",
+  "error": true,
+  "parts": [
+   "bad month"
+  ]
+ },
+ {
+  "id": "e-glonass-bad-day",
+  "error": true,
+  "parts": [
+   "bad day"
+  ]
+ },
+ {
+  "id": "e-glonass-bad-hour",
+  "error": true,
+  "parts": [
+   "bad hour"
+  ]
+ },
+ {
+  "id": "e-glonass-bad-minute",
+  "error": true,
+  "parts": [
+   "bad minute"
+  ]
+ },
+ {
+  "id": "e-gravity-sh-bad-degree",
+  "error": true,
+  "parts": [
+   "bad degree"
+  ]
+ },
+ {
+  "id": "e-gravity-sh-bad-order",
+  "error": true,
+  "parts": [
+   "bad order"
+  ]
+ },
+ {
+  "id": "e-interop-testbench-first-line-is-not-resolution",
+  "error": true,
+  "parts": [
+   "first line is not `RESOLUTION: <ms>`"
+  ]
+ },
+ {
+  "id": "e-interop-testbench-bad-resolution",
+  "error": true,
+  "parts": [
+   "bad resolution"
+  ]
+ },
+ {
+  "id": "e-iq-signals-galileo-the-galileo-e1-memory-codes",
+  "error": true,
+  "parts": [
+   "the Galileo E1 memory codes are not bundled (the ICD's terms allow redistribution only for non-commercial purposes; see LICENSING.md). Supply your copy of ICD Annex C (",
+   {
+    "var": "file"
+   },
+   ") with ",
+   {
+    "var": "env"
+   },
+   "=<path>, or run scripts/fetch_galileo_e1_codes.sh in a source checkout (",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-jammertest-cli-key-needs-out-dir",
+  "error": true,
+  "parts": [
+   "--key needs --out <dir>"
+  ]
+ },
+ {
+  "id": "e-leo-signal-modulation-expected-flat-mhz",
+  "error": true,
+  "parts": [
+   "modulation ",
+   {
+    "var": "label"
+   },
+   ": expected FLAT(<MHz>)"
+  ]
+ },
+ {
+  "id": "e-live-io-listen-takes-tcp-port-or",
+  "error": true,
+  "parts": [
+   "--listen takes tcp:<port> or tcp:<addr>:<port>"
+  ]
+ },
+ {
+  "id": "e-ndm-xml-bad-attribute-in",
+  "error": true,
+  "parts": [
+   "bad attribute in <",
+   {
+    "var": "name"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-ndm-xml-unquoted-attribute-in",
+  "error": true,
+  "parts": [
+   "unquoted attribute ",
+   {
+    "var": "key"
+   },
+   " in <",
+   {
+    "var": "name"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-ndm-xml-is-not-closed",
+  "error": true,
+  "parts": [
+   "<",
+   {
+    "var": "name"
+   },
+   "> is not closed"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-cli-wait-clients-not-number",
+  "error": true,
+  "parts": [
+   "--wait-clients: not a number"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-cli-speed-not-number",
+  "error": true,
+  "parts": [
+   "--speed: not a number"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-cli-seed-not-an-integer",
+  "error": true,
+  "parts": [
+   "--seed: not an integer"
+  ]
+ },
+ {
+  "id": "e-odm-user-defined-without-parameter",
+  "error": true,
+  "parts": [
+   "<USER_DEFINED> without parameter"
+  ]
+ },
+ {
+  "id": "e-osnma-cli-bad-public-key-id",
+  "error": true,
+  "parts": [
+   "bad public key id"
+  ]
+ },
+ {
+  "id": "e-osnma-cli-bad-public-key-hex",
+  "error": true,
+  "parts": [
+   "bad public key hex"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-closing-tag-does-not-match",
+  "error": true,
+  "parts": [
+   "closing tag </",
+   {
+    "var": "name"
+   },
+   "> does not match <",
+   {
+    "var": "name2"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-closing-tag-without-an-opening",
+  "error": true,
+  "parts": [
+   "closing tag </",
+   {
+    "var": "name"
+   },
+   "> without an opening tag"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-attribute-without-value-in",
+  "error": true,
+  "parts": [
+   "attribute without value in <",
+   {
+    "var": "name"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-is-not-an-integer",
+  "error": true,
+  "parts": [
+   "<",
+   {
+    "var": "name"
+   },
+   "> ",
+   {
+    "var": "key"
+   },
+   " is not an integer: ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-chunk-lacks-sizeword",
+  "error": true,
+  "parts": [
+   "<chunk> lacks sizeword"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-chunk-lacks-countwords",
+  "error": true,
+  "parts": [
+   "<chunk> lacks countwords"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-is-not-an-integer-2",
+  "error": true,
+  "parts": [
+   "<",
+   {
+    "var": "key"
+   },
+   "> is not an integer"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-ratefactor-is-not-an-integer",
+  "error": true,
+  "parts": [
+   "<ratefactor> is not an integer"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-no-band-with-centerfreq-for",
+  "error": true,
+  "parts": [
+   "no <band> with a <centerfreq> for the stream"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-offset-is-not-an-integer",
+  "error": true,
+  "parts": [
+   "<offset> is not an integer"
+  ]
+ },
+ {
+  "id": "e-receiver-trust-geometry-geometry-need-hdop-good-hdop",
+  "error": true,
+  "parts": [
+   "geometry: need 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max and used_good >= min_used (got ",
+   {
+    "var": "hdop_good"
+   },
+   ", ",
+   {
+    "var": "pdop_good"
+   },
+   ", ",
+   {
+    "var": "used_good"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-sp3-bad-epoch-count",
+  "error": true,
+  "parts": [
+   "bad epoch count"
+  ]
+ },
+ {
+  "id": "e-spectrum-matched-jammer-needs-matched-to",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": a matched jammer needs matched_to = \"<band name>\""
+  ]
+ },
+ {
+  "id": "e-spectrum-unknown-band-the-spectrum-model",
+  "error": true,
+  "parts": [
+   "unknown band ",
+   {
+    "var": "name"
+   },
+   ": the spectrum model has ",
+   {
+    "var": "band_names"
+   },
+   " and, by name, ",
+   {
+    "var": "more_band_names"
+   },
+   " (GLONASS                      channels as glonass-l1of-k<K>, K = -7 to 6); any other band takes                      `signal = \"<preset signal>\"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`"
+  ]
+ },
+ {
+  "id": "e-evidence-assemble-the-log-does-not-state",
+  "error": true,
+  "parts": [
+   "the log does not state a parseable start time; give seconds since the first epoch"
+  ]
+ },
+ {
+  "id": "e-interop-geojson-no-linestring-found-give-linestring",
+  "error": true,
+  "parts": [
+   "no LineString found: give a LineString geometry, a Feature holding one, or a FeatureCollection whose features include one"
+  ]
+ },
+ {
+  "id": "e-interop-geojson-the-scenario-has-no-waypoints",
+  "error": true,
+  "parts": [
+   "the scenario has no `waypoints` of 2 or more to spread a two-position route over"
+  ]
+ },
+ {
+  "id": "e-leo-pnt-chain-the-chain-satellite-is-visible",
+  "error": true,
+  "parts": [
+   "the chain satellite is visible for fewer than two epochs, or at one elevation only; widen the pass window"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-config-skyline-table-is-required-for",
+  "error": true,
+  "parts": [
+   "a skyline table is required (for example skyline = { preset = \"fjord\" })"
+  ]
+ },
+ {
+  "id": "e-python-prns-must-list-at-least",
+  "error": true,
+  "parts": [
+   "prns must list at least one PRN"
+  ]
+ },
+ {
+  "id": "e-python-design-name-needs-design",
+  "error": true,
+  "parts": [
+   "design_name needs design"
+  ]
+ },
+ {
+  "id": "e-python-bandpass-needs-both-bandpass-lo",
+  "error": true,
+  "parts": [
+   "bandpass needs both bandpass_lo and bandpass_hi"
+  ]
+ },
+ {
+  "id": "e-python-token-text-is-not-base64",
+  "error": true,
+  "parts": [
+   "token text is not base64"
+  ]
+ },
+ {
+  "id": "e-python-unix-nano-must-be-between",
+  "error": true,
+  "parts": [
+   "unix_nano must be between 0 and 2**64 - 1"
+  ]
+ },
+ {
+  "id": "e-wasm-token-base64-is-not-base64",
+  "error": true,
+  "parts": [
+   "token_base64 is not base64"
+  ]
+ },
+ {
+  "id": "e-wasm-log-base64-is-not-base64",
+  "error": true,
+  "parts": [
+   "log_base64 is not base64"
+  ]
+ },
+ {
+  "id": "e-wasm-input-base64-is-not-base64",
+  "error": true,
+  "parts": [
+   "input_base64 is not base64"
+  ]
+ },
+ {
+  "id": "e-wasm-seed-must-be-non-negative",
+  "error": true,
+  "parts": [
+   "seed must be a non-negative integer"
+  ]
+ },
+ {
+  "id": "e-wasm-runs-json-must-be-an",
+  "error": true,
+  "parts": [
+   "runs_json must be an array of {label, result, scenario?}"
+  ]
+ },
+ {
+  "id": "e-nmea-synth-stream-no-udp-address",
+  "error": true,
+  "parts": [
+   "no UDP address"
+  ]
+ },
+ {
+  "id": "e-realdata-llr-crd-short-normal-point-11-record",
+  "error": true,
+  "parts": [
+   "short normal-point (11) record"
+  ]
+ },
+ {
+  "id": "e-realdata-llr-crd-normal-point-record-appeared-before",
+  "error": true,
+  "parts": [
+   "a normal-point record appeared before its h2/h3/h4 session header"
+  ]
+ },
+ {
+  "id": "e-gravity-sh-line-bad-coefficient-non-finite",
+  "error": true,
+  "parts": [
+   "line ",
+   {
+    "var": "lineno"
+   },
+   ": bad coefficient (non-finite)"
+  ]
+ },
+ {
+  "id": "e-interop-time-extra-fields-utc",
+  "error": true,
+  "parts": [
+   "not a UTC time `YYYY-MM-DDTHH:MM:SS`: extra fields: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "e-interop-time-year-outside-2000-to-2099-utc",
+  "error": true,
+  "parts": [
+   "not a UTC time `YYYY-MM-DDTHH:MM:SS`: year outside 2000 to 2099: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "e-interop-time-month-outside-to-12-utc",
+  "error": true,
+  "parts": [
+   "not a UTC time `YYYY-MM-DDTHH:MM:SS`: month outside 1 to 12: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "e-interop-time-day-does-not-exist-in-utc",
+  "error": true,
+  "parts": [
+   "not a UTC time `YYYY-MM-DDTHH:MM:SS`: day does not exist in that month: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "e-interop-time-hour-above-23-utc",
+  "error": true,
+  "parts": [
+   "not a UTC time `YYYY-MM-DDTHH:MM:SS`: hour above 23: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "e-interop-time-minute-above-59-utc",
+  "error": true,
+  "parts": [
+   "not a UTC time `YYYY-MM-DDTHH:MM:SS`: minute above 59: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "e-interop-time-seconds-outside-60-utc",
+  "error": true,
+  "parts": [
+   "not a UTC time `YYYY-MM-DDTHH:MM:SS`: seconds outside [0, 60): ",
+   {
+    "var": "text"
+   }
+  ]
  }
 ]

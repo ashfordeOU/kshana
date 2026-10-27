@@ -131,14 +131,20 @@ pub fn parse_xml(text: &str) -> Result<XmlElement, String> {
                     .pop()
                     .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-unbalanced-closing-tag"))?;
                 if el.name != name {
-                    return Err(format!(
-                        "closing tag </{name}> does not match <{}>",
-                        el.name
+                    return Err(crate::terr!(
+                        "e-realdata-ion-sdr-closing-tag-does-not-match",
+                        name = name,
+                        name2 = el.name
                     ));
                 }
                 stack
                     .last_mut()
-                    .ok_or(format!("closing tag </{name}> without an opening tag"))?
+                    .ok_or_else(|| {
+                        crate::terr!(
+                            "e-realdata-ion-sdr-closing-tag-without-an-opening",
+                            name = name
+                        )
+                    })?
                     .children
                     .push(el);
                 i += end + 1;
@@ -172,16 +178,23 @@ pub fn parse_xml(text: &str) -> Result<XmlElement, String> {
                 };
                 let mut rest = inner[name_end..].trim_start();
                 while !rest.is_empty() {
-                    let eq = rest
-                        .find('=')
-                        .ok_or(format!("attribute without value in <{}>", el.name))?;
+                    let eq = rest.find('=').ok_or_else(|| {
+                        crate::terr!(
+                            "e-realdata-ion-sdr-attribute-without-value-in",
+                            name = el.name
+                        )
+                    })?;
                     let key = rest[..eq].trim().to_string();
                     let after = rest[eq + 1..].trim_start();
                     let q = after.chars().next().ok_or_else(|| {
                         crate::terr!("e-realdata-ion-sdr-attribute-value-missing")
                     })?;
                     if q != '"' && q != '\'' {
-                        return Err(format!("unquoted attribute {key} in <{}>", el.name));
+                        return Err(crate::terr!(
+                            "e-ndm-xml-unquoted-attribute-in",
+                            key = key,
+                            name = el.name
+                        ));
                     }
                     let close = after[1..]
                         .find(q)
@@ -452,8 +465,14 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     let int = |el: &XmlElement, key: &str| -> Result<Option<usize>, String> {
         setting(el, key)
             .map(|v| {
-                v.parse::<usize>()
-                    .map_err(|_| format!("<{}> {key} is not an integer: {v:?}", el.name))
+                v.parse::<usize>().map_err(|_| {
+                    crate::terr!(
+                        "e-realdata-ion-sdr-is-not-an-integer",
+                        name = el.name,
+                        key = key,
+                        v = format!("{:?}", v)
+                    )
+                })
             })
             .transpose()
     };
@@ -470,8 +489,10 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         }
     }
     let chunk = root.find("chunk").ok_or("no <chunk> element")?;
-    let word_bytes = int(chunk, "sizeword")?.ok_or("<chunk> lacks sizeword")?;
-    let words_per_chunk = int(chunk, "countwords")?.ok_or("<chunk> lacks countwords")?;
+    let word_bytes = int(chunk, "sizeword")?
+        .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-chunk-lacks-sizeword"))?;
+    let words_per_chunk = int(chunk, "countwords")?
+        .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-chunk-lacks-countwords"))?;
     if word_bytes == 0 || word_bytes > 8 || words_per_chunk == 0 {
         return Err(crate::terr!(
             "e-realdata-ion-sdr-chunk-of-words-of-bytes",
@@ -491,7 +512,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         text_of(key)?
             .trim()
             .parse()
-            .map_err(|_| format!("<{key}> is not an integer"))
+            .map_err(|_| crate::terr!("e-realdata-ion-sdr-is-not-an-integer-2", key = key))
     };
     let quantization = parse_u("quantization")?;
     let packed_bits = parse_u("packedbits")?;
@@ -500,7 +521,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         .map(|t| {
             t.trim()
                 .parse::<usize>()
-                .map_err(|_| "<ratefactor> is not an integer")
+                .map_err(|_| crate::terr!("e-realdata-ion-sdr-ratefactor-is-not-an-integer"))
         })
         .transpose()?
         .unwrap_or(1);
@@ -561,7 +582,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
                     None => true,
                 }
         })
-        .ok_or("no <band> with a <centerfreq> for the stream")?;
+        .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-no-band-with-centerfreq-for"))?;
     let center_freq_hz = freq_hz(band.child("centerfreq").ok_or("no <centerfreq>")?)?;
     let translated_freq_hz = band
         .child("translatedfreq")
@@ -580,7 +601,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         .map(|t| {
             t.trim()
                 .parse::<usize>()
-                .map_err(|_| "<offset> is not an integer")
+                .map_err(|_| crate::terr!("e-realdata-ion-sdr-offset-is-not-an-integer"))
         })
         .transpose()?
         .unwrap_or(0);

@@ -183,7 +183,12 @@ impl Shape {
             let mhz: f64 = rest
                 .strip_suffix(')')
                 .and_then(|v| v.parse().ok())
-                .ok_or_else(|| format!("modulation {label:?}: expected FLAT(<MHz>)"))?;
+                .ok_or_else(|| {
+                    crate::terr!(
+                        "e-leo-signal-modulation-expected-flat-mhz",
+                        label = format!("{:?}", label)
+                    )
+                })?;
             if !(mhz.is_finite() && mhz > 0.0) {
                 return Err(crate::terr!(
                     "e-leo-signal-modulation-the-width-must-be",

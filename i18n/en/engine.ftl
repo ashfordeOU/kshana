@@ -9789,3 +9789,213 @@ engine-e-tle-invalid-designator-launch-year-in = invalid designator launch year 
 engine-e-tle-invalid-epoch-year-in-tle-2 = invalid epoch year in TLE
 
 engine-e-tle-invalid-epoch-day-in-tle = invalid epoch day in TLE
+
+## src/adm.rs
+
+engine-e-adm-record-without-epoch = record without <EPOCH>
+
+engine-e-adm-ndm-holds-no = <ndm> holds no <{ $kind }>
+
+engine-e-adm-root-element-is-not = root element <{ $name }> is not <{ $kind }>
+
+## src/evidence/cli.rs
+
+engine-e-evidence-cli-keygen-needs-out-keyfile = keygen needs --out <keyfile>
+
+engine-e-evidence-cli-needs-key-keyfile-make-one = needs --key <keyfile> (make one with `kshana evidence keygen`)
+
+engine-e-evidence-cli-needs-out-dir = needs --out <dir>
+
+engine-e-evidence-cli-needs-scenario-bench-scenario = needs --scenario <bench scenario>
+
+engine-e-evidence-cli-needs-conditions-file = needs --conditions <file>
+
+## src/evidence/tsa.rs
+
+engine-e-evidence-tsa-bad-ecdsa-signature = bad ECDSA signature
+
+engine-e-evidence-tsa-certificate-signature-failure = certificate signature failure
+
+engine-e-evidence-tsa-unable-to-get-issuer-certificate = unable to get issuer certificate
+
+engine-e-evidence-tsa-unable-to-get-local-issuer = unable to get local issuer certificate
+
+## src/evidence/tsr.rs
+
+engine-e-evidence-tsr-gentime-is-not-text = genTime is not text
+
+## src/fusion/gnss_ins_ekf.rs
+
+## src/glonass.rs
+
+engine-e-glonass-bad-year = bad year
+
+engine-e-glonass-bad-month = bad month
+
+engine-e-glonass-bad-day = bad day
+
+engine-e-glonass-bad-hour = bad hour
+
+engine-e-glonass-bad-minute = bad minute
+
+## src/gravity_sh.rs
+
+engine-e-gravity-sh-bad-degree = bad degree
+
+engine-e-gravity-sh-bad-order = bad order
+
+## src/interop/testbench.rs
+
+engine-e-interop-testbench-first-line-is-not-resolution = first line is not `RESOLUTION: <ms>`
+
+engine-e-interop-testbench-bad-resolution = bad resolution
+
+## src/iq/signals/galileo.rs
+
+engine-e-iq-signals-galileo-the-galileo-e1-memory-codes = the Galileo E1 memory codes are not bundled (the ICD's terms allow redistribution only for non-commercial purposes; see LICENSING.md). Supply your copy of ICD Annex C ({ $file }) with { $env }=<path>, or run scripts/fetch_galileo_e1_codes.sh in a source checkout ({ $path }: { $e })
+
+## src/jammertest/cli.rs
+
+engine-e-jammertest-cli-key-needs-out-dir = --key needs --out <dir>
+
+## src/leo_signal.rs
+
+engine-e-leo-signal-modulation-expected-flat-mhz = modulation { $label }: expected FLAT(<MHz>)
+
+## src/live_io.rs
+
+engine-e-live-io-listen-takes-tcp-port-or = --listen takes tcp:<port> or tcp:<addr>:<port>
+
+## src/ndm_xml.rs
+
+engine-e-ndm-xml-bad-attribute-in = bad attribute in <{ $name }>
+
+engine-e-ndm-xml-unquoted-attribute-in = unquoted attribute { $key } in <{ $name }>
+
+engine-e-ndm-xml-is-not-closed = <{ $name }> is not closed
+
+## src/nmea_synth/cli.rs
+
+engine-e-nmea-synth-cli-wait-clients-not-number = --wait-clients: not a number
+
+engine-e-nmea-synth-cli-speed-not-number = --speed: not a number
+
+engine-e-nmea-synth-cli-seed-not-an-integer = --seed: not an integer
+
+## src/odm.rs
+
+engine-e-odm-user-defined-without-parameter = <USER_DEFINED> without parameter
+
+## src/osnma/cli.rs
+
+engine-e-osnma-cli-bad-public-key-id = bad public key id
+
+engine-e-osnma-cli-bad-public-key-hex = bad public key hex
+
+## src/realdata/ion_sdr.rs
+
+engine-e-realdata-ion-sdr-closing-tag-does-not-match = closing tag </{ $name }> does not match <{ $name2 }>
+
+engine-e-realdata-ion-sdr-closing-tag-without-an-opening = closing tag </{ $name }> without an opening tag
+
+engine-e-realdata-ion-sdr-attribute-without-value-in = attribute without value in <{ $name }>
+
+engine-e-realdata-ion-sdr-is-not-an-integer = <{ $name }> { $key } is not an integer: { $v }
+
+engine-e-realdata-ion-sdr-chunk-lacks-sizeword = <chunk> lacks sizeword
+
+engine-e-realdata-ion-sdr-chunk-lacks-countwords = <chunk> lacks countwords
+
+engine-e-realdata-ion-sdr-is-not-an-integer-2 = <{ $key }> is not an integer
+
+engine-e-realdata-ion-sdr-ratefactor-is-not-an-integer = <ratefactor> is not an integer
+
+engine-e-realdata-ion-sdr-no-band-with-centerfreq-for = no <band> with a <centerfreq> for the stream
+
+engine-e-realdata-ion-sdr-offset-is-not-an-integer = <offset> is not an integer
+
+## src/receiver_trust/geometry.rs
+
+engine-e-receiver-trust-geometry-geometry-need-hdop-good-hdop = geometry: need 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max and used_good >= min_used (got { $hdop_good }, { $pdop_good }, { $used_good })
+
+## src/sp3.rs
+
+engine-e-sp3-bad-epoch-count = bad epoch count
+
+## src/spectrum.rs
+
+engine-e-spectrum-matched-jammer-needs-matched-to = { $name }: a matched jammer needs matched_to = "<band name>"
+
+engine-e-spectrum-unknown-band-the-spectrum-model = unknown band { $name }: the spectrum model has { $band_names } and, by name, { $more_band_names } (GLONASS                      channels as glonass-l1of-k<K>, K = -7 to 6); any other band takes                      `signal = "<preset signal>"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`
+
+## src/evidence/assemble.rs
+
+engine-e-evidence-assemble-the-log-does-not-state = the log does not state a parseable start time; give seconds since the first epoch
+
+## src/interop/geojson.rs
+
+engine-e-interop-geojson-no-linestring-found-give-linestring = no LineString found: give a LineString geometry, a Feature holding one, or a FeatureCollection whose features include one
+
+engine-e-interop-geojson-the-scenario-has-no-waypoints = the scenario has no `waypoints` of 2 or more to spread a two-position route over
+
+## src/leo_pnt_chain.rs
+
+engine-e-leo-pnt-chain-the-chain-satellite-is-visible = the chain satellite is visible for fewer than two epochs, or at one elevation only; widen the pass window
+
+## src/nmea_synth/config.rs
+
+engine-e-nmea-synth-config-skyline-table-is-required-for = a skyline table is required (for example skyline = { "{" } preset = "fjord" { "}" })
+
+## src/python.rs
+
+engine-e-python-prns-must-list-at-least = prns must list at least one PRN
+
+engine-e-python-design-name-needs-design = design_name needs design
+
+engine-e-python-bandpass-needs-both-bandpass-lo = bandpass needs both bandpass_lo and bandpass_hi
+
+engine-e-python-token-text-is-not-base64 = token text is not base64
+
+engine-e-python-unix-nano-must-be-between = unix_nano must be between 0 and 2**64 - 1
+
+## src/wasm.rs
+
+engine-e-wasm-token-base64-is-not-base64 = token_base64 is not base64
+
+engine-e-wasm-log-base64-is-not-base64 = log_base64 is not base64
+
+engine-e-wasm-input-base64-is-not-base64 = input_base64 is not base64
+
+engine-e-wasm-seed-must-be-non-negative = seed must be a non-negative integer
+
+engine-e-wasm-runs-json-must-be-an = runs_json must be an array of { "{" }label, result, scenario?{ "}" }
+
+## src/nmea_synth/stream.rs
+
+engine-e-nmea-synth-stream-no-udp-address = no UDP address
+
+## src/realdata/llr_crd.rs
+
+engine-e-realdata-llr-crd-short-normal-point-11-record = short normal-point (11) record
+
+engine-e-realdata-llr-crd-normal-point-record-appeared-before = a normal-point record appeared before its h2/h3/h4 session header
+
+## src/gravity_sh.rs
+
+engine-e-gravity-sh-line-bad-coefficient-non-finite = line { $lineno }: bad coefficient (non-finite)
+
+## src/interop/time.rs
+
+engine-e-interop-time-extra-fields-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: extra fields: { $text }
+
+engine-e-interop-time-year-outside-2000-to-2099-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: year outside 2000 to 2099: { $text }
+
+engine-e-interop-time-month-outside-to-12-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: month outside 1 to 12: { $text }
+
+engine-e-interop-time-day-does-not-exist-in-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: day does not exist in that month: { $text }
+
+engine-e-interop-time-hour-above-23-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: hour above 23: { $text }
+
+engine-e-interop-time-minute-above-59-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: minute above 59: { $text }
+
+engine-e-interop-time-seconds-outside-60-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: seconds outside [0, 60): { $text }

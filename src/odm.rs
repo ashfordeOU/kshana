@@ -462,7 +462,7 @@ fn read_section_xml(e: &Element, block: Block) -> Result<Section, String> {
             "USER_DEFINED" if block == Block::User => {
                 let p = c
                     .attr("parameter")
-                    .ok_or("<USER_DEFINED> without parameter")?;
+                    .ok_or_else(|| crate::terr!("e-odm-user-defined-without-parameter"))?;
                 s.items.push((p.to_string(), c.text.clone()));
             }
             k => s.items.push((k.to_string(), c.text.clone())),
@@ -1379,7 +1379,7 @@ impl OcmMessage {
                     "USER_DEFINED" if kind == OcmBlockKind::User => {
                         let p = e
                             .attr("parameter")
-                            .ok_or("<USER_DEFINED> without parameter")?;
+                            .ok_or_else(|| crate::terr!("e-odm-user-defined-without-parameter"))?;
                         b.section.items.push((p.to_string(), e.text.clone()));
                     }
                     n if Some(n) == kind.line_tag() => b

@@ -345,7 +345,8 @@ fn run_score(args: &[String]) -> Result<(), String> {
     };
     let card = match flag_value(args, "--key")? {
         Some(key) => {
-            let out = flag_value(args, "--out")?.ok_or("--key needs --out <dir>")?;
+            let out = flag_value(args, "--out")?
+                .ok_or_else(|| crate::terr!("e-jammertest-cli-key-needs-out-dir"))?;
             let seed = read_seed(&key)?;
             let created = match flag_value(args, "--created-utc")?.as_deref() {
                 Some("none") => None,

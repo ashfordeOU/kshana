@@ -263,10 +263,11 @@ impl GeometryCfg {
             && self.pdop_good <= self.pdop_max
             && self.used_good >= self.min_used)
         {
-            return Err(format!(
-                "geometry: need 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max and \
-                 used_good >= min_used (got {}, {}, {})",
-                self.hdop_good, self.pdop_good, self.used_good
+            return Err(crate::terr!(
+                "e-receiver-trust-geometry-geometry-need-hdop-good-hdop",
+                hdop_good = crate::i18n::num_plain(self.hdop_good),
+                pdop_good = crate::i18n::num_plain(self.pdop_good),
+                used_good = self.used_good
             ));
         }
         if !(self.cap_points.is_finite() && (0.0..=100.0).contains(&self.cap_points)) {

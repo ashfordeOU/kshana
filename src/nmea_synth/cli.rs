@@ -86,12 +86,12 @@ pub fn run_cli(args: &[String]) -> ExitCode {
                 "--wait-clients" => {
                     wait_clients = val("--wait-clients")?
                         .parse()
-                        .map_err(|_| "--wait-clients: not a number")?
+                        .map_err(|_| crate::terr!("e-nmea-synth-cli-wait-clients-not-number"))?
                 }
                 "--speed" => {
                     let x: f64 = val("--speed")?
                         .parse()
-                        .map_err(|_| "--speed: not a number")?;
+                        .map_err(|_| crate::terr!("e-nmea-synth-cli-speed-not-number"))?;
                     if !(x >= 0.0 && x.is_finite()) {
                         return Err(crate::terr!("e-nmea-synth-cli-speed-must-be-or-positive"));
                     }
@@ -101,7 +101,7 @@ pub fn run_cli(args: &[String]) -> ExitCode {
                     seed = Some(
                         val("--seed")?
                             .parse()
-                            .map_err(|_| "--seed: not an integer")?,
+                            .map_err(|_| crate::terr!("e-nmea-synth-cli-seed-not-an-integer"))?,
                     )
                 }
                 s if s.starts_with('-') => {

@@ -287,10 +287,8 @@ impl LeoPntChainScenario {
                     .map(|c| (e.elevation_deg, c))
             })
             .collect();
-        let (a, b) = fit_sin_line(&pts).ok_or(
-            "the chain satellite is visible for fewer than two epochs, or at one elevation only; \
-             widen the pass window",
-        )?;
+        let (a, b) = fit_sin_line(&pts)
+            .ok_or_else(|| crate::terr!("e-leo-pnt-chain-the-chain-satellite-is-visible"))?;
         let jit: Vec<f64> = vis
             .iter()
             .filter_map(|e| e.bands[pk.band].code_jitter_m)

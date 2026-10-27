@@ -562,7 +562,7 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
         .get(6)
         .ok_or_else(|| crate::terr!("e-sp3-missing-epoch-count-on-header"))?
         .parse()
-        .map_err(|_| "bad epoch count")?;
+        .map_err(|_| crate::terr!("e-sp3-bad-epoch-count"))?;
 
     // --- `+` records: satellite identifiers (three characters each from col 9). ---
     let mut sat_ids = Vec::new();
