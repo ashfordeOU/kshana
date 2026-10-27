@@ -11553,3 +11553,5 @@ engine-partner-text-error = { "  " }ПОМИЛКА: { $e }
 engine-partner-text-result-ok = результат: формат і метадані повні й читабельні
 
 engine-partner-text-result-not-ready = результат: не готово; виправте помилки вище
+
+engine-lunar-ascent-chart-title = Місячний підйом: 1-сигма навігаційного положення 3-D (m)
