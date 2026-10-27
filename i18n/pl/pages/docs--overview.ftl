@@ -187,3 +187,11 @@ seg-e35fff011b24 = Compliance
 seg-a50180a66dba = LunaNet AFS
 
 seg-028684a0cf3d = Pakiety norm
+
+seg-9c0eb89a2fbe = Pakiet
+
+seg-e98e25897176 = Każdy test trzech ocenianych pakietów norm, z rzeczywistych przebiegów silnika v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } spełnionych, { "1" } niespełniony, { "2" } wymagają danych wejściowych; imo-circ-1575: { "1" } spełniony, { "4" } niespełnione, { "2" } wymagają danych wejściowych; icao-doc9849-appf: { "6" } spełnionych, { "0" } niespełnionych, { "2" } wymagają danych wejściowych. Łącznie { "13" } spełnionych, { "5" } niespełnionych i { "6" } wymaga danych wejściowych, których silnik nie ma (dziennika odbiornika lub dokumentacji sprzętu). Każdy próg ustalono przed przebiegiem; niespełniony próg pozostaje niespełniony. Spełniony próg oznacza, że modelowany scenariusz spełnił podany próg, i nic nie mówi o produkcie. Pakiety dostarczają dowodów dla cytowanych wierszy; nie są oceną. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia; nie może być jedyną podstawą żadnej decyzji nawigacyjnej ani dotyczącej bezpieczeństwa.
+
+seg-f891ee876b96 = Na co odpowiada
+
+seg-7cf2608b2b2f = Struktura pakietu dowodowego. Dziennik odbiornika (NMEA, u-blox UBX, RINEX { "3" } lub dziennik Androida) i okno czasowe trafiają do kshana receiver-trust evidence, które zapisuje siedem plików: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig i opcjonalny timestamp.tsr. Manifest zapisuje SHA-256 całego dziennika i każdego pliku oraz łańcuch skrótów po plikach; podpis obejmuje manifest. kshana evidence verify sprawdza podpis, skrót każdego pliku, łańcuch oraz to, że nie ma pliku spoza listy, i kończy się kodem { "0" }, gdy zweryfikowano, { "1" }, gdy coś zawiodło, i { "3" }, gdy podpisujący nie był przypięty. Pakiet jest zapisem technicznym, a nie opinią prawną.

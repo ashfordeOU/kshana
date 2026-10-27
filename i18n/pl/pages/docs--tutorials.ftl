@@ -15,3 +15,7 @@ seg-835df2d05f2a = Dziedzina pomiarowa GNSS
 seg-28e87f407a10 = Dziedzina
 
 seg-d6476863f862 = Możliwość
+
+seg-029de6b99be0 = Nawigacja zliczeniowa inercyjna
+
+seg-9ef8f99ca6e4 = Transfer czasu
