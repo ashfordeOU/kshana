@@ -305,3 +305,415 @@ seg-6d3d0f8c9b7c = Poproś o ocenę Pro
 seg-813d6d41b891 = Skopiuj polecenie, które to odtwarza
 
 seg-a0ef302e2458 = Skopiuj polecenie
+
+seg-6df96ca25c68 = Dlaczego i dla kogo
+
+seg-e8ab991fe284 = Konsola misji Kshana
+
+seg-dc0fbd6f3e76 = Odbiornik · śledzi { "8" }
+
+seg-212f0234925f = Zagłuszarka · { "1.0" } km stąd
+
+seg-e8b014e4fa7b = Spoofer · przesuwanie czasu o { "0.1" } ns/s
+
+seg-b8890ff22c4a = Powtórka
+
+seg-fdac3e95b3d9 = Misja <b>T+{ "00" }:{ "00" }:{ "00" }</b>
+
+seg-5e5365b80dfb = Scenariusz <b>campaign-jam-spoof-holdover-integrity</b>
+
+seg-d0b9f1d1b637 = Nominalny
+
+seg-12d3b7275c99 = <s1>Silnik v{ $version } · ziarno (seed) { "20260928" }</s1><s2>Rzeczywisty przebieg</s2>
+
+seg-2c7bf2e50347 = GNU Affero General Public License, wersja { "3" }
+
+seg-162d704ff027 = <s1>v{ $version }</s1>Otwarte oprogramowanie · <s2>AGPL-3.0</s2> · od Ashforde®
+
+seg-69d3fae797e4 = Przećwicz minutę, w której <em>GNSS gaśnie.</em>
+
+seg-015e3cff4eda = Kshana to otwartoźródłowy symulator odporności PNT (pozycjonowanie, nawigacja i czas). Odtwarza zagłuszanie (jamming), spoofing i holdover zegara, gdy zawodzą sygnały GNSS (globalny system nawigacji satelitarnej), w silniku napisanym w Rust, który działa wprost w przeglądarce, i pokazuje dokładnie, które wyniki sprawdzono względem niezależnych wzorców.
+
+seg-8b095f7254ed = Kopiuj polecenie instalacji: cargo install kshana
+
+seg-f0e9de10d9ef = cargo install kshana<s1>Kopiuj</s1>
+
+seg-ec3957c0f5f1 = Naciśnij <c1/>, aby przeszukać strony, scenariusze i dokumentację
+
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Ten sam silnik, wzmocniony: { "608" } projektów, jeden front Pareto</s2>
+
+seg-b807a8887172 = Telemetria odtworzona z łańcuchowego przebiegu kampanii
+
+seg-d367c9a1c6fc = Błąd czasu zegara<s1>wobec marginesu ochronnego { "50" } ns · liniowo</s1>
+
+seg-6746a919dc04 = T+{ "0" }
+
+seg-7d5a96436755 = teraz
+
+seg-2434e53fa54e = Gęstość mocy nośnej do szumu<s1>C/N0 · minimum { "25" } dB-Hz</s1>
+
+seg-bf842cdbb9d3 = Poziom ochrony wobec limitu alarmowego<s1>PL · AL { "50" } m, pionowo</s1>
+
+seg-146c6926eae1 = Dziennik zdarzeń łańcuchowego przebiegu kampanii
+
+seg-7dfaa4627c3e = Dziennik zdarzeń · campaign-jam-spoof-holdover-integrity
+
+seg-47d596393831 = Rzeczywiste zdarzenia
+
+seg-5630c799cec1 = Skąd pochodzi każdy przebieg
+
+seg-46b6db21c09b = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+
+seg-f70fa3b93b11 = Własny raport silnika z tego przebiegu
+
+seg-d32a11c090e1 = Wynik silnika, niezmieniony
+
+seg-c459bc5805bb = Plik scenariusza, który został uruchomiony
+
+seg-f18f76c10709 = <s1><a1>Raport</a1><a2>JSON</a2><a3>TOML</a3></s1>
+
+seg-c043a94c7564 = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-f2d2f2263e63 = Konsola, trzy karty i dziennik odtwarzają jeden łańcuchowy przebieg złożony z { "6" } faz i { "18" } przebiegów składowych na jego siatce { "10" } s (T+{ "01" }:{ "16" }:{ "10" } czasu misji). Orbity to { "102" } satelity GPS, Galileo, BeiDou i GLONASS z przebiegu konstelacji, każdy odtworzony jako orbita kołowa w problemie dwóch ciał ze śladu naziemnego silnika (najgorsze residuum { "0.0034" }°), z promieniami ściśniętymi na potrzeby wyświetlania. Łącza są rysowane do satelitów powyżej maski { "10" }° przebiegu konstelacji ({ "25" }° w fazie alarmu integralności, czyli masce ponownego przechwycenia kampanii), przyciemniane przez jego zagłuszanie i przerywane w holdover. Ziemia: NASA Blue Marble i Black Marble. Kshana Studio odtwarza przebieg łańcuchowy w przeglądarce; własny raport silnika i polecenie odtwarzają każdy przebieg.
+
+seg-a6603a1011ce = Dowody w skrócie
+
+seg-92c73c398785 = dołączonych plików scenariuszy
+
+seg-4fe9e7c5932f = możliwości w macierzy weryfikacji
+
+seg-d2c0888d98f6 = sprawdzonych względem niezależnych wyroczni zewnętrznych
+
+seg-3a3535770138 = <s1>artykułów w arXiv zbudowanych na otwartym silniku</s1><s2>Przeczytaj badania <c1/></s2>
+
+seg-c44c0fbefc2c = <s1>WASM</s1><s2>działa w przeglądarce jako WebAssembly, bez instalacji</s2>
+
+seg-9b3429f89f21 = Nowość w v{ $version }: każdy rodzaj, każde polecenie i chybienia benchmarku
+
+seg-471b95f0c08f = <a1>Co robi każdy z nich i co sprawdzono</a1> · <a2>Każdy kanał instalacji</a2>
+
+seg-a9bca0fa5b04 = Konsola pasma L · rodzaj spectrum
+
+seg-abbe9f20dd01 = Zobacz, jak zagłuszarka zajmuje pasmo.
+
+seg-7b1868001271 = Pasmo L GNSS jako jedna PSD (gęstość widmowa mocy): częstotliwość w poziomie, czas w dół, kolor dla mocy ponad poziomem szumu. Sygnały leżą poniżej tego poziomu, więc świecą zagłuszarki: chirp, ton CW (fala ciągła) i szum wąskopasmowy. Najedź kursorem, dotknij lub użyj klawiszy strzałek, aby zobaczyć <b>C/N0</b> (gęstość mocy nośnej do szumu) i <b>J/S</b> (stosunek zagłuszarki do sygnału) każdego pasma.
+
+seg-06d71fc57b8d = <b>kshana</b> spectrum <s1>· <s2>l-band-waterfall-jamming.toml</s2></s1>
+
+seg-2da07c5d32d7 = Waterfall pasma L, częstotliwość w poziomie, czas w dół. Klawisze strzałek przesuwają kursor po częstotliwości i czasie; Escape go opuszcza.
+
+seg-46f65efc3be9 = Waterfall jest rysowany z zarejestrowanego przebiegu za pomocą JavaScript. Raport silnika poniżej pokazuje ten sam przebieg.
+
+seg-f3ea569d443f = Najgorsze pasmo
+
+seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
+
+seg-14b3348ff8ea = Gęstość mocy nośnej do szumu każdego pasma względem minimum śledzenia
+
+seg-3e189946819a = Kampania, którą ten przebieg napędza · każda faza podąża za stanem zagłuszarki
+
+seg-b4033994f81b = Przebieg silnika dla <c1/>
+
+seg-33979077de8c = Kopiuj polecenie odtwarzające przebieg: kshana l-band-waterfall-jamming.toml
+
+seg-17d5d311b110 = Raport silnika
+
+seg-7a6ff36f0f04 = $ kshana l-band-waterfall-jamming.toml
+
+seg-1fd08ac5f6f0 = Scenariusz, dane wynikowe, przebieg kampanii i to, co jest modelowane
+
+seg-997412b840c2 = Przebieg spectrum
+
+seg-c9ee69e3ce3e = Plik scenariusza
+
+seg-aaeaa4133766 = Dane wynikowe
+
+seg-e9d1763a751f = Napędzana kampania: <c1/>
+
+seg-444a43f5d0d7 = Obliczone z modelu: widma w postaci zamkniętej nad termicznym poziomem szumu, oceniane dla każdego pasma przez separację widmową; moce i czasy zagłuszarek są danymi wejściowymi scenariusza. Oś czasu liczy sekundy przed teraz; linia cyjanowa oznacza miejsce ponownego startu odtwarzania. Kshana Studio uruchamia ten sam scenariusz w przeglądarce i odtwarza waterfall; raport i polecenie odtwarzają przebieg.
+
+seg-9c4762bc4c66 = Oś czasu misji
+
+seg-8b148fc948fa = Oś czasu misji · przewiń lub przeciągnij, aby przeglądać
+
+seg-984aa8353e29 = Każdy satelita jest śledzony. Zegar jest zdyscyplinowany do czasu GNSS, a poziom ochrony leży wyraźnie poniżej limitu alarmowego.
+
+seg-53dff207c2e7 = T+{ "00" }:{ "00" }:{ "00" }
+
+seg-06909bd3c972 = Czas misji
+
+seg-de619b311b43 = <b>kshana</b> campaign <s1>· campaign-jam-spoof-holdover-integrity · ziarno (seed) { "20260928" }</s1>
+
+seg-348b3f146fd1 = Fazy i przebiegi składowe uruchamiane przez każdą z nich
+
+seg-5ca22bdcb463 = Fazy · przebiegi składowe
+
+seg-8332e436d097 = Nominalna<s1>T+{ "00" }:{ "00" }:{ "00" }</s1>
+
+seg-297f821b911b = ziarno (seed) { "42" }
+
+seg-0c4140f95fe8 = ziarno (seed) { "1" }
+
+seg-dfe6a1451d36 = ziarno (seed) { "7" }
+
+seg-e6df43ef3bcc = Zagłuszanie<s1>T+{ "00" }:{ "10" }:{ "00" }</s1>
+
+seg-639fb18e57e0 = ziarno (seed) { "43" }
+
+seg-599691a88cac = Spoofing<s1>T+{ "00" }:{ "20" }:{ "00" }</s1>
+
+seg-14f57653cd5c = Holdover<s1>T+{ "00" }:{ "26" }:{ "10" }</s1>
+
+seg-4be8c1c7aeb6 = ziarno (seed) { "44" }
+
+seg-d78a727a49a3 = Alarm integralności<s1>T+{ "00" }:{ "56" }:{ "10" }</s1>
+
+seg-612e8a49730d = ziarno (seed) { "45" }
+
+seg-8cc810de504f = Odzyskiwanie<s1>T+{ "01" }:{ "06" }:{ "10" }</s1>
+
+seg-d106d9ae3db3 = ziarno (seed) { "46" }
+
+seg-cea3b8e726c8 = { "6" } faz · { "18" } przebiegów składowych istniejących rodzajów
+
+seg-12e134ed7cad = Satelity · { "102" }, cztery systemy
+
+seg-ba2d1b289ed3 = Odbiornik · pierścień PL wobec pierścienia AL
+
+seg-aa38fb41591a = Zagłuszarka · { "1.0" } km od odbiornika
+
+seg-f65f922fa89d = Spoofer
+
+seg-d3b2bac50e3d = Błąd czasu zegara<s1>ns · margines ochronny { "50" }</s1>
+
+seg-c42b07814ef6 = C/N0<s1>dB-Hz · minimum { "25" }</s1>
+
+seg-747943902bc5 = PL wobec AL<s1>metry · AL { "50" }</s1>
+
+seg-61345694fae0 = Odtwórz misję
+
+seg-0d529358e2ad = Zagłuszanie
+
+seg-c8df54685469 = Alarm integralności
+
+seg-63a70a989509 = Odzyskiwanie
+
+seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } czasu misji · jeden przebieg łańcuchowy, a nie trzy przebiegi obok siebie
+
+seg-dc2eb6c3c2a4 = PL = poziom ochrony · AL = limit alarmowy · INS = inercyjny system nawigacyjny
+
+seg-b85e60e05c9f = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+
+seg-0588364091ec = Od pierwszego zagłuszonego satelity do ostatniej nanosekundy holdover zegara: sygnały, czujniki, zegary, orbity i integralność w jednym symulatorze. Każdy obraz poniżej to rzeczywisty przebieg silnika i mówi, który.
+
+seg-18e6988c1ccd = Zagłuszanie i zakłócenia GNSS
+
+seg-1d97776ae325 = Szerokopasmowa zagłuszarka na maszcie i odbiornik przesuwany po siatce wokół niej: każda komórka to osobny przebieg rodzaju <c1/> silnika. Odcień to średnie J/S (stosunek zagłuszarki do sygnału); czerwone komórki utraciły każdego satelitę.
+
+seg-4fa6a9f6915d = Ślad zagłuszania: średni stosunek zagłuszarki do sygnału i śledzenie na siatce położeń odbiornika wokół zagłuszarki
+
+seg-774ec89d13d7 = Silnik v{ $version } · <c1/> · ziarno (seed) { "1" } · odbiornik przesuwany w każdej komórce
+
+seg-7292d543b1ac = Każda komórka, w Misjach
+
+seg-08ba18ea712c = Zwodzenie
+
+seg-f765712462a1 = Spoofer przejmuje odbiornik i stałym tempem odsuwa jego czas. Monitor integralności każdego zegara ma własną granicę detekcji: zegar kwantowy sygnalizuje kłamstwo niemal od razu, klasyczny dopiero gdy odchyłka urośnie.
+
+seg-1770a46a99f6 = Fałszywe przesunięcie czasu wobec granicy detekcji
+
+seg-0f425005ca69 = Przesunięcie czasu wywołane przez spoofer wobec granicy detekcji każdego zegara, z chwilą, w której każdy monitor je sygnalizuje
+
+seg-a9829e27b53b = Silnik v{ $version } · <c1/> · deterministyczne, bez ziarna (seed)
+
+seg-ab0eb55b688a = Zegary
+
+seg-ceaa6be5f5fd = Holdover zegara w różnych klasach oscylatorów
+
+seg-c25919241d9e = Od chwili zaniku GNSS: mediana i 95. percentyl { "200" } przebiegów Monte Carlo dla zegara atomowego w skali chipa (CSAC) i optycznego zegara sieciowego oraz błąd jednodobowy czterech kolejnych klas: optycznego zegara wzorcowego, masera wodorowego, rubidowego wzorca częstotliwości atomowej (RAFS) i jego miniaturowej wersji (mini-RAFS).
+
+seg-b2019ec6d1c7 = Pasmo błędu czasu w { "200" } przebiegach Monte Carlo
+
+seg-01961fd0b949 = Błąd czasu zegara po utracie GNSS: mediana i 95. percentyl { "200" } przebiegów Monte Carlo dla dwóch zegarów oraz błąd jednodobowy czterech klas oscylatorów
+
+seg-ae208f50ab77 = Silnik v{ $version } · <c1/> · ziarno (seed) { "42" }
+
+seg-b3ec228c054d = <b>Kolumna jednodobowa:</b> silnik v{ $version } · <c1/> · deterministyczne, bez ziarna (seed)
+
+seg-a747535696fa = Nawigacja zliczeniowa
+
+seg-ae35aad6ab75 = Dobieg GNSS/INS
+
+seg-0c56d6e5450a = Gdy GNSS zawodzi, INS (inercyjny system nawigacyjny) działa dalej, a jego stożek błędu się rozwiera. Dwie inercyjne jednostki pomiarowe (IMU), jeden budżet.
+
+seg-9f97f05ad6bb = Stożek błędu położenia po utracie GNSS dla dwóch inercyjnych jednostek pomiarowych, wobec budżetu położenia
+
+seg-142a299dff50 = Jak długo zegar mieści się w swoim przedziale ochronnym po ostatnim rozwiązaniu: pytanie ważne dla sieci z szczelinami czasowymi.
+
+seg-2b3d148b354d = Przewidywany błąd czasu od ostatniego rozwiązania wobec marginesu ochronnego szczeliny
+
+seg-7a7de9a2d48a = RAIM i ARAIM
+
+seg-4d5cad94655f = Poziomy ochrony (PL) z autonomicznego monitorowania integralności odbiornika (RAIM) i jego zaawansowanej postaci (ARAIM), sprawdzone względem limitu alarmowego: tutaj faza alarmu integralności misji łańcuchowej. Słupki kreskowane to epoki, w których nie dało się utworzyć poziomu ochrony.
+
+seg-750f6b337ce8 = Pionowy poziom ochrony w każdej epoce fazy alarmu integralności, wobec limitu alarmowego
+
+seg-cdf824111b80 = Telekomunikacja
+
+seg-129537868d97 = MTIE (maksymalny błąd przedziału czasu) i TDEV (odchylenie czasu) 24-godzinnego holdover wobec limitów ITU-T (International Telecommunication Union, Telecommunication Standardization Sector), tu limitu PRTC-A (primary reference time clock, klasa A).
+
+seg-7a19d976cca6 = Maksymalny błąd przedziału czasu i odchylenie czasu przebiegu holdover wobec limitu PRTC-A
+
+seg-ea5d9e4acbdf = Astrodynamika
+
+seg-5a507113bfff = Orbity: SGP4 i numeryczne
+
+seg-2ebc9a7b022e = Propagacja SGP4 (Simplified General Perturbations { "4" }) rzeczywistego zestawu elementów dwuwierszowych, narysowana na rzeczywistych zdjęciach; efemerydy CCSDS OEM i SP3 na wejściu i wyjściu.
+
+seg-c28ef17609ee = Ślad naziemny propagacji SGP4 silnika dla rzeczywistego zestawu elementów dwuwierszowych, na zdjęciach NASA Blue Marble
+
+seg-2bc362b38f3d = Cislunarne
+
+seg-7904e93c0bcb = PNT księżycowe
+
+seg-48ad4630a03f = Pozycjonowanie, nawigacja i czas wokół Księżyca: poziome i pionowe poziomy ochrony (HPL, VPL) z ARAIM w księżycowej usłudze nawigacyjnej.
+
+seg-f69a91258669 = Księżycowe poziomy ochrony z przebiegu zaawansowanego RAIM LunaNet wobec limitu alarmowego, obok bliższej strony Księżyca
+
+seg-2c2d1fdec798 = Nowe czujniki
+
+seg-e130f7a43848 = Studia kompromisów czujników kwantowych
+
+seg-577795028a7f = Zważ zegar kwantowy względem klasycznego, zanim ktokolwiek kupi sprzęt: holdover w przeglądzie szumu zegara klasycznego.
+
+seg-836a325ef88c = Przegląd classical_q_wf: holdover_s
+
+seg-979452def1d6 = Czas holdover zegara kwantowego i klasycznego w przeglądzie poziomu szumu zegara klasycznego
+
+seg-ebaa722c5ab6 = Silnik v{ $version } · <c1/> · ziarno (seed) { "42" }
+
+seg-1d2973bd0f2f = Działa wszędzie
+
+seg-250a09c4baa0 = Przeglądarka, terminal, notebook, IDE, asystent
+
+seg-62ea80e12931 = Ten sam silnik w Rust jest dostarczany jako WebAssembly dla Kshana Studio, CLI (interfejs wiersza poleceń), pakiety Python i JavaScript, wtyczka JetBrains Marketplace do IDE (zintegrowane środowisko programistyczne) oraz serwer MCP (Model Context Protocol).
+
+seg-430082bf58d4 = obraz ghcr.io
+
+seg-afd561090841 = CCSDS OEM
+
+seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: format orbit Standard Product { "3" }.
+
+seg-70d4597772cb = Zakres, powiedziany wprost
+
+seg-2ee2e20030f3 = Znajomość granic jest równie ważna jak znajomość funkcji.
+
+seg-253c54ae2238 = To nie jest sprzętowy generator sygnału RF<s1>Nie steruje żadnym radiem i niczego nie nadaje; jego wynikiem na poziomie sygnału są pliki próbek IQ w paśmie podstawowym dla odbiorników programowych.</s1>
+
+seg-4fe725162c1c = To nie jest sprzętowy ani certyfikowany odbiornik GNSS<s1>Jego programowy odbiornik (przechwytywanie i śledzenie na zarejestrowanych lub wygenerowanych próbkach IQ) jest narzędziem analitycznym, a nie produktem nawigacyjnym.</s1>
+
+seg-d3606ea42b36 = To nie jest produkt lotniczy<s1>Narzędzie do badań i analizy kompromisów, w którym każda odpowiedź jest oznaczona jako sprawdzona względem niezależnego wzorca albo obliczona na podstawie modelu.</s1>
+
+seg-57678c2b9a1d = Asystenci AI · kshana-mcp
+
+seg-d473cb253f20 = Zapytaj asystenta AI. Odpowiada silnik.
+
+seg-35f55ec31aeb = Asystent AI (sztuczna inteligencja) uruchamia silnik przez MCP (Model Context Protocol) za pomocą <b>kshana-mcp</b> i odczytuje wynik w JSON (JavaScript Object Notation).
+
+seg-54d5c8e07a24 = Następnie zarejestruj go w konfiguracji klienta MCP asystenta. <a1>Pełna konfiguracja w sekcji Dla programistów</a1>
+
+seg-7e3b4395292e = Historia przewijana o spoofingu
+
+seg-fb440c81faf1 = Historia przewijana · jeden przebieg łańcuchowy
+
+seg-24b800b6ec75 = Od czystego nieba do zegara swobodnie biegnącego.
+
+seg-88e748800e7f = Jeden odbiornik, T+{ "01" }:{ "16" }:{ "10" } czasu misji: czyste niebo, zagłuszarka, spoofer, który przesuwa odpowiedź zamiast ją blokować, a potem zegar pozostawiony samemu sobie. { "102" } satelity to cztery systemy z przebiegu konstelacji, na rzeczywistej Ziemi. Przewiń.
+
+seg-1a913717fbd3 = { "01" } · Nominalna
+
+seg-488b802a8afc = Każde łącze rozliczone.
+
+seg-2379d9ee4cd0 = Śledzonych satelitów: { "8" }, przy średnim C/N0 (gęstość mocy nośnej do szumu) <b>{ "43.0" } dB-Hz</b>. Pionowy poziom ochrony mieści się między { "9.1" } a { "21.6" } m, poniżej limitu alarmowego { "50" } m.
+
+seg-8ad9711d8bae = { "02" } · Zagłuszanie
+
+seg-c3fa50909f9d = Szum pochłania niebo.
+
+seg-95d85165182f = Szerokopasmowa zagłuszarka w odległości { "1.0" } km włącza się przy <b>-30 dBW</b>. C/N0 spada do <b>{ "30.6" } dB-Hz</b>, tuż powyżej minimum śledzenia { "25" } dB-Hz. Głośno, więc odbiornik o tym wie.
+
+seg-1f1bc00b81ee = { "03" } · Spoofing
+
+seg-458faa9a3f96 = Kłamstwo wyglądające jak rozwiązanie.
+
+seg-dda6f0eb3fb6 = Spoofer przesuwa zegar tempem <b>{ "0.1" } ns/s</b>. Detektor RF (częstotliwości radiowej) alarmuje o T+{ "00" }:{ "20" }:{ "00" }; monitor wspomagany zegarem potrzebuje <b>{ "370" } s</b>, a do tego czasu przesunięcie wynosi już { "36.0" } ns.
+
+seg-13be4329a209 = { "04" } · Holdover
+
+seg-fe4fb4387b34 = Potem czas zaczyna dryfować.
+
+seg-4f2ce8d81d29 = Zagłuszarka przechodzi na { "10" } dBW i każdy satelita zostaje utracony. Zegar biegnie swobodnie od { "37.0" } ns, które zostawił spoofer, i przekracza swój <b>margines ochronny { "50" } ns o T+{ "00" }:{ "35" }:{ "40" }</b>; błąd inercyjny sięga { "24.3" } km.
+
+seg-fe656aefe9bb = Błąd czasu zegara · holdover
+
+seg-548449af47a8 = margines ochronny { "50" } ns
+
+seg-21e942dadf02 = Legenda konstelacji
+
+seg-09d18cf767a7 = Otwarty rdzeń, Kshana Pro, badanie na zamówienie
+
+seg-302606971c35 = Za darmo dla wszystkich. Pro, gdy odpowiedź musi wytrzymać przegląd.
+
+seg-27c12083529b = Kshana Pro to zastrzeżona nakładka, która zależy od otwartego rdzenia i nigdy go nie rozwidla, dostępna na podstawie umowy. Żadnych cen na stronie internetowej: każda płatna ścieżka zaczyna się od wiadomości na adres <a1>contact@ashforde.org</a1>.
+
+seg-43ceda17e71c = Otwarty rdzeń · za darmo · AGPL-3.0
+
+seg-0230217b1110 = Każdy, kto bierze położenie lub czas z GNSS, jest narażony: zagłuszanie, spoofing i utrata sygnału dotykają jednakowo pojazdów, sieci, systemów energetycznych i statków kosmicznych.
+
+seg-9e88a1981d1e = { "176" } z { "388" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.
+
+seg-4b41ffeb0030 = Wszystkie { "87" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.
+
+seg-0af87a1caff4 = Ten sam rdzeń na licencji komercyjnej, do integracji zamkniętej.
+
+seg-f6406933eb77 = Zainstaluj silnik
+
+seg-6a74a165bfd0 = Kshana Pro · na podstawie umowy
+
+seg-298532756f74 = Front Pareto przestrzeni projektowej, z każdym projektem z frontu jako scenariuszem, który darmowy silnik uruchamia ponownie.
+
+seg-a699256db841 = Niepewność i czułość na tysiącach przebiegów.
+
+seg-665005551d84 = Dossier misji jednym poleceniem z macierzą weryfikacji i plikiem PDF (Portable Document Format).
+
+seg-455cb5040f80 = Pakiety dowodowe klasy audytowej i odtwarzalne; cyfrowe bliźniaki zegarów skalibrowane do opublikowanego budżetu Allana urządzenia; studia kompromisów architektur uszeregowane według wskaźnika jakości; narzędzia inżynierii systemów opartej na modelach (MBSE) i programowe.
+
+seg-3e30593288a1 = Co obejmuje Pro
+
+seg-be42106ce1bc = Badanie na zamówienie · wykonane za zamawiającego
+
+seg-254836cd23af = Badanie na zamówienie: odpowiedź, a nie narzędzie
+
+seg-fb87be7dc462 = Badanie odporności PNT danego systemu, obliczone na podstawie modelu, na przykład audyt luki optymizmu. Nie jest to certyfikacja.
+
+seg-b9d62e7772a7 = Modele czujników i odporności skalibrowane do sprzętu zamawiającego.
+
+seg-57320238c0f4 = Prace objęte kontrolą eksportu, prowadzone w ramach odpowiedniego poświadczenia bezpieczeństwa i NDA (umowa o zachowaniu poufności).
+
+seg-e36049d768ce = Integracja, szkolenia i doradztwo.
+
+seg-3303866fbf99 = Ten sam silnik, wzmocniony: rzeczywiste wyniki Kshana Pro
+
+seg-f5513a1750f1 = <a1><s1><c1/>Optymalizator projektu</s1></a1>
+
+seg-2bbc6243b4b1 = <b>{ "608" } projektów</b>, wszystkie uruchomione: front Pareto i jego punkt przegięcia
+
+seg-56e344605a3d = <a1><s1><c1/>Niepewność i czułość</s1></a1>
+
+seg-a0b3c138f981 = <b>{ "2,000" } przebiegów</b>: pasmo ufności wobec limitu
+
+seg-6de95aaa8ba4 = <a1><s1><c1/>Dossier misji</s1></a1>
+
+seg-905e5eef45e5 = <b>{ "12" } wymagań</b> sprawdzonych na rzeczywistych przebiegach, 21-stronicowy PDF (Portable Document Format)
+
+seg-7d9ee2bfbb90 = Sprawdź, gdzie załamuje się synchronizacja czasu, zanim to nastąpi.
