@@ -35,7 +35,7 @@ engine-e-clock-log-the-rinex-clock-file-holds = RINEX-kellotiedostossa on kelloj
 
 engine-e-clock-log-no-as-or-ar-records = kellolle { $id } ei ole AS- tai AR-tietueita
 
-engine-e-clock-log-the-clock-has-single-epoch = kellolla on vain yksi epookki; tau0:aa ei voi määrittää
+engine-e-clock-log-the-clock-has-single-epoch = kellolla on vain yksi epookki; tarvitaan vähintään kaksi (tau0:aa ei voi määrittää)
 
 engine-e-clock-log-the-log-has-no-readings = { $format }-lokissa ei ole lukemia
 
