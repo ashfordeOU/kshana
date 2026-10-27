@@ -275,3 +275,285 @@ seg-f42465f7d066 = ns
 seg-ff90679d1de9 = Harhautuksen (spoofing) havaitseminen
 
 seg-257c477dc510 = WebAssembly
+
+seg-785218a0ea66 = Mitä Kshana ei ole
+
+seg-b366150de755 = Pyydä selvitys
+
+seg-12f050093898 = Miksi kaikki tarvitsevat sitä
+
+seg-d997b6a5a416 = Miksi Pro, vielä enemmän
+
+seg-4ff013b472ff = Mikä suunnitelma lennetään?
+
+seg-f4eb65b9b27a = Kuun navigointitähdistö: vähiten satelliitteja suhteessa saatavuuteen, koko Kuu: { "608" } suunnitelmaa ajettu, { "12" } suunnitelman Pareto-rintama
+
+seg-c8ce2e4a6687 = Kuinka varmoja olemme ja mikä ohjaa tulosta?
+
+seg-049c503c23db = Kellon holdover epävarmalla kohinatasolla: { "2,000" } ajon 5.–95. persentiili suhteessa rajaan { "20" } ns
+
+seg-3dd37275b448 = Täyttääkö tehtävä vaatimuksensa, ja voimmeko luovuttaa sen todisteena?
+
+seg-7fbde256debf = ei täyttynyt
+
+seg-f6ccb7a322b3 = avoimet kohdat
+
+seg-639fb18e57e0 = siemenluku { "43" }
+
+seg-599691a88cac = Harhautus<s1>T+{ "00" }:{ "20" }:{ "00" }</s1>
+
+seg-14f57653cd5c = Holdover<s1>T+{ "00" }:{ "26" }:{ "10" }</s1>
+
+seg-4be8c1c7aeb6 = siemenluku { "44" }
+
+seg-d78a727a49a3 = Eheyshälytys<s1>T+{ "00" }:{ "56" }:{ "10" }</s1>
+
+seg-612e8a49730d = siemenluku { "45" }
+
+seg-8cc810de504f = Toipuminen<s1>T+{ "01" }:{ "06" }:{ "10" }</s1>
+
+seg-d106d9ae3db3 = siemenluku { "46" }
+
+seg-cea3b8e726c8 = { "6" } vaihetta · { "18" } jäsenajoa jo olemassa olevista lajeista
+
+seg-12e134ed7cad = Satelliitit · { "102" }, neljä järjestelmää
+
+seg-ba2d1b289ed3 = Vastaanotin · PL-rengas AL-renkaaseen verrattuna
+
+seg-aa38fb41591a = Häirintälaite · { "1.0" } km päässä vastaanottimesta
+
+seg-f65f922fa89d = Harhauttaja
+
+seg-d3b2bac50e3d = Kellon aikavirhe<s1>ns · suojaväli { "50" }</s1>
+
+seg-c42b07814ef6 = C/N0<s1>dB-Hz · alaraja { "25" }</s1>
+
+seg-747943902bc5 = PL vs AL<s1>metriä · AL { "50" }</s1>
+
+seg-61345694fae0 = Toista tehtävä
+
+seg-0d529358e2ad = Häirintä
+
+seg-c8df54685469 = Eheyshälytys
+
+seg-63a70a989509 = Toipuminen
+
+seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } tehtäväaika · ketjutettu ajo, ei kolme rinnakkaista ajoa
+
+seg-dc2eb6c3c2a4 = PL = suojaustaso · AL = hälytysraja · INS = inertianavigointijärjestelmä
+
+seg-b85e60e05c9f = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
+
+seg-0588364091ec = Ensimmäisestä häirityn satelliitista kellon holdoverin viimeiseen nanosekuntiin: signaalit, anturit, kellot, radat ja eheys yhdessä simulaattorissa. Jokainen alla oleva kuva on todellinen moottoriajo, ja se kertoo, mikä.
+
+seg-18e6988c1ccd = GNSS-häirintä ja -häiriöt
+
+seg-1d97776ae325 = Mastossa oleva laajakaistainen häirintälaite ja sen ympärillä ruudukossa siirrelty vastaanotin: jokainen ruutu on oma ajonsa moottorin lajista <c1/>. Sävy kertoo keskimääräisen J/S-suhteen (häirintälaitteen ja signaalin suhde); punaiset ruudut menettivät jokaisen satelliitin.
+
+seg-4fa6a9f6915d = Häirinnän vaikutusalue: keskimääräinen häirintälaitteen ja signaalin suhde sekä seuranta vastaanottimen sijaintien ruudukossa häirintälaitteen ympärillä
+
+seg-774ec89d13d7 = Moottori v{ $version } · <c1/> · siemenluku { "1" } · vastaanotinta siirretty ruudusta toiseen
+
+seg-7292d543b1ac = Jokainen ruutu, Tehtävät-sivulla
+
+seg-08ba18ea712c = Harhautus
+
+seg-f765712462a1 = Harhauttaja ottaa vastaanottimen haltuunsa ja siirtää sen aikaa tasaisella vauhdilla pois oikeasta. Jokaisen kellon eheysvalvonnalla on oma havaitsemisrajansa: kvanttikello merkitsee valheen lähes heti, klassinen vasta kun poikkeama on kasvanut.
+
+seg-1770a46a99f6 = Harhautettu aikapoikkeama havaitsemisrajaan verrattuna
+
+seg-0f425005ca69 = Harhauttajan aikapoikkeama kunkin kellon havaitsemisrajaan verrattuna, ja hetki, jolloin kukin valvonta merkitsee sen
+
+seg-a9829e27b53b = Moottori v{ $version } · <c1/> · deterministinen, ei siemenlukua
+
+seg-ab0eb55b688a = Kellot
+
+seg-ceaa6be5f5fd = Kellon holdover oskillaattoriluokittain
+
+seg-c25919241d9e = Siitä hetkestä, kun GNSS katoaa: { "200" } Monte Carlo -ajon mediaani ja 95. persentiili sirutason atomikellolle (CSAC) ja optiselle hilakellolle sekä neljän muun luokan yhden päivän virhe: optinen päiväkello, vetymaseri, rubidiumatomitaajuusnormaali (RAFS) ja sen pienoisversio (mini-RAFS).
+
+seg-b2019ec6d1c7 = Aikavirhekaista { "200" } Monte Carlo -ajon yli
+
+seg-01961fd0b949 = Kellon aikavirhe GNSS:n menetyksen jälkeen: { "200" } Monte Carlo -ajon mediaani ja 95. persentiili kahdelle kellolle sekä neljän oskillaattoriluokan yhden päivän virhe
+
+seg-ae208f50ab77 = Moottori v{ $version } · <c1/> · siemenluku { "42" }
+
+seg-b3ec228c054d = <b>Yhden päivän sarake:</b> moottori v{ $version } · <c1/> · deterministinen, ei siemenlukua
+
+seg-a747535696fa = Suuntalaskenta
+
+seg-ae35aad6ab75 = GNSS/INS-liukuminen
+
+seg-0c56d6e5450a = Kun GNSS katoaa, INS (inertianavigointijärjestelmä) jatkaa ja sen virhekartio avautuu. Kaksi inertiamittausyksikköä (IMU), yksi budjetti.
+
+seg-9f97f05ad6bb = Paikkavirhekartio GNSS:n menetyksen jälkeen kahdelle inertiamittausyksikölle paikkabudjettiin verrattuna
+
+seg-142a299dff50 = Kuinka kauan kello pysyy suojavälinsä sisällä viimeisen paikannuksen jälkeen: kysymys, josta aikajakoiset verkot välittävät.
+
+seg-2b3d148b354d = Ennustettu aikavirhe viimeisestä paikannuksesta lähtien aikavälin suojaväliin verrattuna
+
+seg-7a7de9a2d48a = RAIM ja ARAIM
+
+seg-4d5cad94655f = Vastaanottimen itsenäisen eheysvalvonnan (RAIM) ja sen kehittyneen muodon (ARAIM) suojaustasot (PL) hälytysrajaan verrattuna: tässä ketjutetun tehtävän eheyshälytysvaihe. Viivoitetut palkit ovat jaksoja, joissa suojaustasoa ei voitu muodostaa.
+
+seg-750f6b337ce8 = Pystysuuntainen suojaustaso eheyshälytysvaiheen jokaisella jaksolla hälytysrajaan verrattuna
+
+seg-cdf824111b80 = Telealan
+
+seg-129537868d97 = 24 tunnin holdoverin MTIE (suurin aikavälivirhe) ja TDEV (aikapoikkeama) ITU-T:n (kansainvälisen televiestintäliiton telealan standardointisektori) rajoihin verrattuna, tässä PRTC-A (ensisijainen aikaviitekello, luokka A).
+
+seg-7a19d976cca6 = Holdover-ajon suurin aikavälivirhe ja aikapoikkeama PRTC-A-rajaan verrattuna
+
+seg-ea5d9e4acbdf = Astrodynamiikka
+
+seg-5a507113bfff = Radat: SGP4 ja numeerinen
+
+seg-2ebc9a7b022e = Todellisen kaksirivisen elementtijoukon SGP4-eteneminen (Simplified General Perturbations { "4" }) piirrettynä todellisen kuvamateriaalin päälle; CCSDS OEM- ja SP3-efemeridit sisään ja ulos.
+
+seg-c28ef17609ee = Moottorin SGP4-etenemisen maanpintajälki todellisesta kaksirivisestä elementtijoukosta NASAn Blue Marble -kuvamateriaalin päällä
+
+seg-2bc362b38f3d = Kuunläheinen
+
+seg-7904e93c0bcb = Kuun PNT
+
+seg-48ad4630a03f = Paikannus, navigointi ja ajanmääritys Kuun ympärillä: ARAIM:n vaaka- ja pystysuuntaiset suojaustasot (HPL, VPL) Kuun navigointipalvelussa.
+
+seg-f69a91258669 = LunaNetin kehittyneen RAIMin Kuun suojaustasot hälytysrajaan verrattuna Kuun näkyvän puolen vieressä
+
+seg-2c2d1fdec798 = Uudet anturit
+
+seg-e130f7a43848 = Kvanttianturien vaihtoehtotutkimukset
+
+seg-577795028a7f = Punnitse kvanttikelloa klassista vastaan ennen kuin kukaan ostaa laitteistoa: holdover klassisen kellon kohinan pyyhkäisyn yli.
+
+seg-836a325ef88c = Pyyhkäisy: classical_q_wf: holdover_s
+
+seg-979452def1d6 = Kvanttikellon ja klassisen kellon holdover-aika klassisen kellon kohinatason pyyhkäisyn yli
+
+seg-ebaa722c5ab6 = Moottori v{ $version } · <c1/> · siemenluku { "42" }
+
+seg-1d2973bd0f2f = Toimii kaikkialla
+
+seg-250a09c4baa0 = Selain, pääte, muistikirja, kehitysympäristö, avustaja
+
+seg-62ea80e12931 = Sama Rust-moottori toimitetaan WebAssembly-muodossa Kshana Studiolle, komentorivikäyttöliittymänä (CLI), Python- ja JavaScript-paketteina, JetBrains Marketplace -lisäosana kehitysympäristöösi (IDE) ja MCP-palvelimena (Model Context Protocol).
+
+seg-430082bf58d4 = ghcr.io-kuva
+
+seg-afd561090841 = CCSDS OEM
+
+seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: Standard Product { "3" } -ratamuoto.
+
+seg-70d4597772cb = Rajaus, sanottuna selvästi
+
+seg-2ee2e20030f3 = Rajojen tunteminen on yhtä tärkeää kuin ominaisuuksien.
+
+seg-253c54ae2238 = Ei radiotaajuinen signaaligeneraattorilaitteisto<s1>Se ei ohjaa radiota eikä lähetä mitään; sen signaalitason tuloste on kantataajuisia IQ-näytetiedostoja ohjelmistovastaanottimille.</s1>
+
+seg-4fe725162c1c = Ei laitteisto- eikä sertifioitu GNSS-vastaanotin<s1>Sen ohjelmistovastaanotin (hankinta ja seuranta tallennetulla tai tuotetulla IQ-datalla) on analyysityökalu, ei navigointituote.</s1>
+
+seg-d3606ea42b36 = Ei lentotuote<s1>Tutkimus- ja vaihtoehtovertailuväline, jonka jokainen vastaus on merkitty validoiduksi tai mallinnetuksi.</s1>
+
+seg-57678c2b9a1d = Tekoälyavustajat · kshana-mcp
+
+seg-d473cb253f20 = Kysy tekoälyavustajaltasi. Moottori vastaa.
+
+seg-35f55ec31aeb = Tekoälyavustajasi (AI) ajaa moottoria MCP:n (Model Context Protocol) kautta työkalulla <b>kshana-mcp</b> ja lukee takaisin JSON-muotoisen (JavaScript Object Notation) vastauksen.
+
+seg-54d5c8e07a24 = Rekisteröi se sitten avustajasi MCP-asiakkaan asetuksiin. <a1>Täydet asetukset Kehittäjät-sivulla</a1>
+
+seg-7e3b4395292e = Harhautuksen vierityskertomus
+
+seg-fb440c81faf1 = Vierityskertomus · yksi ketjutettu ajo
+
+seg-24b800b6ec75 = Puhtaalta taivaalta vapaasti käyvään kelloon.
+
+seg-88e748800e7f = Yksi vastaanotin, T+{ "01" }:{ "16" }:{ "10" } tehtäväaikaa: puhdas taivas, häirintälaite, harhauttaja, joka siirtää vastauksen sen estämisen sijaan, ja sitten kello, joka jätetään oman onnensa nojaan. { "102" } satelliittia ovat satelliittitähdistöajon neljä järjestelmää todellisen Maan päällä. Vieritä.
+
+seg-1a913717fbd3 = { "01" } · Nimellinen
+
+seg-488b802a8afc = Jokainen yhteys tilitettynä.
+
+seg-2379d9ee4cd0 = { "8" } satelliittia seurataan keskimääräisellä C/N0-arvolla (kantoaallon ja kohinan tiheys) <b>{ "43.0" } dB-Hz</b>. Pystysuuntainen suojaustaso pysyy välillä { "9.1" }–{ "21.6" } m, { "50" } m:n hälytysrajan alapuolella.
+
+seg-8ad9711d8bae = { "02" } · Häirintä
+
+seg-c3fa50909f9d = Kohina nielaisee taivaan.
+
+seg-95d85165182f = Laajakaistainen häirintälaite { "1.0" } km päässä käynnistyy teholla <b>-30 dBW</b>. C/N0 putoaa arvoon <b>{ "30.6" } dB-Hz</b>, juuri { "25" } dB-Hz:n seurannan alarajan yläpuolelle. Se on äänekästä, joten vastaanotin tietää.
+
+seg-1f1bc00b81ee = { "03" } · Harhautus
+
+seg-458faa9a3f96 = Valhe, joka näyttää paikannukselta.
+
+seg-dda6f0eb3fb6 = Harhauttaja työntää kelloa nopeudella <b>{ "0.1" } ns/s</b>. RF-ilmaisin (radiotaajuus) hälyttää hetkellä T+{ "00" }:{ "20" }:{ "00" }; kellotuettu valvonta tarvitsee <b>{ "370" } s</b>, ja siihen mennessä { "36.0" } ns on jo vedetty mukaan.
+
+seg-13be4329a209 = { "04" } · Holdover
+
+seg-fe4fb4387b34 = Sitten aika alkaa ajautua.
+
+seg-4f2ce8d81d29 = Häirintälaite nousee tehoon { "10" } dBW ja jokainen satelliitti menetetään. Kello käy vapaasti niistä { "37.0" } ns:sta, jotka harhauttaja jätti, ja ylittää <b>{ "50" } ns:n suojavälinsä hetkellä T+{ "00" }:{ "35" }:{ "40" }</b>; inertiavirhe kasvaa arvoon { "24.3" } km.
+
+seg-fe656aefe9bb = Kellon aikavirhe · holdover
+
+seg-548449af47a8 = suojaväli { "50" } ns
+
+seg-21e942dadf02 = Satelliittitähdistön selite
+
+seg-09d18cf767a7 = Avoin ydin, Kshana Pro, räätälöity tutkimus
+
+seg-302606971c35 = Ilmainen kaikille. Pro, kun vastauksen on kestettävä tarkastelu.
+
+seg-27c12083529b = Kshana Pro on suljettu lisäkerros, joka riippuu avoimesta ytimestä eikä koskaan haaroita sitä, ja se on saatavilla sopimuksella. Hintoja ei esitetä verkkosivulla: jokainen maksullinen reitti alkaa viestillä osoitteeseen <a1>contact@ashforde.org</a1>.
+
+seg-43ceda17e71c = Avoin ydin · ilmainen · AGPL-3.0
+
+seg-0230217b1110 = Jokainen, joka ottaa paikkansa tai aikansa GNSS:stä, on alttiina: häirintä, harhautus ja signaalin menetys osuvat yhtä lailla ajoneuvoihin, verkkoihin, sähköverkkoihin ja avaruusaluksiin.
+
+seg-9e88a1981d1e = { "176" } ominaisuudesta, joita on yhteensä { "388" }, on yhtä mieltä riippumattomien ulkoisten oraakkelien kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuina.
+
+seg-4b41ffeb0030 = Kaikki { "87" } skenaariolajia, ilmaiseksi ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.
+
+seg-0af87a1caff4 = Sama ydin kaupallisella lisenssillä suljettua integrointia varten.
+
+seg-f6406933eb77 = Asenna moottori
+
+seg-6a74a165bfd0 = Kshana Pro · sopimuksella
+
+seg-298532756f74 = Suunnitteluavaruuden Pareto-rintama, jossa jokainen rintaman suunnitelma on skenaario, jonka ilmainen moottori ajaa uudelleen.
+
+seg-a699256db841 = Epävarmuus ja herkkyys tuhansien ajojen yli.
+
+seg-665005551d84 = Yhden komennon tehtäväasiakirja varmennusmatriisilla ja PDF-tiedostolla (Portable Document Format).
+
+seg-455cb5040f80 = Tarkastustason toistettavat todistepaketit; kellojen digitaaliset kaksoset, jotka on kalibroitu laitteesi julkaistuun Allan-budjettiin; arkkitehtuurivertailut, jotka on järjestetty laatumittarin mukaan; mallipohjaisen järjestelmätekniikan (MBSE) ja ohjelmatyökalut.
+
+seg-3e30593288a1 = Mitä Pro sisältää
+
+seg-be42106ce1bc = Räätälöity tutkimus · tehty puolestasi
+
+seg-254836cd23af = Räätälöity tutkimus: vastaus, ei työkalu
+
+seg-fb87be7dc462 = Mallinnettu PNT-kestävyystutkimus järjestelmästäsi, esimerkiksi optimismivajeen auditointi. Ei sertifiointi.
+
+seg-b9d62e7772a7 = Laitteistoosi kalibroidut anturi- ja kestävyysmallit.
+
+seg-57320238c0f4 = Vientivalvottu työ asianmukaisella turvallisuusselvityksellä ja NDA:lla (salassapitosopimus).
+
+seg-e36049d768ce = Integrointi, koulutus ja konsultointi.
+
+seg-3303866fbf99 = Sama moottori vahvistettuna: todellista Kshana Pron tuotosta
+
+seg-f5513a1750f1 = <a1><s1><c1/>Suunnitteluoptimoija</s1></a1>
+
+seg-2bbc6243b4b1 = <b>{ "608" } suunnitelmaa</b>, kaikki ajettu: Pareto-rintama ja sen polvi
+
+seg-56e344605a3d = <a1><s1><c1/>Epävarmuus ja herkkyys</s1></a1>
+
+seg-a0b3c138f981 = <b>{ "2,000" } ajoa</b>: luottamuskaista rajaan verrattuna
+
+seg-6de95aaa8ba4 = <a1><s1><c1/>Tehtäväasiakirja</s1></a1>
+
+seg-905e5eef45e5 = <b>{ "12" } vaatimusta</b> tarkistettu todellisia ajoja vasten, 21-sivuinen PDF (Portable Document Format)
+
+seg-7d9ee2bfbb90 = Selvitä, mistä ajoituksesi pettää, ennen kuin se pettää.

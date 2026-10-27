@@ -743,6 +743,8 @@ seg-1bc8393336f9 = Kaksitilainen Kalman-holdover (Joseph-muotoinen kovarianssi, 
 
 seg-292eed9f9325 = Pseudoetäisyyden / Dopplerin eteenpäinsynteesi <b>Klobuchar</b>-(lähetetty) ja <b>IONEX / TEC-ruudukko</b> -ionosfäärillä (IONosphere map EXchange format / elektronien kokonaismäärä; mitattu) — mukaan lukien IONEX-tiedostojäsennin, aikainterpolointi karttojen välillä ja ohutkuoren vinouskartoitus — <b>Saastamoinen + Niell</b> -troposfääri sekä hetkellinen RAIM (HPL/VPL).
 
+seg-2d645c453ecf = Linkkibudjetin <b>häirintä</b> (J/S → tehollinen C/N₀ → lukituksen menetys — häirintälähettimen ja signaalin suhde, kantoaalto-kohinatiheyssuhde — siten, että häiriönestoa kuvaava spektrierotuskerroin <c1/> on nyt <b>johdettu varsinaisista signaalin ja häirintälähettimen tehospektreistä</b> kautta <c2/> — <c3/>, ristiintarkistettuna CI:ssä aiempaa edustavaa vakiota vasten); stokastinen <b>aikaharhautuksen ilmaisin</b> (Neyman–Pearson / χ²₁-energiatesti suljetun muodon ja Monte Carlo -P_fa/P_md:llä sekä turvallisuuden laatumittari (FoM) { "1" } − P_md); <b>monikerroksinen harhautuksen ilmaisin</b>, joka fuusioi RAIM-johdonmukaisuuden pariteettitestin (yhteismuotoinen sokea piste mallinnettuna rehellisesti), RF-AGC-tehomonitorin (automatic gain control) ja signaalilaatumonitorin (SQM — signal-quality monitoring, early-minus-late); sekä <b>kvantti-inertia-dead-reckoning-virhebudjetti</b> (<c4/>, <c5/>), joka yhdistää kylmäatomi-interferometrin valkoisen kohinan nopeuden satunnaiskävelyn jäännösbiakseen (ristiintarkistettu riippumatonta <c6/>-integraattoria vasten) ja asteikkokerroinvirheeseen paikka-ajautumaluvuksi holdoverin yli — kellon holdoverin inertiakaksonen. <b>Kehykseen kohdistettu kestävyyspisteytysmoottori</b> (<c7/>) kuvaa arkkitehtuurin simuloidun käyttäytymisen ulottuvuuskohtaisiksi osapistemääriksi Kshanan omissa seitsemässä kestävyysluokassa (ei DHS:n termejä), kohdistettuna Yhdysvaltain Department of Homeland Securityn Resilient PNT Conformance Frameworkiin, ja tutkii sitten minkä tahansa yksittäisen yhdistelmäpistemäärän tai kypsyystason <b>päätösvakautta</b> Dirichlet-painosimpleksillä ja viiden uhan ensemblellä — Kendall-τ-järjestyksen epävakaus, top-1-voittajan vaihtumisaste ja yhteismuotoinen <b>monimuotoisuuden romahdus</b> (Hill-N2), eheyshajautetulla varmuusraportilla ({ "35" } käsin johdettua oraakkelitestiä). Toistettavissa komennolla <c8/>; <b>MODELLED</b> synteettiset arkkitehtuurit, RPCF v2.0:aan kohdistettu itsearviointi, <b>ei</b> sertifiointi. Ks. <a1><c9/></a1>.
+
 seg-f677a0795e8f = <b>TDOA/FDOA-lähteen geopaikannus</b> (saapumisaikaero / saapumistaajuusero; <c1/>) — paikanna häirintälähetin tai harhauttaja (tai opportunistinen lähde käänteistä PNT:tä varten) vastaanotinverkon <b>saapumisaikaero</b>-hyperboloideista, ratkaistuna Gauss–Newtonin pienimmän neliösumman menetelmällä; <b>saapumistaajuusero</b> liikkuvilla vastaanottimilla yhdessä palauttaa lähteen paikan <em>ja</em> nopeuden, ja paikkakovarianssin <b>Cramér–Rao</b>-raja johdetaan verkon geometriasta. <b>MODELLED</b> (sisäisen johdonmukaisuuden oraakkelit: eteenpäin→käänteinen edestakaisuus, J·CRLB = I -identiteetti, GDOP:n monotonisuus ja estimaattori, joka saavuttaa oman CRLB:nsä Monte Carlo -ajossa) — pistelähteen näkölinjamalli, ei monitie-/NLOS- (non-line-of-sight), vastaanottimen kellobias- tai taittumatermejä.
 
 seg-9448a226bf18 = Navigointisignaali ja koodiseuranta
@@ -830,6 +832,290 @@ seg-fbbbf27949b1 = paikan osalta rajoittunut noin { "350" } s:iin
 seg-886abbd7a901 = Huipentuma osoittaa fuusiotesin: optinen satelliittien välinen ajansiirto pitää jopa klassisen <em>kellon</em> lukittuna ja eristää <em>inertia</em>anturin klassisen sarjan heikoksi lenkiksi — eli kvantti-inertia ja optinen ajoitus yhdessä.
 
 seg-54c13117da3c = Kellon holdover: vaihevirhe GNSS-katkon aikana — optinen kello pysyy { "20" } ns määrittelyn sisällä koko katkon ajan, kun sirutason kello ylittää sen katkon puolivälissä
+
+seg-1c38217f7c39 = Kellon holdover GNSS-katkon läpi: optinen kello (sininen) pysyy { "20" } ns määrittelyn sisällä koko liukuman ajan; sirutason kello (punainen) ylittää sen puolivälissä. Kshanan tuottama tiedostosta <c1/>.
+
+seg-fb5c41741480 = Toinen skenaario, <c1/>, johtaa GNSS-saatavuuden <b>ratageometriasta</b> käsin kirjoitettujen ikkunoiden sijaan: GNSS-kuoren sisällä oleva avaruusalus propagoidaan GPS:n kaltaista Walker-satelliittitähdistöä vasten, ja näkyvien satelliittien määrä (näkölinja, Maan peitto, korkeuskulmamaski) määrää paikannustilan jokaisella askeleella. Vuorokauden aikana käyttäjällä on paikannus vain ~{ "59" } % ajasta; kvanttikello pitää { "5" } ns ajoitusratkaisun jokaisen aukon läpi (saatavuus <c2/>), sirutason kello vain <c3/>.
+
+seg-686f829644f8 = Orbit GNSS-challenged: kellon aikavirhe vuorokauden yli GNSS-kuoren sisällä olevalle avaruusalukselle, jossa kattavuusaukot johdetaan ratageometriasta — optinen kello pysyy { "5" } ns määrittelyn sisällä aukkojen yli, kun sirutason kello ylittää sen
+
+seg-4bf9704bc591 = Aikavirhe vuorokauden yli, kun GNSS-saatavuus johdetaan ratageometriasta: näkyvien satelliittien määrä (näkölinja, Maan peitto, korkeuskulmamaski) määrää paikannustilan jokaisella askeleella, joten kellon on liu'uttava jokaisen aukon läpi — optinen kello pitää { "5" } ns määrittelyn, kun sirutason kello ylittää sen. Kshanan tuottama tiedostosta <c1/>.
+
+seg-c27d486455cf = Satelliittitähdistö voidaan antaa myös todellisina kaksirivielementteinä (TLE). <em>Täysi</em> TLE (rivi { "1" } + rivi { "2" }) propagoidaan täydellä <b>SGP4/SDP4</b>-mallilla — mukaan lukien ilmakehän vastus sekä syväavaruuden Kuun ja Auringon sekä { "12" } h / { "24" } h resonanssitermit, jotka ovat tärkeitä ~{ "12" } h GNSS-radoilla — validoituna virallisia AIAA 2006-6753 -vektoreita vasten pahimmassa tapauksessa ≈ { "4" } mm:iin. <c1/> sisältää <b>todellisen Celestrakin <c2/>-otoksen</b> operatiivisesta GPS-satelliittitähdistöstä (2021-07-28, { "30" } satelliittia) ja vaatii kelvolliset TLE-tarkistussummat — kaksirivielementit ovat avointa dataa Yhdysvaltain avaruusvoimien / 18th Space Defense Squadronin luettelosta, jota Celestrak jakaa edelleen (Dr T. S. Kelso, <a1>celestrak.org</a1>); päivitä komennolla <c3/>. Pelkän rivin 2 lohko säilyttää analyyttisen kaksikappalepropagoinnin (<c4/>); molempia muotoja voi sekoittaa yhdessä satelliittitähdistössä. Satelliittitähdistön voi yhtä hyvin rakentaa <b>RINEX-3 GPS:n lähetetyn efemeridin</b> tietueiden lohkosta — muoto, jonka vastaanotin dekoodaa — propagoituna IS-GPS-200:n käyttäjäalgoritmilla ja syötettynä saman geometrian läpi (<c5/>).
+
+seg-dbbd50071daa = Mikä se on / ei ole, kokonaisuudessaan
+
+seg-8e4d316d1374 = Mikä se on / ei ole
+
+seg-ff53a84b1d67 = <b>Se on:</b> deterministinen, vähäriippuvuuksinen moottori, joka kattaa PNT-pinon — ratageometria, inertianavigointi, GNSS/INS-fuusio, eheys, kellot ja ajoitus. Se ajaa skenaarion (usein GNSS-katkon), kehittää kalibroidut anturivirhemallit asianmukaisen estimaattorin läpi ja pisteyttää tuloksen operatiivisia laatumittareita vasten — tuottaen toistettavan JSON-tuloksen (JavaScript Object Notation) ja SVG-kaavion Rust-kirjastosta, komentorivikäyttöliittymästä (CLI), Python-laajennuksesta, selaimen WebAssembly-moduulista, tekoälyagenteille tarkoitetusta <b>Model Context Protocol (MCP) -palvelimesta</b> tai <b>JetBrains-IDE (integrated development environment) -laajennuksesta</b>.
+
+seg-acd42d01dcc3 = <b>Se ei ole:</b> lentolaitteisto, kvanttihyötykuorman suunnitelma, täysi GNSS-signaalivastaanotin, radiotaajuinen (RF) signaalisimulaattori tai hardware-in-the-loop-laitteisto, eikä sertifioitu avioniikkatuote — eikä se korvaa MATLABia/Simulinkiä, STK:ta (Systems Tool Kit) tai Orekitia; se on niiden rinnalla ja vaihtaa tiedostoja niiden kanssa. Kvanttilaitteiston tarkkuus tulee julkaistuista virhemalleista, ei tästä työkalusta. Kunkin ominaisuuden tarkka kypsyys on dokumentoitu tiedostossa <a1><c1/></a1>.
+
+seg-f41a874cf1a4 = <b>Se ei (vielä) ole:</b> <em>täysi</em> atomi-interferometriafysiikan moottori (useimmat kvanttianturit käyttävät julkaistuja Allanin/kohinabudjetin kertoimia; CAI (cold-atom interferometer) -kiihtyvyysanturilla on ensiperiaatteista johdettu kerros — Mach–Zehnder-vaihe, projektiokohina, kontrastin vaimeneminen ja tärinäkytkentä sekä Coriolis- ja valosiirtymäsysteematiikka — mutta aaltorintaman systematiikka ja vyöhykeepäselvyyden ratkaisu ovat edelleen <b>P2</b>-tiekarttakerros (tiekartan vaihe { "2" }, kvanttifysiikan kerros), ks. <c1/> ja <a1><c2/></a1>); sertifioitu tai laitteistopohjainen GNSS-vastaanotin (se ratkaisee yhden pisteen <b>PVT</b>-paikannuksen (position, velocity and time) todellisista RINEX-koodihavainnoista (Receiver Independent Exchange Format) — validoitu todellisella IGS-datalla (International GNSS Service) — ja sen IQ-kerros (<c3/>, versiosta { "0.31.0" }) hankkii ja seuraa tallennettuja tai generoituja kantataajuusnäytteitä ohjelmistossa analyysivastaanottimena: se ei ohjaa radiolaitteistoa eikä lähetä, ei ole sertifioitu vastaanotin eikä tee kantoaallon vaiheeseen perustuvaa paikannusta (RTK tai PPP)); eikä täysi tehtäväsuunnittelusarja (siinä on Lambert / porkchop / ohjailu / radanmääritys -rakennuspalikat, mutta se on suorituskykysimulaation kerros GMAT:n (General Mission Analysis Tool)/Orekitin <em>yläpuolella</em>, ei korvike). Tämän rajauksen omistaminen on tarkoituksellista. Jos tarvitset ensiperiaatteista johdettuja kylmäatomi-interferometrin virhebudjetteja (esim. CARIOQA-PMP-luokan — Cold Atom Rubidium Interferometry in Orbit for Quantum Accelerometry, Pathfinder Mission Preparation — tai X-37B-tyyppistä validointia), katso P2-tiekartta ja <a2>ota yhteyttä</a2> yhteistyötä varten.
+
+seg-77d98b292f5f = Matalan Maan kiertoradan (LEO) satelliitit ohittavat nopeasti ja voimakkaasti. Tyyppi <c1/> seuraa yhtä järjestelmää jokaisen vaiheen läpi: signaali, ylilento ja sen linkki, navigointiviesti sekä fuusioitu paikka-, nopeus- ja aikaratkaisu (PVT) ja tarkka pistepaikannus (PPP). Jokainen vaihe välittää lukunsa seuraavalle. Ks. <a1><c2/></a1>.
+
+seg-e2c350772539 = LEO PNT -ketju leo-pnt-chain-tyypin todellisesta ajosta (leo-pnt-end-to-end.toml): signaalivaihe (generic-l taajuudella { "1191.795" } MHz, pilotti seurattuna nopeudella { "10.23" } Mchip/s) siirtää ylilentovaiheelle ({ "1080" } km, seurattu C/N0-huippu { "58.2" } dB-Hz), joka siirtää navigointiviestille (kepler-rac, { "300" } s sovitus, esityksen SISRE { "0.91" } mm RMS, { "0.250" } m radanmäärityksellä), joka syöttää fuusioidun paikannuksen (vain GNSS { "1.60" } m RMS 3D, GNSS plus LEO { "0.43" } m) ja tarkan pistepaikannuksen (konvergenssi { "11.5" } min vain GNSS, { "7.5" } min { "240" } LEO-satelliitilla). Vaiheiden välillä siirretään { "11" } arvoa.
+
+seg-dbcdb5f28762 = Jokainen skenaariotyyppi perheittäin
+
+seg-a11c4341126d = Moottorin skenaariotyypit perheisiin lajiteltuina. Jokaisella perheellä on sivu, jossa on yksi merkintä tyyppiä kohti (moottorin kuvaus ja kentät, esimerkkikomento, ajon kärkiluvut, ne <a1>varmennusmatriisin</a1> rivit, jotka nimeävät sen, sekä kaavio, jonka moottori itse kirjoittaa) ja kontaktiarkki näistä kaavioista; <a2><c1/></a2> indeksoi ne kaikki. Taulukon kirjoittaa <a3><c2/></a3> ja sivut <a4><c3/></a4>, ja molemmat epäonnistuvat, jos moottori saa tyypin, jota mikään perhe ei nimeä.
+
+seg-d566f3b95e14 = Aja yksi
+
+seg-cd004c9e0ef7 = kuinka kauan kello pitää aikaa ilman GNSS:ää ja miten ajoitusjärjestelmä pärjää maskejaan vasten
+
+seg-39a5b84175f0 = dead reckoning ja anturifuusio GNSS-katkon läpi, klassisilla ja kvanttiantureilla
+
+seg-67f1cc5e9e2c = navigointi painovoimasta, maastosta ja muista kentistä, kun GNSS on poissa
+
+seg-8a80848f8f62 = missä satelliitit ovat, ketkä näkevät ne ja kuinka hyvä geometria on, Maan, Kuun tai Marsin ympärillä
+
+seg-10b4ddda50c9 = pseudoetäisyydet, paikannukset, suojaustasot ja avaruusympäristö
+
+seg-1b79421db566 = miten häiriö saavuttaa vastaanottimen ja havaitaanko se
+
+seg-bad04682d511 = navigointi, aika, koordinaatistot ja geodesia Kuussa
+
+seg-603aadf70c84 = GNSS-signaalit avaruusaluksille GNSS-ratojen yläpuolella, ympärillä ja niiden tuolla puolen
+
+seg-64838aabb8f4 = optiset linkit ilmakehän läpi ja optisen ja RF:n yhdistetyt laatumittarit
+
+seg-458a3953b3b2 = laukaisu, nousu, paluu, asento, linkit, yhteydenpidon suunnittelu ja tiedostomuodot
+
+seg-7df7f7116a7c = ketjutetut tehtävät, pyyhkäisyt ja ensemblet, jotka on rakennettu muista tyypeistä
+
+seg-ab2c09d44cb7 = <c1/> ajaa skenaarion; jokainen muu komento on alikomento, ja <c2/> tulostaa niiden kaikkien käyttöohjeen. Komennot ovat <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (komennoilla <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> ja <c61/>. <a1><c62/></a1> kertoo jokaisen tarkoituksen, varmennetun esimerkin ja sen dokumentaatiosivun.
+
+seg-4061734355a4 = Yksi moottori, samat tulokset kaikkialla: komentorivi, Rust-kirjasto, Python, JavaScript ja WebAssembly, MCP-palvelin liitännäiskomentoineen ja taitoineen, Kshana Studio (jokainen sivu toimii selaimessa, ei asennusta, mitään ei lähetetä palvelimelle), ROS { "2" }-, Signal K-, OpenCPN-, GNSS-SDR- ja <c1/>-integraatiot, systemd-, Docker- ja Grafana-käyttöönottopaketit sekä JetBrains-laajennus. <a1><c2/></a1> listaa ne ja kertoo, miten kunkin saa, sekä kaikkien liitännäiskomentojen, taitojen ja Studio-sivujen nimet; <a2><c3/></a2> kertoo jokaisesta komennosta ja tyypistä, mikä pinta sen kantaa ja mikä ei, syineen.
+
+seg-e46194af8cec = Miten ajo toimii
+
+seg-aa92d3f2aaa0 = Skenaario on TOML-tiedosto (Tom's Obvious, Minimal Language): tyyppi, siemenluku ja parametrit. Moottori ajaa sen ja kirjoittaa tuloksen, kaavion ja raportin sen viereen sekä pyytämäsi viennit.
+
+seg-76e3ec458441 = Miten ajo etenee. Skenaarion TOML-tiedosto (tyyppi, siemenluku ja sen parametrit) menee moottoriin, kshana { $version }, api::run_toml-jakelun kautta { "87" } skenaariotyypin yli, deterministisesti skenaariosta, siemenluvusta ja moottorin versiosta. Moottori kirjoittaa tiedostot result.json, chart.svg, report.html ja report.json, table.csv niille tyypeille, jotka sen määrittelevät, ja pyynnöstä SP3-, CCSDS OMM- ja OEM-, CZML-, KML-, GeoJSON-, STK- ja SigMF-viennit; sarja kirjoittaa tiedostot study.json ja study.html. Nämä tiedostot syöttävät Kshana Studiota selaimessa, tekoälyavustajaa kshana-mcp-palvelimen kautta ja jatkuvaa integrointia.
+
+seg-63aa55ab596d = Tämä mukana tuleva skenaario kestää { "2" } h: { "10" } min GNSS:ää, sitten noin { "1.8" } h GNSS estettynä. Se kysyy, kuinka kauan strontiumoptinen hilakello ja sirutason atomikello (CSAC) kumpikin pitävät ajan { "20" } ns:n sisällä.
+
+seg-142bf034556b = Optinen kello pitää { "20" } ns budjetin koko { "6600" } s katkon ajan; CSAC pitää sen { "2610" } s ajan ja on budjetin sisällä { "95.6" } % ajosta, kun optisella kellolla luku on { "100" } %. <c1/> listaa jokaisen mukana tulevan skenaarion.
+
+seg-09d7b3bfcbe4 = Kymmenen alaa esittää kymmenen eri kysymystä samalle moottorille. Kullakin on mukana tulevia skenaarioita, joista aloittaa.
+
+seg-99a7944884ce = Ala
+
+seg-2c897a3bd230 = Aloita tästä
+
+seg-b37002818547 = Puolustus ja turvallisuus
+
+seg-b05cd10a5446 = Avaruus, Maan kiertorata
+
+seg-84c132308264 = Kuu, Mars ja syväavaruus
+
+seg-5d7a6650872e = Ilmailu ja droonit
+
+seg-75d7d1930515 = Tie
+
+seg-ea4149746f7b = Raide
+
+seg-e7a61033ec40 = Kriittinen infrastruktuuri ja ajoitus
+
+seg-0b70e076dec3 = Telekommunikaatio ja 5G (viides matkaviestinverkkojen sukupolvi)
+
+seg-f246644479d0 = Tiede ja tutkimus
+
+seg-a9e5cde1c2ec = Kysymys, jonka kukin ala esittää
+
+seg-a8be876e7d38 = Kysymys, jonka se esittää
+
+seg-2b26b16f59c0 = Kuinka kauan navigointimme ja ajoituksemme pysyvät luotettavina häirinnässä ja harhautuksessa, ja mitkä kerrokset pitävät meidät määrittelyn sisällä?
+
+seg-f2f6717849a7 = Avaruus: Maan kiertorata
+
+seg-d038a1e09683 = Näkeekö avaruusaluksemme tarpeeksi navigointisatelliitteja, kuinka kauan sen kello pitää aikaa paikannusten välillä ja mitä matalan kiertoradan navigointikerros toisi lisää?
+
+seg-6010770a2bf6 = Kuu ja syväavaruus
+
+seg-321f33f89d35 = Saako laskeutuja, mönkijä tai kiertäjä Kuussa, Marsissa tai kauempana luotettavan paikan ja ajan?
+
+seg-ec12ef650344 = Kun häirintälähetin vie GNSS:n pois, kuinka kauan miehittämätön ilma-alukseni (UAS) pysyy paikkabudjetissaan, ja onko eheys saatavilla reitilläni?
+
+seg-17b626951fcd = Kuinka pitkälle veden yli häirintälähetin yltää, jäisikö paikan työntö kiinni ja kuinka kauan laiva voi liukua satamaan?
+
+seg-33641ef6761c = Tie ja autoteollisuus
+
+seg-c3f2ad50a841 = Kuinka pitkälle auto ajautuu ylikulkusillan alla tai tienvarsihäirintälähettimen ohi?
+
+seg-94cca6b24bb2 = Kuinka monta sekuntia tunneliin juna vielä tietää, millä raiteella se on?
+
+seg-96a0796ee879 = Jos GNSS-aika menetetään tai sitä harhautetaan, kuinka kauan sähköverkko, kauppapaikka tai datakeskus säilyttää jäljitettävän ajan?
+
+seg-2d2a4afa2708 = Telekommunikaatio ja 5G
+
+seg-af94e7a93923 = Jos GNSS-aikaviite menetetään, pysyykö verkkokelloni ITU-T-maskien sisällä ja kuinka kauan?
+
+seg-36d838421b86 = Voinko toistaa, laajentaa ja siteerata PNT-tuloksen aina siemenlukuun asti?
+
+seg-e31cf348fc57 = SGP4 tarkistettu kaikkia { "666" } AIAA 2006-6753 -vertailuvektoria vasten, suurin paikkavirhe { "4.12" } mm
+
+seg-707e2cf795f6 = <b>{ "176" }/{ "388" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; { "208" } rehellisesti merkitty mallinnetuiksi. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan, testin, joka ajaa tarkistuksen, ja tunnisteen, joka siitä seuraa. Jatkuva integrointi (CI) tekee mahdottomaksi kutsua ominaisuutta VALIDATED ilman riippumatonta ulkoista oraakkelia.
+
+seg-2f81cf391eae = Miten ominaisuus ansaitsee tunnisteensa. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan, testin, joka ajaa tarkistuksen jatkuvassa integroinnissa, ja tunnisteen, joka siitä seuraa. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa; muuten se on MODELLED tai PARTNER, kun laitteistokumppani omistaa sen. Esimerkki: SGP4/SDP4, Cowell 6-DOF + häiriöt, erä-/sekventiaalinen OD, oraakkeli AIAA 2006-6753 SGP4 -varmennusvektorit, testi tests/sgp4_verification.rs, tunniste VALIDATED. Tämänhetkiset määrät: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER { "388" } rivistä. Kaiken kaikkiaan { "176" } ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; { "208" } lisää on rehellisesti merkitty MODELLED ja { "4" } on PARTNER-merkittyjä.
+
+seg-23d73e23b368 = Rivit
+
+seg-d16e0aac11d5 = riippumaton ulkoinen oraakkeli on samaa mieltä: todellinen data, riippumaton toteutus tai julkaistut vertailuvektorit
+
+seg-0c1beb3b59cc = tarkistettu analyyttistä totuutta tai simulaation itsejohdonmukaisuutta vasten, ja sanottu ääneen
+
+seg-9dd73106acfc = laitteistokumppanin omistama; Kshanalla ei ole siitä oraakkelia
+
+seg-ed47a99fac7f = Muutamia tarkistuksia: kaikki { "666" } AIAA:n (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektoria (Simplified General Perturbations { "4" }) tarkkuuteen { "4.12" } mm; Cowellin voimamalli tarkkuuteen { "0.08" } m Orekit { "12.2" }:ta vasten; Galileo tarkkuuteen { "0.61" } m ja Swarm-A tarkkuuteen { "0.10" } m Euroopan avaruusjärjestön (ESA) todellisia tarkkoja efemeridejä vasten. Testit kattavat noin { "95" } % rivikattavuuden hakemistosta <c1/>, kynnys CI:ssä { "85" } %. Kirjanpito on <a1><c2/></a1>, generoitu tiedostosta <c3/>: <a2>koko 388 rivin matriisi</a2> ja syy, miksi millään mallinnetulla rivillä ei ole ulkoista oraakkelia, tiedostossa <a3><c4/></a3>.
+
+seg-6fd41f16334e = Miten validointi toimii, valikoitu kohokohtataulukko ja todistekuvat
+
+seg-997c436fc1e7 = Validointi, toistettavuus ja rehellisyys
+
+seg-b2739313cab0 = Jokainen kohinatermi on kalibroitu <b>julkaistuun, siteerattuun</b> lukuun ja validoitu vakiosuhdetta vasten (Allanin poikkeama kelloille; Grovesin dead-reckoning-virheen kasvu inertialle; ajoituksesta etäisyyteen -muunnos ajansiirrolle). Kunkin termin tila on seurattuna tiedostossa <a1><c1/></a1> merkinnällä <c2/> tai <c3/> — mitään ei esitetä validoituna, mikä ei ole.
+
+seg-96fe11e93409 = Toistettavissa rakenteen ansiosta:
+
+seg-47e49f21e7b8 = <c1/>. <c2/> valvoo sitä; kvantti- ja klassiset ajot käyttävät riippumattomia siemenlukuja, jotta niiden kohina ei korreloi.
+
+seg-9908a7f56956 = Kypsyys ilmoitetaan rehellisesti: optisen kellon ja optisen linkin luvut ovat <em>tavoitteita / maassa tehtyjä demonstraattorituloksia</em>, eivät lennettyjä.
+
+seg-ee66ab516e01 = Validointi yhdellä silmäyksellä
+
+seg-557da03648c5 = Jokaista riviä valvoo nimetty testi CI:ssä. Tämä taulukko on <b>valikoitu kohokohtaluettelo</b>; täysi koneellisesti tarkistettu matriisi on <b>{ "388" } riviä — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), täydellä näytöllä (ja sillä, mitä rehellisesti <em>ei</em> vielä ole validoitu) tiedostossa <a1><c2/></a1> ja julkaisukohtaisessa <a2><c3/></a2>-artefaktissa (tuottanut <c4/>, SLSA-todennettu — Supply-chain Levels for Software Artifacts).
+
+seg-bae9b226350a = <b>Status</b>-sarake kertoo todisteen <em>lajin</em>, yllä olevan validointiportaikon mukaisesti: <b>VALIDATED</b> = tarkistettu riippumatonta ulkoista oraakkelia vasten (todellinen data, riippumaton kirjasto tai julkaistut vertailuvektorit); <b>MODELLED</b> = tarkistettu analyyttistä totuutta tai simulaation itsejohdonmukaisuutta vasten (ei riippumatonta ulkoista aineistoa). VALIDATED kuvaa tarkistuksen <em>menetelmää</em>, ei läpäisyä tai hylkäystä — rehellinen epäonnistuminen todellista ulkoista oraakkelia vasten pysyy VALIDATED, kun taas vertailu, jota mikään matriisin rivi ei nimeä oraakkeliksi (yllä oleva LRO-sovitus), näytetään tunnisteella MODELLED. <c1/>-rivit ovat prosessisuojia, eivät laatumittareita. Muutama todellisen datan saareke (mitattu cesiumkello, Stable32 PHASE.DAT sekä OPS-SAT/ICGEM-tarkistukset, joissa raakasyötteillä ei ole uudelleenjakelulupaa) on <b>datan portittamia</b>: testi tulostaa ohitusilmoituksen ja pysyy vihreänä, kun syöte puuttuu, ja julkiset vertailuluvut on tallennettu hakemistoon <c2/>. Toista raakasyötteet vastaavalla <c3/>-komennolla.
+
+seg-3242773b78ee = Vastaavuus
+
+seg-57a8676b67dd = Vertailu / oraakkeli
+
+seg-40ac2ed0add0 = SGP4/SDP4-propagointi
+
+seg-74bb349b9b77 = 666/666 vektoria, pahin <b>{ "4.12" } mm</b>
+
+seg-d9303165ec68 = AIAA 2006-6753 (Vallado <c1/>) + suora vertailu riippumattomaan <c2/>-crateen
+
+seg-c00ca18a862c = Koordinaatistot — IAU 2000A/B -nutaatio, IAU 2006/2000A CIO -ketju, ERA
+
+seg-e8888d1c6043 = <b>bitti bitiltä</b> (X,Y tarkkuuteen { "1e-14" }, s tarkkuuteen { "1e-18" }, ERA tarkkuuteen { "1e-12" })
+
+seg-e00324b958b7 = ERFA/SOFA <c1/> · <c2/> · <c3/> · <c4/>
+
+seg-1f11fe10f29e = GCRS→ITRS vs. riippumaton SPICE-moottori
+
+seg-ea1d05c7dc4e = maks. <c1/> → ≤ { "0.86" } m maanpinnalla, ≤ { "3.6" } m GNSS-radalla
+
+seg-aff9d97f7ce7 = ANISE (puhdas Rust-NAIF/SPICE), samat IERS:n <c1/>-EOP-parametrit, { "8" } epookkia { "2020" }–{ "2023" } (verrattu tähän vertailuun; mikään varmennusmatriisin rivi ei nimeä sitä ulkoiseksi oraakkeliksi, joten sitä ei ole merkitty VALIDATED)
+
+seg-ae3d9181e784 = EGM2008-geopotentiaali (aste/kertaluku { "70" })
+
+seg-6e4faf2840b7 = kiihtyvyys = ∇V tarkkuuteen <b>< { "1e-6" }</b>; zonaalinen romahdus validoituun J2:een
+
+seg-97cb148bacb9 = NGA:n EGM2008-kertoimet + analyyttinen ∇V-identiteetti
+
+seg-96a34ac92ddd = Painovoimafunktionaalin synteesi (painovoima-avusteinen / GNSS-vapaa navigointikartta)
+
+seg-160e9b967b94 = GRS80 Somigliana + γ_e/γ_p tarkkuuteen <b>{ "3.5e-12" }</b>; todellinen EGM2008-häiriökartta fysikaalinen (RMS ≈ { "26" } mGal, a/k { "70" })
+
+seg-ebffa5a3c7aa = GRS80 (Moritz { "1980" }, IAG — International Association of Geodesy) Somiglianan normaalipainovoima + todellinen ICGEM EGM2008 (<c1/>)
+
+seg-f71c6820c126 = Allanin estimaattorit (ADEV/MDEV/TDEV/HDEV) + luottamuskaistat
+
+seg-cc42b238f1a6 = toistavat vertailupoikkeamat; χ²-kaistat täsmäävät
+
+seg-e952996d4cbb = NIST SP { "1065" } (Riley), 1000 pisteen taulukko 31/32
+
+seg-4522ada8bd8c = Allanin estimaattorit <b>todellisella mitatulla cesiumkellolla</b>
+
+seg-de7a506c8db9 = OADEV/OHDEV tarkkuuteen <b>{ "1e-3" }</b> (havaittu ≤ { "3e-5" }), { "16" } keskiarvoistuskerrointa
+
+seg-df056c922da4 = Stable32 todellisella 5071A Cs vs. H-maser, { "556,990" } pistettä (<c1/>, datan portittama)
+
+seg-c763b3e39cdd = Allanin estimaattorit <b>kanonisella Stable32 PHASE.DAT</b> -aineistolla
+
+seg-ea18bbe1f92d = OADEV/MDEV/TDEV tarkkuuteen <b>{ "1e-3" }</b> (havaittu ≤ { "5e-5" }), { "139" } keskiarvoistuskerrointa
+
+seg-977dbc2622d3 = Stable32-vertailupoikkeamat PHASE.DAT:lle (<c1/>, datan portittama)
+
+seg-96cd3125f008 = IMU-virhemalli — ARW / VRW / bias-instabiliteetti
+
+seg-00d96cd1cd5a = palautettu tarkkuuteen <c1/> (bias-instabiliteetti < { "15" } %)
+
+seg-2fc63176238c = Analog Devices ADIS16465 -datalehti; NaveGo-vertailuprofiili
+
+seg-f7d91d9dee8a = Numeerinen Cowell-propagaattori + voimamalli (konservatiiviset tasot)
+
+seg-e05a02476b0d = pahin paikkavirhe <b>{ "0.08" } m</b> { "24" } h:n yli, { "278" } epookkia (LEO + GTO)
+
+seg-ebd031892fb8 = Orekit { "12.2" } <c1/>/<c2/> (CS GROUP), <c3/>
+
+seg-906f9f0b1eae = Cowellin vastustaso + absoluuttiset Auringon/Kuun efemeridi- ja tiheyssyötteet
+
+seg-fda11bd250a7 = vastustaso kuvattu ≈ { "333" } m / { "24" } h; häiriötön täsmää universaalimuuttuja-Kepleriin alle metrin tarkkuudella, energia/liikemäärä ~{ "1e-9" }
+
+seg-c8db4d50b17a = sisäänrakennettu matalan tarkkuuden efemeridi + analyyttinen Kepler
+
+seg-96821f41fc71 = Lambert · Tsiolkovski · porkchop
+
+seg-83f07d16ec88 = edestakainen kaksikappaletotuuteen; ΔV
+
+seg-5e8afcacde5c = Izzo { "2015" } · rakettiyhtälö · analyyttinen Hohmannin alaraja
+
+seg-1deb8ad8e6e1 = Radanmääritys (Gauss–Newton-erä)
+
+seg-fdac73a8f167 = alle m / mm·s⁻¹ kohinattomista; ~{ "2" } m kohinalattialla { "5" } m
+
+seg-710018ecdb49 = kaksikappale + J2 RK4-kaaren yli
+
+seg-f5a8235096df = Voimamallin sovitus vs. Galileon tarkka efemeridi (koko kaari)
+
+seg-4baacfef5f63 = <b>{ "0.61" } m</b> 3D RMS, { "24" } h, a/k-70, vain voimat
+
+seg-416d96a084a4 = ESA/ESOC:n <c1/>-lopullinen rata (E11), todellinen <c2/> EOP (verrattu tähän vertailuun; mikään varmennusmatriisin rivi ei nimeä sitä ulkoiseksi oraakkeliksi, joten sitä ei ole merkitty VALIDATED)
+
+seg-f64134a379e8 = Voimamallin sovitus vs. Swarm-A:n tarkka efemeridi (pelkistetty dynamiikka)
+
+seg-7a3bbdc1b4d2 = <b>{ "0.10" } m</b> 3D RMS (empiirisen tason yläraja, ei mitta)
+
+seg-8b39060411d2 = ESA:n <c1/>-tarkka rata (verrattu tähän vertailuun; mikään varmennusmatriisin rivi ei nimeä sitä ulkoiseksi oraakkeliksi, joten sitä ei ole merkitty VALIDATED)
+
+seg-96a65ffbcdf1 = Voimamallin sovitus vs. LRO Kuussa (rehellinen epäonnistuminen)
+
+seg-55be30a240c6 = <b>{ "6.67" } m</b> pelkistetty dynamiikka, <em>yli</em> { "5" } m tavoitteen
+
+seg-e411f5f7d92b = JPL Horizons LRO (NAIF −{ "85" }) + GRAIL (Gravity Recovery and Interior Laboratory) <c1/> (verrattu tähän vertailuun; mikään varmennusmatriisin rivi ei nimeä sitä ulkoiseksi oraakkeliksi, joten sitä ei ole merkitty VALIDATED)
+
+seg-074b044becde = Syväavaruuden Mars-OD (pelkistetyn dynamiikan SRIF)
+
+seg-9572b23a1203 = <b>≈ { "0.2" } m</b> Mars-LMO (simulaation laatumittari, <em>ei</em> todellinen tehtävä)
+
+seg-6357d45cc26e = synteettinen suljetun silmukan OD — estimaattorikoneiston validointi
+
+seg-eca024d9c13e = Aurinko-keskinen Marsin dynamiikka vs. JPL DE440
+
+seg-adb60c85d110 = <b>{ "137" } m @ 1 vuorokauden kaari</b> (kasvaa kaaren mukana = mallintamaton n-kappale)
+
+seg-061dd1977246 = JPL DE440 ANISEn kautta (<c1/>, kernelin portittama) (verrattu tähän vertailuun; mikään varmennusmatriisin rivi ei nimeä sitä ulkoiseksi oraakkeliksi, joten sitä ei ole merkitty VALIDATED)
+
+seg-b8d68fa3256d = Yhden pisteen paikannus vs. mitattu IGS-koordinaatti (todelliset havainnot)
+
+seg-325b29867296 = <b>{ "5.7" } m</b> 3D RMS / <b>{ "1.1" } m</b> vaaka, kaksitaajuinen ionosfäärivapaa koodi-SPP
+
+seg-03e61b1c4e92 = IGS-aseman ABMF mittaus + GPS:n lähetetty efemeridi, 2018-05-13 (<c1/>)
+
+seg-5138b6282dc8 = Tiukasti kytketty GNSS/INS-UKF
+
+seg-5dbed5c9f9ab = <b>{ "0.77" } m RMS</b> 30 min LEO-ylilennon yli, sisältäen { "120" } s katkon
+
+seg-7195c1e5d345 = voimamallilla laskettu liuku, käsin johdettu
+
+seg-59bc25a3c3ca = GPS-estetty painovoimakarttanavigointi
+
+seg-ee46e0571361 = ~{ "70" } km INS-ajautuma → <b>~{ "145" } m</b> palautettu
 
 seg-eefcccec80c1 = ESA NAVISP <em>Quantum Wayfarer</em> -tavoite
 
@@ -1313,7 +1599,7 @@ seg-69473251bb01 = <c1/> kirjoittaa <c2/> (Cascading Style Sheets (CSS) -avainke
 
 seg-627e3a4e3f7d = <b>Sarjan</b> manifesti on pieni TOML-tiedosto (Tom's Obvious, Minimal Language) — kenttä <c1/> ja taulukko <c2/> skenaariopoluista — jonka moottori ajaa vuorotellen ja kokoaa jokaisen tuloksen (MODELLED / VALIDATED -merkintöineen) yhdeksi itsekuvaavaksi tutkimusartefaktiksi. Katso <a1><c3/></a1>.
 
-seg-b4c5325a1922 = <b>Yhteentoimivuuden rooli.</b> Kshana on <em>suorituskyvyn simulointikerros</em>, joka istuu jälkikäsittelytyökaluketjun rinnalla eikä korvaa sitä: syötä sen <b>RINEX</b>-tuloste RTKLIBiin tai gLABiin sijaintiratkaisua varten ja käytä sen <b>SP3</b>-tulostetta tarkkana ratatuotteena työkaluille kuten Ginan — Kshana vastaa kysymykseen <em>minkä kestävyyden tietty PNT-arkkitehtuuri tuo</em> ennen kuin sinulla on todellisia signaaleja, muodoissa, joita nämä työkalut jo ottavat vastaan (<c1/> tai <c2/> <c3/>-skenaariossa kirjoittaa <c4/>). Saman radan voi julkaista standardipolun <b>CCSDS OMM</b> -keskiarvoelementteinä (<c5/> tai <c6/> kirjoittaa <c7/>) — yksi OMM { "502.0" } KVN (keyword = value notation) -viesti TLE:llä määriteltyä satelliittia kohti, jokaisen kohteen todellisella NORAD (North American Aerospace Defense Command) -luettelonumerolla, COSPAR (Committee on Space Research) -kansainvälisellä tunnuksella ja epookilla, mille tahansa OMM:ää ymmärtävälle kuluttajalle erillisen kaksirivisen elementtijoukon sijaan.
+seg-b4c5325a1922 = <b>Yhteentoimivuuden rooli.</b> Kshana on <em>suorituskyvyn simulointikerros</em>, joka istuu jälkikäsittelytyökaluketjun rinnalla eikä korvaa sitä: syötä sen <b>RINEX</b>-tuloste RTKLIBiin tai gLABiin sijaintiratkaisua varten ja käytä sen <b>SP3</b>-tulostetta tarkkana ratatuotteena työkaluille kuten Ginan — Kshana vastaa kysymykseen <em>minkä kestävyyden tietty PNT-arkkitehtuuri tuo</em> ennen kuin sinulla on todellisia signaaleja, muodoissa, joita nämä työkalut jo ottavat vastaan (<c1/> tai <c2/> skenaariossa <c3/> kirjoittaa <c4/>). Saman radan voi julkaista standardipolun <b>CCSDS OMM</b> -keskiarvoelementteinä (<c5/> tai <c6/> kirjoittaa <c7/>) — yksi OMM { "502.0" } KVN (keyword = value notation) -viesti TLE:llä määriteltyä satelliittia kohti, jokaisen kohteen todellisella NORAD (North American Aerospace Defense Command) -luettelonumerolla, COSPAR (Committee on Space Research) -kansainvälisellä tunnuksella ja epookilla, mille tahansa OMM:ää ymmärtävälle kuluttajalle erillisen kaksirivisen elementtijoukon sijaan.
 
 seg-8e80d89eb666 = Esimerkkituloste (kellon holdover — huomaa, miten Eheys- ja Turvallisuus-laatumittarit raportoidaan):
 
@@ -1336,3 +1622,387 @@ seg-5fcd78fc103f = Julkaistujen Kuun PNT -tutkimusten (<a1>arXiv:{ "2607.06212" 
 seg-81b9a3353241 = Skenaarion muoto
 
 seg-407bddee0f95 = Skenaariot ovat deklaratiivista TOMLia. Ylätason <c1/> valitsee paketin — yhteensä <b>viisikymmentä</b> (<c2/> on oletus, jos jätetään pois): <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/> (koneoppimisen RF-häiriöiden havaitsemisen arviointitestialusta — merkitty synteettinen aineisto + ilmaisimesta riippumaton ROC/AUC-ympäristö + jakauman sisäinen/ulkopuolinen optimismikuilu), <c27/> (kvantti–klassinen PNT-kauppatutkimus mitatun ADEV:n syötöllä + GNSS:stä riippumaton kestävyysverhokäyrä; MODELLED), <c28/> (aurinko- ja geomagneettiset indeksit + Jacchia-71-eksosfäärin lämpötila + aktiivisuuden ohjaama termosfäärin tiheys staattisen ilmakehän päälle; MODELLED), <c29/> (CCSDS OEM:n tuonti- ja edestakaissiltaus GMAT-, Orekit- ja STK-efemerideille; MODELLED), tehtäväanalyysin kolmikko <c30/> (kahden kappaleen laukaisuazimutti / tasonmuutos / mahdollisuudet), <c31/> (Allen–Eggersin ballistinen paluukäytävä), <c32/> (EO-kaistan / GSD:n / pääsyn / uudelleenkäynnin geometria), <c33/> (CCSDS { "133.0" } TM/TC — telemetria/kaukokäsky — Space Packet -kehystys — tarkka bittirakenne, edestakaisin varmennettu) ja <c34/> (3-DOF-gravitaatiogradienttimomentti + RSS-suuntausvirhebudjetti), <c35/> (maa-aseman nousu-/laskuohitusten ennuste — AOS/TCA/LOS, suurin korkeuskulma, pääsy) ja <c36/> (yksisuuntainen CCSDS/DSN-linkkiyhtälö — FSPL / Eb·N₀ / marginaali / sulkeutuminen); <c37/> (holdover-aikavirhe, MTIE ja TDEV tarkistettuna ITU-T-maskeja vasten); <c38/> (koko GNSS L-kaista yhtenä tehospektritiheytenä: taajuus–aika-vesiputous käsikirjoitetun jatkuva-aaltoisen, kapeakaistaisen, chirp- tai sovitetun kohinan häirintäaikajanan alla, kaistakohtainen häirintä–signaali-suhde ja efektiivinen kantoaalto–kohinatiheys spektrierotuskertoimesta sekä Signal Metadata Format (SigMF) -tallenteen syöttö ja tulostus Welchin spektriestimaateilla; signaalispektrit VALIDATED oppikirja-arvoja vasten, häirintäskenaario MODELLED; katso <a1><c39/></a1>; sama laji piirtää myös UHF-, S- ja C-kaistan paneelit suunnitelluilla matalan Maan radan signaaleilla); <c40/> (matalan Maan radan paikannus-, navigointi- ja ajanmääritysjärjestelmien signaalisuunnitelmat mille tahansa järjestelmälle: kaistarajoitetut spektrit, koodinseurannan värinä ja etäisyysmittauksen tarkkuus, hankintahaku ja -aika, spektrierotus GPS:ään ja Galileoon nähden, häirinnän sietokyky ja UHF–C-kaistan kauppatutkimus, julkisista esiasetuksista kuten Xona Pulsar, Iridium, Starlink ja CentiSpace tai sisäisistä suunnitelmista; suljetun muodon kaavat ja LEO-Doppler VALIDATED, suunnitelmat MODELLED; katso <a2><c41/></a2>); <c42/> (Aurinko, planeetat, Pluto, Kuu ja seitsemän suurta kuuta yhdellä epookilla — sijainnit, vakiot, valoajat ja ratajäljet; planeettojen sijainnit VALIDATED JPL Horizonsia vasten) ja <c43/> (paikannus minkä tahansa näiden kappaleiden ympärillä paikallisella navigointisatelliittitähdistöllä ja syvän avaruuden linkillä Maasta; MODELLED); <c44/> (olemassa olevat lajit koottuna ketjutetuksi tehtäväaikajanaksi, jossa tila siirretään vaiheiden välillä, parametripyyhkäisyksi, siemennetyksi Monte Carlo -joukoksi tai usean skenaarion ajoksi yhden jaetun olosuhteen alla; MODELLED, katso <a3>docs/CAMPAIGNS.md</a3>); <c45/> (Walker-delta- ja -tähtikuviot, elementtiluettelot ja monikuoriset suunnitelmat GPS-, Galileo-, BeiDou- ja GLONASS-esiasetuksin sekä kattavuus ja DOP leveys–pituus-ruudukolla; generaattori ja GPS:n globaali DOP VALIDATED julkaistuja palveluasiakirjoja vasten, katso <a4><c46/></a4>); <c47/> (matalan Maan radan (LEO) paikannus-, navigointi- ja ajanmääritys (PNT) -satelliitin ohitus ja sen linkkibudjetti kaista kerrallaan, mistä tahansa satelliittitähdistöstä ja signaalisuunnitelmasta: katselukulmat, Doppler ja Dopplerin muutosnopeus, ITU-R:n sade-, kaasu-, tuike- ja rakennuksen läpäisyvaimennus, kantoaalto–kohinatiheys näkyvissä oleviin MEO-GNSS-satelliitteihin nähden, ensimmäisen kertaluvun ionosfääri ja ionosfääristä vapaat parit sekä pienienergiaisen paikannusratkaisun budjetti, ionosfäärin luotaus jokaisesta kaistaparista ja harhautuksen monitorit Dopplerin ja ohitusgeometrian johdonmukaisuuden sekä kaistojen välisen johdonmukaisuuden perusteella; ITU-R-termit ja staattisen käyttäjän Dopplerin vaihteluväli VALIDATED, ohitus MODELLED, katso <a5><c48/></a5>); <c49/> (matalan Maan radan (LEO) PNT-satelliitin lähettämä efemeridi- ja kelloviesti mille tahansa radalle ja kantoaallolle: sovitin integroidusta totuusradasta Galileon Kepler-joukkoon, tuo joukko kulkusuuntaisin, poikittaisin ja radiaalisin korjauspolynomein, Liu et al. { "2025" } 22 parametrin malli tai ATOMICin nollakelloinen ECEF-polynomi; signaalin avaruusosuuden etäisyysvirhe (SISRE) suhteessa sovitusväliin ja päivitysjaksoon, ohituksen keskellä tehtävän päivityksen jatkuvuustarkistus, Kshanan oma dokumentoitu binäärikehys CRC-24Q-syklisellä redundanssitarkistuksella ja kvantisointibudjetilla sekä RINEX-4-tyylinen lohko, joka on merkitty Kshana-laajennukseksi; SISRE-painot, Galileon käyttäjäalgoritmi ja CRC-24Q VALIDATED, sovitukset MODELLED; valinnaiset esiasetukset Xona Pulsarille, Iridiumille, Starlinkille, CentiSpacelle, edustavalle C-kaistan järjestelmälle, ATOMICille ja Celeste IODille; katso <a6><c50/></a6>); <b>yhdistetyn MEO + LEO PNT:n</b> kolmikko <c51/> (Doppler-paikannus LEO:n etäisyysnopeudesta, yhteiset GNSS + LEO -pseudoetäisyysratkaisut järjestelmien välisine harhoineen ja DOP suhteessa LEO-satelliittien määrään, napa- ja arktinen kattavuus sekä LEO-ajansiirto UTC:hen — mille tahansa satelliittitähdistölle, valinnaisilla esiasetuksilla kuten Xona Pulsarin, Iridiumin ja Starlinkin opportunistiset signaalit; LEO-Dopplerin vaihteluväli VALIDATED julkaistuja Iridium- ja Xona-lukuja vasten), <c52/> (tarkan pistepaikannuksen konvergenssi pelkällä GNSS:llä ja LEO-täydennyksellä, verrattuna julkaisuun Li et al. { "2019" }) ja <c53/> (5G:n ei-maanpäällisen verkon paikannus signaalin kaistanleveyden Cramér–Rao-rajasta), MODELLED lukuun ottamatta tuota vaihteluväliä, katso <a7><c54/></a7>; <c55/> (yksi LEO-PNT-järjestelmä päästä päähän: <c57/>-kaistan kuljettama <c56/>-suunnitelma, ohituksen C/N0 ja navigointiviestin signaalin avaruusosuuden etäisyysvirhe luovutettuna yhdistetylle <c58/>-ratkaisulle ja <c59/>-konvergenssille, jokainen luovutus lueteltuna; MODELLED, katso <a8><c60/></a8>, joka on myös yleiskatsaus jokaiseen LEO-PNT-lajiin ja -skenaarioon, mukaan lukien kestävyyskampanjat, yksi skenaario kutakin koealuetta kohti ja yksi kutakin loppukäyttäjäalaa kohti); <b>Kuun PNT-paketti</b> <c61/>, <c62/>, <c63/>, <c64/>, <c65/>, <c66/>; <b>kvanttipohjaisen PNT:n demonstraattori</b> <c67/>, <c68/>, <c69/>; sekä <b>signaaliturvallisuuden, kuunläheisen avaruuden ja kerrostetun kestävyyden</b> tutkimuslajit <c70/>, <c71/>, <c72/>, <c73/>, <c74/>, <c75/> — tehtäväanalyysin kolmikko ja nämä myöhemmät lajit kaikki MODELLED (kullakin on validoitu suljetun muodon ydin; katso matriisi). Yhteiset kentät: <c76/>, <c77/>-ruudukko, <c78/>-saatavuusaikajana (katkon ohjain) ja anturikohtaiset lohkot, joissa on <c79/>-merkkijonot, jotka mainitsevat jokaisen luvun lähteen. Esimerkki (kello):
+
+seg-183a76915d50 = Valinnaiset kentät (pois päältä, kun puuttuvat): kello voi lisätä kentän <c1/> (1/f FM — taajuusmodulaatio — Allanin lattia); inertia-anturi voi lisätä kentät <c2/> ja <c3/> (gyroskoopin harha ja kulman satunnaiskävely) sekä <c4/> ja <c5/> (Allanin harhan epävakauden lattia ja kiihtyvyyden satunnaiskävely) — yhdessä <b>yksiakselinen (1-DOF) kiihtyvyysanturin virhebudjetti</b> (VRW/ARW — nopeuden/kulman satunnaiskävely — ja harhan epävakaus). Tämän virhebudjetin ajaa toimitettu <c6/>-skenaario<em>paketti</em>. Erikseen kirjasto sisältää nyt varmennetun <b>3-akselisen strapdown-navigaattorin</b> (<c7/>): kvaternioasenne coning-/sculling-kompensaatiolla, täysi NED-mekanisaatio (Maan pyörimis- ja kuljetusnopeustermit, WGS-84 Somiglianan painovoima) ja deterministinen IMU-virhemalli, jossa <b>mittakaavakerroin, kohdistusvirhe, g-herkkyys, kvantisointi ja kulmanopeusramppi on mallinnettu</b> (IEEE Std 952-1997, IEEE:n gyroskooppien määrittely- ja testimenettelystandardi, §A.2; Groves { "2013" } §{ "4.3" }). Tuo 3-akselinen polku on nyt <b>kytketty ajettavaan löyhästi kytkettyyn GNSS/INS-pakettiin</b> (<c8/>): 15-tilainen virhetila-EKF kurinalaistaa strapdown-ratkaisun kohinaisilla paikannusratkaisuilla GNSS:n ollessa käytettävissä ja liukuu sitten katkon läpi, ja raportoi fuusioidun vaakavirheen avosilmukkaista vapaata INS-liukumaa vasten. Saatavilla on myös <b>tiukasti kytketty pseudoetäisyyspäivitys</b> (se muodostaa innovaation etäisyysalueella, joten se korjaa edelleen alle neljällä satelliitilla). Kellon holdover-skenaario voi lisätä kentän <c9/> (> { "1" }) ajaakseen <b>Monte Carlo -joukon</b> — jokainen laatumittari raportoidaan silloin keskiarvona ja 5.–95. persentiilin hajontana, ja kaavio varjostaa virheen luottamuskaistan (katso <c10/>).
+
+seg-3e3decd727fb = <c1/>-skenaario (samat lohkot kuin <c2/>) ajaa <b>kahta riippumatonta Kalman-estimaattoria</b> — toista kellon tilalle, toista sijaintitilalle — GNSS:n kurinalaistamina ja optisen ajansiirron avustamina, ja raportoi yhdistetyn holdover-laatumittarin. Kaksi lohkoa eivät jaa ristikovarianssia: tämä on pinottu pari virhebudjetteja, <b>ei</b> todellinen kytketty kello+sijainti-yhteissuodatin (lohkojen välinen kovarianssi on tiekarttakohde). Katso <c3/>.
+
+seg-a9c8223768ef = <c1/>-skenaario ruiskuttaa aikaharhautuksen — yksi neljästä <c2/>-lajista (<c3/>, <c4/>, <c5/>, <c6/>; pelkkä <c7/> hyväksytään edelleen lineaarisena rampina) — ja ajaa kunkin kellon harhautuksen ilmaisimen. Ilmaisin on kaksipuolinen <b>χ²₁-energia- / Neyman–Pearson-testi</b> kellolla avustetulle monitoritilastolle: kynnys asetetaan tavoitellusta väärän hälytyksen budjetista <c8/>, ja <b>havaitsematta jäämisen todennäköisyys <c9/></b> raportoidaan sekä suljetussa muodossa että Monte Carlolla (<c10/> koetta hypoteesia kohti — nämä ovat samaa luokkaa muutaman ×1/√N:n tarkkuudella). <b>Turvallisuuden laatumittari on <c11/></b> operatiivisesti haitallisella (vaatimuksen) suuruudella, joten hiljainen kello, joka havaitsee vaatimuksen kokoisen harhautuksen, saa ≈ { "1" } ja kohiseva, joka usein ohittaa sen, pienemmän (katso <c12/>, <c13/>).
+
+seg-2ca727430208 = <c1/>-skenaario on <b>mittausalueen</b> simulaatio: jokaiselle näkyvälle satelliitille se synteesoi pseudoetäisyyden <c2/> ja L1-Dopplerin, <b>Klobuchar</b>-yksitaajuusionosfäärillä (<c3/>, IS-GPS-200 §{ "20.3.3.5.2.5" }) ja <b>Saastamoinen</b>-troposfäärin zeniittiviiveellä, joka projisoidaan <b>Niellin ({ "1996" })</b> kuvausfunktiolla (<c4/>). Residuaalit syöttävät <b>tilannekuva-RAIMia</b> epookkikohtaisille HPL/VPL-arvoille, ja jokaisen satelliitin pseudoetäisyys, Doppler, C/N₀ sekä iono-/tropokorjaukset tulostetaan JSON-taulukkoon <c5/>. Se on eteenpäinsimulaattori (se tuottaa mittauksia tunnetusta totuudesta), ei vastaanotin/ratkaisija — nollakohinainen ajo toistaa geometrian ja korjaukset alle millimetrin tarkkuudella (katso <c6/>).
+
+seg-49cadf7f7bf2 = <c1/>-skenaario mallintaa RF-häiriön <b>linkkibudjettina</b>: <c2/> (ECEF-sijainti, lähetyksen <c3/>, tyyppi) nostaa häirintä–signaali-suhdetta kohteessa <c4/>, joka tarkkailee Walker-satelliittitähdistöä (<c5/>). Geometriasta (vapaan tilan etenemisvaimennus ja suuntakohtainen vastaanottoantennin vahvistus) se laskee jokaisen satelliitin <c6/>:n, <b>efektiivisen C/N₀:n</b> tavallisella häirinnänvastaisella yhtälöllä (hajotuksen prosessointivahvistus × spektrierotuskerroin <c7/>; Kaplan & Hegarty §{ "9.4" }) ja merkitsee lukituksen menetyksen säädettävän seurantakynnyksen alapuolella — ja raportoi laatumittarin <c8/>. { "10" } W:n laajakaistahäirintälähetin { "1" } km:n päässä estää vastaanotinta kokonaan (J/S ≈ { "72" } dB); sama häirintälähetin { "100" } km:n päässä vain heikentää linkkejä (katso <c9/>).
+
+seg-ff8bd5d80f32 = <c1/>-skenaario ajaa <b>kauppatutkimuksen</b>: se vaihtelee yhtä <c2/>-arvoa (<c3/>, <c4/>, <c5/> tai <c6/>) arvosta <c7/> arvoon <c8/> <c9/> pisteen yli <c10/>- tai <c11/>-arvoisella kentällä <c12/>, tallentaa <c13/>-suureen (esim. <c14/>) molemmille kelloille ja piirtää kaksi käyrää. Perusskenaario sijoitetaan lohkoon <c15/> (katso <c16/>).
+
+seg-299dbf1cf3f2 = <c1/>-skenaario yleistää tämän <b>mille tahansa paketille ja mille tahansa määrälle akseleita</b>: se vaihtelee <c2/>-skenaarion pisteillä erotettuja TOML-avaimia (minkä tahansa <c3/>-lajin) <c4/>-lohkojen karteesisen tulon yli, ajaa jokaisen ruudukon solmun uudelleen ja tallentaa <c5/>-suureet, jotka on annettu pisteillä erotettuina JSON-polkuina tulokseen (esim. <c6/>). Se toimii jokaiselle paketille, koska se toimii TOML/tulos-rajapinnassa; natiiviajot arvioivat ruudukon rinnakkain (ei lisäriippuvuutta, wasm palaa peräkkäiseen ajoon) ja tuloste on deterministinen ja rivijärjestyksessä (katso <c7/>).
+
+seg-043d68dbb5bb = <c1/>-skenaario johtaa <c2/>-aikajanan geometriasta sen kirjoittamisen sijaan — anna <c3/>-rata, <c4/>, korkeuskulman <c5/> ja kaksi kellolohkoa. Se raportoi myös sijaintitarkkuuden satelliittigeometriasta; valinnainen <c6/> (1-sigma-käyttäjäekvivalentti etäisyysvirhe, oletus { "1" } m) skaalaa sijainnin DOP:n sijainnin sigmaksi. Käyttäjän radan voi tehdä <b>eksentriseksi</b> kentillä <c7/> ja <c8/>, ja <c9/> lisää Maan litistyneisyyden sekulaarisen ajautuman (katso <c10/>). Satelliittitähdistö voi olla myös <b>todellinen</b>: anna kohteelle <c11/> <c12/>-lohko kaksirivisiä elementtijoukkoja, ja satelliitit jäsennetään siitä (katso <c13/>). Lisää yksi tai useampi <c14/>-lohko <b>usean GNSS:n</b> käyttöön (esim. GPS + Galileo; katso <c15/>):
+
+seg-5841e4eac5a5 = <b>GPS:stä riippumattomat alt-PNT</b>-lajit navigoivat ilman GNSS:ää lainkaan sovittamalla mitatun kenttäsarjan karttaan hiukkassuodattimella. <c1/>-skenaario lentää reitin pallofunktiokehitelmällä kuvatun painovoimapoikkeamakentän läpi ja palauttaa sen kylmäatomigravimetrin lukemasta (<c2/>); <c3/>-skenaario tekee saman SRTM-korkeusmallia vasten (TERCOM/SITAN, <c4/>); ja <c5/>-skenaario fuusioi <b>painovoiman + IGRF-magneettikentän + maaston</b> yhdessä suodattimessa (<c6/>).
+
+seg-ec221fc5ace5 = <c1/>-skenaario arvioi <b>kuunläheisen</b> PNT:n: se ajaa Kuun etelänavan ARAIM-suojaustasokierroksen LunaNet/LNIS-releiden joukkoa vasten ja raportoi rehellisesti eheyskuilun — noin { "30" } m:n Kuun σ_URE nostaa suojaustason selvästi { "50" } m:n hälytysrajan yläpuolelle, joten palvelu on <em>ei saatavilla</em> ilmailutyyppisillä eheyssäännöillä (<c2/>).
+
+seg-9b33c9203ca2 = <c1/>-skenaario raportoi <b>relativistisen Maa–Kuu-kellonopeuden</b> — Kuun koordinaattiaika-asteikon (LTC/TCL) perustan. Perusperiaatteista johdettu post-Newtonin identiteetti summaa itsepotentiaalien eron (IAU <c2/> -geoidin potentiaali miinus Kuun pinnan itsepotentiaali) ja Kuun liike-energiatermin (toisen kertaluvun Doppler) sekulaarinopeudeksi ≈ { "57" } µs/vrk, raportoituna julkaistun { "56" }–{ "59" } µs/vrk -kaistan kanssa; se antaa myös kertyneen LTC−TT-siirtymän aikajänteellä sekä käänteisvarianssijoukon (Kuun paperikello). <b>MODELLED</b> — pääluku on <em>vertailusta riippuva</em> (Maan geoidi vs. Kuun selenoidi, keskiarvotusikkuna), minkä vuoksi raportoidaan kaista eikä yksittäinen sertifioitu luku (<c3/>).
+
+seg-f1efe0de99b8 = Katso hakemisto <c1/>: jokaisesta lajista on vähintään yksi toimiva esimerkki ({ "87" } lajia, { "182" } skenaario<c2/>-tiedostoa + { "1" } sarjamanifesti — useasta lajista on toimitettu useampi esimerkki). Kaikilla lajeilla ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat lajit voi luetella milloin tahansa virheillä <c7/>, Pythonin <c8/> tai MCP-työkalulla <c9/>.
+
+seg-ee0d7a833f44 = Tulosartefakti on versioitu, itsekuvaava JSON: askelkohtainen aikasarja, pisteytetyt laatumittarit, aktiiviset mallimäärittelyt (alkuperätietoineen), siemenluku, <b>skenaarion tiiviste</b> — jotta mikä tahansa kaavio voidaan toistaa tiedostosta — ja kullekin kellolle <c1/> (<c2/>): limittyvä Allanin poikkeama oktaavivälein valituilla keskiarvotusajoilla — vakiotapa lukea kellon vakautta — nyt <b>kohinatyyppikohtaisella { "95" } %:n luottamuskaistalla</b> pisteittäin (tallenteen potenssilakityyppi tunnistetaan sen muunnetusta Allan-kaltevuudesta, ja χ²-väli käyttää vastaavia NIST SP { "1065" } -efektiivisiä vapausasteita). Selaimen leikkikenttä piirtää sen log-log-kaaviona ”Clock stability (ADEV)”. (MDEV, TDEV ja HDEV ovat saatavilla kirjastoestimaattoreina; viety tulosraja on limittyvä ADEV.) Jokainen kenttä yksiköineen ja lähdeviitteineen on dokumentoitu tiedostossa <a1><c3/></a1>.
+
+seg-a9f0811371b2 = <b>Jokainen kaavio on itsekuvaava.</b> Selaimen leikkikenttä, CLI:n <c1/>-vienti ja HTML (HyperText Markup Language) -tuloskortti leimaavat jokaisen kaaviokuvan alatunnisteella <c2/>. Osa <c3/> on ajon <b>skenaariotiivisteen</b> { "12" } ensimmäistä heksamerkkiä — SHA-256 (256-bittinen Secure Hash Algorithm) -tiiviste kanonisesta skenaariomäärittelystä (siemenluku, kynnykset, mallin parametrit, GNSS-ikkunat, …); eheys- ja Kuun raportit, joilla ei ole omaa tiivistettä, käyttävät varana skenaarion lähteen SHA-256:ta. Se on <b>sama sormenjälki</b>, joka näkyy yhden rivin yhteenvedossa ja tulos-JSONissa, joten tallennettu tai liitetty kaavio kantaa aina versionsa, täsmällisen skenaarion, joka sen tuotti (bitti bitiltä -toistoa varten) ja lähteen — muuta mitä tahansa syötettä, ja tiiviste muuttuu.
+
+seg-0ae680dc1433 = Laatumittarit noudattavat tavallisia operatiivisia PNT-laatumittareita:
+
+seg-ffc16440f24c = Laatumittari
+
+seg-4332ec0b9c4b = Miten Kshana sen laskee
+
+seg-edafac3457ae = Ajoituksen suorituskyky (kello-/ratapaketit)
+
+seg-ee7b3cf30f8a = kellovaiheen virheen RMS + 95. persentiili katkon yli <b>nanosekunteina</b> (<c1/>) — ajoitusmittari, ei sijainti
+
+seg-e5af17bacf4d = Paikannuksen suorituskyky (inertia-/hybridipaketit)
+
+seg-46e24e9ce93c = 1-DOF-sijaintivirheen RMS + 95. persentiili katkon yli <b>metreinä</b> (<c1/>); yksiakselinen. Yksittäinen ajo merkitään <c2/>; aseta <c3/> Monte Carlo -joukolle, joka raportoi kunkin mittarin keskiarvon, hajonnan ja bootstrap-{ "95" } %:n luottamusvälin (CI). Edelleen <b>ei</b> 2-D CEP/2DRMS (circular error probable / twice the distance root mean square) eikä DOP-painotettu tarkkuus (nämä vaativat 3-akselisen mallin — tiekartalla)
+
+seg-e229e1b01506 = Autonomia
+
+seg-84aa70c37df1 = holdover-kesto — GNSS:n menetyksen jälkeinen aika vaatimuksen sisällä (ruudukkoon kvantisoitu: alaraja)
+
+seg-925629554412 = virheen kasvun kulmakerroin katkon aikana
+
+seg-fa4468d4cb80 = Saatavuus
+
+seg-3636272fdc21 = ajon osuus, jolla on vaatimuksen mukainen ratkaisu
+
+seg-be120d871ef3 = suodattimen <b>itsejohdonmukaisuus</b> — katkonäytteiden osuus, joiden virhe pysyy Kalman-suodattimen oman k-sigma-rajan sisällä. <b>Ei</b> ilmailun HPL/VPL/RAIM-eheysluku (katso <a1><c1/></a1>)
+
+seg-35b69448cf6d = kellon vakaudesta johdettu <b>analyyttinen harhautuksen <em>havaittavuus</em>raja</b> — kuinka pienen/hitaan aikaharhautuksen yhden kellon johdonmukaisuusmonitori voisi lipuuttaa. Mielekäs vain määritetyllä hyökkäyksellä; <b>ei</b> usean satelliitin RAIM-ilmaisin
+
+seg-1a215fc239ff = Termit uusia? Jokainen on määritelty selkokielellä <a1>sanastossa</a1>.
+
+seg-f82c1b1f4bb0 = Repositorion rakenne
+
+seg-505200d809a7 = UKK (usein kysytyt kysymykset)
+
+seg-d02ce0621f43 = <b>Tarvitsenko kvanttifysiikan ymmärrystä tämän käyttöön?</b> Ei. Jos osaat ajaa komentorivin komennon, osaat ajaa Kshanan. Aloita <a1>selkokielisestä alustuksesta</a1>; katso termejä <a2>sanastosta</a2>.
+
+seg-43923de17a2a = <b>Onko tämä kvanttilaitteiston suunnitelma tai lentoohjelmisto?</b> Ei. Se on suorituskyvyn <em>simulaattori</em>. Kvanttilaitteiston tarkkuus tulee julkaistuista virhemalleista, ei tästä työkalusta. Katso <a1>Mitä se on / ei ole</a1>.
+
+seg-75fb7a097584 = <b>Ovatko kvanttitulokset realistisia vai markkinointia?</b> Jokaiselle parametrille on lähteenä datalehti tai artikkeli, jokainen malli on validoitu oppikirjasuhdetta vasten, ja kypsyystaso on merkitty rehellisesti tiedostossa <a1>VALIDATION.md</a1> — mukaan lukien se, ettei yhtään strontiumoptista kelloa ole lennetty. Moottori on neutraali: kvantti ja klassinen ovat sama koodi eri julkaistuilla luvuilla.
+
+seg-1af53e3ae9c2 = <b>Voinko luottaa siihen, että kaksi ajoa täsmäävät?</b> Kyllä — ajot ovat deterministisiä: <c1/>, ja sen varmistaa <c2/>.
+
+seg-b9cd5c5d1f4b = <b>Voinko käyttää sitä Pythonista tai selaimessa?</b> Kyllä — katso <a1>Asennus</a1>: Python- ja WebAssembly-esimerkit ovat sen alla. Molemmat kutsuvat samaa moottoria.
+
+seg-ed251e142b29 = <b>Miten mallinnan oman anturini?</b> Kirjoita skenaario <c1/>, jonka <c2/>-kentissä on anturisi julkaistut luvut. Katso <a1>Skenaarion muoto</a1> ja esimerkit hakemistossa <c3/>.
+
+seg-f40679da402e = <b>Onko se ilmainen kaupalliseen käyttöön?</b> Kyllä — AGPL-3.0:n alaisena, myös kaupallisissa ympäristöissä, kunhan noudatat AGPL:n copyleft-ehtoja (erityisesti: jos muokkaat Kshanaa ja tarjoat sitä verkon yli, sinun on tarjottava näille käyttäjille muokattu lähdekoodisi). Jos tämä ei sovi — esim. tarvitset Kshanan upotettuna suljettuun tuotteeseen tai ajat suljettua verkkopalvelua — Ashforde® OÜ tarjoaa kaupallisen lisenssin; katso <a1><c1/></a1> ja <a2>Tuki</a2>.
+
+seg-47e61b61094b = Vianmääritys
+
+seg-9bf11ed19b33 = <b><c1/> epäonnistuu vanhalla työkaluketjulla.</b> Kshana vaatii Rustin ≥ { "1.85" }. Päivitä komennolla <c2/>.
+
+seg-0cb99cc9fa83 = <b>Python-laajennuksen rakentaminen epäonnistuu linkitykseen macOS:llä</b> (<c1/>). Python-laajennus ratkaisee symbolinsa latausaikana. <c2/> asettaa oikean linkkerilipun automaattisesti — käytä komentoa <c3/> pelkän <c4/> sijaan.
+
+seg-608a0438e60e = <b>Python-rakennus valittaa, että tulkki on uudempi kuin PyO3 tuntee.</b> Aseta <c1/> (abi3-wheel-paketit ovat eteenpäin yhteensopivia CPython-versioiden yli).
+
+seg-a3c6ba7932f2 = <b>WebAssembly-rakennus ei löydä kohdetta.</b> Asenna se kerran komennolla <c1/> ja sitten <c2/>.
+
+seg-2610d5a9ee90 = <b>Minne tulosteeni meni?</b> Jokainen ajo kirjoittaa tiedostot <c1/>, <c2/>, <c3/> ja <c4/> syötteen <c5/> viereen sekä myös <c6/> lajeille, jotka julkaisevat taulukon. Kaikki ne on tarkoituksella jätetty git-ignore-listalle.
+
+seg-4765d3a73a6f = Versiointi ja julkaisut
+
+seg-0ca788bf975d = Kshana noudattaa <a1>semanttista versiointia</a1>. Ennen versiota 1.0 julkinen skenaario-/tulosskeema voi vielä muuttua; rikkovat muutokset mainitaan erikseen tiedostossa <a2><c1/></a2>. Jokainen tulos on toistettavissa kohteesta <c2/>.
+
+seg-2885b69ceef1 = <b>Jokainen <c1/>-tagi julkaisee kaikki kanavat automaattisesti yhdessä järjestyksessä</b> — koko testisarja ajetaan ensin merkityllä commitilla, mitään ei julkaista ennen kuin se menee läpi, ja sen jälkeen putki tarkistaa, että jokainen rekisteri todella tarjoaa uuden version (<a1><c2/></a1>). Kanavat:
+
+seg-8222e46bc13c = Asenna / hae
+
+seg-7f77f517d809 = Rust-kirjasto + CLI
+
+seg-06cfcc54172a = MCP-palvelin
+
+seg-ec68a7e74a20 = PyPI (Python Package Index)
+
+seg-2f0decb15e44 = abi3-wheel-paketit (Linux/macOS/Windows) + sdist (lähdekoodijakelu)
+
+seg-1ec26f00ffb1 = npm
+
+seg-e1d5f87f1af5 = WebAssembly-moduuli + JS-kääre
+
+seg-300434512f54 = monialustainen OCI (Open Container Initiative) -kuva — työkaluketjua ei tarvita
+
+seg-78bc637735d0 = käynnistin: lataa julkaisubinäärin, varmentaa <c1/>, ajaa sen
+
+seg-153e808516d8 = PyPI
+
+seg-7a5ecdbe5611 = sama käynnistin Pythonille
+
+seg-3089785631f9 = Homebrew · Scoop · winget
+
+seg-8fa930c2ea90 = <c1/>-binääri, luotu kunkin julkaisun tiedostosta <c2/>
+
+seg-a991ea4c110b = virallinen MCP-rekisteri
+
+seg-aa0826e6ee2d = MCP-asiakkaat löytävät automaattisesti
+
+seg-ca8f2fe1c3c6 = <c1/> (OCI-kuva, npm- ja PyPI-paketit)
+
+seg-1bc87a838658 = IDE → Lisäosat → hae ”Kshana”
+
+seg-c8ab30765b96 = IDE-lisäosa <b>Kshana — PNT simulator</b>
+
+seg-8afa1f0ebdd7 = Zenodo
+
+seg-d4be2535e13e = siteerattava arkisto jokaisesta julkaisusta
+
+seg-bd0423a27417 = avaa selaimessa
+
+seg-9ca0fbcfa354 = Kshana Studio, selaimessa toimiva WebAssembly-sovellus, rakennettuna uudelleen jokaisesta julkaisutagista (joten näkyvä versio on sama kuin ajettava versio)
+
+seg-8dc9d625c9e9 = MCP-palvelimen crate-/kuva-/rekisteriversio seuraa moottoria (se sisältää kirjaston); JetBrains-lisäosa versioituu itsenäisesti (se kutsuu asennettua binääriä <c1/>).
+
+seg-a58b88284421 = Katso vaiheistettu tiekartta tiedostosta <c1/>, julkaistu historia tiedostosta <a1><c2/></a1> ja ominaisuuskohtainen tiekartta tiedostosta <a2><c3/></a2>. Prioriteettijärjestys on: <b>ensin kriittisen infrastruktuurin ajoitus- ja holdover-todisteet</b> (telealan maskit, pidempi holdover ikääntymisen ja flicker-kohinan kanssa, mitatun kellodatan syöttö); <b>toiseksi neutraali kvantti–klassinen-kauppatutkimusmenetelmä</b> (tulokset merkitty MODELLED, kunnes kumppanin mitattu data nostaa ne); ja <b>Kuun / kuunläheinen ja syvän avaruuden navigointi ylläpidetään</b>, ei laajenneta kärkenä. <b>ITRF-tarkka koordinaatistoredusointi</b> on nyt toimitettu — täysi CIO-pohjainen IAU 2006/2000A GCRS↔ITRS-ketju (napaliike + kaarisekuntia pienempi nutaatio), validoitu bitti bitiltä SOFA/ERFA:a vasten ja riippumattomasti ristiintarkistettu ANISEa (puhdas Rust-SPICE) vasten ≤ { "3.6" } m GNSS-radalla. Lähiajan kohteisiin kuuluvat tiukasti kytketty kantoaaltovaihefuusio ja löyhästi/tiukasti kytketyn GNSS/INS-navigaattorin tuominen useampiin paketteihin; <b>syvän avaruuden / Marsin radiometrinen navigointi</b> -moottori valmistui versiossa { "v0.17.0" } (simulaatiolla validoitu). <b>Kvanttifysiikkakerros</b> on <b>P2</b>-kohde: CAI-kiihtyvyysanturi simuloidaan nyt perusperiaatteista (Mach–Zehnder-vaihe, projektiokohina, kontrastin heikkeneminen, tärinäkytkentä), kun taas kello-/ajansiirtoanturit perustuvat yhä julkaistuihin Allan-/kohinabudjettikertoimiin. GMST-pohjainen TEME&harr;ECEF, IERS:n karkaussekuntiaikajärjestelmät (UTC/TAI/TT/UT1), SGP4/SDP4-radan propagointi ({ "v0.7.0" }, validoitu AIAA 2006-6753 -vektoreita vasten) ja ajettava <c4/>-fuusiopaketti on kaikki <b>toimitettu</b>, ja inertianopeus on tarjolla jatkokäyttöön. Aktiivinen stokastinen aikaharhautuksen ilmaisin (Neyman–Pearson / χ²₁-energiatesti Monte Carlo P_fa/P_md -arvoilla ja Turvallisuuden laatumittari { "1" }−P_md), linkkibudjettipohjainen häirintämalli (J/S → efektiivinen C/N₀ → lukituksen menetys), usean satelliittitähdistön saatavuus, yksiakselinen (1-DOF) IMU-virhebudjetti, kaksi riippumatonta (kello + sijainti) Kalman-estimaattoria raportoituna yhdistettynä laatumittarina, todellinen satelliittitähdistön geometria TLE:istä, HTML-tuloskortti, geometriasta johdettu GNSS-saatavuus <em>ja</em> DOP Kepler-radoista eksentrisyydellä ja J2-ajautumalla, Monte Carlo -luottamuskaistat, kauppatutkimusten parametripyyhkäisyt, selaimessa toimiva WebAssembly-leikkikenttä sekä valinnaiset Python (PyO3) ja WebAssembly (wasm-bindgen) -sidokset on viety haaraan <c5/>.
+
+seg-d1ef5a83a4b0 = Katso <a1><c1/></a1>. Lyhyesti: testit läpäisevät (<c2/>), kaksi vartiointiskriptiä läpäisevät, Conventional Commits, ja <c3/>-tiedoston <c4/>-merkintä jokaisesta käyttäjälle näkyvästä muutoksesta. Osallistumista ohjaa <a2>käytösohjeemme</a2>. Tietoturvaongelman raportoimiseksi katso <a3>tietoturvakäytäntö</a3> — älä avaa julkista ongelmailmoitusta haavoittuvuuksista.
+
+seg-6e2e62b6e70f = Dokumentaatio: jokainen asiakirja ja kenelle se on tarkoitettu
+
+seg-672ddc109531 = Kenelle
+
+seg-bf874872dcc4 = Mitä siinä on
+
+seg-2e8bdb58cdea = kaikille, aloita tästä
+
+seg-a17023aa100b = mitä Kshana tekee ja miksi, nollasta fysiikkaan
+
+seg-5ff1297e5fd3 = kaikille
+
+seg-6ae9cf67dbf2 = aja moottoria selaimessasi (WebAssembly); rakennus- ja käyttöönottohuomautukset
+
+seg-8e3663e418ee = selkokieliset määritelmät jokaiselle termille
+
+seg-0da03b91d8e2 = jokainen laji, jonka moottori jakelee: mitä se tekee, sen kentät, esimerkkikomento, sen kirjanpitorivit ja kaavio, jonka moottori sille kirjoittaa
+
+seg-eabf661d9ad4 = kehittäjille / tarkastajille
+
+seg-50e77711f8ae = moduulikartta, moottorin putki, jakelu ja kaaviot
+
+seg-00e3c6d5b489 = tarkastajille / siteeraajille
+
+seg-7e3666552f77 = mikä on <c1/> vs. <c2/>, todisteineen
+
+seg-a1b009eb3554 = koneellisesti tarkistettu todistekirjanpito — jokainen ominaisuusrivi tilansa, moduulinsa, testinsä ja ulkoisen oraakkelinsa kanssa, luotu tiedostosta <c1/>
+
+seg-0604447208bc = Mallinnuksen perustelu
+
+seg-a384286e1947 = tarkastajille
+
+seg-d434379a43d2 = miksi jokaisella <b>mallinnetulla</b> rivillä ei ole ulkoista oraakkelia, ilmoitettuna rivi riviltä
+
+seg-8784e57fff56 = jokainen anturiparametri, malli ja aineisto jäljitettynä julkaistuun lähteeseen yhdessä siteerattavassa taulukossa
+
+seg-a7d5633dbcc0 = Toistettavuus ja alkuperä
+
+seg-087473d3f136 = tarkastajille / paketoijille
+
+seg-f7614494333d = determinismin takeet, golden-lukitus, SBOM (software bill of materials), rakennuksen alkuperätieto
+
+seg-13a543e72c08 = Wheel-alustatunnisteet
+
+seg-1b56719851b7 = paketoijille
+
+seg-00577a733e12 = abi3-Python-wheel-matriisi — minkä alustatunnisteen <c1/> ratkaisee
+
+seg-33ce7950c097 = Asemointi
+
+seg-90a7258f4d22 = arvioijille
+
+seg-b34c84423464 = missä Kshana sijaitsee RTKLIBiin/gLABiin nähden (täydentävä), ja asennusta vaatimaton selainkerros
+
+seg-b2296ef28d12 = arvioijille / ohjelmapäälliköille
+
+seg-5a701a5ccf6a = mitä suljettu Pro-kerros lisää samaan moottoriin: suunnitteluoptimoija, epävarmuus ja herkkyys, tehtäväasiakirja, kampanjan seuranta, spektrin rinnakkaiselo, paikan päällä toimiva työpalvelu, vaatimusten jäljitettävyys; mitä kukin tuottaa ja mitä se ei tee
+
+seg-13b35332debb = <a1>Tekninen raportti</a1> · <a2>JOSS-artikkeli</a2>
+
+seg-2900eec7e995 = tarkastajille / siteeraajille / arvioijille
+
+seg-b3a35c73bab6 = koko laajennettu tutkimusartikkeli — arkkitehtuuri, toimialuekohtaiset mallit, validointi, tapaustutkimukset ja rajoitukset — sekä tiivis JOSS (Journal of Open Source Software) -esitys
+
+seg-b3c51210f2b9 = vastaavuus AIAA 2006-6753 -viitteeseen ({ "666" } tilaa, ~{ "4" } mm) <b>ja</b> suora vertailu riippumattomaan crate-pakettiin <c1/> (vastaavat alle mikrometrin / { "4.12" } mm tarkkuudella)
+
+seg-496fc27f0779 = täyden voiman moottori (<c1/>) sovitettuna virastojen efemerideihin — menetelmä ja validoidut residuaalit
+
+seg-e5dc1d12103b = Todellisten TLE:iden opas
+
+seg-bc371a07bef1 = käyttäjille
+
+seg-3368ef107f86 = skenaarioiden ajaminen todellisilla Celestrak- / Space-Track-satelliittitähdistöjen TLE:illä (mukana tulevan synteettisen Walker-joukon sijaan)
+
+seg-036de74eefe4 = Eheyden laatumittari
+
+seg-087a30ea794d = mitä <c1/>- / <c2/>-luvut tarkoittavat — ja mitä ne <b>eivät</b> ole ilmailun HPL/VPL:ään verrattuna
+
+seg-4586fac36659 = tarkastajille / integroijille
+
+seg-bd73a9aab9bf = avoin MHSS ARAIM -suojaustasototeutus — nimellinen harhaprojektio <c1/>, σ_URA vs. σ_URE ja vikatilojen priorit
+
+seg-7912b8806633 = <a1>Kvanttimallit</a1> · <a2>lisätiedot</a2>
+
+seg-538ae4a293ac = kylmäatomi-interferometrin fysiikkakerros, ja missä kertoimet haetaan yhä taulukosta
+
+seg-542a7e114dff = DO-229E / DO-316 -algoritmien laajuus, ja mikä <b>ei</b> ole vaatimustenmukaisuusväite
+
+seg-dc1c6f878fdd = merenkulkijoille / integroijille
+
+seg-29cf3d1ef90f = aluksen NMEA:n GNSS-luottamuspistemäärä asteikolla 0–100, sen monitorit ja rajat (ohjeellinen, ei tyyppihyväksytty navigointilaite)
+
+seg-5849b496e5af = merenkulun kouluttajille
+
+seg-4cd0efee3108 = synteettinen sillan NMEA käsikirjoitetulla häirinnällä ja harhautuksella sekä ohjaajan loki; vain tekstinä, ei koskaan todelliseen navigointiin
+
+seg-df1d81e25c75 = analyytikoille / merenkulkijoille
+
+seg-db50820691f6 = operaattoreille / vakuuttajille
+
+seg-5a34e02c1d04 = allekirjoitetut tekniset tietueet luottamustapahtumasta ja miten sellainen varmennetaan
+
+seg-3f9b0b6cbbda = operatiivisille / tietoturvatiimeille
+
+seg-7442d4e7a665 = luottamusvirta Prometheus-mittareina, SIEM-tapahtumina ja OpenTelemetrynä, Grafana-kojelaudan kanssa
+
+seg-e3fdf6154d72 = veneenomistajille / integroijille
+
+seg-e4c07cecfc7d = Signal K -lisäosa, OpenCPN:n porttitila ja viiteversio
+
+seg-dc551bb8edb9 = vastaanottimien valmistajille
+
+seg-dac9a3e7adf3 = viedyn skenaarion toisto laboratoriosimulaattorin kautta ja vastaanottimen lokin pisteytys
+
+seg-fe9ee01b4b40 = julkiset kestävyysviitekehykset kartoitettuna Kshanan tulosteisiin, lähteineen ja puutteineen; <c1/>
+
+seg-803e21a4cd63 = ajettavat opastukset renderöityine teksteineen
+
+seg-8ba331635865 = Standardit ja yhteentoimivuus
+
+seg-79dfa8eef7e8 = integroijille
+
+seg-dc2cc59b2c22 = GNSS-, lentodynamiikka- ja virastojen vaihtoformaatit, joita Kshana lukee ja kirjoittaa (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …)
+
+seg-82e510edf422 = LEO PNT -fuusio
+
+seg-78e498b9cd72 = käyttäjille / arvioijille
+
+seg-515011790d2f = yhdistetty MEO + LEO -paikannus, -navigointi ja -ajanmääritys: Doppler, yhteinen pseudoetäisyys, PPP-konvergenssi, 5G NTN, napa-alueen kattavuus ja LEO-ajansiirto mille tahansa satelliittitähdistölle; valinnaiset esiasetukset ja niiden julkiset lähteet
+
+seg-80c3a6fcc9d4 = skenaarioiden kokoaminen: ketjutetut tehtäväaikajanat, parametripyyhkäisyt, Monte Carlo -joukot ja jaetun olosuhteen ajot, sekä koostamisidentiteetit, jotka testit lukitsevat
+
+seg-e2ba765ba8cf = Skenaariokatalogi
+
+seg-d249adca6e09 = käyttäjille / integroijille
+
+seg-cc36976b92b2 = jokainen jaettava laji pakollisine ja valinnaisine TOML-kenttineen — luotu funktiosta <c1/>
+
+seg-0714feb42ace = tulos-JSONin jokainen kenttä yksiköineen ja lähdeviitteineen
+
+seg-d88421825ccf = Python-käyttäjille
+
+seg-8eca8cb65710 = PyO3-sidoksen pinta — moottorin kutsuminen, skenaario- ja tulostyypit sekä esimerkit
+
+seg-1a04729b35fa = Väitteet vs. todellisuus
+
+seg-c1ff79259d0a = ylilupausten sulkemiskirjanpito + CI-vartija (<c1/>), joka pitää ne ratkaistuina
+
+seg-f081da2f997c = vaiheistettu tiekartta — mitä on toimitettu ja mitä tulee seuraavaksi
+
+seg-91a94770bfc6 = <a1>MCP-palvelin</a1> · <a2>JetBrains-lisäosa</a2>
+
+seg-d67668b76043 = agenteille / IDE-käyttäjille
+
+seg-aa939b17949a = aja Kshanaa tekoälyavustajasta tai JetBrains-IDE:stä
+
+seg-01db4cfa76e9 = <a1>Agenttiopas</a1> · <a2>Pinnat</a2>
+
+seg-b7b1239f907e = agenteille / integroijille
+
+seg-fc2d423654fe = mikä työkalu vastaa mihinkin kysymykseen, mitä kunkin vastauksen mukana säilytetään; missä kukin ominaisuus on tavoitettavissa (CLI, Rust, Python, WASM, MCP, lisäosa, JetBrains, muistikirjat) ja miksi solu on N/A
+
+seg-3b3aa42b5f15 = julkaistu historia (Keep a Changelog + SemVer, semanttinen versiointi)
+
+seg-f67abac08544 = kontribuuttoreille
+
+seg-bcdae6f3fdbd = rakennus, vartijat, testi- ja siteerauskäytäntö, DCO (Developer Certificate of Origin)
+
+seg-5dec7ef854fe = kontribuuttoreille / yhteisölle
+
+seg-5c0b0441b55c = miten Kshanaa hallinnoidaan — kuka päättää, miten, ja avoimen ja suljetun raja
+
+seg-0766b60f1d8a = Käytösohjeet
+
+seg-29a818e8fbc7 = yhteisölle
+
+seg-b34f02c40174 = odotettu käytös (Contributor Covenant)
+
+seg-4609cf7fb790 = Tietoturvakäytäntö
+
+seg-ca35e5e3ad0c = ilmoittajille
+
+seg-772539feded5 = miten haavoittuvuus ilmoitetaan; kaksoiskäyttöä koskeva huomautus
+
+seg-1f443a976d47 = Keskeiset lähteet
+
+seg-feb6f4f6a5e4 = <b>Validointioraakkelit ja standardit</b> — ulkoiset auktoriteetit, joihin Kshanan tarkistukset on ankkuroitu:
+
+seg-4ca957af5c9b = Vallado, Crawford, Hujsak & Kelso — <em>Revisiting Spacetrack Report #3</em> (<a1>AIAA 2006-6753</a1>; <a2>testidata</a2>): SGP4/SDP4-varmennusjoukko, johon Kshana vastaa { "4.12" } mm:n tarkkuudella, sekä esimerkkilaskut, joita TEME→ITRF-ketju vasten tarkistetaan.
+
+seg-9a2f45b88410 = IAU <a1>SOFA</a1> / <a2>ERFA</a2> — aika- ja koordinaatistorutiinit, joita vasten IAU 2000A -nutaatio ja CIO-pohjainen GCRS↔ITRS-redusointi on validoitu bitti bitiltä.
+
+seg-37f680b464fe = Petit & Luzum (toim.) — <em>IERS Conventions ({ "2010" })</em>, <a1>IERS TN (Technical Note) { "36" }</a1> (Maan orientaatio, napaliike ja koordinaatistostandardit).
+
+seg-5b9951eea4b0 = Riley — <em>Handbook of Frequency Stability Analysis</em>, <a1>NIST SP { "1065" }</a1> (Allanin poikkeaman suhteet ja NBS14-viitesarja; NBS = entinen Yhdysvaltain National Bureau of Standards).
+
+seg-aede69f7dc3e = Pedregosa et al. — <em>scikit-learn: Machine Learning in Python</em>, <a1>JMLR { "12" } ({ "2011" })</a1>: ROC/AUC-, sekaannusmatriisi- ja tarkkuus/saanto/F1-viitetoteutukset, joihin RF-häiriöiden arviointitestialusta täsmää tarkasti (<c1/>).
+
+seg-a19f72f631ef = Virtanen et al. — <em>SciPy { "1.0" }</em>, <a1>Nature Methods { "17" } ({ "2020" })</a1>: <c1/>, <c2/> ja <c3/> — viiterutiinit, joita vasten kvanttikauppatutkimuksen mitattu ADEV NNLS -sovitus, χ²-johdonmukaisuuskaistat ja van-Loanin kellon prosessikohinakovarianssi on validoitu (<c4/>).
+
+seg-fa00dee84096 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, <a1>SoftwareX { "27" } ({ "2024" })</a1>: käytetään sekä avoimena aiempana tekniikkana (katso <em>Comparison & open prior art</em> alla) että <b>riippumattomana DOP-oraakkelina</b>, johon GDOP/PDOP/HDOP/VDOP/TDOP-laskenta täsmää { "1e-6" } tarkkuudella (<c1/>).
+
+seg-1e6e8a68cebb = Montenbruck & Gill — <em>Satellite Orbits: Models, Methods and Applications</em> (<a1>Springer</a1>): voimamallit virastojen tarkkoihin efemerideihin tehdyn voimamallisovituksen takana.
+
+seg-144cdd7fbc19 = Howell — <em>Three-dimensional, periodic, halo orbits</em>, Celestial Mechanics { "32" }({ "1" }) ({ "1984" }), <a1>doi:10.1007/BF01358403</a1>; Zimovan-Spreen, Howell & Davis — <em>Near rectilinear halo orbits and nearby higher-period dynamical structures</em>, Astrodynamics { "6" } ({ "2022" }), <a2>doi:10.1007/s42064-021-0125-x</a2> (halo-/NRHO-perheet, jotka CR3BP-differentiaalikorjain toistaa).
+
+seg-93a7e383053b = <b>Laitteiden ja menetelmien fysiikka</b> — anturimallien takana olevat lähteet:
+
+seg-fc2aa6fa1340 = Origlia, Schiller, Bongs et al. — <a1>arXiv:{ "1503.08457" }</a1> (strontiumoptinen hilakello, avaruuteen suuntautuva tavoite).
+
+seg-f735c2528052 = Oelker et al., <em>Nature Photonics</em> ({ "2019" }) — <a1>doi:10.1038/s41566-019-0493-4</a1> (laboratorion Sr-kello, { "4.8" }×{ "10" }⁻¹⁷).
+
+seg-80b2a7b012fd = Templier et al., <em>Science Advances</em> ({ "2022" }) — <a1>arXiv:{ "2209.13209" }</a1> (hybridikvanttikiihtyvyysanturikolmikko).
+
+seg-795160f35f82 = Groves, <em>Principles of GNSS, Inertial, and Multisensor Integrated Navigation</em> — <a1>IEEE AESS (Aerospace and Electronic Systems Society) -tutoriaali (University College London Discovery -repositorio)</a1> (dead reckoning -virheen kasvu).
+
+seg-621d684f6fc1 = Giorgetta et al., <em>Nature Photonics</em> { "7" }, { "434" } ({ "2013" }) — <a1>arXiv:{ "1211.4902" }</a1>; Deschênes et al., <em>Phys. Rev. X</em> { "6" }, { "021016" } ({ "2016" }) — <a2>APS (American Physical Society)</a2> (optinen kaksisuuntainen aika-taajuussiirto; optisen satelliittienvälisen linkin malli mallintaa epäresiprookkisuusbudjettinsa näiden mukaan).
+
+seg-e8299332a4ba = Betz — <em>Binary Offset Carrier Modulations for Radionavigation</em>, NAVIGATION { "48" }({ "4" }) ({ "2001" }), <a1>doi:10.1002/j.2161-4296.2001.tb00247.x</a1> (BOC-modulaatio ja spektrierotusteoria, jotka ovat kohteen <c1/> taustalla).
+
+seg-27d20763d6cb = Kaplan & Hegarty (toim.) — <em>Understanding GPS/GNSS: Principles and Applications</em> (3. painos, Artech House, { "2017" }): häirinnänvastainen efektiivinen C/N₀-yhtälö ja early–late-DLL:n koodinseurannan terminen kohinavärinä, joita navigointisignaali- ja häirintämallit käyttävät.
+
+seg-7b646cdd9bd4 = <b>Vertailu ja avoin aiempi tekniikka</b> — työkalut ja katsaukset, joihin Kshana asemoidaan:
+
+seg-1879b1f543dd = Humphreys et al. — <a1><em>TEXBAT</em></a1> (Texas Spoofing Test Battery; ION — Institute of Navigation — GNSS { "2012" }): harhautuksen testipatteriston parametrit, joita vasten monikerroksinen ilmaisin on karakterisoitu.
+
+seg-d8b2eecaaa5f = González et al. — <a1>NaveGo</a1> ({ "2017" }): avoimet, validoidut inertianavigoinnin virheprofiilit, joita käytetään klassisena lähtötasona.
+
+seg-7c7beb74ddac = Iiyama, Casadesús Vila & Gao — <a1><em>LuPNT</em></a1> (ION GNSS+ { "2023" }, Stanford NavLab): avoin Kuun PNT -simulaattori.
+
+seg-fef89f16b111 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, SoftwareX { "27" } ({ "2024" }), <a1>doi:10.1016/j.softx.2024.101811</a1>: avoin GNSS-data-analyysi.
+
+seg-9c5ebe5384bc = Li, Zaminpardaz, Kealy & Greentree — <em>Quantum sensors for enhanced positioning and navigation: a comprehensive review</em>, GPS Solutions { "30" }({ "1" }):{ "62" } ({ "2026" }), <a1>doi:10.1007/s10291-026-02030-y</a1>.
+
+seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({ "6" }) ({ "2021" }), <a1>doi:10.1029/2020EA001454</a1>: GRAILin reduced-dynamic OD, empiirisen kiihtyvyyden lattia, jonka LRO-sovitus toistaa.
+
+seg-2658a9477dd9 = <s1>Seuraava</s1>Käsiteopas
+
+seg-90a95738b32d = Kuun infrastruktuuri (lunar-infrastructure)

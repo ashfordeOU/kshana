@@ -388,3 +388,365 @@ seg-9a2bb9809aed = Kaksisuuntainen satelliittiaika- ja taajuudensiirto kahden as
 
 # text
 seg-ccb244e60d60 = Optinen vastaan RF-kaksisuuntainen aika- ja taajuudensiirto.
+
+seg-1e4d5b2f4810 = Jokainen mukana toimitettu skenaariotiedosto ({ "182" }) tyypeittäin ryhmiteltynä. Kuvaus on tiedoston oma otsikkokommentti; keskeiset parametrit ovat sen ylätason asetuksia. Tila luetaan tyypin moduulin varmennusmatriisista. <b>Avaa Kshana Studio -työkalussa</b> avaa tallennetun ajon.
+
+seg-e701392324d0 = tyyppi acm-link
+
+seg-c4d65df7ab98 = ei yhdistetty nimen perusteella kirjanpidon (ledger) moduuliin
+
+seg-7b09a77bfada = DVB-S2:n mukautuva koodaus ja modulaatio (ACM) yhden satelliitin ohitusten aikana yhden aseman yllä. Ohituksen aikana kaltevuusetäisyys ja korkeuskulma muuttuvat, joten alalinkin Es/N0 muuttuu. Ajo valitsee jokaisella askeleella tehokkaimman MODCODin, jonka ETSI EN { "302" } 307-1 -standardin taulukon { "13" } kynnys plus toteutusmarginaali linkki ylittää. Se raportoi kunkin ohituksen Es/N0-alueen ja ACM:n siirtämän datamäärän verrattuna vakiokoodaukseen, joka toimii maskin korkeuskulmalla ja pisimmällä etäisyydellä.
+
+seg-c36379e65043 = <a1>Avaa Kshana Studio -työkalussa</a1> · <a2>Näytä GitHub-sivustolla</a2>
+
+seg-b6ddd25a35c3 = tyyppi aocs
+
+seg-944f5a95638f = tyyppi aperture-duty-cycle
+
+seg-2c27404856f6 = tyyppi araim-reference-check
+
+seg-6fc2c7863922 = tyyppi ascent-losses
+
+seg-6ad78e934bec = Gravitaatiokäännöksellä lähtevän ILLUSTRATIVE kaksiasteisen kerosiini/happi-kantoraketin (ei todellista ajoneuvoa) nousuhäviöt: pystynousu korkeuteen { "1" } km, { "3" } deg kallistuspotku kestoltaan { "10" } s, sitten työntövoima nopeuden suuntaan. Ajo integroi gravitaatio-, ilmanvastus-, ohjaus- ja vastapainehäviöt ja tarkistaa, että ihanteellinen dv miinus häviöt on yhtä suuri kuin loppunopeus (burnout). MODELLED: tasomainen, pyörimätön Maa, vakio C_D, ei vapaata lentovaihetta, ei ohjausta potkun jälkeen.
+
+seg-602ac3a69ef9 = tyyppi attitude-budget
+
+seg-01ed69f79080 = tyypillä on validoituja kirjanpitorivejä (ledger) · { "1" } / { "1" } riviä validoitu
+
+seg-be0ff8b9fe3b = tyyppi body-pnt
+
+seg-eb1f3742071d = tyyppi campaign
+
+seg-a40718a9a53e = Ketjutettu tehtävä: nimellinen, häirintä, harhautus, GNSS:n menetys kellon holdoverilla ja inertiaalisella ylläpidolla, eheyshälytys ja palautuminen, yhdellä jaetulla aikajanalla.
+
+seg-e745211204ab = Kampanjan kautta tehty optimointi: link-budget-esimerkin X-kaistan linkki ({ "55" } dBW EIRP, { "53" } dB/K G/T, { "3" } dB muut häviöt, { "4.5" } dB vaadittu Eb/N0), jota haetaan etäisyyden ja datanopeuden suhteen toimintapisteeseen, joka jättää täsmälleen { "3" } dB marginaalin. Jokainen arviointi on tavallinen ajo (<c1/>). Nelder–Mead-simpleksi toimii logaritmisesti normalisoiduissa koordinaateissa annettujen rajojen sisällä, ja jokainen arviointi luetellaan tuloksen kohdassa <c2/>.
+
+seg-decc6966e201 = Toimialat ylittävä yhdistely: yksi häirintälähetin, kaksi alustaa. Laiva Suomenlahdella ({ "59.80" } N, { "24.90" } E, maritime-strait-jamming-esimerkin vastaanotin) ja auto Helsingin rantatiellä ({ "60.17" } N, { "24.94" } E) ovat saman laajakaistaisen häirintälähettimen alla, joka on sijoitettu pisteeseen { "59.80" } N, { "25.44" } E, { "30" } m korkeuteen (noin { "30" } km laivasta ja { "50" } km autosta).
+
+seg-f2588213d3d3 = L-kaistan spektrin ohjaama ketjutettu tehtävä: chirp-häirintälähetin vie GPS L1 C/A:n ja Galileo E1:n, kello jatkaa holdover-tilassa, ja L1-kantoaaltoon jätetty jatkuva-aaltoinen (CW) tonaali pitää C/A:n alhaalla E1:n palautuessa, joten vastaanotin turvautuu Galileoon ja sen eheysvalvonta toimii vain Galileon taivaalla.
+
+seg-031c509abbfa = Parametripyyhkäisy kampanjan kautta: jamming-esimerkin vastaanotin ({ "52" } N, { "4" } E, 24 satelliitin GPS:n kaltainen Walker-kuori) laajakaistaisen häirintälähettimen alla { "1" } km päässä, ja häirintälähettimen lähetysteho pyyhkäistään arvosta -50 dBW ({ "10" } nW) arvoon +{ "10" } dBW ({ "10" } W) { "5" } dB askelin. Jokainen solmu on tavallinen ajo (<c1/>); kampanja kirjaa solmua kohti niiden epookkien osuuden, joilla vähintään neljä satelliittia on yhä seurannassa, keskimääräisen häirintä-signaalisuhteen (J/S) ja pienimmän seurattujen satelliittien määrän.
+
+seg-ef32cd18fab5 = tyyppi cislunar-arc-recovery
+
+seg-e9866967471c = tyyppi cislunar-observability
+
+seg-9c3bc8bbd361 = tyyppi clock
+
+seg-ddd9856d154a = Kshana-vertailuskenaario: { "2" } h ajo, { "10" } min GNSS-synkronointi, sitten ~{ "1.8" } h estetty. Kellon valkoinen FM-kohina kalibroitu julkaistuun arvoon sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Validoitu simuloitua Allanin poikkeamaa vasten tiedostossa tests/calibration.rs (~{ "2" }%).
+
+seg-460f63835b3f = Muunnelma: laboratoriotason strontiumoptinen kello vs CSAC. Laboratorion Sr-kellot saavuttavat arvon sigma_y({ "1" } s) = { "4.8e-17" } (Oelker ym. { "2019" }, Nature Photonics).
+
+seg-092f76e5d820 = tyyppi combined-altpnt
+
+seg-3455b653ea6f = tyyppi conflict-resilience
+
+seg-c6b21e897ce0 = Satelliittitähdistön suunnittelu laajassa mittakaavassa: Walker DELTA- ja Walker STAR -kuviot i: T/P/F-merkinnällä (solmut jakautuvat { "360" } tai { "180" } deg alueelle, tasonsisäinen väli { "360" }*P/T, tasojen välinen vaihe-ero { "360" }*F/T), eksplisiittiset elementtiluettelot ja monikuoriset suunnitelmat, useita tähdistöjä yhdessä ajossa, Maan, Kuun, Marsin tai minkä tahansa muun planeetan, Pluton tai suuren kuun ympärillä käyttäen body-moduulin vakioita (samoja, joita tyypit solar-system ja body-pnt käyttävät). ESIASETUKSET julkaistuista nimellisistä elementeistä: gps-baseline ja gps-expandable ({ "24" } paikkaa ja kuusi eteen/taakse laajennettavaa paria GPS Standard Positioning Service Performance Standardista, 5. painos { "2020" }, taulukot 3.2-1–3.2-3), galileo (Walker 24/3/1 korkeudella { "29 599.801" } km ja { "56" } deg, Galileo Open Service Service Definition Document, versio { "1.1" }, taulukot { "1" } ja { "23" }), beidou ja beidou-meo (Walker 24/3/1 korkeudella { "21 528" } km ja { "55" } deg sekä kolme geostationaarista satelliittia pituuspiireillä { "80" }, { "110.5" } ja { "140" } deg E ja kolme kaltevaa geosynkronista satelliittia { "55" } deg kaltevuudella, BeiDou Open Service Performance Standard { "3.0" }, kohta { "4.1" }; MEO-vaihe ja { "118" } deg E kaltevan geosynkronisen radan risteys on mallinnettu, koska standardi ei ilmoita niitä) ja glonass (24/3/1 korkeudella { "19 100" } km ja { "64.8" } deg paikkakaavasta, joka on lähteessä GLONASS Interface Control Document, painos { "5.1" }, kohta { "5.2" }). KATTAVUUS JA TARKKUUDEN HEIKKENEMISKERROIN: leveys-/pituusasteruudukossa ja otetussa aikaikkunassa korkeuskulmamaskin kanssa näkyvien satelliittien lukumäärä, GDOP, PDOP, HDOP ja VDOP solua kohti, saatavuus (paikkaratkaisu, jossa PDOP on enintään kynnys, oletuksena { "6" }) solua kohti, maailmanlaajuisesti (pinta-alapainotettuna) ja huonoimmassa kohteessa, yksi vastaanottimen kello tähdistöä kohti, ellei clock = "common". Se skaalautuu tuhansiin satelliitteihin: näkyvyys on pistetulo kunkin satelliitin kattavuuden puolikulmaa vastaan, ja satelliitit jaetaan kaistoihin alasatelliittisen leveyden mukaan joka epookilla, jotta ruudukon rivi testaa vain ne, jotka voivat olla näkyvissä; raportti laskee säästetyt paritestit. JSON sisältää ruudukkokartat ja harvennetut satelliittikohtaiset maanpintajäljet. VALIDATED: Walker-generaattori Galileo OS SDD -asiakirjan taulukkoa { "23" } ja GLONASS ICD:n paikkakaavaa vasten, GPS-esiasetus SPS PS:n taulukon 3.2-1 julkaistua päiväntasaajan ylityssaraketta vasten ja GPS-perustason globaali HDOP-jakauma SPS PS:n liitettä B vasten (mediaani { "0.94" }, { "95" }%-persentiili { "1.25" }, keskiarvo { "0.96" }, toleranssi { "0.03" }). MODELLED: kahden kappaleen radat valinnaisella sekulaarisella J2:lla, pallomainen kappale, vain geometrinen näkyvyys (ei signaalitehoa, terveystilaa eikä maastoa) sekä eri järjestelmien välinen suhteellinen vaihe, joka ei ole minkään todellisen päivämäärän tilannekuva.
+
+seg-fa78684a644d = tyyppi constellation-design
+
+seg-22e4cbe23fb2 = Monitähdistöpeitto: neljä maailmanlaajuista satelliittinavigointijärjestelmää (GNSS) yhdessä, näkyvien satelliittien, DOP-kertoimen (tarkkuuden heikkenemiskerroin) ja saatavuuden karttana koko Maan yli yhden päivän ajalta.
+
+seg-cd74615ba3dd = Matalan Maan kiertoradan paikannus-, navigointi- ja ajanmääritys- (PNT) mega-tähdistö: { "5 000" } satelliittia neljässä Walker-kuoressa, pisteytettynä kattavuuden ja DOP-kertoimen (tarkkuuden heikkenemiskerroin) karttana.
+
+seg-59bb18c802a3 = Kuun välitys- ja navigointitähdistö: satelliitit elliptisillä kuun jäädytetyillä radoilla (ELFO) sekä pyöreä matalan Kuun kiertoradan kuori, pisteytettynä kattavuuden ja DOP-kertoimen (tarkkuuden heikkenemiskerroin) karttana koko Kuun yli yhden päivän ajalta.
+
+seg-64e634b04436 = tyyppi contact-schedule
+
+seg-b6736838f1d6 = Maayhteyksien suunnittelu: kolme havainnollista satelliittia kolmen havainnollisen aseman yllä { "12" } tunnin ajan. Ajo antaa jokaiselle satelliitti–asema-ohitukselle sen yhteysikkunan ja datamäärän, jonka DVB-S2:n mukautuva koodaus ja modulaatio (ACM) voi siirtää sen aikana (ETSI EN { "302" } 307-1 -standardin taulukon { "13" } kynnykset plus toteutusmarginaali). Sen jälkeen se rakentaa ristiriidattoman yhteyssuunnitelman, jossa kukin antenni palvelee yhtä satelliittia kerrallaan, yhteyksien välillä on käännösaika, ja kukin satelliitti lähettää alalinkillä yhdelle asemalle kerrallaan. Toimitus painotetaan prioriteetilla ja rajataan kunkin satelliitin jonoon. Kolme suunnitelmaa raportoidaan rinnakkain: rajahyötygreedy, ensin tullut ensin palveltu -lähtötaso ja, kun ehdokasjoukko on pieni, tarkka optimi sekä greedyn optimaalisuusero.
+
+seg-12fb09af17f6 = tyyppi earth-gnss-lunar
+
+seg-0f550587e7e0 = tyypin kirjanpitorivit (ledger) ovat mallinnettuja · { "0" } / { "1" } riviä validoitu
+
+seg-435e296b48ab = tyyppi entry-heating
+
+seg-d7ec70cdbcfc = Stardust-näytepalautuskapselin sisääntulo: julkaistu tapaus, jota vasten tyyppi <c1/> tarkistetaan (xval/entry-stardust/PREREGISTRATION.md; tests/entry_stardust_published.rs).
+
+seg-c2dc08297b0f = tyyppi eo-coverage
+
+seg-fbb405d27780 = tyyppi eo-radiometry
+
+seg-f178d4dbb034 = Nadir-kuvaimen radiometria ja kuvanlaatu ILLUSTRATIVE pienelle Maan havainnointikameralle (ei minkään operaattorin suunnitelmaa): { "0.40" } m aukko, { "3.6" } m polttoväli (F/9), { "5.5" } um pikselit, korkeudelta { "500" } km. Ajo antaa kohtauksen, jonka heijastavuus on { "15" } %, signaali-kohinabudjetin, järjestelmän MTF:n Nyquistilla, suhteellisen reunavasteen ja NIIRS-arvon GIQE-version { "4" } mukaan. MODELLED: NIIRS on empiirinen regressio, joka on laskettu mallinnetuilla syötteillä, ei todellisen kuvan luokitus.
+
+seg-2487ebfca518 = tyyppi ephemeris
+
+seg-2771a42a30a7 = tyyppi fusion
+
+seg-6452c9a86abf = Yhteinen anturifuusio-PNT: yksi Kalman-suodatin on navigaattori, joka fuusioi kellon ja inertian tilat ja jota optinen ISL-ajansiirto tukee, sen sijaan että riippumattomia ennustimia yhdisteltäisiin. GNSS estetty { "1.8" } h.
+
+seg-9b62a8213db0 = Kytketty yhteinen anturifuusio-PNT: samat laitekokonaisuudet ja GNSS-katko kuin tiedostossa <c1/>, mutta navigaattori on YKSI pinottu Kalman-suodatin paikalle, nopeudelle, kellon vaiheelle, kellon taajuudelle ja kiihtyvyysanturin harhalle (taulukko <c2/>). GNSS:n ollessa nimellinen se ottaa pseudoetäisyyksiä, kunkin muodossa <c3/> näkölinjakertoimen g mukaan, joten yksi mittaus rajoittaa paikkaa ja kelloa yhdessä ja suodatin kantaa niiden ristikovarianssia; optiset ajansiirron uudelleensynkronoinnit katkon aikana ovat vain kelloa koskevia pseudoetäisyyksiä. Kiihtyvyysanturit kantavat tässä vakioharhaa, jonka harhatila oppii ennen katkoa (<c4/> nollaa harhat, koska sen suodattimissa ei ole harhatilaa). Valmistajariippumaton; kello- ja kohinaparametrit kuten tiedostossa <c5/>, harhat ovat havainnollistavia. MODELLED.
+
+seg-8e5c015bcaf4 = tyyppi gnss-ins
+
+seg-8f43fc2f8b71 = Tieajoneuvo kaupunkikanjonin läpi: GNSS/INS-dead-reckoning alikulun ja tienvarsihäirintälähettimen yli, kaistatason budjettia vasten.
+
+seg-8eefd1c4bea9 = Löyhästi kytketty GNSS/INS: kolmiakselinen strapdown-navigaattori, jota kurinpitää 15-tilainen virhetila-EKF, ja joka sitten jatkaa vapaasti { "60" } s GNSS-katkon läpi. Toisin kuin tyyppipaketti <c1/> (1-DOF skalaarinen dead-reckoner, jossa totuuteen nollaus joka paikkaratkaisulla), tämä ajaa todellista suljetun silmukan suodatinta: se oppii kohinaisista paikkaratkaisuista GNSS:n ollessa käytössä ja jatkaa korjatulla tilalla katkon aikana. Raportoitu virhe on todellinen horisontaalinen jäännös totuutta vasten; jokainen anturi kantaa myös avoimen silmukan vapaan INS:n RMS-arvon, jotta suodattimen arvo on selvä.
+
+seg-e0a3e777d810 = Ilmailun GNSS/INS tiukalla kytkennällä: kevyt lentokone nousee ilmaan, nousee { "6" } deg kulmassa, tasaantuu ja lentää { "25" } deg kallistuskulmalla koordinoidun käännöksen (liikeradan profiili <c1/>); GNSS estetään kahdeksi minuutiksi, joka kattaa käännöksen, ylläpidon vaikeimman osan, koska suunta- ja asentovirheet projisoituvat silloin horisontaaliin. Tiukasti kytketty (<c2/>) GPS:n kaltaisessa SGP4-Walker-tähdistössä.
+
+seg-736606e5f26d = Meren GNSS/INS: alus nopeudella { "8" } m/s (noin { "15.5" } solmua) kiertää täysiä ympyröitä nopeudella { "1" } deg/s, sitten viiden minuutin GNSS-katko, samalla suljetun silmukan 15-tilaisella GNSS/INS-suodattimella kuin tiedostossa <c1/>. Liike tulee liikeratakirjastosta (<c2/>, profiili <c3/>): hidas, tasainen kääntyminen, laivan eikä auton toimintatila.
+
+seg-d30ac9fd7056 = Rautateiden GNSS/INS tiukalla kytkennällä: juna kulkee pysäkkien välillä nopeudella { "30" } m/s loivissa { "20" } deg kaarteissa (liikeradan profiili <c1/>), ohittaa syvän leikkauksen, jossa vain kaksi satelliittia pysyy näkyvissä, ja sitten kahden minuutin tunnelin. Vastaanotin on tiukasti kytketty (<c2/>): se jatkaa niiden kahden satelliitin pseudoetäisyyksien fuusiointia, joita se yhä seuraa leikkauksessa, jossa löyhästi kytketyllä vastaanottimella ei ole lainkaan paikkaratkaisua. Satelliitit tulevat GPS:n kaltaisesta SGP4-Walker-tähdistöstä.
+
+seg-ea32ce169216 = Pieni miehittämätön ilma-alus GNSS-häirinnässä: kuinka pitkälle lennonohjaintason MEMS-inertiayksikkö ajelehtii, kun vastaanotin menettää lukituksen, taktisen tason yksikköön verrattuna, samalla suljetun silmukan GNSS/INS-suodattimella kuin tiedostossa <c1/>.
+
+seg-f8ac956d2974 = tyyppi gnss-sim
+
+seg-2bedb057a0e6 = Pseudoetäisyydet ja RAIM konttiportaalitrukille konttilaiturilla, laivasta maihin -nostureita merenpuolella ja konttipinoja maanpuolella: skenaario <c1/> horisonttiprofiilin esiasetuksella <c2/>.
+
+seg-769a624a8ba0 = Mittausalueen GNSS-simulaatio: pseudoetäisyydet ionosfääri- ja troposfääriviiveillä, jotka syötetään hetkellisen RAIM-laskennan suojaustasoja varten.
+
+seg-4f53c4dbffec = tyyppi gnss-ssv
+
+seg-b05ef0179faf = tyyppi gravity-map
+
+seg-10b07a5e6990 = tyyppi holdover-test
+
+seg-e41c625df8c5 = Holdover-testi, sisäänluvun esimerkki: aikavirhetallenne, jonka pisteyttää tyyppi holdover-test (”vedä antenni irti, pisteytä holdover”). Tallenne jaetaan niihin kahteen hetkeen, jotka KÄYTTÄJÄ ilmoittaa, tässä GNSS poistetaan hetkellä { "600" } s ja palautetaan hetkellä { "2 400" } s, ja jokainen vaihe mitataan sille kirjoitettuja ITU-T-maskeja vasten.
+
+seg-d2d4b620af4b = linuxptp-lokin holdover-testi: samat neljä vaihetta kuin tiedostossa holdover-test-example.toml, tallenne luettuna ptp4l-servolokista taulukon [series.clock_log] kautta (muoto "ptp4l", poikkeamat yksikössä ns, daemonin omat aikaleimat, tässä { "5" } s välein).
+
+seg-56269cd82ed4 = tyyppi hybrid
+
+seg-098fb3a74071 = Hybridi-PNT-päätösnäyte: kvanttikokonaisuus (optinen kello + kylmäatomi-IMU + optinen ISL-ajansiirtotuki) vs. klassinen kokonaisuus (CSAC + navigointitason IMU + RF). GNSS estetty { "1.8" } h.
+
+seg-e1678a444911 = tyyppi hybrid-optical-rf
+
+seg-703bf09ca356 = tyyppi hybrid-ukf
+
+seg-a65d5e564286 = tyyppi impairment-eval
+
+seg-39f1050e5129 = tyyppi inertial
+
+seg-3b8cc1893361 = Dead-reckoning GNSS-katkon aikana: kylmäatomikvanttikiihtyvyysanturi vs. navigointitason. Harha = GNSS-kalibroinnin jälkeinen jäännös = julkaistu harhavakaus; q_va = (kohinan neliöjuuri-PSD)^{ "2" }.
+
+seg-9035c0bc73eb = Kvanttiesiasetus: kylmäatomi-interferometrikiihtyvyysanturi (CAI), rakennettu interferometrin fysiikasta, navigointitason kvartsikiihtyvyysanturia vasten GNSS-katkon aikana. Yksiulotteinen dead-reckoning-ylläpito: { "10" } minuuttia GNSS:ää, sitten { "110" } minuuttia estettynä.
+
+seg-7d03a68ac877 = tyyppi ins-trn-coast
+
+seg-c6ab90fcbc23 = INS/TRN-ylläpitovirhemalli — paikkavirhe ylläpidon keston funktiona ja ylläpidon kestot, joilla se ylittää { "10" } m ja { "50" } m.
+
+seg-542b2d91bff8 = Merisataman lähestyminen GNSS:n ollessa häirittynä: kuinka pitkään inertiaalinavigointijärjestelmä (INS) pitää laivan satamaan lähestymisen tarkkuusbudjetin sisällä, kun maailmanlaajuinen satelliittinavigointijärjestelmä (GNSS) on menetetty.
+
+seg-471f2e00f244 = Raidetunnelin ylläpito: kuinka pitkään junan inertiaalinavigointijärjestelmä (INS) pitää sen raiteiden erottelubudjetin sisällä ilman maailmanlaajuista satelliittinavigointijärjestelmää (GNSS) tunnelissa.
+
+seg-35c6036b9099 = tyyppi integrity
+
+seg-b874df525f79 = Kaksoistähdistön ARAIM-saatavuus: GPS + Galileo arvioituna edistyneellä ARAIM-moottorilla, mukaan lukien koko tähdistön vikahypoteesi (<c1/>).
+
+seg-af9e9ed1468c = ARAIM-saatavuus satamaan saapuvalle alukselle: tyyppi <c1/> maapaikan käyttäjällä (<c2/>) horisonttiprofiilin esiasetuksella <c3/>.
+
+seg-5387b81f072b = tyyppi jamming
+
+seg-79c636fca6b1 = Laiva saapuu satamaan rantahäirintälähettimen alla, ja edessä olevat laiturirakennukset peittävät matalat satelliitit siinä suunnassa: skenaario <c1/> horisonttiprofiilin esiasetuksella <c2/>.
+
+seg-d7a49be6aa37 = Meren GNSS-häirintä: rannalla tai aluksessa oleva laajakaistainen häirintälähetin estää maailmanlaajuisen satelliittinavigointijärjestelmän (GNSS) avomerellä kulkevalta laivalta.
+
+seg-6c9aae72c01b = tyyppi launch-window
+
+seg-784412eac737 = tyyppi leo-navmsg
+
+seg-af46a64149f5 = ESA Celeste in-orbit demonstration (IOD) -esiasetus: ainoa skenaario, joka käyttää ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT -työpajassa { "2026" } esiteltyä aineistoa. Pidätä se julkaisusta poistamalla tämä tiedosto ja tiedosto src/leo_navmsg/presets/celeste_iod.rs (katso sen tiedoston otsikko).
+
+seg-c7deba26589d = LEO-navigointiviesti: sen Kshana-binäärikoodaus, kvantisointibudjetti sekä RINEX-tyyliset ja CSV-viennit.
+
+seg-ea14c04a5e2f = LEO-navigointiviesti: viestipäivitys ohituksen keskellä ja se, näkeekö käyttäjä hypyn.
+
+seg-92932c07a7cb = LEO-navigointiviesti: neljä efemeridimallia yhdellä radalla sekä Liu ym. { "2025" } SISRE-vs-korkeus-taulukko.
+
+seg-28fc0b60d88c = tyyppi leo-pass
+
+seg-cf353e8a27df = tyyppi leo-pnt-chain
+
+seg-1465309100f6 = Celeste IOD päästä päähän (valinnainen esiasetus): E5-konfiguraatio #1 -signaali -> Celeste IOD -ohitus -> Celeste-tyylinen navigointiviesti -> GPS + Galileo + Celeste IOD -fuusioitu paikkaratkaisu.
+
+seg-73db6e9fc765 = LEO-PNT päästä päähän yleisellä tähdistöllä: signaalisuunnittelu -> ohituksen linkkibudjetti -> navigointiviesti -> fuusioitu MEO + LEO -paikkaratkaisu ja tarkan pistepaikannuksen suppeneminen.
+
+seg-ad6744824a5f = Xona Pulsar päästä päähän: julkinen X5-signaali -> Pulsar-ohitus -> LEO-navigointiviesti -> GPS + Galileo + Pulsar fuusioitu paikkaratkaisu ja tarkan pistepaikannuksen suppeneminen.
+
+seg-b2c874e083a6 = tyyppi leo-ppp
+
+seg-017f8db74a59 = tyyppi leo-pvt
+
+seg-923f04fa9b36 = Fuusioitu MEO- ja LEO-paikannus alukselle syvällä fjordissa, missä laaksonseinämät peittävät kaiken matalalla kanavan yli: tyypin <c1/> yhteismoodi horisonttiprofiilin esiasetuksella <c2/>.
+
+seg-dde47f233669 = Näkyvät satelliitit ja tarkkuuden heikkenemiskerroin (DOP) päiväntasaajalta navalle: pelkkä MEO GNSS, pelkkä lähes napakiertoratainen LEO-tähdistö ja molemmat.
+
+seg-ef202b7d50ed = tyyppi leo-signal
+
+seg-22cd3a939c19 = Celeste IOD -signaalisuunnitelmat: taajuuskaistat ja ”Classical Pilot” -signaalikonfiguraatio #1 ESA:n Celeste In-Orbit Demonstration (IOD) -matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritystehtävässä (PNT) parametrisoituina signaalisuunnitelmina.
+
+seg-f5caf70c73f0 = LEO-PNT-kaistavertailu UHF:stä leveään C-kaistaan: mitä matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritys- (PNT) signaali voittaa ja menettää kullakin kaistalla, riippumatta mistään tietystä järjestelmästä.
+
+seg-90239179296f = Xona Pulsar -signaalit: kaupallisen matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritystähdistön (PNT) X1- (L1-kaista) ja X5-signaalit (L5-kaista) niiden julkaistusta signaalitaulukosta (Leclère, Marathe ja Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551), käännökseen sisään kootun esiasetuksen <c1/> muodossa.
+
+seg-a440eecbe1c9 = tyyppi link-budget
+
+seg-fb3f2dcccbf7 = tyyppi lunar-attack-surface
+
+seg-4486fa88f989 = tyyppi lunar-beacon
+
+seg-2707dd910b99 = tyyppi lunar-differential-pnt
+
+seg-ff296a13dcc8 = tyyppi lunar-frame-campaign
+
+seg-319137c1458e = tyyppi lunar-frame-realisation
+
+seg-d4a6801f9670 = tyyppi lunar-infrastructure
+
+seg-a3dc5227b366 = Kshana-skenaario lunar-infrastructure: carrier-phase, PIKAESIMERKKI (kaksi lyhyttä kaarta, { "10" } arvontaa, sekunteja; pisteytetty konfiguraatio, kolme kaarta ja { "400" } arvontaa, on xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; suunnittelu, syötteet ja kynnykset on lukittu tiedostossa xval/lunar-infra/PREREGISTRATION.md (tallennettu ennen yhtään ajoa). ILLUSTRATIVE-syötteet on merkitty niiden julkisine lähteineen siellä.
+
+seg-1f55219aed27 = Kshana-skenaario lunar-infrastructure: frame-coestimation. MODELLED; suunnittelu, syötteet ja kynnykset on lukittu tiedostossa xval/lunar-infra/PREREGISTRATION.md (tallennettu ennen yhtään ajoa). ILLUSTRATIVE-syötteet on merkitty niiden julkisine lähteineen siellä.
+
+seg-4e990ecb6404 = Kshana-skenaario lunar-infrastructure: geodesy-sensitivity. MODELLED; suunnittelu, syötteet ja kynnykset on lukittu tiedostossa xval/lunar-infra/PREREGISTRATION.md (tallennettu ennen yhtään ajoa). ILLUSTRATIVE-syötteet on merkitty niiden julkisine lähteineen siellä.
+
+seg-e27e1de1a233 = Kshana-skenaario lunar-infrastructure: od-consistency. MODELLED; suunnittelu, syötteet ja kynnykset on lukittu tiedostossa xval/lunar-infra/PREREGISTRATION.md (tallennettu ennen yhtään ajoa). ILLUSTRATIVE-syötteet on merkitty niiden julkisine lähteineen siellä.
+
+seg-30dc631d148f = Kshana-skenaario lunar-infrastructure: od-consistency mallintamattomalla kiihtyvyydellä. MODELLED; suunnittelu, syötteet ja kynnykset on lukittu tiedostossa xval/lunar-infra/PREREGISTRATION.md (tallennettu ennen yhtään ajoa). ILLUSTRATIVE-syötteet on merkitty niiden julkisine lähteineen siellä.
+
+seg-68eaba3db338 = Kshana-skenaario lunar-infrastructure: space-tie. MODELLED; suunnittelu, syötteet ja kynnykset on lukittu tiedostossa xval/lunar-infra/PREREGISTRATION.md (tallennettu ennen yhtään ajoa). ILLUSTRATIVE-syötteet on merkitty niiden julkisine lähteineen siellä.
+
+seg-01d06e830746 = tyyppi lunar-integrity
+
+seg-afb7372a588a = Kuun etelänavan eheys: Artemis-alueelle laskeutunut vastaanotin edustavaa LunaNet-välitysjoukkoa vasten, ARAIM-suojaustasot { "24" } h ohituksen ajalta.
+
+seg-e0180b8a7560 = tyyppi lunar-interop-export
+
+seg-8a38317ae6d1 = tyyppi lunar-jamming
+
+seg-ea44c47623c9 = tyyppi lunar-joint-od-clock
+
+seg-f796750036cc = tyyppi lunar-llr-datum
+
+seg-fb08183a8243 = Kuun vertailuasemageodesia, ASEMAN KANSSA: viisi retroreflektoriryhmää sekä yksi retroreflektori ja yksi VLBI-majakka Kuun etelänavan vertailuasemapaikalla.
+
+seg-2255165dd833 = tyyppi lunar-station-coverage
+
+seg-5c55b91fa564 = Kuun vertailuaseman kattavuus: millaisen paikannustarkkuuden ja suojaustason käyttäjä saa Kuun differentiaalisesta vertailuasemasta tunnetulla etelänapa-alueen paikalla, etelänapa-alueen yli ja yhden päivän ajan.
+
+seg-e1a3830ad9ed = Kuun vertailuaseman kattavuus JULKISESTI ILMOITETUIN OLETUKSIN: sama tyyppi kuin lunar-station-coverage.toml, jossa jokainen syöte, jonka julkinen lähde ilmoittaa, on asetettu siitä ja viitattu lähdetunnuksella; jokainen syöte, jota mikään lähde ei ilmoita, on säilytetty koodipuun oletusarvosta ja merkitty ILLUSTRATIVE. Lähteet (haettu 2026-10-12; otsikot, tunnisteet ja lisenssit tiedostossa docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, ”Lunar local Differential PNT and Selenodetic Reference Station” (diat) S3 UNOOSA ICG WG-B, Lunar PNT, kesäkuu { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, ”Moonlight Programme Development Status”
+
+seg-d168096a3514 = Kuun vertailuaseman kattavuus maastolla: mukana toimitettu lunar-station-coverage-skenaario, jossa kullekin paikalle ajetaan horisontti säteenkuljetuksella (ray-marching) todellisen kuun korkeusmallin yli asemalla ja jokaisessa käyttäjäpisteessä, pelkän tasaisen korkeuskulmamaskin sijaan.
+
+seg-88a9a6405048 = tyyppi lunar-time-budget
+
+seg-efaa5b60d16f = Kuun vertailuaseman aikalaboratorio: miniatyyri rubidiumkello (miniRAFS) ohjattuna Kuun koordinoituun aikaan (Coordinated Lunar Time, LTC) ja sitten jätettynä vapaasti käymään.
+
+seg-debab0063d91 = tyyppi lunar-time-offset
+
+seg-79c5a9295ed5 = tyyppi lunar-vlbi
+
+seg-8d967bfd5689 = Lunar-VLBI-aseman koordinaattikovarianssi: lunar-vlbi-havaittavan viiveosittaisderivaatat kerättynä eksplisiittisen AIKATAULUN (kantaviivat x epookit) yli Fisherin informaatiomatriisiksi, käännettynä ja raportoituna aseman koordinaattikovarianssina ja koordinaattikohtaisena aseman sigmana — moottorin laskema tuloste eikä oletetun isotrooppisen g = { "3" } tasajakautumiskertoimen läpi viety skalaarinen viiveen toistotarkkuus. Tila sisältää Maahan KIINTEÄT (ITRS) asemakoordinaatit, joten jakobiaani on inertiaalinen osittaisderivaatta kierrettynä kunkin epookin GCRS->ITRS-matriisilla: Maan pyöriminen tekee näistä koordinaateista havaittavia, ja raportti MITTAA Maahan kiinteän näkölinjan pyyhkäisyn ja majakan deklinaation sen sijaan että olettaisi ne. Yksi havainto on yksi (kantaviiva, epookki) -pari, jossa MOLEMMAT asemat ovat korkeuskulmamaskin yläpuolella, painotettuna arvolla 1/delay_sigma_s^{ "2" }. Raportoi jokaisella ajolla asteluvun, datumivajeen, ehtoluvun, täyden informaatiospektrin, kovarianssimatriisin, asemakohtaiset akselikohtaiset ja 3D-sigmat sekä vapaan verkon nollatilan; asteluvun puutteessa pääsigma julkaistaan arvona NULL ja tilatiedolla, eikä sitä koskaan lueta lähes singulaarisesta käänteismatriisista. Tasajakaumaarvo c*delay_sigma_s*sqrt(g/N) SAMALLE aikataululle annetaan lasketun arvon rinnalla suhteen kanssa, yhdessä isotrooppisen jälkirajan sqrt(p/trace(M)) kanssa, jonka AM-HM tekee kovaksi alarajaksi — joten suhde on se anisotropia, jonka oletus hylkäsi. Viiveen sulkeutuminen tau_ik = tau_ij + tau_jk tekee vain n-1 kantaviivasta geometrisesti riippumattomia kaikista n(n-1)/2 kantaviivasta; raportti ilmoittaa molemmat lukumäärät. MODELLED: Kuun keskipisteen efemeridi, asemakellot, troposfääri ja Maan orientaatioparametrit pidetään KIINTEINÄ ja havaintoja käsitellään riippumattomina, joten kovarianssi on Cramér–Rao-raja supistetulle parametrijoukolle, ei ennustettu istuntotulos; viiveen sigma, asemakoordinaatit ja aikataulu ovat syötteitä. Osittaisderivaatta, jonka geometrisen viiveen jakobiaani jättää pois (erotettu Shapiro-termi), mitataan äärellisellä erotuksella ja annetaan tulosteena. Ei geodeettinen tuote.
+
+seg-a558fdefae3d = tyyppi lunar-vlbi-fim
+
+seg-50eb943d4ef7 = tyyppi mars-pnt
+
+seg-79aed7a6b416 = Mars-PNT — matalalla Marsin kiertoradalla oleva käyttäjä navigoi simuloitua MARCONI-välitystähdistöä vasten (areostationaariset välittimet lähettävät yksisuuntaisesti + välittävät kaksisuuntaisesti syvän avaruuden asemalle) yhteisen yksi-/kaksisuuntaisen radiometrisen fuusioestimaattorin kautta.
+
+seg-852783147633 = Mars-PNT — kiinteä pintakäyttäjä (laskeutuja / mönkijä pyörivällä Marsin pinnalla) navigoi simuloitua MARCONI-välitystähdistöä vasten yhteisen yksi-/kaksisuuntaisen radiometrisen fuusioestimaattorin kautta.
+
+seg-1b2748b538ae = Mars-PNT — Marsin siirto-/sieppauskäyttäjä (korkea, eksentrinen areosentrinen kaari — pitkä kaari, jota ajoneuvo lentää lähestymisessä / sieppauskiertoradalla) navigoi simuloitua MARCONI-välitystähdistöä vasten yhteisen yksi-/kaksisuuntaisen radiometrisen fuusioestimaattorin kautta.
+
+seg-28938416c04b = tyyppi moonlight-service-volume
+
+seg-f0ccaa966a0d = tyyppi ntn-positioning
+
+seg-95202f70f915 = tyyppi oem-interop
+
+seg-64b58fe6b7e1 = tyyppi optical-atmosphere
+
+seg-b8648cc3c266 = Optinen PNT ilmakehän läpi: kolme ILLUSTRATIVE maa-asemaa (pilvisempi pohjoinen asema, kohtalainen keskiasema ja selkeämpi eteläinen asema) katsovat LEO-optista päätelaitetta { "30" } asteen korkeuskulmalla aallonpituudella { "1550" } nm. Pilviilmastot ovat ilmoitettuja syötteitä, eivät mittauksia eivätkä minkään aineiston arvoja, joten jokainen alla oleva saatavuus on MODELLED. Ajo raportoi asemakohtaisesti kirkkaan ilman häviön, Hufnagel–Valley-turbulenssitilan, saatavuuden linkkimarginaalia vasten, marginaalin, joka tarvitaan { "40" } / { "50" } / { "60" } / { "70" } prosentin saatavuuteen (optinen linkki ei läpäise paksua pilveä, joten asemalla on saatavuuskatto, jota mikään marginaali ei nosta, raportoituna asemakohtaisesti), katkon kestojakauman ja ajoitusvirheen kasvun katkoa kohti kolmelle kelloluokalle, sitten parhaiden { "1" }, { "2" } ja { "3" } aseman paikkadiversiteettisaatavuuden riippumattomalla ja etäisyyskorreloituneella säällä ({ "500" } km dekorrelaatiopituus).
+
+seg-f85f23a4fa5c = Parannustekniikoiden mitä-jos-tarkastelut yhdelle ILLUSTRATIVE maa-asemalle: aallonpituuden muutos, suurempi vastaanottoaukko, adaptiivisen optiikan tuikinnan vähennys ja lisämarginaali, kukin ennustettuna saatavuuden hyötynä saman aseman lähtötasoon nähden. Hyödyt ovat ilmoitettuja syötteitä (Kshana ei mallinna adaptiivisen optiikan silmukkaa), uusi aallonpituus tai aukko arvioi uudelleen kirkkaan taivaan budjetin, kirkkaan ilman häviön ja aukon keskiarvoistuksen, ja kaikki on MODELLED. Päätelaite on tarkoituksella marginaalirajoitteinen (noin { "3" } dB ennen ilmakehää), jotta tekniikoilla on merkitystä; ajo ilmoittaa myös pilvikaton, jota mikään tekniikka ei nosta. Alle { "100" } prosentin tavoitteet marginaalitaulukosta raportoidaan tarvittavana lisämarginaalina (negatiivinen tarkoittaa ylijäämää).
+
+seg-b226ac4eebdf = tyyppi orbit
+
+seg-4fe91b7e2c29 = GNSS-saatavuus ja tarkkuuden heikkenemiskerroin (DOP) kaupunkikadun pohjalla: tyyppi <c1/> maapaikan käyttäjällä (<c2/>) horisonttiprofiilin esiasetuksella <c3/>.
+
+seg-9f0a005cfe62 = tyyppi passes
+
+seg-c2f9d49da519 = tyyppi pvt
+
+seg-1e5828af879a = tyyppi quantum-anomaly-detect
+
+seg-d3897f9ebb6c = Vika-/poikkeamahavaitseminen kvantti-PNT-järjestelmille — merkitty vikaluettelo + ROC AUC + pienin havaittava vika, kvanttikellotuettu vs klassinen monitori. MODELLED; havainnollistavat julkisten lähteiden parametrit; mallintaa luokkaa, ei TRL-/lentoväitettä.
+
+seg-95db949095b8 = tyyppi quantum-gnss-free-nav
+
+seg-b5e010553b6a = GNSS-vapaa kvanttinavigointi — kvantti (kylmäatomi-interferometri) vs klassinen navigointitason INS-dead-reckoning GNSS-katkon yli. MODELLED; havainnollistavat julkisten lähteiden laiteparametrit; mallintaa luokkaa, ei TRL-/lentoväitettä.
+
+seg-6d0a57c5b71d = tyyppi quantum-time-transfer
+
+seg-6d837ea24f97 = Luotettu kvanttiajoitus — päästä päähän ajansiirtoketju, turvallinen jakelu, poikkeamien havaitseminen ja kvantti vs. klassinen vertailu. MODELLED; havainnollistavat julkisten lähteiden laite-/linkkiparametrit; mallintaa luokkaa, ei TRL-/lentoväitettä.
+
+seg-09ba30218f38 = tyyppi quantum-trade
+
+seg-e39997960d5d = tyyppi realtime-frame-eop
+
+seg-bb2002e9948d = tyyppi reentry
+
+seg-b1c293c644d1 = tyyppi slot-timing
+
+seg-65401b133472 = Aikaväli-ajoitus: kuinka pitkään uunistabiloitu kideoskillaattori (OCXO) matalan Maan kiertoradan pienellä satelliitilla pysyy aikaindeksoidun reititysvälin suoja-ajan sisällä viimeisen maailmanlaajuisen satelliittinavigointijärjestelmän (GNSS) paikkaratkaisun jälkeen, ja kuinka usein se tarvitsee paikkaratkaisun.
+
+seg-b1d59d7a3350 = tyyppi solar-system
+
+seg-67928e2d349f = tyyppi space-packet
+
+seg-ce6afe97c0a4 = tyyppi space-weather
+
+seg-008e207782f6 = tyyppi spectrum
+
+seg-ac1083b109f8 = L-kaistan vesiputous häirinnän alla: koko maailmanlaajuisen satelliittinavigointijärjestelmän (GNSS) L-kaista yhtenä tehospektritiheytenä (PSD), taajuus poikittain, aika alaspäin, kun käsikirjoitettu häirintälähettimien sarja kytkeytyy päälle.
+
+seg-859958a06acc = Monikaistainen häirintävesiputous: matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritys- (PNT) signaalit neljällä kaistalla (UHF, L, S ja C) GPS:n ja Galileon vieressä, kullakin kaistalla oma häirintälähetin, piirrettynä yhtenä vesiputouksena kaistaa kohti yhdellä aikajanalla.
+
+seg-559fe9211290 = tyyppi spoof
+
+seg-6e099f8a060a = Aktiivinen aikaharhautushyökkäys: voiko kunkin kellon eheysvalvonta havaita harhautuksen ennen kuin se aiheuttaa vahinkoa?
+
+seg-43dad2e00cde = tyyppi spoof-detect
+
+seg-0d6c2e664734 = tyyppi sweep
+
+seg-5fb588430052 = tyyppi sweep-nd
+
+seg-b22e7ba4a1a0 = Yleinen N-ulotteinen parametripyyhkäisy MINKÄ TAHANSA skenaariotyypin yli. Toisin kuin vain kelloa koskeva tyyppi <c1/>, tyyppi <c2/> vaihtelee skenaarion <c3/> pistenotaatioisia TOML-avaimia akselien karteesisen tulon yli, ajaa jokaisen ruudukkosolmun uudelleen ja lukee valitut mittarit tuloksesta pistenotaatioisella JSON-polulla. Se toimii jokaiselle tyyppipaketille (inertial, gnss-ins, integrity, spoof, …), koska se toimii TOML/tulos-rajapinnassa, ei tyyppipakettikohtaisessa Rust-tyypissä. Natiiviajot arvioivat ruudukon rinnakkain (ei lisäriippuvuutta); wasm putoaa sekventiaaliseen. Tulostusruudukko on deterministinen ja rivijärjestyksinen (viimeinen akseli vaihtelee nopeimmin).
+
+seg-5f1e87304f90 = tyyppi telecom-timing
+
+seg-999121d87895 = Telealan ajoituksen vertailu: rubidiumkello, joka menettää maailmanlaajuisen satelliittinavigointijärjestelmän (GNSS) viitteen ja pitää { "24" } tuntia holdoverissa, tarkistettuna maskeja vasten (International Telecommunication Union Telecommunication Standardization Sector, ITU-T).
+
+seg-3cfcd6f8717b = Telealan ajoitus, taajuussynkronointi: vapaasti käyvä uunistabiloitu kideoskillaattori (OCXO) synkronisen Ethernetin laitekellon (EEC) vaelluksen generointimaskeja vasten (International Telecommunication Union Telecommunication Standardization Sector, ITU-T).
+
+seg-afd374569777 = Telealan ajoitus, sisäänluvun esimerkki: aikaväliviivesarja (TIE), annettu rivinsisäisenä ja tarkistettu maskeja vasten (International Telecommunication Union Telecommunication Standardization Sector, ITU-T).
+
+seg-eb02c7911f72 = tyyppi terrain-nav
+
+seg-b83a1fbd3435 = tyyppi terrain-slam
+
+seg-c988dce87d81 = tyyppi time-transfer-budget
+
+seg-a063a0ecc543 = Kaksisuuntainen satelliittiaika- ja taajuussiirto (TWSTFT) kahden ILLUSTRATIVE aseman välillä, toinen Keski-Euroopassa ja toinen Pohjois-Amerikan itäosassa, geostationaarisen välittimen kautta pituuspiirillä { "10" } deg W. Ajo ratkaisee kaksisuuntaisen yhtälön T_A - T_B ilmoitetuista laite-, transponderi-, ionosfääri- (Ku-kaista, 14/11 GHz) ja Sagnac-termeistä. Se muodostaa epävarmuusbudjetin, jonka tilastollinen termi on simuloidun, valkoista ja flicker-faasikohinaa sekä vuorokausittaista ei-resiprookkisuutta sisältävän linkin TDEV yhden päivän keskiarvoistusajalla. Viiveet ja epävarmuudet ovat havainnollistavia, eivät minkään laboratorion kalibrointia. MODELLED. Todellinen UTC-UTC(k)- tai asemakellosarja voidaan lisätä kohdassa [[series]] (muoto circular-t, mjd-csv tai rinex-clock) sen vakauden raportoimiseksi.
+
+seg-69138a582b9a = tyyppi timetransfer
+
+seg-a79dfece857e = Seurantasilmukan lukituksen menetys: C/N0 -> lukitus/lukituksen purkautuminen HYSTEREESILLÄ, lukituksen menettämiseen kuluva aika ja harhautuksen sisäänveto koodin ja kantoaallon poikkeaman NOPEUDEN funktiona. Moottorin nykyiset eston ja sieppauksen kriteerit ovat vastaanotetun tehon suhteita (häirintälähetin estää arvolla J/S = { "30" } dB, harhauttaja sieppaa arvolla { "3" } dB); todellinen lukituksen menetys ei ole tehosuhde, vaan se tapahtuu siellä, missä silmukan värinä plus dynaaminen rasitus ylittää sen seurantakynnysbudjetin. Raportoi ({ "1" }) kantoaallon (Costas) ja koodin (epäkoherentti early/late) 1-sigma-lämpövärinän C/N0:n funktiona, neliöintihäviö mukaan lukien, ilmoitettuja sääntöjä vasten { "3" }*sigma_PLL + theta_e <= { "45" } deg (15 asteen sääntö kolmen sigman muodossa) ja { "3" }*sigma_DLL + ramp lag <= d/2 chips; ({ "2" }) putoamisen ja uudelleenlukituksen C/N0-kynnykset rajoittavan silmukan nimettynä, uudelleenlukituksen kynnys JOHDETTU leveämmästä kaistanleveydestä, jolla vastaanotin vetää uudelleen sisään, eikä vain väitetty, joten hystereesin leveyden on osuttava välille { "5" }*log10(ratio) ja { "10" }*log10(ratio) dB; ({ "3" }) ilmoitettu lukituksen menetysaika kaksikynnyksisestä lukituksenilmaisimesta vahvistusviipymillä, ajettuna C/N0-rampin yli, raportoituna erikseen fysikaalisesta vaiheen karkaamisajasta (Viterbin keskimääräinen aika jaksonvaihtojen välillä, yksikössä log10 s, koska se kattaa satoja dekadeja); ({ "4" }) harhautuksen sisäänvetorajat — suurin koodin liukuma ja kantoaallon Doppler-nopeus, jota uhrin silmukat voivat seurata, kartalla molempien akselien yli, koska harhauttaja, joka liukuu näitä nopeammin, ei sieppaa silmukkaa vaan ohittaa sen; ja ({ "5" }) silmukan dynamiikan implikoima ESTOSÄDE raportoituna NYKYISEN tehosuhdesäteen RINNALLA, ei koskaan sen sijasta, ja niiden etumerkillinen erotus omana nimettynä kenttänään (denial_radius_delta_km) sekä määritelmä vieressä. Jokainen annettu numeerinen kenttä kantaa yksikön ja alkuperäluokan. VALIDATED suljetut muodot: kantoaallon ja koodin värinälausekkeet, silmukkasuodattimen redusointi sqrt({ "2" }*B_n*T) ja ensimmäisen asteen rampin viive on ristiintarkistettu moottorin oman sdr-korrelaattorin avulla, jota on askellettu eteenpäin siemenellä tehdyllä synteettisellä IF:llä — eri reitti samoihin lukuihin — tarkkuuksilla { "0.6" } %, { "3.7" } % ja { "0.17" } % vastaavasti, ja jaksonvaihtoajan takana oleva modifioitu Bessel I0 vakiotaulukkoarvoja vasten tarkkuudella { "1e-7" }. Alempi pätevyysraja varmistetaan eikä vain ilmoiteta: alle ~{ "32" } dB-Hz integrointiajalla { "1" } ms todellinen atan-erotin kyllästyy +-pi/2-alueensa vasten ja mittaa vähemmän värinää kuin mikään lineaarinen teoria. MODELLED: silmukoiden kaistanleveydet, integrointiaika, korrelaattorin väli, sisäänvetokaistanleveyden suhde, vahvistusviipymät, häirintälähettimen teho ja antennivahvistukset ovat edustavia kaistalukuja, eivät datalehti. EI mallinnettu: oskillaattorin (Allanin poikkeama) ja tärinän värinä, etupään kaistanleveyden rajoitus, monitie-eteneminen, AGC-dynamiikka, databittisiirtymähäviö, ulkoinen tuki ja mikä tahansa Costasin jaksonvaihtokaavan puolijaksokorjaus. Silmukkadynamiikan alla harhautuksen sieppauksella ei ole lainkaan sädettä — rajoittava tekijä on poikkeaman nopeus, ei teho — joten kyseinen kenttä on null perusteluineen eikä keksitty luku. Ei sertifioitu vastaanottimen suorituskykytuote.
+
+seg-0b943d7e5f66 = tyyppi tracking-loop
+
+seg-003cc12a2c96 = Seurantasilmukan lukituksen menetys: C/N0 -> lukitus/lukituksen purkautuminen hystereesillä, lukituksen menettämiseen kuluva aika sekä harhautuksen sisäänvetorajat, jotka koodin ja kantoaallon poikkeaman NOPEUS asettaa.
+
+seg-9ce64f725193 = Tutkimussarjat
+
+seg-b871497364ff = Sarja on skenaariotiedosto, joka luettelee muita skenaarioita; <c1/> ajaa sen yhdeksi leimatuksi tiedostopariksi <c2/> ja <c3/>. Tämä on ilmainen sarja-ajuri, ei maksullinen räätälöity tutkimus.
+
+seg-b0569509d058 = Quantum-Enabled PNT Demonstrator — kolme sovellusaluetta yhtenä tutkimuksena.
+
+seg-2f09b9930e10 = Näytä GitHub-sivustolla
+
+seg-67f767701c6d = <s1>Edellinen</s1>Ominaisuusalueet
+
+seg-ea79a68b0587 = <s1>Seuraava</s1>Tulosskeema

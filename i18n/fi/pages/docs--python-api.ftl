@@ -10,7 +10,7 @@ seg-a129b9e613d0 = Tyyppi
 
 seg-ce0b6a889a87 = Lähde: <c1/>
 
-seg-aea4d3625c20 = Kshana tarjoaa ensiluokkaisen Python-ohjelmointirajapinnan (API), joka on rakennettu työkaluilla <a1>PyO3</a1> ja <a2>maturin</a2>. Sen <c1/>-wheel-paketit rakennetaan vakaata Pythonin binäärirajapintaa (ABI) vasten, joten yksi wheel-paketti alustaa kohti toimii kaikilla CPython-versioilla ≥ { "3.9" }; paketit kattavat Linuxin, macOS:n ja Windowsin, kukin x86-64- ja 64-bittiselle ARM-arkkitehtuurille (ks. <a3>WHEEL_TAGS.md</a3>). Mukana toimitettu tyyppiprofiili (<c2/> + <c3/>) antaa editoreille sekä työkaluille <c4/> ja <c5/> täydet tyyppitiedot.
+seg-aea4d3625c20 = Kshana tarjoaa ensiluokkaisen Python-ohjelmointirajapinnan (API), joka on rakennettu työkaluilla <a1>PyO3</a1> ja <a2>maturin</a2>. Sen wheel-paketit (<c1/>) rakennetaan vakaata Pythonin binäärirajapintaa (ABI) vasten, joten yksi wheel-paketti alustaa kohti toimii kaikilla CPython-versioilla ≥ { "3.9" }; paketit kattavat Linuxin, macOS:n ja Windowsin, kukin x86-64- ja 64-bittiselle ARM-arkkitehtuurille (ks. <a3>WHEEL_TAGS.md</a3>). Mukana toimitettu tyyppiprofiili (<c2/> + <c3/>) antaa editoreille sekä työkaluille <c4/> ja <c5/> täydet tyyppitiedot.
 
 seg-8b0ad6639bd5 = Pikaopas
 
@@ -48,11 +48,11 @@ seg-f94eaef45f04 = allekirjoitettu todistepaketti lokin jaksolle muistissa: <c1/
 
 seg-ebd10aea2f6f = varmenna paketti: tiivisteet, ketju, allekirjoitus, valinnaisesti luotettu allekirjoittaja, koko loki ja aikaleima; <c1/> on <c2/>, <c3/> (julkista avainta ei annettu: ehjä, allekirjoittajaa ei vahvistettu) tai <c4/>
 
-seg-bf13e70f1d5c = komentorivin <c1/>-artefaktit tekstinä
+seg-bf13e70f1d5c = komentorivin artefaktit (<c1/>) tekstinä
 
 seg-1e5eb44bec6f = mitkä yhteentoimivuusmuodot sopivat skenaarioon, ajamatta sitä
 
-seg-f61d1659ed80 = <c1/>, <c2/>, <c3/>, <c4/> tai <c5/> muistissa: <c6/>, kukin tiedosto <c7/> (<c8/>-teksti tai <c9/>)
+seg-f61d1659ed80 = <c1/>, <c2/>, <c3/>, <c4/> tai <c5/> muistissa: <c6/>, kukin tiedosto <c7/> (tekstinä <c8/> tai <c9/>)
 
 seg-bef8250e8453 = GeoJSON-reitti kirjoitettuna reittipistepolkuskenaarioon (<c1/>)
 
@@ -70,7 +70,7 @@ seg-08d46de5e7cd = kuvaa yksi tallenne tai kaikki kansion tallenteet (lukee tied
 
 seg-7d9cc8394e65 = skenaarion ajoneuvon liike ja tapahtumat laboratorion GNSS-simulaattoria varten, muistissa: <c1/>; tyypit <c2/>, <c3/>, <c4/>; signaalia ei kirjoiteta, säilytä <c5/> tiedostojen mukana
 
-seg-e215c7242eb2 = julkisen viitekehyksen vastaavuus täytettynä tulostesteistä: <c1/> on lista <c2/>-sanakirjoja (teksti, enintään { "64" }); palauttaa <c3/>; kunkin rivin <c4/> kertoo, että ajot tukevat todisteita (supports evidence for) sen ominaisuuksille, ei sitä, että viitekehys on täytetty; liitä <c5/> mukaan kaikkeen esitykseen
+seg-e215c7242eb2 = julkisen viitekehyksen vastaavuus täytettynä tulostesteistä: <c1/> on lista sanakirjoja muotoa <c2/> (teksti, enintään { "64" }); palauttaa <c3/>; kunkin rivin <c4/> kertoo, että ajot tukevat todisteita (supports evidence for) sen ominaisuuksille, ei sitä, että viitekehys on täytetty; liitä <c5/> mukaan kaikkeen esitykseen
 
 seg-18d57e4920dd = staattiset vastaavuustaulukot (tai lähdeasiakirjat) Markdownina, lausuma ensimmäisenä
 
@@ -102,7 +102,7 @@ seg-f900de61f6e9 = horisonttiprofiilin osio (taulukko, katukanjoni, sektorit, ma
 
 seg-824f3c5951fa = taivaskartta kohteesta <c1/> staattisena SVG-tekstinä
 
-seg-0ffb65c8f5f3 = luottamusvirta (<c1/>) tai <c2/>-tulos Prometheus-tekstinä, CEF- tai LEEF-syslog-riveinä tai OTLP-JSON-sisältönä, enkoodereilla <c3/>; mitään ei lähetetä eikä kelloa lueta (syslog-riveillä ei ole aikaleimaa)
+seg-0ffb65c8f5f3 = luottamusvirta (<c1/>) tai tulos <c2/> Prometheus-tekstinä, CEF- tai LEEF-syslog-riveinä tai OTLP-JSON-sisältönä, enkoodereilla <c3/>; mitään ei lähetetä eikä kelloa lueta (syslog-riveillä ei ole aikaleimaa)
 
 seg-c1ab3dbbe2f2 = GNSS-häiriökartta ADS-B- tai AIS-CSV-tekstistä: yksi sanakirja UTC-päivää kohti, GeoJSON <c1/> (vain koostettu; heikentynyt ruutu ei nimeä häiriötä syyksi)
 
@@ -124,7 +124,7 @@ seg-393572e31421 = hanki ja seuraa sitten jokaista PRN:ää: epookkikohtainen Do
 
 seg-bc39efdb015a = vastaanottimen etupään ketju (kaistanpäästö, ura, tyhjennys, poisto, AGC (automaattinen vahvistuksensäätö), kvantisoija) kompleksinäytteille
 
-seg-ead1b81c712f = sovita seurantasilmukan lukituksen menetyksen malli vastaanottimen luottamusaikajanaan (<c1/>-skenaario)
+seg-ead1b81c712f = sovita seurantasilmukan lukituksen menetyksen malli vastaanottimen luottamusaikajanaan (skenaario <c1/>)
 
 seg-0ab8531d0465 = jäsennä tiedosto <c1/> (polku tai TOML-teksti) ratkaistuiksi malleikseen, kullakin <c2/> ja <c3/>; <c4/> virheellisestä tiedostosta
 
@@ -142,13 +142,13 @@ seg-e3956268cf1c = GNSS-IQ:n ja vastaanottimen luottamuksen allekirjoitukset
 
 seg-817bd0898d46 = Täydet allekirjoitukset sellaisina kuin <c1/> ne esittää (jokaisella pakollisten argumenttien jälkeisellä avainsanalla on oletus; profiilin docstring-kommentit kertovat kunkin merkityksen). Kääri listat <c2/> / <c3/> ja syötteet <c4/> / <c5/> taulukoiksi kutsulla <c6/>.
 
-seg-2dd9323829ce = Laboratorioon toistettava kampanja Pythonista ja sen raportti (kampanjatiedosto ja sen tallenteet ovat sinun; valmis solu ohitetaan seuraavalla kutsulla; <c1/> lukee seurantaepookkitiedoston, jonka <c2/>-ajo kirjoitti):
+seg-2dd9323829ce = Laboratorioon toistettava kampanja Pythonista ja sen raportti (kampanjatiedosto ja sen tallenteet ovat sinun; valmis solu ohitetaan seuraavalla kutsulla; <c1/> lukee seurantaepookkitiedoston, jonka ajo <c2/> kirjoitti):
 
 seg-5f48b88438df = Kutsussa <c1/> asetus <c2/> määrää, kuinka monta koodijaksoa luovutushankinta integroi koherentisti. Versiosta { "0.33.0" } alkaen oletus on <c3/>, mikä tarkoittaa automaattista: noin { "4" } ms ({ "4" } jaksoa koodille, jonka pituus on { "1" } ms, kuten GPS L1 C/A, ja { "1" } jakso koodille, jonka pituus on vähintään { "4" } ms), jolloin kanava aloittaa riittävän läheltä, jotta taajuussilmukka voi vetäytyä sisään; asetus <c4/> säilyttää version { "0.32" } yhden jakson haun.
 
 seg-012a83181bd3 = Tyypit
 
-seg-0b4f4c6c6014 = Tiedosto <c1/> tyypittää suljetut sanastot tarkistimille (mypy, pyright): <c2/> (jokainen tyypin nimi, <c3/>), <c4/> (neljä tunnistetta, jotka <c5/> palauttaa), <c6/> sekä <c7/>-tyypit <c8/> (lista näistä on kutsun <c9/> paluuarvo) ja <c10/> (tuloksen lohkon <c11/> alkio, joka laajentaa pakollisten avainten kantatyyppiä <c12/>). Ne ovat olemassa vain tyyppitarkistimille eikä niitä voi tuoda ajonaikaisesti; <c13/> pitää ne yhtäläisinä moottorin listojen kanssa.
+seg-0b4f4c6c6014 = Tiedosto <c1/> tyypittää suljetut sanastot tarkistimille (mypy, pyright): <c2/> (jokainen tyypin nimi, <c3/>), <c4/> (neljä tunnistetta, jotka <c5/> palauttaa), <c6/> sekä sanakirjatyypit (<c7/>) <c8/> (lista näistä on kutsun <c9/> paluuarvo) ja <c10/> (tuloksen lohkon <c11/> alkio, joka laajentaa pakollisten avainten kantatyyppiä <c12/>). Ne ovat olemassa vain tyyppitarkistimille eikä niitä voi tuoda ajonaikaisesti; <c13/> pitää ne yhtäläisinä moottorin listojen kanssa.
 
 seg-b5ad0d8e1456 = Jäsen
 
@@ -190,7 +190,7 @@ seg-8c0c32fcba2b = <c1/>, <c2/> ja <c3/> palauttavat täsmälleen saman <c4/> sa
 
 seg-00a3cf088cde = Ei Pythonissa: pitkäkestoiset prosessit
 
-seg-3780dd4973f0 = <c1/> (virtaprosessi portilla ja valinnaisella TCP-palvelimella <c2/>) sekä telemetrian viejät (Prometheus, OTLP, syslog; <c3/>) ja <c4/>-suoratoisto ovat vain komentorivillä: sidos palaa kutsun palatessa eikä pidä socketia auki. Python kattaa kunkin eräversion: <c5/> lokille, <c6/> virtakatkelmalle (pistemäärät ja tilat; porttia ei sovelleta) ja <c7/> generoidulle tekstille.
+seg-3780dd4973f0 = <c1/> (virtaprosessi portilla ja valinnaisella TCP-palvelimella <c2/>) sekä telemetrian viejät (Prometheus, OTLP, syslog; <c3/>) ja suoratoisto (<c4/>) ovat vain komentorivillä: sidos palaa kutsun palatessa eikä pidä socketia auki. Python kattaa kunkin eräversion: <c5/> lokille, <c6/> virtakatkelmalle (pistemäärät ja tilat; porttia ei sovelleta) ja <c7/> generoidulle tekstille.
 
 seg-82379c29d438 = <s1>Edellinen</s1>Kylmäatomi-interferometri
 
