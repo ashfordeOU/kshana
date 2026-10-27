@@ -70,15 +70,18 @@ pub fn epoch_jd(ctx: &ThreadCtx, t_s: f64) -> Result<f64, String> {
     let d: Vec<&str> = date.split('-').collect();
     let t: Vec<&str> = time.split(':').collect();
     if d.len() != 3 || t.len() != 3 {
-        return Err(format!("epoch `{s}` is not YYYY-MM-DDTHH:MM:SSZ"));
+        return Err(crate::terr!("e-lunar-phase-epoch-is-not-yyyy-mm", s = s));
     }
     let num = |x: &str| {
         x.parse::<f64>()
-            .map_err(|_| format!("epoch `{s}`: bad number `{x}`"))
+            .map_err(|_| crate::terr!("e-lunar-phase-epoch-bad-number", s = s, x = x))
     };
     let (y, m, day) = (num(d[0])? as i64, num(d[1])? as i64, num(d[2])? as i64);
     if !(1901..=2099).contains(&y) || !(1..=12).contains(&m) || !(1..=31).contains(&day) {
-        return Err(format!("epoch `{s}` is outside 1901-2099 or not a date"));
+        return Err(crate::terr!(
+            "e-lunar-phase-epoch-is-outside-1901-2099",
+            s = s
+        ));
     }
     let jd0 = (367 * y - (7 * (y + (m + 9) / 12)) / 4 + (275 * m) / 9 + day) as f64 + 1_721_013.5;
     let frac = (num(t[0])? * 3600.0 + num(t[1])? * 60.0 + num(t[2])?) / 86_400.0;
@@ -297,8 +300,9 @@ pub fn line_chart_svg(
     let mut svg = frame_open(w, h, title, subtitle);
     if pts.is_empty() {
         svg.push_str(&format!(
-            "<text x=\"{ml:.0}\" y=\"{:.0}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\">no finite points to plot</text></svg>",
-            mt + 20.0
+            "<text x=\"{ml:.0}\" y=\"{:.0}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\">{}</text></svg>",
+            mt + 20.0,
+            crate::t!("lunar-phase-no-finite-points-to-plot")
         ));
         return svg;
     }

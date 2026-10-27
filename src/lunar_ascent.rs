@@ -167,48 +167,52 @@ impl LunarAscentScenario {
         let lat = self.site_lat_deg.unwrap_or(-89.5);
         let lon = self.site_lon_deg.unwrap_or(0.0);
         if !((-90.0..=90.0).contains(&lat) && (-180.0..=360.0).contains(&lon)) {
-            return Err("site latitude must be in [-90, 90] and longitude in [-180, 360]".into());
+            return Err(crate::terr!("e-lunar-ascent-site-latitude-must-be-in"));
         }
         let t_end = self.ascent_s.unwrap_or(450.0);
         if !(120.0..=1800.0).contains(&t_end) {
-            return Err("ascent_s must be in [120, 1800]".into());
+            return Err(crate::terr!("e-lunar-ascent-ascent-must-be-in-120"));
         }
         let pos = |v: Option<f64>, d: f64, name: &str| -> Result<f64, String> {
             let x = v.unwrap_or(d);
             if x.is_finite() && x >= 0.0 {
                 Ok(x)
             } else {
-                Err(format!("{name} must be finite and non-negative"))
+                Err(crate::terr!(
+                    "e-nma-budget-must-be-finite-and-non",
+                    name = name
+                ))
             }
         };
         let afs = match self.afs_mode.as_deref().unwrap_or("standalone") {
             "off" => AfsMode::Off,
             "standalone" => AfsMode::Standalone,
             "differential" => AfsMode::Differential,
-            o => {
-                return Err(format!(
-                    "afs_mode must be off, standalone or differential, got `{o}`"
-                ))
-            }
+            o => return Err(crate::terr!("e-lunar-ascent-afs-mode-must-be-off", o = o)),
         };
         let time = match self.lunar_time_mode.as_deref().unwrap_or("ltc") {
             "off" => TimeMode::Off,
             "ltc" => TimeMode::Ltc,
             "tt" => TimeMode::Tt,
-            o => return Err(format!("lunar_time_mode must be off, ltc or tt, got `{o}`")),
+            o => {
+                return Err(crate::terr!(
+                    "e-lunar-ascent-lunar-time-mode-must-be",
+                    o = o
+                ))
+            }
         };
         let n_relays = self.n_relays.unwrap_or(8);
         if !(3..=24).contains(&n_relays) {
-            return Err("n_relays must be in 3..=24".into());
+            return Err(crate::terr!("e-lunar-ascent-relays-must-be-in-24"));
         }
         let afs_dt = self.afs_interval_s.unwrap_or(30.0);
         let afs_first = self.afs_first_fix_s.unwrap_or(60.0);
         if !(afs_dt > 0.0 && afs_first >= 0.0) {
-            return Err("afs_interval_s must be positive and afs_first_fix_s non-negative".into());
+            return Err(crate::terr!("e-lunar-ascent-afs-interval-must-be-positive"));
         }
         let alt_km = pos(self.insertion_altitude_km, 100.0, "insertion_altitude_km")?;
         if !(10.0..=1000.0).contains(&alt_km) {
-            return Err("insertion_altitude_km must be in [10, 1000]".into());
+            return Err(crate::terr!("e-lunar-ascent-insertion-altitude-km-must-be"));
         }
         Ok(Resolved {
             lat,
@@ -376,18 +380,19 @@ impl LunarAscentScenario {
     pub fn run_phase(&self, entry: &NavState, ctx: &ThreadCtx) -> Result<AscentOut, String> {
         let cfg = self.resolve()?;
         if entry.frame != Frame::Mci {
-            return Err(
-                "lunar-ascent expects the entry covariance in MCI; the thread converts frames"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-ascent-expects-entry-covariance-in-mci"
+            ));
         }
         if !cov_is_valid(&entry.p) {
-            return Err("entry covariance is not symmetric with a non-negative diagonal".into());
+            return Err(crate::terr!(
+                "e-lunar-ascent-entry-covariance-is-not-symmetric"
+            ));
         }
         if !matches!(entry.clock.timescale, Timescale::Ltc | Timescale::Tt) {
-            return Err(format!(
-                "lunar-ascent expects the entry clock in LTC or TT, got {:?}; the thread converts timescales",
-                entry.clock.timescale
+            return Err(crate::terr!(
+                "e-lunar-ascent-lunar-ascent-expects-the-entry",
+                timescale = format!("{:?}", entry.clock.timescale)
             ));
         }
         let _ = epoch_jd(ctx, entry.t_s)?;
@@ -578,14 +583,14 @@ impl LunarAscentScenario {
             base.extend(p2);
             base.extend(p3);
         }
-        let summary = format!(
-            "lunar-ascent | {:.2} deg | inertial only {:.0} m / {:.2} m/s | with AFS {:.1} m / {:.3} m/s | insertion dispersion {:.2} m/s (MODELLED)",
-            cfg.lat,
-            sig3(&p_none, 0),
-            sig3(&p_none, 1),
-            pos3,
-            vel3,
-            disp_vel3
+        let summary = crate::t!(
+            "lunar-ascent-summary",
+            lat = crate::i18n::num(cfg.lat, 2),
+            inertial_pos = crate::i18n::num(sig3(&p_none, 0), 0),
+            inertial_vel = crate::i18n::num(sig3(&p_none, 1), 2),
+            afs_pos = crate::i18n::num(pos3, 1),
+            afs_vel = crate::i18n::num(vel3, 3),
+            dispersion = crate::i18n::num(disp_vel3, 2)
         );
         Ok(AscentOut {
             exit,
@@ -608,12 +613,12 @@ impl LunarAscentScenario {
             })
             .unwrap_or_default();
         line_chart_svg(
-            "Lunar ascent: 3-D navigation position 1-sigma (m)",
-            "inertial drift with AFS fixes | MODELLED, advisory only",
-            "seconds since liftoff",
-            "metres",
+            &crate::t!("lunar-ascent-chart-title"),
+            &crate::t!("lunar-ascent-chart-subtitle"),
+            &crate::t!("lunar-ascent-chart-x-axis"),
+            &crate::t!("lunar-chart-y-axis-metres"),
             &[ChartSeries {
-                name: "position 1-sigma",
+                name: &crate::t!("lunar-ascent-chart-series"),
                 points: pts,
             }],
         )

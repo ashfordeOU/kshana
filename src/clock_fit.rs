@@ -104,8 +104,9 @@ pub fn apply(
         "quantum" => &mut scn.clock_quantum,
         "classical" => &mut scn.clock_classical,
         other => {
-            return Err(format!(
-                "[clock_fit] replaces must be \"quantum\" or \"classical\" (got {other:?})"
+            return Err(crate::terr!(
+                "e-clock-fit-clock-fit-replaces-must-be",
+                other = format!("{:?}", other)
             ))
         }
     };
@@ -116,17 +117,13 @@ pub fn apply(
         tau0: log.tau0_s,
         x: log.phase_s.clone(),
     };
-    let card = DeviceCard::fit_phase(&id, &series).map_err(|e| format!("[clock_fit]: {e}"))?;
+    let card = DeviceCard::fit_phase(&id, &series)
+        .map_err(|e| crate::terr!("e-clock-fit-clock-fit", e = e))?;
     let q_wf = 0.5 * card.h_0;
     let q_rw = 2.0 * PI * PI * card.h_m2;
     let flicker_floor = (2.0 * LN_2 * card.h_m1).max(0.0).sqrt();
     if !(q_wf > 0.0 || q_rw > 0.0 || flicker_floor > 0.0) {
-        return Err(
-            "[clock_fit]: the fit has no frequency noise (white FM, flicker FM and random-walk FM are all \
-             zero), so there is nothing to predict a holdover from; the log may be white phase noise only \
-             or too short"
-                .into(),
-        );
+        return Err(crate::terr!("e-clock-fit-fit-has-no-frequency-noise"));
     }
     let y0_kept = target.y0;
     target.id = id.clone();

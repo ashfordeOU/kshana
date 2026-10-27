@@ -2,7 +2,7 @@
 
 `i18n/<lang>/ui.ftl` and `i18n/<lang>/glossary.ftl` for the 17 locales nl pl pt-BR pt-PT fi sv da nb cs uk ru de fr es et ja
 zh-Hans. They are machine drafts by an AI model, **not reviewed by a native speaker**; the notice every translated surface
-shows says so (`-mt-notice`). Conventions: `i18n/HANDOVER-W58.md` and `tools/i18n/w58/README.md` on branch `i18n/engine-0.40`.
+shows says so (`-mt-notice`). Conventions: `tools/i18n/w58/README.md`.
 
 `python3 tools/i18n/ui/ui_check.py <lang>...` (needs `pip install fluent.syntax`, run from the repository root) fails if a file has
 Fluent syntax errors, lacks or adds an id or attribute, changes a placeable (variable, term or message reference, string

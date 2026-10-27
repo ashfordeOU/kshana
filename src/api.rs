@@ -506,18 +506,17 @@ fn clock_fit_of(
     String,
 > {
     use sha2::{Digest, Sha256};
-    let t: ClockFitTable = toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
+    let t: ClockFitTable =
+        toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-scenario", e = e))?;
     let Some(fit) = &t.clock_fit else {
         return Ok(None);
     };
     let Some(log_in) = &t.clock_log else {
-        return Err(
-            "[clock_fit] needs a [clock_log] table: the measured series the fit is made from"
-                .into(),
-        );
+        return Err(crate::terr!("e-api-clock-fit-needs-clock-log-table"));
     };
     let canonical = serde_json::to_string(log_in).map_err(|e| e.to_string())?;
-    let log = crate::clock_log::read_input(log_in).map_err(|e| format!("clock_log: {e}"))?;
+    let log =
+        crate::clock_log::read_input(log_in).map_err(|e| crate::terr!("e-api-clock-log", e = e))?;
     let mut fitted_scn = scn.clone();
     let report = crate::clock_fit::apply(
         &mut fitted_scn,
@@ -614,14 +613,14 @@ impl std::fmt::Display for KshanaError {
 }
 
 impl KshanaError {
-    /// A stable machine tag for the failure kind, so binding callers can branch on
-    /// it without parsing the human-readable message.
     /// The stable code of the message (`E-CLOCK-VERSION`), the same in every language, when the
     /// message is a catalogue error raised on this thread. Callers match on this, never on the text.
     pub fn code(&self) -> Option<String> {
         crate::i18n::code_of(&self.to_string())
     }
 
+    /// A stable machine tag for the failure kind, so binding callers can branch on
+    /// it without parsing the human-readable message.
     pub fn kind_tag(&self) -> &'static str {
         match self {
             KshanaError::InvalidInput(_) => "invalid_input",

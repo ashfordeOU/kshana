@@ -52,8 +52,9 @@ impl Frame {
             "mcmf" => Frame::Mcmf,
             "lvlh" => Frame::Lvlh,
             other => {
-                return Err(format!(
-                    "unknown frame `{other}`; expected one of gcrf, itrf, mci, mcmf, lvlh"
+                return Err(crate::terr!(
+                    "e-mission-thread-phase-unknown-frame-expected-one-of",
+                    other = other
                 ))
             }
         })
@@ -92,8 +93,9 @@ impl Timescale {
             "utc" => Timescale::Utc,
             "ltc" => Timescale::Ltc,
             other => {
-                return Err(format!(
-                    "unknown timescale `{other}`; expected one of tt, tdb, utc, ltc"
+                return Err(crate::terr!(
+                    "e-mission-thread-phase-unknown-timescale-expected-one-of",
+                    other = other
                 ))
             }
         })
@@ -144,9 +146,9 @@ impl NavSource {
             "inertial" => NavSource::Inertial,
             "relative-optical" => NavSource::RelativeOptical,
             other => {
-                return Err(format!(
-                    "unknown navigation source `{other}`; expected one of gnss, gnss-ssv, \
-                     ground-tracking, lunanet, trn, inertial, relative-optical"
+                return Err(crate::terr!(
+                    "e-mission-thread-phase-unknown-navigation-source-expected-one",
+                    other = other
                 ))
             }
         })
@@ -185,9 +187,9 @@ impl TimeSource {
             "lunar-time" => TimeSource::LunarTime,
             "onboard-holdover" => TimeSource::OnboardHoldover,
             other => {
-                return Err(format!(
-                    "unknown time source `{other}`; expected one of gnss, ground-clock, \
-                     lunar-time, onboard-holdover"
+                return Err(crate::terr!(
+                    "e-mission-thread-phase-unknown-time-source-expected-one",
+                    other = other
                 ))
             }
         })

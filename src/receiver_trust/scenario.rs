@@ -1288,8 +1288,10 @@ pub fn run_toml(src: &str) -> Result<TrustOutput, String> {
 pub fn run_scenario(scn: &ReceiverTrustScenario) -> Result<TrustOutput, String> {
     let wanted = crate::i18n::current();
     let r = crate::i18n::in_english_or_localised_error(|| run_receiver_trust(scn))?;
-    let label = crate::evidence_label::EvidenceLabel::for_tool("receiver-trust")
-        .ok_or("the receiver-trust evidence rows are not in the matrix")?;
+    let label =
+        crate::evidence_label::EvidenceLabel::for_tool("receiver-trust").ok_or_else(|| {
+            crate::terr!("e-receiver-trust-scenario-the-receiver-trust-evidence-rows")
+        })?;
     let (json, csv) = crate::i18n::in_english(|| {
         Ok::<_, String>((
             label.apply_json(&serde_json::to_string_pretty(&r).map_err(|e| e.to_string())?)?,

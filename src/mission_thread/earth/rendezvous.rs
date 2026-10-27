@@ -84,10 +84,12 @@ pub fn ctor(t: &toml::Table) -> Result<Box<dyn MissionPhase>, String> {
             "sensor",
             "interval_s",
         ])?;
-        let sensor = RelNavSensor::parse(
-            l.text("sensor")?
-                .ok_or_else(|| format!("{KIND}: a leg needs `sensor`"))?,
-        )?;
+        let sensor = RelNavSensor::parse(l.text("sensor")?.ok_or_else(|| {
+            crate::terr!(
+                "e-mission-thread-earth-rendezvous-leg-needs-sensor",
+                kind = KIND
+            )
+        })?)?;
         legs.push(Leg {
             range_m: l.pos("range_m")?,
             end_range_m: l.pos("end_range_m")?,
@@ -97,8 +99,9 @@ pub fn ctor(t: &toml::Table) -> Result<Box<dyn MissionPhase>, String> {
         });
     }
     if legs.is_empty() {
-        return Err(format!(
-            "{KIND}: the model needs at least one `[[phase.model.legs]]`"
+        return Err(crate::terr!(
+            "e-mission-thread-earth-rendezvous-the-model-needs-at-least",
+            kind = KIND
         ));
     }
     let min_window_s = if t.contains_key("min_window_s") {
@@ -221,9 +224,10 @@ impl MissionPhase for LeoRendezvous {
         phase: &PhaseCtx,
     ) -> Result<PhaseOutcome, String> {
         if entry.frame != Frame::Gcrf {
-            return Err(format!(
-                "{KIND}: expects a GCRF entry state, got {:?}; state the entry in gcrf",
-                entry.frame
+            return Err(crate::terr!(
+                "e-mission-thread-earth-launch-expects-gcrf-entry-state-got",
+                kind = KIND,
+                frame = format!("{:?}", entry.frame)
             ));
         }
         let legs_total: f64 = self.legs.iter().map(|l| l.duration_s).sum();
@@ -265,10 +269,22 @@ impl MissionPhase for LeoRendezvous {
         for (li, leg) in self.legs.iter().enumerate() {
             let params = SensorParams::illustrative(leg.sensor);
             let (start_sigma, end_sigma) = (
-                sensor_sigma(&params, leg.range_m)
-                    .map_err(|e| format!("{KIND}: leg {} start: {e}", li + 1))?,
-                sensor_sigma(&params, leg.end_range_m)
-                    .map_err(|e| format!("{KIND}: leg {} end: {e}", li + 1))?,
+                sensor_sigma(&params, leg.range_m).map_err(|e| {
+                    crate::terr!(
+                        "e-mission-thread-earth-rendezvous-leg-start",
+                        kind = KIND,
+                        leg = li + 1,
+                        e = e
+                    )
+                })?,
+                sensor_sigma(&params, leg.end_range_m).map_err(|e| {
+                    crate::terr!(
+                        "e-mission-thread-earth-rendezvous-leg-end",
+                        kind = KIND,
+                        leg = li + 1,
+                        e = e
+                    )
+                })?,
             );
             events.push(Event {
                 t_s: t0 + t,
@@ -315,8 +331,14 @@ impl MissionPhase for LeoRendezvous {
                 if use_rel {
                     let frac = (tl / leg.duration_s).min(1.0);
                     let range = leg.range_m + (leg.end_range_m - leg.range_m) * frac;
-                    let sig = sensor_sigma(&params, range)
-                        .map_err(|e| format!("{KIND}: leg {}: {e}", li + 1))?;
+                    let sig = sensor_sigma(&params, range).map_err(|e| {
+                        crate::terr!(
+                            "e-mission-thread-earth-rendezvous-leg",
+                            kind = KIND,
+                            leg = li + 1,
+                            e = e
+                        )
+                    })?;
                     p = update(&p, sig.pos_sigma_m.powi(2) / 3.0);
                 }
                 let s = Sample {
@@ -336,9 +358,12 @@ impl MissionPhase for LeoRendezvous {
             }
             t = leg_end;
         }
-        let last = *all
-            .last()
-            .ok_or_else(|| format!("{KIND}: the phase produced no samples"))?;
+        let last = *all.last().ok_or_else(|| {
+            crate::terr!(
+                "e-mission-thread-earth-launch-the-phase-produced-no-samples",
+                kind = KIND
+            )
+        })?;
         let peak_pos = all.iter().map(|s| s.sigma_pos_m).fold(0.0, f64::max);
         let peak_vel = all.iter().map(|s| s.sigma_vel_mps).fold(0.0, f64::max);
         let window = inside_from.map(|a| phase.duration_s - a).unwrap_or(0.0);
