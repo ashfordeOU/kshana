@@ -23,3 +23,69 @@ seg-225ef04c64af = Wykres zapisany przez silnik dla scenarios/leo-ppp-convergenc
 seg-093aac4b5ff1 = Łączne pozycjonowanie, nawigacja i czas (PNT) z średniej orbity okołoziemskiej (MEO) i niskiej orbity okołoziemskiej (LEO) dla DOWOLNYCH konstelacji: każdy [[system]] to ustawienie wstępne GNSS rodzaju constellation-design, ustawienie LEO (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, model efemeryd atomic-zero-clock albo inny plik ustawienia wstępnego, każdy w osobnym pliku ze źródłami oznaczonymi PUBLIC, WORKSHOP lub WYPROWADZONE), powłoki Walkera lub jawne zestawy elementów, z nośną, tempem chipów, obwiednią gęstości nośnej do szumu (C/N0) od maski elewacji do zenitu, błędem odległości sygnału w przestrzeni (SISRE), sigmą Dopplera i modelem zegara (własny zegar odbiornika, więc bias międzysystemowy jest estymowany, albo znane przesunięcie rozgłaszane). Cztery tryby. DOPPLER: wsadowe pozycjonowanie Gaussa–Newtona z prędkości zmiany odległości z pochodnymi analitycznymi, stanami dryfu zegara i opcjonalnie prędkości oraz opcjonalnym ograniczeniem wysokości, dla jednego lub wielu satelitów, błąd w funkcji długości okna, obwiednia Dopplera, tempa Dopplera i szarpnięcia każdego systemu LEO oraz dokładność wzdłuż i w poprzek toru przy pojedynczym przelocie w funkcji przesunięcia poprzecznego (błąd poprzeczny rośnie bez ograniczeń, gdy przelot przechodzi nad głową; pojedynczy przelot ma też rozwiązanie lustrzane względem śladu naziemnego). Tutaj działa sygnał okazji wyłącznie Dopplera (starlink-sop). ŁĄCZNY: rozwiązania pseudoodległościowe metodą ważonych najmniejszych kwadratów dla każdej epoki z samego GNSS, samego LEO i obu, sigmy dla każdego pomiaru z modelu szumu termicznego pętli synchronizacji opóźnienia przy C/N0 plus SISRE (albo stała sigma, aby zasilał je model sygnału), estymowane biasy międzysystemowe oraz PDOP/HDOP/VDOP w funkcji liczby dodanych satelitów LEO. POLARNY: widoczne satelity i DOP w funkcji szerokości geograficznej dla GNSS, LEO i obu. CZAS: transfer czasu do czasu uniwersalnego koordynowanego (UTC) z satelitów LEO w znanym położeniu dwustanowym filtrem zegara, którego szum procesu pochodzi z klas oscylatorów silnika, w funkcji C/N0 i oscylatora, oraz wyrażenie z IS-GPS-200 na czas systemowy do UTC; przy [timing] trace = true każdy wiersz podaje też swój błąd czasu i przewidywaną sigmę w każdej epoce. VALIDATED: największy Doppler przelotu od zenitu do horyzontu względem opublikowanych wartości Iridium (do { "36" } kHz) i Xona Pulsar X1 (od { "32" } do { "34" } kHz). MODELLED: wszystko inne; DOP sprawdzono na przypadku wyprowadzonym ręcznie, rozwiązania względem ich kowariancji, a model Dopplera względem tożsamości przyspieszenia odległości.
 
 seg-90361a6f4e3c = Wykres zapisany przez silnik dla scenarios/leo-pvt-fjord-skyline.toml, rodzaj leo-pvt
+
+seg-4e31c8daf798 = Rejestr (ledger)
+
+seg-6800289a282d = { "7" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Każda etykieta tutaj pochodzi z silnika lub z macierzy weryfikacji; rodzaj ma status MODELLED, chyba że macierz stanowi inaczej (jak zdobywa się etykietę: sekcja Evidence w README).
+
+seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
+
+seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+seg-22eb3a688624 = Źródło: <c1/>
+
+seg-561a783e9516 = Nawigacja z niskiej orbity okołoziemskiej (rodzina rodzajów scenariuszy)
+
+seg-47751d798019 = Strony tematyczne: <a1>LEO-PNT</a1>, <a2>LEO-SIGNAL</a2>, <a3>LEO-PASS</a3>, <a4>LEO-NAVMSG</a4>. Uruchom jeden: <c1/>. Wszystkie rodziny: <a5>KINDS.md</a5>.
+
+seg-4867ae5d108b = Arkusz miniatur wykresów zapisywanych przez silnik dla rodzajów z rodziny Nawigacja z niskiej orbity okołoziemskiej
+
+seg-1e724b481e67 = Projekty sygnałów LEO-PNT: parametryzowane sygnały pozycjonowania, nawigacji i czasu (PNT) z niskiej orbity okołoziemskiej (LEO) dla dowolnego systemu, pasma i struktury.
+
+seg-82ad7da67939 = Przelot LEO i budżet łącza, pasmo po paśmie, dla LEO-PNT (pozycjonowanie, nawigacja i czas z niskiej orbity okołoziemskiej), niezależny od systemu: użytkownik (naziemny, morski, lotniczy lub wewnątrz budynku, nieruchomy lub w ruchu) i jeden lub więcej
+
+seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
+
+seg-c20a76308fb3 = Komunikat nawigacyjny LEO: transmitowane efemerydy i zegar satelity pozycjonowania, nawigacji i czasu na niskiej orbicie okołoziemskiej (LEO), dla dowolnej orbity, nośnej i modelu, z opcjonalnymi nazwanymi presetami (Xona P
+
+seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+
+seg-06236b581684 = Połączone pozycjonowanie, nawigacja i czas (PNT) ze średniej orbity okołoziemskiej (MEO) i niskiej orbity okołoziemskiej (LEO) dla DOWOLNYCH konstelacji: każdy [[system]] jest presetem GNSS rodzaju constellation-design, presetem LEO
+
+seg-d9e5f4726bbb = Zbieżność precyzyjnego pozycjonowania punktowego (PPP) tylko z GNSS i z wspomaganiem LEO: zmiennoprzecinkowy rozszerzony filtr Kalmana na kodzie i fazie nośnej wolnych od jonosfery ze statycznymi współrzędnymi stacji, whi
+
+seg-44f4148f4a5f = Pozycjonowanie z łącza w dół sieci niestacjonarnej 5G (NTN) w paśmie S usługi satelitarnej ruchomej (MSS) (pasmo 3GPP n256, łącze w dół od { "2170" } do { "2200" } MHz; domyślna nośna { "2172.5" } MHz): ograniczenie Cramér-Rao
+
+seg-1ee838a551ef = Jeden system LEO-PNT (pozycjonowanie, nawigacja i czas z niskiej orbity okołoziemskiej) od początku do końca, dla dowolnej konstelacji i sygnału: projekt leo-signal wskazany przez signal_design (publiczny preset lub wbudowany [s
+
+seg-70d1ac6ddc95 = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-472d9e86ee20 = <b>Rejestr (ledger):</b> MODELLED { "2" } · VALIDATED { "2" }. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>leo-signal</a1>.
+
+seg-17d1c06ba5c5 = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+seg-9a7671c30d7e = <b>Rejestr (ledger):</b> MODELLED { "7" } · VALIDATED { "5" }. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>leo-pass</a1>.
+
+seg-cba2c7f7050a = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-7ba3e667487d = <b>Rejestr (ledger):</b> MODELLED { "5" } · VALIDATED { "6" }. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>leo-navmsg</a1>.
+
+seg-8ca53a87d092 = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>.
+
+seg-389c67090de1 = <b>Rejestr (ledger):</b> MODELLED { "3" } · VALIDATED { "2" }. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>leo-pvt</a1>.
+
+seg-e004092d6056 = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-e485df9372e6 = <b>Rejestr (ledger):</b> MODELLED. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>leo-ppp</a1>.
+
+seg-089266c42199 = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-e0a3133f468f = <b>Rejestr (ledger):</b> VALIDATED. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>ntn-positioning</a1>.
+
+seg-ea759d0040db = Pola wymagane: <c1/>, <c2/>, <c3/>. Opcjonalne: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-db08b7916378 = <b>Rejestr (ledger):</b> MODELLED. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>leo-pnt-chain</a1>.
+
+seg-534d13455a76 = <s1>Poprzedni</s1>Zagłuszanie (jamming), spoofing i widmo
+
+seg-ec3fb19fb5bd = <s1>Następny</s1>Księżyc i przestrzeń cislunarna

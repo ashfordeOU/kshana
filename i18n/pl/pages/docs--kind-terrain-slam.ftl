@@ -9,3 +9,11 @@ seg-0df60ac6343f = <b>MODELLED</b> Dopasowanie do map grawitacyjnych, nawigacja 
 seg-d776abd5691c = Alternatywne / uzupełniające PNT jest MODELLED, nie jest sprawdzone względem niezależnego wzorca: sprawdzone względem własnej tożsamości w postaci zamkniętej / analitycznej; wychwytuje błędy przepisania i współczynników, ale nie jest zewnętrzną wyrocznią. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
 
 seg-98133e74f88a = Strona rodziny: <a1>Alternatywne PNT bez GPS</a1>
+
+seg-48e022b0945e = Przykład <c1/> ustawia między innymi:
+
+seg-4aca87f022dc = Wykres zapisywany przez silnik dla scenarios/terrain-slam.toml, rodzaj terrain-slam
+
+seg-832919783819 = <s1>Poprzedni</s1>terrain-nav
+
+seg-1693abd546fe = <s1>Następny</s1>time-transfer-budget

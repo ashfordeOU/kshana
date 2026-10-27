@@ -17,3 +17,13 @@ seg-587beeccaa11 = Ustawienie predefiniowane
 seg-e305279d5b11 = Zawartość
 
 seg-b03d56f501c3 = Rodzaj
+
+seg-6752521002b2 = Część
+
+seg-cf6ae60eea4f = Pomocnicze
+
+seg-0bdbdd2c923b = Synchronizacja
+
+seg-b09dc4b322d3 = Efemerydy
+
+seg-3a835a49b43f = Inne usługi

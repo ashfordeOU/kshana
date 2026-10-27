@@ -11,3 +11,5 @@ seg-6e0cb6acc073 = VALIDATED
 seg-f63dd3d7aad4 = Źródło
 
 seg-587beeccaa11 = Ustawienie predefiniowane
+
+seg-6752521002b2 = Część

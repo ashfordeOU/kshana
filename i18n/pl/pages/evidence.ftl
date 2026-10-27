@@ -2487,3 +2487,5 @@ seg-05ded40b17d2 = Brak zewnętrznych: węzła ROS nie uruchomiono na działają
 seg-c3c260b7063e = Testy
 
 seg-417a52c9c154 = PDF
+
+seg-4e31c8daf798 = Rejestr (ledger)
