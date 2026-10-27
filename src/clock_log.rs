@@ -534,9 +534,8 @@ fn parse_rinex(
     let (tau0, src) = match inp.tau0_s {
         Some(t) => (t, "input"),
         None => (
-            detect_tau0(&epochs).ok_or(
-                "the clock has a single epoch; at least two are needed (tau0 cannot be found)",
-            )?,
+            detect_tau0(&epochs)
+                .ok_or_else(|| crate::terr!("e-clock-log-the-clock-has-single-epoch"))?,
             "median-spacing",
         ),
     };
@@ -582,8 +581,9 @@ fn phase_unit(s: &str) -> Result<(&'static str, f64), String> {
         "us" | "µs" => Ok(("us", 1e6)),
         "ns" => Ok(("ns", 1e9)),
         "ps" => Ok(("ps", 1e12)),
-        other => Err(format!(
-            "unknown phase units {other:?}; expected s, ms, us, ns or ps"
+        other => Err(crate::terr!(
+            "e-clock-log-unknown-phase-unit-expected-ms",
+            other = format!("{:?}", other)
         )),
     }
 }
@@ -872,11 +872,7 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         Some(c) => c.clone(),
         None => match labels.as_slice() {
             [one] => one.to_string(),
-            [] => {
-                return Err(
-                    "the TICC log has no readings (`<seconds> chA|chB|chC|TI(...)` lines)".into(),
-                )
-            }
+            [] => return Err(crate::terr!("e-clock-log-the-ticc-log-has-no")),
             many => {
                 return Err(crate::terr!(
                     "e-clock-log-the-ticc-log-holds-channels",
