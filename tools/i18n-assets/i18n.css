@@ -1,0 +1,20 @@
+/* Language switcher and notices (written once, logical properties only; design v2, sections 4 and 9). */
+.lang-menu{position:relative;flex:none}
+.lang-menu>summary{list-style:none;cursor:pointer;width:auto;min-width:36px;padding-inline:8px;gap:6px;grid-auto-flow:column;display:inline-grid;place-items:center}
+.lang-menu>summary::-webkit-details-marker{display:none}
+.lang-menu .lang-code{font:600 11px/1 var(--f-mono);letter-spacing:.04em;text-transform:uppercase}
+.lang-menu ul{position:absolute;inset-inline-end:0;inset-block-start:calc(100% + 6px);z-index:60;margin:0;padding:6px;list-style:none;min-inline-size:200px;max-block-size:min(70vh,520px);overflow:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;box-shadow:var(--sh-3)}
+.lang-menu li a{display:flex;justify-content:space-between;gap:12px;padding:7px 10px;border-radius:8px;color:var(--ink-2);font-size:14px;text-decoration:none}
+.lang-menu li a:hover,.lang-menu li a:focus-visible{background:var(--surface-2);color:var(--ink)}
+.lang-menu li a[aria-current="true"]{color:var(--ink);font-weight:600}
+.lang-menu li a .lang-tag{color:var(--ink-3);font:11px/1.6 var(--f-mono)}
+.nav.on-dark .lang-menu>summary{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.18);color:var(--space-ink-2)}
+.i18n-notice,.i18n-detected{box-sizing:border-box;width:min(var(--max,1200px),100% - 2*var(--gut,16px));margin-inline:auto;margin-block:76px 0;position:relative;z-index:2;padding:10px 14px;border:1px solid var(--line-2);border-inline-start:3px solid var(--tim);border-radius:10px;background:var(--surface);color:var(--ink-2);font-size:14px;line-height:1.5}
+.i18n-notice p,.i18n-detected p{margin:0}
+.i18n-notice p+p{margin-block-start:6px}
+.i18n-notice+.i18n-detected,.i18n-detected+.i18n-notice{margin-block-start:8px}
+.i18n-detected{display:flex;gap:12px;align-items:baseline;justify-content:space-between}
+.i18n-detected button{flex:none;border:0;background:none;color:var(--ink-3);cursor:pointer;font:inherit;padding:0 4px}
+.i18n-advisory{font-size:13px;color:var(--ink-3)}
+@media (max-width:560px){.lang-menu .lang-code{display:none}.lang-menu>summary{min-width:36px;padding-inline:0}.nav .pill .pill-l{display:none}}
+@media (max-width:440px){.nav .brand-t{display:none}.nav .pill{padding-inline:9px}}
