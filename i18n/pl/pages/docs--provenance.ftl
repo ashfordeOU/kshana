@@ -15,3 +15,7 @@ seg-f63dd3d7aad4 = Źródło
 seg-638b8d451550 = Czujnik
 
 seg-d4a762001549 = Licencja
+
+seg-60cd077d82a7 = Model
+
+seg-2afa300864a9 = Parametry
