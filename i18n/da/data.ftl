@@ -1948,7 +1948,7 @@ dat-39700e54758f = Hvor ofte et optisk tidsoverførselslink er oppe, når atmosf
 
 dat-958f5e83ef0a = Hvordan stabilitet måles
 
-dat-b1e4554edba5 = Hvor stabil er en PNT-resiliensscore? Beslutningsustabilitet i enkelttals-resiliensvurderinger under vægtning i overensstemmelse med rammeværker
+dat-b1e4554edba5 = Hvor stabil er en PNT-resiliensscore? Beslutningsustabilitet i enkelttals-resiliensvurderinger under vægtning tilpasset rammeværker
 
 dat-7b1cd59f3ddf = Hvordan eksporterne kontrolleres
 
