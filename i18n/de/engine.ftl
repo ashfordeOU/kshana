@@ -11011,3 +11011,416 @@ engine-api-html-full-result = Vollständiges Ergebnis (JSON)
 engine-api-html-footer-generated = Erzeugt von Kshana { $version }.
 
 engine-animation-html-footer-keys = Die Leertaste startet oder pausiert, die Pfeiltasten schalten schrittweise weiter, Home und Ende springen. Dies ist eine Darstellung der eigenen Abtastwerte des Laufs: sie ist genau so gut wie der Lauf und fügt keinen Nachweis hinzu (MODELLED, interne Konsistenz).
+
+engine-api-html-footer-licence = Reproduzierbar aus Szenario + Seed + Engine-Version. Freie und quelloffene Software (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">Quellcode &amp; Dokumentation</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: Model-Context-Protocol-Server für den Kshana-Simulator zur PNT-Resilienz.
+
+    VERWENDUNG:
+    { "    " }kshana-mcp                      bedient über stdio (die Vorgabe; so starten MCP-Clients ihn)
+    { "    " }kshana-mcp --http <addr>        bedient streambares HTTP unter http://<addr>/mcp
+
+    HTTP-OPTIONEN:
+    { "    " }--http <addr>               Bind-Adresse, z. B. 127.0.0.1:8080 (standardmäßig nur Loopback)
+    { "    " }--allow-remote              erlaubt eine Nicht-Loopback-Adresse; benötigt KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  zusätzlich akzeptierter Host-Header (wiederholbar)
+    { "    " }--allow-origin <origin>     akzeptierter Browser-Origin (wiederholbar; standardmäßig keiner)
+    { "    " }--max-body-bytes <n>        Obergrenze des Anfragekörpers (Standard 5242880)
+    { "    " }--request-timeout-secs <n>  Zeitlimit je Anfrage (Standard 120)
+    { "    " }--max-concurrent <n>        gleichzeitig bediente Anfragen (Standard 8)
+
+    Der HTTP-Transport schaltet die IQ-Dateiwerkzeuge ab. Kshana betreibt keinen Endpunkt: betreiben Sie ihn selbst.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = unbekanntes Argument `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = HTTP-Optionen benötigen --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = das Binden an { $addr } wird verweigert: es ist keine Loopback-Adresse. Verwenden Sie 127.0.0.1:<port> oder übergeben Sie --allow-remote (und setzen Sie { $token_env }), um über diesen Rechner hinaus zu lauschen
+
+engine-e-mcp-http-refusing-to-bind-needs-token = das Binden an { $addr } wird verweigert: eine Nicht-Loopback-Adresse benötigt ein Bearer-Token in der Umgebungsvariablen { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } ist kürzer als 16 Zeichen; verwenden Sie ein langes Zufallstoken
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent und --request-timeout-secs müssen größer als null sein
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin akzeptiert kein `*`; nennen Sie jeden Origin
+
+engine-mcp-http-warning-remote = WARNUNG: kshana-mcp lauscht auf { $addr } über diesen Rechner hinaus. Jeder, der ihn erreichen kann und das Bearer-Token besitzt, kann Simulationen auf Ihrer Hardware ausführen. Setzen Sie TLS davor (einen Reverse-Proxy oder das HTTPS Ihrer Plattform) und halten Sie das Token geheim.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = die Breite des Standorts muss in [-90, 90] und die Länge in [-180, 360] liegen
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s muss in [120, 1800] liegen
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode muss off, standalone oder differential sein, erhalten: `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode muss off, ltc oder tt sein, erhalten: `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays muss in 3..=24 liegen
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s muss positiv und afs_first_fix_s nicht negativ sein
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km muss in [10, 1000] liegen
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = die Eintrittskovarianz ist nicht symmetrisch mit nicht negativer Diagonale
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent erwartet die Eintrittsuhr in LTC oder TT, erhalten: { $timescale }; der Thread rechnet Zeitskalen um
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s muss in [60, 3600] liegen
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source muss off, terrain-nav oder lola-crlb sein, erhalten: `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = die Korrekturzeiten müssen positiv sein, afs_interval_s > 0 und trn_fix_time_s innerhalb des Abstiegs
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m muss mindestens 3600 betragen
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m muss positiv sein
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb benötigt das DEM, das nicht geladen werden konnte
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent erwartet die Eintrittsuhr in LTC oder TT, erhalten: { $timescale }; der Thread rechnet Zeitskalen um
+
+engine-e-lunar-landing-east-prior-is-not-positive = die Ost-Vorannahme ist nicht positiv definit
+
+engine-e-lunar-landing-north-prior-is-not-positive = die Nord-Vorannahme ist nicht positiv definit
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit muss `llo` oder `elfo` sein, erhalten: `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = das Periselenum muss mindestens 20 km über der Oberfläche liegen
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m muss in (0, 50000) liegen
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s muss in (0, 60] liegen und arc_s mindestens einen Schritt betragen
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays muss in 4..=24 liegen
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s muss positiv sein
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction muss in [0, 1) liegen
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model muss `same` oder `point-mass` sein, erhalten: `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous erwartet die Eintrittskovarianz in MCI; der Thread rechnet Bezugssysteme um
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = die Vorab-Kovarianz ist nicht positiv definit
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = die Normalgleichungen sind nicht positiv definit
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = die A-posteriori-Information ist nicht positiv definit
+
+engine-e-lunar-rendezvous-no-trial-ran = kein Durchlauf wurde ausgeführt
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = das Jahreszeitdatum `{ $s }` ist nicht YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = Jahreszeitdatum `{ $s }`: ungültiges Jahr
+
+engine-e-lunar-surface-map-season-date-bad-month = Jahreszeitdatum `{ $s }`: ungültiger Monat
+
+engine-e-lunar-surface-map-season-date-bad-day = Jahreszeitdatum `{ $s }`: ungültiger Tag
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = das Jahreszeitdatum `{ $s }` liegt außerhalb von 1901-2099 oder ist kein Datum
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites muss zwischen 1 und 64 Einträge enthalten
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = Standort { $i }: die Breite muss in [-90, 90] und die Länge in [-180, 360] liegen
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates muss mindestens ein Datum enthalten
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates darf höchstens 16 Daten enthalten
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days muss in (0, 400] und step_min in [1, 720] liegen
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days und timing_floor_s müssen positiv und endlich sein
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = die Epoche `{ $s }` ist nicht YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = Epoche `{ $s }`: ungültige Zahl `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = die Epoche `{ $s }` liegt außerhalb von 1901-2099 oder ist kein Datum
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces muss "quantum" oder "classical" sein (erhalten: { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = das Ergebnisdokument trägt bereits einen `evidence`-Schlüssel
+
+engine-e-evidence-label-the-result-document-is-not = das Ergebnisdokument ist kein JSON-Objekt
+
+engine-e-evidence-label-no-evidence-rows-are-listed = für `{ $tool }` sind keine Evidenzzeilen aufgeführt
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = keine RINEX-Uhrendatei: kein Satz RINEX VERSION / TYPE
+
+engine-e-clock-log-rinex-version-type-record-has = der Satz RINEX VERSION / TYPE hat keine Versionsnummer (gefunden: { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = die RINEX-Uhrenversion { $v } wird nicht gelesen: gelesen werden die Versionen 2.00 und 3.00 bis 3.04 (die IGS veröffentlicht das Uhrenformat bis 3.04; RINEX 4.00 bis 4.02 definieren keine Uhrendatei)
+
+engine-e-clock-log-rinex-clock-record-with-an = RINEX-Uhrensatz mit nicht lesbarem Uhrenversatz oder nicht lesbarer Epoche: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = die TimeLab-Zeile { $line } enthält einen nicht endlichen Messwert: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = die Bezugssystem-Umrechnung { $a } -> { $b } ist nicht verfügbar (nur Gcrf, Mci und Mcmf lassen sich umrechnen)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = der Zeitskalen-Sprung { $a } -> { $b } ist kein Pivot-Sprung
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: der Korridor muss von einem flachen zu einem steileren Winkel unter 90 Grad verlaufen, erhalten: { $lo } bis { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` muss in [0, 90) liegen, erhalten: { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` muss mindestens 0 betragen
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` muss größer als 0 sein
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: benötigt mindestens eine Station
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: die Station `{ $id }` hat eine ungültige Breite oder Länge
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: die Stations-ID `{ $id }` wird zweimal verwendet
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: die Phase `{ $phase }` hat die Geometrie "stated" und benötigt `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: duty der Phase `{ $phase }` muss in [0, 1] liegen, erhalten: { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: die Phase `{ $phase }` hat die unbekannte Geometrie `{ $other }`; die Geometrien sind entry-orbit, moon-direction und stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: die Eintrittsbahn wurde nicht propagiert
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: keine Geometrie `{ $other }` zu berechnen
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: die Phase `{ $phase }` benötigt für ihre Geometrie einen GCRF-Eintritt, erhalten: { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: ein Fade muss nach seinem Beginn enden ({ $a } bis { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: erwartet einen GCRF-Eintrittszustand, erhalten: { $frame }; geben Sie den Eintritt in gcrf an
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: die Phase hat keine Abtastwerte erzeugt
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: unbekannter Modellschlüssel `{ $k }`; die Schlüssel sind { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: das Modell benötigt `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` muss eine endliche Zahl sein
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` muss größer als 0 sein, erhalten: { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` muss mindestens 0 betragen, erhalten: { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` muss eine Zeichenkette sein
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` muss ein Array aus Tabellen sein
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` muss Tabellen enthalten
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` muss ein Array aus { $n } Zahlen sein
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` muss { $n } Zahlen enthalten, erhalten: { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` muss endliche Zahlen enthalten
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: ein Abschnitt benötigt `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: das Modell benötigt mindestens ein `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: Abschnitt { $leg }, Beginn: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: Abschnitt { $leg }, Ende: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: Abschnitt { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` muss in [0, 1] liegen, erhalten: { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` und `ssv_step_min` müssen größer als 0 sein
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: die Propagation hat { $dt } s nicht erreicht
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: die Bahn nach dem Brennen ist nicht gebunden (spezifische Energie { $energy } J/kg); die einspringende gnss-ssv-Bahn benötigt eine elliptische
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: der gnss-ssv-Sweep hat kein Band geliefert
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: der gnss-ssv-Sweep hat keine Gruppe geliefert
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: die Phase führt gnss-ssv auf, daher benötigt das Modell `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: die Phase führt ground-tracking auf, daher benötigt das Modell `ground_range_sigma_m`, `ground_range_rate_sigma_mps` und `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = die Übergabe { $name } muss eine endliche Zahl von mindestens 0 sein, erhalten: { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = Phase `{ $id }`: { $key } ihres Modells ist { $own_s } s, aber der Thread gibt der Phase duration_s = { $duration_s } s; bringen Sie sie in Übereinstimmung oder lassen Sie { $key } weg
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = unbekanntes Bezugssystem `{ $other }`; erwartet wird eines von gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = unbekannte Zeitskala `{ $other }`; erwartet wird eine von tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = unbekannte Navigationsquelle `{ $other }`; erwartet wird eine von gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = unbekannte Zeitquelle `{ $other }`; erwartet wird eine von gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } muss eine positive endliche Zahl sein, erhalten: { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = die Übergaberegel `{ $rule }` benötigt `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = unbekannte Übergaberegel `{ $other }`; erwartet wird carry, inflate oder reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = eine Phase hat eine leere ID
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s muss eine endliche Zahl von mindestens 0 sein
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x muss sechs endliche Zahlen enthalten
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind muss "mission-thread" sein, erhalten: "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = ein Missions-Thread benötigt mindestens eine [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = die Phasen-ID `{ $id }` wird zweimal verwendet; IDs sind eindeutig
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: die Phase `{ $phase }` ist keine Phase dieses Threads
+
+engine-e-mission-thread-scenario-phase = Phase `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = die Phase `{ $id }` endete bei { $t_s } s, begann aber bei { $start_s } s und dauert { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = unbekannter Sensor der Relativnavigation `{ $other }`; erwartet wird einer von optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = die Entfernung muss eine positive endliche Zahl in Metern sein, erhalten: { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = die Entfernung { $range_m } m liegt jenseits der Grenze des Sensors von { $max_range_m } m
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: unbekannter Modellschlüssel `{ $bad }`; die Schlüssel sind { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = die Evidenzzeilen von receiver-trust stehen nicht in der Matrix
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = unbekannte Ablation `{ $other }`: B1 bis B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = die Zeilen des Nachweispakets stehen nicht in der Matrix
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = die Evidenzzeilen von jammertest stehen nicht in der Matrix
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: der Fit hat kein Frequenzrauschen (White FM, Flicker FM und Random-Walk FM sind alle null), daher gibt es nichts, woraus ein Holdover vorhergesagt werden könnte; das Log enthält möglicherweise nur weißes Phasenrauschen oder ist zu kurz
+
+engine-e-evidence-label-run-exercised-no-matrix-row = der Lauf hat keine Zeile der Verifikationsmatrix ausgeübt
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent erwartet die Eintrittskovarianz in MCI; der Thread rechnet Bezugssysteme um
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent erwartet die Eintrittskovarianz in MCI; der Thread rechnet Bezugssysteme um
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface erwartet den Eintrittszustand in MCI oder MCMF; der Thread rechnet Bezugssysteme um
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km muss den Mondradius überschreiten und die Exzentrizität in [0, { $lit_0_9 }) liegen
+
+engine-e-mission-thread-unknown-phase-kind = unbekannte Phasenart `{ $kind }`; registrierte Arten sind { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` führt keine Navigationsquelle auf
+
+engine-e-ssv-check-training-pattern-missing = Trainingsmuster { $sv } fehlt
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] benötigt eine [clock_log]-Tabelle: die gemessene Reihe, aus der der Fit erstellt wird
+
+engine-lunar-phase-no-finite-points-to-plot = keine endlichen Punkte zum Zeichnen
+
+engine-partner-cli-usage =
+    Aufruf: kshana partner check <submission.toml> [--json]
+    { "  " }Prüft das Format und die Metadaten einer Datenpartner-Einreichung (kshana.partner-submission/1) und liest ihre
+    { "  " }Datendatei mit den eigenen Lesern der Engine. Es bewertet oder validiert nichts; siehe docs/PARTNER-DATA.md.
+    { "  " }Exit-Status 0: die Einreichung ist vollständig und lesbar; 1: es wurden Fehler gefunden; 2: Aufruf.
+    Beratende Software, keine typzugelassene Navigationsausrüstung.
+
+engine-evidence-verify-evidence-label-ledger-rows = Evidenzlabel: { $tier } ({ $row_count } Registerzeilen: { $rows }); es steht in config.json, daher deckt die Signatur es ab
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = kein Evidenzlabel (Paket vor 0.40)
+
+engine-e-ssv-check-pattern-missing = Muster { $sv } fehlt
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | nur inertial { $inertial_pos } m / { $inertial_vel } m/s | mit AFS { $afs_pos } m / { $afs_vel } m/s | Einschwenkstreuung { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Mondaufstieg: 3-D-Navigationsposition, 1-Sigma (m)
+
+engine-lunar-ascent-chart-subtitle = inertiale Drift mit AFS-Korrekturen | MODELLED, nur beratend
+
+engine-lunar-ascent-chart-x-axis = Sekunden seit dem Abheben
+
+engine-lunar-ascent-chart-series = Position 1-Sigma
+
+engine-lunar-chart-y-axis-metres = Meter
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | nur inertial { $none_east }/{ $none_north } m (O/N) | mit Stützungen { $all_east }/{ $all_north } m | Streuung R95 { $r95 } m | 3-Sigma-Ellipse { $major } x { $minor } m | { $inside } % innerhalb (erwartet { $expect } %) (MODELLED)
+
+engine-lunar-landing-chart-title = Streuung der Mondlandung: R95 gegen die verwendeten Stützungen
+
+engine-lunar-landing-chart-subtitle = R95 nach Stützungen: { $aids } | MODELLED, nur beratend
+
+engine-lunar-landing-chart-x-axis = Kombination von Stützungen (Index)
+
+engine-lunar-landing-chart-series = R95 der Landestreuung
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | Abst. { $sep } m | Korrekturen { $fixes } % | relative Position 1-Sigma R/A/C { $radial }/{ $along }/{ $cross } m | mittlerer NEES { $nees } (6 erwartet) | konvergiert { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = nie
+
+engine-lunar-rendezvous-converged-at = bei { $s } s
+
+engine-lunar-rendezvous-chart-title = Mond-Rendezvous: formale relative Position, 1-Sigma (3-D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | Korrekturen { $fixes } % | mittlerer NEES { $nees } (6 erwartet) | MODELLED, nur beratend
+
+engine-lunar-rendezvous-chart-x-axis = Minuten seit Beginn des Bogens
+
+engine-lunar-rendezvous-chart-series = relative Position 1-Sigma
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites } Standorte x { $n_seasons } Jahreszeiten | Positionierung { $position_min } % bis { $position_max } % | schlechteste Verfügbarkeit der Zeitgebung { $worst_timing } % | längste Lücke der Zeitgebung { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = PNT-Karte der Mondoberfläche: Verfügbarkeit nach Standort (schlechteste Jahreszeit, %)
+
+engine-lunar-surface-map-chart-subtitle = Positionierung = 4+ Relais und PDOP unter der Schwelle; Zeitgebung = ein Relais oder die Erde | MODELLED, nur beratend
+
+engine-lunar-surface-map-chart-x-axis = Standortindex
+
+engine-lunar-surface-map-chart-y-axis = Prozent des Fensters
+
+engine-lunar-surface-map-chart-series-positioning = Positionierung
+
+engine-lunar-surface-map-chart-series-timing = Zeitgebung
+
+engine-lunar-surface-map-chart-series-earth-visible = Erde sichtbar
+
+engine-mission-thread-weakest-link = schwächstes Glied { $phase_id }
+
+engine-mission-thread-no-phases = keine Phasen
+
+engine-mission-thread-untitled = ohne Titel
+
+engine-mission-thread-summary = mission-thread | { $n_phases } Phasen | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Missions-Thread
+
+engine-mission-thread-chart-position-caption = 1-Sigma-Position, m
+
+engine-mission-thread-chart-time-caption = 1-Sigma-Zeit, s
+
+engine-mission-thread-chart-subtitle = MODELLED Navigations- und Zeitgebungs-Fehlerbudget; jede Phase mit gleicher Breite gezeichnet
+
+engine-evidence-label-line-one-row = Evidenz: { $tier } · { $n } Registerzeile { $ids }
+
+engine-evidence-label-line-rows = Evidenz: { $tier } · { $n } Registerzeilen { $ids }
+
+engine-evidence-label-line-rows-more = Evidenz: { $tier } · { $n } Registerzeilen { $ids } +{ $n_more } weitere
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }Info: { $i }
+
+engine-partner-text-warning = { "  " }Warnung: { $w }
+
+engine-partner-text-error = { "  " }FEHLER: { $e }
+
+engine-partner-text-result-ok = Ergebnis: das Format und die Metadaten sind vollständig und lesbar
+
+engine-partner-text-result-not-ready = Ergebnis: nicht bereit; beheben Sie die obigen Fehler
