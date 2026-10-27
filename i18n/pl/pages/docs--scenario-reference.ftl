@@ -203,3 +203,5 @@ seg-c5cbb50f640e = Branża LEO-PNT: synchronizacja czasu infrastruktury krytyczn
 seg-abf58b089d72 = Branża LEO-PNT: użytkownicy polarni i arktyczni.
 
 seg-a7de37959bb9 = Branża LEO-PNT: kolej i żegluga, dołączone scenariusze morskie i kolejowe plus LEO.
+
+seg-6962adaa6a1f = Wygenerowano podczas budowania ze scenariuszy repozytorium i macierzy weryfikacji.
