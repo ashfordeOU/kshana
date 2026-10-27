@@ -21,3 +21,5 @@ seg-029de6b99be0 = Nawigacja zliczeniowa inercyjna
 seg-9ef8f99ca6e4 = Transfer czasu
 
 seg-b03d56f501c3 = Rodzaj
+
+seg-ec26df467b88 = Łączna fuzja czujników PNT filtrem Kalmana na tych samych hybrydowych danych wejściowych.

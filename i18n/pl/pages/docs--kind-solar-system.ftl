@@ -19,3 +19,7 @@ seg-a4f1e7d2041e = Strona rodziny: <a1>Konstelacje, pokrycie i geometria</a1>
 seg-670191cf797f = Strona tematu: <a1>SOLAR-SYSTEM.md</a1>
 
 seg-cef32ee7d521 = Strona tematu: <a1>CONSTELLATION-DESIGN.md</a1>
+
+seg-4d208b6c0eb8 = doba
+
+seg-3319b18ac61f = oraz { "1" } kolejny w macierzy.
