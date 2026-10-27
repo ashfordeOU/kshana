@@ -29,3 +29,5 @@ seg-587beeccaa11 = Ustawienie predefiniowane
 seg-b03d56f501c3 = Rodzaj
 
 seg-4dbf41c0ec3b = Funkcja
+
+seg-98f4f946a7ac = WASM

@@ -221,3 +221,9 @@ seg-bcd613e62c69 = <s1>Poprzednia</s1>Eksport animacji
 seg-0525f7fbbfd2 = <s1>Następna</s1>Stan walidacji
 
 seg-53a778722c16 = STK .e
+
+seg-507b8c235614 = CZML
+
+seg-bf09433a7342 = GeoJSON
+
+seg-9c92e0bc42aa = KML
