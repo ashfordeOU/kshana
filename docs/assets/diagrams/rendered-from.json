@@ -15,7 +15,7 @@
     },
     "module-map.png": {
       "svg": "module-map.svg",
-      "svg_sha256": "af58779a74935f7a8cf060106f2da43a40099bff4d1c4ce2112276109b6fd225"
+      "svg_sha256": "38ea16ff1d76501543e2bdc5af6ebd27e34a6dd92996ee54fddc9233765e33c6"
     },
     "release-flow.png": {
       "svg": "release-flow.svg",
@@ -31,7 +31,7 @@
     },
     "system-overview.png": {
       "svg": "system-overview.svg",
-      "svg_sha256": "72c19b52008f359969a4a28c2c84c22d3c39c8137a2f8c86b1321fbf6961a95d"
+      "svg_sha256": "c3937a9913db1f6250655a4b885b44a05e41550607ce4dafd0275fbfab53d0f2"
     },
     "trust-flow.png": {
       "svg": "trust-flow.svg",
@@ -39,7 +39,7 @@
     },
     "validation-provenance.png": {
       "svg": "validation-provenance.svg",
-      "svg_sha256": "a4896f4193f51196c5a60d32002ca07ebd7177b5ded44200e6468513ecfd2b56"
+      "svg_sha256": "ca51c6572f563879a99d64c4d675b74c048f34fb58a26e88e82ddfd94b877e2f"
     }
   }
 }

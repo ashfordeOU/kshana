@@ -4,24 +4,24 @@
   <desc>Generated from src/verification.rs via web/data/verification-matrix.json by tools/gen_validation_figures.py. Do not edit by hand.</desc>
   <rect x="0" y="0" width="820" height="400" fill="#060A14"/>
   <text x="40" y="50" font-size="24" font-weight="700" fill="#EAF0FF">Validated means external oracle &#8212; by construction</text>
-  <text x="40" y="78" font-size="14" fill="#8190B0">Status &#215; oracle kind from verification-matrix.json (n=388). Validated = 176/176 ExternalDataset &#8212; CI-enforced.</text>
+  <text x="40" y="78" font-size="14" fill="#8190B0">Status &#215; oracle kind from verification-matrix.json (n=400). Validated = 176/176 ExternalDataset &#8212; CI-enforced.</text>
   <text x="40" y="146" font-size="17" font-weight="700" fill="#A7B4D2">Validated</text>
-  <rect x="168" y="120" width="492.46" height="42" fill="#A8EE5E"/>
-  <text x="414.23" y="147" font-size="18" font-weight="700" fill="#060A14" text-anchor="middle">176</text>
-  <text x="672.46" y="147" font-size="18" font-weight="700" fill="#EAF0FF">176</text>
+  <rect x="168" y="120" width="465.6" height="42" fill="#A8EE5E"/>
+  <text x="400.8" y="147" font-size="18" font-weight="700" fill="#060A14" text-anchor="middle">176</text>
+  <text x="645.6" y="147" font-size="18" font-weight="700" fill="#EAF0FF">176</text>
   <text x="40" y="208" font-size="17" font-weight="700" fill="#A7B4D2">Modelled</text>
-  <rect x="168" y="182" width="83.94" height="42" fill="#A8EE5E"/>
-  <text x="209.97" y="209" font-size="18" font-weight="700" fill="#060A14" text-anchor="middle">30</text>
-  <rect x="251.94" y="182" width="61.56" height="42" fill="#3DDCF7"/>
-  <text x="282.72" y="209" font-size="18" font-weight="700" fill="#060A14" text-anchor="middle">22</text>
-  <rect x="313.5" y="182" width="433.7" height="42" fill="#FFB547"/>
-  <text x="530.35" y="209" font-size="18" font-weight="700" fill="#060A14" text-anchor="middle">155</text>
-  <rect x="747.2" y="182" width="2.8" height="42" fill="#6A98FF"/>
-  <text x="762" y="209" font-size="18" font-weight="700" fill="#EAF0FF">208</text>
+  <rect x="168" y="182" width="84.65" height="42" fill="#A8EE5E"/>
+  <text x="210.33" y="209" font-size="18" font-weight="700" fill="#060A14" text-anchor="middle">32</text>
+  <rect x="252.65" y="182" width="60.85" height="42" fill="#3DDCF7"/>
+  <text x="283.08" y="209" font-size="18" font-weight="700" fill="#060A14" text-anchor="middle">23</text>
+  <rect x="313.5" y="182" width="433.85" height="42" fill="#FFB547"/>
+  <text x="530.43" y="209" font-size="18" font-weight="700" fill="#060A14" text-anchor="middle">164</text>
+  <rect x="747.35" y="182" width="2.65" height="42" fill="#6A98FF"/>
+  <text x="762" y="209" font-size="18" font-weight="700" fill="#EAF0FF">220</text>
   <text x="40" y="270" font-size="17" font-weight="700" fill="#A7B4D2">Partner</text>
-  <rect x="168" y="244" width="11.19" height="42" fill="#F45CCB"/>
-  <text x="191.19" y="271" font-size="18" font-weight="700" fill="#EAF0FF">4</text>
-  <text x="40" y="316" font-size="13" fill="#8190B0">Modelled oracle kinds: 30 ExternalDataset, 22 ReferenceImpl, 155 InternalConsistency, 1 IntegrationRun (total 208 Modelled).</text>
+  <rect x="168" y="244" width="10.58" height="42" fill="#F45CCB"/>
+  <text x="190.58" y="271" font-size="18" font-weight="700" fill="#EAF0FF">4</text>
+  <text x="40" y="316" font-size="13" fill="#8190B0">Modelled oracle kinds: 32 ExternalDataset, 23 ReferenceImpl, 164 InternalConsistency, 1 IntegrationRun (total 220 Modelled).</text>
   <rect x="40" y="339" width="16" height="16" fill="#A8EE5E"/>
   <text x="62" y="352" font-size="13" fill="#A7B4D2">ExternalDataset</text>
   <rect x="182" y="339" width="16" height="16" fill="#3DDCF7"/>
@@ -32,5 +32,5 @@
   <text x="501.6" y="352" font-size="13" fill="#A7B4D2">IntegrationRun</text>
   <rect x="614.8" y="339" width="16" height="16" fill="#F45CCB"/>
   <text x="636.8" y="352" font-size="13" fill="#A7B4D2">NoneKind</text>
-  <text x="40" y="386" font-size="15" fill="#A7B4D2"><tspan font-weight="700">176</tspan> Validated &#183; <tspan font-weight="700">208</tspan> Modelled &#183; <tspan font-weight="700">4</tspan> Partner &#183; <tspan font-weight="700">388</tspan> total</text>
+  <text x="40" y="386" font-size="15" fill="#A7B4D2"><tspan font-weight="700">176</tspan> Validated &#183; <tspan font-weight="700">220</tspan> Modelled &#183; <tspan font-weight="700">4</tspan> Partner &#183; <tspan font-weight="700">400</tspan> total</text>
 </svg>
