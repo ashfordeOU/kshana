@@ -10685,3 +10685,57 @@ engine-partner-text-result-not-ready = 结果：尚未就绪；请修正上述�
 engine-lunar-ascent-chart-title = 月球上升：3-D 导航位置 1σ（m）
 
 engine-lunar-rendezvous-chart-title = 月球交会：形式相对位置 1σ（3-D，m）
+
+engine-interference-map-locate-usage = 用法：kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }（--dataset custom 还需要 --licence <text> --licence-url <url> --attribution <text>）
+    写出 emitter-<source>-<dataset>-<day>.geojson、-summary.json、-sessions.csv 和 -figure.svg：按所述置信水平估计的发射源区域（干扰源区域），绝不只给出单个点
+
+engine-interference-map-locate-wrote = 已写出 { $path }
+
+engine-interference-map-locate-summary = 已发布 { $n_sessions ->
+        *[other] { $n_sessions } 个时段
+    }；{ $n_withheld ->
+        *[other] { $n_withheld } 个候选时段
+    }已扣留（不同的飞机或船舶少于 { $min } 个）
+
+engine-interference-map-locate-note-not-preregistered = 注意：有一项选项与预先登记的参数不同，因此这不是预先登记的方法
+
+engine-interference-map-locate-line-session = 时段 { $k }：{ $start } 至 { $end }，受影响的不同对象 { $affected } 个，{ $level }% 区域 { $area } km²，质心 { $lat }，{ $lon }（椭圆 { $a } x { $b } km）
+
+engine-interference-map-locate-line-unconstrained = 时段 { $k }：{ $start } 至 { $end }，受影响的不同对象 { $affected } 个，这些报告无法缩小该区域（不受约束）
+
+engine-interference-map-locate-fig-title = 估计的发射源区域
+
+engine-interference-map-locate-fig-subtitle = { $n ->
+        *[other] 所示时段：{ $n }。
+    }
+
+engine-interference-map-locate-fig-none = 没有任何时段达到发布下限，因此不显示任何区域。
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct }% 区域
+
+engine-interference-map-locate-fig-legend-ellipse = 后验的 95% 椭圆
+
+engine-interference-map-locate-fig-note-1 = 区域并不是任何飞机、船舶或组织的位置，也不是对成因的认定。
+
+engine-interference-map-locate-fig-note-2 = 未对地形建模，且每个时段假定只有一个源；置信水平以该模型为条件。
+
+engine-e-interference-map-locate-bad-number = { $name } 不是数字
+
+engine-e-interference-map-locate-bad-levels = --levels 需要以逗号分隔、严格介于 0 和 1 之间的数字
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km 必须介于 0.5 和 100 之间
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min 必须介于 1 和 720 之间
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m 需要两个数字 min,max，且 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } 不是可用的 TDOA 定位结果文件（receivers、tdoa_s、sigma_s、start），或该定位未收敛
+
+engine-e-interference-map-locate-source-required = 需要 --source adsb 或 --source ais
+
+engine-e-interference-map-locate-no-evidence-rows = 未列出定位输出的任何证据行
