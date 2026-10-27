@@ -137,3 +137,15 @@ seg-2a7a767138b9 = Dokumentacja API na docs.rs
 seg-f36464ef1b66 = JetBrains Marketplace
 
 seg-9f6e5af01266 = Przewodnik po wtyczce
+
+seg-874effe5ee80 = Wbudowane punkty odniesienia zadania D (luka optymizmu) w kshana-bench na podziale testowym, z rzeczywistego przebiegu silnika v{ $version } (`kshana bench baseline`). Każda para słupków to pole pod krzywą ROC dla przypadków z rozkładu oraz dla przypadków przesuniętych; różnica między nimi to luka optymizmu, wobec tolerancji { "0.05" }. fused-max-z: { "0.998" } i { "0.983" } (różnica { "0.015" }); sqm-imbalance: { "0.882" } i { "0.882" } (różnica { "0.001" }); agc-excess: { "0.848" } i { "0.819" } (różnica { "0.030" }); raim-parity: { "0.682" } i { "0.672" } (różnica { "0.010" }); energy-cn0-drop: { "0.595" } i { "0.565" } (różnica { "0.030" }). Etykiety są etykietami modelu generatywnego korpusu syntetycznego, nigdy danymi terenowymi: MODELLED. Wyłącznie doradczo: obliczone z modelu lub zmierzone względem podanych wzorców, nie jest to zatwierdzenie, certyfikacja ani oświadczenie o zgodności. Wynik opisuje dziennik lub korpus, nigdy produkt.
+
+seg-842b77a21c5f = Kanał
+
+seg-28e87f407a10 = Dziedzina
+
+seg-d6476863f862 = Możliwość
+
+seg-ad856ad710eb = Status
+
+seg-331d2821d43f = Plan rozwoju

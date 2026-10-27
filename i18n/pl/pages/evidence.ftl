@@ -163,3 +163,5 @@ seg-02926579bdbf = Nagrany przebieg
 seg-7635e731e2ed = Kopiuj: cargo install kshana
 
 seg-a438a9c22d93 = cargo install kshana
+
+seg-d6476863f862 = Możliwość
