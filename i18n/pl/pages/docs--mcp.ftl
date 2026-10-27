@@ -23,3 +23,7 @@ seg-842b77a21c5f = Kanał
 seg-d6476863f862 = Możliwość
 
 seg-fdbb9db68f1d = brak
+
+seg-1759a8cce7d6 = Rodzaje
+
+seg-564133d6a0c4 = Konstelacje wokół dowolnego ciała

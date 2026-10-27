@@ -159,3 +159,17 @@ seg-a349aa76b0ed = PARTNER
 seg-b2689beaba9e = Weryfikator Galileo OSNMA
 
 seg-80f3f0aae42c = Mapa zakłóceń
+
+seg-1759a8cce7d6 = Rodzaje
+
+seg-fdd674722717 = Widmo
+
+seg-68ff97cfdc03 = DOI
+
+seg-564133d6a0c4 = Konstelacje wokół dowolnego ciała
+
+seg-c611ee59301a = Animacja
+
+seg-c01b78b64065 = Raporty
+
+seg-c60dc5b92a60 = Eksporty interoperacyjności
