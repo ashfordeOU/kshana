@@ -275,3 +275,5 @@ seg-f42465f7d066 = ns
 seg-ff90679d1de9 = Detekcja spoofingu
 
 seg-257c477dc510 = WebAssembly
+
+seg-2192262e26c1 = spełnione
