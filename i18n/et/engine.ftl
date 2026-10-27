@@ -9620,3 +9620,105 @@ engine-compliance-req-en16803-3-a-reference = EN 16803-3, lisa A
 engine-compliance-req-en16803-3-a-asks = GNSS-i vastaste rünnakute kõrgetasemeline liigitus: häire, segamine, meaconing ja spuufimine.
 
 engine-compliance-req-en16803-3-a-gap = Kshana stsenaariumid nimetavad rünnakuklasse samades üldterminites; punktitasemel vastavustabel vajab litsentsitud lisa.
+
+engine-compliance-req-nist-id-ra-1-reference = ID.RA-1 (riskihindamine)
+
+engine-compliance-req-nist-id-ra-1-asks = Tuvastada, dokumenteerida ja esitada PNT-süsteemi ning PNT-andmeid levitavate osade haavatavused; kus see on ohutu, testida vastuvõtlikkust häirimisele või manipuleerimisele, milleks võib kasutada PNT-signaali simulatsiooni, seaduse ja tegevuspidevuse piirides.
+
+engine-compliance-req-nist-id-ra-1-gap = Kshana iseloomustab vastuvõtlikkust modelleeritud stsenaariumides ja vastuvõtja salvestatud logis. Päris süsteemi haavatavuste inventuur on operaatori ülesanne ning iga RF-katse tehakse operaatori enda seadmete ja loaga: Kshana ei edasta midagi.
+
+engine-compliance-req-nist-id-ra-3-reference = ID.RA-3 (riskihindamine)
+
+engine-compliance-req-nist-id-ra-3-asks = Tuvastada ja dokumenteerida PNT sisemised ja välised ohud, alates looduslikust ja tahtmatust häirest kuni tahtliku rünnakuni, nagu segamine (jamming), spuufimine ja viiterünnakud.
+
+engine-compliance-req-nist-id-ra-3-gap = Stsenaariumid esitavad ohte ja nende mõjusid. Kasutaja enda asukoha ja süsteemi dokumenteeritud ohuhinnang on kasutaja kirjutada; ükski stsenaarium ei ole tõend, et seal selline oht eksisteerib.
+
+engine-compliance-req-nist-id-ra-4-reference = ID.RA-4 (riskihindamine)
+
+engine-compliance-req-nist-id-ra-4-asks = Tuvastada võimalikud mõjud ja tõenäosused; iga ohu kohta esitada mõju ulatus, vea väljendumisviis (hüpe või rambi), tuvastuslävid ja vea mõju järgnevatele süsteemidele.
+
+engine-compliance-req-nist-id-ra-4-gap = Käivitused annavad mõjunäitajad (vea kasv, kaitsetasemed, lingi mõjud) modelleeritud andurite ja esitatud ohu jaoks. Tõenäosusi ei looda ning modelleeritud mõju ei ole mõõdetud mõju.
+
+engine-compliance-req-nist-id-ra-5-reference = ID.RA-5 (riskihindamine)
+
+engine-compliance-req-nist-id-ra-5-asks = Kasutada ohte, haavatavusi, tõenäosusi ja mõjusid riski hindamiseks ning hinnata risk uuesti perioodiliselt ja siis, kui süsteem või oht muutub.
+
+engine-compliance-req-nist-id-ra-5-gap = Hindamisel kasutatakse sünteetilist ohtude ansamblit, mis on nii märgitud. Räsitud, korratavad käivitused muudavad korduvhindamise võrreldavaks; riskiotsus ja selle ajakava on organisatsioonilised.
+
+engine-compliance-req-nist-pr-ds-6-reference = PR.DS-6 (andmeturve)
+
+engine-compliance-req-nist-pr-ds-6-asks = Kontrollida PNT-andmete terviklikkust, kui allikad on vastuolus, näiteks kontrollides risti mitut sagedust, konstellatsiooni või sõltumatut allikat.
+
+engine-compliance-req-nist-pr-ds-6-gap = Kshana arvutab kaitsetasemed ja allikatevahelised tulemused modelleeritud geomeetria ja andurite jaoks; toote sisemisi terviklikkuskontrolle ei jälgita.
+
+engine-compliance-req-nist-pr-ip-10-reference = PR.IP-10 (teabe kaitse protsessid ja menetlused)
+
+engine-compliance-req-nist-pr-ip-10-asks = Testida reageerimis- ja taastamisplaane; varuajaallikaga süsteemi puhul eemaldada põhiallikas ja kinnitada, et ajatäpsus, hüpped ja rambid jäävad esitatud kellanõuete piiresse.
+
+engine-compliance-req-nist-pr-ip-10-gap = Holdover-käivitus modelleerib eemaldamist ja kontrollib viga esitatud läve suhtes; hinnatud vastuvõtjalogi näitab tegelikku kadu ja taastumist. Test operaatori enda ajaserveril ja selleks kasutatav RF on operaatori ülesanne.
+
+engine-compliance-req-nist-pr-pt-5-reference = PR.PT-5 (kaitsetehnoloogia)
+
+engine-compliance-req-nist-pr-pt-5-asks = Kasutada vastupidavusmehhanisme tavalistes ja ebasoodsates tingimustes: tagasi lükata halvad signaalid ja andmed ning siduda holdover anomaaliate tuvastamise, liigsete või liidetud allikate ja taastamisega.
+
+engine-compliance-req-nist-pr-pt-5-gap = Näidatakse modelleeritud mehhanisme ja nende piire; kas toode neid rakendab, selgub tootetestist.
+
+engine-compliance-req-nist-de-ae-2-reference = DE.AE-2 (anomaaliad ja sündmused)
+
+engine-compliance-req-nist-de-ae-2-asks = Analüüsida tuvastatud PNT-sündmusi reaalajas ja pärast (allikas, veastatistika, kestus, sagedus, asukoht), eristada kahjulikke sündmusi tavatööst ning säilitada toorandmed ja analüüs.
+
+engine-compliance-req-nist-de-ae-2-gap = Kshana hindab salvestatud logi tagantjärele ja säilitab oma käivitatu räsid. See ei leia ega omista häireallikat ning ei jälgi reaalajas teenusena.
+
+engine-compliance-req-nist-de-ae-3-reference = DE.AE-3 (anomaaliad ja sündmused)
+
+engine-compliance-req-nist-de-ae-3-asks = Koguda ja korreleerida sündmuseandmeid mitmest allikast ja andurist ning kontrollida PNT-andmeid risti rohkem kui ühest allikast, et tuvastada anomaalset käitumist.
+
+engine-compliance-req-nist-de-ae-3-gap = Kshana monitorid kontrollivad risti ühe vastuvõtjalogi või ühe stsenaariumi vooge; korrelatsioon operaatori enda andurite ja logide vahel on nende ülesanne.
+
+engine-compliance-req-nist-de-ae-4-reference = DE.AE-4 (anomaaliad ja sündmused)
+
+engine-compliance-req-nist-de-ae-4-asks = Määrata sündmuste mõju PNT-andmetele ja neist sõltuvatele rakendustele, sealhulgas harvaesinevate sündmuste puhul.
+
+engine-compliance-req-nist-de-ae-4-gap = Mõju näidatakse käivituse või logi PNT-väljundil. Mõju konkreetsele järgnevale rakendusele nõuab selle rakenduse enda nõudeid.
+
+engine-compliance-req-nist-de-ae-5-reference = DE.AE-5 (anomaaliad ja sündmused)
+
+engine-compliance-req-nist-de-ae-5-asks = Määrata ja dokumenteerida intsidendi häirelävi rakenduse vajaliku vea- ja määramatuse tolerantsi põhjal koos teavitamisajaga.
+
+engine-compliance-req-nist-de-ae-5-gap = Käivitusi hinnatakse kasutaja esitatud läviväärtuste suhtes ja need salvestatakse. Läviväärtuste ja häiremenetluse valik on kasutaja ülesanne.
+
+engine-compliance-req-nist-de-cm-1-reference = DE.CM-1 (pidev turvaseire)
+
+engine-compliance-req-nist-de-cm-1-asks = Jälgida PNT-allikaid ja -väljundeid lähtetasemete suhtes anomaaliate tuvastamiseks, kasutades mitmekesiseid allikaid ning rikete tuvastamist ja välistamist, ning kontrollida, et seire katab tuvastatud rikkerežiimid.
+
+engine-compliance-req-nist-de-cm-1-gap = Kshana käivitab ja hindab selliseid monitore logidel ja stsenaariumidel. Reaalse süsteemi pidevat seiret ja toote kõigi rikkerežiimide katvust käivituste kogum ei näita.
+
+engine-compliance-req-nist-de-dp-3-reference = DE.DP-3 (tuvastusprotsessid)
+
+engine-compliance-req-nist-de-dp-3-asks = Testida, et sündmuste tuvastamine töötab ettenähtud viisil, perioodiliselt ja pärast uuendusi, kehtivate ohuprofiilide suhtes.
+
+engine-compliance-req-nist-de-dp-3-gap = Korratavad, räsitud stsenaariumid ja enne hindamist esitatud sündmused toetavad tõendeid (supports evidence for) sellise testi jaoks; selle ajakavajärgne käivitamine operaatori seadmetel on nende ülesanne.
+
+engine-compliance-req-nist-rs-an-5-reference = RS.AN-5 (analüüs)
+
+engine-compliance-req-nist-rs-an-5-asks = Seada sisse kontrollimine ja valideerimine teadaolevate rikkerežiimide ja uute haavatavuste jaoks ning salvestada intsidentide nominaalsed ja anomaalsed PNT-andmed hilisema tuvastamise parandamiseks.
+
+engine-compliance-req-nist-rs-an-5-gap = Hinnatud logi iseloomustab ühte intsidenti tagantjärele. Avalikustatud haavatavuste vastuvõtmine ja nende põhjal tegutsemine on protsess, mis jääb väljapoole iga käivitust.
+
+engine-compliance-req-nist-rs-mi-2-reference = RS.MI-2 (leevendamine)
+
+engine-compliance-req-nist-rs-mi-2-asks = Kui intsident on piiratud, leevendada seda alternatiivsete või täiendavate PNT-allikatega, et töö jätkuks, ning viia süsteem tagasi nõuetekohasesse töökorda.
+
+engine-compliance-req-nist-rs-mi-2-gap = Käivitused näitavad, kui kaua modelleeritud varuallikad hoiavad vea piiratuna; piiramine ja teenusesse naasmine on operatiivsammud.
+
+engine-compliance-mapping-header-reference = Viide
+
+engine-compliance-mapping-header-asks = Mida see nõuab (parafraseeritult)
+
+engine-compliance-mapping-header-capabilities = Kshana väljundid, mis toetavad selle jaoks tõendeid (supports evidence for)
+
+engine-compliance-mapping-header-gap = Lünk
+
+engine-compliance-mapping-none = puudub
+
+engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Loetud { $accessed }: { $checked }.
