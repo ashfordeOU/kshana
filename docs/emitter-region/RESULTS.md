@@ -24,7 +24,7 @@ the data did not support the test. No bar was loosened, no window added.
 further candidate sessions were withheld below 5). Only 2 overlapped a scheduled jamming window by at least half their
 duration, both on Thursday 18 Sep and both at Area 2 (07:59 to 10:11 UTC in W5 and 12:43 to 14:06 UTC in W6). Both are
 flagged `unconstrained`: with 6 distinct affected aircraft each, the 95% region fills more than 80% of its search domain
-(about 1.6 million km squared). For information only (the bars were not applied): the region of the first held both
+(about 1.6 million km squared). For information only (the bars were not applied): the region of the first held the
 Area 2 point at 95% and the second did not. Neither Monday's window nor any of Tuesday's produced a scheduled session.
 The other 12 sessions are unscheduled: they cluster in the early morning (02:51 to 07:50 UTC on 15, 16, 17, 18 and 19 Sep)
 and on 17 Sep, a day with no scheduled jamming at these sites, and are not evidence about the sites.
