@@ -7,3 +7,5 @@ seg-adc34608c46b = Klasa
 seg-fdbb9db68f1d = brak
 
 seg-f63dd3d7aad4 = Źródło
+
+seg-98151954f217 = false
