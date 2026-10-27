@@ -6345,11 +6345,11 @@ dat-ab8e111d6db1 = Tesseraalinen geopotentiaali Cowell-propagaattorissa
 
 dat-c481865fdebf = Sovellettu testi
 
-dat-7e4f76cf5f02 = Testipenkkivienti
+dat-7e4f76cf5f02 = Test-bench-vienti
 
 dat-ae7811e71c53 = Testipenkkivienti (kshana bench-export): Maakiinteät, geodeettiset ja paikalliset nopeussarakkeet, asennesarakkeet ja NMEA { "0183" } -tuloste
 
-dat-98bed4a06290 = Simulaattorin liikesidostiedostojen lukijoiden (gps-sdr-sim) lukema testipenkkivienti
+dat-98bed4a06290 = Simulaattorin liikesidostiedostojen lukijoiden (gps-sdr-sim) lukema test-bench-vienti
 
 dat-2c1e5ddbab6d = Testit ja testidata
 

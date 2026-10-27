@@ -9035,13 +9035,13 @@ engine-verification-tests-fixtures = tests/fixtures/{ $base }
 
 engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
 
-engine-compliance-fw-imo-ships-title = IMO:n ohjeistus GNSS-häiriöistä aluksille
+engine-compliance-fw-imo-ships-title = IMO guidance on GNSS interference for ships
 
-engine-compliance-fw-easa-aviation-title = EASAn ohjeistus GNSS-häiriöistä ilmailulle
+engine-compliance-fw-easa-aviation-title = EASA guidance on GNSS interference for aviation
 
-engine-compliance-fw-nis2-art21-title = EU:n NIS2-direktiivi, artikla 21: riskienhallintatoimenpiteet
+engine-compliance-fw-nis2-art21-title = EU NIS2 Directive, Article 21 risk-management measures
 
-engine-compliance-fw-en-16803-title = EN 16803, GNSS-pohjainen paikannus tieliikenteen älykkäissä liikennejärjestelmissä (ITS)
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-based positioning for road ITS
 
 engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 

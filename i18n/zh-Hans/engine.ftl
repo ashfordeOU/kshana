@@ -7952,7 +7952,7 @@ engine-bench-site-heading = kshana-bench 排行榜
 
 engine-bench-site-lede = 按 <code>{ $spec }</code> 评分的结果文件。一行表示该文件在此划分上得到了该数值。这并不表示任何产品已被任何人评级或批准，也没有点名任何机构为背书方。
 
-engine-bench-site-foot = 除非某行说明外部参考基准（oracle）一致，否则每个得分均为 MODELLED。规范与清单的许可：拟采用 CC-BY-4.0 / CC0，所有者尚未决定。真实数据保留集并非保密：见规范第 4 节。
+engine-bench-site-foot = 除非某行说明外部参考基准（oracle）一致，否则每个得分均由模型得出。规范与清单的许可：拟采用 CC-BY-4.0 / CC0，所有者尚未决定。真实数据保留集并非保密：见规范第 4 节。
 
 engine-bench-site-meta-description = kshana-bench { $spec } 下已提交结果文件的得分。仅供参考。
 
@@ -8572,73 +8572,73 @@ engine-verification-src-mod-rs = src/{ $rel }/mod.rs
 
 engine-verification-tests-fixtures = tests/fixtures/{ $base }
 
-engine-compliance-fw-dhs-rpcf-title = 美国 DHS 韧性 PNT 一致性框架
+engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
 
-engine-compliance-fw-imo-ships-title = IMO 关于船舶 GNSS 干扰的指南
+engine-compliance-fw-imo-ships-title = IMO guidance on GNSS interference for ships
 
-engine-compliance-fw-easa-aviation-title = EASA 关于航空 GNSS 干扰的指南
+engine-compliance-fw-easa-aviation-title = EASA guidance on GNSS interference for aviation
 
-engine-compliance-fw-nis2-art21-title = 欧盟 NIS2 指令第 21 条风险管理措施
+engine-compliance-fw-nis2-art21-title = EU NIS2 Directive, Article 21 risk-management measures
 
-engine-compliance-fw-en-16803-title = EN 16803，面向道路 ITS 的基于 GNSS 的定位
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-based positioning for road ITS
 
-engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1，PNT 基础概要
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 
-engine-compliance-source-dhs-rpcf-1-title = 韧性定位、导航与授时（PNT）一致性框架
+engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
 
 engine-compliance-source-dhs-rpcf-1-version = 2.0 版，2022 年 4 月 26 日（DHS 科学技术局，联合 CISA）
 
 engine-compliance-source-dhs-rpcf-1-checked = 文件已通读；未获取该出版物的着陆页
 
-engine-compliance-source-imo-ships-1-title = 对美国全球定位系统及其他全球导航卫星系统的蓄意干扰
+engine-compliance-source-imo-ships-1-title = Deliberate interference with the United States Global Positioning System and other global navigation satellite systems
 
 engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644，2021 年 10 月 18 日
 
 engine-compliance-source-imo-ships-1-checked = 文本通读自该通函的这一第三方镜像，而非 IMO 网站；权威文本请查阅 IMO 文件库
 
-engine-compliance-source-imo-ships-2-title = 全球无线电导航系统
+engine-compliance-source-imo-ships-2-title = Worldwide Radionavigation System
 
 engine-compliance-source-imo-ships-2-version = IMO 大会决议 A.1046(27)，2011 年 11 月 30 日通过
 
 engine-compliance-source-imo-ships-2-checked = 文件已通读
 
-engine-compliance-source-imo-ships-3-title = 多系统船载无线电导航接收机性能标准
+engine-compliance-source-imo-ships-3-title = Performance standards for multi-system shipborne radionavigation receivers
 
 engine-compliance-source-imo-ships-3-version = IMO MSC.401(95)，2015 年 6 月 8 日通过（经 MSC.432(98) 修订，2017 年）
 
 engine-compliance-source-imo-ships-3-checked = 原决议已通读；未阅读 2017 年修正案文本。未发现晚于 MSC.1/Circ.1644 的 IMO GNSS 干扰通函；更新的通函请查阅 IMO 文件库
 
-engine-compliance-source-easa-aviation-1-title = 导致通信/导航/监视性能下降的全球导航卫星系统中断与改变
+engine-compliance-source-easa-aviation-1-title = Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation
 
 engine-compliance-source-easa-aviation-1-version = EASA 安全信息公告 SIB 2022-02R4，2026 年 7 月 3 日发布，2026 年 7 月 22 日更正（供参考，非强制）
 
 engine-compliance-source-easa-aviation-1-checked = 第 4 修订版已通读；由于该公告未给建议编号，各节按标题引用。2026-10-10 复查：该公告 PDF、EASA AD 工具页面（其中该公告的取代项为无）和 EASA GNSS 页面均未提及更晚的修订版，也没有编号为 2026-07 的公告；未发现提及 SIB 2026-07 第 2 修订版的横幅，因此该问题尚无定论，应在 EASA 实时页面上核对。冲突区信息公告未打开查阅
 
-engine-compliance-source-nis2-art21-1-title = 关于在欧盟范围内实现高度统一网络安全水平的措施的指令（欧盟）2022/2555（NIS 2 指令）
+engine-compliance-source-nis2-art21-1-title = Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS 2 Directive)
 
 engine-compliance-source-nis2-art21-1-version = OJ L 333，2022 年 12 月 27 日，第 80-152 页
 
 engine-compliance-source-nis2-art21-1-checked = 第 21 条各款的字母编号取自 EUR-Lex 页面的摘要，与已发布文本一致；在申报文件中引用某一字母项之前，请对照该页面确认
 
-engine-compliance-source-en-16803-1-title = 空间 - 在道路智能交通系统（ITS）中使用基于 GNSS 的定位 - 第 1 部分：性能建立与评估的定义和系统工程程序
+engine-compliance-source-en-16803-1-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 1: Definitions and system engineering procedures for the establishment and assessment of performances
 
 engine-compliance-source-en-16803-1-version = EN 16803-1:2020（目录：自 2020 年 10 月 2 日起有效，取代 2016 年版）
 
 engine-compliance-source-en-16803-1-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读
 
-engine-compliance-source-en-16803-2-title = 空间 - 在道路智能交通系统（ITS）中使用基于 GNSS 的定位 - 第 2 部分：基于 GNSS 的定位终端基本性能的评估
+engine-compliance-source-en-16803-2-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals
 
 engine-compliance-source-en-16803-2-version = EN 16803-2:2020（目录：自 2020 年 10 月 2 日起有效）
 
 engine-compliance-source-en-16803-2-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读
 
-engine-compliance-source-en-16803-3-title = 空间 - 在道路智能交通系统（ITS）中使用基于 GNSS 的定位 - 第 3 部分：基于 GNSS 的定位终端安全性能的评估
+engine-compliance-source-en-16803-3-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals
 
 engine-compliance-source-en-16803-3-version = EN 16803-3:2020（目录：自 2020 年 10 月 2 日起有效）
 
 engine-compliance-source-en-16803-3-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读。目录文本只按编号点名了第 6 条（录制信号与模拟信号）和附录 A（对攻击的高层分类），没有点名其他内容；目录未给出委员会名称，因此此处不作说明
 
-engine-compliance-source-nist-ir-8323r1-1-title = PNT 基础概要：应用网络安全框架负责任地使用定位、导航与授时（PNT）服务
+engine-compliance-source-nist-ir-8323r1-1-title = Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services
 
 engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1，2023 年 1 月（NIST 内部报告）
 
@@ -8790,7 +8790,7 @@ engine-compliance-req-imo-401-3-16-asks = 显示增强系统的状态，以及�
 
 engine-compliance-req-imo-401-3-16-gap = 显示要求；没有任何 Kshana 输出涉及这些要求。
 
-engine-compliance-req-imo-401-4-2-reference = MSC.401(95)，4.2
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
 
 engine-compliance-req-imo-401-4-2-asks = 在正常干扰条件下令人满意地工作，符合决议 A.694(17)（船载无线电设备一般要求）以及典型的船上和外部无线电环境。这不是抗压制干扰或抗欺骗干扰的要求。
 
@@ -8913,3 +8913,95 @@ engine-compliance-req-nist-id-ra-1-gap = Kshana 在建模场景和接收机的�
 engine-compliance-req-nist-id-ra-3-reference = ID.RA-3（风险评估）
 
 engine-compliance-req-nist-id-ra-3-asks = 识别并记录针对 PNT 的内部和外部威胁，从自然和无意的中断到压制干扰、欺骗干扰和延迟攻击等蓄意攻击。
+
+engine-compliance-req-nist-id-ra-3-gap = 场景设定威胁及其影响。针对用户自己的站点和系统的有据可查的威胁评估由用户自行编写；没有任何场景可作为该处存在威胁的证据。
+
+engine-compliance-req-nist-id-ra-4-reference = ID.RA-4（风险评估）
+
+engine-compliance-req-nist-id-ra-4-asks = 识别潜在影响和可能性；对每个威胁，说明影响范围、误差的表现形式（阶跃或斜坡）、检测阈值，以及误差在下游造成的后果。
+
+engine-compliance-req-nist-id-ra-4-gap = 运行针对建模的传感器和设定的威胁给出影响数值（误差增长、保护级、链路影响）。不产生可能性，建模的影响也不是实测的影响。
+
+engine-compliance-req-nist-id-ra-5-reference = ID.RA-5（风险评估）
+
+engine-compliance-req-nist-id-ra-5-asks = 利用威胁、漏洞、可能性和影响来评估风险，并定期重新评估，且在系统或威胁变化时重新评估。
+
+engine-compliance-req-nist-id-ra-5-gap = 评分使用合成的威胁集合，并如实说明。带哈希的可重复运行使重新评估具有可比性；风险判断及其时间表属于组织层面。
+
+engine-compliance-req-nist-pr-ds-6-reference = PR.DS-6（数据安全）
+
+engine-compliance-req-nist-pr-ds-6-asks = 在各源不一致时验证 PNT 数据的完好性，例如交叉检查多个频率、星座或独立源。
+
+engine-compliance-req-nist-pr-ds-6-gap = Kshana 针对建模的几何和传感器计算保护级和跨源结果；产品内部的完好性检查未被观察。
+
+engine-compliance-req-nist-pr-ip-10-reference = PR.IP-10（信息保护过程与程序）
+
+engine-compliance-req-nist-pr-ip-10-asks = 测试响应与恢复计划；对于有备用时间源的系统，移除主源，并确认时间精度、阶跃和斜坡保持在设定的时钟要求之内。
+
+engine-compliance-req-nist-pr-ip-10-gap = 守时（holdover）运行对移除过程建模，并对照设定的阈值检查误差；已评分的接收机日志显示真实的丢失与恢复。对运营方自己的时间服务器的测试及其所用的任何 RF，由运营方负责。
+
+engine-compliance-req-nist-pr-pt-5-reference = PR.PT-5（防护技术）
+
+engine-compliance-req-nist-pr-pt-5-asks = 使用在正常和不利条件下的韧性机制：拒绝不良信号和数据，并将守时（holdover）与异常检测、冗余或融合的源以及恢复相结合。
+
+engine-compliance-req-nist-pr-pt-5-gap = 显示建模的机制及其局限；产品是否实现这些机制属于产品测试。
+
+engine-compliance-req-nist-de-ae-2-reference = DE.AE-2（异常与事件）
+
+engine-compliance-req-nist-de-ae-2-asks = 实时及事后分析检测到的 PNT 事件（来源、误差统计量、持续时间、频率、位置），区分有害事件与正常运行，并保留原始数据和分析。
+
+engine-compliance-req-nist-de-ae-2-gap = Kshana 事后对录制的日志评分，并保留其所运行内容的哈希。它不对干扰源定位或归因，也不作为服务进行实时监测。
+
+engine-compliance-req-nist-de-ae-3-reference = DE.AE-3（异常与事件）
+
+engine-compliance-req-nist-de-ae-3-asks = 收集并关联来自多个来源和传感器的事件数据，并交叉检查来自多个源的 PNT 数据以检测异常行为。
+
+engine-compliance-req-nist-de-ae-3-gap = Kshana 的监测器对一份接收机日志或一个场景的各数据流进行交叉检查；跨运营方自己的传感器和日志的关联由运营方负责。
+
+engine-compliance-req-nist-de-ae-4-reference = DE.AE-4（异常与事件）
+
+engine-compliance-req-nist-de-ae-4-asks = 确定事件对 PNT 数据及依赖它的应用的影响，包括罕见事件。
+
+engine-compliance-req-nist-de-ae-4-gap = 影响显示在某次运行或某份日志的 PNT 输出上。对某个具体下游应用的影响，需要该应用自身的要求。
+
+engine-compliance-req-nist-de-ae-5-reference = DE.AE-5（异常与事件）
+
+engine-compliance-req-nist-de-ae-5-asks = 根据应用所需的误差和不确定度容差设定并记录事件告警阈值，并注明通知时间。
+
+engine-compliance-req-nist-de-ae-5-gap = 运行对照用户设定的阈值评分，并记录这些阈值。阈值的选择和告警程序由用户负责。
+
+engine-compliance-req-nist-de-cm-1-reference = DE.CM-1（安全持续监测）
+
+engine-compliance-req-nist-de-cm-1-asks = 对照基线监测 PNT 源和输出以检测异常，使用多样化的源以及故障检测与排除，并检查监测是否覆盖已识别的故障模式。
+
+engine-compliance-req-nist-de-cm-1-gap = Kshana 在日志和场景上运行此类监测器并评分。对在线系统的持续监测，以及对某产品所有故障模式的覆盖，不是一组运行所能显示的。
+
+engine-compliance-req-nist-de-dp-3-reference = DE.DP-3（检测过程）
+
+engine-compliance-req-nist-de-dp-3-asks = 定期并在升级后，针对当前威胁概况测试事件检测是否按预期工作。
+
+engine-compliance-req-nist-de-dp-3-gap = 可重复、带哈希的场景和评分前设定的事件，为此类测试提供证据支持（supports evidence for）；按计划在运营方自己的设备上运行该测试由运营方负责。
+
+engine-compliance-req-nist-rs-an-5-reference = RS.AN-5（分析）
+
+engine-compliance-req-nist-rs-an-5-asks = 针对已知故障模式和新发现的漏洞建立验证与确认，并记录事件中的正常与异常 PNT 数据，以改进今后的检测。
+
+engine-compliance-req-nist-rs-an-5-gap = 已评分的日志事后刻画一次事件。接收并处理已披露的漏洞，是任何运行之外的流程。
+
+engine-compliance-req-nist-rs-mi-2-reference = RS.MI-2（缓解）
+
+engine-compliance-req-nist-rs-mi-2-asks = 事件得到遏制后，用替代或互补的 PNT 源对其进行缓解，使运行得以继续，并使系统恢复到正常工作状态。
+
+engine-compliance-req-nist-rs-mi-2-gap = 运行显示建模的后备源能使误差保持有界多长时间；遏制和恢复服务属于运行步骤。
+
+engine-compliance-mapping-header-reference = 引用
+
+engine-compliance-mapping-header-asks = 要求内容（转述）
+
+engine-compliance-mapping-header-capabilities = 为其提供证据支持（supports evidence for）的 Kshana 输出
+
+engine-compliance-mapping-header-gap = 差距
+
+engine-compliance-mapping-none = 无
+
+engine-compliance-source-line = **{ $title }**：{ $version }。<{ $url }>。阅读于 { $accessed }：{ $checked }。

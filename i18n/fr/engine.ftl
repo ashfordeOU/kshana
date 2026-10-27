@@ -8544,9 +8544,9 @@ engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (blancheur)
 
 engine-fusion-hybrid-ukf-chart-nees = NEES
 
-engine-fusion-hybrid-ukf-chart-consistent = COHÉRENT
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
 
-engine-fusion-hybrid-ukf-chart-inconsistent = INCOHÉRENT
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
 
 ## src/fusion/pack.rs
 
@@ -9439,13 +9439,13 @@ engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_hea
 
 engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
 
-engine-compliance-fw-imo-ships-title = Directives de l'OMI sur les interférences GNSS pour les navires
+engine-compliance-fw-imo-ships-title = IMO guidance on GNSS interference for ships
 
-engine-compliance-fw-easa-aviation-title = Directives de l'EASA sur les interférences GNSS pour l'aviation
+engine-compliance-fw-easa-aviation-title = EASA guidance on GNSS interference for aviation
 
-engine-compliance-fw-nis2-art21-title = Directive européenne NIS2, article 21 : mesures de gestion des risques
+engine-compliance-fw-nis2-art21-title = EU NIS2 Directive, Article 21 risk-management measures
 
-engine-compliance-fw-en-16803-title = EN 16803, positionnement par GNSS pour les STI routiers
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-based positioning for road ITS
 
 engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 
