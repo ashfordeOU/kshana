@@ -71,3 +71,5 @@ seg-dc1132147318 = Strona tematyczna: <a1>OPTICAL-ATMOSPHERE.md</a1>
 seg-bd5b1654b3ed = <s1>Poprzednia</s1>oem-interop
 
 seg-ef0a779c300c = <s1>Następna</s1>orbit
+
+seg-9fd02351d844 = ms
