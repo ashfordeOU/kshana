@@ -122,3 +122,9 @@ seg-70a79ec95bf4 = ei läbinud
 
 # text
 seg-7a33a168b020 = läbis
+
+# text
+seg-2192262e26c1 = täidetud
+
+# text
+seg-a91762c0aabe = Tasuta

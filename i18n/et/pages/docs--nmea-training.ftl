@@ -185,3 +185,274 @@ seg-e5a66c9c3627 = <c1/>, üks väärtustest <c2/> (tõene) või <c3/> (kursini 
 # c5: max_accel_mps2
 # c6: ramp_s = 0
 seg-d7d967a60275 = vastuvõtja säilitab <b>kehtiva fiksi</b>, mille asukoht kõnnib tõest eemale; SOG ja COG sisaldavad eemaletõmmet. Eemaletõmme järgib ramplitel smoothstepi, seega vale rada algab ja lõpeb ilma kiirusastmeta; selle tipud on <c1/> m/s ja <c2/> m/s ruudus rampi <c3/> s korral üle <c4/> m (mõlemad logitud), ja stsenaarium, mis ületaks <c5/>, lükatakse tagasi. Aste (<c6/>) liigutab asukohta kiirust puudutamata
+
+# text
+seg-7da039c3262e = RMC, GGA, GNS ja ZDA aeg nihutatakse tõelisest UTC-st; asukoht jääb tõeseks
+
+# text
+# c1: delay_s
+# c2: affect_time
+# c3: counterfeit_cn0_dbhz
+seg-ead3ce0162fb = <c1/>, <c2/> (vaikimisi true), <c3/>
+
+# text
+# c1: delay_s
+# c2: 1 - d(delay)/dt
+seg-a1bdb89334df = asukoht, kiirus (ja aeg) on laeval <c1/> tagasi olnud; viivitus järgib tõusude ajal sujuvat astmefunktsiooni (smoothstep) ning teatatud kiirust skaleeritakse teguriga <c2/>, kuni see muutub: lihtsustatud, meaconing-laadne abstraktsioon, mitte levimudel
+
+# text
+# c1: counterfeit_cn0_dbhz
+# c2: reacquire_s
+# c3: combined-event
+# c4: ramp_s = 0
+seg-6f435224f7fb = <c1/>: kui drag-off, aja spuufimine või taasesituse viivitus on aktiivne, näitab iga jälgitav satelliit seda üht tõstetud taset, mis on klassikaline tunnus. Peene sündmuse korral, kus säilitatakse tegelik C/N0 muster, jäetakse see ära. Kuni mis tahes võltssündmus on aktiivne, järgib vastuvõtja võltssignaali, mistõttu segamine seda ei katkesta; varasema segamise tõttu kaotatud fiks naaseb võltssignaalil <c2/> pärast (vt <c3/>). Ajamuutus, mille tõttu teatatud aeg seiskuks või jookseks tagurpidi (kiirus { "1" } s sekundis või rohkem), lükatakse tagasi, kui see ei ole samm (<c4/>).
+
+# text
+# c1: onset
+# c2: start_s
+seg-894aceb32c5c = Sündmused võivad kattuda; nende mõjud liituvad (nihked, ajamuutused, viivitused) või kehtib tugevaim (segamine). Ajajoone <c1/> on esimene epohh, mil sündmusel on mõju, üks epohh pärast skriptitud <c2/>, kui sündmus tõuseb järk-järgult.
+
+# text
+seg-09e311ade9e6 = Instruktori logi
+
+# text
+# c1: <prefix>.instructor.json
+# c2: <prefix>.instructor.txt
+seg-80933b9bdf0d = Voo kõrval annavad <c1/> ja <c2/>:
+
+# text
+seg-51930977a6fe = sündmused sellisena, nagu need süstiti, lihtsas keeles koos iga parameetriga, ja nende UTC algusaeg;
+
+# text
+# c1: fix-lost
+# c2: fix-regained
+seg-4eab197c487b = ajajoone: algus, täielik mõju, taastumise algus, taastumine ning vastuvõtja enda <c1/> ja <c2/>;
+
+# text
+# c1: log_interval_s
+seg-af2eb88f14d0 = tõelise raja teatatuga võrreldes <c1/> sammuga: tõene ja teatatud asukoht, kiirus ja kurss, asukohaviga meetrites, ajanihe, kasutatud ja jälgitud satelliidid, keskmine C/N0 ning millised sündmused olid aktiivsed;
+
+# text
+seg-303f5fbe0351 = tõelise ja teatatud raja tippkiirus ja -kiirendus;
+
+# text
+# c1: trainer_note
+seg-593a4a1ef296 = stsenaariumi <c1/>.
+
+# text
+seg-8c4aebcd0eff = Näita logi alles lõppanalüüsil.
+
+# text
+# c1: kshana-nmea-training/1
+seg-dd1780910af7 = JSON-väljad (skeem <c1/>)
+
+# text
+seg-60b5b11cdc0b = tüüp, ühik
+
+# text
+seg-f4963d090155 = ainult koolituseks mõeldud väide
+
+# text
+seg-7ad14e03d9e4 = stsenaariumist
+
+# text
+seg-fac0fb50b31b = kasutatud algväärtus (seed)
+
+# text
+seg-f05d18516bd8 = ISO { "8601" } UTC
+
+# text
+seg-8752c09baa6a = käitamise algus
+
+# text
+seg-f0d8bb5aafef = käitamise kestus
+
+# text
+seg-0989e14f1e51 = sõlme
+
+# text
+seg-b657b979a455 = suurim tõene ja teatatud kiirus maa suhtes
+
+# text
+seg-24e947df31ae = m/s ruudus
+
+# text
+seg-a1ca3847c8d8 = kiiruse suurim muutus sekundis, tõene ja järjestikuste teatatud fikside vahel
+
+# text
+seg-e1daadeb7d48 = üks iga skriptitud sündmuse kohta
+
+# text
+# c1: timeline[].event
+# c2: track[].active_events
+seg-3aaa0108ac1e = 1-põhine; kasutavad <c1/> ja <c2/>
+
+# text
+seg-6bbb9db14f7b = lihtsas keeles kirjeldus koos parameetritega
+
+# text
+seg-2f3eac27a997 = skriptitud algus
+
+# text
+# c1: kind
+# c2: start_s
+# c3: duration_s
+# c4: ramp_s
+# c5: recovery_s
+seg-4255c67f3db5 = sündmus täpselt nii, nagu see on kirjutatud (<c1/>, <c2/>, <c3/>, <c4/>, <c5/> ja liigi enda parameetrid; puuduvad jäetakse välja)
+
+# text
+seg-88db26711d77 = kraadi tõene või null
+
+# text
+seg-2f30c3d8b17b = drag-off: rakendatud suund (suhteline suunanurk lahendatakse alguses)
+
+# text
+seg-55d6dd667365 = m/s, m/s ruudus või null
+
+# text
+seg-021df000164f = drag-off: tipud, mille nihe võltsrajale lisab
+
+# text
+seg-d3a2c65ebcd4 = hetked lõppanalüüsi jaoks, ajalises järjekorras
+
+# text
+seg-b2b72301c1c9 = s algusest, ISO { "8601" } UTC
+
+# text
+seg-34e24e21ac7e = millal (tõene aeg)
+
+# text
+seg-cf29ba5ed968 = täisarv või null
+
+# text
+seg-8dbc5e7239be = sündmuse id; null vastuvõtja oleku muutuste korral
+
+# text
+# c1: onset
+# c2: full-effect
+# c3: recovery-begins
+# c4: recovered
+# c5: fix-lost
+# c6: fix-regained
+seg-ae0d2fd5e1d1 = <c1/>, <c2/>, <c3/>, <c4/> (sündmused); <c5/>, <c6/> (vastuvõtja)
+
+# text
+seg-cd7c4057601b = selgitus
+
+# text
+# c1: log_interval_s
+seg-90e65cbe1a59 = üks rida iga <c1/> kohta
+
+# text
+seg-a57e27a3c470 = s, ISO { "8601" } UTC
+
+# text
+seg-24376fe24496 = tõene asukoht
+
+# text
+seg-f23b251a0e33 = sõlme, kraadi tõene
+
+# text
+seg-242c1f2ccbd3 = tõene kiirus ja kurss maa suhtes ning güroskoobi suund
+
+# text
+seg-696dd61f8bbb = tõeväärtus
+
+# text
+seg-ea264ef0395c = vastuvõtja teatas fiksist
+
+# text
+seg-b073b87a813e = kraadid, sõlmed, kraadi tõene või null
+
+# text
+seg-b56345697092 = mida vastuvõtja teatas; null, kuni fiks on kadunud
+
+# text
+seg-c4a33c03d9da = m või null
+
+# text
+seg-463f6fc42ae5 = horisontaalne kaugus tõelisest teatatud asukohani
+
+# text
+seg-b68dfce8d81d = teatatud UTC miinus tõene UTC
+
+# text
+seg-ec28faa1efcc = täisarvud
+
+# text
+seg-2bf397f77392 = fiksis kasutatud ja jälgitud satelliidid
+
+# text
+seg-96b87348e90e = dB-Hz või null
+
+# text
+seg-40f30b4a88cf = jälgitud satelliitide keskmine C/N0
+
+# text
+seg-3671c8aa3c1a = sündmuste id-d, millel on sel hetkel mõju
+
+# text
+# c1: /2
+seg-8401fa92aae1 = Välja lisamine ei muuda skeemi silti. Välja ümbernimetamine või eemaldamine või välja tähenduse või ühiku muutmine suurendab numbrit (<c1/>).
+
+# text
+seg-656ee92a3130 = Stsenaariumiteek
+
+# text
+# c1: scenarios/training/
+seg-82a888587138 = <c1/>, kumbki mõne minuti pikkune reis koos treeneri märkusega oma TOML-is:
+
+# text
+seg-665b9b46b49b = fail
+
+# text
+seg-11ed1f85d4be = mida see näitab
+
+# text
+seg-50ffa85a1128 = C/N0 langeb koos, satelliidid kaovad, fiks läheb kaduma ja naaseb
+
+# text
+seg-10bc30b9c57b = kehtiv, terve väljanägemisega fiks nihkub { "1.4" } km kalda poole; ühtlaselt tõstetud C/N0
+
+# text
+seg-f141692988e4 = asukoht õige, UTC triivib aeglase sadamasse sisenemise ajal { "45" } s ette
+
+# text
+seg-ce06a5ebdd42 = segamine, seejärel võltssignaali ülevõtt koos drag-off-i ja ajanihkega, seejärel taasesituse viivitus
+
+# text
+# c1: fjord
+# c2: natural-degradation
+# c3: skyline
+seg-3fbcfd1dd26a = blokeeritud taevas, mitte häire: fjordi kaljuseinad (REPRESENTATIVE <c1/> horisondijoone eelseadistus) varjavad satelliite idas ja läänes, seejärel kanal avaneb taas (sündmus <c2/>, koos <c3/> tabeliga)
+
+# text
+seg-5462f6b21fae = Asukohad, kuupäevad ja rajad on väljamõeldud; teek ei sisalda ühtki tegelikku laeva, operaatorit ega salvestist. See ei väida midagi selle kohta, kuidas ükski vastuvõtja või süsteem häire korral toimiks.
+
+# text
+seg-9831ab537b36 = Modelleerimisvalikud
+
+# text
+# c1: [receiver]
+# c2: [vessel]
+seg-76a0e0eb57b3 = Generaator on koolitusvahend, millel puudub väline oraakel (sõltumatu etalon), ja selle arvud on modelleerimisvalikud, mitte ühegi vastuvõtja mõõtmised. Need on valitud nii, et need näeksid välja nagu tavalise vastuvõtja logi: C/N0 kalle { "14" } dB seniidist horisondini alla seniiditaseme (vaikimisi { "47" } dB-Hz) ja satelliidipõhine nihe +/-1,5 dB, aeglane hajumine { "0.8" } dB { "97" } s jooksul ja { "0.5" } dB { "31" } s jooksul, { "0.3" } dB värin; jälgimise ({ "20" } dB-Hz) ja kasutamise ({ "28" } dB-Hz) läved; asukohamüra ({ "1.5" } m HDOP-i { "1" } korral, korreleeritud { "30" } s jooksul, vertikaalselt kaks korda suurem); { "0.05" } kraadi güroskoobi müra ja { "0.03" } kn triivimüra; { "20" } s roolimise ajakonstant ja laeva mudeli teekonnapunktide saabumisraadiused; ning asimuudisektori põhine satelliidivalik. Vaikeväärtused asuvad <c1/> ja <c2/> ning neid kõiki saab stsenaariumis muuta.
+
+# text
+seg-84913be532a0 = Tagasilugemine
+
+# text
+# c1: kshana receiver-trust
+# c2: format = "nmea"
+# c3: tests/fixtures/nmea_training/
+# c4: KSHANA_BLESS_GOLDEN=1
+seg-fbf4002d25cd = <c1/> oskab neid faile sisse lugeda (<c2/>). Testid kontrollivad iga teegi stsenaariumi iga lauset selle enda väljade arvu ja kontrollsumma reeglite vastu ning käitavad failid läbi selle lugeja, mis tõlgendab GGA, RMC ja GSV lauseid ning laseb teised tüübid läbi, jätmata ühtki vahele. Testid fikseerivad stsenaariumi kohta kuldse väljavõtte (<c3/>); pärast kavatsetud muutust genereeritakse uuesti käsuga <c4/>.
+
+# text
+seg-b94fbc3b1dd3 = <s1>Eelmine</s1>Mereliikluse usaldus
+
+# text
+seg-ecdf748cb63d = <s1>Järgmine</s1>Häirekaart ja marsruudi mõjutatus
+
+# text
+seg-24ad8471ff2a = JSON-väljad (skeem kshana-nmea-training/1)

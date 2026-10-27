@@ -41,3 +41,9 @@ seg-4f19d4fb1341 = Üldine N-D pühkimine mis tahes paketi kohal punktiga eralda
 
 # text
 seg-e7ab7b55c969 = 1-D kompromissiuuringu pühkimine kellapaketi parameetri kohal.
+
+# text
+seg-e43910de5fd8 = Märkmikud
+
+# text
+seg-d78822583c64 = Märkmik

@@ -71,3 +71,12 @@ seg-35bf9a48e566 = Termin
 
 # text
 seg-f3526b0d95f8 = Mõõdetud
+
+# text
+seg-7634c6f4b32c = Link
+
+# text
+seg-b966dd26caa6 = Andmestik
+
+# text
+seg-4fe4920a3fa1 = Standard
