@@ -415,3 +415,19 @@ seg-bd7b70852d88 = Uruchom benchmark.
 seg-193ee1ab991e = <c1/> zamienia plik zgłoszenia i prawdę odniesienia podziału w plik wyniku, a <c2/> renderuje pliki wyników na statyczną stronę. Nic nie jest uruchamiane w Twoim imieniu i nic nie jest przesyłane.
 
 seg-0c50b3629e39 = Otwórz benchmark
+
+seg-f79048f88b5c = Uruchom Kshana Studio
+
+seg-b02b3eeec184 = rodzaje scenariuszy
+
+seg-9a86ef058d27 = Otwórz w Kshana Studio
+
+seg-34a0cf94d83d = Otwórz eksporty przebiegu w Kshana Studio: odtwarzalny raport HTML, JSON, CSV
+
+seg-92ab4fe6f441 = Pobierz narysowane dane jako wartości rozdzielane przecinkami
+
+seg-3a93f60a7714 = <s1><a1>Raport</a1></s1>
+
+seg-c851aa23ea42 = wartości rozdzielane przecinkami
+
+seg-366c59b03b4f = CSV

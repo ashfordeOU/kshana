@@ -239,3 +239,89 @@ seg-e9dc4e6ef5d5 = Poprzednia i następna
 seg-ca4d42ca6ce0 = Pole
 
 seg-cc45f7524d3a = Co robi
+
+seg-84f4e9e5a9a5 = Przejdź do treści
+
+seg-724f533ab704 = Strona główna Kshana
+
+seg-3a9b1e33221b = Główna
+
+seg-27fce67df246 = <s1>kshana</s1> <s2>v{ $version }</s2>
+
+seg-90eeeb0abcbd = Misje
+
+seg-76a214e74ae5 = Możliwości
+
+seg-6ddf1dc69523 = Dowody
+
+seg-7660311d66bd = Badania
+
+seg-d69e23e80f28 = Dla programistów
+
+seg-781a33f8799b = Dokumentacja
+
+seg-bdb4733dec65 = Wydania
+
+seg-0ab06b2c95d0 = Szukaj
+
+seg-b816f0777f8c = Przełącz motyw
+
+seg-436acc962a75 = Przełącz między jasnym a ciemnym motywem
+
+seg-17f8b9e13ea5 = Otwórz menu
+
+seg-7a0e37ca54da = <s1>Uruchom </s1>Kshana Studio
+
+seg-e26cd70b7b56 = kshana
+
+seg-6c2ad82414f6 = Kshana · <s1>क्षण</s1> · <em>dokładna chwila</em>
+
+seg-d25e295fab75 = Otwartoźródłowy symulator odporności PNT (pozycjonowanie, nawigacja i czas). Nie steruje żadnym sprzętem radiowym i niczego nie nadaje: jego wynikiem na poziomie sygnału są pliki próbek IQ w paśmie podstawowym, a programowy odbiornik GNSS jest narzędziem analitycznym. To nie jest produkt lotniczy.
+
+seg-52524ef67781 = od Ashforde®
+
+seg-3ff5f045b0b8 = Produkt
+
+seg-6250e4ec851e = Kshana Studio
+
+seg-48c4185298a7 = Benchmark
+
+seg-984fd4304724 = Instalacja
+
+seg-beb0fa5d88fa = Serwer MCP
+
+seg-69c587fb2ce0 = GitHub
+
+seg-95f55687acc0 = Firma
+
+seg-37fd98ea8b9c = Kshana Pro
+
+seg-cf742dee26e9 = contact@ashforde.org
+
+seg-9ddc420c2f24 = Kshana v{ $version } · Ashforde® OÜ · AGPL-3.0, z możliwością licencji komercyjnej
+
+seg-87c5d84f1f40 = Każdy wykres pochodzi z zarejestrowanego przebiegu silnika w wersji v{ $version } i podaje swój scenariusz, ziarno (seed) oraz sposób jego odtworzenia. Obrazy: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), mozaiki misji NASA, JPL i USGS (księżyce i Pluton); mapy Słońca, Merkurego, Wenus, Jowisza, Saturna, Urana i Neptuna: Solar System Scope, Creative Commons Attribution (CC BY) { "4.0" }; mapa Deimosa: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) { "3.0" }; linie brzegowe: Natural Earth.
+
+seg-da4dafedebde = Szukaj stron, sekcji, scenariuszy i dokumentów
+
+seg-be5a0607ad13 = Szukaj stron, scenariuszy, dokumentów i działań…
+
+seg-fc996ea3d2ce = Wyniki
+
+seg-e2475745a7e2 = <c1/> <c2/> przesuń
+
+seg-510f4297d825 = <c1/> otwórz
+
+seg-a57cca86b759 = Pochodzenie
+
+seg-42a4712b944a = Na tej stronie
+
+seg-850a18066e2b = Kampanie
+
+seg-babf4fd91f17 = Synchronizacja czasu
+
+seg-85018a6b8966 = Orbity
+
+seg-cbb264f9962e = Przegląd
+
+seg-7fdb07b3b0ca = Księżycowe i cislunarne
