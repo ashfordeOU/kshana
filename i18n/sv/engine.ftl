@@ -2526,7 +2526,7 @@ engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG CE
 
 engine-interference-map-observatory-source-licence = KÄLLA { $dataset }  LICENS { $dataset2 }
 
-engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (PUBLISHED CELLER)
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (PUBLICERADE CELLER)
 
 engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Kshana-observatoriet, ADS-B-karta över navigeringsnoggrannhet, { $date }
 

@@ -2643,7 +2643,7 @@ engine-interference-map-observatory-deg-cells-utc-day-not = CÉLULAS DE { $trim_
 
 engine-interference-map-observatory-source-licence = FONTE { $dataset }  LICENÇA { $dataset2 }
 
-engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (CÉLULAS PUBLISHED)
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (CÉLULAS PUBLICADAS)
 
 engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Observatório Kshana, mapa de precisão de navegação ADS-B, { $date }
 
@@ -6604,7 +6604,7 @@ engine-e-realtime-frame-eop-cannot-read-later-vintage-eop = não é possível le
 
 engine-realtime-frame-eop-empty-and-deliberately-so-predicted = VAZIA, e de propósito: uma linha previsto-versus-final exige uma época de emissão com uma janela de ajuste COMPLETA de { $window_days } dias atrás dela e um Bulletin B final publicado na época-alvo. A entrada em vigor ({ $eop_source }) não fornece nenhuma época que satisfaça ambos os requisitos. Reduza `operational_window_days` ou forneça uma série real finals2000A mais longa — nenhuma linha é fabricada para preencher a tabela.
 
-engine-realtime-frame-eop-measured-over-the-real-series = Medido sobre a série real em vigor ({ $eop_source }). Cada linha é um erro de previsão genuíno: uma previsão para T+h formada a partir de linhas rápidas do Bulletin A em T ou antes, avaliada face ao final do Bulletin B PUBLISHED DEPOIS em T+h. A persistência é avaliada sobre o mesmo conjunto de épocas e os mesmos finais, de modo que as duas colunas diferem no preditor e em nada mais. `improvement_factor` abaixo de 1 significa que o preditor operacional é PIOR do que a persistência nesse horizonte, e é indicado como tal.
+engine-realtime-frame-eop-measured-over-the-real-series = Medido sobre a série real em vigor ({ $eop_source }). Cada linha é um erro de previsão genuíno: uma previsão para T+h formada a partir de linhas rápidas do Bulletin A em T ou antes, avaliada face ao final do Bulletin B PUBLICADO DEPOIS em T+h. A persistência é avaliada sobre o mesmo conjunto de épocas e os mesmos finais, de modo que as duas colunas diferem no preditor e em nada mais. `improvement_factor` abaixo de 1 significa que o preditor operacional é PIOR do que a persistência nesse horizonte, e é indicado como tal.
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage = Medido sobre um par genuíno de duas versões: a versão original ({ $eop_source }) contém previsões reais do Bulletin A além do seu próprio limite de dados, e a versão posterior arquivada ({ $c }) contém os finais do Bulletin B que essas datas acabaram recebendo. Três previsões são avaliadas face a esse final — a própria previsão arquivada do Bulletin A, o ajuste de estilo operacional deste crate sobre a versão original e a persistência no limite de dados.
 

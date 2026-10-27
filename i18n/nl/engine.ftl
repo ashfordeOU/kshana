@@ -2580,7 +2580,7 @@ engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG CE
 
 engine-interference-map-observatory-source-licence = BRON { $dataset }  LICENTIE { $dataset2 }
 
-engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (PUBLISHED CELLEN)
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (GEPUBLICEERDE CELLEN)
 
 engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Kshana-observatorium, ADS-B-navigatienauwkeurigheidskaart, { $date }
 
@@ -6402,7 +6402,7 @@ engine-e-realtime-frame-eop-cannot-read-later-vintage-eop = kan het EOP-bestand 
 
 engine-realtime-frame-eop-empty-and-deliberately-so-predicted = LEEG, en dat is bewust: een rij voorspeld-tegenover-definitief heeft een uitgifte-epoch nodig met een VOLLEDIG fitvenster van { $window_days } dagen erachter en een gepubliceerde definitieve Bulletin B op de doelepoch. De geldende invoer ({ $eop_source }) levert geen epoch die aan beide voldoet. Verkort `operational_window_days`, of lever een langere echte finals2000A-reeks aan — er wordt geen rij gefabriceerd om de tabel te vullen.
 
-engine-realtime-frame-eop-measured-over-the-real-series = Gemeten over de geldende echte reeks ({ $eop_source }). Elke rij is een echte voorspelfout: een voorspelling voor T+h gevormd uit snelle Bulletin A-rijen op of vóór T, gescoord tegen de LATER PUBLISHED definitieve Bulletin B op T+h. Persistentie wordt gescoord over dezelfde epochverzameling tegen dezelfde definitieve waarden, zodat de twee kolommen alleen in de voorspeller verschillen en in niets anders. `improvement_factor` onder 1 betekent dat de operationele voorspeller SLECHTER is dan persistentie op die horizon, en wordt als zodanig gerapporteerd.
+engine-realtime-frame-eop-measured-over-the-real-series = Gemeten over de geldende echte reeks ({ $eop_source }). Elke rij is een echte voorspelfout: een voorspelling voor T+h gevormd uit snelle Bulletin A-rijen op of vóór T, gescoord tegen de LATER GEPUBLICEERDE definitieve Bulletin B op T+h. Persistentie wordt gescoord over dezelfde epochverzameling tegen dezelfde definitieve waarden, zodat de twee kolommen alleen in de voorspeller verschillen en in niets anders. `improvement_factor` onder 1 betekent dat de operationele voorspeller SLECHTER is dan persistentie op die horizon, en wordt als zodanig gerapporteerd.
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage = Gemeten over een echt paar van twee uitgaven: de uitgave zoals uitgegeven ({ $eop_source }) bevat echte Bulletin A-voorspellingen na haar eigen datagrens, en de gearchiveerde latere uitgave ({ $c }) bevat de definitieve Bulletin B-waarden die die data uiteindelijk kregen. Drie voorspellingen worden tegen die definitieve waarde gescoord — de gearchiveerde Bulletin A-voorspelling zelf, de fit in operationele stijl van deze crate over de uitgave zoals uitgegeven, en persistentie op de datagrens.
 
