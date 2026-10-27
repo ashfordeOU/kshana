@@ -220,3 +220,11 @@ transmitters were on air (the plan is a schedule, not an on-air record), or anyt
 terrain. A NOT MET or NOT ASSESSABLE result says the same in the other direction and is equally a result.
 
 Sign-off: ______________________  (owner)   Date: ____________
+
+## Addendum: sign-off (27 Oct 2026)
+
+The owner signed off this pre-registration as committed at `46d53701a7daafea2b8fefa3e3e11ff71597b71d`, on 27 Oct 2026,
+in answer to a summary of it (area-level truth points `SENDER` and `ORIG` with the 2026-catalogue caveat, six windows,
+`n` at least 4 or NOT ASSESSABLE, M1 `k(n)`, M2 at most 0.5, M3 45 km for ADS-B and 20 km for AIS, VALIDATED only if
+both sources are MET, the AIS +2 h reading as primary with the as-documented reading as a sensitivity run). The owner's
+words: "Sign off (Recommended)". This addendum changes nothing above it.
