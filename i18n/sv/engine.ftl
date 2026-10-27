@@ -50,7 +50,7 @@ engine-e-clock-log-the-rinex-clock-file-holds = RINEX-klockfilen innehåller { $
 
 engine-e-clock-log-no-as-or-ar-records = inga AS- eller AR-poster för klocka { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = klockan har en enda epok; tau0 kan inte bestämmas
+engine-e-clock-log-the-clock-has-single-epoch = klockan har en enda epok; minst två behövs (tau0 kan inte bestämmas)
 
 engine-e-clock-log-the-log-has-no-readings = loggen i formatet { $format } har inga avläsningar
 

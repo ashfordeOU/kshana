@@ -9761,3 +9761,369 @@ engine-compliance-mapping-header-gap = Hiaat
 engine-compliance-mapping-none = geen
 
 engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Gelezen { $accessed }: { $checked }.
+
+engine-kind-lunar-ascent-description = MODELLED aangedreven opstijging van een zuidpolaire oppervlaktelocatie naar de rendez-vousbaan, en de positie-snelheidscovariantie die ze terug naar de baan meeneemt (Artemis-klasse). Het inertiale foutmodel met vijf toestanden per as van lunar-descent (positie, snelheid, versnellingsmeterbias, attitudekanteling, gyrobias, aangedreven door de specifieke kracht) draait op alle drie de locatieassen vanuit de oppervlaktetoestand waarmee de fase begint; een AFS-positiebepaling uit de zichtbare relays van een ILLUSTRATIVE constellatie van LCNS-type (zelfstandig, of differentieel met het residu van de correctieverbinding van lunar-differential-pnt, met de klok ondersteund wanneer slechts drie relays zichtbaar zijn) wordt met een vermeld interval genomen, waarbij maantijd binnenkomt via de voertuigklok en een tijdlabelfout langs het spoor. Rapporteert de gesloten-vorm inertiale bronnen, de bijdrage van de ondersteuning, de ablatie, de 1-sigma's van de navigatie over de opstijging, de afwijking bij motoruitschakeling naast de navigatiekennis, en de volledige 6x6 MCI-covariantie bij insertie met behoud van de positie-snelheidscorrelatie. MODELLED: illustratieve IMU-klasse, specifieke kracht, relayset en afwijking bij motoruitschakeling; fouten gehouden in de assen van de lanceerlocatie; de nominale eindtoestand is een vervanger. Niet door een agentschap onderschreven; adviserende software, geen typegoedgekeurde navigatieapparatuur.
+
+engine-kind-lunar-surface-description = MODELLED beschikbaarheid van positiebepaling en tijdsynchronisatie aan het oppervlak per locatie en seizoen voor zuidpolaire locaties van de Artemis-klasse. Voor elke locatie en elk seizoen (een epoch en een venster erna) rapporteert ze relaypositiebepaling (vier of meer relays van een ILLUSTRATIVE constellatie van LCNS-type in zicht en PDOP onder een drempel, met dezelfde functies als moonlight-service-volume en, met een terreinsectie, de ray-marched horizon van het terrein van lunar-station-coverage), of de Aarde en de Zon boven de horizon van de locatie staan (analytische Zon, Maan en maanoriëntatie, libratie inbegrepen, wat met het seizoen meebeweegt), en de beschikbaarheid van tijdsynchronisatie (een relay of de Aarde in zicht) met de langste periode van geen van beide, de holdover die een oppervlakteklok moet doorstaan. Een resultaat voor één locatie is tot op de bit gelijk aan dat van moonlight-service-volume. MODELLED: illustratieve Kepler-relayset op een Maan met gemiddelde rotatie; het relaycijfer verandert niet met het seizoen; het terrein is de LOLA-uitsnede van 1200 m. Niet door een agentschap onderschreven; adviserende software, geen typegoedgekeurde navigatieapparatuur.
+
+engine-kind-lunar-descent-description = MODELLED budget voor de landingsdispersie van een aangedreven afdaling naar een zuidpolaire locatie (Artemis-klasse). Per horizontale as wordt een inertiaal foutmodel met vijf toestanden (positie, snelheid, versnellingsmeterbias, attitudekanteling, gyrobias) aangedreven door de specifieke kracht van de afdaling; een sequentieel filter neemt positiebepalingen van de ingeschakelde ondersteuningen: een AFS-positiebepaling uit de zichtbare relays van een ILLUSTRATIVE constellatie van LCNS-type (zelfstandig, of differentieel met het residu van de correctieverbinding van lunar-differential-pnt, met de klok ondersteund wanneer slechts drie relays zichtbaar zijn) en een terreinrelatieve positiebepaling (de TERCOM/SITAN-matcher van de crate op een synthetisch reliëf, of de Cramér-Rao-grens van het matchen van een hoogtevenster van de echte LOLA-zuidpool-DEM). Maantijd komt binnen via de voertuigklok bij de positiebepalingen (de LTC-TT-offset van lunar-time-offset, of de onzekerheid van de gepubliceerde band) en als tijdlabelfout langs het spoor. Rapporteert de 3-sigma-landingsellips, R95, de gesloten-vorm inertiale bronnen, de bijdrage van elke ondersteuning, de ablatie van elke combinatie van ondersteuningen, een Monte Carlo-kalibratie van de ellips en de doorgegeven covariantie. MODELLED: illustratieve IMU-klasse, relayset, afdalingsprofiel en geleidingsterm; terreinnavigatie gebruikt een synthetisch reliëf op een aardse meterschaal; AFS-beschikbaarheid is één epoch op een vlak masker. Niet door een agentschap onderschreven; adviserende software, geen typegoedgekeurde navigatieapparatuur.
+
+engine-kind-lunar-orbit-rendezvous-description = MODELLED relatieve navigatie voor een koppeling in Orion-landerstijl in een lage maanbaan of een elliptische poolbaan (Artemis-klasse). Een chaser en een target vliegen dezelfde baan onder het maankrachtenmodel van de crate; een gezamenlijke batchschatting met 21 parameters volgens Gauss-Newton over de boog (twee voertuigtoestanden en blijvende signal-in-space-biases) fuseert een absolute positiebepaling per voertuig uit een ILLUSTRATIVE relayset van LCNS-type (relays achter de Maan vervallen, vier nodig, de gemeenschappelijke signal-in-space-fout valt weg tussen de voertuigen) en een crosslinkafstand, met een afstandsmetingsprecisie uit de codevolggrens op de LunaNet AFS-pilot. Rapporteert de formele en Monte Carlo-relatieve positie- en snelheidsfout in de LVLH-assen van het target, de beschikbaarheid van positiebepalingen, de gemiddelde genormaliseerde gekwadrateerde schattingsfout ten opzichte van de verwachte waarde, en elke trial waarvan de iteratie niet convergeerde, de drift door het negeren van de zwaartekrachtharmonischen, en de volledige 6x6-covariantie die wordt doorgegeven. Een gesloten-vorm Hill/Clohessy-Wiltshire-controle geldt voor het cirkelvormige geval. MODELLED: illustratieve relayset, foutbudget en priors; de referentie en de schatter delen één krachtenmodel, dus de NEES controleert zelfconsistentie en geen modelfout. Niet door een agentschap onderschreven; adviserende software, geen typegoedgekeurde navigatieapparatuur.
+
+engine-kind-mission-thread-description = MODELLED foutbudget voor navigatie en tijdsynchronisatie van een vermelde keten van missiefasen, van lancering tot terugkeer: lancering en opstijging, rendez-vous en koppeling in een lage Aardbaan (herhaalbaar), trans-lunaire injectie en cislunaire vlucht, rendez-vous in de maanbaan, afdaling, verblijf aan het oppervlak, opstijging en de terugreis en terugkeer, elke fase een van acht geregistreerde kinds met eigen sensoren en filter. De 6x6-covariantie, de klok en het stelsel worden van fase tot fase doorgegeven volgens een vermelde regel (carry, inflate of reacquire); conversies van stelsel en tijdschaal (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) zijn eigen budgetregels, met de toestand van de Maan uit een optionele DE440-kernel-uitsnede en de analytische reeks als vermelde terugvaloptie. Een optionele overlay van het grondnetwerk bepaalt de volgdienst van elke fase. Rapporteert het budget per fase (1-sigma's bij binnenkomst, piek en uitgang, elke bijdrage met haar eenheid), de marge ten opzichte van een vermelde eis, de zwakste schakel, de gebeurtenissen en een tijdlijnfiguur. MODELLED: elk getal is een vermelde invoer; de keten volgt één stack en er wordt geen voertuig gemodelleerd. Alleen openbare bronnen; niet gelieerd aan of onderschreven door enig agentschap; adviserende software, geen typegoedgekeurde navigatieapparatuur.
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt: `magnetic_grid` vervangt het synthetische magnetische veld, dus `magnetic_mascons` moet leeg zijn wanneer het is ingesteld
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = de rapportagehorizon moet een positieve lengte hebben (horizon_end_s > horizon_start_s)
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers: het resultaatdocument is geen pretty-JSON-object
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] rapporteert de RAIM van één run naast zijn holdoverwaarden; het vereist runs = 1
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = het niet-bewaakte foutrisico put het hele integriteitsbudget uit; er bestaat geen eindig beschermingsniveau
+
+engine-e-araim-reference-the-add-v4-subset-rule = de subsetregel van ADD v4.2 telt altijd paren op; max_order moet >= 2 zijn
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint leverde geen punten op
+
+engine-e-bench-cli-scale-is-not-number = --scale is geen getal
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` leest een dataset en is voor taak a; taken c en d gebruiken `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = taak c heeft geen verzegelde achtergehouden set
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` maakt de bestanden van taken c en d; taak a is de dataset zelf (gebruik `truth`)
+
+engine-e-bench-cli-threshold-is-not-number = --threshold is geen getal
+
+engine-e-bench-cli-seed-file-is-required = --seed-file is vereist
+
+engine-e-bench-cli-validate-needs-at-least-one = validate heeft minstens één resultaatbestand nodig
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` is voor taak a; de andere taken hebben vastgelegde manifesten
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest heeft één manifestbestand nodig
+
+engine-e-bench-system-name-is-required = `system.name` is vereist
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth heeft geen `labels`-array
+
+engine-e-bench-tasks-label-has-no-id = een label heeft geen `id`
+
+engine-e-bench-tasks-label-has-no-positive = een label heeft geen `positive`
+
+engine-e-bench-tasks-predictions-have-no-scores-object = predictions hebben geen `scores`-object
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = de achtergehouden set is verzegeld: geef het geheim mee met --seed-file
+
+engine-e-bench-tasks-task-truth-has-no-truth = taak (c) truth heeft geen `truth`-array
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = taak (c) predictions hebben geen `predictions`-object
+
+engine-e-bench-tasks-truth-entry-has-no-id = een truth-item heeft geen `id`
+
+engine-e-campaign-compare-needs-threshold = compare heeft een drempel nodig
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM: de header CCSDS_TDM_VERS ontbreekt
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = de chief bevindt zich op de Maan: poolcoördinaten zijn singulier
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock geldt alleen voor de formaten rinex-clk, linuxptp en chrony (TICC gebruikt channel)
+
+engine-e-clock-log-single-column-timelab-log-needs = een timelab-log met één kolom heeft tau0 nodig: een header `# tau0 = <s>` of tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = het TICC-log bevat geen metingen (regels `<seconds> chA|chB|chC|TI(...)`)
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = intensiteitsraster onverwacht leeg
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg moet in (0, 180) liggen (een equatoriale baan heeft geen opgaande knoop)
+
+engine-e-evidence-bundle-its-imprint-is-not-the = de imprint ervan is niet de hash van de manifest.json van dit pakket (een token kan pas worden verkregen nadat het pakket bestaat: gebruik `kshana evidence attach-timestamp`)
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey moet 32 bytes zijn (64 hexcijfers)
+
+engine-e-evidence-cli-that-is-the-private-key = dat is de PRIVÉSLEUTEL van de ondertekenaar. Deel hem nooit; geef de publieke sleutel op (het .pub-bestand)
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation: een geleide opstelling heeft attenuation_db nodig, een eindig aantal dB, 0 of meer
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = niet-ondersteund digestalgoritme
+
+engine-e-evidence-tsa-signature-failure = handtekeningfout
+
+engine-e-field-schema-entry-is-not-an-object = item is geen object
+
+engine-e-field-schema-no-unit-string = geen `unit`-string
+
+engine-e-field-schema-no-provenance-string = geen `provenance`-string
+
+engine-e-geometry-sky-tle-holds-no-complete = sky: tle bevat geen volledige tweeregelige elementenset
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky: epoch dateert de `tle`-satellieten; de voorinstelling `systems` en de rechtstreeks opgegeven satellieten dragen geen datum, geef dus `tle` erbij
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map: `reference` vervangt het synthetische veld, dus `coeffs` en `mascons` moeten leeg zijn wanneer het is ingesteld
+
+engine-e-gse-sim-fusion-od-produced-no-steps = fusie-baanbepaling leverde geen stappen op (te weinig waarnemingen)
+
+engine-e-holdover-test-give-one-of-series-samples = geef een van series.samples, series.csv_path of series.clock_log op
+
+engine-e-holdover-test-give-one-of-series-samples-2 = geef een van series.samples, series.csv_path of series.clock_log op, niet meer dan een
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s moet eindig zijn, locked_duration_days >= 0, recovery_band_ns > 0 en recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path is niet beschikbaar in de WebAssembly-build; geef de reeks inline op als `samples` of `clock_log.text`
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry heeft minstens twee verschillende eindige zichtlijnfactoren nodig
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = de optische verbinding leverde geen fotonen (oneindige afstandsmetings-CRLB); verhoog vermogen / apertuur / integratietijd
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz en rf_degraded_margin_db moeten eindig zijn
+
+engine-e-interference-map-adsb-need-at-least-one-of = minstens een van de kolommen `nic`, `nacp` is nodig
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip: gedecomprimeerde grootte boven de limiet
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = trace-JSON mist icao, timestamp of trace
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = een eigen dataset heeft een licentie, een licentie-URL en een attributietekst nodig
+
+engine-e-interference-map-api-cell-size-must-be-between = de celgrootte moet tussen { $lit_0_01 } en 10 graden liggen
+
+engine-e-interference-map-api-map-has-bad-date = de kaart heeft een ongeldige datum
+
+engine-e-interference-map-api-no-map-falls-in-the = geen enkele kaart valt binnen het datumbereik
+
+engine-e-interference-map-cli-dataset-is-required-so-the = --dataset is vereist zodat de licentie en de attributie worden ingebed
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg is geen getal
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg moet tussen { $lit_0_01 } en 10 liggen
+
+engine-e-interference-map-cli-subcommand-is-required = een subopdracht is vereist
+
+engine-e-interference-map-cli-input-file-missing = invoerbestand ontbreekt
+
+engine-e-interference-map-cli-out-is-required = --out is vereist
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land downloadt een bestand: geef --allow-network mee om te bevestigen
+
+engine-e-interference-map-cli-curl-failed-to-download-the = curl kon de landpolygonen niet downloaden
+
+engine-e-interference-map-cli-route-is-required = --route is vereist
+
+engine-e-interference-map-cli-at-least-one-map-is = minstens een --map is vereist
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = landpolygonen: geen Polygon of MultiPolygon gevonden
+
+engine-e-interference-map-empty-input-header-row-is = lege invoer: een koprij is vereist
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox is zuid,west,noord,oost in graden
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox moet voldoen aan zuid < noord en west < oost, binnen de aardbol (geen kruising van de antimeridiaan)
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = OpenSky Network-gegevens zijn uitgesloten: de licentie ervan staat geen commercieel gebruik of herdistributie van afgeleide kaarten toe (docs/data/INTERFERENCE-DATA-SOURCES.md)
+
+engine-e-interference-map-observatory-day-is-required = --day is vereist
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours is geen getal
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg moet tussen { $lit_0_5 } en 10 liggen
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = de invoer bevat geen bruikbaar rapport
+
+engine-e-interference-map-route-not-kshana-interference-map-no = geen Kshana-interferentiekaart (geen `kshana_interference_map`-lid)
+
+engine-e-interference-map-route-map-has-no-date = de kaart heeft geen datum
+
+engine-e-interference-map-route-map-has-no-grid-cell = de kaart heeft geen rastercelgrootte
+
+engine-e-interference-map-route-map-has-an-invalid-grid = de kaart heeft een ongeldige rastercelgrootte
+
+engine-e-interference-map-route-route-no-linestring-found = route: geen LineString gevonden
+
+engine-e-interference-map-route-route-needs-at-least-two = een route heeft minstens twee waypoints nodig
+
+engine-e-interference-map-route-route-waypoint-out-of-range = route: waypoint buiten bereik
+
+engine-e-interop-sigmf-records-signal-not-geometry = SigMF legt een signaal vast, geen geometrie; het wordt geschreven vanuit het scenario, niet vanuit een scène
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = SigMF bevat complexe basisbandsamples, die alleen de kind `spectrum` synthetiseert
+
+engine-e-interop-this-spectrum-scenario-has-no = dit spectrumscenario heeft geen [iq]-blok, dus er worden geen samples gesynthetiseerd om vast te leggen
+
+engine-e-interop-scene-time-step-must-be-positive = de tijdstap moet positief en eindig zijn voor een export
+
+engine-e-interop-scene-duration-must-be-non-negative = de duur moet niet-negatief en eindig zijn voor een export
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = dit pvt-scenario geeft geen `truth_ecef`, de enige positie die het vermeldt
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = een STK-efemeride beschrijft de positie en snelheid van een voertuig tegen de tijd; deze scène heeft alleen vaste punten of niet-getimede sporen (een vast punt is een STK Facility, geen efemeride)
+
+engine-e-interop-stk-scene-has-no-epoch = de scène heeft geen epoch
+
+engine-e-iq-acq-surface-surface-header-names-too-many = de oppervlakheader noemt te veel cellen
+
+engine-e-iq-cli-acquire-needs-signal-name = heeft --signal <name> nodig
+
+engine-e-iq-cli-acquire-needs-prn-list = heeft --prn <list> nodig
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface exporteert één zoekoppervlak: geef precies één --prn op
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos heeft een gereflecteerd pad nodig: voeg --multipath-height of --land-mobile toe
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass wil twee waarden: lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend heeft minstens één trap nodig (--bandpass/--notch/--blank/--excise/--agc/--bits)
+
+engine-e-iq-cli-no-iq-processing-command-given = geen iq-verwerkingsopdracht opgegeven
+
+engine-e-iq-cli-missing-recording-path = het pad van de opname ontbreekt
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout hoort alleen bij --follow
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow leest een SigMF-opname (geef het .sigmf-meta, het .sigmf-data of het basispad op)
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout moet een positief aantal seconden zijn
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos wil drie waarden: lat,lon,alt (deg,deg,m)
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene heeft --rate <hz> nodig
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene heeft --duration <s> nodig (of --window)
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav heeft --rx-pos lat,lon,alt nodig
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene heeft --signal <name> nodig
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene heeft --prn <list> nodig
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format accepteert sigmf of sdrx, niet beide
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx schrijft ci8 (de standaard) of ci16_le (sdrx:ci16_le); de ION-metadatastandaard kent geen drijvendekommacodering
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name heeft --design <file.toml> nodig
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads moet een positief geheel getal of auto zijn
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format heeft --epochs <path> nodig
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert heeft --to <format> nodig
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract heeft --start nodig
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract heeft --duration nodig
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start en --duration moeten niet-negatief zijn
+
+engine-e-iq-io-cli-real-input-is-converted-to = een reële invoer wordt omgezet naar complexe basisband: geef --factor <d> (>= 2) op
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate heeft --factor <d> nodig, of --up <l> en --down <m>
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = hersamplingsfactoren moeten positief zijn
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = hersamplingsfactoren moeten positief zijn en het filter niet leeg
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = omzetting van reële IF heeft decimatie met minstens 2 nodig om het beeld te verwijderen
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx-indeling: een chunk bevat geen heel lump
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx-data eindigt binnen de header
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = een SigMF-stream heeft minstens één opname nodig
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = select_channel moet worden aangeroepen vóór het lezen
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = SigMF-data eindigt vóór de eerste capture
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" heeft een [validation]-tabel nodig, geschreven voordat de campagneresultaten worden gelezen
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign: een fit uit een IQ-campagnemap heeft de native build nodig (de campagnelaag is niet gebouwd voor WebAssembly); het pad via het ontvangerlog ([[runs]]) werkt hier
+
+engine-e-iq-scene-truth-missing-truth-csv-header = de header van de truth-CSV ontbreekt
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s geldt alleen voor fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = het lusontwerpbestand bevat geen ontwerpen
+
+engine-e-iq-track-sink-short-record = korte opname
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = de fit van het correctiepolynoom is singulier (te weinig samples voor de graad)
+
+engine-e-leo-navmsg-each-trade-update-periods-must = elke trade.update_periods_s moet in (0, update_fit_interval_s] liggen
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass: user_lat_deg in [-90, 90], mask_deg in [0, 60), search_s 600-172800
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0, rain_exceedance_percent in [{ $lit_0_001 }, 5] en scintillation_percent in [{ $lit_0_01 }, 50]
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer: onset_s binnen het venster, offset_m in [0, 1e6], push_rate_m_s in [0, 1000], positieve prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz en fll_integration_s, p_fa en p_md in (0, { $lit_0_5 }), iono_rate_bound_m_s >= 0
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver: loop_bandwidth_hz en integration_time_s moeten positief zijn
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver: 1 tot 12 correlatorafstanden, elk (net als reference_spacing_chips) tussen 0 en 2 chips
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm en user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90
+
+engine-e-live-io-baud-needs-number = --baud heeft een getal nodig
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure is niet geïmplementeerd: Kshana schrijft nooit naar een ontvanger. Configureer hem met het eigen hulpmiddel van de fabrikant en lees hem daarna uit met --serial
+
+engine-e-live-io-more-than-one-session-file = meer dan één sessiebestand
+
+engine-e-live-io-follow-and-from-end-apply = --follow en --from-end gelden alleen voor --file
+
+engine-e-live-io-baud-applies-to-serial-only = --baud geldt alleen voor --serial
+
+engine-e-live-io-live-needs-session-toml = live heeft een sessie-.toml nodig
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen serveert de gegate stream: voeg --gate toe
+
+engine-e-live-io-two-outputs-would-share-stdout = twee uitvoeren zouden stdout delen; stuur --json of --pksht naar een bestand
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = maanefemeride: geef precies een van `mean_anom_deg` of `true_anom_deg` op
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = maanefemeride: satellietindices moeten aaneengesloten zijn vanaf 0 zonder hiaten
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = bakeninformatie per locatie heeft station_datum = "fixed" nodig; een geschat stationsdatum koppelt de bakens
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m, surface.orbiter_range_sigma_m en llr.epochs moeten positief zijn
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = te weinig volgbare GNSS-metingen om de baan en de ontvangerklok te bepalen
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = minder dan twee verbonden passages: geen dubbelverschil-ambiguïteit om op te lossen
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = de informatiematrix van de ruimtekoppeling is singulier
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m moet eindig en positief zijn (of geef jammer.lat_deg en jammer.lon_deg op om de jammer selenografisch te plaatsen)
+
+engine-e-lunar-llr-the-station-catalogue-states-no = de stationscatalogus vermeldt geen position_epoch_year; een ITRF-positie zonder epoch kan niet worden gepropageerd
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = beacon_campaign.beacons wordt hier niet gebruikt; vermeld toegevoegde bakens in extra_beacons
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path geldt voor een elementenbestand dat in het OP-stelsel is vermeld
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain: geef dem_path, dem_tile_path, station_horizon of user_horizon op (of laat [terrain] weg)
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain: station_horizon heeft geen station in deze kind; gebruik user_horizon
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s is korter dan het tau-raster
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab: thresholds_ns moet een niet-lege lijst met positieve getallen zijn
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = datum "all-stations-fixed" houdt elk station vast, dus het schat niets tenzij het baken wordt geschat: stel estimate_beacon = true in
+
+engine-e-mars-pnt-fusion-od-run-produced-no = de fusie-baanbepalingsrun leverde geen stappen op (te weinig waarnemingen)
+
+engine-e-nmea-synth-clock-not-numeric = niet numeriek
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name moet 1 tot 64 tekens zijn uit A-Z a-z 0-9 . _ - en mag niet met een punt beginnen (het benoemt de uitvoerbestanden)
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = ontvangerparameters buiten bereik (mask 0-45 deg, track <= use-drempel, 4-12 gebruikte satellieten, noise >= 0, corr > 0, reacquire >= 0)
+
+engine-e-nmea-synth-config-the-time-change-per-second = de tijdsverandering per seconde bereikt 1, dus de gerapporteerde tijd zou stilstaan of achteruit lopen; verleng ramp_s/recovery_s of gebruik een stap (0)
+
+engine-e-orbit-give-the-user-as-user = geef de gebruiker op als `user` (een baan) of `user_site` (een grondlocatie), niet beide
+
+engine-e-orbit-missing-the-user-give-user = de gebruiker ontbreekt: geef `user` (een baan) of `user_site` (een grondlocatie) op
+
+engine-e-orbit-skyline-needs-ground-site-give = een [skyline] heeft een grondlocatie nodig: geef `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }` op in plaats van een draaiende `user` (een baan heeft geen aardvaste azimut)
