@@ -5093,3 +5093,6 @@ dat-24431d690b8d = Žádné vnější orákulum a ExternalDataset je odmítnut. 
 
 # data/verification-matrix.json
 dat-ecd4bf05a7bc = Žádné vnější orákulum a žádné není možné: toto je vlastní popis, nikoli měření. Je zaznamenán, protože jeho absence byla vadou -- P5 musel citovat vlnovou délku nosné a vysílací aperturu z výchozích hodnot ve zdroji a z vnitřní kontroly konzistence usuzovat, že holá `variance` je ve čtverečních metrech. Odvození bylo správné, což je přesně důvod, proč na tom záleželo: nic by nezachytilo, že je chybné
+
+# data/verification-matrix.json
+dat-455d249be6fa = Dlaždice NASA/USGS SRTM v3 (1 obloukové sekundy) N36W117 — výšková data vlády USA PUBLIC-DOMAIN ze zrcadla AWS elevation-tiles-prod, decimovaná na 6 obloukových sekund a zanesená (commitnutá) v tests/fixtures/terrain/ (viz NOTICE.md), plus výřezy v plném rozlišení N36W117 a N36W119 křížově zkontrolované uzel po uzlu proti nezávislé čtečce SRTMHGT v GDAL a geodetickým srovnávacím bodům Mount Whitney ({ "4421" } m) a Badwater (−{ "86" } m). Zdokumentovaný srovnávací bod Badwater Basin (−{ "86" } m, nejnižší v Severní Americe) ukotvuje georeferencované čtení. Navigační fixace TERCOM / porovnávání terénu, která DEM spotřebovává, zůstává modelovaná (samostatný řádek Alternativní/doplňkové PNT)

@@ -4906,3 +4906,234 @@ dat-c8b4f7775e29 = Porkchop DE440-efemeridillä
 
 # studio/data/capabilities.json
 dat-bf639db12a78 = Paikkavirhe rullausajan funktiona IMU-virhebudjetista — harha, satunnaiskävely ja mittakerroin, kullakin oma kasvulakinsa ja oma osuutensa ylityksestä — joten navigointikatkon hinta on laskettu käyrä eikä pyyhkäisty ajautumisnopeus. Kynnysylitykset ovat moottorin tulostetta, ja hallitseva osuus on nimetty kussakin, neljän IMU-luokan yli, ja maastofiksin väli pisteytetään omassa lohkossaan, joten pääylitykset pysyvät avustamattomina.
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-a0ea0d9f186d = Paikkavirhe geometriasta: RMS-virhe = sigma_UERE x DOP moottorin pienimmän neliösumman ratkaisulle
+
+# studio/data/areas.json
+dat-b20f0e709a27 = Paikkavirhe ajon aikana
+
+# studio/data/areas.json
+dat-d44c8cf52f42 = Paikan epävarmuus: pelkät releet ja Maa-linkin kanssa
+
+# data/verification-matrix.json
+dat-806ff61e91b7 = IMU-kertoimista rakennettu paikkavirhe vs. rullausaika -budjetti, jossa jokainen virhelähde (kiihtyvyysanturin harha, gyroharha, nopeuden satunnaiskävely, kulman satunnaiskävely, mittakerroin matkalennossa ja jatkuvan ominaisvoiman alla) etenee yhdeksän tilan paikallistasoisen INS-virhemallin läpi Schuler-takaisinkytkennällä (inertial::coast::ErrorDynamics Grovesin 2. painoksen luvun { "14" } mukaan: asento-, nopeus- ja paikkavirheet, pystykanava painovoimagradientteineen, WGS-84-säteet ja normaalipainovoima, pohjoiseen suunnattu vaakatasoalusta määritetyllä nopeudella, latitude_deg ja height_m; systemaattiset termit laajennetulla matriisieksponentilla, satunnaiskävelyt Van Loanin menetelmällä), tasomaa-monomit säilytettynä vain muodossa leading_order_m; osuudet yhdistetään ilmoitetulla säännöllä (rss / linear-sum / deterministic-sum-with-stochastic-rss); rullausajat, jotka saavuttavat kutsujan toimittamat paikkakynnykset (oletuksena { "10" } m ja { "50" } m), paikannetaan eteenpäin etenevällä haulla ensimmäiselle ylitykselle (first_crossing_s, koska Schulerin rajoittamat käyrät eivät ole monotonisia), hallitseva lähde kussakin ylityksessä; sekä TRN-rajoitettu tila, joka antaa suurimman maastofiksin välin, joka pitää kunkin kynnyksen. Ajettavissa `ins-trn-coast`-skenaariotyyppinä
+
+# data/search.json, js/missions-runs.mjs
+dat-809e44d92ec1 = Laskeutujan paikannus Europalla: Jupiterin kuun tapaus.
+
+# data/search.json, js/missions-runs.mjs
+dat-18bd7fc703ae = Matalan Mars-kiertäjän paikannus Marsin navigointitähdistöllä ja syvän avaruuden linkillä.
+
+# data/verification-matrix.json
+dat-136e83d4d611 = Paikannus minkä tahansa aurinkokunnan kappaleen ympärillä paikallisella tähdistöllä ja syvän avaruuden linkillä Maasta
+
+# data/search.json
+dat-1d5f3fdd80fd = Paikannus minkä tahansa aurinkokunnan kappaleen ympärillä: kiertäjä tai pintalaskeutuja keskuskappaleen ympärillä, valittuna…
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-ce1a22bf45c6 = Paikannus Europan ympärillä — pintakäyttäjä, { "12" } relettä { "4500" } km:n korkeudella, { "171" } epookkia
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-aa51756e00a3 = Paikannus Marsin ympärillä — kiertäjäkäyttäjä, { "12" } relettä { "10000" } km:n korkeudella, { "296" } epookkia
+
+# data/search.json, js/missions-runs.mjs
+dat-b8907f80ce6a = Paikannus 5G:n ei-maanpäällisen verkon (NTN) alalinkistä matkaviestinsatelliittipalvelun S-kaistalla.
+
+# data/search.json
+dat-59461767baa9 = Paikannus 5G:n ei-maanpäällisen verkon (NTN) alalinkistä matkaviestinsatelliittipalvelun (MSS) S-kaistalla…
+
+# data/search.json, js/missions-runs.mjs
+dat-9e5d955af2da = Paikannus pelkästä LEO-Dopplerista yleisen LEO-navigointitähdistön yli.
+
+# data/verification-matrix.json
+dat-c4520dfd7adc = Paikannus LEO-Dopplerista, yhden ja usean satelliitin, kellon ajautuman ja nopeuden tiloilla
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-404abc2a578b = Kuun ja seitsemän suuren kuun (Phobos, Deimos, Galileon kuut, Titan) paikat
+
+# data/verification-matrix.json
+dat-cb6ccd51a48a = Uranuksen ja Neptunuksen paikat Standishin taulukosta { "1" } (oletus välillä { "1800" } jKr. – { "2050" } jKr.), Pluton paikka vuoden { "1992" } taulukon { "1" } rivistä, jota nykyinen JPL-sivu ei enää luettele, sekä jokaisen planeetan heliosentrinen nopeus: kaksikappaleinen derivaatta elementtien implikoimalla keskiliikkeellä sekä ellipsin kääntyminen periheelin, inklinaation ja solmun nopeuksien vaikutuksesta
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-b67b5596d7c2 = Luovutuksen jälkeinen kovarianssin uudelleenkasvu hälytysrajaa vasten
+
+# studio/data/areas.json
+dat-919a3c3767b3 = Kunkin signaalin tehospektritiheys
+
+# data/verification-matrix.json
+dat-73d28d4083da = Potenssilakinen (valkoinen FM + punaisen kohinan lattia) NNLS-palautus julkaistusta mitatusta ⁸⁸Sr-optisen kellosiirtymän Allanin poikkeamasta — toistaa σ_y(τ):n ja pääotsikon 4.7e-16/√τ lyhyen τ:n skaalan todellisella mitatulla pitkän τ:n lattialla, eikä syntetisoidulla optisen luokan lattialla, jonka holdover.rs muutoin olettaa
+
+# data/verification-matrix.json
+dat-60fc9ecbf369 = Potenssilakisen kohinan tunnistus viiveen 1 autokorrelaatiolla
+
+# data/verification-matrix.json
+dat-d4168ce1d0ab = powerlaw::tests (jokainen puhdas kohinatyyppi näyttää tunnusomaisen ADEV:n log-log-kulmakertoimensa — valkoinen FM −½, flicker-FM { "0" }, satunnaiskävely-FM +½, valkoinen PM −{ "1" }; flicker-FM-termi on tasainen lattia √({ "2" } ln2·h_{ "{" }-1{ "}" }) viiden τ-dekadin yli; FM-perheen sovitus palauttaa tunnetut h_{ "{" }-2{ "}" },h_{ "{" }-1{ "}" },h_0 synteettisestä käyrästä tarkkuudella <{ "1e-6" }; ja flicker-hallitun käyrän lattia palautetaan tässä, kun taas ajautumiskantasovitus (quantum_trade::qparams_from_adev_curve) on yli { "10" } % väärässä pitkillä τ-arvoilla — dokumentoidun aukon sulkeminen); tests/powerlaw_oadev_reference.rs (σ_y(τ) täsmäsi allantools { "2024.06" } Noise.adev -suljettuja muotoja vasten koko τ-tikapuiden yli kaikilla viidellä kohinatyypillä, sekä allantoolsin Kasdin-generaattori→oadev-estimaattori -vahvistus h_a-tasolle)
+
+# data/verification-matrix.json
+dat-88b5ed6693e7 = ppigrf { "2.1.0" } (K. M. Laundal, MIT) — IAGA-VMOD:n puhtaasti Pythonilla kirjoitettu IGRF-viitetoteutus, joka toimittaa viralliset IGRF14.shc-kertoimet (IAGA 14. sukupolvi, Zenodo 10.5281/zenodo.14012302); riippumaton kolmannen osapuolen koodikanta, joka laskee yksikäsitteisesti määritellyn IGRF-14-kentän, täsmäsi maailmanlaajuisella ruudukolla
+
+# js/missions-runs.mjs
+dat-be971626ac29 = PPP:n suppeneminen tasoon { "0.10" } m vaaka / { "0.10" } m pysty, { "12" } ajoa tapausta kohden, { "96" } GNSS-satelliittia
+
+# data/verification-matrix.json
+dat-2a1dcc58e0cd = PPP-vastaanottimen kelloaikaratkaisu IGS:n lopullista asemakelloa vasten
+
+# data/verification-matrix.json
+dat-604f1e8f2ed9 = UTC ennen vuotta 1972 (ajautuvan taajuuden aika) kaksiosaisella Julian-päivämääräaikapolulla
+
+# js/developers-data.mjs
+dat-a43fef67d285 = Kshanan skenaario-TOML:n ennakkotarkistus: varmista, että se jäsentyy TOML:ksi, ja havaitse sen skenaariotyyppi ajamatta sitä.
+
+# data/verification-matrix.json
+dat-345951b0c3a0 = Ennakkorekisteröity (003ef3eb) ennen yhtäkään vertailua; neljä riippumatonta toteutusta, ei GPL:ää, mitään ei tuotu mukaan: ccsdspy { "2.0.1" } (BSD-3-Clause) dekoodaa { "34" } Kshanan kirjoittamaa pakettia { "5" } virrassa (pääotsake, P-kenttä, karkea ja hieno aika, CDS-kentät, lisädata, käyttäjädata, PEC) ja molemmat 1000-oktettiset segmentoidut yksiköt rakennetaan sen käyttäjädatasta { "0" } poikkeamalla, ja se merkitsee pudotetun ja vaihdetun pakettivirran, jotka Kshana hylkää; { "8" } viestin ja { "57" } PEC-kentän CRC vastaa CPythonin binascii.crc_hqx:ää ja spacepackets-rs { "0.18.0" } :aa (tarkistusarvo 0x29B1); { "66" } CUC- ja CDS-aikakooditapausta vastaavat spacepackets-rs { "0.18.0" } :n kirjoitusta ja lukua oktetti oktetilta ({ "3" } CDS-tapausta myös spacepackets-py { "0.32.0" }); { "4" } spacepackets-py { "0.32.0" } PusTm-pakettia ovat tavu tavulta identtisiä Kshanan kanssa. Ei katettu: viraston epookin aikakoodit ({ "7" } tapausta nojaa yksikkötesteihin), TC-siirtokehykset ja kaikki pakettia alempi linkkikerros
+
+# data/verification-matrix.json
+dat-11a79c63eff7 = Ennakkorekisteröity (5590ab21): L_m Ashbyn ja Patlan { "2024" } (AJ { "167" }:{ "149" }) yhtälöä ({ "10" }) vasten, { "3.13881" }({ "15" })e-11, artikkelin GM:stä, a_m:stä, omega_m:stä ja kahden artikkelin siteeraaman asteen 350 kentän J2:sta (Bertone ym. { "2021" }, AIUB-GRL350A/B), { "1e-4" }:n sisällä; radiaalialkio pyshtools { "4.14.1" } (BSD-3) -ohjelman samojen kenttien päiväntasaajan painovoimaa vasten { "1e-4" }:n sisällä (mitattu { "8.3e-5" } ja { "6.7e-5" }, kapea marginaali); nopeusalkio JPL Horizons DE441:n Kuun nopeutta vasten { "4.5e-3" }:n sisällä. Asteen 350 julkaistun arvon asteen 2 suljettu muoto (jäännösasteet 3–350; viite, ei P1). Ilmoitettu: alkion 1 tulos oli tiedossa ennen ennakkorekisteröintiä, ja toimitettu oletussäde { "1738.14" } km on artikkelin pintamääritelmä, otettu käyttöön kierroksen { "1" } jälkeen. Vuorovesiosuudet ja vertailukaista pysyvät mallinnettuina viitepinnan lukuina
+
+# data/verification-matrix.json
+dat-0b53b0a1878a = Ennakkorekisteröity (7aa264b, 110fef9) IGS MGEX -tarkkaa rataa vasten GEO-satelliiteilla; tällaista tuotetta ei ollut saatavilla sen rakentaneesta istunnosta, joten vertailu on kesken ja rivi on MODELLED (tarkistettu vain julkaistuja nimellisiä GEO-paikkoja vasten)
+
+# data/verification-matrix.json
+dat-4fd839f32bce = Ennakkorekisteröity tiedostossa tests/fixtures/clock_log/PREREGISTRATION.md (tallennettu yksin, 159334f2, ennen kuin fixture oli olemassa); kirjattu tiedostoon RESULTS.md. Kolme siemennettyä synteettistä lokia, yksi kutakin formaattia kohti (TICC-aukko kolmen epookin ajalta, RINEX-toinen kello ohitettavaksi), luettuna takaisin riippumattomalla lukijalla, jonka sama tekijä kirjoitti tiedostosta docs/CLOCK-LOG-FORMATS.md: ruudukon, aukkojen ja täytön lukumäärät yhtä suuret ja suurin vaihe-ero { "0" } s (kynnys { "1e-13" } s). allantools { "2024.6" } oadev, tdev ja mtie tälle vaiheelle täsmäävät suhteellisesti { "2.5e-14" }:n sisällä (kynnys { "1e-10" }) jokaisella keskiarvoistuskertoimella, jonka se evaluoi; se ei evaluoi MTIE:tä koko tietueen yli, minkä moottori raportoi, joten tällä yhdellä pisteellä lokia kohden ei ole oraakkeliarvoa ja kynnys sellaisena kuin se on sanottu ei täyty siellä. MODELLED: synteettiset lokit, ja lukijaoraakkeli jakaa tekijän; instrumenteista tulevia todellisia TimeLab-, TICC- ja RINEX-kellotiedostoja ei verrattu
+
+# data/search.json
+dat-6a9218b977f6 = Ennakkorekisteröity ennuste
+
+# data/search.json
+dat-ae9e07cfab04 = Ennakkorekisteröidyt ennusteet
+
+# studio/channels.json
+dat-4722edd091e5 = Valmiiksi käännetty binääri
+
+# data/search.json
+dat-f2d7f7f04e60 = Tarkan pistepaikannuksen (PPP) suppeneminen pelkällä GNSS:llä ja LEO-täydennyksellä: float-laajennettu…
+
+# data/search.json, js/missions-runs.mjs
+dat-5836fd12bf6a = Tarkan pistepaikannuksen (PPP) suppeneminen LEO-täydennyksellä.
+
+# data/verification-matrix.json
+dat-df6c3fb107b3 = Tarkan pistepaikannuksen suppeneminen pelkällä GNSS:llä ja LEO-täydennyksellä
+
+# data/verification-matrix.json
+dat-dfb8b0c9252c = Ennustettu Doppler ESA/ESOCin lopullisista radoista ja NAIF CLPS Firefly -laskeutumispaikan kernelistä (xval/lugre-predicted-doppler/predict_surface.py, riippumaton Kshanasta), ennakkorekisteröity 2108e6ff erillä, joita ei ollut koskaan avattu. LÖYDÖS: ei-tyhjyys epäonnistuu; yksikään erä ei sisällä kahta hankintaa. OP40 jätetty pois (metatiedot nimeävät puuttuvan tiedoston); OP38, OP73, OP77_0, OP77_1 eivät hanki mitään eivätkä näytä väärää hälytystä arvolla { "1e-7" } (huipputilastot { "325" }–{ "356" } vastaan { "385.9" }); OP74 ja OP76 hankkivat PRN:n { "31" } ja OP78_0 ja OP78_1 PRN:n { "12" }, kukin yksin, kaikki ennustettu näkyviksi. Pysyy tasolla MODELLED. Ilmoitetut poikkeamat: rekisteröity { "10" } Hz:n Doppler-kynnys perustuu koherentin tarkennuksen synteettiseen Monte Carloon, ei jo nähtyjen erien hajontaan, jota integroija pyysi; OP40 jätettiin pois ennen ajoa, koska sen metatiedot nimeävät näytetiedoston, jota aineisto ei toimita
+
+# data/verification-matrix.json
+dat-14c95ce081ce = Ennustettu Doppler ESA/ESOCin lopullisista radoista ja NAIF CLPS -rekonstruoidusta lentoradasta (xval/lugre-predicted-doppler/predict.py, riippumaton Kshanasta), ennakkorekisteröity 0d1839d2. LÖYDÖS: kaikki { "288" } hakua ylittävät kynnyksen kohinalla (näytetehon tilastot noin { "430" }–{ "520" } vastaan { "346.3" }), joten P1 pitää triviaalisti ja P3 pitää ({ "274" } / { "288" } ennustettu näkyviksi) kun taas P2 epäonnistuu { "4033" }:lla { "4036" }:sta parista. Kaistarajoitettu etupää nostaa jokaisen solun kohinaa noin { "1.46" }-kertaiseksi (lukittu: kohinalattia { "292" } valkoisen kohinan { "200" } sijaan OP2 PRN { "1" }:llä), jota näytetehon tilasto ei näe. Pysyy tasolla MODELLED
+
+# data/verification-matrix.json
+dat-d4312f65247c = Ennustettu Doppler ESA/ESOCin lopullisista radoista ja NAIF CLPS -rekonstruoidusta lentoradasta (xval/lugre-predicted-doppler/predict.py, riippumaton Kshanasta), ennakkorekisteröity a81a9a4e. LÖYDÖS: P1 ja P3 pitävät ({ "4" } erää, { "12" } / { "12" } hankintaa ennustettu näkyviksi) mutta P2 epäonnistuu { "8" }:lla { "8" }:sta parista. Kaksi vahvinta paria täsmää ennusteeseen suuruudeltaan mutta etumerkki käännettynä (OP2 PRN 18/24: +{ "7670.0" } Hz mitattu, -7693.9 ennustettu; OP17 PRN 11/30: +{ "11155.0" }, -11114.4), joten rekisteröity I-matalassa-nibblessa-järjestys on erien konjugaatti; kuusi juuri kynnyksen yläpuolella olevaa havaintoa ei täsmää kumpaankaan etumerkkiin. Rekisteröinti aliarvioi myös tarkennuksen Doppler-hajonnan ({ "30" }–{ "50" } Hz kahden ajon välillä). Pysyy tasolla MODELLED
+
+# data/verification-matrix.json
+dat-04672c8be25b = Preference Ranking Organization METHod — pareittainen preferenssi-indeksi kuudella standardilla yleistetyllä kriteerimuodolla, positiiviset/negatiiviset ohittavuusvirrat ja täydellinen nettovirtajärjestys (tavallinen kriteeri validoitu)
+
+# studio/data/capabilities.json
+dat-9998cfe99eed = pääotsake vs. CCSDS 133.0-B-2 + spacepackets-py-vektorit
+
+# data/search.json
+dat-267e34d56bd1 = Tulostus PDF:ksi
+
+# data/search.json
+dat-05be9e156194 = Prometheus-mittarit
+
+# studio/data/capabilities.json
+dat-0d92ffaa3898 = Prometheus, OTLP ja CEF luettu takaisin riippumattomilla jäsentimillä
+
+# data/verification-matrix.json
+dat-4d4bf21c0d5e = Ominaisuustarkistus, että Verdict-enum ei rakenteellisesti voi raportoida havaitsematonta vikaa havaituksi (Mizrahi RFC { "7384" }); absorboitunut ⟺ PL ≥ siirtymä. Ei tarkkuusoraakkelia.
+
+# data/verification-matrix.json
+dat-4a828999c448 = Ominaisuustestit (monotonisuus, ei pudotusta luovutuksessa) + eksponenttilint funktiota holdover::coast_phase_variance vasten
+
+# studio/data/areas.json
+dat-a78a42ac37f5 = Suojaustasot hälytysrajaa vasten
+
+# data/search.json
+dat-f1a7b89110b6 = Alkuperä — jokainen parametri jäljitettävissä julkaistuun lähteeseen
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-7cf3772fc50f = Palveluntarjoajan yhteis-/differentiaalijako, yhden asteen vajauden yhdistäminen ja suojausaukon kulmakerroin (T5 / §{ "0" } / g7)
+
+# data/search.json
+dat-d126121cb121 = Pseudoetäisyydet ja RAIM konttilaiturin haarukkakuljettimelle, laiva-maa-
+
+# assets/capabilities/capabilities.json
+dat-8c3ff64bb211 = Public domain (vapaasti käytettävissä)
+
+# data/search.json
+dat-82aba63b75fe = Julkiset lähteet
+
+# data/verification-matrix.json
+dat-6d21fd4972ac = Julkaistut virastojen asiakirjat: Galileo Open Service Service Definition Document, versio { "1.1" } (European GNSS Service Centre), taulukot { "1" } ja { "23" }, vertailutähdistö 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document, painos { "5.1" } ({ "2008" }), kohta { "5.2" }, solmun pituuspiirin ja leveysargumentin paikkakaava; GPS Standard Positioning Service Performance Standard, 5. painos (huhtikuu { "2020" }), taulukot 3.2-1, 3.2-2 ja 3.2-3, mukaan lukien maanpintajäljen päiväntasaajan ylityssarake, joka on riippumaton lausuma Maahan kiinnitetystä geometriasta, jonka esiasetuksen on toistettava. Validoi generaattorit ja transkription; BeiDoun keskimmäisen kiertoradan vaihetta ja kallistuneen geosynkronisen radan solmuja ei julkaista, eikä niitä kateta
+
+# data/search.json
+dat-d8ae5bfb5fc8 = Julkaistut ARAIM-sertifioinnin viitevektorit: moottorin ARAIM-vaaka- ja pystysuojaus…
+
+# data/verification-matrix.json
+dat-5e0b83dd30cf = Julkaistut CAI:n pääartikkelien numeeriset vektorit (Cheinetin { "2008" } siirtofunktio; Petersin/Freierin herkkyys): k_eff·T² täsmäsi tarkasti, haulikohinan ASD yksipuolinen lattia noin { "2" }-kertaisesti kunkin julkaistun instrumentin sisällä (todelliset laitteet kantavat teknistä kohinaa kvanttilattian yläpuolella). Haarukka, ei pariteetti. { "0.30" } kierros { "2" } (ennakkorekisteröity fcb9ac64), löydös (pysyy tasolla MODELLED): pelkän QPN:n kiertokohina mitattuja Gauguetin ym. { "2009" } kuvan { "14" } pisteitä vasten antaa suhteet { "0.695" }–{ "0.788" } kolmessa hyväksytyssä pisteessä ({ "0.751" } toimintapisteessä), jättäen ennakkorekisteröidyn { "30" } %:n kynnyksen täyttämättä { "0.5" } prosenttiyksiköllä; QPN-lattia on { "21" }–{ "31" } % mitatun kohinan alapuolella, kuten laser- ja ilmaisukohinattomalta mallilta odotetaan. Gradiometrikoostaminen täsmää Janvierin ym. { "2022" } QPN-mallin viivaan (suhde { "1.013" }–{ "1.017" }, viite). Mitattu testi ei pysty erottamaan sqrt({ "2" }) -koostamisvirhettä; vain epätasakontrastinen Janvierin viiva voi
+
+# data/verification-matrix.json
+dat-ae87b7d06bbf = Julkaistu syvän avaruuden tietoliikenteen suunnittelun valvontataulukko lukittuina numeerisina vektoreina: DESCANSO / J. H. Yuen (toim.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, taulukko 1-1 (Galileo X-kaista) — kshana kokoaa taulukon rivikohdat uudelleen ja toistaa sen julkaistun päästä päähän L_fs-arvon { "290.54" } dB ja Pr/N0-arvon { "54.6" } dB-Hz; vapaan tilan häviö tarkistettu myös ITU-R P.525:ta vasten
+
+# data/search.json
+dat-d4b33cf81a76 = Julkaistut luvut ja merkinnät
+
+# data/verification-matrix.json
+dat-a995647433a7 = Julkaistut luvut toistettuna ilmoitetulta radalta ja kantoaallolta: Iridiumin Doppler enintään plus tai miinus { "36" } kHz (Resilient Navigation and Timing Foundation, Recent PNT improvements and test results based on LEO satellites) ja Xona Pulsar X1:n suurin Doppler { "32" }–{ "34" } kHz (Leclère, Marathe ja Reid, ION GNSS+ { "2025" }, arXiv:{ "2509.19551" }). Iridium-luku on pyöristetty yläraja, siksi { "5" } %:n kynnys. Dopplerin muutosnopeus ja nykäys raportoidaan mutta niitä ei validoida: Pulsar X1:n mallinnettu yläpuolinen ohitusnykäys on noin { "1.0" } Hz/s^{ "2" } julkaistua { "1.26" } vasten
+
+# data/verification-matrix.json
+dat-52dc8d685c35 = Julkaistut luvut: Xona Pulsar X1:n suurin Doppler { "32" }–{ "34" } kHz (Leclère, Marathe & Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551); Iridiumin Doppler enintään +/-36 kHz (Resilient Navigation and Timing Foundation, Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites). Maan pyöriminen on jätetty pois, mikä siirtää lukua enintään noin { "2.3" } kHz; molemmat julkaistut luvut täyttyvät ilman sitä.
+
+# data/verification-matrix.json
+dat-5b09dd467401 = Julkaistu GPS C/A:n Goldin ristikorrelaatio (−{ "23.9" } dB); Goldin { "1967" } raja
+
+# data/verification-matrix.json
+dat-1efc60f84c1e = Julkaistut rajapintakuvaukset ja suljetut muodot kynnysten alla, jotka on ennakkorekisteröity tiedostossa 5806f28b (docs/design/evidence/spectrum-bands/): GLONASS ICD Edition { "5.1" }, BDS-SIS-ICD B1I { "3.0" }, B1C { "1.0" }, B2a { "1.0" } ja B3I { "1.0" }, Galileo OS SIS ICD Issue { "2.1" }. MET: jokainen kantoaalto, siruvauhti ja vastaanotettu teho transkriboituna ({ "28" } GLONASS-kanavaa), BPSK:n ensimmäiset nollat siruvauhdilla, B1C-komposiitti yhtä kuin MBOC(6,1,1/11), kuten sen ICD:n tehotaulukko antaa, C/N0-polun identiteetti ja tavu tavulta identtiset spektriskenaariot. NOT MET: yksikköpinta-alan kynnys, joka oli saavuttamaton sellaisena kuin se oli kirjoitettu (löydös F1; pinta-alat vastaavat suljetun muodon kaistansisäistä osuutta), ja IQ-kerroksen B1I- ja B1C-aaltomuotojen ruutukohtainen täsmäys mallin verhokäyrään ({ "1.26" } ja { "1.56" } dB vastaan { "0.5" } dB, löydös F2; GLONASS { "0.07" } dB), koska Gold- ja Weil-koodeilla on epätasaiset viivaspektrit; kaistakeskiarvoistettuna pääkeilat täsmäävät { "0.25" } dB:n sisällä. MITÄ EI TARKISTETA: tallennettu IQ, muut signaalit, järjestelmänsisäinen häiriö.
+
+# data/verification-matrix.json
+dat-daba08263f50 = WTZR:n julkaistu ITRF2020-koordinaatti (IGN ITRF2020_GNSS.SSC, ratkaisu { "3" }, edistettynä sen nopeudella) — kynnykset ennakkorekisteröity tiedostossa tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_PPP.md ennen suodattimen kirjoittamista; kehitys vain samaan paikkaan sijoitetulla asemalla WTZZ. Ei mallinnettu: merikuormitus, satelliitin PCV, kokonaislukuepäselvyyden ratkaisu
+
+# data/verification-matrix.json
+dat-2b429a64a17b = WTZR:n ja WTZZ:n julkaistut ITRF2020-koordinaatit (IGN ITRF2020_GNSS.SSC, ratkaisu { "3" }, RINEX-antennikorkeuksineen), jotka antavat referenssikantaviivan; kynnykset ennakkorekisteröity tiedostossa tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_RTK.md ennen koodin kirjoittamista. Vain lyhyt kantaviiva: ionosfäärisiä tai troposfäärisiä kaksoisdifferenssejä ei mallinneta
+
+# data/search.json
+dat-4719a5898fbd = Julkaistut polut
+
+# data/verification-matrix.json
+dat-16b7158fd5b9 = Julkaistu taulukkomuotoinen CUSUM-ARL: Siegmundin ({ "1985" }) Brownin liikkeen approksimaatio (Hawkins & Olwell { "1998" }, yhtälö { "3.7" }) ristiinankkuroituna Montgomeryn, Introduction to Statistical Quality Control (Wiley), ARL-taulukoihin arvoilla k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministinen viive täsmäsi tarkasti ensimmäisen läpikäynnin oraakkeliin. Koostettu TPL-raja pysyy tasolla MODELLED
+
+# data/verification-matrix.json
+dat-b00d77e3f6c6 = Julkaistut oppikirja-arvot: BPSK(n):n pääkeila 2n x { "1.023" } MHz nollasta nollaan ja häiriönsietokertoimet Q = { "1" } kapeakaistaiselle (CW) häirintälähettimelle ja Q = { "1.5" } C/A:han sovitetulle hajaspektrihäirintälähettimelle (Kaplan & Hegarty, Understanding GPS/GNSS, 3. painos, kohta { "9.4" }); BOC(m,n):n pääkeilat keskitettyinä kohtiin plus tai miinus m x { "1.023" } MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION { "48" }({ "4" }), { "2001" }); spektrierotuskertoimet -61.8, -64.8 ja -67.8 dB/Hz C/A:lle C/A:n kanssa, BOC({ "1,1" }):lle BOC({ "1,1" }):n kanssa ja C/A:lle BOC({ "1,1" }):n kanssa (Betz { "2001" }; Hein ym., MBOC: The New Optimized Spreading Modulation Recommended for Galileo L1 OS and GPS L1C, Inside GNSS, touko/kesäkuu { "2006" }), toistettuna tässä niiden Parsevalin autokorrelaation suljetuista muodoista. BOC({ "1,1" }):n maksimi ei ole kohdassa { "1.023" } MHz: keila ulottuu kantoaallon nollasta kohtaan { "2.046" } MHz ja saavuttaa huippunsa kohdassa { "0.759" } MHz, ja testi lukitsee molemmat. MBOC-seos on ICD-määritelmä, tarkistettu vain yksikköpinta-alan ja lineaarisuuden osalta
+
+# studio/data/capabilities.json
+dat-decd97c5aa58 = Asettaa satelliittigeometrian vastaanottimen luottamuspistemäärän viereen ja nimeää luokan jokaiselle vähennykselle: signaalin menetys, heikko geometria tai ristiriita vastaanottimen ilmoittaman DOP:n ja näkyvissä olevista satelliiteista johdetun välillä. Geometria arvioidaan vain, kun se tunnetaan, ja merkintä on pääasia: vain heikko geometria maksaa pisteitä. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite.
+
+# data/search.json
+dat-fadb374a1890 = pvt (skenaariotyyppi)
+
+# data/verification-matrix.json
+dat-5cb0828a1a18 = pyDecision algorithm.copras_method (Valdecy Pereira) — riippumaton kolmannen osapuolen MCDA-kirjasto, joka laskee saman yksikäsitteisesti määritellyn COPRAS-suhteellisen merkitsevyyden/hyödyn. pyDecision on valittu tarkoituksella: pymcdm { "1.4.0" }:n COPRAS romahtaa algebrallisesti triviaaliksi S⁺+S⁻:ksi eikä ole uskollinen viite, kun taas pyDecision toteuttaa kanonisen Q = S⁺+(min(S⁻)·ΣS⁻)/(S⁻·Σ(min(S⁻)/S⁻)). Täsmäsi tarkkuudella <{ "1e-9" }; uudelleengeneroitavissa offline-tilassa tiedostolla tests/fixtures/mcda_copras/generate_copras_reference.py
+
+# data/verification-matrix.json
+dat-8b84b3d81a7c = pyDecision algorithm.electre_i (Valdecy Pereira) — riippumaton kolmannen osapuolen monikriteeripäätöskirjasto, joka laskee saman yksikäsitteisesti määritellyn konkordanssin/diskordanssin/dominanssin/ytimen; täsmäsi alkio alkiolta tarkkuudella <{ "1e-9" }. Uudelleengeneroitavissa offline-tilassa tiedostolla tests/fixtures/mcda_electre/generate_electre_reference.py. ĉ/d̂-kynnysvalinnat ovat analyytikon syötteitä (herkkyys pysyy tasolla MODELLED)
+
+# data/verification-matrix.json
+dat-386b4c83cc6d = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; SOFA-algoritmit sellaisina kuin ERFA-projekti ne julkaisee), riippumaton kirjasto: erfa.dtf2d("UTC"), erfa.utctai ja erfa.taiutc tallennetuilla hetkillä, ero muodostettuna osa osalta kaksiosaisilla päivämäärillä, kynnys { "1e-6" } s kiinnitetty ennen ajoa (ennakkorekisteröity e947e69d). Pahin ero { "9.6e-12" } s (dtf2d) ja { "1.9e-11" } s (utctai, taiutc). Jokainen UTC-vuorokausi otettuna { "86 400" } s:ksi tai karkauspäivän osuus jätettynä skaalaamatta tekee testistä punaisen. UT1 TAI:n kautta (iauUtcut1) tarkistetaan Maan kiertoradan polku -rivin ERFA-haarassa. Laajuus: UTC vuodesta 1972-01-01; aiempaa ajautuvan taajuuden UTC:tä ei mallinneta
+
+# data/verification-matrix.json
+dat-c90f1bf3a716 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; SOFA-algoritmit sellaisina kuin ERFA-projekti ne julkaisee), riippumaton kirjasto: erfa.dtf2d("UTC"), erfa.utctai ja erfa.taiutc tallennetuilla hetkillä, ero muodostettuna osa osalta. Ennakkorekisteröity 23c40661 (hetket, toleranssi ja { "1972" }+ -tarkistussumma) ennen moottorin muutosta ja ennen oraakkelin ajoa. Ajautumistaulukko on transkriboitu samasta SOFA iauDat -taulukosta, jota oraakkeli käyttää, joten vertailu kattaa muunnoksen aritmetiikan (vuorokauden pituus, UTC-SI-skaalaus, iterointi), ei itse historiallista taulukkoa
+
+# data/verification-matrix.json
+dat-5d51123c331d = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; SOFA-algoritmit sellaisina kuin ERFA-projekti ne julkaisee), riippumaton kirjasto: gmst82 ja c2t06a tallennetuilla kaksiosaisilla päivämäärillä, napaliike { "0.1" } ja { "0.3" } kaarisekuntia. Ennakkorekisteröity b10475ee (päivämäärät, kynnykset) ennen funktioiden kirjoittamista ja ennen oraakkelin ajoa. Sisäiset testit (skenaariovalinta, TEME/ITRF-edestakainen kierros, tyyppimuunnokset) ovat tukevaa itsejohdonmukaisuutta
+
+# data/verification-matrix.json
+dat-1bec7a23a790 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; SOFA-algoritmit sellaisina kuin ERFA-projekti ne julkaisee), riippumaton kirjasto: pmat06; numat(obl06, nut00b) ekvinoksien yhtälöllä eect00:sta (koko komplementaarinen sarja), koottuna muodossa P^T N^T Rz(-EE); xys06a, sitten c2ixys(X + dX, Y + dY, s). Ennakkorekisteröity 979c1e39 (epookit, siirtymät ja kynnykset) ennen oraakkelin ajoa. { "1.1e-10" } rad:n TEME-jäännös on kahden komplementaarisen termin säilyttämisen ennustettu vaikutus (noin { "3" } mm GNSS-radalla)
+
+# data/verification-matrix.json
+dat-70d0798f00dc = pykep { "3.0.1" } lambert_problem (ESA, C++-ydin kep3, MPL-2.0), riippumaton kirjasto, ajettuna erillisenä ohjelmana skriptillä scripts/gen_lambert_multirev_ref.py; vain sen numeerinen tuloste tallennetaan. Ennakkorekisteröity a75de851 (tapausjoukko, kynnykset, tulossääntö) ennen yhtäkään vertailua; viite generoitiin uudelleen riippumattomasti ja se on tavu tavulta identtinen. Tulokset: docs/design/evidence/lambert-multirev/RESULTS.md
+
+# data/verification-matrix.json
+dat-4e049babceca = pymcdm (methods.WASPAS + normalizations.linear_normalization, l={ "0.5" }; methods.MOORA ratio system, vektorinormalisointi) — riippumaton, laajalti käytetty kolmannen osapuolen Python-MCDA-kirjasto, joka laskee samat yksikäsitteisesti määritellyt aggregaatit; täsmäsi tarkkuudella <{ "1e-9" }. Uudelleengeneroitavissa offline-tilassa hakemistoilla tests/fixtures/mcda_waspas/ ja tests/fixtures/mcda_moora/. Roskaa sisään, roskaa ulos syötteiden osalta; herkkyys-/robustisuuskerros pysyy tasolla MODELLED
+
+# data/verification-matrix.json
+dat-4b656517ce47 = pymcdm (methods.WSM + normalizations.minmax_normalization; methods.WPM + normalizations.sum_normalization) — riippumaton, laajalti käytetty kolmannen osapuolen Python-MCDA-kirjasto, joka laskee samat yksikäsitteisesti määritellyt painotetut aggregaatit; täsmäsi tarkkuudella <{ "1e-9" }. Uudelleengeneroitavissa offline-tilassa hakemistoilla tests/fixtures/mcda_wsm/ ja tests/fixtures/mcda_wpm/. Roskaa sisään, roskaa ulos syötteiden osalta; herkkyys-/robustisuuskerros pysyy tasolla MODELLED
