@@ -145,3 +145,15 @@ seg-568c484ce9a0 = <b>Rejestr (ledger):</b> VALIDATED. Pełna strona z danymi we
 seg-41996765fcf1 = <s1>Poprzedni</s1>Księżyc i przestrzeń cislunarna
 
 seg-1951c46fe429 = <s1>Następny</s1>Optyczne PNT
+
+seg-dbffff25b57f = Most interoperacyjności CCSDS OEM: import komunikatu efemeryd orbitalnych (Orbit Ephemeris Message) wytworzonego przez zewnętrzne narzędzie dynamiki lotu (GMAT, Orekit i STK emitują OEM) i raport o jego segmentach, obiektach, układach odniesienia i przedziale epok oraz kontrola spójności prędkości; bez danych wejściowych wykonuje obieg tam i z powrotem wygenerowanej orbity odniesienia i podaje wierność importu względem eksportu. Strukturalna i fizyczna kontrola wczytania MODELLED, NIE walidacja dokładności orbity źródła.
+
+seg-5db5a7c812ca = Wykres zapisany przez silnik dla scenarios/oem-interop.toml, rodzaj oem-interop
+
+seg-039f77066d97 = Balistyczny korytarz wejścia w atmosferę Allena-Eggersa: szczytowe opóźnienie (niezależne od współczynnika balistycznego, V_e^{ "2" } sin|γ|/(2eH)), prędkość i wysokość w punkcie szczytowego przeciążenia oraz prędkość szczytowego nagrzewania, dla prędkości wejścia, kąta toru lotu i współczynnika balistycznego w atmosferze wykładniczej, plus planarne całkowanie punktu materialnego tego samego wejścia balistycznego z grawitacją, krzywizną Ziemi i Atmosferą Standardową USA { "1976" } (szczytowe opóźnienie, prędkość, wysokość i czas w punkcie szczytu). Wejście balistyczne (bez siły nośnej) MODELLED; wynik nagrzewania to PRĘDKOŚĆ szczytowego nagrzewania, a nie strumień ciepła (bez modelu aerotermicznego ani TPS).
+
+seg-b0109481e8ff = Wykres zapisany przez silnik dla scenarios/reentry.toml, rodzaj reentry
+
+seg-de2448d74c2b = Ramkowanie CCSDS 133.0-B Space Packet Protocol: kodowanie syntetycznego strumienia pakietów TM/TC (6-oktetowy nagłówek główny + pole danych) oraz raport dekodowania nagłówka każdego pakietu, łącznej liczby oktetów i dokładnego obiegu kodowanie↔dekodowanie. Deterministyczne ramkowanie o dokładnym układzie bitów — warstwa interoperacyjności formatów pakietów agencji; NIE jest to certyfikacja zgodności (bez logiki nagłówka wtórnego, CRC ani segmentacji poza flagami).
+
+seg-af1cf9aa9938 = Wykres zapisany przez silnik dla scenarios/space-packet.toml, rodzaj space-packet

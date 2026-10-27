@@ -347,3 +347,5 @@ seg-d82887c766e3 = Aktualizacja w środku przelotu
 seg-d1104b6ea7fa = <c1/> umieszcza użytkownika (domyślnie { "45" }° N, { "10" }° E), znajduje najwyższy przelot nad maską w granicach <c2/> i planuje komunikaty co <c3/>. Przy każdym przełączeniu w trakcie przelotu raportuje skok położenia, skok zegara, skok pseudoodległości użytkownika (nowy komunikat minus stary), największy skok, jaki mógłby zobaczyć dowolny widoczny użytkownik (postać zamknięta po stożku nadirowym), błąd odległości przed i po oraz PASS lub FAIL względem <c4/>. <c5/> (dopasowania { "300" } s aktualizowane co { "150" } s):
 
 seg-7d91304c87e3 = Najwyższy przelot w ciągu doby sięga { "43.7" }° i trwa { "455" } s. Jego przełączenia:
+
+seg-02dc0d42fb21 = sfu

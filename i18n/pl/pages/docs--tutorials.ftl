@@ -23,3 +23,7 @@ seg-9ef8f99ca6e4 = Transfer czasu
 seg-b03d56f501c3 = Rodzaj
 
 seg-ec26df467b88 = Łączna fuzja czujników PNT filtrem Kalmana na tych samych hybrydowych danych wejściowych.
+
+seg-4f19d4fb1341 = Ogólny przegląd N-wymiarowy dowolnego pakietu przez kluczowe TOML z kropkami / ścieżki metryk JSON.
+
+seg-e7ab7b55c969 = Przegląd 1-wymiarowy badania kompromisów po parametrze pakietu zegara.
