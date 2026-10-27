@@ -9803,3 +9803,270 @@ engine-e-mcp-iq-design-prn-channels-at-most = （設計、PRN）チャネルが 
 engine-e-mcp-marine-at-most-366-maps-per = 呼び出しごとに指定できるマップは最大 366 個です
 
 engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps は { $n_frames } フレームになりますが、応答ごとに返せるのは最大 { $max_frames } フレームです。fps または duration_s を下げるか、コマンドライン（`kshana <scenario.toml> --animate frames`）でより長いシーケンスを書き出してください
+
+engine-main-usage-lunanet-afs-check =
+    使い方：kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }または：kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }または：kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS V1.0, 29 January 2025) に固定されています。`spec` は、この実装を、文書に掲載されたコード表と計算例に照らして検査します（xval/lunanet-afs/PREREGISTRATION.md の合格基準 B1 から B10。--strict を指定すると、すべての合格基準が MET でない限り終了ステータスは 1 になります）。`symbols` は、硬判定のシンボルストリーム（0 と 1 のテキスト）について、同期パターン、SB1 のデコード、FID、TOI の連続性、フレーム間隔を検査します。サブフレーム 2 から 4（LDPC、CRC-24Q）は検証されません。`generate` は、プレースホルダのサブフレームを持つシンボルのテストストリームを書き出します。これは波形ではなく、Kshana は信号を書き出しません。記録から AFS 波形を捕捉または追尾するには、`kshana iq acquire --signal lunanet-afs-i`（または lunanet-afs-q）を使用してください。助言のみ。docs/LUNANET-AFS.md。
+
+engine-main-usage-standards-pack =
+    使い方：kshana standards-pack list
+    { "   " }または：kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }または：kshana standards-pack rows <id>
+    { "   " }または：kshana standards-pack tests <id>
+
+    standards pack は、実行前に定めた合格基準に照らして採点したシナリオの集合で、その証拠を裏付ける（supports evidence for）compliance-report の行に結びつけられています。`run` は表（または --json）を出力し、--out を指定すると <base>.pack.json と <base>.pack.md を書き出します。行を見るには、その JSON を `kshana compliance-report` に渡してください。受信機ログが必要なテストは NEEDS INPUT として一覧に載り、採点されません。
+    MODELLED：MET の合格基準は、モデル化したシナリオが定めた合格基準に達したことを示すものであり、いかなる製品も要件を満たすことを示すものではありません。docs/compliance/README.md。
+
+engine-main-applies = { $fmt }：適用されます
+
+engine-main-wrote = { $path } を書き込みました
+
+engine-main-note = 注記：{ $n }
+
+engine-main-error-example-extra-argument = エラー：`example <name>` の後に予期しない引数 '{ $extra }' があります。指定できる名前は一つだけです
+
+engine-main-lunanet-afs-generate-needs = generate には --frames <n> と --out <file>（および整数の --toi0）が必要です
+
+engine-evidence-cli-fingerprint = フィンガープリント：{ $fp }
+
+engine-evidence-cli-verify-failure = { "  " }失敗：{ $f }
+
+engine-evidence-cli-verify-note = { "  " }注記：{ $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED：指定した鍵について、すべてのハッシュ、チェーン、署名が一致しました。
+
+engine-evidence-cli-verified-unpinned = パック自身が示す鍵（フィンガープリント { $fp }）に対して VERIFIED（署名者は固定されていません。--pubkey を指定してください）。
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED：ハッシュと署名は、パック自身が示す鍵 { $fp } と整合しています。誰が署名したかを確立するには --pubkey <signer public key> を指定してください（これを承知の上で受け入れる場合は --allow-unpinned）。
+
+engine-evidence-cli-not-verified = NOT VERIFIED：上記の失敗を参照してください。
+
+engine-evidence-cli-attached = { $path } を添付しました
+
+engine-evidence-cli-verify-with = 検証コマンド：kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    使い方：kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }または：kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }または：kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+    { "   " }または：kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }または：kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }（--dataset custom には --licence <text> --licence-url <url> --attribution <text> も必要です）
+
+engine-interference-map-cli-usage-route = 使い方：kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = 日付
+
+engine-interference-map-cli-col-src = ソース
+
+engine-interference-map-cli-col-degraded = 劣化
+
+engine-interference-map-cli-col-not-degraded = 劣化なし
+
+engine-interference-map-cli-col-unassessed = 未評価
+
+engine-interference-map-cli-col-not-observed = 未観測
+
+engine-bench-cli-usage =
+    使い方：kshana bench spec
+    { "   " }または：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }または：kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }または：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }または：kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }または：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }または：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }または：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }または：kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }または：kshana bench validate <result.json>...
+    { "   " }または：kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   （入力なし：空の状態。--fragment：埋め込み可能なセクション）
+    { "   " }（シードファイルは封印されたホールドアウトの背後にあるシークレットを保持します。バージョン管理には含めないでください）
+
+engine-bench-cli-match = 一致
+
+engine-bench-cli-valid = { $f }：有効
+
+engine-bench-cli-folders = { $n } フォルダ
+
+engine-bench-cli-unpinned = 未固定：{ $rel }
+
+engine-bench-cli-missing = 欠落：{ $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH：{ $rel }
+
+engine-iq-cli-usage =
+    使い方：kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }または：kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }または：kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }または：kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (default auto, ≈4 ms coherent)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }または：kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }または：kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }または：kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }または：kshana iq campaign report <out-dir>
+    { "   " }または：kshana iq conditions <test-conditions.toml|json>
+    { "   " }または：kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }または：kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }labfit シナリオ：受信機ログの [[runs]]、または kshana iq campaign の出力フォルダ（シナリオファイルからの相対パス）を指す [input] campaign = "<out-dir>"
+    { " " }ループ設計：kshana.loop-design/1 の TOML ファイル（docs/design/LOOP-DESIGN-TOML.md）。明示したループ/捕捉のフラグは、選択した設計より優先されます
+    { " " }acquire/track/sweep はフロントエンドのフラグ [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] も受け付け、処理の前（捕捉と追尾のパスの両方）に適用されます
+    { " " }scene のチャネル設定：[--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }scene の C/N0 プロファイル：[--cn0-profile <toml>] 衛星ごとの時間変化する C/N0 オフセット（ステップ、ランプ、ポイント、フェード）をチャネルの上に適用します。真値の cn0_dbhz もこれに従います
+    { " " }サイドカーのない recording/raw 入力は次も受け付けます：--format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]。マルチストリーム入力は --channel <k> を受け付けます
+    { " " }信号：gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> はカンマ区切りのリストです（--prn ごとに 1 つ、または全体に適用される単一の値）
+
+engine-iq-cli-usage-error = 使い方のエラー：{ $m }
+
+engine-iq-io-cli-usage =
+    使い方：kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }または：kshana iq info <recording>
+    { "   " }または：kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }または：kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }または：kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }サイドカーのない raw 入力は次も受け付けます：--format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }マルチストリーム入力（マルチチャネル SigMF、インターリーブされた raw）は --channel <k> を受け付けます（0 から。既定は 0）
+    { " " }フォーマット：ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be、16 ビット中の 12 ビット ci12r_le ci12l_be cu12r_le ...、パック 4 ビット ci4_msb cu4_lsb ...、パック 2 ビット c2tc_msb c2sm_lsb r2ob_msb ...、バイトあたり 2 ビット c2sm_byte ...、実数 r...、Q 先頭 ..._qi
+
+engine-jammertest-cli-usage =
+    使い方：
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    プランとカタログは、公開されている NPRA/jammertest-plan の JSON ファイルです（MIT。xval/jammertest-plan/fetch.sh で取得してください）。プランの時刻はローカルの壁時計時刻です。--local-offset-h（既定は 2、CEST）は、それが UTC からどれだけ離れているかを示します。JammerTest 2024 データセットの attack_log のタイムスタンプは Z と記されていますがローカル時刻です：--time-shift-h の既定は -2 です。イベントは予定された真値であり、実際に放送された時刻の記録ではありません。
+    助言用ソフトウェアであり、型式承認を受けた航法装置ではありません。
+
+engine-tle-warning = 警告：{ $w }
+
+engine-e-animation-no-time-series-to-animate = アニメーション化する時系列がありません：{ $k } の結果にはサンプリングされた時間軸がありません（エクスポーターが認識する形式については docs/ANIMATION.md を参照）
+
+engine-animation-svg-strip-events = イベント
+
+engine-animation-svg-strip-phases = フェーズ
+
+engine-animation-svg-waterfall = ウォーターフォール：{ $title } [{ $unit }]、時間は下向き、色は { $lo } から { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = エポック番号
+
+engine-animation-svg-desc = { $kind } の実行の時系列アニメーション：パネル { $n_panels } 枚、イベント { $n_events } 件、フェーズ { $n_phases } 件。すべての点は、その実行の result.json のサンプルです。
+
+engine-animation-html-title = { $title } — Kshana アニメーション
+
+engine-animation-html-sub = 種別 { $kind } · result.json からの { $n } 系列、リサンプリングなしで描画 · Kshana { $version }
+
+engine-animation-html-playback = 再生
+
+engine-animation-html-play = 再生
+
+engine-animation-html-pause = 一時停止
+
+engine-animation-html-mission-time = ミッション時間
+
+engine-animation-html-speed = 速度
+
+engine-animation-html-playback-speed = 再生速度
+
+engine-animation-html-events = イベント
+
+engine-animation-html-footer-keys = Space で再生または一時停止、矢印キーでステップ、Home と End でジャンプします。これはその実行自身のサンプルを描画したものです：品質はその実行と同じで、証拠を加えるものではありません（MODELLED、内部整合性）。
+
+engine-animation-html-footer-determinism = 同じシナリオ、シード、オプションからは、バイト単位で同一のファイルが得られます。
+
+engine-animation-html-exports-heading = このプレーヤーの隣に書き出されたエクスポート
+
+engine-animation-js-phases-and-events = フェーズとイベント
+
+engine-animation-js-waterfall = ウォーターフォール：{ $title } [{ $unit }]、時間は下向き
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = フェーズ：{ $name }
+
+engine-e-evidence-bundle-bad-log-slice = ログの切り出しが不正です：{ $s }
+
+engine-e-evidence-bundle-bad-window = 時間窓が不正です：{ $s }
+
+engine-e-evidence-bundle-bad-creation-time = 作成時刻が不正です：{ $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = タイムスタンプトークンが不正です：{ $s }
+
+engine-e-evidence-bundle-cannot-serialise = シリアライズできません：{ $s }
+
+engine-e-osnma-page-time-outside-week-number = ページの時刻が、Galileo の週番号の 4096 週の範囲外です
+
+engine-e-osnma-page-malformed-line = ページ行の形式が不正です：{ $s }
+
+engine-e-interchange-encode-payload = ペイロードのエンコードに失敗しました：{ $e }
+
+engine-e-interchange-invalid-envelope = 有効な交換エンベロープではありません：{ $e }
+
+engine-e-interchange-not-kshana-artifact = Kshana のアーティファクトではありません：形式は { $found } ですが、{ $expected } が必要です
+
+engine-e-interchange-incompatible-schema-version = スキーマバージョン { $v } は互換性がありません（{ $verdict }）。このエンジンは { $current } に対応しています
+
+engine-e-interchange-payload-mismatch = ペイロードが要求された型と一致しませんでした：{ $e }
+
+engine-e-interop-not-applicable = 適用できません：{ $why }
+
+engine-e-iq-io-error = I/O エラー：{ $m }
+
+engine-e-iq-format-error = 形式エラー：{ $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }：PRN { $prn } は ICD で定義されていません
+
+engine-e-iq-signals-glonass-channel-outside = GLONASS の周波数チャネル { $k } は -7..=6 の範囲外です
+
+engine-e-iq-signals-code-table = コード表：{ $m }
+
+engine-e-kepler-out-of-domain = ケプラー方程式：M または e が定義域外です
+
+engine-e-kepler-no-convergence = ケプラー方程式は { $iters } ステップで収束しませんでした（残差 { $residual }）
+
+engine-e-lunar-orientation-epoch-outside-series = J2000 から { $t } ユリウス世紀のエポックは、DE440 の月の向きの系列（{ $first } .. { $last }、2014-01-01 .. 2030-12-31 TDB）の範囲外です
+
+engine-e-propagator-sgp4-error = SGP4 の伝播エラー（コード { $code }）
+
+engine-e-integrator-dop853-stopped = DOP853 は { $accepted } ステップの後、t = { $t } で停止しました（{ $failure }）
+
+engine-e-portable-distr-variance-non-finite = 正規分布の分散が有限ではありません
+
+engine-e-portable-distr-shape-not-positive = ガンマ分布の形状パラメータが正ではありません
+
+engine-e-portable-distr-scale-not-positive = ガンマ分布のスケールパラメータが正ではありません
+
+engine-bench-tasks-clock-line-before-header = `@<PRN>` ヘッダより前に時計の行があります
+
+engine-api-html-clock = 時計
+
+engine-api-html-fom-heading = 性能指標
+
+engine-api-html-metric = 指標
+
+engine-api-html-value = 値
+
+engine-api-html-validation = 検証
+
+engine-api-html-tier-note = 各性能指標には、検証マトリクスから導出した VALIDATED（外部のオラクルに照らして確認済み）または MODELLED（第一原理、内部でテスト済み）のタグが付いています。
+
+engine-api-html-default-title = Kshana — シナリオの結果
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · the precise instant
+
+engine-api-html-tagline = ハイブリッド量子/古典 PNT の性能スコアカード
+
+engine-api-html-chart-alt = 結果のチャート
+
+engine-api-html-full-result = 完全な結果（JSON）
+
+engine-api-html-footer-generated = Kshana { $version } で生成。
