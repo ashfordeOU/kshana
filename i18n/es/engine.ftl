@@ -11620,3 +11620,65 @@ engine-partner-text-error = { "  " }ERROR: { $e }
 engine-partner-text-result-ok = resultado: el formato y los metadatos están completos y son legibles
 
 engine-partner-text-result-not-ready = resultado: no está listo; corrija los errores anteriores
+
+engine-interference-map-locate-usage = uso: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom también necesita --licence <text> --licence-url <url> --attribution <text>)
+    Escribe emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv y -figure.svg: regiones de emisor estimadas con niveles de confianza declarados, nunca un punto aislado
+
+engine-interference-map-locate-wrote = escrito { $path }
+
+engine-interference-map-locate-summary =
+    { $n_sessions ->
+        [one] { $n_sessions } sesión publicada
+        [many] { $n_sessions } de sesiones publicadas
+       *[other] { $n_sessions } sesiones publicadas
+    }; { $n_withheld ->
+        [one] { $n_withheld } sesión candidata retenida
+        [many] { $n_withheld } de sesiones candidatas retenidas
+       *[other] { $n_withheld } sesiones candidatas retenidas
+    } (menos de { $min } aeronaves o buques distintos)
+
+engine-interference-map-locate-note-not-preregistered = nota: una opción difiere de los parámetros preregistrados, por lo que este no es el método preregistrado
+
+engine-interference-map-locate-line-session = sesión { $k }: { $start } a { $end }, { $affected } distintos afectados, región del { $level } % { $area } km², centroide { $lat }, { $lon } (elipse { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = sesión { $k }: { $start } a { $end }, { $affected } distintos afectados, los informes no acotan la región (sin restricción)
+
+engine-interference-map-locate-fig-title = Región de emisor estimada
+
+engine-interference-map-locate-fig-subtitle =
+    Dónde podría estar, bajo los supuestos indicados, una fuente de los informes degradados. { $n ->
+        [one] Sesión mostrada: { $n }.
+        [many] Sesiones mostradas: { $n }.
+       *[other] Sesiones mostradas: { $n }.
+    }
+
+engine-interference-map-locate-fig-none = Ninguna sesión alcanzó el mínimo de publicación, por lo que no se muestra ninguna región.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = región del { $pct } %
+
+engine-interference-map-locate-fig-legend-ellipse = elipse del 95 % de la posterior
+
+engine-interference-map-locate-fig-note-1 = Una región no es la posición de ninguna aeronave, buque ni organización, y no es un hallazgo de la causa.
+
+engine-interference-map-locate-fig-note-2 = El terreno no se modela y cada sesión supone una sola fuente; los niveles de confianza son condicionales al modelo.
+
+engine-e-interference-map-locate-bad-number = { $name } no es un número
+
+engine-e-interference-map-locate-bad-levels = --levels necesita números separados por comas estrictamente entre 0 y 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km debe estar entre 0.5 y 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min debe estar entre 1 y 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m necesita dos números, min,max, con 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } no es un archivo de fix TDOA utilizable (receivers, tdoa_s, sigma_s, start), o el fix no convergió
+
+engine-e-interference-map-locate-source-required = se requiere --source adsb o --source ais
+
+engine-e-interference-map-locate-no-evidence-rows = no hay filas de evidencia listadas para las salidas de locate

@@ -10630,3 +10630,57 @@ engine-partner-text-error = { "  " }エラー：{ $e }
 engine-partner-text-result-ok = 結果：形式とメタデータは完全で、読み取り可能です
 
 engine-partner-text-result-not-ready = 結果：準備ができていません。上記のエラーを修正してください
+
+engine-interference-map-locate-usage = 使い方: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom の場合は --licence <text> --licence-url <url> --attribution <text> も必要です)
+    emitter-<source>-<dataset>-<day>.geojson、-summary.json、-sessions.csv、-figure.svg を書き出します：示すのは、所定の信頼水準での発信源領域の推定であり、単一の点ではありません
+
+engine-interference-map-locate-wrote = { $path } を書き込みました
+
+engine-interference-map-locate-summary = { $n_sessions ->
+        *[other] セッション { $n_sessions } 件を公開
+    }、{ $n_withheld ->
+        *[other] 候補セッション { $n_withheld } 件を非公開
+    }（区別できる航空機または船舶が { $min } 未満）
+
+engine-interference-map-locate-line-session = セッション { $k }：{ $start } から { $end }、影響を受けた区別可能な対象 { $affected }、{ $level }% 領域 { $area } km²、重心 { $lat }, { $lon }（楕円 { $a } x { $b } km）
+
+engine-interference-map-locate-line-unconstrained = セッション { $k }：{ $start } から { $end }、影響を受けた区別可能な対象 { $affected }、報告からは領域を絞り込めません（制約なし）
+
+engine-interference-map-locate-fig-title = 推定された発信源領域
+
+engine-interference-map-locate-fig-subtitle = { $n ->
+        *[other] 示された前提のもとで、劣化した報告の発生源がありうる場所です。表示されたセッション：{ $n } 件。
+    }
+
+engine-interference-map-locate-fig-none = 公開の最小件数に達したセッションがないため、領域は表示されません。
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct }% 領域
+
+engine-interference-map-locate-fig-legend-ellipse = 事後分布の 95% 楕円
+
+engine-interference-map-locate-fig-note-1 = 領域は、いかなる航空機、船舶、組織の位置でもなく、原因を特定したものでもありません。
+
+engine-interference-map-locate-fig-note-2 = 地形はモデル化されておらず、各セッションは発生源が1つであると仮定しています。信頼水準はモデルを前提とした条件付きのものです。
+
+engine-e-interference-map-locate-bad-number = { $name } は数値ではありません
+
+engine-e-interference-map-locate-bad-levels = --levels には、0 より大きく 1 より小さい数値をカンマ区切りで指定してください
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km は 0.5 から 100 の間でなければなりません
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min は 1 から 720 の間でなければなりません
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m には、min,max の2つの数値を 0 <= min <= max <= 5000 の範囲で指定してください
+
+engine-e-interference-map-locate-bad-tdoa = { $path } は使用できる TDOA フィックスファイル（receivers, tdoa_s, sigma_s, start）ではないか、フィックスが収束しませんでした
+
+engine-e-interference-map-locate-source-required = --source adsb または --source ais が必要です
+
+engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
+
+engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません

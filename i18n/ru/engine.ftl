@@ -11625,3 +11625,67 @@ engine-partner-text-result-ok = результат: формат и метада
 engine-partner-text-result-not-ready = результат: не готово; исправьте ошибки выше
 
 engine-lunar-ascent-chart-title = Лунный взлёт: 1-сигма навигационного положения в 3-D (м)
+
+engine-interference-map-locate-usage = использование: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(для --dataset custom также нужны --licence <text> --licence-url <url> --attribution <text>)
+    Записывает emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv и -figure.svg: оценённые области излучателя при заданных уровнях доверия, а не отдельную точку
+
+engine-interference-map-locate-wrote = записано { $path }
+
+engine-interference-map-locate-summary = { $n_sessions ->
+        [one] опубликован { $n_sessions } сеанс
+        [few] опубликованы { $n_sessions } сеанса
+        [many] опубликовано { $n_sessions } сеансов
+       *[other] опубликовано { $n_sessions } сеанса
+    }; { $n_withheld ->
+        [one] скрыт { $n_withheld } сеанс-кандидат
+        [few] скрыты { $n_withheld } сеанса-кандидата
+        [many] скрыто { $n_withheld } сеансов-кандидатов
+       *[other] скрыто { $n_withheld } сеанса-кандидата
+    } (менее { $min } различных воздушных или морских судов)
+
+engine-interference-map-locate-note-not-preregistered = примечание: один из параметров отличается от предварительно зарегистрированных, поэтому это не предварительно зарегистрированный метод
+
+engine-interference-map-locate-line-session = сеанс { $k }: с { $start } по { $end }, различных затронутых: { $affected }, область { $level }% { $area } km², центроид { $lat }, { $lon } (эллипс { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = сеанс { $k }: с { $start } по { $end }, различных затронутых: { $affected }, сообщения не сужают область (не ограничена)
+
+engine-interference-map-locate-fig-title = Оценённая область излучателя
+
+engine-interference-map-locate-fig-subtitle =
+    { $n ->
+        [one] Где при заданных допущениях мог находиться источник ухудшенных сообщений. Показан сеансов: { $n }.
+        [few] Где при заданных допущениях мог находиться источник ухудшенных сообщений. Показано сеансов: { $n }.
+        [many] Где при заданных допущениях мог находиться источник ухудшенных сообщений. Показано сеансов: { $n }.
+       *[other] Где при заданных допущениях мог находиться источник ухудшенных сообщений. Показано сеансов: { $n }.
+    }
+
+engine-interference-map-locate-fig-none = Ни один сеанс не достиг минимума для публикации, поэтому область не показана.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = область { $pct }%
+
+engine-interference-map-locate-fig-legend-ellipse = 95%-й эллипс апостериорного распределения
+
+engine-interference-map-locate-fig-note-1 = Область не является положением какого-либо воздушного судна, морского судна или организации и не является выводом о причине.
+
+engine-interference-map-locate-fig-note-2 = Рельеф не моделируется, и в каждом сеансе предполагается один источник; уровни доверия условны относительно модели.
+
+engine-e-interference-map-locate-bad-number = { $name } не является числом
+
+engine-e-interference-map-locate-bad-levels = для --levels нужны числа через запятую, строго между 0 и 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km должно быть между 0.5 и 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min должно быть между 1 и 720
+
+engine-e-interference-map-locate-bad-height = для --emitter-height-m нужны два числа, min,max, при 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } не является пригодным файлом решения TDOA (receivers, tdoa_s, sigma_s, start), либо решение не сошлось
+
+engine-e-interference-map-locate-source-required = нужен --source adsb или --source ais
+
+engine-e-interference-map-locate-no-evidence-rows = для выходных данных locate не перечислено строк подтверждающих данных
