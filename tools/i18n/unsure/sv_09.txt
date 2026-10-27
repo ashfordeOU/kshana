@@ -1,0 +1,15 @@
+engine-legal-compliance-statement | "evidenced" row label kept English; "gap" column rendered "glapp"; "rated or approved" -> "betygsatt eller godkänd" (negated)
+engine-legal-resilience-disclaimer | "certification or accreditation"/"authority approval" negated: certifiering, ackreditering, godkännande
+engine-legal-observatory-notice | "statement of conformance" -> "utlåtande om överensstämmelse" (negated); "clear" -> "fri"
+engine-legal-bench-notice | same negated approval/certification/conformance wording
+engine-legal-geometry-statement | "dilution of precision" -> "geometrisk försämring av precisionen"; "preset constellations" -> "förinställda konstellationer"
+engine-legal-lunar-time-lab-source-statement | "does not adopt it" -> "antar det inte"; "meets" -> "uppfyller"
+engine-legal-iq-campaign-roc-statement | "monitor" kept as term; "test statistic" -> "teststatistika"
+engine-legal-lunanet-afs-advisory | "safety-of-life" left in English
+engine-legal-standards-pack-advisory | "safety-of-life" left in English
+engine-advanced-report-th-oracle | "oracle" -> "oberoende referens"
+engine-advanced-report-honesty-label | "Honesty label" -> "Ärlighetsetikett"
+engine-advanced-report-h-summary | "Executive summary" shortened to "Sammanfattning" (check it is not a duplicate heading semantic)
+engine-fusion-hybrid-ukf-chart-consistent | translated CONSISTENT/INCONSISTENT; may be parsed label
+engine-fom-verdict-partial | PARTIAL kept English
+engine-body-pnt-chart-formal-one-sigma-position | "amber" -> "bärnstensfärgad"
