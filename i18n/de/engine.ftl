@@ -8387,9 +8387,9 @@ engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (Weißheit)
 
 engine-fusion-hybrid-ukf-chart-nees = NEES
 
-engine-fusion-hybrid-ukf-chart-consistent = KONSISTENT
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
 
-engine-fusion-hybrid-ukf-chart-inconsistent = INKONSISTENT
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
 
 ## src/fusion/pack.rs
 
@@ -9309,13 +9309,13 @@ engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
 
 engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
 
-engine-compliance-fw-imo-ships-title = IMO-Leitlinien zu GNSS-Störungen für Schiffe
+engine-compliance-fw-imo-ships-title = IMO guidance on GNSS interference for ships
 
-engine-compliance-fw-easa-aviation-title = EASA-Leitlinien zu GNSS-Störungen für die Luftfahrt
+engine-compliance-fw-easa-aviation-title = EASA guidance on GNSS interference for aviation
 
-engine-compliance-fw-nis2-art21-title = EU-NIS2-Richtlinie, Artikel 21, Risikomanagementmaßnahmen
+engine-compliance-fw-nis2-art21-title = EU NIS2 Directive, Article 21 risk-management measures
 
-engine-compliance-fw-en-16803-title = EN 16803, GNSS-basierte Positionsbestimmung für Straßen-ITS
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-based positioning for road ITS
 
 engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 

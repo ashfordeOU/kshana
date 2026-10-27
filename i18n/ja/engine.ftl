@@ -7927,7 +7927,7 @@ engine-fom-verdict-validated = VALIDATED
 
 engine-fom-verdict-modelled = MODELLED
 
-engine-fom-verdict-partial = 部分的
+engine-fom-verdict-partial = PARTIAL
 
 engine-fusion-hybrid-ukf-chart-nees = NEES
 
@@ -8517,73 +8517,73 @@ engine-verification-src-mod-rs = src/{ $rel }/mod.rs
 
 engine-verification-tests-fixtures = tests/fixtures/{ $base }
 
-engine-compliance-fw-dhs-rpcf-title = 米国 DHS レジリエント PNT 適合フレームワーク
+engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
 
-engine-compliance-fw-imo-ships-title = 船舶に対する GNSS 干渉に関する IMO ガイダンス
+engine-compliance-fw-imo-ships-title = IMO guidance on GNSS interference for ships
 
-engine-compliance-fw-easa-aviation-title = 航空に対する GNSS 干渉に関する EASA ガイダンス
+engine-compliance-fw-easa-aviation-title = EASA guidance on GNSS interference for aviation
 
-engine-compliance-fw-nis2-art21-title = EU NIS2 指令 第 21 条 リスク管理措置
+engine-compliance-fw-nis2-art21-title = EU NIS2 Directive, Article 21 risk-management measures
 
-engine-compliance-fw-en-16803-title = EN 16803、道路 ITS のための GNSS 測位
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-based positioning for road ITS
 
-engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1、基盤 PNT プロファイル
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 
-engine-compliance-source-dhs-rpcf-1-title = レジリエントな測位・航法・時刻（PNT）適合フレームワーク
+engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
 
 engine-compliance-source-dhs-rpcf-1-version = バージョン 2.0、2022 年 4 月 26 日（DHS 科学技術総局、CISA と共同）
 
 engine-compliance-source-dhs-rpcf-1-checked = 文書は全文を読みました。公開ページのトップページは取得していません
 
-engine-compliance-source-imo-ships-1-title = 米国全地球測位システムおよびその他の全球測位衛星システムに対する意図的な干渉
+engine-compliance-source-imo-ships-1-title = Deliberate interference with the United States Global Positioning System and other global navigation satellite systems
 
 engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644、2021 年 10 月 18 日
 
 engine-compliance-source-imo-ships-1-checked = IMO のサイトではなく、回章の第三者ミラーから全文を読みました。正式な版は IMO の文書ライブラリで確認してください
 
-engine-compliance-source-imo-ships-2-title = 世界無線航行システム
+engine-compliance-source-imo-ships-2-title = Worldwide Radionavigation System
 
 engine-compliance-source-imo-ships-2-version = IMO 総会決議 A.1046(27)、2011 年 11 月 30 日採択
 
 engine-compliance-source-imo-ships-2-checked = 文書は全文を読みました
 
-engine-compliance-source-imo-ships-3-title = 複数システム対応の船舶用無線航行受信機の性能基準
+engine-compliance-source-imo-ships-3-title = Performance standards for multi-system shipborne radionavigation receivers
 
 engine-compliance-source-imo-ships-3-version = IMO MSC.401(95)、2015 年 6 月 8 日採択（MSC.432(98)、2017 年により改正）
 
 engine-compliance-source-imo-ships-3-checked = 原本の決議は全文を読みました。2017 年の改正文は読んでいません。MSC.1/Circ.1644 より新しい GNSS 干渉に関する IMO 回章は見つかりませんでした。新しいものがないか IMO の文書ライブラリで確認してください
 
-engine-compliance-source-easa-aviation-1-title = 通信・航法・監視の劣化につながる全地球測位衛星システムの停止および変更
+engine-compliance-source-easa-aviation-1-title = Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation
 
 engine-compliance-source-easa-aviation-1-version = EASA 安全情報速報 SIB 2022-02R4、2026 年 7 月 3 日発行、2026 年 7 月 22 日訂正（情報提供であり、義務ではありません）
 
 engine-compliance-source-easa-aviation-1-checked = 改訂 4 を全文読みました。速報は推奨事項に番号を付けていないため、節は見出しで引用しています。2026-10-10 に再確認：速報の PDF、EASA の AD ツールのページ（置き換えは「なし」と記載）、EASA の GNSS のページには、これより新しい改訂も、2026-07 の番号の速報も記載がありません。SIB 2026-07 の改訂 2 を挙げたバナーは見つからなかったため、この点は未解決であり、EASA の公開ページで確認する必要があります。紛争地域情報速報は開いていません
 
-engine-compliance-source-nis2-art21-1-title = 連合全域で高い共通水準のサイバーセキュリティを確保するための措置に関する指令（EU）2022/2555（NIS 2 指令）
+engine-compliance-source-nis2-art21-1-title = Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS 2 Directive)
 
 engine-compliance-source-nis2-art21-1-version = OJ L 333、2022 年 12 月 27 日、80-152 ページ
 
 engine-compliance-source-nis2-art21-1-checked = 第 21 条の各項の文字記号は EUR-Lex ページの要約から読み取ったもので、公表された本文と一致しています。申請書類で文字記号を引用する前に、ページで確認してください
 
-engine-compliance-source-en-16803-1-title = 宇宙 - 道路高度道路交通システム（ITS）のための GNSS 測位の利用 - 第 1 部：性能の確立と評価のための定義およびシステムエンジニアリング手順
+engine-compliance-source-en-16803-1-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 1: Definitions and system engineering procedures for the establishment and assessment of performances
 
 engine-compliance-source-en-16803-1-version = EN 16803-1:2020（カタログ：2020 年 10 月 2 日から有効、2016 年版に代わるもの）
 
 engine-compliance-source-en-16803-1-checked = カタログの適用範囲の文のみです。この規格は有料のため読んでいません
 
-engine-compliance-source-en-16803-2-title = 宇宙 - 道路高度道路交通システム（ITS）のための GNSS 測位の利用 - 第 2 部：GNSS 測位端末の基本性能の評価
+engine-compliance-source-en-16803-2-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals
 
 engine-compliance-source-en-16803-2-version = EN 16803-2:2020（カタログ：2020 年 10 月 2 日から有効）
 
 engine-compliance-source-en-16803-2-checked = カタログの適用範囲の文のみです。この規格は有料のため読んでいません
 
-engine-compliance-source-en-16803-3-title = 宇宙 - 道路高度道路交通システム（ITS）のための GNSS 測位の利用 - 第 3 部：GNSS 測位端末のセキュリティ性能の評価
+engine-compliance-source-en-16803-3-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals
 
 engine-compliance-source-en-16803-3-version = EN 16803-3:2020（カタログ：2020 年 10 月 2 日から有効）
 
 engine-compliance-source-en-16803-3-checked = カタログの適用範囲の文のみです。この規格は有料のため読んでいません。カタログの文が番号で挙げているのは箇条 6（記録された信号とシミュレートされた信号）と附属書 A（攻撃の高水準の分類）のみで、他にはありません。カタログには委員会名がないため、ここでは記載していません
 
-engine-compliance-source-nist-ir-8323r1-1-title = 基盤 PNT プロファイル：測位・航法・時刻（PNT）サービスの責任ある利用のためのサイバーセキュリティフレームワークの適用
+engine-compliance-source-nist-ir-8323r1-1-title = Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services
 
 engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1、2023 年 1 月（NIST 内部報告書）
 
@@ -8735,7 +8735,7 @@ engine-compliance-req-imo-401-3-16-asks = 補強の状態、ならびに位置�
 
 engine-compliance-req-imo-401-3-16-gap = 表示に関する要件であり、Kshana のどの出力もこれには対応しません。
 
-engine-compliance-req-imo-401-4-2-reference = MSC.401(95)、4.2
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
 
 engine-compliance-req-imo-401-4-2-asks = 決議 A.694(17)（船舶用無線機器の一般要件）および船上と外部の典型的な無線環境に合致した、通常の干渉条件下で満足に動作する。これは耐ジャミングや耐スプーフィングの要件ではない。
 

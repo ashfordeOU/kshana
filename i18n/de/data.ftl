@@ -5697,7 +5697,7 @@ dat-7e4f76cf5f02 = Export für den Prüfstand (bench)
 
 dat-ae7811e71c53 = Export für den Prüfstand (kshana bench-export): erdfeste, geodätische und lokale Geschwindigkeitsspalten, Lagespalten und NMEA-{ "0183" }-Ausgabe
 
-dat-98bed4a06290 = Prüfstandsexport, gelesen von den Bewegungsdatei-Lesern eines Simulators (gps-sdr-sim)
+dat-98bed4a06290 = Test-Bench-Export, gelesen von den Bewegungsdatei-Lesern eines Simulators (gps-sdr-sim)
 
 dat-2c1e5ddbab6d = Tests und Testdaten
 
