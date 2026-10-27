@@ -9005,3 +9005,861 @@ engine-compliance-mapping-header-gap = 差距
 engine-compliance-mapping-none = 无
 
 engine-compliance-source-line = **{ $title }**：{ $version }。<{ $url }>。阅读于 { $accessed }：{ $checked }。
+
+engine-kind-lunar-ascent-description = MODELLED 的动力上升：从南极地表站点到交会轨道，以及它带回轨道的位置-速度协方差（Artemis 级）。lunar-descent 的五状态逐轴惯性误差模型（位置、速度、加速度计偏置、姿态倾斜、陀螺偏置，由比力驱动）从该阶段进入时的地表状态起，在站点的三个轴上运行；位置修正（AFS）来自一个 ILLUSTRATIVE 的 LCNS 级星座的可见中继星（独立定位，或使用 lunar-differential-pnt 的修正链路残差做差分定位；仅有三颗中继星可见时由时钟辅助），按规定的间隔取得，月球时通过飞行器时钟引入，并沿航迹带有时标误差。报告闭式惯性误差源、辅助手段的贡献、消融结果、上升过程中的导航 1σ、发动机关机点散布与导航认知并列的结果，以及入轨时完整的 6x6 MCI 协方差（保留位置-速度相关）。MODELLED：示意性的 IMU 级别、比力、中继星集合和关机点散布；误差保持在发射场站点轴系中；名义出口状态只是替代值。未获机构背书；仅供参考的软件，不是经认证的导航设备。
+
+engine-kind-lunar-surface-description = MODELLED 的地表定位与授时可用性，按站点和季节给出，适用于 Artemis 级南极站点。对每个站点和季节（一个历元及其后的一个时间窗），报告中继定位（一个 ILLUSTRATIVE 的 LCNS 级星座有四颗或更多中继星可见且 PDOP 低于阈值，计算函数与 moonlight-service-volume 相同；带地形段时，则用 lunar-station-coverage 的地形经射线步进得到的天际线）、地球和太阳是否在站点地平线之上（解析的太阳、月球和月球姿态，含天平动，这正是随季节变化的部分），以及授时可用性（有中继星或地球可见），并给出两者均不可见的最长时段，即地表时钟必须守时（holdover）度过的时间。单站点结果与 moonlight-service-volume 的结果逐位相等。MODELLED：平均自转月球上的示意性开普勒中继星集合；中继星的数值不随季节变化；地形为 1200 m 的 LOLA 裁剪区。未获机构背书；仅供参考的软件，不是经认证的导航设备。
+
+engine-kind-lunar-descent-description = MODELLED 的着陆散布预算，针对前往南极站点的动力下降（Artemis 级）。每个水平轴上的五状态惯性误差模型（位置、速度、加速度计偏置、姿态倾斜、陀螺偏置）由下降过程的比力驱动；序贯滤波器从已启用的辅助手段取得位置修正：一个来自 ILLUSTRATIVE 的 LCNS 级星座可见中继星的 AFS 修正（独立定位，或使用 lunar-differential-pnt 的修正链路残差做差分定位；仅有三颗中继星可见时由时钟辅助），以及地形相对修正（本 crate 在合成地形起伏上的 TERCOM/SITAN 匹配器，或在真实 LOLA 南极 DEM 的高程窗口上匹配的克拉美-罗界）。月球时在各次修正处通过飞行器时钟引入（lunar-time-offset 的 LTC-TT 偏移，或其已发布范围的不确定度），并作为沿航迹的时标误差引入。报告 3σ 着陆椭圆、R95、闭式惯性误差源、各项辅助手段的贡献、各种辅助手段组合的消融结果、椭圆的蒙特卡罗标定，以及传递下去的协方差。MODELLED：示意性的 IMU 级别、中继星集合、下降剖面和制导项；地形导航使用地球米尺度上的合成地形起伏；AFS 可用性是平坦遮蔽角下的一个历元。未获机构背书；仅供参考的软件，不是经认证的导航设备。
+
+engine-kind-lunar-orbit-rendezvous-description = MODELLED 的相对导航，适用于低月球轨道或椭圆极轨道上的猎户座-着陆器式对接（Artemis 级）。追踪器和目标在本 crate 的月球力模型下飞行同一条轨道；对整条弧段做联合 21 参数批处理高斯-牛顿估计（两个飞行器状态和持续存在的空间信号偏置），融合每个飞行器来自一个 ILLUSTRATIVE 的 LCNS 级中继星集合的绝对位置修正（月球背面的中继星被剔除，需要四颗，两飞行器间共模的空间信号误差相互抵消）和一条星间链路测距，测距精度取自 LunaNet AFS 导频的码跟踪界。报告目标 LVLH 轴系中的形式相对位置误差和蒙特卡罗相对位置与速度误差、修正可用性、平均归一化估计误差平方及其期望值、迭代未收敛的任何试验、忽略重力谐项所产生的漂移，以及传递下去的完整 6x6 协方差。对圆轨道情形适用闭式 Hill/Clohessy-Wiltshire 检验。MODELLED：示意性的中继星集合、误差预算和先验；真值和估计器共用同一个力模型，因此 NEES 检验的是自洽性，而不是模型误差。未获机构背书；仅供参考的软件，不是经认证的导航设备。
+
+engine-kind-mission-thread-description = MODELLED 的导航与授时误差预算，针对从发射到再入的一条给定任务阶段链：发射与上升、近地轨道交会对接（可重复）、地月转移入轨与地月空间巡航、月球轨道交会、下降、地表停留、上升以及返回与再入，每个阶段是八种已注册的类别之一，各有自己的传感器和滤波器。6x6 协方差、时钟和坐标系按规定规则（沿用、膨胀或重新捕获）逐阶段传递；坐标系与时标的转换（GCRF、MCI、MCMF、UTC、TT、TDB、LTC）各自是预算行，月球状态取自可选的 DE440 星历截取，并以解析级数作为规定的备选。可选的地面网络叠加设定各阶段的跟踪占空。报告逐阶段预算（进入、峰值和退出时的 1σ，每项贡献及其单位）、相对规定需求的余量、最薄弱环节、各事件和一幅时间线图。MODELLED：每个数值都是给定的输入；该链路遵循同一套体系，不对任何飞行器建模。仅使用公开资料；与任何机构无隶属关系，亦未获其背书；仅供参考的软件，不是经认证的导航设备。
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt：`magnetic_grid` 替代合成磁场，因此设置它时 `magnetic_mascons` 必须为空
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = 报告时间范围的长度必须为正（horizon_end_s > horizon_start_s）
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers：结果文档不是格式化（pretty）的 JSON 对象
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] 在持有时间（holdover）数值旁报告一次运行的 RAIM；它需要 runs = 1
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = 未受监测的故障风险耗尽了全部完好性预算；不存在有限的保护级
+
+engine-e-araim-reference-the-add-v4-subset-rule = ADD v4.2 子集规则总是枚举成对组合；max_order 必须 >= 2
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint 没有输出任何点
+
+engine-e-bench-cli-scale-is-not-number = --scale 不是数字
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` 读取数据集，用于任务 a；任务 c 和 d 使用 `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = 任务 c 没有封存的保留集
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` 生成任务 c 和 d 的文件；任务 a 就是数据集本身（使用 `truth`）
+
+engine-e-bench-cli-threshold-is-not-number = --threshold 不是数字
+
+engine-e-bench-cli-seed-file-is-required = 必须提供 --seed-file
+
+engine-e-bench-cli-validate-needs-at-least-one = validate 至少需要一个结果文件
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` 用于任务 a；其他任务有已提交的清单
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest 需要一个清单文件
+
+engine-e-bench-system-name-is-required = 必须提供 `system.name`
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth 没有 `labels` 数组
+
+engine-e-bench-tasks-label-has-no-id = 某个标签没有 `id`
+
+engine-e-bench-tasks-label-has-no-positive = 某个标签没有 `positive`
+
+engine-e-bench-tasks-predictions-have-no-scores-object = predictions 没有 `scores` 对象
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = 保留集已封存：请用 --seed-file 传入密钥
+
+engine-e-bench-tasks-task-truth-has-no-truth = 任务 (c) 的 truth 没有 `truth` 数组
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = 任务 (c) 的 predictions 没有 `predictions` 对象
+
+engine-e-bench-tasks-truth-entry-has-no-id = 某个 truth 条目没有 `id`
+
+engine-e-campaign-compare-needs-threshold = compare 需要一个阈值
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM：缺少 CCSDS_TDM_VERS 头部
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = 主星位于月球上：极坐标是奇异的
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock 仅适用于 rinex-clk、linuxptp 和 chrony 格式（TICC 使用 channel）
+
+engine-e-clock-log-single-column-timelab-log-needs = 单列 timelab 日志需要 tau0：`# tau0 = <s>` 头部或 tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = TICC 日志没有读数（`<seconds> chA|chB|chC|TI(...)` 行）
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = 强度网格意外为空
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg 必须在 (0, 180) 内（赤道轨道没有升交点）
+
+engine-e-evidence-bundle-its-imprint-is-not-the = 其印记不是本包 manifest.json 的哈希（令牌只能在证据包存在之后获取：使用 `kshana evidence attach-timestamp`）
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey 必须为 32 字节（64 位十六进制数字）
+
+engine-e-evidence-cli-that-is-the-private-key = 这是签名者的私钥（PRIVATE key）。切勿分享；请传入公钥（.pub 文件）
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation：传导式设置需要 attenuation_db，即有限的 dB 数值，0 或更大
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = 不支持的摘要算法
+
+engine-e-evidence-tsa-signature-failure = 签名失败
+
+engine-e-field-schema-entry-is-not-an-object = 条目不是对象
+
+engine-e-field-schema-no-unit-string = 没有 `unit` 字符串
+
+engine-e-field-schema-no-provenance-string = 没有 `provenance` 字符串
+
+engine-e-geometry-sky-tle-holds-no-complete = sky：tle 不含完整的两行根数
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky：epoch 为 `tle` 卫星标定日期；预设的 `systems` 和直接给出的卫星不带日期，因此请同时给出 `tle`
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map：`reference` 替代合成场，因此设置它时 `coeffs` 和 `mascons` 必须为空
+
+engine-e-gse-sim-fusion-od-produced-no-steps = 融合定轨没有产生任何步（观测过少）
+
+engine-e-holdover-test-give-one-of-series-samples = 请给出 series.samples、series.csv_path 或 series.clock_log 之一
+
+engine-e-holdover-test-give-one-of-series-samples-2 = 请给出 series.samples、series.csv_path 或 series.clock_log 之一，不得多于一个
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s 必须有限，locked_duration_days >= 0，recovery_band_ns > 0，recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path 在 WebAssembly 构建中不可用；请将序列以 `samples` 或 `clock_log.text` 内联给出
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry 至少需要两个不同的有限视线因子
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = 光链路没有送达光子（测距 CRLB 为无穷大）；请提高功率/孔径/积分时间
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz 和 rf_degraded_margin_db 必须有限
+
+engine-e-interference-map-adsb-need-at-least-one-of = 至少需要列 `nic`、`nacp` 之一
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip：解压后的大小超出限制
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = 轨迹 JSON 缺少 icao、timestamp 或 trace
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = 自定义数据集需要许可、许可网址和署名文字
+
+engine-e-interference-map-api-cell-size-must-be-between = 单元大小必须介于 { $lit_0_01 } 和 10 度之间
+
+engine-e-interference-map-api-map-has-bad-date = 地图的日期有误
+
+engine-e-interference-map-api-no-map-falls-in-the = 没有地图落在该日期范围内
+
+engine-e-interference-map-cli-dataset-is-required-so-the = 必须提供 --dataset，以便嵌入许可和署名
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg 不是数字
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg 必须介于 { $lit_0_01 } 和 10 之间
+
+engine-e-interference-map-cli-subcommand-is-required = 必须提供子命令
+
+engine-e-interference-map-cli-input-file-missing = 缺少输入文件
+
+engine-e-interference-map-cli-out-is-required = 必须提供 --out
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land 会下载文件：请传入 --allow-network 以确认
+
+engine-e-interference-map-cli-curl-failed-to-download-the = curl 下载陆地多边形失败
+
+engine-e-interference-map-cli-route-is-required = 必须提供 --route
+
+engine-e-interference-map-cli-at-least-one-map-is = 至少需要一个 --map
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = 陆地多边形：未找到 Polygon 或 MultiPolygon
+
+engine-e-interference-map-empty-input-header-row-is = 输入为空：必须有标题行
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox 为南、西、北、东，单位为度
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox 必须满足 南 < 北 且 西 < 东，且位于地球范围内（不跨越反子午线）
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = 不包含 OpenSky Network 的数据：其许可不允许商业使用或再分发由其衍生的地图（docs/data/INTERFERENCE-DATA-SOURCES.md）
+
+engine-e-interference-map-observatory-day-is-required = 必须提供 --day
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours 不是数字
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg 必须介于 { $lit_0_5 } 和 10 之间
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = 输入中没有可用的报告
+
+engine-e-interference-map-route-not-kshana-interference-map-no = 不是 Kshana 干扰地图（没有 `kshana_interference_map` 成员）
+
+engine-e-interference-map-route-map-has-no-date = 地图没有日期
+
+engine-e-interference-map-route-map-has-no-grid-cell = 地图没有网格单元大小
+
+engine-e-interference-map-route-map-has-an-invalid-grid = 地图的网格单元大小无效
+
+engine-e-interference-map-route-route-no-linestring-found = 航线：未找到 LineString
+
+engine-e-interference-map-route-route-needs-at-least-two = 航线至少需要两个航路点
+
+engine-e-interference-map-route-route-waypoint-out-of-range = 航线：航路点超出范围
+
+engine-e-interop-sigmf-records-signal-not-geometry = SigMF 记录的是信号，而不是几何；它由场景写出，而不是由某个景象（scene）写出
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = SigMF 保存复基带采样，只有 `spectrum` 类别才会合成它们
+
+engine-e-interop-this-spectrum-scenario-has-no = 该频谱场景没有 [iq] 块，因此没有可供记录的合成采样
+
+engine-e-interop-scene-time-step-must-be-positive = 导出的时间步长必须为正且有限
+
+engine-e-interop-scene-duration-must-be-non-negative = 导出的时长必须非负且有限
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = 该 pvt 场景没有给出 `truth_ecef`，而这是它所声明的唯一位置
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = STK 星历描述的是飞行器的位置和速度随时间的变化；该景象（scene）只有固定点或无时间的轨迹（固定点是 STK Facility，不是星历）
+
+engine-e-interop-stk-scene-has-no-epoch = 景象（scene）没有历元
+
+engine-e-iq-acq-surface-surface-header-names-too-many = 曲面头部列出的单元过多
+
+engine-e-iq-cli-acquire-needs-signal-name = 需要 --signal <name>
+
+engine-e-iq-cli-acquire-needs-prn-list = 需要 --prn <list>
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface 导出一个搜索曲面：请恰好给出一个 --prn
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos 需要一条反射路径：请添加 --multipath-height 或 --land-mobile
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass 需要两个值：lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend 至少需要一个级（--bandpass/--notch/--blank/--excise/--agc/--bits）
+
+engine-e-iq-cli-no-iq-processing-command-given = 未给出 iq 处理命令
+
+engine-e-iq-cli-missing-recording-path = 缺少录制文件路径
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout 只能与 --follow 一起使用
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow 读取 SigMF 录制文件（请给出 .sigmf-meta、.sigmf-data 或基础路径）
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout 必须是正的秒数
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos 需要三个值：lat,lon,alt（度,度,米）
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene 需要 --rate <hz>
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene 需要 --duration <s>（或 --window）
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav 需要 --rx-pos lat,lon,alt
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene 需要 --signal <name>
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene 需要 --prn <list>
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format 取 sigmf 或 sdrx，不可同时取两者
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx 写出 ci8（默认）或 ci16_le（sdrx:ci16_le）；ION 元数据标准没有浮点编码
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name 需要 --design <file.toml>
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads 必须是正整数或 auto
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format 需要 --epochs <path>
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert 需要 --to <format>
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract 需要 --start
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract 需要 --duration
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start 和 --duration 必须非负
+
+engine-e-iq-io-cli-real-input-is-converted-to = 实数输入将被转换为复基带：请给出 --factor <d>（>= 2）
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate 需要 --factor <d>，或 --up <l> 和 --down <m>
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = 重采样因子必须为正
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = 重采样因子必须为正，且滤波器非空
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = 实中频转换需要至少 2 倍的抽取以去除镜像
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx 布局：一个数据块不含完整的单元
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx 数据在其头部内部结束
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = SigMF 流至少需要一条录制
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = 读取之前必须调用 select_channel
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = SigMF 数据在第一次捕获之前就结束了
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" 需要一个 [validation] 表，且须在读取测评活动结果之前写好
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign：由 IQ 测评活动文件夹进行拟合需要原生构建（测评活动层未为 WebAssembly 构建）；接收机日志路径（[[runs]]）在此可用
+
+engine-e-iq-scene-truth-missing-truth-csv-header = 缺少真值 CSV 头部
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s 仅适用于 fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = 环路设计文件不含任何设计
+
+engine-e-iq-track-sink-short-record = 记录过短
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = 修正多项式拟合是奇异的（样本数对该阶数而言过少）
+
+engine-e-leo-navmsg-each-trade-update-periods-must = 每个 trade.update_periods_s 必须在 (0, update_fit_interval_s] 内
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass：user_lat_deg 在 [-90, 90] 内，mask_deg 在 [0, 60) 内，search_s 为 600-172800
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0，rain_exceedance_percent 在 [{ $lit_0_001 }, 5] 内，scintillation_percent 在 [{ $lit_0_01 }, 50] 内
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer：onset_s 在时间窗内，offset_m 在 [0, 1e6] 内，push_rate_m_s 在 [0, 1000] 内，prior_sigma_m、drift_sigma_m_s、fll_bandwidth_hz 和 fll_integration_s 为正，p_fa 和 p_md 在 (0, { $lit_0_5 }) 内，iono_rate_bound_m_s >= 0
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver：loop_bandwidth_hz 和 integration_time_s 必须为正
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver：1 至 12 个相关器间距，每个（与 reference_spacing_chips 一样）介于 0 至 2 码片之间
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition：coherent_ms > 0，1 ≤ noncoherent ≤ 1000，0 < pfa_cell < 1，code_bin_chips > 0，altitude_km > 0，oscillator_ppm 和 user_speed_mps ≥ 0，0 ≤ elevation_mask_deg < 90
+
+engine-e-live-io-baud-needs-number = --baud 需要一个数字
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure 未实现：Kshana 从不向接收机写入。请用厂商自己的工具配置，再用 --serial 读取
+
+engine-e-live-io-more-than-one-session-file = 会话文件多于一个
+
+engine-e-live-io-follow-and-from-end-apply = --follow 和 --from-end 仅适用于 --file
+
+engine-e-live-io-baud-applies-to-serial-only = --baud 仅适用于 --serial
+
+engine-e-live-io-live-needs-session-toml = live 需要一个会话 .toml
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen 提供经门控的数据流：请添加 --gate
+
+engine-e-live-io-two-outputs-would-share-stdout = 两个输出会共用标准输出；请将 --json 或 --pksht 发送到文件
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = 月球星历：请恰好给出 `mean_anom_deg` 或 `true_anom_deg` 之一
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = 月球星历：卫星索引必须从 0 起连续，不得有间隔
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = 逐站点的信标信息需要 station_datum = "fixed"；估计的站点基准会使各信标相互耦合
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m、surface.orbiter_range_sigma_m 和 llr.epochs 必须为正
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = 可跟踪的 GNSS 测量过少，无法确定轨道和接收机钟差
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = 相连的过境弧段少于两段：没有可解算的双差模糊度
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = 空间联结信息矩阵是奇异的
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m 必须有限且为正（或给出 jammer.lat_deg 和 jammer.lon_deg，以月面坐标确定干扰源位置）
+
+engine-e-lunar-llr-the-station-catalogue-states-no = 站点目录没有给出 position_epoch_year；没有历元的 ITRF 位置无法外推
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = 此处不使用 beacon_campaign.beacons；新增的信标请写在 extra_beacons 中
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path 适用于以 OP 坐标系给出的根数文件
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain：请给出 dem_path、dem_tile_path、station_horizon 或 user_horizon（或省略 [terrain]）
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain：station_horizon 在此类别中没有站点；请使用 user_horizon
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s 比 tau 网格短
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab：thresholds_ns 必须是由正数组成的非空列表
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = 基准 "all-stations-fixed" 使每个站点保持固定，因此除非估计信标，否则它什么也估计不出：请设置 estimate_beacon = true
+
+engine-e-mars-pnt-fusion-od-run-produced-no = 融合定轨运行没有产生任何步（观测过少）
+
+engine-e-nmea-synth-clock-not-numeric = 不是数值
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name 必须是 1 至 64 个字符，取自 A-Z a-z 0-9 . _ -，且不得以点开头（它用于命名输出文件）
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = 接收机参数超出范围（遮蔽角 0-45 度，跟踪 <= 使用阈值，使用 4-12 颗卫星，噪声 >= 0，corr > 0，reacquire >= 0）
+
+engine-e-nmea-synth-config-the-time-change-per-second = 每秒时间变化达到 1，报告的时间将停止或倒退；请加长 ramp_s/recovery_s，或使用阶跃（0）
+
+engine-e-orbit-give-the-user-as-user = 用户请给为 `user`（轨道）或 `user_site`（地面站点），不可同时给出
+
+engine-e-orbit-missing-the-user-give-user = 缺少用户：请给出 `user`（轨道）或 `user_site`（地面站点）
+
+engine-e-orbit-skyline-needs-ground-site-give = [skyline] 需要地面站点：请给出 `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }`，而不是绕轨的 `user`（轨道没有地固方位角）
+
+engine-e-orbit-omm-export-requires-tle-defined = OMM 导出需要由 TLE 定义的星座；该场景没有
+
+engine-e-passes-earth-orientation-parameters-out-of = 地球定向参数超出范围：|ut1_minus_utc_s| <= 1，|xp_arcsec| 和 |yp_arcsec| <= 2
+
+engine-e-pvt-no-priori-position-set-apriori = 没有先验位置：请设置 apriori_ecef、观测头部的 APPROX POSITION XYZ，或 truth_ecef
+
+engine-e-python-pll-bws-dll-bws-spacings = pll_bws、dll_bws、spacings 和 coherents 不能与 design 组合：扫描会运行文件中的每个设计
+
+engine-e-python-no-designs-to-sweep = 没有可扫描的设计
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate = candidate_adev_taus 和 candidate_adev_values 必须等长（>= 2）
+
+engine-e-quantum-trade-provide-either-candidate-adev-taus = 请提供 candidate_adev_taus + candidate_adev_values（实测），或 candidate_clock_class
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate-2 = candidate_adev_taus 和 candidate_adev_values 必须同时存在（或同时缺省）
+
+engine-e-quantum-trade-timing-threshold-and-position-threshold = timing_threshold_s 和 position_threshold_m 必须有限且 > 0
+
+engine-e-realdata-clk-rinex-clock-file-is-mixed = RINEX 钟差文件为混合系统（'M'）且未声明 TIME SYSTEM ID；拒绝猜测其历元的时间系统
+
+engine-e-realdata-ion-sdr-more-than-one-block-only = 多于一个 <block>：只读取单通道文件
+
+engine-e-realdata-ion-sdr-this-layout-carries-reading-fill = 该布局带有一种读法（fill_lsb_first 或 mid_rise），而 ION 元数据标准没有对应字段；无法写成 .sdrx
+
+engine-e-realdata-ion-sdr-the-layout-needs-positive-sample = 该布局需要正的采样率和不小于 1 的速率因子
+
+engine-e-realdata-lola-dem-unexpected-end-of-dem = DEM 意外结束
+
+engine-e-realdata-lugre-not-raw-message = 不是 RAW 消息
+
+engine-e-realdata-lugre-not-an-acq-message = 不是 ACQ 消息
+
+engine-e-realdata-raim-no-priori-position-pass-one = 没有先验位置：请传入一个，或提供观测头部的 APPROX POSITION XYZ
+
+engine-e-receiver-trust-calibration-calibration-window-less-than-the = 标定窗口小于攻击窗口之前的保护间隔，或位于攻击窗口之内
+
+engine-e-receiver-trust-live-live-mode-needs-platform-kind = live 模式需要 [platform] kind = "vessel"：信任度针对的是移动平台
+
+engine-e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no = RTCM 3 流中没有 MSM4 或 MSM7 观测消息
+
+engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = 不读取以度-分-秒表示位置的 RTKLIB .pos：请用十进制度重新运行 rnx2rtkp/RTKPOST（-degf 0）
+
+engine-e-receiver-trust-monitors-engine-fix-the-rinex-observation = 引擎定位：RINEX 观测头部没有可作为解算起点的 APPROX POSITION XYZ
+
+engine-e-receiver-trust-monitors-platform-declares-heading-sensor-true = 平台声明 heading_sensor = true，但日志中没有 HDT、THS 或 VHW 航向
+
+engine-e-receiver-trust-scenario-log-imu-the-imu-series = log.imu：IMU 序列与日志的任何历元都不重叠；请检查 time_offset_s
+
+engine-e-receiver-trust-scenario-this-surface-does-not-carry = 此界面不带 `[log.imu]` 文件：请在主机上用 `kshana receiver-trust` 运行该场景，或去掉 `[log.imu]`
+
+engine-e-receiver-trust-scenario-log-nav-applies-only-to = log.nav 仅适用于 `rinex` 日志：引擎定位需要其伪距
+
+engine-e-receiver-trust-score-score-the-geometry-deduction-is = score：几何扣分设置在 [geometry]（cap_points、full_ratio、floor）中，而不是在 [score.weights] 中
+
+engine-e-spectrum-recording-is-not-available-in = 录制文件在 WebAssembly 构建中不可用：请改为将 SigMF 字节传给 kshana::sigmf::read 和 kshana::spectrum::welch_psd
+
+engine-e-ssv-scenario-navigation-noise-and-radiation-pressure = navigation：噪声和辐射压力的值不得为负
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of-2 = trajectory：请恰好给出 duration_min 和 duration_periods 之一
+
+engine-e-ssv-weak-receiver-pfa-total-and-receiver = receiver.pfa_total 和 receiver.pd 必须是 (0, 1) 内的概率
+
+engine-e-suite-suite-manifest-is-missing-title = 套件清单缺少 `title`
+
+engine-e-suite-suite-manifest-has-no-scenarios = 套件清单没有 `scenarios`：请添加非空的 `scenarios = [...]` 数组
+
+engine-e-surface-path-sources-are-not-accepted = 此处不接受 `path` 来源：请将日志以 `text` 或 `base64` 内联给出
+
+engine-e-surface-input-campaign-names-campaign-folder = { "[" }input] campaign 指向一个测评活动文件夹，而此界面不读取文件；测评活动只能由命令行 CLI（`kshana iq labfit`）、Python（`kshana.iq_labfit`）或其 IQ 工作目录内的 MCP labfit 工具读取
+
+engine-e-surface-bad-merkle-root-hex = Merkle 根的十六进制有误
+
+engine-e-surface-merkle-root-must-be-32 = Merkle 根必须为 32 字节
+
+engine-e-telecom-timing-csv-path-is-not-available = csv_path 在 WebAssembly 构建中不可用；请将序列以 `samples` 内联给出
+
+engine-e-telemetry-cli-otlp-every-needs-whole-number = --otlp-every 需要一个整数
+
+engine-e-telemetry-cli-registry-poisoned = 注册表已损坏（poisoned）
+
+engine-e-telemetry-otlp-https-is-not-supported-by = 内置导出器不支持 https；请通过 http 使用本地收集器
+
+engine-e-telemetry-otlp-no-http-status-in-response = 响应中没有 HTTP 状态
+
+engine-e-tle-invalid-designator-launch-year-in = TLE 中的国际编号发射年份无效
+
+engine-e-tle-invalid-epoch-year-in-tle-2 = TLE 中的历元年份无效
+
+engine-e-tle-invalid-epoch-day-in-tle = TLE 中的历元日无效
+
+engine-e-adm-record-without-epoch = 记录没有 <EPOCH>
+
+engine-e-adm-ndm-holds-no = <ndm> 不含 <{ $kind }>
+
+engine-e-adm-root-element-is-not = 根元素 <{ $name }> 不是 <{ $kind }>
+
+engine-e-evidence-cli-keygen-needs-out-keyfile = keygen 需要 --out <keyfile>
+
+engine-e-evidence-cli-needs-key-keyfile-make-one = 需要 --key <keyfile>（可用 `kshana evidence keygen` 生成一个）
+
+engine-e-evidence-cli-needs-out-dir = 需要 --out <dir>
+
+engine-e-evidence-cli-needs-scenario-bench-scenario = 需要 --scenario <bench scenario>
+
+engine-e-evidence-cli-needs-conditions-file = 需要 --conditions <file>
+
+engine-e-evidence-tsa-bad-ecdsa-signature = ECDSA 签名有误
+
+engine-e-evidence-tsa-certificate-signature-failure = 证书签名失败
+
+engine-e-evidence-tsa-unable-to-get-issuer-certificate = 无法获取颁发者证书
+
+engine-e-evidence-tsa-unable-to-get-local-issuer = 无法获取本地颁发者证书
+
+engine-e-evidence-tsr-gentime-is-not-text = genTime 不是文本
+
+engine-e-glonass-bad-year = 年份有误
+
+engine-e-glonass-bad-month = 月份有误
+
+engine-e-glonass-bad-day = 日有误
+
+engine-e-glonass-bad-hour = 小时有误
+
+engine-e-glonass-bad-minute = 分钟有误
+
+engine-e-gravity-sh-bad-degree = 阶数（degree）有误
+
+engine-e-gravity-sh-bad-order = 次数（order）有误
+
+engine-e-interop-testbench-first-line-is-not-resolution = 第一行不是 `RESOLUTION: <ms>`
+
+engine-e-interop-testbench-bad-resolution = 分辨率有误
+
+engine-e-iq-signals-galileo-the-galileo-e1-memory-codes = 未捆绑 Galileo E1 存储码（该 ICD 的条款仅允许为非商业目的再分发；见 LICENSING.md）。请用 { $env }=<path> 提供自己的 ICD 附录 C（{ $file }）副本，或在源码检出中运行 scripts/fetch_galileo_e1_codes.sh（{ $path }：{ $e }）
+
+engine-e-jammertest-cli-key-needs-out-dir = --key 需要 --out <dir>
+
+engine-e-leo-signal-modulation-expected-flat-mhz = 调制 { $label }：应为 FLAT(<MHz>)
+
+engine-e-live-io-listen-takes-tcp-port-or = --listen 取 tcp:<port> 或 tcp:<addr>:<port>
+
+engine-e-ndm-xml-bad-attribute-in = <{ $name }> 中的属性有误
+
+engine-e-ndm-xml-unquoted-attribute-in = <{ $name }> 中的属性 { $key } 未加引号
+
+engine-e-ndm-xml-is-not-closed = <{ $name }> 未闭合
+
+engine-e-nmea-synth-cli-wait-clients-not-number = --wait-clients：不是数字
+
+engine-e-nmea-synth-cli-speed-not-number = --speed：不是数字
+
+engine-e-nmea-synth-cli-seed-not-an-integer = --seed：不是整数
+
+engine-e-odm-user-defined-without-parameter = <USER_DEFINED> 没有参数
+
+engine-e-osnma-cli-bad-public-key-id = 公钥 ID 有误
+
+engine-e-osnma-cli-bad-public-key-hex = 公钥十六进制有误
+
+engine-e-realdata-ion-sdr-closing-tag-does-not-match = 结束标签 </{ $name }> 与 <{ $name2 }> 不匹配
+
+engine-e-realdata-ion-sdr-closing-tag-without-an-opening = 结束标签 </{ $name }> 没有对应的开始标签
+
+engine-e-realdata-ion-sdr-attribute-without-value-in = <{ $name }> 中的属性没有值
+
+engine-e-realdata-ion-sdr-is-not-an-integer = <{ $name }> { $key } 不是整数：{ $v }
+
+engine-e-realdata-ion-sdr-chunk-lacks-sizeword = <chunk> 缺少 sizeword
+
+engine-e-realdata-ion-sdr-chunk-lacks-countwords = <chunk> 缺少 countwords
+
+engine-e-realdata-ion-sdr-is-not-an-integer-2 = <{ $key }> 不是整数
+
+engine-e-realdata-ion-sdr-ratefactor-is-not-an-integer = <ratefactor> 不是整数
+
+engine-e-realdata-ion-sdr-no-band-with-centerfreq-for = 该流没有带 <centerfreq> 的 <band>
+
+engine-e-realdata-ion-sdr-offset-is-not-an-integer = <offset> 不是整数
+
+engine-e-receiver-trust-geometry-geometry-need-hdop-good-hdop = geometry：需要 0 < hdop_good <= hdop_max、0 < pdop_good <= pdop_max 且 used_good >= min_used（得到 { $hdop_good }、{ $pdop_good }、{ $used_good }）
+
+engine-e-sp3-bad-epoch-count = 历元数有误
+
+engine-e-spectrum-matched-jammer-needs-matched-to = { $name }：匹配干扰源需要 matched_to = "<band name>"
+
+engine-e-spectrum-unknown-band-the-spectrum-model = 未知频段 { $name }：频谱模型有 { $band_names }，并可按名称使用 { $more_band_names }（GLONASS 通道为 glonass-l1of-k<K>，K = -7 至 6）；任何其他频段取 `signal = "<preset signal>"`，或取 `centre_mhz` 并配合 `modulation` 与 `signal_power_dbw`
+
+engine-e-evidence-assemble-the-log-does-not-state = 日志没有给出可解析的起始时间；请给出自第一个历元起的秒数
+
+engine-e-interop-geojson-no-linestring-found-give-linestring = 未找到 LineString：请给出 LineString 几何、含有一个的 Feature，或其要素中含有一个的 FeatureCollection
+
+engine-e-interop-geojson-the-scenario-has-no-waypoints = 该场景没有 2 个或以上的 `waypoints`，无法展开一条两位置的航线
+
+engine-e-leo-pnt-chain-the-chain-satellite-is-visible = 链路卫星可见的历元少于两个，或仅在一个高度角可见；请加宽过境窗口
+
+engine-e-nmea-synth-config-skyline-table-is-required-for = 需要 skyline 表（例如 skyline = { "{" } preset = "fjord" { "}" }）
+
+engine-e-python-prns-must-list-at-least = prns 必须至少列出一个 PRN
+
+engine-e-python-design-name-needs-design = design_name 需要 design
+
+engine-e-python-bandpass-needs-both-bandpass-lo = bandpass 需要同时给出 bandpass_lo 和 bandpass_hi
+
+engine-e-python-token-text-is-not-base64 = 令牌文本不是 base64
+
+engine-e-python-unix-nano-must-be-between = unix_nano 必须介于 0 和 2**64 - 1 之间
+
+engine-e-wasm-token-base64-is-not-base64 = token_base64 不是 base64
+
+engine-e-wasm-log-base64-is-not-base64 = log_base64 不是 base64
+
+engine-e-wasm-input-base64-is-not-base64 = input_base64 不是 base64
+
+engine-e-wasm-seed-must-be-non-negative = seed 必须是非负整数
+
+engine-e-wasm-runs-json-must-be-an = runs_json 必须是 { "{" }label, result, scenario?{ "}" } 的数组
+
+engine-e-nmea-synth-stream-no-udp-address = 没有 UDP 地址
+
+engine-e-realdata-llr-crd-short-normal-point-11-record = 过短的标准点（11）记录
+
+engine-e-realdata-llr-crd-normal-point-record-appeared-before = 标准点记录出现在其 h2/h3/h4 会话头部之前
+
+engine-e-gravity-sh-line-bad-coefficient-non-finite = 第 { $lineno } 行：系数有误（非有限值）
+
+engine-e-interop-time-extra-fields-utc = 不是 UTC 时间 `YYYY-MM-DDTHH:MM:SS`：多余的字段：{ $text }
+
+engine-e-interop-time-year-outside-2000-to-2099-utc = 不是 UTC 时间 `YYYY-MM-DDTHH:MM:SS`：年份超出 2000 至 2099：{ $text }
+
+engine-e-interop-time-month-outside-to-12-utc = 不是 UTC 时间 `YYYY-MM-DDTHH:MM:SS`：月份超出 1 至 12：{ $text }
+
+engine-e-interop-time-day-does-not-exist-in-utc = 不是 UTC 时间 `YYYY-MM-DDTHH:MM:SS`：该月中不存在这一天：{ $text }
+
+engine-e-interop-time-hour-above-23-utc = 不是 UTC 时间 `YYYY-MM-DDTHH:MM:SS`：小时大于 23：{ $text }
+
+engine-e-interop-time-minute-above-59-utc = 不是 UTC 时间 `YYYY-MM-DDTHH:MM:SS`：分钟大于 59：{ $text }
+
+engine-e-interop-time-seconds-outside-60-utc = 不是 UTC 时间 `YYYY-MM-DDTHH:MM:SS`：秒超出 [0, 60)：{ $text }
+
+engine-e-mcp-budget-work-budget-exceeded-for-call = 通过 MCP 服务器的一次调用超出了工作量预算：{ $errors }。请用 `kshana` 命令行运行大型研究。
+
+engine-e-mcp-iq-the-iq-sample-budget-must = IQ 采样预算必须至少为 1
+
+engine-e-mcp-iq-an-empty-path-was-given = 给出了空路径
+
+engine-e-mcp-iq-rate-hz-must-be-positive = rate_hz 必须是正数
+
+engine-e-mcp-iq-duration-must-be-positive-number = duration_s 必须是正数
+
+engine-e-mcp-iq-broadcast-mode-nav-needs-rx = 广播模式（nav）需要 rx_pos [lat, lon, alt]
+
+engine-e-mcp-iq-scene-needs-signal-or-nav = 景象（scene）需要 `signal`（广播模式则需要 `nav`）
+
+engine-e-mcp-iq-scene-needs-at-least-one = 景象（scene）需要在 `prns` 中至少有一个 PRN
+
+engine-e-mcp-iq-surface-out-exports-one-surface = surface_out 导出一个曲面：请恰好给出一个 PRN
+
+engine-e-mcp-iq-surface-out-must-end-in = surface_out 必须以 .csv、.json 或 .bin 结尾
+
+engine-e-mcp-iq-max-seconds-must-be-positive = max_seconds 必须是正数
+
+engine-e-mcp-iq-epochs-out-must-end-in = epochs_out 必须以 .csv、.jsonl 或 .bin 结尾（格式取决于后缀）
+
+engine-e-mcp-iq-out-must-differ-from-input = out 必须不同于 input
+
+engine-e-mcp-iq-pll-bws-hz-dll-bws = pll_bws_hz、dll_bws_hz、spacings_chips 和 coherents 不能与 design 组合：扫描会运行文件中的每个设计
+
+engine-e-mcp-iq-signal-and-prns-go-together = signal 与 prns 必须一起给出
+
+engine-e-mcp-iq-iq-work-directory = IQ 工作目录 { $dir }：{ $e }
+
+engine-e-mcp-iq-iq-work-directory-is-not = IQ 工作目录 { $dir } 不是目录
+
+engine-e-mcp-iq-iq-file-tools-are-off = IQ 文件工具已关闭：{ $reason }
+
+engine-e-mcp-iq-output-does-not-name-file = 输出 `{ $rel }` 没有指向文件
+
+engine-e-mcp-iq-output-its-folder = 输出 `{ $rel }`：其文件夹：{ $e }
+
+engine-e-mcp-iq-output-is-symlink-refusing-to = 输出 `{ $shown }` 是符号链接；拒绝写入
+
+engine-e-mcp-iq-output-already-exists-pass-overwrite = 输出 `{ $shown }` 已存在；请传入 overwrite: true 以替换它
+
+engine-e-mcp-iq-output-exists-and-is-not = 输出 `{ $shown }` 已存在，且不是文件
+
+engine-e-mcp-iq-its-data-file-lies-outside = { $path }：其数据文件位于 IQ 工作目录之外
+
+engine-e-mcp-iq-lies-outside-the-iq-work = { $path } 位于 IQ 工作目录之外
+
+engine-e-mcp-iq-input-campaign-the-campaign-folder = { "[" }input] campaign `{ $rel }`：{ $message }；测评活动文件夹必须是 IQ 工作目录内已存在的文件夹
+
+engine-e-mcp-iq-out-dir-does-not-name = out_dir `{ $rel }` 没有指向文件夹
+
+engine-e-mcp-iq-is-samples-and-one-call = { $what } 为 { $samples } 个采样，而一次调用最多可处理 { $max_samples } 个（{ $env }）；{ $remedy }
+
+engine-e-mcp-iq-threads-must-be-to = threads 必须为 1 至 { $max_threads }
+
+engine-e-mcp-iq-truth-format-must-be-csv = truth_format 必须是 csv 或 jsonl（得到 { $other }）
+
+engine-e-mcp-iq-surface-out-would-hold-about = surface_out 将容纳约 { $cells } 个单元（多普勒频点数 × 每个码周期的采样数；上限 { $max_cells }，二进制约 { $mb } MB）：请加大 doppler_step_hz 或减小 doppler_max_hz
+
+engine-e-mcp-iq-no-campaign-here = { $out_dir }：此处没有测评活动（{ $e }）
+
+engine-e-mcp-iq-design-prn-channels-at-most = { $n_channels } 个（设计，PRN）通道；每次扫描最多 256 个
+
+engine-e-mcp-iq-test-conditions-invalid = 测试条件无效：{ $e }
+
+engine-e-mcp-iq-labfit-failed = labfit 失败：{ $e }
+
+engine-e-mcp-marine-give-exactly-one-of-log = 请恰好给出 `log` 和 `log_base64` 之一
+
+engine-e-mcp-marine-at-most-366-maps-per = 每次调用最多 366 张地图
+
+engine-e-mcp-marine-mode-symbols-needs-symbols = 模式 `symbols` 需要 `symbols`
+
+engine-e-mcp-marine-vessel-stream-assessment-failed = 船舶数据流评估失败：{ $e }
+
+engine-e-mcp-marine-jammertest-import-failed = jammertest 导入失败：{ $e }
+
+engine-e-mcp-marine-jammertest-score-failed = jammertest 评分失败：{ $e }
+
+engine-e-mcp-marine-vessel-log-assessment-failed = 船舶日志评估失败：{ $e }
+
+engine-e-mcp-marine-training-scenario-failed = 训练场景失败：{ $e }
+
+engine-e-mcp-marine-evidence-pack-failed = 证据包失败：{ $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over = 该包为 { $size } 字节，超过 { $max_bytes } 字节的回复上限；请缩小窗口，或在命令行使用 `kshana receiver-trust evidence`
+
+engine-e-mcp-marine-round-trip-pack-failed = 往返包失败：{ $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-2 = 该包为 { $size } 字节，超过 { $max_bytes } 字节的回复上限；请缩小窗口，或在命令行使用 `kshana evidence round-trip`
+
+engine-e-mcp-marine-files-are-over-the-byte = 文件超过 { $max_bytes } 字节的上限
+
+engine-e-mcp-marine-full-log-is-over-the = full_log 超过 { $max_bytes } 字节的上限
+
+engine-e-mcp-marine-interference-map-failed = 干扰地图失败：{ $e }
+
+engine-e-mcp-marine-the-map-is-bytes-over = 该地图为 { $total } 字节，超过 { $max_bytes } 字节的回复上限；请使用更粗的 cell_deg、更少的天数，或在命令行使用 `kshana interference-map`
+
+engine-e-mcp-marine-route-exposure-failed = 航线暴露分析失败：{ $e }
+
+engine-e-mcp-marine-compliance-report-failed = compliance 报告失败：{ $e }
+
+engine-e-mcp-marine-standards-pack-failed = 标准包失败：{ $e }
+
+engine-e-mcp-marine-lunanet-afs-check-failed = lunanet-afs-check 失败：{ $e }
+
+engine-e-mcp-marine-mode-must-be-spec-symbols = 模式必须是 spec、symbols 或 generate（得到 { $other }）
+
+engine-e-mcp-marine-benchmark-scoring-failed = 基准评分失败：{ $e }
+
+engine-e-mcp-marine-leaderboard-failed = 排行榜失败：{ $e }
+
+engine-e-mcp-marine-test-bench-export-failed = 测试台导出失败：{ $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-3 = 该包为 { $size } 字节，超过 { $max_bytes } 字节的回复上限
+
+engine-e-mcp-server-give-exactly-one-of-request = 请恰好给出 `request`（天空几何请求）或 `skyline_preset`（预设名称，或用空字符串列出它们）之一
+
+engine-e-mcp-server-receiver-log-assessment-failed = 接收机日志评估失败：{ $e }
+
+engine-e-mcp-server-unknown-scenario-kind-list-scenario = 未知的场景类别 `{ $k }`；list_scenario_kinds 会列出每个类别
+
+engine-e-mcp-server-unknown-report-format-expected-json = 未知的报告格式 `{ $format }`；应为 json 或 html
+
+engine-e-mcp-server-report-failed = 报告失败：{ $e }
+
+engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps 得到 { $n_frames } 帧，而一次回复最多携带 { $max_frames } 帧；请降低 fps 或 duration_s，或用命令行写出更长的序列（`kshana <scenario.toml> --animate frames`）
+
+engine-e-mcp-server-route-import-failed = 航线导入失败：{ $e }
+
+engine-e-mcp-server-sp3-export-failed = SP3 导出失败：{ $e }
+
+engine-e-mcp-server-omm-export-failed = OMM 导出失败：{ $e }
+
+engine-e-mcp-server-oem-export-failed = OEM 导出失败：{ $e }
+
+engine-e-mcp-server-scenario-kind-publishes-no-csv = 场景类别 `{ $kind }` 不发布 CSV 表；只有 { $kinds } 发布
+
+engine-e-mcp-server-unknown-skyline-preset-known-presets = 未知的天际线预设“{ $name }”；已知预设：{ $presets }
+
+engine-e-mcp-server-the-tool-call-did-not = 工具调用未完成：{ $e }
+
+engine-e-mcp-server-the-server-is-at-its-concurrent-work-limit = 服务器已达并发工作上限（先前的调用仍在运行）；请稍后重试
+
+engine-e-mcp-server-the-work-pool-is-closed = 工作池已关闭
+
+engine-e-mcp-iq-no-work-directory = 没有工作目录
+
+engine-e-mcp-iq-input = 输入 `{ $rel }`：{ $e }
+
+engine-e-mcp-iq-input-is-not-file = 输入 `{ $rel }` 不是文件
+
+engine-e-mcp-iq-input-campaign-is-not-folder = { "[" }input] campaign `{ $rel }` 不是文件夹
+
+engine-e-mcp-iq-out-dir-is-not-folder = out_dir `{ $rel }` 不是文件夹
+
+engine-e-mcp-iq-out-dir = out_dir `{ $rel }`：{ $e }
+
+engine-e-mcp-iq-iq-failed = iq { $args } 失败：{ $m }
+
+engine-e-adm-attitudestate-without = <attitudeState> 没有 <{ $tag }>
+
+engine-e-bench-cli-is-required = 必须提供 { $flag }
+
+engine-e-bench-cli-is-empty = { $p } 为空
+
+engine-e-evidence-tsa-bad-256-key = P-256 密钥有误
+
+engine-e-evidence-tsa-bad-384-key = P-384 密钥有误
+
+engine-e-interop-no-iq-block = 没有 [iq] 块
+
+engine-e-ndm-xml-closes = </{ $close }> 关闭了 <{ $name }>
+
+engine-e-odm-unexpected-in-data = <data> 中出现意外的 <{ $name }>
+
+engine-e-odm-unsupported-in-ocm-data = OCM <data> 中出现不支持的 <{ $name }>
+
+engine-e-realdata-ion-sdr-no-stream-element = 没有 <stream> 元素
+
+engine-e-realdata-ion-sdr-is-not-number = <{ $name }> 不是数字：{ $text }
+
+engine-e-realdata-ion-sdr-no-chunk-element = 没有 <chunk> 元素
+
+engine-e-realdata-ion-sdr-stream-lacks = <stream> 缺少 <{ $key }>
+
+engine-e-realdata-ion-sdr-no-system-element = 没有 <system> 元素
+
+engine-e-realdata-ion-sdr-no-file-with-url = 没有带 <url> 的 <file>
+
+engine-e-surface-give-string-utf8-or-base64 = { $k }：请给出字符串、{ "{" }"utf8": ...{ "}" } 或 { "{" }"base64": ...{ "}" }
+
+engine-e-realdata-llr-crd-short-h1-record = 过短的 h1 记录
+
+engine-e-realdata-llr-crd-short-h2-record = 过短的 h2（站点）记录
+
+engine-e-realdata-llr-crd-short-h3-record = 过短的 h3（目标）记录
+
+engine-e-realdata-llr-crd-short-h4-record = 过短的 h4（会话）记录
+
+engine-e-mcp-main-needs-value = { $a } 需要一个值
+
+engine-main-usage =
+    用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
+    { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
+    { "   " }或：kshana --study <suite.toml>
+    { "   " }或：kshana --validate <scenario.toml>
+    { "   " }或：kshana receiver-trust <scenario.toml>
+    { "   " }或：kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+    { "   " }或：kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }或：kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+    { "   " }或：kshana jammertest <import|score> ... (kshana jammertest --help)
+    { "   " }或：kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }或：kshana trust-telemetry [options] (kshana trust-telemetry --help)
+    { "   " }或：kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }或：kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
+    { "   " }或：kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+    { "   " }或：kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+    { "   " }或：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }或：kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+    { "   " }或：kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+    { "   " }或：kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+    { "   " }或：kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+    { "   " }或：kshana partner check <submission.toml> [--json]
+    { "   " }或：kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }或：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+    { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }或：kshana kinds [--json]
+    { "   " }或：kshana example [<name>]
+    { "   " }或：kshana --help | --version
+
+engine-main-usage-sky =
+    用法：kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+    { "   " }或：kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+    { "                  " }[--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+    { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+    { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+
+    以 JSON 输出站点在天际线之下所见的卫星、它们的 DOP、东-北-天协因数
+    与协方差，以及水平误差椭圆（sky_geometry）；带 --monte-carlo 时，输出
+    n 个（至多 5000）带种子的最小二乘误差（sky_monte_carlo）；带 --svg 时，输出天空图。
+    系统为引擎预设（gps-baseline、galileo、beidou-meo、glonass、xona-pulsar 等）：
+    是有代表性的几何，而不是某地某日的天空。--tle 读取两行根数集
+    （至多 4 MiB），并用 SGP4 外推到 --epoch（UTC）加 --time：即这些
+    根数集在该历元给出的天空，而不是测量值。没有 --epoch 时，外推到最新
+    根数集的历元，即有代表性的天空。MODELLED；docs/SKYLINE.md。
