@@ -25,3 +25,21 @@ seg-5fef5e8cc64e = Odporność kwantowej nawigacji zliczeniowej inercyjnej jest 
 seg-5a70fcb097dc = Pola opcjonalne: brak
 
 seg-bb07c8ee153f = <b>PARTNER</b> Nie jest zapewniane — tylko modele wydajności; sprzęt na zimnych atomach/zegary należy do partnera. Wyrocznia (NoneKind): brak: dyscyplina należąca do partnera, z założenia bez modułu i bez testu
+
+seg-792218eac075 = Źródło: <c1/>
+
+seg-c7e5582d0b24 = <c1/> (rodzaj scenariusza)
+
+seg-4f19d4fb1341 = Ogólny przegląd N-wymiarowy dowolnego pakietu przez kluczowe TOML z kropkami / ścieżki metryk JSON.
+
+seg-cd907c72698b = Jeden przebieg <c1/> podsumowuje się tak: ogólny przegląd <c2/> po [threshold_m, accel_classical.bias] | { "15" } węzłów (kształt [{ "5" }, { "3" }]) | metryki [classical.fom.holdover_s, classical.fom.pos_rms_m]
+
+seg-502ba2c57a5f = Pola wymagane: <c1/>, <c2/>, <c3/>
+
+seg-c372e390bb4f = Przykład <c1/> ustawia między innymi:
+
+seg-621a18c07044 = Wykres zapisany przez silnik dla scenarios/sweep-nd-inertial.toml, rodzaj sweep-nd
+
+seg-ce006a6715e9 = <s1>Poprzednia</s1>spoof
+
+seg-b9f8771ffd3d = <s1>Następna</s1>sweep

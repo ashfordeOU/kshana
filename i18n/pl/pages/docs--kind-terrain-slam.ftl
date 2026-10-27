@@ -17,3 +17,15 @@ seg-4aca87f022dc = Wykres zapisywany przez silnik dla scenarios/terrain-slam.tom
 seg-832919783819 = <s1>Poprzedni</s1>terrain-nav
 
 seg-1693abd546fe = <s1>Następny</s1>time-transfer-budget
+
+seg-bb7c9c4d4b5d = Źródło: <c1/>
+
+seg-562e59d703e3 = <c1/> (rodzaj scenariusza)
+
+seg-6bdc150ab25b = Sekwencyjna (rekurencyjna) nawigacja odniesiona do terenu bez GPS: filtr cząsteczkowy uruchamia model pomiaru dopasowania do terenu epoka po epoce (SITAN jako filtr ciągły), dzięki czemu zmienny w czasie dryf INS jest śledzony wzdłuż trasy, podczas gdy wsadowe terrain-nav odzyskuje tylko jedno stałe przesunięcie.
+
+seg-1e4350c2c5f0 = Jeden przebieg <c1/> podsumowuje się tak: terrain-slam | { "60" } punktów trasy | RMS swobodnego INS { "2947" } m (końcowy { "5082" } m) | RMS dopasowany do terenu { "1241" } m (końcowy { "69" } m, spadek 2x) | średnie ESS 2599/4000 | sigma dopasowania { "17.0" } m
+
+seg-939d877137f6 = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>
+
+seg-5ceb5b8597ac = Pola opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>

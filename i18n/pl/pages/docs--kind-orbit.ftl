@@ -35,3 +35,33 @@ seg-53a78e98af12 = Strona tematu: <a1>SKYLINE.md</a1>
 seg-ae15d15bf151 = Strona tematu: <a1>LEO-PASS.md</a1>
 
 seg-99a3c57c7926 = Ten rodzaj stosuje { "7" } dołączonych scenariuszy; pozostałe są w <a1><c1/></a1>.
+
+seg-0e3518dc3ddb = Źródło: <c1/>
+
+seg-1428025a91e1 = <c1/> (rodzaj scenariusza)
+
+seg-cb4262b66b8f = Dostępność GNSS i DOP z konstelacji orbitalnej (Walker / TLE / RINEX).
+
+seg-97680b4587c8 = Jeden przebieg <c1/> podsumowuje się tak: scenario bffc887db977 | 77/361 próbek GNSS-nominal | best PDOP { "2.53" } pos 2.53m | quantum holdover 0s p95 6.49e-5ns integrity { "1.000" } security n/a (no attack) | classical holdover 0s p95 25.0ns integrity { "1.000" } security n/a (no attack)
+
+seg-b3a080b98bd9 = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>
+
+seg-c818cc4f87da = Pola opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
+
+seg-364139ff447d = Przykład <c1/> ustawia między innymi:
+
+seg-d5063dda3971 = Zegar atomowy w skali układu scalonego Microchip SA.45s / SA65, sigma_y(1s)
+
+seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
+
+seg-3b652c0da6de = Wykres zapisany przez silnik dla scenarios/orbit-rinex.toml, rodzaj orbit
+
+seg-a150aaacf072 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP z geometrii linii widzenia przez Q=(HᵀH)⁻¹ z lokalnym podziałem ENU Testy: <a1>dop_reference.rs</a1>.
+
+seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry i check: Monte Carlo z ziarnem (N = { "20,000" } epok na geometrię, sigma = { "1.5" } m, ziarno ChaCha8 { "36" } + i) iterowanego rozwiązania metodą najmniejszych kwadratów własnego silnika (pvt::solve_spp, wagi jednostkowe, rozwiązywane od pozycji prawdziwej) na Testy: <a1>uere_dop_monte_carlo.rs</a1>.
+
+seg-a3d71dd306b3 = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sky_geometry: geodezyjny (WGS-84) azymut i elewacja satelity z miejsca naziemnego, tabela maski azymut/elewacja interpolowana liniowo po azymucie z zawinięciem przy { "360" } deg, zbiór widocznych el Testy: <a1>skyline_orekit_oracle.rs</a1>.
+
+seg-d86884be3f98 = <s1>Poprzednia</s1>optical-atmosphere
+
+seg-da202333ae8d = <s1>Następna</s1>passes

@@ -21,3 +21,27 @@ seg-849c08d3ce70 = Strona rodziny: <a1>Zegary, synchronizacja czasu i holdover</
 seg-ee7dd15019d0 = Strona tematu: <a1>CAMPAIGNS.md</a1>
 
 seg-0aae0574c5e6 = <b>MODELLED</b> Przeglądy dostępności rodzaju <c1/>: dla każdej konstelacji (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) i łącznie, odsetek par (użytkownik, epoka) z co najmniej jednym i z co najmniej czterema sygnałami oraz najdłuższa przerwa, dla użytkownika na sferze
+
+seg-de72ae48731d = Źródło: <c1/>
+
+seg-81c2da4650c9 = <c1/> (rodzaj scenariusza)
+
+seg-e7ab7b55c969 = Przegląd 1-wymiarowy badania kompromisów po parametrze pakietu zegara.
+
+seg-0412c0dbfb75 = Jeden przebieg <c1/> podsumowuje się tak: przegląd holdover_s po classical_q_wf ({ "1.00e-24" }..1.00e-18, { "25" } punktów, skala logarytmiczna) | kwantowy 6600.000->{ "6600.000" } | klasyczny 2610.000->{ "250.000" }
+
+seg-d2a441254bcd = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+seg-2b8d8159bdaf = Pola opcjonalne: <c1/>
+
+seg-73c2e732b0c1 = Przykład <c1/> ustawia między innymi:
+
+seg-f8a627a78bdb = Karta katalogowa CSAC Microchip SA.45s sigma_y(1s)={ "3e-10" }; q_wf to s
+
+seg-c784b8f22f12 = Wykres zapisany przez silnik dla scenarios/sweep-clock-stability.toml, rodzaj sweep
+
+seg-cb00aca0268d = <b>MODELLED</b> Sekcje sweep rodzaju <c1/> (od jednego do trzech kluczy z kropkami dowolnego rodzaju, na wartościach osi ogólnego przeglądu, opcjonalnie zespół w każdym węźle) i monte_carlo: realizacja k działa przy base_seed + k; każda metryka podaje średnią, odchylenie standardowe Testy: <a1>campaign_composition_reference.rs</a1>.
+
+seg-1750fbfc4a99 = <s1>Poprzednia</s1>sweep-nd
+
+seg-de5468ac32fc = <s1>Następna</s1>telecom-timing

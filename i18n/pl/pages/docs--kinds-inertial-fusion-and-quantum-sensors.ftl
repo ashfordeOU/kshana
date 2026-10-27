@@ -97,3 +97,15 @@ seg-6cb57dc94549 = <b>Rejestr (ledger):</b> MODELLED { "1" } · VALIDATED { "2" 
 seg-b6c31bdda166 = <s1>Poprzedni</s1>Alternatywne PNT w warunkach braku GPS
 
 seg-0585e4ae329e = <s1>Następny</s1>Zagłuszanie (jamming), spoofing i widmo
+
+seg-04310cd6cbec = Detekcja usterek i anomalii MODELLED dla kwantowych systemów PNT: oznaczony katalog usterek (skok częstotliwości, dryf i utrata zaczepienia zegara; skok biasu i zanik czujnika), AUC krzywej ROC statystyki detekcji (z przedziałem ufności bootstrap z eval_stats sprawdzonego zewnętrznie) oraz minimalna wykrywalna usterka przy stałym wskaźniku fałszywych alarmów, przy czym monitor wspomagany zegarem kwantowym (niższy szum) wykrywa mniejsze usterki — jako rzetelne TradeEvidence + reprezentatywność. Gaussowski model statystyki detekcji (AUC = Phi(mu/(sigma*sqrt2))); modeluje klasę, ilustracyjne parametry ze źródeł publicznych, bez TRL, lotu i certyfikacji.
+
+seg-2f1d14239d1a = Wykres zapisany przez silnik dla scenarios/quantum-anomaly-detect.toml, rodzaj quantum-anomaly-detect
+
+seg-790fbfdd80f0 = Kwantowa nawigacja bez GNSS, MODELLED: podczas utraty sygnału GNSS bilans inercyjny kwantowy (interferometr zimnych atomów) wobec klasycznego INS klasy nawigacyjnej — narastanie błędu pozycji w czasie wybiegu, holdover do progu pozycji oraz bilans kwantowy a klasyczny jako rzetelne TradeEvidence z reprezentatywnością. Rzetelna uwaga o obserwowalności: bez zewnętrznego rozwiązania pozycji bias akcelerometru jest nieobserwowalny, więc błąd rośnie; czujnik kwantowy spowalnia, lecz nie zamyka tej luki. Ilustracyjne parametry urządzeń ze źródeł publicznych; modeluje klasę, bez TRL, lotu i certyfikacji.
+
+seg-1bdbf1a737b2 = Wykres zapisany przez silnik dla scenarios/quantum-gnss-free-nav.toml, rodzaj quantum-gnss-free-nav
+
+seg-eb55d253dd11 = Bilans PNT kwantowy a klasyczny ({ "13503" }): korzyść w holdover czasu i holdover inercyjnym kandydującego zegara (krzywa zmierzonego ADEV — oś obronności wyniku — lub kwantowa klasa zegara) wobec klasycznej klasy punktu odniesienia, z zastrzeżeniem o założeniu podłogi długiego tau dołączonym do artefaktu, plus obwiednia odporności w funkcji czasu bez GNSS. MODELLED; ilościowo ocenia (nigdy nie sprawdza) urządzenie partnera. Zegar kandydujący jest zmierzoną krzywą (<c1/> + <c2/>, równej długości, co najmniej { "2" } punkty; wygrywa, gdy podano obie postaci) lub <c3/>.
+
+seg-c74c63ffd859 = Wykres zapisany przez silnik dla scenarios/quantum-trade.toml, rodzaj quantum-trade
