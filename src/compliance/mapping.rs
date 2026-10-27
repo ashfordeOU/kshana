@@ -10,6 +10,14 @@
 //! The Markdown under `docs/compliance/` embeds the tables [`framework_table_md`] writes;
 //! `tests/compliance_report.rs` fails when a committed table is stale.
 
+mod ids;
+
+/// The catalogue text `id` in the current language ([`crate::i18n::current`]). The data tables below
+/// stay English: they are the machine mapping. The Markdown renderers read this.
+fn tr(id: &str) -> String {
+    crate::i18n::tr(id, &[])
+}
+
 /// A public framework the mapping covers.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum Framework {
@@ -59,6 +67,16 @@ impl Framework {
             Framework::Nis2 => "EU NIS2 Directive, Article 21 risk-management measures",
             Framework::En16803 => "EN 16803, GNSS-based positioning for road ITS",
             Framework::NistIr8323 => "NIST IR 8323r1, Foundational PNT Profile",
+        }
+    }
+
+    /// [`Self::title`] from the catalogue, in the current language (English: the same text). For a
+    /// person; machine documents carry [`Self::title`].
+    pub fn title_localised(self) -> String {
+        let key = self.id();
+        match ids::FRAMEWORK_TITLE_IDS.iter().find(|(k, _)| *k == key) {
+            Some((_, id)) => tr(id),
+            None => self.title().to_string(),
         }
     }
 }
@@ -585,43 +603,107 @@ pub fn rows() -> Vec<Row> {
     ]
 }
 
-/// Markdown table of one framework's rows (the part `docs/compliance/` embeds).
+/// Markdown table of one framework's rows (the part `docs/compliance/` embeds), in the current
+/// language; in English it is exactly the table of the English constants.
 pub fn framework_table_md(fw: Framework) -> String {
-    let mut s = String::from(
-        "| Reference | What it asks (paraphrased) | Kshana outputs that support evidence for it | Gap |\n|---|---|---|---|\n",
+    let mut s = format!(
+        "| {} | {} | {} | {} |\n|---|---|---|---|\n",
+        crate::t!("compliance-mapping-header-reference"),
+        crate::t!("compliance-mapping-header-asks"),
+        crate::t!("compliance-mapping-header-capabilities"),
+        crate::t!("compliance-mapping-header-gap")
     );
     for r in rows().iter().filter(|r| r.framework == fw) {
         let caps = if r.capabilities.is_empty() {
-            "none".to_string()
+            crate::t!("compliance-mapping-none")
         } else {
             r.capabilities
                 .iter()
                 .map(|c| {
-                    CAPABILITIES
+                    ids::CAPABILITY_IDS
                         .iter()
-                        .find(|k| k.id == *c)
-                        .map(|k| k.name)
-                        .unwrap_or("?")
+                        .find(|k| k.0 == *c)
+                        .map(|k| tr(k.1))
+                        .unwrap_or_else(|| "?".to_string())
                 })
                 .collect::<Vec<_>>()
                 .join("; ")
         };
-        s.push_str(&format!(
-            "| {} | {} | {} | {} |\n",
-            r.reference, r.asks, caps, r.gap
-        ));
+        let (reference, asks, gap) = match ids::ROW_IDS.iter().find(|k| k.0 == r.id) {
+            Some((_, a, b, c)) => (tr(a), tr(b), tr(c)),
+            None => (
+                r.reference.to_string(),
+                r.asks.to_string(),
+                r.gap.to_string(),
+            ),
+        };
+        s.push_str(&format!("| {reference} | {asks} | {caps} | {gap} |\n"));
     }
     s
 }
 
-/// Markdown list of one framework's sources.
+/// Markdown list of one framework's sources, in the current language.
 pub fn sources_md(fw: Framework) -> String {
     let mut s = String::new();
-    for src in SOURCES.iter().filter(|x| x.framework == fw) {
-        s.push_str(&format!(
-            "- **{}**: {}. <{}>. Read {}: {}.\n",
-            src.title, src.version, src.url, SOURCES_ACCESSED, src.checked
+    for (i, src) in SOURCES
+        .iter()
+        .enumerate()
+        .filter(|(_, x)| x.framework == fw)
+    {
+        let (title, version, checked) = match ids::SOURCE_IDS.get(i) {
+            Some((a, b, c)) => (tr(a), tr(b), tr(c)),
+            None => (
+                src.title.to_string(),
+                src.version.to_string(),
+                src.checked.to_string(),
+            ),
+        };
+        s.push_str("- ");
+        s.push_str(&crate::t!(
+            "compliance-source-line",
+            title = title,
+            version = version,
+            url = src.url,
+            accessed = SOURCES_ACCESSED,
+            checked = checked
         ));
+        s.push('\n');
     }
     s
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The English catalogue says exactly what the English constants say, so the human renderings in
+    /// English equal the machine data, and the pseudo-locale touches every field.
+    #[test]
+    fn catalogue_english_equals_the_constants() {
+        crate::i18n::in_english(|| {
+            for fw in Framework::ALL {
+                assert_eq!(fw.title_localised(), fw.title());
+            }
+            assert_eq!(ids::SOURCE_IDS.len(), SOURCES.len());
+            for (s, (a, b, c)) in SOURCES.iter().zip(ids::SOURCE_IDS) {
+                assert_eq!(
+                    (tr(a), tr(b), tr(c)),
+                    (s.title.into(), s.version.into(), s.checked.into())
+                );
+            }
+            for c in CAPABILITIES {
+                let (_, n, o) = ids::CAPABILITY_IDS.iter().find(|k| k.0 == c.id).unwrap();
+                assert_eq!((tr(n), tr(o)), (c.name.into(), c.output.into()));
+            }
+            let all = rows();
+            assert_eq!(ids::ROW_IDS.len(), all.len());
+            for r in &all {
+                let (_, a, b, g) = ids::ROW_IDS.iter().find(|k| k.0 == r.id).unwrap();
+                assert_eq!(
+                    (tr(a), tr(b), tr(g)),
+                    (r.reference.into(), r.asks.into(), r.gap.into())
+                );
+            }
+        });
+    }
 }
