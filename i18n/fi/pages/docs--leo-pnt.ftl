@@ -1,23 +1,5 @@
 # docs--leo-pnt: translations (fi)
 
-seg-46c7e6f003dd = Järjestelmä
-
-seg-cae10fb9bff8 = Skenaario
-
-seg-f1f903f1b9ff = Kestävyys
-
-seg-1759a8cce7d6 = Lajit
-
-seg-71aee5eb55c5 = UHF
-
-seg-f63dd3d7aad4 = Lähde
-
-seg-587beeccaa11 = Esiasetus
-
-seg-e305279d5b11 = Sisältö
-
-seg-b03d56f501c3 = Tyyppi
-
 seg-0fe4979f8309 = <c1/>, <c2/>, <c3/> (yhdistetty paikannus, tarkka pistepaikannus, 5G:n ei-maanpäällisen verkon (NTN) paikannus, ajoitus, napa-alueiden kattavuus)
 
 seg-29013ad5656c = <c1/> (häirinnän vesiputouskuvaajat ja häirintä-signaalisuhde (J/S) kaistoittain)
@@ -339,3 +321,83 @@ seg-ee40b8cd109b = signaalin avaruusosuuden etäisyysvirhe (SISRE): viestin esit
 seg-b4b3dff58f3b = kantoaaltotaajuus ja seurattava sirunopeus
 
 seg-4def115dba1b = Arvo välitetään eteenpäin vain, jos jatkossa oleva taulukko jättää sen asettamatta, ja jokainen luovutus luetellaan tuloksen <c1/>-taulukossa arvoineen, yksikköineen ja kohteineen. Kaistan <c2/> on nimettävä suunnitelma (<c3/>); näin <c4/>-kaista voi kantaa mitä tahansa <c5/>-suunnitelmaa myös yksinään: se ottaa suunnitelman keskitaajuuden, lähetyksen kaistanleveyden ja seurattavan sirunopeuden, jakaa EIRP:nsä komponenttien kesken ja raportoi seurattavan komponentin C/N0:n sekä kaistarajoitetun koherentin varhais-myöhäis-koodinseurannan värinän (Betz ja Kolodziejski { "2009" }; puolen sirun väli, { "1" } Hz:n silmukka, { "20" } ms) jokaisella jaksolla.
+
+seg-46c7e6f003dd = Järjestelmä
+
+seg-cae10fb9bff8 = Skenaario
+
+seg-f1f903f1b9ff = Kestävyys
+
+seg-1759a8cce7d6 = Lajit
+
+seg-71aee5eb55c5 = UHF
+
+seg-f63dd3d7aad4 = Lähde
+
+seg-587beeccaa11 = Esiasetus
+
+seg-e305279d5b11 = Sisältö
+
+seg-b03d56f501c3 = Tyyppi
+
+seg-6752521002b2 = Osa
+
+seg-cf6ae60eea4f = Aputiedot
+
+seg-0bdbdd2c923b = Synkronointi
+
+seg-b09dc4b322d3 = Efemeridi
+
+seg-3a835a49b43f = Muut palvelut
+
+seg-a17f4b4f7fb5 = { "1191.795" } MHz
+
+seg-c5ce76c91ff7 = Merkintä
+
+seg-c1020ac47091 = Mitä yksi ajo laskee
+
+seg-f708914fed48 = Kaistat
+
+seg-486f17197d4d = REPRESENTATIVE, C-kaistan järjestelmille, joiden parametrit eivät ole julkisia (esimerkiksi TrustPoint)
+
+seg-03d5ae448705 = <c1/> (valinnainen)
+
+seg-fde146239f5d = Yhden ajon tulos
+
+seg-a3f63252bd1b = Mitä se sisältää
+
+seg-7d2c6fbf95b7 = Lähde: <c1/>
+
+seg-6f1f29597f4b = LEO-PNT Kshanassa
+
+seg-2a3a1f19005a = LEO-PNT on paikannus, navigointi ja ajanmääritys (PNT) matalan Maan kiertoradan (LEO) satelliiteista, keskikorkean kiertoradan (MEO) maailmanlaajuisten satelliittinavigointijärjestelmien (GNSS), kuten Global Positioning Systemin (GPS) ja Galileon, rinnalla tai sijasta. Tämä sivu kokoaa yhteen moottorin jokaisen LEO-PNT-lajin ja -skenaarion: mitä kukin laskee, kaistat ja signaaliesiasetukset ja mistä niiden luvut tulevat, mitä navigointiviesti kantaa, mikä on VALIDATED ja mikä MODELLED sekä miten kukin skenaario ajetaan. Lajisivut menevät syvemmälle:
+
+seg-8e3556046e63 = Sivu
+
+seg-cdb06a47be0a = <c1/> (signaalisuunnitelmat) ja monikaistaiset <c2/>-paneelit
+
+seg-09894e033033 = <c1/> (ylilennon geometria ja linkkibudjetti kaistoittain, vähäenergiset paikkaratkaisut, ionosfäärin luotaus, harhautuksen valvonta)
+
+seg-f19c0bfe2996 = <c1/> (lähetetty viesti: sovitin, käyttäjäalgoritmi, binääri- ja tekstimuodot)
+
+seg-2a2b15256cf4 = generic: edustava malli <c1/>: { "1080" } km, { "53" }° ylilento Madridin yllä, 240 satelliitin Walker-kerros
+
+seg-bb05e8e505e3 = seurattu C/N0-huippu { "58.2" } dB-Hz, koodijitterin mediaani { "0.050" } m; SISRE { "0.250" } m välitetty eteenpäin; pelkän GNSS:n neliöllinen keskiarvo (RMS) 3D-virhe { "1.60" } m, GNSS + LEO { "0.43" } m; tarkan pistepaikannuksen (PPP) konvergoituminen { "11.5" } min pelkällä GNSS:llä, { "7.5" } min LEO-kerroksen kanssa
+
+seg-4d1299ee4725 = Xona Pulsar X5 (arXiv { "2509.19551" }), kallistettu kuori paikannukseen ja molemmat kuoret PPP:hen
+
+seg-a8fe501bf419 = seurattu C/N0-huippu { "66.3" } dB-Hz, koodijitterin mediaani { "0.018" } m; pelkän GNSS:n RMS 3D-virhe { "1.49" } m, GNSS + LEO { "0.68" } m; PPP:n konvergoituminen { "20.6" } min pelkällä GNSS:llä, { "5.9" } min Pulsarin kanssa
+
+seg-002e4c918dda = <c1/> (valinnainen)
+
+seg-a608af78a360 = Celeste IOD E5 -konfiguraatio #1 Celeste-viestiesiasetuksen kanssa (pidätetty esiasetuksen mukana)
+
+seg-be428c21bd27 = ylilento toistaa esiasetuksen kalibroiman kokonais-C/N0:n huipun (arvo on esiasetustiedostossa); kaksi satelliittia tuskin muuttaa 95 minuutin yhdistettyä paikkaratkaisua ({ "1.50" } m:stä { "1.48" } m:iin RMS 3D)
+
+seg-bf44ba47e48b = kirjoittaa tuloksen, kaavion, laajan raportin (joka upottaa animoidun ylilennon ja linkittää viennit), interaktiivisen soittimen sekä ylilennon geometrian CZML- (Cesium Language), KML- (Keyhole Markup Language), GeoJSON- ja STK- (Systems Tool Kit) efemeeritiedostot.
+
+seg-a08e67a32d60 = Ketju on MODELLED: se ei lisää fysiikkaa, ja jokainen vaihe säilyttää omat merkintänsä. Paikannusvaiheen C/N0-malli on suora viiva muuttujassa sin(korkeuskulma), joten ylilentokohtainen muoto supistuu kahdeksi luvuksi; viestivaihe ei mallinna radanmääritystä, minkä vuoksi <c1/> on ilmoitettu syöte ({ "0.25" } m mukana toimitetuissa skenaarioissa, edustava desimetritason aluksen sisäiselle radanmääritykselle ja ohjatulle sirutason kellolle, jonka ATOMIC-hyötykuorma raportoi: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
+
+seg-ee3c5b58e6fa = <s1>Edellinen</s1>Kuun rata ja pinta infrastruktuurina
+
+seg-6b951d6413c8 = <s1>Seuraava</s1>LEO-signaalimallit
