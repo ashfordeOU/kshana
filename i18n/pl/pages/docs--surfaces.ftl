@@ -321,3 +321,247 @@ seg-f0ac32797edb = <c1/> (<c2/> tylko wbudowane; bez odczytu plików w przegląd
 seg-bf0495255831 = <c1/> (<c2/> tylko wbudowane; <c3/> jest odrzucane)
 
 seg-aa26d73d9b79 = <b>N/A</b> (bez notebooka; dziennik to plik dostarczany przez użytkownika)
+
+seg-d1ebbe70e454 = <b>oczekuje</b>: brak widoku w Studio; moduł uruchamiania scenariuszy w Studio przyjmuje tekst scenariusza
+
+seg-04edbdcaf5c7 = widok Optical PNT w Studio (<c1/>, { "0.38" }) rysuje zapisane wyniki dwóch dołączonych scenariuszy, w tym szereg czasowy z ziarnem (seed); scenariusz można też uruchomić w module uruchamiania scenariuszy w Studio i na karcie Wiersz poleceń w Narzędziach
+
+seg-dbe94c1cb4b0 = Pobieranie wielokątów lądu (<c1/>)
+
+seg-d61b28df9367 = Kod CLI
+
+seg-3c816222df90 = Narzędzia: karta Wiersz poleceń (wymaga <c1/>)
+
+seg-858b2c4a1451 = Benchmark (kshana-bench v1: ocena zgłoszenia względem pliku wzorcowego, strona z tabelą wyników; <c1/>, MODELLED, doradczo)
+
+seg-f6e2271206a6 = <b>N/A</b> (niosą go dwa narzędzia MCP; polecenie ukośnikowe nad dwoma plikami JSON nic nie wnosi)
+
+seg-4edd4fe793f1 = <b>N/A</b> (to nie jest akcja IDE)
+
+seg-15ffa4639a46 = <b>N/A</b> (notatniki edukacyjne to osobny nurt prac)
+
+seg-5d48d48ae295 = <b>N/A</b> (tabela wyników to statyczna strona <c1/>, przeniesiona na witrynę bez zmian; Studio niczego nie oblicza)
+
+seg-f730ab44ca82 = Dane benchmarku i narzędzia holdout (<c1/>)
+
+seg-efdc66eff3d8 = <b>N/A</b> (CLI czyta katalogi zbiorów danych i pliki zegarów oraz, dla <c1/>, tajny plik ziarna; ziarno nie może przechodzić przez agenta ani przez stronę)
+
+seg-2146297abaf0 = Dzienny produkt obserwatorium i badanie czułości (<c1/>; <c2/>)
+
+seg-f359f5223666 = <b>N/A</b> (polecenia czytają katalog archiwum z setkami tysięcy plików, zapisują cztery pliki, w tym PNG, i wymuszają { "24" }-godzinne opóźnienie publikacji względem zegara maszyny, która publikuje; mapa CSV jest na każdej powierzchni w wierszu powyżej)
+
+seg-55cf42830155 = Kshana Studio to aplikacja webowa zbudowana na kompilacji WebAssembly, więc widok Studio istnieje tam, gdzie kolumna WASM ma punkt wejścia, a tam, gdzie go nie ma, komórka wskazuje <b>kartę Wiersz poleceń</b> (polecenie do uruchomienia wraz z argumentami), nigdy wynik obliczony przez Studio. Strony (kshana.dev/studio/, po stronie klienta): <b>Zaufanie morskie</b> (<c1/>), <b>Omówienie szkolenia</b> (<c2/>), <b>Mapa zakłóceń</b> (<c3/>), <b>Geometria</b> (<c4/>: reprezentatywny skyplot, skyline, DOP, elipsa błędu i chmura Monte Carlo z silnika; { "0.36" }), <b>Stacja księżycowa</b> (<c5/>: modelowane pokrycie księżycowej stacji referencyjnej z rodzaju <c6/>; { "0.36" }) oraz strona <b>Narzędzia</b>, której sekcje to OSNMA (<c7/>), pakiety dowodowe (<c8/>), eksport do test bench (<c9/>), mapowanie compliance (<c10/>), karta Wiersz poleceń (karta telemetrii, IQ, integracje morskie: polecenia do uruchomienia) oraz Użycie z poziomu asystenta AI (<c11/>). Znak <c12/> w kolumnie Studio tabeli podpoleceń oznacza polecenie, które nie należy do { "0.35" } możliwości prezentowanych przez Studio.
+
+seg-73006c42aef2 = Dlaczego komórki N/A mają N/A
+
+seg-6d586f5fbaa3 = <b>Signal K i OpenCPN.</b> Są odbiorcami działającego procesu na żywo i jego bramki TCP, więc są wdrożeniami z wiersza poleceń; wtyczka zawiera polecenie z instrukcją oraz umiejętność (skill), które wskazują <c1/> i nie wywołują żadnego narzędzia.
+
+seg-79ec7e7307da = Działający proces.
+
+seg-17fcf959153f = <c1/> utrzymuje otwarty strumień, może udostępniać strumień przepuszczony przez bramkę dowolnej liczbie klientów TCP i działa, dopóki nie zostanie zatrzymany. Wywołanie z Pythona, wywołanie z przeglądarki, wywołanie narzędzia MCP i akcja IDE zwracają wynik po zakończeniu i nie trzymają otwartego gniazda dla innych. Python, WASM i MCP zamiast tego udostępniają formę ograniczoną: wycinek oceniony tym samym silnikiem, w schemacie na żywo (linie JSON { "1.3" }: <c2/>, oświadczenie <c3/> i <c4/> satelitów w każdej epoce, <c5/> przy każdym wniosku), bez gniazda i bez bramki (bramka oznacza pozycję jako nieważną w strumieniu na żywo, co może zrobić tylko proces w ścieżce danych). Dwa zachowania należą do procesu i nie ma ich w narzędziach do wycinków: strumień odtwarzany szybciej niż w czasie rzeczywistym przez <c6/> bez <c7/> jest oceniany jako niegodny zaufania (jego czas nie zgadza się z zegarem hosta; wycinek jest czytany bez zegara hosta), a <c8/> i <c9/> wiążą się z adresem pętli zwrotnej, chyba że podano adres.
+
+seg-824d2bbbf280 = <b>Telemetria zaufania.</b> WASM udostępnia <c1/>: te same kodery, zwracające tekst Prometheus, wiersze syslog CEF lub LEEF albo ładunek JSON OTLP dla strumienia lub wyniku wsadowego, bez zegara (wiersze syslog niosą zerowy znacznik czasu RFC { "5424" }) i bez niczego wysyłanego. Python (<c2/>) i MCP (<c3/>, z poleceniem wtyczki <c4/>) też go udostępniają. Reszta <c5/> serwuje metryki Prometheus, wysyła syslog i eksportuje OpenTelemetry z działającego strumienia, więc z natury jest procesem. Instrukcja: przekaż do niego potokiem polecenie live albo odtwórz plik wyniku (<c6/>); zob. <a1><c7/></a1>. Agent lub notatnik, który potrzebuje ocen dla każdej epoki, wywołuje zamiast tego funkcje wsadowe lub funkcje wycinków.
+
+seg-a5c2ef208191 = <b>Tworzenie pakietu w przeglądarce.</b> Podpisywanie wymaga klucza prywatnego, który nie powinien przechodzić przez stronę internetową; kompilacja przeglądarkowa weryfikuje pakiety (<c1/>), a pakiety tworzą pozostałe powierzchnie. Narzędzie MCP nigdy nie zwraca ani nie zapisuje w logu ziarna podpisu, a bez niego podpisuje jednorazowym kluczem (integralność, nie tożsamość); dla klucza, na którym zależy, użyj CLI. To samo dotyczy przesyłania szkoleniowego NMEA na adres: Python, WASM i MCP zwracają wygenerowany tekst, a CLI go wysyła.
+
+seg-dea93c47b3b1 = Zestawy badań.
+
+seg-2e88bb410874 = <c1/> uruchamia manifest, który wymienia z nazwy sąsiednie pliki scenariuszy na dysku. Powierzchnie działające w pamięci przyjmują tekst scenariusza, a nie katalog plików, więc zamiast tego uruchamiają każdego członka jako osobny scenariusz (<c2/>, <c3/>, <c4/>).
+
+seg-d08f585c4f02 = <b>GNSS IQ w przeglądarce i nagrania, które są przepisywane.</b> Nagranie to gigabajty próbek, których strona nie pomieści, a protokół MCP nie może przenosić, więc WASM nie ma funkcji IQ, a narzędzia MCP czytają i zapisują tylko jeden katalog roboczy (<c1/>, z limitem próbek na wywołanie). <c2/>, <c3/> i <c4/> służą do przepisywania nagrań na dysku i pozostają wyłącznie w wierszu poleceń. <c5/> i <c6/> operują na tekście, więc MCP przyjmuje je w treści wywołania (log, który wskazuje plik, jest odrzucany).
+
+seg-f571dc5c2330 = <b>Pobieranie lądu.</b> To jedyne polecenie, które otwiera połączenie sieciowe; wymaga systemowego <c1/> i jawnego <c2/> oraz sprawdza przypięty SHA-256. Przeglądarka nie ma <c3/>, a agent AI nie powinien pobierać danych w imieniu użytkownika; pozostałe powierzchnie przyjmują zamiast tego plik lądu jako tekst (<c4/>).
+
+seg-f81f6b6a2e67 = Archiwa śladów i katalogi.
+
+seg-2f226f3955d9 = <c1/> na katalogu śladów readsb czyta pliki z dysku i działa wyłącznie w wierszu poleceń; powierzchnie działające w pamięci przyjmują tekst CSV.
+
+seg-6fb9f23090ca = Każde podpolecenie wiersza poleceń i kto je obsługuje
+
+seg-4a225d5d59af = Jeden wiersz na podpolecenie lub tryb <c1/>. <b>yes</b> wskazuje punkt wejścia; <b>no</b> to luka wraz z powodem; <b>N/A</b> to powierzchnia, która nie może go obsłużyć z powodu podanego wyżej lub w ostatniej kolumnie. Akcje JetBrains uruchamiają wiersz poleceń, więc <b>N/A</b> w tej kolumnie wyjaśnia, dlaczego nie ma akcji IDE.
+
+seg-35720f38b1a5 = Podpolecenie
+
+seg-d46c11fa6dea = <c1/> (uruchomienie, wykres, tabela)
+
+seg-af645810cc0c = <c1/> (uruchomienie zgłasza błąd przy nieprawidłowym scenariuszu)
+
+seg-7d6c8218a4a6 = Validate Scenario
+
+seg-d75a5f64c7cc = <b>N/A</b> (wymienia sąsiednie pliki na dysku)
+
+seg-16775dd25139 = Zestaw wymienia sąsiednie pliki scenariuszy na dysku (N/A wyżej); uruchom każdego członka jako scenariusz
+
+seg-1742459cb792 = Export Scenario
+
+seg-2bc957bd567b = Pliki wracają jako tekst (<c1/>) lub base64 (próbki SigMF)
+
+seg-bf69da729efd = Import Route
+
+seg-6d762f20af07 = Animate Scenario
+
+seg-052c13118454 = Co najwyżej { "120" } klatek na wywołanie; dłuższe sekwencje przez CLI
+
+seg-5580a1a89bcb = <c1/> (lub flagi), <c2/>, <c3/>
+
+seg-b96c18c1f157 = <c1/> (bez Monte Carlo, bez SVG)
+
+seg-5b62ca019ebd = <b>N/A</b> (zob. wiersz możliwości)
+
+seg-4f7453d89d9d = Geometria MODELLED; wyjście JSON lub SVG
+
+seg-c853beadb55e = Presety REPRESENTATIVE z proweniencją
+
+seg-52638393d72d = List Scenario Kinds
+
+seg-69bc0d382eb7 = Insert Example Scenario
+
+seg-611dbcb5a15c = Funkcje <c1/> i <c2/> wkompilowują tekst przykładu (około { "0.7" } MB)
+
+seg-51e0c2c100f8 = <c1/> (wsadowo)
+
+seg-c9421c4d744f = wycinek: <c1/>
+
+seg-6a2439967519 = wycinek: <c1/>
+
+seg-efe5e5dbe710 = wycinek
+
+seg-816f9bd210d5 = Assess Receiver Stream (zapisany log, <c1/>)
+
+seg-d81457d8f038 = Strona zaufania morskiego (wycinek); karta Wiersz poleceń dla procesu
+
+seg-9cf210dd2301 = Działający proces; wycinek nie ma gniazda ani bramki (N/A wyżej)
+
+seg-315d0dcd39fb = Tylko tekst na każdej powierzchni, bez gniazda; działające eksportery są procesem (zob. wyżej)
+
+seg-5c93482c9ae4 = Tekst na wejściu, JSON na wyjściu; MODELLED
+
+seg-3763f34af33d = N/A (zob. wyżej)
+
+seg-4110fadc04db = Ten sam JSON co <c1/>, z oświadczeniem doradczym w polu <c2/>; odczyt pliku staje się bajtami w pamięci. Wyłącznie stan uwierzytelnienia: to nie jest usługa integralności nawigacji i nie ma twierdzenia o skuteczności ochrony przed spoofingiem
+
+seg-399524b468f3 = <c1/> (utwórz pakiet)
+
+seg-6dfc4b352892 = Narzędzia: karta Wiersz poleceń (bez klucza podpisu na stronie)
+
+seg-69dadb564662 = Brak klucza podpisu w przeglądarce
+
+seg-fd26107fa3cd = <b>N/A</b> (terminal; potrzebuje plików)
+
+seg-38dc9c30191a = <b>oczekuje</b>: Narzędzia: karta Wiersz poleceń
+
+seg-57257e80468f = Plan i katalog są podawane jako tekst; podpisany pakiet (<c1/>) jest dostępny wyłącznie z wiersza poleceń (klucz podpisu)
+
+seg-3ea5db063974 = Brak klucza podpisu w przeglądarce; żaden sygnał nie jest zapisywany ani odtwarzany
+
+seg-8b27a6ca1aef = <b>N/A</b> (klucz prywatny nigdy nie jest tworzony ani czytany przez wtyczkę)
+
+seg-dda21be14d64 = Narzędzia: karta Wiersz poleceń
+
+seg-03376576d0b6 = Python zwraca klucz w pamięci wraz z ostrzeżeniem; klucz prywatny nie powinien przechodzić przez rozmowę ani przez stronę
+
+seg-cd21674be5d7 = Attach Timestamp
+
+seg-6c0caa6e1be2 = Token jako bajty lub base64, zaktualizowany pakiet zwracany w pamięci; podpis urzędu nie jest sprawdzany (<c1/>)
+
+seg-907eedb51849 = <b>N/A</b> (zob. Uwaga)
+
+seg-f70892a9f007 = Wysyła na adres (N/A wyżej)
+
+seg-76bcb50897c6 = <c1/> (CSV)
+
+seg-79f851a94048 = <c1/> (katalog śladów)
+
+seg-d2cc933b6894 = Czyta katalog (N/A wyżej)
+
+seg-316b51d83726 = Dostęp do sieci (N/A wyżej)
+
+seg-b611fd739914 = Czyta katalog archiwum i zapisuje pliki; opóźnienie publikacji jest wymuszane na maszynie publikującej (N/A wyżej)
+
+seg-96b313373128 = N/A (obsługuje je narzędzie MCP)
+
+seg-cb1fc7c162e3 = Tekst na wejściu, tekst na wyjściu; nic nie jest czytane ani zapisywane
+
+seg-5292a4966861 = statyczna strona <c1/>
+
+seg-839999463148 = Tekst HTML
+
+seg-bb10d5a1eb50 = Pliki zbiorów danych i tajne ziarno (N/A wyżej)
+
+seg-45bbda779645 = Zwraca tekst, niczego nie zapisuje; bez sygnału
+
+seg-0e64b97b025b = <b>N/A</b> (nagrania to gigabajty plików; zob. Uwaga)
+
+seg-7c9273837b73 = Próbki są plikami. <c1/> (lub ścieżka wyjściowa kończąca się na <c2/>) zapisuje metadane ION GNSS SDR obok próbek: zapisują je CLI i MCP (<c3/>); Python zwraca próbki w pamięci i nie zapisuje pliku, więc metadane nie mają formy w Pythonie (<b>N/A</b>)
+
+seg-4f1cc14c9af4 = Scenariusze są wbudowane; brak systemu plików; <c1/> i <c2/> drukują zatwierdzone tabele dokumentacji i są dostępne tylko w CLI
+
+seg-5de02dcfb151 = Strumienie symboli to tekst złożony z { "0" } i { "1" }, co najwyżej { "4" } MiB (MCP) lub { "100" } klatek generowanych na wywołanie; LDPC i CRC-24Q podramek od { "2" } do { "4" } nie są weryfikowane; żaden sygnał nie jest zapisywany
+
+seg-db29ea94222b = Próbki są plikami
+
+seg-9b7afa156e9a = <c1/> (logi w treści wywołania, bez plików)
+
+seg-295fe0c63fe2 = <c1/> czyta nagranie SigMF, które wciąż jest zapisywane, tylko odbiór (<c2/> w Rust): <b>N/A</b> dla Pythona i MCP, ponieważ wywołanie czekające na przyrost pliku nie wraca po zakończeniu pracy, z tego samego powodu <c3/> jest także dostępne tylko z wiersza poleceń; nagranie w jego bieżącej długości przechodzi przez <c4/>
+
+seg-e651dceda9b2 = <c1/> (tekst, w treści wywołania)
+
+seg-237bb76fae50 = Wykaz folderu jest dostępny w Pythonie i CLI; serwer MCP czyta jeden katalog roboczy
+
+seg-654781b74f2a = Przepisują nagrania na dysku (N/A wyżej)
+
+seg-6a010403db35 = lista sygnałów (<c1/>)
+
+seg-1154d82301ca = <b>N/A</b> (lista; uruchom <c1/>)
+
+seg-8c90b8cb2e78 = Funkcje pomocnicze
+
+seg-3d9ac26ec730 = Małe punkty wejścia, które nie są wierszem możliwości, i gdzie każdy z nich się znajduje:
+
+seg-b8c43ffb2a13 = Python (<c1/>, <c2/>), WASM (<c3/>), CLI (<c4/>), MCP (informacje o serwerze)
+
+seg-3f32bbece220 = Wersja silnika
+
+seg-d5fb77719df2 = Czyta binarny plik <c1/>, który zapisało <c2/>. <b>N/A</b> gdzie indziej: czyta plik z dysku (WASM nie ma systemu plików, MCP czyta tylko jeden katalog roboczy, przez narzędzia <c3/>)
+
+seg-57ef8e3fe6bc = Kodek linku do udostępniania <c1/> w przeglądarkowym playgroundzie (TOML scenariusza do tokenu bezpiecznego dla URL i z powrotem). <b>N/A</b> gdzie indziej: link do strony internetowej nie ma znaczenia dla wiersza poleceń, wywołania z Pythona ani agenta
+
+seg-bd6e451f5cdf = Limity różniące się zależnie od powierzchni
+
+seg-8f3e8345d90d = Limit wejścia
+
+seg-4b5abdf098e3 = Pliki
+
+seg-1910f2cef7da = { "4" } MiB na tekst wejściowy ({ "2" } MiB i { "20,000" } epok dla wycinka strumienia); odpowiedzi zawierają co najwyżej { "2000" } wierszy NMEA, { "200" } wierszy epok nienominalnych i { "4" } MiB plików GeoJSON lub pakietów
+
+seg-116e2d0202f4 = tylko treść w wywołaniu: pole scenariusza, które wskazuje plik, jest odrzucane; narzędzia <c1/> używają jednego, włączanego opcjonalnie katalogu roboczego, a każda ścieżka jest w nim zamknięta
+
+seg-ee5e8de88144 = MCP przez HTTP (<c1/>, hostowany samodzielnie)
+
+seg-f095909e9feb = jak MCP, z treścią żądania do { "5" } MiB, { "120" } s na żądanie i domyślnie { "8" } żądaniami naraz
+
+seg-95d4ab7863e6 = brak: narzędzia plikowe <c1/> są wyłączone; każde inne narzędzie przyjmuje treść w wywołaniu
+
+seg-a8b290453c39 = Python, Rust
+
+seg-3df89722db78 = { "64" } MiB na tekst wejściowy
+
+seg-00acf8b1ff29 = <c1/> może wskazać <c2/>, który proces potrafi odczytać
+
+seg-cf23db887749 = { "64" } MiB na tekst wejściowy, w granicach własnej pamięci przeglądarki
+
+seg-e38059970288 = brak: przeglądarka nie ma systemu plików, nic nie jest wysyłane
+
+seg-241399edb372 = Poziomy dowodowe i zastrzeżenia na każdej powierzchni
+
+seg-b3307ae773f7 = Pakiet dowodowy to <b>zapis techniczny</b> tego, co silnik obliczył z logu przy podanych ustawieniach, ze wszystkimi skrótami i podpisem nad nimi. Nie jest opinią prawną, ustaleniem faktów w sprawie żadnego zdarzenia ani zatwierdzeniem. Pozytywny wynik weryfikacji oznacza, że zapis jest niezmieniony; bez zaufanego klucza publicznego dowodzi jedynie integralności względem klucza, który pakiet sam wskazuje.
+
+seg-0d8ed8b92a00 = Monitory zaufania odbiornika i wskaźnik zaufania mają poziom <b>MODELLED</b>: progi są podanymi wprost danymi wejściowymi i nic nie twierdzi, jak sprawdzają się wobec rzeczywistych zakłóceń. Wynik ma charakter <b>doradczy</b>; Kshana nie jest sprzętem nawigacyjnym z zatwierdzeniem typu (IEC { "61108" }, IEC { "61162" }), a operator nadal ponosi odpowiedzialność. Wysoki wskaźnik nie jest dowodem prawdziwej pozycji.
+
+seg-606127880e96 = Mapa zakłóceń ma poziom <b>MODELLED</b> (progi ustalone z góry, niesprawdzone względem pomiaru wzorcowego w terenie). Komórka w stanie degraded nie wskazuje zakłóceń jako przyczyny; komórka bez obserwacji nie jest dowodem na czystą trasę; mapa opisuje dawne zgłoszenia i nie jest prognozą. Jest wyłącznie zagregowana: nie zwraca się żadnego identyfikatora.
+
+seg-b2fd2a05842f = Szkoleniowy NMEA to <b>wyłącznie tekst</b>: nie syntezuje się RF, IQ ani przebiegu, nic nie jest nadawane i nigdy nie służy do systemów nawigacyjnych statku działających na żywo.
+
+seg-4e3bbacda9ac = <s1>Poprzednia</s1>Używanie Kshana z poziomu agenta
+
+seg-c5fbfab85e01 = <s1>Następna</s1>Wtyczka JetBrains
