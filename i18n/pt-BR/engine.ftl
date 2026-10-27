@@ -9804,3 +9804,181 @@ engine-compliance-req-easa-report-asks = Notificar os eventos que afetam a segur
 engine-compliance-req-easa-report-gap = Um dever de notificação; nenhuma saída trata disso.
 
 engine-compliance-req-nis2-21-1-reference = Artigo 21(1)
+
+engine-compliance-req-nis2-21-1-asks = Adotar medidas técnicas, operacionais e organizacionais proporcionadas para gerir os riscos para os sistemas de rede e de informação, tendo em conta o estado da arte, a exposição, a dimensão e a probabilidade e a gravidade dos incidentes.
+
+engine-compliance-req-nis2-21-1-gap = O Kshana trata apenas da dependência de posicionamento e temporização de um sistema, e não do risco de segurança da informação em geral.
+
+engine-compliance-req-nis2-21-2-a-reference = Artigo 21(2)(a)
+
+engine-compliance-req-nis2-21-2-a-asks = Políticas de análise de riscos e de segurança dos sistemas de informação.
+
+engine-compliance-req-nis2-21-2-a-gap = Apoia a parte de PNT de uma análise de riscos; a política em si é organizacional.
+
+engine-compliance-req-nis2-21-2-b-reference = Artigo 21(2)(b)
+
+engine-compliance-req-nis2-21-2-b-asks = Tratamento de incidentes.
+
+engine-compliance-req-nis2-21-2-b-gap = Um registro de receptor pontuado ajuda a datar o início e o fim de um incidente de interferência em PNT; o processo de tratamento é organizacional.
+
+engine-compliance-req-nis2-21-2-c-reference = Artigo 21(2)(c)
+
+engine-compliance-req-nis2-21-2-c-asks = Continuidade das atividades, como gestão de cópias de segurança, recuperação de desastres e gestão de crises.
+
+engine-compliance-req-nis2-21-2-c-gap = Mostra por quanto tempo uma alternativa modelada mantém limitado um erro de temporização ou de posição; os planos de continuidade são organizacionais.
+
+engine-compliance-req-nis2-21-2-d-reference = Artigo 21(2)(d)
+
+engine-compliance-req-nis2-21-2-d-asks = Segurança da cadeia de abastecimento, incluindo as relações com os fornecedores diretos.
+
+engine-compliance-req-nis2-21-2-d-gap = O Kshana não avalia fornecedores. Usar uma bancada neutra e reproduzível para a aceitação de receptores é uma contribuição que um comprador pode aproveitar, e não uma avaliação da cadeia de abastecimento.
+
+engine-compliance-req-nis2-21-2-e-reference = Artigo 21(2)(e)
+
+engine-compliance-req-nis2-21-2-e-asks = Segurança na aquisição, no desenvolvimento e na manutenção de sistemas, incluindo o tratamento e a divulgação de vulnerabilidades.
+
+engine-compliance-req-nis2-21-2-e-gap = Testes de aceitação repetíveis do comportamento de um receptor sob interferência fornecem evidências em apoio da parte de aquisição; o tratamento de vulnerabilidades fica de fora.
+
+engine-compliance-req-nis2-21-2-f-reference = Artigo 21(2)(f)
+
+engine-compliance-req-nis2-21-2-f-asks = Políticas e procedimentos para avaliar a eficácia das medidas de gestão de riscos de cibersegurança.
+
+engine-compliance-req-nis2-21-2-f-gap = Execuções repetíveis com hash e eventos declarados antes da pontuação fornecem evidências em apoio de um teste de eficácia; a política e seu cronograma são organizacionais.
+
+engine-compliance-req-nis2-21-2-ghij-reference = Artigo 21(2)(g) a (j)
+
+engine-compliance-req-nis2-21-2-ghij-asks = Ciber-higiene e formação; criptografia e cifragem; segurança dos recursos humanos, controle de acesso e gestão de ativos; autenticação multifator e comunicações seguras.
+
+engine-compliance-req-nis2-21-2-ghij-gap = Não tratável pelas saídas de execuções de posicionamento e temporização.
+
+engine-compliance-req-nis2-21-3-reference = Artigo 21(3)
+
+engine-compliance-req-nis2-21-3-asks = Ao escolher medidas para a cadeia de abastecimento, considerar as vulnerabilidades de cada fornecedor e a qualidade e o desenvolvimento seguro de seus produtos.
+
+engine-compliance-req-nis2-21-3-gap = Veja o Artigo 21(2)(d).
+
+engine-compliance-req-en16803-1-reference = EN 16803-1 (definições e procedimentos de engenharia de sistemas)
+
+engine-compliance-req-en16803-1-asks = Define a arquitetura de ITS rodoviário, as características e métricas de desempenho e um método para comparar ambientes de teste. Não estabelece requisitos.
+
+engine-compliance-req-en16803-1-gap = Os números das cláusulas não são publicamente visíveis. Quem detém a licença deve mapear os campos de saída do Kshana para as definições das métricas.
+
+engine-compliance-req-en16803-2-reference = EN 16803-2 (desempenho básico de terminais baseados em GNSS)
+
+engine-compliance-req-en16803-2-asks = Procedimentos de teste de laboratório baseados em reprodução para disponibilidade, continuidade, exatidão, integridade e tempo até a primeira solução da saída de posição. Não estabelece valores mínimos.
+
+engine-compliance-req-en16803-2-gap = O movimento exportado pelo Kshana pode acionar uma reprodução; o procedimento da norma, seu tratamento de sinais gravados e seu cálculo das métricas não são reproduzidos aqui e exigem o texto licenciado.
+
+engine-compliance-req-en16803-3-6-reference = EN 16803-3, cláusula 6
+
+engine-compliance-req-en16803-3-6-asks = Distingue sinais gravados de sinais simulados nos testes de segurança.
+
+engine-compliance-req-en16803-3-6-gap = O Kshana não grava nem simula sinal algum. Ele exporta movimento e eventos e pontua o registro do receptor.
+
+engine-compliance-req-en16803-3-a-reference = EN 16803-3, Anexo A
+
+engine-compliance-req-en16803-3-a-asks = Uma categorização de alto nível de ataques ao GNSS: interferência, jamming, meaconing e spoofing.
+
+engine-compliance-req-en16803-3-a-gap = Os cenários do Kshana nomeiam classes de ataque nos mesmos termos gerais; uma correspondência em nível de cláusula exige o Anexo licenciado.
+
+engine-compliance-req-nist-id-ra-1-reference = ID.RA-1 (Avaliação de riscos)
+
+engine-compliance-req-nist-id-ra-1-asks = Identificar, documentar e informar as vulnerabilidades do sistema de PNT e do que distribui dados de PNT; quando seguro, testar a suscetibilidade a interrupção ou manipulação, o que pode usar simulação de sinal de PNT, dentro dos limites legais e de continuidade das atividades.
+
+engine-compliance-req-nist-id-ra-1-gap = O Kshana caracteriza a suscetibilidade em cenários modelados e no registro gravado de um receptor. Um inventário das vulnerabilidades do sistema real cabe ao operador, e qualquer teste de RF é executado com o equipamento e a autorização do próprio operador: o Kshana não transmite nada.
+
+engine-compliance-req-nist-id-ra-3-reference = ID.RA-3 (Avaliação de riscos)
+
+engine-compliance-req-nist-id-ra-3-asks = Identificar e documentar as ameaças internas e externas ao PNT, desde a interrupção natural e não intencional até o ataque deliberado, como jamming, spoofing e ataques de atraso.
+
+engine-compliance-req-nist-id-ra-3-gap = Os cenários declaram ameaças e seus efeitos. Uma avaliação de ameaças documentada para o local e o sistema do próprio usuário cabe ao usuário redigir; nenhum cenário é evidência de que uma ameaça exista ali.
+
+engine-compliance-req-nist-id-ra-4-reference = ID.RA-4 (Avaliação de riscos)
+
+engine-compliance-req-nist-id-ra-4-asks = Identificar impactos e probabilidades potenciais; para cada ameaça, declarar a extensão do impacto, como o erro se manifesta (degrau ou rampa), os limiares de detecção e o que o erro causa a jusante.
+
+engine-compliance-req-nist-id-ra-4-gap = As execuções fornecem valores de impacto (crescimento do erro, níveis de proteção, efeitos no enlace) para sensores modelados e uma ameaça declarada. As probabilidades não são produzidas, e um impacto modelado não é um impacto medido.
+
+engine-compliance-req-nist-id-ra-5-reference = ID.RA-5 (Avaliação de riscos)
+
+engine-compliance-req-nist-id-ra-5-asks = Usar ameaças, vulnerabilidades, probabilidades e impactos para avaliar o risco, e reavaliá-lo periodicamente e quando o sistema ou a ameaça mudarem.
+
+engine-compliance-req-nist-id-ra-5-gap = A pontuação usa um conjunto sintético de ameaças, declarado como tal. Execuções repetíveis com hash tornam uma reavaliação comparável; o julgamento do risco e seu cronograma são organizacionais.
+
+engine-compliance-req-nist-pr-ds-6-reference = PR.DS-6 (Segurança de dados)
+
+engine-compliance-req-nist-pr-ds-6-asks = Verificar a integridade dos dados de PNT quando as fontes divergem, por exemplo por verificação cruzada de várias frequências, constelações ou fontes independentes.
+
+engine-compliance-req-nist-pr-ds-6-gap = O Kshana calcula níveis de proteção e resultados entre fontes para geometria e sensores modelados; as verificações de integridade dentro de um produto não são observadas.
+
+engine-compliance-req-nist-pr-ip-10-reference = PR.IP-10 (Processos e procedimentos de proteção da informação)
+
+engine-compliance-req-nist-pr-ip-10-asks = Testar os planos de resposta e de recuperação; para um sistema com uma fonte de tempo de reserva, remover a fonte primária e confirmar que a exatidão do tempo, os degraus e as rampas permanecem dentro dos requisitos de relógio declarados.
+
+engine-compliance-req-nist-pr-ip-10-gap = Uma execução de holdover modela a remoção e verifica o erro em relação a um limiar declarado; um registro de receptor pontuado mostra uma perda e uma recuperação reais. O teste no servidor de tempo do próprio operador, e qualquer RF usada para ele, cabem ao operador.
+
+engine-compliance-req-nist-pr-pt-5-reference = PR.PT-5 (Tecnologia de proteção)
+
+engine-compliance-req-nist-pr-pt-5-asks = Usar mecanismos de resiliência em condições normais e adversas: rejeitar sinais e dados ruins e combinar o holdover com detecção de anomalias, fontes redundantes ou fundidas e recuperação.
+
+engine-compliance-req-nist-pr-pt-5-gap = São mostrados mecanismos modelados e seus limites; saber se um produto os implementa é um teste de produto.
+
+engine-compliance-req-nist-de-ae-2-reference = DE.AE-2 (Anomalias e eventos)
+
+engine-compliance-req-nist-de-ae-2-asks = Analisar os eventos de PNT detectados em tempo real e depois (fonte, estatísticas de erro, duração, frequência, localização), distinguir eventos nocivos da operação normal e manter os dados brutos e a análise.
+
+engine-compliance-req-nist-de-ae-2-gap = O Kshana pontua um registro gravado após o fato e mantém hashes do que executou. Ele não localiza nem atribui uma fonte de interferência e não monitora em tempo real como um serviço.
+
+engine-compliance-req-nist-de-ae-3-reference = DE.AE-3 (Anomalias e eventos)
+
+engine-compliance-req-nist-de-ae-3-asks = Coletar e correlacionar dados de eventos de várias fontes e sensores e verificar de forma cruzada os dados de PNT de mais de uma fonte para detectar comportamento anômalo.
+
+engine-compliance-req-nist-de-ae-3-gap = Os monitores do Kshana verificam de forma cruzada os fluxos de um registro de receptor ou de um cenário; a correlação entre os sensores e registros do próprio operador cabe a ele.
+
+engine-compliance-req-nist-de-ae-4-reference = DE.AE-4 (Anomalias e eventos)
+
+engine-compliance-req-nist-de-ae-4-asks = Determinar o impacto dos eventos sobre os dados de PNT e sobre as aplicações que dependem deles, incluindo eventos pouco frequentes.
+
+engine-compliance-req-nist-de-ae-4-gap = O impacto é mostrado na saída de PNT de uma execução ou de um registro. Os efeitos sobre uma aplicação específica a jusante exigem os requisitos da própria aplicação.
+
+engine-compliance-req-nist-de-ae-5-reference = DE.AE-5 (Anomalias e eventos)
+
+engine-compliance-req-nist-de-ae-5-asks = Definir e documentar os limiares de alerta de incidente a partir das tolerâncias de erro e de incerteza de que a aplicação necessita, com o tempo de notificação.
+
+engine-compliance-req-nist-de-ae-5-gap = As execuções são pontuadas em relação a limiares que o usuário declara e os registram. Escolher os limiares e o procedimento de alerta cabe ao usuário.
+
+engine-compliance-req-nist-de-cm-1-reference = DE.CM-1 (Monitoramento contínuo de segurança)
+
+engine-compliance-req-nist-de-cm-1-asks = Monitorar as fontes e as saídas de PNT em relação a linhas de base para detectar anomalias, usando fontes diversas e detecção e exclusão de falhas, e verificar se o monitoramento cobre os modos de falha identificados.
+
+engine-compliance-req-nist-de-cm-1-gap = O Kshana executa e pontua esses monitores em registros e cenários. O monitoramento contínuo de um sistema em operação e a cobertura de todos os modos de falha de um produto não são mostrados por um conjunto de execuções.
+
+engine-compliance-req-nist-de-dp-3-reference = DE.DP-3 (Processos de detecção)
+
+engine-compliance-req-nist-de-dp-3-asks = Testar se a detecção de eventos funciona como pretendido, periodicamente e após atualizações, em relação aos perfis de ameaça atuais.
+
+engine-compliance-req-nist-de-dp-3-gap = Cenários repetíveis com hash e eventos declarados antes da pontuação fornecem evidências em apoio de um teste desse tipo; executá-lo periodicamente no equipamento do operador cabe a ele.
+
+engine-compliance-req-nist-rs-an-5-reference = RS.AN-5 (Análise)
+
+engine-compliance-req-nist-rs-an-5-asks = Estabelecer verificação e validação para modos de falha conhecidos e vulnerabilidades recém-descobertas, e registrar dados de PNT nominais e anômalos de incidentes para melhorar a detecção futura.
+
+engine-compliance-req-nist-rs-an-5-gap = Um registro pontuado caracteriza um incidente após o fato. Receber vulnerabilidades divulgadas e agir sobre elas é um processo fora de qualquer execução.
+
+engine-compliance-req-nist-rs-mi-2-reference = RS.MI-2 (Mitigação)
+
+engine-compliance-req-nist-rs-mi-2-asks = Depois que um incidente é contido, mitigá-lo com fontes de PNT alternativas ou complementares para que a operação continue, e devolver o sistema a um estado de funcionamento adequado.
+
+engine-compliance-req-nist-rs-mi-2-gap = As execuções mostram por quanto tempo fontes alternativas modeladas mantêm um erro limitado; a contenção e o retorno ao serviço são etapas operacionais.
+
+engine-compliance-mapping-header-reference = Referência
+
+engine-compliance-mapping-header-asks = O que exige (parafraseado)
+
+engine-compliance-mapping-header-capabilities = Saídas do Kshana que fornecem evidências em apoio de
+
+engine-compliance-mapping-header-gap = Lacuna
+
+engine-compliance-mapping-none = nenhuma
+
+engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Lido em { $accessed }: { $checked }.
