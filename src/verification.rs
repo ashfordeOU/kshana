@@ -3858,6 +3858,16 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            id: "VM-bc70cb57",
+            requirement: "Interference source region: a feasible emitter region from aircraft and ship position reports",
+            capability: "A feasible region for where a source of degraded navigation reports can be, from ADS-B (NIC/NACp) or AIS position reports: radio line of sight on a 4/3-earth radius from the report height and an emitter antenna height range, a limited effective range for the unknown power, affected units pulling the posterior toward their reach and unaffected units with line of sight pushing against it, grouped into sessions in time and space. Output is highest-density regions at stated confidence levels, a posterior centroid with a moment ellipse, session start, end, duration, affected area and distinct-aircraft count above the publication minimum, a time-of-day profile and hours per day. Terrain-free; a single source per session; the credibility is conditional on the model. Optional fusion with a TDOA fix from geolocation.",
+            module: "interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`",
+            tests: "interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases",
+            oracle: "None external yet. Synthetic forward-inverse round trips only, from a generator that shares the estimator's model, so they check the code and the calibration of the stated levels under that model and nothing about real emitters. An external check against the published Jammertest 2025 transmitter sites was pre-registered (docs/emitter-region/PREREGISTRATION.md, signed off by the owner before any scored run) and run once (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE (2 scheduled sessions, fewer than the registered minimum of 4) and AIS NOT ASSESSABLE (no published session), so no bar was tested and the row stays MODELLED",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             id: "VM-af2c0f76",
             requirement: "Trust telemetry wire formats: Prometheus text exposition and OpenTelemetry OTLP/HTTP JSON",
             capability: "GNSS trust (score, band, reasons, gate and, on request, position) as Prometheus text exposition served on /metrics and as OTLP/HTTP JSON metrics, with a cap on reason label cardinality.",

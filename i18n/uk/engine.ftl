@@ -33,7 +33,7 @@ engine-e-clock-log-the-rinex-clock-file-holds = у файлі годинникі
 
 engine-e-clock-log-no-as-or-ar-records = немає записів AS або AR для годинника { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = у годинника лише одна епоха; tau0 визначити неможливо
+engine-e-clock-log-the-clock-has-single-epoch = у годинника лише одна епоха; потрібні щонайменше дві (tau0 визначити неможливо)
 
 engine-e-clock-log-the-log-has-no-readings = журнал формату { $format } не містить показань
 
@@ -9875,3 +9875,1748 @@ engine-compliance-source-en-16803-1-title = Space - Use of GNSS-based positionin
 engine-compliance-source-en-16803-2-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals
 
 engine-compliance-source-en-16803-3-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals
+
+engine-kind-lunar-ascent-description = MODELLED активний підйом із південно-полярного майданчика на поверхні на орбіту зближення та коваріація положення–швидкості, яку він передає назад на орбіту (клас Artemis). П'ятистанова інерціальна модель похибок по осях із lunar-descent (положення, швидкість, зміщення акселерометра, нахил орієнтації, зміщення гіроскопа; збуджується питомою силою) виконується по всіх трьох осях майданчика від стану на поверхні, з яким починається фаза; визначення положення AFS за видимими ретрансляторами ILLUSTRATIVE угруповання класу LCNS (автономно або диференційно із залишком каналу поправок із lunar-differential-pnt, з підтримкою годинника, коли видно лише три ретранслятори) виконується із зазначеним інтервалом; місячний час входить через годинник апарата і через похибку часової мітки вздовж траєкторії. Подає замкнені в аналітичному вигляді інерціальні джерела, внесок допоміжного засобу, абляцію, 1-сигми навігації протягом підйому, розкид відсічки двигуна поряд зі знанням навігації та повну коваріацію 6x6 у MCI при виведенні із збереженою кореляцією положення–швидкості. MODELLED: ілюстративний клас IMU, питома сила, набір ретрансляторів і розкид відсічки; похибки утримуються в осях майданчика старту; номінальний вихідний стан є замінником. Не схвалено жодним агентством; консультативне програмне забезпечення, не сертифіковане навігаційне обладнання.
+
+engine-kind-lunar-surface-description = MODELLED доступність позиціонування та часу на поверхні за майданчиком і сезоном для південно-полярних майданчиків класу Artemis. Для кожного майданчика й сезону (епоха та вікно після неї) подає позиціонування за ретрансляторами (чотири або більше ретрансляторів ILLUSTRATIVE угруповання класу LCNS у полі зору та PDOP нижче порога — за тими самими функціями, що й у moonlight-service-volume, а з розділом рельєфу — за променево прокресленим горизонтом рельєфу з lunar-station-coverage), чи перебувають Земля й Сонце над горизонтом майданчика (аналітичні Сонце, Місяць і місячна орієнтація з урахуванням лібрації, що й змінюється із сезоном), та доступність часу (ретранслятор або Земля у полі зору) з найдовшим проміжком без обох — holdover, який має витримати годинник на поверхні. Результат для одного майданчика збігається з результатом moonlight-service-volume до біта. MODELLED: ілюстративний кеплерівський набір ретрансляторів на Місяці із середнім обертанням; показник ретрансляторів не змінюється із сезоном; рельєф — вирізка LOLA 1200 m. Не схвалено жодним агентством; консультативне програмне забезпечення, не сертифіковане навігаційне обладнання.
+
+engine-kind-lunar-descent-description = MODELLED бюджет розкиду посадки для активного спуску на південно-полярний майданчик (клас Artemis). По кожній горизонтальній осі п'ятистанова модель інерціальних похибок (положення, швидкість, зміщення акселерометра, нахил орієнтації, зміщення гіроскопа) збуджується питомою силою спуску; послідовний фільтр бере визначення положення від увімкнених допоміжних засобів: визначення AFS за видимими ретрансляторами ILLUSTRATIVE угруповання класу LCNS (автономно або диференційно із залишком каналу поправок із lunar-differential-pnt, з підтримкою годинника, коли видно лише три ретранслятори) та рельєфно-відносне визначення (зіставлювач TERCOM/SITAN крейту на синтетичному рельєфі або межа Крамера–Рао зіставлення вікна висот реальної південно-полярної DEM LOLA). Місячний час входить через годинник апарата в моменти визначень (зсув LTC-TT із lunar-time-offset або невизначеність його опублікованої смуги) і як похибка часової мітки вздовж траєкторії. Подає 3-сигмовий еліпс посадки, R95, замкнені в аналітичному вигляді інерціальні джерела, внесок кожного допоміжного засобу, абляцію кожної комбінації допоміжних засобів, калібрування еліпса методом Монте-Карло та коваріацію, що передається далі. MODELLED: ілюстративний клас IMU, набір ретрансляторів, профіль спуску і член наведення; рельєфна навігація використовує синтетичний рельєф у земному масштабі метра; доступність AFS — одна епоха на плоскій масці. Не схвалено жодним агентством; консультативне програмне забезпечення, не сертифіковане навігаційне обладнання.
+
+engine-kind-lunar-orbit-rendezvous-description = MODELLED відносна навігація для стикування у стилі Orion–посадковий модуль на низькій місячній орбіті або еліптичній полярній орбіті (клас Artemis). Переслідувач і ціль летять тією самою орбітою за силовою моделлю крейту для Місяця; спільна 21-параметрична пакетна оцінка Гаусса–Ньютона за дугою (два стани апаратів і стійкі зміщення сигналу в космосі) поєднує абсолютне визначення положення для кожного апарата за набором ретрансляторів ILLUSTRATIVE класу LCNS (ретранслятори за Місяцем відкидаються, потрібно чотири, синфазна похибка сигналу в космосі взаємно гаситься між апаратами) та міжсупутникову дальність, з прецизійністю вимірювання дальності за межею кодового стеження на пілот-сигналі LunaNet AFS. Подає формальну та Монте-Карло відносну похибку положення й швидкості в осях LVLH цілі, доступність визначень, середню нормовану квадратичну похибку оцінювання порівняно з її очікуваним значенням та будь-яке випробування, ітерація якого не збіглася, дрейф через ігнорування гравітаційних гармонік і повну коваріацію 6x6, що передається далі. Для кругового випадку застосовується замкнена перевірка Хілла/Клессі–Вілтшира. MODELLED: ілюстративний набір ретрансляторів, бюджет похибок і апріорні значення; істина й оцінювач використовують одну силову модель, тож NEES перевіряє самоузгодженість, а не похибку моделі. Не схвалено жодним агентством; консультативне програмне забезпечення, не сертифіковане навігаційне обладнання.
+
+engine-kind-mission-thread-description = MODELLED бюджет похибок навігації та часу для заданого ланцюга фаз місії, від старту до входу в атмосферу: старт і виведення, зближення та стикування на низькій навколоземній орбіті (повторюване), транслунарна ін'єкція і цисмісячний політ, зближення на місячній орбіті, спуск, перебування на поверхні, підйом, повернення та вхід; кожна фаза — один із восьми зареєстрованих видів зі своїми датчиками й фільтром. Коваріація 6x6, годинник і система відліку передаються від фази до фази за заданим правилом (перенести, збільшити або повторно захопити); перетворення систем відліку та шкал часу (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) є окремими рядками бюджету, зі станом Місяця з необов'язкового фрагмента ядра DE440 та аналітичним рядом як заданим запасним варіантом. Необов'язкове накладення наземної мережі задає робоче навантаження стеження для кожної фази. Подає бюджет по фазах (1-сигми на вході, пікові та на виході, кожен внесок з одиницею), запас відносно заданої вимоги, найслабшу ланку, події та рисунок часової лінії. MODELLED: кожне число є заданим входом; ланцюг відповідає одному стеку, жоден апарат не моделюється. Лише публічні джерела; не афілійовано з жодним агентством і не схвалено ним; консультативне програмне забезпечення, не сертифіковане навігаційне обладнання.
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt: `magnetic_grid` замінює синтетичне магнітне поле, тому `magnetic_mascons` має бути порожнім, коли його задано
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = горизонт звітування має мати додатну довжину (horizon_end_s > horizon_start_s)
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers: документ результату не є форматованим об'єктом JSON
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] подає RAIM одного прогону поряд із його показниками holdover; потрібно runs = 1
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = ризик непоміченої відмови вичерпує весь бюджет цілісності; скінченного рівня захисту не існує
+
+engine-e-araim-reference-the-add-v4-subset-rule = правило підмножин ADD v4.2 завжди перелічує пари; max_order має бути >= 2
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint не видав жодної точки
+
+engine-e-bench-cli-scale-is-not-number = --scale не є числом
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` читає набір даних і призначена для завдання a; завдання c і d використовують `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = завдання c не має запечатаного holdout
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` створює файли завдань c і d; завдання a — це сам набір даних (використайте `truth`)
+
+engine-e-bench-cli-threshold-is-not-number = --threshold не є числом
+
+engine-e-bench-cli-seed-file-is-required = потрібен --seed-file
+
+engine-e-bench-cli-validate-needs-at-least-one = validate потребує щонайменше одного файлу результатів
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` призначений для завдання a; інші завдання мають зафіксовані маніфести
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest потребує одного файлу маніфесту
+
+engine-e-bench-system-name-is-required = потрібне `system.name`
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth не має масиву `labels`
+
+engine-e-bench-tasks-label-has-no-id = мітка не має `id`
+
+engine-e-bench-tasks-label-has-no-positive = мітка не має `positive`
+
+engine-e-bench-tasks-predictions-have-no-scores-object = predictions не мають об'єкта `scores`
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = holdout запечатано: передайте секрет через --seed-file
+
+engine-e-bench-tasks-task-truth-has-no-truth = truth завдання (c) не має масиву `truth`
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = predictions завдання (c) не мають об'єкта `predictions`
+
+engine-e-bench-tasks-truth-entry-has-no-id = запис truth не має `id`
+
+engine-e-campaign-compare-needs-threshold = compare потребує порога
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM: відсутній заголовок CCSDS_TDM_VERS
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = головний апарат розташований на Місяці: полярні координати сингулярні
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock застосовується лише до форматів rinex-clk, linuxptp і chrony (TICC використовує channel)
+
+engine-e-clock-log-single-column-timelab-log-needs = одностовпцевому журналу timelab потрібен tau0: заголовок `# tau0 = <s>` або tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = журнал TICC не містить показань (рядків `<seconds> chA|chB|chC|TI(...)`)
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = сітка інтенсивності несподівано порожня
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg має бути в (0, 180) (екваторіальна орбіта не має висхідного вузла)
+
+engine-e-evidence-bundle-its-imprint-is-not-the = його відбиток не є хешем manifest.json цього пакета (токен можна отримати лише після створення пакета: використайте `kshana evidence attach-timestamp`)
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey має бути 32 байти (64 шістнадцяткові цифри)
+
+engine-e-evidence-cli-that-is-the-private-key = це ПРИВАТНИЙ ключ підписувача. Ніколи не поширюйте його; передайте відкритий ключ (файл .pub)
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation: кондуктивна установка потребує attenuation_db — скінченного числа дБ, 0 або більше
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = непідтримуваний алгоритм дайджесту
+
+engine-e-evidence-tsa-signature-failure = збій підпису
+
+engine-e-field-schema-entry-is-not-an-object = запис не є об'єктом
+
+engine-e-field-schema-no-unit-string = немає рядка `unit`
+
+engine-e-field-schema-no-provenance-string = немає рядка `provenance`
+
+engine-e-geometry-sky-tle-holds-no-complete = sky: tle не містить жодного повного двострокового набору елементів
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky: epoch датує супутники з `tle`; попередньо задані `systems` і супутники, задані безпосередньо, не мають дати, тож задайте `tle` разом із ним
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map: `reference` замінює синтетичне поле, тому `coeffs` і `mascons` мають бути порожніми, коли його задано
+
+engine-e-gse-sim-fusion-od-produced-no-steps = комплексоване визначення орбіти не дало жодного кроку (замало спостережень)
+
+engine-e-holdover-test-give-one-of-series-samples = задайте одне з series.samples, series.csv_path або series.clock_log
+
+engine-e-holdover-test-give-one-of-series-samples-2 = задайте одне з series.samples, series.csv_path або series.clock_log, не більше одного
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s має бути скінченним, locked_duration_days >= 0, recovery_band_ns > 0 і recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path недоступний у збірці WebAssembly; задайте ряд безпосередньо як `samples` або `clock_log.text`
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry потребує щонайменше двох різних скінченних множників прямої видимості
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = оптичний канал не доставив жодного фотона (нескінченна CRLB дальності); збільште потужність / апертуру / час інтегрування
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz і rf_degraded_margin_db мають бути скінченними
+
+engine-e-interference-map-adsb-need-at-least-one-of = потрібен щонайменше один зі стовпців `nic`, `nacp`
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip: розпакований розмір перевищує межу
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = у JSON трасування бракує icao, timestamp або trace
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = власний набір даних потребує ліцензії, URL ліцензії та тексту атрибуції
+
+engine-e-interference-map-api-cell-size-must-be-between = розмір комірки має бути між { $lit_0_01 } і 10 градусів
+
+engine-e-interference-map-api-map-has-bad-date = карта має хибну дату
+
+engine-e-interference-map-api-no-map-falls-in-the = жодна карта не потрапляє в діапазон дат
+
+engine-e-interference-map-cli-dataset-is-required-so-the = потрібен --dataset, щоб ліцензію та атрибуцію було вбудовано
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg не є числом
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg має бути між { $lit_0_01 } і 10
+
+engine-e-interference-map-cli-subcommand-is-required = потрібна підкоманда
+
+engine-e-interference-map-cli-input-file-missing = вхідний файл відсутній
+
+engine-e-interference-map-cli-out-is-required = потрібен --out
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land завантажує файл: передайте --allow-network для підтвердження
+
+engine-e-interference-map-cli-curl-failed-to-download-the = curl не зміг завантажити полігони суходолу
+
+engine-e-interference-map-cli-route-is-required = потрібен --route
+
+engine-e-interference-map-cli-at-least-one-map-is = потрібен щонайменше один --map
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = полігони суходолу: не знайдено жодного Polygon чи MultiPolygon
+
+engine-e-interference-map-empty-input-header-row-is = порожній вхід: потрібен рядок заголовка
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox — це південь,захід,північ,схід у градусах
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox має задовольняти умови південь < північ і захід < схід, у межах земної кулі (без перетину антимеридіана)
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = Дані OpenSky Network виключено: їхня ліцензія не дозволяє комерційного використання чи поширення похідних карт (docs/data/INTERFERENCE-DATA-SOURCES.md)
+
+engine-e-interference-map-observatory-day-is-required = потрібен --day
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours не є числом
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg має бути між { $lit_0_5 } і 10
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = вхід не містить жодного придатного звіту
+
+engine-e-interference-map-route-not-kshana-interference-map-no = не є картою завад Kshana (немає члена `kshana_interference_map`)
+
+engine-e-interference-map-route-map-has-no-date = карта не має дати
+
+engine-e-interference-map-route-map-has-no-grid-cell = карта не має розміру комірки сітки
+
+engine-e-interference-map-route-map-has-an-invalid-grid = карта має недійсний розмір комірки сітки
+
+engine-e-interference-map-route-route-no-linestring-found = маршрут: не знайдено жодного LineString
+
+engine-e-interference-map-route-route-needs-at-least-two = маршрут потребує щонайменше двох шляхових точок
+
+engine-e-interference-map-route-route-waypoint-out-of-range = маршрут: шляхова точка поза діапазоном
+
+engine-e-interop-sigmf-records-signal-not-geometry = SigMF записує сигнал, а не геометрію; його записують зі сценарію, а не зі сцени
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = SigMF містить комплексні відліки основної смуги, які синтезує лише вид `spectrum`
+
+engine-e-interop-this-spectrum-scenario-has-no = цей сценарій spectrum не має блока [iq], тож немає відліків, які можна було б синтезувати для запису
+
+engine-e-interop-scene-time-step-must-be-positive = крок часу для експорту має бути додатним і скінченним
+
+engine-e-interop-scene-duration-must-be-non-negative = тривалість для експорту має бути невід'ємною і скінченною
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = цей сценарій pvt не задає `truth_ecef` — єдине положення, яке він визначає
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = ефемерида STK описує положення й швидкість апарата в часі; ця сцена має лише нерухомі точки або безчасові траєкторії (нерухома точка — це Facility STK, а не ефемерида)
+
+engine-e-interop-stk-scene-has-no-epoch = сцена не має епохи
+
+engine-e-iq-acq-surface-surface-header-names-too-many = заголовок поверхні називає забагато комірок
+
+engine-e-iq-cli-acquire-needs-signal-name = потрібен --signal <name>
+
+engine-e-iq-cli-acquire-needs-prn-list = потрібен --prn <list>
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface експортує одну поверхню пошуку: задайте рівно один --prn
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos потребує відбитого шляху: додайте --multipath-height або --land-mobile
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass потребує двох значень: lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend потребує щонайменше одного каскаду (--bandpass/--notch/--blank/--excise/--agc/--bits)
+
+engine-e-iq-cli-no-iq-processing-command-given = не задано жодної команди обробки iq
+
+engine-e-iq-cli-missing-recording-path = бракує шляху до запису
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout використовується лише з --follow
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow читає запис SigMF (задайте .sigmf-meta, .sigmf-data або базовий шлях)
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout має бути додатним числом секунд
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos потребує трьох значень: lat,lon,alt (deg,deg,m)
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene потребує --rate <hz>
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene потребує --duration <s> (або --window)
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav потребує --rx-pos lat,lon,alt
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene потребує --signal <name>
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene потребує --prn <list>
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format приймає sigmf або sdrx, не обидва
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx записує ci8 (типово) або ci16_le (sdrx:ci16_le); стандарт метаданих ION не має кодування з плаваючою комою
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name потребує --design <file.toml>
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads має бути додатним цілим числом або auto
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format потребує --epochs <path>
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert потребує --to <format>
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract потребує --start
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract потребує --duration
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start і --duration мають бути невід'ємними
+
+engine-e-iq-io-cli-real-input-is-converted-to = дійсний вхід перетворюється на комплексну основну смугу: задайте --factor <d> (>= 2)
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate потребує --factor <d> або --up <l> і --down <m>
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = коефіцієнти передискретизації мають бути додатними
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = коефіцієнти передискретизації мають бути додатними, а фільтр — непорожнім
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = перетворення дійсної ПЧ потребує децимації щонайменше у 2 рази, щоб прибрати дзеркальну складову
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx layout: фрагмент не містить жодного цілого блока
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx data закінчуються всередині заголовка
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = потік SigMF потребує щонайменше одного запису
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = select_channel слід викликати до читання
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = дані SigMF закінчуються до першого захоплення
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" потребує таблиці [validation], записаної до читання результатів кампанії
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign: підгонка за папкою кампанії IQ потребує нативної збірки (шар кампанії не збудовано для WebAssembly); тут працює шлях через журнал приймача ([[runs]])
+
+engine-e-iq-scene-truth-missing-truth-csv-header = бракує заголовка CSV істини
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s застосовується лише до fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = файл проєктування контурів не містить жодного проєкту
+
+engine-e-iq-track-sink-short-record = короткий запис
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = підгонка полінома поправок сингулярна (замало відліків для цього степеня)
+
+engine-e-leo-navmsg-each-trade-update-periods-must = кожен trade.update_periods_s має бути в (0, update_fit_interval_s]
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass: user_lat_deg у [-90, 90], mask_deg у [0, 60), search_s 600-172800
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0, rain_exceedance_percent у [{ $lit_0_001 }, 5] і scintillation_percent у [{ $lit_0_01 }, 50]
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer: onset_s у межах вікна, offset_m у [0, 1e6], push_rate_m_s у [0, 1000], додатні prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz і fll_integration_s, p_fa і p_md у (0, { $lit_0_5 }), iono_rate_bound_m_s >= 0
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver: loop_bandwidth_hz та integration_time_s мають бути додатними
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver: від 1 до 12 інтервалів корелятора, кожен (як і reference_spacing_chips) між 0 і 2 чипами
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm і user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90
+
+engine-e-live-io-baud-needs-number = --baud потребує числа
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure не реалізовано: Kshana ніколи не записує в приймач. Налаштуйте його власним засобом виробника, потім читайте його через --serial
+
+engine-e-live-io-more-than-one-session-file = більше одного файлу сесії
+
+engine-e-live-io-follow-and-from-end-apply = --follow і --from-end застосовуються лише до --file
+
+engine-e-live-io-baud-applies-to-serial-only = --baud застосовується лише до --serial
+
+engine-e-live-io-live-needs-session-toml = live потребує файлу сесії .toml
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen віддає потік після перевірки: додайте --gate
+
+engine-e-live-io-two-outputs-would-share-stdout = два виходи ділили б stdout; спрямуйте --json або --pksht у файл
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = місячна ефемерида: задайте рівно одне з `mean_anom_deg` або `true_anom_deg`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = місячна ефемерида: індекси супутників мають бути суцільними від 0 без пропусків
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = інформація про маяки по майданчиках потребує station_datum = "fixed"; оцінений датум станції зв'язує маяки
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m, surface.orbiter_range_sigma_m і llr.epochs мають бути додатними
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = замало придатних до стеження вимірювань GNSS, щоб визначити орбіту та годинник приймача
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = менше двох зв'язних проходів: немає неоднозначності подвійної різниці, яку можна було б розв'язати
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = інформаційна матриця космічного зв'язку сингулярна
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m має бути скінченним і додатним (або задайте jammer.lat_deg і jammer.lon_deg, щоб розмістити джерело завад селенографічно)
+
+engine-e-lunar-llr-the-station-catalogue-states-no = каталог станцій не задає position_epoch_year; положення ITRF без його епохи не можна розповсюдити
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = beacon_campaign.beacons тут не використовується; додані маяки задавайте в extra_beacons
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path застосовується до файлу елементів, заданого в системі відліку OP
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain: задайте dem_path, dem_tile_path, station_horizon або user_horizon (або пропустіть [terrain])
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain: station_horizon не має станції в цьому виді; використайте user_horizon
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s коротший за сітку tau
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab: thresholds_ns має бути непорожнім списком додатних чисел
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = датум "all-stations-fixed" утримує кожну станцію нерухомою, тож нічого не оцінює, якщо не оцінюється маяк: задайте estimate_beacon = true
+
+engine-e-mars-pnt-fusion-od-run-produced-no = прогін комплексованого визначення орбіти не дав жодного кроку (замало спостережень)
+
+engine-e-nmea-synth-clock-not-numeric = не число
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name має містити від 1 до 64 символів із A-Z a-z 0-9 . _ - і не починатися з крапки (воно називає вихідні файли)
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = параметри приймача поза діапазоном (маска 0-45 deg, track <= поріг використання, 4-12 використаних супутників, шум >= 0, corr > 0, reacquire >= 0)
+
+engine-e-nmea-synth-config-the-time-change-per-second = зміна часу за секунду досягає 1, тож повідомлений час зупинився б або побіг назад; подовжте ramp_s/recovery_s або використайте стрибок (0)
+
+engine-e-orbit-give-the-user-as-user = задайте користувача як `user` (орбіта) або `user_site` (наземний майданчик), не обидва
+
+engine-e-orbit-missing-the-user-give-user = бракує користувача: задайте `user` (орбіта) або `user_site` (наземний майданчик)
+
+engine-e-orbit-skyline-needs-ground-site-give = [skyline] потребує наземного майданчика: задайте `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }` замість орбітального `user` (орбіта не має азимута, закріпленого за Землею)
+
+engine-e-orbit-omm-export-requires-tle-defined = експорт OMM потребує угруповання, заданого через TLE; цей сценарій такого не має
+
+engine-e-passes-earth-orientation-parameters-out-of = параметри орієнтації Землі поза діапазоном: |ut1_minus_utc_s| <= 1, |xp_arcsec| і |yp_arcsec| <= 2
+
+engine-e-pvt-no-priori-position-set-apriori = немає апріорного положення: задайте apriori_ecef, APPROX POSITION XYZ із заголовка спостережень або truth_ecef
+
+engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings і coherents не можна поєднувати з design: перебір запускає кожен проєкт у файлі
+
+engine-e-python-no-designs-to-sweep = немає проєктів для перебору
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate = candidate_adev_taus і candidate_adev_values мають бути однакової довжини (>= 2)
+
+engine-e-quantum-trade-provide-either-candidate-adev-taus = задайте або candidate_adev_taus + candidate_adev_values (виміряні), або candidate_clock_class
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate-2 = candidate_adev_taus і candidate_adev_values мають бути задані обидва (або обидва відсутні)
+
+engine-e-quantum-trade-timing-threshold-and-position-threshold = timing_threshold_s і position_threshold_m мають бути скінченними й > 0
+
+engine-e-realdata-clk-rinex-clock-file-is-mixed = файл годинника RINEX змішаної системи ('M') і не оголошує TIME SYSTEM ID; відмова вгадувати шкалу часу його епох
+
+engine-e-realdata-ion-sdr-more-than-one-block-only = більше одного <block>: читаються лише одноканальні файли
+
+engine-e-realdata-ion-sdr-this-layout-carries-reading-fill = цей формат містить трактування (fill_lsb_first або mid_rise), для якого стандарт метаданих ION не має поля; його не можна записати як .sdrx
+
+engine-e-realdata-ion-sdr-the-layout-needs-positive-sample = формат потребує додатної частоти дискретизації та коефіцієнта частоти не менше 1
+
+engine-e-realdata-lola-dem-unexpected-end-of-dem = несподіваний кінець DEM
+
+engine-e-realdata-lugre-not-raw-message = не повідомлення RAW
+
+engine-e-realdata-lugre-not-an-acq-message = не повідомлення ACQ
+
+engine-e-realdata-raim-no-priori-position-pass-one = немає апріорного положення: задайте його або надайте APPROX POSITION XYZ із заголовка спостережень
+
+engine-e-receiver-trust-calibration-calibration-window-less-than-the = вікно калібрування менше за захисний інтервал до вікна атаки або потрапляє всередину нього
+
+engine-e-receiver-trust-live-live-mode-needs-platform-kind = режим live потребує [platform] kind = "vessel": оцінка довіри призначена для рухомої платформи
+
+engine-e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no = потік RTCM 3 не містить повідомлень спостережень MSM4 чи MSM7
+
+engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = RTKLIB .pos із положеннями в градусах-хвилинах-секундах не читається: повторно запустіть rnx2rtkp/RTKPOST з десятковими градусами (-degf 0)
+
+engine-e-receiver-trust-monitors-engine-fix-the-rinex-observation = визначення рушія: у заголовку спостережень RINEX немає APPROX POSITION XYZ, з якого почати розв'язок
+
+engine-e-receiver-trust-monitors-platform-declares-heading-sensor-true = платформа оголошує heading_sensor = true, але журнал не містить курсу HDT, THS чи VHW
+
+engine-e-receiver-trust-scenario-log-imu-the-imu-series = log.imu: ряд IMU не перекриває жодної епохи журналу; перевірте time_offset_s
+
+engine-e-receiver-trust-scenario-this-surface-does-not-carry = ця поверхня не несе файлу `[log.imu]`: запустіть сценарій через `kshana receiver-trust` на хості або приберіть `[log.imu]`
+
+engine-e-receiver-trust-scenario-log-nav-applies-only-to = log.nav застосовується лише до журналу `rinex`: визначення рушія потребує його псевдодальностей
+
+engine-e-receiver-trust-score-score-the-geometry-deduction-is = score: відрахування за геометрію задається в [geometry] (cap_points, full_ratio, floor), а не в [score.weights]
+
+engine-e-spectrum-recording-is-not-available-in = запис недоступний у збірці WebAssembly: натомість передайте байти SigMF до kshana::sigmf::read і kshana::spectrum::welch_psd
+
+engine-e-ssv-scenario-navigation-noise-and-radiation-pressure = navigation: значення шуму та тиску випромінювання не можуть бути від'ємними
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of-2 = trajectory: задайте рівно одне з duration_min і duration_periods
+
+engine-e-ssv-weak-receiver-pfa-total-and-receiver = receiver.pfa_total і receiver.pd мають бути ймовірностями в (0, 1)
+
+engine-e-suite-suite-manifest-is-missing-title = у маніфесті набору бракує `title`
+
+engine-e-suite-suite-manifest-has-no-scenarios = маніфест набору не має `scenarios`: додайте непорожній масив `scenarios = [...]`
+
+engine-e-surface-path-sources-are-not-accepted = джерела `path` тут не приймаються: задайте журнал безпосередньо як `text` або `base64`
+
+engine-e-surface-input-campaign-names-campaign-folder = { "[" }input] campaign називає папку кампанії, а ця поверхня не читає файлів; кампанії читає лише CLI (`kshana iq labfit`), Python (`kshana.iq_labfit`) або інструмент MCP labfit у його робочій теці IQ
+
+engine-e-surface-bad-merkle-root-hex = хибний hex кореня Меркла
+
+engine-e-surface-merkle-root-must-be-32 = корінь Меркла має бути 32 байти
+
+engine-e-telecom-timing-csv-path-is-not-available = csv_path недоступний у збірці WebAssembly; задайте ряд безпосередньо як `samples`
+
+engine-e-telemetry-cli-otlp-every-needs-whole-number = --otlp-every потребує цілого числа
+
+engine-e-telemetry-cli-registry-poisoned = реєстр отруєно
+
+engine-e-telemetry-otlp-https-is-not-supported-by = https не підтримується вбудованим експортером; використайте локальний колектор через http
+
+engine-e-telemetry-otlp-no-http-status-in-response = у відповіді немає статусу HTTP
+
+engine-e-tle-invalid-designator-launch-year-in = недійсний рік запуску в позначенні TLE
+
+engine-e-tle-invalid-epoch-year-in-tle-2 = недійсний рік епохи в TLE
+
+engine-e-tle-invalid-epoch-day-in-tle = недійсний день епохи в TLE
+
+engine-e-adm-record-without-epoch = запис без <EPOCH>
+
+engine-e-adm-ndm-holds-no = <ndm> не містить <{ $kind }>
+
+engine-e-adm-root-element-is-not = кореневий елемент <{ $name }> не є <{ $kind }>
+
+engine-e-evidence-cli-keygen-needs-out-keyfile = keygen потребує --out <keyfile>
+
+engine-e-evidence-cli-needs-key-keyfile-make-one = потребує --key <keyfile> (створіть його командою `kshana evidence keygen`)
+
+engine-e-evidence-cli-needs-out-dir = потребує --out <dir>
+
+engine-e-evidence-cli-needs-scenario-bench-scenario = потребує --scenario <bench scenario>
+
+engine-e-evidence-cli-needs-conditions-file = потребує --conditions <file>
+
+engine-e-evidence-tsa-bad-ecdsa-signature = хибний підпис ECDSA
+
+engine-e-evidence-tsa-certificate-signature-failure = збій підпису сертифіката
+
+engine-e-evidence-tsa-unable-to-get-issuer-certificate = не вдалося отримати сертифікат видавця
+
+engine-e-evidence-tsa-unable-to-get-local-issuer = не вдалося отримати сертифікат локального видавця
+
+engine-e-evidence-tsr-gentime-is-not-text = genTime не є текстом
+
+engine-e-glonass-bad-year = хибний рік
+
+engine-e-glonass-bad-month = хибний місяць
+
+engine-e-glonass-bad-day = хибний день
+
+engine-e-glonass-bad-hour = хибна година
+
+engine-e-glonass-bad-minute = хибна хвилина
+
+engine-e-gravity-sh-bad-degree = хибний степінь
+
+engine-e-gravity-sh-bad-order = хибний порядок
+
+engine-e-interop-testbench-first-line-is-not-resolution = перший рядок не є `RESOLUTION: <ms>`
+
+engine-e-interop-testbench-bad-resolution = хибна роздільна здатність
+
+engine-e-iq-signals-galileo-the-galileo-e1-memory-codes = кодів пам'яті Galileo E1 у комплекті немає (умови ICD дозволяють поширення лише у некомерційних цілях; див. LICENSING.md). Надайте свою копію додатка C до ICD ({ $file }) через { $env }=<path> або запустіть scripts/fetch_galileo_e1_codes.sh у вихідному репозиторії ({ $path }: { $e })
+
+engine-e-jammertest-cli-key-needs-out-dir = --key потребує --out <dir>
+
+engine-e-leo-signal-modulation-expected-flat-mhz = модуляція { $label }: очікується FLAT(<MHz>)
+
+engine-e-live-io-listen-takes-tcp-port-or = --listen приймає tcp:<port> або tcp:<addr>:<port>
+
+engine-e-ndm-xml-bad-attribute-in = хибний атрибут у <{ $name }>
+
+engine-e-ndm-xml-unquoted-attribute-in = атрибут { $key } без лапок у <{ $name }>
+
+engine-e-ndm-xml-is-not-closed = <{ $name }> не закрито
+
+engine-e-nmea-synth-cli-wait-clients-not-number = --wait-clients: не число
+
+engine-e-nmea-synth-cli-speed-not-number = --speed: не число
+
+engine-e-nmea-synth-cli-seed-not-an-integer = --seed: не ціле число
+
+engine-e-odm-user-defined-without-parameter = <USER_DEFINED> без параметра
+
+engine-e-osnma-cli-bad-public-key-id = хибний ідентифікатор відкритого ключа
+
+engine-e-osnma-cli-bad-public-key-hex = хибний hex відкритого ключа
+
+engine-e-realdata-ion-sdr-closing-tag-does-not-match = закривальний тег </{ $name }> не відповідає <{ $name2 }>
+
+engine-e-realdata-ion-sdr-closing-tag-without-an-opening = закривальний тег </{ $name }> без відкривального
+
+engine-e-realdata-ion-sdr-attribute-without-value-in = атрибут без значення в <{ $name }>
+
+engine-e-realdata-ion-sdr-is-not-an-integer = <{ $name }> { $key } не є цілим числом: { $v }
+
+engine-e-realdata-ion-sdr-chunk-lacks-sizeword = у <chunk> бракує sizeword
+
+engine-e-realdata-ion-sdr-chunk-lacks-countwords = у <chunk> бракує countwords
+
+engine-e-realdata-ion-sdr-is-not-an-integer-2 = <{ $key }> не є цілим числом
+
+engine-e-realdata-ion-sdr-ratefactor-is-not-an-integer = <ratefactor> не є цілим числом
+
+engine-e-realdata-ion-sdr-no-band-with-centerfreq-for = немає <band> з <centerfreq> для потоку
+
+engine-e-realdata-ion-sdr-offset-is-not-an-integer = <offset> не є цілим числом
+
+engine-e-receiver-trust-geometry-geometry-need-hdop-good-hdop = geometry: потрібно 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max і used_good >= min_used (отримано { $hdop_good }, { $pdop_good }, { $used_good })
+
+engine-e-sp3-bad-epoch-count = хибна кількість епох
+
+engine-e-spectrum-matched-jammer-needs-matched-to = { $name }: узгоджене джерело завад потребує matched_to = "<band name>"
+
+engine-e-spectrum-unknown-band-the-spectrum-model = невідома смуга { $name }: модель спектра має { $band_names } та, за назвою, { $more_band_names } (канали GLONASS                      як glonass-l1of-k<K>, K = -7 до 6); будь-яка інша смуга приймає                      `signal = "<preset signal>"` або `centre_mhz` з `modulation` і                      `signal_power_dbw`
+
+engine-e-evidence-assemble-the-log-does-not-state = журнал не містить придатного для розбору часу початку; задайте секунди від першої епохи
+
+engine-e-interop-geojson-no-linestring-found-give-linestring = LineString не знайдено: задайте геометрію LineString, Feature, що її містить, або FeatureCollection, серед об'єктів якої є така
+
+engine-e-interop-geojson-the-scenario-has-no-waypoints = сценарій не має `waypoints` у кількості 2 або більше, щоб розтягнути маршрут із двох положень
+
+engine-e-leo-pnt-chain-the-chain-satellite-is-visible = супутник ланцюга видно менш ніж в двох епохах або лише під одним кутом місця; розширте вікно проходу
+
+engine-e-nmea-synth-config-skyline-table-is-required-for = потрібна таблиця skyline (наприклад skyline = { "{" } preset = "fjord" { "}" })
+
+engine-e-python-prns-must-list-at-least = prns має містити щонайменше один PRN
+
+engine-e-python-design-name-needs-design = design_name потребує design
+
+engine-e-python-bandpass-needs-both-bandpass-lo = bandpass потребує і bandpass_lo, і bandpass_hi
+
+engine-e-python-token-text-is-not-base64 = текст токена не є base64
+
+engine-e-python-unix-nano-must-be-between = unix_nano має бути між 0 і 2**64 - 1
+
+engine-e-wasm-token-base64-is-not-base64 = token_base64 не є base64
+
+engine-e-wasm-log-base64-is-not-base64 = log_base64 не є base64
+
+engine-e-wasm-input-base64-is-not-base64 = input_base64 не є base64
+
+engine-e-wasm-seed-must-be-non-negative = seed має бути невід'ємним цілим числом
+
+engine-e-wasm-runs-json-must-be-an = runs_json має бути масивом { "{" }label, result, scenario?{ "}" }
+
+engine-e-nmea-synth-stream-no-udp-address = немає адреси UDP
+
+engine-e-realdata-llr-crd-short-normal-point-11-record = короткий запис нормальної точки (11)
+
+engine-e-realdata-llr-crd-normal-point-record-appeared-before = запис нормальної точки з'явився до заголовка сесії h2/h3/h4
+
+engine-e-gravity-sh-line-bad-coefficient-non-finite = рядок { $lineno }: хибний коефіцієнт (нескінченний)
+
+engine-e-interop-time-extra-fields-utc = не час UTC `YYYY-MM-DDTHH:MM:SS`: зайві поля: { $text }
+
+engine-e-interop-time-year-outside-2000-to-2099-utc = не час UTC `YYYY-MM-DDTHH:MM:SS`: рік поза межами від 2000 до 2099: { $text }
+
+engine-e-interop-time-month-outside-to-12-utc = не час UTC `YYYY-MM-DDTHH:MM:SS`: місяць поза межами від 1 до 12: { $text }
+
+engine-e-interop-time-day-does-not-exist-in-utc = не час UTC `YYYY-MM-DDTHH:MM:SS`: такого дня в цьому місяці не існує: { $text }
+
+engine-e-interop-time-hour-above-23-utc = не час UTC `YYYY-MM-DDTHH:MM:SS`: година понад 23: { $text }
+
+engine-e-interop-time-minute-above-59-utc = не час UTC `YYYY-MM-DDTHH:MM:SS`: хвилина понад 59: { $text }
+
+engine-e-interop-time-seconds-outside-60-utc = не час UTC `YYYY-MM-DDTHH:MM:SS`: секунди поза межами [0, 60): { $text }
+
+engine-e-mcp-budget-work-budget-exceeded-for-call = бюджет роботи перевищено для виклику через сервер MCP: { $errors }. Великі дослідження запускайте командним рядком `kshana`.
+
+engine-e-mcp-iq-the-iq-sample-budget-must = бюджет відліків IQ має бути не менше 1
+
+engine-e-mcp-iq-an-empty-path-was-given = задано порожній шлях
+
+engine-e-mcp-iq-rate-hz-must-be-positive = rate_hz має бути додатним числом
+
+engine-e-mcp-iq-duration-must-be-positive-number = duration_s має бути додатним числом
+
+engine-e-mcp-iq-broadcast-mode-nav-needs-rx = режим мовлення (nav) потребує rx_pos [lat, lon, alt]
+
+engine-e-mcp-iq-scene-needs-signal-or-nav = сцена потребує `signal` (або `nav` для режиму мовлення)
+
+engine-e-mcp-iq-scene-needs-at-least-one = сцена потребує щонайменше одного PRN у `prns`
+
+engine-e-mcp-iq-surface-out-exports-one-surface = surface_out експортує одну поверхню: задайте рівно один PRN
+
+engine-e-mcp-iq-surface-out-must-end-in = surface_out має закінчуватися на .csv, .json або .bin
+
+engine-e-mcp-iq-max-seconds-must-be-positive = max_seconds має бути додатним числом
+
+engine-e-mcp-iq-epochs-out-must-end-in = epochs_out має закінчуватися на .csv, .jsonl або .bin (формат визначається суфіксом)
+
+engine-e-mcp-iq-out-must-differ-from-input = out має відрізнятися від input
+
+engine-e-mcp-iq-pll-bws-hz-dll-bws = pll_bws_hz, dll_bws_hz, spacings_chips і coherents не можна поєднувати з design: перебір запускає кожен проєкт у файлі
+
+engine-e-mcp-iq-signal-and-prns-go-together = signal і prns задаються разом
+
+engine-e-mcp-iq-iq-work-directory = робоча тека IQ { $dir }: { $e }
+
+engine-e-mcp-iq-iq-work-directory-is-not = робоча тека IQ { $dir } не є текою
+
+engine-e-mcp-iq-iq-file-tools-are-off = файлові засоби IQ вимкнено: { $reason }
+
+engine-e-mcp-iq-output-does-not-name-file = вихід `{ $rel }` не називає файлу
+
+engine-e-mcp-iq-output-its-folder = вихід `{ $rel }`: його тека: { $e }
+
+engine-e-mcp-iq-output-is-symlink-refusing-to = вихід `{ $shown }` є символічним посиланням; запис відхилено
+
+engine-e-mcp-iq-output-already-exists-pass-overwrite = вихід `{ $shown }` уже існує; передайте overwrite: true, щоб його замінити
+
+engine-e-mcp-iq-output-exists-and-is-not = вихід `{ $shown }` існує і не є файлом
+
+engine-e-mcp-iq-its-data-file-lies-outside = { $path }: його файл даних лежить поза робочою текою IQ
+
+engine-e-mcp-iq-lies-outside-the-iq-work = { $path } лежить поза робочою текою IQ
+
+engine-e-mcp-iq-input-campaign-the-campaign-folder = { "[" }input] campaign `{ $rel }`: { $message }; тека кампанії має бути наявною текою всередині робочої теки IQ
+
+engine-e-mcp-iq-out-dir-does-not-name = out_dir `{ $rel }` не називає теки
+
+engine-e-mcp-iq-is-samples-and-one-call = { $what }: { $samples } відліків, а один виклик може обробити щонайбільше { $max_samples } ({ $env }); { $remedy }
+
+engine-e-mcp-iq-threads-must-be-to = threads має бути від 1 до { $max_threads }
+
+engine-e-mcp-iq-truth-format-must-be-csv = truth_format має бути csv або jsonl (отримано { $other })
+
+engine-e-mcp-iq-surface-out-would-hold-about = surface_out містив би близько { $cells } комірок (доплерівські біни × відліки на період коду; межа { $max_cells }, близько { $mb } MB у двійковому вигляді): збільште doppler_step_hz або зменште doppler_max_hz
+
+engine-e-mcp-iq-no-campaign-here = { $out_dir }: тут немає кампанії ({ $e })
+
+engine-e-mcp-iq-design-prn-channels-at-most = { $n_channels } каналів (проєкт, PRN); щонайбільше 256 на перебір
+
+engine-e-mcp-iq-test-conditions-invalid = умови випробування недійсні: { $e }
+
+engine-e-mcp-iq-labfit-failed = labfit завершився помилкою: { $e }
+
+engine-e-mcp-marine-give-exactly-one-of-log = задайте рівно одне з `log` і `log_base64`
+
+engine-e-mcp-marine-at-most-366-maps-per = щонайбільше 366 карт на виклик
+
+engine-e-mcp-marine-mode-symbols-needs-symbols = режим `symbols` потребує `symbols`
+
+engine-e-mcp-marine-vessel-stream-assessment-failed = оцінювання потоку судна завершилося помилкою: { $e }
+
+engine-e-mcp-marine-jammertest-import-failed = імпорт jammertest завершився помилкою: { $e }
+
+engine-e-mcp-marine-jammertest-score-failed = оцінювання jammertest завершилося помилкою: { $e }
+
+engine-e-mcp-marine-vessel-log-assessment-failed = оцінювання журналу судна завершилося помилкою: { $e }
+
+engine-e-mcp-marine-training-scenario-failed = навчальний сценарій завершився помилкою: { $e }
+
+engine-e-mcp-marine-evidence-pack-failed = пакет доказів завершився помилкою: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over = пакет має { $size } байт, що перевищує межу відповіді в { $max_bytes } байт; звузьте вікно або використайте `kshana receiver-trust evidence` у командному рядку
+
+engine-e-mcp-marine-round-trip-pack-failed = пакет round-trip завершився помилкою: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-2 = пакет має { $size } байт, що перевищує межу відповіді в { $max_bytes } байт; звузьте вікно або використайте `kshana evidence round-trip` у командному рядку
+
+engine-e-mcp-marine-files-are-over-the-byte = файли перевищують межу в { $max_bytes } байт
+
+engine-e-mcp-marine-full-log-is-over-the = full_log перевищує межу в { $max_bytes } байт
+
+engine-e-mcp-marine-interference-map-failed = карта завад завершилася помилкою: { $e }
+
+engine-e-mcp-marine-the-map-is-bytes-over = карта має { $total } байт, що перевищує межу відповіді в { $max_bytes } байт; використайте грубіший cell_deg, менше днів або `kshana interference-map` у командному рядку
+
+engine-e-mcp-marine-route-exposure-failed = оцінювання впливу на маршрут завершилося помилкою: { $e }
+
+engine-e-mcp-marine-compliance-report-failed = звіт compliance завершився помилкою: { $e }
+
+engine-e-mcp-marine-standards-pack-failed = пакет стандартів завершився помилкою: { $e }
+
+engine-e-mcp-marine-lunanet-afs-check-failed = lunanet-afs-check завершився помилкою: { $e }
+
+engine-e-mcp-marine-mode-must-be-spec-symbols = mode має бути spec, symbols або generate (отримано { $other })
+
+engine-e-mcp-marine-benchmark-scoring-failed = оцінювання бенчмарка завершилося помилкою: { $e }
+
+engine-e-mcp-marine-leaderboard-failed = таблиця лідерів завершилася помилкою: { $e }
+
+engine-e-mcp-marine-test-bench-export-failed = експорт test-bench завершився помилкою: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-3 = пакет має { $size } байт, що перевищує межу відповіді в { $max_bytes } байт
+
+engine-e-mcp-server-give-exactly-one-of-request = задайте рівно одне з `request` (запит геометрії неба) або `skyline_preset` (назва пресета, або порожній рядок, щоб показати їх список)
+
+engine-e-mcp-server-receiver-log-assessment-failed = оцінювання журналу приймача завершилося помилкою: { $e }
+
+engine-e-mcp-server-unknown-scenario-kind-list-scenario = невідомий вид сценарію `{ $k }`; list_scenario_kinds називає кожен вид
+
+engine-e-mcp-server-unknown-report-format-expected-json = невідомий формат звіту `{ $format }`; очікується json або html
+
+engine-e-mcp-server-report-failed = звіт завершився помилкою: { $e }
+
+engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps дає { $n_frames } кадрів, а відповідь вміщує щонайбільше { $max_frames }; зменште fps або duration_s чи запишіть довшу послідовність командним рядком (`kshana <scenario.toml> --animate frames`)
+
+engine-e-mcp-server-route-import-failed = імпорт маршруту завершився помилкою: { $e }
+
+engine-e-mcp-server-sp3-export-failed = експорт SP3 завершився помилкою: { $e }
+
+engine-e-mcp-server-omm-export-failed = експорт OMM завершився помилкою: { $e }
+
+engine-e-mcp-server-oem-export-failed = експорт OEM завершився помилкою: { $e }
+
+engine-e-mcp-server-scenario-kind-publishes-no-csv = вид сценарію `{ $kind }` не публікує таблиці CSV; лише { $kinds } її публікують
+
+engine-e-mcp-server-unknown-skyline-preset-known-presets = невідомий пресет горизонту "{ $name }"; відомі пресети: { $presets }
+
+engine-e-mcp-server-the-tool-call-did-not = виклик інструмента не завершився: { $e }
+
+engine-e-mcp-server-the-server-is-at-its-concurrent-work-limit = сервер досяг межі одночасної роботи (попередні виклики ще виконуються); повторіть невдовзі
+
+engine-e-mcp-server-the-work-pool-is-closed = пул роботи закрито
+
+engine-e-mcp-iq-no-work-directory = немає робочої теки
+
+engine-e-mcp-iq-input = вхід `{ $rel }`: { $e }
+
+engine-e-mcp-iq-input-is-not-file = вхід `{ $rel }` не є файлом
+
+engine-e-mcp-iq-input-campaign-is-not-folder = { "[" }input] campaign `{ $rel }` не є текою
+
+engine-e-mcp-iq-out-dir-is-not-folder = out_dir `{ $rel }` не є текою
+
+engine-e-mcp-iq-out-dir = out_dir `{ $rel }`: { $e }
+
+engine-e-mcp-iq-iq-failed = iq { $args } завершився помилкою: { $m }
+
+engine-e-adm-attitudestate-without = <attitudeState> без <{ $tag }>
+
+engine-e-bench-cli-is-required = потрібен { $flag }
+
+engine-e-bench-cli-is-empty = { $p } порожній
+
+engine-e-evidence-tsa-bad-256-key = хибний ключ P-256
+
+engine-e-evidence-tsa-bad-384-key = хибний ключ P-384
+
+engine-e-interop-no-iq-block = немає блока [iq]
+
+engine-e-ndm-xml-closes = </{ $close }> закриває <{ $name }>
+
+engine-e-odm-unexpected-in-data = несподіваний <{ $name }> у <data>
+
+engine-e-odm-unsupported-in-ocm-data = непідтримуваний <{ $name }> у OCM <data>
+
+engine-e-realdata-ion-sdr-no-stream-element = немає елемента <stream>
+
+engine-e-realdata-ion-sdr-is-not-number = <{ $name }> не є числом: { $text }
+
+engine-e-realdata-ion-sdr-no-chunk-element = немає елемента <chunk>
+
+engine-e-realdata-ion-sdr-stream-lacks = у <stream> бракує <{ $key }>
+
+engine-e-realdata-ion-sdr-no-system-element = немає елемента <system>
+
+engine-e-realdata-ion-sdr-no-file-with-url = немає <file> з <url>
+
+engine-e-surface-give-string-utf8-or-base64 = { $k }: задайте рядок, { "{" }"utf8": ...{ "}" } або { "{" }"base64": ...{ "}" }
+
+engine-e-realdata-llr-crd-short-h1-record = короткий запис h1
+
+engine-e-realdata-llr-crd-short-h2-record = короткий запис h2 (станція)
+
+engine-e-realdata-llr-crd-short-h3-record = короткий запис h3 (ціль)
+
+engine-e-realdata-llr-crd-short-h4-record = короткий запис h4 (сесія)
+
+engine-e-mcp-main-needs-value = { $a } потребує значення
+
+engine-main-usage =
+    використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
+    { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
+    { "   " }або: kshana --study <suite.toml>
+    { "   " }або: kshana --validate <scenario.toml>
+    { "   " }або: kshana receiver-trust <scenario.toml>
+    { "   " }або: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+    { "   " }або: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }або: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+    { "   " }або: kshana jammertest <import|score> ... (kshana jammertest --help)
+    { "   " }або: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }або: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+    { "   " }або: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }або: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
+    { "   " }або: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+    { "   " }або: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+    { "   " }або: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }або: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+    { "   " }або: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+    { "   " }або: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+    { "   " }або: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+    { "   " }або: kshana partner check <submission.toml> [--json]
+    { "   " }або: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }або: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+    { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }або: kshana kinds [--json]
+    { "   " }або: kshana example [<name>]
+    { "   " }або: kshana --help | --version
+
+engine-main-usage-sky =
+    використання: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+    { "   " }або: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+    { "                  " }[--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+    { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+    { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+
+    Виводить супутники, які бачить майданчик під горизонтом, їхній DOP, кофактор і коваріацію
+    в системі схід–північ–зеніт та горизонтальний еліпс похибок у вигляді JSON (sky_geometry); із --monte-carlo —
+    n (щонайбільше 5000) посіяних похибок найменших квадратів (sky_monte_carlo); із --svg — скайплот.
+    Системи — це пресети рушія (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
+    репрезентативна геометрія, а не небо на дату в певному місці. --tle читає двострокові набори
+    елементів (щонайбільше 4 MiB) і поширює їх за SGP4 до --epoch (UTC) плюс --time: небо, яке ці
+    набори елементів дають у цю епоху, а не вимірювання. Без --epoch вони йдуть до епохи найновішого
+    набору елементів — репрезентативне небо. MODELLED; docs/SKYLINE.md.
+
+engine-main-usage-skyline =
+    використання: kshana skyline --preset <name> [--json]
+    { "   " }або: kshana skyline --presets
+    { "   " }або: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Виводить пресет горизонту (city-street, harbour-approach, fjord, container-terminal) із його
+    походженням і зрізом на кожен градус азимута, список пресетів або розділ горизонту,
+    зведений до 360-елементної таблиці, яку використовує рушій. Пресети REPRESENTATIVE; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    використання: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }або: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }або: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Прив'язано до LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025). `spec` перевіряє цю реалізацію за надрукованими в документі кодовими
+    таблицями та розв'язаними прикладами (пороги B1–B10 з xval/lunanet-afs/PREREGISTRATION.md; із --strict
+    код виходу дорівнює 1, якщо виконано не кожен поріг). `symbols` перевіряє потік символів
+    жорсткого рішення (текст із 0 та 1) на синхронізаційний шаблон, декодування SB1, FID, безперервність TOI та
+    інтервал кадрів; підкадри 2–4 (LDPC, CRC-24Q) НЕ перевіряються. `generate` записує тестовий потік
+    символів із підкадрами-заповнювачами; це не форма сигналу, і Kshana не записує жодного сигналу. Щоб
+    захопити або супроводжувати форму сигналу AFS у записі, використайте `kshana iq acquire --signal lunanet-afs-i`
+    (або lunanet-afs-q). Лише консультативно. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    використання: kshana standards-pack list
+    { "   " }або: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }або: kshana standards-pack rows <id>
+    { "   " }або: kshana standards-pack tests <id>
+
+    Пакет стандартів — це набір сценаріїв, оцінених за порогами, заданими до запуску, пов'язаний із
+    рядками звіту compliance, для яких він підтримує докази (supports evidence for). `run` виводить таблицю (або --json) і, із
+    --out, записує <base>.pack.json та <base>.pack.md; передайте JSON у `kshana compliance-report`,
+    щоб побачити рядки. Випробування, яке потребує журналу приймача, позначається як NEEDS INPUT і не оцінюється.
+    MODELLED: поріг MET означає, що модельований сценарій досяг заданого порогу, а не те, що будь-який продукт задовольняє
+    вимогу. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: застосовується
+
+engine-main-wrote = записано { $path }
+
+engine-main-note = примітка: { $n }
+
+engine-main-error-example-extra-argument = помилка: несподіваний аргумент '{ $extra }' після `example <name>`; вона приймає одну назву
+
+engine-main-lunanet-afs-generate-needs = generate потребує --frames <n> і --out <file> (та цілого числа --toi0)
+
+engine-evidence-cli-usage =
+    використання:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      вихід 0 — перевірено, 1 — збій, 3 — цілісний, але підписувача не закріплено
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(читає токен RFC 3161 і прив'язує його до маніфесту; він НЕ перевіряє підпису
+    { "      " }центру позначок часу: використайте `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(пов'язує сценарій, умови випробувань лабораторії, журнал приймача та його оцінку;
+    { "      " }<scenario.toml> — це сценарій оцінювання receiver-trust; жодного сигналу не записує)
+    { "  " }<t0>/<t1>: секунди від першої епохи журналу або час UTC за ISO-8601, коли журнал
+    { "  " }вказує свій час початку. Пакет — це технічний запис, а не юридичний висновок.
+
+engine-evidence-cli-fingerprint = відбиток: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }збій: { $f }
+
+engine-evidence-cli-verify-note = { "  " }примітка: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: кожен хеш, ланцюг і підпис збігаються для наданого вами ключа.
+
+engine-evidence-cli-verified-unpinned = VERIFIED за ключем, який пакет називає сам, відбиток { $fp } (підписувача НЕ закріплено; передайте --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: хеші та підпис узгоджені з ключем { $fp }, який пакет називає сам. Передайте --pubkey <відкритий ключ підписувача>, щоб установити, хто його підписав (або --allow-unpinned, щоб прийняти це свідомо).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: див. збої вище.
+
+engine-evidence-cli-attached = додано { $path }
+
+engine-evidence-cli-verify-with = перевірте командою: kshana evidence verify { $out } --pubkey <відкритий ключ підписувача>
+
+engine-interference-map-cli-usage-map =
+    використання: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }або: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }або: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+    { "   " }або: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }або: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom також потребує --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = використання: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = дата
+
+engine-interference-map-cli-col-src = джерело
+
+engine-interference-map-cli-col-degraded = погіршено
+
+engine-interference-map-cli-col-not-degraded = не погіршено
+
+engine-interference-map-cli-col-unassessed = не оцінено
+
+engine-interference-map-cli-col-not-observed = не спостерігалося
+
+engine-bench-cli-usage =
+    використання: kshana bench spec
+    { "   " }або: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }або: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }або: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }або: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }або: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }або: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }або: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }або: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }або: kshana bench validate <result.json>...
+    { "   " }або: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (без входів: порожній стан; --fragment: вбудовуваний розділ)
+    { "   " }(файл seed містить секрет запечатаного holdout; тримайте його поза системою керування версіями)
+
+engine-bench-cli-match = збігається
+
+engine-bench-cli-valid = { $f }: дійсний
+
+engine-bench-cli-folders = { $n } тек
+
+engine-bench-cli-unpinned = не закріплено: { $rel }
+
+engine-bench-cli-missing = відсутнє: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+engine-osnma-cli-usage =
+    використання: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    сторінки I/NAV: простий формат (див. docs/OSNMA.md) або
+    { "                             " }CSV-розкладка опублікованих тестових векторів
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }розкладка входу (типово: за вмістом файлу). ubx — це байтовий
+    { "                             " }потік u-blox із повідомленнями UBX-RXM-SFRBX (Galileo E1-B)
+    { "  " }--start-gst SECONDS        час початку CSV векторів у секундах GST
+    { "                             " }(типово: береться з імені файлу на кшталт 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          довірений корінь Меркла (64 шістнадцяткові цифри) для перевірок DSM-PKR
+    { "  " }--public-key ID:TYPE:HEX   довірений відкритий ключ, TYPE p256 або p521, стиснута точка
+    { "  " }--reference-time SECONDS   поточний час у секундах GST із незалежного джерела. Один
+    { "                             " }момент: підкадри, дальші від нього за допуск, відкладаються
+    { "                             " }вбік, тож використовуйте його для живих або щойно записаних даних
+    { "  " }--max-time-error SECONDS   найбільша відстань підкадру від опорного часу, менша
+    { "                             " }за 30 (типово 29); потребує --reference-time
+    { "  " }--epochs                   також вивести результат кожного тегу
+    { "  " }--json                     вивести JSON замість тексту
+
+    Код виходу: 0 — виконано, 2 — помилка використання або входу, 3 — перевірка даних якогось супутника не пройшла.
+
+engine-iq-cli-usage =
+    використання: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }або: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }або: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }або: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (типово auto, ≈4 ms когерентно)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }або: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }або: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }або: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }або: kshana iq campaign report <out-dir>
+    { "   " }або: kshana iq conditions <test-conditions.toml|json>
+    { "   " }або: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }або: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }сценарії labfit: [[runs]] журналів приймача або [input] campaign = "<out-dir>", що називає вихідну теку кампанії kshana iq campaign (відносно файлу сценарію)
+    { " " }проєкти контурів: файл TOML kshana.loop-design/1 (docs/design/LOOP-DESIGN-TOML.md); явні прапорці контурів і захоплення перевизначають вибраний проєкт
+    { " " }acquire/track/sweep також приймають прапорці вхідного каскаду [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], застосовані до обробки (і до захоплення, і до проходу стеження)
+    { " " }параметри каналу сцени: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }профіль C/N0 сцени: [--cn0-profile <toml>] залежні від часу зсуви C/N0 для кожного супутника (стрибок, лінійне наростання, точки, завмирання), застосовані поверх каналу; cn0_dbhz істини йому відповідає
+    { " " }записи/сирі входи без допоміжного файлу також приймають: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; багатопотокові входи приймають --channel <k>
+    { " " }сигнали: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> — це список через кому (по одному на --prn або одне значення для всіх)
+
+engine-iq-cli-usage-error = помилка використання: { $m }
+
+engine-iq-io-cli-usage =
+    використання: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }або: kshana iq info <recording>
+    { "   " }або: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }або: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }або: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }сирі входи без допоміжного файлу також приймають: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }багатопотокові входи (багатоканальний SigMF, чергований сирий) приймають --channel <k> (від 0; типово 0)
+    { " " }формати: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-бітові в 16 ci12r_le ci12l_be cu12r_le ..., упаковані 4-бітові ci4_msb cu4_lsb ..., упаковані 2-бітові c2tc_msb c2sm_lsb r2ob_msb ..., 2 біти на байт c2sm_byte ..., дійсні r..., Q-first ..._qi
+
+engine-telemetry-cli-usage =
+    використання: kshana trust-telemetry [options]
+    { "  " }вхід (типово: рядки JSON зі stdin):
+    { "    " }--input <file|->         читати рядки JSON з файлу або `-` зі stdin
+    { "    " }--result <result.json>   відтворити епохи файлу результату `kshana receiver-trust`
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     віддавати /metrics (типово 127.0.0.1:9464, коли не вибрано іншого виходу)
+    { "    " }--print-metrics          вивести остаточну експозицію в stdout наприкінці входу
+    { "    " }--hold                   продовжувати віддавати після завершення входу
+    { "    " }--expose-position        також публікувати положення, повідомлене приймачем, як датчики (типово вимкнено)
+    { "  " }syslog (CEF або LEEF у конверті RFC 5424):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  кадрувати повідомлення TCP з підрахунком октетів (RFC 6587), не по одному на рядок
+    { "    " }--format cef|leef        діалект корисного навантаження (типово cef)
+    { "    " }--syslog-all             одна подія на епоху (типово: одна на зміну смуги)
+    { "    " }--host <name>            ім'я пристрою-хоста в подіях (типово `kshana`)
+    { "  " }Home Assistant / пристрій NTP (стан JSON + виявлення MQTT; лише публікація, без облікових даних чи TLS):
+    { "    " }--mqtt-tcp <host:port>   публікувати на локальний брокер MQTT 3.1.1 (утримувані повідомлення, QoS 0)
+    { "    " }--print-mqtt             вивести повідомлення як рядки `topic<TAB>payload`
+    { "    " }--mqtt-prefix <p>        префікс теми стану (типово kshana/trust); --mqtt-node <id> (типово kshana)
+    { "    " }--mqtt-discovery <p>     префікс виявлення Home Assistant (типово homeassistant)
+    { "  " }OpenTelemetry (збірка з --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (типово 10)
+
+engine-jammertest-cli-usage =
+    використання:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [ті самі параметри]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    План і каталог — це опубліковані файли JSON NPRA/jammertest-plan (MIT; отримайте їх за допомогою
+    xval/jammertest-plan/fetch.sh). Часи плану — місцевий настінний час; --local-offset-h (типово 2, CEST)
+    вказує, наскільки вони відрізняються від UTC. Позначки attack_log набору даних JammerTest 2024 мають Z, але є місцевим
+    часом: --time-shift-h типово дорівнює -2. Події — це заплановані істинні значення, а не записані ефірні часи.
+    Консультативне програмне забезпечення, не навігаційне обладнання із затвердженням типу.
+
+engine-nmea-synth-cli-usage =
+    використання: kshana nmea-scenario <scenario.toml> [options]
+
+    Записує або передає потоком синтетичний набір NMEA 0183 для містка (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    для траєкторії судна зі сценарними подіями глушіння/спуфінгу та журналом інструктора.
+    Лише для навчання та випробувань: ніколи не подавайте його в живі навігаційні системи судна.
+
+    параметри:
+    { "  " }--out <file.nmea>          записати потік у файл (типово <name>.nmea, коли не задано
+    { "                             " }мережевого виходу)
+    { "  " }--instructor-log <prefix>  записати <prefix>.json і <prefix>.txt (типово: поряд із
+    { "                             " }файлом, інакше <name> у поточній теці)
+    { "  " }--tcp <addr:port|port>     віддавати потік через TCP (спершу чекає на клієнта); голий
+    { "                             " }порт слухає лише 127.0.0.1. Автентифікації немає:
+    { "                             " }будь-хто, хто може дістатися адреси, може читати потік
+    { "  " }--udp <addr:port|port>     надсилати одне речення в датаграмі UDP на цю адресу; голий
+    { "                             " }порт надсилає на 127.0.0.1
+    { "  " }--broadcast                дозволити --udp використовувати широкомовну адресу
+    { "  " }--wait-clients <n>         кількість клієнтів, на яких чекати перед стартом потоку TCP (типово 1)
+    { "  " }--realtime                 темп у реальному часі (типово для мережевого виходу)
+    { "  " }--speed <x>                темп у x разів швидше за реальний; 0 — якнайшвидше
+    { "                             " }(типово для файлів)
+    { "  " }--seed <n>                 замінити seed сценарію
+    { "  " }--no-marker                пропустити речення-маркер синтетичних даних
+
+engine-live-io-usage =
+    використання: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Читає NMEA 0183 (типово зі stdin), оцінює кожну епоху визначення судна за шкалою 0–100 і записує один
+    рядок JSON на епоху (типово в stdout). З --gate натомість у stdout пропускається потік NMEA,
+    без змін, поки визначенню довіряють, і з позначкою недійсного визначення, поки ні, після кожного
+    циклу йде речення $PKSHT; тоді JSON іде лише туди, куди вказує --json. Сесія — це
+    сценарій .toml з [platform] kind = "vessel"; його таблиця [log] не потрібна.
+
+    --listen (з --gate) віддає потік після перевірки будь-якій кількості клієнтів TCP (наприклад,
+    картплотеру) замість запису в stdout; типова адреса — loopback. Клієнт, який
+    не встигає, відкидається, тож він ніколи не затримує інших чи вхід.
+
+    Час приймача також звіряється з годинником цього комп'ютера, що має сенс лише для
+    потоку, який надходить у реальному часі; для збереженого журналу, поданого швидше (stdin, tcp, udp), передайте
+    --replay, а звичайний --file (без --follow) уже це робить.
+
+    --serial читає послідовний або USB-пристрій (лише Unix), лише читання: він відкриває пристрій для читання, встановлює
+    локальну лінію в сирий режим на --baud (типово 4800, швидкість NMEA 0183) і ніколи не записує жодного байта в
+    приймач. Kshana не налаштовує приймачів; налаштуйте приймач на виведення NMEA його власним засобом.
+
+    Це консультативне програмне забезпечення, не навігаційне обладнання із затвердженням типу (IEC 61108, IEC 61162):
+    відповідальність за навігацію судна залишається на операторі.
+
+engine-tle-warning = попередження: { $w }
+
+engine-e-animation-no-time-series-to-animate = немає часового ряду для анімації: результат { $k } не містить дискретизованої осі часу (форми, які розпізнає експортер, див. у docs/ANIMATION.md)
+
+engine-animation-svg-sub = вид { $kind } · від { $t0 } до { $t1 } · відліки з result.json, накреслені без передискретизації · Kshana { $version }
+
+engine-animation-svg-strip-events = події
+
+engine-animation-svg-strip-phases = фази
+
+engine-animation-svg-waterfall = водоспад: { $title } [{ $unit }], час іде вниз, колір від { $lo } до { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = індекс епохи
+
+engine-animation-svg-desc = Анімований часовий ряд прогону { $kind }: панелей — { $n_panels }, подій — { $n_events }, фаз — { $n_phases }. Кожна точка — це відлік із result.json прогону.
+
+engine-animation-html-title = { $title } — анімація Kshana
+
+engine-animation-html-sub = вид { $kind } · рядів із result.json: { $n }, накреслені без передискретизації · Kshana { $version }
+
+engine-animation-html-playback = Відтворення
+
+engine-animation-html-play = Відтворити
+
+engine-animation-html-pause = Пауза
+
+engine-animation-html-mission-time = Час місії
+
+engine-animation-html-speed = швидкість
+
+engine-animation-html-playback-speed = Швидкість відтворення
+
+engine-animation-html-events = Події
+
+engine-animation-html-footer-keys = Пробіл відтворює або призупиняє, стрілки роблять крок, Home і End — перехід на початок і в кінець. Це відтворення власних відліків прогону: воно таке саме добре, як сам прогін, і не додає доказів (MODELLED, внутрішня узгодженість).
+
+engine-animation-html-footer-determinism = Той самий сценарій, seed і параметри дають побайтово ідентичний файл.
+
+engine-animation-html-exports-heading = Експорти, записані поряд із цим програвачем
+
+engine-animation-js-phases-and-events = фази й події
+
+engine-animation-js-waterfall = водоспад: { $title } [{ $unit }], час іде вниз
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = фаза: { $name }
+
+engine-e-evidence-bundle-bad-log-slice = хибний зріз журналу: { $s }
+
+engine-e-evidence-bundle-bad-window = хибне вікно: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = хибний час створення: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = хибний токен позначки часу: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = не вдається серіалізувати: { $s }
+
+engine-e-osnma-page-not-valid-hex = сторінка не є коректним hex
+
+engine-e-osnma-page-time-outside-week-number = час сторінки поза межами 4096 тижнів номера тижня Galileo
+
+engine-e-osnma-page-bad-length = сторінка має { $n } шістнадцяткових цифр, очікується 60
+
+engine-e-osnma-page-malformed-line = хибно сформований рядок сторінки: { $s }
+
+engine-e-interchange-encode-payload = не вдалося закодувати корисне навантаження: { $e }
+
+engine-e-interchange-invalid-envelope = не є коректним конвертом обміну: { $e }
+
+engine-e-interchange-not-kshana-artifact = не артефакт Kshana: формат { $found }, очікується { $expected }
+
+engine-e-interchange-incompatible-schema-version = несумісна версія схеми { $v } ({ $verdict }); цей рушій розмовляє { $current }
+
+engine-e-interchange-payload-mismatch = корисне навантаження не відповідало запитаному типу: { $e }
+
+engine-e-interop-not-applicable = не застосовується: { $why }
+
+engine-e-iq-io-error = помилка вводу/виводу: { $m }
+
+engine-e-iq-format-error = помилка формату: { $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }: PRN { $prn } не визначено в ICD
+
+engine-e-iq-signals-glonass-channel-outside = частотний канал GLONASS { $k } поза межами -7..=6
+
+engine-e-iq-signals-code-table = таблиця кодів: { $m }
+
+engine-e-kepler-out-of-domain = рівняння Кеплера: M або e поза областю визначення
+
+engine-e-kepler-no-convergence = рівняння Кеплера не збіглося за { $iters } кроків (залишок { $residual })
+
+engine-e-lunar-orientation-epoch-outside-series = епоха { $t } юліанських століть від J2000 поза рядом місячної орієнтації DE440 ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+engine-e-propagator-sgp4-error = помилка поширення SGP4 (код { $code })
+
+engine-e-integrator-dop853-stopped = DOP853 зупинився при t = { $t } ({ $failure }) після { $accepted } кроків
+
+engine-e-portable-distr-variance-non-finite = дисперсія нескінченна в нормальному розподілі
+
+engine-e-portable-distr-shape-not-positive = параметр форми не додатний у гамма-розподілі
+
+engine-e-portable-distr-scale-not-positive = параметр масштабу не додатний у гамма-розподілі
+
+engine-bench-tasks-clock-line-before-header = рядок годинника стоїть перед будь-яким заголовком `@<PRN>`
+
+engine-api-html-clock = Годинник
+
+engine-api-html-fom-heading = Показники якості
+
+engine-api-html-metric = Метрика
+
+engine-api-html-value = Значення
+
+engine-api-html-validation = Валідація
+
+engine-api-html-tier-note = Кожен показник якості позначено VALIDATED (перевірено за зовнішнім оракулом) або MODELLED (за першими принципами, внутрішньо протестовано), виведено з матриці верифікації.
+
+engine-api-html-default-title = Kshana — результат сценарію
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · точний момент
+
+engine-api-html-tagline = Гібридна квантово-класична таблиця показників PNT
+
+engine-api-html-chart-alt = Графік результату
+
+engine-api-html-full-result = Повний результат (JSON)
+
+engine-api-html-footer-generated = Створено Kshana { $version }.
+
+engine-api-html-footer-licence = Відтворюється зі сценарію + seed + версії рушія. Вільне програмне забезпечення з відкритим кодом (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">джерело &amp; документація</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: сервер Model Context Protocol для симулятора стійкості PNT Kshana.
+
+    ВИКОРИСТАННЯ:
+    { "    " }kshana-mcp                      обслуговувати через stdio (типово; те, що запускають клієнти MCP)
+    { "    " }kshana-mcp --http <addr>        обслуговувати потоковий HTTP на http://<addr>/mcp
+
+    ПАРАМЕТРИ HTTP:
+    { "    " }--http <addr>               адреса прив'язки, напр. 127.0.0.1:8080 (типово лише loopback)
+    { "    " }--allow-remote              дозволити адресу, що не є loopback; потребує KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  додатковий прийнятий заголовок Host (можна повторювати)
+    { "    " }--allow-origin <origin>     прийнятий origin браузера (можна повторювати; типово жодного)
+    { "    " }--max-body-bytes <n>        обмеження тіла запиту (типово 5242880)
+    { "    " }--request-timeout-secs <n>  ліміт часу на запит (типово 120)
+    { "    " }--max-concurrent <n>        запитів, що обслуговуються одночасно (типово 8)
+
+    Транспорт HTTP вимикає файлові засоби IQ. Kshana не хостить кінцевої точки: запускайте його самостійно.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = невідомий аргумент `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = параметри HTTP потребують --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = відмова прив'язатися до { $addr }: це не адреса loopback. Використайте 127.0.0.1:<port> або передайте --allow-remote (і задайте { $token_env }), щоб слухати за межами цієї машини
+
+engine-e-mcp-http-refusing-to-bind-needs-token = відмова прив'язатися до { $addr }: адреса, що не є loopback, потребує токена bearer у змінній середовища { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } коротший за 16 символів; використайте довгий випадковий токен
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent і --request-timeout-secs мають бути більшими за нуль
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin не приймає `*`; назвіть кожен origin
+
+engine-mcp-http-warning-remote = УВАГА: kshana-mcp слухає на { $addr } за межами цієї машини. Будь-хто, хто може до нього дістатися і має токен bearer, може запускати симуляції на вашому обладнанні. Поставте перед ним TLS (зворотний проксі або HTTPS вашої платформи) і тримайте токен у таємниці.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = широта майданчика має бути в [-90, 90], а довгота — в [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s має бути в [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode має бути off, standalone або differential, отримано `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode має бути off, ltc або tt, отримано `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays має бути в 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s має бути додатним, а afs_first_fix_s — невід'ємним
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km має бути в [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = вхідна коваріація не симетрична або має від'ємну діагональ
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent очікує вхідний годинник у LTC або TT, отримано { $timescale }; ланцюг перетворює шкали часу
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s має бути в [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source має бути off, terrain-nav або lola-crlb, отримано `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = моменти визначень мають бути додатними, afs_interval_s > 0, а trn_fix_time_s — в межах спуску
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m має бути не менше 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m має бути додатним
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb потребує DEM, який не вдалося завантажити
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent очікує вхідний годинник у LTC або TT, отримано { $timescale }; ланцюг перетворює шкали часу
+
+engine-e-lunar-landing-east-prior-is-not-positive = апріорна оцінка за сходом не є додатно визначеною
+
+engine-e-lunar-landing-north-prior-is-not-positive = апріорна оцінка за північчю не є додатно визначеною
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit має бути `llo` або `elfo`, отримано `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = періапсида має бути щонайменше на 20 км над поверхнею
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m має бути в (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s має бути в (0, 60], а arc_s — щонайменше один крок
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays має бути в 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s має бути додатним
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction має бути в [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model має бути `same` або `point-mass`, отримано `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous очікує вхідну коваріацію в MCI; ланцюг перетворює системи відліку
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = апріорна коваріація не є додатно визначеною
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = нормальні рівняння не є додатно визначеними
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = апостеріорна інформація не є додатно визначеною
+
+engine-e-lunar-rendezvous-no-trial-ran = жодного випробування не виконано
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = дата сезону `{ $s }` не має вигляду YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = дата сезону `{ $s }`: хибний рік
+
+engine-e-lunar-surface-map-season-date-bad-month = дата сезону `{ $s }`: хибний місяць
+
+engine-e-lunar-surface-map-season-date-bad-day = дата сезону `{ $s }`: хибний день
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = дата сезону `{ $s }` поза 1901-2099 або не є датою
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites має містити від 1 до 64 записів
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = майданчик { $i }: широта має бути в [-90, 90], а довгота — в [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates має містити щонайменше одну дату
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates має містити щонайбільше 16 дат
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days має бути в (0, 400], а step_min — в [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days і timing_floor_s мають бути додатними й скінченними
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = епоха `{ $s }` не має вигляду YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = епоха `{ $s }`: хибне число `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = епоха `{ $s }` поза 1901-2099 або не є датою
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces має бути "quantum" або "classical" (отримано { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = документ результату вже містить ключ `evidence`
+
+engine-e-evidence-label-the-result-document-is-not = документ результату не є об'єктом JSON
+
+engine-e-evidence-label-no-evidence-rows-are-listed = для `{ $tool }` не перелічено жодного рядка доказів
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = не файл годинника RINEX: немає запису RINEX VERSION / TYPE
+
+engine-e-clock-log-rinex-version-type-record-has = запис RINEX VERSION / TYPE не має номера версії (знайдено { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = версія годинника RINEX { $v } не читається: читаються версії 2.00 і від 3.00 до 3.04 (IGS публікує формат годинника до 3.04; RINEX від 4.00 до 4.02 не визначають файлу годинника)
+
+engine-e-clock-log-rinex-clock-record-with-an = запис годинника RINEX із нечитабельним зміщенням годинника або епохою: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = рядок TimeLab { $line } містить показання, що не є скінченним: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = перетворення систем відліку { $a } -> { $b } недоступне (перетворюються лише Gcrf, Mci і Mcmf)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = перехід між шкалами часу { $a } -> { $b } не є переходом через опорну шкалу
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: коридор має йти від пологого до крутішого кута менше 90 градусів, отримано від { $lo } до { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` має бути в [0, 90), отримано { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` має бути не менше 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` має бути більшим за 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: потрібна щонайменше одна станція
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: станція `{ $id }` має недійсну широту або довготу
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: ідентифікатор станції `{ $id }` використано двічі
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: фаза `{ $phase }` має геометрію "stated" і потребує `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: duty фази `{ $phase }` має бути в [0, 1], отримано { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: фаза `{ $phase }` має невідому геометрію `{ $other }`; геометрії: entry-orbit, moon-direction і stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: вхідна орбіта не поширилася
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: немає геометрії `{ $other }` для обчислення
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: фаза `{ $phase }` потребує вхідного значення GCRF для своєї геометрії, отримано { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: завмирання має закінчитися після свого початку (від { $a } до { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: очікує вхідний стан у GCRF, отримано { $frame }; задайте вхід у gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: фаза не дала жодного відліку
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: невідомий ключ моделі `{ $k }`; ключі: { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: модель потребує `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` має бути скінченним числом
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` має бути більшим за 0, отримано { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` має бути не менше 0, отримано { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` має бути рядком
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` має бути масивом таблиць
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` має містити таблиці
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` має бути масивом із { $n } чисел
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` має містити { $n } чисел, отримано { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` має містити скінченні числа
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: ділянка потребує `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: модель потребує щонайменше однієї `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: початок ділянки { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: кінець ділянки { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: ділянка { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` має бути в [0, 1], отримано { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` і `ssv_step_min` мають бути більшими за 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: поширення не досягло { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: орбіта після імпульсу не є зв'язаною (питома енергія { $energy } J/kg); замінна орбіта gnss-ssv потребує еліптичної
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: перебір gnss-ssv не повернув жодної смуги
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: перебір gnss-ssv не повернув жодної групи
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: фаза перелічує gnss-ssv, тож модель потребує `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: фаза перелічує ground-tracking, тож модель потребує `ground_range_sigma_m`, `ground_range_rate_sigma_mps` і `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = передавання { $name } має бути скінченним числом не менше 0, отримано { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = фаза `{ $id }`: { $key } її моделі дорівнює { $own_s } s, але ланцюг задає тривалість фази duration_s = { $duration_s } s; узгодьте їх або приберіть { $key }
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = невідома система відліку `{ $other }`; очікується одна з gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = невідома шкала часу `{ $other }`; очікується одна з tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = невідоме джерело навігації `{ $other }`; очікується одне з gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = невідоме джерело часу `{ $other }`; очікується одне з gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } має бути додатним скінченним числом, отримано { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = правило передавання `{ $rule }` потребує `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = невідоме правило передавання `{ $other }`; очікується carry, inflate або reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = фаза має порожній ідентифікатор
+
+engine-e-mission-thread-scenario-entry = вхід: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = вхід: sigma_drift_s_per_s має бути скінченним числом не менше 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = вхід: x має містити шість скінченних чисел
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind має бути "mission-thread", отримано "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = ланцюг місії потребує щонайменше однієї [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = ідентифікатор фази `{ $id }` використано двічі; ідентифікатори унікальні
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: фаза `{ $phase }` не є фазою цього ланцюга
+
+engine-e-mission-thread-scenario-phase = фаза `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = фаза `{ $id }` закінчилася о { $t_s } s, але почалася о { $start_s } s і триває { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = невідомий датчик відносної навігації `{ $other }`; очікується один з optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = дальність має бути додатним скінченним числом метрів, отримано { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = дальність { $range_m } m перевищує межу датчика в { $max_range_m } m
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: невідомий ключ моделі `{ $bad }`; ключі: { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = рядків доказів receiver-trust немає в матриці
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = невідома абляція `{ $other }`: B1–B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = рядків пакета доказів немає в матриці
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = рядків доказів jammertest немає в матриці
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: підгонка не має частотного шуму (білий FM, фліккер FM і блукання FM усі нульові), тож немає з чого передбачити holdover; журнал може містити лише білий фазовий шум або бути надто коротким
+
+engine-e-evidence-label-run-exercised-no-matrix-row = прогін не задіяв жодного рядка матриці верифікації
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent очікує вхідну коваріацію в MCI; ланцюг перетворює системи відліку
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent очікує вхідну коваріацію в MCI; ланцюг перетворює системи відліку
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface очікує вхідний стан у MCI або MCMF; ланцюг перетворює системи відліку
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km має перевищувати місячний радіус, а ексцентриситет бути в [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = невідомий вид фази `{ $kind }`; зареєстровані види: { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` не перелічує жодного джерела навігації
+
+engine-e-ssv-check-training-pattern-missing = навчальний шаблон { $sv } відсутній
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] потребує таблиці [clock_log]: виміряного ряду, з якого робиться підгонка
+
+engine-lunar-phase-no-finite-points-to-plot = немає скінченних точок для побудови
+
+engine-partner-cli-usage =
+    використання: kshana partner check <submission.toml> [--json]
+    { "  " }Перевіряє формат і метадані подання партнера даних (kshana.partner-submission/1) і читає його
+    { "  " }файл даних власними засобами читання рушія. Нічого не оцінює й не валідує; див. docs/PARTNER-DATA.md.
+    { "  " }Код виходу 0: подання повне й читабельне; 1: знайдено помилки; 2: використання.
+    Консультативне програмне забезпечення, не навігаційне обладнання із затвердженням типу.
+
+engine-evidence-verify-evidence-label-ledger-rows = мітка доказів: { $tier } ({ $row_count } рядків реєстру (ledger): { $rows }); вона всередині config.json, тож підпис її охоплює
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = немає мітки доказів (пакет до 0.40)
+
+engine-e-ssv-check-pattern-missing = шаблон { $sv } відсутній
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | лише інерціально { $inertial_pos } m / { $inertial_vel } m/s | з AFS { $afs_pos } m / { $afs_vel } m/s | розкид виведення { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-subtitle = інерціальний дрейф із визначеннями AFS | MODELLED, лише консультативно
+
+engine-lunar-ascent-chart-x-axis = секунди від старту
+
+engine-lunar-ascent-chart-series = 1-сигма положення
+
+engine-lunar-chart-y-axis-metres = метри
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | лише інерціально { $none_east }/{ $none_north } m (E/N) | з допоміжними засобами { $all_east }/{ $all_north } m | розкид R95 { $r95 } m | 3-сигмовий еліпс { $major } x { $minor } m | { $inside }% усередині (очікується { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Розкид місячної посадки: R95 залежно від використаних допоміжних засобів
+
+engine-lunar-landing-chart-subtitle = R95 за допоміжними засобами: { $aids } | MODELLED, лише консультативно
+
+engine-lunar-landing-chart-x-axis = комбінація допоміжних засобів (індекс)
+
+engine-lunar-landing-chart-series = R95 розкиду посадки
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | відстань { $sep } m | визначень { $fixes }% | відн. полож. 1-сигма R/A/C { $radial }/{ $along }/{ $cross } m | середня NEES { $nees } (очікується 6) | збіглося { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = ніколи
+
+engine-lunar-rendezvous-converged-at = на { $s } s
+
+engine-lunar-rendezvous-chart-title = Місячне зближення: формальна 1-сигма відносного положення (3-D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | визначень { $fixes }% | середня NEES { $nees } (очікується 6) | MODELLED, лише консультативно
+
+engine-lunar-rendezvous-chart-x-axis = хвилини від початку дуги
+
+engine-lunar-rendezvous-chart-series = 1-сигма відносного положення
+
+engine-lunar-surface-map-summary = lunar-surface | майданчиків: { $n_sites } x сезонів: { $n_seasons } | позиціонування від { $position_min }% до { $position_max }% | найгірша доступність часу { $worst_timing }% | найдовший проміжок без часу { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Карта PNT місячної поверхні: доступність за майданчиком (найгірший сезон, %)
+
+engine-lunar-surface-map-chart-subtitle = позиціонування = 4+ ретрансляторів і PDOP нижче порога; час = один ретранслятор або Земля | MODELLED, лише консультативно
+
+engine-lunar-surface-map-chart-x-axis = індекс майданчика
+
+engine-lunar-surface-map-chart-y-axis = відсоток вікна
+
+engine-lunar-surface-map-chart-series-positioning = позиціонування
+
+engine-lunar-surface-map-chart-series-timing = час
+
+engine-lunar-surface-map-chart-series-earth-visible = Земля видима
+
+engine-mission-thread-weakest-link = найслабша ланка { $phase_id }
+
+engine-mission-thread-no-phases = немає фаз
+
+engine-mission-thread-untitled = без назви
+
+engine-mission-thread-summary = mission-thread | фаз: { $n_phases } | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Ланцюг місії
+
+engine-mission-thread-chart-position-caption = 1-сигма положення, m
+
+engine-mission-thread-chart-time-caption = 1-сигма часу, s
+
+engine-mission-thread-chart-subtitle = MODELLED бюджет похибок навігації та часу; кожна фаза накреслена однакової ширини
+
+engine-evidence-label-line-one-row = Докази: { $tier } · { $n } рядок реєстру (ledger) { $ids }
+
+engine-evidence-label-line-rows = Докази: { $tier } · рядків реєстру (ledger): { $n } { $ids }
+
+engine-evidence-label-line-rows-more = Докази: { $tier } · рядків реєстру (ledger): { $n } { $ids } +{ $n_more } ще
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }інформація: { $i }
+
+engine-partner-text-warning = { "  " }попередження: { $w }
+
+engine-partner-text-error = { "  " }ПОМИЛКА: { $e }
+
+engine-partner-text-result-ok = результат: формат і метадані повні й читабельні
+
+engine-partner-text-result-not-ready = результат: не готово; виправте помилки вище
+
+engine-lunar-ascent-chart-title = Місячний підйом: 1-сигма навігаційного положення 3-D (m)
+
+engine-interference-map-locate-usage = використання: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom також потребує --licence <text> --licence-url <url> --attribution <text>)
+    Записує emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv і -figure.svg: оцінені області випромінювача із заданими рівнями довіри, ніколи не окрему точку
+
+engine-interference-map-locate-wrote = записано { $path }
+
+engine-interference-map-locate-summary =
+    { $n_sessions ->
+        [one] опубліковано { $n_sessions } сесію
+        [few] опубліковано { $n_sessions } сесії
+        [many] опубліковано { $n_sessions } сесій
+       *[other] опубліковано { $n_sessions } сесії
+    }; { $n_withheld ->
+        [one] не оприлюднено { $n_withheld } сесію-кандидата
+        [few] не оприлюднено { $n_withheld } сесії-кандидати
+        [many] не оприлюднено { $n_withheld } сесій-кандидатів
+       *[other] не оприлюднено { $n_withheld } сесії-кандидата
+    } (менше ніж { $min } різних повітряних чи морських суден)
+
+engine-interference-map-locate-note-not-preregistered = примітка: параметр відрізняється від попередньо зареєстрованих, тож це не попередньо зареєстрований метод
+
+engine-interference-map-locate-line-session = сесія { $k }: { $start } до { $end }, різних зачеплених: { $affected }, область { $level }% — { $area } km², центроїд { $lat }, { $lon } (еліпс { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = сесія { $k }: { $start } до { $end }, різних зачеплених: { $affected }, звіти не звужують область (необмежено)
+
+engine-interference-map-locate-fig-title = Оцінена область випромінювача
+
+engine-interference-map-locate-fig-subtitle =
+    Де, за заданих припущень, могло б перебувати джерело погіршених звітів. { $n ->
+        [one] Показано { $n } сесію.
+        [few] Показано { $n } сесії.
+        [many] Показано { $n } сесій.
+       *[other] Показано { $n } сесії.
+    }
+
+engine-interference-map-locate-fig-none = Жодна сесія не досягла мінімуму для публікації, тому область не показано.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = область { $pct }%
+
+engine-interference-map-locate-fig-legend-ellipse = 95% еліпс апостеріорного розподілу
+
+engine-interference-map-locate-fig-note-1 = Область не є положенням жодного повітряного судна, морського судна чи організації і не є висновком про причину.
+
+engine-interference-map-locate-fig-note-2 = Рельєф не моделюється, і кожна сесія припускає одне джерело; рівні довіри залежать від моделі.
+
+engine-e-interference-map-locate-bad-number = { $name } не є числом
+
+engine-e-interference-map-locate-bad-levels = --levels потребує чисел, розділених комами, строго між 0 і 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km має бути між 0.5 і 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min має бути між 1 і 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m потребує двох чисел, min,max, де 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } не є придатним файлом виправлення TDOA (receivers, tdoa_s, sigma_s, start), або виправлення не зійшлося
+
+engine-e-interference-map-locate-source-required = потрібен --source adsb або --source ais
+
+engine-e-interference-map-locate-no-evidence-rows = для виводів locate не перелічено жодного рядка доказів

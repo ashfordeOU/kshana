@@ -40451,5 +40451,2030 @@
    },
    "-byte limit"
   ]
+ },
+ {
+  "id": "e-lunar-ascent-site-latitude-must-be-in",
+  "error": true,
+  "parts": [
+   "site latitude must be in [-90, 90] and longitude in [-180, 360]"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-ascent-must-be-in-120",
+  "error": true,
+  "parts": [
+   "ascent_s must be in [120, 1800]"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-afs-mode-must-be-off",
+  "error": true,
+  "parts": [
+   "afs_mode must be off, standalone or differential, got `",
+   {
+    "var": "o"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-lunar-time-mode-must-be",
+  "error": true,
+  "parts": [
+   "lunar_time_mode must be off, ltc or tt, got `",
+   {
+    "var": "o"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-relays-must-be-in-24",
+  "error": true,
+  "parts": [
+   "n_relays must be in 3..=24"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-afs-interval-must-be-positive",
+  "error": true,
+  "parts": [
+   "afs_interval_s must be positive and afs_first_fix_s non-negative"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-insertion-altitude-km-must-be",
+  "error": true,
+  "parts": [
+   "insertion_altitude_km must be in [10, 1000]"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-entry-covariance-is-not-symmetric",
+  "error": true,
+  "parts": [
+   "entry covariance is not symmetric with a non-negative diagonal"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-lunar-ascent-expects-the-entry",
+  "error": true,
+  "parts": [
+   "lunar-ascent expects the entry clock in LTC or TT, got ",
+   {
+    "var": "timescale"
+   },
+   "; the thread converts timescales"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-descent-must-be-in-60",
+  "error": true,
+  "parts": [
+   "descent_s must be in [60, 3600]"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-trn-source-must-be-off",
+  "error": true,
+  "parts": [
+   "trn_source must be off, terrain-nav or lola-crlb, got `",
+   {
+    "var": "o"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-fix-times-must-be-positive",
+  "error": true,
+  "parts": [
+   "fix times must be positive, afs_interval_s > 0 and trn_fix_time_s within the descent"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-trn-window-must-be-at",
+  "error": true,
+  "parts": [
+   "trn_window_m must be at least 3600"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-trn-height-sigma-must-be",
+  "error": true,
+  "parts": [
+   "trn_height_sigma_m must be positive"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-lola-crlb-needs-the-dem",
+  "error": true,
+  "parts": [
+   "lola-crlb needs the DEM, which could not be loaded"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-lunar-descent-expects-the-entry",
+  "error": true,
+  "parts": [
+   "lunar-descent expects the entry clock in LTC or TT, got ",
+   {
+    "var": "timescale"
+   },
+   "; the thread converts timescales"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-east-prior-is-not-positive",
+  "error": true,
+  "parts": [
+   "east prior is not positive definite"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-north-prior-is-not-positive",
+  "error": true,
+  "parts": [
+   "north prior is not positive definite"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-gravity-table-path",
+  "error": true,
+  "parts": [
+   "gravity_table_path ",
+   {
+    "var": "p"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-orbit-must-be-llo-or",
+  "error": true,
+  "parts": [
+   "orbit must be `llo` or `elfo`, got `",
+   {
+    "var": "o"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-periapsis-must-be-at-least",
+  "error": true,
+  "parts": [
+   "periapsis must be at least 20 km above the surface"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-separation-must-be-in-50000",
+  "error": true,
+  "parts": [
+   "separation_m must be in (0, 50000)"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-step-must-be-in-60",
+  "error": true,
+  "parts": [
+   "step_s must be in (0, 60] and arc_s at least one step"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-relays-must-be-in-24",
+  "error": true,
+  "parts": [
+   "n_relays must be in 4..=24"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-integration-must-be-positive",
+  "error": true,
+  "parts": [
+   "integration_s must be positive"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-common-mode-fraction-must-be",
+  "error": true,
+  "parts": [
+   "common_mode_fraction must be in [0, 1)"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-filter-model-must-be-same",
+  "error": true,
+  "parts": [
+   "filter_model must be `same` or `point-mass`, got `",
+   {
+    "var": "o"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the",
+  "error": true,
+  "parts": [
+   "lunar-orbit-rendezvous expects the entry covariance in MCI; the thread converts frames"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-prior-covariance-is-not-positive",
+  "error": true,
+  "parts": [
+   "prior covariance is not positive definite"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-normal-equations-are-not-positive",
+  "error": true,
+  "parts": [
+   "normal equations are not positive definite"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-posterior-information-is-not-positive",
+  "error": true,
+  "parts": [
+   "posterior information is not positive definite"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-no-trial-ran",
+  "error": true,
+  "parts": [
+   "no trial ran"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-season-date-is-not-yyyy",
+  "error": true,
+  "parts": [
+   "season date `",
+   {
+    "var": "s"
+   },
+   "` is not YYYY-MM-DD"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-season-date-bad-year",
+  "error": true,
+  "parts": [
+   "season date `",
+   {
+    "var": "s"
+   },
+   "`: bad year"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-season-date-bad-month",
+  "error": true,
+  "parts": [
+   "season date `",
+   {
+    "var": "s"
+   },
+   "`: bad month"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-season-date-bad-day",
+  "error": true,
+  "parts": [
+   "season date `",
+   {
+    "var": "s"
+   },
+   "`: bad day"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-season-date-is-outside-1901",
+  "error": true,
+  "parts": [
+   "season date `",
+   {
+    "var": "s"
+   },
+   "` is outside 1901-2099 or not a date"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-sites-must-hold-between-and",
+  "error": true,
+  "parts": [
+   "sites must hold between 1 and 64 entries"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-site-latitude-must-be-in",
+  "error": true,
+  "parts": [
+   "site ",
+   {
+    "var": "i"
+   },
+   ": latitude must be in [-90, 90] and longitude in [-180, 360]"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-season-dates-must-hold-at",
+  "error": true,
+  "parts": [
+   "season_dates must hold at least one date"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-season-dates-must-hold-at-2",
+  "error": true,
+  "parts": [
+   "season_dates must hold at most 16 dates"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-window-days-must-be-in",
+  "error": true,
+  "parts": [
+   "window_days must be in (0, 400] and step_min in [1, 720]"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-stay-days-and-timing-floor",
+  "error": true,
+  "parts": [
+   "stay_days and timing_floor_s must be positive and finite"
+  ]
+ },
+ {
+  "id": "e-lunar-phase-epoch-is-not-yyyy-mm",
+  "error": true,
+  "parts": [
+   "epoch `",
+   {
+    "var": "s"
+   },
+   "` is not YYYY-MM-DDTHH:MM:SSZ"
+  ]
+ },
+ {
+  "id": "e-lunar-phase-epoch-bad-number",
+  "error": true,
+  "parts": [
+   "epoch `",
+   {
+    "var": "s"
+   },
+   "`: bad number `",
+   {
+    "var": "x"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-lunar-phase-epoch-is-outside-1901-2099",
+  "error": true,
+  "parts": [
+   "epoch `",
+   {
+    "var": "s"
+   },
+   "` is outside 1901-2099 or not a date"
+  ]
+ },
+ {
+  "id": "e-clock-fit-clock-fit-replaces-must-be",
+  "error": true,
+  "parts": [
+   "[clock_fit] replaces must be \"quantum\" or \"classical\" (got ",
+   {
+    "var": "other"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-clock-fit-clock-fit",
+  "error": true,
+  "parts": [
+   "[clock_fit]: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-evidence-label-the-result-document-already-carries",
+  "error": true,
+  "parts": [
+   "the result document already carries an `evidence` key"
+  ]
+ },
+ {
+  "id": "e-evidence-label-the-result-document-is-not",
+  "error": true,
+  "parts": [
+   "the result document is not a JSON object"
+  ]
+ },
+ {
+  "id": "e-evidence-label-no-evidence-rows-are-listed",
+  "error": true,
+  "parts": [
+   "no evidence rows are listed for `",
+   {
+    "var": "tool"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-clock-log-not-rinex-clock-file-no-2",
+  "error": true,
+  "parts": [
+   "not a RINEX clock file: no RINEX VERSION / TYPE record"
+  ]
+ },
+ {
+  "id": "e-clock-log-rinex-version-type-record-has",
+  "error": true,
+  "parts": [
+   "RINEX VERSION / TYPE record has no version number (found ",
+   {
+    "var": "field"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-clock-log-rinex-clock-version-is-not",
+  "error": true,
+  "parts": [
+   "RINEX clock version ",
+   {
+    "var": "v"
+   },
+   " is not read: versions 2.00 and 3.00 to 3.04 are (IGS publishes the clock format up to 3.04; RINEX 4.00 to 4.02 define no clock file)"
+  ]
+ },
+ {
+  "id": "e-clock-log-rinex-clock-record-with-an",
+  "error": true,
+  "parts": [
+   "RINEX clock record with an unreadable clock bias or epoch: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-clock-log-timelab-line-holds-reading-that",
+  "error": true,
+  "parts": [
+   "TimeLab line ",
+   {
+    "var": "line"
+   },
+   " holds a reading that is not finite: ",
+   {
+    "var": "l"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-conversions-frame-conversion-is-not-available",
+  "error": true,
+  "parts": [
+   "frame conversion ",
+   {
+    "var": "a"
+   },
+   " -> ",
+   {
+    "var": "b"
+   },
+   " is not available (only Gcrf, Mci and Mcmf convert)"
+  ]
+ },
+ {
+  "id": "e-mission-thread-conversions-timescale-hop-is-not-pivot",
+  "error": true,
+  "parts": [
+   "timescale hop ",
+   {
+    "var": "a"
+   },
+   " -> ",
+   {
+    "var": "b"
+   },
+   " is not a pivot hop"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-entry-the-corridor-must-run-from",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the corridor must run from a shallow to a steeper angle below 90 degrees, got ",
+   {
+    "var": "lo"
+   },
+   " to ",
+   {
+    "var": "hi"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-min-elevation-deg",
+  "error": true,
+  "parts": [
+   "ground_network: `min_elevation_deg` must be in [0, 90), got ",
+   {
+    "var": "min_elevation_deg"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-handover-gap-must",
+  "error": true,
+  "parts": [
+   "ground_network: `handover_gap_s` must be at least 0"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-step-must-be",
+  "error": true,
+  "parts": [
+   "ground_network: `step_s` must be above 0"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-needs-at-least",
+  "error": true,
+  "parts": [
+   "ground_network: needs at least one station"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-station-has-an",
+  "error": true,
+  "parts": [
+   "ground_network: station `",
+   {
+    "var": "id"
+   },
+   "` has an invalid latitude or longitude"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-station-id-is",
+  "error": true,
+  "parts": [
+   "ground_network: station id `",
+   {
+    "var": "id"
+   },
+   "` is used twice"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-phase-has-geometry",
+  "error": true,
+  "parts": [
+   "ground_network: phase `",
+   {
+    "var": "phase"
+   },
+   "` has geometry \"stated\" and needs `duty`"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-phase-duty-must",
+  "error": true,
+  "parts": [
+   "ground_network: phase `",
+   {
+    "var": "phase"
+   },
+   "` duty must be in [0, 1], got ",
+   {
+    "var": "d"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-phase-has-unknown",
+  "error": true,
+  "parts": [
+   "ground_network: phase `",
+   {
+    "var": "phase"
+   },
+   "` has unknown geometry `",
+   {
+    "var": "other"
+   },
+   "`; the geometries are entry-orbit, moon-direction and stated"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-the-entry-orbit",
+  "error": true,
+  "parts": [
+   "ground_network: the entry orbit did not propagate"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-no-geometry-to",
+  "error": true,
+  "parts": [
+   "ground_network: no geometry `",
+   {
+    "var": "other"
+   },
+   "` to compute"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf",
+  "error": true,
+  "parts": [
+   "ground_network: phase `",
+   {
+    "var": "phase"
+   },
+   "` needs a GCRF entry for its geometry, got ",
+   {
+    "var": "frame"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-launch-fade-must-end-after-it",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": a fade must end after it starts (",
+   {
+    "var": "a"
+   },
+   " to ",
+   {
+    "var": "b"
+   },
+   " s)"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-launch-expects-gcrf-entry-state-got",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": expects a GCRF entry state, got ",
+   {
+    "var": "frame"
+   },
+   "; state the entry in gcrf"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-launch-the-phase-produced-no-samples",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the phase produced no samples"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-unknown-model-key-the-keys",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": unknown model key `",
+   {
+    "var": "k"
+   },
+   "`; the keys are ",
+   {
+    "var": "allowed"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-the-model-needs",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the model needs `",
+   {
+    "var": "key"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-be-finite-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must be a finite number"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-be-above-got",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must be above 0, got ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-be-at-least-got",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must be at least 0, got ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-be-string",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must be a string"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-be-an-array-of",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must be an array of tables"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-hold-tables",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must hold tables"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-be-an-array-of-2",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must be an array of ",
+   {
+    "var": "n"
+   },
+   " numbers"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-hold-numbers-got",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must hold ",
+   {
+    "var": "n"
+   },
+   " numbers, got ",
+   {
+    "var": "got_count"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-model-must-hold-finite-numbers",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `",
+   {
+    "var": "key"
+   },
+   "` must hold finite numbers"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-rendezvous-leg-needs-sensor",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": a leg needs `sensor`"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-rendezvous-the-model-needs-at-least",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the model needs at least one `[[phase.model.legs]]`"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-rendezvous-leg-start",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": leg ",
+   {
+    "var": "leg"
+   },
+   " start: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-rendezvous-leg-end",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": leg ",
+   {
+    "var": "leg"
+   },
+   " end: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-rendezvous-leg",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": leg ",
+   {
+    "var": "leg"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-ground-duty-must-be-in",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `ground_duty` must be in [0, 1], got ",
+   {
+    "var": "d"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `ssv_window_s` and `ssv_step_min` must be above 0"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the propagation did not reach ",
+   {
+    "var": "dt"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the post-burn orbit is not bound (specific energy ",
+   {
+    "var": "energy"
+   },
+   " J/kg); the gnss-ssv standing-in orbit needs an elliptic one"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the gnss-ssv sweep returned no band"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the gnss-ssv sweep returned no group"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the phase lists gnss-ssv, so the model needs `ssv_uere_m`"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": the phase lists ground-tracking, so the model needs `ground_range_sigma_m`, `ground_range_rate_sigma_mps` and `ground_interval_s`"
+  ]
+ },
+ {
+  "id": "e-mission-thread-handover-handover-must-be-finite-number",
+  "error": true,
+  "parts": [
+   "handover ",
+   {
+    "var": "name"
+   },
+   " must be a finite number of at least 0, got ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-phase-its-model-is-but",
+  "error": true,
+  "parts": [
+   "phase `",
+   {
+    "var": "id"
+   },
+   "`: its model's ",
+   {
+    "var": "key"
+   },
+   " is ",
+   {
+    "var": "own_s"
+   },
+   " s but the thread gives the phase duration_s = ",
+   {
+    "var": "duration_s"
+   },
+   " s; make them agree or leave ",
+   {
+    "var": "key"
+   },
+   " out"
+  ]
+ },
+ {
+  "id": "e-mission-thread-phase-unknown-frame-expected-one-of",
+  "error": true,
+  "parts": [
+   "unknown frame `",
+   {
+    "var": "other"
+   },
+   "`; expected one of gcrf, itrf, mci, mcmf, lvlh"
+  ]
+ },
+ {
+  "id": "e-mission-thread-phase-unknown-timescale-expected-one-of",
+  "error": true,
+  "parts": [
+   "unknown timescale `",
+   {
+    "var": "other"
+   },
+   "`; expected one of tt, tdb, utc, ltc"
+  ]
+ },
+ {
+  "id": "e-mission-thread-phase-unknown-navigation-source-expected-one",
+  "error": true,
+  "parts": [
+   "unknown navigation source `",
+   {
+    "var": "other"
+   },
+   "`; expected one of gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical"
+  ]
+ },
+ {
+  "id": "e-mission-thread-phase-unknown-time-source-expected-one",
+  "error": true,
+  "parts": [
+   "unknown time source `",
+   {
+    "var": "other"
+   },
+   "`; expected one of gnss, ground-clock, lunar-time, onboard-holdover"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-must-be-positive-finite-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   " must be a positive finite number, got ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-handover-rule-needs",
+  "error": true,
+  "parts": [
+   "handover rule `",
+   {
+    "var": "rule"
+   },
+   "` needs `",
+   {
+    "var": "what"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-unknown-handover-rule-expected-carry",
+  "error": true,
+  "parts": [
+   "unknown handover rule `",
+   {
+    "var": "other"
+   },
+   "`; expected carry, inflate or reacquire"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-phase-has-an-empty-id",
+  "error": true,
+  "parts": [
+   "a phase has an empty id"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-entry",
+  "error": true,
+  "parts": [
+   "entry: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-entry-sigma-drift-per-must",
+  "error": true,
+  "parts": [
+   "entry: sigma_drift_s_per_s must be a finite number of at least 0"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-entry-must-hold-six-finite",
+  "error": true,
+  "parts": [
+   "entry: x must hold six finite numbers"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-mission-thread",
+  "error": true,
+  "parts": [
+   "mission-thread: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-kind-must-be-mission-thread",
+  "error": true,
+  "parts": [
+   "kind must be \"mission-thread\", got \"",
+   {
+    "var": "k"
+   },
+   "\""
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-mission-thread-needs-at-least",
+  "error": true,
+  "parts": [
+   "a mission thread needs at least one [[phase]]"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-phase-id-is-used-twice",
+  "error": true,
+  "parts": [
+   "phase id `",
+   {
+    "var": "id"
+   },
+   "` is used twice; ids are unique"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-ground-network-phase-is-not",
+  "error": true,
+  "parts": [
+   "ground_network: phase `",
+   {
+    "var": "phase"
+   },
+   "` is not a phase of this thread"
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-phase",
+  "error": true,
+  "parts": [
+   "phase `",
+   {
+    "var": "id"
+   },
+   "`: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-phase-ended-at-but-started",
+  "error": true,
+  "parts": [
+   "phase `",
+   {
+    "var": "id"
+   },
+   "` ended at ",
+   {
+    "var": "t_s"
+   },
+   " s but started at ",
+   {
+    "var": "start_s"
+   },
+   " s and lasts ",
+   {
+    "var": "duration_s"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "e-mission-thread-sensors-unknown-relative-navigation-sensor-expected",
+  "error": true,
+  "parts": [
+   "unknown relative-navigation sensor `",
+   {
+    "var": "other"
+   },
+   "`; expected one of optical-camera, lidar, rf-ranging"
+  ]
+ },
+ {
+  "id": "e-mission-thread-sensors-range-must-be-positive-finite",
+  "error": true,
+  "parts": [
+   "range must be a positive finite number of metres, got ",
+   {
+    "var": "range_m"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-sensors-range-is-beyond-the-sensor",
+  "error": true,
+  "parts": [
+   "range ",
+   {
+    "var": "range_m"
+   },
+   " m is beyond the sensor's ",
+   {
+    "var": "max_range_m"
+   },
+   " m limit"
+  ]
+ },
+ {
+  "id": "e-mission-thread-lunar-unknown-model-key-the-keys",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": unknown model key `",
+   {
+    "var": "bad"
+   },
+   "`; the keys are ",
+   {
+    "var": "keys"
+   }
+  ]
+ },
+ {
+  "id": "e-receiver-trust-scenario-the-receiver-trust-evidence-rows",
+  "error": true,
+  "parts": [
+   "the receiver-trust evidence rows are not in the matrix"
+  ]
+ },
+ {
+  "id": "e-ssv-check-unknown-ablation-b1-to-b5",
+  "error": true,
+  "parts": [
+   "unknown ablation `",
+   {
+    "var": "other"
+   },
+   "`: B1 to B5"
+  ]
+ },
+ {
+  "id": "e-evidence-assemble-the-evidence-pack-rows-are",
+  "error": true,
+  "parts": [
+   "the evidence-pack rows are not in the matrix"
+  ]
+ },
+ {
+  "id": "e-jammertest-cli-the-jammertest-evidence-rows-are",
+  "error": true,
+  "parts": [
+   "the jammertest evidence rows are not in the matrix"
+  ]
+ },
+ {
+  "id": "e-clock-fit-fit-has-no-frequency-noise",
+  "error": true,
+  "parts": [
+   "[clock_fit]: the fit has no frequency noise (white FM, flicker FM and random-walk FM are all zero), so there is nothing to predict a holdover from; the log may be white phase noise only or too short"
+  ]
+ },
+ {
+  "id": "e-evidence-label-run-exercised-no-matrix-row",
+  "error": true,
+  "parts": [
+   "the run exercised no verification-matrix row"
+  ]
+ },
+ {
+  "id": "e-lunar-ascent-expects-entry-covariance-in-mci",
+  "error": true,
+  "parts": [
+   "lunar-ascent expects the entry covariance in MCI; the thread converts frames"
+  ]
+ },
+ {
+  "id": "e-lunar-landing-expects-entry-covariance-in-mci",
+  "error": true,
+  "parts": [
+   "lunar-descent expects the entry covariance in MCI; the thread converts frames"
+  ]
+ },
+ {
+  "id": "e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf",
+  "error": true,
+  "parts": [
+   "lunar-surface expects the entry state in MCI or MCMF; the thread converts frames"
+  ]
+ },
+ {
+  "id": "e-lunar-rendezvous-sma-must-exceed-lunar-radius",
+  "error": true,
+  "parts": [
+   "sma_km must exceed the lunar radius and eccentricity be in [0, ",
+   {
+    "var": "lit_0_9"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-mission-thread-unknown-phase-kind",
+  "error": true,
+  "parts": [
+   "unknown phase kind `",
+   {
+    "var": "kind"
+   },
+   "`; registered kinds are ",
+   {
+    "var": "known"
+   }
+  ]
+ },
+ {
+  "id": "e-mission-thread-scenario-nav-lists-no-source",
+  "error": true,
+  "parts": [
+   "`nav` lists no navigation source"
+  ]
+ },
+ {
+  "id": "e-ssv-check-training-pattern-missing",
+  "error": true,
+  "parts": [
+   "training pattern ",
+   {
+    "var": "sv"
+   },
+   " missing"
+  ]
+ },
+ {
+  "id": "e-api-clock-fit-needs-clock-log-table",
+  "error": true,
+  "parts": [
+   "[clock_fit] needs a [clock_log] table: the measured series the fit is made from"
+  ]
+ },
+ {
+  "id": "lunar-phase-no-finite-points-to-plot",
+  "error": false,
+  "parts": [
+   "no finite points to plot"
+  ]
+ },
+ {
+  "id": "partner-cli-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana partner check <submission.toml> [--json]\n  Checks the format and the metadata of a data-partner submission (kshana.partner-submission/1) and reads its\n  data file with the engine's own readers. It does not score or validate anything; see docs/PARTNER-DATA.md.\n  Exit status 0: the submission is complete and readable; 1: errors were found; 2: usage.\nAdvisory software, not type-approved navigation equipment."
+  ]
+ },
+ {
+  "id": "evidence-verify-evidence-label-ledger-rows",
+  "error": false,
+  "parts": [
+   "evidence label: ",
+   {
+    "var": "tier"
+   },
+   " (",
+   {
+    "var": "row_count"
+   },
+   " ledger rows: ",
+   {
+    "var": "rows"
+   },
+   "); it is inside config.json, so the signature covers it"
+  ]
+ },
+ {
+  "id": "evidence-verify-no-evidence-label-pre-040-pack",
+  "error": false,
+  "parts": [
+   "no evidence label (pre-0.40 pack)"
+  ]
+ },
+ {
+  "id": "e-ssv-check-pattern-missing",
+  "error": true,
+  "parts": [
+   "pattern ",
+   {
+    "var": "sv"
+   },
+   " missing"
+  ]
+ },
+ {
+  "id": "lunar-ascent-summary",
+  "error": false,
+  "parts": [
+   "lunar-ascent | ",
+   {
+    "var": "lat"
+   },
+   " deg | inertial only ",
+   {
+    "var": "inertial_pos"
+   },
+   " m / ",
+   {
+    "var": "inertial_vel"
+   },
+   " m/s | with AFS ",
+   {
+    "var": "afs_pos"
+   },
+   " m / ",
+   {
+    "var": "afs_vel"
+   },
+   " m/s | insertion dispersion ",
+   {
+    "var": "dispersion"
+   },
+   " m/s (MODELLED)"
+  ]
+ },
+ {
+  "id": "lunar-ascent-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar ascent: 3-D navigation position 1-sigma (m)"
+  ]
+ },
+ {
+  "id": "lunar-ascent-chart-subtitle",
+  "error": false,
+  "parts": [
+   "inertial drift with AFS fixes | MODELLED, advisory only"
+  ]
+ },
+ {
+  "id": "lunar-ascent-chart-x-axis",
+  "error": false,
+  "parts": [
+   "seconds since liftoff"
+  ]
+ },
+ {
+  "id": "lunar-ascent-chart-series",
+  "error": false,
+  "parts": [
+   "position 1-sigma"
+  ]
+ },
+ {
+  "id": "lunar-chart-y-axis-metres",
+  "error": false,
+  "parts": [
+   "metres"
+  ]
+ },
+ {
+  "id": "lunar-landing-summary",
+  "error": false,
+  "parts": [
+   "lunar-descent | ",
+   {
+    "var": "lat"
+   },
+   " deg | inertial only ",
+   {
+    "var": "none_east"
+   },
+   "/",
+   {
+    "var": "none_north"
+   },
+   " m (E/N) | with aids ",
+   {
+    "var": "all_east"
+   },
+   "/",
+   {
+    "var": "all_north"
+   },
+   " m | dispersion R95 ",
+   {
+    "var": "r95"
+   },
+   " m | 3-sigma ellipse ",
+   {
+    "var": "major"
+   },
+   " x ",
+   {
+    "var": "minor"
+   },
+   " m | ",
+   {
+    "var": "inside"
+   },
+   "% inside (expect ",
+   {
+    "var": "expect"
+   },
+   "%) (MODELLED)"
+  ]
+ },
+ {
+  "id": "lunar-landing-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar landing dispersion: R95 against aids used"
+  ]
+ },
+ {
+  "id": "lunar-landing-chart-subtitle",
+  "error": false,
+  "parts": [
+   "R95 by aids: ",
+   {
+    "var": "aids"
+   },
+   " | MODELLED, advisory only"
+  ]
+ },
+ {
+  "id": "lunar-landing-chart-x-axis",
+  "error": false,
+  "parts": [
+   "aid combination (index)"
+  ]
+ },
+ {
+  "id": "lunar-landing-chart-series",
+  "error": false,
+  "parts": [
+   "R95 of landing dispersion"
+  ]
+ },
+ {
+  "id": "lunar-rendezvous-summary",
+  "error": false,
+  "parts": [
+   "lunar-orbit-rendezvous | ",
+   {
+    "var": "orbit"
+   },
+   " ",
+   {
+    "var": "periapsis_km"
+   },
+   "x",
+   {
+    "var": "apoapsis_km"
+   },
+   " km | sep ",
+   {
+    "var": "sep"
+   },
+   " m | fixes ",
+   {
+    "var": "fixes"
+   },
+   "% | rel pos 1-sigma R/A/C ",
+   {
+    "var": "radial"
+   },
+   "/",
+   {
+    "var": "along"
+   },
+   "/",
+   {
+    "var": "cross"
+   },
+   " m | mean NEES ",
+   {
+    "var": "nees"
+   },
+   " (6 expected) | converged ",
+   {
+    "var": "converged"
+   },
+   " (MODELLED)"
+  ]
+ },
+ {
+  "id": "lunar-rendezvous-converged-never",
+  "error": false,
+  "parts": [
+   "never"
+  ]
+ },
+ {
+  "id": "lunar-rendezvous-converged-at",
+  "error": false,
+  "parts": [
+   "at ",
+   {
+    "var": "s"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "lunar-rendezvous-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar rendezvous: formal relative position 1-sigma (3-D, m)"
+  ]
+ },
+ {
+  "id": "lunar-rendezvous-chart-subtitle",
+  "error": false,
+  "parts": [
+   {
+    "var": "filter_model"
+   },
+   " | fixes ",
+   {
+    "var": "fixes"
+   },
+   "% | mean NEES ",
+   {
+    "var": "nees"
+   },
+   " (6 expected) | MODELLED, advisory only"
+  ]
+ },
+ {
+  "id": "lunar-rendezvous-chart-x-axis",
+  "error": false,
+  "parts": [
+   "minutes since the start of the arc"
+  ]
+ },
+ {
+  "id": "lunar-rendezvous-chart-series",
+  "error": false,
+  "parts": [
+   "relative position 1-sigma"
+  ]
+ },
+ {
+  "id": "lunar-surface-map-summary",
+  "error": false,
+  "parts": [
+   "lunar-surface | ",
+   {
+    "var": "n_sites"
+   },
+   " sites x ",
+   {
+    "var": "n_seasons"
+   },
+   " seasons | positioning ",
+   {
+    "var": "position_min"
+   },
+   "% to ",
+   {
+    "var": "position_max"
+   },
+   "% | worst timing availability ",
+   {
+    "var": "worst_timing"
+   },
+   "% | longest timing gap ",
+   {
+    "var": "gap_h"
+   },
+   " h (MODELLED)"
+  ]
+ },
+ {
+  "id": "lunar-surface-map-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar surface PNT map: availability by site (worst season, %)"
+  ]
+ },
+ {
+  "id": "lunar-surface-map-chart-subtitle",
+  "error": false,
+  "parts": [
+   "positioning = 4+ relays and PDOP under the threshold; timing = one relay or the Earth | MODELLED, advisory only"
+  ]
+ },
+ {
+  "id": "lunar-surface-map-chart-x-axis",
+  "error": false,
+  "parts": [
+   "site index"
+  ]
+ },
+ {
+  "id": "lunar-surface-map-chart-y-axis",
+  "error": false,
+  "parts": [
+   "percent of the window"
+  ]
+ },
+ {
+  "id": "lunar-surface-map-chart-series-positioning",
+  "error": false,
+  "parts": [
+   "positioning"
+  ]
+ },
+ {
+  "id": "lunar-surface-map-chart-series-timing",
+  "error": false,
+  "parts": [
+   "timing"
+  ]
+ },
+ {
+  "id": "lunar-surface-map-chart-series-earth-visible",
+  "error": false,
+  "parts": [
+   "Earth visible"
+  ]
+ },
+ {
+  "id": "mission-thread-weakest-link",
+  "error": false,
+  "parts": [
+   "weakest link ",
+   {
+    "var": "phase_id"
+   }
+  ]
+ },
+ {
+  "id": "mission-thread-no-phases",
+  "error": false,
+  "parts": [
+   "no phases"
+  ]
+ },
+ {
+  "id": "mission-thread-untitled",
+  "error": false,
+  "parts": [
+   "untitled"
+  ]
+ },
+ {
+  "id": "mission-thread-summary",
+  "error": false,
+  "parts": [
+   "mission-thread | ",
+   {
+    "var": "n_phases"
+   },
+   " phases | ",
+   {
+    "var": "title"
+   },
+   " | ",
+   {
+    "var": "weak"
+   },
+   " | ",
+   {
+    "var": "tier"
+   }
+  ]
+ },
+ {
+  "id": "mission-thread-default-title",
+  "error": false,
+  "parts": [
+   "Mission thread"
+  ]
+ },
+ {
+  "id": "mission-thread-chart-position-caption",
+  "error": false,
+  "parts": [
+   "1-sigma position, m"
+  ]
+ },
+ {
+  "id": "mission-thread-chart-time-caption",
+  "error": false,
+  "parts": [
+   "1-sigma time, s"
+  ]
+ },
+ {
+  "id": "mission-thread-chart-subtitle",
+  "error": false,
+  "parts": [
+   "MODELLED navigation and timing error budget; each phase drawn at equal width"
+  ]
+ },
+ {
+  "id": "evidence-label-line-one-row",
+  "error": false,
+  "parts": [
+   "Evidence: ",
+   {
+    "var": "tier"
+   },
+   " · ",
+   {
+    "var": "n"
+   },
+   " ledger row ",
+   {
+    "var": "ids"
+   }
+  ]
+ },
+ {
+  "id": "evidence-label-line-rows",
+  "error": false,
+  "parts": [
+   "Evidence: ",
+   {
+    "var": "tier"
+   },
+   " · ",
+   {
+    "var": "n"
+   },
+   " ledger rows ",
+   {
+    "var": "ids"
+   }
+  ]
+ },
+ {
+  "id": "evidence-label-line-rows-more",
+  "error": false,
+  "parts": [
+   "Evidence: ",
+   {
+    "var": "tier"
+   },
+   " · ",
+   {
+    "var": "n"
+   },
+   " ledger rows ",
+   {
+    "var": "ids"
+   },
+   " +",
+   {
+    "var": "n_more"
+   },
+   " more"
+  ]
+ },
+ {
+  "id": "partner-text-header",
+  "error": false,
+  "parts": [
+   "kshana partner check: ",
+   {
+    "var": "submission"
+   }
+  ]
+ },
+ {
+  "id": "partner-text-info",
+  "error": false,
+  "parts": [
+   "  info: ",
+   {
+    "var": "i"
+   }
+  ]
+ },
+ {
+  "id": "partner-text-warning",
+  "error": false,
+  "parts": [
+   "  warning: ",
+   {
+    "var": "w"
+   }
+  ]
+ },
+ {
+  "id": "partner-text-error",
+  "error": false,
+  "parts": [
+   "  ERROR: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "partner-text-result-ok",
+  "error": false,
+  "parts": [
+   "result: the format and the metadata are complete and readable"
+  ]
+ },
+ {
+  "id": "partner-text-result-not-ready",
+  "error": false,
+  "parts": [
+   "result: not ready; fix the errors above"
+  ]
  }
 ]

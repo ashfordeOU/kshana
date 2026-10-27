@@ -1936,6 +1936,55 @@ fn interference_map<'py>(
     json_to_py(py, &v)
 }
 
+/// Estimated emitter regions from ADS-B or AIS CSV text (`kshana interference-map locate`): where,
+/// under stated assumptions, a source of the degraded reports could be, as regions at stated
+/// confidence levels with a centroid and an uncertainty ellipse, never a bare point. Arguments as
+/// `interference_map`. Returns `{stem, geojson, summary, csv, svg, sessions_published,
+/// sessions_withheld}` (each text labelled with its evidence tier, MODELLED). Aggregate only; a
+/// region is not the position of anyone and not a finding of the cause. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (source, csv, dataset, licence=None, licence_url=None, attribution=None, land_geojson=None))]
+fn interference_emitter_regions<'py>(
+    py: Python<'py>,
+    source: &str,
+    csv: &str,
+    dataset: &str,
+    licence: Option<String>,
+    licence_url: Option<String>,
+    attribution: Option<String>,
+    land_geojson: Option<String>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::surface::{emitter_regions as build, CustomDataset, MapSource, MAX_INPUT_BYTES};
+    let custom = (licence.is_some() || licence_url.is_some() || attribution.is_some()).then(|| {
+        CustomDataset {
+            licence: licence.unwrap_or_default(),
+            licence_url: licence_url.unwrap_or_default(),
+            attribution: attribution.unwrap_or_default(),
+        }
+    });
+    let r = build(
+        MapSource::parse(source).map_err(PyValueError::new_err)?,
+        csv,
+        dataset,
+        custom.as_ref(),
+        land_geojson.as_deref(),
+        MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    json_to_py(
+        py,
+        &serde_json::json!({
+            "stem": r.stem,
+            "geojson": r.geojson,
+            "summary": r.summary,
+            "csv": r.csv,
+            "svg": r.svg,
+            "sessions_published": r.sessions_published,
+            "sessions_withheld": r.sessions_withheld,
+        }),
+    )
+}
+
 /// Export a scenario's vehicle motion and events for a laboratory GNSS simulator
 /// (`kshana bench-export`, `docs/TEST-BENCH.md`), in memory: nothing is written to disk.
 /// Applies to the `gnss-ins`, `jamming` and `gnss-sim` kinds; others raise `ValueError` with
@@ -2463,6 +2512,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(evidence_round_trip, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
+    m.add_function(wrap_pyfunction!(interference_emitter_regions, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
     m.add_function(wrap_pyfunction!(bench_export, m)?)?;
     m.add_function(wrap_pyfunction!(iq_sweep, m)?)?;

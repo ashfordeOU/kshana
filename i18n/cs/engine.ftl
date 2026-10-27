@@ -33,11 +33,11 @@ engine-e-clock-log-the-rinex-clock-file-holds = soubor hodin RINEX obsahuje hodi
 
 engine-e-clock-log-no-as-or-ar-records = žádné záznamy AS ani AR pro hodiny { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = hodiny mají jedinou epochu; tau0 nelze určit
+engine-e-clock-log-the-clock-has-single-epoch = hodiny mají jedinou epochu; jsou potřeba alespoň dvě (tau0 nelze určit)
 
 engine-e-clock-log-the-log-has-no-readings = záznam ve formátu { $format } neobsahuje žádná měření
 
-engine-e-clock-log-unknown-phase-unit-expected-ms = neznámá jednotka fáze: { $other }; očekává se s, ms, us, ns nebo ps
+engine-e-clock-log-unknown-phase-unit-expected-ms = neznámé jednotky fáze { $other }; očekává se s, ms, us, ns nebo ps
 
 engine-e-clock-log-timelab-line-has-column-the = řádek TimeLab { $v1 }: počet sloupců { $v }, první datový řádek má { $first }
 
@@ -9730,3 +9730,1810 @@ engine-compliance-mapping-header-gap = Mezera
 engine-compliance-mapping-none = žádné
 
 engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Přečteno { $accessed }: { $checked }.
+
+engine-kind-lunar-ascent-description = MODELLED poháněný výstup z povrchového místa v jihopolární oblasti na dráhu setkání a kovarianční matice polohy a rychlosti, kterou si nese zpět na dráhu (třída Artemis). Pětistavový inerciální chybový model lunar-descent pro každou osu (poloha, rychlost, bias akcelerometru, náklon polohy, bias gyroskopu, buzený měrnou silou) běží na všech třech osách místa z povrchového stavu, s nímž fáze začíná; polohová oprava AFS z viditelných relé ILLUSTRATIVE konstelace třídy LCNS (samostatně, nebo diferenčně s využitím reziduí korekčního spoje z lunar-differential-pnt, přičemž hodiny jsou podporovány, když jsou viditelná jen tři relé) se pořizuje ve stanoveném intervalu; měsíční čas vstupuje přes hodiny vozidla a časovou chybu značky podél dráhy. Uvádí uzavřené inerciální zdroje, příspěvek podpory, ablaci, navigační 1-sigma po dobu výstupu, rozptyl vypnutí motoru vedle navigační znalosti a plnou kovarianční matici 6x6 v MCI při vložení se zachovanou korelací polohy a rychlosti. MODELLED: ilustrativní třída IMU, měrná síla, sada relé a rozptyl vypnutí; chyby držené v osách místa startu; nominální výstupní stav je zástupný. Bez schválení agenturou; poradní software, nikoli certifikované navigační zařízení.
+
+engine-kind-lunar-surface-description = MODELLED dostupnost určování polohy a času na povrchu podle místa a ročního období pro jihopolární místa třídy Artemis. Pro každé místo a období (epochu a okno po ní) uvádí určování polohy z relé (čtyři a více relé ILLUSTRATIVE konstelace třídy LCNS v dohledu a PDOP pod prahem, ze stejných funkcí jako moonlight-service-volume a s terénní sekcí z paprskově vykresleného horizontu terénu z lunar-station-coverage), zda jsou Země a Slunce nad obzorem místa (analytické Slunce, Měsíc a měsíční orientace včetně librace, což se s obdobím mění), a dostupnost času (relé nebo Země v dohledu) s nejdelším úsekem bez obojího, tedy holdoverem, který musí povrchové hodiny překlenout. Výsledek pro jedno místo se shoduje s moonlight-service-volume na bit. MODELLED: ilustrativní keplerovská sada relé na Měsíci se střední rotací; údaj o relé se s obdobím nemění; terén je výřez LOLA o rozlišení 1200 m. Bez schválení agenturou; poradní software, nikoli certifikované navigační zařízení.
+
+engine-kind-lunar-descent-description = MODELLED rozpočet rozptylu přistání pro poháněné klesání na jihopolární místo (třída Artemis). Pro každou vodorovnou osu je pětistavovým inerciálním chybovým modelem (poloha, rychlost, bias akcelerometru, náklon polohy, bias gyroskopu) buzena měrná síla klesání; sekvenční filtr přijímá polohové opravy z povolených podpor: opravu AFS z viditelných relé ILLUSTRATIVE konstelace třídy LCNS (samostatně, nebo diferenčně s využitím reziduí korekčního spoje z lunar-differential-pnt, přičemž hodiny jsou podporovány, když jsou viditelná jen tři relé) a terénně relativní opravu (porovnávač TERCOM/SITAN z knihovny crate na syntetickém reliéfu, nebo Cramérova–Raova mez porovnání výškového okna skutečného jihopolárního DEM LOLA). Měsíční čas vstupuje přes hodiny vozidla v okamžicích oprav (posun LTC-TT z lunar-time-offset, nebo nejistota jeho zveřejněného pásma) a jako chyba časové značky podél dráhy. Uvádí 3-sigma elipsu přistání, R95, uzavřené inerciální zdroje, příspěvek každé podpory, ablaci každé kombinace podpor, kalibraci elipsy metodou Monte Carlo a předanou kovarianci. MODELLED: ilustrativní třída IMU, sada relé, profil klesání a naváděcí člen; terénní navigace používá syntetický reliéf v pozemském metrickém měřítku; dostupnost AFS je jedna epocha na ploché masce. Bez schválení agenturou; poradní software, nikoli certifikované navigační zařízení.
+
+engine-kind-lunar-orbit-rendezvous-description = MODELLED relativní navigace pro dokování ve stylu Orion–lander na nízké měsíční oběžné dráze nebo eliptické polární dráze (třída Artemis). Chaser a cíl létají po téže dráze podle měsíčního silového modelu z knihovny crate; společný 21parametrový dávkový odhad Gauss-Newton přes oblouk (dva stavy vozidel a trvalé biasy signálu v prostoru) slučuje absolutní polohovou opravu každého vozidla z relé ILLUSTRATIVE sady třídy LCNS (relé za Měsícem se vynechají, jsou potřeba čtyři, souhlasná chyba signálu v prostoru se mezi vozidly vyruší) a mezidružicové měření vzdálenosti, s přesností měření vzdálenosti z meze sledování kódu na pilotu LunaNet AFS. Uvádí formální a Monte Carlo relativní chybu polohy a rychlosti v osách LVLH cíle, dostupnost oprav, střední normalizovanou kvadrátní chybu odhadu proti její očekávané hodnotě a každý pokus, jehož iterace nekonvergovala, drift při ignorování gravitačních harmonických a plnou kovarianci 6x6 předanou dál. Pro kruhový případ platí uzavřená kontrola Hill/Clohessy-Wiltshire. MODELLED: ilustrativní sada relé, rozpočet chyb a apriorní hodnoty; pravda a estimátor sdílejí jeden silový model, takže NEES kontroluje vnitřní konzistenci, nikoli chybu modelu. Bez schválení agenturou; poradní software, nikoli certifikované navigační zařízení.
+
+engine-kind-mission-thread-description = MODELLED rozpočet chyb navigace a času stanoveného řetězce fází mise od startu po vstup do atmosféry: start a výstup, setkání a dokování na nízké oběžné dráze Země (opakovatelné), translunární injekce a cislunární let, setkání na měsíční oběžné dráze, klesání, pobyt na povrchu, výstup a návrat se vstupem do atmosféry, přičemž každá fáze je jedním z osmi registrovaných druhů s vlastními senzory a filtrem. Kovarianční matice 6x6, hodiny a soustava se předávají z fáze do fáze podle stanoveného pravidla (přenést, nafouknout nebo znovu získat); převody soustav a časových stupnic (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) jsou vlastní řádky rozpočtu, přičemž stav Měsíce pochází z volitelného výřezu jádra DE440 a analytická řada je stanovenou záložní variantou. Volitelné překrytí pozemní sítě nastavuje zatížení sledování každé fáze. Uvádí rozpočet po fázích (1-sigma při vstupu, špičkové a při výstupu, každý příspěvek s jednotkou), rezervu proti stanovenému požadavku, nejslabší článek, události a časový diagram. MODELLED: každé číslo je stanovený vstup; řetězec sleduje jediný zásobník a žádné vozidlo se nemodeluje. Pouze veřejné zdroje; bez příslušnosti k žádné agentuře a bez jejího schválení; poradní software, nikoli certifikované navigační zařízení.
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt: `magnetic_grid` nahrazuje syntetické magnetické pole, takže `magnetic_mascons` musí být při jeho zadání prázdné
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = horizont vykazování musí mít kladnou délku (horizon_end_s > horizon_start_s)
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers: dokument výsledku není formátovaný objekt JSON
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] uvádí RAIM jednoho běhu vedle jeho údajů o holdoveru; vyžaduje runs = 1
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = riziko nemonitorované poruchy vyčerpá celý rozpočet integrity; žádná konečná ochranná úroveň neexistuje
+
+engine-e-araim-reference-the-add-v4-subset-rule = pravidlo podmnožin ADD v4.2 vždy vyjmenovává dvojice; max_order musí být >= 2
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint nevydal žádné body
+
+engine-e-bench-cli-scale-is-not-number = --scale není číslo
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` čte datovou sadu a je určen pro úlohu a; úlohy c a d používají `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = úloha c nemá zapečetěný holdout
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` vytváří soubory úloh c a d; úloha a je samotná datová sada (použijte `truth`)
+
+engine-e-bench-cli-threshold-is-not-number = --threshold není číslo
+
+engine-e-bench-cli-seed-file-is-required = --seed-file je povinné
+
+engine-e-bench-cli-validate-needs-at-least-one = validate vyžaduje alespoň jeden soubor s výsledky
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` je určen pro úlohu a; ostatní úlohy mají zapsané manifesty
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest vyžaduje jeden soubor manifestu
+
+engine-e-bench-system-name-is-required = `system.name` je povinné
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth neobsahuje pole `labels`
+
+engine-e-bench-tasks-label-has-no-id = štítek nemá `id`
+
+engine-e-bench-tasks-label-has-no-positive = štítek nemá `positive`
+
+engine-e-bench-tasks-predictions-have-no-scores-object = predictions neobsahují objekt `scores`
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = holdout je zapečetěný: předejte tajemství pomocí --seed-file
+
+engine-e-bench-tasks-task-truth-has-no-truth = truth úlohy (c) neobsahuje pole `truth`
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = predictions úlohy (c) neobsahují objekt `predictions`
+
+engine-e-bench-tasks-truth-entry-has-no-id = záznam truth nemá `id`
+
+engine-e-campaign-compare-needs-threshold = compare vyžaduje práh
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM: chybí hlavička CCSDS_TDM_VERS
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = chief leží na Měsíci: polární souřadnice jsou singulární
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock platí jen pro formáty rinex-clk, linuxptp a chrony (TICC používá kanál)
+
+engine-e-clock-log-single-column-timelab-log-needs = jednosloupcový záznam timelab vyžaduje tau0: hlavičku `# tau0 = <s>` nebo tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = záznam TICC neobsahuje žádná měření (řádky `<seconds> chA|chB|chC|TI(...)`)
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = mřížka intenzity je nečekaně prázdná
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg musí ležet v intervalu (0, 180) (rovníková dráha nemá vzestupný uzel)
+
+engine-e-evidence-bundle-its-imprint-is-not-the = jeho otisk není hash souboru manifest.json tohoto balíčku (token lze získat až poté, co balíček existuje: použijte `kshana evidence attach-timestamp`)
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey musí mít 32 bajtů (64 hexadecimálních číslic)
+
+engine-e-evidence-cli-that-is-the-private-key = to je SOUKROMÝ klíč podepisujícího. Nikdy jej nesdílejte; předejte veřejný klíč (soubor .pub)
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation: vedené uspořádání vyžaduje attenuation_db, konečné číslo v dB, 0 nebo větší
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = nepodporovaný algoritmus otisku
+
+engine-e-evidence-tsa-signature-failure = selhání podpisu
+
+engine-e-field-schema-entry-is-not-an-object = záznam není objekt
+
+engine-e-field-schema-no-unit-string = chybí řetězec `unit`
+
+engine-e-field-schema-no-provenance-string = chybí řetězec `provenance`
+
+engine-e-geometry-sky-tle-holds-no-complete = sky: tle neobsahuje žádný úplný dvouřádkový soubor elementů
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky: epoch datuje družice `tle`; přednastavené `systems` a přímo zadané družice nemají datum, proto s ním zadejte `tle`
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map: `reference` nahrazuje syntetické pole, takže `coeffs` a `mascons` musí být při jeho zadání prázdné
+
+engine-e-gse-sim-fusion-od-produced-no-steps = fúzní OD nevytvořilo žádné kroky (příliš málo pozorování)
+
+engine-e-holdover-test-give-one-of-series-samples = zadejte jedno z series.samples, series.csv_path nebo series.clock_log
+
+engine-e-holdover-test-give-one-of-series-samples-2 = zadejte jedno z series.samples, series.csv_path nebo series.clock_log, ne více než jedno
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s musí být konečné, locked_duration_days >= 0, recovery_band_ns > 0 a recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path není v sestavení pro WebAssembly dostupné; zadejte řadu přímo jako `samples` nebo `clock_log.text`
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry vyžaduje alespoň dva různé konečné součinitele přímé viditelnosti
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = optický spoj nedodal žádné fotony (nekonečná CRLB měření vzdálenosti); zvyšte výkon / apertur / dobu integrace
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz a rf_degraded_margin_db musí být konečné
+
+engine-e-interference-map-adsb-need-at-least-one-of = je potřeba alespoň jeden ze sloupců `nic`, `nacp`
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip: rozbalená velikost překračuje limit
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = v trace JSON chybí icao, timestamp nebo trace
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = vlastní datová sada vyžaduje licenci, adresu URL licence a text uvedení původu
+
+engine-e-interference-map-api-cell-size-must-be-between = velikost buňky musí být mezi { $lit_0_01 } a 10 stupni
+
+engine-e-interference-map-api-map-has-bad-date = mapa má neplatné datum
+
+engine-e-interference-map-api-no-map-falls-in-the = žádná mapa nespadá do rozsahu dat
+
+engine-e-interference-map-cli-dataset-is-required-so-the = --dataset je povinné, aby byly zahrnuty licence a uvedení původu
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg není číslo
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg musí být mezi { $lit_0_01 } a 10
+
+engine-e-interference-map-cli-subcommand-is-required = podpříkaz je povinný
+
+engine-e-interference-map-cli-input-file-missing = chybí vstupní soubor
+
+engine-e-interference-map-cli-out-is-required = --out je povinné
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land stahuje soubor: potvrďte pomocí --allow-network
+
+engine-e-interference-map-cli-curl-failed-to-download-the = curl nedokázal stáhnout polygony pevniny
+
+engine-e-interference-map-cli-route-is-required = --route je povinné
+
+engine-e-interference-map-cli-at-least-one-map-is = je vyžadováno alespoň jedno --map
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = polygony pevniny: nenalezen žádný Polygon ani MultiPolygon
+
+engine-e-interference-map-empty-input-header-row-is = prázdný vstup: je vyžadován řádek záhlaví
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox je jih,západ,sever,východ ve stupních
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox musí splňovat jih < sever a západ < východ v rozsahu zeměkoule (bez přechodu přes antimeridián)
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = data OpenSky Network jsou vyloučena: jejich licence nepovoluje komerční využití ani redistribuci odvozených map (docs/data/INTERFERENCE-DATA-SOURCES.md)
+
+engine-e-interference-map-observatory-day-is-required = --day je povinné
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours není číslo
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg musí být mezi { $lit_0_5 } a 10
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = vstup neobsahuje žádné použitelné hlášení
+
+engine-e-interference-map-route-not-kshana-interference-map-no = není mapa interference Kshana (chybí člen `kshana_interference_map`)
+
+engine-e-interference-map-route-map-has-no-date = mapa nemá datum
+
+engine-e-interference-map-route-map-has-no-grid-cell = mapa nemá velikost buňky mřížky
+
+engine-e-interference-map-route-map-has-an-invalid-grid = mapa má neplatnou velikost buňky mřížky
+
+engine-e-interference-map-route-route-no-linestring-found = trasa: nenalezen žádný LineString
+
+engine-e-interference-map-route-route-needs-at-least-two = trasa vyžaduje alespoň dva body
+
+engine-e-interference-map-route-route-waypoint-out-of-range = trasa: bod trasy mimo rozsah
+
+engine-e-interop-sigmf-records-signal-not-geometry = SigMF zaznamenává signál, nikoli geometrii; zapisuje se ze scénáře, ne ze scény
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = SigMF obsahuje komplexní vzorky v základním pásmu, které syntetizuje jen druh `spectrum`
+
+engine-e-interop-this-spectrum-scenario-has-no = tento scénář spectrum nemá blok [iq], takže se nesyntetizují žádné vzorky k záznamu
+
+engine-e-interop-scene-time-step-must-be-positive = časový krok pro export musí být kladný a konečný
+
+engine-e-interop-scene-duration-must-be-non-negative = doba trvání pro export musí být nezáporná a konečná
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = tento scénář pvt neuvádí `truth_ecef`, jedinou polohu, kterou stanovuje
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = efemeridy STK popisují polohu a rychlost vozidla v čase; tato scéna má jen pevné body nebo netimované dráhy (pevný bod je zařízení STK Facility, nikoli efemeridy)
+
+engine-e-interop-stk-scene-has-no-epoch = scéna nemá epochu
+
+engine-e-iq-acq-surface-surface-header-names-too-many = záhlaví plochy uvádí příliš mnoho buněk
+
+engine-e-iq-cli-acquire-needs-signal-name = vyžaduje --signal <name>
+
+engine-e-iq-cli-acquire-needs-prn-list = vyžaduje --prn <list>
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface exportuje jednu vyhledávací plochu: zadejte právě jedno --prn
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos vyžaduje odraženou cestu: přidejte --multipath-height nebo --land-mobile
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass vyžaduje dvě hodnoty: lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend vyžaduje alespoň jeden stupeň (--bandpass/--notch/--blank/--excise/--agc/--bits)
+
+engine-e-iq-cli-no-iq-processing-command-given = nebyl zadán žádný příkaz zpracování iq
+
+engine-e-iq-cli-missing-recording-path = chybí cesta k záznamu
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout lze použít jen s --follow
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow čte záznam SigMF (zadejte .sigmf-meta, .sigmf-data nebo základní cestu)
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout musí být kladný počet sekund
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos vyžaduje tři hodnoty: lat,lon,alt (deg,deg,m)
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene vyžaduje --rate <hz>
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene vyžaduje --duration <s> (nebo --window)
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav vyžaduje --rx-pos lat,lon,alt
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene vyžaduje --signal <name>
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene vyžaduje --prn <list>
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format přijímá sigmf nebo sdrx, ne obojí
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx zapisuje ci8 (výchozí) nebo ci16_le (sdrx:ci16_le); metadatový standard ION nemá kódování s plovoucí řádovou čárkou
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name vyžaduje --design <file.toml>
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads musí být kladné celé číslo nebo auto
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format vyžaduje --epochs <path>
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert vyžaduje --to <format>
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract vyžaduje --start
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract vyžaduje --duration
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start a --duration musí být nezáporné
+
+engine-e-iq-io-cli-real-input-is-converted-to = reálný vstup se převádí na komplexní základní pásmo: zadejte --factor <d> (>= 2)
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate vyžaduje --factor <d>, nebo --up <l> a --down <m>
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = činitele převzorkování musí být kladné
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = činitele převzorkování musí být kladné a filtr neprázdný
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = převod reálné mezifrekvence vyžaduje decimaci alespoň 2, aby se odstranil zrcadlový kmitočet
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx layout: blok neobsahuje žádnou celou jednotku
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx data končí uvnitř záhlaví
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = proud SigMF vyžaduje alespoň jeden záznam
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = select_channel je třeba zavolat před čtením
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = data SigMF končí před prvním zachycením
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" vyžaduje tabulku [validation], zapsanou před přečtením výsledků kampaně
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign: fit ze složky kampaně IQ vyžaduje nativní sestavení (vrstva kampaně není pro WebAssembly sestavena); cesta přes záznam přijímače ([[runs]]) zde funguje
+
+engine-e-iq-scene-truth-missing-truth-csv-header = chybí záhlaví CSV truth
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s platí jen pro fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = soubor návrhu smyčky neobsahuje žádné návrhy
+
+engine-e-iq-track-sink-short-record = krátký záznam
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = fit korekčního polynomu je singulární (příliš málo vzorků pro daný stupeň)
+
+engine-e-leo-navmsg-each-trade-update-periods-must = každé trade.update_periods_s musí ležet v (0, update_fit_interval_s]
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass: user_lat_deg v [-90, 90], mask_deg v [0, 60), search_s 600-172800
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0, rain_exceedance_percent v [{ $lit_0_001 }, 5] a scintillation_percent v [{ $lit_0_01 }, 50]
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer: onset_s v rámci okna, offset_m v [0, 1e6], push_rate_m_s v [0, 1000], kladné prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz a fll_integration_s, p_fa a p_md v (0, { $lit_0_5 }), iono_rate_bound_m_s >= 0
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver: loop_bandwidth_hz a integration_time_s musí být kladné
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver: 1 až 12 rozestupů korelátorů, každý (stejně jako reference_spacing_chips) mezi 0 a 2 chipy
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm a user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90
+
+engine-e-live-io-baud-needs-number = --baud vyžaduje číslo
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure není implementováno: Kshana nikdy do přijímače nezapisuje. Nakonfigurujte jej nástrojem výrobce a poté jej čtěte pomocí --serial
+
+engine-e-live-io-more-than-one-session-file = více než jeden soubor relace
+
+engine-e-live-io-follow-and-from-end-apply = --follow a --from-end platí jen pro --file
+
+engine-e-live-io-baud-applies-to-serial-only = --baud platí jen pro --serial
+
+engine-e-live-io-live-needs-session-toml = live vyžaduje soubor relace .toml
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen poskytuje hradlovaný proud: přidejte --gate
+
+engine-e-live-io-two-outputs-would-share-stdout = dva výstupy by sdílely stdout; pošlete --json nebo --pksht do souboru
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = lunar ephemeris: zadejte právě jedno z `mean_anom_deg` nebo `true_anom_deg`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = lunar ephemeris: indexy družic musí být souvislé od 0 bez mezer
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = informace o majácích po jednotlivých místech vyžaduje station_datum = "fixed"; odhadovaný datum stanice maják propojuje
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m, surface.orbiter_range_sigma_m a llr.epochs musí být kladné
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = příliš málo sledovatelných měření GNSS pro určení dráhy a hodin přijímače
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = méně než dva propojené přelety: není co řešit z nejednoznačností dvojitých diferencí
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = informační matice vesmírného spojení je singulární
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m musí být konečné a kladné (nebo zadejte jammer.lat_deg a jammer.lon_deg pro umístění rušiče selenograficky)
+
+engine-e-lunar-llr-the-station-catalogue-states-no = katalog stanic neuvádí position_epoch_year; polohu ITRF bez její epochy nelze propagovat
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = beacon_campaign.beacons se zde nepoužívá; přidané majáky uveďte v extra_beacons
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path platí pro soubor elementů zadaný v soustavě OP
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain: zadejte dem_path, dem_tile_path, station_horizon nebo user_horizon (nebo [terrain] vynechejte)
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain: station_horizon nemá v tomto druhu žádnou stanici; použijte user_horizon
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s je kratší než mřížka tau
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab: thresholds_ns musí být neprázdný seznam kladných čísel
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = datum "all-stations-fixed" drží všechny stanice pevné, takže neodhaduje nic, pokud se neodhaduje maják: nastavte estimate_beacon = true
+
+engine-e-mars-pnt-fusion-od-run-produced-no = běh fúzního OD nevytvořil žádné kroky (příliš málo pozorování)
+
+engine-e-nmea-synth-clock-not-numeric = není číselné
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name musí mít 1 až 64 znaků z A-Z a-z 0-9 . _ - a nesmí začínat tečkou (pojmenovává výstupní soubory)
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = parametry přijímače mimo rozsah (maska 0-45 deg, track <= use threshold, 4-12 použitých družic, noise >= 0, corr > 0, reacquire >= 0)
+
+engine-e-nmea-synth-config-the-time-change-per-second = změna času za sekundu dosahuje 1, takže by hlášený čas zastavil nebo běžel pozpátku; prodlužte ramp_s/recovery_s nebo použijte skok (0)
+
+engine-e-orbit-give-the-user-as-user = zadejte uživatele jako `user` (dráha) nebo `user_site` (pozemní místo), ne obojí
+
+engine-e-orbit-missing-the-user-give-user = chybí uživatel: zadejte `user` (dráha) nebo `user_site` (pozemní místo)
+
+engine-e-orbit-skyline-needs-ground-site-give = [skyline] vyžaduje pozemní místo: zadejte `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }` místo obíhajícího `user` (dráha nemá azimut pevný vůči Zemi)
+
+engine-e-orbit-omm-export-requires-tle-defined = export OMM vyžaduje konstelaci definovanou pomocí TLE; tento scénář žádnou nemá
+
+engine-e-passes-earth-orientation-parameters-out-of = parametry orientace Země mimo rozsah: |ut1_minus_utc_s| <= 1, |xp_arcsec| a |yp_arcsec| <= 2
+
+engine-e-pvt-no-priori-position-set-apriori = chybí apriorní poloha: nastavte apriori_ecef, APPROX POSITION XYZ v záhlaví pozorování nebo truth_ecef
+
+engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings a coherents nelze kombinovat s design: přehled projde každý návrh v souboru
+
+engine-e-python-no-designs-to-sweep = žádné návrhy k přehledu
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate = candidate_adev_taus a candidate_adev_values musí mít stejnou délku (>= 2)
+
+engine-e-quantum-trade-provide-either-candidate-adev-taus = zadejte buď candidate_adev_taus + candidate_adev_values (měřené), nebo candidate_clock_class
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate-2 = candidate_adev_taus a candidate_adev_values musí být zadány obě (nebo ani jedno)
+
+engine-e-quantum-trade-timing-threshold-and-position-threshold = timing_threshold_s a position_threshold_m musí být konečné a > 0
+
+engine-e-realdata-clk-rinex-clock-file-is-mixed = soubor hodin RINEX je smíšený ('M') a neuvádí TIME SYSTEM ID; odmítám hádat časovou soustavu jeho epoch
+
+engine-e-realdata-ion-sdr-more-than-one-block-only = více než jeden <block>: čtou se jen jednokanálové soubory
+
+engine-e-realdata-ion-sdr-this-layout-carries-reading-fill = toto uspořádání nese způsob čtení (fill_lsb_first nebo mid_rise), pro který metadatový standard ION nemá pole; nelze je zapsat jako .sdrx
+
+engine-e-realdata-ion-sdr-the-layout-needs-positive-sample = uspořádání vyžaduje kladný vzorkovací kmitočet a činitel kmitočtu alespoň 1
+
+engine-e-realdata-lola-dem-unexpected-end-of-dem = neočekávaný konec DEM
+
+engine-e-realdata-lugre-not-raw-message = není zpráva RAW
+
+engine-e-realdata-lugre-not-an-acq-message = není zpráva ACQ
+
+engine-e-realdata-raim-no-priori-position-pass-one = chybí apriorní poloha: zadejte ji nebo dodejte APPROX POSITION XYZ v záhlaví pozorování
+
+engine-e-receiver-trust-calibration-calibration-window-less-than-the = kalibrační okno je kratší než ochranný interval před oknem útoku, nebo leží uvnitř něj
+
+engine-e-receiver-trust-live-live-mode-needs-platform-kind = režim live vyžaduje [platform] kind = "vessel": skóre důvěryhodnosti je určeno pro pohybující se platformu
+
+engine-e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no = proud RTCM 3 neobsahuje žádnou pozorovací zprávu MSM4 ani MSM7
+
+engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = RTKLIB .pos s polohami ve stupních, minutách a sekundách se nečte: spusťte rnx2rtkp/RTKPOST znovu s desetinnými stupni (-degf 0)
+
+engine-e-receiver-trust-monitors-engine-fix-the-rinex-observation = oprava enginu: v záhlaví pozorování RINEX chybí APPROX POSITION XYZ, od něhož by se řešení rozběhlo
+
+engine-e-receiver-trust-monitors-platform-declares-heading-sensor-true = platforma deklaruje heading_sensor = true, ale záznam neobsahuje kurz HDT, THS ani VHW
+
+engine-e-receiver-trust-scenario-log-imu-the-imu-series = log.imu: řada IMU se nepřekrývá s žádnou epochou záznamu; zkontrolujte time_offset_s
+
+engine-e-receiver-trust-scenario-this-surface-does-not-carry = toto rozhraní nenese soubor `[log.imu]`: spusťte scénář příkazem `kshana receiver-trust` na hostiteli, nebo `[log.imu]` vynechejte
+
+engine-e-receiver-trust-scenario-log-nav-applies-only-to = log.nav platí jen pro záznam `rinex`: oprava enginu potřebuje jeho pseudovzdálenosti
+
+engine-e-receiver-trust-score-score-the-geometry-deduction-is = score: srážka za geometrii se nastavuje v [geometry] (cap_points, full_ratio, floor), nikoli v [score.weights]
+
+engine-e-spectrum-recording-is-not-available-in = záznam není v sestavení pro WebAssembly dostupný: předejte bajty SigMF místo toho funkcím kshana::sigmf::read a kshana::spectrum::welch_psd
+
+engine-e-ssv-scenario-navigation-noise-and-radiation-pressure = navigation: hodnoty šumu a tlaku záření nesmí být záporné
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of-2 = trajectory: zadejte právě jedno z duration_min a duration_periods
+
+engine-e-ssv-weak-receiver-pfa-total-and-receiver = receiver.pfa_total a receiver.pd musí být pravděpodobnosti v (0, 1)
+
+engine-e-suite-suite-manifest-is-missing-title = v manifestu sady chybí `title`
+
+engine-e-suite-suite-manifest-has-no-scenarios = manifest sady nemá `scenarios`: přidejte neprázdné pole `scenarios = [...]`
+
+engine-e-surface-path-sources-are-not-accepted = zdroje `path` se zde nepřijímají: zadejte záznam přímo jako `text` nebo `base64`
+
+engine-e-surface-input-campaign-names-campaign-folder = { "[" }input] campaign uvádí složku kampaně a toto rozhraní nečte žádné soubory; kampaně čte jen CLI (`kshana iq labfit`), Python (`kshana.iq_labfit`) nebo nástroj MCP labfit uvnitř své pracovní složky IQ
+
+engine-e-surface-bad-merkle-root-hex = neplatný hexadecimální kořen Merkle
+
+engine-e-surface-merkle-root-must-be-32 = kořen Merkle musí mít 32 bajtů
+
+engine-e-telecom-timing-csv-path-is-not-available = csv_path není v sestavení pro WebAssembly dostupné; zadejte řadu přímo jako `samples`
+
+engine-e-telemetry-cli-otlp-every-needs-whole-number = --otlp-every vyžaduje celé číslo
+
+engine-e-telemetry-cli-registry-poisoned = registr je poškozen
+
+engine-e-telemetry-otlp-https-is-not-supported-by = vestavěný exportér nepodporuje https; použijte místní kolektor přes http
+
+engine-e-telemetry-otlp-no-http-status-in-response = v odpovědi chybí stav HTTP
+
+engine-e-tle-invalid-designator-launch-year-in = neplatný rok startu v označení TLE
+
+engine-e-tle-invalid-epoch-year-in-tle-2 = neplatný rok epochy v TLE
+
+engine-e-tle-invalid-epoch-day-in-tle = neplatný den epochy v TLE
+
+engine-e-adm-record-without-epoch = záznam bez <EPOCH>
+
+engine-e-adm-ndm-holds-no = <ndm> neobsahuje <{ $kind }>
+
+engine-e-adm-root-element-is-not = kořenový prvek <{ $name }> není <{ $kind }>
+
+engine-e-evidence-cli-keygen-needs-out-keyfile = keygen vyžaduje --out <keyfile>
+
+engine-e-evidence-cli-needs-key-keyfile-make-one = vyžaduje --key <keyfile> (vytvořte jej příkazem `kshana evidence keygen`)
+
+engine-e-evidence-cli-needs-out-dir = vyžaduje --out <dir>
+
+engine-e-evidence-cli-needs-scenario-bench-scenario = vyžaduje --scenario <bench scenario>
+
+engine-e-evidence-cli-needs-conditions-file = vyžaduje --conditions <file>
+
+engine-e-evidence-tsa-bad-ecdsa-signature = neplatný podpis ECDSA
+
+engine-e-evidence-tsa-certificate-signature-failure = selhání podpisu certifikátu
+
+engine-e-evidence-tsa-unable-to-get-issuer-certificate = nelze získat certifikát vydavatele
+
+engine-e-evidence-tsa-unable-to-get-local-issuer = nelze získat certifikát místního vydavatele
+
+engine-e-evidence-tsr-gentime-is-not-text = genTime není text
+
+engine-e-glonass-bad-year = neplatný rok
+
+engine-e-glonass-bad-month = neplatný měsíc
+
+engine-e-glonass-bad-day = neplatný den
+
+engine-e-glonass-bad-hour = neplatná hodina
+
+engine-e-glonass-bad-minute = neplatná minuta
+
+engine-e-gravity-sh-bad-degree = neplatný stupeň
+
+engine-e-gravity-sh-bad-order = neplatný řád
+
+engine-e-interop-testbench-first-line-is-not-resolution = první řádek není `RESOLUTION: <ms>`
+
+engine-e-interop-testbench-bad-resolution = neplatné rozlišení
+
+engine-e-iq-signals-galileo-the-galileo-e1-memory-codes = paměťové kódy Galileo E1 nejsou součástí balíčku (podmínky ICD povolují redistribuci jen pro nekomerční účely; viz LICENSING.md). Dodejte svou kopii přílohy C ICD ({ $file }) pomocí { $env }=<path>, nebo spusťte scripts/fetch_galileo_e1_codes.sh ve zdrojovém checkoutu ({ $path }: { $e })
+
+engine-e-jammertest-cli-key-needs-out-dir = --key vyžaduje --out <dir>
+
+engine-e-leo-signal-modulation-expected-flat-mhz = modulace { $label }: očekává se FLAT(<MHz>)
+
+engine-e-live-io-listen-takes-tcp-port-or = --listen přijímá tcp:<port> nebo tcp:<addr>:<port>
+
+engine-e-ndm-xml-bad-attribute-in = neplatný atribut v <{ $name }>
+
+engine-e-ndm-xml-unquoted-attribute-in = atribut { $key } bez uvozovek v <{ $name }>
+
+engine-e-ndm-xml-is-not-closed = <{ $name }> není uzavřeno
+
+engine-e-nmea-synth-cli-wait-clients-not-number = --wait-clients: není číslo
+
+engine-e-nmea-synth-cli-speed-not-number = --speed: není číslo
+
+engine-e-nmea-synth-cli-seed-not-an-integer = --seed: není celé číslo
+
+engine-e-odm-user-defined-without-parameter = <USER_DEFINED> bez parametru
+
+engine-e-osnma-cli-bad-public-key-id = neplatné ID veřejného klíče
+
+engine-e-osnma-cli-bad-public-key-hex = neplatný hexadecimální veřejný klíč
+
+engine-e-realdata-ion-sdr-closing-tag-does-not-match = koncová značka </{ $name }> neodpovídá <{ $name2 }>
+
+engine-e-realdata-ion-sdr-closing-tag-without-an-opening = koncová značka </{ $name }> bez počáteční značky
+
+engine-e-realdata-ion-sdr-attribute-without-value-in = atribut bez hodnoty v <{ $name }>
+
+engine-e-realdata-ion-sdr-is-not-an-integer = <{ $name }> { $key } není celé číslo: { $v }
+
+engine-e-realdata-ion-sdr-chunk-lacks-sizeword = <chunk> nemá sizeword
+
+engine-e-realdata-ion-sdr-chunk-lacks-countwords = <chunk> nemá countwords
+
+engine-e-realdata-ion-sdr-is-not-an-integer-2 = <{ $key }> není celé číslo
+
+engine-e-realdata-ion-sdr-ratefactor-is-not-an-integer = <ratefactor> není celé číslo
+
+engine-e-realdata-ion-sdr-no-band-with-centerfreq-for = pro proud chybí <band> s <centerfreq>
+
+engine-e-realdata-ion-sdr-offset-is-not-an-integer = <offset> není celé číslo
+
+engine-e-receiver-trust-geometry-geometry-need-hdop-good-hdop = geometry: je třeba 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max a used_good >= min_used (zadáno { $hdop_good }, { $pdop_good }, { $used_good })
+
+engine-e-sp3-bad-epoch-count = neplatný počet epoch
+
+engine-e-spectrum-matched-jammer-needs-matched-to = { $name }: přizpůsobený rušič vyžaduje matched_to = "<band name>"
+
+engine-e-spectrum-unknown-band-the-spectrum-model = neznámé pásmo { $name }: model spektra má { $band_names } a podle jména { $more_band_names } (kanály GLONASS jako glonass-l1of-k<K>, K = -7 až 6); jakékoli jiné pásmo přijímá `signal = "<preset signal>"` nebo `centre_mhz` s `modulation` a `signal_power_dbw`
+
+engine-e-evidence-assemble-the-log-does-not-state = záznam neuvádí čitelný počáteční čas; zadejte sekundy od první epochy
+
+engine-e-interop-geojson-no-linestring-found-give-linestring = nenalezen žádný LineString: zadejte geometrii LineString, Feature, který ji obsahuje, nebo FeatureCollection, jejíž prvky ji zahrnují
+
+engine-e-leo-pnt-chain-the-chain-satellite-is-visible = družice řetězce je viditelná méně než dvě epochy, nebo jen v jedné elevaci; rozšiřte okno přeletu
+
+engine-e-nmea-synth-config-skyline-table-is-required-for = je vyžadována tabulka skyline (například skyline = { "{" } preset = "fjord" { "}" })
+
+engine-e-python-prns-must-list-at-least = prns musí uvádět alespoň jedno PRN
+
+engine-e-python-design-name-needs-design = design_name vyžaduje design
+
+engine-e-python-bandpass-needs-both-bandpass-lo = bandpass vyžaduje bandpass_lo i bandpass_hi
+
+engine-e-python-token-text-is-not-base64 = text tokenu není base64
+
+engine-e-python-unix-nano-must-be-between = unix_nano musí být mezi 0 a 2**64 - 1
+
+engine-e-wasm-token-base64-is-not-base64 = token_base64 není base64
+
+engine-e-wasm-log-base64-is-not-base64 = log_base64 není base64
+
+engine-e-wasm-input-base64-is-not-base64 = input_base64 není base64
+
+engine-e-wasm-seed-must-be-non-negative = seed musí být nezáporné celé číslo
+
+engine-e-wasm-runs-json-must-be-an = runs_json musí být pole { "{" }label, result, scenario?{ "}" }
+
+engine-e-nmea-synth-stream-no-udp-address = chybí adresa UDP
+
+engine-e-realdata-llr-crd-short-normal-point-11-record = krátký záznam normal-point (11)
+
+engine-e-realdata-llr-crd-normal-point-record-appeared-before = záznam normal-point se objevil před záhlavím relace h2/h3/h4
+
+engine-e-gravity-sh-line-bad-coefficient-non-finite = řádek { $lineno }: neplatný koeficient (nekonečný)
+
+engine-e-interop-time-extra-fields-utc = není čas UTC `YYYY-MM-DDTHH:MM:SS`: nadbytečná pole: { $text }
+
+engine-e-interop-time-year-outside-2000-to-2099-utc = není čas UTC `YYYY-MM-DDTHH:MM:SS`: rok mimo 2000 až 2099: { $text }
+
+engine-e-interop-time-month-outside-to-12-utc = není čas UTC `YYYY-MM-DDTHH:MM:SS`: měsíc mimo 1 až 12: { $text }
+
+engine-e-interop-time-day-does-not-exist-in-utc = není čas UTC `YYYY-MM-DDTHH:MM:SS`: den v daném měsíci neexistuje: { $text }
+
+engine-e-interop-time-hour-above-23-utc = není čas UTC `YYYY-MM-DDTHH:MM:SS`: hodina nad 23: { $text }
+
+engine-e-interop-time-minute-above-59-utc = není čas UTC `YYYY-MM-DDTHH:MM:SS`: minuta nad 59: { $text }
+
+engine-e-interop-time-seconds-outside-60-utc = není čas UTC `YYYY-MM-DDTHH:MM:SS`: sekundy mimo [0, 60): { $text }
+
+engine-e-mcp-budget-work-budget-exceeded-for-call = rozpočet práce překročen pro volání přes server MCP: { $errors }. Velké studie spouštějte příkazovým řádkem `kshana`.
+
+engine-e-mcp-iq-the-iq-sample-budget-must = rozpočet vzorků IQ musí být alespoň 1
+
+engine-e-mcp-iq-an-empty-path-was-given = byla zadána prázdná cesta
+
+engine-e-mcp-iq-rate-hz-must-be-positive = rate_hz musí být kladné číslo
+
+engine-e-mcp-iq-duration-must-be-positive-number = duration_s musí být kladné číslo
+
+engine-e-mcp-iq-broadcast-mode-nav-needs-rx = režim vysílání (nav) vyžaduje rx_pos [lat, lon, alt]
+
+engine-e-mcp-iq-scene-needs-signal-or-nav = scéna vyžaduje `signal` (nebo `nav` pro režim vysílání)
+
+engine-e-mcp-iq-scene-needs-at-least-one = scéna vyžaduje alespoň jedno PRN v `prns`
+
+engine-e-mcp-iq-surface-out-exports-one-surface = surface_out exportuje jednu plochu: zadejte právě jedno PRN
+
+engine-e-mcp-iq-surface-out-must-end-in = surface_out musí končit na .csv, .json nebo .bin
+
+engine-e-mcp-iq-max-seconds-must-be-positive = max_seconds musí být kladné číslo
+
+engine-e-mcp-iq-epochs-out-must-end-in = epochs_out musí končit na .csv, .jsonl nebo .bin (formát se řídí příponou)
+
+engine-e-mcp-iq-out-must-differ-from-input = out se musí lišit od input
+
+engine-e-mcp-iq-pll-bws-hz-dll-bws = pll_bws_hz, dll_bws_hz, spacings_chips a coherents nelze kombinovat s design: přehled projde každý návrh v souboru
+
+engine-e-mcp-iq-signal-and-prns-go-together = signal a prns patří k sobě
+
+engine-e-mcp-iq-iq-work-directory = pracovní složka IQ { $dir }: { $e }
+
+engine-e-mcp-iq-iq-work-directory-is-not = pracovní složka IQ { $dir } není složka
+
+engine-e-mcp-iq-iq-file-tools-are-off = souborové nástroje IQ jsou vypnuty: { $reason }
+
+engine-e-mcp-iq-output-does-not-name-file = výstup `{ $rel }` neoznačuje soubor
+
+engine-e-mcp-iq-output-its-folder = výstup `{ $rel }`: jeho složka: { $e }
+
+engine-e-mcp-iq-output-is-symlink-refusing-to = výstup `{ $shown }` je symbolický odkaz; zápis odmítnut
+
+engine-e-mcp-iq-output-already-exists-pass-overwrite = výstup `{ $shown }` již existuje; pro nahrazení zadejte overwrite: true
+
+engine-e-mcp-iq-output-exists-and-is-not = výstup `{ $shown }` existuje a není soubor
+
+engine-e-mcp-iq-its-data-file-lies-outside = { $path }: jeho datový soubor leží mimo pracovní složku IQ
+
+engine-e-mcp-iq-lies-outside-the-iq-work = { $path } leží mimo pracovní složku IQ
+
+engine-e-mcp-iq-input-campaign-the-campaign-folder = { "[" }input] campaign `{ $rel }`: { $message }; složka kampaně musí být existující složka uvnitř pracovní složky IQ
+
+engine-e-mcp-iq-out-dir-does-not-name = out_dir `{ $rel }` neoznačuje složku
+
+engine-e-mcp-iq-is-samples-and-one-call = { $what } má { $samples } vzorků a jedno volání smí zpracovat nejvýše { $max_samples } ({ $env }); { $remedy }
+
+engine-e-mcp-iq-threads-must-be-to = threads musí být 1 až { $max_threads }
+
+engine-e-mcp-iq-truth-format-must-be-csv = truth_format musí být csv nebo jsonl (zadáno { $other })
+
+engine-e-mcp-iq-surface-out-would-hold-about = surface_out by obsahoval asi { $cells } buněk (dopplerovské koše × vzorky na periodu kódu; limit { $max_cells }, asi { $mb } MB v binárním tvaru): zvětšete doppler_step_hz nebo zmenšete doppler_max_hz
+
+engine-e-mcp-iq-no-campaign-here = { $out_dir }: zde není žádná kampaň ({ $e })
+
+engine-e-mcp-iq-design-prn-channels-at-most = { $n_channels } kanálů (návrh, PRN); nejvýše 256 na přehled
+
+engine-e-mcp-iq-test-conditions-invalid = zkušební podmínky jsou neplatné: { $e }
+
+engine-e-mcp-iq-labfit-failed = labfit selhal: { $e }
+
+engine-e-mcp-marine-give-exactly-one-of-log = zadejte právě jedno z `log` a `log_base64`
+
+engine-e-mcp-marine-at-most-366-maps-per = nejvýše 366 map na volání
+
+engine-e-mcp-marine-mode-symbols-needs-symbols = režim `symbols` vyžaduje `symbols`
+
+engine-e-mcp-marine-vessel-stream-assessment-failed = posouzení proudu plavidla selhalo: { $e }
+
+engine-e-mcp-marine-jammertest-import-failed = import jammertest selhal: { $e }
+
+engine-e-mcp-marine-jammertest-score-failed = skórování jammertest selhalo: { $e }
+
+engine-e-mcp-marine-vessel-log-assessment-failed = posouzení záznamu plavidla selhalo: { $e }
+
+engine-e-mcp-marine-training-scenario-failed = tréninkový scénář selhal: { $e }
+
+engine-e-mcp-marine-evidence-pack-failed = balíček důkazů selhal: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over = balíček má { $size } bajtů, což překračuje limit odpovědi { $max_bytes } bajtů; zúžte okno nebo použijte `kshana receiver-trust evidence` na příkazovém řádku
+
+engine-e-mcp-marine-round-trip-pack-failed = balíček round-trip selhal: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-2 = balíček má { $size } bajtů, což překračuje limit odpovědi { $max_bytes } bajtů; zúžte okno nebo použijte `kshana evidence round-trip` na příkazovém řádku
+
+engine-e-mcp-marine-files-are-over-the-byte = soubory překračují limit { $max_bytes } bajtů
+
+engine-e-mcp-marine-full-log-is-over-the = full_log překračuje limit { $max_bytes } bajtů
+
+engine-e-mcp-marine-interference-map-failed = mapa interference selhala: { $e }
+
+engine-e-mcp-marine-the-map-is-bytes-over = mapa má { $total } bajtů, což překračuje limit odpovědi { $max_bytes } bajtů; použijte hrubší cell_deg, méně dnů nebo `kshana interference-map` na příkazovém řádku
+
+engine-e-mcp-marine-route-exposure-failed = expozice trasy selhala: { $e }
+
+engine-e-mcp-marine-compliance-report-failed = compliance report selhal: { $e }
+
+engine-e-mcp-marine-standards-pack-failed = standards pack selhal: { $e }
+
+engine-e-mcp-marine-lunanet-afs-check-failed = lunanet-afs-check selhal: { $e }
+
+engine-e-mcp-marine-mode-must-be-spec-symbols = mode musí být spec, symbols nebo generate (zadáno { $other })
+
+engine-e-mcp-marine-benchmark-scoring-failed = skórování benchmarku selhalo: { $e }
+
+engine-e-mcp-marine-leaderboard-failed = žebříček selhal: { $e }
+
+engine-e-mcp-marine-test-bench-export-failed = export test-bench selhal: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-3 = balíček má { $size } bajtů, což překračuje limit odpovědi { $max_bytes } bajtů
+
+engine-e-mcp-server-give-exactly-one-of-request = zadejte právě jedno z `request` (požadavek na geometrii oblohy) nebo `skyline_preset` (název předvolby, nebo prázdný řetězec pro jejich výpis)
+
+engine-e-mcp-server-receiver-log-assessment-failed = posouzení záznamu přijímače selhalo: { $e }
+
+engine-e-mcp-server-unknown-scenario-kind-list-scenario = neznámý druh scénáře `{ $k }`; list_scenario_kinds uvádí všechny druhy
+
+engine-e-mcp-server-unknown-report-format-expected-json = neznámý formát zprávy `{ $format }`; očekává se json nebo html
+
+engine-e-mcp-server-report-failed = zpráva selhala: { $e }
+
+engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps dává { $n_frames } snímků a odpověď nese nejvýše { $max_frames }; snižte fps nebo duration_s, nebo zapište delší sekvenci příkazovým řádkem (`kshana <scenario.toml> --animate frames`)
+
+engine-e-mcp-server-route-import-failed = import trasy selhal: { $e }
+
+engine-e-mcp-server-sp3-export-failed = export SP3 selhal: { $e }
+
+engine-e-mcp-server-omm-export-failed = export OMM selhal: { $e }
+
+engine-e-mcp-server-oem-export-failed = export OEM selhal: { $e }
+
+engine-e-mcp-server-scenario-kind-publishes-no-csv = druh scénáře `{ $kind }` nepublikuje žádnou tabulku CSV; publikují ji jen { $kinds }
+
+engine-e-mcp-server-unknown-skyline-preset-known-presets = neznámá předvolba obzoru "{ $name }"; známé předvolby: { $presets }
+
+engine-e-mcp-server-the-tool-call-did-not = volání nástroje nebylo dokončeno: { $e }
+
+engine-e-mcp-server-the-server-is-at-its-concurrent-work-limit = server je na svém limitu souběžné práce (dřívější volání ještě běží); zkuste to za chvíli znovu
+
+engine-e-mcp-server-the-work-pool-is-closed = fond práce je uzavřen
+
+engine-e-mcp-iq-no-work-directory = žádná pracovní složka
+
+engine-e-mcp-iq-input = input `{ $rel }`: { $e }
+
+engine-e-mcp-iq-input-is-not-file = input `{ $rel }` není soubor
+
+engine-e-mcp-iq-input-campaign-is-not-folder = { "[" }input] campaign `{ $rel }` není složka
+
+engine-e-mcp-iq-out-dir-is-not-folder = out_dir `{ $rel }` není složka
+
+engine-e-mcp-iq-out-dir = out_dir `{ $rel }`: { $e }
+
+engine-e-mcp-iq-iq-failed = iq { $args } selhalo: { $m }
+
+engine-e-adm-attitudestate-without = <attitudeState> bez <{ $tag }>
+
+engine-e-bench-cli-is-required = { $flag } je povinné
+
+engine-e-bench-cli-is-empty = { $p } je prázdné
+
+engine-e-evidence-tsa-bad-256-key = neplatný klíč P-256
+
+engine-e-evidence-tsa-bad-384-key = neplatný klíč P-384
+
+engine-e-interop-no-iq-block = chybí blok [iq]
+
+engine-e-ndm-xml-closes = </{ $close }> uzavírá <{ $name }>
+
+engine-e-odm-unexpected-in-data = neočekávané <{ $name }> v <data>
+
+engine-e-odm-unsupported-in-ocm-data = nepodporované <{ $name }> v <data> OCM
+
+engine-e-realdata-ion-sdr-no-stream-element = chybí prvek <stream>
+
+engine-e-realdata-ion-sdr-is-not-number = <{ $name }> není číslo: { $text }
+
+engine-e-realdata-ion-sdr-no-chunk-element = chybí prvek <chunk>
+
+engine-e-realdata-ion-sdr-stream-lacks = <stream> nemá <{ $key }>
+
+engine-e-realdata-ion-sdr-no-system-element = chybí prvek <system>
+
+engine-e-realdata-ion-sdr-no-file-with-url = chybí <file> s <url>
+
+engine-e-surface-give-string-utf8-or-base64 = { $k }: zadejte řetězec, { "{" }"utf8": ...{ "}" } nebo { "{" }"base64": ...{ "}" }
+
+engine-e-realdata-llr-crd-short-h1-record = krátký záznam h1
+
+engine-e-realdata-llr-crd-short-h2-record = krátký záznam h2 (stanice)
+
+engine-e-realdata-llr-crd-short-h3-record = krátký záznam h3 (cíl)
+
+engine-e-realdata-llr-crd-short-h4-record = krátký záznam h4 (relace)
+
+engine-e-mcp-main-needs-value = { $a } vyžaduje hodnotu
+
+engine-main-usage =
+    použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
+    { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
+    { "   " }nebo: kshana --study <suite.toml>
+    { "   " }nebo: kshana --validate <scenario.toml>
+    { "   " }nebo: kshana receiver-trust <scenario.toml>
+    { "   " }nebo: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+    { "   " }nebo: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }nebo: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+    { "   " }nebo: kshana jammertest <import|score> ... (kshana jammertest --help)
+    { "   " }nebo: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }nebo: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+    { "   " }nebo: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }nebo: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
+    { "   " }nebo: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+    { "   " }nebo: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+    { "   " }nebo: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }nebo: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+    { "   " }nebo: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+    { "   " }nebo: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+    { "   " }nebo: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+    { "   " }nebo: kshana partner check <submission.toml> [--json]
+    { "   " }nebo: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }nebo: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+    { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }nebo: kshana kinds [--json]
+    { "   " }nebo: kshana example [<name>]
+    { "   " }nebo: kshana --help | --version
+
+engine-main-usage-sky =
+    použití: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+    { "   " }nebo: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+    { "                  " }[--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+    { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+    { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+
+    Vypíše družice, které místo vidí pod obzorem, jejich DOP, kofaktor východ-sever-nahoru
+    a kovarianci a vodorovnou chybovou elipsu jako JSON (sky_geometry); s --monte-carlo
+    n (nejvýše 5000) chyb nejmenších čtverců se seedem (sky_monte_carlo); s --svg skyplot.
+    Systémy jsou předvolby enginu (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
+    reprezentativní geometrie, nikoli obloha v daném dni na daném místě. --tle čte dvouřádkové
+    sady elementů (nejvýše 4 MiB) a propaguje je pomocí SGP4 na --epoch (UTC) plus --time: obloha,
+    kterou tyto sady elementů dávají v dané epoše, nikoli měření. Bez --epoch se propagují
+    na epochu nejnovější sady elementů, tedy reprezentativní oblohu. MODELLED; docs/SKYLINE.md.
+
+engine-e-interop-geojson-the-scenario-has-no-waypoints = scénář nemá `waypoints` o 2 nebo více bodech, mezi něž by se rozložila trasa o dvou polohách
+
+engine-main-usage-skyline =
+    použití: kshana skyline --preset <name> [--json]
+    { "   " }nebo: kshana skyline --presets
+    { "   " }nebo: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Vypíše předvolbu obzoru (city-street, harbour-approach, fjord, container-terminal) s jejím
+    původem a řezem pro každý stupeň azimutu, seznam předvoleb, nebo sekci obzoru
+    zredukovanou na 360položkovou tabulku, kterou engine používá. Předvolby REPRESENTATIVE; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    použití: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }nebo: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }nebo: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Vázáno na LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29. ledna 2025). `spec` kontroluje tuto implementaci proti tištěným tabulkám kódů
+    a řešeným příkladům dokumentu (prahy B1 až B10 z xval/lunanet-afs/PREREGISTRATION.md; s --strict
+    je stavový kód 1, pokud není splněn každý práh). `symbols` kontroluje proud symbolů s tvrdým rozhodnutím
+    (text z 0 a 1) na synchronizační vzor, dekódování SB1, FID, kontinuitu TOI a rozestup
+    snímků; podsnímky 2 až 4 (LDPC, CRC-24Q) NEJSOU ověřovány. `generate` zapisuje zkušební proud
+    symbolů se zástupnými podsnímky; není to průběh signálu a Kshana žádný signál nezapisuje. Pro
+    akvizici nebo sledování průběhu AFS v záznamu použijte `kshana iq acquire --signal lunanet-afs-i`
+    (nebo lunanet-afs-q). Pouze poradní charakter. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    použití: kshana standards-pack list
+    { "   " }nebo: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }nebo: kshana standards-pack rows <id>
+    { "   " }nebo: kshana standards-pack tests <id>
+
+    Standards pack je sada scénářů hodnocených proti prahům stanoveným před během a spojených s řádky
+    compliance-report, pro něž podporuje důkazy. `run` vypíše tabulku (nebo --json) a s
+    --out zapíše <base>.pack.json a <base>.pack.md; předejte JSON příkazu `kshana compliance-report`,
+    aby se zobrazily řádky. Test, který potřebuje záznam přijímače, je uveden jako NEEDS INPUT a nehodnotí se.
+    MODELLED: splněný práh (MET) říká, že modelovaný scénář splnil stanovený práh, nikoli že nějaký produkt splňuje
+    požadavek. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: platí
+
+engine-main-wrote = zapsáno { $path }
+
+engine-main-note = poznámka: { $n }
+
+engine-main-error-example-extra-argument = chyba: neočekávaný argument '{ $extra }' za `example <name>`; přijímá jediný název
+
+engine-main-lunanet-afs-generate-needs = generate vyžaduje --frames <n> a --out <file> (a celočíselné --toi0)
+
+engine-evidence-cli-usage =
+    použití:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      výstupní kód 0 ověřeno, 1 selhalo, 3 neporušeno, ale podepisující není připnut
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(přečte token RFC 3161 a naváže jej na manifest; NEOVĚŘUJE podpis časové autority:
+    { "      " }použijte `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(propojuje scénář, zkušební podmínky laboratoře, záznam přijímače a jeho skóre;
+    { "      " }<scenario.toml> je scénář hodnocení receiver-trust; nezapisuje žádný signál)
+    { "  " }<t0>/<t1>: sekundy od první epochy záznamu, nebo čas UTC ve formátu ISO-8601, pokud záznam
+    { "  " }uvádí svůj počáteční čas. Balíček je technický záznam, nikoli právní posudek.
+
+engine-evidence-cli-fingerprint = otisk: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }selhání: { $f }
+
+engine-evidence-cli-verify-note = { "  " }poznámka: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: všechny hashe, řetězec i podpis souhlasí, pro klíč, který jste zadali.
+
+engine-evidence-cli-verified-unpinned = VERIFIED vůči klíči, který balíček uvádí sám, otisk { $fp } (podepisující NENÍ připnut; zadejte --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: hashe a podpis jsou konzistentní s klíčem { $fp }, který balíček uvádí sám. Zadejte --pubkey <signer public key>, aby se určilo, kdo balíček podepsal (nebo --allow-unpinned, pokud to vědomě přijímáte).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: viz selhání výše.
+
+engine-evidence-cli-attached = připojeno { $path }
+
+engine-evidence-cli-verify-with = ověřte pomocí: kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    použití: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }nebo: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }nebo: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } nebo hrubší>] [--bbox <south,west,north,east>] [--delay-hours <24 nebo více>]
+    { "   " }nebo: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }nebo: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom vyžaduje také --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = použití: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = datum
+
+engine-interference-map-cli-col-src = zdroj
+
+engine-interference-map-cli-col-degraded = zhoršeno
+
+engine-interference-map-cli-col-not-degraded = nezhoršeno
+
+engine-interference-map-cli-col-unassessed = neposouzeno
+
+engine-interference-map-cli-col-not-observed = nepozorováno
+
+engine-bench-cli-usage =
+    použití: kshana bench spec
+    { "   " }nebo: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }nebo: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }nebo: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }nebo: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }nebo: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }nebo: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }nebo: kshana bench validate <result.json>...
+    { "   " }nebo: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (bez vstupů: prázdný stav; --fragment: vložitelná sekce)
+    { "   " }(soubor seed obsahuje tajemství za zapečetěným holdoutem; udržujte jej mimo správu verzí)
+
+engine-bench-cli-match = shoda
+
+engine-bench-cli-valid = { $f }: platné
+
+engine-bench-cli-folders =
+    { $n ->
+        [one] { $n } složka
+        [few] { $n } složky
+        [many] { $n } složky
+       *[other] { $n } složek
+    }
+
+engine-bench-cli-unpinned = nepřipnuto: { $rel }
+
+engine-bench-cli-missing = chybí: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+engine-osnma-cli-usage =
+    použití: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    stránky I/NAV: prostý formát (viz docs/OSNMA.md) nebo
+    { "                             " }rozvržení CSV zveřejněných zkušebních vektorů
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }rozvržení vstupu (výchozí: podle obsahu souboru). ubx je bajtový
+    { "                             " }proud u-blox se zprávami UBX-RXM-SFRBX (Galileo E1-B)
+    { "  " }--start-gst SECONDS        počáteční čas vektorového CSV v sekundách GST
+    { "                             " }(výchozí: načte se z názvu souboru jako 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          důvěryhodný kořen Merkle (64 hexadecimálních číslic) pro kontroly DSM-PKR
+    { "  " }--public-key ID:TYPE:HEX   důvěryhodný veřejný klíč, TYPE p256 nebo p521, komprimovaný bod
+    { "  " }--reference-time SECONDS   aktuální čas v sekundách GST z nezávislého zdroje. Jediný
+    { "                             " }okamžik: podrámce vzdálenější od něj než tolerance se odloží,
+    { "                             " }proto jej použijte pro živá nebo právě zaznamenaná data
+    { "  " }--max-time-error SECONDS   největší vzdálenost podrámce od referenčního času, pod
+    { "                             " }30 (výchozí 29); vyžaduje --reference-time
+    { "  " }--epochs                   vypíše také každý výsledek značky
+    { "  " }--json                     vypíše JSON místo textu
+
+    Stavový kód: 0 hotovo, 2 chyba použití nebo vstupu, 3 selhala kontrola dat některé družice.
+
+engine-iq-cli-usage =
+    použití: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }nebo: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }nebo: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }nebo: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (výchozí auto, ≈4 ms koherentně)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }nebo: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }nebo: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }nebo: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }nebo: kshana iq campaign report <out-dir>
+    { "   " }nebo: kshana iq conditions <test-conditions.toml|json>
+    { "   " }nebo: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }nebo: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }scénáře labfit: [[runs]] záznamů přijímače, nebo [input] campaign = "<out-dir>" označující výstupní složku kampaně kshana iq campaign (relativně k souboru scénáře)
+    { " " }návrhy smyček: soubor TOML kshana.loop-design/1 (docs/design/LOOP-DESIGN-TOML.md); explicitní příznaky smyčky a akvizice přebíjejí vybraný návrh
+    { " " }acquire/track/sweep přijímají také příznaky předního konce [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], použité před zpracováním (na akvizici i sledování stejně)
+    { " " }parametry kanálu scény: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }profil C/N0 scény: [--cn0-profile <toml>] časově proměnné posuny C/N0 pro každou družici (skok, rampa, body, útlum), aplikované přes kanál; cn0_dbhz v pravdě je sleduje
+    { " " }záznamy/surové vstupy bez sidecaru přijímají také: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; vstupy s více proudy přijímají --channel <k>
+    { " " }signály: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> je seznam oddělený čárkami (jedna hodnota na --prn, nebo jedna hodnota pro všechny)
+
+engine-iq-cli-usage-error = chyba použití: { $m }
+
+engine-iq-io-cli-usage =
+    použití: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }nebo: kshana iq info <recording>
+    { "   " }nebo: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }nebo: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }nebo: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }surové vstupy bez sidecaru přijímají také: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }vstupy s více proudy (vícekanálové SigMF, prokládané surové) přijímají --channel <k> (od 0; výchozí 0)
+    { " " }formáty: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12 bitů v 16 ci12r_le ci12l_be cu12r_le ..., zabalené 4bitové ci4_msb cu4_lsb ..., zabalené 2bitové c2tc_msb c2sm_lsb r2ob_msb ..., 2 bity na bajt c2sm_byte ..., reálné r..., Q jako první ..._qi
+
+engine-telemetry-cli-usage =
+    použití: kshana trust-telemetry [options]
+    { "  " }vstup (výchozí: řádky JSON na stdin):
+    { "    " }--input <file|->         čte řádky JSON ze souboru, nebo `-` ze stdin
+    { "    " }--result <result.json>   přehraje epochy souboru výsledku `kshana receiver-trust`
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     poskytuje /metrics (výchozí 127.0.0.1:9464, není-li zvolen jiný výstup)
+    { "    " }--print-metrics          na konci vstupu vypíše výslednou expozici na stdout
+    { "    " }--hold                   po skončení vstupu dál poskytuje data
+    { "    " }--expose-position        zveřejní také polohu hlášenou přijímačem jako měřidla (výchozí vypnuto)
+    { "  " }syslog (CEF nebo LEEF v obálce RFC 5424):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  rámcuje zprávy TCP počítáním oktetů (RFC 6587), ne jednu na řádek
+    { "    " }--format cef|leef        dialekt obsahu (výchozí cef)
+    { "    " }--syslog-all             jedna událost na epochu (výchozí: jedna na změnu pásma)
+    { "    " }--host <name>            název hostitele zařízení v událostech (výchozí `kshana`)
+    { "  " }Home Assistant / zařízení NTP (stav JSON + zjišťování MQTT; jen publikování, bez přihlašovacích údajů a TLS):
+    { "    " }--mqtt-tcp <host:port>   publikuje na místní broker MQTT 3.1.1 (uchovávané zprávy, QoS 0)
+    { "    " }--print-mqtt             vypíše zprávy jako řádky `topic<TAB>payload`
+    { "    " }--mqtt-prefix <p>        předpona tématu stavu (výchozí kshana/trust); --mqtt-node <id> (výchozí kshana)
+    { "    " }--mqtt-discovery <p>     předpona zjišťování Home Assistant (výchozí homeassistant)
+    { "  " }OpenTelemetry (sestavení s --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (výchozí 10)
+
+engine-jammertest-cli-usage =
+    použití:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    Plán a katalog jsou zveřejněné soubory JSON NPRA/jammertest-plan (MIT; stáhněte je pomocí
+    xval/jammertest-plan/fetch.sh). Časy plánu jsou místní nástěnný čas; --local-offset-h (výchozí 2, CEST)
+    říká, jak daleko jsou od UTC. Razítka attack_log datové sady JammerTest 2024 uvádějí Z, ale jde o místní
+    čas: --time-shift-h má výchozí hodnotu -2. Události jsou plánovaná pravda, nikoli zaznamenané časy vysílání.
+    Software pouze poradního charakteru, nikoli typově schválené navigační zařízení.
+
+engine-nmea-synth-cli-usage =
+    použití: kshana nmea-scenario <scenario.toml> [options]
+
+    Zapisuje nebo vysílá syntetickou sadu můstkového NMEA 0183 (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    pro trasu plavidla se skriptovanými událostmi rušení/podvržení signálu a záznam instruktora.
+    Pouze pro výcvik a testování: nikdy jej nepřivádějte do živých navigačních systémů plavidla.
+
+    options:
+    { "  " }--out <file.nmea>          zapíše proud do souboru (výchozí <name>.nmea, není-li zadán
+    { "                             " }síťový výstup)
+    { "  " }--instructor-log <prefix>  zapíše <prefix>.json a <prefix>.txt (výchozí: vedle
+    { "                             " }souboru, jinak <name> v aktuální složce)
+    { "  " }--tcp <addr:port|port>     poskytuje proud přes TCP (nejprve čeká na klienta); holý
+    { "                             " }port naslouchá jen na 127.0.0.1. Neexistuje ověřování:
+    { "                             " }kdokoli, kdo adresu dosáhne, může proud číst
+    { "  " }--udp <addr:port|port>     odešle jednu větu v jednom datagramu UDP na tuto adresu; holý
+    { "                             " }port odesílá na 127.0.0.1
+    { "  " }--broadcast                povolí --udp použít adresu pro všesměrové vysílání
+    { "  " }--wait-clients <n>         počet klientů, na které se čeká před startem proudu TCP (výchozí 1)
+    { "  " }--realtime                 tempo v reálném čase (výchozí pro síťový výstup)
+    { "  " }--speed <x>                tempo x-násobku reálného času; 0 je co nejrychleji
+    { "                             " }(výchozí pro soubory)
+    { "  " }--seed <n>                 nahradí seed scénáře
+    { "  " }--no-marker                vynechá větu se značkou syntetických dat
+
+engine-live-io-usage =
+    použití: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Čte NMEA 0183 (ve výchozím stavu ze stdin), hodnotí každou epochu polohy plavidla skóre 0-100 a zapisuje
+    jeden řádek JSON na epochu (ve výchozím stavu na stdout). S --gate se proud NMEA místo toho předává na stdout,
+    beze změny, dokud je poloha důvěryhodná, a s polohou označenou jako neplatná, dokud není, přičemž za každým
+    cyklem následuje věta $PKSHT; JSON pak jde jen tam, kam říká --json. Relace je
+    scénář .toml s [platform] kind = "vessel"; jeho tabulka [log] není potřeba.
+
+    --listen (s --gate) poskytuje hradlovaný proud libovolnému počtu klientů TCP (například mapovému
+    plotru) místo zápisu na stdout; výchozí adresou je loopback. Klient, který
+    nestíhá, je odpojen, takže nikdy nezdržuje ostatní ani vstup.
+
+    Čas přijímače se také kontroluje proti hodinám tohoto počítače, což má smysl jen pro
+    proud přicházející v reálném čase; pro uložený záznam přiváděný rychleji (stdin, tcp, udp) zadejte
+    --replay, a prosté --file (bez --follow) to již dělá.
+
+    --serial čte sériové nebo USB zařízení (jen Unix), pouze pro čtení: otevře zařízení ke čtení, nastaví
+    místní linku do raw režimu při --baud (výchozí 4800, rychlost NMEA 0183) a nikdy nezapíše do
+    přijímače ani bajt. Kshana přijímače nekonfiguruje; nastavte přijímač na výstup NMEA jeho vlastním nástrojem.
+
+    Toto je software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162):
+    za navigaci plavidla zůstává odpovědný provozovatel.
+
+engine-tle-warning = varování: { $w }
+
+engine-e-animation-no-time-series-to-animate = žádná časová řada k animaci: výsledek { $k } nenese žádnou vzorkovanou časovou osu (tvary, které exportér rozpoznává, viz docs/ANIMATION.md)
+
+engine-animation-svg-sub = druh { $kind } · { $t0 } až { $t1 } · vzorky z result.json, vykresleny bez převzorkování · Kshana { $version }
+
+engine-animation-svg-strip-events = události
+
+engine-animation-svg-strip-phases = fáze
+
+engine-animation-svg-waterfall = vodopád: { $title } [{ $unit }], čas běží dolů, barva { $lo } až { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = index epochy
+
+engine-animation-svg-desc = Animovaná časová řada běhu { $kind }: panelů { $n_panels }, událostí { $n_events }, fází { $n_phases }. Každý bod je vzorek z result.json běhu.
+
+engine-animation-html-title = { $title } — animace Kshana
+
+engine-animation-html-sub = druh { $kind } · řad z result.json: { $n }, vykresleny bez převzorkování · Kshana { $version }
+
+engine-animation-html-playback = Přehrávání
+
+engine-animation-html-play = Přehrát
+
+engine-animation-html-pause = Pozastavit
+
+engine-animation-html-mission-time = Čas mise
+
+engine-animation-html-speed = rychlost
+
+engine-animation-html-playback-speed = Rychlost přehrávání
+
+engine-animation-html-events = Události
+
+engine-animation-html-footer-keys = Mezerník přehrává nebo pozastavuje, šipky krokují, Home a End skáčou. Toto je vykreslení vlastních vzorků běhu: je stejně dobré jako běh a nepřidává žádný důkaz (MODELLED, vnitřní konzistence).
+
+engine-animation-html-footer-determinism = Stejný scénář, seed a volby dávají byte po bajtu shodný soubor.
+
+engine-animation-html-exports-heading = Exporty zapsané vedle tohoto přehrávače
+
+engine-animation-js-phases-and-events = fáze a události
+
+engine-animation-js-waterfall = vodopád: { $title } [{ $unit }], čas běží dolů
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = fáze: { $name }
+
+engine-e-evidence-bundle-bad-log-slice = neplatný výřez záznamu: { $s }
+
+engine-e-evidence-bundle-bad-window = neplatné okno: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = neplatný čas vytvoření: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = neplatný token časového razítka: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = nelze serializovat: { $s }
+
+engine-e-osnma-page-not-valid-hex = stránka není platný hexadecimální řetězec
+
+engine-e-osnma-page-time-outside-week-number = čas stránky leží mimo 4096 týdnů čísla týdne Galileo
+
+engine-e-osnma-page-bad-length = stránka má { $n } hexadecimálních číslic, očekává se 60
+
+engine-e-osnma-page-malformed-line = chybně utvořený řádek stránky: { $s }
+
+engine-e-interchange-encode-payload = nepodařilo se zakódovat obsah: { $e }
+
+engine-e-interchange-invalid-envelope = není platná výměnná obálka: { $e }
+
+engine-e-interchange-not-kshana-artifact = není artefakt Kshana: formát je { $found }, očekává se { $expected }
+
+engine-e-interchange-incompatible-schema-version = nekompatibilní verze schématu { $v } ({ $verdict }); tento engine mluví verzí { $current }
+
+engine-e-interchange-payload-mismatch = obsah neodpovídal požadovanému typu: { $e }
+
+engine-e-interop-not-applicable = nelze použít: { $why }
+
+engine-e-iq-io-error = chyba V/V: { $m }
+
+engine-e-iq-format-error = chyba formátu: { $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }: PRN { $prn } není ICD definováno
+
+engine-e-iq-signals-glonass-channel-outside = frekvenční kanál GLONASS { $k } leží mimo -7..=6
+
+engine-e-iq-signals-code-table = tabulka kódů: { $m }
+
+engine-e-kepler-out-of-domain = Keplerova rovnice: M nebo e mimo definiční obor
+
+engine-e-kepler-no-convergence = Keplerova rovnice nekonvergovala za { $iters } kroků (reziduum { $residual })
+
+engine-e-lunar-orientation-epoch-outside-series = epocha { $t } juliánských staletí od J2000 leží mimo řadu měsíční orientace DE440 ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+engine-e-propagator-sgp4-error = chyba propagace SGP4 (kód { $code })
+
+engine-e-integrator-dop853-stopped = DOP853 se zastavil v t = { $t } ({ $failure }) po { $accepted } krocích
+
+engine-e-portable-distr-variance-non-finite = rozptyl je nekonečný v normálním rozdělení
+
+engine-e-portable-distr-shape-not-positive = tvar není kladný v rozdělení gama
+
+engine-e-portable-distr-scale-not-positive = měřítko není kladné v rozdělení gama
+
+engine-bench-tasks-clock-line-before-header = řádek hodin předchází jakékoli hlavičce `@<PRN>`
+
+engine-api-html-clock = Hodiny
+
+engine-api-html-fom-heading = Ukazatele kvality
+
+engine-api-html-metric = Metrika
+
+engine-api-html-value = Hodnota
+
+engine-api-html-validation = Validace
+
+engine-api-html-tier-note = Každý ukazatel kvality je označen VALIDATED (ověřeno proti vnějšímu orákulu) nebo MODELLED (z prvních principů, vnitřně testováno), odvozeno z verifikační matice.
+
+engine-api-html-default-title = Kshana — výsledek scénáře
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · přesný okamžik
+
+engine-api-html-tagline = Přehled výkonu hybridního kvantového / klasického PNT
+
+engine-api-html-chart-alt = Graf výsledku
+
+engine-api-html-full-result = Úplný výsledek (JSON)
+
+engine-api-html-footer-generated = Vygenerováno programem Kshana { $version }.
+
+engine-api-html-footer-licence = Reprodukovatelné ze scénáře + seedu + verze enginu. Svobodný software s otevřeným zdrojovým kódem (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">zdroj &amp; dokumentace</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: server Model Context Protocol pro simulátor odolnosti PNT Kshana.
+
+    POUŽITÍ:
+    { "    " }kshana-mcp                      poskytuje přes stdio (výchozí; takto jej spouštějí klienti MCP)
+    { "    " }kshana-mcp --http <addr>        poskytuje streamovatelné HTTP na http://<addr>/mcp
+
+    VOLBY HTTP:
+    { "    " }--http <addr>               adresa pro navázání, např. 127.0.0.1:8080 (ve výchozím stavu jen loopback)
+    { "    " }--allow-remote              povolí adresu mimo loopback; vyžaduje KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  další přijímaná hlavička Host (lze opakovat)
+    { "    " }--allow-origin <origin>     přijímaný původ prohlížeče (lze opakovat; ve výchozím stavu žádný)
+    { "    " }--max-body-bytes <n>        strop těla požadavku (výchozí 5242880)
+    { "    " }--request-timeout-secs <n>  časový limit na požadavek (výchozí 120)
+    { "    " }--max-concurrent <n>        počet současně obsluhovaných požadavků (výchozí 8)
+
+    Přenos HTTP vypíná souborové nástroje IQ. Kshana neprovozuje žádný koncový bod: spusťte jej sami.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = neznámý argument `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = volby HTTP vyžadují --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = odmítám navázat { $addr }: není to adresa loopback. Použijte 127.0.0.1:<port>, nebo zadejte --allow-remote (a nastavte { $token_env }), aby se naslouchalo i mimo tento počítač
+
+engine-e-mcp-http-refusing-to-bind-needs-token = odmítám navázat { $addr }: adresa mimo loopback vyžaduje token nositele v proměnné prostředí { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } je kratší než 16 znaků; použijte dlouhý náhodný token
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent a --request-timeout-secs musí být větší než nula
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin nepřijímá `*`; uveďte každý původ zvlášť
+
+engine-mcp-http-warning-remote = VAROVÁNÍ: kshana-mcp naslouchá na { $addr } i mimo tento počítač. Kdokoli, kdo se k němu dostane a drží token nositele, může spouštět simulace na vašem hardwaru. Předřaďte mu TLS (reverzní proxy nebo HTTPS vaší platformy) a token udržujte v tajnosti.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = zeměpisná šířka místa musí ležet v [-90, 90] a délka v [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s musí ležet v [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode musí být off, standalone nebo differential, zadáno `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode musí být off, ltc nebo tt, zadáno `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays musí ležet v 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s musí být kladné a afs_first_fix_s nezáporné
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km musí ležet v [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = vstupní kovariance není symetrická s nezápornou diagonálou
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent očekává vstupní hodiny v LTC nebo TT, zadáno { $timescale }; převod časových stupnic provádí řetězec
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s musí ležet v [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source musí být off, terrain-nav nebo lola-crlb, zadáno `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = časy oprav musí být kladné, afs_interval_s > 0 a trn_fix_time_s v rámci klesání
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m musí být alespoň 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m musí být kladné
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb vyžaduje DEM, který se nepodařilo načíst
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent očekává vstupní hodiny v LTC nebo TT, zadáno { $timescale }; převod časových stupnic provádí řetězec
+
+engine-e-lunar-landing-east-prior-is-not-positive = apriorní hodnota ve směru východ není pozitivně definitní
+
+engine-e-lunar-landing-north-prior-is-not-positive = apriorní hodnota ve směru sever není pozitivně definitní
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit musí být `llo` nebo `elfo`, zadáno `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = periapsa musí být alespoň 20 km nad povrchem
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m musí ležet v (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s musí ležet v (0, 60] a arc_s být alespoň jeden krok
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays musí ležet v 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s musí být kladné
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction musí ležet v [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model musí být `same` nebo `point-mass`, zadáno `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous očekává vstupní kovarianci v MCI; převod soustav provádí řetězec
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = apriorní kovariance není pozitivně definitní
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = normální rovnice nejsou pozitivně definitní
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = aposteriorní informace není pozitivně definitní
+
+engine-e-lunar-rendezvous-no-trial-ran = neproběhl žádný pokus
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = datum období `{ $s }` není ve tvaru YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = datum období `{ $s }`: neplatný rok
+
+engine-e-lunar-surface-map-season-date-bad-month = datum období `{ $s }`: neplatný měsíc
+
+engine-e-lunar-surface-map-season-date-bad-day = datum období `{ $s }`: neplatný den
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = datum období `{ $s }` leží mimo 1901-2099 nebo není datum
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites musí obsahovat mezi 1 a 64 záznamy
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = místo { $i }: zeměpisná šířka musí ležet v [-90, 90] a délka v [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates musí obsahovat alespoň jedno datum
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates musí obsahovat nejvýše 16 dat
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days musí ležet v (0, 400] a step_min v [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days a timing_floor_s musí být kladné a konečné
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = epocha `{ $s }` není ve tvaru YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = epocha `{ $s }`: neplatné číslo `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = epocha `{ $s }` leží mimo 1901-2099 nebo není datum
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces musí být "quantum" nebo "classical" (zadáno { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = dokument výsledku již obsahuje klíč `evidence`
+
+engine-e-evidence-label-the-result-document-is-not = dokument výsledku není objekt JSON
+
+engine-e-evidence-label-no-evidence-rows-are-listed = pro `{ $tool }` nejsou uvedeny žádné řádky důkazů
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = není soubor hodin RINEX: chybí záznam RINEX VERSION / TYPE
+
+engine-e-clock-log-rinex-version-type-record-has = záznam RINEX VERSION / TYPE nemá číslo verze (nalezeno { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = verze hodin RINEX { $v } se nečte: čtou se verze 2.00 a 3.00 až 3.04 (IGS publikuje formát hodin do 3.04; RINEX 4.00 až 4.02 soubor hodin nedefinují)
+
+engine-e-clock-log-rinex-clock-record-with-an = záznam hodin RINEX s nečitelným biasem hodin nebo epochou: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = řádek TimeLab { $line } obsahuje měření, které není konečné: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = převod soustavy { $a } -> { $b } není k dispozici (převádějí se jen Gcrf, Mci a Mcmf)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = přechod časové stupnice { $a } -> { $b } není přechod přes pivot
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: koridor musí vést od mělkého k příkřejšímu úhlu pod 90 stupňů, zadáno { $lo } až { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` musí ležet v [0, 90), zadáno { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` musí být alespoň 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` musí být větší než 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: vyžaduje alespoň jednu stanici
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: stanice `{ $id }` má neplatnou zeměpisnou šířku nebo délku
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: id stanice `{ $id }` je použito dvakrát
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: fáze `{ $phase }` má geometrii "stated" a vyžaduje `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: duty fáze `{ $phase }` musí ležet v [0, 1], zadáno { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: fáze `{ $phase }` má neznámou geometrii `{ $other }`; geometrie jsou entry-orbit, moon-direction a stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: vstupní dráha se nepropagovala
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: není žádná geometrie `{ $other }` k výpočtu
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: fáze `{ $phase }` vyžaduje pro svou geometrii vstup v GCRF, zadáno { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: útlum musí skončit po svém začátku ({ $a } až { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: očekává vstupní stav v GCRF, zadáno { $frame }; uveďte vstup v gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: fáze nevytvořila žádné vzorky
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: neznámý klíč modelu `{ $k }`; klíče jsou { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: model vyžaduje `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` musí být konečné číslo
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` musí být větší než 0, zadáno { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` musí být alespoň 0, zadáno { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` musí být řetězec
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` musí být pole tabulek
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` musí obsahovat tabulky
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 =
+    { $kind }: `{ $key }` musí být pole s { $n ->
+        [one] { $n } číslem
+        [few] { $n } čísly
+        [many] { $n } čísly
+       *[other] { $n } čísly
+    }
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got =
+    { $kind }: `{ $key }` musí obsahovat { $n ->
+        [one] { $n } číslo
+        [few] { $n } čísla
+        [many] { $n } čísla
+       *[other] { $n } čísel
+    }, zadáno { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` musí obsahovat konečná čísla
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: úsek vyžaduje `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: model vyžaduje alespoň jedno `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: začátek úseku { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: konec úseku { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: úsek { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` musí ležet v [0, 1], zadáno { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` a `ssv_step_min` musí být větší než 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: propagace nedosáhla { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: dráha po zážehu není vázaná (měrná energie { $energy } J/kg); zástupná dráha gnss-ssv vyžaduje eliptickou
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: přehled gnss-ssv nevrátil žádné pásmo
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: přehled gnss-ssv nevrátil žádnou skupinu
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: fáze uvádí gnss-ssv, takže model vyžaduje `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: fáze uvádí ground-tracking, takže model vyžaduje `ground_range_sigma_m`, `ground_range_rate_sigma_mps` a `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = předání { $name } musí být konečné číslo alespoň 0, zadáno { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = fáze `{ $id }`: { $key } jejího modelu je { $own_s } s, ale řetězec dává fázi duration_s = { $duration_s } s; sjednoťte je, nebo { $key } vynechejte
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = neznámá soustava `{ $other }`; očekává se jedna z gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = neznámá časová stupnice `{ $other }`; očekává se jedna z tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = neznámý zdroj navigace `{ $other }`; očekává se jeden z gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = neznámý zdroj času `{ $other }`; očekává se jeden z gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } musí být kladné konečné číslo, zadáno { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = pravidlo předání `{ $rule }` vyžaduje `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = neznámé pravidlo předání `{ $other }`; očekává se carry, inflate nebo reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = fáze má prázdné id
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s musí být konečné číslo alespoň 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x musí obsahovat šest konečných čísel
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind musí být "mission-thread", zadáno "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = řetězec mise vyžaduje alespoň jednu [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = id fáze `{ $id }` je použito dvakrát; id jsou jedinečná
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: fáze `{ $phase }` není fází tohoto řetězce
+
+engine-e-mission-thread-scenario-phase = fáze `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = fáze `{ $id }` skončila v { $t_s } s, ale začala v { $start_s } s a trvá { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = neznámý senzor relativní navigace `{ $other }`; očekává se jeden z optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = vzdálenost musí být kladné konečné číslo v metrech, zadáno { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = vzdálenost { $range_m } m překračuje limit senzoru { $max_range_m } m
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: neznámý klíč modelu `{ $bad }`; klíče jsou { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = řádky důkazů receiver-trust nejsou v matici
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = neznámá ablace `{ $other }`: B1 až B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = řádky balíčku důkazů nejsou v matici
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = řádky důkazů jammertest nejsou v matici
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: fit nemá žádný kmitočtový šum (bílý FM, flicker FM i náhodná procházka FM jsou nulové), takže není z čeho předpovědět holdover; záznam může obsahovat jen bílý fázový šum, nebo být příliš krátký
+
+engine-e-evidence-label-run-exercised-no-matrix-row = běh nepoužil žádný řádek verifikační matice
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent očekává vstupní kovarianci v MCI; převod soustav provádí řetězec
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent očekává vstupní kovarianci v MCI; převod soustav provádí řetězec
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface očekává vstupní stav v MCI nebo MCMF; převod soustav provádí řetězec
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km musí převyšovat poloměr Měsíce a excentricita ležet v [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = neznámý druh fáze `{ $kind }`; registrované druhy jsou { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` neuvádí žádný zdroj navigace
+
+engine-e-ssv-check-training-pattern-missing = chybí trénovací vzor { $sv }
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] vyžaduje tabulku [clock_log]: měřenou řadu, z níž se fit vytváří
+
+engine-lunar-phase-no-finite-points-to-plot = žádné konečné body k vykreslení
+
+engine-partner-cli-usage =
+    použití: kshana partner check <submission.toml> [--json]
+    { "  " }Kontroluje formát a metadata podání datového partnera (kshana.partner-submission/1) a čte jeho
+    { "  " }datový soubor vlastními čtečkami enginu. Nic nehodnotí ani neověřuje; viz docs/PARTNER-DATA.md.
+    { "  " }Stavový kód 0: podání je úplné a čitelné; 1: byly nalezeny chyby; 2: chyba použití.
+    Software pouze poradního charakteru, nikoli typově schválené navigační zařízení.
+
+engine-evidence-verify-evidence-label-ledger-rows =
+    štítek důkazů: { $tier } ({ $row_count ->
+        [one] { $row_count } řádek registru
+        [few] { $row_count } řádky registru
+        [many] { $row_count } řádku registru
+       *[other] { $row_count } řádků registru
+    }: { $rows }); je uvnitř config.json, takže podpis jej zahrnuje
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = žádný štítek důkazů (balíček před verzí 0.40)
+
+engine-e-ssv-check-pattern-missing = chybí vzor { $sv }
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | jen inerciálně { $inertial_pos } m / { $inertial_vel } m/s | s AFS { $afs_pos } m / { $afs_vel } m/s | rozptyl při vložení { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Měsíční výstup: 3D navigační poloha 1-sigma (m)
+
+engine-lunar-ascent-chart-subtitle = inerciální drift s opravami AFS | MODELLED, pouze poradní charakter
+
+engine-lunar-ascent-chart-x-axis = sekundy od startu
+
+engine-lunar-ascent-chart-series = poloha 1-sigma
+
+engine-lunar-chart-y-axis-metres = metry
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | jen inerciálně { $none_east }/{ $none_north } m (E/N) | s podporami { $all_east }/{ $all_north } m | rozptyl R95 { $r95 } m | 3-sigma elipsa { $major } x { $minor } m | { $inside }% uvnitř (očekáváno { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Rozptyl měsíčního přistání: R95 podle použitých podpor
+
+engine-lunar-landing-chart-subtitle = R95 podle podpor: { $aids } | MODELLED, pouze poradní charakter
+
+engine-lunar-landing-chart-x-axis = kombinace podpor (index)
+
+engine-lunar-landing-chart-series = R95 rozptylu přistání
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | odstup { $sep } m | opravy { $fixes }% | rel. poloha 1-sigma R/A/C { $radial }/{ $along }/{ $cross } m | střední NEES { $nees } (očekáváno 6) | konvergence { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = nikdy
+
+engine-lunar-rendezvous-converged-at = v { $s } s
+
+engine-lunar-rendezvous-chart-title = Měsíční setkání: formální relativní poloha 1-sigma (3D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | opravy { $fixes }% | střední NEES { $nees } (očekáváno 6) | MODELLED, pouze poradní charakter
+
+engine-lunar-rendezvous-chart-x-axis = minuty od začátku oblouku
+
+engine-lunar-rendezvous-chart-series = relativní poloha 1-sigma
+
+engine-lunar-surface-map-summary =
+    lunar-surface | { $n_sites ->
+        [one] { $n_sites } místo
+        [few] { $n_sites } místa
+        [many] { $n_sites } místa
+       *[other] { $n_sites } míst
+    } x { $n_seasons ->
+        [one] { $n_seasons } období
+        [few] { $n_seasons } období
+        [many] { $n_seasons } období
+       *[other] { $n_seasons } období
+    } | určování polohy { $position_min }% až { $position_max }% | nejhorší dostupnost času { $worst_timing }% | nejdelší mezera v čase { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Mapa PNT na povrchu Měsíce: dostupnost podle místa (nejhorší období, %)
+
+engine-lunar-surface-map-chart-subtitle = určování polohy = 4+ relé a PDOP pod prahem; čas = jedno relé nebo Země | MODELLED, pouze poradní charakter
+
+engine-lunar-surface-map-chart-x-axis = index místa
+
+engine-lunar-surface-map-chart-y-axis = procento okna
+
+engine-lunar-surface-map-chart-series-positioning = určování polohy
+
+engine-lunar-surface-map-chart-series-timing = čas
+
+engine-lunar-surface-map-chart-series-earth-visible = Země viditelná
+
+engine-mission-thread-weakest-link = nejslabší článek { $phase_id }
+
+engine-mission-thread-no-phases = žádné fáze
+
+engine-mission-thread-untitled = bez názvu
+
+engine-mission-thread-summary =
+    mission-thread | { $n_phases ->
+        [one] { $n_phases } fáze
+        [few] { $n_phases } fáze
+        [many] { $n_phases } fáze
+       *[other] { $n_phases } fází
+    } | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Řetězec mise
+
+engine-mission-thread-chart-position-caption = poloha 1-sigma, m
+
+engine-mission-thread-chart-time-caption = čas 1-sigma, s
+
+engine-mission-thread-chart-subtitle = MODELLED rozpočet chyb navigace a času; každá fáze je vykreslena stejně široká
+
+engine-evidence-label-line-one-row =
+    Důkazy: { $tier } · { $n ->
+        [one] { $n } řádek registru
+        [few] { $n } řádky registru
+        [many] { $n } řádku registru
+       *[other] { $n } řádků registru
+    } { $ids }
+
+engine-evidence-label-line-rows =
+    Důkazy: { $tier } · { $n ->
+        [one] { $n } řádek registru
+        [few] { $n } řádky registru
+        [many] { $n } řádku registru
+       *[other] { $n } řádků registru
+    } { $ids }
+
+engine-evidence-label-line-rows-more =
+    Důkazy: { $tier } · { $n ->
+        [one] { $n } řádek registru
+        [few] { $n } řádky registru
+        [many] { $n } řádku registru
+       *[other] { $n } řádků registru
+    } { $ids } +{ $n_more ->
+        [one] { $n_more } další
+        [few] { $n_more } další
+        [many] { $n_more } dalších
+       *[other] { $n_more } dalších
+    }
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }info: { $i }
+
+engine-partner-text-warning = { "  " }varování: { $w }
+
+engine-partner-text-error = { "  " }CHYBA: { $e }
+
+engine-partner-text-result-ok = výsledek: formát a metadata jsou úplné a čitelné
+
+engine-partner-text-result-not-ready = výsledek: není připraveno; opravte výše uvedené chyby
+
+engine-interference-map-locate-usage = použití: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom vyžaduje také --licence <text> --licence-url <url> --attribution <text>)
+    Zapíše emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv a -figure.svg: odhadnuté oblasti vysílače (oblasti zdroje rušení) při uvedených úrovních spolehlivosti, nikdy pouhý bod
+
+engine-interference-map-locate-wrote = zapsáno { $path }
+
+engine-interference-map-locate-summary = zveřejněno { $n_sessions ->
+        [one] { $n_sessions } relace
+        [few] { $n_sessions } relace
+        [many] { $n_sessions } relace
+       *[other] { $n_sessions } relací
+    }; zadrženo { $n_withheld ->
+        [one] { $n_withheld } kandidátní relace
+        [few] { $n_withheld } kandidátní relace
+        [many] { $n_withheld } kandidátní relace
+       *[other] { $n_withheld } kandidátních relací
+    } (méně než { $min } různých letadel nebo plavidel)
+
+engine-interference-map-locate-note-not-preregistered = poznámka: některá volba se liší od předregistrovaných parametrů, takže toto není předregistrovaná metoda
+
+engine-interference-map-locate-line-session = relace { $k }: { $start } až { $end }, { $affected } různých postižených, oblast { $level }% { $area } km², těžiště { $lat }, { $lon } (elipsa { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = relace { $k }: { $start } až { $end }, { $affected } různých postižených, hlášení oblast nezužují (neohraničeno)
+
+engine-interference-map-locate-fig-title = Odhadnutá oblast vysílače
+
+engine-interference-map-locate-fig-subtitle = Kde by za uvedených předpokladů mohl být zdroj zhoršených hlášení. Zobrazeno { $n ->
+        [one] { $n } relace
+        [few] { $n } relace
+        [many] { $n } relace
+       *[other] { $n } relací
+    }.
+
+engine-interference-map-locate-fig-none = Žádná relace nedosáhla minima pro zveřejnění, proto není zobrazena žádná oblast.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = oblast { $pct }%
+
+engine-interference-map-locate-fig-legend-ellipse = 95% elipsa aposteriorního rozdělení
+
+engine-interference-map-locate-fig-note-1 = Oblast není polohou žádného letadla, plavidla ani organizace a není zjištěním příčiny.
+
+engine-interference-map-locate-fig-note-2 = Terén není modelován a každá relace předpokládá jeden zdroj; úrovně spolehlivosti jsou podmíněny modelem.
+
+engine-e-interference-map-locate-bad-number = { $name } není číslo
+
+engine-e-interference-map-locate-bad-levels = --levels vyžaduje čísla oddělená čárkami ostře mezi 0 a 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km musí být mezi 0.5 a 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min musí být mezi 1 a 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m vyžaduje dvě čísla, min,max, s 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor řešení TDOA (receivers, tdoa_s, sigma_s, start), nebo řešení nekonvergovalo
+
+engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
+
+engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů

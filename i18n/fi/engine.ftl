@@ -35,7 +35,7 @@ engine-e-clock-log-the-rinex-clock-file-holds = RINEX-kellotiedostossa on kelloj
 
 engine-e-clock-log-no-as-or-ar-records = kellolle { $id } ei ole AS- tai AR-tietueita
 
-engine-e-clock-log-the-clock-has-single-epoch = kellolla on vain yksi epookki; tau0:aa ei voi määrittää
+engine-e-clock-log-the-clock-has-single-epoch = kellolla on vain yksi epookki; tarvitaan vähintään kaksi (tau0:aa ei voi määrittää)
 
 engine-e-clock-log-the-log-has-no-readings = { $format }-lokissa ei ole lukemia
 
@@ -9466,3 +9466,1740 @@ engine-compliance-mapping-header-gap = Gap
 engine-compliance-mapping-none = none
 
 engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Read { $accessed }: { $checked }.
+
+engine-kind-lunar-ascent-description = MODELLED moottoroitu nousu Kuun etelänavan pinta-asemalta kohtaamisradalle sekä sen mukanaan radalle takaisin kuljettama paikka-nopeuskovarianssi (Artemis-luokka). Lunar-descent-kinnin viiden tilan akselikohtainen inertiavirhemalli (paikka, nopeus, kiihtyvyysanturin harha, asennon kallistuma, gyron harha, ajurina ominaisvoima) ajetaan kaikilla kolmella asemakohtaisella akselilla siitä pintatilasta, jolla vaihe alkaa; AFS-paikkaratkaisu ILLUSTRATIVE LCNS-luokan tähdistön näkyvistä releistä (yksinään tai differentiaalisena käyttäen lunar-differential-pnt-kinnin korjauslinkin jäännöstä, kello tuettuna kun vain kolme relettä on näkyvissä) otetaan ilmoitetulla välillä, ja Kuun aika vaikuttaa ajoneuvon kellon kautta sekä ratansuuntaisena aikaleimavirheenä. Raportoi suljetun muodon inertialähteet, tuen osuuden, ablaation, navigoinnin 1σ-arvot nousun aikana, moottorin sammutuspisteen hajonnan navigointitiedon rinnalla sekä täyden 6x6 MCI-kovarianssin radalle saavuttaessa paikka-nopeuskorrelaatio säilytettynä. MODELLED: havainnollinen IMU-luokka, ominaisvoima, releiden joukko ja sammutuspisteen hajonta; virheet pidetään laukaisupaikan akseleissa; nimellinen poistumistila on paikkaedustaja. Ei viraston hyväksymä; ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.
+
+engine-kind-lunar-surface-description = MODELLED pinnan paikannuksen ja ajoituksen saatavuus paikan ja vuodenajan mukaan Artemis-luokan etelänavan paikoille. Jokaiselle paikalle ja vuodenajalle (epookki ja sitä seuraava ikkuna) raportoidaan releillä paikannus (neljä tai useampi ILLUSTRATIVE LCNS-luokan tähdistön relettä näkyvissä ja PDOP kynnyksen alla, samoista funktioista kuin moonlight-service-volume ja, maastio-osiolla, lunar-station-coverage-kinnin maaston säteenmarssattu horisonttiprofiili), ovatko Maa ja Aurinko paikan horisontin yläpuolella (analyyttinen Aurinko, Kuu ja Kuun asento, libraatio mukaan lukien, joka liikkuu vuodenajan mukana) sekä ajoituksen saatavuus (rele tai Maa näkyvissä) pisimmän jakson kanssa, jolloin kumpaakaan ei ole, eli holdover, jonka pintakellon on kestettävä. Yhden paikan tulos on bitilleen sama kuin moonlight-service-volumen. MODELLED: havainnollinen Kepler-releiden joukko keskikiertoisella Kuulla; releen tulos ei muutu vuodenajan mukana; maasto on 1200 m:n LOLA-rajaus. Ei viraston hyväksymä; ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.
+
+engine-kind-lunar-descent-description = MODELLED laskeutumishajonnan budjetti moottoroidulle laskeutumiselle etelänavan paikalle (Artemis-luokka). Vaaka-akselia kohti viiden tilan inertiavirhemalli (paikka, nopeus, kiihtyvyysanturin harha, asennon kallistuma, gyron harha) ajetaan laskeutumisen ominaisvoimalla; sekventiaalinen suodatin ottaa paikkaratkaisut käytössä olevista tuista: AFS-ratkaisu ILLUSTRATIVE LCNS-luokan tähdistön näkyvistä releistä (yksinään tai differentiaalisena käyttäen lunar-differential-pnt-kinnin korjauslinkin jäännöstä, kello tuettuna kun vain kolme relettä on näkyvissä) sekä maastosuhteellinen ratkaisu (kirjaston TERCOM/SITAN-sovitin synteettisellä reliefillä tai Cramér-Rao-raja todellisen LOLA-etelänapa-DEM:n korkeusikkunan sovitukselle). Kuun aika vaikuttaa ajoneuvon kellon kautta ratkaisuhetkillä (lunar-time-offset-kinnin LTC-TT-siirtymä tai sen julkaistun kaistan epävarmuus) ja ratansuuntaisena aikaleimavirheenä. Raportoi 3σ-laskeutumisellipsin, R95:n, suljetun muodon inertialähteet, kunkin tuen osuuden, jokaisen tukiyhdistelmän ablaation, ellipsin Monte Carlo -kalibroinnin ja eteenpäin annetun kovarianssin. MODELLED: havainnollinen IMU-luokka, releiden joukko, laskeutumisprofiili ja ohjaustermi; maastonavigointi käyttää synteettistä reliefiä Maan metriasteikolla; AFS-saatavuus on yksi epookki tasaisella maskilla. Ei viraston hyväksymä; ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.
+
+engine-kind-lunar-orbit-rendezvous-description = MODELLED suhteellinen navigointi Orion-laskeutujatyyppiselle telakoinnille matalalla Kuun radalla tai elliptisellä naparadalla (Artemis-luokka). Takaa-ajaja ja kohde lentävät samaa rataa kirjaston Kuun voimamallilla; yhteinen 21-parametrinen Gauss-Newton-eräestimaatti kaaren yli (kaksi ajoneuvon tilaa ja pysyvät signaali avaruudessa -harhat) yhdistää ajoneuvokohtaisen absoluuttisen paikkaratkaisun ILLUSTRATIVE LCNS-luokan releiden joukosta (Kuun taakse jäävät releet pudotetaan, neljä tarvitaan, yhteismuotoinen signaali avaruudessa -virhe kumoutuu ajoneuvojen välillä) ja ristiinlinkin etäisyyden; etäisyysmittauksen tarkkuus tulee LunaNet AFS -pilotin koodiseurannan rajasta. Raportoi formaalin ja Monte Carlo -suhteellisen paikka- ja nopeusvirheen kohteen LVLH-akseleissa, ratkaisun saatavuuden, keskimääräisen normalisoidun estimointivirheen neliön odotusarvoonsa verrattuna, kaikki kokeet, joiden iteraatio ei suppennut, gravitaatioharmonisten sivuuttamisesta johtuvan ajautuman sekä eteenpäin annetun täyden 6x6-kovarianssin. Suljetun muodon Hill/Clohessy-Wiltshire-tarkistus koskee ympyräratatapausta. MODELLED: havainnollinen releiden joukko, virhebudjetti ja priorit; totuus ja estimaattori jakavat yhden voimamallin, joten NEES tarkistaa itsejohdonmukaisuuden eikä mallivirhettä. Ei viraston hyväksymä; ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.
+
+engine-kind-mission-thread-description = MODELLED navigoinnin ja ajoituksen virhebudjetti ilmoitetulle tehtävävaiheiden ketjulle laukaisusta paluuseen: laukaisu ja nousu, matalan Maa-radan kohtaaminen ja telakointi (toistettavissa), Kuuhun suuntautuva siirtymärata ja kuunläheinen risteily, Kuun radan kohtaaminen, laskeutuminen, oleskelu pinnalla, nousu sekä paluu ja ilmakehään tulo, kukin vaihe yksi kahdeksasta rekisteröidystä kinnista omine antureineen ja suodattimineen. 6x6-kovarianssi, kello ja koordinaatisto välitetään vaiheesta toiseen ilmoitetun säännön mukaan (kuljeta, paisuta tai hanki uudelleen); koordinaatisto- ja aikaskaalamuunnokset (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) ovat omia budjettirivejään, ja Kuun tila tulee valinnaisesta DE440-ytimen leikkeestä, analyyttinen sarja ilmoitettuna varavaihtoehtona. Valinnainen maaverkon peittokuva asettaa kunkin vaiheen seurantatyökuorman. Raportoi vaihekohtaisen budjetin (sisääntulon, huipun ja poistumisen 1σ-arvot, jokainen osuus yksikköineen), marginaalin ilmoitettua vaatimusta vastaan, heikoimman lenkin, tapahtumat ja aikajanakuvan. MODELLED: jokainen luku on ilmoitettu syöte; ketju seuraa yhtä pinoa eikä mitään ajoneuvoa mallinneta. Vain julkiset lähteet; ei yhteydessä mihinkään virastoon eikä sen hyväksymä; ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt: `magnetic_grid` korvaa synteettisen magneettikentän, joten `magnetic_mascons`-luettelon on oltava tyhjä, kun se on asetettu
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = raportointihorisontin on oltava pituudeltaan positiivinen (horizon_end_s > horizon_start_s)
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers: tulosdokumentti ei ole muotoiltu JSON-objekti
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] raportoi yhden ajon RAIM-arvon holdover-lukujen rinnalla; se vaatii arvon runs = 1
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = valvomaton vikariski kuluttaa koko eheysbudjetin; äärellistä suojaustasoa ei ole
+
+engine-e-araim-reference-the-add-v4-subset-rule = ADD v4.2 -osajoukkosääntö luettelee aina parit; max_order on oltava >= 2
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint ei tuottanut yhtään pistettä
+
+engine-e-bench-cli-scale-is-not-number = --scale ei ole luku
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` lukee aineiston ja on tehtävää a varten; tehtävät c ja d käyttävät komentoa `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = tehtävällä c ei ole sinetöityä holdout-aineistoa
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` tekee tehtävien c ja d tiedostot; tehtävä a on itse aineisto (käytä komentoa `truth`)
+
+engine-e-bench-cli-threshold-is-not-number = --threshold ei ole luku
+
+engine-e-bench-cli-seed-file-is-required = --seed-file vaaditaan
+
+engine-e-bench-cli-validate-needs-at-least-one = validate tarvitsee vähintään yhden tulostiedoston
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` on tehtävää a varten; muilla tehtävillä on sitoutetut manifestit
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest tarvitsee yhden manifestitiedoston
+
+engine-e-bench-system-name-is-required = `system.name` vaaditaan
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth-tiedostossa ei ole `labels`-taulukkoa
+
+engine-e-bench-tasks-label-has-no-id = leimalla ei ole `id`-kenttää
+
+engine-e-bench-tasks-label-has-no-positive = leimalla ei ole `positive`-kenttää
+
+engine-e-bench-tasks-predictions-have-no-scores-object = ennusteissa ei ole `scores`-objektia
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = holdout-aineisto on sinetöity: anna salaisuus valitsimella --seed-file
+
+engine-e-bench-tasks-task-truth-has-no-truth = tehtävän (c) truth-tiedostossa ei ole `truth`-taulukkoa
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = tehtävän (c) ennusteissa ei ole `predictions`-objektia
+
+engine-e-bench-tasks-truth-entry-has-no-id = truth-merkinnällä ei ole `id`-kenttää
+
+engine-e-campaign-compare-needs-threshold = compare tarvitsee kynnyksen
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM: CCSDS_TDM_VERS-otsake puuttuu
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = päämies on Kuussa: napakoordinaatit ovat singulaarisia
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock koskee vain rinex-clk-, linuxptp- ja chrony-muotoja (TICC käyttää valitsinta channel)
+
+engine-e-clock-log-single-column-timelab-log-needs = yksisarakkeinen timelab-loki tarvitsee arvon tau0: `# tau0 = <s>` -otsakkeen tai tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = TICC-lokissa ei ole lukemia (`<seconds> chA|chB|chC|TI(...)`-rivejä)
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = intensiteettiruudukko on odottamatta tyhjä
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg on oltava välillä (0, 180) (päiväntasaajan radalla ei ole nousevaa solmua)
+
+engine-e-evidence-bundle-its-imprint-is-not-the = sen jäljenne ei ole tämän paketin manifest.json-tiedoston tiiviste (tunniste voidaan hankkia vasta, kun paketti on olemassa: käytä komentoa `kshana evidence attach-timestamp`)
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey on oltava 32 tavua (64 heksadesimaalinumeroa)
+
+engine-e-evidence-cli-that-is-the-private-key = se on allekirjoittajan YKSITYINEN avain. Älä koskaan jaa sitä; anna julkinen avain (.pub-tiedosto)
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation: johdettu kokoonpano tarvitsee kentän attenuation_db, äärellisen desibeliluvun, 0 tai suurempi
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = tiivistealgoritmia ei tueta
+
+engine-e-evidence-tsa-signature-failure = allekirjoitusvirhe
+
+engine-e-field-schema-entry-is-not-an-object = merkintä ei ole objekti
+
+engine-e-field-schema-no-unit-string = ei `unit`-merkkijonoa
+
+engine-e-field-schema-no-provenance-string = ei `provenance`-merkkijonoa
+
+engine-e-geometry-sky-tle-holds-no-complete = sky: tle ei sisällä täydellistä kaksirivistä radanelementtijoukkoa
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky: epoch ajoittaa `tle`-satelliitit; esiasetetuilla `systems`-järjestelmillä ja suoraan annetuilla satelliiteilla ei ole päiväystä, joten anna `tle` sen kanssa
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map: `reference` korvaa synteettisen kentän, joten `coeffs` ja `mascons` on oltava tyhjät, kun se on asetettu
+
+engine-e-gse-sim-fusion-od-produced-no-steps = fuusio-OD ei tuottanut yhtään askelta (liian vähän havaintoja)
+
+engine-e-holdover-test-give-one-of-series-samples = anna yksi seuraavista: series.samples, series.csv_path tai series.clock_log
+
+engine-e-holdover-test-give-one-of-series-samples-2 = anna yksi seuraavista: series.samples, series.csv_path tai series.clock_log, ei useampaa kuin yhtä
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s on oltava äärellinen, locked_duration_days >= 0, recovery_band_ns > 0 ja recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path ei ole käytettävissä WebAssembly-versiossa; anna sarja suoraan `samples`-kentässä tai `clock_log.text`-kentässä
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry tarvitsee vähintään kaksi erillistä äärellistä näkölinjakerrointa
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = optinen linkki ei tuottanut fotoneja (ääretön etäisyysmittauksen CRLB); nosta tehoa / apertuuria / integrointiaikaa
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz ja rf_degraded_margin_db on oltava äärellisiä
+
+engine-e-interference-map-adsb-need-at-least-one-of = tarvitaan vähintään yksi sarakkeista `nic`, `nacp`
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip: purettu koko ylittää rajan
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = trace-JSON:sta puuttuu icao, timestamp tai trace
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = mukautettu aineisto tarvitsee lisenssin, lisenssin URL-osoitteen ja tekijätiedot
+
+engine-e-interference-map-api-cell-size-must-be-between = ruudun koon on oltava välillä { $lit_0_01 } ja 10 astetta
+
+engine-e-interference-map-api-map-has-bad-date = kartan päiväys on virheellinen
+
+engine-e-interference-map-api-no-map-falls-in-the = mikään kartta ei osu päivämäärävälille
+
+engine-e-interference-map-cli-dataset-is-required-so-the = --dataset vaaditaan, jotta lisenssi ja tekijätiedot upotetaan
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg ei ole luku
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg on oltava välillä { $lit_0_01 } ja 10
+
+engine-e-interference-map-cli-subcommand-is-required = alikomento vaaditaan
+
+engine-e-interference-map-cli-input-file-missing = syötetiedosto puuttuu
+
+engine-e-interference-map-cli-out-is-required = --out vaaditaan
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land lataa tiedoston: vahvista valitsimella --allow-network
+
+engine-e-interference-map-cli-curl-failed-to-download-the = curl ei onnistunut lataamaan maapolygoneja
+
+engine-e-interference-map-cli-route-is-required = --route vaaditaan
+
+engine-e-interference-map-cli-at-least-one-map-is = vähintään yksi --map vaaditaan
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = maapolygonit: Polygon- tai MultiPolygon-kohdetta ei löytynyt
+
+engine-e-interference-map-empty-input-header-row-is = tyhjä syöte: otsikkorivi vaaditaan
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox on etelä,länsi,pohjoinen,itä asteina
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox:n on täytettävä etelä < pohjoinen ja länsi < itä, maapallon sisällä (ei päivämäärärajan ylitystä)
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = OpenSky Network -data on suljettu pois: sen lisenssi ei salli johdettujen karttojen kaupallista käyttöä tai levittämistä (docs/data/INTERFERENCE-DATA-SOURCES.md)
+
+engine-e-interference-map-observatory-day-is-required = --day vaaditaan
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours ei ole luku
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg on oltava välillä { $lit_0_5 } ja 10
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = syötteessä ei ole käyttökelpoista raporttia
+
+engine-e-interference-map-route-not-kshana-interference-map-no = ei ole Kshana-häiriökartta (`kshana_interference_map`-jäsentä ei ole)
+
+engine-e-interference-map-route-map-has-no-date = kartalla ei ole päiväystä
+
+engine-e-interference-map-route-map-has-no-grid-cell = kartalla ei ole ruudun kokoa
+
+engine-e-interference-map-route-map-has-an-invalid-grid = kartan ruudun koko on virheellinen
+
+engine-e-interference-map-route-route-no-linestring-found = reitti: LineString-kohdetta ei löytynyt
+
+engine-e-interference-map-route-route-needs-at-least-two = reitti tarvitsee vähintään kaksi reittipistettä
+
+engine-e-interference-map-route-route-waypoint-out-of-range = reitti: reittipiste on alueen ulkopuolella
+
+engine-e-interop-sigmf-records-signal-not-geometry = SigMF tallentaa signaalin, ei geometriaa; se kirjoitetaan skenaariosta, ei näkymästä
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = SigMF sisältää kompleksisia kantataajuusnäytteitä, joita vain `spectrum`-kinni syntetisoi
+
+engine-e-interop-this-spectrum-scenario-has-no = tässä spectrum-skenaariossa ei ole [iq]-lohkoa, joten tallennettavia näytteitä ei syntetisoida
+
+engine-e-interop-scene-time-step-must-be-positive = aika-askeleen on oltava positiivinen ja äärellinen viennissä
+
+engine-e-interop-scene-duration-must-be-non-negative = keston on oltava ei-negatiivinen ja äärellinen viennissä
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = tämä pvt-skenaario ei anna `truth_ecef`-kenttää, ainoaa sen ilmoittamaa paikkaa
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = STK-efemeridi kuvaa ajoneuvon paikkaa ja nopeutta ajan funktiona; tässä näkymässä on vain kiinteitä pisteitä tai aikaleimattomia ratoja (kiinteä piste on STK Facility, ei efemeridi)
+
+engine-e-interop-stk-scene-has-no-epoch = näkymässä ei ole epookkia
+
+engine-e-iq-acq-surface-surface-header-names-too-many = pinnan otsake nimeää liian monta solua
+
+engine-e-iq-cli-acquire-needs-signal-name = tarvitsee valitsimen --signal <name>
+
+engine-e-iq-cli-acquire-needs-prn-list = tarvitsee valitsimen --prn <list>
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface vie yhden hakupinnan: anna täsmälleen yksi --prn
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos tarvitsee heijastuneen reitin: lisää --multipath-height tai --land-mobile
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass haluaa kaksi arvoa: lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend tarvitsee vähintään yhden asteen (--bandpass/--notch/--blank/--excise/--agc/--bits)
+
+engine-e-iq-cli-no-iq-processing-command-given = iq-käsittelykomentoa ei annettu
+
+engine-e-iq-cli-missing-recording-path = tallenteen polku puuttuu
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout sopii vain valitsimen --follow kanssa
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow lukee SigMF-tallenteen (anna .sigmf-meta, .sigmf-data tai peruspolku)
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout on oltava positiivinen sekuntimäärä
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos haluaa kolme arvoa: lat,lon,alt (deg,deg,m)
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene tarvitsee valitsimen --rate <hz>
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene tarvitsee valitsimen --duration <s> (tai --window)
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav tarvitsee valitsimen --rx-pos lat,lon,alt
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene tarvitsee valitsimen --signal <name>
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene tarvitsee valitsimen --prn <list>
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format ottaa arvon sigmf tai sdrx, ei molempia
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx kirjoittaa ci8 (oletus) tai ci16_le (sdrx:ci16_le); ION-metadatastandardissa ei ole liukulukukoodausta
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name tarvitsee valitsimen --design <file.toml>
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads on oltava positiivinen kokonaisluku tai auto
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format tarvitsee valitsimen --epochs <path>
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert tarvitsee valitsimen --to <format>
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract tarvitsee valitsimen --start
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract tarvitsee valitsimen --duration
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start ja --duration on oltava ei-negatiivisia
+
+engine-e-iq-io-cli-real-input-is-converted-to = reaalinen syöte muunnetaan kompleksiseksi kantataajuudeksi: anna --factor <d> (>= 2)
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate tarvitsee valitsimen --factor <d> tai valitsimet --up <l> ja --down <m>
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = uudelleennäytteistyskertoimien on oltava positiivisia
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = uudelleennäytteistyskertoimien on oltava positiivisia ja suodattimen ei-tyhjä
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = reaali-IF-muunnos tarvitsee vähintään 2:n desimoinnin kuvataajuuden poistamiseksi
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx-asettelu: lohko ei sisällä yhtään kokonaista kimpaletta
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx-data päättyy otsakkeensa sisään
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = SigMF-virta tarvitsee vähintään yhden tallenteen
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = select_channel on kutsuttava ennen lukemista
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = SigMF-data päättyy ennen ensimmäistä kaappaustaan
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" tarvitsee [validation]-taulukon, kirjoitettuna ennen kampanjan tulosten lukemista
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign: IQ-kampanjakansion sovitus tarvitsee natiivin version (kampanjakerrosta ei rakenneta WebAssemblylle); vastaanottimen lokipolku ([[runs]]) toimii täällä
+
+engine-e-iq-scene-truth-missing-truth-csv-header = truth-CSV:n otsake puuttuu
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s koskee vain arvoa fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = silmukkasuunnittelutiedostossa ei ole suunnitelmia
+
+engine-e-iq-track-sink-short-record = lyhyt tallenne
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = korjauspolynomin sovitus on singulaarinen (liian vähän näytteitä asteluvulle)
+
+engine-e-leo-navmsg-each-trade-update-periods-must = jokaisen trade.update_periods_s-arvon on oltava välillä (0, update_fit_interval_s]
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass: user_lat_deg välillä [-90, 90], mask_deg välillä [0, 60), search_s 600-172800
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0, rain_exceedance_percent välillä [{ $lit_0_001 }, 5] ja scintillation_percent välillä [{ $lit_0_01 }, 50]
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer: onset_s ikkunan sisällä, offset_m välillä [0, 1e6], push_rate_m_s välillä [0, 1000], positiiviset prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz ja fll_integration_s, p_fa ja p_md välillä (0, { $lit_0_5 }), iono_rate_bound_m_s >= 0
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver: loop_bandwidth_hz ja integration_time_s on oltava positiivisia
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver: 1-12 korrelaattoriväliä, kunkin (kuten reference_spacing_chips) 0-2 chipin välillä
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm ja user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90
+
+engine-e-live-io-baud-needs-number = --baud tarvitsee luvun
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure ei ole toteutettu: Kshana ei koskaan kirjoita vastaanottimeen. Määritä se valmistajan omalla työkalulla ja lue sitten valitsimella --serial
+
+engine-e-live-io-more-than-one-session-file = useampi kuin yksi istuntotiedosto
+
+engine-e-live-io-follow-and-from-end-apply = --follow ja --from-end koskevat vain valitsinta --file
+
+engine-e-live-io-baud-applies-to-serial-only = --baud koskee vain valitsinta --serial
+
+engine-e-live-io-live-needs-session-toml = live tarvitsee istunnon .toml-tiedoston
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen tarjoaa porttiohjatun virran: lisää --gate
+
+engine-e-live-io-two-outputs-would-share-stdout = kaksi tulostetta jakaisi stdoutin; ohjaa --json tai --pksht tiedostoon
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = lunar ephemeris: anna täsmälleen yksi kentistä `mean_anom_deg` tai `true_anom_deg`
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = majakkakohtainen informaatio paikkaa kohti tarvitsee arvon station_datum = "fixed"; estimoitu asemadatumi kytkee majakat toisiinsa
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m, surface.orbiter_range_sigma_m ja llr.epochs on oltava positiivisia
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = liian vähän seurattavia GNSS-mittauksia radan ja vastaanottimen kellon määrittämiseksi
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = alle kaksi yhtenäistä ohitusta: ei kaksoisdifferenssin kokonaislukuepävarmuutta ratkaistavaksi
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = avaruussidoksen informaatiomatriisi on singulaarinen
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m on oltava äärellinen ja positiivinen (tai anna jammer.lat_deg ja jammer.lon_deg, jolloin häirintälähde sijoitetaan selenografisesti)
+
+engine-e-lunar-llr-the-station-catalogue-states-no = asemaluettelo ei ilmoita kenttää position_epoch_year; ITRF-paikkaa ilman sen epookkia ei voi propagoida
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = beacon_campaign.beacons ei ole käytössä täällä; ilmoita lisätyt majakat kentässä extra_beacons
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path koskee elementtitiedostoa, joka on ilmoitettu OP-koordinaatistossa
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain: anna dem_path, dem_tile_path, station_horizon tai user_horizon (tai jätä [terrain] pois)
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain: station_horizon-kentällä ei ole asemaa tässä kinnissä; käytä kenttää user_horizon
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s on lyhyempi kuin tau-ruudukko
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab: thresholds_ns on oltava ei-tyhjä positiivisten lukujen luettelo
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = datum "all-stations-fixed" pitää jokaisen aseman kiinteänä, joten se ei estimoi mitään, ellei majakkaa estimoida: aseta estimate_beacon = true
+
+engine-e-mars-pnt-fusion-od-run-produced-no = fuusio-OD-ajo ei tuottanut yhtään askelta (liian vähän havaintoja)
+
+engine-e-nmea-synth-clock-not-numeric = ei numeerinen
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name on oltava 1-64 merkkiä väliltä A-Z a-z 0-9 . _ - eikä se saa alkaa pisteellä (se nimeää tulostiedostot)
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = vastaanottimen parametrit ovat alueen ulkopuolella (maski 0-45 deg, seuranta <= käyttökynnys, 4-12 käytettyä satelliittia, kohina >= 0, korr > 0, uudelleenhankinta >= 0)
+
+engine-e-nmea-synth-config-the-time-change-per-second = ajan muutos sekunnissa saavuttaa arvon 1, joten ilmoitettu aika pysähtyisi tai kulkisi taaksepäin; pidennä ramp_s/recovery_s tai käytä askelta (0)
+
+engine-e-orbit-give-the-user-as-user = anna käyttäjä kentässä `user` (rata) tai `user_site` (maa-asema), ei molemmissa
+
+engine-e-orbit-missing-the-user-give-user = käyttäjä puuttuu: anna `user` (rata) tai `user_site` (maa-asema)
+
+engine-e-orbit-skyline-needs-ground-site-give = [skyline] tarvitsee maa-aseman: anna `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }` kiertävän `user`-radan sijaan (radalla ei ole Maahan kiinnitettyä atsimuuttia)
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = lunar ephemeris: satelliittiindeksien on oltava yhtenäiset alkaen arvosta 0 ilman aukkoja
+
+engine-e-orbit-omm-export-requires-tle-defined = OMM-vienti vaatii TLE:llä määritellyn tähdistön; tässä skenaariossa sellaista ei ole
+
+engine-e-passes-earth-orientation-parameters-out-of = Maan asentoparametrit ovat alueen ulkopuolella: |ut1_minus_utc_s| <= 1, |xp_arcsec| ja |yp_arcsec| <= 2
+
+engine-e-pvt-no-priori-position-set-apriori = a priori -paikkaa ei ole: aseta apriori_ecef, havaintootsikon APPROX POSITION XYZ tai truth_ecef
+
+engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings ja coherents eivät voi olla yhdessä design-kentän kanssa: pyyhkäisy ajaa jokaisen tiedoston suunnitelman
+
+engine-e-python-no-designs-to-sweep = ei pyyhkäistäviä suunnitelmia
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate = candidate_adev_taus ja candidate_adev_values on oltava yhtä pitkät (>= 2)
+
+engine-e-quantum-trade-provide-either-candidate-adev-taus = anna joko candidate_adev_taus + candidate_adev_values (mitattu) tai candidate_clock_class
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate-2 = candidate_adev_taus ja candidate_adev_values on oltava molemmat annettuina (tai molemmat puuttua)
+
+engine-e-quantum-trade-timing-threshold-and-position-threshold = timing_threshold_s ja position_threshold_m on oltava äärellisiä ja > 0
+
+engine-e-realdata-clk-rinex-clock-file-is-mixed = RINEX-kellotiedosto on sekajärjestelmätyyppiä ('M') eikä ilmoita arvoa TIME SYSTEM ID; sen epookkien aikajärjestelmää ei arvata
+
+engine-e-realdata-ion-sdr-more-than-one-block-only = useampi kuin yksi <block>: vain yksikaistaiset tiedostot luetaan
+
+engine-e-realdata-ion-sdr-this-layout-carries-reading-fill = tämä asettelu sisältää lukutavan (fill_lsb_first tai mid_rise), jolle ION-metadatastandardissa ei ole kenttää; sitä ei voi kirjoittaa .sdrx-muotoon
+
+engine-e-realdata-ion-sdr-the-layout-needs-positive-sample = asettelu tarvitsee positiivisen näytteenottotaajuuden ja vähintään 1:n taajuuskertoimen
+
+engine-e-realdata-lola-dem-unexpected-end-of-dem = DEM päättyi odottamatta
+
+engine-e-realdata-lugre-not-raw-message = ei ole RAW-viesti
+
+engine-e-realdata-lugre-not-an-acq-message = ei ole ACQ-viesti
+
+engine-e-realdata-raim-no-priori-position-pass-one = a priori -paikkaa ei ole: anna se tai toimita havaintootsikon APPROX POSITION XYZ
+
+engine-e-receiver-trust-calibration-calibration-window-less-than-the = kalibrointi-ikkuna on lyhyempi kuin suojaväli ennen hyökkäysikkunaa tai sen sisällä
+
+engine-e-receiver-trust-live-live-mode-needs-platform-kind = live-tila tarvitsee arvon [platform] kind = "vessel": luottamuspistemäärä on liikkuvalle alustalle
+
+engine-e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no = RTCM 3 -virrassa ei ole MSM4- tai MSM7-havaintoviestiä
+
+engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = RTKLIB .pos -tiedostoa, jossa on aste-minuutti-sekunti-paikat, ei lueta: aja rnx2rtkp/RTKPOST uudelleen desimaaliasteilla (-degf 0)
+
+engine-e-receiver-trust-monitors-engine-fix-the-rinex-observation = moottorin ratkaisu: RINEX-havaintootsikossa ei ole APPROX POSITION XYZ -kenttää, josta ratkaisu voitaisiin aloittaa
+
+engine-e-receiver-trust-monitors-platform-declares-heading-sensor-true = alusta ilmoittaa heading_sensor = true, mutta lokissa ei ole HDT-, THS- tai VHW-suuntimaa
+
+engine-e-receiver-trust-scenario-log-imu-the-imu-series = log.imu: IMU-sarja ei osu yhteenkään lokin epookkiin; tarkista time_offset_s
+
+engine-e-receiver-trust-scenario-this-surface-does-not-carry = tämä pinta ei sisällä `[log.imu]`-tiedostoa: aja skenaario komennolla `kshana receiver-trust` isännällä tai poista `[log.imu]`
+
+engine-e-receiver-trust-scenario-log-nav-applies-only-to = log.nav koskee vain `rinex`-lokia: moottorin ratkaisu tarvitsee sen pseudoetäisyydet
+
+engine-e-receiver-trust-score-score-the-geometry-deduction-is = score: geometriavähennys asetetaan kohdassa [geometry] (cap_points, full_ratio, floor), ei kohdassa [score.weights]
+
+engine-e-spectrum-recording-is-not-available-in = tallenne ei ole käytettävissä WebAssembly-versiossa: anna SigMF-tavut funktioille kshana::sigmf::read ja kshana::spectrum::welch_psd
+
+engine-e-ssv-scenario-navigation-noise-and-radiation-pressure = navigation: kohina- ja säteilypaineenarvot eivät saa olla negatiivisia
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of-2 = trajectory: anna täsmälleen yksi kentistä duration_min ja duration_periods
+
+engine-e-ssv-weak-receiver-pfa-total-and-receiver = receiver.pfa_total ja receiver.pd on oltava todennäköisyyksiä välillä (0, 1)
+
+engine-e-suite-suite-manifest-is-missing-title = sarjan manifestista puuttuu `title`
+
+engine-e-suite-suite-manifest-has-no-scenarios = sarjan manifestissa ei ole `scenarios`-kenttää: lisää ei-tyhjä `scenarios = [...]`-taulukko
+
+engine-e-surface-path-sources-are-not-accepted = `path`-lähteitä ei hyväksytä täällä: anna loki suoraan kentässä `text` tai `base64`
+
+engine-e-surface-input-campaign-names-campaign-folder = { "[" }input] campaign nimeää kampanjakansion, eikä tämä pinta lue tiedostoja; kampanjat lukee vain komentorivi (`kshana iq labfit`), Python (`kshana.iq_labfit`) tai MCP:n labfit-työkalu IQ-työhakemistonsa sisällä
+
+engine-e-surface-bad-merkle-root-hex = virheellinen Merkle-juuren heksa
+
+engine-e-surface-merkle-root-must-be-32 = Merkle-juuren on oltava 32 tavua
+
+engine-e-telecom-timing-csv-path-is-not-available = csv_path ei ole käytettävissä WebAssembly-versiossa; anna sarja suoraan `samples`-kentässä
+
+engine-e-telemetry-cli-otlp-every-needs-whole-number = --otlp-every tarvitsee kokonaisluvun
+
+engine-e-telemetry-cli-registry-poisoned = rekisteri myrkyttynyt
+
+engine-e-telemetry-otlp-https-is-not-supported-by = sisäänrakennettu viejä ei tue https:ää; käytä paikallista keräintä http:n kautta
+
+engine-e-telemetry-otlp-no-http-status-in-response = vastauksessa ei ole HTTP-tilaa
+
+engine-e-tle-invalid-designator-launch-year-in = virheellinen tunnuksen laukaisuvuosi TLE:ssä
+
+engine-e-tle-invalid-epoch-year-in-tle-2 = virheellinen epookin vuosi TLE:ssä
+
+engine-e-tle-invalid-epoch-day-in-tle = virheellinen epookin päivä TLE:ssä
+
+engine-e-adm-record-without-epoch = tietue ilman <EPOCH>-elementtiä
+
+engine-e-adm-ndm-holds-no = <ndm> ei sisällä elementtiä <{ $kind }>
+
+engine-e-adm-root-element-is-not = juurielementti <{ $name }> ei ole <{ $kind }>
+
+engine-e-evidence-cli-keygen-needs-out-keyfile = keygen tarvitsee valitsimen --out <keyfile>
+
+engine-e-evidence-cli-needs-key-keyfile-make-one = tarvitsee valitsimen --key <keyfile> (luo sellainen komennolla `kshana evidence keygen`)
+
+engine-e-evidence-cli-needs-out-dir = tarvitsee valitsimen --out <dir>
+
+engine-e-evidence-cli-needs-scenario-bench-scenario = tarvitsee valitsimen --scenario <bench scenario>
+
+engine-e-evidence-cli-needs-conditions-file = tarvitsee valitsimen --conditions <file>
+
+engine-e-evidence-tsa-bad-ecdsa-signature = virheellinen ECDSA-allekirjoitus
+
+engine-e-evidence-tsa-certificate-signature-failure = varmenteen allekirjoitusvirhe
+
+engine-e-evidence-tsa-unable-to-get-issuer-certificate = myöntäjän varmennetta ei saatu
+
+engine-e-evidence-tsa-unable-to-get-local-issuer = paikallisen myöntäjän varmennetta ei saatu
+
+engine-e-evidence-tsr-gentime-is-not-text = genTime ei ole tekstiä
+
+engine-e-glonass-bad-year = virheellinen vuosi
+
+engine-e-glonass-bad-month = virheellinen kuukausi
+
+engine-e-glonass-bad-day = virheellinen päivä
+
+engine-e-glonass-bad-hour = virheellinen tunti
+
+engine-e-glonass-bad-minute = virheellinen minuutti
+
+engine-e-gravity-sh-bad-degree = virheellinen aste
+
+engine-e-gravity-sh-bad-order = virheellinen kertaluku
+
+engine-e-interop-testbench-first-line-is-not-resolution = ensimmäinen rivi ei ole `RESOLUTION: <ms>`
+
+engine-e-interop-testbench-bad-resolution = virheellinen resoluutio
+
+engine-e-iq-signals-galileo-the-galileo-e1-memory-codes = Galileo E1 -muistikoodeja ei ole mukana (ICD:n ehdot sallivat uudelleenjakelun vain ei-kaupallisiin tarkoituksiin; katso LICENSING.md). Anna oma kopiosi ICD:n liitteestä C ({ $file }) valitsimella { $env }=<path> tai aja scripts/fetch_galileo_e1_codes.sh lähdekoodikopiossa ({ $path }: { $e })
+
+engine-e-jammertest-cli-key-needs-out-dir = --key tarvitsee valitsimen --out <dir>
+
+engine-e-leo-signal-modulation-expected-flat-mhz = modulaatio { $label }: odotettiin muotoa FLAT(<MHz>)
+
+engine-e-live-io-listen-takes-tcp-port-or = --listen ottaa arvon tcp:<port> tai tcp:<addr>:<port>
+
+engine-e-ndm-xml-bad-attribute-in = virheellinen attribuutti elementissä <{ $name }>
+
+engine-e-ndm-xml-unquoted-attribute-in = lainausmerkitön attribuutti { $key } elementissä <{ $name }>
+
+engine-e-ndm-xml-is-not-closed = <{ $name }> ei ole suljettu
+
+engine-e-nmea-synth-cli-wait-clients-not-number = --wait-clients: ei ole luku
+
+engine-e-nmea-synth-cli-speed-not-number = --speed: ei ole luku
+
+engine-e-nmea-synth-cli-seed-not-an-integer = --seed: ei ole kokonaisluku
+
+engine-e-odm-user-defined-without-parameter = <USER_DEFINED> ilman parametria
+
+engine-e-osnma-cli-bad-public-key-id = virheellinen julkisen avaimen tunnus
+
+engine-e-osnma-cli-bad-public-key-hex = virheellinen julkisen avaimen heksa
+
+engine-e-realdata-ion-sdr-closing-tag-does-not-match = sulkeva tunniste </{ $name }> ei vastaa tunnistetta <{ $name2 }>
+
+engine-e-realdata-ion-sdr-closing-tag-without-an-opening = sulkeva tunniste </{ $name }> ilman avaavaa tunnistetta
+
+engine-e-realdata-ion-sdr-attribute-without-value-in = attribuutti ilman arvoa elementissä <{ $name }>
+
+engine-e-realdata-ion-sdr-is-not-an-integer = <{ $name }> { $key } ei ole kokonaisluku: { $v }
+
+engine-e-realdata-ion-sdr-chunk-lacks-sizeword = elementiltä <chunk> puuttuu sizeword
+
+engine-e-realdata-ion-sdr-chunk-lacks-countwords = elementiltä <chunk> puuttuu countwords
+
+engine-e-realdata-ion-sdr-is-not-an-integer-2 = <{ $key }> ei ole kokonaisluku
+
+engine-e-realdata-ion-sdr-ratefactor-is-not-an-integer = <ratefactor> ei ole kokonaisluku
+
+engine-e-realdata-ion-sdr-no-band-with-centerfreq-for = virralle ei ole <band>-elementtiä, jolla on <centerfreq>
+
+engine-e-realdata-ion-sdr-offset-is-not-an-integer = <offset> ei ole kokonaisluku
+
+engine-e-receiver-trust-geometry-geometry-need-hdop-good-hdop = geometry: tarvitaan 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max ja used_good >= min_used (saatiin { $hdop_good }, { $pdop_good }, { $used_good })
+
+engine-e-sp3-bad-epoch-count = virheellinen epookkimäärä
+
+engine-e-spectrum-matched-jammer-needs-matched-to = { $name }: sovitettu häirintälähde tarvitsee arvon matched_to = "<band name>"
+
+engine-e-spectrum-unknown-band-the-spectrum-model = tuntematon kaista { $name }: spektrimallissa on { $band_names } ja nimellä { $more_band_names } (GLONASS                      kanavat nimellä glonass-l1of-k<K>, K = -7...6); mikä tahansa muu kaista ottaa                      `signal = "<preset signal>"` tai `centre_mhz` ja `modulation` sekä                      `signal_power_dbw`
+
+engine-e-evidence-assemble-the-log-does-not-state = loki ei ilmoita jäsennettävää alkuaikaa; anna sekunnit ensimmäisestä epookista
+
+engine-e-interop-geojson-no-linestring-found-give-linestring = LineString-kohdetta ei löytynyt: anna LineString-geometria, sellaisen sisältävä Feature tai FeatureCollection, jonka kohteiden joukossa on sellainen
+
+engine-e-leo-pnt-chain-the-chain-satellite-is-visible = ketjun satelliitti on näkyvissä alle kahdessa epookissa tai vain yhdellä korkeuskulmalla; laajenna ohitusikkunaa
+
+engine-e-nmea-synth-config-skyline-table-is-required-for = skyline-taulukko vaaditaan (esimerkiksi skyline = { "{" } preset = "fjord" { "}" })
+
+engine-e-python-prns-must-list-at-least = prns-luettelossa on oltava vähintään yksi PRN
+
+engine-e-python-design-name-needs-design = design_name tarvitsee kentän design
+
+engine-e-python-bandpass-needs-both-bandpass-lo = bandpass tarvitsee sekä bandpass_lo- että bandpass_hi-kentän
+
+engine-e-python-token-text-is-not-base64 = tunnisteen teksti ei ole base64:ää
+
+engine-e-python-unix-nano-must-be-between = unix_nano on oltava välillä 0 ja 2**64 - 1
+
+engine-e-wasm-token-base64-is-not-base64 = token_base64 ei ole base64:ää
+
+engine-e-wasm-log-base64-is-not-base64 = log_base64 ei ole base64:ää
+
+engine-e-wasm-input-base64-is-not-base64 = input_base64 ei ole base64:ää
+
+engine-e-wasm-seed-must-be-non-negative = siemenluvun (seed) on oltava ei-negatiivinen kokonaisluku
+
+engine-e-wasm-runs-json-must-be-an = runs_json on oltava taulukko muotoa { "{" }label, result, scenario?{ "}" }
+
+engine-e-nmea-synth-stream-no-udp-address = ei UDP-osoitetta
+
+engine-e-realdata-llr-crd-short-normal-point-11-record = lyhyt normal-point (11) -tietue
+
+engine-e-realdata-llr-crd-normal-point-record-appeared-before = normal-point-tietue ilmestyi ennen sen h2/h3/h4-istuntootsikkoa
+
+engine-e-gravity-sh-line-bad-coefficient-non-finite = rivi { $lineno }: virheellinen kerroin (ei-äärellinen)
+
+engine-e-interop-time-extra-fields-utc = ei ole UTC-aika `YYYY-MM-DDTHH:MM:SS`: ylimääräisiä kenttiä: { $text }
+
+engine-e-interop-time-year-outside-2000-to-2099-utc = ei ole UTC-aika `YYYY-MM-DDTHH:MM:SS`: vuosi väliltä 2000-2099 ulkopuolella: { $text }
+
+engine-e-interop-time-month-outside-to-12-utc = ei ole UTC-aika `YYYY-MM-DDTHH:MM:SS`: kuukausi väliltä 1-12 ulkopuolella: { $text }
+
+engine-e-interop-time-day-does-not-exist-in-utc = ei ole UTC-aika `YYYY-MM-DDTHH:MM:SS`: päivää ei ole kyseisessä kuussa: { $text }
+
+engine-e-interop-time-hour-above-23-utc = ei ole UTC-aika `YYYY-MM-DDTHH:MM:SS`: tunti yli 23: { $text }
+
+engine-e-interop-time-minute-above-59-utc = ei ole UTC-aika `YYYY-MM-DDTHH:MM:SS`: minuutti yli 59: { $text }
+
+engine-e-interop-time-seconds-outside-60-utc = ei ole UTC-aika `YYYY-MM-DDTHH:MM:SS`: sekunnit välin [0, 60) ulkopuolella: { $text }
+
+engine-e-mcp-budget-work-budget-exceeded-for-call = työbudjetti ylitettiin MCP-palvelimen kautta tehdyssä kutsussa: { $errors }. Aja suuret tutkimukset `kshana`-komentoriviltä.
+
+engine-e-mcp-iq-the-iq-sample-budget-must = IQ-näytebudjetin on oltava vähintään 1
+
+engine-e-mcp-iq-an-empty-path-was-given = annettiin tyhjä polku
+
+engine-e-mcp-iq-rate-hz-must-be-positive = rate_hz on oltava positiivinen luku
+
+engine-e-mcp-iq-duration-must-be-positive-number = duration_s on oltava positiivinen luku
+
+engine-e-mcp-iq-broadcast-mode-nav-needs-rx = lähetystila (nav) tarvitsee kentän rx_pos [lat, lon, alt]
+
+engine-e-mcp-iq-scene-needs-signal-or-nav = näkymä tarvitsee kentän `signal` (tai `nav` lähetystilaa varten)
+
+engine-e-mcp-iq-scene-needs-at-least-one = näkymä tarvitsee vähintään yhden PRN:n kentässä `prns`
+
+engine-e-mcp-iq-surface-out-exports-one-surface = surface_out vie yhden pinnan: anna täsmälleen yksi PRN
+
+engine-e-mcp-iq-surface-out-must-end-in = surface_out:n on päätyttävä .csv, .json tai .bin
+
+engine-e-mcp-iq-max-seconds-must-be-positive = max_seconds on oltava positiivinen luku
+
+engine-e-mcp-iq-epochs-out-must-end-in = epochs_out:n on päätyttävä .csv, .jsonl tai .bin (muoto seuraa päätettä)
+
+engine-e-mcp-iq-out-must-differ-from-input = out:n on poikettava syötteestä
+
+engine-e-mcp-iq-pll-bws-hz-dll-bws = pll_bws_hz, dll_bws_hz, spacings_chips ja coherents eivät voi olla yhdessä design-kentän kanssa: pyyhkäisy ajaa jokaisen tiedoston suunnitelman
+
+engine-e-mcp-iq-signal-and-prns-go-together = signal ja prns kuuluvat yhteen
+
+engine-e-mcp-iq-iq-work-directory = IQ-työhakemisto { $dir }: { $e }
+
+engine-e-mcp-iq-iq-work-directory-is-not = IQ-työhakemisto { $dir } ei ole hakemisto
+
+engine-e-mcp-iq-iq-file-tools-are-off = IQ-tiedostotyökalut ovat pois päältä: { $reason }
+
+engine-e-mcp-iq-output-does-not-name-file = tuloste `{ $rel }` ei nimeä tiedostoa
+
+engine-e-mcp-iq-output-its-folder = tuloste `{ $rel }`: sen kansio: { $e }
+
+engine-e-mcp-iq-output-is-symlink-refusing-to = tuloste `{ $shown }` on symbolinen linkki; kirjoittaminen evätään
+
+engine-e-mcp-iq-output-already-exists-pass-overwrite = tuloste `{ $shown }` on jo olemassa; korvaa se antamalla overwrite: true
+
+engine-e-mcp-iq-output-exists-and-is-not = tuloste `{ $shown }` on olemassa eikä ole tiedosto
+
+engine-e-mcp-iq-its-data-file-lies-outside = { $path }: sen datatiedosto on IQ-työhakemiston ulkopuolella
+
+engine-e-mcp-iq-lies-outside-the-iq-work = { $path } on IQ-työhakemiston ulkopuolella
+
+engine-e-mcp-iq-input-campaign-the-campaign-folder = { "[" }input] campaign `{ $rel }`: { $message }; kampanjakansion on oltava olemassa oleva kansio IQ-työhakemiston sisällä
+
+engine-e-mcp-iq-out-dir-does-not-name = out_dir `{ $rel }` ei nimeä kansiota
+
+engine-e-mcp-iq-is-samples-and-one-call = { $what } on { $samples } näytettä, ja yksi kutsu voi käsitellä enintään { $max_samples } ({ $env }); { $remedy }
+
+engine-e-mcp-iq-threads-must-be-to = threads on oltava 1...{ $max_threads }
+
+engine-e-mcp-iq-truth-format-must-be-csv = truth_format on oltava csv tai jsonl (saatiin { $other })
+
+engine-e-mcp-iq-surface-out-would-hold-about = surface_out sisältäisi noin { $cells } solua (Doppler-lokerot × näytteet koodijaksoa kohti; raja { $max_cells }, noin { $mb } Mt binäärinä): levennä doppler_step_hz tai kavenna doppler_max_hz
+
+engine-e-mcp-iq-no-campaign-here = { $out_dir }: ei kampanjaa täällä ({ $e })
+
+engine-e-mcp-iq-design-prn-channels-at-most = { $n_channels } (suunnitelma, PRN) -kanavaa; enintään 256 pyyhkäisyä kohti
+
+engine-e-mcp-iq-test-conditions-invalid = testiolosuhteet ovat virheelliset: { $e }
+
+engine-e-mcp-iq-labfit-failed = labfit epäonnistui: { $e }
+
+engine-e-mcp-marine-give-exactly-one-of-log = anna täsmälleen yksi kentistä `log` ja `log_base64`
+
+engine-e-mcp-marine-at-most-366-maps-per = enintään 366 karttaa kutsua kohti
+
+engine-e-mcp-marine-mode-symbols-needs-symbols = tila `symbols` tarvitsee kentän `symbols`
+
+engine-e-mcp-marine-vessel-stream-assessment-failed = aluksen virran arviointi epäonnistui: { $e }
+
+engine-e-mcp-marine-jammertest-import-failed = jammertest-tuonti epäonnistui: { $e }
+
+engine-e-mcp-marine-jammertest-score-failed = jammertest-pisteytys epäonnistui: { $e }
+
+engine-e-mcp-marine-vessel-log-assessment-failed = aluksen lokin arviointi epäonnistui: { $e }
+
+engine-e-mcp-marine-training-scenario-failed = koulutusskenaario epäonnistui: { $e }
+
+engine-e-mcp-marine-evidence-pack-failed = todistepaketti epäonnistui: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over = paketti on { $size } tavua, yli { $max_bytes } tavun vastausrajan; kavenna ikkunaa tai käytä komentoriviltä komentoa `kshana receiver-trust evidence`
+
+engine-e-mcp-marine-round-trip-pack-failed = round-trip-paketti epäonnistui: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-2 = paketti on { $size } tavua, yli { $max_bytes } tavun vastausrajan; kavenna ikkunaa tai käytä komentoriviltä komentoa `kshana evidence round-trip`
+
+engine-e-mcp-marine-files-are-over-the-byte = tiedostot ylittävät { $max_bytes } tavun rajan
+
+engine-e-mcp-marine-full-log-is-over-the = full_log ylittää { $max_bytes } tavun rajan
+
+engine-e-mcp-marine-interference-map-failed = häiriökartta epäonnistui: { $e }
+
+engine-e-mcp-marine-the-map-is-bytes-over = kartta on { $total } tavua, yli { $max_bytes } tavun vastausrajan; käytä karkeampaa cell_deg-arvoa, vähemmän päiviä tai komentoriviltä komentoa `kshana interference-map`
+
+engine-e-mcp-marine-route-exposure-failed = reitin altistus epäonnistui: { $e }
+
+engine-e-mcp-marine-compliance-report-failed = compliance-raportti epäonnistui: { $e }
+
+engine-e-mcp-marine-standards-pack-failed = standardipaketti epäonnistui: { $e }
+
+engine-e-mcp-marine-lunanet-afs-check-failed = lunanet-afs-check epäonnistui: { $e }
+
+engine-e-mcp-marine-mode-must-be-spec-symbols = mode on oltava spec, symbols tai generate (saatiin { $other })
+
+engine-e-mcp-marine-benchmark-scoring-failed = vertailuarvioinnin pisteytys epäonnistui: { $e }
+
+engine-e-mcp-marine-leaderboard-failed = tulostaulukko epäonnistui: { $e }
+
+engine-e-mcp-marine-test-bench-export-failed = testipenkin vienti epäonnistui: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-3 = paketti on { $size } tavua, yli { $max_bytes } tavun vastausrajan
+
+engine-e-mcp-server-give-exactly-one-of-request = anna täsmälleen yksi kentistä `request` (taivasgeometriapyyntö) tai `skyline_preset` (esiasetuksen nimi tai tyhjä merkkijono niiden luetteloimiseksi)
+
+engine-e-mcp-server-receiver-log-assessment-failed = vastaanottimen lokin arviointi epäonnistui: { $e }
+
+engine-e-mcp-server-unknown-scenario-kind-list-scenario = tuntematon skenaariokinni `{ $k }`; list_scenario_kinds nimeää jokaisen kinnin
+
+engine-e-mcp-server-unknown-report-format-expected-json = tuntematon raporttimuoto `{ $format }`; odotettiin json tai html
+
+engine-e-mcp-server-report-failed = raportti epäonnistui: { $e }
+
+engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps antaa { $n_frames } kuvaa, ja vastaus sisältää enintään { $max_frames }; pienennä fps- tai duration_s-arvoa tai kirjoita pidempi jakso komentoriviltä (`kshana <scenario.toml> --animate frames`)
+
+engine-e-mcp-server-route-import-failed = reitin tuonti epäonnistui: { $e }
+
+engine-e-mcp-server-sp3-export-failed = SP3-vienti epäonnistui: { $e }
+
+engine-e-mcp-server-omm-export-failed = OMM-vienti epäonnistui: { $e }
+
+engine-e-mcp-server-oem-export-failed = OEM-vienti epäonnistui: { $e }
+
+engine-e-mcp-server-scenario-kind-publishes-no-csv = skenaariokinni `{ $kind }` ei julkaise CSV-taulukkoa; vain { $kinds } julkaisevat
+
+engine-e-mcp-server-unknown-skyline-preset-known-presets = tuntematon skyline-esiasetus ”{ $name }”; tunnetut esiasetukset: { $presets }
+
+engine-e-mcp-server-the-tool-call-did-not = työkalukutsu ei valmistunut: { $e }
+
+engine-e-mcp-server-the-server-is-at-its-concurrent-work-limit = palvelin on samanaikaisen työn rajalla (aiemmat kutsut ovat vielä käynnissä); yritä pian uudelleen
+
+engine-e-mcp-server-the-work-pool-is-closed = työallas on suljettu
+
+engine-e-mcp-iq-no-work-directory = ei työhakemistoa
+
+engine-e-mcp-iq-input = syöte `{ $rel }`: { $e }
+
+engine-e-mcp-iq-input-is-not-file = syöte `{ $rel }` ei ole tiedosto
+
+engine-e-mcp-iq-input-campaign-is-not-folder = { "[" }input] campaign `{ $rel }` ei ole kansio
+
+engine-e-mcp-iq-out-dir-is-not-folder = out_dir `{ $rel }` ei ole kansio
+
+engine-e-mcp-iq-out-dir = out_dir `{ $rel }`: { $e }
+
+engine-e-mcp-iq-iq-failed = iq { $args } epäonnistui: { $m }
+
+engine-e-adm-attitudestate-without = <attitudeState> ilman elementtiä <{ $tag }>
+
+engine-e-bench-cli-is-required = { $flag } vaaditaan
+
+engine-e-bench-cli-is-empty = { $p } on tyhjä
+
+engine-e-evidence-tsa-bad-256-key = virheellinen P-256-avain
+
+engine-e-evidence-tsa-bad-384-key = virheellinen P-384-avain
+
+engine-e-interop-no-iq-block = ei [iq]-lohkoa
+
+engine-e-ndm-xml-closes = </{ $close }> sulkee elementin <{ $name }>
+
+engine-e-odm-unexpected-in-data = odottamaton <{ $name }> elementissä <data>
+
+engine-e-odm-unsupported-in-ocm-data = ei tuettu <{ $name }> OCM-elementissä <data>
+
+engine-e-realdata-ion-sdr-no-stream-element = ei <stream>-elementtiä
+
+engine-e-realdata-ion-sdr-is-not-number = <{ $name }> ei ole luku: { $text }
+
+engine-e-realdata-ion-sdr-no-chunk-element = ei <chunk>-elementtiä
+
+engine-e-realdata-ion-sdr-stream-lacks = elementiltä <stream> puuttuu <{ $key }>
+
+engine-e-realdata-ion-sdr-no-system-element = ei <system>-elementtiä
+
+engine-e-realdata-ion-sdr-no-file-with-url = ei <file>-elementtiä, jolla on <url>
+
+engine-e-surface-give-string-utf8-or-base64 = { $k }: anna merkkijono, { "{" }"utf8": ...{ "}" } tai { "{" }"base64": ...{ "}" }
+
+engine-e-realdata-llr-crd-short-h1-record = lyhyt h1-tietue
+
+engine-e-realdata-llr-crd-short-h2-record = lyhyt h2 (asema) -tietue
+
+engine-e-realdata-llr-crd-short-h3-record = lyhyt h3 (kohde) -tietue
+
+engine-e-realdata-llr-crd-short-h4-record = lyhyt h4 (istunto) -tietue
+
+engine-e-mcp-main-needs-value = { $a } tarvitsee arvon
+
+engine-main-usage =
+    käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
+    { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
+    { "   " }tai: kshana --study <suite.toml>
+    { "   " }tai: kshana --validate <scenario.toml>
+    { "   " }tai: kshana receiver-trust <scenario.toml>
+    { "   " }tai: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+    { "   " }tai: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }tai: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+    { "   " }tai: kshana jammertest <import|score> ... (kshana jammertest --help)
+    { "   " }tai: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }tai: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+    { "   " }tai: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }tai: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
+    { "   " }tai: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+    { "   " }tai: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+    { "   " }tai: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }tai: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+    { "   " }tai: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+    { "   " }tai: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+    { "   " }tai: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+    { "   " }tai: kshana partner check <submission.toml> [--json]
+    { "   " }tai: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }tai: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }tai: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+    { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }tai: kshana kinds [--json]
+    { "   " }tai: kshana example [<name>]
+    { "   " }tai: kshana --help | --version
+
+engine-main-usage-sky =
+    käyttö: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+    { "   " }tai: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+    { "                  " }[--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+    { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+    { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+
+    Tulostaa JSON-muodossa (sky_geometry) satelliitit, jotka paikka näkee horisonttiprofiilin alla, niiden DOP-arvot, itä-pohjoinen-ylös-kofaktorin
+    ja kovarianssin sekä vaakavirhe-ellipsin;
+    valitsimella --monte-carlo n (enintään 5000) siemenistettyä pienimmän neliösumman virhettä (sky_monte_carlo); valitsimella --svg taivaskartan.
+    Järjestelmät ovat moottorin esiasetuksia (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
+    edustava geometria, ei tietyn päivän taivas tietyssä paikassa. --tle lukee kaksirivisiä radanelementtijoukkoja
+    (enintään 4 MiB) ja propagoi ne SGP4:llä epookkiin --epoch (UTC) plus --time: se taivas, jonka nuo
+    elementtijoukot antavat kyseisellä epookilla, ei mittaus. Ilman valitsinta --epoch ne viedään uusimman
+    elementtijoukon epookkiin, edustavaan taivaaseen. MODELLED; docs/SKYLINE.md.
+
+engine-e-interop-geojson-the-scenario-has-no-waypoints = skenaariossa ei ole vähintään 2 `waypoints`-pisteen joukkoa, jolle kahden paikan reitti voitaisiin levittää
+
+engine-main-usage-skyline =
+    käyttö: kshana skyline --preset <name> [--json]
+    { "   " }tai: kshana skyline --presets
+    { "   " }tai: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Tulostaa horisonttiprofiilin esiasetuksen (city-street, harbour-approach, fjord, container-terminal) sen
+    alkuperätietoineen ja jokaisen atsimuuttiasteen leikkauksen, esiasetusten luettelon tai horisonttiprofiiliosion
+    supistettuna 360-rivin taulukoksi, jota moottori käyttää. REPRESENTATIVE-esiasetukset; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    käyttö: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }tai: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }tai: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Sidottu LunaNet Interoperability Specification V5:een, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025). `spec` tarkistaa tämän toteutuksen asiakirjan painettuja koodi-
+    taulukoita ja laskuesimerkkejä vastaan (kynnykset B1-B10 tiedostossa xval/lunanet-afs/PREREGISTRATION.md; valitsimella --strict
+    poistumistila on 1, ellei jokainen kynnys täyty). `symbols` tarkistaa kovapäätösymbolivirran
+    (0:ien ja 1:ien teksti) synkronointikuvion, SB1-dekoodauksen, FID:n, TOI-jatkuvuuden ja kehysvälin osalta;
+    alikehyksiä 2-4 (LDPC, CRC-24Q) EI varmenneta. `generate` kirjoittaa testivirran,
+    jossa on paikkamerkkialikehykset; se ei ole aaltomuoto, eikä Kshana kirjoita signaalia. AFS-aaltomuodon
+    hankkimiseen tai seuraamiseen tallenteesta käytä komentoa `kshana iq acquire --signal lunanet-afs-i`
+    (tai lunanet-afs-q). Vain ohjeellinen. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    käyttö: kshana standards-pack list
+    { "   " }tai: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }tai: kshana standards-pack rows <id>
+    { "   " }tai: kshana standards-pack tests <id>
+
+    Standardipaketti on joukko skenaarioita, jotka pisteytetään ennen ajoa ilmoitettuja kynnyksiä vastaan ja jotka on sidottu
+    compliance-report-riveihin, joille se tukee todisteita (supports evidence for). `run` tulostaa taulukon (tai --json) ja valitsimella
+    --out kirjoittaa tiedostot <base>.pack.json ja <base>.pack.md; anna JSON komennolle `kshana compliance-report`
+    rivien näkemiseksi. Testi, joka tarvitsee vastaanottimen lokin, listataan tilassa NEEDS INPUT eikä sitä pisteytetä.
+    MODELLED: MET-kynnys kertoo, että mallinnettu skenaario täytti ilmoitetun kynnyksen, ei että mikään tuote täyttää
+    vaatimuksen. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: soveltuu
+
+engine-main-wrote = kirjoitettu { $path }
+
+engine-main-note = huomautus: { $n }
+
+engine-main-error-example-extra-argument = virhe: odottamaton argumentti '{ $extra }' komennon `example <name>` jälkeen; se ottaa yhden nimen
+
+engine-main-lunanet-afs-generate-needs = generate tarvitsee valitsimet --frames <n> ja --out <file> (sekä kokonaisluvun --toi0)
+
+engine-evidence-cli-usage =
+    käyttö:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      poistumiskoodi 0 varmennettu, 1 epäonnistui, 3 ehjä mutta allekirjoittajaa ei ole kiinnitetty
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(lukee RFC 3161 -tunnisteen ja sitoo sen manifestiin; se EI varmenna aikaleimaviranomaisen
+    { "      " }allekirjoitusta: käytä komentoa `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(linkittää skenaarion, laboratorion testiolosuhteet, vastaanottimen lokin ja sen pistemäärän;
+    { "      " }<scenario.toml> on receiver-trust-pisteytysskenaario; ei kirjoita signaalia)
+    { "  " }<t0>/<t1>: sekunteja lokin ensimmäisestä epookista tai ISO-8601 UTC -aika, kun loki
+    { "  " }ilmoittaa alkuaikansa. Paketti on tekninen tietue, ei oikeudellinen lausunto.
+
+engine-evidence-cli-fingerprint = sormenjälki: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }virhe: { $f }
+
+engine-evidence-cli-verify-note = { "  " }huomautus: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: jokainen tiiviste, ketju ja allekirjoitus täsmäävät antamallesi avaimelle.
+
+engine-evidence-cli-verified-unpinned = VERIFIED paketin itsensä nimeämää avainta vastaan, sormenjälki { $fp } (allekirjoittajaa EI ole kiinnitetty; anna --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: tiivisteet ja allekirjoitus ovat johdonmukaisia avaimen { $fp } kanssa, jonka paketti nimeää itse. Anna --pubkey <signer public key> selvittääksesi, kuka sen allekirjoitti (tai --allow-unpinned hyväksyäksesi tämän tietoisesti).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: katso yllä olevat virheet.
+
+engine-evidence-cli-attached = liitetty { $path }
+
+engine-evidence-cli-verify-with = varmenna komennolla: kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    käyttö: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }tai: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }tai: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } tai karkeampi>] [--bbox <south,west,north,east>] [--delay-hours <24 tai enemmän>]
+    { "   " }tai: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }tai: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom tarvitsee myös --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = käyttö: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = päivä
+
+engine-interference-map-cli-col-src = lähde
+
+engine-interference-map-cli-col-degraded = heikentynyt
+
+engine-interference-map-cli-col-not-degraded = ei heikentynyt
+
+engine-interference-map-cli-col-unassessed = arvioimaton
+
+engine-interference-map-cli-col-not-observed = ei havaittu
+
+engine-bench-cli-usage =
+    käyttö: kshana bench spec
+    { "   " }tai: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }tai: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }tai: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }tai: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }tai: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }tai: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }tai: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }tai: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }tai: kshana bench validate <result.json>...
+    { "   " }tai: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (ei syötteitä: tyhjä tila; --fragment: upotettava osio)
+    { "   " }(siemenluku-tiedosto sisältää sinetöidyn holdout-aineiston salaisuuden; pidä se poissa versionhallinnasta)
+
+engine-bench-cli-match = täsmää
+
+engine-bench-cli-valid = { $f }: kelvollinen
+
+engine-bench-cli-folders = { $n } kansio(ta)
+
+engine-bench-cli-unpinned = kiinnittämätön: { $rel }
+
+engine-bench-cli-missing = puuttuu: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+engine-osnma-cli-usage =
+    käyttö: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    I/NAV-sivut: pelkkä muoto (katso docs/OSNMA.md) tai julkaistujen
+    { "                             " }testivektorien CSV-asettelu
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }syötteen asettelu (oletus: tiedoston sisällön mukaan). ubx on u-blox-
+    { "                             " }tavuvirta, jossa on UBX-RXM-SFRBX-viestejä (Galileo E1-B)
+    { "  " }--start-gst SECONDS        vektori-CSV:n alkuaika GST-sekunteina
+    { "                             " }(oletus: luetaan tiedostonimestä kuten 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          luotettu Merkle-juuri (64 heksanumeroa) DSM-PKR-tarkistuksia varten
+    { "  " }--public-key ID:TYPE:HEX   luotettu julkinen avain, TYPE p256 tai p521, pakattu piste
+    { "  " }--reference-time SECONDS   nykyhetki GST-sekunteina riippumattomasta lähteestä. Yksi
+    { "                             " }hetki: alikehykset, jotka ovat siitä kauempana kuin toleranssi, jätetään
+    { "                             " }sivuun, joten käytä sitä live- tai juuri tallennetulle datalle
+    { "  " }--max-time-error SECONDS   alikehyksen suurin etäisyys vertailuajasta, alle
+    { "                             " }30 (oletus 29); tarvitsee valitsimen --reference-time
+    { "  " }--epochs                   tulosta myös jokainen tunnisteen tulos
+    { "  " }--json                     tulosta JSON tekstin sijaan
+
+    Poistumistila: 0 valmis, 2 käyttö- tai syötevirhe, 3 jonkin satelliitin datan tarkistus epäonnistui.
+
+engine-iq-cli-usage =
+    käyttö: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }tai: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }tai: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }tai: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (oletus auto, ≈4 ms koherentti)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }tai: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }tai: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }tai: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }tai: kshana iq campaign report <out-dir>
+    { "   " }tai: kshana iq conditions <test-conditions.toml|json>
+    { "   " }tai: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }tai: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }labfit-skenaariot: vastaanottimen lokien [[runs]] tai [input] campaign = "<out-dir>", joka nimeää kshana iq campaign -tulostekansion (suhteessa skenaariotiedostoon)
+    { " " }silmukkasuunnitelmat: kshana.loop-design/1 TOML -tiedosto (docs/design/LOOP-DESIGN-TOML.md); eksplisiittiset silmukka- ja hankintavalitsimet ohittavat valitun suunnitelman
+    { " " }acquire/track/sweep ottavat myös etuasteen valitsimet [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], jotka sovelletaan ennen käsittelyä (sekä hankinnassa että seurannassa)
+    { " " }scene-kanavan säätimet: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }scene C/N0 -profiili: [--cn0-profile <toml>] ajan mukana muuttuvat C/N0-siirtymät satelliittia kohti (askel, ramppi, pisteet, häipyminen), sovelletaan kanavan päälle; totuuden cn0_dbhz seuraa sitä
+    { " " }tallenteet/raakasyötteet ilman sivutiedostoa ottavat myös: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; monivirtasyötteet ottavat valitsimen --channel <k>
+    { " " }signaalit: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> on pilkuilla erotettu luettelo (yksi per --prn tai yksi arvo, jota sovelletaan kaikkiin)
+
+engine-iq-cli-usage-error = käyttövirhe: { $m }
+
+engine-iq-io-cli-usage =
+    käyttö: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }tai: kshana iq info <recording>
+    { "   " }tai: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }tai: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }tai: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }raakasyötteet ilman sivutiedostoa ottavat myös: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }monivirtasyötteet (monikanavainen SigMF, lomitettu raaka) ottavat valitsimen --channel <k> (alkaen 0:sta; oletus 0)
+    { " " }muodot: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bittinen 16:ssa ci12r_le ci12l_be cu12r_le ..., pakattu 4-bittinen ci4_msb cu4_lsb ..., pakattu 2-bittinen c2tc_msb c2sm_lsb r2ob_msb ..., 2 bittiä tavua kohti c2sm_byte ..., reaalinen r..., Q ensin ..._qi
+
+engine-telemetry-cli-usage =
+    käyttö: kshana trust-telemetry [options]
+    { "  " }syöte (oletus: JSON-rivit stdinissä):
+    { "    " }--input <file|->         lue JSON-rivit tiedostosta tai `-` stdinistä
+    { "    " }--result <result.json>   toista `kshana receiver-trust` -tulostiedoston epookit
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     tarjoa /metrics (oletus 127.0.0.1:9464, kun muuta tulostetta ei ole valittu)
+    { "    " }--print-metrics          tulosta lopullinen esitys stdoutiin syötteen lopussa
+    { "    " }--hold                   jatka tarjoamista syötteen päätyttyä
+    { "    " }--expose-position        julkaise myös vastaanottimen ilmoittama paikka mittareina (oletuksena pois)
+    { "  " }syslog (CEF tai LEEF RFC 5424 -kehyksessä):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  kehystä TCP-viestit oktettilaskennalla (RFC 6587), ei yksi riviä kohti
+    { "    " }--format cef|leef        hyötykuorman murre (oletus cef)
+    { "    " }--syslog-all             yksi tapahtuma epookkia kohti (oletus: yksi kaistan muutosta kohti)
+    { "    " }--host <name>            laitteen isäntänimi tapahtumissa (oletus `kshana`)
+    { "  " }Home Assistant / NTP-laite (JSON-tila + MQTT-löytö; vain julkaisu, ei tunnistetietoja tai TLS:ää):
+    { "    " }--mqtt-tcp <host:port>   julkaise paikalliselle MQTT 3.1.1 -välittäjälle (säilytetyt viestit, QoS 0)
+    { "    " }--print-mqtt             tulosta viestit `topic<TAB>payload`-riveinä
+    { "    " }--mqtt-prefix <p>        tilan aiheen etuliite (oletus kshana/trust); --mqtt-node <id> (oletus kshana)
+    { "    " }--mqtt-discovery <p>     Home Assistant -löydön etuliite (oletus homeassistant)
+    { "  " }OpenTelemetry (rakenna valitsimella --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (oletus 10)
+
+engine-jammertest-cli-usage =
+    käyttö:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    Suunnitelma ja luettelo ovat julkaistut NPRA/jammertest-plan JSON-tiedostot (MIT; hae ne komennolla
+    xval/jammertest-plan/fetch.sh). Suunnitelman ajat ovat paikallista seinäkelloaikaa; --local-offset-h (oletus 2, CEST)
+    kertoo, kuinka kaukana ne ovat UTC:stä. JammerTest 2024 -aineiston attack_log-leimat sanovat Z, mutta ovat paikallista
+    aikaa: --time-shift-h on oletuksena -2. Tapahtumat ovat aikataulutettua totuutta, eivät tallennettuja ilma-aikoja.
+    Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite.
+
+engine-nmea-synth-cli-usage =
+    käyttö: kshana nmea-scenario <scenario.toml> [options]
+
+    Kirjoittaa tai suoratoistaa synteettisen NMEA 0183 -sillan lauseiden joukon (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    aluksen reitille, jossa on käsikirjoitettuja häirintä- ja harhautustapahtumia, sekä ohjaajan lokin.
+    Vain koulutukseen ja testaukseen: älä koskaan syötä sitä aluksen aitoihin navigointijärjestelmiin.
+
+    valitsimet:
+    { "  " }--out <file.nmea>          kirjoita virta tiedostoon (oletus <name>.nmea, kun verkkotulostetta
+    { "                             " }ei ole annettu)
+    { "  " }--instructor-log <prefix>  kirjoita <prefix>.json ja <prefix>.txt (oletus: tiedoston
+    { "                             " }viereen, muuten <name> nykyiseen hakemistoon)
+    { "  " }--tcp <addr:port|port>     tarjoa virta TCP:n yli (odottaa ensin asiakasta); pelkkä
+    { "                             " }portti kuuntelee vain osoitteessa 127.0.0.1. Todennusta ei ole:
+    { "                             " }jokainen, joka tavoittaa osoitteen, voi lukea virran
+    { "  " }--udp <addr:port|port>     lähetä yksi lause UDP-datagrammia kohti tähän osoitteeseen; pelkkä
+    { "                             " }portti lähettää osoitteeseen 127.0.0.1
+    { "  " }--broadcast                salli --udp:n käyttää yleislähetysosoitetta
+    { "  " }--wait-clients <n>         asiakkaat, joita odotetaan ennen TCP-virran alkua (oletus 1)
+    { "  " }--realtime                 vauhditus reaaliajassa (oletus verkkotulosteelle)
+    { "  " }--speed <x>                vauhditus x-kertaisena reaaliaikaan; 0 on niin nopeasti kuin mahdollista
+    { "                             " }(oletus tiedostoille)
+    { "  " }--seed <n>                 korvaa skenaarion siemenluku
+    { "  " }--no-marker                jätä pois synteettisen datan merkkilause
+
+engine-live-io-usage =
+    käyttö: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Lukee NMEA 0183:a (oletuksena stdin), pisteyttää aluksen paikkaratkaisun jokaisen epookin 0-100 ja kirjoittaa yhden
+    JSON-rivin epookkia kohti (oletuksena stdout). Valitsimella --gate NMEA-virta ohjataan sen sijaan stdoutiin
+    muuttamattomana niin kauan kuin paikkaratkaisuun luotetaan ja paikkaratkaisu virheelliseksi merkittynä, kun ei luoteta, jokaista
+    sykliä seuraa $PKSHT-lause; JSON menee tällöin vain sinne, minne --json sanoo. Istunto on
+    skenaarion .toml, jossa on [platform] kind = "vessel"; sen [log]-taulukkoa ei tarvita.
+
+    --listen (valitsimen --gate kanssa) tarjoaa porttiohjatun virran mille tahansa määrälle TCP-asiakkaita (esimerkiksi
+    karttaplotterille) stdoutiin kirjoittamisen sijaan; oletusosoite on loopback. Asiakas, joka
+    ei pysy mukana, pudotetaan, joten se ei koskaan hidasta muita tai syötettä.
+
+    Vastaanottimen aikaa verrataan myös tämän tietokoneen kelloon, mikä merkitsee jotain vain
+    reaaliajassa saapuvalle virralle; sitä nopeammin syötetylle tallennetulle lokille (stdin, tcp, udp) anna
+    --replay, ja pelkkä --file (ilman valitsinta --follow) tekee sen jo.
+
+    --serial lukee sarja- tai USB-laitetta (vain Unix), vain luku: se avaa laitteen lukemista varten, asettaa
+    paikallisen linjan raakatilaan nopeudella --baud (oletus 4800, NMEA 0183 -nopeus) eikä koskaan kirjoita tavuakaan
+    vastaanottimeen. Kshana ei määritä vastaanottimia; aseta vastaanotin tulostamaan NMEA:ta sen omalla työkalulla.
+
+    Tämä on ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162):
+    käyttäjä vastaa edelleen aluksen navigoinnista.
+
+engine-tle-warning = varoitus: { $w }
+
+engine-e-animation-no-time-series-to-animate = ei animoitavaa aikasarjaa: tulos { $k } ei sisällä näytteistettyä aika-akselia (katso docs/ANIMATION.md viejän tunnistamista muodoista)
+
+engine-animation-svg-sub = kinni { $kind } · { $t0 }–{ $t1 } · näytteet tiedostosta result.json, piirretty ilman uudelleennäytteistystä · Kshana { $version }
+
+engine-animation-svg-strip-events = tapahtumat
+
+engine-animation-svg-strip-phases = vaiheet
+
+engine-animation-svg-waterfall = vesiputous: { $title } [{ $unit }], aika kulkee alaspäin, väri { $lo }–{ $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = epookin indeksi
+
+engine-animation-svg-desc = Animoitu aikasarja { $kind }-ajosta: { $n_panels } paneelia, { $n_events } tapahtumaa, { $n_phases } vaihetta. Jokainen piste on näyte ajon tiedostosta result.json.
+
+engine-animation-html-title = { $title } — Kshana-animaatio
+
+engine-animation-html-sub = kinni { $kind } · { $n } sarjaa tiedostosta result.json, piirretty ilman uudelleennäytteistystä · Kshana { $version }
+
+engine-animation-html-playback = Toisto
+
+engine-animation-html-play = Toista
+
+engine-animation-html-pause = Tauko
+
+engine-animation-html-mission-time = Tehtäväaika
+
+engine-animation-html-speed = nopeus
+
+engine-animation-html-playback-speed = Toistonopeus
+
+engine-animation-html-events = Tapahtumat
+
+engine-animation-html-footer-keys = Väli toistaa tai keskeyttää, nuolinäppäimet askeltavat, Home ja End hyppäävät. Tämä on ajon omien näytteiden esitys: se on täsmälleen yhtä hyvä kuin ajo eikä lisää todisteita (MODELLED, sisäinen johdonmukaisuus).
+
+engine-animation-html-footer-determinism = Sama skenaario, siemenluku ja valitsimet tuottavat tavu tavulta identtisen tiedoston.
+
+engine-animation-html-exports-heading = Tämän soittimen viereen kirjoitetut viennit
+
+engine-animation-js-phases-and-events = vaiheet ja tapahtumat
+
+engine-animation-js-waterfall = vesiputous: { $title } [{ $unit }], aika kulkee alaspäin
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = vaihe: { $name }
+
+engine-e-evidence-bundle-bad-log-slice = virheellinen lokiviipale: { $s }
+
+engine-e-evidence-bundle-bad-window = virheellinen ikkuna: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = virheellinen luontiaika: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = virheellinen aikaleimatunniste: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = ei voi sarjallistaa: { $s }
+
+engine-e-osnma-page-not-valid-hex = sivu ei ole kelvollista heksaa
+
+engine-e-osnma-page-time-outside-week-number = sivun aika on Galileon viikkonumeron 4096 viikon ulkopuolella
+
+engine-e-osnma-page-bad-length = sivulla on { $n } heksanumeroa, odotettiin 60
+
+engine-e-osnma-page-malformed-line = virheellisesti muodostettu sivurivi: { $s }
+
+engine-e-interchange-encode-payload = hyötykuorman koodaus epäonnistui: { $e }
+
+engine-e-interchange-invalid-envelope = ei ole kelvollinen vaihtokirjekuori: { $e }
+
+engine-e-interchange-not-kshana-artifact = ei ole Kshana-artefakti: muoto on { $found }, odotettiin { $expected }
+
+engine-e-interchange-incompatible-schema-version = yhteensopimaton skeemaversio { $v } ({ $verdict }); tämä moottori puhuu versiota { $current }
+
+engine-e-interchange-payload-mismatch = hyötykuorma ei vastannut pyydettyä tyyppiä: { $e }
+
+engine-e-interop-not-applicable = ei sovellettavissa: { $why }
+
+engine-e-iq-io-error = I/O-virhe: { $m }
+
+engine-e-iq-format-error = muotovirhe: { $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }: PRN { $prn } ei ole ICD:n määrittelemä
+
+engine-e-iq-signals-glonass-channel-outside = GLONASS-taajuuskanava { $k } on alueen -7..=6 ulkopuolella
+
+engine-e-iq-signals-code-table = koodiataulukko: { $m }
+
+engine-e-kepler-out-of-domain = Keplerin yhtälö: M tai e määrittelyalueen ulkopuolella
+
+engine-e-kepler-no-convergence = Keplerin yhtälö ei suppennut { $iters } askeleessa (jäännös { $residual })
+
+engine-e-lunar-orientation-epoch-outside-series = epookki { $t } Julian-vuosisataa J2000:sta on DE440-Kuun asentosarjan ulkopuolella ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+engine-e-propagator-sgp4-error = SGP4-propagointivirhe (koodi { $code })
+
+engine-e-integrator-dop853-stopped = DOP853 pysähtyi hetkellä t = { $t } ({ $failure }) { $accepted } askeleen jälkeen
+
+engine-e-portable-distr-variance-non-finite = varianssi on ei-äärellinen normaalijakaumassa
+
+engine-e-portable-distr-shape-not-positive = muotoparametri ei ole positiivinen gammajakaumassa
+
+engine-e-portable-distr-scale-not-positive = skaalaparametri ei ole positiivinen gammajakaumassa
+
+engine-bench-tasks-clock-line-before-header = kellorivi tulee ennen `@<PRN>`-otsaketta
+
+engine-api-html-clock = Kello
+
+engine-api-html-fom-heading = Ansioluvut
+
+engine-api-html-metric = Mittari
+
+engine-api-html-value = Arvo
+
+engine-api-html-validation = Validointi
+
+engine-api-html-tier-note = Jokainen ansioluku on merkitty VALIDATED (tarkistettu ulkoista oraakkelia vasten) tai MODELLED (ensimmäisistä periaatteista, sisäisesti testattu), johdettuna varmennusmatriisista.
+
+engine-api-html-default-title = Kshana — skenaarion tulos
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · täsmällinen hetki
+
+engine-api-html-tagline = Hybridi kvantti-/klassinen PNT-suorituskykytulostaulu
+
+engine-api-html-chart-alt = Tuloskaavio
+
+engine-api-html-full-result = Koko tulos (JSON)
+
+engine-api-html-footer-generated = Kshanan { $version } tuottama.
+
+engine-api-html-footer-licence = Toistettavissa skenaariosta + siemenluvusta + moottorin versiosta. Vapaa ja avoin lähdekoodi (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">lähdekoodi &amp; dokumentaatio</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: Model Context Protocol -palvelin Kshana PNT-kestävyyssimulaattorille.
+
+    KÄYTTÖ:
+    { "    " }kshana-mcp                      palvele stdion yli (oletus; MCP-asiakkaat käynnistävät tämän)
+    { "    " }kshana-mcp --http <addr>        palvele streamable HTTP:tä osoitteessa http://<addr>/mcp
+
+    HTTP-VALITSIMET:
+    { "    " }--http <addr>               sidontaosoite, esim. 127.0.0.1:8080 (oletuksena vain loopback)
+    { "    " }--allow-remote              salli muu kuin loopback-osoite; tarvitsee KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  ylimääräinen hyväksytty Host-otsake (toistettava)
+    { "    " }--allow-origin <origin>     hyväksytty selaimen origin (toistettava; oletuksena ei yhtään)
+    { "    " }--max-body-bytes <n>        pyynnön rungon yläraja (oletus 5242880)
+    { "    " }--request-timeout-secs <n>  pyyntökohtainen aikaraja (oletus 120)
+    { "    " }--max-concurrent <n>        samanaikaisesti palveltavat pyynnöt (oletus 8)
+
+    HTTP-siirto sulkee IQ-tiedostotyökalut pois. Kshana ei isännöi päätepistettä: aja se itse.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = tuntematon argumentti `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = HTTP-valitsimet tarvitsevat valitsimen --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = sidontaa osoitteeseen { $addr } ei sallita: se ei ole loopback-osoite. Käytä osoitetta 127.0.0.1:<port> tai anna --allow-remote (ja aseta { $token_env }) kuunnellaksesi tämän koneen ulkopuolelle
+
+engine-e-mcp-http-refusing-to-bind-needs-token = sidontaa osoitteeseen { $addr } ei sallita: muu kuin loopback-osoite tarvitsee bearer-tunnisteen ympäristömuuttujassa { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } on lyhyempi kuin 16 merkkiä; käytä pitkää satunnaista tunnistetta
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent ja --request-timeout-secs on oltava nollaa suuremmat
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin ei hyväksy arvoa `*`; nimeä jokainen origin
+
+engine-mcp-http-warning-remote = VAROITUS: kshana-mcp kuuntelee osoitteessa { $addr } tämän koneen ulkopuolelle. Kuka tahansa, joka tavoittaa sen ja jolla on bearer-tunniste, voi ajaa simulaatioita laitteistollasi. Aseta sen eteen TLS (käänteinen välityspalvelin tai alustasi HTTPS) ja pidä tunniste salaisena.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = paikan leveysasteen on oltava välillä [-90, 90] ja pituusasteen välillä [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s on oltava välillä [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode on oltava off, standalone tai differential, saatiin `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode on oltava off, ltc tai tt, saatiin `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays on oltava välillä 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s on oltava positiivinen ja afs_first_fix_s ei-negatiivinen
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km on oltava välillä [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = sisääntulokovarianssi ei ole symmetrinen ja sen lävistäjä ei ole ei-negatiivinen
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent odottaa sisääntulokellon aikaskaalassa LTC tai TT, saatiin { $timescale }; ketju muuntaa aikaskaalat
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s on oltava välillä [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source on oltava off, terrain-nav tai lola-crlb, saatiin `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = ratkaisuhetkien on oltava positiivisia, afs_interval_s > 0 ja trn_fix_time_s laskeutumisen sisällä
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m on oltava vähintään 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m on oltava positiivinen
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb tarvitsee DEM:n, jota ei voitu ladata
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent odottaa sisääntulokellon aikaskaalassa LTC tai TT, saatiin { $timescale }; ketju muuntaa aikaskaalat
+
+engine-e-lunar-landing-east-prior-is-not-positive = itäinen prioori ei ole positiivisesti definiitti
+
+engine-e-lunar-landing-north-prior-is-not-positive = pohjoisen prioori ei ole positiivisesti definiitti
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit on oltava `llo` tai `elfo`, saatiin `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = periapsiksen on oltava vähintään 20 km pinnan yläpuolella
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m on oltava välillä (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s on oltava välillä (0, 60] ja arc_s vähintään yksi askel
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays on oltava välillä 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s on oltava positiivinen
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction on oltava välillä [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model on oltava `same` tai `point-mass`, saatiin `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous odottaa sisääntulokovarianssin koordinaatistossa MCI; ketju muuntaa koordinaatistot
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = priorikovarianssi ei ole positiivisesti definiitti
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = normaaliyhtälöt eivät ole positiivisesti definiitit
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = posteriori-informaatio ei ole positiivisesti definiitti
+
+engine-e-lunar-rendezvous-no-trial-ran = yhtään koetta ei ajettu
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = vuodenajan päiväys `{ $s }` ei ole muotoa YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = vuodenajan päiväys `{ $s }`: virheellinen vuosi
+
+engine-e-lunar-surface-map-season-date-bad-month = vuodenajan päiväys `{ $s }`: virheellinen kuukausi
+
+engine-e-lunar-surface-map-season-date-bad-day = vuodenajan päiväys `{ $s }`: virheellinen päivä
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = vuodenajan päiväys `{ $s }` on välin 1901-2099 ulkopuolella tai ei ole päiväys
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites-luettelossa on oltava 1-64 merkintää
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = paikka { $i }: leveysasteen on oltava välillä [-90, 90] ja pituusasteen välillä [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates-luettelossa on oltava vähintään yksi päiväys
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates-luettelossa saa olla enintään 16 päiväystä
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days on oltava välillä (0, 400] ja step_min välillä [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days ja timing_floor_s on oltava positiivisia ja äärellisiä
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = epookki `{ $s }` ei ole muotoa YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = epookki `{ $s }`: virheellinen luku `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = epookki `{ $s }` on välin 1901-2099 ulkopuolella tai ei ole päiväys
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces on oltava "quantum" tai "classical" (saatiin { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = tulosdokumentti sisältää jo `evidence`-avaimen
+
+engine-e-evidence-label-the-result-document-is-not = tulosdokumentti ei ole JSON-objekti
+
+engine-e-evidence-label-no-evidence-rows-are-listed = työkalulle `{ $tool }` ei ole listattu todistusrivejä
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = ei ole RINEX-kellotiedosto: RINEX VERSION / TYPE -tietuetta ei ole
+
+engine-e-clock-log-rinex-version-type-record-has = RINEX VERSION / TYPE -tietueessa ei ole versionumeroa (löytyi { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = RINEX-kellon versiota { $v } ei lueta: versiot 2.00 ja 3.00-3.04 luetaan (IGS julkaisee kelloformaatin versioon 3.04 asti; RINEX 4.00-4.02 eivät määrittele kellotiedostoa)
+
+engine-e-clock-log-rinex-clock-record-with-an = RINEX-kellotietue, jonka kellon harha tai epookki ei ole luettavissa: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = TimeLab-rivi { $line } sisältää lukeman, joka ei ole äärellinen: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = koordinaatistomuunnos { $a } -> { $b } ei ole käytettävissä (vain Gcrf, Mci ja Mcmf muunnetaan)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = aikaskaalahyppy { $a } -> { $b } ei ole pivot-hyppy
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: käytävän on kuljettava loivasta jyrkempään kulmaan alle 90 asteen, saatiin { $lo }...{ $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` on oltava välillä [0, 90), saatiin { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` on oltava vähintään 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` on oltava suurempi kuin 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: tarvitaan vähintään yksi asema
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: asemalla `{ $id }` on virheellinen leveys- tai pituusaste
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: aseman tunnusta `{ $id }` käytetään kahdesti
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: vaiheella `{ $phase }` on geometria "stated" ja se tarvitsee kentän `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: vaiheen `{ $phase }` duty on oltava välillä [0, 1], saatiin { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: vaiheella `{ $phase }` on tuntematon geometria `{ $other }`; geometriat ovat entry-orbit, moon-direction ja stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: sisääntulorata ei propagoitunut
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: ei laskettavaa geometriaa `{ $other }`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: vaihe `{ $phase }` tarvitsee geometriaansa varten GCRF-sisääntulon, saatiin { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: häipymän on päätyttävä sen alun jälkeen ({ $a }...{ $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: odottaa GCRF-sisääntulotilaa, saatiin { $frame }; ilmoita sisääntulo koordinaatistossa gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: vaihe ei tuottanut näytteitä
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: tuntematon mallin avain `{ $k }`; avaimet ovat { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: malli tarvitsee kentän `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` on oltava äärellinen luku
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` on oltava suurempi kuin 0, saatiin { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` on oltava vähintään 0, saatiin { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` on oltava merkkijono
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` on oltava taulukoiden joukko
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` on sisällettävä taulukoita
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` on oltava { $n } luvun joukko
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` on sisällettävä { $n } lukua, saatiin { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` on sisällettävä äärellisiä lukuja
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: osuus tarvitsee kentän `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: malli tarvitsee vähintään yhden `[[phase.model.legs]]`-osuuden
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: osuuden { $leg } alku: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: osuuden { $leg } loppu: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: osuus { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` on oltava välillä [0, 1], saatiin { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` ja `ssv_step_min` on oltava suurempia kuin 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: propagointi ei yltänyt arvoon { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: polton jälkeinen rata ei ole sidottu (ominaisenergia { $energy } J/kg); gnss-ssv-korvaavalta radalta vaaditaan elliptinen
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: gnss-ssv-pyyhkäisy ei palauttanut yhtään kaistaa
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: gnss-ssv-pyyhkäisy ei palauttanut yhtään ryhmää
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: vaihe luettelee gnss-ssv:n, joten malli tarvitsee kentän `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: vaihe luettelee ground-trackingin, joten malli tarvitsee kentät `ground_range_sigma_m`, `ground_range_rate_sigma_mps` ja `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = siirto { $name } on oltava äärellinen luku, vähintään 0, saatiin { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = vaihe `{ $id }`: sen mallin { $key } on { $own_s } s, mutta ketju antaa vaiheelle duration_s = { $duration_s } s; tee niistä yhtäpitävät tai jätä { $key } pois
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = tuntematon koordinaatisto `{ $other }`; odotettiin yksi seuraavista: gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = tuntematon aikaskaala `{ $other }`; odotettiin yksi seuraavista: tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = tuntematon navigointilähde `{ $other }`; odotettiin yksi seuraavista: gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = tuntematon aikalähde `{ $other }`; odotettiin yksi seuraavista: gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } on oltava positiivinen äärellinen luku, saatiin { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = siirtosääntö `{ $rule }` tarvitsee kentän `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = tuntematon siirtosääntö `{ $other }`; odotettiin carry, inflate tai reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = vaiheen tunnus on tyhjä
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s on oltava äärellinen luku, vähintään 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x on sisällettävä kuusi äärellistä lukua
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind on oltava "mission-thread", saatiin "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = tehtäväketju tarvitsee vähintään yhden [[phase]]-osion
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = vaiheen tunnusta `{ $id }` käytetään kahdesti; tunnusten on oltava yksilöllisiä
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: vaihe `{ $phase }` ei ole tämän ketjun vaihe
+
+engine-e-mission-thread-scenario-phase = vaihe `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = vaihe `{ $id }` päättyi hetkellä { $t_s } s, mutta alkoi hetkellä { $start_s } s ja kestää { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = tuntematon suhteellisen navigoinnin anturi `{ $other }`; odotettiin yksi seuraavista: optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = etäisyyden on oltava positiivinen äärellinen metrimäärä, saatiin { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = etäisyys { $range_m } m ylittää anturin { $max_range_m } m rajan
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: tuntematon mallin avain `{ $bad }`; avaimet ovat { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = receiver-trust-todistusrivejä ei ole matriisissa
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = tuntematon ablaatio `{ $other }`: B1-B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = todistepaketin rivejä ei ole matriisissa
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = jammertest-todistusrivejä ei ole matriisissa
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: sovituksessa ei ole taajuuskohinaa (valkoinen FM, flicker FM ja satunnaiskävely-FM ovat kaikki nollia), joten ei ole mitään, mistä holdover voitaisiin ennustaa; loki voi olla vain valkoista vaihekohinaa tai liian lyhyt
+
+engine-e-evidence-label-run-exercised-no-matrix-row = ajo ei käyttänyt yhtään varmennusmatriisin riviä
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent odottaa sisääntulokovarianssin koordinaatistossa MCI; ketju muuntaa koordinaatistot
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent odottaa sisääntulokovarianssin koordinaatistossa MCI; ketju muuntaa koordinaatistot
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface odottaa sisääntulotilan koordinaatistossa MCI tai MCMF; ketju muuntaa koordinaatistot
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km on oltava suurempi kuin Kuun säde ja eksentrisyyden välillä [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = tuntematon vaiheen kinni `{ $kind }`; rekisteröidyt kinnit ovat { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` ei luettele yhtään navigointilähdettä
+
+engine-e-ssv-check-training-pattern-missing = harjoituskuvio { $sv } puuttuu
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] tarvitsee [clock_log]-taulukon: mitatun sarjan, josta sovitus tehdään
+
+engine-lunar-phase-no-finite-points-to-plot = ei piirrettäviä äärellisiä pisteitä
+
+engine-partner-cli-usage =
+    käyttö: kshana partner check <submission.toml> [--json]
+    { "  " }Tarkistaa datakumppanin lähetteen (kshana.partner-submission/1) muodon ja metatiedot sekä lukee sen
+    { "  " }datatiedoston moottorin omilla lukijoilla. Se ei pisteytä eikä validoi mitään; katso docs/PARTNER-DATA.md.
+    { "  " }Poistumistila 0: lähete on täydellinen ja luettavissa; 1: virheitä löytyi; 2: käyttö.
+    Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite.
+
+engine-evidence-verify-evidence-label-ledger-rows = todistetunniste: { $tier } ({ $row_count } kirjanpitoriviä: { $rows }); se on tiedoston config.json sisällä, joten allekirjoitus kattaa sen
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = ei todistetunnistetta (ennen versiota 0.40 luotu paketti)
+
+engine-e-ssv-check-pattern-missing = kuvio { $sv } puuttuu
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | vain inertiaalinen { $inertial_pos } m / { $inertial_vel } m/s | AFS:llä { $afs_pos } m / { $afs_vel } m/s | radalle saattamisen hajonta { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Kuun nousu: 3D-navigointipaikan 1σ (m)
+
+engine-lunar-ascent-chart-subtitle = inertiaaliajautuma AFS-ratkaisuineen | MODELLED, vain ohjeellinen
+
+engine-lunar-ascent-chart-x-axis = sekuntia irtoamisesta
+
+engine-lunar-ascent-chart-series = paikan 1σ
+
+engine-lunar-chart-y-axis-metres = metriä
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | vain inertiaalinen { $none_east }/{ $none_north } m (E/N) | tuilla { $all_east }/{ $all_north } m | hajonta R95 { $r95 } m | 3σ-ellipsi { $major } x { $minor } m | { $inside } % sisällä (odotettu { $expect } %) (MODELLED)
+
+engine-lunar-landing-chart-title = Kuun laskeutumishajonta: R95 käytettyjen tukien mukaan
+
+engine-lunar-landing-chart-subtitle = R95 tuittain: { $aids } | MODELLED, vain ohjeellinen
+
+engine-lunar-landing-chart-x-axis = tukiyhdistelmä (indeksi)
+
+engine-lunar-landing-chart-series = laskeutumishajonnan R95
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | väli { $sep } m | ratkaisut { $fixes } % | suht. paikan 1σ R/A/C { $radial }/{ $along }/{ $cross } m | keskim. NEES { $nees } (odotettu 6) | suppeni { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = ei koskaan
+
+engine-lunar-rendezvous-converged-at = hetkellä { $s } s
+
+engine-lunar-rendezvous-chart-title = Kuun kohtaaminen: formaali suhteellisen paikan 1σ (3D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | ratkaisut { $fixes } % | keskim. NEES { $nees } (odotettu 6) | MODELLED, vain ohjeellinen
+
+engine-lunar-rendezvous-chart-x-axis = minuuttia kaaren alusta
+
+engine-lunar-rendezvous-chart-series = suhteellisen paikan 1σ
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites } paikkaa x { $n_seasons } vuodenaikaa | paikannus { $position_min } %...{ $position_max } % | huonoin ajoituksen saatavuus { $worst_timing } % | pisin ajoitusaukko { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Kuun pinnan PNT-kartta: saatavuus paikan mukaan (huonoin vuodenaika, %)
+
+engine-lunar-surface-map-chart-subtitle = paikannus = 4+ relettä ja PDOP kynnyksen alla; ajoitus = yksi rele tai Maa | MODELLED, vain ohjeellinen
+
+engine-lunar-surface-map-chart-x-axis = paikan indeksi
+
+engine-lunar-surface-map-chart-y-axis = prosenttia ikkunasta
+
+engine-lunar-surface-map-chart-series-positioning = paikannus
+
+engine-lunar-surface-map-chart-series-timing = ajoitus
+
+engine-lunar-surface-map-chart-series-earth-visible = Maa näkyvissä
+
+engine-mission-thread-weakest-link = heikoin lenkki { $phase_id }
+
+engine-mission-thread-no-phases = ei vaiheita
+
+engine-mission-thread-untitled = nimetön
+
+engine-mission-thread-summary = mission-thread | { $n_phases } vaihetta | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Tehtäväketju
+
+engine-mission-thread-chart-position-caption = paikan 1σ, m
+
+engine-mission-thread-chart-time-caption = ajan 1σ, s
+
+engine-mission-thread-chart-subtitle = MODELLED navigoinnin ja ajoituksen virhebudjetti; jokainen vaihe piirretty yhtä leveänä
+
+engine-evidence-label-line-one-row = Todiste: { $tier } · { $n } kirjanpitorivi { $ids }
+
+engine-evidence-label-line-rows = Todiste: { $tier } · { $n } kirjanpitoriviä { $ids }
+
+engine-evidence-label-line-rows-more = Todiste: { $tier } · { $n } kirjanpitoriviä { $ids } +{ $n_more } lisää
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }tieto: { $i }
+
+engine-partner-text-warning = { "  " }varoitus: { $w }
+
+engine-partner-text-error = { "  " }VIRHE: { $e }
+
+engine-partner-text-result-ok = tulos: muoto ja metatiedot ovat täydelliset ja luettavissa
+
+engine-partner-text-result-not-ready = tulos: ei valmis; korjaa yllä olevat virheet
+
+engine-interference-map-locate-usage = käyttö: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom vaatii lisäksi --licence <text> --licence-url <url> --attribution <text>)
+    Kirjoittaa tiedostot emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv ja -figure.svg: arvioidut lähetinalueet ilmoitetuilla luottamustasoilla, ei koskaan pelkkää pistettä
+
+engine-interference-map-locate-wrote = kirjoitettu { $path }
+
+engine-interference-map-locate-summary = { $n_sessions } { $n_sessions ->
+        [one] istunto
+       *[other] istuntoa
+    } julkaistu; { $n_withheld } { $n_withheld ->
+        [one] ehdokasistunto
+       *[other] ehdokasistuntoa
+    } pidätetty (alle { $min } erillistä ilma-alusta tai alusta)
+
+engine-interference-map-locate-note-not-preregistered = huomio: jokin valinta poikkeaa ennalta rekisteröidyistä parametreista, joten tämä ei ole ennalta rekisteröity menetelmä
+
+engine-interference-map-locate-line-session = istunto { $k }: { $start } – { $end }, { $affected } erillistä kohdetta, { $level } %:n alue { $area } km², painopiste { $lat }, { $lon } (ellipsi { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = istunto { $k }: { $start } – { $end }, { $affected } erillistä kohdetta, raportit eivät rajaa aluetta (rajaamaton)
+
+engine-interference-map-locate-fig-title = Arvioitu lähetinalue
+
+engine-interference-map-locate-fig-subtitle = { $n ->
+        [one] Missä heikentyneiden raporttien häiriölähde voisi olla ilmoitetuin oletuksin. Näytetty istuntoja: { $n }.
+       *[other] Missä heikentyneiden raporttien häiriölähde voisi olla ilmoitetuin oletuksin. Näytetty istuntoja: { $n }.
+    }
+
+engine-interference-map-locate-fig-none = Yksikään istunto ei saavuttanut julkaisun vähimmäismäärää, joten aluetta ei näytetä.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct } %:n alue
+
+engine-interference-map-locate-fig-legend-ellipse = posteriorin 95 %:n ellipsi
+
+engine-interference-map-locate-fig-note-1 = Alue ei ole minkään ilma-aluksen, aluksen tai organisaation sijainti eikä todettu syy.
+
+engine-interference-map-locate-fig-note-2 = Maastoa ei mallinneta, ja jokaisessa istunnossa oletetaan yksi lähde; luottamustasot ovat ehdollisia mallille.
+
+engine-e-interference-map-locate-bad-number = { $name } ei ole luku
+
+engine-e-interference-map-locate-bad-levels = --levels vaatii pilkuin erotetut luvut, jotka ovat tiukasti välillä 0 ja 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km on oltava välillä 0.5 ja 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min on oltava välillä 1 ja 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m vaatii kaksi lukua, min,max, ehdolla 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } ei ole käyttökelpoinen TDOA-ratkaisutiedosto (receivers, tdoa_s, sigma_s, start), tai ratkaisu ei suppennut
+
+engine-e-interference-map-locate-source-required = --source adsb tai --source ais vaaditaan
+
+engine-e-interference-map-locate-no-evidence-rows = paikannustulosteille ei ole lueteltu todisterivejä

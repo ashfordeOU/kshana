@@ -2516,11 +2516,11 @@ pub fn exercised_requirements(
     src: &str,
     json: &str,
 ) -> Result<Vec<(String, VerificationStatus)>, String> {
-    let doc: Value =
-        serde_json::from_str(json).map_err(|e| format!("the result document is not JSON: {e}"))?;
+    let doc: Value = serde_json::from_str(json)
+        .map_err(|e| crate::terr!("e-advanced-report-the-result-document-is-not", e = e))?;
     let scn = toml::from_str::<toml::Value>(src)
         .map(|v| toml_to_json(&v))
-        .map_err(|e| format!("the scenario is not TOML: {e}"))?;
+        .map_err(|e| crate::terr!("e-advanced-report-the-scenario-is-not-toml", e = e))?;
     let kind = crate::api::ScenarioKind::classify(src)
         .map(|k| k.as_str().to_string())
         .map_err(|e| e.to_string())?;

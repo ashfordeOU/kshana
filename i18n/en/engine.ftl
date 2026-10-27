@@ -8626,6 +8626,14 @@ engine-kind-link-budget-description = One-way link budget over the CCSDS 401 / D
 
 engine-kind-lunar-time-budget-description = MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the clock-vs-frame CROSSOVER τ at which the growing clock term overtakes the constant real-time frame-realisation term (below it the budget is frame-limited, above it clock-limited) — the honest answer to the single-τ artifact. The τ-slopes are closed-form and analytically checkable (clock τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+1{ "}" }, floors τ^0, measurement τ^{ "{" }-1/2{ "}" }) and the clock rows reproduce the published one-day clock specs (crate::clock_specs); the RF/optical-link, frame-realisation, relativistic-residual and ephemeris floor MAGNITUDES are Modelled budget allocations (documented defaults, caller-overridable), not measurements. The contribution is the reproducible crossover τ, not a certified per-term number; not certified for operational timekeeping.
 
+engine-kind-lunar-ascent-description = MODELLED powered ascent from a south-polar surface site to the rendezvous orbit, and the position-velocity covariance it carries back to orbit (Artemis-class). The five-state per-axis inertial error model of lunar-descent (position, velocity, accelerometer bias, attitude tilt, gyro bias, driven by the specific force) runs on all three site axes from the surface state the phase enters with; an AFS position fix from the visible relays of an ILLUSTRATIVE LCNS-class constellation (standalone, or differential using the correction-link residual of lunar-differential-pnt, with the clock aided when only three relays are visible) is taken at a stated interval, with lunar time entering through the vehicle clock and a time-tag error along track. Reports the closed-form inertial sources, the aid's contribution, the ablation, the navigation 1-sigmas over the ascent, the engine cutoff dispersion beside the navigation knowledge, and the full 6x6 MCI covariance at insertion with the position-velocity correlation kept. MODELLED: illustrative IMU class, specific force, relay set and cutoff dispersion; errors held in the launch site axes; the nominal exit state is a stand-in. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+engine-kind-lunar-surface-description = MODELLED surface positioning and timing availability by site and season for Artemis-class south-polar sites. For each site and season (an epoch and a window after it) it reports relay positioning (four or more relays of an ILLUSTRATIVE LCNS-class constellation in view and PDOP under a threshold, from the same functions as moonlight-service-volume and, with a terrain section, the ray-marched skyline of lunar-station-coverage's terrain), whether the Earth and the Sun are above the site's horizon (analytic Sun, Moon and lunar orientation, libration included, which is what moves with the season), and timing availability (a relay or the Earth in view) with the longest stretch of neither, the holdover a surface clock must ride out. A single-site result equals moonlight-service-volume's to the bit. MODELLED: illustrative Keplerian relay set on a mean-rotation Moon; the relay figure does not change with season; the terrain is the 1200 m LOLA crop. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+engine-kind-lunar-descent-description = MODELLED landing-dispersion budget for a powered descent to a south-polar site (Artemis-class). Per horizontal axis a five-state inertial error model (position, velocity, accelerometer bias, attitude tilt, gyro bias) is driven by the descent's specific force; a sequential filter takes position fixes from the enabled aids: an AFS fix from the visible relays of an ILLUSTRATIVE LCNS-class constellation (standalone, or differential using the correction-link residual of lunar-differential-pnt, with the clock aided when only three relays are visible) and a terrain-relative fix (the crate's TERCOM/SITAN matcher on a synthetic relief, or the Cramer-Rao bound of matching an elevation window of the real LOLA south-polar DEM). Lunar time enters through the vehicle clock at the fixes (the LTC-TT offset of lunar-time-offset, or the uncertainty of its published band) and as a time-tag error along track. Reports the 3-sigma landing ellipse, R95, the closed-form inertial sources, each aid's contribution, the ablation of every aid combination, a Monte Carlo calibration of the ellipse, and the covariance handed on. MODELLED: illustrative IMU class, relay set, descent profile and guidance term; terrain-nav uses a synthetic relief on an Earth metre scale; AFS availability is one epoch on a flat mask. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+engine-kind-lunar-orbit-rendezvous-description = MODELLED relative navigation for an Orion-lander style docking in a low lunar orbit or an elliptical polar orbit (Artemis-class). A chaser and a target fly the same orbit under the crate's lunar force model; a joint 21-parameter batch Gauss-Newton estimate over the arc (two vehicle states and persistent signal-in-space biases) fuses an absolute position fix per vehicle from an ILLUSTRATIVE LCNS-class relay set (relays behind the Moon dropped, four needed, the common-mode signal-in-space error cancelling between the vehicles) and a crosslink range, with ranging precision from the code-tracking bound on the LunaNet AFS pilot. Reports the formal and Monte Carlo relative position and velocity error in the target LVLH axes, fix availability, the mean normalised estimation error squared against its expected value, and any trial whose iteration did not converge, the drift from ignoring the gravity harmonics, and the full 6x6 covariance handed on. A closed-form Hill/Clohessy-Wiltshire check applies to the circular case. MODELLED: illustrative relay set, error budget and priors; the truth and the estimator share one force model, so the NEES checks self-consistency and not model error. Not agency-endorsed; advisory software, not certified navigation equipment.
+
 engine-kind-hybrid-optical-rf-description = MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the 1550 nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union 1−Π(1−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
 
 engine-kind-cislunar-observability-description = MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. Emits (1) the rank-vs-arc-length table for a single range-only link — instantaneously rank-1, growing toward the full four-state as the arc extends (P6 Table 1); (2) the observability-Gramian eigen-spectrum + condition number over the arc; (3) the range-only-vs-range+range-rate instantaneous-rank comparison (the Doppler design lever) plus the range-only-singular / range+rate-defined GDOP reporting; and (4) an independent SRIF cross-validation whose posterior covariance turns finite / well-conditioned exactly at the arc where the observable rank reaches four. VALIDATED core: the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four initial conditions are differential-corrected planar DROs that close to a tight periodicity residual and are retrograde; the rank transition is cross-validated against the crate's square-root information filter (posterior covariance finite exactly at full rank, cond(P)=cond(OᵀO)); a rank-deficient snapshot is flagged GDOP-undefined (fim condition=inf), never a bogus finite value — the same singular-geometry guard pvt::solve_spp applies. MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. Not a certified navigation-performance product.
@@ -8707,6 +8715,8 @@ engine-kind-optical-atmosphere-description = MODELLED optical PNT through the at
 engine-kind-holdover-test-description = MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs). The test has four steps and Kshana performs none of them: a locked BASELINE, GNSS REMOVED by the operator (the antenna cable or the simulator output; Kshana transmits and drives nothing) at a stated time, HOLDOVER on the system's own oscillator, and RECOVERY after the operator restores GNSS at a second stated time. The record is split at those two times. Baseline: time-error statistics and the ITU-T masks written for a locked clock. Holdover: statistics, the fractional frequency offset the system held (a least-squares line), the masks written for holdover or an autonomous clock, the ePRTC-A holdover envelope from the stated locked duration, and the time to exceed each time-error budget. Recovery: whether and when |TE| came inside a stated band and stayed there, the peak and the largest step. Every limit is transcribed from a public ITU-T table (the telecom-timing masks); the words are 'measured against the mask', and the two times are the operator's statement, not verified. A record too short for a mask is INCOMPLETE, never extrapolated. See docs/TIMING-HIL.md.
 
 engine-kind-gnss-ssv-description = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)
+
+engine-kind-mission-thread-description = MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment.
 
 ## compliance mapping (requirement texts quote or paraphrase external standards; the data tables in code stay English)
 
@@ -10821,3 +10831,427 @@ engine-e-mcp-http-allow-origin-wildcard = --allow-origin does not accept `*`; na
 
 engine-mcp-http-warning-remote = WARNING: kshana-mcp is listening on { $addr } beyond this machine. Anyone who can reach it and holds the bearer token can run simulations on your hardware. Put TLS in front of it (a reverse proxy or your platform's HTTPS) and keep the token secret.
 
+## merge batch: errors, summaries and chart text of the lunar kinds, the mission thread, clock fit, evidence label and partner check
+
+engine-e-lunar-ascent-site-latitude-must-be-in = site latitude must be in [-90, 90] and longitude in [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s must be in [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode must be off, standalone or differential, got `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode must be off, ltc or tt, got `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays must be in 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s must be positive and afs_first_fix_s non-negative
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km must be in [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = entry covariance is not symmetric with a non-negative diagonal
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent expects the entry clock in LTC or TT, got { $timescale }; the thread converts timescales
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s must be in [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source must be off, terrain-nav or lola-crlb, got `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = fix times must be positive, afs_interval_s > 0 and trn_fix_time_s within the descent
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m must be at least 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m must be positive
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb needs the DEM, which could not be loaded
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent expects the entry clock in LTC or TT, got { $timescale }; the thread converts timescales
+
+engine-e-lunar-landing-east-prior-is-not-positive = east prior is not positive definite
+
+engine-e-lunar-landing-north-prior-is-not-positive = north prior is not positive definite
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit must be `llo` or `elfo`, got `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = periapsis must be at least 20 km above the surface
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m must be in (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s must be in (0, 60] and arc_s at least one step
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays must be in 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s must be positive
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction must be in [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model must be `same` or `point-mass`, got `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous expects the entry covariance in MCI; the thread converts frames
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = prior covariance is not positive definite
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = normal equations are not positive definite
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = posterior information is not positive definite
+
+engine-e-lunar-rendezvous-no-trial-ran = no trial ran
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = season date `{ $s }` is not YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = season date `{ $s }`: bad year
+
+engine-e-lunar-surface-map-season-date-bad-month = season date `{ $s }`: bad month
+
+engine-e-lunar-surface-map-season-date-bad-day = season date `{ $s }`: bad day
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = season date `{ $s }` is outside 1901-2099 or not a date
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites must hold between 1 and 64 entries
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = site { $i }: latitude must be in [-90, 90] and longitude in [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates must hold at least one date
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates must hold at most 16 dates
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days must be in (0, 400] and step_min in [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days and timing_floor_s must be positive and finite
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = epoch `{ $s }` is not YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = epoch `{ $s }`: bad number `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = epoch `{ $s }` is outside 1901-2099 or not a date
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces must be "quantum" or "classical" (got { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = the result document already carries an `evidence` key
+
+engine-e-evidence-label-the-result-document-is-not = the result document is not a JSON object
+
+engine-e-evidence-label-no-evidence-rows-are-listed = no evidence rows are listed for `{ $tool }`
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = not a RINEX clock file: no RINEX VERSION / TYPE record
+
+engine-e-clock-log-rinex-version-type-record-has = RINEX VERSION / TYPE record has no version number (found { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = RINEX clock version { $v } is not read: versions 2.00 and 3.00 to 3.04 are (IGS publishes the clock format up to 3.04; RINEX 4.00 to 4.02 define no clock file)
+
+engine-e-clock-log-rinex-clock-record-with-an = RINEX clock record with an unreadable clock bias or epoch: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = TimeLab line { $line } holds a reading that is not finite: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = frame conversion { $a } -> { $b } is not available (only Gcrf, Mci and Mcmf convert)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = timescale hop { $a } -> { $b } is not a pivot hop
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: the corridor must run from a shallow to a steeper angle below 90 degrees, got { $lo } to { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` must be in [0, 90), got { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` must be at least 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` must be above 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: needs at least one station
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: station `{ $id }` has an invalid latitude or longitude
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: station id `{ $id }` is used twice
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: phase `{ $phase }` has geometry "stated" and needs `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: phase `{ $phase }` duty must be in [0, 1], got { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: phase `{ $phase }` has unknown geometry `{ $other }`; the geometries are entry-orbit, moon-direction and stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: the entry orbit did not propagate
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: no geometry `{ $other }` to compute
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: phase `{ $phase }` needs a GCRF entry for its geometry, got { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: a fade must end after it starts ({ $a } to { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: expects a GCRF entry state, got { $frame }; state the entry in gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: the phase produced no samples
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: unknown model key `{ $k }`; the keys are { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: the model needs `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` must be a finite number
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` must be above 0, got { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` must be at least 0, got { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` must be a string
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` must be an array of tables
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` must hold tables
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` must be an array of { $n } numbers
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` must hold { $n } numbers, got { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` must hold finite numbers
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: a leg needs `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: the model needs at least one `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: leg { $leg } start: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: leg { $leg } end: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: leg { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` must be in [0, 1], got { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` and `ssv_step_min` must be above 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: the propagation did not reach { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: the post-burn orbit is not bound (specific energy { $energy } J/kg); the gnss-ssv standing-in orbit needs an elliptic one
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: the gnss-ssv sweep returned no band
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: the gnss-ssv sweep returned no group
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: the phase lists gnss-ssv, so the model needs `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: the phase lists ground-tracking, so the model needs `ground_range_sigma_m`, `ground_range_rate_sigma_mps` and `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = handover { $name } must be a finite number of at least 0, got { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = phase `{ $id }`: its model's { $key } is { $own_s } s but the thread gives the phase duration_s = { $duration_s } s; make them agree or leave { $key } out
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = unknown frame `{ $other }`; expected one of gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = unknown timescale `{ $other }`; expected one of tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = unknown navigation source `{ $other }`; expected one of gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = unknown time source `{ $other }`; expected one of gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } must be a positive finite number, got { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = handover rule `{ $rule }` needs `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = unknown handover rule `{ $other }`; expected carry, inflate or reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = a phase has an empty id
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s must be a finite number of at least 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x must hold six finite numbers
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind must be "mission-thread", got "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = a mission thread needs at least one [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = phase id `{ $id }` is used twice; ids are unique
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: phase `{ $phase }` is not a phase of this thread
+
+engine-e-mission-thread-scenario-phase = phase `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = phase `{ $id }` ended at { $t_s } s but started at { $start_s } s and lasts { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = unknown relative-navigation sensor `{ $other }`; expected one of optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = range must be a positive finite number of metres, got { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = range { $range_m } m is beyond the sensor's { $max_range_m } m limit
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: unknown model key `{ $bad }`; the keys are { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = the receiver-trust evidence rows are not in the matrix
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = unknown ablation `{ $other }`: B1 to B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = the evidence-pack rows are not in the matrix
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = the jammertest evidence rows are not in the matrix
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: the fit has no frequency noise (white FM, flicker FM and random-walk FM are all zero), so there is nothing to predict a holdover from; the log may be white phase noise only or too short
+
+engine-e-evidence-label-run-exercised-no-matrix-row = the run exercised no verification-matrix row
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent expects the entry covariance in MCI; the thread converts frames
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent expects the entry covariance in MCI; the thread converts frames
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface expects the entry state in MCI or MCMF; the thread converts frames
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km must exceed the lunar radius and eccentricity be in [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = unknown phase kind `{ $kind }`; registered kinds are { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` lists no navigation source
+
+engine-e-ssv-check-training-pattern-missing = training pattern { $sv } missing
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] needs a [clock_log] table: the measured series the fit is made from
+
+engine-lunar-phase-no-finite-points-to-plot = no finite points to plot
+
+engine-partner-cli-usage =
+    usage: kshana partner check <submission.toml> [--json]
+    { "  " }Checks the format and the metadata of a data-partner submission (kshana.partner-submission/1) and reads its
+    { "  " }data file with the engine's own readers. It does not score or validate anything; see docs/PARTNER-DATA.md.
+    { "  " }Exit status 0: the submission is complete and readable; 1: errors were found; 2: usage.
+    Advisory software, not type-approved navigation equipment.
+
+engine-evidence-verify-evidence-label-ledger-rows = evidence label: { $tier } ({ $row_count } ledger rows: { $rows }); it is inside config.json, so the signature covers it
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = no evidence label (pre-0.40 pack)
+
+engine-e-ssv-check-pattern-missing = pattern { $sv } missing
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | inertial only { $inertial_pos } m / { $inertial_vel } m/s | with AFS { $afs_pos } m / { $afs_vel } m/s | insertion dispersion { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Lunar ascent: 3-D navigation position 1-sigma (m)
+
+engine-lunar-ascent-chart-subtitle = inertial drift with AFS fixes | MODELLED, advisory only
+
+engine-lunar-ascent-chart-x-axis = seconds since liftoff
+
+engine-lunar-ascent-chart-series = position 1-sigma
+
+engine-lunar-chart-y-axis-metres = metres
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | inertial only { $none_east }/{ $none_north } m (E/N) | with aids { $all_east }/{ $all_north } m | dispersion R95 { $r95 } m | 3-sigma ellipse { $major } x { $minor } m | { $inside }% inside (expect { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Lunar landing dispersion: R95 against aids used
+
+engine-lunar-landing-chart-subtitle = R95 by aids: { $aids } | MODELLED, advisory only
+
+engine-lunar-landing-chart-x-axis = aid combination (index)
+
+engine-lunar-landing-chart-series = R95 of landing dispersion
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | sep { $sep } m | fixes { $fixes }% | rel pos 1-sigma R/A/C { $radial }/{ $along }/{ $cross } m | mean NEES { $nees } (6 expected) | converged { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = never
+
+engine-lunar-rendezvous-converged-at = at { $s } s
+
+engine-lunar-rendezvous-chart-title = Lunar rendezvous: formal relative position 1-sigma (3-D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | fixes { $fixes }% | mean NEES { $nees } (6 expected) | MODELLED, advisory only
+
+engine-lunar-rendezvous-chart-x-axis = minutes since the start of the arc
+
+engine-lunar-rendezvous-chart-series = relative position 1-sigma
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites } sites x { $n_seasons } seasons | positioning { $position_min }% to { $position_max }% | worst timing availability { $worst_timing }% | longest timing gap { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Lunar surface PNT map: availability by site (worst season, %)
+
+engine-lunar-surface-map-chart-subtitle = positioning = 4+ relays and PDOP under the threshold; timing = one relay or the Earth | MODELLED, advisory only
+
+engine-lunar-surface-map-chart-x-axis = site index
+
+engine-lunar-surface-map-chart-y-axis = percent of the window
+
+engine-lunar-surface-map-chart-series-positioning = positioning
+
+engine-lunar-surface-map-chart-series-timing = timing
+
+engine-lunar-surface-map-chart-series-earth-visible = Earth visible
+
+engine-mission-thread-weakest-link = weakest link { $phase_id }
+
+engine-mission-thread-no-phases = no phases
+
+engine-mission-thread-untitled = untitled
+
+engine-mission-thread-summary = mission-thread | { $n_phases } phases | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Mission thread
+
+engine-mission-thread-chart-position-caption = 1-sigma position, m
+
+engine-mission-thread-chart-time-caption = 1-sigma time, s
+
+engine-mission-thread-chart-subtitle = MODELLED navigation and timing error budget; each phase drawn at equal width
+
+engine-evidence-label-line-one-row = Evidence: { $tier } · { $n } ledger row { $ids }
+
+engine-evidence-label-line-rows = Evidence: { $tier } · { $n } ledger rows { $ids }
+
+engine-evidence-label-line-rows-more = Evidence: { $tier } · { $n } ledger rows { $ids } +{ $n_more } more
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }info: { $i }
+
+engine-partner-text-warning = { "  " }warning: { $w }
+
+engine-partner-text-error = { "  " }ERROR: { $e }
+
+engine-partner-text-result-ok = result: the format and the metadata are complete and readable
+
+engine-partner-text-result-not-ready = result: not ready; fix the errors above
+
+## src/interference_map/emitter_out.rs and locate_cli.rs
+
+engine-interference-map-locate-usage = usage: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)
+    Writes emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv and -figure.svg: estimated emitter regions at stated confidence levels, never a bare point
+
+engine-interference-map-locate-wrote = wrote { $path }
+
+engine-interference-map-locate-summary = { $n_sessions } sessions published; { $n_withheld } candidate sessions withheld (fewer than { $min } distinct aircraft or vessels)
+
+engine-interference-map-locate-note-not-preregistered = note: an option differs from the pre-registered parameters, so this is not the pre-registered method
+
+engine-interference-map-locate-line-session = session { $k }: { $start } to { $end }, { $affected } distinct affected, { $level }% region { $area } km², centroid { $lat }, { $lon } (ellipse { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = session { $k }: { $start } to { $end }, { $affected } distinct affected, the reports do not narrow the region (unconstrained)
+
+engine-interference-map-locate-fig-title = Estimated emitter region
+
+engine-interference-map-locate-fig-subtitle = Where, under stated assumptions, a source of the degraded reports could be. Sessions shown: { $n }.
+
+engine-interference-map-locate-fig-none = No session reached the publication minimum, so no region is shown.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct }% region
+
+engine-interference-map-locate-fig-legend-ellipse = 95% ellipse of the posterior
+
+engine-interference-map-locate-fig-note-1 = A region is not the position of any aircraft, vessel or organisation, and not a finding of the cause.
+
+engine-interference-map-locate-fig-note-2 = Terrain is not modelled and each session assumes one source; confidence levels are conditional on the model.
+
+engine-e-interference-map-locate-bad-number = { $name } is not a number
+
+engine-e-interference-map-locate-bad-levels = --levels needs comma-separated numbers strictly between 0 and 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km must be between 0.5 and 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min must be between 1 and 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m needs two numbers, min,max, with 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } is not a usable TDOA fix file (receivers, tdoa_s, sigma_s, start), or the fix did not converge
+
+engine-e-interference-map-locate-source-required = --source adsb or --source ais is required
+
+engine-e-interference-map-locate-no-evidence-rows = no evidence rows are listed for the locate outputs

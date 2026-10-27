@@ -194,10 +194,12 @@ impl PhaseCtx {
         if (own_s - self.duration_s).abs() <= tol {
             Ok(())
         } else {
-            Err(format!(
-                "phase `{}`: its model's {key} is {own_s} s but the thread gives the phase \
-                 duration_s = {} s; make them agree or leave {key} out",
-                self.id, self.duration_s
+            Err(crate::terr!(
+                "e-mission-thread-phase-its-model-is-but",
+                id = self.id,
+                key = key,
+                own_s = crate::i18n::num_plain(own_s),
+                duration_s = crate::i18n::num_plain(self.duration_s)
             ))
         }
     }
@@ -303,9 +305,10 @@ pub fn run_phase(
 pub fn phase_kind(kind: &str) -> Result<&'static PhaseKindInfo, String> {
     PHASE_KINDS.iter().find(|k| k.kind == kind).ok_or_else(|| {
         let known: Vec<&str> = PHASE_KINDS.iter().map(|k| k.kind).collect();
-        format!(
-            "unknown phase kind `{kind}`; registered kinds are {}",
-            known.join(", ")
+        crate::terr!(
+            "e-mission-thread-unknown-phase-kind",
+            kind = kind,
+            known = known.join(", ")
         )
     })
 }

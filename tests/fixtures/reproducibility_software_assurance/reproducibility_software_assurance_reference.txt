@@ -12,7 +12,7 @@ compound_count 113
 atomic_id_count 11
 atomic_ids_invalid_count 0
 atomic_ids_all_valid_spdx 1
-sbom_sha256 25327ffdefd20af973fdf54035b116ec66a82bb06621d9da7539495cdc9d67ca
+sbom_sha256 7b90839a5ab454a67f0b60b23d4e1bee481137173c828ecdab107c7faeb18076
 atomic_id VALID AGPL-3.0-only
 atomic_id VALID BSD-3-Clause
 atomic_id VALID MIT

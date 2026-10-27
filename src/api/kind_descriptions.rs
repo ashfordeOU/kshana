@@ -56,6 +56,10 @@ pub const KIND_DESCRIPTION_IDS: &[(&str, &str, &[KindNumber])] = &[
     ("passes", "kind-passes-description", &[]),
     ("link-budget", "kind-link-budget-description", &[]),
     ("lunar-time-budget", "kind-lunar-time-budget-description", &[]),
+    ("lunar-ascent", "kind-lunar-ascent-description", &[]),
+    ("lunar-surface", "kind-lunar-surface-description", &[]),
+    ("lunar-descent", "kind-lunar-descent-description", &[]),
+    ("lunar-orbit-rendezvous", "kind-lunar-orbit-rendezvous-description", &[]),
     ("hybrid-optical-rf", "kind-hybrid-optical-rf-description", &[]),
     ("cislunar-observability", "kind-cislunar-observability-description", &[]),
     ("conflict-resilience", "kind-conflict-resilience-description", &[]),
@@ -97,4 +101,5 @@ pub const KIND_DESCRIPTION_IDS: &[(&str, &str, &[KindNumber])] = &[
     ("optical-atmosphere", "kind-optical-atmosphere-description", &[]),
     ("holdover-test", "kind-holdover-test-description", &[]),
     ("gnss-ssv", "kind-gnss-ssv-description", &[]),
+    ("mission-thread", "kind-mission-thread-description", &[]),
 ];
