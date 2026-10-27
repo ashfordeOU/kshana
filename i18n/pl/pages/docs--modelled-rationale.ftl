@@ -617,3 +617,129 @@ seg-9750d9e0ec7a = Cztery wzorce — OCXO (Microchip OX-208), rubidowy (Microchi
 seg-d7e03158b972 = Sekundy, zanim swobodnie pracujący zegar opuści margines czasowy slotu indeksowanego czasem, oraz kadencja poprawek, która utrzymuje go wewnątrz
 
 seg-0b4d8815f756 = Rodzaj <c1/>: przewidywany błąd E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² odwrócony do przekroczenia, pozostałego czasu, interwału resynchronizacji pomniejszonego o opóźnienie poprawki i poprawek na dobę, z każdym członem wyszczególnionym i nazwanym dominującym; zegary z sześciu domyślnych ClockClass (TCXO, OCXO i RAFS dodane, każdy z odwołaniem do jednej karty katalogowej), wzorców telecom-timing, śródliniowej karty katalogowej lub zmierzonego zapisu; przekroczenie poza najdłuższym czasem uśredniania źródła oznaczane jako ekstrapolowane
+
+seg-2797643153dc = Poziom ochrony czasu dla odbiornika na orbicie w warunkach spoofingu GNSS
+
+seg-cb412a2ffadf = orbital_timing::orbital_timing, dostępne jako sekcja spoofingu rodzaju <c1/>: prędkość i okres na orbicie kołowej, najdłuższy czas, w którym naziemny spoofer może dosięgnąć satelity podczas jednego przejścia, dolna granica monitora wspomaganego zegarem i opóźnienie detekcji CUSUM, warunkowy poziom ochrony (dolna granica plus dryf bez korekty w czasie opóźnienia), odchylenie, jakie narasta u spoofera o podanej maksymalnej szybkości narastania, zanim satelita opuści swój ślad lub zostanie wykonana niezależna kontrola, oraz informacja, czy każda kontrola w kontakcie z ziemią lub przez łącze międzysatelitarne jest niezależna od jednego naziemnego spoofera
+
+seg-f134975d4ffa = Wodospad widma w paśmie L z J/S dla każdego pasma i efektywnym C/N0 przy zaprogramowanym przebiegu czasowym zagłuszacza
+
+seg-86ad8f89a822 = Rodzaj <c1/>: siatka częstotliwość-czas widmowej gęstości mocy w paśmie L (poziom szumu termicznego k T_sys, gdzie T_sys = T_ant + { "290" } K (F - { "1" }), sygnały przy minimalnych mocach odbioru z specyfikacji interfejsu oraz zagłuszacze: fala ciągła, wąskopasmowy, chirp i szum dopasowany, z czasami włączenia i wyłączenia), każda komórka uśredniona po swoim przedziale i wierszu (chirpy dokładnie po pełnych i częściowych przemiataniach, zagłuszacze według współczynnika wypełnienia), efektywny C/N0 dla każdego pasma = [1/(C/N0) + suma (J/S) kappa]^-1 w każdym wierszu, J/S dla każdego pasma, J/S w paśmie oraz wodospad SVG ze słupkami C/N0. Raport zawiera kontrolę krzyżową z łańcuchem rodzaju <c2/> dla tych samych danych łącza
+
+seg-6e0b9687e8ee = Uran i Neptun z Tabeli { "1" } Standisha, Pluton oraz prędkości planet
+
+seg-df3bf502dfe9 = Położenia Urana i Neptuna z Tabeli { "1" } Standisha (domyślnej w przedziale { "1800" } AD do { "2050" } AD), Plutona z wiersza Tabeli { "1" } z { "1992" }, którego obecna strona JPL już nie podaje, oraz heliocentryczna prędkość każdej planety: pochodna dwóch ciał ze średnim ruchem wynikającym z elementów plus obrót elipsy wynikający z szybkości zmian peryhelium, nachylenia i węzła
+
+seg-a50be56f605a = Położenia Księżyca i siedmiu dużych księżyców (Fobos, Deimos, księżyce galileuszowe, Tytan)
+
+seg-2cfbe5a1eece = Geocentryczny Księżyc z szeregu Montenbrucka i Gilla (którego człon -1.3972 deg na stulecie już odnosi go do równonocy J2000) oraz planetocentryczne położenia i prędkości Fobosa, Deimosa, Io, Europy, Ganimedesa i Kallisto ze średnich elementów JPL Solar System Dynamics w płaszczyźnie Laplace'a każdego księżyca, przy czym szybkość długości średniej przyjęto z szybkości rotacji synchronicznej IAU (tabela podaje okres ze zbyt małą liczbą cyfr, by utrzymać fazę), a Tytana z modelu rotacji IAU (księżyc na ujemnej osi x związanej z ciałem przy średniej odległości), ponieważ drukowany wiersz płaszczyzny Laplace'a dla Tytana nie odtwarza Horizons nawet w jego własnej epoce
+
+seg-8b8c8e28ece9 = Stałe fizyczne każdego ciała Układu Słonecznego i raport całego układu
+
+seg-d225a30de35c = Body zyskuje Merkurego, Wenus, Jowisza, Saturna, Urana, Neptuna, Plutona, Fobosa, Deimosa, Io, Europę, Ganimedesa, Kallisto i Tytana (parametr grawitacyjny, promień odniesienia, J2 tam, gdzie opublikowano go wraz z promieniem, do którego się odnosi, biegun IAU i południk zerowy), wyszukiwanie po nazwie oraz rekord BodyFacts (kod NAIF, klasa, ciało macierzyste, promień równikowy i średni); rodzaj <c1/> podaje je dla wszystkich osiemnastu ciał wraz z położeniami, czasami świetlnymi i śladem orbity w ciągu jednego obiegu, a każde ciało jest oznaczone jako VALIDATED lub MODELLED
+
+seg-87ab655f8270 = Wyznaczanie położenia wokół dowolnego ciała Układu Słonecznego za pomocą lokalnej konstelacji i łącza dalekiego kosmosu z Ziemi
+
+seg-d9b1b0ac97d3 = Rodzaj <c1/>: orbiter lub lądownik na powierzchni wokół ciała wybranego po nazwie nawiguje za pomocą jednokierunkowych pseudoodległości z konstelacji nawigacyjnej Walkera wokół tego ciała (orbity dwóch ciał z wiekowym dryfem J2 ciała, nieznany zegar użytkownika) oraz opcjonalnego bezzegarowego zakresu dwukierunkowego z Ziemi, przy czym kierunek i odległość Ziemi pochodzą z efemerydy analitycznej w każdej epoce; linie widzenia zasłonięte przez kulę ciała i maska elewacji na powierzchni; w każdej epoce GDOP i PDOP samej konstelacji (orbit::dop), formalna niepewność położenia z wierszem Ziemi i bez niego oraz fiksy Gaussa-Newtona z ziarnem (batch_ls::gauss_newton) w obu wariantach, z czasem świetlnym i czasem obiegu tam i z powrotem od ciała do Ziemi
+
+seg-7d4d7200cbca = Mapy pokrycia i rozmycia dokładności dla dowolnych konstelacji wielosystemowych w dużej skali, wokół dowolnego ciała centralnego
+
+seg-b78b79e9fae4 = Rodzaj <c1/> poza dwoma przypiętymi przypadkami: konstelacje jawne i wielopowłokowe, kilka konstelacji na przebieg z jednym zegarem odbiornika na konstelację, Ziemia, Księżyc i Mars ze stałych ciał, preset BeiDou (modelowana faza orbity średniej i przecięcie { "118" } deg E orbity geosynchronicznej nachylonej), w każdej komórce liczba satelitów w widoku, GDOP, PDOP, HDOP, VDOP i dostępność, zredukowane ślady na powierzchni oraz wstępny filtr widoczności według szerokości podsatelitarnej, który przelicza konstelację { "5" } 000 satelitów na siatce { "10" } deg w ułamku sekundy
+
+seg-278c77438493 = Połączona misja obejmująca kilka rodzajów scenariuszy na jednej wspólnej osi czasu
+
+seg-3dcfb26f6234 = Fazy rodzaju <c1/>: każda faza uruchamia jeden lub więcej scenariuszy istniejących rodzajów przez run_toml, odczytuje ich wyniki do nazwanych kanałów (błąd czasu zegara i jego granica, średni efektywny stosunek nośnej do gęstości szumu i próg śledzenia, pionowy poziom ochrony i granica alarmu, błąd położenia, liczba śledzonych satelitów, flagi alarmów) za pomocą presetów dla każdego rodzaju lub jawnych ścieżek wyników, umieszcza je na początku fazy i przytrzymuje na wspólnej siatce, z granicami faz i zdarzeniami; stan jest przekazywany dalej przez carry (kanał kontynuuje od wartości końcowej poprzedniej fazy), handoff (numer poprzedniej fazy wpisany do następnego scenariusza) i end_at (faza kończy się w czasie obliczonym przez przebieg, takim jak czas detekcji monitora spoofingu); skrót kampanii i skrót ze wszystkich wyników członkowskich
+
+seg-ad6105af464c = Przeglądy parametrów i zespoły Monte Carlo z ziarnem dla dowolnego rodzaju scenariusza
+
+seg-95921611839e = Sekcje sweep (od jednego do trzech kluczy z kropkami dowolnego rodzaju, na wartościach osi ogólnego przeglądu, opcjonalnie z zespołem w każdym węźle) i monte_carlo rodzaju <c1/>: realizacja k działa przy base_seed + k; każda metryka podaje średnią, odchylenie standardowe, percentyle 5/50/95 metodą najbliższej rangi oraz przedział ufności { "95" }% dla średniej metodą percentylowego bootstrapu ze stałym ziarnem (inertial::metric_stat); jednostki metryk są odczytywane z własnego bloku jednostek przeglądanego rodzaju
+
+seg-24327a0ed82e = Kilka scenariuszy przy wspólnych warunkach, ze zbiorczym podsumowaniem
+
+seg-5833fb3b06e3 = Sekcja compose rodzaju <c1/>: nazwane wspólne wartości (na przykład moc i położenie jednego zagłuszacza) wpisywane do każdego członka pod kluczami, do których są przypisane, uruchomienie każdego członka oraz dla każdej metryki najmniejsza, największa i średnia wartość wśród członków ze wskazaniem członka; jednostki metryk muszą być zgodne we wszystkich członkach
+
+seg-0bc866720bde = Ograniczona optymalizacja jednej metryki względem parametrów kampanii
+
+seg-f9bdb89c2b4f = Sekcja optimize rodzaju <c1/> (CAP-32): od jednego do trzech kluczy scenariusza z kropkami, ograniczonych do [lo, hi] w skali lin lub log, jedna metryka odczytywana ścieżką wyniku, cel minimize, maximize lub target; metoda grid (wartości osi przeglądu) albo deterministyczny sympleks Neldera-Meada we współrzędnych znormalizowanych z rzutowaniem na pudełko i standardowymi współczynnikami; brakująca lub nieskończona metryka dostaje najgorszą ocenę i pozostaje w śladzie; przy runs > { "1" } metryką jest średnia po wspólnych ziarnach; każde obliczenie jest prawdziwym przebiegiem wskazanego rodzaju, wypisanym w trace i wliczonym do skrótu odtwarzalności
+
+seg-652e28dfa10f = Projekty sygnałów pozycjonowania, nawigacji i czasu na niskiej orbicie okołoziemskiej: śledzenie kodu, akwizycja, zgodność z GNSS i bilans pasm dla dowolnego systemu
+
+seg-c0ba5c7e708e = Rodzaj <c1/>: parametryzowane projekty sygnałów (pasmo, szerokość pasma nadawania, przydział ITU; składowe akwizycyjne, danych i pilotowe z widmami BPSK(n), BOC(m,n), MBOC lub płaskimi, udziały mocy, podnośne FDMA, długości kodów i szybkości danych) z wkompilowanych publicznych plików presetów (Xona Pulsar, Iridium STL, sygnał okazjonalny Starlink, CentiSpace, ogólny projekt pasma C oraz ogólne projekty UHF/L/S/C/szerokie C, każdy z adresem URL źródła, a wartości nieopublikowane oznaczone jako REPRESENTATIVE) albo zapisanych w treści; dla każdego sygnału widmowa gęstość mocy z ograniczonym pasmem, ułamki mocy w paśmie, szerokość pasma Gabora, jitter kodu względem C/N0 i rozstawu oraz dokładność pomiaru odległości, przestrzeń przeszukiwania akwizycji, prawdopodobieństwo detekcji kwadratowej oraz średni czas akwizycji szeregowej i równoległej względem kodu, współczynnik separacji widmowej do i z GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b i AltBOC wraz z degradacją C/N0, a także tolerancja J/S dla CW, szerokopasmowego i dopasowanego z łańcucha SSC rodzaju spectrum; bilans pasm opóźnienia jonosferycznego, strat w wolnej przestrzeni, dokładności pomiaru odległości przy równym C/N0 i równym EIRP oraz tolerancji na zagłuszacz; a także jakościowe kontrole kształtu projektu względem opisanego pomiaru
+
+seg-c2b9c8e4a364 = Wielopasmowy wodospad widma (UHF, L, S, C) z zaprojektowanymi sygnałami i zagłuszaczami w każdym paśmie
+
+seg-609df4e0a085 = Rodzaj <c1/> rozszerzony poza pasmo L: pasma podane jako preset projektu sygnału (rysowany ze wszystkimi składowymi, z pasmem ograniczonym do szerokości pasma nadawania, C/N0 i J/S odniesione do śledzonej składowej) albo jako własna nośna i modulacja; dodatkowe panele wodospadu w dowolnym zakresie częstotliwości na tej samej osi czasu i skali kolorów; zagłuszacz szerokopasmowy (zaporowy) obok CW, wąskopasmowego, chirp i szumu dopasowanego; J/S i efektywny C/N0 dla każdego pasma z niezmienionego łańcucha współczynnika separacji widmowej
+
+seg-d9eb3e7e69c2 = Przejście satelity LEO-PNT i jego bilans łącza w każdym paśmie na tle widocznych satelitów GNSS na orbicie MEO
+
+seg-d986e44443dd = Rodzaj <c1/>: satelity z zaprojektowanego przejścia, z elementów, z TLE przez SGP4 lub z konstelacji Walkera z constellation-design; dla każdego pasma i epoki kąty widzenia, odległość, zamknięta szybkość zmiany odległości i przyspieszenie odległości (sprawdzane w każdym przebiegu względem różnic centralnych i raportowane), straty w wolnej przestrzeni, EIRP z charakterystyką izostrumieniową, gaussowską lub płaską, antena użytkownika płytkowa, półkulista lub izotropowa, tłumienie gazowe ITU-R P.676-10 Załącznik { "2" }, deszcz i scyntylacja P.618, tłumienie wnikania do budynku P.2109, niedopasowanie polaryzacji, temperatura szumowa układu, C/N0, Doppler i szybkość zmiany Dopplera oraz opóźnienie pierwszego rzędu z ukośnego TEC Klobuchara lub pionowego TEC, przeskalowanego ułamkiem Chapmana poniżej satelity; pary wolne od jonosfery z szumem kodu w szczycie przejścia; nośne Galileo lub GPS z mocy odbieranych podanych w dokumentach interfejsu, przez ten sam odbiornik
+
+seg-95a077a980b6 = Nazwane presety systemów LEO-PNT z podanymi źródłami oraz silnik niezależny od systemu
+
+seg-4b47033cda24 = leo_link::presets: ogólny wielopasmowy (UHF, L, S, C), ogólny pasmo C, Xona Pulsar X1/X5, Iridium STL, Starlink jako sygnał okazjonalny wyłącznie Dopplera, CentiSpace i opcjonalny preset Celeste IOD, każdy z źródłem oznaczonym PUBLIC (z adresem URL), REPRESENTATIVE lub WORKSHOP, przy czym preset warsztatowy znajduje się w opcjonalnym pliku presetu Celeste IOD, wkompilowanym tylko wtedy, gdy ten plik istnieje; każde pasmo i każdą orbitę można nadpisać w scenariuszu, a scenariusz może w ogóle nie wskazywać presetu
+
+seg-a39f34973373 = Pozycjonowanie niskoenergetyczne: czas do pierwszego fiksu i energia na fiks względem współczynnika wypełnienia
+
+seg-f3b9b669a76f = leo_link::energy i sekcja [iot] rodzaju <c1/>: całkowanie koherentne ograniczone szybkością zmiany Dopplera, sumy niekoherentne kwadratowe do progu detekcji, przeszukiwanie przedziałów Dopplera po obwiedni użytkownika nieruchomego na orbicie (zimne) lub w oknie wspomaganym (gorące), przeszukiwanie kodu równoległe lub szeregowe, czas komunikatu nawigacyjnego przy zimnym starcie, energia na fiks i czas życia baterii dla różnych odstępów między fiksami, dla każdego pasma LEO i sygnału GNSS
+
+seg-8121e7db3db3 = Aktualizacja komunikatu nawigacyjnego LEO w trakcie przejścia z kontrolą ciągłości w chwili przełączenia
+
+seg-34c310d85c42 = Analiza midpass-update rodzaju <c1/>: najwyższe przejście nad użytkownikiem w przedziale poszukiwań, komunikaty według globalnego harmonogramu z okresami użytkowania wyśrodkowanymi w oknach dopasowania, a przy każdym przełączeniu skok położenia 3D, skok zegara, skok pseudoodległości użytkownika, największy skok na dowolnej widocznej linii widzenia (wzór zamknięty po stożku nadiru), błąd odległości przed i po oraz PASS/FAIL względem progu
+
+seg-7635a8339e78 = Udokumentowane kodowanie binarne komunikatu nawigacyjnego LEO z bilansem błędu kwantyzacji
+
+seg-e4d9b16a2dc4 = leo_navmsg::codec: własna ramka Kshana (preambuła, wersja, model, długość, ładunek, CRC-24Q) dla czterech modeli efemerydy, wielomianu zegara, SVID, numeru wydania danych, pasma, stanu, zestawu Klobuchara, współczynników NeQuick-G i parametrów UTC, każde pole z podaną szerokością i krokiem (field_table), kwantyzacja z odmową poza zakresem oraz bilans największej zmiany położenia i zegara wywołanej zmianą każdego pola o pół kroku w oknie ważności
+
+seg-17ca41d7fd71 = Eksporty komunikatów nawigacyjnych LEO w stylu RINEX-4 i CSV
+
+seg-185e12ccef0d = leo_navmsg::text: blok w stylu RINEX-4 (nagłówek rekordu > EPH, wiersz satelity i epoki z trzema członami zegara, wiersze orbity rozgłaszanej D19.12) z literą systemu L i typami rekordów KP16, KRAC, LU22 i APOL, oznaczony w każdym nagłówku jako rozszerzenie Kshana niebędące częścią RINEX { "4.02" }, oraz tabela CSV z domyślnym schematem kolumn i schematami presetów, każda z importerem
+
+seg-e79047fc95af = Wielomian ECEF ATOMIC z zerowym zegarem i syntetyczne porównanie modeli LEO dla pięciu wysokości
+
+seg-e261843e35b1 = wariant EcefPoly leo_navmsg::elements::EphemerisModel: wielomian ECEF dla każdej osi bez członów zegara, człon relatywistyczny z -2 r.v/c^{ "2" }, oceniany względem zegara sterowanego. Także analiza porównania modeli (liu_comparison po LIU2025_TABLE), która dopasowuje model 22-parametrowy na pięciu wysokościach z artykułu na 20-minutowych łukach orbity zintegrowanej przez Kshana i wypisuje wynik obok opublikowanego SISRE
+
+seg-d2e18c8bdc14 = Wyznaczanie położenia z Dopplera LEO, z jednym i wieloma satelitami, ze stanami dryfu zegara i prędkości
+
+seg-de6cb3c06490 = Wsadowe wyznaczanie położenia metodą Gaussa-Newtona z szybkości zmiany odległości z pochodnymi analitycznymi (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = { "1" }), stała prędkość użytkownika jako opcja, pseudopomiar wysokości dla użytkownika na powierzchni, kroki tłumione; formalna kowariancja przy wartości prawdziwej; rzuty wzdłuż toru, w poprzek toru i pionowy; dokładność pojedynczego przejścia względem przesunięcia użytkownika w poprzek toru; czas największego zbliżenia. Tryb doppler rodzaju <c1/> dodaje błąd względem długości okna oraz tryb sygnałów okazjonalnych wyłącznie z Dopplerem (preset starlink-sop)
+
+seg-7f462969d2d4 = Łączne wyznaczanie położenia z pseudoodległości GNSS i LEO z odchyleniami międzysystemowymi i modelami błędów dla każdego sygnału
+
+seg-b9b5298e3408 = Fiksy ważoną metodą najmniejszych kwadratów Gaussa-Newtona dla dowolnej mieszanki systemów, z jednym zegarem odbiornika na system (odchylenie międzysystemowe estymowane razem z położeniem) lub ze znanym przesunięciem rozgłaszanym w skali czasu odniesienia; sigmy dla każdego pomiaru podawane przez wywołującego, domyślnie szum termiczny pętli DLL silnika (navsignal::dll_code_jitter_chips) przy C/N0 dla danej elewacji połączony z błędem zakresu sygnału w przestrzeni; nieważone DOP (GDOP, PDOP, HDOP, VDOP, TDOP) w lokalnym układzie geodezyjnym, formalne sigmy wschód-północ-góra i sigmy odchyleń; tryb joint rodzaju <c1/> porównuje fiksy wyłącznie GNSS, wyłącznie LEO i fuzyjne oraz przegląda DOP względem liczby dodanych satelitów LEO
+
+seg-ee9a4a0cb530 = Zbieżność precyzyjnego wyznaczania położenia (PPP) wyłącznie z GNSS i z uzupełnieniem przez LEO
+
+seg-a54f36c27d90 = Rozszerzony filtr Kalmana PPP z niejednoznacznościami rzeczywistoliczbowymi (float) na kodzie i fazie wolnych od jonosfery: współrzędne statyczne, biały zegar odbiornika, jedno odchylenie międzysystemowe dla każdego dodatkowego systemu, opóźnienie zenitalne wilgotne jako błądzenie losowe odwzorowane przez 1/sin(elewacja), niejednoznaczność float dla każdego łuku satelity dodawana przy wschodzie i usuwana przy zachodzie oraz błąd precyzyjnej orbity i zegara wspólny dla kodu i fazy satelity, przetwarzany jako jedna skorelowana aktualizacja dwuwierszowa w postaci stabilizowanej Josepha; pomiary symulowane z tego samego modelu; czas zbieżności (błędy poniżej progów do końca przebiegu), krzywe błędów i uśrednione po przebiegu NEES położenia dla samego GNSS i każdego przypadku LEO, uruchamiane jako rodzaj <c1/>
+
+seg-9306f1c06081 = Transfer czasu do UTC wspomagany przez LEO względem C/N0 i oscylatora odbiornika
+
+seg-c618feb01476 = Pomiary zegara z każdego satelity LEO w widoku w znanym położeniu, łączone odwrotnością wariancji z modelu szumu pseudoodległości, filtrowane dwustanowym (faza, częstotliwość) filtrem Kalmana, którego szum procesu to biały szum częstotliwości i szum częstotliwości typu błądzenie losowe klasy oscylatora (slot_timing::ClockNoise, clock_state::ClockClass; wariancja dryfu holdover::coast_phase_variance), zegar prawdziwy z ziarna z tych samych poziomów oraz wyrażenie IS-GPS-200 sekcja { "20.3.3.5.2.4" } na przejście z czasu systemowego do UTC z niepewnością rozgłaszanego przesunięcia dodaną jako odchylenie dla każdego przebiegu; tryb timing rodzaju <c1/> przegląda oscylatory i przesunięcia C/N0
+
+seg-d92777401093 = Nazwane systemy LEO PNT jako opcjonalne presety danych, każdy z podanym źródłem
+
+seg-5130bfe2410c = Dane wejściowe niezależne od systemu: każdy system to powłoki Walkera, jawne elementy lub preset GNSS, sygnał (nośna, szybkość chipów, szerokość pasma, moc odbierana lub zakres C/N0), SISRE, sigma Dopplera i model zegara; presety wypełniają tylko to, czego scenariusz nie podaje, po jednym pliku z źródłami oznaczonymi PUBLIC (z adresem URL), WORKSHOP lub DERIVED, a wartości nieopublikowane wymienione jako reprezentatywne: Xona Pulsar X1/X5, Iridium STL, sygnały okazjonalne Starlink, CentiSpace, reprezentatywny system pasma C, model efemerydy ATOMIC z zerowym zegarem oraz jeden preset pochodzący z warsztatów w opcjonalnym pliku presetu Celeste IOD, wycofywany przez usunięcie tego pliku i jego scenariuszy
+
+seg-dec52b5b9cd6 = Jeden system LEO-PNT od początku do końca: projekt sygnału, bilans łącza przejścia, komunikat nawigacyjny i fuzyjne wyznaczanie położenia, przy czym wynik każdego etapu jest przekazywany do następnego
+
+seg-39443b31d418 = Rodzaj <c1/>: projekt leo-signal (preset publiczny lub zapisany w treści) ustala środek, szerokość pasma, szybkość chipów i podział EIRP pasma leo-pass; przejście daje C/N0 śledzonej składowej i jitter kodu z ograniczonym pasmem w każdej epoce; prosta C/N0 metodą najmniejszych kwadratów względem sin(elewacja), SISRE komunikatu leo-navmsg (dopasowane na orbicie satelity przejścia, plus podany człon wyznaczania orbity w pierwiastku sumy kwadratów) oraz nośna i szybkość chipów projektu trafiają do każdego systemu LEO łącznego fiksu leo-pvt i, opcjonalnie, do przypadków LEO leo-ppp; każde przekazanie jest raportowane z wartością i jednostką
+
+seg-b12fc1728220 = Sekcja <c2/> rodzaju <c1/>: spoofer podrabia, spójnie w odległości i szybkości zmiany odległości, sygnały widziane w deklarowanym położeniu, które skacze i/lub jest odsuwane od prawdziwego po chwili rozpoczęcia (dla każdego pasma LEO i dla sygnału GNSS na orbicie MEO); odbiornik przewiduje każdą szybkość zmiany odległości z rozgłaszanej orbity oraz niezależnego położenia i prędkości a priori i testuje zmierzone szybkości zmiany odległości uogólnioną statystyką chi-kwadrat metodą najmniejszych kwadratów w oknie epok (dryf zegara jako zakłócenie lub z priorem), dla kanałów GNSS, kanałów LEO i wszystkich kanałów, z szumem termicznym pętli FLL z C/N0 (Kaplan & Hegarty { "2006" }, sekcja { "5.6.2" }); prawdopodobieństwo detekcji z niecentralnego rozkładu chi-kwadrat przy podanym prawdopodobieństwie fałszywego alarmu, detekcja ogłaszana przy podanym prawdopodobieństwie niewykrytego zdarzenia
+
+seg-5f341f85ac07 = Detekcja spoofingu przez spójność międzypasmową wielopasmowego sygnału LEO
+
+seg-2f9c4d351b0f = Dla każdego satelity LEO i pary pasm pomiaru odległości sekcja <c1/> tworzy kombinację pseudoodległości wolną od geometrii, usuwa model jonosferyczny odbiornika i testuje jej krok z epoki na epokę względem szumu kodu obu pasm i podanej tolerowanej niemodelowanej szybkości zmian jonosfery (dwustronnie gaussowsko, dokładne prawdopodobieństwo detekcji); spoofer, który podrabia niektóre pasma, a inne nie, lub każde pasmo bez jonosfery, jest widoczny w chwili rozpoczęcia; taki, który podrabia każde pasmo i symuluje jonosferę, nie jest, co wynik stwierdza
+
+seg-97dbcd5f2728 = Sondowanie jonosfery: skośny TEC z dwupasmowego opóźnienia przejścia LEO
+
+seg-844de34fd2f3 = Dla każdej pary pasm satelity rodzaju <c1/> raport podaje skośną całkowitą zawartość elektronów, którą kombinacja kodowa wolna od geometrii odtwarza w szczycie przejścia, (P2 - P1) f1^{ "2" } f2^{ "2" } / ({ "40.3" } (f1^{ "2" } - f2^{ "2" })), oraz jej 1-sigma z szumu termicznego kodu obu pasm, dzięki czemu każdy wielopasmowy projekt LEO-PNT można rozważać jako sondę jonosfery
+
+seg-1fdbb476c8ab = Wskaźnik zaufania na statkach: agregacja dowodów z monitorów w wynik 0-100 i jego trzy pasma
+
+seg-0d76b33144f1 = Każdy monitor sprowadza swoje dowody do stosunku statystyki do progu; wynik to { "100" } minus suma po monitorach z wagi razy ograniczona liniowa rampa stosunku ({ "0" } do { "0.5" }, { "1" } przy { "1.5" }), ograniczona do { "0" } do { "100" } i zaokrąglona do { "0.1" }, z pasmami przy { "90" } i { "55" }; każda epoka wylicza monitory, które odjęły punkty, wraz z ich punktami.
+
+seg-51640405c9b7 = Zdarzenia SIEM telemetrii zaufania: Log Event Extended Format (LEEF) przez syslog
+
+seg-1b3245506847 = Zdarzenia zmiany pasma (lub dla każdej epoki) jako ładunki Log Event Extended Format { "2.0" } w kopercie RFC { "5424" } przez UDP lub TCP, z udokumentowanym odwzorowaniem pól.
+
+seg-c04042b0270a = Progi zakłóceń odbiornika kalibrowane na zbiorze danych JammerTest { "2024" }
+
+seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: zarejestrowana wstępnie kalibracja monitorów spadku C/N0, AGC i wskaźnika zagłuszania na publicznym zbiorze danych JammerTest { "2024" } (Zenodo { "15911589" }, GPL-3.0-or-later, pobierany w czasie działania, nigdy nie kopiowany do repozytorium): dla każdego folderu oś czasu { "1" } s z mon_rf.csv i rinex.csv, monitory uruchamiane raz, każda epoka po kalibracji oznaczona jako czysta lub zagłuszana na podstawie attack_log folderu (przesuniętego z CEST na UTC, margines { "60" } s), każdy próg przeglądany po stałej siatce, wybierany najmniejszy próg ze zbiorczym prawdopodobieństwem fałszywego alarmu na czystych danych co najwyżej { "0.01" } oraz liczby wstrzymane z pominięciem jednego folderu; kontrola krzyżowa czytnika UBX. Wybór dostarczany jest tylko jako opcjonalny profil [monitors] profile = "jammertest-2024-calibrated" (cn0_drop_db { "1.5" }, agc_k_sigma { "3.5" }, jam_ind_threshold { "29" }); reguła domyślna i każde wyjście bez niego pozostają bez zmian
