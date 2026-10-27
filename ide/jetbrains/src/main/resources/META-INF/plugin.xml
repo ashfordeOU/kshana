@@ -31,10 +31,14 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <b>0.39.0</b> — the plugin itself is unchanged; the engine's command line now exits quietly when its
-        output pipe closes (<code>kshana kinds | head</code>). Update the engine with
-        <code>cargo install kshana</code> and see the release notes at
+        <b>0.40.0</b> — the plugin itself is unchanged; the engine adds the mission thread, an evidence
+        label on every figure and table, measured clock logs, a data-partner submission check, an estimated
+        emitter region from ADS-B or AIS reports, and seventeen languages beside English. Update the engine
+        with <code>cargo install kshana</code> and see the release notes at
         https://github.com/ashfordeOU/kshana/releases.
+        <br/>
+        <b>0.39.0</b> — the plugin itself is unchanged; the engine's command line now exits quietly when its
+        output pipe closes (<code>kshana kinds | head</code>).
         <br/>
         <b>0.38.0</b> — adds <b>Fit Sensor Parameters from IMU Log</b> (a stationary IMU
         <code>.csv</code>, <code>kshana imu-fit</code>: the accelerometer and gyro parameters of the
