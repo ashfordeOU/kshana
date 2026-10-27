@@ -351,3 +351,253 @@ seg-7d91304c87e3 = Najwyższy przelot w ciągu doby sięga { "43.7" }° i trwa {
 seg-02dc0d42fb21 = sfu
 
 seg-a7d59ba6e225 = rad
+
+seg-289e8da49cc8 = Przełączenie
+
+seg-e80d12ee2259 = Elewacja
+
+seg-b16789d14338 = Skok pozycji
+
+seg-b3c252609532 = Skok zegara
+
+seg-8239a390ec71 = Skok odległości użytkownika
+
+seg-4153faf7969d = Skok w najgorszej geometrii
+
+seg-14402c7fb332 = IOD { "270" } → { "271" }
+
+seg-7862a97ac55f = { "0.07" } mm
+
+seg-4cfe934c881f = { "0.19" } mm
+
+seg-9e9752920165 = -0.17 mm
+
+seg-4267557786be = { "0.27" } mm
+
+seg-46872e8925b2 = IOD { "271" } → { "272" }
+
+seg-4c803fd2ccc9 = { "0.14" } mm
+
+seg-cc9a8388f6bc = -0.24 mm
+
+seg-0549f7fd0633 = IOD { "272" } → { "273" }
+
+seg-ad1afcf9a466 = -0.22 mm
+
+seg-c1b30171b4f0 = { "0.35" } mm
+
+seg-f93647402fa9 = { "0.48" } mm
+
+seg-69b35182807c = Największy skok odległości użytkownika { "0.35" } mm wobec progu { "5" } cm: <b>PASS</b>.
+
+seg-96dcb456600d = Kodowanie i dekodowanie
+
+seg-1b3674a0e041 = <c1/> koduje pierwszy z trzech komunikatów, dekoduje go, sprawdza CRC i odrzuca uszkodzoną kopię, wypisuje budżet kwantyzacji oraz zapisuje i odczytuje z powrotem blok w stylu RINEX i tabelę CSV:
+
+seg-480eb9ffc333 = ramka: { "171" } bajtów ({ "1310" } bitów ładunku, z czego { "1045" } to efemerydy i zegar), 24-bitowa cykliczna kontrola nadmiarowa (CRC-24Q) <c1/>;
+
+seg-0e2a64a063fd = największy efekt półkroku dla pojedynczego pola: <c1/>, { "0.545" } mm;
+
+seg-a1875f7088b0 = cały komunikat po kwantyzacji: pozycja w granicach { "1.126" } mm i zegar w granicach { "0.185" } mm od komunikatu dokładnego; SISRE { "0.113" } cm dla komunikatu dokładnego, { "0.129" } cm dla zdekodowanego;
+
+seg-6e818708b695 = ramka z jednym odwróconym bitem zostaje odrzucona: true;
+
+seg-31fe0f6b133d = pełny obieg w stylu RINEX w granicach { "5.0e-06" } m, pełny obieg CSV w granicach { "0.0e+00" } m.
+
+seg-405cf34090cc = Niezależność od platformy
+
+seg-7f2193f6ff06 = Ramka to przesyłane liczby całkowite, więc muszą to być te same liczby niezależnie od tego, gdzie i jak scenariusz jest uruchamiany: natywny plik binarny w dowolnym systemie operacyjnym, kompilacja debug lub release oraz kompilacja WebAssembly (WASM) w przeglądarce. Przeszkadziły trzy rzeczy. Sinus, cosinus, arcus tangens i funkcja wykładnicza z biblioteki matematycznej hosta nie muszą być poprawnie zaokrąglane i różnią się między hostami na ostatnim miejscu. Zoptymalizowana kompilacja w systemie macOS pobiera sinus i cosinus tego samego argumentu z łącznej procedury systemowej, która nie zawsze zwraca wartość samego sinusa, więc różniły się także kompilacje debug i release. A zwykły generator rozkładu normalnego wywołuje wykładniczą i logarytm hosta w swoich rzadkich gałęziach. Dopasowanie zamienia tak małą różnicę w inne skwantowane pola. Cały rodzaj (orbita i zegar prawdziwy, dopasowanie, algorytm użytkownika, błąd odległości w sygnale w przestrzeni (SISRE), kodek) oblicza więc każdą taką funkcję za pomocą czysto rustowego crate'a <c1/> przez <c2/>, potęgi całkowite jako jawne iloczyny, a odchylenia normalne metodą biegunową na surowym wyjściu generatora. <c3/> przypina 171-bajtową ramkę scenariusza kodowania i dekodowania poniżej oraz jedną wartość kontrolną na model efemeryd; kompilacja debug, kompilacja release i kompilacja WASM dają bajt w bajt identyczne dokumenty wyników dla wszystkich pięciu dołączonych scenariuszy <c4/>.
+
+seg-1ef00467df17 = Format binarny
+
+seg-af2dae9e9e7c = <b>To jest własne, udokumentowane kodowanie Kshana.</b> Przenosi składniki, które wymieniają opublikowane opisy komunikatów nawigacyjnych LEO, zbudowane na wzór zestawu pól Galileo ICD. To <b>nie jest</b> układ bitów Celeste ani żadnego innego systemu: żaden nie jest publiczny.
+
+seg-6a730c01ad1c = Ramka: preambuła <c1/> ({ "8" } bitów), wersja { "1" } ({ "4" }), model ({ "4" }: { "1" } <c2/>, { "2" } <c3/>, { "3" } <c4/>, { "4" } <c5/>), długość ładunku w bajtach ({ "12" }), ładunek dopełniony zerami do pełnego bajtu, CRC-24Q (24-bitowa cykliczna kontrola nadmiarowa, { "24" } bity) z każdego poprzedzającego bajtu. CRC-24Q to kontrola ze standardu RTCM { "10403" } Radio Technical Commission for Maritime Services oraz z Galileo ICD (wielomian <c6/>, wartość początkowa { "0" }); kod odtwarza katalogową wartość kontrolną <c7/> dla <c8/> oraz bajty kontrolne przykładowej ramki RTCM { "10403" } typu komunikatu { "1005" } (<b>VALIDATED</b>).
+
+seg-a31d899eb435 = Kroki z Galileo ICD dobrano dla średniej orbity okołoziemskiej i są zbyt zgrubne dla komunikatu LEO o centymetrowej dokładności: <c1/> w krokach co { "2" }⁻⁵ m ({ "3.1" } cm), <c2/> { "2" }⁻²⁹ rad ({ "1.3" } cm przy promieniu orbity LEO), kąty { "2" }⁻³¹ półkola ({ "1.0" } cm) i <c3/> { "2" }⁻³⁴ s ({ "1.7" } cm). Kshana zachowuje jednostki ICD i konwencję półkola, zmniejsza kroki tak, by błąd półkroku każdego pola pozostawał poniżej { "1" } mm pozycji lub odległości w oknie 15 minut, i poszerza pola, aby zachować zakresy potrzebne dopasowaniu LEO:
+
+seg-caddc6f5b9a7 = Blok
+
+seg-b548b723c201 = Bity
+
+seg-d00b65801e9b = Krok
+
+seg-2085d172bec3 = pomocnicze i synchronizacyjne
+
+seg-7e9018f82811 = tydzień
+
+seg-45cbfedb6f0e = zegar (bit flagi { "0" })
+
+seg-05d274f5ce99 = s/s^{ "2" }
+
+seg-9d6d5136e12a = keplerowskie (modele 1-3)
+
+seg-3fb59c8238cb = półkole
+
+seg-d173e8d7026c = m^{ "0.5" }
+
+seg-48c8bfb6e914 = poprawki wzdłuż toru/poprzeczne/promieniowe (model { "2" })
+
+seg-131652f53721 = dodatki Liu et al. { "2025" } (model { "3" })
+
+seg-fccf37a24fc4 = półkole/s^{ "2" }
+
+seg-ebde561c17ab = wielomian ECEF (model { "4" })
+
+seg-822c7482547c = Klobuchar (bit flagi { "1" })
+
+seg-7dd6e8bcaf43 = s/półkole^{ "2" }
+
+seg-09408b08c481 = s/półkole^{ "3" }
+
+seg-734162101b2d = NeQuick-G (bit flagi { "2" })
+
+seg-ddbb363f4593 = sfu/deg^{ "2" }
+
+seg-e2744b31e5d3 = UTC (bit flagi { "3" })
+
+seg-545755e7b26f = Wartość spoza zakresu pola jest odrzucana, a nie zawijana. Zakresy sprawdzono, kodując dopasowania dla { "300" } do { "2000" } km, nachyleń od { "0" }° do { "140" }° i przedziałów dopasowania do { "20" } minut: <c1/> i <c2/> są szerokie, ponieważ na orbicie prawie równikowej węzeł jest słabo określony, a dopasowanie dzieli między nie dryf J2 argumentu szerokości, natomiast <c3/> i <c4/> dlatego, że 22-parametrowe dopasowanie w ciągu { "20" } minut pochłania część krótkookresowych oscylacji wielkiej półosi. Od wersji { "0.30" } 22-parametrowe dopasowanie to zwykła metoda najmniejszych kwadratów z pracy, bez rozkładów a priori, a równikowe dopasowanie dla { "800" } km wymaga wtedy <c5/> około { "6.3e-10" } półkola/s^{ "2" }, więc jego skala zmieniła się z { "2" }^-60 na { "2" }^-58. Poprawki wzdłuż toru stopnia 7 dla <c6/> mieszczą się w 22-bitowym zakresie współczynników do { "15" } minut; dłuższe dopasowanie może go przekroczyć i wtedy jest odrzucane. <c7/> podaje dla każdego pola efemeryd i zegara największą zmianę pozycji i odległości, jaką powoduje zmiana o półkrok w okresie użytkowania, oraz zmianę całego komunikatu po kwantyzacji.
+
+seg-1ad17f3d3643 = Eksporty tekstowe
+
+seg-81fb376aa1e1 = <b>RINEX { "4.02" } nie definiuje rekordów nawigacyjnych LEO</b> (jego litery systemów to G, R, E, J, C, I i S; <a1>International Global Navigation Satellite System (GNSS) Service (IGS) RINEX { "4.02" }</a1>). Blok zapisywany przez <c1/> zapożycza kształt RINEX { "4" } — nagłówek rekordu <c2/>, wiersz satelity i epoki z trzema składnikami zegara, wiersze orbity rozgłaszanej z czterema polami <c3/> — i jest <b>udokumentowanym rozszerzeniem Kshana</b>: litera systemu <c4/>, typy rekordów <c5/>, <c6/>, <c7/>, <c8/> oraz trzy komentarze nagłówka, które o tym mówią. Wcześniejsze prace o orbitach LEO w rekordach nawigacyjnych w stylu RINEX 4: <a2>arXiv { "2401.17767" }</a2>.
+
+seg-9a3016441bce = Tabela CSV zawiera komunikaty <c1/> i <c2/>, po jednym w wierszu. Domyślne kolumny używają nazw z Galileo ICD (<c3/>); <c4/> wybiera zamiast tego zapis z gotowego ustawienia. Oba formaty można odczytać z powrotem.
+
+seg-4a26902d2771 = Jonosfera i UTC
+
+seg-c4d4dd2bac45 = <b>Klobuchar</b>: model L1 silnika (<c1/>, sprawdzony względem RTKLIB) skalowany do nośnej prawem pierwszego rzędu <c2/>.
+
+seg-0d3973f04ee5 = <b>NeQuick-G</b>: współczynniki są przesyłane w komunikacie, a <c1/> zwraca <c2/> dla zmodyfikowanej szerokości inklinacji magnetycznej <c3/>, z regułami algorytmu (współczynniki równe zeru dają { "63.7" } jednostek strumienia słonecznego, sfu; wynik jest obcinany do [{ "0" }, { "400" }] sfu). Model gęstości elektronowej NeQuick i jego całkowanie wzdłuż drogi sygnału, które zamieniają <c4/> na opóźnienie, <b>nie</b> są zaimplementowane.
+
+seg-66dbd447dfeb = Satelita na wysokości kilkuset kilometrów leci wewnątrz jonosfery. Żaden z modeli rozgłaszanych nie uwzględnia zawartości elektronów nad satelitą i nie stosuje się dla niej żadnej poprawki.
+
+seg-7befd59b2ac6 = <b>UTC</b>: <c1/> stosuje trzy przypadki z Galileo ICD §{ "5.1.7" } (przed zdarzeniem sekundy przestępnej, w ciągu sześciu godzin od niego i po nim); wstawiona sekunda ma wartość { "86400" }.
+
+seg-2b0d77219437 = Gotowe ustawienia
+
+seg-d2908020db08 = Gotowe ustawienia to dane, po jednym pliku w <c1/>, wraz ze źródłami. Silnik i każdy dołączony scenariusz poza scenariuszem Celeste działają bez nich.
+
+seg-c353e7bec219 = Klucz
+
+seg-5566e1d71a4f = Orbita
+
+seg-33f4c7af9c53 = Nośna
+
+seg-f4510e898031 = Model komunikatu
+
+seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
+
+seg-890aa92157e4 = { "1080" } km, { "53" }°
+
+seg-1eca13ba2309 = X1 { "1593.3225" } MHz
+
+seg-ee9947222a30 = nieopublikowany
+
+seg-77af616c1f6e = PUBLIC, arXiv { "2509.19551" }
+
+seg-f016786d7755 = { "520" } km, { "97" }°
+
+seg-780e931bf88d = PUBLIC, <a1>raport RNTF</a1>, opis konstelacji
+
+seg-d5df094a5f89 = { "781" } km, { "86.4" }°
+
+seg-94bc78cee128 = { "1621" } MHz (pasmo { "1616" }–{ "1626" } MHz)
+
+seg-3f5de7f74502 = brak rozgłaszania
+
+seg-4944294c230f = PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, opis konstelacji
+
+seg-c2a2761f73b1 = { "550" } km, { "53" }°
+
+seg-2ef501f97eff = pasmo Ku, wartość ze środka pasma (reprezentatywne)
+
+seg-567fab40bd24 = brak (sygnały okazji)
+
+seg-a76527ba66b6 = PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+
+seg-f5dd5086eedd = { "700" } km, { "55" }°
+
+seg-5fa6b60f66b4 = w pobliżu B1 (zamaskowane w źródle; L1 jako zastępnik)
+
+seg-5ebbf0042d7c = REPRESENTATIVE
+
+seg-4f3e5a683682 = { "600" } km, { "97.8" }°
+
+seg-c06f62ca5173 = { "5020" } MHz (środek pasma C RNSS)
+
+seg-884c81e55e79 = PUBLIC, <a1>InsideGNSS</a1>
+
+seg-3b1fd041f9ba = { "500" } km (reprezentatywne)
+
+seg-522c85402d84 = L1 (reprezentatywne)
+
+seg-064b03765e4d = <c1/>, stopień { "6" }, { "60" } s, odświeżany co { "30" } s, zerowy zegar, { "0.24" } m reszty sterowania
+
+seg-5619bc61b958 = WORKSHOP i PUBLIC
+
+seg-20572d7e348d = { "510" } km, { "97.4" }°
+
+seg-a17f4b4f7fb5 = { "1191.795" } MHz
+
+seg-fad0950a2d67 = <c1/>, stopnie i odstęp rekordów w pliku gotowego ustawienia
+
+seg-e881ffc4e14b = RNSS to służba nawigacji radiowej przez satelity (radionavigation-satellite service); RNTF to Resilient Navigation and Timing Foundation.
+
+seg-e9524c71636d = <b>Celeste IOD.</b> Gotowe ustawienie demonstracji na orbicie (IOD) Celeste Europejskiej Agencji Kosmicznej (ESA) jest jedynym, które wykorzystuje materiały przedstawione na warsztatach LEO-PNT programu ESA Navigation Innovation and Support Programme (NAVISP), { "2026" }: strukturę komunikatu (zestaw keplerowski Galileo plus wielomiany poprawek wzdłuż toru/poprzecznych/promieniowych, wielomian zegara, SVID, stan zdrowia, IOD, parametry jonosferyczne i UTC), odstęp rekordów oraz nazwy kolumn CSV. Orbita ({ "510" } km, prawie biegunowa, heliosynchroniczna) i nośna pochodzą z publicznych źródeł podanych w pliku. Układ bitów Celeste nie jest publiczny i nie jest odtwarzany; późniejsze fazy Celeste i system LEO-PNT Unii Europejskiej (UE) mogą się różnić. Każda wartość pochodząca z warsztatów znajduje się w module <c1/> w <c2/>, używanym przez <c3/>. Jak to ustawienie jest wyłączane: każda liczba silnika pochodząca z warsztatów mieści się w jednym pliku, <c4/>, który <c5/> kompiluje tylko wtedy, gdy istnieje, oraz w scenariuszach dostępnych tylko w repozytorium <c6/>. Usunięcie tego pliku i tych scenariuszy wyłącza gotowe ustawienie bez zmian w kodzie źródłowym; każdy inny test, każda wyrocznia i każdy scenariusz działają bez niego, a liczba plików scenariuszy w README nadal liczy pliki wyłączone.
+
+seg-906da2752f76 = Weryfikacja
+
+seg-7338b6210228 = Wiersz
+
+seg-c5ce76c91ff7 = Etykieta
+
+seg-cfe0d596296e = Wagi SISRE
+
+seg-3e0059048a0d = tabela Montenbruck et al. { "2018" } (GPS, GLONASS, Galileo, BeiDou, geostacjonarne)
+
+seg-0f5e73171fe0 = algorytm użytkownika Galileo ICD
+
+seg-29ad977ef423 = RTKLIB <c1/> dla czterech rzeczywistych efemeryd rozgłaszanych Galileo, { "1" } mm na oś (<c2/>)
+
+seg-ecec254e8219 = katalogowa wartość kontrolna <c1/>; przykładowa ramka RTCM { "10403" } { "1005" }
+
+seg-388633e4e785 = Dopasowanie i kompromis SISRE
+
+seg-8b85c3277e66 = prawdziwy ruch dwóch ciał odtworzony z dokładnością { "1" } mm; poprawione dopasowanie J2–J6 do { "1" } mm; monotoniczny wzrost wraz z przedziałem
+
+seg-4de7f2b173c5 = Ciągłość w środku przejścia
+
+seg-bdbd2771c7f5 = tożsamość skoku; granica stożka w postaci zamkniętej wobec próbkowania
+
+seg-468a92a2caf7 = Format binarny i budżet
+
+seg-ba26f5f63172 = pełne obiegi; półkrok każdego pola poniżej { "1" } mm
+
+seg-9be43cbef131 = W stylu RINEX i CSV
+
+seg-a7748156fd6e = pełne obiegi
+
+seg-88b5cda10923 = 22-parametrowy model i dopasowanie Liu et al. { "2025" }
+
+seg-7272ebdc1fec = precyzyjne orbity TU Graz ITSG czterech satelitów wobec tabel { "4" }, { "5" }, { "6" } i { "8" } z pracy: stosunki wzdłuż toru, poprzeczne, promieniowe i SISRE od { "0.755" } do { "1.138" } w dniach z pracy oraz od { "0.683" } do { "1.186" } w ośmiu dniach wstrzymanych, w granicach 1.5x (<c1/>)
+
+seg-94066142a642 = wielomian zerowego zegara ATOMIC i tabela pięciu wysokości
+
+seg-205cdc6a3696 = fakty ATOMIC z InsideGNSS; opublikowana tabela Liu wydrukowana obok dopasowania orbity scałkowanej przez Kshana, nieprzypięta
+
+seg-8c00ed11609c = postacie zamknięte z ICD; model Klobuchar sprawdzony względem RTKLIB
+
+seg-d5653e0958b5 = SISRE to wyłącznie błąd reprezentacji: bez błędu wyznaczania orbity ani predykcji.
+
+seg-4968d9fcbc19 = Wzorcem prawdy jest całkowanie Kshana (bez trzeciego ciała, ciśnienia promieniowania słonecznego i pływów), a nie precyzyjna orbita rzeczywistego satelity.
+
+seg-6a4a1bf21b50 = Format binarny i blok w stylu RINEX są własnością Kshana.
+
+seg-26c0a2693081 = NeQuick-G jest przenoszony, a nie całkowany do opóźnienia; brak poprawki dla satelity wewnątrz jonosfery.
+
+seg-2a0c8190c38e = Porównanie z Liu et al. różni się orbitami, odczytem parametrów i wagami.
+
+seg-4abe216f987a = <s1>Poprzednia</s1>Przejście LEO i budżet łącza
+
+seg-59d9bf4735d8 = <s1>Następna</s1>Fuzja pozycjonowania MEO i LEO

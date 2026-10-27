@@ -17,3 +17,5 @@ seg-79e6a31245f2 = { "400" } ns
 seg-f63dd3d7aad4 = Źródło
 
 seg-587beeccaa11 = Ustawienie predefiniowane
+
+seg-edb7b16b6c0e = Walidacja
