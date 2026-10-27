@@ -31,3 +31,5 @@ seg-c04a3591074c = Eksport interoperacyjności księżycowej
 seg-20fee61b3107 = Biblioteka modeli błędów urządzeń kwantowych
 
 seg-eaf341ff4522 = Nawigacja kwantowa bez GNSS
+
+seg-75636f9419b2 = Znane ograniczenia
