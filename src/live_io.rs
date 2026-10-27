@@ -15,28 +15,9 @@ use std::time::{Duration, Instant};
 
 use kshana::receiver_trust::live::{parse_live_scenario, LiveEngine, LiveOut};
 
-pub const LIVE_USAGE: &str = "usage: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
-
-Reads NMEA 0183 (stdin by default), scores every epoch of a vessel's fix 0-100 and writes one
-JSON line per epoch (stdout by default). With --gate the NMEA stream is passed through on stdout
-instead, unchanged while the fix is trusted and with the fix marked invalid while it is not, each
-cycle followed by a $PKSHT sentence; the JSON then goes only where --json says. The session is a
-scenario .toml with a [platform] kind = \"vessel\"; its [log] table is not needed.
-
---listen (with --gate) serves the gated stream to any number of TCP clients (a chart plotter,
-for example) instead of writing it to stdout; the default address is loopback. A client that
-cannot keep up is dropped, so it never holds up the others or the input.
-
-The receiver's time is also checked against this computer's clock, which only means something for
-a stream arriving in real time; for a stored log fed in faster than that (stdin, tcp, udp) pass
---replay, and a plain --file (without --follow) already does.
-
---serial reads a serial or USB device (Unix only), read only: it opens the device for reading, sets
-the local line to raw mode at --baud (default 4800, the NMEA 0183 rate) and never writes a byte to the
-receiver. Kshana does not configure receivers; set the receiver to output NMEA with its own tool.
-
-This is advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the
-operator remains responsible for the navigation of the vessel.";
+pub fn live_usage() -> String {
+    kshana::t!("live-io-usage")
+}
 
 enum Source {
     Stdin,
@@ -487,16 +468,16 @@ pub fn run(args: &[String]) -> ExitCode {
     match run_inner(args) {
         Ok(()) => ExitCode::SUCCESS,
         Err((msg, code)) => {
-            eprintln!("error: {msg}");
+            eprintln!("{}", kshana::t!("main-fail", e = msg));
             ExitCode::from(code)
         }
     }
 }
 
 fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
-    let usage = |m: String| (format!("{m}\n{LIVE_USAGE}"), 2u8);
+    let usage = |m: String| (format!("{m}\n{}", live_usage()), 2u8);
     if args.iter().any(|a| a == "--help" || a == "-h") {
-        println!("{LIVE_USAGE}");
+        println!("{}", live_usage());
         return Ok(());
     }
     let mut session: Option<PathBuf> = None;

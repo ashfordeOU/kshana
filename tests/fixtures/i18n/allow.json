@@ -54,7 +54,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/cli.rs": {
-   "count": 46,
+   "count": 45,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/mod.rs": {
@@ -226,7 +226,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/cli.rs": {
-   "count": 17,
+   "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/html.rs": {
@@ -394,7 +394,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/cli.rs": {
-   "count": 15,
+   "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/observatory.rs": {
@@ -493,10 +493,6 @@
    "count": 7,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
-  "src/iq/cli/mod.rs": {
-   "count": 2,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/iq/cli/monitor.rs": {
    "count": 9,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -514,7 +510,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/io/cli.rs": {
-   "count": 6,
+   "count": 5,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/io/inventory.rs": {
@@ -650,7 +646,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/jammertest/cli.rs": {
-   "count": 13,
+   "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/jammertest/dataset.rs": {
@@ -837,10 +833,6 @@
    "count": 37,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
-  "src/live_io.rs": {
-   "count": 1,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
-  },
   "src/lunar.rs": {
    "count": 21,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -978,7 +970,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 56,
+   "count": 49,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/mars_pnt.rs": {
@@ -998,7 +990,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/nmea_synth/cli.rs": {
-   "count": 4,
+   "count": 3,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/nmea_synth/config.rs": {
@@ -1054,7 +1046,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/osnma/cli.rs": {
-   "count": 33,
+   "count": 32,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/osnma/maclt_data.rs": {
@@ -1318,7 +1310,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/cli.rs": {
-   "count": 11,
+   "count": 10,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/mqtt.rs": {

@@ -19,15 +19,14 @@ use super::time::parse_day;
 use super::{IdHasher, MapError};
 
 /// Usage text for `kshana interference-map`.
-pub const MAP_USAGE: &str = "usage: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
-   or: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
-   or: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, 0.5 or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
-   or: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
-   or: kshana interference-map fetch-land --out <land.geojson> --allow-network
-   (--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)";
+pub fn map_usage() -> String {
+    crate::t!("interference-map-cli-usage-map", lit_0_5 = crate::i18n::num(0.5_f64, 1))
+}
 
 /// Usage text for `kshana route-exposure`.
-pub const ROUTE_USAGE: &str = "usage: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]";
+pub fn route_usage() -> String {
+    crate::t!("interference-map-cli-usage-route")
+}
 
 /// Natural Earth land polygons (public domain), the intended coastline for the AIS detector.
 /// The URL names one commit of the upstream repository, and the download is checked against
@@ -229,7 +228,7 @@ pub fn run_map(args: &[String]) -> i32 {
     match run_map_inner(args) {
         Ok(()) => 0,
         Err(e) => {
-            eprintln!("error: {e}\n{MAP_USAGE}");
+            eprintln!("{}\n{}", crate::t!("main-fail", e = e), map_usage());
             2
         }
     }
@@ -242,7 +241,7 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
         )));
     };
     if matches!(sub, "--help" | "-h" | "help") {
-        println!("{MAP_USAGE}");
+        println!("{}", map_usage());
         return Ok(());
     }
     let rest = &args[1..];
@@ -537,7 +536,7 @@ pub fn run_route(args: &[String]) -> i32 {
     match run_route_inner(args) {
         Ok(()) => 0,
         Err(e) => {
-            eprintln!("error: {e}\n{ROUTE_USAGE}");
+            eprintln!("{}\n{}", crate::t!("main-fail", e = e), route_usage());
             2
         }
     }
@@ -567,7 +566,7 @@ fn collect_map_files(spec: &str) -> Result<Vec<PathBuf>, MapError> {
 
 fn run_route_inner(args: &[String]) -> Result<(), MapError> {
     if args.iter().any(|a| matches!(a.as_str(), "--help" | "-h")) {
-        println!("{ROUTE_USAGE}");
+        println!("{}", route_usage());
         return Ok(());
     }
     check_args(
@@ -651,7 +650,12 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
         );
         println!(
             "{:<11} {:<5} {:>9} {:>12} {:>11} {:>13}",
-            "date", "src", "degraded", "not degraded", "unassessed", "not observed"
+            crate::t!("interference-map-cli-col-date"),
+            crate::t!("interference-map-cli-col-src"),
+            crate::t!("interference-map-cli-col-degraded"),
+            crate::t!("interference-map-cli-col-not-degraded"),
+            crate::t!("interference-map-cli-col-unassessed"),
+            crate::t!("interference-map-cli-col-not-observed")
         );
         for (e, _) in &rows {
             println!(
