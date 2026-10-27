@@ -9788,9 +9788,14 @@ engine-main-usage-sky =
     { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
     { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
 
-    スカイラインのもとで地点から見える衛星、その DOP、東・北・上の補因子と共分散、および水平誤差楕円を JSON（sky_geometry）として出力します。--monte-carlo を指定すると、n 個（最大 5000）のシード付き最小二乗誤差（sky_monte_carlo）を、--svg を指定するとスカイプロットを出力します。
+    スカイラインのもとで地点から見える衛星、その DOP、東・北・上の補因子
+    と共分散、および水平誤差楕円を JSON（sky_geometry）として出力します。--monte-carlo を指定すると、
+    n 個（最大 5000）のシード付き最小二乗誤差（sky_monte_carlo）を、--svg を指定するとスカイプロットを出力します。
     システムはエンジンのプリセット（gps-baseline、galileo、beidou-meo、glonass、xona-pulsar、...）です：
-    代表的なジオメトリであり、ある日時のある場所の空ではありません。--tle は 2 行軌道要素セット（最大 4 MiB）を読み込み、SGP4 で --epoch（UTC）に --time を加えた時刻まで伝播します：その時刻にそれらの要素セットが与える空であり、測定ではありません。--epoch を省略すると、最新の要素セットのエポックまで伝播します。これは代表的な空です。MODELLED、docs/SKYLINE.md。
+    代表的なジオメトリであり、ある日時のある場所の空ではありません。--tle は 2 行軌道要素
+    セット（最大 4 MiB）を読み込み、SGP4 で --epoch（UTC）に --time を加えた時刻まで伝播します：その
+    時刻にそれらの要素セットが与える空であり、測定ではありません。--epoch を省略すると、最新の
+    要素セットのエポックまで伝播します。これは代表的な空です。MODELLED、docs/SKYLINE.md。
 
 engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = 度分秒形式の位置を持つ RTKLIB の .pos は読み込めません：rnx2rtkp/RTKPOST を 十進の度（-degf 0）で再実行してください
 
@@ -9809,7 +9814,15 @@ engine-main-usage-lunanet-afs-check =
     { "   " }または：kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
     { "   " }または：kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
 
-    LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS V1.0, 29 January 2025) に固定されています。`spec` は、この実装を、文書に掲載されたコード表と計算例に照らして検査します（xval/lunanet-afs/PREREGISTRATION.md の合格基準 B1 から B10。--strict を指定すると、すべての合格基準が MET でない限り終了ステータスは 1 になります）。`symbols` は、硬判定のシンボルストリーム（0 と 1 のテキスト）について、同期パターン、SB1 のデコード、FID、TOI の連続性、フレーム間隔を検査します。サブフレーム 2 から 4（LDPC、CRC-24Q）は検証されません。`generate` は、プレースホルダのサブフレームを持つシンボルのテストストリームを書き出します。これは波形ではなく、Kshana は信号を書き出しません。記録から AFS 波形を捕捉または追尾するには、`kshana iq acquire --signal lunanet-afs-i`（または lunanet-afs-q）を使用してください。助言のみ。docs/LUNANET-AFS.md。
+    LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025) に固定されています。`spec` は、この実装を、文書に掲載されたコード
+    表と計算例に照らして検査します（xval/lunanet-afs/PREREGISTRATION.md の合格基準 B1 から B10。--strict を指定すると、
+    すべての合格基準が満たされない限り終了ステータスは 1 になります）。`symbols` は、硬判定のシンボルストリーム
+    （0 と 1 のテキスト）について、同期パターン、SB1 のデコード、FID、TOI の連続性、フレーム
+    間隔を検査します。サブフレーム 2 から 4（LDPC、CRC-24Q）は検証されません。`generate` は、プレースホルダの
+    サブフレームを持つシンボルのテストストリームを書き出します。これは波形ではなく、Kshana は信号を書き出しません。
+    記録から AFS 波形を捕捉または追尾するには、`kshana iq acquire --signal lunanet-afs-i`
+    （または lunanet-afs-q）を使用してください。助言のみ。docs/LUNANET-AFS.md。
 
 engine-main-usage-standards-pack =
     使い方：kshana standards-pack list
@@ -9817,8 +9830,12 @@ engine-main-usage-standards-pack =
     { "   " }または：kshana standards-pack rows <id>
     { "   " }または：kshana standards-pack tests <id>
 
-    standards pack は、実行前に定めた合格基準に照らして採点したシナリオの集合で、その証拠を裏付ける（supports evidence for）compliance-report の行に結びつけられています。`run` は表（または --json）を出力し、--out を指定すると <base>.pack.json と <base>.pack.md を書き出します。行を見るには、その JSON を `kshana compliance-report` に渡してください。受信機ログが必要なテストは NEEDS INPUT として一覧に載り、採点されません。
-    MODELLED：MET の合格基準は、モデル化したシナリオが定めた合格基準に達したことを示すものであり、いかなる製品も要件を満たすことを示すものではありません。docs/compliance/README.md。
+    standards pack は、実行前に定めた合格基準に照らして採点したシナリオの集合で、
+    その証拠を裏付ける（supports evidence for）compliance-report の行に結びつけられています。`run` は表（または --json）を出力し、
+    --out を指定すると <base>.pack.json と <base>.pack.md を書き出します。行を見るには、その JSON を `kshana compliance-report`
+    に渡してください。受信機ログが必要なテストは NEEDS INPUT として一覧に載り、採点されません。
+    MODELLED：MET の合格基準は、モデル化したシナリオが定めた合格基準に達したことを示すものであり、いかなる製品も
+    要件を満たすことを示すものではありません。docs/compliance/README.md。
 
 engine-main-applies = { $fmt }：適用されます
 
@@ -9940,7 +9957,10 @@ engine-jammertest-cli-usage =
     { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
     { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
     { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
-    プランとカタログは、公開されている NPRA/jammertest-plan の JSON ファイルです（MIT。xval/jammertest-plan/fetch.sh で取得してください）。プランの時刻はローカルの壁時計時刻です。--local-offset-h（既定は 2、CEST）は、それが UTC からどれだけ離れているかを示します。JammerTest 2024 データセットの attack_log のタイムスタンプは Z と記されていますがローカル時刻です：--time-shift-h の既定は -2 です。イベントは予定された真値であり、実際に放送された時刻の記録ではありません。
+    プランとカタログは、公開されている NPRA/jammertest-plan の JSON ファイルです（MIT。
+    xval/jammertest-plan/fetch.sh で取得してください）。プランの時刻はローカルの壁時計時刻です。--local-offset-h（既定は 2、CEST）は、
+    それが UTC からどれだけ離れているかを示します。JammerTest 2024 データセットの attack_log のタイムスタンプは Z と記されていますが、
+    ローカル時刻です：--time-shift-h の既定は -2 です。イベントは予定された真値であり、実際に放送された時刻の記録ではありません。
     助言用ソフトウェアであり、型式承認を受けた航法装置ではありません。
 
 engine-tle-warning = 警告：{ $w }
@@ -10070,3 +10090,543 @@ engine-api-html-chart-alt = 結果のチャート
 engine-api-html-full-result = 完全な結果（JSON）
 
 engine-api-html-footer-generated = Kshana { $version } で生成。
+
+engine-main-usage-skyline =
+    使い方：kshana skyline --preset <name> [--json]
+    { "   " }または：kshana skyline --presets
+    { "   " }または：kshana skyline --profile <skyline.json|skyline.toml>
+
+    スカイラインのプリセット（city-street、harbour-approach、fjord、container-terminal）を、その
+    出所と方位角の一度ごとの遮蔽とともに出力します。またはプリセットの一覧、あるいは skyline セクションを
+    エンジンが使う 360 エントリの表に縮約したものを出力します。REPRESENTATIVE のプリセットです。docs/SKYLINE.md。
+
+engine-evidence-cli-usage =
+    使い方：
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      終了コード 0 は検証成功、1 は失敗、3 は無傷だが署名者が固定されていない
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }（RFC 3161 トークンを読み込んでマニフェストに結び付けます。タイムスタンプ局の署名は
+    { "      " }検証しません：`openssl ts -verify` を使用してください）
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }（シナリオ、ラボの試験条件、受信機ログ、そのスコアを結び付けます。
+    { "      " }<scenario.toml> は receiver-trust の採点用シナリオです。信号は書き出しません）
+    { "  " }<t0>/<t1>：ログの最初のエポックからの秒数。ログに開始時刻が記載されている場合は ISO-8601 の UTC 時刻。
+    { "  " }パックは技術的な記録であり、法的な見解ではありません。
+
+engine-osnma-cli-usage =
+    使い方：kshana osnma verify <input> [options]
+
+    { "  " }<input>                    I/NAV ページ：プレーン形式（docs/OSNMA.md を参照）、または
+    { "                             " }公開されているテストベクトルの CSV レイアウト
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }入力レイアウト（既定：ファイルの内容による）。ubx は、
+    { "                             " }UBX-RXM-SFRBX メッセージ（Galileo E1-B）を含む u-blox のバイトストリーム
+    { "  " }--start-gst SECONDS        ベクトル CSV の開始時刻（GST 秒）
+    { "                             " }（既定：16_AUG_2023_GST_05_00_01.csv のようなファイル名から読み取る）
+    { "  " }--merkle-root HEX          DSM-PKR チェック用の信頼できる Merkle ルート（十六進 64 桁）
+    { "  " }--public-key ID:TYPE:HEX   信頼できる公開鍵。TYPE は p256 または p521、圧縮点
+    { "  " }--reference-time SECONDS   独立した情報源による現在時刻（GST 秒）。単一の
+    { "                             " }時点：これから許容差以上離れたサブフレームは
+    { "                             " }除外されるため、ライブまたは記録直後のデータに使用してください
+    { "  " }--max-time-error SECONDS   サブフレームの基準時刻からの最大距離。30 未満
+    { "                             " }（既定 29）。--reference-time が必要
+    { "  " }--epochs                   すべてのタグの結果も出力する
+    { "  " }--json                     テキストの代わりに JSON を出力する
+
+    終了ステータス：0 は完了、2 は使用法または入力のエラー、3 はいずれかの衛星のデータに対するチェックの失敗。
+
+engine-telemetry-cli-usage =
+    使い方：kshana trust-telemetry [options]
+    { "  " }入力（既定：標準入力の JSON 行）：
+    { "    " }--input <file|->         ファイルから、または `-` で標準入力から JSON 行を読み込む
+    { "    " }--result <result.json>   `kshana receiver-trust` の結果ファイルのエポックを再生する
+    { "  " }Prometheus：
+    { "    " }--listen <addr:port>     /metrics を提供する（他の出力を選ばない場合の既定は 127.0.0.1:9464）
+    { "    " }--print-metrics          入力の終了時に最終的な出力を標準出力に表示する
+    { "    " }--hold                   入力の終了後も提供を続ける
+    { "    " }--expose-position        受信機が報告した位置もゲージとして公開する（既定ではオフ）
+    { "  " }syslog（RFC 5424 エンベロープ内の CEF または LEEF）：
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  TCP メッセージをオクテットカウント（RFC 6587）でフレーム化する（一行に一メッセージではなく）
+    { "    " }--format cef|leef        ペイロードの方言（既定は cef）
+    { "    " }--syslog-all             エポックごとに一イベント（既定：バンドが変わるごとに一イベント）
+    { "    " }--host <name>            イベント内の機器のホスト名（既定は `kshana`）
+    { "  " }Home Assistant / NTP アプライアンス（JSON の状態 + MQTT ディスカバリ。パブリッシュのみ、資格情報や TLS はなし）：
+    { "    " }--mqtt-tcp <host:port>   ローカルの MQTT 3.1.1 ブローカーへパブリッシュする（保持メッセージ、QoS 0）
+    { "    " }--print-mqtt             メッセージを `topic<TAB>payload` の行として表示する
+    { "    " }--mqtt-prefix <p>        状態トピックのプレフィックス（既定は kshana/trust）。--mqtt-node <id>（既定は kshana）
+    { "    " }--mqtt-discovery <p>     Home Assistant ディスカバリのプレフィックス（既定は homeassistant）
+    { "  " }OpenTelemetry（--features otlp でビルド）：
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs>（既定は 10）
+
+engine-nmea-synth-cli-usage =
+    使い方：kshana nmea-scenario <scenario.toml> [options]
+
+    ブリッジ用の NMEA 0183 の合成セット（GGA RMC VTG GSV GSA GNS ZDA HDT VBW）を、スクリプト化した
+    ジャミング/スプーフィングのイベントを伴う船舶のトラックについて書き出すか配信し、あわせてインストラクターログを出力します。
+    トレーニングと試験専用：船舶の実際の航法システムには決して入力しないでください。
+
+    options:
+    { "  " }--out <file.nmea>          ストリームをファイルに書き出す（ネットワーク出力が
+    { "                             " }指定されていない場合の既定は <name>.nmea）
+    { "  " }--instructor-log <prefix>  <prefix>.json と <prefix>.txt を書き出す（既定：ファイルの
+    { "                             " }隣、なければカレントディレクトリの <name>）
+    { "  " }--tcp <addr:port|port>     ストリームを TCP で配信する（まずクライアントを待つ）。ポートのみの
+    { "                             " }場合は 127.0.0.1 でのみ待ち受ける。認証はありません：
+    { "                             " }そのアドレスに到達できる人は誰でもストリームを読み取れます
+    { "  " }--udp <addr:port|port>     一つの文を UDP データグラム一つとして、このアドレスに送る。ポートのみの
+    { "                             " }場合は 127.0.0.1 に送る
+    { "  " }--broadcast                --udp でブロードキャストアドレスの使用を許可する
+    { "  " }--wait-clients <n>         TCP ストリームを開始する前に待つクライアントの数（既定は 1）
+    { "  " }--realtime                 実時間で進める（ネットワーク出力の既定）
+    { "  " }--speed <x>                実時間の x 倍で進める。0 は可能な限り高速
+    { "                             " }（ファイルの既定）
+    { "  " }--seed <n>                 シナリオのシードを置き換える
+    { "  " }--no-marker                合成データであることを示すマーカー文を省略する
+
+engine-live-io-usage =
+    使い方：kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    NMEA 0183（既定は標準入力）を読み込み、船舶のフィックスの各エポックを 0-100 で採点して、エポックごとに
+    JSON を一行書き出します（既定は標準出力）。--gate を指定すると、代わりに NMEA ストリームが標準出力に通過します。
+    フィックスが信頼できる間は変更されず、信頼できない間はフィックスが無効とマークされ、各
+    サイクルの後に $PKSHT 文が付きます。その場合、JSON は --json で指定した先にだけ出力されます。
+    セッションは [platform] kind = "vessel" を持つシナリオの .toml で、その [log] テーブルは不要です。
+
+    --listen（--gate と併用）は、ゲート済みストリームを、標準出力に書き出す代わりに任意の数の TCP クライアント（たとえば
+    チャートプロッタ）へ配信します。既定のアドレスはループバックです。処理が追いつかない
+    クライアントは切断されるため、他のクライアントや入力を妨げることはありません。
+
+    受信機の時刻は、このコンピュータの時計とも照合されますが、これが意味を持つのはリアルタイムで届く
+    ストリームだけです。それより速く流し込む保存済みログ（stdin、tcp、udp）には
+    --replay を指定してください。単純な --file（--follow なし）は既に該当します。
+
+    --serial はシリアルまたは USB デバイス（Unix のみ）を読み取り専用で読み込みます：デバイスを読み取り用に開き、
+    --baud（既定は 4800、NMEA 0183 のレート）でローカル回線を raw モードに設定し、受信機へは一バイトも書き込みません。
+    Kshana は受信機を設定しません。受信機が NMEA を出力するように、その受信機自身のツールで設定してください。
+
+    助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。
+    船舶の航行の責任は引き続き運用者にあります。
+
+engine-animation-svg-sub = 種別 { $kind } · { $t0 } から { $t1 } · result.json のサンプル、リサンプリングなしで描画 · Kshana { $version }
+
+engine-e-osnma-page-not-valid-hex = ページが有効な十六進数ではありません
+
+engine-e-osnma-page-bad-length = ページは十六進 { $n } 桁ですが、60 桁が必要です
+
+engine-api-html-footer-licence = シナリオ + シード + エンジンのバージョンから再現可能。無料のオープンソース（AGPL-3.0）— <a href="https://github.com/AshfordeOU/kshana">ソース &amp; ドキュメント</a>。
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp：Kshana の PNT レジリエンス・シミュレーター用の Model Context Protocol サーバー。
+
+    使い方：
+    { "    " }kshana-mcp                      stdio で提供する（既定。MCP クライアントが起動する形）
+    { "    " }kshana-mcp --http <addr>        http://<addr>/mcp でストリーミング可能な HTTP を提供する
+
+    HTTP オプション：
+    { "    " }--http <addr>               バインドするアドレス。例：127.0.0.1:8080（既定ではループバックのみ）
+    { "    " }--allow-remote              ループバック以外のアドレスを許可する。KSHANA_MCP_HTTP_TOKEN が必要
+    { "    " }--allowed-host <host[:port]>  追加で受け付ける Host ヘッダ（繰り返し指定可）
+    { "    " }--allow-origin <origin>     受け付けるブラウザのオリジン（繰り返し指定可。既定ではなし）
+    { "    " }--max-body-bytes <n>        リクエスト本文の上限（既定は 5242880）
+    { "    " }--request-timeout-secs <n>  リクエストごとの時間制限（既定は 120）
+    { "    " }--max-concurrent <n>        同時に処理するリクエスト数（既定は 8）
+
+    HTTP トランスポートでは IQ ファイルツールがオフになります。Kshana はエンドポイントをホストしません：ご自身で実行してください。{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = 不明な引数 `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = HTTP オプションには --http <addr> が必要です
+
+engine-e-mcp-http-refusing-to-bind = { $addr } へのバインドを拒否します：ループバックアドレスではありません。127.0.0.1:<port> を使用するか、--allow-remote を指定して（{ $token_env } も設定して）このマシンの外からの接続を待ち受けてください
+
+engine-e-mcp-http-refusing-to-bind-needs-token = { $addr } へのバインドを拒否します：ループバック以外のアドレスには、環境変数 { $token_env } にベアラートークンが必要です
+
+engine-e-mcp-http-token-too-short = { $token_env } が 16 文字より短いです。長いランダムなトークンを使用してください
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes、--max-concurrent、--request-timeout-secs は 0 より大きくなければなりません
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin は `*` を受け付けません。オリジンを個別に指定してください
+
+engine-mcp-http-warning-remote = 警告：kshana-mcp は、このマシンの外からの接続を { $addr } で待ち受けています。そこに到達でき、ベアラートークンを持つ人は誰でも、お使いのハードウェア上でシミュレーションを実行できます。前段に TLS を置き（リバースプロキシやプラットフォームの HTTPS など）、トークンを秘密にしてください。
+
+engine-e-lunar-ascent-site-latitude-must-be-in = 地点の緯度は [-90, 90]、経度は [-180, 360] の範囲でなければなりません
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s は [120, 1800] の範囲でなければなりません
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode は off、standalone、differential のいずれかでなければなりません（指定値：`{ $o }`）
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode は off、ltc、tt のいずれかでなければなりません（指定値：`{ $o }`）
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays は 3..=24 の範囲でなければなりません
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s は正、afs_first_fix_s は負でない値でなければなりません
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km は [10, 1000] の範囲でなければなりません
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = 進入時の共分散が、対角が負でない対称行列ではありません
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent は進入時の時計が LTC または TT であることを前提としていますが、{ $timescale } が指定されました。時間スケールはスレッドが変換します
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s は [60, 3600] の範囲でなければなりません
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source は off、terrain-nav、lola-crlb のいずれかでなければなりません（指定値：`{ $o }`）
+
+engine-e-lunar-landing-fix-times-must-be-positive = フィックス時刻は正で、afs_interval_s > 0、trn_fix_time_s は降下の範囲内でなければなりません
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m は 3600 以上でなければなりません
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m は正でなければなりません
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb には DEM が必要ですが、読み込めませんでした
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent は進入時の時計が LTC または TT であることを前提としていますが、{ $timescale } が指定されました。時間スケールはスレッドが変換します
+
+engine-e-lunar-landing-east-prior-is-not-positive = 東方向の事前分布が正定値ではありません
+
+engine-e-lunar-landing-north-prior-is-not-positive = 北方向の事前分布が正定値ではありません
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }：{ $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit は `llo` または `elfo` でなければなりません（指定値：`{ $o }`）
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = 近点は表面から 20 km 以上上空でなければなりません
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m は (0, 50000) の範囲でなければなりません
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s は (0, 60] の範囲で、arc_s は少なくとも一ステップ分でなければなりません
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays は 4..=24 の範囲でなければなりません
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s は正でなければなりません
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction は [0, 1) の範囲でなければなりません
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model は `same` または `point-mass` でなければなりません（指定値：`{ $o }`）
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous は進入時の共分散が MCI であることを前提としています。座標系はスレッドが変換します
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = 事前共分散が正定値ではありません
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = 正規方程式が正定値ではありません
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = 事後情報が正定値ではありません
+
+engine-e-lunar-rendezvous-no-trial-ran = 試行が実行されませんでした
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = 季節の日付 `{ $s }` は YYYY-MM-DD ではありません
+
+engine-e-lunar-surface-map-season-date-bad-year = 季節の日付 `{ $s }`：年が不正です
+
+engine-e-lunar-surface-map-season-date-bad-month = 季節の日付 `{ $s }`：月が不正です
+
+engine-e-lunar-surface-map-season-date-bad-day = 季節の日付 `{ $s }`：日が不正です
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = 季節の日付 `{ $s }` は 1901-2099 の範囲外か、日付ではありません
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites のエントリ数は 1 から 64 の間でなければなりません
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = 地点 { $i }：緯度は [-90, 90]、経度は [-180, 360] の範囲でなければなりません
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates には少なくとも一つの日付が必要です
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates の日付は最大 16 個です
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days は (0, 400]、step_min は [1, 720] の範囲でなければなりません
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days と timing_floor_s は正かつ有限でなければなりません
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = エポック `{ $s }` は YYYY-MM-DDTHH:MM:SSZ ではありません
+
+engine-e-lunar-phase-epoch-bad-number = エポック `{ $s }`：数値 `{ $x }` が不正です
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = エポック `{ $s }` は 1901-2099 の範囲外か、日付ではありません
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] の replaces は "quantum" または "classical" でなければなりません（指定値：{ $other }）
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]：{ $e }
+
+engine-e-evidence-label-the-result-document-already-carries = 結果ドキュメントには既に `evidence` キーがあります
+
+engine-e-evidence-label-the-result-document-is-not = 結果ドキュメントは JSON オブジェクトではありません
+
+engine-e-evidence-label-no-evidence-rows-are-listed = `{ $tool }` に対して一覧にあるエビデンスの行がありません
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = RINEX クロックファイルではありません：RINEX VERSION / TYPE レコードがありません
+
+engine-e-clock-log-rinex-version-type-record-has = RINEX VERSION / TYPE レコードにバージョン番号がありません（見つかったもの：{ $field }）
+
+engine-e-clock-log-rinex-clock-version-is-not = RINEX クロックのバージョン { $v } は読み込めません：読み込めるのはバージョン 2.00 と 3.00 から 3.04 です（IGS はクロック形式を 3.04 まで公開しており、RINEX 4.00 から 4.02 はクロックファイルを定義していません）
+
+engine-e-clock-log-rinex-clock-record-with-an = クロックバイアスまたはエポックが読み取れない RINEX クロックレコードです：{ $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = TimeLab の { $line } 行に、有限でない測定値があります：{ $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = 座標系の変換 { $a } -> { $b } は利用できません（変換できるのは Gcrf、Mci、Mcmf のみ）
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = 時間スケールの変換 { $a } -> { $b } はピボットを経由する変換ではありません
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }：回廊は、浅い角度から 90 度未満のより急な角度へと延びていなければなりません（指定値：{ $lo } から { $hi }）
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network：`min_elevation_deg` は [0, 90) の範囲でなければなりません（指定値：{ $min_elevation_deg }）
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network：`handover_gap_s` は 0 以上でなければなりません
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network：`step_s` は 0 より大きくなければなりません
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network：少なくとも一つの局が必要です
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network：局 `{ $id }` の緯度または経度が無効です
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network：局 ID `{ $id }` が二重に使われています
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network：フェーズ `{ $phase }` は geometry "stated" を指定しており、`duty` が必要です
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network：フェーズ `{ $phase }` の duty は [0, 1] の範囲でなければなりません（指定値：{ $d }）
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network：フェーズ `{ $phase }` に不明な geometry `{ $other }` があります。geometry は entry-orbit、moon-direction、stated のいずれかです
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network：進入軌道が伝播しませんでした
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network：計算する geometry `{ $other }` がありません
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network：フェーズ `{ $phase }` は geometry のために GCRF の進入状態を必要としますが、{ $frame } が指定されました
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }：フェードは開始より後に終わらなければなりません（{ $a } から { $b } s）
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }：GCRF の進入状態が必要ですが、{ $frame } が指定されました。進入は gcrf で指定してください
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }：フェーズがサンプルを生成しませんでした
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }：不明なモデルキー `{ $k }` です。キーは { $allowed } です
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }：モデルには `{ $key }` が必要です
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }：`{ $key }` は有限の数でなければなりません
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }：`{ $key }` は 0 より大きくなければなりません（指定値：{ $v }）
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }：`{ $key }` は 0 以上でなければなりません（指定値：{ $v }）
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }：`{ $key }` は文字列でなければなりません
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }：`{ $key }` はテーブルの配列でなければなりません
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }：`{ $key }` にはテーブルを入れなければなりません
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }：`{ $key }` は { $n } 個の数の配列でなければなりません
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }：`{ $key }` には { $n } 個の数を入れなければなりません（指定された数：{ $got_count }）
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }：`{ $key }` には有限の数を入れなければなりません
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }：レグには `sensor` が必要です
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }：モデルには少なくとも一つの `[[phase.model.legs]]` が必要です
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }：レグ { $leg } の開始：{ $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }：レグ { $leg } の終了：{ $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }：レグ { $leg }：{ $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }：`ground_duty` は [0, 1] の範囲でなければなりません（指定値：{ $d }）
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }：`ssv_window_s` と `ssv_step_min` は 0 より大きくなければなりません
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }：伝播が { $dt } s に達しませんでした
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }：燃焼後の軌道は束縛されていません（比エネルギー { $energy } J/kg）。gnss-ssv の代用軌道には楕円軌道が必要です
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }：gnss-ssv のスイープがバンドを返しませんでした
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }：gnss-ssv のスイープがグループを返しませんでした
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }：フェーズが gnss-ssv を挙げているため、モデルには `ssv_uere_m` が必要です
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }：フェーズが ground-tracking を挙げているため、モデルには `ground_range_sigma_m`、`ground_range_rate_sigma_mps`、`ground_interval_s` が必要です
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = 引き継ぎ { $name } は 0 以上の有限の数でなければなりません（指定値：{ $v }）
+
+engine-e-mission-thread-phase-its-model-is-but = フェーズ `{ $id }`：そのモデルの { $key } は { $own_s } s ですが、スレッドはフェーズの duration_s = { $duration_s } s としています。両者を一致させるか、{ $key } を省いてください
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = 不明な座標系 `{ $other }` です。gcrf、itrf、mci、mcmf、lvlh のいずれかを指定してください
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = 不明な時間スケール `{ $other }` です。tt、tdb、utc、ltc のいずれかを指定してください
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = 不明な航法ソース `{ $other }` です。gnss、gnss-ssv、ground-tracking、lunanet、trn、inertial、relative-optical のいずれかを指定してください
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = 不明な時刻ソース `{ $other }` です。gnss、ground-clock、lunar-time、onboard-holdover のいずれかを指定してください
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } は正の有限の数でなければなりません（指定値：{ $v }）
+
+engine-e-mission-thread-scenario-handover-rule-needs = 引き継ぎ規則 `{ $rule }` には `{ $what }` が必要です
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = 不明な引き継ぎ規則 `{ $other }` です。carry、inflate、reacquire のいずれかを指定してください
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = フェーズの ID が空です
+
+engine-e-mission-thread-scenario-entry = entry：{ $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry：sigma_drift_s_per_s は 0 以上の有限の数でなければなりません
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry：x には六つの有限の数を入れなければなりません
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread：{ $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind は "mission-thread" でなければなりません（指定値："{ $k }"）
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = ミッションスレッドには少なくとも一つの [[phase]] が必要です
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = フェーズ ID `{ $id }` が二重に使われています。ID は一意でなければなりません
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network：フェーズ `{ $phase }` はこのスレッドのフェーズではありません
+
+engine-e-mission-thread-scenario-phase = フェーズ `{ $id }`：{ $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = フェーズ `{ $id }` は { $t_s } s に終了しましたが、開始は { $start_s } s で、継続時間は { $duration_s } s です
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = 不明な相対航法センサー `{ $other }` です。optical-camera、lidar、rf-ranging のいずれかを指定してください
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = 距離は、メートル単位の正の有限の数でなければなりません（指定値：{ $range_m }）
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = 距離 { $range_m } m は、センサーの上限 { $max_range_m } m を超えています
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }：不明なモデルキー `{ $bad }` です。キーは { $keys } です
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = receiver-trust のエビデンスの行がマトリクスにありません
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = 不明なアブレーション `{ $other }` です：B1 から B5 のいずれかを指定してください
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = エビデンスパックの行がマトリクスにありません
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = jammertest のエビデンスの行がマトリクスにありません
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]：フィットに周波数ノイズがありません（white FM、flicker FM、random-walk FM がすべて 0）。そのため、ホールドオーバーを予測する根拠がありません。ログが white phase noise のみか、短すぎる可能性があります
+
+engine-e-evidence-label-run-exercised-no-matrix-row = この実行は、検証マトリクスのどの行も実行しませんでした
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent は進入時の共分散が MCI であることを前提としています。座標系はスレッドが変換します
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent は進入時の共分散が MCI であることを前提としています。座標系はスレッドが変換します
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface は進入時の状態が MCI または MCMF であることを前提としています。座標系はスレッドが変換します
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km は月の半径を超え、離心率は [0, { $lit_0_9 }) の範囲でなければなりません
+
+engine-e-mission-thread-unknown-phase-kind = 不明なフェーズ種別 `{ $kind }` です。登録済みの種別は { $known } です
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` に航法ソースが挙げられていません
+
+engine-e-ssv-check-training-pattern-missing = 学習パターン { $sv } がありません
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] には [clock_log] テーブルが必要です：フィットの元となる実測系列です
+
+engine-lunar-phase-no-finite-points-to-plot = プロットする有限の点がありません
+
+engine-partner-cli-usage =
+    使い方：kshana partner check <submission.toml> [--json]
+    { "  " }データパートナーの提出物（kshana.partner-submission/1）の形式とメタデータを検査し、そのデータファイルを
+    { "  " }エンジン自身のリーダーで読み込みます。採点や検証は一切行いません。docs/PARTNER-DATA.md を参照してください。
+    { "  " }終了ステータス 0：提出物は完全で読み取り可能、1：エラーが見つかった、2：使用法の誤り。
+    助言用ソフトウェアであり、型式承認を受けた航法装置ではありません。
+
+engine-evidence-verify-evidence-label-ledger-rows = エビデンスラベル：{ $tier }（台帳の行 { $row_count } 件：{ $rows }）。config.json の内側にあるため、署名の対象に含まれます
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = エビデンスラベルなし（0.40 より前のパック）
+
+engine-e-ssv-check-pattern-missing = パターン { $sv } がありません
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | 慣性のみ { $inertial_pos } m / { $inertial_vel } m/s | AFS あり { $afs_pos } m / { $afs_vel } m/s | 投入時の散布 { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = 月面上昇：3 次元の航法位置 1σ（m）
+
+engine-lunar-ascent-chart-subtitle = AFS フィックスを伴う慣性ドリフト | MODELLED、助言のみ
+
+engine-lunar-ascent-chart-x-axis = 離陸からの経過秒
+
+engine-lunar-ascent-chart-series = 位置 1σ
+
+engine-lunar-chart-y-axis-metres = メートル
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | 慣性のみ { $none_east }/{ $none_north } m (E/N) | 補助あり { $all_east }/{ $all_north } m | 散布 R95 { $r95 } m | 3σ 楕円 { $major } x { $minor } m | { $inside }% が楕円内（期待値 { $expect }%）(MODELLED)
+
+engine-lunar-landing-chart-title = 月面着陸の散布：使用した補助ごとの R95
+
+engine-lunar-landing-chart-subtitle = 補助ごとの R95：{ $aids } | MODELLED、助言のみ
+
+engine-lunar-landing-chart-x-axis = 補助の組み合わせ（インデックス）
+
+engine-lunar-landing-chart-series = 着陸散布の R95
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | 離隔 { $sep } m | フィックス { $fixes }% | 相対位置 1σ R/A/C { $radial }/{ $along }/{ $cross } m | 平均 NEES { $nees }（期待値 6）| 収束 { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = なし
+
+engine-lunar-rendezvous-converged-at = { $s } s
+
+engine-lunar-rendezvous-chart-title = 月軌道ランデブー：形式上の相対位置 1σ（3 次元、m）
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | フィックス { $fixes }% | 平均 NEES { $nees }（期待値 6）| MODELLED、助言のみ
+
+engine-lunar-rendezvous-chart-x-axis = 軌道弧の開始からの経過分
+
+engine-lunar-rendezvous-chart-series = 相対位置 1σ
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites } 地点 x { $n_seasons } 季節 | 測位 { $position_min }% から { $position_max }% | 最悪の時刻可用性 { $worst_timing }% | 最長の時刻ギャップ { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = 月面 PNT マップ：地点ごとの可用性（最悪の季節、%）
+
+engine-lunar-surface-map-chart-subtitle = 測位 = 中継衛星 4 基以上かつ PDOP がしきい値未満、時刻 = 中継衛星一基または地球 | MODELLED、助言のみ
+
+engine-lunar-surface-map-chart-x-axis = 地点のインデックス
+
+engine-lunar-surface-map-chart-y-axis = 時間窓に占める割合（%）
+
+engine-lunar-surface-map-chart-series-positioning = 測位
+
+engine-lunar-surface-map-chart-series-timing = 時刻
+
+engine-lunar-surface-map-chart-series-earth-visible = 地球が可視
+
+engine-mission-thread-weakest-link = 最弱のリンク { $phase_id }
+
+engine-mission-thread-no-phases = フェーズなし
+
+engine-mission-thread-untitled = 無題
+
+engine-mission-thread-summary = mission-thread | { $n_phases } フェーズ | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = ミッションスレッド
+
+engine-mission-thread-chart-position-caption = 位置 1σ、m
+
+engine-mission-thread-chart-time-caption = 時刻 1σ、s
+
+engine-mission-thread-chart-subtitle = MODELLED の航法・時刻の誤差収支。各フェーズは等しい幅で描画
+
+engine-evidence-label-line-one-row = エビデンス：{ $tier } · 台帳 { $n } 行 { $ids }
+
+engine-evidence-label-line-rows = エビデンス：{ $tier } · 台帳 { $n } 行 { $ids }
+
+engine-evidence-label-line-rows-more = エビデンス：{ $tier } · 台帳 { $n } 行 { $ids } +{ $n_more } 件
+
+engine-partner-text-header = kshana partner check：{ $submission }
+
+engine-partner-text-info = { "  " }情報：{ $i }
+
+engine-partner-text-warning = { "  " }警告：{ $w }
+
+engine-partner-text-error = { "  " }エラー：{ $e }
+
+engine-partner-text-result-ok = 結果：形式とメタデータは完全で、読み取り可能です
+
+engine-partner-text-result-not-ready = 結果：準備ができていません。上記のエラーを修正してください
