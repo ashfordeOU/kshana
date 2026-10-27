@@ -278,3 +278,49 @@ seg-ccb244e60d60 = Optiline vs RF kahesuunaline aja/sageduse edastus.
 
 # text
 seg-f6ff1c8c78db = Jälgimissilmuse lukustuse kadu: C/N0 -> lukustus/lukustuse vabastus HÜSTEREESIGA, lukustuse kaotamise aeg ning spuufimise sissetõmme koodi ja kandelaine nihke KIIRUSE funktsioonina. Mootori olemasolevad keelamise ja haaramise kriteeriumid on vastuvõetud võimsuse suhted (segaja keelab juures J/S = { "30" } dB, spuufer haarab juures { "3" } dB); tegelik lukustuse kadu ei ole võimsuse suhe, see on koht, kus silmuse värin pluss dünaamiline koormus väljub selle jälgimislävendi eelarvest. Annab aru ({ "1" }) kandelaine (Costas) ja koodi (mittekoherentne varajane/hiline) 1-sigma termilisest värinast versus C/N0, ruutimiskadu kaasa arvatud, nimetatud reeglite { "3" }<em>sigma_PLL + theta_e <= { "45" } deg (15-kraadine reegel kolme sigma kujul) ja { "3" }</em>sigma_DLL + kaldviivitus <= d/2 chipi vastu; ({ "2" }) väljalangemise ja taaslukustumise C/N0 läved koos piirava silmuse nimetamisega, taaslukustumise lävi TULETATUD laiemast ribalaiusest, millega vastuvõtja uuesti sisse tõmbub, mitte väidetud, nii et hüstereesi laius peab jääma vahemikku { "5" }<em>log10(suhe) kuni { "10" }</em>log10(suhe) dB; ({ "3" }) kuulutatud lukustuse kaotamise aeg kahe lävega lukustusdetektorist kinnitusviibimistega, käivitatuna üle C/N0 kallaku, esitatuna eraldi füüsilisest faasipõgenemise ajast (Viterbi keskmine aeg tsüklihüpete vahel, log10 s-ides, sest see ulatub üle sadade dekaadide); ({ "4" }) spuufimise sissetõmbe piirid — suurim koodi libisemine ja kandelaine Doppleri kiirus, mida ohvri silmused suudavad järgida, koos kaardiga mõlema telje kohta, sest spuufer, mis libiseb neist kiiremini, ei haara silmust, vaid jookseb sellest ette; ning ({ "5" }) silmuse dünaamikast tulenev KEELAMISRADIUS esitatud olemasoleva võimsussuhte raadiuse KÕRVAL, mitte kunagi selle asemel, nende märgiga vahe omaette nimetatud väljana (denial_radius_delta_km) ja definitsioon selle kõrval. Iga väljastatud arvuväli kannab ühikut ja päritoluklassi. VALIDATED kinnised kujud: kandelaine ja koodi värina avaldised, silmusefiltri taandus sqrt({ "2" }<em>B_n</em>T) ja esimese järgu kaldviivitus on ristkontrollitud mootori enda sdr korrelaatori vastu, mida sammutatakse edasi algväärtustatud sünteetilisel IF-il — erinev tee samade arvudeni — vastavalt täpsusega { "0.6" } %, { "3.7" } % ja { "0.17" } %, ning tsüklihüppe aja taga olev modifitseeritud Besseli I0 tavaliste tabelväärtuste vastu täpsusega { "1e-7" }. Alumine kehtivuspiir on kinnitatud, mitte ainult nimetatud: alla ~{ "32" } dB-Hz juures { "1" } ms küllastub tegelik atan-diskriminaator oma +-pi/2 vahemiku vastu ja mõõdab väiksemat värinat kui ükski lineaarne teooria. MODELLED: silmuse ribalaiused, integreerimisaeg, korrelaatori vahe, sissetõmbe ribalaiuse suhe, kinnitusviibimised, segaja võimsus ja antennivõimendused on esindusliku riba arvud, mitte andmeleht. EI modelleerita: ostsillaatori (Alani hälbe) ja vibratsiooni värinat, sisendotsa ribalaiuse piiramist, mitmeteeleviivet, AGC dünaamikat, andmebiti ülemineku kadu, välist toetamist ega Costase tsüklihüppe valemi mis tahes poolsüklilist korrektsiooni. Silmuse dünaamika korral ei ole spuufimise haaramisel üldse raadiust — piirav tingimus on nihke kiirus, mitte võimsus — seega on see väli null koos põhjendusega, mitte väljamõeldud arv. Mitte sertifitseeritud vastuvõtja toimivuse toode.
+
+# text
+# c1: docs/SCENARIOS.md
+seg-45cb12242d59 = Allikas: <c1/>
+
+# text
+# c1: kshana::api::run_toml
+seg-843d88cee576 = { "87" } sisseehitatud stsenaariumi liiki, mille vahel <c1/> edastab, igaühel oma ühe rea kirjeldus ning nõutud / valikulised TOML-i (Tom's Obvious, Minimal Language) väljad.
+
+# text
+# c1: api::list_scenario_kinds()
+# c2: cargo run --bin gen_validation_artifacts
+# c3: list_scenario_kinds
+seg-2860d14bd619 = See fail on <b>genereeritud</b> failist <c1/> — ainsast tõeallikast — käsuga <c2/>; muutke allikat, mitte seda faili. Iga sidumine (Pythoni pakett, MCP (Model Context Protocol) serveri tööriist <c3/> ja WebAssembly (WASM) mänguväljak) avab sama kataloogi, nii et siin loetletu on täpselt see, mida iga pind käitada saab. Kirjeldused on lühikesed ega ava alati oma lühendeid; igaüks on lahti kirjutatud failis <a1>GLOSSARY.md</a1>.
+
+# text
+# c1: clock
+# c2: kind = "<name>"
+# c3: kind
+# c4: clock
+# c5: kind
+# c6: |
+# c7: +
+# c8: tle|orbit+epoch
+# c9: tle
+# c10: orbit
+# c11: epoch
+seg-28b0dbf53a2c = Iga stsenaarium peale <c1/> peab ülemisel tasemel seadma ka <c2/>: dokument ilma <c3/> käitub kui <c4/>, mistõttu <c5/> ei kordu ühegi liigi allolevates nõutud väljades. Nõutud kirje võib nimetada alternatiive: <c6/> eraldab vorme, millest vähemalt üks peab olema olemas, ja <c7/> ühendab väljad, mis peavad esinema koos, nii et <c8/> loeb „<c9/> või <c10/> koos <c11/>“.
+
+# text
+seg-6317db731879 = Kirjeldus
+
+# text
+seg-6c9d3eec1bd7 = Kohustuslikud väljad:
+
+# text
+seg-05a3e7f57b33 = Valikulised väljad:
+
+# text
+seg-c01773d5f190 = (puudub)
+
+# text
+seg-4178135b91eb = <s1>Eelmine</s1>Läbitöötatud näide: mitme tööriistaga torujuhe
+
+# text
+seg-c9afb81f21d8 = <s1>Järgmine</s1>Kõik stsenaariumi liigid perekondade kaupa

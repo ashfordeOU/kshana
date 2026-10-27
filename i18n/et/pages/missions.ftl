@@ -154,3 +154,54 @@ seg-9d3ee6a5613e = Käivitused
 
 # text
 seg-94de9433d99f = Stsenaariumifailid
+
+# text
+seg-99a7944884ce = Sektor
+
+# text
+seg-b37002818547 = Kaitse ja julgeolek
+
+# text
+seg-5d7a6650872e = Lennundus ja droonid
+
+# text
+seg-75d7d1930515 = Maantee
+
+# text
+seg-ea4149746f7b = Raudtee
+
+# text
+seg-e7a61033ec40 = Kriitiline taristu ja ajastus
+
+# text
+seg-f246644479d0 = Teadus ja uuringud
+
+# text
+seg-f2f6717849a7 = Kosmos: Maa orbiit
+
+# text
+seg-d038a1e09683 = Kas minu kosmoseaparaat näeb piisavalt navigatsioonisatelliite, kui kaua tema kell hoiab aega fiksside vahel ja mida lisaks madala orbiidi navigatsioonikiht?
+
+# text
+seg-6010770a2bf6 = Kuu ja kaugkosmos
+
+# text
+seg-33641ef6761c = Maantee ja autotööstus
+
+# text
+seg-94cca6b24bb2 = Mitu sekundit tunnelis suudab rong veel öelda, millisel rööpal ta on?
+
+# text
+seg-2d2a4afa2708 = Telekom ja 5G
+
+# text
+seg-af94e7a93923 = Kui GNSS-i ajaetalon kaob, kas minu võrgukell püsib ITU-T maskide piires ja kui kauaks?
+
+# text
+seg-36d838421b86 = Kas ma saan PNT tulemust reprodutseerida, laiendada ja tsiteerida, kuni algväärtuseni (seed)?
+
+# attr:aria-label, text
+seg-821762272e2f = Sektorid
+
+# text
+seg-13e8e5460280 = Geomeetria

@@ -29,3 +29,6 @@ seg-587beeccaa11 = Eelseade
 
 # text
 seg-edb7b16b6c0e = Valideerimine
+
+# text
+seg-3c513ef2fd3b = Suurus
