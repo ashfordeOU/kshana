@@ -25,3 +25,7 @@ seg-de6c33774c9c = CLI
 seg-d1e9715513b4 = Przykład
 
 seg-587beeccaa11 = Ustawienie predefiniowane
+
+seg-b03d56f501c3 = Rodzaj
+
+seg-4dbf41c0ec3b = Funkcja
