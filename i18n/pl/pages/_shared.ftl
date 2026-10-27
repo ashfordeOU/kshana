@@ -413,3 +413,9 @@ seg-4798bca2d7a7 = MODELLED: wiersze <a1>macierzy weryfikacji</a1>, które wymie
 seg-6338a873ee85 = Wiersze, które sam przebieg wykorzystał, wraz z wyrocznią, jaką macierz podaje dla każdego (publiczne źródła są tam wymienione):
 
 seg-fe24dcc6971f = <b>MODELLED</b> Deterministyczne, haszowane na poziomie scenariusza, bramki SBOM i złotych wyników między platformami. Wyrocznia (ExternalDataset): zgodność SBOM z oficjalnym schematem JSON CycloneDX { "1.5" } (+ prawidłowe identyfikatory SPDX): zewnętrzny opublikowany standard, zero błędów walidacji w całym grafie zależności; część dotycząca determinizmu wskaźników jakości i odtwarzalności bajt w bajt pozostaje przypiętą kontrolą samospójności, więc wiersz pozostaje MODELLED
+
+seg-1fc08d2f0209 = Co raport samego przebiegu podaje jako niemodelowane lub niesprawdzone względem niezależnego wzorca:
+
+seg-58c4d7218e70 = Odtwarzalność i zapewnienie jakości oprogramowania jest MODELLED, nie jest sprawdzona względem niezależnego wzorca: jedno twierdzenie składowe jest sprawdzone zewnętrznie, ale cała możliwość składa się z elementów obliczonych na podstawie modelu, więc pozostaje obliczona na podstawie modelu. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
+
+seg-1bf3d5817274 = Wszystkie rodzaje: <a1>KINDS.md</a1>

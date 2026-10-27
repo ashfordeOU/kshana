@@ -33,3 +33,21 @@ seg-d62795b9fdc0 = Etykieta wyniku (silnika): MODELLED: adaptacyjne kodowanie i 
 seg-046f69293874 = Wykres, który silnik zapisuje dla scenarios/acm-link.toml, rodzaj acm-link
 
 seg-0f4c2ab525ac = <b>MODELLED</b> Es/N0 łącza w dół wzdłuż każdego przejścia jednego satelity nad jedną stacją (EIRP, strata w wolnej przestrzeni, strata atmosferyczna według prawa cosecansa, inne straty, G/T, stała Boltzmanna, szybkość symboli), najefektywniejszy MODCOD DVB-S2, który spełnia swój próg ETSI EN { "302" } 307-
+
+seg-c246881f6fd4 = <b>VALIDATED</b> Przejścia widoczności (AOS, TCA, LOS, maksymalna widoczna elewacja, czas trwania) zestawu elementów SGP4 nad stacją w WGS-84 na ścieżce sprawdzonej względem niezależnego wzorca orbity okołoziemskiej (IAU { "2006" }. Wyrocznia (ExternalDataset): Orekit { "13.1.8" } (CS GROUP, Apache-2.0) z Hipparchus { "4.0.3" }: TLEPropagator na tych samych zestawach elementów w TEME budowanym przez Orekit według podanej definicji (jego IERS { "2010" } TOD obrócony o GAST - GMST), ElevationDetector i ElevationExtremumDetector z ITURP834AtmosphericRefraction i bez niej oraz AngularAzEl z AngularRadioRefractionModifier dla przypadku z opóźnieniem świetlnym, przecięcia i maksimum rozwiązywane przez Hipparchus; { "60" } przypadków (f
+
+seg-35588ca8e9bb = <b>MODELLED</b> Es/N0 łącza w dół wzdłuż każdego przejścia jednego satelity nad jedną stacją (EIRP, tłumienie w wolnej przestrzeni, tłumienie atmosferyczne według prawa cosecansa, pozostałe straty, G/T, stała Boltzmanna,. Wyrocznia (InternalConsistency): Spójność wewnętrzna: sprawność widmowa obliczona w postaci zamkniętej z K_bch z tabeli 5a i długości ramek zgadza się ze sprawnościami podanymi w tabeli { "13" } (kontrola poprawności przepisania tabeli progów); składniki bilansu łącza zgadzają się ze swoimi postaciami zamkniętymi; wybór jest monotoniczny względem Es/N0 i uwzględnia margines; ACM przenosi co najmniej tyle danych, ile kodowanie stałe. Geometria przejścia pochodzi z osobno VALIDATED a
+
+seg-02e9f2e87410 = MODELLED — adaptacyjne kodowanie i modulacja DVB-S2 na przejściach jednego satelity nad jedną stacją: Es/N0 przy czystym niebie wzdłuż każdego widocznego przejścia, najsprawniejszy MODCOD spełniający próg z tabeli { "13" } ETSI EN { "302" } 307-1 plus margines, w porównaniu z MODCOD o stałym kodowaniu, który domyka się na masce; bez zaniku deszczowego i straty na celowaniu wzdłuż przejścia (wynik <c1/>)
+
+seg-cd04f5662884 = MODELLED. (katalog rodzajów (<c1/>))
+
+seg-a2cdc7dff1e3 = Każda liczba poniżej jest ILLUSTRATIVE: nie jest to orbita, stacja ani bilans łącza żadnego operatora. MODELLED. (komentarz w pliku scenariusza, wiersz { "8" })
+
+seg-7f8667e8d8fe = Adaptacyjne kodowanie i modulacja DVB-S2 wzdłuż przejścia łącza w dół z LEO jest MODELLED, nie jest sprawdzone względem niezależnego wzorca: sprawdzone względem własnej tożsamości w postaci zamkniętej / analitycznej; wychwytuje błędy przepisania i współczynników, ale nie jest zewnętrzną wyrocznią. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
+
+seg-8f1e7d3f5a07 = Strona rodziny: <a1>Analiza misji, łącza i operacje kosmiczne</a1>
+
+seg-72fd0321e4af = Strona tematu: <a1>CONTACT-SCHEDULING.md</a1>
+
+seg-1f67ae89028b = <s1>Następny</s1>aocs
