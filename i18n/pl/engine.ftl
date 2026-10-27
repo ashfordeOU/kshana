@@ -11639,3 +11639,66 @@ engine-partner-text-error = { "  " }BŁĄD: { $e }
 engine-partner-text-result-ok = wynik: format i metadane są kompletne i czytelne
 
 engine-partner-text-result-not-ready = wynik: niegotowe; popraw błędy powyżej
+
+engine-interference-map-locate-usage = użycie: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom wymaga także --licence <text> --licence-url <url> --attribution <text>)
+    Zapisuje emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv i -figure.svg: szacowane obszary emitera na podanych poziomach ufności, nigdy samego punktu
+
+engine-interference-map-locate-wrote = zapisano { $path }
+
+engine-interference-map-locate-summary = opublikowano { $n_sessions ->
+        [one] { $n_sessions } sesję
+        [few] { $n_sessions } sesje
+        [many] { $n_sessions } sesji
+       *[other] { $n_sessions } sesji
+    }; wstrzymano { $n_withheld ->
+        [one] { $n_withheld } sesję kandydującą
+        [few] { $n_withheld } sesje kandydujące
+        [many] { $n_withheld } sesji kandydujących
+       *[other] { $n_withheld } sesji kandydujących
+    } (mniej niż { $min } różnych statków powietrznych lub jednostek pływających)
+
+engine-interference-map-locate-note-not-preregistered = uwaga: opcja różni się od parametrów zarejestrowanych wstępnie, więc nie jest to metoda zarejestrowana wstępnie
+
+engine-interference-map-locate-line-session = sesja { $k }: { $start } do { $end }, { $affected } różnych dotkniętych, obszar { $level }% { $area } km², centroid { $lat }, { $lon } (elipsa { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = sesja { $k }: { $start } do { $end }, { $affected } różnych dotkniętych, raporty nie zawężają obszaru (brak ograniczenia)
+
+engine-interference-map-locate-fig-title = Szacowany obszar emitera
+
+engine-interference-map-locate-fig-subtitle = Gdzie, przy podanych założeniach, mogłoby znajdować się źródło pogorszonych raportów. Pokazano { $n ->
+        [one] { $n } sesję
+        [few] { $n } sesje
+        [many] { $n } sesji
+       *[other] { $n } sesji
+    }.
+
+engine-interference-map-locate-fig-none = Żadna sesja nie osiągnęła minimum do publikacji, więc nie pokazano żadnego obszaru.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = obszar { $pct }%
+
+engine-interference-map-locate-fig-legend-ellipse = elipsa 95% rozkładu a posteriori
+
+engine-interference-map-locate-fig-note-1 = Obszar nie jest położeniem żadnego statku powietrznego, jednostki pływającej ani organizacji i nie jest ustaleniem przyczyny.
+
+engine-interference-map-locate-fig-note-2 = Teren nie jest modelowany, a każda sesja zakłada jedno źródło; poziomy ufności są warunkowe względem modelu.
+
+engine-e-interference-map-locate-bad-number = { $name } nie jest liczbą
+
+engine-e-interference-map-locate-bad-levels = --levels wymaga liczb oddzielonych przecinkami, ściśle między 0 a 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km musi mieścić się między 0.5 a 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min musi mieścić się między 1 a 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m wymaga dwóch liczb, min,max, przy 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } nie jest użytecznym plikiem rozwiązania TDOA (receivers, tdoa_s, sigma_s, start) albo rozwiązanie nie zbiegło się
+
+engine-e-interference-map-locate-source-required = wymagane jest --source adsb albo --source ais
+
+engine-e-interference-map-locate-no-evidence-rows = brak wierszy dowodowych dla wyników locate
