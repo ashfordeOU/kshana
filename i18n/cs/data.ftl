@@ -6162,3 +6162,173 @@ dat-b0df8ec2da5c = scikit-learn roc_auc_score na testovacím rozdělení OPSSAT-
 dat-2af5f540cc70 = scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), obě BSD-3-Clause — nezávislé knihovny počítající tytéž jednoznačně definované veličiny gaussovského chvostu / AUC, shoda do prahu A&S-erf (~{ "7e-8" }). Výhoda kvantového-versus-klasického postavená navrch zůstává MODELLED
 
 dat-04ea5481c128 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — nezávislá knihovna (Cephes/Boost), jiný algoritmus než řada neúplné gamy Kshany; shoda do ≤{ "1e-6" } rel. Pouze jádro. *Alokace* rozpočtu P_HMI pro ARAIM MHSS již není bez publikovaného číselného orákula — vlastní propočtený příklad podskupiny ARAIM Technical Subgroup WG-C nyní zálohuje samostatný řádek „Ochranné úrovně ARAIM MHSS proti publikovaným referenčním vektorům", shodný při vlastním TOL_PL reference = { "5e-2" } m — takže rozsah tohoto řádku je statistické jádro a onen řádek nese alokaci (viz docs/ARAIM_REFERENCE.md)
+
+dat-828c020a30e1 = scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q přesně, χ² <{ "5e-4" } při provozních stupních volnosti. Pouze jádra — čísla výkonu zařízení zůstávají modelovaná (další řádek)
+
+dat-7c9bfa5ab641 = scipy { "1.18" } (BSD-3-Clause): linalg.expm počítající diskrétní procesní šum Van-Loan { "1978" } Q₀₀ = ∫₀ᵗ ΦQcΦᵀds přes Padého škálování a umocňování na rozšířené matici { "6" }×{ "6" } — nezávislá cesta, která nikdy nevidí polynomiální koeficienty kshany; plus optimize.brentq invertující tutéž monotónní křivku oproti půlení v kshaně. Údaje o prahu červeného šumu podle třídy (ClockClass) zůstávají MODELLED
+
+dat-c1c604f3caec = scipy { "1.18" } (stats.kendalltau variant='b', rankdata) + numpy.percentile (BSD-3-Clause) — nezávislé implementace (merge-sort τ) jednoznačně definovaných pořadových statistik, shoda do { "1e-12" }. Studie nestability rozhodování postavená na těchto jádrech zůstává MODELLED
+
+dat-44fe7f2f9c8e = SciPy { "1.18.1" } (BSD-3-Clause) solve_ivp(method=DOP853) a jeho rutiny pro jeden krok, normu chyby, hustý výstup a počáteční krok, nezávislá implementace; přesné dvoutělesové stavy z mpmath { "1.3.0" } na { "40" } míst. Prahy předregistrované v xval/dop853-scipy/PREREGISTRATION.md (ae1b25e) před prvním porovnáním; všechny splněny (xval/dop853-scipy/RESULTS.md). První krok SciPy je v úplných bězích dán oběma řešičům; rutina počátečního kroku je porovnána zvlášť. Nepokryto: RKF7({ "8" }), detekce tuhosti, lokalizace událostí
+
+dat-296dc4051c11 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) se stejným periodickým oknem Hann, překryvem, hustotním škálováním, bez odstranění trendu a s oboustranným průměrem: každý bin do { "1e-12" } relativně (pozorováno { "6.0e-14" }) přes { "27" } případů, s počty segmentů převzatými z vlastního spektrogramu scipy. sigmf-python { "1.13.0" } (LGPL-3.0, spuštěný jako nástroj) zapíše pět nahrávek třetích stran (cf32_le, ci16_le, ci8, dva záznamy s anotacemi, nenulový první sample_start), které crate dekóduje bitově shodně se shodnými poli jádra, a nahrávky crate čte zpět bitově shodně; schéma metadat SigMF { "v1.2.6" } hlásí nula chyb na metadatech crate. Tolerance stanovené před prvním porovnáním. Mimo tvrzení: spectrum::synthesise_iq a porovnání [iq] a [recording] s modelem (syntéza nemá jedinou správnou odpověď; periodický chirp ukazuje čáry, Fresnelovo zvlnění a okrajové chvosty, které hladký model vynechává, celkový výkon do { "2" } %), konvence převodu celých čísel na plovoucí řádovou čárku (crate dělí { "32767" } a { "127" }, autoscale sigmf-python { "2" }^{ "15" } a { "2" }^{ "7" }, což specifikace nechává otevřené; porovnání používá surové kódy), vícekanálové nahrávky a datové typy, které čtečka odmítá
+
+dat-577e00a866ab = SciPy stats chi2/ncx2/norm (nezávislá knihovna) — tests/raim_reference.rs (statistické jádro; hodnota PL ARAIM MHSS není připnuta)
+
+dat-ad6236daddef = scipy.spatial.transform.Rotation.align_vectors (SciPy { "1.13" }; Virtanen et al., Nature Methods { "2020" }) — řešení Kabsch/Markley přes SVD Wahbova problému, skutečně nezávislý algoritmus (SVD matice profilu orientace) a kódová základna oproti řešiči vlastních hodnot Davenport-K a metodě charakteristického kořene QUEST v kshaně, počítající TUTÉŽ jednoznačně definovanou orientaci optimální podle Wahby. Na bezšumových vážených množinách vektorových pozorování TRIAD, q-metoda a QUEST reprodukují optimální rotaci scipy do <{ "1e-9" } rad (porovnáno přes úhel chyby orientace invariantní vůči znaménku). Statistické tvrzení Monte Carlo se šumem „optimální poráží TRIAD" zůstává MODELLED (žádné externí orákulum); pouze pozorování jednotkových vektorů směru bodu — žádné modelování zorného pole senzoru, biasu ani časové korelace a QUEST je singulární při { "180" }° (q-metoda tento případ pokrývá)
+
+dat-dc7c003995cc = scipy.stats.ncx2 / scipy.stats.chi2 (SciPy { "1.13" }; Cephes/Boost) — nezávislý algoritmus (řetězový zlomek pro necentrální/centrální χ²) oproti řadě neúplné gamy v kshaně (raim::chi2_cdf / noncentral_chi2_cdf), počítající tutéž jednoznačně definovanou detekční statistiku JÁDRO: zobecněné Marcumovo Q_M(a,b)=ncx2.sf(b²,2M,a²), pravděpodobnost detekce P_d, pravděpodobnost falešného poplachu P_fa a inverzi P_fa→práh, shoda do ~{ "1e-6" } — stejný základ nezávislosti jako u validovaného řádku „Statistické jádro integrity RAIM/ARAIM". Pouze JÁDRO: průměrování buněk CFAR a ztráta překlenutím binů kód/Doppler zůstávají MODELLED
+
+dat-00b7ebc0a018 = SciPy/NumPy (BSD-3-Clause; scipy.linalg.null_space a numpy.linalg.svd, LAPACK gesdd) klasifikují tytéž zapsané matice průnikem podprostorů, dim null([F; E_T]) a dim null([F; E_S]), a projektorem nulového prostoru přes SVD, který se liší od vlastních vektorů Jacobi a vzorců Gramovy hodnosti v Kshaně; předregistrováno (d429993c): celá čísla přesně, p_st_norm do { "1e-9" } (P2, nezávislá numerická knihovna), s prahem hodnosti stanoveným předem a vynuceným spektrálním odstupem alespoň { "1e6" }. Tvrzením řádku je klasifikace uvedené matice, takže ji P2 pokrývá celou. Konstruované případy zahrnují přímé součty, spřažené a smíšené nulové prostory a náhodné změny báze; skutečné rozměry sítí řádku spřažené kalibrace se zde znovu nepočítají. Vnitřní test invariance v crate (otočená nulová báze dává shodné výsledky) je ponechán
+
+dat-ecdfcb899baa = Scoop bucket
+
+dat-a18e70a6324e = Ohodnotí omezený výřez proudu NMEA { "0183" } plavidla tak, jak jej hodnotí `kshana receiver-trust live`, a vrátí stav důvěry pro každou epochu (calibrating, nominal, degraded, untrusted) a skóre 0-100 s monitory, které odečetly (živé schéma JSON-lines { "1.3" }: každá epocha nese `position`, výrok `advisory`, že výstup má pouze poradní charakter, a svou geometrii družic `geometry` (good, degraded s důvody jako few-satellites nebo high-pdop, nebo unknown, když výřez nemá GSV ani GSA) se štítkem `label` (good, fair, poor; geometrie odečítá jen když je poor); každý odečet nese `class`: geometry (obloha, nikoli zjištění, že k útoku nedošlo), environment nebo inconsistency (podobné útoku)), souhrn (počty podle stavu, geometrie a třídy, nejnižší a konečné skóre, kdy přišla první epocha untrusted) a poslední větu `$PKSHT`.
+
+dat-b0851170eab0 = Ohodnotí příspěvek kshana-bench (`kshana bench score`, bench/SPEC.md, docs/BENCH.md): soubor predikcí (`kshana-bench-predictions/1`) proti souboru pravdy (`kshana-bench-truth/1`), oba text JSON, nejvýše { "4" } MiB každý, a vrátí soubor výsledku (`kshana-bench-result/1`) s verzí specifikace, úlohou (a detekce na logech přijímače, b detekce na IQ, c predikce timing holdoveru, d mezera optimismu mimo rozdělení), rozdělením, SHA-256 obou vstupů a metrikami úlohy (AUC, pravděpodobnost detekce při stropu falešného poplachu, RMSE na horizont nebo mezera optimismu).
+
+dat-e4e75b47727c = Ohodnotí log přijímače proti plánu Jammertest (`kshana jammertest score`): pro každý plánovaný test latenci detekce (první alarm minus plánovaný začátek), zda byl detekován v rámci tolerance, pozdě, nebo zmeškán, a dobu zotavení (úsek bez alarmu o délce `recover_hold_s`), plus falešné poplachy mimo každý slot a jeho ochranný interval.
+
+dat-5b577627cdf9 = Statistika skóre ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 pro posun společného režimu, který solution separation (kontrasty kolmé na { "1" }) nevidí; posun společného režimu ji nafukuje, zatímco párové separace zůstávají ploché
+
+dat-4a9189f161fe = Hodnotí, zda lze důvěřovat navigačnímu fixu plavidla podle NMEA { "0183" }, které jeho přijímač a přístroje již vysílají: skóre 0-100, tři pásma a důvody za nimi, pro každou epochu, v dávce, živě nebo jako brána. Monitory porovnávají fix s vlastním pohybem plavidla, čidlem kurzu, logem rychlosti a úrovněmi signálu družic. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení: odpovědný zůstává provozovatel. Aritmetika monitorů je kontrolována proti nezávislým knihovnám; pravidlo a prahy skóre jsou vlastní projektu a zůstávají modelované.
+
+dat-389c8d89137d = sdr::code_tests (ca_first_ten_chips_match_is_gps_200_octal — PRN { "1" }–{ "9" } prvních 10 čipů přesně reprodukuje osmičkové hodnoty IS-GPS-200 tabulka 3-Ia 1440/1620/1710/1744/1133/1455/1131/1454/1626; ca_code_has_1023_chips_and_is_balanced; ca_periodic_autocorrelation_is_three_valued)
+
+dat-f8b4b933bb97 = Vyhledejte io.github.ashfordeOU/kshana-mcp.
+
+dat-3842550f02d0 = Sekundy, než volně běžící hodiny opustí ochranný interval časově indexovaného slotu, a kadence fixů, která je udrží uvnitř
+
+dat-9101fe90af84 = Bezpečnostní FoM — analytická mez detekovatelnosti spoofingu
+
+dat-5929ef9641ba = Bezpečnostní politika
+
+dat-2fa97693b70f = Viz také
+
+dat-b60237034eb8 = Volitelné profily pohybu pro balíček gnss-ins (přímý, figure-8, městský stop-and-go, stoupání letadla a koordinovaná zatáčka, průzkumný dron), definované příkazy Eulerových rychlostí a podélného zrychlení uzavřenými na stavu pravdy s kinematickým IMU (odstředivé, gravitační a Coriolisovy členy), a importovaná pravda v CSV převedená na IMU, které ji reprodukuje; historická jízda beze změny, pokud není zadán žádný profil
+
+dat-0ef56cdaefab = Vnitřní konzistence estimátoru a geometrie: round tripy dopředu→zpět, identita Fisher/CRLB J·CRLB=I, monotónnost GDOP a estimátor dosahující vlastní meze Cramér–Rao při šumu Monte Carlo — kontroly vnitřní konzistence, NIKOLI externí datová sada, takže řádek zůstává InternalConsistency. MODELLED pasivní geolokace — model přímé viditelnosti pro bodový zdroj; žádné členy vícecestného šíření / NLOS, biasu hodin přijímače ani atmosférické refrakce. Kolo { "2" } { "0.30" } proti Ho a Chan { "1993" } a Ho a Xu { "2004" } (předregistrováno f89018b8, { "1" } % každé vytištěné hodnoty), zjištění (zůstává MODELLED): mez TDOA omezená na povrch reprodukuje geometrické faktory { "40" } N (-0.11 %, -0.02 %) a maximální TDOA; společná mez TDOA+FDOA reprodukuje obr. { "6" } (+{ "0.06" } %, -0.17 %) a, ve zdroji, který vlastní kód autorů uvádí pro obr. { "7" } (dodatek napsaný po zhlédnutí tohoto výsledku, uvedeno), obr. { "7" } (+{ "0.11" } %, -0.02 %); rovná se publikovanému kódu meze autorů (ve stylu BSD, spuštěnému pod GNU Octave) do { "3e-12" }; řešič maximální věrohodnosti vážený kovariancí dosahuje vytištěné meze (+{ "0.3" } až +{ "0.4" } %). Faktory pro Ottawu, které článek tiskne z Monte Carlo ({ "251" }, { "7.1" }), se liší o +{ "1.3" } % a +{ "4.4" } %, mimo práh { "1" } %
+
+dat-48c06a69f626 = Vnitřní konzistence předávání: každá předaná hodnota se rovná vlastnímu výstupu předchozí fáze a změna vstupu předchozí fáze pohne každým následným údajem, který na něm závisí. Fáze si ponechávají své vlastní štítky; řetězec nepřidává žádnou fyziku ani žádné externí orákulum
+
+dat-c66a398789c3 = Vnitřní konzistence modelu proužků interferometru: okraj poloproužku, 2π-periodická struktura aliasingu a zrušení škálového faktoru v poměru rozsah/rozlišení jsou algebraické identity v uzavřeném tvaru kontrolované proti vlastním funkcím fáze a citlivosti Mach–Zehnder enginu — kontroly vnitřní konzistence, NIKOLI externí datová sada, takže řádek zůstává InternalConsistency. MODELLED ideální nejednoznačnost proužků u tříimpulsového interferometru; žádné meze aberace vlnoplochy ani ztráty kontrastu na jednoznačném rozsahu
+
+dat-1edd3707cfc5 = Pouze vnitřní konzistence: publikovaný součet je kontrolován proti odmocnině součtu čtverců členů ve stejném souboru a emitovaná křivka reprodukuje vydaný p3_time_budget_curve.csv přes všech { "57" } bodů. Obě kontroly sdílejí vlastní definice členů tohoto enginu, takže žádná není nezávislá. Člen hodin spočívá na publikovaných specifikacích hodin, ale VELIKOSTI prahů spoje, soustavy, relativistického a efemeridového jsou zdokumentované alokace rozpočtu bez externího orákula
+
+dat-65858866917e = Průvodce vlastním hostingem
+
+dat-9ac614e8f945 = Studie citlivosti
+
+dat-da902218b92d = Studie citlivosti (tři dny)
+
+dat-c884dc5cd017 = Septentrio SBF (format = "sbf")
+
+dat-f21f6312d77b = Sekvenční (rekurzivní) navigace podle terénu — alt-PNT bez GPS.
+
+dat-af686833dcf2 = Serializace a zpracování bloku CCSDS { "502.0" } OEM COVARIANCE_START…COVARIANCE_STOP — kovariance polohy/rychlosti { "6" }×{ "6" } zapsaná jako její dolní trojúhelník o 21 prvcích (kanonické pořadí CX_X … CZ_DOT_Z_DOT) s volitelným COV_REF_FRAME, doplňující existující zapisovač/parser stavových vektorů OEM, takže kovariance určování oběžné dráhy a filtrů projdou round tripem ve standardním formátu
+
+dat-d5e280fe1d19 = Nastavte limit CPU a paměti na platformě
+
+dat-f7f7c4ac51b3 = Inkluze množin: poměr rušička-signál vstupuje jako rovnoměrný posun v decibelech, takže zachycená množina při vyšším vysílacím výkonu obsahuje množinu při nižším a podíl může jen růst -- vlastnost, kterou Airyho diagram NEDÁVÁ v šířce svazku ani výšce, kde se zachycená oblast rozpadá na prstence a podíl je skutečně nemonotónní. Žádná publikovaná tabulka neuvádí zachycený podíl disku lunárního orbitálního vysílače v závislosti na výšce a šířce svazku, takže není nic externího, s čím by se tyto buňky daly kontrolovat; diagram pod tím je samostatně validován proti publikovaným Besselovým hodnotám a má svůj vlastní řádek
+
+dat-b499b8e2c8f2 = Nastavení → Zásuvné moduly → Marketplace → vyhledejte „Kshana" (ID modulu dev.kshana.ide). Klikněte pravým tlačítkem na scénář .toml a zvolte Run Kshana Scenario.
+
+dat-5f452eb6f36c = Sedm masek generování wanderu MTIE a TDEV při konstantní teplotě pro druh `telecom-timing`: G.811 (09/1997) PRC (autonomní), G.812 (06/2004) typy I, II a III, G.8262 (10/2024) EEC volby { "1" } a { "2" } a G.8262.1 (11/2025) eEEC (zamčený režim), včetně částí mocninného zákona, které tabulky zapisují (`{ "8" } τ^{ "0.5" }` a podobně), každý interval otevřený nebo uzavřený, jak je vytištěno, měřené přes filtr { "10" } Hz, který klauzule uvádějí (bráno jako aplikované před vzorkováním); referenční scénář scenarios/telecom-synce-eec.toml staví volně běžící OCXO proti třem maskám EEC. Neimplementováno: příspěvky pro proměnnou teplotu, holdover, přechodové jevy, jitter a přesnost frekvence G.811
+
+dat-c154e22f0463 = Datum soustavy Helmertovy (podobnostní) transformace o 7 parametrech řízené SIMULOVANOU POZOROVACÍ KAMPANÍ, nikoli…
+
+dat-5edf07579980 = Datum lunární soustavy Helmertovy transformace o 7 parametrech řízené SKUTEČNOU, ARCHIVOVANOU pozorovací kampaní, nikoli…
+
+dat-4b89cb3df611 = Datum lunární soustavy Helmertovy transformace o 7 parametrech řízené SIMULOVANOU POZOROVACÍ KAMPANÍ (G9).
+
+dat-ce78e41f321f = Datum lunární soustavy Helmertovy transformace o 7 parametrech ze SKUTEČNÉ, ARCHIVOVANÉ pozorovací kampaně (V3).
+
+dat-d55cb71472c4 = Několik scénářů za sdílených podmínek se souhrnným shrnutím
+
+dat-2fbb120bffe0 = Propagace SGP4/SDP4 ze skutečných dvouřádkových prvků (zapsaný snímek GPS z Celestraku) nebo syntetické konstelace Walker, jejichž střední prvky realizují vzorec i:T/P/F s přesností pod { "1" } km za { "24" } h. Viditelnost více konstelací, faktor zhoršení přesnosti a dostupnost GNSS, optimalizátor návrhu konstelace, dimenzování pásů pokrytí a přehled návrhů Walker, který uvádí Pareto-optimální návrhy přes mřížku rovin × družic.
+
+dat-e82ed37686f0 = Validace SGP4/SDP4 proti referenci komunity
+
+dat-e58ad5dbbc32 = SGP4/SDP4, Cowell 6-DOF + poruchy, dávkové/sekvenční OD
+
+dat-d458c3670e24 = Režim slupky: globální metrika z brožury
+
+dat-09e67d38f482 = Relativní určování polohy na krátké základně ze skutečného dvoufrekvenčního kódu a fáze nosné GPS: dvojité diference proti nejvyšší družici s plnou kovariancí, float Kalmanův filtr přes základnu a jednoduché diference nejednoznačností s reinicializací po skoku, celočíselné nejmenší čtverce LAMBDA s testem poměru a základna podmíněná fixovanými celými čísly
+
+dat-2d5c1f5c13a3 = Vstup a výstup nahrávek SigMF a Welchovy spektrální odhady komplexního IQ
+
+dat-e466797c6633 = sigmf: čtení a zápis nahrávek Signal Metadata Format (JSON .sigmf-meta s poli core global, captures a annotations; surové .sigmf-data jako cf32_le, ci16_le nebo ci8, dekodéry celých čísel sdílené s realdata::iqif::load_iq), vše na řetězcích a bajtových bufferech. spectrum::welch_psd: periodogramy s oknem Hann, překryté, průměrované, s hustotním škálováním, na vlastní transformaci radix-2 v crate (spectrum::fft_in_place). Tato dvojice je validovaným tvrzením. spectrum::synthesise_iq vykresluje model jako IQ a sekce [iq] druhu `spectrum` provede model do IQ do SigMF do Welche a porovná s modelem; její sekce [recording] odhaduje skutečnou nahrávku (nativní sestavení); syntéza a tato porovnání s modelem jsou mimo validované tvrzení
+
+dat-ca38e49660ad = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — práh do { "2" } % rozptylu přes vzorkovací frekvenci, celkem podle Parsevala do { "2" } %, ekvivalentní šumová šířka pásma Hann { "1.5" } binu; noise_like_synthesis_is_unbiased_through_welch — medián Welch-minus-model do { "0.1" } dB přes round trip ci16_le; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch PSD vs scipy { "1.18.1" } signal.welch po jednotlivých binech do { "1e-12" } relativně přes { "27" } případů, pozorováno { "6.0e-14" }; pět nahrávek sigmf-python { "1.13.0" } dekódovaných bitově shodně se shodnými metadaty; nahrávky zapsané crate čtené zpět bitově shodně sigmf-python a platné podle schématu SigMF { "v1.2.6" })
+
+dat-9cd9dd4c33e3 = Předvolby signálů a systémů
+
+dat-b00bcd626c85 = návrhy signálů
+
+dat-0345ce0c3308 = Průvodce zásuvným modulem Signal K
+
+dat-d59d6f542e93 = Chyba vzdálenosti signálu ve vesmíru
+
+dat-ec7503f282d5 = chyba vzdálenosti signálu ve vesmíru, RMS
+
+dat-9c6a9341490c = Podepsané balíčky důkazů
+
+dat-18a2db656f97 = Simulovaná pravda proti vlastnímu odhadu filtru (průměrná normalizovaná kvadrátová chyba odhadu konzistentního filtru je pro polohu asi { "3" }) a determinismus pro pevný seed. Neporovnávají se žádná letová ani zaznamenaná data GNSS z vysoké dráhy; Slunce a Měsíc jsou kruhové náhražky s nízkou přesností
+
+dat-d56763338043 = Validováno simulací (kovariance / veličiny kvality uzavřené smyčky, nikoli certifikované ochranné úrovně); dynamika Marsu se Sluncem jako středem je křížově zkontrolována proti JPL DE440 do { "137" } m @ oblouku 1 den; Mars-LMO OD ≈ { "0.2" } m.
+
+dat-d4776382a489 = Jednofrekvenční ionosférické a UTC služby navigační zprávy LEO
+
+dat-531887b91757 = Jednočíselná hodnocení odolnosti pro určování polohy, navigaci a čas jsou stabilní jen tam, kde dominuje jeden návrh; váhy, hrozba a deklarované techniky je mohou převrátit.
+
+dat-d541692e383b = Jednobodové určování polohy (PVT)
+
+dat-b668016e1890 = Geometrie oblohy
+
+dat-2d7d60357e41 = Funkce geometrie oblohy: viditelnost, DOP, kovariance, chybová elipsa, mrak Monte Carlo
+
+dat-12c10c0617b0 = Geometrie oblohy pod azimutově závislým obrysem horizontu (městský kaňon, přístav, fjord, kontejnerový terminál): z místa, času a předvoleb konstelací, množin dvouřádkových prvků (`tle`, s UTC `epoch`) nebo družic zadaných jako azimut/elevace nebo ECEF, které družice jsou viditelné a které jsou skryty obrysem horizontu, GDOP/PDOP/HDOP/VDOP/TDOP z jádra DOP zkontrolovaného gnss_lib_py, kofaktor a kovariance východ-sever-nahoru s jedněmi hodinami přijímače na systém (nebo jedněmi společnými) a horizontální chybová elipsa při jedné sigma a při uvedené spolehlivosti pro uvedené UERE.
+
+dat-39b1bcfec069 = Skyfield { "1.54" } (MIT), s vlastní tabulkou přestupných sekund, vlastním TDB-TT a vlastním čtečem téhož NAIF de440s.bsp (jplephem), spuštěný jako samostatný program v epochách UTC. Předregistrováno (0bfafe6d) před existencí fixtury, mřížka seedovaná z hashe tohoto commitu, s prahem { "5e-5" } s krát relativní rychlost (uvedená dvoučlenná přesnost TDB-TT enginu) plus { "1e-13" } barycentrické vzdálenosti plus { "1e-5" } m, pro každou složku. Výsledek: všech { "600" } uvnitř, nejhorší { "0.66" } prahu ({ "2.96" } m u rychlé dvojice, vlastní chyba řady TDB-TT). Mutace: použití TT jako TDB selže na { "33" }násobku prahu. Obě strany čtou DE440: validuje se poskytovatel a jeho časový řetězec, nikoli DE440. Mimo tvrzení: planety za Venuší jako tělesa (de440s nese jen jejich barycentra), planetární měsíce a přesnost pod přesností dvoučlenné řady TDB-TT (několik metrů u nejrychlejších dvojic)
+
+dat-a746656c3f42 = skyline + frames::look_angles + geometry::sky_geometry: geodetický (WGS-84) azimut a elevace družice z pozemního stanoviště, tabulka masky azimut/elevace lineárně interpolovaná v azimutu s přetečením na { "360" } stupních, viditelná množina el >= max(mask_deg, mask(az)) a DOP se společnými hodinami a matice kofaktorů ENU-a-hodin této množiny (jádro za orbit::dop). Takto sekce [skyline] rozhoduje o viditelnosti v druzích gnss-sim, jamming, leo-pvt, leo-pass a nmea-scenario a, s pozemním místem user_site, v orbit a integrity
+
+dat-7d7fce0709c1 = Masky horizontu a geometrie oblohy
+
+dat-f409aed2c1fd = Předvolby obrysu horizontu (městská ulice, přístavní přiblížení, fjord, kontejnerový terminál)
+
+dat-127c914f92b1 = Předvolby obrysu horizontu a funkce geometrie oblohy
+
+dat-a2f8ef765eed = Viditelnost, DOP a chybová elipsa s maskou obrysu horizontu
+
+dat-f408f01299bd = skyline: městský kaňon v uzavřeném tvaru (řez atan((h - a) / d) s d = (w/2) / abs(sin(az - s)), otevřené konce pro konečnou délku), ostře ohraničené sektory ve směru hodinových ručiček s přetečením a body terénu redukované na tabulku s poklesem zakřivení d^2/({ "2" } * 4/3 R); obrys horizontu je jejich bodové maximum s libovolnou tabulkou
+
+dat-54d387cbe183 = skyline::PRESETS: čtyři REPRESENTATIVE geometrie s uvedenými rozměry z návrhové poznámky a řádkem původu každá: city-street (kaňon, ulice { "0" } stupňů, { "20" } m mezi stěnami { "30" } m, anténa { "1.5" } m), harbour-approach (sektory: otevřeno k moři přes { "180" } stupňů, nábřežní budovy { "8" } stupňů přes { "90" } stupňů, vlnolam { "3" } stupně), fjord (terén: stěny { "600" } m nad anténou ve vzdálenosti { "1.5" } km po obou stranách kanálu sever-jih, aplikován pokles zakřivení), container-terminal (sektory: stohy { "12" } stupňů přes pevninskou polovinu, ramena jeřábů { "35" } stupňů a { "25" } stupňů přes dva úzké sektory); přepsatelné pole po poli
+
+dat-7969ca4fa6ac = Časování slotů
+
+dat-581da7573890 = Časování slotů: jak dlouho oscilátor řízený termostatem (OCXO) na nízké oběžné dráze Země
+
+dat-42d4c827caff = Časování slotů: sekundy, než volně běžící hodiny opustí ochranný interval časově indexovaného slotu směrování nebo zadání úkolu…
+
+dat-296ef4327c8b = slot-timing (druh scénáře)
+
+dat-111439f50e53 = Geometrie vesmírného trojúhelníku SMAD: úhlový poloměr Země, šířka pruhu, GSD v nadiru, maximální přístup mimo nadir a kruhová perioda, plus uzlová perioda J2 prvního řádu (eo_payload::j2_nodal_period) a rovníkový rozestup pozemní stopy R_e (omega_E - dOmega/dt) T_nodal (eo_payload::ground_track_spacing_equator_j2) s příznakem souvislého pokrytí, pro výšku dráhy, sklon a FOV/IFOV senzoru. Spustitelné z CLI/vazeb jako druh scénáře `eo-coverage` (scenarios/eo-coverage.toml); jeho výchozí sklon je heliosynchronní z eo_payload::sun_synchronous_inclination, pohodlné výchozí nastavení, které není součástí validovaného tvrzení
+
+dat-31d991caf4b7 = Malé bezpilotní letadlo pod rušením GNSS: jak daleko řadič letu
+
+dat-2d806ce82e15 = RAIM snapshot / solution-separation / ARAIM s HPL/VPL a diagramem Stanford.
+
+dat-c02622d843b3 = RAIM snapshot a solution-separation s horizontálními a vertikálními ochrannými úrovněmi (HPL/VPL), detekcí a vyloučením poruch a diagramy integrity Stanford — plus explicitní ochranná úroveň z rozpočtu rizika integrity (MHSS) s celokonstelačním režimem poruchy pro dvou-/vícekonstelační provoz (EU ARAIM / DO-316).
+
+dat-07e36468d18e = detekční jádro snapshot (χ²/necentrální χ²/normální) vs SciPy · rozpočet ARAIM MHSS podmíněn zakladatelem
+
+dat-ac6e25381f04 = Soupis softwarových komponent (SBOM)
+
+dat-dfdd58c878cd = Stín SRP se ztmavením slunečního okraje (opt-in)
+
+dat-4cae6d94c5e5 = Sluneční soustava
+
+dat-9b14e3a637d5 = Sluneční soustava a určování polohy kolem jiných těles
+
+dat-aeceaa175523 = Sluneční soustava k 2026-09-28T00:{ "00" }:{ "00" } (JD { "2461311.50080" } TDB), { "18" } těles, pozorovatel Země
