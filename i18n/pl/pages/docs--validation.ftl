@@ -47,3 +47,7 @@ seg-b03d56f501c3 = Rodzaj
 seg-35bf9a48e566 = Wielkość
 
 seg-f3526b0d95f8 = Zmierzono
+
+seg-7634c6f4b32c = Łącze
+
+seg-b966dd26caa6 = Zbiór danych

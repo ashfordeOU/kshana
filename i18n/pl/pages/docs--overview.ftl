@@ -1327,3 +1327,611 @@ seg-94c7903c4527 = Powiąż token znacznika czasu RFC { "3161" } (base64 bajtów
 seg-684763a2c18f = Zweryfikuj pakiet (<c1/>)
 
 seg-dfcefc093cf1 = Syntetyczne NMEA { "0183" } mostka do szkolenia załóg z TOML <c1/> (zagłuszanie, przesunięcie pozycji, spoofing czasu, opóźnienie odtwarzania) z dziennikiem instruktora (<c2/>)
+
+seg-f3fa6108f3b7 = Mapa zakłóceń GNSS z raportów pozycji ADS-B lub AIS w postaci tekstu CSV (najwyżej { "4" } MiB)
+
+seg-032b8d0d90bf = Udział długości trasy przypadający na komórki jednej lub kilku map zakłóceń: zdegradowane, niezdegradowane, nieocenione i nieobserwowane, opcjonalnie w zadanym przedziale dat
+
+seg-02c3fb3fcd01 = Strumień zaufania (linie JSON) lub wynik <c1/> zapisany jako tekst Prometheus, linie syslog CEF lub LEEF albo ładunek OTLP JSON, z koderami <c2/>
+
+seg-1b6b67cee5e0 = GNSS IQ (pliki w katalogu roboczym; wyłączone w trybie HTTP)
+
+seg-791eec25de74 = Konfiguracja warstwy GNSS IQ
+
+seg-bf92a3ffd87a = Opisuje jedno nagranie IQ (składowa synfazowa i kwadraturowa) w katalogu roboczym bez jego przetwarzania
+
+seg-0232abbf4044 = Generuje wielosatelitarną scenę GNSS IQ w katalogu roboczym (<c1/>)
+
+seg-bb76dbf58421 = Akwizycja metodą FFT (szybka transformata Fouriera) jednego lub kilku PRN (kodów pseudolosowych) w nagraniu (<c1/>), opcjonalnie za etapami toru wejściowego
+
+seg-e523a49c2fbb = Akwizycja, a następnie śledzenie bankiem DLL/PLL/FLL (pętle synchronizacji opóźnienia, fazy i częstotliwości) (<c1/>), z pętlami z `kshana.loop-desig
+
+seg-17bfba9d7c6f = Stosuje cyfrowe przetwarzanie sygnałów (DSP, digital signal processing) toru wejściowego odbiornika i łagodzenia zakłóceń
+
+seg-38daa8cd8755 = Odtwarza jedno nagranie IQ z katalogu roboczego dla kilku konstrukcji pętli śledzenia (<c1/>)
+
+seg-a0423832eba5 = Uruchamia monitory detekcji zakłóceń i spoofingu na nagraniu IQ z katalogu roboczego (<c1/>)
+
+seg-966250c8da0c = Dopasowuje model utraty synchronizacji pętli śledzenia do przebiegów laboratoryjnych (<c1/>) ze scenariusza <c2/>, którego dzienniki są podane w treści (<c3/> lub <c4/>
+
+seg-b0f70dfca147 = Waliduje plik <c1/> podany jako tekst i zwraca rozstrzygnięte warunki wraz z ich skrótem
+
+seg-703684fc6ef3 = Uruchamia kampanię odtwarzania laboratoryjnego (<c1/>)
+
+seg-646792c2afbc = Postęp w folderze wyjściowym kampanii
+
+seg-99753f8c101c = Mapowanie na publiczne ramy, wypełnione z dokumentów wyników podanych jako tekst (<c1/>)
+
+seg-bd507f064aa3 = Statyczne tabele mapowania (lub, z <c1/>, dokumenty źródłowe, które cytują, z wersjami i adresami URL) w formacie Markdown, poprzedzone tym samym oświadczeniem
+
+seg-246d5c14a201 = Pakiety standardów (<c1/>): punktowane zestawy scenariuszy dla profili testów ram DHS Resilient PNT, IMO MSC.1/Circ.1575 i ICAO Doc { "9849" } Appendix F
+
+seg-38948941bee2 = Jeden pakiet uruchomiony względem progów podanych przed przebiegiem: każdy test kończy się wynikiem <c1/>, <c2/> lub <c3/>; MODELLED, nie ocenia żadnego produktu
+
+seg-d95bbb38e253 = LunaNet Augmented Forward Signal sprawdzony względem LNIS V5 AD1 Volume A (LSIS-AFS V1.0): kody względem drukowanych tabel lub strumień symboli względem formatu ramki; LDPC i CRC-24Q podramek od { "2" } do { "4" } nie są weryfikowane
+
+seg-d958c43ba8c1 = Podpisany pakiet laboratoryjnej weryfikacji w obie strony: scenariusz, dokument <c1/>, dziennik odbiornika i wynik powiązane skrótem
+
+seg-22377c58ecb2 = Cały silnik jest bezpłatny. Kshana Pro i badania na zamówienie są dla programów, które potrzebują więcej, a każda płatna droga zaczyna się od wiadomości: nie ma tu cen.
+
+seg-a91762c0aabe = Bezpłatnie
+
+seg-eedfcdbe2b1c = cały otwarty silnik, wszystkie { "87" } rodzajów scenariuszy, bez blokad funkcji
+
+seg-af56c940e13a = zastrzeżona nakładka na ten sam silnik, na podstawie umowy
+
+seg-cd381d248ffb = badanie odporności PNT Twojego systemu, MODELLED, wykonane za Ciebie
+
+seg-c25a3f546887 = AGPL-3.0 (GNU Affero General Public License, wersja { "3" }) lub licencja komercyjna
+
+seg-985c916fc71f = zastrzeżona
+
+seg-3efb1ab7f428 = umowa
+
+seg-dddd771482a1 = Jak zacząć
+
+seg-27546f4004b9 = <a1>zainstaluj</a1> lub otwórz <a2>kshana.dev</a2>
+
+seg-ed09a7073af5 = zamów ocenę Pro
+
+seg-68340a1233ff = zamów badanie
+
+seg-fedf4c64c70b = Czym jest Pro, jego własnymi słowami z <a1><c1/></a1>:
+
+seg-8e45f6fbb075 = <b>Ścisły nadzbiór otwartej Kshana.</b> Pro korzysta z otwartego silnika jako biblioteki i nigdy go nie rozwidla. Każdy otwarty rodzaj scenariusza działa w Pro bez zmian, a otwarty scenariusz działa w Pro w ogóle bez licencji.
+
+seg-feece95f1d76 = <b>Żadnej nowej fizyki.</b> Pro nie dodaje żadnego modelu fizycznego i żadnego nie zmienia. Każda liczba z Pro pochodzi z przebiegów otwartego silnika, więc wartość z Pro jest tak wiarygodna jak otwarty rodzaj scenariusza, z którego pochodzi, i nigdy bardziej.
+
+seg-0aca4bbd4ed5 = Pro odpowiada na kolejne pytania programu: jaki projekt wybrać do lotu (optymalizator projektu i jego front Pareto), jak pewna jest odpowiedź (niepewność i czułość) oraz czy misja spełnia swoje wymagania (dossier misji, śledzenie wymagań, badania kompromisowe, kontrola regresji scenariuszy, cyfrowe bliźniaki zegarów, dossier badania i usługa lokalna). Obserwuje też kampanię wartości i przerywa potok, gdy któraś się pogarsza, sprawdza kandydackie plany sygnałów względem otwartych sygnałów nawigacji satelitarnej w obu kierunkach (współistnienie widmowe) i kolejkuje badania w lokalnej usłudze zadań z rejestrem dostaw powiązanym łańcuchem skrótów. Każdy z tych elementów jest opisany w <a1><c1/></a1>, wraz z tym, co daje i czego nie robi. Nic, co tworzy Pro, nie jest certyfikacją, a badanie na zamówienie również nią nie jest.
+
+seg-bc8a7901a490 = Co Kshana Pro odczytuje z otwartego silnika oraz wsparcie od Ashforde® OÜ
+
+seg-9a0afa43f0ea = <b>Na czym opiera się Kshana Pro.</b> Każda część Pro pracuje na otwartym silniku i zostawia go bez zmian:
+
+seg-d128e5855929 = <b>Optymalizator projektu, badanie niepewności i dossier misji</b> uruchamiają scenariusze otwartego silnika przez jego publiczny interfejs i obliczają każdą liczbę z wyników tych przebiegów. Każdy wynik zachowuje poziom VALIDATED, MODELLED lub PARTNER, który otwarty silnik nadał danej wartości, nigdy wyższy.
+
+seg-8f709ba56eba = <b>Cyfrowe bliźniaki zegarów</b> korzystają z modelu zegara otwartego silnika i jego estymatora odchylenia Allana: bliźniak jest kalibrowany do opublikowanego budżetu Allana urządzenia, a następnie sprawdzany przez oszacowanie odchylenia Allana bliźniaka otwartym estymatorem.
+
+seg-8e962b95a07a = <b>Badania kompromisowe</b> uruchamiają każdą opcję architektury jako scenariusz otwartego silnika, bez zmian, i szeregują opcje według wskaźnika jakości odczytanego z wyniku każdego przebiegu.
+
+seg-26cb2b80149d = <b>Obserwacja kampanii</b> odczytuje swoje wartości z wyników przebiegów scenariuszy z pakietu w otwartym silniku i porównuje je z poprzednim udanym przebiegiem.
+
+seg-0d3fceebd2fa = <b>Współistnienie widmowe</b> odczytuje każdą liczbę fizyczną z przebiegów otwartego silnika rodzajów <c1/> i <c2/>, a dodaje tylko sumę po widocznych satelitach i szeregowanie planów.
+
+seg-3f5774536077 = <b>Lokalna usługa zadań</b> uruchamia otwarte scenariusze i scenariusze Pro w tym samym silniku i zapisuje każdy wynik tak, jak zwrócił go przebieg.
+
+seg-2ffc21f8dbf3 = <b>Pakiety dowodowe</b> zapisują dla każdego przebiegu skrót scenariusza, który otwarty silnik umieszcza w wyniku, więc wartość z pakietu można odtworzyć, uruchamiając scenariusz ponownie.
+
+seg-8c7245384d50 = <b>Inżynieria systemów i narzędzia programowe.</b> Narzędzia Kshana Pro do inżynierii systemów opartej na modelach (MBSE) i do programów sprawdzają wymagania programu względem przebiegów otwartego silnika: importują wymagania jako wartości rozdzielane przecinkami (CSV) albo jako udokumentowany podzbiór Requirements Interchange Format (ReqIF) lub tekstu Systems Modeling Language w wersji { "2" } (SysML v2), oceniają każde kryterium akceptacji, z jego jednostką, względem wartości zapisanych przez przebieg i tworzą macierz odsyłaczy weryfikacji (VCRM), model SysML v2, raport wpływu zmian i pakiet dowodowy offline. Niczego nie uruchamia ponownie ani nie przelicza i odczytuje tylko to, co publikuje otwarty silnik: <c1/> każdego przebiegu (pola, które wskazuje kryterium, ich jednostki, znacznik odtwarzalności ze skrótem scenariusza, ziarnem, wersją silnika i wersją schematu oraz etykietę przebiegu i poziomy wartości), jego <c2/> (rodzaj, zapis odtwarzalności i etykiety możliwości), plik scenariusza (jego skrót, rodzaj, ziarno i parametry), schemat jednostek pól (jednostkę, pochodzenie i poziom dowodowy każdego pola) oraz macierz weryfikacji (etykietę VALIDATED, MODELLED lub PARTNER każdej możliwości).
+
+seg-93911f432aa2 = Wsparcie i usługi profesjonalne
+
+seg-5a793f457442 = Kshana jest bezpłatna i otwartoźródłowa na licencji AGPL-3.0 oraz <b>profesjonalnie rozwijana i utrzymywana przez Ashforde® OÜ</b> (Estonia). Otwarty silnik jest kompletny i można go używać samodzielnie. Dla organizacji, które potrzebują więcej, Ashforde® OÜ oferuje:
+
+seg-6e169de76fc6 = <b>Wsparcie komercyjne i integrację</b>: osadzenie Kshana w Twoim zestawie narzędzi, scenariusze na zamówienie i poprawki z pierwszeństwem.
+
+seg-e41af701def5 = <b>Własne modele czujników</b>: skalibrowane do Twojego sprzętu, w tym modele odporności objęte ograniczeniami eksportowymi, utrzymywane w prywatnej nakładce.
+
+seg-c90aa9512c01 = <b>Kshana Pro</b>: zastrzeżone narzędzia do inżynierii systemów opartej na modelach (MBSE) i do programów, które sprawdzają wymagania programu względem przebiegów otwartego silnika i tworzą macierz odsyłaczy weryfikacji (VCRM), model Systems Modeling Language w wersji { "2" } (SysML v2), raport wpływu zmian i pakiet dowodowy offline. Niczego nie uruchamia ponownie i odczytuje tylko opublikowane wyjścia silnika: <c1/> i <c2/> każdego przebiegu, plik scenariusza, schemat jednostek pól i etykiety macierzy weryfikacji (pełna lista jest w sekcji <a1>Wydania</a1>).
+
+seg-3ad44fe86fcf = <b>Narzędzia Kshana Pro do projektowania, niepewności i misji</b>: front Pareto przestrzeni projektowej, niepewność i czułość na tysiącach przebiegów oraz dossier misji jednym poleceniem, z macierzą weryfikacji i plikiem PDF; zob. <a1><c1/></a1>.
+
+seg-956b1bda368c = <b>Obserwacja kampanii, współistnienie widmowe i usługa zadań w Kshana Pro</b>: potok, który przerywa się, gdy obserwowana wartość się pogarsza, plany sygnałów sprawdzane względem otwartych sygnałów nawigacji satelitarnej w obu kierunkach oraz lokalna kolejka zadań z rejestrem dostaw powiązanym łańcuchem skrótów; zob. <a1><c1/></a1>.
+
+seg-5745e72ae8f2 = <b>Szkolenia i doradztwo</b> w analizie wydajności kwantowych i klasycznych systemów PNT.
+
+seg-821dee6c4114 = To model open-core: silnik ma i zachowa otwartą licencję; utrzymanie firmy opiera się na wiedzy, wsparciu i zastrzeżonych rozszerzeniach, a nie na opłatach licencyjnych. Kontakt: <b><a1>contact@ashforde.org</a1></b> · <a2>ashforde.org</a2>.
+
+seg-7b708eaa9ed7 = Badania oparte na otwartym silniku są publikowane w arXiv. Każde wskazuje polecenie silnika, które za nimi stoi, więc jego liczby można odtworzyć ze zatwierdzonego przykładu scenariusza lub badania.
+
+seg-065c91fc7c8f = Badania oparte na otwartym silniku: sześć prac w arXiv; każda karta podaje pracę, jej datę i kategorię oraz polecenie silnika, które odtwarza jej liczby. Te same sześć prac, z odnośnikami i poleceniami, jest w tabeli poniżej.
+
+seg-0afc90982c47 = Praca
+
+seg-f472e43c1100 = Co pokazuje
+
+seg-332bbdef19c8 = Polecenie silnika
+
+seg-51cbd78a124a = <a1><em>Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics</em></a1><br/><s1>arXiv:{ "2606.22054" } · <a2>doi:10.48550/arXiv.2606.22054</a2></s1>
+
+seg-54fb697cb9d9 = Spadek wyniku detektora zakłóceń GNSS po zmianie warunków można przewidzieć wyłącznie ze statystyk z rozkładu pierwotnego, najpierw na otwartym stanowisku syntetycznym, a potem na otwartych nagraniach terenowych.
+
+seg-e37784b7192d = <a1><em>A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing</em></a1><br/><s1>arXiv:{ "2606.24210" } · <a2>doi:10.48550/arXiv.2606.24210</a2></s1>
+
+seg-c185f93e008a = Odbiornik czasu GNSS pod wpływem spoofingu nie ma skończonej bezwarunkowej granicy niewykrytego błędu czasu, więc praca podaje granicę warunkową, skalibrowaną na zarejestrowanym spoofingu w eterze z publicznej kampanii JammerTest { "2024" }.
+
+seg-dba4bd61e5a1 = <a1><em>How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting</em></a1><br/><s1>arXiv:{ "2607.05415" } · <a2>doi:10.48550/arXiv.2607.05415</a2></s1>
+
+seg-e71540c0579c = Pojedynczy złożony wskaźnik odporności jest stabilną podstawą decyzji tylko tam, gdzie jeden projekt dominuje; tam, gdzie projekty rywalizują, samo przeważenie może zmienić zwycięzcę.
+
+seg-f66a5adc8949 = <a1><em>Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination</em></a1><br/><s1>arXiv:{ "2607.02566" } · <a2>doi:10.48550/arXiv.2607.02566</a2></s1>
+
+seg-dd984a53aecc = Pomiary odległości wewnątrz konstelacji księżycowej pozostawiają bezwzględne położenie stacji powierzchniowej nieobserwowalne; opóźnienie interferometrii o bardzo długiej bazie (VLBI) z Ziemi przywraca je, gdy konstelacja jest rzadka, i wyostrza, gdy jest bogata.
+
+seg-17f3813ba35c = rodzaj <c1/>: <c2/>
+
+seg-801cab2ca61b = <a1><em>The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis</em></a1><br/><s1>arXiv:{ "2607.06212" } · <a2>doi:10.48550/arXiv.2607.06212</a2></s1>
+
+seg-9ffe7a7bb94b = Planowane konstelacje czterech do sześciu satelitów dają słabą geometrię na południowym biegunie Księżyca, a kilka powierzchniowych nadajników pomiarowych naprawia ją znacznie taniej niż dodatkowe satelity.
+
+seg-b86f49a7274e = rodzaj <c1/>: <c2/>
+
+seg-43ac1ea20bcd = <a1><em>Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever</em></a1><br/><s1>arXiv:{ "2610.23871" } · <a2>doi:10.48550/arXiv.2610.23871</a2></s1>
+
+seg-ebd135b19e35 = Rozmycie dokładności jest niezdefiniowane dla śledzenia cislunarnego samą odległością, ponieważ prędkość jest nieobserwowalna w pojedynczej chwili, więc praca używa gramianu obserwowalności na czterech płaskich orbitach dalekich wstecznych: sama odległość daje rząd { "2" } z { "4" } w pojedynczej chwili i potrzebuje łuku około { "2.09" } h, by stać się w pełni obserwowalna, a uwarunkowanie poprawia się wraz z wydłużaniem łuku; prędkość zmiany odległości (Doppler) daje rząd { "4" } natychmiast; a łączne estymowanie stacji ze stanami satelitów i zegarami pozostaje o jeden rząd niepełne, dopóki nie doda się zewnętrznej wielkości interferometrycznej. Wymagania należą do budżetów długości łuku, uwarunkowania i rodzaju pomiaru, a nie do DOP.
+
+seg-bf31a6be503d = rodzaj <c1/>: <c2/> (jego siostrzany <c3/> sprawdza próg niezależnym estymatorem różnic skończonych)
+
+seg-e4c4bf92dded = Trzy przykłady badań zapisują artefakty deterministyczne co do bajta (stałe ziarna), które rejestrują wersję silnika, ziarna i skrót konfiguracji. Trzy prace księżycowe i cislunarne opierają się na zestawie księżycowym (poziom dowodowy każdego elementu jest w macierzy weryfikacji); ich twierdzenia o geometrii i rozmyciu dokładności są ponadto sprawdzane krzyżowo względem osobnych wyroczni w <c1/>. Więcej w <a1>Odtwarzalne artefakty badań</a1> w sekcji Reference.
+
+seg-f4d1ec6fc464 = Cytowanie
+
+seg-8116ddf9a8e7 = Jeśli używasz Kshana w pracy naukowej lub technicznej, podaj użytą wersję wraz ze scenariuszem i ziarnem. <a1><c1/></a1> zawiera metadane czytelne maszynowo, a GitHub pokazuje na ich podstawie przycisk „Cite this repository”. Każde wydanie jest archiwizowane w Zenodo; DOI koncepcji (Digital Object Identifier) <a2>10.5281/zenodo.20528627</a2> zawsze wskazuje najnowszą wersję.
+
+seg-6721eda6b4d6 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em>. <a1>Ashforde OÜ</a1>. <a2>https://doi.org/10.5281/zenodo.20528627</a2>
+
+seg-21aa09e97b5d = Powyższe prace:
+
+seg-447074879572 = Baweja, C. ({ "2026" }). <em>Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics</em>. arXiv:{ "2606.22054" }. <a1>https://doi.org/10.48550/arXiv.2606.22054</a1>
+
+seg-ae8d95e35b46 = Baweja, C. ({ "2026" }). <em>A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing</em>. arXiv:{ "2606.24210" }. <a1>https://doi.org/10.48550/arXiv.2606.24210</a1>
+
+seg-2783a7ab9b89 = Baweja, C. ({ "2026" }). <em>How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting</em>. arXiv:{ "2607.05415" }. <a1>https://doi.org/10.48550/arXiv.2607.05415</a1>
+
+seg-bc3a64e25ba8 = Baweja, C. ({ "2026" }). <em>Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination</em>. arXiv:{ "2607.02566" }. <a1>https://doi.org/10.48550/arXiv.2607.02566</a1>
+
+seg-0deb5ecb01d8 = Baweja, C. ({ "2026" }). <em>The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis</em>. arXiv:{ "2607.06212" }. <a1>https://doi.org/10.48550/arXiv.2607.06212</a1>
+
+seg-ed51d8a0cdae = Baweja, C. ({ "2026" }). <em>Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever</em>. arXiv:{ "2610.23871" }. <a1>https://doi.org/10.48550/arXiv.2610.23871</a1>
+
+seg-5056f9965e35 = Kshana ma podwójną licencję: GNU <b>AGPL-3.0-only</b> (<a1><c1/></a1>) albo <b>licencję komercyjną</b> od Ashforde® OÜ do zamkniętej integracji, której AGPL nie odpowiada. <a2><c2/></a2> wyjaśnia, która obowiązuje. Wkłady są licencjonowane przychodząco na AGPL i dodatkowo dają Ashforde® OÜ prawo do włączenia ich do wydania komercyjnego; każdy commit podpisuj poleceniem <c3/> (zob. <a3><c4/></a3>). „Kshana” i jej znaki są znakami towarowymi Ashforde® OÜ: licencja obejmuje kod, a nie nazwę, więc forkom należy nadać inną nazwę.
+
+seg-57b202cb2d90 = Długie materiały, zwinięte. Każdy dokument jest wymieniony w <a1>Dokumentacji</a1>.
+
+seg-63d3e74d233c = Instalacja i budowanie ze źródeł
+
+seg-5dc0fc90ac79 = Instalacja i budowanie
+
+seg-792f12b05230 = Wymaga toolchainu Rust (≥ { "1.85" }, czyli <c1/> w Cargo.toml; rozwijane na { "1.93" }).
+
+seg-14380916caba = Użycie: pełny wiersz poleceń
+
+seg-a3536fe2dc4e = Uruchom dowolny scenariusz; CLI rozpoznaje go po polu <c1/> scenariusza i zapisuje obok niego <c2/>, <c3/>, <c4/> i <c5/>, a dla rodzajów, które publikują tabelę, także <c6/>. Raport (strona HyperText Markup Language (HTML) i dokument JSON o tej samej treści) zawiera podsumowanie dla kadry kierowniczej, każde wejście z jego jednostką, wyniki i wykresy, tabele przeglądu kampanii, Monte Carlo lub łańcucha, oś zdarzeń, etykietę VALIDATED / MODELLED / PARTNER i źródło każdej możliwości użytej w przebiegu, to, czego nie modeluje, oraz zapis odtwarzalności (wersja silnika, skróty Secure Hash Algorithm 256-bit (SHA-256), ziarno, platforma i dokładne polecenie). Z przeglądarki drukuje się do czystego pliku PDF (Portable Document Format) na papierze A4 lub Letter; sam silnik nie zapisuje żadnego PDF. Zob. <a1><c7/></a1>.
+
+seg-422d0ded3988 = <c1/> zapisuje obok scenariusza CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON (Request for Comments { "7946" }), efemerydy Ansys STK (Systems Tool Kit) <c2/> i nagrania SigMF (Signal Metadata Format), a <c3/> wprowadza linię GeoJSON do rodzajów, w których śledzi się trasę. Każdy format jest walidowany względem opublikowanej specyfikacji, a scenariusz, do którego format nie ma zastosowania, podaje powód: zob. <a1>docs/INTEROP.md</a1>.
+
+seg-73f6c3c859fa = <b>Inne tryby CLI</b>: sprawdzenie scenariusza (lint), wczytanie rzeczywistych danych orientacji Ziemi lub uruchomienie całego zestawu:
+
+seg-3c18807029e2 = Eksport animacji.
+
+seg-69473251bb01 = <c1/> zapisuje <c2/> (klatki kluczowe Cascading Style Sheets (CSS), bez skryptu), <c3/> (odtwarzanie, pauza, przewijanie, prędkość i zsynchronizowane panele, bez zewnętrznych zasobów) i <c4/> (<c5/>, … oraz <c6/> z liczbą klatek na sekundę i czasem trwania). Kampania odtwarza swoje fazy i alarmy, przebieg widmowy swój wodospad; motyw podąża za <c7/>, a <c8/> pokazuje gotowy obraz. Renderuje własne próbki przebiegu, identyczne co do bajta przy ponownym uruchomieniu, i nie dodaje dowodów. Zob. <a1>docs/ANIMATION.md</a1>.
+
+seg-627e3a4e3f7d = Manifest <b>zestawu</b> to mały plik TOML (Tom's Obvious, Minimal Language): <c1/> i tablica <c2/> ze ścieżkami scenariuszy, które silnik uruchamia kolejno, scalając każdy wynik (z jego etykietami MODELLED / VALIDATED) w jeden samoopisujący się artefakt badania. Zob. <a1><c3/></a1>.
+
+seg-b4c5325a1922 = <b>Rola w interoperacyjności.</b> Kshana jest warstwą <em>symulacji wydajności</em>, która działa obok narzędzi przetwarzania końcowego, a nie ich zamiennikiem: jej wyjście <b>RINEX</b> podaj do RTKLIB lub gLAB, by uzyskać rozwiązanie pozycji, a jej wyjścia <b>SP3</b> użyj jako precyzyjnego produktu orbitalnego w narzędziach takich jak Ginan; Kshana odpowiada na pytanie <em>jaką odporność daje dana architektura PNT</em>, zanim będą rzeczywiste sygnały, w formatach, które te narzędzia już przyjmują (<c1/> lub <c2/> w scenariuszu <c3/> zapisuje <c4/>). Tę samą orbitę można opublikować jako średnie elementy <b>CCSDS OMM</b> ze ścieżki standaryzacyjnej (<c5/> lub <c6/> zapisuje <c7/>): jeden komunikat OMM { "502.0" } KVN (zapis słowo kluczowe = wartość) na każdego satelitę zdefiniowanego przez TLE, z rzeczywistym numerem katalogowym NORAD (North American Aerospace Defense Command), międzynarodowym oznaczeniem COSPAR (Committee on Space Research) i epoką każdego obiektu, dla dowolnego odbiorcy obsługującego OMM, zamiast dedykowanego dwuwierszowego zestawu elementów.
+
+seg-8e80d89eb666 = Przykładowe wyjście (holdover zegara; zwróć uwagę, jak raportowane są wskaźniki jakości Integrity i Security):
+
+seg-6cec0f5c28ca = 95. percentyl (p95) błędu czasu zegara optycznego wynosi { "1.20e-4" } ns: podsumowanie wypisuje małe wartości z cyframi znaczącymi, zamiast zaokrąglać je do <c1/>. <c2/> pokazuje <c3/>, ponieważ ten scenariusz nie konfiguruje żadnego ataku, więc nie ma czego wykrywać. Wynik JSON nadal zawiera analityczną granicę wykrywalności spoofingu każdego zegara w <c4/> ({ "0.997" } dla zegara optycznego, { "0.000" } dla zegara atomowego w skali układu scalonego, którego własny szum w oknie monitorowania przekracza specyfikację { "20" } ns), a jego blok <c5/> oznacza tę wartość jako <c6/>. Rodzaj scenariusza <c7/> ocenia detekcję względem wstrzykniętego ataku. <c8/> nadaje też każdej raportowanej wartości jej poziom weryfikacji (VALIDATED, czyli sprawdzone względem zewnętrznej wyroczni, lub MODELLED) oraz wiersz macierzy weryfikacji, z którego poziom odczytano. Scenariusz orbit dodatkowo raportuje blok geometrii: ułamek próbek z rozwiązaniem oraz najlepszy i medianowy pozycyjny współczynnik DOP (PDOP) i dokładność pozycji, obok wyniku zegara.
+
+seg-b1ceeefaa419 = Przeczytaj uważnie te dwie liczby.
+
+seg-9606fdd867c1 = <c1/> to <em>analityczna granica wykrywalności spoofingu</em> wyprowadzona ze stabilności każdego zegara; ma sens tylko dla skonfigurowanego scenariusza spoofingu i <b>nie jest</b> wielosatelitarnym detektorem RAIM. <c2/> oznacza tu <em>samospójność</em> filtra (ułamek próbek podczas przerwy mieszczących się w jego własnej granicy k-sigma), a <b>nie</b> lotniczą wartość integralności HPL/VPL. Zob. <a1><c3/></a1>.
+
+seg-28301288a1f5 = Dla rzeczywistej integralności autonomicznej odbiornika <b>rodzaj scenariusza <c1/></b> (<c2/>) uruchamia rzeczywisty RAIM migawkowy i z separacją rozwiązań (typu ARAIM) na propagowanej geometrii konstelacji: oblicza dla każdej epoki <b>poziomy ochrony (HPL/VPL)</b> w poziomie i w pionie oraz podaje ułamek epok, które mieszczą się w skonfigurowanych limitach alarmowych, z diagramem integralności Stanforda do klasyfikacji błąd–PL (poziom ochrony).
+
+seg-4035b0341b9d = Odtwarzalne artefakty badań
+
+seg-4ebfbcaad565 = Cztery otwarte badania odtwarzają po jednym artefakcie deterministycznym co do bajta (stałe ziarno) jednym poleceniem: liczby stojące za badaniami punktu przecięcia kwantowego i klasycznego, luki optymizmu detektorów zakłóceń RF, punktowania odporności PNT i poziomu ochrony czasu:
+
+seg-dcf0075493c2 = Każdy artefakt rejestruje wersję silnika, ziarna i skrót konfiguracji oraz nosi uczciwą etykietę MODELLED/VALIDATED. Sondy na rzeczywistych danych (<c1/>) uruchamiają ten sam potok na nagraniach, które dostarczasz lokalnie; w repozytorium nie ma żadnych zbiorów danych. Badanie luki optymizmu detektorów zakłóceń RF opisano w preprincie <a1>arXiv:{ "2606.22054" }</a1>, a warunkowy poziom ochrony czasu (<c2/> powyżej) w preprincie <a2>arXiv:{ "2606.24210" }</a2> (zob. <a3>Cytowanie</a3>).
+
+seg-5fcd78fc103f = Opublikowane badania księżycowego PNT (<a1>arXiv:{ "2607.06212" }</a1> DOP z nadajnikami powierzchniowymi, <a2>arXiv:{ "2607.02566" }</a2> obserwowalność VLBI i <a3>arXiv:{ "2610.23871" }</a3> obserwowalność cislunarna względem długości łuku) mają swoje twierdzenia o geometrii, rozmyciu dokładności, przewidywaniu ramki czasu rzeczywistego i parametrów orientacji Ziemi (EOP), orbitach dalekich wstecznych i pomiarach odległości RF niezależnie sprawdzone krzyżowo w <c1/> względem osobnych wyroczni (<c2/>, niezależne rozwiązanie DOP w NumPy z <c3/>, ponowne sparsowanie w NumPy tych samych wierszy IERS <c4/> oraz baza NASA/JPL Three-Body Periodic Orbit Database). Są to dodatkowe kontrole regresji nad <b>modelowanym</b> zestawem księżycowym; nie zmieniają liczby pozycji macierzy sprawdzanych maszynowo.
+
+seg-81b9a3353241 = Format scenariusza
+
+seg-407bddee0f95 = Scenariusze są deklaratywnym TOML. Pole najwyższego poziomu <c1/> wybiera pakiet; jest ich w sumie <b>pięćdziesiąt</b> (<c2/> jest domyślny, jeśli pole pominięto): <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/> (stanowisko do oceny detekcji zakłóceń RF metodami uczenia maszynowego: oznakowany korpus syntetyczny, niezależna od detektora uprząż ROC/AUC i luka optymizmu między rozkładem pierwotnym a spoza niego), <c27/> (kompromis między PNT kwantowym a klasycznym z wczytywaniem zmierzonego ADEV i obwiednią odporności bez GNSS; MODELLED), <c28/> (wskaźniki słoneczne i geomagnetyczne, temperatura egzosferyczna Jacchia-71 i zależna od aktywności gęstość termosferyczna nad atmosferą statyczną; MODELLED), <c29/> (most importu i obiegu CCSDS OEM dla efemeryd GMAT/Orekit/STK; MODELLED), trójka analiz misji <c30/> (azymut startu, zmiana płaszczyzny i okazje dla dwóch ciał), <c31/> (korytarz balistycznego wejścia w atmosferę Allena-Eggersa), <c32/> (geometria pasa obserwacji, GSD, dostępu i rewizyty EO), <c33/> (ramkowanie Space Packet CCSDS { "133.0" } TM/TC, czyli telemetrii i telekomend, z dokładnym układem bitów, zweryfikowane w obie strony) oraz <c34/> (moment gradientu grawitacyjnego o 3 stopniach swobody i budżet błędu wskazywania RSS), <c35/> (przewidywanie przejść nad stacją naziemną: AOS/TCA/LOS, maksymalna elewacja, dostęp) i <c36/> (jednokierunkowe równanie łącza CCSDS/DSN: FSPL / Eb·N₀ / zapas / zamknięcie); <c37/> (błąd czasu w holdover, MTIE i TDEV sprawdzone względem masek ITU-T); <c38/> (całe pasmo L GNSS jako jedna widmowa gęstość mocy: wodospad częstotliwość–czas pod skryptowaną osią czasu zagłuszarki o fali ciągłej, wąskopasmowej, typu chirp lub o szumie dopasowanym, stosunek zagłuszarki do sygnału w każdym paśmie i efektywna gęstość nośna do szumu z widmowego współczynnika separacji oraz wejście i wyjście nagrań Signal Metadata Format (SigMF) z estymatami widmowymi Welcha; widma sygnałów VALIDATED względem wartości podręcznikowych, scenariusz zagłuszarki MODELLED; zob. <a1><c39/></a1>; ten sam rodzaj rysuje panele pasm UHF, S i C z zaprojektowanymi sygnałami niskiej orbity okołoziemskiej); <c40/> (projekty sygnałów pozycjonowania, nawigacji i czasu na niskiej orbicie okołoziemskiej dla dowolnego systemu: widma ograniczone pasmowo, drżenie śledzenia kodu i dokładność pomiaru odległości, przeszukiwanie i czas akwizycji, separacja widmowa względem GPS i Galileo, odporność na zagłuszanie oraz kompromis między pasmami UHF i C, z publicznych ustawień wstępnych, takich jak Xona Pulsar, Iridium, Starlink i CentiSpace, lub z projektów podanych w treści; zależności w postaci zamkniętej i Doppler LEO VALIDATED, projekty MODELLED; zob. <a2><c41/></a2>); <c42/> (Słońce, planety, Pluton, Księżyc i siedem dużych księżyców w jednej epoce: położenia, stałe, czasy światła i tory orbitalne; położenia planet VALIDATED względem JPL Horizons) i <c43/> (pozycjonowanie wokół dowolnego z tych ciał z lokalną konstelacją nawigacyjną i łączem dalekiego kosmosu z Ziemi; MODELLED); <c44/> (istniejące rodzaje złożone w łańcuchowy harmonogram misji ze stanem przekazywanym między fazami, przegląd parametru, zasiany zespół Monte Carlo lub kilka scenariuszy w jednym wspólnym warunku; MODELLED, zob. <a3>docs/CAMPAIGNS.md</a3>); <c45/> (wzory delta i star Walkera, listy elementów i projekty wielopowłokowe z ustawieniami wstępnymi GPS, Galileo, BeiDou i GLONASS oraz pokrycie i rozmycie dokładności na siatce szerokości i długości geograficznej; generator i globalny DOP GPS VALIDATED względem opublikowanych dokumentów usługi, zob. <a4><c46/></a4>); <c47/> (przejście satelity pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO) i jego budżet łącza pasmo po paśmie, dla dowolnej konstelacji i dowolnego projektu sygnału: kąty widzenia, Doppler i jego tempo, tłumienie ITU-R przez deszcz, gazy, scyntylacje i wnikanie do budynków, gęstość nośna do szumu względem satelitów GNSS MEO w zasięgu, jonosfera pierwszego rzędu i pary wolne od jonosfery, budżet namiaru o niskiej energii, sondowanie jonosfery z każdej pary pasm oraz monitory spoofingu według spójności Dopplera i geometrii przejścia i według spójności międzypasmowej; człony ITU-R i obwiednia Dopplera użytkownika nieruchomego VALIDATED, przejście MODELLED, zob. <a5><c48/></a5>); <c49/> (komunikat efemeryd i zegara rozgłaszany przez satelitę PNT na niskiej orbicie okołoziemskiej (LEO), dla dowolnej orbity i nośnej: dopasowanie od całkowanej orbity prawdziwej do zestawu keplerowskiego Galileo, ten zestaw z wielomianami poprawek wzdłuż toru, w poprzek toru i radialnych, 22-parametrowy model Liu i in. { "2025" } lub wielomian ECEF ATOMIC z zerowym zegarem; błąd odległości sygnału w przestrzeni (SISRE) w funkcji przedziału dopasowania i okresu aktualizacji, kontrola ciągłości aktualizacji w trakcie przejścia, własna udokumentowana ramka binarna Kshana z cykliczną kontrolą nadmiarową CRC-24Q i budżetem kwantyzacji oraz blok w stylu RINEX-4 oznaczony jako rozszerzenie Kshana; wagi SISRE, algorytm użytkownika Galileo i CRC-24Q VALIDATED, dopasowania MODELLED; opcjonalne ustawienia wstępne dla Xona Pulsar, Iridium, Starlink, CentiSpace, reprezentatywnego systemu pasma C, ATOMIC i Celeste IOD; zob. <a6><c50/></a6>); trójka <b>połączonego PNT MEO + LEO</b> <c51/> (pozycjonowanie Dopplerowskie z prędkości zmiany odległości LEO, wspólne namiary pseudoodległości GNSS + LEO z błędami międzysystemowymi i DOP w funkcji liczby satelitów LEO, pokrycie polarne i arktyczne oraz transfer czasu LEO do UTC, dla dowolnej konstelacji, z opcjonalnymi ustawieniami wstępnymi, takimi jak sygnały okazjonalne Xona Pulsar, Iridium i Starlink; obwiednia Dopplera LEO VALIDATED względem opublikowanych wartości Iridium i Xona), <c52/> (zbieżność precyzyjnego pozycjonowania punktowego samym GNSS i z uzupełnieniem LEO, porównana z Li i in. { "2019" }) i <c53/> (pozycjonowanie 5G w sieci pozaziemskiej z granicy Craméra-Rao dla pasma sygnału), MODELLED poza tą obwiednią, zob. <a7><c54/></a7>; <c55/> (jeden system LEO-PNT od końca do końca: projekt <c56/> niesiony przez pasmo <c57/>, C/N0 przejścia i błąd odległości sygnału w przestrzeni komunikatu nawigacyjnego przekazane do połączonego namiaru <c58/> i zbieżności <c59/>, z wypisanym każdym przekazaniem; MODELLED, zob. <a8><c60/></a8>, które jest też przeglądem każdego rodzaju i scenariusza LEO-PNT, w tym kampanii odporności, po jednym scenariuszu na obszar zainteresowania eksperymentu i po jednym na pionową dziedzinę użytkownika końcowego); <b>zestaw księżycowego PNT</b> <c61/>, <c62/>, <c63/>, <c64/>, <c65/>, <c66/>; <b>demonstrator PNT z wykorzystaniem kwantowym</b> <c67/>, <c68/>, <c69/>; oraz rodzaje badawcze <b>bezpieczeństwa sygnałów, cislunarne i warstwowej odporności</b> <c70/>, <c71/>, <c72/>, <c73/>, <c74/>, <c75/>. Trójka analiz misji i te późniejsze rodzaje są w całości MODELLED (każdy ze sprawdzonym rdzeniem w postaci zamkniętej; zob. macierz). Wspólne pola: <c76/>, siatka <c77/>, oś czasu dostępności <c78/> (źródło przerw) oraz bloki poszczególnych czujników z ciągami <c79/> cytującymi źródło każdej wartości. Przykład (clock):
+
+seg-183a76915d50 = Pola opcjonalne (wyłączone, gdy ich brak): zegar może dodać <c1/> (poziom Allana szumu 1/f FM, czyli modulacji częstotliwości); czujnik inercyjny może dodać <c2/> i <c3/> (dryf żyroskopu i błądzenie kąta losowego) oraz <c4/> i <c5/> (poziom Allana niestabilności biasu i błądzenie przyspieszenia losowego), razem <b>jednoosiowy (1-DOF) budżet błędu akcelerometru</b> (VRW/ARW, czyli błądzenie losowe prędkości i kąta, oraz niestabilność biasu). To jest budżet błędu, który uruchamia dostarczany <em>pakiet</em> scenariuszy <c6/>. Oddzielnie biblioteka zawiera teraz zweryfikowany <b>3-osiowy nawigator strapdown</b> (<c7/>): orientację kwaternionową z kompensacją coningu i sculllingu, pełną mechanizację NED (człony prędkości obrotu Ziemi i prędkości transportu, grawitacja Somigliany WGS-84) oraz deterministyczny model błędów IMU, w którym <b>współczynnik skali, niewspółosiowość, czułość na g, kwantyzacja i narastanie prędkości są modelowane</b> (IEEE Std 952-1997, specyfikacja i procedura testowa żyroskopów IEEE, §A.2; Groves { "2013" } §{ "4.3" }). Ta ścieżka 3-osiowa jest teraz <b>podłączona do uruchamialnego pakietu luźno sprzężonego GNSS/INS</b> (<c8/>): 15-stanowy filtr EKF stanu błędu dyscyplinuje rozwiązanie strapdown względem zaszumionych namiarów, gdy GNSS działa, a następnie przechodzi przez przerwę bez wsparcia, raportując połączony błąd poziomy na tle wybiegu samego INS w pętli otwartej. Dostępna jest też aktualizacja <b>ściśle sprzężona w pseudoodległości</b> (tworzy innowację w dziedzinie odległości, więc wciąż koryguje przy mniej niż czterech satelitach). Scenariusz holdover zegara może dodać <c9/> (> { "1" }), aby uruchomić <b>zespół Monte Carlo</b>: każdy wskaźnik jakości jest wtedy podawany jako średnia z rozrzutem między 5. a 95. percentylem, a wykres zacieniowuje pasmo ufności błędu (zob. <c10/>).
+
+seg-3e3decd727fb = Scenariusz <c1/> (te same bloki co <c2/>) uruchamia <b>dwa niezależne estymatory Kalmana</b>, jeden dla stanu zegara i jeden dla stanu pozycji, dyscyplinowane przez GNSS i wspomagane optycznym transferem czasu, i raportuje połączony wskaźnik jakości holdover. Te dwa bloki nie mają wspólnej kowariancji: to jest ułożona obok siebie para budżetów błędu, a <b>nie</b> prawdziwy sprzężony filtr wspólny zegara i pozycji (kowariancja między blokami jest pozycją planu rozwoju). Zob. <c3/>.
+
+seg-a9c8223768ef = Scenariusz <c1/> wstrzykuje spoofing czasu, jeden z czterech rodzajów <c2/> (<c3/>, <c4/>, <c5/>, <c6/>; sama <c7/> jest nadal przyjmowana jako liniowa rampa), i uruchamia detektor spoofingu każdego zegara. Detektorem jest dwustronny <b>test energii χ²₁ / test Neymana–Pearsona</b> na statystyce monitora wspomaganej zegarem: próg jest ustawiany z docelowego budżetu fałszywych alarmów <c8/>, a <b>prawdopodobieństwo niewykrycia <c9/></b> jest podawane zarówno w postaci zamkniętej, jak i metodą Monte Carlo (<c10/> prób na hipotezę; obie wartości zgadzają się do kilku ×1/√N). <b>Wskaźnik jakości Security to <c11/></b> przy operacyjnie szkodliwej (specyfikowanej) wielkości, więc spokojny zegar, który wychwytuje spoofing o wielkości ze specyfikacji, dostaje ≈ { "1" }, a hałaśliwy, który często go nie wychwytuje, dostaje mniej (zob. <c12/>, <c13/>).
+
+seg-2ca727430208 = Scenariusz <c1/> to symulacja w <b>dziedzinie pomiarów</b>: dla każdego widocznego satelity syntezuje pseudoodległość <c2/> i Dopplera L1, z jednoczęstotliwościową jonosferą <b>Klobuchara</b> (<c3/>, IS-GPS-200 §{ "20.3.3.5.2.5" }) i zenitalną troposferą <b>Saastamoinena</b> rzutowaną funkcją odwzorowania <b>Niella ({ "1996" })</b> (<c4/>). Residua zasilają <b>migawkowy RAIM</b> dla HPL/VPL w każdej epoce, a pseudoodległość, Doppler, C/N₀ i poprawki jonosferyczne i troposferyczne każdego satelity są emitowane w tablicy JSON <c5/>. To symulator wprost (generuje pomiary ze znanej prawdy), a nie odbiornik ani solver: przebieg bez szumu odtwarza geometrię plus poprawki z dokładnością poniżej milimetra (zob. <c6/>).
+
+seg-49cadf7f7bf2 = Scenariusz <c1/> modeluje zakłócenia RF jako <b>budżet łącza</b>: <c2/> (położenie ECEF, moc nadawania <c3/>, typ) podnosi stosunek zagłuszarki do sygnału w <c4/> obserwującym <c5/> Walkera. Z geometrii (tłumienie w wolnej przestrzeni i zysk anteny odbiorczej w danym kierunku) oblicza <c6/> każdego satelity i <b>efektywne C/N₀</b> ze standardowego równania antyzagłuszeniowego (zysk przetwarzania z rozproszenia widma × współczynnik separacji widmowej <c7/>; Kaplan & Hegarty §{ "9.4" }), oraz oznacza utratę synchronizacji poniżej konfigurowalnego progu śledzenia, raportując wskaźnik jakości <c8/>. Zagłuszarka szerokopasmowa o mocy { "10" } W z odległości { "1" } km całkowicie uniemożliwia pracę odbiornika (J/S ≈ { "72" } dB); ta sama zagłuszarka z odległości { "100" } km tylko pogarsza łącza (zob. <c9/>).
+
+seg-ff8bd5d80f32 = Scenariusz <c1/> prowadzi <b>badanie kompromisowe</b>: zmienia jeden <c2/> (<c3/>, <c4/>, <c5/> lub <c6/>) od <c7/> do <c8/> w <c9/> punktach na <c12/> <c10/> lub <c11/>, zapisuje <c13/> (np. <c14/>) dla obu zegarów i rysuje dwie krzywe. Scenariusz bazowy trafia do <c15/> (zob. <c16/>).
+
+seg-299dbf1cf3f2 = Scenariusz <c1/> uogólnia to na <b>dowolny pakiet i dowolną liczbę osi</b>: zmienia klucze TOML w notacji z kropkami scenariusza <c2/> (o dowolnym <c3/>) na iloczynie kartezjańskim <c4/>, ponownie uruchamia każdy węzeł siatki i zapisuje <c5/> podane jako ścieżki JSON w notacji z kropkami w wyniku (np. <c6/>). Działa dla każdego pakietu, ponieważ operuje na granicy TOML/wynik; uruchomienia natywne oceniają siatkę równolegle (bez dodatkowych zależności, wasm wraca do trybu sekwencyjnego), a wynik jest deterministyczny i w porządku wierszowym (zob. <c7/>).
+
+seg-043d68dbb5bb = Scenariusz <c1/> wyprowadza oś czasu <c2/> z geometrii zamiast ją zapisywać: podaj orbitę <c3/>, <c4/>, <c5/> elewacji i dwa bloki zegarów. Raportuje też dokładność pozycji z geometrii satelitów; opcjonalne <c6/> (błąd równoważny odległości użytkownika, 1-sigma, domyślnie { "1" } m) skaluje pozycyjne rozmycie dokładności do sigmy pozycji. Orbita użytkownika może być <b>ekscentryczna</b> dzięki <c7/> i <c8/>, a <c9/> dodaje wiekowy dryf od spłaszczenia Ziemi (zob. <c10/>). Konstelacja może być zamiast tego <b>rzeczywista</b>: podaj w <c11/> blok <c12/> z zestawami elementów dwuwierszowych, a satelity zostaną z niego wczytane (zob. <c13/>). Dodaj jeden lub więcej bloków <c14/> dla <b>wielosystemowego GNSS</b> (np. GPS + Galileo; zob. <c15/>):
+
+seg-5841e4eac5a5 = Rodzaje <b>alt-PNT bez GPS</b> nawigują bez żadnego GNSS, dopasowując zmierzony ciąg pola do mapy filtrem cząsteczkowym. Scenariusz <c1/> prowadzi tor przez pole anomalii grawitacyjnych w harmonikach sferycznych i odzyskuje go z odczytu grawimetru z zimnymi atomami (<c2/>); scenariusz <c3/> robi to samo względem cyfrowego modelu terenu SRTM (TERCOM/SITAN, <c4/>); a scenariusz <c5/> łączy w jednym filtrze <b>grawitację + magnetyzm IGRF + teren</b> (<c6/>).
+
+seg-ec221fc5ace5 = Scenariusz <c1/> ocenia PNT <b>cislunarne</b>: wykonuje przebieg poziomu ochrony ARAIM na południowym biegunie Księżyca względem zestawu przekaźników LunaNet/LNIS i uczciwie raportuje lukę integralności: lunarne σ_URE rzędu ~{ "30" } m podnosi poziom ochrony znacznie ponad limit alarmowy { "50" } m, więc usługa jest <em>niedostępna</em> według reguł integralności w stylu lotniczym (<c2/>).
+
+seg-9b33c9203ca2 = Scenariusz <c1/> raportuje <b>relatywistyczne tempo zegara Ziemia–Księżyc</b>, podstawę skali Lunar Coordinate Time (LTC/TCL). Tożsamość postnewtonowska z pierwszych zasad sumuje różnicę potencjałów własnych (potencjał geoidy IAU <c2/> minus potencjał własny powierzchni Księżyca) i człon kinetyczny Księżyca (Doppler drugiego rzędu) do wiekowego tempa ≈ { "57" } µs/dobę, podawanego z opublikowanym pasmem { "56" }–{ "59" } µs/dobę; podaje też skumulowane przesunięcie LTC−TT na horyzoncie oraz zespół z odwrotnością wariancji (księżycowy zegar papierowy). <b>MODELLED</b>: wartość nagłówkowa <em>zależy od odniesienia</em> (geoida Ziemi a selenoida Księżyca, okno uśredniania), dlatego podawane jest pasmo, a nie pojedyncza liczba uznana za wiążącą (<c3/>).
+
+seg-f1efe0de99b8 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "87" } rodzajów, { "182" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.
+
+seg-ee0d7a833f44 = Artefakt wyniku to wersjonowany, samoopisujący się JSON: szeregi czasowe poszczególnych kroków, ocenione wskaźniki jakości, aktywne specyfikacje modeli (z pochodzeniem), ziarno, <b>skrót scenariusza</b> (dzięki któremu każdy wykres można odtworzyć z pliku) oraz, dla każdego zegara, <c1/> (<c2/>): nakładające się odchylenie Allana dla czasów uśredniania rozmieszczonych oktawowo (standardowy sposób odczytu stabilności zegara), teraz z <b>pasmem ufności { "95" }% zależnym od typu szumu</b> przy każdym punkcie (typ potęgowy zapisu jest rozpoznawany z nachylenia zmodyfikowanego odchylenia Allana, a przedział χ² używa odpowiadających mu efektywnych stopni swobody NIST SP { "1065" }). Plac zabaw w przeglądarce rysuje go jako wykres log-log „Stabilność zegara (ADEV)”. (MDEV, TDEV i HDEV są dostępne jako estymatory biblioteczne; eksportowaną krzywą wyniku jest nakładające się ADEV.) Każde pole, z jednostkami i wskazaniem źródła, jest udokumentowane w <a1><c3/></a1>.
+
+seg-a9f0811371b2 = <b>Każdy wykres jest samoopisujący się.</b> Plac zabaw w przeglądarce, eksport <c1/> z CLI i karta wyników HTML (HyperText Markup Language) opatrują każdy obraz wykresu stopką o treści <c2/>. <c3/> to pierwsze { "12" } znaków szesnastkowych <b>skrótu scenariusza</b> przebiegu: skrótu SHA-256 (256-bitowy Secure Hash Algorithm) z kanonicznej definicji scenariusza (ziarno, progi, parametry modelu, okna GNSS, …); raporty integralności i księżycowe, które nie mają własnego skrótu, używają SHA-256 ze źródła scenariusza. To <b>ten sam odcisk</b>, który widać w jednowierszowym podsumowaniu i w JSON wyniku, więc zapisany lub wklejony wykres zawsze niesie swoją wersję, dokładny scenariusz, który go wytworzył (do odtworzenia bit po bicie) i źródło: zmień dowolne wejście, a skrót się zmieni.
+
+seg-0ae680dc1433 = Wskaźniki jakości odpowiadają standardowym operacyjnym wskaźnikom jakości PNT:
+
+seg-ffc16440f24c = Wskaźnik jakości
+
+seg-4332ec0b9c4b = Jak Kshana go oblicza
+
+seg-edafac3457ae = Wydajność czasowa (pakiety zegara i orbity)
+
+seg-ee7b3cf30f8a = błąd fazy zegara, RMS i 95. percentyl w czasie przerwy, w <b>nanosekundach</b> (<c1/>): miara czasu, a nie pozycji
+
+seg-e5af17bacf4d = Wydajność pozycjonowania (pakiety inercyjne i hybrydowe)
+
+seg-46e24e9ce93c = RMS błędu pozycji 1-DOF i 95. percentyl w czasie przerwy, w <b>metrach</b> (<c1/>); jedna oś. Pojedynczy przebieg jest oznaczany <c2/>; ustaw <c3/>, aby uzyskać zespół Monte Carlo, który podaje dla każdej miary średnią, rozrzut i { "95" }% przedział ufności metodą bootstrap (CI, confidence interval). Wciąż <b>nie</b> jest to 2-wymiarowe CEP/2DRMS (błąd kołowy prawdopodobny / dwukrotność pierwiastka ze średniej kwadratowej odległości) ani dokładność ważona DOP (te wymagają modelu 3-osiowego, pozycja planu rozwoju)
+
+seg-e229e1b01506 = Autonomia
+
+seg-84aa70c37df1 = czas holdover: czas w specyfikacji po utracie GNSS (skwantowany siatką: dolne ograniczenie)
+
+seg-925629554412 = nachylenie narastania błędu w czasie przerwy
+
+seg-fa4468d4cb80 = Dostępność
+
+seg-3636272fdc21 = ułamek przebiegu z rozwiązaniem w specyfikacji
+
+seg-be120d871ef3 = <b>samospójność</b> filtra: ułamek próbek podczas przerwy, których błąd mieści się we własnej granicy k-sigma filtra Kalmana. <b>Nie</b> jest to lotnicza miara integralności HPL/VPL/RAIM (zob. <a1><c1/></a1>)
+
+seg-35b69448cf6d = <b>analityczna granica <em>wykrywalności</em> spoofingu</b> ze stabilności zegara: jak mały lub wolny spoofing czasu mógłby oznaczyć monitor spójności jednego zegara. Ma sens tylko ze skonfigurowanym atakiem; <b>nie jest</b> wielosatelitarnym detektorem RAIM
+
+seg-1a215fc239ff = Nowe pojęcia? Każde jest zdefiniowane prostym językiem w <a1>słowniczku</a1>.
+
+seg-f82c1b1f4bb0 = Układ repozytorium
+
+seg-505200d809a7 = FAQ (często zadawane pytania)
+
+seg-d02ce0621f43 = <b>Czy muszę rozumieć fizykę kwantową, żeby tego używać?</b> Nie. Jeśli potrafisz uruchomić wiersz poleceń, uruchomisz Kshana. Zacznij od <a1>wprowadzenia prostym językiem</a1>; pojęć szukaj w <a2>słowniczku</a2>.
+
+seg-43923de17a2a = <b>Czy to projekt sprzętu kwantowego albo oprogramowanie pokładowe?</b> Nie. To <em>symulator</em> wydajności. Wierność sprzętu kwantowego pochodzi z opublikowanych modeli błędów, a nie z tego narzędzia. Zob. <a1>Czym jest, a czym nie jest</a1>.
+
+seg-75fb7a097584 = <b>Czy wyniki kwantowe są realistyczne, czy to marketing?</b> Każdy parametr jest przypisany do karty katalogowej lub pracy, każdy model jest sprawdzony względem zależności podręcznikowej, a dojrzałość jest uczciwie oznaczona w <a1>VALIDATION.md</a1>, w tym to, że żaden optyczny zegar strontowy nie latał w kosmosie. Silnik jest neutralny: kwantowy i klasyczny to ten sam kod z różnymi opublikowanymi liczbami.
+
+seg-1af53e3ae9c2 = <b>Czy mogę zaufać, że dwa przebiegi się zgadzają?</b> Tak, przebiegi są deterministyczne: <c1/>, co wymusza <c2/>.
+
+seg-b9cd5c5d1f4b = <b>Czy mogę używać tego z Pythona lub w przeglądarce?</b> Tak, zob. <a1>Instalacja</a1>: przykłady w Pythonie i WebAssembly są pod nią. Oba wywołują ten sam silnik.
+
+seg-ed251e142b29 = <b>Jak zamodelować własny czujnik?</b> Napisz scenariusz <c1/> z opublikowanymi wartościami swojego czujnika w polach <c2/>. Zob. <a1>Format scenariusza</a1> i przykłady w <c3/>.
+
+seg-f40679da402e = <b>Czy jest bezpłatny do użytku komercyjnego?</b> Tak, na licencji AGPL-3.0, także w warunkach komercyjnych, o ile przestrzegasz copyleftu AGPL (w szczególności: jeśli zmodyfikujesz Kshana i udostępnisz ją przez sieć, musisz udostępnić tym użytkownikom swój zmodyfikowany kod źródłowy). Jeśli to Ci nie odpowiada, np. musisz osadzić Kshana w zastrzeżonym produkcie lub uruchamiać zamkniętą usługę sieciową, licencja komercyjna jest dostępna od Ashforde® OÜ; zob. <a1><c1/></a1> i <a2>Wsparcie</a2>.
+
+seg-47e61b61094b = Rozwiązywanie problemów
+
+seg-9bf11ed19b33 = <b><c1/> kończy się błędem na starym toolchainie.</b> Kshana wymaga Rust ≥ { "1.85" }. Zaktualizuj poleceniem <c2/>.
+
+seg-0cb99cc9fa83 = <b>Budowanie rozszerzenia Pythona kończy się błędem konsolidacji w macOS</b> (<c1/>). Rozszerzenie Pythona rozwiązuje swoje symbole w czasie ładowania. <c2/> ustawia właściwą flagę konsolidatora automatycznie: użyj <c3/> zamiast samego <c4/>.
+
+seg-608a0438e60e = <b>Kompilacja Pythona zgłasza, że interpreter jest nowszy, niż zna PyO3.</b> Ustaw <c1/> (koła abi3 są zgodne w przód między wersjami CPython).
+
+seg-a3c6ba7932f2 = <b>Kompilacja WebAssembly nie może znaleźć celu.</b> Zainstaluj go jednorazowo poleceniem <c1/>, a potem <c2/>.
+
+seg-2610d5a9ee90 = <b>Gdzie się podziało moje wyjście?</b> Każdy przebieg zapisuje <c1/>, <c2/>, <c3/> i <c4/> obok wejściowego <c5/>, a dla rodzajów, które publikują tabelę, także <c6/>. Wszystkie są celowo ignorowane przez git.
+
+seg-4765d3a73a6f = Wersjonowanie i wydania
+
+seg-0ca788bf975d = Kshana stosuje <a1>Semantic Versioning</a1>. Przed wersją 1.0 publiczny schemat scenariuszy i wyników może się jeszcze zmieniać; zmiany niezgodne są wyraźnie opisane w <a2><c1/></a2>. Każdy wynik można odtworzyć z <c2/>.
+
+seg-2885b69ceef1 = <b>Każdy tag <c1/> publikuje automatycznie wszystkie kanały, w jednej kolejności</b>: najpierw na oznaczonym commicie działa pełny zestaw testów, nic nie jest publikowane, dopóki nie przejdzie, a potem potok sprawdza, czy każdy rejestr rzeczywiście udostępnia nową wersję (<a1><c2/></a1>). Kanały:
+
+seg-8222e46bc13c = Instalacja / pobranie
+
+seg-7f77f517d809 = Biblioteka Rust + CLI
+
+seg-06cfcc54172a = serwer MCP
+
+seg-ec68a7e74a20 = PyPI (Python Package Index)
+
+seg-2f0decb15e44 = koła abi3 (Linux/macOS/Windows) + sdist (dystrybucja źródłowa)
+
+seg-1ec26f00ffb1 = npm
+
+seg-e1d5f87f1af5 = moduł WebAssembly + nakładka JS
+
+seg-300434512f54 = wieloarchitekturowy obraz OCI (Open Container Initiative), bez potrzeby toolchainu
+
+seg-78bc637735d0 = program uruchamiający: pobiera binarium wydania, weryfikuje <c1/> i je uruchamia
+
+seg-153e808516d8 = PyPI
+
+seg-7a5ecdbe5611 = ten sam program uruchamiający dla Pythona
+
+seg-3089785631f9 = Homebrew · Scoop · winget
+
+seg-8fa930c2ea90 = binarium <c1/>, generowane z <c2/> każdego wydania
+
+seg-a991ea4c110b = oficjalny rejestr MCP
+
+seg-aa0826e6ee2d = wykrywany automatycznie przez klientów MCP
+
+seg-ca8f2fe1c3c6 = <c1/> (obraz OCI, pakiety npm i PyPI)
+
+seg-1bc87a838658 = IDE → Plugins → wyszukaj „Kshana”
+
+seg-c8ab30765b96 = wtyczka IDE <b>Kshana — PNT simulator</b>
+
+seg-8afa1f0ebdd7 = Zenodo
+
+seg-d4be2535e13e = archiwum każdego wydania, które można cytować
+
+seg-bd0423a27417 = otwórz w przeglądarce
+
+seg-9ca0fbcfa354 = Kshana Studio, aplikacja WebAssembly w przeglądarce, odbudowywana z każdego taga wydania (więc wersja, którą pokazuje, jest wersją, którą uruchamia)
+
+seg-8dc9d625c9e9 = Wersja crate, obrazu i rejestru serwera MCP podąża za silnikiem (zawiera on bibliotekę); wtyczka JetBrains ma niezależne wersjonowanie (wywołuje zainstalowane u Ciebie binarium <c1/>).
+
+seg-a58b88284421 = Zob. <c1/>, gdzie jest fazowy plan rozwoju, <a1><c2/></a1>, gdzie jest historia wydań, i <a2><c3/></a2>, gdzie jest plan rozwoju poszczególnych możliwości. Kolejność priorytetów jest taka: <b>najpierw dowody dla synchronizacji czasu i holdover w infrastrukturze krytycznej</b> (maski telekomunikacyjne, dłuższy holdover ze starzeniem i szumem migotania, wczytywanie zmierzonych danych zegara); <b>w drugiej kolejności neutralna metoda kompromisu między rozwiązaniami kwantowymi a klasycznymi</b> (wyniki oznaczone MODELLED, dopóki zmierzone dane partnera ich nie awansują); oraz <b>nawigacja księżycowa, cislunarna i w dalekim kosmosie jest utrzymywana</b>, a nie rozwijana jako główny kierunek. <b>Precyzyjna redukcja ramek ITRF</b> jest już dostarczona: pełny łańcuch GCRS↔ITRS IAU 2006/2000A oparty na CIO (ruch bieguna + nutacja poniżej sekundy łuku), sprawdzony co do bitu względem SOFA/ERFA i niezależnie sprawdzony krzyżowo względem ANISE (SPICE w czystym Rust) do ≤ { "3.6" } m na orbicie GNSS. Pozycje bliskiego terminu to ściśle sprzężone łączenie fazy nośnej i udostępnienie luźno i ściśle sprzężonego nawigatora GNSS/INS w większej liczbie pakietów; silnik <b>radiometrycznej nawigacji w dalekim kosmosie i na Marsie</b> pojawił się w { "v0.17.0" } (sprawdzony symulacją). <b>Warstwa fizyki kwantowej</b> jest pozycją <b>P2</b>: akcelerometr CAI jest teraz symulowany z pierwszych zasad (faza Macha–Zehndera, szum projekcji, zanik kontrastu, sprzężenie drgań), a czujniki zegara i transferu czasu są nadal sterowane opublikowanymi współczynnikami Allana i budżetu szumu. TEME&harr;ECEF oparte na GMST, systemy czasu IERS z sekundami przestępnymi (UTC/TAI/TT/UT1), propagacja orbit SGP4/SDP4 ({ "v0.7.0" }, sprawdzona względem wektorów AIAA 2006-6753) i uruchamialny pakiet fuzji <c4/> zostały <b>dostarczone</b>, a prędkość inercyjna jest udostępniona dalej. Na <c5/> trafiły: aktywny stochastyczny detektor spoofingu czasu (test energii Neymana–Pearsona / χ²₁ z P_fa/P_md metodą Monte Carlo i wskaźnikiem Security równym { "1" }−P_md), model zagłuszania jako budżet łącza (J/S → efektywne C/N₀ → utrata synchronizacji), dostępność wielokonstelacyjna, jednoosiowy (1-DOF) budżet błędu IMU, dwa niezależne estymatory Kalmana (zegar + pozycja) raportowane jako połączony wskaźnik jakości, rzeczywista geometria konstelacji z TLE, raport w postaci karty wyników HTML, dostępność GNSS <em>i</em> rozmycie dokładności wyprowadzone z geometrii orbit keplerowskich z ekscentrycznością i dryfem J2, pasma ufności Monte Carlo, przeglądy parametrów w badaniach kompromisowych, plac zabaw WebAssembly w przeglądarce oraz opcjonalne wiązania Pythona (PyO3) i WebAssembly (wasm-bindgen).
+
+seg-d1ef5a83a4b0 = Zob. <a1><c1/></a1>. W skrócie: testy przechodzą (<c2/>), dwa skrypty kontrolne przechodzą, Conventional Commits oraz wpis <c4/> w <c3/> dla każdej zmiany widocznej dla użytkownika. Udział w projekcie reguluje nasz <a2>Kodeks postępowania</a2>. Aby zgłosić problem bezpieczeństwa, zob. <a3>Politykę bezpieczeństwa</a3>; prosimy nie otwierać publicznego zgłoszenia o podatnościach.
+
+seg-6e2e62b6e70f = Dokumentacja: każdy dokument i dla kogo jest
+
+seg-672ddc109531 = Dla kogo
+
+seg-bf874872dcc4 = Co zawiera
+
+seg-2e8bdb58cdea = dla wszystkich, zacznij tutaj
+
+seg-a17023aa100b = co Kshana robi i dlaczego, od zera do fizyki
+
+seg-5ff1297e5fd3 = dla wszystkich
+
+seg-6ae9cf67dbf2 = uruchom silnik w przeglądarce (WebAssembly); uwagi o budowaniu i wdrażaniu
+
+seg-8e3663e418ee = definicje każdego pojęcia prostym językiem
+
+seg-0da03b91d8e2 = każdy rodzaj, który silnik obsługuje: co robi, jego pola, przykładowe polecenie, jego wiersze rejestru i wykres, który dla niego zapisuje silnik
+
+seg-eabf661d9ad4 = programiści / recenzenci
+
+seg-50e77711f8ae = mapa modułów, potok silnika, rozdzielanie i diagramy
+
+seg-00e3c6d5b489 = recenzenci / cytujący
+
+seg-7e3666552f77 = co jest <c1/>, a co <c2/>, z dowodami
+
+seg-a1b009eb3554 = sprawdzany maszynowo rejestr dowodów: każdy wiersz możliwości z jego statusem, modułem, testem i zewnętrzną wyrocznią, generowany z <c1/>
+
+seg-0604447208bc = Uzasadnienie dla wartości modelowanych
+
+seg-a384286e1947 = recenzenci
+
+seg-d434379a43d2 = dlaczego każdy wiersz <b>modelowany</b> nie ma zewnętrznej wyroczni, wyjaśnione wiersz po wierszu
+
+seg-8784e57fff56 = każdy parametr czujnika, model i zbiór danych powiązany z opublikowanym źródłem, w jednej tabeli nadającej się do cytowania
+
+seg-a7d5633dbcc0 = Odtwarzalność i pochodzenie
+
+seg-087473d3f136 = recenzenci / pakujący
+
+seg-f7614494333d = gwarancje determinizmu, przypinanie wzorców (golden), SBOM (wykaz składników oprogramowania), pochodzenie kompilacji
+
+seg-13a543e72c08 = Znaczniki platform kół
+
+seg-1b56719851b7 = pakujący
+
+seg-00577a733e12 = macierz kół Pythona abi3: który znacznik platformy rozstrzyga <c1/>
+
+seg-33ce7950c097 = Pozycjonowanie
+
+seg-90a7258f4d22 = oceniający
+
+seg-b34c84423464 = gdzie Kshana stoi względem RTKLIB/gLAB (uzupełniająco) i warstwa bez instalacji w przeglądarce
+
+seg-b2296ef28d12 = oceniający / kierownicy programów
+
+seg-5a701a5ccf6a = co zastrzeżona nakładka Pro dodaje do tego samego silnika: optymalizator projektu, niepewność i czułość, dossier misji, obserwacja kampanii, współistnienie widmowe, lokalna usługa zadań, śledzenie wymagań; co każdy z tych elementów daje i czego nie robi
+
+seg-13b35332debb = <a1>Raport techniczny</a1> · <a2>Praca JOSS</a2>
+
+seg-2900eec7e995 = recenzenci / cytujący / oceniający
+
+seg-b3a35c73bab6 = pełna rozszerzona praca badawcza: architektura, modele poszczególnych dziedzin, walidacja, studia przypadków i ograniczenia, oraz zwięzłe zgłoszenie do JOSS (Journal of Open Source Software)
+
+seg-b3c51210f2b9 = zgodność z wzorcem AIAA 2006-6753 ({ "666" } stanów, ~{ "4" } mm) <b>oraz</b> bezpośrednie porównanie z niezależnym crate <c1/> (zgodność do poziomu poniżej mikrometra / { "4.12" } mm)
+
+seg-496fc27f0779 = silnik pełnych sił (<c1/>) dopasowany do efemeryd agencji: metodyka i sprawdzone residua
+
+seg-e5dc1d12103b = Przewodnik po rzeczywistych TLE
+
+seg-bc371a07bef1 = użytkownicy
+
+seg-3368ef107f86 = prowadzenie scenariuszy z rzeczywistych TLE konstelacji z Celestrak / Space-Track (zamiast dołączonego syntetycznego zestawu Walkera)
+
+seg-036de74eefe4 = Wskaźnik jakości Integrity
+
+seg-087a30ea794d = co znaczą wartości <c1/> / <c2/> i czym <b>nie są</b> w porównaniu z lotniczym HPL/VPL
+
+seg-4586fac36659 = recenzenci / integratorzy
+
+seg-bd73a9aab9bf = otwarta implementacja poziomu ochrony ARAIM MHSS: rzut nominalnego biasu <c1/>, σ_URA a σ_URE oraz prawdopodobieństwa a priori trybów uszkodzeń
+
+seg-7912b8806633 = <a1>Modele kwantowe</a1> · <a2>szczegóły</a2>
+
+seg-538ae4a293ac = warstwa fizyki interferometru z zimnymi atomami i miejsca, w których współczynniki są wciąż wyszukiwane
+
+seg-542a7e114dff = zakres algorytmów DO-229E / DO-316 i to, co <b>nie jest</b> deklaracją spełnienia normy
+
+seg-dc1c6f878fdd = żeglarze / integratorzy
+
+seg-29cf3d1ef90f = wskaźnik zaufania do GNSS w skali 0-100 dla NMEA statku, jego monitory i ograniczenia (wyłącznie doradczo, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu)
+
+seg-5849b496e5af = trenerzy morscy
+
+seg-4cd0efee3108 = syntetyczne NMEA z mostka ze skryptowanym zagłuszaniem i spoofingiem oraz dziennikiem instruktora; tylko tekst, nigdy do nawigacji na żywo
+
+seg-df1d81e25c75 = analitycy / żeglarze
+
+seg-db50820691f6 = operatorzy / ubezpieczyciele
+
+seg-5a34e02c1d04 = podpisane zapisy techniczne zdarzenia zaufania i sposób ich weryfikacji
+
+seg-3f9b0b6cbbda = zespoły operacyjne / bezpieczeństwa
+
+seg-7442d4e7a665 = strumień zaufania jako metryki Prometheus, zdarzenia SIEM i OpenTelemetry, z panelem Grafana
+
+seg-e3fdf6154d72 = właściciele jachtów / integratorzy
+
+seg-e4c07cecfc7d = wtyczka Signal K, tryb bramki OpenCPN i budowa referencyjna
+
+seg-dc551bb8edb9 = producenci odbiorników
+
+seg-dac9a3e7adf3 = odtwarzanie wyeksportowanego scenariusza przez symulator laboratoryjny i ocena dziennika odbiornika
+
+seg-fe9ee01b4b40 = publiczne ramy odporności zmapowane na wyniki Kshana, ze źródłami i lukami; <c1/>
+
+seg-803e21a4cd63 = uruchamialne samouczki z ich wyrenderowanym tekstem
+
+seg-8ba331635865 = Standardy i interoperacyjność
+
+seg-79dfa8eef7e8 = integratorzy
+
+seg-dc2cc59b2c22 = formaty wymiany GNSS / dynamiki lotu / agencji, które Kshana czyta i zapisuje (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …)
+
+seg-82e510edf422 = Fuzja LEO PNT
+
+seg-78e498b9cd72 = użytkownicy / oceniający
+
+seg-515011790d2f = połączone pozycjonowanie, nawigacja i czas MEO + LEO: Doppler, wspólna pseudoodległość, zbieżność PPP, 5G NTN, pokrycie polarne i transfer czasu LEO dla dowolnej konstelacji; opcjonalne ustawienia wstępne i ich publiczne źródła
+
+seg-80c3a6fcc9d4 = składanie scenariuszy: łańcuchowe harmonogramy misji, przeglądy parametrów, zespoły Monte Carlo i przebiegi we wspólnych warunkach, z tożsamościami składania, które przypinają testy
+
+seg-e2ba765ba8cf = Katalog scenariuszy
+
+seg-d249adca6e09 = użytkownicy / integratorzy
+
+seg-cc36976b92b2 = każdy rodzaj, który można uruchomić, z jego wymaganymi i opcjonalnymi polami TOML, generowany z <c1/>
+
+seg-0714feb42ace = każde pole JSON wyniku, z jednostkami i wskazaniem źródła
+
+seg-d88421825ccf = użytkownicy Pythona
+
+seg-8eca8cb65710 = powierzchnia wiązania PyO3: wywoływanie silnika, typy scenariusza i wyniku oraz przykłady
+
+seg-1a04729b35fa = Twierdzenia a rzeczywistość
+
+seg-c1ff79259d0a = rejestr zamykania nadmiernych twierdzeń i strażnik CI (<c1/>), który utrzymuje je jako rozstrzygnięte
+
+seg-f081da2f997c = fazowy plan rozwoju: co zostało dostarczone, a co jest następne
+
+seg-91a94770bfc6 = <a1>Serwer MCP</a1> · <a2>Wtyczka JetBrains</a2>
+
+seg-d67668b76043 = agenci / użytkownicy IDE
+
+seg-aa939b17949a = uruchom Kshana z asystenta AI lub z IDE JetBrains
+
+seg-01db4cfa76e9 = <a1>Przewodnik dla agenta</a1> · <a2>Powierzchnie</a2>
+
+seg-b7b1239f907e = agenci / integratorzy
+
+seg-fc2d423654fe = które narzędzie odpowiada na które pytanie i co zachować z każdą odpowiedzią; gdzie każda możliwość jest dostępna (CLI, Rust, Python, WASM, MCP, wtyczka, JetBrains, notatniki) i dlaczego komórka ma wartość N/A
+
+seg-3b3aa42b5f15 = historia wydań (Keep a Changelog + SemVer, Semantic Versioning)
+
+seg-f67abac08544 = współtwórcy
+
+seg-bcdae6f3fdbd = budowanie, strażnicy, dyscyplina testów i cytowań, DCO (Developer Certificate of Origin)
+
+seg-5dec7ef854fe = współtwórcy / społeczność
+
+seg-5c0b0441b55c = jak zarządza się Kshana: kto decyduje, jak, oraz granica między otwartym a zamkniętym
+
+seg-0766b60f1d8a = Kodeks postępowania
+
+seg-29a818e8fbc7 = społeczność
+
+seg-b34f02c40174 = oczekiwane zachowanie (Contributor Covenant)
+
+seg-4609cf7fb790 = Polityka bezpieczeństwa
+
+seg-ca35e5e3ad0c = zgłaszający
+
+seg-772539feded5 = jak zgłosić podatność; uwaga o podwójnym zastosowaniu
+
+seg-1f443a976d47 = Najważniejsze źródła
+
+seg-feb6f4f6a5e4 = <b>Wyrocznie walidacji i standardy</b>: zewnętrzne autorytety, do których zakotwiczone są kontrole Kshana:
+
+seg-4ca957af5c9b = Vallado, Crawford, Hujsak & Kelso — <em>Revisiting Spacetrack Report #3</em> (<a1>AIAA 2006-6753</a1>; <a2>dane testowe</a2>): zestaw weryfikacyjny SGP4/SDP4, z którym Kshana zgadza się do { "4.12" } mm, oraz opracowane przykłady ramek, względem których sprawdza się łańcuch TEME→ITRF.
+
+seg-9a2f45b88410 = IAU <a1>SOFA</a1> / <a2>ERFA</a2> — referencyjne procedury czasu i ramek, względem których nutacja IAU 2000A i redukcja GCRS↔ITRS oparta na CIO są sprawdzone co do bitu.
+
+seg-37f680b464fe = Petit & Luzum (red.) — <em>IERS Conventions ({ "2010" })</em>, <a1>IERS TN (Technical Note) { "36" }</a1> (orientacja Ziemi, ruch bieguna i standardy ramek).
+
+seg-5b9951eea4b0 = Riley — <em>Handbook of Frequency Stability Analysis</em>, <a1>NIST SP { "1065" }</a1> (zależności odchylenia Allana i szereg referencyjny NBS14; NBS = dawne amerykańskie National Bureau of Standards).
+
+seg-aede69f7dc3e = Pedregosa i in. — <em>scikit-learn: Machine Learning in Python</em>, <a1>JMLR { "12" } ({ "2011" })</a1>: referencyjne implementacje ROC/AUC, macierzy pomyłek oraz precyzji/czułości/F1, z którymi stanowisko do oceny detekcji zakłóceń RF jest dokładnie zgodne (<c1/>).
+
+seg-a19f72f631ef = Virtanen i in. — <em>SciPy { "1.0" }</em>, <a1>Nature Methods { "17" } ({ "2020" })</a1>: <c1/>, <c2/> i <c3/>, czyli procedury referencyjne, względem których sprawdzane są dopasowanie NNLS zmierzonego ADEV w kompromisie kwantowym, pasma spójności χ² oraz macierz kowariancji szumu procesu zegara van Loana (<c4/>).
+
+seg-fa00dee84096 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, <a1>SoftwareX { "27" } ({ "2024" })</a1>: używane zarówno jako otwarty stan wiedzy (zob. <em>Porównanie i otwarty stan wiedzy</em> poniżej), jak i jako <b>niezależna wyrocznia DOP</b>, z którą obliczenia GDOP/PDOP/HDOP/VDOP/TDOP są zgodne do { "1e-6" } (<c1/>).
+
+seg-1e6e8a68cebb = Montenbruck & Gill — <em>Satellite Orbits: Models, Methods and Applications</em> (<a1>Springer</a1>): modele sił stojące za dopasowaniem modelu sił do precyzyjnych efemeryd agencji.
+
+seg-144cdd7fbc19 = Howell — <em>Three-dimensional, periodic, halo orbits</em>, Celestial Mechanics { "32" }({ "1" }) ({ "1984" }), <a1>doi:10.1007/BF01358403</a1>; Zimovan-Spreen, Howell & Davis — <em>Near rectilinear halo orbits and nearby higher-period dynamical structures</em>, Astrodynamics { "6" } ({ "2022" }), <a2>doi:10.1007/s42064-021-0125-x</a2> (rodziny halo/NRHO, które odtwarza korektor różnicowy CR3BP).
+
+seg-93a7e383053b = <b>Fizyka urządzeń i metod</b>: cytowane źródła stojące za modelami czujników:
+
+seg-fc2aa6fa1340 = Origlia, Schiller, Bongs i in. — <a1>arXiv:{ "1503.08457" }</a1> (optyczny zegar sieciowy ze strontem, cel zorientowany na przestrzeń kosmiczną).
+
+seg-f735c2528052 = Oelker i in., <em>Nature Photonics</em> ({ "2019" }) — <a1>doi:10.1038/s41566-019-0493-4</a1> (laboratoryjny zegar Sr, { "4.8" }×{ "10" }⁻¹⁷).
+
+seg-80b2a7b012fd = Templier i in., <em>Science Advances</em> ({ "2022" }) — <a1>arXiv:{ "2209.13209" }</a1> (hybrydowa trójka akcelerometrów kwantowych).
+
+seg-795160f35f82 = Groves, <em>Principles of GNSS, Inertial, and Multisensor Integrated Navigation</em> — <a1>samouczek IEEE AESS (Aerospace and Electronic Systems Society) (repozytorium University College London Discovery)</a1> (narastanie błędu nawigacji zliczeniowej).
+
+seg-621d684f6fc1 = Giorgetta i in., <em>Nature Photonics</em> { "7" }, { "434" } ({ "2013" }) — <a1>arXiv:{ "1211.4902" }</a1>; Deschênes i in., <em>Phys. Rev. X</em> { "6" }, { "021016" } ({ "2016" }) — <a2>APS (American Physical Society)</a2> (optyczny dwukierunkowy transfer czasu i częstotliwości; optyczne łącze międzysatelitarne wzorowane jest na tych pracach w budżecie niewzajemności).
+
+seg-e8299332a4ba = Betz — <em>Binary Offset Carrier Modulations for Radionavigation</em>, NAVIGATION { "48" }({ "4" }) ({ "2001" }), <a1>doi:10.1002/j.2161-4296.2001.tb00247.x</a1> (modulacja BOC i teoria separacji widmowej stojące za <c1/>).
+
+seg-27d20763d6cb = Kaplan & Hegarty (red.) — <em>Understanding GPS/GNSS: Principles and Applications</em> (wyd. 3, Artech House, { "2017" }): równanie efektywnego C/N₀ przy zagłuszaniu oraz termiczne drżenie śledzenia kodu w DLL typu wczesny–późny, których używają modele sygnału nawigacyjnego i zagłuszania.
+
+seg-7b646cdd9bd4 = <b>Porównanie i otwarty stan wiedzy</b>: narzędzia i przeglądy, względem których pozycjonuje się Kshana:
+
+seg-1879b1f543dd = Humphreys i in. — <a1><em>TEXBAT</em></a1> (Texas Spoofing Test Battery; ION, Institute of Navigation, GNSS { "2012" }): parametry baterii testów spoofingu, względem których charakteryzowany jest wielowarstwowy detektor.
+
+seg-d8b2eecaaa5f = González i in. — <a1>NaveGo</a1> ({ "2017" }): otwarte, sprawdzone profile błędów nawigacji inercyjnej używane jako klasyczny punkt odniesienia.
+
+seg-7c7beb74ddac = Iiyama, Casadesús Vila & Gao — <a1><em>LuPNT</em></a1> (ION GNSS+ { "2023" }, Stanford NavLab): otwarty symulator księżycowego PNT.
+
+seg-fef89f16b111 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, SoftwareX { "27" } ({ "2024" }), <a1>doi:10.1016/j.softx.2024.101811</a1>: otwarta analiza danych GNSS.
+
+seg-9c5ebe5384bc = Li, Zaminpardaz, Kealy & Greentree — <em>Quantum sensors for enhanced positioning and navigation: a comprehensive review</em>, GPS Solutions { "30" }({ "1" }):{ "62" } ({ "2026" }), <a1>doi:10.1007/s10291-026-02030-y</a1>.
+
+seg-7d2b42ba7454 = Bertone i in. — <em>Earth and Space Science</em> { "8" }({ "6" }) ({ "2021" }), <a1>doi:10.1029/2020EA001454</a1>: zredukowane dynamicznie wyznaczanie orbity GRAIL, próg przyspieszenia empirycznego, który odtwarza dopasowanie LRO.
+
+seg-2658a9477dd9 = <s1>Dalej</s1>Wprowadzenie do pojęć
+
+seg-90a95738b32d = Infrastruktura księżycowa (lunar-infrastructure)
