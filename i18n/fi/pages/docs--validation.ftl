@@ -43,3 +43,11 @@ seg-638b8d451550 = Anturi
 seg-04f69a0edb2f = tyyppi
 
 seg-b03d56f501c3 = Tyyppi
+
+seg-35bf9a48e566 = Termi
+
+seg-f3526b0d95f8 = Mitattu
+
+seg-7634c6f4b32c = Yhteys
+
+seg-b966dd26caa6 = Aineisto

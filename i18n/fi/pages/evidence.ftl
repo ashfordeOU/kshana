@@ -2492,3 +2492,7 @@ seg-417a52c9c154 = PDF
 
 # text
 seg-4e31c8daf798 = Kirjanpito
+
+seg-8980b5ae869b = Luku
+
+seg-f4d1ec6fc464 = Siteeraa

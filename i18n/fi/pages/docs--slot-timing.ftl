@@ -15,3 +15,5 @@ seg-f63dd3d7aad4 = Lähde
 seg-1ff32b87e030 = Satelliitit
 
 seg-582fd72f1a1a = Päätös
+
+seg-430edd66bda0 = Ei mallinnettu

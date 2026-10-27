@@ -201,3 +201,9 @@ seg-e0a3133f468f = <b>Kirjanpito:</b> VALIDATED. Koko sivu, jossa syötteet, tul
 # c9: od_sisre_m
 # c10: ppp
 seg-ea759d0040db = Pakolliset kentät: <c1/>, <c2/>, <c3/>. Valinnaiset: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-db08b7916378 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>leo-pnt-chain</a1>.
+
+seg-534d13455a76 = <s1>Edellinen</s1>Häirintä, harhautus ja spektri
+
+seg-ec3fb19fb5bd = <s1>Seuraava</s1>Kuu ja Maa–Kuu-avaruus
