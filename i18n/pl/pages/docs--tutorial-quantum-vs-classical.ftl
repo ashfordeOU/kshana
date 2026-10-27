@@ -65,3 +65,29 @@ seg-7e678dd4409e = samospójność filtra (próbki wewnątrz granicy k-σ)
 seg-1643e7e71209 = nie jest integralnością lotniczą HPL/VPL/RAIM
 
 seg-4095f7ab4b14 = czas w specyfikacji po utracie GNSS, rozdzielony na czas i pozycję
+
+seg-5b90536cdfd5 = nie jest to dokładność 2-D CEP (circular error probable, błąd kołowy prawdopodobny) ani 2DRMS (twice the distance root mean square, dwukrotny pierwiastek ze średniej kwadratowej odległości)
+
+seg-4b11ef3b6dba = Właściwa integralność autonomiczna odbiornika (rzeczywiste HPL/VPL z limitami alarmowymi i diagramem Stanforda) znajduje się w pakiecie <c1/> (<a1><c2/></a1>); to ćwiczenie do czytania Tier-3.
+
+seg-28cddec341ed = Co przypinają testy
+
+seg-a27c3195acf3 = <c1/> — analityczne i Monte Carlo P_md zgadzają się z dokładnością do < { "0.05" } dla obu zegarów; <c2/>.
+
+seg-78a5a0066e09 = Podsumowanie hybrydowe ({ "6600" } s / { "350" } s) i podział inercjalny są przypięte przez ich scenariusze dydaktyczne (<a1><c1/></a1>, <a2><c2/></a2>) za pomocą <c3/>, który porównuje podsumowanie każdego silnika z wierszem <c4/> zapisanym w pliku. Wyrocznia ½bT² powyżej jest fizyczną kontrolą tych liczb.
+
+seg-a4371822e379 = <b>Wskaźnik jakości (FoM) czasu jest podawany w nanosekundach; FoM pozycji jest podawany w metrach i jest 1-DOF</b> (jeden stopień swobody: jedna oś, nie CEP/2DRMS).
+
+seg-1331ea80a427 = <c1/> to samospójność, a nie integralność w rozumieniu lotnictwa.
+
+seg-87c49084032c = <em>Synchronizacja czasu</em> w klasycznym zestawie przetrwa tylko dzięki ponownej synchronizacji optycznego transferu czasu; należy czytać podział <c1/>, a nie tylko nagłówkowy holdover PNT.
+
+seg-1c93115bf118 = Uruchom przypadek uczciwej porażki: <c1/> (rodzaj <c2/>) podaje przejście ARAIM (advanced RAIM) na biegunie południowym, w którym poziomy ochrony <em>przekraczają</em> limit alarmowy (HPL { "263" }–{ "452" } m > { "50" } m, dostępnych { "0" } z { "24" } epok), więc system jest zgłaszany jako <b>niedostępny</b>: to cecha, a nie błąd.
+
+seg-ac70d3131064 = Przenieś tę historię na niską orbitę okołoziemską (LEO): <c1/> (rodzaj <c2/>) łączy w jednej osi czasu fazę zagłuszania GNSS, warstwę pozycjonowania LEO, która prowadzi użytkownika przez tę fazę, oraz kontrolę integralności. Pozostałe scenariusze odporności i branżowe znajdziesz w <a1>nowszych możliwościach</a1>.
+
+seg-063422d3c70b = Obroń wynik: wykonaj <a1>ćwiczenie z poziomu 3</a1> — pasma Monte Carlo, odtwarzalność i odczytywanie poziomu ochrony.
+
+seg-4f7275a21f44 = <s1>Poprzednia</s1>{ "2" } · Holdover zegara
+
+seg-8b0c90f82aab = <s1>Następna</s1>Przykład krok po kroku: potok wielu narzędzi
