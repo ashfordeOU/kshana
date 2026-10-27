@@ -7550,3 +7550,153 @@ dat-896aed641ee3 = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 # data/verification-matrix.json
 dat-0fc8d1c73d1e = tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels ({ "11" } canais: pior pseudodistância { "1.6e-3" } m face a { "0.05" } m, fase de código { "5.5e-6" } chip face a { "2e-4" }, Doppler { "7.4e-5" } Hz face a { "0.02" } Hz, ângulos de visada { "4e-9" } graus face a { "1e-4" }, conjunto visível idêntico); tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing (o conjunto de ensaio de referência reproduz exatamente a listagem de canais impressa pelo próprio programa)
+
+# data/verification-matrix.json
+dat-7eed519e8162 = tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (cobertura PI90 de { "0.891" } sobre { "558" } classes, { "0.900" } sobre { "10" } eventos de tempo até à perda sob cada modelo de bloqueio), the_report_carries_its_inputs_censoring_validation_and_labels (entradas, censura, hash e veredictos de [validation], auditoria do bloco de unidades), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db e bar_b_prime_ci_subset (estrito, ignorado enquanto subsistir a lacuna); bar_b_prime_full_set_of_50_campaigns (ignorado, executado antes da edição); testes de iq::labfit::cn0 (degenerescência exata de Q-delta, recuperação de delta com o Q indicado, inversa do limiar em forma fechada); testes de iq::labfit::iqfit (as condições do modelo de bloqueio reproduzem exatamente o modelo C/N0); tests/iq_labfit_followup.rs (o seguimento registado em 1e532f84: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign que afirma o NOT MET registado, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, na edição)
+
+# data/verification-matrix.json
+dat-fe470eb68eb3 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, o veredicto registado afirmado tal como foi registado, constatação F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, apenas comunicado; condicionado a dados, obtidos por scripts/fetch_scint_malindi.sh); testes unitários de realdata::scint50 (model_data_through_the_harness_shows_the_wrapped_phase_finding, constatação F2)
+
+# data/verification-matrix.json
+dat-8a869df22bb9 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned), sobre números derivados por tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py
+
+# data/verification-matrix.json
+dat-130c6c103241 = tests/jammertest_plan_roundtrip.rs (condicionado a dados por KSHANA_JAMMERTEST_PLAN_DIR: número de intervalos por área de ensaio do plano de { "2025" }, ids do catálogo, ida e volta em TOML); tests/jammertest_score.rs (um registo sintético com uma quebra conhecida: detetada, falhada, não avaliável, execução com falso alarme, pacote assinado com o quadro de pontuação); jammertest::plan::tests; tests/jammertest_score_2024.rs (condicionado a dados por KSHANA_JAMMERTEST_DIR: a execução registada)
+
+# data/verification-matrix.json
+dat-e57fd19b41c2 = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), face a xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json e expected_quantiser.json
+
+# data/verification-matrix.json
+dat-76583d307118 = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr), face a xval/crpa-jamming/expected.json a partir de xval/crpa-jamming/oracle.py
+
+# data/verification-matrix.json
+dat-46ab577738c4 = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), face a xval/jamming-terrain/expected.json a partir de xval/jamming-terrain/oracle.py
+
+# data/verification-matrix.json
+dat-c26f0cab8179 = tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } datas UT1/TT em duas partes entre 1980 e 2050, incluindo degraus de +{ "1" }, +{ "10" }, +{ "50" } us em duas datas: gmst82 dentro de { "1e-12" } rad, pior caso { "0" }; elementos de GCRS para ITRS dentro de { "5e-12" }, pior caso { "2.7e-14" }; rotação em +1/+10/+{ "50" } us dentro de { "1e-13" } rad face ao ERFA, pior caso { "1.1e-14" } rad, onde o caminho de f64 único falha por completo os degraus de +{ "1" } e +{ "10" } us); ephemeris::tests::two_part_jd_agrees_with_the_default_and_resolves_microsecond_steps; frames::tests::the_two_part_teme_to_itrf_round_trips_and_resolves_a_microsecond; jd2::tests::gmst82_matches_the_single_f64_gstime_away_from_the_floor; jd2::tests::two_part_types_convert_without_moving_the_instant
+
+# data/verification-matrix.json
+dat-fc21fbeaacf0 = tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } instantes UTC: quatro em torno de cada um dos { "15" } inícios de uma expressão TAI-UTC entre 1960 e 1972 e { "60" } escolhidos por semente entre 1960 e 1971; dtf2d, utctai e taiutc, cada um dentro de { "1e-6" } s, pior caso { "2.9e-11" } s); tests/jd2_pre1972_sofa_oracle.rs::post_1972_results_are_bit_identical (os { "224" } instantes da linha de { "1972" } em diante inalterados bit a bit)
+
+# data/verification-matrix.json
+dat-73e355e34ce5 = tests/jd2_sofa_time_oracle.rs ({ "224" } instantes UTC: seis em torno de cada um dos { "27" } segundos intercalares entre 1972 e 2016, dois fixos, { "60" } escolhidos por semente entre 1972 e 2026; dtf2d, utctai e taiutc, cada um dentro de { "1e-6" } s, pior caso { "1.9e-11" } s); jd2::tests (a_leap_second_day_is_86401_seconds_long_and_tai_steps_once; tai_to_utc_inverts_utc_to_tai_to_the_microsecond_across_a_leap_second; ut1_runs_through_tai_across_a_leap_second_day; the_two_part_earth_rotation_angle_matches_the_single_f64_one); sgp4::tests::propagate_at_measures_time_from_the_two_part_epoch
+
+# data/verification-matrix.json
+dat-4697e90a0171 = tests/kepler_mpmath_oracle.rs ({ "405" } pontos de grelha, e de { "0" } a { "0.999999" }, M em [-pi, pi] até { "1e-12" }: pior |E - E_ref| de { "0.898" } eps|E| face a um limiar de { "8" } eps|E|; { "9" } pontos de M enrolado, no pior caso a { "0.013" } do seu limiar; nenhum passo de refinamento de Newton necessário em qualquer dos { "414" } pontos; invólucro idêntico bit a bit); testes unitários de kepler
+
+# data/verification-matrix.json
+dat-68381f689540 = tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } posições em { "200" } épocas UTC entre 1973 e 2026, extraídas a partir do hash do pré-registo; pior caso a { "0.66" } do limiar, { "2.96" } m); tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present (condicionado a dados); tests/kernel_ephemeris_skyfield_oracle.rs::barycentre_only_bodies_are_refused_not_substituted; ephem_provider::tests
+
+# data/verification-matrix.json
+dat-2980ec59545a = tests/klobuchar_reference.rs ({ "10" } casos de elevação/azimute/hora local, dois conjuntos de coeficientes)
+
+# data/verification-matrix.json
+dat-7573bd793baa = tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } casos: { "300" } aleatórios em 3D, { "18" } perto de { "180" } graus, { "24" } perto do tempo mínimo de M = { "1" }..3, { "40" } heliocêntricos; { "1058" } soluções; contagens e ordem dos ramos iguais; velocidades dentro de { "1e-8" } em termos relativos, pior caso { "1.6e-13" }; dentro de { "1" } % do tempo mínimo dentro de { "1e-6" }, pior caso { "7.5e-15" }; uma salvaguarda interna de aterragem de Kepler faz aterrar todas as soluções a menos de { "4.2e-12" } de |r2|, exceto uma constatação fixada num arco com e = { "0.994" }, uma limitação de kepler_universal e não do solucionador)
+
+# data/verification-matrix.json
+dat-31c0721aadc0 = tests/lambert_reference.rs ({ "13" } transferências face a lamberthub izzo2015; pior |Δv| de { "7e-12" } m/s)
+
+# data/verification-matrix.json
+dat-de53fbf273c5 = tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: um satélite a { "780" } km e { "86.4" } graus, simulado durante um dia a { "1621" } MHz sobre quatro latitudes, máximo dentro de { "5" }% de { "36" } kHz; xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz: um satélite de cada camada publicada, { "1080" } km a { "53" } e { "97" } graus, { "1593.3225" } MHz, o máximo da constelação entre { "32" } e { "34" } kHz sem alargamento ({ "33.6" } kHz, determinado pela camada de { "97" } graus; a camada de { "53" } graus, isoladamente, atinge o máximo de { "31.8" } kHz)); leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)
+
+# data/verification-matrix.json
+dat-2e58e6363f7e = tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } graus, Pulsar FOC polar { "1080" } km { "97" } graus, Pulsar FOC inclinado { "1080" } km { "53" } graus e GPS { "20180" } km { "55" } graus; velocidade orbital, velocidade máxima em ECEF, velocidade relativa máxima e Doppler máximo da portadora nas bandas L1 e L5, { "20" } valores, cada um dentro de { "0.05" } %)
+
+# data/verification-matrix.json
+dat-ff105b0b379b = tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } valores, { "28" } GHz a { "0" } graus e { "2" } GHz a { "45" } graus, ambas as classes, P de { "1e-7" } a { "0.998" }, dentro de { "0.001" } dB)
+
+# data/verification-matrix.json
+dat-f99830e0546d = tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } casos em cinco locais, { "14.25" } e { "29" } GHz, { "0.001" } % a { "1" } %, dentro de { "1e-4" } dB; observado { "5e-6" } dB)
+
+# data/verification-matrix.json
+dat-0b3de5ce778d = tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } casos em sete locais, { "14.25" } e { "20" } GHz, dentro de { "1e-5" } dB; observado { "5e-7" } dB)
+
+# data/verification-matrix.json
+dat-2bd97847c8f0 = tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: todas as { "115" } linhas do Quadro { "5" }, de { "1" } GHz a { "1000" } GHz, cada coeficiente a { "0.6" } do seu último algarismo impresso; pior caso observado { "0.51" })
+
+# data/verification-matrix.json
+dat-2d9e7dd60d75 = tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (quatro dias do artigo: razões ao longo da trajetória, transversal, radial e SISRE de { "0.755" } a { "1.138" } de Liu et al. { "2025" }, dentro de 1.5x); tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_holds_on_held_out_days (oito dias reservados, dois arcos cada: de { "0.683" } a { "1.186" })
+
+# data/verification-matrix.json
+dat-1ab2ddbf17ca = tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — quatro efemérides de difusão Galileo reais E10, E19, E24, E25 em tk = { "0" }, +/-600, +/-1800, +/-3600 s, todos os eixos a { "1" } mm do RTKLIB; real_galileo_records_survive_the_binary_frame_and_the_text_block — a { "5" } mm após a trama binária do Kshana e a { "1" } mm após o bloco de estilo RINEX)
+
+# data/verification-matrix.json
+dat-06f7c26a4ff7 = tests/leo_polar_coverage_on_path_orekit_oracle.rs (configurações A e B, { "4040" } amostras: posições fixas à Terra a { "6.8e-5" } m, limiar { "0.2" } m; contagens de satélites em vista idênticas em 4040/4040; DOP mediano a { "2.3e-11" } em termos relativos, limiar { "1e-3" }; disponibilidade e média em vista idênticas); tests/earth_orbit_path_sgp4_erfa_oracle.rs (o percurso); leo_fusion::polar::tests (gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it); tests/leo_fusion_scenarios.rs (a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens); tests/leo_polar_coverage_orekit_oracle.rs (ronda { "2" }, geometria sobre estados dados); tests/leo_polar_coverage_full_claim_orekit_oracle.rs (constatação da ronda 1 sobre a afirmação completa, fixada)
+
+# data/verification-matrix.json
+dat-3eacbe00d4f9 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: é igual ao TEC oblíquo da passagem no pico a { "1e-9" } e o seu sigma é igual ao ruído de código RSS sobre { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" })); tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+# data/verification-matrix.json
+dat-3bd4cc0125b1 = tests/leo_signal_reference.rs (o waterfall multibanda funciona com quatro painéis, os jammers de UHF, banda L5, S e C negam cada um apenas a sua própria banda, e uma execução em banda simples não é alterada pela extensão); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+# data/verification-matrix.json
+dat-018136c43fe8 = tests/lugre_acquisition_cell_average_doppler_oracle.rs::strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed (constatação fixada, condicionado a dados); tests/lugre_acquisition_cell_average_doppler_oracle.rs::cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler (estrito, ignorado enquanto subsistir a lacuna)
+
+# data/verification-matrix.json
+dat-9e814d337bc2 = tests/lugre_acquisition_gnss_sdr_oracle.rs::finding_dc_artefacts_and_no_contemporaneous_flight_cn0 (constatação fixada, condicionado a dados); tests/lugre_acquisition_gnss_sdr_oracle.rs::acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver (estrito, ignorado enquanto subsistir a lacuna); acquisition::tests; realdata::ion_sdr::tests; realdata::lugre::tests
+
+# data/verification-matrix.json
+dat-3db3359e9a96 = tests/lugre_acquisition_predicted_doppler_oracle.rs::noise_alone_crosses_the_sample_power_threshold_on_lugre_iq (constatação fixada, condicionado a dados); tests/lugre_acquisition_predicted_doppler_oracle.rs::acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction (estrito, ignorado enquanto subsistir a lacuna)
+
+# data/verification-matrix.json
+dat-9f8024b299ab = tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (constatação fixada, condicionado a dados); tests/lugre_surface_acquisition_doppler_oracle.rs::surface_acquisitions_match_the_orbit_predicted_doppler (estrito, ignorado enquanto subsistir a lacuna)
+
+# data/verification-matrix.json
+dat-e740eb9219b9 = tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs::third_run_finding_c1_c2_hold_g0_is_receiver_nondeterminism (terceiro pré-registo: { "2" } nós, { "4" } canais seguidos, pior erro de Doppler { "0.57" } Hz, pior erro de desvio de código { "0.008" } chip, todas as { "6" } tramas descodificadas com o TOI correto ao longo da transição de { "99" } -> { "0" } e com o subtrama { "2" } coincidente; G0 não atingido tal como escrito, a variação do próprio recetor de execução para execução nos seus registos de aquisição); tests/lunar_afs_decodability_pocketsdr_4bit_oracle.rs::decodability_finding_five_violations (segundo: { "5" } violações); tests/lunar_afs_decodability_pocketsdr_oracle.rs::first_run_finding_no_acquisition_outside_the_receivers_4_bit_range (primeiro: nulo); os testes estritos dos três ficheiros são ignorados enquanto subsistirem as suas lacunas
+
+# data/verification-matrix.json
+dat-5ef4abb4af1b = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (os { "210" } códigos primários AFS-Q sempre; com KSHANA_LANS_RUN e a cache LSIS todos os { "630" } códigos, zero discrepâncias de chips); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (com a cache LSIS: { "3" } tramas, zero discrepâncias de símbolos; { "24" } janelas de { "2" } ms registadas, |rho| = { "0.999990" }); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_full_run_matches_lans_afs_sim (condicionado a dados: execução completa de { "23.9" } s, |rho| = { "0.999990" }, pior bloco de { "2" } ms { "0.999948" }, fase { "8e-9" } rad)
+
+# data/verification-matrix.json
+dat-6e321e50bafc = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (com a cache LSIS: as { "3" } tramas que o LANS-AFS-SIM transmite, construídas a partir do mesmo FID, TOI e bits de dados: zero de { "18 000" } símbolos diferem); tests/lunar_afs_frame_coding_oracle.rs::bch_worked_example_and_crc24_check_value_are_bit_exact (Figura { "8" } do LSIS: 0x045 -> 0x229f61dbb84a0; valor de verificação CRC-24/LTE-A 0xCDE703; é sempre executado); tests/lunar_afs_frame_coding_oracle.rs::ldpc_codewords_satisfy_the_printed_parity_check_matrices ({ "100" } palavras de código, zero verificações não satisfeitas da H impressa); tests/lunar_afs_frame_coding_oracle.rs::decoder_from_parity_check_matrices_recovers_every_frame (descodificador a partir apenas de H, sem ruído e a { "3" } dB de Es/N0, e { "10" } tramas completas); lunar_afs::ldpc::tests::printed_b_inverse_inverts_printed_b; lunar_afs::frame::tests
+
+# data/verification-matrix.json
+dat-3b68979697e8 = tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } valores próprios, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm e a marginal de Schur { "{" }scale,offset{ "}" } para as redes well_posed de 120 linhas e single_epoch de 30 linhas, com rel<{ "1e-3" } e abs<{ "1e-3" }); lunar_gauge::tests (coupled_marginal_fisher_is_symmetric_and_psd, oneway_spatial_equals_orbiter_range_row_datum7, twoway_spatial_equals_oneway_spatial_at_same_geometry)
+
+# data/verification-matrix.json
+dat-39f84288f885 = tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } matrizes SPD 7x7 sintéticas, desde bem condicionadas até quase degeneradas em { "{" }{ "0,3" }{ "}" }; lambda_min de Schur / CRLB da origem / |corr| face a SciPy/NumPy com rel <{ "1e-9" })
+
+# data/verification-matrix.json
+dat-ab15cee1ed2f = tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: o P⊥ de { "84" }×{ "84" } elemento a elemento, trace(P⊥) = parity_dim = { "52" } e rank(G) = { "32" }, normas de detetabilidade + indicadores, a forma quadrática do MDB cᵀWP⊥c + valor do MDB, e as contagens de deteção/identificação do block-spark para cada coligação de pares, reproduzidos face a um oráculo numpy/scipy independente com rel<{ "1e-3" } abs<{ "1e-3" } e contagens inteiras exatas; entradas consistentes byte a byte através de examples/gen_faultobs_rows.rs + scripts/gen_faultobs_ref.py)
+
+# data/verification-matrix.json
+dat-e0359be9446a = tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: três cenários — estações estimadas numa nova data de campanha 2026-03-18 (vinculativo), estações fixas nessa data (controlo), estações estimadas em 2024-01-01 (o cenário da falha anterior em precisão dupla); cada sigma do datum, o número de condição e a direção mais fraca face a um limiar escalado pela condição, recalculado no teste a partir das sensibilidades exatas do oráculo; engine_inputs_match_the_committed_fixture: o Jacobiano, os pesos e o desenho de Helmert registados são o que o motor constrói agora; record_engine_accuracy_against_a_factorisation_route: a faixa de erro do motor e o diagnóstico de Cholesky do NumPy fixados)
+
+# data/verification-matrix.json
+dat-17f0109ca0f2 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: quatro cenários — estações estimadas numa nova data de campanha 2026-06-09 (vinculativo), estações fixas nessa data (controlo), e as entradas de estações estimadas de 2026-03-18 e 2024-01-01; cada sigma do datum, o número de condição e a direção mais fraca face a um limiar em forma de raiz quadrada, recalculado no teste a partir dos ingredientes exatos do oráculo; engine_inputs_match_the_committed_fixture); linalg_sr::tests ({ "9" } testes de biblioteca: o produto de Dekker igual ao resíduo da multiplicação-adição fundida em { "20 000" } pares, soma compensada de uma soma com cancelamento, R^T R igual a A^T A, atualizações sequenciais do filtro iguais a uma atualização em lote, o bloco final igual à raiz quadrada do complemento de Schur, a inversa triangular, o SVD de Jacobi, concordância com o datum espetral num caso bem condicionado, repetições idênticas bit a bit); lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected e the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
+
+# data/verification-matrix.json
+dat-982bb6b78dd6 = tests/lunar_infra_carrier_phase.rs (limiar Q1: êxito de Monte Carlo de pelo menos o limite do bootstrap menos três erros-padrão; Q2: nenhuma descida com o comprimento do arco para além de três erros-padrão; Q4: o LAMBDA é igual à enumeração por força bruta para { "200" } sorteios de dimensão até cinco; Q3: o desenho flutuante é igual a uma resolução numpy independente a { "1e-9" } para as covariâncias de ambiguidade e de posição, e a taxa por bootstrap é NOT MET a { "1e-9" }, fixada: difere em { "1.7e-6" } em termos relativos porque a CDF normal do LAMBDA é uma aproximação de Abramowitz e Stegun)
+
+# data/verification-matrix.json
+dat-42dcc7415045 = tests/lunar_infra_od_consistency.rs (limiar O1: a matriz de transição de estado encadeada ao longo de três dias e de um período é igual ao scipy DOP853 a { "1e-6" } em termos relativos; limiar C1: q médio e a fração dentro de 95 %; limiar C2: amostra sobre o traço formal de cada estimador; limiar C3, NOT MET e fixado: com { "3e-10" } m/s2 de aceleração não modelada, a excedência dentro de 95 % é { "0.0525" }, não de pelo menos { "0.5" } - a estimativa a bordo é conhecida apenas até centenas de metros, pelo que cerca de dez metros de deslocamento ficam ocultos dentro da sua covariância); lunar_infra::orbit::tests, lunar_infra::gnss::tests, lunar_infra::od::tests, lunar_infra::la::tests
+
+# data/verification-matrix.json
+dat-b77187fe96c5 = tests/lunar_infra_studies_3_5.rs (limiar F1: o traço do CRLB não sobe e o menor valor próprio não desce com as ligações do orbitador, no exemplo e em { "20" } conjuntos aleatórios por semente; limiar F2: as derivadas parciais de alcance são iguais a uma diferença finita numpy longdouble independente do modelo direto de Rodrigues em { "50" } geometrias; limiar F3: o menor valor próprio sobe pelo menos 2.0x, encontrado cerca de 111x)
+
+# data/verification-matrix.json
+dat-45afc3da9031 = tests/lunar_infra_studies_3_5.rs (limiar G1: as derivadas parciais analíticas são iguais a uma diferença finita central de cada modelo direto a { "1e-8" }; G2: a informação 5x5 é igual a uma montagem numpy independente a { "1e-6" }; G4: a amplitude da maré do relógio e as suas sensibilidades k2 e h2 são iguais a uma avaliação independente a { "1e-9" }; limiar G3 NOT MET na sua metade do traço, fixado: acrescentar uma família nunca baixa o menor valor próprio ({ "28" } de { "28" }) mas o traço da pseudoinversa subiu em { "12" } de { "28" } acréscimos porque a família acrescentada aumentou a característica)
+
+# data/verification-matrix.json
+dat-ebd59fced24b = tests/lunar_infra_studies_3_5.rs (limiar T1: os sigmas de translação não descem à medida que a ligação local se afrouxa; T2: com os sigmas das técnicas escalados por { "1e-6" }, o sigma de translação de cada par fica a { "1" } % de sqrt({ "2" }) vezes o sigma da ligação local, encontrado a { "3e-7" }; T3: a matriz de informação é igual a uma montagem numpy empilhada independente a { "1e-9" }). A primeira execução de T2 com inversão das equações normais falhou ({ "1.3" } % com uma ligação de { "0.1" } m, valores abaixo do piso a { "1" } m); a causa foi numérica e a covariância passou para a via da raiz quadrada antes de o limiar ser repontuado.
+
+# data/verification-matrix.json
+dat-87bad80dc788 = tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible para { "3" } pares de fornecedores face ao ajuste lstsq por SVD do SciPy independente em tests/fixtures/inter_ephemeris/reference.json, rel<{ "1e-3" } abs<{ "1e-3" } m; fixtures + oráculo consistentes byte a byte através de scripts/gen_interop_ref.py sobre os kernels públicos DE440/INPOP21a/EPM2021 através de IMCCE calceph)
+
+# data/verification-matrix.json
+dat-d631712b98e1 = tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } pontos normais ILRS: RMS { "2.81" } m; as duas estações ITRF2020 isoladamente { "2.96" } m; ambos no máximo { "10" } m); tests/lunar_llr_geometry_range_oracle.rs::round2_finding_is_a_common_offset_of_about_eleven_metres (o modelo geocêntrico de tempo de luz substituído, { "10.94" } m, fixado)
+
+# data/verification-matrix.json
+dat-c5f6bad2097f = tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } estados geocêntricos semanais, pior ângulo de época afirmado < { "0.3" }° e RMS < { "5e5" } m face à própria afirmação documentada do módulo, além de o resíduo LLR ser afirmado concordante com a discordância radial a < { "5" }×); ::the_measured_residual_is_the_ephemeris_error ({ "337" } pontos normais reais)
+
+# data/verification-matrix.json
+dat-6c78f7784bb0 = tests/lunar_protection_level_reference.rs ({ "7" } casos de volume de serviço — polar sul, latitude média, equatorial, planalto elevado — de { "6" } a { "19" } satélites, σ_URE 10/30/60 m, P_HMI de { "1e-3" } até { "1e-7" }, níveis de proteção entre { "1.7e2" } e { "6.9e3" } m: HPL/VPL face ao oráculo composto RTKLIB + SciPy, pior |Δ| { "1.061e-8" } m e { "1.044e-8" } m face a uma tolerância de { "1e-6" } m; DOP face ao (GᵀG)⁻¹ do próprio RTKLIB a { "1.790e-14" } em termos relativos; K_fa face a scipy.stats.norm.isf a { "2.716e-11" } em termos relativos; três controlos negativos — um deslocamento de { "5" } km de um satélite, uma alteração relativa de { "1e-6" } em σ_URE e um P_HMI { "0.1" } % mais apertado — cada um medido como deslocando o nível de proteção em pelo menos { "171" }× a tolerância; e uma salvaguarda de fixture desatualizada que fixa a geometria registada bit a bit ao que o código de constelação e de visibilidade do próprio motor produz, de modo que um resultado verde não possa sobreviver a uma alteração da constelação por baixo)
+
+# data/verification-matrix.json
+dat-fad883319c6c = tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m a { "2.8e-6" } de Ashby e Patla { "2024" } com J2 de AIUB-GRL350A/B; entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields: a entrada radial a { "8.3e-5" } da gravidade equatorial de grau 350 do pyshtools; entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed: a entrada de velocidade a { "2.5e-3" } da velocidade lunar DE441 em { "2000" } épocas); lunar_gauge::tests; teste de regressão tests/lunar_rate_frame_coupling_oracle.rs
+
+# data/verification-matrix.json
+dat-9a65374995ab = tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: a { "1e-12" } m com e sem ruído do recetor; zero_baseline_floor_is_zero_in_every_trial: { "0" } a { "1e-9" } m; survey_floor_matches_the_survey_transfer_prediction: p95 dentro da faixa de { "5" } % indicada antes da execução; coverage_is_non_decreasing_in_the_threshold; corrected_error_grows_with_distance_along_an_azimuth; three_satellites_are_unavailable_with_a_reason_and_no_error; a_satellite_the_station_does_not_see_is_reported; deterministic_for_a_seed_and_moved_by_another; the_work_guard_refuses_an_oversized_grid; the_bundled_scenario_states_a_source_for_every_input; the_result_is_labelled_modelled_with_the_honesty_statement); tests/lunar_station_numpy_oracle.rs (o recálculo numpy pré-registado, registado com a sua falha); lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid; tests/lunar_differential_pnt_reference.rs e os goldens do registo e multiplataforma inalterados (aditividade); tests/field_units_global.rs (todos os campos emitidos descritos, sem isenção)
+
+# data/verification-matrix.json
+dat-c882b77b2bdf = tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: a diferença de erro de ligação com crescimento ativado menos desativado tem taxa de sigma amostral tau / sqrt({ "3" }) a { "6" } % em { "1600" } sorteios; linear_growth_is_the_first_order_propagated_error: um erro de velocidade dv propagado com o integrador de dois corpos da árvore a partir da órbita do cenário desloca a posição em dv tau a { "1" } % a { "60" } s e { "600" } s); tests/lunar_station_published_oracle.rs::k5_growth_addendum_run (ignorado, o adendo registado)
