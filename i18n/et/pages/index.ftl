@@ -477,3 +477,270 @@ seg-2192262e26c1 = täidetud
 
 # text
 seg-785218a0ea66 = Mis Kshana ei ole
+
+# text
+seg-b366150de755 = Telli uuring
+
+# text
+seg-12f050093898 = Miks seda kõik vajavad
+
+# text
+seg-d997b6a5a416 = Miks Pro, veel enam
+
+# text
+seg-4ff013b472ff = Millist kujundust peaks lennutama?
+
+# attr:aria-label
+seg-f4eb65b9b27a = Kuu navigatsioonikonstellatsioon: vähim satelliite vs kättesaadavus, terve Kuu: { "608" } kujundust käivitatud, { "12" } kujunduse Pareto front
+
+# text
+seg-c8ce2e4a6687 = Kui kindlad me oleme ja mis tulemust juhib?
+
+# attr:aria-label
+seg-049c503c23db = Kella holdover ebakindla müratasemega: { "2,000" } jooksu 5. kuni 95. protsentiil vs piir { "20" } ns
+
+# text
+seg-3dd37275b448 = Kas missioon täidab oma nõuded ja kas seda saab üle anda?
+
+# text
+seg-7fbde256debf = täitmata
+
+# text
+seg-f6ccb7a322b3 = avatud punktid
+
+# text
+seg-6df96ca25c68 = Miks ja kellele see on mõeldud
+
+# attr:aria-label
+seg-e8ab991fe284 = Kshana missioonikonsool
+
+# text
+seg-dc0fbd6f3e76 = Vastuvõtja · { "8" } jälgib
+
+# text
+seg-212f0234925f = Segaja · { "1.0" } km kaugusel
+
+# text
+seg-e8b014e4fa7b = Spuufer · { "0.1" } ns/s ajasurve
+
+# text
+seg-b8890ff22c4a = Taasesitus
+
+# text
+seg-fdac3e95b3d9 = Missioon <b>T+{ "00" }:{ "00" }:{ "00" }</b>
+
+# text
+seg-5e5365b80dfb = Stsenaarium <b>campaign-jam-spoof-holdover-integrity</b>
+
+# attr:title, text
+seg-d0b9f1d1b637 = Nominaalne
+
+# text
+seg-12d3b7275c99 = <s1>Mootor v{ $version } · algväärtus (seed) { "20260928" }</s1><s2>Tegelik jooksutus</s2>
+
+# attr:title
+seg-2c7bf2e50347 = GNU Affero General Public License, versioon { "3" }
+
+# text
+seg-162d704ff027 = <s1>v{ $version }</s1>Avatud lähtekood · <s2>AGPL-3.0</s2> · autor Ashforde®
+
+# text
+seg-69d3fae797e4 = Harjuta minutit, mil <em>GNSS läheb pimedaks.</em>
+
+# text
+seg-015e3cff4eda = Kshana on avatud lähtekoodiga PNT (positsioneerimine, navigatsioon ja aeg) vastupidavuse simulaator. Taasesita segamist, spuufimist ja kella holdover-it, kui GNSS (ülemaailmne satelliitnavigatsioonisüsteem) signaalid ebaõnnestuvad, Rusti mootoris, mis jookseb otse brauseris, ning vaata täpselt, millised tulemused kontrolliti sõltumatute etalonide vastu.
+
+# attr:aria-label
+seg-8b095f7254ed = Kopeeri paigalduskäsk: cargo install kshana
+
+# text
+seg-f0e9de10d9ef = cargo install kshana<s1>Kopeeri</s1>
+
+# text
+# c1: ⌘K
+seg-ec3957c0f5f1 = Vajuta <c1/>, et otsida lehti, stsenaariume ja dokumente
+
+# text
+# c1: 
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Sama mootor võimendatuna: { "608" } kavandit, üks Pareto front</s2>
+
+# attr:aria-label
+seg-b807a8887172 = Telemeetria, mis on taasesitatud aheldatud kampaania jooksutusest
+
+# text
+seg-d367c9a1c6fc = Kella ajaviga<s1>vs { "50" } ns kaitse · lineaarne</s1>
+
+# text
+seg-6746a919dc04 = T+{ "0" }
+
+# text
+seg-7d5a96436755 = praegu
+
+# text
+seg-2434e53fa54e = Kandja ja müra tihedus<s1>C/N0 · põhi { "25" } dB-Hz</s1>
+
+# text
+seg-bf842cdbb9d3 = Kaitsetase vs häirepiir<s1>PL · AL { "50" } m, vertikaalne</s1>
+
+# attr:aria-label
+seg-146c6926eae1 = Aheldatud kampaania jooksutuse sündmuste logi
+
+# text
+seg-7dfaa4627c3e = Sündmuste logi · campaign-jam-spoof-holdover-integrity
+
+# text
+seg-47d596393831 = Tegelikud sündmused
+
+# text
+seg-5630c799cec1 = Kust iga jälg pärineb
+
+# text
+# c1: fc21ac4
+# c2: campaign-jam-spoof-holdover-integrity.toml
+seg-46b6db21c09b = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+# attr:title
+seg-f70fa3b93b11 = Mootori enda aruanne selle jooksutuse kohta
+
+# attr:title
+seg-d32a11c090e1 = Mootori tulemus, muutmata
+
+# attr:title
+seg-c459bc5805bb = Stsenaariumifail, mis jooksis
+
+# text
+seg-f18f76c10709 = <s1><a1>Aruanne</a1><a2>JSON</a2><a3>TOML</a3></s1>
+
+# text
+# c1: fc21ac4
+# c2: constellation-multi-gnss-coverage.toml
+seg-c043a94c7564 = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
+
+# text
+seg-f2d2f2263e63 = Konsool, kolm kaarti ja logi taasesitavad ühe aheldatud jooksutuse { "6" } faasi ja { "18" } liikmejooksutusega selle { "10" } s ruudustikul (T+{ "01" }:{ "16" }:{ "10" } missiooniaega). Orbiidid on GPS-i, Galileo, BeiDou ja GLONASS-i { "102" } satelliiti konstellatsioonijooksutusest, igaüks taastatud ringikujulise kahe keha orbiidina mootori maapealsest jäljest (halvim jääk { "0.0034" }°), raadiused kuvamiseks kokku surutud. Lingid joonistatakse satelliitidele konstellatsioonijooksutuse { "10" }° maski kohal ({ "25" }° terviklikkuse häire faasis, kampaania uuesti omandamise mask), tuhmistatuna selle segamisega ja katkestatuna holdover-is. Maa: NASA Blue Marble ja Black Marble. Kshana Studio taasesitab aheldatud jooksutuse teie brauseris; mootori enda aruanne ja käsk reprodutseerivad iga jooksutuse.
+
+# attr:aria-label
+seg-a6603a1011ce = Tõendid ühe pilguga
+
+# text
+seg-92c73c398785 = kaasasolevat stsenaariumifaili
+
+# text
+seg-4fe9e7c5932f = võimekust kontrollimaatriksis
+
+# text
+seg-d2c0888d98f6 = kontrollitud sõltumatute väliste oraaklite (sõltumatu etalon) vastu
+
+# text
+# c1: →
+seg-3a3535770138 = <s1>artiklit arXivis, mis on ehitatud avatud mootorile</s1><s2>Loe uurimistööd <c1/></s2>
+
+# text
+seg-c44c0fbefc2c = <s1>WASM</s1><s2>jookseb brauseris WebAssemblyna, paigaldust pole vaja</s2>
+
+# text
+seg-9b3429f89f21 = Uut versioonis v{ $version }: iga liik, iga käsk ja võrdlusaluse möödalasud
+
+# text
+seg-471b95f0c08f = <a1>Mida igaüks teeb ja mida kontrolliti</a1> · <a2>Iga paigalduskanal</a2>
+
+# text
+seg-a9bca0fa5b04 = L-riba konsool · spectrum liik
+
+# text
+seg-abbe9f20dd01 = Vaata, kuidas segaja võtab riba.
+
+# text
+seg-7b1868001271 = GNSS-i L-riba ühe PSD-na (võimsusspektritihedus): sagedus risti, aeg alla, värv võimsuse jaoks müra põhja kohal. Signaalid asuvad selle põhja all, seega süttivad segajad: sirin, CW (pidevlaine) toon ja kitsariba müra. Hõljuta, puuduta või kasuta nooleklahve iga riba <b>C/N0</b> (kandja ja müra tihedus) ja <b>J/S</b> (segaja ja signaali suhe) jaoks.
+
+# text
+seg-06d71fc57b8d = <b>kshana</b> spectrum <s1>· <s2>l-band-waterfall-jamming.toml</s2></s1>
+
+# attr:aria-label
+seg-2da07c5d32d7 = L-riba kosk, sagedus risti ja aeg alla. Nooleklahvid liigutavad kursorit sageduse ja aja üle; Escape lahkub sellest.
+
+# text
+seg-46f65efc3be9 = Kosk joonistatakse salvestatud jooksutusest JavaScriptiga. Mootori aruanne allpool näitab sama jooksutust.
+
+# text
+seg-f3ea569d443f = Halvim riba
+
+# text
+seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
+
+# attr:aria-label
+seg-14b3348ff8ea = Iga riba kandja ja müra tihedus jälgimispõhja suhtes
+
+# text
+seg-3e189946819a = Kampaania, mida see jooksutus juhib · iga faas järgib segaja olekut
+
+# text
+# c1: l-band-waterfall-jamming.toml
+seg-b4033994f81b = Mootori jooksutus failist <c1/>
+
+# attr:aria-label
+seg-33979077de8c = Kopeeri käsk, mis reprodutseerib jooksutuse: kshana l-band-waterfall-jamming.toml
+
+# text
+seg-17d5d311b110 = Mootori aruanne
+
+# text
+seg-7a6ff36f0f04 = $ kshana l-band-waterfall-jamming.toml
+
+# text
+seg-1fd08ac5f6f0 = Stsenaarium, tulemusandmed, kampaania jooksutus ja mis on modelleeritud
+
+# text
+seg-997412b840c2 = Spectrum jooksutus
+
+# text
+seg-c9ee69e3ce3e = Stsenaariumifail
+
+# text
+seg-aaeaa4133766 = Tulemusandmed
+
+# text
+# c1: campaign-spectrum-holdover-integrity.toml
+seg-e9d1763a751f = Kampaania, mida see juhib: <c1/>
+
+# text
+seg-444a43f5d0d7 = Modelleeritud: suletud kujuga spektrid termilise müra põhja kohal, hinnatud riba kaupa spektraaleralduse järgi; segajate võimsused ja ajastused on stsenaariumi sisendid. Ajatelg loendab sekundeid enne praegust hetke; tsüaaniline joon märgib, kus taasesitus uuesti algas. Kshana Studio jooksutab sama stsenaariumi teie brauseris ja taasesitab kosk; aruanne ja käsk reprodutseerivad jooksutuse.
+
+# attr:aria-label
+seg-9c4762bc4c66 = Missiooni ajajoon
+
+# text
+seg-8b148fc948fa = Missiooni ajajoon · keri või lohista skrubimiseks
+
+# text
+seg-984aa8353e29 = Iga satelliit on jälgitud. Kell on distsiplineeritud GNSS-i ajaga ja kaitsetase on häirepiirist selgelt allpool.
+
+# text
+seg-53dff207c2e7 = T+{ "00" }:{ "00" }:{ "00" }
+
+# attr:aria-label, text
+seg-06909bd3c972 = Missiooni aeg
+
+# text
+seg-de619b311b43 = <b>kshana</b> campaign <s1>· campaign-jam-spoof-holdover-integrity · algväärtus (seed) { "20260928" }</s1>
+
+# attr:aria-label
+seg-348b3f146fd1 = Faasid ja liikmejooksutused, mille iga faas välja saadab
+
+# text
+seg-5ca22bdcb463 = Faasid · liikmejooksutused
+
+# text
+seg-8332e436d097 = Nominaalne<s1>T+{ "00" }:{ "00" }:{ "00" }</s1>
+
+# text
+seg-297f821b911b = algväärtus (seed) { "42" }
+
+# text
+seg-0c4140f95fe8 = algväärtus (seed) { "1" }
+
+# text
+seg-dfe6a1451d36 = algväärtus (seed) { "7" }
+
+# text
+seg-e6df43ef3bcc = Segamine<s1>T+{ "00" }:{ "10" }:{ "00" }</s1>

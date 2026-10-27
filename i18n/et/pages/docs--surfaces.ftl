@@ -783,3 +783,329 @@ seg-6fb9f23090ca = Iga käsurea alamkäsk ja kes seda katab
 # text
 # c1: kshana --help
 seg-4a225d5d59af = Üks rida iga alamkäsu või režiimi kohta käsust <c1/>. <b>jah</b> nimetab sisenemispunkti; <b>ei</b> on lünk koos oma põhjusega; <b>N/A</b> on pind, mis ei saa seda kanda ülalpool või viimases veerus toodud põhjusel. JetBrains toimingud käivitavad käsurea, seega ütleb <b>N/A</b> seal, miks IDE toimingut pole.
+
+# text
+seg-35720f38b1a5 = Alamkäsk
+
+# text
+# c1: kshana <scenario.toml>
+seg-d46c11fa6dea = <c1/> (käivitus, diagramm, tabel)
+
+# text
+# c1: error_kind
+seg-af645810cc0c = <c1/> (käivitus annab vigase stsenaariumi korral erandi)
+
+# text
+seg-7d6c8218a4a6 = Stsenaariumi kontrollimine
+
+# text
+seg-d75a5f64c7cc = <b>N/A</b> (nimetab kettal olevaid naaberfaile)
+
+# text
+seg-16775dd25139 = Komplekt nimetab kettal olevaid naabrite stsenaariumifaile (N/A ülal); iga liige käivitatakse stsenaariumina
+
+# text
+seg-1742459cb792 = Stsenaariumi eksport
+
+# text
+# c1: utf-8
+seg-2bc957bd567b = Failid tulevad tagasi tekstina (<c1/>) või base64-na (SigMF-i näidised)
+
+# text
+seg-bf69da729efd = Marsruudi import
+
+# text
+seg-6d762f20af07 = Stsenaariumi animeerimine
+
+# text
+seg-052c13118454 = Kuni { "120" } kaadrit ühe kutse kohta; pikemate järjestuste jaoks kasutada CLI-d
+
+# text
+# c1: sky <request>
+# c2: --monte-carlo
+# c3: --svg
+seg-5580a1a89bcb = <c1/> (või lipud), <c2/>, <c3/>
+
+# text
+# c1: sky_geometry
+seg-b96c18c1f157 = <c1/> (ilma Monte Carlo ja SVG-ta)
+
+# text
+seg-5b62ca019ebd = <b>N/A</b> (vt võimekuse rida)
+
+# text
+seg-4f7453d89d9d = MODELLED geomeetria; väljund JSON või SVG
+
+# text
+seg-c853beadb55e = REPRESENTATIVE eelseadistused koos päritoluga
+
+# text
+seg-52638393d72d = Stsenaariumi liikide loetelu
+
+# text
+seg-69bc0d382eb7 = Näidisstsenaariumi lisamine
+
+# text
+# c1: python
+# c2: wasm
+seg-611dbcb5a15c = Funktsioonid <c1/> ja <c2/> kompileerivad näitetekstu sisse (umbes { "0.7" } MB)
+
+# text
+# c1: receiver-trust <scenario.toml>
+seg-51e0c2c100f8 = <c1/> (pakett)
+
+# text
+# c1: receiver_trust_replay
+seg-c9421c4d744f = väljavõte: <c1/>
+
+# text
+# c1: assess_vessel_stream
+seg-6a2439967519 = väljavõte: <c1/>
+
+# text
+seg-efe5e5dbe710 = väljavõte
+
+# text
+# c1: --file
+seg-816f9bd210d5 = Vastuvõtja voo hindamine (salvestatud logi, <c1/>)
+
+# text
+seg-d81457d8f038 = Meresõidu usaldusleht (väljavõte); protsessi käsurea kaart
+
+# text
+seg-9cf210dd2301 = Töötav protsess; väljavõttel pole sokklit ega värava (N/A ülal)
+
+# text
+seg-315d0dcd39fb = Ainult tekst igal pinnal, sokklit pole; töötavad eksportijad on protsess (vt ülal)
+
+# text
+seg-5c93482c9ae4 = Tekst sisse, JSON välja; MODELLED
+
+# text
+seg-3763f34af33d = N/A (vt ülal)
+
+# text
+# c1: --json
+# c2: advisory
+seg-4110fadc04db = Sama JSON mis <c1/>, nõuandega selle väljal <c2/>; failist lugemine muutub baitideks mälus. Ainult autentimise olek: see ei ole navigatsiooni terviklikkuse teenus ega sisalda väidet spuufimisvastase toimivuse kohta
+
+# text
+# c1: receiver-trust evidence
+seg-399524b468f3 = <c1/> (paketi loomine)
+
+# text
+seg-6dfc4b352892 = Tööriistad: käsurea kaart (lehes pole allkirjastamisvõtit)
+
+# text
+seg-69dadb564662 = Brauseris pole allkirjastamisvõtit
+
+# text
+seg-fd26107fa3cd = <b>N/A</b> (terminal; vajab faile)
+
+# text
+seg-38dc9c30191a = <b>ootel</b>: Tööriistad: käsurea kaart
+
+# text
+# c1: --key
+seg-57257e80468f = Plaan ja kataloog antakse tekstina; allkirjastatud pakett (<c1/>) on ainult käsureal (allkirjastamisvõti)
+
+# text
+seg-3ea5db063974 = Brauseris pole allkirjastamisvõtit; ühtegi signaali ei kirjutata ega taasesitata
+
+# text
+seg-8b27a6ca1aef = <b>N/A</b> (pistikprogramm ei loo ega loe kunagi privaatvõtit)
+
+# text
+seg-dda21be14d64 = Tööriistad: käsurea kaart
+
+# text
+seg-03376576d0b6 = Python tagastab võtme mälus koos hoiatusega; privaatvõti ei tohiks liikuda läbi vestluse ega lehe
+
+# text
+seg-cd21674be5d7 = Ajatempli lisamine
+
+# text
+# c1: openssl ts -verify
+seg-6c0caa6e1be2 = Tõend baitidena või base64-na, uuendatud pakett tagastatakse mälus; autoriteedi allkirja ei kontrollita (<c1/>)
+
+# text
+seg-907eedb51849 = <b>N/A</b> (vt märkust)
+
+# text
+seg-f70892a9f007 = Saadab aadressile (N/A ülal)
+
+# text
+# c1: interference-map adsb|ais
+seg-76bcb50897c6 = <c1/> (CSV)
+
+# text
+# c1: interference-map adsb
+seg-79f851a94048 = <c1/> (jälgede kataloog)
+
+# text
+seg-d2cc933b6894 = Loeb kataloogi (N/A ülal)
+
+# text
+seg-316b51d83726 = Võrgupääs (N/A ülal)
+
+# text
+seg-b611fd739914 = Loeb arhiivikataloogi ja kirjutab faile; avaldamise viivitust jõustatakse avaldavas masinas (N/A ülal)
+
+# text
+seg-96b313373128 = N/A (selle kannab MCP tööriist)
+
+# text
+seg-cb1fc7c162e3 = Tekst sisse, tekst välja; midagi ei loeta ega kirjutata
+
+# text
+# c1: bench/site/
+seg-5292a4966861 = staatiline leht <c1/>
+
+# text
+seg-839999463148 = HTML-tekst
+
+# text
+seg-bb10d5a1eb50 = Andmestikufailid ja salajane algväärtus (seed) (N/A ülal)
+
+# text
+seg-45bbda779645 = Tagastab teksti, ei kirjuta midagi; signaali pole
+
+# text
+seg-0e64b97b025b = <b>N/A</b> (salvestused on gigabaitide suurused failid; vt märkust)
+
+# text
+# c1: --format sdrx[:ci16_le]
+# c2: .sdrx
+# c3: format: "sdrx"
+seg-7c9273837b73 = Näidised on failid. <c1/> (või väljundtee, mis lõpeb <c2/>) kirjutab ION GNSS SDR metaandmed näidiste kõrvale: need kirjutavad CLI ja MCP (<c3/>); Python tagastab näidised mälus ega kirjuta faili, seega metaandmetel pole Pythoni vormi (<b>N/A</b>)
+
+# text
+# c1: rows
+# c2: tests
+seg-4f1cc14c9af4 = Stsenaariumid on sisse ehitatud; failisüsteemi pole; <c1/> ja <c2/> trükivad kinnitatud dokumenditabelid ning on ainult CLI-s
+
+# text
+seg-5de02dcfb151 = Sümbolivood on tekst, mis koosneb märkidest { "0" } ja { "1" }, kuni { "4" } MiB (MCP) või { "100" } kaadrit genereeritud ühe kutse kohta; alamkaadrite { "2" } kuni { "4" } LDPC-d ja CRC-24Q-d ei kontrollita; signaali ei kirjutata
+
+# text
+seg-db29ea94222b = Näidised on failid
+
+# text
+# c1: iq_labfit
+seg-9b7afa156e9a = <c1/> (logid sisetekstina, faile pole)
+
+# text
+# c1: --follow [--idle-timeout <s>]
+# c2: iq::io::follow::open_sigmf_follow
+# c3: receiver-trust live
+# c4: iq_monitor
+seg-295fe0c63fe2 = <c1/> loeb SigMF-i salvestust, mida alles kirjutatakse, ainult vastuvõtt (<c2/> Rustis): <b>N/A</b> Pythoni ja MCP puhul, sest kutse, mis ootab faili kasvamist, ei naase siis, kui töö on tehtud, ja just seetõttu on ka <c3/> ainult käsureal; salvestus oma praeguse pikkusega läbib käsu <c4/>
+
+# text
+# c1: iq_test_conditions
+seg-e651dceda9b2 = <c1/> (tekst, sisemine)
+
+# text
+seg-237bb76fae50 = Kausta inventuur on Python ja CLI; MCP server loeb ühte töökataloogi
+
+# text
+seg-654781b74f2a = Need kirjutavad salvestused kettal ümber (N/A ülal)
+
+# text
+# c1: iq --help
+seg-6a010403db35 = signaalide loend (<c1/>)
+
+# text
+# c1: kshana iq --help
+seg-1154d82301ca = <b>N/A</b> (loend; käivitada <c1/>)
+
+# text
+seg-8c90b8cb2e78 = Abifunktsioonid
+
+# text
+seg-3d9ac26ec730 = Väikesed sisenemispunktid, mis ei ole võimekuse rida, ja kus kumbki asub:
+
+# text
+# c1: kshana.version()
+# c2: kshana.__version__
+# c3: version
+# c4: --version
+seg-b8c43ffb2a13 = Python (<c1/>, <c2/>), WASM (<c3/>), CLI (<c4/>), MCP (serveri teave)
+
+# text
+seg-3f32bbece220 = Mootori versioon
+
+# text
+# c1: kshana.track-epoch/1
+# c2: kshana iq track --epochs
+# c3: iq_*
+seg-d5fb77719df2 = Loeb <c1/> binaarfaili, mille kirjutas <c2/>. Mujal <b>N/A</b>: see loeb faili kettalt (WASM-il pole failisüsteemi, MCP loeb ühte töökataloogi ainult tööriistade <c3/> kaudu)
+
+# text
+# c1: ?s=
+seg-57ef8e3fe6bc = Brauseri mänguväljaku <c1/> jagamislingi kodek (stsenaariumi TOML URL-i jaoks sobivaks tunnuseks ja tagasi). Mujal <b>N/A</b>: veebilehe link ei oma tähendust käsurea, Pythoni kutse ega agendi jaoks
+
+# text
+seg-bd6e451f5cdf = Piirangud, mis erinevad pinna järgi
+
+# text
+seg-8f3e8345d90d = Sisendi piirang
+
+# text
+seg-4b5abdf098e3 = Failid
+
+# text
+seg-1910f2cef7da = { "4" } MiB tekstisisendi kohta ({ "2" } MiB ja { "20,000" } epohhi voo väljavõtte kohta); vastused sisaldavad kuni { "2000" } NMEA rida, { "200" } mitte-nominaalse epohhi rida ja { "4" } MiB GeoJSON-i või paketifaile
+
+# text
+# c1: iq_*
+seg-116e2d0202f4 = ainult sisemine sisu: stsenaariumi väli, mis nimetab faili, lükatakse tagasi; tööriistad <c1/> kasutavad ühte vabatahtlikult lubatud töökataloogi, kus iga tee on sellega piiratud
+
+# text
+# c1: --http
+seg-ee5e8de88144 = MCP üle HTTP (<c1/>, ise majutatud)
+
+# text
+seg-f095909e9feb = nagu MCP, vaikimisi { "5" } MiB päringu kehaga, { "120" } s päringu kohta ja { "8" } päringut korraga
+
+# text
+# c1: iq_*
+seg-95d4ab7863e6 = puudub: failitööriistad <c1/> on välja lülitatud; iga teine tööriist võtab sisemist sisu
+
+# text
+seg-a8b290453c39 = Python, Rust
+
+# text
+seg-3df89722db78 = { "64" } MiB tekstisisendi kohta
+
+# text
+# c1: receiver_trust
+# c2: path
+seg-00acf8b1ff29 = <c1/> võib nimetada <c2/>, mida protsess saab lugeda
+
+# text
+seg-cf23db887749 = { "64" } MiB tekstisisendi kohta, brauseri enda mälus
+
+# text
+seg-e38059970288 = puudub: brauseril pole failisüsteemi, midagi ei laadita üles
+
+# text
+seg-241399edb372 = Tõendustasemed ja hoiatused igal pinnal
+
+# text
+seg-b3307ae773f7 = Tõendipakett on <b>tehniline kirje</b> sellest, mida mootor arvutas logist teatud seadistustega, koos iga räsi ja nende kohta antud allkirjaga. See ei ole õiguslik arvamus, ühegi sündmuse kohta tehtud faktiväide ega kinnitus. Verify läbimine ütleb, et kirje on muutumatu; ilma usaldatud avaliku võtmeta tõestab see ainult terviklikkust võtme suhtes, mille pakett ise nimetab.
+
+# text
+seg-0d8ed8b92a00 = Vastuvõtja usalduse monitoorid ja usaldusskoor on <b>MODELLED</b>: läved on esitatud sisendid ning miski ei väida, kuidas need reaalse häire korral toimivad. Väljund on <b>nõuandev</b>; Kshana ei ole tüübikinnitust omav navigatsiooniseade (IEC { "61108" }, IEC { "61162" }) ja operaator vastutab jätkuvalt. Kõrge skoor ei ole tõend tegeliku asukohafiksi kohta.
+
+# text
+seg-606127880e96 = Häirekaart on <b>MODELLED</b> (eelregistreeritud läved, mitte maapealse tõelise mõõtmise vastu valideeritud). Halvenenud lahter ei tuvasta häiret põhjusena; lahter, mida ei vaadeldud, ei ole tõend selge marsruudi kohta; see kirjeldab varasemaid teateid ega ole prognoos. See on ainult koondandmed: ühtegi identifikaatorit ei tagastata.
+
+# text
+seg-b2fd2a05842f = Treening-NMEA on <b>ainult tekst</b>: RF-i, IQ-d ega lainekuju ei sünteesita, midagi ei edastata ning seda ei kasutata kunagi laeva reaalajas navigatsioonisüsteemides.
+
+# text
+seg-4e3bbacda9ac = <s1>Eelmine</s1>Kshana kasutamine agendist
+
+# text
+seg-c5fbfab85e01 = <s1>Järgmine</s1>JetBrainsi pistikprogramm
