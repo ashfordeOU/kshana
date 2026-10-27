@@ -1072,6 +1072,8 @@ seg-bdd4e56bdef9 = fuusio (realismi)
 
 seg-09af9dd78fe3 = <c1/> { "0" } vs. { "5.88e-7" } m/s²
 
+seg-0a6723be642c = nolla vs. realistinen nollasta poikkeava
+
 seg-a9eb04be2b9f = suodatin konvergoituu yhä, enintään { "3" }× nollaharhan virhe
 
 seg-2a839953aa6a = Flicker-FM- ja fuusioharhariveillä suljetaan kaksi tiettyä realismiaukkoa: kohinatermit ovat <b>oletuksena pois päältä, mutta vaikuttavat osoitettavasti tulosteeseen, kun ne otetaan käyttöön</b>, ja yhteinen fuusiosuodatin <b>ei ole riippuvainen siitä, että harhat nollataan</b> — se konvergoituu myös realistisella kylmäatomiluokan jäännösharhalla.

@@ -82,3 +82,76 @@ seg-1a5ff10e5240 = Arvo <c1/> alle { "0.5" } hylätään.
 # text
 # c1: null
 seg-e70d8d7f9980 = <b>Pidätys.</b> Solua, jonka näki alle { "5" } eri ilma-alusta, ei julkaista; alle { "5" } oleva luku on <c1/> (nolla mukaan lukien), kuten perusmenetelmässä.
+
+# text
+seg-ab75582c5032 = <b>Ei osoitusta syystä.</b> Tilojen ja perusteiden sanastossa ei ole syytä; testi varmistaa tämän.
+
+# text
+seg-0e7d76d7efd0 = <b>Lähteet.</b> Vain adsb.lol (ODbL { "1.0" }) tai käyttäjän aineisto omalla lisenssillään. <b>OpenSky Networkin dataa ei hyväksytä</b> (sen lisenssi ei salli johdettujen karttojen kaupallista käyttöä tai uudelleenjakelua). ADS-B:tä ja AIS:ää ei koskaan yhdistetä.
+
+# text
+seg-dc28848046ac = <b>Tuotteen lisenssi.</b> Solukohtainen ADS-B-tiedosto, joka on tehty adsb.lol-datasta, on Derived Database ja sisältää lisenssin ODbL { "1.0" } sekä adsb.lol-tekijätiedot tiedostossa. Kshanan koodi pysyy AGPL-3.0-lisenssillä.
+
+# text
+seg-9eeba6648fec = Havaittava suure ja perusmenetelmä
+
+# text
+# c1: kshana-interference-map/adsb/v2
+# c2: docs/INTERFERENCE-MAP.md
+seg-7334dc45eb2f = ADS-B-ilma-alus ilmoittaa, kuinka tarkkana se pitää oman GNSS-paikkansa: <b>NACp</b> (Navigation Accuracy Category for Position, { "95" } %:n vaakaraja välillä { "10" } NM ja alle { "3" } m) ja <b>NIC</b> (Navigation Integrity Category, suojaussäde). Perusmenetelmä (<c1/>, <c2/>) laskee solua ja päivää kohden osuuden <b>eri ilma-aluksista</b>, joiden solun sisäiset raportit olivat enimmäkseen heikkotarkkuuksisia, suojaehdoin: vain yli { "5,000" } ft:n korkeus; ilma-alus lasketaan vain, jos se ilmoitti hyvää tarkkuutta muualla samana päivänä (laitteiston lähtötaso); solun osuuden on ylitettävä päivän solujen mediaaniosuus marginaalilla; päivä, jonka mediaani on itsessään korkea, merkitään sekoittuneeksi, eikä yhtäkään solua julisteta heikentyneeksi. Parametrit kiinnitettiin kenttien määritelmistä ja yksityisyyssäännöstä ennen kuin dataa tarkasteltiin lainkaan, ja ne kirjoitetaan jokaiseen tulostiedostoon. Observatorio lisää kolmen tilan sanaston, julkaisusäännöt ja edellä mainitut tiedostot eikä muuta yhtään parametria.
+
+# text
+# c1: --bbox
+# c2: method.scope
+seg-96cf298985c6 = <b>Alueajot.</b> Valitsimella <c1/> luetaan vain laatikon sisäiset raportit. Laitteiston lähtötaso ja päivän tausta lasketaan tällöin pelkästään laatikon raporteista, ja tiedosto kertoo tämän (<c2/>). Aluetuote on siis kyseisen alueen datan tuote, ei globaalin tuotteen rajaus.
+
+# text
+seg-2e7007b56a44 = Suhde NACp–almanakka-HDOP-menetelmään
+
+# text
+seg-4892485e534b = Pleninger, Topkova ja Steiner, "GNSS interference detection: Methodology utilising ADS-B NACp indicator and GPS almanac data", The Aeronautical Journal { "129" } ({ "1331" }), { "206" }–{ "223" } ({ "2025" }), doi 10.1017/aer.2024.67, vertaavat ilma-aluksen NACp:stä pääteltyä paikkavirhettä GPS-satelliittitähdistön HDOP:iin (horisontaalinen tarkkuuden heikkenemiskerroin) almanakkadatasta ja merkitsevät ilma-aluksen vaikutuksen alaiseksi, kun nämä kaksi eroavat; artikkeli arvioi menetelmää tarkoituksellisilla GPS-häirintäkokeilla.
+
+# text
+seg-74ec1aca8a22 = <b>Mitä käytimme.</b> Vain julkaistun tiivistelmän ja bibliografisen tietueen. Kokotekstiä ei ollut saatavilla (maksumuurin takana), joten emme tunne sen NACp:n ja virhearvion välistä kuvausta, HDOP-laskentaa emmekä kynnyksiä, emmekä väitä toistavamme niitä.
+
+# text
+seg-4f8471649a07 = <b>Mitä observatorio tekee sen sijaan.</b> Kysymys, johon almanakkavertailu vastaa, on "voisiko pelkkä satelliittitähdistön geometria selittää tämän heikon tarkkuuden?". Perusmenetelmä vastaa liittyvään kysymykseen ilman almanakkaa: matalan osuuden on erotuttava saman päivän taustasta koko alueella ja ilma-aluksen omista hyvistä raporteista muualla. Se on erilainen ja heikompi korvike: se ei voi sanoa, että hiljaisen geometrian tunti oli heikentynyt, jos päivän tausta on myös matala. Almanakka-HDOP-pisteyttäjää <b>ei ole toteutettu</b>. Se on avoin asia, joka rakennetaan artikkelin kokotekstistä ja julkisesta GPS-almanakasta ja ennakkorekisteröidään ennen ajoa; siihen asti siihen viitataan, mutta sitä ei väitetä.
+
+# text
+seg-e9b9902633af = Tuotteen toistaminen
+
+# text
+seg-95e48f0286d9 = Putki on deterministinen kaikessa, mitä se julkaisee (ajokohtainen tunnistesuola muuttaa vain sisäisiä tiivisteitä, joita ei koskaan kirjoiteta). Manifestin SHA-256-arvot mahdollistavat toisen ajon vertaamisen tavu tavulta.
+
+# text
+seg-65236a42e316 = Herkkyystutkimus
+
+# text
+# c1: kshana interference-map sensitivity <input> --dataset adsb-lol --day <day> --out report.json
+# c2: docs/observatory/RESULTS.md
+seg-0c843e799b8f = <c1/> toistaa yhden päivän raportit muuttaen yhtä ennakkorekisteröityä parametria kerrallaan (kaksi arvoa kullekin sekä { "1.0" } asteen ruudukko) ja raportoi variantti kerrallaan heikentyneiden, ei heikentyneiden ja ei havaittujen solujen määrän, heikentyneen joukon Jaccard-indeksin rekisteröityyn joukkoon nähden, solut joiden tila muuttui sekä heikentyneen alueen. Se ei muuta rekisteröityä sääntöä: variantti ei ole validoitu vaihtoehto, ja suuri muutos parametrin alla kertoo, kuinka paljon arvio riippuu kyseisestä parametrista, ei sitä, mikä arvo on oikea. Takautuvan katalogin tulokset ovat tiedostossa <c2/>.
+
+# text
+# c1: not_observed
+seg-cc57d45c4b0a = <b>Kattavuus.</b> adsb.lol perustuu vapaaehtoisten vastaanottimiin; avomeri ja harvaan katettu ilmatila ovat niissä harvoja, ja <c1/> on siellä yleinen. Kartta näyttää lähteensä kattavuuden.
+
+# text
+seg-e3921e1eb177 = <b>Mitä heikko tarkkuus tarkoittaa.</b> NACp ja NIC laskevat muistakin syistä kuin häiriöstä: satelliittien tai täydennysjärjestelmien katkoista, avaruussäästä, vastaanottimen tai transponderin vioista ja geometriasta. Mikään tila ei viittaa syyhyn.
+
+# text
+seg-e5ad0dc456c0 = <b>Ilma-alukset, jotka pysyvät vaikutusalueella koko päivän,</b> eivät saa lähtötasoa sen ulkopuolelta eikä niitä lasketa, joten menetelmä aliarvioi pysyvän alueellisen vaikutuksen. Herkkyystutkimus näyttää lähtötasosuojan vaikutuksen.
+
+# text
+seg-a2d41becc19b = <b>Päivän rajat</b> ovat UTC; keskiyön yli ulottuva tapahtuma jakautuu kahdelle päivälle.
+
+# text
+seg-436af9f16feb = <b>Ei maastototuutta.</b> Observatoriolla ei ole ulkoista oraakkelia: jokainen luku on MODELLED, eikä yksikään varmennusmatriisin rivi nojaa siihen.
+
+# text
+seg-5c4966f0166d = <b>Aiheen herkkyys.</b> Tämänkaltaiset kartat ovat poliittisia. Observatorio esittää menetelmän, viiveen ja sanaston eikä muuta; se ei nimeä valtioita tai toimijoita, eikä se julkaise reaaliajassa.
+
+# text
+seg-874f46a80c8b = <s1>Edellinen</s1>Luetut vastaanotinprotokollat
+
+# text
+seg-3137b7595e59 = <s1>Seuraava</s1>Häiriöobservatorio: tulokset

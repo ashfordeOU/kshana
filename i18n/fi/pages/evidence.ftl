@@ -2505,6 +2505,694 @@ seg-b366150de755 = Pyydä selvitys
 
 seg-ac7e1a5e344a = Pro
 
+seg-6d3d0f8c9b7c = Pyydä Pro-arviointia
+
+seg-8f101c803442 = Jokainen ominaisuus kantaa <s1>omia todisteitaan.</s1>
+
+seg-9ef28b622a43 = { "388" } ominaisuutta, kukin arvioitu. <b>{ "176" } validoitua</b> riippumattomia ulkoisia oraakkeleita vasten. <b>{ "208" } rehellisesti merkittyä mallinnetuksi.</b> { "4" } kumppanin omistamaa. Mitään ei pyöristetä ylöspäin.
+
+seg-4f6445e5dd61 = Varmennusmatriisi <b>v{ $version }</b>
+
+seg-d9f0aabb4262 = Keskeytä pyyhkäisy
+
+seg-ae9e2459836c = ominaisuutta
+
+seg-4adb5411062e = Varmennusmatriisi, yksi solu ominaisuutta kohti kirjanpidon (ledger) järjestyksessä: { "176" } validoitua (täytetyt neliöt), { "208" } mallinnettua (onttoja neliöitä), { "4" } kumppanin omistamaa (vinoneliöt). Nuolinäppäimet siirtävät solusta toiseen; ominaisuus ja sen oraakkeli luetaan alla.
+
+seg-f97cb6bf8202 = Vie osoitin solun päälle tai kohdista siihen nähdäksesi sen ominaisuuden ja oraakkelin, joka sen arvioi.
+
+seg-8a1cef0b9561 = Validoitu: riippumaton ulkoinen oraakkeli on samaa mieltä
+
+seg-582c4a762fc5 = Moottori v{ $version } · <c1/>, tuotettu tiedostosta <c2/> · { "388" } riviä · ei skenaariota eikä siemenlukua: moottorin oma kirjanpito (ledger)
+
+seg-d5c32303297d = Lue kirjanpito (ledger)
+
+seg-f6112ab2dfdf = Kirjanpito (ledger), tulokset, toistettavuusleima ja niiden takana olevat testit ovat kaikki avoimessa moottorissa.
+
+seg-69df15091cab = Paketoi todisteet auditointikelpoiseksi, toistettavaksi todistepaketiksi arviointilautakunnalle. <a1>Katso alla</a1>
+
+seg-9906d9824f3e = Vastaa omaan kysymykseesi samoilla merkinnöillä, ei sertifiointi. <a1>Katso alla</a1>
+
+seg-f6a6cca2263c = Matriisi
+
+seg-78e5feea4a80 = Validoidut tulokset
+
+seg-b3b972c50b99 = Sanasto (Dokumentaatio)
+
+seg-92e427f220c0 = Validoidut tulokset · jokainen verrattu arvo
+
+seg-a92d57eddda0 = Tarkistettu jonkun toisen vastausta vasten.
+
+seg-978c14c0cbd8 = Jokainen laatta piirtää jokaisen arvon, jonka moottori vertasi riippumattomaan vertailuun: julkaistut vektorit, erillinen lentodynamiikkakirjasto, tarkat efemeridit, tilastokirjasto, standardijulkaisu ja mitattu kellotallenne, joka pidettiin erillään sovituksesta. Vie osoitin merkin päälle tai kohdista siihen nähdäksesi sen arvon.
+
+seg-2b49d76005fd = Radat · analyyttiset
+
+seg-0155cf46a133 = SGP4 (Simplified General Perturbations { "4" }) -radan propagointi
+
+seg-3d4fd2b6704a = Jokainen AIAA:n (American Institute of Aeronautics and Astronautics) vertailuvektori toistettu, syvän avaruuden SDP4-tapaukset (Simplified Deep-space Perturbations { "4" }) mukaan lukien. Pahin tapaus <c1/> mm.
+
+seg-dbb66386afbf = Yksi neliö verrattua vektoria kohti, väritetty sen paikkavirheen mukaan.
+
+seg-55fc928e19ae = oraakkeli · AIAA 2006-6753 -varmennusvektorit
+
+seg-1d60624d525d = Miten se tarkistettiin
+
+seg-6adbc42697f9 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-58ca3da25e69 = Avaa Kshana Studio -sovelluksessa: sama propagaattori, <c1/><s1> · siemenluku <c2/></s1>
+
+seg-813d6d41b891 = Kopioi komento, joka toistaa sen
+
+seg-a0ef302e2458 = Kopioi komento
+
+seg-3b6c7858f32d = { "171" } / { "171" } RAIM-kynnystapausta (receiver autonomous integrity monitoring) täsmää SciPyyn kaistan sisällä. Siemenluku { "7" }.
+
+seg-0921da0d292e = Eheys · tilastot
+
+seg-6f311aef88fe = tapausta
+
+seg-36b744b97026 = RAIM-havaitsemiskynnykset
+
+seg-db13900bdd77 = RAIMin (receiver autonomous integrity monitoring) tilastollinen ydin SciPyta vasten, tapaus tapaukselta.
+
+seg-87734f6c52a2 = Yksi neliö SciPy-tapausta kohti, ryhmiteltynä ytimen mukaan.
+
+seg-4957eddb39ed = oraakkeli · SciPy
+
+seg-c5d5cf50c8a9 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-011e33e27f59 = Avaa Kshana Studio -sovelluksessa: ydin työssä, <c1/><s1> · siemenluku <c2/></s1>
+
+seg-e02df7620fc7 = Numeerinen (Cowell) radan propagointi Orekitia vasten 24 tunnin kaarella: pahin ero { "0.08" } m voimatasoilla { "1" }–{ "5" }.
+
+seg-d52f564b4af8 = Radat · numeeriset
+
+seg-e204506056b8 = Numeerinen (Cowell) propagointi
+
+seg-16e820be9d20 = Orekit { "12.2" } -lentodynamiikkakirjastoa vasten jokaisella 24 tunnin kaaren epookilla, voimataso kerrallaan.
+
+seg-2b1ea60e99a7 = Paikkaero ajan funktiona voimatasoittain.
+
+seg-75344d6c427a = oraakkeli · Orekit { "12.2" }
+
+seg-2e80a89ee20a = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-44988f3835ce = Ei Kshana Studio -näkymää: tämä vertailu ajetaan moottoritestinä.
+
+seg-6e9e7897bbc0 = Radat · millimetreistä metreihin
+
+seg-dcde8c6ec76a = m Galileo
+
+seg-f09e813feeb3 = m Swarm-A
+
+seg-3c258b4d5ac7 = Jokainen ratajäännös samalla asteikolla
+
+seg-211a071c2017 = Propagaattoritarkistuksista ESA:n (European Space Agency) tarkkoihin efemerideihin tehtyihin sovituksiin. Kynnyksen yläpuolella oleva Kuun kiertäjä näytetään myös.
+
+seg-f5b078c26ba8 = Jokainen jäännös logaritmisella asteikolla millimetristä kahteenkymmeneen metriin.
+
+seg-6670ead3fa91 = oraakkeli · ESA:n tarkat efemeridit, Kuun kiertäjän rekonstruoitu rata, Orekit { "12.2" }, AIAA-vektorit
+
+seg-6ce9be05ab08 = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
+
+seg-57c9f4e60efa = Ei Kshana Studio -näkymää: tarkka radanmääritys ajetaan moottoritesteinä.
+
+seg-f8f25ec2345b = Kellot · vakaus
+
+seg-912dbb14d171 = / <c1/> julkaistua arvoa
+
+seg-e0c144321893 = Toistaa NIST:n (National Institute of Standards and Technology) Special Publication (SP) { "1065" } taulukon { "31" } vertailuarvot sen omalla 1000 pisteen datajoukolla.
+
+seg-5d3372dbff1f = Neljä poikkeamaa keskiarvoistusajan funktiona, julkaistut arvot renkaina.
+
+seg-9993e306ae64 = oraakkeli · NIST SP { "1065" }
+
+seg-2a2794bda50f = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-fc6a00946a11 = Avaa Kshana Studio -sovelluksessa: estimaattorit kellolla, <c1/><s1> · siemenluku <c2/></s1>
+
+seg-4f484b09471e = Holdover-ennuste mitatulla cesiumkellon tallenteella: ennustettu suhteessa mitattuun välillä { "0.84" } ja { "1.03" }, ennalta asetetun kertoimen { "1.5" } sisällä.
+
+seg-4321e1b6bc12 = Kellot · holdover
+
+seg-7e2bad702e68 = –
+
+seg-62cf63a7bec7 = Holdover-ennuste oikealla cesiumkellolla
+
+seg-1f59d5bb3cff = Sovitettu mitatun cesiumtallenteen ensimmäiseen kolmannekseen, ennustettu kahdelle muulle kolmannekselle: ennalta asetetun kertoimen <c1/> sisällä.
+
+seg-46c1dbe5c6bc = Mitattu ja ennustettu aikavirhe vapaakuluajan funktiona sekä suhdeikkuna.
+
+seg-449f52c56c67 = oraakkeli · mitattu cesiumtallenne
+
+seg-275351654591 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-c131867720cc = Avaa Kshana Studio -sovelluksessa: sama käänteisfunktio, <c1/><s1> · deterministinen</s1>
+
+seg-05dd599ce14a = Yksi solu ominaisuutta kohti.
+
+seg-b19592bc5242 = Validoitu tarkoittaa, että riippumaton ulkoinen lähde on samaa mieltä: julkaistut vertailuvektorit, erillinen työkalu tai mitattu data. Kaikki muu sanoo mallinnettu. Valitse merkintä nähdäksesi sen solut korostettuina.
+
+seg-800e31fc8f7d = Arvioidut ominaisuudet
+
+seg-1d2c8132218d = { "176" }<s1>validoitu, yhteensä { "388" }</s1>
+
+seg-e61158f71854 = Vie osoitin solun päälle
+
+seg-b66d124aa8dd = Varmennusmatriisi: { "176" } validoitua, { "208" } mallinnettua, { "4" } kumppanin omistamaa, yhteensä { "388" }
+
+seg-d814d33d2b1e = allan::lag1_noise_id: Riley ja Greenhall ({ "2004" }) lag-1-autokorrelaatiokohinan tunnistus… · Validoitu
+
+seg-3f806067da69 = osnma + kshana osnma verify: avoin, puhtaasti Rust-kielinen vastaanottimen puolen varmentaja Galileo OSNMA:lle… · Validoitu
+
+seg-10698a330a88 = Allan/modifioitu/Hadamard-poikkeama + potenssilakikohinan tunnistus χ²-luottamusväleillä · Validoitu
+
+seg-b1508c42341f = Limittäinen Allan- + limittäinen Hadamard-poikkeama oikealla cesiumnormaalilla · Validoitu
+
+seg-a8462102ee02 = Limittäinen Allan- + modifioitu Allan- + aikapoikkeama koko AF-tikapuilla · Validoitu
+
+seg-29e7bbbe508c = Theo1 ja kokonaispoikkeama (TOTVAR) — laajan alueen pitkän τ:n vakausestimaattorit… · Validoitu
+
+seg-1e52731cd30d = MTIE(τ): suurin huipusta huippuun -aikavirheen vaihtelu missä tahansa liukuvassa τ:n ikkunassa =… · Validoitu
+
+seg-0bdb8a3e7052 = MDEV(τ): limittäinen modifioitu Allanin poikkeama (toisen differenssin liukuva ikkuna…) · Validoitu
+
+seg-e5651d7b5236 = Potenssilain (valkoinen FM + punaisen kohinan lattia) NNLS-palautus julkaistusta mitatusta ⁸⁸Sr… · Validoitu
+
+seg-e7ada48a7ff9 = ARAIM:n monihypoteesinen ratkaisuerotus ARAIM Airborne Design Documentin mukaan… · Validoitu
+
+seg-a74e42c59d5f = SGP4/SDP4, Cowell 6-DOF + häiriöt, eräratkaisu/sekventiaalinen OD · Validoitu
+
+seg-4f8eeede9609 = Cowellin numeerinen propagaattori hierarkkisella voimamallilla (kaksi kappaletta, J2–J6 zonaalinen… · Validoitu
+
+seg-1fecb2c8c5d7 = SRP:n valaistu osuus WGS-84-ellipsoidilla peittävänä kappaleena (näennäinen Maan säde… · Validoitu
+
+seg-da94fc5e3b03 = Ei-kanuunankuula-SRP: laatikko-siipi-litteälevymalli (Vallado yhtälö 8-44; yksipuolinen kappale… · Validoitu
+
+seg-bf16e7dc6637 = SRP:n valaistu osuus peittämättömänä osuutena reunatummennetusta Auringon vuosta… · Mallinnettu
+
+seg-5ccaafbaf99c = Portti NRLMSISE-00-empiirisestä termosfääristä (gtd7 ja gtd7d: lajien tiheydet… · Validoitu
+
+seg-2fd4e498e5d6 = forces::DensityModel (Exponential oletus, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) ja… · Validoitu
+
+seg-8c1643833e02 = Cowell-propagaattorin oletusvastus: toisen asteen vastus yhdessä pyörivän… · Validoitu
+
+seg-c88dad1395e5 = Valinnainen efemeriditaso kolmannen kappaleen ja SRP:n termeille numeerisessa Cowellissa… · Mallinnettu
+
+seg-fc85378484a6 = Päivittäinen S1-ilmanpaineen vuorovesi geopotentiaalihäiriönä: Biancale ja Bode… · Mallinnettu
+
+seg-5d41c94116ae = Rayn ({ "2001" }) S2-ilmanpaineharmoniset (n <= { "4" }, myötäkulkuiset ja vastakulkuiset) muunnettuna… · Validoitu
+
+seg-4e94ef6bbaf3 = Valinnainen EGM2008-tesseraalikenttä (asteeseen/kertalukuun { "70" } asti) keskeisenä gravitaationa… · Validoitu
+
+seg-1b8ba1d23a4f = Alivuodolta ja navoilta turvallinen täysin normalisoidun kentän evaluointi asteeseen { "2190" } asti… · Mallinnettu
+
+seg-ece10758305d = Hairer DOP853 { "8" }({ "5,3" }) eksplisiittinen Runge-Kutta yhdistetyllä 5./3. kertaluvun virheellä… · Validoitu
+
+seg-c29a1f584c92 = Elliptinen Kepler-ratkaisin kaikille { "0" } <= e < { "1" } ja kaikille keskianomalioille: Markleyn ({ "1995" }) kuutiollinen… · Validoitu
+
+seg-ae484d7c73e7 = Palauta epookin tila sekamuotoisista etäisyys-, etäisyysnopeus- ja atsimuutti/korkeuskulma-seurantamittauksista yläpuolella… · Mallinnettu
+
+seg-7166587b7af6 = Kuvaa SP3:n tarkkuuskoodit (otsikon ++ eksponentit muodossa { "2" }^n mm, %f-kanta, tietuekohtainen kanta^n mm… · Mallinnettu
+
+seg-a352259cb1c3 = Lue PDS SHADR -pallofunktiotaulukot (from_shadr, SphericalHarmonicFieldillä in… · Validoitu
+
+seg-bbdb377981c4 = with_gravity_field (Bodyssa, tiedostossa src/gravity_pds.rs): liitä mikä tahansa ladattu… · Mallinnettu
+
+seg-0dad0a6df1ba = Palauta epookin tila [r,v] maa-asemien etäisyyksistä Gauss–Newton-eräratkaisun kautta… · Validoitu
+
+seg-9aa6eccb7941 = Viivästetty (alalinkin) yksisuuntainen valonkulkuaikaratkaisu τ = |r_rx − r_target(t−τ)|/c… · Validoitu
+
+seg-44b327dce46e = IS-GPS-200 / Galileo-OS / BeiDou-OS -lähetysefemeridin Kepler → ECEF-satelliitti… · Validoitu
+
+seg-b2291e777ac3 = IGS-standardin mukainen Lagrange-interpolointi SP3-tarkan efemeridin satelliittipaikoille… · Validoitu
+
+seg-e64d4f89e37d = GPS CNAV -viestityypit 10/11/30, Galileo I/NAV -sanatyypit 1-5 nimellisillä parillisilla/parittomilla sivuilla… · Mallinnettu
+
+seg-30fbb32b73fa = IONEX { "1.0" } -lukija (otsikko, kiinteäsarakkeiset I5-arvot, TEC- ja RMS-kartat, absoluuttiset epookit… · Validoitu
+
+seg-851595dfa46e = Divergenssivapaa Hatch-suodatin (ionosfäärivapaa koodi, jota kantaa ionosfäärivapaa… · Mallinnettu
+
+seg-f22ecff347b8 = Lyhyen perusviivan suhteellinen paikannus oikeasta kaksitaajuisesta GPS-koodista ja kantoaallon vaiheesta… · Validoitu
+
+seg-53b900e15215 = Vastaanottimen kello, jonka staattinen float-PPP-suodatin estimoi oikealla kaksitaajuisella GPS:llä… · Validoitu
+
+seg-53508398f315 = Staattinen float-PPP-laajennettu Kalman-suodatin oikealla kaksitaajuisella GPS-koodilla ja kantoaallolla… · Validoitu
+
+seg-135f709cabd6 = RINEX 4.00-4.02 -navigointitiedostot: > EPH-tietueet GPS LNAV:sta, Galileo I/NAV:sta ja F/NAV:sta… · Validoitu
+
+seg-8217e6dad5f4 = RINEX 4.0x -havaintootsikot (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE… · Mallinnettu
+
+seg-5064320fefbc = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } geostationaarisen satelliitin paikka lähetyksestä… · Mallinnettu
+
+seg-b3a6e424d368 = Satelliitin kellosiirtymä taulukoitujen SP3-kellosolmujen välillä lineaarisella interpoloinnilla… · Validoitu
+
+seg-f3c33c897d1c = Virhetila-EKF { "15" } INS-tilan, kaksitilaisen vastaanotinkellon ja yhden float-kantoaallon yli… · Mallinnettu
+
+seg-d18e059df2c0 = Kolme gnss-ins-skenaariota ratakirjastossa (alus, joka kiemurtelee nopeudella { "8" } m/s ja… · Mallinnettu
+
+seg-94ad91994306 = Yksi pinottu Kalman-suodatin paikalle, nopeudelle, kellon vaiheelle ja taajuudelle syötettynä… · Mallinnettu
+
+seg-6d46cb5414e3 = Suljetun silmukan 15-tilainen virhetila-EKF, jota ohjaavat IMU-inkrementit ja GNSS-antennin… · Validoitu
+
+seg-be8fb95782af = Avoimen lähdekoodin GNSS-simulaattorin omille lukijoille annetut bench-vientiliikkeet tulevat… · Validoitu
+
+seg-46797187781a = Valittavat liikeprofiilit gnss-ins-paketille (suora, kuvio-8, kaupunkimainen pysähdys-liike… · Mallinnettu
+
+seg-0d1622691877 = Kvaternioasentoinen, WGS-84 NED -strapdown-inertiamekanisaatio… · Validoitu
+
+seg-6c2952f49754 = Pallofunktiogravitaation suuruus + häiriö (mGal) mistä tahansa ICGEM .gfc -mallista… · Validoitu
+
+seg-41ca7eec4a62 = Ympyrärajoitettu { "9" }:{ "2" } L2-eteläinen lähes suoraviivainen halorata, joka… · Mallinnettu
+
+seg-42c26212e2c9 = cr3bp::to_moon_centred_icrf kuvaa ulottumattoman Maa–Kuu-CR3BP:n pyörivän tilan… · Validoitu
+
+seg-35b2be544d26 = Aurinkokuntatyyppi muuttujalla planetary_kernel_path: jokainen raportoitu kappale, jonka oma NAIF-koodi… · Validoitu
+
+seg-ad3763136cc7 = maneuver::porkchop_kernel: lähtöpäivä × saapumispäivä -pyyhkäisy lähdön C3:lle (km²/s²)… · Validoitu
+
+seg-0f5ae623905f = maneuver::optimise_transfer_kernel: siirtymän lähtö- ja saapumispäivät… · Validoitu
+
+seg-0ae19001fe4b = Lambertin ongelman jokainen ratkaisu enintään kolmella täydellä kierroksella… · Validoitu
+
+seg-7eafc10ca9dc = Izzo-2015 yhden kierroksen Lambert-ratkaisin (r1, r2, lentoaika → reuna… · Validoitu
+
+seg-a8818aea1c75 = IAU 2006/2000A -prekessio-nutaatio, CIO GCRS↔ITRS, karkaussekunnillinen aika-asteikko · Validoitu
+
+seg-3713cbb8eb72 = UTC-kalenteripäivä ja -aika kaksiosaiseksi UTC-Julian-päiväksi SOFA dtf2d:n avulla… · Validoitu
+
+seg-822cd40b49f9 = Maan pyöriminen kaksiosaisesta UT1-juliaanisesta päivämäärästä ratapolulla, joten Maahan kiinnitetty… · Validoitu
+
+seg-c846d8ec2e5e = Kolme koordinaatistomatriisia verrattuna alkio alkiolta tai kiertokulman mukaan ERFA:an… · Validoitu
+
+seg-853ce09df9d5 = UTC ajalta 1960-01-01 – 1971-12-31, jolloin UTC kulki TAI:hin nähden siirtyneellä nopeudella ja siirtyi askelittain… · Validoitu
+
+seg-a0c473abd3ff = GLONASS-lähetyksen satelliittikellon poikkeama -tau_n + gamma_n (t - t_b) luettuna ajanhetkellä… · Validoitu
+
+seg-ca16d26f1ebe = Eteneminen ja koordinaatistopolku, jonka jokainen reititetty Maan kiertoradan laji jakaa: SGP4-keski… · Validoitu
+
+seg-15ce16875e3a = m-sekvenssin ja Goldin koodin sivukeilojen ja ristikorrelaation rajat, pituus↔moniselitteisyys · Validoitu
+
+seg-044da209dd61 = GDOP/PDOP/HDOP/VDOP/TDOP näkölinjageometriasta kaavalla Q=(HᵀH)⁻¹ paikallisella ENU-jaolla · Validoitu
+
+seg-a9fda54b3df8 = dop_error_mc::run_geometry ja check: siemenluvulla ajettu Monte Carlo (N = { "20,000" } epookkia per… · Mallinnettu
+
+seg-cd50aaf86375 = receiver_trust::geometry: epookkikohtainen satelliittigeometria (hyvä, heikentynyt syineen… · Mallinnettu
+
+seg-d39aa1ea5121 = Klobucharin yhden taajuuden L1-vinoviivan ionosfäärin ryhmäviive kahdeksasta lähetetystä α/β-… · Validoitu
+
+seg-ab6ef0477bea = Jakaumaydin, jolle jokainen suojaustaso perustuu: hetkellinen vian havaitsemis… · Validoitu
+
+seg-08740f67bcf2 = DO-229E:n liitteen J painotetun pienimmän neliösumman suojaustasot: D=(GᵀWG)⁻¹ ja… · Validoitu
+
+seg-0597fb2464d0 = AUC (Mann–Whitney, tasatilanteet ½), sekaannusmatriisi kynnyksellä… · Validoitu
+
+seg-76f7a9a22d70 = ROC AUC ja bootstrap-luottamusväli, joka erottaa todelliset merkityt poikkeamat; läpinäkyvä ilmaisin… · Validoitu
+
+seg-f3d7926d7464 = Mitatun ADEV:n NNLS-sovitus, NEES/NIS χ²-johdonmukaisuuskaistat ja kellon van Loanin diskreetti… · Validoitu
+
+seg-cf029efb7438 = IGRF-14-päämagneettikentän pallofunktiosynteesi: X/Y/Z/F-komponentit, deklinaatio… · Validoitu
+
+seg-ba97bae9110c = Analyyttinen binormaali ROC AUC = Φ(μ/(σ√{ "2" })) ja pienin havaittava vika… · Validoitu
+
+seg-fa9b946507f8 = Järjestyskorrelaation ja uudelleenotannan ytimet kestävyyspäätösten epästabiiliustutkimuksessa… · Validoitu
+
+seg-c0267817b05a = Analytic Hierarchy Process -prioriteettipainot = normalisoitu päävektori (Perron)… · Validoitu
+
+seg-3780fbf75fa5 = Weighted Sum Model (min–max-normalisoitu additiivinen aggregaatti ja järjestys) ja Weighted… · Validoitu
+
+seg-e90b04f6ed22 = Technique for Order of Preference by Similarity to Ideal Solution — min–max… · Validoitu
+
+seg-b66a72295a62 = VlseKriterijumska Optimizacija — ryhmähyöty Sᵢ, yksilöllinen katumus Rᵢ ja… · Validoitu
+
+seg-8e3355350914 = Preference Ranking Organization METHod — pareittainen mieltymysindeksi kuudella vakiolla… · Validoitu
+
+seg-edc8867a5ae6 = ELimination Et Choix Traduisant la REalité — konkordanssi- ja diskordanssimatriisit, … · Validoitu
+
+seg-85bc967357d6 = Weighted Aggregated Sum Product ASSessment (lineaarisesti normalisoitu konveksi sekoitus… · Validoitu
+
+seg-69652cbd7eb5 = COmplex PRoportional ASsessment — sarakesummalla normalisoitu hyötymerkitys S⁺ sekä… · Validoitu
+
+seg-14a9c267153c = Taulukko-CUSUM-ilmaisimen pahimman tapauksen havaitsemisviive (⌊h/(z−k)⌋+{ "1" }) ja hallinnan ulkopuolinen… · Validoitu
+
+seg-559361559e00 = Rannikkovaiheen vaihevirheen varianssin kasvu q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 ja sen monotoninen… · Validoitu
+
+seg-f35ada98dcce = Tehokas arkkitehtuurinen monimuotoisuus = käänteinen Simpson / Hillin kertaluvun 2 luku 1/Σpᵢ² yli… · Validoitu
+
+seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry: geodeettinen (WGS-84) atsimuutti… · Validoitu
+
+seg-f5a8c861b566 = skyline: katukuilu suljetussa muodossa (leikkaus atan((h - a) / d), missä d = (w/2) /… · Mallinnettu
+
+seg-6f4ab2e589a4 = skyline::PRESETS: neljä REPRESENTATIVE-geometriaa, joissa suunnitteluhuomautuksen ilmoittamat… · Mallinnettu
+
+seg-206fd57a3ac7 = geometry::sky_geometry: ENU- ja kello-kofaktori (H^T H)^-1, jossa yksi vastaanottimen kello… · Validoitu
+
+seg-d01c7735f171 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg… · Mallinnettu
+
+seg-443eb5d0c060 = Suljetun muodon rannikkovirheen kasvu ja holdover-aika kynnykseen; kvanttikelloluokat · Mallinnettu
+
+seg-82fc65142759 = clock_library: laitekortti (valkoinen vaihe, valkoinen, flicker- ja satunnaiskulku-FM sekä… · Mallinnettu
+
+seg-18704e564ea4 = clock_library::card::DeviceCard::fit_phase_periodic: laitekortti, joka kantaa… · Mallinnettu
+
+seg-b3a0ab1e8725 = 3-tilainen (vaihe/taajuus/ajautuma) van Loanin Kalman-kello, Joseph-stabiloitu · Mallinnettu
+
+seg-065f31b5656e = Kaksisuuntainen/TWSTFT (Sagnac), GNSS-yhteisnäkymä, PPP; yhteyden värinä→etäisyys · Mallinnettu
+
+seg-f66464be680e = BPSK-R/BOC PSD, spektrierottelu κ, Gaborin kaistanleveys, DLL-värinä, monitie-eteneminen · Mallinnettu
+
+seg-93c350e230ed = G1/G2 LFSR C/A-koodigeneraattori, joka toistaa IS-GPS-200:n julkaistut ensimmäisten 10 chipin oktaali… · Validoitu
+
+seg-934de63c594b = Kylmäatomi-interferometrinen kiihtyvyysanturi perusperiaatteista (k_eff·T², QPN) · Mallinnettu
+
+seg-c1b7c7c18be6 = Mach–Zehnder-interferenssijuovan moniselitteisyyden dynaaminen alue: 2π-jaksollinen juovalukema asettaa… · Mallinnettu
+
+seg-0b04febfad29 = Yhdistetty harha + asteikkokerroin + VRW + vakauden heikkenemisen paikkabudjetti holdoverin ajalle · Mallinnettu
+
+seg-9f1d13017c2b = 15-tilainen virhetila-EKF, löyhästi kytketty (validoitu todellisella IMU/GNSS-ajolla vasten… · Validoitu
+
+seg-7de0c3292c0b = Geometrinen J/S-linkkibudjetti, häirinnänsietävä C/N₀, satelliittikohtainen lukituksen menetys · Mallinnettu
+
+seg-4c976ce425d1 = Kellotuettu χ², RAIM, AGC, SQM yhdistettynä epookkikohtaiseksi tietoturvan laatumittariksi · Mallinnettu
+
+seg-94aef965251e = Suljetun muodon yläraja pahimmalle havaitsemattomalle aikavirheelle = monitorin lattia + oskillaattorin… · Mallinnettu
+
+seg-f94c1547b98c = CR3BP STM + yhden ammunnan differentiaalikorjain; L2:n eteläinen NRHO · Validoitu
+
+seg-ed2d780e3d9e = Painovoimakarttasovitus, maastoon perustuva (TERCOM/SITAN), magneettinen poikkeama · Mallinnettu
+
+seg-486011306ab7 = Painovoimapoikkeama pallomaisessa approksimaatiossa (Barthelmes STR09/02 yhtälö { "126" }, ICGEM… · Validoitu
+
+seg-4483cf6d6e1b = Käsin kirjoitettu SRTM .hgt -jäsennin (16-bittinen big-endian, pohjoisrivi ensin, tyhjät arvot huomioiva) + bilineaarinen… · Validoitu
+
+seg-00ca5de4ee1f = Deterministiset, skenaariohajautetut, SBOM- ja alustariippumattomat golden-portit · Mallinnettu
+
+seg-8e59c3e84e80 = Merkitty synteettinen häiriökorpus + ilmaisimesta riippumaton ROC/AUC/sekaannusmatriisi/Pfa-Pmd… · Mallinnettu
+
+seg-ee1c310ec3f1 = Kontrolloitu synteettinen tutkimus jakauman sisäisen→jakauman ulkopuolisen AUC-optimismikuilusta… · Mallinnettu
+
+seg-901571509bd6 = Mitatun ADEV:n sisäänotto (NNLS), vaihtoehtotaulukko (ajoituksen/inertian holdover + hyöty)… · Mallinnettu
+
+seg-5662e2e5895c = Aurinko-/geomagneettiset indeksit (määritelmällinen Kp↔ap-taulukko), Jacchia-1971-eksosfäärin… · Mallinnettu
+
+seg-c537da9d8e79 = CCSDS { "502.0" } OEM -tuoja (parse_oem), joka sietää COMMENT-rivejä / ylimääräisiä metatietoja… · Validoitu
+
+seg-beeb7d7b6dd4 = Kaksirunkoiset laukaisuatsimuutit (sin Az = cos i / cos lat), pienin saavutettava inklinaatio… · Mallinnettu
+
+seg-c45e3519a7a5 = Huippuhidastuvuus (ballistisesta kertoimesta riippumaton), nopeus + korkeus huippu-g:n kohdalla… · Mallinnettu
+
+seg-da36dafae1a0 = SMAD-avaruuskolmion geometria: Maan kulmasäde, kaistan leveys, nadirin GSD, suurin… · Validoitu
+
+seg-3ad96d6deb18 = CCSDS 133.0-B Space Packet -ensisijaisen otsakkeen koodaus/purku… · Validoitu
+
+seg-8310f0595525 = CCSDS 133.0-B-2 Space Packet -laajennukset ensisijaisen otsakkeen rinnalla: toissijainen otsake… · Validoitu
+
+seg-5bb33fefb658 = NAIF SPICE SPK -kernelien kirjoitin ja lukija tyypeille { "9" } (Lagrange, epätasaiset aika-askeleet)… · Validoitu
+
+seg-0e3ee73f6878 = NAIF SPICE SPK -segmenttien kirjoitin ja lukija tyypille { "3" } (Tšebyšovin polynomit…) · Validoitu
+
+seg-f7030d62e793 = CCSDS 504.0-B-2 Attitude Data Message -sanomien kirjoitin ja lukija KVN- ja NDM/XML-muodossa: AEM… · Validoitu
+
+seg-c50a40ca4cc3 = CCSDS 502.0-B-3 Orbit Data Message -sanomien kirjoitin ja lukija KVN- ja NDM/XML-muodossa: OPM { "3.0" }… · Validoitu
+
+seg-26a88c235d95 = Gravitaatiogradientin pahimman tapauksen häiriömomentti ((3/2)(μ/R³)ΔI) huippuarvona asennon yli… · Validoitu
+
+seg-87c35f71a0ad = Aikatason näkyvyysylitykset (AOS/TCA/LOS, suurin korkeuskulma, kesto) moottorin… · Validoitu
+
+seg-52b6d079e92c = Näkyvyysylitykset (AOS, TCA, LOS, suurin näennäinen korkeuskulma, kesto) SGP4-… · Validoitu
+
+seg-399a6180ad73 = Alalinkin Es/N0 yhden satelliitin kunkin ylityksen aikana yhden aseman yllä (EIRP, vapaan tilan vaimennus… · Mallinnettu
+
+seg-39ce06b45cb9 = Ehdokaskontaktit jokaisesta satelliitti–asema-ylityksestä ACM-datamäärineen; ristiriidat… · Mallinnettu
+
+seg-3fba182b5716 = Vapaan tilan vaimennus, C/N₀, Eb/N₀, marginaali ja linkin sulkeutuminen CCSDS { "401" } / DSN 810-005… · Validoitu
+
+seg-c4474a20a256 = Kustannus per kattavuusprosentti + kattavuus per euro -ROI tähdistön mitoitusmoottorin yli… · Mallinnettu
+
+seg-f7455ff3cea7 = Kuvaa havaitsemattoman harhautus-/häirintäharhan tehokkaaksi virheeksi → Stanfordin alue… · Mallinnettu
+
+seg-3b6f9365b858 = Haarukoitu (paras/nimellinen/konservatiivinen) kylmäatomi-interferometrin suorituskyky — harha… · Mallinnettu
+
+seg-487540fed42b = TIB:n Stanfordin eheyskaavion epookkiluokitus (nimellinen / ei saatavilla / MI / HMI) · Mallinnettu
+
+seg-fdacd291d688 = TIB:n eheyskattavuuden pisteytys (HMI/MI/saatavuusluvut + ylärajakattavuuden tuomio) · Mallinnettu
+
+seg-55b7d4cb0733 = TIB:n vikavalikko (toimialueen hajaantuminen, kellopamahdus, holdover-rannikko… · Mallinnettu
+
+seg-deb93b385e06 = TIB:n havaitsemattoman absorption tuomio (symmetrinen/toisto on absorboitava PL:ään, ei koskaan… · Mallinnettu
+
+seg-71e991a2fb5e = Ei tarjolla — Kshana on navigoinnin suorituskyvyn simulaattori, ei alustatoimittaja · Kumppani
+
+seg-aad5d920d276 = Ei tarjolla — Kshana mallintaa signaalin suorituskykyä, ei hyötykuorman/antennin laitteistoa · Kumppani
+
+seg-635ca7bf37f6 = Ei tarjolla — vain suorituskykymalleja; kylmäatomi-/kellolaitteisto on kumppanin · Kumppani
+
+seg-cf461832e017 = Ei tarjolla — Kshana puhuu vain ohjelmistotason PA:sta; lento-PA on kumppanin · Kumppani
+
+seg-b12d70afce58 = Relativistinen Maa–Kuu-kellonopeus (LTC/TCL) + TT/TAI/UTC-ketjutus + ensemble · Validoitu
+
+seg-2196751179d2 = hybrid-optical-rf-raportti ilmoittaa linkkikonfiguraation, jolla se todella ajettiin (kantoaalto… · Mallinnettu
+
+seg-c4ba60f69a92 = hybrid-optical-rf-raportti ilmoittaa RF-linkin saatavuuden, joka on koottu suureista… · Mallinnettu
+
+seg-e35847b3472a = hybrid-optical-rf-raportti antaa optisen ja RF-etäisyysmittauksen suhteen yhdellä… · Mallinnettu
+
+seg-f2a51c1899b1 = Linkkibudjettiraportti ilmoittaa jokaisen absoluuttisen vakion, josta sen oma marginaali laskettiin… · Mallinnettu
+
+seg-8f6469a6120f = Yksi kuun aikabudjetin ajo antaa kellon ja koordinaatiston risteämisrivin jokaiselle kelloluokalle vasten… · Mallinnettu
+
+seg-0539c66f5cf0 = Yksi taulukko raportoi UT1-ennustevirheen, napaliikkeen napavirheen ja niiden… · Validoitu
+
+seg-a3f939d488fb = realtime-frame-eop-ajonaikainen oletus on kirjaston oma sulautettu kopio sanatarkasta… · Validoitu
+
+seg-8f02a2501455 = Kaksiakselinen pyyhkäisy kuviopainotetulle, korkeusrajoitetulle pinnan sieppausjalanjäljelle… · Mallinnettu
+
+seg-8a1340c7c9c7 = lunar-time-budget-skenaario julkaisee taulukkoarvoiset tulosteensa pitkänä (ruudukko… · Mallinnettu
+
+seg-4ab4a61e8167 = lunar-time-budget-skenaarion valinnainen [time_lab]-lohko mallintaa kuun vertailu… · Mallinnettu
+
+seg-57abfe8d677e = Lähikentän VLBI-viive Maan kantaviivalle, joka havaitsee kuubaakkunan + osittaisderivaatat · Mallinnettu
+
+seg-d30dd4a12006 = Lähikentän VLBI-viive Maan kantaviivalle, joka havaitsee kuubaakkunan, ja baakkunan sekä… · Validoitu
+
+seg-3aa60b9c6b3c = Moottorin oma puhtaasti Rust-kielellä kirjoitettu NAIF-binääriydinten lukija (naif_kernel): DAF… · Validoitu
+
+seg-2acd73a9ac2d = Maan GNSS:n vastaanotto kuun etäisyydellä: heikon signaalin kerros, jonka P7:n taulukko { "1" } nimeää, ja… · Mallinnettu
+
+seg-33d1304a0519 = Radanmääritys lähes suoraviivaisella halo-radalla (tai elliptisellä jäätyneellä radalla)… · Mallinnettu
+
+seg-c1ee9a353523 = Vastaanotinten välinen yksittäisdifferentioitu Maan GNSS:n kantoaallon vaihe ja koodi kuun pinnalla… · Mallinnettu
+
+seg-69aedd00f9a3 = Seitsenparametrisen kuun koordinaatistodatumin Fisher-informaatio Maa-aseman lasereista… · Mallinnettu
+
+seg-1fbf7618a692 = Menetelmien välisten siirto-, mittakaava- ja kiertopoikkeamien Cramér–Rao-toistotarkkuus… · Mallinnettu
+
+seg-e415b5a77676 = h2:n, k2:n, l2:n ja fysikaalisten libraatioamplitudien Fisher-informaatio laser… · Mallinnettu
+
+seg-8f2d14dd394e = Baakkuilla täydennetty tarkkuuden heikkenemiskerroin kuun pinnan käyttäjälle: näkyvien satelliittien… · Mallinnettu
+
+seg-d76d65cb95c5 = Mittausvirheen tarkka pariteettialiavaruusjako osaan, jota RAIM ei näe, ja osaan… · Validoitu
+
+seg-90c252c7df52 = cmpl_horizontal rajaa k-sigma-vaakapaikkavirheen, jonka sokea… · Mallinnettu
+
+seg-92fc824c4b83 = VLBI:n + kuun paikallisen etäisyyden + satelliittien välisen etäisyyden eräfuusio palauttamaan… · Validoitu
+
+seg-4cf20252f448 = Fisher-informaatio M=HᵀWH, Cramér–Rao-alaraja, havaittavuusrangi / datumvika… · Validoitu
+
+seg-f71ccda9ffde = Yhteisen kuuratkaisun Fisher-informaatiohavaittavuus: ilman Maan kantaviivoja… · Mallinnettu
+
+seg-cd6e8589ff01 = 7-parametrinen Helmert-datumsovitus + ICRF-orientaatiosidonta pisteverkosta · Validoitu
+
+seg-04e2dd96ebd4 = Moonlight-luokan kuun DOP / kattavuus / saatavuus + yleistetty kuun ARAIM-suojaus… · Validoitu
+
+seg-b4800672c176 = LSIS V1.0:n Augmented Forward Signal -koodit ({ "29" }. tammikuuta { "2025" }): AFS-Q 10230 chipin… · Mallinnettu
+
+seg-e663cd51a1af = AFS-kantataajuuden renderöintiydin (LSIS-130: kompleksinen verhokäyrä I + jQ, I = AFS-I… · Validoitu
+
+seg-088515ff0767 = LSIS V1.0:n { "12" } s, 6000 symbolin FID { "0" } -kehys: 68 symbolin synkronointikuvio, BCH… · Validoitu
+
+seg-2e3079616926 = Kshanan AFS-tallenne, jonka riippumaton ohjelmistovastaanotin sai kiinni, seurasi ja dekoodasi… · Mallinnettu
+
+seg-437e67bb2bed = GPS L1 C/A -levityskoodit (sdr::CaCode) ja LNAV-alikehykset 1-3 (gps_lnav: IS-GPS-200… · Mallinnettu
+
+seg-ffd1b13b8e08 = IQ-näyttämögeneraattorin satelliittikohtainen totuus GPS L1 C/A -lähetysefemeridinäyttämölle… · Validoitu
+
+seg-f93a7f8acc5a = iq::acq::acquire (FFT-rinnakkainen koodivaiheen haku neliölaki-Marcum-Q-kynnyksellä)… · Mallinnettu
+
+seg-eef6607ed2cf = iq::campaign::detect ja kampanja-ajuri: valinnainen [monitors]-taulukko ajaa IQ… · Mallinnettu
+
+seg-ee78cb937e79 = iq::campaign::detect (windows, roc) ja iq::campaign::report::rocs: kampanjan jokainen solu… · Mallinnettu
+
+seg-47782cefbb89 = iq::labfit (campaign, cn0, iqfit, iqreport) ja [input] campaign kohdassa kshana iq labfit… · Mallinnettu
+
+seg-14e8ca05c35a = Kshanan LNAV-alikehykset 1-3 (gps_lnav::encode_subframes) tiedostolle { "32" } brdc0010.22n… · Mallinnettu
+
+seg-030d1fa37f79 = IS-GPS-200 LNAV-alikehykset 1-3 (gps_lnav::encode_subframes: lähimpään pyöristävä kvantisointi… · Mallinnettu
+
+seg-e53b50d716c2 = Rinnakkainen koodivaiheen haku (acquisition::pcps_acquire: siirrettävä FFT, koherentti laskostus… · Mallinnettu
+
+seg-dd83610c7054 = acquisition::pcps_acquire näytetehopäätöksellä yhdeksällä ei-pinta-LuGRE-… · Mallinnettu
+
+seg-39dfb5c00daf = acquisition::pcps_acquire solukeskiarvopäätöksellä (huippu ruudukon keskiarvon yli… · Mallinnettu
+
+seg-c75576fbf7dc = acquisition::pcps_acquire (solukeskiarvopäätös, väärän hälytyksen todennäköisyys { "1e-7" }) ja… · Mallinnettu
+
+seg-7b80adb2f3c1 = Satelliittikohtaiset topocentriset katselukulmat (atsimuutti myötäpäivään pohjoisesta, korkeuskulma) ja… · Validoitu
+
+seg-8682a18623a0 = NovaMoon-luokan differentiaalinen vertailuasema: yhteismuotoisen häiriön kumoaminen +… · Mallinnettu
+
+seg-22e6954fe97f = LunaNet/IOAG-linjattu kuun koordinaatisto + aika + efemeridivienti (CCSDS OEM + KIF)… · Mallinnettu
+
+seg-ef1f98adc881 = Ulottuvuuskohtaiset osapisteet Kshanan omissa seitsemässä kestävyysluokassa (ei DHS-termejä)… · Mallinnettu
+
+seg-a4b986bb7414 = Määrittää, miten yksi yhdistelmäpistemäärä / RPCF-taso järjestää arkkitehtuurit uudelleen… · Mallinnettu
+
+seg-2c46a0ac9d47 = Tuloskohtainen rehellisyyskirjanpito, joka kvalifioi esittelytulosteen: sen ulkoiset ankkurit… · Mallinnettu
+
+seg-3cf7f27d3357 = Yksi toistettava TradeEvidence-olio (kiinteä kehys: skenaario+siemenluku+moottori; yhteinen FoM-kohtainen… · Mallinnettu
+
+seg-24f99198842b = Laitekortit (optinen/loukutettu ioni/elohopeaioni + klassiset kellot, jotka käytetään uudelleen…) · Mallinnettu
+
+seg-acd180a7e9c1 = Päästä päähän kvantti- vs. klassinen ajansiirtoketju (kellon rannikko + linkin toistotarkkuus…) · Mallinnettu
+
+seg-cd23c8f87bd6 = Kvantti (kylmäatomi-interferometri) vs. klassinen navigointiluokan INS-lasketun paikan seuranta… · Mallinnettu
+
+seg-843a2f5c9332 = Merkitty kvanttivikojen luettelo (kellon taajuushyppy/ajautuma/lukituksen menetys; anturi… · Mallinnettu
+
+seg-cc543b168360 = Eulerin pyörimisliikeyhtälöt (I ω̇ = τ − ω × Iω, pääakseli ja yleinen… · Validoitu
+
+seg-1cb6f416c032 = Takaa-ajajan suhteellinen liike kohteen ympäri ympyrämäisellä vertailuradalla LVLH-… · Validoitu
+
+seg-af4f665f008c = Paikanna lähetin (häirintälähetin/harhauttaja tai opportunistinen lähde käänteiselle PNT:lle) … · Mallinnettu
+
+seg-537695276e2e = 3-DoF-pistemassan paluu pyörivän pallomaisen Maan läpi US Standard… · Validoitu
+
+seg-325aee4e883b = Pysähtymispisteen konvektiivinen lämpövuo q = k sqrt(rho/R_n) V^{ "3" } Sutton–Graves… · Mallinnettu
+
+seg-1d456a0c1722 = Nadir-kuvaajan signaali-kohinasuhdebudjetti (Lambertin kohteen säteily, kamerayhtälö, shot… · Mallinnettu
+
+seg-177b656af61c = Monivaiheisen ohjuksen tasomainen painovoimakäännös nousu pyörimättömän pallomaisen Maan yli… · Mallinnettu
+
+seg-ef8c91c82ae6 = TWSTFT-kaksisuuntainen yhtälö ratkaistuna suureelle T_A - T_B aseman lähetys- ja vastaanotto… · Mallinnettu
+
+seg-1d0b4b4e110f = Hufnagel–Valley Cn2 integroituna vinoa polkua pitkin taso- ja pallo-aalloille… · Mallinnettu
+
+seg-c4ee04146fdd = Optisen linkin saatavuus ilmoitettua linkkimarginaalia vasten log-normaalin pilvi… · Mallinnettu
+
+seg-028c12c10cb9 = Optisen aseman katkojen kestojakauma kytkettynä suljetun muodon rannikko… · Mallinnettu
+
+seg-c3d99589cc05 = Valinnainen [timeseries]-taulukko (duration, step, seed) tekee optisesta ilmakehästä… · Mallinnettu
+
+seg-0c7d7f31e4d6 = DSN Orbit Data Files -tiedostojen (TRK-2-18) lukija: 36-tavuiset tietueryhmät (tiedoston tunniste… · Mallinnettu
+
+seg-7956a36bcade = Jäykän navan inertiaalisuuntauksen asennonhallinta kolmella tai useammalla tasapainotetulla reaktio… · Validoitu
+
+seg-84a5fe5a3fbe = Lefferts–Markley–Shuster-multiplikatiivinen EKF: runkokoordinaatiston asentovirhe ja gyron harha… · Mallinnettu
+
+seg-193da3371e11 = Optimaalinen kolmiakselinen asento painotetuista vektorihavainnoista (tähti/aurinko/magnetometri… · Validoitu
+
+seg-8da56e79e751 = Neliölakinen (epäkoherentti) kiinnisaantiilmaisin koodivaihe × Doppler-haun yli… · Validoitu
+
+seg-d5849ac6bc94 = Kokonaislukujen pienimmän neliösumman ratkaisu LAMBDA-tavalla: tilavuutta säilyttävä kokonaisluku- (Z)… · Validoitu
+
+seg-2d96783440cc = Hyperbolisen ohilennon geometria (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, käännekulma δ={ "2" }·asin(1/e), osuma… · Validoitu
+
+seg-e7d3b969f076 = Ohjatun vastaanottokuvion antennin nollaus: kompleksiset ryhmän ohjausvektorit… · Validoitu
+
+seg-dd7b728fe2b4 = Viiden kertoimen IEEE-1139 PSD↔Allanin varianssi -muunnos S_y(f)=Σh_α f^α → σ_y²(τ)… · Validoitu
+
+seg-f8adbffd71d8 = Sarjallista ja jäsennä CCSDS { "502.0" } OEM:n COVARIANCE_START…COVARIANCE_STOP-lohko — { "6" }×{ "6" }… · Validoitu
+
+seg-d67d03452c0a = Paikkavirhe vs. rannikon kesto -budjetti, joka on rakennettu IMU-kertoimista, kukin virhe lähde… · Validoitu
+
+seg-4b154bf6e19f = Yksi ajo ottaa kontaktisuunnitelman (aos_s/los_s-ikkunoiden luettelo, joista kukin pyytää apertuuria… · Mallinnettu
+
+seg-f760b89fb9f2 = Kuun omaperäinen häirintä–signaali-suhde, tehollinen C/N₀ ja lukituksen menetys selenografiselle… · Mallinnettu
+
+seg-4f9161cdf3ee = Kuun häirintäraportti ei enää nojaa kieltokäyrässään yhteen skalaariin. Se antaa… · Mallinnettu
+
+seg-c9d6d3cf2935 = hybrid-optical-rf-raportti ilmoittaa, mitä modaliteettien välinen khiin neliö -monitori voi… · Mallinnettu
+
+seg-59df9a43a6b8 = hybrid-optical-rf-raportti paljastaa suodattimen prosessikohinamallin ja ilmoittaa, miten… · Mallinnettu
+
+seg-8b261efc9e1c = Satelliittikohtainen geometriavienti sisältää kullekin (epookki, satelliitti) akselin ulkopuolisen… · Mallinnettu
+
+seg-128f88766721 = Lukituksen menetys laskettuna silmukkadynamiikasta tehosuhteen sijaan: kantoaalto (Costas) ja… · Mallinnettu
+
+seg-dc1fcd97c3a7 = Viiveen osittaisderivaatat koottuna kantaviivojen × epookkien aikataulun yli Fisher… · Validoitu
+
+seg-c17542136645 = Kolmas datumvalinta, kaikki asemat kiinteinä, joka pitää kaikki Maa-asemat paikallaan ja estimoi… · Mallinnettu
+
+seg-5c8e2fa3bbbf = lunar-vlbi-fim-skenaarion kaikki asemat kiinteinä -baakkukovarianssi (jokainen Maa… · Validoitu
+
+seg-ce38279b5aa8 = Kolme termiä, jotka differentiaalikorjaus poimii epookin, jolla se lasketaan, ja… · Mallinnettu
+
+seg-156151ec109a = Kuun differentiaalisen PNT-mallin Monte Carlo -pyyhkäisy eteläisen napa-alueen käyttäjäruudukon yli ja… · Mallinnettu
+
+seg-1705f4ce1f56 = Asemakohtaiset atsimuutista riippuvat horisonttimaskit lunar-station-coverage-lajille (… · Mallinnettu
+
+seg-e93ebeff92a8 = lunar-station-coverage-lajin valinnainen [receiver]-osio (LRS-02): korkeuskulmasta riippuvat… · Mallinnettu
+
+seg-b294dec61e30 = lunar-station-coverage-lajin valinnainen orbit_err_growth_m_per_s-syöte (LRS-03):… · Mallinnettu
+
+seg-a68d82cb0c1e = lunar-station-coverage-lajin valinnainen [solution]-osio (LRS-06): korkeus… · Mallinnettu
+
+seg-b4996f005ec1 = lunar-station-coverage-laji ajettuna julkaistun julkisten oletusten mukaisesti… · Mallinnettu
+
+seg-bd66869079b4 = Kuun suojaustason geometriasta kovarianssiin -vaihe — (GᵀG)⁻¹ kaikkien näkyvissä olevien yli… · Validoitu
+
+seg-f9bc824806f8 = Monihypoteesisen ratkaisuerotuksen suojaustasoyhtälö itse… · Validoitu
+
+seg-23900b097b2f = araim_reference::add_v42_subset_plan: ADD v4.2:n osajoukon määrityssääntö (P_THRES… · Mallinnettu
+
+seg-e5cfbf8661ff = Kellolajin valinnainen [integrity]-osio (clock_integrity::run): ilmoitetusta… · Mallinnettu
+
+seg-b07a36e5c271 = Kuunläheisen kaaren pituuden havaittavuuskynnys TILAVASSA kuusitilaisessa CR3BP:ssä eikä… · Mallinnettu
+
+seg-f88fcbfa22cf = Pienimmän neliösumman harha-plus-nopeus-sovitus takaa-ikkunan yli sekä pääjaksollinen… · Mallinnettu
+
+seg-fd5f35f76c57 = Seitsenparametrinen Helmert-datum, joka on levitetty SIMULOIDUSTA HAVAINTOKAMPANJASTA sen sijaan… · Mallinnettu
+
+seg-2c8d43fe11c7 = Eräpienimmän neliösumman estimaattori, joka PALAUTTAA päähenkilön alkutilan simuloiduista… · Mallinnettu
+
+seg-a10c3602ff80 = Hyväksyy taulukoidun Kuu-keskisen tilaefemeridin (SPK/BSP-ytimen arvioinnin)… · Mallinnettu
+
+seg-4b77b4198030 = Koneluettava skeema, joka antaa yksikön, alkuperäluokan ja määritelmän jokaiselle numeeriselle… · Mallinnettu
+
+seg-735a5f9d5762 = Seitsenparametrisen Helmert-datumin kovarianssi, jossa sen kaksi simuloitua syötettä on korvattu… · Validoitu
+
+seg-ea7ecbe4ec1e = Valinnaiset extra_reflectors- ja extra_beacons-syötteet lunar-llr-datum-skenaariossa lisäävät… · Mallinnettu
+
+seg-e55351a3a757 = lunar-llr-datum-skenaarion seitsenparametrisen Helmert-datumin kovarianssi arkistoiduista ILRS-normaali… · Validoitu
+
+seg-e84dedc612c4 = ephem::moon_position, matalan tarkkuuden geosentrinen kuusarja, jonka crate valitsee varalle… · Validoitu
+
+seg-1af4030e7dde = Kolme rakenteellista suojaa itse varmennusprosessin yli, joista kukin sulkee luokan… · Mallinnettu
+
+seg-5b9dda92c158 = Skalaariaikainen ratkaisuerotus-TPL heterogeenisten lähteiden yli; PL ohjattuna… · Validoitu
+
+seg-a1f93440e60e = PL(τ)=max(TPL_handover,HPL(τ)); alhaalta puolijatkuva PL({ "0" }+)≥PL({ "0" }−); K(IR/2) juokseva maksimi… · Mallinnettu
+
+seg-54d612592d08 = Juokseva maksimiverho ylärajakattaa (nollaa lävistämättä) todellisen metrologisen sarjan… · Validoitu
+
+seg-54f4e009c7d5 = Ei äärellistä pahimman tapauksen holdoveria (Brownin sup hajaantuu); IR-allokoitu HPL johdonmukainen… · Mallinnettu
+
+seg-2f43298d88c8 = Lähdekohtainen harhan yläraja b = (U/k_cov)·Phi^-1(1-tail/2) + ikääntyminen, paisuttaen julkaistua… · Mallinnettu
+
+seg-76baa53b1b6e = N×N-harhan ristikovarianssi rho·b_i·b_j-ei-diagonaalialkioilla lähteille, jotka jakavat UTC(k)… · Mallinnettu
+
+seg-b2396f1b8e9d = Käsin kirjoitettu Choleskyn hajotelma Omega=LL^T ja eteenpäinsijoituksen valkaisu z=L^-1 r (Cov(z)=I… · Validoitu
+
+seg-e7ad7dc222c3 = Pistemäärätilasto ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 yhteismuotoiselle siirtymälle… · Mallinnettu
+
+seg-91e04ed91d06 = Havaitsematon yhteismuotoinen katto: suurin suuntaa d pitkin kulkeva vian suuruus, joka… · Validoitu
+
+seg-39ee9f0b7b11 = { "{" }lunocenter-X, scale{ "}" } -lohkon Schurin komplementtimarginaali 7-parametrisesta Helmert… · Validoitu
+
+seg-9eaa1f56a3b7 = Sisäisen etäisyysmittauksen datumongelman luokittelu: yksittäinen etäisyyshavainto… · Mallinnettu
+
+seg-e97d57d71169 = Datumin Jakobin rivit Maa-heijastimen LLR-etäisyydelle, kahden aseman kuun VLBI-differentiaali… · Mallinnettu
+
 seg-8f2f47d609a1 = Kierto kehyksestä MOON_PA_DE440 kehykseen J2000 mielivaltaisina epookkeina välillä 2014-01-01 – 2030-12-31 TDB… · Validoitu
 
 seg-58aa8583d165 = Viisi Kuun lähipuolen retroreflektoriryhmää PA-kappalekehyksen metreinä ja LLR-maa… · Mallinnettu
@@ -3292,3 +3980,331 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 seg-17ab1aee875b = Tuotettu moottorin varmennusmatriisista ja lukittu testillä. Vieritä luetteloa tai avaa rivi nähdäksesi sen ominaisuuden, oraakkelin ja testit. Koko taulukko, kaikki sarakkeet kerralla, on dokumentaatiossa: <a1>Ominaisuusviite</a1>.
 
 seg-41da0459d87a = Tarvitsetko tämän kirjanpidon tarkastuskelpoisena, toistettavana todistepakettina arviointilautakunnalle? <a1>Kshana Pro pakkaa sen</a1>.
+
+seg-72a49f4a8a52 = Toistettavissa oletuksena
+
+seg-fa37e615f55e = Aja se uudelleen. Saat samat luvut.
+
+seg-ed2388d71f8d = <s1>Ilmainen ydin</s1> Tulos on toistettavissa bitilleen skenaariosta, siemenluvusta ja moottorin versiosta. Mikään tässä ei vaadi lisenssiä, tiliä tai meitä.
+
+# c1: result.json
+seg-37c1e99ec1ea = Leima, jonka jokainen <c1/> kantaa
+
+seg-87d1a7bd3204 = Tämä on tallennetusta kellon holdover-ajosta. Avaa se Kshana Studiossa tai aja se itse uudelleen:
+
+seg-006d9a3357c7 = siemenluku
+
+seg-477ec417d61a = Asenna moottori.
+
+# c1: pip install kshana
+seg-972d68eb7cb0 = Tai <c1/>, tai <a1>jokin muu kanava</a1>.
+
+seg-a8676830c911 = Kopioi: kshana scenarios/clock-holdover.toml
+
+seg-c1c85d7f2577 = Aja sama skenaario.
+
+seg-b6c702bf5a99 = kshana scenarios/<s1>clock-holdover.toml</s1>
+
+# c1: result.json
+# c2: chart.svg
+# c3: report.html
+# c4: table.csv
+seg-42c1c8edda64 = Se kirjoittaa tiedostot <c1/>, <c2/>, <c3/> ja <c4/> skenaarion viereen.
+
+seg-f250e52e31a2 = Vertaa leimaa.
+
+seg-270867e3758d = Skenaarion tiiviste on SHA-256 (256-bittinen Secure Hash Algorithm) -hajautus kanonisesta skenaariosta: siemenluku, kynnykset, mallin parametrit. Muuta mitä tahansa syötettä, ja tiiviste muuttuu. Jokaisen kaavion alatunniste kantaa sen { "12" } ensimmäistä heksamerkkiä.
+
+seg-67a40345e62e = Anna moottorin tarkistaa itsensä.
+
+seg-0ce40c687cec = tests/published_figures_still_reproduce.rs
+
+seg-349b9f41ae53 = tests/verification_rows_name_a_test_that_exists.rs
+
+seg-bc1e2f2efa37 = tests/verification_rows_cite_evidence_that_exists.rs
+
+# c1: tests/published_figures_still_reproduce.rs
+# c2: tests/verification_rows_name_a_test_that_exists.rs
+# c3: tests/verification_rows_cite_evidence_that_exists.rs
+seg-27b8a76b5377 = Jokaisessa koontiversiossa testit vahvistavat, että julkaistut kuvat toistuvat edelleen (<c1/>) ja että jokainen kirjanpitorivi nimeää testin ja viittaa olemassa olevaan todisteeseen (<c2/>, <c3/>).
+
+seg-c9bd26fbb336 = Standardiruudukko
+
+seg-48fb720acd5b = Puhuu muotoja, joita jo käytät.
+
+seg-4f2bf101ab05 = { "18" } standardia ja muotoa, jotka moottori toteuttaa. Vihreä merkki tarkoittaa, että se on tarkistettu todellista dataa, julkaistua esimerkkiä tai riippumatonta vertailutoteutusta vastaan.
+
+seg-4dbf9694677e = Kun arviointi vaatii enemmän
+
+seg-481e625b04be = Samat todisteet, paketoituna tai puolestasi tehtynä.
+
+seg-d2c76b1353a9 = Moottori ja kaikki sen yläpuolella oleva pysyvät ilmaisina. Kaksi maksullista reittiä rakentuu niiden päälle sopimuksella.
+
+seg-1e1e6d431868 = Kshana Pro: tehtäväasiakirja ja todistepaketti
+
+seg-20582558a93f = Kshana Pro paketoi toistettavasti ne todisteet, joita arviointi tai hankintalautakunta pyytää. Sen perustana ovat tämä kirjanpito, jossa jokainen ominaisuus nimeää oraakkelinsa ja testinsä, sekä leima, jonka jokainen tulos kantaa. Yhdellä komennolla tehtäväasiakirja tarkistaa jokaisen vaatimuksen todellisia ajoja vasten ja kirjoittaa varmennusmatriisin avoimine kohtineen sekä PDF:n (Portable Document Format).
+
+seg-1c8effb9400a = Katso todellinen tehtäväasiakirja
+
+seg-c24f4ecd4d42 = Räätälöity tutkimus: kysymyksesi vastattuna
+
+seg-bead5a126394 = Räätälöity tutkimus vastaa omaan kysymykseesi samoilla merkinnöillä: jokainen luku on validoitu tai mallinnettu, eikä se ole sertifiointi. Vientirajoitettu työ hoidetaan turvallisuusselvityksen ja NDA:n (salassapitosopimus) alaisena.
+
+seg-6df96ca25c68 = Miksi ja kenelle
+
+seg-1aff28e3a49a = Vertaa menetelmiä samoilla lokeilla.
+
+seg-5c0bc250857a = kshana-bench kiinnittää tehtävät, jaot ja mittarit GNSS-häiriön havaitsemiselle ja ajoituksen holdoverille, ja lähtötasoille asetetut kynnykset kirjoitettiin muistiin ennen ensimmäistä pisteytettyä ajoa. Pistemäärä kuvaa lokia tai korpusta, ei koskaan tuotetta.
+
+seg-fa599e1294b9 = Tutkimus ja viittaaminen
+
+seg-9bff81726f3f = Julkaistu tutkimus.
+
+seg-7563b76b2e24 = { "6" } artikkelia arXivissa, avoimessa esipainosarkistossa, rakennettu avoimen moottorin päälle. Jokainen avautuu moottorilla uudelleen ajettuun kuvaan, sen havaintoihin, komentoon ja sen DOI-tunnukseen (Digital Object Identifier).
+
+seg-71fadc5b5a0b = Kuunavigointi
+
+seg-99f49da3e2c2 = <s1>{ "18" }. syyskuuta { "2026" }</s1> · arXiv:{ "2610.23871" }
+
+seg-4215aedbd38b = Kuunläheinen navigointi on havaittavuusongelma: kaaren pituuden kynnykset, Gramin matriisin ehtoisuus ja Doppler-vipu
+
+seg-b98018947305 = Kuunläheisessä avaruudessa tarkkuuden heikkenemiskerroin ei päde: pelkkään etäisyyteen perustuvat linkit jättävät nopeuden havaitsemattomaksi missä tahansa yksittäisessä hetkessä, joten vaatimukset kuuluvat kaaren pituuden, ehtoisuuden ja mittaustyyppien budjetteihin.
+
+seg-d44879bf12ee = Tiivistelmä
+
+seg-4f7300f35cc4 = DOI 10.48550/arXiv.2610.23871
+
+seg-d1e4312d649c = 4-tilaisen (paikka ja nopeus tasossa) havaittava rangi; suurempi on parempi
+
+seg-f5cb4cb0ab34 = Tilavan, kohinaisen, usean perheen kuunläheisen kaaren pituuden havaittavuus: varmennusmatriisin merkintä
+
+# c1: cislunar-observability.toml
+seg-24861a829697 = Moottori v{ $version } · <c1/> · deterministinen, ei siemenlukua
+
+seg-53ec3ceb08e3 = Keskeiset havainnot
+
+seg-97a4147e002c = Moottorin ajossa pelkkään etäisyyteen perustuvalla geometrialla on yhdellä hetkellä rangi { "2" } luvusta { "4" }, joten tarkkuuden heikkenemiskerrointa ei ole määritelty; koko tila tulee havaittavaksi kaaren pituuden { "2.09" } h jälkeen.
+
+seg-879b68e63984 = Etäisyysnopeuden lisääminen nostaa hetkellisen rangin luvusta { "2" } lukuun { "4" }: Doppler-kykyinen linkki saa aikaan hetkellisen ratkaisun siellä, missä pelkkä etäisyyslinkki ei voi.
+
+seg-59fe2106ff19 = Kynnyksen jälkeen ehtoisuus paranee kaaren pituuden kasvaessa, joten vaatimukset luetaan parhaiten kaaren pituuden, ehtoisuuden ja mittaustyyppien budjetteina.
+
+seg-c39dad75b1db = Miten Kshana toistaa sen
+
+seg-88d62c0eb522 = cislunar-observability-laji differentiaalikorjaa neljä tasomaista kaukaista vastakulkuista rataa, kokoaa etäisyyden ja etäisyysnopeuden Jakobit kolmen kappaleen tilasiirtymämatriisin kautta ja raportoi havaittavan rangin kasvavan seurantakaaren yli, havaittavuus-Gramin matriisin ehtoluvun sekä neliöjuuri-informaatiosuodattimen, joka laskee saman suureen uudelleen toista reittiä.
+
+seg-4199e285c1ce = <b>Kuva.</b> Mukana toimitettu skenaario: neljä differentiaalikorjattua tasomaista kaukaista vastakulkuista rataa, joita seurataan satelliittien välisellä etäisyysmittauksella kaaren yli, jonka pituus on { "6" } h ja näyteväli { "0.26" } h.
+
+# c1: cislunar-observability
+# c2: scenarios/cislunar-observability.toml
+seg-641d437e44cf = Ajaa skenaariolajin <c1/> (<c2/>) asennetulla moottorilla.
+
+seg-2d7cee52688b = Kopioi: kshana example cislunar-observability > cislunar-observability.toml
+
+seg-8bcfbf1acc34 = kshana example cislunar-observability > cislunar-observability.toml
+
+seg-819350dc7d89 = Kopioi: kshana cislunar-observability.toml
+
+seg-0805c0fa877a = kshana cislunar-observability.toml
+
+seg-8542b85104f5 = Viittaa siihen
+
+seg-e1324f491348 = BibTeX · baweja2026cislunar
+
+seg-02ae60696338 = Kopioi BibTeX
+
+seg-814e10300308 = <s1>{ "7" }. heinäkuuta { "2026" }</s1> · arXiv:{ "2607.06212" }
+
+seg-cb5ae69b24b2 = The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis
+
+seg-2d8cdfcc974c = Suunnitellut radat kasautuvat yläpuolelle kuun etelänavan käyttäjälle; muutama etäisyysmittausbaakkuna läheisellä korkealla maalla korjaa geometrian edullisemmin kuin lisäsatelliitit.
+
+seg-15862a1146a0 = DOI 10.48550/arXiv.2607.06212
+
+seg-5b774fbf8cf4 = Geometrinen tarkkuuden heikkenemiskerroin eteläisellä napa-alueella olevalle käyttäjälle (pienempi on parempi)
+
+seg-3534626980e2 = Kuun pintabaakkujen DOP-täydennys: varmennusmatriisin merkintä
+
+# c1: lunar-beacon.toml
+seg-1a81055d9da3 = Moottori v{ $version } · <c1/> · deterministinen, ei siemenlukua
+
+seg-da361b259315 = Mukana toimitetussa ajossa yksi horisontin ylittävä baakkuna pienentää geometrisen tarkkuuden heikkenemiskertoimen arvosta { "11.66" } arvoon { "4.998" }; 24 satelliitin tähdistö sen sijaan yltää arvoon { "2.893" }.
+
+seg-53df3c2b7e42 = Satelliitit, jotka eteläisen napa-alueen käyttäjä näkee, kasautuvat pieneksi alueeksi yläpuolelle, joten geometriaa rajoittaa niiden hajonta, ei niiden lukumäärä.
+
+seg-cbbaada97ad4 = Muutama korkealla maastolla oleva baakkuna yltää geometriaan, jonka pelkkään kiertoratoihin perustuva suunnitelma saavuttaa vasta paljon suuremmalla satelliittiparvella.
+
+seg-89f424090012 = lunar-beacon-laji rakentaa kiertoratatähdistön etäisyysmittausgeometrian sekä mitatut pintabaakkunat, jotka ylittävät ilmattoman horisontin, riippumatonta kirjastoa vastaan tarkistetulla tarkkuuden heikkenemiskertoimen ytimellä, ja raportoi kunkin kokoonpanon tarkkuuden heikkenemiskertoimen ja sen tarkkuuden metreinä.
+
+seg-9a9dd41c0880 = <b>Kuva.</b> Yksi mukana toimitetun skenaarion epookki sen oletusgeometrialla: pelkät satelliitit, satelliitit sekä horisontin ylittävät baakkunat ja sen sijaan 24 satelliitin tähdistö.
+
+# c1: lunar-beacon
+# c2: scenarios/lunar-beacon.toml
+seg-5425a567ce90 = Ajaa skenaariolajin <c1/> (<c2/>) asennetulla moottorilla.
+
+seg-e117d65ea93b = Kopioi: kshana example lunar-beacon > lunar-beacon.toml
+
+seg-51991939e727 = kshana example lunar-beacon > lunar-beacon.toml
+
+seg-a635fe4b7597 = Kopioi: kshana lunar-beacon.toml
+
+seg-c3952de0ac25 = kshana lunar-beacon.toml
+
+seg-3863c17f1d12 = BibTeX · baweja2026cost
+
+seg-756a63fd185f = <s1>{ "29" }. kesäkuuta { "2026" }</s1> · arXiv:{ "2607.02566" }
+
+seg-75c6caf87321 = Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination
+
+seg-e58a7d860d50 = Kuuverkon etäisyysmittaus kiinnittää vain suhteellisen geometrian; Maan kantaviivan pitkän kantaviivan interferometriaviive sitoo pinta-aseman Maan koordinaatistoon jopa harvalla satelliittimäärällä. <s1><b>VLBI</b> pitkän kantaviivan interferometria</s1>
+
+seg-1d5d779fec56 = DOI 10.48550/arXiv.2607.02566
+
+seg-4d34307e4008 = Sovituksen aseman absoluuttinen paikkavirhe, metreinä (logaritminen asteikko)
+
+seg-1427dd0d24c1 = Kuun aseman absoluuttinen havaittavuus (datumvika): varmennusmatriisin merkintä
+
+# c1: lunar-joint-od-clock.toml
+seg-dd9cc689ae2b = Moottori v{ $version } · <c1/> · siemenluku { "42" }
+
+seg-473a7f364ad8 = Tallennettu macOS:llä sellaisena kuin se julkaistiin. Tuore Linux x86-64 -ajo antaa { "2184" } m / { "3.537" } m (ratkaisijan iteraatin isäntäriippuvuus, issue #36 rivi { "6" }).
+
+seg-36052dbf6e6d = Kuuverkon sisäinen etäisyysmittaus jättää klusterin vapaaksi siirtymään ja kiertymään näkymättömästi; kellot pysyvät havaittavina, joten vika on puhtaasti paikkavika.
+
+seg-b734ac9c732e = Moottorin ajossa ({ "3" } satelliittia) Fisher-informaatiolla ilman interferometrialinkkejä on rangi { "15" } luvusta { "16" }; niiden kanssa sillä on täysi rangi ja Cramér–Rao-raja { "20.1" } m.
+
+seg-e18724ed23f7 = Rikkaalla tähdistöllä interferometriasidonta vain terävöittää rajaa; harvalla se palauttaa aseman absoluuttisen paikan.
+
+seg-d626b2e1fb1c = lunar-joint-od-clock-laji yhdistää Maan kantaviivan interferometriaviiveet, kuun paikalliset etäisyydet ja satelliittien väliset etäisyydet yhdessä eräpienimmän neliösumman sovituksessa, ajaa sen interferometrialinkkien kanssa ja ilman niitä samalla siemenluvulla ja raportoi Fisher-informaation rangin, datumvian ja Cramér–Rao-rajan.
+
+seg-16e6ed9268fb = <b>Kuva.</b> Mukana toimitettu simuloitu verkko: { "3" } kuusatelliittia, { "6" } Maa-asemaa, yksi pinta-asema, sama siemenluku ja sama totuus molemmille sovituksille.
+
+# c1: lunar-joint-od-clock
+# c2: scenarios/lunar-joint-od-clock.toml
+seg-4ed8d3407015 = Ajaa skenaariolajin <c1/> (<c2/>) asennetulla moottorilla.
+
+seg-825f9c694f75 = Kopioi: kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+seg-b39180e5bad6 = kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+seg-e37077cef2d2 = Kopioi: kshana lunar-joint-od-clock.toml
+
+seg-4d7b3cc885e1 = kshana lunar-joint-od-clock.toml
+
+seg-4a67b5769164 = BibTeX · baweja2026earth
+
+seg-7334fb10a58d = <s1>{ "23" }. kesäkuuta { "2026" }</s1> · arXiv:{ "2606.24210" }
+
+seg-d919ca966a9e = A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing
+
+seg-913d89357229 = Tallennettu harhautus osoittaa, että ajoitusvastaanotin tarjoaa aikaa, joka on paljon enemmän pielessä kuin se ilmoittaa; ehdotonta rajaa ei ole, joten artikkeli rajaa havaitsemattoman virheen ehdollisesti. <s1><b>GNSS</b> maailmanlaajuinen satelliittinavigointijärjestelmä</s1>
+
+seg-6de2dc8a5fb7 = DOI 10.48550/arXiv.2606.24210
+
+seg-b3ea3697c2c0 = Nanosekuntia (logaritminen asteikko) havaitsemisviivettä vasten, sekunteina
+
+seg-0cbe8e77cc1c = Ajoituksen suojaustaso harhautuksessa: varmennusmatriisin merkintä
+
+# c1: examples/tpl_jammertest.rs
+seg-83a7b4fac0b6 = Moottori v{ $version } · <c1/> · deterministinen, ei siemenlukua
+
+seg-77c4b79f3e91 = Julkinen tallennettu harhautus veti vastaanottimen tarjoamaa aikaa noin { "1.01" } ms, vaikka se ilmoitti enintään { "51" } ns.
+
+seg-f49dcc8cddcc = Riittävän hidasta ramppia vastaan ei ole äärellistä ehdotonta rajaa, joten raja on ehdollinen sille, että riippumaton satelliittien välinen ristiintarkistus havaitsee hyökkäyksen.
+
+seg-548b29459f87 = Moottorin ajoituksen suojaustaso on { "114" } ns, kun havaitsemisviive on { "1" } s, ja { "458" } ns, kun havaitsemisviive on { "60" } s.
+
+seg-ceb4239784a5 = Ajoituksen suojaustason moduuli lisää monitorin havaitsemislattian oskillaattorin rannikkoon havaitsemisviiveen ajalta. Esimerkki kalibroi sen julkisesta JammerTest { "2024" } -tallenteesta palautetuilla skalaareilla; raakatallennetta ei toimiteta.
+
+seg-723ada08a5da = <b>Kuva.</b> Esimerkin tuloste: ehdollinen ajoituksen suojaustaso viidellä havaitsemisviiveellä sekä ne kaksi skalaaria, jotka se palautti julkisesta JammerTest { "2024" } -tallenteesta.
+
+# c1: examples/tpl_jammertest.rs
+seg-72b36b33149c = Tuottaa tutkimusartefaktin uudelleen tiedostosta <c1/> repositorion kloonissa.
+
+seg-1bbc7e2ec752 = Kopioi: cargo run --release --example tpl_jammertest
+
+seg-f9d26d561e77 = cargo run --release --example tpl_jammertest
+
+seg-1e7f0f12f1d8 = BibTeX · baweja2026conditional
+
+seg-71f2b94fc8ed = Kestävyyspisteytys
+
+seg-0bf6d80a9ac4 = <s1>{ "22" }. kesäkuuta { "2026" }</s1> · arXiv:{ "2607.05415" }
+
+seg-e1901a8f71a6 = How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting
+
+seg-0c986779c8c0 = Paikannuksen, navigoinnin ja ajanmäärityksen yhden luvun kestävyysluokitukset ovat vakaita vain siellä, missä yksi suunnitelma dominoi; painotus, uhka ja ilmoitetut tekniikat voivat kääntää ne. <s1><b>PNT</b> paikannus, navigointi ja ajanmääritys</s1>
+
+seg-fa0b79c90793 = DOI 10.48550/arXiv.2607.05415
+
+seg-fe88f96641c0 = Arvonnat, joissa pelkkä uudelleenpainotus muuttaa ylimmän arkkitehtuurin, prosentteina
+
+seg-4fcd1d447d03 = Kestävyyspistemäärän päätösepästabiilius: varmennusmatriisin merkintä
+
+# c1: examples/resilience_report.rs
+seg-44773d6f6133 = Moottori v{ $version } · <c1/> · siemenluku { "12345" }
+
+seg-8b90bfea6f24 = Pelkkä uudelleenpainotus muuttaa ylimmän arkkitehtuurin nimellisissä oloissa { "22" } % arvonnoista ja kunkin aktiivisen uhan alla enintään { "1.25" } % arvonnoista.
+
+seg-d8e47cf40fdd = Heikoimman lenkin kypsyystaso riippuu oletetusta uhasta, ei vain arkkitehtuurista.
+
+seg-1df0aa1cd5d4 = Koska yhdistelmä palkitsee ilmoitetuista tekniikoista, enemmän ilmoittava suunnitelma voi päihittää kestävämmän.
+
+seg-fe2d2c2ed9ec = Kestävyysmoduuli pisteyttää seitsemän vertailuarkkitehtuuria seitsemässä viitekehyksen luokassa ja viidessä uhassa, arpoo luokkien painot satunnaisesti Dirichlet-jakaumasta ja laskee, kuinka usein ylin sija muuttuu. Esimerkki kirjoittaa koko tutkimuksen yhteen deterministiseen tiedostoon.
+
+seg-83a738bd9ab5 = <b>Kuva.</b> { "7" } vertailuarkkitehtuuria, { "2,000" } satunnaista luokkapainotusta uhkaa kohden.
+
+# c1: examples/resilience_report.rs
+seg-a1c2bf9c21a4 = Tuottaa tutkimusartefaktin uudelleen tiedostosta <c1/> repositorion kloonissa.
+
+seg-b9a73904adfc = Kopioi: cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+seg-164b725640f2 = cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+seg-068c8bc02d18 = BibTeX · baweja2026stable
+
+seg-bc499c388907 = Radiotaajuinen häiriö
+
+seg-0411e7a125dd = <s1>{ "20" }. kesäkuuta { "2026" }</s1> · arXiv:{ "2606.22054" } · versio { "2" }
+
+seg-1a9e30bfff32 = Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics
+
+seg-1a5fd51bad12 = Se, kuinka paljon häiriöilmaisin menettää muuttuneissa olosuhteissa, voidaan ennustaa sen omista jakauman sisäisistä pisteistä; synteettisiä tuloksia, tarkistettu avoimilla kenttätallenteilla. <s1><b>RF</b> radiotaajuus</s1>
+
+seg-0484b37344e2 = DOI 10.48550/arXiv.2606.22054
+
+seg-2ead6f7b689b = Ennustettu optimismikuilu verrattuna todelliseen (käyrän alle jäävän alan menetys muutoksessa)
+
+seg-412b53a9eeb4 = Tekoäly/koneoppiminen RF-häiriön optimismikuilututkimus ja pelkästään jakauman sisäinen kuilun ennustin: varmennusmatriisin merkintä
+
+# c1: examples/optimism_study.rs
+seg-852f52ca41c7 = Moottori v{ $version } · <c1/> · siemenluku { "1" }, { "2" }, { "3" }, { "4" }, { "5" }
+
+seg-e316b9177880 = Jakauman sisäisen ja muuttuneen käyrän alle jäävän alan välinen kuilu kasvaa muutoksen syventyessä ja riippuu siitä, kuinka monta havaittavaa suuretta ilmaisin käyttää, ei siitä, onko se opittu.
+
+seg-4761136935f9 = Moottorin ajossa jakauman sisäisiin pistetilastoihin perustuva ridge-malli ennustaa kuilun ilmaisimelle, jota se ei ole nähnyt (R² { "0.46" }), ja häiriöluokalle, jota se ei ole nähnyt (R² { "0.33" }).
+
+seg-72cdba8fbe98 = Keskeiset havainnot ovat synteettisiä; artikkeli tarkistaa ne sitten avoimilla kenttätallenteilla.
+
+seg-61d0f43db2e3 = Häiriötutkimus tuottaa synteettisen, parametreihin perustuvan korpuksen neljälle häiriöluokalle, pisteyttää kolmetoista ilmaisinta neljällä muutoksen vakavuudella viiden siemenluvun yli ja sovittaa kuilun ennustimen yhden pois jättävällä ristiinvalidoinnilla ja permutaatiotestillä.
+
+seg-300c322d4ba2 = <b>Kuva.</b> { "260" } ilmaisimen, luokan ja vakavuuden solua; jokainen ennuste tehdään sovituksesta pois jätetylle ilmaisimelle.
+
+# c1: examples/optimism_study.rs
+seg-296fc672c52b = Tuottaa tutkimusartefaktin uudelleen tiedostosta <c1/> repositorion kloonissa.
+
+seg-99072a1940f0 = Kopioi: cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+seg-66c4d9424478 = cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+seg-c2e48bf2916b = BibTeX · baweja2026anticipating
+
+seg-96fe472ae234 = Viittaa moottoriin
+
+seg-47c92ffeaa12 = Jokainen julkaisu arkistoidaan Zenodoon viitattavalla DOI-tunnuksella, ja CITATION.cff toimitetaan repositoriossa. Viittaa moottorin versioon, skenaarioon ja siemenlukuun.
+
+seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em> (Version { $version }). Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
+
+seg-c97e87cbcdd5 = BibTeX moottorille
+
+seg-24ff0a7466d6 = BibTeX

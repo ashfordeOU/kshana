@@ -276,6 +276,9 @@ seg-ff90679d1de9 = Harhautuksen (spoofing) havaitseminen
 
 seg-257c477dc510 = WebAssembly
 
+# text
+seg-2192262e26c1 = täyttyi
+
 seg-785218a0ea66 = Mitä Kshana ei ole
 
 seg-b366150de755 = Pyydä selvitys
@@ -297,6 +300,173 @@ seg-3dd37275b448 = Täyttääkö tehtävä vaatimuksensa, ja voimmeko luovuttaa 
 seg-7fbde256debf = ei täyttynyt
 
 seg-f6ccb7a322b3 = avoimet kohdat
+
+seg-6d3d0f8c9b7c = Pyydä Pro-arviointia
+
+seg-813d6d41b891 = Kopioi komento, joka toistaa sen
+
+seg-a0ef302e2458 = Kopioi komento
+
+seg-6df96ca25c68 = Miksi ja kenelle
+
+seg-e8ab991fe284 = Kshana-tehtäväkonsoli
+
+seg-dc0fbd6f3e76 = Vastaanotin · { "8" } seurannassa
+
+seg-212f0234925f = Häirintälähetin · { "1.0" } km päässä
+
+seg-e8b014e4fa7b = Harhauttaja · { "0.1" } ns/s ajan työntö
+
+seg-b8890ff22c4a = Toisto
+
+seg-fdac3e95b3d9 = Tehtävä <b>T+{ "00" }:{ "00" }:{ "00" }</b>
+
+seg-5e5365b80dfb = Skenaario <b>campaign-jam-spoof-holdover-integrity</b>
+
+seg-d0b9f1d1b637 = Nimellinen
+
+seg-12d3b7275c99 = <s1>Moottori v{ $version } · siemenluku { "20260928" }</s1><s2>Todellinen ajo</s2>
+
+seg-2c7bf2e50347 = GNU Affero General Public License, versio { "3" }
+
+seg-162d704ff027 = <s1>v{ $version }</s1>Avoin lähdekoodi · <s2>AGPL-3.0</s2> · Ashforde®
+
+seg-69d3fae797e4 = Harjoittele minuuttia, jolloin <em>GNSS pimenee.</em>
+
+seg-015e3cff4eda = Kshana on avoimen lähdekoodin simulaattori PNT-kestävyyteen (paikannus, navigointi ja ajanmääritys). Toista häirintä, harhautus ja kellon holdover, kun GNSS-signaalit (maailmanlaajuinen satelliittinavigointijärjestelmä) pettävät, Rust-moottorilla, joka toimii suoraan selaimessasi, ja näe tarkalleen, mitkä tulokset tarkistettiin riippumattomia vertailuja vasten.
+
+seg-8b095f7254ed = Kopioi asennuskomento: cargo install kshana
+
+seg-f0e9de10d9ef = cargo install kshana<s1>Kopioi</s1>
+
+# c1: ⌘K
+seg-ec3957c0f5f1 = Paina <c1/> hakeaksesi sivuja, skenaarioita ja dokumentaatiota
+
+# c1:
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Sama moottori, vahvistettuna: { "608" } suunnitelmaa, yksi Pareto-rintama</s2>
+
+seg-b807a8887172 = Ketjutetusta kampanja-ajosta toistettu telemetria
+
+seg-d367c9a1c6fc = Kellon aikavirhe<s1>vs. { "50" } ns suoja · lineaarinen</s1>
+
+seg-6746a919dc04 = T+{ "0" }
+
+seg-7d5a96436755 = nyt
+
+seg-2434e53fa54e = Kantoaalto–kohinatiheys<s1>C/N0 · lattia { "25" } dB-Hz</s1>
+
+seg-bf842cdbb9d3 = Suojaustaso vs. hälytysraja<s1>PL · AL { "50" } m, pystysuunta</s1>
+
+seg-146c6926eae1 = Ketjutetun kampanja-ajon tapahtumaloki
+
+seg-7dfaa4627c3e = Tapahtumaloki · campaign-jam-spoof-holdover-integrity
+
+seg-47d596393831 = Todelliset tapahtumat
+
+seg-5630c799cec1 = Mistä jokainen käyrä tulee
+
+# c1: fc21ac4
+# c2: campaign-jam-spoof-holdover-integrity.toml
+seg-46b6db21c09b = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
+
+seg-f70fa3b93b11 = Moottorin oma raportti tästä ajosta
+
+seg-d32a11c090e1 = Moottorin tulos muuttamattomana
+
+seg-c459bc5805bb = Skenaariotiedosto, joka ajettiin
+
+seg-f18f76c10709 = <s1><a1>Raportti</a1><a2>JSON</a2><a3>TOML</a3></s1>
+
+# c1: fc21ac4
+# c2: constellation-multi-gnss-coverage.toml
+seg-c043a94c7564 = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-f2d2f2263e63 = Konsoli, kolme korttia ja loki toistavat yhden ketjutetun ajon, jossa on { "6" } vaihetta ja { "18" } jäsenajoa sen ruudukolla, jonka askel on { "10" } s, (T+{ "01" }:{ "16" }:{ "10" } tehtäväaikaa). Radat ovat GPS:n, Galileon, BeiDoun ja GLONASSin { "102" } satelliittia tähdistöajosta, kukin palautettuna ympyräkaarisena kaksirunkoratana moottorin maanpintajäljestä (pahin jäännös { "0.0034" }°), säteet tiivistettyinä esitystä varten. Linkit piirretään satelliitteihin tähdistöajon { "10" }° maskin yläpuolella ({ "25" }° eheyshälytysvaiheessa, kampanjan uudelleenkiinnisaantimaski), himmennettyinä sen häirinnällä ja katkaistuina holdoverissa. Maa: NASA Blue Marble ja Black Marble. Kshana Studio toistaa ketjutetun ajon selaimessasi; moottorin oma raportti ja komento toistavat kunkin ajon.
+
+seg-a6603a1011ce = Todisteet yhdellä silmäyksellä
+
+seg-92c73c398785 = mukana toimitettua skenaariotiedostoa
+
+seg-4fe9e7c5932f = ominaisuutta varmennusmatriisissa
+
+seg-d2c0888d98f6 = validoitu riippumattomia ulkoisia oraakkeleita vasten
+
+# c1: →
+seg-3a3535770138 = <s1>artikkelia arXivissa, rakennettu avoimen moottorin päälle</s1><s2>Lue tutkimus <c1/></s2>
+
+seg-c44c0fbefc2c = <s1>WASM</s1><s2>toimii selaimessa WebAssemblynä, ei asennusta</s2>
+
+seg-9b3429f89f21 = Uutta versiossa v{ $version }: jokainen laji, jokainen komento ja benchmarkin epäonnistumiset
+
+seg-471b95f0c08f = <a1>Mitä kukin tekee ja mitä tarkistettiin</a1> · <a2>Jokainen asennuskanava</a2>
+
+seg-a9bca0fa5b04 = L-kaistan konsoli · spectrum-laji
+
+seg-abbe9f20dd01 = Katso, kuinka häirintälähetin valtaa kaistan.
+
+seg-7b1868001271 = GNSS:n L-kaista yhtenä PSD:nä (tehospektritiheys): taajuus vaakasuunnassa, aika alaspäin, väri kohinalattian ylittävälle teholle. Signaalit ovat tuon lattian alapuolella, joten esiin nousevat häirintälähettimet: sirkutus, CW-ääni (jatkuva aalto) ja kapeakaistainen kohina. Leijuta, napauta tai käytä nuolinäppäimiä nähdäksesi kunkin kaistan <b>C/N0</b> (kantoaalto–kohinatiheys) ja <b>J/S</b> (häirintä–signaali-suhde).
+
+seg-06d71fc57b8d = <b>kshana</b> spectrum <s1>· <s2>l-band-waterfall-jamming.toml</s2></s1>
+
+seg-2da07c5d32d7 = L-kaistan vesiputous, taajuus vaakasuunnassa ja aika alaspäin. Nuolinäppäimet siirtävät kohdistinta taajuuden ja ajan yli; Escape poistuu siitä.
+
+seg-46f65efc3be9 = Vesiputous piirretään tallennetusta ajosta JavaScriptillä. Alla oleva moottorin raportti näyttää saman ajon.
+
+seg-f3ea569d443f = Huonoin kaista
+
+seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
+
+seg-14b3348ff8ea = Kunkin kaistan kantoaalto–kohinatiheys seurantalattiaa vasten
+
+seg-3e189946819a = Kampanja, jota tämä ajo ohjaa · jokainen vaihe seuraa häirintälähettimen tilaa
+
+# c1: l-band-waterfall-jamming.toml
+seg-b4033994f81b = Moottorin ajo tiedostosta <c1/>
+
+seg-33979077de8c = Kopioi komento, joka toistaa ajon: kshana l-band-waterfall-jamming.toml
+
+seg-17d5d311b110 = Moottoriraportti
+
+seg-7a6ff36f0f04 = $ kshana l-band-waterfall-jamming.toml
+
+seg-1fd08ac5f6f0 = Skenaario, tulosdata, kampanja-ajo ja mitä mallinnetaan
+
+seg-997412b840c2 = Spectrum-ajo
+
+seg-c9ee69e3ce3e = Skenaariotiedosto
+
+seg-aaeaa4133766 = Tulosdata
+
+# c1: campaign-spectrum-holdover-integrity.toml
+seg-e9d1763a751f = Kampanja, jota se ohjaa: <c1/>
+
+seg-444a43f5d0d7 = Mallinnettu: suljetun muodon spektrit lämpökohinalattian yli, pisteytetty kaistoittain spektrierottelulla; häirintälähettimen tehot ja ajoitukset ovat skenaarion syötteitä. Aika-akseli laskee sekunteja ennen nykyhetkeä; syaaninvärinen viiva osoittaa, mihin toisto käynnistyi uudelleen. Kshana Studio ajaa saman skenaarion selaimessasi ja toistaa vesiputouksen; raportti ja komento toistavat ajon.
+
+seg-9c4762bc4c66 = Tehtäväaikajana
+
+seg-8b148fc948fa = Tehtäväaikajana · vieritä tai vedä selataksesi
+
+seg-984aa8353e29 = Jokaista satelliittia seurataan. Kello on kurinalaistettu GNSS-aikaan, ja suojaustaso on selvästi hälytysrajan alapuolella.
+
+seg-53dff207c2e7 = T+{ "00" }:{ "00" }:{ "00" }
+
+seg-06909bd3c972 = Tehtäväaika
+
+seg-de619b311b43 = <b>kshana</b> campaign <s1>· campaign-jam-spoof-holdover-integrity · siemenluku { "20260928" }</s1>
+
+seg-348b3f146fd1 = Vaiheet ja jäsenajot, jotka kukin lähettää
+
+seg-5ca22bdcb463 = Vaiheet · jäsenajot
+
+seg-8332e436d097 = Nimellinen<s1>T+{ "00" }:{ "00" }:{ "00" }</s1>
+
+seg-297f821b911b = siemenluku { "42" }
+
+seg-0c4140f95fe8 = siemenluku { "1" }
+
+seg-dfe6a1451d36 = siemenluku { "7" }
+
+seg-e6df43ef3bcc = Häirintä<s1>T+{ "00" }:{ "10" }:{ "00" }</s1>
 
 seg-639fb18e57e0 = siemenluku { "43" }
 

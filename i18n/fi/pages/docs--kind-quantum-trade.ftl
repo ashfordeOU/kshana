@@ -56,7 +56,7 @@ seg-45a1d84eef18 = MODELLED; kvantifioi (ei koskaan validoi) kumppanin laitetta.
 
 seg-15275d27252a = Laskee EHDOKASKELLON ajoitus-holdover- ja inertia-holdover-hyödyn KLASSISEEN lähtötasoon nähden sekä GNSS-estetyn kestävyys–aika-verhokäyrän. Ehdokkaan lattiaa ohjaa kumppanin kellon MEASURED limittäinen ADEV-käyrä (puolustettavuuden ratkaiseva tekijä), sovitettuna ei-negatiivisella pienimmän neliösumman menetelmällä — joten holdover-budjetti nojaa todelliseen dataan eikä oletettuun pitkän tau:n lattiaan. (skenaariotiedoston kommentti, rivit { "3" } - { "7" })
 
-seg-ecbdbc9b163e = RAJAUS TOTUUDENMUKAISESTI: MODELLED — se KVANTIFIOI kumppanin kvanttikellon hyödyn; se EI validoi laitetta eikä koskaan lainaa SGP4/Allan/IGS-validointisaarekkeita. Kun minkä tahansa rivin lattia on oletettu luokkaoletus, lattiavarauma näkyy artefaktissa. Ajo: kshana scenarios/quantum-trade.toml (skenaariotiedoston kommentti, rivit { "9" } - { "12" })
+seg-ecbdbc9b163e = REHELLINEN RAJAUS: MODELLED — se KVANTIFIOI kumppanin kvanttikellon hyödyn; se EI validoi laitetta eikä koskaan lainaa SGP4/Allan/IGS-validointisaarekkeita. Kun minkä tahansa rivin lattia on oletettu luokkaoletus, lattiavarauma näkyy artefaktissa. Ajo: kshana scenarios/quantum-trade.toml (skenaariotiedoston kommentti, rivit { "9" } - { "12" })
 
 seg-4b59ac409819 = Kvantti-vs.-klassinen PNT-kauppa ja GNSS-estetty kestävyys ({ "13503" }) on MODELLED, ei validoitu: osaväite tarkistetaan ulkoisesti, mutta koko ominaisuus yhdistää mallinnettuja osia, joten ominaisuus pysyy mallinnettuna. (varmennusmatriisi (docs/MODELLED-RATIONALE.md))
 

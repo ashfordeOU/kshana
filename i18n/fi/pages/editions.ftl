@@ -82,6 +82,9 @@ seg-70a79ec95bf4 = epäonnistuu
 
 seg-7a33a168b020 = läpäisee
 
+# text
+seg-2192262e26c1 = täyttyi
+
 seg-a91762c0aabe = Ilmainen
 
 seg-facf19c264a6 = Versiot · avoin ydin, Pro ja räätälöity selvitys
@@ -444,6 +447,8 @@ seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.g
 
 seg-ae1e65b11562 = Ketjutetussa häirinnän, harhautuksen ja holdoverin tehtävässä kellon aikavirheen on pysyttävä suojarajan { "50" } ns sisällä jokaisella aikajanan askeleella.
 
+seg-99c163a008d1 = Menetelmä: analyysi · ajo RUN-CAMPAIGN · luettu arvo: { "51.7825" } ns
+
 seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
 
 seg-3a2678859ea3 = Ketjutetussa tehtävässä harhautushälytys on annettava { "30" } minuutin kuluessa alusta.
@@ -639,3 +644,179 @@ seg-1eb5de9a6b98 = L-kaista, { "144" } satelliittia, kohde Galileo E5b: rajan si
 seg-511fb4592027 = L-kaista, { "144" } satelliittia, kohde Galileo E5 AltBOC: rajan sisällä
 
 seg-2ecb209d51e9 = C-kaista, { "288" } satelliittia, kohde GPS L1 C/A: ei taajuuspäällekkäisyyttä
+
+seg-6f45606a5b3d = C-kaista, { "288" } satelliittia
+
+seg-f4ef2515fd58 = C-kaista, { "288" } satelliittia, ja Galileo E1: ei päällekkäisyyttä taajuudessa
+
+seg-2fc04945b97b = C-kaista, { "288" } satelliittia, ja GPS L5: ei päällekkäisyyttä taajuudessa
+
+seg-c3254aeb9110 = C-kaista, { "288" } satelliittia, ja Galileo E5a: ei päällekkäisyyttä taajuudessa
+
+seg-b2497f3af295 = C-kaista, { "288" } satelliittia, ja Galileo E5b: ei päällekkäisyyttä taajuudessa
+
+seg-cbb0b39f5417 = C-kaista, { "288" } satelliittia, ja Galileo E5 AltBOC: ei päällekkäisyyttä taajuudessa
+
+seg-2a329a17333c = Leveä C-kaista, { "288" } satelliittia, ja GPS L1 C/A: ei päällekkäisyyttä taajuudessa
+
+seg-7f67a52e23d7 = Leveä C-kaista, { "288" } satelliittia<em>sijoittuu kärkeen</em>
+
+seg-5c53a07ea503 = Leveä C-kaista, { "288" } satelliittia, ja Galileo E1: ei päällekkäisyyttä taajuudessa
+
+seg-9afa24c2a22a = Leveä C-kaista, { "288" } satelliittia, ja GPS L5: ei päällekkäisyyttä taajuudessa
+
+seg-8d00d0e4e15b = Leveä C-kaista, { "288" } satelliittia, ja Galileo E5a: ei päällekkäisyyttä taajuudessa
+
+seg-396bb70a5b21 = Leveä C-kaista, { "288" } satelliittia, ja Galileo E5b: ei päällekkäisyyttä taajuudessa
+
+seg-017f8d2a0d09 = Leveä C-kaista, { "288" } satelliittia, ja Galileo E5 AltBOC: ei päällekkäisyyttä taajuudessa
+
+seg-893be5d86234 = <b>L-kaista, { "288" } satelliittia → Galileo E5 AltBOC</b> · pahin aiheutettu häviö { "0.00544" } dB (desibeli) solussa, jossa { "17" } sen satelliiteista on näkyvissä: { "0.0946" } dB:n marginaali { "0.1" } dB:n rajaan · <s1>yhteensopiva</s1>
+
+seg-bc132b0068fe = Maailmankartta pahimmasta häviöstä, jonka suunnitelma L-kaista, { "288" } satelliittia aiheuttaa soluittain: jokainen solu rajan sisällä
+
+seg-ae759f574501 = { "0" } dB
+
+seg-c73e052d7628 = { "0.00544" } dB, pahin solu · raja { "0.1" } dB
+
+seg-a55ab55d78eb = Pahin häviö, jonka suunnitelma <b>L-kaista, { "288" } satelliittia</b> aiheuttaa maailmanlaajuisen ruudukon jokaisessa solussa niille signaaleille, joiden kanssa se on päällekkäinen: yläraja, jossa jokainen näkyvissä oleva satelliitti on suurimmalla vastaanotetulla teholla.
+
+seg-5acfa8382eca = <b>{ "4" } / { "4" }</b> suunnitelmaa yhteensopivaa · GNSS-signaalit maksavat L-kaistan suunnitelmille enintään { "0.00908" } dB
+
+seg-2acb5dfe6d2c = Kshana Pro { "0.2.0" } avoimella moottorilla { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } moottoriajoa (<c1/>, <c2/>) · skenaarion tiiviste 479364bd… · MODELLED yläraja · { "0.1" } dB:n raja valittiin vain esimerkkiä varten, se ei ole sääntelykriteeri · C/A: karkea hankinta (coarse/acquisition); AltBOC: vaihtoehtoinen binäärinen siirtymäkantoaalto (alternative binary offset carrier)
+
+seg-b5f4c3d893ed = Voiko tiimi jonottaa tutkimuksia omassa verkossaan ja todistaa, mitä toimitettiin?
+
+seg-b0252a650ea5 = Ilmainen käyttäjä ajaa yhtä skenaariota kerrallaan yhdellä koneella.
+
+seg-18d63112f063 = Pro-tiimi jonottaa tutkimuksia omassa verkossaan, antaa niiden ajaa kenenkään katselematta ja voi jälkeenpäin osoittaa täsmälleen, mikä tulos toimitettiin mihinkin pyyntöön.
+
+seg-dc4ada18a8b6 = Se laajentaa paikan päällä toimivaa palvelua: Pro voi toimia pienenä HTTP-palveluna (Hypertext Transfer Protocol) omassa verkossasi: se ilmoittaa terveytensä, versionsa ja ajettavissa olevat tyypit, ja ajaa sille lähetetyn skenaarion. Työn tunniste on operaation ja pyynnön SHA-256, joten sama pyyntö on sama työ eikä sitä ajeta kahdesti. Pysähdyksen tai kaatumisen jälkeen jokainen keskeneräinen työ jonotetaan uudelleen eikä yhtäkään valmista työtä ajeta uudelleen. Ilman lisenssiä se palvelee vain avointa moottoria ja kieltäytyy jokaisesta Pro-ominaisuudesta.
+
+seg-c1af74cddda0 = <b>Mitä se ei tee.</b> Yksi pyyntö yhteyttä kohti, ei suoratoistoa: asiakas kysyy tilaa toistuvasti. Yksi lisenssi koko palvelulle ja yksi jaettu käyttöoikeustunniste, ei käyttäjähallintaa. Ei peruutusta, aikarajaa, prioriteettia eikä säilytyskäytäntöä.
+
+seg-a91c54eb4ba8 = Paikan päällä toimiva työpalvelu · <b>yksi tallennettu istunto</b>
+
+seg-f584d334e551 = Palvelulle lähetetyt pyynnöt ja sen vastaukset järjestyksessä
+
+seg-a308bdf972fc = <b>POST /jobs</b> <em>linkkibudjettiskenaario</em>
+
+seg-1bea805079e5 = hyväksytty ja jonotettu · työ fb6e50ff…
+
+seg-ed66dc7a965c = GET /jobs/{ "{" }id{ "}" }
+
+seg-e97b04c3927f = onnistui ensimmäisellä yrityksellä · tyyppi <c1/>
+
+seg-5c0fce7aca9c = <b>POST /jobs</b> <em>sama pyyntö uudelleen</em>
+
+seg-50000838f4cc = sama työ, jo valmis: mitään ei ajettu kahdesti
+
+seg-be3aa55c904e = GET /ledger/verify
+
+seg-3fb12de9f868 = varmennettu, ketju ehjä · { "3" } tietuetta · { "1" } toimitettu työ · ei poikkeamaa
+
+seg-d05960312e08 = GET /openapi.json
+
+seg-4b360cf65b93 = OpenAPI { "3.1" } · { "13" } polkua, palvelun oman reittitaulun pohjalta
+
+seg-a976477641db = <b>GET /</b> <em>työtaulu</em>
+
+seg-4b68fe5ddf1c = ei lataa mitään ulkopuolelta
+
+seg-734560e175a9 = <b>uudelleenkäynnistys</b> <em>sitten GET /jobs/{ "{" }id{ "}" }</em>
+
+seg-7d53151be9e6 = valmis työ näyttää edelleen yhden yrityksen
+
+seg-d0683c37acc1 = <b>kill -9</b> <em>työn ajon aikana, sitten uudelleenkäynnistys</em>
+
+seg-64ddf6a78d22 = keskeneräinen työ ajettiin uudelleen ja onnistui; valmista työtä ei ajettu uudelleen · kirjanpito (ledger) { "9" } tietuetta, { "3" } toimitettua työtä, varmennettu
+
+seg-fcbfbd231d61 = <b>ei lisenssiä: POST /jobs</b> <em>Pro-skenaario</em>
+
+seg-1911ae0879b8 = hylätty jättöhetkellä: mitään ei jonotettu
+
+seg-de7bb1084780 = <b>ei lisenssiä: POST /jobs</b> <em>avoin skenaario</em>
+
+seg-14edaf993a56 = hyväksytty ja jonotettu
+
+seg-af3f560b9a7f = Kshana Pro avoimella moottorilla { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, kaksi työntekijää (uudelleenkäynnistystestissä yksi) · HTTP-tilakoodit sellaisina kuin palvelu ne palautti · paikallinen ajo julkisilla skenaariotiedostoilla kehitysoikeudella, ei asiakkaan käyttöönotto
+
+seg-935445590619 = Myös Kshana Prossa
+
+seg-01e88950670a = Vaatimukset ja jäljitettävyys
+
+seg-a9b4af1b1b07 = Kshana Pron mallipohjainen järjestelmäsuunnittelu (MBSE) ja ohjelmatyökalut tarkistavat ohjelman vaatimukset avoimen moottorin ajoja vasten: se tuo vaatimukset sisään pilkuilla erotettuina arvoina (CSV) tai dokumentoituna osajoukkona Requirements Interchange Formatista (ReqIF) tai Systems Modeling Language version { "2" } (SysML v2) -tekstistä, ja tuottaa varmennuksen ristiviittausmatriisin (VCRM), SysML v2 -mallin, muutosvaikutusraportin ja offline-todistepaketin. Se ei aja eikä laske mitään uudelleen.
+
+seg-0a662a644f5d = Avoimen moottorin tulosteet, joita se lukee
+
+seg-e91fe1056446 = kentät, jotka kriteeri nimeää, niiden yksiköt, toistettavuusleima (skenaarion tiiviste, siemenluku, moottorin versio ja skeeman versio) sekä ajon nimi ja lukujen tasot
+
+seg-c84c09a6dc24 = tyyppi, toistettavuustietue ja ominaisuuksien merkinnät
+
+seg-8fc1ffcf6847 = sen tiiviste, tyyppi, siemenluku ja parametrit
+
+seg-2e6b3bca199f = kunkin kentän yksikkö, alkuperä ja todisteiden taso
+
+seg-593a13692dc4 = kunkin ominaisuuden VALIDATED-, MODELLED- tai PARTNER-merkintä
+
+seg-112fbe923b39 = Vaihtoehtovertailut
+
+seg-26c07e74fdca = Vaihtoehtovertailu ajaa jokaisen arkkitehtuurivaihtoehdon muuttumattomana avoimen moottorin skenaariona, asettaa vaihtoehdot järjestykseen kunkin ajon tuloksesta luetun laatumittarin mukaan ja kirjoittaa todistepaketin, joka kirjaa kunkin vaihtoehdon skenaarion tiivisteen, joten mikä tahansa sen luku voidaan toistaa ajamalla kyseinen skenaario uudelleen.
+
+seg-05a421ea6ac7 = Kellon digitaalinen kaksonen
+
+seg-06ca5084425c = Kellokaksonen kalibroidaan laitteen julkaistuun Allanin poikkeaman budjettiin, minkä jälkeen se tarkistetaan estimoimalla kaksosen oma Allanin poikkeama avoimen moottorin estimaattorilla ja vertaamalla näitä kahta ilmoitetun toleranssin sisällä. Oman laitteesi kaksonen vaatii karakterisointidataasi, ja se rakennetaan sopimuksella ja salassapitosopimuksella (NDA).
+
+seg-fca21deac438 = Tutkimusdossier
+
+seg-fef6a718bf86 = Yhdestä skenaariosta tulee toistettava tekninen muistio HTML-muodossa (HyperText Markup Language) ja JSON-muodossa (JavaScript Object Notation): rajaus, menetelmä, tulokset niin, että jokaisella luvulla on taso, rajoitukset ja ajettu skenaarioteksti sellaisenaan.
+
+seg-4650cf680300 = <b>Pro tarvitsee lisenssin.</b> Ilman sitä Pro ajaa vain avoimia skenaarioita ja kieltäytyy jokaisesta Pro-ominaisuudesta viestillä, joka nimeää, mitä vaaditaan.
+
+seg-627687344e9e = <b>Osa työstä vaatii allekirjoittaneen asiakkaan.</b> Oman laitteesi kaksonen vaatii karakterisointidataasi, ja se rakennetaan sopimuksella ja salassapitosopimuksella (NDA).
+
+seg-f15f652a7e77 = <b>Mikään, mitä Pro tuottaa, ei ole sertifiointi.</b> Jokainen tulos on mallinnettu, ja se kertoo sen.
+
+seg-ef76d9237977 = Tehdään räätälöitynä tutkimuksena
+
+seg-853667670c1f = <b>Oman laitteistosi mallit.</b> Laitteistoosi kalibroidut anturi- tai kestävyysmallit rakennetaan vain sopimuksella ja sinun datallasi.
+
+seg-520654f215c5 = <b>Vientirajoitettuja kestävyysmalleja ei tarjota julkisesti.</b> Tällainen työ tehdään vain asianmukaisella turvaluokituksella ja salassapitosopimuksella (NDA).
+
+seg-6d3d0f8c9b7c = Pyydä Pro-arviointia
+
+seg-8ea876b3c515 = Tämän osion kaaviot on piirretty tiedostoista, jotka Pro-komennot kirjoittivat Pron mukana toimitetuille esimerkkitapauksille: mallinnettuja tuloksia, ei väitteitä mistään todellisesta tehtävästä. Sanamuoto on lainattu avoimen repositorion julkiselta Kshana Pro -sivulta.
+
+seg-306d36fd66d5 = Miten räätälöity tutkimus etenee
+
+seg-3fa22b84e694 = Räätälöity tutkimus · miten se etenee
+
+seg-9568883def52 = Kun tarvitset vastauksen, et työkalua.
+
+seg-3723e67cd31e = Räätälöity tutkimus käyttää samaa moottoria, jota voit ajaa itse, joten kuka tahansa voi tarkistaa jokaisen sen luvun.
+
+seg-3ab16e96a6c6 = <b>Kerro kysymyksesi.</b> Lähetä sähköpostia osoitteeseen <a1>contact@ashforde.org</a1> ja kerro järjestelmä ja päätös, jota se palvelee. Lomaketta ei ole.
+
+seg-0e813cd52a0d = <b>Rajaamme sen.</b> Mitä mallinnetaan, millä skenaarioilla ja mikä jää rajauksen ulkopuolelle, asianmukaisella turvaluokituksella ja salassapitosopimuksella (NDA), jos työ sitä vaatii.
+
+seg-10fb7795a637 = <b>Mallinnamme sen samalla moottorilla.</b> Jokainen luku merkitään validoiduksi tai mallinnetuksi, täsmälleen kuten tällä sivustolla.
+
+seg-26434f79bee5 = <b>Saat toistettavan tuloksen.</b> Toistettavissa skenaarion, siemenluvun ja moottorin version perusteella. Mallinnettu tutkimus, ei sertifiointi.
+
+seg-9fc03cebab94 = <b>Ei sama kuin <c1/>:</b> tuo ilmainen komento ajaa kirjoittamasi skenaariojoukon yhdeksi leimatuksi raportiksi (<a1>Kehittäjät</a1>). Räätälöity tutkimus on maksullista työtä, jonka teemme puolestasi.
+
+seg-5eeb07866fe1 = Asennus ja yhteydenotto
+
+seg-87783088bafd = Asenna avoin ydin
+
+seg-3d2a59a4a52a = Ei lomakkeita, ei hintoja
+
+seg-1aa35b022d85 = <b>Arvioi Kshana Pro</b><s1>Pyydä arviointia sopimuksella</s1>
+
+seg-f9d8b42c68cc = <b>Pyydä räätälöityä tutkimusta</b><s1>Kerro järjestelmä ja päätös, jota se palvelee</s1>
+
+seg-2e0c129fb875 = <b>Kaupallinen lisenssi</b><s1>Avoin ydin suljettuun integrointiin</s1>
+
+seg-67341b9eea70 = <b>Jotain muuta</b><s1>contact@ashforde.org · posti menee suoraan tiimille</s1>
+
+seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>

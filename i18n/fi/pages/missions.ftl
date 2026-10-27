@@ -138,6 +138,20 @@ seg-e1acd19a6ac6 = Vertaa versioita
 
 seg-5116f1a604ee = Kenelle se on tarkoitettu
 
+seg-6d3d0f8c9b7c = Pyydä Pro-arviointia
+
+seg-813d6d41b891 = Kopioi komento, joka toistaa sen
+
+seg-a0ef302e2458 = Kopioi komento
+
+seg-f70fa3b93b11 = Moottorin oma raportti tästä ajosta
+
+seg-d32a11c090e1 = Moottorin tulos muuttamattomana
+
+seg-c459bc5805bb = Skenaariotiedosto, joka ajettiin
+
+seg-f18f76c10709 = <s1><a1>Raportti</a1><a2>JSON</a2><a3>TOML</a3></s1>
+
 seg-0d529358e2ad = Häirintä
 
 seg-774ec89d13d7 = Moottori v{ $version } · <c1/> · siemenluku { "1" } · vastaanotinta siirretty ruudusta toiseen
