@@ -9330,3 +9330,477 @@ engine-kind-optical-atmosphere-description = PNT óptico MODELLED através da at
 engine-kind-holdover-test-description = Teste de holdover MODELLED de um sistema de temporização, avaliado a partir de um registro de erro de tempo que o OPERADOR fornece (um log do linuxptp ptp4l, phc2sys ou ts2phc, um log de tracking ou de estatísticas do chrony, um log de relógio TICC, TimeLab ou RINEX, ou pares time_s,time_error_ns). O teste tem quatro etapas e o Kshana não executa nenhuma delas: uma LINHA DE BASE travada, o GNSS REMOVIDO pelo operador (o cabo da antena ou a saída do simulador; o Kshana não transmite nem aciona nada) em um instante declarado, o HOLDOVER no oscilador do próprio sistema e a RECUPERAÇÃO após o operador restaurar o GNSS em um segundo instante declarado. O registro é dividido nesses dois instantes. Linha de base: estatísticas de erro de tempo e as máscaras da ITU-T escritas para um relógio travado. Holdover: estatísticas, o desvio fracionário de frequência que o sistema manteve (uma reta de mínimos quadrados), as máscaras escritas para holdover ou para um relógio autônomo, o envelope de holdover do ePRTC-A a partir da duração travada declarada e o tempo para exceder cada orçamento de erro de tempo. Recuperação: se e quando |TE| entrou em uma faixa declarada e permaneceu nela, o pico e o maior passo. Todo limite é transcrito de uma tabela pública da ITU-T (as máscaras de telecom-timing); as palavras são 'medido em relação à máscara', e os dois instantes são uma declaração do operador, não verificada. Um registro curto demais para uma máscara é INCOMPLETE, nunca extrapolado. Consulte docs/TIMING-HIL.md.
 
 engine-kind-gnss-ssv-description = Disponibilidade de GNSS e intensidade de enlace MODELLED no Space Service Volume e além: para um usuário em uma esfera (a camada global do folheto do ICG) ou em uma trajetória kepleriana (de LEO a transferência lunar), conta, por constelação (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) e para todas em conjunto, os sinais utilizáveis acima de um limiar de C/N0 - disponibilidade de pelo menos um e de quatro sinais, duração máxima de interrupção, C/N0 recebido, diluição de precisão, enlaces de lóbulo principal contra lóbulos laterais - com um diagrama de transmissão do folheto, paramétrico ou fornecido pelo usuário, efeitos opcionais de ionosfera, plasmasfera e atmosfera em raios rasantes ao limbo e um projeto opcional de receptor de sinal fraco; também um filtro de Kalman estendido de GNSS a bordo para veículos em HEO e em transferência lunar (dinâmica orbital, pressão de radiação solar, terceiros corpos, relógio) e a navegação relativa de uma formação de vários veículos por pseudodistâncias de diferença simples. Verificado contra as tabelas do folheto ICG SSV sob um pré-registro (xval/gnss-ssv)
+
+engine-bench-site-title-a = Tarefa (a): detecção em registros de receptor
+
+engine-bench-site-title-b = Tarefa (b): detecção em IQ
+
+engine-bench-site-title-c = Tarefa (c): predição de holdover de temporização
+
+engine-bench-site-title-d = Tarefa (d): lacuna de otimismo fora da distribuição
+
+engine-bench-site-col-rmse-3600 = RMSE 3600 s (ns)
+
+engine-bench-site-col-rmse-300 = RMSE 300 s (ns)
+
+engine-bench-site-col-rmse-7200 = RMSE 7200 s (ns)
+
+engine-bench-site-col-auc-in = AUC dentro
+
+engine-bench-site-col-auc-out = AUC fora
+
+engine-bench-site-col-optimism-gap = Lacuna de otimismo
+
+engine-bench-site-col-flag = Sinalização
+
+engine-bench-site-col-auc = AUC
+
+engine-bench-site-col-pd-at-pfa-cap = P_d no teto de P_fa (limite superior)
+
+engine-bench-site-flag-optimistic = otimista
+
+engine-bench-site-flag-within-tolerance = dentro da tolerância
+
+engine-bench-site-not-available = n/d
+
+engine-bench-site-none-published = Nenhum resultado publicado ainda. Uma linha só aparece aqui quando um arquivo de resultado é pontuado e adicionado; nada nesta página é uma estimativa.
+
+engine-bench-site-none-for-task = Ainda não há resultados para esta tarefa.
+
+engine-bench-site-region-label = Resultados de { $title } em { $split }
+
+engine-bench-site-caption-split = Partição: { $split }
+
+engine-bench-site-th-system = Sistema
+
+engine-bench-site-th-provenance = Procedência
+
+engine-bench-site-th-truth-sha256 = SHA-256 da verdade de referência
+
+engine-bench-site-provenance-carried = herdada: { $note }
+
+engine-bench-site-provenance-scored = pontuada
+
+engine-bench-site-heading = Classificação do kshana-bench
+
+engine-bench-site-lede = Arquivos de resultado pontuados segundo <code>{ $spec }</code>. Uma linha informa que este arquivo obteve este valor nesta partição. Isso não significa que algum produto tenha sido classificado ou aprovado por quem quer que seja, e nenhuma organização é citada como avalista.
+
+engine-bench-site-foot = Toda pontuação é modelada, a menos que uma linha indique que uma referência independente externa concordou. Licença da especificação e dos manifestos: CC-BY-4.0 / CC0 proposta, decisão do proprietário pendente. O conjunto reservado de dados reais não é secreto: veja a especificação, seção 4.
+
+engine-bench-site-meta-description = Pontuações de arquivos de resultado enviados ao kshana-bench { $spec }. Apenas consultivo.
+
+engine-iq-campaign-report-roc-heading = ROC de detecção
+
+engine-iq-campaign-report-roc-note = <p class="note">Rotulado como <b>{ $label }</b>. Cada janela de evento declarada é um positivo e cada janela do comprimento configurado fora dos eventos é um negativo. Uma janela conta em um limiar quando a estatística de teste do próprio monitor o atinge na janela. P<sub>fa</sub> é por janela negativa, não por teste. Os mesmos valores estão em <code>roc.json</code>.</p>
+
+engine-iq-campaign-report-th-alarm-kind = Tipo de alarme
+
+engine-iq-campaign-report-th-positives = Positivos
+
+engine-iq-campaign-report-th-negatives = Negativos
+
+engine-iq-campaign-report-th-auc = AUC
+
+engine-iq-campaign-report-th-threshold = Limiar
+
+engine-iq-campaign-report-th-pd-at-it = P<sub>d</sub> nele
+
+engine-iq-campaign-report-th-pfa-at-it = P<sub>fa</sub> nele
+
+engine-iq-campaign-report-title = Campanha { $name }
+
+engine-iq-campaign-report-heading = Campanha de reprodução em laboratório: { $name }
+
+engine-iq-campaign-report-meta = Classe de dados <b>{ $data_class }</b> · Kshana { $engine } · { $n_recordings } gravação(ões) × { $n_frontends } front end(s) × { $n_designs } projeto(s) = { $n_cells } células, { $n_done } concluídas · resumo <code>{ $digest }</code>
+
+engine-iq-campaign-report-digest-incomplete = (incompleto: nem todas as células estão concluídas)
+
+engine-iq-campaign-report-reference-note = <p class="note">Os valores medidos vêm do rastreamento das gravações. As linhas tracejadas rotuladas como <b>{ $label }</b> são a referência analítica de separação espectral <code>{ $formula }</code> na J/S declarada pelo laboratório, com Q obtido do tipo de interferência declarado. Elas são um modelo da condição declarada, não uma medição nem uma simulação da interferência.</p>
+
+engine-iq-campaign-report-summary-heading = Resumo
+
+engine-iq-campaign-report-th-recording = Gravação
+
+engine-iq-campaign-report-th-front-end = Front end
+
+engine-iq-campaign-report-th-design = Projeto
+
+engine-iq-campaign-report-th-satellites = Satélites
+
+engine-iq-campaign-report-th-mean-availability = Disponibilidade média
+
+engine-iq-campaign-report-th-events-lost = Eventos perdidos
+
+engine-iq-campaign-report-th-median-reacq = Reaquisição mediana (s)
+
+engine-iq-campaign-report-th-pass = Passou
+
+engine-iq-campaign-report-th-fail = Falhou
+
+engine-iq-campaign-report-degradation-heading = Degradação de C/N0 em função da J/S declarada
+
+engine-iq-campaign-report-scorecard-heading = Quadro de pontuação
+
+engine-iq-campaign-report-scorecard-note-nwpr = <p class="meta">As mesmas linhas de <code>scorecard.csv</code>. A reaquisição é medida a partir do deslocamento do evento; a interrupção é medida a partir da perda de travamento. A coluna de C/N0 e as curvas de degradação usam a estimativa NWPR (que indica um valor cerca de 8 dB · Bn·T abaixo sob a própria instabilidade da malha, de modo que suas leituras dependem do projeto da malha); as duas estimativas estão em <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-scorecard-note-m2m4 = <p class="meta">As mesmas linhas de <code>scorecard.csv</code>. A reaquisição é medida a partir do deslocamento do evento; a interrupção é medida a partir da perda de travamento. A coluna de C/N0 e as curvas de degradação usam a estimativa M2M4 (insensível à própria instabilidade da malha); as duas estimativas estão em <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-th-sat = Sat
+
+engine-iq-campaign-report-th-scope = Escopo
+
+engine-iq-campaign-report-th-event = Evento
+
+engine-iq-campaign-report-th-avail = Disp.
+
+engine-iq-campaign-report-th-loss = Perda (s)
+
+engine-iq-campaign-report-th-js-at-loss = J/S na perda
+
+engine-iq-campaign-report-th-reacq = Reaquis. (s)
+
+engine-iq-campaign-report-th-outage = Interrupção (s)
+
+engine-iq-campaign-report-th-cn0 = C/N0
+
+engine-iq-campaign-report-th-pll = σ do PLL (°)
+
+engine-iq-campaign-report-th-dll = σ do DLL (chip)
+
+engine-iq-campaign-report-th-false-locks = Falsos travamentos
+
+engine-iq-campaign-report-th-verdict = Veredito
+
+engine-iq-campaign-report-scope-run = execução
+
+engine-iq-campaign-report-scope-event = evento
+
+engine-lunar-frame-realise-chart-tx = tx (m)
+
+engine-lunar-frame-realise-chart-ty = ty (m)
+
+engine-lunar-frame-realise-chart-tz = tz (m)
+
+engine-lunar-frame-realise-chart-theta-x = θx (µrad)
+
+engine-lunar-frame-realise-chart-theta-y = θy (µrad)
+
+engine-lunar-frame-realise-chart-theta-z = θz (µrad)
+
+engine-lunar-interop-chart-ok = OK
+
+engine-resilience-report-title = Autoavaliação de resiliência PNT
+
+engine-resilience-report-status-partner = PARTNER
+
+engine-resilience-report-summary = <p>Motor { $engine }, cenário { $scenario }, semente { $seed }. Divisão das evidências: { $n_validated } { $validated } / { $n_modelled } { $modelled } subpontuações. Nível RPCF provisório: { $level } ({ $level_basis }).</p>
+
+engine-resilience-report-h-rpcf = Categorias de técnicas do RPCF do DHS
+
+engine-resilience-report-h-rdrr = Funções do RethinkPNT
+
+engine-resilience-report-h-yang = Critérios de Yang
+
+engine-resilience-report-th-category = Categoria
+
+engine-resilience-report-th-function = Função
+
+engine-resilience-report-th-criterion = Critério
+
+engine-resilience-report-th-subscore = Subpontuação
+
+engine-resilience-report-th-status = Status
+
+engine-resilience-report-th-basis = Base
+
+engine-resilience-report-integrity = <p>Integridade SHA-256: <code>{ $integrity }</code></p>
+
+engine-study-summary = estudo "{ $title }": { $n_scenarios } cenários
+
+engine-study-metric-holdover = Holdover (s)
+
+engine-study-metric-timing-rms = RMS de temporização (ns)
+
+engine-study-metric-timing-p95 = p95 de temporização (ns)
+
+engine-study-metric-resilience-slope = Inclinação de resiliência (ns/s)
+
+engine-study-metric-availability = Disponibilidade
+
+engine-study-metric-integrity = Integridade
+
+engine-study-metric-security = Segurança
+
+engine-study-th-metric = Métrica
+
+engine-study-th-validation = Validação
+
+engine-study-not-applicable-no-attack = n/a (sem ataque)
+
+engine-study-page-title = { $title } — estudo do Kshana
+
+engine-study-eyebrow = क्षण · o instante preciso
+
+engine-study-h-comparison = Comparação lado a lado
+
+engine-study-tier-note = Cada medida de mérito é marcada como { $validated } (verificada em relação a uma referência independente externa) ou { $modelled } (a partir de primeiros princípios, testada internamente), derivada da matriz de verificação. As colunas são cenários independentes; os valores não são normalizados entre cenários.
+
+engine-study-footer = Gerado pelo Kshana { $version } como um estudo agregado de { $n_scenarios } cenários. Cada cenário é reproduzível a partir de seu cenário + semente + versão do motor. Livre e de código aberto (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">código-fonte &amp; documentação</a>.
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
+
+engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
+
+engine-compliance-fw-imo-ships-title = Orientações da IMO sobre interferência em GNSS para navios
+
+engine-compliance-fw-easa-aviation-title = Orientações da EASA sobre interferência em GNSS para a aviação
+
+engine-compliance-fw-nis2-art21-title = Diretiva NIS2 da UE, medidas de gestão de riscos do Artigo 21
+
+engine-compliance-fw-en-16803-title = EN 16803, posicionamento baseado em GNSS para ITS rodoviário
+
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
+
+engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
+
+engine-compliance-source-dhs-rpcf-1-version = Versão 2.0, 26 de abril de 2022 (DHS Science and Technology Directorate, com a CISA)
+
+engine-compliance-source-dhs-rpcf-1-checked = documento lido na íntegra; a página de apresentação da publicação não foi acessada
+
+engine-compliance-source-imo-ships-1-title = Deliberate interference with the United States Global Positioning System and other global navigation satellite systems
+
+engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644, 18 de outubro de 2021
+
+engine-compliance-source-imo-ships-1-checked = texto lido na íntegra a partir deste espelho de terceiros da circular, e não do site da IMO; consulte a biblioteca de documentos da IMO para a cópia oficial
+
+engine-compliance-source-imo-ships-2-title = Worldwide Radionavigation System
+
+engine-compliance-source-imo-ships-2-version = Resolução A.1046(27) da Assembleia da IMO, adotada em 30 de novembro de 2011
+
+engine-compliance-source-imo-ships-2-checked = documento lido na íntegra
+
+engine-compliance-source-imo-ships-3-title = Performance standards for multi-system shipborne radionavigation receivers
+
+engine-compliance-source-imo-ships-3-version = IMO MSC.401(95), adotada em 8 de junho de 2015 (emendada pela MSC.432(98), 2017)
+
+engine-compliance-source-imo-ships-3-checked = resolução original lida na íntegra; o texto da emenda de 2017 não foi lido. Não foi encontrada nenhuma circular da IMO sobre interferência em GNSS posterior à MSC.1/Circ.1644; consulte a biblioteca de documentos da IMO para circulares mais recentes
+
+engine-compliance-source-easa-aviation-1-title = Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation
+
+engine-compliance-source-easa-aviation-1-version = EASA Safety Information Bulletin SIB 2022-02R4, emitido em 3 de julho de 2026, corrigido em 22 de julho de 2026 (informativo, não obrigatório)
+
+engine-compliance-source-easa-aviation-1-checked = revisão 4 lida na íntegra; as seções são citadas pelo título porque o boletim não numera suas recomendações. Reverificado em 2026-10-10: o PDF do boletim, a página da ferramenta de AD da EASA (que indica que sua substituição é nenhuma) e a página de GNSS da EASA não citam nenhuma revisão posterior nem nenhum boletim numerado 2026-07; não foi encontrado um aviso citando a Revisão 2 do SIB 2026-07, de modo que a questão está em aberto e deve ser verificada na página ativa da EASA. Os Conflict Zone Information Bulletins não foram abertos
+
+engine-compliance-source-nis2-art21-1-title = Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS 2 Directive)
+
+engine-compliance-source-nis2-art21-1-version = OJ L 333, 27.12.2022, pp. 80-152
+
+engine-compliance-source-nis2-art21-1-checked = as letras dos parágrafos do Artigo 21 foram lidas em um resumo da página do EUR-Lex e coincidem com o texto publicado; confirme na página antes de citar uma letra em um documento oficial
+
+engine-compliance-source-en-16803-1-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 1: Definitions and system engineering procedures for the establishment and assessment of performances
+
+engine-compliance-source-en-16803-1-version = EN 16803-1:2020 (catálogo: válida a partir de 2 de outubro de 2020, substituindo a edição de 2016)
+
+engine-compliance-source-en-16803-1-checked = apenas o texto de escopo do catálogo; a norma é paga e não foi lida
+
+engine-compliance-source-en-16803-2-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals
+
+engine-compliance-source-en-16803-2-version = EN 16803-2:2020 (catálogo: válida a partir de 2 de outubro de 2020)
+
+engine-compliance-source-en-16803-2-checked = apenas o texto de escopo do catálogo; a norma é paga e não foi lida
+
+engine-compliance-source-en-16803-3-title = Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals
+
+engine-compliance-source-en-16803-3-version = EN 16803-3:2020 (catálogo: válida a partir de 2 de outubro de 2020)
+
+engine-compliance-source-en-16803-3-checked = apenas o texto de escopo do catálogo; a norma é paga e não foi lida. O texto do catálogo cita a cláusula 6 (sinais gravados versus simulados) e o Anexo A (uma categorização de alto nível de ataques) e nada mais por número; o catálogo não indica nome de comitê, portanto nenhum é informado aqui
+
+engine-compliance-source-nist-ir-8323r1-1-title = Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services
+
+engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1, janeiro de 2023 (NIST Internal Report)
+
+engine-compliance-source-nist-ir-8323r1-1-checked = o PDF foi obtido em 2026-10-18 (SHA-256 registrado em tests/fixtures/compliance/headings.json) e suas tabelas do Perfil 3 a 25 foram lidas para as subcategorias citadas; as demais seções, os apêndices e a página de apresentação da publicação não foram lidos. Os identificadores de subcategoria seguem as tabelas do próprio Perfil, que usam identificadores do Cybersecurity Framework 1.1
+
+engine-compliance-cap-receiver-log-trust-name = Avaliação de confiança do registro do receptor
+
+engine-compliance-cap-receiver-log-trust-output = estado de confiança por época do registro de um receptor real, instantes de alarme e concordância com eventos declarados antes da execução
+
+engine-compliance-cap-jamming-effects-name = Efeitos de jamming no orçamento de enlace
+
+engine-compliance-cap-jamming-effects-output = densidade de portadora para ruído e estado de travamento por satélite sob uma geometria de jammer declarada
+
+engine-compliance-cap-spoofing-detection-name = Detecção de spoofing e meaconing
+
+engine-compliance-cap-spoofing-detection-output = decisões do detector e discriminação do detector sob um ataque de spoofing declarado
+
+engine-compliance-cap-integrity-monitoring-name = Monitoramento de integridade e níveis de proteção
+
+engine-compliance-cap-integrity-monitoring-output = níveis de proteção, disponibilidade em relação a limites de alerta e resultados de detecção de falhas
+
+engine-compliance-cap-holdover-name = Holdover e navegação inercial
+
+engine-compliance-cap-holdover-output = crescimento do erro de posição ou de tempo enquanto o GNSS é negado, em relação a um limiar declarado
+
+engine-compliance-cap-source-diversity-name = Fontes de PNT alternativas e diversas
+
+engine-compliance-cap-source-diversity-output = desempenho de navegação ou de temporização a partir de fontes independentes da banda principal do GNSS
+
+engine-compliance-cap-resilience-scoring-name = Pontuação de resiliência sobre conjuntos de ameaças
+
+engine-compliance-cap-resilience-scoring-output = razões de sobrevivência e de resiliência por vetor de ameaça sobre um conjunto declarado, com as premissas declaradas
+
+engine-compliance-cap-run-provenance-name = Procedência reproduzível da execução
+
+engine-compliance-cap-run-provenance-output = hash do cenário, versão do motor e semente registrados em cada resultado, para que uma execução possa ser repetida
+
+engine-compliance-req-dhs-s5-2-reference = Seção 5.2 (Prevenir, Responder, Recuperar)
+
+engine-compliance-req-dhs-s5-2-asks = A resiliência é descrita como três funções: prevenir danos, responder (detectar, informar, mitigar, conter) e recuperar. A detecção é probabilística, de modo que tanto os alarmes falsos quanto as detecções perdidas importam.
+
+engine-compliance-req-dhs-s5-2-gap = A prevenção é uma propriedade do projeto do produto que nenhuma saída de simulação mostra. As estatísticas de detecção de uma execução sintética ou de uma única sessão não são uma taxa medida de alarmes falsos ou de detecções perdidas de um produto em campo.
+
+engine-compliance-req-dhs-l1-r1-reference = Nível 1, requisito 1
+
+engine-compliance-req-dhs-l1-r1-asks = Verificar se os dados armazenados que chegam de fontes externas correspondem aos formatos e às faixas de valores das normas pertinentes.
+
+engine-compliance-req-dhs-l1-r1-gap = Uma propriedade de garantia de software e de validação de entradas do produto sob teste. O Kshana não inspeciona o tratamento de entradas de um produto.
+
+engine-compliance-req-dhs-l1-r2-reference = Nível 1, requisito 2
+
+engine-compliance-req-dhs-l1-r2-asks = Permitir a recuperação manual completa por limpeza ou reinício da memória, devolvendo o sistema ao desempenho definido assim que a ameaça cessar.
+
+engine-compliance-req-dhs-l1-r2-gap = Um registro de receptor mostra quando uma solução deixou de ser confiável e quando se recuperou; ele não mostra que um reinício manual limpa todos os estados armazenados.
+
+engine-compliance-req-dhs-l1-r3-reference = Nível 1, requisito 3
+
+engine-compliance-req-dhs-l1-r3-asks = Recarregar ou atualizar o firmware com segurança.
+
+engine-compliance-req-dhs-l1-r3-gap = A segurança da atualização de firmware está fora do que qualquer saída do Kshana observa.
+
+engine-compliance-req-dhs-l2-r4-reference = Nível 2, requisito 4
+
+engine-compliance-req-dhs-l2-r4-asks = Identificar fontes de PNT comprometidas e impedir que corrompam a solução.
+
+engine-compliance-req-dhs-l2-r4-gap = O Kshana pontua detectores e monitores que modela ou executa sobre um registro; saber se a exclusão de fontes do próprio produto funciona exige o estado interno do produto, e não apenas seu registro.
+
+engine-compliance-req-dhs-l2-r5-reference = Nível 2, requisito 5
+
+engine-compliance-req-dhs-l2-r5-asks = Recuperar fontes e o sistema automaticamente sem interromper a saída; uma solução continua sendo fornecida durante a ameaça, com degradação possivelmente ilimitada.
+
+engine-compliance-req-dhs-l2-r5-gap = As execuções de holdover delimitam a deriva modelada para um modelo de relógio ou inercial declarado, e não o comportamento de recuperação do próprio produto.
+
+engine-compliance-req-dhs-l3-r6-reference = Nível 3, requisito 6
+
+engine-compliance-req-dhs-l3-r6-asks = Dados corrompidos de uma fonte não devem contaminar outra fonte.
+
+engine-compliance-req-dhs-l3-r6-gap = O Kshana executa fontes lado a lado; o isolamento de fontes dentro de um produto exige revisão de projeto ou injeção de falhas no produto.
+
+engine-compliance-req-dhs-l3-r7-reference = Nível 3, requisito 7
+
+engine-compliance-req-dhs-l3-r7-asks = Verificar de forma cruzada as soluções de todas as fontes e manter limitada a degradação durante uma ameaça.
+
+engine-compliance-req-dhs-l3-r7-gap = A degradação limitada é mostrada para os sensores modelados; a verificação cruzada do próprio produto não é observada.
+
+engine-compliance-req-dhs-l4-r8-reference = Nível 4, requisito 8
+
+engine-compliance-req-dhs-l4-r8-asks = Usar fontes de tecnologias diferentes contra ameaças de modo comum, sem degradação durante a ameaça.
+
+engine-compliance-req-dhs-l4-r8-gap = Um argumento de modo comum exige o conjunto de fontes do produto real e uma ameaça que as abranja; um cenário declara uma, mas não prova que o produto não tenha uma fragilidade compartilhada.
+
+engine-compliance-req-dhs-s5-5-reference = Seção 5.5 (modo comum)
+
+engine-compliance-req-dhs-s5-5-asks = Mecanismos diversos não devem compartilhar uma fragilidade: por exemplo, um jammer que cubra duas bandas anula a diversidade de bandas.
+
+engine-compliance-req-dhs-s5-5-gap = A pontuação usa um conjunto sintético de ameaças, declarado como tal; não são dados de campo.
+
+engine-compliance-req-dhs-s8-1-8-3-reference = Seções 8.1 a 8.3 (avaliação)
+
+engine-compliance-req-dhs-s8-1-8-3-asks = A avaliação combina análise estática e análise dinâmica, em que vetores de teste representam as ameaças; as classes de teste são falha de fonte, interferência e falhas internas. Os simuladores são citados como método de teste.
+
+engine-compliance-req-dhs-s8-1-8-3-gap = O movimento e os eventos exportados podem acionar um simulador de laboratório (docs/TEST-BENCH.md). O Kshana não escreve nenhum sinal, de modo que o simulador e seu operador autorizado fornecem a ameaça.
+
+engine-compliance-req-dhs-s8-6-reference = Seção 8.6 (elementos do plano de teste)
+
+engine-compliance-req-dhs-s8-6-asks = Um plano de teste declara o nível, o requisito, as entradas, as referências, o acesso a dados necessário, o procedimento com critérios de êxito ou falha, os resultados e as observações.
+
+engine-compliance-req-dhs-s8-6-gap = Os critérios de êxito ou falha são escolhidos pelo avaliador; o Kshana registra as entradas, os limiares e os hashes com que executou.
+
+engine-compliance-req-imo-1644-3-reference = MSC.1/Circ.1644, parágrafo 3
+
+engine-compliance-req-imo-1644-3-asks = A interferência deliberada em GNSS é um risco substancial para a segurança da navegação, das pessoas, dos bens e do meio ambiente.
+
+engine-compliance-req-imo-1644-3-gap = Uma declaração de risco; o Kshana quantifica efeitos para uma geometria declarada, e não o risco em uma área marítima.
+
+engine-compliance-req-imo-1644-5-reference = MSC.1/Circ.1644, parágrafo 5
+
+engine-compliance-req-imo-1644-5-asks = Pede-se aos Estados Membros que limitem a interferência originada em seu território, considerem avisos aos navegantes e considerem medidas contra transmissões não autorizadas.
+
+engine-compliance-req-imo-1644-5-gap = Dirigido a Estados e administrações; nenhuma saída de simulação trata disso.
+
+engine-compliance-req-imo-a1046-3-reference = Resolução A.1046(27), parágrafo 3 do anexo (entradas de portos, acessos a portos e águas costeiras)
+
+engine-compliance-req-imo-a1046-3-asks = Um sistema só conta como disponível enquanto fornece a integridade declarada na exatidão declarada, atualizada a uma taxa declarada, com um alerta de integridade dentro de um tempo declarado.
+
+engine-compliance-req-imo-a1046-3-gap = O Kshana calcula níveis de proteção e disponibilidade em relação a um limite de alerta para uma geometria modelada; os valores de exatidão, disponibilidade e tempo de alerta da resolução não são afirmados aqui.
+
+engine-compliance-req-imo-a1046-2-reference = Resolução A.1046(27), parágrafo 2 do anexo (águas oceânicas)
+
+engine-compliance-req-imo-a1046-2-asks = Requisitos de exatidão, taxa de atualização, disponibilidade e alerta de integridade da fase oceânica para o sistema de radionavegação.
+
+engine-compliance-req-imo-a1046-2-gap = Como acima, para a fase oceânica.
+
+engine-compliance-req-imo-401-3-1-reference = MSC.401(95), 3.1 a 3.2
+
+engine-compliance-req-imo-401-3-1-asks = O receptor usa sinais civis de pelo menos dois sistemas independentes e fornece uma solução de posição, velocidade e tempo com a resiliência e a integridade necessárias.
+
+engine-compliance-req-imo-401-3-1-gap = A integridade multiconstelação é modelada; o uso efetivo de dois sistemas pelo receptor é um teste de produto.
+
+engine-compliance-req-imo-401-3-11-reference = MSC.401(95), 3.11 a 3.14
+
+engine-compliance-req-imo-401-3-11-asks = O receptor avalia a exatidão e a integridade por fase de navegação, emite um aviso de precaução quando não consegue fazê-lo, emite um alerta quando nenhuma nova solução chega a tempo e mostra o último valor plausível com um estado explícito.
+
+engine-compliance-req-imo-401-3-11-gap = O Kshana lê temporização e confiança a partir de um registro; saber se os intervalos de precaução e de alerta exibidos correspondem ao que a norma exige depende da interface de usuário do receptor, que um registro não mostra.
+
+engine-compliance-req-imo-401-3-16-reference = MSC.401(95), 3.15 a 3.16
+
+engine-compliance-req-imo-401-3-16-asks = Mostrar o estado do aumento e a posição, o rumo, a velocidade, o tempo e as fontes usadas.
+
+engine-compliance-req-imo-401-3-16-gap = Requisitos de exibição; nenhuma saída do Kshana trata deles.
+
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
+
+engine-compliance-req-imo-401-4-2-asks = Operar de modo satisfatório sob condições normais de interferência, de acordo com a resolução A.694(17) (requisitos gerais para equipamentos de radiocomunicação de bordo) e com o ambiente de rádio típico, a bordo e externo. Este não é um requisito de antijamming nem de antispoofing.
+
+engine-compliance-req-imo-401-4-2-gap = O teste sob interferência normal é uma medição de laboratório no receptor; a própria resolução A.694(17) não foi lida.
+
+engine-compliance-req-easa-desc-reference = SIB 2022-02R4, Descrição
+
+engine-compliance-req-easa-desc-asks = O spoofing é mais difícil de detectar e mais perigoso do que o jamming; não há alerta na cabine que distinga os dois; os efeitos vão de falsos alertas de terreno a dados de vigilância corrompidos e podem persistir após deixar a área.
+
+engine-compliance-req-easa-desc-gap = O Kshana modela os efeitos no detector e no enlace; o alerta na cabine é uma propriedade do equipamento.
+
+engine-compliance-req-easa-mfr-reference = SIB 2022-02R4, Recomendação(ões): fabricantes de aeronaves e de equipamentos, devem
+
+engine-compliance-req-easa-mfr-asks = Avaliar os efeitos de jamming e de spoofing no produto, inclusive os efeitos cumulativos, e orientar os operadores sobre como identificar suspeitas de spoofing e sobre os limites de operação quando o GNSS é perdido.
+
+engine-compliance-req-easa-mfr-gap = A avaliação do produto em si cabe ao fabricante; o Kshana fornece um cenário repetível e um registro de receptor pontuado como evidência nessa avaliação.
+
+engine-compliance-req-easa-ops-spoof-reference = SIB 2022-02R4, Recomendação(ões): operadores aéreos devem (spoofing)
+
+engine-compliance-req-easa-ops-spoof-asks = Comparar a posição e o tempo do GNSS com fontes não GNSS e observar o valor de incerteza de posição e os auxílios à navegação para perceber o spoofing.
+
+engine-compliance-req-easa-ops-spoof-gap = O procedimento operacional e o treinamento estão fora das saídas de simulação.
+
+engine-compliance-req-easa-ansp-reference = SIB 2022-02R4, Recomendação(ões): provedores de ATM/ANS devem; organizações envolvidas no projeto ou na produção de equipamentos de ATM/ANS devem
+
+engine-compliance-req-easa-ansp-asks = Avaliar o efeito da perda de temporização do GNSS nos sistemas de comunicação, navegação e vigilância, manter os auxílios à navegação em solo e ajudar a detectar interferência.
+
+engine-compliance-req-easa-ansp-gap = As execuções de holdover de temporização tratam da avaliação da perda de temporização; o projeto e os procedimentos dos sistemas em solo não são cobertos.
+
+engine-compliance-req-easa-report-reference = SIB 2022-02R4, Recomendação(ões): lembretes finais sobre notificação
+
+engine-compliance-req-easa-report-asks = Notificar os eventos que afetam a segurança nos termos do regulamento de notificação de ocorrências e notificar ao fabricante suspeitas de spoofing e jamming de maior risco.
+
+engine-compliance-req-easa-report-gap = Um dever de notificação; nenhuma saída trata disso.
+
+engine-compliance-req-nis2-21-1-reference = Artigo 21(1)
