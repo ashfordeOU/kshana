@@ -39,3 +39,7 @@ seg-c2a8332f2ee2 = Wykres zapisywany przez silnik dla scenarios/eo-coverage.toml
 seg-816bd5a5808a = Radiometria i jakość obrazu kamery nadirowej: promieniowanie na aperturze sceny lambertowskiej, równanie kamery, sygnał oraz szum śrutowy/ciemny/odczytu/kwantyzacji i SNR; MTF systemu przy Nyquiście (dyfrakcja x detektor x rozmazanie x drgania), względna odpowiedź krawędziowa z niego wynikająca, Q = lambda F/p oraz NIIRS według GIQE w wersji { "4" } bez kompensacji MTF. MODELLED.
 
 seg-bf7b52f7a01e = Wykres zapisywany przez silnik dla scenarios/eo-radiometry.toml, rodzaj eo-radiometry
+
+seg-7a4e6215a488 = Dwuciałowa geometria startu i wznoszenia: azymut(y) startu (sin Az = cos i / cos lat), minimalna osiągalna inklinacja, prędkość kołowa, wschodni bonus od obrotu Ziemi, Δv zmiany płaszczyzny typu dogleg, gdy inklinacja docelowa jest mniejsza niż szerokość geograficzna miejsca, oraz liczba dobowych okazji startu. MODELLED geometria kulistej Ziemi (bez korekty trójkąta prędkości dla obracającej się Ziemi, bez modelu strat na wznoszenie/opór).
+
+seg-9696283a95ae = Wykres zapisany przez silnik dla scenarios/launch-window.toml, rodzaj launch-window

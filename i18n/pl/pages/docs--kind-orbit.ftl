@@ -23,3 +23,15 @@ seg-e12f672ae71d = Utrzymanie zegara w holdover przy braku GNSS jest MODELLED, n
 seg-8de95b3a9229 = Estymacja stanu zegara pokładowego jest MODELLED, nie jest sprawdzona względem niezależnego wzorca: sprawdzona względem osobnej implementacji w tej samej bazie kodu — niezależnej od testowanego elementu, ale nie autorytatywnej zewnętrznie. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
 
 seg-e4b64d7277da = Detekcja spoofingu jest MODELLED, nie jest sprawdzona względem niezależnego wzorca: jedno twierdzenie składowe jest sprawdzone zewnętrznie, ale cała możliwość składa się z elementów obliczonych na podstawie modelu, więc pozostaje obliczona na podstawie modelu. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
+
+seg-d291f20074f0 = <b>VALIDATED</b> Obrót Ziemi z dwuczęściowej daty juliańskiej UT1 na ścieżce orbity, tak aby położenie w układzie związanym z Ziemią zachowało mikrosekundę, którą traci pojedyncza data f64 (około { "3e-9" } rad w pobliżu { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, konwencja TEME, na obu częściach), cio:
+
+seg-5c031aaa3a33 = MODELLED { "4" } · VALIDATED { "4" }: wiersze <a1>macierzy weryfikacji</a1>, które wymieniają ten rodzaj.
+
+seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP z geometrii linii widzenia przez Q=(HᵀH)⁻¹ z lokalnym podziałem ENU. Wyrocznia (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — niezależna biblioteka, dopasowana do { "1e-6" } względnie
+
+seg-53a78e98af12 = Strona tematu: <a1>SKYLINE.md</a1>
+
+seg-ae15d15bf151 = Strona tematu: <a1>LEO-PASS.md</a1>
+
+seg-99a3c57c7926 = Ten rodzaj stosuje { "7" } dołączonych scenariuszy; pozostałe są w <a1><c1/></a1>.

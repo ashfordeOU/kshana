@@ -13,3 +13,5 @@ seg-de173c9f4034 = Projektowanie konstelacji na dużą skalę: wzorce Walker DEL
 seg-899e728ad9bd = Wykres zapisywany przez silnik dla scenarios/leo-pnt-mega-shell.toml, rodzaj constellation-design
 
 seg-24266bc264df = Efemerydy i ślad naziemny: propagacja jednego satelity (TLE→SGP4 lub orbita analityczna) i emisja jego stanu TEME/GCRS (położenie + prędkość), położenia ITRF/ECEF, szerokości/długości/wysokości podsatelitarnej w WGS-84 oraz, dla każdego kroku, azymutu/elewacji/odległości stacji i prędkości zmiany odległości (Doppler). Satelita pochodzi z <c1/> albo z analitycznej <c2/> z jej <c3/> (<c4/> ma pierwszeństwo, gdy podano oba); przy <c5/> <c6/> nadpisuje własną epokę TLE jako t = { "0" }.
+
+seg-0fd3c58fde09 = Wykres zapisany przez silnik dla scenarios/ephemeris.toml, rodzaj ephemeris
