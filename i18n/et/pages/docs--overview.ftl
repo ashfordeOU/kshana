@@ -260,3 +260,39 @@ seg-c01b78b64065 = Aruanded
 
 # text
 seg-c60dc5b92a60 = Koostalituse eksportid
+
+# text
+seg-3d770dd786e4 = Kasutus
+
+# text
+seg-fe1abd564200 = Jammertest
+
+# text
+seg-6fcb41643035 = Usalduse telemeetria
+
+# text
+seg-82155b5d0408 = Test bench
+
+# text
+seg-e35fff011b24 = Compliance
+
+# text
+seg-a50180a66dba = LunaNet AFS
+
+# text
+seg-028684a0cf3d = Standardipaketid
+
+# text
+seg-9c0eb89a2fbe = Pakett
+
+# attr:alt
+seg-e98e25897176 = Kõik kolme hinnatud standardipaketi testid, mootori v{ $version } tegelikest käitustest (`kshana standards-pack run`): dhs-rpcf: { "6" } täidetud, { "1" } täitmata, { "2" } vajavad sisendit; imo-circ-1575: { "1" } täidetud, { "4" } täitmata, { "2" } vajavad sisendit; icao-doc9849-appf: { "6" } täidetud, { "0" } täitmata, { "2" } vajavad sisendit. Kokku { "13" } täidetud, { "5" } täitmata ja { "6" } vajavad sisendit, mida mootoril ei ole (vastuvõtja logi või seadmete dokumentatsioon). Iga lävi määrati enne käitust; möödalask jääb möödalaskuks. Täidetud lävi ütleb, et modelleeritud stsenaarium täitis määratud läve, mitte midagi toote kohta. Paketid toetavad tõendeid (supports evidence for) ridade kohta, mida need viitavad; need ei ole hindamine. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus; seda ei tohi kasutada ainsa alusena ühegi navigatsiooni- ega ohutusotsuse tegemisel.
+
+# text
+seg-f891ee876b96 = Millele see vastab
+
+# attr:alt
+seg-7cf2608b2b2f = Tõendipaketi struktuur. Vastuvõtja logi (NMEA, u-blox UBX, RINEX { "3" } või Androidi logi) ja ajaaken lähevad käsule kshana receiver-trust evidence, mis kirjutab seitse faili: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig ja valikuline timestamp.tsr. Manifest salvestab kogu logi ja iga faili SHA-256 ning failide üle räsiahela; allkiri katab manifesti. kshana evidence verify kontrollib allkirja, iga faili räsi, ahelat ja seda, et loetlemata faili pole, ning väljub koodiga { "0" }, kui kontroll õnnestus, { "1" }, kui midagi ebaõnnestus, ja { "3" }, kui allkirjastajat polnud kinnitatud. Pakett on tehniline kirje, mitte õiguslik arvamus.
+
+# text
+seg-d4a762001549 = Litsents

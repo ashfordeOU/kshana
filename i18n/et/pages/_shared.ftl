@@ -518,3 +518,9 @@ seg-37f058c4e1c3 = arv
 
 # text
 seg-e88d3dbcfe0c = MODELLED
+
+# text
+seg-852814f107a7 = Stsenaariumi liikide lehed
+
+# text
+seg-1a26d420ba67 = Vt ka

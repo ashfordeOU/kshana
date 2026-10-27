@@ -8,3 +8,6 @@ seg-2247a2344710 = Tähendus
 
 # text
 seg-fdbb9db68f1d = puudub
+
+# text
+seg-f63dd3d7aad4 = Allikas

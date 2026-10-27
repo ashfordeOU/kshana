@@ -8219,3 +8219,672 @@ seg-2a807ae8e194 = <b>RAIM päris etalonorbiidi geomeetrial.</b> Hetktõmmise, l
 # c3: runs = 1
 # c4: nd_sweep
 seg-651cc4af4872 = <b>Sõlmekohased usaldusvahemikud N-D parameetri pühkimisele</b> (<c1/>). Iga N-mõõtmelise Descartes'i korrutise pühkimise ruudustiku sõlme saab nüüd hinnata algväärtuste (seed) Monte Carlo ansamblina, esitades mõõdiku keskmise, protsentiilid ja protsentiili-bootstrap { "95" } % CI sõlme kohta (mõlema kella jaoks) — statistiliselt aus pühkimine, mitte üks väljavõte sõlme kohta. Taaskasutab ansambli/bootstrap'i masinavärki (<c2/>); deterministlik; <c3/> taandub täpselt ühe algväärtusega <c4/>. (Pühkimise üldistamine kõigile pakettidele, põimituna tüpiseeritud Scenario ümberkorraldusega, ja paralleelne täitmine jäävad tegemata.)
+
+# text
+# c1: tests/navego_imu_crossval.rs
+# c2: navego_example_allan.m
+# c3: ADEV(1 s) = σ·√dt
+# c4: .mat
+seg-815eda56aad9 = <b>IMU-müra töövoo ristvalideerimine NaveGo vastu</b> (<c1/>). Väline ristkontroll NaveGo (R. Gonzalezi avatud lähtekoodiga INS/GNSS-tööriistakomplekt) vastu: reprodutseeritakse faili <c2/> sünteetiline edasi-tagasi tsükkel selle avaldatud Microstrain 3DM-GX3-35 etalonprofiilil ning kinnitatakse, et meie kattuva ADEV hinnang taastab NaveGo kiiruse ja nurga juhusliku liikumise koefitsiendid (<c3/>) alla { "5" }% täpsusega ning eeldatava valge müra tõusuga −1/2. (Salvestatud { "40" } MB STIM300 <c4/>-logi ei loeta sisse: see on blokeeritud binaarvormingu tõttu.)
+
+# text
+seg-b67b3ec240de = Tihedalt seotud (pseudovahemaa) GNSS/INS-i uuendus.
+
+# text
+# c1: GnssInsEkf::update_tightly_coupled
+# c2: ClosedLoopInsGnss::fuse_tightly_coupled
+# c3: tight_coupling
+seg-c926dddc5256 = <c1/> (ja ümbris <c2/>) realiseerivad varem tühjalt jäetud vahemaa-ruumi mõõtmise: innovatsioon on INS-i asukohast igasse satelliiti arvutatud ennustatud vahemaa võrreldes mõõdetud pseudovahemaaga, kusjuures vaatejoone Jacobi maatriks on asukohavea suhtes. Kuna iga satelliit on skalaarne mõõtmine, jätkab filter korrigeerimist ka <b>vähem kui nelja satelliidiga</b>, kus lõdvalt seotud PVT-lahendit ei eksisteeri. Viis testi katavad nelja satelliidi nullimist, kahe satelliidi korrektsiooni (PVT pole võimalik), ühe satelliidi jälgitavust piki vaatejoont ja sisendi valideerimist. Ainult pseudovahemaa; kandelaine faas ja selgesõnaline vastuvõtja kella olek jäävad teekaardile. Kasutamata cargo-funktsioon <c3/> (mis blokeeris vana veatühja) on eemaldatud.
+
+# text
+# c1: kind = "gnss-ins"
+# c2: src/fusion/pack.rs
+# c3: closed_loop
+# c4: gnss_ins_ekf
+# c5: scenarios/gnss-ins.toml
+seg-94ebfac3bbc3 = <b>Lõdvalt seotud GNSS/INS-i stsenaariumipakett (<c1/>, <c2/>).</b> Ühendab kolmeteljelise strapdown-navigaatori ja 15-olekulise veaoleku EKF-i (<c3/> / <c4/>) käivitatavaks stsenaariumiks, millel on kvaliteedinäitaja: EKF distsiplineerib mehhaniseerimist müraste GNSS-lahendite vastu, kuni katvus on olemas, seejärel libiseb läbi katkestuse, asendades vana 1-DOF skalaarpaketi tõe külge sundimise lähtestamise tõelise liitmisega. Tulemus esitab liidetud horisontaalvea rea, hinnatud asukoha kvaliteedinäitaja (kättesaadavus / katkestuse RMS / holdover) ning võrdluseks lahtise ahelaga vaba INS-i RMS-i; kvant- ja klassikalise IMU paar erinevad ainult tõelise nihke poolest. Käivitatakse CLI-st, Pythonist või wasm-i sisenemispunktist koos näitega <c5/>. Aus raamistus: ainult lõdvalt seotud, üks deterministlik trajektoor ning liidetud katkestusvea alumise piiri seab üleandmise asendivea (seega ei väideta, et see skaleeruks nihkega); töökindlad järeldused on, et liitmine ületab abita dead-reckoning’u nihkega sensori puhul ning et väiksema nihkega sensoril on parem abita libisemine.
+
+# text
+# c1: src/walker.rs
+# c2: walker
+# c3: i: T/P/F
+# c4: pdop_sweep
+# c5: {planes × sats × inclination}
+# c6: coverage_revisit
+# c7: gps-ops
+seg-0a2df01f99d8 = <b>Konstellatsiooni kavandamine valideeritud SGP4 tuumal (<c1/>).</b> Uus moodul <c2/> väljastab kavandatud Walker-delta mustri (<c3/>) SGP4 <b>keskmiste elementidena</b>, nii et sünteetiline konstellatsioon levib sama SGP4 teekonda mööda, mis on valideeritud { "4.12" } mm täpsusega AIAA 2006-6753 vektorite vastu, mitte analüütilise Kepleri generaatori kaudu. Selle peal: <c4/> tabuleerib katvuse ning mediaanse/halvima PDOP-i <c5/> kavandi ruudustiku kohta ja <c6/> annab katvuse osa ja uuesti läbimise vahed (halvim/keskmine) maapealses punktis. Valideeritud füüsikaliste monotoonsustega, mida kompromissanalüüs peab järgima (rohkem satelliite ⇒ suurem katvus, madalam PDOP, lühem uuesti läbimine). Eraldi lisatakse ehtne <b>Celestraki <c7/> TLE hetktõmmis</b> (2021-07-28, { "30" } töötavat GPS-satelliiti) ainult testides kasutatava testandmestikuna ning selle vastu valideeritakse reaalse TLE → SGP4 → ECEF geomeetria teekond (kogu MEO kest { "1" }% piires, üheksa satelliidi samaaegne nähtavus PDOP-iga { "1.64" }), lisaks olemasolevatele reaalandmete SP3 ja RINEX teekondadele.
+
+# text
+seg-9e051f3725df = Müratüübispetsiifilised efektiivsed vabadusastmed Alani usaldusvahemike jaoks.
+
+# text
+# c1: allan::edf_overlapping_adev
+# c2: PowerLawNoise
+# c3: classify_power_law
+# c4: overlapping_adev_curve
+# c5: AdevPoint
+# c6: noise
+# c7: edf
+# c8: ci_lo
+# c9: ci_hi
+seg-2392bec8f0b6 = <c1/> realiseerib NIST SP { "1065" } tabeli { "5" } kinnised valemid (Stable32 lihtne komplekt) kõigi viie kanoonilise astmeseadusliku mürategundi jaoks: valge/flicker-PM, valge/flicker-FM ja juhusliku käimise FM. See asendab konservatiivse mittekattuva arvu χ² vabadusastmetena. Uus loendus <c2/> ja <c3/> tuvastavad domineeriva tüübi kirje <b>modifitseeritud</b> Alani hälbe tõusust (MDEV eristab valget PM-i flicker-PM-ist seal, kus ADEV seda ei suuda), ning <c4/> lisab nüüd igale eksporditud ADEV kõvera punktile tuvastatud mürategundi, selle edf-i ja { "95" }% usaldusvahemiku (<c5/> saab väljad <c6/>/<c7/>/<c8/>/<c9/>, lisanduvad serde vaikeväärtustega). Valideeritud kahel viisil: viis valemit ühtivad käsitsi arvutatud väärtustega { "1e-12" } täpsusega ning { "4" } 000 kirjega Monte Carlo valge-FM ansambel kinnitab, et valem ennustab hinnangu tegelikku hii-ruut edf-i { "20" }% piires (ja et see on konservatiivsest arvust oluliselt parem). Kaheksa uut testi.
+
+# text
+seg-df59cc71120f = Kahesuunalise aja edastamise stohhastiline mudel.
+
+# text
+# c1: timetransfer::TwoWayLink
+# c2: (m_AB - m_BA)/2
+# c3: two_way_offset_estimate
+# c4: 1/sqrt(2)
+# c5: ClockModel
+# c6: sigma_y^2(tau) = q_rw*tau/3
+# c7: LinkCfg
+# c8: q_wf_s
+# c9: q_rw_s
+# c10: adev_tau0
+# c11: timetransfer
+# c12: tau/3
+# c13: step()
+# c14: q=0
+seg-d2add1ce01e1 = <c1/> asendab ainult valget müra andva valimi füüsikaliselt põhjendatud mudeliga: vastastikune (ühisrežiimi) teekonnaviivitus tühistub hinnangus <c2/> (<c3/>, nii et kaks sõltumatut ühesuunalist mõõtmist keskmistuvad väärtuseks <c4/>) ja jääk on <b>mittevastastikune</b> diferentsiaalviivitus, mida modelleeritakse värvilise valge-FM + juhusliku käimise FM protsessina (valideeritud <c5/>), andes sünkroniseerimisvea reale realistliku Alani signatuuri (<c6/>) lameda valge müra asemel. <c7/> saab väljad <c8/>/<c9/> (serde vaikeväärtus { "0" } ⇒ varasem ainult valge käitumine, bitthaaval samane), lingi kvaliteedinäitaja annab <c10/> (mudeli Alani hälve baassammul) ning stsenaarium ja CLI <c11/> teevad selle nähtavaks. Kuldse kvaliteedinäitaja väärtus on uuesti fikseeritud. Kuus käsitsi tuletatud testi (ühisrežiimi tühistumine, kahesuunalise mõõtmise sqrt({ "2" }) võit, RWFM <c12/> seadus lingi enda <c13/> kaudu, varasema käitumisega samaväärsus väärtusel <c14/>, determinism ja kvaliteedinäitaja lõpust lõpuni nähtavus).
+
+# text
+seg-6c7a1dd63be0 = Stable32 arvuline vastavus Alani perekonna hinnangute jaoks (NBS14).
+
+# text
+# c1: tests/allan_reference.rs
+seg-adbb47ca87b4 = <c1/> valideerib kattuva ADEV, modifitseeritud ADEV, ajahälbe ja kattuva Hadamardi hinnangud Stable32 etalonhälvete vastu kanoonilisel <b>NBS14</b> andmestikul (W. J. Riley, <em>Handbook of Frequency Stability Analysis</em>, NIST SP { "1065" }, ~lk 107) väärtustel tau = { "1" }, { "2" } suhtelise tolerantsiga { "1e-4" } — tegelik ühtivus ~{ "1e-6" }. See kinnitab hinnangute matemaatika de facto etalonrealisatsiooni vastu, mitte ainult hinnangute enda analüütilise sisemise kooskõla vastu. Kasutatakse ainult avalikke etalonarve; kolmanda osapoole koodi ei kasutata.
+
+# text
+# c1: integrity
+# c2: integrity
+# c3: IntegrityScenario
+# c4: seed
+seg-35b0c0644fa2 = <b>Vertikaalne Stanfordi terviklikkuse diagramm, mida ekspordib stsenaarium <c1/>.</b> Käivitatav stsenaariumi liik <c2/> ekspordib nüüd vertikaalse Stanfordi(-ESA) diagrammi HPL/VPL kättesaadavuskaardi kõrval: igal kaitstud epohhil kujutatakse algväärtusega reprodutseeritav veatu vahemaaveavalim geomeetria kaudu tegelikuks vertikaalseks asukohaveaks ja klassifitseeritakse VPL-i ning vertikaalse häireläve suhtes (Available / System-Unavailable / Misleading / Hazardously-Misleading). Diagramm (epohhipõhised punktid + piirkondade arvud) kantakse tulemuse JSON-i ning terviklikkuse sündmuste / HMI arvud CLI kokkuvõttesse, nii et Stanfordi klassifikaator, mis oli varem ainult teegis, on kättesaadav lõpust lõpuni. <c3/> saab välja <c4/> (vaikimisi { "0" }), mis juhib vea realisatsiooni; kättesaadavuskaart ise jääb puhtalt geomeetriapõhiseks ja algväärtusest sõltumatuks.
+
+# text
+seg-5d76a638ae77 = ARAIM-i terviklikkusriski (P_HMI) eelarve kaitsetasemete jaoks.
+
+# text
+# c1: raim::araim_raim
+# c2: K_md
+# c3: (prior, detection threshold, σ)
+# c4: araim_protection_level
+# c5: araim_integrity_risk
+# c6: P_HMI = Σ_k p_fault,k · Q((PL − T_k)/σ_k)
+# c7: P_HMI
+seg-449adb9ad6e6 = <c1/> tuletab horisontaalsed ja vertikaalsed kaitsetasemed selgesõnalisest terviklikkusriski eelarvest, mitte fikseeritud kordajast <c2/>: kõigi satelliitide nähtavuse lahenduse ja iga ühe satelliidi välistamise alamlahenduse jaoks koostab see igal teljel režiimipõhise <c3/> ning <c4/> lahendab väikseima PL-i, mille ohtlikult eksitava informatsiooni tõenäosuste summa (<c5/>, <c6/>, Blanch jt <em>Baseline ARAIM</em>) vastab eraldatud <c7/> väärtusele. Tulemus annab terviklikkusriski, mille tasemed tegelikult saavutavad, nii et kasutaja saab terviklikkust ja häireläve selgesõnaliselt vahetada. Kuus käsitsi tuletatud testi (veatu ja läviga üherežiimi kinnised valemid, mitmerežiimiline summeerimine/monotoonsus, lõpust lõpuni veatu kaitse, kus 10⁵× kitsam eelarve tõstab PL-i, vea tuvastamine/identifitseerimine ja kuue satelliidi liiasuse alampiir). Üksikvea MHSS on ARAIM-i baasjoon; üheaegsed mitme SV-alamhulga vead, kogu konstellatsiooni vearežiim ja gLAB etalonandmestikuga valideerimine on dokumenteeritud laiendused.
+
+# text
+seg-3e33581644a5 = Kahekiiruseline coning/sculling kompensatsioon strapdown-mehhaniseerimisele.
+
+# text
+# c1: inertial::mechanization::coning_sculling_compensate
+# c2: NavState::step_increments
+# c3: ScalarErrorBudget
+# c4: AccelModel
+# c5: NavState
+seg-c900e193ac29 = <c1/> voldib kõrgsageduslikud coning (asend) ja pöörlemine+sculling (kiirus) liikmed välja jämeda uuenduse järjestatud alamintervalli IMU juurdekasvudest, nii et mõõduka sagedusega <c2/> taastoodab vibratsioonist rektifitseeritud liikumise, mille toorsummadel põhinev jäme samm kaotab. Valideerimistest ajab { "10" } Hz coning+sculling keskkonda { "60" } s ning võrdleb peenisagedusega tõde, naiivset jämedat integreerimist ja volditud jämedat integreerimist: voltimine vähendab asukohaviga ~{ "18" }× (meetrites naiivne libisemine → alla detsimeetri), kinnitades, et coning/sculling liikmed on kandvad. Tüübialias <c3/> nimetab varasema 1-DOF <c4/> selleks, mis see on, eristatuna kolmeteljelisest navigaatorist <c5/>.
+
+# text
+# c1: rinex_obs
+# c2: parse_obs
+# c3: SYS / # / OBS TYPES
+# c4: C1C
+# c5: L1C
+seg-ceb037e7a6ea = <b>RINEX-vaatlusfaili parser.</b> Uus moodul <c1/> loeb RINEX 3.0x / { "4.00" } <em>vaatlusfaili</em> — vastuvõtja tegelikke mõõtmisi — ning täidab RINEX-i paari olemasoleva navigatsioonisõnumi parseri kõrval. <c2/> dekodeerib päise (versioon/tüüp, süsteemipõhised <c3/> loendid jätkuridadega, ligikaudne asukoht, intervall, esimese vaatluse aeg) ja iga epohhi satelliidipõhised kirjed: pseudovahemaa, kandelaine faas, Doppler ja signaali tugevus, tunnustatud nende RINEX { "3" } vaatluskoodidega (<c4/>, <c5/>, …) ning sideme kaotuse (LLI) ja signaalitugevuse (SSI) lippudega; tühi väli säilitatakse puuduvana, mitte nullina. Aus ulatus: see on standardvormingu <em>sissevõtt</em> (tegelik RTKLIB/gLAB/IGS-jaama vaatluslogi sisse, tüübitud mõõtmised välja), mitte positsioneerimismootor — siin pole pseudovahemaa lahendust, PPP-d ega RTK-d.
+
+# text
+# c1: oem
+# c2: OemFile::from_propagators
+# c3: OemFile::to_oem_string
+# c4: CCSDS_OEM_VERS
+# c5: CREATION_DATE
+# c6: ORIGINATOR
+# c7: META_START … META_STOP
+# c8: OBJECT_NAME
+# c9: OBJECT_ID
+# c10: CENTER_NAME
+# c11: REF_FRAME = TEME
+# c12: TIME_SYSTEM = GPS
+# c13: START_TIME
+# c14: STOP_TIME
+# c15: epoch X Y Z X_DOT Y_DOT Z_DOT
+# c16: CREATION_DATE
+seg-60efb0c44522 = <b>CCSDS OEM (Orbit Ephemeris Message) kirjutaja.</b> Uus moodul <c1/> ekspordib levitatud konstellatsiooni kehtiva CCSDS 502.0-B OEM { "2.0" } sõnumina — KVN efemeriidivorming, mida GMAT, Orekit, STK ja enamik lennudünaamika tööriistu sisse loeb. <c2/> valib iga satelliidi inertsiaalse (TEME) oleku — asukoha <b>ja</b> kiiruse, otse levitajast ilma Maaga seotud pöördeta, erinevalt SP3 ekspordist — ajaruudustikule ning <c3/> serialiseerib päise <c4/>/<c5/>/ <c6/> pluss ühe <c7/> lõigu satelliidi kohta (<c8/>/<c9/>/<c10/>/<c11/>/<c12/>/ <c13/>/<c14/>), millele järgnevad selle <c15/> read (km, km/s). Välja <c16/> annab kutsuja, mitte seinakell, nii et väljund on käivituste vahel baitideni identne (reprodutseeritavuse leping). See on GNSS SP3 ekspordi kosmoseaparaadi efemeriidi vaste: Kshana orbiidi saab nüüd standardvormingus lennudünaamika tööriistale üle anda.
+
+# text
+seg-f8538db4a17c = SP3 täppisefemeriid levituse allikana.
+
+# text
+# c1: Sp3File::interpolator
+# c2: Sp3Interpolator
+# c3: Propagator::Sp3Precise
+seg-2cf2e224deb9 = <c1/> ehitab satelliidipõhise <c2/>, mis täidab tabuleeritud SP3 epohhide vahelise asukoha 9. astme Lagrange’i polünoomiga (standardne IGS-i praktika) ja pöörab selle ühisesse TEME tugisüsteemi; see on kättesaadav kui <c3/>. IGS-i / analüüsikeskuse täppisorbiidifail saab nüüd juhtida sama geomeetria/nähtavuse/terviklikkuse töövoogu mis leviedastatud ja analüütilised levitajad. Valideeritud edasi-tagasi tsükkel: SP3-sse kirjutatud ja interpolaatori kaudu uuesti loetud Kepleri orbiit ühtib algsega sõlmedes meetri murdosa täpsusega ja < { "100" } m intervalli keskel. Kella interpoleerimine on järgmine.
+
+# text
+# c1: glonass
+# c2: parse_glonass_nav
+# c3: R
+# c4: J2
+# c5: Propagator::Glonass
+# c6: rinex
+seg-8d50fd42f53c = <b>GLONASS leviedastatud efemeriid (täiendab multi-GNSS RINEX nav-i).</b> Uus moodul <c1/>: GLONASS ei edasta Kepleri elemente, vaid PZ-90 Maaga seotud <b>olekuvektorit</b> (asukoht, kiirus, Kuu-Päikese kiirendus). <c2/> loeb RINEX { "3" } <c3/> kirjeid ning satelliidi asukoht mis tahes ajahetkel saadakse GLONASS ICD liikumisvõrrandite <b>4. järku Runge–Kutta integreerimisega</b> (tsentraalne gravitatsioon + <c4/> + Maa pöörlemise Coriolise/tsentrifugaalliikmed + leviedastatud kiirendus). Kättesaadav kui <c5/>, nii et GLONASS-i satelliidid liiguvad konstellatsiooni/nähtavuse/terviklikkuse töövoos koos Kepleri süsteemidega; üks <c6/> konstellatsiooniplokk võib nüüd segada GPS-i, Galileot, QZSS-i, BeiDoud ja GLONASS-i.
+
+# text
+# c1: E
+# c2: J
+# c3: C
+# c4: G
+# c5: Propagator::Rinex
+seg-8d88144e3726 = <b>Multi-GNSS RINEX navigatsioon (GPS, Galileo, QZSS, BeiDou).</b> RINEX { "3" } navigatsiooni parser dekodeerib nüüd Galileo (<c1/>), QZSS-i (<c2/>) ja BeiDou (<c3/>, MEO/IGSO) kirjeid GPS-i (<c4/>) kõrval — neil on ühine Kepleri paigutus ja kasutaja algoritm — kusjuures igaüht hinnatakse oma gravitatsioonikonstandi ja Maa pöörlemiskiirusega (Galileo/BeiDou μ, BeiDou Ω̇ₑ). Segakonstellatsiooni fail annab neid kõiki, mis liiguvad konstellatsiooni/nähtavuse/terviklikkuse töövoos kui <c5/>. BeiDou geostatsionaarsed satelliidid kasutavad teistsugust koordinaatide pööret ning jäetakse vahele, kuni on olemas etalonandmestik, mille vastu valideerida. Kirjete läbijalutaja kasutab süsteemipõhiseid reaarve, parandades varjatud vea, kus neljarealisi GLONASS-i/SBAS-i kirjeid jäeti vahele, nagu oleksid need kaheksarealised. GLONASS (olekuvektori mudel) on järgmine.
+
+# text
+# c1: sp3
+# c2: parse_sp3
+# c3: Sp3File
+# c4: V
+# c5: Sp3File::from_propagators
+# c6: to_sp3_string
+seg-91a6907acc8d = <b>SP3-c/d täppisefemeriidi lugeja ja kirjutaja.</b> Uus moodul <c1/> parsib IGS-i/analüüsikeskuse SP3 täppisorbiidifaile (<c2/>) — järeltöödeldud ECEF asukoha/kella toodet, mida PPP mootorid (Ginan, RTKLIB, gLAB) käsitlevad etalonina — struktureeritud <c3/> kujule (päis, epohhiruudustik, satelliidipõhine asukoht km→m, kell µs ja kiirus dm/s→m/s <c4/> toodete puhul), säilitades SP3 vigaste väärtuste markerid. Vastupidine suund on samuti kaetud: <c5/> ehitab SP3 levitatud konstellatsioonist (TEME→ECEF epohhi kohta) ja <c6/> serialiseerib selle, nii et Kshana orbiite saab eksportida vormingus, mida välised PPP tööriistad sisse loevad — lugemise↔kirjutamise edasi-tagasi tsükkel. Epohhide interpoleerimine ja SP3 levitaja allikas on järgmised.
+
+# text
+# c1: rinex
+# c2: tle
+# c3: scenarios/orbit-rinex.toml
+seg-7d51d1b6f39f = <b>RINEX leviedastatud efemeriid käivitatava konstellatsiooni allikana.</b> Konstellatsioon aktsepteerib nüüd lisaks olemasolevale valikule <c2/> ka sisseehitatud plokki <c1/> (RINEX { "3" } GPS navigatsiooniteksti), nii et tegelik leviedastatud fail juhib stsenaariumi lõpust lõpuni CLI-st, Pythonist või brauserisisesest mänguväljakust — RINEX sisse, PNT geomeetria välja. Uus <c3/> demonstreerib GNSS-i kättesaadavust ja DOP-i kaheksa GPS-satelliidiga, mis on ehitatud otse leviedastatud kirjetest. (Ainult GPS LNAV; multi-GNSS ja SP3 on järgmised.)
+
+# text
+# c1: RinexEphemeris
+# c2: orbit::Propagator
+# c3: Propagator::Rinex
+# c4: sv_position_teme
+seg-9730835bfc64 = <b>RINEX leviedastatud efemeriid levituse allikana.</b> Parsitud <c1/> teisendub nüüd väärtuseks <c2/> (<c3/>): asukoht on IS-GPS-200 leviedastatud orbiit, mis on ECEF-ist pööratud ühisesse TEME inertsiaalsesse tugisüsteemi (<c4/>, lisasekundi suhtes õige GPS→UT1 ajaga), kiirus tsentraalse lõppdiferentsiga ning Kepleri orbiidiperiood. Tegelikud GPS leviedastatud andmed saavad nüüd juhtida sama geomeetria, nähtavuse ja terviklikkuse (RAIM) töövoogu mis analüütilised SGP4/Kepleri levitajad. (Pole veel kättesaadav RINEX-faili stsenaariumi liigina — see ning multi-GNSS/SP3 on järgmised.)
+
+# text
+seg-a355e3e52ec3 = <b>Arhiivi DOI.</b> Väljalasked deponeeritakse nüüd Zenodosse ja neile omistatakse tsiteeritav DOI.
+
+# text
+seg-c6e4556e1ce5 = <b>Dokumentatsioon.</b> README on ajakohastatud institutsionaalsele tasemele: kogu { "v0.9.0" } pinu võimekuste ülevaade, jaotis Versioonihaldus ja väljalasked, puhas päis uue märgiga ning lühike olekurida. Mootori muudatusi pole.
+
+# text
+# c1: integrity
+seg-1bfc4e965d2b = See väljalase lisab { "0.8.0" } SGP4 aluse peale kolm olulist võimekuse valdkonda: tõeline kolmeteljeline strapdown INS, lõdvalt seotud GNSS/INS veaoleku EKF suletud ahela tagasisidega, tõeline hetktõmmise ja lahenduste eraldamise (ARAIM-laadne) RAIM koos HPL/VPL-iga ja käivitatav stsenaarium <c1/>, ning GNSS-vormingute koostalitusvõime esimene samm (RINEX-3 GPS efemeriidi sissevõtt).
+
+# text
+# c1: src/rinex.rs
+# c2: parse_nav
+# c3: G
+# c4: BROADCAST ORBIT
+# c5: RinexEphemeris
+# c6: D
+# c7: parse_d
+# c8: D
+seg-7fa2f68d436a = <b>RINEX { "3" } GPS navigatsioonisõnumi parser (<c1/>).</b> Esimene samm GNSS-vormingute koostalitusvõime suunas: <c2/> loeb RINEX { "3" }.x navigatsioonifaili ja dekodeerib iga GPS (<c3/>) leviedastatud efemeriidi kirje — kaheksarealise SV/epohhi + <c4/> ploki — Kepleri elementide ja kella paranduste kirjeks <c5/>, väljanimede ja ühikutega IS-GPS-200 järgi. Käsitleb Fortrani <c6/>-eksponendiga ujukomavormingut (<c7/>) ja fikseeritud laiusega veeru paigutust; mitte-GPS süsteemide kirjed jäetakse vahele, mitte ei lükata tagasi, nii et segafail annab siiski oma GPS efemeriidid. Neli testi: <c8/>-eksponendi parsimine (sh tühikud ja vead), täielik kirje dekodeeritud teadaolevate väljaväärtuste vastu GPS poolsuurtelje terviklikkuskontrolliga (√A² ≈ { "26 560" } km), mitte-GPS kirjete vahelejätmine ja tühja faili juhtum.
+
+# text
+# c1: src/rinex.rs
+seg-9c4a068f204c = GPS leviedastatud efemeriid → ECEF asukoht (<c1/>).
+
+# text
+# c1: RinexEphemeris::sv_position_ecef(t_tow)
+# c2: μ
+# c3: Ω̇ₑ
+# c4: tk
+seg-5deeec4b8cc9 = <c1/> hindab satelliidi Maaga seotud asukohta parsitud efemeriidist IS-GPS-200 §{ "20.3.3.4.3.1" } kasutaja algoritmi järgi: Kepleri võrrandi Newtoni lahendus ekstsentrilise anomaalia jaoks, teise harmoonilise laiuskraadi argumendi / raadiuse / kaldenurga parandused ning pööre ECEF-i, arvestades Maa pöörlemist alates etalonepohhist (spetsifikatsiooni nõutava GPS <c2/> ja <c3/> ning nädalavahetuse <c4/> voltimisega). Kolm testi: geotsentriline raadius jääb GPS vahemikku (≈ { "26 560" } km), Maaga seotud kiirus on ~{ "3.9" } km/s ja terve nädala kaugusel hindamine annab sama asukoha.
+
+# text
+# c1: src/rinex.rs
+seg-583433389a70 = GPS SV kella nihe relativistliku paranduse arvestamisega (<c1/>).
+
+# text
+# c1: RinexEphemeris::sv_clock_bias_s(t_tow)
+# c2: af0 + af1·Δt + af2·Δt²
+# c3: Toc
+# c4: F·e·√A·sin Ek
+# c5: EpochUtc::gps_time_of_week
+# c6: TGD
+# c7: Propagator
+# c8: docs/CAPABILITY.md
+seg-957588ed5dff = <c1/> hindab leviedastatud kellapolünoomi <c2/> ümber punkti <c3/> pluss relativistliku ekstsentrilisuse liikme <c4/> (IS-GPS-200 §{ "20.3.3.3.3.1" }). Uus <c5/> teisendab kirje kalendriepohhi GPS-i nädala ajaks Juliuse päeva aritmeetikaga alates GPS-i epohhist (1980-01-06) ning Kepleri lahendus jagatakse asukoha hindamisega. Testid: GPS-i nädala aeg pühapäeva/teisipäeva/laupäeva jaoks (nädalapiirid) ning kella nihe, kus domineerib af0, olemasoleva piiratud relativistliku liikmega. L1 grupiviivitust <c6/> kuvatakse, kuid seda tahtlikult sisse ei arvestata. Aus ulatus: allikas <c7/>, Galileo/BeiDou/GLONASS ja SP3 jäävad järgmisteks sammudeks. (<c8/> on vastavalt uuendatud.)
+
+# text
+# c1: integrity
+# c2: scenarios/integrity-raim.toml
+# c3: kind = "integrity"
+# c4: IntegrityScenario
+# c5: (sigma, P_fa, P_md, AL_H, AL_V)
+# c6: constellation_raim_availability
+# c7: kshana scenarios/integrity-raim.toml
+seg-ef971feff16c = <b>Kasutaja käivitatav stsenaariumi liik <c1/> (<c2/>).</b> RAIM-i kättesaadavuse võimekus on nüüd CLI-st/TOML-ist kättesaadav nagu iga teine pakett: <c3/> parsib kirje <c4/> (kasutaja orbiit, üks või mitu GNSS-i konstellatsiooni, kõrgusmask ja terviklikkuse seadistus <c5/>), käivitab <c6/> ning väljastab epohhipõhise HPL/VPL kättesaadavuskaardi JSON-ina pluss isemajandava SVG — kaitsetasemed ajas häireläviede suhtes, rohelise/punase kättesaadavusribaga. <c7/> kirjutab JSON-i, diagrammi ja HTML-aruande. Kaasasolev stsenaarium (24 satelliidi Walker, { "1" } m kahesageduslik kaugusmõõtmine, APV-I piirid) annab kättesaadavuseks ~{ "95" } %; see dokumenteerib, et ühesageduslik RAIM ei täida ühe konstellatsiooni puhul vertikaalset APV-I piiri, mistõttu vertikaalseks juhtimiseks kasutatakse SBAS-i/kahesageduslikku/ARAIM-i. Testid katavad suunamise, kättesaadavuskaardi JSON-i ja SVG.
+
+# text
+# c1: src/raim.rs
+# c2: constellation_raim_availability
+# c3: Propagator
+# c4: serde
+# c5: RaimAvailabilityReport
+# c6: n_visible
+# c7: available
+# c8: RaimConfig
+# c9: (sigma, P_fa, P_md, AL_H, AL_V)
+# c10: raim_availability_epoch
+# c11: None
+seg-bbe5721c1785 = <b>Käivitatav RAIM-i kättesaadavus konstellatsiooni kohta (<c1/>).</b> Terviklikkuse moodulil polnud kutsujat — <c2/> teeb sellest tõelise lõpust lõpuni sisenemispunkti: igal ajaruudustiku epohhil levitab see nähtavad satelliidid (samade SGP4/Kepleri <c3/>-idega, mida mootor kasutab), arvutab veatud kaitsetasemed ja hindab kättesaadavust horisontaalsete/vertikaalsete häireläviede suhtes, tagastades <c4/>-ga serialiseeritava <c5/> (epohhipõhine <c6/>/HPL/VPL/<c7/> pluss kättesaadavuse osa). <c8/> koondab <c9/> ning epohhipõhine <c10/> on kättesaadav kutsujatele, kes lahendavad oma geomeetria ise. Kolm testi: epohh, mis on APV-I piiride all kümne satelliidi geomeetrial kättesaadav, muudetud kättesaamatuks võimatult range piiriga, ning tasemed <c11/> alla viie satelliidi; ja lõpust lõpuni käitus 24 satelliidi Walker-konstellatsioonil, mis annab lõpliku kättesaadavuskaardi ja serialiseerub. (Kuus satelliiti — jääk-RAIM-i liiasuse alampiir — ei täida ausalt <em>mitte</em> APV-I-d isegi { "1" } m kaugusmõõtmise puhul; APV-I kättesaadavus vajab tihedamat geomeetriat, mida test kasutab.)
+
+# text
+# c1: src/raim.rs
+# c2: y = x
+# c3: Available
+# c4: SystemUnavailable
+# c5: MisleadingInformation
+# c6: HazardouslyMisleadingInformation
+# c7: classify_stanford
+# c8: StanfordDiagram
+# c9: (error, PL)
+# c10: serde
+# c11: error == PL
+seg-91e32e587cb6 = <b>Stanfordi(-ESA) terviklikkuse diagrammi akumulaator (<c1/>).</b> Standardne viis terviklikkuse monitori kokkuvõtmiseks paljude epohhide peale: see kujutab tegelikku asukohaviga (x) kaitsetaseme (y) vastu ja klassifitseerib iga epohhi diagonaali <c2/> ja häireläve järgi väärtuseks <c3/> (PL piirab viga, AL piires), <c4/> (PL piirab viga, kuid ületab AL-i — ohutu, kasutamatu), <c5/> (PL < viga ≤ AL) või <c6/> (PL < viga ja viga > AL — ohtlik rike). <c7/> on puhas klassifikaator; <c8/> akumuleerib <c9/> punkte fikseeritud häireläve vastu, kuvades piirkondade arvud, kättesaadavuse, terviklikkuse sündmuste summad ja <c10/>-ga serialiseeritavad punktid joonistamiseks/JSON-i eksportimiseks. Neli testi: iga piirkond (sh <c11/> piiratud piir), arvu/kättesaadavuse akumuleerimine ja JSON-i edasi-tagasi tsükkel. See on RAIM-i kaitsetasemete aruandlusliides; selle ühendamine konstellatsiooni stsenaariumiga ja avaliku andmestiku vastu valideerimine jäävad teekaardi punktideks.
+
+# text
+# c1: src/raim.rs
+# c2: snapshot_raim
+# c3: Δ_k = x_k − x₀
+# c4: Cov(x_k) − Cov(x₀)
+# c5: PL = max(K_md·σ₀, max_k[K_fa·σ_ss,k + K_md·σ_k])
+# c6: K_fa = Φ⁻¹(1−P_fa/2)
+# c7: K_md = Φ⁻¹(1−P_md)
+# c8: normal_cdf
+# c9: normal_quantile
+# c10: erf(x) = P(½,x²)
+# c11: excluded_sv == 2
+seg-cdeb3a5a4acf = <b>Lahenduste eraldamise (ARAIM-laadne) RAIM (<c1/>).</b> Mitme hüpoteesiga terviklikkuse monitor olemasoleva jäägi/pariteedi hii-ruut <c2/> kõrval. Kõigi satelliitide nähtavuse vähimruutude lahenduse ja iga ühe satelliidi välistamise alamlahenduse jaoks moodustab see eralduse <c3/> — nullkeskmise Gaussi jaotusega vea puudumisel kovariatsiooniga <c4/> (pesastatud hinnangute samasus, kehtib, kuna kõigi satelliitide nähtavuse lahendus on BLUE) — ning seega nii <b>tuvastab</b> vea kui ka <b>identifitseerib</b> vigase satelliidi (selle, mille välistamine annab suurima normaliseeritud eralduse). Horisontaalsed/vertikaalsed kaitsetasemed järgivad standardset MHSS-i eraldust <c5/>, kus <c6/>, <c7/>. Uued sõltuvusteta <c8/>/<c9/>, mis on ehitatud mooduli olemasolevale regulariseeritud mittetäielikule gammafunktsioonile (<c10/>). Neli käsitsi tuletatud testi: normaaljaotuse CDF / kvantiil õpikuväärtuste vastu (Φ({ "1.95996" })={ "0.975" }, { "1e-7" } saba = { "5.1993" }, sümmeetria); veatu geomeetria, mis ei anna häiret ja annab lõpliku positiivse HPL/VPL-i; 60-σ üksiku satelliidi nihe, mis tuvastatakse <em>ja</em> identifitseeritakse õigesti (<c11/>); ning kuue satelliidi liiasuse alampiir. Sulgeb auditi lünga „tautoloogiline terviklikkus — pole tõelist RAIM/HPL/VPL-i“ (P0) algoritmi poolel; gLAB-andmestikuga valideerimine ja Stanfordi diagrammi akumulaator jäävad teekaardi punktideks.
+
+# text
+# c1: src/fusion/closed_loop.rs
+seg-67e771fc0a48 = Suletud ahelaga GNSS/INS integreerimine (<c1/>).
+
+# text
+# c1: ClosedLoopInsGnss
+# c2: mechanization::radii_of_curvature
+# c3: NavState::omega_ie_n
+# c4: omega_en_n
+seg-5aa467783b99 = <c1/> ühendab veaoleku EKF tuuma kolmeteljelise strapdown-mehhaniseerimisega: iga IMU valim korrigeeritakse jooksvate nihkehinnangutega, mehhaniseeritakse edasi ja EKF kovariatsioon propageeritakse ajas sobiva navigatsioonikontekstiga; iga GNSS asukoha/kiiruse lahend moodustab INS−GNSS innovatsiooni ning annab hinnatud <b>asukoha, kiiruse, asendivea (ψ, kvaternioonpöördena) ja kiirendusmõõturi/güroskoobi nihked</b> tagasi lahendusse, lähtestades veaoleku keskmise. Asendi tagasiside (mitte ainult nihked) on stabiilsuse jaoks vajalik — kalle ja kiirendusmõõturi nihe on seotud paar, nii et ühe korrigeerimine ilma teiseta hajub. INS-i ja GNSS-i võrreldakse kohalikus puutujatasandi NED tugisüsteemis, kasutades mehhaniseerimise enda kõverusraadiusi (uus <c2/>; <c3/>/<c4/> on kättesaadavad). See on aus asendus hübriidpaketi <em>tõe külge sundimise lähtestamisele</em>. Kolm testi: suletud ahel, mis nullib sisestatud { "8" } m / −{ "5" } m asukohavea väärtuseni <{ "0.1" } m; abistatud lahendus, mis püsib meetrites piiratuna (<{ "6" } m) sõidutrajektooril, samal ajal kui vabalt jooksev INS hajub üle { "100" } m; ning verstapostietalon — liidetud lahenduse <b>Monte Carlo asukoha RMS { "60" } s GNSS-i katkestuse jooksul ületab abita lahtise ahelaga dead-reckoning’u rohkem kui { "2" }× (≈{ "4" }× algväärtuste lõikes)</b>. Mooduli dokumenteeritud aus piirang: lõdvalt seotud režiimis on kiirendusmõõturi nihe ja kalle vaid nõrgalt eraldatavad (mõlemad seotud gravitatsiooni kaudu), nii et pakutav väärtus on piiratud, korrigeeritud olek ja puhas katkestusse sisenemine, mitte täpne inertsiaalne kalibreerimine; rikkam dünaamika ja tihedalt seotud laiendus jäävad teekaardi punktideks.
+
+# text
+# c1: src/fusion/gnss_ins_ekf.rs
+# c2: δx = [δp, δv, ψ, b_a, b_g]
+# c3: Φ = I + F·dt
+# c4: H = [I₃ 0 0 0 0; 0 I₃ 0 0 0]
+# c5: tight_coupling
+# c6: P/(P+R)
+seg-aa9bf0ff6f84 = <b>Lõdvalt seotud GNSS/INS veaoleku EKF tuum (<c1/>).</b> 15-olekuline veaoleku laiendatud Kalmani filter — <c2/> — strapdown-vea dünaamikaga Grovesi { "2013" } §{ "14.2" } järgi (erijõu/kalde sidestus, Coriolis, keha→nav nihke projektsioon, Gaussi–Markovi nihkemudelid), esimest järku diskreetse üleminekuga <c3/> ning lõdvalt seotud asukoha+kiiruse mõõtmisuuendusega (<c4/>) Joepi kujul. Sõltuvusteta tihe lineaaralgebra (Gaussi–Jordani pöördmaatriks, Joepi kovariatsiooniuuendus). Cargo-funktsioon <c5/> blokeerib dokumenteeritud, kuid veel realiseerimata pseudovahemaa/Doppleri uuenduse. { "7" } testi käsitsi tuletatud eeldustega: kaldsümmeetria/ristkorrutise samasus, kontrollitud { "3" }×{ "3" } pöördmaatriks, kovariatsioon püsib ennustamisel sümmeetrilise/PSD-na (ja abita asukohamääramatus kasvab), asukohalahend vähendab asukoha kovariatsiooni, teadaoleva asukohavea täpne taastamine analüütilise Kalmani võimenduse <c6/> korral ning väiksemad korrektsioonid suurema mõõtmismüra korral. See on tuum, mis asendab hübriidpaketi lahtise ahelaga tõe külge sundimise lähtestamise suletud ahelaga tagasisidega (paketi ühendamine + NaveGo valideerimine järgnevad).
+
+# text
+# c1: src/inertial/imu_errors.rs
+seg-5be84079b8b6 = Deterministlik IMU veamudel 3-teljelisele strapdown-navigaatorile (<c1/>).
+
+# text
+# c1: ImuErrorModel
+# c2: (ω, f)
+# c3: ImuErrorModel::ideal()
+# c4: inertial
+seg-492e670736b2 = <c1/> moonutab tõelise keharaami paari <c2/> mõõdetuks viie süstemaatilise kategooria kaudu (IEEE Std 952-1997 §A.2; Groves { "2013" } §{ "4.3" }, tabel { "4.1" }): <b>skaalategur</b> (teljepõhine ppm võimenduse viga), <b>nihkeviga / ristsidestus</b> (triaadi mitteortogonaalsus väljaspool diagonaali), <b>g-tundlikkus</b> (erijõuga võrdeline güroskoobi kiirusnihe), <b>kvantimine</b> (ümardamine väljundi LSB-le) ja <b>kiirusrambi</b> (ajas lineaarne triiv — kolmas Alani piirkond), pluss konstantne sisselülitusnihe. Iga liige on vaikimisi null, mistõttu <c3/> on läbipaistev läbilase ja olemasolevaid stsenaariume see ei mõjuta. Igal veaallikal on isoleeriv test (skaala lineaarne täpsusega <{ "0.01" }%, ristteljeline nihe üle VRW põhja, g-tundlikkuse nihe, LSB ruudustik, lineaarne ramp) ning lõpust lõpuni test juhib moonutatud IMU-st mehhaniseerimise kaudu navigatsiooniviga. Modelleerimata: vibratsiooni rektifikatsiooniviga, temperatuurigradiendi triiv. (Kaasasolev stsenaariumipakett <c4/> käitab endiselt varasemat 1-DOF skalaareelarvet; see mudel toidab 3-teljelist teeki.)
+
+# text
+# c1: coning_increment
+# c2: ½ Δθ_prev × Δθ_cur
+# c3: sculling_increment
+# c4: ½ Δθ × Δv
+# c5: NavState::step_increments
+# c6: Δθ_rel = Δθ_b − C_n^b ζ
+seg-f57bc89d4688 = <b>Coning ja sculling kompensatsioon strapdown-integraatorile.</b> Asenditee lisab kahe valimi <c1/> (<c2/>); { "30" } Hz jämesagedusega (5 valimit tsükli kohta) { "5" } Hz coning-keskkonna integreerimise kohta on kontrollitud, et see jälgib peenisagedusega tõde korrektsiooniga ≥ { "3" }× paremini kui naiivne juurdekasvude summeerimine. Kiiruse tee lisab <c3/> (<c4/>, Groves valem { "5.82" }) ja lahendab keha kiiruse juurdekasvu uue juurdekasvupõhise uuenduse <c5/> kaudu, kasutades kehasuhtelist pööret <c6/>, nii et Maaga seotud platvormil ei teki valesculling’ut, samal ajal kui tõeline vibratsioon käivitab täieliku liikme.
+
+# text
+# c1: src/inertial/mechanization.rs
+seg-56c599250ed4 = Täielik kolmeteljeline strapdown-mehhaniseerimine NED tugisüsteemis (<c1/>).
+
+# text
+# c1: NavState { q, v_ned, p_llh }
+# c2: step(gyro_b, accel_f_b, dt)
+# c3: ω_in = ω_ie + ω_en
+# c4: v̇ = f_n − (2 ω_ie + ω_en) × v + g_n
+# c5: v_N ≈ a·t
+# c6: ½ a t²
+seg-d0897492e89b = <c1/> edastatakse sammuga <c2/> standardsete maapealse tugisüsteemi NED võrranditega (Groves §{ "5.4" }): keha→NED asend korrigeeritud inertsiaal-nav kiiruse <c3/> (Maa pöörlemine + transpordikiirus) järgi; erijõud lahendatud keha→NED DCM-i kaudu; kiirus integreerib <c4/> (Coriolis/transport + gravitatsioon); ning geodeetiline asukoht meridiaani/põikisuunalise kõverusraadiuse kaudu. Gravitatsioon on WGS-84 kinnine Somigliana <b>normaalgravitatsioon (loodi gravitatsioon)</b> NIMA vaba õhu kõrgusparandusega — mitte kunagi kõvakodeeritud konstant. See on tõeline kolmeteljeline navigaator, mis asendab 1-DOF skalaarse veaeelarve tee. Kontrollitud füüsikaliste invariantidega: pöörlevale Maale kinnitatud platvorm { "45" }°N juures (tajub Maa pöörlemiskiirust + { "1" } g) püsib { "60" } s jooksul { "1" } mm piires; horisontaalne põhja suunatud erijõud annab <c5/> ja <c6/> nihke; normaalgravitatsioon ühtib teadaolevate ekvaatori/pooluse/45° pinnaväärtustega ja vaba õhu langusmääraga.
+
+# text
+# c1: src/inertial/attitude.rs
+# c2: Quaternion
+# c3: to_dcm
+# c4: from_dcm
+# c5: q̇ = ½ q ⊗ ω
+# c6: coning_increment
+# c7: ½ Δθ_prev × Δθ_cur
+# c8: src/inertial.rs
+# c9: src/inertial/
+# c10: crate::inertial
+seg-290b08199bfb = <b>Kolmeteljeline asendiesitus strapdown INS-ile (<c1/>).</b> Ühikkvaternioonitüüp <c2/> (skalaar ees, Hamiltoni konventsioon), mis kannab keha→nav pööret, DCM-vaatega (<c3/>/<c4/> Shepperdi meetodil), Hamiltoni korrutise, telje-nurga ja pöördevektori (täpne eksponentkaart) konstruktoritega ning kvaternioonkinemaatikaga — nii esimest järku RK kiiruse uuendus (<c5/>) kui ka coning-korrigeeritud pöördevektori uuendus. Kahe valimi <c6/> (Savage / Bryan–Lewantowski, <c7/>) annab pöörlemiskiiruse ristsidestuse liikme, mille skalaarne dead-reckoning välja jätab. See on asendi alus täielikule 3-teljelisele mehhaniseerimisele, mis asendab varasema 1-DOF veaeelarve tee. Kontrollitud kinniste pööretega: konstantse kiirusega levik ühtib telje-nurga kvaternioniga { "1e-6" } täpsusega, DCM-id on ortonormeeritud ühikdeterminandiga ja coning kaob ühe telje liikumise korral. (<c8/> on nüüd mooduli kataloog <c9/>; avalik tee <c10/> on muutmata.)
+
+# text
+# c1: src/frames.rs
+seg-5e6e5bba25a5 = Geodeetiliselt korrektne maajaama nähtavus (<c1/>).
+
+# text
+# c1: elevation
+# c2: is_visible
+# c3: visible_count
+seg-69bdb1e5bfc8 = <c1/>, <c2/> ja <c3/> arvutavad satelliidi kõrguse maajaama silmapiiri kohal <b>WGS-84 ellipsoidi normaali</b> (tõelise kohaliku vertikaali) suhtes, mitte geotsentrilise radiaali suhtes — need erinevad kuni ~{ "0.19" }° geodeetilise kõrvalekalde võrra, mis on piisav, et lülitada silmapiiri lähedased satelliidid kõrgusmaski sisse või välja. Kontrollitud lõpust lõpuni (Walker-konstellatsioon levitatud, pööratud TEME→ECEF ja loetud geodeetiliselt jaamast) ning geotsentrilise lähenduse vastu.
+
+# text
+# c1: test-python-bindings
+# c2: PyO3/maturin-action
+# c3: maturin build
+# c4: rustfmt-preview
+# c5: cargo-fmt
+# c6: deny
+# c7: cargo-deny
+# c8: taiki-e/install-action
+# c9: cargo-deny-action
+seg-4de1d79d2e76 = <b>CI töökindlus.</b> Töö <c1/> ehitab nüüd wheeli abil <c2/> (manylinuxi konteiner) toore hosti <c3/> asemel, kõrvaldades vahelduva <c4/>/<c5/> rustupi konflikti jooksutuspildil. Töö <c6/> paigaldab <c7/> eelehitatud binaarfailina abil <c8/> Dockeril põhineva <c9/> asemel, eemaldades Docker Hubi registrist tõmbamise ajalõpu. Kumbki muudatus ei mõjuta tehtavaid kontrolle.
+
+# text
+seg-05055c993904 = Inertsiaalne kiirus on allavoolu kättesaadav.
+
+# text
+# c1: Propagator::velocity_eci
+# c2: Propagator::state_eci
+# c3: StateEci { r_m, v_m_s }
+# c4: Orbit::velocity_eci
+seg-1228235c99b6 = <c1/> ja <c2/> (tagastavad <c3/>) toovad analüütilise TEME kiiruse, mille SGP4 juba arvutab — varem kõrvale visatud — kutsujateni m/s-des; <c4/> annab Kepleri teele ühtse kiiruse. AIAA 2006-6753 kontrolltest kontrollib nüüd kiirust ka iga etalonrea puhul (halvim kiiruse viga { "1.85e-9" } km/s kõigi { "666" } oleku üle) ja fikseerib võrreldud ridade arvuks täpselt { "666" }.
+
+# text
+# c1: ParseOpts { strict_checksum }
+# c2: parse_propagators_opts
+# c3: strict_checksum
+# c4: ConstellationCfg
+seg-8ac2598291b8 = <b>Rangem, paanikavaba TLE parsimine.</b> Read peavad olema ASCII ja neid lõigatakse ohutult (enam pole baidiindeksi paanikaid mitmebaidise sisendi korral); elemendid kontrollitakse vahemiku suhtes (kaldenurk, ekstsentrilisus, keskmine liikumine); veeru 69 kontrollsummat saab jõustada kaudu <c1/> / <c2/> ja uue lipuga <c3/> väljal <c4/> (vaikimisi leebe).
+
+# text
+# c1: adev_curve
+# c2: [{tau_s, adev, n_samples}]
+seg-1cd2c6621a04 = <b>Alani hälbe kõver väljundis.</b> Iga kellajooks annab nüüd välja <c1/> (<c2/>) ning brauseri mänguväljak joonistab log-log diagrammi „Kella stabiilsus (ADEV)“.
+
+# text
+seg-c76ff20811e7 = Ajaruudustiku sisendi valideerimine.
+
+# text
+# c1: TimeCfg::validate
+# c2: MAX_TIME_STEPS
+seg-75436d067802 = <c1/> lükkab tagasi mittelõpliku, nulli, negatiivse või liiga suure ajaruudustiku (sammu, mis on kestusest suurem, või rohkem kui <c2/> valimit) enne mis tahes mälu eraldamist, nii et väära kujuga stsenaarium tagastab vea, mitte ei põhjusta paanikat ega ammenda mälu.
+
+# text
+seg-d0a8ce50cf6e = Monte Carlo ansamblid inertsiaalpaketile.
+
+# text
+# c1: runs = N
+# c2: ensemble
+# c3: monte_carlo
+seg-3225674ce4ea = <c1/> inertsiaalstsenaariumil käivitab N algväärtust ja annab iga mõõdiku keskmise, standardhälbe, protsentiilid ning protsentiili-alglaadimisega { "95" }% usaldusvahemiku (<c2/>). Iga inertsiaalkäitus kannab nüüd lippu <c3/>, nii et ühe realisatsiooni kvaliteedinäitajat ei peeta enam ekslikult jaotuseks. (CEP/2DRMS-i ei esitata tahtlikult — need nõuavad teekaardil olevat 3-telgset mudelit.)
+
+# text
+# c1: web/share.test.mjs
+seg-2967872bfca1 = <b>Juhitud mänguväljaku režiim.</b> Brauseri mänguväljak ei viska enam toorele TOML-i seinale: „Alusta siit“ riba ühe klõpsuga stsenaariumikaartidega laadib ja käivitab läbitöötatud näite, liugurid avavad universaalsed seaded (algväärtus, ajastuse lävi) TOML-i puutumata, märkus „Kuidas seda lugeda“ selgitab tulemust ning täielik TOML on ühe kokkuvolditava jaotise taga. Iga käitust saab jagada — <b>Kopeeri jagamislink</b> kodeerib kogu stsenaariumi URL-i fragmenti (midagi ei laadita üles), nii et link taastoodab täpselt sama käituse laadimisel. Koodek on ühiktestitud (<c1/>, käivitatakse CI-s).
+
+# text
+# c1: src/sweep.rs
+seg-2e47e8864718 = N-mõõtmelised parameetrite pühkimised (<c1/>).
+
+# text
+# c1: nd_sweep
+# c2: SweepAxis
+seg-5076a9ad20d7 = <c1/> hindab mõõdikut mitme <c2/> vahemiku täielikul Descartes’i korrutisel (mitme parameetriga kompromissuuring) reapõhises järjekorras, deterministlikult. Lisanduv — olemasolev 1-D pühkimise API on muutmata. Sõlmepõhised alglaadimisega usaldusvahemikud ja üldistamine väljaspool kellapaketti jäävad teekaardile.
+
+# text
+# c1: src/raim.rs
+seg-958718831037 = <b>Tõeline hetktõmmise RAIM (<c1/>).</b> Ehtne asukohadomeeni vastuvõtja autonoomne terviklikkuse seire: see ehitab vaatejoone geomeetria nähtavate satelliitideni, moodustab vähimruutude lahenduse ja jäägid, käitab χ² jääkide vea tuvastamise testi (täpne lävi sõltuvusteta mittetäielikust gammafunktsioonist χ²/mittetsentraalsest χ²-st) ning arvutab tõusupõhised horisontaalsed ja vertikaalsed kaitsetasemed (HPL/VPL) seadistatud P_fa/P_md jaoks tuletatud tuvastamata jäänud sündmuse nihkega. See erineb stsenaariumi töövoo filtri sisemise kooskõla terviklikkuse näitajast ja <b>ei ole sellega veel ühendatud</b>; vea välistamine, häireläve/P_HMI eelarvestamine ja ARAIM jäävad teekaardile.
+
+# text
+# c1: src/allan.rs
+# c2: TDEV = tau/sqrt(3) * MDEV
+# c3: deviation_ci
+seg-1675540acbd9 = <b>Sageduse stabiilsuse komplekt: MDEV, TDEV, HDEV + usaldusvahemikud</b> (<c1/>). Kattuva ADEV kõrval: modifitseeritud Alani hälve (eristab valget faasimüra flicker-müra omast), ajahälve (<c2/>) ja Hadamardi hälve (tõrjub lineaarse sageduse triivi täpselt välja ja koondub lahknevate punase müra tüüpide korral). χ²-põhised usaldusvahemikud (<c3/>) kasutavad sõltuvusteta normaal-/χ²-kvantiilide paari (Acklam + Wilson-Hilferty) konservatiivse mittekattuva edf-iga; mürategundispetsiifiline edf ja Stable32 arvuline vastavus jäävad teekaardile.
+
+# text
+# c1: src/frames.rs
+seg-446a9ed4467c = <b>Tugisüsteemi taandamine (<c1/>).</b> GMST-põhine TEME↔ECEF pööre (sama IAU-1982 tähtajaga nagu levitaja), täpne WGS-84 geodeetiline↔ECEF Bowringi algväärtustatud iteratiivse pöördteisendusega (masinatäpne kõigil kõrgustel, sh MEO/GEO) ning geodeetiline maajaama vaatleja, mis tagastab asimuudi / kõrguse / vahemaa kohalikus Ida-Põhja-Üles tugisüsteemis. Poolusliikumist ja kaaresekundi-alust nutatsiooni ei rakendata (ainult GMST, alla kilomeetri maapinnajäljel); ITRF-täpne CIO ahel on teekaardil.
+
+# text
+# c1: src/timescales.rs
+# c2: f64
+seg-9f6f53583cf5 = <b>Ajaskaalade alus (<c1/>).</b> Sõltuvusteta Juliuse kuupäeva API (Gregoriuse tsiviil ↔ JD, MJD), täielik IERS-i täisarvuliste lisasekundite ajalugu (UTC↔TAI, { "10" } s aastal { "1972" } kuni { "37" } s alates { "2017" }), defineeritud TAI→TT nihe, UT1 parandus antud DUT1 kaudu ja IAU-2000 Maa pöörlemisnurk. See on ajaline alus, mille peal Maaga seotud tugisüsteemi taandamine (kavandatud) seisab. Ajahetked on ühe-<c2/> Juliuse kuupäevad (~{ "50" } µs eraldusvõime praeguse epohhi lähedal; kaheosaline JD on teekaardil) ning enne 1972. aastat kehtinud kummisekundi ajajärku ei modelleerita — mõlemad on moodulis dokumenteeritud.
+
+# text
+# c1: scripts/gen-sbom.sh
+# c2: libm
+# c3: docs/REPRODUCIBILITY.md
+seg-6ecc053f101f = <b>Reprodutseeritavus ja päritolu.</b> Deterministlik CycloneDX SBOM-generaator (<c1/>) ning SLSA ehituspäritolu atesteering väljalaskebinaarile ja SBOM-ile; väljalaske tööriistaahel on CI-ga kooskõlas fikseeritud. Determinismi garantiid, platvormideülene <c2/> hoiatus ja kuldfikseerimise lähenemine on dokumenteeritud failis <c3/>.
+
+# text
+# c1: tests/property.rs
+# c2: TimeCfg::validate
+seg-3e98dcdcb82b = <b>Omadustepõhised ja fuzz-testid</b> (<c1/>). Deterministlikud juhuslikustatud testid (uut sõltuvust pole) kinnitavad invariante tuhandete sisendite üle: TLE ja stsenaariumi parserid ei tekita kunagi paanikat prügi, mitte-ASCII, mutatsiooniga ega kärbitud sisendi korral; <c2/> ei tekita kunagi paanikat NaN/inf/negatiivsete ruudustike korral; TLE kontrollsumma on kooskõlas ja puudutab ainult veergu 69; geodeetiline↔ECEF edasi-tagasi tsüklid ning TEME→ECEF pööre säilitavad normi kogu maakera ulatuses ja laias kõrgusvahemikus.
+
+# text
+# c1: libm
+seg-ea252b5d7427 = Kuldtestid <b>fikseerivad nüüd kvaliteedinäitajad väli-välja haaval</b> nelja etalonstsenaariumi jaoks (tolerantsiga, mis neelab platvormideülese <c1/> kõikumise), asendades varasemad ainult võrratustel põhinevad kontrollid, nii et vaikne arvuline regressioon tabatakse kohe kinni.
+
+# text
+# c1: schema_version
+# c2: 0.1
+# c3: 0.7
+seg-4b2a0b78984b = Tulemusartefaktides olev <c1/> tõsteti väärtuselt <c2/> väärtusele <c3/> (see oli külmutatud, samal ajal kui mootor arenes edasi).
+
+# text
+# c1: cargo-deny
+seg-ecafa9d44810 = <c1/> <b>keelab</b> nüüd (mitte ei hoiata) tagasi tõmmatud (yanked) sõltuvusi.
+
+# text
+# c1: CAPABILITY.md
+# c2: SCHEMA.md
+# c3: INTEGRITY.md
+# c4: QUANTUM-MODELS.md
+# c5: REAL_TLE_GUIDE.md
+# c6: Cargo.toml
+seg-c48af44de5b4 = Uued dokumendid: <c1/> (aus ulatuse kaart), <c2/> (tulemusväljade teatmik), <c3/>, <c4/>, <c5/>. CI kaitse annab vea, kui README versioonimärk ei ühti failiga <c6/>.
+
+# text
+seg-8ef32ebec7f5 = <b>SGP4/SDP4 orbiidi levitamine.</b> Standardse lihtsustatud häiringute levitaja täielik sõltuvusteta realisatsioon — Maa-lähedane SGP4 koos kaugkosmose SDP4 laiendusega (Kuu-Päikese sekulaarsed ja perioodilised häiringud ning { "12" } h / { "24" } h geopotentsiaali resonants). See on valideeritud ametlike AIAA 2006-6753 („Revisiting Spacetrack Report #3“) kontrollvektorite vastu: kõik { "666" } etalonolekut Maa-lähedastel, kaugkosmose-, resonants- ja veakoodijuhtudel ühtivad halvima asukohavea korral umbes { "4" } mm täpsusega. See on mudel, mille vastu kahe rea elemendikomplektid on defineeritud, seega esindab see reaalseid konstellatsioone — eelkõige ~{ "12" } h GNSS-orbiite, mis on kaugkosmose- ja resonantsed ning mida varasem kahe keha + J2 sekulaarne mudel ei suuda tabada.
+
+# text
+# c1: orbit-sgp4-gps.toml
+seg-06a77fb9233e = Konstellatsiooni, mis on antud <b>täielike kahe rea elemendikomplektidena</b> (rida { "1" } + rida { "2" }), levitatakse nüüd SGP4/SDP4-ga; konstellatsioon, mis on antud ainult rea 2 elementidena, säilitab analüütilise Kepleri kahe keha levituse muutmata kujul. Neid kahte vormi saab ühes plokis segada. Uus etalonstsenaarium <c1/> (GPS-laadne MEO konstellatsioon reaalses kahe rea vormingus, levitatud SGP4-ga) — pane sisse praegune Celestraki „gps-ops“ komplekt, et uurida töötavat konstellatsiooni.
+
+# text
+# c1: spoof
+# c2: spoof-attack.toml
+seg-2dbb4054e9b8 = <b>Aktiivse spuufimisrünnaku demonstraator.</b> Uus stsenaariumi liik <c1/> süstib kasvava vale aja spuufimise ja käivitab iga kella kellaabistatud terviklikkuse monitori, teatades, kas ja millal spuufimine tuvastatakse ning kas see jõuab töönõudeni tuvastamata — muutes Turvalisuse kvaliteedinäitaja konkreetseks ründe/kaitse demonstratsiooniks. Uus etalonstsenaarium <c2/>.
+
+# text
+# c1: [[constellations]]
+# c2: [constellation]
+# c3: orbit-multignss.toml
+seg-aa0cb8038baa = <b>Mitme konstellatsiooni kättesaadavus.</b> Orbiidistsenaarium võib ühendada mitu konstellatsiooni (loend <c1/> esmase <c2/> kõrval) multi-GNSS kättesaadavuse ja täpsuse halvenemise teguri jaoks — nt GPS pluss Galileo. Uus etalonstsenaarium <c3/>.
+
+# text
+seg-9b9dcd5be0a7 = <b>HTML tulemuskaardi aruanne.</b> Iga käitus loob nüüd ka isemajandava, kaubamärgiga HTML tulemuskaardi — ühe rea kokkuvõtte, diagrammi (manustatud inertse data-URI pildina) ja täieliku JSON-i — mille CLI kirjutab JSON-i ja SVG kõrvale. Jagatav ühefaililine artefakt uuringu väljundiks või lisaks.
+
+# text
+# c1: fusion
+# c2: [phase, frequency]
+# c3: [position, velocity]
+# c4: fusion-pnt.toml
+seg-76c573048a91 = <b>Ühine sensorliitmise hindaja.</b> Uus stsenaariumi liik <c1/> käitab ühte rekursiivset Kalmani filtrit navigatsioonilahendusena — liites kella oleku <c2/> ja asukoha oleku <c3/>, mida distsiplineerib GNSS (õppides sageduse nihke ja kiiruse) ning mida katkestuse ajal abistab optiline aja edastamine — sõltumatute ennustajate komponeerimise asemel. See annab liidetud ajastuse/asukoha holdover’i ja ühise kovariatsiooni terviklikkuse. Uus etalonstsenaarium <c4/>.
+
+# text
+# c1: bias_instability
+# c2: q_aa
+seg-10f0501c91ef = <b>Täielikum IMU müramudel.</b> Kiirendusmõõtur modelleerib nüüd allesjäänud Alani dispersiooni liikmed lisaks konstantsele nihkele ja kiiruse juhuslikule käimisele: <b>nihke ebastabiilsus</b> (1/f flicker-põhi standardse Alani nihke ebastabiilsuse koefitsiendi juures, taaskasutades kella flicker-sünteesi) ja <b>kiirenduse juhuslik käimine</b>. Uued valikulised inertsiaalstsenaariumi väljad <c1/> ja <c2/>; GNSS-i uus lahend kalibreerib jääknihke triivi uuesti.
+
+# text
+# c1: tle
+# c2: orbit-real-tle.toml
+seg-251ffc7b7722 = <b>Reaalne konstellatsiooni geomeetria TLE-dest.</b> Konstellatsiooni saab anda kahe rea elemendikomplektide plokina (standardne NORAD/Celestraki vorming) välja <c1/> kaudu, nii et kättesaadavus ja täpsuse halvenemise tegur kasutavad reaalse konstellatsiooni avaldatud geomeetriat sünteetilise Walkeri mustri asemel. Mootor loeb iga TLE keskmised Kepleri elemendid ja levitab neid kahe keha mudelina — mitte SGP4-ga — mis on põhjendatud ühisest epohhist lähtuva hetktõmmise uuringu jaoks. Uus etalonstsenaarium <c2/>.
+
+# text
+# c1: sweep
+# c2: threshold_ns
+# c3: duration_s
+# c4: quantum_q_wf
+# c5: classical_q_wf
+# c6: sweep-clock-stability.toml
+seg-7deb93b51cc7 = <b>Kompromissuuringu parameetrite pühkimised.</b> Uus stsenaariumi liik <c1/> varieerib ühte parameetrit (<c2/>, <c3/>, <c4/> või <c5/>) lineaarses või logaritmilises vahemikus ja salvestab valitud kvaliteedinäitaja igas punktis mõlema kella jaoks, andes võrdlusdiagrammi „kuidas holdover skaleerub kella stabiilsusega?“, mida disainikompromiss vajab. Uus etalonstsenaarium <c6/>.
+
+# text
+# c1: runs
+# c2: clock-ensemble.toml
+seg-ef6f3e77b476 = <b>Monte Carlo usaldusribad.</b> Kella holdover’i stsenaarium võib käitada palju realisatsioone (uus valikuline väli <c1/>): iga kvaliteedinäitaja esitatakse siis keskmisena 5.–95. protsentiili hajuvusega ning diagramm varjutab iga kella mediaani ümber { "5" }–{ "95" }% veaümbriku. Ühekordne käitus jääb vaikeväärtuseks. Uus etalonstsenaarium <c2/>.
+
+# text
+# c1: eccentricity
+# c2: argp_deg
+# c3: j2
+# c4: orbit-molniya.toml
+seg-e70cc0973fa3 = <b>Ekstsentrilised orbiidid ja J2 triiv.</b> Orbiiditüüp on nüüd täielik Kepleri orbiit (poolsuurtelg, ekstsentrilisus, kaldenurk, RAAN, perigee argument, keskmine anomaalia), mida levitatakse Kepleri võrrandi lahendamisega, valikulise sekulaarse J2 sõlme regressiooni ja apsiidide pretsessiooniga. Uued valikulised stsenaariumi väljad <c1/>, <c2/> ja <c3/> ning etalonstsenaarium <c4/> ({ "12" } h väga ekstsentriline kriitilise kaldega kasutaja). Ringorbiidid säilitavad algse kinnise valemi tee bitthaaval.
+
+# text
+seg-cc041e16d418 = Hübriid- (kombineeritud PNT) pakett annab nüüd <b>Terviklikkuse</b> ja <b>Turvalisuse</b>, nii et kõik neli paketti katavad täieliku töönäitajate kvaliteedinäitajate komplekti. Terviklikkus on ajastuskanali kaitsepiiri sisaldumine Kalmani hindajast, mis on distsiplineeritud tõe külge, kuni GNSS on nominaalne, ja uuesti ankurdatud (lõdvemalt) iga optilise uuesti sünkroniseerimise juures; selle piir sisaldab lingi mõõtmismüra põhja, nii et kella, mis on lingist palju parem, hinnatakse edastatud lahenduse tegeliku müra suhtes. Turvalisus on kellaabistatud spuufimise tuvastamise skoor ajastusnõude suhtes.
+
+# text
+# c1: scripts/changelog-extract.sh
+seg-e0b666457d6e = Väljalasketeated genereeritakse nüüd sildi kureeritud CHANGELOG-i jaotisest (<c1/>), nii et iga GitHubi väljalase toob esile muudatused toorete commitide loetlemise asemel.
+
+# text
+# c1: [0, 1]
+seg-f785718e9454 = <b>Turvalisuse</b> kvaliteedinäitaja (varem täitmata): kellaabistatud spuufimise tuvastamise skoor kella holdover’i ja orbiidipakettide jaoks. See modelleerib terviklikkuse monitori, mis kontrollib GNSS-ist tuletatud aega vastu kella enda libistatud ennustust koherentse akna jooksul; tuvastamise põhi ühendab keskmistatud mõõtmismüra kella libisemise määramatusega, nii et vaiksem kell tuvastab väiksemaid ja aeglasemaid aja spuufimisi. Skoor esitatakse vahemikus <c1/> ajastusnõude suhtes, täites kuus töönäitajate kvaliteedinäitajat.
+
+# text
+# c1: Q = (HᵀH)⁻¹
+# c2: sigma_uere_m
+seg-9164140872c8 = Geomeetriast tuletatud <b>asukohatäpsus</b> orbiidipaketile: nähtavate satelliitide vaatejoone geomeetriast moodustab see disainimaatriksi ja selle kovariatsioonitegur <c1/>, andes täpsuse halvenemise tegurid (GDOP/PDOP/HDOP/VDOP/TDOP). Asukohatäpsus on asukoha DOP, skaleeritud seadistatava kasutaja-ekvivalentse vahemaa veaga (uus valikuline stsenaariumi väli <c2/>). Orbiiditulemus kannab nüüd geomeetria kokkuvõtet (lahendiga valimite osa, parim ja mediaanne PDOP ning asukoha sigma).
+
+# text
+# c1: web/
+# c2: pages
+# c3: summary
+seg-3285502161c6 = Brauserisisene <b>mänguväljak</b> (<c1/>), mis käitab mootorit kliendi poolel WebAssemblyna: vali etalonstsenaarium või redigeeri TOML-i, käivita see ning vaata kokkuvõtet, diagrammi ja täielikku JSON-i, ilma et midagi üles laaditaks. Töövoog <c2/> ehitab ja avaldab selle GitHub Pagesis ning uus WebAssembly eksport <c3/> toetab näitu.
+
+# text
+# c1: chart
+seg-0dca5318f7ce = Sildistatud y-teljed SVG diagrammidel: ruudustikujooned, numbrilised jaotusmärgised ja ühikute telje pealkiri (jagatud abifunktsiooni <c1/> kaudu), nii et suurusjärgud on loetavad.
+
+# text
+# c1: publish
+seg-ce84a3d61f19 = Paketi avaldamise töövoog (<c1/>) crates.io, PyPI ja npm jaoks, kõik blokeeritud oma registri tokeni taha ja käivitatud avaldatud väljalaskega.
+
+# text
+# c1: flicker_floor
+seg-0f01369fc29b = Flicker (1/f) FM põhi kella veamudelile, sünteesitud logaritmiliselt jaotatud Ornstein-Uhlenbecki protsesside summana ja kalibreeritud nii, et lame Alani hälbe põhi asub seadistatava tasemel. Vaikimisi väljas; lubatakse kella kohta valikulise stsenaariumi välja <c1/> kaudu.
+
+# text
+# c1: gyro_bias
+# c2: q_arw
+seg-5b7fcd386fd3 = Güroskoobi kanal inertsiaalmudelile: jääkgüroskoobi nihe ja nurga juhuslik käimine ajavad asendi (kalde) viga, mis seob gravitatsiooni horisontaalse erijõu veaga — strapdown-vea kasvu domineeriv mehhanism. Vaikimisi väljas; lubatakse sensori kohta valikuliste väljade <c1/> ja <c2/> kaudu.
+
+# text
+# c1: q_wf*T + q_rw*T^3/3
+seg-efe9f10d2641 = Kaheolekuline (faas, sagedus) Kalmani kellahindaja täpse van Loani protsessimüra diskretiseerimisega. Teadaolevast olekust libisemine taastoodab täpselt analüütilise holdover’i vea kasvu (<c1/>) ning filter annab lisaks veebipõhise 1-sigma määramatuse piiri.
+
+# text
+seg-539e24f34ed1 = Kellajooks annab nüüd välja <b>Terviklikkuse</b> kvaliteedinäitaja (varem täitmata): katkestuse valimite osa, mille viga jääb filtri 3-sigma kaitsepiiri sisse, esitatud JSON-tulemuses ja CLI kokkuvõttes.
+
+# text
+# c1: orbit
+# c2: orbit-gnss-challenged.toml
+seg-80620c97e3f5 = Geomeetriast tuletatud GNSS-i kättesaadavus: ringorbiidi levitamine, Walker-delta konstellatsiooni generaator ja vaatejoone nähtavus (Maa varjutus pluss kõrgusmask) annavad kättesaadavuse ajajoone tegelikust orbitaalgeomeetriast. Uus stsenaariumi liik <c1/> ja etalonstsenaarium <c2/> (kosmoseaparaat GNSS-i kesta sees katkendliku katvusega).
+
+# text
+# c1: run
+# c2: run_full
+# c3: version
+# c4: pyproject.toml
+# c5: wheels
+seg-67549163ad7d = Valikuline Pythoni laiendus (PyO3, abi3), mis avab <c1/>, <c2/> ja <c3/>, pakitud maturiniga (<c4/>) ning ehitatud Linuxile, macOS-ile ja Windowsile väljalaskesildi töövooga <c5/>. Sidestus on funktsiooniga blokeeritud valikuline sõltuvus: vaikeehitust, teste ja sõltuvusauditi lüüsi see ei mõjuta.
+
+# text
+# c1: run
+# c2: chart_svg
+# c3: version
+# c4: wasm
+# c5: getrandom
+# c6: wasm32
+seg-c76dc363f0b1 = Valikuline WebAssembly moodul (wasm-bindgen), mis avab <c1/>, <c2/> ja <c3/>, ehitatud wasm-packiga funktsiooni <c4/> all; <c5/> on sihtmärgiga blokeeritud, et kasutada platvormil <c6/> brauseri entroopiaallikat.
+
+# text
+# c1: api::run_toml
+seg-cf1b0eef2201 = Jagatud <c1/> suunamine, mida kasutavad CLI ja mõlemad sidestused, nii et käsurida ja sidestused ei saa lahknema hakata.
+
+# text
+seg-8d4f855d11bd = Holdover’i hindamine on nüüd segmenditeadlik: katkestuste ajajooned jagatakse GNSS-i taasomandamise kohtades pidevateks segmentideks ja esitatud holdover on nende halvim (lühim) libisemine. Ühe katkestuse stsenaariumid on muutmata. Kehtib kella-, inertsiaal- ja hübriidhindajatele.
+
+# text
+# c1: kind
+# c2: inertial
+# c3: accelerometer
+seg-8b3556d125ed = Inertsiaalmudeli esitatud stsenaariumi <c1/>-id on nüüd <c2/> (varem <c3/>), mis kajastab kombineeritud kiirendusmõõturi ja güroskoobi kanaleid.
+
+# text
+seg-d842f9cc0a9c = Esimene väljalase.
+
+# text
+# c1: scenario + seed + engine version
+# c2: kind
+seg-962b75c38735 = <b>Deterministlik simulatsioonimootor</b> hübriidse kvant/klassikalise PNT jaoks: ühine veamudeli liides, deklaratiivsed GNSS-i kättesaadavuse stsenaariumid, holdover’i / dead-reckoning’u hindajad ja kvaliteedinäitajate hindamine standardsete töönäitajate PNT kriteeriumide vastu. Tulemused on reprodutseeritavad väärtusest <c1/> (versioonitud, ennast kirjeldav JSON stsenaariumi räsiga) ja renderdatud SVG diagrammidena. CLI suunab stsenaariumid stsenaariumi <c2/>-id järgi.
+
+# text
+seg-16e574edc3a8 = <b>Neli sensoripaketti</b>, igaüks kalibreeritud avaldatud andmete järgi ja valideeritud standardse seose vastu:
+
+# text
+seg-b49bbb60c2cd = <b>Kella holdover</b> — valge FM, juhusliku käimise FM ja lineaarne vananemine; valideeritud kattuva Alani hälbega (Riley, NIST SP { "1065" }). Kiibimõõtmetega aatomkell vs strontsiumi optiline võrekell.
+
+# text
+seg-be2c5f28b256 = <b>Inertsiaalne dead-reckoning</b> — jääknihe + kiiruse juhuslik käimine, kahekordselt integreeritud asukohaveaks; valideeritud Grovesi vea kasvu seoste vastu. Külmaatomi- vs navigatsioonitaseme kiirendusmõõtur.
+
+# text
+seg-fcb0f72db736 = <b>Aja edastamine</b> — optilise vs raadiosageduslinki ajastuse värin → sünkroniseerimise korduvtäpsus → ühesuunaline kaugusmõõtmine.
+
+# text
+seg-93e5f2f70b58 = <b>Hübriidliitmine (tippülesanne)</b> — kombineeritud PNT-komplekt, mis peab hoidma nii aega kui ka asukohta, valikulise optilise satelliitidevahelise aja edastamisega kella abistamiseks.
+
+# text
+# c1: scenarios/
+# c2: provenance
+seg-e0a8cbe0c105 = <b>Üks tsiteeritud etalonstsenaarium paketi kohta</b> kataloogis <c1/>, iga arvparameeter kannab eelretsenseeritud viidet <c2/>.
+
+# text
+seg-8f1cc09b2513 = <b>Reprodutseeritavuse ja hoidla hügieeni kaitsed</b>; CI (vorming, clippy, testid, kaitsed, MSRV) ja sildiga blokeeritud väljalasketoru, mis käitab kõik kontrollid uuesti.
+
+# text
+seg-8b4e21f56334 = <b>Dokumentatsioon</b>: README arhitektuuridiagrammidega, valideerimisoleku aruanne, panustamisjuhend, turvapoliitika ja käitumisjuhend; Apache-2.0 litsents; probleemi-/PR-mallid ja Dependabot seadistus.
+
+# text
+seg-e26d94f06ead = Kogu ulatuses tarnijaneutraalne; eelretsenseeritud teaduslikud ja metroloogilised viited on säilitatud.
+
+# text
+# c1: NOTICE
+# c2: cargo-deny
+seg-84cb67686edf = Apache-2.0 litsentsi hügieen: SPDX päised kõigis lähtefailides, fail <c1/> kaubamärgi märkusega, Developer Certificate of Origin (DCO) allkiri panuste jaoks ning <c2/> sõltuvuste litsentside/nõuannete jõustamine CI-s.
+
+# text
+seg-a0f14bea7532 = Open-core positsioneerimine (README): tasuta Apache-2.0 mootor pluss Ashforde OÜ pakutav kommertstugi, integreerimine ja suletud laiendused — hoitud teenustega, mitte litsentsitasudega.
+
+# text
+# c1: CITATION.cff
+seg-899815063eb1 = <c1/>, et tarkvara oleks võimalik tsiteerida.
+
+# text
+seg-15f45d8ccb0f = <s1>Eelmine</s1>Kus Kshana asub
+
+# text
+seg-cd8a14a9e8ec = <s1>Järgmine</s1>Litsentsimine
