@@ -57,8 +57,10 @@ fn check_nonneg(name: &str, v: f64) -> Result<(), String> {
     if v.is_finite() && v >= 0.0 {
         Ok(())
     } else {
-        Err(format!(
-            "handover {name} must be a finite number of at least 0, got {v}"
+        Err(crate::terr!(
+            "e-mission-thread-handover-handover-must-be-finite-number",
+            name = name,
+            v = crate::i18n::num_plain(v)
         ))
     }
 }

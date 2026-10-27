@@ -11,6 +11,24 @@ import glob, os, re, sys
 # starts or ends mid-sentence in a way a translator cannot reorder, belongs in the merged messages, not here.
 EXCLUDED_GROUPS = [
     (
+        'whole message: an error sentence whose English ends in a preposition ("the series the fit is made from"); one complete sentence, not assembled',
+        [
+            "e-api-clock-fit-needs-clock-log-table",
+        ],
+    ),
+    (
+        'whole message: a summary line, chart subtitle or default title that is returned whole (the variable is moved into the run output or handed to the chart function as the subtitle or title), not joined with another message',
+        [
+            "lunar-ascent-summary",
+            "lunar-landing-summary",
+            "lunar-landing-chart-subtitle",
+            "lunar-rendezvous-summary",
+            "lunar-rendezvous-chart-subtitle",
+            "lunar-surface-map-summary",
+            "mission-thread-default-title",
+        ],
+    ),
+    (
         'markup: CSS rules or custom properties written into the HTML or SVG, not prose',
         [
             "advanced-report-bg-fg-muted-line-card",

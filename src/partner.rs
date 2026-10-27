@@ -212,21 +212,25 @@ pub struct Report {
 impl Report {
     /// Plain-text rendering.
     pub fn to_text(&self) -> String {
-        let mut s = format!("kshana partner check: {}\n", self.submission);
+        let mut s = format!(
+            "{}\n",
+            crate::t!("partner-text-header", submission = self.submission)
+        );
         for i in &self.info {
-            s.push_str(&format!("  info: {i}\n"));
+            s.push_str(&format!("{}\n", crate::t!("partner-text-info", i = i)));
         }
         for w in &self.warnings {
-            s.push_str(&format!("  warning: {w}\n"));
+            s.push_str(&format!("{}\n", crate::t!("partner-text-warning", w = w)));
         }
         for e in &self.errors {
-            s.push_str(&format!("  ERROR: {e}\n"));
+            s.push_str(&format!("{}\n", crate::t!("partner-text-error", e = e)));
         }
-        s.push_str(if self.ok {
-            "result: the format and the metadata are complete and readable\n"
+        s.push_str(&if self.ok {
+            crate::t!("partner-text-result-ok")
         } else {
-            "result: not ready; fix the errors above\n"
+            crate::t!("partner-text-result-not-ready")
         });
+        s.push('\n');
         s.push_str(self.statement);
         s.push('\n');
         s
@@ -600,8 +604,13 @@ fn read_data(
 
 /// Read `path` as a submission and check it.
 pub fn check_file(path: &Path) -> Result<Report, String> {
-    let text = std::fs::read_to_string(path)
-        .map_err(|e| format!("cannot read {}: {e}", path.display()))?;
+    let text = std::fs::read_to_string(path).map_err(|e| {
+        crate::terr!(
+            "e-interference-map-cli-cannot-read",
+            path = path.display(),
+            e = e
+        )
+    })?;
     let name = path.display().to_string();
     let dir = path.parent().unwrap_or_else(|| Path::new("."));
     match toml::from_str::<Submission>(&text) {
@@ -627,16 +636,10 @@ pub mod cli {
     use std::path::Path;
     use std::process::ExitCode;
 
-    const USAGE: &str = "usage: kshana partner check <submission.toml> [--json]
-  Checks the format and the metadata of a data-partner submission (kshana.partner-submission/1) and reads its
-  data file with the engine's own readers. It does not score or validate anything; see docs/PARTNER-DATA.md.
-  Exit status 0: the submission is complete and readable; 1: errors were found; 2: usage.
-Advisory software, not type-approved navigation equipment.";
-
     /// Run the subcommand with the arguments after `partner`.
     pub fn run(args: &[String]) -> ExitCode {
         if args.first().map(String::as_str) != Some("check") {
-            eprintln!("{USAGE}");
+            eprintln!("{}", crate::t!("partner-cli-usage"));
             return ExitCode::from(2);
         }
         let json = args.iter().any(|a| a == "--json");
@@ -646,12 +649,21 @@ Advisory software, not type-approved navigation equipment.";
                 .iter()
                 .any(|a| a.starts_with("--") && a != "--json")
         {
-            eprintln!("{USAGE}");
+            eprintln!("{}", crate::t!("partner-cli-usage"));
             return ExitCode::from(2);
         }
-        match check_file(Path::new(files[0])) {
+        // The findings of a `--json` report are a machine document: made in English whatever the language.
+        let checked = if json {
+            crate::i18n::in_english_or_localised_error(|| check_file(Path::new(files[0])))
+        } else {
+            check_file(Path::new(files[0]))
+        };
+        match checked {
             Err(e) => {
-                eprintln!("error: {e}");
+                eprintln!(
+                    "{}",
+                    crate::i18n::error_report(&crate::t!("main-fail", e = e))
+                );
                 ExitCode::from(2)
             }
             Ok(r) => {
@@ -659,7 +671,10 @@ Advisory software, not type-approved navigation equipment.";
                     match serde_json::to_string_pretty(&r) {
                         Ok(s) => println!("{s}"),
                         Err(e) => {
-                            eprintln!("error: {e}");
+                            eprintln!(
+                                "{}",
+                                crate::i18n::error_report(&crate::t!("main-fail", e = e))
+                            );
                             return ExitCode::from(2);
                         }
                     }

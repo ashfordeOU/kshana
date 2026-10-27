@@ -74,8 +74,11 @@ pub fn ctor(t: &toml::Table) -> Result<Box<dyn MissionPhase>, String> {
     let m = Model::new(KIND, t);
     let (lo, hi) = (m.pos("corridor_min_deg")?, m.pos("corridor_max_deg")?);
     if hi <= lo || hi >= 90.0 {
-        return Err(format!(
-            "{KIND}: the corridor must run from a shallow to a steeper angle below 90 degrees, got {lo} to {hi}"
+        return Err(crate::terr!(
+            "e-mission-thread-earth-entry-the-corridor-must-run-from",
+            kind = KIND,
+            lo = crate::i18n::num_plain(lo),
+            hi = crate::i18n::num_plain(hi)
         ));
     }
     let max_decel_g = if t.contains_key("max_decel_g") {
