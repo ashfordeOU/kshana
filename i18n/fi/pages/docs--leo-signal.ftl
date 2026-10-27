@@ -1,11 +1,5 @@
 # docs--leo-signal: translations (fi)
 
-seg-a86ce24d81de = Kaista
-
-seg-74f4e80c65cb = Komponentit
-
-seg-e769f0411e64 = Julkaisija on poistanut; arkistokopiota ei ole
-
 seg-3ea93ae372ca = Mitä se sisältää
 
 seg-6cb7a787ac67 = Lähteet
@@ -25,6 +19,12 @@ seg-2b0d77219437 = Esiasetukset
 seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
 
 seg-c5ce76c91ff7 = Merkintä
+
+seg-a86ce24d81de = Kaista
+
+seg-74f4e80c65cb = Komponentit
+
+seg-e769f0411e64 = Julkaisija on poistanut; arkistokopiota ei ole
 
 seg-2255f9acec5b = Lähde: <c1/>
 

@@ -7,6 +7,78 @@ seg-6816f4e1a0a0 = Versio
 seg-94058315dfe4 = Syöte
 
 # text
+seg-23746ba370c2 = Lähde: <c1/>
+
+# text
+seg-1e9c104231db = Galileo OSNMA -vastaanottimen puolen todentaja
+
+# text
+seg-17fd702f5997 = Galileo Open Service Navigation Message Authentication (OSNMA) -todentaja vastaanottimen puolelle, toteutettu puhtaasti Rust-kielellä. Se lukee I/NAV-sivuja ja raportoi satelliittia ja epookkia kohti, onko navigointidata kryptografisesti todennettu, ja miksi tarkistus epäonnistui.
+
+# text
+seg-ae081f55c4f1 = <b>Ohjeellinen.</b> Tämä on analyysi- ja seurantatulos eikä tyyppihyväksytty navigointilaite. Tässä raportoitu todennustila ei ole navigoinnin eheyspalvelu, eikä sitä saa käyttää ainoana perusteena navigointia tai turvallisuutta koskevalle päätökselle.
+
+# text
+seg-84d7260098b1 = HUOMAUTUS: Galileo OSNMA -rajapinnan immateriaalioikeudet
+
+# text
+seg-6d78ccef53d5 = Kshana ei myönnä mitään oikeuksia Euroopan unionin immateriaalioikeuksiin Galileo OSNMA Signal-in-Space Interface Control Documentissa (”ICD IPRs”). ICD:n mukana tulee sen oma valtuutus (liite E), joka on epäyksinomainen ja rojaltivapaa ja jolla on omat ehtonsa, soveltamisalansa ja rajauksensa. Jokainen, joka käyttää, rakentaa tai jakelee tähän moduuliin perustuvaa ohjelmistoa, nojaa suoraan tähän valtuutukseen ja hänen on itse luettava ja hyväksyttävä sen ehdot. Kshanan lisenssi (AGPL-3.0-only tai kaupallinen lisenssi) kattaa vain Kshanan oman koodin.
+
+# text
+seg-c13ad334bf9a = Tämä moduuli toteuttaa algoritmit, jotka alla luetellut asiakirjat kuvaavat. ICD:n tekstiä ei jäljennetä; numeeriset arvot (kenttien asettelut, luettelotyypit, MAC-hakutaulukko) esitetään uudelleen Kshanan omalla merkintätavalla, ja lähde mainitaan koodissa. ICD ja Receiver Guidelines ovat © Euroopan unioni; lähde tunnustetaan tässä. Euroopan unioni, Euroopan komissio, EUSPA tai mikään muu taho ei ole kehittänyt, käyttänyt tai hyväksynyt Kshanaa eikä tue sitä.
+
+# text
+seg-860096b04999 = Viiteasiakirjat
+
+# text
+seg-04c1e1a6278d = Julkaissut European GNSS Service Centre.
+
+# text
+seg-278dd0f9df58 = Asiakirja
+
+# text
+seg-3427e40d7bee = Päivämäärä
+
+# text
+seg-54d15cb428d3 = Galileo OSNMA Signal-in-Space ICD (”SIS ICD”)
+
+# text
+seg-f63fbc1175cf = Issue { "1.1" }
+
+# text
+seg-fa85e4db2c93 = lokakuu { "2023" }
+
+# text
+seg-b89aa2b88558 = Galileo OSNMA Receiver Guidelines
+
+# text
+seg-907e4e46056c = Issue { "1.3" }
+
+# text
+seg-a9b75bc7f063 = tammikuu { "2024" }
+
+# text
+seg-530ae6421157 = Koodissa ja tässä mainitut kohta- ja taulukkonumerot viittaavat näihin versioihin.
+
+# text
+seg-143726cc3d5f = Mitä todennetaan
+
+# text
+seg-029a9bb7608f = Luottamusketju juuresta dataan asti:
+
+# text
+seg-886f1b6556ce = <b>Julkinen avain (ICD { "3.2.2" }, { "6.2" }).</b> DSM-PKR kootaan uudelleen lohkoistaan ja sen Merkle-polku kuljetaan läpi luotettuun Merkle-juureen (SHA-256).
+
+# text
+seg-27b4935fe47b = <b>KROOT (ICD { "3.2.3" }, { "6.3" }).</b> DSM-KROOT kootaan uudelleen; sen ECDSA-allekirjoitus (P-256/SHA-256 tai P-521/SHA-512) tarkistetaan sen nimeämää julkista avainta vastaan NMA-otsakkeen ja ketjun parametrien yli.
+
+# text
+seg-acc1f06cf63a = <b>TESLA-avaimet (ICD { "5.5" }, { "6.4" }).</b> Jokainen MACK-viestin avain kuljetaan takaisin KROOTiin tai aiempaan todennettuun avaimeen ketjun tiivistefunktiolla.
+
+# text
+seg-274285216a96 = <b>MACSEQ (ICD { "4.1.2" }, { "6.6" }).</b> Joustavat Tag-Info-kentät tarkistetaan MACSEQ:ta vastaan sillä avaimella, joka avaa kyseisen MACKin.
+
+# text
 seg-41ba810d7c8d = <b>Tagit (ICD { "4.2" }, { "6.7" }).</b> Jokainen tagi lasketaan uudelleen (HMAC-SHA-256 tai CMAC-AES, katkaistuna ketjun tagipituuteen) satelliittien tunnisteiden, alikehyksen ajan, tagin paikan, NMA-tilan ja sen kattaman navigointidatan yli ja verrataan. Käsitellään ADKD { "0" } (efemeridi, kello ja tila), ADKD { "4" } (ajoitusparametrit) ja ADKD { "12" } (hidas MAC, avain julkaistaan kymmentä alikehystä myöhemmin), sekä sellaisten satelliittien ristiintodennus, jotka eivät itse kanna OSNMA:ta, ja dummy-tagit (COP { "0" }).
 
 # text

@@ -34,7 +34,7 @@ seg-7ab6bb7a1b8a = MODELLED — CCSDS OEM -tuonti-/edestakaissilta (GMAT/Orekit/
 
 seg-343a56c07d02 = MODELLED rakenteellinen/fysikaalinen sisäänottotarkistus, EI lähteen radan tarkkuuden validointi. (tyyppiluettelo (<c1/>))
 
-seg-44aba1ad1d37 = RAJAUS TOTUUDENMUKAISESTI: MODELLED rakenteellinen + fysikaalinen sisäänottotarkistus, EI lähdeefemeridin radan tarkkuuden validointi. Ajo: kshana scenarios/oem-interop.toml (skenaariotiedoston kommentti, rivit { "11" } - { "13" })
+seg-44aba1ad1d37 = REHELLINEN RAJAUS: MODELLED rakenteellinen + fysikaalinen sisäänottotarkistus, EI lähdeefemeridin radan tarkkuuden validointi. Ajo: kshana scenarios/oem-interop.toml (skenaariotiedoston kommentti, rivit { "11" } - { "13" })
 
 seg-833df8eedc34 = <s1>Edellinen</s1>ntn-positioning
 
