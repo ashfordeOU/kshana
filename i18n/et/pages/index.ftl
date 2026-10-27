@@ -744,3 +744,413 @@ seg-dfe6a1451d36 = algväärtus (seed) { "7" }
 
 # text
 seg-e6df43ef3bcc = Segamine<s1>T+{ "00" }:{ "10" }:{ "00" }</s1>
+
+# text
+seg-6d3d0f8c9b7c = Taotle Pro hindamist
+
+# attr:title
+seg-813d6d41b891 = Kopeeri käsk, mis seda reprodutseerib
+
+# text
+seg-a0ef302e2458 = Kopeeri käsk
+
+# text
+seg-639fb18e57e0 = algväärtus (seed) { "43" }
+
+# text
+seg-599691a88cac = Spuufimine<s1>T+{ "00" }:{ "20" }:{ "00" }</s1>
+
+# text
+seg-14f57653cd5c = Holdover<s1>T+{ "00" }:{ "26" }:{ "10" }</s1>
+
+# text
+seg-4be8c1c7aeb6 = algväärtus (seed) { "44" }
+
+# text
+seg-d78a727a49a3 = Terviklikkuse alarm<s1>T+{ "00" }:{ "56" }:{ "10" }</s1>
+
+# text
+seg-612e8a49730d = algväärtus (seed) { "45" }
+
+# text
+seg-8cc810de504f = Taastumine<s1>T+{ "01" }:{ "06" }:{ "10" }</s1>
+
+# text
+seg-d106d9ae3db3 = algväärtus (seed) { "46" }
+
+# text
+seg-cea3b8e726c8 = { "6" } faasi · { "18" } olemasolevate stsenaariumi liikide liikmejooksutust
+
+# text
+seg-12e134ed7cad = Satelliidid · { "102" }, neli süsteemi
+
+# text
+seg-ba2d1b289ed3 = Vastuvõtja · PL-i rõngas AL-i rõnga vastu
+
+# text
+seg-aa38fb41591a = Segaja · { "1.0" } km vastuvõtjast
+
+# text
+seg-f65f922fa89d = Spuufer
+
+# text
+seg-d3b2bac50e3d = Kella ajaviga<s1>ns · valve { "50" }</s1>
+
+# text
+seg-c42b07814ef6 = C/N0<s1>dB-Hz · põrand { "25" }</s1>
+
+# text
+seg-747943902bc5 = PL vs AL<s1>meetrit · AL { "50" }</s1>
+
+# attr:aria-label
+seg-61345694fae0 = Esita missioon
+
+# attr:title, text
+seg-0d529358e2ad = Segamine
+
+# attr:title, text
+seg-c8df54685469 = Terviklikkuse alarm
+
+# attr:title, text
+seg-63a70a989509 = Taastumine
+
+# text
+seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } missiooniaega · aheldatud jooksutus, mitte kolm kõrvuti jooksutust
+
+# text
+seg-dc2eb6c3c2a4 = PL = kaitsetase · AL = häirepiir · INS = inertsiaalnavigatsioonisüsteem
+
+# text
+# c1: fc21ac4
+# c2: campaign-jam-spoof-holdover-integrity.toml
+seg-b85e60e05c9f = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+# text
+seg-0588364091ec = Esimesest segatud satelliidist kuni kella holdover-i viimase nanosekundini: signaalid, andurid, kellad, orbiidid ja terviklikkus ühes simulaatoris. Iga allolev pilt on tegelik mootori jooksutus ja ütleb seda.
+
+# text
+seg-18e6988c1ccd = GNSS-i segamine ja häired
+
+# text
+# c1: jamming
+seg-1d97776ae325 = Mastil asuv lairiba segaja ja selle ümber ruudustikul liigutatud vastuvõtja: iga lahter on mootori stsenaariumi <c1/>-id oma jooksutus. Varjund on keskmine J/S (segaja ja signaali suhe); punased lahtrid kaotasid kõik satelliidid.
+
+# attr:aria-label
+seg-4fa6a9f6915d = Segamise jalajälg: keskmine segaja ja signaali suhe ning jälgimine vastuvõtja asendite ruudustikul segaja ümber
+
+# text
+# c1: maritime-strait-jamming.toml
+seg-774ec89d13d7 = Mootor v{ $version } · <c1/> · algväärtus (seed) { "1" } · vastuvõtja liigutatud lahtri kaupa
+
+# text
+seg-7292d543b1ac = Kõik lahtrid lehel Missions
+
+# text
+seg-08ba18ea712c = Pettus
+
+# text
+seg-f765712462a1 = Spuufer haarab vastuvõtja ja nihutab selle aega ühtlase kiirusega. Iga kella terviklikkuse monitoril on oma tuvastuspiir: kvantkell märgib vale peaaegu kohe, klassikaline alles siis, kui nihe on kasvanud.
+
+# attr:aria-label
+seg-1770a46a99f6 = Spuufitud ajanihe tuvastuspiiri vastu
+
+# attr:aria-label
+seg-0f425005ca69 = Spuuferi ajanihe iga kella tuvastuspiiri vastu, koos hetkega, mil iga monitor selle märgib
+
+# text
+# c1: spoof-attack.toml
+seg-a9829e27b53b = Mootor v{ $version } · <c1/> · deterministlik, algväärtust (seed) ei ole
+
+# text
+seg-ab0eb55b688a = Kellad
+
+# text
+seg-ceaa6be5f5fd = Kella holdover erinevates ostsillaatoriklassides
+
+# text
+seg-c25919241d9e = Hetkest, mil GNSS kaob: { "200" } Monte Carlo jooksutuse mediaan ja 95. protsentiil kiibimõõtmelise aatomkella (CSAC) ja optilise võrekella jaoks ning veel nelja klassi ühepäevane viga: optiline põhikell, vesinikmaser, rubiidiumi aatomsagedusstandard (RAFS) ja selle miniatuurne versioon (mini-RAFS).
+
+# attr:aria-label
+seg-b2019ec6d1c7 = Ajavea riba { "200" } Monte Carlo jooksutuse üle
+
+# attr:aria-label
+seg-01961fd0b949 = Kella ajaviga pärast GNSS-i kadumist: { "200" } Monte Carlo jooksutuse mediaan ja 95. protsentiil kahe kella jaoks ning nelja ostsillaatoriklassi ühepäevane viga
+
+# text
+# c1: clock-ensemble.toml
+seg-ae208f50ab77 = Mootor v{ $version } · <c1/> · algväärtus (seed) { "42" }
+
+# text
+# c1: lunar-time-budget.toml
+seg-b3ec228c054d = <b>Ühepäevane veerg:</b> mootor v{ $version } · <c1/> · deterministlik, algväärtust (seed) ei ole
+
+# text
+seg-a747535696fa = Dead reckoning
+
+# text
+seg-ae35aad6ab75 = GNSS/INS-i sõit ilma GNSS-ita
+
+# text
+seg-0c56d6e5450a = Kui GNSS kaob, jätkab INS (inertsiaalnavigatsioonisüsteem) tööd ja selle vea koonus avaneb. Kaks inertsiaalmõõteseadet (IMU-d), üks bilanss.
+
+# attr:aria-label
+seg-9f97f05ad6bb = Asendivea koonus pärast GNSS-i kadumist kahe inertsiaalmõõteseadme jaoks asendibilansi vastu
+
+# text
+seg-142a299dff50 = Kui kaua kell püsib pärast viimast fiksi oma valveintervalli sees: küsimus, mis huvitab ajapiludega võrke.
+
+# attr:aria-label
+seg-2b3d148b354d = Ennustatud ajaviga alates viimasest fiksist pilu valve vastu
+
+# text
+seg-7a7de9a2d48a = RAIM ja ARAIM
+
+# text
+seg-4d5cad94655f = Kaitsetasemed (PL) vastuvõtja autonoomsest terviklikkuse seirest (RAIM) ja selle täiustatud vormist (ARAIM), kontrollituna häirepiiri vastu: siin aheldatud missiooni terviklikkuse alarmi faas. Triibutatud tulbad on epohhid, kus kaitsetaset ei olnud võimalik moodustada.
+
+# attr:aria-label
+seg-750f6b337ce8 = Vertikaalne kaitsetase terviklikkuse alarmi faasi igal epohhil häirepiiri vastu
+
+# text
+seg-cdf824111b80 = Telekommunikatsioon
+
+# text
+seg-129537868d97 = 24-tunnise holdover-i MTIE (maksimaalne ajaintervalliviga) ja TDEV (ajahälve) ITU-T (Rahvusvaheline Telekommunikatsiooniliit, telekommunikatsioonistandardimise sektor) piiride vastu, siin PRTC-A (primaarne etalonaja kell, klass A) piir.
+
+# attr:aria-label
+seg-7a19d976cca6 = Holdover-i jooksutuse maksimaalne ajaintervalliviga ja ajahälve PRTC-A piiri vastu
+
+# text
+seg-ea5d9e4acbdf = Astrodünaamika
+
+# text
+seg-5a507113bfff = Orbiidid: SGP4 ja numbriline
+
+# text
+seg-2ebc9a7b022e = SGP4 (Simplified General Perturbations { "4" }) levitamine tegelikul kahe rea elementide komplektil, joonistatud tegelikule kaadrile; CCSDS OEM ja SP3 efemeriidid sisse ja välja.
+
+# attr:aria-label
+seg-c28ef17609ee = Mootori SGP4 levitamise maapealne jälg tegelikul kahe rea elementide komplektil, NASA Blue Marble kaadril
+
+# text
+seg-2bc362b38f3d = Tsislunaarne
+
+# text
+seg-7904e93c0bcb = Kuu PNT
+
+# text
+seg-48ad4630a03f = Positsioneerimine, navigatsioon ja aeg Kuu ümbruses: horisontaalsed ja vertikaalsed kaitsetasemed (HPL, VPL) ARAIM-ist Kuu navigatsiooniteenusel.
+
+# attr:aria-label
+seg-f69a91258669 = Kuu kaitsetasemed LunaNeti täiustatud RAIM-i jooksutusest häirepiiri vastu, Kuu nähtava poole kõrval
+
+# text
+seg-2c2d1fdec798 = Esilekerkivad andurid
+
+# text
+seg-e130f7a43848 = Kvantandurite kompromissiuuringud
+
+# text
+seg-577795028a7f = Kaalu kvantkella klassikalise vastu enne, kui keegi riistvara ostab: holdover klassikalise kella müra pühkimisel.
+
+# attr:aria-label
+seg-836a325ef88c = classical_q_wf pühkimine: holdover_s
+
+# attr:aria-label
+seg-979452def1d6 = Kvant- ja klassikalise kella holdover-i aeg klassikalise kella mürataseme pühkimisel
+
+# text
+# c1: sweep-clock-stability.toml
+seg-ebaa722c5ab6 = Mootor v{ $version } · <c1/> · algväärtus (seed) { "42" }
+
+# text
+seg-1d2973bd0f2f = Töötab kõikjal
+
+# text
+seg-250a09c4baa0 = Brauser, terminal, märkmik, IDE, assistent
+
+# text
+seg-62ea80e12931 = Sama Rusti mootor tarnitakse WebAssemblyna rakendusele Kshana Studio, CLI-na (käsurea liides), Pythoni ja JavaScripti pakettidena, JetBrains Marketplace'i pistikprogrammina teie IDE (integreeritud arenduskeskkond) jaoks ja MCP (Model Context Protocol) serverina.
+
+# text
+seg-430082bf58d4 = ghcr.io tõmmis
+
+# text
+seg-afd561090841 = CCSDS OEM
+
+# text
+seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: Standard Product { "3" } orbiidivorming.
+
+# text
+seg-70d4597772cb = Ulatus, öeldud selgelt
+
+# text
+seg-2ee2e20030f3 = Piiride tundmine on sama tähtis kui võimalused.
+
+# text
+seg-253c54ae2238 = Mitte RF-signaaligeneraatori riistvara<s1>See ei juhi raadiot ega edasta midagi; selle signaalitaseme väljund on baasriba IQ-prooviandmete failid tarkvaravastuvõtjatele.</s1>
+
+# text
+seg-4fe725162c1c = Mitte riistvaraline ega sertifitseeritud GNSS-i vastuvõtja<s1>Selle tarkvaravastuvõtja (omandamine ja jälgimine salvestatud või genereeritud IQ põhjal) on analüüsitööriist, mitte navigatsioonitoode.</s1>
+
+# text
+seg-d3606ea42b36 = Mitte lennutoode<s1>Uuringu- ja kompromissivahend, iga vastus on märgistatud kui valideeritud või modelleeritud.</s1>
+
+# text
+seg-57678c2b9a1d = Tehisintellekti assistendid · kshana-mcp
+
+# text
+seg-d473cb253f20 = Küsi oma tehisintellekti assistendilt. Mootor vastab.
+
+# text
+seg-35f55ec31aeb = Teie tehisintellekti (AI) assistent jooksutab mootorit MCP (Model Context Protocol) kaudu läbi <b>kshana-mcp</b> ja loeb tagasi JSON-i (JavaScript Object Notation).
+
+# text
+seg-54d5c8e07a24 = Seejärel registreeri see oma assistendi MCP kliendi seadistuses. <a1>Täielik seadistus lehel Developers</a1>
+
+# attr:aria-label
+seg-7e3b4395292e = Spuufimise kerimislugu
+
+# text
+seg-fb440c81faf1 = Kerimislugu · üks aheldatud jooksutus
+
+# text
+seg-24b800b6ec75 = Puhtalt taevast vabalt jooksva kellani.
+
+# text
+seg-88e748800e7f = Üks vastuvõtja, T+{ "01" }:{ "16" }:{ "10" } missiooniaega: puhas taevas, segaja, spuufer, mis nihutab vastust selle blokeerimise asemel, seejärel omapäi jäetud kell. { "102" } satelliiti on konstellatsioonijooksutuse neli süsteemi tegelikul Maal. Keri.
+
+# text
+seg-1a913717fbd3 = { "01" } · Nominaalne
+
+# text
+seg-488b802a8afc = Iga link arvestatud.
+
+# text
+seg-2379d9ee4cd0 = { "8" } satelliiti jälgitud keskmise C/N0 (kandja ja müra tihedus) juures <b>{ "43.0" } dB-Hz</b>. Vertikaalne kaitsetase püsib vahemikus { "9.1" } kuni { "21.6" } m, { "50" } m häirepiiri all.
+
+# text
+seg-8ad9711d8bae = { "02" } · Segamine
+
+# text
+seg-c3fa50909f9d = Müra neelab taeva.
+
+# text
+seg-95d85165182f = Lairiba segaja { "1.0" } km kaugusel lülitub sisse tasemel <b>-30 dBW</b>. C/N0 langeb tasemele <b>{ "30.6" } dB-Hz</b>, vahetult { "25" } dB-Hz jälgimispõranda kohale. Lärmakas, seega vastuvõtja teab.
+
+# text
+seg-1f1bc00b81ee = { "03" } · Spuufimine
+
+# text
+seg-458faa9a3f96 = Vale, mis näeb välja nagu fiks.
+
+# text
+seg-dda6f0eb3fb6 = Spuufer lükkab kella kiirusega <b>{ "0.1" } ns/s</b>. RF-i (raadiosageduse) detektor annab alarmi ajal T+{ "00" }:{ "20" }:{ "00" }; kellaabiline monitor vajab <b>{ "370" } s</b> ja selleks ajaks on juba { "36.0" } ns sisse tõmmatud.
+
+# text
+seg-13be4329a209 = { "04" } · Holdover
+
+# text
+seg-fe4fb4387b34 = Seejärel hakkab aeg triivima.
+
+# text
+seg-4f2ce8d81d29 = Segaja läheb tasemele { "10" } dBW ja iga satelliit kaob. Kell jookseb vabalt alates { "37.0" } ns-st, mille spuufer jättis, ja ületab oma <b>{ "50" } ns valve ajal T+{ "00" }:{ "35" }:{ "40" }</b>; inertsiaalne viga jõuab { "24.3" } km-ni.
+
+# text
+seg-fe656aefe9bb = Kella ajaviga · holdover
+
+# text
+seg-548449af47a8 = valve { "50" } ns
+
+# attr:aria-label
+seg-21e942dadf02 = Konstellatsiooni legend
+
+# text
+seg-09d18cf767a7 = Avatud tuum, Kshana Pro, eriuuring
+
+# text
+seg-302606971c35 = Tasuta kõigile. Pro, kui vastus peab ülevaatusel vastu pidama.
+
+# text
+seg-27c12083529b = Kshana Pro on omandiline pealiskiht, mis sõltub avatud tuumast ega hargne sellest kunagi, saadaval lepingu alusel. Hindu veebilehel ei ole: iga tasuline tee algab kirjaga aadressil <a1>contact@ashforde.org</a1>.
+
+# text
+seg-43ceda17e71c = Avatud tuum · tasuta · AGPL-3.0
+
+# text
+seg-0230217b1110 = Igaüks, kes saab asendi või aja GNSS-ist, on ohustatud: segamine, spuufimine ja signaali kadu tabavad võrdselt sõidukeid, võrke, elektrivõrke ja kosmoselaevu.
+
+# text
+seg-9e88a1981d1e = { "388" }-st võimekusest { "176" } nõustub sõltumatute väliste oraaklitega (sõltumatu etalon); ülejäänud on märgistatud kui modelleeritud, valjusti.
+
+# text
+seg-4b41ffeb0030 = Kõik { "87" } stsenaariumi liiki, tasuta ilma funktsioonilukuta, deterministlikud stsenaariumist, algväärtusest (seed) ja mootori versioonist.
+
+# text
+seg-0af87a1caff4 = Sama tuum kommertslitsentsi all, suletud integreerimiseks.
+
+# text
+seg-f6406933eb77 = Paigalda mootor
+
+# text
+seg-6a74a165bfd0 = Kshana Pro · lepingu alusel
+
+# text
+seg-298532756f74 = Disainiruumi Pareto rinne, kus iga rinde disain on stsenaarium, mille tasuta mootor uuesti jooksutab.
+
+# text
+seg-a699256db841 = Määramatus ja tundlikkus tuhandete jooksutuste üle.
+
+# text
+seg-665005551d84 = Ühe käsuga missioonidosjee kontrollimaatriksi ja PDF-failiga (Portable Document Format).
+
+# text
+seg-455cb5040f80 = Auditikvaliteediga reprodutseeritavad tõendipaketid; kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani bilansi järgi; arhitektuuri kompromissiuuringud, mis on järjestatud kvaliteedinäitaja alusel; mudelipõhine süsteemitehnika (MBSE) ja programmitööriistad.
+
+# text
+seg-3e30593288a1 = Mida Pro sisaldab
+
+# text
+seg-be42106ce1bc = Eriuuring · tehtud teie eest
+
+# text
+seg-254836cd23af = Eriuuring: vastus, mitte tööriist
+
+# text
+seg-fb87be7dc462 = Teie süsteemi PNT-vastupidavuse modelleeritud uuring, näiteks optimismilõhe audit. Mitte sertifitseerimine.
+
+# text
+seg-b9d62e7772a7 = Teie riistvarale kalibreeritud andur- ja vastupidavusmudelid.
+
+# text
+seg-57320238c0f4 = Ekspordikontrolli all olev töö sobiva juurdepääsuloa ja NDA (konfidentsiaalsusleping) alusel.
+
+# text
+seg-e36049d768ce = Integreerimine, koolitus ja konsulteerimine.
+
+# text
+seg-3303866fbf99 = Sama mootor, võimendatud: tegelik Kshana Pro väljund
+
+# text
+# c1: 
+seg-f5513a1750f1 = <a1><s1><c1/>Disaini optimeerija</s1></a1>
+
+# text
+seg-2bbc6243b4b1 = <b>{ "608" } disaini</b>, kõik jooksutatud: Pareto rinne ja selle põlv
+
+# text
+# c1: 
+seg-56e344605a3d = <a1><s1><c1/>Määramatus ja tundlikkus</s1></a1>
+
+# text
+seg-a0b3c138f981 = <b>{ "2,000" } jooksutust</b>: usaldusriba piiri vastu
+
+# text
+# c1: 
+seg-6de95aaa8ba4 = <a1><s1><c1/>Missioonidosjee</s1></a1>
+
+# text
+seg-905e5eef45e5 = <b>{ "12" } nõuet</b> kontrollitud tegelike jooksutuste vastu, 21-leheküljeline PDF (Portable Document Format)
+
+# text
+seg-7d9ee2bfbb90 = Leia, kus teie ajastus puruneb, enne kui see seda teeb.
