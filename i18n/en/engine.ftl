@@ -10239,3 +10239,361 @@ engine-e-realdata-llr-crd-short-h4-record = short h4 (session) record
 ## mcp/kshana-mcp/src/main.rs
 
 engine-e-mcp-main-needs-value = { $a } needs a value
+
+## src/main.rs
+
+engine-main-usage =
+    usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
+    { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
+    { "   " }or: kshana --study <suite.toml>
+    { "   " }or: kshana --validate <scenario.toml>
+    { "   " }or: kshana receiver-trust <scenario.toml>
+    { "   " }or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+    { "   " }or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+    { "   " }or: kshana jammertest <import|score> ... (kshana jammertest --help)
+    { "   " }or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }or: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+    { "   " }or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
+    { "   " }or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+    { "   " }or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+    { "   " }or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+    { "   " }or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+    { "   " }or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+    { "   " }or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+    { "   " }or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+    { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }or: kshana kinds [--json]
+    { "   " }or: kshana example [<name>]
+    { "   " }or: kshana --help | --version
+
+engine-main-usage-sky =
+    usage: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+    { "   " }or: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+    { "                  " }[--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+    { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+    { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+
+    Prints the satellites the site sees under the skyline, their DOP, the east-north-up cofactor
+    and covariance and the horizontal error ellipse as JSON (sky_geometry); with --monte-carlo,
+    n (at most 5000) seeded least-squares errors (sky_monte_carlo); with --svg, the skyplot.
+    Systems are engine presets (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
+    a representative geometry, not the sky of a date at a place. --tle reads two-line element
+    sets (at most 4 MiB) and propagates them by SGP4 to --epoch (UTC) plus --time: the sky those
+    element sets give at that epoch, not a measurement. Without --epoch they go to the newest
+    element set's epoch, a representative sky. MODELLED; docs/SKYLINE.md.
+
+engine-main-usage-skyline =
+    usage: kshana skyline --preset <name> [--json]
+    { "   " }or: kshana skyline --presets
+    { "   " }or: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Prints a skyline preset (city-street, harbour-approach, fjord, container-terminal) with its
+    provenance and the cut every degree of azimuth, the list of presets, or a skyline section
+    reduced to the 360-entry table the engine uses. REPRESENTATIVE presets; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    usage: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }or: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }or: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Pinned to LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025). `spec` checks this implementation against the document's printed code
+    tables and worked examples (bars B1 to B10 of xval/lunanet-afs/PREREGISTRATION.md; with --strict
+    the exit status is 1 unless every bar is met). `symbols` checks a hard-decision symbol stream
+    (text of 0 and 1) for the synchronisation pattern, SB1 decoding, FID, TOI continuity and frame
+    spacing; subframes 2 to 4 (LDPC, CRC-24Q) are NOT verified. `generate` writes a test stream of
+    symbols with placeholder subframes; it is not a waveform, and Kshana writes no signal. To
+    acquire or track the AFS waveform in a recording use `kshana iq acquire --signal lunanet-afs-i`
+    (or lunanet-afs-q). Advisory only. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    usage: kshana standards-pack list
+    { "   " }or: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }or: kshana standards-pack rows <id>
+    { "   " }or: kshana standards-pack tests <id>
+
+    A standards pack is a set of scenarios scored against bars stated before the run, tied to the
+    compliance-report rows it supports evidence for. `run` prints a table (or --json) and, with
+    --out, writes <base>.pack.json and <base>.pack.md; give the JSON to `kshana compliance-report`
+    to see the rows. A test that needs a receiver log is listed as NEEDS INPUT and not scored.
+    MODELLED: a MET bar says a modelled scenario met a stated bar, not that any product meets a
+    requirement. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: applies
+
+engine-main-wrote = wrote { $path }
+
+engine-main-note = note: { $n }
+
+engine-main-error-example-extra-argument = error: unexpected argument '{ $extra }' after `example <name>`; it takes one name
+
+engine-main-lunanet-afs-generate-needs = generate needs --frames <n> and --out <file> (and a whole-number --toi0)
+
+
+## src/evidence/cli.rs
+
+engine-evidence-cli-usage =
+    usage:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      exit 0 verified, 1 failed, 3 intact but signer not pinned
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(reads the RFC 3161 token and binds it to the manifest; it does NOT verify the timestamp
+    { "      " }authority's signature: use `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(links the scenario, the lab's test conditions, the receiver log and its score; the
+    { "      " }<scenario.toml> is the receiver-trust scoring scenario; writes no signal)
+    { "  " }<t0>/<t1>: seconds since the first epoch of the log, or an ISO-8601 UTC time when the log
+    { "  " }states its start time. A pack is a technical record, not a legal opinion.
+
+engine-evidence-cli-fingerprint = fingerprint: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }failure: { $f }
+
+engine-evidence-cli-verify-note = { "  " }note: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: every hash, the chain and the signature check out, for the key you supplied.
+
+engine-evidence-cli-verified-unpinned = VERIFIED against the key the pack names itself, fingerprint { $fp } (signer NOT pinned; pass --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: the hashes and signature are consistent with key { $fp }, which the pack names itself. Pass --pubkey <signer public key> to establish who signed it (or --allow-unpinned to accept this knowingly).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: see the failures above.
+
+engine-evidence-cli-attached = attached { $path }
+
+engine-evidence-cli-verify-with = verify with: kshana evidence verify { $out } --pubkey <signer public key>
+
+
+## src/interference_map/cli.rs
+
+engine-interference-map-cli-usage-map =
+    usage: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }or: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }or: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+    { "   " }or: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }or: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = usage: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = date
+
+engine-interference-map-cli-col-src = src
+
+engine-interference-map-cli-col-degraded = degraded
+
+engine-interference-map-cli-col-not-degraded = not degraded
+
+engine-interference-map-cli-col-unassessed = unassessed
+
+engine-interference-map-cli-col-not-observed = not observed
+
+
+## src/bench/cli.rs
+
+engine-bench-cli-usage =
+    usage: kshana bench spec
+    { "   " }or: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }or: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }or: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }or: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }or: kshana bench validate <result.json>...
+    { "   " }or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)
+    { "   " }(a seed file holds the secret behind a sealed holdout; keep it out of version control)
+
+engine-bench-cli-match = match
+
+engine-bench-cli-valid = { $f }: valid
+
+engine-bench-cli-folders = { $n } folder(s)
+
+engine-bench-cli-unpinned = unpinned: { $rel }
+
+engine-bench-cli-missing = missing: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+
+## src/osnma/cli.rs
+
+engine-osnma-cli-usage =
+    usage: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    I/NAV pages: the plain format (see docs/OSNMA.md) or the
+    { "                             " }CSV layout of the published test vectors
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }input layout (default: by file content). ubx is a u-blox
+    { "                             " }byte stream with UBX-RXM-SFRBX messages (Galileo E1-B)
+    { "  " }--start-gst SECONDS        start time of a vector CSV in GST seconds
+    { "                             " }(default: read from a file name like 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          trusted Merkle root (64 hex digits) for DSM-PKR checks
+    { "  " }--public-key ID:TYPE:HEX   trusted public key, TYPE p256 or p521, compressed point
+    { "  " }--reference-time SECONDS   present time in GST seconds from an independent source. A single
+    { "                             " }instant: sub-frames further from it than the tolerance are set
+    { "                             " }aside, so use it for live or just-recorded data
+    { "  " }--max-time-error SECONDS   largest distance of a sub-frame from the reference time, below
+    { "                             " }30 (default 29); needs --reference-time
+    { "  " }--epochs                   also print every tag result
+    { "  " }--json                     print JSON instead of text
+
+    Exit status: 0 done, 2 usage or input error, 3 a check on some satellite's data failed.
+
+
+## src/iq/cli/mod.rs
+
+engine-iq-cli-usage =
+    usage: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }or: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }or: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }or: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (default auto, ≈4 ms coherent)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }or: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }or: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }or: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }or: kshana iq campaign report <out-dir>
+    { "   " }or: kshana iq conditions <test-conditions.toml|json>
+    { "   " }or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }or: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }labfit scenarios: [[runs]] of receiver logs, or [input] campaign = "<out-dir>" naming a kshana iq campaign output folder (relative to the scenario file)
+    { " " }loop designs: a kshana.loop-design/1 TOML file (docs/design/LOOP-DESIGN-TOML.md); explicit loop/acquisition flags override the selected design
+    { " " }acquire/track/sweep also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing (to the acquisition and the tracking pass alike)
+    { " " }scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }scene C/N0 profile: [--cn0-profile <toml>] time-varying C/N0 offsets per satellite (step, ramp, points, fade), applied over the channel; the truth's cn0_dbhz follows it
+    { " " }recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; multi-stream inputs take --channel <k>
+    { " " }signals: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> is a comma-separated list (one per --prn, or a single value applied to all)
+
+engine-iq-cli-usage-error = usage error: { $m }
+
+
+## src/iq/io/cli.rs
+
+engine-iq-io-cli-usage =
+    usage: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }or: kshana iq info <recording>
+    { "   " }or: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }or: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }or: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }multi-stream inputs (multi-channel SigMF, interleaved raw) take --channel <k> (from 0; default 0)
+    { " " }formats: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be cu12r_le ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi
+
+
+## src/telemetry/cli.rs
+
+engine-telemetry-cli-usage =
+    usage: kshana trust-telemetry [options]
+    { "  " }input (default: JSON lines on stdin):
+    { "    " }--input <file|->         read JSON lines from a file, or `-` for stdin
+    { "    " }--result <result.json>   replay the epochs of a `kshana receiver-trust` result file
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     serve /metrics (default 127.0.0.1:9464 when no other output is chosen)
+    { "    " }--print-metrics          print the final exposition to stdout at end of input
+    { "    " }--hold                   keep serving after the input ends
+    { "    " }--expose-position        also publish the receiver-reported position as gauges (off by default)
+    { "  " }syslog (CEF or LEEF in an RFC 5424 envelope):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  frame TCP messages with octet counting (RFC 6587), not one per line
+    { "    " }--format cef|leef        payload dialect (default cef)
+    { "    " }--syslog-all             one event per epoch (default: one per band change)
+    { "    " }--host <name>            device host name in events (default `kshana`)
+    { "  " }Home Assistant / NTP appliance (JSON state + MQTT discovery; publish only, no credentials or TLS):
+    { "    " }--mqtt-tcp <host:port>   publish to a local MQTT 3.1.1 broker (retained messages, QoS 0)
+    { "    " }--print-mqtt             print the messages as `topic<TAB>payload` lines
+    { "    " }--mqtt-prefix <p>        state topic prefix (default kshana/trust); --mqtt-node <id> (default kshana)
+    { "    " }--mqtt-discovery <p>     Home Assistant discovery prefix (default homeassistant)
+    { "  " }OpenTelemetry (build with --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (default 10)
+
+
+## src/jammertest/cli.rs
+
+engine-jammertest-cli-usage =
+    usage:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    The plan and catalogue are the published NPRA/jammertest-plan JSON files (MIT; fetch them with
+    xval/jammertest-plan/fetch.sh). Plan times are local wall-clock; --local-offset-h (default 2, CEST)
+    says how far they are from UTC. The JammerTest 2024 dataset's attack_log stamps say Z but are local
+    time: --time-shift-h defaults to -2. Events are scheduled truth, not recorded on-air times.
+    Advisory software, not type-approved navigation equipment.
+
+
+## src/nmea_synth/cli.rs
+
+engine-nmea-synth-cli-usage =
+    usage: kshana nmea-scenario <scenario.toml> [options]
+
+    Writes or streams a synthetic bridge NMEA 0183 set (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    for a vessel track with scripted jamming/spoofing events, and an instructor log.
+    Training and testing only: never feed it to a vessel's live navigation systems.
+
+    options:
+    { "  " }--out <file.nmea>          write the stream to a file (default <name>.nmea when no
+    { "                             " }network output is given)
+    { "  " }--instructor-log <prefix>  write <prefix>.json and <prefix>.txt (default: next to the
+    { "                             " }file, else <name> in the current directory)
+    { "  " }--tcp <addr:port|port>     serve the stream over TCP (waits for a client first); a bare
+    { "                             " }port listens on 127.0.0.1 only. There is no authentication:
+    { "                             " }anyone who can reach the address can read the stream
+    { "  " }--udp <addr:port|port>     send one sentence per UDP datagram to this address; a bare
+    { "                             " }port sends to 127.0.0.1
+    { "  " }--broadcast                allow --udp to use a broadcast address
+    { "  " }--wait-clients <n>         clients to wait for before the TCP stream starts (default 1)
+    { "  " }--realtime                 pace at real time (default for network output)
+    { "  " }--speed <x>                pace at x times real time; 0 is as fast as possible
+    { "                             " }(default for files)
+    { "  " }--seed <n>                 replace the scenario seed
+    { "  " }--no-marker                omit the synthetic-data marker sentence
+
+
+## src/live_io.rs
+
+engine-live-io-usage =
+    usage: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Reads NMEA 0183 (stdin by default), scores every epoch of a vessel's fix 0-100 and writes one
+    JSON line per epoch (stdout by default). With --gate the NMEA stream is passed through on stdout
+    instead, unchanged while the fix is trusted and with the fix marked invalid while it is not, each
+    cycle followed by a $PKSHT sentence; the JSON then goes only where --json says. The session is a
+    scenario .toml with a [platform] kind = "vessel"; its [log] table is not needed.
+
+    --listen (with --gate) serves the gated stream to any number of TCP clients (a chart plotter,
+    for example) instead of writing it to stdout; the default address is loopback. A client that
+    cannot keep up is dropped, so it never holds up the others or the input.
+
+    The receiver's time is also checked against this computer's clock, which only means something for
+    a stream arriving in real time; for a stored log fed in faster than that (stdin, tcp, udp) pass
+    --replay, and a plain --file (without --follow) already does.
+
+    --serial reads a serial or USB device (Unix only), read only: it opens the device for reading, sets
+    the local line to raw mode at --baud (default 4800, the NMEA 0183 rate) and never writes a byte to the
+    receiver. Kshana does not configure receivers; set the receiver to output NMEA with its own tool.
+
+    This is advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the
+    operator remains responsible for the navigation of the vessel.
+
+
+## src/tle.rs
+
+engine-tle-warning = warning: { $w }
+

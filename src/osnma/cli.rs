@@ -10,26 +10,9 @@ use super::{OsnmaStatus, ADVISORY};
 use serde::Serialize;
 use std::collections::BTreeMap;
 
-const USAGE: &str = "usage: kshana osnma verify <input> [options]
-
-  <input>                    I/NAV pages: the plain format (see docs/OSNMA.md) or the
-                             CSV layout of the published test vectors
-  --format pages|vector-csv|ubx
-                             input layout (default: by file content). ubx is a u-blox
-                             byte stream with UBX-RXM-SFRBX messages (Galileo E1-B)
-  --start-gst SECONDS        start time of a vector CSV in GST seconds
-                             (default: read from a file name like 16_AUG_2023_GST_05_00_01.csv)
-  --merkle-root HEX          trusted Merkle root (64 hex digits) for DSM-PKR checks
-  --public-key ID:TYPE:HEX   trusted public key, TYPE p256 or p521, compressed point
-  --reference-time SECONDS   present time in GST seconds from an independent source. A single
-                             instant: sub-frames further from it than the tolerance are set
-                             aside, so use it for live or just-recorded data
-  --max-time-error SECONDS   largest distance of a sub-frame from the reference time, below
-                             30 (default 29); needs --reference-time
-  --epochs                   also print every tag result
-  --json                     print JSON instead of text
-
-Exit status: 0 done, 2 usage or input error, 3 a check on some satellite's data failed.";
+fn usage() -> String {
+    crate::t!("osnma-cli-usage")
+}
 
 struct Options {
     input: String,
@@ -395,17 +378,21 @@ pub fn run(args: &[String]) -> i32 {
     let advisory = crate::legal::text("legal-osnma-advisory");
     // The advisory goes first on every path, errors included.
     if matches!(args.first().map(String::as_str), Some("--help" | "-h")) {
-        println!("{advisory}\n\n{USAGE}");
+        println!("{advisory}\n\n{}", usage());
         return 0;
     }
     if args.first().map(String::as_str) != Some("verify") {
-        eprintln!("{advisory}\n\n{USAGE}");
+        eprintln!("{advisory}\n\n{}", usage());
         return 2;
     }
     let o = match parse_args(&args[1..]) {
         Ok(o) => o,
         Err(e) => {
-            eprintln!("{advisory}\n\nerror: {e}\n\n{USAGE}");
+            eprintln!(
+                "{advisory}\n\n{}\n\n{}",
+                crate::t!("main-fail", e = e),
+                usage()
+            );
             return 2;
         }
     };
@@ -442,7 +429,7 @@ pub fn run(args: &[String]) -> i32 {
     let a = match analysed {
         Ok(a) => a,
         Err(e) => {
-            eprintln!("{advisory}\n\nerror: {e}");
+            eprintln!("{advisory}\n\n{}", crate::t!("main-fail", e = e));
             return 2;
         }
     };
@@ -450,7 +437,7 @@ pub fn run(args: &[String]) -> i32 {
         match serde_json::to_string_pretty(&crate::i18n::in_english(|| report_json(&a, &params))) {
             Ok(s) => println!("{s}"),
             Err(e) => {
-                eprintln!("{advisory}\n\nerror: {e}");
+                eprintln!("{advisory}\n\n{}", crate::t!("main-fail", e = e));
                 return 2;
             }
         }

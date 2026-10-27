@@ -1004,7 +1004,10 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
     for (name, bytes) in &names {
         write_new(&out.join(name), bytes)?;
         files.push(json!({"name": name, "bytes": bytes.len(), "sha256": hex::encode(<sha2::Sha256 as sha2::Digest>::digest(bytes))}));
-        println!("wrote {}", out.join(name).display());
+        println!(
+            "{}",
+            crate::t!("main-wrote", path = out.join(name).display())
+        );
     }
     let manifest = json!({
         "schema": "kshana-observatory-manifest/1",

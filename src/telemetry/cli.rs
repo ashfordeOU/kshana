@@ -9,28 +9,9 @@ use std::io::{BufRead, Write};
 use std::net::{SocketAddr, ToSocketAddrs};
 use std::sync::{Arc, Mutex};
 
-const USAGE: &str = "usage: kshana trust-telemetry [options]
-  input (default: JSON lines on stdin):
-    --input <file|->         read JSON lines from a file, or `-` for stdin
-    --result <result.json>   replay the epochs of a `kshana receiver-trust` result file
-  Prometheus:
-    --listen <addr:port>     serve /metrics (default 127.0.0.1:9464 when no other output is chosen)
-    --print-metrics          print the final exposition to stdout at end of input
-    --hold                   keep serving after the input ends
-    --expose-position        also publish the receiver-reported position as gauges (off by default)
-  syslog (CEF or LEEF in an RFC 5424 envelope):
-    --syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
-    --syslog-octet-counting  frame TCP messages with octet counting (RFC 6587), not one per line
-    --format cef|leef        payload dialect (default cef)
-    --syslog-all             one event per epoch (default: one per band change)
-    --host <name>            device host name in events (default `kshana`)
-  Home Assistant / NTP appliance (JSON state + MQTT discovery; publish only, no credentials or TLS):
-    --mqtt-tcp <host:port>   publish to a local MQTT 3.1.1 broker (retained messages, QoS 0)
-    --print-mqtt             print the messages as `topic<TAB>payload` lines
-    --mqtt-prefix <p>        state topic prefix (default kshana/trust); --mqtt-node <id> (default kshana)
-    --mqtt-discovery <p>     Home Assistant discovery prefix (default homeassistant)
-  OpenTelemetry (build with --features otlp):
-    --otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (default 10)";
+fn usage() -> String {
+    crate::t!("telemetry-cli-usage")
+}
 
 #[derive(Default)]
 struct Opts {
@@ -127,16 +108,16 @@ pub fn run(args: &[String]) -> i32 {
         Ok(o) => o,
         Err(e) => {
             if !e.is_empty() {
-                eprintln!("error: {e}");
+                eprintln!("{}", crate::t!("main-fail", e = e));
             }
-            eprintln!("{USAGE}");
+            eprintln!("{}", usage());
             return if e.is_empty() { 0 } else { 2 };
         }
     };
     match run_inner(&o) {
         Ok(()) => 0,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", crate::t!("main-fail", e = e));
             1
         }
     }

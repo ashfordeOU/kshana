@@ -1,0 +1,4 @@
+[
+{"description":"Kshana 0.39.0 export. Epoch: static scene: the gnss-ins kind flies its trajectory in a local tangent plane from this origin and exports no calendar time. Moving objects: GCRS (referenceFrame INERTIAL), metres, seconds after the epoch. Fixed sites: Earth-fixed WGS 84 (referenceFrame FIXED), metres.","id":"document","name":"gnss-ins scenario fd2ee0f2b70e","version":"1.0"},
+{"description":"tangent-plane origin; the simulated trajectory starts here and is flown in a flat local frame, so only the origin is placed (origin). Latitude 45 deg, longitude -57.3 deg, height 50 m above the WGS 84 ellipsoid. Position: Earth-fixed, metres.","id":"site/origin","name":"origin","point":{"color":{"rgba":[0,200,255,255]},"pixelSize":9},"position":{"cartesian":[2440603.8446,-3801631.1849,4487383.7642],"referenceFrame":"FIXED"}}
+]

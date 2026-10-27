@@ -10,33 +10,9 @@ mod live_io;
 /// cannot drift apart (they were two separate copies before, one of them a comment).
 /// `.github/workflows/release.yml` greps the first line on the no-argument path, so
 /// that line stays verbatim.
-const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
-   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
-   or: kshana --study <suite.toml>
-   or: kshana --validate <scenario.toml>
-   or: kshana receiver-trust <scenario.toml>
-   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
-   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
-   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
-   or: kshana jammertest <import|score> ... (kshana jammertest --help)
-   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
-   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)
-   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
-   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
-   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
-   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
-   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
-   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
-   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
-   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
-   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
-   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
-   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
-   or: kshana kinds [--json]
-   or: kshana example [<name>]
-   or: kshana --help | --version";
+fn usage() -> String {
+    kshana::t!("main-usage")
+}
 
 /// Format the current system time as a UTC ISO-8601 second-precision stamp
 /// (e.g. `2026-06-23T14:05:09Z`). This is the ONLY clock read in the whole crate:
@@ -131,7 +107,7 @@ fn main() -> ExitCode {
     let lang = match kshana::i18n::select(lang_flag.as_deref()) {
         Ok(l) => l,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", kshana::t!("main-fail", e = e));
             return ExitCode::from(2);
         }
     };
@@ -261,7 +237,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
             // binary. Before these arms they fell through to the positional catch-all
             // and came back as `error: cannot read --help: No such file or directory`.
             "--help" | "-h" | "help" => {
-                println!("{USAGE}");
+                println!("{}", usage());
                 return ExitCode::SUCCESS;
             }
             // `--version` is how a result file gets tied back to the engine build that
@@ -415,7 +391,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
             // Flag VALUES never reach here: each flag arm consumes its own value.
             other if other.starts_with('-') => {
                 eprintln!("{}", kshana::t!("main-error-unknown-option", other = other));
-                eprintln!("{USAGE}");
+                eprintln!("{}", usage());
                 return ExitCode::from(2);
             }
             other if positional.is_none() => positional = Some(other.to_string()),
@@ -424,7 +400,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
                     "{}",
                     kshana::t!("main-error-unexpected-argument-one-scenario", other = other)
                 );
-                eprintln!("{USAGE}");
+                eprintln!("{}", usage());
                 return ExitCode::from(2);
             }
         }
@@ -434,7 +410,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     // costs nothing. Tuning them without `--animate` would do nothing; say so.
     if !animate_formats.is_empty() {
         if let Err(e) = animate_opts.validate() {
-            eprintln!("error: {e}");
+            eprintln!("{}", kshana::t!("main-fail", e = e));
             return ExitCode::from(2);
         }
     } else if animate_tuned {
@@ -533,7 +509,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     }
 
     let Some(scenario_arg) = positional else {
-        eprintln!("{USAGE}");
+        eprintln!("{}", usage());
         return ExitCode::from(2);
     };
     let path = PathBuf::from(&scenario_arg);
@@ -628,7 +604,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
                 // Terminal: report which formats apply and why the others do not.
                 for (fmt, r) in kshana::interop::plan(&src) {
                     match r {
-                        Ok(()) => println!("{}: applies", fmt.as_str()),
+                        Ok(()) => println!("{}", kshana::t!("main-applies", fmt = fmt.as_str())),
                         Err(why) => println!(
                             "{}",
                             kshana::t!("main-does-not-apply", fmt = fmt.as_str(), why = why)
@@ -931,7 +907,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
 
     for (target, anim) in &animations {
         match write_animation(target, anim) {
-            Ok(()) => println!("wrote {}", target.display()),
+            Ok(()) => println!("{}", kshana::t!("main-wrote", path = target.display())),
             Err(e) => {
                 eprintln!(
                     "{}",
@@ -968,7 +944,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
                     );
                     return ExitCode::FAILURE;
                 }
-                println!("wrote {}", sp3_path.display());
+                println!("{}", kshana::t!("main-wrote", path = sp3_path.display()));
             }
             Err(e) => {
                 eprintln!("{}", kshana::t!("main-error-sp3-export-failed", e = e));
@@ -1000,7 +976,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
                     );
                     return ExitCode::FAILURE;
                 }
-                println!("wrote {}", omm_path.display());
+                println!("{}", kshana::t!("main-wrote", path = omm_path.display()));
             }
             Err(e) => {
                 eprintln!("{}", kshana::t!("main-error-omm-export-failed", e = e));
@@ -1032,7 +1008,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
                     );
                     return ExitCode::FAILURE;
                 }
-                println!("wrote {}", oem_path.display());
+                println!("{}", kshana::t!("main-wrote", path = oem_path.display()));
             }
             Err(e) => {
                 eprintln!("{}", kshana::t!("main-error-oem-export-failed", e = e));
@@ -1053,7 +1029,7 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
             );
             return ExitCode::FAILURE;
         }
-        println!("wrote {}", target.display());
+        println!("{}", kshana::t!("main-wrote", path = target.display()));
     }
     for m in &export_skipped {
         println!("{m}");
@@ -1185,7 +1161,8 @@ fn print_example(rest: &[String]) -> ExitCode {
         }
         [_, extra, ..] => {
             eprintln!(
-                "error: unexpected argument '{extra}' after `example <name>`; it takes one name"
+                "{}",
+                kshana::t!("main-error-example-extra-argument", extra = extra)
             );
             ExitCode::from(2)
         }
@@ -1217,7 +1194,7 @@ fn run_study(suite_path: &std::path::Path) -> ExitCode {
     let suite = match kshana::suite::parse_suite(&src) {
         Ok(s) => s,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", kshana::t!("main-fail", e = e));
             return ExitCode::FAILURE;
         }
     };
@@ -1227,7 +1204,7 @@ fn run_study(suite_path: &std::path::Path) -> ExitCode {
     let out = match kshana::study::run_suite(&suite, base_dir) {
         Ok(o) => o,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", kshana::t!("main-fail", e = e));
             return ExitCode::FAILURE;
         }
     };
@@ -1371,12 +1348,15 @@ fn run_imu_fit_cli(args: &[String]) -> ExitCode {
             let v: serde_json::Value = serde_json::from_str(&out).unwrap_or_default();
             print!("{}", v["toml"].as_str().unwrap_or_default());
             for n in v["fit"]["notes"].as_array().into_iter().flatten() {
-                eprintln!("note: {}", n.as_str().unwrap_or_default());
+                eprintln!(
+                    "{}",
+                    kshana::t!("main-note", n = n.as_str().unwrap_or_default())
+                );
             }
             ExitCode::SUCCESS
         }
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", kshana::t!("main-fail", e = e));
             ExitCode::from(1)
         }
     }
@@ -1436,7 +1416,7 @@ fn run_bench_export_cli(args: &[String]) -> ExitCode {
     let (files, notes) = match kshana::interop::testbench::export_with_notes(&src, epoch) {
         Ok(f) => f,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", kshana::t!("main-fail", e = e));
             return ExitCode::FAILURE;
         }
     };
@@ -1454,37 +1434,21 @@ fn run_bench_export_cli(args: &[String]) -> ExitCode {
             );
             return ExitCode::FAILURE;
         }
-        println!("wrote {}", target.display());
+        println!("{}", kshana::t!("main-wrote", path = target.display()));
     }
     for n in notes {
-        eprintln!("note: {n}");
+        eprintln!("{}", kshana::t!("main-note", n = n));
     }
     ExitCode::SUCCESS
 }
 
-const SKY_USAGE: &str =
-    "usage: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
-   or: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
-                  [--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
-                  [--mask <deg>] [--skyline-preset <name>] [--uere <m>]
-                  [--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+fn sky_usage() -> String {
+    kshana::t!("main-usage-sky")
+}
 
-Prints the satellites the site sees under the skyline, their DOP, the east-north-up cofactor
-and covariance and the horizontal error ellipse as JSON (sky_geometry); with --monte-carlo,
-n (at most 5000) seeded least-squares errors (sky_monte_carlo); with --svg, the skyplot.
-Systems are engine presets (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
-a representative geometry, not the sky of a date at a place. --tle reads two-line element
-sets (at most 4 MiB) and propagates them by SGP4 to --epoch (UTC) plus --time: the sky those
-element sets give at that epoch, not a measurement. Without --epoch they go to the newest
-element set's epoch, a representative sky. MODELLED; docs/SKYLINE.md.";
-
-const SKYLINE_USAGE: &str = "usage: kshana skyline --preset <name> [--json]
-   or: kshana skyline --presets
-   or: kshana skyline --profile <skyline.json|skyline.toml>
-
-Prints a skyline preset (city-street, harbour-approach, fjord, container-terminal) with its
-provenance and the cut every degree of azimuth, the list of presets, or a skyline section
-reduced to the 360-entry table the engine uses. REPRESENTATIVE presets; docs/SKYLINE.md.";
+fn skyline_usage() -> String {
+    kshana::t!("main-usage-skyline")
+}
 
 fn print_or_fail(out: Result<String, String>) -> ExitCode {
     match out {
@@ -1493,7 +1457,7 @@ fn print_or_fail(out: Result<String, String>) -> ExitCode {
             ExitCode::SUCCESS
         }
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", kshana::t!("main-fail", e = e));
             ExitCode::FAILURE
         }
     }
@@ -1508,7 +1472,7 @@ fn run_sky_cli(args: &[String]) -> ExitCode {
     let mut svg = false;
     let mut i = 0;
     let usage_err = |e: String| {
-        eprintln!("error: {e}\n{SKY_USAGE}");
+        eprintln!("{}\n{}", kshana::t!("main-fail", e = e), sky_usage());
         ExitCode::from(2)
     };
     while i < args.len() {
@@ -1523,7 +1487,7 @@ fn run_sky_cli(args: &[String]) -> ExitCode {
         };
         match a {
             "--help" | "-h" => {
-                println!("{SKY_USAGE}");
+                println!("{}", sky_usage());
                 return ExitCode::SUCCESS;
             }
             "--svg" => svg = true,
@@ -1687,7 +1651,7 @@ fn run_sky_cli(args: &[String]) -> ExitCode {
 fn run_skyline_cli(args: &[String]) -> ExitCode {
     match args.first().map(String::as_str) {
         Some("--help" | "-h") => {
-            println!("{SKYLINE_USAGE}");
+            println!("{}", skyline_usage());
             ExitCode::SUCCESS
         }
         Some("--presets") => print_or_fail(Ok(kshana::surface::skyline_presets())),
@@ -1716,7 +1680,7 @@ fn run_skyline_cli(args: &[String]) -> ExitCode {
                     "{}",
                     kshana::t!(
                         "main-error-preset-needs-name",
-                        SKYLINE_USAGE = SKYLINE_USAGE
+                        SKYLINE_USAGE = skyline_usage()
                     )
                 );
                 ExitCode::from(2)
@@ -1738,37 +1702,27 @@ fn run_skyline_cli(args: &[String]) -> ExitCode {
                     "{}",
                     kshana::t!(
                         "main-error-profile-needs-file",
-                        SKYLINE_USAGE = SKYLINE_USAGE
+                        SKYLINE_USAGE = skyline_usage()
                     )
                 );
                 ExitCode::from(2)
             }
         },
         _ => {
-            eprintln!("{SKYLINE_USAGE}");
+            eprintln!("{}", skyline_usage());
             ExitCode::from(2)
         }
     }
 }
 
-const LUNANET_AFS_USAGE: &str = "usage: kshana lunanet-afs-check spec [--json] [--strict]
-   or: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
-   or: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
-
-Pinned to LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
-V1.0, 29 January 2025). `spec` checks this implementation against the document's printed code
-tables and worked examples (bars B1 to B10 of xval/lunanet-afs/PREREGISTRATION.md; with --strict
-the exit status is 1 unless every bar is met). `symbols` checks a hard-decision symbol stream
-(text of 0 and 1) for the synchronisation pattern, SB1 decoding, FID, TOI continuity and frame
-spacing; subframes 2 to 4 (LDPC, CRC-24Q) are NOT verified. `generate` writes a test stream of
-symbols with placeholder subframes; it is not a waveform, and Kshana writes no signal. To
-acquire or track the AFS waveform in a recording use `kshana iq acquire --signal lunanet-afs-i`
-(or lunanet-afs-q). Advisory only. docs/LUNANET-AFS.md.";
+fn lunanet_afs_usage() -> String {
+    kshana::t!("main-usage-lunanet-afs-check")
+}
 
 /// `kshana lunanet-afs-check <spec|symbols|generate>`.
 fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
     let fail = |m: &str| {
-        eprintln!("error: {m}\n{LUNANET_AFS_USAGE}");
+        eprintln!("{}\n{}", kshana::t!("main-fail", e = m), lunanet_afs_usage());
         ExitCode::from(2)
     };
     let flag = |name: &str| -> Result<Option<String>, String> {
@@ -1783,7 +1737,7 @@ fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
     };
     match args.first().map(String::as_str) {
         Some("--help" | "-h" | "help") => {
-            println!("{LUNANET_AFS_USAGE}");
+            println!("{}", lunanet_afs_usage());
             ExitCode::SUCCESS
         }
         Some("spec") => {
@@ -1902,9 +1856,7 @@ fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
                 Err(_) => None,
             };
             let (Some(frames), Some(toi0), Ok(Some(out))) = (frames, toi0, flag("--out")) else {
-                return fail(
-                    "generate needs --frames <n> and --out <file> (and a whole-number --toi0)",
-                );
+                return fail(&kshana::t!("main-lunanet-afs-generate-needs"));
             };
             match kshana::surface::lunanet_afs_generate(frames, toi0) {
                 Ok(text) => match std::fs::write(&out, format!("{text}\n")) {
@@ -1938,22 +1890,14 @@ fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
     }
 }
 
-const STANDARDS_PACK_USAGE: &str = "usage: kshana standards-pack list
-   or: kshana standards-pack run <id> [--json] [--out <base>]
-   or: kshana standards-pack rows <id>
-   or: kshana standards-pack tests <id>
-
-A standards pack is a set of scenarios scored against bars stated before the run, tied to the
-compliance-report rows it supports evidence for. `run` prints a table (or --json) and, with
---out, writes <base>.pack.json and <base>.pack.md; give the JSON to `kshana compliance-report`
-to see the rows. A test that needs a receiver log is listed as NEEDS INPUT and not scored.
-MODELLED: a MET bar says a modelled scenario met a stated bar, not that any product meets a
-requirement. docs/compliance/README.md.";
+fn standards_pack_usage() -> String {
+    kshana::t!("main-usage-standards-pack")
+}
 
 /// `kshana standards-pack <list|run|rows|tests>`.
 fn run_standards_pack_cli(args: &[String]) -> ExitCode {
     let fail = |m: &str| {
-        eprintln!("error: {m}\n{STANDARDS_PACK_USAGE}");
+        eprintln!("{}\n{}", kshana::t!("main-fail", e = m), standards_pack_usage());
         ExitCode::from(2)
     };
     let Some(cmd) = args.first().map(String::as_str) else {
@@ -1961,7 +1905,7 @@ fn run_standards_pack_cli(args: &[String]) -> ExitCode {
     };
     match cmd {
         "--help" | "-h" | "help" => {
-            println!("{STANDARDS_PACK_USAGE}");
+            println!("{}", standards_pack_usage());
             ExitCode::SUCCESS
         }
         "list" => {
@@ -2026,7 +1970,7 @@ fn run_standards_pack_cli(args: &[String]) -> ExitCode {
                         );
                         return ExitCode::FAILURE;
                     }
-                    println!("wrote {target}");
+                    println!("{}", kshana::t!("main-wrote", path = target));
                 }
             } else if json {
                 println!("{text}");
@@ -2111,7 +2055,7 @@ fn run_compliance_report_cli(args: &[String]) -> ExitCode {
             );
             return ExitCode::FAILURE;
         }
-        println!("wrote {}", target.display());
+        println!("{}", kshana::t!("main-wrote", path = target.display()));
     }
     let n = |s: compliance::Status| report.rows.iter().filter(|r| r.status == s).count();
     println!(
@@ -2167,7 +2111,7 @@ fn run_receiver_trust_cli(args: &[String]) -> ExitCode {
     let out = match kshana::receiver_trust::scenario::run_scenario(&scn) {
         Ok(o) => o,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{}", kshana::t!("main-fail", e = e));
             return ExitCode::FAILURE;
         }
     };

@@ -20,14 +20,9 @@ use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
 /// Usage text of the `kshana iq` command group.
-pub const USAGE: &str = "usage: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
-   or: kshana iq info <recording>
-   or: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
-   or: kshana iq convert <in> <out> --to <format> [--gain <g>]
-   or: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
- raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
- multi-stream inputs (multi-channel SigMF, interleaved raw) take --channel <k> (from 0; default 0)
- formats: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be cu12r_le ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi";
+pub fn usage() -> String {
+    crate::t!("iq-io-cli-usage")
+}
 
 const CHUNK_SAMPLES: usize = 1 << 14;
 const VALUE_FLAGS: &[&str] = &[
@@ -137,7 +132,7 @@ impl From<IqError> for Fail {
 pub fn run(args: &[String]) -> i32 {
     let r = match args.first().map(String::as_str) {
         None | Some("--help" | "-h" | "help") => {
-            println!("{USAGE}");
+            println!("{}", usage());
             return if args.is_empty() { 2 } else { 0 };
         }
         Some(cmd) => Args::parse(&args[1..])
@@ -150,11 +145,11 @@ pub fn run(args: &[String]) -> i32 {
             0
         }
         Err(Fail::Usage(m)) => {
-            eprintln!("error: {m}\n{USAGE}");
+            eprintln!("{}\n{}", crate::t!("main-fail", e = m), usage());
             2
         }
         Err(Fail::Run(m)) => {
-            eprintln!("error: {m}");
+            eprintln!("{}", crate::t!("main-fail", e = m));
             1
         }
     }

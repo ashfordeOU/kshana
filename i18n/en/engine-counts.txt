@@ -190,3 +190,4 @@ iq-campaign-report-meta: n_recordings n_frontends n_designs n_cells n_done
 study-summary: n_scenarios
 study-footer: n_scenarios
 resilience-report-summary: n_validated n_modelled
+bench-cli-folders: n
