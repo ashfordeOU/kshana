@@ -17,3 +17,7 @@ seg-79e6a31245f2 = { "400" } ns
 seg-f63dd3d7aad4 = Lähde
 
 seg-587beeccaa11 = Esiasetus
+
+seg-edb7b16b6c0e = Validointi
+
+seg-3c513ef2fd3b = Suure

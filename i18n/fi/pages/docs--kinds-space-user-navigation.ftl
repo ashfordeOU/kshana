@@ -11,3 +11,19 @@ seg-c8012ee549ea = { "1" } skenaariolaji, moottorin v{ $version }. Ohjeellinen: 
 
 # text
 seg-4e31c8daf798 = Kirjanpito
+
+seg-058a61a80bb7 = Lähde: <c1/>
+
+seg-465589e89079 = Avaruuskäyttäjän navigointi (skenaariolajien perhe)
+
+seg-0ff068a288b6 = Aihesivut: <a1>SSV</a1>. Aja yksi: <c1/>. Kaikki perheet: <a2>KINDS.md</a2>.
+
+seg-c20786d0eec5 = Yleiskuva kaavioista, jotka moottori kirjoittaa perheen Avaruuskäyttäjän navigointi lajeille
+
+seg-418bf19bd2dc = MODELLED GNSS:n saatavuus ja linkin voimakkuus avaruuspalvelualueella ja sen ulkopuolella: pallolla olevalle käyttäjälle (ICG-kirjasen globaali kuori) tai Keplerin liikeradalla olevalle (LEO:sta Kuun siirtoon) se laskee
+
+seg-67dedb3beedd = Pakolliset kentät: <c1/>. Valinnaiset: <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>.
+
+seg-099d82cb0689 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>gnss-ssv</a1>.
+
+seg-7ca028bf6bb4 = <s1>Edellinen</s1>Optinen PNT

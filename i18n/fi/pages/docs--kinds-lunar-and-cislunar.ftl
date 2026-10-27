@@ -95,3 +95,139 @@ seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
 
 # text
 seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+seg-a240ef37dc6d = Lähde: <c1/>
+
+seg-befef5f2f8dd = Kuu ja Maa–Kuu-avaruus (skenaariolajien perhe)
+
+seg-f964724ea446 = Moottorin v{ $version } skenaariolajeja on { "20" }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva merkintä on moottorin tai varmennusmatriisin antama; laji on MODELLED, ellei matriisi muuta sano (miten merkintä ansaitaan: README:n Evidence-osio).
+
+seg-369e7cfcc1d3 = Aihesivut: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Aja yksi: <c1/>. Kaikki perheet: <a4>KINDS.md</a4>.
+
+seg-15b8e26dc24b = Yleiskuva kaavioista, jotka moottori kirjoittaa Kuu ja Maa–Kuu-avaruus -perheen lajeille
+
+seg-fd2a12be04c2 = Kuun etelänavan ARAIM-suojaustason ylitys edustavaa LunaNet-releiden joukkoa vastaan.
+
+seg-240eb5858113 = Mallinnettu suhteellisuusteoreettinen Maan ja Kuun kellotaajuus (Kuun koordinaattiaika, LTC/TCL): maailmanlaajuinen LTC−TT-taajuus itsepotentiaalin erosta ja Kuun liiketermistä, ilmoitettu julkaistun { "56" }–{ "59" }
+
+seg-177bff8d753e = MODELLED päästä päähän ulottuva Kuun koordinaattiajan (LTC) aikavirhebudjetti: seitsemän LTC-virhetermiä koottuna aikavirhekäyriksi x_i(τ) koko keskiarvoistusaikojen ruudukolle, neliösummattuna muotoon x_Σ(τ), ja
+
+seg-df0437ef8324 = Mallinnettu Kuun geodeettisen VLBI:n viivehavaintosuure: Maa-kantaviiva (kaksi maa-asemaa, GCRS) havaitsee yksisuuntaisen signaalin NovaMoon-luokan Kuun pinnalla olevalta majakalta.
+
+seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
+
+seg-38254487fb7f = Kuun VLBI:n asemakoordinaattien kovarianssi: lunar-vlbi-havaintosuureen viiveosittaisderivaatat koottuina nimenomaisen AIKATAULUN (kantaviivat x epookit) yli Fisherin informaatiomatriisiksi, käännettynä ja
+
+seg-23706714da99 = Mallinnettu yhteinen monitekniikkainen Kuun radanmääritys ja kellojen eräestimaattori SIMULOIDULLA verkolla: Gauss–Newton-hetkikuvasovitus, joka yhdistää Maa-kantaviivan geodeettiset VLBI-viiveet, Kuun paikalliset asema↔satelliitti-etäisyydet
+
+seg-2359450b3967 = Mallinnettu Kuun koordinaatiston realisaatio: 7-parametrinen Helmertin (yhdenmuotoisuus) datumsovitus — { "3" } siirtoa, { "3" } pienen kulman kiertoa, { "1" } mittakaava — joka sitoo estimoidun joukon selenografisista johdettuja MCMF-pisteitä
+
+seg-2a5af9961e99 = Seitsenparametrinen Helmertin (yhdenmuotoisuus) koordinaatiston datum, jota ohjaa SIMULOITU HAVAINTOKAMPANJA eikä syötetty muunnos.
+
+seg-3615bea1ea75 = Seitsenparametrinen Helmertin Kuun koordinaatiston datum, jota ohjaa TODELLINEN, arkistoitu havaintokampanja eikä simuloitu.
+
+seg-5413116b8b42 = Mallinnettu Kuun navigointipalvelun palvelualueen analyysi ILLUSTRATIVE, julkisiin lähteisiin perustuvasta Moonlight/LCNS-luokan Kuun kiertoradan tähdistöstä (ei yhteydessä ESA:an): käy läpi selenografisen leveys- ja pituusasteen ruudukon
+
+seg-a0e202b3566c = Mallinnettu Kuun DIFFERENTIAALINEN PNT (Kuun DGNSS/SBAS-vastine): NovaMoon-luokan vertailuasema TUNNETUSSA selenografisessa sijainnissa laskee satelliittikohtaiset differentiaalikorjaukset ILLUSTRATIVE
+
+seg-ed4ec8b6378c = Mallinnettu Kuun vertailuaseman kattavuus: Monte Carlo -pyyhkäisy Kuun differentiaali-PNT-mallista etelänapa-alueen käyttäjäruudukon ja vuorokauden epookkien yli.
+
+seg-aeec32be6092 = Pintamajakan täydennys Kuun kiertoradan navigointipalvelulle ajettavana ennen/jälkeen-taulukkona.
+
+seg-b28693368acd = Mallinnettu Kuun yhteentoimivuusvienti: tuottaa Kuun koordinaatiston, Kuun aika-asteikon ja Kuun efemeridin LunaNet/IOAG-linjaisissa, CCSDS-pohjaisissa vaihtomuodoissa edestakaisella / kenttäkohtaisella vastaavuus
+
+seg-d88605893c05 = MODELLED tasomainen Maa–Kuu-avaruuden tähdistön havaittavuus (P6): seuraa neljän avaruusaluksen differentiaalikorjattua tasomaista DRO-tähdistöä satelliittien välisellä etäisyysmittauksella ja raportoi, kuinka suuri osa avaruusaluksen
+
+seg-8eaec90d1df5 = MODELLED riippumaton estimaattoritesti Maa–Kuu-avaruuden kaaren pituuden havaittavuuskynnykselle.
+
+seg-9619b3d699c6 = Kuun pintanavigoinnin signaaliturvallisuuden hyökkäyspinta (P1): kokoaa avoimet signaaliturvallisuusanalyysit yhdeksi binaarilla tavoitettavaksi ajoksi.
+
+seg-64c78e211181 = Kuun omaperäinen radiotaajuinen häirintä: satelliittikohtainen häirintä–signaali-suhde, tehollinen C/N₀ ja lukituksen menetys selenografiselle pintakäyttäjälle Kuun pinnalla olevan (tai korotetun) häirintälähettimen alla, havainnollistavan julkisen
+
+seg-df68720ee7a5 = Maan GNSS:n vastaanotto Kuun etäisyydellä, heikon signaalin kerros, jonka konfliktinkestävyysartikkeli nimeää ja jolle moottorilla ei ollut mallia.
+
+seg-e6475fe9f443 = MODELLED tutkimukset Kuun radasta ja pinnasta navigointi- ja geodeettisena infrastruktuurina, viisi tutkimusta yhden lajin takana, valitaan kentällä <c1/>: od-consistency (Maan GNSS:llä tehtävä aluksen radanmääritys
+
+seg-ca4fac406beb = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-da20b48985b9 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-integrity</a1>.
+
+seg-564b491c4bb8 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-0f0b2d0ca0b4 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-time-offset</a1>.
+
+seg-128bf57a76d1 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-d6aa5d645fb7 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-time-budget</a1>.
+
+seg-79140f2544ea = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>.
+
+seg-de468e4d4b46 = <b>Kirjanpito (ledger):</b> MODELLED { "3" } · VALIDATED { "3" }. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-vlbi</a1>.
+
+seg-7da3c3ff2386 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-3119d4005897 = <b>Kirjanpito (ledger):</b> MODELLED { "3" } · VALIDATED { "2" }. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-vlbi-fim</a1>.
+
+seg-6f59a33a35b3 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-142f2253e4d6 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-joint-od-clock</a1>.
+
+seg-32c31af24e1b = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-73c0415efd2f = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-frame-realisation</a1>.
+
+seg-96efcb8d55d1 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
+
+seg-ce2f0f85dda4 = <b>Kirjanpito (ledger):</b> MODELLED { "2" } · VALIDATED { "3" }. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-frame-campaign</a1>.
+
+seg-d9e24a9a8c0c = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-4f05fad4b146 = <b>Kirjanpito (ledger):</b> VALIDATED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-llr-datum</a1>.
+
+seg-8d9e0277303e = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
+
+seg-204901ae3684 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>moonlight-service-volume</a1>.
+
+seg-6fe67fa619d0 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-c83350735643 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-differential-pnt</a1>.
+
+seg-facc442295f1 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>.
+
+seg-8a2f6f535c4a = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-station-coverage</a1>.
+
+seg-a790c54ac1aa = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>.
+
+seg-4efffcd615df = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-beacon</a1>.
+
+seg-720d0bbeaf6e = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-019ca0f1051e = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-interop-export</a1>.
+
+seg-28695dd2ecc3 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-af5d871bc69e = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>cislunar-observability</a1>.
+
+seg-f646e9fd7553 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-5e7bd8bb1adf = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>cislunar-arc-recovery</a1>.
+
+seg-3c514f3acc78 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>.
+
+seg-00b06a4fc0e0 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-attack-surface</a1>.
+
+seg-079d2bb805f1 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+seg-63d4157e2294 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-jamming</a1>.
+
+seg-7bb977529f30 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+seg-287f89e6bf6b = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>earth-gnss-lunar</a1>.
+
+seg-f7ed8b60e7d1 = Pakolliset kentät: <c1/>. Valinnaiset: <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-41e50e49da99 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-infrastructure</a1>.
+
+seg-09f7f99d04a6 = <s1>Edellinen</s1>Matalan Maan kiertoradan navigointi
+
+seg-74c6bf83988e = <s1>Seuraava</s1>Tehtäväanalyysin yhteydet ja avaruusoperaatiot

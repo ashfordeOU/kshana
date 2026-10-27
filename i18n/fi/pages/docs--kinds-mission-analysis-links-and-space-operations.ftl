@@ -69,3 +69,101 @@ seg-4e31c8daf798 = Kirjanpito
 
 # text
 seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
+
+seg-69ee217ed8e0 = Lähde: <c1/>
+
+seg-f5091cbeecbf = Tehtäväanalyysi, yhteydet ja avaruusoperaatiot (skenaariolajien perhe)
+
+seg-d0eea6d9d1ad = Moottorin v{ $version } skenaariolajeja on { "14" }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva merkintä on moottorin tai varmennusmatriisin antama; laji on MODELLED, ellei matriisi muuta sano (miten merkintä ansaitaan: README:n Evidence-osio).
+
+seg-6481dabc9458 = Aihesivut: <a1>ENTRY-EO-ASCENT</a1>, <a2>CONTACT-SCHEDULING</a2>, <a3>AOCS</a3>. Aja yksi: <c1/>. Kaikki perheet: <a4>KINDS.md</a4>.
+
+seg-d6c5a581ffaf = Yleiskuva kaavioista, jotka moottori kirjoittaa perheen Tehtäväanalyysi, yhteydet ja avaruusoperaatiot lajeille
+
+seg-8d65a4a1948d = Kaksikappaleen laukaisu- ja nousugeometria: laukaisuazimutit (sin Az = cos i / cos lat), pienin saavutettava inklinaatio, ympyräratanopeus, Maan pyörimisen itäsuuntainen etu, dogleg-tasonmuutoksen Δv kun ta
+
+seg-dd47e755d262 = Monivaiheisen kantoraketin tasomainen painovoimakäännöksen nousu pyörimättömän pallomaisen Maan yli US Standard Atmosphere -ilmakehän (vuosi { "1976" }) läpi (pystynousu, nostokulman potku, työntövoima nopeuden suuntaan), integroiden painovoima
+
+seg-cc88f37328a3 = Allen–Eggers-ballistinen paluukäytävä: huippuhidastuvuus (riippumaton ballistisesta kertoimesta, V_e^{ "2" } sin/γ//(2eH)), nopeus ja korkeus huippu-g:n kohdalla sekä huippulämpökuorman nopeus, paluunopeudelle
+
+seg-8ad7c34d8c25 = 3-DoF-pistemassan ilmakehäpaluu pyörivän pallomaisen Maan tai Marsin yli (ballistinen tai nostavaa vakiokallistuksella), RK4, US76:n, eksponentiaalisen tai Marsin ilmakehän läpi, Sutton–Graves-pysähtymispisteen
+
+seg-efe896d3f43b = Maan havainnointikuorman jalanjälki ja kattavuusgeometria (SMAD-avaruuskolmio): Maan kulmasäde, kaistanleveys, nadirin maastopikselikoko, suurin nadirista poikkeava pääsy, ympyräratajakso, J2-solmujakso
+
+seg-d3d9652fd8a0 = Nadirkuvaajan radiometria ja kuvanlaatu: Lambert-näkymän aukkosäteily, kameran yhtälö, signaali sekä laukaus-/pimeä-/luku-/kvantisointikohina ja SNR; järjestelmän MTF Nyquistin taajuudella (diffraktio
+
+seg-1940d5c75a98 = 3-DOF-asennon ja osoitusvirheen budjetti: pahimman tapauksen gravitaatiogradienttihäiriömomentti ((3/2)(μ/R³)ΔI) ja neliösummattu osoitusvirhebudjetti nimetyistä 1σ-osuuksista (anturikohina, reaktio
+
+seg-e00d18fbb52b = Avaruusaluksen asennonsäätö: jäykän rungon inertiaalinen osoituskäännös kolmella tai useammalla tasapainotetulla reaktiopyörällä MRP-takaisinkytkennällä (L = -K sigma - P omega), pienimmän normin pyörämomentit rajattuna kunkin
+
+seg-496fa280de7b = Yksisuuntainen linkkibudjetti CCSDS { "401" } / DSN 810-005 -linkkiyhtälöllä: vapaan tilan vaimennus, C/N₀, Eb/N₀, marginaali ja sulkeutuminen lähetyksen EIRP:lle, vastaanoton G/T:lle, etäisyydelle, datanopeudelle ja kaistalle (s/x/ka) vastaan
+
+seg-f0aca7ea1ffa = Yksi satelliitti yhden aseman yllä: kunkin ylilennon vinoetäisyys, korkeuskulma ja Es/N0 ylilennon varrella, kullakin askeleella valittu DVB-S2 MODCOD (ETSI EN { "302" } 307-1 taulukon { "13" } kynnysarvot plus toteutusmarginaali)
+
+seg-44c4890ba07e = Maayhteyksien suunnittelu usealle satelliitille usean aseman yli: näennäiset pääsyikkunat (SGP4, IAU 2006/2000A Maan kiinteä koordinaatisto, ITU-R P.834 -refraktio, valon kulkuaika), DVB-S2 ACM -datamäärä
+
+seg-19ab136e9f9b = Aukon käyttösuhde: navigoinnin ja viestinnän aikajako, jonka yhteyssuunnitelma edellyttää ohjattavien aukkojen joukolle.
+
+seg-ee0c649ca8b2 = CCSDS 133.0-B Space Packet Protocol -kehystys: koodaa synteettinen TM/TC-pakettivirta (6 oktetin ensisijainen otsikko + datakenttä) ja raportoi pakettikohtainen otsikon purku, oktettien kokonaismäärä ja täsmällinen koodaus↔purku
+
+seg-e561f3a749db = CCSDS OEM -yhteentoimivuussilta: tuo ulkoisen lentodynamiikkatyökalun (GMAT/Orekit/STK tuottavat kaikki OEM:n) tuottama Orbit Ephemeris Message ja raportoi sen segmentit/kohteet/koordinaatistot/epookkijakso sekä
+
+seg-1f074d7beccc = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-8f65824c39c5 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>launch-window</a1>.
+
+seg-2926bde689d3 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-66f6489411d0 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>ascent-losses</a1>.
+
+seg-481ce1d98bc7 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-fff98550eb48 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>reentry</a1>.
+
+seg-9cf8d4b6064f = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-84e1bddcbc95 = <b>Kirjanpito (ledger):</b> MODELLED { "1" } · VALIDATED { "1" }. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>entry-heating</a1>.
+
+seg-eab43348803e = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-9c6ce756a89a = <b>Kirjanpito (ledger):</b> VALIDATED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>eo-coverage</a1>.
+
+seg-cd84a7bdbe57 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-320d724ac797 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>eo-radiometry</a1>.
+
+seg-905487bf50f1 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-14511e367361 = <b>Kirjanpito (ledger):</b> VALIDATED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>attitude-budget</a1>.
+
+seg-540fa1932dad = Pakolliset kentät: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. Valinnaiset: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-6d2e9b9ce87f = <b>Kirjanpito (ledger):</b> MODELLED { "1" } · VALIDATED { "1" }. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>aocs</a1>.
+
+seg-3345731b5729 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-f8b896b81014 = <b>Kirjanpito (ledger):</b> MODELLED { "1" } · VALIDATED { "1" }. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>link-budget</a1>.
+
+seg-e38e356f4b71 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-eed876ed5aab = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>acm-link</a1>.
+
+seg-5fddd2460fb0 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-58d00faa1eda = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>contact-schedule</a1>.
+
+seg-5d4f6861f301 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-1e06e06d4325 = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>aperture-duty-cycle</a1>.
+
+seg-9bb424e01c84 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-688071019c9e = <b>Kirjanpito (ledger):</b> VALIDATED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>space-packet</a1>.
+
+seg-03c06f9fdc85 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>.
+
+seg-568c484ce9a0 = <b>Kirjanpito (ledger):</b> VALIDATED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>oem-interop</a1>.
+
+seg-41996765fcf1 = <s1>Edellinen</s1>Kuu ja Maa–Kuu-avaruus
+
+seg-1951c46fe429 = <s1>Seuraava</s1>Optinen PNT

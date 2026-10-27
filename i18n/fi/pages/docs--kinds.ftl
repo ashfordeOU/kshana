@@ -73,3 +73,49 @@ seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
 
 # text
 seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+
+seg-15b8e26dc24b = Yleiskuva kaavioista, jotka moottori kirjoittaa Kuu ja Maa–Kuu-avaruus -perheen lajeille
+
+seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
+
+seg-d6c5a581ffaf = Yleiskuva kaavioista, jotka moottori kirjoittaa perheen Tehtäväanalyysi, yhteydet ja avaruusoperaatiot lajeille
+
+seg-b8f937411028 = Yleiskuva kaavioista, jotka moottori kirjoittaa perheen Optinen PNT lajeille
+
+seg-5e658f01d9f4 = HETEROGENEOUS (tuloksen merkintä)
+
+seg-c20786d0eec5 = Yleiskuva kaavioista, jotka moottori kirjoittaa perheen Avaruuskäyttäjän navigointi lajeille
+
+seg-f7f2a6c0cd15 = Lähde: <c1/>
+
+seg-6c7831311d4e = Skenaariolajit perheittäin
+
+seg-6bed0bef75bc = Jokainen moottorin v{ $version } lähettämä skenaariolaji ({ "87" }), jaoteltuna { "12" } perheeseen. Jokaisella perheellä on sivu, jolla on yksi merkintä lajia kohden (moottorin kuvaus ja kentät, esimerkkikomento, ajon pääluvut, lajin nimeävät matriisirivit ja moottorin kirjoittama kaavio) sekä yleiskuva näistä kaavioista. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva merkintä on moottorin tai varmennusmatriisin antama; laji on MODELLED, ellei matriisi muuta sano (miten merkintä ansaitaan: README:n Evidence-osio).
+
+seg-d23eaa8bc98b = Perheet
+
+seg-3ac9e578414c = Kellot, ajoitus ja holdover
+
+seg-b4b8aaf14aec = Inertia-, fuusio- ja kvanttianturit
+
+seg-93591ee6899f = GPS-estetty vaihtoehtoinen PNT
+
+seg-b63bfec0aabf = Satelliittitähdistöt, kattavuus ja geometria
+
+seg-f2f84c689f14 = GNSS-mittaukset, paikannus ja eheys
+
+seg-2e736b1814f2 = Häirintä, harhautus ja spektri
+
+seg-fc23add4540b = Matalan Maan kiertoradan navigointi
+
+seg-dd8aa1ce4734 = Avaruuskäyttäjän navigointi
+
+seg-77aef8722995 = Optinen PNT
+
+seg-179dc850c643 = Tehtäväanalyysi, yhteydet ja avaruusoperaatiot
+
+seg-6339abe5314a = Perhe
+
+seg-3040e2ec62b1 = <s1>Edellinen</s1>Skenaariolajit
+
+seg-1d6e6cc607f2 = <s1>Seuraava</s1>Jokainen komento

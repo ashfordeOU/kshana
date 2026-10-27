@@ -29,3 +29,5 @@ seg-4f19d4fb1341 = Yleinen N-ulotteinen pyyhkäisy minkä tahansa paketin yli pi
 
 # text
 seg-e7ab7b55c969 = 1-ulotteinen vaihtoehtovertailun pyyhkäisy kellopaketin parametrin yli.
+
+seg-e43910de5fd8 = Muistikirjat

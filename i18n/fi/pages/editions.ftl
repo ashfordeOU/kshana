@@ -77,3 +77,9 @@ seg-61a4eb09767f = MCP-palvelinopas
 seg-8b49f6477e8f = Avoin ydin
 
 seg-6555ff9a6d8e = Tuloste
+
+seg-70a79ec95bf4 = epäonnistuu
+
+seg-7a33a168b020 = läpäisee
+
+seg-a91762c0aabe = Ilmainen

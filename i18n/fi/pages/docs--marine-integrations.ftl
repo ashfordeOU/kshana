@@ -12,6 +12,12 @@ seg-06ff6eed7e99 = OpenCPN
 
 seg-ab1af8b3d968 = katso edellä
 
+seg-c353e7bec219 = Avain
+
+seg-df52127d74b6 = Missä
+
+seg-7670cf4ceda3 = Oletus
+
 seg-7e304f816037 = Lähde: <c1/>
 
 seg-fb2b0841a172 = Merenkulun integraatiot: luottamuspistemäärä sillalla
