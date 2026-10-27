@@ -373,3 +373,365 @@ seg-7f3e13712f10 = Modelowane relatywistyczne tempo zegara Ziemia–Księżyc (K
 seg-e01f77d493a0 = Modelowana księżycowa geodezyjna obserwabla opóźnienia VLBI: baza ziemska (dwie stacje naziemne, GCRS) obserwuje jednokierunkowy sygnał z latarni klasy NovaMoon na powierzchni Księżyca. Emituje opóźnienie bliskiego pola jako różnicę dwóch odległości, jego tempo i poprawkę na krzywiznę czoła fali w bliskim polu podczas przelotu — sprawdzone krzyżowo względem obserwabli Δ-DOR fali płaskiej z tej samej bazy kodu w granicy dalekiego pola, z pochodnymi cząstkowymi zweryfikowanymi różnicą skończoną. Domyślna ścieżka analityczna ma poziom MODELLED i niesie zastrzeżenia dotyczące spójności układów odniesienia, ruchu bieguna xp=yp={ "0" } oraz fali płaskiej względem bliskiego pola. Ustawienie planetary_kernel_path, earth_orientation_kernel_path i moon_orientation_kernel_path uruchamia zamiast niej ścieżkę jądrową (DE440, MOON_PA_DE440, ITRF93; zbieżne barycentryczne czasy przelotu światła; dodaje pochodne cząstkowe latarni i stacji dla epoki), której newtonowskie opóźnienie i pochodne cząstkowe zgadzają się ze zbieżnymi czasami przelotu światła NAIF SPICE do { "0.06" } ps i { "7.4e-9" }. Nie sprawdzono niezależnie względem rzeczywistych danych VLBI.
 
 seg-3f749aef8d89 = Głębokokosmiczny Mars PNT: symulowana konstelacja przekaźników MARCONI (przekaźniki areostacjonarne + nachylone nadające jednokierunkowo + przekazujące dwukierunkowo do stacji w głębokim kosmosie) nawiguje użytkownika referencyjnego (transfer | lmo | surface) przez wspólny estymator fuzji radiometrycznej jedno- i dwukierunkowej. Podaje geometrię/widoczność na epokę, osiągnięty RMS względem prawdy i formalną kowariancję (pozycja 1σ / 3σ) — uczciwy symulowany wskaźnik jakości, NIE certyfikowany poziom ochrony.
+
+seg-1e4d5b2f4810 = Każdy dołączony plik scenariusza ({ "182" }), pogrupowany według rodzaju. Opis to własny komentarz nagłówkowy pliku; kluczowe parametry to jego ustawienia najwyższego poziomu. Status odczytuje macierz weryfikacji dla modułu danego rodzaju. <b>Otwórz w Kshana Studio</b> otwiera zarejestrowany przebieg.
+
+seg-e701392324d0 = rodzaj acm-link
+
+seg-c4d65df7ab98 = nie dopasowano do modułu rejestru według nazwy
+
+seg-7b09a77bfada = Adaptacyjne kodowanie i modulacja DVB-S2 (ACM) wzdłuż przelotów jednego satelity nad jedną stacją. W trakcie przelotu zmieniają się odległość skośna i elewacja, a więc zmienia się Es/N0 łącza w dół. Przebieg wybiera w każdym kroku najbardziej wydajny MODCOD, którego próg z ETSI EN { "302" } 307-1, tabela { "13" }, powiększony o margines implementacyjny, łącze spełnia. Podaje zakres Es/N0 każdego przelotu i wolumen danych przenoszony przez ACM, w porównaniu z punktem odniesienia ze stałym kodowaniem, który zamyka łącze przy elewacji maski i największej odległości.
+
+seg-c36379e65043 = <a1>Otwórz w Kshana Studio</a1> · <a2>Zobacz na GitHubie</a2>
+
+seg-b6ddd25a35c3 = rodzaj aocs
+
+seg-944f5a95638f = rodzaj aperture-duty-cycle
+
+seg-2c27404856f6 = rodzaj araim-reference-check
+
+seg-6fc2c7863922 = rodzaj ascent-losses
+
+seg-6ad78e934bec = Straty wznoszenia z zakrętem grawitacyjnym dla ILLUSTRATIVE dwustopniowej rakiety nośnej na naftę i tlen (bez rzeczywistego pojazdu): pionowe wznoszenie do { "1" } km, kopnięcie pochylenia o { "3" } deg przez { "10" } s, a następnie ciąg wzdłuż wektora prędkości. Przebieg całkuje straty grawitacyjne, oporu, sterowania i przeciwciśnienia i sprawdza, że idealne dv minus straty równa się prędkości na wypaleniu. MODELLED: płaska, nieobracająca się Ziemia, stałe C_D, brak lotu bezciągowego, brak prowadzenia poza kopnięciem.
+
+seg-602ac3a69ef9 = rodzaj attitude-budget
+
+seg-01ed69f79080 = rodzaj ma wiersze rejestru ze statusem validated · { "1" } z { "1" } wierszy sprawdzonych
+
+seg-be0ff8b9fe3b = rodzaj body-pnt
+
+seg-eb1f3742071d = rodzaj campaign
+
+seg-a40718a9a53e = Łańcuchowa misja: nominalna, zagłuszanie, spoofing, utrata GNSS z holdover zegara i lotem bezwładnościowym, alarm integralności i odtworzenie, na jednej wspólnej osi czasu.
+
+seg-e745211204ab = Optymalizacja przez kampanię: łącze pasma X z przykładu link-budget ({ "55" } dBW EIRP, { "53" } dB/K G/T, { "3" } dB innych strat, { "4.5" } dB wymaganego Eb/N0), przeszukiwane po odległości i szybkości transmisji w poszukiwaniu punktu pracy, który zostawia dokładnie { "3" } dB zapasu. Każde obliczenie to zwykły przebieg <c1/>. Sympleks Neldera-Meada działa we współrzędnych znormalizowanych logarytmicznie w podanych granicach, a każde obliczenie jest wypisane w <c2/> wyniku.
+
+seg-decc6966e201 = Kompozycja międzydziedzinowa: jeden zagłuszacz, dwie platformy. Statek w Zatoce Fińskiej ({ "59.80" } N, { "24.90" } E, odbiornik z przykładu maritime-strait-jamming) i samochód na nadmorskiej drodze w Helsinkach ({ "60.17" } N, { "24.94" } E) znajdują się pod tym samym szerokopasmowym zagłuszaczem, umieszczonym w { "59.80" } N, { "25.44" } E, { "30" } m nad ziemią (około { "30" } km od statku i { "50" } km od samochodu).
+
+seg-f2588213d3d3 = Łańcuchowa misja sterowana widmem pasma L: zagłuszacz typu chirp zagłusza GPS L1 C/A i Galileo E1, zegar przechodzi w holdover, a ton fali ciągłej (CW) pozostawiony na nośnej L1 utrzymuje C/A w dole, podczas gdy E1 się odtwarza, więc odbiornik przechodzi na Galileo, a jego monitor integralności działa na niebie wyłącznie z Galileo.
+
+seg-031c509abbfa = Przegląd parametru przez kampanię: odbiornik z przykładu jamming ({ "52" } N, { "4" } E, powłoka Walkera GPS-podobna z 24 satelitami) pod szerokopasmowym zagłuszaczem oddalonym o { "1" } km, z mocą nadawania zagłuszacza przeglądaną od -50 dBW ({ "10" } nW) do +{ "10" } dBW ({ "10" } W) w krokach co { "5" } dB. Każdy węzeł to zwykły przebieg <c1/>; kampania zapisuje dla każdego węzła odsetek epok z co najmniej czterema nadal śledzonymi satelitami, średni stosunek zagłuszacza do sygnału (J/S) i najmniejszą liczbę śledzonych satelitów.
+
+seg-ef32cd18fab5 = rodzaj cislunar-arc-recovery
+
+seg-e9866967471c = rodzaj cislunar-observability
+
+seg-9c3bc8bbd361 = rodzaj clock
+
+seg-ddd9856d154a = Scenariusz referencyjny Kshana: przebieg { "2" } h, { "10" } min synchronizacji GNSS, a potem ~{ "1.8" } h odmowy. Szum white-FM zegara skalibrowany do opublikowanego sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Sprawdzone względem symulowanego odchylenia Allana w tests/calibration.rs (~{ "2" }%).
+
+seg-460f63835b3f = Wariant: laboratoryjny optyczny zegar strontowy kontra CSAC. Laboratoryjne zegary Sr osiągają sigma_y({ "1" } s) = { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics).
+
+seg-092f76e5d820 = rodzaj combined-altpnt
+
+seg-3455b653ea6f = rodzaj conflict-resilience
+
+seg-c6b21e897ce0 = Projektowanie konstelacji w dużej skali: wzorce Walker DELTA i Walker STAR w konwencji i: T/P/F (węzły rozłożone na { "360" } lub { "180" } deg, odstęp w płaszczyźnie { "360" }*P/T, przesunięcie fazowe między płaszczyznami { "360" }*F/T), jawne listy elementów i projekty wielopowłokowe, kilka konstelacji w jednym przebiegu, wokół Ziemi, Księżyca, Marsa lub dowolnej innej planety, Plutona albo dużego księżyca, z użyciem stałych w module body (tych samych, których używają rodzaje solar-system i body-pnt). USTAWIENIA WSTĘPNE z opublikowanych elementów nominalnych: gps-baseline i gps-expandable ({ "24" } miejsc i sześć rozszerzalnych par przednich i tylnych z GPS Standard Positioning Service Performance Standard, wydanie 5. { "2020" }, tabele 3.2-1 do 3.2-3), galileo (Walker 24/3/1 na { "29 599.801" } km i { "56" } deg, Galileo Open Service Service Definition Document wydanie { "1.1" }, tabele { "1" } i { "23" }), beidou i beidou-meo (Walker 24/3/1 na { "21 528" } km i { "55" } deg oraz trzy satelity geostacjonarne na { "80" }, { "110.5" } i { "140" } deg E i trzy nachylone satelity geosynchroniczne na { "55" } deg, BeiDou Open Service Performance Standard { "3.0" }, sekcja { "4.1" }; faza MEO i przecięcie nachylonej orbity geosynchronicznej na { "118" } deg E są modelowane, ponieważ norma ich nie podaje) oraz glonass (24/3/1 na { "19 100" } km i { "64.8" } deg ze wzoru na miejsca z GLONASS Interface Control Document, wydanie { "5.1" }, sekcja { "5.2" }). POKRYCIE I ROZMYCIE DOKŁADNOŚCI (DOP): na siatce szerokości i długości geograficznej i w próbkowanym oknie z maską elewacji, liczba widocznych satelitów, GDOP, PDOP, HDOP i VDOP dla każdej komórki, dostępność (rozwiązanie z PDOP nie większym niż próg, domyślnie { "6" }) dla każdej komórki, globalnie (ważona powierzchnią) i w najgorszym miejscu, z jednym zegarem odbiornika na konstelację, chyba że clock = "common". Skaluje się do tysięcy satelitów: widoczność to iloczyn skalarny względem połowy kąta pokrycia każdego satelity, a satelity są grupowane w pasy według szerokości podsatelitarnej w każdej epoce, więc wiersz siatki testuje tylko te, które mogą być widoczne; raport podaje liczbę zaoszczędzonych testów par. JSON zawiera mapy siatki i śladów naziemnych poszczególnych satelitów o zmniejszonej liczbie próbek. VALIDATED: generator Walker względem tabeli { "23" } Galileo OS SDD i wzoru na miejsca z GLONASS ICD, ustawienie wstępne GPS względem opublikowanej kolumny przecięć równika z tabeli 3.2-1 SPS PS oraz globalny rozkład HDOP bazowego GPS względem dodatku B SPS PS (mediana { "0.94" }, { "95" }% { "1.25" }, średnia { "0.96" }, tolerancja { "0.03" }). MODELLED: orbity dwóch ciał z opcjonalnym wiekowym J2, kulista bryła, wyłącznie widoczność geometryczna (bez mocy sygnału, stanu zdrowia i terenu) oraz względna faza między różnymi systemami, która nie jest migawką żadnej rzeczywistej daty.
+
+seg-fa78684a644d = rodzaj constellation-design
+
+seg-22e4cbe23fb2 = Pokrycie wielokonstelacyjne: cztery globalne systemy nawigacji satelitarnej (GNSS) razem, jako mapa widocznych satelitów, rozmycia dokładności (DOP) i dostępności na całej Ziemi przez jedną dobę.
+
+seg-cd74615ba3dd = Megakonstelacja pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej: { "5 000" } satelitów w czterech powłokach Walker, oceniana jako mapa pokrycia i rozmycia dokładności (DOP).
+
+seg-59bb18c802a3 = Konstelacja przekaźnikowa i nawigacyjna na Księżycu: satelity na eliptycznych zamrożonych orbitach księżycowych (ELFO) oraz okrągła powłoka niskiej orbity księżycowej, oceniana jako mapa pokrycia i rozmycia dokładności (DOP) nad całym Księżycem przez jedną dobę.
+
+seg-64e634b04436 = rodzaj contact-schedule
+
+seg-b6736838f1d6 = Planowanie kontaktów z ziemią: trzy poglądowe satelity nad trzema poglądowymi stacjami przez { "12" } godzin. Przebieg podaje dla każdego przelotu satelity nad stacją jego okno dostępu i wolumen danych, który może w nim przenieść adaptacyjne kodowanie i modulacja DVB-S2 (ACM) (progi z ETSI EN { "302" } 307-1, tabela { "13" }, powiększone o margines implementacyjny). Następnie buduje plan kontaktów bez konfliktów, w którym każda antena obsługuje jednego satelitę naraz, z przerwą obrotową między kontaktami, a każdy satelita nadaje w dół do jednej stacji naraz. Dostarczenie jest ważone priorytetem i ograniczone zaległościami każdego satelity. Raportowane są obok siebie trzy plany: zachłanny według wartości krańcowej, punkt odniesienia według kolejności zgłoszeń i, gdy zbiór kandydatów jest mały, dokładne optimum, wraz z luką optymalności planu zachłannego.
+
+seg-12fb09af17f6 = rodzaj earth-gnss-lunar
+
+seg-0f550587e7e0 = wiersze rejestru tego rodzaju są obliczone na podstawie modelu · { "0" } z { "1" } wierszy sprawdzonych
+
+seg-435e296b48ab = rodzaj entry-heating
+
+seg-d7ec70cdbcfc = Wejście w atmosferę kapsuły zwrotu próbek Stardust: opublikowany przypadek, względem którego sprawdzany jest rodzaj <c1/> (xval/entry-stardust/PREREGISTRATION.md; tests/entry_stardust_published.rs).
+
+seg-c2dc08297b0f = rodzaj eo-coverage
+
+seg-fbb405d27780 = rodzaj eo-radiometry
+
+seg-f178d4dbb034 = Radiometria i jakość obrazu obrazowania w nadirze dla ILLUSTRATIVE małej kamery obserwacji Ziemi (bez projektu żadnego operatora): apertura { "0.40" } m, ogniskowa { "3.6" } m (F/9), piksele { "5.5" } um, z { "500" } km. Przebieg podaje budżet stosunku sygnału do szumu sceny o albedo { "15" } %, MTF systemu przy częstotliwości Nyquista, względną odpowiedź na krawędź i NIIRS według GIQE w wersji { "4" }. MODELLED: NIIRS jest empiryczną regresją wyznaczaną na modelowanych danych wejściowych, a nie oceną rzeczywistego obrazu.
+
+seg-2487ebfca518 = rodzaj ephemeris
+
+seg-2771a42a30a7 = rodzaj fusion
+
+seg-6452c9a86abf = Łączona fuzja czujników PNT: jeden filtr Kalmana jest nawigatorem, łączącym stany zegara i inercyjne i wspomaganym optycznym transferem czasu ISL, zamiast składać niezależne predyktory. GNSS niedostępny przez { "1.8" } h.
+
+seg-9b62a8213db0 = Sprzężona fuzja czujników PNT: te same zestawy i ta sama przerwa w GNSS co w <c1/>, ale nawigatorem jest JEDEN skumulowany filtr Kalmana obejmujący pozycję, prędkość, fazę zegara, częstotliwość zegara i bias akcelerometru (tabela <c2/>). Gdy GNSS jest nominalny, przyjmuje pseudoodległości, każdą jako <c3/> wzdłuż współczynnika linii widzenia g, więc jeden pomiar ogranicza jednocześnie pozycję i zegar, a filtr przenosi ich kowariancję wzajemną; ponowne synchronizacje optycznego transferu czasu podczas przerwy to pseudoodległości tylko dla zegara. Akcelerometry mają tu stały bias, którego stan biasu uczy się przed przerwą (<c4/> zeruje biasy, ponieważ jego filtry nie mają stanu biasu). Neutralne wobec dostawcy; parametry zegara i szumu jak w <c5/>, biasy są poglądowe. MODELLED.
+
+seg-8e5c015bcaf4 = rodzaj gnss-ins
+
+seg-8f43fc2f8b71 = Pojazd drogowy w kanionie miejskim: nawigacja zliczeniowa GNSS/INS przez przejazd pod wiaduktem i przydrożny zagłuszacz, względem budżetu na poziomie pasa ruchu.
+
+seg-8eefd1c4bea9 = GNSS/INS ze sprzężeniem luźnym: trójosiowy nawigator bezkardanowy dyscyplinowany przez 15-stanowy EKF stanu błędu, a następnie lecący bezwładnościowo przez { "60" } s przerwy w GNSS. W odróżnieniu od pakietu <c1/> (skalarny nawigator zliczeniowy 1-DOF z resetem do prawdy przy każdym rozwiązaniu) uruchamia on prawdziwy filtr w pętli zamkniętej: uczy się z zaszumionych rozwiązań, gdy GNSS jest dostępny, i leci bezwładnościowo na poprawionym stanie podczas przerwy. Raportowany błąd to rzeczywista pozioma reszta względem prawdy; każdy czujnik podaje też swoje RMS swobodnego INS w pętli otwartej, aby wartość filtra była jawna.
+
+seg-e0a3e777d810 = GNSS/INS w lotnictwie ze sprzężeniem ścisłym: lekki samolot startuje, wznosi się pod kątem { "6" } deg, wyrównuje lot i wykonuje skoordynowany zakręt z przechyłem { "25" } deg (profil trajektorii <c1/>); GNSS jest niedostępny przez dwie minuty obejmujące zakręt, najtrudniejszą część lotu bezwładnościowego, ponieważ błędy kursu i orientacji rzutują się wtedy na płaszczyznę poziomą. Sprzężenie ścisłe (<c2/>) na konstelacji Walker w stylu GPS z propagacją SGP4.
+
+seg-736606e5f26d = GNSS/INS morski: statek z prędkością { "8" } m/s (około { "15.5" } węzła) wykonuje pełne okręgi z prędkością { "1" } deg/s, a potem następuje pięciominutowa przerwa w GNSS, na tym samym 15-stanowym filtrze GNSS/INS w pętli zamkniętej co <c1/>. Ruch pochodzi z biblioteki trajektorii (<c2/>, profil <c3/>): powolne, równomierne skręcanie, reżim statku, a nie samochodu.
+
+seg-d30ac9fd7056 = GNSS/INS kolejowy ze sprzężeniem ścisłym: pociąg jedzie między przystankami z prędkością { "30" } m/s z łagodnymi łukami { "20" } deg (profil trajektorii <c1/>), mija głęboki wykop, w którym widoczne pozostają tylko dwa satelity, a następnie dwuminutowy tunel. Odbiornik ma sprzężenie ścisłe (<c2/>): nadal łączy pseudoodległości dwóch satelitów, które wciąż śledzi w wykopie, gdzie odbiornik ze sprzężeniem luźnym nie ma żadnego rozwiązania. Satelity pochodzą z konstelacji Walker w stylu GPS z propagacją SGP4.
+
+seg-ea32ce169216 = Mały bezzałogowy statek powietrzny pod zagłuszaniem GNSS: jak daleko dryfuje jednostka inercyjna MEMS klasy kontrolera lotu po utracie przez odbiornik synchronizacji, w porównaniu z jednostką klasy taktycznej, na tym samym filtrze GNSS/INS w pętli zamkniętej co <c1/>.
+
+seg-f8ac956d2974 = rodzaj gnss-sim
+
+seg-2bedb057a0e6 = Pseudoodległości i RAIM dla suwnicy kontenerowej na nabrzeżu kontenerowym, z żurawiami nabrzeżowymi od strony morza i stosami kontenerów od strony lądu: scenariusz <c1/> z ustawieniem wstępnym horyzontu <c2/>.
+
+seg-769a624a8ba0 = Symulacja GNSS w dziedzinie pomiarów: pseudoodległości z opóźnieniami jonosferycznymi i troposferycznymi, podawane do migawkowego RAIM w celu wyznaczenia poziomów ochrony.
+
+seg-4f53c4dbffec = rodzaj gnss-ssv
+
+seg-b05ef0179faf = rodzaj gravity-map
+
+seg-10b07a5e6990 = rodzaj holdover-test
+
+seg-e41c625df8c5 = Test holdover, przykład wczytania: zapis błędu czasu oceniany przez rodzaj holdover-test („odłącz antenę, oceń holdover”). Zapis jest dzielony w dwóch chwilach podawanych przez OPERATORA, tu GNSS odłączony w { "600" } s i przywrócony w { "2 400" } s, a każdy krok jest mierzony względem masek ITU-T napisanych dla niego.
+
+seg-d2d4b620af4b = Test holdover dziennika linuxptp: te same cztery kroki co w holdover-test-example.toml, z zapisem odczytywanym z dziennika serwa ptp4l przez [series.clock_log] (format "ptp4l", przesunięcia w ns, własne znaczniki czasu demona, tu co { "5" } s).
+
+seg-56269cd82ed4 = rodzaj hybrid
+
+seg-098fb3a74071 = Hybrydowy zwieńczający scenariusz PNT: zestaw w pełni kwantowy (zegar optyczny + IMU na zimnych atomach + wspomaganie optycznym transferem czasu ISL) kontra zestaw w pełni klasyczny (CSAC + IMU klasy nawigacyjnej + RF). GNSS niedostępny przez { "1.8" } h.
+
+seg-e1678a444911 = rodzaj hybrid-optical-rf
+
+seg-703bf09ca356 = rodzaj hybrid-ukf
+
+seg-a65d5e564286 = rodzaj impairment-eval
+
+seg-39f1050e5129 = rodzaj inertial
+
+seg-3b8cc1893361 = Nawigacja zliczeniowa podczas przerwy w GNSS: kwantowy akcelerometr na zimnych atomach kontra akcelerometr klasy nawigacyjnej. Bias = reszta po kalibracji z GNSS = opublikowana stabilność biasu; q_va = (pierwiastek z gęstości szumu)^{ "2" }.
+
+seg-9035c0bc73eb = Ustawienie wstępne kwantowe: akcelerometr z interferometrem na zimnych atomach (CAI), zbudowany z fizyki swojego interferometru, kontra akcelerometr kwarcowy klasy nawigacyjnej podczas przerwy w GNSS. Jednowymiarowy lot zliczeniowy: { "10" } minut z GNSS, a potem { "110" } minut bez niego.
+
+seg-7d03a68ac877 = rodzaj ins-trn-coast
+
+seg-c6ab90fcbc23 = Model błędu lotu zliczeniowego INS/TRN: błąd pozycji w funkcji czasu trwania lotu zliczeniowego oraz czasy trwania, przy których przekracza { "10" } m i { "50" } m.
+
+seg-542b2d91bff8 = Podejście morskie do portu przy zagłuszonym GNSS: jak długo inercyjny system nawigacji (INS) utrzymuje statek w budżecie dokładności podejścia do portu po utracie globalnego systemu nawigacji satelitarnej (GNSS).
+
+seg-471f2e00f244 = Lot zliczeniowy w tunelu kolejowym: jak długo inercyjny system nawigacji (INS) pociągu utrzymuje go w budżecie rozróżniania torów bez globalnego systemu nawigacji satelitarnej (GNSS) w tunelu.
+
+seg-35c6036b9099 = rodzaj integrity
+
+seg-b874df525f79 = Dostępność ARAIM dla dwóch konstelacji: GPS + Galileo oceniane zaawansowanym silnikiem ARAIM, w tym z hipotezą uszkodzenia całej konstelacji (<c1/>).
+
+seg-af9e9ed1468c = Dostępność ARAIM dla statku wchodzącego do portu: rodzaj <c1/> z użytkownikiem w miejscu naziemnym (<c2/>) z ustawieniem wstępnym horyzontu <c3/>.
+
+seg-5387b81f072b = rodzaj jamming
+
+seg-79c636fca6b1 = Statek wchodzący do portu pod zagłuszaczem brzegowym, z budynkami nabrzeża przed nim, które zasłaniają niskie satelity w tym kierunku: scenariusz <c1/> z ustawieniem wstępnym horyzontu <c2/>.
+
+seg-d7a49be6aa37 = Morskie zagłuszanie GNSS: szerokopasmowy zagłuszacz brzegowy lub pokładowy odmawiający globalnego systemu nawigacji satelitarnej (GNSS) statkowi przecinającemu otwarte wody.
+
+seg-6c9aae72c01b = rodzaj launch-window
+
+seg-784412eac737 = rodzaj leo-navmsg
+
+seg-af46a64149f5 = Ustawienie wstępne demonstracji w locie (IOD) ESA Celeste: jedyny scenariusz, który korzysta z materiałów zaprezentowanych na warsztatach LEO-PNT programu ESA Navigation Innovation and Support Programme (NAVISP), { "2026" }. Można go wyłączyć z wydania, usuwając ten plik oraz src/leo_navmsg/presets/celeste_iod.rs (zob. nagłówek tego pliku).
+
+seg-c7deba26589d = Komunikat nawigacyjny LEO: binarne kodowanie Kshana, jego budżet kwantyzacji oraz eksporty w stylu RINEX i CSV.
+
+seg-ea14c04a5e2f = Komunikat nawigacyjny LEO: aktualizacja komunikatu w środku przelotu i to, czy użytkownik widzi skok.
+
+seg-92932c07a7cb = Komunikat nawigacyjny LEO: cztery modele efemeryd na jednej orbicie oraz tabela SISRE w funkcji wysokości z Liu et al. { "2025" }.
+
+seg-28fc0b60d88c = rodzaj leo-pass
+
+seg-cf353e8a27df = rodzaj leo-pnt-chain
+
+seg-1465309100f6 = Celeste IOD od początku do końca (ustawienie wstępne opcjonalne): sygnał konfiguracji E5 nr 1 -> przelot Celeste IOD -> komunikat nawigacyjny w stylu Celeste -> połączone rozwiązanie GPS + Galileo + Celeste IOD.
+
+seg-73db6e9fc765 = LEO-PNT od początku do końca na ogólnej konstelacji: projekt sygnału -> budżet łącza przelotu -> komunikat nawigacyjny -> połączone rozwiązanie MEO + LEO i zbieżność precyzyjnego pozycjonowania punktowego.
+
+seg-ad6744824a5f = Xona Pulsar od początku do końca: publiczny sygnał X5 -> przelot Pulsar -> komunikat nawigacyjny LEO -> połączone rozwiązanie GPS + Galileo + Pulsar i zbieżność precyzyjnego pozycjonowania punktowego.
+
+seg-b2c874e083a6 = rodzaj leo-ppp
+
+seg-017f8db74a59 = rodzaj leo-pvt
+
+seg-923f04fa9b36 = Połączone pozycjonowanie MEO i LEO dla statku głęboko w fiordzie, gdzie ściany doliny zasłaniają wszystko nisko po drugiej stronie kanału: tryb łączony <c1/> z ustawieniem wstępnym horyzontu <c2/>.
+
+seg-dde47f233669 = Widoczne satelity i rozmycie dokładności od równika do bieguna: sam GNSS na MEO, sama prawie biegunowa konstelacja LEO i obie razem.
+
+seg-ef202b7d50ed = rodzaj leo-signal
+
+seg-22cd3a939c19 = Projekty sygnału Celeste IOD: pasma częstotliwości i konfiguracja sygnału „Classical Pilot” nr 1 misji ESA Celeste In-Orbit Demonstration (IOD) pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO), jako sparametryzowane projekty sygnału.
+
+seg-f5caf70c73f0 = Zestawienie pasm LEO-PNT, od UHF do szerokiego pasma C: co sygnał pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO) zyskuje i traci w każdym paśmie, niezależnie od konkretnego systemu.
+
+seg-90239179296f = Sygnały Xona Pulsar: sygnały X1 (pasmo L1) i X5 (pasmo L5) komercyjnej konstelacji pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO), z ich opublikowanej tabeli sygnałów (Leclère, Marathe i Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551), jako skompilowane ustawienie wstępne <c1/>.
+
+seg-a440eecbe1c9 = rodzaj link-budget
+
+seg-fb3f2dcccbf7 = rodzaj lunar-attack-surface
+
+seg-4486fa88f989 = rodzaj lunar-beacon
+
+seg-2707dd910b99 = rodzaj lunar-differential-pnt
+
+seg-ff296a13dcc8 = rodzaj lunar-frame-campaign
+
+seg-319137c1458e = rodzaj lunar-frame-realisation
+
+seg-d4a6801f9670 = rodzaj lunar-infrastructure
+
+seg-a3dc5227b366 = Scenariusz Kshana lunar-infrastructure: carrier-phase, przykład SZYBKI (dwa krótkie łuki, { "10" } losowań, sekundy; oceniana konfiguracja, trzy łuki i { "400" } losowań, to xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; projekt, dane wejściowe i progi są ustalone w xval/lunar-infra/PREREGISTRATION.md (zatwierdzonym przed jakimkolwiek przebiegiem). Dane wejściowe ILLUSTRATIVE są tam oznaczone swoimi źródłami publicznymi.
+
+seg-1f55219aed27 = Scenariusz Kshana lunar-infrastructure: frame-coestimation. MODELLED; projekt, dane wejściowe i progi są ustalone w xval/lunar-infra/PREREGISTRATION.md (zatwierdzonym przed jakimkolwiek przebiegiem). Dane wejściowe ILLUSTRATIVE są tam oznaczone swoimi źródłami publicznymi.
+
+seg-4e990ecb6404 = Scenariusz Kshana lunar-infrastructure: geodesy-sensitivity. MODELLED; projekt, dane wejściowe i progi są ustalone w xval/lunar-infra/PREREGISTRATION.md (zatwierdzonym przed jakimkolwiek przebiegiem). Dane wejściowe ILLUSTRATIVE są tam oznaczone swoimi źródłami publicznymi.
+
+seg-e27e1de1a233 = Scenariusz Kshana lunar-infrastructure: od-consistency. MODELLED; projekt, dane wejściowe i progi są ustalone w xval/lunar-infra/PREREGISTRATION.md (zatwierdzonym przed jakimkolwiek przebiegiem). Dane wejściowe ILLUSTRATIVE są tam oznaczone swoimi źródłami publicznymi.
+
+seg-30dc631d148f = Scenariusz Kshana lunar-infrastructure: od-consistency z niemodelowanym przyspieszeniem. MODELLED; projekt, dane wejściowe i progi są ustalone w xval/lunar-infra/PREREGISTRATION.md (zatwierdzonym przed jakimkolwiek przebiegiem). Dane wejściowe ILLUSTRATIVE są tam oznaczone swoimi źródłami publicznymi.
+
+seg-68eaba3db338 = Scenariusz Kshana lunar-infrastructure: space-tie. MODELLED; projekt, dane wejściowe i progi są ustalone w xval/lunar-infra/PREREGISTRATION.md (zatwierdzonym przed jakimkolwiek przebiegiem). Dane wejściowe ILLUSTRATIVE są tam oznaczone swoimi źródłami publicznymi.
+
+seg-01d06e830746 = rodzaj lunar-integrity
+
+seg-afb7372a588a = Integralność na biegunie południowym Księżyca: odbiornik lądownika w regionie Artemis względem reprezentatywnego zestawu przekaźników LunaNet, poziomy ochrony ARAIM podczas { "24" }-godzinnego przelotu.
+
+seg-e0180b8a7560 = rodzaj lunar-interop-export
+
+seg-8a38317ae6d1 = rodzaj lunar-jamming
+
+seg-ea44c47623c9 = rodzaj lunar-joint-od-clock
+
+seg-f796750036cc = rodzaj lunar-llr-datum
+
+seg-fb08183a8243 = Geodezja księżycowej stacji referencyjnej, Z STACJĄ: pięć macierzy retroreflektorów oraz jeden retroreflektor i jedna latarnia VLBI w miejscu księżycowej stacji referencyjnej na biegunie południowym.
+
+seg-2255165dd833 = rodzaj lunar-station-coverage
+
+seg-5c55b91fa564 = Pokrycie księżycowej stacji referencyjnej: jaką dokładność pozycjonowania i jaki poziom ochrony uzyskuje użytkownik z księżycowej różnicowej stacji referencyjnej w znanym miejscu na biegunie południowym, w regionie bieguna południowego i w ciągu doby.
+
+seg-e1a3830ad9ed = Pokrycie księżycowej stacji referencyjnej przy ZAŁOŻENIACH PODANYCH PUBLICZNIE: ten sam rodzaj co lunar-station-coverage.toml, z każdą daną wejściową, którą podaje źródło publiczne, ustawioną według niego i cytowaną przez identyfikator źródła; każda dana wejściowa, której żadne źródło nie podaje, jest zachowana z domyślnej wartości w drzewie kodu i oznaczona ILLUSTRATIVE. Źródła (pobrane 2026-10-12; tytuły, identyfikatory i licencje w docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, "Lunar local Differential PNT and Selenodetic Reference Station" (slajdy) S3 UNOOSA ICG WG-B, Lunar PNT, June { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, "Moonlight Programme Development Status"
+
+seg-d168096a3514 = Pokrycie księżycowej stacji referencyjnej z terenem: dołączony scenariusz lunar-station-coverage z horyzontem dla każdego miejsca wyznaczanym śledzeniem promienia po rzeczywistym księżycowym cyfrowym modelu wysokościowym przy stacji i w każdym punkcie użytkownika, zamiast samej płaskiej maski elewacji.
+
+seg-88a9a6405048 = rodzaj lunar-time-budget
+
+seg-efaa5b60d16f = Laboratorium czasu księżycowej stacji referencyjnej: miniaturowy zegar rubidowy (miniRAFS) sterowany do Coordinated Lunar Time (LTC), a następnie pozostawiony do swobodnej pracy.
+
+seg-debab0063d91 = rodzaj lunar-time-offset
+
+seg-79c5a9295ed5 = rodzaj lunar-vlbi
+
+seg-8d967bfd5689 = Kowariancja współrzędnych stacji w księżycowym VLBI: pochodne cząstkowe opóźnienia obserwabli lunar-vlbi zsumowane po jawnym HARMONOGRAMIE (bazy x epoki) w macierz informacyjną Fishera, odwrócone i podane jako kowariancja współrzędnych stacji oraz sigma stacji dla każdej współrzędnej: obliczone wyjście silnika, a nie skalarna precyzja opóźnienia przepuszczona przez założony izotropowy współczynnik ekwipartycji g = { "3" }. Stan zawiera współrzędne stacji w układzie STAŁYM względem Ziemi (ITRS), więc jakobian to pochodna cząstkowa inercjalna obrócona macierzą GCRS->ITRS każdej epoki: to obrót Ziemi czyni te współrzędne obserwowalnymi, a raport MIERZY przemiatanie linii widzenia w układzie związanym z Ziemią i deklinację latarni, zamiast je zakładać. Jedna obserwacja to jedna para (baza, epoka), w której OBIE stacje są nad maską elewacji, ważona 1/delay_sigma_s^{ "2" }. Raport podaje rząd, defekt datum, liczbę uwarunkowania, pełne widmo informacji, macierz kowariancji, sigmy stacji dla każdej osi i 3D oraz przestrzeń zerową sieci swobodnej w każdym przebiegu; przy niedoborze rzędu sigma nagłówkowa jest publikowana jako NULL ze statusem, nigdy odczytywana z prawie osobliwej odwrotności. Wartość ekwipartycji c*delay_sigma_s*sqrt(g/N) dla TEGO SAMEGO harmonogramu jest podawana obok wartości obliczonej wraz ze stosunkiem, razem z izotropową granicą śladu sqrt(p/trace(M)), którą AM-HM czyni twardym dolnym ograniczeniem, więc stosunek jest anizotropią, którą założenie odrzuciło. Domknięcie opóźnień tau_ik = tau_ij + tau_jk sprawia, że tylko n-1 z n(n-1)/2 baz jest geometrycznie niezależnych; raport podaje obie liczby. MODELLED: efemeryda środka Księżyca, zegary stacji, troposfera i parametry orientacji Ziemi są utrzymywane jako STAŁE, a obserwacje są traktowane jako niezależne, więc kowariancja jest ograniczeniem Craméra-Rao dla zredukowanego zestawu parametrów, a nie przewidywanym wynikiem sesji; sigma opóźnienia, współrzędne stacji i harmonogram są danymi wejściowymi. Pochodna cząstkowa, którą jakobian opóźnienia geometrycznego pomija (różnicowy człon Shapiro), jest mierzona różnicą skończoną i podawana. Nie jest to produkt geodezyjny.
+
+seg-a558fdefae3d = rodzaj lunar-vlbi-fim
+
+seg-50eb943d4ef7 = rodzaj mars-pnt
+
+seg-79aed7a6b416 = Mars PNT: użytkownik na niskiej orbicie Marsa nawigowany względem symulowanej konstelacji przekaźników MARCONI (przekaźniki areostacjonarne nadające jednokierunkowo i przekazujące dwukierunkowo do stacji dalekiego kosmosu) przez łączony estymator fuzji radiometrycznej jednokierunkowej i dwukierunkowej.
+
+seg-852783147633 = Mars PNT: użytkownik stały na powierzchni (lądownik lub łazik na obracającej się powierzchni Marsa) nawigowany względem symulowanej konstelacji przekaźników MARCONI przez łączony estymator fuzji radiometrycznej jednokierunkowej i dwukierunkowej.
+
+seg-1b2748b538ae = Mars PNT: użytkownik transferu na Marsa lub przechwycenia (wysoki, ekscentryczny łuk areocentryczny, czyli długi łuk, który pojazd leci przy podejściu lub na orbicie przechwycenia) nawigowany względem symulowanej konstelacji przekaźników MARCONI przez łączony estymator fuzji radiometrycznej jednokierunkowej i dwukierunkowej.
+
+seg-28938416c04b = rodzaj moonlight-service-volume
+
+seg-f0ccaa966a0d = rodzaj ntn-positioning
+
+seg-95202f70f915 = rodzaj oem-interop
+
+seg-64b58fe6b7e1 = rodzaj optical-atmosphere
+
+seg-b8648cc3c266 = Optyczne PNT przez atmosferę: trzy ILLUSTRATIVE stanowiska naziemne (bardziej pochmurne północne, pośrednie środkowe i bardziej bezchmurne południowe) obserwujące terminal optyczny LEO przy elewacji { "30" } stopni na { "1550" } nm. Klimaty zachmurzenia są podanymi danymi wejściowymi, a nie pomiarami ani wartościami żadnego zbioru danych, więc każda poniższa dostępność jest MODELLED. Przebieg podaje dla każdego stanowiska tłumienie czystego powietrza, stan turbulencji Hufnagela-Valleya, dostępność względem marginesu łącza, margines potrzebny dla { "40" } / { "50" } / { "60" } / { "70" } procent (łącze optyczne nie przechodzi przez grubą chmurę, więc stanowisko ma pułap dostępności, którego żaden margines nie podnosi, podawany dla każdego stanowiska), rozkład czasu trwania przerw i wzrost błędu czasu na przerwę dla trzech klas zegara, a następnie dostępność z różnorodnością stanowisk dla najlepszego { "1" }, { "2" } i { "3" } stanowisk przy niezależnej i przy skorelowanej odległością pogodzie ({ "500" } km długości dekorelacji).
+
+seg-f85f23a4fa5c = Scenariusze „co jeśli” dla technik poprawy na jednym ILLUSTRATIVE stanowisku naziemnym: zmiana długości fali, większa apertura odbiorcza, redukcja scyntylacji optyką adaptacyjną i dodatkowy margines, każda przewidywana jako zysk dostępności względem punktu odniesienia tego samego stanowiska. Zyski są podanymi danymi wejściowymi (Kshana nie modeluje pętli optyki adaptacyjnej), nowa długość fali lub apertura przelicza budżet czystego nieba, tłumienie czystego powietrza i uśrednianie apertury, a wszystko jest MODELLED. Terminal jest celowo ograniczony marginesem (około { "3" } dB przed atmosferą), aby techniki miały znaczenie; przebieg podaje też pułap zachmurzenia, którego żadna technika nie podnosi. Cele poniżej { "100" } procent tabeli marginesów są podawane jako potrzebny dodatkowy margines (wartość ujemna oznacza nadwyżkę).
+
+seg-b226ac4eebdf = rodzaj orbit
+
+seg-4fe91b7e2c29 = Dostępność GNSS i rozmycie dokładności na dole ulicy w mieście: rodzaj <c1/> z użytkownikiem w miejscu naziemnym (<c2/>) z ustawieniem wstępnym horyzontu <c3/>.
+
+seg-9f0a005cfe62 = rodzaj passes
+
+seg-c2f9d49da519 = rodzaj pvt
+
+seg-1e5828af879a = rodzaj quantum-anomaly-detect
+
+seg-d3897f9ebb6c = Detekcja uszkodzeń i anomalii dla kwantowych systemów PNT: oznaczony katalog uszkodzeń + ROC AUC + minimalne wykrywalne uszkodzenie, monitor wspomagany zegarem kwantowym kontra klasyczny. MODELLED; poglądowe parametry ze źródeł publicznych; modeluje klasę, bez twierdzeń o TRL ani o locie.
+
+seg-95db949095b8 = rodzaj quantum-gnss-free-nav
+
+seg-b5e010553b6a = Nawigacja kwantowa bez GNSS: kwantowa (interferometr na zimnych atomach) kontra klasyczna nawigacja zliczeniowa INS klasy nawigacyjnej podczas przerwy w GNSS. MODELLED; poglądowe parametry urządzeń ze źródeł publicznych; modeluje klasę, bez twierdzeń o TRL ani o locie.
+
+seg-6d0a57c5b71d = rodzaj quantum-time-transfer
+
+seg-6d837ea24f97 = Zaufany czas kwantowy: kompletny łańcuch transferu czasu, bezpieczne rozpowszechnianie, detekcja anomalii i zestawienie kwantowe kontra klasyczne. MODELLED; poglądowe parametry urządzeń i łączy ze źródeł publicznych; modeluje klasę, bez twierdzeń o TRL ani o locie.
+
+seg-09ba30218f38 = rodzaj quantum-trade
+
+seg-e39997960d5d = rodzaj realtime-frame-eop
+
+seg-bb2002e9948d = rodzaj reentry
+
+seg-b1c293c644d1 = rodzaj slot-timing
+
+seg-65401b133472 = Synchronizacja szczelin: jak długo oscylator kwarcowy w piecu (OCXO) na małym satelicie na niskiej orbicie okołoziemskiej pozostaje w oknie ochronnym szczeliny trasowania indeksowanej czasem po ostatnim rozwiązaniu z globalnego systemu nawigacji satelitarnej (GNSS) i jak często potrzebuje rozwiązania.
+
+seg-b1d59d7a3350 = rodzaj solar-system
+
+seg-67928e2d349f = rodzaj space-packet
+
+seg-ce6afe97c0a4 = rodzaj space-weather
+
+seg-008e207782f6 = rodzaj spectrum
+
+seg-ac1083b109f8 = Wodospad pasma L pod zagłuszaniem: całe pasmo L globalnego systemu nawigacji satelitarnej (GNSS) jako jedna widmowa gęstość mocy (PSD), częstotliwość w poprzek, czas w dół, podczas gdy włącza się skryptowana sekwencja zagłuszaczy.
+
+seg-859958a06acc = Wielopasmowy wodospad zagłuszania: sygnały pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO) w czterech pasmach (UHF, L, S i C) obok GPS i Galileo, każde pasmo z własnym zagłuszaczem, narysowane jako jeden wodospad na pasmo na jednej osi czasu.
+
+seg-559fe9211290 = rodzaj spoof
+
+seg-6e099f8a060a = Aktywny atak spoofingu czasu: czy monitor integralności każdego zegara wykryje spoofing, zanim wyrządzi szkodę?
+
+seg-43dad2e00cde = rodzaj spoof-detect
+
+seg-0d6c2e664734 = rodzaj sweep
+
+seg-5fb588430052 = rodzaj sweep-nd
+
+seg-b22e7ba4a1a0 = Ogólny N-wymiarowy przegląd parametrów dla DOWOLNEGO rodzaju scenariusza. W odróżnieniu od rodzaju <c1/> dotyczącego wyłącznie zegara, <c2/> zmienia klucze TOML z kropkami scenariusza <c3/> po iloczynie kartezjańskim osi, ponownie uruchamia każdy węzeł siatki i odczytuje wybrane metryki z wyniku według ścieżki JSON z kropkami. Działa dla każdego pakietu (inertial, gnss-ins, integrity, spoof, …), ponieważ operuje na granicy TOML/wynik, a nie na typie Rust danego pakietu. Przebiegi natywne wyznaczają siatkę równolegle (bez dodatkowej zależności); wasm wraca do przetwarzania sekwencyjnego. Siatka wyników jest deterministyczna i wierszowa (ostatnia oś zmienia się najszybciej).
+
+seg-5f1e87304f90 = rodzaj telecom-timing
+
+seg-999121d87895 = Wzorzec czasu telekomunikacyjnego: zegar rubidowy, który traci odniesienie z globalnego systemu nawigacji satelitarnej (GNSS) i utrzymuje się w holdover przez { "24" } godziny, sprawdzany względem masek Międzynarodowej Unii Telekomunikacyjnej, Sektora Normalizacji Telekomunikacji (ITU-T).
+
+seg-3cfcd6f8717b = Czas telekomunikacyjny, synchronizacja częstotliwości: swobodnie pracujący oscylator kwarcowy w piecu (OCXO) zestawiony z maskami generacji wander zegara sprzętu synchronicznego Ethernetu (EEC) Międzynarodowej Unii Telekomunikacyjnej, Sektora Normalizacji Telekomunikacji (ITU-T).
+
+seg-afd374569777 = Czas telekomunikacyjny, przykład wczytania: szereg błędu odstępu czasu (TIE) podany w treści i sprawdzany względem masek Międzynarodowej Unii Telekomunikacyjnej, Sektora Normalizacji Telekomunikacji (ITU-T).
+
+seg-eb02c7911f72 = rodzaj terrain-nav
+
+seg-b83a1fbd3435 = rodzaj terrain-slam
+
+seg-c988dce87d81 = rodzaj time-transfer-budget
+
+seg-a063a0ecc543 = Dwukierunkowy satelitarny transfer czasu i częstotliwości (TWSTFT) między dwiema ILLUSTRATIVE stacjami, jedną w Europie Środkowej i jedną we wschodniej Ameryce Północnej, przez przekaźnik geostacjonarny na { "10" } deg W. Przebieg rozwiązuje równanie dwukierunkowe dla T_A - T_B ze wskazanych członów sprzętu, transpondera, jonosferycznego (pasmo Ku, 14/11 GHz) i Sagnaca. Buduje budżet niepewności, w którym człon statystyczny to TDEV, przy jednej dobie, symulowanego łącza z białym i migotliwym szumem fazy oraz dobową nieodwracalnością. Opóźnienia i niepewności są poglądowe, a nie kalibracją żadnego laboratorium. MODELLED. Rzeczywisty szereg UTC-UTC(k) lub zegara stacji można dodać w [[series]] (format circular-t, mjd-csv lub rinex-clock), aby podać jego stabilność.
+
+seg-69138a582b9a = rodzaj timetransfer
+
+seg-a79dfece857e = Utrata synchronizacji pętli śledzenia: C/N0 -> synchronizacja/utrata z HISTEREZĄ, czas potrzebny na utratę synchronizacji oraz wciągnięcie przez spoofing w funkcji SZYBKOŚCI przesunięcia kodu i nośnej. Dotychczasowe kryteria odmowy i przechwycenia w silniku to stosunki mocy odebranej (zagłuszacz odmawia przy J/S = { "30" } dB, spoofer przechwytuje przy { "3" } dB); rzeczywista utrata synchronizacji nie jest stosunkiem mocy, jest tym, gdzie fluktuacja pętli plus naprężenie dynamiczne wychodzą poza jej budżet progu śledzenia. Podaje ({ "1" }) fluktuację termiczną 1-sigma nośnej (Costas) i kodu (niekoherentny early/late) w funkcji C/N0, z uwzględnieniem straty kwadratowania, względem podanych reguł { "3" }*sigma_PLL + theta_e <= { "45" } deg (reguła 15 stopni w postaci trzech sigma) oraz { "3" }*sigma_DLL + ramp lag <= d/2 chipa; ({ "2" }) progi C/N0 zerwania i ponownego uchwycenia z nazwaną pętlą ograniczającą, przy czym próg ponownego uchwycenia jest WYPROWADZONY z szerszego pasma, w którym odbiornik ponownie wciąga pętlę, a nie zakładany, więc szerokość histerezy musi mieścić się między { "5" }*log10(ratio) a { "10" }*log10(ratio) dB; ({ "3" }) deklarowany czas utraty synchronizacji z dwuprogowego detektora synchronizacji z postojami potwierdzającymi, napędzanego rampą C/N0, podawany osobno od fizycznego czasu ucieczki fazy (średni czas Viterbiego między poślizgami cyklu, w log10 s, ponieważ obejmuje setki dekad); ({ "4" }) granice wciągnięcia przez spoofing: największe przesunięcie kodu i największa szybkość Dopplera nośnej, za którymi mogą nadążyć pętle ofiary, z mapą po obu osiach, ponieważ spoofer, który przesuwa się szybciej, nie przechwytuje pętli, tylko ją wyprzedza; oraz ({ "5" }) PROMIEŃ ODMOWY wynikający z dynamiki pętli, podawany OBOK istniejącego promienia według stosunku mocy, nigdy zamiast niego, z ich różnicą ze znakiem jako osobnym nazwanym polem (denial_radius_delta_km) i definicją obok. Każde emitowane pole liczbowe ma jednostkę i klasę pochodzenia. Postacie zamknięte VALIDATED: wyrażenia na fluktuację nośnej i kodu, redukcja filtra pętli sqrt({ "2" }*B_n*T) i opóźnienie rampy pierwszego rzędu są sprawdzane krzyżowo względem własnego korelatora sdr silnika, krokowanego na syntetycznym IF z ziarnem (seed), czyli inną drogą do tych samych liczb, z dokładnością odpowiednio { "0.6" } %, { "3.7" } % i { "0.17" } %, a zmodyfikowana funkcja Bessela I0 stojąca za czasem poślizgu cyklu względem standardowych wartości tablicowych z dokładnością { "1e-7" }. Dolna granica ważności jest wymuszana, a nie tylko podana: poniżej ~{ "32" } dB-Hz przy { "1" } ms rzeczywisty dyskryminator atan nasyca się względem swojego zakresu +-pi/2 i mierzy mniejszą fluktuację niż jakakolwiek teoria liniowa. MODELLED: pasma pętli, czas całkowania, odstęp korelatora, stosunek pasm wciągnięcia, postoje potwierdzające, moc zagłuszacza i zyski anten to reprezentatywne wartości pasma, a nie karta katalogowa. NIE modelowane: fluktuacja oscylatora (odchylenie Allana) i wibracji, ograniczenie pasma przedniej części, wielodrogowość, dynamika AGC, strata na przejściach bitów danych, wspomaganie zewnętrzne i jakakolwiek poprawka półcyklowa do wzoru na poślizg cyklu Costasa. W dynamice pętli przechwycenie przez spoofing nie ma żadnego promienia, bo ograniczeniem wiążącym jest szybkość przesunięcia, a nie moc, więc to pole ma wartość null z podanym powodem, a nie zmyśloną liczbę. Nie jest to certyfikowany produkt do oceny wydajności odbiornika.
+
+seg-0b943d7e5f66 = rodzaj tracking-loop
+
+seg-003cc12a2c96 = Utrata synchronizacji pętli śledzenia: C/N0 -> synchronizacja/utrata z histerezą, czas potrzebny na utratę synchronizacji oraz granice wciągnięcia przez spoofing wyznaczone SZYBKOŚCIĄ przesunięcia kodu i nośnej.
+
+seg-9ce64f725193 = Zestawy badań
+
+seg-b871497364ff = Zestaw to plik scenariusza, który wymienia inne scenariusze; <c1/> uruchamia go do jednego opatrzonego znacznikiem <c2/> i <c3/>. To bezpłatny uruchamiacz zestawów, a nie płatne badanie na zamówienie.
+
+seg-b0569509d058 = Quantum-Enabled PNT Demonstrator: trzy obszary zastosowań jako jedno badanie.
+
+seg-2f09b9930e10 = Zobacz na GitHubie
+
+seg-67f767701c6d = <s1>Poprzednia</s1>Dziedziny możliwości
+
+seg-ea79a68b0587 = <s1>Następna</s1>Schemat wyniku

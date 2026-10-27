@@ -2495,3 +2495,5 @@ seg-8980b5ae869b = Wartość
 seg-55ca63edff02 = Detekcja spoofingu na podstawie spójności Dopplera LEO i geometrii przelotu
 
 seg-f4d1ec6fc464 = Cytowanie
+
+seg-d0566d4db829 = Odtwórz to
