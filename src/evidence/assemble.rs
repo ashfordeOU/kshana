@@ -212,8 +212,10 @@ pub fn build_receiver_trust_pack_full(
             }
         }
         let label = crate::evidence_label::EvidenceLabel::for_ids(&ids)
-            .ok_or("the evidence-pack rows are not in the matrix")?;
-        let o = config.as_object_mut().ok_or("config is not an object")?;
+            .ok_or_else(|| crate::terr!("e-evidence-assemble-the-evidence-pack-rows-are"))?;
+        let o = config
+            .as_object_mut()
+            .ok_or_else(|| crate::terr!("e-evidence-assemble-config-is-not-an-object"))?;
         o.insert(
             "evidence".to_string(),
             serde_json::to_value(&label).map_err(|e| e.to_string())?,

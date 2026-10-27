@@ -70,8 +70,11 @@ pub fn ctor(t: &toml::Table) -> Result<Box<dyn MissionPhase>, String> {
         f.only(&["start_s", "end_s", "what"])?;
         let (a, b) = (f.nonneg("start_s")?, f.nonneg("end_s")?);
         if b <= a {
-            return Err(format!(
-                "{KIND}: a fade must end after it starts ({a} to {b} s)"
+            return Err(crate::terr!(
+                "e-mission-thread-earth-launch-fade-must-end-after-it",
+                kind = KIND,
+                a = crate::i18n::num_plain(a),
+                b = crate::i18n::num_plain(b)
             ));
         }
         fades.push(Fade {
@@ -124,9 +127,10 @@ impl MissionPhase for LaunchAscent {
         phase: &PhaseCtx,
     ) -> Result<PhaseOutcome, String> {
         if entry.frame != Frame::Gcrf {
-            return Err(format!(
-                "{KIND}: expects a GCRF entry state, got {:?}; state the entry in gcrf",
-                entry.frame
+            return Err(crate::terr!(
+                "e-mission-thread-earth-launch-expects-gcrf-entry-state-got",
+                kind = KIND,
+                frame = format!("{:?}", entry.frame)
             ));
         }
         let use_gnss = phase.uses(NavSource::Gnss);
@@ -228,9 +232,12 @@ impl MissionPhase for LaunchAscent {
         exit.p = axis.cov6();
         exit.clock.cov = clock.p;
         exit.upstream = entry.upstream.clone().weaker(EvidenceLabel::modelled());
-        let last = *series
-            .last()
-            .ok_or_else(|| format!("{KIND}: the phase produced no samples"))?;
+        let last = *series.last().ok_or_else(|| {
+            crate::terr!(
+                "e-mission-thread-earth-launch-the-phase-produced-no-samples",
+                kind = KIND
+            )
+        })?;
         events.push(Event {
             t_s: exit.t_s,
             what: format!(

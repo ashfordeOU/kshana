@@ -99,31 +99,37 @@ impl GroundNetworkDoc {
     /// Checks the numbers before any phase runs.
     pub fn validate(&self) -> Result<(), String> {
         if !(self.min_elevation_deg.is_finite() && (0.0..90.0).contains(&self.min_elevation_deg)) {
-            return Err(format!(
-                "ground_network: `min_elevation_deg` must be in [0, 90), got {}",
-                self.min_elevation_deg
+            return Err(crate::terr!(
+                "e-mission-thread-earth-ground-network-ground-network-min-elevation-deg",
+                min_elevation_deg = crate::i18n::num_plain(self.min_elevation_deg)
             ));
         }
         if !(self.handover_gap_s.is_finite() && self.handover_gap_s >= 0.0) {
-            return Err("ground_network: `handover_gap_s` must be at least 0".to_string());
+            return Err(crate::terr!(
+                "e-mission-thread-earth-ground-network-ground-network-handover-gap-must"
+            ));
         }
         if !(self.step_s.is_finite() && self.step_s > 0.0) {
-            return Err("ground_network: `step_s` must be above 0".to_string());
+            return Err(crate::terr!(
+                "e-mission-thread-earth-ground-network-ground-network-step-must-be"
+            ));
         }
         if self.stations.is_empty() {
-            return Err("ground_network: needs at least one station".to_string());
+            return Err(crate::terr!(
+                "e-mission-thread-earth-ground-network-ground-network-needs-at-least"
+            ));
         }
         for (i, s) in self.stations.iter().enumerate() {
             if !(s.lat_deg.is_finite() && s.lat_deg.abs() <= 90.0 && s.lon_deg.is_finite()) {
-                return Err(format!(
-                    "ground_network: station `{}` has an invalid latitude or longitude",
-                    s.id
+                return Err(crate::terr!(
+                    "e-mission-thread-earth-ground-network-ground-network-station-has-an",
+                    id = s.id
                 ));
             }
             if self.stations[..i].iter().any(|o| o.id == s.id) {
-                return Err(format!(
-                    "ground_network: station id `{}` is used twice",
-                    s.id
+                return Err(crate::terr!(
+                    "e-mission-thread-earth-ground-network-ground-network-station-id-is",
+                    id = s.id
                 ));
             }
         }
@@ -132,23 +138,21 @@ impl GroundNetworkDoc {
                 "entry-orbit" | "moon-direction" => {}
                 "stated" => {
                     let d = p.duty.ok_or_else(|| {
-                        format!(
-                            "ground_network: phase `{}` has geometry \"stated\" and needs `duty`",
-                            p.phase
-                        )
+                        crate::terr!("e-mission-thread-earth-ground-network-ground-network-phase-has-geometry", phase = p.phase)
                     })?;
                     if !(0.0..=1.0).contains(&d) {
-                        return Err(format!(
-                            "ground_network: phase `{}` duty must be in [0, 1], got {d}",
-                            p.phase
+                        return Err(crate::terr!(
+                            "e-mission-thread-earth-ground-network-ground-network-phase-duty-must",
+                            phase = p.phase,
+                            d = crate::i18n::num_plain(d)
                         ));
                     }
                 }
                 other => {
-                    return Err(format!(
-                        "ground_network: phase `{}` has unknown geometry `{other}`; the geometries \
-                         are entry-orbit, moon-direction and stated",
-                        p.phase
+                    return Err(crate::terr!(
+                        "e-mission-thread-earth-ground-network-ground-network-phase-has-unknown",
+                        phase = p.phase,
+                        other = other
                     ))
                 }
             }
@@ -206,7 +210,9 @@ fn vehicle_positions(
             for _ in 1..n {
                 let (r1, v1) = propagate_dop853(r, v, step_s, &model, &tol);
                 if !r1.iter().all(|c| c.is_finite()) {
-                    return Err("ground_network: the entry orbit did not propagate".to_string());
+                    return Err(crate::terr!(
+                        "e-mission-thread-earth-ground-network-ground-network-the-entry-orbit"
+                    ));
                 }
                 r = r1;
                 v = v1;
@@ -227,7 +233,12 @@ fn vehicle_positions(
                 out.push(from_kernel.unwrap_or_else(|| crate::ephem::moon_icrf(jd)));
             }
         }
-        other => return Err(format!("ground_network: no geometry `{other}` to compute")),
+        other => {
+            return Err(crate::terr!(
+                "e-mission-thread-earth-ground-network-ground-network-no-geometry-to",
+                other = other
+            ))
+        }
     }
     Ok(out)
 }
@@ -251,9 +262,10 @@ pub fn coverage(
         });
     }
     if entry.frame != Frame::Gcrf {
-        return Err(format!(
-            "ground_network: phase `{}` needs a GCRF entry for its geometry, got {:?}",
-            spec.phase, entry.frame
+        return Err(crate::terr!(
+            "e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf",
+            phase = spec.phase,
+            frame = format!("{:?}", entry.frame)
         ));
     }
     let pos = vehicle_positions(&spec.geometry, ctx, entry, duration_s, net.step_s)?;
