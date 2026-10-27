@@ -6,7 +6,7 @@ the documented `kshana interference-map` input format. Public data only.
   e.g. v2025.09.16-planes-readsb-prod-0 day16.csv 62 0 76 32
 
 The release is a split tar (`<tag>.tar.aa`, `.ab`, ...) at
-https://github.com/adsblol/globe_history_2025/releases/download/<tag>/. Each part is downloaded with resume and
+https://github.com/adsblol/globe_history_<year>/releases/download/<tag>/ (year = the tag's). Each part is downloaded with resume and
 read in order; the SHA-256 of the concatenated tar is printed and is what the pre-registration pins. Aircraft
 addresses are hashed with a FIXED, documented salt so the CSV is reproducible; the address itself is never
 written. Rows with `ground` or no altitude are dropped; every other filter is Kshana's.
@@ -17,7 +17,7 @@ SALT = b"kshana-emitter-region-prereg-v1"
 UA = "kshana-emitter-region (https://kshana.dev; research, aggregate regions only)"
 tag, out = sys.argv[1], sys.argv[2]
 south, west, north, east = map(float, sys.argv[3:7])
-base = f"https://github.com/adsblol/globe_history_2025/releases/download/{tag}/{tag}.tar."
+base = f"https://github.com/adsblol/globe_history_{tag[1:5]}/releases/download/{tag}/{tag}.tar."
 
 
 def location(url):
