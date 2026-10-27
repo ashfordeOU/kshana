@@ -15,8 +15,10 @@
 //     engine binary (engine version, build, scenario SHA-256 and seed are in it).
 // Sector tabs and #hash deep links are site.js.
 // SVG is built as markup from engine numbers (escaped) and parsed with DOMParser.
-import RUNS from "./missions-runs.mjs";
 import { studioHref, studioHas } from "./studio-links.mjs";
+import { t, ready, fetchData, importData } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
+const RUNS = (await importData(new URL("./missions-runs.mjs", import.meta.url).href)).default;
 
 const ROOT = "";
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -44,7 +46,7 @@ function rec(file) {
   return recs.get(file);
 }
 let seriesP = null;
-const series = () => (seriesP ||= fetch(`${ROOT}data/series.json`).then((r) => r.json()));
+const series = () => (seriesP ||= fetchData(`${ROOT}data/series.json`).then((r) => r.json()));
 
 const CSV = {};
 function download(name, text) {
@@ -204,21 +206,21 @@ async function grades(fig) {
   const W = 560, ml = 96, mr = 18, mt = 40, rh = 42, H = mt + rows.length * rh + 44;
   const X = (v) => ml + ((Math.log10(v) - lo) / (hi - lo)) * (W - ml - mr);
   const cols = ["var(--s-tim)", "var(--s-int)"];
-  let s = svgEl(W, H, `Free-inertial coast before ${thr.join(" m and ")} m, by IMU grade`);
-  thr.forEach((t, i) => { s += `<g class="c-legend" transform="translate(${ml + i * 150},18)"><circle r="4" cx="4" cy="-3" style="fill:${cols[i]}"/><text x="14" y="0">error reaches ${t} m</text></g>`; });
-  s += `<text class="c-note" x="${W - mr}" y="18" text-anchor="end">at ${fmt(r.motion.speed_m_s)} m/s</text>`;
+  let s = svgEl(W, H, t("js-site-missions-grades-aria", "Free-inertial coast before { $a } m and { $b } m, by IMU grade", { a: thr[0], b: thr[1] }));
+  thr.forEach((th, i) => { s += `<g class="c-legend" transform="translate(${ml + i * 150},18)"><circle r="4" cx="4" cy="-3" style="fill:${cols[i]}"/><text x="14" y="0">${esc(t("js-site-missions-grades-reaches", "error reaches { $m } m", { m: th }))}</text></g>`; });
+  s += `<text class="c-note" x="${W - mr}" y="18" text-anchor="end">${esc(t("js-site-missions-grades-speed", "at { $v } m/s", { v: fmt(r.motion.speed_m_s) }))}</text>`;
   for (const e of logTicks(lo, hi)) {
     const x = X(10 ** e);
     s += `<line class="c-grid" x1="${x}" y1="${mt - 8}" x2="${x}" y2="${H - 38}"/><text class="c-tick" x="${x}" y="${H - 22}" text-anchor="middle">${sup(e)}</text>`;
   }
-  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 6}" text-anchor="middle">seconds of coasting after GNSS is lost (log)</text>`;
+  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 6}" text-anchor="middle">${esc(t("js-site-missions-grades-axis", "seconds of coasting after GNSS is lost (log)"))}</text>`;
   rows.forEach((g, i) => {
     const y = mt + i * rh + rh / 2 - 4, me = g.grade === r.imu.grade;
     const [c1, c2] = g.crossings;
     s += `<text class="c-axis${me ? " mx-me" : ""}" x="${ml - 10}" y="${y + 4}" text-anchor="end">${esc(g.grade)}</text>`;
-    if (me) s += `<text class="mx-note" x="${ml - 10}" y="${y + 17}" text-anchor="end">this scenario</text>`;
+    if (me) s += `<text class="mx-note" x="${ml - 10}" y="${y + 17}" text-anchor="end">${esc(t("js-site-missions-grades-this", "this scenario"))}</text>`;
     s += `<g class="mx-grow" style="--d:${i * 90}ms"><line class="mx-bar" x1="${X(c1.coast_s)}" y1="${y}" x2="${X(c2.coast_s)}" y2="${y}"/>`;
-    [c1, c2].forEach((c, k) => { s += `<circle class="mx-pt" cx="${X(c.coast_s)}" cy="${y}" r="${me ? 6 : 5}" style="fill:${cols[k]}"><title>${esc(g.grade)}: ${fmt(c.coast_s)} s to ${c.threshold_m} m (${esc(c.dominant_contribution)})</title></circle>`; });
+    [c1, c2].forEach((c, k) => { s += `<circle class="mx-pt" cx="${X(c.coast_s)}" cy="${y}" r="${me ? 6 : 5}" style="fill:${cols[k]}"><title>${esc(t("js-site-missions-grades-point", "{ $grade }: { $s } s to { $m } m ({ $why })", { grade: g.grade, s: fmt(c.coast_s), m: c.threshold_m, why: c.dominant_contribution }))}</title></circle>`; });
     const tx = X(c2.coast_s) + 10, right = tx > W - 120;
     s += `<text class="c-tick" x="${right ? X(c1.coast_s) - 10 : tx}" y="${y + 4}" text-anchor="${right ? "end" : "start"}">${fmt(c1.coast_s)} s · ${fmt(c2.coast_s)} s</text></g>`;
   });
@@ -236,12 +238,12 @@ async function spoof(fig) {
   const T = pts[pts.length - 1][0], Ym = Math.max(...pts.map((p) => p[1]), c.series[0].bound_ns, spec) * 1.1;
   const W = 400, H = 260, ml = 44, mr = 14, mt = 48, mb = 38;
   const X = (t) => ml + (t / T) * (W - ml - mr), Y = (v) => mt + (1 - v / Ym) * (H - mt - mb);
-  let s = svgEl(W, H, "Spoof offset against time, with each monitor's detection bound and detection time");
+  let s = svgEl(W, H, t("js-site-missions-spoof-aria", "Spoof offset against time, with each monitor's detection bound and detection time"));
   for (let v = 0; v <= Ym; v += 20) s += `<line class="c-grid" x1="${ml}" y1="${Y(v)}" x2="${W - mr}" y2="${Y(v)}"/><text class="c-tick" x="${ml - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`;
   for (let t = 0; t <= T; t += 200) s += `<text class="c-tick" x="${X(t)}" y="${H - mb + 15}" text-anchor="middle">${t}</text>`;
-  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 6}" text-anchor="middle">time since the spoof began (s)</text>`;
-  s += `<text class="c-axis" x="12" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" transform="rotate(-90 12 ${mt + (H - mt - mb) / 2})">time offset (ns)</text>`;
-  s += `<line class="c-thr" x1="${ml}" y1="${Y(spec)}" x2="${W - mr}" y2="${Y(spec)}"/><text class="c-thr-t" x="${W - mr - 4}" y="${Y(spec) + 14}" text-anchor="end">spec ${spec} ns</text>`;
+  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 6}" text-anchor="middle">${esc(t("js-site-missions-spoof-axis-x", "time since the spoof began (s)"))}</text>`;
+  s += `<text class="c-axis" x="12" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" transform="rotate(-90 12 ${mt + (H - mt - mb) / 2})">${esc(t("js-site-missions-spoof-axis-y", "time offset (ns)"))}</text>`;
+  s += `<line class="c-thr" x1="${ml}" y1="${Y(spec)}" x2="${W - mr}" y2="${Y(spec)}"/><text class="c-thr-t" x="${W - mr - 4}" y="${Y(spec) + 14}" text-anchor="end">${esc(t("js-site-missions-spoof-spec", "spec { $v } ns", { v: spec }))}</text>`;
   const bl = (ser, col) => `<polyline class="c-line mx-dash" style="stroke:${col}" points="${ser.series.map((p) => `${X(p.t).toFixed(1)},${Y(p.bound_ns).toFixed(1)}`).join(" ")}"/>`;
   s += bl(c, "var(--s-nav)") + bl(q, "var(--s-tim)");
   s += `<clipPath id="mxSpClip"><rect class="mx-clip" x="0" y="0" width="${W}" height="${H}"/></clipPath>`;
@@ -250,9 +252,9 @@ async function spoof(fig) {
   [[q, "var(--s-tim)"], [c, "var(--s-nav)"]].forEach(([m, col]) => {
     const x = X(m.detect_time_s), y = Y(at(m.detect_time_s));
     const end = x > W / 2;
-    s += `<g class="mx-mk" data-t="${m.detect_time_s}"><circle class="c-mark" cx="${x}" cy="${y}" r="6" style="stroke:${col}"/><text class="c-mark-t" x="${end ? x - 10 : x + 10}" y="${end ? y - 12 : y - 16}" text-anchor="${end ? "end" : "start"}">${esc(m.id)} detects at ${fmt(m.detect_time_s)} s</text></g>`;
+    s += `<g class="mx-mk" data-t="${m.detect_time_s}"><circle class="c-mark" cx="${x}" cy="${y}" r="6" style="stroke:${col}"/><text class="c-mark-t" x="${end ? x - 10 : x + 10}" y="${end ? y - 12 : y - 16}" text-anchor="${end ? "end" : "start"}">${esc(t("js-site-missions-spoof-detects", "{ $id } detects at { $s } s", { id: m.id, s: fmt(m.detect_time_s) }))}</text></g>`;
   });
-  const leg = [["spoof offset", "var(--s-spf)"], [`${q.id} bound`, "var(--s-tim)"], [`${c.id} bound`, "var(--s-nav)"]];
+  const leg = [[t("js-site-missions-spoof-lg-offset", "spoof offset"), "var(--s-spf)"], [t("js-site-missions-spoof-lg-bound", "{ $id } bound", { id: q.id }), "var(--s-tim)"], [t("js-site-missions-spoof-lg-bound", "{ $id } bound", { id: c.id }), "var(--s-nav)"]];
   let lx = ml, ly = 16;
   leg.forEach(([l, col]) => { const w = 30 + l.length * 6.3; if (lx + w > W - mr) { lx = ml; ly += 15; } s += `<g class="c-legend" transform="translate(${lx},${ly})"><rect width="14" height="3" y="-4" style="fill:${col}"/><text x="20" y="0">${esc(l)}</text></g>`; lx += w; });
   s += `<line class="mx-head" x1="${ml}" y1="${mt}" x2="${ml}" y2="${H - mb}"/><text class="c-note mx-readout" x="${ml + 6}" y="${mt + 12}"></text></svg>`;
@@ -260,13 +262,13 @@ async function spoof(fig) {
   const rect = $(".mx-clip", el), head = $(".mx-head", el), read = $(".mx-readout", el), mks = $$(".mx-mk", el);
   let seenAll = false; // once each monitor has fired in a replay, its label stays up
   replay(fig, 7000, (p) => {
-    const t = p * T, x = X(t), done = RM || p >= 1;
+    const tm = p * T, x = X(tm), done = RM || p >= 1;
     if (done) seenAll = true;
     rect.setAttribute("width", done ? W : x);
     head.setAttribute("x1", x); head.setAttribute("x2", x);
     head.style.opacity = done ? 0 : 1;
-    read.textContent = done ? "" : `t ${Math.round(t)} s · offset ${fmt(at(t))} ns`;
-    mks.forEach((m) => m.classList.toggle("on", done || seenAll || t >= +m.getAttribute("data-t")));
+    read.textContent = done ? "" : t("js-site-missions-spoof-readout", "t { $t } s · offset { $offset } ns", { t: Math.round(tm), offset: fmt(at(tm)) });
+    mks.forEach((m) => m.classList.toggle("on", done || seenAll || tm >= +m.getAttribute("data-t")));
   });
 }
 
@@ -279,18 +281,18 @@ async function clocks(fig) {
   const W = 400, ml = 118, mr = 14, mt = 30, rh = 46, H = mt + rows.length * rh + 40;
   const X = (v) => ml + ((Math.log10(v) - lo) / (hi - lo)) * (W - ml - mr);
   const cols = ["var(--s-tim)", "var(--s-nav)", "var(--s-orb)", "var(--s-int)"]; // told apart under colour-vision deficiency, and labelled
-  let s = svgEl(W, H, "Time error after one day of holdover, by clock class, log scale");
-  s += `<text class="c-note" x="${ml}" y="16">time error after one day, seconds (log)</text>`;
+  let s = svgEl(W, H, t("js-site-missions-clocks-aria", "Time error after one day of holdover, by clock class, log scale"));
+  s += `<text class="c-note" x="${ml}" y="16">${esc(t("js-site-missions-clocks-note", "time error after one day, seconds (log)"))}</text>`;
   for (const e of logTicks(lo, hi)) { const x = X(10 ** e); s += `<line class="c-grid" x1="${x}" y1="${mt - 6}" x2="${x}" y2="${H - 34}"/><text class="c-tick" x="${x}" y="${H - 18}" text-anchor="middle">${sup(e)}</text>`; }
   rows.forEach((c, i) => {
     const y = mt + i * rh, w = X(c.x_one_day_s) - ml, inside = w > W - ml - mr - 70;
     s += `<text class="c-axis" x="${ml - 10}" y="${y + 17}" text-anchor="end">${esc(c.clock)}</text><text class="c-tick" x="${ml - 10}" y="${y + 31}" text-anchor="end">${esc(c.noise_type)}</text>`;
-    s += `<rect class="mx-hbar" x="${ml}" y="${y + 5}" width="${w.toFixed(1)}" height="18" rx="4" style="fill:${cols[i % 4]};--d:${i * 120}ms"><title>${esc(c.clock)}: ${fmt(c.x_one_day_s * 1e9)} ns after one day, σy(1 s) ${fmt(c.sigma_y_one_s)}</title></rect>`;
+    s += `<rect class="mx-hbar" x="${ml}" y="${y + 5}" width="${w.toFixed(1)}" height="18" rx="4" style="fill:${cols[i % 4]};--d:${i * 120}ms"><title>${esc(t("js-site-missions-clocks-title", "{ $clock }: { $ns } ns after one day, σy(1 s) { $sigma }", { clock: c.clock, ns: fmt(c.x_one_day_s * 1e9), sigma: fmt(c.sigma_y_one_s) }))}</title></rect>`;
     s += `<text class="c-tick${inside ? " on-bar" : ""}" x="${inside ? ml + w - 6 : ml + w + 6}" y="${y + 18}" text-anchor="${inside ? "end" : "start"}">${fmt(c.x_one_day_s * 1e9)} ns</text>`;
-    s += `<text class="c-tick" x="${ml + 2}" y="${y + 37}">σy(1 s) ${fmt(c.sigma_y_one_s)}</text>`;
+    s += `<text class="c-tick" x="${ml + 2}" y="${y + 37}">${esc(t("js-site-missions-clocks-sigma", "σy(1 s) { $sigma }", { sigma: fmt(c.sigma_y_one_s) }))}</text>`;
   });
   const fx = X(r.frame_term_s);
-  s += `<line class="c-thr" x1="${fx}" y1="${mt - 6}" x2="${fx}" y2="${H - 34}"/><text class="c-thr-t" x="${fx + 4}" y="${H - 38}">frame floor ${fmt(r.frame_term_s * 1e9)} ns</text></svg>`;
+  s += `<line class="c-thr" x1="${fx}" y1="${mt - 6}" x2="${fx}" y2="${H - 34}"/><text class="c-thr-t" x="${fx + 4}" y="${H - 38}">${esc(t("js-site-missions-clocks-frame", "frame floor { $ns } ns", { ns: fmt(r.frame_term_s * 1e9) }))}</text></svg>`;
   const el = mount(fig, s);
   onView(fig, (v) => { if (v) el.classList.add("mx-in"); });
 }
@@ -306,32 +308,32 @@ async function cone(fig) {
   const W = 400, H = 280, ml = 46, mr = 14, mt = 48, mb = 38, cy = mt + (H - mt - mb) / 2;
   const X = (t) => ml + (t / T) * (W - ml - mr), Y = (v) => cy - (Math.min(v, Ym) / Ym) * ((H - mt - mb) / 2);
   const cols = { [names[0]]: "var(--s-itg)", [names[1]]: "var(--s-nav)" };
-  let s = svgEl(W, H, "Position-error cone since GNSS was lost");
+  let s = svgEl(W, H, t("js-site-missions-cone-aria", "Position-error cone since GNSS was lost"));
   for (const v of [-Ym, -budget, 0, budget, Ym]) s += `<text class="c-tick" x="${ml - 6}" y="${(v >= 0 ? Y(v) : 2 * cy - Y(-v)) + 4}" text-anchor="end">${v > 0 ? "+" : ""}${v}</text>`;
   for (let t = 0; t <= T; t += 20) s += `<line class="c-grid" x1="${X(t)}" y1="${mt}" x2="${X(t)}" y2="${H - mb}"/><text class="c-tick" x="${X(t)}" y="${H - mb + 15}" text-anchor="middle">${t}</text>`;
-  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 6}" text-anchor="middle">time since GNSS was lost (s)</text>`;
-  s += `<text class="c-axis" x="12" y="${cy}" text-anchor="middle" transform="rotate(-90 12 ${cy})">position error (m)</text>`;
+  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 6}" text-anchor="middle">${esc(t("js-site-missions-cone-axis-x", "time since GNSS was lost (s)"))}</text>`;
+  s += `<text class="c-axis" x="12" y="${cy}" text-anchor="middle" transform="rotate(-90 12 ${cy})">${esc(t("js-site-missions-cone-axis-y", "position error (m)"))}</text>`;
   s += `<clipPath id="mxCoClip"><rect class="mx-clip" x="0" y="0" width="${W}" height="${H}"/></clipPath><g clip-path="url(#mxCoClip)">`;
   [...names].sort((a, b) => by[b][by[b].length - 1][1] - by[a][by[a].length - 1][1]).forEach((n) => {
     const p = by[n], up = p.map(([x, y]) => `${X(x).toFixed(1)},${Y(y).toFixed(1)}`), dn = p.slice().reverse().map(([x, y]) => `${X(x).toFixed(1)},${(2 * cy - Y(y)).toFixed(1)}`);
     s += `<polygon class="mx-cone" style="fill:${cols[n]};stroke:${cols[n]}" points="${up.concat(dn).join(" ")}"/>`;
   });
   s += `</g><line class="c-thr" x1="${ml}" y1="${Y(budget)}" x2="${W - mr}" y2="${Y(budget)}"/><line class="c-thr" x1="${ml}" y1="${2 * cy - Y(budget)}" x2="${W - mr}" y2="${2 * cy - Y(budget)}"/>`;
-  s += `<text class="c-thr-t" x="${W - mr - 4}" y="${2 * cy - Y(budget) + 14}" text-anchor="end">±${budget} m budget</text>`;
+  s += `<text class="c-thr-t" x="${W - mr - 4}" y="${2 * cy - Y(budget) + 14}" text-anchor="end">${esc(t("js-site-missions-cone-budget", "±{ $m } m budget", { m: budget }))}</text>`;
   s += `<line class="mx-track" x1="${ml}" y1="${cy}" x2="${W - mr}" y2="${cy}"/>`;
-  if (Number.isFinite(hold) && hold < T) s += `<g class="mx-mk" data-t="${hold}"><circle class="c-mark" cx="${X(hold)}" cy="${Y(budget)}" r="5" style="stroke:${cols[names[1]]}"/><text class="c-mark-t" x="${X(hold) - 8}" y="${Y(budget) - 8}" text-anchor="end">leaves at ${fmt(hold)} s</text></g>`;
+  if (Number.isFinite(hold) && hold < T) s += `<g class="mx-mk" data-t="${hold}"><circle class="c-mark" cx="${X(hold)}" cy="${Y(budget)}" r="5" style="stroke:${cols[names[1]]}"/><text class="c-mark-t" x="${X(hold) - 8}" y="${Y(budget) - 8}" text-anchor="end">${esc(t("js-site-missions-cone-leaves", "leaves at { $s } s", { s: fmt(hold) }))}</text></g>`;
   let lx = ml, ly = 16;
   names.forEach((n) => { const w = 36 + n.length * 6.3; if (lx + w > W - mr) { lx = ml; ly += 15; } s += `<g class="c-legend" transform="translate(${lx},${ly})"><rect width="14" height="8" y="-7" style="fill:${cols[n]};opacity:.6"/><text x="20" y="0">${esc(n)}</text></g>`; lx += w; });
-  s += `<text class="c-note" x="${W - mr - 4}" y="${mt + 12}" text-anchor="end">clipped at ±${Ym} m</text>`;
+  s += `<text class="c-note" x="${W - mr - 4}" y="${mt + 12}" text-anchor="end">${esc(t("js-site-missions-cone-clipped", "clipped at ±{ $m } m", { m: Ym }))}</text>`;
   s += `<text class="c-note mx-readout" x="${ml + 6}" y="${H - mb - 6}"></text></svg>`;
   const el = mount(fig, s);
   const rect = $(".mx-clip", el), read = $(".mx-readout", el), mks = $$(".mx-mk", el);
   const at = (n, t) => { const p = by[n]; let k = 0; while (k < p.length - 1 && p[k + 1][0] <= t) k++; return p[k][1]; };
   replay(fig, 6000, (p) => {
-    const t = p * T, done = RM || p >= 1;
-    rect.setAttribute("width", done ? W : X(t));
-    read.textContent = done ? "" : `t ${Math.round(t)} s · ` + names.map((n) => `±${fmt(at(n, t))} m`).join(" · ");
-    mks.forEach((m) => m.classList.toggle("on", done || t >= +m.getAttribute("data-t")));
+    const tm = p * T, done = RM || p >= 1;
+    rect.setAttribute("width", done ? W : X(tm));
+    read.textContent = done ? "" : t("js-site-missions-cone-readout", "t { $t } s · { $errors }", { t: Math.round(tm), errors: names.map((n) => `±${fmt(at(n, tm))} m`).join(" · ") });
+    mks.forEach((m) => m.classList.toggle("on", done || tm >= +m.getAttribute("data-t")));
   });
 }
 
@@ -365,7 +367,7 @@ async function footprint(fig) {
   };
   let land = [];
   try { land = await (await fetch(`${ROOT}data/land.json`)).json(); } catch (e) { land = []; }
-  let s = svgEl(W, H, "Jamming footprint around the jammer");
+  let s = svgEl(W, H, t("js-site-missions-fp-aria-svg", "Jamming footprint around the jammer"));
   s += `<clipPath id="mxFpClip"><rect width="${W}" height="${mapH.toFixed(1)}"/></clipPath><g clip-path="url(#mxFpClip)">`;
   const near = (ring) => ring.some(([lo, la]) => lo > lon0 - 4 && lo < lon0 + 14 && la > lat1 - 8 && la < lat1 + 3);
   for (const ring of land) if (near(ring)) s += `<polygon class="mx-land" points="${ring.map(([lo, la]) => `${px(lo).toFixed(1)},${py(la).toFixed(1)}`).join(" ")}"/>`;
@@ -376,19 +378,19 @@ async function footprint(fig) {
   });
   s += `</g>`;
   const jx = px(F.jlon), jy = py(F.jlat), sx = px(F.ship[1]), sy = py(F.ship[0]);
-  s += `<g class="mx-pin"><circle cx="${jx.toFixed(1)}" cy="${jy.toFixed(1)}" r="6" class="mx-jam"/><rect class="mx-lblbg" x="${(jx + 6).toFixed(1)}" y="${(jy - 22).toFixed(1)}" width="54" height="18" rx="4"/><text x="${(jx + 10).toFixed(1)}" y="${(jy - 9).toFixed(1)}" class="mx-lbl">jammer</text></g>`;
-  s += `<g class="mx-pin"><path d="M${(sx - 6).toFixed(1)} ${(sy + 4).toFixed(1)} L${(sx + 6).toFixed(1)} ${(sy + 4).toFixed(1)} L${sx.toFixed(1)} ${(sy - 7).toFixed(1)} Z" class="mx-ship"/><text x="${(sx - 10).toFixed(1)}" y="${(sy + 20).toFixed(1)}" text-anchor="end" class="mx-lbl">the scenario's ship</text></g>`;
+  s += `<g class="mx-pin"><circle cx="${jx.toFixed(1)}" cy="${jy.toFixed(1)}" r="6" class="mx-jam"/><rect class="mx-lblbg" x="${(jx + 6).toFixed(1)}" y="${(jy - 22).toFixed(1)}" width="54" height="18" rx="4"/><text x="${(jx + 10).toFixed(1)}" y="${(jy - 9).toFixed(1)}" class="mx-lbl">${esc(t("js-site-missions-fp-jammer", "jammer"))}</text></g>`;
+  s += `<g class="mx-pin"><path d="M${(sx - 6).toFixed(1)} ${(sy + 4).toFixed(1)} L${(sx + 6).toFixed(1)} ${(sy + 4).toFixed(1)} L${sx.toFixed(1)} ${(sy - 7).toFixed(1)} Z" class="mx-ship"/><text x="${(sx - 10).toFixed(1)}" y="${(sy + 20).toFixed(1)}" text-anchor="end" class="mx-lbl">${esc(t("js-site-missions-fp-ship", "the scenario's ship"))}</text></g>`;
   s += `<rect class="mx-sel" width="${cellPx.toFixed(1)}" height="${cellPx.toFixed(1)}" x="-99" y="-99"/>`;
   const ly = mapH + 24;
-  const leg = [["var(--s-int)", "every satellite lost"], ["var(--s-nav)", "some epochs lost"], ["var(--s-tim)", "tracking held"]];
+  const leg = [["var(--s-int)", t("js-site-missions-fp-lg-lost", "every satellite lost")], ["var(--s-nav)", t("js-site-missions-fp-lg-some", "some epochs lost")], ["var(--s-tim)", t("js-site-missions-fp-lg-held", "tracking held")]];
   let lx = 10;
-  leg.forEach(([c, t]) => { s += `<g class="c-legend" transform="translate(${lx},${ly})"><rect width="12" height="12" y="-10" style="fill:${c};opacity:.75"/><text x="18" y="0">${t}</text></g>`; lx += 34 + t.length * 6.4; });
-  s += `<text class="c-legend mx-lgt" x="10" y="${ly + 24}">darker = higher mean J/S · ${F.step} km cells · ${cells.length} engine runs</text>`;
+  leg.forEach(([c, t]) => { s += `<g class="c-legend" transform="translate(${lx},${ly})"><rect width="12" height="12" y="-10" style="fill:${c};opacity:.75"/><text x="18" y="0">${esc(t)}</text></g>`; lx += 34 + t.length * 6.4; });
+  s += `<text class="c-legend mx-lgt" x="10" y="${ly + 24}">${esc(t("js-site-missions-fp-darker", "darker = higher mean J/S · { $step } km cells · { $n } engine runs", { step: F.step, n: cells.length }))}</text>`;
   const bar = (100 / F.step) * cellPx;
   s += `<line class="mx-scale" x1="${(W - 16 - bar).toFixed(1)}" y1="${ly - 4}" x2="${W - 16}" y2="${ly - 4}"/><text class="c-tick" x="${(W - 16 - bar / 2).toFixed(1)}" y="${ly + 12}" text-anchor="middle">100 km</text></svg>`;
   const el = mount(fig, s);
   el.setAttribute("tabindex", "0");
-  el.setAttribute("aria-label", "Jamming footprint map. Arrow keys move between cells, Enter opens that run.");
+  el.setAttribute("aria-label", t("js-site-missions-fp-aria", "Jamming footprint map. Arrow keys move between cells, Enter opens that run."));
   CSV[fig.getAttribute("data-viz")] = {
     head: [`${F.file}.toml · engine v${F.engine} · one run per cell with [receiver] lat_deg and lon_deg changed · jammer at ${F.jlat.toFixed(4)} N ${F.jlon.toFixed(4)} E`],
     rows: [["receiver_lat_deg", "receiver_lon_deg", "mean_js_db", "availability_under_jamming"], ...cells.map((c) => [...cellLatLon(c.i, c.j), c.js, c.av])],
@@ -413,8 +415,8 @@ async function footprint(fig) {
     const b = document.createElement("b");
     b.textContent = `${la}° N, ${lo}° E`;
     const a = document.createElement("a");
-    a.className = "mx-open"; a.textContent = `Open this run in ${STUDIO}`; a.href = `/studio/?scenario=${F.file}&tab=signal`;
-    read.replaceChildren(b, ` · about ${Math.round(Math.hypot(c.i, c.j) * F.step)} km from the jammer · mean J/S ${c.js.toFixed(1)} dB · tracking availability ${c.av.toFixed(2)} `, a);
+    a.className = "mx-open"; a.textContent = t("js-site-missions-fp-open", "Open this run in { $studio }", { studio: STUDIO }); a.href = `/studio/?scenario=${F.file}&tab=signal`;
+    read.replaceChildren(b, " · " + t("js-site-missions-fp-read", "about { $km } km from the jammer · mean J/S { $js } dB · tracking availability { $av }", { km: Math.round(Math.hypot(c.i, c.j) * F.step), js: c.js.toFixed(1), av: c.av.toFixed(2) }) + " ", a);
     load().then((toml) => { if (cur === k) a.href = href(toml, c); }, () => {});
   };
   el.addEventListener("pointermove", (e) => { const r = e.target.closest("rect.mx-cell"); if (r) pick(+r.getAttribute("data-k")); });
@@ -456,25 +458,25 @@ function dlText(name, text, type = "text/plain") {
 let bundleP = null;
 const bundle = () => (bundleP ||= fetch(`${ROOT}assets/missions-runs/results.json`).then((r) => { if (!r.ok) throw new Error("results.json"); return r.json(); }));
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-dl-toml]");
-  if (t) { const n = t.getAttribute("data-dl-toml"); dlText(`${n}.toml`, RUNS.toml[n], "application/toml"); return; }
+  const tb = e.target.closest("[data-dl-toml]");
+  if (tb) { const n = tb.getAttribute("data-dl-toml"); dlText(`${n}.toml`, RUNS.toml[n], "application/toml"); return; }
   const j = e.target.closest("[data-dl-json]");
-  if (j) { const n = j.getAttribute("data-dl-json"); bundle().then((b) => dlText(`${n}.result.json`, JSON.stringify(b[n], null, 1), "application/json"), () => { j.textContent = "JSON unavailable"; }); }
+  if (j) { const n = j.getAttribute("data-dl-json"); bundle().then((b) => dlText(`${n}.result.json`, JSON.stringify(b[n], null, 1), "application/json"), () => { j.textContent = t("js-site-missions-json-unavailable", "JSON unavailable"); }); }
 });
 // The routes to check and reproduce a run: the engine's report, its result, the TOML, the command.
 function tools(name) {
   const c = RUNS.cards[name], p = c.pub, out = [];
   // The Studio view that reproduces the run (js/studio-links.mjs, generated from the Studio's own link list).
   const view = studioHref(ROOT, name);
-  if (view) out.push(el("a", { class: "prov-open", href: view, text: `Open in ${STUDIO}` }));
-  else if (p) out.push(el("a", { class: "prov-open", href: ROOT + p.report, text: "Open the engine's report" }));
+  if (view) out.push(el("a", { class: "prov-open", href: view, text: t("js-site-missions-open-in-studio", "Open in { $studio }", { studio: STUDIO }) }));
+  else if (p) out.push(el("a", { class: "prov-open", href: ROOT + p.report, text: t("js-site-missions-open-report", "Open the engine's report") }));
   const box = el("span", { class: "prov-tools" });
-  if (view) box.append(el("a", { class: "prov-x", href: p ? ROOT + p.report : studioHref(ROOT, name, "report"), title: "The engine's own report of this run", text: "Report" }));
-  if (p && !p.bundle) box.append(el("a", { class: "prov-x", href: ROOT + p.json, title: "The engine's result, unmodified", text: "JSON" }));
-  else if (p) box.append(el("button", { class: "prov-x", type: "button", "data-dl-json": name, title: "The engine's result, unmodified", text: "JSON" }));
-  box.append(p && p.toml ? el("a", { class: "prov-x", href: ROOT + p.toml, title: "The scenario file that ran", text: "TOML" })
-    : el("button", { class: "prov-x", type: "button", "data-dl-toml": name, title: "Download the scenario file that ran", text: "TOML" }));
-  box.append(el("button", { class: "prov-x", type: "button", "data-copy": `kshana ${c.file}`, title: "Copy the command that reproduces it", text: "Copy command" }));
+  if (view) box.append(el("a", { class: "prov-x", href: p ? ROOT + p.report : studioHref(ROOT, name, "report"), title: t("js-site-missions-report-title", "The engine's own report of this run"), text: t("js-site-missions-report", "Report") }));
+  if (p && !p.bundle) box.append(el("a", { class: "prov-x", href: ROOT + p.json, title: t("js-site-missions-json-title", "The engine's result, unmodified"), text: "JSON" }));
+  else if (p) box.append(el("button", { class: "prov-x", type: "button", "data-dl-json": name, title: t("js-site-missions-json-title", "The engine's result, unmodified"), text: "JSON" }));
+  box.append(p && p.toml ? el("a", { class: "prov-x", href: ROOT + p.toml, title: t("js-site-missions-toml-title", "The scenario file that ran"), text: "TOML" })
+    : el("button", { class: "prov-x", type: "button", "data-dl-toml": name, title: t("js-site-missions-toml-download-title", "Download the scenario file that ran"), text: "TOML" }));
+  box.append(el("button", { class: "prov-x", type: "button", "data-copy": `kshana ${c.file}`, title: t("js-site-missions-copy-title", "Copy the command that reproduces it"), text: t("js-site-missions-copy-command", "Copy command") }));
   out.push(box);
   return out;
 }
@@ -482,13 +484,14 @@ function provRun(node, name, lead) {
   const c = RUNS.cards[name];
   const src = el("span", { class: "prov-src" });
   if (lead) src.append(el("b", { text: `${lead}: ` }));
-  src.append(`Engine v${ENG.version}, build `, el("code", { text: ENG.commit }), " · ", el("code", { text: c.file }), c.seed != null ? ` · seed ${c.seed}` : " · deterministic, no seed");
+  src.append(t("js-site-missions-engine-build", "Engine v{ $version }, build", { version: ENG.version }), " ", el("code", { text: ENG.commit }), " · ", el("code", { text: c.file }), " · ", c.seed != null ? t("js-site-missions-seed", "seed { $seed }", { seed: c.seed }) : t("js-site-missions-no-seed", "deterministic, no seed"));
   node.replaceChildren(src, ...tools(name));
 }
 
 // ------------------------------------------------------------------ hero: threat matrix, from the cards
-const MODES = [["int", "Interference", "--amber"], ["spf", "Spoofing", "--magenta"], ["tim", "Timing", "--lime"], ["orb", "Geometry", "--cyan"], ["itg", "Integrity", "--coral"], ["nav", "Coasting", "--tim"]];
+const modes = () => [["int", t("js-site-missions-mode-int", "Interference"), "--amber"], ["spf", t("js-site-missions-mode-spf", "Spoofing"), "--magenta"], ["tim", t("js-site-missions-mode-tim", "Timing"), "--lime"], ["orb", t("js-site-missions-mode-orb", "Geometry"), "--cyan"], ["itg", t("js-site-missions-mode-itg", "Integrity"), "--coral"], ["nav", t("js-site-missions-mode-nav", "Coasting"), "--tim"]];
 function matrix() {
+  const MODES = modes();
   const box = $("[data-mm]"), read = $("[data-mm-read]");
   const tabs = $$(".sectors [role=tab]");
   if (!box || !tabs.length) return;
@@ -503,8 +506,8 @@ function matrix() {
   if (s2) s2.textContent = files.size;
   const max = Math.max(...rows.flatMap((r) => MODES.map(([m]) => r.by[m].length)));
   const tb = el("table", { class: "mm-t" });
-  const cap = el("caption", { class: "vh", text: "Scenario files by sector (rows) and failure mode (columns). Select a count to open that sector." });
-  const hr = el("tr", {}, el("th", { scope: "col" }, el("span", { class: "vh", text: "Sector" })));
+  const cap = el("caption", { class: "vh", text: t("js-site-missions-matrix-caption", "Scenario files by sector (rows) and failure mode (columns). Select a count to open that sector.") });
+  const hr = el("tr", {}, el("th", { scope: "col" }, el("span", { class: "vh", text: t("js-site-missions-matrix-sector", "Sector") })));
   MODES.forEach(([, n, c]) => hr.append(el("th", { scope: "col", style: `--c:var(${c})` }, el("i"), n)));
   tb.append(cap, el("thead", {}, hr));
   const body = el("tbody");
@@ -517,9 +520,9 @@ function matrix() {
     MODES.forEach(([m, n, c], j) => {
       const k = r.by[m].length;
       const cell = el("button", { type: "button", class: `mm-c${k ? "" : " z"}`, style: `--c:var(${c});--k:${(k / max).toFixed(2)};--d:${(i * 40 + j * 25)}ms`,
-        "aria-label": `${r.name}, ${n}: ${k} scenario file${k === 1 ? "" : "s"}`, text: k || "·" });
+        "aria-label": t("js-site-missions-matrix-cell", { one: "{ $sector }, { $mode }: { $n } scenario file", other: "{ $sector }, { $mode }: { $n } scenario files" }, { n: k, sector: r.name, mode: n }), text: k || "·" });
       if (!k) { cell.setAttribute("tabindex", "-1"); cell.setAttribute("aria-hidden", "true"); }
-      const show = () => { if (!k) return; read.replaceChildren(el("b", { text: `${r.name} · ${n}` }), ` · ${k} file${k === 1 ? "" : "s"}: `, r.by[m].map((x) => $(".sc-f", x).textContent).join(", ")); };
+      const show = () => { if (!k) return; read.replaceChildren(el("b", { text: `${r.name} · ${n}` }), " · " + t("js-site-missions-matrix-files", { one: "{ $n } file:", other: "{ $n } files:" }, { n: k }) + " ", r.by[m].map((x) => $(".sc-f", x).textContent).join(", ")); };
       cell.addEventListener("pointerenter", show); cell.addEventListener("focus", show);
       if (k) cell.addEventListener("click", () => go(r));
       tr.append(el("td", {}, cell));
@@ -558,13 +561,15 @@ function sectorTitle() {
 // ------------------------------------------------------------------ engine-run cards, LEO-PNT card, ship and car
 function figChips(name) {
   const d = RUNS.runs[name], c = RUNS.cards[name];
-  if (d && d.kind === "constellation-design") return [[fx(d.total, 0), "satellites"], [`${fx(d.global.availability_pct, 2)} %`, `at PDOP ≤ ${d.pdop_threshold}`], [fx(d.global.pdop_median, 2), "median PDOP"]];
-  if (d && d.kind === "body-pnt") return [[fx(d.relays.planes * d.relays.per_plane, 0), "relays"], [`${fx(d.fom.availability_with_earth * 100, 1)} %`, "fix, with Earth"], [`${fx(d.fom.rms_error_with_earth_m, 1)} m`, "RMS error"]];
+  if (d && d.kind === "constellation-design") return [[fx(d.total, 0), t("js-site-missions-chip-satellites", "satellites")], [`${fx(d.global.availability_pct, 2)} %`, t("js-site-missions-chip-at-pdop", "at PDOP ≤ { $limit }", { limit: d.pdop_threshold })], [fx(d.global.pdop_median, 2), t("js-site-missions-chip-median-pdop", "median PDOP")]];
+  if (d && d.kind === "body-pnt") return [[fx(d.relays.planes * d.relays.per_plane, 0), t("js-site-missions-chip-relays", "relays")], [`${fx(d.fom.availability_with_earth * 100, 1)} %`, t("js-site-missions-chip-fix-earth", "fix, with Earth")], [`${fx(d.fom.rms_error_with_earth_m, 1)} m`, t("js-site-missions-chip-rms", "RMS error")]];
   if (d && d.chips) return d.chips; // headline figures read from the run's result by src/tools/gen_missions_runs.py
-  if (d && d.kind === "campaign") return d.members.map((m) => [`${fx(m.metrics.availability * 100, 0)} %`, `${m.label} tracking held`]);
+  if (d && d.kind === "campaign") return d.members.map((m) => [`${fx(m.metrics.availability * 100, 0)} %`, t("js-site-missions-chip-tracking-held", "{ $label } tracking held", { label: m.label })]);
   // the engine's own one-line summary, less its hash and kind tags
   const seg = c.summary.split(/\s\|\s/).map((x) => x.trim()).filter((x) => !/^campaign [0-9a-f]{8,}$/.test(x) && !/^scenario [\w-]+$/.test(x) && x !== RUNS.cards[name].title);
-  return [["Engine:", seg.slice(0, 3).join(" · ")]];
+  const sum = [[t("js-site-missions-chip-engine", "Engine:"), seg.slice(0, 3).join(" · ")]];
+  sum.sum = true;
+  return sum;
 }
 function nextCards() {
   $$(".sc-next[data-run]").forEach((card) => {
@@ -573,21 +578,21 @@ function nextCards() {
     const f = $(".sc-fig", card), a = $(".sc-acts", card);
     const chips = figChips(n);
     f.replaceChildren(...chips.map(([v, l]) => el("span", {}, el("b", { text: v }), ` ${l}`)));
-    if (chips.length === 1 && chips[0][0] === "Engine:") f.classList.add("sum");
+    if (chips.sum) f.classList.add("sum");
     const p = c.pub;
     // Every engine-run card opens in the Studio on the view that reproduces it; its report is the
     // engine's own, published here or shown by the Studio (recorded with the native engine).
     const view = studioHref(ROOT, n), rep = p ? ROOT + p.report : (studioHas(n, "report") ? studioHref(ROOT, n, "report") : null);
-    if (view) a.append(el("a", { class: "prov-x sa-open", href: view, text: `Open in ${STUDIO}` }));
-    if (rep) a.append(el("a", { class: "prov-x", href: rep, text: "Report" }));
+    if (view) a.append(el("a", { class: "prov-x sa-open", href: view, text: t("js-site-missions-open-in-studio", "Open in { $studio }", { studio: STUDIO }) }));
+    if (rep) a.append(el("a", { class: "prov-x", href: rep, text: t("js-site-missions-report", "Report") }));
     a.append(p && p.toml ? el("a", { class: "prov-x", href: ROOT + p.toml, text: "TOML" }) : el("button", { class: "prov-x", type: "button", "data-dl-toml": n, text: "TOML" }));
-    a.append(el("button", { class: "prov-x", type: "button", "data-copy": `kshana ${c.file}`, text: "Copy command" }));
-    a.append(el("span", { class: "sa-note", text: `Engine v${ENG.version}, build ${ENG.commit}${c.seed != null ? ` · seed ${c.seed}` : ""}` }));
+    a.append(el("button", { class: "prov-x", type: "button", "data-copy": `kshana ${c.file}`, text: t("js-site-missions-copy-command", "Copy command") }));
+    a.append(el("span", { class: "sa-note", text: t("js-site-missions-engine-build-commit", "Engine v{ $version }, build { $commit }", { version: ENG.version, commit: ENG.commit }) + (c.seed != null ? " · " + t("js-site-missions-seed", "seed { $seed }", { seed: c.seed }) : "") }));
   });
   $$("[data-leo]").forEach((box) => {
     const d = RUNS.runs["leo-pnt-mega-shell"];
     if (!d) return;
-    const f = [[fx(d.total, 0), "satellites in four shells"], [fx(d.global.mean_visible, 1), "in view on average"], [`${fx(d.global.availability_pct, 2)} %`, `of the grid at PDOP ≤ ${d.pdop_threshold}`], [fx(d.global.pdop_median, 2), "median PDOP"]];
+    const f = [[fx(d.total, 0), t("js-site-missions-leo-shells", "satellites in four shells")], [fx(d.global.mean_visible, 1), t("js-site-missions-leo-in-view", "in view on average")], [`${fx(d.global.availability_pct, 2)} %`, t("js-site-missions-leo-grid", "of the grid at PDOP ≤ { $limit }", { limit: d.pdop_threshold })], [fx(d.global.pdop_median, 2), t("js-site-missions-chip-median-pdop", "median PDOP")]];
     box.replaceChildren(...f.map(([v, l]) => el("div", { class: "lf" }, el("b", { text: v }), el("span", { text: l }))));
     const p = el("p", { class: "prov" });
     box.after(p);
@@ -599,15 +604,15 @@ function nextCards() {
     const bars = $("[data-sr-bars]", card);
     const jsMax = Math.max(...d.members.map((m) => m.metrics.mean_js)), trMax = Math.max(4, ...d.members.map((m) => m.metrics.min_tracking));
     bars.replaceChildren(...d.members.map((m, i) => {
-      const who = /ship/.test(m.label) ? "Ship" : "Car";
+      const who = /ship/.test(m.label) ? t("js-site-missions-sr-ship", "Ship") : t("js-site-missions-sr-car", "Car");
       const row = el("div", { class: "sr-row", style: `--c:var(${i ? "--lime" : "--coral"})` }, el("b", {}, who, el("small", { text: `${m.receiver.lat_deg}° N, ${m.receiver.lon_deg}° E` })));
       const metric = (label, w, txt) => el("div", { class: "sr-m" }, el("span", { text: label }), el("span", { class: "sr-track" }, el("span", { class: "sr-fill", style: `--w:${Math.max(2, w * 100).toFixed(1)}%` })), el("output", { text: txt }));
-      row.append(metric("tracking held", m.metrics.availability, `${fx(m.metrics.availability * 100, 0)} %`),
-        metric("mean J/S", m.metrics.mean_js / jsMax, `${fx(m.metrics.mean_js, 1)} dB`),
-        metric("fewest tracked", m.metrics.min_tracking / trMax, fx(m.metrics.min_tracking, 0)));
+      row.append(metric(t("js-site-missions-sr-held", "tracking held"), m.metrics.availability, `${fx(m.metrics.availability * 100, 0)} %`),
+        metric(t("js-site-missions-sr-mean-js", "mean J/S"), m.metrics.mean_js / jsMax, `${fx(m.metrics.mean_js, 1)} dB`),
+        metric(t("js-site-missions-sr-fewest", "fewest tracked"), m.metrics.min_tracking / trMax, fx(m.metrics.min_tracking, 0)));
       return row;
     }));
-    bars.setAttribute("aria-label", d.members.map((m) => `${m.label}: tracking held ${fx(m.metrics.availability * 100, 0)} %, mean jammer-to-signal ratio ${fx(m.metrics.mean_js, 1)} dB, fewest satellites tracked ${m.metrics.min_tracking}`).join("; ") + `; shared jammer ${d.shared.jammer_power} dBW`);
+    bars.setAttribute("aria-label", t("js-site-missions-sr-aria", "{ $members }; shared jammer { $power } dBW", { members: d.members.map((m) => t("js-site-missions-sr-aria-member", "{ $label }: tracking held { $held } %, mean jammer-to-signal ratio { $js } dB, fewest satellites tracked { $min }", { label: m.label, held: fx(m.metrics.availability * 100, 0), js: fx(m.metrics.mean_js, 1), min: m.metrics.min_tracking })).join("; "), power: d.shared.jammer_power }));
     onView(bars, (v) => { if (v) bars.classList.add("in"); });
     $$("[data-prov-run]", card).forEach((p) => provRun(p, p.getAttribute("data-prov-run")));
   });
@@ -640,26 +645,26 @@ function ramp(light) {
 const rgbTxt = (c) => `rgb(${c[0]},${c[1]},${c[2]})`;
 const lonTxt = (l) => (l === 0 || Math.abs(l) === 180 ? `${Math.abs(l)}°` : `${Math.abs(l)}° ${l < 0 ? "W" : "E"}`);
 const gLat = (l) => (l === 0 ? "0°" : latTxt(l));
-const MAP_KEYS = [["vis", "Satellites in view", "In view"], ["pdop", "PDOP", "PDOP"], ["avail", "Availability", "Availability"]];
+const mapKeys = () => [["vis", t("js-site-missions-key-vis", "Satellites in view"), t("js-site-missions-key-vis-short", "In view")], ["pdop", "PDOP", "PDOP"], ["avail", t("js-site-missions-key-avail", "Availability"), t("js-site-missions-key-avail", "Availability")]];
 // the metric a run opens on: availability when it varies over the grid, satellites in view when it is uniform
 const mapDefault = (d) => { const a = d.avail_grid.flat(); return Math.max(...a) - Math.min(...a) >= 1 ? "avail" : "vis"; };
-const pdopTxt = (p) => (p == null ? "no fix" : fx(p, p < 10 ? 2 : 0));
+const pdopTxt = (p) => (p == null ? t("js-site-missions-no-fix", "no fix") : fx(p, p < 10 ? 2 : 0));
 
 function mapMetric(d, m) {
   const C = d.cells, thr = d.pdop_threshold;
   if (m === "avail") {
     const a = d.avail_grid.flat();
-    return { get: (i, j) => d.avail_grid[i][j], t: (v) => v / 100, dir: 1, lo: "0 %", hi: "100 %", uni: Math.min(...a) === Math.max(...a) ? `${Math.min(...a)} % in every cell` : null,
-      title: `Availability: share of the run with PDOP ≤ ${fx(thr, 1)}` };
+    return { get: (i, j) => d.avail_grid[i][j], t: (v) => v / 100, dir: 1, lo: "0 %", hi: "100 %", uni: Math.min(...a) === Math.max(...a) ? t("js-site-missions-avail-uniform", "{ $v } % in every cell", { v: Math.min(...a) }) : null,
+      title: t("js-site-missions-avail-title", "Availability: share of the run with PDOP ≤ { $limit }", { limit: fx(thr, 1) }) };
   }
   if (m === "vis") {
     const a = C.mean_visible.flat(), lo = Math.min(...a), hi = Math.max(...a);
-    return { get: (i, j) => C.mean_visible[i][j], t: (v) => (hi > lo ? (v - lo) / (hi - lo) : 1), dir: 1, lo: fx(lo, 1), hi: fx(hi, 1), uni: hi === lo ? `${fx(lo, 1)} in every cell` : null,
-      title: "Satellites in view, mean over the run" };
+    return { get: (i, j) => C.mean_visible[i][j], t: (v) => (hi > lo ? (v - lo) / (hi - lo) : 1), dir: 1, lo: fx(lo, 1), hi: fx(hi, 1), uni: hi === lo ? t("js-site-missions-vis-uniform", "{ $v } in every cell", { v: fx(lo, 1) }) : null,
+      title: t("js-site-missions-vis-title", "Satellites in view, mean over the run") };
   }
   const a = C.mean_pdop.flat(), ok = a.filter((v) => v != null), lo = Math.min(...ok), top = Math.max(...ok), hi = Math.min(top, thr * 10), L = Math.log10;
   return { get: (i, j) => C.mean_pdop[i][j], t: (v) => 1 - (L(Math.min(hi, Math.max(lo, v))) - L(lo)) / (L(hi) - L(lo) || 1), dir: -1, lo: pdopTxt(lo), hi: `${top > hi ? "≥ " : ""}${pdopTxt(hi)}`,
-    uni: null, nofix: ok.length < a.length, hatch: (v) => v == null || v > thr, title: "Mean PDOP (position dilution of precision), log scale, lower is better" };
+    uni: null, nofix: ok.length < a.length, hatch: (v) => v == null || v > thr, title: t("js-site-missions-pdop-title", "Mean PDOP (position dilution of precision), log scale, lower is better") };
 }
 
 // box: the canvas's CSS size when it is not the field's own 2:1 (full screen); the field is centred in it
@@ -703,11 +708,11 @@ function owMap(host, d, o) {
   leg.append(el("span", { class: "owm-lt", text: M.title }), el("span", { class: "owm-cb" }, el("b", { text: M.lo }), el("i", { style: `background:linear-gradient(90deg,${g})`, "aria-hidden": "true" }), el("b", { text: M.hi })));
   if (M.uni) leg.append(el("span", { class: "owm-uni", text: M.uni }));
   if (M.hatch) {
-    leg.append(el("span", { class: "owm-sw" }, el("i", { class: "h", "aria-hidden": "true" }), `hatched: above the PDOP limit of ${fx(thr, 1)}`));
-    if (M.nofix) leg.append(el("span", { class: "owm-sw" }, el("i", { class: "n", "aria-hidden": "true" }), "grey: no fix"));
+    leg.append(el("span", { class: "owm-sw" }, el("i", { class: "h", "aria-hidden": "true" }), t("js-site-missions-map-hatched", "hatched: above the PDOP limit of { $limit }", { limit: fx(thr, 1) })));
+    if (M.nofix) leg.append(el("span", { class: "owm-sw" }, el("i", { class: "n", "aria-hidden": "true" }), t("js-site-missions-map-grey", "grey: no fix")));
   }
   const key = (c, t, k) => el("span", {}, el("i", { class: k || "", style: `--c:var(${c})`, "aria-hidden": "true" }), t);
-  keys.append(key("--cyan", "mean in view"), key("--amber", "fewest in view", "dash"), key("--magenta", "mean PDOP"), key("--ink", `PDOP limit ${fx(thr, 1)}`, "dash"));
+  keys.append(key("--cyan", t("js-site-missions-map-mean-in-view", "mean in view")), key("--amber", t("js-site-missions-map-fewest-in-view", "fewest in view"), "dash"), key("--magenta", t("js-site-missions-map-mean-pdop", "mean PDOP")), key("--ink", t("js-site-missions-map-pdop-limit", "PDOP limit { $limit }", { limit: fx(thr, 1) }), "dash"));
   wrap.append(leg, body, keys, live);
   host.replaceChildren(wrap);
 
@@ -766,7 +771,7 @@ function owMap(host, d, o) {
   const pd = P.mean_pdop.filter((v) => v != null), plo = Math.min(...pd) < 1 ? 0.5 : 1;
   const phi = [2, 4, 10, 20, 40, 100, 200, 400, 1000].find((k) => k >= Math.max(thr * 1.6, Math.min(Math.max(...pd), thr * 10))) || 1000, L = Math.log10;
   const XB = (v) => bx0 + ((L(Math.min(phi, Math.max(plo, v))) - L(plo)) / (L(phi) - L(plo))) * (bx1 - bx0);
-  s += `<text x="${ax0}" y="${S.y0 - 5}">in view</text><text x="${bx0}" y="${S.y0 - 5}">PDOP</text>`;
+  s += `<text x="${ax0}" y="${S.y0 - 5}">${esc(t("js-site-missions-map-in-view", "in view"))}</text><text x="${bx0}" y="${S.y0 - 5}">PDOP</text>`;
   for (const l of [-60, -30, 0, 30, 60]) {
     s += `<line class="g" x1="${ax0}" x2="${ax1}" y1="${PY(l).toFixed(1)}" y2="${PY(l).toFixed(1)}"/><line class="g" x1="${bx0}" x2="${bx1}" y1="${PY(l).toFixed(1)}" y2="${PY(l).toFixed(1)}"/>`;
     if (S.lab) s += `<text x="${ax0 - 5}" y="${(PY(l) + 3.5).toFixed(1)}" text-anchor="end">${gLat(l)}</text>`;
@@ -801,12 +806,12 @@ function owMap(host, d, o) {
     for (const c of ["owm-landh", "owm-land"]) { const p = document.createElementNS(NS, "path"); p.setAttribute("class", c); p.setAttribute("d", dd); lg.appendChild(p); }
   }
   const hit = el("div", { class: "owm-hit", tabindex: "0", role: "group", "aria-roledescription": "map", style: `left:0;top:${my}px;width:${mw}px;height:${mh}px`,
-    "aria-label": `${M.title} over ${d.body}, by 10 degree cell. Arrow keys move the receiver; its cell is read out below.`, "aria-keyshortcuts": "ArrowUp ArrowDown ArrowLeft ArrowRight" });
+    "aria-label": t("js-site-missions-map-aria", "{ $title } over { $body }, by 10 degree cell. Arrow keys move the receiver; its cell is read out below.", { title: M.title, body: d.body }), "aria-keyshortcuts": "ArrowUp ArrowDown ArrowLeft ArrowRight" });
   const tip = el("div", { class: "owm-tip", hidden: "" });
   body.append(hit, tip);
 
   const rx = svg.querySelector("[data-rx]"), [guide, dA, dB] = rx.children, mark = rx.querySelector(".owm-rx"), hov = svg.querySelector(".owm-hov");
-  const info = (i, j) => { const p = C.mean_pdop[i][j]; return [`${latTxt(lat[i])}, ${lonTxt(lon[j])}`, [["In view", `${fx(C.mean_visible[i][j], 1)} mean · ${C.min_visible[i][j]} fewest`], ["PDOP", `${pdopTxt(p)}${p != null && p > thr ? `, above ${fx(thr, 1)}` : ""}`], ["Availability", `${d.avail_grid[i][j]} %`]]]; };
+  const info = (i, j) => { const p = C.mean_pdop[i][j]; return [`${latTxt(lat[i])}, ${lonTxt(lon[j])}`, [[t("js-site-missions-info-in-view", "In view"), t("js-site-missions-info-in-view-value", "{ $mean } mean · { $fewest } fewest", { mean: fx(C.mean_visible[i][j], 1), fewest: C.min_visible[i][j] })], ["PDOP", p != null && p > thr ? t("js-site-missions-info-pdop-above", "{ $pdop }, above { $limit }", { pdop: pdopTxt(p), limit: fx(thr, 1) }) : pdopTxt(p)], [t("js-site-missions-key-avail", "Availability"), `${d.avail_grid[i][j]} %`]]]; };
   let rI = o.sel, rJ = o.lon, hovOn = false;
   const showTip = (i, j) => {
     const [h, rows] = info(i, j);
@@ -831,7 +836,7 @@ function owMap(host, d, o) {
     e.preventDefault();
     const i = Math.max(0, Math.min(nr - 1, rI + k[0])), j = (rJ + k[1] + nc) % nc;
     o.pick(i, j); showTip(i, j);
-    const [h, rows] = info(i, j); live.textContent = `${h}: ${rows.map(([a, b]) => `${a} ${b}`).join("; ")}`;
+    const [h, rows] = info(i, j); live.textContent = t("js-site-missions-map-live", "{ $cell }: { $rows }", { cell: h, rows: rows.map(([a, b]) => `${a} ${b}`).join("; ") });
   });
   function move(i, j) {
     rI = i; rJ = j;
@@ -845,9 +850,9 @@ function owMap(host, d, o) {
   }
   move(rI, rJ);
   // the metric control: three toggle buttons, one pressed
-  const seg = el("span", { class: "owm-seg", role: "group", "aria-label": "Colour the map by" });
-  for (const [k, full, short] of MAP_KEYS) {
-    const b = el("button", { type: "button", "aria-pressed": k === o.metric ? "true" : "false", title: k === "pdop" ? "Mean PDOP (position dilution of precision)" : full }, el("span", { class: "owm-full", text: full }), el("span", { class: "owm-short", text: short }));
+  const seg = el("span", { class: "owm-seg", role: "group", "aria-label": t("js-site-missions-map-colour-by", "Colour the map by") });
+  for (const [k, full, short] of mapKeys()) {
+    const b = el("button", { type: "button", "aria-pressed": k === o.metric ? "true" : "false", title: k === "pdop" ? t("js-site-missions-key-pdop-title", "Mean PDOP (position dilution of precision)") : full }, el("span", { class: "owm-full", text: full }), el("span", { class: "owm-short", text: short }));
     b.addEventListener("click", () => o.setMetric(k));
     seg.append(b);
   }
@@ -859,25 +864,25 @@ function owChart(d, sel, W = 560, H = 330) {
   W = Math.round(Math.max(300, W)); H = Math.round(Math.max(220, H));
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="${NS}">`;
   // body-pnt: the receiver response over the run, time across
-  const t = d.t, T = t[t.length - 1] / 3600, l = 40, r = W - 10, aT = 22, aB = Math.round(aT + (H - 52) * 0.39), bT = aB + 30, bB = H - 30;
+  const tt = d.t, T = tt[tt.length - 1] / 3600, l = 40, r = W - 10, aT = 22, aB = Math.round(aT + (H - 52) * 0.39), bT = aB + 30, bB = H - 30;
   const X = (s_) => l + (s_ / 3600 / T) * (r - l);
   const nmax = Math.max(...d.n_vis) + 1, YA = (v) => aB - (v / nmax) * (aB - aT);
   const errs = d.err_relays.concat(d.err_earth).filter((v) => v != null && v > 0), elo = Math.floor(Math.log10(Math.min(...errs))), ehi = Math.ceil(Math.log10(Math.max(...errs)));
   const YB = (v) => bB - ((Math.log10(v) - elo) / (ehi - elo)) * (bB - bT);
   let run0 = null;
-  d.earth_vis.forEach((v, i) => { if (v && run0 == null) run0 = i; if ((!v || i === t.length - 1) && run0 != null) { const i1 = v ? i : i - 1; s += `<rect class="band" x="${X(t[run0])}" y="${aT}" width="${Math.max(1, X(t[i1]) - X(t[run0]))}" height="${bB - aT}"/>`; run0 = null; } });
+  d.earth_vis.forEach((v, i) => { if (v && run0 == null) run0 = i; if ((!v || i === tt.length - 1) && run0 != null) { const i1 = v ? i : i - 1; s += `<rect class="band" x="${X(tt[run0])}" y="${aT}" width="${Math.max(1, X(tt[i1]) - X(tt[run0]))}" height="${bB - aT}"/>`; run0 = null; } });
   for (let v = 0; v <= nmax; v += Math.max(1, Math.round(nmax / 4))) s += `<line class="g" x1="${l}" x2="${r}" y1="${YA(v)}" y2="${YA(v)}"/><text x="${l - 6}" y="${YA(v) + 3}" text-anchor="end">${v}</text>`;
-  s += `<line class="thr" x1="${l}" x2="${r}" y1="${YA(4)}" y2="${YA(4)}"/><text class="thr-t" x="${r}" y="${YA(4) - 4}" text-anchor="end">${W < 400 ? "four for a fix" : "four needed for a fix"}</text>`;
-  s += `<text x="${l}" y="12">relays in view · shaded: Earth above the horizon</text>`;
-  s += `<path class="ar" style="--c:var(--cyan)" d="M${X(0)},${aB} ${t.map((s_, i) => `L${X(s_).toFixed(1)},${YA(d.n_vis[i]).toFixed(1)}`).join(" ")} L${X(t[t.length - 1])},${aB}Z"/>`;
-  s += `<polyline class="ln" style="--c:var(--cyan)" points="${t.map((s_, i) => `${X(s_).toFixed(1)},${YA(d.n_vis[i]).toFixed(1)}`).join(" ")}"/>`;
+  s += `<line class="thr" x1="${l}" x2="${r}" y1="${YA(4)}" y2="${YA(4)}"/><text class="thr-t" x="${r}" y="${YA(4) - 4}" text-anchor="end">${esc(W < 400 ? t("js-site-missions-chart-four-short", "four for a fix") : t("js-site-missions-chart-four", "four needed for a fix"))}</text>`;
+  s += `<text x="${l}" y="12">${esc(t("js-site-missions-chart-relays-title", "relays in view · shaded: Earth above the horizon"))}</text>`;
+  s += `<path class="ar" style="--c:var(--cyan)" d="M${X(0)},${aB} ${tt.map((s_, i) => `L${X(s_).toFixed(1)},${YA(d.n_vis[i]).toFixed(1)}`).join(" ")} L${X(tt[tt.length - 1])},${aB}Z"/>`;
+  s += `<polyline class="ln" style="--c:var(--cyan)" points="${tt.map((s_, i) => `${X(s_).toFixed(1)},${YA(d.n_vis[i]).toFixed(1)}`).join(" ")}"/>`;
   for (let e = elo; e <= ehi; e++) s += `<line class="g" x1="${l}" x2="${r}" y1="${YB(10 ** e)}" y2="${YB(10 ** e)}"/><text x="${l - 6}" y="${YB(10 ** e) + 3}" text-anchor="end">${e < 0 ? (10 ** e).toFixed(-e) : 10 ** e}</text>`;
-  s += `<text x="${l}" y="${bT - 8}">position error (m, log)</text>`;
-  const line = (arr, cls, c) => { const segs = []; let cur = []; arr.forEach((v, i) => { if (v == null || v <= 0) { if (cur.length) segs.push(cur); cur = []; } else cur.push(`${X(t[i]).toFixed(1)},${YB(v).toFixed(1)}`); }); if (cur.length) segs.push(cur); return segs.map((g) => `<polyline class="${cls}" style="--c:var(${c})" points="${g.join(" ")}"/>`).join(""); };
+  s += `<text x="${l}" y="${bT - 8}">${esc(t("js-site-missions-chart-error-title", "position error (m, log)"))}</text>`;
+  const line = (arr, cls, c) => { const segs = []; let cur = []; arr.forEach((v, i) => { if (v == null || v <= 0) { if (cur.length) segs.push(cur); cur = []; } else cur.push(`${X(tt[i]).toFixed(1)},${YB(v).toFixed(1)}`); }); if (cur.length) segs.push(cur); return segs.map((g) => `<polyline class="${cls}" style="--c:var(${c})" points="${g.join(" ")}"/>`).join(""); };
   s += line(d.err_relays, "ln", "--amber") + line(d.err_earth, "ln2", "--lime");
   for (let h = 0; h <= T; h += T > 30 ? 12 : W < 400 && T > 12 ? 12 : 6) s += `<text x="${X(h * 3600)}" y="${bB + 14}" text-anchor="middle">${h} h</text>`;
-  s += `<g data-cur=""><line class="cur" x1="${X(t[sel])}" x2="${X(t[sel])}" y1="${aT}" y2="${bB}"/><circle class="cd" style="--c:var(--cyan)" cx="${X(t[sel])}" cy="${YA(d.n_vis[sel])}" r="4"/></g></svg>`;
-  return { svg: s, keys: [["--cyan", "relays in view"], ["--amber", "error, relays only"], ["--lime", "error, relays and Earth range", "dash"], ["--cyan", "Earth visible", "box"]], X, YA, t };
+  s += `<g data-cur=""><line class="cur" x1="${X(tt[sel])}" x2="${X(tt[sel])}" y1="${aT}" y2="${bB}"/><circle class="cd" style="--c:var(--cyan)" cx="${X(tt[sel])}" cy="${YA(d.n_vis[sel])}" r="4"/></g></svg>`;
+  return { svg: s, keys: [["--cyan", t("js-site-missions-chart-lg-relays", "relays in view")], ["--amber", t("js-site-missions-chart-lg-error-relays", "error, relays only")], ["--lime", t("js-site-missions-chart-lg-error-earth", "error, relays and Earth range"), "dash"], ["--cyan", t("js-site-missions-chart-lg-earth", "Earth visible"), "box"]], X, YA, t: tt };
 }
 
 const PLAY_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>';
@@ -910,17 +915,17 @@ async function orbitConsole() {
   function readouts() {
     if (d.kind === "constellation-design") {
       const P = d.profile;
-      ro(0, "Satellites", fx(d.total, 0));
-      ro(1, `Availability, PDOP ≤ ${d.pdop_threshold}`, unit(fx(d.global.availability_pct, 2), "%"));
-      const at = `At ${latTxt(P.lat[sel])}, ${lonTxt(d.cells.lon[selLon])}`, av = d.avail_grid[sel][selLon];
-      ro(2, `${at}: in view, mean · fewest`, `${fx(d.cells.mean_visible[sel][selLon], 1)} · ${d.cells.min_visible[sel][selLon]}`);
-      ro(3, `${at}: availability`, unit(fx(av, 0), "%"), av >= 99.5);
+      ro(0, t("js-site-missions-ro-satellites", "Satellites"), fx(d.total, 0));
+      ro(1, t("js-site-missions-ro-availability", "Availability, PDOP ≤ { $limit }", { limit: d.pdop_threshold }), unit(fx(d.global.availability_pct, 2), "%"));
+      const place = `${latTxt(P.lat[sel])}, ${lonTxt(d.cells.lon[selLon])}`, av = d.avail_grid[sel][selLon];
+      ro(2, t("js-site-missions-ro-place-in-view", "At { $place }: in view, mean · fewest", { place }), `${fx(d.cells.mean_visible[sel][selLon], 1)} · ${d.cells.min_visible[sel][selLon]}`);
+      ro(3, t("js-site-missions-ro-place-availability", "At { $place }: availability", { place }), unit(fx(av, 0), "%"), av >= 99.5);
     } else {
       const n = d.n_vis[sel], er = d.err_relays[sel], ee = d.err_earth[sel];
-      ro(0, "Relays in view", `${n} of ${d.relays.planes * d.relays.per_plane}`, n >= 4);
-      ro(1, "Position error, relays only", er == null ? "no fix" : unit(fx(er, 2), "m"));
-      ro(2, "With the Earth range", ee == null ? "no fix" : unit(fx(ee, 2), "m"));
-      ro(3, `Earth · light time ${fx(d.light_time_s, 0)} s`, d.earth_vis[sel] ? "above horizon" : "occulted", !!d.earth_vis[sel]);
+      ro(0, t("js-site-missions-ro-relays", "Relays in view"), t("js-site-missions-n-of-total", "{ $n } of { $total }", { n, total: d.relays.planes * d.relays.per_plane }), n >= 4);
+      ro(1, t("js-site-missions-ro-error-relays", "Position error, relays only"), er == null ? t("js-site-missions-no-fix", "no fix") : unit(fx(er, 2), "m"));
+      ro(2, t("js-site-missions-ro-with-earth", "With the Earth range"), ee == null ? t("js-site-missions-no-fix", "no fix") : unit(fx(ee, 2), "m"));
+      ro(3, t("js-site-missions-ro-earth-light", "Earth · light time { $s } s", { s: fx(d.light_time_s, 0) }), d.earth_vis[sel] ? t("js-site-missions-ro-above-horizon", "above horizon") : t("js-site-missions-ro-occulted", "occulted"), !!d.earth_vis[sel]);
     }
   }
   let curG = null, cfg = null;
@@ -932,7 +937,7 @@ async function orbitConsole() {
   function drawChart() {
     if (d.kind === "constellation-design") {
       chart.setAttribute("role", "group");
-      chart.setAttribute("aria-label", `Receiver response for ${name}: a map of the ${d.body} by 10 degree cell, with mean and fewest satellites in view and mean PDOP by latitude beside it`);
+      chart.setAttribute("aria-label", t("js-site-missions-ow-map-aria", "Receiver response for { $name }: a map of the { $body } by 10 degree cell, with mean and fewest satellites in view and mean PDOP by latitude beside it", { name, body: d.body }));
       cfg = owMap(chart, d, { metric: metricUser || mapDefault(d), sel, lon: selLon, land, pick: pickCell,
         setMetric: (k) => { metricUser = k; drawChart(); const b = keys.querySelector('[aria-pressed="true"]'); if (b) b.focus(); } });
       curG = null;
@@ -946,7 +951,7 @@ async function orbitConsole() {
     chart.replaceChildren(node);
     curG = $("[data-cur]", node);
     keys.replaceChildren(...cfg.keys.map(([c, l, k]) => el("span", {}, el("i", { class: k || "", style: `--c:var(${c})` }), l)));
-    chart.setAttribute("aria-label", `Receiver response over the run for ${name}: relays in view, and position error with relays only and with the Earth range`);
+    chart.setAttribute("aria-label", t("js-site-missions-ow-chart-aria", "Receiver response over the run for { $name }: relays in view, and position error with relays only and with the Earth range", { name }));
     if (cfg.land) landP.then(() => {
       const g = $("[data-land]", chart); if (!g || !land) return;
       const { x0, x1, top, bot } = cfg.land, X = (lo) => x0 + ((lo + 180) / 360) * (x1 - x0), Y = (la) => top + ((90 - la) / 180) * (bot - top);
@@ -970,7 +975,7 @@ async function orbitConsole() {
     const v = +slide.value, max = +slide.max;
     slide.style.setProperty("--v", `${(v / max) * 100}%`);
     if (d.kind === "constellation-design") { sout.textContent = latTxt(d.profile.lat[v]); slide.setAttribute("aria-valuetext", latTxt(d.profile.lat[v])); }
-    else { sout.textContent = hmsT(d.t[v]); slide.setAttribute("aria-valuetext", `${hmsT(d.t[v])}, ${d.n_vis[v]} relays in view`); }
+    else { sout.textContent = hmsT(d.t[v]); slide.setAttribute("aria-valuetext", t("js-site-missions-ow-valuetext", "{ $time }, { $n } relays in view", { time: hmsT(d.t[v]), n: d.n_vis[v] })); }
   }
   function select(n) {
     name = n; d = RUNS.runs[n];
@@ -979,30 +984,32 @@ async function orbitConsole() {
     $("[data-ow-kind]", root).textContent = d.kind;
     root.classList.toggle("ow-map", d.kind === "constellation-design"); // the map sets the panel's height (missions.css)
     $("[data-ow-file]", root).textContent = c.file.replace(/\.toml$/, "");
-    $("[data-ow-eng]", root).textContent = `engine v${ENG.version} · build ${ENG.commit}${c.seed != null ? ` · seed ${c.seed}` : " · deterministic"}`;
+    $("[data-ow-eng]", root).textContent = t("js-site-missions-ow-engine", "engine v{ $version } · build { $commit }", { version: ENG.version, commit: ENG.commit }) + (c.seed != null ? " · " + t("js-site-missions-seed", "seed { $seed }", { seed: c.seed }) : " · " + t("js-site-missions-deterministic", "deterministic"));
     $("[data-ow-about]", root).textContent = c.about;
-    $("[data-ow-count]", root).textContent = d.kind === "constellation-design" ? `${fx(d.total, 0)} satellites · ${d.body}` : `${d.relays.planes * d.relays.per_plane} relays and an orbiter · ${d.body}`;
+    $("[data-ow-count]", root).textContent = d.kind === "constellation-design" ? t("js-site-missions-ow-count-sats", "{ $n } satellites · { $body }", { n: fx(d.total, 0), body: d.body }) : t("js-site-missions-ow-count-relays", "{ $n } relays and an orbiter · { $body }", { n: d.relays.planes * d.relays.per_plane, body: d.body });
     if (d.kind === "constellation-design") {
-      slab.textContent = "Receiver latitude"; slide.max = d.profile.lat.length - 1;
+      slab.textContent = t("js-site-missions-ow-lat-label", "Receiver latitude"); slide.max = d.profile.lat.length - 1;
       sel = d.profile.lat.findIndex((l) => l >= (d.body === "Moon" ? -85 : 45)); if (sel < 0) sel = 0;
       selLon = Math.max(0, d.cells.lon.findIndex((l) => l > 0)); // the first cell east of the prime meridian
-      chips.replaceChildren(...[["mask", `${d.mask_deg}°`], ["epochs", d.epochs], ["span", `${fx(d.duration_s / 3600, 1)} h`], ["J2", d.j2 ? "on" : "off"],
+      chips.replaceChildren(...[[t("js-site-missions-ow-chip-mask", "mask"), `${d.mask_deg}°`], [t("js-site-missions-ow-chip-epochs", "epochs"), d.epochs], [t("js-site-missions-ow-chip-span", "span"), `${fx(d.duration_s / 3600, 1)} h`], ["J2", d.j2 ? t("js-site-missions-ow-on", "on") : t("js-site-missions-ow-off", "off")],
         ...d.constellations.map((k) => [k.name, k.satellites])].map(([a, b]) => el("span", {}, `${a} `, el("b", { text: String(b) }))));
     } else {
-      slab.textContent = "Mission time"; slide.max = d.t.length - 1; sel = 0;
-      chips.replaceChildren(...[["relays", `${d.relays.planes} × ${d.relays.per_plane} at ${fx(d.relays.altitude_km, 0)} km, ${d.relays.inclination_deg}°`], ["orbiter", `${d.user.altitude_km} km, ${d.user.inclination_deg}°`],
-        ["epochs", d.t.length], ["range σ", `${d.relays.sigma_range_m} m`]].map(([a, b]) => el("span", {}, `${a} `, el("b", { text: String(b) }))));
+      slab.textContent = t("js-site-missions-ow-time-label", "Mission time"); slide.max = d.t.length - 1; sel = 0;
+      chips.replaceChildren(...[[t("js-site-missions-ow-chip-relays", "relays"), t("js-site-missions-ow-chip-relays-value", "{ $planes } × { $per } at { $alt } km, { $inc }°", { planes: d.relays.planes, per: d.relays.per_plane, alt: fx(d.relays.altitude_km, 0), inc: d.relays.inclination_deg })], [t("js-site-missions-ow-chip-orbiter", "orbiter"), `${d.user.altitude_km} km, ${d.user.inclination_deg}°`],
+        [t("js-site-missions-ow-chip-epochs", "epochs"), d.t.length], [t("js-site-missions-ow-chip-range", "range σ"), `${d.relays.sigma_range_m} m`]].map(([a, b]) => el("span", {}, `${a} `, el("b", { text: String(b) }))));
     }
     slide.value = sel; tSim = 0; held = false;
     setSlider(); drawChart(); readouts();
     provRun(prov, n);
-    const res = d.residual_deg != null ? `Orbits: the run's ${d.model === "walker" ? "Walker shells" : "satellites"} re-propagated here and checked against all ${fx(d.residual_samples, 0)} ground-track samples the engine wrote (worst ${d.residual_deg}°).`
-      : `Orbits: the relays and the orbiter rebuilt from the scenario exactly as the engine builds them; the satellites-in-view count they give equals the engine's at all ${d.check.epochs} epochs.`;
-    note.textContent = `${res} Orbit radii are scaled for display; planes, phasing and periods are the run's. ${d.body} imagery: NASA.${d.kind === "constellation-design" && d.tracks_shown < d.total ? ` The engine wrote ground tracks for ${d.tracks_shown} of the ${fx(d.total, 0)} satellites; all ${fx(d.total, 0)} are drawn from its shells.` : ""}`;
+    const res = d.residual_deg != null ? (d.model === "walker"
+      ? t("js-site-missions-ow-note-walker", "Orbits: the run's Walker shells re-propagated here and checked against all { $n } ground-track samples the engine wrote (worst { $deg }°).", { n: fx(d.residual_samples, 0), deg: d.residual_deg })
+      : t("js-site-missions-ow-note-sats", "Orbits: the run's satellites re-propagated here and checked against all { $n } ground-track samples the engine wrote (worst { $deg }°).", { n: fx(d.residual_samples, 0), deg: d.residual_deg }))
+      : t("js-site-missions-ow-note-rebuilt", "Orbits: the relays and the orbiter rebuilt from the scenario exactly as the engine builds them; the satellites-in-view count they give equals the engine's at all { $n } epochs.", { n: d.check.epochs });
+    note.textContent = `${res} ${t("js-site-missions-ow-note-scaled", "Orbit radii are scaled for display; planes, phasing and periods are the run's.")} ${t("js-site-missions-ow-note-imagery", "{ $body } imagery: NASA.", { body: d.body })}${d.kind === "constellation-design" && d.tracks_shown < d.total ? ` ${t("js-site-missions-ow-note-tracks", "The engine wrote ground tracks for { $shown } of the { $total } satellites; all { $total } are drawn from its shells.", { shown: d.tracks_shown, total: fx(d.total, 0) })}` : ""}`;
     canvas.setAttribute("data-planet", d.body.toLowerCase());
     const fb = $(".fallback", stage);
     if (fb) { const src = { earth: "earth-disc-640.webp", moon: "moon-disc-320.webp" }[d.body.toLowerCase()]; fb.hidden = !src; if (src) fb.src = `${ROOT}assets/planets/${src}`; }
-    tOut.textContent = `t = ${hmsT(0)}`;
+    tOut.textContent = t("js-site-missions-ow-time", "t = { $time }", { time: hmsT(0) });
     if (globe) globe.set(d);
   }
   tabs.forEach((b, i) => {
@@ -1015,13 +1022,13 @@ async function orbitConsole() {
   });
   const setPlay = (on) => {
     playing = on;
-    play.setAttribute("aria-label", on ? "Pause the orbits" : "Play the orbits");
+    play.setAttribute("aria-label", on ? t("js-site-missions-ow-pause", "Pause the orbits") : t("js-site-missions-ow-play", "Play the orbits"));
     play.replaceChildren(svgNode(on ? PAUSE_SVG : PLAY_SVG));
     if (on && globe) globe.kick();
   };
   slide.addEventListener("input", () => {
     sel = +slide.value; held = true; setSlider(); readouts(); moveCursor();
-    if (d.kind === "body-pnt") { tSim = d.t[sel]; tOut.textContent = `t = ${hmsT(tSim)}`; if (playing) setPlay(false); }
+    if (d.kind === "body-pnt") { tSim = d.t[sel]; tOut.textContent = t("js-site-missions-ow-time", "t = { $time }", { time: hmsT(tSim) }); if (playing) setPlay(false); }
     if (globe) globe.kick();
   });
   play.addEventListener("click", () => { held = false; setPlay(!playing); });
@@ -1060,7 +1067,7 @@ async function orbitConsole() {
           const k = Math.min(d.t.length - 1, Math.floor(tSim / d.step_s));
           if (k !== sel) { sel = k; slide.value = k; setSlider(); readouts(); moveCursor(); }
         }
-        tOut.textContent = `t = ${hmsT(tSim)}`;
+        tOut.textContent = t("js-site-missions-ow-time", "t = { $time }", { time: hmsT(tSim) });
         return true;
       },
       time: () => tSim, sel: () => sel, visible: () => vis,
@@ -1193,10 +1200,10 @@ function makeGlobe(THREE, canvas, stage, hud, H) {
     S = { sats, user, K, satPos, satCol, satOp, sg, rg, ringCol, lp, lc, la, lg, rx, uRing, ringM, satM, N, planeSats, M };
     camera.position.set(0, 0, 3.6 * (1 + K * (rmax - 1)) + 0.6);
     theme();
-    const names = run.kind === "body-pnt" ? [["Relays", String(run.relays.planes * run.relays.per_plane), SYS[0]], ["Orbiter", `${run.user.altitude_km} km`, "--lime"]]
-      : run.constellations.map((k, i) => [k.name, fx(k.satellites, 0), SYS[i % SYS.length]]).concat([["Receiver", "selected latitude", "--lime"]]);
+    const names = run.kind === "body-pnt" ? [[t("js-site-missions-hud-relays", "Relays"), String(run.relays.planes * run.relays.per_plane), SYS[0]], [t("js-site-missions-hud-orbiter", "Orbiter"), `${run.user.altitude_km} km`, "--lime"]]
+      : run.constellations.map((k, i) => [k.name, fx(k.satellites, 0), SYS[i % SYS.length]]).concat([[t("js-site-missions-hud-receiver", "Receiver"), t("js-site-missions-hud-selected-lat", "selected latitude"), "--lime"]]);
     hud.replaceChildren(...names.map(([n, v, c]) => el("span", { style: `--c:var(${c})` }, el("i"), `${n} · ${v}`)));
-    if (run.kind === "body-pnt") hud.append(el("span", { "data-earth": "", style: "--c:var(--cyan)" }, el("i"), el("span", { text: "Earth link" })));
+    if (run.kind === "body-pnt") hud.append(el("span", { "data-earth": "", style: "--c:var(--cyan)" }, el("i"), el("span", { text: t("js-site-missions-hud-earth-link", "Earth link") })));
     kick();
   }
   function theme() {
@@ -1231,23 +1238,23 @@ function makeGlobe(THREE, canvas, stage, hud, H) {
   stage.addEventListener("pointerup", up); stage.addEventListener("pointercancel", up);
 
   const o = [0, 0, 0], rxB = [0, 0, 0];
-  function frame(t) {
+  function frame(tm) {
     if (!S) return;
     const run = d, K = S.K;
     const w = run.kind === "body-pnt" ? (2 * Math.PI) / (run.rotation_period_h * 3600) : run.rotation_rate_deg_s * D2R;
-    bodyG.rotation.y = w * t;
+    bodyG.rotation.y = w * tm;
     root.rotation.set(0.32 + pitch, yaw, 0);
     let sinMask = 0;
     if (run.kind === "constellation-design") {
       // the receiver: a surface point on the selected latitude row, on the meridian that faced the viewer at t = 0
-      const lat = run.profile.lat[H.sel()] * D2R, lon = -90 * D2R + w * t;
+      const lat = run.profile.lat[H.sel()] * D2R, lon = -90 * D2R + w * tm;
       rxB[0] = Math.cos(lat) * Math.cos(lon); rxB[1] = Math.cos(lat) * Math.sin(lon); rxB[2] = Math.sin(lat);
       sinMask = Math.sin(run.mask_deg * D2R);
-    } else pos(S.user, t, rxB);
+    } else pos(S.user, tm, rxB);
     const rxD = run.kind === "constellation-design" ? T3(rxB[0] * 1.012, rxB[1] * 1.012, rxB[2] * 1.012) : disp(rxB, K);
     S.rx.geometry.attributes.position.array.set([rxD.x, rxD.y, rxD.z]); S.rx.geometry.attributes.position.needsUpdate = true;
     for (let i = 0; i < S.N; i++) {
-      pos(S.sats[i], t, o);
+      pos(S.sats[i], tm, o);
       const v = disp(o, K);
       S.satPos[i * 3] = v.x; S.satPos[i * 3 + 1] = v.y; S.satPos[i * 3 + 2] = v.z;
       // visibility with true radii: above the mask from a surface receiver, or a clear chord from the orbiter
@@ -1261,7 +1268,7 @@ function makeGlobe(THREE, canvas, stage, hud, H) {
     }
     S.sg.attributes.position.needsUpdate = true; S.sg.attributes.aOp.needsUpdate = true; S.lg.attributes.position.needsUpdate = true; S.lg.attributes.aA.needsUpdate = true;
     const eh = $("[data-earth] span", hud);
-    if (eh) eh.textContent = `Earth link · ${run.earth_vis[H.sel()] ? "above the horizon" : "occulted"}`;
+    if (eh) eh.textContent = run.earth_vis[H.sel()] ? t("js-site-missions-hud-link-above", "Earth link · above the horizon") : t("js-site-missions-hud-link-occulted", "Earth link · occulted");
     camera.lookAt(0, 0, 0);
     renderer.render(scene, camera);
   }
@@ -1285,14 +1292,14 @@ failCards();
 const RUN = { grades, spoof, clocks, cone, footprint };
 $$("figure.mx-fig[data-mx]").forEach((fig) => {
   const fn = RUN[fig.getAttribute("data-mx")];
-  if (fn) fn(fig).catch((e) => { fail(fig, `The recorded run could not be loaded here; open it in ${STUDIO} from the link below.`); console.warn("missions:", e); });
+  if (fn) fn(fig).catch((e) => { fail(fig, t("js-site-missions-run-failed", "The recorded run could not be loaded here; open it in { $studio } from the link below.", { studio: STUDIO })); console.warn("missions:", e); });
 });
 // phones: each sector's cards sit in a swipeable rail; say how many there are
 function railHints() {
   $$(".mission .m-grid").forEach((g) => {
     const n = $$(".sc-f", g).length;
     if (!n) return;
-    const p = el("p", { class: "m-swipe", "aria-hidden": "true" }, `Swipe for all ${n} scenario file${n === 1 ? "" : "s"}`, el("span", { text: " →" }));
+    const p = el("p", { class: "m-swipe", "aria-hidden": "true" }, t("js-site-missions-swipe", { one: "Swipe for all { $n } scenario file", other: "Swipe for all { $n } scenario files" }, { n }), el("span", { text: " →" }));
     g.before(p);
   });
 }

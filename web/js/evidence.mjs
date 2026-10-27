@@ -5,7 +5,10 @@
 // one label's cells, and a shared tip reads out any mark under the pointer or the keyboard.
 // The ledger and standards filter through site.js ([data-flist]); copy buttons use [data-copy].
 // Text is always set with textContent: a tip string marks bold with «…» and new lines with \n.
-import D from "./evidence-data.mjs";
+
+import { t, ready, importData } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
+const D = (await importData(new URL("./evidence-data.mjs", import.meta.url).href)).default;
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -127,23 +130,23 @@ function drawSgp4(host, W, E = 0) {
   }
   const cell = W / cols, rows = Math.ceil(S.n / cols), pos = [];
   const c = logX(lo, tol, 0, 1);
-  const s = svg(W, rows * cell, "sg", `${S.n} of ${S.n} AIAA vectors reproduced; worst ${len(S.worst_m)}, median ${len(S.median_m)}, all inside the ${len(tol)} tolerance`);
+  const s = svg(W, rows * cell, "sg", t("js-site-evidence-sgp4-aria", "{ $n } of { $n } AIAA vectors reproduced; worst { $worst }, median { $median }, all inside the { $tol } tolerance", { n: S.n, worst: len(S.worst_m), median: len(S.median_m), tol: len(tol) }));
   let i = 0;
   for (const [sat, deep, errs] of S.cells) errs.forEach((e, j) => {
     const x = (i % cols) * cell, y = Math.floor(i / cols) * cell, g = cell - 2;
     pos.push([x, y, sat, deep, e, j + 1, errs.length]);
     el("rect", { x: (x + 1).toFixed(1), y: (y + 1).toFixed(1), width: g.toFixed(1), height: g.toFixed(1), rx: deep ? (g / 2).toFixed(1) : 1.6,
       class: "ev-c", style: `fill:${mix(c(Math.max(e, lo)))};--d:${Math.round(i * 1.4)}ms`,
-      "data-tip": `«Satellite ${sat}» · ${deep ? "deep space (SDP4)" : "near Earth (SGP4)"}\nvector ${j + 1} of ${errs.length} · position error «${len(e)}»` }, s);
+      "data-tip": t("js-site-evidence-sgp4-tip-sat", "«Satellite { $sat }» · { $kind }", { sat, kind: deep ? t("js-site-evidence-sgp4-deep", "deep space (SDP4)") : t("js-site-evidence-sgp4-near", "near Earth (SGP4)") }) + "\n" + t("js-site-evidence-sgp4-tip-vector", "vector { $j } of { $n } · position error «{ $err }»", { j: j + 1, n: errs.length, err: len(e) }) }, s);
     i++;
   });
   const cur = el("rect", { width: cell + 1, height: cell + 1, rx: 3, class: "ev-focus-box", "aria-hidden": "true" }, s);
   host.appendChild(s);
-  const sc = svg(W, 38, "ev-scale", "Colour scale from 0.1 micrometre to the tolerance, logarithmic");
+  const sc = svg(W, 38, "ev-scale", t("js-site-evidence-sgp4-scale-aria", "Colour scale from 0.1 micrometre to the tolerance, logarithmic"));
   const gr = el("linearGradient", { id: "sgGrad" }, el("defs", {}, sc));
   el("stop", { offset: "0", style: `stop-color:${mix(0)}` }, gr); el("stop", { offset: "1", style: `stop-color:${mix(1)}` }, gr);
   el("rect", { x: 0, y: 8, width: W, height: 8, rx: 4, fill: "url(#sgGrad)" }, sc);
-  const X = logX(lo, tol, 0, W), ticks = [[1e-6, "1 µm"], [1e-5, "10 µm"], [1e-4, "0.1 mm"], [1e-3, "1 mm"], [tol, `tolerance ${len(tol)}`]];
+  const X = logX(lo, tol, 0, W), ticks = [[1e-6, "1 µm"], [1e-5, "10 µm"], [1e-4, "0.1 mm"], [1e-3, "1 mm"], [tol, t("js-site-evidence-tolerance", "tolerance { $v }", { v: len(tol) })]];
   // labels right to left from the tolerance, each kept only if it clears the one after it
   let limit = W + 1;
   ticks.slice().reverse().forEach(([v, t], r) => {
@@ -153,54 +156,63 @@ function drawSgp4(host, W, E = 0) {
   });
   for (const v of [S.median_m, S.worst_m]) { const x = X(v); el("path", { d: `M${x - 4} 0L${x + 4} 0L${x} 7Z`, class: "ev-mk" }, sc); }
   host.appendChild(sc);
-  legend(host, [["sq", "near-Earth vector (SGP4)"], ["ci", "deep-space vector (SDP4)"], ["tri", "median and worst on the scale"]]);
-  stats(host, [[fmtInt(S.sats), "test satellites"], [fmtInt(S.deep_rows), "deep-space vectors"], [len(S.median_m), "median"], [len(S.worst_m), "worst"]]);
-  return { dur: 14000, at(t) {
-    const [x, y, sat, deep, e, j, nj] = pos[Math.min(pos.length - 1, Math.floor(t * pos.length))];
+  legend(host, [["sq", t("js-site-evidence-sgp4-lg-near", "near-Earth vector (SGP4)")], ["ci", t("js-site-evidence-sgp4-lg-deep", "deep-space vector (SDP4)")], ["tri", t("js-site-evidence-sgp4-lg-median", "median and worst on the scale")]]);
+  stats(host, [[fmtInt(S.sats), t("js-site-evidence-sgp4-st-sats", "test satellites")], [fmtInt(S.deep_rows), t("js-site-evidence-sgp4-st-deep", "deep-space vectors")], [len(S.median_m), t("js-site-evidence-st-median", "median")], [len(S.worst_m), t("js-site-evidence-st-worst", "worst")]]);
+  return { dur: 14000, at(u) {
+    const [x, y, sat, deep, e, j, nj] = pos[Math.min(pos.length - 1, Math.floor(u * pos.length))];
     cur.setAttribute("x", (x + 0.5).toFixed(1)); cur.setAttribute("y", (y + 0.5).toFixed(1));
-    return `vector ${Math.min(pos.length, Math.floor(t * pos.length) + 1)} of ${S.n} · satellite ${sat}${deep ? ", deep space" : ""} · error ${len(e)}`;
+    const vec = Math.min(pos.length, Math.floor(u * pos.length) + 1);
+    return deep ? t("js-site-evidence-sgp4-read-deep", "vector { $i } of { $n } · satellite { $sat }, deep space · error { $err }", { i: vec, n: S.n, sat, err: len(e) })
+      : t("js-site-evidence-sgp4-read", "vector { $i } of { $n } · satellite { $sat } · error { $err }", { i: vec, n: S.n, sat, err: len(e) });
   } };
 }
 
 // ------------------------------------------------------------------ 2 · RAIM: one square per SciPy case, by kernel
-const KERNEL = { chi2_cdf: "chi-squared distribution", chi2_quantile: "chi-squared quantile", normal_cdf: "normal distribution", normal_quantile: "normal quantile", noncentral_chi2_cdf: "non-central chi-squared", pbias: "detection bias" };
+const KERNEL = {
+  get chi2_cdf() { return t("js-site-evidence-kernel-chi2-cdf", "chi-squared distribution"); },
+  get chi2_quantile() { return t("js-site-evidence-kernel-chi2-quantile", "chi-squared quantile"); },
+  get normal_cdf() { return t("js-site-evidence-kernel-normal-cdf", "normal distribution"); },
+  get normal_quantile() { return t("js-site-evidence-kernel-normal-quantile", "normal quantile"); },
+  get noncentral_chi2_cdf() { return t("js-site-evidence-kernel-noncentral", "non-central chi-squared"); },
+  get pbias() { return t("js-site-evidence-kernel-pbias", "detection bias"); },
+};
 function drawRaim(host, W, E = 0) {
   const R = D.raim, groups = R.kernels.map((k) => [k, R.cells.filter((c) => c[0] === k)]);
   const cell = 13, gap = 2, head = 18, perRow = Math.max(8, Math.floor((W + gap) / (cell + gap)));
   let y = 0; const lanes = [];
   for (const [k, cs] of groups) { lanes.push([k, cs, y]); y += head + Math.ceil(cs.length / perRow) * (cell + gap) + 8; }
-  const s = svg(W, y, "rm", `${R.pass} of ${R.n} SciPy cases inside their tolerance band, across ${groups.length} kernels`);
+  const s = svg(W, y, "rm", t("js-site-evidence-raim-aria", "{ $pass } of { $n } SciPy cases inside their tolerance band, across { $kernels } kernels", { pass: R.pass, n: R.n, kernels: groups.length }));
   const C = (f) => (f <= 0 ? 0 : clamp((L10(f) + 11) / 11, 0, 1));
   let i = 0; const pos = [];
   for (const [k, cs, y0] of lanes) {
-    el("text", { x: 0, y: y0 + 11, class: "ev-lab" }, s, `${KERNEL[k]} · ${cs.length}`);
+    el("text", { x: 0, y: y0 + 11, class: "ev-lab" }, s, t("js-site-evidence-raim-lane", "{ $kernel } · { $n }", { kernel: KERNEL[k], n: cs.length }));
     cs.forEach(([, f], j) => {
       pos.push([(j % perRow) * (cell + gap), y0 + head + Math.floor(j / perRow) * (cell + gap), k, f]);
       el("rect", { x: (j % perRow) * (cell + gap), y: y0 + head + Math.floor(j / perRow) * (cell + gap), width: cell, height: cell, rx: 2, class: "ev-c",
         style: `fill:${mix(C(f), "--coral", "--magenta")};--d:${i++ * 5}ms`,
-        "data-tip": `«${KERNEL[k]}» · case ${j + 1} of ${cs.length}\n${f === 0 ? "«exact match» with SciPy" : `uses «${sci(f * 100)} %» of its tolerance band`}` }, s);
+        "data-tip": t("js-site-evidence-raim-tip-case", "«{ $kernel }» · case { $j } of { $n }", { kernel: KERNEL[k], j: j + 1, n: cs.length }) + "\n" + (f === 0 ? t("js-site-evidence-raim-tip-exact", "«exact match» with SciPy") : t("js-site-evidence-raim-tip-uses", "uses «{ $pct } %» of its tolerance band", { pct: sci(f * 100) })) }, s);
     });
   }
   const cur = el("rect", { width: cell + 3, height: cell + 3, rx: 3, class: "ev-focus-box", "aria-hidden": "true" }, s);
   host.appendChild(s);
   const mx = Math.max(...R.cells.map((c) => c[1]));
   // the colour key is the same logarithmic ramp the squares use, from an exact match to the band's edge
-  const sc = svg(W, 38, "ev-scale", "Colour scale: share of the tolerance band used, logarithmic from 10 to the minus 11 to the band's edge");
+  const sc = svg(W, 38, "ev-scale", t("js-site-evidence-raim-scale-aria", "Colour scale: share of the tolerance band used, logarithmic from 10 to the minus 11 to the band's edge"));
   const gr = el("linearGradient", { id: "rmGrad" }, el("defs", {}, sc));
   el("stop", { offset: "0", style: `stop-color:${mix(0, "--coral", "--magenta")}` }, gr); el("stop", { offset: "1", style: `stop-color:${mix(1, "--coral", "--magenta")}` }, gr);
   el("rect", { x: 0, y: 8, width: W, height: 8, rx: 4, fill: "url(#rmGrad)" }, sc);
-  const XR = (f) => C(f) * W, rt = [[1e-11, "exact"], [1e-8, "10⁻⁶ %"], [1e-4, "0.01 %"], [1, "band edge"]];
+  const XR = (f) => C(f) * W, rt = [[1e-11, t("js-site-evidence-raim-tick-exact", "exact")], [1e-8, "10⁻⁶ %"], [1e-4, "0.01 %"], [1, t("js-site-evidence-raim-tick-edge", "band edge")]];
   rt.forEach(([v, t], r) => { const x = XR(v), end = r === rt.length - 1, st = r === 0;
     el("line", { x1: x, x2: x, y1: 6, y2: 18, class: "ev-tick" }, sc);
     if (W >= 300 || st || end) el("text", { x, y: 32, "text-anchor": end ? "end" : st ? "start" : "middle" }, sc, t); });
   { const x = XR(mx); el("path", { d: `M${x - 4} 0L${x + 4} 0L${x} 7Z`, class: "ev-mk" }, sc); }
   host.appendChild(sc);
-  legend(host, [["tri", "the most of a band any case uses"]]);
-  stats(host, [[`${R.pass} of ${R.n}`, "inside the band"], [`${sci(mx * 100)} %`, "most of a band used"]]);
-  return { dur: 9000, at(t) {
-    const q = Math.min(pos.length - 1, Math.floor(t * pos.length)), [x, y, k, f] = pos[q];
+  legend(host, [["tri", t("js-site-evidence-raim-lg-most", "the most of a band any case uses")]]);
+  stats(host, [[`${R.pass} of ${R.n}`, t("js-site-evidence-raim-st-inside", "inside the band")], [`${sci(mx * 100)} %`, t("js-site-evidence-raim-st-most", "most of a band used")]]);
+  return { dur: 9000, at(u) {
+    const q = Math.min(pos.length - 1, Math.floor(u * pos.length)), [x, y, k, f] = pos[q];
     cur.setAttribute("x", x - 1.5); cur.setAttribute("y", y - 1.5);
-    return `case ${q + 1} of ${R.n} · ${KERNEL[k]} · ${f === 0 ? "exact" : sci(f * 100) + " % of band"}`;
+    return t("js-site-evidence-raim-read", "case { $q } of { $n } · { $kernel } · { $what }", { q: q + 1, n: R.n, kernel: KERNEL[k], what: f === 0 ? t("js-site-evidence-raim-tick-exact", "exact") : t("js-site-evidence-raim-read-band", "{ $pct } % of band", { pct: sci(f * 100) }) });
   } };
 }
 
@@ -208,7 +220,7 @@ function drawRaim(host, W, E = 0) {
 function drawCowell(host, W, E = 0) {
   const C = D.cowell, H = Math.round(clamp(W * 0.62, 190, 250) + Math.min(E, 200)), m = { l: 44, r: 8, t: 10, b: 26 };
   const X = lin(0, 24, m.l, W - m.r), Y = logX(1e-4, 2e3, H - m.b, m.t);
-  const s = svg(W, H, "cw", `Position difference against Orekit over 24 hours: force tiers 1 to 5 stay under ${len(C.worst_conservative_m)}; the drag tier reaches ${len(C.t6_worst_m)}, a characterisation band`);
+  const s = svg(W, H, "cw", t("js-site-evidence-cowell-aria", "Position difference against Orekit over 24 hours: force tiers 1 to 5 stay under { $worst }; the drag tier reaches { $drag }, a characterisation band", { worst: len(C.worst_conservative_m), drag: len(C.t6_worst_m) }));
   for (const [v, t] of [[1e-3, "1 mm"], [1e-1, "10 cm"], [10, "10 m"], [1e3, "1 km"]]) {
     el("line", { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), class: "ev-grid" }, s);
     el("text", { x: m.l - 6, y: Y(v) + 3, "text-anchor": "end" }, s, t);
@@ -216,28 +228,28 @@ function drawCowell(host, W, E = 0) {
   for (const hr of [0, 6, 12, 18, 24]) el("text", { x: X(hr), y: H - 8, "text-anchor": "middle" }, s, hr + " h");
   const tl = C.tol_m.T1;
   el("line", { x1: m.l, x2: W - m.r, y1: Y(tl), y2: Y(tl), class: "ev-thr" }, s);
-  el("text", { x: W - m.r, y: Y(tl) - 5, "text-anchor": "end", class: "ev-thr-t" }, s, `tolerance ${len(tl)}`);
+  el("text", { x: W - m.r, y: Y(tl) - 5, "text-anchor": "end", class: "ev-thr-t" }, s, t("js-site-evidence-tolerance", "tolerance { $v }", { v: len(tl) }));
   C.series.forEach((sr, k) => {
     const pts = sr.t_h.map((t, j) => [t, sr.err_m[j]]).filter((p) => p[1] > 0), drag = sr.tier === "T6";
     el("path", { d: pathOf(pts.map(([t, e]) => [X(t), Y(clamp(e, 1e-4, 2e3))])), class: "ev-line " + (drag ? "cw-drag" : "cw-con"), pathLength: 1, style: `--d:${k * 90}ms` }, s);
     const w = pts.reduce((a, b) => (b[1] > a[1] ? b : a));
     el("circle", { cx: X(w[0]), cy: Y(w[1]), r: 3.4, class: "ev-dot " + (drag ? "cw-drag-d" : "cw-con-d"), style: `--d:${k * 90}ms`,
-      "data-tip": `«Tier ${sr.tier.slice(1)}: ${sr.label}» · ${sr.regime === "GTO" ? "geostationary transfer orbit" : "low Earth orbit"}\nworst difference «${len(w[1])}» at ${w[0]} h` }, s);
+      "data-tip": t("js-site-evidence-cowell-tip-tier", "«Tier { $tier }: { $label }» · { $regime }", { tier: sr.tier.slice(1), label: sr.label, regime: sr.regime === "GTO" ? t("js-site-evidence-cowell-gto", "geostationary transfer orbit") : t("js-site-evidence-cowell-leo", "low Earth orbit") }) + "\n" + t("js-site-evidence-cowell-tip-worst", "worst difference «{ $err }» at { $h } h", { err: len(w[1]), h: w[0] }) }, s);
   });
   const cg = el("g", { class: "ev-cur", "aria-hidden": "true" }, s), cl = el("line", { y1: m.t, y2: H - m.b, class: "ev-focus-l" }, cg);
   const cdA = el("circle", { r: 4, class: "ev-focus-d cw-con-d" }, cg), cdB = el("circle", { r: 4, class: "ev-focus-d cw-drag-d" }, cg);
   const at = (sr, tt) => { let b = 0; sr.t_h.forEach((t, j) => { if (Math.abs(t - tt) < Math.abs(sr.t_h[b] - tt)) b = j; }); return sr.err_m[b]; };
   host.appendChild(s);
-  legend(host, [["cw-con", "tiers 1 to 5, two-body up to solar radiation pressure, two orbits each"], ["cw-drag", "tier 6, drag: characterisation only (different density models)", "dash"]]);
-  stats(host, [[fmtInt(C.epochs_conservative), "epochs in tiers 1 to 5"], [len(C.worst_conservative_m), "worst"], [len(C.t6_worst_m), "drag tier, worst"]]);
-  return { dur: 10000, at(t) {
-    const tt = t * 24, x = X(tt);
+  legend(host, [["cw-con", t("js-site-evidence-cowell-lg-con", "tiers 1 to 5, two-body up to solar radiation pressure, two orbits each")], ["cw-drag", t("js-site-evidence-cowell-lg-drag", "tier 6, drag: characterisation only (different density models)"), "dash"]]);
+  stats(host, [[fmtInt(C.epochs_conservative), t("js-site-evidence-cowell-st-epochs", "epochs in tiers 1 to 5")], [len(C.worst_conservative_m), t("js-site-evidence-st-worst", "worst")], [len(C.t6_worst_m), t("js-site-evidence-cowell-st-drag", "drag tier, worst")]]);
+  return { dur: 10000, at(u) {
+    const tt = u * 24, x = X(tt);
     const con = Math.max(...C.series.filter((r) => r.tier !== "T6").map((r) => at(r, tt))), dr = C.series.filter((r) => r.tier === "T6").map((r) => at(r, tt));
     const drag = dr.length ? Math.max(...dr) : 0;
     cl.setAttribute("x1", x); cl.setAttribute("x2", x);
     cdA.setAttribute("cx", x); cdA.setAttribute("cy", Y(clamp(con, 1e-4, 2e3)));
     cdB.setAttribute("cx", x); cdB.setAttribute("cy", Y(clamp(drag || 1e-4, 1e-4, 2e3))); cdB.style.display = drag ? "" : "none";
-    return `${tt.toFixed(1)} h · tiers 1 to 5 worst ${len(con)} · drag ${len(drag)}`;
+    return t("js-site-evidence-cowell-read", "{ $h } h · tiers 1 to 5 worst { $con } · drag { $drag }", { h: tt.toFixed(1), con: len(con), drag: len(drag) });
   } };
 }
 
@@ -248,19 +260,19 @@ function drawLadder(host, W, E = 0) {
   const g24 = by("Galileo E11", (r) => r.startsWith("Full-arc"));
   const swd = by("Swarm-A", (r) => r.includes("dynamic (")), swr = by("Swarm-A", (r) => r.includes("reduced-dynamic"));
   const lrd = by("LRO", (r) => r.includes("dynamic (")), lrr = by("LRO", (r) => r.includes("reduced-dynamic"));
-  const rt = (r) => `${r.arc} arc · degree and order ${r.do} · ${r.n} observations\nradial ${r.rtn_m[0]} m · along-track ${r.rtn_m[1]} m · cross-track ${r.rtn_m[2]} m`;
+  const rt = (r) => t("js-site-evidence-ladder-rt-arc", "{ $arc } arc · degree and order { $do } · { $n } observations", { arc: r.arc, do: r.do, n: r.n }) + "\n" + t("js-site-evidence-ladder-rt-rtn", "radial { $r } m · along-track { $a } m · cross-track { $c } m", { r: r.rtn_m[0], a: r.rtn_m[1], c: r.rtn_m[2] });
   const lanes = [
-    ["SGP4 against the AIAA vectors, worst", [[D.sgp4.worst_m, 1, `«SGP4 · worst of ${D.sgp4.n} vectors» · ${len(D.sgp4.worst_m)}`]]],
-    ["Cowell against Orekit 12.2, worst", [[D.cowell.worst_conservative_m, 1, `«Cowell · worst of ${D.cowell.epochs_conservative} epochs» · ${len(D.cowell.worst_conservative_m)}`]]],
-    ["Galileo E11, 8-hour fit", [[g8a.rms_m, 0, `«Galileo E11 · force model only» · ${g8a.rms_m} m\n${rt(g8a)}`], [g8b.rms_m, 1, `«Galileo E11 · with empirical accelerations» · ${g8b.rms_m} m\n${rt(g8b)}`]]],
-    ["Galileo E11, 24-hour fit", [[g24.rms_m, 1, `«Galileo E11 · a full day» · ${g24.rms_m} m\n${rt(g24)}`]]],
-    ["Swarm-A, 3-hour fit", [[swd.rms_m, 0, `«Swarm-A · dynamic» · ${swd.rms_m} m, almost all along-track (drag)\n${rt(swd)}`], [swr.rms_m, 1, `«Swarm-A · reduced-dynamic» · ${swr.rms_m} m\n${rt(swr)}`]]],
-    ["Lunar Reconnaissance Orbiter, 4-hour fit", [[lrd.rms_m, 0, `«Lunar orbiter · dynamic» · ${lrd.rms_m} m\n${rt(lrd)}`], [lrr.rms_m, 1, `«Lunar orbiter · reduced-dynamic» · ${lrr.rms_m} m, above the ${bar} m bar and reported as it is\n${rt(lrr)}`]], 1],
+    [t("js-site-evidence-ladder-sgp4", "SGP4 against the AIAA vectors, worst"), [[D.sgp4.worst_m, 1, t("js-site-evidence-ladder-tip-sgp4", "«SGP4 · worst of { $n } vectors» · { $worst }", { n: D.sgp4.n, worst: len(D.sgp4.worst_m) })]]],
+    [t("js-site-evidence-ladder-cowell", "Cowell against Orekit 12.2, worst"), [[D.cowell.worst_conservative_m, 1, t("js-site-evidence-ladder-tip-cowell", "«Cowell · worst of { $n } epochs» · { $worst }", { n: D.cowell.epochs_conservative, worst: len(D.cowell.worst_conservative_m) })]]],
+    [t("js-site-evidence-ladder-g8", "Galileo E11, 8-hour fit"), [[g8a.rms_m, 0, t("js-site-evidence-ladder-tip-g8a", "«Galileo E11 · force model only» · { $rms } m", { rms: g8a.rms_m }) + "\n" + rt(g8a)], [g8b.rms_m, 1, t("js-site-evidence-ladder-tip-g8b", "«Galileo E11 · with empirical accelerations» · { $rms } m", { rms: g8b.rms_m }) + "\n" + rt(g8b)]]],
+    [t("js-site-evidence-ladder-g24", "Galileo E11, 24-hour fit"), [[g24.rms_m, 1, t("js-site-evidence-ladder-tip-g24", "«Galileo E11 · a full day» · { $rms } m", { rms: g24.rms_m }) + "\n" + rt(g24)]]],
+    [t("js-site-evidence-ladder-swarm", "Swarm-A, 3-hour fit"), [[swd.rms_m, 0, t("js-site-evidence-ladder-tip-swd", "«Swarm-A · dynamic» · { $rms } m, almost all along-track (drag)", { rms: swd.rms_m }) + "\n" + rt(swd)], [swr.rms_m, 1, t("js-site-evidence-ladder-tip-swr", "«Swarm-A · reduced-dynamic» · { $rms } m", { rms: swr.rms_m }) + "\n" + rt(swr)]]],
+    [t("js-site-evidence-ladder-lro", "Lunar Reconnaissance Orbiter, 4-hour fit"), [[lrd.rms_m, 0, t("js-site-evidence-ladder-tip-lrd", "«Lunar orbiter · dynamic» · { $rms } m", { rms: lrd.rms_m }) + "\n" + rt(lrd)], [lrr.rms_m, 1, t("js-site-evidence-ladder-tip-lrr", "«Lunar orbiter · reduced-dynamic» · { $rms } m, above the { $bar } m bar and reported as it is", { rms: lrr.rms_m, bar }) + "\n" + rt(lrr)]], 1],
   ];
   const wide = W >= 640, labW = wide ? Math.min(272, Math.round(W * 0.36)) : 0, laneH = (wide ? 32 : 54) + (wide ? Math.min(16, Math.floor(E / 6)) : 0), top = 8, axH = 26, right = W - 14;
   const H = top + lanes.length * laneH + axH;
   const X = logX(1e-3, 20, labW + 8, right);
-  const s = svg(W, H, "ld", `Orbit residuals from ${len(D.sgp4.worst_m)} to ${lrr.rms_m} m on one logarithmic scale, with the ${bar} m agency bar`);
+  const s = svg(W, H, "ld", t("js-site-evidence-ladder-aria", "Orbit residuals from { $lo } to { $hi } m on one logarithmic scale, with the { $bar } m agency bar", { lo: len(D.sgp4.worst_m), hi: lrr.rms_m, bar }));
   const mk = el("marker", { id: "ldArr", viewBox: "0 0 8 8", refX: 7, refY: 4, markerWidth: 6, markerHeight: 6, orient: "auto" }, el("defs", {}, s));
   el("path", { d: "M0 0L8 4L0 8Z", class: "ld-arrh" }, mk);
   const yb = top + lanes.length * laneH;
@@ -270,7 +282,7 @@ function drawLadder(host, W, E = 0) {
     el("text", { x: X(v), y: H - 8, "text-anchor": "middle" }, s, t);
   }
   el("line", { x1: X(bar), x2: X(bar), y1: top - 4, y2: yb, class: "ev-thr" }, s);
-  if (wide) el("text", { x: X(bar) - 5, y: top + 6, "text-anchor": "end", class: "ev-thr-t" }, s, `agency bar ${bar} m`);
+  if (wide) el("text", { x: X(bar) - 5, y: top + 6, "text-anchor": "end", class: "ev-thr-t" }, s, t("js-site-evidence-ladder-bar", "agency bar { $bar } m", { bar }));
   lanes.forEach(([lab, pts, over], k) => {
     const y0 = top + k * laneH, cy = wide ? y0 + laneH / 2 : y0 + 30;
     el("text", { x: 0, y: wide ? cy + 3.5 : y0 + 13, class: "ev-lab" + (over ? " ev-lab-over" : "") }, s, lab);
@@ -288,23 +300,24 @@ function drawLadder(host, W, E = 0) {
   else lanes.forEach((_, k) => { const cy = top + k * laneH + 30; el("line", { x1: 0, x2: 0, y1: cy - 9, y2: cy + 9, class: "ev-focus-l" }, lg); });
   s.insertBefore(lg, s.querySelector(".ev-lab"));      // the cursor passes under the labels, marks and values
   host.appendChild(s);
-  legend(host, [["ld-dot", "headline residual"], ["ld-ring", "force model alone, before empirical accelerations", "ring"], ["ld-over", `beyond the ${bar} m agency bar`]]);
-  return { dur: 9000, at(t) {
-    const v = 10 ** (L10(1e-3) + t * (L10(20) - L10(1e-3))), x = X(v);
+  legend(host, [["ld-dot", t("js-site-evidence-ladder-lg-headline", "headline residual")], ["ld-ring", t("js-site-evidence-ladder-lg-ring", "force model alone, before empirical accelerations"), "ring"], ["ld-over", t("js-site-evidence-ladder-lg-over", "beyond the { $bar } m agency bar", { bar })]]);
+  return { dur: 9000, at(u) {
+    const v = 10 ** (L10(1e-3) + u * (L10(20) - L10(1e-3))), x = X(v);
     lg.setAttribute("transform", `translate(${x.toFixed(1)} 0)`);
     let n = 0; heads.forEach(([, hv]) => { if (hv <= v) n++; });
-    return `sweep at ${len(v)} · ${n} of ${heads.length} headline residuals at or under it`;
+    return t("js-site-evidence-ladder-read", "sweep at { $v } · { $n } of { $total } headline residuals at or under it", { v: len(v), n, total: heads.length });
   } };
 }
 
 // ------------------------------------------------------------------ 5 · Allan family on the NIST SP 1065 data set
-const EST = [["oadev", "overlapping Allan deviation", "a1"], ["mdev", "modified Allan deviation", "a2"], ["tdev", "time deviation, in seconds", "a3"], ["ohdev", "overlapping Hadamard deviation", "a4"]];
+const estimators = () => [["oadev", t("js-site-evidence-allan-oadev", "overlapping Allan deviation"), "a1"], ["mdev", t("js-site-evidence-allan-mdev", "modified Allan deviation"), "a2"], ["tdev", t("js-site-evidence-allan-tdev", "time deviation, in seconds"), "a3"], ["ohdev", t("js-site-evidence-allan-ohdev", "overlapping Hadamard deviation"), "a4"]];
 function drawAllan(host, W, E = 0) {
+  const EST = estimators();
   const A = D.allan, H = Math.round(clamp(W * 0.5, 200, 260) + Math.min(E, 200)), m = { l: 44, r: 10, t: 10, b: 26 };
   const all = Object.values(A.curves).flat().filter((v) => v > 0);
   const ylo = 10 ** Math.floor(L10(Math.min(...all))), yhi = 10 ** Math.ceil(L10(Math.max(...all)));
   const X = logX(1, 400, m.l, W - m.r), Y = logX(ylo, yhi, H - m.b, m.t);
-  const s = svg(W, H, "al", `Four deviations of the NIST SP 1065 1000-point data set against averaging time; all ${D.facts.allan_n} published values reproduced, worst relative error ${sci(A.worst_rel)}`);
+  const s = svg(W, H, "al", t("js-site-evidence-allan-aria", "Four deviations of the NIST SP 1065 1000-point data set against averaging time; all { $n } published values reproduced, worst relative error { $err }", { n: D.facts.allan_n, err: sci(A.worst_rel) }));
   for (let v = ylo; v <= yhi * 1.001; v *= 10) { el("line", { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), class: "ev-grid" }, s); el("text", { x: m.l - 6, y: Y(v) + 3, "text-anchor": "end" }, s, String(+v.toPrecision(1))); }
   for (const v of [1, 10, 100]) { el("line", { x1: X(v), x2: X(v), y1: m.t, y2: H - m.b, class: "ev-grid" }, s); el("text", { x: X(v), y: H - 8, "text-anchor": "middle" }, s, v + " s"); }
   EST.forEach(([k, , cls], i) => {
@@ -313,7 +326,7 @@ function drawAllan(host, W, E = 0) {
   });
   EST.forEach(([k, name, cls], i) => A.ref[k].forEach(([mm, want, got]) => {
     el("circle", { cx: X(mm), cy: Y(want), r: 5.5, class: "al-ref al-r" + cls, style: `--d:${600 + i * 120}ms`,
-      "data-tip": `«${name}» at ${mm} s\nSP 1065 Table 31: «${want}»\nengine: «${+got.toPrecision(9)}» · relative error ${sci(Math.abs(got - want) / want)}` }, s);
+      "data-tip": t("js-site-evidence-allan-tip-at", "«{ $name }» at { $m } s", { name, m: mm }) + "\n" + t("js-site-evidence-allan-tip-table", "SP 1065 Table 31: «{ $want }»", { want }) + "\n" + t("js-site-evidence-allan-tip-engine", "engine: «{ $got }» · relative error { $err }", { got: +got.toPrecision(9), err: sci(Math.abs(got - want) / want) }) }, s);
   }));
   const ag = el("g", { class: "ev-cur", "aria-hidden": "true" }, s), al = el("line", { y1: m.t, y2: H - m.b, class: "ev-focus-l" }, ag);
   const ad = EST.map(([, , cls]) => el("circle", { r: 3.6, class: "ev-focus-d al-d" + cls }, ag));
@@ -325,33 +338,33 @@ function drawAllan(host, W, E = 0) {
   };
   const tmax = A.m[A.m.length - 1];
   host.appendChild(s);
-  legend(host, EST.map(([, n, c]) => ["al-" + c, n, "dash"]).concat([["al-rr", "published value, SP 1065 Table 31", "ring"]]));
-  stats(host, [[`${D.facts.allan_n} of ${D.facts.allan_n}`, "published values reproduced"], [sci(A.worst_rel), "worst relative error"], [sci(A.tol), "the test's gate"]]);
-  return { dur: 10000, at(t) {
-    const tau = 10 ** (t * L10(tmax)), x = X(tau), v = {};
+  legend(host, EST.map(([, n, c]) => ["al-" + c, n, "dash"]).concat([["al-rr", t("js-site-evidence-allan-lg-published", "published value, SP 1065 Table 31"), "ring"]]));
+  stats(host, [[`${D.facts.allan_n} of ${D.facts.allan_n}`, t("js-site-evidence-allan-st-reproduced", "published values reproduced")], [sci(A.worst_rel), t("js-site-evidence-allan-st-worst", "worst relative error")], [sci(A.tol), t("js-site-evidence-allan-st-gate", "the test's gate")]]);
+  return { dur: 10000, at(u) {
+    const tau = 10 ** (u * L10(tmax)), x = X(tau), v = {};
     al.setAttribute("x1", x); al.setAttribute("x2", x);
     EST.forEach(([k], i) => { v[k] = interp(k, tau); ad[i].setAttribute("cx", x); ad[i].setAttribute("cy", v[k] ? Y(v[k]) : -99); });
-    const f = (x) => (x == null ? "n/a" : x.toPrecision(2));
-    return `${tau < 10 ? tau.toFixed(1) : Math.round(tau)} s · Allan ${f(v.oadev)} · modified ${f(v.mdev)} · Hadamard ${f(v.ohdev)}`;
+    const f = (x) => (x == null ? t("js-site-evidence-allan-na", "n/a") : x.toPrecision(2));
+    return t("js-site-evidence-allan-read", "{ $tau } s · Allan { $oadev } · modified { $mdev } · Hadamard { $ohdev }", { tau: tau < 10 ? tau.toFixed(1) : Math.round(tau), oadev: f(v.oadev), mdev: f(v.mdev), ohdev: f(v.ohdev) });
   } };
 }
 
 // ------------------------------------------------------------------ 6 · holdover: measured against predicted, and the ratio window
 function drawHold(host, W, E = 0) {
   const Hd = D.holdover;
-  if (!Hd) { h("p", "ev-nojs", host, "The measured record was not available when this page was generated."); return; }
+  if (!Hd) { h("p", "ev-nojs", host, t("js-site-evidence-hold-nodata", "The measured record was not available when this page was generated.")); return; }
   const H = Math.round(clamp(W * 0.46, 180, 240) + Math.min(E, 200)), m = { l: 38, r: 10, t: 10, b: 26 };
   const tmax = Hd.measured[Hd.measured.length - 1][0];
   const ymax = Math.ceil(Math.max(...Hd.measured.map((p) => p[1]), ...Hd.predicted.map((p) => p[1])));
   const X = lin(0, tmax / 3600, m.l, W - m.r), Y = lin(0, ymax, H - m.b, m.t);
-  const s = svg(W, H, "ho", `Measured root-mean-square time error of the caesium clock against coast time, with the engine's prediction; predicted over measured breach from ${Hd.lo} to ${Hd.hi}`);
+  const s = svg(W, H, "ho", t("js-site-evidence-hold-aria", "Measured root-mean-square time error of the caesium clock against coast time, with the engine's prediction; predicted over measured breach from { $lo } to { $hi }", { lo: Hd.lo, hi: Hd.hi }));
   for (let v = 0; v <= ymax; v++) { el("line", { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), class: "ev-grid" }, s); el("text", { x: m.l - 6, y: Y(v) + 3, "text-anchor": "end" }, s, v + " ns"); }
   for (let hr = 0; hr <= tmax / 3600; hr += 6) el("text", { x: X(hr), y: H - 8, "text-anchor": "middle" }, s, hr + " h");
   el("path", { d: pathOf(Hd.measured.map(([t, v]) => [X(t / 3600), Y(v)])), class: "ev-line ho-meas", pathLength: 1 }, s);
   el("path", { d: pathOf(Hd.predicted.map(([t, v]) => [X(t / 3600), Y(v)])), class: "ev-line ho-pred", pathLength: 1, style: "--d:200ms" }, s);
   Hd.rows.forEach((r, i) => {
     const y = Y(r.thr_ns), xp = X(r.predicted_s / 3600), xm = X(r.measured_s / 3600);
-    const g = el("g", { class: "ho-row", style: `--d:${900 + i * 90}ms`, "data-tip": `«Time error ${r.thr_ns} ns»\npredicted breach ${fmtInt(Math.round(r.predicted_s))} s · measured ${fmtInt(Math.round(r.measured_s))} s\npredicted over measured «${r.ratio}»` }, s);
+    const g = el("g", { class: "ho-row", style: `--d:${900 + i * 90}ms`, "data-tip": t("js-site-evidence-hold-tip-error", "«Time error { $thr } ns»", { thr: r.thr_ns }) + "\n" + t("js-site-evidence-hold-tip-breach", "predicted breach { $p } s · measured { $m } s", { p: fmtInt(Math.round(r.predicted_s)), m: fmtInt(Math.round(r.measured_s)) }) + "\n" + t("js-site-evidence-hold-tip-ratio", "predicted over measured «{ $ratio }»", { ratio: r.ratio }) }, s);
     el("line", { x1: Math.min(xp, xm), x2: Math.max(xp, xm), y1: y, y2: y, class: "ho-join" }, g);
     el("circle", { cx: xm, cy: y, r: 4, class: "ho-m" }, g);
     el("circle", { cx: xp, cy: y, r: 5.5, class: "ho-p" }, g);
@@ -360,25 +373,25 @@ function drawHold(host, W, E = 0) {
   const hdM = el("circle", { r: 4, class: "ev-focus-d ho-m" }, hg), hdP = el("circle", { r: 4, class: "ev-focus-d ho-pd" }, hg);
   const near = (arr, t) => { let lo = 0, hi = arr.length - 1; while (hi - lo > 1) { const md = (lo + hi) >> 1; if (arr[md][0] < t) lo = md; else hi = md; } return arr[hi][1]; };
   host.appendChild(s);
-  legend(host, [["ho-meas", "measured on the held-out record (dot: breach)"], ["ho-pred", "predicted from the first third (ring: breach)", "dash"]]);
+  legend(host, [["ho-meas", t("js-site-evidence-hold-lg-meas", "measured on the held-out record (dot: breach)")], ["ho-pred", t("js-site-evidence-hold-lg-pred", "predicted from the first third (ring: breach)"), "dash"]]);
   const bar = Hd.bar, x = logX(1 / 2, 2, 14, W - 14);
-  const r = svg(W, 54, "hr", `Predicted over measured for ${Hd.rows.length} thresholds, all inside the accepted factor of ${bar}`);
+  const r = svg(W, 54, "hr", t("js-site-evidence-hold-ratio-aria", "Predicted over measured for { $n } thresholds, all inside the accepted factor of { $bar }", { n: Hd.rows.length, bar }));
   el("rect", { x: x(1 / bar), y: 15, width: x(bar) - x(1 / bar), height: 14, rx: 7, class: "hr-acc" }, r);
   el("line", { x1: 14, x2: W - 14, y1: 22, y2: 22, class: "ld-track" }, r);
   el("line", { x1: x(1), x2: x(1), y1: 13, y2: 35, class: "hr-one" }, r);
-  el("text", { x: x(1 / bar) + 6, y: 10, class: "hr-accl" }, r, `accepted: within a factor of ${bar}`);
-  Hd.rows.forEach((row, i) => el("circle", { cx: x(row.ratio), cy: 22, r: 5, class: "hr-d", style: `--d:${1200 + i * 80}ms`, "data-tip": `«${row.thr_ns} ns» · predicted over measured «${row.ratio}»` }, r));
-  for (const [v, t] of [[1 / bar, "÷ " + bar], [1, "1 = perfect"], [bar, "× " + bar]]) el("text", { x: x(v), y: 48, "text-anchor": "middle" }, r, t);
+  el("text", { x: x(1 / bar) + 6, y: 10, class: "hr-accl" }, r, t("js-site-evidence-hold-accepted", "accepted: within a factor of { $bar }", { bar }));
+  Hd.rows.forEach((row, i) => el("circle", { cx: x(row.ratio), cy: 22, r: 5, class: "hr-d", style: `--d:${1200 + i * 80}ms`, "data-tip": t("js-site-evidence-hold-tip-row", "«{ $thr } ns» · predicted over measured «{ $ratio }»", { thr: row.thr_ns, ratio: row.ratio }) }, r));
+  for (const [v, tx] of [[1 / bar, "÷ " + bar], [1, t("js-site-evidence-hold-perfect", "1 = perfect")], [bar, "× " + bar]]) el("text", { x: x(v), y: 48, "text-anchor": "middle" }, r, tx);
   host.appendChild(r);
   const off = 1 / Hd.naive_ratio, p10 = 10 ** Math.floor(L10(off));
   const note = h("p", "ev-ctl", host);
-  rich(note, `«Control:» the naive prediction (the one-second stability read as white frequency noise) gives a ratio of ${sci(Hd.naive_ratio)}, off by a factor of about ${fmtInt(Math.round(off / p10) * p10)}, and fails the same bar. The bar has teeth.`);
-  stats(host, [[fmtInt(Hd.samples), "one-second samples"], [fmtInt(Hd.fit), "used for the fit"], [fmtInt(Hd.syncs), "held-out sync points"]]);
-  return { dur: 11000, at(t) {
-    const ts = Math.max(Hd.measured[0][0], Hd.predicted[0][0], t * tmax), x = X(ts / 3600), vm = near(Hd.measured, ts), vp = near(Hd.predicted, ts);
+  rich(note, t("js-site-evidence-hold-control", "«Control:» the naive prediction (the one-second stability read as white frequency noise) gives a ratio of { $ratio }, off by a factor of about { $factor }, and fails the same bar. The bar has teeth.", { ratio: sci(Hd.naive_ratio), factor: fmtInt(Math.round(off / p10) * p10) }));
+  stats(host, [[fmtInt(Hd.samples), t("js-site-evidence-hold-st-samples", "one-second samples")], [fmtInt(Hd.fit), t("js-site-evidence-hold-st-fit", "used for the fit")], [fmtInt(Hd.syncs), t("js-site-evidence-hold-st-syncs", "held-out sync points")]]);
+  return { dur: 11000, at(u) {
+    const ts = Math.max(Hd.measured[0][0], Hd.predicted[0][0], u * tmax), x = X(ts / 3600), vm = near(Hd.measured, ts), vp = near(Hd.predicted, ts);
     hl.setAttribute("x1", x); hl.setAttribute("x2", x);
     hdM.setAttribute("cx", x); hdM.setAttribute("cy", Y(vm)); hdP.setAttribute("cx", x); hdP.setAttribute("cy", Y(vp));
-    return `coast ${(ts / 3600).toFixed(1)} h · measured ${vm.toFixed(2)} ns · predicted ${vp.toFixed(2)} ns`;
+    return t("js-site-evidence-hold-read", "coast { $h } h · measured { $m } ns · predicted { $p } ns", { h: (ts / 3600).toFixed(1), m: vm.toFixed(2), p: vp.toFixed(2) });
   } };
 }
 
@@ -451,10 +464,10 @@ const cells = $("#evCells");
 if (cells) {
   const all = $$("i", cells), N = all.length, LBL = { v: "Validated", m: "Modelled", p: "Partner-owned" };
   all.forEach((c, i) => {
-    const t = c.getAttribute("title") || "", k = (c.className.match(/c-(\w)/) || [])[1];
+    const ttl = c.getAttribute("title") || "", k = (c.className.match(/c-(\w)/) || [])[1];
     c.removeAttribute("title");
     c.style.setProperty("--d", `${(i % 29) * 16 + Math.floor(i / 29) * 40}ms`);
-    c.setAttribute("data-tip", `Capability ${String(i + 1).padStart(3, "0")} of ${N} · «${LBL[k] || ""}»\n${t.replace(/ · \w+(-\w+)?$/, "")}`);
+    c.setAttribute("data-tip", t("js-site-evidence-cell-tip", "Capability { $i } of { $n } · «{ $label }»", { i: String(i + 1).padStart(3, "0"), n: N, label: LBL[k] || "" }) + "\n" + ttl.replace(/ · \w+(-\w+)?$/, ""));
   });
   cells.addEventListener("pointermove", (e) => { const c = e.target.closest("i[data-tip]"); if (c) { mark(c); showTip(c, e.clientX, e.clientY); } else hideTip(); });
   cells.addEventListener("pointerleave", hideTip);
@@ -516,20 +529,20 @@ function init(M) {
     read.replaceChildren();
     const h = document.createElement("div"); h.className = "eh-rh";
     const lab = document.createElement("span"); lab.className = `eh-lab ${r.s}`; lab.textContent = LAB[r.s];
-    const idx = document.createElement("span"); idx.className = "eh-idx"; idx.textContent = `Row ${i + 1} of ${rows.length}`;
+    const idx = document.createElement("span"); idx.className = "eh-idx"; idx.textContent = t("js-site-evidence-hero-row", "Row { $i } of { $n }", { i: i + 1, n: rows.length });
     h.append(lab, idx);
     if (r.m) { const m = document.createElement("code"); m.textContent = r.m; h.append(m); }
     const cap = document.createElement("p"); cap.className = "eh-cap"; cap.textContent = r.c;
     const or = document.createElement("p"); or.className = "eh-or";
-    const ob = document.createElement("b"); ob.textContent = r.s === "p" ? "Owner " : "Oracle ";
-    or.append(ob, r.s === "p" ? "A partner owns this; the engine claims none of it." : r.o || "No external oracle named.");
+    const ob = document.createElement("b"); ob.textContent = (r.s === "p" ? t("js-site-evidence-hero-owner", "Owner") : t("js-site-evidence-hero-oracle", "Oracle")) + " ";
+    or.append(ob, r.s === "p" ? t("js-site-evidence-hero-partner", "A partner owns this; the engine claims none of it.") : r.o || t("js-site-evidence-hero-no-oracle", "No external oracle named."));
     read.append(h, cap, or);
-    if (announce) live.textContent = `${LAB[r.s]}. ${r.c}. ${r.s === "v" ? "Oracle: " + r.o : ""}`;
+    if (announce) live.textContent = t("js-site-evidence-hero-live", "{ $label }. { $cap }. { $oracle }", { label: LAB[r.s], cap: r.c, oracle: r.s === "v" ? t("js-site-evidence-hero-oracle-is", "Oracle: { $o }", { o: r.o }) : "" });
   }
   // the sweep: one cell every 1.5 s, skipping ahead so every status comes round
   let playing = !RM, held = false, visible = true, timer = 0;
   const btn = $("#ehPlay");
-  const setBtn = () => { btn.setAttribute("aria-pressed", String(playing)); btn.setAttribute("aria-label", playing ? "Pause the sweep" : "Play the sweep"); };
+  const setBtn = () => { btn.setAttribute("aria-pressed", String(playing)); btn.setAttribute("aria-label", playing ? t("js-site-evidence-hero-pause", "Pause the sweep") : t("js-site-evidence-hero-play", "Play the sweep")); };
   function step() {
     if (!playing || held || !visible) return;
     show((cur + 7) % rows.length, false);

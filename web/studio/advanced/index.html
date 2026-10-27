@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Advanced view: the full dashboard Studio. Every relative address resolves from the Studio's own folder, so this page shares the engine, the worker, the modules and the data with the Simple view (index.html). -->
 <base href="../">
@@ -15,6 +16,7 @@
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="evidence.css">
 <link rel="stylesheet" href="advanced/dash.css">
 <link rel="stylesheet" href="advanced/advanced.css">
 <!-- the Studio's modules, fetched in parallel with app.js rather than after it -->
@@ -101,62 +103,62 @@
   <symbol id="d-optional" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></symbol>
 </svg>
 
-<a class="skip" href="#results">Skip to results</a>
+<a class="skip" href="#results" data-l10n="studio-advanced-skip-to-results">Skip to results</a>
 
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:radial-gradient(circle at 46.5% 49.5%,var(--cyan,#0795BA) 0 5%,transparent 11%),radial-gradient(circle at 87.5% 12%,var(--cyan,#0795BA) 0 4%,transparent 8%),var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag" data-studio-short>Studio</span></a>
-  <nav class="site-links" aria-label="Site"><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/developers">Developers</a><a href="/docs/">Docs</a><a href="/editions">Editions</a></nav>
-  <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:radial-gradient(circle at 46.5% 49.5%,var(--cyan,#0795BA) 0 5%,transparent 11%),radial-gradient(circle at 87.5% 12%,var(--cyan,#0795BA) 0 4%,transparent 8%),var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot; data-studio-short>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag" data-studio-short>Studio</span></span></a>
+  <nav class="site-links" aria-label="Site"><a href="/missions" data-l10n-rich="seg-90eeeb0abcbd">Missions</a><a href="/capabilities" data-l10n-rich="seg-76a214e74ae5">Capabilities</a><a href="/evidence" data-l10n-rich="seg-6ddf1dc69523">Evidence</a><a href="/developers" data-l10n-rich="seg-d69e23e80f28">Developers</a><a href="/docs/" data-l10n-rich="seg-781a33f8799b">Docs</a><a href="/editions" data-l10n-rich="seg-bdb4733dec65">Editions</a></nav>
+  <nav class="crumbs" id="crumbs" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"></nav>
   <div class="bar-right">
-    <span class="engine-chip" id="engine-chip" data-mode="loading" title="Where the engine is running"><i></i><span id="engine-label">Loading engine…</span></span>
-    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette" title="Find a scenario, a domain, a field or a command"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Find anything</span><kbd class="kmod">⌘K</kbd></button>
-    <button class="t-btn" id="btn-history" aria-haspopup="dialog" aria-controls="history" title="The runs you made in this session"><svg aria-hidden="true"><use href="#i-history"/></svg><span class="lbl">History</span><span class="count" id="history-count" hidden>0</span></button>
-    <button class="t-btn" id="btn-tour" title="A short tour of the Studio"><svg aria-hidden="true"><use href="#i-tour"/></svg><span class="lbl">Tour</span></button>
-    <button class="t-btn" id="btn-theme" aria-label="Toggle colour theme" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg><span class="lbl">Theme</span></button>
-    <details class="views-menu adv-views" id="adv-views"><summary aria-label="Views: Geometry, Receiver trust, Interference map, Training debrief, Tools" title="More views"><svg aria-hidden="true"><use href="#i-views"/></svg><span class="lbl">Views</span></summary>
-      <div class="vm-pop"><a href="geometry/">Geometry: skyplot, skyline and DOP</a><a href="lunar/">Lunar station: coverage of a reference station (MODELLED)</a><a href="trust/">Receiver trust</a><a href="interference/">Interference map</a><a href="training/">Training debrief</a><a href="tools/">Tools: evidence, bench, compliance, OSNMA</a></div></details>
-    <a class="pill view-switch" id="view-switch" href="./" title="The simple view: the answer first, five settings, details on demand" aria-label="Switch to the Simple view">Simple view</a>
+    <span class="engine-chip" id="engine-chip" data-mode="loading" title="Where the engine is running" data-l10n-attr="title:studio-engine-status"><i></i><span id="engine-label" data-l10n-rich="seg-04d1a3ba2b8a">Loading engine…</span></span>
+    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette" title="Find a scenario, a domain, a field or a command" data-l10n-attr="title:studio-advanced-find-a-scenario-a-domain"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl" data-l10n="studio-advanced-find-anything">Find anything</span><kbd class="kmod">⌘K</kbd></button>
+    <button class="t-btn" id="btn-history" aria-haspopup="dialog" aria-controls="history" title="The runs you made in this session" data-l10n-attr="title:studio-advanced-the-runs-you-made-in"><svg aria-hidden="true"><use href="#i-history"/></svg><span class="lbl" data-l10n-rich="seg-6935c9c381b3">History</span><span class="count" id="history-count" hidden>0</span></button>
+    <button class="t-btn" id="btn-tour" title="A short tour of the Studio" data-l10n-attr="title:studio-advanced-a-short-tour-of-the"><svg aria-hidden="true"><use href="#i-tour"/></svg><span class="lbl" data-l10n-rich="seg-5a140d5f43b1">Tour</span></button>
+    <button class="t-btn" id="btn-theme" aria-label="Toggle colour theme" title="Switch between light and dark" data-l10n-attr="title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg><span class="lbl" data-l10n-rich="seg-af4ccbe11812">Theme</span></button>
+    <details class="views-menu adv-views" id="adv-views"><summary aria-label="Views: Geometry, Receiver trust, Interference map, Training debrief, Tools" title="More views" data-l10n-attr="aria-label:studio-views;title:studio-more-views"><svg aria-hidden="true"><use href="#i-views"/></svg><span class="lbl" data-l10n-rich="seg-d26c2ce37261">Views</span></summary>
+      <div class="vm-pop"><a href="geometry/" data-l10n="studio-view-geometry">Geometry: skyplot, skyline and DOP</a><a href="lunar/" data-l10n="studio-advanced-lunar-station-coverage-of-a">Lunar station: coverage of a reference station (MODELLED)</a><a href="trust/" data-l10n="studio-main-receiver-trust">Receiver trust</a><a href="interference/" data-l10n="studio-interference-interference-map">Interference map</a><a href="training/" data-l10n="studio-tools-training-debrief">Training debrief</a><a href="tools/" data-l10n="studio-view-tools">Tools: evidence, bench, compliance, OSNMA</a></div></details>
+    <a class="pill view-switch" id="view-switch" href="./" title="The simple view: the answer first, five settings, details on demand" aria-label="Switch to the Simple view" data-l10n-attr="aria-label:studio-advanced-switch-to-the-simple-view;title:studio-advanced-the-simple-view-the-answer" data-l10n="studio-advanced-simple-view">Simple view</a>
   </div>
 </header>
 
 <div class="app" id="app" data-pane="results" data-drawer="closed">
   <!-- ============ 1 CHOOSE: the library rail ============ -->
-  <aside class="lib" id="library" aria-label="Scenario library">
+  <aside class="lib" id="library" aria-label="Scenario library" data-l10n-attr="aria-label:studio-advanced-scenario-library">
     <div class="lib-head">
-      <div class="rail-title"><span class="stepno" aria-hidden="true">1</span><h2>Choose a scenario</h2><button class="btn-quiet small lib-close" id="lib-close" title="Close the library"><svg aria-hidden="true"><use href="#i-x"/></svg>Close</button></div>
-      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="lib-search" type="search" placeholder="Scenario, domain or field" aria-label="Find a scenario, a domain or a field" autocomplete="off"><kbd>/</kbd></label>
-      <div class="lib-domains" id="lib-domains" role="group" aria-label="Filter by domain"></div>
+      <div class="rail-title"><span class="stepno" aria-hidden="true">1</span><h2 data-l10n="studio-advanced-choose-a-scenario">Choose a scenario</h2><button class="btn-quiet small lib-close" id="lib-close" title="Close the library" data-l10n-attr="title:studio-advanced-close-the-library"><svg aria-hidden="true"><use href="#i-x"/></svg><span data-l10n-rich="seg-99e01fb5fac5">Close</span></button></div>
+      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="lib-search" type="search" placeholder="Scenario, domain or field" aria-label="Find a scenario, a domain or a field" autocomplete="off" data-l10n-attr="aria-label:studio-advanced-find-a-scenario-a-domain-2;placeholder:studio-advanced-scenario-domain-or-field"><kbd>/</kbd></label>
+      <div class="lib-domains" id="lib-domains" role="group" aria-label="Filter by domain" data-l10n-attr="aria-label:studio-advanced-filter-by-domain"></div>
       <p class="lib-count" id="lib-count"></p>
     </div>
-    <nav class="lib-list" id="lib-list" aria-label="Scenarios by mission domain"></nav>
+    <nav class="lib-list" id="lib-list" aria-label="Scenarios by mission domain" data-l10n-attr="aria-label:studio-advanced-scenarios-by-mission-domain"></nav>
     <div class="lib-foot">
-      <button class="btn-quiet small" id="btn-start" type="button"><svg aria-hidden="true"><use href="#i-grid"/></svg>All domains, as tiles</button>
+      <button class="btn-quiet small" id="btn-start" type="button"><svg aria-hidden="true"><use href="#i-grid"/></svg><span data-l10n-rich="seg-e00dede0cbb9">All domains, as tiles</span></button>
       <p id="matrix-line" class="matrix-line"></p>
-      <a href="/evidence#ledger">Open the validation ledger <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/evidence#ledger"><span data-l10n-rich="seg-fdb067cc01c0">Open the validation ledger</span> <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
   </aside>
 
   <!-- ============ RESULTS: start screen, then the dashboard ============ -->
   <main class="res" id="results" aria-label="Results" tabindex="-1">
     <section class="start" id="start" aria-labelledby="start-h" hidden>
-      <p class="eyebrow"><i style="--c:var(--tim)"></i><span>Kshana Studio</span></p>
-      <h1 id="start-h">What do you want to do?</h1>
-      <p class="lede">Pick a domain and a scenario, set it up, run the engine in your browser, then read, compare and export the results. Nothing is uploaded.</p>
-      <ol class="flow" aria-label="How the Studio works">
-        <li><b>1</b><span><strong>Choose</strong> a domain and a scenario</span></li>
-        <li><b>2</b><span><strong>Set</strong> its parameters</span></li>
-        <li><b>3</b><span><strong>Run</strong> the engine, locally</span></li>
-        <li><b>4</b><span><strong>Read</strong> the key figures and panels</span></li>
-        <li><b>5</b><span><strong>Share or export</strong> the run</span></li>
+      <p class="eyebrow"><i style="--c:var(--tim)"></i><span data-l10n="studio-main-kshana-studio">Kshana Studio</span></p>
+      <h1 id="start-h" data-l10n="studio-advanced-what-do-you-want-to">What do you want to do?</h1>
+      <p class="lede" data-l10n="studio-advanced-pick-a-domain-and-a">Pick a domain and a scenario, set it up, run the engine in your browser, then read, compare and export the results. Nothing is uploaded.</p>
+      <ol class="flow" aria-label="How the Studio works" data-l10n-attr="aria-label:studio-advanced-how-the-studio-works">
+        <li><b>1</b><span data-l10n-rich="seg-4548b0e6bd0e" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<strong>&quot;,&quot;c&quot;:&quot;</strong>&quot;}}"><strong>Choose</strong> a domain and a scenario</span></li>
+        <li><b>2</b><span data-l10n-rich="seg-0975b02e3951" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<strong>&quot;,&quot;c&quot;:&quot;</strong>&quot;}}"><strong>Set</strong> its parameters</span></li>
+        <li><b>3</b><span data-l10n-rich="seg-ee0ffb5be403" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<strong>&quot;,&quot;c&quot;:&quot;</strong>&quot;}}"><strong>Run</strong> the engine, locally</span></li>
+        <li><b>4</b><span data-l10n-rich="seg-62a3d528203d" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<strong>&quot;,&quot;c&quot;:&quot;</strong>&quot;}}"><strong>Read</strong> the key figures and panels</span></li>
+        <li><b>5</b><span data-l10n-rich="seg-c3bab83395bf" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<strong>&quot;,&quot;c&quot;:&quot;</strong>&quot;}}"><strong data-l10n="studio-advanced-share-or-export">Share or export</strong> the run</span></li>
       </ol>
-      <label class="search big"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="start-search" type="search" placeholder="Search scenarios, domains or fields, for example elevation mask" aria-label="Search scenarios, domains or fields" autocomplete="off"></label>
+      <label class="search big"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="start-search" type="search" placeholder="Search scenarios, domains or fields, for example elevation mask" aria-label="Search scenarios, domains or fields" autocomplete="off" data-l10n-attr="aria-label:studio-advanced-search-scenarios-domains-or-fields;placeholder:studio-advanced-search-scenarios-domains-or-fields-2"></label>
       <div class="start-results" id="start-results" aria-live="polite"></div>
       <div class="start-block" id="start-suggest-block">
-        <h2>Good first runs</h2>
+        <h2 data-l10n="studio-advanced-good-first-runs">Good first runs</h2>
         <div class="start-suggest" id="start-suggest"></div>
       </div>
       <div class="start-block">
-        <h2>Domains</h2>
+        <h2 data-l10n-rich="seg-5d4e98c5f740">Domains</h2>
         <div class="start-tiles" id="start-tiles"></div>
       </div>
     </section>
@@ -165,223 +167,223 @@
       <section class="dhead" id="dhead" aria-label="Scenario">
         <div class="dh-id">
           <p class="eyebrow" id="sc-domain"><i></i><span></span></p>
-          <h1 id="sc-title">Opening the scenario…</h1>
-          <div class="chips"><span class="chip" id="sc-kind" title="The engine kind this scenario runs"></span><span class="chip honesty" id="sc-honesty" hidden></span><code class="chip file" id="sc-file"></code></div>
+          <h1 id="sc-title" data-l10n-rich="seg-e0fca417482a">Opening the scenario…</h1>
+          <div class="chips"><span class="chip" id="sc-kind" title="The engine kind this scenario runs" data-l10n-attr="title:studio-advanced-the-engine-kind-this-scenario"></span><span class="chip honesty" id="sc-honesty" hidden></span><code class="chip file" id="sc-file"></code></div>
           <p class="question" id="sc-question"></p>
         </div>
         <div class="dh-act runbar" id="runbar">
-          <button class="btn-quiet" id="btn-lib" type="button" title="Open the scenario library"><svg aria-hidden="true"><use href="#i-list"/></svg><span>Library</span></button>
-          <button class="btn-quiet" id="btn-params" type="button" aria-controls="editor-pane" aria-expanded="false" title="Show the parameters and the scenario source"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span>Parameters</span></button>
-          <button class="btn-run" id="run" disabled><svg aria-hidden="true"><use href="#i-play"/></svg><span>Run</span><kbd>⌘↵</kbd></button>
-          <button class="btn-quiet" id="run-cancel" hidden>Cancel</button>
-          <button class="btn-quiet" id="pin" title="Keep this run to compare with another (up to 4)"><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Pin run</span></button>
-          <button class="btn-quiet" id="btn-compare" type="button" title="Compare the pinned runs"><svg aria-hidden="true"><use href="#i-compare"/></svg><span>Compare</span><span class="count" id="pin-count" hidden>0</span></button>
+          <button class="btn-quiet" id="btn-lib" type="button" title="Open the scenario library" data-l10n-attr="title:studio-advanced-open-the-scenario-library"><svg aria-hidden="true"><use href="#i-list"/></svg><span data-l10n-rich="seg-583dc9ff6178">Library</span></button>
+          <button class="btn-quiet" id="btn-params" type="button" aria-controls="editor-pane" aria-expanded="false" title="Show the parameters and the scenario source" data-l10n-attr="title:studio-advanced-show-the-parameters-and-the"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span data-l10n-rich="seg-2afa300864a9">Parameters</span></button>
+          <button class="btn-run" id="run" disabled><svg aria-hidden="true"><use href="#i-play"/></svg><span data-l10n-rich="seg-6cb7b1848b26" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<kbd>⌘↵</kbd>&quot;}}">Run<kbd>⌘↵</kbd></span></button>
+          <button class="btn-quiet" id="run-cancel" hidden data-l10n-rich="seg-89a86adcc181">Cancel</button>
+          <button class="btn-quiet" id="pin" title="Keep this run to compare with another (up to 4)" data-l10n-attr="title:studio-advanced-keep-this-run-to-compare"><svg aria-hidden="true"><use href="#i-pin"/></svg><span data-l10n="studio-advanced-pin-run">Pin run</span></button>
+          <button class="btn-quiet" id="btn-compare" type="button" title="Compare the pinned runs" data-l10n-attr="title:studio-advanced-compare-the-pinned-runs"><svg aria-hidden="true"><use href="#i-compare"/></svg><span data-l10n-rich="seg-fd4276fe5f5e">Compare</span><span class="count" id="pin-count" hidden>0</span></button>
           <div class="menu-wrap">
-            <button class="btn-quiet" id="btn-share" aria-haspopup="menu" aria-expanded="false" aria-controls="share-menu" title="Share this run, or download it"><svg aria-hidden="true"><use href="#i-share"/></svg><span>Share or export</span></button>
+            <button class="btn-quiet" id="btn-share" aria-haspopup="menu" aria-expanded="false" aria-controls="share-menu" title="Share this run, or download it" data-l10n-attr="title:studio-advanced-share-this-run-or-download"><svg aria-hidden="true"><use href="#i-share"/></svg><span data-l10n="studio-advanced-share-or-export">Share or export</span></button>
             <div class="menu" id="share-menu" role="menu" hidden>
-              <button role="menuitem" data-act="exports">Download results <small>report, JSON, scenario, tables and exports</small></button>
-              <button role="menuitem" data-act="share-link">Copy share link <small>the exact scenario, in the link</small></button>
-              <button role="menuitem" data-act="embed-code">Copy embed code <small>an iframe for a course page or wiki</small></button>
-              <button role="menuitem" data-act="embed-open">Preview embed mode <small>opens in a new tab</small></button>
+              <button role="menuitem" data-act="exports" data-l10n-rich="seg-373bdc3fdcd6" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Download results <small data-l10n="studio-advanced-report-json-scenario-tables-and">report, JSON, scenario, tables and exports</small></button>
+              <button role="menuitem" data-act="share-link" data-l10n-rich="seg-8209cc272c06" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Copy share link <small data-l10n="studio-advanced-the-exact-scenario-in-the">the exact scenario, in the link</small></button>
+              <button role="menuitem" data-act="embed-code" data-l10n-rich="seg-495154bdae91" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Copy embed code <small data-l10n="studio-advanced-an-iframe-for-a-course">an iframe for a course page or wiki</small></button>
+              <button role="menuitem" data-act="embed-open" data-l10n-rich="seg-e02635128fa4" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Preview embed mode <small data-l10n="studio-advanced-opens-in-a-new-tab">opens in a new tab</small></button>
             </div>
           </div>
         </div>
         <ol class="steps" id="steps" aria-label="Steps">
-          <li><button type="button" data-step="choose"><b>1</b>Choose</button></li>
-          <li><button type="button" data-step="set"><b>2</b>Set</button></li>
-          <li><button type="button" data-step="run"><b>3</b>Run</button></li>
-          <li><button type="button" data-step="read"><b>4</b>Read results</button></li>
-          <li><button type="button" data-step="share"><b>5</b>Share or export</button></li>
+          <li><button type="button" data-step="choose"><b>1</b><span data-l10n-rich="seg-aae75f3d3aa5">Choose</span></button></li>
+          <li><button type="button" data-step="set"><b>2</b><span data-l10n-rich="seg-da60d773bcf2">Set</span></button></li>
+          <li><button type="button" data-step="run"><b>3</b><span data-l10n-rich="seg-31d58f23c0a2">Run</span></button></li>
+          <li><button type="button" data-step="read"><b>4</b><span data-l10n-rich="seg-44cc0a5abbc3">Read results</span></button></li>
+          <li><button type="button" data-step="share"><b>5</b><span data-l10n-rich="seg-8e74b20972cc">Share or export</span></button></li>
         </ol>
-        <p class="status busy" id="status" role="status" aria-live="polite">Loading the engine. The recorded result of this scenario shows first.</p>
+        <p class="status busy" id="status" role="status" aria-live="polite" data-l10n="studio-advanced-loading-the-engine-the-recorded">Loading the engine. The recorded result of this scenario shows first.</p>
       </section>
-      <div class="first-hint" id="first-hint" hidden><p><b>New here?</b> Follow the numbered steps: 1 choose a scenario, 2 set its parameters, 3 run it, 4 read the key figures and panels, 5 share or export. Every number is the engine's own output.</p><button class="btn-mini" id="first-hint-close" type="button">Got it</button></div>
+      <div class="first-hint" id="first-hint" hidden><p data-l10n-rich="seg-572de40d1586" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>New here?</b> Follow the numbered steps: 1 choose a scenario, 2 set its parameters, 3 run it, 4 read the key figures and panels, 5 share or export. Every number is the engine's own output.</p><button class="btn-mini" id="first-hint-close" type="button" data-l10n="studio-advanced-got-it">Got it</button></div>
       <p class="notice" id="notice" hidden></p>
       <div class="progress" id="progress" hidden><i></i></div>
       <div class="error" id="error" role="alert" hidden></div>
 
       <section class="kpis-wrap" id="kpis-wrap" aria-labelledby="kpis-h" hidden>
-        <div class="sec-head"><h2 id="kpis-h">Key figures</h2><p>Headline numbers from the engine's result, with the change since your previous run of this scenario, and a pass or fail where the run states a threshold.</p></div>
+        <div class="sec-head"><h2 id="kpis-h" data-l10n="studio-key-figures">Key figures</h2><p data-l10n="studio-advanced-headline-numbers-from-the-engine">Headline numbers from the engine's result, with the change since your previous run of this scenario, and a pass or fail where the run states a threshold.</p></div>
         <div class="figs kpis" id="figs" role="list"></div>
       </section>
 
 
 
       <div class="tabs-wrap" id="tabs-wrap" hidden>
-        <p class="tabs-lbl" id="tabs-lbl">Panels</p>
-        <div class="tabs" id="tabs" role="tablist" aria-label="Result panels" aria-describedby="tabs-lbl"></div>
+        <p class="tabs-lbl" id="tabs-lbl" data-l10n-rich="seg-593bbe59f733">Panels</p>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Result panels" aria-describedby="tabs-lbl" data-l10n-attr="aria-label:studio-advanced-result-panels"></div>
       </div>
 
       <div class="views" id="views">
-      <section class="view" id="v-overview" role="tabpanel" aria-label="Figures of merit" hidden>
+      <section class="view" id="v-overview" role="tabpanel" aria-label="Figures of merit" hidden data-l10n-attr="aria-label:studio-figures-of-merit">
         <div class="card" id="fom-card" hidden>
-          <div class="card-head"><h3>Figures of merit</h3><p class="card-note">The tier is each figure's validation status, read from the engine's own <code>figure_tiers</code> block: <b>validated</b> means checked against an independent external oracle; <b>modelled</b> means first-principles physics with tests, not yet oracle-checked.</p></div>
+          <div class="card-head"><h3 data-l10n="studio-figures-of-merit">Figures of merit</h3><p class="card-note" data-l10n-rich="seg-4f0ecff8525d" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>figure_tiers</code>&quot;},&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">The tier is each figure's validation status, read from the engine's own <code>figure_tiers</code> block: <b>validated</b> means checked against an independent external oracle; <b>modelled</b> means first-principles physics with tests, not yet oracle-checked.</p></div>
           <div class="table-scroll"><table class="tbl" id="fom-table"></table></div>
         </div>
         <div class="card" id="kf-card" hidden>
-          <div class="card-head"><h3>Every published figure</h3><p class="card-note">Read from the result document with the unit, note and provenance the engine records for each one.</p><label class="search small"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="kf-find" type="search" placeholder="Find a result field" aria-label="Find a result field" autocomplete="off"></label></div>
+          <div class="card-head"><h3 data-l10n="studio-main-every-published-figure">Every published figure</h3><p class="card-note" data-l10n="studio-main-read-from-the-result-document">Read from the result document with the unit, note and provenance the engine records for each one.</p><label class="search small"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="kf-find" type="search" placeholder="Find a result field" aria-label="Find a result field" autocomplete="off" data-l10n-attr="aria-label:studio-find-result-field;placeholder:studio-find-result-field"></label></div>
           <div class="table-scroll"><table class="tbl" id="kf-table"></table></div>
         </div>
         <div class="card" id="health-card" hidden>
-          <div class="card-head"><h3>Filter health <small>Kalman self-consistency</small></h3><p class="card-note">A consistent filter's reported uncertainty matches its actual errors. NIS (normalised innovation squared) should sit near 1 and NEES (normalised estimation error squared) near 2, each inside its 95% χ² band.</p></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-bdf48a0aa8ee" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Filter health <small data-l10n="studio-main-kalman-self-consistency">Kalman self-consistency</small></h3><p class="card-note" data-l10n="studio-main-a-consistent-filter-s-reported">A consistent filter's reported uncertainty matches its actual errors. NIS (normalised innovation squared) should sit near 1 and NEES (normalised estimation error squared) near 2, each inside its 95% χ² band.</p></div>
           <div class="health" id="health"></div>
         </div>
         <div class="card" id="label-card" hidden><p id="label-text" class="label-text"></p></div>
       </section>
 
-      <section class="view" id="v-cap" role="tabpanel" aria-label="Capability view" hidden>
+      <section class="view" id="v-cap" role="tabpanel" aria-label="Capability view" hidden data-l10n-attr="aria-label:studio-capability-view">
         <div class="cap-stage" id="cap-stage"></div>
         <div class="grid-2 cap-panels" id="cap-panels"></div>
       </section>
 
-      <section class="view" id="v-timeseries" role="tabpanel" aria-label="Time series" hidden>
+      <section class="view" id="v-timeseries" role="tabpanel" aria-label="Time series" hidden data-l10n-attr="aria-label:studio-time-series">
         <div class="card scope">
-          <div class="card-head row"><h3 id="ts-title">Time series</h3>
-            <div class="seg dark" role="tablist" aria-label="Chart source"><button role="tab" data-ts="live" aria-selected="true" id="ts-live-btn">Interactive</button><button role="tab" data-ts="engine" aria-selected="false" id="ts-engine-btn">Engine chart</button></div>
+          <div class="card-head row"><h3 id="ts-title" data-l10n="studio-time-series">Time series</h3>
+            <div class="seg dark" role="tablist" aria-label="Chart source" data-l10n-attr="aria-label:studio-chart-source"><button role="tab" data-ts="live" aria-selected="true" id="ts-live-btn" data-l10n-rich="seg-085ef6b1be9d">Interactive</button><button role="tab" data-ts="engine" aria-selected="false" id="ts-engine-btn" data-l10n="studio-main-engine-chart">Engine chart</button></div>
           </div>
-          <p class="card-note on-space pnote">Each series this run publishes, against time. Hover or drag across the chart to read the values.</p>
+          <p class="card-note on-space pnote" data-l10n="studio-main-each-series-this-run-publishes">Each series this run publishes, against time. Hover or drag across the chart to read the values.</p>
           <div class="chart-box" id="ts-live"></div>
           <div class="chart-box img" id="ts-engine" hidden></div>
           <div class="chart-tools" id="ts-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-signal" role="tabpanel" aria-label="Signal and band" hidden>
+      <section class="view" id="v-signal" role="tabpanel" aria-label="Signal and band" hidden data-l10n-attr="aria-label:studio-signal-band">
         <div class="grid-2">
           <div class="card scope span-2">
-            <div class="card-head row"><h3>C/N0 by satellite <small>carrier-to-noise density, dB-Hz</small></h3><div class="seg dark" role="group" aria-label="Signal field" id="sig-field"><button type="button" data-field="cn0_effective_dbhz" aria-pressed="true">With the jammer</button><button type="button" data-field="cn0_nominal_dbhz" aria-pressed="false">Without it</button></div><div class="legend-heat" id="heat-legend"></div></div>
+            <div class="card-head row"><h3 data-l10n-rich="seg-7db3c895178e" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">C/N0 by satellite <small data-l10n="studio-main-carrier-to-noise-density-db">carrier-to-noise density, dB-Hz</small></h3><div class="seg dark" role="group" aria-label="Signal field" id="sig-field" data-l10n-attr="aria-label:studio-signal-field"><button type="button" data-field="cn0_effective_dbhz" aria-pressed="true" data-l10n="studio-main-with-the-jammer">With the jammer</button><button type="button" data-field="cn0_nominal_dbhz" aria-pressed="false" data-l10n="studio-main-without-it">Without it</button></div><div class="legend-heat" id="heat-legend"></div></div>
             <div class="chart-box" id="sig-heat"></div>
-            <p class="card-note on-space">Each cell is one satellite at one epoch from this run. Hatched cells are below the receiver's tracking threshold: that satellite is lost.</p>
+            <p class="card-note on-space" data-l10n="studio-main-each-cell-is-one-satellite">Each cell is one satellite at one epoch from this run. Hatched cells are below the receiver's tracking threshold: that satellite is lost.</p>
             <div class="chart-tools" id="sig-tools"></div>
           </div>
-          <div class="card" id="band-card"><div class="card-head"><h3>Band</h3></div><dl class="kv" id="band-kv"></dl><div id="band-strip"></div></div>
-          <div class="card" id="sig-fom-card"><div class="card-head"><h3>Interference outcome</h3></div><dl class="kv" id="sig-kv"></dl></div>
+          <div class="card" id="band-card"><div class="card-head"><h3 data-l10n-rich="seg-a86ce24d81de">Band</h3></div><dl class="kv" id="band-kv"></dl><div id="band-strip"></div></div>
+          <div class="card" id="sig-fom-card"><div class="card-head"><h3 data-l10n="studio-main-interference-outcome">Interference outcome</h3></div><dl class="kv" id="sig-kv"></dl></div>
         </div>
       </section>
 
-      <section class="view" id="v-holdover" role="tabpanel" aria-label="Clock holdover" hidden>
+      <section class="view" id="v-holdover" role="tabpanel" aria-label="Clock holdover" hidden data-l10n-attr="aria-label:studio-clock-holdover">
         <div class="card scope">
-          <div class="card-head row"><h3>Holdover <small id="ho-sub">error since GNSS was lost</small></h3></div>
+          <div class="card-head row"><h3 data-l10n-rich="seg-9cebd87d7cb3" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small id=\&quot;ho-sub\&quot;>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Holdover <small id="ho-sub" data-l10n="studio-main-error-since-gnss-was-lost">error since GNSS was lost</small></h3></div>
           <div class="ho-ctl">
-            <label for="ho-thr">Budget <output id="ho-thr-out"></output></label>
+            <label for="ho-thr"><span data-l10n-rich="seg-42cdb8e987e6">Budget</span> <output id="ho-thr-out"></output></label>
             <input type="range" id="ho-thr" min="0" max="100" step="1">
-            <button class="btn-mini dark" id="ho-thr-reset">Scenario budget</button>
+            <button class="btn-mini dark" id="ho-thr-reset" data-l10n="studio-main-scenario-budget">Scenario budget</button>
           </div>
           <div class="chart-box" id="ho-chart"></div>
           <div class="ho-cards" id="ho-cards"></div>
-          <p class="card-note on-space">Move the budget and the time-to-breach is read off this run's own error record. The engine's holdover figure, computed at the scenario's budget, is shown alongside and is the authoritative number. Change the clock or the outage in the parameters to re-run the physics.</p>
+          <p class="card-note on-space" data-l10n="studio-main-move-the-budget-and-the">Move the budget and the time-to-breach is read off this run's own error record. The engine's holdover figure, computed at the scenario's budget, is shown alongside and is the authoritative number. Change the clock or the outage in the parameters to re-run the physics.</p>
           <div class="chart-tools" id="ho-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-masks" role="tabpanel" aria-label="Telecom timing masks" hidden>
+      <section class="view" id="v-masks" role="tabpanel" aria-label="Telecom timing masks" hidden data-l10n-attr="aria-label:studio-telecom-masks">
         <div class="mask-verdicts" id="mask-verdicts"></div>
         <div class="grid-2">
-          <div class="card scope"><div class="card-head"><h3>MTIE <small>maximum time interval error</small></h3></div><div class="chart-box" id="mtie-chart"></div><div class="chart-tools" id="mtie-tools"></div></div>
-          <div class="card scope"><div class="card-head"><h3>TDEV <small>time deviation</small></h3></div><div class="chart-box" id="tdev-chart"></div><div class="chart-tools" id="tdev-tools"></div></div>
+          <div class="card scope"><div class="card-head"><h3 data-l10n-rich="seg-bfd7751a9990" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">MTIE <small data-l10n="studio-main-maximum-time-interval-error">maximum time interval error</small></h3></div><div class="chart-box" id="mtie-chart"></div><div class="chart-tools" id="mtie-tools"></div></div>
+          <div class="card scope"><div class="card-head"><h3 data-l10n-rich="seg-9204b8664c7a" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">TDEV <small data-l10n="studio-main-time-deviation">time deviation</small></h3></div><div class="chart-box" id="tdev-chart"></div><div class="chart-tools" id="tdev-tools"></div></div>
         </div>
-        <div class="card"><div class="card-head"><h3>Mask checks and holdover budgets</h3><p class="card-note">Each check's limit is plotted as a ring at the averaging time where the margin was worst. Masks are transcribed from the ITU-T (International Telecommunication Union Telecommunication Standardization Sector) Recommendations named in each row.</p></div><div class="table-scroll"><table class="tbl" id="mask-table"></table></div></div>
+        <div class="card"><div class="card-head"><h3 data-l10n="studio-main-mask-checks-and-holdover-budgets">Mask checks and holdover budgets</h3><p class="card-note" data-l10n="studio-main-each-check-s-limit-is">Each check's limit is plotted as a ring at the averaging time where the margin was worst. Masks are transcribed from the ITU-T (International Telecommunication Union Telecommunication Standardization Sector) Recommendations named in each row.</p></div><div class="table-scroll"><table class="tbl" id="mask-table"></table></div></div>
       </section>
 
-      <section class="view" id="v-stability" role="tabpanel" aria-label="Clock stability" hidden>
+      <section class="view" id="v-stability" role="tabpanel" aria-label="Clock stability" hidden data-l10n-attr="aria-label:studio-clock-stability">
         <div class="card scope">
-          <div class="card-head"><h3>Clock stability <small>overlapping Allan deviation σ<sub>y</sub>(τ)</small></h3></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-70c2a1794fd5" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;},&quot;s2&quot;:{&quot;o&quot;:&quot;<sub>&quot;,&quot;c&quot;:&quot;</sub>&quot;}}">Clock stability <small>overlapping Allan deviation σ<sub>y</sub>(τ)</small></h3></div>
           <div class="chart-box" id="adev-chart"></div>
-          <p class="card-note on-space">Lower is better. Fractional-frequency stability against averaging time τ, on log axes.</p>
+          <p class="card-note on-space" data-l10n="studio-main-lower-is-better-fractional-frequency">Lower is better. Fractional-frequency stability against averaging time τ, on log axes.</p>
           <div class="chart-tools" id="adev-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-orbit" role="tabpanel" aria-label="3-D orbit" hidden>
+      <section class="view" id="v-orbit" role="tabpanel" aria-label="3-D orbit" hidden data-l10n-attr="aria-label:studio-orbit-3d">
         <div class="card scope">
-          <div class="card-head row"><h3>Orbit <small>Earth-centred inertial frame</small></h3><p class="card-note on-space" id="orbit-note">Drag to rotate, scroll to zoom.</p></div>
-          <div class="orbit-box" id="orbit-box"><canvas id="orbit-canvas" aria-label="Interactive 3-D view of the propagated track"></canvas></div>
+          <div class="card-head row"><h3 data-l10n-rich="seg-08c7323197b0" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Orbit <small data-l10n="studio-main-earth-centred-inertial-frame">Earth-centred inertial frame</small></h3><p class="card-note on-space" id="orbit-note" data-l10n="studio-main-drag-to-rotate-scroll-to">Drag to rotate, scroll to zoom.</p></div>
+          <div class="orbit-box" id="orbit-box"><canvas id="orbit-canvas" aria-label="Interactive 3-D view of the propagated track" data-l10n-attr="aria-label:studio-main-interactive-3-d-view-of"></canvas></div>
           <div class="chart-tools" id="orbit-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-ground" role="tabpanel" aria-label="Ground track" hidden>
+      <section class="view" id="v-ground" role="tabpanel" aria-label="Ground track" hidden data-l10n-attr="aria-label:studio-ground-track">
         <div class="card scope">
-          <div class="card-head row"><h3>Ground track</h3><p class="card-note on-space" id="gt-note"></p></div>
+          <div class="card-head row"><h3 data-l10n="studio-ground-track">Ground track</h3><p class="card-note on-space" id="gt-note"></p></div>
           <div class="chart-box" id="gt-chart"></div>
           <div class="chart-tools" id="gt-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-sweep" role="tabpanel" aria-label="Parameter sweep" hidden>
+      <section class="view" id="v-sweep" role="tabpanel" aria-label="Parameter sweep" hidden data-l10n-attr="aria-label:studio-parameter-sweep">
         <div class="card">
-          <div class="card-head"><h3>Parameter sweep</h3><p class="card-note">Run the engine once per value and plot one figure of merit. Add a second parameter for a heat map. Every point is a real engine run, up to 60.</p></div>
+          <div class="card-head"><h3 data-l10n="studio-parameter-sweep">Parameter sweep</h3><p class="card-note" data-l10n="studio-main-run-the-engine-once-per">Run the engine once per value and plot one figure of merit. Add a second parameter for a heat map. Every point is a real engine run, up to 60.</p></div>
           <div class="sweep-form" id="sweep-form">
-            <label>Parameter <select id="sweep-knob"></select></label>
-            <label>From <input id="sweep-min" type="number" step="any"></label>
-            <label>To <input id="sweep-max" type="number" step="any"></label>
-            <label>Steps <input id="sweep-steps" type="number" min="2" max="60" value="8"></label>
-            <label>Plot <select id="sweep-metric"></select></label>
-            <label class="sweep-2d">Second parameter <select id="sweep-knob2"><option value="">None (line chart)</option></select></label>
-            <label class="sweep-2d-range" hidden>From <input id="sweep-min2" type="number" step="any"></label>
-            <label class="sweep-2d-range" hidden>To <input id="sweep-max2" type="number" step="any"></label>
-            <button class="btn-run small" id="sweep-run"><svg aria-hidden="true"><use href="#i-play"/></svg>Sweep</button>
+            <label><span data-l10n-rich="seg-e73ea9921fcf">Parameter</span> <select id="sweep-knob"></select></label>
+            <label><span data-l10n-rich="seg-38ce4c90dd78">From</span> <input id="sweep-min" type="number" step="any"></label>
+            <label><span data-l10n-rich="seg-2cbf005ed5cc">To</span> <input id="sweep-max" type="number" step="any"></label>
+            <label><span data-l10n-rich="seg-0b921cae8f01">Steps</span> <input id="sweep-steps" type="number" min="2" max="60" value="8"></label>
+            <label><span data-l10n-rich="seg-1652b4fc1787">Plot</span> <select id="sweep-metric"></select></label>
+            <label class="sweep-2d"><span data-l10n-rich="seg-35ee2f01ec79">Second parameter</span> <select id="sweep-knob2"><option value="" data-l10n-rich="seg-60ac985235de">None (line chart)</option></select></label>
+            <label class="sweep-2d-range" hidden><span data-l10n-rich="seg-38ce4c90dd78">From</span> <input id="sweep-min2" type="number" step="any"></label>
+            <label class="sweep-2d-range" hidden><span data-l10n-rich="seg-2cbf005ed5cc">To</span> <input id="sweep-max2" type="number" step="any"></label>
+            <button class="btn-run small" id="sweep-run"><svg aria-hidden="true"><use href="#i-play"/></svg><span data-l10n-rich="seg-f4b7cada2310">Sweep</span></button>
           </div>
           <p class="status" id="sweep-status"></p>
         </div>
         <div class="card scope" id="sweep-out" hidden><div class="chart-box" id="sweep-chart"></div><div class="chart-tools" id="sweep-tools"></div></div>
       </section>
 
-      <section class="view" id="v-compare" role="tabpanel" aria-label="Compare runs" hidden>
+      <section class="view" id="v-compare" role="tabpanel" aria-label="Compare runs" hidden data-l10n-attr="aria-label:studio-compare-runs">
         <div class="card">
-          <div class="card-head row"><h3>Compare runs <small>pinned runs side by side</small></h3><button class="btn-mini" id="compare-clear">Clear pins</button></div>
+          <div class="card-head row"><h3 data-l10n-rich="seg-8ea98d881360" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Compare runs <small data-l10n="studio-main-pinned-runs-side-by-side">pinned runs side by side</small></h3><button class="btn-mini" id="compare-clear" data-l10n="studio-main-clear-pins">Clear pins</button></div>
           <div class="pins" id="pins"></div>
           <p class="card-note" id="compare-note"></p>
           <div class="table-scroll"><table class="tbl" id="compare-table"></table></div>
         </div>
-        <div class="card" id="compare-kpi-card" hidden><div class="card-head"><h3>Key figures, run against run</h3><p class="card-note">The headline readouts of each pinned run; the change is against run A.</p></div><div class="table-scroll"><table class="tbl" id="compare-kpi"></table></div></div>
+        <div class="card" id="compare-kpi-card" hidden><div class="card-head"><h3 data-l10n="studio-main-key-figures-run-against-run">Key figures, run against run</h3><p class="card-note" data-l10n="studio-main-the-headline-readouts-of-each">The headline readouts of each pinned run; the change is against run A.</p></div><div class="table-scroll"><table class="tbl" id="compare-kpi"></table></div></div>
         <div class="compare-overlays" id="compare-overlays"></div>
-        <div class="card scope" id="compare-chart-card" hidden><div class="card-head"><h3 id="compare-chart-title">Overlay</h3></div><div class="chart-box" id="compare-chart"></div><div class="chart-tools" id="compare-tools"></div></div>
+        <div class="card scope" id="compare-chart-card" hidden><div class="card-head"><h3 id="compare-chart-title" data-l10n-rich="seg-389a5d0bd567">Overlay</h3></div><div class="chart-box" id="compare-chart"></div><div class="chart-tools" id="compare-tools"></div></div>
       </section>
 
-      <section class="view" id="v-animation" role="tabpanel" aria-label="Animation" hidden>
+      <section class="view" id="v-animation" role="tabpanel" aria-label="Animation" hidden data-l10n-attr="aria-label:studio-animation">
         <div class="card" id="anim-card">
-          <div class="card-head"><h3>Animation <small>the engine's own export</small></h3><p class="card-note" id="anim-note"></p></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-26461891d3d8" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Animation <small data-l10n="studio-main-the-engine-s-own-export">the engine's own export</small></h3><p class="card-note" id="anim-note"></p></div>
           <p class="rec-line" id="anim-prov" hidden></p>
           <div class="frame-box" id="anim-box"></div>
           <div class="chart-tools" id="anim-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-report" role="tabpanel" aria-label="Engine report" hidden>
+      <section class="view" id="v-report" role="tabpanel" aria-label="Engine report" hidden data-l10n-attr="aria-label:studio-engine-report">
         <div class="card" id="report-card">
-          <div class="card-head"><h3>Run report <small>written by the engine</small></h3><p class="card-note" id="report-note"></p></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-5c28f6c1775a" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Run report <small data-l10n="studio-main-written-by-the-engine">written by the engine</small></h3><p class="card-note" id="report-note"></p></div>
           <p class="rec-line" id="report-prov" hidden></p>
           <div class="frame-box tall" id="report-box"></div>
           <div class="chart-tools" id="report-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-exports" role="tabpanel" aria-label="Exports and report" hidden>
+      <section class="view" id="v-exports" role="tabpanel" aria-label="Exports and report" hidden data-l10n-attr="aria-label:studio-exports">
         <div class="export-grid" id="export-grid"></div>
         <div class="card" id="interop-card" hidden>
-          <div class="card-head"><h3>Interoperability exports <small>CZML, KML, GeoJSON, STK ephemeris, SigMF</small></h3><p class="card-note" id="interop-note"></p></div>
+          <div class="card-head"><h3 data-l10n-rich="seg-c6251ca94299" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Interoperability exports <small data-l10n="studio-main-czml-kml-geojson-stk-ephemeris">CZML, KML, GeoJSON, STK ephemeris, SigMF</small></h3><p class="card-note" id="interop-note"></p></div>
           <p class="rec-line" id="interop-prov" hidden></p>
           <div class="table-scroll"><table class="tbl" id="interop-table"></table></div>
         </div>
         <div class="card scope" id="geo-card" hidden>
-          <div class="card-head"><h3>The GeoJSON export on a map <small id="geo-sub"></small></h3></div>
+          <div class="card-head"><h3><span data-l10n-rich="seg-6f65cbd0e1f7">The GeoJSON export on a map</span> <small id="geo-sub"></small></h3></div>
           <div class="chart-box" id="geo-chart"></div>
           <div class="chart-tools" id="geo-tools"></div>
         </div>
       </section>
 
-      <section class="view" id="v-json" role="tabpanel" aria-label="Full result document" hidden>
+      <section class="view" id="v-json" role="tabpanel" aria-label="Full result document" hidden data-l10n-attr="aria-label:studio-full-result">
         <div class="card">
-          <div class="card-head row"><h3>Full result <small>JSON</small></h3><span><button class="btn-mini" id="json-copy"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button> <button class="btn-mini" id="json-download"><svg aria-hidden="true"><use href="#i-down"/></svg>Download</button></span></div>
+          <div class="card-head row"><h3 data-l10n-rich="seg-0f6201634748" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Full result <small>JSON</small></h3><span><button class="btn-mini" id="json-copy"><svg aria-hidden="true"><use href="#i-copy"/></svg><span data-l10n-rich="seg-fa37e351f6b4">Copy</span></button> <button class="btn-mini" id="json-download"><svg aria-hidden="true"><use href="#i-down"/></svg><span data-l10n-rich="seg-5e1e7483eb79">Download</span></button></span></div>
           <pre class="json" id="json" tabindex="0"></pre>
         </div>
       </section>
       </div>
 
-      <section class="headline" id="headline" aria-label="Run summary" hidden>
+      <section class="headline" id="headline" aria-label="Run summary" hidden data-l10n-attr="aria-label:studio-advanced-run-summary">
         <div class="hl-top">
-          <p class="eyebrow"><i style="--c:var(--itg)"></i><span id="hl-eyebrow">Result</span></p>
+          <p class="eyebrow"><i style="--c:var(--itg)"></i><span id="hl-eyebrow" data-l10n="studio-result">Result</span></p>
           <div class="hl-badges" id="hl-badges"></div>
         </div>
         <p class="summary" id="summary"></p>
@@ -389,71 +391,71 @@
       </section>
 
       <footer class="res-foot" id="res-foot">
-      <p>Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde®. Every figure is labelled with its evidence tier; the <span data-studio-name>Kshana Studio</span>'s timing, integrity and security figures are modelled unless marked validated.</p>
-      <p class="pro-line">Need a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration? That is Kshana Pro, available under contract. <a href="mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation">Request an evaluation</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence">Talk to us about a commercial licence</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20study%20request">Request a study</a></p>
-      <div class="install-line" id="install-line" aria-label="Install the engine"></div>
-      <p class="credit">Imagery: NASA Visible Earth (Blue Marble). Coastlines: Natural Earth. Every chart here is drawn from an engine run; a run, report, animation or export made by the native command-line engine is labelled as recorded.</p>
-      <p class="embed-only"><a href="/studio/" target="_blank" rel="noopener">Open in <span data-studio-name>Kshana Studio</span></a></p>
+      <p data-l10n-rich="seg-dcb3ee3095ea" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span data-studio-name>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde®. Every figure is labelled with its evidence tier; the <span data-studio-name data-l10n="studio-main-kshana-studio">Kshana Studio</span>'s timing, integrity and security figures are modelled unless marked validated.</p>
+      <p class="pro-line" data-l10n-rich="seg-280926ba03ec" data-l10n-tags="{&quot;a1&quot;:{&quot;o&quot;:&quot;<a href=\&quot;mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a2&quot;:{&quot;o&quot;:&quot;<a href=\&quot;mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;},&quot;a3&quot;:{&quot;o&quot;:&quot;<a href=\&quot;mailto:contact@ashforde.org?subject=Kshana%20study%20request\&quot;>&quot;,&quot;c&quot;:&quot;</a>&quot;}}">Need a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration? That is Kshana Pro, available under contract. <a href="mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation" data-l10n="studio-main-request-an-evaluation">Request an evaluation</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence" data-l10n="studio-main-talk-to-us-about-a">Talk to us about a commercial licence</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20study%20request" data-l10n="studio-main-request-a-study">Request a study</a></p>
+      <div class="install-line" id="install-line" aria-label="Install the engine" data-l10n-attr="aria-label:studio-install-engine"></div>
+      <p class="credit" data-l10n="studio-main-imagery-nasa-visible-earth-blue">Imagery: NASA Visible Earth (Blue Marble). Coastlines: Natural Earth. Every chart here is drawn from an engine run; a run, report, animation or export made by the native command-line engine is labelled as recorded.</p>
+      <p class="embed-only"><a href="/studio/" target="_blank" rel="noopener" data-l10n-rich="seg-e02d92584d5a" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span data-studio-name>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Open in <span data-studio-name data-l10n="studio-main-kshana-studio">Kshana Studio</span></a></p>
       </footer>
     </div>
   </main>
 
   <!-- ============ 2 SET: parameters and source, a side drawer (a sheet on phones) ============ -->
-  <section class="edit" id="editor-pane" aria-label="Parameters and scenario source" tabindex="-1">
+  <section class="edit" id="editor-pane" aria-label="Parameters and scenario source" tabindex="-1" data-l10n-attr="aria-label:studio-advanced-parameters-and-scenario-source">
     <div class="drawer-top">
-      <div class="rail-title"><span class="stepno" aria-hidden="true">2</span><h2>Set parameters</h2><button class="btn-quiet small" id="params-close" title="Close the parameters and show the results"><svg aria-hidden="true"><use href="#i-x"/></svg>Done</button></div>
-      <p class="hint">Every change re-runs the engine and updates the key figures and panels.</p>
-      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="field-find" type="search" placeholder="Find a field, for example mask" aria-label="Find a field of this scenario" autocomplete="off"></label>
+      <div class="rail-title"><span class="stepno" aria-hidden="true">2</span><h2 data-l10n="studio-advanced-set-parameters">Set parameters</h2><button class="btn-quiet small" id="params-close" title="Close the parameters and show the results" data-l10n-attr="title:studio-advanced-close-the-parameters-and-show"><svg aria-hidden="true"><use href="#i-x"/></svg><span data-l10n-rich="seg-8882688380a5">Done</span></button></div>
+      <p class="hint" data-l10n="studio-advanced-every-change-re-runs-the">Every change re-runs the engine and updates the key figures and panels.</p>
+      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="field-find" type="search" placeholder="Find a field, for example mask" aria-label="Find a field of this scenario" autocomplete="off" data-l10n-attr="aria-label:studio-advanced-find-a-field-of-this;placeholder:studio-advanced-find-a-field-for-example"></label>
       <p class="hint" id="field-find-note" hidden></p>
     </div>
     <div class="panel" id="params">
       <div class="panel-head">
-        <h2>Parameters</h2>
-        <div class="seg" role="tablist" aria-label="Parameter view">
-          <button role="tab" aria-selected="true" data-pview="guided" id="pv-guided">Guided</button>
-          <button role="tab" aria-selected="false" data-pview="all" id="pv-all">All fields <span id="field-count"></span></button>
+        <h2 data-l10n-rich="seg-2afa300864a9">Parameters</h2>
+        <div class="seg" role="tablist" aria-label="Parameter view" data-l10n-attr="aria-label:studio-advanced-parameter-view">
+          <button role="tab" aria-selected="true" data-pview="guided" id="pv-guided" data-l10n-rich="seg-95a175345436">Guided</button>
+          <button role="tab" aria-selected="false" data-pview="all" id="pv-all"><span data-l10n-rich="seg-9d3f3d06a1e9">All fields</span> <span id="field-count"></span></button>
         </div>
       </div>
-      <p class="hint" id="params-hint">Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below.</p>
+      <p class="hint" id="params-hint" data-l10n="studio-advanced-drag-a-slider-and-the">Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below.</p>
       <div class="knobs" id="knobs"></div>
       <div class="fields" id="fields" hidden></div>
     </div>
 
     <details class="panel src" id="source">
-      <summary><h2>Scenario source <small>TOML (Tom's Obvious, Minimal Language)</small></h2>
-        <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg>Reset</button><button class="btn-mini" id="src-copy" title="Copy the scenario text"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></span>
+      <summary><h2 data-l10n-rich="seg-36dcb1255565" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Scenario source <small data-l10n="studio-main-toml-tom-s-obvious-minimal">TOML (Tom's Obvious, Minimal Language)</small></h2>
+        <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario" data-l10n-attr="title:studio-restore-scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg><span data-l10n-rich="seg-43ed980c95fe">Reset</span></button><button class="btn-mini" id="src-copy" title="Copy the scenario text" data-l10n-attr="title:studio-copy-scenario"><svg aria-hidden="true"><use href="#i-copy"/></svg><span data-l10n-rich="seg-fa37e351f6b4">Copy</span></button></span>
       </summary>
       <div class="code" id="code">
         <pre class="code-hl" id="code-hl" aria-hidden="true" tabindex="-1"></pre>
-        <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd"></textarea>
+        <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd" data-l10n-attr="aria-label:studio-scenario-source"></textarea>
       </div>
-      <p class="hint" id="toml-kbd">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on.</p>
+      <p class="hint" id="toml-kbd" data-l10n="studio-advanced-in-the-editor-tab-indents">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on.</p>
     </details>
   </section>
   <div class="scrim" id="scrim" hidden></div>
 </div>
 
 <nav class="mob" id="mob" aria-label="Steps">
-  <button type="button" data-mstep="choose" aria-pressed="false"><svg aria-hidden="true"><use href="#i-list"/></svg><span>Choose</span></button>
-  <button type="button" data-mstep="set" aria-pressed="false"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span>Set</span></button>
-  <button type="button" data-mstep="run" aria-pressed="false"><svg aria-hidden="true"><use href="#i-play"/></svg><span>Run</span></button>
-  <button type="button" data-mstep="results" aria-pressed="true"><svg aria-hidden="true"><use href="#i-grid"/></svg><span>Results</span></button>
+  <button type="button" data-mstep="choose" aria-pressed="false"><svg aria-hidden="true"><use href="#i-list"/></svg><span data-l10n-rich="seg-aae75f3d3aa5">Choose</span></button>
+  <button type="button" data-mstep="set" aria-pressed="false"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span data-l10n-rich="seg-da60d773bcf2">Set</span></button>
+  <button type="button" data-mstep="run" aria-pressed="false"><svg aria-hidden="true"><use href="#i-play"/></svg><span data-l10n-rich="seg-31d58f23c0a2">Run</span></button>
+  <button type="button" data-mstep="results" aria-pressed="true"><svg aria-hidden="true"><use href="#i-grid"/></svg><span data-l10n-rich="seg-fc996ea3d2ce">Results</span></button>
 </nav>
 
 <!-- Command palette -->
-<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search scenarios and commands" hidden>
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search scenarios and commands" hidden data-l10n-attr="aria-label:studio-search-commands">
   <div class="pal-box">
-    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Find a scenario, domain, field, panel or command" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list"><kbd>esc</kbd></div>
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Find a scenario, domain, field, panel or command" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list" data-l10n-attr="aria-label:studio-search"><kbd>esc</kbd></div>
     <div class="pal-list" id="pal-list" role="listbox"></div>
-    <div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span><kbd>⌘↵</kbd> run</span></div>
+    <div class="pal-foot"><kbd>↑</kbd><span data-l10n-rich="seg-9c28d67257b7" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<kbd>↓</kbd>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<kbd>↵</kbd>&quot;},&quot;c3&quot;:{&quot;h&quot;:&quot;<kbd>⌘↵</kbd>&quot;}}"><kbd>↓</kbd> move<kbd>↵</kbd> open<kbd>⌘↵</kbd> run</span></div>
   </div>
 </div>
 
 <!-- History drawer -->
-<aside class="drawer" id="history" role="dialog" aria-modal="false" aria-label="Run history" hidden>
-  <div class="drawer-head"><h2>Run history <small>this session</small></h2><button class="icon-btn" id="history-close" aria-label="Close history"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+<aside class="drawer" id="history" role="dialog" aria-modal="false" aria-label="Run history" hidden data-l10n-attr="aria-label:studio-run-history">
+  <div class="drawer-head"><h2 data-l10n-rich="seg-08e485ae99c4" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<small>&quot;,&quot;c&quot;:&quot;</small>&quot;}}">Run history <small data-l10n="studio-main-this-session">this session</small></h2><button class="icon-btn" id="history-close" aria-label="Close history" data-l10n-attr="aria-label:studio-main-close-history"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <ol class="hist" id="hist-list"></ol>
-  <p class="hint" id="hist-empty">Runs you make appear here. Select one to bring back its scenario and result, or pin it to compare.</p>
+  <p class="hint" id="hist-empty" data-l10n="studio-main-runs-you-make-appear-here">Runs you make appear here. Select one to bring back its scenario and result, or pin it to compare.</p>
 </aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -464,5 +466,6 @@
     document.addEventListener("click", function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && d.open) { d.open = false; var s = d.querySelector("summary"); if (s) s.focus(); } }); })();
 </script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

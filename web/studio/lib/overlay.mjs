@@ -7,6 +7,7 @@
 // textContent. Reuses COMPARE_METRICS so the figures of merit and their
 // directions stay in lock-step with the A/B view.
 import { COMPARE_METRICS } from "./compare.mjs";
+import { t } from "./t.mjs";
 
 // The overlay palette: distinct, legible colours for up to four runs, drawn from
 // the existing chart palette so the overlay matches the instrument aesthetic.
@@ -48,19 +49,19 @@ function clockOverlayRows(runs) {
 // Known figure-of-merit metadata for the flat (single-solution) scenarios —
 // Mars-PNT (result.fom), PVT (result.fix), and other flat results.
 const KNOWN_META = {
-  converged_pos_rms_m: { label: "Position RMS", unit: "m", lowerBetter: true },
-  converged_pos_sigma_m: { label: "Position σ", unit: "m", lowerBetter: true },
-  converged_pos_3sigma_m: { label: "Position 3σ", unit: "m", lowerBetter: true },
-  final_clock_freq_sigma: { label: "Clock-freq σ", unit: "", lowerBetter: true },
-  mean_relays_in_view: { label: "Relays in view", unit: "", lowerBetter: false },
-  postfit_rms_m: { label: "Post-fit RMS", unit: "m", lowerBetter: true },
-  clock_bias_m: { label: "Clock bias", unit: "m", lowerBetter: true },
+  converged_pos_rms_m: { get label() { return t("js-lib-overlay-meta-converged-pos-rms-m", "Position RMS"); }, unit: "m", lowerBetter: true },
+  converged_pos_sigma_m: { get label() { return t("js-lib-overlay-meta-converged-pos-sigma-m", "Position σ"); }, unit: "m", lowerBetter: true },
+  converged_pos_3sigma_m: { get label() { return t("js-lib-overlay-meta-converged-pos-3sigma-m", "Position 3σ"); }, unit: "m", lowerBetter: true },
+  final_clock_freq_sigma: { get label() { return t("js-lib-overlay-meta-final-clock-freq-sigma", "Clock-freq σ"); }, unit: "", lowerBetter: true },
+  mean_relays_in_view: { get label() { return t("js-lib-overlay-meta-mean-relays-in-view", "Relays in view"); }, unit: "", lowerBetter: false },
+  postfit_rms_m: { get label() { return t("js-lib-overlay-meta-postfit-rms-m", "Post-fit RMS"); }, unit: "m", lowerBetter: true },
+  clock_bias_m: { get label() { return t("js-lib-overlay-meta-clock-bias-m", "Clock bias"); }, unit: "m", lowerBetter: true },
   gdop: { label: "GDOP", unit: "", lowerBetter: true },
   pdop: { label: "PDOP", unit: "", lowerBetter: true },
   hdop: { label: "HDOP", unit: "", lowerBetter: true },
   vdop: { label: "VDOP", unit: "", lowerBetter: true },
-  pos_rms_m: { label: "Position RMS", unit: "m", lowerBetter: true },
-  pos_p95_m: { label: "Position p95", unit: "m", lowerBetter: true },
+  pos_rms_m: { get label() { return t("js-lib-overlay-meta-pos-rms-m", "Position RMS"); }, unit: "m", lowerBetter: true },
+  pos_p95_m: { get label() { return t("js-lib-overlay-meta-pos-p95-m", "Position p95"); }, unit: "m", lowerBetter: true },
 };
 
 // Infer label/unit/direction for a flat FoM key not in the known map.
@@ -125,6 +126,7 @@ export function overlayRows(runs) {
   return clockRows.length ? clockRows : flatOverlayRows(runs);
 }
 
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const NUM = (n) => (Math.round(n * 1000) / 1000).toString();
 
 /// Build a multi-color overlaid timeseries SVG for the clock-error case: each
@@ -153,12 +155,12 @@ export function overlaySeriesSvg(runs, field, meta) {
 
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" font-family="system-ui,sans-serif" font-size="11">`;
   s += `<rect width="${W}" height="${H}" fill="#0c0b08"/>`;
-  s += `<text x="${ml}" y="22" font-size="15" font-weight="bold" fill="#bcb3a3">Overlay: timing error during outage</text>`;
-  s += `<text x="${ml}" y="40" fill="#8c8273">|error| (ns) vs time — ${seriesList.length} runs</text>`;
+  s += `<text x="${ml}" y="22" font-size="15" font-weight="bold" fill="#bcb3a3">${esc(t("js-lib-overlay-title", "Overlay: timing error during outage"))}</text>`;
+  s += `<text x="${ml}" y="40" fill="#8c8273">${esc(t("js-lib-overlay-subtitle", "|error| (ns) vs time — { $n } runs", { n: seriesList.length }))}</text>`;
   const axisY = H - mb;
   s += `<line x1="${ml}" y1="${mt}" x2="${ml}" y2="${axisY}" stroke="#342c21"/>`;
   s += `<line x1="${ml}" y1="${axisY}" x2="${W - mr}" y2="${axisY}" stroke="#342c21"/>`;
-  s += `<text x="${ml + (W - ml - mr) / 2}" y="${H - 26}" text-anchor="middle" fill="#8c8273">time (s)</text>`;
+  s += `<text x="${ml + (W - ml - mr) / 2}" y="${H - 26}" text-anchor="middle" fill="#8c8273">${esc(t("js-lib-overlay-time-s", "time (s)"))}</text>`;
 
   seriesList.forEach((ser, i) => {
     const col = OVERLAY_COLORS[i % OVERLAY_COLORS.length];
@@ -170,7 +172,7 @@ export function overlaySeriesSvg(runs, field, meta) {
     s += `<text x="${W - mr - 4}" y="${mt + 14 + i * 16}" text-anchor="end" fill="${col}" font-weight="600">${ser.label}</text>`;
   });
 
-  const prov = `Kshana${meta && meta.ver ? " v" + meta.ver : ""}${meta && meta.hash ? " · scenario " + String(meta.hash).slice(0, 12) : ""} · kshana.dev`;
+  const prov = [`Kshana${meta && meta.ver ? " v" + meta.ver : ""}`, ...(meta && meta.hash ? [t("js-lib-overlay-prov-scenario", "scenario { $hash }", { hash: String(meta.hash).slice(0, 12) })] : []), "kshana.dev"].join(" · ");
   s += `<text x="${W - mr}" y="${H - 8}" text-anchor="end" fill="#62594b" font-size="10">${prov}</text>`;
   s += `</svg>`;
   return s;

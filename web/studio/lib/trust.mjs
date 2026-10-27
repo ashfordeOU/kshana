@@ -13,6 +13,7 @@
 //   * a truth file (t_s,true_lat_deg,true_lon_deg), which exists only for synthetic data.
 // Advisory software: nothing here is a measure of how the checks do on real interference.
 
+import { t } from "./t.mjs";
 import { readSelfReport, readSelfSummary } from "./trust-selfreport.mjs";
 import { readEpochGeometry, readClass, readGeometryModel, readGeometrySummary, describeGeometry } from "./trust-geometry.mjs";
 
@@ -20,29 +21,29 @@ export const BANDS = ["calibrating", "nominal", "degraded", "untrusted"];
 
 // One line per monitor, from docs/MARITIME-TRUST.md ("What each check catches"), for hover text.
 export const MONITOR_INFO = Object.freeze({
-  kinematic: "Compares each position step with the reported speed and course, and with the vessel's stated speed, acceleration and turn-rate limits.",
-  "heading-course": "Compares the track's direction with where the ship points, within the stated crab angle.",
-  "speed-log": "Compares speed over ground with speed through the water, within the stated current allowance.",
-  "sea-level": "Checks that the altitude is where the sea surface and the stated antenna height put it.",
-  "cn0-spread": "Looks for the signature of one transmitter: signal strength across the satellites collapsing together against the calibration baseline.",
-  "cn0-rise": "Looks for the signature of one transmitter: signal strength across the satellites rising together against the baseline.",
-  "time-consistency": "Checks the receiver's time for irregular steps or running backwards, and against this computer's clock for real-time streams.",
-  osnma: "Reads a reported OSNMA authentication failure. The status is read, not verified.",
-  "cn0-drop": "Power denial: signal strength fallen against the calibration baseline.",
-  "loss-of-lock": "Loss of tracked satellites.",
-  agc: "Automatic gain control moved against its baseline.",
-  "jam-ind": "The receiver's own jamming indicator.",
-  "position-jump": "A step in the reported position larger than the baseline allows.",
-  raim: "The receiver autonomous integrity monitoring test statistic against its threshold.",
-  clock: "The clock-aided monitor: the receiver clock against its predicted line.",
-  "solve-failure": "The position solution could not be computed.",
-  "receiver-self-report": "The receiver's own spoofing or jamming flag (for example u-blox UBX-SEC-SIG or NAV-STATUS spoofDetState), shown beside Kshana's monitors. Read from the log, not verified; the slot is ready for the 0.38 engine's monitor and draws as a strip once a result carries it.",
-  geometry: "The satellite geometry (0.36): costs points only when the geometry is poor (HDOP, PDOP or the satellites used beyond their thresholds), capped and never below the degraded band.",
+  get kinematic() { return t("js-trust-mon-kinematic", "Compares each position step with the reported speed and course, and with the vessel's stated speed, acceleration and turn-rate limits."); },
+  get "heading-course"() { return t("js-trust-mon-heading-course", "Compares the track's direction with where the ship points, within the stated crab angle."); },
+  get "speed-log"() { return t("js-trust-mon-speed-log", "Compares speed over ground with speed through the water, within the stated current allowance."); },
+  get "sea-level"() { return t("js-trust-mon-sea-level", "Checks that the altitude is where the sea surface and the stated antenna height put it."); },
+  get "cn0-spread"() { return t("js-trust-mon-cn0-spread", "Looks for the signature of one transmitter: signal strength across the satellites collapsing together against the calibration baseline."); },
+  get "cn0-rise"() { return t("js-trust-mon-cn0-rise", "Looks for the signature of one transmitter: signal strength across the satellites rising together against the baseline."); },
+  get "time-consistency"() { return t("js-trust-mon-time-consistency", "Checks the receiver's time for irregular steps or running backwards, and against this computer's clock for real-time streams."); },
+  get osnma() { return t("js-trust-mon-osnma", "Reads a reported OSNMA authentication failure. The status is read, not verified."); },
+  get "cn0-drop"() { return t("js-trust-mon-cn0-drop", "Power denial: signal strength fallen against the calibration baseline."); },
+  get "loss-of-lock"() { return t("js-trust-mon-loss-of-lock", "Loss of tracked satellites."); },
+  get agc() { return t("js-trust-mon-agc", "Automatic gain control moved against its baseline."); },
+  get "jam-ind"() { return t("js-trust-mon-jam-ind", "The receiver's own jamming indicator."); },
+  get "position-jump"() { return t("js-trust-mon-position-jump", "A step in the reported position larger than the baseline allows."); },
+  get raim() { return t("js-trust-mon-raim", "The receiver autonomous integrity monitoring test statistic against its threshold."); },
+  get clock() { return t("js-trust-mon-clock", "The clock-aided monitor: the receiver clock against its predicted line."); },
+  get "solve-failure"() { return t("js-trust-mon-solve-failure", "The position solution could not be computed."); },
+  get "receiver-self-report"() { return t("js-trust-mon-receiver-self-report", "The receiver's own spoofing or jamming flag (for example u-blox UBX-SEC-SIG or NAV-STATUS spoofDetState), shown beside Kshana's monitors. Read from the log, not verified; the slot is ready for the 0.38 engine's monitor and draws as a strip once a result carries it."); },
+  get geometry() { return t("js-trust-mon-geometry", "The satellite geometry (0.36): costs points only when the geometry is poor (HDOP, PDOP or the satellites used beyond their thresholds), capped and never below the degraded band."); },
 });
 export const KNOWN_MONITORS = Object.freeze(Object.keys(MONITOR_INFO));
 
 export const monitorInfo = (name) =>
-  (Object.hasOwn(MONITOR_INFO, name) && MONITOR_INFO[name]) || "A monitor this view does not have a description for (newer than the page). Treat it as a monitor.";
+  (Object.hasOwn(MONITOR_INFO, name) && MONITOR_INFO[name]) || t("js-trust-mon-unknown", "A monitor this view does not have a description for (newer than the page). Treat it as a monitor.");
 
 // Limits a file is read within: a larger file is refused with a stated reason rather than left to hang the page.
 export const MAX_BYTES = 24 * 1024 * 1024;
@@ -352,10 +353,10 @@ export function buildRun(inputs) {
   let epochs, model = null, monitorsRun = null, events = [], source, states = null, geometryModel = null, geometrySummary = null, selfSummary = null;
   if (inputs.result) {
     const r = inputs.result;
-    if (!Array.isArray(r.epochs)) return { error: "This result file has no epochs[]. It needs to come from `kshana receiver-trust <session.toml>` for a vessel session." };
-    if (!r.score_model) return { error: "This result has no score_model, so it is a static-platform run with no trust score. The view draws vessel (moving-platform) runs." };
+    if (!Array.isArray(r.epochs)) return { error: t("js-trust-err-no-epochs-result", "This result file has no epochs[]. It needs to come from `{ $command }` for a vessel session.", { command: "kshana receiver-trust <session.toml>" }) };
+    if (!r.score_model) return { error: t("js-trust-err-no-score-model", "This result has no score_model, so it is a static-platform run with no trust score. The view draws vessel (moving-platform) runs.") };
     const good = r.epochs.filter((e) => e && typeof e === "object" && isNum(e.t_s));
-    if (good.length < r.epochs.length) notes.push(`${r.epochs.length - good.length} epoch(s) without a numeric t_s were skipped.`);
+    if (good.length < r.epochs.length) notes.push(t("js-trust-note-skipped-epochs", "{ $count } epoch(s) without a numeric t_s were skipped.", { count: r.epochs.length - good.length }));
     epochs = good.map(fromResultEpoch);
     if (typeof r.advisory === "string") advisory = r.advisory;
     model = r.score_model;
@@ -372,19 +373,19 @@ export function buildRun(inputs) {
     // schema 1.2 puts the advisory statement on every line; the first is shown, a different later one is said
     const advs = [...new Set(ok.map((e) => e.advisory).filter((a) => typeof a === "string" && a.trim()))];
     if (advs.length) advisory = advs[0];
-    if (advs.length > 1) notes.push(`The lines carry ${advs.length} different advisory statements; the first is shown.`);
+    if (advs.length > 1) notes.push(t("js-trust-note-advisories", "The lines carry { $count } different advisory statements; the first is shown.", { count: advs.length }));
     source = "lines";
-    notes.push("A live stream does not state which monitors ran or the score model; the band edges below are the documented defaults and the monitor strips show only monitors that cost points.");
+    notes.push(t("js-trust-note-live-no-model", "A live stream does not state which monitors ran or the score model; the band edges below are the documented defaults and the monitor strips show only monitors that cost points."));
   } else if (inputs.csv) {
     advisory = typeof inputs.csv.advisory === "string" ? inputs.csv.advisory : "";
     epochs = inputs.csv.epochs.map((e) => ({ ...e, unknownState: knownState(e.rawState) ? null : String(e.rawState), deductions: cleanDeductions(e.deductions), ratios: table(), pos: null, gate: null, note: null, geometry: null, selfReport: null }));
     source = "csv";
-    notes.push("trust.csv carries scores and reasons but not ratios or positions.");
-  } else return { error: "Nothing to draw: pick a result JSON, JSON lines or trust.csv." };
-  if (!epochs.length) return { error: "The file has no epochs." };
-  if (epochs.length > MAX_EPOCHS) return { error: `The file has ${epochs.length} epochs; this page draws at most ${MAX_EPOCHS}. Open an excerpt.` };
+    notes.push(t("js-trust-note-csv-limits", "trust.csv carries scores and reasons but not ratios or positions."));
+  } else return { error: t("js-trust-err-nothing-to-draw", "Nothing to draw: pick a result JSON, JSON lines or trust.csv.") };
+  if (!epochs.length) return { error: t("js-trust-err-no-epochs", "The file has no epochs.") };
+  if (epochs.length > MAX_EPOCHS) return { error: t("js-trust-err-too-many-epochs", "The file has { $count } epochs; this page draws at most { $max }. Open an excerpt.", { count: epochs.length, max: MAX_EPOCHS }) };
   const unknown = epochs.filter((e) => e.unknownState);
-  if (unknown.length) notes.push(`${unknown.length} epoch(s) carry a state this page does not know (${[...new Set(unknown.map((e) => e.unknownState))].slice(0, 5).join(", ")}); they are drawn as calibrating, never scored.`);
+  if (unknown.length) notes.push(t("js-trust-note-unknown-state", "{ $count } epoch(s) carry a state this page does not know ({ $states }); they are drawn as calibrating, never scored.", { count: unknown.length, states: [...new Set(unknown.map((e) => e.unknownState))].slice(0, 5).join(", ") }));
   epochs.sort((a, b) => a.t_s - b.t_s);
 
   if (!model) model = { nominal_min: 90, degraded_min: 55, onset_ratio: 0.5, full_ratio: 1.5, evidence_hold_s: 10, weights: null, assumed: true };
@@ -392,13 +393,13 @@ export function buildRun(inputs) {
   if (!positions && inputs.nmea) {
     const j = joinFixes(epochs, inputs.nmea.fixes);
     positions = j;
-    if (inputs.nmea.skipped) notes.push(`${inputs.nmea.skipped} NMEA sentence(s) with a bad checksum or fields were skipped.`);
-    if (!j) notes.push("No NMEA fix could be matched to an epoch by time.");
+    if (inputs.nmea.skipped) notes.push(t("js-trust-note-nmea-skipped", "{ $count } NMEA sentence(s) with a bad checksum or fields were skipped.", { count: inputs.nmea.skipped }));
+    if (!j) notes.push(t("js-trust-note-nmea-no-match", "No NMEA fix could be matched to an epoch by time."));
   }
   let truthN = 0;
   if (inputs.truth) {
     truthN = joinTruth(epochs, inputs.truth);
-    if (!truthN) notes.push("The truth file's times match no epoch.");
+    if (!truthN) notes.push(t("js-trust-note-truth-no-match", "The truth file's times match no epoch."));
   }
   const gateDerived = !epochs.some((e) => e.gate);
   if (gateDerived) {
@@ -477,10 +478,10 @@ export function stepIndex(run, i, dir, onlyBad) {
 export function describeEpoch(run, i) {
   const e = run.epochs[i];
   const bits = [`${Math.round(e.t_s)} s`, e.state];
-  if (e.score != null) bits.push(`score ${e.score.toFixed(1)}`);
-  if (e.deductions.length) bits.push("reasons: " + e.deductions.slice().sort((a, b) => b.points - a.points).slice(0, 3).map((d) => `${d.monitor} ${d.points.toFixed(1)} points`).join(", "));
-  if (e.gate && e.gate !== "off") bits.push(`gate ${e.gate}${run.gateDerived ? " (derived)" : ""}`);
-  if (e.offsetM != null) bits.push(`reported position ${Math.round(e.offsetM)} m from true`);
+  if (e.score != null) bits.push(t("js-trust-say-score", "score { $score }", { score: e.score.toFixed(1) }));
+  if (e.deductions.length) bits.push(t("js-trust-say-reasons", "reasons: { $list }", { list: e.deductions.slice().sort((a, b) => b.points - a.points).slice(0, 3).map((d) => t("js-trust-say-monitor-points", "{ $monitor } { $points } points", { monitor: d.monitor, points: d.points.toFixed(1) })).join(", ") }));
+  if (e.gate && e.gate !== "off") bits.push(run.gateDerived ? t("js-trust-say-gate-derived", "gate { $gate } (derived)", { gate: e.gate }) : t("js-trust-say-gate", "gate { $gate }", { gate: e.gate }));
+  if (e.offsetM != null) bits.push(t("js-trust-say-position-from-true", "reported position { $m } m from true", { m: Math.round(e.offsetM) }));
   const geo = describeGeometry(e);
   if (geo) bits.push(geo);
   return bits.join(", ");

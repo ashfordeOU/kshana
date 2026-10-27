@@ -7,17 +7,19 @@
 // lib/views.mjs), each with a node test. Every scenario-derived string reaches the page
 // through textContent, or through an escaping SVG builder whose markup is parsed as XML
 // (never assigned as HTML).
+import { t, ready, fetchData } from "./lib/t.mjs";
 import { encodeFragment, decodeFragment, patchScalar } from "./lib/share.mjs";
 import { parseSvgMarkup, sanitizeSvg } from "./lib/svgsafe.mjs";
 import { chartFilename, fileMeta, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./lib/chartdl.mjs";
 import { attachChartHover, parsePolylineXs } from "./lib/hover.mjs";
+import { renderBadge, withEvidenceCsv } from "./lib/evidence.mjs";
 import { knobsForToml, readKnob, patchSectionScalar } from "./lib/guided.mjs";
 import { orbit3dSvg } from "./lib/orbit3d.mjs";
 import { buildFomRows, figureTier } from "./lib/tabs.mjs";
 import { sweepValues, sweepToml, sweepMetrics, MAX_SWEEP } from "./lib/sweep.mjs";
 import { overlayRows } from "./lib/overlay.mjs";
 import { isEmbed, embedConfig, embedClassList } from "./lib/embed.mjs";
-import { buildReportHtml, reportFilename, fomTier, NOT_APPLICABLE } from "./lib/report.mjs";
+import { buildReportHtml, reportFilename, fomTier, notApplicable } from "./lib/report.mjs";
 // The app's name comes from the page <title>, which the site build writes from src/data/brand.json.
 const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
@@ -37,6 +39,7 @@ import { parseState, buildSearch, isNewEntry, persistentExtras, tabFromLink, vie
 import { kindsOfToml, kindOfToml, rowsForKind, evidenceMix } from "./lib/areas.mjs";
 import { spellOut } from "./lib/abbr.mjs";
 import { GUIDED_KNOBS } from "./lib/guided.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 
 // Recorded runs and native recordings, from one file per scenario or from packs.
 const PACKS = createPackReader();
@@ -65,7 +68,7 @@ const icon = (id) => {
 // Parse chart markup as XML, reduce it to drawing (lib/svgsafe.mjs: no scripts, handlers, outside
 // links or declarations) and adopt the element.
 function svgNode(markup) {
-  const undrawable = () => h("p", { class: "card-note", text: "This chart could not be drawn." });
+  const undrawable = () => h("p", { class: "card-note", text: t("js-app-chart-not-drawn", "This chart could not be drawn.") });
   const root = parseSvgMarkup(markup); // refuses any declaration before parsing (lib/svgsafe.mjs)
   if (!root) return undrawable();
   sanitizeSvg(root);
@@ -118,7 +121,7 @@ async function bootEngine() {
     }
   }
   S.recIndex = await recordedIndex("");
-  if (!S.recIndex) throw new Error(`the engine could not load (${S.liveError || "WebAssembly unavailable"}) and no recorded runs were found`);
+  if (!S.recIndex) throw new Error(t("js-app-engine-no-recordings", "The engine could not load ({ $reason }) and no recorded runs were found.", { reason: S.liveError || t("js-app-webassembly-unavailable", "WebAssembly unavailable") }));
   S.version = S.recIndex.engine_version;
   S.mode = "recorded";
   S.engine = recordedEngine();
@@ -128,7 +131,7 @@ async function bootEngine() {
 // without the application/wasm type cannot stream, so that case compiles from the bytes.
 async function compileEngine(url) {
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`the engine file returned HTTP ${res.status}`);
+  if (!res.ok) throw new Error(t("js-app-engine-file-http", "The engine file returned HTTP { $status }.", { status: res.status }));
   const wasmType = (res.headers.get("Content-Type") || "").startsWith("application/wasm");
   if (wasmType && typeof WebAssembly.compileStreaming === "function") return WebAssembly.compileStreaming(res);
   return WebAssembly.compile(await res.arrayBuffer());
@@ -164,18 +167,18 @@ function recordedEngine() {
     cancel: () => false,
     async call(fn, toml) {
       const rec = S.file ? await loadRecorded(S.file) : null;
-      if (!rec) throw new Error("There is no recorded run for this scenario. It needs the live engine.");
+      if (!rec) throw new Error(t("js-app-no-recorded-run", "There is no recorded run for this scenario. It needs the live engine."));
       if (toml !== rec.toml) throw new Error("EDITED");
       if (fn === "run_all") return JSON.stringify({ json: rec.json, svg: rec.svg, summary: rec.summary, csv: rec.csv, source: rec.source || "", platform: rec.platform || "", command: rec.command || "" });
       if (fn === "run") return rec.json;
       if (fn === "table_csv") return rec.csv;
       if (fn.startsWith("export_")) {
-        const t = rec.exports[fn.slice(7)];
-        if (t === null) throw new Error("This export is large, so it was not recorded. It needs the live engine.");
-        if (!t) throw new Error("none");
-        return t;
+        const text = rec.exports[fn.slice(7)];
+        if (text === null) throw Object.assign(new Error(t("js-app-export-not-recorded", "This export is large, so it was not recorded. It needs the live engine.")), { tooLarge: true });
+        if (!text) throw new Error("none");
+        return text;
       }
-      throw new Error("This needs the live engine.");
+      throw new Error(t("js-app-needs-live-engine", "This needs the live engine."));
     },
   };
 }
@@ -233,7 +236,7 @@ async function runScenario() {
     if (S.engine.canCancel && performance.now() - job.startedAt > SUPERSEDE_MS) S.engine.cancel();
     else { job.rerun = true; return; }
   }
-  const gen = beginJob("Running");
+  const gen = beginJob(t("js-app-job-running", "Running"));
   clearError();
   const src = tomlEl.value, file = S.file;
   let all;
@@ -244,11 +247,11 @@ async function runScenario() {
     if (S.file !== file) { endJob(gen); return; }
     const rerun = job.rerun;
     endJob(gen);
-    if (isCancelled(e)) setStatus(S.run ? "Run cancelled. The previous result is still shown." : "Run cancelled.");
+    if (isCancelled(e)) setStatus(S.run ? t("js-app-run-cancelled-previous", "Run cancelled. The previous result is still shown.") : t("js-app-run-cancelled", "Run cancelled."));
     else if (e.message === "EDITED") {
-      setStatus("Edited scenarios need the live engine.");
+      setStatus(t("js-app-edited-needs-live", "Edited scenarios need the live engine."));
       showNotice(recordedEditNotice());
-    } else { showError(errorMessage(e)); setStatus("Run failed. See the message in the results."); }
+    } else { showError(errorMessage(e)); setStatus(t("js-app-run-failed", "Run failed. See the message in the results.")); }
     if (rerun) runScenario();
     return;
   }
@@ -263,7 +266,7 @@ async function runScenario() {
   S.runCount += 1;
   const entry = entryFor(S.file);
   const run = {
-    id: S.runCount, file: S.file, title: S.shared ? "Shared scenario" : entry ? entry.title : S.file,
+    id: S.runCount, file: S.file, title: S.shared ? t("js-app-shared-scenario", "Shared scenario") : entry ? entry.title : S.file,
     toml: src, result, svg: all.svg || "", summary: all.summary || "", csv: all.csv || null, ms, at: new Date(),
     mode: all.source === "native" ? "native" : S.mode, platform: all.platform || "", command: all.command || "",
   };
@@ -271,7 +274,11 @@ async function runScenario() {
   if (S.history.length > 25) S.history.pop();
   renderRun(run);
   renderHistory();
-  setStatus(`${S.mode === "live" ? "Ran locally" : "Recorded run shown"} at ${run.at.toLocaleTimeString()}, run ${S.runCount}${ms >= 1000 ? `, ${(ms / 1000).toFixed(1)} s` : ""}.`, "ran");
+  {
+    const time = run.at.toLocaleTimeString(), n = S.runCount, took = (ms / 1000).toFixed(1);
+    if (S.mode === "live") setStatus(ms >= 1000 ? t("js-app-ran-locally-took", "Ran locally at { $time }, run { $n }, { $took } s.", { time, n, took }) : t("js-app-ran-locally", "Ran locally at { $time }, run { $n }.", { time, n }), "ran");
+    else setStatus(ms >= 1000 ? t("js-app-recorded-shown-took", "Recorded run shown at { $time }, run { $n }, { $took } s.", { time, n, took }) : t("js-app-recorded-shown-run", "Recorded run shown at { $time }, run { $n }.", { time, n }), "ran");
+  }
   const sum = $("m-big");
   sum.classList.remove("flash"); void sum.offsetWidth; sum.classList.add("flash");
 }
@@ -282,9 +289,9 @@ async function showNewerRun() {
   clearError();
   const need = needsNewerEngine(S.file, S.caps || S.version);
   const rec = await loadRecorded(S.file).catch(() => null);
-  const why = `This scenario needs engine ${need} or later; the engine running here is v${S.version}.`;
-  if (!rec) { showError(`${why} There is no recording of it here.`); setStatus("Needs a newer engine."); return; }
-  if (tomlEl.value !== rec.toml) { showNotice(`${why} Only the recording of the bundled file can be shown: use Reset to see it, or run an edited copy with engine ${need}.`); setStatus(`Edited: needs engine ${need}.`); return; }
+  const why = t("js-app-needs-newer-why", "This scenario needs engine { $need } or later; the engine running here is v{ $version }.", { need, version: S.version });
+  if (!rec) { showError(`${why} ${t("js-app-no-recording-here", "There is no recording of it here.")}`); setStatus(t("js-app-needs-newer-engine", "Needs a newer engine.")); return; }
+  if (tomlEl.value !== rec.toml) { showNotice(`${why} ${t("js-app-only-bundled-recording", "Only the recording of the bundled file can be shown: use Reset to see it, or run an edited copy with engine { $need }.", { need })}`); setStatus(t("js-app-edited-needs-engine", "Edited: needs engine { $need }.", { need })); return; }
   let result;
   try { result = JSON.parse(rec.json); } catch (e) { showError(errorMessage(e)); return; }
   S.runCount += 1;
@@ -293,11 +300,11 @@ async function showNewerRun() {
   S.history.unshift(run);
   if (S.history.length > 25) S.history.pop();
   const stamp = (((await recordedIndex(dirOf(S.file)).catch(() => null)) || {}).runs || {})[S.file.split("/").pop()] || {};
-  const by = /^[0-9a-f]{40}$/.test(stamp.engine_commit || "") ? `an engine build at commit ${stamp.engine_commit.slice(0, 8)}` : `engine v${rec.engine_version || result.engine_version || "?"}`;
-  showNotice(`${why} What you see is the run recorded with ${by}, shown unchanged; it does not re-run here.`);
+  const notice = /^[0-9a-f]{40}$/.test(stamp.engine_commit || "") ? t("js-app-recorded-with-commit", "What you see is the run recorded with an engine build at commit { $commit }, shown unchanged; it does not re-run here.", { commit: stamp.engine_commit.slice(0, 8) }) : t("js-app-recorded-with-engine", "What you see is the run recorded with engine v{ $version }, shown unchanged; it does not re-run here.", { version: rec.engine_version || result.engine_version || "?" });
+  showNotice(`${why} ${notice}`);
   renderRun(run);
   renderHistory();
-  setStatus(`Recorded run shown at ${run.at.toLocaleTimeString()} (needs engine ${need}).`, "ran");
+  setStatus(t("js-app-recorded-shown-needs", "Recorded run shown at { $time } (needs engine { $need }).", { time: run.at.toLocaleTimeString(), need }), "ran");
 }
 
 // A scenario the browser build cannot run: show the run the native command-line engine
@@ -307,12 +314,12 @@ async function showNativeRun() {
   const rec = RECORDED_NATIVELY.includes(S.file) ? await loadRecorded(S.file) : null;
   if (!rec || rec.source !== "native") {
     showError(NOT_IN_BROWSER[S.file]);
-    setStatus("This scenario does not run in the browser.");
+    setStatus(t("js-app-not-in-browser", "This scenario does not run in the browser."));
     return;
   }
   if (tomlEl.value !== rec.toml) {
-    showNotice(`${NOT_IN_BROWSER[S.file]} The recorded run is of the bundled file, so an edited copy cannot be shown here: run it with the command-line tool, or use Reset to see the recording.`);
-    setStatus("Edited: this scenario runs only in the command-line engine.");
+    showNotice(`${NOT_IN_BROWSER[S.file]} ${t("js-app-native-edited-notice", "The recorded run is of the bundled file, so an edited copy cannot be shown here: run it with the command-line tool, or use Reset to see the recording.")}`);
+    setStatus(t("js-app-edited-cli-only", "Edited: this scenario runs only in the command-line engine."));
     return;
   }
   let result;
@@ -325,10 +332,17 @@ async function showNativeRun() {
   showNotice(nativeNotice(run));
   renderRun(run);
   renderHistory();
-  setStatus(`Recorded run shown at ${run.at.toLocaleTimeString()} (native engine).`, "ran");
+  setStatus(t("js-app-recorded-shown-native", "Recorded run shown at { $time } (native engine).", { time: run.at.toLocaleTimeString() }), "ran");
 }
 function nativeNotice(run) {
-  return `${NOT_IN_BROWSER[run.file] || "The browser build cannot run this scenario."} What you see is a run recorded with the native command-line engine v${run.result.engine_version || S.version}${run.platform ? ` (${run.platform})` : ""}${run.command ? ` by running ${run.command}` : ""}, shown unchanged. It does not re-run when you edit.`;
+  const lead = NOT_IN_BROWSER[run.file] || t("js-app-browser-cannot-run", "The browser build cannot run this scenario.");
+  const version = run.result.engine_version || S.version, platform = run.platform, command = run.command;
+  let what;
+  if (platform && command) what = t("js-app-native-recorded-pc", "What you see is a run recorded with the native command-line engine v{ $version } ({ $platform }) by running { $command }, shown unchanged. It does not re-run when you edit.", { version, platform, command });
+  else if (platform) what = t("js-app-native-recorded-p", "What you see is a run recorded with the native command-line engine v{ $version } ({ $platform }), shown unchanged. It does not re-run when you edit.", { version, platform });
+  else if (command) what = t("js-app-native-recorded-c", "What you see is a run recorded with the native command-line engine v{ $version } by running { $command }, shown unchanged. It does not re-run when you edit.", { version, command });
+  else what = t("js-app-native-recorded", "What you see is a run recorded with the native command-line engine v{ $version }, shown unchanged. It does not re-run when you edit.", { version });
+  return `${lead} ${what}`;
 }
 
 function showError(msg) {
@@ -339,10 +353,10 @@ function showError(msg) {
 function clearError() { $("error").hidden = true; $("error").textContent = ""; }
 function showNotice(msg) { const n = $("notice"); n.textContent = msg; n.hidden = !msg; }
 function recordedEditNotice() {
-  return `WebAssembly is blocked on this page, so this page is showing real runs of the bundled scenarios recorded with engine v${S.version}. Edited scenarios, sweeps and new exports need the live engine: open kshana.dev, or serve this folder locally. Reset restores the recorded scenario.`;
+  return t("js-app-recorded-edit-notice", "WebAssembly is blocked on this page, so this page is showing real runs of the bundled scenarios recorded with engine v{ $version }. Edited scenarios, sweeps and new exports need the live engine: open kshana.dev, or serve this folder locally. Reset restores the recorded scenario.", { version: S.version });
 }
 function recordedIntro() {
-  return `WebAssembly is blocked on this page, so this page shows real runs of the bundled scenarios, recorded with engine v${S.version}. Editing, sweeps and new exports need the live engine at kshana.dev.`;
+  return t("js-app-recorded-intro", "WebAssembly is blocked on this page, so this page shows real runs of the bundled scenarios, recorded with engine v{ $version }. Editing, sweeps and new exports need the live engine at kshana.dev.", { version: S.version });
 }
 
 // ------------------------------------------------------------------ render a run
@@ -356,22 +370,22 @@ function renderRun(run) {
   $("sweep-out").hidden = true;
   const r = run.result;
   $("headline").hidden = false;
-  $("summary").textContent = run.summary || "(this scenario publishes no one-line summary)";
+  $("summary").textContent = run.summary || t("js-app-no-summary", "(this scenario publishes no one-line summary)");
   const b = $("hl-badges");
   b.replaceChildren();
   b.append(h("span", { class: `badge ${run.mode === "live" ? "live" : "recorded"}`, text: runSourceText(run) }));
   const tiers = tierCounts(r);
-  if (tiers.validated) b.append(h("span", { class: "badge validated", text: `${tiers.validated} validated` }));
-  if (tiers.modelled) b.append(h("span", { class: "badge modelled", text: `${tiers.modelled} modelled` }));
+  if (tiers.validated) b.append(h("span", { class: "badge validated", text: t("js-app-badge-validated", "{ $n } validated", { n: tiers.validated }) }));
+  if (tiers.modelled) b.append(h("span", { class: "badge modelled", text: t("js-app-badge-modelled", "{ $n } modelled", { n: tiers.modelled }) }));
   const meta = fileMeta(r, S.version, run.toml);
   const m = $("run-meta");
   m.replaceChildren();
   const add = (k, v) => m.append(h("div", {}, h("dt", { text: k }), h("dd", { text: v })));
-  add("engine", `v${meta.ver}`);
-  if (meta.hash) add("scenario", String(meta.hash).slice(0, 12));
-  if (typeof r.seed === "number") add("seed", String(r.seed));
-  add("file", run.file || "shared link");
-  if (run.mode === "live") add("time", `${Math.max(1, Math.round(run.ms))} ms`);
+  add(t("js-app-meta-engine", "engine"), `v${meta.ver}`);
+  if (meta.hash) add(t("js-app-meta-scenario", "scenario"), String(meta.hash).slice(0, 12));
+  if (typeof r.seed === "number") add(t("js-app-meta-seed", "seed"), String(r.seed));
+  add(t("js-app-meta-file", "file"), run.file || t("js-app-meta-shared-link", "shared link"));
+  if (run.mode === "live") add(t("js-app-meta-time", "time"), `${Math.max(1, Math.round(run.ms))} ms`);
   renderAnswer(run);
   renderOverview(r, run.toml);
   buildTabs();
@@ -385,9 +399,9 @@ function renderRun(run) {
 // "Live result · engine vX.Y.Z", or "Recorded result · vX.Y.Z", said plainly.
 function runSourceText(run) {
   const v = (run.result && run.result.engine_version) || S.version;
-  if (run.mode === "live") return `Live result · engine v${S.version}`;
-  if (run.mode === "native") return `Recorded result, native engine · v${v}`;
-  return `Recorded result · v${v}${run.preview ? " · engine loading" : ""}`;
+  if (run.mode === "live") return t("js-app-source-live", "Live result · engine v{ $version }", { version: S.version });
+  if (run.mode === "native") return t("js-app-source-native", "Recorded result, native engine · v{ $version }", { version: v });
+  return run.preview ? t("js-app-source-recorded-loading", "Recorded result · v{ $version } · engine loading", { version: v }) : t("js-app-source-recorded", "Recorded result · v{ $version }", { version: v });
 }
 
 function tierCounts(r) {
@@ -414,6 +428,8 @@ function renderAnswer(run) {
   chips.replaceChildren(h("span", { class: `chip-s2 ${run.mode === "live" ? "live" : "rec"}${run.preview ? " loading" : ""}` }, h("i"), runSourceText(run)));
   const hn = honesty(r);
   if (hn) chips.append(lvlChip(hn.tier, hn.text));
+  const eb = renderBadge(document, r); // the ledger rows behind this result (absent in a run recorded by an older engine)
+  if (eb) chips.append(eb);
   const seen = new Set(S.seen);
   $("m-big").textContent = spellOut(mean.big, seen);
   $("m-line").textContent = spellOut(mean.line, seen);
@@ -439,19 +455,19 @@ function fieldLabelNode(f) {
 
 function renderOverview(r, toml = "") {
   const rows = buildFomRows(r);
-  const t = $("fom-table");
-  t.replaceChildren();
+  const fomT = $("fom-table");
+  fomT.replaceChildren();
   if (rows.length) {
-    t.append(h("thead", {}, h("tr", {}, ["Clock", "Metric", "Value", "Tier"].map((x) => h("th", { text: x })))));
+    fomT.append(h("thead", {}, h("tr", {}, [t("js-app-th-clock", "Clock"), t("js-app-th-metric", "Metric"), t("js-app-th-value", "Value"), t("js-app-th-tier", "Tier")].map((x) => h("th", { text: x })))));
     const tb = h("tbody");
     for (const x of rows) {
       tb.append(h("tr", {},
         h("td", { text: x.clockLabel }),
         h("td", { text: x.unit ? `${x.label} (${x.unit})` : x.label }),
-        h("td", { class: "num", text: x.applicable === false ? NOT_APPLICABLE : V.fmt(x.value) }),
+        h("td", { class: "num", text: x.applicable === false ? notApplicable() : V.fmt(x.value) }),
         h("td", {}, tierPill(x.tier || fomTier(x.metric)))));
     }
-    t.append(tb);
+    fomT.append(tb);
   }
   $("fom-card").hidden = !rows.length;
   let kf = V.keyFigures(r, 40);
@@ -460,12 +476,12 @@ function renderOverview(r, toml = "") {
   if (!kf.length && r && typeof r === "object") {
     const units = r.units || {};
     kf = Object.entries(r).filter(([k, v]) => k !== "units" && (typeof v !== "object" || Array.isArray(v)))
-      .map(([k, v]) => ({ path: k, value: Array.isArray(v) ? `${v.length} entries` : v, unit: (units[k] && units[k].unit !== "1" && units[k].unit) || "", provenance: (units[k] && units[k].provenance) || "", note: (units[k] && units[k].note) || "" }));
+      .map(([k, v]) => ({ path: k, value: Array.isArray(v) ? t("js-app-entries-count", { one: "{ $n } entry", other: "{ $n } entries" }, { n: v.length }) : v, unit: (units[k] && units[k].unit !== "1" && units[k].unit) || "", provenance: (units[k] && units[k].provenance) || "", note: (units[k] && units[k].note) || "" }));
   }
   const k = $("kf-table");
   k.replaceChildren();
   if (kf.length) {
-    k.append(h("thead", {}, h("tr", {}, ["Figure", "Value", "Unit", "Provenance", "What it is"].map((x) => h("th", { text: x })))));
+    k.append(h("thead", {}, h("tr", {}, [t("js-app-th-figure", "Figure"), t("js-app-th-value-2", "Value"), t("js-app-th-unit", "Unit"), t("js-app-th-provenance", "Provenance"), t("js-app-th-what-it-is", "What it is")].map((x) => h("th", { text: x })))));
     const tb = h("tbody");
     for (const x of kf) {
       const ft = figureTier(r, x.path);
@@ -490,9 +506,9 @@ function renderOverview(r, toml = "") {
     const fh = c.filter_health;
     const f3 = (x) => (typeof x === "number" ? x.toFixed(3) : "—");
     hh.append(h("div", { class: `hcard ${fh.consistent ? "ok" : "warn"}` },
-      h("div", { class: "h" }, h("span", { text: c.spec && c.spec.id ? c.spec.id : key }), h("span", { text: fh.consistent ? "consistent" : "check tuning" })),
-      h("p", { text: `NIS ${f3(fh.nis_mean)} (95% band ${f3(fh.nis_chi2_lower_95)}–${f3(fh.nis_chi2_upper_95)}, target 1.0)` }),
-      h("p", { text: `NEES ${f3(fh.nees_mean)} (95% band ${f3(fh.nees_chi2_lower_95)}–${f3(fh.nees_chi2_upper_95)}, target 2.0)` })));
+      h("div", { class: "h" }, h("span", { text: c.spec && c.spec.id ? c.spec.id : key }), h("span", { text: fh.consistent ? t("js-app-health-consistent", "consistent") : t("js-app-health-check-tuning", "check tuning") })),
+      h("p", { text: t("js-app-health-nis-band", "NIS { $mean } (95% band { $lo }–{ $hi }, target 1.0)", { mean: f3(fh.nis_mean), lo: f3(fh.nis_chi2_lower_95), hi: f3(fh.nis_chi2_upper_95) }) }),
+      h("p", { text: t("js-app-health-nees-band", "NEES { $mean } (95% band { $lo }–{ $hi }, target 2.0)", { mean: f3(fh.nees_mean), lo: f3(fh.nees_chi2_lower_95), hi: f3(fh.nees_chi2_upper_95) }) })));
   }
   $("health-card").hidden = !anyH;
   const lab = V.resultLabel(r);
@@ -503,22 +519,22 @@ function renderOverview(r, toml = "") {
 
 // ------------------------------------------------------------------ tabs
 const TAB_DEFS = [
-  { id: "overview", label: "Overview", c: "var(--itg)" },
+  { id: "overview", get label() { return t("js-app-tab-overview", "Overview"); }, c: "var(--itg)" },
   // One view per newer kind (spectrum, solar system, coverage, campaign, the LEO kinds): lib/kinds.mjs.
-  ...K.capabilityTabs().map((t) => ({ id: t.tab, label: t.label, c: t.c, view: "v-cap" })),
-  { id: "timeseries", label: "Time series", c: "var(--tim)" },
-  { id: "signal", label: "Signal & band", c: "var(--int)" },
-  { id: "holdover", label: "Holdover", c: "var(--tim)" },
-  { id: "masks", label: "Timing masks", c: "var(--tim)" },
-  { id: "stability", label: "Stability", c: "var(--spf)" },
-  { id: "orbit", label: "3-D orbit", c: "var(--orb)" },
-  { id: "ground", label: "Ground track", c: "var(--orb)" },
-  { id: "sweep", label: "Sweep", c: "var(--nav)" },
-  { id: "compare", label: "Compare", c: "var(--spf)" },
-  { id: "animation", label: "Animation", c: "var(--spf)" },
-  { id: "report", label: "Engine report", c: "var(--ink-2)" },
-  { id: "exports", label: "Exports & report", c: "var(--ink-2)" },
-  { id: "json", label: "JSON", c: "var(--ink-3)" },
+  ...K.capabilityTabs().map((cap) => ({ id: cap.tab, get label() { return cap.label; }, c: cap.c, view: "v-cap" })),
+  { id: "timeseries", get label() { return t("js-app-tab-timeseries", "Time series"); }, c: "var(--tim)" },
+  { id: "signal", get label() { return t("js-app-tab-signal", "Signal & band"); }, c: "var(--int)" },
+  { id: "holdover", get label() { return t("js-app-tab-holdover", "Holdover"); }, c: "var(--tim)" },
+  { id: "masks", get label() { return t("js-app-tab-masks", "Timing masks"); }, c: "var(--tim)" },
+  { id: "stability", get label() { return t("js-app-tab-stability", "Stability"); }, c: "var(--spf)" },
+  { id: "orbit", get label() { return t("js-app-tab-orbit", "3-D orbit"); }, c: "var(--orb)" },
+  { id: "ground", get label() { return t("js-app-tab-ground", "Ground track"); }, c: "var(--orb)" },
+  { id: "sweep", get label() { return t("js-app-tab-sweep", "Sweep"); }, c: "var(--nav)" },
+  { id: "compare", get label() { return t("js-app-tab-compare", "Compare"); }, c: "var(--spf)" },
+  { id: "animation", get label() { return t("js-app-tab-animation", "Animation"); }, c: "var(--spf)" },
+  { id: "report", get label() { return t("js-app-tab-report", "Engine report"); }, c: "var(--ink-2)" },
+  { id: "exports", get label() { return t("js-app-tab-exports", "Exports & report"); }, c: "var(--ink-2)" },
+  { id: "json", get label() { return t("js-app-tab-json", "JSON"); }, c: "var(--ink-3)" },
 ];
 const VIEW_ID = Object.fromEntries(TAB_DEFS.map((t) => [t.id, t.view || `v-${t.id}`]));
 let available = [];
@@ -660,23 +676,23 @@ function exportSvg(svg, title) {
   const vb = (svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/) || []).slice(1).map(Number);
   const [W, H] = vb.length === 2 ? vb : [760, 340];
   const meta = S.run ? fileMeta(S.run.result, S.version, S.run.toml) : { ver: S.version, hash: "" };
-  const prov = `Kshana v${meta.ver}${meta.hash ? " · scenario " + String(meta.hash).slice(0, 12) : ""} · doi:10.5281/zenodo.20528627 · kshana.dev`;
+  const prov = `Kshana v${meta.ver}${meta.hash ? " · " + t("js-app-chart-scenario-hash", "scenario { $hash }", { hash: String(meta.hash).slice(0, 12) }) : ""} · doi:10.5281/zenodo.20528627 · kshana.dev`;
   const inner = svg.replace(/^<svg[^>]*>/, `<svg x="0" y="34" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`);
-  const out = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H + 58}" viewBox="0 0 ${W} ${H + 58}"><style>${CHART_CSS}</style><rect width="${W}" height="${H + 58}" fill="var(--space)"/><text x="16" y="22" font-size="14" font-weight="700" fill="var(--space-ink)" font-family="system-ui,sans-serif">${V.esc(title || "Kshana chart")}</text>${inner}<text x="${W - 12}" y="${H + 50}" text-anchor="end" font-size="10" fill="var(--space-ink-3)">${V.esc(prov)}</text></svg>`;
+  const out = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H + 58}" viewBox="0 0 ${W} ${H + 58}"><style>${CHART_CSS}</style><rect width="${W}" height="${H + 58}" fill="var(--space)"/><text x="16" y="22" font-size="14" font-weight="700" fill="var(--space-ink)" font-family="system-ui,sans-serif">${V.esc(title || t("js-app-chart-default-title", "Kshana chart"))}</text>${inner}<text x="${W - 12}" y="${H + 50}" text-anchor="end" font-size="10" fill="var(--space-ink-3)">${V.esc(prov)}</text></svg>`;
   return V.resolveVars(out, tokenValue);
 }
 
 function mountTools(toolsId, getSvg, base) {
   const host = typeof toolsId === "string" ? $(toolsId) : toolsId;
   if (!host) return;
-  host.replaceChildren(h("span", { class: "lbl", text: "Download" }));
+  host.replaceChildren(h("span", { class: "lbl", text: t("js-app-download-label", "Download") }));
   const meta = () => (S.run ? fileMeta(S.run.result, S.version, S.run.toml) : null);
-  host.append(h("button", { type: "button", title: "Vector chart with title and provenance", onclick: () => triggerDownload(svgBlob(getSvg()), chartFilename(base, meta(), "svg")), text: "SVG" }));
-  const png = h("button", { type: "button", title: "High-resolution bitmap for slides and documents", text: "PNG" });
+  host.append(h("button", { type: "button", title: t("js-app-svg-button-title", "Vector chart with title and provenance"), onclick: () => triggerDownload(svgBlob(getSvg()), chartFilename(base, meta(), "svg")), text: "SVG" }));
+  const png = h("button", { type: "button", title: t("js-app-png-button-title", "High-resolution bitmap for slides and documents"), text: "PNG" });
   png.addEventListener("click", async () => {
     png.disabled = true;
     try { const s = getSvg(); const { w, h: hh } = svgSize(s); triggerDownload(await svgToPngBlob(s, w, hh, 2), chartFilename(base, meta(), "png")); }
-    catch (e) { toast("PNG export failed: " + errorMessage(e)); }
+    catch (e) { toast(t("js-app-png-export-failed", "PNG export failed: { $reason }", { reason: errorMessage(e) })); }
     finally { png.disabled = false; }
   });
   host.append(png);
@@ -688,7 +704,7 @@ function renderTimeseries() {
   const run = S.run, r = run.result;
   const sm = V.seriesModel(r, run.toml);
   const hasEngine = !!(run.svg && run.svg.length > 200);
-  $("ts-title").textContent = sm ? sm.title : "Engine chart";
+  $("ts-title").textContent = sm ? sm.title : t("js-app-engine-chart", "Engine chart");
   $("ts-live-btn").parentElement.hidden = !(sm && hasEngine);
   if (sm) mountChart("ts-live", V.lineChartSvg(sm), null);
   // Engine chart: the engine's own self-describing SVG, shown through an <img> so it
@@ -697,7 +713,7 @@ function renderTimeseries() {
     if (engineImgUrl) URL.revokeObjectURL(engineImgUrl);
     engineImgUrl = URL.createObjectURL(svgBlob(run.svg));
     const box = $("ts-engine");
-    box.replaceChildren(h("img", { alt: "Engine chart for this run", src: engineImgUrl }));
+    box.replaceChildren(h("img", { alt: t("js-app-engine-chart-alt", "Engine chart for this run"), src: engineImgUrl }));
     attachChartHover("ts-engine", engineHoverModel(run.svg, r));
   }
   setTsMode(sm ? S.tsMode : "engine");
@@ -731,7 +747,7 @@ function engineHoverModel(svgText, result) {
     return null;
   };
   if (!val(q[0]) && !val(c[0])) return null;
-  const ql = result.quantum.spec ? result.quantum.spec.id : "quantum", cl = result.classical.spec ? result.classical.spec.id : "classical";
+  const ql = result.quantum.spec ? result.quantum.spec.id : t("js-app-hover-quantum", "quantum"), cl = result.classical.spec ? result.classical.spec.id : t("js-app-hover-classical", "classical");
   return { wIntrinsic: w, xs: xs.slice(0, n), label: (i) => `t=${Math.round((c[i] && c[i].t) ?? (q[i] && q[i].t) ?? 0)} s · ${ql} ${val(q[i]) ?? "—"} · ${cl} ${val(c[i]) ?? "—"}` };
 }
 
@@ -746,24 +762,24 @@ function renderSignal() {
   for (const b of fieldBox.querySelectorAll("button")) b.setAttribute("aria-pressed", b.dataset.field === (S.sigField || "cn0_effective_dbhz") ? "true" : "false");
   const svg = V.signalHeatmapSvg(sig, { field: S.sigField || "cn0_effective_dbhz" });
   setSvg($("sig-heat"), svg);
-  mountTools("sig-tools", () => exportSvg(svg, "Effective C/N0 by satellite"), "signal");
+  mountTools("sig-tools", () => exportSvg(svg, t("js-app-chart-cn0-by-satellite", "Effective C/N0 by satellite")), "signal");
   $("heat-legend").replaceChildren(h("span", { text: `${V.fmt(sig.cn0Range[0])}` }), h("i", { style: `background:linear-gradient(90deg,${[0, .25, .5, .75, 1].map(V.heat).join(",")})` }), h("span", { text: `${V.fmt(sig.cn0Range[1])} dB-Hz` }));
   const kv = $("band-kv");
   kv.replaceChildren();
   const row = (k, v) => kv.append(h("dt", { text: k }), h("dd", { text: v }));
   const b = sig.band;
-  row("Carrier", b.carrier_hz ? `${V.fmt(b.carrier_hz / 1e6)} MHz` : "not set in this scenario");
-  if (b.chip_rate_hz) row("Chip rate", `${V.fmt(b.chip_rate_hz / 1e6)} Mchip/s`);
-  if (b.jammer_type) row("Jammer type", b.jammer_type);
-  if (b.jammer_bandwidth_mhz) row("Jammer bandwidth", `${V.fmt(b.jammer_bandwidth_mhz)} MHz`);
-  if (b.jammer_power_dbw !== null && b.jammer_power_dbw !== undefined) row("Jammer power", `${V.fmt(b.jammer_power_dbw)} dBW`);
-  if (Number.isFinite(sig.threshold)) row("Tracking threshold", `${V.fmt(sig.threshold)} dB-Hz`);
-  row("Satellites", String(sig.prns.length));
+  row(t("js-app-band-carrier", "Carrier"), b.carrier_hz ? `${V.fmt(b.carrier_hz / 1e6)} MHz` : t("js-app-band-carrier-unset", "not set in this scenario"));
+  if (b.chip_rate_hz) row(t("js-app-band-chip-rate", "Chip rate"), `${V.fmt(b.chip_rate_hz / 1e6)} Mchip/s`);
+  if (b.jammer_type) row(t("js-app-band-jammer-type", "Jammer type"), b.jammer_type);
+  if (b.jammer_bandwidth_mhz) row(t("js-app-band-jammer-bandwidth", "Jammer bandwidth"), `${V.fmt(b.jammer_bandwidth_mhz)} MHz`);
+  if (b.jammer_power_dbw !== null && b.jammer_power_dbw !== undefined) row(t("js-app-band-jammer-power", "Jammer power"), `${V.fmt(b.jammer_power_dbw)} dBW`);
+  if (Number.isFinite(sig.threshold)) row(t("js-app-band-tracking-threshold", "Tracking threshold"), `${V.fmt(sig.threshold)} dB-Hz`);
+  row(t("js-app-band-satellites", "Satellites"), String(sig.prns.length));
   // Band strip: only when the scenario states the carrier, so nothing is assumed.
   const strip = $("band-strip");
   strip.replaceChildren();
   if (b.carrier_hz && (b.chip_rate_hz || b.jammer_bandwidth_mhz)) setSvg(strip, bandStripSvg(b));
-  else if (!b.carrier_hz) strip.append(h("p", { class: "card-note", text: "The engine computes the jammer-to-signal ratio from the link budget. This scenario does not name a carrier frequency, so no spectrum is drawn." }));
+  else if (!b.carrier_hz) strip.append(h("p", { class: "card-note", text: t("js-app-band-no-carrier-note", "The engine computes the jammer-to-signal ratio from the link budget. This scenario does not name a carrier frequency, so no spectrum is drawn.") }));
   const sk = $("sig-kv");
   sk.replaceChildren();
   const units = run.result.units || {};
@@ -772,7 +788,7 @@ function renderSignal() {
     const u = units[`fom.${k}`] || {};
     sk.append(h("dt", { text: V.humanKey(k), title: u.note || "" }), h("dd", { text: `${V.fmt(v)}${u.unit && u.unit !== "1" ? " " + u.unit : ""}` }));
   }
-  if (sig.jsRange) sk.append(h("dt", { text: "J/S range" }), h("dd", { text: `${V.fmt(sig.jsRange[0])} to ${V.fmt(sig.jsRange[1])} dB` }));
+  if (sig.jsRange) sk.append(h("dt", { text: t("js-app-js-range-label", "J/S range") }), h("dd", { text: t("js-app-js-range-value", "{ $lo } to { $hi } dB", { lo: V.fmt(sig.jsRange[0]), hi: V.fmt(sig.jsRange[1]) }) }));
   $("sig-fom-card").hidden = !sk.children.length;
 }
 
@@ -784,13 +800,13 @@ function bandStripSvg(b) {
   const jam = b.jammer_bandwidth_mhz || 0;
   const span = Math.max(lobe * 2.6, jam * 1.3, 2);
   const px = (mhz) => c + (mhz / span) * W;
-  let s = `<svg xmlns="http://www.w3.org/2000/svg" class="band-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Signal and jammer bands around the carrier">`;
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" class="band-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${V.esc(t("js-app-band-svg-label", "Signal and jammer bands around the carrier"))}">`;
   s += `<line x1="0" y1="${H - 24}" x2="${W}" y2="${H - 24}" style="stroke:var(--line-2)"/>`;
-  if (jam) s += `<rect x="${px(-jam / 2)}" y="30" width="${px(jam / 2) - px(-jam / 2)}" height="${H - 54}" style="fill:color-mix(in srgb,var(--int) 22%,transparent);stroke:var(--int);stroke-dasharray:3 3"/><text x="${px(jam / 2) - 4}" y="44" text-anchor="end" style="fill:var(--int)">jammer ${V.esc(V.fmt(jam))} MHz</text>`;
+  if (jam) s += `<rect x="${px(-jam / 2)}" y="30" width="${px(jam / 2) - px(-jam / 2)}" height="${H - 54}" style="fill:color-mix(in srgb,var(--int) 22%,transparent);stroke:var(--int);stroke-dasharray:3 3"/><text x="${px(jam / 2) - 4}" y="44" text-anchor="end" style="fill:var(--int)">${V.esc(t("js-app-band-jammer-mhz", "jammer { $mhz } MHz", { mhz: V.fmt(jam) }))}</text>`;
   if (lobe) {
     let d = `M ${px(-lobe)} ${H - 24}`;
     for (let i = -40; i <= 40; i++) { const f = (i / 40) * lobe; const x = Math.PI * f / lobe; const v = i === 0 ? 1 : (Math.sin(x) / x) ** 2; d += ` L ${px(f).toFixed(1)} ${(H - 24 - v * (H - 64)).toFixed(1)}`; }
-    s += `<path d="${d}" style="fill:color-mix(in srgb,var(--tim) 30%,transparent);stroke:var(--tim)"/><text x="${px(lobe) + 4}" y="${H - 30}">signal main lobe</text>`;
+    s += `<path d="${d}" style="fill:color-mix(in srgb,var(--tim) 30%,transparent);stroke:var(--tim)"/><text x="${px(lobe) + 4}" y="${H - 30}">${V.esc(t("js-app-band-main-lobe", "signal main lobe"))}</text>`;
   }
   s += `<line x1="${c}" y1="16" x2="${c}" y2="${H - 20}" style="stroke:var(--ink-3);stroke-dasharray:2 3"/><text x="${c}" y="12" text-anchor="middle">${V.esc(V.fmt(b.carrier_hz / 1e6))} MHz</text>`;
   s += `<text x="2" y="${H - 8}">−${V.esc(V.fmt(span / 2))} MHz</text><text x="${W - 2}" y="${H - 8}" text-anchor="end">+${V.esc(V.fmt(span / 2))} MHz</text></svg>`;
@@ -806,7 +822,7 @@ function renderHoldover() {
   const sl = $("ho-thr");
   sl.min = "0"; sl.max = String(maxE); sl.step = String(maxE / 400);
   sl.value = String(Number.isFinite(hm.threshold) ? hm.threshold : maxE / 2);
-  $("ho-sub").textContent = hm.loss > 0 ? `error after GNSS was lost at t = ${V.fmt(hm.loss)} s` : "error since the last fix";
+  $("ho-sub").textContent = hm.loss > 0 ? t("js-app-ho-error-after-loss", "error after GNSS was lost at t = { $t } s", { t: V.fmt(hm.loss) }) : t("js-app-ho-error-since-fix", "error since the last fix");
   $("ho-thr-reset").hidden = !Number.isFinite(hm.threshold);
   drawHoldover();
 }
@@ -830,11 +846,11 @@ function drawHoldover() {
     cards.append(h("div", { class: "ho-card", style: `--c:${s.color}` },
       h("div", { class: "k" }, h("i"), s.label),
       h("div", { class: "v", text: tt ? (tt.crossed ? V.fmtDuration(tt.t) : `> ${V.fmtDuration(tt.t)}`) : "—" }),
-      h("div", { class: "e", text: tt && !tt.crossed ? "stays inside this budget for the whole record" : "until the budget is breached" }),
-      eng ? h("div", { class: "e", text: `Engine holdover at the scenario budget${Number.isFinite(hm.threshold) ? ` (${V.fmt(hm.threshold)} ${hm.unit})` : ""}: ${V.fmtDuration(eng.holdover_s)}` }) : null));
+      h("div", { class: "e", text: tt && !tt.crossed ? t("js-app-ho-stays-inside", "stays inside this budget for the whole record") : t("js-app-ho-until-breached", "until the budget is breached") }),
+      eng ? h("div", { class: "e", text: Number.isFinite(hm.threshold) ? t("js-app-ho-engine-budget", "Engine holdover at the scenario budget ({ $budget } { $unit }): { $duration }", { budget: V.fmt(hm.threshold), unit: hm.unit, duration: V.fmtDuration(eng.holdover_s) }) : t("js-app-ho-engine-budget-bare", "Engine holdover at the scenario budget: { $duration }", { duration: V.fmtDuration(eng.holdover_s) }) }) : null));
   });
-  const model = { ...hm, threshold: thr, thresholdLabel: "budget", series: hm.series.map((s) => ({ ...s, points: s.points.map((p) => [p[0], Math.abs(p[1])]) })), yLabel: `|${hm.yLabel}|` };
-  mountChart("ho-chart", V.lineChartSvg(model, { marks }), "ho-tools", "holdover", "Holdover against a timing budget");
+  const model = { ...hm, threshold: thr, thresholdLabel: t("js-app-ho-budget", "budget"), series: hm.series.map((s) => ({ ...s, points: s.points.map((p) => [p[0], Math.abs(p[1])]) })), yLabel: `|${hm.yLabel}|` };
+  mountChart("ho-chart", V.lineChartSvg(model, { marks }), "ho-tools", "holdover", t("js-app-chart-holdover-title", "Holdover against a timing budget"));
 }
 
 function renderMasks() {
@@ -843,31 +859,31 @@ function renderMasks() {
   const vs = $("mask-verdicts");
   vs.replaceChildren();
   for (const m of mm.masks) vs.append(h("div", { class: `verdict ${m.verdict === "PASS" ? "pass" : "fail"}` }, h("b", { text: m.verdict }), h("span", { text: m.title || m.id })));
-  if (mm.envelope && mm.envelope.verdict) vs.append(h("div", { class: `verdict ${mm.envelope.verdict === "PASS" ? "pass" : "fail"}` }, h("b", { text: mm.envelope.verdict }), h("span", { text: `Holdover time-error envelope (${mm.envelope.source || ""})` })));
-  const marksFor = (metric) => mm.masks.flatMap((m) => m.checks.filter((c) => c.metric === metric && Number.isFinite(c.limit_ns) && Number.isFinite(c.worst_tau_s)).map((c) => ({ x: c.worst_tau_s, y: c.limit_ns, color: c.verdict === "PASS" ? "var(--s-itg)" : "var(--s-int)", label: `limit ${V.fmt(c.limit_ns)} ns` })));
-  const mt = V.lineChartSvg({ title: "MTIE", series: [{ label: "MTIE (ns)", color: "var(--s-tim)", points: mm.mtie }], xLabel: "observation interval τ (s)", yLabel: "MTIE (ns)", unit: "ns" }, { logX: true, logY: true, marks: marksFor("mtie"), h: 300 });
-  mountChart("mtie-chart", mt, "mtie-tools", "mtie", "MTIE (maximum time interval error)");
+  if (mm.envelope && mm.envelope.verdict) vs.append(h("div", { class: `verdict ${mm.envelope.verdict === "PASS" ? "pass" : "fail"}` }, h("b", { text: mm.envelope.verdict }), h("span", { text: t("js-app-mask-envelope", "Holdover time-error envelope ({ $source })", { source: mm.envelope.source || "" }) })));
+  const marksFor = (metric) => mm.masks.flatMap((m) => m.checks.filter((c) => c.metric === metric && Number.isFinite(c.limit_ns) && Number.isFinite(c.worst_tau_s)).map((c) => ({ x: c.worst_tau_s, y: c.limit_ns, color: c.verdict === "PASS" ? "var(--s-itg)" : "var(--s-int)", label: t("js-app-mask-limit", "limit { $value } ns", { value: V.fmt(c.limit_ns) }) })));
+  const mt = V.lineChartSvg({ title: "MTIE", series: [{ label: "MTIE (ns)", color: "var(--s-tim)", points: mm.mtie }], xLabel: t("js-app-axis-observation-interval", "observation interval τ (s)"), yLabel: "MTIE (ns)", unit: "ns" }, { logX: true, logY: true, marks: marksFor("mtie"), h: 300 });
+  mountChart("mtie-chart", mt, "mtie-tools", "mtie", t("js-app-chart-mtie-title", "MTIE (maximum time interval error)"));
   if (mm.tdev.length) {
-    const td = V.lineChartSvg({ title: "TDEV", series: [{ label: "TDEV (ns)", color: "var(--s-spf)", points: mm.tdev }], xLabel: "observation interval τ (s)", yLabel: "TDEV (ns)", unit: "ns" }, { logX: true, logY: true, marks: marksFor("tdev"), h: 300 });
-    mountChart("tdev-chart", td, "tdev-tools", "tdev", "TDEV (time deviation)");
+    const td = V.lineChartSvg({ title: "TDEV", series: [{ label: "TDEV (ns)", color: "var(--s-spf)", points: mm.tdev }], xLabel: t("js-app-axis-observation-interval", "observation interval τ (s)"), yLabel: "TDEV (ns)", unit: "ns" }, { logX: true, logY: true, marks: marksFor("tdev"), h: 300 });
+    mountChart("tdev-chart", td, "tdev-tools", "tdev", t("js-app-chart-tdev-title", "TDEV (time deviation)"));
   }
-  const t = $("mask-table");
-  t.replaceChildren(h("thead", {}, h("tr", {}, ["Mask or budget", "Metric", "Value", "Limit", "Margin", "At τ or time", "Verdict", "Source"].map((x) => h("th", { text: x })))));
+  const maskT = $("mask-table");
+  maskT.replaceChildren(h("thead", {}, h("tr", {}, [t("js-app-th-mask-or-budget", "Mask or budget"), t("js-app-th-metric-2", "Metric"), t("js-app-th-value-3", "Value"), t("js-app-th-limit", "Limit"), t("js-app-th-margin", "Margin"), t("js-app-th-at-tau", "At τ or time"), t("js-app-th-verdict", "Verdict"), t("js-app-th-source", "Source")].map((x) => h("th", { text: x })))));
   const tb = h("tbody");
   for (const m of mm.masks) for (const c of m.checks) {
     tb.append(h("tr", {}, h("td", { text: m.title || m.id }), h("td", { text: c.metric }), h("td", { class: "num", text: V.fmt(c.value_ns) }), h("td", { class: "num", text: V.fmt(c.limit_ns) }), h("td", { class: "num", text: V.fmt(c.margin_ns) }), h("td", { class: "num", text: Number.isFinite(c.worst_tau_s) ? `${V.fmt(c.worst_tau_s)} s` : "—" }), h("td", {}, h("b", { class: c.verdict === "PASS" ? "better" : "", text: c.verdict })), h("td", { class: "note", text: c.source || m.recommendation || "" })));
   }
   for (const b of mm.budgets) {
-    tb.append(h("tr", {}, h("td", { text: b.name }), h("td", { text: "max |TE|" }), h("td", { class: "num", text: "—" }), h("td", { class: "num", text: V.fmt(b.max_abs_te_ns) }), h("td", { class: "num", text: "—" }), h("td", { class: "num", text: Number.isFinite(b.time_to_exceed_s) ? `exceeded after ${V.fmtDuration(b.time_to_exceed_s)}` : "not exceeded" }), h("td", {}, h("b", { text: b.exceeded ? "EXCEEDED" : "HELD" })), h("td", { class: "note", text: b.source || "" })));
+    tb.append(h("tr", {}, h("td", { text: b.name }), h("td", { text: "max |TE|" }), h("td", { class: "num", text: "—" }), h("td", { class: "num", text: V.fmt(b.max_abs_te_ns) }), h("td", { class: "num", text: "—" }), h("td", { class: "num", text: Number.isFinite(b.time_to_exceed_s) ? t("js-app-mask-exceeded-after", "exceeded after { $duration }", { duration: V.fmtDuration(b.time_to_exceed_s) }) : t("js-app-mask-not-exceeded", "not exceeded") }), h("td", {}, h("b", { text: b.exceeded ? "EXCEEDED" : "HELD" })), h("td", { class: "note", text: b.source || "" })));
   }
-  t.append(tb);
+  maskT.append(tb);
 }
 
 function renderStability() {
   const curves = V.adevCurves(S.run.result);
   if (!curves.length) return;
-  const chart = V.lineChartSvg({ title: "Allan deviation", series: curves, xLabel: "averaging time τ (s)", yLabel: "σy(τ)", unit: "" }, { logX: true, logY: true });
-  mountChart("adev-chart", chart, "adev-tools", "allan", "Clock stability (overlapping Allan deviation)");
+  const chart = V.lineChartSvg({ title: t("js-app-chart-allan-deviation", "Allan deviation"), series: curves, xLabel: t("js-app-axis-averaging-time", "averaging time τ (s)"), yLabel: "σy(τ)", unit: "" }, { logX: true, logY: true });
+  mountChart("adev-chart", chart, "adev-tools", "allan", t("js-app-chart-stability-title", "Clock stability (overlapping Allan deviation)"));
 }
 
 function renderGround() {
@@ -875,8 +891,8 @@ function renderGround() {
   if (!gt) return;
   const svg = V.groundTrackSvg(gt, { land: S.land || [] });
   setSvg($("gt-chart"), svg);
-  $("gt-note").textContent = `Highlighted: satellite visible from the station.${Number.isFinite(gt.maxElevation) ? ` Peak elevation ${V.fmt(gt.maxElevation)}°.` : ""}${Number.isFinite(gt.peakDoppler) ? ` Peak Doppler ${V.fmt(gt.peakDoppler)} Hz.` : ""}`;
-  mountTools("gt-tools", () => exportSvg(svg, "Ground track"), "ground-track");
+  $("gt-note").textContent = [t("js-app-gt-highlighted", "Highlighted: satellite visible from the station."), Number.isFinite(gt.maxElevation) ? t("js-app-gt-peak-elevation", "Peak elevation { $value }°.", { value: V.fmt(gt.maxElevation) }) : "", Number.isFinite(gt.peakDoppler) ? t("js-app-gt-peak-doppler", "Peak Doppler { $value } Hz.", { value: V.fmt(gt.peakDoppler) }) : ""].filter(Boolean).join(" ");
+  mountTools("gt-tools", () => exportSvg(svg, t("js-app-chart-ground-track", "Ground track")), "ground-track");
 }
 
 // 3-D orbit: Three.js when it loads (drag to rotate), else the dependency-free SVG view.
@@ -902,18 +918,18 @@ async function renderOrbit() {
       three = { T, OrbitControls };
     }
     drawThree(box, track);
-    $("orbit-note").textContent = `Drag to rotate, scroll or pinch to zoom. Earth to scale, NASA Blue Marble imagery.${box.dataset.epoch === "set" ? " Turned to the run's epoch." : " This run does not state an epoch, so Earth's rotation angle is not meaningful here."}`;
+    $("orbit-note").textContent = [t("js-app-orbit-note", "Drag to rotate, scroll or pinch to zoom. Earth to scale, NASA Blue Marble imagery."), box.dataset.epoch === "set" ? t("js-app-orbit-epoch-set", "Turned to the run's epoch.") : t("js-app-orbit-epoch-unset", "This run does not state an epoch, so Earth's rotation angle is not meaningful here.")].join(" ");
   } catch (e) {
     const url = URL.createObjectURL(svgBlob(svgFallback()));
-    box.replaceChildren(h("img", { alt: "Orthographic view of the propagated track", src: url }));
-    $("orbit-note").textContent = "Static view (the 3-D library could not load here).";
+    box.replaceChildren(h("img", { alt: t("js-app-orbit-img-alt", "Orthographic view of the propagated track"), src: url }));
+    $("orbit-note").textContent = t("js-app-orbit-static", "Static view (the 3-D library could not load here).");
   }
 }
 function drawThree(box, track) {
   const { T, OrbitControls } = three;
   if (box._stop) box._stop();
   let canvas = box.querySelector("canvas");
-  if (!canvas) { canvas = h("canvas", { "aria-label": "Interactive 3-D view of the propagated track" }); box.replaceChildren(canvas); }
+  if (!canvas) { canvas = h("canvas", { "aria-label": t("js-app-orbit-canvas-label", "Interactive 3-D view of the propagated track") }); box.replaceChildren(canvas); }
   const renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
   const scene = new T.Scene();
@@ -997,11 +1013,11 @@ function syncSweepControls() {
     if ([...sel.options].some((o) => o.value === prev)) sel.value = prev;
   };
   fill($("sweep-knob"), knobs);
-  fill($("sweep-knob2"), knobs, "None (line chart)");
+  fill($("sweep-knob2"), knobs, t("js-app-sweep-none-line", "None (line chart)"));
   fill($("sweep-metric"), sweepMetricList(run.result));
   seedSweepRange(false);
   $("sweep-run").disabled = S.mode !== "live";
-  if (S.mode !== "live") $("sweep-status").textContent = "A sweep runs the engine many times, so it needs the live engine.";
+  if (S.mode !== "live") $("sweep-status").textContent = t("js-app-sweep-needs-live", "A sweep runs the engine many times, so it needs the live engine.");
 }
 function seedSweepRange(force) {
   const knobs = sweepKnobs(tomlEl.value);
@@ -1036,26 +1052,26 @@ function patchKnob(toml, k, v) {
 async function runSweep() {
   const status = $("sweep-status");
   if (S.mode !== "live") return;
-  if (job.active) { status.textContent = "Wait for the current run to finish, then sweep."; return; }
+  if (job.active) { status.textContent = t("js-app-sweep-wait", "Wait for the current run to finish, then sweep."); return; }
   const knobs = sweepKnobs(tomlEl.value);
   const k1 = knobs.find((x) => x.id === $("sweep-knob").value);
   const k2 = knobs.find((x) => x.id === $("sweep-knob2").value) || null;
   const metric = sweepMetricList(S.run.result).find((m) => m.id === $("sweep-metric").value);
-  if (!k1 || !metric) { status.textContent = "Nothing to sweep for this scenario."; return; }
+  if (!k1 || !metric) { status.textContent = t("js-app-sweep-nothing", "Nothing to sweep for this scenario."); return; }
   const min = parseFloat($("sweep-min").value), max = parseFloat($("sweep-max").value);
   let steps = parseInt($("sweep-steps").value, 10) || 8;
-  if (!Number.isFinite(min) || !Number.isFinite(max)) { status.textContent = "Enter a numeric range."; return; }
+  if (!Number.isFinite(min) || !Number.isFinite(max)) { status.textContent = t("js-app-sweep-enter-range", "Enter a numeric range."); return; }
   let v2 = [null];
   if (k2 && k2.id !== k1.id) {
     const a = parseFloat($("sweep-min2").value), b = parseFloat($("sweep-max2").value);
-    if (!Number.isFinite(a) || !Number.isFinite(b)) { status.textContent = "Enter a numeric range for the second parameter."; return; }
+    if (!Number.isFinite(a) || !Number.isFinite(b)) { status.textContent = t("js-app-sweep-enter-range-2", "Enter a numeric range for the second parameter."); return; }
     steps = Math.min(steps, Math.floor(Math.sqrt(MAX_SWEEP)));
     v2 = valuesFor(k2, a, b, steps);
   }
   const v1 = valuesFor(k1, min, max, steps);
   const total = v1.length * v2.length;
   const base = tomlEl.value;
-  const gen = beginJob("Sweeping");
+  const gen = beginJob(t("js-app-job-sweeping", "Sweeping"));
   const grid = [];
   try {
     let n = 0;
@@ -1063,18 +1079,18 @@ async function runSweep() {
       const rowVals = [];
       for (const a of v1) {
         n += 1;
-        status.textContent = `Sweeping run ${n} of ${total}…`;
-        let t = patchKnob(base, k1, a);
-        if (b !== null) t = patchKnob(t, k2, b);
-        const res = JSON.parse(await S.engine.call("run", t));
+        status.textContent = t("js-app-sweep-progress", "Sweeping run { $n } of { $total }…", { n, total });
+        let src = patchKnob(base, k1, a);
+        if (b !== null) src = patchKnob(src, k2, b);
+        const res = JSON.parse(await S.engine.call("run", src));
         rowVals.push(metric.get(res));
       }
       grid.push(rowVals);
     }
   } catch (e) {
-    if (gen !== job.gen) { status.textContent = "Sweep interrupted by a new run."; return; }
+    if (gen !== job.gen) { status.textContent = t("js-app-sweep-interrupted", "Sweep interrupted by a new run."); return; }
     endJob(gen);
-    status.textContent = isCancelled(e) ? "Sweep cancelled." : `Sweep failed: ${errorMessage(e)}`;
+    status.textContent = isCancelled(e) ? t("js-app-sweep-cancelled", "Sweep cancelled.") : t("js-app-sweep-failed", "Sweep failed: { $reason }", { reason: errorMessage(e) });
     return;
   }
   if (gen !== job.gen) return;
@@ -1084,27 +1100,27 @@ async function runSweep() {
   let svg, title;
   if (v2[0] === null) {
     const pts = v1.map((x, i) => [x, grid[0][i]]).filter((p) => p[1] !== null);
-    title = `${metric.label} against ${k1.label}`;
+    title = t("js-app-sweep-title-1d", "{ $metric } against { $knob }", { metric: metric.label, knob: k1.label });
     const chart = V.lineChartSvg({ title, series: [{ label: metric.label, color: "var(--s-nav)", points: pts }], xLabel: k1.label, yLabel: metric.label, unit: "" }, { logX: !!(k1.field && isLogScale(k1.field)), marks: pts.map((p) => ({ x: p[0], y: p[1], color: "var(--s-nav)" })) });
     mountChart("sweep-chart", chart, null);
     svg = chart.svg;
-    status.textContent = `Swept ${pts.length} of ${total} runs locally in ${ms >= 1000 ? `${(ms / 1000).toFixed(1)} s` : `${Math.max(1, Math.round(ms))} ms`}.`;
+    status.textContent = t("js-app-sweep-done-1d", "Swept { $done } of { $total } runs locally in { $duration }.", { done: pts.length, total, duration: ms >= 1000 ? `${(ms / 1000).toFixed(1)} s` : `${Math.max(1, Math.round(ms))} ms` });
   } else {
-    title = `${metric.label} over ${k1.label} and ${k2.label}`;
+    title = t("js-app-sweep-title-2d", "{ $metric } over { $knob1 } and { $knob2 }", { metric: metric.label, knob1: k1.label, knob2: k2.label });
     svg = heatGridSvg(v1, v2, grid, k1.label, k2.label, metric.label);
     setSvg($("sweep-chart"), svg);
-    status.textContent = `Swept ${total} runs (${v1.length} × ${v2.length}) locally in ${ms >= 1000 ? `${(ms / 1000).toFixed(1)} s` : `${Math.max(1, Math.round(ms))} ms`}.`;
+    status.textContent = t("js-app-sweep-done-2d", "Swept { $total } runs ({ $a } × { $b }) locally in { $duration }.", { total, a: v1.length, b: v2.length, duration: ms >= 1000 ? `${(ms / 1000).toFixed(1)} s` : `${Math.max(1, Math.round(ms))} ms` });
   }
   S.sweepSvg = { svg, title };
   mountTools("sweep-tools", () => exportSvg(svg, title), "sweep");
-  setStatus(`Swept ${total} runs at ${new Date().toLocaleTimeString()}.`, "ran");
+  setStatus(t("js-app-sweep-status-done", "Swept { $total } runs at { $time }.", { total, time: new Date().toLocaleTimeString() }), "ran");
 }
 function heatGridSvg(xs, ys, grid, xl, yl, ml) {
   const W = 760, H = 380, L = 92, Rm = 20, T = 20, B = 52;
   const vals = grid.flat().filter((v) => v !== null && Number.isFinite(v));
   const lo = Math.min(...vals), hi = Math.max(...vals);
   const cw = (W - L - Rm) / xs.length, ch = (H - T - B) / ys.length;
-  let s = `<svg xmlns="http://www.w3.org/2000/svg" class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${V.esc(ml)} heat map"><rect class="c-bg" width="${W}" height="${H}"/>`;
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${V.esc(t("js-app-heat-map-label", "{ $metric } heat map", { metric: ml }))}"><rect class="c-bg" width="${W}" height="${H}"/>`;
   ys.forEach((y, j) => xs.forEach((x, i) => {
     const v = grid[j][i];
     const t = v === null ? 0 : hi > lo ? (v - lo) / (hi - lo) : 1;
@@ -1122,10 +1138,10 @@ function heatGridSvg(xs, ys, grid, xl, yl, ml) {
 const MAX_PINS = 4;
 function pinRun(run = S.run) {
   if (!run) return;
-  if (S.pins.some((p) => p.id === run.id)) { toast("That run is already pinned."); return; }
+  if (S.pins.some((p) => p.id === run.id)) { toast(t("js-app-pin-already", "That run is already pinned.")); return; }
   if (S.pins.length >= MAX_PINS) S.pins.shift();
   S.pins.push(run);
-  toast(S.pins.length < 2 ? `Run ${run.id} pinned. Change a parameter, run again, then pin that run too.` : `${S.pins.length} runs pinned. Opening Compare.`);
+  toast(S.pins.length < 2 ? t("js-app-pin-first", "Run { $id } pinned. Change a parameter, run again, then pin that run too.", { id: run.id }) : t("js-app-pin-compare", "{ $n } runs pinned. Opening Compare.", { n: S.pins.length }));
   buildTabs();
   if (S.pins.length >= 2) selectTab("compare", { scroll: true });
 }
@@ -1133,21 +1149,21 @@ function renderCompare() { renderCompareBase(); renderCompareExtras(); }
 function renderCompareBase() {
   const host = $("pins");
   host.replaceChildren();
-  S.pins.forEach((p, i) => host.append(h("span", { class: "pin" }, h("i", { style: `background:${PALETTE[i]}` }), `${String.fromCharCode(65 + i)} · ${p.title} · run ${p.id}`,
-    h("button", { type: "button", "aria-label": `Unpin run ${p.id}`, onclick: () => { S.pins.splice(i, 1); buildTabs(); } }, icon("i-x")))));
-  const t = $("compare-table");
-  t.replaceChildren();
+  S.pins.forEach((p, i) => host.append(h("span", { class: "pin" }, h("i", { style: `background:${PALETTE[i]}` }), t("js-app-pin-label", "{ $letter } · { $title } · run { $id }", { letter: String.fromCharCode(65 + i), title: p.title, id: p.id }),
+    h("button", { type: "button", "aria-label": t("js-app-unpin-run", "Unpin run { $id }", { id: p.id }), onclick: () => { S.pins.splice(i, 1); buildTabs(); } }, icon("i-x")))));
+  const cmpT = $("compare-table");
+  cmpT.replaceChildren();
   const note = $("compare-note");
   $("compare-chart-card").hidden = true;
-  if (S.pins.length < 2) { note.textContent = "Pin at least two runs to compare them side by side. Pin a run, change a parameter or pick another scenario of the same family, run it, and pin again."; return; }
+  if (S.pins.length < 2) { note.textContent = t("js-app-compare-pin-two", "Pin at least two runs to compare them side by side. Pin a run, change a parameter or pick another scenario of the same family, run it, and pin again."); return; }
   const runs = S.pins.map((p, i) => ({ label: String.fromCharCode(65 + i), result: p.result }));
   const rows = overlayRows(runs);
-  if (!rows.length) { note.textContent = "These runs share no comparable figures of merit. Pin runs of the same scenario family to see numbers and deltas."; return; }
-  note.textContent = "Deltas are against run A. Green marks the better value for each figure.";
+  if (!rows.length) { note.textContent = t("js-app-compare-none", "These runs share no comparable figures of merit. Pin runs of the same scenario family to see numbers and deltas."); return; }
+  note.textContent = t("js-app-compare-deltas", "Deltas are against run A. Green marks the better value for each figure.");
   const hasClock = rows.some((r) => r.clockLabel);
-  const heads = [...(hasClock ? ["Clock"] : []), "Figure"].map((x) => h("th", { text: x }));
+  const heads = [...(hasClock ? [t("js-app-th-clock", "Clock")] : []), t("js-app-th-figure", "Figure")].map((x) => h("th", { text: x }));
   runs.forEach((r, i) => heads.push(h("th", {}, h("span", { class: "sw", style: `background:${PALETTE[i]}` }), r.label)));
-  t.append(h("thead", {}, h("tr", {}, heads)));
+  cmpT.append(h("thead", {}, h("tr", {}, heads)));
   const tb = h("tbody");
   for (const r of rows) {
     const tr = h("tr", {}, ...(hasClock ? [h("td", { text: r.clockLabel })] : []), h("td", { text: r.unit ? `${r.label} (${r.unit})` : r.label }));
@@ -1163,7 +1179,7 @@ function renderCompareBase() {
     });
     tb.append(tr);
   }
-  t.append(tb);
+  cmpT.append(tb);
   // Overlay chart: each run's last series on shared axes, plus B − A when there are two.
   const models = S.pins.map((p) => V.seriesModel(p.result, p.toml));
   if (models.every((m) => m && m.unit === models[0].unit)) {
@@ -1172,7 +1188,7 @@ function renderCompareBase() {
       const [a, b] = series;
       series.push({ label: "B − A", color: "var(--s-int)", points: b.points.map((p) => { const q = V.nearestByX(a.points, p[0]); return [p[0], p[1] - q[1]]; }) });
     }
-    const title = series.length === 3 ? "Overlay with the difference B − A" : "Overlay of pinned runs";
+    const title = series.length === 3 ? t("js-app-overlay-with-diff", "Overlay with the difference B − A") : t("js-app-overlay-pinned", "Overlay of pinned runs");
     $("compare-chart-title").textContent = title;
     mountChart("compare-chart", V.lineChartSvg({ title, series, xLabel: models[0].xLabel, yLabel: models[0].yLabel, unit: models[0].unit, outages: models[0].outages }), "compare-tools", "compare", title);
     $("compare-chart-card").hidden = false;
@@ -1180,10 +1196,10 @@ function renderCompareBase() {
 }
 
 // ------------------------------------------------------------------ exports + report
-const EXPORTERS = [
-  ["SP3", "export_sp3", "sp3", "SP3-c precise ephemeris of this constellation", "text/plain", "var(--orb)"],
-  ["OMM", "export_omm", "omm", "CCSDS OMM (Orbit Mean-elements Message) catalogue", "text/plain", "var(--orb)"],
-  ["OEM", "export_oem", "oem", "CCSDS OEM 2.0 (Orbit Ephemeris Message) for GMAT, Orekit or STK", "text/plain", "var(--orb)"],
+const EXPORTERS = () => [
+  ["SP3", "export_sp3", "sp3", t("js-app-export-sp3-desc", "SP3-c precise ephemeris of this constellation"), "text/plain", "var(--orb)"],
+  ["OMM", "export_omm", "omm", t("js-app-export-omm-desc", "CCSDS OMM (Orbit Mean-elements Message) catalogue"), "text/plain", "var(--orb)"],
+  ["OEM", "export_oem", "oem", t("js-app-export-oem-desc", "CCSDS OEM 2.0 (Orbit Ephemeris Message) for GMAT, Orekit or STK"), "text/plain", "var(--orb)"],
 ];
 async function renderExports() {
   const run = S.run;
@@ -1191,52 +1207,52 @@ async function renderExports() {
   const meta = fileMeta(run.result, S.version, run.toml);
   const card = (fmtLabel, title, desc, c, onClick, disabled) => h("button", { class: "exp", type: "button", style: `--c:${c}`, disabled: disabled || null, onclick: onClick }, h("span", { class: "f", text: fmtLabel }), h("b", { text: title }), h("span", { text: desc }));
   const items = [
-    card("HTML", "Reproducible report", "One offline file: summary, figures with their tiers, every chart and the exact scenario text, stamped with engine version and scenario hash.", "var(--ink)", downloadReport),
-    card("JSON", "Full result document", "The engine's complete output for this run, units and provenance included.", "var(--spf)", () => triggerDownload(new Blob([JSON.stringify(run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json"))),
-    card("TOML", "Scenario file", "The exact input of this run. Run it again anywhere with the command-line tool or the Python and npm packages.", "var(--tim)", () => triggerDownload(new Blob([run.toml], { type: "text/plain" }), chartFilename("scenario", meta, "toml"))),
+    card("HTML", t("js-app-export-report-title", "Reproducible report"), t("js-app-export-report-desc", "One offline file: summary, figures with their tiers, every chart and the exact scenario text, stamped with engine version and scenario hash."), "var(--ink)", downloadReport),
+    card("JSON", t("js-app-export-json-title", "Full result document"), t("js-app-export-json-desc", "The engine's complete output for this run, units and provenance included."), "var(--spf)", () => triggerDownload(new Blob([JSON.stringify(run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json"))),
+    card("TOML", t("js-app-export-toml-title", "Scenario file"), t("js-app-export-toml-desc", "The exact input of this run. Run it again anywhere with the command-line tool or the Python and npm packages."), "var(--tim)", () => triggerDownload(new Blob([run.toml], { type: "text/plain" }), chartFilename("scenario", meta, "toml"))),
   ];
-  if (run.csv) items.push(card("CSV", "Reproducibility table", "The same bytes the command-line tool writes as <scenario>.table.csv.", "var(--itg)", () => triggerDownload(new Blob([run.csv], { type: "text/csv" }), chartFilename("table", meta, "csv"))));
+  if (run.csv) items.push(card("CSV", t("js-app-export-csv-title", "Reproducibility table"), t("js-app-export-csv-desc", "The same bytes the command-line tool writes as { $file }.", { file: "<scenario>.table.csv" }), "var(--itg)", () => triggerDownload(new Blob([withEvidenceCsv(run.csv, run.result)], { type: "text/csv" }), chartFilename("table", meta, "csv"))));
   grid.replaceChildren(...items);
   renderInterop(run);
   // Standards-track ephemeris exports: asked of the engine once per run, when this tab opens.
   if (!(run.result && Array.isArray(run.result.eci_track))) return;
-  if (!S.engine) { grid.append(h("p", { class: "card-note", text: "The ephemeris exports appear here when the engine has loaded." })); return; }
+  if (!S.engine) { grid.append(h("p", { class: "card-note", text: t("js-app-export-engine-loading", "The ephemeris exports appear here when the engine has loaded.") })); return; }
   let ex = S.exportsCache.get(run.id);
   if (!ex) {
-    const pending = h("p", { class: "card-note", text: "Checking which ephemeris formats this run can export…" });
+    const pending = h("p", { class: "card-note", text: t("js-app-export-checking", "Checking which ephemeris formats this run can export…") });
     grid.append(pending);
     ex = [];
-    for (const [label, fn, ext, desc, mime, c] of EXPORTERS) {
+    for (const [label, fn, ext, desc, mime, c] of EXPORTERS()) {
       try { const text = await S.engine.call(fn, run.toml); if (text && text.trim()) ex.push({ label, ext, desc, mime, c, text }); }
-      catch (e) { if (/large/.test(errorMessage(e))) ex.push({ label, ext, desc: `${desc}. Too large to record: needs the live engine.`, mime, c, text: null }); }
+      catch (e) { if (e.tooLarge || /large/.test(errorMessage(e))) ex.push({ label, ext, desc: t("js-app-export-too-large", "{ $desc }. Too large to record: needs the live engine.", { desc }), mime, c, text: null }); }
     }
     S.exportsCache.set(run.id, ex);
     pending.remove();
     if (S.run !== run || S.activeTab !== "exports") return;
   }
-  for (const x of ex) grid.append(card(x.label, `${x.label} export`, x.desc, x.c, () => triggerDownload(new Blob([x.text], { type: x.mime }), chartFilename(x.ext, meta, x.ext)), !x.text));
+  for (const x of ex) grid.append(card(x.label, t("js-app-export-card-title", "{ $format } export", { format: x.label }), x.desc, x.c, () => triggerDownload(new Blob([x.text], { type: x.mime }), chartFilename(x.ext, meta, x.ext)), !x.text));
 }
 function downloadReport() {
   const run = S.run;
   if (!run) return;
   const r = run.result;
   const svgs = [];
-  if (run.svg) svgs.push({ title: "Engine chart", svg: run.svg });
+  if (run.svg) svgs.push({ title: t("js-app-engine-chart", "Engine chart"), svg: run.svg });
   const sm = V.seriesModel(r, run.toml);
   if (sm) svgs.push({ title: sm.title, svg: exportSvg(V.lineChartSvg(sm).svg, sm.title) });
   const curves = V.adevCurves(r);
-  if (curves.length) svgs.push({ title: "Clock stability (Allan deviation)", svg: exportSvg(V.lineChartSvg({ series: curves, xLabel: "τ (s)", yLabel: "σy(τ)" }, { logX: true, logY: true }).svg, "Clock stability") });
+  if (curves.length) svgs.push({ title: t("js-app-report-stability-title", "Clock stability (Allan deviation)"), svg: exportSvg(V.lineChartSvg({ series: curves, xLabel: "τ (s)", yLabel: "σy(τ)" }, { logX: true, logY: true }).svg, t("js-app-report-stability-short", "Clock stability")) });
   const sig = V.signalModel(r, run.toml);
-  if (sig) svgs.push({ title: "Effective C/N0 by satellite", svg: exportSvg(V.signalHeatmapSvg(sig), "Effective C/N0 by satellite") });
+  if (sig) svgs.push({ title: t("js-app-chart-cn0-by-satellite", "Effective C/N0 by satellite"), svg: exportSvg(V.signalHeatmapSvg(sig), t("js-app-chart-cn0-by-satellite", "Effective C/N0 by satellite")) });
   const track = V.orbitTrackKm(r);
-  if (track) svgs.push({ title: "Orbit (Earth-centred inertial, orthographic)", svg: orbit3dSvg({ trackKm: track, satsKm: [], view: { az_deg: 35, el_deg: 22 } }, fileMeta(r, S.version, run.toml)) });
+  if (track) svgs.push({ title: t("js-app-report-orbit-title", "Orbit (Earth-centred inertial, orthographic)"), svg: orbit3dSvg({ trackKm: track, satsKm: [], view: { az_deg: 35, el_deg: 22 } }, fileMeta(r, S.version, run.toml)) });
   const mm = V.masksModel(r);
   if (mm) {
-    svgs.push({ title: "MTIE (maximum time interval error)", svg: exportSvg(V.lineChartSvg({ series: [{ label: "MTIE (ns)", color: "var(--s-tim)", points: mm.mtie }], xLabel: "τ (s)", yLabel: "MTIE (ns)" }, { logX: true, logY: true }).svg, "MTIE") });
-    if (mm.tdev.length) svgs.push({ title: "TDEV (time deviation)", svg: exportSvg(V.lineChartSvg({ series: [{ label: "TDEV (ns)", color: "var(--s-spf)", points: mm.tdev }], xLabel: "τ (s)", yLabel: "TDEV (ns)" }, { logX: true, logY: true }).svg, "TDEV") });
+    svgs.push({ title: t("js-app-chart-mtie-title", "MTIE (maximum time interval error)"), svg: exportSvg(V.lineChartSvg({ series: [{ label: "MTIE (ns)", color: "var(--s-tim)", points: mm.mtie }], xLabel: "τ (s)", yLabel: "MTIE (ns)" }, { logX: true, logY: true }).svg, "MTIE") });
+    if (mm.tdev.length) svgs.push({ title: t("js-app-chart-tdev-title", "TDEV (time deviation)"), svg: exportSvg(V.lineChartSvg({ series: [{ label: "TDEV (ns)", color: "var(--s-spf)", points: mm.tdev }], xLabel: "τ (s)", yLabel: "TDEV (ns)" }, { logX: true, logY: true }).svg, "TDEV") });
   }
   const gt = V.groundTrack(r);
-  if (gt) svgs.push({ title: "Ground track", svg: exportSvg(V.groundTrackSvg(gt), "Ground track") });
+  if (gt) svgs.push({ title: t("js-app-chart-ground-track", "Ground track"), svg: exportSvg(V.groundTrackSvg(gt), t("js-app-chart-ground-track", "Ground track")) });
   if (S.sweepSvg) svgs.push({ title: S.sweepSvg.title, svg: exportSvg(S.sweepSvg.svg, S.sweepSvg.title) });
   for (const c of capabilityCharts(run)) svgs.push({ title: c.title, svg: exportSvg(c.svg, c.title) });
   let fomRows = buildFomRows(r);
@@ -1244,7 +1260,7 @@ function downloadReport() {
   const meta = fileMeta(r, S.version, run.toml);
   const html = buildReportHtml({ engineVersion: meta.ver, scenarioHash: meta.hash, toml: run.toml, summaryText: run.summary, fomRows, svgs, generatedIso: new Date().toISOString() });
   triggerDownload(new Blob([html], { type: "text/html" }), reportFilename(meta));
-  toast("Report downloaded.");
+  toast(t("js-app-report-downloaded", "Report downloaded."));
 }
 
 // ------------------------------------------------------------------ capability views (the newer kinds)
@@ -1255,18 +1271,26 @@ function downloadReport() {
 const players = [];
 function stopPlayers() { for (const p of players.splice(0)) p.stop(); }
 
+// The spoken names of a player's controls, by kind of replay.
+function playerWords(name) {
+  if (name === "waterfall replay") return { play: t("js-app-player-play-waterfall", "Play the waterfall replay"), pause: t("js-app-player-pause-waterfall", "Pause the waterfall replay"), position: t("js-app-player-position-waterfall", "Position in the waterfall replay") };
+  if (name === "orbit replay") return { play: t("js-app-player-play-orbit", "Play the orbit replay"), pause: t("js-app-player-pause-orbit", "Pause the orbit replay"), position: t("js-app-player-position-orbit", "Position in the orbit replay") };
+  if (name === "mission replay") return { play: t("js-app-player-play-mission", "Play the mission replay"), pause: t("js-app-player-pause-mission", "Pause the mission replay"), position: t("js-app-player-position-mission", "Position in the mission replay") };
+  return { play: t("js-app-player-play", "Play the replay"), pause: t("js-app-player-pause", "Pause the replay"), position: t("js-app-player-position", "Position in the replay") };
+}
 // Play / scrub control over n frames. onFrame(k) draws frame k; label(k) names it.
 function makePlayer({ n, label, onFrame, rate = 6, name = "replay" }) {
   let k = n - 1, timer = 0;
-  const btn = h("button", { class: "play-btn", type: "button", "aria-label": `Play the ${name}`, "aria-pressed": "false" }, icon("i-play"));
-  const range = h("input", { type: "range", min: "0", max: String(Math.max(0, n - 1)), step: "1", "aria-label": `Position in the ${name}` });
+  const words = playerWords(name);
+  const btn = h("button", { class: "play-btn", type: "button", "aria-label": words.play, "aria-pressed": "false" }, icon("i-play"));
+  const range = h("input", { type: "range", min: "0", max: String(Math.max(0, n - 1)), step: "1", "aria-label": words.position });
   const out = h("output", { class: "play-out" });
   const paint = () => { range.value = String(k); range.style.setProperty("--p", `${n > 1 ? (k / (n - 1)) * 100 : 100}%`); out.textContent = label(k); onFrame(k); };
-  const stop = () => { if (!timer) return; clearInterval(timer); timer = 0; btn.replaceChildren(icon("i-play")); btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-label", `Play the ${name}`); };
+  const stop = () => { if (!timer) return; clearInterval(timer); timer = 0; btn.replaceChildren(icon("i-play")); btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-label", words.play); };
   const play = () => {
     if (timer || n < 2) return;
     if (k >= n - 1) k = 0;
-    btn.replaceChildren(icon("i-pause")); btn.setAttribute("aria-pressed", "true"); btn.setAttribute("aria-label", `Pause the ${name}`);
+    btn.replaceChildren(icon("i-pause")); btn.setAttribute("aria-pressed", "true"); btn.setAttribute("aria-label", words.pause);
     paint();
     timer = setInterval(() => { if (k >= n - 1) { stop(); return; } k += 1; paint(); }, 1000 / rate);
   };
@@ -1308,12 +1332,12 @@ function panelNode(p, r) {
     return h("div", { class: "card scope span-2", "data-w": "6", "data-panel": "line", "data-src": (p.src || []).map((x) => x.path).join(" ") }, h("div", { class: "card-head" }, h("h3", { text: p.title })), box, p.note ? h("p", { class: "card-note on-space", text: p.note }) : null, tools);
   }
   if (p.type === "hist") {
-    const hs = G.histogramSvg(K.resolve(r, p.path), { unit: p.unit, title: p.title, xLabel: p.unit && p.unit !== "1" ? p.unit : "value", marks: (p.marks || []).map((m) => ({ label: m.label, value: K.resolve(r, m.path) })) });
+    const hs = G.histogramSvg(K.resolve(r, p.path), { unit: p.unit, title: p.title, xLabel: p.unit && p.unit !== "1" ? p.unit : t("js-app-axis-value", "value"), marks: (p.marks || []).map((m) => ({ label: m.label, value: K.resolve(r, m.path) })) });
     if (!hs.svg) return null;
     const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" });
     setSvg(box, hs.svg);
     mountTools(tools, () => exportSvg(hs.svg, p.title), slug(p.title));
-    const marks = h("p", { class: "card-note on-space" }, `${(K.resolve(r, p.path) || []).length} runs. `, ...(p.marks || []).flatMap((m) => [`${m.label} `, bound("b", r, m.path, { unit: p.unit }), "  "]));
+    const marks = h("p", { class: "card-note on-space" }, t("js-app-hist-runs", "{ $n } runs.", { n: (K.resolve(r, p.path) || []).length }) + " ", ...(p.marks || []).flatMap((m) => [`${m.label} `, bound("b", r, m.path, { unit: p.unit }), "  "]));
     return h("div", { class: "card scope span-2", "data-w": "6", "data-panel": "hist", "data-src": p.path }, h("div", { class: "card-head" }, h("h3", { text: p.title })), box, marks, tools);
   }
   const tw = p.type === "table" ? (p.wide || (p.cols || []).length > 4 ? 12 : 6) : p.type === "kv" || p.type === "list" ? (p.wide ? 8 : 4) : p.type === "chips" ? 6 : 12;
@@ -1381,9 +1405,9 @@ function renderCapability() {
 
 // The replay control that drives every panel of a stage: one scrubber, on its own tile.
 function transportCard(playerHost, extra = []) {
-  return h("div", { class: "card scope transport", "data-w": "12", "aria-label": "Replay: one scrubber drives every panel of this run" },
-    h("div", { class: "card-head row" }, h("h3", {}, "Replay ", h("small", { text: "one scrubber drives every panel of this run" }))),
-    h("div", { class: "tp-row" }, h("span", { class: "tp-lbl", text: "Replay" }), playerHost), ...extra);
+  return h("div", { class: "card scope transport", "data-w": "12", "aria-label": t("js-app-transport-label", "Replay: one scrubber drives every panel of this run") },
+    h("div", { class: "card-head row" }, h("h3", {}, t("js-app-replay", "Replay"), " ", h("small", { text: t("js-app-transport-hint", "one scrubber drives every panel of this run") }))),
+    h("div", { class: "tp-row" }, h("span", { class: "tp-lbl", text: t("js-app-replay", "Replay") }), playerHost), ...extra);
 }
 
 // On a phone the capability view shows one of its tiles at a time, picked here.
@@ -1393,7 +1417,7 @@ function paintPhoneSubtabs() {
   if (bar) bar.remove();
   const tiles = [...host.querySelectorAll(".card")].filter((c) => !c.classList.contains("transport") && c.querySelector("h3"));
   if (tiles.length < 2) { for (const t of tiles) t.classList.add("is-sub"); return; }
-  bar = h("div", { class: "subtabs", role: "group", "aria-label": "Tiles of this view (phone)" });
+  bar = h("div", { class: "subtabs", role: "group", "aria-label": t("js-app-subtabs-label", "Tiles of this view (phone)") });
   const pick = (i) => { tiles.forEach((t, j) => t.classList.toggle("is-sub", j === i)); for (const [j, b] of [...bar.children].entries()) b.setAttribute("aria-pressed", j === i ? "true" : "false"); };
   tiles.forEach((t, i) => { const title = (t.querySelector("h3").firstChild || {}).textContent || t.querySelector("h3").textContent; bar.append(h("button", { type: "button", text: String(title).trim().slice(0, 34), onclick: () => pick(i) })); });
   host.prepend(bar);
@@ -1409,16 +1433,16 @@ function stageSpectrum(host, r) {
   const box = h("div", { class: "chart-box wf-box" }), side = h("div", { class: "wf-side", "aria-live": "off" });
   const tip = h("div", { class: "hover-tip", hidden: true });
   const tools = h("div", { class: "chart-tools" }), legend = h("div", { class: "legend-heat" }), playerHost = h("div");
-  const seg = frames.length > 1 ? h("div", { class: "seg dark wrap", role: "group", "aria-label": "Which part of the spectrum" }, frames.map((f, i) => h("button", { type: "button", "data-frame": f.id, text: f.name, onclick: () => { fi = i; draw(); } }))) : null;
-  const sliceBox = h("div", { class: "chart-box" }), sliceTools = h("div", { class: "chart-tools" }), sliceTitle = h("h3", { text: "Spectrum along the row on show" });
+  const seg = frames.length > 1 ? h("div", { class: "seg dark wrap", role: "group", "aria-label": t("js-app-spectrum-which-part", "Which part of the spectrum") }, frames.map((f, i) => h("button", { type: "button", "data-frame": f.id, text: f.name, onclick: () => { fi = i; draw(); } }))) : null;
+  const sliceBox = h("div", { class: "chart-box" }), sliceTools = h("div", { class: "chart-tools" }), sliceTitle = h("h3", { text: t("js-app-spectrum-row-title", "Spectrum along the row on show") });
   host.append(
     transportCard(playerHost),
     h("div", { class: "card scope", "data-w": "8", "data-stage": "spectrum" },
-      h("div", { class: "card-head row" }, h("h3", {}, "Waterfall ", h("small", { text: "power spectral density: frequency across, time down" })), seg, legend),
+      h("div", { class: "card-head row" }, h("h3", {}, t("js-app-waterfall", "Waterfall"), " ", h("small", { text: t("js-app-waterfall-hint", "power spectral density: frequency across, time down") })), seg, legend),
       h("div", { class: "wf-grid" }, box, side),
-      h("p", { class: "card-note on-space", text: "Colour is power above the receiver's noise floor. The navigation signals sit under that floor, so what lights up is the jammers. Play the replay or drag it, and the bands on the right show what the receiver still tracks at that moment." }),
+      h("p", { class: "card-note on-space", text: t("js-app-waterfall-note", "Colour is power above the receiver's noise floor. The navigation signals sit under that floor, so what lights up is the jammers. Play the replay or drag it, and the bands on the right show what the receiver still tracks at that moment.") }),
       tools),
-    h("div", { class: "card scope", "data-w": "4" }, h("div", { class: "card-head" }, sliceTitle), sliceBox, h("p", { class: "card-note on-space", text: "The spectrum along the waterfall row the replay is on." }), sliceTools));
+    h("div", { class: "card scope", "data-w": "4" }, h("div", { class: "card-head" }, sliceTitle), sliceBox, h("p", { class: "card-note on-space", text: t("js-app-spectrum-row-note", "The spectrum along the waterfall row the replay is on.") }), sliceTools));
   const tl = r.timeline, thr = K.resolve(r, "receiver.tracking_threshold_dbhz");
   const top = Math.max(...(r.bands || []).map((b) => b.nominal_cn0_dbhz).filter(Number.isFinite), Number.isFinite(thr) ? thr : 0, 1);
   let frame, geo, player;
@@ -1434,7 +1458,7 @@ function stageSpectrum(host, r) {
     side.replaceChildren();
     if (tl && Array.isArray(tl.t_s) && Array.isArray(tl.bands)) {
       const kt = G.nearestIndex(tl.t_s, frame.t[k]);
-      side.append(h("p", { class: "wf-k" }, "Receiver at t = ", bound("b", r, `timeline.t_s[${kt}]`, { unit: "s" })));
+      side.append(h("p", { class: "wf-k" }, t("js-app-receiver-at", "Receiver at t ="), " ", bound("b", r, `timeline.t_s[${kt}]`, { unit: "s" })));
       const list = h("ul", { class: "wf-bands" });
       tl.bands.forEach((b, i) => {
         const cn0 = b.cn0_effective_dbhz[kt], lost = Number.isFinite(thr) && Number.isFinite(cn0) ? cn0 < thr : b.status[kt] !== "LOCKED";
@@ -1445,7 +1469,7 @@ function stageSpectrum(host, r) {
           bound("span", r, `timeline.bands[${i}].status[${kt}]`, { class: "st" })));
       });
       side.append(list);
-      if (Number.isFinite(thr)) side.append(h("p", { class: "wf-k" }, "Tracking threshold ", bound("b", r, "receiver.tracking_threshold_dbhz")));
+      if (Number.isFinite(thr)) side.append(h("p", { class: "wf-k" }, t("js-app-tracking-threshold", "Tracking threshold"), " ", bound("b", r, "receiver.tracking_threshold_dbhz")));
     }
     const sm = G.spectrumSlice(frame, k);
     const chart = V.lineChartSvg(sm, { h: 300, w: 470 });
@@ -1463,8 +1487,8 @@ function stageSpectrum(host, r) {
     setSvg(box, wf.svg);
     box.append(tip);
     box.dataset.src = `${frame.path}.psd_dbw_per_hz`;
-    legend.replaceChildren(h("span", { text: `noise floor ${V.fmt(frame.floor, 4)}` }), h("i", { style: `background:linear-gradient(90deg,${Array.from({ length: 9 }, (_, i) => G.wfColor(Math.pow(i / 8, G.WF_GAMMA))).join(",")})` }), h("span", { text: `${V.fmt(frame.peak, 4)} dBW/Hz` }));
-    mountTools(tools, () => exportSvg(wf.svg, `Waterfall, ${frame.name}`), "waterfall");
+    legend.replaceChildren(h("span", { text: t("js-app-noise-floor", "noise floor { $value }", { value: V.fmt(frame.floor, 4) }) }), h("i", { style: `background:linear-gradient(90deg,${Array.from({ length: 9 }, (_, i) => G.wfColor(Math.pow(i / 8, G.WF_GAMMA))).join(",")})` }), h("span", { text: `${V.fmt(frame.peak, 4)} dBW/Hz` }));
+    mountTools(tools, () => exportSvg(wf.svg, t("js-app-waterfall-title", "Waterfall, { $name }", { name: frame.name })), "waterfall");
     if (player) { player.stop(); players.splice(players.indexOf(player), 1); }
     player = makePlayer({ n: frame.t.length, name: "waterfall replay", label: (k) => `t = ${V.fmt(frame.t[k])} s`, onFrame: paint });
     playerHost.replaceChildren(player.el);
@@ -1494,11 +1518,11 @@ function stageSolar(host, r) {
   if (!(r.bodies || []).length) return;
   let view = views.some((v) => v.id === S.link.view) ? S.link.view : views[0].id;
   const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" }), table = h("table", { class: "tbl on-space" });
-  const seg = h("div", { class: "seg dark wrap", role: "group", "aria-label": "Which bodies to draw" }, views.map((v) => h("button", { type: "button", "data-view": v.id, title: v.label, text: v.id.startsWith("moons:") ? v.id.slice(6) : v.label, onclick: () => { view = v.id; draw(); } })));
+  const seg = h("div", { class: "seg dark wrap", role: "group", "aria-label": t("js-app-solar-which-bodies", "Which bodies to draw") }, views.map((v) => h("button", { type: "button", "data-view": v.id, title: v.label, text: v.id.startsWith("moons:") ? v.id.slice(6) : v.label, onclick: () => { view = v.id; draw(); } })));
   host.append(h("div", { class: "card scope", "data-w": "8", "data-stage": "solar" },
-    h("div", { class: "card-head row" }, h("h3", {}, "Plan view ", h("small", {}, "at ", bound("span", r, "epoch.input"))), seg),
+    h("div", { class: "card-head row" }, h("h3", {}, t("js-app-plan-view", "Plan view"), " ", h("small", {}, t("js-app-plan-view-at", "at"), " ", bound("span", r, "epoch.input"))), seg),
     box, h("div", { class: "table-scroll" }, table),
-    h("p", { class: "card-note on-space", text: "Each dot is a body at the run's epoch and each curve is the orbit track the engine computed for it. A dashed line is a link the scenario asks for. Pick a planet to see its moons about it." }),
+    h("p", { class: "card-note on-space", text: t("js-app-solar-note", "Each dot is a body at the run's epoch and each curve is the orbit track the engine computed for it. A dashed line is a link the scenario asks for. Pick a planet to see its moons about it.") }),
     tools));
   const draw = () => {
     for (const b of seg.children) b.setAttribute("aria-pressed", b.dataset.view === view ? "true" : "false");
@@ -1507,7 +1531,7 @@ function stageSolar(host, r) {
     box.dataset.view = view;
     mountTools(tools, () => exportSvg(o.svg, views.find((v) => v.id === view).label), "solar-system");
     const bodies = o.shown.filter((x) => x.path.startsWith("bodies"));
-    table.replaceChildren(h("thead", {}, h("tr", {}, ["Body", "Distance from the Sun", "Orbital period", `One-way light time from ${r.observer || "the observer"}`].map((t) => h("th", { text: t })))),
+    table.replaceChildren(h("thead", {}, h("tr", {}, [t("js-app-th-body", "Body"), t("js-app-th-sun-distance", "Distance from the Sun"), t("js-app-th-orbital-period", "Orbital period"), t("js-app-th-light-time", "One-way light time from { $observer }", { observer: r.observer || t("js-app-the-observer", "the observer") })].map((t) => h("th", { text: t })))),
       h("tbody", {}, bodies.map((x) => h("tr", {}, bound("td", r, `${x.path}.name`), bound("td", r, `${x.path}.heliocentric_distance_au`, { class: "num" }), bound("td", r, `${x.path}.orbital_period_d`, { class: "num" }), bound("td", r, `${x.path}.observer_link.one_way_light_time_s`, { class: "num" })))));
   };
   draw();
@@ -1519,17 +1543,17 @@ function stageCoverage(host, r) {
   if (!fields.length) return;
   let field = fields.some((f) => f.key === S.link.field) ? S.link.field : fields[0].key;
   const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" }), legend = h("div", { class: "legend-heat" }), playerHost = h("div");
-  const sel = h("select", { class: "sel dark", "aria-label": "Field to map", onchange: () => { field = sel.value; draw(player ? player.k : 0); } }, fields.map((f) => h("option", { value: f.key, text: f.label })));
+  const sel = h("select", { class: "sel dark", "aria-label": t("js-app-coverage-field-label", "Field to map"), onchange: () => { field = sel.value; draw(player ? player.k : 0); } }, fields.map((f) => h("option", { value: f.key, text: f.label })));
   sel.value = field;
-  const body = (r.body && r.body.name) || "the body";
+  const body = (r.body && r.body.name) || t("js-app-the-body", "the body");
   const tr = r.tracks && Array.isArray(r.tracks.times_s) && r.tracks.times_s.length ? r.tracks : null;
   const names = G.coverageLegend(r);
   if (tr) host.append(transportCard(playerHost));
   host.append(h("div", { class: "card scope", "data-w": "8", "data-stage": "coverage" },
-    h("div", { class: "card-head row" }, h("h3", {}, "Coverage map ", h("small", {}, "over ", bound("span", r, "body.name"))), h("label", { class: "sel-lbl" }, "Map ", sel), legend),
+    h("div", { class: "card-head row" }, h("h3", {}, t("js-app-coverage-map", "Coverage map"), " ", h("small", {}, t("js-app-coverage-over", "over"), " ", bound("span", r, "body.name"))), h("label", { class: "sel-lbl" }, t("js-app-coverage-map-select", "Map"), " ", sel), legend),
     box,
     names.length ? h("div", { class: "cov-legend" }, names.map((n) => h("span", { style: `--c:${n.color}` }, h("i"), n.name))) : null,
-    h("p", { class: "card-note on-space" }, `Each cell is one grid point on ${body}, scored over every epoch of the run. `, tr ? h("span", {}, "The dots are ", bound("b", r, "tracks.shown"), " of ", bound("b", r, "tracks.total"), " satellites, flown along their ground tracks; play the replay to move them.") : null),
+    h("p", { class: "card-note on-space" }, t("js-app-coverage-cell-note", "Each cell is one grid point on { $body }, scored over every epoch of the run.", { body }) + " ", tr ? h("span", {}, t("js-app-coverage-dots-pre", "The dots are"), " ", bound("b", r, "tracks.shown"), " ", t("js-app-coverage-dots-of", "of"), " ", bound("b", r, "tracks.total"), " ", t("js-app-coverage-dots-post", "satellites, flown along their ground tracks; play the replay to move them.")) : null),
     tools));
   let player = null;
   const draw = (k) => {
@@ -1538,7 +1562,7 @@ function stageCoverage(host, r) {
     box.dataset.src = `grid.${c.field.key}`;
     const ends = c.field.lowerBetter ? [1, .75, .5, .25, 0] : [0, .25, .5, .75, 1];
     legend.replaceChildren(h("span", { text: V.fmt(c.range[0], 4) }), h("i", { style: `background:linear-gradient(90deg,${ends.map(V.heat).join(",")})` }), h("span", { text: `${V.fmt(c.range[1], 4)}${c.field.unit}` }));
-    mountTools(tools, () => exportSvg(c.svg, `${c.field.label} over ${body}`), "coverage");
+    mountTools(tools, () => exportSvg(c.svg, t("js-app-coverage-title", "{ $field } over { $body }", { field: c.field.label, body })), "coverage");
   };
   if (tr) {
     player = makePlayer({ n: tr.times_s.length, name: "orbit replay", rate: 4, label: (k) => `t = ${V.fmtDuration(tr.times_s[k])}`, onFrame: draw });
@@ -1563,21 +1587,21 @@ function stageTimeline(host, r) {
     return { c, box, chart, cur };
   });
   host.append(h("div", { class: "card scope transport", "data-w": "12", "data-stage": "timeline" },
-    h("div", { class: "card-head row" }, h("h3", {}, "Mission timeline ", h("small", {}, bound("span", r, "timeline.duration_s"), " on one clock")), h("p", { class: "tl-now" }, "Phase: ", phase)),
+    h("div", { class: "card-head row" }, h("h3", {}, t("js-app-mission-timeline", "Mission timeline"), " ", h("small", {}, bound("span", r, "timeline.duration_s"), " ", t("js-app-on-one-clock", "on one clock"))), h("p", { class: "tl-now" }, t("js-app-phase", "Phase:"), " ", phase)),
     playerHost, readout, eventLine,
-    h("p", { class: "card-note on-space", text: "One scrubber drives every chart below. Every phase runs ordinary scenarios; the campaign reads their outputs onto one time grid. Shaded bands are the phases, vertical rules the events. The values above are the campaign's channels at the replay time." })),
+    h("p", { class: "card-note on-space", text: t("js-app-timeline-note", "One scrubber drives every chart below. Every phase runs ordinary scenarios; the campaign reads their outputs onto one time grid. Shaded bands are the phases, vertical rules the events. The values above are the campaign's channels at the replay time.") })),
     ...boxes.map((b) => h("div", { class: "card scope", "data-w": boxes.length > 1 ? "6" : "12" }, h("div", { class: "card-head" }, h("h3", { text: b.c.title })), b.box)));
   const paint = (k) => {
-    const t = tl.t_s[k];
-    for (const b of boxes) if (b.cur) { const x = b.chart.hover.xOf(t).toFixed(1); b.cur.setAttribute("x1", x); b.cur.setAttribute("x2", x); }
-    const pi = G.phaseAt(r, t);
+    const tt = tl.t_s[k];
+    for (const b of boxes) if (b.cur) { const x = b.chart.hover.xOf(tt).toFixed(1); b.cur.setAttribute("x1", x); b.cur.setAttribute("x2", x); }
+    const pi = G.phaseAt(r, tt);
     phase.replaceChildren(pi >= 0 ? bound("b", r, `timeline.phases[${pi}].name`) : "—");
     readout.replaceChildren();
     for (const c of charts) for (const key of c.keys) {
       readout.append(h("div", {}, h("dt", { title: tl.channels[key].label, text: V.humanKey(key).replace(/\s*\([^)]*\)$/, "") }), bound("dd", r, `timeline.channels.${key}.values[${k}]`, { unit: tl.channels[key].unit })));
     }
-    const past = (tl.events || []).map((e, i) => ({ e, i })).filter((o) => o.e.t_s <= t).pop();
-    eventLine.replaceChildren(...(past ? ["Latest event, at ", bound("b", r, `timeline.events[${past.i}].t_s`), ": ", bound("span", r, `timeline.events[${past.i}].label`)] : ["No event yet at this time."]));
+    const past = (tl.events || []).map((e, i) => ({ e, i })).filter((o) => o.e.t_s <= tt).pop();
+    eventLine.replaceChildren(...(past ? [t("js-app-latest-event-at", "Latest event, at"), " ", bound("b", r, `timeline.events[${past.i}].t_s`), ": ", bound("span", r, `timeline.events[${past.i}].label`)] : [t("js-app-no-event-yet", "No event yet at this time.")]));
   };
   const player = makePlayer({ n: tl.t_s.length, name: "mission replay", rate: 24, label: (k) => `T+${V.fmtDuration(tl.t_s[k])}`, onFrame: paint });
   playerHost.append(player.el);
@@ -1593,20 +1617,20 @@ function stageChain(host, r) {
   m.forEach((st, i) => {
     const dl = h("dl", { class: "kv" });
     for (const path of st.items) dl.append(h("dt", { text: K.keyLabel(path) }), bound("dd", r, path));
-    row.append(h("div", { class: "chain-stage", "data-kind": st.kind }, h("p", { class: "chain-n", text: `Stage ${i + 1}` }), h("h4", { text: st.name }), h("code", { text: st.kind }), dl));
-    if (i < m.length - 1) row.append(h("div", { class: "chain-arrow", "aria-hidden": "true" }, icon("i-arrow"), h("span", { text: `${st.out} value${st.out === 1 ? "" : "s"} handed on` })));
+    row.append(h("div", { class: "chain-stage", "data-kind": st.kind }, h("p", { class: "chain-n", text: t("js-app-chain-stage", "Stage { $n }", { n: i + 1 }) }), h("h4", { text: st.name }), h("code", { text: st.kind }), dl));
+    if (i < m.length - 1) row.append(h("div", { class: "chain-arrow", "aria-hidden": "true" }, icon("i-arrow"), h("span", { text: t("js-app-chain-values-handed", { one: "{ $n } value handed on", other: "{ $n } values handed on" }, { n: st.out }) })));
   });
-  host.append(h("div", { class: "card", "data-w": "12", "data-stage": "chain" }, h("div", { class: "card-head" }, h("h3", {}, "The chain ", h("small", { text: "each stage's output feeds the next" })), h("p", { class: "card-note", text: "One system followed through every stage of the engine. The table below lists each number a stage computed and the next stage used." })), row));
+  host.append(h("div", { class: "card", "data-w": "12", "data-stage": "chain" }, h("div", { class: "card-head" }, h("h3", {}, t("js-app-the-chain", "The chain"), " ", h("small", { text: t("js-app-chain-hint", "each stage's output feeds the next") })), h("p", { class: "card-note", text: t("js-app-chain-note", "One system followed through every stage of the engine. The table below lists each number a stage computed and the next stage used.") })), row));
 }
 
 // Every chart of the capability view as SVG, for the downloadable report.
 function capabilityCharts(run) {
   const r = run.result, cap = K.capabilityView(r, run.toml), out = [];
   if (!cap) return out;
-  if (cap.stage === "spectrum") for (const f of G.waterfallFrames(r)) out.push({ title: `Waterfall, ${f.name}`, svg: G.waterfallSvg(f, { bands: r.bands || [] }).svg });
+  if (cap.stage === "spectrum") for (const f of G.waterfallFrames(r)) out.push({ title: t("js-app-waterfall-title", "Waterfall, { $name }", { name: f.name }), svg: G.waterfallSvg(f, { bands: r.bands || [] }).svg });
   if (cap.stage === "solar") for (const v of G.orreryViews(r).slice(0, 2)) out.push({ title: v.label, svg: G.orrerySvg(r, { view: v.id }).svg });
-  if (cap.stage === "coverage") { const c = G.coverageSvg(r, { land: /^earth$/i.test((r.body && r.body.name) || "") ? S.land || [] : [] }); out.push({ title: `${c.field.label} over ${(r.body && r.body.name) || "the body"}`, svg: c.svg }); }
-  if (cap.stage === "timeline") for (const c of G.timelineCharts(r)) out.push({ title: `Mission timeline: ${c.title}`, svg: V.lineChartSvg(c.model, c.opts).svg });
+  if (cap.stage === "coverage") { const c = G.coverageSvg(r, { land: /^earth$/i.test((r.body && r.body.name) || "") ? S.land || [] : [] }); out.push({ title: t("js-app-coverage-title", "{ $field } over { $body }", { field: c.field.label, body: (r.body && r.body.name) || t("js-app-the-body", "the body") }), svg: c.svg }); }
+  if (cap.stage === "timeline") for (const c of G.timelineCharts(r)) out.push({ title: t("js-app-timeline-chart-title", "Mission timeline: { $title }", { title: c.title }), svg: V.lineChartSvg(c.model, c.opts).svg });
   for (const p of cap.panels) {
     if (p.type === "line") { const c = V.lineChartSvg(p.model, p.opts || {}); if (c.svg) out.push({ title: p.title, svg: c.svg }); }
     if (p.type === "hist") { const c = G.histogramSvg(K.resolve(r, p.path), { unit: p.unit, title: p.title, marks: (p.marks || []).map((m) => ({ label: m.label, value: K.resolve(r, m.path) })) }); if (c.svg) out.push({ title: p.title, svg: c.svg }); }
@@ -1637,52 +1661,52 @@ async function loadNative(file) {
 // "Recorded with the native engine … by running <command>", plus a warning when the text was edited.
 function recordedLine(el, pack, command, run) {
   el.hidden = false;
-  el.replaceChildren(h("span", { class: "badge recorded", text: "Recorded" }), " ",
-    `Written by the native command-line engine v${pack.engine_version} (${pack.platform}) with `, h("code", { text: command }), ". Shown unchanged.",
-    ...(run.toml !== pack.toml ? [h("b", { class: "rec-warn", text: " You have edited the scenario: this recording is of the bundled file, not of your edit. Run the command on your own file to get yours." })] : []));
+  el.replaceChildren(h("span", { class: "badge recorded", text: t("js-app-badge-recorded", "Recorded") }), " ",
+    t("js-app-written-by-native", "Written by the native command-line engine v{ $version } ({ $platform }) with", { version: pack.engine_version, platform: pack.platform }), " ", h("code", { text: command }), ". ", t("js-app-shown-unchanged", "Shown unchanged."),
+    ...(run.toml !== pack.toml ? [h("b", { class: "rec-warn", text: " " + t("js-app-recording-edited-warning", "You have edited the scenario: this recording is of the bundled file, not of your edit. Run the command on your own file to get yours.") })] : []));
 }
 const textBlob = (text, type) => new Blob([text], { type });
-const prettyBytes = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)} MB` : n >= 1e3 ? `${(n / 1e3).toFixed(1)} kB` : `${n} bytes`);
+const prettyBytes = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)} MB` : n >= 1e3 ? `${(n / 1e3).toFixed(1)} kB` : t("js-app-bytes", { one: "{ $n } bytes", other: "{ $n } bytes" }, { n }));
 const toolButton = (text, title, onclick) => h("button", { type: "button", title, onclick, text });
 
 async function renderAnimation() {
   const run = S.run, box = $("anim-box"), tools = $("anim-tools"), prov = $("anim-prov");
-  $("anim-note").textContent = "The engine writes an animation of any run that has a time axis: a self-playing SVG and a single-file HTML player with its own play and scrub controls. The browser build does not carry that writer, so this is the file the native command-line engine wrote for the bundled scenario.";
+  $("anim-note").textContent = t("js-app-anim-note", "The engine writes an animation of any run that has a time axis: a self-playing SVG and a single-file HTML player with its own play and scrub controls. The browser build does not carry that writer, so this is the file the native command-line engine wrote for the bundled scenario.");
   if (box.dataset.for === String(run.id)) return;
   box.dataset.for = String(run.id);
-  box.replaceChildren(h("p", { class: "card-note", text: "Loading the recorded animation…" }));
+  box.replaceChildren(h("p", { class: "card-note", text: t("js-app-anim-loading", "Loading the recorded animation…") }));
   tools.replaceChildren(); prov.hidden = true;
   let pack = null, err = "";
   try { pack = await loadNative(run.file); } catch (e) { err = errorMessage(e); }
   if (S.run !== run) return;
   const a = pack && pack.animation;
-  if (!a || !(a.html || a.svg)) { box.replaceChildren(h("p", { class: "card-note", text: err ? `The recorded animation could not be loaded (${err}).` : "There is no recorded animation for this scenario." })); return; }
+  if (!a || !(a.html || a.svg)) { box.replaceChildren(h("p", { class: "card-note", text: err ? t("js-app-anim-load-failed", "The recorded animation could not be loaded ({ $reason }).", { reason: err }) : t("js-app-anim-none", "There is no recorded animation for this scenario.") })); return; }
   recordedLine(prov, pack, a.command, run);
   const name = run.file.replace(/\.toml$/, "");
-  if (a.html) box.replaceChildren(h("iframe", { class: "frame", sandbox: "allow-scripts", title: "Animation of this run, written by the engine", srcdoc: a.html }));
-  else box.replaceChildren(h("img", { alt: "Animation of this run, written by the engine", src: URL.createObjectURL(svgBlob(a.svg)) }));
-  tools.replaceChildren(h("span", { class: "lbl", text: "Download" }));
-  if (a.html) tools.append(toolButton("HTML player", "The single-file player, as the engine wrote it", () => triggerDownload(textBlob(a.html, "text/html"), `${name}.animation.html`)));
-  if (a.svg) tools.append(toolButton("Animated SVG", "The self-playing SVG, as the engine wrote it", () => triggerDownload(svgBlob(a.svg), `${name}.animation.svg`)));
+  if (a.html) box.replaceChildren(h("iframe", { class: "frame", sandbox: "allow-scripts", title: t("js-app-anim-frame-title", "Animation of this run, written by the engine"), srcdoc: a.html }));
+  else box.replaceChildren(h("img", { alt: t("js-app-anim-frame-title", "Animation of this run, written by the engine"), src: URL.createObjectURL(svgBlob(a.svg)) }));
+  tools.replaceChildren(h("span", { class: "lbl", text: t("js-app-download-label", "Download") }));
+  if (a.html) tools.append(toolButton(t("js-app-anim-html-player", "HTML player"), t("js-app-anim-html-player-title", "The single-file player, as the engine wrote it"), () => triggerDownload(textBlob(a.html, "text/html"), `${name}.animation.html`)));
+  if (a.svg) tools.append(toolButton(t("js-app-anim-svg", "Animated SVG"), t("js-app-anim-svg-title", "The self-playing SVG, as the engine wrote it"), () => triggerDownload(svgBlob(a.svg), `${name}.animation.svg`)));
 }
 
 async function renderEngineReport() {
   const run = S.run, box = $("report-box"), tools = $("report-tools"), prov = $("report-prov");
-  $("report-note").textContent = "Every command-line run writes a report: summary, inputs, results, the chart, what is validated and what is modelled, and a reproducibility record. The browser build does not carry that writer, so this is the report the native command-line engine wrote for the bundled scenario. The Studio's own report of the run on screen is under Exports.";
+  $("report-note").textContent = t("js-app-report-note", "Every command-line run writes a report: summary, inputs, results, the chart, what is validated and what is modelled, and a reproducibility record. The browser build does not carry that writer, so this is the report the native command-line engine wrote for the bundled scenario. The Studio's own report of the run on screen is under Exports.");
   if (box.dataset.for === String(run.id)) return;
   box.dataset.for = String(run.id);
-  box.replaceChildren(h("p", { class: "card-note", text: "Loading the recorded report…" }));
+  box.replaceChildren(h("p", { class: "card-note", text: t("js-app-report-loading", "Loading the recorded report…") }));
   tools.replaceChildren(); prov.hidden = true;
   let pack = null, err = "";
   try { pack = await loadNative(run.file); } catch (e) { err = errorMessage(e); }
   if (S.run !== run) return;
-  if (!pack || !pack.report_html) { box.replaceChildren(h("p", { class: "card-note", text: err ? `The recorded report could not be loaded (${err}).` : "There is no recorded report for this scenario." })); return; }
+  if (!pack || !pack.report_html) { box.replaceChildren(h("p", { class: "card-note", text: err ? t("js-app-report-load-failed", "The recorded report could not be loaded ({ $reason }).", { reason: err }) : t("js-app-report-none", "There is no recorded report for this scenario.") })); return; }
   recordedLine(prov, pack, pack.command, run);
   const name = run.file.replace(/\.toml$/, "");
-  box.replaceChildren(h("iframe", { class: "frame", sandbox: "", title: "Run report written by the engine", srcdoc: withoutScripts(pack.report_html) }));
-  tools.replaceChildren(h("span", { class: "lbl", text: "Download" }),
-    toolButton("Report (HTML)", "The report file, as the engine wrote it", () => triggerDownload(textBlob(pack.report_html, "text/html"), `${name}.report.html`)),
-    toolButton("Open in a new tab", "Open the report on its own", () => window.open(URL.createObjectURL(textBlob(pack.report_html, "text/html")), "_blank", "noopener")));
+  box.replaceChildren(h("iframe", { class: "frame", sandbox: "", title: t("js-app-report-frame-title", "Run report written by the engine"), srcdoc: withoutScripts(pack.report_html) }));
+  tools.replaceChildren(h("span", { class: "lbl", text: t("js-app-download-label", "Download") }),
+    toolButton(t("js-app-report-html", "Report (HTML)"), t("js-app-report-html-title", "The report file, as the engine wrote it"), () => triggerDownload(textBlob(pack.report_html, "text/html"), `${name}.report.html`)),
+    toolButton(t("js-app-report-open-tab", "Open in a new tab"), t("js-app-report-open-tab-title", "Open the report on its own"), () => window.open(URL.createObjectURL(textBlob(pack.report_html, "text/html")), "_blank", "noopener")));
 }
 
 // The report shows in a frame that may not run scripts. Its scripts are taken out first, so
@@ -1698,35 +1722,35 @@ function withoutScripts(html) {
 
 const FORMAT_NAME = { czml: "CZML", kml: "KML", geojson: "GeoJSON", stk: "STK ephemeris", sigmf: "SigMF" };
 async function renderInterop(run) {
-  const card = $("interop-card"), geo = $("geo-card"), prov = $("interop-prov"), t = $("interop-table");
+  const card = $("interop-card"), geo = $("geo-card"), prov = $("interop-prov"), tbl = $("interop-table");
   card.hidden = true; geo.hidden = true;
   let pack = null;
   try { pack = await loadNative(run.file); } catch { /* no recording: the card stays hidden */ }
   if (S.run !== run || !pack || !Array.isArray(pack.export_plan)) return;
   card.hidden = false;
-  $("interop-note").textContent = "The engine writes a run's geometry and signal samples in formats other tools open: CZML for Cesium, KML (Keyhole Markup Language) for Google Earth, GeoJSON for maps, STK ephemeris (.e) files, and SigMF (Signal Metadata Format) recordings. The browser build does not carry these writers, so the files below are the ones the native command-line engine wrote for the bundled scenario.";
+  $("interop-note").textContent = t("js-app-interop-note", "The engine writes a run's geometry and signal samples in formats other tools open: CZML for Cesium, KML (Keyhole Markup Language) for Google Earth, GeoJSON for maps, STK ephemeris (.e) files, and SigMF (Signal Metadata Format) recordings. The browser build does not carry these writers, so the files below are the ones the native command-line engine wrote for the bundled scenario.");
   recordedLine(prov, pack, pack.exports.command, run);
-  t.replaceChildren(h("thead", {}, h("tr", {}, ["Format", "File", "Size", ""].map((x) => h("th", { text: x })))));
+  tbl.replaceChildren(h("thead", {}, h("tr", {}, [t("js-app-th-format", "Format"), t("js-app-th-file", "File"), t("js-app-th-size", "Size"), ""].map((x) => h("th", { text: x })))));
   const tb = h("tbody");
   for (const p of pack.export_plan) {
     const files = pack.exports.files.filter((f) => f.format === p.format);
     const label = FORMAT_NAME[p.format] || p.format;
-    if (!p.applies || !files.length) { tb.append(h("tr", { "data-format": p.format }, h("td", { text: label }), h("td", { class: "note", colspan: "3", text: p.applies ? "The engine wrote no file of this format for this run." : `Does not apply to this scenario: ${p.reason}.` }))); continue; }
+    if (!p.applies || !files.length) { tb.append(h("tr", { "data-format": p.format }, h("td", { text: label }), h("td", { class: "note", colspan: "3", text: p.applies ? t("js-app-interop-no-file", "The engine wrote no file of this format for this run.") : t("js-app-interop-not-apply", "Does not apply to this scenario: { $reason }.", { reason: p.reason }) }))); continue; }
     for (const f of files) {
       const stored = "text" in f || "base64" in f;
       const dl = () => triggerDownload("text" in f ? textBlob(f.text, "text/plain") : new Blob([Uint8Array.from(atob(f.base64), (c) => c.charCodeAt(0))], { type: "application/octet-stream" }), f.name);
       tb.append(h("tr", { "data-format": p.format }, h("td", { text: label }), h("td", {}, h("code", { text: f.name })), h("td", { class: "num", "data-bytes": String(f.bytes), text: prettyBytes(f.bytes) }),
-        h("td", {}, stored ? h("button", { class: "btn-mini", type: "button", onclick: dl }, icon("i-down"), "Download") : h("span", { class: "note", text: "Not bundled here (size): the command above writes it." }))));
+        h("td", {}, stored ? h("button", { class: "btn-mini", type: "button", onclick: dl }, icon("i-down"), t("js-app-download-label", "Download")) : h("span", { class: "note", text: t("js-app-interop-not-bundled", "Not bundled here (size): the command above writes it.") }))));
     }
   }
-  t.append(tb);
+  tbl.append(tb);
   const gj = pack.exports.files.find((f) => f.format === "geojson" && f.text);
   const map = gj ? G.geojsonSvg(gj.text, { land: S.land || [] }) : null;
   if (map) {
     geo.hidden = false;
-    $("geo-sub").textContent = `${gj.name} · ${map.features} of ${map.total} features drawn · recorded with the native engine`;
+    $("geo-sub").textContent = t("js-app-geo-sub", "{ $name } · { $features } of { $total } features drawn · recorded with the native engine", { name: gj.name, features: map.features, total: map.total });
     setSvg($("geo-chart"), map.svg);
-    mountTools("geo-tools", () => exportSvg(map.svg, `GeoJSON export: ${gj.name}`), "geojson");
+    mountTools("geo-tools", () => exportSvg(map.svg, t("js-app-geojson-title", "GeoJSON export: { $name }", { name: gj.name })), "geojson");
   }
 }
 
@@ -1863,9 +1887,9 @@ function stepperNode(f) {
   input.addEventListener("change", () => commit(parseFloat(input.value)));
   input.addEventListener("keydown", (e) => { if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); step(e.key === "ArrowUp" ? 1 : -1); } });
   return h("span", { class: "stepper" },
-    h("button", { type: "button", "aria-label": `Decrease ${f.key}`, text: isLogScale(f) ? "÷" : "−", onclick: () => step(-1) }),
+    h("button", { type: "button", "aria-label": t("js-app-stepper-decrease", "Decrease { $key }", { key: f.key }), text: isLogScale(f) ? "÷" : "−", onclick: () => step(-1) }),
     input,
-    h("button", { type: "button", "aria-label": `Increase ${f.key}`, text: isLogScale(f) ? "×" : "+", onclick: () => step(1) }));
+    h("button", { type: "button", "aria-label": t("js-app-stepper-increase", "Increase { $key }", { key: f.key }), text: isLogScale(f) ? "×" : "+", onclick: () => step(1) }));
 }
 // After any change of the scenario text: the editor, and the Run button says it is not run yet.
 function changed() { refreshEditor(); updateSteps(); }
@@ -1879,8 +1903,8 @@ function buildParams() {
   const kh = $("knobs");
   kh.replaceChildren(...visible.map(inputNode).filter(Boolean));
   if (!visible.length) kh.append(h("p", { class: "hint", text: ranked.length ? "The view above already has its controls; every setting of the scenario is under Advanced settings." : "This scenario has no single number to change. The whole file is under “For researchers”." }));
-  $("field-count").textContent = advanced.length ? `${advanced.length} more` : "none";
-  $("params-hint").textContent = visible.length ? "Change a value, then run again. The answer and the chart update in place." : "";
+  $("field-count").textContent = advanced.length ? t("js-app-fields-more", "{ $n } more", { n: advanced.length }) : t("js-app-fields-none", "none");
+  $("params-hint").textContent = visible.length ? t("js-app-params-hint", "Change a value, then run again. The answer and the chart update in place.") : "";
   buildFields();
 }
 function buildFields() {
@@ -1889,10 +1913,10 @@ function buildFields() {
   host.replaceChildren();
   let sec = null;
   for (const f of fields) {
-    if (f.section !== sec) { sec = f.section; host.append(h("p", { class: "fsec", text: sec ? `[${sec}]` : "top of the file" })); }
+    if (f.section !== sec) { sec = f.section; host.append(h("p", { class: "fsec", text: sec ? `[${sec}]` : t("js-app-fields-top-of-file", "top of the file") })); }
     host.append(h("div", { class: "field", "data-field-id": f.id, "data-key": f.key, "data-label": `${f.section ? f.section + "." : ""}${f.key} ${f.comment || ""}` }, fieldLabelNode(f), stepperNode(f)));
   }
-  if (!fields.length) host.append(h("p", { class: "hint", text: "No other single numbers to change here. Edit the file under “For researchers”." }));
+  if (!fields.length) host.append(h("p", { class: "hint", text: t("js-app-fields-none-hint", "No other single numbers to change here. Edit the file under “For researchers”.") }));
   applyFieldFind();
 }
 let paramsTimer = 0;
@@ -1922,7 +1946,7 @@ async function loadScenario(file, { run = true } = {}) {
   if (text === null) try { const res = await fetch(scenarioPath(file), { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
   if (text === null) { const rec = await loadRecorded(file); if (rec) text = rec.toml; }
   if (S.file !== file) return; // the reader moved on while this loaded
-  if (text === null) { showError(`Could not load ${file}.`); return; }
+  if (text === null) { showError(t("js-app-load-failed", "Could not load { $file }.", { file })); return; }
   S.baseToml = text;
   tomlEl.value = text;
   paintScenarioHeader(entry);
@@ -1939,17 +1963,17 @@ function paintScenarioHeader(entry) {
   const dom = entry ? domainOf(entry.domain) : null;
   const eb = $("sc-domain");
   eb.style.setProperty("--c", dom ? dom.color : "var(--ink-3)");
-  eb.querySelector("span").textContent = dom ? `${dom.label} · ${entry.title}` : "Shared scenario";
+  eb.querySelector("span").textContent = dom ? `${dom.label} · ${entry.title}` : t("js-app-shared-scenario", "Shared scenario");
   // The same words the first paint used (lib/meaning.mjs taskWords).
   const w = entry ? taskWords(entry, dom ? dom.label : "", tomlEl.value) : null;
   S.seen = new Set(w ? w.seen : []);
-  $("sc-title").textContent = w ? w.title : "A scenario opened from a share link";
-  $("sc-question").textContent = w ? w.sub : "It runs exactly as it was shared.";
+  $("sc-title").textContent = w ? w.title : t("js-app-share-link-title", "A scenario opened from a share link");
+  $("sc-question").textContent = w ? w.sub : t("js-app-share-link-sub", "It runs exactly as it was shared.");
   const back = $("task-back");
   back.href = dom ? `?domain=${encodeURIComponent(dom.id)}` : "./";
-  back.querySelector("span").textContent = dom ? dom.label : "All questions";
+  back.querySelector("span").textContent = dom ? dom.label : t("js-app-all-questions", "All questions");
   updateCrumbs();
-  document.title = `${entry ? entry.title : "Shared scenario"} · ${STUDIO_NAME}`;
+  document.title = [entry ? entry.title : t("js-app-shared-scenario", "Shared scenario"), STUDIO_NAME].join(" · ");
 }
 
 // ------------------------------------------------------------------ how this is computed
@@ -1974,7 +1998,7 @@ function loadKindModules() {
   }));
 }
 function loadMatrix() {
-  if (!matrixPromise) matrixPromise = fetch("data/verification-matrix.json").then((x) => (x.ok ? x.json() : null)).catch(() => null);
+  if (!matrixPromise) matrixPromise = fetchData("data/verification-matrix.json").then((x) => (x.ok ? x.json() : null)).catch(() => null);
   return matrixPromise;
 }
 // The scenario's header comment, as paragraphs.
@@ -1991,15 +2015,15 @@ async function renderHow(run) {
   const paras = headerParagraphs(base);
   const seen = new Set(S.seen);
   const method = $("how-method");
-  method.replaceChildren(...(paras.length ? paras.slice(0, 3).map((p) => h("p", { text: spellOut(p, seen) })) : [h("p", { text: "This scenario file has no header note. The engine summary below says what was run." })]));
-  if (paras.length > 3) method.append(h("details", { class: "more-notes" }, h("summary", { text: `${paras.length - 3} more notes from the scenario file` }), ...paras.slice(3).map((p) => h("p", { text: p }))));
+  method.replaceChildren(...(paras.length ? paras.slice(0, 3).map((p) => h("p", { text: spellOut(p, seen) })) : [h("p", { text: t("js-app-how-no-header", "This scenario file has no header note. The engine summary below says what was run.") })]));
+  if (paras.length > 3) method.append(h("details", { class: "more-notes" }, h("summary", { text: t("js-app-how-more-notes", { one: "{ $n } more note from the scenario file", other: "{ $n } more notes from the scenario file" }, { n: paras.length - 3 }) }), ...paras.slice(3).map((p) => h("p", { text: p }))));
   const lvl = $("how-level"), refs = $("how-refs"), chip = $("how-lvl");
   const r = run.result;
   const hn = honesty(r);
   lvl.replaceChildren();
-  if (hn) lvl.append(h("p", {}, lvlChip(hn.tier), " ", h("span", { text: `This run's own label: ${hn.text.replace(/^(VALIDATED|MODELLED|PARTNER)\s*[-:–]?\s*/, "")}` })));
+  if (hn) lvl.append(h("p", {}, lvlChip(hn.tier), " ", h("span", { text: t("js-app-how-own-label", "This run's own label: { $label }", { label: hn.text.replace(/^(VALIDATED|MODELLED|PARTNER)\s*[-:–]?\s*/, "") }) })));
   const tiers = tierCounts(r);
-  if (tiers.validated || tiers.modelled) lvl.append(h("p", { text: `Per figure, from the engine's figure_tiers block: ${tiers.validated} validated, ${tiers.modelled} modelled. The tier of each figure is in the Overview view.` }));
+  if (tiers.validated || tiers.modelled) lvl.append(h("p", { text: t("js-app-how-per-figure", "Per figure, from the engine's figure_tiers block: { $validated } validated, { $modelled } modelled. The tier of each figure is in the Overview view.", { validated: tiers.validated, modelled: tiers.modelled }) }));
   chip.replaceChildren(hn ? lvlChip(hn.tier) : "");
   refs.replaceChildren(...headerCitations(paras).map((c) => h("li", { text: c })));
   const matrix = await loadMatrix();
@@ -2011,13 +2035,13 @@ async function renderHow(run) {
   if (idx.length) {
     const mix = evidenceMix(idx, rows);
     const ordered = idx.sort((a, b) => (rows[a].status === "VALIDATED" ? 0 : 1) - (rows[b].status === "VALIDATED" ? 0 : 1));
-    lvl.append(h("p", { text: `The engine methods this scenario runs have ${mix.validated} validated and ${mix.modelled} modelled rows in the verification matrix${mix.partner ? `, and ${mix.partner} owned by partners` : ""}:` }),
+    lvl.append(h("p", { text: mix.partner ? t("js-app-how-matrix-partner", "The engine methods this scenario runs have { $validated } validated and { $modelled } modelled rows in the verification matrix, and { $partner } owned by partners:", { validated: mix.validated, modelled: mix.modelled, partner: mix.partner }) : t("js-app-how-matrix", "The engine methods this scenario runs have { $validated } validated and { $modelled } modelled rows in the verification matrix:", { validated: mix.validated, modelled: mix.modelled }) }),
       h("ul", { class: "mx" }, ordered.slice(0, 6).map((i) => h("li", {}, lvlChip(rows[i].status), " ", h("span", { text: rows[i].requirement })))));
-    if (ordered.length > 6) lvl.append(h("p", { class: "fine", text: `${ordered.length - 6} more rows in the verification matrix (Evidence page of the site).` }));
-    if (!hn) chip.replaceChildren(h("span", { class: "sm-n", text: `${mix.validated} validated · ${mix.modelled} modelled` }));
-    for (const i of ordered.filter((i) => rows[i].status === "VALIDATED").slice(0, 4)) refs.append(h("li", {}, h("span", { text: rows[i].oracle }), h("span", { class: "fine", text: ` (checks: ${rows[i].requirement})` })));
-  } else lvl.append(h("p", { class: "fine", text: "No verification-matrix row names this scenario's engine kind yet." }));
-  if (!refs.children.length) refs.append(h("li", { text: "The scenario file cites no source, and no validated matrix row covers its kind." }));
+    if (ordered.length > 6) lvl.append(h("p", { class: "fine", text: t("js-app-how-more-rows", { one: "{ $n } more row in the verification matrix (Evidence page of the site).", other: "{ $n } more rows in the verification matrix (Evidence page of the site)." }, { n: ordered.length - 6 }) }));
+    if (!hn) chip.replaceChildren(h("span", { class: "sm-n", text: t("js-app-how-mix-chip", "{ $validated } validated · { $modelled } modelled", { validated: mix.validated, modelled: mix.modelled }) }));
+    for (const i of ordered.filter((i) => rows[i].status === "VALIDATED").slice(0, 4)) refs.append(h("li", {}, h("span", { text: rows[i].oracle }), h("span", { class: "fine", text: " " + t("js-app-how-checks", "(checks: { $requirement })", { requirement: rows[i].requirement }) })));
+  } else lvl.append(h("p", { class: "fine", text: t("js-app-how-no-matrix-row", "No verification-matrix row names this scenario's engine kind yet.") }));
+  if (!refs.children.length) refs.append(h("li", { text: t("js-app-how-no-sources", "The scenario file cites no source, and no validated matrix row covers its kind.") }));
 }
 
 // ------------------------------------------------------------------ for researchers
@@ -2032,30 +2056,30 @@ function renderResearch(run) {
   const v = S.version || (run.result && run.result.engine_version) || "";
   $("cli").textContent = run.file && !edited && !dirOf(run.file)
     ? `kshana example ${name} > ${name}.toml\nkshana ${name}.toml`
-    : `# save the scenario file below as ${name}.toml, then\nkshana ${name}.toml`;
-  $("cli-note").textContent = `Install with cargo install kshana --version ${v}. The run writes ${name}.result.json, a chart, and a report.`;
+    : `${t("js-app-cli-save-comment", "# save the scenario file below as { $file }, then", { file: `${name}.toml` })}\nkshana ${name}.toml`;
+  $("cli-note").textContent = t("js-app-cli-note", "Install with { $command }. The run writes { $file }, a chart, and a report.", { command: `cargo install kshana --version ${v}`, file: `${name}.result.json` });
   const mean = plainMeaning(run.result, run.toml);
   const p = mean && mean.cards.map((c) => pyPath(c.path)).find(Boolean);
   $("py").textContent = `import json, kshana\n\ntoml = open("${name}.toml").read()\nresult = json.loads(kshana.run(toml))\n${p ? `print(result${p})` : "print(sorted(result))"}`;
-  $("py-note").textContent = `Install with pip install kshana==${v}.`;
+  $("py-note").textContent = t("js-app-py-note", "Install with { $command }.", { command: `pip install kshana==${v}` });
   const meta = fileMeta(run.result, S.version, run.toml);
   const btn = (label, title, onclick) => h("button", { type: "button", title, onclick }, icon("i-down"), label);
   const row = $("exp-row");
   row.replaceChildren(...[
-    btn("Result data (JSON)", "The engine's complete output for this run", () => triggerDownload(new Blob([JSON.stringify(run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json"))),
-    run.csv ? btn("Table (CSV)", "The same bytes the command-line tool writes as <scenario>.table.csv", () => triggerDownload(new Blob([run.csv], { type: "text/csv" }), chartFilename("table", meta, "csv"))) : null,
-    btn("Scenario file (TOML)", "The exact input of this run", () => triggerDownload(new Blob([run.toml], { type: "text/plain" }), chartFilename("scenario", meta, "toml"))),
-    btn("Figure (SVG)", "The chart on screen, with its title, engine version and DOI", () => { const f = currentFigure(); if (f) triggerDownload(svgBlob(f.svg), chartFilename(f.base, meta, "svg")); else toast("This view has no chart to export."); }),
-    btn("Figure (PNG)", "The chart on screen as a high-resolution bitmap", async () => { const f = currentFigure(); if (!f) { toast("This view has no chart to export."); return; } try { const { w, h: hh } = svgSize(f.svg); triggerDownload(await svgToPngBlob(f.svg, w, hh, 2), chartFilename(f.base, meta, "png")); } catch (e) { toast("PNG export failed: " + errorMessage(e)); } }),
-    btn("Reproducible report (HTML)", "One offline file: summary, figures with tiers, charts and the exact scenario", downloadReport),
-    h("button", { type: "button", title: "Every export of this run, including the engine's own formats", onclick: () => { selectTab("exports", { scroll: true }); } }, icon("i-open"), "All exports")].filter(Boolean));
+    btn(t("js-app-btn-result-json", "Result data (JSON)"), t("js-app-btn-result-json-title", "The engine's complete output for this run"), () => triggerDownload(new Blob([JSON.stringify(run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json"))),
+    run.csv ? btn(t("js-app-btn-table-csv", "Table (CSV)"), t("js-app-btn-table-csv-title", "The same bytes the command-line tool writes as { $file }", { file: "<scenario>.table.csv" }), () => triggerDownload(new Blob([withEvidenceCsv(run.csv, run.result)], { type: "text/csv" }), chartFilename("table", meta, "csv"))) : null,
+    btn(t("js-app-btn-scenario-toml", "Scenario file (TOML)"), t("js-app-btn-scenario-toml-title", "The exact input of this run"), () => triggerDownload(new Blob([run.toml], { type: "text/plain" }), chartFilename("scenario", meta, "toml"))),
+    btn(t("js-app-btn-figure-svg", "Figure (SVG)"), t("js-app-btn-figure-svg-title", "The chart on screen, with its title, engine version and DOI"), () => { const f = currentFigure(); if (f) triggerDownload(svgBlob(f.svg), chartFilename(f.base, meta, "svg")); else toast(t("js-app-no-chart-export", "This view has no chart to export.")); }),
+    btn(t("js-app-btn-figure-png", "Figure (PNG)"), t("js-app-btn-figure-png-title", "The chart on screen as a high-resolution bitmap"), async () => { const f = currentFigure(); if (!f) { toast(t("js-app-no-chart-export", "This view has no chart to export.")); return; } try { const { w, h: hh } = svgSize(f.svg); triggerDownload(await svgToPngBlob(f.svg, w, hh, 2), chartFilename(f.base, meta, "png")); } catch (e) { toast(t("js-app-png-export-failed", "PNG export failed: { $reason }", { reason: errorMessage(e) })); } }),
+    btn(t("js-app-btn-report-html", "Reproducible report (HTML)"), t("js-app-btn-report-html-title", "One offline file: summary, figures with tiers, charts and the exact scenario"), downloadReport),
+    h("button", { type: "button", title: t("js-app-btn-all-exports-title", "Every export of this run, including the engine's own formats"), onclick: () => { selectTab("exports", { scroll: true }); } }, icon("i-open"), t("js-app-btn-all-exports", "All exports"))].filter(Boolean));
   const share = $("share-row");
   share.replaceChildren(...[
-    h("button", { type: "button", onclick: copyShareLink }, icon("i-share"), "Copy a link to this exact scenario"),
-    h("button", { type: "button", onclick: copyEmbedCode }, icon("i-copy"), "Copy embed code"),
-    h("button", { type: "button", onclick: () => pinRun() }, icon("i-pin"), S.pins.length ? `Pin this run (${S.pins.length} pinned)` : "Pin this run to compare"),
-    S.pins.length ? h("button", { type: "button", onclick: openCompare }, icon("i-compare"), "Compare pinned runs") : null,
-    h("button", { type: "button", onclick: openHistory }, icon("i-history"), "Run history")].filter(Boolean));
+    h("button", { type: "button", onclick: copyShareLink }, icon("i-share"), t("js-app-btn-copy-link", "Copy a link to this exact scenario")),
+    h("button", { type: "button", onclick: copyEmbedCode }, icon("i-copy"), t("js-app-btn-copy-embed", "Copy embed code")),
+    h("button", { type: "button", onclick: () => pinRun() }, icon("i-pin"), S.pins.length ? t("js-app-btn-pin-count", "Pin this run ({ $n } pinned)", { n: S.pins.length }) : t("js-app-btn-pin-compare", "Pin this run to compare")),
+    S.pins.length ? h("button", { type: "button", onclick: openCompare }, icon("i-compare"), t("js-app-btn-compare-pinned", "Compare pinned runs")) : null,
+    h("button", { type: "button", onclick: openHistory }, icon("i-history"), t("js-app-btn-run-history", "Run history"))].filter(Boolean));
   $("cite").textContent = `Baweja, C. Kshana: a PNT-resilience simulator with quantum-sensor performance models, version ${v}. Ashforde OÜ. doi:${DOI}`;
 }
 // The chart of the view on screen, ready to download: title band, provenance and DOI.
@@ -2064,7 +2088,7 @@ function currentFigure() {
   const svg = view && view.querySelector(".chart-box svg");
   if (!svg) return null;
   const card = svg.closest(".card");
-  const title = (card && card.querySelector("h3") ? card.querySelector("h3").textContent : (TAB_DEFS.find((t) => t.id === S.activeTab) || {}).label || "Kshana chart").trim();
+  const title = (card && card.querySelector("h3") ? card.querySelector("h3").textContent : (TAB_DEFS.find((t) => t.id === S.activeTab) || {}).label || t("js-app-chart-default-title", "Kshana chart")).trim();
   return { svg: exportSvg(new XMLSerializer().serializeToString(svg), title), base: slug(title) };
 }
 
@@ -2074,11 +2098,11 @@ function renderHistory() {
   list.replaceChildren();
   for (const run of S.history) {
     list.append(h("li", { class: S.run && S.run.id === run.id ? "cur" : "" },
-      h("div", { class: "h1" }, h("b", { text: run.title }), h("span", { text: `run ${run.id} · ${run.at.toLocaleTimeString()}` })),
+      h("div", { class: "h1" }, h("b", { text: run.title }), h("span", { text: t("js-app-history-run", "run { $id } · { $time }", { id: run.id, time: run.at.toLocaleTimeString() }) })),
       h("p", { text: run.summary }),
       h("div", { class: "acts" },
-        h("button", { class: "btn-mini", type: "button", text: "Restore", onclick: () => restoreRun(run) }),
-        h("button", { class: "btn-mini", type: "button", onclick: () => pinRun(run) }, icon("i-pin"), "Pin"))));
+        h("button", { class: "btn-mini", type: "button", text: t("js-app-history-restore", "Restore"), onclick: () => restoreRun(run) }),
+        h("button", { class: "btn-mini", type: "button", onclick: () => pinRun(run) }, icon("i-pin"), t("js-app-history-pin", "Pin")))));
   }
   $("hist-empty").hidden = S.history.length > 0;
 }
@@ -2099,15 +2123,15 @@ async function restoreRun(run) {
   if (run.mode === "native") showNotice(nativeNotice(run));
   renderRun(run);
   renderHistory();
-  setStatus(`Restored run ${run.id}.`, "ran");
+  setStatus(t("js-app-history-restored", "Restored run { $id }.", { id: run.id }), "ran");
 }
 
 // ------------------------------------------------------------------ share / embed
 async function copyShareLink() {
   const url = location.origin + location.pathname + encodeFragment(tomlEl.value);
   history.replaceState(null, "", url);
-  try { await navigator.clipboard.writeText(url); toast("Share link copied. It carries the exact scenario."); }
-  catch { toast("Link placed in the address bar."); }
+  try { await navigator.clipboard.writeText(url); toast(t("js-app-share-copied", "Share link copied. It carries the exact scenario.")); }
+  catch { toast(t("js-app-share-in-address-bar", "Link placed in the address bar.")); }
 }
 function embedUrl() {
   const u = new URL(location.origin + location.pathname);
@@ -2118,27 +2142,27 @@ function embedUrl() {
 }
 async function copyEmbedCode() {
   const code = `<iframe src="${embedUrl()}" width="100%" height="720" style="border:0;border-radius:16px" title="Kshana scenario" loading="lazy"></iframe>`;
-  try { await navigator.clipboard.writeText(code); toast("Embed code copied."); } catch { toast(code); }
+  try { await navigator.clipboard.writeText(code); toast(t("js-app-embed-copied", "Embed code copied.")); } catch { toast(code); }
 }
 
 // ------------------------------------------------------------------ palette
 const COMMANDS = [
-  { t: "Run the scenario", k: "⌘↵", run: () => runScenario() },
-  { t: "Pin this run to compare", run: () => pinRun() },
-  { t: "Copy share link", run: () => copyShareLink() },
-  { t: "Copy embed code", run: () => copyEmbedCode() },
-  { t: "Download the report", run: () => downloadReport() },
-  { t: "Open run history", run: () => openHistory() },
-  { t: "Start the guided tour", run: () => startTour() },
-  { t: "Toggle light or dark theme", run: () => toggleTheme() },
-  { t: "Reset the scenario text", run: () => resetSource() },
-  { t: "Show every setting (advanced settings)", run: () => openDetails("adv") },
-  { t: "How this is computed", run: () => openDetails("how") },
-  { t: "Code, data and citation (for researchers)", run: () => openDetails("research") },
-  { t: "Download the results (exports)", run: () => selectTab("exports", { scroll: true }) },
-  { t: "Compare the pinned runs", run: () => openCompare() },
-  { t: "Browse all scenarios", run: () => navigate({ screen: "browse", q: "" }) },
-  { t: "Go to the opening screen", run: () => navigate({ screen: "home" }) },
+  { get t() { return t("js-app-cmd-run", "Run the scenario"); }, k: "⌘↵", run: () => runScenario() },
+  { get t() { return t("js-app-cmd-pin", "Pin this run to compare"); }, run: () => pinRun() },
+  { get t() { return t("js-app-cmd-share", "Copy share link"); }, run: () => copyShareLink() },
+  { get t() { return t("js-app-cmd-embed", "Copy embed code"); }, run: () => copyEmbedCode() },
+  { get t() { return t("js-app-cmd-report", "Download the report"); }, run: () => downloadReport() },
+  { get t() { return t("js-app-cmd-history", "Open run history"); }, run: () => openHistory() },
+  { get t() { return t("js-app-cmd-tour", "Start the guided tour"); }, run: () => startTour() },
+  { get t() { return t("js-app-cmd-theme", "Toggle light or dark theme"); }, run: () => toggleTheme() },
+  { get t() { return t("js-app-cmd-reset", "Reset the scenario text"); }, run: () => resetSource() },
+  { get t() { return t("js-app-cmd-advanced", "Show every setting (advanced settings)"); }, run: () => openDetails("adv") },
+  { get t() { return t("js-app-cmd-how", "How this is computed"); }, run: () => openDetails("how") },
+  { get t() { return t("js-app-cmd-research", "Code, data and citation (for researchers)"); }, run: () => openDetails("research") },
+  { get t() { return t("js-app-cmd-exports", "Download the results (exports)"); }, run: () => selectTab("exports", { scroll: true }) },
+  { get t() { return t("js-app-cmd-compare", "Compare the pinned runs"); }, run: () => openCompare() },
+  { get t() { return t("js-app-cmd-browse", "Browse all scenarios"); }, run: () => navigate({ screen: "browse", q: "" }) },
+  { get t() { return t("js-app-cmd-home", "Go to the opening screen"); }, run: () => navigate({ screen: "home" }) },
 ];
 let palItems = [], palSel = 0;
 function openPalette() {
@@ -2174,16 +2198,16 @@ function renderPalette() {
   const scen = (phrase.length ? phrase : SCENARIOS.filter((s) => match(`${s[2]} ${s[3]} ${s[0]} ${domainOf(s[1]).label}`))
     .map((s, i) => ({ s, i, sc: score(s) })).sort((a, b) => b.sc - a.sc || a.i - b.i).map((x) => x.s)).slice(0, q ? 12 : 6)
     .map((s) => ({ t: s[2], k: domainOf(s[1]).label, c: domainOf(s[1]).color, run: () => openScenario(s[0]) }));
-  const doms = q ? DOMAINS.filter((d) => match(`${d.label} domain`) && SCENARIOS.some((s) => s[1] === d.id)).slice(0, 5).map((d) => ({ t: `Area: ${d.label}`, k: `${SCENARIOS.filter((s) => s[1] === d.id).length} scenarios`, c: d.color, run: () => navigate({ screen: "domain", domain: d.id }) })) : [];
-  const fields = q.length >= 3 && S.fieldIdx ? findFields(S.fieldIdx, q, 8).map((f) => ({ t: `Setting: ${f.label}`, k: (entryFor(f.file) || { title: f.file }).title, c: "var(--ink-2)", run: () => jumpToField(f.file, f.id) })) : [];
-  const views = available.filter((id) => match(TAB_DEFS.find((d) => d.id === id).label + " view tab panel")).map((id) => { const d = TAB_DEFS.find((x) => x.id === id); return { t: `View: ${d.label}`, c: d.c, run: () => selectTab(id, { scroll: true }) }; });
+  const doms = q ? DOMAINS.filter((d) => match(`${d.label} domain`) && SCENARIOS.some((s) => s[1] === d.id)).slice(0, 5).map((d) => ({ t: t("js-app-pal-area", "Area: { $label }", { label: d.label }), k: t("js-app-pal-scenario-count", { one: "{ $n } scenario", other: "{ $n } scenarios" }, { n: SCENARIOS.filter((s) => s[1] === d.id).length }), c: d.color, run: () => navigate({ screen: "domain", domain: d.id }) })) : [];
+  const fields = q.length >= 3 && S.fieldIdx ? findFields(S.fieldIdx, q, 8).map((f) => ({ t: t("js-app-pal-setting", "Setting: { $label }", { label: f.label }), k: (entryFor(f.file) || { title: f.file }).title, c: "var(--ink-2)", run: () => jumpToField(f.file, f.id) })) : [];
+  const views = available.filter((id) => match(TAB_DEFS.find((d) => d.id === id).label + " view tab panel")).map((id) => { const d = TAB_DEFS.find((x) => x.id === id); return { t: t("js-app-pal-view", "View: { $label }", { label: d.label }), c: d.c, run: () => selectTab(id, { scroll: true }) }; });
   const cmds = COMMANDS.filter((c) => match(c.t)).map((c) => ({ ...c, c: "var(--ink-3)" }));
-  section("Scenarios", scen);
-  section("Areas", doms);
-  section("Settings", fields);
-  section("Views", views);
-  section("Commands", cmds);
-  if (!palItems.length) list.append(h("p", { class: "pal-sec", text: "Nothing matches" }));
+  section(t("js-app-pal-sec-scenarios", "Scenarios"), scen);
+  section(t("js-app-pal-sec-areas", "Areas"), doms);
+  section(t("js-app-pal-sec-settings", "Settings"), fields);
+  section(t("js-app-pal-sec-views", "Views"), views);
+  section(t("js-app-pal-sec-commands", "Commands"), cmds);
+  if (!palItems.length) list.append(h("p", { class: "pal-sec", text: t("js-app-pal-nothing", "Nothing matches") }));
   selPal(0);
 }
 function selPal(i) {
@@ -2203,10 +2227,10 @@ function startTour() {
   if (!tour.el) {
     const spot = h("div", { class: "tour-spot" });
     const title = h("h3", { id: "tour-title" }), body = h("p"), prog = h("span");
-    const back = h("button", { type: "button", text: "Back", onclick: () => tourGo(tour.i - 1) });
-    const next = h("button", { type: "button", class: "primary", text: "Next", onclick: () => (tour.i >= tour.steps.length - 1 ? endTour() : tourGo(tour.i + 1)) });
-    const skip = h("button", { type: "button", text: "Skip", onclick: endTour });
-    const tip = h("div", { class: "tour-tip" }, h("p", { class: "eyebrow", text: "Guided tour" }), title, body, h("div", { class: "tour-foot" }, prog, h("div", {}, skip, back, next)));
+    const back = h("button", { type: "button", text: t("js-app-tour-back", "Back"), onclick: () => tourGo(tour.i - 1) });
+    const next = h("button", { type: "button", class: "primary", text: t("js-app-tour-next", "Next"), onclick: () => (tour.i >= tour.steps.length - 1 ? endTour() : tourGo(tour.i + 1)) });
+    const skip = h("button", { type: "button", text: t("js-app-tour-skip", "Skip"), onclick: endTour });
+    const tip = h("div", { class: "tour-tip" }, h("p", { class: "eyebrow", text: t("js-app-tour-eyebrow", "Guided tour") }), title, body, h("div", { class: "tour-foot" }, prog, h("div", {}, skip, back, next)));
     tour.el = h("div", { class: "tour", role: "dialog", "aria-modal": "true", "aria-labelledby": "tour-title", tabindex: "-1" }, spot, tip);
     tour.refs = { spot, tip, title, body, prog, back, next };
     document.body.append(tour.el);
@@ -2226,16 +2250,16 @@ function tourGo(n) {
 function tourPlace() {
   if (!tour.on) return;
   const st = tour.steps[tour.i];
-  const t = document.querySelector(st.target);
-  if (!t) return;
-  const r = t.getBoundingClientRect();
+  const tgt = document.querySelector(st.target);
+  if (!tgt) return;
+  const r = tgt.getBoundingClientRect();
   const { spot, tip, title, body, prog, back, next } = tour.refs;
   const hgt = Math.min(r.height, innerHeight - Math.max(0, r.top));
   Object.assign(spot.style, { top: `${r.top - 6}px`, left: `${r.left - 6}px`, width: `${r.width + 12}px`, height: `${hgt + 12}px` });
   title.textContent = st.title; body.textContent = st.body;
   prog.textContent = `${tour.i + 1} / ${tour.steps.length}`;
   back.disabled = tour.i === 0;
-  next.textContent = tour.i >= tour.steps.length - 1 ? "Done" : "Next";
+  next.textContent = tour.i >= tour.steps.length - 1 ? t("js-app-tour-done", "Done") : t("js-app-tour-next", "Next");
   const ts = tip.getBoundingClientRect();
   const pos = placeTooltip({ top: r.top, left: r.left, width: r.width, height: hgt }, { width: ts.width, height: ts.height }, { width: innerWidth, height: innerHeight }, st.side);
   tip.style.top = `${pos.top}px`; tip.style.left = `${pos.left}px`;
@@ -2250,13 +2274,13 @@ function endTour() {
 
 // ------------------------------------------------------------------ tour
 const TOUR = [
-  { target: "#meaning", title: "The answer first", body: "A plain sentence read from the result, and where the result comes from: a live run in your browser, or a run recorded with the same engine.", side: "bottom" },
-  { target: "#figs", title: "The figures that answer it", body: "Each card is read from the engine's result document.", side: "bottom" },
-  { target: "#tabs", title: "Every view of the run", body: "Charts, maps, replays, the engine's own report and exports. [ and ] move between views.", side: "bottom" },
-  { target: "#params", title: "Try other settings", body: "The five settings that matter most for this question. Change one, then run again. The engine runs in your browser; nothing is uploaded.", side: "left" },
-  { target: "#how", title: "How this is computed", body: "The method, the level of evidence and the references.", side: "left" },
-  { target: "#research", title: "For researchers", body: "The command line and Python to run it yourself, the data and figures, and how to cite it.", side: "left" },
-  { target: "#cmdk-btn", title: "Search", body: "⌘K finds any scenario, area, setting, view or command.", side: "bottom" },
+  { target: "#meaning", get title() { return t("js-app-tour-answer-title", "The answer first"); }, get body() { return t("js-app-tour-answer-body", "A plain sentence read from the result, and where the result comes from: a live run in your browser, or a run recorded with the same engine."); }, side: "bottom" },
+  { target: "#figs", get title() { return t("js-app-tour-figures-title", "The figures that answer it"); }, get body() { return t("js-app-tour-figures-body", "Each card is read from the engine's result document."); }, side: "bottom" },
+  { target: "#tabs", get title() { return t("js-app-tour-views-title", "Every view of the run"); }, get body() { return t("js-app-tour-views-body", "Charts, maps, replays, the engine's own report and exports. [ and ] move between views."); }, side: "bottom" },
+  { target: "#params", get title() { return t("js-app-tour-settings-title", "Try other settings"); }, get body() { return t("js-app-tour-settings-body", "The five settings that matter most for this question. Change one, then run again. The engine runs in your browser; nothing is uploaded."); }, side: "left" },
+  { target: "#how", get title() { return t("js-app-tour-how-title", "How this is computed"); }, get body() { return t("js-app-tour-how-body", "The method, the level of evidence and the references."); }, side: "left" },
+  { target: "#research", get title() { return t("js-app-tour-research-title", "For researchers"); }, get body() { return t("js-app-tour-research-body", "The command line and Python to run it yourself, the data and figures, and how to cite it."); }, side: "left" },
+  { target: "#cmdk-btn", get title() { return t("js-app-tour-search-title", "Search"); }, get body() { return t("js-app-tour-search-body", "⌘K finds any scenario, area, setting, view or command."); }, side: "bottom" },
 ];
 
 // ------------------------------------------------------------------ chrome
@@ -2280,8 +2304,8 @@ function resetSource() {
 function engineChip() {
   const chip = $("engine-chip");
   chip.dataset.mode = S.mode;
-  $("engine-label").textContent = S.mode === "live" ? `Live engine · v${S.version}` : S.mode === "recorded" ? `Recorded runs · v${S.version}` : S.mode === "loading" ? "Engine loading" : "Engine unavailable";
-  chip.title = S.mode === "live" ? "The Kshana engine is running in this browser as WebAssembly" : S.mode === "loading" ? "The engine is downloading. Recorded results show meanwhile." : `WebAssembly could not start here${S.liveError ? ` (${S.liveError})` : ""}. Showing real recorded runs of the bundled scenarios.`;
+  $("engine-label").textContent = S.mode === "live" ? t("js-app-chip-live", "Live engine · v{ $version }", { version: S.version }) : S.mode === "recorded" ? t("js-app-chip-recorded", "Recorded runs · v{ $version }", { version: S.version }) : S.mode === "loading" ? t("js-app-chip-loading", "Engine loading") : t("js-app-chip-unavailable", "Engine unavailable");
+  chip.title = S.mode === "live" ? t("js-app-chip-live-title", "The Kshana engine is running in this browser as WebAssembly") : S.mode === "loading" ? t("js-app-chip-loading-title", "The engine is downloading. Recorded results show meanwhile.") : S.liveError ? t("js-app-chip-failed-title-reason", "WebAssembly could not start here ({ $reason }). Showing real recorded runs of the bundled scenarios.", { reason: S.liveError }) : t("js-app-chip-failed-title", "WebAssembly could not start here. Showing real recorded runs of the bundled scenarios.");
   $("hero-load").hidden = S.mode !== "loading";
 }
 function insertSpaces() {
@@ -2298,25 +2322,25 @@ function updateSteps() {
   const stale = !!S.run && (S.run.file !== S.file || S.run.toml !== tomlEl.value);
   const label = $("run-label");
   if (!S.engine && S.mode === "loading") {
-    label.textContent = S.pendingRun ? "Will run when the engine is ready" : "Run when the engine is ready";
+    label.textContent = S.pendingRun ? t("js-app-run-will-run", "Will run when the engine is ready") : t("js-app-run-when-ready", "Run when the engine is ready");
     run.disabled = false;
-    if (!job.active) setStatus(stale || S.pendingRun ? "The engine is still loading. Your changes are kept and run as soon as it is ready." : "The engine is still loading. The result above is a recorded run.", "busy");
+    if (!job.active) setStatus(stale || S.pendingRun ? t("js-app-status-loading-kept", "The engine is still loading. Your changes are kept and run as soon as it is ready.") : t("js-app-status-loading-recorded", "The engine is still loading. The result above is a recorded run."), "busy");
   } else if (S.mode === "none") {
-    label.textContent = "Run again"; run.disabled = true;
+    label.textContent = t("js-app-run-again", "Run again"); run.disabled = true;
   } else {
-    label.textContent = stale ? "Run with these settings" : "Run again";
+    label.textContent = stale ? t("js-app-run-with-settings", "Run with these settings") : t("js-app-run-again", "Run again");
     run.disabled = job.active;
     if (!job.active) {
-      if (stale) setStatus("Your changes are not run yet.", "");
-      else if (S.run && S.run.mode === "live") setStatus(`The last run took ${Math.max(1, Math.round(S.run.ms))} ms in your browser. Nothing is uploaded.`, "ran");
-      else if (S.mode === "recorded") setStatus("WebAssembly is blocked here, so this shows recorded runs of the bundled scenarios.", "");
-      else setStatus("Runs in your browser. Nothing is uploaded.", "");
+      if (stale) setStatus(t("js-app-status-not-run-yet", "Your changes are not run yet."), "");
+      else if (S.run && S.run.mode === "live") setStatus(t("js-app-status-last-run-took", "The last run took { $ms } ms in your browser. Nothing is uploaded.", { ms: Math.max(1, Math.round(S.run.ms)) }), "ran");
+      else if (S.mode === "recorded") setStatus(t("js-app-status-wasm-blocked", "WebAssembly is blocked here, so this shows recorded runs of the bundled scenarios."), "");
+      else setStatus(t("js-app-status-runs-in-browser", "Runs in your browser. Nothing is uploaded."), "");
     }
   }
   run.classList.toggle("is-next", stale);
 }
 function pressRun() {
-  if (!S.engine) { S.pendingRun = true; updateSteps(); toast("The engine is still loading. Your run starts as soon as it is ready."); return; }
+  if (!S.engine) { S.pendingRun = true; updateSteps(); toast(t("js-app-toast-loading-run", "The engine is still loading. Your run starts as soon as it is ready.")); return; }
   runScenario();
 }
 
@@ -2328,15 +2352,15 @@ function updateCrumbs() {
   const sep = () => h("span", { class: "sep", "aria-hidden": "true", text: "›" });
   const link = (text, href, extra = {}) => h("a", { class: "cr", href, ...extra }, text);
   const here = (text) => h("span", { class: "cr", "aria-current": "page", text });
-  if (route.screen === "home") parts.push(here("Studio"));
-  else parts.push(link("Studio", "./"));
-  if (route.screen === "domain") { const d = domainOf(route.domain); parts.push(sep(), here(d ? d.label : "Area")); }
-  if (route.screen === "browse") parts.push(sep(), here(route.q ? `Search: ${route.q}` : "All scenarios"));
+  if (route.screen === "home") parts.push(here(t("js-app-crumb-studio", "Studio")));
+  else parts.push(link(t("js-app-crumb-studio", "Studio"), "./"));
+  if (route.screen === "domain") { const d = domainOf(route.domain); parts.push(sep(), here(d ? d.label : t("js-app-crumb-area", "Area"))); }
+  if (route.screen === "browse") parts.push(sep(), here(route.q ? t("js-app-crumb-search", "Search: { $query }", { query: route.q }) : t("js-app-crumb-all-scenarios", "All scenarios")));
   if (route.screen === "task") {
     const entry = S.shared ? null : entryFor(route.scenario);
     const d = entry ? domainOf(entry.domain) : null;
     if (d) parts.push(sep(), link(d.label, `?domain=${encodeURIComponent(d.id)}`));
-    parts.push(sep(), here(entry ? entry.title : "Shared scenario"));
+    parts.push(sep(), here(entry ? entry.title : t("js-app-shared-scenario", "Shared scenario")));
   }
   host.replaceChildren(...parts);
 }
@@ -2356,12 +2380,12 @@ async function jumpToField(file, id) {
   let el = $("knobs").querySelector(`[data-field-id="${esc(id)}"]`);
   if (!el) { $("adv").open = true; el = $("fields").querySelector(`.field[data-field-id="${esc(id)}"]`); }
   for (const x of document.querySelectorAll(".knob.hit, .field.hit")) x.classList.remove("hit");
-  if (!el) { toast("That setting is not a single number in this scenario: edit it in the scenario file."); return; }
+  if (!el) { toast(t("js-app-toast-not-single-number", "That setting is not a single number in this scenario: edit it in the scenario file.")); return; }
   el.classList.add("hit");
   el.scrollIntoView({ block: "center", behavior: reducedMotion() ? "auto" : "smooth" });
   const inp = el.querySelector("input");
   if (inp) inp.focus({ preventScroll: true });
-  toast(`Opened at ${el.dataset.label || id}. Change it, then run again.`);
+  toast(t("js-app-toast-opened-at", "Opened at { $label }. Change it, then run again.", { label: el.dataset.label || id }));
 }
 
 // ------------------------------------------------------------------ the opening screen
@@ -2399,9 +2423,9 @@ function previewSvg(p) {
 function evidenceBar(mix) {
   const n = mix.validated + mix.modelled;
   const v = n ? Math.round((100 * mix.validated) / n) : 0;
-  return h("span", { class: "ev", role: "img", "aria-label": `${mix.validated} validated and ${mix.modelled} modelled verification-matrix rows`, title: `${mix.validated} validated · ${mix.modelled} modelled rows in the verification matrix` },
+  return h("span", { class: "ev", role: "img", "aria-label": t("js-app-ev-aria", "{ $validated } validated and { $modelled } modelled verification-matrix rows", { validated: mix.validated, modelled: mix.modelled }), title: t("js-app-ev-title", "{ $validated } validated · { $modelled } modelled rows in the verification matrix", { validated: mix.validated, modelled: mix.modelled }) },
     h("span", { class: "ev-bar" }, h("i", { class: "v", style: `width:${v}%` }), h("i", { class: "m", style: `width:${100 - v}%` })),
-    h("span", { class: "ev-t" }, h("b", { text: `${v}%` }), " validated"));
+    h("span", { class: "ev-t" }, h("b", { text: `${v}%` }), " " + t("js-app-ev-validated", "validated")));
 }
 
 let heroTimer = 0;
@@ -2413,9 +2437,9 @@ async function renderHome() {
   // Legend: the two levels, each with its one-line meaning.
   if (data && data.levels) $("legend").replaceChildren(...["validated", "modelled"].map((k) => h("li", {}, lvlChip(k), h("span", { text: data.levels[k] }))));
   // The whole engine at a glance, from the generated ledger (lib/counts.mjs refuses a summary that disagrees with its rows).
-  (S.engineReady || Promise.resolve()).then(loadMatrix).then((ledger) => { if (!ledger) return; try { const m = matrixCounts(ledger); $("legend").append(h("li", { class: "lg-all" }, h("b", { text: `${m.validated} of ${m.total}` }), h("span", { text: `engine capabilities are validated across the whole verification matrix; ${m.modelled} are modelled and ${m.partner} are owned by partners.` }))); } catch { /* a ledger that disagrees with itself is not shown */ } });
+  (S.engineReady || Promise.resolve()).then(loadMatrix).then((ledger) => { if (!ledger) return; try { const m = matrixCounts(ledger); $("legend").append(h("li", { class: "lg-all" }, h("b", { text: t("js-app-legend-count", "{ $validated } of { $total }", { validated: m.validated, total: m.total }) }), h("span", { text: t("js-app-legend-all", "engine capabilities are validated across the whole verification matrix; { $modelled } are modelled and { $partner } are owned by partners.", { modelled: m.modelled, partner: m.partner }) }))); } catch { /* a ledger that disagrees with itself is not shown */ } });
   const total = SCENARIOS.length;
-  $("cap-sub").textContent = `${data.areas.length} areas, ${total} ready-to-run scenarios. Each area shows a real recorded result and the mix of evidence behind it: the share of its engine methods validated against an outside reference.`;
+  $("cap-sub").textContent = t("js-app-cap-sub", "{ $areas } areas, { $total } ready-to-run scenarios. Each area shows a real recorded result and the mix of evidence behind it: the share of its engine methods validated against an outside reference.", { areas: data.areas.length, total });
   const tiles = $("tiles");
   tiles.replaceChildren(...data.areas.filter((a) => entryFor(a.first)).map((a) => {
     const p = a.preview;
@@ -2423,9 +2447,9 @@ async function renderHome() {
     const e = p && entryFor(p.file);
     return h("a", { class: "tile", href: `?domain=${encodeURIComponent(a.id)}`, "data-domain": a.id, style: `--c:${a.color}`, title: DOMAIN_LINE[a.id] || a.label },
       h("span", { class: "t-head" }, domIcon(a.id), h("b", { text: a.label })),
-      pv ? h("span", { class: "t-pv", role: "img", "aria-label": `Recorded preview from ${e ? e.title : p.file}: ${p.title}` }, pv) : null,
-      h("span", { class: "t-foot" }, h("span", { class: "n", text: `${a.count} scenario${a.count === 1 ? "" : "s"}` }), evidenceBar(a.mix)));
-  }), h("a", { class: "tile all", href: "?browse=1" }, h("span", { class: "t-head" }, icon("i-list"), h("b", { text: `Browse all ${total} scenarios` })), h("span", { class: "all-sub", text: "Search by name, question or setting" }), h("svg", { class: "go" })));
+      pv ? h("span", { class: "t-pv", role: "img", "aria-label": t("js-app-tile-preview-label", "Recorded preview from { $source }: { $title }", { source: e ? e.title : p.file, title: p.title }) }, pv) : null,
+      h("span", { class: "t-foot" }, h("span", { class: "n", text: t("js-app-tile-scenario-count", { one: "{ $n } scenario", other: "{ $n } scenarios" }, { n: a.count }) }), evidenceBar(a.mix)));
+  }), h("a", { class: "tile all", href: "?browse=1" }, h("span", { class: "t-head" }, icon("i-list"), h("b", { text: t("js-app-tile-browse-all", "Browse all { $n } scenarios", { n: total }) })), h("span", { class: "all-sub", text: t("js-app-tile-browse-sub", "Search by name, question or setting") }), h("svg", { class: "go" })));
   tiles.lastChild.lastChild.replaceWith(icon("i-arrow"));
   tiles.lastChild.lastChild.classList.add("go");
   if (rec) paintHero(rec);
@@ -2436,13 +2460,13 @@ function paintHero(rec) {
   const mean = plainMeaning(r, rec.toml);
   const seen = new Set();
   $("hero-answer").textContent = mean ? spellOut(`${mean.big} ${mean.line}`, seen) : "";
-  $("hero-rec").textContent = `Recorded result · v${r.engine_version || rec.engine_version || S.version || ""}`.replace(/ · v$/, "");
+  { const hv = r.engine_version || rec.engine_version || S.version || ""; $("hero-rec").textContent = hv ? t("js-app-source-recorded", "Recorded result · v{ $version }", { version: hv }) : t("js-app-hero-recorded-bare", "Recorded result"); }
   const figs = $("hero-figs");
   figs.replaceChildren(...(mean ? mean.cards : []).map((c) => h("div", { "data-path": c.path || null }, h("dt", { text: c.label }), h("dd", {}, c.value, c.unit ? h("small", { text: c.unit }) : null))));
   const hn = honesty(r);
   const inp = r.inputs || {};
   const places = r.grid && Array.isArray(r.grid.lat_deg) && Array.isArray(r.grid.lon_deg) ? r.grid.lat_deg.length * r.grid.lon_deg.length : null;
-  $("hero-meta").replaceChildren(hn ? lvlChip(hn.tier, hn.text) : "", " ", [Number.isFinite(r.total_satellites) ? `${r.total_satellites} satellites` : "", Number.isFinite(inp.mask_deg) ? `${inp.mask_deg}° elevation mask` : "", places ? `${places} places` : "", Number.isFinite(inp.epochs) ? `${inp.epochs} time steps` : ""].filter(Boolean).join(", ") + ". Satellite positions only: no signal power, satellite health or terrain.");
+  $("hero-meta").replaceChildren(hn ? lvlChip(hn.tier, hn.text) : "", " ", [Number.isFinite(r.total_satellites) ? t("js-app-hero-satellites", { one: "{ $n } satellites", other: "{ $n } satellites" }, { n: r.total_satellites }) : "", Number.isFinite(inp.mask_deg) ? t("js-app-hero-mask", "{ $deg }° elevation mask", { deg: inp.mask_deg }) : "", places ? t("js-app-hero-places", { one: "{ $n } places", other: "{ $n } places" }, { n: places }) : "", Number.isFinite(inp.epochs) ? t("js-app-hero-steps", { one: "{ $n } time steps", other: "{ $n } time steps" }, { n: inp.epochs }) : ""].filter(Boolean).join(", ") + ". " + t("js-app-hero-positions-only", "Satellite positions only: no signal power, satellite health or terrain."));
   const fields = G.coverageFields(r);
   const field = (fields.find((f) => /visible/.test(f.key)) || fields[0] || {}).key;
   const tr = r.tracks && Array.isArray(r.tracks.times_s) ? r.tracks : null;
@@ -2453,10 +2477,10 @@ function paintHero(rec) {
   const draw = () => {
     c = G.coverageSvg(r, { field, k, land: S.land || [] });
     setSvg(box, c.svg);
-    if (tr) $("hero-clock").textContent = `${plainDuration(tr.times_s[k] - tr.times_s[0])} of ${plainDuration(span)}`;
+    if (tr) $("hero-clock").textContent = t("js-app-hero-clock", "{ $elapsed } of { $total }", { elapsed: plainDuration(tr.times_s[k] - tr.times_s[0]), total: plainDuration(span) });
   };
   draw();
-  if (c) $("hero-cap").replaceChildren(h("span", { class: "ramp-l" }, h("i", { class: "ramp", style: `background:linear-gradient(90deg,${(c.field.lowerBetter ? [1, .75, .5, .25, 0] : [0, .25, .5, .75, 1]).map(V.heat).join(",")})` }), `${V.fmt(c.range[0], 3)} to ${V.fmt(c.range[1], 3)} ${c.field.label.toLowerCase()}${span ? `, over ${plainDuration(span)}` : ""}`),
+  if (c) $("hero-cap").replaceChildren(h("span", { class: "ramp-l" }, h("i", { class: "ramp", style: `background:linear-gradient(90deg,${(c.field.lowerBetter ? [1, .75, .5, .25, 0] : [0, .25, .5, .75, 1]).map(V.heat).join(",")})` }), span ? t("js-app-hero-ramp-over", "{ $lo } to { $hi } { $field }, over { $duration }", { lo: V.fmt(c.range[0], 3), hi: V.fmt(c.range[1], 3), field: c.field.label.toLowerCase(), duration: plainDuration(span) }) : t("js-app-hero-ramp", "{ $lo } to { $hi } { $field }", { lo: V.fmt(c.range[0], 3), hi: V.fmt(c.range[1], 3), field: c.field.label.toLowerCase() })),
     h("ul", { class: "cons" }, names.map((n) => h("li", {}, h("i", { class: "sw", style: `background:${n.color}` }), n.name))));
   clearInterval(heroTimer);
   if (tr && !reducedMotion()) heroTimer = setInterval(() => { if ($("home").hidden || document.hidden) return; k = (k + 1) % tr.times_s.length; draw(); }, 420);
@@ -2467,7 +2491,7 @@ function paintHero(rec) {
 function hitLink(e, extra = null) {
   const d = domainOf(e.domain);
   return h("a", { class: "start-hit", href: scenarioHref(e.file), "data-file": e.file, style: `--c:${d ? d.color : "var(--ink-3)"}` },
-    h("b", { text: e.title }), h("span", { text: e.question }), h("span", { class: "meta" }, d ? d.label : "", NOT_IN_BROWSER[e.file] ? " · recorded run, native engine" : ""), extra);
+    h("b", { text: e.title }), h("span", { text: e.question }), h("span", { class: "meta" }, d ? d.label : "", NOT_IN_BROWSER[e.file] ? " · " + t("js-app-hit-native-note", "recorded run, native engine") : ""), extra);
 }
 async function renderBrowse(st) {
   const host = $("start-results"), ev = $("browse-evidence");
@@ -2480,9 +2504,9 @@ async function renderBrowse(st) {
     const kick = $("browse-kicker");
     kick.style.setProperty("--c", d.color);
     kick.querySelector("i").style.background = d.color;
-    kick.querySelector("span").textContent = `Area · ${items.length} scenario${items.length === 1 ? "" : "s"}`;
+    kick.querySelector("span").textContent = t("js-app-browse-area-kicker", { one: "Area · { $n } scenario", other: "Area · { $n } scenarios" }, { n: items.length });
     $("browse-h").textContent = d.label;
-    $("browse-lede").textContent = `${DOMAIN_LINE[d.id] || ""} Pick one: it opens on its result straight away.`.trim();
+    $("browse-lede").textContent = `${DOMAIN_LINE[d.id] || ""} ${t("js-app-browse-area-lede", "Pick one: it opens on its result straight away.")}`.trim();
     $("start-search").value = "";
     $("start-search").closest(".search").hidden = true;
     host.replaceChildren(h("div", { class: "start-hits" }, items.map((e) => hitLink(e))));
@@ -2490,16 +2514,16 @@ async function renderBrowse(st) {
     const a = data.areas.find((x) => x.id === d.id);
     if (a && route && route.domain === d.id) {
       ev.hidden = false;
-      ev.replaceChildren(h("p", {}, h("b", { text: "Evidence behind this area. " }), `The engine methods its scenarios run have ${a.mix.validated} validated and ${a.mix.modelled} modelled rows in the verification matrix.`), evidenceBar(a.mix),
-        a.examples && a.examples.validated.length ? h("p", { class: "fine", text: `Validated, for example: ${a.examples.validated.join("; ")}.` }) : "");
+      ev.replaceChildren(h("p", {}, h("b", { text: t("js-app-browse-evidence-title", "Evidence behind this area.") + " " }), t("js-app-browse-evidence", "The engine methods its scenarios run have { $validated } validated and { $modelled } modelled rows in the verification matrix.", { validated: a.mix.validated, modelled: a.mix.modelled })), evidenceBar(a.mix),
+        a.examples && a.examples.validated.length ? h("p", { class: "fine", text: t("js-app-browse-validated-examples", "Validated, for example: { $examples }.", { examples: a.examples.validated.join("; ") }) }) : "");
     }
     return;
   }
   const kick = $("browse-kicker");
   kick.querySelector("i").style.background = "var(--ink-3)";
-  kick.querySelector("span").textContent = "Browse";
-  $("browse-h").textContent = `All ${SCENARIOS.length} scenarios`;
-  $("browse-lede").textContent = "Search, or pick an area. Every scenario opens on its result straight away.";
+  kick.querySelector("span").textContent = t("js-app-browse-kicker", "Browse");
+  $("browse-h").textContent = t("js-app-browse-all-title", "All { $n } scenarios", { n: SCENARIOS.length });
+  $("browse-lede").textContent = t("js-app-browse-lede", "Search, or pick an area. Every scenario opens on its result straight away.");
   $("start-search").closest(".search").hidden = false;
   if ($("start-search").value !== st.q) $("start-search").value = st.q || "";
   if (st.q) { await startSearch(); return; }
@@ -2516,14 +2540,14 @@ async function startSearch() {
   const scen = searchScenarios(q); // title and domain matches first
   const fields = findFields(S.fieldIdx, q, 400);
   const out = [];
-  if (doms.length) out.push(h("h3", { text: "Areas" }), h("div", { class: "start-doms" }, doms.map((d) => h("a", { class: "start-dom", href: `?domain=${encodeURIComponent(d.id)}`, style: `--c:${d.color}` }, h("span", { class: "ic" }, domIcon(d.id)), d.label))));
-  if (scen.length) out.push(h("h3", { text: `Scenarios (${scen.length})` }), h("div", { class: "start-hits" }, scen.slice(0, 24).map((e) => hitLink(e))));
+  if (doms.length) out.push(h("h3", { text: t("js-app-pal-sec-areas", "Areas") }), h("div", { class: "start-doms" }, doms.map((d) => h("a", { class: "start-dom", href: `?domain=${encodeURIComponent(d.id)}`, style: `--c:${d.color}` }, h("span", { class: "ic" }, domIcon(d.id)), d.label))));
+  if (scen.length) out.push(h("h3", { text: t("js-app-search-scenarios", "Scenarios ({ $n })", { n: scen.length }) }), h("div", { class: "start-hits" }, scen.slice(0, 24).map((e) => hitLink(e))));
   if (fields.length) {
-    out.push(h("h3", { text: `Settings named like “${q}”: in ${scenarioCount(fields)} scenario${scenarioCount(fields) === 1 ? "" : "s"}` }), h("p", { class: "hint", text: "Each opens the scenario with that setting highlighted, ready to change." }));
-    out.push(h("div", { class: "start-hits" }, fields.slice(0, 24).map((x) => { const e = entryFor(x.file); const d = e ? domainOf(e.domain) : null; return h("button", { class: "start-hit field", type: "button", "data-file": x.file, "data-field": x.id, style: `--c:${d ? d.color : "var(--ink-3)"}`, onclick: () => jumpToField(x.file, x.id) }, h("b", { text: x.label }), h("span", { text: `in ${e ? e.title : x.file}` }), h("span", { class: "meta", text: `${d ? d.label : ""} · setting ${x.section ? x.section + "." : ""}${x.key}` })); })));
-    if (fields.length > 24) out.push(h("p", { class: "hint", text: `${fields.length - 24} more matches: add a word to narrow them.` }));
+    out.push(h("h3", { text: t("js-app-search-settings", { one: "Settings named like “{ $query }”: in { $n } scenario", other: "Settings named like “{ $query }”: in { $n } scenarios" }, { query: q, n: scenarioCount(fields) }) }), h("p", { class: "hint", text: t("js-app-search-settings-hint", "Each opens the scenario with that setting highlighted, ready to change.") }));
+    out.push(h("div", { class: "start-hits" }, fields.slice(0, 24).map((x) => { const e = entryFor(x.file); const d = e ? domainOf(e.domain) : null; return h("button", { class: "start-hit field", type: "button", "data-file": x.file, "data-field": x.id, style: `--c:${d ? d.color : "var(--ink-3)"}`, onclick: () => jumpToField(x.file, x.id) }, h("b", { text: x.label }), h("span", { text: t("js-app-hit-in-scenario", "in { $title }", { title: e ? e.title : x.file }) }), h("span", { class: "meta", text: t("js-app-hit-setting-meta", "{ $area } · setting { $name }", { area: d ? d.label : "", name: `${x.section ? x.section + "." : ""}${x.key}` }) })); })));
+    if (fields.length > 24) out.push(h("p", { class: "hint", text: t("js-app-search-more-matches", { one: "{ $n } more matches: add a word to narrow them.", other: "{ $n } more matches: add a word to narrow them." }, { n: fields.length - 24 }) }));
   }
-  if (!out.length) out.push(h("p", { class: "hint", text: `Nothing matches “${q}”. Try a word like jamming, clock, lunar, orbit, mask or PDOP.` }));
+  if (!out.length) out.push(h("p", { class: "hint", text: t("js-app-search-nothing", "Nothing matches “{ $query }”. Try a word like jamming, clock, lunar, orbit, mask or PDOP.", { query: q }) }));
   host.replaceChildren(...out);
 }
 
@@ -2533,7 +2557,7 @@ function openCompare() {
   if (S.pins.length === 1 && !S.pins.includes(S.run)) { pinRun(); return; }
   if (!available.includes("compare")) buildTabs();
   selectTab("compare", { scroll: true });
-  if (S.pins.length < 2) toast("One run is pinned. Change a setting, run again, and pin that run to compare the two.");
+  if (S.pins.length < 2) toast(t("js-app-toast-one-pinned", "One run is pinned. Change a setting, run again, and pin that run to compare the two."));
 }
 
 // Find a field of this scenario: filter the controls, guided and all.
@@ -2551,7 +2575,7 @@ function applyFieldFind() {
   if (!q) { note.hidden = true; return; }
   if (okF.size && !okK.size) $("adv").open = true;
   note.hidden = false;
-  note.textContent = okK.size + okF.size ? `${okK.size} guided control${okK.size === 1 ? "" : "s"} and ${okF.size} of ${fields.length} fields match “${q}”.` : `No field of this scenario matches “${q}”. Search every scenario with the library search.`;
+  note.textContent = okK.size + okF.size ? t("js-app-find-matches", { one: "{ $n } guided control and { $m } of { $total } fields match “{ $query }”.", other: "{ $n } guided controls and { $m } of { $total } fields match “{ $query }”." }, { n: okK.size, m: okF.size, total: fields.length, query: q }) : t("js-app-find-none", "No field of this scenario matches “{ $query }”. Search every scenario with the library search.", { query: q });
 }
 
 
@@ -2561,23 +2585,23 @@ async function paintChannels() {
   const box = $("install-line");
   if (!box) return;
   try {
-    const d = await (await fetch("channels.json")).json();
+    const d = await (await fetchData("channels.json")).json();
     const pick = ["cli", "python", "npm", "mcp"].map((id) => d.channels.find((c) => c.id === id)).filter(Boolean);
-    box.replaceChildren(h("span", { class: "lbl", text: `Install v${d.version}` }), ...pick.map((c) => h("button", { class: "cmd-chip", type: "button", title: `Copy: ${c.command}`, "data-cmd": c.command, text: c.command })));
+    box.replaceChildren(h("span", { class: "lbl", text: t("js-app-install-label", "Install v{ $version }", { version: d.version }) }), ...pick.map((c) => h("button", { class: "cmd-chip", type: "button", title: t("js-app-install-copy", "Copy: { $command }", { command: c.command }), "data-cmd": c.command, text: c.command })));
     for (const b of box.querySelectorAll("button")) b.addEventListener("click", () => { navigator.clipboard && navigator.clipboard.writeText(b.dataset.cmd); b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1200); });
   } catch { box.hidden = true; }
 }
 
 
 function renderCompareExtras() {
-  const card = $("compare-kpi-card"), t = $("compare-kpi"), ov = $("compare-overlays");
-  card.hidden = true; t.replaceChildren(); ov.replaceChildren();
+  const card = $("compare-kpi-card"), kpiT = $("compare-kpi"), ov = $("compare-overlays");
+  card.hidden = true; kpiT.replaceChildren(); ov.replaceChildren();
   if (S.pins.length < 2) return;
   const sets = S.pins.map((p) => kpiCards(p.result, p.toml, 6));
   const keys = [];
   for (const cs of sets) for (const c of cs) if (!keys.some((k) => kpiKey(k) === kpiKey(c))) keys.push(c);
   if (keys.length) {
-    t.append(h("thead", {}, h("tr", {}, h("th", { text: "Key figure" }), ...S.pins.map((p, i) => h("th", {}, h("span", { class: "sw", style: `background:${PALETTE[i]}` }), `${String.fromCharCode(65 + i)} · run ${p.id}`)))));
+    kpiT.append(h("thead", {}, h("tr", {}, h("th", { text: t("js-app-th-key-figure", "Key figure") }), ...S.pins.map((p, i) => h("th", {}, h("span", { class: "sw", style: `background:${PALETTE[i]}` }), t("js-app-compare-run-head", "{ $letter } · run { $id }", { letter: String.fromCharCode(65 + i), id: p.id }))))));
     const tb = h("tbody");
     for (const k of keys) {
       const tr = h("tr", {}, h("td", { text: `${k.term ? `${k.k} (${k.term})` : k.k}${k.sub ? `, ${k.sub}` : ""}${k.unit ? ` (${k.unit})` : ""}` }));
@@ -2589,7 +2613,7 @@ function renderCompareExtras() {
       });
       tb.append(tr);
     }
-    t.append(tb);
+    kpiT.append(tb);
     card.hidden = false;
   }
   // Overlaid charts: the same line panel of runs A and B on one pair of axes (B dashed).
@@ -2602,12 +2626,12 @@ function renderCompareExtras() {
     const pb = lb.find((x) => x.title === pa.title);
     if (!pb || n >= 3) continue;
     const series = [...pa.model.series.map((x) => ({ ...x, label: `A · ${x.label}` })), ...pb.model.series.map((x) => ({ ...x, label: `B · ${x.label}`, dash: true }))];
-    const title = `${pa.title}: run ${a.id} (A) against run ${b.id} (B)`;
+    const title = t("js-app-overlay-title", "{ $title }: run { $a } (A) against run { $b } (B)", { title: pa.title, a: a.id, b: b.id });
     const chart = V.lineChartSvg({ ...pa.model, series }, pa.opts || {});
     if (!chart.svg) continue;
     const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" });
     setSvg(box, chart.svg); bindHover(box, chart.hover); mountTools(tools, () => exportSvg(chart.svg, title), "compare-overlay");
-    ov.append(h("div", { class: "card scope" }, h("div", { class: "card-head" }, h("h3", { text: title }), h("p", { class: "card-note on-space", text: "Solid lines are run A, dashed lines run B, on the same axes." })), box, tools));
+    ov.append(h("div", { class: "card scope" }, h("div", { class: "card-head" }, h("h3", { text: title }), h("p", { class: "card-note on-space", text: t("js-app-overlay-note", "Solid lines are run A, dashed lines run B, on the same axes.") })), box, tools));
     n++;
   }
 }
@@ -2618,7 +2642,7 @@ function toggleMax(card, btn = card.querySelector(".pan-max")) {
   for (const c of document.querySelectorAll(".is-max")) if (c !== card) toggleMax(c);
   card.classList.toggle("is-max", on);
   document.body.classList.toggle("has-max", on);
-  if (btn) { btn.replaceChildren(icon(on ? "i-min" : "i-max"), h("span", { class: "lbl", text: on ? "Close" : "Expand" })); btn.setAttribute("aria-label", on ? "Close full screen" : "Expand this panel to full screen"); btn.setAttribute("aria-expanded", on ? "true" : "false"); btn.focus(); }
+  if (btn) { btn.replaceChildren(icon(on ? "i-min" : "i-max"), h("span", { class: "lbl", text: on ? t("js-app-panel-close", "Close") : t("js-app-panel-expand", "Expand") })); btn.setAttribute("aria-label", on ? t("js-app-panel-close-full", "Close full screen") : t("js-app-panel-expand-full", "Expand this panel to full screen")); btn.setAttribute("aria-expanded", on ? "true" : "false"); btn.focus(); }
   window.dispatchEvent(new Event("resize"));
 }
 let decoTimer = 0;
@@ -2627,7 +2651,7 @@ function decoratePanels() {
   for (const card of $("views").querySelectorAll(".card")) {
     const head = card.querySelector(":scope > .card-head");
     if (!head || card.querySelector(":scope > .pan-max")) continue;
-    const b = h("button", { type: "button", class: "pan-max", "aria-label": "Expand this panel to full screen", "aria-expanded": "false", title: "Show this panel full screen (Escape closes it)" }, icon("i-max"), h("span", { class: "lbl", text: "Expand" }));
+    const b = h("button", { type: "button", class: "pan-max", "aria-label": t("js-app-panel-expand-full", "Expand this panel to full screen"), "aria-expanded": "false", title: t("js-app-panel-expand-title", "Show this panel full screen (Escape closes it)") }, icon("i-max"), h("span", { class: "lbl", text: t("js-app-panel-expand", "Expand") }));
     b.addEventListener("click", () => toggleMax(card, b));
     card.classList.add("has-max-btn");
     card.append(b);
@@ -2665,7 +2689,7 @@ async function applyRoute(st) {
   } else if (st.screen === "domain" || st.screen === "browse") {
     showScreen("browse");
     if (!prev || prev.screen !== st.screen || prev.domain !== st.domain) window.scrollTo(0, 0);
-    document.title = `${st.screen === "domain" && domainOf(st.domain) ? domainOf(st.domain).label : "All scenarios"} · ${STUDIO_NAME}`;
+    document.title = `${st.screen === "domain" && domainOf(st.domain) ? domainOf(st.domain).label : t("js-app-crumb-all-scenarios", "All scenarios")} · ${STUDIO_NAME}`;
     await renderBrowse(st);
   } else {
     route = { ...st, screen: "home" };
@@ -2683,14 +2707,14 @@ async function openTask(file, tab) {
   stopPlayers();
   paintScenarioHeader(entryFor(file));
   // The first paint (index.html, data/firstpaint.json) may already show this run's recorded answer.
-  if (document.body.dataset.fp !== file.replace(/\.toml$/, "")) { $("m-big").textContent = "Opening the result…"; $("m-line").textContent = ""; }
+  if (document.body.dataset.fp !== file.replace(/\.toml$/, "")) { $("m-big").textContent = t("js-app-opening-result", "Opening the result…"); $("m-line").textContent = ""; }
   delete document.body.dataset.fp;
   await loadScenario(file, { run: false });
   if (S.file !== file) return;
   if (NOT_IN_BROWSER[file] && !RECORDED_NATIVELY.includes(file)) {
     // Nothing to show in a browser: say so plainly, and how to run it.
     $("m-chips").replaceChildren();
-    $("m-big").textContent = "This one runs on the command line, not in the browser.";
+    $("m-big").textContent = t("js-app-cli-only-title", "This one runs on the command line, not in the browser.");
     $("m-line").textContent = NOT_IN_BROWSER[file];
     $("kpis-wrap").hidden = true; $("tabs-wrap").hidden = true;
     for (const v of $("views").querySelectorAll(".view")) v.hidden = true;
@@ -2743,7 +2767,7 @@ function bindUi() {
     else tomlEl.dataset.esc = "";
   });
   $("src-reset").addEventListener("click", (e) => { e.preventDefault(); resetSource(); });
-  $("src-copy").addEventListener("click", async (e) => { e.preventDefault(); try { await navigator.clipboard.writeText(tomlEl.value); toast("Scenario copied."); } catch { toast("Copy is blocked here."); } });
+  $("src-copy").addEventListener("click", async (e) => { e.preventDefault(); try { await navigator.clipboard.writeText(tomlEl.value); toast(t("js-app-toast-scenario-copied", "Scenario copied.")); } catch { toast(t("js-app-toast-copy-blocked", "Copy is blocked here.")); } });
   for (const b of document.querySelectorAll("[data-ts]")) b.addEventListener("click", () => { S.tsMode = b.dataset.ts; setTsMode(b.dataset.ts); });
   $("ho-thr").addEventListener("input", drawHoldover);
   $("ho-thr-reset").addEventListener("click", () => { if (S.ho && Number.isFinite(S.ho.threshold)) { $("ho-thr").value = String(S.ho.threshold); drawHoldover(); } });
@@ -2751,9 +2775,9 @@ function bindUi() {
   $("sweep-knob").addEventListener("change", () => seedSweepRange(true));
   $("sweep-knob2").addEventListener("change", () => seedSweepRange(true));
   $("compare-clear").addEventListener("click", () => { S.pins = []; buildTabs(); selectTab(preferredTab(S.run)); renderResearch(S.run); });
-  $("json-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(JSON.stringify(S.run.result, null, 2)); toast("JSON copied."); } catch { toast("Copy is blocked here."); } });
+  $("json-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(JSON.stringify(S.run.result, null, 2)); toast(t("js-app-toast-json-copied", "JSON copied.")); } catch { toast(t("js-app-toast-copy-blocked", "Copy is blocked here.")); } });
   $("json-download").addEventListener("click", () => { const meta = fileMeta(S.run.result, S.version, S.run.toml); triggerDownload(new Blob([JSON.stringify(S.run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json")); });
-  for (const b of document.querySelectorAll("button.copy[data-copy]")) b.addEventListener("click", async () => { try { await navigator.clipboard.writeText($(b.dataset.copy).textContent); toast("Copied."); } catch { toast("Copy is blocked here: select the text instead."); } });
+  for (const b of document.querySelectorAll("button.copy[data-copy]")) b.addEventListener("click", async () => { try { await navigator.clipboard.writeText($(b.dataset.copy).textContent); toast(t("js-app-toast-copied", "Copied.")); } catch { toast(t("js-app-toast-copy-blocked-select", "Copy is blocked here: select the text instead.")); } });
   $("cmdk-btn").addEventListener("click", openPalette);
   $("pal-input").addEventListener("input", renderPalette);
   $("pal-input").addEventListener("keydown", (e) => {
@@ -2809,7 +2833,20 @@ function bindUi() {
   PHONE_MQ.addEventListener("change", () => { if (S.run) selectTab(S.activeTab, { url: false }); });
 }
 
+// A language change: rebuild the text the script wrote (the static text follows data-l10n); the run and its result stay as they are.
+function relocalise() {
+  try {
+    S.homeDrawn = false;
+    if (route && route.screen === "task") {
+      const e = entryFor(route.scenario);
+      if (e) paintScenarioHeader(e);
+      if (S.run) renderRun(S.run);
+    } else if (route) applyRoute(route);
+  } catch (e) { console.warn("language change:", e); }
+}
+
 async function main() {
+  if (window.kshanaL10n && window.kshanaL10n.setRerender) window.kshanaL10n.setRerender(relocalise);
   // Which view opens (lib/urlstate.mjs chooseView): view=advanced in the link, or, on the bare
   // address, the view this browser chose last. Site deep links open this Simple view.
   let stored = null;
@@ -2852,7 +2889,7 @@ async function main() {
     tomlEl.value = carried;
     refreshEditor(); buildParams(); updateSteps();
     S.pendingRun = true;
-    toast("Opened with the settings you changed in the Advanced view.");
+    toast(t("js-app-toast-opened-advanced", "Opened with the settings you changed in the Advanced view."));
   }
   let booting = bootEngine();
   S.engineReady = booting.catch(() => {});
@@ -2865,7 +2902,7 @@ async function main() {
   if (groupsRead) await groupsRead;
   if (deferred) {
     if (entryFor(st.scenario)) await applyRoute(st);
-    else { navigate({ screen: "browse", q: st.scenario.replace(/\.toml$/, "").replace(/-/g, " ") }, { replace: true }); toast(`There is no scenario called ${st.scenario.replace(/\.toml$/, "")} here. These are the closest matches.`); }
+    else { navigate({ screen: "browse", q: st.scenario.replace(/\.toml$/, "").replace(/-/g, " ") }, { replace: true }); toast(t("js-app-toast-no-scenario", "There is no scenario called { $name } here. These are the closest matches.", { name: st.scenario.replace(/\.toml$/, "") })); }
   }
   for (const dir of dirs) {
     const idx = await getJson(`${dir}native/index.json`);
@@ -2878,7 +2915,7 @@ async function main() {
     S.mode = "none";
     engineChip();
     updateSteps();
-    showError(`The engine could not start: ${errorMessage(e)}. Serve this folder over HTTP (for example python3 -m http.server) rather than opening the file directly.`);
+    showError(t("js-app-engine-could-not-start", "The engine could not start: { $reason }. Serve this folder over HTTP (for example { $command }) rather than opening the file directly.", { reason: errorMessage(e), command: "python3 -m http.server" }));
     return;
   }
   engineChip();
@@ -2892,7 +2929,7 @@ async function main() {
     $("research").open = true; $("source").open = true;
     updateCrumbs();
     if (S.mode === "live") await runScenario();
-    else showNotice("This link carries its own scenario, which needs the live engine. Open it on kshana.dev.");
+    else showNotice(t("js-app-notice-shared-needs-live", "This link carries its own scenario, which needs the live engine. Open it on kshana.dev."));
     return;
   }
   if (cfg) for (const [key, val] of Object.entries(cfg.knobs || {})) tomlEl.value = patchScalar(tomlEl.value, key, val);

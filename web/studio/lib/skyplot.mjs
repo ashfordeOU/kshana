@@ -4,6 +4,8 @@
 // No navigation quantity is computed here: positions, DOPs, the ellipse and the point cloud are the
 // engine's (lib/geometry-adapter.mjs). Pure; tested in skyplot.test.mjs.
 
+import { t } from "./t.mjs";
+
 // Colour and shape per constellation. Colours are the Studio's own domain tokens (blue, amber, violet,
 // teal), and every constellation also has its own marker shape and a text label, so no reading depends
 // on telling colours apart.
@@ -12,7 +14,7 @@ export const SYSTEM_STYLE = Object.freeze({
   galileo: { label: "Galileo", color: "var(--nav)", shape: "square" },
   beidou: { label: "BeiDou", color: "var(--spf)", shape: "triangle" },
   leo: { label: "LEO", color: "var(--orb)", shape: "cross" },
-  tle: { label: "Your elements", color: "var(--ink-2)", shape: "diamond" },
+  tle: { get label() { return t("js-geo-style-own-elements", "Your elements"); }, color: "var(--ink-2)", shape: "diamond" },
 });
 export const SYSTEMS = Object.freeze(Object.keys(SYSTEM_STYLE));
 export const styleFor = (sys) => (Object.hasOwn(SYSTEM_STYLE, sys) ? SYSTEM_STYLE[sys] : { label: String(sys), color: "var(--ink-3)", shape: "circle" });

@@ -4,6 +4,8 @@
 // MODELLED and says so; the page shows what the file states and decides nothing. A value the page does not know is shown as written,
 // never as a pass. Pure; tested in jammertest-card.test.mjs.
 
+import { t } from "./t.mjs";
+
 export const MAX_BYTES = 8 * 1024 * 1024;
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
 const num = (x) => (isNum(x) ? x : null);
@@ -12,10 +14,10 @@ export const OUTCOMES = Object.freeze(["detected", "late", "missed", "not-evalua
 
 // Text -> { card } or { error }.
 export function readScorecard(text, name = "file") {
-  if (String(text).length > MAX_BYTES) return { error: `${name}: larger than 8 MiB; this page reads a scorecard up to that size.` };
+  if (String(text).length > MAX_BYTES) return { error: t("js-lib-jammertest-card-too-large", "{ $name }: larger than 8 MiB; this page reads a scorecard up to that size.", { name }) };
   let o;
-  try { o = JSON.parse(String(text).replace(/^﻿/, "")); } catch (e) { return { error: `${name}: not JSON (${e.message}).` }; }
-  if (!o || typeof o !== "object" || !Array.isArray(o.tests) || !o.summary || typeof o.summary !== "object") return { error: `${name}: not a jammertest scorecard (it needs tests[] and summary).` };
+  try { o = JSON.parse(String(text).replace(/^﻿/, "")); } catch (e) { return { error: t("js-lib-jammertest-card-not-json", "{ $name }: not JSON ({ $reason }).", { name, reason: e.message }) }; }
+  if (!o || typeof o !== "object" || !Array.isArray(o.tests) || !o.summary || typeof o.summary !== "object") return { error: t("js-lib-jammertest-card-not-scorecard", "{ $name }: not a jammertest scorecard (it needs tests[] and summary).", { name }) };
   const s = o.summary;
   return {
     card: {
@@ -32,23 +34,24 @@ export function readScorecard(text, name = "file") {
   };
 }
 const arr = (x) => (Array.isArray(x) ? x : []);
-const n = (v, d = 0) => (v == null ? "n/a" : v.toFixed(d));
-const pct = (v) => (v == null ? "n/a" : `${(100 * v).toFixed(1)} %`);
+const na = () => t("js-lib-jammertest-card-na", "n/a");
+const n = (v, d = 0) => (v == null ? na() : v.toFixed(d));
+const pct = (v) => (v == null ? na() : `${(100 * v).toFixed(1)} %`);
 
 // [label, value] rows for the summary. A rate with nothing to compute reads "n/a", which the page explains as "not assessable".
 export function summaryRows(c) {
   const s = c.summary;
   return [
-    ["Tests in the plan slice", n(s.tests)], ["Evaluable", n(s.evaluable)], ["Detected in tolerance", n(s.detected)], ["Late", n(s.late)], ["Missed", n(s.missed)],
-    ["Detection rate (any alarm)", pct(s.detectionRate)], ["Detected in tolerance, rate", pct(s.inTolRate)], ["Median detection latency", s.medianLatencyS == null ? "n/a" : `${n(s.medianLatencyS, 1)} s`],
-    ["Median time to recover", s.medianRecoverS == null ? "n/a" : `${n(s.medianRecoverS, 1)} s`], ["False-alarm runs", n(s.falseAlarmRuns)], ["False-alarm epochs", n(s.falseAlarmEpochs)],
-    ["Clean epochs", n(s.cleanEpochs)], ["Clean hours", n(s.cleanHours, 2)], ["False-alarm runs per hour", n(s.falseAlarmRunsPerHour, 3)],
+    [t("js-lib-jammertest-card-tests", "Tests in the plan slice"), n(s.tests)], [t("js-lib-jammertest-card-evaluable", "Evaluable"), n(s.evaluable)], [t("js-lib-jammertest-card-detected", "Detected in tolerance"), n(s.detected)], [t("js-lib-jammertest-card-late", "Late"), n(s.late)], [t("js-lib-jammertest-card-missed", "Missed"), n(s.missed)],
+    [t("js-lib-jammertest-card-detection-rate", "Detection rate (any alarm)"), pct(s.detectionRate)], [t("js-lib-jammertest-card-in-tol-rate", "Detected in tolerance, rate"), pct(s.inTolRate)], [t("js-lib-jammertest-card-median-latency", "Median detection latency"), s.medianLatencyS == null ? na() : `${n(s.medianLatencyS, 1)} s`],
+    [t("js-lib-jammertest-card-median-recover", "Median time to recover"), s.medianRecoverS == null ? na() : `${n(s.medianRecoverS, 1)} s`], [t("js-lib-jammertest-card-fa-runs", "False-alarm runs"), n(s.falseAlarmRuns)], [t("js-lib-jammertest-card-fa-epochs", "False-alarm epochs"), n(s.falseAlarmEpochs)],
+    [t("js-lib-jammertest-card-clean-epochs", "Clean epochs"), n(s.cleanEpochs)], [t("js-lib-jammertest-card-clean-hours", "Clean hours"), n(s.cleanHours, 2)], [t("js-lib-jammertest-card-fa-per-hour", "False-alarm runs per hour"), n(s.falseAlarmRunsPerHour, 3)],
   ];
 }
 
 // Why the card says nothing, in one sentence, when it cannot: no evaluable test, so no rate.
 export function assessability(c) {
   const s = c.summary;
-  if (s.evaluable === 0 || s.evaluable == null) return "No test was evaluable in this log, so no detection rate or latency can be stated. That is a result, not a failure of the page: nothing here is a pass.";
+  if (s.evaluable === 0 || s.evaluable == null) return t("js-lib-jammertest-card-not-assessable", "No test was evaluable in this log, so no detection rate or latency can be stated. That is a result, not a failure of the page: nothing here is a pass.");
   return "";
 }

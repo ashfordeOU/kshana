@@ -7,6 +7,8 @@
 // designer · campaigns · solar system · kept modules (holdover reader, one block, Studio loader).
 import { fmt, nearestByX } from "../studio/lib/views.mjs";
 import { studioHref } from "./studio-links.mjs";
+import { t, ready, fetchData } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 
 const D = JSON.parse(document.getElementById("kpage").textContent);
 const ROOT = (window.KSITE && window.KSITE.root) || "";
@@ -49,12 +51,23 @@ function watchVisible(node, cb, margin = "0px") {
   new IntersectionObserver((es) => cb(es[es.length - 1].isIntersecting), { rootMargin: margin }).observe(node);
 }
 let dataP = null;
-const data = () => (dataP ||= fetch(ROOT + "assets/capabilities/capabilities.json").then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }));
+const data = () => (dataP ||= fetchData(ROOT + "assets/capabilities/capabilities.json").then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }));
 const n = (v, d = 1) => (v == null || !Number.isFinite(v) ? "–" : Number(v).toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d }));
 const ni = (v) => (v == null ? "–" : Math.round(v).toLocaleString("en-GB"));
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 function hms(s) { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return `T+${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(x).padStart(2, "0")}`; }
 function dur(s) { s = Math.abs(s); return s >= 86400 ? `${n(s / 86400, 2)} d` : s >= 3600 ? `${n(s / 3600, 1)} h` : s >= 60 ? `${n(s / 60, 1)} min` : `${n(s, 0)} s`; }
+// A message with «bold» and ‹code› runs, written as text nodes and elements (nothing is parsed as markup).
+function rich(parent, s) {
+  String(s).split(/(«[^»]*»|‹[^›]*›)/).forEach((seg) => {
+    if (!seg) return;
+    if (seg.startsWith("«")) parent.append(el("b", null, seg.slice(1, -1)));
+    else if (seg.startsWith("‹")) parent.append(el("code", null, seg.slice(1, -1)));
+    else parent.append(document.createTextNode(seg));
+  });
+  return parent;
+}
+const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
 const kv = (label, value) => { const d = el("div"); d.append(el("dt", null, label)); const dd = el("dd"); dd.innerHTML = value; d.append(dd); return d; };
 function pathOf(pts) { let d = ""; let pen = false; for (const p of pts) { if (!p || !Number.isFinite(p[0]) || !Number.isFinite(p[1])) { pen = false; continue; } d += (pen ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); pen = true; } return d; }
 function download(name, text, type = "text/plain") {
@@ -62,7 +75,7 @@ function download(name, text, type = "text/plain") {
   a.href = URL.createObjectURL(new Blob([text], { type }));
   a.download = name; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
-  if (window.KStoast) window.KStoast(`Saved ${name}`);
+  if (window.KStoast) window.KStoast(t("js-site-capabilities-saved", "Saved { $name }", { name }));
 }
 
 // Provenance: engine version and build, scenario, seed, and every route to check or reproduce it.
@@ -72,26 +85,28 @@ function prov(p, m, eng, { lead = null, studioTab = null } = {}) {
   if (!p || !m) return;
   p.replaceChildren();
   const src = el("span", "prov-src");
-  const seed = m.seed == null ? "deterministic, no seed" : `seed ${m.seed}`;
-  const build = studioTab ? "" : `, build <code>${eng.commit}</code>`;
-  src.innerHTML = `${lead ? `<b>${lead}:</b> ` : ""}Engine v${m.engine_version}${build} · <code>${m.file}</code> · ${seed}`;
+  const code = (x) => el("code", null, x);
+  if (lead) src.append(el("b", null, `${lead}:`), " ");
+  if (studioTab) src.append(t("js-site-capabilities-engine", "Engine v{ $version }", { version: m.engine_version }));
+  else src.append(t("js-site-capabilities-engine-build", "Engine v{ $version }, build", { version: m.engine_version }), " ", code(eng.commit));
+  src.append(" · ", code(m.file), " · ", m.seed == null ? t("js-site-capabilities-no-seed", "deterministic, no seed") : t("js-site-capabilities-seed", "seed { $seed }", { seed: m.seed }));
   p.append(src);
   const stem = m.file.replace(/\.toml$/, "");
   if (studioTab) {
-    const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = studioHref(ROOT, stem, studioTab) || `/studio/?scenario=${stem}&tab=${studioTab}`; p.append(a);
-    const r = el("a", null, "Report and data"); r.href = `/studio/?scenario=${stem}&tab=exports`; p.append(r);
+    const a = el("a", "prov-open", t("js-site-capabilities-open-in-studio", "Open in { $studio }", { studio: STUDIO })); a.href = studioHref(ROOT, stem, studioTab) || `/studio/?scenario=${stem}&tab=${studioTab}`; p.append(a);
+    const r = el("a", null, t("js-site-capabilities-report-data", "Report and data")); r.href = `/studio/?scenario=${stem}&tab=exports`; p.append(r);
     return;
   }
   // An engine-run visual: the Studio view that reproduces it (js/studio-links.mjs, generated from
   // the Studio's own link list), then the engine's report, the scenario file, the result and the command.
   const view = studioHref(ROOT, stem);
-  if (view) { const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = view; p.append(a); }
-  if (m.report) { const a = el("a", view ? null : "prov-open", view ? "Engine report" : "Open the engine's report"); a.href = ROOT + m.report; p.append(a); }
-  if (m.toml_url) { const a = el("a", null, "Scenario file"); a.href = ROOT + m.toml_url; p.append(a); }
-  else if (m.toml) { const b = el("button", "cap-cmd", "Scenario file"); b.type = "button"; b.addEventListener("click", () => download(m.file, m.toml, "application/toml")); p.append(b); }
-  if (m.result_url) { const a = el("a", null, "Result data"); a.href = ROOT + m.result_url; p.append(a); }
-  const c = el("button", "cap-cmd"); c.type = "button"; c.dataset.copy = `kshana ${m.file}`; c.setAttribute("aria-label", `Copy the command that reproduces the run: kshana ${m.file}`);
-  c.append(el("span", null, `$ kshana ${m.file}`), el("span", "cp", "Copy")); p.append(c);
+  if (view) { const a = el("a", "prov-open", t("js-site-capabilities-open-in-studio", "Open in { $studio }", { studio: STUDIO })); a.href = view; p.append(a); }
+  if (m.report) { const a = el("a", view ? null : "prov-open", view ? t("js-site-capabilities-engine-report", "Engine report") : t("js-site-capabilities-open-report", "Open the engine's report")); a.href = ROOT + m.report; p.append(a); }
+  if (m.toml_url) { const a = el("a", null, t("js-site-capabilities-scenario-file", "Scenario file")); a.href = ROOT + m.toml_url; p.append(a); }
+  else if (m.toml) { const b = el("button", "cap-cmd", t("js-site-capabilities-scenario-file", "Scenario file")); b.type = "button"; b.addEventListener("click", () => download(m.file, m.toml, "application/toml")); p.append(b); }
+  if (m.result_url) { const a = el("a", null, t("js-site-capabilities-result-data", "Result data")); a.href = ROOT + m.result_url; p.append(a); }
+  const c = el("button", "cap-cmd"); c.type = "button"; c.dataset.copy = `kshana ${m.file}`; c.setAttribute("aria-label", t("js-site-capabilities-copy-aria", "Copy the command that reproduces the run: kshana { $file }", { file: m.file }));
+  c.append(el("span", null, `$ kshana ${m.file}`), el("span", "cp", t("js-site-capabilities-copy", "Copy"))); p.append(c);
 }
 
 // A marker that rides a real series while its card is on screen (still under reduced motion).
@@ -116,7 +131,7 @@ function rampRGB(f) {
   return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 }
 const cwRoot = document.getElementById("cwWin");
-if (cwRoot) onNear(cwRoot, () => data().then((d) => initWaterfall(d)).catch((e) => { console.warn("waterfall:", e); const p = $(".cw-nojs"); if (p) p.textContent = "The recorded run could not be loaded here."; }), "600px");
+if (cwRoot) onNear(cwRoot, () => data().then((d) => initWaterfall(d)).catch((e) => { console.warn("waterfall:", e); const p = $(".cw-nojs"); if (p) p.textContent = t("js-site-capabilities-wf-failed", "The recorded run could not be loaded here."); }), "600px");
 
 function initWaterfall(d) {
   const s = d.spectrum, eng = d.engine;
@@ -126,7 +141,7 @@ function initWaterfall(d) {
   $("#cwLabel").textContent = s.label;
   const ul = $("#cwNot"); for (const t of s.not_modelled) ul.append(el("li", null, t));
   const iqNote = el("p", "cap-note");
-  iqNote.textContent = `At T+${s.iq.t_s} s the engine also draws the model as ${ni(s.iq.n)} IQ (in-phase and quadrature) samples around ${n(s.iq.centre_hz / 1e6, 2)} MHz and checks a Welch estimate (${s.iq.segments} segments of ${s.iq.nfft}) against it: integrated power ratio ${n(s.iq.power_ratio, 5)}.`;
+  iqNote.textContent = t("js-site-capabilities-wf-iq", "At T+{ $t } s the engine also draws the model as { $n } IQ (in-phase and quadrature) samples around { $mhz } MHz and checks a Welch estimate ({ $segments } segments of { $nfft }) against it: integrated power ratio { $ratio }.", { t: s.iq.t_s, n: ni(s.iq.n), mhz: n(s.iq.centre_hz / 1e6, 2), segments: s.iq.segments, nfft: s.iq.nfft, ratio: n(s.iq.power_ratio, 5) });
   ul.after(iqNote);
 
   // Band groups: bands sharing a carrier share a zoom window; one half-width for all, so the scale matches.
@@ -211,17 +226,17 @@ function initWaterfall(d) {
       const ci = F.reduce((a, f, i) => (Math.abs(f - p.g.fc) < Math.abs(F[a] - p.g.fc) ? i : a), p.g.i0);
       const sig = Math.max(...s.rows[0].slice(Math.max(p.g.i0, ci - 1), Math.min(p.g.i1, ci + 1) + 1)) / SC;
       if (sig >= VMIN && p.w >= 150) {
-        const lx = fx(p, p.g.fc) + 6, t = `signal +${n(sig, 2)} dB`;
+        const lx = fx(p, p.g.fc) + 6, sigLab = t("js-site-capabilities-wf-signal", "signal +{ $v } dB", { v: n(sig, 2) });
         const g2 = S("g", { class: "cw-sig" }, ov);
-        S("rect", { x: lx, y: p.y + p.h - 22, width: t.length * 6.1 + 10, height: 16, rx: 4, fill: "rgba(6,10,20,.78)", stroke: "rgba(61,220,247,.35)" }, g2);
-        S("text", { x: lx + 5, y: p.y + p.h - 11, fill: "#9fe9fa", "font-size": 9.5, "font-family": "var(--mono)" }, g2, t);
+        S("rect", { x: lx, y: p.y + p.h - 22, width: sigLab.length * 6.1 + 10, height: 16, rx: 4, fill: "rgba(6,10,20,.78)", stroke: "rgba(61,220,247,.35)" }, g2);
+        S("text", { x: lx + 5, y: p.y + p.h - 11, fill: "#9fe9fa", "font-size": 9.5, "font-family": "var(--mono)" }, g2, sigLab);
       }
     }
     S("text", { x: GL - 6, y: H - 9, "text-anchor": "end", fill: "#8190b0", "font-size": 9.5, "font-family": "var(--mono)" }, ov, "MHz");
     // time axis: every 10 rows, counted back from the row on show
     for (let r = 0; r < NT; r += 10) {
       const y = GT + ((r + 0.5) / NT) * (H - GT - GB);
-      S("text", { x: GL - 6, y: y + 3, "text-anchor": "end", fill: "#8190b0", "font-size": 10, "font-family": "var(--mono)" }, ov, r === 0 ? "now" : `−${r * s.row_s} s`);
+      S("text", { x: GL - 6, y: y + 3, "text-anchor": "end", fill: "#8190b0", "font-size": 10, "font-family": "var(--mono)" }, ov, r === 0 ? t("js-site-capabilities-wf-now", "now") : `−${r * s.row_s} s`);
     }
     ov.append(curG);
     // overview: the whole grid, brackets and leaders down to each zoom window
@@ -229,7 +244,7 @@ function initWaterfall(d) {
     const ro = over.getBoundingClientRect(), ow = ro.width, oh = ro.height, ox0 = GL, ox1 = ow - 8;
     osv.setAttribute("viewBox", `0 0 ${ow} ${oh}`);
     const ofx = (f) => ox0 + ((f - F[0] + s.bin_hz / 2) / (NF * s.bin_hz)) * (ox1 - ox0);
-    S("text", { x: 6, y: 11, fill: "#8190b0", "font-size": 9.5, "font-family": "var(--mono)" }, osv, "grid");
+    S("text", { x: 6, y: 11, fill: "#8190b0", "font-size": 9.5, "font-family": "var(--mono)" }, osv, t("js-site-capabilities-wf-grid", "grid"));
     S("text", { x: ox0, y: 11, fill: "#8190b0", "font-size": 9.5, "font-family": "var(--mono)" }, osv, `${n(F[0] / 1e6, 0)} MHz`);
     S("text", { x: ox1, y: 11, "text-anchor": "end", fill: "#8190b0", "font-size": 9.5, "font-family": "var(--mono)" }, osv, `${n(F[NF - 1] / 1e6, 0)} MHz`);
     const pr = scope.getBoundingClientRect(), orr = over.getBoundingClientRect(), dx = pr.left - orr.left;
@@ -240,7 +255,10 @@ function initWaterfall(d) {
     }
     over._fx = { ox0, ox1, oh };
   }
-  const JNAME = { chirp: "chirp", cw: "CW tone", tone: "CW tone", narrowband: "noise", "narrowband-noise": "noise", noise: "noise", "bandlimited-noise": "noise" };
+  const JNAME = {
+    get chirp() { return t("js-site-capabilities-wave-chirp", "chirp"); }, get cw() { return t("js-site-capabilities-wave-cw", "CW tone"); }, get tone() { return t("js-site-capabilities-wave-cw", "CW tone"); },
+    get narrowband() { return t("js-site-capabilities-wave-noise", "noise"); }, get "narrowband-noise"() { return t("js-site-capabilities-wave-noise", "noise"); }, get noise() { return t("js-site-capabilities-wave-noise", "noise"); }, get "bandlimited-noise"() { return t("js-site-capabilities-wave-noise", "noise"); },
+  };
   let k = NT - 1, cur = null;
   const curG = S("g");
   function draw() {
@@ -261,25 +279,25 @@ function initWaterfall(d) {
     { const gr = c.createLinearGradient(0, GT, 0, GT + 10); gr.addColorStop(0, "rgba(61,220,247,.55)"); gr.addColorStop(1, "rgba(61,220,247,0)"); c.fillStyle = gr; for (const p of panes) c.fillRect(p.x, p.y, p.w, 10); }
     if (k < NT - 1) {
       const yR = GT + ((k + 1) / NT) * (H - GT - GB); c.strokeStyle = "rgba(61,220,247,.85)"; c.lineWidth = 1; c.beginPath(); for (const p of panes) { c.moveTo(p.x, yR); c.lineTo(p.x + p.w, yR); } c.stroke();
-      if (yR < H - GB - 20) { c.font = "500 10px " + (getComputedStyle(scope).getPropertyValue("--mono").trim() || "monospace"); const p0 = panes[0], lab = p0.w < 240 ? "replay start" : "replay start · previous pass below", tw = c.measureText(lab).width + 10; c.fillStyle = "rgba(6,10,20,.86)"; c.fillRect(p0.x + 4, yR + 3, tw, 14); c.fillStyle = "#9fe9fa"; c.fillText(lab, p0.x + 9, yR + 13.5); }
+      if (yR < H - GB - 20) { c.font = "500 10px " + (getComputedStyle(scope).getPropertyValue("--mono").trim() || "monospace"); const p0 = panes[0], lab = p0.w < 240 ? t("js-site-capabilities-wf-replay-start", "replay start") : t("js-site-capabilities-wf-replay-previous", "replay start · previous pass below"), tw = c.measureText(lab).width + 10; c.fillStyle = "rgba(6,10,20,.86)"; c.fillRect(p0.x + 4, yR + 3, tw, 14); c.fillStyle = "#9fe9fa"; c.fillText(lab, p0.x + 9, yR + 13.5); }
     }
     // each jammer switching on or off, where its row sits now, in the windows it lands in
     c.font = "500 10px " + (getComputedStyle(scope).getPropertyValue("--mono").trim() || "monospace");
     const rowH = (H - GT - GB) / NT;
-    for (const j of s.jammers) for (const [te, verb] of [[j.on_s, "on"], [j.off_s, "off"]]) {
+    for (const j of s.jammers) for (const [te, verb] of [[j.on_s, true], [j.off_s, false]]) {
       if (te == null || te > s.t[k]) continue;
       const y = GT + (k - Math.round(te / s.row_s) + 1) * rowH; if (y <= GT + 2 || y >= H - GB - 2) continue;
       for (const p of panes) if (j.centre_hz >= F[p.g.i0] - s.bin_hz && j.centre_hz <= F[p.g.i1] + s.bin_hz) {
         c.strokeStyle = "rgba(255,255,255,.7)"; c.setLineDash([4, 3]); c.beginPath(); c.moveTo(p.x, y); c.lineTo(p.x + p.w, y); c.stroke(); c.setLineDash([]);
-        const lab = `${JNAME[j.waveform] || j.waveform} ${verb}`, tw = c.measureText(lab).width + 10;
+        const lab = verb ? t("js-site-capabilities-wf-jammer-on", "{ $what } on", { what: JNAME[j.waveform] || j.waveform }) : t("js-site-capabilities-wf-jammer-off", "{ $what } off", { what: JNAME[j.waveform] || j.waveform }), tw = c.measureText(lab).width + 10;
         const ly = y - 16 < GT + 12 ? y + 2 : y - 16; c.fillStyle = "rgba(6,10,20,.86)"; c.fillRect(p.x + 4, ly, tw, 14); c.fillStyle = "#eaf0ff"; c.fillText(lab, p.x + 9, ly + 10.5);
       }
     }
 
     // jammer markers at the top of their window while they are on
-    const t = s.t[k];
+    const tk = s.t[k];
     for (const j of s.jammers) {
-      const on = t >= j.on_s && (j.off_s == null || t < j.off_s);
+      const on = tk >= j.on_s && (j.off_s == null || tk < j.off_s);
       for (const p of panes) if (Math.abs(j.centre_hz - p.g.fc) < 1e6 || (j.centre_hz >= F[p.g.i0] && j.centre_hz <= F[p.g.i1])) {
         const x = fx(p, j.centre_hz); c.fillStyle = on ? "#ff6a5c" : "rgba(255,255,255,.25)";
         c.beginPath(); c.moveTo(x - 5, p.y - 12); c.lineTo(x + 5, p.y - 12); c.lineTo(x, p.y - 4); c.closePath(); c.fill();
@@ -290,7 +308,7 @@ function initWaterfall(d) {
       c.fillStyle = "#c9d4ef"; c.font = "500 12px " + (getComputedStyle(scope).getPropertyValue("--mono").trim() || "monospace");
       for (const p of panes) c.fillText(`${n(p.g.fc / 1e6, 2)} MHz · ${p.g.name}`, p.x + 4, GT - 16);
       c.fillStyle = "#8190b0"; c.textAlign = "right";
-      for (let r = 0; r < NT; r += 10) c.fillText(r === 0 ? "now" : `−${r * s.row_s} s`, GL - 6, GT + ((r + 0.5) / NT) * (H - GT - GB) + 4);
+      for (let r = 0; r < NT; r += 10) c.fillText(r === 0 ? t("js-site-capabilities-wf-now", "now") : `−${r * s.row_s} s`, GL - 6, GT + ((r + 0.5) / NT) * (H - GT - GB) + 4);
       c.textAlign = "left";
     }
   }
@@ -317,7 +335,7 @@ function initWaterfall(d) {
     const v = el("span", "v"); li.append(tr, v); bars.append(li); return { li, i, v, b };
   });
   const jamUl = $("#cwJam");
-  const jamEls = s.jammers.map((j) => { const li = el("li"); li.append(el("i")); li.append(el("span", null, `${j.name} · ${n(j.centre_hz / 1e6, 2)} MHz · ${j.off_s == null ? `from ${j.on_s} s to the end` : `${j.on_s}–${j.off_s}\u00a0s`}`)); jamUl.append(li); return { li, j }; });
+  const jamEls = s.jammers.map((j) => { const li = el("li"); li.append(el("i")); li.append(el("span", null, j.off_s == null ? t("js-site-capabilities-wf-jammer-open", "{ $name } · { $mhz } MHz · from { $on } s to the end", { name: j.name, mhz: n(j.centre_hz / 1e6, 2), on: j.on_s }) : t("js-site-capabilities-wf-jammer-span", "{ $name } · { $mhz } MHz · { $on }–{ $off }\u00a0s", { name: j.name, mhz: n(j.centre_hz / 1e6, 2), on: j.on_s, off: j.off_s }))); jamUl.append(li); return { li, j }; });
   const spark = $("#cwSpark");
   let sparkCur = null;
   function sparkBase() {
@@ -333,17 +351,17 @@ function initWaterfall(d) {
   const live = $("#cwLive");
   let lastSay = "";
   function readout() {
-    const t = s.t[k], b = sel.band, v = b.cn0[k], lost = b.lost[k], js = b.js[k];
-    $("#cwCn0").textContent = n(v, 1); $("#cwRowT").textContent = `T+${n(t, 0)} s`;
+    const tk = s.t[k], b = sel.band, v = b.cn0[k], lost = b.lost[k], js = b.js[k];
+    $("#cwCn0").textContent = n(v, 1); $("#cwRowT").textContent = `T+${n(tk, 0)} s`;
     const st = lost ? "lost" : v < s.threshold + s.degraded_margin ? "deg" : "ok";
-    const sEl = $("#cwStatus"); sEl.dataset.s = st; sEl.lastElementChild.textContent = st === "lost" ? "Lost lock" : st === "deg" ? "Degraded" : "Tracking";
-    $("#cwJs").textContent = js == null ? "no jammer" : `${n(js, 1)} dB`;
+    const sEl = $("#cwStatus"); sEl.dataset.s = st; sEl.lastElementChild.textContent = st === "lost" ? t("js-site-capabilities-wf-lost", "Lost lock") : st === "deg" ? t("js-site-capabilities-wf-degraded", "Degraded") : t("js-site-capabilities-wf-tracking", "Tracking");
+    $("#cwJs").textContent = js == null ? t("js-site-capabilities-wf-no-jammer", "no jammer") : `${n(js, 1)} dB`;
     if (sparkCur) { const x = (k / (NT - 1)) * 260; sparkCur.setAttribute("x1", x); sparkCur.setAttribute("x2", x); }
     for (const e of barEls) { const c = e.b.cn0[k]; e.i.style.width = `${(clamp(c, 0, maxCn0) / maxCn0) * 100}%`; e.i.style.setProperty("--c", e.b.lost[k] ? "var(--coral)" : c < s.threshold + s.degraded_margin ? "var(--amber)" : "var(--lime)"); e.v.textContent = n(c, 1); e.li.classList.toggle("lost", !!e.b.lost[k]); }
-    for (const e of jamEls) e.li.classList.toggle("on", t >= e.j.on_s && (e.j.off_s == null || t < e.j.off_s));
+    for (const e of jamEls) e.li.classList.toggle("on", tk >= e.j.on_s && (e.j.off_s == null || tk < e.j.off_s));
     analyser();
     scrubSet();
-    const say = `T+${n(t, 0)} s, ${b.name} ${n(v, 1)} dB-Hz, ${st === "lost" ? "lost lock" : st === "deg" ? "degraded" : "tracking"}`;
+    const say = t("js-site-capabilities-wf-say", "T+{ $t } s, { $band } { $v } dB-Hz, { $state }", { t: n(tk, 0), band: b.name, v: n(v, 1), state: st === "lost" ? t("js-site-capabilities-wf-lost-low", "lost lock") : st === "deg" ? t("js-site-capabilities-wf-degraded-low", "degraded") : t("js-site-capabilities-wf-tracking-low", "tracking") });
     if (!playing && say !== lastSay) { live.textContent = say; lastSay = say; }
   }
   // analyser: the row on show, one trace under each zoom window on the same frequency axis, and on
@@ -365,16 +383,16 @@ function initWaterfall(d) {
       S("path", { d: pathOf(pts) + `L${X(g.i1)} ${bot}L${X(g.i0)} ${bot}Z`, class: "a-area" }, an);
       S("path", { d: pathOf(pts), class: "a-line" }, an);
       const pk = Math.max(...row.slice(g.i0, g.i1 + 1)) / SC;
-      S("text", { x: (p.x + p.w) * kx - 2, y: top - 6, "text-anchor": "end", class: "a-pk" }, an, `peak ${n(pk, pk < 1 ? 2 : 1)} dB`);
+      S("text", { x: (p.x + p.w) * kx - 2, y: top - 6, "text-anchor": "end", class: "a-pk" }, an, t("js-site-capabilities-wf-peak", "peak { $v } dB", { v: n(pk, pk < 1 ? 2 : 1) }));
     }
-    $("#cwAnCap").textContent = `row T+${n(s.t[k], 0)} s · dB above the floor, log scale · whole-grid peak ${n(Math.max(...row) / SC, 1)} dB`;
+    $("#cwAnCap").textContent = t("js-site-capabilities-wf-an-caption", "row T+{ $t } s · dB above the floor, log scale · whole-grid peak { $peak } dB", { t: n(s.t[k], 0), peak: n(Math.max(...row) / SC, 1) });
   }
   // legend
   const rampEl = $("#cwRamp"); rampEl.style.background = `linear-gradient(90deg,${[0, .17, .33, .5, .67, .83, 1].map((f) => `rgb(${rampRGB(f).map(Math.round).join(",")})`).join(",")})`;
-  $("#cwMax").textContent = `${n(peak, 0)} dB above it · log scale from ${V0} dB`;
+  $("#cwMax").textContent = t("js-site-capabilities-wf-max", "{ $peak } dB above it · log scale from { $v0 } dB", { peak: n(peak, 0), v0: V0 });
   // summary for screen readers
   const worst = sel.band;
-  $("#cwSummary").textContent = `Recorded run of ${s.file}: ${s.bands.length} bands, ${s.jammers.length} jammers over ${n(s.t[NT - 1] + s.row_s, 0)} seconds. The worst band, ${worst.name}, falls to ${n(worst.min_cn0, 1)} dB-Hz at ${worst.min_t} s; tracking floor ${s.threshold} dB-Hz.`;
+  $("#cwSummary").textContent = t("js-site-capabilities-wf-summary", "Recorded run of { $file }: { $bands } bands, { $jammers } jammers over { $seconds } seconds. The worst band, { $worst }, falls to { $min } dB-Hz at { $at } s; tracking floor { $floor } dB-Hz.", { file: s.file, bands: s.bands.length, jammers: s.jammers.length, seconds: n(s.t[NT - 1] + s.row_s, 0), worst: worst.name, min: n(worst.min_cn0, 1), at: worst.min_t, floor: s.threshold });
   // scrubber
   const scrub = $("#cwScrub"), fill = $("#cwFill"), handle = $("#cwHandle"), sl = $("#cwScrubL");
   scrub.setAttribute("aria-valuemax", NT - 1);
@@ -395,7 +413,8 @@ function initWaterfall(d) {
     const p = panes[c.p], fi = p.g.i0 + c.x, r0 = k - c.y, r = r0 < 0 ? r0 + NT : r0;
     const v = s.rows[r][fi] / SC;
     const near = s.bands.filter((b) => Math.abs(b.centre_hz - F[fi]) <= b.rx_bw_hz / 2 + s.bin_hz / 2).map((b) => b.name).join(", ");
-    tip.innerHTML = `<b>${n(F[fi] / 1e6, 1)} MHz</b> · T+${n(s.t[r], 0)} s<br>${n(v, 1)} dB above the noise floor${near ? `<br>in ${near}` : ""}`;
+    tip.replaceChildren(el("b", null, `${n(F[fi] / 1e6, 1)} MHz`), ` · T+${n(s.t[r], 0)} s`, document.createElement("br"), t("js-site-capabilities-wf-tip-above", "{ $v } dB above the noise floor", { v: n(v, 1) }));
+    if (near) tip.append(document.createElement("br"), t("js-site-capabilities-wf-tip-in", "in { $bands }", { bands: near }));
     tip.classList.add("on");
     const tx = px ?? p.x + ((c.x + 0.5) / p.g.n) * p.w, ty = py ?? p.y + ((c.y + 0.5) / NT) * p.h;
     tip.style.left = `${Math.min(tx, W - 210)}px`; tip.style.top = `${Math.min(ty, H - 70)}px`;
@@ -415,7 +434,7 @@ function initWaterfall(d) {
   // playback: four one-second rows per second, a hold on the full frame, then again
   const play = $("#cwPlay");
   let playing = !RM, raf = 0, last = 0, acc = 0, hold = 0, visible = false;
-  function setPlayUI() { play.setAttribute("aria-pressed", playing); play.setAttribute("aria-label", playing ? "Pause the waterfall" : "Play the waterfall"); }
+  function setPlayUI() { play.setAttribute("aria-pressed", playing); play.setAttribute("aria-label", playing ? t("js-site-capabilities-wf-pause", "Pause the waterfall") : t("js-site-capabilities-wf-play", "Play the waterfall")); }
   function pause() { playing = false; setPlayUI(); }
   play.addEventListener("click", () => { playing = !playing; if (playing && k >= NT - 1) { k = 0; } setPlayUI(); loop(); });
   function step(ts) {
@@ -505,15 +524,15 @@ const SIX = {
     axes(svgEl, f, [[X(0), "0"], [X(T / 2), `${ni(T / 2)} s`], [X(T), `${ni(T)} s`]], [[Y(lo + 3), `${ni(lo + 3)}`], [Y(m.threshold), `${m.threshold}`], [Y(hi - 3), `${ni(hi - 3)} dB-Hz`]]);
     S("rect", { x: f.P.l, y: Y(m.threshold), width: f.w, height: Y(lo) - Y(m.threshold), class: "band" }, svgEl);
     S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(m.threshold), y2: Y(m.threshold), class: "thr" }, svgEl);
-    S("text", { x: f.W - f.P.r, y: Y(m.threshold) - 4, "text-anchor": "end", class: "thr-t" }, svgEl, "tracking floor");
+    S("text", { x: f.W - f.P.r, y: Y(m.threshold) - 4, "text-anchor": "end", class: "thr-t" }, svgEl, t("js-site-capabilities-six-floor", "tracking floor"));
     m.nom.forEach((row) => S("path", { d: pathOf(row.map((v, i) => (v == null ? null : [X(m.t[i]), Y(v)]))), class: "ln2 draw", pathLength: 1, "stroke-width": 1, opacity: .7 }, svgEl));
     let pts = [];
     m.eff.forEach((row, j) => { const p = row.map((v, i) => (v == null ? null : [X(m.t[i]), Y(v)])); S("path", { d: pathOf(p), class: "ln draw d2", pathLength: 1, "stroke-width": 1.4, opacity: .85 }, svgEl); if (p.filter(Boolean).length > pts.length) pts = p.filter(Boolean); });
     // labels in the clear space: under the lowest nominal line, above the highest effective one
     const nomLo = Math.min(...m.nom.flat().filter((v) => v != null)), effHi = Math.max(...m.eff.flat().filter((v) => v != null));
-    S("text", { x: f.P.l + 4, y: Y(nomLo) + 12 }, svgEl, "nominal, no jammer (dashed)");
-    S("text", { x: f.P.l + 4, y: Y(effHi) - 6 }, svgEl, `effective, ${m.prn.length} satellites`);
-    fig.innerHTML = `Tracked <b>${Math.min(...m.tracking)}</b> of ${Math.max(...m.visible)} in view · availability under jamming <b>${n(m.fom.availability_under_jamming, 2)}</b> (nominal ${n(m.fom.availability_nominal, 2)}) · mean J/S <b>${n(m.fom.mean_js_db, 1)} dB</b>`;
+    S("text", { x: f.P.l + 4, y: Y(nomLo) + 12 }, svgEl, t("js-site-capabilities-six-jam-nominal", "nominal, no jammer (dashed)"));
+    S("text", { x: f.P.l + 4, y: Y(effHi) - 6 }, svgEl, t("js-site-capabilities-six-jam-effective", "effective, { $n } satellites", { n: m.prn.length }));
+    fig.replaceChildren(); rich(fig, t("js-site-capabilities-six-jam-fig", "Tracked «{ $min }» of { $max } in view · availability under jamming «{ $av }» (nominal { $nom }) · mean J/S «{ $js } dB»", { min: Math.min(...m.tracking), max: Math.max(...m.visible), av: n(m.fom.availability_under_jamming, 2), nom: n(m.fom.availability_nominal, 2), js: n(m.fom.mean_js_db, 1) }));
     return pts;
   },
   spoof(svgEl, m, fig) {
@@ -526,9 +545,9 @@ const SIX = {
     S("path", { d: pathOf(pts), class: "ln draw", pathLength: 1 }, svgEl);
     m.clocks.forEach((k, i) => {
       const y = Y(k.bound_ns); S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: y, y2: y, class: "thr", opacity: i ? 1 : .6 }, svgEl);
-      if (k.detect_s != null) { S("line", { x1: X(k.detect_s), x2: X(k.detect_s), y1: f.P.t, y2: f.P.t + f.h, stroke: "var(--c)", "stroke-dasharray": "2 3" }, svgEl); S("text", { x: X(k.detect_s) + 3, y: f.P.t + 10 + i * 12 }, svgEl, `${k.id} detects`); }
+      if (k.detect_s != null) { S("line", { x1: X(k.detect_s), x2: X(k.detect_s), y1: f.P.t, y2: f.P.t + f.h, stroke: "var(--c)", "stroke-dasharray": "2 3" }, svgEl); S("text", { x: X(k.detect_s) + 3, y: f.P.t + 10 + i * 12 }, svgEl, t("js-site-capabilities-six-spoof-detects", "{ $id } detects", { id: k.id })); }
     });
-    fig.innerHTML = m.clocks.map((k) => `<b>${k.id}</b> detects at ${ni(k.detect_s)} s (bound ${n(k.bound_ns, 1)} ns)`).join(" · ");
+    fig.replaceChildren(); m.clocks.forEach((k, i) => { if (i) fig.append(" · "); rich(fig, t("js-site-capabilities-six-spoof-fig", "«{ $id }» detects at { $s } s (bound { $ns } ns)", { id: k.id, s: ni(k.detect_s), ns: n(k.bound_ns, 1) })); });
     return pts;
   },
   clock(svgEl, m, fig) {
@@ -541,12 +560,12 @@ const SIX = {
     const lossI = m.clocks[0].gnss.findIndex((g) => g !== "nominal");
     if (lossI >= 0) S("rect", { x: X(m.clocks[0].t[lossI]), y: f.P.t, width: X(T) - X(m.clocks[0].t[lossI]), height: f.h, class: "band" }, svgEl);
     S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(m.threshold_ns), y2: Y(m.threshold_ns), class: "thr" }, svgEl);
-    S("text", { x: f.P.l + 4, y: Y(m.threshold_ns) - 4, class: "thr-t" }, svgEl, `${m.threshold_ns} ns guard`);
+    S("text", { x: f.P.l + 4, y: Y(m.threshold_ns) - 4, class: "thr-t" }, svgEl, t("js-site-capabilities-six-clock-guard", "{ $v } ns guard", { v: m.threshold_ns }));
     let pts = [];
     m.clocks.forEach((c, i) => { const p = c.t.map((t, j) => [X(t), Y(c.err[j])]); S("path", { d: pathOf(p), class: (i ? "ln" : "ln2") + " draw" + (i ? " d2" : ""), pathLength: 1 }, svgEl); if (i) pts = p; });
     const [cq, cc] = m.clocks; S("text", { x: f.W - f.P.r - 2, y: Y(Math.max(...cq.err.slice(-20))) - 6, "text-anchor": "end" }, svgEl, cq.id);
     S("text", { x: f.W - f.P.r - 2, y: Math.min(f.P.t + f.h - 4, Y(Math.min(...cc.err.slice(-20))) + 14), "text-anchor": "end" }, svgEl, cc.id);
-    fig.innerHTML = m.clocks.map((c) => `<b>${c.id}</b> holds the guard for ${dur(c.holdover_s)}`).join(" · ");
+    fig.replaceChildren(); m.clocks.forEach((c, i) => { if (i) fig.append(" · "); rich(fig, t("js-site-capabilities-six-clock-fig", "«{ $id }» holds the guard for { $dur }", { id: c.id, dur: dur(c.holdover_s) })); });
     return pts;
   },
   orbit(svgEl, m, fig) {
@@ -558,8 +577,8 @@ const SIX = {
     const segs = []; let cur = [];
     pts.forEach((p, i) => { if (i && Math.abs(m.lon[i] - m.lon[i - 1]) > 180) { segs.push(cur); cur = []; } cur.push(p); }); segs.push(cur);
     for (const sg of segs) S("path", { d: pathOf(sg), class: "ln draw", pathLength: 1, stroke: "#3ddcf7" }, svgEl);
-    S("text", { x: 6, y: 180 }, svgEl, `${String(m.source).replace(/^sgp4 \(TLE\)$/i, "SGP4 from a two-line element set")} · ${ni(m.n)} samples`);
-    fig.innerHTML = `Altitude <b>${n(m.alt_km[0], 0)}–${n(m.alt_km[1], 0)} km</b> · ground track over ${dur(m.t[m.t.length - 1])}`;
+    S("text", { x: 6, y: 180 }, svgEl, t("js-site-capabilities-six-orbit-label", "{ $source } · { $n } samples", { source: /^sgp4 \(TLE\)$/i.test(String(m.source)) ? t("js-site-capabilities-six-orbit-sgp4", "SGP4 from a two-line element set") : String(m.source), n: ni(m.n) }));
+    fig.replaceChildren(); rich(fig, t("js-site-capabilities-six-orbit-fig", "Altitude «{ $lo }–{ $hi } km» · ground track over { $dur }", { lo: n(m.alt_km[0], 0), hi: n(m.alt_km[1], 0), dur: dur(m.t[m.t.length - 1]) }));
     return pts;
   },
   integ(svgEl, m, fig) {
@@ -568,12 +587,12 @@ const SIX = {
     const X = (t) => f.P.l + (t / T) * f.w, Y = (v) => f.P.t + f.h - (clamp(v, 0, vmax) / vmax) * f.h;
     m.avail.forEach((a, i) => { if (!a && i < m.t.length - 1) S("rect", { x: X(m.t[i]), y: f.P.t, width: Math.max(1, X(m.t[i + 1]) - X(m.t[i])), height: f.h, class: "band" }, svgEl); });
     axes(svgEl, f, [[X(0), "0"], [X(T), dur(T)]], [[Y(0), "0 m"], [Y(m.al_v), `${m.al_v} m`], [Y(m.al_v * 2), `${m.al_v * 2} m`]]);
-    S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(m.al_v), y2: Y(m.al_v), class: "thr" }, svgEl); S("text", { x: f.W - f.P.r, y: Y(m.al_v) - 4, "text-anchor": "end", class: "thr-t" }, svgEl, "vertical alert limit");
+    S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(m.al_v), y2: Y(m.al_v), class: "thr" }, svgEl); S("text", { x: f.W - f.P.r, y: Y(m.al_v) - 4, "text-anchor": "end", class: "thr-t" }, svgEl, t("js-site-capabilities-six-integ-limit", "vertical alert limit"));
     S("path", { d: pathOf(m.t.map((t, i) => [X(t), Y(m.hpl[i])])), class: "ln2 draw", pathLength: 1 }, svgEl);
     const pts = m.t.map((t, i) => [X(t), Y(m.vpl[i])]);
     S("path", { d: pathOf(pts), class: "ln draw d2", pathLength: 1 }, svgEl);
-    S("text", { x: f.P.l + 4, y: f.P.t + 10 }, svgEl, "vertical (solid) and horizontal (dashed) protection level");
-    fig.innerHTML = `<b>${m.n_ok}</b> of ${m.n} epochs available · alert limits ${m.al_h} m horizontal, ${m.al_v} m vertical`;
+    S("text", { x: f.P.l + 4, y: f.P.t + 10 }, svgEl, t("js-site-capabilities-six-integ-pl", "vertical (solid) and horizontal (dashed) protection level"));
+    fig.replaceChildren(); rich(fig, t("js-site-capabilities-six-integ-fig", "«{ $ok }» of { $n } epochs available · alert limits { $h } m horizontal, { $v } m vertical", { ok: m.n_ok, n: m.n, h: m.al_h, v: m.al_v }));
     return pts;
   },
   coast(svgEl, m, fig) {
@@ -583,11 +602,11 @@ const SIX = {
     const c0 = m.imus[0], dI = c0.denied.indexOf(1), dE = c0.denied.lastIndexOf(1);
     if (dI >= 0) S("rect", { x: X(c0.t[dI]), y: f.P.t, width: X(c0.t[dE]) - X(c0.t[dI]), height: f.h, class: "band" }, svgEl);
     axes(svgEl, f, [[X(T0), `${ni(T0)} s`], [X(T), `${ni(T)} s`]], logTicks(lo, hi).filter((v, i) => i % 2 === 0).map((v) => [Y(v), `${fmtPow(v)} m`]));
-    S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(m.threshold_m), y2: Y(m.threshold_m), class: "thr" }, svgEl); S("text", { x: f.P.l + 4, y: Y(m.threshold_m) - 4, class: "thr-t" }, svgEl, `${m.threshold_m} m budget`);
-    if (dI >= 0) S("text", { x: X(c0.t[dI]) + 4, y: f.P.t + 10 }, svgEl, "GNSS denied");
+    S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(m.threshold_m), y2: Y(m.threshold_m), class: "thr" }, svgEl); S("text", { x: f.P.l + 4, y: Y(m.threshold_m) - 4, class: "thr-t" }, svgEl, t("js-site-capabilities-six-coast-budget", "{ $m } m budget", { m: m.threshold_m }));
+    if (dI >= 0) S("text", { x: X(c0.t[dI]) + 4, y: f.P.t + 10 }, svgEl, t("js-site-capabilities-six-coast-denied", "GNSS denied"));
     let pts = [];
     m.imus.forEach((c, i) => { const p = c.t.map((t, j) => [X(t), Y(c.err[j])]); S("path", { d: pathOf(p), class: (i ? "ln" : "ln2") + " draw" + (i ? " d2" : ""), pathLength: 1 }, svgEl); if (i) pts = p; });
-    fig.innerHTML = m.imus.map((c) => `<b>${c.id}</b> inside the budget for ${n(c.holdover_s, 1)} s`).join(" · ");
+    fig.replaceChildren(); m.imus.forEach((c, i) => { if (i) fig.append(" · "); rich(fig, t("js-site-capabilities-six-coast-fig", "«{ $id }» inside the budget for { $s } s", { id: c.id, s: n(c.holdover_s, 1) })); });
     return pts;
   },
 };
@@ -627,13 +646,18 @@ function stanford(svgEl, m, fig, val) {
   S("line", { x1: X(lo), y1: Y(lo), x2: X(hi), y2: Y(hi), stroke: "var(--ink-3)", "stroke-dasharray": "3 4" }, svgEl);
   S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(m.al), y2: Y(m.al), class: "thr" }, svgEl);
   S("line", { x1: X(m.al), x2: X(m.al), y1: f.P.t, y2: f.P.t + f.h, class: "thr" }, svgEl);
-  S("text", { x: X(m.al) + 5, y: f.P.t + 12, fill: "var(--coral)" }, svgEl, `alert limit ${m.al} m`);
-  S("text", { x: f.W - f.P.r - 6, y: Y(lo) - 8, "text-anchor": "end" }, svgEl, "misleading: error above the bound");
-  S("text", { x: X(lo) + 6, y: Y(hi) + 14 }, svgEl, "unavailable: bound above the limit");
-  S("text", { x: X(lo) + 6, y: (Y(m.al) + Y(lo)) / 2 }, svgEl, "normal operation");
-  const pts = m.err.map((e, i) => [X(e), Y(m.pl[i]), `${n(m.pl[i], 1)} m bound`]);
+  S("text", { x: X(m.al) + 5, y: f.P.t + 12, fill: "var(--coral)" }, svgEl, t("js-site-capabilities-st-limit", "alert limit { $m } m", { m: m.al }));
+  S("text", { x: f.W - f.P.r - 6, y: Y(lo) - 8, "text-anchor": "end" }, svgEl, t("js-site-capabilities-st-misleading", "misleading: error above the bound"));
+  S("text", { x: X(lo) + 6, y: Y(hi) + 14 }, svgEl, t("js-site-capabilities-st-unavailable", "unavailable: bound above the limit"));
+  S("text", { x: X(lo) + 6, y: (Y(m.al) + Y(lo)) / 2 }, svgEl, t("js-site-capabilities-st-normal", "normal operation"));
+  const pts = m.err.map((e, i) => [X(e), Y(m.pl[i]), t("js-site-capabilities-st-bound", "{ $v } m bound", { v: n(m.pl[i], 1) })]);
   pts.forEach((p, i) => S("circle", { cx: p[0].toFixed(1), cy: p[1].toFixed(1), r: 2.4, fill: REGION_C[m.region[i]] || "var(--cyan)", opacity: .75 }, svgEl));
-  fig.innerHTML = Object.entries(m.regions).map(([r, c]) => `<b>${ni(c)}</b> ${r.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase()}`).join(" · ") + ` · ${ni(m.err.length)} epochs, ${((k) => (k ? ni(k) : "none"))(m.err.filter((e, i) => e > m.pl[i]).length)} with the error above its bound. Across: the true position error; up: the protection level; both on log axes.`;
+  fig.replaceChildren();
+  Object.entries(m.regions).forEach(([r, c], i) => { if (i) fig.append(" · "); fig.append(el("b", null, ni(c)), ` ${r.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase()}`); });
+  const over = m.err.filter((e, i) => e > m.pl[i]).length;
+  fig.append(" · " + (over
+    ? t("js-site-capabilities-st-fig-some", "{ $n } epochs, { $k } with the error above its bound. Across: the true position error; up: the protection level; both on log axes.", { n: ni(m.err.length), k: ni(over) })
+    : t("js-site-capabilities-st-fig-none", "{ $n } epochs, none with the error above its bound. Across: the true position error; up: the protection level; both on log axes.", { n: ni(m.err.length) })));
   return pts;
 }
 function budget(svgEl, m, fig, grades, val) {
@@ -648,12 +672,12 @@ function budget(svgEl, m, fig, grades, val) {
   m.contrib.forEach((c, i) => {
     S("path", { d: pathOf(T.map((t, j) => (c.e[j] > lo ? [X(t), Y(c.e[j])] : null))), fill: "none", stroke: palette[i % palette.length], "stroke-width": 1.1, "stroke-dasharray": c.class === "stochastic" ? "4 3" : null, opacity: .8 }, svgEl);
   });
-  const leg = el("div", "cg-leg ic-leg"); leg.innerHTML = m.contrib.map((c, i) => `<span style="--c:${palette[i % palette.length]}"><i${c.class === "stochastic" ? ' class="dash"' : ""}></i>${c.name.replace(/_/g, " ")}</span>`).join("") + `<span><i></i><b>combined</b></span>`;
+  const leg = el("div", "cg-leg ic-leg"); leg.innerHTML = m.contrib.map((c, i) => `<span style="--c:${palette[i % palette.length]}"><i${c.class === "stochastic" ? ' class="dash"' : ""}></i>${c.name.replace(/_/g, " ")}</span>`).join("") + `<span><i></i><b>${esc(t("js-site-capabilities-bd-combined", "combined"))}</b></span>`;
   grades.before(leg);
   for (const x of m.crossings) {
     S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(x.thr), y2: Y(x.thr), class: "thr" }, svgEl);
     S("line", { x1: X(x.t), x2: X(x.t), y1: Y(x.thr), y2: f.P.t + f.h, stroke: "var(--coral)", "stroke-dasharray": "2 3" }, svgEl);
-    S("text", { x: f.P.l + 4, y: Y(x.thr) - 4, fill: "var(--coral)" }, svgEl, `${x.thr} m at ${n(x.t, 0)} s`);
+    S("text", { x: f.P.l + 4, y: Y(x.thr) - 4, fill: "var(--coral)" }, svgEl, t("js-site-capabilities-bd-crossing", "{ $m } m at { $s } s", { m: x.thr, s: n(x.t, 0) }));
   }
   const pts = T.map((t, j) => [X(t), Y(m.combined[j]), `${n(m.combined[j], m.combined[j] < 10 ? 2 : 0)} m`]);
   S("path", { d: pathOf(pts), class: "ln", "stroke-width": 2.6 }, svgEl);
@@ -662,11 +686,13 @@ function budget(svgEl, m, fig, grades, val) {
   for (const g of m.grades) {
     const row = el("div", "ic-gr"); row.append(el("span", null, g.grade));
     const tr = el("span", "tr");
-    g.x.forEach((x, i) => { const b = el("i"); b.style.width = `${(Math.log10(1 + x.t) / Math.log10(1 + tmax)) * 100}%`; b.style.opacity = i ? .45 : 1; b.title = `${x.thr} m after ${n(x.t, 1)} s`; tr.append(b); });
+    g.x.forEach((x, i) => { const b = el("i"); b.style.width = `${(Math.log10(1 + x.t) / Math.log10(1 + tmax)) * 100}%`; b.style.opacity = i ? .45 : 1; b.title = t("js-site-capabilities-bd-after", "{ $m } m after { $s } s", { m: x.thr, s: n(x.t, 1) }); tr.append(b); });
     row.append(tr, el("b", null, g.x.map((x) => `${x.thr} m: ${n(x.t, 0)} s`).join(" · ")));
     grades.append(row);
   }
-  fig.innerHTML = `Time since GNSS was lost on the log axis, a ${m.grade}-grade IMU at ${ni(m.speed)} m/s: ` + m.crossings.map((x) => `<b>${x.thr} m</b> after ${n(x.t, 0)} s, dominated by ${x.dom.replace(/_/g, " ")}`).join(" · ") + ". The lines are the engine's short-coast growth laws and their root-sum-square; the crossings come from its full nine-state (Schuler) error model, which bounds the bias terms, so on long coasts each crossing comes a little later than the line reaches it. The bars: the same crossings for four IMU grades.";
+  fig.replaceChildren(t("js-site-capabilities-bd-fig-lead", "Time since GNSS was lost on the log axis, a { $grade }-grade IMU at { $speed } m/s:", { grade: m.grade, speed: ni(m.speed) }), " ");
+  m.crossings.forEach((x, i) => { if (i) fig.append(" · "); rich(fig, t("js-site-capabilities-bd-fig-crossing", "«{ $m } m» after { $s } s, dominated by { $dom }", { m: x.thr, s: n(x.t, 0), dom: x.dom.replace(/_/g, " ") })); });
+  fig.append(". " + t("js-site-capabilities-bd-fig-tail", "The lines are the engine's short-coast growth laws and their root-sum-square; the crossings come from its full nine-state (Schuler) error model, which bounds the bias terms, so on long coasts each crossing comes a little later than the line reaches it. The bars: the same crossings for four IMU grades."));
   return pts;
 }
 
@@ -712,23 +738,23 @@ const CONST_C = { GPS: "#3DDCF7", Galileo: "#F45CCB", BeiDou: "#FFB547", GLONASS
 const SHELL_C = ["#3DDCF7", "#F45CCB", "#FFB547", "#EAF0FF"];
 function initCD(d) {
   const eng = d.engine, designs = d.constellations;
-  const TITLES = { "constellation-multi-gnss-coverage": "Four GNSS together", "leo-pnt-mega-shell": "Low-Earth-orbit mega-constellation", "lunar-relay-constellation": "Lunar relay set" };
+  const TITLES = { "constellation-multi-gnss-coverage": t("js-site-capabilities-cd-title-gnss", "Four GNSS together"), "leo-pnt-mega-shell": t("js-site-capabilities-cd-title-leo", "Low-Earth-orbit mega-constellation"), "lunar-relay-constellation": t("js-site-capabilities-cd-title-lunar", "Lunar relay set") };
   const list = $("#cdList"), seg = $("#cdSeg"), stats = $("#cdStats"), note = $("#cdNote"), work = $("#cdWork"), legend = $("#cdLegend"), hud = $("#cdHud");
   let cur = 0, metric = "availability", view = null;
   designs.forEach((c, i) => {
     const b = el("button"); b.type = "button"; b.setAttribute("role", "tab"); b.id = `cdt-${i}`; b.setAttribute("aria-selected", i === 0); b.tabIndex = i === 0 ? 0 : -1; b.setAttribute("aria-controls", "cdStage");
-    b.append(el("b", null, TITLES[c.file.replace(".toml", "")] || c.file), el("small", null, `${ni(c.total)} satellites · ${c.body} · ${c.file}`));
+    b.append(el("b", null, TITLES[c.file.replace(".toml", "")] || c.file), el("small", null, t("js-site-capabilities-cd-design-meta", "{ $n } satellites · { $body } · { $file }", { n: ni(c.total), body: c.body, file: c.file })));
     const ul = el("ul");
     for (const k of c.constellations) {
-      if (k.shells.length) for (const s of k.shells) ul.append(el("li", null, `${k.name}: Walker ${s.pattern} ${ni(s.total)}/${s.planes}/${s.phasing} · ${n(s.altitude_km, 0)} km · ${n(s.inclination_deg, 1)}°`));
-      else ul.append(el("li", null, `${k.name}: ${ni(k.satellites)} satellites, operator's slot table`));
+      if (k.shells.length) for (const s of k.shells) ul.append(el("li", null, t("js-site-capabilities-cd-shell", "{ $name }: Walker { $pattern } { $total }/{ $planes }/{ $phasing } · { $alt } km · { $inc }°", { name: k.name, pattern: s.pattern, total: ni(s.total), planes: s.planes, phasing: s.phasing, alt: n(s.altitude_km, 0), inc: n(s.inclination_deg, 1) })));
+      else ul.append(el("li", null, t("js-site-capabilities-cd-slots", "{ $name }: { $n } satellites, operator's slot table", { name: k.name, n: ni(k.satellites) })));
     }
     b.append(ul);
     b.addEventListener("click", () => select(i));
     b.addEventListener("keydown", (e) => { const m = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]; if (m) { e.preventDefault(); const j = (cur + m + designs.length) % designs.length; select(j); list.children[j].focus(); } });
     list.append(b);
   });
-  const METRICS = [["availability", "Availability"], ["pdop", "Mean PDOP"], ["visible", "In view"]];
+  const METRICS = [["availability", t("js-site-capabilities-cd-metric-availability", "Availability")], ["pdop", t("js-site-capabilities-cd-metric-pdop", "Mean PDOP")], ["visible", t("js-site-capabilities-cd-metric-visible", "In view")]];
   for (const [k, lab] of METRICS) { const b = el("button", null, lab); b.type = "button"; b.setAttribute("role", "radio"); b.setAttribute("aria-checked", k === metric); b.addEventListener("click", () => { metric = k; for (const x of seg.children) x.setAttribute("aria-checked", x === b); drawMap(); }); seg.append(b); }
   function select(i) {
     cur = i; [...list.children].forEach((b, j) => { b.setAttribute("aria-selected", j === i); b.tabIndex = j === i ? 0 : -1; });
@@ -737,22 +763,30 @@ function initCD(d) {
     prov($('[data-cprov="constellation"]'), c, eng);
     const g = c.global, inp = c.inputs;
     stats.replaceChildren(
-      kv("Satellites", ni(c.total)),
-      kv(`PDOP ≤ ${n(inp.pdop_threshold, 0)}, whole ${c.body === "Earth" ? "Earth" : c.body}`, `${n(g.availability_pct, 2)}<small> %</small>`),
-      kv("Worst site", `${n(g.worst_site_availability_pct, 1)}<small> %</small>`),
-      kv("Median PDOP", n(g.pdop.median, 2)),
-      kv("Mean in view", n(g.mean_visible, 1)),
-      kv("Mask · run", `${n(inp.mask_deg, 0)}°<small> · ${dur(inp.duration_s)}</small>`));
+      kv(t("js-site-capabilities-cd-stat-satellites", "Satellites"), ni(c.total)),
+      kv(t("js-site-capabilities-cd-stat-pdop", "PDOP ≤ { $limit }, whole { $body }", { limit: n(inp.pdop_threshold, 0), body: c.body }), `${n(g.availability_pct, 2)}<small> %</small>`),
+      kv(t("js-site-capabilities-cd-stat-worst", "Worst site"), `${n(g.worst_site_availability_pct, 1)}<small> %</small>`),
+      kv(t("js-site-capabilities-cd-stat-median", "Median PDOP"), n(g.pdop.median, 2)),
+      kv(t("js-site-capabilities-cd-stat-in-view", "Mean in view"), n(g.mean_visible, 1)),
+      kv(t("js-site-capabilities-cd-stat-mask", "Mask · run"), `${n(inp.mask_deg, 0)}°<small> · ${dur(inp.duration_s)}</small>`));
     note.textContent = plainLabel(c.label);
     const w = c.work;
-    work.innerHTML = w ? `<b>Visibility work</b><br>${ni(w.pair_tests_after_prefilter)} satellite-point tests of ${ni(w.pair_tests_brute_force)} a brute-force scan would make<div class="bar"><i style="width:${(w.prefilter_ratio * 100).toFixed(1)}%"></i></div>${n(w.prefilter_ratio * 100, 1)} % after the latitude prefilter · ${ni(w.dop_solutions)} DOP solutions` : "";
+    work.replaceChildren();
+    if (w) {
+      const bar = el("div", "bar"), fill = el("i"); fill.style.width = `${(w.prefilter_ratio * 100).toFixed(1)}%`; bar.append(fill);
+      work.append(el("b", null, t("js-site-capabilities-cd-work-title", "Visibility work")), document.createElement("br"),
+        t("js-site-capabilities-cd-work-tests", "{ $after } satellite-point tests of { $brute } a brute-force scan would make", { after: ni(w.pair_tests_after_prefilter), brute: ni(w.pair_tests_brute_force) }),
+        bar, t("js-site-capabilities-cd-work-ratio", "{ $pct } % after the latitude prefilter · { $dop } DOP solutions", { pct: n(w.prefilter_ratio * 100, 1), dop: ni(w.dop_solutions) }));
+    }
     legend.replaceChildren();
-    const names = c.walker ? c.walker.map((s, j) => [`shell ${j + 1} · ${n(s.inc, 1)}°`, SHELL_C[j % 4]]) : c.constellations.map((k) => [k.name, CONST_C[k.name] || "#3DDCF7"]);
+    const names = c.walker ? c.walker.map((s, j) => [t("js-site-capabilities-cd-legend-shell", "shell { $n } · { $inc }°", { n: j + 1, inc: n(s.inc, 1) }), SHELL_C[j % 4]]) : c.constellations.map((k) => [k.name, CONST_C[k.name] || "#3DDCF7"]);
     for (const [nm, col] of names) { const s = el("span"); const i2 = el("i"); i2.style.setProperty("--c", col); s.append(i2, document.createTextNode(nm)); legend.append(s); }
-    $("#cdSpan").textContent = `of ${dur(c.times[c.times.length - 1])}, looped`;
+    $("#cdSpan").textContent = t("js-site-capabilities-cd-span", "of { $dur }, looped", { dur: dur(c.times[c.times.length - 1]) });
     $("#cdFootNote").textContent = c.walker
-      ? `All ${ni(c.total)} satellites are placed from the shells' own Walker parameters (checked against the engine's ${c.shown} tracks: worst ${n(c.walker_residual_deg, 4)}°); trails are the engine's ${c.shown} tracks.`
-      : `Each satellite follows the engine's own track${c.sats.some((s) => s.r_km) ? "; the frozen-orbit radius comes from the shell's elements" : ", at the radius its mean motion implies"}.`;
+      ? t("js-site-capabilities-cd-foot-walker", "All { $n } satellites are placed from the shells' own Walker parameters (checked against the engine's { $shown } tracks: worst { $deg }°); trails are the engine's { $shown } tracks.", { n: ni(c.total), shown: c.shown, deg: n(c.walker_residual_deg, 4) })
+      : c.sats.some((s) => s.r_km)
+        ? t("js-site-capabilities-cd-foot-frozen", "Each satellite follows the engine's own track; the frozen-orbit radius comes from the shell's elements.")
+        : t("js-site-capabilities-cd-foot-mean-motion", "Each satellite follows the engine's own track, at the radius its mean motion implies.");
     drawMap();
     if (view) view.show(c);
   }
@@ -766,19 +800,29 @@ function initCD(d) {
     const col = (v) => { let f = hi > lo ? (v - lo) / (hi - lo) : 1; if (metric === "pdop") f = 1 - f; return `rgb(${rampRGB(0.25 + 0.7 * clamp(f, 0, 1)).map(Math.round).join(",")})`; };
     const dlat = 180 / g.lat.length, dlon = 360 / g.lon.length;
     g.lat.forEach((la, i) => g.lon.forEach((lo2, j) => { const v = g[metric][i][j]; if (v == null) return; const r = S("rect", { x: (lo2 + 180 - dlon / 2).toFixed(1), y: (90 - la - dlat / 2).toFixed(1), width: dlon, height: dlat, fill: col(v), opacity: .62 }, svg); S("title", {}, r, `${la}°, ${lo2}°: ${n(v, metric === "pdop" ? 2 : 1)}${metric === "availability" ? " %" : ""}`); }));
-    const lab = { availability: `Share of the run with PDOP ≤ ${n(c.inputs.pdop_threshold, 0)} (0 to 100 %)`, pdop: `Mean PDOP per ${c.inputs.grid_step_deg}° cell (${n(lo, 2)} to ${n(hi, 2)}; brighter is better)`, visible: `Mean satellites in view (${n(lo, 1)} to ${n(hi, 1)})` }[metric];
+    const lab = metric === "availability" ? t("js-site-capabilities-cd-map-availability", "Share of the run with PDOP ≤ { $limit } (0 to 100 %)", { limit: n(c.inputs.pdop_threshold, 0) })
+      : metric === "pdop" ? t("js-site-capabilities-cd-map-pdop", "Mean PDOP per { $step }° cell ({ $lo } to { $hi }; brighter is better)", { step: c.inputs.grid_step_deg, lo: n(lo, 2), hi: n(hi, 2) })
+        : t("js-site-capabilities-cd-map-visible", "Mean satellites in view ({ $lo } to { $hi })", { lo: n(lo, 1), hi: n(hi, 1) });
     $("#cdMapCap").textContent = lab;
   }
   select(0);
-  if (!webgl()) { $("#cdStage").append(el("p", "cd-note", "3-D view needs WebGL; the coverage map and figures are the same run.")); return; }
+  if (!webgl()) { $("#cdStage").append(el("p", "cd-note", t("js-site-capabilities-cd-no-webgl", "3-D view needs WebGL; the coverage map and figures are the same run."))); return; }
   three().then((THREE) => { view = makeCDView(THREE, designs, hud); view.show(designs[cur]); }).catch((e) => console.warn("three:", e));
   const play = $("#cdPlay");
-  play.addEventListener("click", () => { const on = play.getAttribute("aria-pressed") !== "true"; play.setAttribute("aria-pressed", on); play.setAttribute("aria-label", on ? "Pause the orbits" : "Play the orbits"); if (view) view.setPlaying(on); });
-  if (RM) { play.setAttribute("aria-pressed", "false"); play.setAttribute("aria-label", "Play the orbits"); }
+  play.addEventListener("click", () => { const on = play.getAttribute("aria-pressed") !== "true"; play.setAttribute("aria-pressed", on); play.setAttribute("aria-label", on ? t("js-site-capabilities-cd-pause", "Pause the orbits") : t("js-site-capabilities-cd-play", "Play the orbits")); if (view) view.setPlaying(on); });
+  if (RM) { play.setAttribute("aria-pressed", "false"); play.setAttribute("aria-label", t("js-site-capabilities-cd-play", "Play the orbits")); }
+}
+// the designer's overlay (module level: makeCDView keeps a variable named t, its clock)
+const cdCanvasAria = () => t("js-site-capabilities-cd-canvas-aria", "Constellation around its body, real imagery: drag or arrow keys to turn, plus and minus to zoom");
+function cdHud(hud, c, time) {
+  const a = el("span"), b = el("span");
+  rich(a, t("js-site-capabilities-cd-hud-body", "{ $body } · «{ $n }» satellites", { body: c.body, n: ni(c.total) }));
+  rich(b, t("js-site-capabilities-cd-hud-mission", "Mission «{ $time }»", { time }));
+  hud.replaceChildren(a, b);
 }
 function makeCDView(THREE, designs, hud) {
   const host = $("#cdStage");
-  const canvas = document.createElement("canvas"); canvas.tabIndex = 0; canvas.setAttribute("aria-label", "Constellation around its body, real imagery: drag or arrow keys to turn, plus and minus to zoom"); host.prepend(canvas);
+  const canvas = document.createElement("canvas"); canvas.tabIndex = 0; canvas.setAttribute("aria-label", cdCanvasAria()); host.prepend(canvas);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "low-power" });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(35, 1, 0.01, 400);
@@ -853,7 +897,7 @@ function makeCDView(THREE, designs, hud) {
     list.forEach((s, i) => { (P.walker ? posWalker(s, t, tmp) : posTracked(s, P.T, t, tmp)); arr[i * 3] = tmp.x; arr[i * 3 + 1] = tmp.y; arr[i * 3 + 2] = tmp.z; });
     pts.geometry.attributes.position.needsUpdate = true;
     body.rotation.y = P.w * t;
-    hud.innerHTML = `<span>${c.body} · <b>${ni(c.total)}</b> satellites</span><span>Mission <b>${hms(t).slice(2)}</b></span>`;
+    cdHud(hud, c, hms(t).slice(2));
     $("#cdClock").textContent = hms(t).slice(2);
   }
   function render(ts) {
@@ -889,30 +933,30 @@ function initCG(d) {
   show("chain");
 }
 function cgChain(c) {
-  const T = c.duration_s, t = c.t;
+  const T = c.duration_s, tl = c.t;
   const ph = $("#cgPhases"); ph.replaceChildren();
   let nowCap = ph.nextElementSibling && ph.nextElementSibling.classList.contains("cg-now") ? ph.nextElementSibling : null;
   if (!nowCap) { nowCap = el("p", "cg-now"); ph.after(nowCap); }
-  const liEls = c.phases.map((p) => { const li = el("li", null, p.name.replace("-", " ")); li.style.flex = `${p.t1 - p.t0} 1 0`; li.style.setProperty("--c", PHASE_C[p.name] || "var(--ink-3)"); li.title = `${p.name}: ${hms(p.t0)} to ${hms(p.t1)} · ended by ${p.ended_by} · member kinds ${p.kinds.join(", ")}`; ph.append(li); return li; });
+  const liEls = c.phases.map((p) => { const li = el("li", null, p.name.replace("-", " ")); li.style.flex = `${p.t1 - p.t0} 1 0`; li.style.setProperty("--c", PHASE_C[p.name] || "var(--ink-3)"); li.title = t("js-site-capabilities-cg-phase-title", "{ $name }: { $from } to { $to } · ended by { $by } · member kinds { $kinds }", { name: p.name, from: hms(p.t0), to: hms(p.t1), by: p.ended_by, kinds: p.kinds.join(", ") }); ph.append(li); return li; });
   const defs = [
-    ["cn0_dbhz", "cn0_floor_dbhz", "Carrier-to-noise density", "C/N0 against the tracking floor", "dB-Hz", "var(--cyan)", false],
-    ["time_error_ns", "guard_ns", "Clock time error", "against its guard", "ns", "var(--lime)", false],
-    ["protection_level_m", "alert_limit_m", "Protection level", "against the alert limit", "m", "var(--amber)", false],
-    ["position_error_m", "position_threshold_m", "Inertial position error", "against its budget · log", "m", "var(--magenta)", true],
+    ["cn0_dbhz", "cn0_floor_dbhz", t("js-site-capabilities-cg-cn0-title", "Carrier-to-noise density"), t("js-site-capabilities-cg-cn0-sub", "C/N0 against the tracking floor"), "dB-Hz", "var(--cyan)", false],
+    ["time_error_ns", "guard_ns", t("js-site-capabilities-cg-te-title", "Clock time error"), t("js-site-capabilities-cg-te-sub", "against its guard"), "ns", "var(--lime)", false],
+    ["protection_level_m", "alert_limit_m", t("js-site-capabilities-cg-pl-title", "Protection level"), t("js-site-capabilities-cg-pl-sub", "against the alert limit"), "m", "var(--amber)", false],
+    ["position_error_m", "position_threshold_m", t("js-site-capabilities-cg-pos-title", "Inertial position error"), t("js-site-capabilities-cg-pos-sub", "against its budget · log"), "m", "var(--magenta)", true],
   ];
   const fit = () => liEls.forEach((li) => { li.classList.remove("bare"); li.classList.toggle("bare", li.scrollWidth > li.clientWidth + 1); });
   requestAnimationFrame(fit); new ResizeObserver(fit).observe(ph);
   const box = $("#cgCharts"); box.replaceChildren();
   const views = defs.map(([k, thrK, title, sub, unit, col, log]) => {
     const wrap = el("div", "cg-chart"); wrap.style.setProperty("--c", col);
-    const h = el("div", "cg-ch"); const sp = el("span"); sp.innerHTML = `${title}<small>${sub}</small>`; const val = el("b", null, "–"); h.append(sp, val); wrap.append(h);
+    const h = el("div", "cg-ch"); const sp = el("span"); sp.append(title); sp.append(el("small", null, sub)); const val = el("b", null, "–"); h.append(sp, val); wrap.append(h);
     const svgEl = S("svg", { class: "cg-svg", viewBox: "0 0 600 92", preserveAspectRatio: "none", "aria-hidden": "true" }, wrap);
     const v = c.ch[k].v, thr = c.ch[thrK].v, vals = v.filter((x) => x != null && (!log || x > 0));
     const lo = log ? Math.max(Math.min(...vals), 0.1) : Math.min(0, ...vals), hi = Math.max(...vals, ...thr.filter((x) => x != null)) * (log ? 2 : 1.1);
     const X = (x) => (x / T) * 600, Y = log ? (x) => 88 - ((Math.log10(Math.max(x, lo)) - Math.log10(lo)) / (Math.log10(hi) - Math.log10(lo))) * 84 : (x) => 88 - ((x - lo) / (hi - lo)) * 84;
     for (const p of c.phases.slice(1)) S("line", { x1: X(p.t0), x2: X(p.t0), y1: 0, y2: 92, class: "ph" }, svgEl);
-    S("path", { d: pathOf(t.map((x, i) => (thr[i] == null ? null : [X(x), Y(thr[i])]))), class: "thr" }, svgEl);
-    S("path", { d: pathOf(t.map((x, i) => (v[i] == null ? null : [X(x), Y(v[i])]))), class: "ln" }, svgEl);
+    S("path", { d: pathOf(tl.map((x, i) => (thr[i] == null ? null : [X(x), Y(thr[i])]))), class: "thr" }, svgEl);
+    S("path", { d: pathOf(tl.map((x, i) => (v[i] == null ? null : [X(x), Y(v[i])]))), class: "ln" }, svgEl);
     const cur = S("line", { y1: 0, y2: 92, class: "cur" }, svgEl);
     box.append(wrap);
     return { v, thr, val, cur, unit, X };
@@ -921,21 +965,21 @@ function cgChain(c) {
   let fitN = 0;
   const setI = (i) => {
     if (++fitN % 40 === 1) fit();
-    const x = t[i];
-    for (const w of views) { w.cur.setAttribute("x1", w.X(x)); w.cur.setAttribute("x2", w.X(x)); const v = w.v[i]; w.val.textContent = v == null ? "not in this phase" : `${n(v, v < 10 ? 2 : 1)} ${w.unit}`; w.val.classList.toggle("na", v == null); w.val.classList.toggle("bad", v != null && w.thr[i] != null && (w.unit === "dB-Hz" ? v < w.thr[i] : v > w.thr[i])); }
+    const x = tl[i];
+    for (const w of views) { w.cur.setAttribute("x1", w.X(x)); w.cur.setAttribute("x2", w.X(x)); const v = w.v[i]; w.val.textContent = v == null ? t("js-site-capabilities-cg-not-in-phase", "not in this phase") : `${n(v, v < 10 ? 2 : 1)} ${w.unit}`; w.val.classList.toggle("na", v == null); w.val.classList.toggle("bad", v != null && w.thr[i] != null && (w.unit === "dB-Hz" ? v < w.thr[i] : v > w.thr[i])); }
     liEls.forEach((li, j) => li.classList.toggle("on", x >= c.phases[j].t0 && x < c.phases[j].t1));
     const cp = c.phases.find((p) => x >= p.t0 && x < p.t1) || c.phases[c.phases.length - 1];
-    nowCap.textContent = `Phase ${c.phases.indexOf(cp) + 1} of ${c.phases.length}: ${cp.name.replace("-", " ")} · ${hms(cp.t0)} to ${hms(cp.t1)}`;
-    const lines = [[0, `campaign ${c.file} · ${c.phases.length} phases · ${c.runs_total} member runs`, false]];
-    for (const p of c.phases) if (p.t0 <= x) lines.push([p.t0, `phase ${p.name} starts${Object.keys(p.carried || {}).length ? ` · carries ${Object.keys(p.carried).join(", ")}` : ""}`, false]);
+    nowCap.textContent = t("js-site-capabilities-cg-now", "Phase { $n } of { $total }: { $name } · { $from } to { $to }", { n: c.phases.indexOf(cp) + 1, total: c.phases.length, name: cp.name.replace("-", " "), from: hms(cp.t0), to: hms(cp.t1) });
+    const lines = [[0, t("js-site-capabilities-cg-log-campaign", "campaign { $file } · { $phases } phases · { $runs } member runs", { file: c.file, phases: c.phases.length, runs: c.runs_total }), false]];
+    for (const p of c.phases) if (p.t0 <= x) lines.push([p.t0, Object.keys(p.carried || {}).length ? t("js-site-capabilities-cg-log-phase-carries", "phase { $name } starts · carries { $carried }", { name: p.name, carried: Object.keys(p.carried).join(", ") }) : t("js-site-capabilities-cg-log-phase", "phase { $name } starts", { name: p.name }), false]);
     for (const e of c.events) if (e.t_s <= x) lines.push([e.t_s, e.label, e.alarm]);
     lines.sort((a, b) => a[0] - b[0]);
     log.replaceChildren(...lines.slice(-4).map(([tt, m, crit]) => { const r = el("div", crit ? "crit" : null); r.append(el("span", "t", hms(tt)), el("span", null, m)); return r; }));
   };
-  setI(RM ? t.length - 1 : 0);
+  setI(RM ? tl.length - 1 : 0);
   if (!RM) {
     let on = false, t0 = 0, raf = 0; const period = 22000;
-    const tick = (ts) => { if (!on || $("#cgp-chain").hidden) { raf = requestAnimationFrame(tick); return; } setI(Math.min(t.length - 1, Math.floor(((((ts - t0) % period + period) % period) / period) * t.length))); raf = requestAnimationFrame(tick); };
+    const tick = (ts) => { if (!on || $("#cgp-chain").hidden) { raf = requestAnimationFrame(tick); return; } setI(Math.min(tl.length - 1, Math.floor(((((ts - t0) % period + period) % period) / period) * tl.length))); raf = requestAnimationFrame(tick); };
     watchVisible(cgWin, (v) => { on = v; if (v && !raf) { t0 = performance.now(); raf = requestAnimationFrame(tick); } });
   }
 }
@@ -951,12 +995,14 @@ function cgSweep(m) {
   S("path", { d: pathOf(xs.map((x, i) => [X(x), Yj(js[i])])), class: "ln", stroke: "var(--amber)", "stroke-dasharray": "5 4" }, svgEl);
   S("path", { d: pathOf(xs.map((x, i) => [X(x), Ya(m.m.availability[i])])), class: "ln draw", stroke: "var(--cyan)", pathLength: 1 }, svgEl);
   xs.forEach((x, i) => S("circle", { cx: X(x), cy: Ya(m.m.availability[i]), r: 3.5, fill: "var(--cyan)" }, svgEl));
-  S("text", { x: f.P.l + f.w / 2, y: f.H - 4, "text-anchor": "middle" }, svgEl, `jammer transmit power (${m.key})`);
+  S("text", { x: f.P.l + f.w / 2, y: f.H - 4, "text-anchor": "middle" }, svgEl, t("js-site-capabilities-cg-sweep-axis", "jammer transmit power ({ $key })", { key: m.key }));
   const drop = xs.findIndex((_, i) => m.m.availability[i] < 1), gone = xs.findIndex((_, i) => m.m.availability[i] === 0);
   const txt = el("div", "cg-txt");
-  txt.innerHTML = `<h3>${m.title}</h3><p>One <code>${m.scenario_kind}</code> scenario, run once per node as the jammer's transmit power steps from ${x0} to ${x1} ${m.unit}. Availability under jamming (solid) and mean J/S (dashed) come from each member run's own figures of merit.</p><div class="cg-leg"><span style="--c:var(--cyan)"><i></i>availability</span><span style="--c:var(--amber)"><i class="dash"></i>mean J/S</span></div>`;
+  const h3 = el("h3"); h3.innerHTML = m.title; txt.append(h3);
+  txt.append(rich(el("p"), t("js-site-capabilities-cg-sweep-text", "One ‹{ $kind }› scenario, run once per node as the jammer's transmit power steps from { $from } to { $to } { $unit }. Availability under jamming (solid) and mean J/S (dashed) come from each member run's own figures of merit.", { kind: m.scenario_kind, from: x0, to: x1, unit: m.unit })));
+  { const lg = el("div", "cg-leg"), s1 = el("span"), s2 = el("span"); s1.style.setProperty("--c", "var(--cyan)"); s1.append(el("i"), t("js-site-capabilities-cg-sweep-lg-availability", "availability")); s2.style.setProperty("--c", "var(--amber)"); s2.append(el("i", "dash"), t("js-site-capabilities-cg-sweep-lg-js", "mean J/S")); lg.append(s1, s2); txt.append(lg); }
   const dl = el("dl", "cg-kv");
-  dl.append(kv("Nodes", ni(xs.length)), kv("First loss", drop >= 0 ? `${xs[drop]} ${m.unit}` : "none"), kv("All lost from", gone >= 0 ? `${xs[gone]} ${m.unit}` : "never"), kv("J/S span", `${n(jlo, 0)}–${n(jhi, 0)} dB`));
+  dl.append(kv(t("js-site-capabilities-cg-sweep-nodes", "Nodes"), ni(xs.length)), kv(t("js-site-capabilities-cg-sweep-first-loss", "First loss"), drop >= 0 ? `${xs[drop]} ${m.unit}` : t("js-site-capabilities-cg-sweep-none", "none")), kv(t("js-site-capabilities-cg-sweep-all-lost", "All lost from"), gone >= 0 ? `${xs[gone]} ${m.unit}` : t("js-site-capabilities-cg-sweep-never", "never")), kv(t("js-site-capabilities-cg-sweep-span", "J/S span"), `${n(jlo, 0)}–${n(jhi, 0)} dB`));
   txt.append(dl); box.append(txt); revealIn(box);
 }
 function cgMonte(m) {
@@ -967,18 +1013,19 @@ function cgMonte(m) {
   const cmax = Math.max(...bins), X = (v) => f.P.l + ((v - lo) / (hi - lo)) * f.w, Y = (c) => f.P.t + f.h - (c / cmax) * f.h;
   axes(svgEl, f, [[X(lo), `${n(lo, 0)} ${m.unit}`], [X(0), "0"], [X(hi), `${n(hi, 0)} ${m.unit}`]], [[Y(0), "0"], [Y(cmax), ni(cmax)]]);
   bins.forEach((c, i) => S("rect", { x: X(lo + i * bw) + 1, y: Y(c), width: Math.max(1, (f.w / NB) - 2), height: Y(0) - Y(c), fill: "var(--cyan)", opacity: .75, class: "bar" }, svgEl));
-  for (const [k, lab] of [["p05", "5th"], ["p50", "median"], ["p95", "95th"]]) { const x = X(m.stats[k]); S("line", { x1: x, x2: x, y1: f.P.t, y2: f.P.t + f.h, stroke: "var(--amber)", "stroke-dasharray": "4 3" }, svgEl); S("text", { x: x + 3, y: f.P.t + 10 }, svgEl, lab); }
-  S("text", { x: f.P.l + f.w / 2, y: f.H - 4, "text-anchor": "middle" }, svgEl, `final clock error over ${ni(m.runs)} seeds (${m.path})`);
+  for (const [k, lab] of [["p05", t("js-site-capabilities-cg-monte-p05", "5th")], ["p50", t("js-site-capabilities-cg-monte-p50", "median")], ["p95", t("js-site-capabilities-cg-monte-p95", "95th")]]) { const x = X(m.stats[k]); S("line", { x1: x, x2: x, y1: f.P.t, y2: f.P.t + f.h, stroke: "var(--amber)", "stroke-dasharray": "4 3" }, svgEl); S("text", { x: x + 3, y: f.P.t + 10 }, svgEl, lab); }
+  S("text", { x: f.P.l + f.w / 2, y: f.H - 4, "text-anchor": "middle" }, svgEl, t("js-site-capabilities-cg-monte-axis", "final clock error over { $n } seeds ({ $path })", { n: ni(m.runs), path: m.path }));
   const txt = el("div", "cg-txt");
-  txt.innerHTML = `<h3>${m.title}</h3><p>The same <code>${m.scenario_kind}</code> scenario run ${ni(m.runs)} times from base seed ${m.base_seed}, one seed each: the spread of the free-running clock's final error, with its 95 % confidence interval on the mean.</p>`;
+  const h3 = el("h3"); h3.innerHTML = m.title; txt.append(h3);
+  txt.append(rich(el("p"), t("js-site-capabilities-cg-monte-text", "The same ‹{ $kind }› scenario run { $n } times from base seed { $seed }, one seed each: the spread of the free-running clock's final error, with its 95 % confidence interval on the mean.", { kind: m.scenario_kind, n: ni(m.runs), seed: m.base_seed })));
   const dl = el("dl", "cg-kv");
-  dl.append(kv("Mean", `${n(m.stats.mean, 2)} ${m.unit}`), kv("Standard deviation", `${n(m.stats.std, 2)} ${m.unit}`), kv("5th to 95th", `${n(m.stats.p05, 1)} to ${n(m.stats.p95, 1)}`), kv("Mean, 95 % interval", `${n(m.stats.ci95_low, 2)} to ${n(m.stats.ci95_high, 2)}`));
+  dl.append(kv(t("js-site-capabilities-cg-monte-mean", "Mean"), `${n(m.stats.mean, 2)} ${m.unit}`), kv(t("js-site-capabilities-cg-monte-std", "Standard deviation"), `${n(m.stats.std, 2)} ${m.unit}`), kv(t("js-site-capabilities-cg-monte-p05-p95", "5th to 95th"), t("js-site-capabilities-cg-range", "{ $lo } to { $hi }", { lo: n(m.stats.p05, 1), hi: n(m.stats.p95, 1) })), kv(t("js-site-capabilities-cg-monte-ci", "Mean, 95 % interval"), t("js-site-capabilities-cg-range", "{ $lo } to { $hi }", { lo: n(m.stats.ci95_low, 2), hi: n(m.stats.ci95_high, 2) })));
   txt.append(dl); box.append(txt); revealIn(box);
 }
 function cgCompose(m) {
   const box = $("#cgCompose"); box.replaceChildren();
   const svgEl = S("svg", { viewBox: "0 0 560 240", "aria-hidden": "true" }, box);
-  const metrics = [["availability", "Availability", (v) => `${n(v * 100, 0)} %`, 1], ["mean_js", "Mean J/S", (v) => `${n(v, 1)} dB`, Math.max(...m.members.map((x) => x.metrics.mean_js)) * 1.1], ["min_tracking", "Fewest tracked", (v) => ni(v), Math.max(4, ...m.members.map((x) => x.metrics.min_tracking))]];
+  const metrics = [["availability", t("js-site-capabilities-cg-compose-availability", "Availability"), (v) => `${n(v * 100, 0)} %`, 1], ["mean_js", t("js-site-capabilities-cg-compose-js", "Mean J/S"), (v) => `${n(v, 1)} dB`, Math.max(...m.members.map((x) => x.metrics.mean_js)) * 1.1], ["min_tracking", t("js-site-capabilities-cg-compose-fewest", "Fewest tracked"), (v) => ni(v), Math.max(4, ...m.members.map((x) => x.metrics.min_tracking))]];
   const cols = ["var(--cyan)", "var(--magenta)"];
   metrics.forEach(([k, lab, fm, mx], r) => {
     const y0 = 20 + r * 74; S("text", { x: 0, y: y0 }, svgEl, lab);
@@ -986,7 +1033,8 @@ function cgCompose(m) {
   });
   const sh = m.shared;
   const txt = el("div", "cg-txt");
-  txt.innerHTML = `<h3>${m.title}</h3><p>One jammer, ${n(sh.jammer_power.value, 0)} ${sh.jammer_power.unit}, at one place, bound into ${m.members.length} member runs of the <code>${m.members[0].kind}</code> kind: a ship in a strait and a car on a coast road see the same cause and get different answers.</p>`;
+  const h3 = el("h3"); h3.innerHTML = m.title; txt.append(h3);
+  txt.append(rich(el("p"), t("js-site-capabilities-cg-compose-text", "One jammer, { $power } { $unit }, at one place, bound into { $n } member runs of the ‹{ $kind }› kind: a ship in a strait and a car on a coast road see the same cause and get different answers.", { power: n(sh.jammer_power.value, 0), unit: sh.jammer_power.unit, n: m.members.length, kind: m.members[0].kind })));
   box.append(txt); revealIn(box);
 }
 
@@ -1002,7 +1050,7 @@ function initSS(d) {
   // credits, grouped by source
   const groups = {};
   for (const nm of names) { const c = img.bodies[nm]; if (!c) continue; const k = `${c.credit} (${c.licence})`; (groups[k] ||= []).push(nm + (c.padded ? "*" : "")); }
-  $("#ssCredit").textContent = "Imagery: " + Object.entries(groups).map(([k, v]) => `${v.join(", ")}: ${k}`).join(" · ") + ". * Map stops short of the poles; the gap takes the map's polar mean colour. Saturn's rings: " + img.ring.credit + ` (${img.ring.licence}).`;
+  $("#ssCredit").textContent = t("js-site-capabilities-ss-credit", "Imagery: { $credits }. * Map stops short of the poles; the gap takes the map's polar mean colour. Saturn's rings: { $ring } ({ $licence }).", { credits: Object.entries(groups).map(([k, v]) => `${v.join(", ")}: ${k}`).join(" · "), ring: img.ring.credit, licence: img.ring.licence });
   // picker thumbnails straight from the atlas (80 x 40 px per tile; the round window shows its middle)
   const picker = $("#ssPicker"), cols = img.cols, rows = img.rows;
   picker.replaceChildren(); // the build's plain list of body names gives way to the thumbnails
@@ -1025,25 +1073,25 @@ function initSS(d) {
   }
   function facts(b) {
     const box = $("#ssFacts"); box.replaceChildren();
-    const lab = b.label === "VALIDATED" ? ["v", "Validated"] : b.label === "MODELLED" ? ["m", "Modelled"] : ["o", "Frame origin"];
-    const h = el("div", "ss-fh"); const h3 = el("h3", null, b.name); const sm = el("small", null, `${b.class.replace("-", " ")}${b.parent ? ` of ${b.parent}` : ""} · NAIF ${b.naif}`); const pill = el("span", `ss-lab ${lab[0]}`, lab[1]);
+    const lab = b.label === "VALIDATED" ? ["v", "Validated"] : b.label === "MODELLED" ? ["m", "Modelled"] : ["o", t("js-site-capabilities-ss-frame-origin", "Frame origin")];
+    const h = el("div", "ss-fh"); const h3 = el("h3", null, b.name); const sm = el("small", null, b.parent ? t("js-site-capabilities-ss-kind-of", "{ $class } of { $parent } · NAIF { $naif }", { class: b.class.replace("-", " "), parent: b.parent, naif: b.naif }) : t("js-site-capabilities-ss-kind", "{ $class } · NAIF { $naif }", { class: b.class.replace("-", " "), naif: b.naif })); const pill = el("span", `ss-lab ${lab[0]}`, lab[1]);
     h.append(h3, pill); box.append(h, sm);
     const dl = el("dl", "ss-dl");
-    const rot = b.rot_h == null ? "–" : `${n(Math.abs(b.rot_h), Math.abs(b.rot_h) < 100 ? 2 : 1)} h${b.rot_h < 0 ? ", retrograde" : ""}`;
-    dl.append(kv("Mean radius", `${ni(b.r_km)} km`), kv("GM", ((x) => { const [m0, e] = x.toExponential(4).split("e"); return `${m0} × 10${String(+e).split("").map((c) => SUP[c]).join("")} m³/s²`; })(b.gm)),
-      kv("J2", b.j2 == null ? "none published" : b.j2.toExponential(3)), kv("Sidereal rotation", rot));
-    if (b.class !== "star") dl.append(kv(b.parent === "Sun" ? "Orbital period" : `Period about ${b.parent}`, b.period_d == null ? "–" : b.period_d > 1000 ? `${n(b.period_d / 365.25, 2)} years` : `${n(b.period_d, 2)} days`),
-      kv("From the Sun", `${n(b.dist_au, 3)} au`));
-    if (b.light_s != null && b.name !== sol.observer) dl.append(kv(`Light time from ${sol.observer}`, b.light_s > 120 ? `${n(b.light_s / 60, 1)} min` : `${n(b.light_s, 2)} s`), kv("Angle from the Sun", `${n(b.sun_sep, 1)}°`));
-    dl.append(kv("IAU pole (RA, Dec)", `${n(b.pole_ra, 2)}°, ${n(b.pole_dec, 2)}°`));
+    const rot = b.rot_h == null ? "–" : b.rot_h < 0 ? t("js-site-capabilities-ss-retrograde", "{ $v } h, retrograde", { v: n(Math.abs(b.rot_h), Math.abs(b.rot_h) < 100 ? 2 : 1) }) : `${n(Math.abs(b.rot_h), Math.abs(b.rot_h) < 100 ? 2 : 1)} h`;
+    dl.append(kv(t("js-site-capabilities-ss-radius", "Mean radius"), `${ni(b.r_km)} km`), kv("GM", ((x) => { const [m0, e] = x.toExponential(4).split("e"); return `${m0} × 10${String(+e).split("").map((c) => SUP[c]).join("")} m³/s²`; })(b.gm)),
+      kv("J2", b.j2 == null ? esc(t("js-site-capabilities-ss-j2-none", "none published")) : b.j2.toExponential(3)), kv(t("js-site-capabilities-ss-rotation", "Sidereal rotation"), esc(rot)));
+    if (b.class !== "star") dl.append(kv(b.parent === "Sun" ? t("js-site-capabilities-ss-period", "Orbital period") : t("js-site-capabilities-ss-period-about", "Period about { $parent }", { parent: b.parent }), b.period_d == null ? "–" : b.period_d > 1000 ? esc(t("js-site-capabilities-ss-years", "{ $v } years", { v: n(b.period_d / 365.25, 2) })) : esc(t("js-site-capabilities-ss-days", "{ $v } days", { v: n(b.period_d, 2) }))),
+      kv(t("js-site-capabilities-ss-from-sun", "From the Sun"), `${n(b.dist_au, 3)} au`));
+    if (b.light_s != null && b.name !== sol.observer) dl.append(kv(t("js-site-capabilities-ss-light-time", "Light time from { $observer }", { observer: sol.observer }), b.light_s > 120 ? `${n(b.light_s / 60, 1)} min` : `${n(b.light_s, 2)} s`), kv(t("js-site-capabilities-ss-angle", "Angle from the Sun"), `${n(b.sun_sep, 1)}°`));
+    dl.append(kv(t("js-site-capabilities-ss-pole", "IAU pole (RA, Dec)"), `${n(b.pole_ra, 2)}°, ${n(b.pole_dec, 2)}°`));
     box.append(dl);
-    box.append(el("p", "ss-fnote ss-gloss", "NAIF: the body code of NASA's Navigation and Ancillary Information Facility. GM: gravitational parameter. J2: oblateness term. IAU pole: the International Astronomical Union rotation pole, as right ascension (RA) and declination (Dec)."));
+    box.append(el("p", "ss-fnote ss-gloss", t("js-site-capabilities-ss-gloss", "NAIF: the body code of NASA's Navigation and Ancillary Information Facility. GM: gravitational parameter. J2: oblateness term. IAU pole: the International Astronomical Union rotation pole, as right ascension (RA) and declination (Dec).")));
     const links = sol.links.filter((l) => l.from === b.name || l.to === b.name);
     const lt = (x) => (x >= 120 ? `${n(x / 60, 1)} min` : `${n(x, 2)} s`);
-    if (links.length) box.append(el("p", "ss-fnote", `Link${links.length > 1 ? "s" : ""} this run computes: ` + links.map((l) => `${l.from} to ${l.to}, one-way light time ${lt(l.light_s)}, round trip ${lt(l.two_way_s)}`).join(" · ")));
+    if (links.length) box.append(el("p", "ss-fnote", t("js-site-capabilities-ss-links-lead", { one: "Link this run computes:", other: "Links this run computes:" }, { n: links.length }) + " " + links.map((l) => t("js-site-capabilities-ss-link", "{ $from } to { $to }, one-way light time { $one }, round trip { $two }", { from: l.from, to: l.to, one: lt(l.light_s), two: lt(l.two_way_s) })).join(" · ")));
     const moons = sol.bodies.filter((m) => m.parent === b.name && m.class === "moon");
     if (moons.length) {
-      const wrap = el("div", "ss-moons"); wrap.append(el("div", "wv-bh", `${moons.length === 1 ? "Its moon" : "Its moons"}, to scale, at the epoch`));
+      const wrap = el("div", "ss-moons"); wrap.append(el("div", "wv-bh", t("js-site-capabilities-ss-moons", { one: "Its moon, to scale, at the epoch", other: "Its moons, to scale, at the epoch" }, { n: moons.length })));
       const svgEl = S("svg", { viewBox: "-110 -60 220 120", "aria-hidden": "true" }, wrap);
       const rmax = Math.max(...moons.map((m) => Math.max(...m.track_km.map((p) => Math.hypot(...p))))), k = 55 / rmax;
       S("circle", { cx: 0, cy: 0, r: Math.max(1.5, b.r_km * k), fill: "#c9d4ef", opacity: .5 }, svgEl);
@@ -1052,10 +1100,10 @@ function initSS(d) {
         S("path", { d: pathOf(m.track_km.map(pr)) + "Z", fill: "none", stroke: "#56637f" }, svgEl);
         const q = pr(m.rel_km); S("circle", { cx: q[0], cy: q[1], r: 2.4, fill: "#3ddcf7" }, svgEl); S("text", { x: q[0] + 4, y: q[1] - 3 }, svgEl, m.name);
       }
-      wrap.append(el("p", "ss-fnote", "Seen from the north of the ecliptic."));
+      wrap.append(el("p", "ss-fnote", t("js-site-capabilities-ss-north", "Seen from the north of the ecliptic.")));
       box.append(wrap);
     }
-    box.append(el("p", "ss-fnote", `${b.method}${b.error ? ` · nominal error ${ni(b.error.distance_m / 1000)} km in distance` : ""}`));
+    box.append(el("p", "ss-fnote", `${b.method}${b.error ? ` · ${t("js-site-capabilities-ss-nominal-error", "nominal error { $km } km in distance", { km: ni(b.error.distance_m / 1000) })}` : ""}`));
   }
   // the ecliptic, recovered from the Earth's own track (its orbit normal), so no obliquity is typed
   const tr = B.Earth.track_au; let nz = [0, 0, 0];
@@ -1070,9 +1118,11 @@ function initSS(d) {
     if (!m) { box.hidden = true; return; }
     box.hidden = false; box.replaceChildren();
     const txt = el("div");
-    const user = m.user.kind === "surface" ? `a lander at ${n(m.user.lat_deg, 0)}°, ${n(m.user.lon_deg, 0)}° on the surface` : `an orbiting user`;
-    txt.append(el("div", "wv-bh", "Positioning at this body · body-pnt kind"), el("h4", null, `${m.relays} relays at ${ni(m.relay_alt_km)} km around ${m.body}`));
-    txt.append(el("p", null, `${user[0].toUpperCase() + user.slice(1)} navigates on the relays, with a two-way range from Earth whenever Earth is above the horizon (one-way light time ${n(m.light_s / 60, 1)} min). Availability: ${n(m.fom.availability_relays * 100, 1)} % on the relays alone, ${n(m.fom.availability_with_earth * 100, 1)} % with the Earth link.`));
+    txt.append(el("div", "wv-bh", t("js-site-capabilities-pnt-kicker", "Positioning at this body · body-pnt kind")), el("h4", null, t("js-site-capabilities-pnt-relays", "{ $n } relays at { $alt } km around { $body }", { n: m.relays, alt: ni(m.relay_alt_km), body: m.body })));
+    const pv0 = { min: n(m.light_s / 60, 1), a: n(m.fom.availability_relays * 100, 1), b: n(m.fom.availability_with_earth * 100, 1) };
+    txt.append(el("p", null, m.user.kind === "surface"
+      ? t("js-site-capabilities-pnt-lander", "A lander at { $lat }°, { $lon }° on the surface navigates on the relays, with a two-way range from Earth whenever Earth is above the horizon (one-way light time { $min } min). Availability: { $a } % on the relays alone, { $b } % with the Earth link.", { lat: n(m.user.lat_deg, 0), lon: n(m.user.lon_deg, 0), ...pv0 })
+      : t("js-site-capabilities-pnt-orbiter", "An orbiting user navigates on the relays, with a two-way range from Earth whenever Earth is above the horizon (one-way light time { $min } min). Availability: { $a } % on the relays alone, { $b } % with the Earth link.", pv0)));
     const pv = el("p", "prov cap-prov"); txt.append(pv); prov(pv, m, eng);
     const svgEl = S("svg", { viewBox: "0 0 560 170", "aria-hidden": "true" });
     const f = frame(svgEl, 560, 170, { l: 36, t: 12, b: 22 }), T = m.t[m.t.length - 1], vmax = Math.max(...m.n_vis, 4) + 1;
@@ -1081,7 +1131,7 @@ function initSS(d) {
     axes(svgEl, f, [[X(0), "0"], [X(T / 2), dur(T / 2)], [X(T), dur(T)]], [[Y(0), "0"], [Y(4), "4"], [Y(vmax - 1), ni(vmax - 1)]]);
     S("path", { d: pathOf(m.t.flatMap((t, i) => [[X(t), Y(m.n_vis[i])], [X(m.t[i + 1] ?? t), Y(m.n_vis[i])]])), fill: "none", stroke: "#ffb547", "stroke-width": 1.6 }, svgEl);
     S("line", { x1: f.P.l, x2: f.W - f.P.r, y1: Y(4), y2: Y(4), stroke: "#ff6a5c", "stroke-dasharray": "4 3" }, svgEl);
-    S("text", { x: f.P.l + 4, y: f.P.t + 9 }, svgEl, "relays in view (line) · Earth above the horizon (shaded) · four needed for a fix");
+    S("text", { x: f.P.l + 4, y: f.P.t + 9 }, svgEl, t("js-site-capabilities-pnt-chart-title", "relays in view (line) · Earth above the horizon (shaded) · four needed for a fix"));
     box.append(txt, svgEl);
   }
   select(selected);
@@ -1133,7 +1183,7 @@ function bodyObject(ctx, b, R) {
 function makeOrrery(ctx, onPick) {
   const { THREE, B, names, toEcl, sol } = ctx;
   const host = $("#ssOrrery"), labels = $("#ssLabels");
-  const canvas = document.createElement("canvas"); canvas.tabIndex = 0; canvas.setAttribute("aria-label", "The solar system at the run's epoch: drag or arrow keys to turn, plus and minus to zoom"); host.prepend(canvas);
+  const canvas = document.createElement("canvas"); canvas.tabIndex = 0; canvas.setAttribute("aria-label", t("js-site-capabilities-orrery-aria", "The solar system at the run's epoch: drag or arrow keys to turn, plus and minus to zoom")); host.prepend(canvas);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "low-power" }); renderer.outputColorSpace = THREE.SRGBColorSpace;
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(40, 1, 0.01, 500);
   scene.add(new THREE.AmbientLight(0xffffff, 0.28)); const sunL = new THREE.PointLight(0xffffff, 2.4, 0, 0); scene.add(sunL);
@@ -1173,7 +1223,10 @@ function makeOrrery(ctx, onPick) {
   orbitControls(canvas, st, () => { dirty = true; distGoal = null; });
   for (const b of $$("[data-ss]", host)) b.addEventListener("click", () => { const a = b.dataset.ss; if (a === "in") st.dist = clamp(st.dist / 1.4, st.min, st.max); if (a === "out") st.dist = clamp(st.dist * 1.4, st.min, st.max); if (a === "reset") { goal.set(0, 0, 0); distGoal = fitDist(); st.theta = 0.5; st.phi = fitPhi(); } dirty = true; });
   const hud = $("#ssHud");
-  hud.innerHTML = `<span>Epoch <b>${sol.epoch.input.replace("T", " ")}</b> · TDB (Barycentric Dynamical Time), Julian date ${sol.epoch.jd_tdb.toFixed(3)}</span><span>${sol.bodies.length} bodies · observer <b>${sol.observer}</b></span>`;
+  { const a = el("span"), b = el("span");
+    rich(a, t("js-site-capabilities-orrery-epoch", "Epoch «{ $epoch }» · TDB (Barycentric Dynamical Time), Julian date { $jd }", { epoch: sol.epoch.input.replace("T", " "), jd: sol.epoch.jd_tdb.toFixed(3) }));
+    rich(b, t("js-site-capabilities-orrery-bodies", "{ $n } bodies · observer «{ $observer }»", { n: sol.bodies.length, observer: sol.observer }));
+    hud.replaceChildren(a, b); }
   function select(nm, fly = true) {
     sel = nm; for (const k in lab) lab[k].setAttribute("aria-pressed", k === nm);
     if (!fly) { dirty = true; return; }
@@ -1231,7 +1284,7 @@ function makeGlobe(ctx) {
     if (b.class === "star") sun.position.set(0, 0, 10);
     // face the camera toward the lit hemisphere
     st.theta = Math.atan2(sun.position.x, sun.position.z) - 0.5; dirty = true;
-    host.setAttribute("aria-label", `${nm} on its real imagery (${ctx.img.bodies[nm].credit}). Drag or use the arrow keys to turn it; plus and minus zoom.`);
+    host.setAttribute("aria-label", t("js-site-capabilities-globe-aria", "{ $name } on its real imagery ({ $credit }). Drag or use the arrow keys to turn it; plus and minus zoom.", { name: nm, credit: ctx.img.bodies[nm].credit }));
   }
   function render(ts) {
     requestAnimationFrame(render);
@@ -1275,13 +1328,13 @@ function makeGlobe(ctx) {
     const lo = Math.log10(Math.max(1e-3, Math.min(...all))), hi = Math.log10(Math.max(...all));
     const fmtT = (t) => (t >= 3600 ? `${fmt(t / 3600)} h` : t >= 60 ? `${fmt(t / 60)} min` : `${fmt(t)} s`);
     const update = () => {
-      const t = (Number(slider.value) / 1000) * tMax; tOut.textContent = fmtT(t);
+      const tm = (Number(slider.value) / 1000) * tMax; tOut.textContent = fmtT(tm);
       series.forEach((s, i) => {
         const r = rows[i];
-        if (t > s.end) { r.fill.style.width = "0%"; r.val.textContent = `run ends at ${fmtT(s.end)}`; return; }
-        const p = nearestByX(s.pts, t), v = p ? p[1] : 0, w = v > 0 ? Math.max(1, ((Math.log10(v) - lo) / (hi - lo)) * 100) : 0;
+        if (tm > s.end) { r.fill.style.width = "0%"; r.val.textContent = t("js-site-capabilities-ho-ends", "run ends at { $t }", { t: fmtT(s.end) }); return; }
+        const p = nearestByX(s.pts, tm), v = p ? p[1] : 0, w = v > 0 ? Math.max(1, ((Math.log10(v) - lo) / (hi - lo)) * 100) : 0;
         r.fill.style.width = `${Math.min(100, w).toFixed(1)}%`;
-        r.val.textContent = `${fmt(v)} ${s.unit}${Number.isFinite(s.thr) && v > s.thr ? " · past guard" : ""}`;
+        r.val.textContent = `${fmt(v)} ${s.unit}${Number.isFinite(s.thr) && v > s.thr ? ` · ${t("js-site-capabilities-ho-past-guard", "past guard")}` : ""}`;
       });
     };
     slider.addEventListener("input", update); update();
@@ -1318,7 +1371,7 @@ async function loadDemo() {
       : import("../studio/lib/packs.mjs").then((m) => (loadDemo.reader ||= m.createPackReader()).run(`${ROOT}studio/recorded/`, c.dataset.run)).then((r) => { if (!r) throw new Error("not recorded"); return r; })
         .then((r) => ({ toml: r.toml, geometry: (typeof r.json === "string" ? JSON.parse(r.json) : r.json).geometry }))));
   } catch (e) {
-    for (const c of cols) c.querySelector('[data-cz="toml"]').textContent = "The recorded run could not be loaded here; open it in the Studio instead.";
+    for (const c of cols) c.querySelector('[data-cz="toml"]').textContent = t("js-site-capabilities-cz-failed", "The recorded run could not be loaded here; open it in the Studio instead.");
     return;
   }
   const geo = runs.map((r) => r.geometry);
@@ -1330,9 +1383,9 @@ async function loadDemo() {
     const dl = c.querySelector('[data-cz="m"]'); dl.replaceChildren();
     const frac = g.samples_total ? g.samples_with_fix / g.samples_total : 0;
     const rows = [
-      ["Samples with a position fix", `${g.samples_with_fix.toLocaleString("en-GB")} of ${g.samples_total.toLocaleString("en-GB")} (${Math.round(frac * 100)}%)`, frac, "var(--lime)"],
-      ["Best PDOP", fmtN(g.best_pdop), g.best_pdop / pdopMax, "var(--cyan)"],
-      ["Median PDOP", fmtN(g.median_pdop), g.median_pdop / pdopMax, "var(--cyan)"],
+      [t("js-site-capabilities-cz-fix", "Samples with a position fix"), t("js-site-capabilities-cz-fix-value", "{ $n } of { $total } ({ $pct }%)", { n: g.samples_with_fix.toLocaleString("en-GB"), total: g.samples_total.toLocaleString("en-GB"), pct: Math.round(frac * 100) }), frac, "var(--lime)"],
+      [t("js-site-capabilities-cz-best", "Best PDOP"), fmtN(g.best_pdop), g.best_pdop / pdopMax, "var(--cyan)"],
+      [t("js-site-capabilities-cz-median", "Median PDOP"), fmtN(g.median_pdop), g.median_pdop / pdopMax, "var(--cyan)"],
     ];
     for (const [k, v, w, col] of rows) {
       const dt = document.createElement("dt"); dt.textContent = k;
@@ -1350,11 +1403,11 @@ const smap = document.getElementById("studioMap");
 if (smap) {
   const btn = smap.querySelector("[data-studio-load]"), live = smap.querySelector(".sm-live"), body = smap.querySelector(".sm-body");
   if (btn && live) btn.addEventListener("click", () => {
-    if (!live.hidden) { live.hidden = true; live.replaceChildren(); body.hidden = false; smap.classList.remove("live"); btn.textContent = `Load ${STUDIO} here`; return; }
+    if (!live.hidden) { live.hidden = true; live.replaceChildren(); body.hidden = false; smap.classList.remove("live"); btn.textContent = t("js-site-capabilities-studio-load", "Load { $studio } here", { studio: STUDIO }); return; }
     const f = document.createElement("iframe");
-    f.src = ROOT + smap.dataset.embed.replace(/&amp;/g, "&"); f.title = `${STUDIO}, embedded: the orbit-multignss run`; f.loading = "eager";
+    f.src = ROOT + smap.dataset.embed.replace(/&amp;/g, "&"); f.title = t("js-site-capabilities-studio-embedded", "{ $studio }, embedded: the orbit-multignss run", { studio: STUDIO }); f.loading = "eager";
     live.replaceChildren(f); live.hidden = false; body.hidden = true; smap.classList.add("live");
-    btn.textContent = "Show the outline again";
+    btn.textContent = t("js-site-capabilities-studio-outline", "Show the outline again");
   });
 }
 
