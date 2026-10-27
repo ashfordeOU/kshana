@@ -207,8 +207,8 @@ pub fn code_ranging_sigma_m(chip_rate: f64, cn0_dbhz: f64, integration_s: f64) -
 
 fn lunar_field(path: Option<&str>, degree: usize) -> Result<SphericalHarmonicField, String> {
     if let Some(p) = path {
-        let text =
-            std::fs::read_to_string(p).map_err(|e| format!("gravity_table_path {p}: {e}"))?;
+        let text = std::fs::read_to_string(p)
+            .map_err(|e| crate::terr!("e-lunar-rendezvous-gravity-table-path", p = p, e = e))?;
         return SphericalHarmonicField::from_shadr(&text, degree);
     }
     // Central term, the Moon's J2 and C22 (GRGM660PRIM normalised values).
@@ -699,48 +699,63 @@ impl LunarRendezvousScenario {
                 let ra = R_MOON_M + 3_000_000.0;
                 ((ra + rp) / 2.0, (ra - rp) / (ra + rp))
             }
-            o => return Err(format!("orbit must be `llo` or `elfo`, got `{o}`")),
+            o => {
+                return Err(crate::terr!(
+                    "e-lunar-rendezvous-orbit-must-be-llo-or",
+                    o = o
+                ))
+            }
         };
         let argp0 = if preset == "elfo" { 270.0 } else { 0.0 };
         let sma_m = self.sma_km.map_or(sma0, |k| k * 1000.0);
         let ecc = self.eccentricity.unwrap_or(e0);
         if !(sma_m > R_MOON_M && (0.0..0.9).contains(&ecc)) {
-            return Err(
-                "sma_km must exceed the lunar radius and eccentricity be in [0, 0.9)".into(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-rendezvous-sma-must-exceed-lunar-radius",
+                lit_0_9 = crate::i18n::num(0.9_f64, 1)
+            ));
         }
         if sma_m * (1.0 - ecc) <= R_MOON_M + 20_000.0 {
-            return Err("periapsis must be at least 20 km above the surface".into());
+            return Err(crate::terr!(
+                "e-lunar-rendezvous-periapsis-must-be-at-least"
+            ));
         }
         let sep_m = self.separation_m.unwrap_or(2000.0);
         let arc_s = self.arc_s.unwrap_or(7200.0);
         let dt = self.step_s.unwrap_or(20.0);
         if !(sep_m > 0.0 && sep_m < 50_000.0) {
-            return Err("separation_m must be in (0, 50000)".into());
+            return Err(crate::terr!(
+                "e-lunar-rendezvous-separation-must-be-in-50000"
+            ));
         }
         if !(dt > 0.0 && dt <= 60.0 && arc_s >= dt) {
-            return Err("step_s must be in (0, 60] and arc_s at least one step".into());
+            return Err(crate::terr!("e-lunar-rendezvous-step-must-be-in-60"));
         }
         let n_relays = self.n_relays.unwrap_or(8);
         if !(4..=24).contains(&n_relays) {
-            return Err("n_relays must be in 4..=24".into());
+            return Err(crate::terr!("e-lunar-rendezvous-relays-must-be-in-24"));
         }
         let int_s = self.integration_s.unwrap_or(1.0);
         if int_s.is_nan() || int_s <= 0.0 {
-            return Err("integration_s must be positive".into());
+            return Err(crate::terr!(
+                "e-lunar-rendezvous-integration-must-be-positive"
+            ));
         }
         let cn0 = self.afs_cn0_dbhz.unwrap_or(35.0);
         let cn0_isl = self.isl_cn0_dbhz.unwrap_or(35.0);
         let kappa = self.common_mode_fraction.unwrap_or(0.9);
         if !(0.0..1.0).contains(&kappa) {
-            return Err("common_mode_fraction must be in [0, 1)".into());
+            return Err(crate::terr!(
+                "e-lunar-rendezvous-common-mode-fraction-must-be"
+            ));
         }
         let same_model = match self.filter_model.as_deref().unwrap_or("same") {
             "same" => true,
             "point-mass" => false,
             o => {
-                return Err(format!(
-                    "filter_model must be `same` or `point-mass`, got `{o}`"
+                return Err(crate::terr!(
+                    "e-lunar-rendezvous-filter-model-must-be-same",
+                    o = o
                 ))
             }
         };
@@ -813,10 +828,14 @@ impl LunarRendezvousScenario {
             cfg.seed = seed;
         }
         if entry.frame != Frame::Mci {
-            return Err("lunar-orbit-rendezvous expects the entry covariance in MCI; the thread converts frames".into());
+            return Err(crate::terr!(
+                "e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the"
+            ));
         }
         if !cov_is_valid(&entry.p) {
-            return Err("entry covariance is not symmetric with a non-negative diagonal".into());
+            return Err(crate::terr!(
+                "e-lunar-ascent-entry-covariance-is-not-symmetric"
+            ));
         }
         let epoch_jd_tdb = epoch_jd(ctx, entry.t_s)?;
         let field = lunar_field(
@@ -849,10 +868,10 @@ impl LunarRendezvousScenario {
         set_block(&mut p0, 18, 18, &geo.q_mean.scale((1.0 - cfg.kappa) * sis2));
         let l0 = p0
             .cholesky()
-            .ok_or("prior covariance is not positive definite")?;
+            .ok_or_else(|| crate::terr!("e-lunar-rendezvous-prior-covariance-is-not-positive"))?;
         let p0_inv = p0
             .solve_spd(&Dm::eye(NP))
-            .ok_or("prior covariance is not positive definite")?;
+            .ok_or_else(|| crate::terr!("e-lunar-rendezvous-prior-covariance-is-not-positive"))?;
         let mut theta_bar = vec![0.0; NP];
         theta_bar[..6].copy_from_slice(&c0);
         theta_bar[6..12].copy_from_slice(&t0);
@@ -960,9 +979,9 @@ impl LunarRendezvousScenario {
                         c: 1,
                         d: (0..NP).map(|i| grad_m[i] + prior_g[i]).collect(),
                     };
-                    let delta = lam
-                        .solve_spd(&rhs)
-                        .ok_or("normal equations are not positive definite")?;
+                    let delta = lam.solve_spd(&rhs).ok_or_else(|| {
+                        crate::terr!("e-lunar-rendezvous-normal-equations-are-not-positive")
+                    })?;
                     // Converged when the step is small against the formal sigma of every parameter.
                     let converged = (0..NP).all(|i| {
                         let sig = (1.0 / lam.at(i, i)).sqrt();
@@ -998,9 +1017,9 @@ impl LunarRendezvousScenario {
                 non_converged += 1;
             }
             iters.push(n_it);
-            let p_theta = last_lam
-                .solve_spd(&Dm::eye(NP))
-                .ok_or("posterior information is not positive definite")?;
+            let p_theta = last_lam.solve_spd(&Dm::eye(NP)).ok_or_else(|| {
+                crate::terr!("e-lunar-rendezvous-posterior-information-is-not-positive")
+            })?;
             let k_end = n_steps - 1;
             let pair = pair_cov(&p_theta, &pass.pc[k_end], &pass.pt[k_end]);
             let prel = rel_cov(&pair);
@@ -1075,7 +1094,7 @@ impl LunarRendezvousScenario {
             [tn_end[0], tn_end[1], tn_end[2]],
             [tn_end[3], tn_end[4], tn_end[5]],
         );
-        let pair_end = final_pair.ok_or("no trial ran")?;
+        let pair_end = final_pair.ok_or_else(|| crate::terr!("e-lunar-rendezvous-no-trial-ran"))?;
         let prel_end = rel_cov(&pair_end);
         let sig_lvlh: Vec<f64> = (0..3)
             .map(|a| {
@@ -1218,18 +1237,21 @@ impl LunarRendezvousScenario {
             base.extend(p2);
             base.extend(p3);
         }
-        let summary = format!(
-            "lunar-orbit-rendezvous | {} {:.0}x{:.0} km | sep {:.0} m | fixes {:.0}% | rel pos 1-sigma R/A/C {:.2}/{:.2}/{:.2} m | mean NEES {:.2} (6 expected) | converged {} (MODELLED)",
-            self.orbit.as_deref().unwrap_or("llo"),
-            (cfg.sma_m * (1.0 - cfg.ecc) - R_MOON_M) / 1000.0,
-            (cfg.sma_m * (1.0 + cfg.ecc) - R_MOON_M) / 1000.0,
-            cfg.sep_m,
-            100.0 * avail,
-            sig_lvlh[0],
-            sig_lvlh[1],
-            sig_lvlh[2],
-            nees_mean,
-            conv_time.map_or("never".to_string(), |s| format!("at {s:.0} s")),
+        let summary = crate::t!(
+            "lunar-rendezvous-summary",
+            orbit = self.orbit.as_deref().unwrap_or("llo"),
+            periapsis_km = crate::i18n::num((cfg.sma_m * (1.0 - cfg.ecc) - R_MOON_M) / 1000.0, 0),
+            apoapsis_km = crate::i18n::num((cfg.sma_m * (1.0 + cfg.ecc) - R_MOON_M) / 1000.0, 0),
+            sep = crate::i18n::num(cfg.sep_m, 0),
+            fixes = crate::i18n::num(100.0 * avail, 0),
+            radial = crate::i18n::num(sig_lvlh[0], 2),
+            along = crate::i18n::num(sig_lvlh[1], 2),
+            cross = crate::i18n::num(sig_lvlh[2], 2),
+            nees = crate::i18n::num(nees_mean, 2),
+            converged = conv_time.map_or_else(
+                || crate::t!("lunar-rendezvous-converged-never"),
+                |s| crate::t!("lunar-rendezvous-converged-at", s = crate::i18n::num(s, 0))
+            ),
         );
         Ok(RendezvousOut {
             exit,
@@ -1253,19 +1275,22 @@ impl LunarRendezvousScenario {
                 })
                 .unwrap_or_default()
         };
-        let sub = format!(
-            "{} | fixes {:.0}% | mean NEES {:.2} (6 expected) | MODELLED, advisory only",
-            v["filter_model"].as_str().unwrap_or("?"),
-            100.0 * v["fix_availability"].as_f64().unwrap_or(0.0),
-            v["monte_carlo"]["mean_nees"].as_f64().unwrap_or(f64::NAN)
+        let sub = crate::t!(
+            "lunar-rendezvous-chart-subtitle",
+            filter_model = v["filter_model"].as_str().unwrap_or("?"),
+            fixes = crate::i18n::num(100.0 * v["fix_availability"].as_f64().unwrap_or(0.0), 0),
+            nees = crate::i18n::num(
+                v["monte_carlo"]["mean_nees"].as_f64().unwrap_or(f64::NAN),
+                2
+            )
         );
         line_chart_svg(
-            "Lunar rendezvous: formal relative position 1-sigma (3-D, m)",
+            &crate::t!("lunar-rendezvous-chart-title"),
             &sub,
-            "minutes since the start of the arc",
-            "metres",
+            &crate::t!("lunar-rendezvous-chart-x-axis"),
+            &crate::t!("lunar-chart-y-axis-metres"),
             &[ChartSeries {
-                name: "relative position 1-sigma",
+                name: &crate::t!("lunar-rendezvous-chart-series"),
                 points: col("rel_pos_sigma_m"),
             }],
         )
