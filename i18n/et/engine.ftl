@@ -39,7 +39,7 @@ engine-e-clock-log-the-rinex-clock-file-holds = RINEX-i kellafail sisaldab kelli
 
 engine-e-clock-log-no-as-or-ar-records = kellal { $id } puuduvad AS- ja AR-kirjed
 
-engine-e-clock-log-the-clock-has-single-epoch = kellal on üksainus epohh; tau0 väärtust ei saa leida
+engine-e-clock-log-the-clock-has-single-epoch = kellal on üksainus epohh; vaja on vähemalt kaks (tau0 väärtust ei saa leida)
 
 engine-e-clock-log-the-log-has-no-readings = { $format } logis pole näite
 
