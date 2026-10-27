@@ -9143,3 +9143,649 @@ engine-compliance-mapping-header-gap = Gap
 engine-compliance-mapping-none = none
 
 engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Read { $accessed }: { $checked }.
+
+## src/altpnt/terrain.rs
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt: `magnetic_grid` replaces the synthetic magnetic field, so `magnetic_mascons` must be empty when it is set
+
+## src/aperture_duty.rs
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = the reporting horizon must have positive length (horizon_end_s > horizon_start_s)
+
+## src/api.rs
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers: the result document is not a pretty JSON object
+
+## src/api/builtins.rs
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] reports one run's RAIM beside its holdover figures; it needs runs = 1
+
+## src/araim_reference.rs
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = the unmonitored fault risk exhausts the whole integrity budget; no finite protection level exists
+
+engine-e-araim-reference-the-add-v4-subset-rule = the ADD v4.2 subset rule always enumerates pairs; max_order must be >= 2
+
+## src/attack_surface.rs
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint emitted no points
+
+## src/bench/cli.rs
+
+engine-e-bench-cli-scale-is-not-number = --scale is not a number
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` reads a dataset and is for task a; tasks c and d use `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = task c has no sealed holdout
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` makes the files of tasks c and d; task a is the dataset itself (use `truth`)
+
+engine-e-bench-cli-threshold-is-not-number = --threshold is not a number
+
+engine-e-bench-cli-seed-file-is-required = --seed-file is required
+
+engine-e-bench-cli-validate-needs-at-least-one = validate needs at least one result file
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` is for task a; the other tasks have committed manifests
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest needs one manifest file
+
+## src/bench/mod.rs
+
+engine-e-bench-system-name-is-required = `system.name` is required
+
+## src/bench/tasks.rs
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth has no `labels` array
+
+engine-e-bench-tasks-label-has-no-id = a label has no `id`
+
+engine-e-bench-tasks-label-has-no-positive = a label has no `positive`
+
+engine-e-bench-tasks-predictions-have-no-scores-object = predictions have no `scores` object
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = the holdout is sealed: pass the secret with --seed-file
+
+engine-e-bench-tasks-task-truth-has-no-truth = task (c) truth has no `truth` array
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = task (c) predictions have no `predictions` object
+
+engine-e-bench-tasks-truth-entry-has-no-id = a truth entry has no `id`
+
+## src/campaign.rs
+
+engine-e-campaign-compare-needs-threshold = compare needs a threshold
+
+## src/ccsds_tdm.rs
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM: missing CCSDS_TDM_VERS header
+
+## src/cislunar_arc_recovery.rs
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = the chief sits on the Moon: polar coordinates are singular
+
+## src/clock_log.rs
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock applies to the rinex-clk, linuxptp and chrony formats only (TICC uses channel)
+
+engine-e-clock-log-single-column-timelab-log-needs = a single-column timelab log needs tau0: a `# tau0 = <s>` header or tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = the TICC log has no `<seconds> chA|chB|chC|TI(...)` readings
+
+## src/conflict_resilience.rs
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = intensity grid unexpectedly empty
+
+## src/eo_payload.rs
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg must be in (0, 180) (an equatorial orbit has no ascending node)
+
+## src/evidence/bundle.rs
+
+engine-e-evidence-bundle-its-imprint-is-not-the = its imprint is not the hash of this pack's manifest.json (a token can only be obtained after the pack exists: use `kshana evidence attach-timestamp`)
+
+## src/evidence/cli.rs
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey must be 32 bytes (64 hex digits)
+
+engine-e-evidence-cli-that-is-the-private-key = that is the PRIVATE key of the signer. Never share it; pass the public key (the .pub file)
+
+## src/evidence/lab.rs
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation: a conducted setup needs attenuation_db, a finite number of dB, 0 or more
+
+## src/evidence/tsa.rs
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = unsupported digest algorithm
+
+engine-e-evidence-tsa-signature-failure = signature failure
+
+## src/field_schema.rs
+
+engine-e-field-schema-entry-is-not-an-object = entry is not an object
+
+engine-e-field-schema-no-unit-string = no `unit` string
+
+engine-e-field-schema-no-provenance-string = no `provenance` string
+
+## src/geometry.rs
+
+engine-e-geometry-sky-tle-holds-no-complete = sky: tle holds no complete two-line element set
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky: epoch dates the `tle` satellites; the preset `systems` and the satellites given directly carry no date, so give `tle` with it
+
+## src/gravimeter.rs
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map: `reference` replaces the synthetic field, so `coeffs` and `mascons` must be empty when it is set
+
+## src/gse_sim.rs
+
+engine-e-gse-sim-fusion-od-produced-no-steps = fusion OD produced no steps (too few observations)
+
+## src/holdover_test.rs
+
+engine-e-holdover-test-give-one-of-series-samples = give one of series.samples, series.csv_path or series.clock_log
+
+engine-e-holdover-test-give-one-of-series-samples-2 = give one of series.samples, series.csv_path or series.clock_log, not more than one
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s must be finite, locked_duration_days >= 0, recovery_band_ns > 0 and recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path is not available in the WebAssembly build; give the series inline as `samples` or `clock_log.text`
+
+## src/hybrid.rs
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry needs at least two distinct finite line-of-sight factors
+
+## src/hybrid_integrity.rs
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = optical link delivered no photons (infinite ranging CRLB); raise power / aperture / integration time
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz and rf_degraded_margin_db must be finite
+
+## src/interference_map/adsb.rs
+
+engine-e-interference-map-adsb-need-at-least-one-of = need at least one of columns `nic`, `nacp`
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip: decompressed size over the limit
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = trace JSON lacks icao, timestamp or trace
+
+## src/interference_map/api.rs
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = a custom dataset needs licence, licence URL and attribution text
+
+engine-e-interference-map-api-cell-size-must-be-between = cell size must be between { $lit_0_01 } and 10 degrees
+
+engine-e-interference-map-api-map-has-bad-date = map has a bad date
+
+engine-e-interference-map-api-no-map-falls-in-the = no map falls in the date range
+
+## src/interference_map/cli.rs
+
+engine-e-interference-map-cli-dataset-is-required-so-the = --dataset is required so the licence and attribution are embedded
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg is not a number
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg must be between { $lit_0_01 } and 10
+
+engine-e-interference-map-cli-subcommand-is-required = a subcommand is required
+
+engine-e-interference-map-cli-input-file-missing = input file missing
+
+engine-e-interference-map-cli-out-is-required = --out is required
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land downloads a file: pass --allow-network to confirm
+
+engine-e-interference-map-cli-curl-failed-to-download-the = curl failed to download the land polygons
+
+engine-e-interference-map-cli-route-is-required = --route is required
+
+engine-e-interference-map-cli-at-least-one-map-is = at least one --map is required
+
+## src/interference_map/land.rs
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = land polygons: no Polygon or MultiPolygon found
+
+## src/interference_map/mod.rs
+
+engine-e-interference-map-empty-input-header-row-is = empty input: a header row is required
+
+## src/interference_map/observatory.rs
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox is south,west,north,east in degrees
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox must satisfy south < north and west < east, within the globe (no antimeridian crossing)
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = OpenSky Network data is excluded: its licence does not allow commercial use or redistribution of derived maps (docs/data/INTERFERENCE-DATA-SOURCES.md)
+
+engine-e-interference-map-observatory-day-is-required = --day is required
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours is not a number
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg must be between { $lit_0_5 } and 10
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = the input has no usable report
+
+## src/interference_map/route.rs
+
+engine-e-interference-map-route-not-kshana-interference-map-no = not a Kshana interference map (no `kshana_interference_map` member)
+
+engine-e-interference-map-route-map-has-no-date = map has no date
+
+engine-e-interference-map-route-map-has-no-grid-cell = map has no grid cell size
+
+engine-e-interference-map-route-map-has-an-invalid-grid = map has an invalid grid cell size
+
+engine-e-interference-map-route-route-no-linestring-found = route: no LineString found
+
+engine-e-interference-map-route-route-needs-at-least-two = route needs at least two waypoints
+
+engine-e-interference-map-route-route-waypoint-out-of-range = route: waypoint out of range
+
+## src/interop/mod.rs
+
+engine-e-interop-sigmf-records-signal-not-geometry = SigMF records a signal, not geometry; it is written from the scenario, not a scene
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = SigMF holds complex baseband samples, which only the `spectrum` kind synthesises
+
+engine-e-interop-this-spectrum-scenario-has-no = this spectrum scenario has no [iq] block, so no samples are synthesised to record
+
+## src/interop/scene.rs
+
+engine-e-interop-scene-time-step-must-be-positive = time step must be positive and finite for an export
+
+engine-e-interop-scene-duration-must-be-non-negative = duration must be non-negative and finite for an export
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = this pvt scenario gives no `truth_ecef`, the only position it states
+
+## src/interop/stk.rs
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = an STK ephemeris describes a vehicle's position and velocity against time; this scene has only fixed points or untimed tracks (a fixed point is an STK Facility, not an ephemeris)
+
+engine-e-interop-stk-scene-has-no-epoch = scene has no epoch
+
+## src/iq/acq_surface.rs
+
+engine-e-iq-acq-surface-surface-header-names-too-many = surface header names too many cells
+
+## src/iq/cli/acquire.rs
+
+engine-e-iq-cli-acquire-needs-signal-name = needs --signal <name>
+
+engine-e-iq-cli-acquire-needs-prn-list = needs --prn <list>
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface exports one search surface: give exactly one --prn
+
+## src/iq/cli/channel.rs
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos needs a reflected path: add --multipath-height or --land-mobile
+
+## src/iq/cli/frontend.rs
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass wants two values: lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend needs at least one stage (--bandpass/--notch/--blank/--excise/--agc/--bits)
+
+## src/iq/cli/mod.rs
+
+engine-e-iq-cli-no-iq-processing-command-given = no iq processing command given
+
+engine-e-iq-cli-missing-recording-path = missing recording path
+
+## src/iq/cli/monitor.rs
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout only goes with --follow
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow reads a SigMF recording (give the .sigmf-meta, the .sigmf-data or the base path)
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout must be a positive number of seconds
+
+## src/iq/cli/scene.rs
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos wants three values: lat,lon,alt (deg,deg,m)
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene needs --rate <hz>
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene needs --duration <s> (or --window)
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav needs --rx-pos lat,lon,alt
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene needs --signal <name>
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene needs --prn <list>
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format takes sigmf or sdrx, not both
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx writes ci8 (the default) or ci16_le (sdrx:ci16_le); the ION metadata standard has no floating-point coding
+
+## src/iq/cli/track.rs
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name needs --design <file.toml>
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads must be a positive integer or auto
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format needs --epochs <path>
+
+## src/iq/io/cli.rs
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert needs --to <format>
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract needs --start
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract needs --duration
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start and --duration must be non-negative
+
+engine-e-iq-io-cli-real-input-is-converted-to = a real input is converted to complex baseband: give --factor <d> (>= 2)
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate needs --factor <d>, or --up <l> and --down <m>
+
+## src/iq/io/resample.rs
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = resampling factors must be positive
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = resampling factors must be positive and the filter non-empty
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = real-IF conversion needs decimation by at least 2 to remove the image
+
+## src/iq/io/sdrx.rs
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx layout: a chunk holds no whole lump
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx data ends inside its header
+
+## src/iq/io/sigmf_stream.rs
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = a SigMF stream needs at least one recording
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = select_channel must be called before reading
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = SigMF data ends before its first capture
+
+## src/iq/labfit/iqfit.rs
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" needs a [validation] table, written before the campaign results are read
+
+## src/iq/labfit/mod.rs
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign: a fit from an IQ campaign folder needs the native build (the campaign layer is not built for WebAssembly); the receiver-log path ([[runs]]) works here
+
+## src/iq/scene/truth.rs
+
+engine-e-iq-scene-truth-missing-truth-csv-header = missing truth CSV header
+
+## src/iq/track/design.rs
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s applies only to fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = loop-design file holds no designs
+
+## src/iq/track/sink.rs
+
+engine-e-iq-track-sink-short-record = short record
+
+## src/leo_navmsg/fit.rs
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = correction polynomial fit is singular (too few samples for the degree)
+
+## src/leo_navmsg/mod.rs
+
+engine-e-leo-navmsg-each-trade-update-periods-must = each trade.update_periods_s must be in (0, update_fit_interval_s]
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass: user_lat_deg in [-90, 90], mask_deg in [0, 60), search_s 600-172800
+
+## src/leo_pass.rs
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0, rain_exceedance_percent in [{ $lit_0_001 }, 5] and scintillation_percent in [{ $lit_0_01 }, 50]
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer: onset_s within the window, offset_m in [0, 1e6], push_rate_m_s in [0, 1000], positive prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz and fll_integration_s, p_fa and p_md in (0, { $lit_0_5 }), iono_rate_bound_m_s >= 0
+
+## src/leo_signal.rs
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver: loop_bandwidth_hz and integration_time_s must be positive
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver: 1 to 12 correlator spacings, each (like reference_spacing_chips) between 0 and 2 chips
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm and user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90
+
+## src/live_io.rs
+
+engine-e-live-io-baud-needs-number = --baud needs a number
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure is not implemented: Kshana never writes to a receiver. Configure it with the maker's own tool, then read it with --serial
+
+engine-e-live-io-more-than-one-session-file = more than one session file
+
+engine-e-live-io-follow-and-from-end-apply = --follow and --from-end apply to --file only
+
+engine-e-live-io-baud-applies-to-serial-only = --baud applies to --serial only
+
+engine-e-live-io-live-needs-session-toml = live needs a session .toml
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen serves the gated stream: add --gate
+
+engine-e-live-io-two-outputs-would-share-stdout = two outputs would share stdout; send --json or --pksht to a file
+
+## src/lunar_ephemeris.rs
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = lunar ephemeris: give exactly one of `mean_anom_deg` or `true_anom_deg`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = lunar ephemeris: satellite indices must be contiguous from 0 with no gaps
+
+## src/lunar_frame_campaign.rs
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = beacon information per site needs station_datum = "fixed"; an estimated station datum couples the beacons
+
+## src/lunar_infra/frame.rs
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m, surface.orbiter_range_sigma_m and llr.epochs must be positive
+
+## src/lunar_infra/od.rs
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = too few trackable GNSS measurements to determine the orbit and the receiver clock
+
+## src/lunar_infra/phase.rs
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = fewer than two connected passes: no double-difference ambiguity to resolve
+
+## src/lunar_infra/tie.rs
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = the space-tie information matrix is singular
+
+## src/lunar_jamming.rs
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m must be finite and positive (or give jammer.lat_deg and jammer.lon_deg to place the jammer selenographically)
+
+## src/lunar_llr.rs
+
+engine-e-lunar-llr-the-station-catalogue-states-no = the station catalogue states no position_epoch_year; an ITRF position without its epoch cannot be propagated
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = beacon_campaign.beacons is not used here; state added beacons in extra_beacons
+
+## src/lunar_service.rs
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path applies to an elements file stated in the OP frame
+
+## src/lunar_terrain.rs
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain: give dem_path, dem_tile_path, station_horizon or user_horizon (or omit [terrain])
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain: station_horizon has no station in this kind; use user_horizon
+
+## src/lunar_time_budget_scenario.rs
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s is shorter than the tau grid
+
+## src/lunar_time_lab.rs
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab: thresholds_ns must be a non-empty list of positive numbers
+
+## src/lunar_vlbi_fim.rs
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = datum "all-stations-fixed" holds every station fixed, so it estimates nothing unless the beacon is estimated: set estimate_beacon = true
+
+## src/mars_pnt.rs
+
+engine-e-mars-pnt-fusion-od-run-produced-no = fusion OD run produced no steps (too few observations)
+
+## src/nmea_synth/clock.rs
+
+engine-e-nmea-synth-clock-not-numeric = not numeric
+
+## src/nmea_synth/config.rs
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name must be 1 to 64 characters from A-Z a-z 0-9 . _ - and must not start with a dot (it names the output files)
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = receiver parameters out of range (mask 0-45 deg, track <= use threshold, 4-12 used satellites, noise >= 0, corr > 0, reacquire >= 0)
+
+engine-e-nmea-synth-config-the-time-change-per-second = the time change per second reaches 1, so reported time would stop or run backwards; lengthen ramp_s/recovery_s or use a step (0)
+
+## src/orbit.rs
+
+engine-e-orbit-give-the-user-as-user = give the user as `user` (an orbit) or `user_site` (a ground site), not both
+
+engine-e-orbit-missing-the-user-give-user = missing the user: give `user` (an orbit) or `user_site` (a ground site)
+
+engine-e-orbit-skyline-needs-ground-site-give = a [skyline] needs a ground site: give `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }` instead of an orbiting `user` (an orbit has no Earth-fixed azimuth)
+
+engine-e-orbit-omm-export-requires-tle-defined = OMM export requires a TLE-defined constellation; this scenario has none
+
+## src/passes.rs
+
+engine-e-passes-earth-orientation-parameters-out-of = Earth orientation parameters out of range: |ut1_minus_utc_s| <= 1, |xp_arcsec| and |yp_arcsec| <= 2
+
+## src/pvt.rs
+
+engine-e-pvt-no-priori-position-set-apriori = no a-priori position: set apriori_ecef, an observation-header APPROX POSITION XYZ, or truth_ecef
+
+## src/python.rs
+
+engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings and coherents cannot be combined with design: the sweep runs every design in the file
+
+engine-e-python-no-designs-to-sweep = no designs to sweep
+
+## src/quantum_trade.rs
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate = candidate_adev_taus and candidate_adev_values must be equal-length (>= 2)
+
+engine-e-quantum-trade-provide-either-candidate-adev-taus = provide either candidate_adev_taus + candidate_adev_values (measured) or candidate_clock_class
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate-2 = candidate_adev_taus and candidate_adev_values must both be present (or both absent)
+
+engine-e-quantum-trade-timing-threshold-and-position-threshold = timing_threshold_s and position_threshold_m must be finite and > 0
+
+## src/realdata/clk.rs
+
+engine-e-realdata-clk-rinex-clock-file-is-mixed = RINEX clock file is mixed-system ('M') and declares no TIME SYSTEM ID; refusing to guess the time system of its epochs
+
+## src/realdata/ion_sdr.rs
+
+engine-e-realdata-ion-sdr-more-than-one-block-only = more than one <block>: only single-lane files are read
+
+engine-e-realdata-ion-sdr-this-layout-carries-reading-fill = this layout carries a reading (fill_lsb_first or mid_rise) the ION metadata standard has no field for; it cannot be written as .sdrx
+
+engine-e-realdata-ion-sdr-the-layout-needs-positive-sample = the layout needs a positive sample rate and a rate factor of at least 1
+
+## src/realdata/lola_dem.rs
+
+engine-e-realdata-lola-dem-unexpected-end-of-dem = unexpected end of DEM
+
+## src/realdata/lugre.rs
+
+engine-e-realdata-lugre-not-raw-message = not a RAW message
+
+engine-e-realdata-lugre-not-an-acq-message = not an ACQ message
+
+## src/realdata/raim.rs
+
+engine-e-realdata-raim-no-priori-position-pass-one = no a-priori position: pass one or supply an observation-header APPROX POSITION XYZ
+
+## src/receiver_trust/calibration.rs
+
+engine-e-receiver-trust-calibration-calibration-window-less-than-the = calibration window less than the guard before, or inside, an attack window
+
+## src/receiver_trust/live.rs
+
+engine-e-receiver-trust-live-live-mode-needs-platform-kind = live mode needs [platform] kind = "vessel": the trust score is for a moving platform
+
+## src/receiver_trust/machines/rtcm3.rs
+
+engine-e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no = the RTCM 3 stream holds no MSM4 or MSM7 observation message
+
+## src/receiver_trust/machines/rtklib.rs
+
+engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = RTKLIB .pos with degrees-minutes-seconds positions is not read: re-run rnx2rtkp/RTKPOST with decimal degrees (-degf 0)
+
+## src/receiver_trust/monitors.rs
+
+engine-e-receiver-trust-monitors-engine-fix-the-rinex-observation = engine fix: the RINEX observation header has no APPROX POSITION XYZ to start the solve from
+
+engine-e-receiver-trust-monitors-platform-declares-heading-sensor-true = platform declares heading_sensor = true but the log carries no HDT, THS or VHW heading
+
+## src/receiver_trust/scenario.rs
+
+engine-e-receiver-trust-scenario-log-imu-the-imu-series = log.imu: the IMU series overlaps no epoch of the log; check time_offset_s
+
+engine-e-receiver-trust-scenario-this-surface-does-not-carry = this surface does not carry the `[log.imu]` file: run the scenario with `kshana receiver-trust` on the host, or drop `[log.imu]`
+
+engine-e-receiver-trust-scenario-log-nav-applies-only-to = log.nav applies only to a `rinex` log: the engine fix needs its pseudoranges
+
+## src/receiver_trust/score.rs
+
+engine-e-receiver-trust-score-score-the-geometry-deduction-is = score: the geometry deduction is set in [geometry] (cap_points, full_ratio, floor), not in [score.weights]
+
+## src/spectrum.rs
+
+engine-e-spectrum-recording-is-not-available-in = recording is not available in the WebAssembly build: pass the SigMF bytes to kshana::sigmf::read and kshana::spectrum::welch_psd instead
+
+## src/ssv/scenario.rs
+
+engine-e-ssv-scenario-navigation-noise-and-radiation-pressure = navigation: noise and radiation-pressure values must not be negative
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of-2 = trajectory: give exactly one of duration_min and duration_periods
+
+## src/ssv/weak.rs
+
+engine-e-ssv-weak-receiver-pfa-total-and-receiver = receiver.pfa_total and receiver.pd must be probabilities in (0, 1)
+
+## src/suite.rs
+
+engine-e-suite-suite-manifest-is-missing-title = suite manifest is missing a `title`
+
+engine-e-suite-suite-manifest-has-no-scenarios = suite manifest has no `scenarios`: add a non-empty `scenarios = [...]` array
+
+## src/surface.rs
+
+engine-e-surface-path-sources-are-not-accepted = `path` sources are not accepted here: give the log inline as `text` or `base64`
+
+engine-e-surface-input-campaign-names-campaign-folder = { "[" }input] campaign names a campaign folder, and this surface reads no files; campaigns are read only by the CLI (`kshana iq labfit`), Python (`kshana.iq_labfit`), or the MCP labfit tool inside its IQ work directory
+
+engine-e-surface-bad-merkle-root-hex = bad Merkle root hex
+
+engine-e-surface-merkle-root-must-be-32 = Merkle root must be 32 bytes
+
+## src/telecom_timing.rs
+
+engine-e-telecom-timing-csv-path-is-not-available = csv_path is not available in the WebAssembly build; give the series inline as `samples`
+
+## src/telemetry/cli.rs
+
+engine-e-telemetry-cli-otlp-every-needs-whole-number = --otlp-every needs a whole number
+
+engine-e-telemetry-cli-registry-poisoned = registry poisoned
+
+## src/telemetry/otlp.rs
+
+engine-e-telemetry-otlp-https-is-not-supported-by = https is not supported by the built-in exporter; use a local collector over http
+
+engine-e-telemetry-otlp-no-http-status-in-response = no HTTP status in response
+
+## src/tle.rs
+
+engine-e-tle-invalid-designator-launch-year-in = invalid designator launch year in TLE
+
+engine-e-tle-invalid-epoch-year-in-tle-2 = invalid epoch year in TLE
+
+engine-e-tle-invalid-epoch-day-in-tle = invalid epoch day in TLE

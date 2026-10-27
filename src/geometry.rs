@@ -603,7 +603,7 @@ fn tle_looks(
                 n_ignored = n_ignored,
                 first = first
             ),
-            None => "sky: tle holds no complete two-line element set".into(),
+            None => crate::terr!("e-geometry-sky-tle-holds-no-complete"),
         });
     }
     let (jd0, dated) = match &req.epoch {
@@ -691,11 +691,7 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
         return Err(crate::terr!("e-geometry-sky-tle-system-names-the"));
     }
     if req.tle.is_none() && req.epoch.is_some() {
-        return Err(
-            "sky: epoch dates the `tle` satellites; the preset `systems` and the satellites \
-             given directly carry no date, so give `tle` with it"
-                .into(),
-        );
+        return Err(crate::terr!("e-geometry-sky-epoch-dates-the-tle"));
     }
     let mut parts: Vec<&str> = Vec::new();
     let mut statements: Vec<String> = Vec::new();

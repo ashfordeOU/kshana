@@ -992,11 +992,7 @@ pub fn run_pvt(scn: &PvtScenario) -> Result<PvtResult, String> {
         .apriori_ecef
         .or(obs.header.approx_xyz)
         .or(scn.truth_ecef)
-        .ok_or_else(|| {
-            "no a-priori position: set apriori_ecef, an observation-header APPROX \
-             POSITION XYZ, or truth_ecef"
-                .to_string()
-        })?;
+        .ok_or_else(|| crate::terr!("e-pvt-no-priori-position-set-apriori"))?;
 
     let mut epochs = Vec::with_capacity(obs.epochs.len());
     let (mut sum_n, mut sum_pdop, mut sum_rms) = (0.0_f64, 0.0_f64, 0.0_f64);

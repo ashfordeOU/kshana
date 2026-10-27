@@ -719,9 +719,7 @@ impl Resolved {
                 ));
             }
             if self.carrier.fll_assist.as_deref() == Some("always") {
-                return Err(
-                    "carrier.fll_pull_in_max_s applies only to fll_assist = \"pull-in\"".into(),
-                );
+                return Err(crate::terr!("e-iq-track-design-carrier-fll-pull-in-max-2"));
             }
         }
         if let (Some(o), Some(b)) = (self.carrier.pll_order, self.carrier.pll_bw_hz) {
@@ -1195,7 +1193,7 @@ impl DesignFile {
             None => self
                 .designs
                 .first()
-                .ok_or_else(|| "loop-design file holds no designs".to_string()),
+                .ok_or_else(|| crate::terr!("e-iq-track-design-loop-design-file-holds-no")),
             Some(n) => self.get(n).ok_or_else(|| {
                 crate::terr!(
                     "e-iq-track-design-no-design-named-the-file",

@@ -669,11 +669,9 @@ impl LunarFrameCampaignScenario {
         beacons: &[Selenographic],
     ) -> Result<BeaconInformation, String> {
         if self.resolved_station_datum()? != StationDatum::Fixed {
-            return Err(
-                "beacon information per site needs station_datum = \"fixed\"; an estimated \
-                 station datum couples the beacons"
-                    .to_string(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-beacon-information-per-site-needs"
+            ));
         }
         let sigma = self.resolved_sigma()?;
         let sched = self.schedule_for(beacons)?;

@@ -297,10 +297,9 @@ pub fn aperture_duty_cycle(
         ));
     }
     if horizon_end_s <= horizon_start_s {
-        return Err(
-            "the reporting horizon must have positive length (horizon_end_s > horizon_start_s)"
-                .to_string(),
-        );
+        return Err(crate::terr!(
+            "e-aperture-duty-the-reporting-horizon-must-have"
+        ));
     }
     for w in plan {
         if !w.aos_s.is_finite() || !w.los_s.is_finite() {

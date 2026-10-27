@@ -2781,10 +2781,9 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
     };
     scn.time.validate()?;
     if scn.integrity.is_some() && scn.runs > 1 {
-        return Err(
-            "[integrity] reports one run's RAIM beside its holdover figures; it needs runs = 1"
-                .into(),
-        );
+        return Err(crate::terr!(
+            "e-api-builtins-integrity-reports-one-run-raim"
+        ));
     }
     if scn.runs > 1 {
         if measured_of(src)?.is_some() {

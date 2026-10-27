@@ -500,11 +500,7 @@ impl TrainingScenario {
                 .bytes()
                 .all(|b| b.is_ascii_alphanumeric() || b == b'.' || b == b'_' || b == b'-');
         if !name_ok {
-            return Err(
-                "scenario.name must be 1 to 64 characters from A-Z a-z 0-9 . _ - and must not \
-                 start with a dot (it names the output files)"
-                    .into(),
-            );
+            return Err(crate::terr!("e-nmea-synth-config-scenario-name-must-be-to"));
         }
         super::clock::parse_utc(&m.start_utc).map_err(|e| {
             crate::terr!(
@@ -586,11 +582,9 @@ impl TrainingScenario {
             && pos(r.noise_corr_s)
             && nonneg(r.reacquire_s);
         if !receiver_ok {
-            return Err(
-                "receiver parameters out of range (mask 0-45 deg, track <= use \
-                        threshold, 4-12 used satellites, noise >= 0, corr > 0, reacquire >= 0)"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-nmea-synth-config-receiver-parameters-out-of-range"
+            ));
         }
         for s in &self.output.sentences {
             if !super::config::ALL_SENTENCES.contains(&s.as_str()) {
@@ -709,12 +703,9 @@ impl EventCfg {
         let monotone = |total: f64, shape: f64| -> Result<(), String> {
             for r in [self.ramp_s, self.recovery_s] {
                 if r > 0.0 && shape * total.abs() / r >= 1.0 {
-                    return Err(
-                        "the time change per second reaches 1, so reported time would \
-                                stop or run backwards; lengthen ramp_s/recovery_s or use a \
-                                step (0)"
-                            .into(),
-                    );
+                    return Err(crate::terr!(
+                        "e-nmea-synth-config-the-time-change-per-second"
+                    ));
                 }
             }
             Ok(())

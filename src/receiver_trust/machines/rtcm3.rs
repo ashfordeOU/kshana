@@ -169,7 +169,7 @@ pub fn read_rtcm3(bytes: &[u8]) -> Result<Timeline, String> {
     let tl = map.finish(skipped);
     if tl.epochs.is_empty() {
         return Err(if any_frame {
-            "the RTCM 3 stream holds no MSM4 or MSM7 observation message".to_string()
+            crate::terr!("e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no")
         } else {
             crate::t!(
                 "receiver-trust-machines-rtcm3-no-valid-rtcm-frame-was",

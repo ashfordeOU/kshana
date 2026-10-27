@@ -156,7 +156,7 @@ pub fn covariance(rows: &[Vec<f64>], tie_sigma_m: f64) -> Result<Mat, String> {
     let w = vec![1.0; jac.len()];
     let c = crate::fim::crlb_srif(&jac, &w, 1e-30);
     c.covariance
-        .ok_or_else(|| "the space-tie information matrix is singular".to_string())
+        .ok_or_else(|| crate::terr!("e-lunar-infra-tie-the-space-tie-information-matrix"))
 }
 
 /// Sigmas of the offset `b - a` between two techniques (0-based, `a < b`): 7 values

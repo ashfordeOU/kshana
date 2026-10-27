@@ -1634,11 +1634,7 @@ fn read_csv(path: &str) -> Result<Vec<[f64; 2]>, String> {
 
 #[cfg(target_arch = "wasm32")]
 fn read_csv(_path: &str) -> Result<Vec<[f64; 2]>, String> {
-    Err(
-        "csv_path is not available in the WebAssembly build; give the series inline as \
-         `samples`"
-            .into(),
-    )
+    Err(crate::terr!("e-telecom-timing-csv-path-is-not-available"))
 }
 
 /// The outcome of one check.
@@ -2087,9 +2083,7 @@ impl TelecomTimingScenario {
             let s = self.series.clone().unwrap_or_default();
             let pairs = match (&s.csv_path, s.samples.is_empty(), &s.clock_log) {
                 (_, _, Some(_)) if s.csv_path.is_some() || !s.samples.is_empty() => {
-                    return Err(
-                        "give one of series.samples, series.csv_path or series.clock_log".into(),
-                    )
+                    return Err(crate::terr!("e-holdover-test-give-one-of-series-samples"))
                 }
                 (None, true, Some(c)) => {
                     let log = crate::clock_log::read_input(c)?;

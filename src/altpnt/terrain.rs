@@ -788,11 +788,9 @@ pub fn run_combined_altpnt_scenario(
         return Ok(run_combined_altpnt(cfg));
     };
     if !cfg.magnetic_mascons.is_empty() {
-        return Err(
-            "combined-altpnt: `magnetic_grid` replaces the synthetic magnetic field, \
-                    so `magnetic_mascons` must be empty when it is set"
-                .into(),
-        );
+        return Err(crate::terr!(
+            "e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces"
+        ));
     }
     let column = match g.column.as_str() {
         "sealevel" => crate::altpnt::maps::Emag2Column::SeaLevel,

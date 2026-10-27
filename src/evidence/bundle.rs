@@ -402,11 +402,9 @@ pub fn create_bundle_attested(
         let info = super::tsr::parse_token(t).map_err(EvidenceError::BadTimestamp)?;
         let want = super::tsr::imprint_of(&info.hash_alg, &manifest_bytes).unwrap_or_default();
         if want != info.imprint {
-            return Err(EvidenceError::BadTimestamp(
-                "its imprint is not the hash of this pack's manifest.json (a token can only be \
-                 obtained after the pack exists: use `kshana evidence attach-timestamp`)"
-                    .into(),
-            ));
+            return Err(EvidenceError::BadTimestamp(crate::terr!(
+                "e-evidence-bundle-its-imprint-is-not-the"
+            )));
         }
     }
     let sig = sign_detached(seed, &manifest_bytes);

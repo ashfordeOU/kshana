@@ -271,7 +271,7 @@ pub fn parse_tle_identity(line1: &str) -> Result<TleIdentity, String> {
     // International designator: 2-digit launch year, 3-digit launch number, piece.
     let des_yy: i64 = col(line1, 9, 11, "designator year")?
         .parse()
-        .map_err(|_| "invalid designator launch year in TLE".to_string())?;
+        .map_err(|_| crate::terr!("e-tle-invalid-designator-launch-year-in"))?;
     let des_year = if des_yy < 57 {
         2000 + des_yy
     } else {
@@ -284,11 +284,11 @@ pub fn parse_tle_identity(line1: &str) -> Result<TleIdentity, String> {
     // Epoch: two-digit year + fractional day-of-year, as in parse_tle.
     let yy: i64 = col(line1, 18, 20, "epoch year")?
         .parse()
-        .map_err(|_| "invalid epoch year in TLE".to_string())?;
+        .map_err(|_| crate::terr!("e-tle-invalid-epoch-year-in-tle-2"))?;
     let year = if yy < 57 { 2000 + yy } else { 1900 + yy };
     let epochdays: f64 = col(line1, 20, 32, "epoch day")?
         .parse()
-        .map_err(|_| "invalid epoch day in TLE".to_string())?;
+        .map_err(|_| crate::terr!("e-tle-invalid-epoch-day-in-tle"))?;
     let doy = epochdays.floor();
     let sec_of_day = (epochdays - doy) * 86_400.0;
     let hh = (sec_of_day / 3600.0).floor();

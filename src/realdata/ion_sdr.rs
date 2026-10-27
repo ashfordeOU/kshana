@@ -447,7 +447,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     let mut blocks = Vec::new();
     root.find_all("block", &mut blocks);
     if blocks.len() > 1 {
-        return Err("more than one <block>: only single-lane files are read".into());
+        return Err(crate::terr!("e-realdata-ion-sdr-more-than-one-block-only"));
     }
     let int = |el: &XmlElement, key: &str| -> Result<Option<usize>, String> {
         setting(el, key)
@@ -625,18 +625,16 @@ fn xml_escape(s: &str) -> String {
 /// frequency (`freqbase`, hertz) divided by the rate factor.
 pub fn write_sdrx(layout: &SdrLayout, comment: &str) -> Result<String, String> {
     if layout.fill_lsb_first || layout.mid_rise {
-        return Err(
-            "this layout carries a reading (fill_lsb_first or mid_rise) the ION metadata \
-             standard has no field for; it cannot be written as .sdrx"
-                .into(),
-        );
+        return Err(crate::terr!(
+            "e-realdata-ion-sdr-this-layout-carries-reading-fill"
+        ));
     }
     if layout.samples_per_lump == 0
         || !(layout.sample_rate_hz.is_finite() && layout.sample_rate_hz > 0.0)
     {
-        return Err(
-            "the layout needs a positive sample rate and a rate factor of at least 1".into(),
-        );
+        return Err(crate::terr!(
+            "e-realdata-ion-sdr-the-layout-needs-positive-sample"
+        ));
     }
     let base = layout.sample_rate_hz / layout.samples_per_lump as f64;
     if base * layout.samples_per_lump as f64 != layout.sample_rate_hz {

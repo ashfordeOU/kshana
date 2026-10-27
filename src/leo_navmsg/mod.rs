@@ -801,9 +801,7 @@ impl LeoNavmsgScenario {
             return Err(crate::terr!("e-leo-navmsg-trade-fit-intervals-must-be"));
         }
         if periods.iter().any(|&p| !(p > 0.0 && p <= upd_interval)) {
-            return Err(
-                "each trade.update_periods_s must be in (0, update_fit_interval_s]".to_string(),
-            );
+            return Err(crate::terr!("e-leo-navmsg-each-trade-update-periods-must"));
         }
         if !(60.0..=86_400.0).contains(&span) {
             return Err(crate::terr!("e-leo-navmsg-trade-span-must-be-60"));
@@ -994,10 +992,7 @@ impl LeoNavmsgScenario {
             || !(0.0..60.0).contains(&mask)
             || !(600.0..=172_800.0).contains(&search)
         {
-            return Err(
-                "midpass: user_lat_deg in [-90, 90], mask_deg in [0, 60), search_s 600-172800"
-                    .to_string(),
-            );
+            return Err(crate::terr!("e-leo-navmsg-midpass-user-lat-deg-in"));
         }
         let l = res.fit_interval_s;
         let p = res.update_period_s;

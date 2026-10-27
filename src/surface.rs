@@ -109,10 +109,7 @@ pub fn assess_receiver_log_inline(toml: &str, max_bytes: usize) -> Result<TrustO
             .as_ref()
             .is_some_and(|i| i.source.path.is_some())
     {
-        return Err(
-            "`path` sources are not accepted here: give the log inline as `text` or `base64`"
-                .into(),
-        );
+        return Err(crate::terr!("e-surface-path-sources-are-not-accepted"));
     }
     scenario::run_scenario(&scn)
 }
@@ -720,12 +717,9 @@ pub fn iq_labfit_inline(toml_text: &str, max_bytes: usize) -> Result<Value, Stri
         let v: toml::Value = toml::from_str(toml_text)
             .map_err(|e| crate::terr!("e-iq-labfit-iq-labfit-scenario", e = e))?;
         if v.get("input").and_then(|i| i.get("campaign")).is_some() {
-            return Err(
-                "[input] campaign names a campaign folder, and this surface reads no files; \
-             campaigns are read only by the CLI (`kshana iq labfit`), Python \
-             (`kshana.iq_labfit`), or the MCP labfit tool inside its IQ work directory"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-surface-input-campaign-names-campaign-folder"
+            ));
         }
         if let Some(runs) = v.get("runs").and_then(toml::Value::as_array) {
             for (i, r) in runs.iter().enumerate() {
@@ -1202,10 +1196,11 @@ pub fn osnma_verify(
         let merkle_root = match merkle_root_hex.trim() {
             "" => None,
             h => {
-                let b = hex::decode(h).map_err(|_| "bad Merkle root hex".to_string())?;
+                let b =
+                    hex::decode(h).map_err(|_| crate::terr!("e-surface-bad-merkle-root-hex"))?;
                 Some(
                     <[u8; 32]>::try_from(b.as_slice())
-                        .map_err(|_| "Merkle root must be 32 bytes".to_string())?,
+                        .map_err(|_| crate::terr!("e-surface-merkle-root-must-be-32"))?,
                 )
             }
         };

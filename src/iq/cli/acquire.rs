@@ -15,12 +15,12 @@ use crate::iq::{Cf64, IqSource, SampleSpec, SpreadingCode};
 
 /// Parse the shared `--signal`/`--prn` arguments into one spreading code per PRN.
 pub(crate) fn codes_from_args(a: &Args) -> Result<Vec<SignalCode>, Fail> {
-    let signal = a
-        .get("--signal")
-        .ok_or(Fail::Usage("needs --signal <name>".into()))?;
+    let signal = a.get("--signal").ok_or(Fail::Usage(crate::terr!(
+        "e-iq-cli-acquire-needs-signal-name"
+    )))?;
     let ids: Vec<i64> = a.list("--prn").map_err(Fail::Usage)?;
     if ids.is_empty() {
-        return Err(Fail::Usage("needs --prn <list>".into()));
+        return Err(Fail::Usage(crate::terr!("e-iq-cli-acquire-needs-prn-list")));
     }
     ids.iter()
         .map(|&id| build_code(signal, id).map_err(Fail::Usage))
@@ -130,9 +130,9 @@ fn write_surface(
 ) -> Result<(), Fail> {
     use crate::iq::acq_surface::{Surface, SurfaceFormat};
     if codes.len() != 1 {
-        return Err(Fail::Usage(
-            "--surface exports one search surface: give exactly one --prn".into(),
-        ));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-acquire-surface-exports-one-search-surface"
+        )));
     }
     let fmt = match a.get("--surface-format") {
         Some(f) => SurfaceFormat::parse(f).map_err(Fail::Usage)?,

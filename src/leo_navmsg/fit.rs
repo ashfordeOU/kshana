@@ -362,8 +362,7 @@ pub fn fit_message(
                 }
                 let fitc = |c: usize| -> Result<Vec<f64>, String> {
                     polyfit(&taus, &comps[c], degrees[c]).ok_or_else(|| {
-                        "correction polynomial fit is singular (too few samples for the degree)"
-                            .to_string()
+                        crate::terr!("e-leo-navmsg-fit-correction-polynomial-fit-is-singular")
                     })
                 };
                 EphemerisModel::KeplerRac {

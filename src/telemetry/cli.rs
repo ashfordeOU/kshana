@@ -97,11 +97,10 @@ fn parse(args: &[String]) -> Result<Opts, String> {
             "--mqtt-discovery" => o.mqtt_discovery = Some(val("--mqtt-discovery")?),
             "--otlp" => o.otlp = Some(val("--otlp")?),
             "--otlp-every" => {
-                o.otlp_every = Some(
-                    val("--otlp-every")?
-                        .parse()
-                        .map_err(|_| "--otlp-every needs a whole number".to_string())?,
-                )
+                o.otlp_every =
+                    Some(val("--otlp-every")?.parse().map_err(|_| {
+                        crate::terr!("e-telemetry-cli-otlp-every-needs-whole-number")
+                    })?)
             }
             "-h" | "--help" => return Err(String::new()),
             x => return Err(crate::terr!("e-telemetry-cli-unknown-option", x = x)),
@@ -193,7 +192,7 @@ fn run_inner(o: &Opts) -> Result<(), String> {
     let failures = reg
         .lock()
         .map(|r| r.syslog_failure_counter())
-        .map_err(|_| "registry poisoned".to_string())?;
+        .map_err(|_| crate::terr!("e-telemetry-cli-registry-poisoned"))?;
     let sink = match (&o.syslog_udp, &o.syslog_tcp) {
         (Some(_), Some(_)) => {
             return Err(crate::terr!("e-telemetry-cli-syslog-udp-and-syslog-tcp"))

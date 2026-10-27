@@ -432,9 +432,9 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
         Some(body) => {
             let s = crate::eop::EopSeries::from_finals2000a(body);
             if s.is_empty() {
-                return Err(
-                    "eop_finals2000a contained no readable IERS finals2000A rows".to_string(),
-                );
+                return Err(crate::terr!(
+                    "e-launch-eop-finals2000a-contained-no-readable"
+                ));
             }
             Some(s)
         }

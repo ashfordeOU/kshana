@@ -225,7 +225,9 @@ pub fn execute(args: &[String]) -> Result<String, CommandError> {
             "iq-cli-unknown-iq-processing-command-expected",
             other = format!("{:?}", other)
         ))),
-        None => Err(Fail::Usage("no iq processing command given".into())),
+        None => Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-no-iq-processing-command-given"
+        ))),
     };
     r.map_err(|f| match f {
         Fail::Usage(m) => CommandError::Usage(m),
@@ -283,7 +285,7 @@ pub(crate) fn raw_sidecar(a: &Args) -> Result<Option<crate::iq::io::inventory::R
         sample_rate_hz: a
             .num("--rate")
             .map_err(Fail::Usage)?
-            .ok_or(Fail::Usage("--format needs --rate".into()))?,
+            .ok_or(Fail::Usage(crate::terr!("e-iq-io-cli-format-needs-rate")))?,
         center_hz: a.num("--center").map_err(Fail::Usage)?,
         if_hz: a.num("--if").map_err(Fail::Usage)?,
         header_bytes: a.num("--header").map_err(Fail::Usage)?,
@@ -303,7 +305,7 @@ pub(crate) fn open_input(
     let path = a
         .pos
         .get(pos)
-        .ok_or_else(|| Fail::Usage("missing recording path".into()))?;
+        .ok_or_else(|| Fail::Usage(crate::terr!("e-iq-cli-missing-recording-path")))?;
     Ok(crate::iq::io::inventory::open_recording_with(
         std::path::Path::new(path),
         raw_sidecar(a)?,

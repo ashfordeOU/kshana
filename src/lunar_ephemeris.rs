@@ -368,10 +368,9 @@ impl LunarEphemeris {
             Self::column(columns, "true_anom_deg"),
         ) {
             (Ok(_), Ok(_)) => {
-                return Err(
-                    "lunar ephemeris: give exactly one of `mean_anom_deg` or `true_anom_deg`"
-                        .to_string(),
-                )
+                return Err(crate::terr!(
+                    "e-lunar-ephemeris-lunar-ephemeris-give-exactly-one"
+                ))
             }
             (Ok(i), Err(_)) => (i, false),
             (Err(_), Ok(i)) => (i, true),
@@ -506,10 +505,9 @@ impl LunarEphemeris {
             tr.r_m.push(r);
         }
         if tracks.iter().any(|t| t.t_s.is_empty()) {
-            return Err(
-                "lunar ephemeris: satellite indices must be contiguous from 0 with no gaps"
-                    .to_string(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must"
+            ));
         }
         self.tracks = tracks;
         Ok(())

@@ -314,11 +314,7 @@ pub fn parse_station_catalogue(text: &str) -> Result<Vec<LlrStation>, String> {
             continue;
         }
         if !epoch_year.is_finite() {
-            return Err(
-                "the station catalogue states no position_epoch_year; an ITRF position \
-                 without its epoch cannot be propagated"
-                    .to_string(),
-            );
+            return Err(crate::terr!("e-lunar-llr-the-station-catalogue-states-no"));
         }
         let f: Vec<&str> = t.split(',').collect();
         if f.len() < 13 {
@@ -1284,10 +1280,7 @@ impl LunarLlrDatumScenario {
         // ---- Added VLBI beacons: the campaign network and schedule, stations fixed. ----
         let campaign = self.beacon_campaign.clone().unwrap_or_default();
         if campaign.beacons.is_some() {
-            return Err(
-                "beacon_campaign.beacons is not used here; state added beacons in extra_beacons"
-                    .to_string(),
-            );
+            return Err(crate::terr!("e-lunar-llr-beacon-campaign-beacons-is-not"));
         }
         let mut beacon_json = Vec::with_capacity(extra_beacons.len());
         let mut campaign_json = serde_json::Value::Null;

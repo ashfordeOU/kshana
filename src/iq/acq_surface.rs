@@ -350,9 +350,9 @@ impl Surface {
         }
         let (rows, cols) = (header.doppler_bins_hz.len(), header.samples_per_period);
         if rows.saturating_mul(cols) > MAX_SURFACE_CELLS {
-            return Err(IqError::Format(
-                "surface header names too many cells".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-acq-surface-surface-header-names-too-many"
+            )));
         }
         let mut grid = Vec::with_capacity(rows);
         let mut buf = vec![0u8; 8 * cols];

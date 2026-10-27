@@ -582,9 +582,8 @@ impl CislunarArcRecoveryScenario {
         };
         let truth_est = match coordinates {
             RecoveryCoordinates::Cartesian => truth_cart.clone(),
-            RecoveryCoordinates::Polar => cartesian_to_polar(&truth_cart, mu).ok_or_else(|| {
-                "the chief sits on the Moon: polar coordinates are singular".to_string()
-            })?,
+            RecoveryCoordinates::Polar => cartesian_to_polar(&truth_cart, mu)
+                .ok_or_else(|| crate::terr!("e-cislunar-arc-recovery-the-chief-sits-on-the"))?,
         };
         let z_clean = model(&truth_est, epochs);
         if z_clean.iter().any(|v| !v.is_finite()) {
