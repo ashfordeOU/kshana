@@ -44,3 +44,10 @@ cargo test --release --test reproducibility_software_assurance_reference
 
 The generator needs the Python `jsonschema` library (4.26.0 here). The test passes after the re-generation
 (1 of 1). If `Cargo.lock` differs at integration, re-run the three commands and replace the values above.
+
+## Re-run at the 0.40.0 bump (28 Oct 2026)
+
+The procedure above was re-run against the final `Cargo.lock` (0.40.0, all 0.40 branches merged). `component_count` stays 127 and
+every other value is unchanged; only `sbom_sha256` moved, to `7b90839a5ab454a67f0b60b23d4e1bee481137173c828ecdab107c7faeb18076`,
+because the SBOM names the `kshana` component's own version. The fixture was re-generated and the test passes (1 of 1); the
+record is in `STUDIO15-pins-0.40.0-version.md`.

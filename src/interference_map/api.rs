@@ -186,6 +186,64 @@ pub fn ais_maps_from_csv(
     ))
 }
 
+/// Estimated emitter regions from ADS-B CSV text (`docs/INTERFERENCE-MAP.md`, "Emitter region"): GeoJSON,
+/// JSON summary, sessions table and figure, each labelled and carrying the licence, attribution, method id,
+/// assumptions and limits. `params` defaults to the pre-registered ones. Aggregate only.
+pub fn emitter_regions_from_adsb_csv(
+    csv: &str,
+    dataset: &DatasetSpec,
+    params: Option<&super::emitter::EmitterParams>,
+) -> Result<super::emitter_out::LocateOutput, MapError> {
+    let ds = resolve_dataset(dataset, Kind::Adsb)?;
+    let p = params
+        .cloned()
+        .unwrap_or_else(super::emitter::EmitterParams::preregistered_v1);
+    let mut r = super::emitter::AdsbReports::new();
+    r.read_csv(csv)?;
+    let (reports, rows) = r.finish(p.min_alt_ft);
+    super::emitter_out::locate(super::emitter::Source::Adsb, &reports, rows, &ds, &p, None)
+}
+
+/// As [`emitter_regions_from_adsb_csv`], from readsb history trace files (one byte slice per file).
+pub fn emitter_regions_from_readsb_traces(
+    traces: &[&[u8]],
+    dataset: &DatasetSpec,
+    params: Option<&super::emitter::EmitterParams>,
+) -> Result<super::emitter_out::LocateOutput, MapError> {
+    let ds = resolve_dataset(dataset, Kind::Adsb)?;
+    let p = params
+        .cloned()
+        .unwrap_or_else(super::emitter::EmitterParams::preregistered_v1);
+    let mut r = super::emitter::AdsbReports::new();
+    for t in traces {
+        // A file that cannot be read is skipped, as in the map.
+        let _ = r.read_trace(t);
+    }
+    let (reports, rows) = r.finish(p.min_alt_ft);
+    super::emitter_out::locate(super::emitter::Source::Adsb, &reports, rows, &ds, &p, None)
+}
+
+/// As [`emitter_regions_from_adsb_csv`], from AIS CSV text and an optional land-polygon GeoJSON text for the
+/// inland rule. `ship_height_m` is the receiver height of a vessel's antenna (default 15 m).
+pub fn emitter_regions_from_ais_csv(
+    csv: &str,
+    dataset: &DatasetSpec,
+    land_geojson: Option<&str>,
+    ship_height_m: Option<f64>,
+    params: Option<&super::emitter::EmitterParams>,
+) -> Result<super::emitter_out::LocateOutput, MapError> {
+    let ds = resolve_dataset(dataset, Kind::Ais)?;
+    let p = params
+        .cloned()
+        .unwrap_or_else(super::emitter::EmitterParams::preregistered_v1);
+    let mut land = land_geojson
+        .map(|t| LandMask::from_geojson_str(t, AisParams::PREREGISTERED_V1.land_buffer_m))
+        .transpose()?;
+    let (reports, rows) =
+        super::emitter::ais_reports(csv, land.as_mut(), ship_height_m.unwrap_or(15.0))?;
+    super::emitter_out::locate(super::emitter::Source::Ais, &reports, rows, &ds, &p, None)
+}
+
 /// Route exposure of a route (GeoJSON LineString text, or `lat,lon` CSV text) against maps
 /// given as GeoJSON texts in the v1 format. `from` and `to` are optional inclusive
 /// `YYYY-MM-DD` bounds. Returns the `kshana-route-exposure/v1` report.

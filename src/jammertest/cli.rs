@@ -362,7 +362,7 @@ fn run_score(args: &[String]) -> Result<(), String> {
     if args.iter().any(|a| a == "--json") {
         let json = serde_json::to_string_pretty(&card).map_err(|e| e.to_string())?;
         let label = crate::evidence_label::EvidenceLabel::for_tool("jammertest-score")
-            .ok_or("the jammertest evidence rows are not in the matrix")?;
+            .ok_or_else(|| crate::terr!("e-jammertest-cli-the-jammertest-evidence-rows-are"))?;
         println!("{}", label.apply_json(&json)?);
     } else {
         print_card(&card);

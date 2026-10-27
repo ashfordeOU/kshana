@@ -50,11 +50,11 @@ engine-e-clock-log-the-rinex-clock-file-holds = RINEX-urfilen indeholder { $many
 
 engine-e-clock-log-no-as-or-ar-records = ingen AS- eller AR-poster for ur { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = uret har kun én epoke; tau0 kan ikke findes
+engine-e-clock-log-the-clock-has-single-epoch = uret har kun én epoke; der kræves mindst to (tau0 kan ikke findes)
 
 engine-e-clock-log-the-log-has-no-readings = { $format }-loggen har ingen målinger
 
-engine-e-clock-log-unknown-phase-unit-expected-ms = ukendt faseenhed { $other }; forventet s, ms, us, ns eller ps
+engine-e-clock-log-unknown-phase-unit-expected-ms = ukendte faseenheder { $other }; forventet s, ms, us, ns eller ps
 
 engine-e-clock-log-timelab-line-has-column-the = TimeLab-linje { $v1 } har { $v } kolonne(r), den første datalinje har { $first }
 
@@ -9722,3 +9722,1770 @@ engine-compliance-mapping-header-gap = Hul
 engine-compliance-mapping-none = ingen
 
 engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Læst { $accessed }: { $checked }.
+
+engine-kind-lunar-ascent-description = MODELLED motordrevet opstigning fra et sydpolart overfladested til rendezvous-banen og den position-hastighed-kovarians, den bærer tilbage til banen (Artemis-klassen). Lunar-descents inertifejlmodel med fem tilstande pr. akse (position, hastighed, accelerometerbias, attitudetilt, gyrobias, drevet af den specifikke kraft) kører på alle tre stedakser ud fra den overfladetilstand, som fasen går ind med; en AFS-positionsbestemmelse fra de synlige relæer i en ILLUSTRATIVE konstellation af LCNS-klassen (enkeltstående eller differentiel ved hjælp af korrektionslinkets residual fra lunar-differential-pnt, med uret understøttet, når kun tre relæer er synlige) tages med et angivet interval, hvor lunar tid indgår via køretøjets ur og en tidsmærkefejl langs sporet. Rapporterer de lukkede inertikilder, hjælpemidlets bidrag, ablationen, navigationens 1-sigma-værdier over opstigningen, motorafbrydelsens spredning ved siden af navigationsviden og den fulde 6x6 MCI-kovarians ved indsætningen med position-hastighed-korrelationen bevaret. MODELLED: illustrativ IMU-klasse, specifik kraft, relæsæt og afbrydelsesspredning; fejl holdt i opsendelsesstedets akser; den nominelle sluttilstand er en stedfortræder. Ikke støttet af nogen myndighed; vejledende software, ikke certificeret navigationsudstyr.
+
+engine-kind-lunar-surface-description = MODELLED tilgængelighed af overfladepositionering og -tidssynkronisering efter sted og årstid for sydpolare steder af Artemis-klassen. For hvert sted og hver årstid (en epoke og et vindue efter den) rapporterer den relæpositionering (fire eller flere relæer i en ILLUSTRATIVE konstellation af LCNS-klassen i sigte og PDOP under en tærskel, fra de samme funktioner som moonlight-service-volume og, med en terrænsektion, den strålemarcherede horisontprofil fra lunar-station-coverages terræn), om Jorden og Solen står over stedets horisont (analytisk Sol, Måne og lunar orientering, libration inkluderet, som er det, der ændrer sig med årstiden) og tilgængelighed af tidssynkronisering (et relæ eller Jorden i sigte) med den længste periode uden nogen af dem, den holdover, et overfladeur skal klare. Et resultat for ét sted er bit for bit lig med moonlight-service-volumes. MODELLED: illustrativt Kepler-relæsæt på en måne med middelrotation; relætallet ændrer sig ikke med årstiden; terrænet er LOLA-udsnittet på 1200 m. Ikke støttet af nogen myndighed; vejledende software, ikke certificeret navigationsudstyr.
+
+engine-kind-lunar-descent-description = MODELLED landingsspredningsbudget for en motordrevet nedstigning til et sydpolart sted (Artemis-klassen). For hver horisontal akse drives en inertifejlmodel med fem tilstande (position, hastighed, accelerometerbias, attitudetilt, gyrobias) af nedstigningens specifikke kraft; et sekventielt filter tager positionsbestemmelser fra de aktiverede hjælpemidler: en AFS-positionsbestemmelse fra de synlige relæer i en ILLUSTRATIVE konstellation af LCNS-klassen (enkeltstående eller differentiel ved hjælp af korrektionslinkets residual fra lunar-differential-pnt, med uret understøttet, når kun tre relæer er synlige) og en terrænrelativ positionsbestemmelse (cratens TERCOM/SITAN-matcher på et syntetisk relief eller Cramer-Rao-grænsen for matchning af et højdevindue i den virkelige sydpolare LOLA-DEM). Lunar tid indgår via køretøjets ur ved positionsbestemmelserne (LTC-TT-forskydningen fra lunar-time-offset eller usikkerheden i dens offentliggjorte bånd) og som en tidsmærkefejl langs sporet. Rapporterer 3-sigma-landingsellipsen, R95, de lukkede inertikilder, hvert hjælpemiddels bidrag, ablationen af hver kombination af hjælpemidler, en Monte Carlo-kalibrering af ellipsen og den videregivne kovarians. MODELLED: illustrativ IMU-klasse, relæsæt, nedstigningsprofil og styringsled; terrænnavigationen bruger et syntetisk relief på en jordisk meterskala; AFS-tilgængeligheden er én epoke på en flad maske. Ikke støttet af nogen myndighed; vejledende software, ikke certificeret navigationsudstyr.
+
+engine-kind-lunar-orbit-rendezvous-description = MODELLED relativ navigation til en Orion-lander-agtig sammenkobling i en lav lunar bane eller en elliptisk polar bane (Artemis-klassen). En chaser og et mål flyver i samme bane under cratens lunare kraftmodel; et fælles batch-Gauss-Newton-estimat med 21 parametre over buen (to køretøjstilstande og vedvarende signal-i-rummet-bias) fusionerer en absolut positionsbestemmelse pr. køretøj fra et ILLUSTRATIVE relæsæt af LCNS-klassen (relæer bag Månen udeladt, fire nødvendige, den fælles signal-i-rummet-fejl ophæves mellem køretøjerne) og en krydslinkafstand, med afstandsmålingspræcision fra kodesporingsgrænsen på LunaNet AFS-piloten. Rapporterer den formelle og Monte Carlo-baserede relative positions- og hastighedsfejl i målets LVLH-akser, tilgængelighed af positionsbestemmelse, den gennemsnitlige normaliserede kvadrerede estimeringsfejl mod dens forventede værdi og ethvert forsøg, hvis iteration ikke konvergerede, driften ved at ignorere tyngdeharmonikerne og den fulde 6x6-kovarians, der gives videre. Et lukket Hill/Clohessy-Wiltshire-tjek gælder for det cirkulære tilfælde. MODELLED: illustrativt relæsæt, fejlbudget og priors; sandheden og estimatoren deler én kraftmodel, så NEES kontrollerer selvkonsistens og ikke modelfejl. Ikke støttet af nogen myndighed; vejledende software, ikke certificeret navigationsudstyr.
+
+engine-kind-mission-thread-description = MODELLED fejlbudget for navigation og tidssynkronisering for en angivet kæde af missionsfaser, fra opsendelse til indflyvning: opsendelse og opstigning, rendezvous og sammenkobling i lav jordbane (kan gentages), trans-lunar indskydning og cislunar flyvning, lunart bane-rendezvous, nedstigning, ophold på overfladen, opstigning samt tilbagevenden og indflyvning, hver fase en af otte registrerede kinds med egne sensorer og eget filter. Den 6x6 kovarians, uret og referencesystemet gives videre fra fase til fase efter en angivet regel (bær videre, oppust eller genoptag); omregninger af referencesystem og tidsskala (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) er deres egne budgetrækker, med Månens tilstand fra et valgfrit udsnit af en DE440-kerne og den analytiske række som angivet reserve. Et valgfrit jordnetværksoverlay fastsætter sporingsdriften for hver fase. Rapporterer budgettet pr. fase (1-sigma-værdier ved indgang, spids og udgang, hvert bidrag med sin enhed), margenen mod et angivet krav, det svageste led, hændelserne og en tidslinjefigur. MODELLED: hvert tal er et angivet input; kæden følger én stak, og intet køretøj er modelleret. Kun offentlige kilder; ikke tilknyttet eller støttet af nogen myndighed; vejledende software, ikke certificeret navigationsudstyr.
+
+engine-e-altpnt-terrain-combined-altpnt-magnetic-grid-replaces = combined-altpnt: `magnetic_grid` erstatter det syntetiske magnetfelt, så `magnetic_mascons` skal være tom, når den er angivet
+
+engine-e-aperture-duty-the-reporting-horizon-must-have = rapporteringshorisonten skal have positiv længde (horizon_end_s > horizon_start_s)
+
+engine-e-api-figure-tiers-the-result-document = figure_tiers: resultatdokumentet er ikke et pretty JSON-objekt
+
+engine-e-api-builtins-integrity-reports-one-run-raim = { "[" }integrity] rapporterer ét køresels RAIM ved siden af dets holdover-tal; det kræver runs = 1
+
+engine-e-araim-reference-the-unmonitored-fault-risk-exhausts = den uovervågede fejlrisiko opbruger hele integritetsbudgettet; intet endeligt beskyttelsesniveau findes
+
+engine-e-araim-reference-the-add-v4-subset-rule = ADD v4.2-delmængderegelen opregner altid par; max_order skal være >= 2
+
+engine-e-attack-surface-capture-footprint-emitted-no-points = capture_footprint udsendte ingen punkter
+
+engine-e-bench-cli-scale-is-not-number = --scale er ikke et tal
+
+engine-e-bench-cli-truth-reads-dataset-and-is = `truth` læser et datasæt og er til opgave a; opgave c og d bruger `cases`
+
+engine-e-bench-cli-task-has-no-sealed-holdout = opgave c har intet forseglet tilbageholdt datasæt
+
+engine-e-bench-cli-cases-makes-the-files-of = `cases` laver filerne til opgave c og d; opgave a er selve datasættet (brug `truth`)
+
+engine-e-bench-cli-threshold-is-not-number = --threshold er ikke et tal
+
+engine-e-bench-cli-seed-file-is-required = --seed-file er påkrævet
+
+engine-e-bench-cli-validate-needs-at-least-one = validate kræver mindst én resultatfil
+
+engine-e-bench-cli-manifest-is-for-task-the = `manifest` er til opgave a; de øvrige opgaver har committede manifester
+
+engine-e-bench-cli-verify-manifest-needs-one-manifest = verify-manifest kræver én manifestfil
+
+engine-e-bench-system-name-is-required = `system.name` er påkrævet
+
+engine-e-bench-tasks-truth-has-no-labels-array = truth har ingen `labels`-array
+
+engine-e-bench-tasks-label-has-no-id = en label har ingen `id`
+
+engine-e-bench-tasks-label-has-no-positive = en label har ingen `positive`
+
+engine-e-bench-tasks-predictions-have-no-scores-object = predictions har intet `scores`-objekt
+
+engine-e-bench-tasks-the-holdout-is-sealed-pass = det tilbageholdte datasæt er forseglet: angiv hemmeligheden med --seed-file
+
+engine-e-bench-tasks-task-truth-has-no-truth = opgave (c) truth har ingen `truth`-array
+
+engine-e-bench-tasks-task-predictions-have-no-predictions = opgave (c) predictions har intet `predictions`-objekt
+
+engine-e-bench-tasks-truth-entry-has-no-id = en truth-post har ingen `id`
+
+engine-e-campaign-compare-needs-threshold = compare kræver en tærskel
+
+engine-e-ccsds-tdm-tdm-missing-ccsds-tdm-vers = TDM: CCSDS_TDM_VERS-headeren mangler
+
+engine-e-cislunar-arc-recovery-the-chief-sits-on-the = chief'en befinder sig på Månen: polarkoordinaterne er singulære
+
+engine-e-clock-log-clock-applies-to-the-rinex = clock gælder kun for formaterne rinex-clk, linuxptp og chrony (TICC bruger channel)
+
+engine-e-clock-log-single-column-timelab-log-needs = en timelab-log med én kolonne kræver tau0: en `# tau0 = <s>`-header eller tau0_s
+
+engine-e-clock-log-the-ticc-log-has-no = TICC-loggen har ingen målinger (`<seconds> chA|chB|chC|TI(...)`-linjer)
+
+engine-e-conflict-resilience-intensity-grid-unexpectedly-empty = intensitetsgitteret er uventet tomt
+
+engine-e-eo-payload-inclination-deg-must-be-in = inclination_deg skal ligge i (0, 180) (en ækvatorial bane har ingen opstigende knude)
+
+engine-e-evidence-bundle-its-imprint-is-not-the = dets aftryk er ikke hashen af denne pakkes manifest.json (et token kan først fås, når pakken findes: brug `kshana evidence attach-timestamp`)
+
+engine-e-evidence-cli-pubkey-must-be-32-bytes = --pubkey skal være 32 bytes (64 hex-cifre)
+
+engine-e-evidence-cli-that-is-the-private-key = det er underskriverens PRIVATE nøgle. Del den aldrig; angiv den offentlige nøgle (.pub-filen)
+
+engine-e-evidence-lab-lab-attestation-conducted-setup-needs = lab-attestation: en ledningsbåret opstilling kræver attenuation_db, et endeligt antal dB, 0 eller mere
+
+engine-e-evidence-tsa-unsupported-digest-algorithm = ikke understøttet digest-algoritme
+
+engine-e-evidence-tsa-signature-failure = signaturfejl
+
+engine-e-field-schema-entry-is-not-an-object = posten er ikke et objekt
+
+engine-e-field-schema-no-unit-string = ingen `unit`-streng
+
+engine-e-field-schema-no-provenance-string = ingen `provenance`-streng
+
+engine-e-geometry-sky-tle-holds-no-complete = sky: tle indeholder ikke et komplet tolinjers elementsæt
+
+engine-e-geometry-sky-epoch-dates-the-tle = sky: epoch dateres `tle`-satellitterne; preset-`systems` og de direkte angivne satellitter har ingen dato, så angiv `tle` sammen med den
+
+engine-e-gravimeter-gravity-map-reference-replaces-the = gravity-map: `reference` erstatter det syntetiske felt, så `coeffs` og `mascons` skal være tomme, når den er angivet
+
+engine-e-gse-sim-fusion-od-produced-no-steps = fusions-OD gav ingen trin (for få observationer)
+
+engine-e-holdover-test-give-one-of-series-samples = angiv en af series.samples, series.csv_path eller series.clock_log
+
+engine-e-holdover-test-give-one-of-series-samples-2 = angiv en af series.samples, series.csv_path eller series.clock_log, ikke mere end én
+
+engine-e-holdover-test-gnss-removed-must-be-finite = gnss_removed_s skal være endelig, locked_duration_days >= 0, recovery_band_ns > 0 og recovery_dwell_s >= 0
+
+engine-e-holdover-test-csv-path-is-not-available = csv_path er ikke tilgængelig i WebAssembly-buildet; angiv serien inline som `samples` eller `clock_log.text`
+
+engine-e-hybrid-coupled-geometry-needs-at-least = coupled.geometry kræver mindst to forskellige endelige sigtelinjefaktorer
+
+engine-e-hybrid-integrity-optical-link-delivered-no-photons = det optiske link leverede ingen fotoner (uendelig afstandsmålings-CRLB); øg effekt / apertur / integrationstid
+
+engine-e-hybrid-integrity-rf-tracking-threshold-dbhz-and = rf_tracking_threshold_dbhz og rf_degraded_margin_db skal være endelige
+
+engine-e-interference-map-adsb-need-at-least-one-of = mindst en af kolonnerne `nic`, `nacp` er påkrævet
+
+engine-e-interference-map-adsb-gzip-decompressed-size-over-the = gzip: den udpakkede størrelse overskrider grænsen
+
+engine-e-interference-map-adsb-trace-json-lacks-icao-timestamp = trace-JSON mangler icao, timestamp eller trace
+
+engine-e-interference-map-api-custom-dataset-needs-licence-licence = et eget datasæt kræver licens, licens-URL og tilskrivningstekst
+
+engine-e-interference-map-api-cell-size-must-be-between = cellestørrelsen skal ligge mellem { $lit_0_01 } og 10 grader
+
+engine-e-interference-map-api-map-has-bad-date = kortet har en ugyldig dato
+
+engine-e-interference-map-api-no-map-falls-in-the = intet kort falder inden for datointervallet
+
+engine-e-interference-map-cli-dataset-is-required-so-the = --dataset er påkrævet, så licens og tilskrivning indlejres
+
+engine-e-interference-map-cli-cell-deg-is-not-number = --cell-deg er ikke et tal
+
+engine-e-interference-map-cli-cell-deg-must-be-between = --cell-deg skal ligge mellem { $lit_0_01 } og 10
+
+engine-e-interference-map-cli-subcommand-is-required = en underkommando er påkrævet
+
+engine-e-interference-map-cli-input-file-missing = inputfil mangler
+
+engine-e-interference-map-cli-out-is-required = --out er påkrævet
+
+engine-e-interference-map-cli-fetch-land-downloads-file-pass = fetch-land henter en fil: angiv --allow-network for at bekræfte
+
+engine-e-interference-map-cli-curl-failed-to-download-the = curl kunne ikke hente landpolygonerne
+
+engine-e-interference-map-cli-route-is-required = --route er påkrævet
+
+engine-e-interference-map-cli-at-least-one-map-is = mindst ét --map er påkrævet
+
+engine-e-interference-map-land-land-polygons-no-polygon-or = landpolygoner: ingen Polygon eller MultiPolygon fundet
+
+engine-e-interference-map-empty-input-header-row-is = tomt input: en headerrække er påkrævet
+
+engine-e-interference-map-observatory-bbox-is-south-west-north = --bbox er syd,vest,nord,øst i grader
+
+engine-e-interference-map-observatory-bbox-must-satisfy-south-north = --bbox skal opfylde syd < nord og vest < øst, inden for kloden (ingen krydsning af antimeridianen)
+
+engine-e-interference-map-observatory-opensky-network-data-is-excluded = OpenSky Network-data er udelukket: dets licens tillader ikke kommerciel brug eller videredistribution af afledte kort (docs/data/INTERFERENCE-DATA-SOURCES.md)
+
+engine-e-interference-map-observatory-day-is-required = --day er påkrævet
+
+engine-e-interference-map-observatory-delay-hours-is-not-number = --delay-hours er ikke et tal
+
+engine-e-interference-map-observatory-cell-deg-must-be-between = --cell-deg skal ligge mellem { $lit_0_5 } og 10
+
+engine-e-interference-map-observatory-the-input-has-no-usable-2 = inputtet har ingen brugbar rapport
+
+engine-e-interference-map-route-not-kshana-interference-map-no = ikke et Kshana-interferenskort (intet `kshana_interference_map`-medlem)
+
+engine-e-interference-map-route-map-has-no-date = kortet har ingen dato
+
+engine-e-interference-map-route-map-has-no-grid-cell = kortet har ingen gittercellestørrelse
+
+engine-e-interference-map-route-map-has-an-invalid-grid = kortet har en ugyldig gittercellestørrelse
+
+engine-e-interference-map-route-route-no-linestring-found = rute: ingen LineString fundet
+
+engine-e-interference-map-route-route-needs-at-least-two = en rute kræver mindst to waypoints
+
+engine-e-interference-map-route-route-waypoint-out-of-range = rute: waypoint uden for intervallet
+
+engine-e-interop-sigmf-records-signal-not-geometry = SigMF optager et signal, ikke geometri; det skrives ud fra scenariet, ikke en scene
+
+engine-e-interop-sigmf-holds-complex-baseband-samples = SigMF indeholder komplekse basisbåndsamples, som kun `spectrum`-kind'en syntetiserer
+
+engine-e-interop-this-spectrum-scenario-has-no = dette spectrum-scenarie har ingen [iq]-blok, så der syntetiseres ingen samples til optagelse
+
+engine-e-interop-scene-time-step-must-be-positive = tidsskridtet skal være positivt og endeligt ved en eksport
+
+engine-e-interop-scene-duration-must-be-non-negative = varigheden skal være ikke-negativ og endelig ved en eksport
+
+engine-e-interop-scene-this-pvt-scenario-gives-no = dette pvt-scenarie giver ingen `truth_ecef`, den eneste position det angiver
+
+engine-e-interop-stk-an-stk-ephemeris-describes-vehicle = en STK-efemeride beskriver et køretøjs position og hastighed over tid; denne scene har kun faste punkter eller utidsbestemte spor (et fast punkt er en STK Facility, ikke en efemeride)
+
+engine-e-interop-stk-scene-has-no-epoch = scenen har ingen epoke
+
+engine-e-iq-acq-surface-surface-header-names-too-many = overfladeheaderen angiver for mange celler
+
+engine-e-iq-cli-acquire-needs-signal-name = kræver --signal <name>
+
+engine-e-iq-cli-acquire-needs-prn-list = kræver --prn <list>
+
+engine-e-iq-cli-acquire-surface-exports-one-search-surface = --surface eksporterer én søgeflade: angiv præcis ét --prn
+
+engine-e-iq-cli-channel-nlos-needs-reflected-path-add = --nlos kræver en reflekteret sti: tilføj --multipath-height eller --land-mobile
+
+engine-e-iq-cli-frontend-bandpass-wants-two-values-lo = --bandpass vil have to værdier: lo,hi
+
+engine-e-iq-cli-frontend-iq-frontend-needs-at-least = iq frontend kræver mindst ét trin (--bandpass/--notch/--blank/--excise/--agc/--bits)
+
+engine-e-iq-cli-no-iq-processing-command-given = ingen iq-behandlingskommando angivet
+
+engine-e-iq-cli-missing-recording-path = optagelsessti mangler
+
+engine-e-iq-cli-monitor-idle-timeout-only-goes-with = --idle-timeout hører kun sammen med --follow
+
+engine-e-iq-cli-monitor-follow-reads-sigmf-recording-give = --follow læser en SigMF-optagelse (angiv .sigmf-meta, .sigmf-data eller basisstien)
+
+engine-e-iq-cli-monitor-idle-timeout-must-be-positive = --idle-timeout skal være et positivt antal sekunder
+
+engine-e-iq-cli-scene-rx-pos-wants-three-values = --rx-pos vil have tre værdier: lat,lon,alt (deg,deg,m)
+
+engine-e-iq-cli-scene-iq-scene-needs-rate-hz = iq scene kræver --rate <hz>
+
+engine-e-iq-cli-scene-iq-scene-needs-duration-or = iq scene kræver --duration <s> (eller --window)
+
+engine-e-iq-cli-scene-iq-scene-nav-needs-rx = iq scene --nav kræver --rx-pos lat,lon,alt
+
+engine-e-iq-cli-scene-iq-scene-needs-signal-name = iq scene kræver --signal <name>
+
+engine-e-iq-cli-scene-iq-scene-needs-prn-list = iq scene kræver --prn <list>
+
+engine-e-iq-cli-scene-format-takes-sigmf-or-sdrx = --format tager sigmf eller sdrx, ikke begge
+
+engine-e-iq-cli-scene-format-sdrx-writes-ci8-the = --format sdrx skriver ci8 (standard) eller ci16_le (sdrx:ci16_le); ION-metadatastandarden har ingen flydende-komma-kodning
+
+engine-e-iq-cli-track-design-name-needs-design-file = --design-name kræver --design <file.toml>
+
+engine-e-iq-cli-track-threads-must-be-positive-integer = --threads skal være et positivt heltal eller auto
+
+engine-e-iq-cli-track-epochs-format-needs-epochs-path = --epochs-format kræver --epochs <path>
+
+engine-e-iq-io-cli-iq-convert-needs-to-format = iq convert kræver --to <format>
+
+engine-e-iq-io-cli-iq-extract-needs-start = iq extract kræver --start
+
+engine-e-iq-io-cli-iq-extract-needs-duration = iq extract kræver --duration
+
+engine-e-iq-io-cli-start-and-duration-must-be = --start og --duration skal være ikke-negative
+
+engine-e-iq-io-cli-real-input-is-converted-to = et reelt input konverteres til komplekst basisbånd: angiv --factor <d> (>= 2)
+
+engine-e-iq-io-cli-iq-decimate-needs-factor-or = iq decimate kræver --factor <d>, eller --up <l> og --down <m>
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive = resamplingfaktorer skal være positive
+
+engine-e-iq-io-resample-resampling-factors-must-be-positive-2 = resamplingfaktorer skal være positive og filteret ikke tomt
+
+engine-e-iq-io-resample-real-if-conversion-needs-decimation = real-IF-konvertering kræver decimering med mindst 2 for at fjerne spejlfrekvensen
+
+engine-e-iq-io-sdrx-sdrx-layout-chunk-holds-no = { "." }sdrx-layout: en chunk indeholder ingen hel lump
+
+engine-e-iq-io-sdrx-sdrx-data-ends-inside-its = { "." }sdrx-data slutter inde i sin header
+
+engine-e-iq-io-sigmf-stream-sigmf-core-num-channels = SigMF core:num_channels = 0
+
+engine-e-iq-io-sigmf-stream-sigmf-stream-needs-at-least = en SigMF-strøm kræver mindst én optagelse
+
+engine-e-iq-io-sigmf-stream-select-channel-must-be-called = select_channel skal kaldes før læsning
+
+engine-e-iq-io-sigmf-stream-sigmf-data-ends-before-its = SigMF-data slutter før sin første optagelse
+
+engine-e-iq-labfit-iqfit-mode-validation-needs-validation-table = mode = "validation" kræver en [validation]-tabel, skrevet før kampagneresultaterne læses
+
+engine-e-iq-labfit-input-campaign-fit-from-an = { "[" }input] campaign: en tilpasning fra en IQ-kampagnemappe kræver native buildet (kampagnelaget er ikke bygget til WebAssembly); modtagerlogstien ([[runs]]) virker her
+
+engine-e-iq-scene-truth-missing-truth-csv-header = truth-CSV-header mangler
+
+engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s gælder kun for fll_assist = "pull-in"
+
+engine-e-iq-track-design-loop-design-file-holds-no = løkkeudformningsfilen indeholder ingen udformninger
+
+engine-e-iq-track-sink-short-record = for kort optagelse
+
+engine-e-leo-navmsg-fit-correction-polynomial-fit-is-singular = korrektionspolynomiets tilpasning er singulær (for få samples til graden)
+
+engine-e-leo-navmsg-each-trade-update-periods-must = hver trade.update_periods_s skal ligge i (0, update_fit_interval_s]
+
+engine-e-leo-navmsg-midpass-user-lat-deg-in = midpass: user_lat_deg i [-90, 90], mask_deg i [0, 60), search_s 600-172800
+
+engine-e-leo-pass-rain-rate-mm-rain-exceedance = rain_rate_mm_h >= 0, rain_exceedance_percent i [{ $lit_0_001 }, 5] og scintillation_percent i [{ $lit_0_01 }, 50]
+
+engine-e-leo-pass-spoofer-onset-within-the-window = spoofer: onset_s inden for vinduet, offset_m i [0, 1e6], push_rate_m_s i [0, 1000], positive prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz og fll_integration_s, p_fa og p_md i (0, { $lit_0_5 }), iono_rate_bound_m_s >= 0
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-and = receiver: loop_bandwidth_hz og integration_time_s skal være positive
+
+engine-e-leo-signal-receiver-to-12-correlator-spacings = receiver: 1 til 12 korrelatorafstande, hver (ligesom reference_spacing_chips) mellem 0 og 2 chips
+
+engine-e-leo-signal-acquisition-coherent-ms-noncoherent-1000 = acquisition: coherent_ms > 0, 1 ≤ noncoherent ≤ 1000, 0 < pfa_cell < 1, code_bin_chips > 0, altitude_km > 0, oscillator_ppm og user_speed_mps ≥ 0, 0 ≤ elevation_mask_deg < 90
+
+engine-e-live-io-baud-needs-number = --baud kræver et tal
+
+engine-e-live-io-configure-is-not-implemented-kshana = --configure er ikke implementeret: Kshana skriver aldrig til en modtager. Konfigurer den med fabrikantens eget værktøj, og læs den derefter med --serial
+
+engine-e-live-io-more-than-one-session-file = mere end én sessionsfil
+
+engine-e-live-io-follow-and-from-end-apply = --follow og --from-end gælder kun for --file
+
+engine-e-live-io-baud-applies-to-serial-only = --baud gælder kun for --serial
+
+engine-e-live-io-live-needs-session-toml = live kræver en session .toml
+
+engine-e-live-io-listen-serves-the-gated-stream = --listen leverer den gatede strøm: tilføj --gate
+
+engine-e-live-io-two-outputs-would-share-stdout = to outputs ville dele stdout; send --json eller --pksht til en fil
+
+engine-e-lunar-ephemeris-lunar-ephemeris-give-exactly-one = lunar efemeride: angiv præcis en af `mean_anom_deg` eller `true_anom_deg`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-satellite-indices-must = lunar efemeride: satellitindeksene skal være sammenhængende fra 0 uden huller
+
+engine-e-lunar-frame-campaign-beacon-information-per-site-needs = beacon-informationen pr. sted kræver station_datum = "fixed"; et estimeret stationsdatum kobler beaconerne
+
+engine-e-lunar-infra-frame-llr-sigma-surface-orbiter-range = llr.sigma_m, surface.orbiter_range_sigma_m og llr.epochs skal være positive
+
+engine-e-lunar-infra-od-too-few-trackable-gnss-measurements = for få sporbare GNSS-målinger til at bestemme banen og modtagerens ur
+
+engine-e-lunar-infra-phase-fewer-than-two-connected-passes = færre end to sammenhængende passager: ingen dobbeltdifferens-multiplicitet at løse
+
+engine-e-lunar-infra-tie-the-space-tie-information-matrix = rumforbindelsens informationsmatrix er singulær
+
+engine-e-lunar-jamming-jammer-range-must-be-finite = jammer.range_m skal være endelig og positiv (eller angiv jammer.lat_deg og jammer.lon_deg for at placere jammeren selenografisk)
+
+engine-e-lunar-llr-the-station-catalogue-states-no = stationskataloget angiver ingen position_epoch_year; en ITRF-position uden sin epoke kan ikke propageres
+
+engine-e-lunar-llr-beacon-campaign-beacons-is-not = beacon_campaign.beacons bruges ikke her; angiv tilføjede beacons i extra_beacons
+
+engine-e-lunar-service-planetary-kernel-path-applies-to = planetary_kernel_path gælder for en elementfil angivet i OP-systemet
+
+engine-e-lunar-terrain-terrain-give-dem-path-dem = terrain: angiv dem_path, dem_tile_path, station_horizon eller user_horizon (eller udelad [terrain])
+
+engine-e-lunar-terrain-terrain-station-horizon-has-no = terrain: station_horizon har ingen station i denne kind; brug user_horizon
+
+engine-e-lunar-time-budget-scenario-sigma-is-shorter-than-the = x_sigma_s er kortere end tau-gitteret
+
+engine-e-lunar-time-lab-time-lab-thresholds-ns-must = time_lab: thresholds_ns skal være en ikke-tom liste af positive tal
+
+engine-e-lunar-vlbi-fim-datum-all-stations-fixed-holds = datum "all-stations-fixed" holder alle stationer fast, så den estimerer intet, medmindre beaconen estimeres: sæt estimate_beacon = true
+
+engine-e-mars-pnt-fusion-od-run-produced-no = fusions-OD-kørslen gav ingen trin (for få observationer)
+
+engine-e-nmea-synth-clock-not-numeric = ikke numerisk
+
+engine-e-nmea-synth-config-scenario-name-must-be-to = scenario.name skal være 1 til 64 tegn fra A-Z a-z 0-9 . _ - og må ikke begynde med et punktum (det navngiver outputfilerne)
+
+engine-e-nmea-synth-config-receiver-parameters-out-of-range = modtagerparametre uden for intervallet (maske 0-45 deg, track <= brugstærskel, 4-12 brugte satellitter, støj >= 0, corr > 0, reacquire >= 0)
+
+engine-e-nmea-synth-config-the-time-change-per-second = tidsændringen pr. sekund når 1, så den rapporterede tid ville standse eller løbe baglæns; forlæng ramp_s/recovery_s eller brug et trin (0)
+
+engine-e-orbit-give-the-user-as-user = angiv brugeren som `user` (en bane) eller `user_site` (et jordsted), ikke begge
+
+engine-e-orbit-missing-the-user-give-user = brugeren mangler: angiv `user` (en bane) eller `user_site` (et jordsted)
+
+engine-e-orbit-skyline-needs-ground-site-give = en [skyline] kræver et jordsted: angiv `user_site = { "{" } lat_deg, lon_deg, height_m { "}" }` i stedet for en kredsende `user` (en bane har intet jordfast azimut)
+
+engine-e-orbit-omm-export-requires-tle-defined = OMM-eksport kræver en TLE-defineret konstellation; dette scenarie har ingen
+
+engine-e-passes-earth-orientation-parameters-out-of = jordorienteringsparametre uden for intervallet: |ut1_minus_utc_s| <= 1, |xp_arcsec| og |yp_arcsec| <= 2
+
+engine-e-pvt-no-priori-position-set-apriori = ingen a priori-position: angiv apriori_ecef, en observationsheaders APPROX POSITION XYZ eller truth_ecef
+
+engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings og coherents kan ikke kombineres med design: sweepet kører hver udformning i filen
+
+engine-e-python-no-designs-to-sweep = ingen udformninger at sweepe
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate = candidate_adev_taus og candidate_adev_values skal have samme længde (>= 2)
+
+engine-e-quantum-trade-provide-either-candidate-adev-taus = angiv enten candidate_adev_taus + candidate_adev_values (målt) eller candidate_clock_class
+
+engine-e-quantum-trade-candidate-adev-taus-and-candidate-2 = candidate_adev_taus og candidate_adev_values skal enten begge være til stede eller begge mangle
+
+engine-e-quantum-trade-timing-threshold-and-position-threshold = timing_threshold_s og position_threshold_m skal være endelige og > 0
+
+engine-e-realdata-clk-rinex-clock-file-is-mixed = RINEX-urfilen er blandet system ('M') og angiver intet TIME SYSTEM ID; nægter at gætte tidsskalaen for dens epoker
+
+engine-e-realdata-ion-sdr-more-than-one-block-only = mere end én <block>: kun filer med ét spor læses
+
+engine-e-realdata-ion-sdr-this-layout-carries-reading-fill = dette layout bærer en aflæsning (fill_lsb_first eller mid_rise), som ION-metadatastandarden ikke har noget felt til; den kan ikke skrives som .sdrx
+
+engine-e-realdata-ion-sdr-the-layout-needs-positive-sample = layoutet kræver en positiv samplingrate og en ratefaktor på mindst 1
+
+engine-e-realdata-lola-dem-unexpected-end-of-dem = uventet slutning på DEM
+
+engine-e-realdata-lugre-not-raw-message = ikke en RAW-besked
+
+engine-e-realdata-lugre-not-an-acq-message = ikke en ACQ-besked
+
+engine-e-realdata-raim-no-priori-position-pass-one = ingen a priori-position: angiv en, eller angiv en observationsheaders APPROX POSITION XYZ
+
+engine-e-receiver-trust-calibration-calibration-window-less-than-the = kalibreringsvinduet er kortere end vagten før, eller ligger inde i, et angrebsvindue
+
+engine-e-receiver-trust-live-live-mode-needs-platform-kind = live-tilstand kræver [platform] kind = "vessel": tillidsscoren gælder en bevægelig platform
+
+engine-e-receiver-trust-machines-rtcm3-the-rtcm-stream-holds-no = RTCM 3-strømmen indeholder ingen MSM4- eller MSM7-observationsbesked
+
+engine-e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes = RTKLIB .pos med positioner i grader-minutter-sekunder læses ikke: kør rnx2rtkp/RTKPOST igen med decimalgrader (-degf 0)
+
+engine-e-receiver-trust-monitors-engine-fix-the-rinex-observation = engine fix: RINEX-observationsheaderen har ingen APPROX POSITION XYZ at starte beregningen fra
+
+engine-e-receiver-trust-monitors-platform-declares-heading-sensor-true = platformen angiver heading_sensor = true, men loggen indeholder ingen HDT-, THS- eller VHW-kurs
+
+engine-e-receiver-trust-scenario-log-imu-the-imu-series = log.imu: IMU-serien overlapper ingen epoke i loggen; kontrollér time_offset_s
+
+engine-e-receiver-trust-scenario-this-surface-does-not-carry = denne flade bærer ikke `[log.imu]`-filen: kør scenariet med `kshana receiver-trust` på værten, eller fjern `[log.imu]`
+
+engine-e-receiver-trust-scenario-log-nav-applies-only-to = log.nav gælder kun for en `rinex`-log: engine fix kræver dens pseudoafstande
+
+engine-e-receiver-trust-score-score-the-geometry-deduction-is = score: geometrifradraget angives i [geometry] (cap_points, full_ratio, floor), ikke i [score.weights]
+
+engine-e-spectrum-recording-is-not-available-in = optagelse er ikke tilgængelig i WebAssembly-buildet: angiv i stedet SigMF-bytes til kshana::sigmf::read og kshana::spectrum::welch_psd
+
+engine-e-ssv-scenario-navigation-noise-and-radiation-pressure = navigation: støj- og strålingstryksværdier må ikke være negative
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of-2 = trajectory: angiv præcis en af duration_min og duration_periods
+
+engine-e-ssv-weak-receiver-pfa-total-and-receiver = receiver.pfa_total og receiver.pd skal være sandsynligheder i (0, 1)
+
+engine-e-suite-suite-manifest-is-missing-title = suite-manifestet mangler en `title`
+
+engine-e-suite-suite-manifest-has-no-scenarios = suite-manifestet har ingen `scenarios`: tilføj en ikke-tom `scenarios = [...]`-array
+
+engine-e-surface-path-sources-are-not-accepted = `path`-kilder accepteres ikke her: angiv loggen inline som `text` eller `base64`
+
+engine-e-surface-input-campaign-names-campaign-folder = { "[" }input] campaign angiver en kampagnemappe, og denne flade læser ingen filer; kampagner læses kun af CLI'en (`kshana iq labfit`), Python (`kshana.iq_labfit`) eller MCP-værktøjet labfit inde i dets IQ-arbejdsmappe
+
+engine-e-surface-bad-merkle-root-hex = ugyldig Merkle-rod-hex
+
+engine-e-surface-merkle-root-must-be-32 = Merkle-roden skal være 32 bytes
+
+engine-e-telecom-timing-csv-path-is-not-available = csv_path er ikke tilgængelig i WebAssembly-buildet; angiv serien inline som `samples`
+
+engine-e-telemetry-cli-otlp-every-needs-whole-number = --otlp-every kræver et helt tal
+
+engine-e-telemetry-cli-registry-poisoned = registry forgiftet
+
+engine-e-telemetry-otlp-https-is-not-supported-by = https understøttes ikke af den indbyggede eksportør; brug en lokal collector over http
+
+engine-e-telemetry-otlp-no-http-status-in-response = ingen HTTP-status i svaret
+
+engine-e-tle-invalid-designator-launch-year-in = ugyldigt opsendelsesår i betegnelsen i TLE
+
+engine-e-tle-invalid-epoch-year-in-tle-2 = ugyldigt epokeår i TLE
+
+engine-e-tle-invalid-epoch-day-in-tle = ugyldig epokedag i TLE
+
+engine-e-adm-record-without-epoch = post uden <EPOCH>
+
+engine-e-adm-ndm-holds-no = <ndm> indeholder ingen <{ $kind }>
+
+engine-e-adm-root-element-is-not = rodelementet <{ $name }> er ikke <{ $kind }>
+
+engine-e-evidence-cli-keygen-needs-out-keyfile = keygen kræver --out <keyfile>
+
+engine-e-evidence-cli-needs-key-keyfile-make-one = kræver --key <keyfile> (lav en med `kshana evidence keygen`)
+
+engine-e-evidence-cli-needs-out-dir = kræver --out <dir>
+
+engine-e-evidence-cli-needs-scenario-bench-scenario = kræver --scenario <bench scenario>
+
+engine-e-evidence-cli-needs-conditions-file = kræver --conditions <file>
+
+engine-e-evidence-tsa-bad-ecdsa-signature = ugyldig ECDSA-signatur
+
+engine-e-evidence-tsa-certificate-signature-failure = fejl i certifikatsignaturen
+
+engine-e-evidence-tsa-unable-to-get-issuer-certificate = kan ikke hente udstederens certifikat
+
+engine-e-evidence-tsa-unable-to-get-local-issuer = kan ikke hente det lokale udstedercertifikat
+
+engine-e-evidence-tsr-gentime-is-not-text = genTime er ikke tekst
+
+engine-e-glonass-bad-year = ugyldigt år
+
+engine-e-glonass-bad-month = ugyldig måned
+
+engine-e-glonass-bad-day = ugyldig dag
+
+engine-e-glonass-bad-hour = ugyldig time
+
+engine-e-glonass-bad-minute = ugyldigt minut
+
+engine-e-gravity-sh-bad-degree = ugyldig grad
+
+engine-e-gravity-sh-bad-order = ugyldig orden
+
+engine-e-interop-testbench-first-line-is-not-resolution = første linje er ikke `RESOLUTION: <ms>`
+
+engine-e-interop-testbench-bad-resolution = ugyldig opløsning
+
+engine-e-iq-signals-galileo-the-galileo-e1-memory-codes = Galileo E1-hukommelseskoderne er ikke medfølgende (ICD'ens vilkår tillader kun videredistribution til ikke-kommercielle formål; se LICENSING.md). Angiv din kopi af ICD Annex C ({ $file }) med { $env }=<path>, eller kør scripts/fetch_galileo_e1_codes.sh i en kildekode-checkout ({ $path }: { $e })
+
+engine-e-jammertest-cli-key-needs-out-dir = --key kræver --out <dir>
+
+engine-e-leo-signal-modulation-expected-flat-mhz = modulation { $label }: forventet FLAT(<MHz>)
+
+engine-e-live-io-listen-takes-tcp-port-or = --listen tager tcp:<port> eller tcp:<addr>:<port>
+
+engine-e-ndm-xml-bad-attribute-in = ugyldig attribut i <{ $name }>
+
+engine-e-ndm-xml-unquoted-attribute-in = attributten { $key } i <{ $name }> står uden anførselstegn
+
+engine-e-ndm-xml-is-not-closed = <{ $name }> er ikke lukket
+
+engine-e-nmea-synth-cli-wait-clients-not-number = --wait-clients: ikke et tal
+
+engine-e-nmea-synth-cli-speed-not-number = --speed: ikke et tal
+
+engine-e-nmea-synth-cli-seed-not-an-integer = --seed: ikke et heltal
+
+engine-e-odm-user-defined-without-parameter = <USER_DEFINED> uden parameter
+
+engine-e-osnma-cli-bad-public-key-id = ugyldigt id for offentlig nøgle
+
+engine-e-osnma-cli-bad-public-key-hex = ugyldig hex for offentlig nøgle
+
+engine-e-realdata-ion-sdr-closing-tag-does-not-match = lukkende tag </{ $name }> matcher ikke <{ $name2 }>
+
+engine-e-realdata-ion-sdr-closing-tag-without-an-opening = lukkende tag </{ $name }> uden et åbnende tag
+
+engine-e-realdata-ion-sdr-attribute-without-value-in = attribut uden værdi i <{ $name }>
+
+engine-e-realdata-ion-sdr-is-not-an-integer = <{ $name }> { $key } er ikke et heltal: { $v }
+
+engine-e-realdata-ion-sdr-chunk-lacks-sizeword = <chunk> mangler sizeword
+
+engine-e-realdata-ion-sdr-chunk-lacks-countwords = <chunk> mangler countwords
+
+engine-e-realdata-ion-sdr-is-not-an-integer-2 = <{ $key }> er ikke et heltal
+
+engine-e-realdata-ion-sdr-ratefactor-is-not-an-integer = <ratefactor> er ikke et heltal
+
+engine-e-realdata-ion-sdr-no-band-with-centerfreq-for = intet <band> med en <centerfreq> til strømmen
+
+engine-e-realdata-ion-sdr-offset-is-not-an-integer = <offset> er ikke et heltal
+
+engine-e-receiver-trust-geometry-geometry-need-hdop-good-hdop = geometry: kræver 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max og used_good >= min_used (fik { $hdop_good }, { $pdop_good }, { $used_good })
+
+engine-e-sp3-bad-epoch-count = ugyldigt epokeantal
+
+engine-e-spectrum-matched-jammer-needs-matched-to = { $name }: en matched jammer kræver matched_to = "<band name>"
+
+engine-e-spectrum-unknown-band-the-spectrum-model = ukendt bånd { $name }: spektrummodellen har { $band_names } og, ved navn, { $more_band_names } (GLONASS-kanaler som glonass-l1of-k<K>, K = -7 til 6); ethvert andet bånd tager                      `signal = "<preset signal>"` eller `centre_mhz` med `modulation` og                      `signal_power_dbw`
+
+engine-e-evidence-assemble-the-log-does-not-state = loggen angiver ikke et læsbart starttidspunkt; angiv sekunder siden den første epoke
+
+engine-e-interop-geojson-no-linestring-found-give-linestring = ingen LineString fundet: angiv en LineString-geometri, en Feature, der indeholder en, eller en FeatureCollection, hvis features indeholder en
+
+engine-e-interop-geojson-the-scenario-has-no-waypoints = scenariet har ingen `waypoints` på 2 eller flere at fordele en rute med to positioner over
+
+engine-e-leo-pnt-chain-the-chain-satellite-is-visible = kædesatellitten er synlig i færre end to epoker eller kun i én elevation; udvid passagevinduet
+
+engine-e-nmea-synth-config-skyline-table-is-required-for = en skyline-tabel er påkrævet (for eksempel skyline = { "{" } preset = "fjord" { "}" })
+
+engine-e-python-prns-must-list-at-least = prns skal angive mindst ét PRN
+
+engine-e-python-design-name-needs-design = design_name kræver design
+
+engine-e-python-bandpass-needs-both-bandpass-lo = bandpass kræver både bandpass_lo og bandpass_hi
+
+engine-e-python-token-text-is-not-base64 = token-teksten er ikke base64
+
+engine-e-python-unix-nano-must-be-between = unix_nano skal ligge mellem 0 og 2**64 - 1
+
+engine-e-wasm-token-base64-is-not-base64 = token_base64 er ikke base64
+
+engine-e-wasm-log-base64-is-not-base64 = log_base64 er ikke base64
+
+engine-e-wasm-input-base64-is-not-base64 = input_base64 er ikke base64
+
+engine-e-wasm-seed-must-be-non-negative = seed skal være et ikke-negativt heltal
+
+engine-e-wasm-runs-json-must-be-an = runs_json skal være en array af { "{" }label, result, scenario?{ "}" }
+
+engine-e-nmea-synth-stream-no-udp-address = ingen UDP-adresse
+
+engine-e-realdata-llr-crd-short-normal-point-11-record = for kort normal-point-post (11)
+
+engine-e-realdata-llr-crd-normal-point-record-appeared-before = en normal-point-post optrådte før sin h2/h3/h4-sessionsheader
+
+engine-e-gravity-sh-line-bad-coefficient-non-finite = linje { $lineno }: ugyldig koefficient (ikke endelig)
+
+engine-e-interop-time-extra-fields-utc = ikke et UTC-tidspunkt `YYYY-MM-DDTHH:MM:SS`: ekstra felter: { $text }
+
+engine-e-interop-time-year-outside-2000-to-2099-utc = ikke et UTC-tidspunkt `YYYY-MM-DDTHH:MM:SS`: år uden for 2000 til 2099: { $text }
+
+engine-e-interop-time-month-outside-to-12-utc = ikke et UTC-tidspunkt `YYYY-MM-DDTHH:MM:SS`: måned uden for 1 til 12: { $text }
+
+engine-e-interop-time-day-does-not-exist-in-utc = ikke et UTC-tidspunkt `YYYY-MM-DDTHH:MM:SS`: dagen findes ikke i den måned: { $text }
+
+engine-e-interop-time-hour-above-23-utc = ikke et UTC-tidspunkt `YYYY-MM-DDTHH:MM:SS`: time over 23: { $text }
+
+engine-e-interop-time-minute-above-59-utc = ikke et UTC-tidspunkt `YYYY-MM-DDTHH:MM:SS`: minut over 59: { $text }
+
+engine-e-interop-time-seconds-outside-60-utc = ikke et UTC-tidspunkt `YYYY-MM-DDTHH:MM:SS`: sekunder uden for [0, 60): { $text }
+
+engine-e-mcp-budget-work-budget-exceeded-for-call = arbejdsbudgettet er overskredet for et kald gennem MCP-serveren: { $errors }. Kør store studier med kommandolinjen `kshana`.
+
+engine-e-mcp-iq-the-iq-sample-budget-must = IQ-samplebudgettet skal være mindst 1
+
+engine-e-mcp-iq-an-empty-path-was-given = der blev angivet en tom sti
+
+engine-e-mcp-iq-rate-hz-must-be-positive = rate_hz skal være et positivt tal
+
+engine-e-mcp-iq-duration-must-be-positive-number = duration_s skal være et positivt tal
+
+engine-e-mcp-iq-broadcast-mode-nav-needs-rx = broadcast-tilstand (nav) kræver rx_pos [lat, lon, alt]
+
+engine-e-mcp-iq-scene-needs-signal-or-nav = en scene kræver `signal` (eller `nav` til broadcast-tilstand)
+
+engine-e-mcp-iq-scene-needs-at-least-one = en scene kræver mindst ét PRN i `prns`
+
+engine-e-mcp-iq-surface-out-exports-one-surface = surface_out eksporterer én flade: angiv præcis ét PRN
+
+engine-e-mcp-iq-surface-out-must-end-in = surface_out skal ende på .csv, .json eller .bin
+
+engine-e-mcp-iq-max-seconds-must-be-positive = max_seconds skal være et positivt tal
+
+engine-e-mcp-iq-epochs-out-must-end-in = epochs_out skal ende på .csv, .jsonl eller .bin (formatet følger endelsen)
+
+engine-e-mcp-iq-out-must-differ-from-input = out skal være forskellig fra input
+
+engine-e-mcp-iq-pll-bws-hz-dll-bws = pll_bws_hz, dll_bws_hz, spacings_chips og coherents kan ikke kombineres med design: sweepet kører hver udformning i filen
+
+engine-e-mcp-iq-signal-and-prns-go-together = signal og prns hører sammen
+
+engine-e-mcp-iq-iq-work-directory = IQ-arbejdsmappe { $dir }: { $e }
+
+engine-e-mcp-iq-iq-work-directory-is-not = IQ-arbejdsmappe { $dir } er ikke en mappe
+
+engine-e-mcp-iq-iq-file-tools-are-off = IQ-filværktøjerne er slået fra: { $reason }
+
+engine-e-mcp-iq-output-does-not-name-file = outputtet `{ $rel }` angiver ikke en fil
+
+engine-e-mcp-iq-output-its-folder = output `{ $rel }`: dets mappe: { $e }
+
+engine-e-mcp-iq-output-is-symlink-refusing-to = outputtet `{ $shown }` er et symlink; nægter at skrive
+
+engine-e-mcp-iq-output-already-exists-pass-overwrite = outputtet `{ $shown }` findes allerede; angiv overwrite: true for at erstatte det
+
+engine-e-mcp-iq-output-exists-and-is-not = outputtet `{ $shown }` findes og er ikke en fil
+
+engine-e-mcp-iq-its-data-file-lies-outside = { $path }: dens datafil ligger uden for IQ-arbejdsmappen
+
+engine-e-mcp-iq-lies-outside-the-iq-work = { $path } ligger uden for IQ-arbejdsmappen
+
+engine-e-mcp-iq-input-campaign-the-campaign-folder = { "[" }input] campaign `{ $rel }`: { $message }; kampagnemappen skal være en eksisterende mappe inde i IQ-arbejdsmappen
+
+engine-e-mcp-iq-out-dir-does-not-name = out_dir `{ $rel }` angiver ikke en mappe
+
+engine-e-mcp-iq-is-samples-and-one-call = { $what } er { $samples } samples, og ét kald må højst behandle { $max_samples } ({ $env }); { $remedy }
+
+engine-e-mcp-iq-threads-must-be-to = threads skal være 1 til { $max_threads }
+
+engine-e-mcp-iq-truth-format-must-be-csv = truth_format skal være csv eller jsonl (fik { $other })
+
+engine-e-mcp-iq-surface-out-would-hold-about = surface_out ville indeholde omkring { $cells } celler (Doppler-bins × samples pr. kodeperiode; grænse { $max_cells }, omkring { $mb } MB som binær): udvid doppler_step_hz eller indsnævr doppler_max_hz
+
+engine-e-mcp-iq-no-campaign-here = { $out_dir }: ingen kampagne her ({ $e })
+
+engine-e-mcp-iq-design-prn-channels-at-most = { $n_channels } (udformning, PRN)-kanaler; højst 256 pr. sweep
+
+engine-e-mcp-iq-test-conditions-invalid = testbetingelserne er ugyldige: { $e }
+
+engine-e-mcp-iq-labfit-failed = labfit mislykkedes: { $e }
+
+engine-e-mcp-marine-give-exactly-one-of-log = angiv præcis en af `log` og `log_base64`
+
+engine-e-mcp-marine-at-most-366-maps-per = højst 366 kort pr. kald
+
+engine-e-mcp-marine-mode-symbols-needs-symbols = tilstanden `symbols` kræver `symbols`
+
+engine-e-mcp-marine-vessel-stream-assessment-failed = vurderingen af fartøjsstrømmen mislykkedes: { $e }
+
+engine-e-mcp-marine-jammertest-import-failed = jammertest-importen mislykkedes: { $e }
+
+engine-e-mcp-marine-jammertest-score-failed = jammertest-scoringen mislykkedes: { $e }
+
+engine-e-mcp-marine-vessel-log-assessment-failed = vurderingen af fartøjsloggen mislykkedes: { $e }
+
+engine-e-mcp-marine-training-scenario-failed = træningsscenariet mislykkedes: { $e }
+
+engine-e-mcp-marine-evidence-pack-failed = bevispakken mislykkedes: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over = pakken er { $size } bytes, over svargrænsen på { $max_bytes } bytes; indsnævr vinduet, eller brug `kshana receiver-trust evidence` på kommandolinjen
+
+engine-e-mcp-marine-round-trip-pack-failed = rundturspakken mislykkedes: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-2 = pakken er { $size } bytes, over svargrænsen på { $max_bytes } bytes; indsnævr vinduet, eller brug `kshana evidence round-trip` på kommandolinjen
+
+engine-e-mcp-marine-files-are-over-the-byte = filerne overskrider grænsen på { $max_bytes } bytes
+
+engine-e-mcp-marine-full-log-is-over-the = full_log overskrider grænsen på { $max_bytes } bytes
+
+engine-e-mcp-marine-interference-map-failed = interferenskortet mislykkedes: { $e }
+
+engine-e-mcp-marine-the-map-is-bytes-over = kortet er { $total } bytes, over svargrænsen på { $max_bytes } bytes; brug en grovere cell_deg, færre dage eller `kshana interference-map` på kommandolinjen
+
+engine-e-mcp-marine-route-exposure-failed = ruteeksponeringen mislykkedes: { $e }
+
+engine-e-mcp-marine-compliance-report-failed = compliance-rapporten mislykkedes: { $e }
+
+engine-e-mcp-marine-standards-pack-failed = standardpakken mislykkedes: { $e }
+
+engine-e-mcp-marine-lunanet-afs-check-failed = lunanet-afs-check mislykkedes: { $e }
+
+engine-e-mcp-marine-mode-must-be-spec-symbols = mode skal være spec, symbols eller generate (fik { $other })
+
+engine-e-mcp-marine-benchmark-scoring-failed = benchmark-scoringen mislykkedes: { $e }
+
+engine-e-mcp-marine-leaderboard-failed = leaderboardet mislykkedes: { $e }
+
+engine-e-mcp-marine-test-bench-export-failed = test-bench-eksporten mislykkedes: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-3 = pakken er { $size } bytes, over svargrænsen på { $max_bytes } bytes
+
+engine-e-mcp-server-give-exactly-one-of-request = angiv præcis en af `request` (en sky-geometry-forespørgsel) eller `skyline_preset` (et preset-navn, eller en tom streng for at liste dem)
+
+engine-e-mcp-server-receiver-log-assessment-failed = vurderingen af modtagerloggen mislykkedes: { $e }
+
+engine-e-mcp-server-unknown-scenario-kind-list-scenario = ukendt scenarie-kind `{ $k }`; list_scenario_kinds navngiver alle kinds
+
+engine-e-mcp-server-unknown-report-format-expected-json = ukendt rapportformat `{ $format }`; forventet json eller html
+
+engine-e-mcp-server-report-failed = rapporten mislykkedes: { $e }
+
+engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps giver { $n_frames } frames, og et svar rummer højst { $max_frames }; sænk fps eller duration_s, eller skriv en længere sekvens med kommandolinjen (`kshana <scenario.toml> --animate frames`)
+
+engine-e-mcp-server-route-import-failed = ruteimporten mislykkedes: { $e }
+
+engine-e-mcp-server-sp3-export-failed = SP3-eksporten mislykkedes: { $e }
+
+engine-e-mcp-server-omm-export-failed = OMM-eksporten mislykkedes: { $e }
+
+engine-e-mcp-server-oem-export-failed = OEM-eksporten mislykkedes: { $e }
+
+engine-e-mcp-server-scenario-kind-publishes-no-csv = scenarie-kind'en `{ $kind }` udgiver ingen CSV-tabel; kun { $kinds } gør
+
+engine-e-mcp-server-unknown-skyline-preset-known-presets = ukendt skyline-preset "{ $name }"; kendte presets: { $presets }
+
+engine-e-mcp-server-the-tool-call-did-not = værktøjskaldet blev ikke færdigt: { $e }
+
+engine-e-mcp-server-the-server-is-at-its-concurrent-work-limit = serveren er ved sin grænse for samtidigt arbejde (tidligere kald kører stadig); prøv igen om lidt
+
+engine-e-mcp-server-the-work-pool-is-closed = arbejdspuljen er lukket
+
+engine-e-mcp-iq-no-work-directory = ingen arbejdsmappe
+
+engine-e-mcp-iq-input = input `{ $rel }`: { $e }
+
+engine-e-mcp-iq-input-is-not-file = input `{ $rel }` er ikke en fil
+
+engine-e-mcp-iq-input-campaign-is-not-folder = { "[" }input] campaign `{ $rel }` er ikke en mappe
+
+engine-e-mcp-iq-out-dir-is-not-folder = out_dir `{ $rel }` er ikke en mappe
+
+engine-e-mcp-iq-out-dir = out_dir `{ $rel }`: { $e }
+
+engine-e-mcp-iq-iq-failed = iq { $args } mislykkedes: { $m }
+
+engine-e-adm-attitudestate-without = <attitudeState> uden <{ $tag }>
+
+engine-e-bench-cli-is-required = { $flag } er påkrævet
+
+engine-e-bench-cli-is-empty = { $p } er tom
+
+engine-e-evidence-tsa-bad-256-key = ugyldig P-256-nøgle
+
+engine-e-evidence-tsa-bad-384-key = ugyldig P-384-nøgle
+
+engine-e-interop-no-iq-block = ingen [iq]-blok
+
+engine-e-ndm-xml-closes = </{ $close }> lukker <{ $name }>
+
+engine-e-odm-unexpected-in-data = uventet <{ $name }> i <data>
+
+engine-e-odm-unsupported-in-ocm-data = ikke understøttet <{ $name }> i OCM <data>
+
+engine-e-realdata-ion-sdr-no-stream-element = intet <stream>-element
+
+engine-e-realdata-ion-sdr-is-not-number = <{ $name }> er ikke et tal: { $text }
+
+engine-e-realdata-ion-sdr-no-chunk-element = intet <chunk>-element
+
+engine-e-realdata-ion-sdr-stream-lacks = <stream> mangler <{ $key }>
+
+engine-e-realdata-ion-sdr-no-system-element = intet <system>-element
+
+engine-e-realdata-ion-sdr-no-file-with-url = ingen <file> med en <url>
+
+engine-e-surface-give-string-utf8-or-base64 = { $k }: angiv en streng, { "{" }"utf8": ...{ "}" } eller { "{" }"base64": ...{ "}" }
+
+engine-e-realdata-llr-crd-short-h1-record = for kort h1-post
+
+engine-e-realdata-llr-crd-short-h2-record = for kort h2-post (station)
+
+engine-e-realdata-llr-crd-short-h3-record = for kort h3-post (mål)
+
+engine-e-realdata-llr-crd-short-h4-record = for kort h4-post (session)
+
+engine-e-mcp-main-needs-value = { $a } kræver en værdi
+
+engine-main-usage =
+    brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
+    { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
+    { "   " }eller: kshana --study <suite.toml>
+    { "   " }eller: kshana --validate <scenario.toml>
+    { "   " }eller: kshana receiver-trust <scenario.toml>
+    { "   " }eller: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+    { "   " }eller: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }eller: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+    { "   " }eller: kshana jammertest <import|score> ... (kshana jammertest --help)
+    { "   " }eller: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+    { "   " }eller: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+    { "   " }eller: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }eller: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
+    { "   " }eller: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+    { "   " }eller: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+    { "   " }eller: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }eller: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+    { "   " }eller: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+    { "   " }eller: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+    { "   " }eller: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+    { "   " }eller: kshana partner check <submission.toml> [--json]
+    { "   " }eller: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }eller: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+    { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }eller: kshana kinds [--json]
+    { "   " }eller: kshana example [<name>]
+    { "   " }eller: kshana --help | --version
+
+engine-main-usage-sky =
+    brug: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+    { "   " }eller: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+    { "                  " }[--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+    { "                  " }[--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+    { "                  " }[--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
+
+    Udskriver de satellitter, stedet ser under skylinen, deres DOP, den øst-nord-op-baserede kofaktor
+    og kovarians samt den horisontale fejlellipse som JSON (sky_geometry); med --monte-carlo,
+    n (højst 5000) seedede mindste kvadraters fejl (sky_monte_carlo); med --svg, skyplottet.
+    Systemer er engine-presets (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
+    en repræsentativ geometri, ikke himlen på en dato et givet sted. --tle læser tolinjers
+    elementsæt (højst 4 MiB) og propagerer dem med SGP4 til --epoch (UTC) plus --time: den himmel, disse
+    elementsæt giver på den epoke, ikke en måling. Uden --epoch går de til det nyeste
+    elementsæts epoke, en repræsentativ himmel. MODELLED; docs/SKYLINE.md.
+
+engine-main-usage-skyline =
+    brug: kshana skyline --preset <name> [--json]
+    { "   " }eller: kshana skyline --presets
+    { "   " }eller: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Udskriver et skyline-preset (city-street, harbour-approach, fjord, container-terminal) med dets
+    proveniens og snittet for hver grad af azimut, listen over presets eller en skyline-sektion
+    reduceret til den tabel med 360 poster, som engine'en bruger. REPRESENTATIVE presets; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    brug: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }eller: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }eller: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Fastlåst til LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025). `spec` kontrollerer denne implementering mod dokumentets trykte kodetabeller
+    og gennemregnede eksempler (tærsklerne B1 til B10 i xval/lunanet-afs/PREREGISTRATION.md; med --strict
+    er exitstatus 1, medmindre hver tærskel er nået). `symbols` kontrollerer en hård-beslutnings-symbolstrøm
+    (tekst med 0 og 1) for synkroniseringsmønsteret, SB1-afkodning, FID, TOI-kontinuitet og
+    rammeafstand; underrammerne 2 til 4 (LDPC, CRC-24Q) verificeres IKKE. `generate` skriver en teststrøm af
+    symboler med pladsholder-underrammer; den er ikke en bølgeform, og Kshana skriver intet signal. For at
+    opfange eller spore AFS-bølgeformen i en optagelse brug `kshana iq acquire --signal lunanet-afs-i`
+    (eller lunanet-afs-q). Kun vejledende. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    brug: kshana standards-pack list
+    { "   " }eller: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }eller: kshana standards-pack rows <id>
+    { "   " }eller: kshana standards-pack tests <id>
+
+    En standardpakke er et sæt scenarier, der scores mod tærskler fastsat før kørslen, knyttet til de
+    compliance-report-rækker, den leverer belæg for. `run` udskriver en tabel (eller --json) og skriver, med
+    --out, <base>.pack.json og <base>.pack.md; giv JSON'en til `kshana compliance-report`
+    for at se rækkerne. En test, der kræver en modtagerlog, vises som NEEDS INPUT og scores ikke.
+    MODELLED: en MET-tærskel siger, at et modelleret scenarie nåede en angivet tærskel, ikke at noget produkt opfylder et
+    krav. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: gælder
+
+engine-main-wrote = skrev { $path }
+
+engine-main-note = bemærk: { $n }
+
+engine-main-error-example-extra-argument = fejl: uventet argument '{ $extra }' efter `example <name>`; den tager ét navn
+
+engine-main-lunanet-afs-generate-needs = generate kræver --frames <n> og --out <file> (og et helt tal som --toi0)
+
+engine-evidence-cli-usage =
+    brug:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      exit 0 verificeret, 1 mislykket, 3 intakt men underskriver ikke fastlåst
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(læser RFC 3161-tokenet og binder det til manifestet; den verificerer IKKE tidsstempelmyndighedens
+    { "      " }signatur: brug `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(forbinder scenariet, laboratoriets testbetingelser, modtagerloggen og dens score; den
+    { "      " }<scenario.toml> er receiver-trust-scoringsscenariet; skriver intet signal)
+    { "  " }<t0>/<t1>: sekunder siden loggens første epoke eller et ISO-8601 UTC-tidspunkt, når loggen
+    { "  " }angiver sit starttidspunkt. En pakke er en teknisk optegnelse, ikke en juridisk udtalelse.
+
+engine-evidence-cli-fingerprint = fingeraftryk: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }fejl: { $f }
+
+engine-evidence-cli-verify-note = { "  " }bemærkning: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: hver hash, kæden og signaturen er i orden for den nøgle, du angav.
+
+engine-evidence-cli-verified-unpinned = VERIFIED mod den nøgle, pakken selv angiver, fingeraftryk { $fp } (underskriver IKKE fastlåst; angiv --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: hashene og signaturen er konsistente med nøglen { $fp }, som pakken selv angiver. Angiv --pubkey <signer public key> for at fastslå, hvem der har underskrevet den (eller --allow-unpinned for at acceptere dette bevidst).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: se fejlene ovenfor.
+
+engine-evidence-cli-attached = tilknyttede { $path }
+
+engine-evidence-cli-verify-with = verificér med: kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    brug: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }eller: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }eller: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+    { "   " }eller: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }eller: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom kræver også --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = brug: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = dato
+
+engine-interference-map-cli-col-src = kilde
+
+engine-interference-map-cli-col-degraded = forringet
+
+engine-interference-map-cli-col-not-degraded = ikke forringet
+
+engine-interference-map-cli-col-unassessed = ikke vurderet
+
+engine-interference-map-cli-col-not-observed = ikke observeret
+
+engine-bench-cli-usage =
+    brug: kshana bench spec
+    { "   " }eller: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }eller: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }eller: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }eller: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }eller: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }eller: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }eller: kshana bench validate <result.json>...
+    { "   " }eller: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (ingen inputs: tomtilstanden; --fragment: en indlejrbar sektion)
+    { "   " }(en seed-fil rummer hemmeligheden bag et forseglet tilbageholdt datasæt; hold den uden for versionsstyring)
+
+engine-bench-cli-match = match
+
+engine-bench-cli-valid = { $f }: gyldig
+
+engine-bench-cli-folders = { $n ->
+        [one] { $n } mappe
+       *[other] { $n } mapper
+    }
+
+engine-bench-cli-unpinned = ikke fastlåst: { $rel }
+
+engine-bench-cli-missing = mangler: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+engine-osnma-cli-usage =
+    brug: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    I/NAV-sider: det almindelige format (se docs/OSNMA.md) eller
+    { "                             " }CSV-layoutet for de offentliggjorte testvektorer
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }inputlayout (standard: efter filindhold). ubx er en u-blox-
+    { "                             " }bytestrøm med UBX-RXM-SFRBX-beskeder (Galileo E1-B)
+    { "  " }--start-gst SECONDS        starttidspunkt for en vektor-CSV i GST-sekunder
+    { "                             " }(standard: læses fra et filnavn som 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          betroet Merkle-rod (64 hex-cifre) til DSM-PKR-kontroller
+    { "  " }--public-key ID:TYPE:HEX   betroet offentlig nøgle, TYPE p256 eller p521, komprimeret punkt
+    { "  " }--reference-time SECONDS   nuværende tid i GST-sekunder fra en uafhængig kilde. Ét enkelt
+    { "                             " }tidspunkt: underrammer længere fra det end tolerancen lægges
+    { "                             " }til side, så brug den til live- eller netop optagede data
+    { "  " }--max-time-error SECONDS   største afstand mellem en underramme og referencetiden, under
+    { "                             " }30 (standard 29); kræver --reference-time
+    { "  " }--epochs                   udskriv også hvert tagresultat
+    { "  " }--json                     udskriv JSON i stedet for tekst
+
+    Exitstatus: 0 udført, 2 brugs- eller inputfejl, 3 en kontrol af en satellits data mislykkedes.
+
+engine-iq-cli-usage =
+    brug: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }eller: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }eller: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }eller: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (default auto, ≈4 ms coherent)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }eller: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }eller: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }eller: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }eller: kshana iq campaign report <out-dir>
+    { "   " }eller: kshana iq conditions <test-conditions.toml|json>
+    { "   " }eller: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }eller: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }labfit-scenarier: [[runs]] af modtagerlogs eller [input] campaign = "<out-dir>", der angiver en outputmappe fra kshana iq campaign (relativ til scenariefilen)
+    { " " }løkkeudformninger: en kshana.loop-design/1 TOML-fil (docs/design/LOOP-DESIGN-TOML.md); eksplicitte løkke-/akvisitionsflag tilsidesætter den valgte udformning
+    { " " }acquire/track/sweep tager også front-end-flagene [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], anvendt før behandlingen (på akvisitionen og sporingspasset ens)
+    { " " }scene-kanalknapper: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }scene-C/N0-profil: [--cn0-profile <toml>] tidsvarierende C/N0-forskydninger pr. satellit (trin, rampe, punkter, fading), anvendt over kanalen; sandhedens cn0_dbhz følger den
+    { " " }optagelser/rå inputs uden sidecar tager også: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; multistrøm-inputs tager --channel <k>
+    { " " }signaler: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> er en kommasepareret liste (én pr. --prn, eller en enkelt værdi anvendt på alle)
+
+engine-iq-cli-usage-error = brugsfejl: { $m }
+
+engine-iq-io-cli-usage =
+    brug: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }eller: kshana iq info <recording>
+    { "   " }eller: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }eller: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }eller: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }rå inputs uden sidecar tager også: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }multistrøm-inputs (flerkanals SigMF, interleaved rå) tager --channel <k> (fra 0; standard 0)
+    { " " }formater: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit i 16 ci12r_le ci12l_be cu12r_le ..., pakket 4-bit ci4_msb cu4_lsb ..., pakket 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit pr. byte c2sm_byte ..., reel r..., Q først ..._qi
+
+engine-telemetry-cli-usage =
+    brug: kshana trust-telemetry [options]
+    { "  " }input (standard: JSON-linjer på stdin):
+    { "    " }--input <file|->         læs JSON-linjer fra en fil, eller `-` for stdin
+    { "    " }--result <result.json>   afspil epokerne fra en `kshana receiver-trust`-resultatfil
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     servér /metrics (standard 127.0.0.1:9464, når intet andet output er valgt)
+    { "    " }--print-metrics          udskriv den endelige eksposition til stdout ved inputtets slutning
+    { "    " }--hold                   bliv ved med at servere, efter inputtet er slut
+    { "    " }--expose-position        udgiv også den position, modtageren rapporterer, som gauges (slået fra som standard)
+    { "  " }syslog (CEF eller LEEF i en RFC 5424-kuvert):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  ramm TCP-beskeder ind med octet counting (RFC 6587), ikke én pr. linje
+    { "    " }--format cef|leef        nyttelastdialekt (standard cef)
+    { "    " }--syslog-all             én hændelse pr. epoke (standard: én pr. båndskift)
+    { "    " }--host <name>            enhedens værtsnavn i hændelser (standard `kshana`)
+    { "  " }Home Assistant / NTP-appliance (JSON-tilstand + MQTT-discovery; kun udgivelse, ingen legitimationsoplysninger eller TLS):
+    { "    " }--mqtt-tcp <host:port>   udgiv til en lokal MQTT 3.1.1-broker (retained-beskeder, QoS 0)
+    { "    " }--print-mqtt             udskriv beskederne som `topic<TAB>payload`-linjer
+    { "    " }--mqtt-prefix <p>        præfiks for tilstandstopic (standard kshana/trust); --mqtt-node <id> (standard kshana)
+    { "    " }--mqtt-discovery <p>     Home Assistant-discovery-præfiks (standard homeassistant)
+    { "  " }OpenTelemetry (byg med --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (standard 10)
+
+engine-jammertest-cli-usage =
+    brug:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    Planen og kataloget er de offentliggjorte NPRA/jammertest-plan JSON-filer (MIT; hent dem med
+    xval/jammertest-plan/fetch.sh). Plantider er lokal vægtid; --local-offset-h (standard 2, CEST)
+    angiver, hvor langt de ligger fra UTC. Attack_log-stemplerne i JammerTest 2024-datasættet siger Z, men er lokal
+    tid: --time-shift-h er som standard -2. Hændelser er planlagt sandhed, ikke optagne tidspunkter i luften.
+    Vejledende software, ikke typegodkendt navigationsudstyr.
+
+engine-nmea-synth-cli-usage =
+    brug: kshana nmea-scenario <scenario.toml> [options]
+
+    Skriver eller streamer et syntetisk NMEA 0183-sæt for en bro (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    for et fartøjsspor med scriptede jamming-/spoofing-hændelser og en instruktørlog.
+    Kun til træning og test: føj det aldrig til et fartøjs levende navigationssystemer.
+
+    options:
+    { "  " }--out <file.nmea>          skriv strømmen til en fil (standard <name>.nmea, når intet
+    { "                             " }netværksoutput er angivet)
+    { "  " }--instructor-log <prefix>  skriv <prefix>.json og <prefix>.txt (standard: ved siden af
+    { "                             " }filen, ellers <name> i den aktuelle mappe)
+    { "  " }--tcp <addr:port|port>     servér strømmen over TCP (venter først på en klient); en bar
+    { "                             " }port lytter kun på 127.0.0.1. Der er ingen autentificering:
+    { "                             " }enhver, der kan nå adressen, kan læse strømmen
+    { "  " }--udp <addr:port|port>     send én sætning pr. UDP-datagram til denne adresse; en bar
+    { "                             " }port sender til 127.0.0.1
+    { "  " }--broadcast                tillad --udp at bruge en broadcast-adresse
+    { "  " }--wait-clients <n>         klienter at vente på, før TCP-strømmen starter (standard 1)
+    { "  " }--realtime                 tempo i realtid (standard for netværksoutput)
+    { "  " }--speed <x>                tempo på x gange realtid; 0 er så hurtigt som muligt
+    { "                             " }(standard for filer)
+    { "  " }--seed <n>                 erstat scenariets seed
+    { "  " }--no-marker                udelad markørsætningen for syntetiske data
+
+engine-live-io-usage =
+    brug: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Læser NMEA 0183 (stdin som standard), scorer hver epoke af et fartøjs positionsbestemmelse 0-100 og skriver én
+    JSON-linje pr. epoke (stdout som standard). Med --gate sendes NMEA-strømmen i stedet videre på stdout,
+    uændret, mens positionsbestemmelsen er betroet, og med positionsbestemmelsen markeret ugyldig, mens den ikke er det, hver
+    cyklus efterfulgt af en $PKSHT-sætning; JSON'en går da kun derhen, hvor --json siger. Sessionen er et
+    scenarie .toml med en [platform] kind = "vessel"; dens [log]-tabel er ikke nødvendig.
+
+    --listen (med --gate) serverer den gatede strøm til et vilkårligt antal TCP-klienter (for eksempel en kortplotter)
+    i stedet for at skrive den til stdout; standardadressen er loopback. En klient, der
+    ikke kan følge med, droppes, så den aldrig holder de andre eller inputtet op.
+
+    Modtagerens tid kontrolleres også mod denne computers ur, hvilket kun giver mening for
+    en strøm, der ankommer i realtid; for en gemt log, der fødes ind hurtigere end det (stdin, tcp, udp), angiv
+    --replay, og en almindelig --file (uden --follow) gør det allerede.
+
+    --serial læser en seriel eller USB-enhed (kun Unix), skrivebeskyttet: den åbner enheden til læsning, sætter
+    den lokale linje i råtilstand ved --baud (standard 4800, NMEA 0183-raten) og skriver aldrig en byte til
+    modtageren. Kshana konfigurerer ikke modtagere; sæt modtageren til at udsende NMEA med dens eget værktøj.
+
+    Dette er vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren
+    er fortsat ansvarlig for fartøjets navigation.
+
+engine-tle-warning = advarsel: { $w }
+
+engine-e-animation-no-time-series-to-animate = ingen tidsserie at animere: { $k }-resultatet bærer ingen samplet tidsakse (se docs/ANIMATION.md for de former, eksportøren genkender)
+
+engine-animation-svg-sub = kind { $kind } · { $t0 } til { $t1 } · samples fra result.json, tegnet uden resampling · Kshana { $version }
+
+engine-animation-svg-strip-events = hændelser
+
+engine-animation-svg-strip-phases = faser
+
+engine-animation-svg-waterfall = vandfald: { $title } [{ $unit }], tiden løber nedad, farve { $lo } til { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = epokeindeks
+
+engine-animation-svg-desc = Animeret tidsserie af en { $kind }-kørsel: { $n_panels } panel(er), { $n_events } hændelse(r), { $n_phases } fase(r). Hvert punkt er en sample fra kørslens result.json.
+
+engine-animation-html-title = { $title } — Kshana-animation
+
+engine-animation-html-sub = kind { $kind } · { $n } serier fra result.json, tegnet uden resampling · Kshana { $version }
+
+engine-animation-html-playback = Afspilning
+
+engine-animation-html-play = Afspil
+
+engine-animation-html-pause = Pause
+
+engine-animation-html-mission-time = Missionstid
+
+engine-animation-html-speed = hastighed
+
+engine-animation-html-playback-speed = Afspilningshastighed
+
+engine-animation-html-events = Hændelser
+
+engine-animation-html-footer-keys = Mellemrum afspiller eller pauser, piletasterne træder, Home og End springer. Dette er en gengivelse af kørslens egne samples: den er præcis lige så god som kørslen og tilføjer intet belæg (MODELLED, intern konsistens).
+
+engine-animation-html-footer-determinism = Samme scenarie, seed og indstillinger giver en byte-identisk fil.
+
+engine-animation-html-exports-heading = Eksporter skrevet ved siden af denne afspiller
+
+engine-animation-js-phases-and-events = faser og hændelser
+
+engine-animation-js-waterfall = vandfald: { $title } [{ $unit }], tiden løber nedad
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = fase: { $name }
+
+engine-e-evidence-bundle-bad-log-slice = ugyldigt logudsnit: { $s }
+
+engine-e-evidence-bundle-bad-window = ugyldigt vindue: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = ugyldigt oprettelsestidspunkt: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = ugyldigt tidsstempeltoken: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = kan ikke serialisere: { $s }
+
+engine-e-osnma-page-not-valid-hex = siden er ikke gyldig hex
+
+engine-e-osnma-page-time-outside-week-number = sidens tid ligger uden for de 4096 uger i et Galileo-ugenummer
+
+engine-e-osnma-page-bad-length = siden har { $n } hex-cifre, forventet 60
+
+engine-e-osnma-page-malformed-line = fejlformet sidelinje: { $s }
+
+engine-e-interchange-encode-payload = kunne ikke kode nyttelasten: { $e }
+
+engine-e-interchange-invalid-envelope = ikke en gyldig udvekslingskuvert: { $e }
+
+engine-e-interchange-not-kshana-artifact = ikke et Kshana-artefakt: formatet er { $found }, forventet { $expected }
+
+engine-e-interchange-incompatible-schema-version = uforenelig skemaversion { $v } ({ $verdict }); denne engine taler { $current }
+
+engine-e-interchange-payload-mismatch = nyttelasten svarede ikke til den ønskede type: { $e }
+
+engine-e-interop-not-applicable = ikke relevant: { $why }
+
+engine-e-iq-io-error = I/O-fejl: { $m }
+
+engine-e-iq-format-error = formatfejl: { $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }: PRN { $prn } er ikke defineret af ICD'en
+
+engine-e-iq-signals-glonass-channel-outside = GLONASS-frekvenskanal { $k } ligger uden for -7..=6
+
+engine-e-iq-signals-code-table = kodetabel: { $m }
+
+engine-e-kepler-out-of-domain = Kepler-ligningen: M eller e uden for definitionsområdet
+
+engine-e-kepler-no-convergence = Kepler-ligningen konvergerede ikke på { $iters } trin (residual { $residual })
+
+engine-e-lunar-orientation-epoch-outside-series = epoke { $t } julianske århundreder fra J2000 ligger uden for DE440-rækken for lunar orientering ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+engine-e-propagator-sgp4-error = SGP4-propageringsfejl (kode { $code })
+
+engine-e-integrator-dop853-stopped = DOP853 stoppede ved t = { $t } ({ $failure }) efter { $accepted } trin
+
+engine-e-portable-distr-variance-non-finite = variansen er ikke endelig i normalfordelingen
+
+engine-e-portable-distr-shape-not-positive = shape er ikke positiv i gammafordelingen
+
+engine-e-portable-distr-scale-not-positive = scale er ikke positiv i gammafordelingen
+
+engine-bench-tasks-clock-line-before-header = en urlinje står før en `@<PRN>`-header
+
+engine-api-html-clock = Ur
+
+engine-api-html-fom-heading = Kvalitetsmål
+
+engine-api-html-metric = Mål
+
+engine-api-html-value = Værdi
+
+engine-api-html-validation = Validering
+
+engine-api-html-tier-note = Hvert kvalitetsmål er mærket VALIDATED (kontrolleret mod en ekstern reference) eller MODELLED (fra første principper, internt testet), udledt af verifikationsmatricen.
+
+engine-api-html-default-title = Kshana — scenarieresultat
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · det præcise øjeblik
+
+engine-api-html-tagline = Scorecard for hybrid kvante-/klassisk PNT-ydeevne
+
+engine-api-html-chart-alt = Resultatdiagram
+
+engine-api-html-full-result = Fuldt resultat (JSON)
+
+engine-api-html-footer-generated = Genereret af Kshana { $version }.
+
+engine-api-html-footer-licence = Kan genskabes fra scenarie + seed + engine-version. Gratis og open source (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">kildekode &amp; dokumentation</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: Model Context Protocol-server til Kshana PNT-resilienssimulatoren.
+
+    BRUG:
+    { "    " }kshana-mcp                      servér over stdio (standard; det MCP-klienter starter)
+    { "    " }kshana-mcp --http <addr>        servér streamable HTTP på http://<addr>/mcp
+
+    HTTP-INDSTILLINGER:
+    { "    " }--http <addr>               bindeadresse, f.eks. 127.0.0.1:8080 (som standard kun loopback)
+    { "    " }--allow-remote              tillad en adresse uden for loopback; kræver KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  ekstra accepteret Host-header (kan gentages)
+    { "    " }--allow-origin <origin>     accepteret browser-origin (kan gentages; som standard ingen)
+    { "    " }--max-body-bytes <n>        grænse for forespørgselskrop (standard 5242880)
+    { "    " }--request-timeout-secs <n>  tidsgrænse pr. forespørgsel (standard 120)
+    { "    " }--max-concurrent <n>        forespørgsler serveret på én gang (standard 8)
+
+    HTTP-transporten slår IQ-filværktøjerne fra. Kshana driver ikke et endpoint: kør det selv.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = ukendt argument `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = HTTP-indstillinger kræver --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = nægter at binde { $addr }: det er ikke en loopback-adresse. Brug 127.0.0.1:<port>, eller angiv --allow-remote (og sæt { $token_env }) for at lytte ud over denne maskine
+
+engine-e-mcp-http-refusing-to-bind-needs-token = nægter at binde { $addr }: en adresse uden for loopback kræver et bearer-token i miljøvariablen { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } er kortere end 16 tegn; brug et langt tilfældigt token
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent og --request-timeout-secs skal være over nul
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin accepterer ikke `*`; angiv hver origin
+
+engine-mcp-http-warning-remote = ADVARSEL: kshana-mcp lytter på { $addr } ud over denne maskine. Enhver, der kan nå den og har bearer-tokenet, kan køre simuleringer på din hardware. Sæt TLS foran (en reverse proxy eller din platforms HTTPS), og hold tokenet hemmeligt.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = stedets breddegrad skal ligge i [-90, 90] og længdegraden i [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s skal ligge i [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode skal være off, standalone eller differential, fik `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode skal være off, ltc eller tt, fik `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays skal ligge i 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s skal være positiv og afs_first_fix_s ikke-negativ
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km skal ligge i [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = indgangskovariansen er ikke symmetrisk med en ikke-negativ diagonal
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent forventer indgangsuret i LTC eller TT, fik { $timescale }; tråden omregner tidsskalaer
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s skal ligge i [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source skal være off, terrain-nav eller lola-crlb, fik `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = tidspunkter for positionsbestemmelse skal være positive, afs_interval_s > 0 og trn_fix_time_s inden for nedstigningen
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m skal være mindst 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m skal være positiv
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb kræver DEM'en, som ikke kunne indlæses
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent forventer indgangsuret i LTC eller TT, fik { $timescale }; tråden omregner tidsskalaer
+
+engine-e-lunar-landing-east-prior-is-not-positive = østpriorn er ikke positivt definit
+
+engine-e-lunar-landing-north-prior-is-not-positive = nordpriorn er ikke positivt definit
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit skal være `llo` eller `elfo`, fik `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = periapsis skal ligge mindst 20 km over overfladen
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m skal ligge i (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s skal ligge i (0, 60] og arc_s være mindst ét trin
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays skal ligge i 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s skal være positiv
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction skal ligge i [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model skal være `same` eller `point-mass`, fik `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous forventer indgangskovariansen i MCI; tråden omregner referencesystemer
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = priorkovariansen er ikke positivt definit
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = normalligningerne er ikke positivt definitte
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = posteriorinformationen er ikke positivt definit
+
+engine-e-lunar-rendezvous-no-trial-ran = intet forsøg blev kørt
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = årstidsdatoen `{ $s }` er ikke YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = årstidsdatoen `{ $s }`: ugyldigt år
+
+engine-e-lunar-surface-map-season-date-bad-month = årstidsdatoen `{ $s }`: ugyldig måned
+
+engine-e-lunar-surface-map-season-date-bad-day = årstidsdatoen `{ $s }`: ugyldig dag
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = årstidsdatoen `{ $s }` ligger uden for 1901-2099 eller er ikke en dato
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites skal indeholde mellem 1 og 64 poster
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = sted { $i }: breddegraden skal ligge i [-90, 90] og længdegraden i [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates skal indeholde mindst én dato
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates må indeholde højst 16 datoer
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days skal ligge i (0, 400] og step_min i [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days og timing_floor_s skal være positive og endelige
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = epoken `{ $s }` er ikke YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = epoken `{ $s }`: ugyldigt tal `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = epoken `{ $s }` ligger uden for 1901-2099 eller er ikke en dato
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces skal være "quantum" eller "classical" (fik { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = resultatdokumentet har allerede en `evidence`-nøgle
+
+engine-e-evidence-label-the-result-document-is-not = resultatdokumentet er ikke et JSON-objekt
+
+engine-e-evidence-label-no-evidence-rows-are-listed = ingen evidensrækker er angivet for `{ $tool }`
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = ikke en RINEX-urfil: ingen RINEX VERSION / TYPE-post
+
+engine-e-clock-log-rinex-version-type-record-has = RINEX VERSION / TYPE-posten har intet versionsnummer (fandt { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = RINEX-urversion { $v } læses ikke: versionerne 2.00 og 3.00 til 3.04 læses (IGS udgiver urformatet op til 3.04; RINEX 4.00 til 4.02 definerer ingen urfil)
+
+engine-e-clock-log-rinex-clock-record-with-an = RINEX-urpost med en ulæselig urbias eller epoke: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = TimeLab-linje { $line } indeholder en måling, der ikke er endelig: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = omregning af referencesystem { $a } -> { $b } er ikke tilgængelig (kun Gcrf, Mci og Mcmf omregnes)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = tidsskalaspring { $a } -> { $b } er ikke et pivotspring
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: korridoren skal løbe fra en flad til en stejlere vinkel under 90 grader, fik { $lo } til { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` skal ligge i [0, 90), fik { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` skal være mindst 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` skal være over 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: kræver mindst én station
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: stationen `{ $id }` har en ugyldig breddegrad eller længdegrad
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: station-id `{ $id }` bruges to gange
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: fasen `{ $phase }` har geometry "stated" og kræver `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: fasens `{ $phase }` duty skal ligge i [0, 1], fik { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: fasen `{ $phase }` har ukendt geometry `{ $other }`; geometrierne er entry-orbit, moon-direction og stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: indgangsbanen blev ikke propageret
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: ingen geometry `{ $other }` at beregne
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: fasen `{ $phase }` kræver en GCRF-indgang til sin geometri, fik { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: en fade skal slutte efter, den starter ({ $a } til { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: forventer en GCRF-indgangstilstand, fik { $frame }; angiv indgangen i gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: fasen gav ingen samples
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: ukendt modelnøgle `{ $k }`; nøglerne er { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: modellen kræver `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` skal være et endeligt tal
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` skal være over 0, fik { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` skal være mindst 0, fik { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` skal være en streng
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` skal være en array af tabeller
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` skal indeholde tabeller
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` skal være en array af { $n ->
+        [one] { $n } tal
+       *[other] { $n } tal
+    }
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` skal indeholde { $n ->
+        [one] { $n } tal
+       *[other] { $n } tal
+    }, fik { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` skal indeholde endelige tal
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: et ben kræver `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: modellen kræver mindst ét `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: ben { $leg } start: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: ben { $leg } slut: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: ben { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` skal ligge i [0, 1], fik { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` og `ssv_step_min` skal være over 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: propageringen nåede ikke { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: banen efter motorbrændingen er ikke bunden (specifik energi { $energy } J/kg); den stedfortrædende gnss-ssv-bane kræver en elliptisk
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: gnss-ssv-sweepet gav intet bånd
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: gnss-ssv-sweepet gav ingen gruppe
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: fasen angiver gnss-ssv, så modellen kræver `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: fasen angiver ground-tracking, så modellen kræver `ground_range_sigma_m`, `ground_range_rate_sigma_mps` og `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = overdragelsen { $name } skal være et endeligt tal på mindst 0, fik { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = fase `{ $id }`: dens models { $key } er { $own_s } s, men tråden angiver fasens duration_s = { $duration_s } s; få dem til at stemme, eller udelad { $key }
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = ukendt referencesystem `{ $other }`; forventet en af gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = ukendt tidsskala `{ $other }`; forventet en af tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = ukendt navigationskilde `{ $other }`; forventet en af gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = ukendt tidskilde `{ $other }`; forventet en af gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } skal være et positivt endeligt tal, fik { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = overdragelsesreglen `{ $rule }` kræver `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = ukendt overdragelsesregel `{ $other }`; forventet carry, inflate eller reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = en fase har et tomt id
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s skal være et endeligt tal på mindst 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x skal indeholde seks endelige tal
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind skal være "mission-thread", fik "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = en missionstråd kræver mindst én [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = fase-id `{ $id }` bruges to gange; id'er er unikke
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: fasen `{ $phase }` er ikke en fase i denne tråd
+
+engine-e-mission-thread-scenario-phase = fase `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = fase `{ $id }` sluttede ved { $t_s } s, men startede ved { $start_s } s og varer { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = ukendt sensor til relativ navigation `{ $other }`; forventet en af optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = afstanden skal være et positivt endeligt antal meter, fik { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = afstanden { $range_m } m ligger ud over sensorens grænse på { $max_range_m } m
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: ukendt modelnøgle `{ $bad }`; nøglerne er { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = receiver-trust-evidensrækkerne findes ikke i matricen
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = ukendt ablation `{ $other }`: B1 til B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = bevispakkens rækker findes ikke i matricen
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = jammertest-evidensrækkerne findes ikke i matricen
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: tilpasningen har ingen frekvensstøj (hvid FM, flicker-FM og random-walk-FM er alle nul), så der er intet at forudsige en holdover ud fra; loggen kan kun være hvid fasestøj eller for kort
+
+engine-e-evidence-label-run-exercised-no-matrix-row = kørslen berørte ingen række i verifikationsmatricen
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent forventer indgangskovariansen i MCI; tråden omregner referencesystemer
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent forventer indgangskovariansen i MCI; tråden omregner referencesystemer
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface forventer indgangstilstanden i MCI eller MCMF; tråden omregner referencesystemer
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km skal overstige Månens radius, og excentriciteten ligge i [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = ukendt fasekind `{ $kind }`; registrerede kinds er { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` angiver ingen navigationskilde
+
+engine-e-ssv-check-training-pattern-missing = træningsmønster { $sv } mangler
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] kræver en [clock_log]-tabel: den målte serie, tilpasningen laves ud fra
+
+engine-lunar-phase-no-finite-points-to-plot = ingen endelige punkter at plotte
+
+engine-partner-cli-usage =
+    brug: kshana partner check <submission.toml> [--json]
+    { "  " }Kontrollerer formatet og metadataene i en indsendelse fra en datapartner (kshana.partner-submission/1) og læser dens
+    { "  " }datafil med engine'ens egne læsere. Den scorer eller validerer intet; se docs/PARTNER-DATA.md.
+    { "  " }Exitstatus 0: indsendelsen er komplet og læsbar; 1: der blev fundet fejl; 2: brug.
+    Vejledende software, ikke typegodkendt navigationsudstyr.
+
+engine-evidence-verify-evidence-label-ledger-rows = bevisetiket: { $tier } ({ $row_count ->
+        [one] { $row_count } registerrække
+       *[other] { $row_count } registerrækker
+    }: { $rows }); det ligger i config.json, så signaturen dækker det
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = intet bevisetiket (pakke fra før 0.40)
+
+engine-e-ssv-check-pattern-missing = mønster { $sv } mangler
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | kun inertial { $inertial_pos } m / { $inertial_vel } m/s | med AFS { $afs_pos } m / { $afs_vel } m/s | indsætningsspredning { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-title = Lunar opstigning: 3-D-navigationsposition 1-sigma (m)
+
+engine-lunar-ascent-chart-subtitle = inertial drift med AFS-positionsbestemmelser | MODELLED, kun vejledende
+
+engine-lunar-ascent-chart-x-axis = sekunder siden afgang
+
+engine-lunar-ascent-chart-series = position 1-sigma
+
+engine-lunar-chart-y-axis-metres = meter
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | kun inertial { $none_east }/{ $none_north } m (E/N) | med hjælpemidler { $all_east }/{ $all_north } m | spredning R95 { $r95 } m | 3-sigma-ellipse { $major } x { $minor } m | { $inside }% inden for (forventet { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Lunar landingsspredning: R95 mod brugte hjælpemidler
+
+engine-lunar-landing-chart-subtitle = R95 pr. hjælpemidler: { $aids } | MODELLED, kun vejledende
+
+engine-lunar-landing-chart-x-axis = hjælpemiddelkombination (indeks)
+
+engine-lunar-landing-chart-series = R95 for landingsspredning
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | afstand { $sep } m | positionsbestemmelser { $fixes }% | rel. pos. 1-sigma R/A/C { $radial }/{ $along }/{ $cross } m | gennemsnitlig NEES { $nees } (6 forventet) | konvergeret { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = aldrig
+
+engine-lunar-rendezvous-converged-at = ved { $s } s
+
+engine-lunar-rendezvous-chart-title = Lunar rendezvous: formel relativ position 1-sigma (3-D, m)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | positionsbestemmelser { $fixes }% | gennemsnitlig NEES { $nees } (6 forventet) | MODELLED, kun vejledende
+
+engine-lunar-rendezvous-chart-x-axis = minutter siden buens start
+
+engine-lunar-rendezvous-chart-series = relativ position 1-sigma
+
+engine-lunar-surface-map-summary = lunar-surface | { $n_sites ->
+        [one] { $n_sites } sted
+       *[other] { $n_sites } steder
+    } x { $n_seasons ->
+        [one] { $n_seasons } årstid
+       *[other] { $n_seasons } årstider
+    } | positionering { $position_min }% til { $position_max }% | værste tilgængelighed af tidssynkronisering { $worst_timing }% | længste hul i tidssynkronisering { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Lunart PNT-kort for overfladen: tilgængelighed pr. sted (værste årstid, %)
+
+engine-lunar-surface-map-chart-subtitle = positionering = 4+ relæer og PDOP under tærsklen; tidssynkronisering = ét relæ eller Jorden | MODELLED, kun vejledende
+
+engine-lunar-surface-map-chart-x-axis = stedsindeks
+
+engine-lunar-surface-map-chart-y-axis = procent af vinduet
+
+engine-lunar-surface-map-chart-series-positioning = positionering
+
+engine-lunar-surface-map-chart-series-timing = tidssynkronisering
+
+engine-lunar-surface-map-chart-series-earth-visible = Jorden synlig
+
+engine-mission-thread-weakest-link = svageste led { $phase_id }
+
+engine-mission-thread-no-phases = ingen faser
+
+engine-mission-thread-untitled = uden titel
+
+engine-mission-thread-summary = mission-thread | { $n_phases ->
+        [one] { $n_phases } fase
+       *[other] { $n_phases } faser
+    } | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Missionstråd
+
+engine-mission-thread-chart-position-caption = 1-sigma position, m
+
+engine-mission-thread-chart-time-caption = 1-sigma tid, s
+
+engine-mission-thread-chart-subtitle = MODELLED fejlbudget for navigation og tidssynkronisering; hver fase tegnet med samme bredde
+
+engine-evidence-label-line-one-row = { $n ->
+        [one] Evidens: { $tier } · { $n } registerrække { $ids }
+       *[other] Evidens: { $tier } · { $n } registerrækker { $ids }
+    }
+
+engine-evidence-label-line-rows = { $n ->
+        [one] Evidens: { $tier } · { $n } registerrække { $ids }
+       *[other] Evidens: { $tier } · { $n } registerrækker { $ids }
+    }
+
+engine-evidence-label-line-rows-more = { $n ->
+        [one] Evidens: { $tier } · { $n } registerrække { $ids } +{ $n_more } flere
+       *[other] Evidens: { $tier } · { $n } registerrækker { $ids } +{ $n_more } flere
+    }
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }info: { $i }
+
+engine-partner-text-warning = { "  " }advarsel: { $w }
+
+engine-partner-text-error = { "  " }FEJL: { $e }
+
+engine-partner-text-result-ok = resultat: formatet og metadataene er komplette og læsbare
+
+engine-partner-text-result-not-ready = resultat: ikke klar; ret fejlene ovenfor
+
+engine-interference-map-locate-usage = brug: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom kræver også --licence <text> --licence-url <url> --attribution <text>)
+    Skriver emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv og -figure.svg: estimerede emitterområder (interferenskildeområder) ved angivne konfidensniveauer, aldrig blot et punkt
+
+engine-interference-map-locate-wrote = skrev { $path }
+
+engine-interference-map-locate-summary = { $n_sessions } { $n_sessions ->
+        [one] session
+       *[other] sessioner
+    } publiceret; { $n_withheld } { $n_withheld ->
+        [one] kandidatsession
+       *[other] kandidatsessioner
+    } tilbageholdt (færre end { $min } forskellige fly eller fartøjer)
+
+engine-interference-map-locate-note-not-preregistered = bemærk: en indstilling afviger fra de præregistrerede parametre, så dette er ikke den præregistrerede metode
+
+engine-interference-map-locate-line-session = session { $k }: { $start } til { $end }, { $affected } forskellige berørte, { $level }% område { $area } km², centroide { $lat }, { $lon } (ellipse { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = session { $k }: { $start } til { $end }, { $affected } forskellige berørte, rapporterne indsnævrer ikke området (ubegrænset)
+
+engine-interference-map-locate-fig-title = Estimeret emitterområde
+
+engine-interference-map-locate-fig-subtitle = { $n ->
+        [one] Hvor en kilde til de forringede rapporter under angivne antagelser kan befinde sig. Viste sessioner: { $n }.
+       *[other] Hvor en kilde til de forringede rapporter under angivne antagelser kan befinde sig. Viste sessioner: { $n }.
+    }
+
+engine-interference-map-locate-fig-none = Ingen session nåede publiceringsminimum, så intet område vises.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct }% område
+
+engine-interference-map-locate-fig-legend-ellipse = 95% ellipse for posteriorfordelingen
+
+engine-interference-map-locate-fig-note-1 = Et område er ikke positionen for noget fly, fartøj eller nogen organisation og ikke en konstatering af årsagen.
+
+engine-interference-map-locate-fig-note-2 = Terræn er ikke modelleret, og hver session antager én kilde; konfidensniveauerne er betinget af modellen.
+
+engine-e-interference-map-locate-bad-number = { $name } er ikke et tal
+
+engine-e-interference-map-locate-bad-levels = --levels kræver kommaseparerede tal strengt mellem 0 og 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km skal være mellem 0.5 og 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min skal være mellem 1 og 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m kræver to tal, min,max, med 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } er ikke en brugbar TDOA-fix-fil (receivers, tdoa_s, sigma_s, start), eller fixet konvergerede ikke
+
+engine-e-interference-map-locate-source-required = --source adsb eller --source ais er påkrævet
+
+engine-e-interference-map-locate-no-evidence-rows = ingen evidensrækker er angivet for locate-outputtene

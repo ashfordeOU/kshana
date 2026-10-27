@@ -39,7 +39,7 @@ node tools/i18n.mjs check <lang>                     the whole catalogue of the 
 
 The whole-file catalogues (`ui`, `glossary`, `studio-js`, `site-js`, `studio-pages`, `data`) use the same loop with `--file`:
 `node tools/i18n.mjs todo <lang> --file studio-js.ftl --out WORK`, translate the chunks, then
-`node tools/i18n.mjs merge <lang> WORK/*.ftl --file studio-js.ftl`. `engine.ftl` is the engine's own (W55).
+`node tools/i18n.mjs merge <lang> WORK/*.ftl --file studio-js.ftl`. `engine.ftl` is the engine's own.
 `node tools/i18n.mjs status` lists the coverage of every catalogue per language. After the English moves (an id changed),
 `node tools/i18n.mjs migrate <lang> --from-rev <the revision your ids came from>` carries the translations to the new ids.
 The engine version in running text is the variable `{ $version }`: keep it where it is. A number, a version or a symbol in a

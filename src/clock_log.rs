@@ -466,18 +466,21 @@ fn check_rinex_clock_version(text: &str) -> Result<(), String> {
     let line = text
         .lines()
         .find(|l| l.get(60..).map(str::trim_end) == Some("RINEX VERSION / TYPE"))
-        .ok_or("not a RINEX clock file: no RINEX VERSION / TYPE record")?;
+        .ok_or_else(|| crate::terr!("e-clock-log-not-rinex-clock-file-no-2"))?;
     let field = line.get(..9).unwrap_or("").trim();
     let v: f64 = field.parse().map_err(|_| {
-        format!("RINEX VERSION / TYPE record has no version number (found {field:?})")
+        crate::terr!(
+            "e-clock-log-rinex-version-type-record-has",
+            field = format!("{:?}", field)
+        )
     })?;
     let read = (v - 2.0).abs() < 1e-6 || (2.999_999..=3.040_001).contains(&v);
     if read {
         Ok(())
     } else {
-        Err(format!(
-            "RINEX clock version {v:.2} is not read: versions 2.00 and 3.00 to 3.04 are (IGS publishes \
-             the clock format up to 3.04; RINEX 4.00 to 4.02 define no clock file)"
+        Err(crate::terr!(
+            "e-clock-log-rinex-clock-version-is-not",
+            v = crate::i18n::localise_decimal(format!("{:.2}", v))
         ))
     }
 }
@@ -496,9 +499,9 @@ fn parse_rinex(
         return Err(crate::terr!("e-clock-log-not-rinex-clock-file-no"));
     }
     let as_recs = parse_clock_rinex_records(text, "AS")
-        .map_err(|e| format!("RINEX clock record with an unreadable clock bias or epoch: {e}"))?;
+        .map_err(|e| crate::terr!("e-clock-log-rinex-clock-record-with-an", e = e))?;
     let ar_recs = parse_clock_rinex_records(text, "AR")
-        .map_err(|e| format!("RINEX clock record with an unreadable clock bias or epoch: {e}"))?;
+        .map_err(|e| crate::terr!("e-clock-log-rinex-clock-record-with-an", e = e))?;
     let id = match &inp.clock {
         Some(c) => c.clone(),
         None => {
@@ -628,9 +631,10 @@ fn parse_timelab(
         match nums {
             Ok(v) if (1..=2).contains(&v.len()) => {
                 if v.iter().any(|x| !x.is_finite()) {
-                    return Err(format!(
-                        "TimeLab line {} holds a reading that is not finite: {l:?}",
-                        i + 1
+                    return Err(crate::terr!(
+                        "e-clock-log-timelab-line-holds-reading-that",
+                        line = i + 1,
+                        l = format!("{:?}", l)
                     ));
                 }
                 if let Some(first) = rows.first() {
