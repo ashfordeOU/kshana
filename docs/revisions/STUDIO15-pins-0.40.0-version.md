@@ -20,9 +20,9 @@ they pass again (5 of 5, 17 of 17 with 2 ignored, 5 of 5, 14 of 14).
 ## 1. `tests/geometry_trust_no_change.rs`: 21 telemetry hashes
 
 The Prometheus, CEF and LEEF exporters write the engine version. The 21 changed hashes are all of the `telemetry ...` kind
-(checked label by label by the re-bless script, which refuses any other label): the static example, the vessel demo and the
-replayed stream each pin six (three formats of the result and of the lines) plus the vessel demo's pinned 0.36 telemetry
-and the six values of the label-fields test. No result, CSV, SVG, verdict or `$PKSHT` pin moved.
+(checked label by label by the re-bless script, which refuses any other label): three each in the static example, the vessel
+demo and the replayed stream (the Prometheus, CEF and LEEF exporters over the result or the lines), the six of the vessel demo's
+pinned 0.36 telemetry, and the six of the label-fields test. No result, CSV, SVG, verdict or `$PKSHT` pin moved.
 
 ## 2. `tests/skyline_scenarios.rs`: the 0.36 portable baseline
 
