@@ -1,0 +1,34 @@
+# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.
+
+# <a1>Launch Kshana Studio <c1/></a1>
+# c1:
+seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
+
+# <a1>Launch Kshana Studio <c1/></a1>
+# c1:
+seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
+
+# Lunar navigation<s1><s2>{ "18" } September { "2026" }</s2> · arXiv:{ "2610.23871" }</s1>
+seg-c08c27e6bac3 = Månnavigering<s1><s2>{ "18" } september { "2026" }</s2> · arXiv:{ "2610.23871" }</s1>
+
+# Lunar navigation<s1><s2>{ "7" } July { "2026" }</s2> · arXiv:{ "2607.06212" }</s1>
+seg-22c586c6000b = Månnavigering<s1><s2>{ "7" } juli { "2026" }</s2> · arXiv:{ "2607.06212" }</s1>
+
+# Lunar navigation<s1><s2>{ "29" } June { "2026" }</s2> · arXiv:{ "2607.02566" }</s1>
+seg-5c3bd1c94790 = Månnavigering<s1><s2>{ "29" } juni { "2026" }</s2> · arXiv:{ "2607.02566" }</s1>
+
+# Timing integrity<s1><s2>{ "23" } June { "2026" }</s2> · arXiv:{ "2606.24210" }</s1>
+seg-5e319b243ab2 = Tidssynkroniseringens integritet<s1><s2>{ "23" } juni { "2026" }</s2> · arXiv:{ "2606.24210" }</s1>
+
+# Resilience scoring<s1><s2>{ "22" } June { "2026" }</s2> · arXiv:{ "2607.05415" }</s1>
+seg-cacc9e88dce2 = Resiliensbedömning<s1><s2>{ "22" } juni { "2026" }</s2> · arXiv:{ "2607.05415" }</s1>
+
+# Radio-frequency interference<s1><s2>{ "20" } June { "2026" }</s2> · arXiv:{ "2606.22054" } · version { "2" }</s1>
+seg-dc082b5d5c49 = Radiofrekvensstörning<s1><s2>{ "20" } juni { "2026" }</s2> · arXiv:{ "2606.22054" } · version { "2" }</s1>
+
+# <a1>Launch Kshana Studio <c1/></a1>
+# c1:
+seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
+
+# Same engine, amplified: { "608" } designs, one Pareto front
+seg-511c8bb00e62 = Samma motor, förstärkt: { "608" } utformningar, en Paretofront
