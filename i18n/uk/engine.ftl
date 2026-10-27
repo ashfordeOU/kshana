@@ -33,7 +33,7 @@ engine-e-clock-log-the-rinex-clock-file-holds = у файлі годинникі
 
 engine-e-clock-log-no-as-or-ar-records = немає записів AS або AR для годинника { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = у годинника лише одна епоха; tau0 визначити неможливо
+engine-e-clock-log-the-clock-has-single-epoch = у годинника лише одна епоха; потрібні щонайменше дві (tau0 визначити неможливо)
 
 engine-e-clock-log-the-log-has-no-readings = журнал формату { $format } не містить показань
 
