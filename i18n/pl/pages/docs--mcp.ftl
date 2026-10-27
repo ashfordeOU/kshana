@@ -21,3 +21,5 @@ seg-d107bc8e1950 = Rejestr MCP
 seg-842b77a21c5f = Kanał
 
 seg-d6476863f862 = Możliwość
+
+seg-fdbb9db68f1d = brak

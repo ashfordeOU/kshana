@@ -149,3 +149,7 @@ seg-d6476863f862 = Możliwość
 seg-ad856ad710eb = Status
 
 seg-331d2821d43f = Plan rozwoju
+
+seg-fdbb9db68f1d = brak
+
+seg-6e0cb6acc073 = VALIDATED
