@@ -650,14 +650,16 @@ fn verify_ecdsa(key: &Key, hash: Hash, msg: &[u8], sig: &[u8]) -> Result<(), Str
     let pre = hash.digest(msg);
     match key {
         Key::P256(pt) => {
-            let vk = p256::ecdsa::VerifyingKey::from_sec1_bytes(pt).map_err(|_| "bad P-256 key")?;
+            let vk = p256::ecdsa::VerifyingKey::from_sec1_bytes(pt)
+                .map_err(|_| crate::terr!("e-evidence-tsa-bad-256-key"))?;
             let s = p256::ecdsa::Signature::from_der(sig)
                 .map_err(|_| crate::terr!("e-evidence-tsa-bad-ecdsa-signature"))?;
             vk.verify_prehash(&pre, &s)
                 .map_err(|_| crate::terr!("e-evidence-tsa-signature-failure"))
         }
         Key::P384(pt) => {
-            let vk = p384::ecdsa::VerifyingKey::from_sec1_bytes(pt).map_err(|_| "bad P-384 key")?;
+            let vk = p384::ecdsa::VerifyingKey::from_sec1_bytes(pt)
+                .map_err(|_| crate::terr!("e-evidence-tsa-bad-384-key"))?;
             let s = p384::ecdsa::Signature::from_der(sig)
                 .map_err(|_| crate::terr!("e-evidence-tsa-bad-ecdsa-signature"))?;
             vk.verify_prehash(&pre, &s)

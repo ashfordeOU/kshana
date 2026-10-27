@@ -60,7 +60,8 @@ fn flag<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>, BenchErro
 }
 
 fn need<'a>(args: &'a [String], name: &str) -> Result<&'a str, BenchError> {
-    flag(args, name)?.ok_or_else(|| BenchError(format!("{name} is required")))
+    flag(args, name)?
+        .ok_or_else(|| BenchError(crate::terr!("e-bench-cli-is-required", flag = name)))
 }
 
 fn check(
@@ -123,7 +124,7 @@ fn secret(args: &[String]) -> Result<Option<Vec<u8>>, BenchError> {
                 b.pop();
             }
             if b.is_empty() {
-                return Err(BenchError(format!("{p} is empty")));
+                return Err(BenchError(crate::terr!("e-bench-cli-is-empty", p = p)));
             }
             Ok(Some(b))
         }

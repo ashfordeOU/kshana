@@ -498,7 +498,7 @@ fn read_blocks_xml(
             .iter()
             .copied()
             .find(|b| *b != Block::Meta && b.xml_name() == c.name)
-            .ok_or_else(|| format!("unexpected <{}> in <data>", c.name))?;
+            .ok_or_else(|| crate::terr!("e-odm-unexpected-in-data", name = c.name))?;
         let mut s = read_section_xml(c, b)?;
         if out.len() == 1 {
             data_comments.append(&mut s.comments);
@@ -1371,7 +1371,7 @@ impl OcmMessage {
             ]
             .into_iter()
             .find(|k| k.xml() == c.name)
-            .ok_or_else(|| format!("unsupported <{}> in OCM <data>", c.name))?;
+            .ok_or_else(|| crate::terr!("e-odm-unsupported-in-ocm-data", name = c.name))?;
             let mut b = OcmBlock::default();
             for e in &c.children {
                 match e.name.as_str() {

@@ -10163,3 +10163,79 @@ engine-e-mcp-server-the-work-pool-is-closed = the work pool is closed
 ## mcp/kshana-mcp/src/iq.rs
 
 engine-e-mcp-iq-no-work-directory = no work directory
+
+## mcp/kshana-mcp/src/iq.rs
+
+engine-e-mcp-iq-input = input `{ $rel }`: { $e }
+
+engine-e-mcp-iq-input-is-not-file = input `{ $rel }` is not a file
+
+engine-e-mcp-iq-input-campaign-is-not-folder = { "[" }input] campaign `{ $rel }` is not a folder
+
+engine-e-mcp-iq-out-dir-is-not-folder = out_dir `{ $rel }` is not a folder
+
+engine-e-mcp-iq-out-dir = out_dir `{ $rel }`: { $e }
+
+engine-e-mcp-iq-iq-failed = iq { $args } failed: { $m }
+
+## src/adm.rs
+
+engine-e-adm-attitudestate-without = <attitudeState> without <{ $tag }>
+
+## src/bench/cli.rs
+
+engine-e-bench-cli-is-required = { $flag } is required
+
+engine-e-bench-cli-is-empty = { $p } is empty
+
+## src/evidence/tsa.rs
+
+engine-e-evidence-tsa-bad-256-key = bad P-256 key
+
+engine-e-evidence-tsa-bad-384-key = bad P-384 key
+
+## src/interop/mod.rs
+
+engine-e-interop-no-iq-block = no [iq] block
+
+## src/ndm_xml.rs
+
+engine-e-ndm-xml-closes = </{ $close }> closes <{ $name }>
+
+## src/odm.rs
+
+engine-e-odm-unexpected-in-data = unexpected <{ $name }> in <data>
+
+engine-e-odm-unsupported-in-ocm-data = unsupported <{ $name }> in OCM <data>
+
+## src/realdata/ion_sdr.rs
+
+engine-e-realdata-ion-sdr-no-stream-element = no <stream> element
+
+engine-e-realdata-ion-sdr-is-not-number = <{ $name }> is not a number: { $text }
+
+engine-e-realdata-ion-sdr-no-chunk-element = no <chunk> element
+
+engine-e-realdata-ion-sdr-stream-lacks = <stream> lacks <{ $key }>
+
+engine-e-realdata-ion-sdr-no-system-element = no <system> element
+
+engine-e-realdata-ion-sdr-no-file-with-url = no <file> with a <url>
+
+## src/surface.rs
+
+engine-e-surface-give-string-utf8-or-base64 = { $k }: give a string, { "{" }"utf8": ...{ "}" } or { "{" }"base64": ...{ "}" }
+
+## src/realdata/llr_crd.rs
+
+engine-e-realdata-llr-crd-short-h1-record = short h1 record
+
+engine-e-realdata-llr-crd-short-h2-record = short h2 (station) record
+
+engine-e-realdata-llr-crd-short-h3-record = short h3 (target) record
+
+engine-e-realdata-llr-crd-short-h4-record = short h4 (session) record
+
+## mcp/kshana-mcp/src/main.rs
+
+engine-e-mcp-main-needs-value = { $a } needs a value
