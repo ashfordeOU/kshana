@@ -20,3 +20,12 @@ seg-e0426ffe2628 = Märkus
 
 # text
 seg-de6c33774c9c = CLI
+
+# text
+seg-98f4f946a7ac = WASM
+
+# text
+seg-206c78a69ded = Marsruudi kokkupuude
+
+# text
+seg-4dbf41c0ec3b = Funktsioon

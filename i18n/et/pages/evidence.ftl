@@ -3881,3 +3881,9 @@ seg-05ded40b17d2 = Väline sõltumatu etalon puudub: ROS-i sõlme ei käitatud e
 
 # text
 seg-c3c260b7063e = Testid
+
+# text
+seg-417a52c9c154 = PDF
+
+# text
+seg-4e31c8daf798 = Register (ledger)
