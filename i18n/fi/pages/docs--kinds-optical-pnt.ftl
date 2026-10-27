@@ -1,0 +1,14 @@
+# docs--kinds-optical-pnt: translations (fi)
+
+seg-b03d56f501c3 = Tyyppi
+
+seg-e6839b50b560 = MODELLED heterogeeninen optinen + RF PNT -yhteinen laatumittari (P5): koostaa { "1550" } nm:n kaksisuuntaisen optisen linkkibudjetin (fotonirajoitettu kaksisuuntainen etäisyysmittauksen CRLB σ_τ/√N ja diffraktiojalanjälki λ/D·etäisyys), modaliteettien välisen ratkaisuerotus-RAIM-suojaustason (paikka JA ajoitus), joka yhdistää löyhän RF- ja tiukan optisen ratkaisun erilaisilla kovariansseilla, N aseman optisen selkeän taivaan saatavuuden (riippumaton yhdiste { "1" }−Π({ "1" }−a_i) ja spatiaalisesti korreloitu variantti), optinen↔RF-tila/kovarianssi-luovutuksen TODISTETUSTI bittitarkasti jatkuvalla (ei hyppyä) keskiarvolla ja NEES χ² -johdonmukaisuusportilla sekä yhteisen P(saatavilla JA toistotarkkuusluokka JA eheys varmistettu) -pisteen korrelaation käsittelyllä. VALIDATED suljettu muoto: etäisyysmittauksen CRLB, diffraktiojalanjälki, χ²-suojaustason kvantiili, yhdistekombinatoriikka, luovutuksen keskiarvon jatkuvuus + NEES-portti sekä yhteinen riippumaton tulo. MODELLED: optiset häviöallokaatiot, RF/optisten σ-suuruudet, pilviklimatologiasyötteet, korrelaatiot ja P_HMI-budjetti. Ei sertifioitu saatavuus-/eheystuote.
+
+seg-5cea5229815e = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/hybrid-optical-rf.toml, skenaariotyyppi hybrid-optical-rf
+
+seg-a878d9be65b7 = MODELLED optinen PNT ilmakehän läpi: optiselle linkille ja joukolle maa-asemia, joilla on ilmoitetut pilviklimaatit, se raportoi aallonpituudesta ja korkeuskulmasta riippuvan kirkkaan ilman vaimennuksen (Kimin näkyvyyslaki plus Rayleigh), Hufnagel–Valley-turbulenssitilan (Rytov-varianssi, tuikeindeksi, gamma-gamma-parametrit, apertuurikeskiarvoistus), säästä riippuvan saatavuuden linkkimarginaalia vasten (pilven optinen paksuus log-normaalista nestevesiklimaatista, geometrisen optiikan ekstinktio, riippumaton turbulenssivaimennus), tavoitesaatavuuksiin tarvittavan linkkimarginaalin, katkon keston jakauman, ajoituksen ja etäisyydenmittauksen virheen kasvun katkoa kohti kellon holdover-mallin kautta, etäisyyskorreloidun paikkadiversiteettisaatavuuden sekä parannustekniikoiden mitä-jos-hyödyt (aallonpituus, vastaanottoapertuuri, adaptiivisen optiikan tuikevähennys, lisämarginaali). VALIDATED toteutuksena ilmoitetuista kaavoista riippumatonta mpmath-oraakkelia vasten: Rytov-varianssi, tuikeindeksi, gamma-gamma-vaimennustodennäköisyys, apertuurikeskiarvoistuskerroin, pilven ja kirkkaan ilman optinen paksuus. MODELLED: jokainen sää-, tekniikka- ja kellosyöte sekä riippumattomuus- ja kopulaoletukset; mitattua saatavuustietuetta ei ole verrattu. Ohjeellinen analyysi, ei sertifioitu saatavuus- eikä navigointituote.
+
+seg-4e2b759aff17 = Moottorin kirjoittama kaavio skenaariolle scenarios/optical-atmosphere-network.toml, tyyppi optical-atmosphere
+
+# text
+seg-4e31c8daf798 = Kirjanpito

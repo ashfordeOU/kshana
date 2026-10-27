@@ -6,4 +6,6 @@ seg-aab745a65e76 = Moduuli
 
 seg-ad856ad710eb = Tila
 
+seg-b03d56f501c3 = Tyyppi
+
 seg-4dbf41c0ec3b = Funktio

@@ -11,3 +11,10 @@ seg-35f8f623ea28 = { "30" } s
 seg-f63dd3d7aad4 = Lähde
 
 seg-e305279d5b11 = Sisältö
+
+seg-4d208b6c0eb8 = day
+
+seg-a7d59ba6e225 = rad
+
+# text
+seg-02dc0d42fb21 = sfu

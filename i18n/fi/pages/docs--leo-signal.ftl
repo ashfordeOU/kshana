@@ -11,3 +11,9 @@ seg-6e0cb6acc073 = VALIDATED
 seg-f63dd3d7aad4 = Lähde
 
 seg-587beeccaa11 = Esiasetus
+
+seg-a86ce24d81de = Kaista
+
+seg-74f4e80c65cb = Komponentit
+
+seg-e769f0411e64 = Julkaisija on poistanut; arkistokopiota ei ole
