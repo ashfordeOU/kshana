@@ -9033,3 +9033,225 @@ engine-kind-optical-atmosphere-description = MODELLED optisk PNT gjennom atmosf�
 engine-kind-holdover-test-description = MODELLED holdover-test av et tidssynkroniseringssystem, skåret fra en tidsfeilregistrering OPERATØREN leverer (en linuxptp-logg fra ptp4l, phc2sys eller ts2phc, en chrony-logg for sporing eller statistikk, en TICC-, TimeLab- eller RINEX-klokkelogg, eller par av time_s,time_error_ns). Testen har fire trinn og Kshana utfører ingen av dem: en låst GRUNNLINJE, GNSS FJERNET av operatøren (antennekabelen eller simulatorutgangen; Kshana sender og styrer ingenting) på et oppgitt tidspunkt, HOLDOVER på systemets egen oscillator, og GJENOPPRETTING etter at operatøren gjenoppretter GNSS på et andre oppgitt tidspunkt. Registreringen deles ved de to tidspunktene. Grunnlinje: tidsfeilstatistikk og ITU-T-maskene skrevet for en låst klokke. Holdover: statistikk, den fraksjonelle frekvensforskyvningen systemet holdt (en linje med minste kvadrater), maskene skrevet for holdover eller en autonom klokke, ePRTC-A-omslutningen for holdover fra den oppgitte låste varigheten, og tiden til hvert tidsfeilbudsjett overskrides. Gjenoppretting: om og når |TE| kom innenfor et oppgitt bånd og ble der, toppen og det største steget. Hver grense er overført fra en offentlig ITU-T-tabell (maskene i telecom-timing); ordene er 'målt mot masken', og de to tidspunktene er operatørens utsagn, ikke verifisert. En registrering som er for kort for en maske er INCOMPLETE, aldri ekstrapolert. Se docs/TIMING-HIL.md.
 
 engine-kind-gnss-ssv-description = MODELLED GNSS-tilgjengelighet og lenkestyrke i Space Service Volume og utover: for en bruker på en kule (det globale skallet i ICG-heftet) eller på en Kepler-bane (LEO til månetransfer) teller den, per konstellasjon (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) og for alle sammen, signalene som kan brukes over en C/N0-terskel - tilgjengelighet av minst ett og av fire signaler, maksimal varighet av bortfall, mottatt C/N0, dilusjon av presisjon, lenker i hovedlobe mot sidelobe - med et sendemønster fra heftet, parametrisk eller levert av brukeren, valgfrie effekter fra ionosfære, plasmasfære og atmosfære for stråler som tangerer limb og en valgfri utforming av mottaker for svake signaler; også et utvidet Kalman-filter for GNSS ombord for HEO- og månetransferfarkoster (banedynamikk, solstrålingstrykk, tredjelegemer, klokke) og relativ navigasjon for en formasjon av flere farkoster med enkeltdifferensierte pseudoavstander. Kontrollert mot tabellene i ICG SSV-heftet under en forhåndsregistrering (xval/gnss-ssv)
+
+engine-bench-site-title-a = Oppgave (a): deteksjon på mottakerlogger
+
+engine-bench-site-title-b = Oppgave (b): deteksjon på IQ
+
+engine-bench-site-title-c = Oppgave (c): prediksjon av tidsholdover
+
+engine-bench-site-title-d = Oppgave (d): optimismegap utenfor fordelingen
+
+engine-bench-site-col-rmse-3600 = RMSE 3600 s (ns)
+
+engine-bench-site-col-rmse-300 = RMSE 300 s (ns)
+
+engine-bench-site-col-rmse-7200 = RMSE 7200 s (ns)
+
+engine-bench-site-col-auc-in = AUC inne
+
+engine-bench-site-col-auc-out = AUC ute
+
+engine-bench-site-col-optimism-gap = Optimismegap
+
+engine-bench-site-col-flag = Flagg
+
+engine-bench-site-col-auc = AUC
+
+engine-bench-site-col-pd-at-pfa-cap = P_d ved P_fa-tak (øvre grense)
+
+engine-bench-site-flag-optimistic = optimistisk
+
+engine-bench-site-flag-within-tolerance = innenfor toleransen
+
+engine-bench-site-not-available = i/t
+
+engine-bench-site-none-published = Ingen resultater er publisert ennå. En rad vises her først når en resultatfil er scoret og lagt til; ingenting på denne siden er et anslag.
+
+engine-bench-site-none-for-task = Ingen resultater ennå for denne oppgaven.
+
+engine-bench-site-region-label = { $title } { $split }-resultater
+
+engine-bench-site-caption-split = Deling: { $split }
+
+engine-bench-site-th-system = System
+
+engine-bench-site-th-provenance = Opphav
+
+engine-bench-site-th-truth-sha256 = Referanse-SHA-256
+
+engine-bench-site-provenance-carried = videreført: { $note }
+
+engine-bench-site-provenance-scored = scoret
+
+engine-bench-site-heading = kshana-bench-resultattavle
+
+engine-bench-site-lede = Resultatfiler scoret etter <code>{ $spec }</code>. En rad sier at denne filen fikk dette tallet på denne delingen. Det betyr ikke at noe produkt er vurdert eller godkjent av noen, og ingen organisasjon er oppgitt som støttespiller.
+
+engine-bench-site-foot = Alle skårer er beregnet fra en modell med mindre en rad sier at en ekstern uavhengig referanse var enig. Lisens for spesifikasjonen og manifestene: CC-BY-4.0 / CC0 foreslått, eierbeslutning venter. Det tilbakeholdte datasettet med ekte data er ikke hemmelig: se spesifikasjonen, avsnitt 4.
+
+engine-bench-site-meta-description = Skårer for innsendte resultatfiler under kshana-bench { $spec }. Kun veiledende.
+
+engine-iq-campaign-report-roc-heading = Deteksjons-ROC
+
+engine-iq-campaign-report-roc-note = <p class="note">Merket <b>{ $label }</b>. Hvert oppgitt hendelsesvindu er en positiv og hvert vindu av den konfigurerte lengden utenfor hendelsene er en negativ. Et vindu teller ved en terskel når monitorens egen teststatistikk når den i vinduet. P<sub>fa</sub> gjelder per negativt vindu, ikke per test. De samme tallene står i <code>roc.json</code>.</p>
+
+engine-iq-campaign-report-th-alarm-kind = Alarmtype
+
+engine-iq-campaign-report-th-positives = Positive
+
+engine-iq-campaign-report-th-negatives = Negative
+
+engine-iq-campaign-report-th-auc = AUC
+
+engine-iq-campaign-report-th-threshold = Terskel
+
+engine-iq-campaign-report-th-pd-at-it = P<sub>d</sub> ved den
+
+engine-iq-campaign-report-th-pfa-at-it = P<sub>fa</sub> ved den
+
+engine-iq-campaign-report-title = Kampanje { $name }
+
+engine-iq-campaign-report-heading = Laboratoriekampanje med avspilling: { $name }
+
+engine-iq-campaign-report-meta = Dataklasse <b>{ $data_class }</b> · Kshana { $engine } · { $n_recordings } opptak × { $n_frontends ->
+        [one] { $n_frontends } frontend
+       *[other] { $n_frontends } frontender
+    } × { $n_designs ->
+        [one] { $n_designs } utforming
+       *[other] { $n_designs } utforminger
+    } = { $n_cells ->
+        [one] { $n_cells } celle
+       *[other] { $n_cells } celler
+    }, { $n_done } ferdig · digest <code>{ $digest }</code>
+
+engine-iq-campaign-report-digest-incomplete = (ufullstendig: ikke alle celler er ferdige)
+
+engine-iq-campaign-report-reference-note = <p class="note">Målte verdier kommer fra sporing av opptakene. Stiplede linjer merket <b>{ $label }</b> er den analytiske referansen for spektral separasjon <code>{ $formula }</code> ved laboratoriets oppgitte J/S, med Q fra den oppgitte interferenstypen. De er en modell av den oppgitte tilstanden, ikke en måling og ikke en simulering av interferensen.</p>
+
+engine-iq-campaign-report-summary-heading = Sammendrag
+
+engine-iq-campaign-report-th-recording = Opptak
+
+engine-iq-campaign-report-th-front-end = Frontend
+
+engine-iq-campaign-report-th-design = Utforming
+
+engine-iq-campaign-report-th-satellites = Satellitter
+
+engine-iq-campaign-report-th-mean-availability = Gjennomsnittlig tilgjengelighet
+
+engine-iq-campaign-report-th-events-lost = Tapte hendelser
+
+engine-iq-campaign-report-th-median-reacq = Median gjenfangst (s)
+
+engine-iq-campaign-report-th-pass = Bestått
+
+engine-iq-campaign-report-th-fail = Ikke bestått
+
+engine-iq-campaign-report-degradation-heading = C/N0-degradering mot oppgitt J/S
+
+engine-iq-campaign-report-scorecard-heading = Resultatkort
+
+engine-iq-campaign-report-scorecard-note-nwpr = <p class="meta">De samme radene som i <code>scorecard.csv</code>. Gjenfangst måles fra hendelsens forskyvning; utfall måles fra tapet av lås. C/N0-kolonnen og degraderingskurvene bruker NWPR-estimatet (leser omtrent 8 dB · Bn·T for lavt under sløyfens egen jitter, så avlesningene avhenger av sløyfeutformingen); begge estimatene står i <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-scorecard-note-m2m4 = <p class="meta">De samme radene som i <code>scorecard.csv</code>. Gjenfangst måles fra hendelsens forskyvning; utfall måles fra tapet av lås. C/N0-kolonnen og degraderingskurvene bruker M2M4-estimatet (ufølsomt for sløyfens egen jitter); begge estimatene står i <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-th-sat = Sat
+
+engine-iq-campaign-report-th-scope = Omfang
+
+engine-iq-campaign-report-th-event = Hendelse
+
+engine-iq-campaign-report-th-avail = Tilgj.
+
+engine-iq-campaign-report-th-loss = Tap (s)
+
+engine-iq-campaign-report-th-js-at-loss = J/S ved tap
+
+engine-iq-campaign-report-th-reacq = Gjenfangst (s)
+
+engine-iq-campaign-report-th-outage = Utfall (s)
+
+engine-iq-campaign-report-th-cn0 = C/N0
+
+engine-iq-campaign-report-th-pll = PLL σ (°)
+
+engine-iq-campaign-report-th-dll = DLL σ (chip)
+
+engine-iq-campaign-report-th-false-locks = Falske låser
+
+engine-iq-campaign-report-th-verdict = Konklusjon
+
+engine-iq-campaign-report-scope-run = kjøring
+
+engine-iq-campaign-report-scope-event = hendelse
+
+engine-resilience-report-title = Egenvurdering av PNT-robusthet
+
+engine-resilience-report-status-partner = PARTNER
+
+engine-resilience-report-summary = <p>Motor { $engine }, scenario { $scenario }, seed { $seed }. Evidensfordeling: { $n_validated } { $validated } / { $n_modelled } { $modelled } { $n_modelled ->
+        [one] delscore
+       *[other] delscorer
+    }. Foreløpig RPCF-nivå: { $level } ({ $level_basis }).</p>
+
+engine-resilience-report-h-rpcf = DHS RPCF-teknikkategorier
+
+engine-resilience-report-h-rdrr = RethinkPNT-funksjoner
+
+engine-resilience-report-h-yang = Yang-kriterier
+
+engine-resilience-report-th-category = Kategori
+
+engine-resilience-report-th-function = Funksjon
+
+engine-resilience-report-th-criterion = Kriterium
+
+engine-resilience-report-th-subscore = Delscore
+
+engine-resilience-report-th-status = Status
+
+engine-resilience-report-th-basis = Grunnlag
+
+engine-resilience-report-integrity = <p>SHA-256-integritet: <code>{ $integrity }</code></p>
+
+engine-study-summary = studie "{ $title }": { $n_scenarios ->
+        [one] { $n_scenarios } scenario
+       *[other] { $n_scenarios } scenarioer
+    }
+
+engine-study-metric-holdover = Holdover (s)
+
+engine-study-metric-timing-rms = Tidssynkronisering RMS (ns)
+
+engine-study-metric-timing-p95 = Tidssynkronisering p95 (ns)
+
+engine-study-metric-resilience-slope = Robusthetshelning (ns/s)
+
+engine-study-metric-availability = Tilgjengelighet
+
+engine-study-metric-integrity = Integritet
+
+engine-study-metric-security = Sikkerhet
+
+engine-study-th-metric = Måleverdi
+
+engine-study-th-validation = Validering
+
+engine-study-not-applicable-no-attack = i/t (ingen angrep)
+
+engine-study-page-title = { $title } — Kshana-studie
+
+engine-study-eyebrow = क्षण · det nøyaktige øyeblikket
+
+engine-study-h-comparison = Sammenligning side ved side
+
+engine-study-tier-note = Hver ytelsesmåling er merket { $validated } (kontrollert mot en ekstern uavhengig referanse) eller { $modelled } (fra første prinsipper, internt testet), utledet fra verifikasjonsmatrisen. Kolonnene er uavhengige scenarioer; verdiene er ikke normalisert på tvers av scenarioer.
+
+engine-study-footer = Generert av Kshana { $version } som en samlet studie av { $n_scenarios ->
+        [one] { $n_scenarios } scenario
+       *[other] { $n_scenarios } scenarioer
+    }. Hvert scenario kan gjenskapes fra scenario + seed + motorversjon. Fri og åpen kildekode (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">kildekode og dokumentasjon</a>.
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS-tillit { $band }|{ $cef_severity }|{ $ext }
