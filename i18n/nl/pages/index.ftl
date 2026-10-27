@@ -305,3 +305,415 @@ seg-6d3d0f8c9b7c = Een Pro-evaluatie aanvragen
 seg-813d6d41b891 = Kopieer de opdracht die het reproduceert
 
 seg-a0ef302e2458 = Opdracht kopiëren
+
+seg-6df96ca25c68 = Waarom en voor wie
+
+seg-e8ab991fe284 = Kshana-missieconsole
+
+seg-dc0fbd6f3e76 = Ontvanger · { "8" } volgend
+
+seg-212f0234925f = Jammer · { "1.0" } km verderop
+
+seg-e8b014e4fa7b = Spoofer · { "0.1" } ns/s tijdverschuiving
+
+seg-b8890ff22c4a = Afspelen
+
+seg-fdac3e95b3d9 = Missie <b>T+{ "00" }:{ "00" }:{ "00" }</b>
+
+seg-5e5365b80dfb = Scenario <b>campaign-jam-spoof-holdover-integrity</b>
+
+seg-d0b9f1d1b637 = Nominaal
+
+seg-12d3b7275c99 = <s1>Engine v{ $version } · seed { "20260928" }</s1><s2>Echte run</s2>
+
+seg-2c7bf2e50347 = GNU Affero General Public License, versie { "3" }
+
+seg-162d704ff027 = <s1>v{ $version }</s1>Opensource · <s2>AGPL-3.0</s2> · door Ashforde®
+
+seg-69d3fae797e4 = Oefen de minuut waarop <em>GNSS uitvalt.</em>
+
+seg-015e3cff4eda = Kshana is een opensource-simulator voor de veerkracht van PNT (positiebepaling, navigatie en tijdsynchronisatie). Speel jamming, spoofing en klok-holdover opnieuw af wanneer GNSS-signalen (Global Navigation Satellite System) uitvallen, in een Rust-engine die direct in uw browser draait, en zie precies welke resultaten zijn gecontroleerd aan de hand van onafhankelijke referenties.
+
+seg-8b095f7254ed = Installatieopdracht kopiëren: cargo install kshana
+
+seg-f0e9de10d9ef = cargo install kshana<s1>Kopiëren</s1>
+
+seg-ec3957c0f5f1 = Druk op <c1/> om pagina's, scenario's en documentatie te doorzoeken
+
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Dezelfde engine, versterkt: { "608" } ontwerpen, één Pareto-front</s2>
+
+seg-b807a8887172 = Telemetrie afgespeeld uit de geketende campagnerun
+
+seg-d367c9a1c6fc = Klokfout<s1>tegenover { "50" } ns bewaking · lineair</s1>
+
+seg-6746a919dc04 = T+{ "0" }
+
+seg-7d5a96436755 = nu
+
+seg-2434e53fa54e = Draaggolf-ruisdichtheid<s1>C/N0 · ondergrens { "25" } dB-Hz</s1>
+
+seg-bf842cdbb9d3 = Beschermingsniveau tegenover alarmgrens<s1>PL · AL { "50" } m, verticaal</s1>
+
+seg-146c6926eae1 = Gebeurtenissenlogboek van de geketende campagnerun
+
+seg-7dfaa4627c3e = Gebeurtenissenlogboek · campaign-jam-spoof-holdover-integrity
+
+seg-47d596393831 = Echte gebeurtenissen
+
+seg-5630c799cec1 = Waar elk spoor vandaan komt
+
+seg-46b6db21c09b = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-f70fa3b93b11 = Het eigen rapport van de engine over deze run
+
+seg-d32a11c090e1 = Het resultaat van de engine, ongewijzigd
+
+seg-c459bc5805bb = Het scenariobestand dat is uitgevoerd
+
+seg-f18f76c10709 = <s1><a1>Rapport</a1><a2>JSON</a2><a3>TOML</a3></s1>
+
+seg-c043a94c7564 = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-f2d2f2263e63 = De console, de drie kaarten en het logboek spelen één geketende run af van { "6" } fasen en { "18" } deelruns op zijn raster van { "10" } s (T+{ "01" }:{ "16" }:{ "10" } missietijd). De banen zijn de { "102" } satellieten van GPS, Galileo, BeiDou en GLONASS uit de constellatierun, elk teruggewonnen als cirkelvormige tweelichamenbaan uit het grondspoor van de engine (slechtste residu { "0.0034" }°), met voor de weergave samengedrukte stralen. Verbindingen worden getekend naar satellieten boven het masker van { "10" }° van de constellatierun ({ "25" }° in de fase van het integriteitsalarm, het heroverwervingsmasker van de campagne), gedimd door de jamming en doorgesneden in holdover. Aarde: NASA Blue Marble en Black Marble. Kshana Studio speelt de geketende run af in uw browser; het eigen rapport van de engine en de opdracht reproduceren elke run.
+
+seg-a6603a1011ce = Bewijs in één oogopslag
+
+seg-92c73c398785 = meegeleverde scenariobestanden
+
+seg-4fe9e7c5932f = mogelijkheden in de verificatiematrix
+
+seg-d2c0888d98f6 = getoetst aan onafhankelijke externe referenties
+
+seg-3a3535770138 = <s1>artikelen op arXiv gebouwd op de open engine</s1><s2>Lees het onderzoek <c1/></s2>
+
+seg-c44c0fbefc2c = <s1>WASM</s1><s2>draait in de browser als WebAssembly, zonder installatie</s2>
+
+seg-9b3429f89f21 = Nieuw in v{ $version }: elke soort, elke opdracht en de missers van de benchmark
+
+seg-471b95f0c08f = <a1>Wat elk doet en wat is gecontroleerd</a1> · <a2>Elk installatiekanaal</a2>
+
+seg-a9bca0fa5b04 = L-bandconsole · de soort spectrum
+
+seg-abbe9f20dd01 = Kijk hoe een jammer de band overneemt.
+
+seg-7b1868001271 = De GNSS-L-band als één PSD (power spectral density): frequentie horizontaal, tijd verticaal, kleur voor vermogen boven de ruisvloer. De signalen liggen onder die vloer, dus wat oplicht zijn de jammers: een chirp, een CW-toon (continuous-wave) en smalbandruis. Beweeg, tik of gebruik de pijltoetsen voor de <b>C/N0</b> (draaggolf-ruisdichtheid) en <b>J/S</b> (jammer-signaalverhouding) van elke band.
+
+seg-06d71fc57b8d = <b>kshana</b> spectrum <s1>· <s2>l-band-waterfall-jamming.toml</s2></s1>
+
+seg-2da07c5d32d7 = L-bandwaterval, frequentie horizontaal en tijd verticaal. Met de pijltoetsen beweegt u een cursor over frequentie en tijd; Escape verlaat hem.
+
+seg-46f65efc3be9 = De waterval wordt met JavaScript getekend uit de vastgelegde run. Het rapport van de engine hieronder toont dezelfde run.
+
+seg-f3ea569d443f = Slechtste band
+
+seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
+
+seg-14b3348ff8ea = Draaggolf-ruisdichtheid van elke band tegenover de volgondergrens
+
+seg-3e189946819a = De campagne die deze run aanstuurt · elke fase volgt de toestand van de jammer
+
+seg-b4033994f81b = Enginerun van <c1/>
+
+seg-33979077de8c = De opdracht kopiëren die de run reproduceert: kshana l-band-waterfall-jamming.toml
+
+seg-17d5d311b110 = Enginerapport
+
+seg-7a6ff36f0f04 = $ kshana l-band-waterfall-jamming.toml
+
+seg-1fd08ac5f6f0 = Scenario, resultaatdata, de campagnerun en wat is gemodelleerd
+
+seg-997412b840c2 = Spectrumrun
+
+seg-c9ee69e3ce3e = Scenariobestand
+
+seg-aaeaa4133766 = Resultaatdata
+
+seg-e9d1763a751f = Campagne die het aanstuurt: <c1/>
+
+seg-444a43f5d0d7 = Berekend uit een model: gesloten-vorm-spectra boven een thermische ruisvloer, per band gescoord op spectrale scheiding; jammervermogens en -tijdstippen zijn scenario-invoer. De tijdas telt seconden vóór nu; de cyaanblauwe lijn markeert waar het afspelen opnieuw begon. Kshana Studio voert hetzelfde scenario uit in uw browser en speelt de waterval af; het rapport en de opdracht reproduceren de run.
+
+seg-9c4762bc4c66 = Missietijdlijn
+
+seg-8b148fc948fa = Missietijdlijn · scrol of sleep om te scrubben
+
+seg-984aa8353e29 = Elke satelliet wordt gevolgd. De klok is gesynchroniseerd op GNSS-tijd en het beschermingsniveau ligt ruim onder de alarmgrens.
+
+seg-53dff207c2e7 = T+{ "00" }:{ "00" }:{ "00" }
+
+seg-06909bd3c972 = Missietijd
+
+seg-de619b311b43 = <b>kshana</b> campaign <s1>· campaign-jam-spoof-holdover-integrity · seed { "20260928" }</s1>
+
+seg-348b3f146fd1 = Fasen en de deelruns die elke fase uitstuurt
+
+seg-5ca22bdcb463 = Fasen · deelruns
+
+seg-8332e436d097 = Nominaal<s1>T+{ "00" }:{ "00" }:{ "00" }</s1>
+
+seg-297f821b911b = seed { "42" }
+
+seg-0c4140f95fe8 = seed { "1" }
+
+seg-dfe6a1451d36 = seed { "7" }
+
+seg-e6df43ef3bcc = Jamming<s1>T+{ "00" }:{ "10" }:{ "00" }</s1>
+
+seg-639fb18e57e0 = seed { "43" }
+
+seg-599691a88cac = Spoofing<s1>T+{ "00" }:{ "20" }:{ "00" }</s1>
+
+seg-14f57653cd5c = Holdover<s1>T+{ "00" }:{ "26" }:{ "10" }</s1>
+
+seg-4be8c1c7aeb6 = seed { "44" }
+
+seg-d78a727a49a3 = Integriteitsalarm<s1>T+{ "00" }:{ "56" }:{ "10" }</s1>
+
+seg-612e8a49730d = seed { "45" }
+
+seg-8cc810de504f = Herstel<s1>T+{ "01" }:{ "06" }:{ "10" }</s1>
+
+seg-d106d9ae3db3 = seed { "46" }
+
+seg-cea3b8e726c8 = { "6" } fasen · { "18" } deelruns van bestaande soorten
+
+seg-12e134ed7cad = Satellieten · { "102" }, vier systemen
+
+seg-ba2d1b289ed3 = Ontvanger · PL-ring tegenover de AL-ring
+
+seg-aa38fb41591a = Jammer · { "1.0" } km van de ontvanger
+
+seg-f65f922fa89d = Spoofer
+
+seg-d3b2bac50e3d = Klokfout<s1>ns · bewaking { "50" }</s1>
+
+seg-c42b07814ef6 = C/N0<s1>dB-Hz · ondergrens { "25" }</s1>
+
+seg-747943902bc5 = PL tegenover AL<s1>meter · AL { "50" }</s1>
+
+seg-61345694fae0 = De missie afspelen
+
+seg-0d529358e2ad = Jamming
+
+seg-c8df54685469 = Integriteitsalarm
+
+seg-63a70a989509 = Herstel
+
+seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } missietijd · de geketende run, niet drie runs naast elkaar
+
+seg-dc2eb6c3c2a4 = PL = beschermingsniveau · AL = alarmgrens · INS = traagheidsnavigatiesysteem
+
+seg-b85e60e05c9f = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-0588364091ec = Van de eerste gejamde satelliet tot de laatste nanoseconde klok-holdover: signalen, sensoren, klokken, banen en integriteit in één simulator. Elk beeld hieronder is een echte enginerun en zegt welke.
+
+seg-18e6988c1ccd = GNSS-jamming en interferentie
+
+seg-1d97776ae325 = Een breedbandjammer op een mast en een ontvanger die over een raster eromheen is verplaatst: elke cel is een eigen run van de soort <c1/> van de engine. De tint is de gemiddelde J/S (jammer-signaalverhouding); rode cellen verloren elke satelliet.
+
+seg-4fa6a9f6915d = Jammingvoetafdruk: gemiddelde jammer-signaalverhouding en tracking op een raster van ontvangerposities rond de jammer
+
+seg-774ec89d13d7 = Engine v{ $version } · <c1/> · seed { "1" } · ontvanger per cel verplaatst
+
+seg-7292d543b1ac = Elke cel, bij Missies
+
+seg-08ba18ea712c = Misleiding
+
+seg-f765712462a1 = Een spoofer neemt de ontvanger over en laat de tijd ervan met een constante snelheid afdrijven. De integriteitsmonitor van elke klok heeft zijn eigen detectiegrens: de kwantumklok signaleert de leugen vrijwel meteen, de klassieke pas wanneer de afwijking is gegroeid.
+
+seg-1770a46a99f6 = Gespoofde tijdafwijking tegenover de detectiegrens
+
+seg-0f425005ca69 = De tijdafwijking van een spoofer tegenover de detectiegrens van elke klok, met het moment waarop elke monitor hem signaleert
+
+seg-a9829e27b53b = Engine v{ $version } · <c1/> · deterministisch, geen seed
+
+seg-ab0eb55b688a = Klokken
+
+seg-ceaa6be5f5fd = Klok-holdover over oscillatorklassen heen
+
+seg-c25919241d9e = Vanaf het moment dat GNSS verdwijnt: de mediaan en het 95e percentiel van { "200" } Monte Carlo-runs voor een atoomklok op chipschaal (CSAC) en een optische roosterklok, en de fout na één dag van vier andere klassen: een optische masterklok, een waterstofmaser, een rubidium-atoomfrequentienormaal (RAFS) en de miniatuurversie daarvan (mini-RAFS).
+
+seg-b2019ec6d1c7 = Tijdfoutband over { "200" } Monte Carlo-runs
+
+seg-01961fd0b949 = Klokfout nadat GNSS verloren is: mediaan en 95e percentiel van { "200" } Monte Carlo-runs voor twee klokken, en de fout na één dag van vier oscillatorklassen
+
+seg-ae208f50ab77 = Engine v{ $version } · <c1/> · seed { "42" }
+
+seg-b3ec228c054d = <b>Kolom na één dag:</b> Engine v{ $version } · <c1/> · deterministisch, geen seed
+
+seg-a747535696fa = Koppelnavigatie
+
+seg-ae35aad6ab75 = GNSS/INS-uitloop
+
+seg-0c56d6e5450a = Wanneer GNSS wegvalt, gaat het INS (traagheidsnavigatiesysteem) door en opent zijn foutkegel zich. Twee traagheidsmeeteenheden (IMU's), één budget.
+
+seg-9f97f05ad6bb = Positiefoutkegel nadat GNSS verloren is voor twee traagheidsmeeteenheden, tegenover het positiebudget
+
+seg-142a299dff50 = Hoe lang een klok binnen zijn bewakingsinterval blijft na de laatste positiebepaling: de vraag waar netwerken met tijdslots om geven.
+
+seg-2b3d148b354d = Voorspelde tijdfout sinds de laatste positiebepaling tegenover de slotbewaking
+
+seg-7a7de9a2d48a = RAIM en ARAIM
+
+seg-4d5cad94655f = Beschermingsniveaus (PL) van receiver autonomous integrity monitoring (RAIM) en de geavanceerde vorm ervan (ARAIM), getoetst aan de alarmgrens: hier de integriteitsalarmfase van de geketende missie. Gearceerde balken zijn epochs waarin geen beschermingsniveau kon worden gevormd.
+
+seg-750f6b337ce8 = Verticaal beschermingsniveau bij elke epoche van de integriteitsalarmfase, tegenover de alarmgrens
+
+seg-cdf824111b80 = Telecom
+
+seg-129537868d97 = MTIE (maximum time interval error) en TDEV (time deviation) van een holdover van 24 uur tegenover de grenzen van ITU-T (International Telecommunication Union, Telecommunication Standardization Sector), hier die van PRTC-A (primary reference time clock, klasse A).
+
+seg-7a19d976cca6 = Maximum time interval error en time deviation van de holdoverrun tegenover de PRTC-A-grens
+
+seg-ea5d9e4acbdf = Astrodynamica
+
+seg-5a507113bfff = Banen: SGP4 en numeriek
+
+seg-2ebc9a7b022e = SGP4-propagatie (Simplified General Perturbations { "4" }) van een echte two-line element set, getekend op echte beelden; CCSDS OEM- en SP3-efemeriden als invoer en uitvoer.
+
+seg-c28ef17609ee = Grondspoor van de SGP4-propagatie van de engine voor een echte two-line element set, op NASA Blue Marble-beelden
+
+seg-2bc362b38f3d = Cislunair
+
+seg-7904e93c0bcb = Maan-PNT
+
+seg-48ad4630a03f = Positiebepaling, navigatie en tijdsynchronisatie rond de maan: horizontale en verticale beschermingsniveaus (HPL, VPL) uit ARAIM op een maannavigatiedienst.
+
+seg-f69a91258669 = Maanbeschermingsniveaus uit de LunaNet-ARAIM-run tegenover de alarmgrens, naast de voorkant van de maan
+
+seg-2c2d1fdec798 = Opkomende sensoren
+
+seg-e130f7a43848 = Afwegingsstudies voor kwantumsensoren
+
+seg-577795028a7f = Weeg een kwantumklok af tegen een klassieke voordat iemand hardware koopt: holdover over een reeks ruisniveaus van de klassieke klok.
+
+seg-836a325ef88c = Sweep van classical_q_wf: holdover_s
+
+seg-979452def1d6 = Holdovertijd van een kwantumklok en een klassieke klok over een reeks ruisniveaus van de klassieke klok
+
+seg-ebaa722c5ab6 = Engine v{ $version } · <c1/> · seed { "42" }
+
+seg-1d2973bd0f2f = Draait overal
+
+seg-250a09c4baa0 = Browser, terminal, notebook, IDE, assistent
+
+seg-62ea80e12931 = Dezelfde Rust-engine wordt geleverd als WebAssembly voor Kshana Studio, een CLI (command-line interface), Python- en JavaScript-pakketten, een JetBrains Marketplace-plug-in voor uw IDE (integrated development environment) en een MCP-server (Model Context Protocol).
+
+seg-430082bf58d4 = ghcr.io-image
+
+seg-afd561090841 = CCSDS OEM
+
+seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: Standard Product { "3" }-baanformaat.
+
+seg-70d4597772cb = Reikwijdte, duidelijk gesteld
+
+seg-2ee2e20030f3 = De grenzen kennen is even belangrijk als de functies.
+
+seg-253c54ae2238 = Geen RF-signaalgeneratorhardware<s1>Het stuurt geen radio aan en zendt niets uit; de uitvoer op signaalniveau bestaat uit basisband-IQ-samplebestanden voor software-ontvangers.</s1>
+
+seg-4fe725162c1c = Geen hardwarematige of gecertificeerde GNSS-ontvanger<s1>De software-ontvanger (acquisitie en tracking op vastgelegde of gegenereerde IQ) is een analysehulpmiddel, geen navigatieproduct.</s1>
+
+seg-d3606ea42b36 = Geen vluchtproduct<s1>Een instrument voor studie en afweging, waarbij elk antwoord is gelabeld als getoetst aan een onafhankelijke externe referentie of berekend uit een model.</s1>
+
+seg-57678c2b9a1d = AI-assistenten · kshana-mcp
+
+seg-d473cb253f20 = Vraag het uw AI-assistent. De engine antwoordt.
+
+seg-35f55ec31aeb = Uw AI-assistent (kunstmatige intelligentie) voert de engine uit via MCP (Model Context Protocol) met <b>kshana-mcp</b> en leest JSON (JavaScript Object Notation) terug.
+
+seg-54d5c8e07a24 = Registreer het daarna in de MCP-clientconfiguratie van uw assistent. <a1>Volledige configuratie bij Ontwikkelaars</a1>
+
+seg-7e3b4395292e = Scrollverhaal over spoofing
+
+seg-fb440c81faf1 = Scrollverhaal · één geketende run
+
+seg-24b800b6ec75 = Van een heldere hemel tot een vrij lopende klok.
+
+seg-88e748800e7f = Eén ontvanger, T+{ "01" }:{ "16" }:{ "10" } missietijd: een heldere hemel, een jammer, een spoofer die het antwoord verschuift in plaats van het te blokkeren, en dan een klok die op zichzelf is aangewezen. De { "102" } satellieten zijn de vier systemen van de constellatierun, op de echte aarde. Scrol.
+
+seg-1a913717fbd3 = { "01" } · Nominaal
+
+seg-488b802a8afc = Elke verbinding verantwoord.
+
+seg-2379d9ee4cd0 = { "8" } satellieten gevolgd bij een gemiddelde C/N0 (draaggolf-ruisdichtheid) van <b>{ "43.0" } dB-Hz</b>. Het verticale beschermingsniveau blijft tussen { "9.1" } en { "21.6" } m, onder de alarmgrens van { "50" } m.
+
+seg-8ad9711d8bae = { "02" } · Jamming
+
+seg-c3fa50909f9d = Ruis verzwelgt de hemel.
+
+seg-95d85165182f = Een breedbandjammer op { "1.0" } km afstand gaat aan met <b>-30 dBW</b>. C/N0 zakt naar <b>{ "30.6" } dB-Hz</b>, net boven de volgondergrens van { "25" } dB-Hz. Luid, dus de ontvanger weet het.
+
+seg-1f1bc00b81ee = { "03" } · Spoofing
+
+seg-458faa9a3f96 = Een leugen die op een positiebepaling lijkt.
+
+seg-dda6f0eb3fb6 = Een spoofer duwt de klok op met <b>{ "0.1" } ns/s</b>. De RF-detector (radiofrequentie) slaat alarm bij T+{ "00" }:{ "20" }:{ "00" }; de klokgestuurde monitor heeft <b>{ "370" } s</b> nodig, en tegen die tijd is al { "36.0" } ns binnengehaald.
+
+seg-13be4329a209 = { "04" } · Holdover
+
+seg-fe4fb4387b34 = Dan begint de tijd af te drijven.
+
+seg-4f2ce8d81d29 = De jammer gaat naar { "10" } dBW en elke satelliet gaat verloren. De klok loopt vrij vanaf de { "37.0" } ns die de spoofer achterliet en passeert zijn <b>bewaking van { "50" } ns bij T+{ "00" }:{ "35" }:{ "40" }</b>; de traagheidsfout bereikt { "24.3" } km.
+
+seg-fe656aefe9bb = Klokfout · holdover
+
+seg-548449af47a8 = bewaking { "50" } ns
+
+seg-21e942dadf02 = Legenda van de constellatie
+
+seg-09d18cf767a7 = Open kern, Kshana Pro, maatwerkstudie
+
+seg-302606971c35 = Gratis voor iedereen. Pro wanneer het antwoord een beoordeling moet doorstaan.
+
+seg-27c12083529b = Kshana Pro is een propriëtaire laag die op de open kern steunt en die nooit forkt, beschikbaar onder contract. Geen prijzen op een webpagina: elke betaalde route begint met een bericht aan <a1>contact@ashforde.org</a1>.
+
+seg-43ceda17e71c = Open kern · gratis · AGPL-3.0
+
+seg-0230217b1110 = Iedereen die positie of tijd aan GNSS ontleent, is kwetsbaar: jamming, spoofing en signaalverlies treffen voertuigen, netwerken, elektriciteitsnetten en ruimtevaartuigen even goed.
+
+seg-9e88a1981d1e = { "176" } van { "388" } mogelijkheden komen overeen met onafhankelijke externe referenties; de rest is hardop gelabeld als berekend uit een model.
+
+seg-4b41ffeb0030 = Alle { "87" } scenariosoorten, gratis en zonder functiebeperking, deterministisch uit scenario, seed en engineversie.
+
+seg-0af87a1caff4 = Dezelfde kern onder een commerciële licentie, voor gesloten integratie.
+
+seg-f6406933eb77 = De engine installeren
+
+seg-6a74a165bfd0 = Kshana Pro · onder contract
+
+seg-298532756f74 = Het Pareto-front van een ontwerpruimte, waarbij elk ontwerp op het front een scenario is dat de gratis engine opnieuw uitvoert.
+
+seg-a699256db841 = Onzekerheid en gevoeligheid over duizenden runs.
+
+seg-665005551d84 = Een missiedossier met één opdracht, met een verificatiematrix en een pdf-bestand (Portable Document Format).
+
+seg-455cb5040f80 = Reproduceerbare bewijspakketten van auditkwaliteit; digitale kloktweelingen gekalibreerd op het gepubliceerde Allan-budget van uw apparaat; architectuurafwegingen gerangschikt op een kwaliteitsmaat; model-based systems engineering (MBSE) en programmatooling.
+
+seg-3e30593288a1 = Wat Pro omvat
+
+seg-be42106ce1bc = Maatwerkstudie · voor u gedaan
+
+seg-254836cd23af = Maatwerkstudie: het antwoord, niet het hulpmiddel
+
+seg-fb87be7dc462 = Een studie naar de PNT-veerkracht van uw systeem, berekend uit een model, bijvoorbeeld een audit van de optimismekloof. Geen certificering.
+
+seg-b9d62e7772a7 = Sensor- en veerkrachtmodellen gekalibreerd op uw hardware.
+
+seg-57320238c0f4 = Werk onder exportbeperkingen onder de passende vrijwaring en geheimhoudingsovereenkomst (NDA, non-disclosure agreement).
+
+seg-e36049d768ce = Integratie, training en advies.
+
+seg-3303866fbf99 = Dezelfde engine, versterkt: echte uitvoer van Kshana Pro
+
+seg-f5513a1750f1 = <a1><s1><c1/>Ontwerpoptimalisatie</s1></a1>
+
+seg-2bbc6243b4b1 = <b>{ "608" } ontwerpen</b>, allemaal doorgerekend: het Pareto-front en zijn knik
+
+seg-56e344605a3d = <a1><s1><c1/>Onzekerheid en gevoeligheid</s1></a1>
+
+seg-a0b3c138f981 = <b>{ "2,000" } runs</b>: een betrouwbaarheidsband tegenover een grens
+
+seg-6de95aaa8ba4 = <a1><s1><c1/>Missiedossier</s1></a1>
+
+seg-905e5eef45e5 = <b>{ "12" } eisen</b> gecontroleerd aan de hand van echte runs, pdf van 21 pagina's (Portable Document Format)
+
+seg-7d9ee2bfbb90 = Ontdek waar uw tijdsynchronisatie het begeeft, voordat het gebeurt.
