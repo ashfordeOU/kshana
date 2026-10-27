@@ -1179,3 +1179,81 @@ seg-2d593a99a2b1 = <em>typowa</em> zaobserwowana zgodność; <b>wymuszana bramka
 seg-34cfd0e08235 = gwarantowana granica dokładności { "2" }%
 
 seg-d3402cc1ebd5 = „odtwarzalne / identyczne co do bitu”
+
+seg-46ea210bcdad = powtórny przebieg identyczny co do bitu na <b>tym samym systemie operacyjnym (OS) z przypiętym zestawem narzędzi</b>; między Linuksem, macOS i Windows CI sprawdza zatwierdzony skrót SHA-256 odcisku wejścia i kształtu każdego wyniku (<c1/>) oraz wartości liczbowe z dokładnością do { "1e-6" } (<c2/>)
+
+seg-38c6528122a8 = identyczny co do bajtu pełny wynik na różnych systemach operacyjnych (różnice libm na ostatniej cyfrze)
+
+seg-b0e21aea4ccd = scenariusz SGP4 dla GPS (<c1/>)
+
+seg-1131aa869f1d = autentyczna migawka Celestrak <c1/> (2021-07-28, { "30" } satelitów, ścisłe sumy kontrolne), w której każdy satelita jest propagowany od własnej epoki TLE
+
+seg-21c2f1b5d7e2 = aktualna konstelacja — odśwież migawkę poleceniem <c1/> (zob. <a1><c2/></a1>); numery katalogowe NORAD (North American Aerospace Defense Command) są rzeczywiste
+
+seg-6948bd06c7e5 = Kontrole krzyżowe z artykułami o Lunar-PNT (dowody regresyjne, nie wiersze macierzy)
+
+seg-9ee0faf0b359 = Zestaw lunarny/cislunarny (możliwości „Lunar & cislunar” i „Lunar PNT suite” w README) ma twierdzenia z opublikowanych artykułów sprawdzone niezależnie w <c1/>, każde względem wyroczni z <em>innej</em> implementacji:
+
+seg-b4edbf832fe6 = <b>orbitalny ślad nadawania/rejestracji</b> względem <c1/> (funkcja Bessela J1 z Cephes);
+
+seg-c856d319a46e = <b>geometria DOP dla latarni na powierzchni</b> względem niezależnego rozwiązania <c1/> w NumPy;
+
+seg-33ee672d98d7 = <b>wzrost błędu predykcji persystencji UT1/EOP</b> względem ponownego sparsowania w NumPy tych samych dosłownych wierszy <c1/> z IERS;
+
+seg-9b6e59789117 = <b>płaska rodzina orbit wstecznych odległych (DRO)</b> względem bazy danych NASA/JPL Three-Body Periodic Orbit Database;
+
+seg-c77384abd1cc = <b>budżet precyzji pomiaru odległości RF</b> względem wzorca wyprowadzonego z podstaw fizycznych.
+
+seg-a451dbe09e10 = Fixtures i skrypty generatorów wyroczni znajdują się w <c1/>. Wzmacniają one dowody stojące za możliwościami, które w sprawdzanej maszynowo macierzy pozostają <b>MODELLED</b> (<c2/>); są to kontrole regresyjne, <b>a nie</b> nowe wiersze VALIDATED macierzy, więc same nie zmieniają liczby wierszy sprawdzanej maszynowo macierzy. Liczby tej nie powtarzamy tutaj, ponieważ ręcznie wpisana kopia się rozjeżdża: aktualny podział to wygenerowany nagłówek <a1><c3/></a1>, który <c4/> zapisuje na podstawie <c5/>, a <c6/> go przypina.
+
+seg-a353a63661de = <s1>Poprzednia</s1>Eksporty i importy interoperacyjności
+
+seg-fdae3b73ab67 = <s1>Następna</s1>Macierz weryfikacji
+
+seg-59c12422e6e7 = Pływy w geopotencjale (src/tides.rs)
+
+seg-10f0b4616abe = Manewry i projektowanie trajektorii (src/maneuver.rs)
+
+seg-56cdbd59ce5d = Wyznaczanie orbity (OD) (src/orbit_determination.rs, src/batch_ls.rs)
+
+seg-3a2c69fcbb86 = Walidacja modelu sił przez dopasowanie efemeryd (src/precise_od.rs)
+
+seg-05a25c6ef750 = Rzeczywiste precyzyjne orbity agencji (tests/agency_galileo.rs, tests/agency_swarm.rs, tests/agency_lro.rs)
+
+seg-279f4619bc2d = Nawigacja z mapą grawitacyjną / alt-PNT (src/gravimeter.rs, src/mapmatch.rs, src/particle_filter.rs, src/altpnt/terrain.rs)
+
+seg-7b512df70323 = Model błędów INS / IMU — walidacja względem kart katalogowych (src/inertial/)
+
+seg-b385e665cfff = PNT dla głębokiego kosmosu i Marsa — fundament D0 (src/body.rs, src/mars_frame.rs, src/ephem_provider.rs, src/radiometric.rs, src/timescales.rs)
+
+seg-5887e7e1a218 = Obserwable radiometryczne dla głębokiego kosmosu i komunikat CCSDS Tracking Data Message — D1 (src/radiometric.rs, src/ccsds_tdm.rs)
+
+seg-a9cf84a14301 = OD o zredukowanej dynamice dla głębokiego kosmosu — D2 (src/deepspace_od.rs, src/clock_state.rs, src/mars_atmos.rs)
+
+seg-dc406cb825db = Scenariusz PNT dla głębokiego kosmosu i fuzja jednokierunkowa+dwukierunkowa — D3 (src/mars_pnt.rs, src/deepspace_od.rs)
+
+seg-7784f9436dd2 = Lunarny czas współrzędnych — relatywistyczne tempo zegara Ziemia–Księżyc (src/lunar_time.rs)
+
+seg-8a34cb900611 = Lunarna VLBI geodezyjna — opóźnienie w polu bliskim dla bazy ziemskiej obserwującej latarnię na Księżycu (src/lunar_vlbi.rs)
+
+seg-d47906a347b3 = Lunarna łączna wielotechnikowa OD + zegar — symulowane odtworzenie w pętli zamkniętej (src/lunar_combination.rs)
+
+seg-17b9f0ae9dee = Realizacja lunarnego układu odniesienia — dopasowanie datum Helmerta o 7 parametrach (src/lunar_frame_realise.rs)
+
+seg-3cfffa3eeb79 = Lunarna objętość usługi nawigacyjnej — DOP / pokrycie / dostępność oraz uogólniony lunarny ARAIM PL (src/lunar_service.rs)
+
+seg-d80bf3320a15 = Lunarny różnicowy PNT — kasowanie składowej wspólnej + residuum rosnące wraz z bazą + poziomy ochrony DGNSS (src/lunar_dpnt.rs)
+
+seg-23c3d8a79acf = Lunarny eksport interoperacyjny — CCSDS OEM + KIF zgodne z LunaNet/IOAG, z konformancją w obie strony (src/lunar_interop.rs)
+
+seg-a697f4f424b8 = Reprezentatywność demonstracji i rejestr luk do lotu (src/representativeness.rs)
+
+seg-4c924153299d = Ujednolicone dowody w wymianie kwantowe a klasyczne (src/qtrade.rs)
+
+seg-bd1a5835c5db = Biblioteka modeli błędów urządzeń kwantowych (src/quantum_devices.rs)
+
+seg-6b1bb731f966 = Zaufany czas kwantowy — łańcuch end-to-end, bezpieczna dystrybucja, anomalie + wymiana (src/timetransfer_chain.rs)
+
+seg-3332c6c1ae86 = Nawigacja kwantowa bez GNSS (src/quantum_nav_od.rs)
+
+seg-9b46a5add4ab = Detekcja usterek / anomalii w systemach PNT kwantowych (src/quantum_faults.rs)
