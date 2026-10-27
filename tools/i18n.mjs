@@ -821,7 +821,9 @@ export function stripRich(html) {
 /** Annotate the static text segments of one Studio page: the element that holds exactly the segment gets data-l10n-rich and
  *  data-l10n-tags; otherwise the segment's range is wrapped in a span that does. Returns {html, messages:[{id, skel, codes}]}. */
 export function studioRich(html) {
-  const segs = segments(html).filter((x) => !x.attr && x.kind === 'text');
+  // the build's crawler text (<!-- seo:body --><noscript>...</noscript>) is generated English for search engines: not a message
+  const seo = []; for (const m of html.matchAll(/<!-- seo:body -->[\s\S]*?<\/noscript>/g)) seo.push([m.index, m.index + m[0].length]);
+  const segs = segments(html).filter((x) => !x.attr && x.kind === 'text' && !seo.some(([a, b]) => x.start >= a && x.start < b));
   const edits = [], messages = [];
   for (const sg of segs) {
     const before = html.slice(0, sg.start), after = html.slice(sg.end);
