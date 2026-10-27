@@ -437,3 +437,267 @@ dat-8ddf5c79ed9f = Port empirické termosféry NRLMSISE-00 (gtd7 a gtd7d: hustot
 
 # data/verification-matrix.json
 dat-4a036f537d6c = Čtečka souborů DSN Orbit Data Files (TRK-2-18): skupiny záznamů o 36 bajtech (štítek souboru, identifikátor, data dráhy, rampy jednotlivých stanic, posuny hodin, souhrn, konec souboru) a v každém záznamu dat dráhy časová značka od { "1950" }, zpoždění downlinku a uplinku, pozorovatelná, stanice, typ dat, pásma, platnost, kanál, kosmická loď, 46bitová referenční frekvence a doba komprese; časy začátku a konce ramp, rychlosti a počáteční frekvence. Nad ní rampovaný 2cestný model Dopplera v pásmu X (integrované rampy uplinku, doba světelné cesty tam a zpět se Shapirovým zpožděním a troposférou, stanice DSN přes řetězec IAU 2006/2000A CIO a IERS EOP, čas stanice) a dávkové určování oběžné dráhy oběžnice Marsu (pole GMM-3, třetí tělesa, SRP, odpor).
+
+# studio/data/capabilities.json
+dat-c6d6f54662a9 = Křížový odkaz požadavek–modul–test–orákulum–stav vykreslený ze samotného enginu (Markdown/CSV), s jednotkově testovanými invarianty poctivosti: řádek smí být označen jako ověřený jen tehdy, nese-li nezávislé vnější orákulum (NIST / AIAA / SOFA / IGS / publikovanou hodnotu), takže vnitřní kontrola vlastní konzistence se nemůže vydávat za validaci — a hardwarové schopnosti a schopnosti PA, které Kshana neposkytuje, jsou zaznamenány jako mezery v odpovědnosti partnera. Spustitelná páteř pro verifikační křížový odkaz podle ECSS-E-ST-10-02.
+
+# data/verification-matrix.json
+dat-c0408697fed4 = Most bez ROS, který zapisuje zprávy o řešení polohy a o družicích jako NMEA a vyhodnocuje je přes vazbu pro Python (integrations/ros2/kshana_trust), a most z gnss_lib_py NavData do receiver-trust přes formát rtklib-pos (integrations/gnss_lib_py).
+
+# data/search.json
+dat-6d864a01c477 = Běh zapíše dokument s výsledkem, graf a zprávu. --export zapíše také geometrii scénáře, nebo jeho…
+
+# data/search.json
+dat-9801c2af3f99 = Hranice rozsahu, zapsaná tak, aby ji nikdo neobjevil jako závazek až na schůzce.
+
+# data/search.json, js/missions-runs.mjs
+dat-22f4ef767e4e = Soubor běhů Monte Carlo se seedem v rámci kampaně, na případu s řešením v uzavřeném tvaru.
+
+# data/search.json
+dat-bf1aa298962c = Loď vplouvající do přístavu pod rušičkou na břehu, přičemž budovy na nábřeží před ní berou
+
+# data/search.json
+dat-fd6f3f62472b = Návrh signálu
+
+# data/search.json
+dat-41bfe8168d0a = Podepsaný příkaz použitý v podvrženém čase se stále směruje chybně
+
+# data/verification-matrix.json
+dat-41630d70066e = Podepsaný balíček důkazů o události důvěry v GNSS, zřetězený hashi: SHA-256 přes každý soubor a řetězec přes manifest, podpis Ed25519 přes přesné bajty manifestu a verifikátor, který pojmenuje každé selhání (změněný, odstraněný, přejmenovaný, vyměněný nebo přidaný soubor, přeuspořádaný nebo upravený manifest, manifest znovu zahashovaný bez klíče, znovu podepsaný balíček, nesprávný připnutý klíč a token časového razítka, který je odstraněn, nahrazen, nesmyslný nebo vztažený k jinému dokumentu).
+
+# data/search.json
+dat-00cc10649746 = Jeden scénář odpovídá na jednu otázku o jedné situaci.
+
+# studio/data/capabilities.json
+dat-b1a5ac35cd5f = Model kosmického počasí: sluneční (F10.7 / F10.7a centrované na 81 dní) a geomagnetické (Kp, s definiční tabulkou Kp↔ap) indexy aktivity, jimi řízená exosférická teplota podle Jacchii-1971 a hustota termosférického neutrálního plynu ve výšce korigovaná na aktivitu oproti statické — závislost hustoty na slunečním cyklu, kterou statická atmosféra vynechává. Kalibrovaná vazba prvního řádu přes výškovou škálu, nikoli atmosféra NRLMSISE ověřená na datech.
+
+# data/search.json
+dat-8f4292769e95 = Syntetická ukázka
+
+# data/search.json
+dat-35e7d2561585 = Technická poznámka pro provozovatele sítí indexovaných časem: konstelací, které směrují, zadávají úlohy nebo předávají podle…
+
+# data/verification-matrix.json
+dat-74d13ad4e962 = Třetí volba datumu, `all-stations-fixed`, která drží každou pozemní stanici pevně a odhaduje pouze souřadnice MAJÁKU pevné vůči tělesu Měsíce — konfiguraci, pro niž se nejistota bodu na měsíčním povrchu skutečně uvádí, protože souřadnice pozemních stanic jsou vstupem modelu zpoždění, nikoli jeho neznámou. Existuje proto, že kovariance na úrovni stanic a kovariance bodu na povrchu jsou RŮZNÉ VELIČINY oddělené pákovým poměrem ρ/B a dosud nic nebránilo tomu, aby se jedna uváděla místo druhé. Emitovaný blok `beacon_link` nese ρ, nejdelší základnu, pákový poměr, tvar bodu na povrchu ekvipartičního vztahu c·σ_τ·(ρ/B)·√(g/N), vypočtené sigma jednotlivých souřadnic majáku a jejich poměr — poměr je null, a ne zavádějící, kdykoli je maják neodhadovaný nebo je matice s deficitem hodnosti. B se bere jako NEJDELŠÍ přítomná základna, tedy nejpříznivější, takže poměr může být jen podhodnocen. Spustitelné jako `datum = "all-stations-fixed"` s `estimate_beacon = true`, což je odmítnuto zprávou pojmenovávající chybějící vstup, pokud maják není odhadován
+
+# data/verification-matrix.json
+dat-6f57bdb89c4f = Kalendářní datum a čas UTC na dvoudílné juliánské datum UTC podle konvence SOFA dtf2d pro dny, které končí přestupnou sekundou (dlouhé { "86 401" } s, platné { "23" }:{ "59" }:{ "60" }.x), UTC na TAI a zpět a UT1 z UTC přes TAI, na dvoudílných datech od 1972-01-01: časová cesta, kterou přebírá SGP4 (Sgp4::propagate_at, měřeno od dvoudílné epochy) a rotace pevná vůči Zemi podle IAU 2006/2000A (sgp4::teme_to_itrs_matrix_eop s dvoudílným úhlem rotace Země)
+
+# studio/data/capabilities.json
+dat-663f320a431f = Verzovaná, samopopisná obálka, která obaluje výsledek scénáře jeho druhem, verzí schématu a štítky modelované/ověřené, takže uložený artefakt zůstává sám sebe dokumentující a starší obálky zůstávají čitelné s dopřednou kompatibilitou.
+
+# data/search.json
+dat-127255e50868 = Úroveň v prohlížeči bez instalace
+
+# data/verification-matrix.json
+dat-239c20643ec7 = Přijímá tabulkový stav efemerid vztažený ke středu Měsíce (vyhodnocení jádra SPK/BSP) nebo publikovanou definici konstelace za `ephemeris_path`, provede proti ní totožný průchod pokrytím / DOP / ochrannou úrovní a vydá z toho plynoucí požadavek na ranging σ_URE VEDLE nezměněných ilustrativních keplerovských a poruchových výsledků, s rozdílem jako samostatnou pojmenovanou veličinou. Každá hodnota nese třídu původu, která odlišuje odvozené z jádra od odvozeného z publikovaných elementů a od modelovaného, takže je nelze v následné citaci zaměnit
+
+# data/search.json
+dat-a5e11f902927 = Přístupnost a motiv
+
+# studio/data/capabilities.json
+dat-ebda4408a75a = Akumuluje parciální derivace zpoždění lunární VLBI do Fisherovy informační matice přes plán základen a epoch a vrací kovarianci souřadnic stanic, takže krok od přesnosti zpoždění k sigma souřadnic je odhadnut, a ne předpokládán. Volná síť je uvedena vedle sítě s pevným datumem, s deficitem hodnosti a pojmenovaným nepozorovatelným směrem. Kovariance bodu na povrchu je držena odděleně od kovariance pozemní stanice, protože blízkopolní parciální derivace majáku je rozdíl dvou jednotkových vektorů stanic a nechová se jako případ vzdáleného pole.
+
+# data/search.json
+dat-d00cc6e4476d = acm-link (druh scénáře)
+
+# js/developers-data.mjs
+dat-f4f5f8cb9fcd = Vyhledání a poté sledování jednoho nebo více PRN v záznamu IQ v pracovním adresáři (`kshana iq track`): vyhledání inicializuje každý kanál, poté banka smyček DLL/PLL (volitelně s podporou FLL) přehraje záznam jednou.
+
+# data/verification-matrix.json
+dat-7151fa5ea3ca = Vyhledání signálu a odhad C/N0 na skutečném lunárním IQ
+
+# data/verification-matrix.json
+dat-e6a6348d99e6 = Hystereze vyhledání signálu a kvantizér vstupní části v druhu jamming oproti nezávislým přepočtům
+
+# data/verification-matrix.json
+dat-2a6bb2188ff2 = Vyhledání signálu na zadržených skutečných lunárních IQ oproti Dopplerovu posunu předpovězenému z dráhy
+
+# data/verification-matrix.json
+dat-0823eb571951 = Vyhledání signálu na skutečném lunárním IQ oproti Dopplerovu posunu předpovězenému z dráhy (rozhodnutí podle výkonu vzorků)
+
+# data/verification-matrix.json
+dat-547ca1d69c51 = Vyhledání signálu na skutečném lunárním IQ vyhodnocené podle Dopplerova posunu předpovězeného z dráhy
+
+# data/verification-matrix.json
+dat-039be7665174 = acquisition::pcps_acquire (rozhodnutí průměrováním buněk, pravděpodobnost falešného poplachu { "1e-7" }) s refine_doppler_coherent na dávkách LuGRE L1 zaznamenaných na měsíčním povrchu (I ve vyšším půlbajtu, úrovně mid-rise); rozdíly Dopplerova posunu mezi vyhledanými družicemi oproti rozdílům předpovězeným z finálních drah ESA a z jádra místa přistání Firefly
+
+# data/verification-matrix.json
+dat-727510f3d9eb = acquisition::pcps_acquire s rozhodnutím podle výkonu vzorků na devíti dávkách LuGRE L1 mimo povrch s úrovněmi mid-rise; rozdíly Dopplerova posunu mezi vyhledanými družicemi porovnané s rozdíly předpovězenými z finálních drah ESA a z trajektorie Blue Ghost rekonstruované Firefly
+
+# data/verification-matrix.json
+dat-d3c98afeb10e = acquisition::pcps_acquire s rozhodnutím průměrováním buněk (maximum nad průměrnou buňkou mřížky, odolné vůči šumu omezenému v pásmu) na devíti dávkách LuGRE L1 mimo povrch s úrovněmi mid-rise; rozdíly Dopplerova posunu mezi vyhledanými družicemi porovnané s rozdíly předpovězenými z finálních drah ESA a z trajektorie Blue Ghost rekonstruované Firefly
+
+# data/verification-matrix.json
+dat-1bcff7b1a35c = acquisition::tests (centrální případ Marcumova Q Q_1({ "0" },b)=exp(−b²/2); identita P_d=Q_M(√(2Mρ),√γ); zpětný převod P_fa↔práh napříč M a P_fa; monotonie ROC — P_d roste s SNR, klesá s prahem, P_d→P_fa pro SNR→{ "0" }; zisk nekoherentní integrace zvyšuje P_d při pevném P_fa; Marcumovo Q monotónní v a a b a omezené na [{ "0,1" }]); tests/acquisition_reference.rs (zobecněné Marcumovo Q_M(a,b), P_d, P_fa a inverze P_fa→práh shodné se scipy.stats.ncx2/chi2 na mřížce (M,a,b)/(M,P_fa)/(M,SNR) do ~{ "1e-6" })
+
+# data/search.json
+dat-bac6412ec51e = Aktivní útok podvržením času: dokáže monitor integrity každých hodin podvrh zachytit
+
+# studio/channels.json
+dat-c635c738dc7e = Přidat do Cursoru (Docker)
+
+# studio/channels.json
+dat-8c77bde79959 = Přidat do Cursoru (npx)
+
+# data/search.json
+dat-cbe0614db622 = Přidáno (balíčky důkazů)
+
+# data/search.json
+dat-5f952ed1e277 = Přidáno (kanály serveru MCP)
+
+# data/search.json
+dat-3160be870cb0 = Přidáno (trénovací proudy)
+
+# data/search.json
+dat-9aa33966abe9 = Přidáno (telemetrie důvěry)
+
+# data/search.json
+dat-c9519067263f = Přidáno (validace událostí CEF)
+
+# data/search.json
+dat-7f5832994cf3 = Přidáno (validace formátů telemetrie a balíčků důkazů)
+
+# data/search.json
+dat-f0450e0988f1 = Přidáno: mapování compliance a export pro bench
+
+# data/search.json
+dat-f57e37e24737 = Přidání nebo změna modelu senzoru
+
+# data/verification-matrix.json
+dat-0a7acb53b711 = Aditivita Fisherovy informace napříč nezávislými měřeními je vlastnost v uzavřeném tvaru, zde ověřovaná proti nezávisle napsanému součtu po prvcích a proti invarianci vůči pořadí a monotonii, které z ní plynou. POZNÁMKA K DŮKAZŮM: kombinátor dříve neměl žádný test a jediný test v modulu sečetl obě informační matice přímo v kódu, místo aby jej zavolal, takže rozbitý kombinátor by modul ponechal zelený; test nyní prochází přes combine a při mutaci selže. Všechny polohy majáků, geometrie orbiteru, přesnosti podle techniky a relativní náklady jsou reprezentativní volby, nikoli hodnoty mise (viz tests/fixtures/llr_geometry/NOTICE.md), takže každá metrika degenerace a hodnota CRLB dosažená přes tuto nabídku zdědí stav Modelovaný z lunar_identifiability::decompose.
+
+# studio/data/capabilities.json
+dat-051b8bf0b463 = ADEV/MDEV/TDEV/HDEV oproti referenčním odchylkám NIST SP { "1065" }
+
+# data/search.json
+dat-9f7eca309877 = Pouze poradní. Modelované výsledky ze zadaných vstupů a simulované pravdy; nikoli certifikace, ani…
+
+# data/search.json
+dat-70392caeb231 = Pouze poradní, nikoli typově schválené navigační zařízení: za navigaci zůstává odpovědný provozovatel.
+
+# studio/data/capabilities.json
+dat-2059dbfcc62f = AGPL-3.0-only (dvojí licencování; komerční licenci poskytuje Ashforde OÜ)
+
+# studio/channels.json
+dat-d03147706094 = Asistent AI (server MCP, cargo)
+
+# data/search.json
+dat-26a023f49e65 = Asistent AI: zaznamenaná relace kshana-mcp
+
+# data/verification-matrix.json
+dat-77f12e71a06d = Vyhodnocení detekce rušení RF pomocí AI/ML ({ "13494" })
+
+# data/verification-matrix.json
+dat-d6a9346ba180 = Studie optimistické mezery u detekce rušení RF pomocí AI/ML a prediktor mezery pouze podle ID
+
+# data/verification-matrix.json
+dat-8e9678e918f3 = Verifikační vektory SGP4 podle AIAA 2006-6753
+
+# data/search.json
+dat-45fc946e2b26 = Kandidáti AIS
+
+# data/search.json
+dat-abc86caed83f = Metoda AIS (kshana-interference-map/ais/v2)
+
+# data/search.json
+dat-0f67efd09716 = Sladěno s, nikoli hodnoceno ani schváleno. Toto mapuje simulované schopnosti Kshana na publikovanou odolnost PNT…
+
+# studio/data/capabilities.json
+dat-3e1f21cfad35 = všech { "18" } oficiálních sad testovacích vektorů: { "186,382" } značek ověřeno, { "0" } selhalo
+
+# data/search.json
+dat-5518913058ed = Všechny významné změny v Kshana jsou zdokumentovány zde.
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-374517c994b5 = Shoda estimátorů Allanovy odchylky na kanonické referenční řadě Stable32
+
+# data/verification-matrix.json
+dat-5d0a70d02616 = allan::edf_greenhall (s obaly edf_greenhall_adev, _mdev a _hdev): úplný algoritmus Greenhalla a Rileyho, Proc. 35th PTTI ({ "2003" }), oddíl { "3" } (rovnice { "7" } až { "13" } a koeficienty velkého J z tabulek { "1" } až { "3" }), pro řády diferencí { "1" } až { "3" }, exponenty šumu +{ "2" } až -4 všude, kde alpha + 2d > { "1" }, překrývající se i nepřekrývající se, modifikované i nemodifikované estimátory; NaN tam, kde se nepoužije, včetně nemodifikovaného případu bílého PM s ceil(M/S) <= d, jehož uzavřený tvar není implementován. assurance::uncertainty::edf nyní sdílí kód a zachovává své výstupy bit po bitu
+
+# data/verification-matrix.json
+dat-c61509f616d4 = allan::lag1_noise_id: identifikátor šumu podle Rileyho a Greenhalla ({ "2004" }) založený na autokorelaci s lagem 1 (decimovaná fáze s odstraněným kvadratickým členem, nebo frekvence zprůměrovaná po skupinách s odstraněnou přímkou; opakované první diference, dokud delta = r1/({ "1" }+r1) < { "0.25" } nebo d = dmax), vracející celočíselný i nezaokrouhlený exponent mocninného zákona alpha (+{ "2" } bílé PM až -2 náhodná procházka FM) při libovolném faktoru průměrování; určuje počet stupňů volnosti typu šumu pro karty zařízení změřené knihovny hodin
+
+# data/verification-matrix.json
+dat-78a4054fea0c = Allanova/modifikovaná/Hadamardova odchylka + identifikace šumu mocninného zákona s intervaly spolehlivosti χ²
+
+# data/verification-matrix.json
+dat-b60211f13641 = allantools { "2024.06" } — nezávislá knihovna třetí strany pro frekvenční stabilitu — mdev() a tdev() na hermetické fázové řadě LCG podle NIST SP { "1065" } §{ "12.4" } (stejná řada jako u řádků Theo1/TOTDEV/MTIE), počítající tytéž jednoznačně definované estimátory; shoda na <{ "1e-9" } relativně. Lze znovu vygenerovat offline přes tests/fixtures/mdev_tdev/generate_mdev_tdev_reference.py. (Test phasedat_reference.rs vázaný na data je také kontroluje proti Stable32 na { "1e-3" }; toto je těsná, vždy zapnutá hermetická křížová kontrola)
+
+# data/verification-matrix.json
+dat-5df774f32fe5 = allantools { "2024.06" } — nezávislá knihovna třetí strany pro frekvenční stabilitu — mtie() a tdev() na tests/fixtures/telecom_timing/holdover_te_series.csv, řadě načtené z téhož textu o 17 platných číslicích na obou stranách; reference zaznamenává SHA-256 řady a lze ji znovu vygenerovat offline přes tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Ověřuje ESTIMÁTORY na tomto záznamu, nikoli syntetický holdover, který jej vytvořil
+
+# data/verification-matrix.json
+dat-dc3f05de2bac = allantools { "2024.06" } — nezávislá knihovna třetí strany pro frekvenční stabilitu — mtie() na hermetické fázové řadě LCG podle NIST SP { "1065" } §{ "12.4" }; MTIE je čistá statistika max/min, takže výstup estimátoru je bit po bitu shodný s allantools na identicky sestaveném poli fáze (zapsané referenční konstanty o 15 platných číslicích leží do { "1" } ULP). Lze znovu vygenerovat offline přes tests/fixtures/mtie/generate_mtie_reference.py
+
+# data/verification-matrix.json
+dat-eac221ab207b = allantools { "2024.06" } — nezávislá knihovna třetí strany pro frekvenční stabilitu — theo1 (NIST SP { "1065" } rov. { "30" }) a totdev (NIST SP { "1065" } rov. { "25" }) na hermetickém datovém souboru LCG podle NIST SP { "1065" } §{ "12.4" }; lze znovu vygenerovat offline přes tests/fixtures/theo1_totvar/generate_theo1_totvar_reference.py
+
+# data/verification-matrix.json
+dat-77bc55c3a735 = allantools { "2024.06" } (A. Wallin; koeficienty Kasdina a Waltera { "1992" } / Vernotteho { "2015" }) — nezávislá kódová základna a citační linie počítající TUTÉŽ jednoznačně definovanou konverzi PSD→Allan podle IEEE-1139 σ_y(τ) pro každý z pěti typů šumu mocninného zákona. powerlaw::allan_deviation v kshana se shoduje s uzavřenými tvary z allantools (bílý/flicker FM, RW-FM a bílý PM na <{ "5e-9" } relativně; flicker PM na ~{ "1e-5" } — skutečný signál nezávislosti, protože kshana používá tabelovanou konstantu { "1.038" } z NIST-SP-1065, zatímco allantools plné 3γ−ln2), a práh flicker FM √({ "2" } ln2·h_{ "{" }-1{ "}" }) se shoduje s allantools napříč celou řadou — tentýž práh, který splňují řádky ověřené pro MDEV/TDEV/Theo1/MTIE. MODELLED stacionární model mocninného zákona — bez deterministického členu driftu (τ²); koeficienty jednotlivých zařízení / změřené prahy šumu zůstávají modelované
+
+# data/verification-matrix.json
+dat-e0653b8582e5 = allantools { "2024.6" } autocorr_noise_id (A. Wallin a přispěvatelé, LGPL-3.0-or-later, spuštěno generátorem fixtur jako samostatný program): nezávislá implementace publikovaného algoritmu Rileyho a Greenhalla, jednoznačně definované veličiny za uvedených konvencí. Ověřuje identifikátor, nikoli obsah šumu žádných skutečných hodin
+
+# data/verification-matrix.json
+dat-b7fd07001c69 = allantools { "2024.6" } ci.edf_greenhall, implementace publikovaného algoritmu třetí stranou, spuštěná skriptem scripts/gen_greenhall_edf_ref.py nad mřížkou předregistrovanou v xval/greenhall-edf/PREREGISTRATION.md (zapsanou samostatně, 0db0bb7a, před jakýmkoli porovnáním): ve všech { "4 876" } bodech, kde vrací konečné edf, se kshana shoduje do relativních { "6.0e-13" } (práh { "1e-9" }); v jejích { "46" } bodech s NotImplementedError kshana vrací NaN; každý štítek případu se vyskytuje; obaly se rovnají jádru bit po bitu; uncertainty::edf je bitově shodné přes { "274 280" } hodnot (připnuto jako SHA-256 před refaktorizací). V { "32" } bodech (alpha -4, d { "3" }, nemodifikovaný, případ { "2.2" }) allantools selže při vyhledání v tabulce { "2" }, takže pro ně neexistuje hodnota orákula a nepočítají se. Stable32 nebyl spuštěn. Revize { "0.36" } (docs/revisions/STUDIO15-greenhall-edf-portable.md): na přenositelné matematice si jádro bere logaritmus z vyhodnocení double-double zaokrouhleného jednou (allan::greenhall_ln) a nezměněný práh { "1" } opět platí ve všech { "4 876" } bodech, nejhorší relativně { "6.0e-13" }; stráž uncertainty::edf je znovu založena na přenositelném výpisu { "0.36" } ({ "3 746" } z { "274 280" } hodnot se posunulo, nejvýše o { "1.6e-12" } relativně, oproti základu s matematikou hostitele)
+
+# data/search.json
+dat-400b2cf3b7b1 = Koridor balistického návratu do atmosféry podle Allena a Eggerse: špičkové zpomalení (nezávislé na balistickém koeficientu, V_e^{ "2" }…
+
+# data/search.json
+dat-dc5af852862a = Také mimo rozsah
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-6a54cfeb126c = Alternativní / doplňková PNT
+
+# data/search.json
+dat-63c7e62e7996 = Změna tohoto dokumentu
+
+# studio/data/capabilities.json
+dat-ea6d5455c407 = Propagátor kruhového omezeného problému tří těles (CR3BP) Země–Měsíc v rotující soustavě — zachovávaná Jacobiho konstanta a všech pět Lagrangeových bodů — se stavovou přechodovou maticí { "6" }×{ "6" } a jednokrokovým diferenciálním korektorem, který vytváří skutečně periodické dráhy halo / téměř přímočaré dráhy halo (NRHO): reprodukuje publikovanou jižní NRHO { "9" }:{ "2" } kolem L2 (dráhu Gateway) s periodou ~{ "6.57" } dne a periluniem ~{ "3,250" } km. Dále geometrie cislunárního PNT LunaNet / LNIS (redukce MCI↔MCMF, selenografické souřadnice) s průchodem ARAIM u lunárního jižního pólu, který poctivě odhaluje mezeru v integritě: σ_URE ~{ "30" } m žene ochrannou úroveň daleko nad mezní hodnotu poplachu { "50" } m.
+
+# data/search.json
+dat-a3b581ec82e8 = Záznam IMU jako druhý senzor
+
+# data/search.json
+dat-fa43d8d6027a = Nezávislý audit dřívější verze Kshana zaznamenal čtrnáct přehnaných tvrzení (OC-0…OC-13): míst, kde…
+
+# data/verification-matrix.json
+dat-2ae0de249fed = Nezávislá numpy konečná diference dopředného modelu (F2). Nic se neporovnává se skutečnými řešeními lunárního rámce. Faktor je podmíněn předpokládanou známou drahou a sigma dosahu { "1" } m. MODELLED.
+
+# data/verification-matrix.json
+dat-da22d0c30e6c = Nezávislé numpy sestavení konečnými diferencemi (G2) a vyhodnocení v uzavřeném tvaru (G4). Citlivost na k2 u rodiny orbiterů je údaj horního konce (stav dráhy zde pohlcuje jen konstantu a trend). Neporovnává se s žádným měřením lunárního slapu ani librace. k2 je převzato z Lemoine et al. { "2014" } jako nominální hodnota. MODELLED.
+
+# data/verification-matrix.json
+dat-df78f06bd353 = Nezávislý přepočet v numpy (xval/jamming-terrain/oracle.py, bez sdíleného kódu: vlastní čtení .hgt, bilineární interpolace, zpětný převod WGS { "84" }, profil, vypouklost, nu a J(nu)) deseti poloh rušiček kolem přijímače v Badwater Basin na zapsané skutečné dlaždici SRTM tests/fixtures/terrain/N36W117_sub6.hgt. Prahy a polohy předregistrovány v 92cd2bfd. Všechny MET: aditivita (všech { "150" } výsledků scénářů bajt po bajtu shodných bez oddílu); body profilu a překážka každé polohy se rovnají a nu a ztráta jsou do { "1.6e-10" } (práh { "1e-9" }); ztráta nikdy neroste, když rušička stoupá z { "2" } na { "4902" } m; ztráta snižuje každé J/S přesně o sebe samu a o nic jiného; J(nu) do { "1e-12" } dB od orákula. Zjištění: polohy přes pohoří Black a Funeral ztrácejí { "44" } až { "48" } dB; dvě polohy na dně údolí ztrácejí { "8" } a { "15" } dB jen z vypouklosti Země při výškách antén { "2" } m, což je mezní případ modelu jedné nožové hrany. CO SE NEKONTROLUJE: jakékoli změřené šíření, vícehranová difrakce, odraz od země, clutter, vlastní chyba DEM. Přepočet téhož modelu, nikoli vnější orákulum; řádek zůstává MODELLED.
+
+# data/verification-matrix.json
+dat-39967d45af83 = Nezávislé numpy řešení týchž normálních rovnic z exportovaných řádků (Q3) a hrubá výčtová enumerace celých čísel (Q4). Neporovnává se s žádným měřením fáze nosné GNSS ani lunární. MODELLED.
+
+# data/verification-matrix.json
+dat-1d42a0145a24 = Nezávislý numpy skládaný systém s neznámými polohy eliminovanými explicitními Schurovými doplňky (T3). Neporovnává se s daty z GRASP, Genesis ani jiné mise. MODELLED.
+
+# data/verification-matrix.json
+dat-dea4ee566143 = Nezávislý optimalizátor: heliocentrické stavy z NAIF SPICE Toolkit (CSPICE N0067 přes spiceypy { "8.3.0" }) na stejném výřezu de440s, pykep { "3.0.1" } lambert_problem (ESA, MPL-2.0) a SciPy { "1.18.1" } Nelder-Mead, bez volání jakéhokoli kódu Kshana. Příručka NASA pro let Země–Mars (MIDAS, efemeridy neuvedeny, mřížka dat po 2 dnech) je sekundární publikovaná reference a stav nenastavuje
+
+# data/verification-matrix.json
+dat-dbc902d89b30 = Nezávislý přepočet v Pythonu každého příznaku vyhledání signálu (xval/jamming-acq-agc/hysteresis.py) z efektivního C/N0 enginu pro každou epochu, nezávislé numpy Monte Carlo ztráty kvantizéru (xval/jamming-acq-agc/quantiser_mc.py, vlastní hledání optimálního kroku, { "2" }^{ "22" } vzorků) a smyčka AGC vrstvy IQ. Prahy předregistrovány v 70c72fcc, s doplňkovou sadou běhů se seedem { "37793290" }. MET: aditivita (všech { "150" } výsledků scénářů bajt po bajtu shodných bez oddílů); každý příznak se rovná na doplňkových během ({ "1824" } spojů, { "732" } z nich s hysterezí); monotónnost v prahu; ztráta kvantizéru do { "0.0007" } dB od Monte Carlo při { "1" } až { "4" } bitech (práh { "0.02" } dB); údaj AGC do { "0.012" } dB od smyčky AGC (práh { "0.05" } dB). NOT MET: registrované běhy hystereze (jamming-demo při { "10" } až { "30" } dBW) byly neinformativní, protože každý spoj byl ztracen, a jejich H2 a H4 jsou splněny jen triviálně. Zjištění: při rušení CW ztrácí 1bitový ADC asi o { "5" } dB více než gaussovská hodnota, kterou engine používá, a je označen jako neplatný. CO SE NEKONTROLUJE: samotné vyhledávání signálu, dynamika AGC v čase, jakýkoli hardware přijímače. Přepočty téhož modelu, nikoli vnější orákulum; řádek zůstává MODELLED.
+
+# data/verification-matrix.json
+dat-2b3341041109 = Nezávislý program scipy/numpy integruje tytéž variační rovnice (práh O1). Nic se neporovnává s měřením lunární dráhy. Orákulum kontroluje numeriku uvedených vzorců, nikoli fyziku, takže řádek zůstává MODELLED. Model omezeného problému tří těles: bez Slunce, bez lunárních harmonických, osa rotace Země podél normály dráhy, ILLUSTRATIVE vstupy přijímače a stanic.
+
+# studio/data/capabilities.json
+dat-7b6f0f9a77ec = Otevřený engine radiometrické navigace pro hluboký vesmír / Mars: iterativní doba šíření světla + Shapiroovo zpoždění, dvoucestný/jednocestný/třícestný Doppler a dosah (Moyer, dvě větve), koherentní obrat transpondéru, regenerativní/PN ranging a Δ-DOR; vstup/výstup CCSDS-TDM; redukovaně dynamický odmocninový informační filtr (empirická zrychlení + palubní hodiny + odpor Marsu), který provádí určování oběžné dráhy kolem Marsu (LMO) v syntetické uzavřené smyčce; fúze jednocestných a dvoucestných měření; a areostacionární reléová konstelace MARCONI s komplexním simulátorem výkonu GSE.
+
+# data/search.json
+dat-53d8e73eaa74 = Otevřená sada úloh, rozdělení a metrik pro detekci rušení GNSS a holdover času.
+
+# studio/data/capabilities.json
+dat-fa2607562c2d = Otevřený verifikátor na straně přijímače pro autentizaci navigační zprávy Galileo Open Service, napsaný v čistém Rustu: kontroluje, navigační data kterých družic může přijímač autentizovat ze stránek I/NAV nebo z proudu u-blox UBX, přes kontroly veřejného klíče, řetězce klíčů a značek podle specifikace signálu v prostoru, a hlásí autentizaci po družicích a po čase. Autentizuje data; netvrdí žádný výkon proti spoofingu.
+
+# studio/data/capabilities.json
+dat-7e83d1cb3dc8 = Prediktor orientace Země provozního typu — metoda nejmenších čtverců přes bias, rychlost a hlavní periodické členy v klouzavém okně — měřený proti skutečně archivovaným předpovědím Bulletinu A, a ne proti persistenci. Výchozí offline vstup je skutečný produkt IERS finals2000A nesoucí řádky předpovědí Bulletinu A, takže holé spuštění vydá vyplněnou tabulku podle horizontu místo prázdné. UT1 a pohyb pólu jsou uváděny nad společnou sadou řádků spolu se svou kombinací, takže společná hodnota je jedna statistika, a ne kvadraturní součet dvou různých výběrů.
+
+# data/verification-matrix.json
+dat-f39279e0685c = Volitelná tabulka `[timeseries]` (duration, step, seed) způsobí, že druh `optical-atmosphere` zapisuje také pro každé místo jednu realizaci uvedeného modelu místa v čase se seedem: epizody oblačnosti (jasné úseky exponenciální, výpadky kvůli oblačnosti log-normální s uvedeným průměrem a rozptylem, podíl času v oblačnosti nastavený na uvedenou pravděpodobnost oblačnosti), jeden log-normální sloupec kapalné vody na epizodu oblačnosti, jeden vzorek scintilace gamma-gamma na krok a z nich rezervu spoje, úniky způsobené oblačností a scintilací a příznak funkčního spoje, se skutečnou dosaženou dostupností, podílem oblačnosti, počtem výpadků a nejdelším výpadkem. Bez této tabulky je výsledkem dokument verze { "0.37" }. Losování probíhají přenositelnými cestami rozdělení a matematiky, takže nativní běh a wasm32 dávají stejné bajty.
