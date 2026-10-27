@@ -514,6 +514,51 @@ pub fn interference_map(
     .to_string())
 }
 
+/// Estimated emitter regions from ADS-B or AIS CSV text (arguments as `interference_map`, without the
+/// cell size): where, under stated assumptions, a source of the degraded reports could be, as regions at
+/// stated confidence levels with a centroid and an uncertainty ellipse, never a bare point. Returns a JSON
+/// object `{stem, geojson, summary, csv, svg, sessions_published, sessions_withheld}`; each text is labelled
+/// with its evidence tier (MODELLED). Aggregate only. Nothing is uploaded.
+#[wasm_bindgen]
+pub fn interference_emitter_regions(
+    source: &str,
+    csv: &str,
+    dataset: &str,
+    licence: &str,
+    licence_url: &str,
+    attribution: &str,
+    land_geojson: &str,
+) -> Result<String, JsValue> {
+    use crate::surface::{emitter_regions as build, CustomDataset, MapSource, MAX_INPUT_BYTES};
+    let custom =
+        (!licence.is_empty() || !licence_url.is_empty() || !attribution.is_empty()).then(|| {
+            CustomDataset {
+                licence: licence.into(),
+                licence_url: licence_url.into(),
+                attribution: attribution.into(),
+            }
+        });
+    let r = build(
+        MapSource::parse(source).map_err(|e| JsValue::from_str(&e))?,
+        csv,
+        dataset,
+        custom.as_ref(),
+        (!land_geojson.is_empty()).then_some(land_geojson),
+        MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({
+        "stem": r.stem,
+        "geojson": r.geojson,
+        "summary": r.summary,
+        "csv": r.csv,
+        "svg": r.svg,
+        "sessions_published": r.sessions_published,
+        "sessions_withheld": r.sessions_withheld,
+    })
+    .to_string())
+}
+
 /// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of the
 /// maps in `maps_json` (a JSON array of map GeoJSON strings, as `interference_map` returns),
 /// optionally limited to `date_from`..`date_to` (`YYYY-MM-DD`, empty for no limit). Returns

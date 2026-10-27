@@ -199,3 +199,5 @@ mission-thread-summary: n_phases
 evidence-label-line-one-row: n
 evidence-label-line-rows: n
 evidence-label-line-rows-more: n n_more
+interference-map-locate-summary: n_sessions n_withheld
+interference-map-locate-fig-subtitle: n

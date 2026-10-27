@@ -12062,5 +12062,245 @@
   "parts": [
    "MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment."
   ]
+ },
+ {
+  "id": "interference-map-locate-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>\n  [--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]\n  [--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]\n  (--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)\nWrites emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv and -figure.svg: estimated emitter regions at stated confidence levels, never a bare point"
+  ]
+ },
+ {
+  "id": "interference-map-locate-wrote",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "path"
+   }
+  ]
+ },
+ {
+  "id": "interference-map-locate-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "n_sessions"
+   },
+   " sessions published; ",
+   {
+    "var": "n_withheld"
+   },
+   " candidate sessions withheld (fewer than ",
+   {
+    "var": "min"
+   },
+   " distinct aircraft or vessels)"
+  ]
+ },
+ {
+  "id": "interference-map-locate-note-not-preregistered",
+  "error": false,
+  "parts": [
+   "note: an option differs from the pre-registered parameters, so this is not the pre-registered method"
+  ]
+ },
+ {
+  "id": "interference-map-locate-line-session",
+  "error": false,
+  "parts": [
+   "session ",
+   {
+    "var": "k"
+   },
+   ": ",
+   {
+    "var": "start"
+   },
+   " to ",
+   {
+    "var": "end"
+   },
+   ", ",
+   {
+    "var": "affected"
+   },
+   " distinct affected, ",
+   {
+    "var": "level"
+   },
+   "% region ",
+   {
+    "var": "area"
+   },
+   " km², centroid ",
+   {
+    "var": "lat"
+   },
+   ", ",
+   {
+    "var": "lon"
+   },
+   " (ellipse ",
+   {
+    "var": "a"
+   },
+   " x ",
+   {
+    "var": "b"
+   },
+   " km)"
+  ]
+ },
+ {
+  "id": "interference-map-locate-line-unconstrained",
+  "error": false,
+  "parts": [
+   "session ",
+   {
+    "var": "k"
+   },
+   ": ",
+   {
+    "var": "start"
+   },
+   " to ",
+   {
+    "var": "end"
+   },
+   ", ",
+   {
+    "var": "affected"
+   },
+   " distinct affected, the reports do not narrow the region (unconstrained)"
+  ]
+ },
+ {
+  "id": "interference-map-locate-fig-title",
+  "error": false,
+  "parts": [
+   "Estimated emitter region"
+  ]
+ },
+ {
+  "id": "interference-map-locate-fig-subtitle",
+  "error": false,
+  "parts": [
+   "Where, under stated assumptions, a source of the degraded reports could be. Sessions shown: ",
+   {
+    "var": "n"
+   },
+   "."
+  ]
+ },
+ {
+  "id": "interference-map-locate-fig-none",
+  "error": false,
+  "parts": [
+   "No session reached the publication minimum, so no region is shown."
+  ]
+ },
+ {
+  "id": "interference-map-locate-fig-scale",
+  "error": false,
+  "parts": [
+   {
+    "var": "km"
+   },
+   " km"
+  ]
+ },
+ {
+  "id": "interference-map-locate-fig-legend-region",
+  "error": false,
+  "parts": [
+   {
+    "var": "pct"
+   },
+   "% region"
+  ]
+ },
+ {
+  "id": "interference-map-locate-fig-legend-ellipse",
+  "error": false,
+  "parts": [
+   "95% ellipse of the posterior"
+  ]
+ },
+ {
+  "id": "interference-map-locate-fig-note-1",
+  "error": false,
+  "parts": [
+   "A region is not the position of any aircraft, vessel or organisation, and not a finding of the cause."
+  ]
+ },
+ {
+  "id": "interference-map-locate-fig-note-2",
+  "error": false,
+  "parts": [
+   "Terrain is not modelled and each session assumes one source; confidence levels are conditional on the model."
+  ]
+ },
+ {
+  "id": "e-interference-map-locate-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   " is not a number"
+  ]
+ },
+ {
+  "id": "e-interference-map-locate-bad-levels",
+  "error": true,
+  "parts": [
+   "--levels needs comma-separated numbers strictly between 0 and 1"
+  ]
+ },
+ {
+  "id": "e-interference-map-locate-bad-cell-km",
+  "error": true,
+  "parts": [
+   "--cell-km must be between 0.5 and 100"
+  ]
+ },
+ {
+  "id": "e-interference-map-locate-bad-gap",
+  "error": true,
+  "parts": [
+   "--session-gap-min must be between 1 and 720"
+  ]
+ },
+ {
+  "id": "e-interference-map-locate-bad-height",
+  "error": true,
+  "parts": [
+   "--emitter-height-m needs two numbers, min,max, with 0 <= min <= max <= 5000"
+  ]
+ },
+ {
+  "id": "e-interference-map-locate-bad-tdoa",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a usable TDOA fix file (receivers, tdoa_s, sigma_s, start), or the fix did not converge"
+  ]
+ },
+ {
+  "id": "e-interference-map-locate-source-required",
+  "error": true,
+  "parts": [
+   "--source adsb or --source ais is required"
+  ]
+ },
+ {
+  "id": "e-interference-map-locate-no-evidence-rows",
+  "error": true,
+  "parts": [
+   "no evidence rows are listed for the locate outputs"
+  ]
  }
 ]
