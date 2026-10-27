@@ -11408,3 +11408,62 @@ engine-partner-text-error = { "  " }FEIL: { $e }
 engine-partner-text-result-ok = resultat: formatet og metadataene er fullstendige og lesbare
 
 engine-partner-text-result-not-ready = resultat: ikke klart; rett feilene ovenfor
+
+engine-interference-map-locate-usage = bruk: kshana interference-map locate <input.csv|trace.json[.gz]|dir> --source <adsb|ais> --dataset <adsb-lol|noaa-marinecadastre|kystverket|custom> --out <dir>
+    { "  " }[--land <land.geojson>] [--levels <0.5,0.9,0.95>] [--cell-km <km>] [--session-gap-min <min>]
+    { "  " }[--emitter-height-m <min,max>] [--ship-height-m <m>] [--tdoa <fix.json>]
+    { "  " }(--dataset custom trenger også --licence <text> --licence-url <url> --attribution <text>)
+    Skriver emitter-<source>-<dataset>-<day>.geojson, -summary.json, -sessions.csv og -figure.svg: estimerte senderområder ved oppgitte konfidensnivåer, aldri et rent punkt
+
+engine-interference-map-locate-wrote = skrev { $path }
+
+engine-interference-map-locate-summary =
+    { $n_sessions ->
+        [one] { $n_sessions } økt
+       *[other] { $n_sessions } økter
+    } publisert; { $n_withheld ->
+        [one] { $n_withheld } kandidatøkt
+       *[other] { $n_withheld } kandidatøkter
+    } holdt tilbake (færre enn { $min } ulike fly eller fartøy)
+
+engine-interference-map-locate-note-not-preregistered = merk: et valg avviker fra de forhåndsregistrerte parameterne, så dette er ikke den forhåndsregistrerte metoden
+
+engine-interference-map-locate-line-session = økt { $k }: { $start } til { $end }, { $affected } ulike berørte, { $level }%-område { $area } km², tyngdepunkt { $lat }, { $lon } (ellipse { $a } x { $b } km)
+
+engine-interference-map-locate-line-unconstrained = økt { $k }: { $start } til { $end }, { $affected } ulike berørte, rapportene avgrenser ikke området (ubegrenset)
+
+engine-interference-map-locate-fig-title = Estimert senderområde
+
+engine-interference-map-locate-fig-subtitle =
+    Hvor, under oppgitte forutsetninger, en kilde til de degraderte rapportene kan ha vært. Viste { $n ->
+        [one] økt
+       *[other] økter
+    }: { $n }.
+
+engine-interference-map-locate-fig-none = Ingen økt nådde publiseringsminimum, så ingen område vises.
+
+engine-interference-map-locate-fig-scale = { $km } km
+
+engine-interference-map-locate-fig-legend-region = { $pct }%-område
+
+engine-interference-map-locate-fig-legend-ellipse = 95 %-ellipse for posteriorfordelingen
+
+engine-interference-map-locate-fig-note-1 = Et område er ikke posisjonen til noe fly, fartøy eller noen organisasjon, og ikke en konklusjon om årsaken.
+
+engine-interference-map-locate-fig-note-2 = Terreng er ikke modellert, og hver økt forutsetter én kilde; konfidensnivåene er betinget av modellen.
+
+engine-e-interference-map-locate-bad-number = { $name } er ikke et tall
+
+engine-e-interference-map-locate-bad-levels = --levels trenger kommaseparerte tall strengt mellom 0 og 1
+
+engine-e-interference-map-locate-bad-cell-km = --cell-km må være mellom 0.5 og 100
+
+engine-e-interference-map-locate-bad-gap = --session-gap-min må være mellom 1 og 720
+
+engine-e-interference-map-locate-bad-height = --emitter-height-m trenger to tall, min,max, med 0 <= min <= max <= 5000
+
+engine-e-interference-map-locate-bad-tdoa = { $path } er ikke en brukbar TDOA-fiksfil (receivers, tdoa_s, sigma_s, start), eller fiksen konvergerte ikke
+
+engine-e-interference-map-locate-source-required = --source adsb eller --source ais kreves
+
+engine-e-interference-map-locate-no-evidence-rows = ingen evidensrader er oppført for locate-utdataene
