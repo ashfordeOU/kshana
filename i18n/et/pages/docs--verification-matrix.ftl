@@ -3636,3 +3636,1112 @@ seg-05ded40b17d2 = Väline sõltumatu etalon puudub: ROS-i sõlme ei käitatud e
 
 # text
 seg-c3c260b7063e = Testid
+
+# text
+seg-33d506570c1b = srp_shadow::tests (rõngakujuline kinnine kuju, ühtlane seadus, mis taastoodab koonilise varju, täis päikese ja täisvarju piirid)
+
+# text
+seg-13f8f557c721 = propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider
+
+# text
+seg-20f163c0cb8f = tests/propagator_de440_orekit_oracle.rs ({ "5" } juhtumit x { "25" } tunnipõhist olekut { "24" } h jooksul, LEO, GEO ja HEO, kolmas keha ning kolmas keha + SRP: halvim |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; analüütilise jada kontroll jääb mööda { "9.96" } m; Päike { "6.39" } m ja Kuu { "0.244" } m Orekiti DE440 asukohtadest, registreeritud möödalaskmine); propagatori ühiktestid (pakkuja keeldumine, varulahenduse loendamine, mida jagatakse kloonide vahel)
+
+# text
+seg-448f4acf5c7b = tides, propagator, precise_od
+
+# text
+seg-4014447d4bcc = tides::tests (S1 liige on ööpäevane, pöörab veerand päevaga { "90" } kraadi ja omab iga rea koormusteguri amplituudi; füüsikaline suurus LEO-l); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+# text
+seg-8fda2ee90583 = gravity_sh, propagator (FieldEvaluator)
+
+# text
+seg-3f7d3003656e = tests/gravity_sh_high_degree.rs (Orekit { "8" } väljaspool telge punktis: maks |da| { "2.2e-17" } m/s^{ "2" } väärtusel N = { "70" }, käivitatakse alati; { "3.5e-17" }, { "3.9e-17" } ja { "7.3e-17" } m/s^{ "2" } väärtustel N = { "200" }, { "360" }, { "2190" }, andmetest sõltuv KSHANA_EGM2008_GFC); tests/cowell_tesseral_200_orekit_oracle.rs ({ "24" } h 200x200 orbiit, andmetest sõltuv: halvim |dr| { "0.1317" } m, |dv| { "1.45e-4" } m/s; 70. astme kontroll { "0.726" } m); gravity_sh ühiktestid (kokkulangevus klassikalise hindajaga { "1e-13" } täpsusega astmel { "70" }, lõplik vahe ja poolusepidevus 2190. astme väljal, alatäituv 2190. astme liige laiendatud eksponendiga arvutuse vastu)
+
+# text
+seg-296a6fe8585b = orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)
+
+# text
+seg-9493e02e3cd1 = tests/od_tracking_measurements_reference.rs ({ "8" } stsenaariumi: ulatuskiirus, az/el ja segu, LEO ja MEO, mürata ja algväärtusega sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, { "5" } ja { "10" } kraadi maskid, Orekit { "12.2" } vastu: nähtavad komplektid identsed; mõõtmisväärtused { "5.84e-8" } m, { "6.30e-10" } m/s, { "1.44e-13" } rad piires; STM { "1.2e-14" } suhtelise piires; müraga olekud { "1.74" } cm ja { "1.14e-5" } m/s piires; tüübipõhine järelsobituse RMS { "2.7e-4" } suhtelise piires; mürata kshana tõe vastu { "1.06e-8" } m; mürata kshana Orekiti vastu { "1.464" } ja { "1.740" } cm kahel stsenaariumil, registreeritud möödalaskmine { "1" } cm lävest); orbit_determination ja batch_ls ühiktestid
+
+# text
+seg-f5a76ae1fcaa = sp3, precise_od
+
+# text
+seg-39a552abfcab = src/sp3.rs ühiktestid; tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit (kinnitatud { "8" } h ESOC testikomplekt, sigma { "0.032" } m päise eksponendist { "5" }: Tier-1 3D RMS { "0.132" } m muutmata, Tier-2 { "0.035" } m vastu { "0.070" } m sigmal { "1" } m, muutus tuleneb ümber tasakaalustatud empiirilisest a priori piirangust); tests/agency_swarm.rs (Swarmi toode ei kanna täpsuskoode ja langeb tagasi, fikseeritud)
+
+# text
+seg-409f709cceb3 = gravity_pds, body, propagator, mars_frame
+
+# text
+seg-0fe6532ca74d = tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator; gravity_pds::tests::with_gravity_field_is_opt_in
+
+# text
+seg-e3d75762b979 = gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)
+
+# text
+seg-dbe0dd5dcf47 = gnss_navmsg::tests (CRC-24Q kontrollväärtus 0xCDE703; konvolutsiooniline impulssvastus; Viterbi parandab süstitud vigu; paigutuse laiused); tests/gnss_navmsg_roundtrip.rs (välja algusbitid võrduvad ICD bitinumbritega; kodeerimine -> FEC -> põimimine -> Viterbi -> dekodeerimine ringkäigud poole LSB piires); tests/gnss_navmsg_galileo_brdc_grid.rs (IGS BRDC 2018-133 Galileo kirjed LSB ruudustikul, halvim { "3.6e-3" } LSB; eelregistreeritud satelliitide arvu lävi jäi mööda, { "15" } { "20" }-st, FINDING)
+
+# text
+seg-b81cd9204f64 = hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)
+
+# text
+seg-e892fffaaf07 = hatch::tests (müravaba läbilaskmine; valge müra dispersioon 1/(2N-1); taaskäivitused); tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned (WTZR 2025-02-24 01-06 h, { "600" } epohhi, N = { "100" }: mediaan 3-D viga { "1.553" } -> { "1.116" } m, p95 { "3.473" } -> { "3.207" } m)
+
+# text
+seg-bdda05057c91 = rinex_obs (parse_obs)
+
+# text
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs (IGS MGEX RINEX { "4.00" } faili MAO000USA_R_20231980000_01D_30S_MO esimesed { "4" } epohhi, { "58" } satelliiti, { "7" } süsteemi: päisekirjed ja esimese epohhi väärtused võrduvad avaldatud literaalidega); rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records (sünteetiline { "4.02" } päis spetsifikatsioonist)
+
+# text
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+# text
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs (tegelikud C01-C04 kirjed: geostatsionaarne raadius, pikkuskraadid 140.02/80.04/110.55/159.99 kraadi avaldatud kohtades, |laiuskraad| { "2.13" } kraadi kaldega vs { "6.65" } ilma; eelregistreeritud edastatud efemeriidi ja täpse SP3 võrdlus on andmetest sõltuv (KSHANA_BDS_GEO_SP3) ja seda ei ole käivitatud); rinex::tests
+
+# text
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+# text
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs (8-kujuline sõit: püsiv 3-D RMS { "0.025" } m kandelainega vs { "0.470" } m koodiga identsetel mõõtmistel; { "12" } algväärtuse (seed) keskmine NIS/dof { "1.00" } ja püsiv NEES/dof { "0.92" }; 1-tsükline libisemine tuvastatakse oma epohhil ilma valehäireteta ja lahend jääb terviklikuks; edastatud parandite väljalülitamine tõstab koodivea { "0.51" } m-lt { "19.6" } m-ni (ionosfäär) ja { "8.0" } m-ni (troposfäär); müravaba käitus koondub { "0.3" } mm-ni)
+
+# text
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+# text
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs (iga pakett: liitmine annab katkestuse ajal parema tulemuse kui vaba INS mõlema anduri puhul; raudtee: tihe { "5.3" } m vs lõtv { "12.9" } m navigatsiooniklassi puhul ja { "15.6" } m vs { "18.8" } m taktikalise klassi puhul katkestuse ajal, kättesaadavus { "0.97" } vs { "0.95" }; tihe tabel valideeritud); tests/gnss_ins_legacy_trajectory_pin.rs (lõdvalt sidestatud vaikeväärtus bitthaaval identne)
+
+# text
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+# text
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs (3-D filter { "60" } algväärtuse (seed) kohta: teise poole keskmine NEES { "8.12" } { "8" } oleku kohta, viimase epohhi χ² summa oma { "95" } % vahemikus; { "0.1" } ns kellaparandus vähendab 3-D asendi sigmat { "5.58" } m-lt { "3.07" } m-ni; nihkefilter { "60" } algväärtuse (seed) kohta: χ²({ "5" }) summa vahemikus, nihe { "3" } sigma piires { "59" }-l { "60" }-st; fusion-pnt-coupled kallutatud kiirendusmõõtjatega: asendi p95 { "18.7" } m / { "90.0" } m ja terviklikkus { "1.00" } / { "0.97" } sidestatud vs { "430" } m / { "4060" } m ja { "0.006" } / { "0.000" } lahtisidestatud); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fusion ja hybrid ilma [coupled] bitthaaval identsed)
+
+# text
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+# text
+seg-5a6b5289a473 = fusion::trajectory::tests (koordineeritud pööre ei anna külgjõudu ja koormustegur on 1/cos φ; CSV import reprodutseerib lennatud profiili täpsusega { "1e-3" } m/s ja { "1" } m); tests/gnss_ins_trajectory_library.rs (iga profiil käivitub ja liitmine annab katkestuse ajal parema tulemuse kui vaba INS; iga profiil lendab oma nimetatud liikumise; suuna jälgitavus: asimuudi sigma { "240" } s järel { "1.27" } kraadi sirgel kruiisil vs { "0.039" } kraadi 8-kujulisel ja { "0.062" } kraadi peatumise ja liikumise vaheldumisel); tests/gnss_ins_legacy_trajectory_pin.rs (vana tulemus ja tõe räsid bitthaaval identsed)
+
+# text
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+# text
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE märts { "2023" }, { "4" } periluuni ja { "5" } apoluuni: periood { "6.5004" } d vs { "6.5699" } d ({ "1.07" } %, lävi { "3" } %), apoluun { "71 182" } vs { "71 215" } km ({ "0.05" } %, lävi { "5" } %), periluun { "3 385" } vs { "3 245" } km ({ "4.1" } %, lävi { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+# text
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+# text
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: kõik { "104" } kontrolli läbivad esimesel käitusel pärast eelregistreerimist e50c88d2, halvim dispersioon { "3.2" } %, RMS { "1.6" } %, korrelatsioon { "0.012" }, keskmine { "2.2" } standardviga, ellipsi osakaal { "0.0039" }; negative_control_a_doubled_pdop_fails_every_geometry; negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries: mõlemad kontrollid ebaõnnestuvad nagu nõutud; position_error_is_sigma_times_dop_on_masked_skies: kavandimärkme kaks maskeeritud horisondijoone geomeetriat, 10sat-mixed taevas linnatänava ({ "4" } satelliiti, PDOP { "16.6" }) ja konteinerterminali ({ "9" } satelliiti, PDOP { "2.5" }) eelseadistuste all, kõik { "26" } kontrolli läbivad esimesel käitusel pärast eelregistreerimist 03999c11, tests/fixtures/dop/PREREGISTRATION-MASKED.md); tests/position_error_dop_ci.rs (esimene, eraldi kontroll nelja käsitsi valitud taeva peal (lahtine, koondunud, kanjon, pool taevast; sigma { "1" } m, seed 0x0D0B5EED) hii-ruut usaldusvahemikega { "1e-6" } koguulatuses { "20" } kontrolli kohta: suhted { "0.987" } kuni { "1.009" }, lahendaja enda PDOP/GDOP võrdub tuuma omaga täpsusega { "2.5e-12" }, ja negatiivsed kontrollid { "10" } % DOP-veale ning 1/sin(kõrgus) vigadele; käitatud enne eelregistreerimist, seega on see esitatud, mitte eelregistreeritud); dop_error_mc::tests; dop_error_ci::tests
+
+# text
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+# text
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: stsenaariumi scenarios/training/fjord-natural-degradation.toml sünteetilisel fjordi läbimisel arvatakse samad { "624" } epohhi maha nii öeldud [skyline]-ga kui ilma; sellega teatatakse sky-blocked { "680" } epohhil ({ "0" } ilma: asimuudilünga varuvariant ei näe kahepoolses fjordis midagi), open_fraction on { "0.758" } ja keskkonnaklassi epohhid vähenevad { "78" }-lt { "33" }-ni, ülejäänud on satelliitide kaod, mille öeldud horisondijoon jätab lahtiseks; väljaspool sündmust horisondijoon ühtegi skoori ei muuda); receiver_trust::geometry::tests (käsitsi tuletatud suhted lävendite juures, lävendi servad, tõus ja lagi, põhi, sildi servad, [geometry] ülekirjutused, DOP valideeritud tuumal, hoitud ja aegunud taevad, tundmatut ei oletata, signaali kadu, halva geomeetria tolerants, fiksi puudumise sentinellid); tests/geometry_trust.rs (õiglane maskeeritud taevas sildistatud ja skoorimata, halb maskeeritud taevas, madala kõrguse kadu, võimsuse langus, võltsitud HDOP, täielik signaalikadu, äratõmbamine halva geomeetria ajal, tundmatu geomeetria, sessiooni ülekirjutused, live skeem); tests/geometry_trust_no_change.rs (mõlemad näidissessioonid bait-baidilt identsed { "0.35.0" }-ga pärast lisatud võtmete eemaldamist); tests/geometry_corpus_identity.rs (iga sissekirjutatud laevade NMEA korpus, ka GPS-only lahtise taevana, ja meeskonnakoolituse stsenaariumid: bait-baidilt identsed { "0.35.0" }-ga, välja arvatud halvad epohhid, mis erinevad ainult geomeetria mahaarvamise poolest)
+
+# text
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+# text
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+# text
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+# text
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+# text
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+# text
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (ühe kella tuum gnss_lib_py vastu)
+
+# text
+seg-085cbc64bab2 = holdover
+
+# text
+seg-b31ed8fc6801 = holdover::tests (vs mitmeastmeline Kalmani kovariatsioonirekursioon; valge-FM täpne; edasi-tagasi); coast-variance tuum väliselt valideeritud failis tests/gnss_denied_clock_holdover_reference.rs (vs scipy Van-Loan/brentq)
+
+# text
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+# text
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; eelregistreeritud 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; andmetest sõltuv)
+
+# text
+seg-d302e2ef46ad = clock_library (card)
+
+# text
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; eelregistreeritud fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+# text
+seg-3016100a7015 = clock_state::tests (analüütiline van-Loani Q; NEES; PSD positiivsus); tests/clock_state_reference.rs (täielik ennustus+uuendus-trajektoor — olek x ja { "3" }×{ "3" } kovariatsioon P { "1925" } sammu / { "4" } parameetrikomplekti kohta vs filterpy { "1.4.5" }; halvim |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (kinnitab leiu); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 ring { "3" })
+
+# text
+seg-509026100595 = timetransfer, timetransfer_adv
+
+# text
+seg-a1ad8fb8537d = timetransfer::tests (reciprocal cancellation; two-form Sagnac identity); tests/time_transfer_error_budgeting_reference.rs (ekvatoriaalse ringmaailmareisi Sagnac = { "207.386" } ns vs avaldatud Ashby { "207.4" } ns täpsusega <{ "0.05" } ns; lisaks Sagnaci/geodist geomeetria ristkontrollitud RTKLIB { "2.4.3" } geodist() vastu, kompileeritud C lähtekoodist)
+
+# text
+seg-10e0cb39ac3b = navsignal
+
+# text
+seg-1035f877de94 = navsignal::tests (BPSK self-SSC = 2/3R_c; unit-area PSD; DLL); tests/nav_signal_modulation_code_tracking_reference.rs (GPS C/A Goldi risk-/autokorrelatsiooni täpne täisarvuline vaste sõltumatu IS-GPS-200 koodigeneraatori vastu; BPSK-R({ "1" })/sine-BOC({ "1,1" }) PSD vs sõltumatu scipy periodogramm); tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath, kinnitatud)
+
+# text
+seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; Freier-2016 põranda raam); tests/quantum_inertial_sensor_reference.rs (ülekandefunktsioon |H(ω)|, k_eff·T² ja jaotusmüra ASD vs avaldatud Cheinet { "2008" } / Peters / Freier arvvektorid); tests/quantum_inertial_measured_qpn.rs (gauguet_finding_qpn_floor_sits_below_the_measured_noise, kinnitatud; gradiometer_qpn_line_matches_janvier_model)
+
+# text
+seg-81802510f112 = quantum_imu::tests (a_max asub ±π poolvöödi servas 1/T² ulatuse skaleerimisega; mähitud faasi taastamine on täpne vahemikus [−a_max,a_max] ja alias täpselt { "2" }·a_max võrra väljaspool seda; ühemõtteline dünaamiline ulatus a_max/σ_a=π/σ_Φ on identne kahe väga erineva lainepikkuse/T skaalateguri puhul; CaiAccelerometer meetodid vastavad vabadele funktsioonidele)
+
+# text
+seg-ccc56dac1725 = inertial::quantum_imu (QuantumNavBudget)
+
+# text
+seg-60fb2adb58ce = budget_tests (nihe vs AccelModel integraator; VRW vs analüütiline integraal); tests/quantum_inertial_dead_reckoning_reference.rs (VRW vs sõltumatu numpy Monte Carlo kahekordne integreerimine valge kiirenduse mürast, halvim hälve { "0.42" }% piires ±{ "3" }% { "6" } rannikuaja jooksul; nihe/skaalategur vs Grovesi { "2013" } suletud kujuga väärtus; holdover-i edasi-tagasi teisendused)
+
+# text
+seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form ja cw_q_equals_the_spectral_separation_closed_form: Q tabel, CW ja kitsaribaline { "1" }, lairibaline ja pühitud { "2" }, kinnitatud navsignal suletud kujude külge; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs (FSPL/J-S/efektiivne C-N₀ vs sõltumatu numpy uuestituletus Kaplani ja Hegarty §{ "9.4" } lingibilansist; tegelik JammerTest C/N₀ langeb monotoonselt läbi { "25" } dB-Hz läve); tests/jamming_jammertest_cn0_oracle.rs (eelregistreeritud, blokeeritud, käitamata)
+
+# text
+seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
+
+# text
+seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs (TEXBAT parameetrite iseloomustus); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (kinnitab leiu); tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+# text
+seg-9cb72e60e080 = tpl
+
+# text
+seg-b96e16aba41a = tpl::tests (suletud kujuga etalonid + CUSUM); examples/tpl_jammertest.rs (JammerTest { "2024" } tegeliku spuufimise kalibreerimine); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (kinnitab leiu); tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+# text
+seg-6094ed4985fc = altpnt, mapmatch, gravimeter, igrf
+
+# text
+seg-f841812dc204 = tests/alternative_complementary_pnt_reference.rs (kaardiga sobitamise CRLB; IGRF-14 väli); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (60-minutiline GPS-ita bench tegelikul EGM2008 astme 70 väljal, eelregistreeritud kaustas xval/icgem-egm2008/: sobitatud { "3106" } m, seega lävi < { "500" } m on NOT MET ja kinnitatud kui täitmata, ning kümnekordne vähendamine { "70.6" } km triivil on MET; pluss algväärtustatud (seed) kaardivea Monte Carlo); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel ja tests/emag2_real_grid.rs (andmetest sõltuv EMAG2v3 lugeja tegelikul väljalõikel; sellel ei väideta navigatsioonitulemust); tests/terrain_slam_rbpf.rs (ühine kaardihinnang, FastSLAM-laadne RBPF, vs teadaoleva kaardiga SITAN { "15" } m korreleeritud kaardivea korral { "20" } algväärtuse (seed) kohta, eelregistreeritud kaustas xval/terrain-slam-rbpf/: { "1.5" }% keskmine kasu ja parem { "10" }-l { "20" }-st, seega on { "10" }% ja 12/20 läved NOT MET ja kinnitatud kui täitmata; kahjuta täpse kaardi korral, MET)
+
+# text
+seg-4bcb7eeb020a = report, scenario; CI (golden/determinism/SBOM)
+
+# text
+seg-3667ebf0582a = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (genereeritud SBOM valideerub null veaga ametliku CycloneDX-i { "1.5" } JSON-skeemi vastu kogu 66-komponendilisel tarnitaval graafil: vaikimisi + python + wasm funktsioonid, arendussõltuvused välja arvatud)
+
+# text
+seg-e4edd8fd654c = impairment_eval::tests (AUC perfect=1/identical=0.5/tie={ "0.125" }, ROC monotoonne, fused>{ "0.8" }, klassipõhine kihtide eraldatus, lekke kaitse, reprodutseeritav korpus, jaotuse nihke lipud optimismi); dominance_demonstrators (kättesaadav + reprodutseeritav + MODELLED-not-VALIDATED + optimismilõhe enesekooskõlaline)
+
+# text
+seg-28583cba1c55 = impairment_study, impairment_ml, eval_stats
+
+# text
+seg-b30ce36e7afb = impairment_study::tests (klassipõhine etaloni AUC≈{ "1" }, õpitud optimismilõhe>{ "0" }, ruudustiku kuju + bootstrap CI ümbritseb keskmist + positiivne skaleerimistrend, ID tunnused lõplikud, lõhe ennustaja ületab keskmise ennustamise MÕLEMA leave-one-detector-out ja leave-one-class-out CV korral + deterministlik); impairment_ml::tests (logreg eraldab + deterministlik + kadu↓, MLP lahendab XOR-i, mida lineaarne mudel ei suuda + algväärtustatud (seed)); eval_stats::tests (bootstrap/DeLong/Spearman/ridge vs suletud kujud)
+
+# text
+seg-e0f68f57399d = quantum_trade::tests (ADEV edasi-tagasi taastamine, NNLS mittenegatiivsus, põranda hoiatus olemas/puudub, kasu>{ "1" }, monotoonne mähis + alt-PNT piir); dominance_demonstrators (mõõdetud-ADEV on andmepõhine, mitte põrandaga eeldatud, eeldatud klass lipustab põranda + hoiatuse, väärvormitud kõver tagasi lükatud, MODELLED-not-VALIDATED)
+
+# text
+seg-550bd3cee63e = space_weather::tests (Kp↔ap täpne ruudustiku punktides + edasi-tagasi + monotoonne, ööpäeva Ap keskmine, eksosfääri T vs avaldatud päikesemiinimumi/keskmise/maksimumi + tormi juurdekasvu ankrud, tihedus ühik viitel, päikesetsükli kõikumine vaadeldud { "5" }–{ "10" }× vahemikus, stsenaarium reprodutseeritav + MODELLED-not-VALIDATED + vahemikust väljas tagasi lükatud); dominance_demonstrators (kättesaadav + reprodutseeritav + füüsikaline T + MODELLED-not-VALIDATED); tests/space_weather_density_accelerometer_oracle.rs::jacchia71_finding_is_pinned
+
+# text
+seg-80847ffc93bf = launch
+
+# text
+seg-2095b880eb39 = launch::tests (otse itta start jõuab i=laiuskraad, KSC→ISS = õpiku { "45" }°, polaarne = N/S, i<lat kättesaamatu, { "465" } m/s ekvatoriaalne boonus, tasandimuutus { "10" }° ≈ { "1.34" } km/s + { "180" }° = 2v, päevaste võimaluste arvud, stsenaarium reprodutseeritav/MODELLED + dogleg-tee); dominance_demonstrators (kättesaadav + reprodutseeritav + KSC→ISS { "45" }° + MODELLED-not-VALIDATED); tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding; tests/launch_geometry_orekit_oracle.rs::true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes
+
+# text
+seg-c763ac7e3cda = reentry::tests (tipp-g sõltumatu ballistilisest koefitsiendist + füüsikaline g-vahemik, kasvab järsema γ / kiirema sisenemisega, tipp-g kiirus = V_e·e^(−1/2) ja tippkuumenemine = V_e·e^(−1/6) kiiremini, tipp-g kõrgus füüsikaline + sügavam suurema B korral, stsenaarium reprodutseeritav/MODELLED + degenereerunud geomeetria tagasi lükatud); dominance_demonstrators (kättesaadav + reprodutseeritav + V_e·e^(−1/2) osa + MODELLED-not-VALIDATED); tests/reentry_reconstruction_oracle.rs::reentry_overprediction_is_recorded_as_a_finding; tests/reentry_point_mass_reconstruction_oracle.rs::point_mass_peak_deceleration_matches_reconstructed_entries (ainult ristkontroll); tests/reentry_point_mass_accelerometer_oracle.rs (blokeeritud, käitamata)
+
+# text
+seg-885946a29a26 = contact_schedule (es_n0_db, select_modcod, fspl_db, atmospheric_loss_db, ccm_modcod, pass_capacity, AcmLinkScenario); passes::predict_passes_apparent
+
+# text
+seg-00889ed96256 = contact_schedule::tests::modcod_efficiency_closed_form_matches_the_printed_table; contact_schedule::tests::modcod_selection_is_monotone_and_honours_the_margin; contact_schedule::tests::link_budget_pieces_have_closed_forms; contact_schedule::tests::acm_link_defaults_run_and_acm_beats_ccm
+
+# text
+seg-dece72e58683 = contact_schedule (conflicts, objective, delivered, schedule_chronological, schedule_greedy, schedule_optimal, ContactScheduleScenario)
+
+# text
+seg-d21204ff6b58 = contact_schedule::tests::conflicts_cover_turnaround_and_one_station_per_satellite; contact_schedule::tests::greedy_is_feasible_and_the_exact_solver_beats_or_ties_it; contact_schedule::tests::exact_solver_matches_brute_force_and_plans_are_feasible; contact_schedule::tests::exact_solver_declines_above_the_limit; contact_schedule::tests::contact_schedule_defaults_run_reproducibly; contact_schedule::tests::scenarios_reject_bad_inputs
+
+# text
+seg-c6fab6332435 = frugal (over walker)
+
+# text
+seg-257dfa053c24 = frugal::tests (käsitsi tuletatud kulu katvuse kohta 48/96={ "0.5" }, ROI suhe { "2.667" }, raamide järjestuse + nullkatvuse kaitsed)
+
+# text
+seg-412105b0f541 = integrity_impact (over raim)
+
+# text
+seg-35bc1db56d2a = integrity_impact::tests (sama tuvastamata jäänud sündmus pöörab Available→MI→HMI konteksti karmistudes; konservatiivne-PL→Unavailable; teljepõhine HMI; sisendite kaitsed)
+
+# text
+seg-fd95a229bdb3 = inertial::cai_params (over inertial::quantum_imu)
+
+# text
+seg-061a65493a4a = inertial::cai_params::tests (füüsikaline VRW jääb viidatud VRW raami sisse kõigil { "3" } tasemel; toores vöödi mitmetähenduslikkuse ulatus arvutatud k_eff·T²-st; konservatiivne eelarve triivib rohkem kui parim; iga raam on allikaga + kinnitusega lipustatud; raamide järjestuse kaitsed)
+
+# text
+seg-07ef7fe3d770 = src/benchmark/stanford.rs::tests (neli piirkonda + kaasavad piirid + |viga| + PL>AL kättesaamatus); tests/tib_scorer_reference.rs (klassifikatsiooni arvud vs sõltumatu numpy fikseeritud sünteetilisel hulgal)
+
+# text
+seg-60f627e001ad = src/benchmark/coverage.rs::tests (puhas/alapiiratud/kõik-kättesaamatud/tühi); tests/tib_scorer_reference.rs (arvud + määrad + coverage_ok vs numpy täpsusega { "1e-12" })
+
+# text
+seg-6b48be996d76 = src/benchmark/faults.rs::tests (nihkeprofiilid, monotoonne rannik, tuvastamatu hulga lipustamine, max_offset kooskõla, täpselt kaks tuvastamatut klassi)
+
+# text
+seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (etalon-PL neelab; rikutud PL neeldumata-kunagi-tuvastamata; tuvastatava katvuse otsus; aususe omadus, et tuvastamatu stsenaariumi jaoks ei ole ühtegi katvuse/tuvastamise otsust saavutatav)
+
+# text
+seg-6d963d838eed = hybrid_integrity::tests (lahendatud konfiguratsioon kajastatakse nii vaikeväärtuste kui ka ülekirjutuste puhul, ilma lainepikkust meetrite kaudu edasi-tagasi teisendamata; iga ühikute kirje kannab nii ühikut kui ka päritoluklassi; iga väli, mille ühikute plokk nimetab, tegelikult väljastatakse, seega ei saa see dokumenteerida kummitust)
+
+# text
+seg-55f2385bbe8a = hybrid_integrity, linkbudget, jamming
+
+# text
+seg-188ab5b1b2e9 = hybrid_integrity::tests (kättesaadavus võrdub kahe indikaatori korrutisega, mis on arvutatud uuesti aruande enda varudest, ja need varud on ise uuesti kokku pandud aruande enda EIRP-st, vabaruumi kaost, koondatud kaost, kvaliteeditegurist, Boltzmanni liikmest, andmekiirusest ja nõudest täpsusega { "1e-9" } dB; väärtus on mõõdetult { "0" } või { "1" }, samas kui optiline kättesaadavus samal käitusel on mõõdetult rangelt nende vahel; iga teguri rida kannab päritoluklassi suletud field_schema sõnavarast; teatatud sulgumisulatus, mis on lingibilansi kaudu uuesti käitatud, annab varu { "0" } kuni { "1e-9" } dB ja on mõõdetult sõltumatu ulatusest, kus käitus asus, nelja dekaadi ulatuses, samas kui ulatuse kasutus muutub täpselt ulatuse suhte võrra; -40 dBW link teatab kättesaadavuseks { "0" }, LOST, ja kasutuseks üle { "1" }, mitte murdosa; aegunud märkus 'no RF-availability counterpart is computed by this engine' on kinnitatud kadunuks ja asendus on kinnitatud uut välja nimetama; väärvormitud RF sisend lükatakse tagasi, mitte ei piirata)
+
+# text
+seg-616d297a3190 = hybrid_integrity, optical_linkbudget, linkbudget, navsignal
+
+# text
+seg-d3a72a60b237 = hybrid_integrity::tests (suhe võrdub kahe väljastatud haru jagatisega täpsusega { "1e-15" } suhteliselt ning selle pöördväärtus ja detsibellivorm on kooskõlas; iga haru ulatus ja aja sigma on seotud täpselt c-ga; väljastatud ühine konfiguratsioon on kinnitatud võrduvaks stsenaariumi enda ulatuse ja integreerimisajaga ning RF haru ulatus on kinnitatud võrduvaks optilise haru omaga; RF haru C/N0 on bitthaaval kättesaadavuse ploki oma, ühest lingibilansist, mitte uuestituletus; LIKE-FOR-LIKE omadus on MEASURED, mitte kinnitatud -- ühise akumulatsiooniaja neljakordistamine poolitab optilise haru täpsusega { "1e-12" } ja RF haru täpsusega { "1e-7" } ning jätab suhte paigale täpsusega { "3.19e-9" } suhteliselt, mida mõne muu suuruse üle salaja keskmistav haru ei suudaks; rf_dll_bandwidth_hz ülekirjutus, mis rikub ühise keskmistamisaja, teeb suhte nulliks põhjusega, mis nimetab mõlemat aega, samas kui mõlemad harud väljastatakse endiselt; ühesuunaline käitus teeb võrdlusharu bitthaaval väljalastud peamiseks tulemuseks karistusteguriga täpselt { "1" } ja kahesuunaline käitus reprodutseerib karistuse 0.5/sqrt(tagasitee geomeetriline kadu), arvutatud uuesti aruande enda geometric_loss_db-st täpsusega { "1e-12" })
+
+# text
+seg-7f3efc1e9fa0 = linkbudget
+
+# text
+seg-da19fa334661 = linkbudget::tests (kolme sagedusriba, nelja ulatusdekaadi ja mõlema sulgumisotsuse korral arvutatakse varu ja selle all olev vabaruumi kadu uuesti ainult aruandest täpsemalt kui { "1e-9" } dB; võrrandi liikmetest kokku pandud nõutav G/T on kooskõlas sama suurusega, mis saadakse kui G/T miinus varu, ja selle juures uuesti käitamine nullib varu; kolm bilanssi väga erineva EIRP, kao ja lävega, kuid võrdse lingikonstandiga annavad identse nõude, samas kui { "1" } dB konstandil nihutab seda täpselt { "1" } dB; võimenduse jaotus puudub, kui müratemperatuuri pole öeldud, ja mittepositiivne lükatakse tagasi; iga väli, mille ühikute plokk nimetab, tegelikult väljastatakse)
+
+# text
+seg-d9742b5a3a48 = lunar_time_budget::tests ja lunar_time_budget_scenario::tests (kõik neli klassi on olemas ühel käitusel ja küsitud alamhulga järjekorras; iga rida on kooskõlas oma suletud kujuga paremini kui { "1e-12" } suhteliselt; raamivea skaleerimine teguriga k skaleerib ristumist teguriga k flicker-FM kella puhul ja teguriga k^{ "2" } valge-FM kella puhul, kontrollitud juures k={ "2" } ja k={ "3" }, mis eristab kahte müraklassi; iga rida reprodutseerib ühe kella ristumise, mille eelarve juba teatas; iga rida taastab ühe jagatud raamiliikme; tundmatu kella nimi lükatakse tagasi)
+
+# text
+seg-024dfb3684f1 = antenna
+
+# text
+seg-7e64cec1882e = antenna::tests ja attack_surface::tests (ruudustik on täielik ja iga püütud osakaal asub vahemikus [{ "0,1" }]; püütud osakaal on saatevõimsuse suhtes mittekahanev igas sõlmes; see EI OLE monotoonne kiirelaiuse ega kõrguse suhtes, mida kinnitab oma test, et pühkimist ei saaks hiljem silendada; baassõlm reprodutseerib olemasoleva püütud osakaalu bitthaaval; ainult servapõhine hindamine on bitthaaval identne täieliku pühkimise viimase punktiga; leitud ristumine asub lävel täpsusega { "1e-9" } dB ja jääb kahe punkti vahele)
+
+# text
+# c1: total
+seg-d804d9874191 = lunar_time_budget_scenario::tests (kõik { "57" } keskmistamisaega x { "8" } liiget on olemas, ruudustiku indeks jookseb { "0" }..={ "56" } ja kannab { "8" } rida igaüks; <c1/> rida võrdub seitsme selle kõrval oleva liikme ruutude summa juurega igal tau juures; tabel järgib küsitud ruudustikku, mitte kõvakodeeritut; selle väljastamine jätab aruande JSON-i bait-baidilt identseks)
+
+# text
+seg-61e51873ef4b = lunar_time_lab (over clock_specs, lunar_time_budget, lunar_time)
+
+# text
+seg-73a747390b44 = lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term: kui juhtimine on väljas, võrdub kellaliige eelarve kellaliikmega bitini kõigi nelja klassi puhul; bisection_matches_the_closed_form täpsusega { "1e-9" } suhteliselt mõlema müraklassi puhul; threshold_below_the_floor_is_flagged; steering_holds_and_resets; height_term_is_opt_in_and_linear; device_card_reproduces_a_named_class; bad_inputs_are_refused); tests/lunar_station_time_lab.rs (the_block_is_additive: vaikedokument, tabel ja kokkuvõte on muutmata ning plokk lisab ainult oma objekti ja ühikud; time_to_threshold_matches_the_closed_form_through_the_scenario; clocks_are_ordered_over_the_span_where_the_model_orders_them: optical < PHM < RAFS < miniRAFS vahemikus { "1" } s kuni { "7e5" } s, kusjuures PHM ja RAFS kõverate ristumine vahemikus { "7e5" } ja { "8e5" } s on kinnitatud avalikustatud omadusena üksiku müratüübiga kellamudelite puhul; every_time_lab_field_has_a_unit; unknown_time_lab_fields_and_clocks_are_refused)
+
+# text
+seg-71c4fb3e4d08 = lunar_vlbi::tests (kaugvälja piir vastab delta_dor-ile; lähivälja parandus; FD osatuletised); tests/lunar_vlbi_anise_oracle.rs::near_field_delay_disagrees_with_the_anise_light_time_difference
+
+# text
+seg-1755ed282a7d = earth_gnss_lunar::tests ({ "11" } teegi testi: Maa serva poolnurk vs selle suletud kuju asin(R/r) täiendava kinnitusega, et IGA varjamata link asub väljaspool seda koonust, seega ei saa varjutuse test ja serva nurk olla vastuolus; varjutuse predikaat kontrollitud lähiküljel, kaugküljel ja juhul, kui keha asub saatja TAGAS; teekadu piiratud usutava Kuu ulatuse vahemikuga igal lingil; jälgitav hulk näidatud olevat geomeetriliselt nähtava hulga alamhulk ja varjatud hulgast lahutatud; monotoonsus mõlemas suunas - rohkem vastuvõtuvõimendust ei vähenda kunagi arvu, rangem lävi ei suurenda seda kunagi; ühelegi lingile ei omistata rohkem kui telgjoone võimendust; Maa sees olev vastuvõtja lükatakse tagasi; pühkimine kinnitatud epohhiga tegelikult MUUTUMA; ning signaali ja fiksi kättesaadavus kinnitatud erinevaks, õiges järjekorras ja kooskõlas epohhipõhiste ridadega); tests/earth_gnss_measured_montenbruck_oracle.rs::finding_genesis_nadir_counts_exceed_the_paper (kinnitatud); tests/lugre_relative_cn0_visibility.rs::too_few_iir_records_at_lunar_distance_for_the_relative_cn0_bar (kinnitatud leid)
+
+# text
+seg-e9a23134de45 = lunar_infra::{ "{" }orbit, gnss, od{ "}" }
+
+# text
+seg-13dceb4f0d7b = tests/lunar_infra_od_consistency.rs (lävi O1: kolme päeva ja ühe perioodi jooksul aheldatud olekuülekandemaatriks võrdub scipy DOP853-ga suhtelise täpsusega { "1e-6" }; lävi C1: keskmine q ja 95 %-sisese osakaal; lävi C2: valim formaalse jälje suhtes iga hindaja puhul; lävi C3, NOT MET ja kinnitatud: kui modelleerimata kiirendus on { "3e-10" } m/s2, on 95 %-sisese ületamine { "0.0525" }, mitte vähemalt { "0.5" } - pardahinnang on teada ainult sadade meetrite täpsusega, seega peitub umbes kümne meetri nihe selle kovariatsiooni sees); lunar_infra::orbit::tests, lunar_infra::gnss::tests, lunar_infra::od::tests, lunar_infra::la::tests
+
+# text
+seg-2d4d23841d56 = lunar_infra::phase; lambda
+
+# text
+seg-0b34672f668b = tests/lunar_infra_carrier_phase.rs (lävi Q1: Monte Carlo edu vähemalt bootstrap-piir miinus kolm standardviga; Q2: kaare pikkusega ei lange üle kolme standardvea; Q4: LAMBDA võrdub täieliku läbivaatuse loendiga { "200" } tõmbe korral kuni viie mõõtmega; Q3: ujuv kavand võrdub sõltumatu numpy lahendiga täpsusega { "1e-9" } mitmetähenduslikkuse ja asendi kovariatsioonide puhul ning bootstrap-määr on NOT MET täpsusega { "1e-9" }, kinnitatud: see erineb suhteliselt { "1.7e-6" } võrra, sest LAMBDA normaaljaotuse CDF on Abramowitzi ja Steguni lähendus)
+
+# text
+seg-0abe3b27addf = lunar_infra::frame; lunar_datum; lunar_identifiability; lunar_llr_geometry
+
+# text
+seg-30c57d85abc1 = tests/lunar_infra_studies_3_5.rs (lävi F1: CRLB jälg ei tõuse ja väikseim omaväärtus ei lange orbiiterite linkidega, näites ja { "20" } algväärtustatud (seed) juhuslikus hulgas; lävi F2: kaugusosatuletised võrduvad sõltumatu numpy longdouble lõplike vahedega Rodriguesi otsesest mudelist { "50" } geomeetrial; lävi F3: väikseim omaväärtus tõuseb vähemalt 2.0x, leitud umbes 111x)
+
+# text
+seg-0e7813b34509 = lunar_infra::tie; fim::crlb_srif
+
+# text
+seg-58f77b27cde3 = tests/lunar_infra_studies_3_5.rs (lävi T1: nihkesigmad ei lange, kui lokaalne side lõdveneb; T2: kui tehnikasigmad on skaleeritud teguriga { "1e-6" }, on iga paari nihkesigma { "1" } % piires sqrt({ "2" }) korda lokaalse sideme sigmast, leitud { "3e-7" } piires; T3: informatsioonimaatriks võrdub sõltumatu numpy virnastatud koostega täpsusega { "1e-9" }). Esimene T2 käitus normaalvõrrandi ümberpööramisega jäi läbi ({ "1.3" } % { "0.1" } m sideme juures, väärtused põranda all { "1" } m juures); põhjus oli numbriline ja kovariatsioon viidi ruutjuure teele enne, kui lävi uuesti hinnati.
+
+# text
+seg-8e55bf5a6a8f = lunar_infra::geodesy; lunar_od::degree2_tide_accel; lunar_time
+
+# text
+seg-4b42d4f76a35 = tests/lunar_infra_studies_3_5.rs (lävi G1: analüütilised osatuletised võrduvad iga otsese mudeli kesk-lõpliku vahega täpsusega { "1e-8" }; G2: 5x5 informatsioon võrdub sõltumatu numpy koostega täpsusega { "1e-6" }; G4: kella loodete amplituud ning selle k2 ja h2 tundlikkused võrduvad sõltumatu hindamisega täpsusega { "1e-9" }; lävi G3 NOT MET oma jäljepoolel, kinnitatud: pere lisamine ei alanda kunagi väikseimat omaväärtust ({ "28" } { "28" }-st), kuid pseudoinversi jälg tõusis { "12" }-l { "28" }-st lisamisest, sest lisatud pere tõstis järku)
+
+# text
+seg-2e097e952eb5 = lunar_beacon::tests (horisondi nähtavus vs L01 suletud kuju; majakaga täiendatud DOP vs paljas; veaeelarve ruutude summa juur; DOP-i ja meetrite seos); tests/validate_p2_beacon_before_after_table.rs (kogu enne/pärast tabel kinnitatud sisse viidud golden-etaloni külge suhtelise täpsusega { "1e-9" }); tests/validate_p2_beacon_before_after_independent_dop.rs (sama geomeetria läbi SÕLTUMATU DOP-tee, seega ei kontrollita täiendust tuuma vastu, mis seda tootis); tests/validate_lunar_beacon_anise_visibility_dop.rs::beacon_visibility_and_augmented_dop_match_anise_and_numpy
+
+# text
+seg-f8ac8be96a63 = cmpl_horizontal piirab pimeda ühisrežiimi klassi põhjustatud k-sigma horisontaalse asendivea, moodustades blind_position_covariance = S<em>Cov</em>S^T ja projitseerides selle ENU-sse; integrity_envelope teatab hpl_total = hpl_araim + cmpl. Eristus, mida see paar tegema on loodud: RAIM/ARAIM-i JÄÄGI test on tõestatavalt pime range(G) vigade suhtes, kuid ARAIM-i KAITSETASE ei ole -- selle veatu liige piirab neid juba kuni pakkuja URA pluss nominaalse nihkeni. CMPL on seega ainult pakkujatevaheline ÜLEMÄÄR, mida üksiku pakkuja pakkujapõhine URA/ISM ei kata, ja summa on konservatiivne kolmnurgavõrratuse piir, mitte RSS, mis kehtib ainult seal, kus see ülemäär pole juba URA sees.
+
+# text
+seg-9e4affc02b0b = lunar_common_mode::tests (common_mode_covariance_gives_positive_cmpl, parity_only_covariance_gives_near_zero_cmpl, envelope_sums_the_two_classes, state_map_matches_split)
+
+# text
+seg-4f3b4fe41736 = lunar_combination (lunar_observability) + fim
+
+# text
+seg-e927515cc210 = lunar_combination::tests (ilma Maa baasjoonteta järgupuudulik; kolm baasjoont taastavad täisjärgu — 3-jaamaline lävi tuleneb informatsiooni järgust, mitte lahendi veast; jaama CRLB saavutatakse hindaja poolt efektiivsusega { "0.98" }; CRLB tiheneb monotoonselt baasjoontega); tests/lunar_observability_numpy_oracle.rs::lunar_observability_matches_numpy_on_the_committed_jacobians
+
+# text
+seg-84ece56ff3e9 = lunar_afs::codes, lunar_afs::lsis, lunar_afs::params (IS-GPS-800J indices)
+
+# text
+seg-d111b6550515 = lunar_afs::codes::tests (maksimaalse pikkusega registrid, Legendre'i tasakaal, G2 viivituse edasi-tagasi teisendus, taseme kompositsioon); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (ilma LSIS vahemäluta: neli viidatud arvu kinnitavad leiu; sellega: { "2 937 232" } kiipi ja bitti vs LSIS lisa { "3" } failid, trükitud esimesed/viimased { "24" } kiipi, Legendre'i tabelid D-1 ja E-1 ning G2 initsialiseerimised annavad täpselt ühe erineva kirje, tabeli E-5 PRN { "147" } lahtri 'last { "24" } chips', mis dubleerib PRN { "151" } oma, samas kui lisa { "3" } fail on generaatoriga kooskõlas); range eelregistreeritud test afs_codes_match_lsis_v1_tables_and_annex3_bit_exact on selle lõhega ignoreeritud
+
+# text
+seg-8cd700abad59 = lunar_afs::waveform (recording and truth labels), xval/lunar-afs/run_pocketsdr.sh
+
+# text
+seg-22dbd05adf9c = tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs::third_run_finding_c1_c2_hold_g0_is_receiver_nondeterminism (kolmas eelregistreerimine: { "2" } sõlme, { "4" } kanalit jälgitud, halvim Doppleri viga { "0.57" } Hz, halvim koodinihke viga { "0.008" } chip, kõik { "6" } kaadrit dekodeeritud õige TOI-ga üle { "99" } -> { "0" } ümberpakkimise ja sobiva alamkaadriga { "2" }; G0 ei ole täidetud nagu kirjutatud, vastuvõtja enda käitustevaheline varieerumine oma hankimiskirjetes); tests/lunar_afs_decodability_pocketsdr_4bit_oracle.rs::decodability_finding_five_violations (teine: { "5" } rikkumist); tests/lunar_afs_decodability_pocketsdr_oracle.rs::first_run_finding_no_acquisition_outside_the_receivers_4_bit_range (esimene: tühine); kolme faili ranged testid on oma lõhedega ignoreeritud
+
+# text
+seg-9b511cb035c0 = gps_lnav, sdr
+
+# text
+seg-83c50906fe74 = tests/gps_l1ca_gpssdrsim_cross_generator.rs::gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding (kinnitatud leid); tests/gps_l1ca_gpssdrsim_cross_generator.rs::ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly (range, lõhega ignoreeritud); gps_lnav::tests
+
+# text
+seg-7b32ce65d953 = iq::acq (acquire, AcqConfig); iq::io (decode_samples); iq::scene (GpsL1Ca)
+
+# text
+seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples (kinnitatud leid); tests/iq_gpssdrsim_cross_generator.rs::acquisition_finds_gps_sdr_sim_satellites_in_its_samples (range, lõhega ignoreeritud)
+
+# text
+seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
+
+# text
+seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } { "5900" }-st plokist vs { "99" } % binoomvahemik [{ "40" }, { "80" }] P_fa { "0.01" } korral), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, suhe { "0.0131" } vs { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } vs { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (range, lõhega ignoreeritud); iq::campaign::detect testid; iq::monitor::stats testid (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (kinnitatud räsid on ilma tabelita muutmata)
+
+# text
+seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
+
+# text
+seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } öeldud sündmustel, mis ei sumbuta midagi); r1_the_cn0_drop_roc_separates_6_db_attenuations (range, lõhega ignoreeritud); iq::campaign::detect testid (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
+
+# text
+seg-f1371f2a4da4 = iq::labfit (campaign, cn0, iqfit, iqreport, schema, mod); iq::cli::labfit
+
+# text
+seg-27c989c6bdde = tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (PI90 kate { "0.891" } { "558" } siinil, { "0.900" } { "10" } kadumiseni jõudmise sündmusel iga lukustusmudeli korral), the_report_carries_its_inputs_censoring_validation_and_labels (sisendid, tsenseerimine, [validation] räsi ja otsused, ühikute ploki audit), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db ja bar_b_prime_ci_subset (range, lõhega ignoreeritud); bar_b_prime_full_set_of_50_campaigns (ignoreeritud, käitatud enne väljalaset); iq::labfit::cn0 testid (täpne Q-delta degeneratsioon, delta taastamine öeldud Q juures, suletud kuju läveni pöördväärtus); iq::labfit::iqfit testid (lukustusmudeli tingimused reprodutseerivad C/N0 mudelit täpselt); tests/iq_labfit_followup.rs (järelkontroll, mis registreeriti commit'is 1e532f84: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign, mis kinnitab salvestatud NOT MET, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, release-ehituses)
+
+# text
+seg-50acb4bcdd8a = tests/gps_lnav_rtklib_decode_oracle.rs::rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43 (kinnitatud leid); tests/gps_lnav_rtklib_decode_oracle.rs::kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters (range, lõhega ignoreeritud)
+
+# text
+seg-90748b60b720 = tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satelliiti IGS edastusfailist kuupäevaga { "2" } märts { "2025" }: { "960" } { "960" }-st sõnast läbib RTKLIB-i pariteedi, { "96" } { "96" }-st alamkaadrist dekodeerub, { "608" } { "608" }-st dekodeeritud edastatud täisarvust võrdub Kshana omadega, iga sisend poole kvandi piires, nädal ja ajad täpsed); gps_lnav::tests
+
+# text
+seg-c20f6fc678c5 = acquisition, portable_math, realdata::ion_sdr, realdata::lugre
+
+# text
+seg-6bf9cba81288 = tests/lugre_acquisition_gnss_sdr_oracle.rs::finding_dc_artefacts_and_no_contemporaneous_flight_cn0 (kinnitatud leid, andmetest sõltuv); tests/lugre_acquisition_gnss_sdr_oracle.rs::acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver (range, lõhega ignoreeritud); acquisition::tests; realdata::ion_sdr::tests; realdata::lugre::tests
+
+# text
+seg-709106f38b9d = acquisition, realdata::ion_sdr
+
+# text
+seg-cfefde0dbf55 = tests/lugre_acquisition_predicted_doppler_oracle.rs::noise_alone_crosses_the_sample_power_threshold_on_lugre_iq (kinnitatud leid, andmetest sõltuv); tests/lugre_acquisition_predicted_doppler_oracle.rs::acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction (range, lõhega ignoreeritud)
+
+# text
+seg-b93425830963 = tests/lugre_acquisition_cell_average_doppler_oracle.rs::strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed (kinnitatud leid, andmetest sõltuv); tests/lugre_acquisition_cell_average_doppler_oracle.rs::cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler (range, lõhega ignoreeritud)
+
+# text
+seg-a6cce9d1c2fc = acquisition, realdata::ion_sdr, realdata::lugre
+
+# text
+seg-e953a0bb294b = tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (kinnitatud leid, andmetest sõltuv); tests/lugre_surface_acquisition_doppler_oracle.rs::surface_acquisitions_match_the_orbit_predicted_doppler (range, lõhega ignoreeritud)
+
+# text
+seg-b4e5e57515cc = lunar_dpnt::tests (kella ühisrežiim tühistub täpselt; jääk kasvab baasjoonega; taaskasutab SBAS PL-i; satelliitide arvu austatakse ehitaja piirini { "24" }, seega ei saa suurem satelliidikonstellatsioon vaikselt tagastada väiksemat); tests/lunar_differential_pnt_reference.rs (ühe vahe jääk + WLS asendilahend vs RTKLIB-i lsq(), kompileeritud C lähtekoodist)
+
+# text
+# c1: oem
+seg-6a567344f386 = lunar_interop::tests (OEM kannab Kuu REF_FRAME/TIME_SYSTEM; ajametaandmed teisenevad edasi-tagasi; KIF ümbrik); tests/lunar_interoperability_export_reference.rs (kshana väljastatud Kuu OEM uuesti parsitud sõltumatu <c1/> Pythoni teegiga: REF_FRAME/TIME_SYSTEM/CENTER märgid + epohhipõhine olek vormingu täpsuseni; rikutud eksport lükatakse tagasi); tests/lunar_interop_oem_oracle.rs::recorded_two_reader_outcome_is_for_todays_export
+
+# text
+seg-952626fc6feb = resilience::arch, resilience::score, resilience::diversity, resilience::timeline
+
+# text
+seg-921e4d47fd96 = resilience::score::tests (monotoonsus, komposiidi piirid, taseme lagi, modelleeritud päritolu); resilience::diversity::tests (pöördvõrdeline Simpson, ühisrežiim, SPOF)
+
+# text
+seg-718240555c3c = resilience::stats, resilience::study, resilience::panel
+
+# text
+seg-0e1bd42aca5a = resilience::stats::tests (Kendalli tau käsitsi näide, Dirichlet' simpleks, ümberpöördumise määr); resilience::study::tests (stabiilsuse kontroll, ebastabiilsuse tunnistaja, deklareeritud-vs-mõõdetud, mitmekesisuse kollaps)
+
+# text
+seg-246c5acb36ac = representativeness
+
+# text
+seg-300e70ee2f22 = representativeness::tests (validated-needs-external-anchor, modelled-needs-gap, modelled-TRL-ceiling, malformed-band, JSON fields)
+
+# text
+seg-03c943a8f1fc = qtrade
+
+# text
+seg-2d5a97db03cb = qtrade::tests (kasu polaarsus suurem/väiksem-on-parem, ümbritseb tegelikku TradeResult-i täpselt, ebaausad tõendid lükatakse tagasi, valideeritud-FoM vajab välist ankrut, deterministlik JSON)
+
+# text
+seg-fe77856b9e9d = quantum_devices::tests (kellakaardid ausad+järjestatud; põimumise korduvtäpsus ~1/sqrt(tau); tuvastatud määr -10x/10dB; tumeloendused halvendavad; süstemaatilise põranda piirid; kaart modelleeritud+kehtiv)
+
+# text
+seg-65f4bc801f94 = timetransfer_chain::tests (korduvtäpsus paraneb integreerimisega; kvant võib nii võita KUI KA kaotada; PL lõplik-positiivne; turvalisuse FoM vahemikus [{ "0,1" }] ja kasvab ründeviivitusega; anomaalia Pd monotoonne; kompromiss is_honest)
+
+# text
+seg-52d8ccc852f8 = quantum_nav_od::tests (kvant ületab klassikalise pika katkestuse korral; eelis sõltub katkestusest; kompromiss is_honest); tests/gnss_free_quantum_navigation_reference.rs (liikumisarvestuse asendi kasv vs sõltumatu Octave'i kahekordne integreerimine + Freier-2016 avaldatud müra ankur)
+
+# text
+seg-8e49ee940482 = quantum_faults::tests (analüütilise AUC teadaolevad väärtused; empiiriline bootstrap AUC ümbritseb suletud kuju; kvant tuvastab väiksemaid vigu / kõrgem AUC; eelis kaob suurte vigade korral; 5-klassiline kataloog; kompromiss is_honest)
+
+# text
+seg-d0119a3cb762 = geolocation
+
+# text
+seg-f85f780a9859 = geolocation::tests (müravaba TDOA otse→pöördteisendus täpsusega { "1e-6" } m; J·CRLB=I sümmeetrilise PD kovariatsiooniga; CRLB asendivariatsiooni jälg ei kasva, kui vastuvõtja lisatakse; ühine TDOA+FDOA taastab liikuva emitteri asendi+kiiruse; <{ "4" } vastuvõtjat lükatakse tagasi); tests/geolocation_reference.rs (edasi-tagasi teisendused nelja geomeetria puhul 3-D-mitmekesise võrguga; Gauss–Newtoni hindaja saavutab oma Cramér–Rao piiri — empiiriline veakovariatsioon järgib analüütilist piiri { "4000" } Monte Carlo katse jooksul); tests/geolocation_crlb_published_oracle.rs (ho_chan_1993_maximum_tdoa; ho_xu_2004_fig7_with_the_authors_corrected_source; ho_xu_2004_bound_matches_the_authors_code; finding_ho_chan_ottawa_printed_values_are_not_the_bound ja finding_ho_xu_fig7_printed_source_is_not_the_plotted_one, kinnitatud)
+
+# text
+seg-47854be05818 = entry_eo_ascent::entry_heating (stagnation_heat_flux, simulate_entry)
+
+# text
+seg-067596c7a683 = entry_eo_ascent::entry_heating::tests::heat_flux_relation_has_the_published_form_and_constants; entry_eo_ascent::entry_heating::tests::lift_lowers_peak_deceleration_and_heat_flux_of_a_shallow_entry; entry_eo_ascent::entry_heating::tests::mars_entry_runs_with_the_mars_constants; tests/entry_stardust_published.rs (registreerib Stardusti jaoks { "746" } W/cm2 ilma lävita)
+
+# text
+seg-b15628833cf8 = entry_eo_ascent::eo_radiometry (Imager, snr_budget, giqe4_niirs, EoRadiometryScenario)
+
+# text
+seg-86769d0258ad = entry_eo_ascent::eo_radiometry::tests::diffraction_mtf_has_its_closed_form_values; entry_eo_ascent::eo_radiometry::tests::a_pure_pixel_aperture_has_a_ramp_edge_and_rer_one; entry_eo_ascent::eo_radiometry::tests::a_gaussian_blur_has_the_normal_cdf_edge; entry_eo_ascent::eo_radiometry::tests::snr_budget_scales_as_shot_noise_when_signal_dominates; entry_eo_ascent::eo_radiometry::tests::giqe4_switches_coefficients_at_rer_0_9_and_falls_with_gsd
+
+# text
+seg-4e91b2b5c9e1 = entry_eo_ascent::ascent (simulate_ascent, AscentScenario); reentry::us76_pressure
+
+# text
+seg-a5f4b59e7ca1 = entry_eo_ascent::ascent::tests::the_loss_identity_holds_to_integration_error; entry_eo_ascent::ascent::tests::vertical_vacuum_burn_has_only_gravity_loss_and_stays_vertical; entry_eo_ascent::ascent::tests::us76_pressure_has_the_standard_values; entry_eo_ascent::ascent::tests::a_larger_kick_lowers_burnout_flight_path_angle
+
+# text
+seg-70ffbdec1a87 = twstft_budget (counter_readings, solve_offset, combined_uncertainty, flicker_phase, two_way_series, series_stability); time_transfer_budget (TimeTransferBudgetScenario, read_series)
+
+# text
+seg-998c0585be86 = twstft_budget::tests (kahesuunaline võrrand taastab nihke täpselt; Sagnaci liige võrdub BIPM ahela suletud kujuga; ionosfääriline liige järgib sageduse jaotust ja troposfäär tühistub; flicker-faasil on tasane TDEV; ööpäevane jääk tõstab TDEV-i poole päeva ümber; vastastikkuse nihe nihutab nihet, mitte TDEV-i; jada stabiilsus eemaldab määra); time_transfer_budget::tests
+
+# text
+seg-d36d667bfa06 = optical_atmosphere (rytov_variance, scintillation, gamma_gamma_cdf, fade_margin_db, aperture_averaging_factor, cloud_optical_depth, clear_air_optical_depth); optical_linkbudget (optical_link_budget_atmosphere)
+
+# text
+seg-eb08517c6ca2 = tests/optical_atmosphere_reference.rs (eelregistreeritud läved A1-A3 sõltumatu mpmath oraakli (sõltumatu etalon) vastu: { "216" } Rytovi ruudustiku punkti halvim suhteline viga { "3.4e-7" } vs { "1e-6" } lävi, sähvimine halvim { "4.5e-16" }, apertuuri tegur halvim { "5.7e-16" }, { "96" } gamma-gamma hajumise tõenäosust halvim { "1.3e-12" } log10-s, pilve ja selge õhu optiline paksus halvim { "6.6e-16" }); tests/optical_atmosphere_no_moved_output.rs (lävi A5: koondatud kaoga lingibilanss ja olemasolevad asukoha kättesaadavuse väljundid on baas-commit'iga bitthaaval identsed { "1,000" } parameetrikomplekti puhul)
+
+# text
+seg-70e033b9dcab = optical_weather; optical_sitediv; optical_techniques; optical_atmosphere_scenario
+
+# text
+seg-66ac747dbe38 = tests/optical_atmosphere_identities.rs (lävi A4: rho = { "0" } võrdub sõltumatu ühendiga ja rho = { "1" } parima üksiku asukohaga täpsusega { "1e-12" } ning null monotoonsuse rikkumist asukohtade arvu ja korrelatsiooni suhtes; selle läve esimene käitus jäi { "3e-9" } võrra täitmata, sest kasutusel olnud normaaljaotuse CDF oli { "1.5e-7" } Abramowitz-Steguni vorm, teostusviga, mis asendati mittetäieliku gamma CDF-iga muutmata lävega); optical_weather::tests ja optical_sitediv::tests (monotoonne varu, pilvelagi suletud kujuna, katkestuse kestuse samasused, varu otsingu ümberpööramine)
+
+# text
+seg-95a61b2025cb = optical_outage_holdover (couple, clock_psds); holdover (coast_phase_sigma, holdover_seconds, phase_to_range_m)
+
+# text
+seg-b47fe3bc618f = tests/optical_atmosphere_identities.rs (lävi A6: katkestusepõhine ajastusviga võrdub holdover::coast_phase_sigma-ga ja kaugusviga phase_to_range_m-ga bitthaaval { "9" } kella, { "3" } keskmise kestuse, { "3" } hajuvuse ja { "4" } kvantiili korral); optical_outage_holdover::tests
+
+# text
+seg-86ae3e4b0c16 = optical_timeseries (site_series, SiteModel, SeriesSpec, Series); optical_atmosphere_scenario (TimeseriesSpec)
+
+# text
+seg-a19b90ab43ec = tests/optical_atmosphere_timeseries.rs (läved T1-T6 failist xval/optical-atmosphere/PREREGISTRATION-timeseries.md, fikseeritud enne esimest käitust: sama algväärtus (seed) samad baidid ja teine algväärtus (seed) teised baidid; ilma tabelita võtit ei ole; { "8760" } h jooksul sammuga { "600" } s, algväärtused (seed) { "37" } ja { "38" }, iga kolme vaikeasukoha realiseeritud kättesaadavus { "6" } punkti piires öeldust (halvim { "3.3" }) ja realiseeritud pilveosa { "5" } punkti piires öeldud tõenäosusest (halvim { "2.1" }); varu võrdub eelarve miinus kaks hajumist ja töös võrdub varuga mittenegatiivne igal sammul; moodulis ei ole mitteportatiivset matemaatikakutset; liiga pikad käitused ja halvad sammud lükatakse tagasi)
+
+# text
+seg-3c8d970a385d = odf (parse_odf, Odf, OdfObservation, OdfRamp, seconds_1950); mars_od (DopplerModel, RampTable, compress_two_way, MarsDynamics, fit, fit_damped); naif_kernel (SPK type { "1" }); gravity_pds (SphericalHarmonicField::from_shadr)
+
+# text
+seg-09bfff22ee94 = tests/mro_odf_reader_label_oracle.rs (tegelik MRO ODF, 2007-304/305, selle PDS sildi vastu: kirjete arv, rühmade asukohad, jaamad, algus- ja lõpuajad ning andmetüübid kehtivad; faili lõpu tabeli ridade arv eksib ühe võrra, sildi vastuolu, kinnitatud leiuna); odf::tests (käsitsi ehitatud kirje edasi-tagasi teisendus, { "1950" } epohh); tests/mro_odf_short_arc_od_oracle.rs (andmetest sõltuv, sisendid SHA-256 kinnitatud, igakuine CI tegelike andmetega nõutav: MRO navigatsiooni rekonstruktsioonist mro_psp5 prognoositud Doppler hinnatud DSS { "63" } ja DSS { "14" } pääsudel, { "12.5" } mHz RMS, lävi { "30" } mHz, täidetud; registreeritud orbiidi määramine ei andnud orbiiti, kinnitatud leiuna; käitus { "2" } summutatud hindajaga, eraldi registreeritud: orbiit { "0.36" } km RMS ja { "0.53" } km maksimum mro_psp5 suhtes, täidetud, sobitusjärgne Doppler { "48.6" } mHz vs { "30" } mHz, täitmata, kinnitatud leiuna; SPK tüüp { "1" } lugeja CSPICE vastu, { "5e-7" } m); mars_od::tests
+
+# text
+seg-526efea83384 = aocs_mekf (Mekf, GyroSim, attitude_error, spd_solve6); aocs_kind (estimator)
+
+# text
+seg-1650d00d45ad = aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds ({ "40" } algväärtust (seed), keskmine kuue vabadusastmega NEES teisel poolel vahemikus { "4.5" } kuni { "7.5" }); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error; aocs_mekf::tests::attitude_error_is_the_body_frame_small_angle; aocs_kind::tests::estimator_loop_runs_and_reports_consistency
+
+# text
+seg-4da98593fe6a = aperture_duty::tests (aken, mis lõpeb täpselt siis, kui järgmine algab, ei konkureeri, ja selle liigutamine ühe sekundi võrra varasemaks maksab täpselt ühe sekundi — ühe võrra eksimise kaitse; kattuvad aknad üle apertuuride arvu panevad madalama järgu sessiooni katkestusse, kusjuures konkurentsiintervall on kinnitatud; vahekohtupoliitika otsustab, milline teenus apertuuri hoiab, kõigi kolme poliitika arvud kinnitatud ühel plaanil; first-come-first-served ei võta eelisjärjekorras apertuuri sessioonilt, mis seda juba hoiab; sessioon, mis kaotab vahekohtus oma alguses, hangib apertuuri, kui see vabaneb; kolm kohustust arvestavad iga saadaoleva apertuurisekundi { "3" } poliitika × { "4" } apertuuride arvu kohta; apertuuri lisamine ei suurenda kunagi ühegi sessiooni katkestust, mõõdetud { "200" } pseudojuhusliku plaani × { "3" } poliitika × iga apertuuride arvu korral; piisavalt apertuure iga sessiooni jaoks ei jäta üldse katkestust; aruandehorisont lõikab plaani ja seab kohustuse nimetaja; ennustatud läbimiste loend muutub kontaktiplaaniks ilma teise akna tüübita; kaasasoleva plaani kohustuse arvud on mootori väljundid ühe ja kahe apertuuri korral; aruanne ütleb poliitika, mis arvud tekitas; iga teatatud näitaja kannab ühikut ja päritoluklassi; stsenaarium on reprodutseeritav ja deklareerib end MODELLED; stsenaarium lükkab tagasi plaani, mida ta ei suuda planeerida); api::tests::aperture_duty_cycle_kind_round_trips_through_the_dispatch
+
+# text
+seg-875ebc4e1cc4 = lunar_jamming (composing jamming, lunar_service, lunar)
+
+# text
+seg-d206adbe8e04 = lunar_jamming::tests ({ "17" } teegi testi: j_over_s_equals_the_difference_of_two_independent_link_budget_runs; the_report_prints_both_link_budget_legs_so_the_difference_is_checkable_from_it; the_scenario_reports_one_j_over_s_row_per_visible_satellite_and_never_a_median; a_single_median_j_over_s_would_misreport_the_outcome_that_the_table_reports; a_closer_jammer_raises_j_over_s_by_exactly_the_free_space_loss_difference; a_more_distant_satellite_is_the_weaker_signal_so_it_carries_the_higher_j_over_s; j_over_s_is_invariant_to_the_user_antenna_boresight_gain; a_narrowband_jammer_leaves_no_higher_effective_cn0_than_broadband_at_equal_js; a_selenographic_jammer_gets_its_range_from_the_shared_lunar_geometry; a_strong_enough_jammer_takes_every_lunar_link_below_the_tracking_threshold; no_jammer_is_a_clean_sky_lunar_baseline_with_an_undefined_j_over_s; raising_the_elevation_mask_can_only_remove_rows_never_change_the_ones_that_remain; every_emitted_numeric_field_has_a_unit_and_a_provenance_class; the_csv_table_carries_every_row_of_the_json_table; the_run_is_deterministic_and_the_dispatch_surface_is_populated; bad_inputs_are_rejected_rather_than_producing_a_number); api::tests::lunar_jamming_kind_round_trips_through_the_dispatch_with_a_per_satellite_table
+
+# text
+seg-ec5736cbb3b4 = lunar_jamming (denial_js_db, range_for_free_space_path_loss_m, Cn0Distribution, DenialContourPoint, ContourBand, DenialContour; inverting jamming::effective_cn0_dbhz, jamming::j_over_s_db and jamming::free_space_path_loss_db)
+
+# text
+seg-cdcfbbc52ae5 = lunar_jamming::tests ({ "10" } teegi testi: the_contour_is_the_exact_inverse_of_the_functions_the_rows_were_scored_with; the_band_is_the_measured_quantiles_pushed_through_the_contour_not_a_sigma; the_asymmetry_the_band_carries_is_the_samples_own_shape_bent_by_the_criterion; the_contour_is_monotone_in_cn0_measured_over_a_dense_sweep_not_assumed; the_band_recovers_the_split_verdict_the_single_scalar_contour_lost; the_distribution_is_the_tables_own_order_statistics_and_keeps_the_rows; a_link_already_below_the_threshold_gets_a_null_contour_point_not_a_number; a_clean_sky_run_has_no_contour_at_all_rather_than_an_empty_one; the_denial_threshold_is_the_same_thirty_decibels_the_rest_of_the_engine_uses; the_units_block_describes_the_contour_and_names_nothing_the_report_omits)
+
+# text
+seg-83724a2a8e06 = hybrid_integrity::tests (tuvastusvõimsuse kõver jookseb valehäire määrast nullvea juures kuni { "1" } − P_md minimaalse tuvastatava nihke juures; minimaalne tuvastatav nihe, mis söödetakse tagasi läbi noncentral_chi2_cdf monitori enda rakendatud lävendil, tagastab P_md täpsusega { "1e-9" } igal teljel ja avaliku abifunktsiooni kaudu; tegelikult RF hinnangusse süstitud nihe nihutab monitori enda statistikut täpselt käsitsi arvutatud b²/(σ_rf² + σ_opt²) võrra; müravaba nihe tabatakse üle √(T/λ*)×MDB ja jäetakse märkamata sellest allpool, kusjuures süstitud redel ümbritseb seda ristumist; tuvastusvõimsus on vea suuruse suhtes monotoonne ja identne kõigil neljal teljel MDB kordsete puhul; algväärtustatud (seed) 200,000-valimiline Monte Carlo monitori statistikust reprodutseerib analüütilise võimsuse 4σ piires kõvera neljas punktis; ajastuse MDB on kinnitatud ajastuse häirepiirist kõrgemale, mis on mõõdetud nõrkus, mitte omadus; Wilson-Hilferty kvantiil on mõõdetult monitori täpsest lävendist erinev ~{ "4" }% võrra, mis kirjutab üles, miks seda ei kasutatud; tõusu näitaja on täpselt MDB/määr ja skaleerub määraga pöördvõrdeliselt ning mittepositiivne määr teatab tühiväärtuse (null), mitte nulli); tests/hybrid_fault_power_scipy_oracle.rs (report_detection_power_matches_scipy_chi2_and_ncx2; report_detection_power_matches_scipy_with_comparable_sigmas)
+
+# text
+seg-f9767a6109d5 = hybrid_integrity::tests (rannik algab täpselt kovariatsioonijäljest, mida üleandmise plokk teatab, mõlemas suunas, seega ei saa uuesti esitatud diagonaal teatatud üleandmisest eralduda; teatatud ristumisaeg arvutatakse uuesti aruande enda üleandmise sigmast, protsessimüra PSD-st ja katvustegurist ning piir on häirepiiri sees vahetult enne seda ja väljaspool vahetult pärast; rannikuaeg skaleerub täpselt pöördvõrdeliselt protsessimüra PSD-ga ja lüheneb, kui häirepiir karmistub; nullPSD-ga rannik teatab tühiväärtuse (null), mitte nullaega, sest mitte kunagi ei ole sama mis kohe; väljastatud profiil ristub täpselt üks kord ja ümbritseb teatatud ristumist; dispersiooni kahekordistumise aeg ja häirepiiri ristumise aeg on kinnitatud lahus, olles tiheda optilise astme järel kaheksa suurusjärgu võrra erinevad ja lõdva RF astme järel ühe suurusjärgu piires; optilisest modaalsusest loobumine ostab rohkem rannikuaega kui RF-ist loobumine täpselt kovariatsioonide erinevuse jagatud horisontaalse kasvumääraga; ning random_walk_time_to_limit eristab juba-väljaspool, ristub-ajal-t ja ei-ristu-kunagi)
+
+# text
+seg-6d2b55212f40 = lunar_service, antenna
+
+# text
+seg-730b359e2c3f = antenna::tests ja lunar_service::tests (mustri poolitamisega leitud poolvõimsuse ristumine vastab avaldatud Airy x = { "1.61634" }-le ja annab täpse { "1.02899" }·λ/D laiuse, kirjutades üles, et tavapärane { "1.02" } koefitsient asub −{ "2.955" } dB juures, mitte −{ "3.010" } dB; muster on rangelt kahanev { "400" } punkti jooksul telgjoonest esimese nullini; kaudse efektiivsuse algebra teisendub edasi-tagasi täpsusega { "1e-12" } ja reprodutseerib { "0.641" } / { "0.920" }; telgjoonest kõrvalekalde nurk vastab tan θ = R·sin γ/(r − R·cos γ) { "20" } punktis ja mõlemad piirid täpsusega { "1e-12" }; ligikaudne koonus sisaldab tegelikku kiirt rida-realt; peamised arvud võrduvad lipudega rea kohta, mida need kokku võtavad, ja parandus võrdub nende vahega; iga rea otsus on uuesti arvutatav ainuüksi väljastatud aruandest; iga väljastatud arvuline ja tõeväärtusväli kannab ühikut ja päritoluklassi; võimatu apertuur ei väljasta plokki; kui antenni pole seadistatud, jätab eksport täpselt oma kuus olemasolevat võtit, { "0" } lehte muudetud ja { "0" } eemaldatud); tests/validate_lunar_export_offboresight_spice.rs (flown_orbiter_export_matches_spice_geometry_and_scipy_pattern; documented_working_point_matches_anise_propagation_and_scipy_pattern)
+
+# text
+seg-9910640b7886 = tracking_loop (composing sdr, jamming)
+
+# text
+seg-a3538a1ff1f4 = tracking_loop::tests (avatud silmusega Costase diskriminaatori värin vs sdr::correlate, mis on sammuti edasi viidud algväärtustatud (seed) sünteetilisel IF-il, { "3" } koondatud müra realisatsiooni × { "900" } epohhi, kooskõlas { "0.63" }% juures 35-45 dB-Hz, ruutimiskao liikmelt nõutakse sobitumist vähemalt { "3" }× paremini kui ilma ruutimiskaota vormil kõikjal, kus see on lahutatav; ~{ "32" } dB-Hz atan-diskriminaatori küllastus kinnitatud, mitte ainult öeldud, seega on kehtivuspiir kinnitatud; suletud silmuse σ vs sammuti sdr Costase silmus { "4000" } epohhi jooksul { "3.7" }%; esimese astme DLL tõusu viivitus vs sammuti sdr DLL { "0.17" }%; bessel_i0 vs tabuleeritud I₀ { "7.4e-8" }; hüstereesi laius peab jääma vahemikku [{ "5" }·log₁₀ r, { "10" }·log₁₀ r] { "4" } suhte × { "2" } integreerimisaja × { "3" } ribalaiuse korral); api::tests::tracking_loop_kind_round_trips_through_the_dispatch; tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+# text
+seg-e6236f142dae = lunar_vlbi_fim (composing lunar_vlbi, fim, cio, lunar_frame, frames)
+
+# text
+# c1: estimate_beacon
+seg-5744a8471387 = lunar_vlbi_fim::tests ({ "7" } teegi testi: iga andmepunkti kirjapilt teisendub edasi-tagasi läbi parse/as_str ja tundmatu lükatakse tagasi; kõigi jaamade hoidmine ilma majakata lükatakse tagasi veaga, mis nimetab <c1/>; hoovarv on kinnitatud VÕRDNE ρ/B-ga ja majaka võrdne jaotus VÕRDNE jaama võrdse jaotuse korda selle, mõlemad täpsusega { "1e-15" }, täiendava kinnitusega, et hoovars ületab { "10" }, seega ei ole kaks eelarvet sellel geomeetrial segiaetavad; fikstuuri avaldatud baasjoon on kinnitatud { "10726.748" } km juurde ja selle 49-valimilisest ajakavast kinnitatud andma rangelt vähem kui { "49" } vastastikku nähtavat vaatlust; majaka spekter ühel baasjoonel on mõõdetult vähemalt viie dekaadi laiune ja saadud suhe kinnitatud üle { "1" } AM-HM kaudu ja üle { "100" } tegelikult; jaam-pluss-majakas paigutus on kinnitatud järgupuudulikuks, MÕLEMAD arvutatud väljad on null, samas kui modelleeritud võrdlusosa teatab endiselt. Pluss kaitse fikstuuri enda vastu: tabelite massiivi järele sisestatud ülemise taseme võti muutub selle asemel jaama andmeteks, seega on sisestuskoht kinnitatud ja parsitud stsenaariumi kontrollitud võtit kandma — tõrkerežiim on käitus, mis kasutab vaikselt teistsugust konfiguratsiooni kui test nimetab)
+
+# text
+seg-08708f044bb5 = lunar_dpnt::tests (puhtalt lisav kaitse, mille võtmekomplekti erinevus on täpselt { "{" }correction_link, units{ "}" } ja kõik olemasolevad väärtused on bitthaaval identsed enne muudatust kogutud literaalidega; mõõdistusviga EI dekorreleeru baasjoonega, samas kui orbiidi liige dekorreleerub, ja see püsib nullbaasjoonel, kus orbiidi liige on täpselt null — struktuurne kontroll, mis tabab liikme ühendamist valesse kohta; { "1" } m jaamaviga kandub üle { "1" }:{ "1" } ja on tõestatud, et seda DOP ei võimenda; nullviivitus reprodutseerib vananemata jäägi bitthaaval ja jääk on viivituse suhtes monotoonne, väljastatud kõver võrdub otsekäitustega; kvantiseerimisastme poolitub täpselt bitis ja σ² = astme²/12 ning täisskaala järgib süstitud suurusi; igaüks eraldi väljalülitatud liige taastab ülejäänud kaks ruutsummana; võrdne satelliidipõhine σ levib täpselt väärtuseks σ·PDOP ja see PDOP on kooskõlas orbit::dop-iga; iga väljastatud väli kannab ühikut ja päritoluklassi, kontrollitud mõlemas suunas)
+
+# text
+seg-810a6946b5cd = lunar_station (over lunar_dpnt, lunar_service)
+
+# text
+seg-ef86901b5985 = tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: täpsusega { "1e-12" } m vastuvõtja müraga ja ilma; zero_baseline_floor_is_zero_in_every_trial: { "0" } täpsusega { "1e-9" } m; survey_floor_matches_the_survey_transfer_prediction: p95 enne käitust öeldud { "5" } % vahemikus; coverage_is_non_decreasing_in_the_threshold; corrected_error_grows_with_distance_along_an_azimuth; three_satellites_are_unavailable_with_a_reason_and_no_error; a_satellite_the_station_does_not_see_is_reported; deterministic_for_a_seed_and_moved_by_another; the_work_guard_refuses_an_oversized_grid; the_bundled_scenario_states_a_source_for_every_input; the_result_is_labelled_modelled_with_the_honesty_statement); tests/lunar_station_numpy_oracle.rs (eelregistreeritud numpy uuestiarvutus, salvestatud koos oma möödalaskmisega); lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid; tests/lunar_differential_pnt_reference.rs ning registri ja platvormideülesed golden-etalonid muutmata (lisavus); tests/field_units_global.rs (iga väljastatud väli kirjeldatud, erandita)
+
+# text
+seg-641b41572fd9 = lunar_terrain (over skyline, lunar_service::topocentric_basis); lunar_station; lunar_service (coverage_masked, masked_visible)
+
+# text
+seg-44e74fb6a0a1 = lunar_terrain::tests (bare_sphere_horizon_is_the_dip: kiirkõnnak reprodutseerib -acos(R / (R + a)) täpsusega { "1e-3" } kraadi igal asimuudil; a_cone_on_a_lat_lon_tile_matches_the_analytic_cone: sama koonus, mis on valimistatud { "0.005" } kraadi laius-/pikkuskraadi plaadile, on kooskõlas analüütilise koonusega täpsusega { "0.25" } kraadi; a_lat_lon_tile_is_none_outside_and_wraps_longitude; crater_in_plateau_matches_the_closed_form: lamedapõhjaline kraater sfääril, vaatleja keskpunktis ning { "4" } km ja { "7" } km sellest eemal, suletud kujuga serva kõrguse atan2((R + H) cos s - (R + a), (R + H) sin s) vastu, kus s pärineb sfäärilise serva ristumise võrrandist, täpsusega { "0.01" } kraadi igal asimuudil; rasterised_cone_matches_the_analytic_cone: { "200" } m polaarsele stereograafilisele ruudustikule rasterdatud koonus, mida loetakse ruudustiku valimistaja kaudu, on kooskõlas analüütilise koonusega täpsusega { "0.25" } kraadi; projection_round_trips_through_the_rasteriser_layout; bilinear_reproduces_a_plane_exactly; stated_horizon_goes_through_the_skyline_rules; an_empty_skyline_is_exactly_the_flat_test); tests/lunar_station_terrain.rs (without_terrain_the_document_has_no_terrain_keys; a_zero_horizon_under_a_positive_mask_is_the_flat_run, mõlema liigi puhul; a_horizon_only_removes_satellites_and_a_wall_removes_everything: user_lt4 säilitab oma lameda arvu ja epohhid, mille horisont maksab, on terrain_masked (kättesaadavus ise võib tõusta, sest horisont võib peita satelliidi, mida jaam ei näe), ja { "89" } kraadi horisont jaamas ei jäta midagi kättesaadavaks; bad_terrain_sections_are_refused; the_vendored_crop_loads_and_is_oriented_as_the_source: Shackletoni ja Haworthi kraatrite põhjad madalad, Malaperti massiiv kõrge, peegelpilt mitte; the_station_site_horizon_from_the_crop; service_volume_dem_points_outside_the_crop_keep_the_flat_mask; a_lat_lon_dem_tile_gives_the_station_the_crop_horizon: sissekirjutatud väljalõikest uuestivalimistatud plaat annab jaamale väljalõike horisondi täpsusega { "0.22" } kraadi (piir { "0.5" } kraadi, fikseeritud enne käitust), koos plaadi kaja ja ühikutega, ning dem_path koos dem_tile_path-iga tagasi lükatud; the_export_site_is_masked_by_the_terrain: iga ekspordirida ületab maastiku täpselt siis, kui see on nähtav ja asukoha horisondist asimuudil kõrgemal või sellega võrdne, geomeetria ei liigu, CSV saab veeru ainult maastikuga; the_horizon_matches_the_preregistered_numpy_ray_cast); tests/prediction_frozen.rs ning registri ja platvormideülesed golden-etalonid muutmata (lisavus)
+
+# text
+seg-27acdf36c5da = lunar_receiver; lunar_station
+
+# text
+seg-8fa2f3da879e = lunar_receiver::tests (multipath_is_the_do229_form; dll_noise_matches_a_hand_computation: { "0.825279" } m at { "45" } dB-Hz, { "0.5" } Hz, d = { "1" }, { "20" } ms; bad_sections_are_refused); tests/lunar_station_ext.rs (receiver_absent_or_silent_is_the_plain_run; zero_baseline_multipath_is_the_difference_of_two_receivers: valimi sigma sqrt({ "2" }) a piires { "6" } %; station_multipath_is_gauss_markov: lag-1 korrelatsioon exp(-dt / tau) piires { "0.01" }, ühikdispersioon piires { "2" } %; inter_channel_biases_are_constant_over_a_trial); tests/prediction_frozen.rs ja etalonväljundid (goldens) muutmata (additiivsus)
+
+# text
+seg-304fd4238326 = lunar_station (orbit_growth_range_sigma_m)
+
+# text
+seg-c3a151ee3d10 = tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: kasv sees miinus kasv väljas lingiviga on valimi sigmaga määr tau / sqrt({ "3" }) piires { "6" } % üle { "1600" } tõmbe; linear_growth_is_the_first_order_propagated_error: kiirusviga dv, mida levitatakse puusisese kahekeha integraatoriga stsenaariumi orbiidilt, nihutab asukohta dv tau võrra { "1" } % piires hetkedel { "60" } s ja { "600" } s); tests/lunar_station_published_oracle.rs::k5_growth_addendum_run (ignoreeritud, salvestatud lisa)
+
+# text
+seg-a866350f7eb2 = lunar_solution; lunar_station (solution_figures)
+
+# text
+seg-41f22cf8dd08 = lunar_solution::tests (one_epoch_without_height_is_the_snapshot_solve: võrdub lunar_dpnt::position_error_vector_from_range_errors-iga täpsusega { "1e-8" } m, lõtv kõrgusrida ei muuda midagi, range kinnitab kõrgusevea; three_satellites_need_the_height_row; a_window_shares_the_position; bad_sections_are_refused); tests/lunar_station_ext.rs (the_default_solution_mode_is_the_snapshot_solve: iga näitaja täpsusega { "1e-6" } suhteliselt; height_aiding_and_a_window_do_what_they_say); tests/lunar_station_published_oracle.rs::solution_style_addendum_run (ignoreeritud, salvestatud lisa)
+
+# text
+seg-7217c3bf841e = tests/lunar_station_published_oracle.rs::recorded_finding_one_of_six_bars_passes (salvestatud näitajad registreeritud lävede vastu); tests/lunar_station_published_oracle.rs::published_claims_comparison_run (ignoreeritud, umbes { "7" } s release-ehitusel: käitab uuesti kuus registreeritud juhtu ja kontrollib salvestatud näitajaid)
+
+# text
+seg-9b655d02dc39 = araim_reference (add_v42_subset_plan, add_v42_protection_levels_to_order); raim (araim_subset_raim, SubsetRule)
+
+# text
+seg-feaea6cb2b12 = tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= { "3" }, seiramata risk P_THRES piires, kolm või enam satelliiti eemaldav alamhulk seiratud, ja rohkem kui kümme seiratud eelnevat tõenäosust tuletatud sõltumatult uuesti kui P_no fault q^k täpsusega { "1e-12" }; a_two_satellite_fault_is_found_as_a_pair: viga vaba käitamisel häiret ei ole, ja { "30" } m nihe kahel satelliidil tuvastati paariga kui suurima normeeritud eraldatusega alamhulgaga); tests/araim_reference_vectors.rs ja tests/integrity_araim_stanford_oracle.rs muutmata (2. järku tee on MAAST-iga kontrollitud tee)
+
+# text
+seg-7fa54ce845e3 = clock_integrity (run, sky_at, IntegrityCfg); scenario (Scenario::integrity); report (RunResult::integrity_fom); api (clock dispatch)
+
+# text
+seg-b9a184f14d5a = tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: holdover-i näitajad muutmata, { "111" } keelatud epohhi pole saadaval ilma kaitsetasemeta, keeldutud käitamistega > { "1" }; protection_levels_are_the_snapshot_raims_on_the_same_sky: iga proovitud epohhi HPL ja VPL võrduvad täpselt nulljäägiga snapshot_raim-iga samal eelseadistatud taevas ning vigadeta käitamine ei tekita häiret; a_stated_bias_is_detected_while_it_lasts: { "60" } m nihe annab häire täpselt neil { "10" } epohhil, mida see katab; every_integrity_field_has_a_unit); clock_integrity::tests; kella etalonväljundid (goldens) muutmata
+
+# text
+seg-3ba62864dd31 = cislunar_observability, observability_gramian, intersat_range, cislunar_srif
+
+# text
+# c1: units
+seg-02de44e48cf6 = cislunar_observability::tests ja observability_gramian::tests (vaikedokument kinnitatud bitthaaval selle JSON-i, kokkuvõtte ja SVG FNV-1a-ga, kusjuures selgesõnalised vaikeväärtused on kinnitatud mitteoperatsiooniks ja kaheksa laienduse võtit kinnitatud ABSENT, et jäädvustust ei saaks uuesti genereerida enesevõrdluseks; lisanduv <c1/> plokk jäetud külmutusest välja, eemaldades selle ja hashides uuesti enne selle olemasolu kinnitatud konstandi vastu, mis tõestab, mitte ei eelda, et midagi avaldatut ei liikunud; astme invariantsus homoskedastilise sigma all kinnitatud väärtustel σ = { "0" }, { "0.1" }, { "1" }, { "10" }, { "100" } m; σ_pos kinnitatud skaleeruma täpselt lineaarselt σ-ga täpsusega { "1e-6" } suhteliselt; DRO nullruum kinnitatud olema täpselt z ja ż koordinaattelg, kusjuures kaks põhjust on eraldatud — samatasandiliste kosmoseaparaatide vaheline kaugusrida omab û_z = { "0" } ja CR3BP tasandiväline plokk lahtub täpselt z = { "0" } korral; ruumilised Jacobi maatriksid keskmiste lõplike vahede vastu ning kasti sõltumatu 3-D kaugusmuutuse vaadeldava suuruse vastu; tasandivälised perekonnad tasapinnalises režiimis tagasi lükatud)
+
+# text
+seg-455bea44de27 = frame_eop, realtime_frame_eop
+
+# text
+seg-faacca83ed58 = frame_eop::tests, realtime_frame_eop::tests ja tests/operational_eop_predictor_reference.rs (analüütilise signaali koefitsientide taastamine täpsusega { "1e-9" } 365-päevase akna korral; nihke-pluss-kiiruse sobitus võrdne kinnise kujuga tavalise vähimruutude tõusu ja lõikepunktiga täpsusega { "1e-12" } päris ridadel; KAKS ettevaatamisdetektorit, mis rikuvad iga väljaandmise epohhi järgse rea kiire UT1 ja poolusa veerud — jättes Bulletin B lõplikud terveks — ja nõuavad bitthaaval identset väljundit, mutatsiooniga kontrollitud muutma { "10" } testi punaseks, kui sobitusbarjääri lõdvendatakse täpselt ühe päeva võrra; sõltumatult uuesti ehitatud epohhiloend; sihtmärgi Bulletin B plokk tühjendatud ja epohh näidatud tabelist lahkuvat; liikme lubamine kontrollitud { "6" }-, { "15" }-, { "150" }- ja 365-päevase akna korral; monotoonsed reaarvud; ja külmutatud muutuseelne vaikearuande jäädvustus, mida kinnitatakse väljade kaupa ilma tolerantsita, mis lisaks kinnitab, et jäädvustus ei sisalda uusi võtmeid, nii et seda ei saa vaikselt uuesti genereerida enesevõrdluseks); tests/operational_eop_predictor_bulletin_a_oracle.rs::predictor_mae_against_bulletin_a_and_the_pcc_range_finding; tests/operational_eop_ls_ar_bulletin_a_oracle.rs::ls_ar_predictor_against_bulletin_a_finding; tests/eop_prediction_beyond_table.rs (valikuline EopSeries::with_ls_ar_prediction laiendus üle viimase rea: tabelisisesed vastused bitthaaval identsed, prognoosiread võrdsed ls_ar_predict-iga, raamistikuargumendid üle tabeli järgivad prognoosi, mitte ei kärbita; sisemine kooskõla)
+
+# text
+seg-c77bd56a0619 = lunar_frame_campaign (composing lunar_vlbi, lunar_vlbi_fim, fim, lunar, lunar_frame_realise, frames, cio, lunar_frame)
+
+# text
+seg-98fa9786f0c9 = lunar_frame_campaign::tests ({ "21" } teegitesti: Helmerti kavand lunar_frame_realise::apply_helmert-i keskmise lõpliku vahe vastu — moodul, mille JAOKS andmepind on, mis ei arvuta tuletist ja kinnitab seega [p]ₓ märgikokkuleppe — kõik { "84" } kavandisissekannet langevad kokku täpsusega < { "1e-6" }; puhas võrgu nihe loetud tagasi puhta nihkena < { "1e-6" } lekkega teistesse kuude parameetrisse; andmepinna sigma täpselt lineaarne viivituse sigmas täpsusega { "1e-8" } üle { "3" }× muutuse kõigil seitsmel parameetril; { "16" } h kaar mõõdetud halvem ja { "48" } h kaar mõõdetud parem kui { "24" } h, väljastatud libratsiooni pühkimine samas järjestuses; halvim nihketelg kinnitatud OLEMA eraldi mõõdetud kehakinnisuuna Maa poole domineeriv telg ja teistest halvem > { "5" }×, füüsikaline sõltumatu etalon, millest lahendajale midagi ei öeldud; kolm kollineaarset majakat tekitamas defekti, kus iga andmepinna sigma on NULL ja nullsuunad väljastatud seitsmeparameetrilises baasis; offblock_fraction ja majakatevaheline korrelatsioon täpselt { "0.0" } fikseeritud jaamadega ja mõlemad > { "0" } hinnatud jaamadega; võrdlusploki süstitud teisenduse näitajad näidatud võrdsena selle stsenaariumi sõltumatu käitamisega täpsusega { "1e-14" } suhteliselt, mitte ärakirjutatuna; valve, et ühtki süstitud/taastatud andmepinda ei ilmu dokumendis kuskil; Kuu raamistiku realiseerimise väljund kinnitatud bitthaaval FNV-1a-64-ga üle json‖summary‖svg kolme sisendikuju jaoks, sõrmejäljega enne töö algust); tests/lunar_vlbi_campaign_spice_oracle.rs::lunar_frame_campaign_finding_stations_estimated_p2_precision (väravdatud; range lunar_frame_campaign_matches_spice_geometry_and_numpy jääb ignoreerituks); tests/lunar_frame_campaign_mpmath_oracle.rs::lunar_frame_campaign_datum_matches_mpmath_extended_precision (leid; asutaja otsus 2026-10-02, valik A: see rida jääb MODELLED ja ei laena eraldi rea staatust; 50-numbrilise mpmath sõltumatu etaloni vastu, eelregistreeritud 804662d5, mootori jaamad-hinnatud andmepinna sigmad on oma a priori tagasivea piires, { "9.7e-6" } kõrvalekalle 2024-01-01 korral, ja { "1e-9" } lävi oli madalam kui ükski kaksiktäpsusega tee saavutab, parim, NumPy QR-projektsioon, oli { "5.5e-9" } kõrvalekaldega; tõend toetab eraldi rida „Kuu raamistiku andmepinna kovariatsioon hinnatud jaamadega, 50-numbrilise laiendatud täpsuse vastu“); tests/lunar_frame_campaign_pinv_fallback.rs::finding_step0_fresh_beacon_information_falls_back (kinnitatud); tests/lunar_frame_campaign_cond_bar_oracle.rs::finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios (kinnitatud)
+
+# text
+seg-f3fcc6b9e10a = cislunar_arc_recovery, batch_ls
+
+# text
+seg-457a19842691 = cislunar_arc_recovery::tests ja tests/cislunar_arc_recovery_reference.rs (mõlemad piirid ja nende suhted kinnitatud avaldatud ruudustikul; mõõdetud veakõver võrreldud formaalse kovariatsiooniga rea kaupa rea kohta teguri-kaks piiri ja geomeetrilise keskmise piiriga; NEGATIIVNE KONTROLL — tasapinnaline DRO kuueolek — kinnitades, et kriteerium SAAB ebaõnnestuda ja et regulariseerimata hindaja hajub üle { "1e6" } km, mitte ei tagasta usutavat väikest viga; parametriseerimise invariantsus kinnitatud iga eesliite korral täpsusega { "1e-3" } suhteliselt; lähtetekstivalve, mis eemaldab kommentaarid, stringiliteraalid ja testimooduli ning ebaõnnestub seejärel igasuguse Jacobi, STM-i, SVD-astme või SRIF-i masinavärgi mainimise korral, mutatsiooniga kontrollitud keelatud kutse süstimisega; ainult testis olev kontroll, et lõplikud vahed võrduvad analüütiliste ridadega, nii et lineariseerimine on teadaolevalt hea, samal ajal kui analüütiline tee jääb hindajast puuduma; determinism kinnitatud bait-baidi haaval; avaldatud cislunar-observability dokument kinnitatud võtmekomplekti, kanoonilise sõrmejälje ja kokkuvõtterea järgi)
+
+# text
+seg-b6b73589032f = lunar_ephemeris, lunar_service
+
+# text
+# c1: ephemeris_path
+seg-4cab37e82f00 = lunar_ephemeris::tests (vormingu ja raamistiku sõelumine; Lagrange'i interpolatsioon täpne sõlmedes ja lineaarsel rajal sõlmedest väljas; ICRF-i elemendid läbivad IAU { "2015" } taandamise ja on baidivõrdsed selgesõnalise icrf_to_iau_moon rakendusega; tõeline↔keskmine anomaalia edasi-tagasi teisendus edasise Kepleri lahendi vastu; vigase vormiga failid tagasi lükatud nimetatud põhjusega). lunar_service::tests (kui <c1/> on määramata, on aruande võtmekomplekt ja SHA-256 kinnitatud; Kepleri rida võrdub eraldiseisva Kepleri käitamisega väli väljalt; samasus σ_required · HPL_max / σ_URE = AL, seejärel LÕPUST LÕPPU uuesti käitamine arvutatud nõudel, mis saavutab { "100" } % kaitsetaseme kättesaadavuse, ja uuesti käitamine { "1" } % selle kohal, mis seda ei saavuta; iga kahe uue ploki väljastatud arvväli läbi käidud toodetud JSON-ist ühiku ja päritoluklassi jaoks; kommitiud fikseeritud komplektid sobitatud oma allikatabelitega satelliit satelliidi haaval; tabeli lõpust kaugemale ulatuv horisont tagasi lükatud); tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged; tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+# text
+seg-34bff3218a01 = tests/field_units_global.rs (kõik { "61" } registreeritud liiki käitatud, üks dokumendikuju igaühe kohta: iga arvuline lehtsõlm peab vastama kandele selle dokumendi enda ühikute plokis; vigase vormiga kanne loetakse puuduvaks IGA liigi puhul, vabastatud või mitte, nii et kohatäide ei osta kattuvust; vabastuste loend ei tohi ületada oma kinnitatud lage, loendis olev liik, mis osutub täielikult kaetuks, EBAÕNNESTUB värava, et loendit ei saaks täita, ja käitaja tabelist puuduv registreeritud liik ebaõnnestub, et uus pakett ei saaks uurimata libiseda — mis ta ka tegi, tabades mõlemat liiki, mis lisati pärast selle töö algust; ühesuunaline ratas kirjeldatud-kuid-määratlemata mahajäämusele; ja kommitiud skeemidokumendi aegumiskontroll); field_schema::tests
+
+# text
+seg-926c069f8a2e = lunar_llr (over lunar_frame_campaign::beacon_information, schedule_for and solve_datum_information, lunar_vlbi_fim)
+
+# text
+seg-9c29f0e9a061 = tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: tühjad loendid ja lähtetaseme näide annavad vaikearuande ja kokkuvõtte bait-baidi haaval; an_added_site_never_increases_any_variance: H_after - H_before väikseim omaväärtus on mittenegatiivne täpsusega { "1e-9" } suurimast, iga after/before sigma suhe on kõige rohkem üks ja mõlemad lisatud asukohad on vaadeldud; the_rest_of_the_report_is_the_five_array_result; every_station_geodesy_field_has_a_unit; a_beacon_list_inside_the_campaign_block_is_refused); scenarios/lunar-station-geodesy-baseline.toml ja scenarios/lunar-station-geodesy-with-station.toml (sama arhiveeritud ajakava ja sama VLBI kampaaniaplokk)
+
+# text
+seg-c56512172ce5 = scripts/gate.sh, scripts/check-gate-receipt.sh, scripts/check-repeatability.sh, scripts/install-gate-hook.sh
+
+# text
+seg-94641c011229 = tests/source_guards.rs ({ "9" } testi: mõlemad valved üle kogu lähtepuu, pluss mutatsioonifikstuurid, mis hindavad iga valvet mõlemas suunas — F22 muster teatatud mõlemal kokkupõrkuval teel, tarnitud aatomjärjestuse parandus vastu võetud, pooliku parandus teatatud täpselt teel, mis kaotas oma unikaalse komponendi, tempfile-käepide ja päritud unikaalne kataloog vastu võetud, seinakell tagasi lükatud; deklareerimata kinnitus teatatud, deklareeritud vastu võetud, välistuseta skoop tagasi lükatud, ümbritseva testi dokumendikommentaaris olev deklaratsioon vastu võetud ja näidatud mitte järgmisse testi lekkivat; ja iga kinnituse kirjapilt — hex, kümnendarv, räsistring, baidipikkus, nimetatud baitide arv, golden-fail — nähtud, samal ajal kui algoritmi konstante, RNG algväärtusi ja väikese võimsuse kontrolle ei nähta)
+
+# text
+seg-416def055790 = integrity::composed_pl::tests (monotoonsus, P0-põhi, K(IR/2), astendajad, alumine poolpidevus)
+
+# text
+seg-3d4a4ed81148 = integrity::lil_envelope::tests (lahknemine, lävi, IR-i pingutamise dominantsus)
+
+# text
+seg-0a2804cefee1 = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (andmetega väravdatud: jätab sõnumiga vahele, kui BIPM-i rida puudub); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (D9 voor { "3" }, prospektiivne, ei ole veel käitatud: Circular T { "465" } ilmus 2026-10-12 ja eelregistreeritud 1000-väärtuse reegel vajab väljaandeid umbes numbrini { "468" })
+
+# text
+seg-477c4bbb36ab = integrity::hetero_budget::tests (correlated_fused_bias_dominates_independent_when_correlated, rho_one_single_realizer_recovers_linear_sum) + tests/hetero_budget_reference.rs
+
+# text
+seg-75e4936b4c2d = integrity::gls_commonmode::tests (common_mode_shift_inflates_statistic_but_not_contrasts, post_fit_common_mode_statistic_is_zero) + tests/gls_reference.rs; tests/gls_common_mode_statistic_numpy_oracle.rs::common_mode_statistic_matches_numpy_lapack
+
+# text
+seg-7bbbfeb6e7b9 = lunar_identifiability, lunar_datum
+
+# text
+seg-6ac21ece8e3d = tests/lunar_datum_identifiability_reference.rs (single_internal_range_row_has_six_dim_datum_null_space; extending_the_librating_arc_lifts_the_origin_scale_degeneracy); tests/lunar_datum_sosnica_oracle.rs::origin_scale_correlation_and_crlb_disagree_with_the_published_geometry
+
+# text
+seg-36da2dd8d3db = lunar_datum, lunar_identifiability
+
+# text
+seg-12c2f3ad1982 = lunar_datum::tests (LLR/VLBI/orbiter analytic partials vs finite difference); lunar_identifiability::tests (adding_an_offradial_technique_collapses_the_origin_scale_degeneracy; transverse-vs-radial via crlb_diag)
+
+# text
+seg-13c488ae75a6 = lunar_llr_geometry::tests (reflector_and_station_catalogs_are_well_formed, analytic_partials_match_finite_difference, llr_one_way_range_is_earth_moon_scale, zero_datum_reproduces_nominal_range, llr_only_fisher_shows_strong_com_x_scale_degeneracy); tests/lunar_pa_frame_realisation_guard.rs; tests/llr_datum_degeneracy_reference.rs; tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_against_ilrs_normal_points
+
+# text
+seg-f741d9570b10 = lunar_gauge::tests (coupled_marginal_well_posed_network_is_psd, coupled_marginal_twoway_equals_more_oneway_in_diverse_network, coupled_marginal_twoway_lift_three_orders, oneway_range_row_has_correct_temporal_entries, twoway_range_row_has_zero_at_offset_and_rate, time_tie_row_equals_pure_offset_vector, rate_tie_row_has_correct_structure)
+
+# text
+seg-c4c5426a700b = lunar_techniques::tests (combine_is_additive_order_independent_and_empty_is_zero - tühi valik annab nullmaatriksi, üksik valik on ühikmaatriks, paar võrdub sõltumatult kirjutatud elementide kaupa summaga ja tulemus on valikujärjestuse suhtes invariantne; adding_a_block_never_reduces_the_degeneracy_metric - monotoonsus lisatud informatsiooni all; radial_diversity_beats_transverse_for_breaking_the_degeneracy - tagakülje orbiteri plokk tõstab langemismõõdikut rohkem kui ristsuunaline VLBI plokk)
+
+# text
+seg-c5ebc071ce3e = lunar_interop_budget::tests (monotoonsus eelarves; RSS-eelarve vähendamine pakkujapõhise CRLB all; läbitöötatud pöördetolerants Kuu õla pikkusel; piirav liige = pööre)
+
+# text
+seg-f4fbaefa3a11 = lunar_interop_budget::tests (CommonEphemeris nullib eelarve; CommonFrameTie < PerProvider; irreducible_fraction > { "0.5" } tegelikel jaotustel; kokkuleppe järjestus)
+
+# text
+seg-0b39643e9152 = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable (nullist erinev, kuid astmepuudulik plokk ⇒ block_spark { "1" }, f_detect { "0" }; sõltumatud veerud ⇒ block_spark { "2" }, f_detect { "1" }), byzantine_real_network_uniform_bias_is_clock_offset (üks kaaslane, kellele kuuluvad kõik sõlme mõõtmised = kellanihke viga ∈ range(G), tuvastamatu, selge Grami spektrilõhega), byzantine_redundant_net_identifies_at_least_one (kuus sõltumatut ühe mõõtmisega kaaslast ⇒ block_spark { "7" }, f_identify { "3" }), byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations (P⊥ = I käsitsijuhud kinnitavad f_detect = block_spark − { "1" }, f_identify = ⌊(block_spark − { "1" })/2⌋)
+
+# text
+seg-70a340255eb6 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored (enesele viitav võrk: ühiskiirus asub N(GᵀWG)-s, temporal_gauge_dim { "2" }; pärast ühte välist kiiruse sidumise rida: kiirus gabariidist välja tõrjutud, temporal_gauge_dim { "1" } ühise nihke säilimisega)
+
+# text
+seg-11fe79ac46b3 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (ühine nihe tuvastamatu, diferentsiaalne tuvastatav), slope_infinity_in_range_finite_detectable (g7: tõus ∞, kui b ∈ range(G), lõplik, kui b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" }: rank(GᵀWG) = state_dim − { "8" }, 8-mõõtmeline gabariit on kogu nullruum spektrilõhega >{ "1e6" })
+
+# text
+seg-95c049581604 = telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve, check_mask)
+
+# text
+seg-35e253f27caa = telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — avatud ja suletud otsad, τ = { "400" } s vahe G.8271.1 tabelis 7-3, pidevus igas tabelitest tulenevas murdepunktis; a_curve_exactly_on_the_limit_passes_and_just_above_fails; eprtc_a_holdover_envelope_follows_table_3; a_coarse_record_is_not_evaluated_against_a_filtered_mask); tests/telecom_timing_reference.rs (telecom_timing_kind_round_trips_through_the_dispatch); tests/telecom_masks_itu_printed_values.rs (mask_values_match_the_numbers_the_recommendations_print; figure_7_2_label_at_1_3_s_is_not_its_own_table_value)
+
+# text
+seg-f8b7bc046be6 = telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)
+
+# text
+seg-3ae5550f6aaa = telecom_timing::tests (g811_prc_masks_follow_clause_6_1; g812_masks_follow_tables_3_4_6_and_7; g8262_masks_follow_tables_1_3_4_and_5; g8262_1_eeec_masks_follow_tables_1_and_3; a_linear_piece_is_evaluated_without_powf; wander_masks_pass_a_quiet_white_fm_flicker_series; wander_masks_fail_the_same_series_scaled_up)
+
+# text
+seg-82af02048968 = clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (clock kind [clock_log])
+
+# text
+seg-df411365b9ab = clock_log::tests (käsitsi kirjutatud logid vormingu kohta: päised, eraldajad, ühikud, sageduse integreerimine, TICC kanalid ja režiimid, vahed ja poliitikad, keeldumised); tests/clock_log_allantools.rs (eelregistreeritud võrdlus: b1_each_log_reads_to_the_reference_phase; b2_adev_tdev_and_mtie_agree_with_allantools; b3_a_telecom_series_read_from_a_log_equals_the_same_samples; b3_the_clock_kind_measured_block_is_opt_in)
+
+# text
+seg-0a789b9f3db1 = clock_log (parse_linuxptp, parse_chrony, grid_timed_offsets)
+
+# text
+seg-b1a8738d620b = clock_log::tests (ptp4l_reads_the_locked_offsets_in_ns; linuxptp_reads_only_the_named_program; ts2phc_gap_is_refused_or_filled; linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface; linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps; chrony_tracking_reads_the_local_offset_in_seconds; chrony_statistics_needs_a_source_when_there_are_two; chrony_columns_of_the_other_log_are_not_read; clock_selector_is_refused_for_timelab_and_ticc_only) fikstuuridel kaustas tests/fixtures/clock_log/linuxptp_chrony/
+
+# text
+seg-5fb2f4812479 = holdover_test (HoldoverTestScenario, recovery, linear_fit); telecom_timing (check_mask, check_envelope, budget_results)
+
+# text
+seg-d028f2b41fe8 = holdover_test::tests (the_record_is_split_at_the_stated_times; holdover_figures_match_a_hand_computation; recovery_is_timed_from_the_restoration; masks_are_measured_on_the_step_their_condition_names; a_record_with_no_baseline_says_so; bad_inputs_are_refused_with_the_reason; the_report_carries_the_label_the_units_and_no_conformance_word; a_ptp4l_log_is_scored_end_to_end)
+
+# text
+seg-ea770cfea799 = ssv (constellations, geom, sweep, pattern, check)
+
+# text
+seg-9a49009f27cd = ssv::geom::tests (the_grid_has_the_booklets_2562_points_on_the_unit_sphere; the_interval_form_equals_the_general_predicate; a_user_behind_the_earth_is_blocked_and_one_beside_the_limb_is_not); ssv::sweep::tests (a_small_shell_run_is_internally_consistent; pdop_of_a_regular_tetrahedron_like_set_is_finite_and_a_flat_set_is_not); ssv::pattern::tests (table_b10_antenna_reads_as_gain_against_angle_from_the_boresight)
+
+# text
+seg-05a12f571867 = ssv (limb, weak)
+
+# text
+seg-4b5cbdee9714 = ssv::limb::tests (the_chapman_layer_peaks_at_its_height_with_its_density; the_surface_limb_bends_about_one_and_a_third_degrees; plasmaspheric_tec_is_a_few_tecu_for_an_equatorial_gps_to_geo_ray); ssv::weak::tests (longer_integration_lowers_the_acquisition_threshold; aiding_narrows_the_search_and_the_loop; a_conventional_receiver_is_far_above_the_ssv_signal_levels); ssv::scenario::tests (the_limb_medium_adds_statistics_and_can_cost_signals; a_weak_signal_receiver_replaces_the_fixed_threshold)
+
+# text
+seg-89cac0893981 = ssv::nav (run_nav, Ekf)
+
+# text
+seg-18bbbb4578fc = ssv::nav::tests (the_filter_converges_where_signals_are_plentiful_and_is_deterministic; the_covariance_is_consistent_with_the_error; without_signals_the_filter_coasts_and_the_gap_is_reported); ssv::scenario::tests (navigation_and_formation_run_and_report)
+
+# text
+seg-59bd0b502622 = ssv::formation (run_formation, RelEkf)
+
+# text
+seg-70f8b2a10f03 = ssv::formation::tests (differencing_beats_subtracting_absolute_estimates_and_is_deterministic); ssv::scenario::tests (navigation_and_formation_run_and_report; formation_needs_navigation_and_one_mode_only)
+
+# text
+seg-9f89545da2ca = inertial::cai_error_terms::tests (raman_transfer_short_pulse_limit_matches_the_acceleration_transfer_function; white_raman_phase_closed_form_matches_quadrature; short_pulse_band_limited_closed_form_matches_quadrature; cheinet_2008_white_phase_noise_requirement_is_reproduced; delay_term_closed_form_matches_exact_filter_quadrature; defocus_phase_is_position_independent_and_tilt_cancels; curvature_bias_monte_carlo_matches_closed_form; curvature_bias_limiting_cases; classical_aided_resolution_monte_carlo_matches_closed_form; multi_t_resolution_monte_carlo_matches_closed_form; ambiguity_limits_and_inverse)
+
+# text
+seg-869454221ef4 = telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)
+
+# text
+seg-2fb7b4c2396c = telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — diskreetne vananemisramp (1/2)·D·t² { "0.1" } % piires päeva jooksul; same_seed_same_series_and_hash_different_seed_different_series); tests/oscillator_presets_measured.rs (caesium_finding_pinned; rubidium_finding_pinned; csac_finding_pinned; ocxo_preset_has_no_measured_record)
+
+# text
+seg-d31b872adcb6 = slot_timing (predicted_error_s, breach_after_sync_s, terms_at, slot_budget, ClockNoise::from_datasheet, SlotTimingScenario); clock_state (ClockClass::Tcxo, Ocxo, Rafs, source)
+
+# text
+seg-8eba4f60f78e = tests/slot_timing_igs_holdout.rs ({ "10" } GPS Block IIF satelliidikella, { "14" } päeva IGS-i lõplikke kellasid: { "8" } { "1.5" } läve piires, G25 ja G30 optimistlikud kuni umbes 2x, kinnitatud); tests/slot_timing_ocxo_holdout.rs (mõõdetud OCXO: kõrvalejäetud ennustus ei ole kunagi optimistlik, { "0.59" } kuni { "0.70" } mõõdetud rikkest; valimisiseselt { "0.98" } kuni { "1.17" } piires; ilma fix-sageduse liikmeta on valimisisene ennustus igal lävel optimistlik); slot_timing::tests (fix_frequency_uncertainty_alone_is_linear_in_time; reduces_to_the_holdover_inversion — iga klass holdover::holdover_seconds vastu täpsusega { "1e-9" }; white_fm_with_fix_error_has_its_closed_form; flicker_floor_alone_is_linear_in_time; ageing_alone_is_quadratic_in_time; frequency_offsets_add_in_magnitude; the_error_at_the_breach_is_the_guard; datasheet_fit_envelopes_every_point; datasheet_classes_match_their_presets_at_one_second; a_breach_beyond_the_datasheet_is_flagged_as_extrapolated; the_report_carries_the_result_and_a_unit_for_each_field)
+
+# text
+seg-a1318b5603cd = orbital_timing (orbital_timing, visibility_half_angle_rad, max_pass_s, crosslink_neighbour_is_outside_footprint)
+
+# text
+seg-4c4e4d92c416 = orbital_timing::tests (reduces_to_the_terrestrial_tpl — täpselt tpl::timing_protection_level_ns, kui kellal ei ole flicker-, valge faasi- ega juhuslikku jooksuliiget; leo_geometry_matches_its_closed_forms; crosslink_independence_follows_the_footprint; an_independent_check_caps_the_ramp_before_the_pass_ends; a_crosslink_inside_the_footprint_does_not_count; a_ramp_below_the_reference_is_never_detected)
+
+# text
+seg-06c475d7eb73 = spectrum (SpectrumScenario, SpectrumModel::bin_psd_w_per_hz, SpectrumModel::band_state, effective_cn0_multi_dbhz, system_temp_k, Jammer::power_fraction_in, Jammer::duty)
+
+# text
+seg-266d9c05d9be = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S võrdne jamming::j_over_s_db-ga ja efektiivne C/N0 võrdne jamming::effective_cn0_dbhz-ga, Q = 1/(R_c kappa), täpsusega { "1e-9" } dB, ja jamming-liigi enda testi { "32.105" } dB ankur; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
+
+# text
+seg-1d43f89b7a30 = ephem (standish_state, StandishElements::state_at_mean_anomaly, Planet::Pluto); solar_system (position_label)
+
+# text
+seg-1af48aec2408 = tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: kinnitatud { "2.04" } ja { "5.16" } korda nominaalne pikkusviga, alla kuue korra; pluto_from_the_1992_row_is_measured_not_validated: { "39" } kaaresekundi ja { "1.14e9" } m piires; standish_velocities_track_horizons_to_one_percent: halvim { "3.7e-3" } kiirusest); ephem::tests (standish_velocity_is_the_derivative_of_the_position; pluto_has_no_table2_row_and_no_stated_error)
+
+# text
+seg-de8a26ea4d61 = ephem (satellite_state, Satellite, SatelliteMethod, moon_icrf, moon_icrf_velocity); ephem_provider (AnalyticSolarSystem)
+
+# text
+seg-06601f6fb837 = tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: halvim planeedilt nähtav nurkviga vahemikus { "2000" } kuni { "2040" }, Phobos { "5.65" } kraadi, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymede { "0.22" }, Callisto { "0.27" }, Titan { "3.31" }; geocentric_moon_tracks_horizons: { "0.046" } kraadi); ephem::tests (moons_sit_at_their_mean_distance_and_move_at_their_mean_speed); ephem_provider::tests (earth_and_moon_balance_about_their_barycentre)
+
+# text
+seg-24749f350eb2 = body (Body::by_name, Body::facts, Body::prime_meridian, SOLAR_SYSTEM, BodyFacts); solar_system (SolarSystemScenario, position_label)
+
+# text
+seg-a2ffe20b07aa = body::tests (every_catalogue_body_resolves_by_name_and_carries_its_record; a_zonal_field_is_referenced_to_its_sources_radius; retrograde_rotators_have_negative_rates_and_periods_match_the_iau_rate); solar_system::tests (defaults_report_all_eighteen_bodies_with_tracks; earth_heliocentric_distance_is_one_au_and_period_one_year; a_planet_track_closes_on_its_orbit_and_starts_at_the_epoch_position; moons_orbit_their_planets_at_their_mean_distance; pluto_outside_its_table_is_an_error_not_a_guess; every_emitted_number_has_a_unit); tests/body_constants_naif_oracle.rs::only_the_conventional_constants_of_other_rows_differ
+
+# text
+seg-0de56af96b3e = body_pnt (BodyPntScenario, formal_sigma, fix_error); orbit (dop); batch_ls (gauss_newton); mars_pnt (chord_clears_sphere); mars_frame (bodyfixed_to_inertial)
+
+# text
+seg-92943f4850b5 = body_pnt::tests (relay_period_is_keplers_third_law_for_the_body; an_orbiter_keeps_its_radius_and_a_lander_sits_on_the_surface; the_earth_range_never_worsens_the_formal_uncertainty; seeded_fix_errors_are_consistent_with_the_formal_sigma: iga fiksi vea ruutkeskmine oma formaalse sigma kohta lõigus [{ "0.6" }, { "1.5" }]; earth_light_time_is_minutes_at_mars_and_the_run_is_deterministic; defaults_run_around_mars_and_every_number_has_a_unit)
+
+# text
+seg-17bf1df86b49 = constellation (coverage, ConstellationDesignScenario, beidou_slots, body_by_name)
+
+# text
+seg-4d15849bdf7c = constellation::tests (prefilter_matches_brute_force_exactly — iga kaart ja loendur võrdub otsese kõrgusnurga testiga skaneerimisega; five_thousand_satellites_on_a_coarse_grid — { "5 000" } satelliiti, trükib käitamisaja ja säilitatud paaritestid; a_clock_per_constellation_needs_one_more_satellite; beidou_geo_and_igso_geometry; lunar_shell_runs_around_the_moon; presets_are_earth_only_and_errors_are_clear; preset_counts); tests/constellation_availability_published_spec_oracle.rs::presets_meet_the_published_dop_availability (ainult regressioonikontroll); tests/coverage_dop_full_oracle.rs::finding_is_pinned; tests/coverage_dop_gnss_lib_py_oracle.rs (regressioon)
+
+# text
+seg-fde8247097c3 = campaign (run_campaign_detailed, run_chain, presets, extract, to_svg)
+
+# text
+seg-d8d3a3893423 = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — liikme tulemus baidiidentne eraldiseisva käitamisega ja iga joondatud väärtus võrdne eraldiseisva reaga; the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
+
+# text
+seg-59eda109a298 = campaign (run_sweep, run_monte_carlo, ensemble); sweep (GenericAxis, coords_of, set_dotted_value); inertial (metric_stat)
+
+# text
+seg-3b9aa486bb66 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — { "200" } algväärtust valge sagedusmüraga kella, mis hoiab tau = { "3010" } s: tõeline keskmine { "0" } teatatud intervalli sees, intervalli poollaius { "25" } % piires väärtusest { "1.96" } sigma/sqrt(n) ja valimidispersioon sigma = sqrt(q_wf tau) = { "16.459" } ns kahepoolse { "99" } % hii-ruut-intervalli sees; kalibreerimisansambel (CAP-10, eelregistreeritud ea451cb5, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): { "200" } sõltumatu ansambli üle katab intervall tõelise keskmise { "192" }-l (Binomial({ "200" }, { "0.95" }) { "99" } % piirkonna [{ "181" }, { "197" }] sees) ja hii-ruut-kontroll läbib { "196" }-l, samal ajal kui ühe algväärtuse protsentiili tolerants (p05 ja p95 { "0.3" } sigma piires) läbib ainult { "183" }-l { "200" }-st, NOT MET eelregistreeritud { "190" } vastu, algväärtuse suhtes habras kontroll, mis on salvestatud, mitte lõdvendatud; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+
+# text
+seg-c0c2439ee1f6 = campaign (run_compose)
+
+# text
+seg-b238a6b2bbdd = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — ühe liikmega koostis loeb eraldiseisva arvu ja tulemuse räsi)
+
+# text
+seg-a032de3144fe = campaign::optimize (run_optimize, nelder_mead)
+
+# text
+seg-94a984382eee = tests/campaign_optimize_reference.rs (eelregistreeritud fbe6c8b3 ja pärast vooru 1 protokollimööda 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D sihtlahend { "6.1e-15" } piires väärtusest r* = r0 { "10" }^((m(r0) - { "3" })/20) { "96" } hindamisega; p3_prime_contour_target_grid_and_nelder_mead ja p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — ruudustikumeetodi parim bitthaaval võrdne sõltumatu { "41" } x { "41" } toorjõusilmusega üle run_toml, Nelder-Mead vähemalt sama hea { "177" } ja { "161" } hindamisega; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, mis kinnitab salvestatud vooru 1 möödalaskmise); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" } { "234" } hindamisega; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
+
+# text
+seg-a0c6fa7dbb46 = leo_signal (LeoSignalScenario, SignalDesign, Component, Shape, code_jitter_m, gabor_bandwidth_hz, detection_probability, threshold_for_pfa, mean_acquisition_time_s, ssc_leo_into_gnss, ssc_gnss_into_leo, jammer_tolerance, gnss_victim, preset, public_signal)
+
+# text
+seg-6d9eb1dc2a11 = leo_signal::tests (every_public_preset_parses_and_cites_a_url; detector_reduces_to_pfa_and_grows_with_snr; detection_probability_with_several_looks_matches_the_noncentral_chi_square; mean_time_of_a_perfect_detector_is_half_the_cells; compatibility_ssc_magnitudes_match_independent_quadrature; to_spectrum_band_is_consistent_with_the_design; jammer_tolerance_orders_cw_matched_wideband; e5_centred_signal_hits_e5a_and_e5b_equally; defaults_run_on_the_generic_band_preset; inline_signal_and_bad_inputs); tests/leo_signal_reference.rs (iga komplekteeritud süsteemineutraalne stsenaarium käitub ilma töötoa andmeteta, ribakompromissi ionosfääri suhted võrduvad (f_ref/f)^{ "2" } ja selle vabaruumi vahed { "20" } log10(f/f_ref), värin etalon-C/N0 juures jääb oma Gabori piiri ja piiramata riba vormi vahele, töötoa parameetrite stsenaariumi E5 kujukontrollid on kooskõlas, kui see fail on olemas, ning ükski lähtefail ei kompileeri seda faili sisse)
+
+# text
+seg-e31094573516 = spectrum (Band::unit_psd, Band::tracked_power_dbw, BandDesign, BandCfg, PanelCfg, SpectrumScenario, Waveform, multi_band_svg); leo_signal (SignalDesign::to_spectrum_band)
+
+# text
+seg-17f462b8768d = tests/leo_signal_reference.rs (mitmeribaline joonlaiusdiagramm käitub nelja paneeliga, UHF-, L5-riba, S- ja C-segajad keelavad igaüks ainult oma riba ning tavalise riba käitamine on laiendusest muutumatu); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+# text
+seg-8749534ecbbb = leo_pass (LeoPassScenario); leo_link::geometry (design_pass, link_geometry, numerical_check, SatMotion, UserMotion); leo_link::antenna; leo_link::itu (p676_gaseous_attenuation_db); leo_link (system_noise_temperature_k, cn0_dbhz)
+
+# text
+seg-eec596b8749d = leo_pass::tests (the_leo_pass_is_a_bell_above_flat_gnss; closed_form_doppler_agrees_with_the_numerical_derivative: alla { "0.01" } Hz ja { "0.01" } Hz/s; indoor_uhf_suffers_less_building_loss_than_c_band; rain_attenuates_c_band_more_than_s_band; iono_delay_scales_as_one_over_f_squared_across_bands; a_fully_custom_band_needs_no_preset; a_walker_constellation_and_a_tle_satellite_both_run; defaults_run_with_no_preset_named_and_every_number_has_a_unit); leo_link::geometry::tests (kepler_velocity_is_the_derivative_of_the_position; a_designed_pass_reaches_the_requested_elevation; closed_form_range_rate_and_accel_match_central_differences_for_two_body_motion); leo_link::antenna::tests
+
+# text
+seg-a6cfe1d09891 = leo_link::presets (SystemPreset, BandPreset, all, by_id, gnss_meo); leo_pass (resolve_bands)
+
+# text
+seg-09ebe92cc5c1 = leo_link::presets::tests (every_preset_is_sourced_and_self_consistent; only_the_celeste_preset_is_sourced_from_the_workshop); leo_link::presets::xona_pulsar::tests (the_eirps_reproduce_the_published_minimum_power_at_ten_degrees; a_flat_pattern_lands_the_zenith_power_near_the_published_maximum: { "0.5" } dB piires väärtustest -139.1 ja -136.2 dBW); leo_link::presets::iridium::tests; leo_pass::tests (a_fully_custom_band_needs_no_preset)
+
+# text
+seg-8c33a02f0aa9 = leo_link::energy (fix_budget, duty_curve, IotReceiver, IotSignal); leo_pass (iot_section)
+
+# text
+seg-981819c1af62 = leo_link::energy::tests (stronger_signals_and_smaller_doppler_windows_fix_faster; the_doppler_rate_caps_the_coherent_time; battery_life_grows_with_the_fix_interval_toward_the_sleep_floor); leo_pass::tests (the_run_is_deterministic_and_bad_inputs_are_rejected)
+
+# text
+seg-a8d152bb385d = leo_navmsg (LeoNavmsgScenario::midpass, worst_case_jump, elevation, geodetic_to_ecef)
+
+# text
+seg-af0e339c4fae = leo_navmsg::tests::a_mid_pass_update_is_continuous (iga ümberlülituse kauguse hüpe võrdub kauguse vea muutusega ja parandatud { "300" } s sobitus, mida uuendatakse iga { "150" } s järel, läbib { "5" } cm läve); leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged; leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight (kinnise kujuga vorm piirab koonuse tihedat valimit)
+
+# text
+seg-d8d04f2ffd50 = leo_navmsg::codec (encode, decode, write_payload, read_payload, field_table, quantisation_budget)
+
+# text
+seg-4040a549f1c1 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer; week8_resolves_near_the_reference); leo_navmsg::tests::every_model_round_trips_through_the_binary_frame (iga mudel { "2" } mm piires täpsest sõnumist pärast dekodeerimist, uuesti kodeerimine bitthaaval identne, ümberpööratud bitt lükatud CRC-ga tagasi); leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+# text
+seg-a6f36f62a02d = leo_navmsg::text (rinex_export, rinex_import, csv_export, csv_import, calendar, from_calendar)
+
+# text
+seg-14ee5fa96ce7 = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (iga mudel { "0.1" } mm piires pärast tekstiplokki, CSV täpne)
+
+# text
+seg-3f5b07cc8c81 = leo_navmsg::elements (EcefPoly, ephemeris_at); leo_navmsg (liu_comparison, LIU2025_TABLE)
+
+# text
+seg-1ffa5a792c36 = leo_navmsg::tests::liu22_beats_the_16_parameter_set_over_a_20_minute_arc; leo_navmsg::tests::the_ecef_polynomial_fits_a_minute_to_millimetres; leo_navmsg::tests::every_preset_resolves_and_the_atomic_preset_selects_the_zero_clock_polynomial
+
+# text
+seg-fc9c5d5b1511 = leo_fusion::doppler (solve, formal_covariance, single_pass_geometry, offset_site, closest_approach); leo_fusion::pvt_kind (run_doppler)
+
+# text
+seg-6cb8d56c57d6 = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: täpsusega { "1" } mm ja triiv täpsusega { "1e-6" } m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: kaalutud jääkide RMS lõigus [{ "0.8" }, { "1.2" }] ja viga alla nelja formaalse sigma); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (eelregistreeritud asendaja avaldatud andmekogumi 3 protsentiilide vastu väljaandest „Unveiling Starlink for PNT“, doi:10.33012/navi.685: { "3" } satelliidiga ({ "47" } kraadi mask), ilma kõrgustoeta ja { "30" } Hz juures on p90 3-D viga { "92.2" } m { "20" } s juures ja { "870" } m { "8" } s juures avaldatud { "2" } m ja { "10" } m vastu, seega on mõlemad teguri-kaks läved NOT MET, kõrgemal poolel, ja kinnitatud möödalaskmisena; docs/design/evidence/cap11-starlink-doppler-proxy/)
+
+# text
+seg-95f8dcd6247e = leo_fusion::joint_pvt (solve, dop, code_sigma_dll_m, SystemClock); leo_fusion::system (SystemCfg, System); leo_fusion::pvt_kind (run_joint)
+
+# text
+seg-7a8b0b7b8a37 = leo_fusion::joint_pvt::tests (dop_matches_the_hand_derived_zenith_plus_three_horizon_case: HDOP = VDOP = sqrt(4/3), TDOP = sqrt(1/3), PDOP = sqrt(8/3), GDOP = sqrt({ "3" }) täpsusega { "1e-9" }; a_lone_satellite_with_its_own_clock_adds_nothing_and_a_known_offset_does; a_noise_free_fix_recovers_position_clock_and_inter_system_bias; seeded_fixes_agree_with_their_formal_covariance; dll_noise_is_the_textbook_figure_for_gps_l1_ca); leo_fusion::pvt_kind::tests (fusing_leo_never_worsens_the_median_pdop_and_the_isb_is_recovered); tests/leo_fusion_scenarios.rs (meo_leo_fusion_beats_gnss_alone_and_recovers_the_leo_bias); tests/joint_pvt_dual_freq_itrf_rtklib_oracle.rs::dual_frequency_finding_is_pinned; tests/joint_pvt_precise_itrf_rtklib_oracle.rs::precise_product_finding_is_pinned
+
+# text
+seg-d98c7b399230 = leo_fusion::ppp (run, PppScenario, LI_2019)
+
+# text
+seg-51a43af7f6b5 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } algväärtust, käitamiste keskmine NEES-i keskmine lõigus [{ "2.4" }, { "3.6" }] ja vähemalt { "75" } % epohhidest kahepoolse { "95" } % hii-ruut-riba sees; mõõdetud { "150" } algväärtusega, keskmine { "2.84" } ainult GNSS-iga ja { "2.87" } LEO-ga; leo_augmentation_shortens_convergence; same_seed_same_answer_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+# text
+seg-c42e3bd4a4c1 = leo_fusion::timing (simulate, utc_offset_s, system_to_utc_s); leo_fusion::pvt_kind (run_timing)
+
+# text
+seg-061a0510c35c = leo_fusion::timing::tests (the_utc_offset_follows_the_is_gps_200_expression; continuous_tracking_approaches_the_measurement_floor_and_gaps_cost_time; the_filter_is_consistent_over_seeds; the_utc_offset_uncertainty_sets_a_floor); tests/leo_fusion_scenarios.rs (leo_timing_error_grows_as_the_c_n0_falls)
+
+# text
+seg-16fa5fabfb50 = leo_fusion::presets (all, by_id, cn0_range_dbhz, noise_density_dbw_hz); leo_fusion::system (SystemCfg::build)
+
+# text
+seg-df22b3cb00fa = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url; only_one_preset_uses_workshop_material; noise_density_at_290_k_is_minus_204_dbw_per_hz); tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios: src-, scenarios- ja tests-kataloogide lähtetekstiskannimised); leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out; a_system_needs_no_preset; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+# text
+seg-6478ad7d09eb = leo_pnt_chain (LeoPntChainScenario); leo_pass (BandCfg::signal, design_tracking); leo_navmsg (LeoNavmsgScenario::broadcast_sisre); leo_fusion::pvt_kind; leo_fusion::ppp
+
+# text
+seg-02ef52ba69f0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: tugevam EIRP, pikem sobitusintervall ja suurem orbiidi määramise liige liigutavad igaüks edasi antud väärtust ja liidetud fiksi; the_handed_on_values_are_the_stage_outputs; a_band_design_splits_the_eirp_and_reports_the_design_jitter; the_pass_export_reproduces_the_engine_range)
+
+# text
+seg-4070df5af5e4 = leo_link::spoof (range_rate_position_gradient, line_of_sight, fll_frequency_jitter_hz, doppler_consistency_window, doppler_consistency); leo_pass (SpooferCfg, spoof_section)
+
+# text
+seg-0a123a80693f = leo_link::spoof::tests (the_gradient_is_the_derivative_of_the_range_rate; fll_jitter_matches_the_formula_by_hand; a_common_mode_residual_is_a_clock_drift_and_is_not_detected; with_no_prior_and_equal_noise_the_statistic_is_the_scatter_about_the_mean; a_push_the_prior_explains_is_not_detected; a_velocity_push_is_hidden_by_a_loose_velocity_prior_only; the_information_form_equals_the_covariance_form); tests/leo_resilience_verticals.rs (the_monitors_are_silent_before_the_onset; the_doppler_statistic_is_quadratic_in_the_jump; leo_range_rates_see_a_jump_that_gnss_range_rates_do_not)
+
+# text
+seg-8fbcf1ccbe16 = leo_link::spoof (cross_band_step); leo_pass (spoof_section: pairs, cross_band)
+
+# text
+seg-aa91bdc483b1 = leo_link::spoof::tests (the_cross_band_threshold_and_power); tests/leo_resilience_verticals.rs (a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does_not; a_one_band_spoofer_is_seen_by_the_cross_band_monitor_at_the_onset; the_monitors_are_silent_before_the_onset)
+
+# text
+seg-b91ca5a2bd9c = leo_pass (IonoFreePair::geometry_free_stec_tecu, geometry_free_stec_sigma_tecu); leo_link::iono::geometry_free_stec_tecu
+
+# text
+seg-5d00a19cfac2 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: võrdub ülelennu kaldus TEC-iga tipus täpsusega { "1e-9" } ja selle sigma võrdub koodimüra RSS-iga üle { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" })); tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+# text
+seg-aa2667aa0296 = receiver_trust (score, monitors, live)
+
+# text
+seg-58fcb2ec63c5 = tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests (monotoonne iga statistiku suhtes, monitori lisamine ei tõsta kunagi skoori, terved statistikud jäävad väärtusele { "100" })
+
+# text
+seg-7adaa23ce920 = telemetry (syslog: leef, rfc5424, SyslogSink; time)
+
+# text
+seg-fe08580cd8d3 = telemetry::syslog::tests (täpsed LEEF-i stringid, paomärgid, tõsidus, RFC { "5424" } ümbrik, edastuse ajalõpud ja taasühendamine); tests/telemetry_cli.rs
+
+# text
+seg-3b0543727850 = receiver_trust::calibration (run_dataset); receiver_trust::monitors (MonitorConfig::profile, JAMMERTEST_2024_CALIBRATED); realdata::jammertest; examples/jammertest_trust_calibration.rs
+
+# text
+seg-1a452a47b9d0 = tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignoreeritud, andmetega väravdatud KSHANA_JAMMERTEST_DIR kaudu: salvestatud valik, kõrvalejäetud arvud, läviotsused ja otsus); receiver_trust::calibration::tests (ajatemplid, akende sidumine ja ajavööndi nihe, sildid, kaitseribad, väljaarvamine, valik); receiver_trust::monitors::tests::threshold_profile_is_opt_in
+
+# text
+seg-bf0fa5e2343c = jammertest::plan (parse_catalog, parse_plan, import, import_attack_log, events_toml); jammertest::score (score_run); jammertest::dataset (run_dataset); jammertest (score_log, score_pack); examples/jammertest_score_2024.rs
+
+# text
+seg-cf2f1a572c34 = tests/jammertest_plan_roundtrip.rs (andmetega väravdatud KSHANA_JAMMERTEST_PLAN_DIR kaudu: { "2025" } plaani pesade arvud testipiirkonna kohta, kataloogi id-d, TOML-i edasi-tagasi teisendus); tests/jammertest_score.rs (sünteetiline logi teadaoleva langusega: tuvastatud, möödalastud, hindamatu, valehäire käitus, allkirjastatud pakett, mis kannab tulemuskaarti); jammertest::plan::tests; tests/jammertest_score_2024.rs (andmetega väravdatud KSHANA_JAMMERTEST_DIR kaudu: salvestatud käitamine)
+
+# text
+seg-bf1156de0226 = compliance
+
+# text
+seg-af47f52e5c9e = tests/compliance_report.rs::mapping_is_well_formed; tests/compliance_report.rs::wording_rule_holds_in_mapping_report_and_docs; tests/compliance_report.rs::empty_set_evidences_nothing; tests/compliance_report.rs::statuses_follow_the_runs_present; tests/compliance_references.rs
+
+# text
+seg-5614947f4e8e = receiver_trust (live: the gate, its TCP listener, PKSHT); outside the crate: integrations/signalk (JavaScript), integrations/opencpn (JavaScript relay, C++ native plugin), deploy/reference-build (systemd units, container)
+
+# text
+seg-e917651d5c45 = tests/receiver_trust_live_cli.rs (värav ja selle TCP-kuulaja, Rusti pool); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js ja integrations/signalk/test/plugin.test.js ({ "24" } Node'i testi salvestatud sünteetilisel väljundil); integrations/opencpn/test/relay.test.mjs ({ "5" } Node'i testi); integrations/opencpn/test/e2e-live.mjs (päris binaar TCP-tarbijani, käitatud käsitsi ja CI-s); integrations/opencpn/plugin/test/pksht_test.cpp ja integrations/opencpn/plugin/test/trust_state_test.cpp (C++ kontrollid PKSHT-sõeluri ja paneeli oleku kohta); deploy/reference-build/check-units.sh ja deploy/reference-build/test-entrypoint.sh
+
+# text
+seg-729d14cb230a = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (the bump-jump taps and Channel::bump_jumps)
+
+# text
+seg-ac14fcbe3119 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level); iq::track::boc üksusetestid (b4_unit_grid_misses_are_the_recorded_ones: eelregistreeritud B4 üksustesti lävi säilitatud nagu kirjutatud, selle salvestatud möödalaskmised kinnitatud leiuna F1)
+
+# text
+seg-371e708b8b8f = iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare)
+
+# text
+seg-0e1032d7c879 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, registreeritud otsus kinnitatud salvestatuna, leid F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, ainult teatatud; andmetega väravdatud, hangitud skriptiga scripts/fetch_scint_malindi.sh); realdata::scint50 üksusetestid (model_data_through_the_harness_shows_the_wrapped_phase_finding, leid F2)
+
+# text
+seg-98c86c10352b = iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha)
+
+# text
+seg-7b8247a4ca76 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, registreeritud otsus kinnitatud salvestatuna, leid F1, kinnitatud testiga finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq üksusetest ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
+
+# text
+seg-3e8c364433b7 = spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS)
+
+# text
+seg-e24276b8b422 = tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities_verdict_is_the_recorded_one, leid F1, kinnitatud testiga finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_verdict_is_the_recorded_one, leid F2, kinnitatud testiga finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, ainult teatatud)
+
+# text
+seg-010ad441a092 = iq::lunanet_afs; iq::signals::lunanet (afs_q_tertiary_bits, afs_q_overlay_bits, afs_q_tiered); surface (lunanet_afs_check_spec, lunanet_afs_check_symbols, lunanet_afs_generate)
+
+# text
+seg-2d72ec7c3695 = tests/lunanet_afs_codes.rs (b4_legendre_1499_matches_and_tertiary_codes_match_except_one_printed_column, the_spec_check_reports_every_bar_and_pins_the_b4_miss); iq::lunanet_afs::tests (sb1_round_trips_every_field_and_corrects_flipped_symbols, generated_streams_pass_and_damage_is_found); tests/lunanet_afs_cli.rs
+
+# text
+seg-662887e17adb = standards_pack; compliance (standards-pack facts in compliance-report)
+
+# text
+seg-e2d8a0f6daa5 = tests/standards_packs.rs (pinned_outcomes: iga testi staatus, sealhulgas möödalaskmised L4-T1 ja neli IMO täpsustesti); standards_pack::tests
+
+# text
+seg-012acc12567b = evidence::roundtrip, evidence::assemble, interop::testbench (write_conditions_json), iq::campaign::conditions
+
+# text
+seg-b92c6dde9c2b = tests/round_trip_pack.rs (pack_links_scenario_conditions_log_and_score_and_verifies, conditions_that_disagree_with_the_scoring_events_are_refused, a_stated_log_hash_that_does_not_match_is_refused, published_schema_names_every_field_the_engine_writes)
+
+# text
+seg-d9eab5e90d10 = iq::track (Channel, LoopCore, design); iq::cli::track
+
+# text
+seg-a99bb0c28b00 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned), failiga tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py tuletatud arvudel
+
+# text
+seg-6c01cedc4ca7 = jamming (CrpaCfg, crpa_weights, run_jamming); crpa (null_steering_weights, mvdr_weights, covariance)
+
+# text
+seg-efdc3da9e0ad = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr), faili xval/crpa-jamming/expected.json vastu failist xval/crpa-jamming/oracle.py
+
+# text
+seg-05b174fab8a1 = jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky)
+
+# text
+seg-5adec86a588b = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), faili xval/jamming-terrain/expected.json vastu failist xval/jamming-terrain/oracle.py
+
+# text
+seg-0417fac0e7e2 = jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma)
+
+# text
+seg-ca7aa6592c0d = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), failide xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json ja expected_quantiser.json vastu
+
+# text
+seg-80753cdc89bc = iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate)
+
+# text
+seg-96b2276484ed = tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), failil tests/fixtures/fll_handover_floor/results.csv
+
+# text
+seg-e322b10ec19c = receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos
+
+# text
+seg-b5f5f47b5608 = receiver_trust::machines::rtklib::tests (lat/lon epohhid, nädal/TOW ja ECEF, dms tagasi lükatud, vaenulik sisend); tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log; integrations/gnss_lib_py/test_bridge.py
+
+# text
+seg-97eac8ec4604 = receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel
+
+# text
+seg-d935af6c8c6a = receiver_trust::machines::novatel::tests (kinnitatud CRC, ASCII ja binaarkirjed, vigane CRC vahele jäetud, vaenulik sisend); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report
+
+# text
+seg-d151880c7268 = receiver_trust::machines::rtcm3 (read_rtcm3, crc24q); receiver_trust::LogFormat::Rtcm3
+
+# text
+seg-68a47a4f7e3f = receiver_trust::machines::rtcm3::tests (CRC-24Q kataloogi kontrollväärtus, MSM4/MSM7 C/N0 ja epohhide liitmine, GLONASS-i aja ja SBAS-i id vastendus, vigane CRC ja muud sõnumid)
+
+# text
+seg-a2c51966ce9e = receiver_trust::machines::gnss_sdr (read_gnss_sdr_monitor); receiver_trust::LogFormat::GnssSdr
+
+# text
+seg-696b76cdaf9a = receiver_trust::machines::gnss_sdr::tests; integrations/gnss-sdr/example.jsonl
+
+# text
+seg-2977aaca1688 = receiver_trust::machines::imu, imu_fit; surface::imu_fit; scenario [log.imu]
+
+# text
+seg-10715c98eaae = receiver_trust::machines::imu::tests; receiver_trust::machines::imu_fit::tests (teadaolevad valge müra koefitsiendid taastatud { "10" } % piires, keeldumised, TOML sõelutakse kui AccelCfg); tests/receiver_trust_machines.rs (suuna kokkulangevus ja lahknevus, sisendkandja, imu_fit)
+
+# text
+seg-6ad9867cec5c = telemetry::mqtt (discovery, state_json, connect_packet, publish_packet, MqttSink); surface::TelemetryFormat::Mqtt
+
+# text
+seg-21059291ea8b = telemetry::mqtt::tests (paketibaidid, loopback-vahendaja, surnud vahendaja loendatud); tests/receiver_trust_machines.rs::trust_telemetry_mqtt_text_has_discovery_then_state
+
+# text
+seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py
+
+# text
+seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formaat, mida gnss_lib_py sild kirjutab, käitatud läbi receiver-trust'i); sildade Pythoni testid on integrations/ros2/kshana_trust/test/test_bridge.py (sild mock-mootoriga), integrations/ros2/kshana_trust/test/test_engine_integration.py (päris wheel hindab püsiva fiksi nominaalseks ja { "1.1" } km hüppe usaldamatuks) ja integrations/gnss_lib_py/test_bridge.py (päris gnss_lib_py { "1.1.0" } ja wheel), käitatud pytestiga, mitte cargoga
