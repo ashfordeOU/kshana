@@ -58,11 +58,11 @@ engine-e-clock-log-the-rinex-clock-file-holds = o ficheiro de relógio RINEX con
 
 engine-e-clock-log-no-as-or-ar-records = nenhum registo AS nem AR para o relógio { $id }
 
-engine-e-clock-log-the-clock-has-single-epoch = o relógio tem uma única época; não é possível determinar tau0
+engine-e-clock-log-the-clock-has-single-epoch = o relógio tem uma única época; são necessárias pelo menos duas (não é possível determinar tau0)
 
 engine-e-clock-log-the-log-has-no-readings = o registo { $format } não tem leituras
 
-engine-e-clock-log-unknown-phase-unit-expected-ms = unidade de fase { $other } desconhecida; esperado s, ms, us, ns ou ps
+engine-e-clock-log-unknown-phase-unit-expected-ms = unidades de fase { $other } desconhecidas; esperado s, ms, us, ns ou ps
 
 engine-e-clock-log-timelab-line-has-column-the = a linha { $v1 } do TimeLab tem { $v } coluna(s); a primeira linha de dados tem { $first }
 
