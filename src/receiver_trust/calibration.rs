@@ -518,9 +518,9 @@ fn label_timeline(
 ) -> Result<Vec<Sample>, String> {
     let cfg = MonitorConfig::default();
     if calibration_contaminated(t0, cfg.calibration_s, windows) {
-        return Err(
-            "calibration window less than the guard before, or inside, an attack window".into(),
-        );
+        return Err(crate::terr!(
+            "e-receiver-trust-calibration-calibration-window-less-than-the"
+        ));
     }
     let trust = run_monitors(tl, None, &cfg)
         .map_err(|e| crate::terr!("e-receiver-trust-calibration-run-monitors", e = e))?;

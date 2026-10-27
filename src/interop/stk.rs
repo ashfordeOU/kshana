@@ -36,12 +36,9 @@ pub fn applicability(scene: &Scene) -> Result<(), String> {
     if scene.epoch.is_some() && !scene.movers.is_empty() {
         Ok(())
     } else {
-        Err(
-            "an STK ephemeris describes a vehicle's position and velocity against time; this \
-             scene has only fixed points or untimed tracks (a fixed point is an STK Facility, not \
-             an ephemeris)"
-                .into(),
-        )
+        Err(crate::terr!(
+            "e-interop-stk-an-stk-ephemeris-describes-vehicle"
+        ))
     }
 }
 
@@ -56,7 +53,7 @@ pub fn write_one(scene: &Scene, index: usize) -> Result<String, ExportError> {
     })?;
     let e = scene
         .epoch
-        .ok_or_else(|| ExportError::Failed("scene has no epoch".into()))?;
+        .ok_or_else(|| ExportError::Failed(crate::terr!("e-interop-stk-scene-has-no-epoch")))?;
     let mut o = String::new();
     o.push_str("stk.v.11.0\n");
     o.push_str(&crate::t!(

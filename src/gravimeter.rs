@@ -841,11 +841,9 @@ fn reference_grid(
 ) -> Result<crate::altpnt::maps::GeoGrid, String> {
     use crate::gravity_sh::{SphericalHarmonicField, GRS80_ELLIPSOID, WGS84_ELLIPSOID};
     if !cfg.coeffs.is_empty() || !cfg.mascons.is_empty() {
-        return Err(
-            "gravity-map: `reference` replaces the synthetic field, so `coeffs` and \
-                    `mascons` must be empty when it is set"
-                .into(),
-        );
+        return Err(crate::terr!(
+            "e-gravimeter-gravity-map-reference-replaces-the"
+        ));
     }
     let field = match r.model.as_str() {
         "egm2008" => SphericalHarmonicField::egm2008_truncated(r.nmax),

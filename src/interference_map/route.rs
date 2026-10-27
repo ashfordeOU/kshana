@@ -46,19 +46,28 @@ pub fn load_map(text: &str) -> Result<LoadedMap, MapError> {
         ))
     })?;
     let m = v.get("kshana_interference_map").ok_or_else(|| {
-        MapError::Format(
-            "not a Kshana interference map (no `kshana_interference_map` member)".into(),
-        )
+        MapError::Format(crate::terr!(
+            "e-interference-map-route-not-kshana-interference-map-no"
+        ))
     })?;
     let s = |k: &str| m.get(k).and_then(Value::as_str).map(str::to_string);
-    let date = s("date").ok_or_else(|| MapError::Format("map has no date".into()))?;
+    let date = s("date").ok_or_else(|| {
+        MapError::Format(crate::terr!("e-interference-map-route-map-has-no-date"))
+    })?;
     let source_kind = s("source_kind").unwrap_or_default();
     let cell_deg = m
         .pointer("/grid/cell_deg")
         .and_then(Value::as_f64)
-        .ok_or_else(|| MapError::Format("map has no grid cell size".into()))?;
-    let grid = Grid::new(cell_deg)
-        .ok_or_else(|| MapError::Format("map has an invalid grid cell size".into()))?;
+        .ok_or_else(|| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-route-map-has-no-grid-cell"
+            ))
+        })?;
+    let grid = Grid::new(cell_deg).ok_or_else(|| {
+        MapError::Format(crate::terr!(
+            "e-interference-map-route-map-has-an-invalid-grid"
+        ))
+    })?;
     let mut cells = HashMap::new();
     for f in v
         .get("features")
@@ -106,8 +115,11 @@ pub fn parse_route(text: &str) -> Result<Vec<(f64, f64)>, MapError> {
                 e = e
             ))
         })?;
-        let line =
-            find_line(&v).ok_or_else(|| MapError::Format("route: no LineString found".into()))?;
+        let line = find_line(&v).ok_or_else(|| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-route-route-no-linestring-found"
+            ))
+        })?;
         line.iter()
             .filter_map(|p| Some((p.get(1)?.as_f64()?, p.get(0)?.as_f64()?)))
             .collect::<Vec<_>>()
@@ -137,15 +149,17 @@ pub fn parse_route(text: &str) -> Result<Vec<(f64, f64)>, MapError> {
         out
     };
     if pts.len() < 2 {
-        return Err(MapError::Format(
-            "route needs at least two waypoints".into(),
-        ));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-route-route-needs-at-least-two"
+        )));
     }
     if pts
         .iter()
         .any(|&(la, lo)| !(-90.0..=90.0).contains(&la) || !(-180.0..=180.0).contains(&lo))
     {
-        return Err(MapError::Format("route: waypoint out of range".into()));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-route-route-waypoint-out-of-range"
+        )));
     }
     Ok(pts)
 }

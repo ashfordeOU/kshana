@@ -2494,11 +2494,9 @@ impl HybridOpticalRfScenario {
         let opt_pos_sigma_m = photon_limited_range_crlb_m(pulse_rms_s, detected, two_way);
         // A finite, photon-starved link is required for a usable optical solution.
         if !opt_pos_sigma_m.is_finite() || !opt_clock_sigma_s.is_finite() {
-            return Err(
-                "optical link delivered no photons (infinite ranging CRLB); raise power / \
-                 aperture / integration time"
-                    .to_string(),
-            );
+            return Err(crate::terr!(
+                "e-hybrid-integrity-optical-link-delivered-no-photons"
+            ));
         }
 
         let rf_pos_sigma_m = self.rf_pos_sigma_m.unwrap_or(1.0);
@@ -2807,9 +2805,9 @@ impl HybridOpticalRfScenario {
             }
         }
         if !tracking_threshold_dbhz.is_finite() || !degraded_margin_db.is_finite() {
-            return Err(
-                "rf_tracking_threshold_dbhz and rf_degraded_margin_db must be finite".to_string(),
-            );
+            return Err(crate::terr!(
+                "e-hybrid-integrity-rf-tracking-threshold-dbhz-and"
+            ));
         }
         Ok(RfInputs {
             band,

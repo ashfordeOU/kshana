@@ -512,9 +512,9 @@ fn apply_imu(tl: &mut Timeline, cfg: &ImuCfg, bytes: &[u8]) -> Result<usize, Str
         }
     }
     if filled == 0 {
-        return Err(
-            "log.imu: the IMU series overlaps no epoch of the log; check time_offset_s".into(),
-        );
+        return Err(crate::terr!(
+            "e-receiver-trust-scenario-log-imu-the-imu-series"
+        ));
     }
     if !tl.observables.iter().any(|o| o == "imu_heading") {
         tl.observables.push("imu_heading".to_string());
@@ -548,11 +548,9 @@ pub fn run_receiver_trust_bytes_imu(
             apply_imu(&mut timeline, cfg, b)?;
         }
         (Some(_), None) => {
-            return Err(
-                "this surface does not carry the `[log.imu]` file: run the scenario \
-                        with `kshana receiver-trust` on the host, or drop `[log.imu]`"
-                    .into(),
-            )
+            return Err(crate::terr!(
+                "e-receiver-trust-scenario-this-surface-does-not-carry"
+            ))
         }
         _ => {}
     }
@@ -584,9 +582,9 @@ pub fn run_receiver_trust_on_imu(
 
     // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     if nav_bytes.is_some() && scn.log.format != LogFormat::Rinex {
-        return Err(
-            "log.nav applies only to a `rinex` log: the engine fix needs its pseudoranges".into(),
-        );
+        return Err(crate::terr!(
+            "e-receiver-trust-scenario-log-nav-applies-only-to"
+        ));
     }
     let engine_inputs = match &nav_bytes {
         Some(nav) => {

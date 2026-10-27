@@ -223,7 +223,9 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             let to = match a.opts.get("--to") {
                 Some(t) => SampleFormat::parse(t)?,
                 None if cmd == "convert" => {
-                    return Err(Fail::Usage("iq convert needs --to <format>".into()))
+                    return Err(Fail::Usage(crate::terr!(
+                        "e-iq-io-cli-iq-convert-needs-to-format"
+                    )))
                 }
                 None => input.format,
             };
@@ -231,18 +233,22 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             let mut src = input.source;
             let mut limit = None;
             if cmd == "extract" {
-                let start: f64 = a
-                    .num("--start")
-                    .map_err(Fail::Usage)?
-                    .ok_or(Fail::Usage("iq extract needs --start".into()))?;
+                let start: f64 =
+                    a.num("--start")
+                        .map_err(Fail::Usage)?
+                        .ok_or(Fail::Usage(crate::terr!(
+                            "e-iq-io-cli-iq-extract-needs-start"
+                        )))?;
                 let dur: f64 = a
                     .num("--duration")
                     .map_err(Fail::Usage)?
-                    .ok_or(Fail::Usage("iq extract needs --duration".into()))?;
+                    .ok_or(Fail::Usage(crate::terr!(
+                        "e-iq-io-cli-iq-extract-needs-duration"
+                    )))?;
                 if !(start >= 0.0 && dur >= 0.0) {
-                    return Err(Fail::Usage(
-                        "--start and --duration must be non-negative".into(),
-                    ));
+                    return Err(Fail::Usage(crate::terr!(
+                        "e-iq-io-cli-start-and-duration-must-be"
+                    )));
                 }
                 let spec = src.spec();
                 skip_samples(src.as_mut(), spec.samples_in(start) as u64, CHUNK_SAMPLES)?;
@@ -281,9 +287,9 @@ fn decimator(
     let up: Option<usize> = a.num("--up").map_err(Fail::Usage)?;
     let down: Option<usize> = a.num("--down").map_err(Fail::Usage)?;
     if !complex {
-        let d = factor.ok_or(Fail::Usage(
-            "a real input is converted to complex baseband: give --factor <d> (>= 2)".into(),
-        ))?;
+        let d = factor.ok_or(Fail::Usage(crate::terr!(
+            "e-iq-io-cli-real-input-is-converted-to"
+        )))?;
         let if_hz = match a.num::<f64>("--if-hz").map_err(Fail::Usage)? {
             Some(f) => f,
             None => src.spec().if_hz,
@@ -296,9 +302,9 @@ fn decimator(
         (Some(d), None, None) => PolyphaseResampler::decimator(d)?,
         (None, Some(l), Some(m)) => PolyphaseResampler::new(l, m)?,
         _ => {
-            return Err(Fail::Usage(
-                "iq decimate needs --factor <d>, or --up <l> and --down <m>".into(),
-            ))
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-io-cli-iq-decimate-needs-factor-or"
+            )))
         }
     };
     Ok(Box::new(ResampledSource::new(

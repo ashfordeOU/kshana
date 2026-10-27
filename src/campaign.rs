@@ -1204,7 +1204,7 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
                 }
             })
         }
-        (Some(_), None) => return Err(ctx("compare needs a threshold".into())),
+        (Some(_), None) => return Err(ctx(crate::terr!("e-campaign-compare-needs-threshold"))),
     };
     let reduce = |vals: &[f64]| -> Result<f64, String> {
         if vals.len() == 1 && s.reduce.as_deref() != Some("count") {

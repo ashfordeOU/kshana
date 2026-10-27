@@ -768,7 +768,7 @@ pub fn gse_performance_sim(scn: &GseScenario) -> Result<GsePerformanceResult, St
     let fm_filter = MarsForceModel::gmm3(nmax, epoch_jd);
     let report = FusionOd::new(fm_filter, cfg)
         .run(r0_guess, v0_guess, &obs)
-        .ok_or_else(|| "fusion OD produced no steps (too few observations)".to_string())?;
+        .ok_or_else(|| crate::terr!("e-gse-sim-fusion-od-produced-no-steps"))?;
 
     // 5. Per-epoch covariance-vs-time: the SRIF carries a single (converged) covariance, so report
     // the per-epoch *clock-freq* sigma path (which the report exposes) and the converged position

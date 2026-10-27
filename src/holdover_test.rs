@@ -346,10 +346,9 @@ impl HoldoverTestScenario {
             + usize::from(s.clock_log.is_some());
         if given != 1 {
             return Err(if given == 0 {
-                "give one of series.samples, series.csv_path or series.clock_log".into()
+                crate::terr!("e-holdover-test-give-one-of-series-samples")
             } else {
-                "give one of series.samples, series.csv_path or series.clock_log, not more than one"
-                    .into()
+                crate::terr!("e-holdover-test-give-one-of-series-samples-2")
             });
         }
         let pairs: Vec<[f64; 2]> = if let Some(c) = &s.clock_log {
@@ -381,11 +380,7 @@ impl HoldoverTestScenario {
             && t.recovery_dwell_s.is_finite()
             && t.recovery_dwell_s >= 0.0)
         {
-            return Err(
-                "gnss_removed_s must be finite, locked_duration_days >= 0, recovery_band_ns > 0 \
-                 and recovery_dwell_s >= 0"
-                    .into(),
-            );
+            return Err(crate::terr!("e-holdover-test-gnss-removed-must-be-finite"));
         }
         let mut masks = Vec::new();
         for id in &self.masks {
@@ -733,11 +728,7 @@ fn read_csv(path: &str) -> Result<Vec<[f64; 2]>, String> {
 
 #[cfg(target_arch = "wasm32")]
 fn read_csv(_path: &str) -> Result<Vec<[f64; 2]>, String> {
-    Err(
-        "csv_path is not available in the WebAssembly build; give the series inline as \
-         `samples` or `clock_log.text`"
-            .into(),
-    )
+    Err(crate::terr!("e-holdover-test-csv-path-is-not-available"))
 }
 
 fn summary_line(r: &HoldoverTestRun) -> String {

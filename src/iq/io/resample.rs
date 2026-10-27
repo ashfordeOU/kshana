@@ -116,9 +116,9 @@ impl PolyphaseResampler {
     /// A resampler by `up/down` with a stated low-pass design.
     pub fn with_design(up: usize, down: usize, design: FilterDesign) -> Result<Self, IqError> {
         if up == 0 || down == 0 {
-            return Err(IqError::Format(
-                "resampling factors must be positive".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-resampling-factors-must-be-positive"
+            )));
         }
         let ok = design.passband_frac > 0.0
             && design.passband_frac < 1.0
@@ -147,9 +147,9 @@ impl PolyphaseResampler {
     /// run at the upsampled rate and should have unit DC gain.
     pub fn from_taps(up: usize, down: usize, taps: &[f64]) -> Result<Self, IqError> {
         if up == 0 || down == 0 || taps.is_empty() {
-            return Err(IqError::Format(
-                "resampling factors must be positive and the filter non-empty".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-resampling-factors-must-be-positive-2"
+            )));
         }
         let k = taps.len().div_ceil(up);
         let phases: Vec<Vec<f64>> = (0..up)
@@ -376,9 +376,9 @@ impl<S: IqSource> RealIfToBaseband<S> {
             )));
         }
         if decim < 2 {
-            return Err(IqError::Format(
-                "real-IF conversion needs decimation by at least 2 to remove the image".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-real-if-conversion-needs-decimation"
+            )));
         }
         let mixer = Mixer {
             src,

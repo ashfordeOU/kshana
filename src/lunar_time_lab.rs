@@ -230,9 +230,7 @@ impl TimeLabInput {
             .clone()
             .unwrap_or_else(|| DEFAULT_THRESHOLDS_NS.to_vec());
         if thresholds_ns.is_empty() || thresholds_ns.iter().any(|t| !(t.is_finite() && *t > 0.0)) {
-            return Err(
-                "time_lab: thresholds_ns must be a non-empty list of positive numbers".to_string(),
-            );
+            return Err(crate::terr!("e-lunar-time-lab-time-lab-thresholds-ns-must"));
         }
         let horizons_s = self
             .horizons_s

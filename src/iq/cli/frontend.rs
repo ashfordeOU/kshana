@@ -114,7 +114,9 @@ impl FrontendParams {
                     ))
                 })?;
             if parts.len() != 2 {
-                return Err(Fail::Usage("--bandpass wants two values: lo,hi".into()));
+                return Err(Fail::Usage(crate::terr!(
+                    "e-iq-cli-frontend-bandpass-wants-two-values-lo"
+                )));
             }
             p.bandpass = Some((parts[0], parts[1]));
         }
@@ -256,10 +258,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let spec = opened.source.spec();
     let params = FrontendParams::from_args(&a)?;
     if !params.any() {
-        return Err(Fail::Usage(
-            "iq frontend needs at least one stage (--bandpass/--notch/--blank/--excise/--agc/--bits)"
-                .into(),
-        ));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-frontend-iq-frontend-needs-at-least"
+        )));
     }
     let mut chain = build_chain(&params, spec.fs_hz).map_err(Fail::Usage)?;
 

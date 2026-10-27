@@ -296,7 +296,7 @@ impl System {
             .get("name")
             .and_then(Value::as_str)
             .filter(|s| !s.trim().is_empty())
-            .ok_or_else(|| BenchError("`system.name` is required".into()))?;
+            .ok_or_else(|| BenchError(crate::terr!("e-bench-system-name-is-required")))?;
         Ok(Self {
             name: name.to_string(),
             version: v

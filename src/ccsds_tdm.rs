@@ -298,7 +298,8 @@ impl TdmFile {
                 "e-ccsds-tdm-tdm-unterminated-segment-missing-meta"
             ));
         }
-        let version = version.ok_or_else(|| "TDM: missing CCSDS_TDM_VERS header".to_string())?;
+        let version =
+            version.ok_or_else(|| crate::terr!("e-ccsds-tdm-tdm-missing-ccsds-tdm-vers"))?;
 
         Ok(TdmFile {
             version,

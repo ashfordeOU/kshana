@@ -452,7 +452,7 @@ impl EpochRecord {
         }
         let head: &[u8; BINARY_RECORD_BYTES] = b[..BINARY_RECORD_BYTES]
             .try_into()
-            .map_err(|_| IqError::Format("short record".into()))?;
+            .map_err(|_| IqError::Format(crate::terr!("e-iq-track-sink-short-record")))?;
         let mut r = Self::from_bytes(head)?;
         let f = |at: usize| f64::from_le_bytes(b[at..at + 8].try_into().unwrap_or([0; 8]));
         r.extra = taps

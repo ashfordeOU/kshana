@@ -110,19 +110,27 @@ impl LabAttestation {
             "conducted" => match self.attenuation_db {
                 Some(a) if a.is_finite() && a >= 0.0 => {}
                 _ => {
-                    return Err(
-                        "lab-attestation: a conducted setup needs attenuation_db, a finite number of dB, 0 or more"
-                            .into(),
-                    )
+                    return Err(crate::terr!(
+                        "e-evidence-lab-lab-attestation-conducted-setup-needs"
+                    ))
                 }
             },
             "shielded" => {
-                if self.enclosure.as_deref().is_none_or(|e| e.trim().is_empty()) {
-                    return Err(crate::terr!("e-evidence-lab-lab-attestation-shielded-setup-needs"));
+                if self
+                    .enclosure
+                    .as_deref()
+                    .is_none_or(|e| e.trim().is_empty())
+                {
+                    return Err(crate::terr!(
+                        "e-evidence-lab-lab-attestation-shielded-setup-needs"
+                    ));
                 }
             }
             other => {
-                return Err(crate::terr!("e-evidence-lab-lab-attestation-setup-must-be", other = format!("{:?}", other)))
+                return Err(crate::terr!(
+                    "e-evidence-lab-lab-attestation-setup-must-be",
+                    other = format!("{:?}", other)
+                ))
             }
         }
         if self.attenuation_db.is_some_and(|a| !a.is_finite()) {

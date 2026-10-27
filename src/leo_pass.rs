@@ -1819,11 +1819,11 @@ impl LeoPassScenario {
         let scint_p = a.scintillation_percent.unwrap_or(1.0);
         if rain_rate < 0.0 || !(0.001..=5.0).contains(&rain_p) || !(0.01..=50.0).contains(&scint_p)
         {
-            return Err(
-                "rain_rate_mm_h >= 0, rain_exceedance_percent in [0.001, 5] and \
-                 scintillation_percent in [0.01, 50]"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-leo-pass-rain-rate-mm-rain-exceedance",
+                lit_0_001 = crate::i18n::num(0.001_f64, 3),
+                lit_0_01 = crate::i18n::num(0.01_f64, 2)
+            ));
         }
         let io = self.ionosphere.clone().unwrap_or_default();
         let iono = match io.model.as_deref().unwrap_or("klobuchar") {
@@ -2431,12 +2431,10 @@ impl LeoPassScenario {
             && bound >= 0.0
             && c.drift_sigma_m_s.is_none_or(|d| d > 0.0 && d.is_finite());
         if !valid {
-            return Err(
-                "spoofer: onset_s within the window, offset_m in [0, 1e6], push_rate_m_s in \
-                 [0, 1000], positive prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz and \
-                 fll_integration_s, p_fa and p_md in (0, 0.5), iono_rate_bound_m_s >= 0"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-leo-pass-spoofer-onset-within-the-window",
+                lit_0_5 = crate::i18n::num(0.5_f64, 1)
+            ));
         }
         let mut names: Vec<String> = Vec::new();
         for s in sats {

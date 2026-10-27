@@ -256,9 +256,9 @@ pub fn solve_float(d: &Design) -> Result<Float, String> {
     let dim = next;
     let passes_used = in_comp.iter().filter(|&&b| b).count();
     if dim <= 9 {
-        return Err(
-            "fewer than two connected passes: no double-difference ambiguity to resolve".into(),
-        );
+        return Err(crate::terr!(
+            "e-lunar-infra-phase-fewer-than-two-connected-passes"
+        ));
     }
     let mut info = la::zeros(dim, dim);
     let mut i0 = 0;

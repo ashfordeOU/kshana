@@ -2461,10 +2461,9 @@ impl LunarServiceScenario {
                 .to_ascii_uppercase()
                 .starts_with("OP")
         {
-            return Err(
-                "planetary_kernel_path applies to an elements file stated in the OP frame"
-                    .to_string(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-service-planetary-kernel-path-applies-to"
+            ));
         }
         let epoch = self
             .epoch_utc

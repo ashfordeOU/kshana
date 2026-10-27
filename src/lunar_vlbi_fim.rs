@@ -948,11 +948,9 @@ impl LunarVlbiFimScenario {
         )?;
         let estimate_beacon = self.estimate_beacon.unwrap_or(false);
         if datum == Datum::AllStationsFixed && !estimate_beacon {
-            return Err(
-                "datum \"all-stations-fixed\" holds every station fixed, so it estimates \
-                 nothing unless the beacon is estimated: set estimate_beacon = true"
-                    .to_string(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-datum-all-stations-fixed-holds"
+            ));
         }
 
         let (geoms, observations) = self.schedule()?;

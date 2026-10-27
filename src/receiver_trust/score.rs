@@ -228,11 +228,9 @@ impl ScoreCfg {
             }
         }
         if self.weights.contains_key(&Monitor::Geometry) {
-            return Err(
-                "score: the geometry deduction is set in [geometry] (cap_points, full_ratio, \
-                 floor), not in [score.weights]"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-receiver-trust-score-score-the-geometry-deduction-is"
+            ));
         }
         Ok(())
     }

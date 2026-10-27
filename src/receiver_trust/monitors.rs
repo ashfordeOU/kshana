@@ -661,9 +661,7 @@ fn engine_pass(
 ) -> Result<(Vec<EngineEpoch>, Option<f64>), String> {
     let obs = input.obs;
     let apriori = obs.header.approx_xyz.ok_or_else(|| {
-        "engine fix: the RINEX observation header has no APPROX POSITION XYZ to start the \
-         solve from"
-            .to_string()
+        crate::terr!("e-receiver-trust-monitors-engine-fix-the-rinex-observation")
     })?;
     let Some(first) = obs.epochs.first() else {
         return Ok((Vec::new(), None));
@@ -1022,11 +1020,9 @@ pub fn run_monitors(
                 .iter()
                 .any(|e| e.marine.as_ref().is_some_and(|m| m.heading_deg.is_some()))
         {
-            return Err(
-                "platform declares heading_sensor = true but the log carries no HDT, THS or VHW \
-                 heading"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-receiver-trust-monitors-platform-declares-heading-sensor-true"
+            ));
         }
         let mut mm = MarineMonitors::new(&cfg.maritime, limits, cal_s);
         for (slot, out) in slots.iter().zip(marine_of.iter_mut()) {

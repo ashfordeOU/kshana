@@ -765,11 +765,10 @@ impl LunarAttackSurfaceScenario {
             self.footprint_grid,
         );
         let fp = capture_footprint(&fp_params);
-        let fp_limb = fp
-            .points
-            .last()
-            .copied()
-            .ok_or_else(|| "capture_footprint emitted no points".to_string())?;
+        let fp_limb =
+            fp.points.last().copied().ok_or_else(|| {
+                crate::terr!("e-attack-surface-capture-footprint-emitted-no-points")
+            })?;
         let footprint_sweep = capture_footprint_sweep(
             &fp_params,
             &SweepAxis {

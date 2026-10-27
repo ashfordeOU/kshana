@@ -772,10 +772,7 @@ impl LunarTerrainCfg {
             && self.station_horizon.is_none()
             && self.user_horizon.is_none()
         {
-            return Err(
-                "terrain: give dem_path, dem_tile_path, station_horizon or user_horizon (or omit [terrain])"
-                    .into(),
-            );
+            return Err(crate::terr!("e-lunar-terrain-terrain-give-dem-path-dem"));
         }
         if self.dem_path.is_some() && self.dem_tile_path.is_some() {
             return Err(crate::terr!("e-lunar-terrain-terrain-give-dem-path-or"));
@@ -995,9 +992,9 @@ impl LunarTerrainCfg {
     pub fn resolve_grid(&self, users: &[(f64, f64)], mask_deg: f64) -> Result<GridTerrain, String> {
         self.validate()?;
         if self.station_horizon.is_some() {
-            return Err(
-                "terrain: station_horizon has no station in this kind; use user_horizon".into(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-terrain-terrain-station-horizon-has-no"
+            ));
         }
         let loaded = self.load_dem()?;
         let grid = loaded.as_ref().map(LoadedDem::grid);

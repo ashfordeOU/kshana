@@ -751,12 +751,15 @@ impl QuantumTradeScenario {
         ) {
             (Some(taus), Some(adevs), _) => {
                 if taus.len() != adevs.len() || taus.len() < 2 {
-                    return Err(
-                        "candidate_adev_taus and candidate_adev_values must be equal-length (>= 2)"
-                            .into(),
-                    );
+                    return Err(crate::terr!(
+                        "e-quantum-trade-candidate-adev-taus-and-candidate"
+                    ));
                 }
-                if taus.iter().chain(adevs.iter()).any(|v| !v.is_finite() || *v <= 0.0) {
+                if taus
+                    .iter()
+                    .chain(adevs.iter())
+                    .any(|v| !v.is_finite() || *v <= 0.0)
+                {
                     return Err(crate::terr!("e-quantum-trade-adev-taus-values-must-be"));
                 }
                 Ok((
@@ -764,16 +767,15 @@ impl QuantumTradeScenario {
                     "measured-ADEV",
                 ))
             }
-            (None, None, Some(c)) => Ok((ClockSpec::Quantum(qt_quantum_class(c)?), "quantum-class")),
-            (None, None, None) => Err(
-                "provide either candidate_adev_taus + candidate_adev_values (measured) \
-                 or candidate_clock_class"
-                    .into(),
-            ),
-            _ => Err(
-                "candidate_adev_taus and candidate_adev_values must both be present (or both absent)"
-                    .into(),
-            ),
+            (None, None, Some(c)) => {
+                Ok((ClockSpec::Quantum(qt_quantum_class(c)?), "quantum-class"))
+            }
+            (None, None, None) => Err(crate::terr!(
+                "e-quantum-trade-provide-either-candidate-adev-taus"
+            )),
+            _ => Err(crate::terr!(
+                "e-quantum-trade-candidate-adev-taus-and-candidate-2"
+            )),
         }
     }
 
@@ -784,9 +786,9 @@ impl QuantumTradeScenario {
             || !self.position_threshold_m.is_finite()
             || self.position_threshold_m <= 0.0
         {
-            return Err(
-                "timing_threshold_s and position_threshold_m must be finite and > 0".into(),
-            );
+            return Err(crate::terr!(
+                "e-quantum-trade-timing-threshold-and-position-threshold"
+            ));
         }
         let baseline_clock = ClockSpec::Classical(qt_classical_class(&self.baseline_clock_class)?);
         let (candidate_clock, candidate_source) = self.candidate_clock()?;

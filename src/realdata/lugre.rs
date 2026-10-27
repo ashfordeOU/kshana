@@ -272,7 +272,7 @@ pub fn parse_raw(text: &str) -> Result<Vec<RawEpoch>, String> {
         let ctx = |e: String| crate::t!("realdata-lugre-raw-line", v1 = n + 1, e = e);
         let (flat, groups) = fields(line);
         if get::<String>(&flat, "messageType").map_err(ctx)? != "RAW" {
-            return Err(ctx("not a RAW message".into()));
+            return Err(ctx(crate::terr!("e-realdata-lugre-not-raw-message")));
         }
         let rx_time_s = get(&flat, "rxTime").map_err(ctx)?;
         let mut measures = Vec::new();
@@ -338,7 +338,7 @@ pub fn parse_acq(text: &str) -> Result<Vec<AcqRecord>, String> {
         let ctx = |e: String| crate::t!("realdata-lugre-acq-line", v1 = n + 1, e = e);
         let (flat, groups) = fields(line);
         if get::<String>(&flat, "messageType").map_err(ctx)? != "ACQ" {
-            return Err(ctx("not an ACQ message".into()));
+            return Err(ctx(crate::terr!("e-realdata-lugre-not-an-acq-message")));
         }
         let acf_corr = groups
             .iter()

@@ -299,10 +299,7 @@ pub fn read_input(inp: &ClockLogInput) -> Result<NormalisedPhase, String> {
         return Err(crate::terr!("e-clock-log-units-and-data-apply-to"));
     }
     if inp.clock.is_some() && (fmt == ClockLogFormat::TimeLab || fmt == ClockLogFormat::Ticc) {
-        return Err(
-            "clock applies to the rinex-clk, linuxptp and chrony formats only (TICC uses channel)"
-                .into(),
-        );
+        return Err(crate::terr!("e-clock-log-clock-applies-to-the-rinex"));
     }
     if fmt != ClockLogFormat::Ticc && inp.channel.is_some() {
         return Err(crate::terr!("e-clock-log-channel-applies-to-the-ticc"));
@@ -717,10 +714,7 @@ fn parse_timelab(
             (Some(t), _) => (t, "input"),
             (None, Some(t)) => (t, "header"),
             (None, None) => {
-                return Err(
-                    "a single-column timelab log needs tau0: a `# tau0 = <s>` header or tau0_s"
-                        .into(),
-                )
+                return Err(crate::terr!("e-clock-log-single-column-timelab-log-needs"))
             }
         };
         let v: Vec<f64> = rows.iter().map(|r| r[0]).collect();
@@ -804,9 +798,7 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         Some(c) => c.clone(),
         None => match labels.as_slice() {
             [one] => one.to_string(),
-            [] => {
-                return Err("the TICC log has no `<seconds> chA|chB|chC|TI(...)` readings".into())
-            }
+            [] => return Err(crate::terr!("e-clock-log-the-ticc-log-has-no")),
             many => {
                 return Err(crate::terr!(
                     "e-clock-log-the-ticc-log-holds-channels",

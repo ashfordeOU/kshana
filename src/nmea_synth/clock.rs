@@ -45,7 +45,7 @@ pub fn parse_utc(s: &str) -> Result<i64, String> {
     let n = |a: usize, z: usize| {
         s[a..z]
             .parse::<i64>()
-            .map_err(|_| "not numeric".to_string())
+            .map_err(|_| crate::terr!("e-nmea-synth-clock-not-numeric"))
     };
     let (y, mo, d, h, mi, se) = (
         n(0, 4)?,

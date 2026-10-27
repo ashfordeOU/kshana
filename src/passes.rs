@@ -811,11 +811,7 @@ impl PassesScenario {
             && self.xp_arcsec.abs() <= 2.0
             && self.yp_arcsec.abs() <= 2.0)
         {
-            return Err(
-                "Earth orientation parameters out of range: |ut1_minus_utc_s| <= 1, \
-                 |xp_arcsec| and |yp_arcsec| <= 2"
-                    .to_string(),
-            );
+            return Err(crate::terr!("e-passes-earth-orientation-parameters-out-of"));
         }
         let opts = ApparentOptions {
             refraction: self.refraction,

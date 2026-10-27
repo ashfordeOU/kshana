@@ -1175,11 +1175,7 @@ fn iq_sweep<'py>(
     let designs: Vec<Design> = match design {
         Some(d) => {
             if pll_bws.is_some() || dll_bws.is_some() || spacings.is_some() || coherents.is_some() {
-                return Err(bad(
-                    "pll_bws, dll_bws, spacings and coherents cannot be combined with design: \
-                     the sweep runs every design in the file"
-                        .into(),
-                ));
+                return Err(bad(crate::terr!("e-python-pll-bws-dll-bws-spacings")));
             }
             let text = if std::path::Path::new(&d).is_file() {
                 std::fs::read_to_string(&d).map_err(|e| bad(e.to_string()))?
@@ -1232,7 +1228,7 @@ fn iq_sweep<'py>(
         }
     };
     if designs.is_empty() {
-        return Err(bad("no designs to sweep".into()));
+        return Err(bad(crate::terr!("e-python-no-designs-to-sweep")));
     }
     if designs.len() * codes.len() > 256 {
         return Err(bad(crate::t!(

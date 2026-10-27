@@ -84,9 +84,9 @@ fn design_with(a: &Args, acq_only: bool) -> Result<(Design, Vec<String>), Fail> 
         }
         None => {
             if a.get("--design-name").is_some() {
-                return Err(Fail::Usage(
-                    "--design-name needs --design <file.toml>".into(),
-                ));
+                return Err(Fail::Usage(crate::terr!(
+                    "e-iq-cli-track-design-name-needs-design-file"
+                )));
             }
             Design::builtin_default()
         }
@@ -268,9 +268,9 @@ pub(crate) fn threads_from_args(a: &Args) -> Result<usize, Fail> {
         Some("auto") => Ok(std::thread::available_parallelism().map_or(1, |n| n.get())),
         Some(_) => match a.num::<usize>("--threads").map_err(Fail::Usage)? {
             Some(n) if n >= 1 => Ok(n),
-            _ => Err(Fail::Usage(
-                "--threads must be a positive integer or auto".into(),
-            )),
+            _ => Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-track-threads-must-be-positive-integer"
+            ))),
         },
     }
 }
@@ -282,7 +282,9 @@ pub(crate) fn epochs_writer(
 ) -> Result<Option<Box<dyn EpochSink>>, Fail> {
     let Some(p) = a.get("--epochs") else {
         if a.get("--epochs-format").is_some() {
-            return Err(Fail::Usage("--epochs-format needs --epochs <path>".into()));
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-track-epochs-format-needs-epochs-path"
+            )));
         }
         return Ok(None);
     };

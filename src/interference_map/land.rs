@@ -152,9 +152,9 @@ impl LandMask {
         let mut polys = Vec::new();
         collect_polys(&v, &mut polys);
         if polys.is_empty() {
-            return Err(MapError::Format(
-                "land polygons: no Polygon or MultiPolygon found".into(),
-            ));
+            return Err(MapError::Format(crate::terr!(
+                "e-interference-map-land-land-polygons-no-polygon-or"
+            )));
         }
         let mut edges = Vec::new();
         let mut bands: HashMap<i32, Vec<u32>> = HashMap::new();

@@ -53,13 +53,7 @@ pub fn rinex_clock_time_system(text: &str) -> Result<(String, bool), String> {
         'C' => "BDT",
         'J' => "QZS",
         'I' => "IRN",
-        'M' => {
-            return Err(
-                "RINEX clock file is mixed-system ('M') and declares no TIME SYSTEM ID; \
-                        refusing to guess the time system of its epochs"
-                    .to_string(),
-            )
-        }
+        'M' => return Err(crate::terr!("e-realdata-clk-rinex-clock-file-is-mixed")),
         other => {
             return Err(crate::terr!(
                 "e-realdata-clk-rinex-clock-file-has-satellite",

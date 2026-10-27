@@ -170,7 +170,7 @@ fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
     let bytes = hex::decode(text.trim())
         .map_err(|_| crate::terr!("e-evidence-cli-pubkey-does-not-hold-hex", arg = arg))?;
     let key = <[u8; 32]>::try_from(bytes.as_slice())
-        .map_err(|_| "--pubkey must be 32 bytes (64 hex digits)".to_string())?;
+        .map_err(|_| crate::terr!("e-evidence-cli-pubkey-must-be-32-bytes"))?;
     // Is this actually the private seed of the key the pack names?
     let named = files
         .get("manifest.json")
@@ -179,10 +179,7 @@ fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
     if named.as_deref() == Some(public_key_hex(&key).as_str())
         && hex::encode(key) != named.unwrap_or_default()
     {
-        return Err(
-            "that is the PRIVATE key of the signer. Never share it; pass the public key (the .pub file)"
-                .into(),
-        );
+        return Err(crate::terr!("e-evidence-cli-that-is-the-private-key"));
     }
     Ok(key)
 }

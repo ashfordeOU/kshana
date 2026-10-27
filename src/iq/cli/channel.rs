@@ -192,9 +192,9 @@ pub(crate) fn build_channel(
         return Err(crate::terr!("e-iq-cli-channel-give-at-most-one-of"));
     }
     if p.nlos && p.multipath_height_m.is_none() && !p.land_mobile {
-        return Err(
-            "--nlos needs a reflected path: add --multipath-height or --land-mobile".to_string(),
-        );
+        return Err(crate::terr!(
+            "e-iq-cli-channel-nlos-needs-reflected-path-add"
+        ));
     }
     let mut adapter = SceneChannelAdapter::new(carrier_hz);
     if let Some(stec) = p.iono_stec_tecu {

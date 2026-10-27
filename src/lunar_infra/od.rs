@@ -232,10 +232,9 @@ pub fn run(
         }
     }
     if g.h.len() < 8 {
-        return Err(
-            "too few trackable GNSS measurements to determine the orbit and the receiver clock"
-                .into(),
-        );
+        return Err(crate::terr!(
+            "e-lunar-infra-od-too-few-trackable-gnss-measurements"
+        ));
     }
     if r.h.len() < 6 {
         return Err(crate::terr!(

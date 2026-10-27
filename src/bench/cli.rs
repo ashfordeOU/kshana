@@ -144,7 +144,7 @@ fn scale_arg(args: &[String]) -> Result<f64, BenchError> {
         None => Ok(0.5),
         Some(s) => s
             .parse::<f64>()
-            .map_err(|_| BenchError("--scale is not a number".into())),
+            .map_err(|_| BenchError(crate::terr!("e-bench-cli-scale-is-not-number"))),
     }
 }
 
@@ -203,9 +203,9 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         "truth" => {
             check(rest, &["--task", "--data", "--split", "--out"], false)?;
             if task_arg(rest)? != "a" {
-                return Err(BenchError(
-                    "`truth` reads a dataset and is for task a; tasks c and d use `cases`".into(),
-                ));
+                return Err(BenchError(crate::terr!(
+                    "e-bench-cli-truth-reads-dataset-and-is"
+                )));
             }
             let split_s = need(rest, "--split")?;
             let (filter, label) = if split_s == "all" {
@@ -253,16 +253,18 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                 }
                 "c" => {
                     if split == Split::Holdout && flag(rest, "--seed-file")?.is_some() {
-                        return Err(BenchError("task c has no sealed holdout".into()));
+                        return Err(BenchError(crate::terr!(
+                            "e-bench-cli-task-has-no-sealed-holdout"
+                        )));
                     }
                     let text = clocks_text(rest)?;
                     let c = en(|| tasks::c_load(&text, split))?;
                     en_ok(|| tasks::c_files(&c, split))
                 }
                 _ => {
-                    return Err(BenchError(
-                        "`cases` makes the files of tasks c and d; task a is the dataset itself (use `truth`)".into(),
-                    ))
+                    return Err(BenchError(crate::terr!(
+                        "e-bench-cli-cases-makes-the-files-of"
+                    )))
                 }
             };
             write(&out.join("cases.json"), &pretty(&cases))?;
@@ -281,10 +283,9 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             )?;
             let thr = match flag(rest, "--threshold")? {
                 None => None,
-                Some(s) => Some(
-                    s.parse::<f64>()
-                        .map_err(|_| BenchError("--threshold is not a number".into()))?,
-                ),
+                Some(s) => Some(s.parse::<f64>().map_err(|_| {
+                    BenchError(crate::terr!("e-bench-cli-threshold-is-not-number"))
+                })?),
             };
             let (truth, predictions) = (
                 read(need(rest, "--truth")?)?,
@@ -301,7 +302,8 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         "seal" => seal_cmd(rest),
         "reveal-check" => {
             check(rest, &["--task", "--seed-file", "--commitment"], false)?;
-            let s = secret(rest)?.ok_or_else(|| BenchError("--seed-file is required".into()))?;
+            let s = secret(rest)?
+                .ok_or_else(|| BenchError(crate::terr!("e-bench-cli-seed-file-is-required")))?;
             let c = need(rest, "--commitment")?;
             if super::is_exposed(c) {
                 println!(
@@ -323,7 +325,9 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         "validate" => {
             let files = check(rest, &[], true)?;
             if files.is_empty() {
-                return Err(BenchError("validate needs at least one result file".into()));
+                return Err(BenchError(crate::terr!(
+                    "e-bench-cli-validate-needs-at-least-one"
+                )));
             }
             let mut bad = 0;
             for f in &files {
@@ -427,7 +431,8 @@ fn seal_cmd(rest: &[String]) -> Result<i32, BenchError> {
     check(&v, &valued, false)?;
     let task = task_arg(&v)?;
     if !new {
-        let s = secret(&v)?.ok_or_else(|| BenchError("--seed-file is required".into()))?;
+        let s = secret(&v)?
+            .ok_or_else(|| BenchError(crate::terr!("e-bench-cli-seed-file-is-required")))?;
         println!("{}", seal(task, &s));
         return Ok(0);
     }
@@ -584,9 +589,9 @@ fn carried_b() -> Value {
 fn manifest(args: &[String]) -> Result<i32, BenchError> {
     check(args, &["--task", "--data", "--archive", "--out"], false)?;
     if task_arg(args)? != "a" {
-        return Err(BenchError(
-            "`manifest` is for task a; the other tasks have committed manifests".into(),
-        ));
+        return Err(BenchError(crate::terr!(
+            "e-bench-cli-manifest-is-for-task-the"
+        )));
     }
     let root = PathBuf::from(need(args, "--data")?);
     let mut dirs = Vec::new();
@@ -678,7 +683,9 @@ fn manifest(args: &[String]) -> Result<i32, BenchError> {
 fn verify_manifest(args: &[String]) -> Result<i32, BenchError> {
     let pos = check(args, &["--root"], true)?;
     let [path] = pos.as_slice() else {
-        return Err(BenchError("verify-manifest needs one manifest file".into()));
+        return Err(BenchError(crate::terr!(
+            "e-bench-cli-verify-manifest-needs-one-manifest"
+        )));
     };
     let root = PathBuf::from(need(args, "--root")?);
     let m: Value = serde_json::from_str(&read(path)?)

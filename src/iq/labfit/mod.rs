@@ -205,12 +205,7 @@ pub fn run_toml_views(src: &str) -> Result<[String; 4], String> {
         }
         #[cfg(target_arch = "wasm32")]
         {
-            Err(
-                "[input] campaign: a fit from an IQ campaign folder needs the native build \
-                 (the campaign layer is not built for WebAssembly); the receiver-log path \
-                 ([[runs]]) works here"
-                    .into(),
-            )
+            Err(crate::terr!("e-iq-labfit-input-campaign-fit-from-an"))
         }
     } else {
         let o = run_scenario(&sc)?;

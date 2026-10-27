@@ -135,7 +135,9 @@ pub fn parse_meta_any(json: &str) -> Result<(Meta, SampleFormat), IqError> {
         ))
     })?;
     if meta.global.num_channels == Some(0) {
-        return Err(IqError::Format("SigMF core:num_channels = 0".into()));
+        return Err(IqError::Format(crate::terr!(
+            "e-iq-io-sigmf-stream-sigmf-core-num-channels"
+        )));
     }
     let f = format_from_sigmf(&meta.global.datatype)?;
     Ok((meta, f))
@@ -228,9 +230,9 @@ impl SigmfStream {
     /// lazily, one part at a time, through a staging buffer of `chunk_bytes`.
     pub fn from_parts(parts: Vec<SigmfPart>, chunk_bytes: usize) -> Result<Self, IqError> {
         if parts.is_empty() {
-            return Err(IqError::Format(
-                "a SigMF stream needs at least one recording".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-sigmf-stream-sigmf-stream-needs-at-least"
+            )));
         }
         let mut format = None;
         let mut fs = None;
@@ -379,9 +381,9 @@ impl SigmfStream {
             )));
         }
         if self.pos != 0 || self.current.is_some() {
-            return Err(IqError::Format(
-                "select_channel must be called before reading".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-sigmf-stream-select-channel-must-be-called"
+            )));
         }
         self.channel = channel;
         Ok(self)
@@ -464,9 +466,9 @@ impl IqSource for SigmfStream {
                 let copied = std::io::copy(&mut (&mut data).take(skip), &mut std::io::sink())
                     .map_err(|e| IqError::Io(e.to_string()))?;
                 if copied < skip {
-                    return Err(IqError::Format(
-                        "SigMF data ends before its first capture".into(),
-                    ));
+                    return Err(IqError::Format(crate::terr!(
+                        "e-iq-io-sigmf-stream-sigmf-data-ends-before-its"
+                    )));
                 }
                 self.current = Some(
                     IqReader::with_chunk_bytes(data, self.format, self.spec, self.chunk_bytes)

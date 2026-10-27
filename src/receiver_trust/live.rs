@@ -282,11 +282,9 @@ impl LiveEngine {
         let cfg = &scn.monitors;
         cfg.validate()?;
         if !cfg.platform.is_vessel() {
-            return Err(
-                "live mode needs [platform] kind = \"vessel\": the trust score is for a moving \
-                 platform"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-receiver-trust-live-live-mode-needs-platform-kind"
+            ));
         }
         // Everything a monitor looks back on: two kinematic windows, the evidence hold and
         // the smoothing window, plus a margin.
