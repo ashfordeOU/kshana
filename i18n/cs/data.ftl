@@ -2354,3 +2354,378 @@ dat-27e53cda32db = Charakterizace frekvenční stability
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-f329e4558e9f = Frekvenční stabilita na skutečných změřených hodinách
+
+# data/search.json
+dat-6d224d115687 = Frekvenční synchronizace: generování wanderu podle G.811, G.812, G.8262 a G.8262.1 ({ "0.36" })
+
+# data/search.json
+dat-e2a2e2c97af5 = Z kódu
+
+# data/search.json
+dat-eb9476cc9794 = Z Pythonu a WebAssembly
+
+# data/search.json
+dat-d90fd2aeef6a = Z Pythonu, WebAssembly a MCP
+
+# data/verification-matrix.json
+dat-c32cf6bb95d1 = frugal (nad walker)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-0f8189016ddc = Frugální vymezení nákladů na pokrytí / ROI
+
+# data/verification-matrix.json
+dat-64418b3e7e3c = frugal::tests (ručně odvozené náklady na pokrytí 48/96={ "0.5" }, poměr ROI { "2.667" }, řazení rozpětí + stráže nulového pokrytí)
+
+# js/evidence-data.mjs
+dat-821431fc22ea = Dispečink celého oblouku, úroveň { "1" } (před opravou†)
+
+# js/missions-runs.mjs
+dat-6dd8e31b0dcd = fúzní řešení polohy, chyba RMS
+
+# studio/data/areas.json
+dat-85439cf1f56d = Fúzní medián PDOP oproti SISRE LEO
+
+# data/search.json
+dat-e4d34ebcb276 = Fúzní určování polohy, navigace a času (PNT) pro střední oběžnou dráhu Země (MEO) a nízkou oběžnou dráhu Země (LEO) nad JAKÝMKOLI…
+
+# data/search.json
+dat-b798d233f73e = Fúzní určování polohy MEO a LEO pro plavidlo hluboko ve fjordu, kde stěny údolí skrývají
+
+# data/search.json
+dat-d3bf21538bac = Fúzní určování polohy, navigace a času pro MEO a LEO
+
+# data/search.json, js/missions-runs.mjs
+dat-76d49a741f36 = Fúzní určování polohy z pseudovzdáleností MEO a LEO: GPS a Galileo s navigační vrstvou LEO.
+
+# js/missions-runs.mjs
+dat-a672a7aa19d7 = fúze s nízkou dráhou
+
+# data/search.json
+dat-3ada6ff9e069 = fusion (druh scénáře)
+
+# data/verification-matrix.json
+dat-ec5d8ca74e7d = fusion::pack (TightCfg, [tight]), scénáře gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+# data/verification-matrix.json
+dat-95e88ecc34df = fusion::tests (identita UKF==lineární KF; doběh při výpadku; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } případů proti filterpy { "1.4.5" }: lineární EKF volná/těsná vazba + posteriory svázaného PNT do ≤{ "2.4e-12" }; 40epochový běh UKF nejhorší |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (řešení NaveGo v1.4 s volnou vazbou na skutečné jízdě NaveGo s Ekinox IMU/GNSS: horizontální RMS 0.912x, vertikální 0.940x, RMS inovace polohy 0.861x oproti NaveGo, střední normalizovaná inovace { "0.395" }; prahy 1.2x, 1.2x, 1.2x a { "1.5" } stanovené před během)
+
+# data/verification-matrix.json
+dat-fa85ed0fb966 = Generátor kódu C/A G1/G2 LFSR reprodukující publikované osmičkové verifikační vektory prvních 10 chipů z IS-GPS-200 pro PRN { "1" }–{ "9" } (plus délka 1023 chipů, vyváženost 512 jedniček, třívýznamová periodická autokorelace)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-71b6ea3dc71a = Uživatelský algoritmus broadcastové efemeridy podle Galileo ICD jako základ navigační zprávy LEO
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-455af4b55c5e = Autentizace navigačních dat Galileo OSNMA na straně přijímače
+
+# data/search.json
+dat-9025636fcc85 = Verifikátor Galileo OSNMA na straně přijímače
+
+# studio/data/capabilities.json
+dat-b674eba809eb = Verifikace Galileo OSNMA
+
+# data/search.json
+dat-6e3ed81e2232 = Verifikátor Galileo OSNMA
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-8a9416290ca3 = Galileo Walker 24/3/1, Galileo OS SDD vydání { "1.1" }, tabulky { "1" } a { "23" }
+
+# studio/channels.json
+dat-4a49a3de27d2 = nasazení gate a bench
+
+# data/verification-matrix.json
+dat-f553cc1c927b = Integrita brány — zelená, která znamená to, co říká
+
+# data/search.json
+dat-6a610bcc14b9 = Režim brány
+
+# data/verification-matrix.json
+dat-e3b2d3da9750 = GDOP/PDOP/HDOP/VDOP/TDOP z geometrie přímé viditelnosti přes Q=(HᵀH)⁻¹ s lokálním rozdělením ENU
+
+# data/search.json
+dat-731732835cd7 = Gemini CLI
+
+# js/developers-data.mjs
+dat-b3d237b0dc32 = Vygenerování scény IQ GNSS s více družicemi do souboru v pracovním adresáři (`kshana iq scene`).
+
+# js/developers-data.mjs
+dat-8bf4ec225897 = Vygenerování syntetických NMEA { "0183" } lodního můstku pro výcvik posádek ze souboru TOML `nmea-scenario` (`kshana nmea-scenario`): trasa plavidla a časová osa skriptovaných událostí (rušení, odtažení polohy, podvržení času, zpoždění přehrávání, s obnovením).
+
+# data/verification-matrix.json
+dat-26c58834fe9d = Vygenerováno příkazem `cargo run --bin gen_validation_artifacts` a připnuto testem tests/verification_artifacts_doc_sync.rs. Neupravujte ručně.
+
+# data/search.json
+dat-4837fbbcb35b = Obecný N-rozměrný průchod parametry nad JAKÝMKOLI druhem scénáře. Na rozdíl od průchodu jen pro hodiny
+
+# data/search.json
+dat-3df08ace2207 = Obecný N-rozměrný průchod nad libovolným balíčkem přes tečkované klíče TOML / cesty metrik JSON.
+
+# data/verification-matrix.json
+dat-74ed4850ce5d = geolocation::tests (bezšumové TDOA dopředu→zpět do { "1e-6" } m; J·CRLB=I se symetrickou kladně definitní kovariancí; stopa rozptylu polohy z CRLB neroste, když se přidá přijímač; společné TDOA+FDOA obnoví polohu+rychlost pohybujícího se vysílače; <{ "4" } přijímače odmítnuty); tests/geolocation_reference.rs (zpětné převody přes čtyři geometrie se sítí rozmanitou ve 3D; Gaussův–Newtonův estimátor dosahuje své Cramérovy–Raovy meze — empirická kovariance chyby sleduje analytickou mez přes { "4000" } pokusů Monte Carlo); tests/geolocation_crlb_published_oracle.rs (ho_chan_1993_maximum_tdoa; ho_xu_2004_fig7_with_the_authors_corrected_source; ho_xu_2004_bound_matches_the_authors_code; finding_ho_chan_ottawa_printed_values_are_not_the_bound a finding_ho_xu_fig7_printed_source_is_not_the_plotted_one, připnuto)
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-611e316455d9 = Referenční geomagnetické pole (syntéza IGRF-14)
+
+# data/verification-matrix.json
+dat-b4ef2c21bc63 = Geometrická konkretizace meze blokového sparku / bezpečného odhadu stavu (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; blokový spark podle Donoha–Elada { "2003" }; Candès–Tao { "2005" }) — NIKOLI práh konsenzu Lamport–Shostak–Pease 3f+{ "1" } („Byzantine“ pojmenovává jen MODEL libovolné/koludující poruchy). Konkrétní počet tolerovaných poruch je modelovaná vlastnost geometrie reprezentativní sítě, kontrolovaná na vlastní konzistenci ručně sestavenými analytickými případy a vzorci pro počet
+
+# data/verification-matrix.json
+dat-2b09848842ee = Geometrické polohy Slunce, Merkuru, Venuše, Země a Měsíce vůči sobě navzájem (osy J2000/ICRF, metry) z jádra JPL DE440 přes ephem_provider::KernelEphemeris v epochách UTC: jména těles namapovaná na kódy NAIF, UTC převedené tabulkou přestupných sekund a TT na TDB dvoučlennou řadou TDB-TT, jádro čtené vlastní čtečkou enginu. Těleso, které jádro drží jen jako barycentrum soustavy (Mars až Neptun, Pluto v de440s), je odmítnuto, nikdy nenahrazeno. Řádek Standish bez jádra zůstává cestou pro prohlížeč a záložní cestou
+
+# data/search.json
+dat-39e185a7bce6 = Geometrie — dostupnost GNSS z drah
+
+# data/verification-matrix.json
+dat-5b62a8ae98f6 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg; CLI `kshana sky` a `kshana skyline`, funkce stejných jmen v Pythonu a WASM, MCP `sky_geometry`): z místa, času a předvoleb konstelací (nebo družic jako azimut/elevace či ECEF) družice viditelné a maskované pod obzorem, GDOP/PDOP/HDOP/VDOP/TDOP, jednotkově rozptylový kofaktor (H^T H)^-1 a kovariance ve východ-sever-nahoru s jedněmi hodinami přijímače na systém nebo jedněmi společnými, horizontální chybová elipsa (poloosy k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), orientace { "0.5" } atan2({ "2" } Q_EN, Q_NN - Q_EE) od severu) a n chyb nejmenších čtverců se seedem při nezávislých gaussovských chybách dosahu s jejich empirickou kovariancí, RMS a { "95" }% ohraničením. Kofaktor je orbit::cofactor_from_los, jediné jádro za orbit::dop a orbit::dop_cov (dop je redukcí dop_cov): žádná druhá implementace DOP
+
+# data/verification-matrix.json
+dat-9d3c13673a52 = Rozpočet spoje J/S podle geometrie, C/N₀ proti rušení, ztráta zámku po družicích
+
+# studio/data/capabilities.json
+dat-564d4b9fd1ed = Klasifikace důvěry s ohledem na geometrii
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-f7f6e62db727 = Klasifikace důvěry s ohledem na geometrii: geometrie družic vedle skóre důvěryhodnosti přijímače a třída u každé srážky
+
+# data/search.json
+dat-e10a325ec82d = Geometrie: přirozené zhoršení odděleně od nekonzistence podobné útoku
+
+# data/verification-matrix.json
+dat-1ce585aa8de3 = geometry::sky_geometry: kofaktor ENU a hodin (H^T H)^-1 s jedněmi společnými hodinami přijímače nebo jedněmi na systém (jádro orbit::cofactor_from_los) a horizontální chybová elipsa z jeho bloku východ-sever (poloosy k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), azimut hlavní osy od severu)
+
+# data/verification-matrix.json
+dat-b643c15103c2 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (jádro s jedněmi hodinami proti gnss_lib_py)
+
+# data/search.json
+dat-61e8d44ad423 = Začínáme
+
+# studio/channels.json
+dat-3023f7e52c16 = Registr kontejnerů GitHub
+
+# studio/channels.json
+dat-f7ecb6756caa = Vydání na GitHubu
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-a33da228eb84 = Globální zhoršení přesnosti základní konstelace GPS
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-0beb4fb3e33d = Globálně průměrné váhy chyby dosahu signálu v prostoru pro libovolnou výšku dráhy
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-2015f8efbc2f = GLONASS 24/3/1, GLONASS ICD vydání { "5.1" } ({ "2008" }) oddíl { "5.2" }
+
+# data/verification-matrix.json
+dat-3123f2d9a593 = Broadcastové hodiny družice GLONASS a propagace broadcastové dráhy
+
+# assets/capabilities/capabilities.json
+dat-49146c124e2d = GLONASS G1/G2, BeiDou B1/B2 a Galileo E6
+
+# data/verification-matrix.json
+dat-56cdbf2137c2 = Bělení společného módu metodou GLS (Aitken) + Mahalanobisova identita
+
+# data/verification-matrix.json
+dat-b9b08309b102 = GMAT R2022a (NASA GSFC, Apache-2.0) GmatConsole s exponenciální atmosférou (tatáž 28pásmová tabulka), Země jako hmotný bod a PrinceDormand78, spuštěno, nikdy nevendorováno. Prahy předregistrované v xval/drag-exponential-gmat/PREREGISTRATION.md (640c85c1) na posunutí způsobeném odporem na každé straně (běh s odporem minus běh bez odporu), které ruší obě hodnoty mu Země a integrátory; všechny splněny (RESULTS.md). GMAT bere geodetickou výšku a kshana sférickou výšku: shodují se jen na rovníku, takže VALIDATED pokrývá rovníkové dráhy; mimo rovník se modely záměrně liší ({ "10.4" } % z posunutí za { "24" } h při { "51.6" } stupňů, { "400" } km). Veřejné sestavení GMAT nemá NRLMSISE-00 (plugin chybí), takže úroveň NRLMSISE-00 má jen orákulum Orekit. Přesnost tabulky oproti změřené hustotě není pokryta
+
+# data/verification-matrix.json
+dat-900ba38459e6 = GMAT R2026a (Apache-2.0, spuštěno jako samostatný program) na { "192" } hyperbolických stavech Země: B.T, B.R a |B| do { "1e-6" } km (nejhorší { "1.35e-8" } km), úhel stočení a obě asymptoty do { "1e-9" } rad (nejhorší { "9.3e-15" } rad); změna rychlosti při gravitačním manévru z GMAT C3 a asymptot do { "1e-9" } v_inf (nejhorší { "5.6e-14" }); heliocentrická SMA, ECC a INC na { "350" } stavech vztažených ke Slunci před manévrem a po něm do { "1e-9" } relativně a { "1e-12" } rad (nejhorší { "2.2e-14" } a { "4.1e-14" } rad); Tisserandův parametr proti sbpy { "0.6.0" } (BSD-3) na prvcích GMAT do { "1e-9" } (nejhorší { "1.3e-15" }) a proti { "3" } - C3/v_c^{ "2" } ({ "8.9e-16" }); a uzavřený tvar Tisserandova parametru proti Kasugovi a Jewittovi ({ "2019" }) tabulka { "8.1" } pro { "12" } objektů do mezi vytištěného zaokrouhlení (nejhorší { "0.39" } z ní; publikovaná propočtená hodnota P1). Předregistrováno (436293bf; oprava heliocentrické části 6fd9f5e6); dodatek 374c806b, zapsaný poté, co byly vygenerovány soubory orákula, a před jakoukoli hodnotou Kshana, rozšířil vstupní filtr sklonu z { "1e-2" } na { "1e-3" } rad, čímž zachoval více a hůře podmíněných stavů. Rozsah MODELLED: průlet metodou spojených kuželoseček ve dvoutělesové úloze na kruhové planetární dráze, bez přechodu přes sféru vlivu, poruch při setkání a efemerid
+
+# studio/data/capabilities.json
+dat-aa6ddeb93b15 = Fúze senzorů GNSS / INS
+
+# js/missions-runs.mjs
+dat-58fdfb5544c3 = samotné GNSS, chyba RMS
+
+# studio/data/capabilities.json
+dat-2cad73f47600 = Autentizace GNSS
+
+# data/search.json
+dat-ebddc70e47f7 = Dostupnost GNSS + DOP z orbitální konstelace (Walker / TLE / RINEX).
+
+# data/search.json
+dat-f045dfa9ea84 = Dostupnost GNSS a zhoršení přesnosti na dně městské ulice: druh `orbit`
+
+# data/search.json
+dat-ab69eba7be35 = Dostupnost GNSS odvozená z orbitální geometrie (nikoli ručně psaná okna).
+
+# data/search.json
+dat-17bb8b5c7578 = Dostupnost GNSS pro uživatele na vysoce excentrické dráze (Molnija), z orbitální geometrie.
+
+# data/search.json
+dat-55e2648633a9 = Dostupnost GNSS ze skutečné broadcastové efemeridy RINEX { "3" }.
+
+# data/search.json
+dat-eeb36e87af2a = Dostupnost GNSS ze SKUTEČNÉ geometrie družic přes sady prvků dvouřádkových.
+
+# data/search.json
+dat-b3d70ccc7bd2 = Dostupnost GNSS ze SKUTEČNÉ konstelace GPS propagované pomocí SGP4/SDP4.
+
+# data/search.json
+dat-a44b2b91bca4 = GNSS za hranicí konstelace: druh gnss-ssv
+
+# studio/data/capabilities.json
+dat-840f672ac80e = GNSS za hranicí konstelace: Space Service Volume a za ním
+
+# data/verification-matrix.json
+dat-83b3514917c4 = Řešení celočíselných nejednoznačností fáze nosné GNSS (LAMBDA)
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-bb79da35fc9c = Geometrie GNSS / faktor DOP (zhoršení přesnosti)
+
+# data/search.json
+dat-e273c919d879 = Dostupnost integrity GNSS (RAIM) nad konstelací podobnou GPS.
+
+# data/verification-matrix.json
+dat-3ed8a076bc17 = Vyhledání signálu GNSS v IQ na nezávisle generovaných vzorcích I/Q
+
+# data/search.json
+dat-f09cd8d61760 = Signatury IQ GNSS a důvěryhodnosti přijímače
+
+# data/verification-matrix.json
+dat-a0dce0aacba8 = Geometrie signálu scény IQ GNSS proti nezávislému generátoru v základním pásmu
+
+# data/search.json
+dat-793ccdd5cb86 = Stopa rušení GNSS
+
+# studio/data/capabilities.json
+dat-f04784542a0c = Oblast měření GNSS
+
+# data/search.json
+dat-4e35d01aa3d8 = Měření GNSS, určování polohy a integrita
+
+# data/search.json
+dat-e32da0beede4 = Měření GNSS, určování polohy a integrita (rodina druhů scénářů)
+
+# js/missions-runs.mjs
+dat-3a4061afb712 = medián C/N0 GNSS
+
+# data/search.json
+dat-d5e0f4289cb5 = GNSS na lunárním přechodu, s přijímačem slabých signálů, který si svou citlivost zaslouží.
+
+# studio/data/capabilities.json
+dat-7d5e1c1fc67e = Určování polohy GNSS
+
+# data/search.json
+dat-f71f41147efa = Určování polohy GNSS doplněné o dvě demonstrační družice ESA Celeste na oběžné dráze.
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-fb12222228a2 = Dostupnost signálu GNSS v Space Service Volume a za ním, porovnaná s brožurou ICG SSV
+
+# data/search.json
+dat-eb68247b6d8c = Dostupnost signálu GNSS na horní slupce SSV: globální metrika z brožury, v rozsahu, který proběhne za sekundu.
+
+# data/verification-matrix.json
+dat-0430afb51651 = Detekční statistiky vyhledání signálu GNSS s kvadratickým zákonem
+
+# data/verification-matrix.json
+dat-ab0faa9843fa = Důvěra GNSS (skóre, pásmo, důvody, brána a na vyžádání poloha) jako textová expozice Prometheus na /metrics a jako metriky OTLP/HTTP JSON, s omezením kardinality štítku důvodu.
+
+# data/search.json
+dat-4a56bffdc113 = Důvěra GNSS jako bezpečnostní telemetrie
+
+# data/verification-matrix.json
+dat-babe120b27d3 = DOP z gnss_lib_py { "1.0.4" } (Stanford NAV Lab) — nezávislá knihovna, shoda do { "1e-6" } relativně
+
+# data/verification-matrix.json
+dat-6d8275b71221 = gnss_navmsg::tests (kontrolní hodnota CRC-24Q 0xCDE703; konvoluční impulsní odezva; Viterbi opravuje vložené chyby; šířky rozložení); tests/gnss_navmsg_roundtrip.rs (počáteční bity polí se rovnají číslům bitů z ICD; kódování -> FEC -> prokládání -> Viterbi -> dekódování se zpětně převede do poloviny LSB); tests/gnss_navmsg_galileo_brdc_grid.rs (záznamy Galileo IGS BRDC 2018-133 na mřížce LSB, nejhorší { "3.6e-3" } LSB; předregistrovaný práh počtu družic nesplněn, { "15" } z { "20" }, ZJIŠTĚNÍ)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-7a590be82e74 = Holdover hodin bez GNSS
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-4c656dcbfb0b = Odolnost proti rušení bez GNSS
+
+# data/verification-matrix.json
+dat-ad83abe1a009 = Kvantová navigace bez GNSS
+
+# data/search.json
+dat-17b5e6774026 = Kvantová navigace bez GNSS — kvantová (interferometr se studenými atomy) oproti klasické
+
+# data/search.json
+dat-c0d5518e2983 = Kvantová navigace bez GNSS (src/quantum_nav_od.rs)
+
+# data/search.json
+dat-9d4a626d6fc3 = gnss-ins (druh scénáře)
+
+# data/verification-matrix.json
+dat-7d66f55cfbd0 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, balíček Ubuntu { "24.04" }, spuštěno jako samostatný program; zapsána jen odvozená čísla) sledující tytéž záznamy numpy (nezávislé na enginu), obojí změřeno proti analytické pravdě. Prahy předregistrované v 48edd4a5, upravené před jakýmkoli testovacím záznamem v 1e4288c4 (FLL { "10" } Hz jen při přitažení u obou přijímačů, poté co registrovaná kalibrace selhala na chybném předání GNSS-SDR, zjištění F3). MET při { "30" }, { "35" }, { "40" } a { "45" } dB-Hz: jitter nosné do { "4.3" } %, jitter kódu do { "4.6" } % a střed a rozptyl Dopplera GNSS-SDR. NOT MET: NWPR C/N0 enginu čte o { "2.3" } až { "7.1" } dB méně než SNV GNSS-SDR (zjištění F4, známá mez NWPR; jeho M2M4 je do { "0.06" } dB od pravdy); indikátory fázového zámku se liší z definice (F5); při { "30" } dB-Hz GNSS-SDR dvakrát prokluzoval a engine ne (F6). Vlastní předání GNSS-SDR se zachytilo na špatnou frekvenci ve { "3" } z { "30" } kalibračních běhů. CO SE NEKONTROLUJE: jiné signály, odstranění datových bitů, opětovné vyhledání, terénní záznamy. Řádek zůstává MODELLED.
+
+# data/verification-matrix.json
+dat-88626853d609 = GNSS-SDR { "0.0.19" } (GPL-3.0, samostatný program, připnutá konfigurace) na devíti dávkách L1 mimo povrch a na SUROVÉM C/N0 letového přijímače (LuGRE Mission Data, Zenodo { "16411687" }, CC BY { "4.0" }), předregistrováno 768cb62b. ZJIŠTĚNÍ: čtečka Kshana dekóduje všech { "288" } porovnávaných úseků shodně s nezávislým převodníkem; GNSS-SDR prohlašuje { "266" } z { "288" } hledání za pozitivní a Kshana souhlasí ve všech { "266" } rozhodnutích, ale jen { "250" } je lokalizováno na buňce GNSS-SDR (A2 selhává); větev C/N0 je prázdná, žádná SUROVÁ epocha letu neleží do { "30" } s od žádné dávky (nejbližší { "141" } s). Většina pozitiv jsou artefakty: holé úrovně ve dvojkovém doplňku nesou střední hodnotu -0.5 na I a Q, čáru na nulové frekvenci { "32" } dB nad šumem v binu { "1" } kHz, kterou získávají oba přijímače. Dvě dávky (OP5, OP12) byly vyloučeny omylem: čtení jejich metadat s odstraněnými číslicemi bylo považováno za rozpor s jejich hlavičkami; skutečnou příčinou bylo, že čtečka nedokázala číst vzorek širší než slovo (od té doby opraveno). Zůstává MODELLED
+
+# data/verification-matrix.json
+dat-f1f9f73e43f8 = Adaptér monitoru GNSS-SDR pro receiver-trust
+
+# data/verification-matrix.json
+dat-ce3f6373b5d3 = GNSS-SDR { "v0.0.19" } (značka { "v0.0.19" }, commit 1ddd4562), nezávislá open-source implementace téhož ICD: její beidou_b1i_code_gen_int, zkompilovaná samostatně, vygenerovala všech { "63" } kódů. Zapsán je jen její výstup programu: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, 64chipový prefix a SHA-256 každého 2046chipového kódu. Tento výstup jsou kódy PRN BeiDou B1I, které definuje veřejné BDS-SIS-ICD-B1I-3.0; v repozitáři není žádný zdroj ani binárka GNSS-SDR. Práh předregistrovaný v 911106d1 (xval/beidou-b1i-gnss-sdr/): všech { "2046" } chipů všech { "63" } PRN shodných, bez inverze, posunu či přeznačení. Výsledek: { "63" } z { "63" } shodných; fixtura byla znovu vygenerována z čerstvého checkoutu { "v0.0.19" } (SHA-256 zdrojového souboru tak, jak byl zaznamenán) a je bajt po bajtu shodná. CO SE NEKONTROLUJE: sekundární kód NH20, seznam PRN GEO, nosná a chipová rychlost.
+
+# data/search.json
+dat-abeeb9e52652 = gnss-sim (druh scénáře)
+
+# data/search.json
+dat-ab23598ddddf = gnss-ssv (druh scénáře)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-f381b2207626 = Balíčky GNSS/INS pro námořní dopravu, železnici a letectví s volbou těsné vazby
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-1e713796059f = Fúze senzorů GNSS/INS
+
+# data/verification-matrix.json
+dat-a606add53511 = Knihovna trajektorií GNSS/INS a import pravdy z CSV
+
+# data/verification-matrix.json
+dat-c8272b47794a = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, commit 55ea3344, spuštěno jako samostatný program přes harness; žádný kód GNSSTk není vendorován): getIonoCorr z KlobucharIonoNavData na L1, L2 a L5, getEffIonoLevel z NeQuickIonoNavData pro Az s pravidly all-zero a [{ "0" }, { "400" }] sfu a getOffset z GPSLNavTimeOffset pro drift UTC, do { "1e-3" } m, { "1e-6" } sfu a { "1e-9" } s; a ERFA přes pyerfa { "2.0.1.5" } (BSD-3), která odvozuje UTC z tabulky přestupných sekund IERS, pro tři případy přestupných sekund z ICD přes skutečné přestupné sekundy 2015-06-30 a 2016-12-31 včetně údaje { "23" }:{ "59" }:{ "60" }, do { "1e-9" } s (GNSSTk neimplementuje pravidlo délky dne z případu (b) v ICD, takže tam nebyl použit, jak je napsáno v předregistraci). Vstupy jsou skutečné koeficienty hlavičky IGS BRDC. Předregistrováno (6a66994b; dodatek 88807a7e zapsal podmnožinu { "21" } 602 řádků mřížky přestupných sekund před porovnáním jakékoli hodnoty Kshana). Integrace hustoty elektronů NeQuick není implementována a pro družici LEO letící uvnitř ionosféry se neprovádí žádná korekce
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-acf30276f7a0 = Základní konstelace GPS s 24 sloty, GPS SPS Performance Standard 5. vyd. ({ "2020" }) tabulky 3.2-1 a 3.2-3
+
+# data/verification-matrix.json
+dat-8c382c68132d = Křížová/autokorelace Gold GPS C/A shodná PŘESNĚ (celá čísla ±65/−1/63) s nezávislým generováním kódu IS-GPS-200; tvar PSD BPSK-R({ "1" })/BOC({ "1,1" }) proti nezávislému periodogramu ve scipy. Uzavřené tvary modulace/SSC/DLL (Betz { "2001" } / Kaplan & Hegarty) zůstávají analytické, takže řádek zůstává MODELLED — ale dílčí tvrzení o korelaci kódů je externě shodné. { "0.30" } kolo { "2" }, proti vytištěným hodnotám Betze { "2001" } a Heina et al. { "2006" } (předregistrováno 9f4f2ce8, půl vytištěné jednotky), zjištění (zůstává MODELLED): všech { "45" } spektrálních buněk tabulky { "1" }, korelační hodnoty na { "1" } GHz, údaje o interferenci MBOC a { "2" } z { "3" } odsazení na obr. { "17" } se shodují; první postranní laloky na { "24" } MHz, odsazení BOC({ "8,4" }) na obr. { "17" } a každé nejhorší zkreslení vícecestného šíření na obr. 18-21 (o { "11" } až { "15" } % nižší) se neshodují. Kshana a nezávislé vyhodnocení v NumPy předregistrovaného čtení se shodují, takže mezera leží v tomto čtení nebo v neuvedeném detailu článku; příčina nevyřešena
+
+# data/verification-matrix.json
+dat-71345b993a9b = Typy zpráv GPS CNAV 10/11/30, typy slov Galileo I/NAV 1-5 v nominálních sudých/lichých stránkách a typy stránek Galileo F/NAV 1-4: kódování polí a kvantizace podle ICD, CRC-24Q, konvoluční kódování s rychlostí 1/2 K={ "7" } (G2 invertováno pro Galileo), blokové prokládání a synchronizační vzory, s odpovídajícími testovacími dekodéry
+
+# data/verification-matrix.json
+dat-2d449120b935 = Shoda křížových generátorů GPS L1 C/A
+
+# data/verification-matrix.json
+dat-ed4980281dd2 = Rozprostírací kódy GPS L1 C/A (sdr::CaCode) a podrámce LNAV 1-3 (gps_lnav: kvantizace polí podle IS-GPS-200 s pí ze specifikace, balení ve dvojkovém doplňku, slova TLM a HOW, parita podle tabulky 20-XIV s inverzí D29*/D30*, bity řešící paritu slov { "2" } a { "10" }) porovnané bit po bitu s gps-sdr-sim na jeho přibaleném brdc0010.22n ({ "32" } družic)
+
+# data/verification-matrix.json
+dat-1a97a57b83e7 = Generování rozprostíracích kódů GPS L1 C/A
+
+# data/verification-matrix.json
+dat-fa382f0c49f6 = Ranging a překryvné kódy GPS L1C proti vytištěným kontrolním sloupcům v IS-GPS-800J
+
+# data/verification-matrix.json
+dat-b6918acff4da = Kódování GPS LNAV dekódované nezávislou knihovnou přijímače
+
+# data/verification-matrix.json
+dat-6649987ce0e6 = Kódování navigační zprávy GPS LNAV
+
+# data/verification-matrix.json
+dat-661bb3c8a237 = GPS SPS PS 5. vydání (duben { "2020" }) příloha B oddíly B.3.2.2 a B.3.2.3, publikované globálně průměrné rozdělení HDOP plně obsazené základní konstelace s 24 sloty (medián { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, průměr { "0.96" }), tabulka 3.8-1 (dostupnost PDOP) a tabulka B.3-1 (souborové PDOP zhoršené konstelace, použité jen jako horní mez), plus ručně odvozený uzavřený tvar pro jednu epochu. Rozdělení VDOP a PDOP plné konstelace jsou publikována jen jako obrázek, takže PDOP je připnuto jednostranně; nejhorší bod v čase a prostoru (zde HDOP { "2.40" } a VDOP { "5.22" }, publikováno { "2.49" } a { "5.43" }) závisí na mřížce a je uváděn, nikoli připnut
+
+# data/search.json
+dat-c8e4f15b7206 = Alternativní PNT bez GPS
+
+# data/search.json
+dat-bc954d668981 = Alternativní PNT bez GPS (rodina druhů scénářů)
+
+# data/search.json
+dat-60b1448d2ac3 = Kombinovaný navigátor bez GPS využívající gravitaci + magnetismus + terén: tři skalární kanály polí fúzované po trasových bodech…
+
+# data/search.json
+dat-db37b7cd3c4f = Navigace bez GPS podle porovnání s gravitační mapou: gravimetr se studenými atomy obnoví konstantní drift INS z…
+
+# data/search.json
+dat-c79931a093e0 = Sekvenční (rekurzivní) navigace bez GPS podle terénu: částicový filtr provádí porovnání s terénem…
+
+# data/search.json
+dat-fd36d4cd58c4 = Navigace bez GPS podle terénu (TERCOM/SITAN): radarový/barometrický výškoměr porovnává převýšení terénu…
+
+# data/verification-matrix.json
+dat-3a18e1b86eec = fusion::trajectory::tests (koordinovaná zatáčka nemá boční sílu a zatěžovací součinitel 1/cos φ; import CSV reprodukuje létaný profil do { "1e-3" } m/s a { "1" } m); tests/gnss_ins_trajectory_library.rs (každý profil běží a fúze překonává volné INS během výpadku; každý létá svůj pojmenovaný pohyb; pozorovatelnost kurzu: sigma vybočení po { "240" } s { "1.27" } stupňů při přímém letu oproti { "0.039" } stupňů u trajektorie ve tvaru 8 a { "0.062" } stupňů u stop-and-go); tests/gnss_ins_legacy_trajectory_pin.rs (starší výsledek a hashe pravdy bitově shodné)
+
+# data/search.json
+dat-c5e5f5f38caf = Galileo, střední oběžná dráha Země — GREEN (práh < { "5" } m)

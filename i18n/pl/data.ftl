@@ -5255,3 +5255,234 @@ dat-c8b4f7775e29 = Porkchop na efemerydzie DE440
 
 # studio/data/capabilities.json
 dat-bf639db12a78 = Błąd położenia w funkcji czasu dryfu z bilansu błędów IMU — obciążenie, błądzenie losowe i współczynnik skali, każde z własnym prawem narastania i własnym udziałem w przecięciu — tak że koszt przerwy w nawigacji jest obliczoną krzywą, a nie przeglądaną szybkością dryfu. Przecięcia progów są wynikiem silnika z dominującym wkładem nazwanym przy każdym z nich, dla czterech klas IMU, a interwał ustaleń terenowych jest oceniany we własnym bloku, tak że główne przecięcia pozostają bez wspomagania.
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-a0ea0d9f186d = Błąd położenia z geometrii: błąd RMS = sigma_UERE x DOP dla ustalenia pozycji silnika metodą najmniejszych kwadratów
+
+# studio/data/areas.json
+dat-b20f0e709a27 = Błąd położenia w trakcie przebiegu
+
+# studio/data/areas.json
+dat-d44c8cf52f42 = Niepewność położenia: same przekaźniki i z łączem z Ziemią
+
+# data/verification-matrix.json
+dat-806ff61e91b7 = Bilans błędu położenia w funkcji czasu dryfu zbudowany ze współczynników IMU, każde źródło błędu (obciążenie akcelerometru, obciążenie żyroskopu, błądzenie losowe prędkości, błądzenie losowe kąta, współczynnik skali w przelocie i pod ciągłą siłą właściwą) propagowane przez dziewięciostanowy lokalnie poziomy model błędu INS ze sprzężeniem zwrotnym Schulera (inertial::coast::ErrorDynamics według Grovesa, wyd. 2, rozdz. { "14" }: błędy orientacji, prędkości i położenia, kanał pionowy z jego gradientem grawitacji, promienie WGS-84 i grawitacja normalna, platforma pozioma skierowana na północ przy skonfigurowanej prędkości, latitude_deg i height_m; człony systematyczne przez rozszerzoną macierz wykładniczą, błądzenia losowe metodą Van Loana), jednomiany płaskiej Ziemi zachowane tylko jako leading_order_m; wkłady łączone według podanej reguły (rss / suma liniowa / suma deterministyczna z stochastycznym rss); czasy dryfu osiągające dostarczone przez wywołującego progi położenia (domyślnie { "10" } m i { "50" } m) wyznaczane przeglądem w przód do pierwszego przecięcia (first_crossing_s, ponieważ krzywe ograniczone przez Schulera nie są monotoniczne), z dominującym źródłem przy każdym przecięciu; oraz tryb ograniczony przez TRN podający największy interwał ustaleń terenowych, który utrzymuje każdy próg. Można uruchomić jako rodzaj scenariusza `ins-trn-coast`
+
+# data/search.json, js/missions-runs.mjs
+dat-809e44d92ec1 = Pozycjonowanie lądownika na Europie: przypadek księżyca Jowisza.
+
+# data/search.json, js/missions-runs.mjs
+dat-18bd7fc703ae = Pozycjonowanie niskiego orbitera Marsa z konstelacją nawigacyjną Marsa i łączem w głębokiej przestrzeni.
+
+# data/verification-matrix.json
+dat-136e83d4d611 = Pozycjonowanie wokół dowolnego ciała Układu Słonecznego z lokalną konstelacją i łączem w głębokiej przestrzeni z Ziemi
+
+# data/search.json
+dat-1d5f3fdd80fd = Pozycjonowanie wokół dowolnego ciała Układu Słonecznego: orbiter lub lądownik powierzchniowy wokół ciała centralnego wybranego przez…
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-ce1a22bf45c6 = Pozycjonowanie wokół Europy — użytkownik na powierzchni, { "12" } przekaźników na { "4500" } km, { "171" } epok
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-aa51756e00a3 = Pozycjonowanie wokół Marsa — użytkownik orbitera, { "12" } przekaźników na { "10000" } km, { "296" } epok
+
+# data/search.json, js/missions-runs.mjs
+dat-b8907f80ce6a = Pozycjonowanie z łącza w dół sieci niestacjonarnej (NTN) 5G w paśmie S satelitarnej służby mobilnej.
+
+# data/search.json
+dat-59461767baa9 = Pozycjonowanie z łącza w dół sieci niestacjonarnej (NTN) 5G w paśmie S satelitarnej służby mobilnej (MSS)…
+
+# data/search.json, js/missions-runs.mjs
+dat-9e5d955af2da = Pozycjonowanie wyłącznie z Dopplera LEO, na ogólnej konstelacji nawigacyjnej LEO.
+
+# data/verification-matrix.json
+dat-c4520dfd7adc = Pozycjonowanie z Dopplera LEO, z jednym i wieloma satelitami, ze stanami dryfu zegara i prędkości
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-404abc2a578b = Położenia Księżyca i siedmiu głównych księżyców (Fobos, Deimos, księżyce galileuszowe, Tytan)
+
+# data/verification-matrix.json
+dat-cb6ccd51a48a = Położenia Urana i Neptuna z tabeli { "1" } Standisha (domyślnej w latach { "1800" } n.e. do { "2050" } n.e.), Plutona z wiersza tabeli { "1" } z { "1992" }, którego obecna strona JPL już nie wymienia, oraz heliocentryczna prędkość każdej planety: pochodna dwóch ciał ze średnim ruchem wynikającym z elementów plus obrót elipsy wynikający z szybkości zmian peryhelium, nachylenia i węzła
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-b67b5596d7c2 = Ponowne narastanie kowariancji po przekazaniu względem limitu alarmowego
+
+# studio/data/areas.json
+dat-919a3c3767b3 = Widmowa gęstość mocy każdego sygnału
+
+# data/verification-matrix.json
+dat-73d28d4083da = Odtworzenie potęgowe (white-FM + dolna granica szumu czerwonego) metodą NNLS z opublikowanego zmierzonego odchylenia Allana przejścia zegara optycznego ⁸⁸Sr — odtwarzające σ_y(τ) i nagłówkowe skalowanie 4.7e-16/√τ dla krótkich τ z rzeczywistą zmierzoną dolną granicą dla długich τ, zamiast syntezowanej dolnej granicy klasy optycznej, którą holdover.rs zakłada w przeciwnym razie
+
+# data/verification-matrix.json
+dat-60fc9ecbf369 = Identyfikacja szumu potęgowego przez autokorelację z opóźnieniem 1
+
+# data/verification-matrix.json
+dat-d4168ce1d0ab = powerlaw::tests (każdy czysty typ szumu pokazuje swoje charakterystyczne nachylenie ADEV w skali log-log — white FM −½, flicker FM { "0" }, random-walk FM +½, white PM −{ "1" }; człon flicker-FM jest płaską dolną granicą równą √({ "2" } ln2·h_{ "{" }-1{ "}" }) w pięciu rzędach wielkości τ; dopasowanie rodziny FM odtwarza w obiegu znane h_{ "{" }-2{ "}" },h_{ "{" }-1{ "}" },h_0 z krzywej syntetycznej do <{ "1e-6" }; a dolna granica krzywej zdominowanej przez flicker jest tu odtwarzana, podczas gdy dopasowanie bazy dryfu (quantum_trade::qparams_from_adev_curve) jest błędne o >{ "10" }% przy długich τ — zamykając udokumentowaną lukę); tests/powerlaw_oadev_reference.rs (σ_y(τ) zgodne z postaciami zamkniętymi Noise.adev z allantools { "2024.06" } w całej drabinie τ dla wszystkich pięciu typów szumu, plus potwierdzenie poziomu h_a przez generator Kasdina z allantools→estymator oadev)
+
+# data/verification-matrix.json
+dat-88b5ed6693e7 = ppigrf { "2.1.0" } (K. M. Laundal, MIT) — czysto pythonowa implementacja referencyjna IGRF z IAGA-VMOD dostarczająca oficjalne współczynniki IGRF14.shc (14. generacja IAGA, Zenodo 10.5281/zenodo.14012302); niezależna baza kodu strony trzeciej obliczająca jednoznacznie określone pole IGRF-14, zgodna na globalnej siatce
+
+# js/missions-runs.mjs
+dat-be971626ac29 = Zbieżność PPP do { "0.10" } m w poziomie / { "0.10" } m w pionie, { "12" } przebiegów na przypadek, { "96" } satelitów GNSS
+
+# data/verification-matrix.json
+dat-2a1dcc58e0cd = Rozwiązanie czasu zegara odbiornika PPP względem końcowego zegara stacji IGS
+
+# data/verification-matrix.json
+dat-604f1e8f2ed9 = UTC sprzed 1972 (epoka dryfującej szybkości) na dwuczęściowej ścieżce czasu z datą juliańską
+
+# js/developers-data.mjs
+dat-a43fef67d285 = Kontrola wstępna scenariusza TOML Kshana: sprawdza, czy parsuje się jako TOML, i wykrywa jego rodzaj scenariusza, bez jego uruchamiania.
+
+# data/verification-matrix.json
+dat-345951b0c3a0 = Wstępnie zarejestrowane (003ef3eb) przed jakimkolwiek porównaniem; cztery niezależne implementacje, żadna na GPL, nic nie dołączone: ccsdspy { "2.0.1" } (BSD-3-Clause) dekoduje { "34" } pakiety napisane przez Kshana w { "5" } strumieniach (nagłówek główny, pole P, czas zgrubny i dokładny, pola CDS, dane pomocnicze, dane użytkownika, PEC), a obie segmentowane jednostki o długości 1000 oktetów są odtwarzane z jego danych użytkownika z { "0" } niezgodności, i oznacza strumienie z pominiętymi i zamienionymi pakietami, które Kshana odrzuca; CRC { "8" } komunikatów i { "57" } pól PEC równa się CPython binascii.crc_hqx i spacepackets-rs { "0.18.0" } (wartość kontrolna 0x29B1); { "66" } przypadków kodów czasu CUC i CDS równa się zapisowi i odczytowi spacepackets-rs { "0.18.0" } oktet po oktecie ({ "3" } przypadki CDS także spacepackets-py { "0.32.0" }); { "4" } pakiety PusTm ze spacepackets-py { "0.32.0" } są bajtowo identyczne z pakietami Kshana. Nieobjęte: kody czasu z epoką agencji ({ "7" } przypadków opiera się na testach jednostkowych), ramki transferowe TC i jakakolwiek warstwa łącza poniżej pakietu
+
+# data/verification-matrix.json
+dat-11a79c63eff7 = Wstępnie zarejestrowane (5590ab21): L_m względem Ashby'ego i Patli { "2024" } (AJ { "167" }:{ "149" }) równ. ({ "10" }), { "3.13881" }({ "15" })e-11, z GM z artykułu, a_m, omega_m i J2 dwóch pól stopnia 350 cytowanych w artykule (Bertone et al. { "2021" }, AIUB-GRL350A/B), w granicach { "1e-4" }; wpis radialny względem grawitacji równikowej tych samych pól z pyshtools { "4.14.1" } (BSD-3) w granicach { "1e-4" } (zmierzono { "8.3e-5" } i { "6.7e-5" }, wąski margines); wpis prędkości względem prędkości księżycowej JPL Horizons DE441 w granicach { "4.5e-3" }. Postać zamknięta stopnia 2 opublikowanej wartości stopnia 350 (reszta stopnia 3-350; wartość referencyjna, nie P1). Ujawniono: wynik wpisu 1 był znany przed wstępną rejestracją, a dostarczany domyślny promień { "1738.14" } km jest definicją powierzchni z artykułu, przyjętą po rundzie { "1" }. Wkłady pływowe i pasmo porównania pozostają modelowanymi wartościami powierzchni referencyjnej
+
+# data/verification-matrix.json
+dat-0b53b0a1878a = Wstępnie zarejestrowane (7aa264b, 110fef9) względem precyzyjnej orbity IGS MGEX z GEO; żaden taki produkt nie był osiągalny z sesji, która to zbudowała, więc porównanie jest w toku, a wiersz jest MODELLED (sprawdzone tylko względem opublikowanych nominalnych slotów GEO)
+
+# data/verification-matrix.json
+dat-4fd839f32bce = Wstępnie zarejestrowane w tests/fixtures/clock_log/PREREGISTRATION.md (zatwierdzone osobno, 159334f2, zanim istniały dane testowe); zapisane w RESULTS.md. Trzy syntetyczne dzienniki z ustalonym ziarnem, po jednym na format (luka TICC trzech epok, drugi zegar RINEX do zignorowania), odczytane z powrotem przez niezależny czytnik napisany z docs/CLOCK-LOG-FORMATS.md przez tego samego autora: liczby siatki, luk i wypełnień równe, a największa różnica fazy { "0" } s (próg { "1e-13" } s). oadev, tdev i mtie z allantools { "2024.6" } na tej fazie zgadzają się w granicach względnych { "2.5e-14" } (próg { "1e-10" }) przy każdym współczynniku uśredniania, który oblicza; nie oblicza MTIE na całym zapisie, które silnik raportuje, więc ten jeden punkt na dziennik nie ma wartości wyroczni, a próg w brzmieniu zapisanym nie jest tam spełniony. MODELLED: dzienniki syntetyczne, a wyrocznia czytnika dzieli autora; rzeczywiste pliki zegarów TimeLab, TICC i RINEX z przyrządów nie były porównywane
+
+# data/search.json
+dat-6a9218b977f6 = Wstępnie zarejestrowana predykcja
+
+# data/search.json
+dat-ae9e07cfab04 = Wstępnie zarejestrowane predykcje
+
+# studio/channels.json
+dat-4722edd091e5 = Gotowy plik binarny
+
+# data/search.json
+dat-f2d7f7f04e60 = Zbieżność precyzyjnego pozycjonowania punktowego (PPP) tylko z GNSS i ze wzmocnieniem LEO: zmiennoprzecinkowy rozszerzony…
+
+# data/search.json, js/missions-runs.mjs
+dat-5836fd12bf6a = Zbieżność precyzyjnego pozycjonowania punktowego (PPP) ze wzmocnieniem LEO.
+
+# data/verification-matrix.json
+dat-df6c3fb107b3 = Zbieżność precyzyjnego pozycjonowania punktowego tylko z GNSS i ze wzmocnieniem LEO
+
+# data/verification-matrix.json
+dat-dfb8b0c9252c = Przewidywany Doppler z końcowych orbit ESA/ESOC i jądra miejsca lądowania NAIF CLPS Firefly (xval/lugre-predicted-doppler/predict_surface.py, niezależnego od Kshana), wstępnie zarejestrowany 2108e6ff na partiach nigdy wcześniej nieotwieranych. USTALENIE: niepustość zawodzi; żadna partia nie zawiera dwóch akwizycji. OP40 wykluczona (metadane nazywają brakujący plik); OP38, OP73, OP77_0, OP77_1 nie akwirują niczego i nie pokazują fałszywego alarmu przy { "1e-7" } (najwyższe statystyki od { "325" } do { "356" } wobec { "385.9" }); OP74 i OP76 akwirują PRN { "31" }, a OP78_0 i OP78_1 PRN { "12" }, każde samotnie, wszystkie przewidywane jako widoczne. Pozostaje MODELLED. Ujawnione odchylenia: zarejestrowany próg Dopplera { "10" } Hz opiera się na syntetycznej symulacji Monte Carlo koherentnego udoskonalania, a nie na rozrzucie partii już widzianych, o który prosił integrator; OP40 wykluczono przed przebiegiem, ponieważ jej metadane nazywają plik próbek, którego zbiór danych nie dostarcza
+
+# data/verification-matrix.json
+dat-14c95ce081ce = Przewidywany Doppler z końcowych orbit ESA/ESOC i zrekonstruowanej trajektorii NAIF CLPS (xval/lugre-predicted-doppler/predict.py, niezależnego od Kshana), wstępnie zarejestrowany 0d1839d2. USTALENIE: wszystkie { "288" } przeszukań przekraczają próg na szumie (statystyki mocy próbek około { "430" } do { "520" } wobec { "346.3" }), więc P1 zachodzi trywialnie, a P3 zachodzi ({ "274" } z { "288" } przewidywanych jako widoczne), podczas gdy P2 zawodzi dla { "4033" } z { "4036" } par. Pasmowo ograniczony tor wejściowy podnosi szum każdej komórki około { "1.46" } razy (przypięte: dolna granica szumu { "292" } wobec białego szumu { "200" } dla OP2 PRN { "1" }), czego statystyka mocy próbek nie widzi. Pozostaje MODELLED
+
+# data/verification-matrix.json
+dat-d4312f65247c = Przewidywany Doppler z końcowych orbit ESA/ESOC i zrekonstruowanej trajektorii NAIF CLPS (xval/lugre-predicted-doppler/predict.py, niezależnego od Kshana), wstępnie zarejestrowany a81a9a4e. USTALENIE: P1 i P3 zachodzą ({ "4" } partie, { "12" } z { "12" } akwizycji przewidzianych jako widoczne), ale P2 zawodzi dla { "8" } z { "8" } par. Dwie najsilniejsze pary zgadzają się z predykcją co do wielkości, z odwróconym znakiem (OP2 PRN 18/24: +{ "7670.0" } Hz zmierzone, -7693.9 przewidziane; OP17 PRN 11/30: +{ "11155.0" }, -11114.4), więc zarejestrowana kolejność I w niskim półbajcie jest sprzężeniem partii; sześć detekcji tuż powyżej progu nie pasuje do żadnego znaku. Rozrzut Dopplera po udoskonalaniu (od { "30" } do { "50" } Hz między dwoma przebiegami) został także niedoszacowany przez rejestrację. Pozostaje MODELLED
+
+# data/verification-matrix.json
+dat-04672c8be25b = Preference Ranking Organization METHod — indeks preferencji parami z sześcioma standardowymi uogólnionymi kształtami kryterium, dodatnimi/ujemnymi przepływami przewyższania i pełnym rankingiem według przepływu netto (zwykłe kryterium zwalidowane)
+
+# studio/data/capabilities.json
+dat-9998cfe99eed = nagłówek główny względem CCSDS 133.0-B-2 + wektory spacepackets-py
+
+# data/search.json
+dat-267e34d56bd1 = Drukowanie do PDF
+
+# data/search.json
+dat-05be9e156194 = Metryki Prometheus
+
+# studio/data/capabilities.json
+dat-0d92ffaa3898 = Prometheus, OTLP i CEF odczytane z powrotem przez niezależne parsery
+
+# data/verification-matrix.json
+dat-4d4bf21c0d5e = Kontrola właściwości, że enum Verdict strukturalnie nie może zgłosić niewykrywalnego błędu jako wykrytego (Mizrahi RFC { "7384" }); pochłonięte ⟺ PL ≥ offset. Bez wyroczni dokładności.
+
+# data/verification-matrix.json
+dat-4a828999c448 = Testy właściwości (monotoniczność, brak spadku przy przekazaniu) + lint wykładników względem holdover::coast_phase_variance
+
+# studio/data/areas.json
+dat-a78a42ac37f5 = Poziomy ochrony względem limitu alarmowego
+
+# data/search.json
+dat-f1a7b89110b6 = Pochodzenie — każdy parametr możliwy do wskazania w opublikowanym źródle
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-7cf3772fc50f = Podział wspólny/różnicowy dostawcy, ujednolicenie jednego niedoboru rzędu i nachylenie luki ochrony (T5 / §{ "0" } / g7)
+
+# data/search.json
+dat-d126121cb121 = Pseudoodległości i RAIM dla suwnicy kontenerowej na nabrzeżu kontenerowym, z komunikacją statek–ląd
+
+# assets/capabilities/capabilities.json
+dat-8c3ff64bb211 = Domena publiczna
+
+# data/search.json
+dat-82aba63b75fe = Źródła publiczne
+
+# data/verification-matrix.json
+dat-6d21fd4972ac = Opublikowane dokumenty agencji: Galileo Open Service Service Definition Document wydanie { "1.1" } (European GNSS Service Centre) tabele { "1" } i { "23" }, konstelacja referencyjna na 2016-11-21 { "00" }:{ "00" } UTC; Interface Control Document GLONASS wydanie { "5.1" } ({ "2008" }) sekcja { "5.2" }, wzór na sloty dla długości węzła i argumentu szerokości; GPS Standard Positioning Service Performance Standard wyd. 5 (kwiecień { "2020" }) tabele 3.2-1, 3.2-2 i 3.2-3, w tym kolumna przecięcia równika śladu naziemnego, będąca niezależnym stwierdzeniem geometrii związanej z Ziemią, którą zestaw musi odtworzyć. Waliduje generatory i transkrypcję; faza orbity średniej BeiDou i węzły orbit nachylonych geosynchronicznych nie są opublikowane i nie są objęte
+
+# data/search.json
+dat-d8ae5bfb5fc8 = Opublikowane referencyjne wektory certyfikacyjne ARAIM: poziomy ochrony poziome i pionowe ARAIM silnika…
+
+# data/verification-matrix.json
+dat-5e0b83dd30cf = Opublikowane wektory liczbowe z głównego artykułu o CAI (funkcja przejścia Cheineta { "2008" }; czułość Petersa/Freiera): k_eff·T² zgodne dokładnie, ASD szumu śrutowego jako jednostronna dolna granica w granicach ~{ "2" }× od każdego opublikowanego przyrządu (rzeczywiste urządzenia niosą szum techniczny ponad dolną granicą kwantową). Przedział, a nie równość. { "0.30" }, runda { "2" } (wstępnie zarejestrowana fcb9ac64), ustalenie (pozostaje MODELLED): sam szum obrotu od QPN względem zmierzonych punktów Gauguet et al. { "2009" } rys. { "14" } daje stosunki od { "0.695" } do { "0.788" } w trzech dopuszczonych punktach ({ "0.751" } w punkcie pracy), chybiając wstępnie zarejestrowany próg { "30" } % o { "0.5" } punktu; dolna granica QPN leży o { "21" } do { "31" } % poniżej zmierzonego szumu, czego należy oczekiwać od modelu bez szumu lasera i detekcji. Złożenie gradiometru zgadza się z linią modelu QPN Janviera et al. { "2022" } (stosunek od { "1.013" } do { "1.017" }, wartość referencyjna). Zmierzony test nie potrafi odróżnić błędu składania sqrt({ "2" }); potrafi to tylko linia Janviera o nierównych kontrastach
+
+# data/verification-matrix.json
+dat-ae87b7d06bbf = Opublikowana tabela kontroli projektu telekomunikacji w głębokiej przestrzeni jako przypięte wektory liczbowe: DESCANSO / J. H. Yuen (red.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, tabela 1-1 (Galileo, pasmo X) — kshana składa pozycje tabeli ponownie i odtwarza jej opublikowane L_fs od początku do końca { "290.54" } dB oraz Pr/N0 { "54.6" } dB-Hz; strata w wolnej przestrzeni sprawdzona także względem ITU-R P.525
+
+# data/search.json
+dat-d4b33cf81a76 = Opublikowane wartości i etykiety
+
+# data/verification-matrix.json
+dat-a995647433a7 = Opublikowane wartości odtworzone z podanej orbity i nośnej: Doppler Iridium do plus minus { "36" } kHz (Resilient Navigation and Timing Foundation, Recent PNT improvements and test results based on LEO satellites) oraz maksymalny Doppler Xona Pulsar X1 od { "32" } do { "34" } kHz (Leclère, Marathe i Reid, ION GNSS+ { "2025" }, arXiv:{ "2509.19551" }). Wartość dla Iridium jest zaokrągloną górną granicą, stąd próg { "5" }%. Szybkość zmian Dopplera i jerk są raportowane, ale niezwalidowane: modelowany jerk przejścia nad głową dla Pulsar X1 wynosi około { "1.0" } Hz/s^{ "2" } wobec opublikowanych { "1.26" }
+
+# data/verification-matrix.json
+dat-52dc8d685c35 = Opublikowane wartości: maksymalny Doppler Xona Pulsar X1 od { "32" } do { "34" } kHz (Leclère, Marathe & Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551); Doppler Iridium do +/-36 kHz (Resilient Navigation and Timing Foundation, Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites). Obrót Ziemi jest pominięty, co przesuwa wartość o nawet około { "2.3" } kHz; obie opublikowane wartości są spełnione bez niego.
+
+# data/verification-matrix.json
+dat-5b09dd467401 = Opublikowana korelacja wzajemna kodów Golda GPS C/A (−{ "23.9" } dB); granica Golda { "1967" }
+
+# data/verification-matrix.json
+dat-1efc60f84c1e = Opublikowane dokumenty kontroli interfejsu i postacie zamknięte, przy progach wstępnie zarejestrowanych w 5806f28b (docs/design/evidence/spectrum-bands/): GLONASS ICD Edition { "5.1" }, BDS-SIS-ICD B1I { "3.0" }, B1C { "1.0" }, B2a { "1.0" } i B3I { "1.0" }, Galileo OS SIS ICD Issue { "2.1" }. MET: każda nośna, szybkość chipów i moc odbierana zgodnie z transkrypcją ({ "28" } kanałów GLONASS), pierwsze zera BPSK przy szybkości chipów, złożenie B1C równe MBOC(6,1,1/11), jak podaje tabela mocy jego ICD, tożsamość ścieżki C/N0 oraz bajtowo identyczne scenariusze widma. NOT MET: próg jednostkowego pola, który był nieosiągalny w brzmieniu zapisanym (ustalenie F1; pola równają się ułamkowi w paśmie w postaci zamkniętej), oraz zgodność w każdym przedziale widma przebiegów B1I i B1C warstwy IQ z obwiednią modelu ({ "1.26" } i { "1.56" } dB wobec { "0.5" } dB, ustalenie F2; GLONASS { "0.07" } dB), ponieważ kody Golda i Weila mają nierówne widma prążkowe; uśrednione po pasmie listki główne zgadzają się w granicach { "0.25" } dB. CZEGO NIE SPRAWDZONO: zapisanego IQ, innych sygnałów, zakłóceń wewnątrz systemu.
+
+# data/verification-matrix.json
+dat-daba08263f50 = Opublikowana współrzędna ITRF2020 stacji WTZR (IGN ITRF2020_GNSS.SSC, rozwiązanie { "3" }, propagowana z jej prędkością) — progi wstępnie zarejestrowane w tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_PPP.md przed napisaniem filtru; rozwój wyłącznie na stacji współlokowanej WTZZ. Niemodelowane: obciążenie oceanami, PCV satelity, rozwiązywanie niejednoznaczności całkowitoliczbowych
+
+# data/verification-matrix.json
+dat-2b429a64a17b = Opublikowane współrzędne ITRF2020 stacji WTZR i WTZZ (IGN ITRF2020_GNSS.SSC, rozwiązanie { "3" }, z wysokościami anten z RINEX) dające referencyjną linię bazową; progi wstępnie zarejestrowane w tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_RTK.md przed napisaniem kodu. Tylko krótka linia bazowa: nie modeluje się podwójnych różnic jonosferycznych ani troposferycznych
+
+# data/search.json
+dat-4719a5898fbd = Opublikowane ścieżki
+
+# data/verification-matrix.json
+dat-16b7158fd5b9 = Opublikowane ARL tabelarycznego CUSUM: przybliżenie ruchu Browna Siegmunda ({ "1985" }) (Hawkins i Olwell { "1998" }, równ. { "3.7" }) zakotwiczone krzyżowo w tabelach ARL z Montgomery, Introduction to Statistical Quality Control (Wiley) dla k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministyczne opóźnienie dopasowane dokładnie do wyroczni pierwszego przejścia. Złożona granica TPL pozostaje MODELLED
+
+# data/verification-matrix.json
+dat-b00d77e3f6c6 = Opublikowane wartości podręcznikowe: listek główny BPSK(n) o 2n x { "1.023" } MHz od zera do zera oraz współczynniki odporności na zagłuszanie Q = { "1" } dla zagłuszacza wąskopasmowego (CW) i Q = { "1.5" } dla zagłuszacza widma rozproszonego dopasowanego do C/A (Kaplan & Hegarty, Understanding GPS/GNSS, wyd. 3, sekcja { "9.4" }); listki główne BOC(m,n) wyśrodkowane na plus minus m x { "1.023" } MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION { "48" }({ "4" }), { "2001" }); współczynniki separacji widmowej -61.8, -64.8 i -67.8 dB/Hz dla C/A z C/A, BOC({ "1,1" }) z BOC({ "1,1" }) i C/A z BOC({ "1,1" }) (Betz { "2001" }; Hein et al., MBOC: The New Optimized Spreading Modulation Recommended for Galileo L1 OS and GPS L1C, Inside GNSS, maj/czerwiec { "2006" }), odtworzone tutaj z ich postaci zamkniętych autokorelacji Parsevala. Maksimum BOC({ "1,1" }) nie leży przy { "1.023" } MHz: listek rozciąga się od zera nośnej do { "2.046" } MHz i ma szczyt przy { "0.759" } MHz, a test przypina oba. Mieszanka MBOC jest definicją z ICD, sprawdzoną tylko pod kątem jednostkowego pola i liniowości
+
+# studio/data/capabilities.json
+dat-decd97c5aa58 = Zestawia geometrię satelitów z wskaźnikiem zaufania odbiornika i nazywa klasę przy każdym odjęciu punktów: utrata sygnału, słaba geometria lub niespójność między podanym przez odbiornik DOP a wyprowadzonym z widocznych satelitów. Geometria jest oceniana tylko wtedy, gdy jest znana, a etykieta jest nagłówkiem: punkty kosztuje tylko słaba geometria. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu.
+
+# data/search.json
+dat-fadb374a1890 = pvt (rodzaj scenariusza)
+
+# data/verification-matrix.json
+dat-5cb0828a1a18 = pyDecision algorithm.copras_method (Valdecy Pereira) — niezależna biblioteka MCDA strony trzeciej obliczająca tę samą jednoznacznie określoną względną istotność/użyteczność COPRAS. pyDecision jest używana celowo: COPRAS z pymcdm { "1.4.0" } zapada się algebraicznie do trywialnego S⁺+S⁻ i nie jest wiernym wzorcem, podczas gdy pyDecision implementuje kanoniczne Q = S⁺+(min(S⁻)·ΣS⁻)/(S⁻·Σ(min(S⁻)/S⁻)). Zgodne do <{ "1e-9" }; możliwe do ponownego wygenerowania offline przez tests/fixtures/mcda_copras/generate_copras_reference.py
+
+# data/verification-matrix.json
+dat-8b84b3d81a7c = pyDecision algorithm.electre_i (Valdecy Pereira) — niezależna biblioteka wielokryterialnej decyzji strony trzeciej obliczająca te same jednoznacznie określone zgodność/niezgodność/dominację/jądro; zgodne element po elemencie do <{ "1e-9" }. Możliwe do ponownego wygenerowania offline przez tests/fixtures/mcda_electre/generate_electre_reference.py. Wybory progów ĉ/d̂ są danymi wejściowymi analityka (wrażliwość pozostaje MODELLED)
+
+# data/verification-matrix.json
+dat-386b4c83cc6d = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; algorytmy SOFA wydane przez projekt ERFA), niezależna biblioteka: erfa.dtf2d("UTC"), erfa.utctai i erfa.taiutc na zatwierdzonych chwilach, różnica tworzona część po części na dwuczęściowych datach, próg { "1e-6" } s ustalony przed przebiegiem (wstępnie zarejestrowane e947e69d). Najgorsza różnica { "9.6e-12" } s (dtf2d) i { "1.9e-11" } s (utctai, taiutc). Każda doba UTC wzięta jako { "86 400" } s lub ułamek dnia przestępnego pozostawiony nieskalowany zamienia test na czerwony. UT1 przez TAI (iauUtcut1) jest sprawdzane przez człon ERFA w wierszu ścieżki orbity okołoziemskiej. Zakres: UTC od 1972-01-01; wcześniejsze UTC z dryfującą szybkością nie jest modelowane
+
+# data/verification-matrix.json
+dat-c90f1bf3a716 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; algorytmy SOFA wydane przez projekt ERFA), niezależna biblioteka: erfa.dtf2d("UTC"), erfa.utctai i erfa.taiutc na zatwierdzonych chwilach, różnica tworzona część po części. Wstępnie zarejestrowane 23c40661 (chwile, tolerancja i suma kontrolna { "1972" }+) przed zmianą silnika i przed uruchomieniem wyroczni. Tabela dryfu jest przepisana z tej samej tabeli SOFA iauDat, której używa wyrocznia, więc porównanie obejmuje arytmetykę konwersji (długość doby, skalowanie UTC do SI, iteracja), a nie samą tabelę historyczną
+
+# data/verification-matrix.json
+dat-5d51123c331d = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; algorytmy SOFA wydane przez projekt ERFA), niezależna biblioteka: gmst82 i c2t06a na zatwierdzonych dwuczęściowych datach, ruch bieguna { "0.1" } i { "0.3" } sekundy łuku. Wstępnie zarejestrowane b10475ee (daty, progi) przed napisaniem funkcji i przed uruchomieniem wyroczni. Testy wewnętrzne (opcja scenariusza, obieg TEME/ITRF, konwersje typów) są pomocniczą samospójnością
+
+# data/verification-matrix.json
+dat-1bec7a23a790 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; algorytmy SOFA wydane przez projekt ERFA), niezależna biblioteka: pmat06; numat(obl06, nut00b) z równaniem równonocy z eect00 (pełny szereg komplementarny), złożone jako P^T N^T Rz(-EE); xys06a, następnie c2ixys(X + dX, Y + dY, s). Wstępnie zarejestrowane 979c1e39 (epoki, przesunięcia i progi) przed uruchomieniem wyroczni. Residuum TEME { "1.1e-10" } rad jest przewidywanym skutkiem pozostawienia dwóch członów komplementarnych (około { "3" } mm na orbicie GNSS)
+
+# data/verification-matrix.json
+dat-70d0798f00dc = pykep { "3.0.1" } lambert_problem (ESA, rdzeń C++ kep3, MPL-2.0), niezależna biblioteka, uruchamiana jako osobny program przez scripts/gen_lambert_multirev_ref.py; zatwierdzone jest tylko jej wyjście numeryczne. Wstępnie zarejestrowane a75de851 (zestaw przypadków, progi, reguła wyniku) przed jakimkolwiek porównaniem; wzorzec wygenerowano ponownie niezależnie i jest bajtowo identyczny. Wyniki: docs/design/evidence/lambert-multirev/RESULTS.md
+
+# data/verification-matrix.json
+dat-4e049babceca = pymcdm (methods.WASPAS + normalizations.linear_normalization, l={ "0.5" }; methods.MOORA system ilorazowy, normalizacja wektorowa) — niezależna, szeroko używana biblioteka MCDA w Pythonie strony trzeciej obliczająca te same jednoznacznie określone agregaty; zgodne do <{ "1e-9" }. Możliwe do ponownego wygenerowania offline przez tests/fixtures/mcda_waspas/ i tests/fixtures/mcda_moora/. Garbage-in-garbage-out dla danych wejściowych; warstwa wrażliwości/odporności pozostaje MODELLED
+
+# data/verification-matrix.json
+dat-4b656517ce47 = pymcdm (methods.WSM + normalizations.minmax_normalization; methods.WPM + normalizations.sum_normalization) — niezależna, szeroko używana biblioteka MCDA w Pythonie strony trzeciej obliczająca te same jednoznacznie określone ważone agregaty; zgodne do <{ "1e-9" }. Możliwe do ponownego wygenerowania offline przez tests/fixtures/mcda_wsm/ i tests/fixtures/mcda_wpm/. Garbage-in-garbage-out dla danych wejściowych; warstwa wrażliwości/odporności pozostaje MODELLED
