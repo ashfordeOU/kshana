@@ -1577,9 +1577,7 @@ pub fn files_from_json(v: &Value) -> Result<Files, String> {
                 crate::permalink::base64_decode(b)
                     .ok_or_else(|| crate::terr!("e-surface-base64-is-not-valid-standard", k = k))?
             } else {
-                return Err(format!(
-                    "{k}: give a string, {{\"utf8\": ...}} or {{\"base64\": ...}}"
-                ));
+                return Err(crate::terr!("e-surface-give-string-utf8-or-base64", k = k));
             };
             Ok((k.clone(), bytes))
         })

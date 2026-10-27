@@ -141,12 +141,12 @@ impl IqConfig {
         let joined = join(root, rel)?;
         let canon = joined
             .canonicalize()
-            .map_err(|e| bad(format!("input `{rel}`: {e}")))?;
+            .map_err(|e| bad(kshana::terr!("e-mcp-iq-input", rel = rel, e = e)))?;
         if !canon.starts_with(root) {
             return Err(outside(rel));
         }
         if !canon.is_file() {
-            return Err(bad(format!("input `{rel}` is not a file")));
+            return Err(bad(kshana::terr!("e-mcp-iq-input-is-not-file", rel = rel)));
         }
         Ok(canon)
     }
@@ -276,7 +276,10 @@ impl IqConfig {
             ))
         })?;
         if !canon.is_dir() {
-            return Err(bad(format!("[input] campaign `{rel}` is not a folder")));
+            return Err(bad(kshana::terr!(
+                "e-mcp-iq-input-campaign-is-not-folder",
+                rel = rel
+            )));
         }
         Ok(canon)
     }
@@ -289,7 +292,10 @@ impl IqConfig {
         if joined.exists() {
             let canon = self.contained(&joined)?;
             if !canon.is_dir() {
-                return Err(bad(format!("out_dir `{rel}` is not a folder")));
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-out-dir-is-not-folder",
+                    rel = rel
+                )));
             }
             return Ok(canon);
         }
@@ -300,7 +306,8 @@ impl IqConfig {
             .to_owned();
         let parent = self.contained(joined.parent().unwrap_or(root))?;
         let full = parent.join(name);
-        std::fs::create_dir(&full).map_err(|e| bad(format!("out_dir `{rel}`: {e}")))?;
+        std::fs::create_dir(&full)
+            .map_err(|e| bad(kshana::terr!("e-mcp-iq-out-dir", rel = rel, e = e)))?;
         Ok(full)
     }
 
@@ -375,7 +382,7 @@ fn join(root: &Path, rel: &str) -> Result<PathBuf, McpError> {
 fn run_cli(args: Vec<String>) -> Result<String, McpError> {
     execute(&args).map_err(|e| match e {
         CommandError::Usage(m) => bad(format!("iq {}: {m}", args[0])),
-        CommandError::Run(m) => bad(format!("iq {} failed: {m}", args[0])),
+        CommandError::Run(m) => bad(kshana::terr!("e-mcp-iq-iq-failed", args = args[0], m = m)),
     })
 }
 

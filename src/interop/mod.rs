@@ -341,7 +341,7 @@ fn export_sigmf(src: &str) -> Result<Vec<ExportFile>, ExportError> {
     let (meta, data) = scn
         .export_sigmf()
         .map_err(ExportError::Failed)?
-        .ok_or_else(|| ExportError::NotApplicable("no [iq] block".into()))?;
+        .ok_or_else(|| ExportError::NotApplicable(crate::terr!("e-interop-no-iq-block")))?;
     Ok(vec![
         ExportFile {
             suffix: ".sigmf-meta".into(),

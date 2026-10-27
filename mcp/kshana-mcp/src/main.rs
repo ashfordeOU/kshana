@@ -45,9 +45,9 @@ fn parse_http(args: &[String]) -> Result<Option<HttpConfig>> {
             | "--max-body-bytes"
             | "--request-timeout-secs"
             | "--max-concurrent" => {
-                let v = it
-                    .next()
-                    .ok_or_else(|| anyhow::anyhow!("{a} needs a value"))?;
+                let v = it.next().ok_or_else(|| {
+                    anyhow::anyhow!(kshana::terr!("e-mcp-main-needs-value", a = a))
+                })?;
                 if a == "--http" {
                     cfg = Some(HttpConfig::new(http::parse_addr(v)?));
                 } else {

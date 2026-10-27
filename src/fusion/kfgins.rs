@@ -361,7 +361,9 @@ impl KfGinsConfig {
                 None => Ok(None),
             }
         };
-        let req = |k: &str| -> Result<Vec3, String> { v3(k)?.ok_or(format!("`{k}` missing")) };
+        let req = |k: &str| -> Result<Vec3, String> {
+            v3(k)?.ok_or_else(|| crate::terr!("e-fusion-kfgins-missing", k = k))
+        };
         let gbstd = req("imunoise.gbstd")?;
         let abstd = req("imunoise.abstd")?;
         Ok(Self {
