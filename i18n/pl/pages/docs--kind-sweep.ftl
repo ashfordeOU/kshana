@@ -19,3 +19,5 @@ seg-e12f672ae71d = Utrzymanie zegara w holdover przy braku GNSS jest MODELLED, n
 seg-849c08d3ce70 = Strona rodziny: <a1>Zegary, synchronizacja czasu i holdover</a1>
 
 seg-ee7dd15019d0 = Strona tematu: <a1>CAMPAIGNS.md</a1>
+
+seg-0aae0574c5e6 = <b>MODELLED</b> Przeglądy dostępności rodzaju <c1/>: dla każdej konstelacji (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) i łącznie, odsetek par (użytkownik, epoka) z co najmniej jednym i z co najmniej czterema sygnałami oraz najdłuższa przerwa, dla użytkownika na sferze

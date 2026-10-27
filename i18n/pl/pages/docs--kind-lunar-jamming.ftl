@@ -11,3 +11,11 @@ seg-1c1eeb2dcaa0 = Strona rodziny: <a1>Przestrzeń księżycowa i cislunarna</a1
 seg-a3697ad561db = Hz
 
 seg-9521a296d617 = dBi
+
+seg-f85a85f0c7e4 = MHz
+
+seg-7154243aabbe = broadband
+
+seg-cec5c06d38af = <b>MODELLED</b> Księżycowy stosunek zagłuszania do sygnału, efektywne C/N₀ i utrata uchwycenia dla użytkownika na powierzchni selenograficznej pod księżycowym (lub podniesionym) zagłuszaczem, na ilustracyjnej konstelacji klasy Moonlight/LCNS opartej na źródłach publicznych.
+
+seg-edcd55ccc993 = <b>MODELLED</b> Raport <c1/> nie opiera już swojego konturu odmowy na jednej wielkości skalarnej.

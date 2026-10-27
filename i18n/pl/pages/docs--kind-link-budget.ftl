@@ -15,3 +15,5 @@ seg-8f1e7d3f5a07 = Strona rodziny: <a1>Analiza misji, łącza i operacje kosmicz
 seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: wiersze <a1>macierzy weryfikacji</a1>, które wymieniają ten rodzaj.
 
 seg-a3697ad561db = Hz
+
+seg-cec5c06d38af = <b>MODELLED</b> Księżycowy stosunek zagłuszania do sygnału, efektywne C/N₀ i utrata uchwycenia dla użytkownika na powierzchni selenograficznej pod księżycowym (lub podniesionym) zagłuszaczem, na ilustracyjnej konstelacji klasy Moonlight/LCNS opartej na źródłach publicznych.

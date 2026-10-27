@@ -11,3 +11,5 @@ seg-35f8f623ea28 = { "30" } s
 seg-f63dd3d7aad4 = Źródło
 
 seg-e305279d5b11 = Zawartość
+
+seg-4d208b6c0eb8 = doba
