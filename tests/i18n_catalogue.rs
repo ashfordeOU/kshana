@@ -241,7 +241,11 @@ fn the_pseudo_locale_renders_every_message_and_keeps_the_arguments() {
 /// Every `t!("id", a = ..)` / `terr!(..)` in non-test source: (file, id, variable names).
 fn calls() -> Vec<(String, String, BTreeSet<String>)> {
     fn walk(dir: &Path, out: &mut Vec<PathBuf>) {
-        for e in std::fs::read_dir(dir).unwrap().flatten() {
+        // the MCP crate is not in every source tree (the published package leaves it out)
+        let Ok(entries) = std::fs::read_dir(dir) else {
+            return;
+        };
+        for e in entries.flatten() {
             let p = e.path();
             if p.is_dir() {
                 walk(&p, out);
@@ -252,6 +256,8 @@ fn calls() -> Vec<(String, String, BTreeSet<String>)> {
     }
     let mut files = Vec::new();
     walk(&root().join("src"), &mut files);
+    // the MCP server crate writes its errors with `kshana::terr!` too
+    walk(&root().join("mcp/kshana-mcp/src"), &mut files);
     // the module that defines the macros quotes them in its documentation
     files.retain(|f| !f.starts_with(root().join("src/i18n")));
     files.sort();
@@ -359,7 +365,11 @@ fn every_call_names_a_message_and_passes_its_variables() {
 #[test]
 fn every_english_message_is_used() {
     fn walk(dir: &Path, out: &mut Vec<PathBuf>) {
-        for e in std::fs::read_dir(dir).unwrap().flatten() {
+        // the MCP crate is not in every source tree (the published package leaves it out)
+        let Ok(entries) = std::fs::read_dir(dir) else {
+            return;
+        };
+        for e in entries.flatten() {
             let p = e.path();
             if p.is_dir() {
                 walk(&p, out);
@@ -370,6 +380,7 @@ fn every_english_message_is_used() {
     }
     let mut files = Vec::new();
     walk(&root().join("src"), &mut files);
+    walk(&root().join("mcp/kshana-mcp/src"), &mut files);
     files.retain(|f| !f.starts_with(root().join("src/i18n")));
     let text: String = files
         .iter()

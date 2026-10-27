@@ -9999,3 +9999,167 @@ engine-e-interop-time-hour-above-23-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: 
 engine-e-interop-time-minute-above-59-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: minute above 59: { $text }
 
 engine-e-interop-time-seconds-outside-60-utc = not a UTC time `YYYY-MM-DDTHH:MM:SS`: seconds outside [0, 60): { $text }
+
+## mcp/kshana-mcp/src/budget.rs
+
+engine-e-mcp-budget-work-budget-exceeded-for-call = work budget exceeded for a call through the MCP server: { $errors }. Run large studies with the `kshana` command line.
+
+## mcp/kshana-mcp/src/iq.rs
+
+engine-e-mcp-iq-the-iq-sample-budget-must = the IQ sample budget must be at least 1
+
+engine-e-mcp-iq-an-empty-path-was-given = an empty path was given
+
+engine-e-mcp-iq-rate-hz-must-be-positive = rate_hz must be a positive number
+
+engine-e-mcp-iq-duration-must-be-positive-number = duration_s must be a positive number
+
+engine-e-mcp-iq-broadcast-mode-nav-needs-rx = broadcast mode (nav) needs rx_pos [lat, lon, alt]
+
+engine-e-mcp-iq-scene-needs-signal-or-nav = a scene needs `signal` (or `nav` for broadcast mode)
+
+engine-e-mcp-iq-scene-needs-at-least-one = a scene needs at least one PRN in `prns`
+
+engine-e-mcp-iq-surface-out-exports-one-surface = surface_out exports one surface: give exactly one PRN
+
+engine-e-mcp-iq-surface-out-must-end-in = surface_out must end in .csv, .json or .bin
+
+engine-e-mcp-iq-max-seconds-must-be-positive = max_seconds must be a positive number
+
+engine-e-mcp-iq-epochs-out-must-end-in = epochs_out must end in .csv, .jsonl or .bin (the format follows the suffix)
+
+engine-e-mcp-iq-out-must-differ-from-input = out must differ from input
+
+engine-e-mcp-iq-pll-bws-hz-dll-bws = pll_bws_hz, dll_bws_hz, spacings_chips and coherents cannot be combined with design: the sweep runs every design in the file
+
+engine-e-mcp-iq-signal-and-prns-go-together = signal and prns go together
+
+engine-e-mcp-iq-iq-work-directory = IQ work directory { $dir }: { $e }
+
+engine-e-mcp-iq-iq-work-directory-is-not = IQ work directory { $dir } is not a directory
+
+engine-e-mcp-iq-iq-file-tools-are-off = IQ file tools are off: { $reason }
+
+engine-e-mcp-iq-output-does-not-name-file = output `{ $rel }` does not name a file
+
+engine-e-mcp-iq-output-its-folder = output `{ $rel }`: its folder: { $e }
+
+engine-e-mcp-iq-output-is-symlink-refusing-to = output `{ $shown }` is a symlink; refusing to write
+
+engine-e-mcp-iq-output-already-exists-pass-overwrite = output `{ $shown }` already exists; pass overwrite: true to replace it
+
+engine-e-mcp-iq-output-exists-and-is-not = output `{ $shown }` exists and is not a file
+
+engine-e-mcp-iq-its-data-file-lies-outside = { $path }: its data file lies outside the IQ work directory
+
+engine-e-mcp-iq-lies-outside-the-iq-work = { $path } lies outside the IQ work directory
+
+engine-e-mcp-iq-input-campaign-the-campaign-folder = { "[" }input] campaign `{ $rel }`: { $message }; the campaign folder must be an existing folder inside the IQ work directory
+
+engine-e-mcp-iq-out-dir-does-not-name = out_dir `{ $rel }` does not name a folder
+
+engine-e-mcp-iq-is-samples-and-one-call = { $what } is { $samples } samples and one call may process at most { $max_samples } ({ $env }); { $remedy }
+
+engine-e-mcp-iq-threads-must-be-to = threads must be 1 to { $max_threads }
+
+engine-e-mcp-iq-truth-format-must-be-csv = truth_format must be csv or jsonl (got { $other })
+
+engine-e-mcp-iq-surface-out-would-hold-about = surface_out would hold about { $cells } cells (Doppler bins × samples per code period; limit { $max_cells }, about { $mb } MB as binary): widen doppler_step_hz or narrow doppler_max_hz
+
+engine-e-mcp-iq-no-campaign-here = { $out_dir }: no campaign here ({ $e })
+
+engine-e-mcp-iq-design-prn-channels-at-most = { $n_channels } (design, PRN) channels; at most 256 per sweep
+
+engine-e-mcp-iq-test-conditions-invalid = test conditions invalid: { $e }
+
+engine-e-mcp-iq-labfit-failed = labfit failed: { $e }
+
+## mcp/kshana-mcp/src/marine.rs
+
+engine-e-mcp-marine-give-exactly-one-of-log = give exactly one of `log` and `log_base64`
+
+engine-e-mcp-marine-at-most-366-maps-per = at most 366 maps per call
+
+engine-e-mcp-marine-mode-symbols-needs-symbols = mode `symbols` needs `symbols`
+
+engine-e-mcp-marine-vessel-stream-assessment-failed = vessel stream assessment failed: { $e }
+
+engine-e-mcp-marine-jammertest-import-failed = jammertest import failed: { $e }
+
+engine-e-mcp-marine-jammertest-score-failed = jammertest score failed: { $e }
+
+engine-e-mcp-marine-vessel-log-assessment-failed = vessel log assessment failed: { $e }
+
+engine-e-mcp-marine-training-scenario-failed = training scenario failed: { $e }
+
+engine-e-mcp-marine-evidence-pack-failed = evidence pack failed: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over = the pack is { $size } bytes, over the { $max_bytes }-byte reply limit; narrow the window or use `kshana receiver-trust evidence` on the command line
+
+engine-e-mcp-marine-round-trip-pack-failed = round-trip pack failed: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-2 = the pack is { $size } bytes, over the { $max_bytes }-byte reply limit; narrow the window or use `kshana evidence round-trip` on the command line
+
+engine-e-mcp-marine-files-are-over-the-byte = files are over the { $max_bytes }-byte limit
+
+engine-e-mcp-marine-full-log-is-over-the = full_log is over the { $max_bytes }-byte limit
+
+engine-e-mcp-marine-interference-map-failed = interference map failed: { $e }
+
+engine-e-mcp-marine-the-map-is-bytes-over = the map is { $total } bytes, over the { $max_bytes }-byte reply limit; use a coarser cell_deg, fewer days, or `kshana interference-map` on the command line
+
+engine-e-mcp-marine-route-exposure-failed = route exposure failed: { $e }
+
+engine-e-mcp-marine-compliance-report-failed = compliance report failed: { $e }
+
+engine-e-mcp-marine-standards-pack-failed = standards pack failed: { $e }
+
+engine-e-mcp-marine-lunanet-afs-check-failed = lunanet-afs-check failed: { $e }
+
+engine-e-mcp-marine-mode-must-be-spec-symbols = mode must be spec, symbols or generate (got { $other })
+
+engine-e-mcp-marine-benchmark-scoring-failed = benchmark scoring failed: { $e }
+
+engine-e-mcp-marine-leaderboard-failed = leaderboard failed: { $e }
+
+engine-e-mcp-marine-test-bench-export-failed = test-bench export failed: { $e }
+
+engine-e-mcp-marine-the-pack-is-bytes-over-3 = the pack is { $size } bytes, over the { $max_bytes }-byte reply limit
+
+## mcp/kshana-mcp/src/server.rs
+
+engine-e-mcp-server-give-exactly-one-of-request = give exactly one of `request` (a sky-geometry request) or `skyline_preset` (a preset name, or an empty string to list them)
+
+engine-e-mcp-server-receiver-log-assessment-failed = receiver log assessment failed: { $e }
+
+engine-e-mcp-server-unknown-scenario-kind-list-scenario = unknown scenario kind `{ $k }`; list_scenario_kinds names every kind
+
+engine-e-mcp-server-unknown-report-format-expected-json = unknown report format `{ $format }`; expected json or html
+
+engine-e-mcp-server-report-failed = report failed: { $e }
+
+engine-e-mcp-server-duration-fps-gives-frames-and = duration_s x fps gives { $n_frames } frames and a reply carries at most { $max_frames }; lower fps or duration_s, or write a longer sequence with the command line (`kshana <scenario.toml> --animate frames`)
+
+engine-e-mcp-server-route-import-failed = route import failed: { $e }
+
+engine-e-mcp-server-sp3-export-failed = SP3 export failed: { $e }
+
+engine-e-mcp-server-omm-export-failed = OMM export failed: { $e }
+
+engine-e-mcp-server-oem-export-failed = OEM export failed: { $e }
+
+engine-e-mcp-server-scenario-kind-publishes-no-csv = scenario kind `{ $kind }` publishes no CSV table; only { $kinds } do
+
+engine-e-mcp-server-unknown-skyline-preset-known-presets = unknown skyline preset "{ $name }"; known presets: { $presets }
+
+engine-e-mcp-server-the-tool-call-did-not = the tool call did not finish: { $e }
+
+## mcp/kshana-mcp/src/server.rs
+
+engine-e-mcp-server-the-server-is-at-its-concurrent-work-limit = the server is at its concurrent-work limit (earlier calls are still running); retry shortly
+
+engine-e-mcp-server-the-work-pool-is-closed = the work pool is closed
+
+## mcp/kshana-mcp/src/iq.rs
+
+engine-e-mcp-iq-no-work-directory = no work directory

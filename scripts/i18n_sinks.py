@@ -108,14 +108,16 @@ def main():
                 print(f"{f}:{ln}: [{k}] {v[:110]!r}")
         return
     per = {}
-    for d, _, files in os.walk(os.path.join(ROOT, "src")):
-        for f in files:
-            if f.endswith(".rs") and "/src/i18n" not in d.replace(os.sep, "/") and not f.startswith("celeste_"):
-                p = os.path.join(d, f)
-                rel = os.path.relpath(p, ROOT).replace(os.sep, "/")
-                for _, k, _ in scan(p):
-                    per.setdefault(rel, {}).setdefault(k, 0)
-                    per[rel][k] += 1
+    # the library and binaries, and the MCP server crate (a separate crate that uses the catalogue through `kshana::terr!`)
+    for top in ("src", "mcp/kshana-mcp/src"):
+        for d, _, files in os.walk(os.path.join(ROOT, top)):
+            for f in files:
+                if f.endswith(".rs") and "/src/i18n" not in d.replace(os.sep, "/") and not f.startswith("celeste_"):
+                    p = os.path.join(d, f)
+                    rel = os.path.relpath(p, ROOT).replace(os.sep, "/")
+                    for _, k, _ in scan(p):
+                        per.setdefault(rel, {}).setdefault(k, 0)
+                        per[rel][k] += 1
     if "--json" in sys.argv:
         print(json.dumps(dict(sorted(per.items())), indent=1))
         return

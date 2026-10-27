@@ -1,0 +1,221 @@
+{
+ "_comment": "Per-file allowance of string literals that sit in a human-facing sink (print, write, Display impl, error, markup text writer; scripts/i18n_sinks.py) and do not go through the catalogue. A count may fall and may never rise; a file not listed allows none. Replace 'unreviewed' by a specific reason once a file's remainder has been read.",
+ "files": {
+  "mcp/kshana-mcp/src/http.rs": {
+   "count": 2,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "mcp/kshana-mcp/src/iq.rs": {
+   "count": 4,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "mcp/kshana-mcp/src/main.rs": {
+   "count": 3,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "mcp/kshana-mcp/src/marine.rs": {
+   "count": 2,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "mcp/kshana-mcp/src/server.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/animation.rs": {
+   "count": 16,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/api.rs": {
+   "count": 4,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/bench/cli.rs": {
+   "count": 8,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/bench/tasks.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/bin/crossover_study.rs": {
+   "count": 2,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/bin/gen_araim_m3_study.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/bin/gen_calibration_ensembles.rs": {
+   "count": 2,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/bin/gen_validation_artifacts.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/bin/validation_report.rs": {
+   "count": 5,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/evidence/bundle.rs": {
+   "count": 5,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/evidence/cli.rs": {
+   "count": 13,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/evidence/html.rs": {
+   "count": 19,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/fusion/gnss_ins_ekf.rs": {
+   "count": 4,
+   "reason": "public API: update_tightly_coupled returns Result<_, &'static str>, which cannot carry a catalogue message without a breaking signature change; four short input-validation reasons"
+  },
+  "src/integrator.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/interchange.rs": {
+   "count": 5,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/interference_map/cli.rs": {
+   "count": 10,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/interference_map/observatory.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/interop/kml.rs": {
+   "count": 10,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/interop/mod.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/iq/acq_surface.rs": {
+   "count": 6,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/iq/campaign/report.rs": {
+   "count": 10,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/iq/cli/mod.rs": {
+   "count": 4,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/iq/io/cli.rs": {
+   "count": 3,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/iq/mod.rs": {
+   "count": 2,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/iq/signals/lunanet.rs": {
+   "count": 2,
+   "reason": "identifier: the `signal` field of SignalError::UnknownPrn is a &'static str name of a signal (a label, not a sentence)"
+  },
+  "src/iq/signals/mod.rs": {
+   "count": 3,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/jammertest/cli.rs": {
+   "count": 3,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/jammertest/plan.rs": {
+   "count": 10,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/kepler.rs": {
+   "count": 2,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/leo_signal.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/live_io.rs": {
+   "count": 2,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/lunar_orientation.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/lunar_service.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/lunar_time_budget_scenario.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/main.rs": {
+   "count": 41,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/maneuver.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/nmea_synth/cli.rs": {
+   "count": 3,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/osnma/cli.rs": {
+   "count": 4,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/osnma/page.rs": {
+   "count": 4,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/portable_distr.rs": {
+   "count": 3,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/propagator.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/realtime_frame_eop.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/spectrum.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/study.rs": {
+   "count": 2,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/telemetry/cli.rs": {
+   "count": 3,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/telemetry/otlp.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/telemetry/prometheus.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/tle.rs": {
+   "count": 1,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  },
+  "src/verification.rs": {
+   "count": 4,
+   "reason": "unreviewed: human-facing text of a print, write, Display or markup sink not yet converted (docs/design/i18n-migration.md)"
+  }
+ }
+}
