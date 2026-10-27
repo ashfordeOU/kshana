@@ -970,3 +970,271 @@ seg-511fb4592027 = L-riba, { "144" } satelliiti Galileo E5 AltBOC-le: piirides
 
 # attr:aria-label
 seg-2ecb209d51e9 = C-riba, { "288" } satelliiti GPS L1 C/A-le: sageduses kattumist pole
+
+# text
+seg-6f45606a5b3d = C-riba, { "288" } satelliiti
+
+# attr:aria-label
+seg-f4ef2515fd58 = C-riba, { "288" } satelliiti Galileo E1-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-2fc04945b97b = C-riba, { "288" } satelliiti GPS-i L5-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-c3254aeb9110 = C-riba, { "288" } satelliiti Galileo E5a-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-b2497f3af295 = C-riba, { "288" } satelliiti Galileo E5b-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-cbb0b39f5417 = C-riba, { "288" } satelliiti Galileo E5 AltBOC-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-2a329a17333c = Lai C-riba, { "288" } satelliiti GPS-i L1 C/A-le: sageduses kattuvust ei ole
+
+# text
+seg-7f67a52e23d7 = Lai C-riba, { "288" } satelliiti<em>edetabeli ees</em>
+
+# attr:aria-label
+seg-5c53a07ea503 = Lai C-riba, { "288" } satelliiti Galileo E1-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-9afa24c2a22a = Lai C-riba, { "288" } satelliiti GPS-i L5-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-8d00d0e4e15b = Lai C-riba, { "288" } satelliiti Galileo E5a-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-396bb70a5b21 = Lai C-riba, { "288" } satelliiti Galileo E5b-le: sageduses kattuvust ei ole
+
+# attr:aria-label
+seg-017f8d2a0d09 = Lai C-riba, { "288" } satelliiti Galileo E5 AltBOC-le: sageduses kattuvust ei ole
+
+# text
+seg-893be5d86234 = <b>L-riba, { "288" } satelliiti → Galileo E5 AltBOC</b> · halvim tekitatud kadu { "0.00544" } dB (detsibell), lahtris, kus on nähtaval { "17" } selle satelliiti: varu { "0.0946" } dB kuni { "0.1" } dB piirini · <s1>ühilduv</s1>
+
+# attr:aria-label
+seg-bc132b0068fe = Maailmakaart halvimast kaost, mida kava L-riba, { "288" } satelliiti põhjustab, lahtri kaupa: iga lahter on piirides
+
+# text
+seg-ae759f574501 = { "0" } dB
+
+# text
+seg-c73e052d7628 = { "0.00544" } dB, halvim lahter · piir { "0.1" } dB
+
+# text
+seg-a55ab55d78eb = Halvim kadu, mida kava <b>L-riba, { "288" } satelliiti</b> põhjustab ülemaailmse ruudustiku igas lahtris üle signaalide, millega see kattub: ülempiir, iga nähtav satelliit maksimaalse vastuvõetud võimsusega.
+
+# text
+seg-5acfa8382eca = <b>{ "4" } kavast { "4" }</b> ühilduvad · GNSS-i signaalid maksavad L-riba kavadele kuni { "0.00908" } dB
+
+# text
+# c1: constellation-design
+# c2: leo-signal
+seg-2acb5dfe6d2c = Kshana Pro { "0.2.0" } avatud mootoril { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } mootori jooksutust (<c1/>, <c2/>) · stsenaariumi räsi 479364bd… · MODELLED ülempiir · { "0.1" } dB piir valiti ainult näite jaoks, mitte regulatiivse kriteeriumina · C/A: jämedalt/hankimine (coarse/acquisition); AltBOC: alternatiivne binaarne nihkekandja
+
+# text
+seg-b5f4c3d893ed = Kas meeskond saab oma võrgus uuringuid järjekorda panna ja tõendada, mis tarniti?
+
+# text
+seg-b0252a650ea5 = Tasuta kasutaja käivitab korraga ühe stsenaariumi ühes masinas.
+
+# text
+seg-18d63112f063 = Pro meeskond paneb uuringud oma võrgus järjekorda, laseb neil joosta, kui keegi ei jälgi, ja saab hiljem täpselt näidata, milline tulemus millise taotluse jaoks tarniti.
+
+# text
+seg-dc4ada18a8b6 = See laiendab kohapealset teenust: Pro saab töötada väikese HTTP (Hypertext Transfer Protocol) teenusena teie enda võrgus: see teatab oma tervisest, versioonist ja liikidest, mida see saab käivitada, ning käivitab sellele postitatud stsenaariumi. Töö identifikaator on operatsiooni ja taotluse SHA-256, nii et sama taotlus on sama töö ega käivitu kaks korda. Pärast peatumist või kokkujooksmist pannakse iga lõpetamata töö uuesti järjekorda ja ühtegi lõpetatud tööd ei käivitata uuesti. Ilma litsentsita teenindab see ainult avatud mootorit ja keeldub igast Pro funktsioonist.
+
+# text
+seg-c1af74cddda0 = <b>Mida see ei tee.</b> Üks taotlus ühenduse kohta, voogedastuseta: klient pärib. Üks litsents kogu teenusele ja üks ühine juurdepääsuluba, mitte kasutajahaldus. Tühistamist, ajalimiiti, prioriteeti ega säilituspoliitikat ei ole.
+
+# text
+seg-a91c54eb4ba8 = Kohapealne tööteenus · <b>üks salvestatud seanss</b>
+
+# attr:aria-label
+seg-f584d334e551 = Teenusele esitatud taotlused ja selle vastused järjekorras
+
+# text
+seg-a308bdf972fc = <b>POST /jobs</b> <em>lingibilansi stsenaarium</em>
+
+# text
+seg-1bea805079e5 = vastu võetud ja järjekorda pandud · töö fb6e50ff…
+
+# text
+seg-ed66dc7a965c = GET /jobs/{ "{" }id{ "}" }
+
+# text
+# c1: link-budget
+seg-e97b04c3927f = õnnestus esimesel katsel · stsenaariumi <c1/>-id
+
+# text
+seg-5c0fce7aca9c = <b>POST /jobs</b> <em>sama taotlus uuesti</em>
+
+# text
+seg-50000838f4cc = sama töö, juba lõpetatud: midagi ei käivitatud kaks korda
+
+# text
+seg-be3aa55c904e = GET /ledger/verify
+
+# text
+seg-3fb12de9f868 = kontrollitud, ahel terve · { "3" } kirjet · { "1" } tarnitud töö · lahknevust pole
+
+# text
+seg-d05960312e08 = GET /openapi.json
+
+# text
+seg-4b360cf65b93 = OpenAPI { "3.1" } · { "13" } teed, teenuse enda marsruuditabelist
+
+# text
+seg-a976477641db = <b>GET /</b> <em>tööde tahvel</em>
+
+# text
+seg-4b68fe5ddf1c = ei lae midagi väljastpoolt
+
+# text
+seg-734560e175a9 = <b>taaskäivitus</b> <em>seejärel GET /jobs/{ "{" }id{ "}" }</em>
+
+# text
+seg-7d53151be9e6 = lõpetatud töö näitab endiselt ühte katset
+
+# text
+seg-d0683c37acc1 = <b>kill -9</b> <em>töö jooksmise ajal, seejärel taaskäivitus</em>
+
+# text
+seg-64ddf6a78d22 = lõpetamata töö käivitati uuesti ja see õnnestus; lõpetatud tööd ei käivitatud uuesti · register (ledger) { "9" } kirjet, { "3" } tarnitud tööd, kontrollitud
+
+# text
+seg-fcbfbd231d61 = <b>litsentsita: POST /jobs</b> <em>Pro stsenaarium</em>
+
+# text
+seg-1911ae0879b8 = esitamisel keelduti: midagi ei pandud järjekorda
+
+# text
+seg-de7bb1084780 = <b>litsentsita: POST /jobs</b> <em>avatud stsenaarium</em>
+
+# text
+seg-14edaf993a56 = vastu võetud ja järjekorda pandud
+
+# text
+seg-af3f560b9a7f = Kshana Pro avatud mootoril { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, kaks töölist (taaskäivituse test: üks) · HTTP olekukoodid sellisena, nagu teenus need tagastas · kohalik jooksutus avalikel stsenaariumifailidel arendusõigusega, mitte kliendi juurutus
+
+# text
+seg-935445590619 = Samuti Kshana Pro-s
+
+# text
+seg-01e88950670a = Nõuded ja jälgitavus
+
+# text
+seg-a9b4af1b1b07 = Kshana Pro mudelipõhise süsteemitehnika (MBSE) ja programmitööriistad kontrollivad programmi nõudeid avatud mootori jooksutuste vastu: need impordivad nõuded komadega eraldatud väärtustena (CSV) või Requirements Interchange Formati (ReqIF) dokumenteeritud alamhulgana või Systems Modeling Language versiooni { "2" } (SysML v2) tekstina ning loovad kontrolli ristviitemaatriksi (VCRM), SysML v2 mudeli, muudatuste mõju aruande ja võrguühenduseta tõendipaketi. See ei jooksuta ega arvuta midagi uuesti.
+
+# text
+seg-0a662a644f5d = Avatud mootori väljundid, mida see loeb
+
+# text
+seg-e91fe1056446 = kriteeriumi nimetatud väljad, nende ühikud, reprodutseeritavuse tempel (stsenaariumi räsi, algväärtus (seed), mootori versioon ja skeemi versioon) ning jooksutuse silt ja arvude tasemed
+
+# text
+seg-c84c09a6dc24 = liik, reprodutseeritavuse kirje ja võimekuse sildid
+
+# text
+seg-8fc1ffcf6847 = selle räsi, liik, algväärtus (seed) ja parameetrid
+
+# text
+seg-2e6b3bca199f = iga välja ühik, päritolu ja tõendustase
+
+# text
+seg-593a13692dc4 = iga võimekuse silt VALIDATED, MODELLED või PARTNER
+
+# text
+seg-112fbe923b39 = Kompromissiuuringud
+
+# text
+seg-26c07e74fdca = Kompromissiuuring käivitab iga arhitektuurivaliku muutmata avatud mootori stsenaariumina, järjestab valikud iga jooksutuse tulemusest loetud kvaliteedinäitaja (FoM) alusel ning kirjutab tõendipaketi, mis salvestab iga valiku stsenaariumi räsi, nii et mis tahes selles oleva arvu saab reprodutseerida selle stsenaariumi uuesti jooksutamisega.
+
+# text
+seg-05a421ea6ac7 = Kella digitaalne kaksik
+
+# text
+seg-06ca5084425c = Kellakaksik kalibreeritakse seadme avaldatud Alani hälbe bilansi järgi, seejärel kontrollitakse, hinnates kaksiku enda Alani hälvet avatud mootori hindajaga ja võrreldes neid kahte määratud tolerantsi piires. Teie enda seadme kaksik vajab teie karakteriseerimisandmeid ning see ehitatakse lepingu ja konfidentsiaalsuslepingu alusel.
+
+# text
+seg-fca21deac438 = Uuringudosjee
+
+# text
+seg-fef6a718bf86 = Üks stsenaarium muutub reprodutseeritavaks tehniliseks märkmeks HTML-is (HyperText Markup Language) ja JSON-is (JavaScript Object Notation): ulatus, meetod, tulemused iga arvu tasemega, piirangud ja täpne jooksutatud stsenaariumi tekst.
+
+# text
+seg-4650cf680300 = <b>Pro vajab litsentsi.</b> Ilma selleta jooksutab Pro ainult avatud stsenaariume ja keeldub igast Pro funktsioonist teatega, mis nimetab, mida on vaja.
+
+# text
+seg-627687344e9e = <b>Mõni töö vajab allkirjastanud klienti.</b> Teie enda seadme kaksik vajab teie karakteriseerimisandmeid ning see ehitatakse lepingu ja konfidentsiaalsuslepingu alusel.
+
+# text
+seg-f15f652a7e77 = <b>Ükski Pro loodud tulemus ei ole sertifitseerimine.</b> Iga tulemus on modelleeritud ja ütleb seda ise.
+
+# text
+seg-ef76d9237977 = Tehakse eriuuringuna
+
+# text
+seg-853667670c1f = <b>Teie riistvara mudelid.</b> Teie riistvarale kalibreeritud andur- või vastupidavusmudelid ehitatakse ainult lepingu alusel, teie andmetega.
+
+# text
+seg-520654f215c5 = <b>Ekspordikontrolli all olevaid vastupidavusmudeleid avalikult ei pakuta.</b> Selline töö tehakse ainult sobiva juurdepääsuloa ja konfidentsiaalsuslepingu alusel.
+
+# text
+seg-6d3d0f8c9b7c = Taotle Pro hindamist
+
+# text
+seg-8ea876b3c515 = Selle jaotise diagrammid on joonistatud failidest, mille Pro käsud kirjutasid Pro-ga kaasas olevate töönäidete jaoks: modelleeritud tulemused, mitte väited ühegi tegeliku missiooni kohta. Sõnastus on tsiteeritud avatud hoidla avalikult Kshana Pro lehelt.
+
+# attr:aria-label
+seg-306d36fd66d5 = Kuidas eriuuring kulgeb
+
+# text
+seg-3fa22b84e694 = Eriuuring · kuidas see kulgeb
+
+# text
+seg-9568883def52 = Kui vaja on vastust, mitte tööriista.
+
+# text
+seg-3723e67cd31e = Eriuuring kasutab sama mootorit, mida saate ise jooksutada, nii et iga selles olevat arvu saab kontrollida igaüks.
+
+# text
+seg-3ab16e96a6c6 = <b>Öelge meile küsimus.</b> Kirjutage aadressile <a1>contact@ashforde.org</a1> süsteemi ja otsusega, mida see toidab. Vormi ei ole.
+
+# text
+seg-0e813cd52a0d = <b>Piirame töö ulatuse.</b> Mida modelleeritakse, millistel stsenaariumidel ja mis jääb väljapoole, sobiva juurdepääsuloa ja NDA alusel, kui töö seda nõuab.
+
+# text
+seg-10fb7795a637 = <b>Modelleerime selle sama mootoriga.</b> Iga arv on märgistatud kui valideeritud või modelleeritud, täpselt nagu sellel saidil.
+
+# text
+seg-26434f79bee5 = <b>Saate reprodutseeritava tulemuse.</b> Reprodutseeritav stsenaariumist, algväärtusest (seed) ja mootori versioonist. Modelleeritud uuring, mitte sertifitseerimine.
+
+# text
+# c1: kshana --study
+seg-9fc03cebab94 = <b>Ei ole sama mis <c1/>:</b> see tasuta käsk jooksutab teie kirjutatud stsenaariumide komplekti üheks tempeldatud aruandeks (<a1>Arendajad</a1>). Eriuuring on tasuline töö, mida teeme teie heaks.
+
+# attr:aria-label
+seg-5eeb07866fe1 = Paigaldus ja kontakt
+
+# text
+seg-87783088bafd = Paigalda avatud tuum
+
+# text
+seg-3d2a59a4a52a = Ilma vormideta, ilma hindadeta
+
+# text
+seg-1aa35b022d85 = <b>Hinda Kshana Pro-d</b><s1>Taotle hindamist lepingu alusel</s1>
+
+# text
+seg-f9d8b42c68cc = <b>Taotle eriuuringut</b><s1>Öelge meile süsteem ja otsus, mida see toidab</s1>
+
+# text
+seg-2e0c129fb875 = <b>Kommertslitsents</b><s1>Avatud tuum suletud integreerimiseks</s1>
+
+# text
+seg-67341b9eea70 = <b>Midagi muud</b><s1>contact@ashforde.org · kiri läheb otse meeskonnale</s1>
+
+# text
+seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>

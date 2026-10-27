@@ -7,7 +7,7 @@ All catalogues are machine drafts, not reviewed by a native speaker.
 - de: done (100%, `check` 0 errors). Kind term unified ("Szenarioart").
 - fr: done (100%, `check` 0 errors). "conformance" is "respect de la norme"; "filtre de Kalman sans parfum".
 - Source labels ILLUSTRATIVE, PUBLIC, REPRESENTATIVE, WORKSHOP, MIXED, GREEN, APPROVED, INCOMPLETE, REFUSED stay English in caps (check enforces it).
-- es: done (100%). pt-BR: done (100%). pt-PT: done (100%). nl: reassigned to W63 (not mine). et: taken over from W62 after pt-PT (guide: ref from i18n/engine-0.40 guides/et.md + i18n/ui-0.40 et glossary).
+- es: done (100%). pt-BR: done (100%). pt-PT: done (100%). nl: reassigned to W63 (not mine). et: done (100%), taken over from W62. All six languages complete; check passes on each.
 
 ## Recipe (per language, 3-4 sub-agents at a time; the usage limit is shared with other sessions)
 1. `node tools/i18n.mjs todo <lang> --out WORK` (about 168 chunks of 26 KB).
