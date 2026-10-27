@@ -1,0 +1,52 @@
+/* Mission thread page. Colours, type and radii come from tokens.css; layout from app.css and studio.css. A tier is never shown by colour alone. */
+.mtv{padding-bottom:56px}
+.mtv h1{font:700 clamp(28px,4.4vw,46px)/1.05 var(--f-display);letter-spacing:-.02em;margin:10px 0 8px}
+.mtv .lede{max-width:78ch;margin:0 0 14px;color:var(--ink-2);font-size:16px;line-height:1.5}
+.mtv .h3{font:650 17px/1.2 var(--f-display)}
+.mtv .h4{margin:0 0 6px;font:650 14px/1.2 var(--f-display)}
+.mtv-adv{margin:0 0 16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-inline-start:4px solid var(--nav-card,#c98a1a);background:var(--surface);font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.mtv-adv b{color:var(--ink)}
+.mtv .card{margin-bottom:14px;min-width:0}
+.mtv-open{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.mtv-status{margin:10px 0 0;font-size:13px;color:var(--ink-2)}.mtv-status.err{color:var(--int);font-weight:600}
+.mtv-weakline{margin:10px 0 0;font-size:15px;line-height:1.5;color:var(--ink)}
+.mtv-weakline b{padding:1px 6px;border-radius:6px;border:1px solid var(--int);color:var(--int)}
+.mtv-kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px 20px;margin:12px 0 0}
+.mtv-kv dt{font:600 11.5px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+.mtv-kv dd{margin:2px 0 0;font:500 13px var(--f-mono);color:var(--ink);overflow-wrap:anywhere}
+.mtv-ctl{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin:6px 0 8px}
+.mtv-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.mtv-tab{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-weight:600;font-size:13px;color:var(--ink-2);cursor:pointer}
+.mtv-tab[aria-selected=true],.mtv-tab[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mtv-tab:focus-visible,.mtv-rowbtn:focus-visible{outline:2px solid var(--tim);outline-offset:2px}
+.mtv-scroll,.mtv-tablewrap{overflow-x:auto}
+.mtv-chart{display:block;width:100%;height:auto;min-width:640px}
+.mtv-band{fill:var(--surface-2);opacity:.55}.mtv-band.alt{opacity:.25}
+.mtv-band.weak{fill:none;stroke:var(--int);stroke-width:2;stroke-dasharray:6 3;opacity:1}
+.mtv-t{font:500 10.5px var(--f-mono);fill:var(--ink-2)}
+.mtv-pl{font:600 10.5px var(--f-mono);fill:var(--ink-2)}.mtv-pl.weak{fill:var(--int)}
+.mtv-weak{font:700 11px var(--f-mono);fill:var(--int)}
+.mtv-ax{stroke:var(--ink-3);stroke-width:1.2}
+.mtv-gl{stroke:var(--line-2);stroke-width:1}
+.mtv-lim{stroke:var(--nav-card,#c98a1a);stroke-width:1.6;stroke-dasharray:5 3}
+.mtv-line{fill:none;stroke:var(--tim);stroke-width:1.8}
+.mtv-note,.mtv-prov{margin:8px 0 0;font-size:12.5px;color:var(--ink-3);max-width:110ch}
+.mtv-table{width:100%;border-collapse:collapse;font-size:13px}
+.mtv-table caption{caption-side:top;text-align:start;padding:0 0 8px;font-size:12.5px;color:var(--ink-2)}
+.mtv-table th,.mtv-table td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:start;vertical-align:top}
+.mtv-table thead th{font:600 11.5px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.mtv-table td.num{font-family:var(--f-mono);white-space:nowrap}
+.mtv-table tr.weak{background:color-mix(in srgb,var(--int) 9%,transparent)}
+.mtv-table tr.sel th:first-child{box-shadow:inset 3px 0 0 var(--tim)}
+.mtv-rowbtn{all:unset;cursor:pointer;font-weight:650;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.mtv-flag{display:inline-block;margin-inline-start:8px;padding:1px 6px;border-radius:6px;border:1px solid var(--int);font:700 10px var(--f-mono);color:var(--int);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.mtv-bar{display:block;width:100%;min-width:90px;height:8px;border-radius:4px;background:linear-gradient(to right,var(--tim) var(--w),var(--line-2) var(--w))}
+.mtv-pickphase{display:flex;gap:10px;align-items:center;margin:0 0 12px}
+.mtv-pickphase select{min-height:40px;max-width:100%;padding:0 10px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);font:inherit;font-size:13.5px}
+.mtv-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.mtv-grid{grid-template-columns:minmax(0,1fr)}}
+.mtv-events{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px;color:var(--ink-2)}
+.mtv-at{display:inline-block;min-width:4.5em;font:600 12px var(--f-mono);color:var(--ink)}
+.mtv-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);font:600 14px var(--f-text);cursor:pointer}
+.mtv-btn.alt{background:var(--surface);color:var(--ink);border-color:var(--line-2)}
+.mtv-btn:focus-visible{outline:2px solid var(--tim);outline-offset:2px}
