@@ -776,7 +776,7 @@ seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::
 
 seg-0d7b17524c04 = Pakiety norm: scenariusze oceniane względem progów ustalonych przed przebiegiem
 
-seg-6e5c04fd4531 = standards_pack (kshana standards-pack): profile testów ram DHS Resilient PNT dla poziomów od { "1" } do { "4" }, poziomy dokładności i ocena integralności IMO MSC.1/Circ.1575 oraz pakiety ICAO Doc { "9849" } Appendix F monitorowania, oceny i łagodzenia: każdy test uruchamia dołączony rodzaj scenariusza i porównuje pola wyniku z progami podanymi w pakiecie, a testy wymagające logu odbiornika są wymienione jako WYMAGA DANYCH WEJŚCIOWYCH i nie są oceniane.
+seg-6e5c04fd4531 = standards_pack (kshana standards-pack): profile testów ram DHS Resilient PNT dla poziomów od { "1" } do { "4" }, poziomy dokładności i ocena integralności IMO MSC.1/Circ.1575 oraz pakiety ICAO Doc { "9849" } Appendix F monitorowania, oceny i łagodzenia: każdy test uruchamia dołączony rodzaj scenariusza i porównuje pola wyniku z progami podanymi w pakiecie, a testy wymagające logu odbiornika są wymienione jako NEEDS INPUT i nie są oceniane.
 
 seg-8a8f2c85e0c3 = Laboratoryjny pakiet dowodowy round-trip (scenariusz, warunki testu, log odbiornika, ocena)
 

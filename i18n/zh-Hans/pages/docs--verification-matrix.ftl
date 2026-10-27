@@ -3624,7 +3624,7 @@ seg-d44b405dbeba = tests/lunar_vlbi_surface_point_spice_oracle.rs::surface_point
 
 seg-30cc52d98bbd = lunar_service (lunar_protection_level, lunar_protection_level_with_sigma), lunar (lunar_araim_with_sigma), raim (araim_raim)
 
-seg-9d5628188bd8 = tests/lunar_protection_level_reference.rs（{ "7" }个服务体积用例——南极、中纬度、赤道、抬升的高地——{ "6" }至{ "19" }颗卫星，σ_URE 10/30/60 m，P_HMI从{ "1e-3" }到{ "1e-7" }，保护级跨越{ "1.7e2" }至{ "6.9e3" } m：HPL/VPL对照RTKLIB + SciPy组合而成的参考基准（oracle），最差 |Δ| 为{ "1.061e-8" } m和{ "1.044e-8" } m，对照{ "1e-6" } m的容差；DOP对照RTKLIB自己的 (GᵀG)⁻¹，相对一致到{ "1.790e-14" }；K_fa对照scipy.stats.norm.isf，相对一致到{ "2.716e-11" }；三项负对照——卫星位移{ "5" } km、σ_URE相对变化{ "1e-6" }、P_HMI收紧{ "0.1" } %——每一项都被测得使保护级的变化至少为容差的{ "171" }倍；以及一项陈旧固定数据防护，把已提交的几何逐位固定为引擎自身星座和可见性代码所产生的结果，因此星座在底层发生变化时，GREEN不可能保持）
+seg-9d5628188bd8 = tests/lunar_protection_level_reference.rs（{ "7" }个服务体积用例——南极、中纬度、赤道、抬升的高地——{ "6" }至{ "19" }颗卫星，σ_URE 10/30/60 m，P_HMI从{ "1e-3" }到{ "1e-7" }，保护级跨越{ "1.7e2" }至{ "6.9e3" } m：HPL/VPL对照RTKLIB + SciPy组合而成的参考基准（oracle），最差 |Δ| 为{ "1.061e-8" } m和{ "1.044e-8" } m，对照{ "1e-6" } m的容差；DOP对照RTKLIB自己的 (GᵀG)⁻¹，相对一致到{ "1.790e-14" }；K_fa对照scipy.stats.norm.isf，相对一致到{ "2.716e-11" }；三项负对照——卫星位移{ "5" } km、σ_URE相对变化{ "1e-6" }、P_HMI收紧{ "0.1" } %——每一项都被测得使保护级的变化至少为容差的{ "171" }倍；以及一项陈旧固定数据防护，把已提交的几何逐位固定为引擎自身星座和可见性代码所产生的结果，因此星座在底层发生变化时，绿色结果不可能保持）
 
 seg-842722fa9e91 = araim_reference (araim_reference_protection_levels, published_vectors), raim (araim_protection_level, araim_integrity_risk, normal_quantile)
 
