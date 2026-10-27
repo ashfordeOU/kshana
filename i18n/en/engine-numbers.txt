@@ -5,13 +5,20 @@ e-animation-animation-duration-must-be-between: lit_0_5
 e-body-pnt-user-altitude-must-be-positive: lit_0_9
 e-constellation-eccentricity-must-lie-in: lit_0_9
 e-constellation-grid-step-deg-must-lie: lit_0_25
+e-interference-map-api-cell-size-must-be-between: lit_0_01
+e-interference-map-cli-cell-deg-must-be-between: lit_0_01
+e-interference-map-observatory-cell-deg-must-be-between: lit_0_5
 e-leo-navmsg-fit-sample-and-eval-step: lit_0_5
 e-leo-navmsg-truth-eccentricity-must-be-in-for: lit_0_1
+e-leo-pass-rain-rate-mm-rain-exceedance: lit_0_001 lit_0_01
+e-leo-pass-spoofer-onset-within-the-window: lit_0_5
+e-lunar-rendezvous-sma-must-exceed-lunar-radius: lit_0_9
 e-tracking-loop-tracking-loop-correlator-spacing-chips: lit_1_9
 fusion-hybrid-ukf-chart-subtitle: lit_1_0
 fusion-hybrid-ukf-chart-target: lit_1_0
 hybrid-chart-spec-line: lit_1_0
 hybrid-chart-title: lit_1_0
+interference-map-cli-usage-map: lit_0_5
 iq-cli-track-hz-is-samples-per-chip: lit_0_09
 kind-araim-reference-check-description: lit_18_2926 lit_18_3 lit_13_4063 lit_13_45 lit_7_2997 lit_7_2998 lit_1_3694
 kind-cislunar-arc-recovery-description: lit_0_782609 lit_2_086957 lit_0_375 lit_5_739130 lit_0_98
@@ -32,9 +39,3 @@ kind-tracking-loop-description: lit_0_6 lit_3_7 lit_0_17
 leo-signal-chart-psd-axis: lit_0_6
 sdr-sampling-rate-is-commensurate-with: lit_4_8876 lit_24_4379
 telecom-timing-the-mask-is-defined-through: lit_0_1
-e-interference-map-api-cell-size-must-be-between: lit_0_01
-e-interference-map-cli-cell-deg-must-be-between: lit_0_01
-e-interference-map-observatory-cell-deg-must-be-between: lit_0_5
-e-leo-pass-rain-rate-mm-rain-exceedance: lit_0_001 lit_0_01
-e-leo-pass-spoofer-onset-within-the-window: lit_0_5
-interference-map-cli-usage-map: lit_0_5

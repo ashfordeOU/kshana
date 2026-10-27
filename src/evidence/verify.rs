@@ -608,16 +608,17 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
             ))
         }) {
             Some((tier, rows)) => {
-                r.notes.push(format!(
-                    "evidence label: {tier} ({} ledger rows: {}); it is inside config.json, so the signature covers it",
-                    rows.len(),
-                    rows.join(" ")
+                r.notes.push(crate::t!(
+                    "evidence-verify-evidence-label-ledger-rows",
+                    tier = tier,
+                    row_count = rows.len(),
+                    rows = rows.join(" ")
                 ));
                 r.evidence = Some(EvidenceSummary { tier, rows });
             }
             None => r
                 .notes
-                .push("no evidence label (pre-0.40 pack)".to_string()),
+                .push(crate::t!("evidence-verify-no-evidence-label-pre-040-pack")),
         }
     }
 

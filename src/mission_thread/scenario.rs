@@ -147,12 +147,22 @@ fn finite_pos(name: &str, v: f64) -> Result<f64, String> {
     if v.is_finite() && v > 0.0 {
         Ok(v)
     } else {
-        Err(format!("{name} must be a positive finite number, got {v}"))
+        Err(crate::terr!(
+            "e-mission-thread-scenario-must-be-positive-finite-number",
+            name = name,
+            v = crate::i18n::num_plain(v)
+        ))
     }
 }
 
 fn need(what: &str, rule: &str, v: Option<f64>) -> Result<f64, String> {
-    v.ok_or_else(|| format!("handover rule `{rule}` needs `{what}`"))
+    v.ok_or_else(|| {
+        crate::terr!(
+            "e-mission-thread-scenario-handover-rule-needs",
+            rule = rule,
+            what = what
+        )
+    })
 }
 
 impl HandoverDoc {
@@ -170,8 +180,9 @@ impl HandoverDoc {
                 floor_vel_mps: need("floor_vel_mps", "reacquire", self.floor_vel_mps)?,
                 floor_time_s: need("floor_time_s", "reacquire", self.floor_time_s)?,
             }),
-            other => Err(format!(
-                "unknown handover rule `{other}`; expected carry, inflate or reacquire"
+            other => Err(crate::terr!(
+                "e-mission-thread-scenario-unknown-handover-rule-expected-carry",
+                other = other
             )),
         }
     }
@@ -182,11 +193,15 @@ impl PhaseDoc {
     pub fn to_spec(&self) -> Result<PhaseSpec, String> {
         let err = |e: String| format!("phase `{}`: {e}", self.id);
         if self.id.trim().is_empty() {
-            return Err("a phase has an empty id".to_string());
+            return Err(crate::terr!(
+                "e-mission-thread-scenario-phase-has-an-empty-id"
+            ));
         }
         finite_pos("duration_s", self.duration_s).map_err(err)?;
         if self.nav.is_empty() {
-            return Err(err("`nav` lists no navigation source".to_string()));
+            return Err(err(crate::terr!(
+                "e-mission-thread-scenario-nav-lists-no-source"
+            )));
         }
         let nav = self
             .nav
@@ -245,20 +260,26 @@ impl PhaseDoc {
 
 impl EntryDoc {
     fn to_state(&self) -> Result<NavState, String> {
-        let frame = Frame::parse(&self.frame).map_err(|e| format!("entry: {e}"))?;
-        let ts = Timescale::parse(&self.timescale).map_err(|e| format!("entry: {e}"))?;
+        let frame = Frame::parse(&self.frame)
+            .map_err(|e| crate::terr!("e-mission-thread-scenario-entry", e = e))?;
+        let ts = Timescale::parse(&self.timescale)
+            .map_err(|e| crate::terr!("e-mission-thread-scenario-entry", e = e))?;
         for (k, v) in [
             ("sigma_pos_m", self.sigma_pos_m),
             ("sigma_vel_mps", self.sigma_vel_mps),
             ("sigma_time_s", self.sigma_time_s),
         ] {
-            finite_pos(k, v).map_err(|e| format!("entry: {e}"))?;
+            finite_pos(k, v).map_err(|e| crate::terr!("e-mission-thread-scenario-entry", e = e))?;
         }
         if !(self.sigma_drift_s_per_s.is_finite() && self.sigma_drift_s_per_s >= 0.0) {
-            return Err("entry: sigma_drift_s_per_s must be a finite number of at least 0".into());
+            return Err(crate::terr!(
+                "e-mission-thread-scenario-entry-sigma-drift-per-must"
+            ));
         }
         if self.x.iter().any(|v| !v.is_finite()) {
-            return Err("entry: x must hold six finite numbers".into());
+            return Err(crate::terr!(
+                "e-mission-thread-scenario-entry-must-hold-six-finite"
+            ));
         }
         Ok(NavState::diagonal(
             0.0,
@@ -304,29 +325,37 @@ pub struct ThreadResult {
 impl MissionThreadScenario {
     /// Parses a thread document.
     pub fn parse(src: &str) -> Result<Self, String> {
-        let s: MissionThreadScenario =
-            toml::from_str(src).map_err(|e| format!("mission-thread: {e}"))?;
+        let s: MissionThreadScenario = toml::from_str(src)
+            .map_err(|e| crate::terr!("e-mission-thread-scenario-mission-thread", e = e))?;
         if let Some(k) = &s.kind {
             if k != "mission-thread" {
-                return Err(format!("kind must be \"mission-thread\", got \"{k}\""));
+                return Err(crate::terr!(
+                    "e-mission-thread-scenario-kind-must-be-mission-thread",
+                    k = k
+                ));
             }
         }
         if s.phases.is_empty() {
-            return Err("a mission thread needs at least one [[phase]]".to_string());
+            return Err(crate::terr!(
+                "e-mission-thread-scenario-mission-thread-needs-at-least"
+            ));
         }
         let mut seen = BTreeSet::new();
         for p in &s.phases {
             if !seen.insert(p.id.clone()) {
-                return Err(format!("phase id `{}` is used twice; ids are unique", p.id));
+                return Err(crate::terr!(
+                    "e-mission-thread-scenario-phase-id-is-used-twice",
+                    id = p.id
+                ));
             }
         }
         if let Some(net) = &s.ground_network {
             net.validate()?;
             for g in &net.phases {
                 if !seen.contains(&g.phase) {
-                    return Err(format!(
-                        "ground_network: phase `{}` is not a phase of this thread",
-                        g.phase
+                    return Err(crate::terr!(
+                        "e-mission-thread-scenario-ground-network-phase-is-not",
+                        phase = g.phase
                     ));
                 }
             }
@@ -358,27 +387,34 @@ pub fn run_thread_with(
         let mut rows: Vec<BudgetRow> = Vec::new();
         // The previous phase's handover rule, then the conversions this phase asks for.
         if i > 0 {
-            let (s, r) = apply_handover(&prev_rule, &state)
-                .map_err(|e| format!("phase `{}`: {e}", specs[i - 1].id))?;
+            let (s, r) = apply_handover(&prev_rule, &state).map_err(|e| {
+                crate::terr!(
+                    "e-mission-thread-scenario-phase",
+                    id = specs[i - 1].id,
+                    e = e
+                )
+            })?;
             state = s;
             rows.extend(r);
         }
         if let Some(f) = spec.frame {
-            let (s, r) = ctx
-                .convert_frame(&state, f)
-                .map_err(|e| format!("phase `{}`: {e}", spec.id))?;
+            let (s, r) = ctx.convert_frame(&state, f).map_err(|e| {
+                crate::terr!("e-mission-thread-scenario-phase", id = spec.id, e = e)
+            })?;
             state = s;
             rows.extend(r);
         }
         if let Some(t) = spec.timescale {
-            let (s, r) = ctx
-                .convert_timescale(&state, t)
-                .map_err(|e| format!("phase `{}`: {e}", spec.id))?;
+            let (s, r) = ctx.convert_timescale(&state, t).map_err(|e| {
+                crate::terr!("e-mission-thread-scenario-phase", id = spec.id, e = e)
+            })?;
             state = s;
             rows.extend(r);
         }
-        let info = lookup(&spec.kind).map_err(|e| format!("phase `{}`: {e}", spec.id))?;
-        let phase = (info.ctor)(&spec.model).map_err(|e| format!("phase `{}`: {e}", spec.id))?;
+        let info = lookup(&spec.kind)
+            .map_err(|e| crate::terr!("e-mission-thread-scenario-phase", id = spec.id, e = e))?;
+        let phase = (info.ctor)(&spec.model)
+            .map_err(|e| crate::terr!("e-mission-thread-scenario-phase", id = spec.id, e = e))?;
         let start_s = state.t_s;
         let mut pctx = ctx.phase_ctx_for(i, spec);
         // The ground-network overlay: the tracking duty of a phase that lists ground tracking.
@@ -390,7 +426,9 @@ pub fn run_thread_with(
                         state.clone()
                     } else {
                         ctx.convert_frame(&state, Frame::Gcrf)
-                            .map_err(|e| format!("phase `{}`: {e}", spec.id))?
+                            .map_err(|e| {
+                                crate::terr!("e-mission-thread-scenario-phase", id = spec.id, e = e)
+                            })?
                             .0
                     };
                     let cov = crate::mission_thread::earth::ground_network::coverage(
@@ -400,19 +438,24 @@ pub fn run_thread_with(
                         &geo_state,
                         spec.duration_s,
                     )
-                    .map_err(|e| format!("phase `{}`: {e}", spec.id))?;
+                    .map_err(|e| {
+                        crate::terr!("e-mission-thread-scenario-phase", id = spec.id, e = e)
+                    })?;
                     pctx.ground_duty = Some(cov.duty);
                     coverage_note = Some(cov.rows(net));
                 }
             }
         }
         let mut o = run_phase(phase.as_ref(), &state, &ctx, &pctx)
-            .map_err(|e| format!("phase `{}`: {e}", spec.id))?;
+            .map_err(|e| crate::terr!("e-mission-thread-scenario-phase", id = spec.id, e = e))?;
         let want_end = start_s + spec.duration_s;
         if (o.exit.t_s - want_end).abs() > 1e-6 * want_end.abs().max(1.0) {
-            return Err(format!(
-                "phase `{}` ended at {} s but started at {start_s} s and lasts {} s",
-                spec.id, o.exit.t_s, spec.duration_s
+            return Err(crate::terr!(
+                "e-mission-thread-scenario-phase-ended-at-but-started",
+                id = spec.id,
+                t_s = crate::i18n::num_plain(o.exit.t_s),
+                start_s = crate::i18n::num_plain(start_s),
+                duration_s = crate::i18n::num_plain(spec.duration_s)
             ));
         }
         if let Some((cov_rows, text)) = coverage_note {
@@ -544,15 +587,18 @@ impl ThreadResult {
     /// The one-line summary printed by the command line.
     pub fn summary(&self, scn: &MissionThreadScenario) -> String {
         let weak = match &self.weakest {
-            Some(w) => format!("weakest link {}", w.phase_id),
-            None => "no phases".to_string(),
+            Some(w) => crate::t!("mission-thread-weakest-link", phase_id = w.phase_id),
+            None => crate::t!("mission-thread-no-phases"),
         };
-        format!(
-            "mission-thread | {} phases | {} | {} | {}",
-            self.phases.len(),
-            scn.title.clone().unwrap_or_else(|| "untitled".to_string()),
-            weak,
-            self.label.tier.name()
+        crate::t!(
+            "mission-thread-summary",
+            n_phases = self.phases.len(),
+            title = scn
+                .title
+                .clone()
+                .unwrap_or_else(|| crate::t!("mission-thread-untitled")),
+            weak = weak,
+            tier = self.label.tier.name()
         )
     }
 }
@@ -563,7 +609,8 @@ impl MissionThreadScenario {
     pub fn run_json(&self) -> Result<(String, String, String), String> {
         let r = run_thread(self)?;
         let json = serde_json::to_string_pretty(&r.to_json(self)).map_err(|e| e.to_string())?;
-        let svg = r.svg(self.title.as_deref().unwrap_or("Mission thread"));
+        let default_title = crate::t!("mission-thread-default-title");
+        let svg = r.svg(self.title.as_deref().unwrap_or(&default_title));
         Ok((json, r.summary(self), svg))
     }
 }
@@ -638,13 +685,13 @@ fn nice_bounds(values: &[f64]) -> (f64, f64) {
 
 fn fmt_dur(s: f64) -> String {
     if s >= 86_400.0 {
-        format!("{:.1} d", s / 86_400.0)
+        format!("{} d", crate::i18n::num(s / 86_400.0, 1))
     } else if s >= 3_600.0 {
-        format!("{:.1} h", s / 3_600.0)
+        format!("{} h", crate::i18n::num(s / 3_600.0, 1))
     } else if s >= 60.0 {
-        format!("{:.0} min", s / 60.0)
+        format!("{} min", crate::i18n::num(s / 60.0, 0))
     } else {
-        format!("{s:.0} s")
+        format!("{} s", crate::i18n::num(s, 0))
     }
 }
 
@@ -659,8 +706,12 @@ impl ThreadResult {
         let pw = w - ml - mr;
         let band = pw / n as f64;
         let panels = [
-            (96.0, 288.0, "1-sigma position, m"),
-            (336.0, 528.0, "1-sigma time, s"),
+            (
+                96.0,
+                288.0,
+                crate::t!("mission-thread-chart-position-caption"),
+            ),
+            (336.0, 528.0, crate::t!("mission-thread-chart-time-caption")),
         ];
         let pos_vals: Vec<f64> = self
             .phases
@@ -673,12 +724,7 @@ impl ThreadResult {
             .flat_map(|p| p.outcome.series.iter().map(|s| s.sigma_time_s))
             .collect();
         let bounds = [nice_bounds(&pos_vals), nice_bounds(&time_vals)];
-        let mut s = frame_open(
-            w,
-            h,
-            title,
-            "MODELLED navigation and timing error budget; each phase drawn at equal width",
-        );
+        let mut s = frame_open(w, h, title, &crate::t!("mission-thread-chart-subtitle"));
         for (k, (top, bottom, caption)) in panels.iter().enumerate() {
             s.push_str(&panel_axes(ml, *top, pw, *bottom, caption));
             let (lo, hi) = bounds[k];
