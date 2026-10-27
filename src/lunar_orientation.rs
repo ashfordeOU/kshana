@@ -153,12 +153,12 @@ pub struct OrientationSpanError {
 
 impl std::fmt::Display for OrientationSpanError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "epoch {:.6} Julian centuries from J2000 is outside the DE440 lunar orientation series \
-             ({:.6} .. {:.6}, 2014-01-01 .. 2030-12-31 TDB)",
-            self.t_tt_jc, self.first_jc, self.last_jc
-        )
+        f.write_str(&crate::terr!(
+            "e-lunar-orientation-epoch-outside-series",
+            t = crate::i18n::num(self.t_tt_jc, 6),
+            first = crate::i18n::num(self.first_jc, 6),
+            last = crate::i18n::num(self.last_jc, 6)
+        ))
     }
 }
 

@@ -2181,14 +2181,17 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             .fold(f64::NEG_INFINITY, f64::max);
         s.push_str(&format!(
             "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"{colour}\">{}</text>\
-             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"9\" fill=\"{MUTED}\">{} MHz, {} MHz</text>",
+             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"9\" fill=\"{MUTED}\">{}</text>",
             lx - 8.0,
             top + ph / 2.0,
             esc(&run.design.name),
             lx - 8.0,
             top + ph / 2.0 + 12.0,
-            crate::i18n::num(run.design.centre_hz / 1e6, 3),
-            crate::i18n::num_plain(run.design.tx_bandwidth_hz / 1e6)
+            crate::t!(
+                "leo-signal-mhz-pair",
+                centre = crate::i18n::num(run.design.centre_hz / 1e6, 3),
+                bandwidth = crate::i18n::num_plain(run.design.tx_bandwidth_hz / 1e6)
+            )
         ));
         s.push_str(&format!(
             "<rect x=\"{lx:.1}\" y=\"{top:.1}\" width=\"{lw:.1}\" height=\"{ph:.1}\" fill=\"none\" stroke=\"{AXIS}\"/>"

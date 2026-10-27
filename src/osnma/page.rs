@@ -39,13 +39,10 @@ pub enum PageError {
 impl std::fmt::Display for PageError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::BadHex => write!(f, "page is not valid hex"),
-            Self::BadTime => write!(
-                f,
-                "page time is outside the 4096 weeks of a Galileo week number"
-            ),
-            Self::BadLength(n) => write!(f, "page has {n} hex digits, expected 60"),
-            Self::BadFields(s) => write!(f, "malformed page line: {s}"),
+            Self::BadHex => f.write_str(&crate::terr!("e-osnma-page-not-valid-hex")),
+            Self::BadTime => f.write_str(&crate::terr!("e-osnma-page-time-outside-week-number")),
+            Self::BadLength(n) => f.write_str(&crate::terr!("e-osnma-page-bad-length", n = n)),
+            Self::BadFields(s) => f.write_str(&crate::terr!("e-osnma-page-malformed-line", s = s)),
         }
     }
 }

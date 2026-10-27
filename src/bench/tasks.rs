@@ -461,7 +461,7 @@ fn parse_clocks(text: &str) -> Result<BTreeMap<String, BTreeMap<i64, i64>>, Benc
             Some(p) => {
                 out.get_mut(p).map(|m| m.insert(k, acc));
             }
-            None => return err("a clock line comes before any `@<PRN>` header"),
+            None => return err(crate::t!("bench-tasks-clock-line-before-header")),
         }
     }
     Ok(out)
