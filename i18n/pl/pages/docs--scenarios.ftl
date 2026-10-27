@@ -175,3 +175,23 @@ seg-1bc37634ba9f = Kowariancja współrzędnych stacji księżycowego VLBI: czą
 seg-e01f77d493a0 = Modelowana księżycowa geodezyjna obserwabla opóźnienia VLBI: baza ziemska (dwie stacje naziemne, GCRS) obserwuje jednokierunkowy sygnał z latarni klasy NovaMoon na powierzchni Księżyca. Emituje opóźnienie bliskiego pola jako różnicę dwóch odległości, jego tempo i poprawkę na krzywiznę czoła fali w bliskim polu podczas przelotu — sprawdzone krzyżowo względem obserwabli Δ-DOR fali płaskiej z tej samej bazy kodu w granicy dalekiego pola, z pochodnymi cząstkowymi zweryfikowanymi różnicą skończoną. Domyślna ścieżka analityczna ma poziom MODELLED i niesie zastrzeżenia dotyczące spójności układów odniesienia, ruchu bieguna xp=yp={ "0" } oraz fali płaskiej względem bliskiego pola. Ustawienie planetary_kernel_path, earth_orientation_kernel_path i moon_orientation_kernel_path uruchamia zamiast niej ścieżkę jądrową (DE440, MOON_PA_DE440, ITRF93; zbieżne barycentryczne czasy przelotu światła; dodaje pochodne cząstkowe latarni i stacji dla epoki), której newtonowskie opóźnienie i pochodne cząstkowe zgadzają się ze zbieżnymi czasami przelotu światła NAIF SPICE do { "0.06" } ps i { "7.4e-9" }. Nie sprawdzono niezależnie względem rzeczywistych danych VLBI.
 
 seg-3f749aef8d89 = Głębokokosmiczny Mars PNT: symulowana konstelacja przekaźników MARCONI (przekaźniki areostacjonarne + nachylone nadające jednokierunkowo + przekazujące dwukierunkowo do stacji w głębokim kosmosie) nawiguje użytkownika referencyjnego (transfer | lmo | surface) przez wspólny estymator fuzji radiometrycznej jedno- i dwukierunkowej. Podaje geometrię/widoczność na epokę, osiągnięty RMS względem prawdy i formalną kowariancję (pozycja 1σ / 3σ) — uczciwy symulowany wskaźnik jakości, NIE certyfikowany poziom ochrony.
+
+seg-45cb12242d59 = Źródło: <c1/>
+
+seg-843d88cee576 = { "87" } wbudowanych rodzajów scenariuszy, po których <c1/> kieruje wywołania, każdy z jednozdaniowym opisem i polami TOML (Tom's Obvious, Minimal Language) wymaganymi i opcjonalnymi.
+
+seg-2860d14bd619 = Ten plik jest <b>generowany</b> z <c1/>, jedynego źródła prawdy, przez <c2/>; edytuj źródło, a nie ten plik. Każde wiązanie (pakiet Pythona, narzędzie <c3/> serwera MCP (Model Context Protocol) i piaskownica WebAssembly (WASM)) udostępnia ten sam katalog, więc to, co tu wymieniono, jest dokładnie tym, co może uruchomić każda powierzchnia. Opisy są zwięzłe i nie zawsze rozwijają swoje skróty; każdy z nich jest wyjaśniony w <a1>GLOSSARY.md</a1>.
+
+seg-28b0dbf53a2c = Każdy scenariusz poza <c1/> musi też ustawiać <c2/> na najwyższym poziomie: dokument bez <c3/> działa jako <c4/>, dlatego <c5/> nie jest powtarzane w wymaganych polach żadnego poniższego rodzaju. Wymagany wpis może wskazywać alternatywy: <c6/> oddziela formy, z których co najmniej jedna musi być obecna, a <c7/> łączy pola, które muszą wystąpić razem, więc <c8/> należy czytać jako „<c9/> albo <c10/> z <c11/>”.
+
+seg-6317db731879 = Opis
+
+seg-6c9d3eec1bd7 = Pola wymagane:
+
+seg-05a3e7f57b33 = Pola opcjonalne:
+
+seg-c01773d5f190 = (brak)
+
+seg-4178135b91eb = <s1>Poprzednia</s1>Przykład roboczy: potok wielu narzędzi
+
+seg-c9afb81f21d8 = <s1>Następna</s1>Każdy rodzaj scenariusza, według rodziny
